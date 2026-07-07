@@ -6,11 +6,11 @@
     "choices": [
       {
         "text": "Fill the prescription and grab some vitamins while you're there",
-        "result_text": "Pharmacy: ₩4,800. Consultation: ₩4,500. Vitamins: ₩8,000.\n\nForeign friends wouldn't believe these prices.\nNational health insurance makes it possible. I use it like it's nothing — but it isn't."
+        "result_text": "Pharmacy: 4,800 won. Consultation: 4,500 won. Vitamins: 8,000 won.\n\nForeign friends wouldn't believe these prices.\nNational health insurance makes it possible. I use it like it's nothing — but it isn't."
       },
       {
         "text": "Just get the prescription — minimize cost",
-        "result_text": "Consultation ₩4,500, meds ₩4,800 — ₩9,300 total.\n\nLearned something: in this country, go to the clinic immediately when you're sick.\nWaiting it out costs more."
+        "result_text": "Consultation 4,500 won, meds 4,800 won — 9,300 won total.\n\nLearned something: in this country, go to the clinic immediately when you're sick.\nWaiting it out costs more."
       }
     ]
   },
@@ -21,11 +21,11 @@
     "choices": [
       {
         "text": "Claim every deduction carefully",
-        "result_text": "Monthly rent tax credit, card income deduction, medical expenses — all of it.\nRefund estimate: ₩150,000.\n\nMoney the government owes you. If you're too lazy to claim it, it just disappears.\nPeople who know this system keep more."
+        "result_text": "Monthly rent tax credit, card income deduction, medical expenses — all of it.\nRefund estimate: 150,000 won.\n\nMoney the government owes you. If you're too lazy to claim it, it just disappears.\nPeople who know this system keep more."
       },
       {
         "text": "Assume the company handles it — submit the basics",
-        "result_text": "Just filed the basics. Refund estimate: ₩0.\n\nFound out later — just claiming the rent credit would have gotten back hundreds of thousands.\nNext year, I'll do it properly."
+        "result_text": "Just filed the basics. Refund estimate: 0 won.\n\nFound out later — just claiming the rent credit would have gotten back hundreds of thousands.\nNext year, I'll do it properly."
       }
     ]
   },
@@ -36,7 +36,7 @@
     "choices": [
       {
         "text": "Pay before the due date",
-        "result_text": "₩89,000. One click and it's gone.\n\nThe insurance is why clinic visits are cheap.\nYou know that. Still — ₩89,000 is a lot when you're not earning."
+        "result_text": "89,000 won. One click and it's gone.\n\nThe insurance is why clinic visits are cheap.\nYou know that. Still — 89,000 won is a lot when you're not earning."
       },
       {
         "text": "Look into an installment payment plan",
@@ -62,7 +62,7 @@
   {
     "id": "kx_convenience_store_job",
     "title": "Convenience Store Interview",
-    "description": "Part-time job posting. ₩10,320/hr — minimum wage.\nIncludes four major insurances plus weekly holiday pay, so the effective rate is a little higher.\n\nThe store manager skimmed your resume.\n'Are you currently working any other part-time jobs?' First question.",
+    "description": "Part-time job posting. 10,320 won/hr — minimum wage.\nIncludes four major insurances plus weekly holiday pay, so the effective rate is a little higher.\n\nThe store manager skimmed your resume.\n'Are you currently working any other part-time jobs?' First question.",
     "choices": [
       {
         "text": "Take the job",

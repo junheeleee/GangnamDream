@@ -70,7 +70,7 @@
       },
       {
         "text": "Take the cash and leave the wallet",
-        "result_text": "Three 50,000-won bills.\n\nStation staff walked past. {name} went down the stairs.\n\nEvery step home felt heavy.\n₩150,000 gained, felt like nothing was gained.\nThis is what money weighs."
+        "result_text": "Three 50,000-won bills.\n\nStation staff walked past. {name} went down the stairs.\n\nEvery step home felt heavy.\n150,000 won gained, felt like nothing was gained.\nThis is what money weighs."
       }
     ]
   },
@@ -111,26 +111,26 @@
     "choices": [
       {
         "text": "Be honest. \"Looking for work.\"",
-        "result_text": "The man thought for a moment.\n\"I came up to Seoul at 33 too. Let's talk sometime.\"\n\nReceived his business card. Head of a small investment firm.\n\nSold an item for ₩30,000, got a contact.\nNever knew used goods trading worked like this."
+        "result_text": "The man thought for a moment.\n\"I came up to Seoul at 33 too. Let's talk sometime.\"\n\nReceived his business card. Head of a small investment firm.\n\nSold an item for 30,000 won, got a contact.\nNever knew used goods trading worked like this."
       },
       {
         "text": "\"Just clearing things out\" — keep it brief",
-        "result_text": "He smiled and left.\n₩30,000 gained.\n\nJust a transaction. That's all it was."
+        "result_text": "He smiled and left.\n30,000 won gained.\n\nJust a transaction. That's all it was."
       }
     ]
   },
   {
     "id": "rare_night_alva_find",
     "title": "What a Customer Left Behind",
-    "description": "Cleaning up after the night shift.\n\nA paper bag under a table.\n\nOpened it. Cash. Counted it.\n₩500,000.\n\nThere's CCTV. The customer might come back.",
+    "description": "Cleaning up after the night shift.\n\nA paper bag under a table.\n\nOpened it. Cash. Counted it.\n500,000 won.\n\nThere's CCTV. The customer might come back.",
     "choices": [
       {
         "text": "Call the manager immediately",
-        "result_text": "Manager arrived 30 minutes later. Reached the customer.\n\nThe customer came, took the bag. Gave {name} ₩100,000.\n\n\"Thank you. That was everything I had.\"\n\nThat sentence stayed longer than the ₩100,000."
+        "result_text": "Manager arrived 30 minutes later. Reached the customer.\n\nThe customer came, took the bag. Gave {name} 100,000 won.\n\n\"Thank you. That was everything I had.\"\n\nThat sentence stayed longer than the 100,000 won."
       },
       {
         "text": "Pretend not to notice and take it",
-        "result_text": "Got home and took the bag out.\n₩500,000.\n\nLay down to sleep. Couldn't sleep.\nThought about the CCTV. The customer might come back.\n\n{name} stared at the ceiling all night.\nThis is what money weighs."
+        "result_text": "Got home and took the bag out.\n500,000 won.\n\nLay down to sleep. Couldn't sleep.\nThought about the CCTV. The customer might come back.\n\n{name} stared at the ceiling all night.\nThis is what money weighs."
       }
     ]
   },
@@ -152,7 +152,7 @@
   {
     "id": "rare_goshiwon_neighbor_success",
     "title": "News from Next Door",
-    "description": "Ran into the next-door neighbor in the goshiwon hallway.\n\nSomeone who'd been studying for the civil service exam for 6 months. Light always on past midnight.\n\nToday their expression was different.\n\n\"I passed.\"",
+    "description": "Ran into the next-door neighbor in the goshiwon hallway.\n\nSomeone who'd been studying for the Grade 9 civil service exam for 6 months. Light always on past midnight.\n\nToday their expression was different.\n\n\"I passed.\"",
     "choices": [
       {
         "text": "Congratulate them sincerely",
@@ -167,7 +167,7 @@
   {
     "id": "rare_convenience_lottery",
     "title": "Scratch or Not",
-    "description": "A scratch ticket by the convenience store register.\n\nA sticker read: \"1st prize winner from this location today!\"\n\n{name} picked up a ₩5,000 ticket.\nThat's ₩5,000 out of this month's food budget.",
+    "description": "A scratch ticket by the convenience store register.\n\nA sticker read: \"1st prize winner from this location today!\"\n\n{name} picked up a 5,000 won ticket.\nThat's 5,000 won out of this month's food budget.",
     "choices": [
       {
         "text": "Buy it",
@@ -175,7 +175,7 @@
       },
       {
         "text": "Don't. It's a math problem.",
-        "result_text": "Put the ticket down.\nExpected value — always a losing game.\n\nBought a triangle sandwich with ₩5,000 instead. Felt full.\nMore reliable return on investment."
+        "result_text": "Put the ticket down.\nExpected value — always a losing game.\n\nBought a triangle sandwich with 5,000 won instead. Felt full.\nMore reliable return on investment."
       }
     ]
   },
@@ -186,7 +186,7 @@
     "choices": [
       {
         "text": "Look at the result",
-        "result_text": "₩50,000.\n\nNot 1st or 2nd prize. But ₩50,000.\n\n{name} didn't reinvest it or buy more tickets.\nJust got a proper meal. Something good.\n\nWhether that's the right use of a lottery win — unclear. But it felt good."
+        "result_text": "50,000 won.\n\nNot 1st or 2nd prize. But 50,000 won.\n\n{name} didn't reinvest it or buy more tickets.\nJust got a proper meal. Something good.\n\nWhether that's the right use of a lottery win — unclear. But it felt good."
       }
     ]
   }

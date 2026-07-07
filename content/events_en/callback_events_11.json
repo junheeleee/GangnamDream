@@ -32,7 +32,7 @@
   {
     "id": "callback_bought_tip_sheet_result",
     "title": "The Value of Paid Information",
-    "description": "Three months since you subscribed to the stock tip sheet.\n₩30,000 a month.\nYou followed the picks for three months.\nTime to add up the results.",
+    "description": "Three months since you subscribed to the stock tip sheet.\n30,000 won a month.\nYou followed the picks for three months.\nTime to add up the results.",
     "choices": [
       {
         "text": "Cancel the subscription",
@@ -96,7 +96,7 @@
     "choices": [
       {
         "text": "It went up — small but it means something",
-        "result_text": "₩200,000/month increase.\nA number that wouldn't have existed if you hadn't asked.\nNo one raises it without you speaking up.\nThat wasn't negotiation — that was just how employment works."
+        "result_text": "200,000 won/month increase.\nA number that wouldn't have existed if you hadn't asked.\nNo one raises it without you speaking up.\nThat wasn't negotiation — that was just how employment works."
       },
       {
         "text": "No — but asking was right",

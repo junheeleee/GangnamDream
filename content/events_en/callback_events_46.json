@@ -2,11 +2,11 @@
   {
     "id": "callback_next_milestone_set_echo",
     "title": "Setting the Next Goal Right Away",
-    "description": "The day {name} first hit ₩50 million, before even celebrating, they set the next goal. '₩500 million.'\n\nThat immediacy carried all the way here.\n\nToday, before another milestone, that day came to mind.",
+    "description": "The day {name} first hit 50 million won, before even celebrating, they set the next goal. '500 million won.'\n\nThat immediacy carried all the way here.\n\nToday, before another milestone, that day came to mind.",
     "choices": [
       {
         "text": "Like then — don't stop, look at the next number",
-        "result_text": "A habit of not lingering on achievement.\n\nThat pushed {name} quickly to the next stage.\nFrom ₩50 million to ₩500 million, that gaze eventually aimed at ₩3 billion."
+        "result_text": "A habit of not lingering on achievement.\n\nThat pushed {name} quickly to the next stage.\nFrom 50 million won to 500 million won, that gaze eventually aimed at 3 billion won."
       },
       {
         "text": "This time, pause — acknowledge coming this far",
@@ -61,15 +61,15 @@
   },
   {
     "id": "callback_hyunsu_drift_ramen_echo",
-    "title": "A Bowl of Ramen at the Door",
-    "description": "While Hyun-su was drifting, instead of words {name} cooked a bowl of ramen and left it at his door.\n\nToday Hyun-su reached out.\n\n'Hyung, that ramen at your door — that was you, right? You didn't say anything, but you cried a little eating it.'",
+    "title": "A Bowl of Ramyeon at the Door",
+    "description": "While Hyun-su was drifting, instead of words {name} cooked a bowl of ramyeon and left it at his door.\n\nToday Hyun-su reached out.\n\n'Hyung, that ramyeon at your door — that was you, right? You didn't say anything, but you cried a little eating it.'",
     "choices": [
       {
         "text": "\"It was nothing. You held on well.\"",
-        "result_text": "'you'll never forget that ramen.'\n\nA wordless bowl of ramen landed deeper than any words of comfort.\n{name} knew it was repaying a debt for the dawn ramen they'd once received."
+        "result_text": "'you'll never forget that ramyeon.'\n\nA wordless bowl of ramyeon landed deeper than any words of comfort.\n{name} knew it was repaying a debt for the dawn ramyeon they'd once received."
       },
       {
-        "text": "\"I once got ramen like that too.\"",
+        "text": "\"I once got ramyeon like that too.\"",
         "result_text": "'...So that's why you did it.'\n\nLetting received warmth flow on to someone else.\nThat was the invisible connection making this tiny goshiwon bearable."
       }
     ]

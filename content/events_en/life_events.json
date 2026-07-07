@@ -44,7 +44,7 @@
     "choices": [
       {
         "text": "Scam. Block immediately.",
-        "result_text": "Called it a scam and blocked. Counted the avoided loss as a win — and somehow ₩40,000 came back around."
+        "result_text": "Called it a scam and blocked. Counted the avoided loss as a win — and somehow 40,000 won came back around."
       },
       {
         "text": "Look for more reviews. Think it over.",
@@ -172,7 +172,7 @@
   {
     "id": "algorithm_knows_me",
     "title": "The Algorithm Knows",
-    "description": "The YouTube recommendations have changed.\n\nUsed to be variety shows. Now it's different.\n'Essential finances for your 30s' 'How I saved ₩300M through investing' 'The reality of moving to Gangnam.'\n\nThose were the videos {name} had watched.\nThose were the words {name} had searched.\n\nThe algorithm doesn't lie.\nIt knew what {name} wanted better than {name} did.",
+    "description": "The YouTube recommendations have changed.\n\nUsed to be variety shows. Now it's different.\n'Essential finances for your 30s' 'How I saved 300 million won through investing' 'The reality of moving to Gangnam.'\n\nThose were the videos {name} had watched.\nThose were the words {name} had searched.\n\nThe algorithm doesn't lie.\nIt knew what {name} wanted better than {name} did.",
     "choices": [
       {
         "text": "Watch one video. Going to sleep anyway.",
@@ -236,11 +236,11 @@
     "choices": [
       {
         "text": "Figure out how to save even a little more.",
-        "result_text": "Decided to cut back on food. One fewer coffee.\n\nSaved ₩50,000.\n\n₩50,000 seems small.\nBut that's ₩600,000 in a year.\n₩6,000,000 in ten.\n\nThe face doing that math — sometimes, felt a little sorry for it."
+        "result_text": "Decided to cut back on food. One fewer coffee.\n\nSaved 50,000 won.\n\n50,000 won seems small.\nBut that's 600,000 won in a year.\n6 million won in ten.\n\nThe face doing that math — sometimes, felt a little sorry for it."
       },
       {
         "text": "Eat something good today. Invest in yourself.",
-        "result_text": "Went out. Ate well.\nGood. ₩30,000.\nWorth it. A little not worth it.\n\nBoth of those coexisted through the whole meal.\n\nNext month will be better.\nDecided to believe that."
+        "result_text": "Went out. Ate well.\nGood. 30,000 won.\nWorth it. A little not worth it.\n\nBoth of those coexisted through the whole meal.\n\nNext month will be better.\nDecided to believe that."
       }
     ]
   },
@@ -285,7 +285,7 @@
       },
       {
         "text": "Look for weekend part-time work",
-        "result_text": "You hustled through every weekend shift. An extra ₩150,000 came in, but your body was truly hitting its limit."
+        "result_text": "You hustled through every weekend shift. An extra 150,000 won came in, but your body was truly hitting its limit."
       },
       {
         "text": "Study investing to find a way out",
@@ -319,7 +319,7 @@
     "choices": [
       {
         "text": "Carefully compare the salary and conditions",
-        "result_text": "You laid everything out in a spreadsheet. The job search prep cost ₩220,000, but your head felt clearer."
+        "result_text": "You laid everything out in a spreadsheet. The job search prep cost 220,000 won, but your head felt clearer."
       },
       {
         "text": "Reassure yourself that your current job is better",
@@ -373,7 +373,7 @@
   {
     "id": "disasters_009",
     "title": "Broken Phone",
-    "description": "You dropped your phone coming down the stairs.\n\nThere was a sound. Glass shattering. It bounced once and landed face-down.\n\nYou picked it up slowly. The screen was cracked like a spiderweb.\n\nRepair estimate: ₩300,000. New device: ₩1,000,000.\nYou couldn't bring yourself to open your banking app. You just stood on the stairs for about three seconds.",
+    "description": "You dropped your phone coming down the stairs.\n\nThere was a sound. Glass shattering. It bounced once and landed face-down.\n\nYou picked it up slowly. The screen was cracked like a spiderweb.\n\nRepair estimate: 300,000 won. New device: 1 million won.\nYou couldn't bring yourself to open your banking app. You just stood on the stairs for about three seconds.",
     "choices": [
       {
         "text": "Get a cheap replacement from a secondhand site",
@@ -396,7 +396,7 @@
     "choices": [
       {
         "text": "Calmly verify the subscription conditions",
-        "result_text": "You went through the subscription criteria step by step. It cost ₩450,000, but you confirmed you met the conditions."
+        "result_text": "You went through the subscription criteria step by step. It cost 450,000 won, but you confirmed you met the conditions."
       },
       {
         "text": "Get even more confused by the flood of information",
@@ -453,7 +453,7 @@
     "choices": [
       {
         "text": "Book a consultation with a doctor",
-        "result_text": "You booked a doctor's consultation. It cost ₩50,000, but it was better than vague anxiety. Knowing is better than not knowing."
+        "result_text": "You booked a doctor's consultation. It cost 50,000 won, but it was better than vague anxiety. Knowing is better than not knowing."
       },
       {
         "text": "Put the results sheet in a drawer and forget about it",
@@ -468,7 +468,7 @@
   {
     "id": "disasters_020",
     "title": "Jeonse Scam in the News",
-    "description": "News headline: 'Villa King victims number 127, combined deposits total ₩2.8 billion.'\n\nYou stopped mid-read.\n\nA name surfaced in your memory. The name on the stamp at signing.\nYou suddenly weren't sure whether that was the same name on your current jeonse contract.\n\nFive minutes passed in a state of rational-yet-irrational fear.",
+    "description": "News headline: 'Villa King victims number 127, combined deposits total 2.8 billion won.'\n\nYou stopped mid-read.\n\nA name surfaced in your memory. The name on the stamp at signing.\nYou suddenly weren't sure whether that was the same name on your current jeonse contract.\n\nFive minutes passed in a state of rational-yet-irrational fear.",
     "choices": [
       {
         "text": "Check the property registry right now",
@@ -510,11 +510,11 @@
   {
     "id": "family_024",
     "title": "A Sibling's Request",
-    "description": "A KakaoTalk message from your sibling. 'Hey, could I borrow ₩500,000 for a bit...' You're barely scraping by yourself, but you can't bring yourself to say no to family. You can't tell whether this person is just the kindest soul or the biggest pushover.",
+    "description": "A KakaoTalk message from your sibling. 'Hey, could I borrow 500,000 won for a bit...' You're barely scraping by yourself, but you can't bring yourself to say no to family. You can't tell whether this person is just the kindest soul or the biggest pushover.",
     "choices": [
       {
         "text": "Set a clear limit on what you can give",
-        "result_text": "You drew a clear line on what you could manage. You lent ₩100,000 and said the rest wasn't possible. Your sibling said they understood."
+        "result_text": "You drew a clear line on what you could manage. You lent 100,000 won and said the rest wasn't possible. Your sibling said they understood."
       },
       {
         "text": "Cave and lend the full amount",
@@ -552,11 +552,11 @@
   {
     "id": "comedy_032",
     "title": "The Secondhand Haggler",
-    "description": "You listed something on Daangn and a comment appeared.\n\n'Could you do ₩30,000? I'll come pick it up right away.'\n\nYou'd listed it at ₩50,000. Why does this person always offer 60% of the asking price? Is this an unspoken rule? Some law of the Korean secondhand market?\n\n₩30,000. ₩50,000. There was ₩20,000 between them.",
+    "description": "You listed something on Daangn and a comment appeared.\n\n'Could you do 30,000 won? I'll come pick it up right away.'\n\nYou'd listed it at 50,000 won. Why does this person always offer 60% of the asking price? Is this an unspoken rule? Some law of the Korean secondhand market?\n\n30,000 won. 50,000 won. There was 20,000 won between them.",
     "choices": [
       {
         "text": "Sell at the offered price",
-        "result_text": "You sold at the offered price. ₩30,000 came in and the transaction was clean."
+        "result_text": "You sold at the offered price. 30,000 won came in and the transaction was clean."
       },
       {
         "text": "Get tired of haggling and just sell",
@@ -598,7 +598,7 @@
     "choices": [
       {
         "text": "Look for somewhere to buy an umbrella first",
-        "result_text": "You bought a ₩10,000 umbrella at the convenience store. It wasn't a fancy umbrella, but it kept the rain off. Your mood brightened."
+        "result_text": "You bought a 10,000 won umbrella at the convenience store. It wasn't a fancy umbrella, but it kept the rain off. Your mood brightened."
       },
       {
         "text": "Get soaked and let the mood wash over you",
@@ -659,7 +659,7 @@
     "choices": [
       {
         "text": "Split it evenly, Dutch pay",
-        "result_text": "You split it evenly. ₩450,000 came in and there were no hard feelings."
+        "result_text": "You split it evenly. 450,000 won came in and there were no hard feelings."
       },
       {
         "text": "Feel annoyed but pick up the whole tab",
@@ -678,7 +678,7 @@
     "choices": [
       {
         "text": "Wait until there's an official announcement",
-        "result_text": "You waited for the official announcement. ₩170,000 came in, but the wait wore on your nerves."
+        "result_text": "You waited for the official announcement. 170,000 won came in, but the wait wore on your nerves."
       },
       {
         "text": "Anxiously keep refreshing the real estate forums all day",
@@ -716,7 +716,7 @@
     "choices": [
       {
         "text": "Turn it off and study with a book instead",
-        "result_text": "You turned it off and opened a book. ₩130,000 came in and your focus was sharper."
+        "result_text": "You turned it off and opened a book. 130,000 won came in and your focus was sharper."
       },
       {
         "text": "Watch it to the end with a laugh",
@@ -815,7 +815,7 @@
       },
       {
         "text": "Go to a nearby jjimjilbang to wash up",
-        "result_text": "₩12,000 felt steep, but stepping out freshly clean, your confidence was on a different level."
+        "result_text": "12,000 won felt steep, but stepping out freshly clean, your confidence was on a different level."
       },
       {
         "text": "Wait in line",
@@ -845,11 +845,11 @@
   {
     "id": "gosiwon_upgrade_dream",
     "title": "Dreaming of Moving Out",
-    "description": "You opened a real estate app. A studio in Gwanak-gu for ₩400,000. When your pay goes up, next month, always 'when.' It keeps going.",
+    "description": "You opened a real estate app. A studio in Gwanak-gu for 400,000 won. When your pay goes up, next month, always 'when.' It keeps going.",
     "choices": [
       {
         "text": "Open a dedicated savings account for moving costs",
-        "result_text": "You put ₩30,000 into a 'moving fund' account. A start is half the battle, you told yourself."
+        "result_text": "You put 30,000 won into a 'moving fund' account. A start is half the battle, you told yourself."
       },
       {
         "text": "Accept that it's not realistic right now and let it go",
@@ -883,7 +883,7 @@
   {
     "id": "convenience_store_meal",
     "title": "Convenience Store Lunch Again",
-    "description": "A ₩4,900 lunch box. One minute thirty seconds in the microwave. This was dinner. You checked the expiration date one more time.",
+    "description": "A 4,900 won lunch box. One minute thirty seconds in the microwave. This was dinner. You checked the expiration date one more time.",
     "choices": [
       {
         "text": "Just make do with this",
@@ -921,7 +921,7 @@
   {
     "id": "delivery_app_temptation",
     "title": "Opening the Delivery App",
-    "description": "Exhausted after work, you opened a delivery app. Minimum order: ₩18,000. To eat alone you'd spend over ₩20,000. Plus a ₩3,000 delivery fee.",
+    "description": "Exhausted after work, you opened a delivery app. Minimum order: 18,000 won. To eat alone you'd spend over 20,000 won. Plus a 3,000 won delivery fee.",
     "choices": [
       {
         "text": "Order it — this much counts as self-care",
@@ -986,7 +986,7 @@
       },
       {
         "text": "Give up on this one and aim for the next exam",
-        "result_text": "You threw away ₩50,000 in registration fees. You stopped wanting to count how many 'next times' this made."
+        "result_text": "You threw away 50,000 won in registration fees. You stopped wanting to count how many 'next times' this made."
       },
       {
         "text": "Go all-in on last-minute cramming",
@@ -997,7 +997,7 @@
   {
     "id": "selfdev_book",
     "title": "One Finance Self-Help Book",
-    "description": "You bought a bestselling personal finance book. ₩20,000. You read half of it. You understood all the ideas, but putting them into practice wasn't happening.",
+    "description": "You bought a bestselling personal finance book. 20,000 won. You read half of it. You understood all the ideas, but putting them into practice wasn't happening.",
     "choices": [
       {
         "text": "Finish it and draw up an action plan",
@@ -1016,7 +1016,7 @@
   {
     "id": "selfdev_gym_register",
     "title": "Gym Membership",
-    "description": "A three-month pass for ₩150,000. The resolve was iron-clad when you signed up. First week: went every day. Second week: three times. Third week…",
+    "description": "A three-month pass for 150,000 won. The resolve was iron-clad when you signed up. First week: went every day. Second week: three times. Third week…",
     "choices": [
       {
         "text": "Build a routine and go consistently",
@@ -1130,7 +1130,7 @@
   {
     "id": "finance_negative_balance",
     "title": "Negative Balance",
-    "description": "Your account was at -₩38,000. The automatic card payment must have gone through. This happened once a month.",
+    "description": "Your account was at -38,000 won. The automatic card payment must have gone through. This happened once a month.",
     "choices": [
       {
         "text": "Download a budgeting app and analyze your spending",
@@ -1138,7 +1138,7 @@
       },
       {
         "text": "Resolve to create an emergency fund",
-        "result_text": "You set up a ₩50,000 monthly auto-transfer. Small, but it's a start."
+        "result_text": "You set up a 50,000 won monthly auto-transfer. Small, but it's a start."
       },
       {
         "text": "Trust that next month will be different",
@@ -1153,7 +1153,7 @@
     "choices": [
       {
         "text": "Buy a convenience store umbrella",
-        "result_text": "A ₩5,000 umbrella. You've lost count of how many you've bought over the years. At least you didn't get soaked."
+        "result_text": "A 5,000 won umbrella. You've lost count of how many you've bought over the years. At least you didn't get soaked."
       },
       {
         "text": "Sprint to the subway",
@@ -1187,7 +1187,7 @@
   {
     "id": "small_unexpected_win",
     "title": "Today's Small Lucky Break",
-    "description": "Walking down the street, you spotted a ₩50,000 bill.\nAn empty alley.\n\nYou looked around but saw no one who might have dropped it.\nThe first time since moving to Seoul that luck seemed to be on your side.",
+    "description": "Walking down the street, you spotted a 50,000 won bill.\nAn empty alley.\n\nYou looked around but saw no one who might have dropped it.\nThe first time since moving to Seoul that luck seemed to be on your side.",
     "choices": [
       {
         "text": "Report it to the nearest police box.",
@@ -1195,18 +1195,18 @@
       },
       {
         "text": "If no one claims it in 6 months, it's legally yours. Pocket it for now.",
-        "result_text": "You looked away and slipped it into your pocket.\nA flicker of guilt came and went.\n₩50,000. Your first lucky break in Seoul."
+        "result_text": "You looked away and slipped it into your pocket.\nA flicker of guilt came and went.\n50,000 won. Your first lucky break in Seoul."
       }
     ]
   },
   {
     "id": "startup_opportunity",
     "title": "Startup Co-Founder Offer",
-    "description": "An acquaintance reached out about co-founding a B2B SaaS startup. They say the idea is solid and investor talks are underway. They're offering 20% equity if you come on as co-founder. They need ₩3,000,000 to start.",
+    "description": "An acquaintance reached out about co-founding a B2B SaaS startup. They say the idea is solid and investor talks are underway. They're offering 20% equity if you come on as co-founder. They need 3 million won to start.",
     "choices": [
       {
-        "text": "Join them — come on as co-founder (invest ₩3,000,000)",
-        "result_text": "You signed the co-founder agreement. ₩3,000,000 left your account, and your business card now reads 'Co-Founder.' Exciting and terrifying at the same time."
+        "text": "Join them — come on as co-founder (invest 3 million won)",
+        "result_text": "You signed the co-founder agreement. Three million won left your account, and your business card now reads 'Co-Founder.' Exciting and terrifying at the same time."
       },
       {
         "text": "Decline — the risk is too high right now",
@@ -1217,11 +1217,11 @@
   {
     "id": "startup_acquisition_offer",
     "title": "Startup Acquisition Offer",
-    "description": "The startup you helped build just received an acquisition offer from a major conglomerate. They want to buy your 20% stake for ₩400,000,000, with guaranteed employment for the whole team. Cash out now, or keep growing?",
+    "description": "The startup you helped build just received an acquisition offer from a major conglomerate. They want to buy your 20% stake for 400 million won, with guaranteed employment for the whole team. Cash out now, or keep growing?",
     "choices": [
       {
-        "text": "Accept — exit now for ₩400,000,000",
-        "result_text": "Your hand trembled slightly as you signed. A moment later, ₩400,000,000 appeared in your account. A startup exit. So this is what it feels like."
+        "text": "Accept — exit now for 400 million won",
+        "result_text": "Your hand trembled slightly as you signed. A moment later, 400 million won appeared in your account. A startup exit. So this is what it feels like."
       },
       {
         "text": "Decline — there's still potential here",
@@ -1458,27 +1458,27 @@
   },
   {
     "id": "lottery_last_change",
-    "title": "Last ₩1,000",
-    "description": "Your account balance is at the bottom again.\nBy the convenience store register, one lotto ticket for ₩1,000.\n\nExactly ₩1,000 left in change.\n\n{name} thought for a moment. Odds of 1 in 8,145,060.\nYou don't need to do the math. It's an impossible number.\n\nAnd yet, strangely, your hand reached for it.",
+    "title": "Last 1,000 won",
+    "description": "Your account balance is at the bottom again.\nBy the convenience store register, one lotto ticket for 1,000 won.\n\nExactly 1,000 won left in change.\n\n{name} thought for a moment. Odds of 1 in 8,145,060.\nYou don't need to do the math. It's an impossible number.\n\nAnd yet, strangely, your hand reached for it.",
     "choices": [
       {
-        "text": "Buy it — just this once. (−₩1,000)",
+        "text": "Buy it — just this once. (−1,000 won)",
         "result_text": "Quick pick. Just wait until Saturday.\nThe cheapest dream in life."
       },
       {
         "text": "Don't buy it — the odds are absurd",
-        "result_text": "You put the ₩1,000 back in your pocket.\nA grown-up decision. Not a painless one either.\nJust... that."
+        "result_text": "You put the 1,000 won back in your pocket.\nA grown-up decision. Not a painless one either.\nJust... that."
       }
     ]
   },
   {
     "id": "lottery_result",
     "title": "Saturday Night, 9 PM",
-    "description": "Saturday night, 9 PM. You opened the lotto app.\nChecked the numbers.\n\n...3 matches. 5th prize. ₩5,000.\n\nAt first you laughed. Then it was just absurd.\nThen funny again.\n\n₩5,000. A ₩1,000 investment, 5x return.\nROI of 400%.\n\n{name} couldn't tell anyone that night.\nToo ridiculous.",
+    "description": "Saturday night, 9 PM. You opened the lotto app.\nChecked the numbers.\n\n...3 matches. 5th prize. 5,000 won.\n\nAt first you laughed. Then it was just absurd.\nThen funny again.\n\n5,000 won. A 1,000 won investment, 5x return.\nROI of 400%.\n\n{name} couldn't tell anyone that night.\nToo ridiculous.",
     "choices": [
       {
-        "text": "Get some chicken tomorrow. (+₩4,000 net profit)",
-        "result_text": "₩4,000 net profit. Tax-free.\nThe most modest victory in this city.\nThat chicken tasted unusually good."
+        "text": "Get some chicken tomorrow. (+4,000 won net profit)",
+        "result_text": "4,000 won net profit. Tax-free.\nThe most modest victory in this city.\nThat chicken tasted unusually good."
       }
     ]
   },
@@ -1764,10 +1764,10 @@
   {
     "id": "survival_rent_due",
     "title": "Rent Day",
-    "description": "The calendar app showed 'Rent' again.\n\n₩520,000 for the goshiwon. At least electricity and water are included, small comfort.\nYou opened the account. The balance stared back.\n\nYou know you have to pay. But what's left after is the problem.\n\nWhat if the landlady quietly knocks — you were holding your breath inside the room.",
+    "description": "The calendar app showed 'Rent' again.\n\n520,000 won for the goshiwon. At least electricity and water are included, small comfort.\nYou opened the account. The balance stared back.\n\nYou know you have to pay. But what's left after is the problem.\n\nWhat if the landlady quietly knocks — you were holding your breath inside the room.",
     "choices": [
       {
-        "text": "Transfer immediately (₩520,000)",
+        "text": "Transfer immediately (520,000 won)",
         "result_text": "Transfer complete. The balance dropped visibly.\nRelief that you survived another month, and dread at having to do it again — both arrived at once.\nThe room was quiet."
       },
       {
@@ -1779,15 +1779,15 @@
   {
     "id": "survival_convenience_meal",
     "title": "Two Triangle Kimbap",
-    "description": "Today's meal was handled at the convenience store.\n\nTwo triangle kimbap, ₩2,400 total.\nYou ate standing by the refrigerator — not because there was nowhere to sit, but because sitting felt more pathetic somehow.\n\nThe part-time worker at the register seemed younger than {name}.\nThe thought flashed through your mind: that kid is earning a paycheck right now.",
+    "description": "Today's meal was handled at the convenience store.\n\nTwo triangle kimbap, 2,400 won total.\nYou ate standing by the refrigerator — not because there was nowhere to sit, but because sitting felt more pathetic somehow.\n\nThe part-time worker at the register seemed younger than {name}.\nThe thought flashed through your mind: that kid is earning a paycheck right now.",
     "choices": [
       {
         "text": "Another day survived. That's enough.",
         "result_text": "Walking back to the goshiwon under the streetlights.\nHalf-full stomach, half-empty heart.\nMaybe a job call comes tomorrow."
       },
       {
-        "text": "Go into the nearby gukbap place — spend ₩5,000 and eat properly",
-        "result_text": "One spoonful of hot broth and you almost cried.\nYou felt human again after eating.\nYou didn't know ₩5,000 could mean this much."
+        "text": "Go into the nearby gukbap place — spend 5,000 won and eat properly",
+        "result_text": "One spoonful of hot broth and you almost cried.\nYou felt human again after eating.\nYou didn't know 5,000 won could mean this much."
       }
     ]
   },
@@ -1900,7 +1900,7 @@
   {
     "id": "selfdev_english_class",
     "title": "English Lessons",
-    "description": "A senior at work said it: 'Your pay is different if your English is good.' Right now you can't even write a basic email in English.\n\nThere's a conversation school nearby. ₩250,000 a month.",
+    "description": "A senior at work said it: 'Your pay is different if your English is good.' Right now you can't even write a basic email in English.\n\nThere's a conversation school nearby. 250,000 won a month.",
     "choices": [
       {
         "text": "Enroll. It's an investment.",
@@ -1919,10 +1919,10 @@
   {
     "id": "selfdev_coding_course",
     "title": "Coding Course",
-    "description": "A coupon arrived from an online learning site. Python intro, originally ₩49,900 on sale for ₩1,900.\n\nYou read somewhere that knowing how to code these days can generate side income. Not sure if it's true.",
+    "description": "A coupon arrived from an online learning site. Python intro, originally 49,900 won on sale for 1,900 won.\n\nYou read somewhere that knowing how to code these days can generate side income. Not sure if it's true.",
     "choices": [
       {
-        "text": "Buy it. ₩1,900 investment.",
+        "text": "Buy it. 1,900 won investment.",
         "result_text": "Paid. Got through 3 sessions. It's interesting. Not sure if you'll finish it — but you started."
       },
       {
@@ -2175,7 +2175,7 @@
   {
     "id": "comedy_convenience_1plus1",
     "title": "The 1+1 Trap",
-    "description": "Went to the convenience store.\n\nWent in for one rice ball,\nThen found a buy-one-get-one sale.\n\nSnacks. Drinks. Ice cream. Cup ramen.\n\nAt the register you were holding five things.\nOriginally 3,500 won, but it rang up 11,000.",
+    "description": "Went to the convenience store.\n\nWent in for one rice ball,\nThen found a buy-one-get-one sale.\n\nSnacks. Drinks. Ice cream. Cup ramyeon.\n\nAt the register you were holding five things.\nOriginally 3,500 won, but it rang up 11,000.",
     "choices": [
       {
         "result_text": "Have to buy it. 1+1 must be bought.\nGot home, opened the fridge. Already had two of the same thing.",

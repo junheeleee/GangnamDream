@@ -74,7 +74,7 @@
   {
     "id": "drama_birthday_00",
     "title": "It Was Today",
-    "description": "Today was the birthday.\nMom sent a KakaoTalk message. A couple of others.\n{name} bought a convenience store cake — one ₩600 candle pressed in.\n\nNot a bad day. Just quiet.",
+    "description": "Today was the birthday.\nMom sent a KakaoTalk message. A couple of others.\n{name} bought a convenience store cake — one 600 won candle pressed in.\n\nNot a bad day. Just quiet.",
     "choices": [
       {
         "text": "Celebrate alone. This is enough.  (self-acceptance / loneliness)",
@@ -161,7 +161,7 @@
   {
     "id": "drama_convenience_late",
     "title": "2 a.m. Convenience Store",
-    "description": "2 a.m. convenience store.\nBoiling cup ramen — someone else was eating alone at another table.\nNeither of them spoke.\nA little rain outside the window.\n\nThe quiet of the early morning shared with a stranger — not bad.",
+    "description": "2 a.m. convenience store.\nBoiling cup ramyeon — someone else was eating alone at another table.\nNeither of them spoke.\nA little rain outside the window.\n\nThe quiet of the early morning shared with a stranger — not bad.",
     "choices": [
       {
         "text": "Eat and leave. Comfortable silence.  (independence / peace)",
@@ -169,7 +169,7 @@
       },
       {
         "text": "Say something. Felt like talking tonight.  (connection attempt / uncertain)",
-        "result_text": "\"Good ramen, right?\" — eye contact for a second.\n\"Yeah. Best late-night option.\"\nShort exchange. No names.\nWarm anyway."
+        "result_text": "\"Good ramyeon, right?\" — eye contact for a second.\n\"Yeah. Best late-night option.\"\nShort exchange. No names.\nWarm anyway."
       }
     ]
   },

@@ -2,26 +2,26 @@
   {
     "id": "disasters_001",
     "title": "Rent Hike — Recalculating",
-    "description": "A text arrived. Rent going up ₩50,000.\n\n{name} started calculating.\n₩50,000 a month. ₩600,000 a year. ₩3,000,000 over five years.\n\nThat money doesn't just disappear.\nIt's money leaving the investable column every month.\nRun compound interest on it and the story changes.",
+    "description": "A text arrived. Rent going up 50,000 won.\n\n{name} started calculating.\n50,000 won a month. 600,000 won a year. Three million won over five years.\n\nThat money doesn't just disappear.\nIt's money leaving the investable column every month.\nRun compound interest on it and the story changes.",
     "choices": [
       {
         "text": "Negotiate with the landlord. Protect the margin.",
-        "result_text": "Negotiated the increase down.\n₩30,000 a month saved — ₩360,000 a year.\nSmall differences aren't small once compound interest gets involved."
+        "result_text": "Negotiated the increase down.\n30,000 won a month saved — 360,000 won a year.\nSmall differences aren't small once compound interest gets involved."
       },
       {
         "text": "Accept it. Cut other expenses.",
-        "result_text": "Cancelled two subscriptions.\nCombined: ₩48,000.\nMade up for the rent increase somewhere else."
+        "result_text": "Cancelled two subscriptions.\nCombined: 48,000 won.\nMade up for the rent increase somewhere else."
       },
       {
         "text": "Move to a cheaper place. Lower fixed costs.",
-        "result_text": "Found a cheaper room and moved.\nMoving costs: ₩350,000.\nBreak-even in seven months."
+        "result_text": "Found a cheaper room and moved.\nMoving costs: 350,000 won.\nBreak-even in seven months."
       }
     ]
   },
   {
     "id": "gambling_002",
     "title": "Crypto Futures Temptation",
-    "description": "1 AM. Crypto futures profit screenshots are flooding the group chat.\n'200% in one hour', 'This actually works.'\n\nEveryone who knows is already in — or so the word goes.\n10x leverage, ₩100,000 margin to get ₩1,000,000 exposure.\n{name}'s fingers hover over the screen.\nThe exchange app download button is right there.",
+    "description": "1 AM. Crypto futures profit screenshots are flooding the group chat.\n'200% in one hour', 'This actually works.'\n\nEveryone who knows is already in — or so the word goes.\n10x leverage, 100,000 won margin to get 1 million won exposure.\n{name}'s fingers hover over the screen.\nThe exchange app download button is right there.",
     "choices": [
       {
         "text": "Quietly close the position. Lock in profit.",
@@ -101,7 +101,7 @@
   {
     "id": "disasters_006",
     "title": "Phone Smashed",
-    "description": "Dropped the phone walking. Screen shattered.\nRepair estimate: ₩300,000. Or a new one: ₩1,000,000.\n\nUnexpected outflow. It comes out of money set aside for investing.\n{name} paused before reaching for the wallet.\nWhat's the most rational way to handle this?",
+    "description": "Dropped the phone walking. Screen shattered.\nRepair estimate: 300,000 won. Or a new one: 1 million won.\n\nUnexpected outflow. It comes out of money set aside for investing.\n{name} paused before reaching for the wallet.\nWhat's the most rational way to handle this?",
     "choices": [
       {
         "text": "Check if there's insurance coverage.",
@@ -132,7 +132,7 @@
       },
       {
         "text": "Try it once. Tiny amount.",
-        "result_text": "Put in ₩10,000.\nGot it wrong.\nCalled it ₩10,000 in tuition."
+        "result_text": "Put in 10,000 won.\nGot it wrong.\nCalled it 10,000 won in tuition."
       }
     ]
   },
@@ -157,8 +157,8 @@
   },
   {
     "id": "finance_012",
-    "title": "Balance: -₩34,200",
-    "description": "8:41 AM.\nBank app notification.\n\n'Your account is negative. Overdraft interest is being applied.'\n\nThe number: -₩34,200.\nOverdraft limit remaining: ₩4,967,800.\n\n{name} closed the app and reopened it.\nThe number was the same.",
+    "title": "Balance: -34,200 won",
+    "description": "8:41 AM.\nBank app notification.\n\n'Your account is negative. Overdraft interest is being applied.'\n\nThe number: -34,200 won.\nOverdraft limit remaining: 4.9678 million won.\n\n{name} closed the app and reopened it.\nThe number was the same.",
     "choices": [
       {
         "text": "Deposit and cover it today.",
@@ -223,7 +223,7 @@
   {
     "id": "gambling_020",
     "title": "\"One Shot Is All It Takes\"",
-    "description": "A senior at work said it over drinks. 'I made ₩100M on crypto last year. You just need the right timing.'\n{name} couldn't shake it even back home.\n\nOpened the account. What if all of it went in right now?\nRationality says no. Emotion whispers maybe.\n{name} has to make an important decision tonight.",
+    "description": "A senior at work said it over drinks. 'I made 100 million won on crypto last year. You just need the right timing.'\n{name} couldn't shake it even back home.\n\nOpened the account. What if all of it went in right now?\nRationality says no. Emotion whispers maybe.\n{name} has to make an important decision tonight.",
     "choices": [
       {
         "text": "Hear it — then coldly run the numbers.",
@@ -307,7 +307,7 @@
     "choices": [
       {
         "text": "Small bet — tuition if wrong.",
-        "result_text": "Bought ₩100,000 worth. Next day the stock quietly dropped — and the group chat went silent."
+        "result_text": "Bought 100,000 won worth. Next day the stock quietly dropped — and the group chat went silent."
       },
       {
         "text": "Ignore it. Close the app.",
@@ -341,7 +341,7 @@
   {
     "id": "inv_dividend_received",
     "title": "Dividend Deposit",
-    "description": "A KakaoBank notification arrived at lunch. '₩47,200 dividend deposited.' Money from a stock held without much expectation. Small — but the sensation of money arriving without doing anything is entirely new. Took a screenshot of the balance and stared at it for a while.",
+    "description": "A KakaoBank notification arrived at lunch. '47,200 won dividend deposited.' Money from a stock held without much expectation. Small — but the sensation of money arriving without doing anything is entirely new. Took a screenshot of the balance and stared at it for a while.",
     "choices": [
       {
         "text": "Reinvest the dividend immediately.",
@@ -375,7 +375,7 @@
   {
     "id": "inv_stock_ipo_lottery",
     "title": "IPO Subscription",
-    "description": "A subscription opened for a hot K-beauty startup IPO. SNS is buzzing with 'guaranteed double on listing day.' Competition ratio already past 820:1, and the brokerage app is sluggish under load. {name} has ₩500,000 in subscription deposit ready and is hesitating over the click.",
+    "description": "A subscription opened for a hot K-beauty startup IPO. SNS is buzzing with 'guaranteed double on listing day.' Competition ratio already past 820:1, and the brokerage app is sluggish under load. {name} has 500,000 won in subscription deposit ready and is hesitating over the click.",
     "choices": [
       {
         "text": "Apply — leave it to luck.",
@@ -424,7 +424,7 @@
   {
     "id": "inv_recession_news",
     "title": "Recession Fears",
-    "description": "10 AM, Ministry of Finance announcement. GDP growth forecast slashed from 2.1% to 0.9%. KOSPI dropped nearly 2% immediately after. Exchange rate charging toward ₩1,400, brokerage research reports overflowing with the words 'possible recession entry.' {name} forgot about lunch and stared at the screen.",
+    "description": "10 AM, Ministry of Finance announcement. GDP growth forecast slashed from 2.1% to 0.9%. KOSPI dropped nearly 2% immediately after. Exchange rate charging toward 1,400 won, brokerage research reports overflowing with the words 'possible recession entry.' {name} forgot about lunch and stared at the screen.",
     "choices": [
       {
         "text": "Rotate into defensive assets.",
@@ -473,11 +473,11 @@
   {
     "id": "inv_tax_worry",
     "title": "Financial Income Tax",
-    "description": "Tax season arrived. Opened the tax authority site — too many unfamiliar categories. Asked a friend who said 'if dividend and interest income exceeds ₩20M, it becomes comprehensive taxation.' {name} calculated last year's financial income — hovering right around that threshold. Misreporting taxes now could create much bigger problems later.",
+    "description": "Tax season arrived. Opened the tax authority site — too many unfamiliar categories. Asked a friend who said 'if dividend and interest income exceeds 20 million won, it becomes comprehensive taxation.' {name} calculated last year's financial income — hovering right around that threshold. Misreporting taxes now could create much bigger problems later.",
     "choices": [
       {
         "text": "Consult a tax accountant.",
-        "result_text": "Consultation fee of ₩200,000 — but came away with a tax optimization strategy too. Expert advice always earns its fee."
+        "result_text": "Consultation fee of 200,000 won — but came away with a tax optimization strategy too. Expert advice always earns its fee."
       },
       {
         "text": "Study it personally. Tax is investing too.",
@@ -488,7 +488,7 @@
   {
     "id": "inv_dca_commitment",
     "title": "DCA Commitment",
-    "description": "Auto-transfer scheduled for the day after payday. ₩300,000 monthly, US Large-Cap ETF. Finally decided to believe that consistency matters more than returns. {name} screenshotted the settings screen and made a quiet promise — this time, no cancelling halfway through.",
+    "description": "Auto-transfer scheduled for the day after payday. 300,000 won monthly, US Large-Cap ETF. Finally decided to believe that consistency matters more than returns. {name} screenshotted the settings screen and made a quiet promise — this time, no cancelling halfway through.",
     "choices": [
       {
         "text": "Set the auto-transfer and forget about it.",
@@ -503,11 +503,11 @@
   {
     "id": "inv_crypto_mania",
     "title": "Crypto Mania",
-    "description": "The whole social feed is crypto. High school classmate posted a KakaoTalk status about making ₩30M on Corecoin. A junior at work talks about nothing but coins at lunch. Am you the only one who doesn't know? Am you falling behind? {name} downloaded the Upbit app for the first time.",
+    "description": "The whole social feed is crypto. High school classmate posted a KakaoTalk status about making 30 million won on Corecoin. A junior at work talks about nothing but coins at lunch. Am you the only one who doesn't know? Am you falling behind? {name} downloaded the Upbit app for the first time.",
     "choices": [
       {
         "text": "Get in a little — quiet the FOMO.",
-        "result_text": "Put in ₩500,000. First it doubled.\nThen halved. Crept back up to -30%.\nShould sell — hand wouldn't move.\nThat was the pull of crypto. The stop-loss becomes impossible."
+        "result_text": "Put in 500,000 won. First it doubled.\nThen halved. Crept back up to -30%.\nShould sell — hand wouldn't move.\nThat was the pull of crypto. The stop-loss becomes impossible."
       },
       {
         "text": "Watch. Every mania has an ending.",
@@ -522,7 +522,7 @@
   {
     "id": "inv_overseas_stock",
     "title": "First Overseas Stock",
-    "description": "Bought Orca stock for the first time. Paying in dollars, waking up at 3 AM for US market close, and having to self-report capital gains tax above ₩2.5M — {name} found all of this out today. More complex than expected. {name} sat with the currency converter open, staring blankly.",
+    "description": "Bought Orca stock for the first time. Paying in dollars, waking up at 3 AM for US market close, and having to self-report capital gains tax above 2.5 million won — {name} found all of this out today. More complex than expected. {name} sat with the currency converter open, staring blankly.",
     "choices": [
       {
         "text": "Study all of it — exchange rate, taxes, time zones.",
@@ -579,7 +579,7 @@
   {
     "id": "dividend_payday",
     "title": "First Dividend",
-    "description": "Dividend payment day.\n\nA text arrived in the morning.\n'₩43,200 dividend deposited.'\n\nMoney arrived without working.\n₩43,200. A small amount.\nBut understanding this mechanism for the first time — something shifted.",
+    "description": "Dividend payment day.\n\nA text arrived in the morning.\n'43,200 won dividend deposited.'\n\nMoney arrived without working.\n43,200 won. A small amount.\nBut understanding this mechanism for the first time — something shifted.",
     "choices": [
       {
         "text": "Reinvest the dividend. Compound it.",

@@ -96,7 +96,7 @@
     "choices": [
       {
         "text": "Now I know a little — success isn't just a number",
-        "result_text": "₩3 billion is a goal, but it wasn't the whole of success.\n\n{name} knows a life unchased, a life with people beside you, is part of success too.\nTime spent carrying the question slowly built an answer."
+        "result_text": "Three billion won is a goal, but it wasn't the whole of success.\n\n{name} knows a life unchased, a life with people beside you, is part of success too.\nTime spent carrying the question slowly built an answer."
       },
       {
         "text": "Still haven't defined it — and that's okay",
@@ -182,11 +182,11 @@
   {
     "id": "callback_bought_coding_course_echo",
     "title": "Buying the Coding Course",
-    "description": "{name} once bought a coding course, calling it 'a ₩1,900 investment.'\n\nThat small start comes back sometimes.\n\nToday they consider learning a new skill.",
+    "description": "{name} once bought a coding course, calling it 'a 1,900 won investment.'\n\nThat small start comes back sometimes.\n\nToday they consider learning a new skill.",
     "choices": [
       {
         "text": "Starting even small — opened possibilities",
-        "result_text": "Where a ₩1,900 start would lead, no one knew.\n\n{name} knows the value of a small beginning.\nBig change always started with one trivial-looking payment."
+        "result_text": "Where a 1,900 won start would lead, no one knew.\n\n{name} knows the value of a small beginning.\nBig change always started with one trivial-looking payment."
       },
       {
         "text": "Now — focus on actually using what I learned",

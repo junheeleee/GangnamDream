@@ -2,15 +2,15 @@
   {
     "id": "amb_wallet_00",
     "title": "A Wallet on the Ground",
-    "description": "Under a bench at a bus stop. A wallet.\nPick it up. Inside — ₩300,000 in cash, an ID, a few cards.\nNobody nearby. No CCTV in sight.\n\n{name}'s account barely covers this month's rent.\n₩300,000 would breathe for a few days.\nConscience and hunger are sitting on the same palm.",
+    "description": "Under a bench at a bus stop. A wallet.\nPick it up. Inside — 300,000 won in cash, an ID, a few cards.\nNobody nearby. No CCTV in sight.\n\n{name}'s account barely covers this month's rent.\n300,000 won would breathe for a few days.\nConscience and hunger are sitting on the same palm.",
     "choices": [
       {
         "text": "Take it to the police.  (clear conscience + reputation / time + no cash)",
         "result_text": "{name} walked out of the police station with a receipt. The way back felt strangely light."
       },
       {
-        "text": "Keep the cash. Drop the wallet in a mailbox.  (₩300,000 / guilt)",
-        "result_text": "{name} pocketed the cash and pushed the wallet into the nearest mailbox.\nThe ID would get back to its owner — that was the justification.\n₩300,000 appeared. That night, the food didn't go down well.\nCrossing a small line once makes the next line easier."
+        "text": "Keep the cash. Drop the wallet in a mailbox.  (300,000 won / guilt)",
+        "result_text": "{name} pocketed the cash and pushed the wallet into the nearest mailbox.\nThe ID would get back to its owner — that was the justification.\n300,000 won appeared. That night, the food didn't go down well.\nCrossing a small line once makes the next line easier."
       },
       {
         "text": "Walk past. Don't touch it either way.  (do nothing / unease)",
@@ -36,7 +36,7 @@
   {
     "id": "amb_jobswitch_00",
     "title": "The Offer",
-    "description": "A message from an old coworker.\n\"Come to our startup. 1.5x your current salary.\nWe just closed Series A — if it works out, the stock options could change everything.\nOf course — fifty-fifty chance of folding in two years, but.\"\n\nCurrent job is dull but stable.\n{name}'s ₩3 billion is impossibly far on this dull monthly paycheck.",
+    "description": "A message from an old coworker.\n\"Come to our startup. 1.5x your current salary.\nWe just closed Series A — if it works out, the stock options could change everything.\nOf course — fifty-fifty chance of folding in two years, but.\"\n\nCurrent job is dull but stable.\n{name}'s 3 billion won is impossibly far on this dull monthly paycheck.",
     "choices": [
       {
         "text": "Take the leap. Leave stability behind.  (higher pay + opportunity / risk + stability)",

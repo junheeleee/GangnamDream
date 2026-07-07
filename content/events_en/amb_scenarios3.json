@@ -2,7 +2,7 @@
   {
     "id": "amb_mlm_00",
     "title": "A Great Opportunity",
-    "description": "A long-lost classmate texts out of nowhere. Warm opener.\n\"How have you been? What are you up to? I've got this great business going —\nno capital required, ₩1M a month is realistic. Perfect for someone like you.\nIf you have time, let's meet?\"\n\nUnemployed, account nearly empty. {name} has a pretty good idea what this is.\nAnd yet — '₩1 million a month' keeps catching the eye.",
+    "description": "A long-lost classmate texts out of nowhere. Warm opener.\n\"How have you been? What are you up to? I've got this great business going —\nno capital required, 1 million won a month is realistic. Perfect for someone like you.\nIf you have time, let's meet?\"\n\nUnemployed, account nearly empty. {name} has a pretty good idea what this is.\nAnd yet — '1 million won a month' keeps catching the eye.",
     "choices": [
       {
         "text": "Go and at least hear it out.  (desperation / trap + time)",
@@ -10,22 +10,22 @@
       },
       {
         "text": "Shut it down immediately.  (dignity + safety / relationship + faint hope)",
-        "result_text": "{name} replied 'not interested' and closed the chat.\nThe classmate sneered about 'kicking opportunity away', and the connection ended there.\nLet go of the ₩1M fantasy too. When desperate, clarity matters most."
+        "result_text": "{name} replied 'not interested' and closed the chat.\nThe classmate sneered about 'kicking opportunity away', and the connection ended there.\nLet go of the 1 million won fantasy too. When desperate, clarity matters most."
       }
     ]
   },
   {
     "id": "amb_mlm_meet",
     "title": "The Seminar Room",
-    "description": "Glossy hotel seminar hall. Applause. 'Success story' reels. A speaker draped in luxury.\nEven {name}'s pulse picks up with the energy for a second.\nThen the classmate slides over and grabs a shoulder.\n\"All you need is ₩3 million in enrollment fees. Card works? Let's change your life.\"",
+    "description": "Glossy hotel seminar hall. Applause. 'Success story' reels. A speaker draped in luxury.\nEven {name}'s pulse picks up with the energy for a second.\nThen the classmate slides over and grabs a shoulder.\n\"All you need is 3 million won in enrollment fees. Card works? Let's change your life.\"",
     "choices": [
       {
         "text": "Come to your senses and walk out.  (escape / awkwardness + relationship)",
-        "result_text": "{name} slipped out on a 'bathroom' excuse and walked home from there.\nThe classmate's calls rained down on the way. Blocked.\n₩3 million saved. Self-respect saved. But that night was long and cold."
+        "result_text": "{name} slipped out on a 'bathroom' excuse and walked home from there.\nThe classmate's calls rained down on the way. Blocked.\nThree million won saved. Self-respect saved. But that night was long and cold."
       },
       {
         "text": "'Once-in-a-lifetime opportunity' — pull out the card.  (false hope / debt + regret)",
-        "result_text": "{name} swiped the card. ₩3 million in debt out of nothing.\nWithin days, the truth was clear — product won't sell, only the debt remains.\nDesperation is the most expensive vulnerability."
+        "result_text": "{name} swiped the card. Three million won in debt out of nothing.\nWithin days, the truth was clear — product won't sell, only the debt remains.\nDesperation is the most expensive vulnerability."
       }
     ]
   },
@@ -40,14 +40,14 @@
       },
       {
         "text": "Wave everyone off and get back up.  (save money + time / health gamble)",
-        "result_text": "{name} said \"I'm fine\" and forced up, walking along the wall.\nSaved the hospital bill and the half-day.\nBut the body felt heavier from that day on.\nWhether the saved ₩200,000 comes back at a higher cost — nobody knows yet."
+        "result_text": "{name} said \"I'm fine\" and forced up, walking along the wall.\nSaved the hospital bill and the half-day.\nBut the body felt heavier from that day on.\nWhether the saved 200,000 won comes back at a higher cost — nobody knows yet."
       }
     ]
   },
   {
     "id": "amb_mlm_aftermath",
     "title": "The Card Bill",
-    "description": "The MLM product sits in storage. Unsold. Every last piece.\nAnd now — the ₩3 million card bill has arrived. Debt collection calls coming in waves.\nThe classmate has gone silent. From the start, {name} wasn't a friend — just prey.\n\nThat 'once-in-a-lifetime opportunity' came back as a daily debt call.",
+    "description": "The MLM product sits in storage. Unsold. Every last piece.\nAnd now — the 3 million won card bill has arrived. Debt collection calls coming in waves.\nThe classmate has gone silent. From the start, {name} wasn't a friend — just prey.\n\nThat 'once-in-a-lifetime opportunity' came back as a daily debt call.",
     "choices": [
       {
         "text": "Grind part-time jobs and pay it off.  (clear the debt / health + time)",

@@ -150,7 +150,7 @@
     "choices": [
       {
         "text": "Send whatever you can right now",
-        "result_text": "Transferred ₩300,000. Taken from the investment savings. Mother said 'thank you.' Those two words stayed a long time."
+        "result_text": "Transferred 300,000 won. Taken from the investment savings. Mother said 'thank you.' Those two words stayed a long time."
       },
       {
         "text": "Be honest about your own financial situation",
@@ -158,7 +158,7 @@
       },
       {
         "text": "Take out a loan and send it anyway",
-        "result_text": "Sent ₩1,000,000. Pulled from the overdraft account. Decided not to calculate the interest."
+        "result_text": "Sent 1 million won. Pulled from the overdraft account. Decided not to calculate the interest."
       }
     ]
   },
@@ -207,7 +207,7 @@
   {
     "id": "social_life_012",
     "title": "The Dinner Bill",
-    "description": "The work dinner ended. The bill came out, and someone said 'let's split it.'\n₩45,000 per person.\n\nMore than expected. You didn't eat or drink that much.\n{name} hesitated while reaching for the wallet.\nShould you object, or just pay?",
+    "description": "The work dinner ended. The bill came out, and someone said 'let's split it.'\n45,000 won per person.\n\nMore than expected. You didn't eat or drink that much.\n{name} hesitated while reaching for the wallet.\nShould you object, or just pay?",
     "choices": [
       {
         "text": "Suggest splitting by what each person had",
@@ -557,7 +557,7 @@
   {
     "id": "rel_family_loan_request",
     "title": "Family Loan Request",
-    "description": "A KakaoTalk from your older sibling. 'Sorry to reach out suddenly, something came up. Can you lend me some money for a month?' The amount is ₩500,000. This isn't the first time they've asked, but repayment has always been vague. Your own account isn't exactly flush either. Family makes it harder, not easier.",
+    "description": "A KakaoTalk from your older sibling. 'Sorry to reach out suddenly, something came up. Can you lend me some money for a month?' The amount is 500,000 won. This isn't the first time they've asked, but repayment has always been vague. Your own account isn't exactly flush either. Family makes it harder, not easier.",
     "choices": [
       {
         "text": "Lend it",
@@ -565,7 +565,7 @@
       },
       {
         "text": "Lend part of it",
-        "result_text": "'I'm tight too so I can only do ₩200,000.' Sibling replied 'thanks anyway.' A little uneasy, but that was the limit."
+        "result_text": "'I'm tight too so I can only do 200,000 won.' Sibling replied 'thanks anyway.' A little uneasy, but that was the limit."
       },
       {
         "text": "Decline, with apologies",
@@ -629,7 +629,7 @@
   {
     "id": "rel_friend_big_success",
     "title": "Friend's Big Success",
-    "description": "A KakaoTalk from a college classmate.\n\n'I got Series A investment this time. ₩1 billion.'\n\nA short sentence.\n\n{name} paused for a moment.\nA friend you used to do convenience store part-time work with.",
+    "description": "A KakaoTalk from a college classmate.\n\n'I got Series A investment this time. One billion won.'\n\nA short sentence.\n\n{name} paused for a moment.\nA friend you used to do convenience store part-time work with.",
     "choices": [
       {
         "text": "Genuinely congratulate them and ask about how they did it",
@@ -779,7 +779,7 @@
     "choices": [
       {
         "text": "Tell her your story too. The goshiwon, the account, the Gangnam dream.",
-        "result_text": "Daeun listened for a long time.\n\n'₩3 billion for Gangnam.' She said it like a thought aloud, then asked: 'Are you doing it alone?'\n'...Yes.'\nShe nodded. 'That's also courage.'\n\nA taxi came. She got in. The window came down.\n'See you again'"
+        "result_text": "Daeun listened for a long time.\n\n'3 billion won for Gangnam.' She said it like a thought aloud, then asked: 'Are you doing it alone?'\n'...Yes.'\nShe nodded. 'That's also courage.'\n\nA taxi came. She got in. The window came down.\n'See you again'"
       },
       {
         "text": "'Seoul's all like that.' Brush it off lightly.",

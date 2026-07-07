@@ -17,10 +17,10 @@
   {
     "id": "butterfly_mystery_info_details",
     "title": "The Price of Information",
-    "description": "The man spoke.\n\n\"One of the Mapo redevelopment zones gets project approval this month. Not announced yet. I have a source.\"\n\n\"₩500,000. Cash. Now.\"\n\nNo way to know if it's real or a scam.\nHow much ₩500,000 weighs depends on what's in the account right now.",
+    "description": "The man spoke.\n\n\"One of the Mapo redevelopment zones gets project approval this month. Not announced yet. I have a source.\"\n\n\"500,000 won. Cash. Now.\"\n\nNo way to know if it's real or a scam.\nHow much 500,000 won weighs depends on what's in the account right now.",
     "choices": [
       {
-        "text": "Pay ₩500,000",
+        "text": "Pay 500,000 won",
         "result_text": "Took the envelope. Dense with district names and lot numbers.\n\nThe man handed it over and walked away without looking back.\n\n{name} put the envelope in the bag. The answer comes in three months."
       },
       {
@@ -36,26 +36,26 @@
     "choices": [
       {
         "text": "Invest immediately in a small stake in the area",
-        "result_text": "The area's asking price rose 30% by announcement day.\n\n{name} walked away with ₩8,000,000. 16x the investment.\n\nStill don't know who that man was.\nMight never meet him again.\nSeoul has people like that."
+        "result_text": "The area's asking price rose 30% by announcement day.\n\n{name} walked away with 8 million won. 16x the investment.\n\nStill don't know who that man was.\nMight never meet him again.\nSeoul has people like that."
       },
       {
         "text": "Already gone up. Don't chase the price",
-        "result_text": "The information was correct. But couldn't execute the investment.\n\nThe second trap of investing — having the right information and still missing the return.\nThe first trap is believing the wrong information.\nThe second is missing the timing on the right one.\n\n₩500,000 tuition."
+        "result_text": "The information was correct. But couldn't execute the investment.\n\nThe second trap of investing — having the right information and still missing the return.\nThe first trap is believing the wrong information.\nThe second is missing the timing on the right one.\n\n500,000 won tuition."
       }
     ]
   },
   {
     "id": "butterfly_mystery_info_result_scam",
     "title": "3 Months Later — Nothing Happened",
-    "description": "Searched Mapo redevelopment.\n\nNothing. The lots were still in a greenbelt zone.\n\nThe man was just a scammer.\n\n₩500,000.",
+    "description": "Searched Mapo redevelopment.\n\nNothing. The lots were still in a greenbelt zone.\n\nThe man was just a scammer.\n\n500,000 won.",
     "choices": [
       {
         "text": "Call it tuition",
-        "result_text": "₩500,000.\n\nExpensive lesson. Still a lesson.\n\nBuying possibly illegal insider information was also wrong. He knew that and came anyway.\nIt wasn't being victimized. It was participating.\n\nThat thought was the bitterest part."
+        "result_text": "500,000 won.\n\nExpensive lesson. Still a lesson.\n\nBuying possibly illegal insider information was also wrong. He knew that and came anyway.\nIt wasn't being victimized. It was participating.\n\nThat thought was the bitterest part."
       },
       {
         "text": "Report him to the police",
-        "result_text": "Went to the station. Filed a statement.\n\nBut without better identifying information, tracking him would be difficult.\nSimilar cases on record, they said.\n\nGetting the ₩500,000 back was unlikely.\nBut said something. That's all that could be done."
+        "result_text": "Went to the station. Filed a statement.\n\nBut without better identifying information, tracking him would be difficult.\nSimilar cases on record, they said.\n\nGetting the 500,000 won back was unlikely.\nBut said something. That's all that could be done."
       }
     ]
   },
@@ -81,7 +81,7 @@
     "choices": [
       {
         "text": "Meet him",
-        "result_text": "Three hours at a café.\n\nHe poured out everything from ten years — supplier negotiations, managing employees, investor meetings, and why it all fell apart.\n\n\"Learning from someone who failed is the cheapest education. Successful people don't tell you the real things.\"\n\nThis was worth more than that ₩500,000."
+        "result_text": "Three hours at a café.\n\nHe poured out everything from ten years — supplier negotiations, managing employees, investor meetings, and why it all fell apart.\n\n\"Learning from someone who failed is the cheapest education. Successful people don't tell you the real things.\"\n\nThis was worth more than that 500,000 won."
       },
       {
         "text": "He was just drunk. Don't reach out.",

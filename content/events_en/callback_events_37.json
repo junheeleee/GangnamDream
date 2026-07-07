@@ -36,7 +36,7 @@
     "choices": [
       {
         "text": "Cook together tonight — that's enough for today",
-        "result_text": "Salty again. Dae-un blamed {name}. {name} blamed Dae-un.\nBoth were lying. Both laughed.\n\nThe ₩3 billion could wait until tomorrow."
+        "result_text": "Salty again. Dae-un blamed {name}. {name} blamed Dae-un.\nBoth were lying. Both laughed.\n\nThe 3 billion won could wait until tomorrow."
       },
       {
         "text": "After she's asleep — keep working",

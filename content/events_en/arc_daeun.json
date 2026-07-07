@@ -10,7 +10,7 @@
       },
       {
         "text": "Just nod thanks and leave  (focus maintained / warmth missed)",
-        "result_text": "{name} gave a small bow and stepped out.\nRight now, the only thing in view is ₩3 billion.\n\nStill — the bag with two triangle kimbap in it sat strangely heavy in the hand."
+        "result_text": "{name} gave a small bow and stepped out.\nRight now, the only thing in view is 3 billion won.\n\nStill — the bag with two triangle kimbap in it sat strangely heavy in the hand."
       }
     ]
   },
@@ -28,7 +28,7 @@
         "result_text": "{name} stayed warm, but never let things go deeper.\nShe noticed the boundary too and took a small step back.\nCaring costs something — and {name} couldn't afford the bill right now.\nWhether that was wise restraint or lonely avoidance, he couldn't say."
       },
       {
-        "text": "Come out with it — tell her about the ₩3B Gangnam dream  (honesty / vulnerability)",
+        "text": "Come out with it — tell her about the 3 billion won Gangnam dream  (honesty / vulnerability)",
         "result_text": "The words came out. For the first time, in front of this person."
       }
     ]
@@ -36,7 +36,7 @@
   {
     "id": "arc_daeun_02b_dream",
     "title": "The Dream",
-    "description": "\"Five years from now, I'll be in Gangnam. ₩3 billion in assets.\"\nDaeun went still for a moment, then laughed quietly.\n\"...That's big. But why Gangnam specifically?\"\nThe question stopped {name} cold.\nThere was no contempt in her eyes — just genuine curiosity.",
+    "description": "\"Five years from now, I'll be in Gangnam. Three billion won in assets.\"\nDaeun went still for a moment, then laughed quietly.\n\"...That's big. But why Gangnam specifically?\"\nThe question stopped {name} cold.\nThere was no contempt in her eyes — just genuine curiosity.",
     "choices": [
       {
         "text": "\"So no one can look down on me.\" Say it straight  (understood / vulnerable)",
@@ -81,7 +81,7 @@
   {
     "id": "arc_daeun_04_morning",
     "title": "The Reason at 3 A.M.",
-    "description": "3 A.M.\n\nA message from Daeun.\n\"You awake? ...Just can't sleep. Not exactly struggling — just.\"\n\n{name} stared at the screen, then looked out the window. Seoul doesn't go dark at 3 A.M.\n\n₩3 billion was still far off. Time was always running short.\n\nBut right now, looking at this message — for the first time, it felt clear.\nWhy he was running.",
+    "description": "3 A.M.\n\nA message from Daeun.\n\"You awake? ...Just can't sleep. Not exactly struggling — just.\"\n\n{name} stared at the screen, then looked out the window. Seoul doesn't go dark at 3 A.M.\n\nThree billion won was still far off. Time was always running short.\n\nBut right now, looking at this message — for the first time, it felt clear.\nWhy he was running.",
     "choices": [
       {
         "text": "Reply: \"Me too. Don't worry\"",

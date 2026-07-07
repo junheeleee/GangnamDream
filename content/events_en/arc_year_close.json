@@ -2,7 +2,7 @@
   {
     "id": "arc_year1_close",
     "title": "The Last Night of 33",
-    "description": "December.\n\nA crack in the goshiwon ceiling. It was there the day {name} moved in. A year of looking at it.\n\nThis time last year, {name} stepped off a bus. One bag. ₩500,000.\n\nSurvived.\n\nIs that all — or is this just the beginning?",
+    "description": "December.\n\nA crack in the goshiwon ceiling. It was there the day {name} moved in. A year of looking at it.\n\nThis time last year, {name} stepped off a bus. One bag. 500,000 won.\n\nSurvived.\n\nIs that all — or is this just the beginning?",
     "description_if_known": {
       "jaehyuk_scammed": "December.\n\nThe year Jaehyuk disappeared. The year the account ran dry. The year of the real bottom.\n\nStill here, though.\n\nLooked at the ceiling crack. Same spot as always.",
       "entered_network": "December.\n\nThe year of meeting Im Sangchul's people. Learning a little of how that world works.\n\nWhat that means going forward — still unknown.\n\nLooked at the ceiling crack. There since move-in day.",

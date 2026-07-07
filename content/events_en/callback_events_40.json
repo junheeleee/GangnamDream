@@ -2,7 +2,7 @@
   {
     "id": "callback_shared_doubt_echo",
     "title": "That Scary Line",
-    "description": "Hyun-su stopped {name} in the hallway.\n\n'Hey — remember what you said at the ramen table?'\n\n'If you don't try, it definitely won't happen.'\n\n'That line. Still in my head. When I want to quit studying.'",
+    "description": "Hyun-su stopped {name} in the hallway.\n\n'Hey — remember what you said at the ramyeon table?'\n\n'If you don't try, it definitely won't happen.'\n\n'That line. Still in my head. When I want to quit studying.'",
     "choices": [
       {
         "text": "\"That line is still in mine too.\"",

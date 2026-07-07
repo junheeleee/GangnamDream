@@ -5,11 +5,11 @@
     "description": "2 AM. The open group chat is exploding.\n\n'If you don't buy this right now you'll regret it for life. It'll triple by tomorrow.'\n\nSomeone just posted they put in everything they had. The chart is going vertical.\nThere's money in the account right now.\n\nWhether this opportunity is real or a trap — unknown.\nBut the window is right now.",
     "choices": [
       {
-        "text": "Put in everything (max ₩5,000,000)",
+        "text": "Put in everything (max 5 million won)",
         "result_text": "Hand shaking. Hit confirm."
       },
       {
-        "text": "Just ₩500,000 — test the waters",
+        "text": "Just 500,000 won — test the waters",
         "result_text": "Decided to go in small."
       },
       {
@@ -93,7 +93,7 @@
     "choices": [
       {
         "text": "Turn off the screen and close your eyes",
-        "result_text": "₩4,000,000 gone. Have to go to work today, but the body won't move. Not sure what this has become."
+        "result_text": "4 million won gone. Have to go to work today, but the body won't move. Not sure what this has become."
       },
       {
         "text": "Try to recover — open another position",
@@ -107,16 +107,16 @@
   },
   {
     "id": "drama_crypto_result_small",
-    "title": "₩500K in Coin — The Result",
-    "description": "One week later. Checked the chart on that coin again.\n\nIt had halved. ₩250,000 left.\n\nNot sure whether to be relieved it was a small amount, or regret that it was small.",
+    "title": "500,000 won in Coin — The Result",
+    "description": "One week later. Checked the chart on that coin again.\n\nIt had halved. 250,000 won left.\n\nNot sure whether to be relieved it was a small amount, or regret that it was small.",
     "choices": [
       {
         "text": "Cut losses and forget it",
-        "result_text": "Withdrew ₩250,000. Lost ₩250,000. Decided to count it as good tuition."
+        "result_text": "Withdrew 250,000 won. Lost 250,000 won. Decided to count it as good tuition."
       },
       {
         "text": "Buy more — average down the cost",
-        "result_text": "Put in ₩500,000 more. Now it has to bounce just to break even. Started checking the chart constantly."
+        "result_text": "Put in 500,000 won more. Now it has to bounce just to break even. Started checking the chart constantly."
       },
       {
         "text": "Just hold and wait",
@@ -127,10 +127,10 @@
   {
     "id": "drama_scam_attempt",
     "title": "Suspicious Investment Offer",
-    "description": "A DM arrived on SNS.\n\n'30% monthly returns guaranteed. Zero principal loss. Put in ₩1,000,000 now, get ₩1,300,000 in a month.'\n\nProfile photo: luxury car and designer watch. 30,000 followers.\nReviews in the comments. Everyone says they made money.\n\nSomething feels off. Or maybe it's real.",
+    "description": "A DM arrived on SNS.\n\n'30% monthly returns guaranteed. Zero principal loss. Put in 1 million won now, get 1.3 million won in a month.'\n\nProfile photo: luxury car and designer watch. 30,000 followers.\nReviews in the comments. Everyone says they made money.\n\nSomething feels off. Or maybe it's real.",
     "choices": [
       {
-        "text": "Put in ₩1,000,000",
+        "text": "Put in 1 million won",
         "result_text": "Sent a message confirming the transfer, but no reply. Three days later the account was gone. A classic scam."
       },
       {
@@ -150,7 +150,7 @@
     "choices": [
       {
         "text": "Accept the inheritance",
-        "result_text": "₩5,000,000 entered the account. Someone never met, yet a strange feeling lingered."
+        "result_text": "Five million won entered the account. Someone never met, yet a strange feeling lingered."
       },
       {
         "text": "Donate it all",
@@ -161,14 +161,14 @@
   {
     "id": "drama_friend_investment",
     "title": "Friend's Business Proposal",
-    "description": "An old friend got in touch.\n\n'you're starting a business. Can you invest ₩5,000,000? You'll pay it back double in a year.'\n\nA lot of money to trust on friendship alone.\nIf refused, things might get awkward.\n\nMoney or friendship?",
+    "description": "An old friend got in touch.\n\n'you're starting a business. Can you invest 5 million won? You'll pay it back double in a year.'\n\nA lot of money to trust on friendship alone.\nIf refused, things might get awkward.\n\nMoney or friendship?",
     "choices": [
       {
-        "text": "Lend ₩5,000,000",
+        "text": "Lend 5 million won",
         "result_text": "Transferred the money. The friend was grateful. What happens in a year, nobody knows."
       },
       {
-        "text": "Help with ₩1,000,000 only",
+        "text": "Help with 1 million won only",
         "result_text": "Said could only help a little. The friend was disappointed but accepted."
       },
       {
@@ -229,7 +229,7 @@
   {
     "id": "drama_rooftop_oneroom",
     "title": "Signing the Rooftop Lease",
-    "description": "Rooftop one-room: ₩500,000 deposit, ₩450,000/month rent. Already knows it'll be a furnace in summer and a freezer in winter. But there'll finally be a space that's just {name}'s.",
+    "description": "Rooftop one-room: 500,000 won deposit, 450,000 won/month rent. Already knows it'll be a furnace in summer and a freezer in winter. But there'll finally be a space that's just {name}'s.",
     "choices": [
       {
         "text": "Sign. Finally my own space.",
@@ -279,7 +279,7 @@
       },
       {
         "text": "Negotiate for moving cost compensation",
-        "result_text": "Negotiated and got ₩500,000. Good thing for asking confidently."
+        "result_text": "Negotiated and got 500,000 won. Good thing for asking confidently."
       }
     ]
   },
@@ -298,7 +298,7 @@
       },
       {
         "text": "Negotiate the terms one more time",
-        "result_text": "Tried salary negotiation. The startup went up ₩500,000. Can't get it without asking."
+        "result_text": "Tried salary negotiation. The startup went up 500,000 won. Can't get it without asking."
       }
     ]
   },
@@ -343,7 +343,7 @@
   {
     "id": "drama_public_contest_win",
     "title": "Contest Entry Wins",
-    "description": "An entry submitted with little expectation placed in a public competition. Prize: ₩1,000,000. The official list shows the name.",
+    "description": "An entry submitted with little expectation placed in a public competition. Prize: 1 million won. The official list shows the name.",
     "choices": [
       {
         "text": "Add to portfolio and enter the next one",
@@ -381,7 +381,7 @@
   {
     "id": "drama_apartment_lottery_win",
     "title": "Apartment Lottery Win",
-    "description": "Entered an apartment pre-sale in the outer Seoul suburbs on a whim. Got selected. Sale price: ₩380,000,000. Impossible without a loan.",
+    "description": "Entered an apartment pre-sale in the outer Seoul suburbs on a whim. Got selected. Sale price: 380 million won. Impossible without a loan.",
     "choices": [
       {
         "text": "Take a loan and sign",
@@ -389,7 +389,7 @@
       },
       {
         "text": "Wait for resale eligibility and flip it",
-        "result_text": "Sold with a premium. ₩30,000,000 profit. Investment sense sharpened."
+        "result_text": "Sold with a premium. Thirty million won profit. Investment sense sharpened."
       },
       {
         "text": "Pass on it — too much right now",
@@ -442,7 +442,7 @@
     "choices": [
       {
         "text": "Accept the acquisition — cash out now",
-        "result_text": "Signed. ₩80,000,000 into the account.\n\nHad one last drink with the team. Nobody said much.\nNot sure if it was the right call. But numbers don't lie."
+        "result_text": "Signed. 80 million won into the account.\n\nHad one last drink with the team. Nobody said much.\nNot sure if it was the right call. But numbers don't lie."
       },
       {
         "text": "Decline — grow it bigger",
@@ -457,11 +457,11 @@
     "choices": [
       {
         "text": "Buy just before election day — aim to sell right after results",
-        "result_text": "4 a.m. on election results night. Watching the chart, finger stretched out.\n\nSell. Confirm.\n\n₩12,000,000. The account changed.\nLearned in the body that in this city, information is money and timing is everything."
+        "result_text": "4 a.m. on election results night. Watching the chart, finger stretched out.\n\nSell. Confirm.\n\n12 million won. The account changed.\nLearned in the body that in this city, information is money and timing is everything."
       },
       {
         "text": "Test it with a small amount only",
-        "result_text": "₩800,000 gain. Disappointing, but kept it safe.\nGot the nerve to go bigger next time."
+        "result_text": "800,000 won gain. Disappointing, but kept it safe.\nGot the nerve to go bigger next time."
       },
       {
         "text": "Skip theme stocks — keep to the rules",
@@ -476,11 +476,11 @@
     "choices": [
       {
         "text": "Help as much as possible",
-        "result_text": "Sent ₩3,000,000. The account was emptied. But the parents' voice changed. That was enough."
+        "result_text": "Sent 3 million won. The account was emptied. But the parents' voice changed. That was enough."
       },
       {
         "text": "Help within limits only",
-        "result_text": "₩1,000,000. Not everything, but what was possible. Knowing your limits is also maturity."
+        "result_text": "One million won. Not everything, but what was possible. Knowing your limits is also maturity."
       },
       {
         "text": "Be honest — things are hard on this end too",
@@ -631,22 +631,22 @@
   {
     "id": "creator_first_income",
     "title": "First Payout",
-    "description": "Opened the YouTube Studio dashboard.\n\nEstimated earnings: ₩23,400\n\nFirst payout.\n₩23,400.\nTwo days of gosiwon food money.\nBut for some reason — this felt different from any money earned before.\nBecause something made became money.",
+    "description": "Opened the YouTube Studio dashboard.\n\nEstimated earnings: 23,400 won\n\nFirst payout.\n23,400 won.\nTwo days of gosiwon food money.\nBut for some reason — this felt different from any money earned before.\nBecause something made became money.",
     "choices": [
       {
         "text": "Triple this number next month",
-        "result_text": "A ₩23,400 goal exists now.\nStill nothing yet.\nBut if it starts at ₩23,000 — next could be ₩230,000, then ₩2,300,000.\n{name} decided to believe in that possibility."
+        "result_text": "A 23,400 won goal exists now.\nStill nothing yet.\nBut if it starts at 23,000 won — next could be 230,000 won, then 2.3 million won.\n{name} decided to believe in that possibility."
       },
       {
         "text": "This is enough. Keep it as a hobby.",
-        "result_text": "Accepted the ₩23,400 and stepped back from the strategy.\nHobbies last longer when kept as hobbies.\n{name} had another path."
+        "result_text": "Accepted the 23,400 won and stepped back from the strategy.\nHobbies last longer when kept as hobbies.\n{name} had another path."
       }
     ]
   },
   {
     "id": "creator_breakout_video",
     "title": "The Video That Popped",
-    "description": "Notifications wouldn't stop.\n\n\"The Real Route from Gosiwon to ₩3 Billion\" — just a video that got uploaded.\n\nViews: 420,000\nSubscribers: +8,200\n\nA link appeared in portal news.\n\"2030 relatable content goes viral\"\n\n{name}'s face — spreading across the internet.",
+    "description": "Notifications wouldn't stop.\n\n\"The Real Route from Gosiwon to 3 billion won\" — just a video that got uploaded.\n\nViews: 420,000\nSubscribers: +8,200\n\nA link appeared in portal news.\n\"2030 relatable content goes viral\"\n\n{name}'s face — spreading across the internet.",
     "choices": [
       {
         "text": "Ride the momentum and post a follow-up right away",
@@ -658,7 +658,7 @@
       },
       {
         "text": "Negotiate monetization and sponsors",
-        "result_text": "First sponsor contract. ₩500,000.\nThe official first revenue as a content creator.\nA small amount — but this was the price of something made.\nThat difference changed something."
+        "result_text": "First sponsor contract. 500,000 won.\nThe official first revenue as a content creator.\nA small amount — but this was the price of something made.\nThat difference changed something."
       }
     ]
   },
@@ -669,7 +669,7 @@
     "choices": [
       {
         "text": "Write it down — so as not to forget today's {name}",
-        "result_text": "Wrote in the notes: 'Day 21. Remaining: ₩OO0,000.'\nThe number was surprisingly big.\nMoney that went to betting this month — was in the account instead.\nA small recovery became the first savings."
+        "result_text": "Wrote in the notes: 'Day 21. Remaining: OO0,000 won.'\nThe number was surprisingly big.\nMoney that went to betting this month — was in the account instead.\nA small recovery became the first savings."
       },
       {
         "text": "Still hard — replace it with something else",

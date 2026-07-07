@@ -81,7 +81,7 @@
     "choices": [
       {
         "text": "Take the weekend site job",
-        "result_text": "Saturday dawn, a villa site in Hwagok-dong.\n\nWallpaper assist, hauling materials, cleanup. The body ached.\n\nThe boss taught constantly while working. Material costs, how to write estimates, how to deal with building owners.\n\n₩130,000 for the day. But what was learned over his shoulder was worth more.\n\"Coming next week too?\" the boss asked."
+        "result_text": "Saturday dawn, a villa site in Hwagok-dong.\n\nWallpaper assist, hauling materials, cleanup. The body ached.\n\nThe boss taught constantly while working. Material costs, how to write estimates, how to deal with building owners.\n\n130,000 won for the day. But what was learned over his shoulder was worth more.\n\"Coming next week too?\" the boss asked."
       },
       {
         "text": "\"The thought is enough\" — politely decline",
@@ -92,11 +92,11 @@
   {
     "id": "chain_interior_offer",
     "title": "The Boss's Offer",
-    "description": "Another weekend on site.\n\nDuring teardown, the boss sat down next to {name}.\n\n\"Starting next month I'm running two sites at once. I need someone to take one.\"\n\n\"Not full-time employment — site management. ₩2.8M a month. Learn the work, I'll raise it.\"\n\n\"I saw that you're honest. In this business, that's the rarest thing there is.\"",
+    "description": "Another weekend on site.\n\nDuring teardown, the boss sat down next to {name}.\n\n\"Starting next month I'm running two sites at once. I need someone to take one.\"\n\n\"Not full-time employment — site management. 2.8 million won a month. Learn the work, I'll raise it.\"\n\n\"I saw that you're honest. In this business, that's the rarest thing there is.\"",
     "choices": [
       {
         "text": "Accept. Learn on site.",
-        "result_text": "First month's pay: ₩2,800,000.\n\nThinking back, it started with an envelope under a table.\nIf he'd walked out with that envelope — ₩500,000 would have been the end of it.\n\nThe ₩500,000 reported straight to the manager\ncame back as ₩2,800,000 a month.\n\nHonesty is an investment with delayed returns."
+        "result_text": "First month's pay: 2.8 million won.\n\nThinking back, it started with an envelope under a table.\nIf he'd walked out with that envelope — 500,000 won would have been the end of it.\n\nThe 500,000 won reported straight to the manager\ncame back as 2.8 million won a month.\n\nHonesty is an investment with delayed returns."
       },
       {
         "text": "Decline. My path is elsewhere.",
@@ -115,7 +115,7 @@
       },
       {
         "text": "Pretend not to see it. Too late now.",
-        "result_text": "Walked past the paper to the shift.\n\nA week later it fell off, soaked in rain.\n\nThe ₩500,000 stays in the drawer.\nCan't even spend it. Spending it makes it truly not his.\n\nOne dawn, standing at the register, a thought:\nThe money is here — but something is gone. Not being able to name it made it worse."
+        "result_text": "Walked past the paper to the shift.\n\nA week later it fell off, soaked in rain.\n\nThe 500,000 won stays in the drawer.\nCan't even spend it. Spending it makes it truly not his.\n\nOne dawn, standing at the register, a thought:\nThe money is here — but something is gone. Not being able to name it made it worse."
       }
     ]
   },
@@ -141,11 +141,11 @@
     "choices": [
       {
         "text": "Apply immediately",
-        "result_text": "Gathered the documents and applied. Selected.\n\nSix months of rent support. ₩1,200,000 total.\n\nThe notice was public. Anyone could see it. But not everyone looks.\nWho tells you first — that's what connections actually are.\n\nThree trips of boxes on moving day became ₩1,200,000.\nBut bigger than the money — someone remembered him."
+        "result_text": "Gathered the documents and applied. Selected.\n\nSix months of rent support. 1.2 million won total.\n\nThe notice was public. Anyone could see it. But not everyone looks.\nWho tells you first — that's what connections actually are.\n\nThree trips of boxes on moving day became 1.2 million won.\nBut bigger than the money — someone remembered him."
       },
       {
         "text": "Plan to do it later — miss the deadline",
-        "result_text": "'you'll do it later' was the problem.\n\nOpened the notice the day after the deadline. Applications closed.\n\n₩1,200,000 slipped through his fingers.\n\nCouldn't bring himself to tell the neighbor.\nSent 'Applied. Thank you!' and stared at the ceiling for a while.\n\nThey say opportunity belongs to the prepared — half right.\nOpportunity belongs to those who don't postpone."
+        "result_text": "'you'll do it later' was the problem.\n\nOpened the notice the day after the deadline. Applications closed.\n\n1.2 million won slipped through his fingers.\n\nCouldn't bring himself to tell the neighbor.\nSent 'Applied. Thank you!' and stared at the ceiling for a while.\n\nThey say opportunity belongs to the prepared — half right.\nOpportunity belongs to those who don't postpone."
       }
     ]
   },
@@ -167,11 +167,11 @@
   {
     "id": "chain_scammer_again",
     "title": "Same Method",
-    "description": "Hongdae street. Evening.\n\nA familiar back. Worn jacket, clean envelope.\n\nThe scammer. Mapo redevelopment info, ₩500,000.\n\nRight now he was waving the envelope at some college student.\nThe student's expression — {name}'s expression from three months ago.",
+    "description": "Hongdae street. Evening.\n\nA familiar back. Worn jacket, clean envelope.\n\nThe scammer. Mapo redevelopment info, 500,000 won.\n\nRight now he was waving the envelope at some college student.\nThe student's expression — {name}'s expression from three months ago.",
     "choices": [
       {
         "text": "Step in. \"That man is a scammer.\"",
-        "result_text": "The student and the scammer turned at the same time.\n\nThe scammer recognized {name}. Half a second. Then simply walked away.\nDidn't even run. This wasn't his first time.\n\nThe student asked, \"You know him?\"\n\"Cost me ₩500,000 to know him.\"\n\nNever got the ₩500,000 back.\nBut someone else's ₩500,000 was saved. Decided to call that even."
+        "result_text": "The student and the scammer turned at the same time.\n\nThe scammer recognized {name}. Half a second. Then simply walked away.\nDidn't even run. This wasn't his first time.\n\nThe student asked, \"You know him?\"\n\"Cost me 500,000 won to know him.\"\n\nNever got the 500,000 won back.\nBut someone else's 500,000 won was saved. Decided to call that even."
       },
       {
         "text": "Walk past. Not my business.",

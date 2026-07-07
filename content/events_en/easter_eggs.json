@@ -77,15 +77,15 @@
   {
     "id": "egg_quiet_rich",
     "title": "The Quiet Rich",
-    "description": "Account and portfolio combined, it's over 2 billion won.\n\nAnd yet {name} still lives in the goshiwon.\n\nRent 300,000 won. 4.5 square meters. Shared bathroom.\n\nNot for lack of money. He can leave. Anytime.\nBut he doesn't.\n\nA man with 2 billion won boils a cup ramen in the shared kitchen at dawn.\nThe next-room exam-prepper sees him and greets:\n\"You're having ramen too, hyung?\"\n\n{name} smiled. Yeah, hyung's having ramen too.",
+    "description": "Account and portfolio combined, it's over 2 billion won.\n\nAnd yet {name} still lives in the goshiwon.\n\nRent 300,000 won. 4.5 square meters. Shared bathroom.\n\nNot for lack of money. He can leave. Anytime.\nBut he doesn't.\n\nA man with 2 billion won boils a cup ramyeon in the shared kitchen at dawn.\nThe next-room exam-prepper sees him and greets:\n\"You're having ramyeon too, hyung?\"\n\n{name} smiled. Yeah, hyung's having ramyeon too.",
     "choices": [
       {
         "text": "This is my way. Numbers are just numbers.",
-        "result_text": "{name} slurped the ramen.\n\nWith 2 billion in the bank, ramen tasted the same.\nMaybe even better — his mind was at ease.\n\nMoney wasn't a goal but freedom.\nFreedom to leave when he must, freedom to stay if he wants.\n\n{name} was enjoying that freedom now.\nGangnam — he can go when he wants to. No rush."
+        "result_text": "{name} slurped the ramyeon.\n\nWith 2 billion in the bank, ramyeon tasted the same.\nMaybe even better — his mind was at ease.\n\nMoney wasn't a goal but freedom.\nFreedom to leave when he must, freedom to stay if he wants.\n\n{name} was enjoying that freedom now.\nGangnam — he can go when he wants to. No rush."
       },
       {
         "text": "Now it's really time to leave. For Gangnam.",
-        "result_text": "He drank the broth to the last drop.\n\n2 billion. That's enough now.\nThe stubbornness he'd shown in the goshiwon — this far was plenty.\n\n{name} opened the real estate app.\nLooked at Gangnam listings seriously, for the first time.\n\nThose numbers he'd only seen on screen five years ago —\nwere now a price he could pay.\n\nHe cooked one last ramen for the next-room exam-prepper."
+        "result_text": "He drank the broth to the last drop.\n\n2 billion. That's enough now.\nThe stubbornness he'd shown in the goshiwon — this far was plenty.\n\n{name} opened the real estate app.\nLooked at Gangnam listings seriously, for the first time.\n\nThose numbers he'd only seen on screen five years ago —\nwere now a price he could pay.\n\nHe cooked one last ramyeon for the next-room exam-prepper."
       }
     ]
   },

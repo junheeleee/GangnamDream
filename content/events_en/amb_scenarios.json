@@ -21,15 +21,15 @@
   {
     "id": "amb_jeonse_check",
     "title": "80%",
-    "description": "The registry confirms it — the mortgage is at 80% of market value.\nIf the landlord goes under, not a single won of the deposit comes back.\nLuckily, the threshold for lease deposit insurance hasn't quite been crossed yet.\n\nInsurance premium: ₩300,000. More than {name}'s monthly food budget.",
+    "description": "The registry confirms it — the mortgage is at 80% of market value.\nIf the landlord goes under, not a single won of the deposit comes back.\nLuckily, the threshold for lease deposit insurance hasn't quite been crossed yet.\n\nInsurance premium: 300,000 won. More than {name}'s monthly food budget.",
     "choices": [
       {
-        "text": "Pay ₩300,000. Get the deposit insurance.",
-        "result_text": "{name} enrolled in the insurance. The account thinned again.\nBut that night, for the first time in months, slept deeply.\nThe price of protecting every saved won — ₩300,000 was cheap."
+        "text": "Pay 300,000 won. Get the deposit insurance.",
+        "result_text": "{name} enrolled in the insurance. The account thinned again.\nBut that night, for the first time in months, slept deeply.\nThe price of protecting every saved won — 300,000 won was cheap."
       },
       {
-        "text": "₩300,000 is too much. Ride it out and hope.",
-        "result_text": "Saved ₩300,000. Something for the seed fund.\nIn exchange, {name} started anxiously checking on the landlord every month.\nWhether the savings paid for peace of mind — that would become clear later."
+        "text": "300,000 won is too much. Ride it out and hope.",
+        "result_text": "Saved 300,000 won. Something for the seed fund.\nIn exchange, {name} started anxiously checking on the landlord every month.\nWhether the savings paid for peace of mind — that would become clear later."
       }
     ]
   },

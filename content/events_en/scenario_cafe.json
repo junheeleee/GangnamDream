@@ -2,7 +2,7 @@
   {
     "id": "cafe_00",
     "title": "Gangnam Café",
-    "description": "{name} ordered a ₩6,500 americano.\nUnemployed, sitting in a Gangnam café. Still — just once,\n{name} wanted to sit inside the world being aimed for.\n\nNext table. A man in a suit, on a call.\n\"This is the last entry pass in the zone. If you don't lock it in today, it's gone.\nRedevelopment's confirmed. ...Yes, ₩50 million cash is enough.\"\n\n{name}'s ear drifted over on its own.",
+    "description": "{name} ordered a 6,500 won americano.\nUnemployed, sitting in a Gangnam café. Still — just once,\n{name} wanted to sit inside the world being aimed for.\n\nNext table. A man in a suit, on a call.\n\"This is the last entry pass in the zone. If you don't lock it in today, it's gone.\nRedevelopment's confirmed. ...Yes, 50 million won cash is enough.\"\n\n{name}'s ear drifted over on its own.",
     "choices": [
       {
         "text": "Keep listening. Quietly.",
@@ -55,7 +55,7 @@
   {
     "id": "cafe_caught_honest",
     "title": "Caught Honest",
-    "description": "{name} bowed their head.\n\"I'm unemployed. ₩500,000 in the bank.\nBut I want to be here someday — that's why I looked.\nI'm sorry.\"\n\nThe man stared for a long moment. Then let out a short laugh.\n\"You're insane. But that look in your eyes — it's the same as mine, back then.\"",
+    "description": "{name} bowed their head.\n\"I'm unemployed. 500,000 won in the bank.\nBut I want to be here someday — that's why I looked.\nI'm sorry.\"\n\nThe man stared for a long moment. Then let out a short laugh.\n\"You're insane. But that look in your eyes — it's the same as mine, back then.\"",
     "choices": [
       {
         "text": "\"May I ask you just one thing?\"",
@@ -81,7 +81,7 @@
   {
     "id": "cafe_humble",
     "title": "Lowering the Bar",
-    "description": "\"Unemployed. But I can't keep living like this —\nso I came all the way to Gangnam, ordered one coffee, and sat down trying to learn something.\"\n\nThe man laughed incredulously. Then turned his chair around.\n\"A broke person trying to get in on a ₩50M deal.\nBut fine — you've got time on your hands. Ten minutes. I'll talk for ten minutes.\"",
+    "description": "\"Unemployed. But I can't keep living like this —\nso I came all the way to Gangnam, ordered one coffee, and sat down trying to learn something.\"\n\nThe man laughed incredulously. Then turned his chair around.\n\"A broke person trying to get in on a 50 million won deal.\nBut fine — you've got time on your hands. Ten minutes. I'll talk for ten minutes.\"",
     "choices": [
       {
         "text": "Listen. Every word.",
@@ -92,7 +92,7 @@
   {
     "id": "cafe_bluff_01",
     "title": "The Bluff",
-    "description": "\"You work in this field. Is that right?\"\nThe man's eyes narrow. Testing.\n\"So if LTV is 70 on a property with a ₩50 million gap,\nhow much do you figure for actual investment?\"\n\n{name} doesn't know what any of those words mean.\nCold sweat runs down the back.",
+    "description": "\"You work in this field. Is that right?\"\nThe man's eyes narrow. Testing.\n\"So if LTV is 70 on a property with a 50 million won gap,\nhow much do you figure for actual investment?\"\n\n{name} doesn't know what any of those words mean.\nCold sweat runs down the back.",
     "choices": [
       {
         "text": "Bluff through it. Throw out a number.",
@@ -107,7 +107,7 @@
   {
     "id": "cafe_bluff_caught",
     "title": "Caught",
-    "description": "\"Around... ₩200 million?\" {name} tossed out a random number.\nThe man scoffed.\n\"The gap is ₩50M and you need ₩200M for actual investment? Kid, go study before you try to run a scam.\"\n\nPeople at nearby tables glance over.\n{name}'s face burns. Gangnam — it spots the bluff first.",
+    "description": "\"Around... 200 million won?\" {name} tossed out a random number.\nThe man scoffed.\n\"The gap is 50 million won and you need 200 million won for actual investment? Kid, go study before you try to run a scam.\"\n\nPeople at nearby tables glance over.\n{name}'s face burns. Gangnam — it spots the bluff first.",
     "choices": [
       {
         "text": "Escape the café.",

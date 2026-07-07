@@ -10,14 +10,14 @@
       },
       {
         "text": "Post a question",
-        "result_text": "'What should I do first with ₩200K/month?' you posted.\nReplies came fast. Over ten of them. All different.\n\nNo right answer — but knowing other people are sweating the same thing helped."
+        "result_text": "'What should I do first with 200,000 won/month?' you posted.\nReplies came fast. Over ten of them. All different.\n\nNo right answer — but knowing other people are sweating the same thing helped."
       }
     ]
   },
   {
     "id": "kx_viral_meme",
     "title": "This Meme Is About Me",
-    "description": "A meme is going around on X (Twitter).\n'33, unemployed, ₩500K in the bank, when does Gangnam happen'\n\nOver 60,000 retweets.\nThe replies are full of 'this is literally me.'",
+    "description": "A meme is going around on X (Twitter).\n'33, unemployed, 500,000 won in the bank, when does Gangnam happen'\n\nOver 60,000 retweets.\nThe replies are full of 'this is literally me.'",
     "choices": [
       {
         "text": "Retweet it — deeply relatable",
@@ -35,8 +35,8 @@
     "description": "1 AM — hungry, out of money.\nOpened YouTube. The algorithm recommends mukbang.\n\nA YouTuber eating four bowls of black bean noodles.\nJust the thumbnail makes your mouth water.",
     "choices": [
       {
-        "text": "Put on mukbang and eat cup ramen",
-        "result_text": "Poured hot water into the cup ramen with mukbang running in the background. Weirdly fitting.\n\nSome say Korea's mukbang culture was born to ease the loneliness of eating alone.\nCup ramen at 1 AM was enough for tonight."
+        "text": "Put on mukbang and eat cup ramyeon",
+        "result_text": "Poured hot water into the cup ramyeon with mukbang running in the background. Weirdly fitting.\n\nSome say Korea's mukbang culture was born to ease the loneliness of eating alone.\nCup ramyeon at 1 AM was enough for tonight."
       },
       {
         "text": "Turn it off and sleep — just makes you hungrier",
@@ -51,11 +51,11 @@
     "choices": [
       {
         "text": "Buy one and reply in kind",
-        "result_text": "Bought a ₩2,200 emoticon. A waving cat.\n\n'Haha, cute,' they replied.\nIn this country, relationships are maintained less by words, more by emoticons — you keep learning this."
+        "result_text": "Bought a 2,200 won emoticon. A waving cat.\n\n'Haha, cute,' they replied.\nIn this country, relationships are maintained less by words, more by emoticons — you keep learning this."
       },
       {
         "text": "Reply with text instead",
-        "result_text": "Sent 'haha same' in text.\n\nThe vibe was slightly different. Text has no warmth.\nA ₩2,200 gap makes a temperature difference in relationships. Weird and also accurate."
+        "result_text": "Sent 'haha same' in text.\n\nThe vibe was slightly different. Text has no warmth.\nA 2,200 won gap makes a temperature difference in relationships. Weird and also accurate."
       }
     ]
   },
@@ -70,7 +70,7 @@
       },
       {
         "text": "Skim it and close the tab — this isn't my world yet",
-        "result_text": "₩1 billion, ₩2 billion, ₩3 billion...\n\nThe numbers were too large to feel real.\nThe longer you stared, the more a sense of deprivation set in. Closed the tab."
+        "result_text": "One billion won, 2 billion won, 3 billion won...\n\nThe numbers were too large to feel real.\nThe longer you stared, the more a sense of deprivation set in. Closed the tab."
       }
     ]
   }

@@ -2,7 +2,7 @@
   {
     "id": "callback_goal_grounded_echo",
     "title": "Walked to the Han River Again",
-    "description": "On the night the weight of ₩3 billion pressed down, {name} closed the plan and the phone and walked all the way to the Han River for air.\n\nToday, head full again, their feet found the same path on their own.\n\nThe river flowed on, indifferent as ever.",
+    "description": "On the night the weight of 3 billion won pressed down, {name} closed the plan and the phone and walked all the way to the Han River for air.\n\nToday, head full again, their feet found the same path on their own.\n\nThe river flowed on, indifferent as ever.",
     "choices": [
       {
         "text": "Like that day — walking sorts it out",
@@ -32,7 +32,7 @@
   {
     "id": "callback_kept_milestone_secret_echo",
     "title": "A Number Kept to Myself",
-    "description": "The day {name} first crossed ₩100 million, they decided to keep it to themselves and tell no one.\n\nGood things were mostly known alone after that.\n\nToday, looking at the account again, they briefly pictured someone to tell.",
+    "description": "The day {name} first crossed 100 million won, they decided to keep it to themselves and tell no one.\n\nGood things were mostly known alone after that.\n\nToday, looking at the account again, they briefly pictured someone to tell.",
     "choices": [
       {
         "text": "Knowing alone is comfortable — it's my way",

@@ -2,7 +2,7 @@
   {
     "id": "arc_intro_01_meal",
     "title": "First Interview",
-    "description": "A job posting led to this.\n\nA small office in Mapo-gu. Third floor. No elevator.\nThe sign reads 'Mirae Industry Technology Co., Ltd.' — nothing comes up when you search for them.\n\nThe interviewer was a woman in her early forties. She picked up the résumé, adjusted her glasses, and read slowly.\nThe AC hummed loudly. A motorcycle passed outside.\n\n'There's a six-year gap here.'\n\nShe set the résumé down and looked at {name}.\n'What were you doing?'\n\nCan't say 'paying off debt.' Six years, from twenty-seven to thirty-three, covering for a father who co-signed the wrong loan.\nHow do you put six years into one sentence.\n\n{name}'s palms were sweating.",
+    "description": "A job posting led to this.\n\nA small office in Mapo-gu. Third floor. No elevator.\nThe sign reads 'Mirae Industrial Tech' — nothing comes up when you search for them.\n\nThe interviewer was a woman in her early forties. She picked up the résumé, adjusted her glasses, and read slowly.\nThe AC hummed loudly. A motorcycle passed outside.\n\n'There's a six-year gap here.'\n\nShe set the résumé down and looked at {name}.\n'What were you doing?'\n\nCan't say 'paying off debt.' Six years, from twenty-seven to thirty-three, covering for a father who co-signed the wrong loan.\nHow do you put six years into one sentence.\n\n{name}'s palms were sweating.",
     "choices": [
       {
         "text": "Tell the truth — 'There were family circumstances.'",
@@ -14,12 +14,12 @@
       }
     ],
     "description_orthodox": "A message from a job app. Mapo-gu. Third floor. No elevator.\n\nCounted the stairs on the way up. 29. {name} counts things like this — turning it into numbers makes it lighter.\n\nThe interviewer picked up the résumé. Her eyes stopped at the six-year gap.\n\n{name} knew this question was coming. He'd prepared.\nPreparing doesn't make it hurt less.",
-    "description_unorthodox": "A message from a job app. Mapo-gu. Third floor. No elevator.\n\n'Mirae Industrial Tech, Inc.' Funny. If this is the future, the future's pretty narrow.\nDoesn't matter. He needs money now, and this whole thing is temporary anyway.\n\nThe interviewer flagged the six-year gap. {name} knew that look — 'an odd one.'\nFine. So what if I'm odd."
+    "description_unorthodox": "A message from a job app. Mapo-gu. Third floor. No elevator.\n\n'Mirae Industrial Tech.' Funny. If this is the future, the future's pretty narrow.\nDoesn't matter. He needs money now, and this whole thing is temporary anyway.\n\nThe interviewer flagged the six-year gap. {name} knew that look — 'an odd one.'\nFine. So what if I'm odd."
   },
   {
     "id": "arc_intro_02_dad_call",
     "title": "The Number",
-    "description": "Goshiwon room. 3 AM. {name} couldn't sleep.\n\nOpened the calculator on the phone.\n\nMinimum wage. Not even KRW 2,000,000 for a full month of work.\nKRW 3,000,000,000 ÷ KRW 2,000,000 = 1,500 months = 125 years.\n\n125 years.\n\n{name} stared at the screen. Laughed, because it was absurd.\nSalary alone — mathematically impossible. From the beginning.\n\nThen the phone rang.\nFather. At 3 AM.\n\n{name} didn't pick up. Not while staring at this number — there was no way to keep his voice steady.",
+    "description": "Goshiwon room. 3 AM. {name} couldn't sleep.\n\nOpened the calculator on the phone.\n\nMinimum wage. Not even 2 million won for a full month of work.\nThree billion won ÷ 2 million won = 1,500 months = 125 years.\n\n125 years.\n\n{name} stared at the screen. Laughed, because it was absurd.\nSalary alone — mathematically impossible. From the beginning.\n\nThen the phone rang.\nFather. At 3 AM.\n\n{name} didn't pick up. Not while staring at this number — there was no way to keep his voice steady.",
     "choices": [
       {
         "text": "Keep searching job apps after the shift. Seed money first. [Saver mindset]",
@@ -34,14 +34,14 @@
         "result_text": "{name} wrote something in a notebook.\nGaps. Demand. Supply. What nobody else was doing.\n\nIdeas alone are nothing yet.\nBut people who write nothing down never begin."
       }
     ],
-    "description_orthodox": "Goshiwon. 3 AM.\n\nCouldn't sleep. Opened the calculator on the phone.\n\nWage KRW 10,000/hour. KRW 2,000,000 a month. Gangnam, KRW 3 billion. 125 years.\n\n{name} wrote down more numbers. Save KRW 3,000,000 a month. 15% annual return. Compounding.\nWhat looks impossible to the gut, broken into numbers, starts to show a path.\nThen the phone rang. Father. At 3 AM.\n\nHe didn't pick up. The clearer the path got, the less he knew where to even begin.",
-    "description_unorthodox": "Goshiwon. 3 AM.\n\nCouldn't sleep. Opened the calculator on the phone.\n\nWage KRW 10,000/hour. 125 years.\n\n{name} shut the calculator off. This way won't work.\nHe'd known that from the start. So he needed another way — a different axis than time.\nHe had to see what others didn't.\n\nThen the phone rang. Father. At 3 AM.\n\nHe didn't pick up. The more set he was on finding another road, the heavier that voice felt.",
+    "description_orthodox": "Goshiwon. 3 AM.\n\nCouldn't sleep. Opened the calculator on the phone.\n\nWage 10,000 won/hour. Two million won a month. Gangnam, 3 billion won. 125 years.\n\n{name} wrote down more numbers. Save 3 million won a month. 15% annual return. Compounding.\nWhat looks impossible to the gut, broken into numbers, starts to show a path.\nThen the phone rang. Father. At 3 AM.\n\nHe didn't pick up. The clearer the path got, the less he knew where to even begin.",
+    "description_unorthodox": "Goshiwon. 3 AM.\n\nCouldn't sleep. Opened the calculator on the phone.\n\nWage 10,000 won/hour. 125 years.\n\n{name} shut the calculator off. This way won't work.\nHe'd known that from the start. So he needed another way — a different axis than time.\nHe had to see what others didn't.\n\nThen the phone rang. Father. At 3 AM.\n\nHe didn't pick up. The more set he was on finding another road, the heavier that voice felt.",
     "description_low_mental": "Goshiwon. 3 AM.\n\nCouldn't sleep again.\n\nOpened the calculator, then closed it. The number — 125 years — stayed in front of his eyes. Even doing nothing.\n\nHis body felt heavy. The air in this room felt heavy.\n\nThe phone rang. Father. {name} thought for a moment about whether to answer."
   },
   {
     "id": "arc_intro_03_sns",
     "title": "2 AM",
-    "description": "2 AM. The goshiwon room. Can't sleep.\n\nStaring at the ceiling, {name} opened Instagram out of habit. Fingers scrolling the feed.\n\nHigh school friend Park Minho — 'Finally my own home 🏠 Housing lottery win T_T Waited 10 years #allIn #30sHomeowner'\nUniversity classmate Lee Suhyeon — Honeymoon photos. Maldives. Turquoise water. A wedding dress.\nDepartment senior Kim Junghoon — Foreign car key flex. BMW 3 Series. 'First day in the company lot 🔑'\n\nEveryone had arrived somewhere.\nOnly {name} was still at the starting line. No, behind the starting line.\n\n₩650,000 rent. Bank balance. The stain on the goshiwon wall.\n\nThe hand holding the phone grew heavy.",
+    "description": "2 AM. The goshiwon room. Can't sleep.\n\nStaring at the ceiling, {name} opened Instagram out of habit. Fingers scrolling the feed.\n\nHigh school friend Park Minho — 'Finally my own home 🏠 Housing lottery win T_T Waited 10 years #allIn #30sHomeowner'\nUniversity classmate Lee Suhyeon — Honeymoon photos. Maldives. Turquoise water. A wedding dress.\nDepartment senior Kim Junghoon — Foreign car key flex. BMW 3 Series. 'First day in the company lot 🔑'\n\nEveryone had arrived somewhere.\nOnly {name} was still at the starting line. No, behind the starting line.\n\n650,000 won rent. Bank balance. The stain on the goshiwon wall.\n\nThe hand holding the phone grew heavy.",
     "choices": [
       {
         "text": "Delete the app — comparison is poison.",
@@ -63,32 +63,32 @@
   {
     "id": "arc_intro_04_hyunsu",
     "title": "Next Door",
-    "description": "Hallway outside the goshiwon shared kitchen. 1 AM.\n\nA narrow corridor with only one fluorescent tube working.\n{name} was carrying cup ramen back to the room when the door next to his opened.\n\nThe neighbor from next door. They'd crossed paths before — but this was the first time.\n'...You're doing ramen too, hyung.'\n\nHe spoke first. Hollows under his eyes. The face of someone who sits for a long time.\nLooks about twenty-six. A worn civil service exam book was tucked under his arm.\n\n'Fourth year studying for the civil service exam. This is my last year — I say that every year.'\nHe gave a half-laugh. A smile that didn't quite reach the eyes.\n\n'What about you, hyung? What do you do?'",
+    "description": "Hallway outside the goshiwon shared kitchen. 1 AM.\n\nA narrow corridor with only one fluorescent tube working.\n{name} was carrying cup ramyeon back to the room when the door next to his opened.\n\nThe neighbor from next door. They'd crossed paths before — but this was the first time.\n'...You're doing ramyeon too, hyung.'\n\nHe spoke first. Hollows under his eyes. The face of someone who sits for a long time.\nLooks about twenty-six. A worn civil service exam book was tucked under his arm.\n\n'Fourth year studying for the civil service exam. This is my last year — I say that every year.'\nHe gave a half-laugh. A smile that didn't quite reach the eyes.\n\n'What about you, hyung? What do you do?'",
     "choices": [
       {
         "text": "'I don't really know yet. Still figuring it out.'",
-        "result_text": "Hyunsu nodded.\n'That's the most honest answer.'\n\nThe two of them ate ramen in silence in the narrow hallway.\nJust knowing there's someone on the other side of this thin wall in the same situation —\ntonight was a little less cold."
+        "result_text": "Hyunsu nodded.\n'That's the most honest answer.'\n\nThe two of them ate ramyeon in silence in the narrow hallway.\nJust knowing there's someone on the other side of this thin wall in the same situation —\ntonight was a little less cold."
       },
       {
         "text": "'I'm going to Gangnam. Within five years.'",
-        "result_text": "Hyunsu stopped mid-ramen and looked at {name}.\nExpected a laugh. Didn't get one.\n'...You mean it, don't you, hyung.'\n\nA short silence. Then, quietly:\n'Somehow I feel like you'll actually go.'\nThat line stayed. Coming from someone who'd been looking at the same wall for four years."
+        "result_text": "Hyunsu stopped mid-ramyeon and looked at {name}.\nExpected a laugh. Didn't get one.\n'...You mean it, don't you, hyung.'\n\nA short silence. Then, quietly:\n'Somehow I feel like you'll actually go.'\nThat line stayed. Coming from someone who'd been looking at the same wall for four years."
       }
     ],
-    "description_orthodox": "Hallway outside the goshiwon shared kitchen. 1 AM.\n\nAs {name} turned to head back with his cup ramen, the man next door came out.\n\n\"You're on ramen too, hyung.\"\n\nGrade 9 exam prep book. Worn cover. Four years, easy.\n\nThis path is a path too. The sure, slow one.\n{name} briefly measured the road he'd chosen against this man's.",
-    "description_unorthodox": "Hallway outside the goshiwon shared kitchen. 1 AM.\n\nThe man next door came out. Grade 9 exam prep book.\n\n\"You're on ramen too, hyung.\"\n\n{name} thought — what does he see, studying that every single day?\nIf he passes, where does he go? On KRW 2.2 million a month, can he even get out of this goshiwon?\nHe didn't ask. Everyone has their own math."
+    "description_orthodox": "Hallway outside the goshiwon shared kitchen. 1 AM.\n\nAs {name} turned to head back with his cup ramyeon, the man next door came out.\n\n\"You're on ramyeon too, hyung.\"\n\nGrade 9 civil service exam prep book. Worn cover. Four years, easy.\n\nThis path is a path too. The sure, slow one.\n{name} briefly measured the road he'd chosen against this man's.",
+    "description_unorthodox": "Hallway outside the goshiwon shared kitchen. 1 AM.\n\nThe man next door came out. Grade 9 civil service exam prep book.\n\n\"You're on ramyeon too, hyung.\"\n\n{name} thought — what does he see, studying that every single day?\nIf he passes, where does he go? On 2.2 million won a month, can he even get out of this goshiwon?\nHe didn't ask. Everyone has their own math."
   },
   {
     "id": "arc_chapter1_close",
     "title": "The First Week",
-    "description": "2 AM.\n\nThe ramen broth had gone cold.\nAfter Hyunsu went back inside, {name} stood in the hallway alone for a while.\n\nThis past week — the burner account text, father's call, the first Gangnam cafe he ever walked into, Hyunsu's ramen.\n\nBack in the room, {name} opens the notebook. First line:\n'KRW 3,000,000,000. Five years.'\n\nNothing below it.\n\nUnder fluorescent light: a 4.5-pyeong goshiwon room. One desk. One blanket.\nCan KRW 3B actually come out of here?\n\n{name} still doesn't have an answer.\nBut — tonight was the first time the question felt completely real.",
+    "description": "2 AM.\n\nThe ramyeon broth had gone cold.\nAfter Hyunsu went back inside, {name} stood in the hallway alone for a while.\n\nThis past week — the burner account text, father's call, the first Gangnam cafe he ever walked into, Hyunsu's ramyeon.\n\nBack in the room, {name} opens the notebook. First line:\n'3 billion won. Five years.'\n\nNothing below it.\n\nUnder fluorescent light: a 4.5-pyeong goshiwon room. One desk. One blanket.\nCan 3 billion won actually come out of here?\n\n{name} still doesn't have an answer.\nBut — tonight was the first time the question felt completely real.",
     "choices": [
       {
         "text": "Close the notebook. That's enough for today.",
-        "result_text": "Turned off the light.\n\nIn the dark, the number ₩3,000,000,000 remained.\nThe distance between that number and this room — that's exactly the distance ahead.\n\n{name} closed his eyes. No plan yet. Still — he thought he could sleep tonight."
+        "result_text": "Turned off the light.\n\nIn the dark, the number 3 billion won remained.\nThe distance between that number and this room — that's exactly the distance ahead.\n\n{name} closed his eyes. No plan yet. Still — he thought he could sleep tonight."
       },
       {
         "text": "Write one more line: 'Wake up at 7 AM tomorrow.'",
-        "result_text": "7 AM tomorrow. Below that first line — ₩3B with nothing under it — just that.\n\n₩3B is far. 7 AM is close.\nHe decided to start with the smallest thing he could actually do right now.\n\nTurned off the light. {name} thought tomorrow might be just a little different from today."
+        "result_text": "7 AM tomorrow. Below that first line — 3 billion won with nothing under it — just that.\n\nThree billion won is far. 7 AM is close.\nHe decided to start with the smallest thing he could actually do right now.\n\nTurned off the light. {name} thought tomorrow might be just a little different from today."
       }
     ]
   },
@@ -124,7 +124,7 @@
       },
       {
         "text": "Show the bent wheel — 'Just the repair cost, please.'",
-        "result_text": "She takes out two ₩50,000 notes from her wallet. No hesitation.\n'Is that enough? If not—'\n'It's fine.'\n\n{name} pockets the money and walks.\nTo her, this was probably lunch money."
+        "result_text": "She takes out two 50,000 won notes from her wallet. No hesitation.\n'Is that enough? If not—'\n'It's fine.'\n\n{name} pockets the money and walks.\nTo her, this was probably lunch money."
       },
       {
         "text": "Get angry — 'You need to watch where you're driving.'",
@@ -141,7 +141,7 @@
     "choices": [
       {
         "text": "Pretend not to know her. Ring it up.",
-        "result_text": "'₩15,000.'\n{name} scans the barcode mechanically.\n\nShe looks like she's about to say something. Hands over the card. Bags up. Picks it up.\nAt the door, one last look back.\n'...You work here.'\nThe door closes. Chime rings."
+        "result_text": "'15,000 won.'\n{name} scans the barcode mechanically.\n\nShe looks like she's about to say something. Hands over the card. Bags up. Picks it up.\nAt the door, one last look back.\n'...You work here.'\nThe door closes. Chime rings."
       },
       {
         "text": "'The car.' Acknowledge her first.",
@@ -160,7 +160,7 @@
       },
       {
         "text": "Accept the coffee — just once",
-        "result_text": "They sat across from each other at a cafe. She had a ₩6,500 latte; {name}, the cheapest americano.\n\nJiyeon talked a lot. About studying abroad, her father's company, her stifling family.\n{name} mostly just listened.\n\n\"And you? What do you do?\"\n\"...A bit of this and that.\"\nShe didn't press further. She just smiled.\n\"Let's meet again. Next time you're buying, not me.\"\nAs if there would be a next time."
+        "result_text": "They sat across from each other at a cafe. She had a 6,500 won latte; {name}, the cheapest americano.\n\nJiyeon talked a lot. About studying abroad, her father's company, her stifling family.\n{name} mostly just listened.\n\n\"And you? What do you do?\"\n\"...A bit of this and that.\"\nShe didn't press further. She just smiled.\n\"Let's meet again. Next time you're buying, not me.\"\nAs if there would be a next time."
       },
       {
         "text": "Be honest — \"The worlds we live in are too different.\"",
@@ -171,7 +171,7 @@
   {
     "id": "arc_jiyeon_03b_lunch",
     "title": "Her World",
-    "description": "Jiyeon said she was buying lunch. A promise.\n\nShe took {name} to a Korean restaurant in Cheongdam. Lunch set: ₩40,000.\n\n{name} opened the menu, closed it, opened it again, closed it.\n\nShe pretended not to notice. Or really didn't.\nAfter ordering she said:\n\n'Actually you're interested in investing. You're studying for your father's company, but there's no one in your circle who does this, which is frustrating.'\n\n{name} thought for a moment.\nWhat exactly does this person want — impossible to read clearly.",
+    "description": "Jiyeon said she was buying lunch. A promise.\n\nShe took {name} to a Korean restaurant in Cheongdam. Lunch set: 40,000 won.\n\n{name} opened the menu, closed it, opened it again, closed it.\n\nShe pretended not to notice. Or really didn't.\nAfter ordering she said:\n\n'Actually you're interested in investing. You're studying for your father's company, but there's no one in your circle who does this, which is frustrating.'\n\n{name} thought for a moment.\nWhat exactly does this person want — impossible to read clearly.",
     "choices": [
       {
         "text": "'I'm studying it too. Let's talk.' — Approach as investment partners.",
@@ -819,8 +819,8 @@
     "description": "Desk in the gosiwon. Opened a stock brokerage account for the first time.\n\nCharts going up and down. Red, blue. All of it is someone's money. And from now on, {name}'s money goes in here too.\n\nNot scared — more like: this is real now.",
     "choices": [
       {
-        "text": "Put in ₩10,000 — have to feel it to understand it",
-        "result_text": "₩10,000. A small number — but now this chart is {name}'s.\nUp feels good, down feels scary. That's what to learn first."
+        "text": "Put in 10,000 won — have to feel it to understand it",
+        "result_text": "10,000 won. A small number — but now this chart is {name}'s.\nUp feels good, down feels scary. That's what to learn first."
       },
       {
         "text": "Read a book first — understand it before going in",
@@ -899,7 +899,7 @@
     "choices": [
       {
         "text": "Listed out expenses — where can I cut?",
-        "result_text": "Broke it down by category. The only thing cuttable was food. Convenience store lunch box, ₩2,800. Two meals a day: ₩160,000 a month. Knowing the numbers made it less frightening somehow."
+        "result_text": "Broke it down by category. The only thing cuttable was food. Convenience store lunch box, 2,800 won. Two meals a day: 160,000 won a month. Knowing the numbers made it less frightening somehow."
       },
       {
         "text": "Closed the app — check it later",
@@ -907,7 +907,7 @@
       },
       {
         "text": "Looked for part-time work right away",
-        "result_text": "Opened the job app. Convenience store, warehouse, gas station. ₩10,320/hr. Eight hours a day: ₩2.1M a month. Do it or not — decided to think again tomorrow."
+        "result_text": "Opened the job app. Convenience store, warehouse, gas station. 10,320 won/hr. Eight hours a day: 2.1 million won a month. Do it or not — decided to think again tomorrow."
       }
     ]
   },
@@ -926,14 +926,14 @@
       },
       {
         "text": "Thought: this is nothing — still so far",
-        "result_text": "0.0-something percent of ₩3 billion. Can't get comfortable with this. {name} closed the app. Satisfaction was a luxury — not yet."
+        "result_text": "0.0-something percent of 3 billion won. Can't get comfortable with this. {name} closed the app. Satisfaction was a luxury — not yet."
       }
     ]
   },
   {
     "id": "arc_money_check_high",
     "title": "This Is Actually Working",
-    "description": "A month passed.\n\nOpened the mobile banking app. And looked again.\n\nBalance: {money}.\n\nA month ago it was ₩500,000. {name} traced the number with a finger. Counted the digits three times. Correct.\n\nScared. Happy, but scared. Because it's unclear if this is skill or luck.",
+    "description": "A month passed.\n\nOpened the mobile banking app. And looked again.\n\nBalance: {money}.\n\nA month ago it was 500,000 won. {name} traced the number with a finger. Counted the digits three times. Correct.\n\nScared. Happy, but scared. Because it's unclear if this is skill or luck.",
     "choices": [
       {
         "text": "This is luck — don't get carried away",

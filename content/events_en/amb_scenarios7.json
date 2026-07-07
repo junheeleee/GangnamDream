@@ -55,7 +55,7 @@
   {
     "id": "amb_salary_reveal",
     "title": "A Number Seen by Accident",
-    "description": "A colleague's pay stub opened on the wrong screen during work.\nSame tenure. Same title.\n₩2,000,000 more than {name}.\n\nThey pull the same hours. Same overtime.\nThe number, seen by accident, refuses to leave.",
+    "description": "A colleague's pay stub opened on the wrong screen during work.\nSame tenure. Same title.\nTwo million won more than {name}.\n\nThey pull the same hours. Same overtime.\nThe number, seen by accident, refuses to leave.",
     "choices": [
       {
         "text": "Forget it. Act like it wasn't seen.  (peace / self-esteem cost)",
@@ -93,11 +93,11 @@
   {
     "id": "amb_freelance_first",
     "title": "First Commission",
-    "description": "Someone saw the work posted on social media and reached out.\n\"Could you do something similar for me? Budget is around ₩300,000.\"\n\nFirst time. No contract framework, no clear process.\nBut every first job is somebody's first job.",
+    "description": "Someone saw the work posted on social media and reached out.\n\"Could you do something similar for me? Budget is around 300,000 won.\"\n\nFirst time. No contract framework, no clear process.\nBut every first job is somebody's first job.",
     "choices": [
       {
         "text": "Take it. Learn while doing.  (leap / uncertainty)",
-        "result_text": "A week of work. Three rounds of revisions.\nWhen ₩300,000 landed — the most satisfying money earned so far."
+        "result_text": "A week of work. Three rounds of revisions.\nWhen 300,000 won landed — the most satisfying money earned so far."
       },
       {
         "text": "Wait until more prepared.  (perfectionism / opportunity lost)",

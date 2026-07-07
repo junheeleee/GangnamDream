@@ -2,7 +2,7 @@
   {
     "id": "callback_guarantee_default",
     "title": "Registered Mail",
-    "description": "Registered mail in the goshiwon mailbox.\n\n○○ Bank. Addressee: {name}.\n\n'Due to delinquency on the loan of primary debtor Kim ○○,\npayment is hereby demanded from you as joint guarantor.\nAmount claimed: ₩32,000,000.'\n\nIt was one stamp. At a drinking table. Between friends.\n\nThis is what Father spent his whole life repaying. Now it was {name}'s turn.",
+    "description": "Registered mail in the goshiwon mailbox.\n\n○○ Bank. Addressee: {name}.\n\n'Due to delinquency on the loan of primary debtor Kim ○○,\npayment is hereby demanded from you as joint guarantor.\nAmount claimed: 32 million won.'\n\nIt was one stamp. At a drinking table. Between friends.\n\nThis is what Father spent his whole life repaying. Now it was {name}'s turn.",
     "choices": [
       {
         "text": "Find the friend. First check if he ran",
@@ -10,7 +10,7 @@
       },
       {
         "text": "Find a lawyer. Reduce it legally first",
-        "result_text": "Retainer: ₩1,500,000. Worth every won.\n\n\"Excess over the maximum legal rate, procedural defects in the acceleration notice — there's room to fight.\"\n\n₩32,000,000 came down to ₩7,000,000. 24 monthly installments.\n\nThe lawyer's last words:\n\"From now on — don't stamp anything, not even at your parents' funeral.\"\n\nDecided to remember that for life."
+        "result_text": "Retainer: 1.5 million won. Worth every won.\n\n\"Excess over the maximum legal rate, procedural defects in the acceleration notice — there's room to fight.\"\n\n32 million won came down to 7 million won. 24 monthly installments.\n\nThe lawyer's last words:\n\"From now on — don't stamp anything, not even at your parents' funeral.\"\n\nDecided to remember that for life."
       }
     ]
   },
@@ -21,7 +21,7 @@
     "choices": [
       {
         "text": "Reach out. Can't guarantee loans, but can help with other things",
-        "result_text": "\"Let's get some food.\"\n\nMet at a gukbap place. The friend couldn't hold eye contact.\n\"Thank you — for refusing back then. Strange, right? I came out to say that.\"\n\nAt parting, pressed an envelope into his hand. ₩500,000. Not a loan. A gift.\n\nRefused the guarantee, but didn't refuse the friend.\nThat those are two different things — now they both know."
+        "result_text": "\"Let's get some food.\"\n\nMet at a gukbap place. The friend couldn't hold eye contact.\n\"Thank you — for refusing back then. Strange, right? I came out to say that.\"\n\nAt parting, pressed an envelope into his hand. 500,000 won. Not a loan. A gift.\n\nRefused the guarantee, but didn't refuse the friend.\nThat those are two different things — now they both know."
       },
       {
         "text": "Don't reach out. Distance protects both",
@@ -32,11 +32,11 @@
   {
     "id": "callback_jeonse_auction_insured",
     "title": "That Building, Auction",
-    "description": "A call from the landlord's number — but an unfamiliar man's voice.\n\n\"You're the tenant? The building is going to auction. You won't reach the landlord.\"\n\nThe 80% mortgage on the registry. That day's anxiety became reality.\n\nBut {name} had a piece of paper.\nA jeonse guarantee insurance policy. The ₩300,000 paid by skimping on food.",
+    "description": "A call from the landlord's number — but an unfamiliar man's voice.\n\n\"You're the tenant? The building is going to auction. You won't reach the landlord.\"\n\nThe 80% mortgage on the registry. That day's anxiety became reality.\n\nBut {name} had a piece of paper.\nA jeonse guarantee insurance policy. The 300,000 won paid by skimping on food.",
     "choices": [
       {
         "text": "File the insurance claim",
-        "result_text": "Documents, review, two months.\n\nThe full deposit came back.\n\nOther tenants in the building got pushed down the distribution order — most recovered less than half.\nThe face of the next-door neighbor in the hallway is impossible to forget.\n\n₩300,000. One month of food.\nIt protected tens of millions.\n\nThey say insurance is a losing game.\nCorrect. Except exactly once."
+        "result_text": "Documents, review, two months.\n\nThe full deposit came back.\n\nOther tenants in the building got pushed down the distribution order — most recovered less than half.\nThe face of the next-door neighbor in the hallway is impossible to forget.\n\n300,000 won. One month of food.\nIt protected tens of millions.\n\nThey say insurance is a losing game.\nCorrect. Except exactly once."
       }
     ]
   },
@@ -47,11 +47,11 @@
     "choices": [
       {
         "text": "Demand for distribution + leasehold registration — recover everything legally possible",
-        "result_text": "A month of courts, registry offices, community centers.\n\nRecovered 60% of the deposit through priority repayment and distribution.\nThe other 40% — ₩8,000,000 — vanished.\n\nThat day, ₩300,000 for insurance felt expensive.\nThat ₩300,000 was actually ₩8,000,000.\n\nBrutal tuition. But this kind of lesson lasts a lifetime after one payment."
+        "result_text": "A month of courts, registry offices, community centers.\n\nRecovered 60% of the deposit through priority repayment and distribution.\nThe other 40% — 8 million won — vanished.\n\nThat day, 300,000 won for insurance felt expensive.\nThat 300,000 won was actually 8 million won.\n\nBrutal tuition. But this kind of lesson lasts a lifetime after one payment."
       },
       {
         "text": "Track down the landlord personally. Grab him by the collar if needed",
-        "result_text": "Went to the landlord's registered address. Already empty.\n\nLearned there that there were seventeen victims.\nJoined the class action — but recovery odds were low, they said.\n\nWhile chasing rage, the distribution demand deadline passed.\nAnger ate the procedure.\n\n₩12,000,000. Seoul's lessons always cost this much."
+        "result_text": "Went to the landlord's registered address. Already empty.\n\nLearned there that there were seventeen victims.\nJoined the class action — but recovery odds were low, they said.\n\nWhile chasing rage, the distribution demand deadline passed.\nAnger ate the procedure.\n\n12 million won. Seoul's lessons always cost this much."
       }
     ]
   },
@@ -62,7 +62,7 @@
     "choices": [
       {
         "text": "Get the full workup this time",
-        "result_text": "Results — overwork, malnutrition, early arrhythmia.\n\n\"A few more months of living like this and it would have been serious.\"\n\nHospital bill: ₩1,200,000. The ER that day would have been ₩300,000.\n\nThe body always collects its debts. With interest.\n\nLeaving the hospital, made an appointment for the first time. With himself. Eat, then run."
+        "result_text": "Results — overwork, malnutrition, early arrhythmia.\n\n\"A few more months of living like this and it would have been serious.\"\n\nHospital bill: 1.2 million won. The ER that day would have been 300,000 won.\n\nThe body always collects its debts. With interest.\n\nLeaving the hospital, made an appointment for the first time. With himself. Eat, then run."
       },
       {
         "text": "Just take the IV and leave again. Can't stop now",
@@ -148,11 +148,11 @@
   {
     "id": "callback_mlm_friend_escaped",
     "title": "That Classmate, Afterward",
-    "description": "A KakaoTalk message. That classmate.\n\nThe one who wrapped an arm around his shoulder in the hotel seminar room. Who said ₩3,000,000 enrollment.\n\n'Hey. I got out. The day you stormed out — honestly, I started shaking that day.\n₩14,000,000 in debt left, but I'm out.\nStarted logistics work. Let's meet. Gukbap's on me.'",
+    "description": "A KakaoTalk message. That classmate.\n\nThe one who wrapped an arm around his shoulder in the hotel seminar room. Who said 3 million won enrollment.\n\n'Hey. I got out. The day you stormed out — honestly, I started shaking that day.\n14 million won in debt left, but I'm out.\nStarted logistics work. Let's meet. Gukbap's on me.'",
     "choices": [
       {
         "text": "Go. One bowl of gukbap",
-        "result_text": "The gukbap place. The classmate's face was sunburnt but his eyes had returned.\n\n\"I saw your expression in that seminar room. The pathetic-look.\nThat was a mirror. I was making someone else wear that expression too.\"\n\nTwo bowls of gukbap, one bottle of soju.\nThe classmate paid. ₩14,000.\n\n\"Once the debt's cleared, I'll buy you a real drink.\"\nThat promise seemed worth believing."
+        "result_text": "The gukbap place. The classmate's face was sunburnt but his eyes had returned.\n\n\"I saw your expression in that seminar room. The pathetic-look.\nThat was a mirror. I was making someone else wear that expression too.\"\n\nTwo bowls of gukbap, one bottle of soju.\nThe classmate paid. 14,000 won.\n\n\"Once the debt's cleared, I'll buy you a real drink.\"\nThat promise seemed worth believing."
       },
       {
         "text": "Just reply. Distance is still needed",
@@ -163,15 +163,15 @@
   {
     "id": "callback_gambling_memory",
     "title": "That Day's 18x",
-    "description": "Payday. The number landed in the account.\n\nA month of grinding, converted to money.\n\nBut a different number surfaced in his head.\nThe day the perfecta hit at Gwacheon. Time for ₩50,000 to become ₩900,000 — two minutes.\n\nOne month vs. two minutes.\n\nThe moment this comparison begins is the most dangerous moment there is — he'd read that somewhere.",
+    "description": "Payday. The number landed in the account.\n\nA month of grinding, converted to money.\n\nBut a different number surfaced in his head.\nThe day the perfecta hit at Gwacheon. Time for 50,000 won to become 900,000 won — two minutes.\n\nOne month vs. two minutes.\n\nThe moment this comparison begins is the most dangerous moment there is — he'd read that somewhere.",
     "choices": [
       {
         "text": "Cut the comparison itself. That day was luck",
-        "result_text": "Wrote it out on paper.\n\nWon from racing: ₩900,000 (once)\nSpent on racing: more than that, in total.\n\nThe brain remembers only the winning days. The ledger remembers everything.\n\n{name} put the paper in his wallet.\nTo take out on days Gwacheon calls.\n\nA salary has no two-minute drama. Instead, it comes every month.\nThat difference is what builds a life."
+        "result_text": "Wrote it out on paper.\n\nWon from racing: 900,000 won (once)\nSpent on racing: more than that, in total.\n\nThe brain remembers only the winning days. The ledger remembers everything.\n\n{name} put the paper in his wallet.\nTo take out on days Gwacheon calls.\n\nA salary has no two-minute drama. Instead, it comes every month.\nThat difference is what builds a life."
       },
       {
         "text": "This weekend. Just once more",
-        "result_text": "Saturday. Gwacheon. Line 4.\n\n'Just once' became five races. ₩150,000 melted.\n\nThe memory of ₩900,000 was the problem.\nAs long as that memory exists, 'just once' is a lie.\nA lie told to himself. To the easiest mark there is.\n\nOn the train home, {name} saw his face in the window.\nA familiar expression. Where had he seen it.\n\n— The men at the betting windows. That expression."
+        "result_text": "Saturday. Gwacheon. Line 4.\n\n'Just once' became five races. 150,000 won melted.\n\nThe memory of 900,000 won was the problem.\nAs long as that memory exists, 'just once' is a lie.\nA lie told to himself. To the easiest mark there is.\n\nOn the train home, {name} saw his face in the window.\nA familiar expression. Where had he seen it.\n\n— The men at the betting windows. That expression."
       }
     ]
   }

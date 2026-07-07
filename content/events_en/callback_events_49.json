@@ -167,11 +167,11 @@
   {
     "id": "callback_committed_to_course_echo",
     "title": "Setting a Finish-the-Course Goal",
-    "description": "{name} once paid ₩1,900 for a course and set a goal to 'finish it all.'\n\nWas that resolve kept?\n\nToday they stood before new learning again.",
+    "description": "{name} once paid 1,900 won for a course and set a goal to 'finish it all.'\n\nWas that resolve kept?\n\nToday they stood before new learning again.",
     "choices": [
       {
         "text": "Finishing it then — was the start of small wins",
-        "result_text": "Listening to one ₩1,900 course all the way through.\n\nIt seems like nothing, but the experience of 'finishing' built confidence.\n{name} knows small completions were practice for big ones."
+        "result_text": "Listening to one 1,900 won course all the way through.\n\nIt seems like nothing, but the experience of 'finishing' built confidence.\n{name} knows small completions were practice for big ones."
       },
       {
         "text": "Check if I paid and never watched",

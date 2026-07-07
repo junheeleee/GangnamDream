@@ -1,12 +1,12 @@
 [
   {
     "id": "callback_yolo_resisted_echo",
-    "title": "The ₩150,000 I Held Back",
-    "description": "{name} once held back an impulse buy, thinking 'before ₩3 billion, even ₩150,000 has to be saved.'\n\nThose small saved amounts piled up.\n\nToday they stood before a similar temptation.",
+    "title": "The 150,000 won I Held Back",
+    "description": "{name} once held back an impulse buy, thinking 'before 3 billion won, even 150,000 won has to be saved.'\n\nThose small saved amounts piled up.\n\nToday they stood before a similar temptation.",
     "choices": [
       {
         "text": "Like then — small restraint stacks into the goal",
-        "result_text": "₩150,000 doesn't make ₩3 billion. But the habit of restraint does.\n\nThe one who can hold back is the one who ends up saving.\n{name} closed the wallet again today. A small victory."
+        "result_text": "150,000 won doesn't make 3 billion won. But the habit of restraint does.\n\nThe one who can hold back is the one who ends up saving.\n{name} closed the wallet again today. A small victory."
       },
       {
         "text": "Now, sometimes — spend on myself too",

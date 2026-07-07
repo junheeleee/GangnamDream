@@ -17,7 +17,7 @@
   {
     "id": "cafe_cb_stole_call",
     "title": "The Call",
-    "description": "Three rings. \"Hello.\"\nManager Kim doesn't remember {name}. {name} improvises.\n\"From the café that day... I was referred about the entry pass.\"\n\nA brief silence. Then the voice softens.\n\"Ah, right. One slot still left. But the premium went up.\n₩70 million now. You need to decide today or tomorrow. So — you in?\"",
+    "description": "Three rings. \"Hello.\"\nManager Kim doesn't remember {name}. {name} improvises.\n\"From the café that day... I was referred about the entry pass.\"\n\nA brief silence. Then the voice softens.\n\"Ah, right. One slot still left. But the premium went up.\n70 million won now. You need to decide today or tomorrow. So — you in?\"",
     "choices": [
       {
         "text": "Check first — verify the registry and market rate.",
@@ -36,7 +36,7 @@
   {
     "id": "cafe_cb_stole_verify",
     "title": "Digging In",
-    "description": "{name} spent three days on it. Registry, real estate forums, news.\nThe truth was half real — redevelopment confirmed. That part checked out.\nBut Manager Kim wasn't a co-op member or anything. Just a broker.\nAnd ₩20M of that ₩70M was inflated foam — his \"service fee.\"\n\nA real opportunity wearing a fake price tag.",
+    "description": "{name} spent three days on it. Registry, real estate forums, news.\nThe truth was half real — redevelopment confirmed. That part checked out.\nBut Manager Kim wasn't a co-op member or anything. Just a broker.\nAnd 20 million won of that 70 million won was inflated foam — his \"service fee.\"\n\nA real opportunity wearing a fake price tag.",
     "choices": [
       {
         "text": "Strip the foam. Enter carefully.",
@@ -62,7 +62,7 @@
   {
     "id": "cafe_cb_stole_smart",
     "title": "Cutting the Foam",
-    "description": "{name} put the registry in front of Manager Kim.\n\"₩20M is foam. Let's do ₩50M. Otherwise I report it.\"\nManager Kim's face twisted. Then, reluctantly, a nod.\n\"...You can read a deal. Fine. ₩50M.\"\n\nOnly those who verify can negotiate. {name} got in at the right price.",
+    "description": "{name} put the registry in front of Manager Kim.\n\"20 million won is foam. Let's do 50 million won. Otherwise I report it.\"\nManager Kim's face twisted. Then, reluctantly, a nod.\n\"...You can read a deal. Fine. 50 million won.\"\n\nOnly those who verify can negotiate. {name} got in at the right price.",
     "choices": [
       {
         "text": "Sign the contract.",

@@ -6,11 +6,11 @@
     "choices": [
       {
         "text": "Pay it and close the position",
-        "result_text": "You paid and closed everything.\nLeverage doesn't amplify gains — it amplifies losses too.\n₩2 million tuition.\nCheap, as lessons go."
+        "result_text": "You paid and closed everything.\nLeverage doesn't amplify gains — it amplifies losses too.\nTwo million won tuition.\nCheap, as lessons go."
       },
       {
         "text": "Put in more and hold",
-        "result_text": "You put in ₩3 million more.\nAnother text came the next day.\nOnce you're caught in leverage, it's hard to cut yourself free.\nThat's what addiction is."
+        "result_text": "You put in 3 million won more.\nAnother text came the next day.\nOnce you're caught in leverage, it's hard to cut yourself free.\nThat's what addiction is."
       }
     ]
   },
@@ -36,7 +36,7 @@
     "choices": [
       {
         "text": "Buy the first ETF according to the plan",
-        "result_text": "₩1 million.\nThe first investment where you knew why you were buying.\nThe return wasn't the difference — being able to explain why was."
+        "result_text": "One million won.\nThe first investment where you knew why you were buying.\nThe return wasn't the difference — being able to explain why was."
       },
       {
         "text": "Study more before buying",
@@ -92,7 +92,7 @@
     "choices": [
       {
         "text": "\"I'll pay you for the tip in cash.\"",
-        "result_text": "You transferred ₩1 million.\nThey said 'Clean.'\nGray-zone tips always come with a price.\nThis one ended with money. For now."
+        "result_text": "You transferred 1 million won.\nThey said 'Clean.'\nGray-zone tips always come with a price.\nThis one ended with money. For now."
       },
       {
         "text": "\"What do you want?\" — hear them out",

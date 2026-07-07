@@ -2,7 +2,7 @@
   {
     "id": "story_arrival",
     "title": "January 2026, Seoul",
-    "description": "Eyes open in the dark.\n\nA room where you can touch the ceiling. Four-and-a-half square meters.\nOpen the window and the next building is close enough to touch.\nA goshiwon — a micro-studio — in Sinchon. {name}'s room.\n\n{name}. Thirty-three years old.\nUntil half a year ago, he was paying off debt.\n\nHis father co-signed a loan. The debtor vanished.\nThe debt fell to the father, and then to {name}.\nAge twenty-seven to thirty-three. Six years.\n\nAll paid. And what's left — ₩500,000 in the bank, and this room.",
+    "description": "Eyes open in the dark.\n\nA room where you can touch the ceiling. Four-and-a-half square meters.\nOpen the window and the next building is close enough to touch.\nA goshiwon — a micro-studio — in Sinchon. {name}'s room.\n\n{name}. Thirty-three years old.\nUntil half a year ago, he was paying off debt.\n\nHis father co-signed a loan. The debtor vanished.\nThe debt fell to the father, and then to {name}.\nAge twenty-seven to thirty-three. Six years.\n\nAll paid. And what's left — 500,000 won in the bank, and this room.",
     "choices": [
       {
         "text": "Slowly pull yourself up",
@@ -28,7 +28,7 @@
   {
     "id": "story_prologue_goal",
     "title": "Gangnam",
-    "description": "After the call, {name} opens a worn notebook.\n\nOn the very first page, a single line.\nThe apartment his father spent a lifetime saving for. The one stolen by fraud.\n— An apartment in Gangnam.\n\nDad never brings it up anymore.\n{name} never asks.\nBut they both know what it means.\n\nThe doctor told his father: no overexerting yourself.\nHow much time is left — nobody knows.\n\n{name} does the math.\nAt minimum wage, saving every single won without spending a cent:\n82 years.\n\nHe's 33. He doesn't have 82 years.\n\nThe doctor never named a number. So {name} named one himself.\nFive years. While his father can still stand in that living room and see it.\n\n{name} writes a number in the notebook anyway.\n₩3,000,000,000. Five years.\nThe math says impossible.\nThat's exactly why — he starts.",
+    "description": "After the call, {name} opens a worn notebook.\n\nOn the very first page, a single line.\nThe apartment his father spent a lifetime saving for. The one stolen by fraud.\n— An apartment in Gangnam.\n\nDad never brings it up anymore.\n{name} never asks.\nBut they both know what it means.\n\nThe doctor told his father: no overexerting yourself.\nHow much time is left — nobody knows.\n\n{name} does the math.\nAt minimum wage, saving every single won without spending a cent:\n82 years.\n\nHe's 33. He doesn't have 82 years.\n\nThe doctor never named a number. So {name} named one himself.\nFive years. While his father can still stand in that living room and see it.\n\n{name} writes a number in the notebook anyway.\nThree billion won. Five years.\nThe math says impossible.\nThat's exactly why — he starts.",
     "choices": [
       {
         "text": "Close the notebook. Stand up.",
@@ -39,10 +39,10 @@
   {
     "id": "story_prologue_meal",
     "title": "First Meal",
-    "description": "Out of the goshiwon, into the convenience store.\n\nYou think about the bank balance. ₩500,000.\nNext month's goshiwon rent is ₩650,000. Already in the red.\n\nStanding in front of the shelves, {name} does the math.\nOne triangle kimbap: ₩1,200. Should you even buy it?\n\nLess than ten thousand won to spend each day.\nEvery meal, every choice — shows up on the bank statement.\n\nThis is {name}'s reality right now.",
+    "description": "Out of the goshiwon, into the convenience store.\n\nYou think about the bank balance. 500,000 won.\nNext month's goshiwon rent is 650,000 won. Already in the red.\n\nStanding in front of the shelves, {name} does the math.\nOne triangle kimbap: 1,200 won. Should you even buy it?\n\nLess than ten thousand won to spend each day.\nEvery meal, every choice — shows up on the bank statement.\n\nThis is {name}'s reality right now.",
     "choices": [
       {
-        "text": "Buy a triangle kimbap (-₩1,200)",
+        "text": "Buy a triangle kimbap (-1,200 won)",
         "result_text": "You grab a tuna-mayo and pay.\nA little over a thousand won leaves your account.\nYour stomach is full, but the account is that much thinner."
       },
       {
@@ -54,7 +54,7 @@
   {
     "id": "story_pressure",
     "title": "Can't Wait Any Longer",
-    "description": "Two weeks in.\n\nThe balance is already shrinking. Income: ₩0.\nAt this rate you won't last a month.\n\nAnother wedding announcement in the old high school group chat.\n{name} types 'Congrats' and flips the phone face-down.\n\nOne thing is clear:\nSomething — anything — has to start. Now.\nJob hunting. Part-time work. Whatever it takes.\n\nIt's {name}'s turn to move.",
+    "description": "Two weeks in.\n\nThe balance is already shrinking. Income: 0 won.\nAt this rate you won't last a month.\n\nAnother wedding announcement in the old high school group chat.\n{name} types 'Congrats' and flips the phone face-down.\n\nOne thing is clear:\nSomething — anything — has to start. Now.\nJob hunting. Part-time work. Whatever it takes.\n\nIt's {name}'s turn to move.",
     "choices": [
       {
         "text": "Open a job app. Survival comes first.",
@@ -133,7 +133,7 @@
   {
     "id": "story_first_paycheck_feel",
     "title": "First Paycheck",
-    "description": "A notification chimed.\n\n[Deposit] {name}'s account  ₩1,200,000\n\nYou stared blankly at the screen.\nAfter taxes and transit costs, it isn't much.\nStill, it's money you earned by working.\n\nThe first money ever to land in your account under your own name.\nA small number, but somehow it moved you.",
+    "description": "A notification chimed.\n\n[Deposit] {name}'s account  1.2 million won\n\nYou stared blankly at the screen.\nAfter taxes and transit costs, it isn't much.\nStill, it's money you earned by working.\n\nThe first money ever to land in your account under your own name.\nA small number, but somehow it moved you.",
     "choices": [
       {
         "text": "Buy my parents something with my first paycheck",

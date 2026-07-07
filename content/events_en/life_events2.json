@@ -48,7 +48,7 @@
       },
       {
         "text": "Buy a convenience store umbrella.  (solution / expense)",
-        "result_text": "₩3,000 vinyl umbrella. Felt disposable — but stayed dry.\nSpending ₩3,000 to not get rained on is not a bad trade."
+        "result_text": "3,000 won vinyl umbrella. Felt disposable — but stayed dry.\nSpending 3,000 won to not get rained on is not a bad trade."
       },
       {
         "text": "Wait it out. Watch the rain.  (patience / time)",
@@ -59,11 +59,11 @@
   {
     "id": "reunion_rsvp_00",
     "title": "Class Reunion Invite",
-    "description": "A notification from the high school group chat.\n\"Reunion — third Saturday next month. Restaurant in Gangnam. ₩50,000 per person.\"\n\nHow do you explain your situation to these people right now?\nSkip and it's weird. Go and it's comparisons.",
+    "description": "A notification from the high school group chat.\n\"Reunion — third Saturday next month. Restaurant in Gangnam. 50,000 won per person.\"\n\nHow do you explain your situation to these people right now?\nSkip and it's weird. Go and it's comparisons.",
     "choices": [
       {
         "text": "Go. You'll run into them eventually.  (connection / expense + stress)",
-        "result_text": "{name} went. Uncomfortable at first.\nBut then someone passed makgeolli and the conversation just happened — a flash of the old days.\n₩50,000 well spent."
+        "result_text": "{name} went. Uncomfortable at first.\nBut then someone passed makgeolli and the conversation just happened — a flash of the old days.\n50,000 won well spent."
       },
       {
         "text": "Quietly decline.  (save / social distance)",
@@ -78,15 +78,15 @@
   {
     "id": "landlord_rent_up",
     "title": "Landlord's Call",
-    "description": "A call from the landlord.\n\"Prices have gone up everywhere, so I'll need to raise the rent at renewal.\nJust ₩150,000 more. Everywhere's the same.\"\n\n₩150,000. More than the monthly electric bill.\nMoving costs money too — and cheap options have dried up.",
+    "description": "A call from the landlord.\n\"Prices have gone up everywhere, so I'll need to raise the rent at renewal.\nJust 150,000 won more. Everywhere's the same.\"\n\n150,000 won. More than the monthly electric bill.\nMoving costs money too — and cheap options have dried up.",
     "choices": [
       {
         "text": "Accept it. Moving is harder.  (realistic / expense)",
-        "result_text": "{name} agreed.\nDeposit, moving costs — the raise was easier.\nJust ₩150,000 more to earn each month."
+        "result_text": "{name} agreed.\nDeposit, moving costs — the raise was easier.\nJust 150,000 won more to earn each month."
       },
       {
-        "text": "Negotiate. Suggest ₩50,000 instead.  (pushback / relationship awkwardness)",
-        "result_text": "{name} carefully said, \"₩150,000 is difficult — would ₩50,000 work?\"\nThe landlord paused. \"How about ₩70,000?\"\nAwkward, but less of an increase."
+        "text": "Negotiate. Suggest 50,000 won instead.  (pushback / relationship awkwardness)",
+        "result_text": "{name} carefully said, \"150,000 won is difficult — would 50,000 won work?\"\nThe landlord paused. \"How about 70,000 won?\"\nAwkward, but less of an increase."
       },
       {
         "text": "Find a new place. Look for something cheaper.  (freedom / moving cost)",
@@ -165,14 +165,14 @@
   {
     "id": "overtime_delivery_00",
     "title": "Late-Night Order",
-    "description": "Late again. 8 p.m.\nNeed to eat. Open the delivery app — delivery fee stares back.\nChicken: ₩20,000 + ₩4,000 delivery fee. Cup ramen from downstairs: ₩1,200.\n\n{name} sits with phone in hand.",
+    "description": "Late again. 8 p.m.\nNeed to eat. Open the delivery app — delivery fee stares back.\nChicken: 20,000 won + 4,000 won delivery fee. Cup ramyeon from downstairs: 1,200 won.\n\n{name} sits with phone in hand.",
     "choices": [
       {
         "text": "Order the chicken. Overtime deserves some reward.  (self-reward / expense)",
         "result_text": "Chicken arrived and a coworker said, \"Smells amazing.\"\n{name} offered a piece. Eating together made the overtime feel less grim."
       },
       {
-        "text": "Cup ramen from the corridor machine.  (save / health)",
+        "text": "Cup ramyeon from the corridor machine.  (save / health)",
         "result_text": "Ate alone in the hallway.\nSalty, far from delivery, but hunger was handled.\nAnother day somehow passed."
       }
     ]
@@ -207,7 +207,7 @@
       },
       {
         "text": "Talk to the person sitting next to you.  (connection / social risk)",
-        "result_text": "Studying for the civil service exam. Been in Seoul for three years from a smaller city.\n\"Me too, something like that.\" {name} said.\nA brief encounter — but the same direction."
+        "result_text": "Studying for the Grade 9 civil service exam. Been in Seoul for three years from a smaller city.\n\"Me too, something like that.\" {name} said.\nA brief encounter — but the same direction."
       }
     ]
   },
@@ -236,7 +236,7 @@
         "result_text": "Stayed for two songs. When the second one ended, someone clapped. {name} did too.\nA stranger's song — the best moment of the day."
       },
       {
-        "text": "Drop ₩1,000 in the case.  (support / expense)",
+        "text": "Drop 1,000 won in the case.  (support / expense)",
         "result_text": "Put a bill in. The busker nodded once.\nNot quite gratitude — closer to respect."
       },
       {

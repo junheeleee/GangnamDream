@@ -16,27 +16,27 @@
   },
   {
     "id": "callback_double_down_10b_echo",
-    "title": "Going Further from ₩1 Billion",
-    "description": "The day {name} crossed ₩1 billion, instead of resting they made a plan — 'I have to go further.'\n\n₩1 billion is an end for some; for {name} it was a waypoint.\n\nThat resolve came to mind today.",
+    "title": "Going Further from 1 billion won",
+    "description": "The day {name} crossed 1 billion won, instead of resting they made a plan — 'I have to go further.'\n\nOne billion won is an end for some; for {name} it was a waypoint.\n\nThat resolve came to mind today.",
     "choices": [
       {
-        "text": "Not stopping at ₩1 billion was right",
-        "result_text": "Had they been content at ₩1 billion, they'd have stopped there.\n\nWith the goal set at ₩3 billion, ₩1 billion was a checkpoint, not a celebration.\n{name} knows the height of your gaze ultimately creates the distance."
+        "text": "Not stopping at 1 billion won was right",
+        "result_text": "Had they been content at 1 billion won, they'd have stopped there.\n\nWith the goal set at 3 billion won, 1 billion won was a checkpoint, not a celebration.\n{name} knows the height of your gaze ultimately creates the distance."
       },
       {
         "text": "Still, sometimes stop and breathe",
-        "result_text": "Just running eventually exhausts you.\n\nNot resting at ₩1 billion was right, but it can't always be so.\n{name} was finding the rhythm between advancing and recovering."
+        "result_text": "Just running eventually exhausts you.\n\nNot resting at 1 billion won was right, but it can't always be so.\n{name} was finding the rhythm between advancing and recovering."
       }
     ]
   },
   {
     "id": "callback_ten_b_anxiety_echo",
-    "title": "The Day ₩3 Billion Looked Farther",
-    "description": "The day {name} crossed ₩1 billion, rather than joy they felt anxious — '₩3 billion looks even farther.'\n\nEven before that large number, the goal felt distant.\n\nThat sense of distance washed over them again today.",
+    "title": "The Day 3 billion won Looked Farther",
+    "description": "The day {name} crossed 1 billion won, rather than joy they felt anxious — '3 billion won looks even farther.'\n\nEven before that large number, the goal felt distant.\n\nThat sense of distance washed over them again today.",
     "choices": [
       {
         "text": "Far as it is — one step at a time is the answer",
-        "result_text": "Reaching ₩1 billion was one step at a time too.\n\nThe remaining distance is the same method. Looking far is a matter of perspective, not impossibility.\n{name} looked at their feet again. It starts there."
+        "result_text": "Reaching 1 billion won was one step at a time too.\n\nThe remaining distance is the same method. Looking far is a matter of perspective, not impossibility.\n{name} looked at their feet again. It starts there."
       },
       {
         "text": "Anxiety as fuel — go more precisely",
@@ -91,8 +91,8 @@
   },
   {
     "id": "callback_aimed_higher_echo",
-    "title": "Looking at the ₩2.5 Billion One",
-    "description": "The day {name} crossed ₩2.5 billion, instead of the ₩1.7 billion listing they looked at a ₩2.5 billion one. 'If I'm going to do it right.'\n\nThat ambition comes back sometimes.\n\nToday they opened that listing again.",
+    "title": "Looking at the 2.5 billion won One",
+    "description": "The day {name} crossed 2.5 billion won, instead of the 1.7 billion won listing they looked at a 2.5 billion won one. 'If I'm going to do it right.'\n\nThat ambition comes back sometimes.\n\nToday they opened that listing again.",
     "choices": [
       {
         "text": "If at all — do it right. Aim higher",
@@ -100,7 +100,7 @@
       },
       {
         "text": "Check the greed — is it too much?",
-        "result_text": "A higher goal isn't always right.\n\n{name} coldly weighed whether ₩2.5 billion was ambition or greed.\nA goal you can handle and one that breaks you are a paper's width apart."
+        "result_text": "A higher goal isn't always right.\n\n{name} coldly weighed whether 2.5 billion won was ambition or greed.\nA goal you can handle and one that breaks you are a paper's width apart."
       }
     ]
   },

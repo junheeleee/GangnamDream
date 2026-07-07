@@ -40,7 +40,7 @@
   {
     "id": "hidden_gangnam_open_house",
     "title": "Gangnam Open House",
-    "description": "Saw a listing and walked in on impulse.\n\nNew construction in Gangnam. Open house.\n\n107 sqm. Listed at ₩1,850,000,000.\n\nSeoul was visible through the living room windows.\nA staff member gave the pitch. Han River view. School district. Transit links.\n\nThe couple standing nearby was nodding.\nThey were people who could live here.\n\n{name} was standing in that living room.\nFeet touching the floor.\nThat, strangely, felt very real.",
+    "description": "Saw a listing and walked in on impulse.\n\nNew construction in Gangnam. Open house.\n\n107 sqm. Listed at 1.85 billion won.\n\nSeoul was visible through the living room windows.\nA staff member gave the pitch. Han River view. School district. Transit links.\n\nThe couple standing nearby was nodding.\nThey were people who could live here.\n\n{name} was standing in that living room.\nFeet touching the floor.\nThat, strangely, felt very real.",
     "choices": [
       {
         "text": "Ask the staff about financing. Might come back someday.",
@@ -48,7 +48,7 @@
       },
       {
         "text": "Just look around. Leave.",
-        "result_text": "Walked out.\n\nHeading toward the subway, {name} kept thinking about the living room just left behind.\nThat floor. That window. That height.\n\n₩1,850,000,000 came out of the building attached.\n\nGot on the subway.\nSat down. Closed eyes.\n\nThe feeling of standing in that room stayed for a long time.\nThe soles of the feet still seemed to remember the floor."
+        "result_text": "Walked out.\n\nHeading toward the subway, {name} kept thinking about the living room just left behind.\nThat floor. That window. That height.\n\n1.85 billion won came out of the building attached.\n\nGot on the subway.\nSat down. Closed eyes.\n\nThe feeling of standing in that room stayed for a long time.\nThe soles of the feet still seemed to remember the floor."
       }
     ]
   },

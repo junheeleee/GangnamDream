@@ -2,7 +2,7 @@
   {
     "id": "arc_hyunsu_night_talk",
     "title": "2 AM, Ramyeon",
-    "description": "The communal kitchen of the goshiwon. 2 AM.\n\nI came out to open the fridge and found Hyunsu already there.\n\nFour years into his civil service exams. Every time I'd seen him before, he had earphones in with a lecture playing — but tonight, he'd just opened a packet of ramyeon and was staring out the window. As {name} waited for the water to boil, he asked, \"Not studying today?\"\n\nHyunsu turned. His eyes were a little red.\n\n\"...What about you, hyung? Do you think that 3 billion actually going to happen?\"",
+    "description": "The communal kitchen of the goshiwon. 2 AM.\n\nI came out to open the fridge and found Hyunsu already there.\n\nFour years into his Grade 9 civil service exams. Every time I'd seen him before, he had earphones in with a lecture playing — but tonight, he'd just opened a packet of ramyeon and was staring out the window. As {name} waited for the water to boil, he asked, \"Not studying today?\"\n\nHyunsu turned. His eyes were a little red.\n\n\"...What about you, hyung? Do you think that 3 billion actually going to happen?\"",
     "choices": [
       {
         "text": "\"Of course. What's the alternative?\" — with conviction",
@@ -119,7 +119,7 @@
   {
     "id": "arc_hyunsu_new_path",
     "title": "Hyunsu Moves Out",
-    "description": "There were boxes in the hallway.\n\nHyunsu's door was open. His stuff was down to half.\n\n\"Hyung, I'm leaving.\" Hyunsu said. \"Since you moved out, I've been thinking a lot.\"\n\nFour years. Four years of the civil service exams.\n\n\"So what are you going to do?\" {name} asked.\n\"I still don't know.\" Hyunsu smiled. \"But this — this isn't it.\"",
+    "description": "There were boxes in the hallway.\n\nHyunsu's door was open. His stuff was down to half.\n\n\"Hyung, I'm leaving.\" Hyunsu said. \"Since you moved out, I've been thinking a lot.\"\n\nFour years. Four years of the Grade 9 civil service exams.\n\n\"So what are you going to do?\" {name} asked.\n\"I still don't know.\" Hyunsu smiled. \"But this — this isn't it.\"",
     "choices": [
       {
         "text": "\"Good for you. Take care.\" — sincere encouragement",
@@ -607,14 +607,14 @@
       },
       {
         "text": "Looked at the 2.5 billion one — if going once, go right.",
-        "result_text": "If it's going to happen once, do it properly. ₩3 billion. He wrote the number down again. The vague goal turned into a line he could almost touch."
+        "result_text": "If it's going to happen once, do it properly. Three billion won. He wrote the number down again. The vague goal turned into a line he could almost touch."
       }
     ]
   },
   {
     "id": "arc_four_months_in",
     "title": "Four Months In",
-    "description": "On the commute home, at the Han River bridge.\n\nFour months have passed.\n\nIn the account: {money}. Still nearly KRW 3 billion away from the goal.\n\nIf five years go by at this rate, the math doesn't add up. It can't.\n\nThe river flowed below the bridge. Even at night, Seoul was bright.\n\n{name} leaned on the railing and thought.\nHow far is it to Gangnam?",
+    "description": "On the commute home, at the Han River bridge.\n\nFour months have passed.\n\nIn the account: {money}. Still nearly 3 billion won away from the goal.\n\nIf five years go by at this rate, the math doesn't add up. It can't.\n\nThe river flowed below the bridge. Even at night, Seoul was bright.\n\n{name} leaned on the railing and thought.\nHow far is it to Gangnam?",
     "choices": [
       {
         "text": "\"Going anyway.\" — starts walking again",
@@ -652,11 +652,11 @@
   {
     "id": "arc_office_routine",
     "title": "Convenience Store After Overtime",
-    "description": "11 PM. Leaving the office with heavy footsteps.\n\nThe team lead from next section was still at his desk. How many years had that person been doing this.\n\nThe convenience store lights are visible. Planning to make instant ramen and eat alone. Two of today's three meals have been convenience store food.",
+    "description": "11 PM. Leaving the office with heavy footsteps.\n\nThe team lead from next section was still at his desk. How many years had that person been doing this.\n\nThe convenience store lights are visible. Planning to make instant ramyeon and eat alone. Two of today's three meals have been convenience store food.",
     "choices": [
       {
         "text": "This routine is my reality right now. Something will change if I keep going.",
-        "result_text": "Finished the ramen and walked home. 20 minutes until the last subway. How many more years will I be walking this path?"
+        "result_text": "Finished the ramyeon and walked home. 20 minutes until the last subway. How many more years will I be walking this path?"
       },
       {
         "text": "If overtime keeps up like this, this job isn't my answer. Find another direction.",
@@ -664,7 +664,7 @@
       },
       {
         "text": "Overtime builds career. This time isn't wasted.",
-        "result_text": "Folded the ramen lid and organized what was learned today. Numbers usable in salary negotiations. Overtime is also strategy."
+        "result_text": "Folded the ramyeon lid and organized what was learned today. Numbers usable in salary negotiations. Overtime is also strategy."
       }
     ]
   },

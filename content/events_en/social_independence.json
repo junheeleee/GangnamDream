@@ -2,18 +2,18 @@
   {
     "id": "yolo_spend_moment",
     "title": "Is This What I Work For?",
-    "description": "A brutal month is finally over. Overtime, transit cards, packed lunches — that's not what he's working toward.\n\nStanding outside a convenience store, he checked his phone. Right below the incoming deposit alert: a concert ticket link. His favorite artist. ₩150,000.\n\n\"Is it okay to spend this much?\"",
+    "description": "A brutal month is finally over. Overtime, transit cards, packed lunches — that's not what he's working toward.\n\nStanding outside a convenience store, he checked his phone. Right below the incoming deposit alert: a concert ticket link. His favorite artist. 150,000 won.\n\n\"Is it okay to spend this much?\"",
     "choices": [
       {
         "text": "Buy the ticket. Money isn't earned to just sit there.",
         "result_text": "Purchase complete. His balance dipped, but for the first time in a while, he had something to look forward to.\n\nThat night at the venue, he screamed himself hoarse.\n\nThis is what it feels like to be alive."
       },
       {
-        "text": "Hold back. Every ₩150K matters on the road to ₩3 billion.",
+        "text": "Hold back. Every 150,000 won matters on the road to 3 billion won.",
         "result_text": "He closed the ticket page.\n\nA mix of pride and emptiness arrived at once. He knows this is the right call — but sometimes, that's the saddest part."
       },
       {
-        "text": "Find a cheaper ₩50K option. YOLO can still compromise.",
+        "text": "Find a cheaper 50,000 won option. YOLO can still compromise.",
         "result_text": "Standing seats on the second floor, far from the stage — but the music was the same.\n\nYou don't always get what you want without giving something up. But you don't always have to give everything up either."
       }
     ]
@@ -21,7 +21,7 @@
   {
     "id": "yolo_morning_after",
     "title": "The Morning After",
-    "description": "The day after the concert. He checked his phone.\n\nBalance notification. Last night's ₩150,000, rendered in cold digits.\n\nHis throat was raw and his heart was light — until he looked at his bank account. A little heavier now.\n\nIs this the aftertaste of YOLO?",
+    "description": "The day after the concert. He checked his phone.\n\nBalance notification. Last night's 150,000 won, rendered in cold digits.\n\nHis throat was raw and his heart was light — until he looked at his bank account. A little heavier now.\n\nIs this the aftertaste of YOLO?",
     "choices": [
       {
         "text": "It's fine. Memories are assets too.",
@@ -55,7 +55,7 @@
   {
     "id": "wedding_invitation_flood",
     "title": "Wedding Season Blitz",
-    "description": "First week of October. KakaoTalk notifications started before dawn.\n\nThree wedding invitations. Middle school friend, college classmate, work colleague. All in the same month.\n\nThree envelopes. Minimum ₩50,000 each, and that's for casual acquaintances.\n\n₩150,000 is about to blow away like autumn leaves.",
+    "description": "First week of October. KakaoTalk notifications started before dawn.\n\nThree wedding invitations. Middle school friend, college classmate, work colleague. All in the same month.\n\nThree envelopes. Minimum 50,000 won each, and that's for casual acquaintances.\n\n150,000 won is about to blow away like autumn leaves.",
     "choices": [
       {
         "text": "Attend all three. Relationships are partly maintained by money.",
@@ -63,7 +63,7 @@
       },
       {
         "text": "Go to the close one, send cash to the others.",
-        "result_text": "He picked carefully. In person for one real friend — ₩25,000 by bank transfer for the other two.\n\nSomewhat guilty, but somewhat less guilty about his bank account."
+        "result_text": "He picked carefully. In person for one real friend — 25,000 won by bank transfer for the other two.\n\nSomewhat guilty, but somewhat less guilty about his bank account."
       },
       {
         "text": "Too broke right now — apologize and skip them.",
@@ -112,7 +112,7 @@
   {
     "id": "bihon_economics_cold",
     "title": "The Wedding Cost Calculator",
-    "description": "Out of boredom, he ran the numbers on marriage costs.\n\nVenue: ₩15M. Honeymoon: ₩3M. Deposit on a place together: ₩100M+. Rings and gifts: ₩3M. First birthday party: ₩2M. Monthly allowance to both sets of parents for 5 years: ₩36M.\n\nTotal: ₩160M minimum.\n\nWhat if he just... invested that instead?",
+    "description": "Out of boredom, he ran the numbers on marriage costs.\n\nVenue: 15 million won. Honeymoon: 3 million won. Deposit on a place together: 100 million won+. Rings and gifts: 3 million won. First birthday party: 2 million won. Monthly allowance to both sets of parents for 5 years: 36 million won.\n\nTotal: 160 million won minimum.\n\nWhat if he just... invested that instead?",
     "choices": [
       {
         "text": "Staying single is the rational economic choice — cold conclusion.",
@@ -131,15 +131,15 @@
   {
     "id": "omakase_peer_invite",
     "title": "Anyone for Omakase?",
-    "description": "A message in the team chat:\n\"Got a reservation this Friday for omakase. One seat left. ₩128,000 per person. Anyone in?\"\n\nCho Yongmin, associate. Word is he got a big raise after his last job change.\n\nOne by one, teammates start replying: \"Me!\" \"Count me in.\"",
+    "description": "A message in the team chat:\n\"Got a reservation this Friday for omakase. One seat left. 128,000 won per person. Anyone in?\"\n\nCho Yongmin, associate. Word is he got a big raise after his last job change.\n\nOne by one, teammates start replying: \"Me!\" \"Count me in.\"",
     "choices": [
       {
         "text": "Go. These moments become professional connections.",
-        "result_text": "He went. The food was extraordinary. Over the chef's tasting course explanation, he had his first real conversation with Cho.\n\nThese nights build relationships at work. He knows that.\n\nBut ₩128,000 is ₩128,000."
+        "result_text": "He went. The food was extraordinary. Over the chef's tasting course explanation, he had his first real conversation with Cho.\n\nThese nights build relationships at work. He knows that.\n\nBut 128,000 won is 128,000 won."
       },
       {
         "text": "\"Maybe next time\" — politely bow out.",
-        "result_text": "He didn't go. ₩128K was half his food budget this month.\n\nWatching his colleagues leave on Friday, all excited. A slight outsider feeling — but his account balance survived."
+        "result_text": "He didn't go. 128,000 won was half his food budget this month.\n\nWatching his colleagues leave on Friday, all excited. A slight outsider feeling — but his account balance survived."
       },
       {
         "text": "\"I've never been to omakase — can I ask what kind of food it is?\"",
@@ -150,15 +150,15 @@
   {
     "id": "omakase_network_payoff",
     "title": "The Omakase Return",
-    "description": "A Slack DM from Cho Yongmin:\n\"That side project we talked about at omakase — want to do it together?\"\n\nThat seat created this. The ₩128,000 looks different now.",
+    "description": "A Slack DM from Cho Yongmin:\n\"That side project we talked about at omakase — want to do it together?\"\n\nThat seat created this. The 128,000 won looks different now.",
     "choices": [
       {
         "text": "Join in. I know why this opportunity came.",
-        "result_text": "He joined. The project was small — but he got a foot in the door of Cho's network.\n\nThe ₩200K income was secondary. Networks are assets."
+        "result_text": "He joined. The project was small — but he got a foot in the door of Cho's network.\n\nThe 200,000 won income was secondary. Networks are assets."
       },
       {
         "text": "No bandwidth right now. Politely decline.",
-        "result_text": "He declined politely. Cho said \"next time.\"\n\n₩128,000 stayed as just a meal. The ROI math stings a little."
+        "result_text": "He declined politely. Cho said \"next time.\"\n\n128,000 won stayed as just a meal. The ROI math stings a little."
       }
     ]
   },

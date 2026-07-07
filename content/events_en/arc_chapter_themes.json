@@ -2,7 +2,7 @@
   {
     "id": "arc_35_orthodox_weight",
     "title": "A Day That Feels Stuck",
-    "description": "Three years of playing it straight.\n\nA job, savings, diversified investments. Every month the same amount landed in the same place. Safe. And slow.\n\nToday {name} saw a post: someone made ₩100M in a single month on crypto. A classmate cleared a year of {name}'s savings in one shot flipping a presale apartment right.\n\n{name} saves at the same pace, month after month. It's not the wrong road. But some days the numbers on the screen look like they've stopped moving.\n\nThis was the weight of the orthodox path. Boredom. And the doubt — is this really working?",
+    "description": "Three years of playing it straight.\n\nA job, savings, diversified investments. Every month the same amount landed in the same place. Safe. And slow.\n\nToday {name} saw a post: someone made 100 million won in a single month on crypto. A classmate cleared a year of {name}'s savings in one shot flipping a presale apartment right.\n\n{name} saves at the same pace, month after month. It's not the wrong road. But some days the numbers on the screen look like they've stopped moving.\n\nThis was the weight of the orthodox path. Boredom. And the doubt — is this really working?",
     "choices": [
       {
         "text": "Trust the slow road. Slow isn't losing.",
@@ -97,7 +97,7 @@
   {
     "id": "arc_34_money_attracts_money",
     "title": "That Saying About Money",
-    "description": "Year two. What {name} didn't get a year ago was starting to come into focus.\n\nThat saying — money attracts money. At first it sounded like a comfort the rich made up. But putting it to work himself — it was real. With ₩1M versus ₩10M, the same rate of return came back at a completely different weight.\n\nAnd he saw the reverse too. Those with nothing just pay interest until it's over. When the starting lines differ, running at the same speed only widens the gap.\n\n{name} realized both on the same day. Hope and anger had the same shape.",
+    "description": "Year two. What {name} didn't get a year ago was starting to come into focus.\n\nThat saying — money attracts money. At first it sounded like a comfort the rich made up. But putting it to work himself — it was real. With 1 million won versus 10 million won, the same rate of return came back at a completely different weight.\n\nAnd he saw the reverse too. Those with nothing just pay interest until it's over. When the starting lines differ, running at the same speed only widens the gap.\n\n{name} realized both on the same day. Hope and anger had the same shape.",
     "choices": [
       {
         "text": "Understand the system and ride it",
@@ -109,7 +109,7 @@
       },
       {
         "text": "Honestly, the anger was bigger",
-        "result_text": "Why does one person start with ₩10M and another with ₩1M? {name} knew there was no answer and still held the question a long while. Anger was energy too."
+        "result_text": "Why does one person start with 10 million won and another with 1 million won? {name} knew there was no answer and still held the question a long while. Anger was energy too."
       }
     ]
   },

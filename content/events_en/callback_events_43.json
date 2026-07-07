@@ -2,7 +2,7 @@
   {
     "id": "callback_told_father_win_echo",
     "title": "That Phone Call",
-    "description": "A Sunday call.\n\nDad brought it up out of nowhere.\n\n'Minjun-ah — that time you called because something went well. Your voice sounded good that day.'\n\nThe day {name} first crossed ₩50 million, the first call was to Dad.",
+    "description": "A Sunday call.\n\nDad brought it up out of nowhere.\n\n'Minjun-ah — that time you called because something went well. Your voice sounded good that day.'\n\nThe day {name} first crossed 50 million won, the first call was to Dad.",
     "choices": [
       {
         "text": "\"I was happy. I wanted to hear your voice.\"",
@@ -25,7 +25,7 @@
       },
       {
         "text": "\"I still think about that room sometimes.\"",
-        "result_text": "'Me too, hyung.'\n\nThe narrow hallway, the shared kitchen, the smell of ramen at dawn.\nOnly after leaving did that era settle into a single scene."
+        "result_text": "'Me too, hyung.'\n\nThe narrow hallway, the shared kitchen, the smell of ramyeon at dawn.\nOnly after leaving did that era settle into a single scene."
       }
     ]
   },
@@ -77,7 +77,7 @@
   {
     "id": "callback_goal_reaffirmed_echo",
     "title": "The Night I Went Back to the Plan",
-    "description": "On the night the weight of ₩3 billion shook {name}, they ended up opening the plan again.\n\nBack to the numbers.\n\nThat choice built the current momentum.",
+    "description": "On the night the weight of 3 billion won shook {name}, they ended up opening the plan again.\n\nBack to the numbers.\n\nThat choice built the current momentum.",
     "choices": [
       {
         "text": "Plan over emotion — that principle was right",
@@ -92,7 +92,7 @@
   {
     "id": "callback_goal_questioned_echo",
     "title": "The Night I Just Lay Down",
-    "description": "On the night the weight of ₩3 billion pressed down, {name} did nothing and just lay down to sleep.\n\nThe doubt of that day.\n\nTonight a similar night returned.",
+    "description": "On the night the weight of 3 billion won pressed down, {name} did nothing and just lay down to sleep.\n\nThe doubt of that day.\n\nTonight a similar night returned.",
     "choices": [
       {
         "text": "Like that day — sleep first, look again tomorrow",
@@ -107,11 +107,11 @@
   {
     "id": "callback_called_dad_milestone_echo",
     "title": "The Call Just to Hear a Voice",
-    "description": "The day {name} first crossed ₩100 million, they couldn't tell anyone and called Dad instead. Just to hear his voice.\n\nToday Dad brought up that call again.\n\n'You called out of the blue that time. Asked if everything was okay. Did something happen that day?'",
+    "description": "The day {name} first crossed 100 million won, they couldn't tell anyone and called Dad instead. Just to hear his voice.\n\nToday Dad brought up that call again.\n\n'You called out of the blue that time. Asked if everything was okay. Did something happen that day?'",
     "choices": [
       {
         "text": "\"Something good happened — and you were the only one I could tell.\"",
-        "result_text": "Dad went quiet for a while.\n\n'...Yeah. Call anytime.'\n\nMore than the number ₩100 million, the fact that Dad was the only one to share it with weighed on {name}."
+        "result_text": "Dad went quiet for a while.\n\n'...Yeah. Call anytime.'\n\nMore than the number 100 million won, the fact that Dad was the only one to share it with weighed on {name}."
       },
       {
         "text": "\"I just wanted to hear your voice.\"",
@@ -122,7 +122,7 @@
   {
     "id": "callback_solo_celebration_echo",
     "title": "The Can of Beer Alone",
-    "description": "The day {name} crossed ₩100 million, they celebrated alone with a can of beer at the convenience store.\n\nToday they achieved something again.\n\nStanding in front of the convenience store fridge once more.",
+    "description": "The day {name} crossed 100 million won, they celebrated alone with a can of beer at the convenience store.\n\nToday they achieved something again.\n\nStanding in front of the convenience store fridge once more.",
     "choices": [
       {
         "text": "Alone again — but it's familiar and comfortable now",
@@ -137,7 +137,7 @@
   {
     "id": "callback_told_daeun_everything_echo",
     "title": "Telling Her Everything",
-    "description": "The day {name} decided to tell Dae-un everything — the ₩3 billion goal, starting with ₩500,000, all of it.\n\nToday Dae-un brought it up again.\n\n'When you told me everything that day, honestly I was surprised. But — thank you. You trusted me.'",
+    "description": "The day {name} decided to tell Dae-un everything — the 3 billion won goal, starting with 500,000 won, all of it.\n\nToday Dae-un brought it up again.\n\n'When you told me everything that day, honestly I was surprised. But — thank you. You trusted me.'",
     "choices": [
       {
         "text": "\"I didn't want to hide anything from you.\"",
@@ -197,7 +197,7 @@
   {
     "id": "callback_picked_gangnam_target_echo",
     "title": "The Place I Bookmarked",
-    "description": "The day {name} crossed ₩2.5 billion, they bookmarked a ₩1.7 billion listing. 'This is the goal.'\n\nToday they opened that listing again.\n\nStill not sold. As if it were waiting.",
+    "description": "The day {name} crossed 2.5 billion won, they bookmarked a 1.7 billion won listing. 'This is the goal.'\n\nToday they opened that listing again.\n\nStill not sold. As if it were waiting.",
     "choices": [
       {
         "text": "Run the final calculation toward that place",

@@ -17,7 +17,7 @@
   {
     "id": "callback_final_sprint_defensive_harvest",
     "title": "What You Protected",
-    "description": "You spent the final year protecting what you had.\nToday the full portfolio valuation came up.\nFive years ago you started with ₩500,000.\nYou stared at the number for a long time.",
+    "description": "You spent the final year protecting what you had.\nToday the full portfolio valuation came up.\nFive years ago you started with 500,000 won.\nYou stared at the number for a long time.",
     "choices": [
       {
         "text": "With this number — go",
@@ -47,7 +47,7 @@
   {
     "id": "callback_holdem_tilted_reckoning",
     "title": "The Tilt Invoice",
-    "description": "After the bad beat tilt-shove you lost ₩150,000 more.\nOn the subway home, you ran the numbers.\nTotal loss today: ₩230,000.\nHalf of next month's goshiwon rent.",
+    "description": "After the bad beat tilt-shove you lost 150,000 won more.\nOn the subway home, you ran the numbers.\nTotal loss today: 230,000 won.\nHalf of next month's goshiwon rent.",
     "choices": [
       {
         "text": "Make a rule: tilt means leave",
@@ -77,7 +77,7 @@
   {
     "id": "callback_holdem_quit_vindicated",
     "title": "News from the Table",
-    "description": "A month since you quit the holdem pub.\nToday a KakaoTalk from someone who used to sit at the same table.\n'Hey, remember me? We played together.\nI lost everything yesterday. ₩800,000.'",
+    "description": "A month since you quit the holdem pub.\nToday a KakaoTalk from someone who used to sit at the same table.\n'Hey, remember me? We played together.\nI lost everything yesterday. 800,000 won.'",
     "choices": [
       {
         "text": "\"That was the right call. For real.\"",
@@ -107,7 +107,7 @@
   {
     "id": "callback_jobswitch_declined_news",
     "title": "That Startup's News",
-    "description": "Five months since turning down the offer.\nA news article appeared on the portal today.\n[OO Startup Successfully Raises ₩8 Billion Series B]\nThe colleague who tried to bring you along is in the article.",
+    "description": "Five months since turning down the offer.\nA news article appeared on the portal today.\n[OO Startup Successfully Raises 8 billion won Series B]\nThe colleague who tried to bring you along is in the article.",
     "choices": [
       {
         "text": "Close the article. Regret doesn't help.",
@@ -216,7 +216,7 @@
     "choices": [
       {
         "text": "Leave some money for food",
-        "result_text": "Left ₩200,000.\nDad said 'It's fine' but didn't refuse it.\nOn the bus back, something felt lighter than it should have."
+        "result_text": "Left 200,000 won.\nDad said 'It's fine' but didn't refuse it.\nOn the bus back, something felt lighter than it should have."
       },
       {
         "text": "Just eat together",
@@ -227,15 +227,15 @@
   {
     "id": "callback_speculator_greedy_regret",
     "title": "-15% from the Peak",
-    "description": "'The ceiling isn't here yet' — and you held.\nKept it too long past the peak.\nToday you cut the position and ran the numbers.\nDifference between what you sold vs. what you got: ₩8.2 million.",
+    "description": "'The ceiling isn't here yet' — and you held.\nKept it too long past the peak.\nToday you cut the position and ran the numbers.\nDifference between what you sold vs. what you got: 8.2 million won.",
     "choices": [
       {
         "text": "Set a profit target rule going forward",
-        "result_text": "Made the rule. '+40% — sell half.'\n₩8.2 million is the tuition for greed.\nExpensive — but some people pay more."
+        "result_text": "Made the rule. '+40% — sell half.'\n8.2 million won is the tuition for greed.\nExpensive — but some people pay more."
       },
       {
         "text": "Nothing to do. Find the next opportunity.",
-        "result_text": "A gain is still a gain.\nIt ended in profit, not at -₩8.2M.\nBut that number is going to sit in the back of the mind for a while."
+        "result_text": "A gain is still a gain.\nIt ended in profit, not at -8.2 million won.\nBut that number is going to sit in the back of the mind for a while."
       }
     ]
   },

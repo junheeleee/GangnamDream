@@ -32,7 +32,7 @@
   {
     "id": "callback_mindset_saver_echo",
     "title": "The Day the Pattern Broke",
-    "description": "The savings account hit a number {name} had only thought of as hypothetical.\n\nStanding at the bank terminal, staring at the figure.\n\nThis started from choosing not to spend ₩7,000 on delivery. Repeatedly.",
+    "description": "The savings account hit a number {name} had only thought of as hypothetical.\n\nStanding at the bank terminal, staring at the figure.\n\nThis started from choosing not to spend 7,000 won on delivery. Repeatedly.",
     "choices": [
       {
         "text": "Leave it in — keep going",

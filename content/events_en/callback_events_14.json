@@ -103,11 +103,11 @@
   {
     "id": "callback_lotto_5th_prize_echo",
     "title": "After Winning 5th Place",
-    "description": "A month since the lotto 5th prize win.\n₩5,000 in winnings.\nToday you bought another ticket.",
+    "description": "A month since the lotto 5th prize win.\n5,000 won in winnings.\nToday you bought another ticket.",
     "choices": [
       {
         "text": "Just one. Don't let it become a habit.",
-        "result_text": "You bought one.\n₩5,000 won brought ₩1,000 profit.\nOne ticket was the standard.\nA fifth-place win shouldn't lead to five more tickets."
+        "result_text": "You bought one.\n5,000 won brought 1,000 won profit.\nOne ticket was the standard.\nA fifth-place win shouldn't lead to five more tickets."
       },
       {
         "text": "Maybe I should buy more this time",

@@ -32,11 +32,11 @@
   {
     "id": "callback_startup_friend_update",
     "title": "The Series A, Revisited",
-    "description": "The university friend who closed a ₩5 billion Series A.\nThe one he genuinely congratulated.\n\nCurious how things went, he looked it up.\nSomething came up in the news.",
+    "description": "The university friend who closed a 5 billion won Series A.\nThe one he genuinely congratulated.\n\nCurious how things went, he looked it up.\nSomething came up in the news.",
     "choices": [
       {
         "text": "Doing well — closed a Series B",
-        "result_text": "Series B. ₩12 billion.\n\nAnother article. Complicated feelings? Sure — he'd be lying if he said no.\nBut something else was there too this time.\n\nNot 'someday me too' — more like 'in my own way too.'\nHis friend's success now shows him his own direction, not just the gap."
+        "result_text": "Series B. 12 billion won.\n\nAnother article. Complicated feelings? Sure — he'd be lying if he said no.\nBut something else was there too this time.\n\nNot 'someday me too' — more like 'in my own way too.'\nHis friend's success now shows him his own direction, not just the gap."
       },
       {
         "text": "Struggling — runway's running thin",

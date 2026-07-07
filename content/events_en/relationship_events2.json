@@ -17,7 +17,7 @@
   {
     "id": "rel_hyunsu_loan",
     "title": "Hyunsu's Favor",
-    "description": "Over drinks at the pojangmacha, Hyunsu brought it up.\n\"Hyung, could you lend me ₩1,000,000 for a month? I need it fast.\"\n\nClose like brothers. Had to ask why.\n\"There's an investment deal — I don't want to miss the timing.\"",
+    "description": "Over drinks at the pojangmacha, Hyunsu brought it up.\n\"Hyung, could you lend me 1 million won for a month? I need it fast.\"\n\nClose like brothers. Had to ask why.\n\"There's an investment deal — I don't want to miss the timing.\"",
     "choices": [
       {
         "text": "Lend it. Trust Hyunsu.  (friendship / risk)",
@@ -28,7 +28,7 @@
         "result_text": "Hyunsu said, \"Fair enough, can't be helped.\"\nThe energy at the table dropped.\n{name} kept thinking about whether the refusal was right."
       },
       {
-        "text": "₩500,000 is what's possible.  (compromise / relationship)",
+        "text": "500,000 won is what's possible.  (compromise / relationship)",
         "result_text": "\"Can do five hundred.\" {name} said.\nHyunsu was grateful. Sourced the rest from somewhere else."
       }
     ]
@@ -119,7 +119,7 @@
     "choices": [
       {
         "text": "Write it down. Won't forget this.  (learning / record)",
-        "result_text": "Typed it in the notes app on the walk home.\n'Nowhere to spend it alone.'\nThe ₩3B goal stands — but someone to share it with has to exist too."
+        "result_text": "Typed it in the notes app on the walk home.\n'Nowhere to spend it alone.'\nThe 3 billion won goal stands — but someone to share it with has to exist too."
       },
       {
         "text": "\"Work comes first for me, still.\" Say it honestly.  (conviction / respect)",

@@ -2,11 +2,11 @@
   {
     "id": "holdem_first_visit",
     "title": "Hold'em Pub",
-    "description": "Basement level, near Gangnam Station.\n\nDown the stairs — six green felt tables.\n\nSeat fee: ₩8,000 per hour. The bets each player raises aren't 'gambling' by legal logic.\n\n{name}'s first time. Knew the rules. Learned them on YouTube.",
+    "description": "Basement level, near Gangnam Station.\n\nDown the stairs — six green felt tables.\n\nSeat fee: 8,000 won per hour. The bets each player raises aren't 'gambling' by legal logic.\n\n{name}'s first time. Knew the rules. Learned them on YouTube.",
     "choices": [
       {
         "text": "Take a seat at the low-stakes table",
-        "result_text": "2 hours, ₩20,000 in losses.\nBut two successful bluffs, and once pulled a big pot before giving it back.\n\nWalking up the stairs, a thought formed. There's something to study in this game."
+        "result_text": "2 hours, 20,000 won in losses.\nBut two successful bluffs, and once pulled a big pot before giving it back.\n\nWalking up the stairs, a thought formed. There's something to study in this game."
       },
       {
         "text": "Just watch",
@@ -40,7 +40,7 @@
       },
       {
         "text": "On tilt — go all-in recklessly next hand",
-        "result_text": "Made the decision with emotion. The result was predetermined.\n\nLost ₩150,000 and left.\nGangnam street outside. Cold and bright.\n\nPrinciples always collapse this fast."
+        "result_text": "Made the decision with emotion. The result was predetermined.\n\nLost 150,000 won and left.\nGangnam street outside. Cold and bright.\n\nPrinciples always collapse this fast."
       }
     ]
   },
@@ -51,7 +51,7 @@
     "choices": [
       {
         "text": "Take the perks and keep coming",
-        "result_text": "30% off seat fee. ₩6,000.\nThe faces at the table started becoming familiar.\n\nHere, job and age don't exist. In front of the cards, everyone's equal.\nThat was strangely comfortable."
+        "result_text": "30% off seat fee. 6,000 won.\nThe faces at the table started becoming familiar.\n\nHere, job and age don't exist. In front of the cards, everyone's equal.\nThat was strangely comfortable."
       },
       {
         "text": "Becoming a 'regular' doesn't feel like a good sign — step back",

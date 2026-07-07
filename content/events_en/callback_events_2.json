@@ -96,7 +96,7 @@
     "choices": [
       {
         "text": "Post in the victims' group",
-        "result_text": "You posted. Comments came in. 'Me too. It happened to me too.'\nYour ₩1M loss was ₩50M for someone else.\nThe money didn't come back — but something settled."
+        "result_text": "You posted. Comments came in. 'Me too. It happened to me too.'\nYour 1 million won loss was 50 million won for someone else.\nThe money didn't come back — but something settled."
       },
       {
         "text": "Quietly close the article",
@@ -126,11 +126,11 @@
     "choices": [
       {
         "text": "Show the evidence — take the agreed split",
-        "result_text": "You had a recording. Jaehyuk went cold.\nYou got the agreed cut. ₩58 million.\nThat's the end with Jaehyuk. It was always going to end this way."
+        "result_text": "You had a recording. Jaehyuk went cold.\nYou got the agreed cut. 58 million won.\nThat's the end with Jaehyuk. It was always going to end this way."
       },
       {
         "text": "Take what he offers — don't want more entanglement",
-        "result_text": "You took ₩32 million. ₩26 million less than agreed.\n'Fine.' Jaehyuk patted your shoulder.\nOn the way out you washed your hands. Twice."
+        "result_text": "You took 32 million won. 26 million won less than agreed.\n'Fine.' Jaehyuk patted your shoulder.\nOn the way out you washed your hands. Twice."
       }
     ]
   },
@@ -156,7 +156,7 @@
     "choices": [
       {
         "text": "Go find him in person",
-        "result_text": "You went to his goshiwon.\nHe'd already checked out.\nYou walked for a while without knowing how far.\nBack home you ran the numbers. ₩4 million gone.\n₩4 million. Two months of living expenses."
+        "result_text": "You went to his goshiwon.\nHe'd already checked out.\nYou walked for a while without knowing how far.\nBack home you ran the numbers. 4 million won gone.\n4 million won. Two months of living expenses."
       },
       {
         "text": "Let it go — it's not coming back",
@@ -171,7 +171,7 @@
     "choices": [
       {
         "text": "\"That's why I told you\"",
-        "result_text": "It slipped out.\nTaeho said '...You were right.'\nAfter hanging up, you regretted saying it.\nThat's not what you say to someone who just lost ₩30 million."
+        "result_text": "It slipped out.\nTaeho said '...You were right.'\nAfter hanging up, you regretted saying it.\nThat's not what you say to someone who just lost 30 million won."
       },
       {
         "text": "\"Let's get something to eat\"",
@@ -272,22 +272,22 @@
   {
     "id": "callback_startup_grind_result",
     "title": "Startup, Year One",
-    "description": "A year since you joined.\nYour body has paid for it. But the service has grown.\nThe co-founder called. 'Minjun, the Series A came through. Your equity is worth ₩120 million right now.'",
+    "description": "A year since you joined.\nYour body has paid for it. But the service has grown.\nThe co-founder called. 'Minjun, the Series A came through. Your equity is worth 120 million won right now.'",
     "choices": [
       {
         "text": "Keep pushing",
-        "result_text": "'Let's grow it more. The exit is too early.'\nSalary went up. Equity held.\n₩120 million is just the beginning."
+        "result_text": "'Let's grow it more. The exit is too early.'\nSalary went up. Equity held.\n120 million won is just the beginning."
       },
       {
         "text": "Sell some equity in a secondary",
-        "result_text": "You sold 30% in a secondary for ₩40 million.\nReduced the risk.\n₩40 million hit the account. The first money you'd actually realized."
+        "result_text": "You sold 30% in a secondary for 40 million won.\nReduced the risk.\n40 million won hit the account. The first money you'd actually realized."
       }
     ]
   },
   {
     "id": "callback_startup_balanced_dividend",
     "title": "Startup Dividend",
-    "description": "A year at a sustainable pace.\nThe service turned profitable.\nThe co-founder said. 'Dividend this quarter ₩7 million. That's your share.'",
+    "description": "A year at a sustainable pace.\nThe service turned profitable.\nThe co-founder said. 'Dividend this quarter 7 million won. That's your share.'",
     "choices": [
       {
         "text": "Reinvest it",
@@ -295,7 +295,7 @@
       },
       {
         "text": "Take it",
-        "result_text": "₩7 million arrived.\nSteady income isn't bad at all.\nNo burnout to get here — that felt like the real win."
+        "result_text": "7 million won arrived.\nSteady income isn't bad at all.\nNo burnout to get here — that felt like the real win."
       }
     ]
   },

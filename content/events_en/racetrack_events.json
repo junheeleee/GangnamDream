@@ -9,8 +9,8 @@
         "result_text": "Watched two races. From the stands, the horses rounding the corners were fast and quiet. More to see than expected.\nNo betting. That was a choice too."
       },
       {
-        "text": "Buy a win ticket (₩5,000)",
-        "result_text": "Picked number 7. No reason. Just liked 7.\nResult: 4th place. No payout.\n₩5,000 gone. Strangely, it didn't sting much.\nThat was the scary part."
+        "text": "Buy a win ticket (5,000 won)",
+        "result_text": "Picked number 7. No reason. Just liked 7.\nResult: 4th place. No payout.\n5,000 won gone. Strangely, it didn't sting much.\nThat was the scary part."
       },
       {
         "text": "Ask a nearby guy how he picks",
@@ -21,10 +21,10 @@
   {
     "id": "race_tip_seller_02",
     "title": "The Tip Sheet Guy",
-    "description": "At the end of the explanation, the man held out a printed sheet.\n\nDense tables of numbers. 'Today's Recommended Horses Analysis — ₩5,000.'\n\n\"This changes everything. Twenty years of experience, me.\"\n\nAccuracy unknown. But the confidence was undeniable.",
+    "description": "At the end of the explanation, the man held out a printed sheet.\n\nDense tables of numbers. 'Today's Recommended Horses Analysis — 5,000 won.'\n\n\"This changes everything. Twenty years of experience, me.\"\n\nAccuracy unknown. But the confidence was undeniable.",
     "choices": [
       {
-        "text": "Pay ₩5,000 and buy it",
+        "text": "Pay 5,000 won and buy it",
         "result_text": "Followed the sheet and bought Number 3 to win. Number 3 came in 2nd.\nWin tickets only pay for 1st. One place off.\nLooked for the tip guy. Already gone."
       },
       {
@@ -39,7 +39,7 @@
     "description": "Back at Gwacheon.\n\nOut front, a man similar to the one before was waving printed sheets.\n\"Number 3 is a sure thing. Peak condition today.\"\n\nLast week, a different man had also said Number 3 was a sure thing.\n\n{name} paused.",
     "choices": [
       {
-        "text": "Number 3 to win — ₩10,000",
+        "text": "Number 3 to win — 10,000 won",
         "result_text": "Took the ticket to the stands."
       },
       {
@@ -55,11 +55,11 @@
     "choices": [
       {
         "text": "Crumple the ticket",
-        "result_text": "5th place.\n\nA ₩10,000 bill became a scrap of paper.\nLooked for the tip guy. He was already selling a different number to someone else.\n\nWalking down the stairs, {name} checked the time for the next race.\nThat was the problem."
+        "result_text": "5th place.\n\nA 10,000 won bill became a scrap of paper.\nLooked for the tip guy. He was already selling a different number to someone else.\n\nWalking down the stairs, {name} checked the time for the next race.\nThat was the problem."
       },
       {
         "text": "Just laugh. That's what gambling is",
-        "result_text": "Worth ₩10,000 for the experience.\nWatching horses run was more impressive than expected.\n{name} decided to stop there. For today."
+        "result_text": "Worth 10,000 won for the experience.\nWatching horses run was more impressive than expected.\n{name} decided to stop there. For today."
       }
     ]
   },
@@ -70,11 +70,11 @@
     "choices": [
       {
         "text": "Collect and leave immediately",
-        "result_text": "₩50,000 bet, ₩900,000 back.\nWalking to Gyeongmagongwon Station, steps felt light.\nThat lightness wouldn't last long — that was something to learn later."
+        "result_text": "50,000 won bet, 900,000 won back.\nWalking to Gyeongmagongwon Station, steps felt light.\nThat lightness wouldn't last long — that was something to learn later."
       },
       {
         "text": "Ride the momentum for one more race",
-        "result_text": "Put in another ₩50,000.\nThe horses ran. Nothing.\n\nLeft with ₩400,000 in hand.\nMore than before, but the ₩50,000 lost kept coming back.\nThis is how gambling catches people — learned it firsthand."
+        "result_text": "Put in another 50,000 won.\nThe horses ran. Nothing.\n\nLeft with 400,000 won in hand.\nMore than before, but the 50,000 won lost kept coming back.\nThis is how gambling catches people — learned it firsthand."
       }
     ]
   },
@@ -96,7 +96,7 @@
   {
     "id": "race_last_train_home",
     "title": "Last Train from Gyeongmagongwon",
-    "description": "The last race ended.\n\nHandful of losing tickets.\n\nGyeongmagongwon Station platform. People drifted toward Line 4's last train.\n\nMoney spent today: ₩70,000.\n\nOn the subway, {name} watched the lights blur past the window. Mind blank.",
+    "description": "The last race ended.\n\nHandful of losing tickets.\n\nGyeongmagongwon Station platform. People drifted toward Line 4's last train.\n\nMoney spent today: 70,000 won.\n\nOn the subway, {name} watched the lights blur past the window. Mind blank.",
     "choices": [
       {
         "text": "Come back better prepared next week",
@@ -104,7 +104,7 @@
       },
       {
         "text": "That's it. Today was the last time",
-        "result_text": "A ₩70,000 Saturday.\nThe price of two movies. Not a bad day of watching.\nMight come back, might not.\n\nThe train moved. Back to Seoul."
+        "result_text": "A 70,000 won Saturday.\nThe price of two movies. Not a bad day of watching.\nMight come back, might not.\n\nThe train moved. Back to Seoul."
       }
     ]
   },
@@ -119,7 +119,7 @@
       },
       {
         "text": "I can make it back. I actually prepared this week",
-        "result_text": "Spent ₩80,000. No recovery.\n\nCounting the total walking down the station stairs.\n3-week sum: -₩230,000.\n\nWhen the number came out, everything went quiet.\nThat quiet — the worst sign there is. Still didn't know it yet."
+        "result_text": "Spent 80,000 won. No recovery.\n\nCounting the total walking down the station stairs.\n3-week sum: -230,000 won.\n\nWhen the number came out, everything went quiet.\nThat quiet — the worst sign there is. Still didn't know it yet."
       }
     ]
   },

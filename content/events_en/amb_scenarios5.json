@@ -17,7 +17,7 @@
   {
     "id": "amb_parent_hospital",
     "title": "Surgical Consent",
-    "description": "Mom calls. Voice breaking.\n\"Your father... he collapsed. They say he needs surgery. Five million won, they said...\"\n\n{name}'s account comes to mind. The seed money built through years of grinding.\nDrain it — and ₩3 billion goes impossibly far again.\nBut on the other side of the scale — Dad's life.",
+    "description": "Mom calls. Voice breaking.\n\"Your father... he collapsed. They say he needs surgery. Five million won, they said...\"\n\n{name}'s account comes to mind. The seed money built through years of grinding.\nDrain it — and 3 billion won goes impossibly far again.\nBut on the other side of the scale — Dad's life.",
     "choices": [
       {
         "text": "Empty the account if that's what it takes.  (life + filial duty / goal pushed back)",

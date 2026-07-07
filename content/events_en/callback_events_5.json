@@ -25,7 +25,7 @@
       },
       {
         "text": "Put in a small amount to test it",
-        "result_text": "You put in ₩3 million.\nTwo months later, contact went dark.\nYou reported to the FSS. An investigation opened.\nThe ₩3 million didn't come back.\nThere are no easy paths in the Gangnam network."
+        "result_text": "You put in 3 million won.\nTwo months later, contact went dark.\nYou reported to the FSS. An investigation opened.\nThe 3 million won didn't come back.\nThere are no easy paths in the Gangnam network."
       },
       {
         "text": "Decline",
@@ -59,7 +59,7 @@
       },
       {
         "text": "Register your lease rights and fight it legally",
-        "result_text": "You hired a lawyer. ₩2 million out.\nSome would come back through the auction distribution, but not the full amount.\nIf you'd pulled the registry one more time back then, that would've been enough.\nKnowing and acting like you know are different things."
+        "result_text": "You hired a lawyer. Two million won out.\nSome would come back through the auction distribution, but not the full amount.\nIf you'd pulled the registry one more time back then, that would've been enough.\nKnowing and acting like you know are different things."
       }
     ]
   },
@@ -84,8 +84,8 @@
     "description": "Two months since you took the cash and dropped the wallet in a mailbox.\nToday a post appeared in the neighborhood community.\n[Lost Item] Lost a wallet near the bus stop.\nThere's a memorial photo of my father inside. The cash doesn't matter. Please.",
     "choices": [
       {
-        "text": "Leave ₩300,000 anonymously in a mailbox",
-        "result_text": "You paid it back the only way you could.\n₩300,000 and a note.\n'I found your wallet that day. Late, but I'm returning this.'\nAfter sending it, you stood there for a while."
+        "text": "Leave 300,000 won anonymously in a mailbox",
+        "result_text": "You paid it back the only way you could.\n300,000 won and a note.\n'I found your wallet that day. Late, but I'm returning this.'\nAfter sending it, you stood there for a while."
       },
       {
         "text": "Pretend you didn't see it",
@@ -111,11 +111,11 @@
   {
     "id": "callback_fomo_invested_result",
     "title": "Correction",
-    "description": "A month ago you'd put in ₩3 million because everyone was piling in.\nToday you opened the account.\nCurrent valuation: ₩221,000.\nReturn: -26.3%",
+    "description": "A month ago you'd put in 3 million won because everyone was piling in.\nToday you opened the account.\nCurrent valuation: 221,000 won.\nReturn: -26.3%",
     "choices": [
       {
         "text": "Cut losses. Close it out.",
-        "result_text": "You sold. ₩790,000 loss.\nYou left the group chat.\n'Everyone else is doing it' is the most expensive tuition."
+        "result_text": "You sold. 790,000 won loss.\nYou left the group chat.\n'Everyone else is doing it' is the most expensive tuition."
       },
       {
         "text": "Average down",
@@ -186,7 +186,7 @@
   {
     "id": "callback_borrowed_parents_repay_moment",
     "title": "Time to Pay Back",
-    "description": "Ten months since you borrowed the MLM card debt from your father.\nThe fact that he didn't ask anything at the time — it'd stayed with you.\nYou looked at the balance. You can repay ₩3 million.",
+    "description": "Ten months since you borrowed the MLM card debt from your father.\nThe fact that he didn't ask anything at the time — it'd stayed with you.\nYou looked at the balance. You can repay 3 million won.",
     "choices": [
       {
         "text": "Transfer it and call",
@@ -209,7 +209,7 @@
       },
       {
         "text": "Hire a lawyer first",
-        "result_text": "₩2 million for a lawyer.\nThey said 'It's a good thing you stepped away early. You can get leniency.'\nIt ended with a suspended indictment.\nExpensive — but it could've been more."
+        "result_text": "Two million won for a lawyer.\nThey said 'It's a good thing you stepped away early. You can get leniency.'\nIt ended with a suspended indictment.\nExpensive — but it could've been more."
       }
     ]
   },
@@ -250,7 +250,7 @@
     "choices": [
       {
         "text": "Take it. Raise the rate this time.",
-        "result_text": "Agreed on ₩500,000. Up from ₩300,000 last time.\nYou wrote a contract this time too.\nSo this is how word of mouth spreads.\nFinishing the first job well got you here."
+        "result_text": "Agreed on 500,000 won. Up from 300,000 won last time.\nYou wrote a contract this time too.\nSo this is how word of mouth spreads.\nFinishing the first job well got you here."
       },
       {
         "text": "Decline. Want to focus elsewhere right now.",

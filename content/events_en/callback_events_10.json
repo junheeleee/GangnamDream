@@ -212,7 +212,7 @@
   {
     "id": "callback_mlm_debt_repaid_lightness",
     "title": "The Day It's Paid Off",
-    "description": "Today you made the final payment on the debt from the MLM.\nYou opened the banking app — loan balance: ₩0.\nYou stared at the screen for a long time.",
+    "description": "Today you made the final payment on the debt from the MLM.\nYou opened the banking app — loan balance: 0 won.\nYou stared at the screen for a long time.",
     "choices": [
       {
         "text": "Write it down",
