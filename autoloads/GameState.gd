@@ -150,6 +150,13 @@ var housing_months: Dictionary = {}
 # ── AP 행동 축 — 돈을 좇는 주간 vs 사람/회복에 남긴 주간 ─────────────
 # 플레이어에게 도덕 점수를 보여주지 않고, 반복 루프가 어떤 삶의 모양으로 굳는지만 기록한다.
 var action_axis_this_week: Dictionary = {"money": 0, "human": 0}
+# 인물별 연락 기록 — 리캡 카드의 "잔인한 통계"용 원장 (person_id → 횟수 / 마지막 턴)
+var contact_counts: Dictionary = {}
+var last_contact_turn: Dictionary = {}
+
+func note_contact(person_id: String) -> void:
+	contact_counts[person_id] = int(contact_counts.get(person_id, 0)) + 1
+	last_contact_turn[person_id] = turn
 
 # ── 성향(직장/투자/창업) — 플레이로 누적, 임계점에서 '자각' ──────────
 # 죽은 트레이트 시스템을 대체: 선택이 아니라 행동이 정체성을 만든다.
@@ -302,7 +309,9 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	month_focus = ""
 	housing_months = {}
 	action_axis_this_week = {"money": 0, "human": 0}
-	tendency = {"career": 0, "invest": 0, "found": 0}
+	contact_counts = {}
+	last_contact_turn = {}
+	tendency ={"career": 0, "invest": 0, "found": 0}
 	tendency_realized = ""
 	market_context = {
 		"fear_greed": 50,
@@ -1741,6 +1750,8 @@ func serialize():
 		"moral_tint": moral_tint,
 		"moral_band_last": moral_band_last,
 		"action_axis_this_week": action_axis_this_week,
+		"contact_counts": contact_counts,
+		"last_contact_turn": last_contact_turn,
 		"tendency": tendency,
 		"tendency_realized": tendency_realized,
 		"month_focus": month_focus,

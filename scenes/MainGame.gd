@@ -7469,6 +7469,7 @@ func _ap_contact_person(person_id: String):
 	if not GameState.spend_ap():
 		return
 	GameState.register_action_axis("human")   # 사람에게 쓴 시간
+	GameState.note_contact(person_id)          # 리캡 원장 — 누구에게 몇 번, 마지막이 언제였는지
 	var info: Dictionary = ImageRegistry.PERSON_INFO.get(person_id, {})
 	var pname: String = str(ImageRegistry.get_person_info(person_id).get("name", info.get("name", _tr("인연", "Connection"))))
 	var accent: String = str(info.get("color", "#db2777"))
@@ -10442,6 +10443,8 @@ func _show_ending(ending_id):
 	modal_body.add_child(_wrap_label(_fmt(ending_desc), 13, _moral_hex(_moral_text_accent(Color("#6a7486")))))
 	# ── 인연 에필로그 — 같은 결말이라도 곁에 누가 있었는지가 다르다 ──
 	_ending_cast_epilogue(modal_body, ending_id)
+	# ── 시간의 기록 — 평가 없이 사실만 (설교 방지 4원칙: 기록>지시) ──
+	_ending_time_ledger(modal_body)
 	# ── 스탯 그리드 ──
 	var stats_sep = HSeparator.new()
 	stats_sep.add_theme_color_override("color", Color("#252535"))
@@ -10865,6 +10868,36 @@ func _get_ending_cg_path(ending: Dictionary) -> String:
 	if cg_id == "":
 		return ""
 	return ImageRegistry.get_cg(cg_id)
+
+# 시간의 기록 — 이 런이 시간을 어디에 썼는지, 판단 없이 사실만 남긴다.
+# 데이터: 축 주간 통계 + 인물별 연락 원장(contact_counts/last_contact_turn).
+func _ending_time_ledger(parent: Control) -> void:
+	var lines: Array[String] = []
+	var mw: int = GameState.money_weeks_total
+	var hw: int = GameState.human_weeks_total
+	if mw + hw >= 8:
+		lines.append(_tr("돈에 쓴 주 {m} · 사람에게 쓴 주 {h}",
+			"{m} weeks on money · {h} weeks on people").format({"m": mw, "h": hw}))
+	var person := _closest_person()
+	if not person.is_empty():
+		var pid: String = str(person["id"])
+		if GameState.cast_has_met(pid):
+			var pname: String = str(ImageRegistry.get_person_info(pid).get("name", ""))
+			var cnt: int = int(GameState.contact_counts.get(pid, 0))
+			lines.append(_tr("{p}에게 먼저 연락한 횟수: {n}회",
+				"Times you reached out to {p}: {n}").format({"p": pname, "n": cnt}))
+			var last_t: int = int(GameState.last_contact_turn.get(pid, -1))
+			if last_t > 0 and GameState.turn - last_t >= 24:
+				lines.append(_tr("마지막 연락은 {w}주 전이었다",
+					"The last call was {w} weeks ago").format({"w": GameState.turn - last_t}))
+	if lines.is_empty():
+		return
+	var sep := HSeparator.new()
+	sep.add_theme_color_override("color", Color("#252535"))
+	parent.add_child(sep)
+	parent.add_child(_label(_tr("시간의 기록", "The Time Ledger"), 13, "#697386"))
+	for ln in lines:
+		parent.add_child(_wrap_label(ln, 13, "#9aa4b8"))
 
 func _ending_run_summary(ending_id: String) -> String:
 	var route_diff := GameState.route_orthodox - GameState.route_unorthodox

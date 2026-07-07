@@ -46,7 +46,7 @@
 
 ### 4. 잔인한 통계 리캡 카드 (클립/공유용)
 - 배경: 런 종료 화면에 스크린샷 한 장으로 퍼지는 카드. 예: "5년간 다은에게 연락한 횟수: 3회 / 돈에 쓴 주 178, 사람에게 쓴 주 12 / 아버지와의 마지막 통화: 죽기 11개월 전".
-- 지금 쓸 수 있는 데이터: `money_weeks_total` / `human_weeks_total` / `grind_streak_weeks`(최종), cast affinity/stage/met, 주요 플래그(결혼/이혼/사별). **인물별 연락 횟수 카운터는 아직 없음 — Claude가 후속 추가 예정(CLAUDE.md 다음 작업)**. 카운터 없이도 1차 버전 가능: 축 주간 통계 + 관계 상태 문장.
+- 지금 쓸 수 있는 데이터: `money_weeks_total` / `human_weeks_total` / `grind_streak_weeks`(최종), cast affinity/stage/met, 주요 플래그(결혼/이혼/사별). **인물별 연락 원장 존재(2026-07-07)**: `GameState.contact_counts`/`last_contact_turn`(연락 횟수·마지막 턴). 텍스트 1차 버전은 엔딩 화면 '시간의 기록'(`_ending_time_ledger`)으로 이미 렌더 — Codex는 이걸 공유 특화 비주얼 카드로 승격.
 - 할 것: 엔딩/데모 종료 화면에 `RUN RECORD` 계열의 공유 특화 카드 1장 — Gangnam Ink 톤, 게임 로고+엔딩명+통계 3~4줄. 기존 공유 텍스트(`_ending_run_summary`)와 별개의 *시각* 카드.
 - 카피 제약: **설교 방지 4원칙 "기록하되 지시하지 않는다"** — 통계는 사실 서술만, 평가 어휘 금지.
 - 검증: `ScreenshotQA --qa=endings-en`, `--qa=demo-end-en`.
