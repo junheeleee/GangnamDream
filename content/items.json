@@ -64,5 +64,101 @@
     "effects": {},
     "passive_effects": {},
     "description": "고시 4년 만에.\n정장. 명함. '형 덕분이에요.'\n저장해뒀다."
+  },
+  {
+    "id": "gift_can_coffee",
+    "name": "캔커피 세트",
+    "icon": "☕",
+    "price": 8000,
+    "shop": true,
+    "category": "gift",
+    "one_time": true,
+    "effects": {},
+    "passive_effects": {},
+    "description": "밤을 견디는 사람에게 어울리는, 값싸고 다정한 것."
+  },
+  {
+    "id": "gift_socks",
+    "name": "양말 세트",
+    "icon": "🧦",
+    "price": 10000,
+    "shop": true,
+    "category": "gift",
+    "one_time": true,
+    "effects": {},
+    "passive_effects": {},
+    "description": "실용적이라 오히려 마음이 보이는 선물."
+  },
+  {
+    "id": "gift_essay_book",
+    "name": "에세이집",
+    "icon": "📖",
+    "price": 20000,
+    "shop": true,
+    "category": "gift",
+    "one_time": true,
+    "effects": {},
+    "passive_effects": {},
+    "description": "밑줄 그을 자리가 많은 책. 고른 사람의 시간이 담긴다."
+  },
+  {
+    "id": "gift_exhibit_catalog",
+    "name": "전시 도록",
+    "icon": "🖼️",
+    "price": 30000,
+    "shop": true,
+    "category": "gift",
+    "one_time": true,
+    "effects": {},
+    "passive_effects": {},
+    "description": "누가 어떤 전시를 좋아했는지 기억해야만 고를 수 있는 것."
+  },
+  {
+    "id": "gift_scarf",
+    "name": "목도리",
+    "icon": "🧣",
+    "price": 40000,
+    "shop": true,
+    "category": "gift",
+    "one_time": true,
+    "effects": {},
+    "passive_effects": {},
+    "description": "추운 데서 오래 서 있는 사람을 떠올리게 하는 것."
+  },
+  {
+    "id": "gift_perfume",
+    "name": "향수",
+    "icon": "🌸",
+    "price": 120000,
+    "shop": true,
+    "category": "gift",
+    "one_time": true,
+    "effects": {},
+    "passive_effects": {},
+    "description": "값이 먼저 보이는 선물. 마음보다 부담이 먼저 닿을 수도 있다."
+  },
+  {
+    "id": "gift_wallet",
+    "name": "브랜드 지갑",
+    "icon": "👛",
+    "price": 350000,
+    "shop": true,
+    "category": "gift",
+    "one_time": true,
+    "effects": {},
+    "passive_effects": {},
+    "description": "누구에게나 좋은 것. 그래서 누구에게도 특별하지 않을 수 있는 것."
+  },
+  {
+    "id": "gift_necklace",
+    "name": "목걸이",
+    "icon": "📿",
+    "price": 800000,
+    "shop": true,
+    "category": "gift",
+    "one_time": true,
+    "effects": {},
+    "passive_effects": {},
+    "description": "가장 비싼 답. 정답이 아닐 때 가장 크게 어긋나는 것."
   }
 ]

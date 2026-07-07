@@ -489,6 +489,9 @@
     "id": "arc_jiyeon_truth_moment",
     "title": "The Things She Couldn't Say Back Then",
     "description": "Jiyeon reached out first.\n\"Minjun, do you have time to meet for a bit?\"\n\nAcross the café table, her face was different from usual.\nThe face of someone who'd been preparing for something a long time.\n\n\"I think I need to be honest with you.\"\n\nShe said her father's company was struggling.\nThat this presale had to go well.\nThat's why she needed investors, and why she'd pitched it to Minjun.\nThat part was true too.\n\n\"But that's not all of it.\nMy wish for you to do well — that was real too.\nAnd... I was curious about you, and I wanted to be near you.\"\n\n\"All three are tangled together, and I don't know what kind of person I am.\nAm I a bad person?\"",
+    "description_if_known": {
+      "jiyeon_seen_by_gifts": "Jiyeon reached out first.\n\"Minjun, do you have time to meet for a bit?\"\n\nAcross the café table, her face was different from usual.\nThe face of someone who'd been preparing for something a long time.\n\n\"I think I need to be honest with you.\"\n\nShe said her father's company was struggling.\nThat this presale had to go well.\nThat's why she needed investors, and why she'd pitched it to Minjun.\nThat part was true too.\n\n\"But that's not all of it.\"\nShe paused for a moment.\n\"...You even remembered things I said in passing. That exhibition catalogue.\nPlenty of people bought me things. But the first one who actually remembered me — that was you, oppa.\"\n\n\"All three are tangled together, and I don't know what kind of person I am.\nAm I a bad person?\""
+    },
     "choices": [
       {
         "text": "\"Thank you for being honest. Let's figure out a way together.\"",
@@ -508,6 +511,9 @@
     "id": "arc_jiyeon_truth_warned",
     "title": "The Things He Already Knew",
     "description": "Jiyeon reached out first.\n\"Minjun, do you have time to meet for a bit?\"\n\nSitting across from her at the café, {name} already remembered what Sangchul had said.\n'That woman needs presale numbers — she's after your money.'\n\nShe opened her mouth.\nThe story of her father's company. The presale targets. And — why she'd pitched it to Minjun.\n\n\"But that's not all of it.\nMy wish for you to do well — that was real too.\nAnd... I was curious about you, and I wanted to be near you.\"\n\n\"All three are tangled together, and I don't know what kind of person I am.\nAm I a bad person?\"\n\n{name} already knew. Which made it stranger still — complication came before anger.",
+    "description_if_known": {
+      "jiyeon_seen_by_gifts": "Jiyeon reached out first.\n\"Minjun, do you have time to meet for a bit?\"\n\nSitting across from her at the café, {name} already remembered what Sangchul had said.\n'That woman needs presale numbers — she's after your money.'\n\nBut something else surfaced alongside it.\nThe gifts he'd chosen by remembering things she'd let slip in passing. That proud face of hers, buckling for a second each time she received one.\n\nShe opened her mouth.\nThe story of her father's company. The presale targets. And — why she'd pitched it to Minjun.\n\n\"But that's not all of it.\nYou're... one of the few people who saw me as a person, not a thing.\"\n\n\"All three are tangled together, and I don't know what kind of person I am.\nAm I a bad person?\"\n\n{name} already knew. Which made it stranger still — complication came before anger."
+    },
     "choices": [
       {
         "text": "\"I knew. Even so, thank you for telling me yourself.\"",

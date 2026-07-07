@@ -4388,7 +4388,8 @@ func _render_sidebars():
 		var item_row: HBoxContainer = HBoxContainer.new()
 		item_row.add_theme_constant_override("separation", 8)
 		item_box.add_child(item_row)
-		var item_label: Label = _label("%s x%d" % [item.get("name", _tr("아이템", "Item")), item.get("quantity", 1)], 15, "#e8eaf0")
+		var inv_name: String = _gift_display_name(str(item.get("id", ""))) if str(item.get("category", "")) == "gift" else str(item.get("name", _tr("아이템", "Item")))
+		var item_label: Label = _label("%s x%d" % [inv_name, item.get("quantity", 1)], 15, "#e8eaf0")
 		if _font_bold:
 			item_label.add_theme_font_override("font", _font_bold)
 		item_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -4411,6 +4412,8 @@ func _render_sidebars():
 				use_btn.disabled = true
 			use_btn.pressed.connect(Callable(self, "_on_use_item").bind(item.get("id", "")))
 			item_box.add_child(use_btn)
+		elif str(item.get("category", "")) == "gift":
+			item_box.add_child(_wrap_label(_tr("선물 — 사람 메뉴에서 전달", "Gift — deliver from the People menu"), 13, "#c8a0d8"))
 		else:
 			item_box.add_child(_wrap_label(_tr("자동 활성", "Auto-active"), 13, "#34d399"))
 		inventory_box.add_child(item_card)
@@ -6755,6 +6758,21 @@ func _people_actions_for_page(page_id: String) -> Array:
 				"arg": pid,
 				"free": false,
 			})
+			# 선물하기 — met + 호감도 문턱 + 선물 보유 시. 쿨다운은 사유로 표시.
+			if _gift_eligible(pid) and _has_any_gift():
+				var cd_left: int = _gift_cooldown_left(pid)
+				var gift_sub: String = _tr("선물로 마음을 전한다", "Give a gift to say something")
+				if cd_left > 0:
+					gift_sub = _tr("%d주 뒤에 다시 선물할 수 있다", "Can gift again in %dw") % cd_left
+				actions.append({
+					"title": "%s · %s" % [_tr("선물하기", "Give a gift"), pname],
+					"subtitle": gift_sub,
+					"accent": "#a06fb8",
+					"icon": "people",
+					"fn": "_open_gift_picker",
+					"arg": pid,
+					"free": false,
+				})
 	else:
 		actions.append({
 			"title": _tr("인맥 넓히기", "Network"),
@@ -7079,6 +7097,46 @@ func _open_cat_life():
 			"life",
 			_tr("대기", "Need"))
 	# 상점 항목 제거 — 서사 유물로 전환 예정
+	_build_gift_shelf()
+
+## 선물 상점 — 생활 카테고리 하단. 가격이 아니라 알아봄이 답이다(반응 테이블은 코드 숨김).
+func _build_gift_shelf() -> void:
+	modal_body.add_child(_wrap_label(_tr("— 선물 —", "— Gifts —"), 12, "#c8a0d8"))
+	modal_body.add_child(_wrap_label(
+		_tr("사람 메뉴에서 인연에게 전달할 수 있다. 마음은 가격표에 없다.",
+			"Give these to someone from the People menu. What matters isn't on the price tag."),
+		12, "#7a8496"))
+	for gid in GIFT_ITEM_IDS:
+		var item: Dictionary = DataRegistry.get_item(gid)
+		if item.is_empty():
+			continue
+		_build_gift_shelf_card(gid, item)
+
+func _build_gift_shelf_card(gid: String, item: Dictionary) -> Control:
+	var price: float = float(item.get("price", 0.0))
+	var can_buy: bool = GameState.money >= price
+	var owned: int = _gift_owned_count(gid)
+	var title: String = _gift_display_name(gid)
+	if owned > 0:
+		title += "  ×%d" % owned
+	var accent: String = "#a06fb8" if can_buy else "#4a4457"
+	var btn := _make_essential_action_card(
+		title, _gift_display_desc(gid), "shop", accent, not can_buy, false, GameState.format_money(price), "", null, "")
+	btn.custom_minimum_size = Vector2(0, 62)
+	if can_buy:
+		var buy_id: String = gid
+		btn.pressed.connect(func(): _on_buy_gift(buy_id))
+	modal_body.add_child(btn)
+	return btn
+
+func _on_buy_gift(gid: String) -> void:
+	var res: Dictionary = inventory_system.purchase_item(gid)
+	if bool(res.get("success", false)):
+		AudioManager.play_ui_click(-6.0)
+		_open_cat_life()   # 재렌더 — 여러 개 연속 구매를 위해 모달을 유지한다
+		_refresh_all()
+	else:
+		_show_toast(str(res.get("message", _tr("구매 실패", "Purchase failed"))), Color("#ff7070"))
 
 func _open_cat_gambling():
 	var _in_recovery: bool = GameState.flags.get("in_recovery_started", false) \
@@ -7551,6 +7609,188 @@ func _show_montage_card(weeks: int, assets_before: float, health_before: int, me
 		_close_modal()
 		_begin_month_story_and_render())
 	modal_body.add_child(ok)
+
+# ════════════════════════════════════════════════════════════════
+# 선물하기 — 가격이 아니라 알아봄 (ROMANCE_SYSTEM 7-F)
+# 정답 선물은 인물의 이야기에 심어져 있고, 비싼 오답은 정직한 미지근함이다.
+# ════════════════════════════════════════════════════════════════
+const GIFT_ITEM_IDS := ["gift_can_coffee", "gift_socks", "gift_essay_book",
+	"gift_exhibit_catalog", "gift_scarf", "gift_perfume", "gift_wallet", "gift_necklace"]
+const GIFT_RECIPIENTS := ["daeun", "jiyeon", "father"]
+const GIFT_COOLDOWN_WEEKS := 4
+const GIFT_MIN_AFFINITY := 8
+
+func _gift_display_name(gid: String) -> String:
+	match gid:
+		"gift_can_coffee": return _tr("캔커피 세트", "Canned Coffee Set")
+		"gift_socks": return _tr("양말 세트", "Sock Set")
+		"gift_essay_book": return _tr("에세이집", "Essay Collection")
+		"gift_exhibit_catalog": return _tr("전시 도록", "Exhibition Catalogue")
+		"gift_scarf": return _tr("목도리", "Wool Scarf")
+		"gift_perfume": return _tr("향수", "Perfume")
+		"gift_wallet": return _tr("브랜드 지갑", "Designer Wallet")
+		"gift_necklace": return _tr("목걸이", "Necklace")
+	return _tr("선물", "Gift")
+
+func _gift_display_desc(gid: String) -> String:
+	match gid:
+		"gift_can_coffee": return _tr("밤을 견디는 사람에게 어울리는, 값싸고 다정한 것", "Cheap and kind — for someone who endures the night")
+		"gift_socks": return _tr("실용적이라 오히려 마음이 보이는 선물", "So practical it lets the heart show through")
+		"gift_essay_book": return _tr("밑줄 그을 자리가 많은 책", "A book with plenty of lines to underline")
+		"gift_exhibit_catalog": return _tr("좋아한 전시를 기억해야만 고를 수 있는 것", "You can only pick this if you remembered the show they loved")
+		"gift_scarf": return _tr("추운 데서 오래 서 있는 사람을 떠올리게 하는 것", "Brings to mind someone who stands long in the cold")
+		"gift_perfume": return _tr("값이 먼저 보이는 선물", "A gift whose price shows first")
+		"gift_wallet": return _tr("누구에게나 좋지만 누구에게도 특별하지 않을 수 있는 것", "Good for anyone — and maybe special to no one")
+		"gift_necklace": return _tr("가장 비싼 답. 정답이 아닐 때 가장 크게 어긋난다", "The priciest answer — and the most wrong when it's wrong")
+	return ""
+
+func _gift_owned_count(gid: String) -> int:
+	for owned in GameState.inventory:
+		if str(owned.get("id", "")) == gid:
+			return int(owned.get("quantity", 0))
+	return 0
+
+func _has_any_gift() -> bool:
+	for gid in GIFT_ITEM_IDS:
+		if GameState.has_item(gid):
+			return true
+	return false
+
+func _gift_eligible(pid: String) -> bool:
+	if not (pid in GIFT_RECIPIENTS):
+		return false
+	if not GameState.cast_has_met(pid):
+		return false
+	return GameState.get_cast_affinity(pid) >= GIFT_MIN_AFFINITY
+
+func _gift_cooldown_left(pid: String) -> int:
+	var last: int = int(GameState.flags.get("last_gift_turn_%s" % pid, -999))
+	if last < 0:
+		return 0
+	return maxi(0, GIFT_COOLDOWN_WEEKS - (GameState.turn - last))
+
+## 선물 반응 테이블 (숨김) — {delta, line, hit}. 발견이 콘텐츠라 UI로 노출하지 않는다.
+func _gift_reaction(pid: String, gid: String) -> Dictionary:
+	match pid:
+		"daeun":
+			if gid in ["gift_can_coffee", "gift_socks", "gift_essay_book", "gift_scarf"]:
+				return {"delta": 9, "hit": true, "line": _tr(
+					"민준씨, 이거 고르는 데 얼마나 서 있었어요?",
+					"Minjun — how long did you stand there picking this out?")}
+			if gid == "gift_exhibit_catalog":
+				return {"delta": 4, "hit": false, "line": _tr(
+					"고마워요, 민준씨. 잘 볼게요.",
+					"Thank you, Minjun. I'll look at it properly.")}
+			return {"delta": 2, "hit": false, "line": _tr(
+				"…이런 거 받으면, 나 뭘 돌려줘야 할지 모르겠어요.",
+				"...When I get something like this, I don't know what I'm supposed to give back.")}
+		"jiyeon":
+			if gid == "gift_exhibit_catalog":
+				return {"delta": 9, "hit": true, "line": _tr(
+					"오빠, 이거 기억하고 있었어?",
+					"Oppa — you actually remembered this?")}
+			if gid in ["gift_perfume", "gift_wallet", "gift_necklace"]:
+				return {"delta": 3, "hit": false, "line": _tr(
+					"고마워. …나 이런 거 많아.",
+					"Thanks. ...I've got plenty of these, though.")}
+			if gid in ["gift_can_coffee", "gift_socks"]:
+				return {"delta": 5, "hit": false, "line": _tr(
+					"이런 거 처음 받아봐.",
+					"First time anyone's given me something like this.")}
+			return {"delta": 3, "hit": false, "line": _tr(
+				"고마워. 잘 쓸게.",
+				"Thanks. I'll use it.")}
+		"father":
+			if gid in ["gift_scarf", "gift_socks"]:
+				return {"delta": 8, "hit": true, "line": _tr(
+					"…뭘 이런 걸 다.",
+					"...You didn't have to.")}
+			return {"delta": 2, "hit": false, "line": _tr(
+				"그래, 고맙다. 돈 아껴 써라.",
+				"Sure. Thanks. Go easy on the money.")}
+	return {"delta": 2, "hit": false, "line": _tr("고맙다.", "Thank you.")}
+
+func _gift_repeat_line(pid: String) -> String:
+	match pid:
+		"daeun": return _tr("…민준씨, 또 이거네요.", "...Minjun, this one again.")
+		"jiyeon": return _tr("…또 이거야?", "...This again?")
+		"father": return _tr("…또 뭘 사왔냐.", "...You bought something again?")
+	return _tr("…또 이거네.", "...This again.")
+
+func _open_gift_picker(pid: String) -> void:
+	if not _gift_eligible(pid):
+		return
+	if GameState.action_points <= 0:
+		_show_toast(_tr("행동력이 없습니다 — 다음 달에", "No Action Points — try next month"), Color("#ff7070"))
+		return
+	var cd_left: int = _gift_cooldown_left(pid)
+	if cd_left > 0:
+		_show_toast(_tr("아직 이르다 — %d주 뒤에", "Too soon — in %dw") % cd_left, Color("#c8a040"))
+		return
+	if not _has_any_gift():
+		_show_toast(_tr("전달할 선물이 없다. 생활 메뉴에서 산다.", "No gift to give. Buy one in the Living menu."), Color("#c8a040"))
+		return
+	var pname: String = str(ImageRegistry.get_person_info(pid).get("name", _tr("인연", "Connection")))
+	_open_modal(_tr("선물하기 · %s", "Give a gift · %s") % pname, true)
+	modal_body.add_child(_wrap_label(
+		_tr("무엇을 건넬까. 값이 아니라, 이 사람의 이야기를 떠올린다.",
+			"What to give. Not the price — think of this person's story."),
+		13, "#7a8496"))
+	for gid in GIFT_ITEM_IDS:
+		var owned: int = _gift_owned_count(gid)
+		if owned <= 0:
+			continue
+		var pick_id: String = gid
+		var title: String = "%s  ×%d" % [_gift_display_name(gid), owned]
+		var btn := _make_essential_action_card(
+			title, _gift_display_desc(gid), "people", "#a06fb8", false, false, "", "", null, "")
+		btn.custom_minimum_size = Vector2(0, 60)
+		btn.pressed.connect(func(): _confirm_gift(pid, pick_id))
+		modal_body.add_child(btn)
+
+func _confirm_gift(pid: String, gid: String) -> void:
+	_close_modal()
+	_ap_give_gift(pid, gid)
+
+## 실제 전달 — 1 AP + human축 + note_contact + 아이템 소모 + 반응.
+func _ap_give_gift(pid: String, gid: String) -> void:
+	if not GameState.has_item(gid):
+		return
+	if not GameState.spend_ap():
+		_show_toast(_tr("행동력이 없습니다 — 다음 달에", "No Action Points — try next month"), Color("#ff7070"))
+		return
+	GameState.register_action_axis("human")   # 만나러 가는 시간 = 사람에게 쓴 시간
+	GameState.note_contact(pid)                # 리캡 원장 연동
+	var repeat_key: String = "gift_gave_%s_%s" % [pid, gid]
+	var is_repeat: bool = bool(GameState.flags.get(repeat_key, false))
+	var reaction: Dictionary
+	if is_repeat:
+		reaction = {"delta": 2, "hit": false, "line": _gift_repeat_line(pid)}
+	else:
+		reaction = _gift_reaction(pid, gid)
+	var delta: int = int(reaction.get("delta", 2))
+	GameState.apply_cast_effect(pid, {"affinity": delta})
+	GameState.remove_item(gid, 1)
+	GameState.flags[repeat_key] = true
+	GameState.flags["last_gift_turn_%s" % pid] = GameState.turn
+	# 명중 누적 — 3회 도달 시 프로포즈/고백 dik 변주 게이트를 연다.
+	if bool(reaction.get("hit", false)):
+		var hits: int = int(GameState.flags.get("gift_hits_%s" % pid, 0)) + 1
+		GameState.flags["gift_hits_%s" % pid] = hits
+		if hits >= 3:
+			if pid == "daeun":
+				GameState.flags["daeun_seen_by_gifts"] = true
+			elif pid == "jiyeon":
+				GameState.flags["jiyeon_seen_by_gifts"] = true
+	var info: Dictionary = ImageRegistry.PERSON_INFO.get(pid, {})
+	var pname: String = str(ImageRegistry.get_person_info(pid).get("name", info.get("name", _tr("인연", "Connection"))))
+	var accent: String = str(info.get("color", "#a06fb8"))
+	var line: String = str(reaction.get("line", ""))
+	GameState.add_log(_tr("🎁 선물 — ", "🎁 Gift — ") + pname + " / " + line, "relationship")
+	turn_action_log.append(_tr("✓ 🎁 선물 · %s", "✓ 🎁 Gift · %s") % pname)
+	GameState.stats_changed.emit()
+	_refresh_all()
+	_show_contact_reaction(pname, line, Color(accent))
 
 func _ap_contact_person(person_id: String):
 	if not GameState.spend_ap():
