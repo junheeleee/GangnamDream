@@ -1,5 +1,21 @@
 # Gangnam Dream Work Log
 
+## 2026-07-07 (Claude — 몽타주 압축 + main 병합 정합 + EN 일관성 + 문서 재정비)
+
+### 전략 (3종 병렬 감사 → 5레버 확정)
+- 데모 훅 감사: 데모(t<=24)가 dik 재독 0회·tint 극적 붕괴 미노출 확인. 데모 최강 순간=t4 대포통장.
+- 콘텐츠 밀도 감사: Y1이 authored 절반 독식, 매 연도 H2가 데드존(최악 t121-144 조건부 0개). 랜덤 풀은 중반에 오히려 두꺼움 → 처방=압축+H2 인물 비트.
+- EN 프로즈 감사: 4.4/5 출시급 — 전면 재작성 불요, 일관성 결함 5건만.
+
+### 구현
+- **몽타주 시간 압축(Phase B)**: "루틴대로 시간을 보낸다"(t>=8, AP 만땅) → 루틴 2슬롯 자동 적용 최대 4주. 보장 아크/월말/위기/게임오버 앞 절대 정지. 주간 경제를 `_run_week_start_economy`/`_run_month_end_transition`으로 추출해 정상 경로와 공유. 몽타주 카드+월말 축 서사("이 달의 시간 — 돈에 3주, 사람에게 1주").
+- **main 병합 정합**: Codex가 설계 문서 기반 독자 구현한 축 표면(act-rail·WEEK SPLIT 칩)과 Claude 엔진(1a/1b)을 단일화 — 카운터 dict 통일, 이중 등록 3곳 해소, 드립 캡 -20 복원, 인맥=돈 정렬, serialize 중복 정리. 신규 오디오 25종 임포트.
+- **EN 일관성 패스**: 통화 510건("N billion won", 문장 첫머리 스펠아웃 유지), ramyeon 62건, ye-dan 글로스, 캘크·회사명·9급 통일.
+- **문서 재정비**: CLAUDE.md 661줄→운영 문서로 전면 재작성(전문은 STATE_LOG_ARCHIVE.md 동결), ROMANCE_SYSTEM.md 신설, DECISIONS 6건 추가(외부 파이프라인 판정 포함).
+
+### 검증
+- audit.sh ✅(exit 0) / en_coverage clean / english_hangul_audit 0 / ScreenshotQA ap-en 실렌더 확인 / 밸런스 밴드 유지 / Godot 컴파일 클린.
+
 ## 2026-07-05 (Codex — AP relationship pressure surface pass)
 
 ### 배경

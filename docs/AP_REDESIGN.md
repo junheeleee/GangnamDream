@@ -86,11 +86,9 @@
         ScreenshotQA ap-en 렌더 직접 확인(PEOPLE 셀 4분할 잘림 없음). 시각 폴리싱(색·간격)은 Codex 몫.
   - [ ] **1c 월말 몽타주 프리뷰**: 그 달의 축 배분을 한 줄로("갈아넣은 4주 / 균형 4주") — B의 맛보기.
   - 각 단계 후 serialize 완전성 + 밸런스 밴드 유지 검증. 재미 판정 후 전체 확장 여부 결정.
-- [ ] **Phase 2 — C: Act별 메뉴 진화** (대부분 게이팅)
-  - `_render_essential_actions`를 act-aware로. 연차 마커(age/turn)로 메뉴 세트 분기
-  - Y3 효율 액션 tint 비용, Y4 관계 유지 액션 AP화
-- [ ] **Phase 3 — B: 루틴 + 몽타주 압축** (턴 루프 수술, 최후)
-  - 루틴 데이터 구조 + 자동 진행 루프 + 몽타주 UI + 강제 중단 안전장치
+- [x] **Phase 2 — C: Act별 메뉴 진화** — **Codex가 main에서 구현**(act-aware ACTION RAIL, ACT 1~5 테마, WEEK SPLIT 칩, 관계 압박 표면). 2026-07-07 병합 정합 완료 — 카운터 dict 단일화, 등록은 각 _ap_* 내부 1회, 드립 캡 -20, 인맥=돈. **교훈: 설계 문서 "구현 예정"엔 담당 명시(이중 구현 방지).**
+- [x] **Phase 3 — B: 루틴 + 몽타주 압축** (2026-07-07): `_maybe_add_montage_card`(t>=8·AP만땅) → `_open_routine_modal`(2슬롯: study/rest/save/network) → `_montage_advance()` 최대 4주. 절대 정지=보장 아크/월말/건강<=35/정신<=25/현금<고정지출/게임오버. 경제는 `_run_week_start_economy`/`_run_month_end_transition` 공유(중복 0). 몽타주 카드+월말 축 서사. audit ✅.
+- [ ] 후속: 몽타주 실플레이 체감 QA(정지 빈도·카피 톤), Y3+ 효율 액션 tint 비용(설계 재검토 후)
 
 ---
 
