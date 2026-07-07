@@ -130,7 +130,7 @@ GangnamDream/
 ```
 
 ### 문서 색인 (자주 쓰는 것)
-`GAME_DESIGN.md`(설계 바이블) · `ROADMAP.md` · `WORK_LOG.md` · `DECISIONS.md` · `BALANCE.md` · `MORAL_TINT.md` · `AP_REDESIGN.md` · `ROMANCE_SYSTEM.md` · `STORY_BIBLE.md` · `QA_CHECKLIST.md` · `GANGNAM_INK_ART_DIRECTION.md`(Codex 표면) · `ENDING_ART.md`(CG 큐) · `I18N_GLOSSARY.md`
+`STORY_BIBLE.md`(설계·서사 바이블) · `ROADMAP.md` · `WORK_LOG.md` · `DECISIONS.md` · `BALANCE.md` · `MORAL_TINT.md` · `AP_REDESIGN.md` · `ROMANCE_SYSTEM.md` · `QA_CHECKLIST.md` · `GANGNAM_INK_ART_DIRECTION.md`(Codex 표면) · `ENDING_ART.md`(CG 큐) · `I18N_GLOSSARY.md`
 
 ---
 

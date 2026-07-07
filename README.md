@@ -50,7 +50,7 @@ Static audit (run before committing): `./tools/audit.sh`
 | File | Contents |
 |---|---|
 | `CLAUDE.md` | Session protocol, current status, canon rules |
-| `docs/GAME_DESIGN.md` | Full design document |
+| `docs/STORY_BIBLE.md` | Design & narrative bible |
 | `docs/ROADMAP.md` | Development phases |
 | `docs/DECISIONS.md` | Design decision rationale |
 | `docs/ROMANCE_SYSTEM.md` | Two-heroine canon |

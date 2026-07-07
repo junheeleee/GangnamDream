@@ -50,7 +50,7 @@
 | 파일 | 내용 |
 |---|---|
 | `CLAUDE.md` | 세션 프로토콜, 현재 상태, 정본 규칙 |
-| `docs/GAME_DESIGN.md` | 설계 바이블 |
+| `docs/STORY_BIBLE.md` | 설계·서사 바이블 |
 | `docs/ROADMAP.md` | 개발 단계 |
 | `docs/DECISIONS.md` | 설계 결정 근거 |
 | `docs/ROMANCE_SYSTEM.md` | 두 히로인 정본 |
