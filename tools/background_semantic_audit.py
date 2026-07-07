@@ -161,6 +161,131 @@ def infer_background_id(ev: Dict, housing: str = "gosiwon") -> str:
         "namsan", "seoul tower",
     ]):
         return "namsan_tower"
+    if event_id == "arc_minseo_01_meet":
+        return "meeting"
+    if event_id in ("arc_minseo_02_real", "arc_minseo_03_arrival", "arc_minseo_03b_not_arrived"):
+        return "cafe"
+    if event_id in ("arc_jaehyuk_sangchul_echo", "arc_jiyeon_father_records"):
+        return "cafe"
+    if event_id == "arc_pre_ending_summit":
+        return "realestate_office"
+    if event_id == "arc_gangnam_real_estate":
+        return "investment_phone"
+    if event_id == "arc_36_body_signal":
+        return "goshiwon_hallway"
+    if event_id == "callback_hoesik_payoff":
+        return "office"
+    if event_id == "casino_chip_exchange":
+        return "jeongseon_casino_entrance"
+    if event_id == "amb_jeonse_00":
+        return "apartment"
+    if event_id in ("amb_coin_00", "amb_coin_warn"):
+        return "investment_phone"
+    if event_id == "amb_hoesik_drink":
+        return "goshiwon_room"
+    if event_id == "amb_jobswitch_in":
+        return "office"
+    if event_id == "amb_quit_impulse":
+        return "subway"
+    if event_id in ("arc_daeun_03b_date", "arc_daeun_05_breaking"):
+        return "pojangmacha"
+    if "cherry_blossom" in tag_list or "spring_cherry" in tag_list or has_any(search, [
+        "벚꽃", "여의도 둑방", "석촌호수", "꽃잎", "cherry blossom", "cherry blossoms",
+        "yeouido embankment", "seokchon lake", "petals",
+    ]):
+        return "cherry_blossom_path"
+    if "saju" in tag_list or has_any(search, [
+        "사주카페", "사주", "생년월일시", "fortune-reading", "fortune reading",
+        "fortune cafe", "saju",
+    ]):
+        return "saju_cafe"
+    if "pojangmacha" in tag_list or has_any(search, [
+        "포장마차", "street stall", "pojangmacha",
+    ]):
+        return "pojangmacha"
+    if "hoesik" in tag_list or has_any(search, [
+        "회식", "삼겹살집", "삼겹살", "소주", "노래방", "포장마차",
+        "company dinner", "hoesik", "samgyeopsal", "soju", "noraebang", "karaoke",
+    ]):
+        return "company_dinner_restaurant"
+    if "heatwave" in tag_list or has_any(search, [
+        "폭염", "체감온도 40도", "아스팔트 열기", "냉방 쉼터", "heatwave",
+        "heat wave", "feels like 40", "asphalt heat", "cooling shelter",
+    ]):
+        return "heatwave_city"
+    if event_id == "kx_fine_dust" or "fine_dust" in tag_list or has_any(search, [
+        "미세먼지", "황사", "kf94", "초미세먼지", "air pollution", "fine dust",
+        "yellow dust", "smog", "kf94 mask",
+    ]):
+        return "fine_dust_sky"
+    if event_id == "kx_chuseok_traffic" or has_any(search, [
+        "추석 귀성길", "귀성길", "추석 연휴", "고속도로", "시외버스", "ktx는",
+        "chuseok traffic", "holiday traffic", "homecoming traffic", "intercity bus",
+    ]):
+        return "chuseok_highway"
+    if event_id == "kx_open_chat" or has_any(search, [
+        "오픈채팅", "오픈 채팅", "open chat", "open chatroom", "anonymous chat",
+        "online investing chat", "chat room",
+    ]):
+        return "open_chat_screen"
+    if event_id == "kx_monsoon" or has_any(search, [
+        "장마", "며칠 째 비", "젖은 우산", "monsoon", "raining for days", "wet umbrellas",
+    ]):
+        return "street_rainy"
+    if event_id == "kx_civil_defense_siren" or has_any(search, [
+        "민방위", "사이렌", "civil defense siren", "civil defense drill",
+    ]):
+        return "street"
+    if "hagwon" in tag_list or has_any(search, [
+        "학원가", "학원", "대치동", "입시학원", "보습학원", "private academy",
+        "academy street", "hagwon", "daechi",
+    ]):
+        return "hagwon_street"
+    if "suneung" in tag_list or has_any(search, [
+        "수능", "시험장", "고사장", "수험표", "감독관",
+        "college scholastic ability test", "csat", "exam hall", "test hall",
+    ]):
+        return "suneung_test_hall"
+    if "community_center" in tag_list or has_any(search, [
+        "주민센터", "동사무소", "행정복지센터", "번호표", "확정일자", "민원 창구",
+        "community center", "district office", "public service office", "queue ticket",
+    ]):
+        return "community_center"
+    if "jjimjilbang" in tag_list or has_any(search, [
+        "찜질방", "황토방", "사우나", "목욕탕", "찜질복", "나무 베개",
+        "jjimjilbang", "korean sauna", "sauna room",
+    ]):
+        return "jjimjilbang"
+    if "reserve_duty" in tag_list or has_any(search, [
+        "예비군", "입소 통지서", "훈련 통지", "불참 시 과태료", "reserve forces",
+        "reserve duty", "reserve-force", "reserve training", "no-show fine",
+    ]):
+        return "military_base_gate"
+    if event_id == "kx_convenience_store_job" or has_any(search, [
+        "편의점 알바 면접", "편의점 점장", "convenience store interview",
+        "convenience-store interview",
+    ]):
+        return "convenience_night"
+    if event_id == "kx_claw_machine" or has_any(search, [
+        "인형뽑기", "뽑기의 함정", "지하철역 출구 인형뽑기", "claw machine",
+    ]):
+        return "gangnam_station"
+    if event_id == "kx_room_escape" or has_any(search, [
+        "방탈출", "방탈출 카페", "escape room",
+    ]):
+        return "cafe"
+    if event_id == "kx_health_insurance" or has_any(search, [
+        "건강보험료 고지서", "지역가입자", "health insurance bill",
+    ]):
+        return "goshiwon_room"
+    if event_id == "kx_holiday_alone" or has_any(search, [
+        "혼자 보내는 명절", "명절 연휴, 서울은 텅 비었다", "holidays alone",
+    ]):
+        return "goshiwon_room"
+    if event_id == "kx_naver_cafe" or has_any(search, [
+        "네이버 카페", "naver café", "naver cafe",
+    ]):
+        return "goshiwon_room"
     if has_any(search, [
         "신촌 이면도로", "back-alley in sinchon",
     ]):
@@ -242,7 +367,9 @@ def infer_background_id(ev: Dict, housing: str = "gosiwon") -> str:
         return "gangnam_night"
     if category == "gambling" or "gambling" in tag_list or "crypto" in tag_list:
         return "investment_phone"
-    if "pc_bang" in tag_list or "gaming" in tag_list:
+    if "pc_bang" in tag_list or "gaming" in tag_list or has_any(search, [
+        "pc방", "피시방", "pc bang", "pc cafe", "internet cafe"
+    ]):
         return "pc_bang"
     if "gangnam_station" in tag_list:
         return "gangnam_station"
@@ -263,6 +390,26 @@ SEMANTIC_RULES: List[Tuple[str, str, Sequence[str]]] = [
     ("jeongseon", "jeongseon_casino_exterior", ("정선 카지노", "정선카지노", "jeongseon casino")),
     ("hangang", "hangang_riverside", ("한강", "한강공원", "한강변", "강변", "han river", "hangang")),
     ("namsan", "namsan_tower", ("남산", "남산타워", "n서울타워", "서울타워", "namsan", "seoul tower")),
+    ("cherry_blossom", "cherry_blossom_path", ("벚꽃", "석촌호수", "여의도 둑방", "cherry blossom", "seokchon lake")),
+    ("saju", "saju_cafe", ("사주카페", "사주", "생년월일시", "fortune-reading", "fortune cafe", "saju")),
+    ("hoesik", "company_dinner_restaurant", ("회식", "삼겹살집", "삼겹살", "company dinner", "hoesik", "samgyeopsal")),
+    ("heatwave", "heatwave_city", ("폭염", "체감온도 40도", "아스팔트 열기", "heatwave", "heat wave", "asphalt heat")),
+    ("fine_dust", "fine_dust_sky", ("미세먼지", "황사", "kf94", "fine dust", "yellow dust", "air pollution")),
+    ("chuseok_highway", "chuseok_highway", ("추석 귀성길", "귀성길", "고속도로", "시외버스", "chuseok traffic", "homecoming traffic")),
+    ("open_chat", "open_chat_screen", ("오픈채팅", "오픈 채팅", "open chat", "anonymous chat", "chat room")),
+    ("monsoon", "street_rainy", ("장마", "며칠 째 비", "젖은 우산", "monsoon", "raining for days", "wet umbrellas")),
+    ("civil_defense", "street", ("민방위", "사이렌", "civil defense siren", "civil defense drill")),
+    ("hagwon", "hagwon_street", ("학원가", "학원", "대치동", "입시학원", "hagwon", "private academy")),
+    ("suneung", "suneung_test_hall", ("수능", "시험장", "고사장", "수험표", "csat", "exam hall", "test hall")),
+    ("community_center", "community_center", ("주민센터", "동사무소", "행정복지센터", "번호표", "community center", "district office")),
+    ("jjimjilbang", "jjimjilbang", ("찜질방", "황토방", "사우나", "목욕탕", "jjimjilbang", "korean sauna")),
+    ("reserve_duty", "military_base_gate", ("예비군", "입소 통지서", "reserve forces", "reserve duty", "reserve training")),
+    ("convenience_store_job", "convenience_night", ("편의점 알바 면접", "편의점 점장", "convenience store interview")),
+    ("claw_machine_station", "gangnam_station", ("인형뽑기", "뽑기의 함정", "claw machine")),
+    ("room_escape_cafe", "cafe", ("방탈출", "방탈출 카페", "escape room")),
+    ("health_insurance_bill", "goshiwon_room", ("건강보험료 고지서", "지역가입자", "health insurance bill")),
+    ("holiday_alone_room", "goshiwon_room", ("혼자 보내는 명절", "명절 연휴, 서울은 텅 비었다", "holidays alone")),
+    ("online_naver_cafe", "goshiwon_room", ("네이버 카페", "naver café", "naver cafe")),
     ("jiyeon_accident_street", "street", ("신촌 이면도로", "back-alley in sinchon")),
     ("housing_room", "goshiwon_room", ("집들이", "방 안", "방안을", "옆 건물", "창문 밖", "my room", "housewarming")),
     ("gym", "gym", ("헬스장", "운동", "달리기", "러닝", "workout", "gym", "exercise")),
@@ -273,10 +420,33 @@ SEMANTIC_RULES: List[Tuple[str, str, Sequence[str]]] = [
     ("office", "office", ("사무실", "회사", "직장", "면접", "office", "interview")),
     ("convenience", "convenience_night", ("편의점", "convenience store")),
     ("subway", "subway", ("지하철", "subway")),
+    ("pojangmacha", "pojangmacha", ("포장마차", "street stall", "pojangmacha")),
     ("realestate", "realestate_office", ("부동산", "중개소", "청약", "전세", "real estate")),
     ("holdem", "holdem_club", ("홀덤", "포커", "poker", "holdem", "texas hold'em")),
     ("racetrack", "racetrack_betting", ("경마", "경마장", "경마공원", "마권", "racetrack", "racecourse")),
 ]
+
+EXPECTED_BY_EVENT_ID: Dict[str, Tuple[str, str]] = {
+    "arc_minseo_01_meet": ("event_id: minseo seminar", "meeting"),
+    "arc_minseo_02_real": ("event_id: minseo cafe talk", "cafe"),
+    "arc_minseo_03_arrival": ("event_id: minseo cafe reunion", "cafe"),
+    "arc_minseo_03b_not_arrived": ("event_id: minseo cafe call", "cafe"),
+    "arc_jaehyuk_sangchul_echo": ("event_id: sangchul cafe echo", "cafe"),
+    "arc_jiyeon_father_records": ("event_id: jiyeon cafe truth", "cafe"),
+    "arc_pre_ending_summit": ("event_id: gangnam real-estate closing", "realestate_office"),
+    "arc_gangnam_real_estate": ("event_id: real-estate app check", "investment_phone"),
+    "arc_36_body_signal": ("event_id: body signal in goshiwon stairs", "goshiwon_hallway"),
+    "callback_hoesik_payoff": ("event_id: manager office callback", "office"),
+    "casino_chip_exchange": ("event_id: casino cashier entrance", "jeongseon_casino_entrance"),
+    "amb_jeonse_00": ("event_id: neighbor jeonse warning at home", "apartment"),
+    "amb_coin_00": ("event_id: coin tip phone call", "investment_phone"),
+    "amb_coin_warn": ("event_id: coin warning phone call", "investment_phone"),
+    "amb_hoesik_drink": ("event_id: next morning hangover", "goshiwon_room"),
+    "amb_jobswitch_in": ("event_id: new office after job switch", "office"),
+    "amb_quit_impulse": ("event_id: subway quit impulse", "subway"),
+    "arc_daeun_03b_date": ("event_id: Daeun pojangmacha date", "pojangmacha"),
+    "arc_daeun_05_breaking": ("event_id: Daeun pojangmacha breakup", "pojangmacha"),
+}
 
 
 def expected_for_text(text: str) -> Optional[Tuple[str, str]]:
@@ -319,7 +489,7 @@ def audit(lang: str, include_results: bool = False) -> List[Finding]:
             ev.get("category", ""),
             *tags(ev),
         ])
-        expected = expected_for_text(start_text)
+        expected = EXPECTED_BY_EVENT_ID.get(eid) or expected_for_text(start_text)
         if expected and not compatible(expected[1], actual):
             findings.append(Finding(
                 "REVIEW",

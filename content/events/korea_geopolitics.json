@@ -85,7 +85,7 @@
       "min_turn": 4
     },
     "cooldown": 40,
-    "background": "goshiwon_room",
+    "background": "military_base_gate",
     "portrait": "player_tired",
     "tags": [
       "korea",

@@ -76,7 +76,7 @@
       "min_turn": 24
     },
     "cooldown": 60,
-    "background": "goshiwon_room",
+    "background": "office",
     "portrait": "player_normal",
     "tags": [
       "korea",

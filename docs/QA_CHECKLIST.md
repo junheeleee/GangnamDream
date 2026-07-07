@@ -2,6 +2,18 @@
 
 Use this checklist before major commits, playable builds, and release candidates.
 
+## Controller / Steam Deck Release Gate
+- Controller support is a release gate, not a polish extra. See `docs/CONTROLLER_UX_STRATEGY.md`.
+- Do not treat "all buttons are focusable" as success. Dense screens need a semantic controller model.
+- A first-time player must complete the first 15 minutes with controller only: no mouse, no keyboard, no hidden shortcuts.
+- Every major screen must present a default focus within 0.5 seconds.
+- No ordinary screen should force the player through more than 12 focusable targets in one rail.
+- Casino minigames must pass controller-only flow: change stake, place bet, read bet, start round, read result, repeat/exit.
+- Dense casino layouts such as Dai Sai and Roulette must use mode/cursor models, not flat focus traversal over every visible bet button.
+- `A/South` confirms the highlighted item, `B/East` backs out or clears pending action, `Y/North` opens rules/details, `LB/RB` changes group/tab/mode.
+- When the right-side Info Deck is open, `B/East` must close it instead of opening the system menu.
+- Basic actions must not require hidden multi-button chords.
+
 ## Targeted Screenshot QA
 - Run screenshot QA for the surface you changed, not the entire visual suite by default.
 - Use full `surface-en` or casino QA only before release candidates, before/after broad UI refactors, or when casino/minigame code changed.
@@ -11,12 +23,14 @@ Use this checklist before major commits, playable builds, and release candidates
 |---|---|
 | Splash, opening, StartMenu press-any-key, start menu, content notice | `--qa=start-en` |
 | StoryMode/VN intro events, choices, chapter card | `--qa=story-en` |
-| Main AP screen, warning state, action modals, info panel, people modal | `--qa=ap-en` |
+| Main AP screen, warning state, action modals, info panel, people modal pages | `--qa=ap-en` |
+| AP Act 1~5 action rail evolution, no-scroll 4-slot regression, ACT4 relationship pressure modal | `--qa=ap-act-en` |
+| Investment modal Trade/Holdings/Market/Bank pages | `--qa=invest-en` |
 | Demo month summary and demo ending CTA | `--qa=demo-end-en` |
 | Ending modals and ending CG/card surface | `--qa=endings-en` |
 | Title collection and meta-title reward surface | `--qa=title-en` |
 | Tutorial overlay surface and onboarding copy | `--qa=tutorial-en` |
-| Job hunt/career modal and resume/interview minigame surface | `--qa=job-en` |
+| Job hunt/career modal tier pages and resume/interview minigame surface | `--qa=job-en` |
 | Casino/minigame UI only | `--qa=casino-en` |
 | Moral tint/filter only | `--qa=moral` |
 | Scene transition only | `--qa=transition` |

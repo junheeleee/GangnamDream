@@ -381,7 +381,6 @@ def check_flags():
 SERIALIZE_EXEMPT = {
     "pending_story_queue", "story_return_scene", "returning_from_story",
     "pending_tint_vignette", "pending_scar_vignette",
-    "week_money_ap", "week_human_ap",   # AP 축: 주마다 리셋되는 transient 카운터
 }
 
 def check_serialize():

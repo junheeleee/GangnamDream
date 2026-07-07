@@ -13,6 +13,8 @@ const CHIP_TEX := preload("res://assets/ui/chips/chip_10k.svg")
 const SMALL_BLIND := 5_000
 const BIG_BLIND   := 10_000
 const VALID_BUYINS := [50_000, 100_000, 200_000, 500_000]
+const JOY_BUTTON_WEST := 2
+const JOY_BUTTON_NORTH := 3
 
 enum Phase { SETUP, PREFLOP, FLOP, TURN, RIVER, SHOWDOWN, RESULT }
 
@@ -36,6 +38,9 @@ var _hands_played: int = 0
 var _turn_order: Array = [0, 1, 2]  # 0=플레이어, 1,2=AI
 var _action_idx: int = 0          # turn_order 내 현재 차례
 var _rng := RandomNumberGenerator.new()
+var _pad_navigation_active: bool = false
+var _pad_action_idx: int = 0
+var _pad_action_signature: String = ""
 
 # 핸드 히스토리 (최근 8핸드)
 var _hand_history: Array = []     # [{won, net, hand_rank, desc}]
@@ -103,6 +108,9 @@ func _player_display_name() -> String:
 func open() -> void:
 	_net_session = 0
 	_hands_played = 0
+	_pad_navigation_active = false
+	_pad_action_idx = 0
+	_pad_action_signature = ""
 	# 마스터리에 따라 AI 공격성 강화 (베테랑 플레이어 = 더 어려운 상대)
 	var mastery: int = MetaProgression.get_mastery("holdem")
 	if mastery >= 1:
@@ -116,8 +124,137 @@ func open() -> void:
 	TutorialOverlay.maybe_show("holdem", self)
 	AudioManager.play("tab_open")
 
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event is InputEventKey:
+		var key := event as InputEventKey
+		if key.echo:
+			return
+
+	var pad_navigation_event := event.is_action_pressed("gd_tab_prev") \
+			or event.is_action_pressed("gd_tab_next") \
+			or event.is_action_pressed("ui_left") \
+			or event.is_action_pressed("ui_right") \
+			or event.is_action_pressed("ui_accept") \
+			or event.is_action_pressed("ui_cancel") \
+			or _joy_button_pressed(event, JOY_BUTTON_WEST) \
+			or _joy_button_pressed(event, JOY_BUTTON_NORTH)
+	if pad_navigation_event:
+		_pad_navigation_active = true
+
+	var handled := false
+	match _phase:
+		Phase.SETUP:
+			if event.is_action_pressed("gd_tab_prev") or event.is_action_pressed("ui_left"):
+				handled = _pad_cycle_buyin(-1)
+			elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right") or _joy_button_pressed(event, JOY_BUTTON_WEST):
+				handled = _pad_cycle_buyin(1)
+			elif event.is_action_pressed("ui_accept"):
+				handled = _pad_start_buyin()
+			elif event.is_action_pressed("ui_cancel"):
+				handled = _pad_leave()
+			elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+				handled = _pad_show_rules()
+		Phase.PREFLOP, Phase.FLOP, Phase.TURN, Phase.RIVER:
+			if _is_player_action_waiting():
+				if event.is_action_pressed("gd_tab_prev") or event.is_action_pressed("ui_left"):
+					handled = _pad_move_action(-1)
+				elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right") or _joy_button_pressed(event, JOY_BUTTON_WEST):
+					handled = _pad_move_action(1)
+				elif event.is_action_pressed("ui_accept"):
+					handled = _pad_accept_action()
+				elif event.is_action_pressed("ui_cancel"):
+					handled = _pad_leave_mid()
+				elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+					handled = _pad_show_rules()
+			elif event.is_action_pressed("ui_cancel"):
+				handled = _pad_leave_mid()
+		Phase.SHOWDOWN:
+			if event.is_action_pressed("ui_accept"):
+				handled = _pad_next_hand()
+			elif event.is_action_pressed("ui_cancel"):
+				handled = _pad_leave_mid()
+			elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+				handled = _pad_show_rules()
+		Phase.RESULT:
+			if event.is_action_pressed("ui_accept") or event.is_action_pressed("ui_cancel"):
+				handled = _pad_leave()
+			elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+				handled = _pad_show_rules()
+
+	if handled:
+		get_viewport().set_input_as_handled()
+
+func _joy_button_pressed(event: InputEvent, button_index: int) -> bool:
+	if not (event is InputEventJoypadButton):
+		return false
+	var joy := event as InputEventJoypadButton
+	return joy.pressed and int(joy.button_index) == button_index
+
+func _should_show_pad_cursor() -> bool:
+	return _pad_navigation_active or ControllerHints.is_pad_active()
+
+func _pad_cycle_buyin(direction: int) -> bool:
+	var affordable := _affordable_buyins()
+	if affordable.is_empty():
+		_flash_message(_tr("바이인할 현금이 부족합니다.", "Not enough cash for a buy-in."))
+		return true
+	var idx := affordable.find(_buy_in)
+	if idx < 0:
+		idx = 0
+	idx = int(posmod(idx + direction, affordable.size()))
+	_buy_in = int(affordable[idx])
+	AudioManager.play("casino_coin")
+	_show_buyin_screen()
+	return true
+
+func _pad_start_buyin() -> bool:
+	_sync_buyin_to_affordable()
+	if GameState.money < float(_buy_in):
+		_flash_message(_tr("바이인할 현금이 부족합니다.", "Not enough cash for a buy-in."))
+		return true
+	_start_hand()
+	return true
+
+func _pad_move_action(direction: int) -> bool:
+	var actions := _player_pad_actions()
+	if actions.is_empty():
+		return true
+	_pad_action_idx = int(posmod(_pad_action_idx + direction, actions.size()))
+	_render_table()
+	_show_player_actions()
+	return true
+
+func _pad_accept_action() -> bool:
+	var actions := _player_pad_actions()
+	if actions.is_empty():
+		return true
+	_sync_pad_action_idx(actions)
+	var action: Dictionary = actions[_pad_action_idx]
+	_player_action(str(action.get("id", "")), int(action.get("amount", 0)))
+	return true
+
+func _pad_next_hand() -> bool:
+	_start_hand()
+	return true
+
+func _pad_leave_mid() -> bool:
+	_leave_mid()
+	return true
+
+func _pad_leave() -> bool:
+	_leave()
+	return true
+
+func _pad_show_rules() -> bool:
+	AudioManager.play_ui_open()
+	TutorialOverlay.force_show("holdem", self)
+	return true
+
 func _show_buyin_screen() -> void:
 	_phase = Phase.SETUP
+	_sync_buyin_to_affordable()
 	_clear_content()
 	var vb := _content_vbox()
 
@@ -179,6 +316,8 @@ func _show_buyin_screen() -> void:
 		, "#1a3a2a" if can_afford else "#1a1a1a")
 		b.disabled = not can_afford
 		b.custom_minimum_size = Vector2(90, 38)
+		if _should_show_pad_cursor() and bi == _buy_in:
+			_mark_pad_button(b)
 		btn_row.add_child(b)
 
 	vb.add_child(_sep())
@@ -189,6 +328,17 @@ func _show_buyin_screen() -> void:
 
 	var leave := _make_btn(_tr("자리를 뜬다", "Leave Seat"), _leave, "#2a1818")
 	vb.add_child(leave)
+	_add_pad_hint(vb, _tr(
+		"[%s] 시작  [%s/%s/%s] 바이인  [%s] 규칙  [%s] 나가기",
+		"[%s] Start  [%s/%s/%s] Buy-In  [%s] Rules  [%s] Leave"
+	) % [
+		ControllerHints.south(),
+		ControllerHints.west(),
+		ControllerHints.shoulder_l(),
+		ControllerHints.shoulder_r(),
+		ControllerHints.north(),
+		ControllerHints.east(),
+	])
 
 # ── 핸드 시작 ─────────────────────────────────────────────────────
 func _start_hand() -> void:
@@ -220,6 +370,8 @@ func _start_hand() -> void:
 	_showdown_title = ""
 	_showdown_detail = ""
 	_showdown_net = 0
+	_pad_action_idx = 0
+	_pad_action_signature = ""
 
 	# 포스트 블라인드 (플레이어=SB, opp0=BB)
 	_post_blind(0, SMALL_BLIND, true)   # 플레이어 SB
@@ -256,6 +408,82 @@ func _post_blind(who: int, amount: int, is_player: bool) -> void:
 		_opp_bets[who] = actual
 	_pot += actual
 	_max_bet = maxi(_max_bet, actual)
+
+func _affordable_buyins() -> Array:
+	var options: Array = []
+	for bi in VALID_BUYINS:
+		if GameState.money >= float(bi):
+			options.append(int(bi))
+	return options
+
+func _sync_buyin_to_affordable() -> void:
+	var options := _affordable_buyins()
+	if options.is_empty():
+		return
+	if not options.has(_buy_in):
+		_buy_in = int(options[0])
+
+func _is_player_action_waiting() -> bool:
+	if _phase not in [Phase.PREFLOP, Phase.FLOP, Phase.TURN, Phase.RIVER]:
+		return false
+	if _player_folded:
+		return false
+	if _turn_order.is_empty():
+		return false
+	var who: int = int(_turn_order[_action_idx % _turn_order.size()])
+	return who == 0
+
+func _player_pad_actions() -> Array:
+	if not _is_player_action_waiting():
+		return []
+	var to_call: int = _max_bet - _player_bet
+	var actions: Array = []
+	actions.append({"id": "fold", "amount": 0, "label": _tr("Fold", "Fold")})
+	if to_call == 0:
+		actions.append({"id": "check", "amount": 0, "label": _tr("Check", "Check")})
+	else:
+		actions.append({"id": "call", "amount": mini(to_call, _player_stack), "label": _tr("Call", "Call")})
+	if _player_stack > to_call:
+		var min_raise := mini(to_call + BIG_BLIND, _player_stack)
+		var third_pot := mini(int(float(_pot) * 0.33) + to_call, _player_stack)
+		var half_pot := mini(int(float(_pot) * 0.5) + to_call, _player_stack)
+		var pot_raise := mini(_pot + to_call, _player_stack)
+		if third_pot > min_raise:
+			actions.append({"id": "raise", "amount": third_pot, "label": "1/3 Pot"})
+		if half_pot > third_pot:
+			actions.append({"id": "raise", "amount": half_pot, "label": "Half Pot"})
+		if pot_raise > half_pot:
+			actions.append({"id": "raise", "amount": pot_raise, "label": "Pot"})
+		actions.append({"id": "raise", "amount": _player_stack, "label": "All-In"})
+	_sync_pad_action_idx(actions)
+	return actions
+
+func _sync_pad_action_idx(actions: Array) -> void:
+	if actions.is_empty():
+		_pad_action_idx = 0
+	else:
+		_pad_action_idx = clampi(_pad_action_idx, 0, actions.size() - 1)
+
+func _sync_new_pad_action_turn(actions: Array) -> void:
+	var signature := _pad_actions_signature(actions)
+	if signature == _pad_action_signature:
+		return
+	_pad_action_signature = signature
+	_pad_action_idx = mini(1, maxi(actions.size() - 1, 0))
+
+func _pad_actions_signature(actions: Array) -> String:
+	var parts: Array[String] = []
+	for action in actions:
+		var d := action as Dictionary
+		parts.append("%s:%d" % [str(d.get("id", "")), int(d.get("amount", 0))])
+	return "|".join(parts)
+
+func _is_pad_action_active(action: String, amount: int, actions: Array) -> bool:
+	if not _should_show_pad_cursor() or actions.is_empty():
+		return false
+	_sync_pad_action_idx(actions)
+	var current: Dictionary = actions[_pad_action_idx]
+	return str(current.get("id", "")) == action and int(current.get("amount", 0)) == amount
 
 # ── 테이블 렌더 ───────────────────────────────────────────────────
 func _render_table() -> void:
@@ -725,9 +953,12 @@ func _show_player_actions() -> void:
 	_set_msg(msg)
 
 	for ch in _action_panel.get_children():
+		_action_panel.remove_child(ch)
 		ch.queue_free()
 
 	# 액션 버튼을 VBox로 래핑
+	var pad_actions := _player_pad_actions()
+	_sync_new_pad_action_turn(pad_actions)
 	var vbox := VBoxContainer.new()
 	vbox.add_theme_constant_override("separation", 5)
 	vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -740,12 +971,16 @@ func _show_player_actions() -> void:
 	# Fold
 	var fold_btn := _make_btn(_tr("폴드", "Fold"), func(): _player_action("fold", 0), "#3a1818")
 	fold_btn.custom_minimum_size = Vector2(70, 36)
+	if _is_pad_action_active("fold", 0, pad_actions):
+		_mark_pad_button(fold_btn)
 	btn_row.add_child(fold_btn)
 
 	# Check or Call
 	if to_call == 0:
 		var check_btn := _make_btn(_tr("체크", "Check"), func(): _player_action("check", 0), "#1a2a3a")
 		check_btn.custom_minimum_size = Vector2(70, 36)
+		if _is_pad_action_active("check", 0, pad_actions):
+			_mark_pad_button(check_btn)
 		btn_row.add_child(check_btn)
 	else:
 		var can_call := _player_stack > 0
@@ -753,6 +988,8 @@ func _show_player_actions() -> void:
 		var call_btn := _make_btn(call_lbl, func(): _player_action("call", to_call), "#1a3a2a")
 		call_btn.disabled = not can_call
 		call_btn.custom_minimum_size = Vector2(80, 36)
+		if _is_pad_action_active("call", mini(to_call, _player_stack), pad_actions):
+			_mark_pad_button(call_btn)
 		btn_row.add_child(call_btn)
 
 	# Raise / All-in 프리셋
@@ -775,12 +1012,26 @@ func _show_player_actions() -> void:
 			var amt: int = opt[1]
 			var raise_btn := _make_btn(opt[0], func(): _player_action("raise", amt), "#3a2a18")
 			raise_btn.custom_minimum_size = Vector2(72, 40)
+			if _is_pad_action_active("raise", amt, pad_actions):
+				_mark_pad_button(raise_btn)
 			btn_row.add_child(raise_btn)
 
 	# 나가기
 	var leave_btn := _make_btn(_tr("자리를\n뜬다", "Leave\nSeat"), _leave_mid, "#2a1a1a")
 	leave_btn.custom_minimum_size = Vector2(70, 40)
 	btn_row.add_child(leave_btn)
+	_add_pad_hint(vbox, _tr(
+		"[%s/%s/%s/%s] 액션  [%s] 확정  [%s] 규칙  [%s] 나가기",
+		"[%s/%s/%s/%s] Action  [%s] Confirm  [%s] Rules  [%s] Leave"
+	) % [
+		"D-pad",
+		ControllerHints.shoulder_l(),
+		ControllerHints.shoulder_r(),
+		ControllerHints.west(),
+		ControllerHints.south(),
+		ControllerHints.north(),
+		ControllerHints.east(),
+	])
 
 func _player_action(action: String, amount: int) -> void:
 	AudioManager.play("click")
@@ -885,6 +1136,7 @@ func _advance_phase() -> void:
 	_opp_bets = [0, 0]
 	_max_bet = 0
 	_action_idx = 0
+	_pad_action_signature = ""
 	var banner := ""
 
 	match _phase:
@@ -1008,13 +1260,27 @@ func _do_showdown() -> void:
 
 func _show_showdown_buttons() -> void:
 	for ch in _action_panel.get_children():
+		_action_panel.remove_child(ch)
 		ch.queue_free()
+	var vbox := VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 5)
+	vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_action_panel.add_child(vbox)
+	var btn_row := HBoxContainer.new()
+	btn_row.add_theme_constant_override("separation", 8)
+	vbox.add_child(btn_row)
 	var next_btn := _make_btn(_tr("다음 핸드", "Next Hand"), func(): _start_hand(), "#1a3a1a")
 	next_btn.custom_minimum_size = Vector2(100, 36)
-	_action_panel.add_child(next_btn)
+	if _should_show_pad_cursor():
+		_mark_pad_button(next_btn)
+	btn_row.add_child(next_btn)
 	var leave_btn := _make_btn(_tr("자리를 뜬다", "Leave Seat"), _leave_mid, "#2a1a1a")
 	leave_btn.custom_minimum_size = Vector2(100, 36)
-	_action_panel.add_child(leave_btn)
+	btn_row.add_child(leave_btn)
+	_add_pad_hint(vbox, _tr(
+		"[%s] 다음 핸드  [%s] 규칙  [%s] 나가기",
+		"[%s] Next Hand  [%s] Rules  [%s] Leave"
+	) % [ControllerHints.south(), ControllerHints.north(), ControllerHints.east()])
 
 # ── 결과 화면 ─────────────────────────────────────────────────────
 func _show_result_screen() -> void:
@@ -1067,7 +1333,13 @@ func _show_result_screen() -> void:
 
 	var close_btn := _make_btn(_tr("돌아가기", "Return"), _leave, "#1a2a3a")
 	close_btn.custom_minimum_size = Vector2(0, 44)
+	if _should_show_pad_cursor():
+		_mark_pad_button(close_btn)
 	vb.add_child(close_btn)
+	_add_pad_hint(vb, _tr(
+		"[%s] 돌아가기  [%s] 나가기",
+		"[%s] Return  [%s] Exit"
+	) % [ControllerHints.south(), ControllerHints.east()])
 
 func _leave_mid() -> void:
 	_show_result_screen()
@@ -1231,6 +1503,7 @@ func _make_btn(text: String, callback: Callable, bg_color: String) -> Button:
 	var btn := Button.new()
 	btn.text = text
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	btn.focus_mode = Control.FOCUS_NONE
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color(bg_color)
 	st.set_corner_radius_all(6)
@@ -1248,6 +1521,40 @@ func _make_btn(text: String, callback: Callable, bg_color: String) -> Button:
 	if _font: btn.add_theme_font_override("font", _font)
 	btn.pressed.connect(callback)
 	return btn
+
+func _add_pad_hint(parent: Container, text: String) -> void:
+	if not _should_show_pad_cursor():
+		return
+	var hint := RichTextLabel.new()
+	hint.bbcode_enabled = true
+	hint.fit_content = true
+	hint.scroll_active = false
+	hint.text = text
+	hint.add_theme_font_size_override("normal_font_size", 11)
+	hint.add_theme_color_override("default_color", Color("#aeb6ca"))
+	hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_f(hint, true)
+	parent.add_child(hint)
+
+func _mark_pad_button(btn: Button) -> void:
+	var base := btn.get_theme_stylebox("normal")
+	if not base:
+		return
+	var st := base.duplicate()
+	if st is StyleBoxFlat:
+		var flat := st as StyleBoxFlat
+		flat.bg_color = flat.bg_color.lightened(0.08)
+		flat.border_color = Color("#f0b429")
+		flat.set_border_width_all(3)
+	btn.add_theme_stylebox_override("normal", st)
+	btn.add_theme_stylebox_override("hover", st)
+	btn.add_theme_stylebox_override("pressed", st)
+	btn.add_theme_stylebox_override("focus", st)
+	btn.add_theme_stylebox_override("disabled", st)
+
+func _flash_message(text: String) -> void:
+	AudioManager.play("click")
+	_show_table_banner(text, Color("#e85d5d"), 0.70)
 
 func _sep() -> HSeparator:
 	var s := HSeparator.new()

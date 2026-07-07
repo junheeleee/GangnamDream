@@ -1,6 +1,6 @@
 # Gangnam Dream Asset Continuity Checklist
 
-Updated: 2026-06-13
+Updated: 2026-07-01
 
 Use this before generating, accepting, wiring, or replacing any image asset. A visually strong image still fails if it says the wrong thing about the story.
 
@@ -20,6 +20,7 @@ Use this before generating, accepting, wiring, or replacing any image asset. A v
 - Economic tier: confirm what the image implies about money, housing, job status, and class.
 - Family signal: inspect photos, furniture, living arrangement, and visible household size.
 - Time and place: confirm city, district, season, day/night, weather, and vehicle side.
+- Functional layout sanity: confirm the object/space could physically work in real life before judging mood. Roads need readable lanes/curbs/crosswalks; bus stops need coherent road-facing direction, bench orientation, shelter glass placement, and boarding side; cars need correct driver/passenger side; tables/game boards need centered play areas and aligned chips/cards/numbers.
 - Reuse risk: ask whether this image will appear repeatedly; if yes, avoid baked-in scene details.
 - Text/brands: remove or neutralize accidental words, logos, vehicle names, and impossible signage.
 - Crop check: verify important story details survive the actual in-game crop.
@@ -37,6 +38,7 @@ Use this before generating, accepting, wiring, or replacing any image asset. A v
 ### Backgrounds
 
 - Backgrounds are places, not full scenes.
+- The place must be structurally readable. A pretty background fails if the player cannot tell where the road, sidewalk, entrance, table center, counter, bed, window, or door actually is.
 - No recurring main character inside a reusable background.
 - Avoid visible family photos, awards, luxury objects, or extra people unless the location canon explicitly allows them.
 - Private/canon-sensitive locations should be person-free unless the image is a one-off CG.
@@ -84,6 +86,12 @@ Use this before generating, accepting, wiring, or replacing any image asset. A v
 - Vehicle is a black Mercedes-Benz S-Class-level sedan.
 - Korean road context: left-hand driver seat.
 - She exits from the driver side in the canonical first accident.
+
+### Seoul Street / Bus Stop / Road Backgrounds
+
+- For generic street backgrounds, keep the road, sidewalk, curb, and lane direction immediately readable.
+- Do not include a bus stop unless the event needs it. If a bus stop appears, the road-facing/boarding side, bench direction, shelter glass, and pedestrian approach must be spatially coherent.
+- Avoid ambiguous glass shelters in non-bus-stop backgrounds; they create the same continuity risk as misplaced car doors or missing bicycle wheels.
 
 ## Production Status Tags
 

@@ -33,6 +33,8 @@ const BIG_WHEEL_SLOT_LAYOUT: Array = [
 	2, 0, 3, 1, 0, 4, 0, 1, 2, 0, 1, 0, 5, 1, 0, 2, 0, 3,
 	1, 0, 1, 0, 2, 0, 4, 1, 0, 3, 1, 0, 2, 0, 1, 0, 1, 0
 ]
+const JOY_BUTTON_WEST := 2
+const JOY_BUTTON_NORTH := 3
 
 # ── 상태 ──────────────────────────────────────────────────────
 var _rng := RandomNumberGenerator.new()
@@ -40,6 +42,9 @@ var _rng := RandomNumberGenerator.new()
 var _phase: int         = Phase.IDLE
 var _bet_segment: int   = -1
 var _stake: int         = 50_000
+var _pad_seg_idx: int = 0
+var _pad_focus_spin: bool = false
+var _pad_navigation_active: bool = false
 var _result_seg: int    = -1
 var _result_slot: int   = -1
 var _history: Array     = []   # Array of int (segment index)
@@ -75,6 +80,7 @@ var _hud_lbl: RichTextLabel
 var _wheel_ctrl: Control
 var _msg_lbl: Label
 var _balance_lbl: Label
+var _pad_hint_lbl: RichTextLabel
 var _spin_btn: Button
 var _stake_btns: Array = []   # Array of {btn, amount}
 var _seg_btns: Array   = []   # Array of Button (6개)
@@ -109,6 +115,9 @@ func _tr(ko: String, en: String) -> String:
 func open() -> void:
 	_phase               = Phase.IDLE
 	_bet_segment         = -1
+	_pad_seg_idx         = 0
+	_pad_focus_spin      = false
+	_pad_navigation_active = false
 	_result_seg          = -1
 	_result_slot         = -1
 	_wheel_angle         = 0.0
@@ -171,11 +180,147 @@ func _process(delta: float) -> void:
 		set_process(false)
 		_finish_spin()
 
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event is InputEventKey:
+		var key := event as InputEventKey
+		if key.echo:
+			return
+
+	var pad_navigation_event := event.is_action_pressed("gd_tab_prev") \
+			or event.is_action_pressed("gd_tab_next") \
+			or event.is_action_pressed("ui_left") \
+			or event.is_action_pressed("ui_right") \
+			or event.is_action_pressed("ui_up") \
+			or event.is_action_pressed("ui_down") \
+			or event.is_action_pressed("ui_accept") \
+			or event.is_action_pressed("ui_cancel") \
+			or _joy_button_pressed(event, JOY_BUTTON_WEST) \
+			or _joy_button_pressed(event, JOY_BUTTON_NORTH)
+	if pad_navigation_event:
+		_pad_navigation_active = true
+
+	var handled := false
+	if event.is_action_pressed("gd_tab_prev") or event.is_action_pressed("ui_left"):
+		handled = _pad_move_segment(-1)
+	elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right"):
+		handled = _pad_move_segment(1)
+	elif event.is_action_pressed("ui_up"):
+		handled = _pad_focus_segments()
+	elif event.is_action_pressed("ui_down"):
+		handled = _pad_focus_spin_target()
+	elif event.is_action_pressed("ui_accept"):
+		handled = _pad_accept()
+	elif event.is_action_pressed("ui_cancel"):
+		handled = _pad_cancel()
+	elif _joy_button_pressed(event, JOY_BUTTON_WEST):
+		handled = _pad_cycle_stake(1)
+	elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+		handled = _pad_show_rules()
+
+	if handled:
+		get_viewport().set_input_as_handled()
+
+func _joy_button_pressed(event: InputEvent, button_index: int) -> bool:
+	if not (event is InputEventJoypadButton):
+		return false
+	var joy := event as InputEventJoypadButton
+	return joy.pressed and int(joy.button_index) == button_index
+
+func _pad_move_segment(direction: int) -> bool:
+	if _phase != Phase.IDLE:
+		return true
+	_pad_focus_spin = false
+	_pad_seg_idx = int(posmod(_pad_seg_idx + direction, SEG_LABELS.size()))
+	AudioManager.play_ui_click()
+	_refresh()
+	_flash_msg(_tr("커서: %s", "Cursor: %s") % _segment_display_label(_pad_seg_idx), "#d8dbe8")
+	return true
+
+func _pad_focus_segments() -> bool:
+	if _phase != Phase.IDLE:
+		return true
+	_pad_focus_spin = false
+	AudioManager.play_ui_click()
+	_refresh()
+	return true
+
+func _pad_focus_spin_target() -> bool:
+	if _phase != Phase.IDLE:
+		return true
+	_pad_focus_spin = true
+	AudioManager.play_ui_click()
+	_refresh()
+	return true
+
+func _pad_accept() -> bool:
+	if _phase == Phase.SPINNING:
+		return true
+	if _phase == Phase.RESULT:
+		_phase = Phase.IDLE
+		_flash_timer = 0.0
+		_flash_winner_active = false
+		_flash_winner_bright = 0.0
+		_pointer_scale = 1.0
+		_refresh()
+		return true
+	if _pad_focus_spin:
+		_do_spin()
+	else:
+		_select_segment(_pad_seg_idx)
+		_pad_focus_spin = true
+		_refresh()
+	return true
+
+func _pad_cancel() -> bool:
+	if _phase == Phase.SPINNING:
+		return true
+	if _phase == Phase.RESULT:
+		_phase = Phase.IDLE
+		_flash_timer = 0.0
+		_flash_winner_active = false
+		_flash_winner_bright = 0.0
+		_pointer_scale = 1.0
+		_refresh()
+		return true
+	if _bet_segment >= 0:
+		_bet_segment = -1
+		_pad_focus_spin = false
+		AudioManager.play_ui_close()
+		_refresh()
+		_flash_msg(_tr("베팅 구역을 비웠습니다.", "Segment cleared."), "#d8dbe8")
+	else:
+		_on_exit()
+	return true
+
+func _pad_cycle_stake(direction: int) -> bool:
+	if _phase != Phase.IDLE:
+		return true
+	var idx := STAKE_OPTIONS.find(_stake)
+	if idx < 0:
+		idx = 1
+	idx = int(posmod(idx + direction, STAKE_OPTIONS.size()))
+	_select_stake(int(STAKE_OPTIONS[idx]))
+	_flash_msg(_tr("베팅 금액: %s", "Stake: %s") % GameState.format_money(float(_stake)), "#d8dbe8")
+	return true
+
+func _pad_show_rules() -> bool:
+	if _phase == Phase.SPINNING:
+		return true
+	AudioManager.play_ui_open()
+	TutorialOverlay.force_show("bigwheel", self)
+	return true
+
+func _should_show_pad_cursor() -> bool:
+	return _pad_navigation_active or ControllerHints.is_pad_active()
+
 # ── 베팅 & 스핀 ───────────────────────────────────────────────
 func _select_segment(seg: int) -> void:
 	if _phase != Phase.IDLE:
 		return
 	_bet_segment = seg
+	_pad_seg_idx = seg
 	AudioManager.play("casino_bet")
 	_refresh()
 
@@ -545,6 +690,17 @@ func _build_ui() -> void:
 	_history_box.add_theme_constant_override("separation", 5)
 	root_vbox.add_child(_history_box)
 
+	_pad_hint_lbl = RichTextLabel.new()
+	_pad_hint_lbl.bbcode_enabled = true
+	_pad_hint_lbl.fit_content = true
+	_pad_hint_lbl.scroll_active = false
+	_pad_hint_lbl.visible = false
+	_pad_hint_lbl.custom_minimum_size = Vector2(0, 18)
+	_pad_hint_lbl.add_theme_font_size_override("normal_font_size", 11)
+	_pad_hint_lbl.add_theme_color_override("default_color", Color("#aeb6ca"))
+	_f(_pad_hint_lbl, true)
+	root_vbox.add_child(_pad_hint_lbl)
+
 	# ── 잔액 ──
 	_balance_lbl = Label.new()
 	_balance_lbl.text = ""
@@ -692,6 +848,7 @@ func _refresh() -> void:
 	_refresh_seg_btns()
 	_refresh_stake_btns()
 	_refresh_history()
+	_refresh_pad_hint()
 	_refresh_spin_btn()
 	_refresh_balance()
 
@@ -717,10 +874,15 @@ func _refresh_seg_btns() -> void:
 			continue
 		var selected: bool   = (i == _bet_segment)
 		var is_result_seg: bool = (_phase == Phase.RESULT and i == _result_seg and _result_seg >= 0)
+		var pad_cursor := _should_show_pad_cursor() and not _pad_focus_spin and i == _pad_seg_idx
 		var col_hex: String  = str(SEG_COLORS[i])
 		var seg_col: Color   = Color(col_hex)
 		var st := StyleBoxFlat.new()
-		if is_result_seg:
+		if pad_cursor:
+			st.bg_color = seg_col.darkened(0.15)
+			st.border_color = Color("#f7e3a1")
+			st.set_border_width_all(4)
+		elif is_result_seg:
 			st.bg_color = seg_col.lightened(0.25)
 			st.border_color = Color("#ffffff")
 			st.set_border_width_all(4)
@@ -740,7 +902,7 @@ func _refresh_seg_btns() -> void:
 		btn.add_theme_stylebox_override("normal", st)
 		btn.add_theme_stylebox_override("hover", hov)
 		btn.add_theme_stylebox_override("pressed", hov)
-		btn.add_theme_color_override("font_color", Color.WHITE if (selected or is_result_seg) else Color(1, 1, 1, 0.65))
+		btn.add_theme_color_override("font_color", Color.WHITE if (selected or is_result_seg or pad_cursor) else Color(1, 1, 1, 0.65))
 
 func _refresh_stake_btns() -> void:
 	for entry in _stake_btns:
@@ -791,6 +953,29 @@ func _refresh_spin_btn() -> void:
 	_spin_btn.add_theme_stylebox_override("hover", hov)
 	_spin_btn.add_theme_stylebox_override("pressed", hov)
 	_spin_btn.add_theme_stylebox_override("disabled", dis)
+	if _should_show_pad_cursor() and _pad_focus_spin:
+		_mark_pad_button(_spin_btn)
+
+func _refresh_pad_hint() -> void:
+	if not is_instance_valid(_pad_hint_lbl):
+		return
+	var show_hint := _should_show_pad_cursor()
+	_pad_hint_lbl.visible = show_hint
+	if not show_hint:
+		return
+	var target := "SPIN" if _pad_focus_spin else _segment_display_label(_pad_seg_idx)
+	_pad_hint_lbl.bbcode_text = _tr(
+		"[b]%s[/b]   [%s/%s] 구역  [%s] 선택/스핀  [%s] 금액  [%s] 규칙  [%s] 취소",
+		"[b]%s[/b]   [%s/%s] Segment  [%s] Select/Spin  [%s] Stake  [%s] Rules  [%s] Cancel"
+	) % [
+		target,
+		ControllerHints.shoulder_l(),
+		ControllerHints.shoulder_r(),
+		ControllerHints.south(),
+		ControllerHints.west(),
+		ControllerHints.north(),
+		ControllerHints.east(),
+	]
 
 func _refresh_history() -> void:
 	for c in _history_box.get_children():
@@ -848,6 +1033,7 @@ func _make_seg_btn(label_text: String, seg: int) -> Button:
 	btn.text = label_text
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn.custom_minimum_size = Vector2(0, 68)
+	btn.focus_mode = Control.FOCUS_NONE
 	var st := StyleBoxFlat.new()
 	st.bg_color = seg_col.darkened(0.60)
 	st.border_color = seg_col.darkened(0.1)
@@ -870,6 +1056,7 @@ func _make_btn(label_text: String, cb: Callable, bg: String, border: String) -> 
 	var btn := Button.new()
 	btn.text = label_text
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	btn.focus_mode = Control.FOCUS_NONE
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color(bg)
 	st.border_color = Color(border)
@@ -894,6 +1081,22 @@ func _make_btn(label_text: String, cb: Callable, bg: String, border: String) -> 
 	if _font: btn.add_theme_font_override("font", _font)
 	btn.pressed.connect(cb)
 	return btn
+
+func _mark_pad_button(btn: Button) -> void:
+	var base := btn.get_theme_stylebox("normal")
+	if not base:
+		return
+	var st := base.duplicate()
+	if st is StyleBoxFlat:
+		var flat := st as StyleBoxFlat
+		flat.bg_color = flat.bg_color.lightened(0.08)
+		flat.border_color = Color("#f7e3a1")
+		flat.set_border_width_all(4)
+	btn.add_theme_stylebox_override("normal", st)
+	btn.add_theme_stylebox_override("hover", st)
+	btn.add_theme_stylebox_override("pressed", st)
+	btn.add_theme_stylebox_override("focus", st)
+	btn.add_theme_stylebox_override("disabled", st)
 
 func _flash_msg(msg: String, color: String) -> void:
 	if not is_instance_valid(_msg_lbl):

@@ -16,6 +16,9 @@ const HW := preload("res://systems/HorseWorld.gd")  # 영속 명마 세계 + 정
 const HORSE_TEX := preload("res://assets/ui/horse_silhouette.png")  # 질주 실루엣 8프레임(128px) 아틀라스
 const BG_BETTING_PATH := "res://assets/backgrounds/racetrack_betting_hall.png"
 const BG_TRACK_PATH := "res://assets/backgrounds/racetrack_track_view.png"
+const JOY_BUTTON_WEST := 2
+const JOY_BUTTON_NORTH := 3
+const STAKE_OPTIONS := [10000, 30000, 100000, 500000]
 
 var _phase: int = Phase.BETTING
 var _race: Dictionary = {}
@@ -36,6 +39,9 @@ var _world: Dictionary = {}      # 영속 로스터(GameState.flags["horse_world
 var _tip: Dictionary = {}        # 이번 경주 정보상 팁
 var _tip_seen: bool = false      # 이번 경주 팁을 샀는가
 var skip_countdown_for_smoke: bool = false
+var _pad_navigation_active: bool = false
+var _pad_horse_idx: int = 0
+var _pad_stake_idx: int = 0
 
 var _font: FontFile
 var _font_bold: FontFile
@@ -178,12 +184,124 @@ func open() -> void:
 	TutorialOverlay.maybe_show("racetrack", self)
 	_races_today = 0
 	_last_lost = false
+	_pad_navigation_active = false
+	_pad_horse_idx = 0
+	_pad_stake_idx = 0
 	# 영속 명마 세계 — GameState.flags에 저장돼 씬 리로드·세이브를 견딘다
 	if not (GameState.flags.get("horse_world") is Dictionary):
 		GameState.flags["horse_world"] = {}
 	_world = GameState.flags["horse_world"]
 	HW.ensure(_world, _rng)
 	_new_race()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event is InputEventKey:
+		var key := event as InputEventKey
+		if key.echo:
+			return
+
+	var pad_navigation_event := event.is_action_pressed("gd_tab_prev") \
+			or event.is_action_pressed("gd_tab_next") \
+			or event.is_action_pressed("ui_up") \
+			or event.is_action_pressed("ui_down") \
+			or event.is_action_pressed("ui_left") \
+			or event.is_action_pressed("ui_right") \
+			or event.is_action_pressed("ui_accept") \
+			or event.is_action_pressed("ui_cancel") \
+			or _joy_button_pressed(event, JOY_BUTTON_WEST) \
+			or _joy_button_pressed(event, JOY_BUTTON_NORTH)
+	if pad_navigation_event:
+		_pad_navigation_active = true
+
+	var handled := false
+	match _phase:
+		Phase.BETTING:
+			if event.is_action_pressed("ui_up"):
+				handled = _pad_move_horse(-1)
+			elif event.is_action_pressed("ui_down"):
+				handled = _pad_move_horse(1)
+			elif event.is_action_pressed("gd_tab_prev") or event.is_action_pressed("ui_left"):
+				handled = _pad_cycle_bet_type(-1)
+			elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right"):
+				handled = _pad_cycle_bet_type(1)
+			elif _joy_button_pressed(event, JOY_BUTTON_WEST):
+				handled = _pad_cycle_stake(1)
+			elif event.is_action_pressed("ui_accept"):
+				handled = _pad_accept_betting()
+			elif event.is_action_pressed("ui_cancel"):
+				handled = _pad_cancel_or_exit()
+			elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+				handled = _pad_show_rules()
+		Phase.RESULT:
+			if event.is_action_pressed("ui_accept"):
+				_new_race()
+				handled = true
+			elif event.is_action_pressed("ui_cancel"):
+				_on_exit()
+				handled = true
+			elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+				handled = _pad_show_rules()
+		Phase.RACE:
+			if event.is_action_pressed("ui_cancel"):
+				handled = true
+
+	if handled:
+		get_viewport().set_input_as_handled()
+
+func _joy_button_pressed(event: InputEvent, button_index: int) -> bool:
+	if not (event is InputEventJoypadButton):
+		return false
+	var joy := event as InputEventJoypadButton
+	return joy.pressed and int(joy.button_index) == button_index
+
+func _should_show_pad_cursor() -> bool:
+	return _pad_navigation_active or ControllerHints.is_pad_active()
+
+func _pad_move_horse(delta: int) -> bool:
+	var hs: Array = _race.get("horses", [])
+	if hs.is_empty():
+		return true
+	_pad_horse_idx = int(posmod(_pad_horse_idx + delta, hs.size()))
+	AudioManager.play("click")
+	_render()
+	return true
+
+func _pad_cycle_bet_type(delta: int) -> bool:
+	_set_bet_type(int(posmod(_bet_type + delta, BET_PICKS.size())))
+	return true
+
+func _pad_cycle_stake(delta: int) -> bool:
+	_pad_stake_idx = int(posmod(_pad_stake_idx + delta, STAKE_OPTIONS.size()))
+	AudioManager.play("casino_coin")
+	_render()
+	return true
+
+func _pad_accept_betting() -> bool:
+	var hs: Array = _race.get("horses", [])
+	if hs.is_empty():
+		return true
+	var need: int = BET_PICKS[_bet_type]
+	if _picks.size() < need:
+		_toggle_pick(_pad_horse_idx)
+		return true
+	var stake := float(STAKE_OPTIONS[_pad_stake_idx])
+	_place_bet(stake)
+	return true
+
+func _pad_cancel_or_exit() -> bool:
+	if not _picks.is_empty():
+		_picks.pop_back()
+		_render()
+	else:
+		_on_exit()
+	return true
+
+func _pad_show_rules() -> bool:
+	AudioManager.play_ui_open()
+	TutorialOverlay.force_show("racetrack", self)
+	return true
 
 func _new_race() -> void:
 	_set_background(BG_BETTING_PATH, 0.35, 0.75)
@@ -192,6 +310,7 @@ func _new_race() -> void:
 	_finish = []
 	_picks = []
 	_bet_stake = 0.0
+	_pad_horse_idx = 0
 	_tip = {}
 	_tip_seen = false
 	_phase = Phase.BETTING
@@ -250,8 +369,11 @@ func _value_pick() -> int:
 
 func _render_betting() -> void:
 	var hs: Array = _race["horses"]
+	if not hs.is_empty():
+		_pad_horse_idx = clampi(_pad_horse_idx, 0, hs.size() - 1)
 	var vpick: int = _value_pick()
 	var ordered: bool = BET_ORDERED[_bet_type]
+	var show_pad := _should_show_pad_cursor()
 
 	var head := RichTextLabel.new()
 	head.bbcode_enabled = true; head.fit_content = true; head.scroll_active = false
@@ -290,6 +412,8 @@ func _render_betting() -> void:
 		var badge: String = ""
 		if sel:
 			badge = ("[color=#ffe14d]%s[/color] " % PICK_BADGE[pos]) if ordered else _tr("[color=#ffe14d]선택[/color] ", "[color=#ffe14d]PICK[/color] ")
+		if show_pad and i == _pad_horse_idx:
+			badge = "[color=#f0b429]▶[/color] " + badge
 		# 2줄: 1) 이름·★·배당  2) 최근전적·통산·선호
 		var line2: String = _tr("[color=#5a6478]    최근 %s · %s · 선호 %dm/%s/%s[/color]", "[color=#5a6478]    Recent %s · %s · Prefers %dm/%s/%s[/color]") % [
 			str(h.get("recent", _tr("신마", "Debut"))), str(h.get("record", _tr("0전 0승", "0 starts 0 wins"))),
@@ -308,9 +432,15 @@ func _render_betting() -> void:
 		st.border_width_left = 4
 		st.set_corner_radius_all(5)
 		st.content_margin_left = 12
+		if show_pad and i == _pad_horse_idx:
+			st.bg_color = st.bg_color.lightened(0.08)
+			st.border_color = Color("#f0b429")
+			st.set_border_width_all(2)
+			st.border_width_left = 5
 		var foc_pick := st.duplicate()
 		foc_pick.border_color = Color("#f0b429")
 		foc_pick.set_border_width_all(2)
+		btn.focus_mode = Control.FOCUS_NONE
 		btn.add_theme_stylebox_override("normal", st)
 		var hov := st.duplicate(); hov.bg_color = Color("#1a2433")
 		btn.add_theme_stylebox_override("hover", hov)
@@ -332,6 +462,10 @@ func _render_betting() -> void:
 
 	# 정보상 (오늘의 한 마리 — 진짜일까 함정일까)
 	_build_dealer_row(bet_panel)
+	_add_pad_hint(bet_panel, _tr(
+		"[b]패드[/b]  ↑↓ 말 선택 · ←→ 베팅 종류 · %s 금액 · %s 선택/베팅 · %s 취소/나가기 · %s 규칙",
+		"[b]Pad[/b]  ↑↓ Horse · ←→ Bet Type · %s Stake · %s Pick/Bet · %s Undo/Leave · %s Rules"
+	) % [ControllerHints.west(), ControllerHints.south(), ControllerHints.east(), ControllerHints.north()])
 
 	# 베팅종류 선택 (연승/단승/복승/삼쌍승)
 	var type_row := HBoxContainer.new()
@@ -348,6 +482,8 @@ func _render_betting() -> void:
 			_style(tb, "#12161e", "#2a3242")
 		var tt: int = t
 		tb.pressed.connect(func(): _set_bet_type(tt))
+		if show_pad and t == _bet_type:
+			_mark_pad_button(tb)
 		type_row.add_child(tb)
 
 	var info := RichTextLabel.new()
@@ -363,13 +499,16 @@ func _render_betting() -> void:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8)
 	bet_panel.add_child(row)
-	for amt in [10000, 30000, 100000, 500000]:
+	for stake_i in range(STAKE_OPTIONS.size()):
+		var amt: int = int(STAKE_OPTIONS[stake_i])
 		var b := Button.new()
 		b.text = GameState.format_money(float(amt))
 		_style(b, "#10231a", "#2a7a52")
 		b.disabled = (not ready) or (GameState.money < float(amt))
 		var a: int = amt
 		b.pressed.connect(func(): _place_bet(float(a)))
+		if show_pad and stake_i == _pad_stake_idx:
+			_mark_pad_button(b)
 		row.add_child(b)
 	var skip := Button.new()
 	skip.text = _tr("이 경주 패스 ▷", "Skip Race ▷")
@@ -965,6 +1104,11 @@ func _render_result() -> void:
 		warn.add_theme_color_override("font_color", Color("#e8a05d"))
 		box.add_child(warn)
 
+	_add_pad_hint(box, _tr(
+		"[b]패드[/b]  %s 다음 경주 · %s 나가기 · %s 규칙",
+		"[b]Pad[/b]  %s Next Race · %s Leave · %s Rules"
+	) % [ControllerHints.south(), ControllerHints.east(), ControllerHints.north()])
+
 	var row := HBoxContainer.new()
 	row.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
 	row.offset_top = -56; row.offset_left = 24; row.offset_right = -24
@@ -975,6 +1119,8 @@ func _render_result() -> void:
 	again.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_style(again, "#231016", "#a03a4a")
 	again.pressed.connect(_new_race)
+	if _should_show_pad_cursor():
+		_mark_pad_button(again)
 	row.add_child(again)
 	var leave := Button.new()
 	leave.text = _tr("오늘은 그만, 나간다", "I'm done for today")
@@ -1148,6 +1294,7 @@ func _pulse_node(node: Node, scale_to: float = 1.08, duration: float = 0.28) -> 
 	tw.tween_property(ctrl, "scale", base, duration * 0.58).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 func _style(b: Button, bg: String, border: String) -> void:
+	b.focus_mode = Control.FOCUS_NONE
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color(bg); st.border_color = Color(border)
 	st.set_border_width_all(1); st.set_corner_radius_all(5)
@@ -1167,3 +1314,33 @@ func _style(b: Button, bg: String, border: String) -> void:
 	b.add_theme_color_override("font_disabled_color", Color("#4a4a58"))
 	b.add_theme_font_size_override("font_size", 14)
 	_f(b)
+
+func _add_pad_hint(parent: Container, text: String) -> void:
+	if not _should_show_pad_cursor():
+		return
+	var hint := RichTextLabel.new()
+	hint.bbcode_enabled = true
+	hint.fit_content = true
+	hint.scroll_active = false
+	hint.text = text
+	hint.add_theme_font_size_override("normal_font_size", 11)
+	hint.add_theme_color_override("default_color", Color("#aeb6ca"))
+	hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_f(hint, true)
+	parent.add_child(hint)
+
+func _mark_pad_button(btn: Button) -> void:
+	var base := btn.get_theme_stylebox("normal")
+	if not base:
+		return
+	var st := base.duplicate()
+	if st is StyleBoxFlat:
+		var flat := st as StyleBoxFlat
+		flat.bg_color = flat.bg_color.lightened(0.08)
+		flat.border_color = Color("#f0b429")
+		flat.set_border_width_all(3)
+	btn.add_theme_stylebox_override("normal", st)
+	btn.add_theme_stylebox_override("hover", st)
+	btn.add_theme_stylebox_override("pressed", st)
+	btn.add_theme_stylebox_override("focus", st)
+	btn.add_theme_stylebox_override("disabled", st)

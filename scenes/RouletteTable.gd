@@ -8,6 +8,7 @@ signal closed
 const ROULETTE := preload("res://systems/Roulette.gd")
 
 enum Phase { IDLE, SPINNING, RESULT }
+enum PadMode { OUTSIDE, NUMBER, ACTION }
 
 const STAKE_OPTIONS := [10_000, 50_000, 100_000, 500_000, 1_000_000]
 const CHIP_TEX_BY_STAKE := {
@@ -24,6 +25,10 @@ const WHEEL_NUMBERS := [
 const WHEEL_CENTER_Y_RATIO := 0.54
 const CENTER_NUMBER_BOX := Vector2(96.0, 72.0)
 const NUMBER_BUTTON_SIZE := Vector2(58.0, 34.0)
+const JOY_BUTTON_WEST := 2
+const JOY_BUTTON_NORTH := 3
+const PAD_OUTSIDE_TYPES := [1, 2, 3, 4, 5, 6, 7, 8, 9]
+const PAD_ACTIONS := ["BET", "SPIN"]
 
 # 스핀 감속 단계 정의: [인터벌(초), 반복횟수]
 # 단계1: 0.05s × 24회 = 1.2초 (빠른 사이클)
@@ -46,6 +51,11 @@ var _bet_type: int      = -1
 var _chosen_number: int = 0
 var _stake: int         = 50_000
 var _bet_amount: int    = 0
+var _pad_mode: int = PadMode.OUTSIDE
+var _pad_outside_idx: int = 0
+var _pad_number: int = 0
+var _pad_action_idx: int = 1
+var _pad_navigation_active: bool = false
 
 var _history: Array     = []   # 최근 15개 결과 (int)
 var _last_result: int   = -1
@@ -83,6 +93,8 @@ var _number_picker_grid: GridContainer
 var _history_box: HBoxContainer
 var _bet_info_lbl: Label
 var _balance_lbl: Label
+var _pad_hint_lbl: RichTextLabel
+var _bet_action_btn: Button
 var _spin_btn: Button
 var _bet_btn_refs: Array = []        # 10개 베팅 타입 버튼
 var _stake_btns: Array = []          # Array of {btn, amount}
@@ -120,6 +132,11 @@ func open() -> void:
 	_chosen_number = 0
 	_bet_amount   = 0
 	_last_result  = -1
+	_pad_mode = PadMode.OUTSIDE
+	_pad_outside_idx = 0
+	_pad_number = 0
+	_pad_action_idx = 1
+	_pad_navigation_active = false
 	_rounds = 0; _net = 0.0; _wins = 0; _losses = 0
 	set_process(false)
 	visible = true
@@ -167,17 +184,249 @@ func _process(delta: float) -> void:
 				return
 			_spin_phase_count = SPIN_PHASES[_spin_phase_idx]["count"]
 
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event is InputEventKey:
+		var key := event as InputEventKey
+		if key.echo:
+			return
+
+	var pad_navigation_event := event.is_action_pressed("gd_tab_prev") \
+			or event.is_action_pressed("gd_tab_next") \
+			or event.is_action_pressed("ui_left") \
+			or event.is_action_pressed("ui_right") \
+			or event.is_action_pressed("ui_up") \
+			or event.is_action_pressed("ui_down") \
+			or event.is_action_pressed("ui_accept") \
+			or event.is_action_pressed("ui_cancel") \
+			or _joy_button_pressed(event, JOY_BUTTON_WEST) \
+			or _joy_button_pressed(event, JOY_BUTTON_NORTH)
+	if pad_navigation_event:
+		_pad_navigation_active = true
+
+	var handled := false
+	if event.is_action_pressed("gd_tab_prev"):
+		handled = _pad_cycle_mode(-1)
+	elif event.is_action_pressed("gd_tab_next"):
+		handled = _pad_cycle_mode(1)
+	elif event.is_action_pressed("ui_left"):
+		handled = _pad_move(-1, 0)
+	elif event.is_action_pressed("ui_right"):
+		handled = _pad_move(1, 0)
+	elif event.is_action_pressed("ui_up"):
+		handled = _pad_move(0, -1)
+	elif event.is_action_pressed("ui_down"):
+		handled = _pad_move(0, 1)
+	elif event.is_action_pressed("ui_accept"):
+		handled = _pad_accept()
+	elif event.is_action_pressed("ui_cancel"):
+		handled = _pad_cancel()
+	elif _joy_button_pressed(event, JOY_BUTTON_WEST):
+		handled = _pad_cycle_stake(1)
+	elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+		handled = _pad_show_rules()
+
+	if handled:
+		get_viewport().set_input_as_handled()
+
+func _joy_button_pressed(event: InputEvent, button_index: int) -> bool:
+	if not (event is InputEventJoypadButton):
+		return false
+	var joy := event as InputEventJoypadButton
+	return joy.pressed and int(joy.button_index) == button_index
+
+func _pad_cycle_mode(direction: int) -> bool:
+	if _phase == Phase.SPINNING:
+		return true
+	if _phase == Phase.RESULT:
+		return true
+	_pad_mode = int(posmod(_pad_mode + direction, 3))
+	AudioManager.play_ui_click()
+	_refresh()
+	_flash(_tr("%s 모드", "%s mode") % _pad_mode_label(), "#d8dbe8")
+	return true
+
+func _pad_move(dx: int, dy: int) -> bool:
+	if _phase != Phase.IDLE:
+		return true
+	match _pad_mode:
+		PadMode.OUTSIDE:
+			_pad_move_outside(dx, dy)
+		PadMode.NUMBER:
+			_pad_move_number(dx, dy)
+		PadMode.ACTION:
+			if dx != 0:
+				_pad_action_idx = int(posmod(_pad_action_idx + dx, PAD_ACTIONS.size()))
+			elif dy != 0:
+				return _pad_cycle_mode(dy)
+	AudioManager.play_ui_click()
+	_refresh()
+	_flash(_tr("커서: %s", "Cursor: %s") % _pad_target_label(), "#d8dbe8")
+	return true
+
+func _pad_move_outside(dx: int, dy: int) -> void:
+	var cols := 3
+	var row := int(_pad_outside_idx / cols)
+	var col := _pad_outside_idx % cols
+	if dx != 0:
+		col = int(posmod(col + dx, cols))
+	elif dy != 0:
+		row = clampi(row + dy, 0, 2)
+	_pad_outside_idx = clampi(row * cols + col, 0, PAD_OUTSIDE_TYPES.size() - 1)
+
+func _pad_move_number(dx: int, dy: int) -> void:
+	if dx != 0:
+		_pad_number = _wrap_int(_pad_number, 0, 36, dx)
+	elif dy != 0:
+		if _pad_number == 0:
+			_pad_number = 1 if dy > 0 else 36
+		else:
+			_pad_number = clampi(_pad_number + dy * 3, 1, 36)
+
+func _pad_accept() -> bool:
+	match _phase:
+		Phase.SPINNING:
+			return true
+		Phase.RESULT:
+			_phase = Phase.IDLE
+			_bet_amount = 0
+			_reset_number_panel()
+			if is_instance_valid(_number_display_lbl):
+				_number_display_lbl.add_theme_font_size_override("font_size", 46)
+			_refresh()
+			return true
+
+	match _pad_mode:
+		PadMode.OUTSIDE:
+			_bet_type = int(PAD_OUTSIDE_TYPES[_pad_outside_idx])
+			_bet_amount = 0
+			_do_bet()
+		PadMode.NUMBER:
+			_bet_type = 0
+			_chosen_number = _pad_number
+			_bet_amount = 0
+			_do_bet()
+		PadMode.ACTION:
+			if str(PAD_ACTIONS[_pad_action_idx]) == "BET":
+				_do_bet()
+			else:
+				_do_spin()
+	return true
+
+func _pad_cancel() -> bool:
+	if _phase == Phase.SPINNING:
+		return true
+	if _phase == Phase.RESULT:
+		_phase = Phase.IDLE
+		_bet_amount = 0
+		_reset_number_panel()
+		if is_instance_valid(_number_display_lbl):
+			_number_display_lbl.add_theme_font_size_override("font_size", 46)
+		_refresh()
+		return true
+	if _bet_amount > 0 or _bet_type >= 0:
+		_clear_pending_bet()
+	else:
+		_on_exit()
+	return true
+
+func _pad_cycle_stake(direction: int) -> bool:
+	if _phase != Phase.IDLE:
+		return true
+	var idx := STAKE_OPTIONS.find(_stake)
+	if idx < 0:
+		idx = 1
+	idx = int(posmod(idx + direction, STAKE_OPTIONS.size()))
+	_select_stake(int(STAKE_OPTIONS[idx]))
+	_flash(_tr("베팅 금액: %s", "Stake: %s") % GameState.format_money(float(_stake)), "#d8dbe8")
+	return true
+
+func _pad_show_rules() -> bool:
+	if _phase == Phase.SPINNING:
+		return true
+	AudioManager.play_ui_open()
+	TutorialOverlay.force_show("roulette", self)
+	return true
+
+func _clear_pending_bet() -> void:
+	_bet_type = -1
+	_bet_amount = 0
+	AudioManager.play_ui_close()
+	_refresh()
+	_flash(_tr("베팅을 비웠습니다.", "Bet cleared."), "#d8dbe8")
+
+func _wrap_int(value: int, min_value: int, max_value: int, delta: int) -> int:
+	var span := max_value - min_value + 1
+	return min_value + int(posmod(value - min_value + delta, span))
+
+func _pad_mode_label() -> String:
+	match _pad_mode:
+		PadMode.NUMBER:
+			return _tr("숫자판", "Number Board")
+		PadMode.ACTION:
+			return _tr("액션", "Action")
+	return _tr("외부 베팅", "Outside Bets")
+
+func _pad_target_label() -> String:
+	match _pad_mode:
+		PadMode.NUMBER:
+			return _tr("숫자 %d", "Number %d") % _pad_number
+		PadMode.ACTION:
+			return str(PAD_ACTIONS[_pad_action_idx])
+	return _bet_type_label(int(PAD_OUTSIDE_TYPES[_pad_outside_idx]))
+
+func _should_show_pad_cursor() -> bool:
+	return _pad_navigation_active or ControllerHints.is_pad_active()
+
+func _sync_pad_cursor_to_bet(t: int) -> void:
+	if t == 0:
+		_pad_mode = PadMode.NUMBER
+		_pad_number = _chosen_number
+		return
+	var idx := PAD_OUTSIDE_TYPES.find(t)
+	if idx >= 0:
+		_pad_mode = PadMode.OUTSIDE
+		_pad_outside_idx = idx
+
+func _bet_type_label(t: int) -> String:
+	match t:
+		0:
+			return _tr("단일 숫자", "Single Number")
+		1:
+			return _tr("빨강", "Red")
+		2:
+			return _tr("검정", "Black")
+		3:
+			return _tr("홀수", "Odd")
+		4:
+			return _tr("짝수", "Even")
+		5:
+			return _tr("낮음 1-18", "Low 1-18")
+		6:
+			return _tr("높음 19-36", "High 19-36")
+		7:
+			return _tr("1묶음 1-12", "1st Dozen 1-12")
+		8:
+			return _tr("2묶음 13-24", "2nd Dozen 13-24")
+		9:
+			return _tr("3묶음 25-36", "3rd Dozen 25-36")
+	return _tr("선택 전", "Not selected")
+
 # ── 베팅 ──────────────────────────────────────────────────────
 func _select_bet_type(t: int) -> void:
 	if _phase != Phase.IDLE:
 		return
 	_bet_type = t
+	_sync_pad_cursor_to_bet(t)
 	AudioManager.play("casino_bet")
 	_refresh()
 
 func _select_number(n: int) -> void:
 	_bet_type = 0
 	_chosen_number = n
+	_pad_mode = PadMode.NUMBER
+	_pad_number = n
 	AudioManager.play("casino_bet")
 	_refresh()
 
@@ -196,6 +445,7 @@ func _do_bet() -> void:
 	if int(GameState.money) < _stake:
 		_flash(_tr("현금이 부족합니다", "Insufficient cash"), "#e85d5d"); return
 	_bet_amount = _stake
+	_pad_action_idx = 1
 	AudioManager.play("casino_bet")
 	_refresh()
 
@@ -686,6 +936,17 @@ func _build_ui() -> void:
 	_history_box.add_theme_constant_override("separation", 4)
 	_content_root.add_child(_history_box)
 
+	_pad_hint_lbl = RichTextLabel.new()
+	_pad_hint_lbl.bbcode_enabled = true
+	_pad_hint_lbl.fit_content = true
+	_pad_hint_lbl.scroll_active = false
+	_pad_hint_lbl.visible = false
+	_pad_hint_lbl.custom_minimum_size = Vector2(0, 18)
+	_pad_hint_lbl.add_theme_font_size_override("normal_font_size", 11)
+	_pad_hint_lbl.add_theme_color_override("default_color", Color("#aeb6ca"))
+	_f(_pad_hint_lbl, true)
+	_content_root.add_child(_pad_hint_lbl)
+
 	# ── 숫자 베팅 매트 ──
 	var number_mat := PanelContainer.new()
 	var mat_st := StyleBoxFlat.new()
@@ -789,12 +1050,12 @@ func _build_ui() -> void:
 	action_row.add_theme_constant_override("separation", 8)
 	_content_root.add_child(action_row)
 
-	var bet_action_btn := _make_btn("BET", _do_bet, "#1a2e0a", "#f39c12")
-	bet_action_btn.custom_minimum_size = Vector2(0, 48)
-	bet_action_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	if _font_bold: bet_action_btn.add_theme_font_override("font", _font_bold)
-	bet_action_btn.add_theme_font_size_override("font_size", 16)
-	action_row.add_child(bet_action_btn)
+	_bet_action_btn = _make_btn("BET", _do_bet, "#1a2e0a", "#f39c12")
+	_bet_action_btn.custom_minimum_size = Vector2(0, 48)
+	_bet_action_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	if _font_bold: _bet_action_btn.add_theme_font_override("font", _font_bold)
+	_bet_action_btn.add_theme_font_size_override("font_size", 16)
+	action_row.add_child(_bet_action_btn)
 
 	_spin_btn = _make_btn("SPIN", _do_spin, "#0a2a0a", "#27ae60")
 	_spin_btn.custom_minimum_size = Vector2(0, 48)
@@ -855,12 +1116,19 @@ func _build_bet_btn(parent: HBoxContainer, label_text: String, t: int) -> void:
 	parent.add_child(btn)
 
 func _style_bet_btn(btn: Button, selected: bool) -> void:
+	var t := -1
+	for entry in _bet_btn_refs:
+		if entry.get("btn") == btn:
+			t = int(entry.get("type", -1))
+			break
+	var pad_cursor := _should_show_pad_cursor() and _pad_mode == PadMode.OUTSIDE \
+			and t >= 0 and int(PAD_OUTSIDE_TYPES[_pad_outside_idx]) == t
 	var bg_col: String  = "#1a3a1a" if selected else "#0e160e"
 	var brd_col: String = "#f39c12" if selected else "#2a3a2a"
 	var st := StyleBoxFlat.new()
-	st.bg_color = Color(bg_col)
-	st.border_color = Color(brd_col)
-	st.set_border_width_all(2 if selected else 1)
+	st.bg_color = Color(bg_col).lightened(0.08) if pad_cursor else Color(bg_col)
+	st.border_color = Color("#f7e3a1") if pad_cursor else Color(brd_col)
+	st.set_border_width_all(3 if pad_cursor else (2 if selected else 1))
 	st.set_corner_radius_all(6)
 	st.content_margin_left = 6; st.content_margin_right = 6
 	st.content_margin_top = 6; st.content_margin_bottom = 6
@@ -875,7 +1143,7 @@ func _style_bet_btn(btn: Button, selected: bool) -> void:
 	btn.add_theme_stylebox_override("pressed", hov)
 	btn.add_theme_stylebox_override("focus", focus)
 	btn.add_theme_color_override("font_color", Color("#f39c12") if selected else Color("#9aba9a"))
-	btn.focus_mode = Control.FOCUS_ALL
+	btn.focus_mode = Control.FOCUS_NONE
 
 func _make_number_btn(n: int) -> Button:
 	var col_str: String = _roulette.number_color(n)
@@ -887,7 +1155,7 @@ func _make_number_btn(n: int) -> Button:
 	var btn := Button.new()
 	btn.text = str(n)
 	btn.custom_minimum_size = NUMBER_BUTTON_SIZE
-	btn.focus_mode = Control.FOCUS_ALL
+	btn.focus_mode = Control.FOCUS_NONE
 	btn.set_meta("roulette_number", n)
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color(bg)
@@ -921,11 +1189,13 @@ func _make_number_btn(n: int) -> Button:
 func _refresh() -> void:
 	_refresh_hud()
 	_refresh_history()
+	_refresh_pad_hint()
 	_refresh_bet_btns()
 	_refresh_stake_btns()
 	_refresh_number_picker()
 	_refresh_bet_info()
 	_refresh_balance()
+	_refresh_bet_action_btn()
 	_refresh_spin_btn()
 	_refresh_phase_badge()
 	if is_instance_valid(_wheel_display):
@@ -1007,6 +1277,27 @@ func _refresh_stake_btns() -> void:
 		btn.add_theme_stylebox_override("focus", focus)
 		btn.add_theme_color_override("font_color", Color("#f0b429") if selected else Color("#c8d8c8"))
 
+func _refresh_pad_hint() -> void:
+	if not is_instance_valid(_pad_hint_lbl):
+		return
+	var show_hint := _should_show_pad_cursor()
+	_pad_hint_lbl.visible = show_hint
+	if not show_hint:
+		return
+	_pad_hint_lbl.bbcode_text = _tr(
+		"[b]%s[/b] · %s   [%s/%s] 모드  [%s] 칩/스핀  [%s] 금액  [%s] 규칙  [%s] 취소",
+		"[b]%s[/b] · %s   [%s/%s] Mode  [%s] Bet/Spin  [%s] Stake  [%s] Rules  [%s] Cancel"
+	) % [
+		_pad_mode_label(),
+		_pad_target_label(),
+		ControllerHints.shoulder_l(),
+		ControllerHints.shoulder_r(),
+		ControllerHints.south(),
+		ControllerHints.west(),
+		ControllerHints.north(),
+		ControllerHints.east(),
+	]
+
 func _refresh_number_picker() -> void:
 	_number_picker_grid.visible = true
 	for child in _number_picker_grid.get_children():
@@ -1023,8 +1314,13 @@ func _refresh_number_picker() -> void:
 				_:       bg = "#0a3a1a"
 			var sel: bool = (_bet_type == 0 and _chosen_number == n)
 			var is_result: bool = (_phase == Phase.RESULT and n == _last_result and _last_result >= 0)
+			var pad_cursor := _should_show_pad_cursor() and _pad_mode == PadMode.NUMBER and _pad_number == n
 			var st := StyleBoxFlat.new()
-			if is_result:
+			if pad_cursor:
+				st.bg_color = Color(bg).lightened(0.24)
+				st.border_color = Color("#f7e3a1")
+				st.set_border_width_all(3)
+			elif is_result:
 				st.bg_color = Color(bg).lightened(0.45)
 				st.border_color = Color("#ffffff")
 				st.set_border_width_all(3)
@@ -1058,9 +1354,13 @@ func _refresh_bet_info() -> void:
 		]
 	elif _bet_type >= 0:
 		var payout: float = _roulette.payout_multiplier(_bet_type)
-		_bet_info_lbl.text = _tr("배당률: %.0f:1   |   베팅 금액: %s   →   BET 버튼 클릭", "Payout: %.0f:1   |   Stake: %s   →   Press BET") % [
+		var prompt := _tr("→   BET 버튼 클릭", "→   Press BET")
+		if _should_show_pad_cursor():
+			prompt = _tr("→   [%s] 칩 놓기", "→   [%s] place chip") % ControllerHints.south()
+		_bet_info_lbl.text = _tr("배당률: %.0f:1   |   베팅 금액: %s   %s", "Payout: %.0f:1   |   Stake: %s   %s") % [
 			payout,
-			GameState.format_money(float(_stake))
+			GameState.format_money(float(_stake)),
+			prompt,
 		]
 	else:
 		_bet_info_lbl.text = _tr("베팅 유형을 선택하세요", "Choose a bet type")
@@ -1099,6 +1399,17 @@ func _refresh_spin_btn() -> void:
 	dis.content_margin_left = 12; dis.content_margin_right = 12
 	dis.content_margin_top = 8; dis.content_margin_bottom = 8
 	_spin_btn.add_theme_stylebox_override("disabled", dis)
+	if _should_show_pad_cursor() and _pad_mode == PadMode.ACTION and str(PAD_ACTIONS[_pad_action_idx]) == "SPIN":
+		_mark_pad_button(_spin_btn)
+
+func _refresh_bet_action_btn() -> void:
+	if not is_instance_valid(_bet_action_btn):
+		return
+	_bet_action_btn.disabled = _phase != Phase.IDLE
+	_style_plain_button(_bet_action_btn, "#1a2e0a", "#f39c12")
+	_bet_action_btn.add_theme_font_size_override("font_size", 16)
+	if _should_show_pad_cursor() and _pad_mode == PadMode.ACTION and str(PAD_ACTIONS[_pad_action_idx]) == "BET":
+		_mark_pad_button(_bet_action_btn)
 
 func _refresh_phase_badge() -> void:
 	if not is_instance_valid(_phase_badge_lbl):
@@ -1149,7 +1460,13 @@ func _make_btn(label_text: String, cb: Callable, bg: String, border: String) -> 
 	var btn := Button.new()
 	btn.text = label_text
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	btn.focus_mode = Control.FOCUS_ALL
+	btn.focus_mode = Control.FOCUS_NONE
+	_style_plain_button(btn, bg, border)
+	if _font: btn.add_theme_font_override("font", _font)
+	btn.pressed.connect(cb)
+	return btn
+
+func _style_plain_button(btn: Button, bg: String, border: String) -> void:
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color(bg)
 	st.border_color = Color(border)
@@ -1176,9 +1493,22 @@ func _make_btn(label_text: String, cb: Callable, bg: String, border: String) -> 
 	btn.add_theme_color_override("font_color", Color("#dce4f0"))
 	btn.add_theme_color_override("font_disabled_color", Color("#3a3a48"))
 	btn.add_theme_font_size_override("font_size", 14)
-	if _font: btn.add_theme_font_override("font", _font)
-	btn.pressed.connect(cb)
-	return btn
+
+func _mark_pad_button(btn: Button) -> void:
+	var base := btn.get_theme_stylebox("normal")
+	if not base:
+		return
+	var st := base.duplicate()
+	if st is StyleBoxFlat:
+		var flat := st as StyleBoxFlat
+		flat.bg_color = flat.bg_color.lightened(0.08)
+		flat.border_color = Color("#f7e3a1")
+		flat.set_border_width_all(3)
+	btn.add_theme_stylebox_override("normal", st)
+	btn.add_theme_stylebox_override("hover", st)
+	btn.add_theme_stylebox_override("pressed", st)
+	btn.add_theme_stylebox_override("focus", st)
+	btn.add_theme_stylebox_override("disabled", st)
 
 func _flash(msg: String, color: String) -> void:
 	_msg_lbl.text = msg

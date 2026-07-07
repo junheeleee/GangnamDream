@@ -7,6 +7,10 @@ Updated on 2026-06-13 for P2 public venue ambient-silhouette backgrounds and Ste
 Updated on 2026-06-15 for Jeongseon Casino interior/entrance/exterior backgrounds, dedicated gym background, and Seoul landmark backgrounds.
 Updated on 2026-06-19 for daytime office interview background separation and BGM/portrait presentation QA.
 Updated on 2026-06-20 for dedicated P1 ending CGs and Slot/Roulette/BigWheel chip-button wiring.
+Updated on 2026-07-01 for dedicated Korean-culture background pass: hagwon street, Suneung test hall, community center, jjimjilbang, cherry blossom path, saju cafe, and reserve-duty gate.
+Updated on 2026-07-01 for workplace/climate surface pass: company dinner restaurant, heatwave city, Seoul street ambience, civil-defense siren, and monsoon rain cue.
+Updated on 2026-07-01 for digital/holiday/climate/library surface pass: fine dust sky, Chuseok highway traffic, open chat screen, matching ambience loops, and library-room ambience.
+Updated on 2026-07-03 for Lee Minseo transparent portrait and post-Claude story background alignment.
 
 ## Use These Assets
 
@@ -96,6 +100,11 @@ Updated on 2026-06-20 for dedicated P1 ending CGs and Slot/Roulette/BigWheel chi
   - Han Jiyeon cold transparent expression variant for negotiation, status pressure, and calculating investor scenes.
   - Production status: approved for first in-game QA. Same identity/outfit as `npc_mentor.png`.
 
+- `assets/characters/npc_minseo.png`
+  - Lee Minseo transparent portrait, 38-year-old self-made Gangnam arrival mentor.
+  - Runtime use: `minseo` / `minseo_normal` portrait IDs in late-game Minseo arc events.
+  - Readability lock: short neat dark hair, charcoal practical blazer, ivory knit/blouse, calm tired eyes; must not resemble Han Jiyeon's long-haired old-money aura or Kim Daeun's soft convenience-store warmth.
+
 - `assets/characters/npc_tip_seller.png`
   - Horse-racing tip seller transparent portrait, 45-50-year-old track information seller with cap, worn windbreaker, and folded racing forms.
 
@@ -145,6 +154,26 @@ Updated on 2026-06-20 for dedicated P1 ending CGs and Slot/Roulette/BigWheel chi
 - `assets/backgrounds/seoul_subway.png`
   - Late-night transit background for commute, loneliness, job, and fatigue events.
 
+- `assets/backgrounds/heatwave_city.png`
+  - Dry Seoul heatwave street background for August heat-alert events.
+  - Use for `heatwave_city` inferred/explicit backgrounds and `kx_heatwave`.
+  - Status: approved for first in-game QA. Person-free, no readable signs/logos, dry asphalt/heat haze signal.
+
+- `assets/backgrounds/fine_dust_sky.png`
+  - Dry yellow-gray Seoul street under fine dust / yellow dust conditions.
+  - Use for `fine_dust_sky` inferred/explicit backgrounds and `kx_fine_dust`.
+  - Status: approved for first in-game QA. Person-light, no rain, no readable signs/logos, road/sidewalk geometry clear.
+
+- `assets/backgrounds/chuseok_highway.png`
+  - Chuseok homecoming traffic on a Korean expressway with brake-light congestion.
+  - Use for `chuseok_highway` inferred/explicit backgrounds and `kx_chuseok_traffic`.
+  - Status: approved for first in-game QA. No readable plates/signs/logos; traffic direction and highway structure are clear.
+
+- `assets/backgrounds/open_chat_screen.png`
+  - Goshiwon desk with smartphone chat bubbles for anonymous open-chat / group-chat scenes.
+  - Use for `open_chat_screen` inferred/explicit backgrounds, `kx_open_chat`, and `geojibang_chat`.
+  - Status: approved for first in-game QA. Brand-free abstract chat UI only; no readable fake text, no app logo, no wall note text.
+
 - `assets/backgrounds/hangang_riverside_walk.png`
   - Han River evening promenade background for Seoul rest, walking, running, romance, and reflective callback events.
   - Use for `hangang_riverside` inferred backgrounds and explicit `hangang` tags.
@@ -175,6 +204,11 @@ Updated on 2026-06-20 for dedicated P1 ending CGs and Slot/Roulette/BigWheel chi
 - `assets/backgrounds/restaurant_korean.png`
   - Modest Korean restaurant interior for family meals, awkward meetings, and relationship conversation scenes.
   - Status: P2 regenerated with distant faceless diner ambience only.
+
+- `assets/backgrounds/company_dinner_restaurant.png`
+  - Korean samgyeopsal company-dinner background for hoesik/workplace loyalty-pressure scenes.
+  - Use for `company_dinner_restaurant` inferred/explicit backgrounds and `kx_hoesik`.
+  - Status: approved for first in-game QA. Distant faceless office-worker silhouettes only, no named-character proxy.
 
 - `assets/backgrounds/family_living_room.png`
   - Canon-safe Minjun-family background, regenerated as his father's modest older Changwon working-class home.
@@ -272,6 +306,41 @@ Updated on 2026-06-20 for dedicated P1 ending CGs and Slot/Roulette/BigWheel chi
 - `assets/backgrounds/late_night_room.png`
   - Canonical 4am goshiwon variant generated from `goshiwon_room.png`.
   - Same room structure as the canonical goshiwon; safe for late-night/mental/goshiwon events.
+
+- `assets/backgrounds/hagwon_street.png`
+  - Night Korean private-academy street background for Daechi/hagwon pressure events.
+  - Use for `hagwon_street` inferred backgrounds and explicit `hagwon` tags.
+  - Status: approved for first in-game QA. 1672x941, rainy night academy district, abstract/blurred sign panels only, no readable fake text/logos, distant anonymous pedestrians.
+
+- `assets/backgrounds/suneung_test_hall.png`
+  - Korean CSAT/Suneung test hall corridor/classroom background.
+  - Use for `suneung_test_hall` inferred backgrounds and explicit `suneung` tags.
+  - Status: approved for first in-game QA. 1672x941, tense gray school corridor with classroom visible, no readable notices/logos, no foreground identifiable student.
+
+- `assets/backgrounds/community_center.png`
+  - Korean community-center public-service waiting area background.
+  - Use for `community_center` inferred backgrounds and explicit `community_center` tags.
+  - Status: approved for first in-game QA. 1672x941, number counters, kiosk, waiting chairs, blurred official signage, faceless background staff silhouettes only.
+
+- `assets/backgrounds/jjimjilbang.png`
+  - Korean jjimjilbang/sauna rest area background.
+  - Use for `jjimjilbang` inferred backgrounds and explicit `jjimjilbang` tags.
+  - Status: approved for first in-game QA. 1672x941, modern warm Korean sauna/rest room with lockers, towels, mats, wood pillows, vending machines, no clear faces.
+
+- `assets/backgrounds/cherry_blossom_path.png`
+  - Seoul cherry-blossom path background for spring/cherry blossom season events.
+  - Use for `cherry_blossom_path` inferred backgrounds and explicit `cherry_blossom` or `spring_cherry` tags.
+  - Status: approved for first in-game QA. 1672x941, muted gray-pink riverside path, fallen petals, distant anonymous silhouettes only, no readable signs/logos.
+
+- `assets/backgrounds/saju_cafe.png`
+  - Korean saju fortune-reading cafe interior background.
+  - Use for `saju_cafe` inferred backgrounds and explicit `saju` tags.
+  - Status: approved for first in-game QA. 1672x941, dim cramped consultation room, laptop, abstract blank chart, candle, plain books, no readable/fake text.
+
+- `assets/backgrounds/military_base_gate.png`
+  - Korean reserve-force training center entrance background.
+  - Use for `military_base_gate` inferred backgrounds and reserve-duty events. Keep broader military memories on `military_training_ground.png`.
+  - Status: approved for first in-game QA. 1672x941, cold rainy civilian eye-level gate, guard post, barrier, shuttle bus, no readable signs/insignia/weapons/clear faces.
 
 ### Key Art
 - `assets/keyart/gangnam_dream_keyart_rooftop.png`

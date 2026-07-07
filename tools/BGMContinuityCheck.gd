@@ -57,6 +57,178 @@ func _ready() -> void:
 		_fail("menu BGM stopped during repeated start_menu")
 		return
 
+	var interview_ev := {
+		"id": "qa_interview_audio",
+		"title": "Interview",
+		"description": "The interviewer points at the chair.",
+		"category": "life",
+		"tags": [],
+	}
+	if BGMPlayer._pick_ambience(interview_ev) != "office":
+		_fail("inferred interview background should use office ambience")
+		return
+
+	var hangang_ev := {
+		"id": "qa_hangang_audio",
+		"title": "Evening walk",
+		"description": "He keeps walking along the riverside promenade.",
+		"category": "health",
+		"tags": [],
+	}
+	if BGMPlayer._pick_ambience(hangang_ev) != "hangang":
+		_fail("inferred Hangang background should use riverside ambience")
+		return
+
+	var ambience_cases := [
+		[{
+			"id": "qa_racetrack_audio",
+			"title": "Betting Hall",
+			"description": "The horses break into the final straight.",
+			"category": "gambling",
+			"tags": [],
+		}, "racetrack"],
+		[{
+			"id": "qa_subway_audio",
+			"title": "Commute",
+			"description": "The subway doors close before he can breathe.",
+			"category": "life",
+			"tags": [],
+		}, "subway"],
+		[{
+			"id": "qa_street_audio",
+			"title": "Civil Defense Siren",
+			"description": "A civil defense siren pauses Seoul for five minutes.",
+			"category": "life",
+			"background": "street",
+			"tags": [],
+		}, "street"],
+		[{
+			"id": "qa_cafe_audio",
+			"title": "Coffee",
+			"description": "He waits at a cafe table by the window.",
+			"category": "social",
+			"tags": [],
+		}, "cafe"],
+		[{
+			"id": "qa_gym_audio",
+			"title": "Workout",
+			"description": "At the gym, every machine sounds more certain than he feels.",
+			"category": "health",
+			"tags": [],
+		}, "gym"],
+		[{
+			"id": "qa_pc_bang_audio",
+			"title": "Late Match",
+			"description": "The PC bang glows blue at 2 AM.",
+			"category": "life",
+			"tags": [],
+		}, "pc_bang"],
+		[{
+			"id": "qa_convenience_audio",
+			"title": "Night Shift",
+			"description": "The convenience store refrigerator keeps humming.",
+			"category": "life",
+			"tags": [],
+		}, "convenience"],
+		[{
+			"id": "qa_hagwon_audio",
+			"title": "Hagwon Street",
+			"description": "At 10 PM the Daechi hagwon street empties into the rain.",
+			"category": "life",
+			"tags": [],
+		}, "hagwon"],
+		[{
+			"id": "qa_cherry_audio",
+			"title": "Cherry Blossoms",
+			"description": "The cherry blossom petals fall along Seokchon Lake.",
+			"category": "life",
+			"tags": [],
+		}, "cherry"],
+		[{
+			"id": "qa_saju_audio",
+			"title": "Saju Cafe",
+			"description": "The fortune-reading cafe feels quieter than the street outside.",
+			"category": "life",
+			"tags": [],
+		}, "saju"],
+		[{
+			"id": "qa_hoesik_audio",
+			"title": "Company Dinner",
+			"description": "The hoesik starts at a samgyeopsal restaurant with soju glasses on the table.",
+			"category": "social",
+			"tags": [],
+		}, "hoesik"],
+		[{
+			"id": "qa_heatwave_audio",
+			"title": "Heat Wave",
+			"description": "The asphalt heat rises in waves during a Seoul heatwave.",
+			"category": "life",
+			"tags": [],
+		}, "heatwave"],
+		[{
+			"id": "qa_fine_dust_audio",
+			"title": "Fine Dust Warning",
+			"description": "The fine dust warning turns the Seoul street into yellow-gray air.",
+			"category": "life",
+			"tags": [],
+		}, "fine_dust"],
+		[{
+			"id": "qa_chuseok_audio",
+			"title": "Chuseok Traffic",
+			"description": "The holiday traffic keeps the intercity bus on the highway for hours.",
+			"category": "life",
+			"tags": [],
+		}, "highway"],
+		[{
+			"id": "kx_open_chat",
+			"title": "Open Chat",
+			"description": "An anonymous online investing chat room keeps scrolling on the phone.",
+			"category": "social",
+			"tags": [],
+		}, "open_chat"],
+		[{
+			"id": "qa_library_audio",
+			"title": "Library Seat",
+			"description": "The public library reading room is quiet except for books and keyboards.",
+			"category": "social",
+			"background": "library",
+			"tags": [],
+		}, "library"],
+		[{
+			"id": "qa_suneung_audio",
+			"title": "CSAT Morning",
+			"description": "The exam hall corridor goes quiet before the test begins.",
+			"category": "life",
+			"tags": [],
+		}, "school"],
+		[{
+			"id": "qa_community_center_audio",
+			"title": "Community Center",
+			"description": "He pulls a queue ticket at the district office counter.",
+			"category": "life",
+			"tags": [],
+		}, "public_office"],
+		[{
+			"id": "qa_jjimjilbang_audio",
+			"title": "Jjimjilbang",
+			"description": "The Korean sauna room hums under warm light.",
+			"category": "life",
+			"tags": [],
+		}, "jjimjilbang"],
+		[{
+			"id": "qa_military_gate_audio",
+			"title": "Reserve Duty",
+			"description": "The reserve forces training notice points him toward the gate.",
+			"category": "military",
+			"tags": [],
+		}, "military_gate"],
+	]
+	for case in ambience_cases:
+		var actual := BGMPlayer._pick_ambience(case[0])
+		if actual != str(case[1]):
+			_fail("inferred ambience mismatch: expected %s got %s" % [case[1], actual])
+			return
+
 	print("BGM_CONTINUITY_OK main_pos=%.3f repeated_pos=%.3f key=%s" % [
 		first_pos, second_pos, BGMPlayer._current_key])
 	get_tree().quit(0)

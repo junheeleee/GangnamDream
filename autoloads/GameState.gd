@@ -122,10 +122,8 @@ var luck = 45
 var action_points = 2
 var max_action_points = 2
 # AP 축 시스템 (돈 vs 사람) — docs/AP_REDESIGN.md Phase 1
-var week_money_ap: int = 0        # transient: 이번 주 돈축에 쓴 AP
-var week_human_ap: int = 0        # transient: 이번 주 사람·자기축에 쓴 AP
 var grind_streak_weeks: int = 0   # 연속 그라인드-only 주
-var money_weeks_total: int = 0    # 통계: 돈축이 지배한 주
+var money_weeks_total: int = 0    # 통계: 돈축을 쓴 주
 var human_weeks_total: int = 0    # 통계: 사람축을 챙긴 주
 var loop_tint_spent: float = 0.0  # 루프 드립으로 깎은 tint 누적 (상한 -20)
 var tutorial_step = 3
@@ -140,6 +138,10 @@ var moral_band_last: int = 0   # 직전 밴드(−2~+2). 전이 비네트 트리
 var pending_tint_vignette: Dictionary = {}  # transient: {"from":int,"to":int} — UI가 표시 후 비움
 var pending_scar_vignette: String = ""     # transient: "crossed_line"|"chose_money_over_father" — 첫 설정 시 한 번만
 var housing_months: Dictionary = {}
+
+# ── AP 행동 축 — 돈을 좇는 주간 vs 사람/회복에 남긴 주간 ─────────────
+# 플레이어에게 도덕 점수를 보여주지 않고, 반복 루프가 어떤 삶의 모양으로 굳는지만 기록한다.
+var action_axis_this_week: Dictionary = {"money": 0, "human": 0}
 
 # ── 성향(직장/투자/창업) — 플레이로 누적, 임계점에서 '자각' ──────────
 # 죽은 트레이트 시스템을 대체: 선택이 아니라 행동이 정체성을 만든다.
@@ -251,8 +253,6 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	week_of_month = 1
 	action_points = 2
 	max_action_points = 2
-	week_money_ap = 0
-	week_human_ap = 0
 	grind_streak_weeks = 0
 	money_weeks_total = 0
 	human_weeks_total = 0
@@ -288,6 +288,7 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	moral_band_last = 0
 	month_focus = ""
 	housing_months = {}
+	action_axis_this_week = {"money": 0, "human": 0}
 	tendency = {"career": 0, "invest": 0, "found": 0}
 	tendency_realized = ""
 	market_context = {
@@ -529,7 +530,7 @@ func _init_market_prices():
 func advance_calendar() -> bool:
 	if is_game_over:
 		return false
-	_evaluate_week_axis()   # 지난 주를 무엇에 썼는지 정산 (돈 vs 사람)
+	finalize_action_axis_week()   # 지난 주를 무엇에 썼는지 정산 (돈 vs 사람)
 	turn += 1
 	week_of_month += 1
 	var month_ended := false
@@ -1019,36 +1020,46 @@ func spend_ap(amount: int = 1) -> bool:
 	stats_changed.emit()
 	return true
 
+# AP 축 기록 — 각 행동이 돈축("money")인지 사람·자기축("human")인지 알린다.
+# docs/AP_REDESIGN.md Phase 1. 숫자는 도덕 점수가 아니라 시간의 모양 — UI는 칩/서술로만 보여준다.
+func register_action_axis(axis: String) -> void:
+	match axis:
+		"money":
+			action_axis_this_week["money"] = int(action_axis_this_week.get("money", 0)) + 1
+		"human":
+			action_axis_this_week["human"] = int(action_axis_this_week.get("human", 0)) + 1
+		_:
+			return
+	stats_changed.emit()
+
+# 주가 끝날 때(advance_calendar) 한 번 호출 — 그 주를 무엇에 썼는지 정산한다.
+# 사람축을 한 번이라도 챙긴 주는 마모를 리셋. 돈에만 갈아넣은 주가 쌓이면 서서히 마모.
+func finalize_action_axis_week() -> void:
+	var money_count := int(action_axis_this_week.get("money", 0))
+	var human_count := int(action_axis_this_week.get("human", 0))
+	if money_count > 0:
+		money_weeks_total += 1
+	if human_count > 0:
+		human_weeks_total += 1
+		grind_streak_weeks = 0
+	elif money_count > 0:
+		grind_streak_weeks += 1
+		if grind_streak_weeks % 4 == 0:
+			modify_stat("mental", -1)
+			# 루프 드립은 총 -20까지만 — 240주 그라인더가 도덕 예산을 루프만으로 태우지 못하게
+			if loop_tint_spent > -20.0:
+				shift_moral_tint(-1.0)
+				loop_tint_spent -= 1.0
+			add_log(LocaleManager.ui(
+				"한 달 내내 돈 쪽으로만 시간이 흘렀다. 피로가 조금 남았다.",
+				"A full month went only toward money. A little fatigue remained."
+			), "system")
+	action_axis_this_week = {"money": 0, "human": 0}
+
 func restore_ap():
 	action_points = max_action_points
 	month_focus = ""
 	stats_changed.emit()
-
-# AP 축 기록 — 각 행동이 돈축("money")인지 사람·자기축("human")인지 알린다.
-# docs/AP_REDESIGN.md Phase 1. 숫자는 플레이어에게 직접 노출하지 않는다(색·서술로만).
-func register_action_axis(axis: String) -> void:
-	if axis == "money":
-		week_money_ap += 1
-	elif axis == "human":
-		week_human_ap += 1
-
-# 주가 끝날 때(advance_calendar) 한 번 호출 — 그 주를 무엇에 썼는지 정산한다.
-# 사람축을 한 번이라도 챙긴 주는 마모를 리셋. 돈에만 갈아넣은 주가 쌓이면 서서히 마모.
-func _evaluate_week_axis() -> void:
-	if week_human_ap > 0:
-		human_weeks_total += 1
-		grind_streak_weeks = 0
-	elif week_money_ap > 0:
-		money_weeks_total += 1
-		grind_streak_weeks += 1
-		# 한 달 내내(4주) 사람 없이 갈아넣으면 — 조용히 마모된다.
-		if grind_streak_weeks % 4 == 0:
-			modify_stat("mental", -1)
-			if loop_tint_spent > -20.0:
-				shift_moral_tint(-1.0)
-				loop_tint_spent -= 1.0
-	week_money_ap = 0
-	week_human_ap = 0
 
 func get_current_title() -> String:
 	if mental <= 12: return LocaleManager.ui("번아웃 직전", "Near Burnout")
@@ -1704,6 +1715,7 @@ func serialize():
 		"route_unorthodox": route_unorthodox,
 		"moral_tint": moral_tint,
 		"moral_band_last": moral_band_last,
+		"action_axis_this_week": action_axis_this_week,
 		"tendency": tendency,
 		"tendency_realized": tendency_realized,
 		"month_focus": month_focus,
@@ -1765,6 +1777,9 @@ func load_from_dict(data):
 	# 구버전 세이브 호환 — tendency 없으면 기본값
 	if typeof(tendency) != TYPE_DICTIONARY or tendency.is_empty():
 		tendency = {"career": 0, "invest": 0, "found": 0}
+	# 구버전 세이브 호환 — AP 행동 축
+	if typeof(action_axis_this_week) != TYPE_DICTIONARY or action_axis_this_week.is_empty():
+		action_axis_this_week = {"money": 0, "human": 0}
 	# 구버전 세이브 호환 — run_theme 없으면 run_theme_categories로 역추론
 	if run_theme == "자유런" and not run_theme_categories.is_empty():
 		var cat_str = ",".join(run_theme_categories)

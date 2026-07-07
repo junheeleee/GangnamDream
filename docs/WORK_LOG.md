@@ -1,5 +1,154 @@
 # Gangnam Dream Work Log
 
+## 2026-07-05 (Codex — AP relationship pressure surface pass)
+
+### 배경
+- ACT 4/5 AP 레일은 `People`을 전면에 배치했지만, 카드 문구가 아직 일반적인 설명에 머물러 실제 관계 상태를 느끼기 어려웠다.
+- 모랄/관계 시스템은 점수를 대놓고 공개하는 장치가 아니라, 플레이어가 "돈을 쫓는 동안 누가 멀어졌는지"를 화면 표면에서 서서히 감지해야 한다.
+
+### 수정
+- `MainGame.gd`에 핵심 인물 관계 압박 helper를 추가했다. 만난 인물 중 가장 낮은 관계 상태를 찾아 이름만 은근히 문장에 반영한다.
+- ACT 4/5 `People` AP 카드가 실제 관계 상태에 반응한다. 예: `Father is drifting away`, `Father may not wait much longer`.
+- 후반 People 모달 첫 문장을 동적으로 바꿨다. 관계가 낮은 인물이 있으면 `Father has been waiting too long.`처럼 표시하되, 수치/도덕 점수는 노출하지 않는다.
+- People 모달의 인물 카드 상태 문구를 후반부에 맞게 조정했다. 낮은 관계는 `Drifting`, 매우 낮은 관계는 `Almost gone`으로 보인다.
+- `tools/ScreenshotQA.gd`의 관계 QA 시드를 절대값 설정 방식으로 바꿨다. 기존 `apply_cast_effect()`는 누적 덧셈이라 반복 QA에서 관계 상태가 달라질 수 있었다.
+- `--qa=ap-act-en`에 ACT4 People 모달 캡처(`ap_act_en_04a_act4_people_modal.png`)를 추가해 후반 관계 압박 표면을 매번 확인할 수 있게 했다.
+
+### 검증
+- `CompileCheck.tscn` 통과.
+- `git diff --check` 통과.
+- `ScreenshotQA --qa=ap-act-en --lang=en` 통과.
+- ACT4/ACT5 AP 레일과 ACT4 People 모달 캡처 직접 확인:
+  - ACT4 People 카드: `Father is drifting away`.
+  - ACT5 People 카드: `Father may not wait much longer`.
+  - ACT4 People 모달: `Father has been waiting too long.`, 인물 카드 `Drifting`.
+- Godot 종료 시 RID/Texture leak 경고는 기존 OpenGL QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
+
+## 2026-07-05 (Codex — AP act QA + 4-slot regression pass)
+
+### 배경
+- 직전 패스에서 ACT 1 기준 AP 레일을 안정화했지만, ACT 2~5 화면을 실제로 강제 캡처해 보지는 않았다.
+- AP 화면은 240주 동안 반복되는 핵심 루프라서, 1년차만 예쁘고 뒤로 갈수록 다시 스크롤/웹 메뉴가 되면 안 된다.
+
+### 수정
+- `tools/ScreenshotQA.gd`에 `--qa=ap-act-en` 스코프를 추가했다. ACT 1~5 상태를 강제 세팅하고 `ap_act_en_01_act1.png`부터 `ap_act_en_05_act5.png`까지 한 번에 캡처한다.
+- ACT QA 시드에서 자산 마일스톤 토스트가 튀어나와 화면을 가리지 않도록 `milestones_reached`를 미리 채운다. 이는 QA 전용 상태 조정이다.
+- ACT QA에서 GameState를 직접 바꾼 뒤 상단 HUD 날짜/자산이 이전 ACT에 머무르지 않도록 `_refresh_all()`을 호출한다.
+- AP 레일 슬롯 번호가 같은 QA 인스턴스에서 05/06처럼 누적되던 문제를 고쳤다. `_ap_rail_slot_counter`를 렌더마다 리셋하고, 슬롯 번호는 child count가 아니라 전용 카운터로 부여한다.
+- ACT 2~5 메인 레일을 4장 노스크롤로 압축했다.
+  - ACT 2: Work · Career / Invest / People / Self-Dev
+  - ACT 3: Invest / Gambling / People / Rest
+  - ACT 4: People / Invest / Gambling / Rest
+  - ACT 5: Final Trades / People / Gambling / Rest
+- `Market Analysis`는 메인 레일 5번째 카드로 밀어 넣지 않고 `Money · Invest` 모달 안으로 이동했다. 무료 행동이라 모달 배지도 `Free`로 표시된다.
+- `docs/QA_CHECKLIST.md`의 Targeted Screenshot QA 매트릭스에 `--qa=ap-act-en`을 추가했다.
+
+### 검증
+- `CompileCheck.tscn` 통과.
+- `git diff --check` 통과.
+- `ScreenshotQA --qa=ap-act-en --lang=en` 통과.
+- ACT 1~5 캡처 직접 확인:
+  - ACT 1 Survival: 생존/구직/생계 중심.
+  - ACT 2 Expansion: 일·투자·사람·자기계발 4장, 스크롤 없음.
+  - ACT 3 Weight: 투자·도박·사람·휴식 4장, 스크롤 없음.
+  - ACT 4 Fracture: People 우선, 위기 틴트와 4슬롯 유지.
+  - ACT 5 Endgame: Final Trades/People/Gambling/Rest 4장, 상단 HUD 날짜/자산 동기화 확인.
+- Godot 종료 시 RID/Texture leak 경고는 기존 OpenGL QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
+
+## 2026-07-05 (Codex — AP act-aware action rail pass)
+
+### 배경
+- 클로드 브랜치와 원격 main을 확인했지만 main보다 앞선 새 커밋은 없어 병합할 내용이 없었다.
+- `docs/AP_REDESIGN.md`의 Phase 2(C: Act별 메뉴 진화)를 낮은 위험 범위에서 시작했다.
+- 목표는 AP 행동 화면이 240주 내내 같은 웹 버튼 목록으로 보이지 않고, 현재 연차의 압력(생존/확장/무게/균열/엔드게임)을 플레이어가 즉시 읽게 하는 것이다.
+
+### 수정
+- `MainGame.gd`에 `_ap_act_index()`, `_ap_act_info()`, `_ap_act_line()`을 추가했다. `GameState.turn` 기준으로 ACT 1~5를 계산하고, 주간 보드와 행동 레일 헤더에 현재 Act의 테마를 표시한다.
+- `_render_essential_actions()`를 Act-aware로 재구성했다.
+  - ACT 1 생존: `Work/Job Hunt`, `Survival Money`, `Self-Dev`, `Rest` 중심.
+  - ACT 2 확장: 일·투자·사람·자기관리 중심.
+  - ACT 3 무게: 투자/도박/사람/커리어가 앞으로 나오도록 정렬.
+  - ACT 4 균열: `People`을 첫 카드로 올려 관계 유지가 게임 루프의 전면에 보이게 했다.
+  - ACT 5 엔드게임: 최종 투자/사람/위험/휴식 위주로 압축했다.
+- 모달로 들어가는 행동 카드에는 `Menu` 배지를 줄 수 있게 `_essential_btn()`을 확장했다. 실제 AP 행동과 메뉴 진입이 덜 헷갈리게 하기 위함이다.
+- `Life` 카드는 레일에서 빼고 `ACTION RAIL` 헤더 우측의 작은 버튼으로 이동했다. 이사·상점 접근은 유지하면서, 메인 AP 레일은 1280×800에서 4슬롯 노스크롤 구조를 유지한다.
+- 행동 카드 높이와 아이콘 여백을 Steam Deck 기준으로 조금 압축했다. 기존 세부 모달 카드의 74px 오버라이드는 유지된다.
+
+### 검증
+- `git diff --check` 통과.
+- `ScreenshotQA --qa=ap-en --lang=en` 통과 및 `ap_en_03_ap_actions.png` 직접 확인. ACT 1 Survival 문구와 4개 행동 카드, 헤더 Life 버튼이 1280×800에서 스크롤 없이 보인다.
+- `python3 tools/english_hangul_audit.py` 통과: 영어 한글 누출 0.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, 오디오 자산 검사 통과, Godot compile clean.
+- Godot 종료 시 RID/Texture leak 경고는 기존 OpenGL QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
+
+## 2026-07-05 (Codex — AP axis surface + grind drift pass)
+
+### 배경
+- `origin/claude/game-polish-steam-uh6ldg`에 새로 올라온 지연 로맨스 어투 수정과 `docs/AP_REDESIGN.md`를 먼저 main에 병합했다.
+- 클로드 설계 문서의 핵심은 AP 루프를 단순 2클릭 메뉴가 아니라 "돈 vs 사람"이라는 게임 주제의 반복 단위로 만드는 것이다.
+- 전체 루틴/몽타주 압축은 턴 루프 수술이라 아직 이르고, 이번 패스는 Phase 1의 낮은 위험 영역인 축 기록과 AP 표면만 구현했다.
+
+### 수정
+- `GameState`에 주간 AP 축 기록을 추가했다: `action_axis_this_week`, `life_human_used_this_week`, `grind_streak_weeks`, `human_weeks_total`, `money_weeks_total`.
+- 실제 AP 행동이 성공했을 때만 돈축/사람축이 기록된다. 자기계발은 카드상 `MIXED`로 보이고, 실제 결과가 운동/명상이면 사람축, 독서/투자공부면 돈축으로 기록한다.
+- 4주 연속 사람축 없이 돈축 행동만 반복하면 아주 완만하게 `moral_tint -1`, `mental -1`이 적용된다. 도덕 점수는 노출하지 않고 로그도 "한 달 내내 돈 쪽으로만 시간이 흘렀다" 수준의 서술로 처리했다.
+- AP 카드에 `MONEY / PEOPLE / MIXED` 축 배지를 추가했다. `Invest`, `Side hustle`, `Save/cut back`은 돈축, `Rest`, 관계 행동은 사람축, `Self-Dev`는 혼합으로 읽힌다.
+- 주간 보드 우측 AP 슬롯 아래에 `MONEY 0 / PEOPLE 0` 압축 칩을 추가했다. 별도 긴 행으로 만들면 Steam Deck 화면에서 행동 카드가 밀려서, 최종 화면은 압축 표시로 정리했다.
+- 축 표시가 도덕 점수표처럼 보이지 않도록 `moral_tint`/선악 수치 명칭은 UI에 노출하지 않았다.
+
+### 검증
+- `git diff --check` 통과.
+- `CompileCheck.tscn` 통과.
+- `ScreenshotQA --qa=ap-en --lang=en` 통과.
+- `ap_en_03_ap_actions.png`, `ap_en_04_money_modal.png` 직접 확인. 1280×800에서 4개 AP 카드가 다시 한 화면에 들어온다.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 영어 한글 누출 0, 밸런스 밴드 통과, 오디오 자산 검사 통과, Godot compile clean.
+- Godot 종료 시 RID/Texture leak 경고는 기존 OpenGL QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
+
+## 2026-07-04 (Codex — AP action commit feedback pass)
+
+### 배경
+- 클로드 원격 브랜치 3개를 확인했지만 main보다 앞선 커밋은 없어 병합할 새 내용이 없었다.
+- AP 레일/행동 카드가 시각적으로는 정리됐지만, 버튼을 누르는 순간이 여전히 웹 UI 클릭처럼 바로 사라졌다.
+- 사용자가 지적한 핵심은 AP 화면이 "게임 루프"처럼 느껴져야 한다는 점이다. 그래서 결과창을 더 키우기보다, 행동 확정 순간에 짧은 물리감과 기록 스탬프를 넣는 쪽으로 잡았다.
+
+### 수정
+- `MainGame.gd`에 전역 AP commit overlay를 추가했다. 실제 행동을 확정하면 화면 중앙에 `ACTION LOCKED`/`행동 확정` 스탬프가 0.6초가량 뜬다.
+- AP 행동 카드는 눌리는 순간 짧게 압축됐다가 복원되는 펄스를 가진다.
+- 모든 버튼에 무조건 적용하지 않고, 실제 AP를 쓰거나 결과/미니게임으로 이어지는 함수만 `_is_ap_commit_function()`으로 분리했다. `Invest`, `Life`처럼 모달 입장 성격의 버튼은 기존처럼 조용히 연다.
+- 세부 행동 모달과 People/Relations 행동도 같은 확정 피드백을 사용한다.
+- 투자 매수/매도/레버리지 매수는 모달 내부에서 AP를 소비하므로 같은 시각 확정 스탬프를 붙였다. 돈 효과음은 기존 SFX와 중복되지 않게 유지했다.
+- 미니게임 입장 시에는 commit overlay를 즉시 숨겨 카지노/경마 화면 위에 잔상이 남지 않게 했다.
+
+### 검증
+- `git diff --check` 통과.
+- `CompileCheck.tscn` 통과.
+- `ScreenshotQA --qa=ap-en --lang=en` 통과.
+- `ap_en_03_ap_actions.png`, `ap_en_03b_ap_vignette.png`, `ap_en_05_people_modal_network.png` 직접 확인.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 영어 한글 누출 0, 밸런스 밴드 통과, 오디오 자산 검사 통과, Godot compile clean.
+- Godot 종료 시 RID/Texture leak 경고는 기존 OpenGL QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
+
+## 2026-07-04 (Codex — AP color action tile pass + Claude merge)
+
+### 배경
+- 클로드가 지연 결혼/이혼 국면과 다은·지연 호칭 개인화 커밋을 새로 올려 먼저 main에 병합했다.
+- 직전 AP 행동 이미지는 기존 배경을 잘라 넣는 방식이라 52px 카드 안에서 의미가 흐려졌다.
+- 사용자가 지적한 대로 AP 행동은 "분위기"보다 "즉시 인지"가 우선이다. 다만 순수 흑백 픽토그램은 다시 웹/시스템 앱처럼 보일 수 있어, 최종 방향은 컬러 액션 픽토그램 타일로 잡았다.
+
+### 수정
+- `origin/claude/game-polish-steam-uh6ldg`를 main에 병합하고 `docs/WORK_LOG.md` 충돌은 양쪽 기록 보존으로 해결했다.
+- `assets/ui/action_tiles/`에 AP 전용 컬러 SVG 타일 13종을 추가했다.
+- 공통 행동 카드의 아트 모듈레이션을 회색 강제에서 원색 보존으로 바꿨다. 초상화도 회색 틴트를 풀어 인물 얼굴 색이 살아난다.
+- `_action_thumb_path()` 매핑을 기존 배경 크롭에서 전용 액션 타일로 교체했다.
+- AP 메인 행동은 `Invest=폰 차트`, `Self-Dev=책`, `Rest=달/물결`, `Life=집/열쇠`처럼 작은 크기에서도 바로 읽히는 사물 중심으로 정리했다.
+- Network/Rest/Life 세부 모달도 같은 액션 타일 언어를 사용한다.
+
+### 검증
+- `CompileCheck.tscn` 통과.
+- `git diff --check` 통과.
+- `ScreenshotQA --qa=ap-en --lang=en` 통과.
+- `ap_en_03_ap_actions.png`, `ap_en_05_people_modal_network.png`, `ap_en_05_people_modal.png` 직접 확인.
+- Godot 종료 시 RID/Texture leak 경고는 기존 OpenGL QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
+
 ## 2026-07-04 (Claude — 지연 결혼 국면: 다은의 거울상 반전 이혼)
 
 유저 아이디어("답답하게 살면 지연이 한심하다고 이혼") + 한국 결혼 문화(처가 눈높이)를 지연 성격에 맞게 구현. **다은의 정확한 반전**:
@@ -17,6 +166,71 @@
 
 ### 검증
 - 장식 플래그 드롭(선택지는 money/tint로 구분)로 write_only 0 유지. jiyeon_reached→jiyeon_romance_started 키 버그 수정. audit ERROR0/WARNING0/섀도잉0/arc_flow_sim 잼0/밴드/컴파일55/EN clean.
+
+## 2026-07-04 (Codex — AP/Relations visual thumbnail pass + Claude merge)
+
+### 배경
+- AP 행동과 관계 화면이 패드 친화적으로 정리됐지만, 아이콘은 여전히 단순 SVG 심볼 중심이라 웹 대시보드처럼 보이는 문제가 남아 있었다.
+- 사용자가 제안한 방향은 행동 카드는 게임 그림체의 작은 장면 컷, 관계 카드는 실제 인물 얼굴을 써서 더 직관적으로 읽히게 하는 것이다.
+- 클로드가 다은 결혼식/하객 비트 2커밋을 새로 올려 먼저 main에 병합했다.
+
+### 수정
+- `origin/claude/game-polish-steam-uh6ldg`의 결혼식/하객 비트 커밋을 main에 병합했다.
+- 공통 AP 행동 카드 빌더에 선택적 `Texture2D` 썸네일을 추가했다. 썸네일이 없으면 기존 SVG 아이콘으로 폴백한다.
+- AP 레일과 세부 행동 모달이 기존 배경 에셋을 재빛 썸네일로 사용한다. 예: Invest=투자폰, Self-Dev=도서관, Rest=한강, Life=현재 주거, Gambling=정선 카지노 입구.
+- People `My People` 카드에는 실제 초상화 얼굴을 넣었다. Father/Sangchul/Jiyeon/Daeun/Jaehyuk가 같은 화면에서 바로 구분된다.
+- Info Deck `Relations` 탭도 초상화 프레임을 추가하고, 기존 큰 관계 막대를 미니 호감/신뢰 미터로 압축했다.
+
+### 검증
+- `CompileCheck.tscn` 통과.
+- `git diff --check` 통과.
+- `ScreenshotQA --qa=ap-en --lang=en` 통과.
+- `ap_en_03_ap_actions.png`, `ap_en_05_people_modal.png`, `ap_en_05_people_modal_network.png`, `ap_en_04d_info_relations.png` 직접 확인.
+- Godot 종료 시 RID/Texture leak 경고는 기존 OpenGL QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
+
+## 2026-07-04 (Codex — Info Deck controller back pass)
+
+### 배경
+- AP/직업/관계 모달은 페이지형으로 정리됐지만, 상시 여는 `Info` 패널은 아직 웹 사이드바 느낌이 남아 있었다.
+- 더 중요한 문제는 패드 조작이다. 정보 패널이 열린 상태에서 `B/○`를 누르면 패널을 닫는 대신 시스템 메뉴로 흐를 수 있어 Steam Deck 기준 뒤로가기 규칙과 어긋났다.
+
+### 수정
+- 클로드 브랜치 새 커밋이 없음을 확인하고 main 기준으로 작업했다.
+- 우측 `Info Panel` 표기를 `Info Deck`으로 바꾸고 폭을 400px → 440px로 넓혀 영어 텍스트 여백을 확보했다.
+- 정보 패널 탭 selected 스타일을 강한 금색에서 현재 페이지형 UI와 맞는 회백색 모노톤으로 낮췄다.
+- 패드 연결 시 정보 패널 헤더에 `LB/RB Tabs · B Back` 계열 실제 버튼 힌트를 표시한다.
+- 정보 패널이 열린 상태에서 `ui_cancel`은 시스템 메뉴를 열지 않고 패널을 닫도록 입력 순서를 수정했다.
+- 정보 패널이 닫혀 있을 때는 `LB/RB`가 더 이상 보이지 않는 정보 탭을 조작하지 않는다.
+
+### 검증
+- `git diff --check` 통과.
+- `CompileCheck` 통과.
+- `ScreenshotQA --qa=ap-en --lang=en` 통과.
+- `ap_en_04b_info_stats.png`, `ap_en_04c_info_market.png`, `ap_en_04d_info_relations.png`, `ap_en_04f_info_story.png` 직접 확인.
+- Godot 종료 시 RID/Texture leak 경고는 기존 QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
+
+## 2026-07-04 (Codex — AP modal no-scroll career/people pass + Claude merge)
+
+### 배경
+- Steam Deck/패드 친화 방향은 "모든 버튼에 포커스만 달기"가 아니라, 주요 화면을 스크롤 문서가 아닌 의미 단위 선택 화면으로 바꾸는 것이다.
+- 투자 모달은 이미 페이지형으로 정리했지만, 직업 선택은 여전히 긴 채용 게시판처럼 보였고 사람·관계 모달은 5명+인맥 행동 때문에 1280×800에서 스크롤바가 보였다.
+- 클로드가 다은 약혼-이후 아크 정합성 수정 2커밋을 올려 먼저 main에 병합했다.
+
+### 수정
+- `origin/claude/game-polish-steam-uh6ldg`의 다은 약혼-이후 아크 정합성 수정분을 main에 병합하고 `docs/WORK_LOG.md` 충돌은 양쪽 기록 보존으로 해결했다.
+- 직업 선택 모달을 `Tier 1~4` 탭 + 현재 Tier의 2개 후보 카드 창으로 재구성했다.
+- 직업 모달 패드 조작을 `LB/RB`=Tier 전환, `↑/↓`=직업 후보 이동, confirm=지원/조건 확인으로 정리했다.
+- 지원 스탯/현재 경력/준비도는 상단 status strip으로 압축하고, 직업 설명은 카드 내부에서 잘라 한 화면에 들어오게 했다.
+- 사람·관계 모달을 `My People / Network·Rest` 2페이지로 나눴다. 만난 인물 5명과 인맥/휴식 행동이 각각 스크롤 없이 보인다.
+- `ScreenshotQA --qa=job-en`에 Tier2 페이지 캡처를, `ScreenshotQA --qa=ap-en`에 People network page 캡처를 추가했다.
+
+### 검증
+- 클로드 병합 직후 `./tools/audit.sh` 통과.
+- `git diff --check` 통과.
+- `CompileCheck` 통과.
+- `ScreenshotQA --qa=job-en --lang=en` 통과 및 `job_en_00a_jobs_missing_resume.png`, `job_en_00b_jobs_ready.png`, `job_en_00b_jobs_ready_tier2.png` 직접 확인.
+- `ScreenshotQA --qa=ap-en --lang=en` 통과 및 `ap_en_05_people_modal.png`, `ap_en_05_people_modal_network.png`, `ap_en_06_life_modal.png` 직접 확인.
+- Godot 종료 시 RID/Texture leak 경고는 기존 QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
 
 ## 2026-07-04 (Claude — 다은 약혼-이후 아크 정합성 전수 감사 + 구멍 4건 수정)
 
@@ -36,6 +250,355 @@
 
 ### 밸런스·흐름
 - `balance_check` 밴드 전부 통과(무직 100%/직장 0%/베팅 14.8% 불변 — 로맨스 아크는 돈 파급 없음). `arc_flow_sim` 양 경로 잼 0·체인 완결. audit ERROR 0/WARNING 0/write_only 0/섀도잉 0/컴파일 55. EN coverage clean.
+
+## 2026-07-04 (Codex — Investment modal paged no-scroll pass)
+
+### 배경
+- 전체 게임을 Steam Deck/패드 친화적으로 만들려면, 모든 화면에서 스크롤을 없애는 것이 아니라 핵심 결정 화면부터 스크롤 의존을 끊어야 한다.
+- 투자 모달은 자산 18개, 보유 요약, 시장 보드, 은행/레버리지 진입이 한 ScrollContainer에 쌓여 있어 패드로는 웹 문서처럼 느껴질 위험이 컸다.
+- 클로드 브랜치가 다은 로맨스/세계관 가상화/영어 시점 정리 등 신규 변경을 갖고 있어, 먼저 main에 병합한 뒤 표면 작업을 진행했다.
+
+### 수정
+- `origin/claude/game-polish-steam-uh6ldg`를 main에 병합하고 문서 충돌 2건(`DECISIONS`, `WORK_LOG`)은 양쪽 기록 보존으로 해결했다.
+- 투자 모달을 `Trade / Holdings / Market / Bank` 4페이지 구조로 재구성했다.
+- 투자 모달에서는 `LB/RB`가 페이지 전환 전용이고, `↑/↓`는 거래 페이지의 자산 커서, `←/→`는 현재 자산의 매수/매도 행동 전환으로 동작한다.
+- 거래 페이지는 전체 자산을 세로로 쌓지 않고 현재 커서 주변 2개 자산 카드만 보여준다. 하단에 `Showing 1-2 / 18` 안내를 두어 스크롤 대신 자산 커서로 이동하는 모델을 드러냈다.
+- 보유/시장/은행 페이지를 별도 compact page로 추가했다. 은행 페이지에서는 대출 실행/상환 후 기존 은행 모달이 아니라 투자 데스크의 Bank page로 돌아온다.
+- 영어 Bank page에서 대출 상품명이 한글로 보이던 문제를 `GameState.get_loan_name()` 사용으로 수정했다.
+- `ScreenshotQA --qa=invest-en`이 거래/보유/시장/은행 페이지와 매수 토스트를 각각 캡처하도록 갱신했다.
+
+### 검증
+- 클로드 병합 직후 `./tools/audit.sh` 통과.
+- `CompileCheck` 통과.
+- `ScreenshotQA --qa=ap-en --lang=en` 통과 및 `/tmp/gangnamdream_qa/ap_en_04a_investment_modal.png` 직접 확인.
+- `ScreenshotQA --qa=invest-en --lang=en` 통과 및 `/tmp/gangnamdream_qa/invest_en_00_trade_page.png`, `invest_en_01_holdings_page.png`, `invest_en_02_market_page.png`, `invest_en_03_bank_page.png` 직접 확인.
+- 영어 Bank page에서 한글 대출명 누출이 사라진 것을 확인했다.
+
+## 2026-07-04 (Codex — Controller label + AP no-scroll slot rail pass)
+
+### 배경
+- Steam Deck/패드 대응은 단순 focus traversal 문제가 아니라, 플레이어가 자기 패드의 실제 버튼 표기를 보고 즉시 이해해야 하는 문제다.
+- 일부 최근 힌트에 `A/B/X/Y`가 하드코딩되어 있어 PlayStation 패드에서는 `✕/○/□/△`와 어긋날 수 있었다.
+- AP 행동 화면은 1차 카드화 이후에도 "버튼 리스트" 느낌이 남아, 매주 행동을 고르는 게임 보드 감각을 더 강화할 필요가 있었다.
+
+### 수정
+- StoryMode 팝업 닫기 힌트, 투자 모달 패드 힌트, 경마장 베팅/결과 패드 힌트의 `A/B/X/Y` 하드코딩을 `ControllerHints` 기반 표기로 교체했다.
+- AP 행동 레일의 메인 행동 카드에 `SLOT 01/02/03` 레일 번호를 추가했다.
+- 패드 연결 시 AP 행동 카드 오른쪽에 실제 confirm keycap을 표시한다.
+- AP 하단 패드 안내를 평문 라벨에서 작은 controller strip으로 바꿨다.
+- AP 상단 action log를 긴 목록에서 `이번 주:` / `This week:` 한 줄 요약으로 접었다.
+- 주간 압박 보드, AP 슬롯, 행동 카드 높이를 압축해 1280x800 핵심 AP 화면에서 4개 행동 슬롯이 스크롤 없이 보이게 했다.
+
+### 검증
+- `CompileCheck` 통과.
+- `git diff --check` 통과.
+- `ScreenshotQA --qa=ap-en --lang=en` 통과.
+- `ScreenshotQA --qa=racetrack-en --lang=en` 통과.
+- `/tmp/gangnamdream_qa/ap_en_03_ap_actions.png` 직접 확인: 영어 AP 화면에서 행동 카드가 `SLOT 01/02/03` 레일로 읽히고, 4개 행동 슬롯이 스크롤바 없이 한 화면에 들어옴.
+
+## 2026-07-03 (Codex — Investment modal controller cursor pass)
+
+### 배경
+- 투자 모달은 자산마다 매수/매도 버튼이 여러 개 있어 Steam Deck/패드에서는 평면 포커스 순회가 길어질 위험이 컸다.
+- 또한 첫 화면에서 실제 거래 자산 카드가 보이지 않고, 은행/가이드/포트폴리오 정보가 상단을 많이 차지해 "투자 화면인데 뭘 사야 하는지"가 늦게 보였다.
+
+### 수정
+- 투자 모달에 전용 패드 의미 커서를 추가했다.
+- `↑/↓`는 자산 선택, `←/→` 또는 `LB/RB`는 현재 자산의 매수/매도 행동 순환, `A`는 현재 행동 확정, `B`는 뒤로가기로 정리했다.
+- 컨트롤러 연결 시 투자 모달에 현재 자산과 현재 행동을 알려주는 패드 힌트를 표시한다.
+- 선택된 자산 카드는 패드 사용 시 금색 테두리로 강조된다.
+- 첫 방문 가이드와 투자 입문 안내를 한 줄로 압축하고, 은행 버튼은 자산 카드 뒤로 내려 첫 화면에 `Tradable Assets`와 첫 자산 카드가 보이게 했다.
+- AP 영어 QA에 실제 `Invest / Buy·Sell` 모달 컷을 추가했다.
+
+### 검증
+- `git diff --check` 통과.
+- `CompileCheck` 통과.
+- `ScreenshotQA --qa=ap-en` 통과.
+- `/tmp/gangnamdream_qa/ap_en_04a_investment_modal.png` 직접 확인: 1280x800 영어 투자 모달 첫 화면에서 시장 보드, 요약, `Tradable Assets`, 첫 자산 카드가 함께 보임.
+
+## 2026-07-03 (Codex — AP modal controller back pass)
+
+### 배경
+- AP 행동 화면은 메인 레일 1차 정리는 되어 있었지만, 카테고리/투자/생활/도박장 같은 메뉴형 모달을 패드로 열었을 때 `B`로 빠져나오는 규칙이 명확하지 않았다.
+- 이벤트/월결산/엔딩 모달은 실수로 닫히면 흐름이 확정될 수 있으므로 보호가 필요하지만, 메뉴형 모달은 패드에서 즉시 뒤로갈 수 있어야 한다.
+
+### 수정
+- 공통 모달에 `cancelable` 상태를 추가했다.
+- AP 카테고리, 투자, 은행, 레버리지, 직업 선택, 상점, 시스템, 칭호 도감, 용어집 등 닫아도 행동이 확정되지 않는 메뉴형 모달만 `B`/cancel로 닫히게 했다.
+- 데모 기록, 최종 기록, 월 결산, 경고, 성향 팝업 등 흐름 보호 모달은 기존처럼 명시 버튼으로만 닫히게 유지했다.
+- 컨트롤러 연결 시 cancelable 모달 상단에 `[B] Back` 계열 힌트가 표시되도록 했다.
+
+### 검증
+- `git diff --check` 통과.
+- `CompileCheck` 통과.
+- `ScreenshotQA --qa=ap-en` 통과.
+- `/tmp/gangnamdream_qa/ap_en_03_ap_actions.png`, `/tmp/gangnamdream_qa/ap_en_04_money_modal.png`, `/tmp/gangnamdream_qa/ap_en_05_people_modal.png`, `/tmp/gangnamdream_qa/ap_en_06_life_modal.png` 직접 확인: AP 화면과 주요 메뉴 모달 레이아웃이 깨지지 않음.
+
+## 2026-07-03 (Codex — RaceTrack controller betting slip pass)
+
+### 배경
+- 경마장은 말 6~8마리, 베팅 종류, 금액, 정보상, 패스 버튼이 한 화면에 모여 있어 Steam Deck/패드에서 평면 포커스 순회로 처리하면 조작 피로가 크다.
+- 특히 경마는 "말을 고르고, 베팅 종류를 고르고, 금액을 정하고, 출발한다"는 베팅 slip 흐름이 분명해야 게임처럼 느껴진다.
+
+### 수정
+- 경마장 패드 입력을 `↑/↓=말 선택`, `←/→ 또는 LB/RB=베팅 종류`, `X=금액 순환`, `A=말 선택 또는 베팅`, `B=선택 취소/나가기`, `Y=규칙`으로 정리했다.
+- 버튼 focus traversal은 끄고, 패드 사용 시 현재 말/베팅종류/금액/다음 경주 버튼에 금색 의미 커서가 나타나도록 했다.
+- 베팅 화면과 결과 화면에 패드 전용 짧은 조작 힌트를 추가했다.
+- 경마 중 라이브 상황판은 레인 오른쪽으로 유지해 1번마를 가리지 않는지 다시 확인했다.
+
+### 검증
+- `git diff --check` 통과.
+- `CompileCheck` 통과.
+- `ScreenshotQA --qa=racetrack-en` 통과.
+- `/tmp/gangnamdream_qa/racetrack_en_07_racetrack_betting.png`, `/tmp/gangnamdream_qa/racetrack_en_07c_racetrack_pick_badge.png`, `/tmp/gangnamdream_qa/racetrack_en_07a_racetrack_race.png`, `/tmp/gangnamdream_qa/racetrack_en_07b_racetrack_result.png` 직접 확인: 1280x800 영어 경마장에서 베팅/픽/레이스/결과 레이아웃이 깨지지 않음.
+
+## 2026-07-03 (Codex — Jeongseon casino hub controller pass)
+
+### 배경
+- 개별 카지노 미니게임의 패드 모델을 정리해도, 허브 화면이 작은 `Rules/Enter` 버튼을 전부 포커싱하게 두면 Steam Deck에서는 다시 피로해진다.
+- 카지노 허브는 "게임 카드 하나를 고르고 들어간다"는 장소 리스트처럼 작동해야 한다고 판단했다.
+
+### 수정
+- 카지노 허브에 패드 의미 커서를 추가했다.
+- D-pad는 2열 게임 카드 그리드 안에서 이동하고, `A`는 선택 게임 입장, `Y`는 선택 게임 규칙, `X`는 용어집, `B`는 카지노 나가기로 정리했다.
+- 작은 `Rules/Enter/Exit/Glossary` 버튼의 focus traversal은 끄고, 패드 사용 시 선택된 게임 카드 전체에 금색 테두리와 짧은 조작 힌트가 나타나도록 했다.
+- 용어집 오버레이는 참조를 추적해 패드에서 `A/B`로 닫을 수 있게 했다.
+
+### 검증
+- `git diff --check` 통과.
+- `CompileCheck` 통과.
+- `ScreenshotQA --qa=casino-en` 통과.
+- `/tmp/gangnamdream_qa/en_08_jeongseon_casino.png` 직접 확인: 1280x800 영어 카지노 허브에서 카드 그리드/텍스트/하단 버튼이 잘리지 않음.
+
+## 2026-07-03 (Codex — Hold'em action-rail controller pass)
+
+### 배경
+- 홀덤은 버튼 수보다 "잘못 누르면 바로 폴드/올인"되는 결정 리스크가 큰 화면이다.
+- 패드에서 모든 버튼을 평면 순회하게 두면 Fold, Call, Raise, All-In, Leave가 한 줄로 섞여 조작 피로와 사고 입력이 생길 수 있었다.
+
+### 수정
+- 바이인 단계 패드 입력을 `A=Start`, `X/LB/RB=바이인 순환`, `Y=규칙`, `B=나가기`로 정리했다.
+- 플레이어 턴은 현재 가능한 포커 액션만 `Fold / Check(or Call) / Raise presets / All-In` 액션 레일로 접었다.
+- D-pad 또는 `LB/RB/X`로 액션을 고르고 `A`로 확정한다. `B`는 세션 종료/자리 뜨기로 유지한다.
+- 새 액션 턴의 기본 커서는 위험한 `Fold`가 아니라 `Check/Call` 쪽으로 잡히게 보정했다.
+- 버튼 focus traversal은 끄고, 패드 사용 시 선택된 바이인/액션/Next Hand 버튼에 금색 의미 커서와 짧은 조작 힌트가 나타나도록 했다.
+
+### 검증
+- `git diff --check` 통과.
+- `CompileCheck` 통과.
+- `ScreenshotQA --qa=surface-en` 통과.
+- `/tmp/gangnamdream_qa/surface_en_06_holdem_club.png`, `/tmp/gangnamdream_qa/surface_en_06a_holdem_showdown.png` 직접 확인: 1280x800 영어 홀덤 화면에서 테이블/카드/액션 버튼 레이아웃이 깨지지 않음.
+
+## 2026-07-03 (Codex — Blackjack action-rail controller pass)
+
+### 배경
+- 블랙잭은 버튼 수는 적지만 실제 플레이어 판단이 `Hit / Stand / Double / Split`에 집중되는 미니게임이다.
+- 모든 버튼을 포커스 대상으로 두면 베팅 금액, 규칙, 나가기, 액션 버튼이 한 줄로 섞여 패드에서 전략 결정의 리듬이 흐려질 수 있었다.
+
+### 수정
+- 베팅 단계 패드 입력을 `A=Deal`, `X/LB/RB=베팅 금액 순환`, `Y=규칙`, `B=나가기`로 정리했다.
+- 플레이어 턴은 `Hit / Stand / Double / Split` 액션 레일 하나로 접었다. D-pad 또는 `LB/RB/X`로 액션을 고르고 `A`로 확정한다.
+- 결과 단계는 `A=Next Hand`, `Y=Rules`, `B=Exit`로 이어져 다음 판 반복이 바로 가능하다.
+- 버튼 focus traversal은 끄고, 패드 사용 시 현재 Deal/액션/Next Hand 버튼에 금색 의미 커서와 짧은 조작 힌트가 나타나도록 했다.
+
+### 검증
+- `git diff --check` 통과.
+- `CompileCheck` 통과.
+- `ScreenshotQA --qa=casino-en` 통과.
+- `/tmp/gangnamdream_qa/en_10a_blackjack_betting.png`, `/tmp/gangnamdream_qa/en_10_blackjack_table.png` 직접 확인: 1280x800 영어 블랙잭 화면에서 테이블/카드/액션 버튼 레이아웃이 깨지지 않음.
+
+## 2026-07-03 (Codex — Slot simple controller pass)
+
+### 배경
+- 슬롯머신은 카지노 중 가장 단순해야 하는 화면이다. 패드 기준으로는 수많은 버튼을 오가는 게임이 아니라 "금액을 고르고 바로 돌린다"는 원버튼 리듬이 먼저 와야 한다.
+- 기존 슬롯 화면은 마우스 버튼은 동작했지만 Steam Deck/패드 기준의 명시적 조작 계약과 의미 커서가 부족했다.
+
+### 수정
+- 슬롯 패드 입력을 `A=SPIN`, `X/LB/RB=베팅 금액 순환`, `Y=규칙`, `B=나가기`로 정리했다.
+- 버튼 focus traversal은 끄고, 패드 사용이 감지되면 `SPIN` 버튼에 금색 의미 커서와 짧은 조작 힌트가 나타나도록 했다.
+- 베팅 금액을 패드로 바꿀 때 금액 표시, 버튼 상태, 패드 힌트가 즉시 갱신되도록 `_on_stake_select()` 경로를 전체 UI refresh로 연결했다.
+- 마우스 플레이 시에는 패드 힌트가 숨겨져 기존 화면 밀도를 늘리지 않는다.
+
+### 검증
+- `git diff --check` 통과.
+- `CompileCheck` 통과.
+- `ScreenshotQA --qa=casino-en` 통과.
+- `/tmp/gangnamdream_qa/en_11_slot_machine.png` 직접 확인: 1280x800 영어 슬롯 화면에서 릴/스테이크/액션 버튼 레이아웃이 깨지지 않음.
+
+## 2026-07-03 (Codex — Big Wheel controller rhythm pass)
+
+### 배경
+- 빅휠은 버튼 수 자체는 적지만, 패드 기준으로는 "세그먼트 선택 → 금액 → 스핀" 리듬이 분명해야 슬롯/카지노 게임처럼 손맛이 난다.
+- 기존 휠 자체는 54칸 슬롯이 사이사이에 섞인 `BIG_WHEEL_SLOT_LAYOUT` 구조라 배당별 통짜 분할 문제는 이미 해소되어 있었고, 이번 패스는 패드 조작 흐름을 다듬는 데 집중했다.
+
+### 수정
+- 빅휠 패드 입력을 세그먼트 커서 + SPIN 타깃 구조로 정리했다.
+- `LB/RB` 또는 좌우 D-pad는 세그먼트 이동, 아래 D-pad는 SPIN 타깃, 위 D-pad는 세그먼트 커서 복귀, `A`는 선택/스핀, `X`는 베팅 금액 순환, `Y`는 규칙, `B`는 세그먼트 비우기/나가기로 정리했다.
+- 세그먼트 선택 후 `A`를 누르면 SPIN 타깃으로 자동 이동해, `A → A`만으로 "선택하고 돌리는" 리듬을 만들었다.
+- 버튼 focus traversal은 끄고, 패드 사용 시 세그먼트 또는 SPIN 버튼에 금색 의미 커서가 나타나도록 했다.
+
+### 검증
+- `git diff --check` 통과.
+- `CompileCheck` 통과.
+- `ScreenshotQA --qa=casino-en` 통과.
+- `/tmp/gangnamdream_qa/en_12a_bigwheel.png` 직접 확인: 1280x800 영어 빅휠 화면에서 휠/세그먼트/스테이크/액션 버튼 레이아웃이 깨지지 않음.
+
+## 2026-07-03 (Codex — Roulette two-mode controller cursor pass)
+
+### 배경
+- 룰렛은 숫자판 37개, 외부 베팅 9~10개, 칩, BET, SPIN이 한 화면에 있어 모든 버튼을 포커스 대상으로 두면 Steam Deck/패드에서 가장 피곤한 카지노 화면이 될 수 있었다.
+- 실제 조작 의도는 "외부 베팅을 고를 것인가, 숫자를 고를 것인가, 스핀할 것인가" 세 가지로 접을 수 있다고 판단했다.
+
+### 수정
+- 룰렛 패드 입력을 `Outside Bets / Number Board / Action` 3개 모드로 나눴다.
+- `LB/RB`는 모드 전환, D-pad는 현재 모드 안의 커서 이동, `A`는 칩 놓기 또는 SPIN, `X`는 베팅 금액 순환, `Y`는 규칙, `B`는 베팅 비우기/나가기로 정리했다.
+- 외부 베팅은 3x3 의미 그리드로 접고, 단일 숫자는 별도 `Number Board` 모드에서 0~36 커서로 이동하게 했다.
+- 패드 사용 시 숫자/외부 베팅/Action 버튼에 금색 의미 커서가 표시되고, 일반 버튼 focus traversal은 꺼서 수십 개 버튼을 순회하지 않게 했다.
+- 패드 힌트와 베팅 안내 문구는 패드/키보드 내비게이션이 감지될 때만 나타나며, 패드 상태에서는 "Press BET" 대신 `[A] place chip` 문구를 보여준다.
+
+### 검증
+- `git diff --check` 통과.
+- `CompileCheck` 통과.
+- `ScreenshotQA --qa=casino-en` 통과.
+- `/tmp/gangnamdream_qa/en_12_roulette_table.png` 직접 확인: 1280x800 영어 룰렛 화면에서 숫자판/외부 베팅/스테이크/액션 버튼 레이아웃이 깨지지 않음.
+
+## 2026-07-03 (Codex — Baccarat semantic controller target pass)
+
+### 배경
+- 바카라는 다이사이보다 버튼 수가 적지만, Player/Banker/Tie/Pair/칩/Deal/Clear/Rules/Exit가 모두 독립 버튼으로 있어 패드 사용자가 목적 없는 focus 이동을 하게 될 수 있었다.
+- 실제 카지노 몰입 관점에서는 "칩을 어디에 놓을지"와 "언제 딜할지"만 패드의 핵심이어야 한다.
+
+### 수정
+- 바카라 패드 타깃을 `Player / Banker / Tie / Player Pair / Banker Pair / Deal` 6개 의미 대상으로 접었다.
+- D-pad는 베팅존/Deal 타깃 이동, `LB/RB`는 타깃 순환, `A`는 칩 놓기 또는 Deal 실행, `X`는 베팅 단위 순환, `Y`는 규칙, `B`는 베팅 초기화/나가기로 정리했다.
+- 버튼별 focus traversal을 끄고, 패드 사용 시 버튼과 실제 베팅 매트 구역에 금색 의미 커서가 같이 표시되도록 했다.
+- 패드 힌트는 패드/키보드 내비게이션이 감지될 때만 나타나게 해 마우스 화면의 정보 밀도를 늘리지 않았다.
+
+### 검증
+- `git diff --check` 통과.
+- `CompileCheck` 통과.
+- `ScreenshotQA --qa=casino-en` 통과.
+- `/tmp/gangnamdream_qa/en_09a_baccarat_betting.png` 직접 확인: 1280x800 영어 바카라 화면에서 레이아웃/버튼/베팅 매트가 깨지지 않음.
+
+## 2026-07-03 (Codex — Dai Sai semantic controller mode pass)
+
+### 배경
+- 다이사이는 BIG/SMALL, 홀짝, 싱글, 페어, 트리플, 합계, 칩, ROLL까지 한 화면에 버튼이 많아 Steam Deck/패드에서 모든 버튼을 하나씩 포커싱하는 방식이 피로할 수 있었다.
+- 출시 품질 기준으로는 "버튼 포커스가 된다"가 아니라 "패드로도 한 라운드가 자연스럽게 끝난다"가 필요하다고 판단했다.
+
+### 수정
+- 다이사이 패드 입력을 `Simple / Face / Total` 3개 베팅 모드로 접었다.
+- `LB/RB`는 베팅 모드 전환, D-pad는 모드 내부 커서 이동, `A`는 선택/같은 칸 재입력 시 굴림, `X`는 베팅 단위 순환, `Y`는 규칙, `B`는 기본 베팅 복귀/나가기로 정리했다.
+- 기존 마우스 클릭 버튼은 유지하되, 버튼 자체 focus traversal은 끄고 패드 사용 시 의미 커서만 금색 테두리로 표시되게 했다.
+- `ControllerHints`에 `west()`/`north()` 레이블 API를 추가해 Xbox/Steam Deck/PlayStation/Nintendo 버튼 표기가 같은 경로에서 나오게 했다.
+- 패드/키보드 내비게이션이 감지될 때만 짧은 조작 힌트가 보이도록 해, 마우스 화면은 더 복잡해지지 않게 했다.
+
+### 검증
+- `git diff --check` 통과.
+- `CompileCheck` 통과.
+- `ScreenshotQA --qa=casino-en` 통과.
+- `/tmp/gangnamdream_qa/en_12b_daisai_table.png` 직접 확인: 1280x800 영어 다이사이 화면에서 레이아웃/영문 표면이 깨지지 않음.
+
+## 2026-07-03 (Codex — AP Weekly Plan Board pass)
+
+### 배경
+- 다이사이/카지노 패드 UX보다 먼저, 모든 플레이어가 매주 보는 AP 행동 화면을 정리하기로 결정했다.
+- 기존 AP 화면은 `This Week` 정보 카드와 세로 버튼 목록이 있었지만, 여전히 다크모드 웹 대시보드/게시판처럼 읽히는 문제가 있었다.
+
+### 수정
+- AP 화면 상단 정보를 `WEEK PLAN / This Week's Pressure` 보드로 재구성했다.
+- 행동력은 텍스트 숫자만이 아니라 보드 상단의 작은 action slot으로 표시되도록 `_add_week_ap_slots()`를 실제 주간 보드에 연결했다.
+- 현금흐름/강남까지/몸과 마음 압박은 보드 안의 3개 상태 셀로 유지하되, 날짜 중복을 제거하고 "이번 주 압박" 중심으로 읽히게 했다.
+- 튜토리얼/초반 힌트는 보드 내부에 통합했고, 추천 행동은 `PRIORITY` strip으로 격상했다.
+- 행동 목록 구분선을 `ACTION RAIL` 패널 헤더로 바꿔, 패드 기준 세로 선택 레일이라는 의미를 더 분명하게 했다.
+- AP가 0일 때도 `WEEK CLOSED` 헤더로 다음 주 이동 상태가 읽히게 했다.
+
+### 검증
+- `git diff --check` 통과.
+- `CompileCheck` 통과.
+- `ScreenshotQA --qa=ap-en` 통과.
+- `/tmp/gangnamdream_qa/ap_en_03_ap_actions.png` 직접 확인: 1280x800 영어 화면에서 보드/행동 레일/행동 카드가 잘리지 않고 표시됨.
+
+## 2026-07-03 (Codex — Controller UX strategy gate)
+
+### 배경
+- 붉은사막 사례처럼 대형/고퀄리티 게임도 조작감과 패드 입력 모델이 불편하면 평가가 크게 무너질 수 있다는 우려가 제기됐다.
+- 강남드림은 액션게임은 아니지만 AP 화면, 카지노, 투자/상점 모달처럼 버튼이 많은 UI가 많아 Steam Deck/패드 사용자가 같은 종류의 피로를 느낄 수 있다.
+- 특히 다이사이는 BIG/SMALL/홀짝/싱글/페어/트리플/합계/칩/ROLL 등 40개 안팎의 버튼이 한 화면에 있어, 단순 focus neighbor만 붙이는 방식은 근본 해결이 아니라고 판단했다.
+
+### 결정
+- `docs/CONTROLLER_UX_STRATEGY.md`를 추가해 컨트롤러 UX를 출시 게이트로 격상했다.
+- 핵심 원칙을 "모든 버튼을 포커스 가능하게 만들기"가 아니라 "화면마다 하나의 명확한 조작 모델 제공"으로 고정했다.
+- 글로벌 입력 계약을 정의했다: D-pad/LS=선택 이동, A=확정, B=뒤로/취소, X=베팅액/보조 행동, Y=규칙/상세, LB/RB=그룹/탭/베팅 모드 전환, Menu=시스템, R3=AP empty에서 다음 주.
+- QA 기준에 "일반 화면 12개 초과 focus rail 금지", "dense casino는 cursor/mode model 필수", "컨트롤러만으로 첫 15분/카지노 1라운드 완료"를 추가했다.
+- 다이사이는 flat 40-button traversal이 아니라 Simple / Face / Total 3개 betting mode로 접는 방향을 정본화했다.
+- 룰렛은 outside bet mode와 number board cursor mode로 분리하는 방향을 정본화했다.
+
+### 검증
+- 문서 변경만 진행. 후속 구현은 다이사이 → 바카라/블랙잭/슬롯 → 룰렛/홀덤 순서로 진행한다.
+
+## 2026-07-03 (Codex — AP flow unblock + Steam Deck tactile cleanup)
+
+### 배경
+- 실제 플레이 화면에서 AP를 모두 쓴 뒤 `다음 주`로 넘어가지 않는 것처럼 보이는 문제가 보고됐다.
+- 같은 화면에서 스윕 전환이 과하고, 클릭음이 아케이드 미사일처럼 들리며, AP 행동 화면이 여전히 다크모드 웹 UI처럼 보인다는 피드백이 있었다.
+
+### 수정
+- AP 행동 화면 진입 시 `next_button.disabled = false`를 명시해, 결과/비네트 화면에서 잠긴 상태가 AP 화면에 남지 않게 했다.
+- `ScreenshotQA --qa=ap-en`에 AP 0 상태에서 `Next Week` 버튼이 잠기지 않고 실제로 주차가 2주차→3주차로 증가하는 회귀 검사를 추가했다.
+- AP 화면 전환은 별도 스윕 없이 조용히 표시되도록 막고, 공통 ink transition은 짧은 matte fade와 약한 moral edge 신호만 남겼다.
+- 기존 `sfx_click.wav`를 짧고 둔한 기계식 tick으로 교체하고, 공통 버튼/액션 버튼/모달 open-close가 `AudioManager.play_ui_*` 경로를 쓰도록 통일했다.
+- AP 직접 행동 카드를 76px 높이, 낮은 모서리, 두꺼운 좌측 액센트, 큰 아이콘 박스로 조정해 웹 리스트 느낌을 낮췄다.
+- 패드 연결 시 AP 화면의 D-pad 초점을 행동 카드 세로 레일에 묶고, AP 0 상태에서는 `Next Week`에 초점을 바로 보내도록 정리했다.
+- 상단 HUD chip 모서리와 채도를 낮춰 알약형 웹 컴포넌트 느낌을 줄였다.
+
+### 검증
+- `git diff --check` 통과.
+- `CompileCheck` 통과.
+- `tools/audit.sh` 통과.
+- `ScreenshotQA --qa=ap-en` 통과 및 `/tmp/gangnamdream_qa/ap_en_03_ap_actions.png` 직접 확인.
+- Godot OpenGL 종료 시 기존 리소스 cleanup 경고가 남지만, QA 프로세스는 exit code 0으로 완료됐다.
+
+## 2026-07-03 (Codex — High-confidence background alignment cleanup)
+
+### 배경
+- `background_semantic_audit.py` 잔여 후보 145건 중 false positive를 제외하고, 기존 전용 에셋으로 바로 교정 가능한 고확신 오배선만 골라 정리했다.
+
+### 수정
+- 회식 이벤트 `amb_hoesik_00`/`amb_hoesik_dodge`를 포장마차가 아니라 `company_dinner_restaurant`로 교정했다.
+- `callback_hoesik_payoff`는 회식장이 아니라 퇴근 후 팀장에게 따로 불려가는 장면이므로 `office`로 교정하고, BGM도 회식 ambience가 아닌 office ambience를 쓰도록 잠갔다.
+- `drama_summer_heat`는 일반 거리 대신 전용 `heatwave_city` 배경으로 교정했다.
+- `casino_chip_exchange`는 generic casino가 아니라 정선 카지노 환전/입장 맥락이므로 `jeongseon_casino_entrance`로 교정했다.
+- `arc_gangnam_real_estate`는 강남 거리를 걷는 장면이 아니라 부동산 앱을 켜는 장면이므로 `investment_phone`으로 교정했다.
+- `arc_36_body_signal`은 헬스장이 아니라 고시원 계단/복도에서 몸 이상을 자각하는 장면이므로 `goshiwon_hallway`로 교정하고, BGM도 gym이 아니라 room 계열로 고정했다.
+- 추가로 `amb_jeonse_00`은 비 오는 거리 대신 전세 불안이 발생한 거주 공간(`apartment`)으로, 태호 코인 전화 2종은 편의점 대신 `investment_phone`으로, 이직 후 첫 장면은 `office`로, 퇴근 후 퇴사 충동은 `subway`로, 다은 포장마차 데이트/이별 2종은 `pojangmacha`로 교정했다.
+- `pojangmacha`는 회식 배경보다 먼저 독립 장소로 추론되도록 분리했고, ambience는 거리 계열로 라우팅했다.
+- `ImageRegistry`와 semantic audit mirror에도 같은 이벤트 ID 규칙을 추가했다.
+
+### 검증
+- 대상 7개 이벤트는 의도한 배경으로 매핑됨을 확인했다.
+- 후속 8개 이벤트까지 포함해 목표 이벤트가 의도한 배경으로 매핑됨을 확인했고, 실수로 바뀐 `amb_promotion_passed`는 즉시 office로 복구 확인했다.
+- 한국어 semantic review 후보는 145건에서 130건으로 감소했다.
+- `BGMContinuityCheck` 통과.
+
+## 2026-07-03 (Codex — Post-Claude Minseo portrait + new-arc surface alignment)
+
+### 배경
+- Claude가 P1/P2 서사 보강으로 `이민서`, 인물망 크로스빔, 프리엔딩 씬을 main에 반영한 뒤, 실제 플레이 화면 기준의 외형 정합성을 재점검했다.
+- 핵심 리스크는 "서사는 들어왔는데 화면은 기존 fallback을 보여주는" 상태였다. 특히 `minseo` 초상화 참조가 존재하지만 실제 파일이 없어, 신규 반복 인물이 무표정 fallback/누락 이미지로 보일 수 있었다.
+
+### 수정
+- `assets/characters/npc_minseo.png`를 신규 추가하고 Godot import 파일까지 생성했다. 이민서는 한지연과 겹치지 않도록 38세 자수성가형 실무 멘토, 짧은 단정한 흑발, 차콜 블레이저, 차분하고 피곤한 눈매로 고정했다.
+- `ImageRegistry`의 영문 인명 매핑에 `Lee Minseo`를 추가하고, 신규 아크의 이벤트 ID별 배경 추론을 명시했다.
+- `arc_minseo_01_meet`는 투자 세미나 장소(`meeting`)로, `arc_minseo_02_real`/`arc_minseo_03_arrival`/`arc_minseo_03b_not_arrived`는 카페로, `arc_pre_ending_summit`은 부동산 사무실로 교정했다.
+- `BGMPlayer`가 seminar/meeting 계열을 office ambience로 처리하도록 보정해, 화면과 소리의 장소 의미가 어긋나지 않게 했다.
+- `background_semantic_audit.py`에 같은 이벤트 ID 예외를 추가해, 실제 카페 회상/부동산 사무실/세미나 장면이 false positive로 계속 떠오르지 않게 했다.
+- `CHARACTER_VISUAL_BIBLE`, `ASSET_INDEX`, `VisualCropQA`에 Minseo를 등록했다.
+
+### 검증
+- 신규 아크 대상 semantic audit 후보가 사라졌고, 전체 후보는 151건에서 145건으로 감소했다.
+- `minseo`/`minseo_normal`을 포함한 missing portrait reference는 0건으로 확인했다.
+- Godot headless import로 `npc_minseo.png.import` 생성 완료.
 
 ## 2026-07-03 (Claude — 선택적 가상화: 거래 자산 실명 → 투명 아날로그)
 
@@ -443,7 +1006,193 @@ write-only 플래그 중 서사 하중이 큰 2종을 `description_if_known` 독
 ### 검증
 - `tools/en_coverage_check.py` clean, `tools/audit.sh` ERROR 0 / WARNING 0 / write_only 224 유지 / inert 0 / 밸런스 밴드 전부 통과.
 - Godot 전체 컴파일 스캔 55개 클린, `ScreenshotQA --qa=demo-blackbox --lang=en`로 오프닝 시네마틱/프롤로그 렌더 직접 확인(종료 시 기존 Texture/RID cleanup 경고만 잔존).
+## 2026-07-03 (Codex Korean Culture Explicit Background Cleanup Pass)
 
+### 수정
+- `content/events/korea_*.json`: 한국 문화 이벤트의 명시 `background`가 새 전용 배경을 우회하거나 엉뚱한 fallback을 잡던 문제를 교정했다.
+  - 병원 방문: `hospital_clinic`
+  - 연말정산: `office`
+  - 벚꽃: `cherry_blossom_path`
+  - 학원/영어학원: `hagwon_street`
+  - 수능: `suneung_test_hall`
+  - 사주카페: `saju_cafe`
+  - 예비군: `military_base_gate`
+  - 고기뷔페/회식: `company_dinner_restaurant`
+  - 찜질방: `jjimjilbang`
+  - 방탈출: `cafe`
+  - 주민센터: `community_center`
+  - 야근/꼰대/사내정치/연봉협상: `office`
+- `autoloads/ImageRegistry.gd`, `tools/background_semantic_audit.py`: 런타임 배경 추론과 semantic audit 미러를 동기화했다.
+- 감사 false positive를 줄이기 위해 다음 케이스를 명시 분리했다.
+  - `네이버 카페`는 실제 카페가 아니라 온라인 커뮤니티라 고시원 방 맥락 유지.
+  - `방탈출`의 "방 안"은 주거 방이 아니라 escape room이라 카페 맥락 유지.
+  - 편의점 알바 면접, 건강보험료 고지서, 명절 혼자 보내기, 지하철역 인형뽑기는 각각 실제 장면 맥락으로 고정.
+
+### 검증
+- `python3 tools/background_semantic_audit.py --lang ko | rg 'content/events/korea_|SUMMARY'` 결과 `content/events/korea_*` review 라인 0건.
+- 한국 문화 이벤트 관련 semantic review 수동 후보가 21건에서 0건으로 감소했고, 전체 background review 후보는 171건에서 150건으로 감소.
+
+---
+
+## 2026-07-01 (Codex Digital/Holiday/Climate/Library Surface Asset Pass)
+
+### 수정
+- `assets/backgrounds/`: 미세먼지/추석 귀성길/오픈채팅 전용 배경 3종 추가 및 Godot import.
+  - `fine_dust_sky.png`
+  - `chuseok_highway.png`
+  - `open_chat_screen.png`
+- `content/events/korea_climate.json`, `content/events/korea_holidays.json`, `content/events/korea_digital.json`, `content/events/viral_events.json`: `kx_fine_dust`, `kx_chuseok_traffic`, `kx_open_chat`, `geojibang_chat`의 명시 배경을 전용 배경으로 교정했다.
+- `autoloads/ImageRegistry.gd`, `tools/background_semantic_audit.py`: fine dust / Chuseok highway / open chat 텍스트가 각각 맞는 배경으로 추론되도록 런타임과 감사 미러를 동기화했다.
+- `assets/audio/`: 신규 장소 ambience 4종 추가 및 Godot import.
+  - `amb_fine_dust_city.wav`
+  - `amb_highway_traffic.wav`
+  - `amb_open_chat_room.wav`
+  - `amb_library_room.wav`
+- `autoloads/BGMPlayer.gd`, `tools/BGMContinuityCheck.gd`: 미세먼지/고속도로/오픈채팅/도서관 ambience 라우팅과 회귀 케이스를 추가했다.
+- `tools/generate_audio_p1_assets.py`: 로컬 deterministic 생성 대상을 30개로 확장했다.
+
+### 검증
+- Godot `--import` 통과: 신규 배경 3종, 신규 ambience 4종 `.import` 생성.
+- 전용 배경 매핑 확인: `kx_fine_dust -> fine_dust_sky`, `kx_chuseok_traffic -> chuseok_highway`, `kx_open_chat -> open_chat_screen`, `geojibang_chat -> open_chat_screen`.
+- `AudioAssetCheck.tscn` 통과: `AUDIO_ASSET_CHECK_OK bgm=7 ambience=25 sfx=30`.
+- `BGMContinuityCheck.tscn` 통과: BGM 재시작 방지 + fine_dust/highway/open_chat/library ambience 확인. Godot 종료 시 기존 Resource cleanup 경고만 출력, exit 0.
+- `CompileCheck.tscn` 통과: `COMPILE_SCAN total=55`.
+- `python3 tools/english_hangul_audit.py`, `python3 tools/en_coverage_check.py` 통과: 영어 한글 누수 0, EN coverage clean.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+
+---
+
+## 2026-07-01 (Codex Workplace/Climate Surface Asset Pass)
+
+### 수정
+- `assets/backgrounds/`: 회식/폭염 전용 배경 2종 추가 및 Godot import.
+  - `company_dinner_restaurant.png`
+  - `heatwave_city.png`
+- `content/events/korea_workplace.json`, `content/events/korea_climate.json`: `kx_hoesik`은 전용 회식 고기집으로, `kx_heatwave`는 폭염 도시로, `kx_monsoon`은 비 오는 거리로 명시 배경을 교정했다.
+- `autoloads/ImageRegistry.gd`, `tools/background_semantic_audit.py`: 회식/폭염/장마/민방위 텍스트가 각각 맞는 배경으로 추론되도록 런타임과 감사 미러를 동기화했다.
+- `assets/audio/`: 신규 ambience 3종과 이벤트 큐 SFX 2종 추가 및 Godot import.
+  - `amb_seoul_street.wav`
+  - `amb_company_dinner.wav`
+  - `amb_heatwave_city.wav`
+  - `sfx_civil_defense_siren.wav`
+  - `sfx_monsoon_rain.wav`
+- `autoloads/BGMPlayer.gd`, `autoloads/AudioManager.gd`, `tools/BGMContinuityCheck.gd`: 서울 거리/회식/폭염 ambience 라우팅, 민방위/장마 단발 SFX 큐, 반복 재생 방지 쿨다운을 추가했다.
+- `tools/generate_audio_p1_assets.py`: 로컬 deterministic 생성 대상을 26개로 확장했다.
+
+### 검증
+- Godot `--import` 통과: 신규 배경 2종, 신규 ambience 3종, 신규 SFX 2종 `.import` 생성.
+- 전용 배경 매핑 확인: `kx_hoesik -> company_dinner_restaurant`, `kx_heatwave -> heatwave_city`, `kx_civil_defense_siren -> street`, `kx_monsoon -> street_rainy`.
+- `AudioAssetCheck.tscn` 통과: `AUDIO_ASSET_CHECK_OK bgm=7 ambience=21 sfx=30`.
+- `BGMContinuityCheck.tscn` 통과: BGM 재시작 방지 + street/hoesik/heatwave ambience 확인. Godot 종료 시 기존 Resource cleanup 경고만 출력, exit 0.
+- `CompileCheck.tscn` 통과: `COMPILE_SCAN total=55`.
+
+---
+
+## 2026-07-01 (Codex Seasonal/Fortune/Reserve Location Asset Pass)
+
+### 수정
+- `assets/backgrounds/`: 중간 우선순위 한국 문화 장소 배경 3종 추가 및 Godot import.
+  - `cherry_blossom_path.png`
+  - `saju_cafe.png`
+  - `military_base_gate.png`
+- `autoloads/ImageRegistry.gd`, `tools/background_semantic_audit.py`: 벚꽃/사주카페/예비군 텍스트와 태그가 각각 전용 배경으로 추론되도록 런타임과 감사 미러를 맞췄다.
+- `assets/audio/`: 위 3개 장소와 짝을 이루는 ambience 3종 추가 및 Godot import.
+  - `amb_cherry_blossom.wav`
+  - `amb_saju_cafe.wav`
+  - `amb_military_gate.wav`
+- `tools/generate_audio_p1_assets.py`: 장소 ambience 생성 대상을 21개로 확장했다.
+- `autoloads/BGMPlayer.gd`, `tools/BGMContinuityCheck.gd`: cherry/saju/military_gate 전용 ambience 라우팅과 회귀 케이스를 추가했다.
+- `assets/ASSET_INDEX.md`, `docs/NEW_ASSET_REQUESTS.md`, `assets/audio/AUDIO_PROMPTS.md`: 새 배경/오디오 상태를 정본 문서에 반영했다.
+
+### 검증
+- Godot editor import 통과: 신규 배경 3종, 신규 ambience 3종 `.import` 생성.
+- 전용 배경 추론 확인: `kx_spring_cherry -> cherry_blossom_path`, `kx_saju_cafe -> saju_cafe`, `kx_reserve_duty -> military_base_gate`.
+- `AudioAssetCheck.tscn` 통과: `AUDIO_ASSET_CHECK_OK bgm=7 ambience=18 sfx=28`.
+- `BGMContinuityCheck.tscn` 통과: BGM 재시작 방지 + cherry/saju/military_gate inferred ambience 확인.
+- `python3 tools/background_semantic_audit.py` 통과: 수동 REVIEW 목록 출력, exit 0.
+- `python3 tools/english_hangul_audit.py`, `python3 tools/en_coverage_check.py` 통과: 영어 한글 누수 0, EN coverage clean.
+- `CompileCheck.tscn` 통과: `COMPILE_SCAN total=55`.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+
+---
+
+## 2026-07-01 (Codex Korean Culture Location Asset Pass)
+
+### 수정
+- `assets/backgrounds/`: 한국 문화 이벤트용 전용 배경 4종 추가 및 Godot import.
+  - `hagwon_street.png`
+  - `suneung_test_hall.png`
+  - `community_center.png`
+  - `jjimjilbang.png`
+- `autoloads/ImageRegistry.gd`, `tools/background_semantic_audit.py`: `kx_hagwon`, `kx_suneung_day`, `kx_jumin_center`, `kx_jjimjilbang` 계열 텍스트/태그가 각각 전용 배경으로 추론되도록 런타임과 감사 미러를 맞췄다.
+- `assets/audio/`: 위 4개 장소와 짝을 이루는 ambience 4종 추가 및 Godot import.
+  - `amb_hagwon_street.wav`
+  - `amb_school_hall.wav`
+  - `amb_public_office.wav`
+  - `amb_jjimjilbang.wav`
+- `tools/generate_audio_p1_assets.py`: 장소 ambience 생성 대상을 18개로 확장했다.
+- `autoloads/BGMPlayer.gd`, `tools/BGMContinuityCheck.gd`: 학원가/수능장/주민센터/찜질방 이벤트가 각각 전용 ambience를 고르도록 라우팅과 회귀 케이스를 추가했다.
+- `assets/ASSET_INDEX.md`, `docs/NEW_ASSET_REQUESTS.md`, `assets/audio/AUDIO_PROMPTS.md`: 새 배경/오디오 상태를 정본 문서에 반영했다.
+
+### 검증
+- Godot editor import 통과: 신규 배경 4종, 신규 ambience 4종 `.import` 생성.
+- 전용 배경 추론 확인: `kx_hagwon -> hagwon_street`, `kx_suneung_day -> suneung_test_hall`, `kx_jumin_center -> community_center`, `kx_jjimjilbang -> jjimjilbang`.
+- `AudioAssetCheck.tscn` 통과: `AUDIO_ASSET_CHECK_OK bgm=7 ambience=15 sfx=28`.
+- `BGMContinuityCheck.tscn` 통과: BGM 재시작 방지 + 신규 4개 장소 ambience 확인.
+
+---
+
+## 2026-07-01 (Codex Ambience Expansion Pass)
+
+### 수정
+- `assets/audio/`: 반복 장소 ambience 6종 추가 및 Godot import.
+  - `amb_subway_platform.wav`
+  - `amb_racetrack_crowd.wav`
+  - `amb_cafe_room.wav`
+  - `amb_pc_bang.wav`
+  - `amb_gym_room.wav`
+  - `amb_convenience_store.wav`
+- `tools/generate_audio_p1_assets.py`: 위 6종을 deterministic local synthesis로 재생성할 수 있게 추가했다. 기존 파일 생성 순서를 유지해 기존 5종 ambience/stinger 산출물이 흔들리지 않게 했다.
+- `autoloads/BGMPlayer.gd`: 지하철/경마장/카페/PC방/헬스장/편의점 배경·태그·키워드를 전용 ambience로 라우팅한다.
+- `autoloads/ImageRegistry.gd`, `tools/background_semantic_audit.py`: 영어 `PC bang` / `internet cafe` / `pc cafe` 문구가 PC방 배경으로 추론되도록 런타임과 감사 미러를 맞췄다.
+- `assets/audio/AUDIO_PROMPTS.md`: ambience 목록을 5종에서 11종으로 갱신했다.
+
+### 검증
+- `AudioAssetCheck.tscn` 통과: `AUDIO_ASSET_CHECK_OK bgm=7 ambience=11 sfx=28`.
+- `BGMContinuityCheck.tscn` 통과: BGM 재시작 방지 + office/Hangang/subway/racetrack/cafe/pc_bang/gym/convenience inferred ambience 확인.
+- `python3 tools/background_semantic_audit.py` 통과: 수동 REVIEW 목록 출력, exit 0.
+
+---
+
+## 2026-07-01 (Codex English Runtime Surface Audit Pass)
+
+### 수정
+- `scenes/TutorialOverlay.gd`: 튜토리얼 본문 심볼 치환의 영어/한국어 분기를 `LocaleManager.ui()` 기반으로 바꿔 런타임 한글 후보가 남지 않게 정리했다.
+- `scenes/MainGame.gd`: Story result cast badge 인물명을 `_tr()` 기반 match로 교체해 영어판 결과 카드가 romanized/person label만 쓰도록 안전화했다.
+- `scenes/MainGame.gd`: 월말 AP 패턴 판별에서 `자소서`/`모의 면접`/`구직활동` 하드코딩 후보를 localized token 변수로 분리했다.
+- `tools/audit.sh`: 영어 한글 누수 감사와 EN 커버리지 검사를 통합 감사 게이트에 포함했다.
+
+### 검증
+- `python3 tools/english_hangul_audit.py` 통과: `content_issues=0`, `runtime_candidate_files=0`, `runtime_candidate_lines=0`.
+- `python3 tools/en_coverage_check.py` 통과: `EN coverage: clean`.
+- `CompileCheck.tscn` 통과: `COMPILE_SCAN total=55`.
+- `./tools/audit.sh` 통과: 영어 표면/커버리지 검사 포함, ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+
+---
+
+## 2026-07-01 (Codex Inferred Ambience Routing Pass)
+
+### 수정
+- `autoloads/BGMPlayer.gd`: 이벤트 장소 ambience 선택 시 명시 `background`가 없으면 `ImageRegistry.infer_background_id()`를 사용하도록 연결했다. 실제 화면 배경 추론과 오디오 레이어가 같은 규칙을 공유한다.
+- `tools/BGMContinuityCheck.gd`: 영어 면접 이벤트가 office ambience를, 한강 산책 텍스트가 Hangang ambience를 받는 회귀 케이스를 추가했다.
+- 인물/서사/신규 캐릭터 에셋은 Claude 작업이 끝날 때까지 건드리지 않고, Codex 담당 영역인 오디오 표면 정합성만 보정했다.
+
+### 검증
+- `BGMContinuityCheck.tscn` 통과: BGM 재시작 방지 + inferred office/Hangang ambience 확인.
+- `AudioAssetCheck.tscn` 통과: `AUDIO_ASSET_CHECK_OK bgm=7 ambience=5 sfx=28`.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+
+---
 ## 2026-06-29 (Codex Start Menu Meta Badge Pass)
 
 ### 수정

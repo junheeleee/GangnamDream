@@ -328,7 +328,7 @@
   {
     "id": "amb_quit_impulse",
     "title": "오늘 하루만 더",
-    "background": "office",
+    "background": "subway",
     "portrait": "player_tired",
     "category": "jobs",
     "rarity": "uncommon",

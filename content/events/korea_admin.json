@@ -10,7 +10,7 @@
       "min_turn": 4
     },
     "cooldown": 20,
-    "background": "street",
+    "background": "hospital_clinic",
     "portrait": "player_tired",
     "tags": [
       "korea",
@@ -50,7 +50,7 @@
       "min_turn": 5
     },
     "cooldown": 48,
-    "background": "realestate_office",
+    "background": "office",
     "portrait": "player_normal",
     "tags": [
       "korea",

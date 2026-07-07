@@ -602,26 +602,12 @@ func _draw_story_ink_transition() -> void:
 		base = base.lerp(Color("#111216"), 0.25)
 	_story_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, size), Color(base.r, base.g, base.b, pulse * (0.075 + black * 0.070 + white * 0.035)), true)
 
-	var sweep_x := lerpf(-size.x * 0.18, size.x * 1.10, _story_ink_transition_progress)
-	var edge_w := 28.0 + black * 18.0
-	var edge_col := Color("#dce4ef", pulse * (0.14 + white * 0.05)).lerp(Color("#111817", pulse * 0.26), black)
-	_story_ink_transition_layer.draw_rect(Rect2(Vector2(sweep_x - edge_w, 0.0), Vector2(edge_w, size.y)), edge_col, true)
-
-	var line_alpha := pulse * (0.045 + black * 0.045 + white * 0.022)
-	var line_col := Color("#f4f7fb", line_alpha).lerp(Color("#8e9892", line_alpha), black * 0.70)
-	var gap := 28
-	var offset := fmod(_story_ink_transition_progress * 86.0 + float(GameState.turn * 5), float(gap))
-	for y in range(-gap, int(size.y) + gap, gap):
-		var yy := float(y) + offset
-		var jitter := sin(yy * 0.033 + float(GameState.turn)) * (0.8 + black * 2.4)
-		_story_ink_transition_layer.draw_line(Vector2(0.0, yy + jitter), Vector2(size.x, yy - jitter), line_col, 1.0)
-
 	if black > 0.01:
 		var burn := Color("#000000", pulse * (0.065 + black * 0.11))
 		_story_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, Vector2(size.x, 18.0 + black * 16.0)), burn, true)
 		_story_ink_transition_layer.draw_rect(Rect2(Vector2(0.0, size.y - 18.0 - black * 16.0), Vector2(size.x, 18.0 + black * 16.0)), burn, true)
 	if white > 0.01:
-		_story_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, size), Color("#ffffff", pulse * white * 0.042), false, 2.0)
+		_story_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, size), Color("#ffffff", pulse * white * 0.026), true)
 
 func _refresh_hud():
 	if _hud_label == null:
@@ -697,6 +683,7 @@ func _render_current():
 				_bg_img.texture = load(bp)
 	_apply_story_surface_palette(_current_uses_cg)
 	BGMPlayer.update_event_ambience(_current)
+	AudioManager.play_event_cue(_current)
 
 	# 초상화 + 이름표 — bg_focus:true 장면은 배경만(초상화 생략)
 	var pid = str(_current.get("portrait", ""))
@@ -1584,7 +1571,7 @@ func _show_popup(title: String, body: String):
 	vb.add_child(bl)
 
 	var hint = Label.new()
-	hint.text = _tr("[A] 또는 클릭하여 닫기", "[A] or click to close") if ControllerHints.is_pad_active() else _tr("클릭하여 닫기", "Click to close")
+	hint.text = _tr("[%s] 또는 클릭하여 닫기", "[%s] or click to close") % ControllerHints.south() if ControllerHints.is_pad_active() else _tr("클릭하여 닫기", "Click to close")
 	hint.add_theme_font_size_override("font_size", 12)
 	hint.add_theme_color_override("font_color", dead_col)
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER

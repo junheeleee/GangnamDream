@@ -14,11 +14,31 @@ const TRACKS = {
 }
 
 const AMBIENCE_TRACKS = {
-	"room":    "res://assets/audio/amb_goshiwon_room.wav",
-	"rain":    "res://assets/audio/amb_seoul_rain.wav",
-	"hangang": "res://assets/audio/amb_hangang_riverside.wav",
-	"office":  "res://assets/audio/amb_office_room.wav",
-	"casino":  "res://assets/audio/amb_casino_floor.wav",
+	"room":        "res://assets/audio/amb_goshiwon_room.wav",
+	"rain":        "res://assets/audio/amb_seoul_rain.wav",
+	"hangang":     "res://assets/audio/amb_hangang_riverside.wav",
+	"office":      "res://assets/audio/amb_office_room.wav",
+	"casino":      "res://assets/audio/amb_casino_floor.wav",
+	"street":      "res://assets/audio/amb_seoul_street.wav",
+	"subway":      "res://assets/audio/amb_subway_platform.wav",
+	"racetrack":   "res://assets/audio/amb_racetrack_crowd.wav",
+	"cafe":        "res://assets/audio/amb_cafe_room.wav",
+	"pc_bang":     "res://assets/audio/amb_pc_bang.wav",
+	"gym":         "res://assets/audio/amb_gym_room.wav",
+	"convenience": "res://assets/audio/amb_convenience_store.wav",
+	"hagwon":      "res://assets/audio/amb_hagwon_street.wav",
+	"school":      "res://assets/audio/amb_school_hall.wav",
+	"public_office": "res://assets/audio/amb_public_office.wav",
+	"jjimjilbang": "res://assets/audio/amb_jjimjilbang.wav",
+	"cherry":      "res://assets/audio/amb_cherry_blossom.wav",
+	"saju":        "res://assets/audio/amb_saju_cafe.wav",
+	"military_gate": "res://assets/audio/amb_military_gate.wav",
+	"hoesik":      "res://assets/audio/amb_company_dinner.wav",
+	"heatwave":    "res://assets/audio/amb_heatwave_city.wav",
+	"fine_dust":   "res://assets/audio/amb_fine_dust_city.wav",
+	"highway":     "res://assets/audio/amb_highway_traffic.wav",
+	"open_chat":   "res://assets/audio/amb_open_chat_room.wav",
+	"library":     "res://assets/audio/amb_library_room.wav",
 }
 
 # ── 상태 ──────────────────────────────────────────────────────
@@ -140,20 +160,95 @@ func clear_ambience() -> void:
 
 func _pick_ambience(ev: Dictionary) -> String:
 	var tags: Array = ev.get("tags", [])
-	var bg_id := str(ev.get("background", "")).to_lower()
+	var bg_id := _event_background_id(ev)
 	var category := str(ev.get("category", "")).to_lower()
+	var event_id := str(ev.get("id", ""))
 	var hay: String = (str(ev.get("title", "")) + " " + str(ev.get("description", ""))).to_lower()
+	if event_id == "callback_hoesik_payoff":
+		return "office"
+	if event_id in ["arc_36_body_signal", "arc_gangnam_real_estate"]:
+		return "room"
 	if "casino" in tags or "jeongseon" in tags or "jeongseon_casino" in tags \
 			or "casino" in bg_id or "카지노" in hay or "바카라" in hay or "블랙잭" in hay:
 		return "casino"
+	if "racetrack" in tags or "race" in tags or "racetrack" in bg_id or "경마" in hay or "마권" in hay:
+		return "racetrack"
+	if "subway" in tags or "commute" in tags or "subway" in bg_id or "지하철" in hay:
+		return "subway"
+	if "pc_bang" in tags or "gaming" in tags or "pc_bang" in bg_id \
+			or "pc방" in hay or "피시방" in hay or "pc bang" in hay or "internet cafe" in hay:
+		return "pc_bang"
+	if "cherry_blossom" in tags or "spring_cherry" in tags or "cherry_blossom" in bg_id \
+			or "벚꽃" in hay or "꽃잎" in hay or "cherry blossom" in hay or "petals" in hay:
+		return "cherry"
+	if "saju" in tags or "saju" in bg_id \
+			or "사주" in hay or "fortune-reading" in hay or "fortune cafe" in hay:
+		return "saju"
+	if "hoesik" in tags or "company_dinner" in bg_id \
+			or "회식" in hay or "삼겹살" in hay or "company dinner" in hay or "hoesik" in hay:
+		return "hoesik"
+	if "heatwave" in tags or "heatwave" in bg_id \
+			or "폭염" in hay or "아스팔트 열기" in hay or "heatwave" in hay or "heat wave" in hay:
+		return "heatwave"
+	if "fine_dust" in tags or "fine_dust" in bg_id \
+			or "미세먼지" in hay or "황사" in hay or "fine dust" in hay or "yellow dust" in hay or "air pollution" in hay:
+		return "fine_dust"
+	if "chuseok_highway" in bg_id \
+			or "추석 귀성길" in hay or "귀성길" in hay or "고속도로" in hay or "시외버스" in hay \
+			or "chuseok traffic" in hay or "homecoming traffic" in hay or "intercity bus" in hay:
+		return "highway"
+	if "open_chat_screen" in bg_id or str(ev.get("id", "")) == "kx_open_chat" \
+			or "오픈채팅" in hay or "오픈 채팅" in hay or "open chat" in hay or "chat room" in hay:
+		return "open_chat"
+	if "library" in bg_id or "도서관" in hay or "열람실" in hay \
+			or "public library" in hay or "reading room" in hay:
+		return "library"
+	if "rain" in tags or "street_rainy" in bg_id or "비" in hay or "빗" in hay or "장마" in hay or "monsoon" in hay:
+		return "rain"
+	if "hagwon" in tags or "hagwon" in bg_id \
+			or "학원가" in hay or "대치동" in hay or "hagwon" in hay or "private academy" in hay:
+		return "hagwon"
+	if "suneung" in tags or "suneung" in bg_id or "test_hall" in bg_id \
+			or "수능" in hay or "시험장" in hay or "고사장" in hay or "csat" in hay or "exam hall" in hay:
+		return "school"
+	if "community_center" in tags or "community_center" in bg_id \
+			or "주민센터" in hay or "동사무소" in hay or "community center" in hay or "district office" in hay:
+		return "public_office"
+	if "jjimjilbang" in tags or "jjimjilbang" in bg_id \
+			or "찜질방" in hay or "사우나" in hay or "korean sauna" in hay:
+		return "jjimjilbang"
+	if "reserve_duty" in tags or "military_base_gate" in bg_id \
+			or "예비군" in hay or "reserve forces" in hay or "reserve duty" in hay or "reserve training" in hay:
+		return "military_gate"
+	if "gym" in tags or "exercise" in tags or "gym" in bg_id or "헬스장" in hay or "운동" in hay:
+		return "gym"
+	if "convenience" in tags or "convenience" in bg_id or "편의점" in hay:
+		return "convenience"
+	if "cafe" in tags or "date" in tags or "cafe" in bg_id or "카페" in hay or "커피" in hay:
+		return "cafe"
+	if "pojangmacha" in tags or "pojangmacha" in bg_id or "포장마차" in hay:
+		return "street"
 	if "hangang" in tags or "hangang" in bg_id or "한강" in hay:
 		return "hangang"
+	if "meeting" in bg_id or "세미나" in hay or "seminar" in hay:
+		return "office"
 	if "office" in tags or "work" in tags or "jobs" in tags or category == "jobs" \
 			or "office" in bg_id or "회사" in hay or "사무실" in hay:
 		return "office"
-	if "rain" in tags or "night" in tags or "street_rainy" in bg_id or "비" in hay or "빗" in hay:
+	if bg_id in ["street", "street_day"] or "gangnam_station" in bg_id \
+			or "거리" in hay or "street" in hay:
+		return "street"
+	if "night" in tags:
 		return "rain"
 	return "room"
+
+func _event_background_id(ev: Dictionary) -> String:
+	var explicit_bg := str(ev.get("background", "")).strip_edges()
+	if explicit_bg != "":
+		return explicit_bg.to_lower()
+	if ImageRegistry and ImageRegistry.has_method("infer_background_id"):
+		return str(ImageRegistry.infer_background_id(ev, GameState.housing)).to_lower()
+	return ""
 
 # ── 트랙 선택 로직 ─────────────────────────────────────────────
 func _pick_track() -> String:

@@ -17,6 +17,13 @@ python3 tools/surface_emoji_audit.py
 SURFACE_EXIT=$?
 
 echo "──────────────────────────────────────────"
+echo "● 영어 표면/커버리지 검사"
+python3 tools/english_hangul_audit.py
+EN_HANGUL_EXIT=$?
+python3 tools/en_coverage_check.py
+EN_COVERAGE_EXIT=$?
+
+echo "──────────────────────────────────────────"
 python3 tools/balance_check.py
 BAL_EXIT=$?
 
@@ -66,7 +73,7 @@ else
 fi
 
 echo "──────────────────────────────────────────"
-if [ "$PY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
+if [ "$PY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
   echo "❌ 감사 실패 — 위 ERROR를 고치고 다시 돌리세요."
   exit 1
 fi

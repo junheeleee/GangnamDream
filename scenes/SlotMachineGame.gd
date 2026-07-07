@@ -29,10 +29,13 @@ const CHIP_TEX_BY_STAKE := {
 const SPIN_DURATION  := 1.5   # 릴 애니메이션 총 시간(초)
 const SHUFFLE_EVERY  := 0.05  # 릴 심볼 셔플 간격(초) — 빠른 스크롤 느낌
 const REEL_STOP_GAP  := 0.3   # 릴 순차 정지 간격(초)
+const JOY_BUTTON_WEST := 2
+const JOY_BUTTON_NORTH := 3
 
 # ── 상태 ───────────────────────────────────────────────────────
 var _phase: int         = Phase.IDLE
 var _active_stake: int  = 10_000
+var _pad_navigation_active: bool = false
 var _rng := RandomNumberGenerator.new()
 var _slot_machine       # SlotMachine 인스턴스
 
@@ -64,6 +67,7 @@ var _win_line_lbl: RichTextLabel
 var _win_flash: ColorRect
 var _spin_btn: Button
 var _stake_btns: Array    = []   # Array[Button]
+var _pad_hint_lbl: RichTextLabel
 var _lamp_nodes: Array = []
 var _cabinet_overlay: Control
 var _history_row: HBoxContainer
@@ -121,6 +125,7 @@ func open() -> void:
 	_payout_coin_count = 0
 	_last_results = []
 	_phase = Phase.IDLE
+	_pad_navigation_active = false
 	visible = true
 	TutorialOverlay.maybe_show("slot", self)
 	set_process(false)
@@ -135,6 +140,77 @@ func _on_exit() -> void:
 	set_process(false)
 	visible = false
 	closed.emit()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event is InputEventKey:
+		var key := event as InputEventKey
+		if key.echo:
+			return
+
+	var pad_navigation_event := event.is_action_pressed("gd_tab_prev") \
+			or event.is_action_pressed("gd_tab_next") \
+			or event.is_action_pressed("ui_accept") \
+			or event.is_action_pressed("ui_cancel") \
+			or _joy_button_pressed(event, JOY_BUTTON_WEST) \
+			or _joy_button_pressed(event, JOY_BUTTON_NORTH)
+	if pad_navigation_event:
+		_pad_navigation_active = true
+
+	var handled := false
+	if event.is_action_pressed("gd_tab_prev"):
+		handled = _pad_cycle_stake(-1)
+	elif event.is_action_pressed("gd_tab_next") or _joy_button_pressed(event, JOY_BUTTON_WEST):
+		handled = _pad_cycle_stake(1)
+	elif event.is_action_pressed("ui_accept"):
+		handled = _pad_spin()
+	elif event.is_action_pressed("ui_cancel"):
+		handled = _pad_exit()
+	elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+		handled = _pad_show_rules()
+
+	if handled:
+		get_viewport().set_input_as_handled()
+
+func _joy_button_pressed(event: InputEvent, button_index: int) -> bool:
+	if not (event is InputEventJoypadButton):
+		return false
+	var joy := event as InputEventJoypadButton
+	return joy.pressed and int(joy.button_index) == button_index
+
+func _pad_cycle_stake(direction: int) -> bool:
+	if _phase == Phase.SPINNING:
+		return true
+	var idx := STAKE_OPTIONS.find(_active_stake)
+	if idx < 0:
+		idx = 2
+	idx = int(posmod(idx + direction, STAKE_OPTIONS.size()))
+	_on_stake_select(int(STAKE_OPTIONS[idx]))
+	_flash_msg(_tr("베팅 금액: %s", "Stake: %s") % GameState.format_money(float(_active_stake)), "#d8dbe8")
+	return true
+
+func _pad_spin() -> bool:
+	if _phase == Phase.SPINNING:
+		return true
+	_start_spin()
+	return true
+
+func _pad_exit() -> bool:
+	if _phase == Phase.SPINNING:
+		return true
+	_on_exit()
+	return true
+
+func _pad_show_rules() -> bool:
+	if _phase == Phase.SPINNING:
+		return true
+	AudioManager.play_ui_open()
+	TutorialOverlay.force_show("slot", self)
+	return true
+
+func _should_show_pad_cursor() -> bool:
+	return _pad_navigation_active or ControllerHints.is_pad_active()
 
 # ── 스핀 로직 ─────────────────────────────────────────────────
 func _start_spin() -> void:
@@ -1078,6 +1154,17 @@ func _build_ui() -> void:
 	_spin_btn.add_theme_color_override("font_disabled_color", Color("#2a3a2a"))
 	physical_row.add_child(_spin_btn)
 
+	_pad_hint_lbl = RichTextLabel.new()
+	_pad_hint_lbl.bbcode_enabled = true
+	_pad_hint_lbl.fit_content = true
+	_pad_hint_lbl.scroll_active = false
+	_pad_hint_lbl.visible = false
+	_pad_hint_lbl.custom_minimum_size = Vector2(0, 18)
+	_pad_hint_lbl.add_theme_font_size_override("normal_font_size", 11)
+	_pad_hint_lbl.add_theme_color_override("default_color", Color("#aeb6ca"))
+	_f(_pad_hint_lbl, true)
+	deck_inner.add_child(_pad_hint_lbl)
+
 	deck_inner.add_child(_sep())
 
 	# ── 히스토리 (최근 5판) ────────────────────────────────────
@@ -1143,6 +1230,8 @@ func _refresh_ui() -> void:
 	_refresh_history()
 	_refresh_balance_lbl()
 	_refresh_payout_tray_lbl()
+	_refresh_pad_hint()
+	_refresh_spin_button_surface()
 
 func _refresh_session_lbl() -> void:
 	if not is_instance_valid(_session_lbl):
@@ -1212,6 +1301,33 @@ func _refresh_stake_btns() -> void:
 		else:
 			btn.add_theme_color_override("font_color", Color("#dce4f0"))
 
+func _refresh_pad_hint() -> void:
+	if not is_instance_valid(_pad_hint_lbl):
+		return
+	var show_hint := _should_show_pad_cursor()
+	_pad_hint_lbl.visible = show_hint
+	if not show_hint:
+		return
+	_pad_hint_lbl.bbcode_text = _tr(
+		"[b]SPIN[/b]   [%s] 돌리기  [%s/%s/%s] 금액  [%s] 규칙  [%s] 나가기",
+		"[b]SPIN[/b]   [%s] Spin  [%s/%s/%s] Stake  [%s] Rules  [%s] Exit"
+	) % [
+		ControllerHints.south(),
+		ControllerHints.west(),
+		ControllerHints.shoulder_l(),
+		ControllerHints.shoulder_r(),
+		ControllerHints.north(),
+		ControllerHints.east(),
+	]
+
+func _refresh_spin_button_surface() -> void:
+	if not is_instance_valid(_spin_btn):
+		return
+	if _phase == Phase.SPINNING:
+		return
+	if _should_show_pad_cursor():
+		_mark_pad_button(_spin_btn)
+
 func _refresh_history() -> void:
 	if not is_instance_valid(_history_row):
 		return
@@ -1260,7 +1376,7 @@ func _refresh_history() -> void:
 func _on_stake_select(s: int) -> void:
 	_active_stake = s
 	AudioManager.play("casino_coin")
-	_refresh_stake_btns()
+	_refresh_ui()
 
 # ── UI 헬퍼 ───────────────────────────────────────────────────
 func _apply_chip_icon(btn: Button, stake: int, max_width: int) -> void:
@@ -1314,6 +1430,7 @@ func _make_btn(lbl: String, cb: Callable, bg: String, border: String) -> Button:
 	var btn := Button.new()
 	btn.text = lbl
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	btn.focus_mode = Control.FOCUS_NONE
 	var sty := StyleBoxFlat.new()
 	sty.bg_color = Color(bg)
 	sty.border_color = Color(border)
@@ -1343,6 +1460,22 @@ func _make_btn(lbl: String, cb: Callable, bg: String, border: String) -> Button:
 		btn.add_theme_font_override("font", _font)
 	btn.pressed.connect(cb)
 	return btn
+
+func _mark_pad_button(btn: Button) -> void:
+	var base := btn.get_theme_stylebox("normal")
+	if not base:
+		return
+	var st := base.duplicate()
+	if st is StyleBoxFlat:
+		var flat := st as StyleBoxFlat
+		flat.bg_color = flat.bg_color.lightened(0.08)
+		flat.border_color = COLOR_GOLD
+		flat.set_border_width_all(3)
+	btn.add_theme_stylebox_override("normal", st)
+	btn.add_theme_stylebox_override("hover", st)
+	btn.add_theme_stylebox_override("pressed", st)
+	btn.add_theme_stylebox_override("focus", st)
+	btn.add_theme_stylebox_override("disabled", st)
 
 func _sep() -> HSeparator:
 	var s := HSeparator.new()

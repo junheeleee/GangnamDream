@@ -10,6 +10,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=start-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-act-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=endings-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-end-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=title-en
@@ -38,6 +39,7 @@ const QA_SCOPE_DEMO_BLACKBOX := "demo_blackbox"
 const QA_SCOPE_START_EN := "start_en"
 const QA_SCOPE_STORY_EN := "story_en"
 const QA_SCOPE_AP_EN := "ap_en"
+const QA_SCOPE_AP_ACT_EN := "ap_act_en"
 const QA_SCOPE_ENDINGS_EN := "endings_en"
 const QA_SCOPE_DEMO_END_EN := "demo_end_en"
 const QA_SCOPE_TITLE_EN := "title_en"
@@ -115,6 +117,12 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_ap_shell_surfaces(lang, "ap_en_" if lang == "en" else "ap_ko_")
 		print("SCREENSHOT_QA_DONE scope=ap-en lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_AP_ACT_EN:
+		var lang := _qa_language("en")
+		await _shot_ap_act_surfaces(lang, "ap_act_en_" if lang == "en" else "ap_act_ko_")
+		print("SCREENSHOT_QA_DONE scope=ap-act-en lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_ENDINGS_EN:
@@ -255,6 +263,10 @@ func _qa_scope() -> String:
 				"qa=ap-en", "--qa=ap-en", "qa=ap_en", "--qa=ap_en",
 				"qa=main-en", "--qa=main-en", "scope=ap-en", "--scope=ap-en"]:
 			return QA_SCOPE_AP_EN
+		if arg in ["ap-act-en", "ap_act_en", "ap-acts-en", "ap_acts_en", "--ap-act-en", "--ap_act_en",
+				"qa=ap-act-en", "--qa=ap-act-en", "qa=ap_act_en", "--qa=ap_act_en",
+				"scope=ap-act-en", "--scope=ap-act-en", "scope=ap_act_en", "--scope=ap_act_en"]:
+			return QA_SCOPE_AP_ACT_EN
 		if arg in ["endings-en", "endings_en", "ending-en", "ending_en", "--endings-en", "--ending-en",
 				"qa=endings-en", "--qa=endings-en", "qa=endings_en", "--qa=endings_en",
 				"qa=ending-en", "--qa=ending-en", "scope=endings-en", "--scope=endings-en"]:
@@ -628,10 +640,163 @@ func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> 
 		_mg._finish_typing()
 	await _settle(0.2)
 	await _shot_action_category_modal("_open_cat_money", prefix + "04_money_modal")
+	if _mg.has_method("_open_investments"):
+		_mg.call("_open_investments")
+		await _settle(0.7)
+		await _save(prefix + "04a_investment_modal")
+		_close_modal()
+		await _settle(0.3)
 	await _shot_action_category_modal("_open_cat_people", prefix + "05_people_modal")
 	await _shot_action_category_modal("_open_cat_life", prefix + "06_life_modal")
 	await _shot_info_panel_tabs(lang, prefix)
 	await _shot_people(prefix)
+	await _assert_ap_next_week_unlocked()
+
+func _shot_ap_act_surfaces(lang: String = "en", prefix: String = "ap_act_en_") -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	_seed_portfolio()
+	_seed_info_panel_state(lang)
+	await _boot_main_game()
+	for act in range(1, 6):
+		_seed_ap_act_state(act, lang)
+		_mg.current_event = {}
+		_mg.set("pending_result_text", "")
+		if _mg.has_method("_render_ap_actions"):
+			_mg.call("_render_ap_actions")
+		if _mg.has_method("_refresh_all"):
+			_mg.call("_refresh_all")
+		if _mg.has_method("_finish_typing"):
+			_mg.call("_finish_typing")
+		await _settle(0.45)
+		await _save("%s%02d_act%d" % [prefix, act, act])
+		if act == 4 and _mg.has_method("_open_cat_people"):
+			_mg.call("_open_cat_people")
+			await _settle(0.45)
+			await _save("%s%02da_act%d_people_modal" % [prefix, act, act])
+			_close_modal()
+			await _settle(0.2)
+
+func _seed_ap_act_state(act: int, lang: String = "en") -> void:
+	GameState.action_points = GameState.max_action_points
+	GameState.action_axis_this_week = {"money": 0, "human": 0}
+	GameState.player_name = LocaleManager.DEFAULT_NAME_EN if lang == "en" else LocaleManager.DEFAULT_NAME_KO
+	GameState.current_job = {"name":("Office Worker" if lang == "en" else "사무직"), "base_salary":2_240_000.0, "tier":2}
+	GameState.monthly_income = 2_240_000.0
+	GameState.health = 64
+	GameState.mental = 58
+	GameState.money = 3_500_000.0
+	GameState.investment_skill = 35
+	GameState.flags["has_received_paycheck"] = true
+	GameState.flags["arc_invest_guidance_seen"] = true
+	GameState.flags["entered_network"] = act >= 2
+	GameState.flags["racetrack_guide_met"] = act >= 3
+	GameState.flags["racetrack_visited"] = act >= 3
+	GameState.flags["casino_club_introduced"] = act >= 3
+	GameState.flags["scalping_introduced"] = act >= 3
+	GameState.flags["in_recovery_started"] = false
+	GameState.flags["recovery_holding"] = false
+	GameState.flags["beat_addiction"] = false
+	GameState.flags["relapsed"] = false
+	GameState.milestones_reached = {
+		"10m": true,
+		"50m": true,
+		"100m": true,
+		"500m": true,
+		"1b": true,
+		"2b": true,
+	}
+	match act:
+		1:
+			GameState.year = 2026
+			GameState.month = 1
+			GameState.week_of_month = 1
+			GameState.turn = 8
+			GameState.current_job = {}
+			GameState.monthly_income = 0.0
+			GameState.money = 900_000.0
+			GameState.health = 60
+			GameState.mental = 54
+			GameState.flags["has_received_paycheck"] = false
+			GameState.flags["arc_invest_guidance_seen"] = false
+			GameState.action_axis_this_week = {"money": 0, "human": 0}
+		2:
+			GameState.year = 2027
+			GameState.month = 3
+			GameState.week_of_month = 2
+			GameState.turn = 60
+			GameState.money = 8_600_000.0
+			GameState.investment_skill = 42
+			GameState.action_axis_this_week = {"money": 1, "human": 0}
+		3:
+			GameState.year = 2028
+			GameState.month = 6
+			GameState.week_of_month = 3
+			GameState.turn = 112
+			GameState.money = 42_000_000.0
+			GameState.investment_skill = 58
+			GameState.mental = 49
+			GameState.action_axis_this_week = {"money": 2, "human": 0}
+		4:
+			GameState.year = 2029
+			GameState.month = 8
+			GameState.week_of_month = 2
+			GameState.turn = 162
+			GameState.money = 96_000_000.0
+			GameState.investment_skill = 63
+			GameState.mental = 44
+			GameState.action_axis_this_week = {"money": 1, "human": 0}
+			_set_cast_relation_for_qa("father", 34)
+			_set_cast_relation_for_qa("sangchul", 54)
+			_set_cast_relation_for_qa("jiyeon", 58)
+			_set_cast_relation_for_qa("daeun", 38)
+			_set_cast_relation_for_qa("jaehyuk", 41)
+		_:
+			GameState.year = 2030
+			GameState.month = 11
+			GameState.week_of_month = 4
+			GameState.turn = 220
+			GameState.current_job = {"name":("Major Corporation Manager" if lang == "en" else "대기업 관리자"), "base_salary":7_200_000.0, "tier":4}
+			GameState.monthly_income = 7_200_000.0
+			GameState.money = 360_000_000.0
+			GameState.investment_skill = 72
+			GameState.health = 52
+			GameState.mental = 39
+			GameState.action_axis_this_week = {"money": 1, "human": 1}
+			_set_cast_relation_for_qa("father", 18)
+			_set_cast_relation_for_qa("sangchul", 49)
+			_set_cast_relation_for_qa("jiyeon", 52)
+			_set_cast_relation_for_qa("daeun", 28)
+			_set_cast_relation_for_qa("jaehyuk", 33)
+	if _mg != null and _mg.has_method("_seed_surface_background"):
+		_mg.call("_seed_surface_background")
+
+func _assert_ap_next_week_unlocked() -> void:
+	if _mg == null:
+		_fail("MainGame instance is unavailable for AP next-week regression.")
+		return
+	GameState.action_points = 0
+	GameState.month = 1
+	GameState.week_of_month = 2
+	GameState.turn = 2
+	_mg.current_event = {}
+	_mg.set("pending_result_text", "")
+	if _mg.has_method("_render_ap_actions"):
+		_mg.call("_render_ap_actions")
+	await _settle(0.15)
+	var next_btn := _mg.get("next_button") as Button
+	if next_btn == null:
+		_fail("MainGame next_button is unavailable on AP shell.")
+		return
+	if next_btn.disabled:
+		_fail("AP shell leaves next-week button disabled when AP is 0.")
+		return
+	if _mg.has_method("_on_next_month"):
+		_mg.call("_on_next_month")
+	await _settle(0.15)
+	if GameState.week_of_month != 3:
+		_fail("AP next-week action did not advance from week 2 to week 3.")
+		return
 
 func _shot_invest_surfaces(lang: String = "en", prefix: String = "invest_en_") -> void:
 	_set_qa_language(lang)
@@ -646,13 +811,20 @@ func _shot_invest_surfaces(lang: String = "en", prefix: String = "invest_en_") -
 	if _mg.has_method("_open_investments"):
 		_mg.call("_open_investments")
 		await _settle(0.7)
-		await _save(prefix + "00_modal")
+		await _save(prefix + "00_trade_page")
+		if _mg.has_method("_set_invest_page"):
+			for page_info in [[1, "01_holdings_page"], [2, "02_market_page"], [3, "03_bank_page"]]:
+				_mg.call("_set_invest_page", int(page_info[0]))
+				await _settle(0.45)
+				await _save(prefix + str(page_info[1]))
+			_mg.call("_set_invest_page", 0)
+			await _settle(0.25)
 	if _mg.has_method("_on_buy_asset"):
 		_mg.call("_on_buy_asset", "samsung", 100_000)
 		if _mg.has_method("_finish_typing"):
 			_mg.call("_finish_typing")
 		await _settle(0.55)
-		await _save(prefix + "01_buy_toast")
+		await _save(prefix + "04_buy_toast")
 
 func _shot_tendency_surface(lang: String = "en", prefix: String = "tendency_en_") -> void:
 	_set_qa_language(lang)
@@ -775,6 +947,10 @@ func _shot_job_hunt_surfaces(lang: String = "en", prefix: String = "job_en_") ->
 		_mg.call("_open_jobs")
 		await _settle(0.5)
 		await _save(prefix + "00b_jobs_ready")
+		if _mg.has_method("_set_job_page"):
+			_mg.call("_set_job_page", 1)
+			await _settle(0.3)
+			await _save(prefix + "00b_jobs_ready_tier2")
 		_close_modal()
 		await _settle(0.2)
 	if _mg.has_method("_open_cat_work"):
@@ -1129,13 +1305,12 @@ func _shot_investment() -> void:
 	if _mg.has_method("_open_investments"):
 		_mg._open_investments()
 		await _settle(0.8)
-		await _save("02_investment_portfolio_chart")
-		var scroll: ScrollContainer = _mg.get("modal_scroll") as ScrollContainer
-		if is_instance_valid(scroll):
-			var bar: VScrollBar = scroll.get_v_scroll_bar()
-			scroll.scroll_vertical = int(bar.max_value * 0.62)
-			await _settle(0.4)
-			await _save("02d_investment_asset_cards")
+		await _save("02_investment_trade_page")
+		if _mg.has_method("_set_invest_page"):
+			for page_info in [[1, "02a_investment_holdings_page"], [2, "02b_investment_market_page"], [3, "02c_investment_bank_page"]]:
+				_mg.call("_set_invest_page", int(page_info[0]))
+				await _settle(0.45)
+				await _save(str(page_info[1]))
 		_close_modal()
 		await _settle(0.4)
 
@@ -1308,6 +1483,10 @@ func _shot_action_category_modal(method_name: String, shot_name: String) -> void
 	_mg.call(method_name)
 	await _settle(0.7)
 	await _save(shot_name)
+	if method_name == "_open_cat_people" and _mg.has_method("_set_people_page"):
+		_mg.call("_set_people_page", 1)
+		await _settle(0.35)
+		await _save(shot_name + "_network")
 	_close_modal()
 	await _settle(0.3)
 
@@ -1389,7 +1568,17 @@ func _seed_cast_state() -> void:
 		["daeun", 48],
 		["jaehyuk", 38],
 	]:
-		GameState.apply_cast_effect(str(data[0]), {"met": true, "affinity": int(data[1])})
+		_set_cast_relation_for_qa(str(data[0]), int(data[1]))
+
+func _set_cast_relation_for_qa(person_id: String, affinity: int, met: bool = true) -> void:
+	if not GameState.cast.has(person_id):
+		GameState.cast[person_id] = {"stage": "unknown", "affinity": 0, "met": false, "flags": {}}
+	var entry: Dictionary = GameState.cast[person_id]
+	entry["affinity"] = clampi(affinity, -100, 100)
+	entry["met"] = met
+	if not entry.has("flags"):
+		entry["flags"] = {}
+	GameState.cast[person_id] = entry
 
 func _close_modal() -> void:
 	for m in ["_close_modal","_close_overlay","_dismiss_modal"]:

@@ -2,7 +2,7 @@
   {
     "id": "amb_jeonse_00",
     "title": "집주인의 빚",
-    "background": "street_rainy",
+    "background": "apartment",
     "portrait": "player_tired",
     "category": "social",
     "rarity": "uncommon",
@@ -137,7 +137,7 @@
   {
     "id": "amb_hoesik_00",
     "title": "한 잔 더",
-    "background": "pojangmacha",
+    "background": "company_dinner_restaurant",
     "portrait": "player_tired",
     "category": "social",
     "rarity": "uncommon",
@@ -236,7 +236,7 @@
   {
     "id": "amb_hoesik_dodge",
     "title": "눈치 게임",
-    "background": "pojangmacha",
+    "background": "company_dinner_restaurant",
     "portrait": "player_tired",
     "category": "social",
     "rarity": "story",

@@ -2,6 +2,183 @@
 
 ## Unreleased
 
+### Changed (2026-07-04) — AP color action tile pass
+
+- Merged the latest Claude Jiyeon marriage/divorce and character-address branch into `main` before continuing surface work.
+- Replaced unclear AP background-crop thumbnails with 13 dedicated color pictogram action tiles under `assets/ui/action_tiles/`.
+- Main AP actions now read as distinct game actions at small size: invest uses a phone chart, self-dev uses a book/growth mark, rest uses moon/water, and life uses a home/key tile.
+- Network/rest/life subpages now use the same action tile language instead of reused scenic background crops.
+- Preserved color on action artwork and cast portraits instead of muting every thumbnail to monochrome.
+- Verified the English AP surface with `ScreenshotQA --qa=ap-en --lang=en`.
+
+### Changed (2026-07-04) — AP/Relations visual thumbnail pass
+
+- Merged the latest Claude Daeun wedding/guest story branch into `main` before continuing surface work.
+- Added optional artwork thumbnails to the shared AP/action card renderer while preserving SVG icon fallback.
+- Replaced the main AP action rail's plain symbolic icons with subdued thumbnails from existing in-game background assets.
+- People `My People` action cards now use actual cast portrait thumbnails for Father, Sangchul, Jiyeon, Daeun, and Jaehyuk.
+- Info Deck `Relations` cards now include portrait frames and compact Affinity/Trust meters so relationships read as people, not only stats.
+- Verified the English AP surface with `ScreenshotQA --qa=ap-en --lang=en`.
+
+### Changed (2026-07-04) — Info Deck controller back pass
+
+- Reworked the right-side `Info Panel` surface into a slightly wider `Info Deck` with more readable English spacing.
+- Retoned the info tabs away from gold into the same monochrome selected-tab language used by the paged controller modals.
+- Added controller-only header guidance for info navigation: `LB/RB` changes tabs and `B/East` backs out.
+- Fixed controller cancel behavior so pressing `B/East` while the info panel is open closes the panel instead of opening the system menu.
+- `LB/RB` no longer changes hidden info tabs when the info panel is closed.
+
+### Changed (2026-07-04) — AP modal no-scroll career/people pass
+
+- Merged the latest Claude Daeun post-engagement story consistency branch into `main` before continuing UI work.
+- Reworked the career/job modal from a long job-board list into a controller-friendly tier desk.
+- Job selection now uses `Tier 1~4` tabs, a compact two-card role window, and semantic controller input: `LB/RB` changes tier, `Up/Down` changes role, and confirm applies or checks the highlighted role.
+- Compressed current career, application stats, and readiness into a top status strip so the job modal fits 1280x800 without scrolling.
+- Reworked the People/Relations modal into two no-scroll pages: `My People` for known cast actions and `Network·Rest` for networking/free-time actions.
+- Updated screenshot QA: `job-en` now captures the Tier2 job page, and `ap-en` now captures the People network page.
+
+### Changed (2026-07-04) — Investment modal paged no-scroll pass
+
+- Merged the latest Claude story/worldbuilding branch into `main` before continuing surface work.
+- Reworked the investment modal from a long scroll stack into a paged controller-friendly desk: `Trade`, `Holdings`, `Market`, and `Bank`.
+- `LB/RB` now switches investment pages, while `Up/Down` and `Left/Right` stay focused on asset/action selection inside the Trade page.
+- The Trade page now shows a two-card asset window plus an asset cursor instead of forcing controller users to scroll through every tradable asset.
+- Added compact no-scroll Holdings, Market, and Bank pages; Bank actions can borrow/repay inside the investment desk without dropping into a separate scroll surface.
+- Fixed a new English surface leak in the paged Bank page by using localized loan product names.
+- Updated `ScreenshotQA --qa=invest-en` to capture Trade/Holdings/Market/Bank pages plus the buy-toast regression.
+
+### Changed (2026-07-04) — Controller label and AP no-scroll slot rail pass
+
+- Replaced remaining runtime hardcoded controller labels in StoryMode popup hints, investment modal hints, and RaceTrack betting/result hints with `ControllerHints`.
+- PlayStation pads now surface `✕/○/□/△`, Nintendo pads use `B/A/Y/X`, and Xbox/Steam Deck remains `A/B/X/Y` wherever these hints appear.
+- Added slot numbering to the main AP action rail so weekly actions read as deliberate `SLOT 01/02/03` choices instead of a plain web-style button list.
+- Added a compact controller hint strip to the AP action screen.
+- When a controller is active, eligible action cards show the actual confirm keycap on the card itself.
+- Collapsed AP action history into one `This week:` summary line and compressed the weekly board/action card heights so the 1280x800 AP screen shows all four action slots without a visible scrollbar.
+
+### Changed (2026-07-03) — Investment modal controller cursor pass
+
+- Added a semantic controller cursor to the investment buy/sell modal.
+- Controller flow now uses `Up/Down` for asset selection, `Left/Right` or `LB/RB` for the current asset's trade action, `A` to confirm the highlighted trade, and `B` to leave the modal.
+- Controller users now get a compact hint describing the selected asset and current buy/sell action.
+- Selected asset cards receive a gold semantic border when pad navigation is active.
+- Compressed first-visit investing guidance and moved the bank entry below asset cards so the first viewport shows actual tradable assets.
+- Added an AP screenshot QA capture for the investment modal.
+
+### Changed (2026-07-03) — AP modal controller back pass
+
+- Added explicit cancelability state to common modals.
+- AP category, investment, bank, leverage, job, shop, system, title collection, and glossary modals can now be closed with controller cancel/back.
+- Flow-protected modals such as demo records, final records, monthly summaries, warnings, and tendency popups remain button-confirmed so `B` does not accidentally commit progression.
+- Controller users now see a small `[B] Back`-style hint in cancelable modal headers.
+
+### Changed (2026-07-03) — RaceTrack controller betting slip pass
+
+- Reworked RaceTrack controller flow around a betting-slip model instead of flat focus traversal across every horse, stake, rule, and action button.
+- Added controller-only flow: D-pad up/down selects a horse, D-pad left/right or `LB/RB` changes bet type, `X` cycles stake, `A` picks a horse or places the bet, `Y` opens rules, and `B` cancels a pick or exits.
+- Disabled button focus traversal inside the RaceTrack table; pad users now get a gold semantic cursor on the active horse, bet type, stake, and Next Race target.
+- Added pad-only hint text for betting and result states while keeping mouse UI uncluttered.
+
+### Changed (2026-07-03) — Jeongseon casino hub controller pass
+
+- Added a semantic controller cursor to the Jeongseon Casino hub.
+- D-pad now moves across the two-column game-card grid; `A` enters the selected game, `Y` opens that game's rules, `X` opens the glossary, and `B` exits the casino.
+- Disabled flat focus traversal on the small hub `Rules`, `Enter`, `Exit`, and `Glossary` buttons so controller users interact with whole game cards instead.
+- The selected game card now receives a gold semantic cursor and a short controller hint when pad-style navigation is active.
+- Glossary overlays can now be dismissed with controller confirm/cancel.
+
+### Changed (2026-07-03) — Hold'em action-rail controller pass
+
+- Reworked Hold'em controller flow around a buy-in selector, a player action rail, and a showdown repeat state.
+- Added controller-only flow: buy-in uses `A` to start, `X/LB/RB` to cycle buy-in, `Y` for rules, and `B` to leave.
+- Player turns now expose only legal poker actions in one rail: `Fold`, `Check/Call`, raise presets, and `All-In`; D-pad or `LB/RB/X` moves the rail and `A` confirms.
+- New player-action turns default the controller cursor to `Check/Call` instead of dangerous `Fold`.
+- Disabled flat button focus traversal inside the Hold'em table; pad users now get a gold semantic cursor on the active buy-in/action/Next Hand target.
+
+### Changed (2026-07-03) — Blackjack action-rail controller pass
+
+- Reworked Blackjack controller flow around a betting phase, a player action rail, and a result repeat state.
+- Added controller-only flow: betting uses `A` for Deal, `X/LB/RB` to cycle stake, `Y` for rules, and `B` to exit.
+- Player turns now use one semantic action rail: D-pad or `LB/RB/X` selects `Hit`, `Stand`, `Double`, or `Split`; `A` confirms the highlighted action.
+- Result state now supports `A` for Next Hand, `Y` for rules, and `B` to exit.
+- Disabled flat button focus traversal inside the Blackjack table; pad users now get a gold semantic cursor on the active Deal/action/Next Hand target.
+
+### Changed (2026-07-03) — Slot simple controller pass
+
+- Added a simple controller contract for Slots: `A` spins, `X/LB/RB` cycles stake, `Y` opens rules, and `B` exits.
+- Disabled flat button focus traversal inside the Slot machine; pad users now get a gold semantic cursor on the `SPIN` button instead of moving through every visible button.
+- Pad hints appear only after controller or pad-style navigation is active, keeping mouse play visually uncluttered.
+- Stake changes now refresh the full slot UI immediately, so the bet meter and controller hint stay in sync.
+
+### Changed (2026-07-03) — Big Wheel controller rhythm pass
+
+- Reworked Big Wheel controller flow around a segment cursor plus a `SPIN` target instead of generic button traversal.
+- Added controller-only flow: `LB/RB` or D-pad left/right moves the segment cursor, D-pad down moves to `SPIN`, D-pad up returns to segment selection, `A` selects/spins, `X` cycles stake, `Y` opens rules, and `B` clears the segment or exits.
+- After selecting a segment with `A`, the controller target moves to `SPIN`, making the core rhythm `choose -> confirm -> spin`.
+- Disabled button focus traversal for Big Wheel controls; pad users now see a gold semantic cursor on the active segment or spin target.
+
+### Changed (2026-07-03) — Roulette two-mode controller cursor pass
+
+- Reworked Roulette controller input around three semantic modes: `Outside Bets`, `Number Board`, and `Action`.
+- Added controller-only flow: `LB/RB` switches modes, D-pad moves within the active mode, `A` places a chip or spins, `X` cycles stake, `Y` opens rules, and `B` clears the pending bet or exits.
+- Collapsed outside bets into a 3x3 semantic cursor and moved straight-number selection into a dedicated 0-36 number-board cursor.
+- Disabled flat focus traversal across the dense roulette button set; pad users now see a gold semantic cursor instead.
+- Pad-specific bet prompts now say `[A] place chip` instead of mouse-oriented `Press BET`.
+
+### Changed (2026-07-03) — Baccarat semantic controller target pass
+
+- Reworked Baccarat controller input around six semantic targets: `Player`, `Banker`, `Tie`, `Player Pair`, `Banker Pair`, and `Deal`.
+- Added controller-only flow: D-pad moves between betting zones and Deal, `LB/RB` cycles targets, `A` places a chip or deals, `X` cycles stake, `Y` opens rules, and `B` clears bets or exits.
+- Disabled flat button focus traversal inside the Baccarat table; pad users now get a gold semantic cursor on both the button row and the actual betting mat zone.
+- Pad hints appear only after controller or pad-style navigation is active so mouse play remains visually uncluttered.
+
+### Changed (2026-07-03) — Dai Sai semantic controller mode pass
+
+- Reworked Dai Sai controller input around three semantic betting modes: `Simple`, `Face`, and `Total`, instead of flat focus traversal across every visible bet button.
+- Added controller-only flow: `LB/RB` switches betting mode, D-pad moves the semantic cursor, `A` selects or rolls when pressed again on the active bet, `X` cycles stake, `Y` opens rules, and `B` restores the default bet or exits.
+- Disabled button-by-button focus traversal inside the Dai Sai table; pad users now get a gold semantic cursor while mouse controls remain unchanged.
+- Added `ControllerHints.west()` and `ControllerHints.north()` so X/Y or platform-equivalent labels can be shown consistently.
+- Pad control hints now appear only when a controller or pad-style navigation is active, keeping the mouse UI uncluttered.
+
+### Changed (2026-07-03) — AP Weekly Plan Board pass
+
+- Reworked the weekly AP action shell into a `WEEK PLAN / This Week's Pressure` board instead of a loose dashboard card plus list.
+- Moved AP slots into the weekly board so remaining actions read as tangible action slots, not just a top-bar number.
+- Integrated early-game hints into the board and promoted the recommendation line into a `PRIORITY` strip.
+- Replaced decorative separator text above action cards with an `ACTION RAIL` header so controller users see the main vertical decision path.
+- Added a `WEEK CLOSED` state when AP is empty, keeping the next-week flow legible.
+
+### Added (2026-07-03) — Controller UX strategy gate
+
+- Added `docs/CONTROLLER_UX_STRATEGY.md` to treat controller/Steam Deck usability as a release gate rather than a polish extra.
+- Locked the core rule: controller design is not "make every visible button focusable"; dense screens need semantic modes, rails, or cursors.
+- Added a global controller contract for confirm/back/stake/rules/group-switch/system/next-week inputs.
+- Updated QA criteria: first 15 minutes must be playable on controller only; ordinary screens should not require more than 12 focus targets in one rail; casino minigames must support controller-only stake/bet/start/result/repeat/exit flow.
+- Marked Dai Sai and Roulette as dense casino screens that need mode/cursor models rather than flat focus traversal over every visible bet button.
+
+### Fixed/Changed (2026-07-03) — AP flow and Steam Deck tactile cleanup
+
+- Fixed a regression where the AP action shell could inherit a disabled `Next Week` button after result/vignette flows, making AP 0 turns appear stuck.
+- Added a targeted `ScreenshotQA --qa=ap-en` regression that forces AP 0, verifies `Next Week` is enabled, and confirms the calendar advances from week 2 to week 3.
+- Removed the noisy AP screen sweep transition and shortened common ink transitions to a quieter matte fade with only subtle moral-surface edge signals.
+- Replaced the arcade-like click SFX with a short subdued UI tick and routed common buttons, action buttons, and modal open/close sounds through the quieter UI audio helpers.
+- Made AP direct-action cards taller, sharper, and more tactile; reduced HUD chip roundness/saturation so the shell reads less like a web dashboard.
+- Improved controller flow on AP screens: D-pad focus stays in the action-card rail, and AP 0 sends focus directly to `Next Week`.
+
+### Fixed (2026-07-03) — High-confidence event background alignment cleanup
+
+- Corrected fifteen story/event backgrounds that were visibly using old fallbacks despite better existing assets: company dinner, summer heatwave, Jeongseon casino chip exchange, Gangnam real-estate app check, body-signal hallway scene, manager office callback, jeonse warning at home, Taeho coin-tip phone calls, job-switch office, subway quit impulse, and Daeun pojangmacha scenes.
+- Added matching event-ID rules to `ImageRegistry`, `BGMPlayer`, and `background_semantic_audit.py` so visuals, ambience, and audit expectations stay aligned.
+- Korean semantic review candidates dropped from 145 to 130 after this pass.
+
+### Added/Fixed (2026-07-03) — Post-Claude Minseo portrait and new-arc surface alignment
+
+- Added `assets/characters/npc_minseo.png` and its Godot import so the new Minseo arc no longer references a missing recurring portrait.
+- Added Lee Minseo to the character bible and asset index: a 38-year-old self-made Gangnam arrival mentor with a distinct practical silhouette from Jiyeon and Daeun.
+- Corrected new-arc visuals: Minseo seminar now uses the meeting background, Minseo follow-ups use the cafe, and the pre-ending Gangnam closing scene uses the real-estate office instead of generic Gangnam night.
+- Synced `ImageRegistry`, `BGMPlayer`, `VisualCropQA`, and `background_semantic_audit.py` so the runtime, audio routing, visual QA, and audit mirror agree on those scenes.
+- Missing portrait references are now 0 for the new Claude arcs; targeted semantic review candidates dropped from 151 to 145.
+
 ### Changed (2026-07-02) — ★ Write-only flags eliminated: 224 → 0 ★
 
 - Every flag in the game now has a reader — a gameplay condition, code, or a narrative `description_if_known` variant. The final sweep wired ~140 "final stance" flags into the scenes and endings where a film would recall them (gambling recovery, career ladder, money habits, friendships, family threads), each in both KR and EN.
@@ -79,7 +256,66 @@
 - **Prologue fourth-wall cleanup:** removed the bracketed tutorial-narration (`[선택이 자원을 바꾼다 …]`, `[인연은 이 게임의 한 축이다]` etc.) from `story_prologue_dad/meal` and `story_pressure`, replacing with diegetic beats (KR + EN).
 - **Question A planted in the cold open:** added an opening-cinematic card before the finale ("아버지는 그 길 어딘가에서 모든 걸 잃었다 … 같은 사람이 되지 않을 수 있을까" / "can you keep from becoming the same man?") so the hidden moral spine is seeded up front (KR + EN).
 - Wired `ng_confronted_sangchul_early` into `arc_sangchul_confrontation` as a `description_if_known` variant (was orphaned when removed from the full_circle condition).
+### Fixed (2026-07-03) — Korean culture explicit background cleanup
 
+- Corrected explicit backgrounds for Korean culture events that were still bypassing the newer dedicated location assets.
+- Hospital, tax office, hagwon, Suneung, saju cafe, reserve duty, jjimjilbang, room escape, community center, company dinner/meat buffet, and workplace events now route to more story-accurate visuals.
+- Synced the runtime background inference mirror with the semantic audit rules.
+- Reduced false-positive background review hits by distinguishing online Naver Cafe from physical cafes, escape rooms from housing rooms, and bill/holiday-alone scenes from office/street scenes.
+- Targeted Korean culture semantic audit now reports no remaining `content/events/korea_*` review lines.
+
+### Added/Changed (2026-07-01) — Digital/holiday/climate/library surface asset pass
+
+- Added three dedicated backgrounds: fine-dust Seoul street, Chuseok expressway traffic, and brand-free open-chat phone screen.
+- Corrected `kx_fine_dust`, `kx_chuseok_traffic`, `kx_open_chat`, and `geojibang_chat` so their visuals match the event premise instead of generic rainy street/subway/room fallbacks.
+- Added four ambience loops: fine-dust city, highway traffic, open-chat room, and library/reading-room ambience.
+- Expanded `BGMPlayer.AMBIENCE_TRACKS` from 21 to 25 location layers and added continuity checks for the new routes.
+- Updated asset handoff docs so the completed low-priority culture-event backgrounds do not stay in the request queue.
+
+### Added/Changed (2026-07-01) — Workplace/climate surface asset pass
+
+- Added two dedicated backgrounds: Korean company-dinner samgyeopsal restaurant and dry Seoul heatwave street.
+- Corrected `kx_hoesik`, `kx_heatwave`, and `kx_monsoon` explicit backgrounds so runtime visuals match the event text instead of falling back to generic restaurant/street scenes.
+- Added three ambience loops: Seoul street, company dinner, and heatwave city.
+- Added two one-shot event SFX cues: civil-defense siren and monsoon rain, with repeat guards so rerendering an event does not spam audio.
+- Expanded `BGMPlayer.AMBIENCE_TRACKS` from 18 to 21 location layers and `AudioManager` SFX coverage from 28 to 30.
+
+### Added/Changed (2026-07-01) — Seasonal/fortune/reserve location asset pass
+
+- Added three dedicated backgrounds for Korean cultural pressure beats: cherry blossom path, saju cafe, and reserve-duty gate.
+- Routed `kx_spring_cherry`, `kx_saju_cafe`, and `kx_reserve_duty` style text/tags to those dedicated backgrounds through `ImageRegistry`.
+- Added three matching ambience loops: cherry blossoms, saju cafe, and military/reserve gate.
+- Expanded `BGMPlayer.AMBIENCE_TRACKS` from 15 to 18 location layers and added continuity checks for the new routes.
+- Updated `ASSET_INDEX`, `NEW_ASSET_REQUESTS`, `AUDIO_PROMPTS`, `ROADMAP`, and decision docs for the new asset pass.
+
+### Added/Changed (2026-07-01) — Korean culture location asset pass
+
+- Added four dedicated Korean-culture backgrounds: hagwon street, Suneung test hall, community center, and jjimjilbang.
+- Routed Korean/English event text and tags for `kx_hagwon`, `kx_suneung_day`, `kx_jumin_center`, and `kx_jjimjilbang` to the new backgrounds through `ImageRegistry`.
+- Added four matching ambience loops: hagwon street, school/test hall, public office, and jjimjilbang.
+- Expanded `BGMPlayer.AMBIENCE_TRACKS` from 11 to 15 location layers and added continuity checks for the new location audio routes.
+- Updated `ASSET_INDEX`, `NEW_ASSET_REQUESTS`, and `AUDIO_PROMPTS` so Claude/Codex handoff sees these requests as complete.
+
+### Added/Changed (2026-07-01) — Ambience expansion pass
+
+- Added six reusable location ambience loops: subway platform, racetrack crowd, cafe room, PC bang, gym room, and convenience store.
+- Expanded `BGMPlayer.AMBIENCE_TRACKS` from 5 to 11 location layers and routed inferred backgrounds/tags/keywords to the correct ambience.
+- Updated `BGMContinuityCheck` to cover the new inferred ambience cases.
+- Added English `PC bang` / `internet cafe` / `pc cafe` background routing to `ImageRegistry` and its semantic-audit mirror.
+- Updated the audio asset guide to the current 11-ambience set.
+
+### Fixed (2026-07-01) — English runtime surface audit cleanup
+
+- Cleaned the remaining runtime Hangul candidates in the English surface audit.
+- Moved TutorialOverlay symbol replacements to localized `LocaleManager.ui()` strings.
+- Localized Story result cast badge names and AP pattern matching tokens so English runtime QA now reports zero content issues and zero runtime candidates.
+- Added English zero-Hangul and EN coverage checks to the integrated `tools/audit.sh` gate.
+
+### Fixed (2026-07-01) — Inferred ambience routing
+
+- Synced event ambience selection with the same inferred background rules used by the visual scene router when an event has no explicit `background`.
+- English interview scenes now route to office ambience through inferred `office_interview_day`; Han River/riverside scenes route to Hangang ambience through inferred `hangang_riverside`.
+- Extended `BGMContinuityCheck` to cover inferred ambience regressions in addition to BGM restart prevention.
 ### Changed (2026-06-29) — Start menu meta badge pass
 
 - Replaced the StartMenu press-any-key splash progress line with compact monochrome `RUNS` / `BEST` / `ENDINGS` meta badges.

@@ -1,6 +1,6 @@
 # Gangnam Ink Art Direction
 
-Updated: 2026-06-30
+Updated: 2026-07-01
 
 ## Purpose
 
@@ -43,6 +43,7 @@ Gold, green, and saturated blue are no longer brand colors. They can remain as n
 - CGs may include main cast, but only for unique story moments and must obey canon continuity.
 - Seoul landmarks are used as story signals, not tourist wallpaper.
 - Private canon spaces such as the goshiwon, family home, and hospital must keep layout continuity before mood.
+- Functional architecture comes before atmosphere. Streets, bus stops, car interiors, casino tables, card/chip layouts, bedrooms, and offices must make physical sense before they are accepted. If the player asks "where is the road?" or "why is this glass/door/chip there?", the asset fails even if the palette is correct.
 - Do not convert the whole game to pixel art. Gangnam Dream needs faces, class signals, and Seoul spaces to remain readable. Use subtle ink-print screening, grain, and light tonal stepping as a unifying film stock instead.
 - Pixel/dither language is allowed only as a controlled accent: casino machines, money fixation, memory collapse, or Black-route disorientation. It should never make the whole UI look like a cheap filter.
 
@@ -84,6 +85,7 @@ For White-route variants add:
 
 ## QA Checklist
 
+- Does the space physically work: road/sidewalk/curb direction, bus stop bench/glass/boarding side, doors, windows, tables, cards, chips, and UI-safe center alignment?
 - Black state should read as ink/concrete, not brown, green, or sepia.
 - White state should read as clear and pale, not beige, gold, or fantasy holy light.
 - Gray state should feel premium and intentional, not merely low saturation.

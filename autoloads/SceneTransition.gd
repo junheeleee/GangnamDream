@@ -100,24 +100,9 @@ func _draw_transition_texture() -> void:
 	var black: float = clampf(-norm, 0.0, 1.0)
 	var white: float = clampf(norm, 0.0, 1.0)
 	var neutral: float = 1.0 - maxf(black, white)
-	var line_alpha: float = 0.07 + black * 0.10 + white * 0.06
-	var line_color := Color(1, 1, 1, line_alpha)
-	if stage <= -1:
-		line_color = Color("#8e9892", line_alpha)
-	elif stage >= 1:
-		line_color = Color("#ffffff", line_alpha)
-
-	# Thin paper/receipt lines. They make scene changes feel like a page sliding under glass.
-	var gap: int = 26
-	var offset: float = fmod(float(GameState.turn * 7), float(gap))
-	for y in range(-gap, int(size.y) + gap, gap):
-		var yy: float = float(y) + offset
-		var jitter: float = sin(yy * 0.037 + float(GameState.turn)) * (1.0 + black * 3.0)
-		_texture_layer.draw_line(Vector2(0.0, yy + jitter), Vector2(size.x, yy - jitter), line_color, 1.0)
-
-	# Neutral routes keep the transition matte; Black routes add edge burn, White routes add clarity.
+	# Keep transitions matte. Visible scan/page lines looked like a rendering glitch during play.
 	if neutral > 0.15:
-		_texture_layer.draw_rect(Rect2(Vector2.ZERO, size), Color(1, 1, 1, 0.018 * neutral), false, 1.0)
+		_texture_layer.draw_rect(Rect2(Vector2.ZERO, size), Color(1, 1, 1, 0.010 * neutral * _transition_alpha), true)
 	if black > 0.01:
 		var edge_alpha: float = (0.10 + black * 0.18) * _transition_alpha
 		var edge := Color("#000000", edge_alpha)
@@ -125,10 +110,6 @@ func _draw_transition_texture() -> void:
 		_texture_layer.draw_rect(Rect2(Vector2(0.0, size.y - 18.0 - black * 18.0), Vector2(size.x, 18.0 + black * 18.0)), edge, true)
 		_texture_layer.draw_rect(Rect2(Vector2.ZERO, Vector2(16.0 + black * 18.0, size.y)), edge, true)
 		_texture_layer.draw_rect(Rect2(Vector2(size.x - 16.0 - black * 18.0, 0.0), Vector2(16.0 + black * 18.0, size.y)), edge, true)
-		for i in range(8):
-			var x: float = size.x * (float(i) + 0.5) / 8.0
-			var h: float = 26.0 + 18.0 * sin(float(i) * 1.7 + float(GameState.turn))
-			_texture_layer.draw_line(Vector2(x, 0.0), Vector2(x + sin(float(i)) * 10.0, h), Color("#151817", 0.14 * black), 2.0)
 	if white > 0.01:
 		var glow_alpha: float = (0.055 + white * 0.10) * _transition_alpha
-		_texture_layer.draw_rect(Rect2(Vector2.ZERO, size), Color("#ffffff", glow_alpha), false, 2.0)
+		_texture_layer.draw_rect(Rect2(Vector2.ZERO, size), Color("#ffffff", glow_alpha), true)
