@@ -1,0 +1,163 @@
+[
+  {
+    "id": "arc_y2_sangchul_first_favor",
+    "title": "An Envelope",
+    "description": "Sangchul's office. As he set down the coffee, he slid a document envelope across the desk.\n\n\"Drop this off somewhere for me. An office in Yeoksam.\" A sticky note with the address was on it.\n\n\"It's easier for both of us if you don't ask what's inside.\" He smiled.\n\nIt was the first time. The first time this man had ever asked Minjun for anything. That the network hadn't been free — Minjun felt it now, in the weight of the envelope.",
+    "choices": [
+      {
+        "text": "Deliver it — decide not to ask",
+        "result_text": "The envelope was light, but his hand was heavy.\n\nUntil he walked back out of that Yeoksam office, he never once asked what was inside. Not asking was an answer too."
+      },
+      {
+        "text": "\"I can't do this kind of thing.\" — hand it back",
+        "result_text": "Sangchul took the envelope back. He didn't get angry.\n\n\"Sure. That's an answer too.\" That cool smile stayed with Minjun a long time."
+      }
+    ]
+  },
+  {
+    "id": "arc_y2_worn_face",
+    "title": "Have You Looked in a Mirror?",
+    "description": "Daeun watched Minjun for a long moment over her coffee cup.\n\n\"Minjun-ssi, have you looked in a mirror lately?\" She asked it smiling, but her eyes weren't.\n\nFor weeks he'd looked at nothing but his account balance. His face, it seemed, had noticed first.",
+    "choices": [
+      {
+        "text": "Take the day off — go to the market together",
+        "result_text": "That evening the two of them walked the market alleys. A bowl of sundae soup, three pairs of ten-thousand-won socks. For once he bought something that wasn't a number.\n\nDaeun laughed, and this time her eyes laughed too."
+      },
+      {
+        "text": "\"I'm fine.\" — turn back to work",
+        "result_text": "\"Fine, sure.\" Daeun didn't press further.\n\nThey both knew it was a lie."
+      }
+    ]
+  },
+  {
+    "id": "arc_y2_hyunsu_night_bus",
+    "title": "The Last Bus",
+    "description": "Eleven at night, Hyunsu called. He was at the terminal.\n\n\"Heading down to my folks'. My father's memorial rite.\" Not much time before the bus, he said.\n\nAfter a silence Hyunsu asked, \"You're staying in Seoul, aren't you.\"\n\nIt sounded less like a question than a confirmation.",
+    "choices": [
+      {
+        "text": "See him off — go to the terminal",
+        "result_text": "He caught a cab. Under the terminal lights Hyunsu grinned, startled. \"What'd you come all the way here for.\"\n\nHe stood there until the bus pulled away. The walk back, strangely, wasn't cold."
+      },
+      {
+        "text": "\"I've got work.\" — say goodbye on the phone",
+        "result_text": "\"Oh, okay. Get home safe.\" He hung up and opened the charts again.\n\nImagining the terminal lights and seeing them are different things. That night, he only imagined."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_ledger_grind",
+    "title": "A Year Counted on One Hand",
+    "description": "Flipping the calendar, he stopped. He counted how many weeks in the past year he'd actually seen a person.\n\nOne hand was enough. Every other square was a number.\n\nThe account had grown. The calendar was honest.",
+    "choices": [
+      {
+        "text": "This week, call someone",
+        "result_text": "He dialed a number he hadn't used in a long time. Three rings, and a glad voice answered.\n\nThey said nothing much. That was enough."
+      },
+      {
+        "text": "Close the ledger",
+        "result_text": "He closed the calendar. Closing it was a kind of answer too.\n\nThe account had grown, and right now that felt more urgent."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_ledger_kept",
+    "title": "A Year Held Onto",
+    "description": "The same calendar, but he saw something different. Over the past year, he hadn't let go of anyone.\n\nHe'd called on every birthday, sat beside the sick, and been slower than others for it.\n\nNot a consolation but a confirmation. This is the time I spent.",
+    "choices": [
+      {
+        "text": "Trust this pace",
+        "result_text": "That slow isn't the same as losing — for the first time, he believed it.\n\nOutside the window was darkening, but his heart wasn't."
+      },
+      {
+        "text": "\"Is this why I'm behind?\" — a flicker of worry",
+        "result_text": "Closing the calendar, for a second, other people's accounts came to mind.\n\nAfraid the time spent holding on would come back as the price of being late. An honest fear."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_sangchul_deeper_room",
+    "title": "The Inner Room",
+    "description": "Sangchul led Minjun to a room at the end of the hall.\n\nThe lighting was lower than the usual office, and the numbers moving through it were bigger. \"Figured you could sit in here now.\" He offered a seat.\n\nIt was a greyer room. It felt like something would begin the moment he sat down.",
+    "description_if_known": {
+      "sangchul_truth_known": "Sangchul led Minjun to a room at the end of the hall.\n\nTo eyes that knew the truth, even the lighting of that room looked different. The hand that had broken his father was now holding this door open.\n\n\"Figured you could sit in here now.\" The voice offering the seat was as warm as ever.\n\nThat was the coldest part."
+    },
+    "choices": [
+      {
+        "text": "Go in",
+        "result_text": "He sat down. The numbers grew, and by that much the room felt smaller.\n\nLeaving, his shoulders were heavier than when he'd come in."
+      },
+      {
+        "text": "Turn back at the door",
+        "result_text": "\"Next time.\" He shut the door and stepped out into the hall.\n\nThe strength it took to turn away gets written in no ledger anywhere. Still, Minjun figured it had earned its keep."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_hyunsu_verdict",
+    "title": "Hyunsu's Three Years",
+    "description": "Hyunsu got in touch. He'd failed the final interview. The end of three years.\n\nAnd yet his voice was calm. \"I'll just do it again. I'm someone who lives at this pace.\"\n\nMinjun, searching for words of comfort, stopped instead.",
+    "choices": [
+      {
+        "text": "\"I envy your pace.\" — say it honestly",
+        "result_text": "He meant it. Hyunsu went quiet a moment, then laughed. \"Look at you, saying things like that.\"\n\nAfter hanging up, Minjun doubted his own pace for the first time in a while."
+      },
+      {
+        "text": "Just comfort him, swallow my own unease",
+        "result_text": "\"You'll be fine, you'll get it.\" He said the right thing, but his mouth tasted bitter.\n\nThat he envied Hyunsu's calm — he never managed to say it."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_folded_time",
+    "title": "Folded Time",
+    "description": "Washing his face, the face in the mirror was unfamiliar.\n\nHe'd run this far by folding time. Weekends that vanished for days, calls put off, things stacked up still folded.\n\nOne year left. How will he spend that year.",
+    "choices": [
+      {
+        "text": "Spend the last year differently",
+        "result_text": "Drying his face with the towel, he decided. To unfold the folded things, one at a time.\n\nEven if the account came a little later, so this face wouldn't turn unfamiliar again."
+      },
+      {
+        "text": "Keep this pace — almost there",
+        "result_text": "Almost there. Minjun thought so and sat back down at the desk.\n\nAlmost there — how far does that phrase mean, exactly. He folded the question and put it in the drawer."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_marriage_talk",
+    "title": "The Talk About After",
+    "description": "The word marriage was set into the air for the first time. No one quite sure who raised it.\n\nThe plan sheet before the final sprint, and the weight of a person, sat on the same table for the first time.\n\nMinjun fidgeted with his cup.",
+    "description_if_known": {
+      "daeun_romance_started": "Daeun cupped her glass in both hands.\n\n\"Minjun-ssi, I'm good at waiting. I just want to know what I'm waiting for.\" An unhurried voice. That's why it stayed longer.\n\nThe plan sheet before the final sprint, and the weight of this person, sat on the same table for the first time.",
+      "jiyeon_romance_started": "Jiyeon set her glass down.\n\n\"Oppa, let's talk. What comes after Gangnam?\" Half-smiling, but her eyes were serious.\n\nThe plan sheet before the final sprint, and the weight of this person, sat on the same table for the first time."
+    },
+    "choices": [
+      {
+        "text": "\"Once this year ends.\" — make a concrete promise",
+        "result_text": "Once said, it became a promise. He didn't set a date, but for the first time he spoke 'after' out loud.\n\nThe other nodded quietly."
+      },
+      {
+        "text": "\"Just a little more.\" — put it off",
+        "result_text": "\"Just a little more.\" Minjun couldn't count how many times he'd said it.\n\nThe other said they understood. Saying you understand doesn't always mean you do."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_network_bill",
+    "title": "A Business Card",
+    "description": "Clearing out a drawer, a single business card turned up. From the network days.\n\nThe ink was slightly smudged.\n\nWhat that time had left in his account — Minjun did a quick tally, the card still in his hand.",
+    "description_if_known": {
+      "sangchul_network_fully_cut": "Clearing out a drawer, a single business card turned up. The settling-up of one who had cut it off.\n\nSlower, but every line in the account, Minjun could explain.\n\nAn account holding only money whose source he knew — thin, but light.",
+      "used_sangchul_knowingly": "Clearing out a drawer, a single business card turned up. The settling-up of one who had used it to the end.\n\nAmong the numbers stacked up fast, a few lines whose source he couldn't explain were mixed in.\n\nThose few lines didn't erase."
+    },
+    "choices": [
+      {
+        "text": "Throw the card away",
+        "result_text": "He dropped it in the bin. The smudged name vanished between the papers.\n\nWith that, one thing got put in order."
+      },
+      {
+        "text": "Slip it back into the wallet",
+        "result_text": "He tucked the card back into the inner fold of his wallet.\n\nThe thought that he might use it someday hadn't quite disappeared yet."
+      }
+    ]
+  }
+]

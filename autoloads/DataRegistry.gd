@@ -95,6 +95,7 @@ const EVENT_PATHS = [
 	"res://content/events/arc_year3_drama.json",
 	"res://content/events/arc_year_close.json",
 	"res://content/events/arc_romance_y5.json",
+	"res://content/events/arc_h2_beats.json",
 ]
 const ASSETS_PATH = "res://content/assets.json"
 const JOBS_PATH = "res://content/jobs.json"

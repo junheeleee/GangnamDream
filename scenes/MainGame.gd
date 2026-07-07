@@ -3082,6 +3082,60 @@ func _next_arc_id() -> String:
 	if t >= 237 and not f.get("arc_final_week_seen", false):
 		return "arc_final_week"
 
+	# ── H2 데드존 채움 비트 (경로 반응형, 최저 우선순위 — 기존 아크를 굶기지 않음) ──
+	# Zone A (t74~95, Y2 후반: 확장의 뒷면)
+	if t >= 74 and t <= 95:
+		# A1 — 상철의 첫 부탁 (네트워크가 공짜가 아니었음)
+		if f.get("entered_network", false) \
+				and not f.get("sangchul_truth_known", false) \
+				and not f.get("arc_y2_sangchul_first_favor_seen", false):
+			return "arc_y2_sangchul_first_favor"
+		# A2 — 몇 주째 돈만 본 얼굴을 다은이 알아본다 (그라인드 축 기반)
+		if GameState.grind_streak_weeks >= 3 \
+				and (f.get("daeun_supportive", false) or f.get("daeun_understood", false) or f.get("daeun_chose_her", false)) \
+				and not f.get("arc_y2_worn_face_seen", false):
+			return "arc_y2_worn_face"
+		# A3 — 현수가 밤 버스로 본가에 (안정과 야망의 거울)
+		if f.get("arc_intro_hyunsu_seen", false) \
+				and not f.get("arc_y2_hyunsu_night_bus_seen", false):
+			return "arc_y2_hyunsu_night_bus"
+	# Zone B (t122~140, Y3 후반: 무게 — 최악 데드존)
+	if t >= 122 and t <= 140:
+		# B1a — 돈에만 갈아넣은 1년의 장부 (돈축 기반)
+		if GameState.money_weeks_total >= 30 and GameState.human_weeks_total <= 8 \
+				and not f.get("arc_y3_ledger_grind_seen", false):
+			return "arc_y3_ledger_grind"
+		# B1b — 지키면서 온 1년 (사람축 기반, B1a와 상호배타)
+		if GameState.human_weeks_total >= 20 \
+				and not f.get("arc_y3_ledger_kept_seen", false):
+			return "arc_y3_ledger_kept"
+		# B2 — 상철이 더 안쪽 방으로 (진실을 아는 자/쓴 자)
+		if (f.get("used_sangchul_knowingly", false) or f.get("sangchul_truth_known", false)) \
+				and not f.get("arc_y3_sangchul_deeper_room_seen", false):
+			return "arc_y3_sangchul_deeper_room"
+		# B3 — 현수의 공시 결과 (A3 체인, 합격 경로면 스킵)
+		if f.get("arc_intro_hyunsu_seen", false) \
+				and f.get("arc_y2_hyunsu_night_bus_seen", false) \
+				and not f.get("hyunsu_passed", false) \
+				and not f.get("arc_y3_hyunsu_verdict_seen", false):
+			return "arc_y3_hyunsu_verdict"
+	# Zone C (t170~188, Y4 후반: 균열 — 엔딩 직전 긴장)
+	if t >= 170 and t <= 188:
+		# C1 — 시간을 접어 달려온 사람의 거울 (그라인드/축 격차 기반)
+		if (GameState.grind_streak_weeks >= 4 \
+				or (GameState.money_weeks_total - GameState.human_weeks_total >= 40)) \
+				and not f.get("arc_y4_folded_time_seen", false):
+			return "arc_y4_folded_time"
+		# C2 — 결혼 이야기가 처음 공기 중에 (다은/지연 경로별 변주)
+		if (f.get("daeun_romance_started", false) or f.get("jiyeon_romance_started", false)) \
+				and not f.get("daeun_married", false) \
+				and not f.get("arc_y4_marriage_talk_seen", false):
+			return "arc_y4_marriage_talk"
+		# C3 — 네트워크의 정산 (끊은 자/끝까지 쓴 자 거울)
+		if f.get("entered_network", false) \
+				and not f.get("arc_y4_network_bill_seen", false):
+			return "arc_y4_network_bill"
+
 	return ""
 
 ## 마일스톤 스토리 이벤트 — 조건 맞으면 ID 반환 (없으면 ""). StoryMode로 재생.

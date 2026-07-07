@@ -1,0 +1,454 @@
+[
+  {
+    "id": "arc_y2_sangchul_first_favor",
+    "title": "봉투 하나",
+    "background": "realestate_office",
+    "portrait": "sangchul_serious",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul",
+      "money"
+    ],
+    "cooldown": 9999,
+    "description": "상철 사무소. 커피를 내려놓으며 그가 서류 봉투 하나를 건넸다.\n\n\"이거, 어디 좀 전해줄래요. 역삼동 사무실.\" 주소가 적힌 포스트잇이 붙어 있었다.\n\n\"안에 뭐가 들었는지는 안 물어보는 게 서로 편해요.\" 그가 웃었다.\n\n처음이었다. 이 사람이 {name}에게 부탁이라는 걸 한 것은. 네트워크가 공짜가 아니었다는 게, 봉투의 무게로 처음 만져졌다.",
+    "choices": [
+      {
+        "text": "전달한다 — 묻지 않기로 한다",
+        "effects": {
+          "money": 800000,
+          "tint": -3
+        },
+        "flags": [
+          "arc_y2_sangchul_first_favor_seen"
+        ],
+        "result_text": "봉투는 가벼웠는데 손이 무거웠다.\n\n역삼동 사무실 문을 열고 나올 때까지, 안에 든 게 무엇인지 끝내 묻지 않았다. 묻지 않은 것도 하나의 대답이었다."
+      },
+      {
+        "text": "\"이런 건 못 해요.\" — 봉투를 돌려준다",
+        "effects": {
+          "mental": 2,
+          "tint": 4
+        },
+        "flags": [
+          "arc_y2_sangchul_first_favor_seen"
+        ],
+        "result_text": "상철이 봉투를 도로 받았다. 화내지 않았다.\n\n\"그래요. 그것도 답이에요.\" 그 서늘한 웃음이 오래 남았다."
+      }
+    ]
+  },
+  {
+    "id": "arc_y2_worn_face",
+    "title": "거울 봤어요?",
+    "background": "cafe",
+    "portrait": "daeun_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "daeun"
+    ],
+    "cooldown": 9999,
+    "description": "다은이 커피잔 너머로 {name}을 한참 봤다.\n\n\"민준씨, 요즘 거울 봤어요?\" 웃으면서 물었는데 눈은 웃지 않았다.\n\n몇 주째 통장 잔고 말고는 아무것도 안 보고 살았다. 얼굴이 그걸 먼저 알아본 모양이었다.",
+    "choices": [
+      {
+        "text": "하루를 낸다 — 같이 시장에 간다",
+        "effects": {
+          "mental": 9,
+          "tint": 4
+        },
+        "flags": [
+          "arc_y2_worn_face_seen"
+        ],
+        "result_text": "그날 저녁, 둘이 시장 골목을 걸었다. 순대국밥 한 그릇, 만원짜리 양말 세 켤레. 오랜만에 숫자가 아닌 걸 샀다.\n\n다은이 웃었고, 이번엔 눈도 같이 웃었다."
+      },
+      {
+        "text": "\"괜찮아요.\" 하고 일로 돌아간다",
+        "effects": {
+          "mental": -2,
+          "tint": -3
+        },
+        "flags": [
+          "arc_y2_worn_face_seen"
+        ],
+        "result_text": "\"괜찮긴요.\" 다은은 더 묻지 않았다.\n\n그 말이 거짓말인 걸 둘 다 알았다."
+      }
+    ]
+  },
+  {
+    "id": "arc_y2_hyunsu_night_bus",
+    "title": "막차",
+    "background": "late_night",
+    "portrait": "hyunsu",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "hyunsu"
+    ],
+    "cooldown": 9999,
+    "description": "밤 열한 시, 현수한테 전화가 왔다. 터미널이라고 했다.\n\n\"본가 내려가요. 아버지 제사라.\" 버스 시간이 얼마 안 남았다고 했다.\n\n잠깐 말이 없다가 현수가 물었다. \"형은 서울에 남을 거죠.\"\n\n질문이 아니라 확인 같았다.",
+    "choices": [
+      {
+        "text": "배웅 나간다 — 터미널로 간다",
+        "effects": {
+          "mental": 6,
+          "tint": 3
+        },
+        "flags": [
+          "arc_y2_hyunsu_night_bus_seen"
+        ],
+        "result_text": "택시를 잡아탔다. 터미널 불빛 아래서 현수가 놀란 얼굴로 웃었다. \"뭐 하러 여기까지 와요.\"\n\n버스가 떠날 때까지 서 있었다. 돌아오는 길이 이상하게 춥지 않았다."
+      },
+      {
+        "text": "\"일이 있어서.\" — 전화로 인사한다",
+        "effects": {
+          "money": 30000,
+          "tint": -2
+        },
+        "flags": [
+          "arc_y2_hyunsu_night_bus_seen"
+        ],
+        "result_text": "\"어, 그래요. 조심히 가요.\" 전화를 끊고 다시 차트를 열었다.\n\n터미널 불빛을 상상하는 것과, 보는 것은 다르다. 그날은 그걸 상상만 했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_ledger_grind",
+    "title": "손가락으로 세는 1년",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "internal"
+    ],
+    "cooldown": 9999,
+    "description": "달력을 넘기다 멈췄다. 지난 1년, 사람을 만난 주가 몇이나 되나 세어봤다.\n\n한 손으로 꼽혔다. 나머지 칸은 전부 숫자였다.\n\n통장은 늘었다. 달력은 정직했다.",
+    "choices": [
+      {
+        "text": "이번 주는 누군가에게 전화한다",
+        "effects": {
+          "mental": 5,
+          "tint": 4
+        },
+        "flags": [
+          "arc_y3_ledger_grind_seen"
+        ],
+        "result_text": "오래 안 쓴 번호를 눌렀다. 신호가 세 번 울리고, 반가운 목소리가 받았다.\n\n별 얘기 안 했다. 그거면 됐다."
+      },
+      {
+        "text": "셈을 덮는다",
+        "effects": {
+          "mental": -1,
+          "tint": -3
+        },
+        "flags": [
+          "arc_y3_ledger_grind_seen"
+        ],
+        "result_text": "달력을 덮었다. 덮는 것도 답의 일종이었다.\n\n통장은 늘어 있었고, 그게 지금은 더 급했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_ledger_kept",
+    "title": "지키면서 온 1년",
+    "background": "apartment",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "internal"
+    ],
+    "cooldown": 9999,
+    "description": "같은 달력인데 다른 게 보였다. 지난 1년, 사람을 놓지 않고 왔다.\n\n생일마다 전화했고, 아픈 사람 곁에 있었고, 그러느라 남들보다 느렸다.\n\n위로가 아니라 확인이었다. 이게 내가 쓴 시간이다.",
+    "choices": [
+      {
+        "text": "이 속도를 믿는다",
+        "effects": {
+          "mental": 7,
+          "tint": 3
+        },
+        "flags": [
+          "arc_y3_ledger_kept_seen"
+        ],
+        "result_text": "느린 게 지는 건 아니라고, 처음으로 믿어졌다.\n\n창밖이 어두워지고 있었지만 마음은 그렇지 않았다."
+      },
+      {
+        "text": "\"이래서 늦는 건가.\" — 불안이 스친다",
+        "effects": {
+          "mental": -2,
+          "tint": -1
+        },
+        "flags": [
+          "arc_y3_ledger_kept_seen"
+        ],
+        "result_text": "달력을 덮으면서 잠깐, 남들 통장이 떠올랐다.\n\n지키는 데 쓴 시간이 늦은 값으로 돌아올까 봐. 정직한 불안이었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_sangchul_deeper_room",
+    "title": "더 안쪽 방",
+    "background": "meeting",
+    "portrait": "sangchul_serious",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul",
+      "money"
+    ],
+    "cooldown": 9999,
+    "description": "상철이 복도 끝 방으로 {name}을 데려갔다.\n\n늘 있던 사무실보다 조명이 낮고, 오가는 숫자가 컸다. \"이제 여기 앉아도 될 것 같아서.\" 자리를 권했다.\n\n더 회색인 방이었다. 앉으면 뭔가 시작될 것 같았다.",
+    "description_if_known": {
+      "sangchul_truth_known": "상철이 복도 끝 방으로 {name}을 데려갔다.\n\n진실을 아는 눈에는 그 방의 조명까지 다르게 보였다. 아버지를 무너뜨린 손이 지금 이 방의 문을 잡고 있었다.\n\n\"이제 여기 앉아도 될 것 같아서.\" 자리를 권하는 목소리는 여전히 따뜻했다.\n\n그게 제일 서늘했다."
+    },
+    "choices": [
+      {
+        "text": "들어간다",
+        "effects": {
+          "money": 2500000,
+          "tint": -4
+        },
+        "flags": [
+          "arc_y3_sangchul_deeper_room_seen"
+        ],
+        "result_text": "의자에 앉았다. 숫자가 커졌고, 그만큼 방이 좁아진 느낌이었다.\n\n나올 때, 들어올 때보다 어깨가 무거웠다."
+      },
+      {
+        "text": "문 앞에서 돌아선다",
+        "effects": {
+          "mental": 3,
+          "tint": 4
+        },
+        "flags": [
+          "arc_y3_sangchul_deeper_room_seen"
+        ],
+        "result_text": "\"다음에요.\" 문을 닫고 복도로 나왔다.\n\n돌아서는 데 쓴 힘은 아무 장부에도 안 적힌다. 그래도 {name}은 그게 값을 한 거라고 생각했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_hyunsu_verdict",
+    "title": "현수의 3년",
+    "background": "cafe",
+    "portrait": "hyunsu",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "hyunsu"
+    ],
+    "cooldown": 9999,
+    "description": "현수한테 연락이 왔다. 최종 면접에서 떨어졌다고. 3년의 끝이었다.\n\n그런데 목소리가 담담했다. \"다시 하지 뭐. 나는 이 속도로 사는 사람이야.\"\n\n위로할 말을 고르던 {name}이 오히려 멈췄다.",
+    "choices": [
+      {
+        "text": "\"네 속도가 부럽다.\" — 솔직하게 말한다",
+        "effects": {
+          "mental": 6,
+          "tint": 3
+        },
+        "flags": [
+          "arc_y3_hyunsu_verdict_seen"
+        ],
+        "result_text": "진심이었다. 현수가 잠깐 말이 없더니 웃었다. \"형이 그런 말을 다 하네.\"\n\n전화를 끊고, {name}은 오랜만에 자기 속도를 의심했다."
+      },
+      {
+        "text": "위로만 하고 내 초조함은 삼킨다",
+        "effects": {
+          "mental": -3,
+          "tint": -1
+        },
+        "flags": [
+          "arc_y3_hyunsu_verdict_seen"
+        ],
+        "result_text": "\"괜찮아, 넌 잘될 거야.\" 맞는 말을 했는데 입안이 썼다.\n\n현수의 담담함이 부러운 걸, 끝내 말하지 못했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_folded_time",
+    "title": "접어둔 시간",
+    "background": "apartment",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "internal"
+    ],
+    "cooldown": 9999,
+    "description": "세수를 하다 거울 속 얼굴이 낯설었다.\n\n시간을 접어서 여기까지 달려왔다. 며칠씩 사라진 주말들, 미룬 전화들, 접힌 채로 쌓인 것들.\n\n남은 건 1년. 그 1년을 어떻게 쓸 것인가.",
+    "choices": [
+      {
+        "text": "남은 1년은 다르게 쓴다",
+        "effects": {
+          "mental": 4,
+          "tint": 4
+        },
+        "flags": [
+          "arc_y4_folded_time_seen"
+        ],
+        "result_text": "수건으로 얼굴을 닦으면서 정했다. 접어둔 걸 하나씩 펴기로.\n\n통장이 조금 늦어져도, 이 얼굴이 다시 낯설어지지는 않게."
+      },
+      {
+        "text": "이 속도 그대로 간다 — 거의 다 왔다",
+        "effects": {
+          "mental": -1,
+          "tint": -3
+        },
+        "flags": [
+          "arc_y4_folded_time_seen"
+        ],
+        "result_text": "거의 다 왔다. {name}은 그렇게 생각하며 다시 책상에 앉았다.\n\n거의 다 왔다는 말은, 어디까지를 말하는 걸까. 물음은 접어서 서랍에 넣었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_marriage_talk",
+    "title": "그다음 얘기",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "romance"
+    ],
+    "cooldown": 9999,
+    "description": "결혼이라는 말이 처음 공기 중에 놓였다. 누가 먼저 꺼냈는지도 모르게.\n\n마지막 스퍼트를 앞둔 계획표와, 사람의 무게가 처음으로 같은 테이블에 올라왔다.\n\n{name}은 컵을 만지작거렸다.",
+    "description_if_known": {
+      "daeun_romance_started": "다은이 컵을 두 손으로 감쌌다.\n\n\"민준씨, 나는 기다리는 거 잘해요. 근데 뭘 기다리는지는 알고 싶어요.\" 서두르지 않는 목소리였다. 그래서 더 오래 남았다.\n\n마지막 스퍼트를 앞둔 계획표와, 이 사람의 무게가 처음으로 같은 테이블에 올라왔다.",
+      "jiyeon_romance_started": "지연이 컵을 내려놨다.\n\n\"오빠, 우리 얘기 좀 해. 강남 다음은 뭐야?\" 반쯤 웃고 있었지만 눈은 진지했다.\n\n마지막 스퍼트를 앞둔 계획표와, 이 사람의 무게가 처음으로 같은 테이블에 올라왔다."
+    },
+    "choices": [
+      {
+        "text": "\"올해가 끝나면.\" — 구체적으로 약속한다",
+        "effects": {
+          "mental": 5,
+          "tint": 4
+        },
+        "flags": [
+          "arc_y4_marriage_talk_seen"
+        ],
+        "result_text": "말해놓고 보니 그게 약속이 됐다. 날짜를 정하지는 않았지만, 처음으로 '그다음'을 입 밖에 냈다.\n\n상대가 조용히 고개를 끄덕였다."
+      },
+      {
+        "text": "\"조금만 더.\" — 미룬다",
+        "effects": {
+          "mental": -2,
+          "tint": -3
+        },
+        "flags": [
+          "arc_y4_marriage_talk_seen"
+        ],
+        "result_text": "\"조금만 더.\" 그 말을 몇 번째 하는지 {name}도 셀 수 없었다.\n\n상대는 알겠다고 했다. 알겠다는 말이 늘 이해라는 뜻은 아니었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_y4_network_bill",
+    "title": "명함 한 장",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul",
+      "internal"
+    ],
+    "cooldown": 9999,
+    "description": "서랍을 정리하다 명함 한 장이 나왔다. 네트워크 시절 받은 것.\n\n잉크가 살짝 번져 있었다.\n\n그 시절이 통장에 남긴 게 무엇이었는지, {name}은 명함을 손에 든 채 잠깐 셈을 했다.",
+    "description_if_known": {
+      "sangchul_network_fully_cut": "서랍을 정리하다 명함 한 장이 나왔다. 끊고 온 자의 정산이었다.\n\n더 느렸지만, 통장의 모든 줄을 {name}은 설명할 수 있었다.\n\n출처를 아는 돈만 들어 있는 통장은, 얇았지만 가벼웠다.",
+      "used_sangchul_knowingly": "서랍을 정리하다 명함 한 장이 나왔다. 끝까지 쓴 자의 정산이었다.\n\n빠르게 쌓인 숫자들 사이에, 출처를 설명 못 할 몇 줄이 섞여 있었다.\n\n그 몇 줄은 지워지지 않았다."
+    },
+    "choices": [
+      {
+        "text": "명함을 버린다",
+        "effects": {
+          "tint": 2
+        },
+        "flags": [
+          "arc_y4_network_bill_seen"
+        ],
+        "result_text": "휴지통에 넣었다. 잉크 번진 이름이 종이 사이로 사라졌다.\n\n그걸로 뭔가 하나가 정리됐다."
+      },
+      {
+        "text": "지갑에 도로 넣는다",
+        "effects": {
+          "tint": -2
+        },
+        "flags": [
+          "arc_y4_network_bill_seen"
+        ],
+        "result_text": "명함을 지갑 안쪽에 다시 꽂았다.\n\n언젠가 쓸지도 모른다는 생각이, 아직 완전히 사라지지 않았다."
+      }
+    ]
+  }
+]
