@@ -665,6 +665,7 @@ func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> 
 		await _settle(0.3)
 	await _shot_action_category_modal("_open_cat_people", prefix + "05_people_modal")
 	await _shot_action_category_modal("_open_cat_life", prefix + "06_life_modal")
+	await _shot_gift_picker(prefix)
 	await _shot_info_panel_tabs(lang, prefix)
 	await _shot_people(prefix)
 	await _assert_ap_next_week_unlocked()
@@ -1487,6 +1488,23 @@ func _shot_english_main_flow() -> void:
 	_remove_nodes_by_script("res://scenes/MainGame.gd")
 	_mg = null
 	await _settle(0.4)
+
+func _shot_gift_picker(prefix: String) -> void:
+	# 선물하기 선택 모달 — 인연에게 선물 보유 시 열린다.
+	if not is_instance_valid(_mg) or not _mg.has_method("_open_gift_picker"):
+		print("SKIP gift_picker (no _open_gift_picker)")
+		return
+	GameState.apply_cast_effect("daeun", {"met": true, "affinity": 24})
+	GameState.add_item("gift_scarf", 1)
+	GameState.add_item("gift_exhibit_catalog", 1)
+	GameState.add_item("gift_can_coffee", 2)
+	if GameState.action_points <= 0:
+		GameState.action_points = 2
+	_mg.call("_open_gift_picker", "daeun")
+	await _settle(0.6)
+	await _save(prefix + "06b_gift_picker")
+	_close_modal()
+	await _settle(0.3)
 
 func _shot_action_category_modals() -> void:
 	await _shot_action_category_modal("_open_cat_money", "04g_action_money_modal")
