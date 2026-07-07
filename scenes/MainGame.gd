@@ -4572,16 +4572,22 @@ func _refresh_arc_box() -> void:
 	run_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	run_box.add_theme_constant_override("separation", 6)
 	run_card.add_child(run_box)
-	run_box.add_child(_wrap_label(_tr("테마: %s", "Theme: %s") % _run_theme_display(theme_id), 14, "#8fb6d8"))
+	# 기본값(자유런)은 내부 시스템명이라 표면에 노출하지 않는다 — 특수 런 테마일 때만 표시
+	if theme_id != "자유런":
+		run_box.add_child(_wrap_label(_tr("테마: %s", "Theme: %s") % _run_theme_display(theme_id), 14, "#8fb6d8"))
 	var tendency_lbl := GameState.get_tendency_label()
 	if not tendency_lbl.is_empty():
 		run_box.add_child(_wrap_label(_tr("성향: %s", "Leaning: %s") % tendency_lbl, 14, "#8fb6d8"))
 	# 마스터리 표시
 	var mg_line: String = ""
+	var mg_names := {
+		"holdem": _tr("홀덤", "Hold'em"), "racetrack": _tr("경마", "Racing"),
+		"scalping": _tr("스캘핑", "Scalping"), "aruba": _tr("알바", "Gigs"),
+	}
 	for gid in ["holdem", "racetrack", "scalping", "aruba"]:
 		var grade: int = MetaProgression.get_mastery(gid)
 		if grade > 0:
-			mg_line += "%s:%s  " % [gid, MetaProgression.get_mastery_label(gid)]
+			mg_line += "%s %s  " % [mg_names.get(gid, gid), MetaProgression.get_mastery_label(gid)]
 	if not mg_line.is_empty():
 		run_box.add_child(_wrap_label(_tr("미니게임: ", "Minigame: ") + mg_line.strip_edges(), 13, "#5fa080"))
 	arc_box.add_child(run_card)

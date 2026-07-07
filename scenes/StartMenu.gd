@@ -568,15 +568,15 @@ func _start_brief_panel() -> PanelContainer:
 	box.add_child(title)
 
 	var note := _label(
-		_tr("난이도와 테마는 첫 화면에서 고르지 않는다. 민준이 어떤 사람이 되는지는 매주 선택한 행동과 대가가 정한다.",
-			"No setup menu decides who Minjun becomes. The weekly choices and their costs do."),
+		_tr("고르는 설정은 없다. 민준이 어떤 사람이 되는지는 매주 선택한 행동과 그 대가가 정한다.",
+			"There is nothing to configure. Who Minjun becomes is decided by each week's choices and their costs."),
 		11, MENU_TEXT_DIM, HORIZONTAL_ALIGNMENT_LEFT)
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(note)
 
 	box.add_child(_sep())
-	box.add_child(_start_brief_row("housing", _tr("현실 모드", "Reality"), _tr("통장 50만원으로 시작하는 기본 밸런스", "The intended KRW 500K start balance")))
-	box.add_child(_start_brief_row("goal", _tr("자유런", "Free Run"), _tr("매 런 조용히 달라지는 사건 흐름", "A quiet event drift changes each run")))
+	box.add_child(_start_brief_row("housing", _tr("통장 50만원", "KRW 500,000"), _tr("빚을 다 갚고 남은 전부. 고시원 방 한 칸에서 시작한다", "All that's left after the debts. It starts in a goshiwon room")))
+	box.add_child(_start_brief_row("goal", _tr("같은 시작, 다른 이야기", "Same start, different story"), _tr("사건과 사람은 매번 조금씩 다르게 찾아온다", "Events and people arrive a little differently every time")))
 	box.add_child(_start_brief_row("mental", _tr("5년 안에 30억", "KRW 3B in five years"), _tr("강남은 목표지만, 사람은 선택으로 변한다", "Gangnam is the goal; choices change the person")))
 	return panel
 
