@@ -593,6 +593,21 @@ func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> 
 		_mg._finish_typing()
 	await _settle(0.8)
 	await _save(prefix + "03_ap_actions")
+	# 연애 중 전용 '데이트' 카드가 레일에 뜨는지 확인 (다은 로맨스 시드)
+	var _had_daeun_romance = GameState.flags.get("daeun_romance_started", false)
+	GameState.flags["daeun_romance_started"] = true
+	if _mg.has_method("_render_ap_actions"):
+		_mg._render_ap_actions()
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
+	await _settle(0.5)
+	await _save(prefix + "03e_ap_date_card")
+	GameState.flags["daeun_romance_started"] = _had_daeun_romance
+	if _mg.has_method("_render_ap_actions"):
+		_mg._render_ap_actions()
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
+	await _settle(0.3)
 	if _mg.has_method("_show_vignette"):
 		_mg.call("_show_vignette",
 			_tr("자기계발", "Self-Dev"),

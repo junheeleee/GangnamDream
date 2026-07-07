@@ -5715,6 +5715,7 @@ func _render_essential_actions(ap: int):
 		_essential_btn(_tr("생계", "Survival Money"), _tr("알바·절약으로 이번 달을 버틴다", "Take gigs or cut back to survive this month"), "money", "#3a8a5a", "_open_cat_money", disabled, false, menu_badge)
 		_essential_btn(_tr("자기계발", "Self-Dev"), _tr("독서·운동·명상 중 한 가지", "One of: reading, exercise, meditation"), "study", "#5a6ea8", "_ap_study", disabled)
 		_essential_btn(_tr("휴식", "Rest"), _tr("숨을 고르고 정신력을 회복한다", "Catch your breath and recover mental"), "rest", "#3a8a9a", "_ap_free_time", disabled)
+		_maybe_add_date_card(disabled)
 		_maybe_add_montage_card()
 		return
 
@@ -5762,6 +5763,7 @@ func _render_essential_actions(ap: int):
 			var g5_sub: String = _tr("회복 중 — 닫혀 있다", "In recovery — closed") if _gambling_locked else _tr("마지막 판은 가장 크게 흔든다", "The last table shakes the hardest")
 			_essential_btn(_tr("도박장", "Gambling"), g5_sub, "casino", "#7b3fd1", "_open_cat_gambling", disabled or _gambling_locked, false, menu_badge)
 		_essential_btn(_tr("휴식", "Rest"), _tr("결말 직전에도 사람은 쉬어야 한다", "Even before the ending, a person has to rest"), "rest", "#3a8a9a", "_ap_free_time", disabled)
+	_maybe_add_date_card(disabled)
 	_maybe_add_montage_card()
 
 ## 몽타주 진입 카드 — 저스테이크 주간을 루틴대로 흘려보낸다. turn>=8 + AP 만땅일 때만.
@@ -5775,6 +5777,39 @@ func _maybe_add_montage_card() -> void:
 		_tr("다음 사건까지 — 최대 4주", "Until something happens — up to 4 weeks"),
 		"rest", "#5a6478", "_open_routine_modal", GameState.action_points <= 0)
 
+## 연애/결혼 중 전용 데이트 카드 — 파트너는 상호배타라 자동 결정된다.
+func _romance_partner_id() -> String:
+	var f = GameState.flags
+	if f.get("daeun_romance_started", false) and not f.get("daeun_divorced", false):
+		return "daeun"
+	if f.get("jiyeon_romance_started", false) and not f.get("jiyeon_left", false):
+		return "jiyeon"
+	return ""
+
+## 결혼 상태 판정 — 다은은 결혼 플래그, 지연은 결혼 플래그가 없으므로 예식 아크로 판정.
+func _romance_is_married(pid: String) -> bool:
+	var f = GameState.flags
+	if pid == "daeun":
+		return bool(f.get("daeun_married", false))
+	if pid == "jiyeon":
+		return bool(f.get("arc_jiyeon_wedding_gap_seen", false))
+	return false
+
+func _maybe_add_date_card(disabled: bool) -> void:
+	var pid := _romance_partner_id()
+	if pid.is_empty():
+		return
+	var pname: String = str(ImageRegistry.get_person_info(pid).get("name", _tr("연인", "partner")))
+	var accent: String = str(ImageRegistry.PERSON_INFO.get(pid, {}).get("color", "#db2777"))
+	if _romance_is_married(pid):
+		_essential_btn(_tr("부부의 시간", "Time Together"),
+			_tr("{p}와 하루를 나눠 산다", "Share the day with {p}").format({"p": pname}),
+			"people", accent, "_ap_date", disabled)
+	else:
+		_essential_btn(_tr("데이트", "Date"),
+			_tr("{p}와 시간을 보낸다", "Spend time with {p}").format({"p": pname}),
+			"people", accent, "_ap_date", disabled)
+
 func _mastery_badge(game_id: String) -> String:
 	var grade: int = MetaProgression.get_mastery(game_id)
 	if grade == 0: return ""
@@ -5785,7 +5820,7 @@ func _is_ap_commit_function(fn_name: String) -> bool:
 	match fn_name:
 		"_ap_study", "_ap_free_time", "_ap_job_hunt", "_ap_side_job", "_ap_save_money":
 			return true
-		"_ap_network", "_ap_vip_network", "_ap_contact_person":
+		"_ap_network", "_ap_vip_network", "_ap_contact_person", "_ap_date":
 			return true
 		"_ap_startup_work", "_ap_create_content", "_ap_write_resume", "_ap_interview_prep", "_ap_deep_study":
 			return true
@@ -5808,7 +5843,7 @@ func _play_ap_commit_feedback() -> void:
 
 func _action_axis_for_function(fn_name: String) -> String:
 	match fn_name:
-		"_ap_free_time", "_ap_contact_person":
+		"_ap_free_time", "_ap_contact_person", "_ap_date":
 			return "human"
 		"_ap_network", "_ap_vip_network":
 			return "money"   # 도구적 사교 — 돈을 위한 연결 (사람축은 인연 연락/휴식뿐)
@@ -5823,6 +5858,8 @@ func _action_axis_for_function(fn_name: String) -> String:
 func _action_axis_tag_for_card(fn_name: String) -> String:
 	if fn_name == "_ap_study":
 		return "mixed"
+	if fn_name == "_ap_date":
+		return "human"
 	if fn_name == "_ap_invest" or fn_name == "_ap_market_analysis":
 		return "money"
 	return _action_axis_for_function(fn_name)
@@ -7212,6 +7249,53 @@ func _ap_network():
 	_render_ap_actions()
 	_refresh_all()
 
+## 연애/결혼 중 전용 human축 행동. 연인과 시간을 보낸다. 잔고가 빠듯하면 무료(편의점) 데이트로 폴백.
+func _ap_date():
+	if not GameState.spend_ap():
+		return
+	var pid := _romance_partner_id()
+	if pid.is_empty():
+		pid = "daeun"   # 방어적 폴백 — 렌더 게이트가 없으면 카드가 안 뜨므로 정상 경로에선 도달 안 함
+	GameState.register_action_axis("human")   # 데이트 = 사람에게 쓴 시간
+	GameState.note_contact(pid)                # 리캡 원장 연동
+	var info: Dictionary = ImageRegistry.PERSON_INFO.get(pid, {})
+	var accent: String = str(info.get("color", "#db2777"))
+	var married := _romance_is_married(pid)
+	# 비용: 데이트 비용을 지불한다. 잔고가 빠듯하면 무료(편의점) 서브풀을 쓰고 비용 0.
+	var broke: bool = GameState.money < 30000.0
+	var pool: Array
+	if broke:
+		pool = DAEUN_FREE_DATE_VIGNETTES if pid == "daeun" else JIYEON_FREE_DATE_VIGNETTES
+	elif married:
+		pool = DAEUN_MARRIED_DATE_VIGNETTES if pid == "daeun" else JIYEON_MARRIED_DATE_VIGNETTES
+	else:
+		pool = DAEUN_DATE_VIGNETTES if pid == "daeun" else JIYEON_DATE_VIGNETTES
+	if not broke:
+		var cost: int = 30000 + randi() % 50000
+		GameState.add_money(-float(cost))
+	var v: Dictionary = pool[randi() % pool.size()]
+	var eff: Dictionary = v.get("e", {}).duplicate()
+	for k in eff:
+		var val: int = int(eff[k])
+		if k == "money":
+			GameState.add_money(float(val))
+		elif k == "tint":
+			GameState.shift_moral_tint(float(val))
+		elif k == "stress" or k == "reputation":
+			GameState.modify_hidden_stat(k, val)
+		else:
+			GameState.modify_stat(k, val)
+	GameState.apply_cast_effect(pid, {"affinity": 3})
+	var t_key := "et" if LocaleManager.is_english() else "t"
+	var flavor: String = str(v.get(t_key, v.get("t", "")))
+	var title := _tr("부부의 시간", "Time Together") if married else _tr("데이트", "Date")
+	GameState.add_log(title + " — " + flavor, "relationship")
+	turn_action_log.append("✓ " + title + " — " + flavor.substr(0, 22))
+	GameState.stats_changed.emit()
+	_show_vignette(title, flavor, eff, accent)
+	_render_ap_actions()
+	_refresh_all()
+
 # ─────────────────────────────────────────────────────────────
 # 몽타주 시간 압축 (docs/AP_REDESIGN.md Phase B)
 # 무사건 저스테이크 주간을 루틴대로 흘려보낸다. 보장 스토리·임계값에서 멈춘다.
@@ -7643,6 +7727,60 @@ const NETWORK_VIGNETTES := [
 	{"t":"네트워킹 행사. 명함 교환하다가 내 명함이 없다는 걸 알았다.", "et":"Networking event. Started exchanging cards and realized I didn't have any.", "e":{"social_skill":1,"reputation":1,"stress":4}},
 	{"t":"커피챗을 했다. 상대방이 먼저 연락하겠다고 했다. 그게 진짜인지는 모른다.", "et":"Had a coffee chat. They said they'd reach out first. Not sure if that was real.", "e":{"social_skill":1,"reputation":1,"stress":2}},
 	{"t":"약속을 잡고 나갔다가 그 사람이 취소했다. 뭐 어때. 일단 나오긴 했다.", "et":"Made plans and headed out, but they cancelled. Whatever. I made it out.", "e":{"social_skill":1,"stress":1}},
+]
+
+# ── 데이트 미니 장면 (연애/결혼 중 전용, human축) ──────────────────
+# 다은: 존댓말+"민준씨". 지연: 반말+"오빠". 지문은 하우스 스타일(절제·감탄부호 없음).
+const DAEUN_DATE_VIGNETTES := [
+	{"t":"다은씨가 시장 골목을 앞장서 걸었다. 콩나물 한 봉지를 천 원 깎고, 어묵 국물을 얻어 마셨다. 민준씨, 저는 이런 데가 제일 편해요, 하고 웃었다.", "et":"Daeun led the way through the market alley. Haggled a bag of bean sprouts down by a thousand won, got a free sip of fish-cake broth. Places like this are where I'm most at ease, Minjun, she said, smiling.", "e":{"mental":8,"stress":-6,"money":-8000}},
+	{"t":"다은씨가 좁은 부엌에서 계란말이를 부쳤다. 어머니한테 배운 거예요, 뒤집을 때 숨을 참아야 해요. 접시에 오른 건 조금 탔지만, 그 얘기를 하는 동안 그녀의 손은 떨리지 않았다.", "et":"In the cramped kitchen Daeun folded a rolled omelet. My mother taught me this, she said — you hold your breath when you flip it. What reached the plate was a little burnt, but her hands didn't shake while she told me.", "e":{"mental":9,"stress":-6}},
+	{"t":"해질 무렵 한강을 걸었다. 다은씨는 강 건너 아파트 불빛을 오래 봤다. 저기 사는 사람들은 무슨 생각을 하고 잘까요. 나는 대답을 못 했다.", "et":"Walked the Han River at dusk. Daeun watched the lights of the apartments across the water for a long time. What do the people living over there think about before they sleep, she said. I had no answer.", "e":{"mental":7,"stress":-5,"tint":1}},
+	{"t":"편의점 앞 파라솔에 앉아 캔커피를 땄다. 다은씨는 야간 알바 유니폼 차림 그대로였다. 삼십 분밖에 없어요, 그래도 나와줘서 고마워요, 하고 캔을 부딪쳤다.", "et":"Sat under the parasol outside the convenience store and cracked open canned coffees. Daeun was still in her night-shift uniform. I only have thirty minutes, but thank you for coming out, she said, and tapped her can against mine.", "e":{"mental":8,"stress":-5,"money":-3000}},
+	{"t":"다은씨가 고향 어머니 얘기를 꺼냈다. 편찮으신데도 딸 걱정만 하신다고. 서울 생활 힘들지, 밥은 챙겨 먹니. 그 말이 자기한테 하는 것 같아서 전화를 끊고 한참 앉아 있었대요.", "et":"Daeun brought up her mother back home. Unwell, and still only worried about her daughter. Seoul must be hard, are you eating right. It felt like something meant for her, she said, so she sat a long while after hanging up.", "e":{"mental":7,"stress":-4,"tint":1}},
+	{"t":"포장마차에서 잔치국수를 나눠 먹었다. 다은씨가 자기 그릇의 고명을 내 쪽으로 밀어줬다. 민준씨는 이런 거 잘 안 챙기잖아요.", "et":"Shared a bowl of banquet noodles at a street stall. Daeun pushed the toppings from her bowl over to mine. You never look after yourself with these things, Minjun.", "e":{"mental":8,"stress":-5,"money":-9000}},
+	{"t":"약속도 없이 버스를 타고 종점까지 갔다. 낯선 동네를 걸으며 다은씨는 여기 전세는 얼마쯤 할까요, 하고 물었다. 우리는 둘 다 답을 알면서 웃었다.", "et":"Rode a bus to the last stop with no plans. Walking the unfamiliar neighborhood, Daeun asked, how much would a jeonse deposit run around here. We both laughed, knowing the answer.", "e":{"mental":7,"stress":-4}},
+	{"t":"다이소에서 삼천 원짜리 화분을 골랐다. 다은씨는 이거 죽이면 저한테 혼나요, 하고 진지하게 말했다. 창틀에 올려두니 방이 조금 달라 보였다.", "et":"Picked out a three-thousand-won pot at Daiso. If you kill this one you answer to me, Daeun said, dead serious. Set on the windowsill, the room looked a little different.", "e":{"mental":8,"stress":-5,"money":-3000}},
+	{"t":"비가 와서 우산 하나를 같이 썼다. 어깨 한쪽이 젖는 걸 서로 모른 척했다. 다은씨는 이런 날은 파전인데, 하고 혼잣말처럼 말했다.", "et":"It rained, so we shared one umbrella. Each of us pretended not to notice one shoulder getting wet. On days like this it should be pajeon, Daeun said, half to herself.", "e":{"mental":9,"stress":-6}},
+	{"t":"다은씨가 낡은 필름 카메라로 나를 찍었다. 나중에 이 표정 보고 웃을 거예요. 현상은 언제 될지 모른다고 했다. 기다리는 게 싫지 않았다.", "et":"Daeun took my photo with an old film camera. You'll laugh at this face later, she said. She wasn't sure when it would get developed. I didn't mind the wait.", "e":{"mental":8,"stress":-5,"tint":1}},
+]
+
+const JIYEON_DATE_VIGNETTES := [
+	{"t":"지연이 밤에 오빠를 조수석에 태우고 강변북로를 달렸다. 창을 내리자 도시가 빠르게 뒤로 갔다. 오빠는 운전 안 배웠어? 하고 물었다. 나는 면허만 있다고 답했다.", "et":"At night Jiyeon put me in the passenger seat and drove the riverside expressway. She rolled the window down and the city slid backward, fast. You never learned to drive, oppa? she asked. I said I only had the license.", "e":{"mental":8,"stress":-5}},
+	{"t":"지연이 전시장을 앞장서 걸었다. 그림 앞에 오래 서 있는 법을 그녀는 알았다. 나는 언제 다음 그림으로 넘어가야 하는지 몰라서, 그녀를 따라 멈췄다.", "et":"Jiyeon led the way through the exhibition. She knew how to stand a long while before a painting. I didn't know when to move on to the next one, so I stopped when she did.", "e":{"mental":7,"stress":-4,"tint":1}},
+	{"t":"지연이 예약한 레스토랑엔 포크가 세 개 놓여 있었다. 나는 바깥쪽부터인지 안쪽부터인지 몰라서 손이 잠깐 멈췄다. 지연이 아무 말 없이 자기 것을 바깥쪽부터 들었다. 오빠, 천천히 먹어. 그 말이 다정했는데 어딘가 멀었다.", "et":"The restaurant Jiyeon booked set out three forks. I didn't know whether to start from the outside or the inside, and my hand paused. Without a word Jiyeon picked up her outer fork first. Take your time, oppa. It was kind, and somehow far away.", "e":{"mental":6,"stress":-3,"money":-45000,"tint":1}},
+	{"t":"지연이 주말에 오빠, 구경 가자, 하고 데려간 곳은 모델하우스였다. 그녀는 평면도를 손끝으로 짚으며 여긴 채광이 별로네, 하고 중얼거렸다. 데이트인지 답사인지 모를 하루였다.", "et":"On the weekend Jiyeon said, oppa, let's go look at something, and took me to a model house. She traced the floor plan with a fingertip, muttering, the light here isn't great. It was a day somewhere between a date and a site survey.", "e":{"mental":7,"stress":-4}},
+	{"t":"지연이 부산 살던 때 얘기를 했다. 바다가 지겨웠어, 여기서 벗어나고 싶었어. 지금은? 하고 물으니 잠깐 창밖을 봤다. 서울은 벗어날 데가 없더라.", "et":"Jiyeon talked about her days in Busan. I was sick of the sea, I wanted out. And now? I asked. She looked out the window a moment. In Seoul there's nowhere left to escape to.", "e":{"mental":7,"stress":-4,"tint":1}},
+	{"t":"지연이 루프탑 바로 올라갔다. 발밑에 도시가 깔렸다. 오빠, 저 불빛 중에 우리 게 하나라도 있을까. 나는 잔을 비웠다. 값을 생각하지 않으려 애썼다.", "et":"Jiyeon took us up to a rooftop bar. The city spread out beneath us. Oppa, out of all those lights, is even one of them ours. I emptied my glass. Tried not to think about the tab.", "e":{"mental":7,"stress":-4,"money":-38000}},
+	{"t":"지연이 백화점에서 셔츠를 골라 내 어깨에 대봤다. 이게 오빠한테 맞아. 가격표를 뒤집어 보고 나는 웃으며 다음에, 라고 했다. 그녀는 더 권하지 않았다.", "et":"At the department store Jiyeon held a shirt up to my shoulders. This one suits you, oppa. I turned over the price tag, smiled, and said maybe next time. She didn't push it.", "e":{"mental":6,"stress":-3,"tint":1}},
+	{"t":"지연이 새벽에 오빠, 바다 보러 갈래, 하고 시동을 걸었다. 두 시간을 달려 도착한 방파제에서 우리는 말없이 캔커피를 마셨다. 돌아오는 길이 더 좋았다.", "et":"At dawn Jiyeon said, oppa, want to go see the sea, and started the engine. Two hours later, on the breakwater, we drank canned coffee without talking. The drive back was even better.", "e":{"mental":9,"stress":-6}},
+	{"t":"지연이 자기 친구들 모임에 나를 데려갔다. 다들 어느 동네 사냐고 물었다. 내가 고시원 얘기를 꺼내자 잠깐 조용해졌다. 지연이 화제를 돌렸다. 고마웠고, 서러웠다.", "et":"Jiyeon brought me to a gathering of her friends. Everyone asked which neighborhood I lived in. When I mentioned the goshiwon it went quiet for a beat. Jiyeon changed the subject. I was grateful, and it stung.", "e":{"mental":6,"stress":-2,"tint":1}},
+	{"t":"화려한 데만 다니던 지연이 그날은 편의점 앞에 차를 세웠다. 컵라면 두 개를 데워 왔다. 이런 것도 가끔 맛있어. 오빠는 이게 더 익숙하지. 나는 대답 대신 국물을 마셨다.", "et":"Jiyeon, who only ever went to glittering places, pulled over at a convenience store that night. She brought back two cup ramyeon. This is good sometimes too. You're more used to this, aren't you, oppa. Instead of answering I drank the broth.", "e":{"mental":8,"stress":-5,"money":-4000}},
+]
+
+const DAEUN_MARRIED_DATE_VIGNETTES := [
+	{"t":"주말 아침, 다은씨와 나란히 서서 반찬을 통에 나눠 담았다. 이건 친정 엄마 갖다 드릴 거예요. 손이 익숙하게 움직였다. 부엌이 좁아 자꾸 어깨가 부딪혔고, 아무도 비키지 않았다.", "et":"Weekend morning, Daeun and I stood side by side dividing side dishes into containers. This batch is for my mother, she said. Her hands moved with practice. The kitchen was narrow so our shoulders kept bumping, and neither of us moved aside.", "e":{"mental":9,"stress":-6}},
+	{"t":"다은씨가 다시 계란말이를 부쳤다. 이제 안 태워요. 결혼하고 나서 실력이 늘었다며 웃었다. 접시에 오른 건 노랗고 반듯했다. 나는 그게 왜 이렇게 뭉클한지 말하지 못했다.", "et":"Daeun made the rolled omelet again. I don't burn it anymore, she laughed — said her skill had grown since we married. What reached the plate was yellow and neat. I couldn't say why it moved me so much.", "e":{"mental":10,"stress":-6,"tint":1}},
+	{"t":"밤에 다은씨와 가계부를 폈다. 이번 달은 좀 아꼈네요. 숫자 앞에서 우리는 자주 조용해졌지만, 오늘은 그녀가 먼저 다음 달엔 하루 여행 가요, 하고 말했다.", "et":"At night Daeun and I opened the household ledger. We saved a bit this month, she said. We often went quiet before the numbers, but tonight she spoke first: next month, let's take a day trip.", "e":{"mental":8,"stress":-4}},
+	{"t":"저녁을 먹고 다은씨와 동네를 한 바퀴 돌았다. 특별한 얘기는 없었다. 슈퍼 앞에서 아이스크림을 하나씩 물고, 녹기 전에 다 먹어야 한다며 걸음을 재촉했다.", "et":"After dinner Daeun and I walked a loop around the neighborhood. Nothing special was said. We each got an ice cream outside the corner store and hurried our steps, insisting we finish before it melted.", "e":{"mental":9,"stress":-6,"money":-4000}},
+]
+
+const JIYEON_MARRIED_DATE_VIGNETTES := [
+	{"t":"지연은 새벽에 일어나 커피를 내리고, 나는 알람을 세 번 껐다. 오빠는 아침형이 아니야. 그녀가 내린 커피는 식어 있었지만, 잔은 내 자리에 놓여 있었다.", "et":"Jiyeon rises at dawn and brews coffee; I turn the alarm off three times. You're not a morning person, oppa. The coffee she'd made had gone cold, but the cup was set at my place.", "e":{"mental":9,"stress":-5}},
+	{"t":"주말에 지연이 오빠, 이 단지 어때, 하고 노트북을 돌려 보였다. 우리 둘의 이름이 함께 들어갈 계약을 그녀는 벌써 상상하고 있었다. 나는 그 속도가 무섭고, 조금 벅찼다.", "et":"On the weekend Jiyeon turned the laptop toward me — oppa, what about this complex. She was already imagining a contract with both our names on it. The pace scared me, and lifted me a little.", "e":{"mental":8,"stress":-4,"tint":1}},
+	{"t":"지연이 고른 식당은 늘 내가 몰랐던 곳이었다. 오늘은 내가 아는 국밥집에 그녀를 데려갔다. 그녀는 한 그릇을 다 비우고, 다음엔 여기 또 오자, 하고 말했다. 익숙해지는 데는 시간이 걸린다.", "et":"The restaurants Jiyeon picks were always places I'd never known. Today I took her to a gukbap place I did know. She finished the whole bowl and said, let's come here again next time. Getting used to each other takes time.", "e":{"mental":9,"stress":-5}},
+	{"t":"지연이 늦게 들어와 넥타이 대신 스카프를 풀었다. 오늘 계약 하나 깨졌어. 그녀가 처음으로 일 얘기를 털어놨다. 나는 라면을 끓였다. 그녀는 국물까지 다 마셨다.", "et":"Jiyeon came home late and loosened a scarf instead of a tie. A deal fell through today. It was the first time she'd unloaded about work. I boiled ramyeon. She drank it down to the broth.", "e":{"mental":9,"stress":-6}},
+]
+
+const DAEUN_FREE_DATE_VIGNETTES := [
+	{"t":"돈이 빠듯한 주였다. 다은씨는 괜찮다며 편의점으로 이끌었다. 파라솔 아래에서 삼각김밥 두 개와 컵라면 하나를 나눴다. 우리 처음도 여기였잖아요. 그 말에 나는 오래 웃었다.", "et":"It was a tight week for money. Daeun said it was fine and led me to the convenience store. Under the parasol we split two triangle kimbap and one cup ramyeon. Our first time was here too, remember. I laughed at that for a long while.", "e":{"mental":10,"stress":-6,"tint":2}},
+	{"t":"지갑이 가벼운 날, 다은씨와 돗자리도 없이 한강 잔디에 앉았다. 편의점 커피 두 잔이 전부였다. 돈 드는 거 하나도 안 했는데, 오늘 제일 좋았어요.", "et":"On a light-wallet day, Daeun and I sat on the Han River grass without even a mat. Two convenience store coffees were all of it. We didn't do a single thing that cost money, and today was the best.", "e":{"mental":9,"stress":-6,"tint":1}},
+	{"t":"밖에 나갈 여유가 없어 방에서 다은씨와 라면을 끓였다. 계란 하나를 풀어 반씩 나눴다. 티브이에서 남의 집 얘기가 나왔고, 우리는 우리 얘기를 했다.", "et":"With no room to go out, Daeun and I boiled ramyeon in the apartment. Cracked one egg and split it in half. The TV played other people's stories while we told our own.", "e":{"mental":9,"stress":-5,"tint":1}},
+]
+
+const JIYEON_FREE_DATE_VIGNETTES := [
+	{"t":"주머니가 비어 미안하다고 했더니 지연이 웃었다. 오빠, 나 편의점 데이트 한 번도 안 해봤어. 우리는 창가 자리에서 컵라면을 나눴다. 그녀는 이게 왜 재밌지, 하고 진짜로 궁금해했다.", "et":"When I said I was sorry my pockets were empty, Jiyeon laughed. Oppa, I've never once done a convenience store date. We shared cup ramyeon at the window counter. Why is this fun, she wondered, genuinely puzzled.", "e":{"mental":9,"stress":-5,"tint":1}},
+	{"t":"기름값 말고는 쓸 게 없던 날, 지연이 그냥 달리자, 하고 시동을 걸었다. 목적지도 없이 외곽을 돌았다. 돈 안 쓰는 데이트도 나쁘지 않네, 하고 그녀가 인정하듯 말했다.", "et":"On a day when there was nothing to spend but gas money, Jiyeon said, let's just drive, and started the engine. We circled the outskirts with no destination. A date that spends nothing isn't bad either, she admitted.", "e":{"mental":8,"stress":-5}},
+	{"t":"지연이 비싼 데 가자고 하지 않았다. 우리는 공원 벤치에 앉아 편의점 맥주를 땄다. 오빠, 나 이런 거 오래 못 해봤다. 그녀의 목소리가 평소보다 낮았다.", "et":"Jiyeon didn't ask to go anywhere expensive. We sat on a park bench and cracked convenience store beers. Oppa, I haven't done this kind of thing in a long time. Her voice was lower than usual.", "e":{"mental":9,"stress":-5,"tint":1}},
 ]
 
 const JOB_HUNT_VIGNETTES := [
