@@ -2,74 +2,58 @@
 
 **Interactive drama / life simulator — Godot 4.6 (GDScript)**
 
-You are Kim Min-jun, 33, unemployed, with ₩500,000 in your account.  
-Goal: accumulate ₩3 billion and enter Gangnam — in 5 years (60 turns).
+You are Kim Min-jun, 33, unemployed, with 500,000 won in your account.
+Goal: reach 3 billion won and enter Gangnam — Seoul's status district — in five years.
+The real question underneath: *can you climb that ladder without becoming someone else?*
 
 ---
 
 ## What kind of game is this?
 
-A Korean social-realism story where every monthly choice matters.  
-Each turn you pick from one of a handful of events: career, investment, relationships, side-hustle, or risk.  
-The choices stack into your character's identity — and eventually into one of 25 endings.
+A Korean social-realism drama you play one week at a time (240 weeks, age 33→38).
+Every week you spend limited time on money or on people — and the game quietly
+remembers which. Choices stack into identity, identity stacks into one of **34 endings**.
 
-It plays like a visual novel with a dashboard strategy layer.
+It plays like a visual novel with a life-sim dashboard — and the screen itself
+is a character: as your choices darken, the world literally drains of color
+(the hidden **moral tint** system — never shown as a number, only felt).
 
----
-
-## Core Systems
+## Core systems
 
 | System | Description |
 |---|---|
-| **Monthly event loop** | One event per turn, drawn from a weighted pool of 395 events |
-| **Tendency system** | Career / Invest / Found — behavior accumulates into identity, no preset traits |
-| **Route system** | Orthodox vs unorthodox choices gate different late-game events and endings |
-| **Investment market** | 18 assets with volatility, fear/greed index, bubbles, crashes, leverage |
-| **Arc system** | 5 story arcs (Sangchul, Jiyeon, Jaehyuk, Daeun, Father) with branching outcomes |
-| **Story mode** | Key moments render as visual-novel scenes with portraits and backgrounds |
-| **Housing progression** | Goshiwon → One-room → Villa lease → Apartment lease (cost + passives) |
-| **Run themes** | Each run gets a random category boost, or choose a preset theme |
-| **Meta progression** | 39 collectable titles, run history, per-run stats |
-| **Save system** | Autosave + 3 manual slots |
-
----
+| **Weekly loop + montage** | 1 turn = 1 week. Uneventful weeks can be folded into a montage ("let the weeks pass") that stops the moment something — or someone — needs you |
+| **Money vs people axis** | Every action spends time on one side; grind a whole month without people and it quietly wears you down |
+| **Moral tint** | Hidden −100..+100 axis painted through shaders: color drains as you cross lines. Some scars never fully heal |
+| **Discovery layer** | Once you learn a truth, the same scenes re-read differently (`description_if_known`) |
+| **Story arcs** | Sangchul (the man who ruined your father), Daeun & Jiyeon (two loves, inverted mirrors), Jaehyuk, Hyunsu, Father — branching, loss-capable |
+| **Romance & marriage** | Marriage can be *lost*: betray Daeun and she divorces you; live small and Jiyeon walks away |
+| **Investment market** | 18 fictionalized assets, market cycles, fear/greed, leverage, crashes |
+| **Casino suite** | Baccarat, blackjack, slots, roulette, sic bo, big wheel, hold'em, racetrack — with a full addiction/recovery narrative |
+| **Endings** | 34, spouse-aware routing, NG+ knowledge variations, ending gallery |
 
 ## Content
 
-| Category | Count |
-|---|---|
-| Total events | 395 |
-| — Life events | 142 |
-| — Investment events | 41 |
-| — Story / arc events | 157 |
-| — Relationship events | 35 |
-| — Hidden / rare events | 20 |
-| Endings | 25 |
-| Jobs | 15 |
-| Investment assets | 18 |
-| Items | 28 |
-| News templates | 79 |
+~1,200 events (KR source + full EN overlay) · 34 endings · 15 jobs ·
+18 assets · 28 items · 5 major character arcs · Steam demo scope (first 6 months).
 
----
+## How to run
 
-## How to Run
+1. Install Godot 4.6+.
+2. Open `project.godot`, press **F5**.
 
-1. Install Godot 4.6 or later.
-2. Open `project.godot`.
-3. Press **F5**.
-
-Build scripts: `./tools/build.sh linux` / `./tools/build.sh windows`
-
----
+Build: `./tools/build.sh linux` / `./tools/build.sh windows`
+Static audit (run before committing): `./tools/audit.sh`
 
 ## Documentation
 
 | File | Contents |
 |---|---|
-| `CLAUDE.md` | Session protocol, current status, core rules |
-| `docs/GAME_DESIGN.md` | Full game design document |
-| `docs/ROADMAP.md` | Development phases and checkboxes |
-| `docs/BALANCE.md` | Economy tuning log |
+| `CLAUDE.md` | Session protocol, current status, canon rules |
+| `docs/GAME_DESIGN.md` | Full design document |
+| `docs/ROADMAP.md` | Development phases |
 | `docs/DECISIONS.md` | Design decision rationale |
-| `docs/STORY_BIBLE.md` | Character and narrative reference |
+| `docs/ROMANCE_SYSTEM.md` | Two-heroine canon |
+| `docs/MORAL_TINT.md` / `docs/AP_REDESIGN.md` | Core system specs |
+| `docs/CODEX_QUEUE.md` | Art/UI/audio work queue |
 | `README_KR.md` | Korean version of this file |
