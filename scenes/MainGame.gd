@@ -4573,7 +4573,7 @@ func _refresh_arc_box() -> void:
 	run_box.add_theme_constant_override("separation", 6)
 	run_card.add_child(run_box)
 	# 기본값(자유런)은 내부 시스템명이라 표면에 노출하지 않는다 — 특수 런 테마일 때만 표시
-	if theme_id != "자유런":
+	if theme_id != _tr("자유런", "자유런"):
 		run_box.add_child(_wrap_label(_tr("테마: %s", "Theme: %s") % _run_theme_display(theme_id), 14, "#8fb6d8"))
 	var tendency_lbl := GameState.get_tendency_label()
 	if not tendency_lbl.is_empty():

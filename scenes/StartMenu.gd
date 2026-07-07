@@ -567,13 +567,6 @@ func _start_brief_panel() -> PanelContainer:
 	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(title)
 
-	var note := _label(
-		_tr("고르는 설정은 없다. 민준이 어떤 사람이 되는지는 매주 선택한 행동과 그 대가가 정한다.",
-			"There is nothing to configure. Who Minjun becomes is decided by each week's choices and their costs."),
-		11, MENU_TEXT_DIM, HORIZONTAL_ALIGNMENT_LEFT)
-	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	box.add_child(note)
-
 	box.add_child(_sep())
 	box.add_child(_start_brief_row("housing", _tr("통장 50만원", "KRW 500,000"), _tr("빚을 다 갚고 남은 전부. 고시원 방 한 칸에서 시작한다", "All that's left after the debts. It starts in a goshiwon room")))
 	box.add_child(_start_brief_row("goal", _tr("같은 시작, 다른 이야기", "Same start, different story"), _tr("사건과 사람은 매번 조금씩 다르게 찾아온다", "Events and people arrive a little differently every time")))
