@@ -1,93 +1,144 @@
-# CODEX_QUEUE.md — Codex 작업 대기열 (2026-07-07 Claude 작성)
+# CODEX_QUEUE.md — Codex 작업 대기열·실행 스펙 (2026-07-07 Claude 작성)
 
 > **Codex 세션 시작 시 이 파일을 CLAUDE.md 직후에 읽는다.** 위에서부터 우선순위순.
 > 전략 맥락: Steam "압도적으로 긍정적"이 목표 지표, 5레버는 `CLAUDE.md` 현재 상태 참조.
-> 신규 정본: `docs/DECISIONS.md` 2026-07-07 3건(외부 파이프라인 판정 / 설교 방지 5원칙 / AP 축 정본) 먼저 읽을 것.
+> 신규 정본 선독: `docs/DECISIONS.md` 2026-07-07 5건(Godot 네이티브 완성 / 외부 파이프라인 / 설교 방지 5원칙 / AP 축 / EN 표기).
+> **앵커 주의**: 아래 파일:라인은 2026-07-07 HEAD 기준 — 라인은 ±30 오차 허용, 함수명으로 찾을 것.
 
 ---
 
 ## 병합 프로토콜 (필독 — 이중 구현 사고 방지)
 
-- 2026-07-07에 `claude/game-polish-steam-uh6ldg`에서 **큰 병합**이 있었다: Codex의 act-rail·축 표면과 Claude의 축 엔진을 정합 통합(카운터 `action_axis_this_week` dict 단일화, 등록은 각 `_ap_*` 함수 내부 1회, 드립 캡 -20, 인맥/VIP=돈축). **main으로 가져갈 때 이 정합을 되돌리지 말 것.**
-- Claude 브랜치에 신규 대형 기능 있음: **몽타주 시간 압축**(`_montage_advance`, `_open_routine_modal`, `_maybe_add_montage_card`, GameState `week_routine`/`month_*_weeks`), H2 데드존 비트(`content/events/arc_h2_beats.json`, 병합 시점 기준 작업 중일 수 있음 — WORK_LOG 확인).
-- 설계 문서의 "구현 예정" 항목은 **담당 명시**를 확인하고, 명시 없으면 착수 전 WORK_LOG로 중복 여부 확인.
+- 2026-07-07 `claude/game-polish-steam-uh6ldg`에서 **큰 병합**: Codex act-rail·축 표면과 Claude 축 엔진 정합 통합(카운터 `action_axis_this_week` dict 단일화, 등록은 각 `_ap_*` 함수 내부 1회, 드립 캡 -20, 인맥/VIP=돈축). **main으로 가져갈 때 이 정합을 되돌리지 말 것.**
+- Claude 브랜치의 신규 대형 기능: 몽타주 시간 압축, H2 데드존 비트 9종(계단식 턴 게이트), 플래시포워드 콜드오픈, 시간의 기록(연락 원장), 문서 아카이브 21종 이동.
+- 설계 문서의 "구현 예정" 항목은 **담당 명시** 확인, 없으면 WORK_LOG로 중복 여부 확인 후 착수.
 
 ## 표면 용어 원칙 (2026-07-07 사고 사례)
 
-- 내부 시스템 용어(자유런/현실 모드/런/몽타주/tint/moral/축/axis)는 **플레이어 화면에 절대 노출 금지**. 시작화면의 "자유런/현실 모드/매 런" 노출을 이미 제거했음(StartMenu.gd).
-- "없는 것을 해명하는 문구" 금지 — "고르는 설정은 없다" 같은 개발자 메모형 카피는 삭제 대상.
-- 모든 신규 카피는 `docs/DECISIONS.md`의 **설교 방지 5원칙** 검수를 통과해야 한다(서술자 판단 금지 / 어둠의 문장 품질 / 기록>지시).
+- 내부 시스템 용어(자유런/현실 모드/런/몽타주/tint/moral/축/axis)는 **플레이어 화면 노출 금지**.
+- "없는 것을 해명하는 문구" 금지("고르는 설정은 없다"류 삭제 대상).
+- 모든 신규 카피는 **설교 방지 5원칙**(DECISIONS) 검수 통과 — 서술자 판단 금지 / 어둠의 문장 품질 / 대가 대칭 / 기록>지시 / 진짜 유혹.
+
+## 공통 함정 (전 항목)
+
+- 유저 표면 문자열은 `_tr(kr,en)` 필수 — 한글 리터럴이 `_tr` 밖이면 `english_hangul_audit.py`가 감사를 실패시킨다. 어순 다르면 `.format({"p": x})` 네임드 플레이스홀더.
+- 새 GameState var는 serialize() 또는 `tools/audit.py` SERIALIZE_EXEMPT(~381행) 등록.
+- MainGame은 StoryMode 다녀오면 **재생성**된다 — 인스턴스 변수로 턴 상태 추적 불가, GameState 경유(주석 MainGame.gd ~1935 근처 참고).
+- 이벤트 JSON 루트에 새 키를 넣으면 `tools/audit.py` `EVENT_ROOT_KEYS`(410행) 화이트리스트에 먼저 추가해야 감사 통과.
+- UI 노드에 `moral_role` 메타를 달면 moral 팔레트가 색을 관리한다 — `_moral_ui_palette()`(MainGame.gd:480, moral 틴트 반영 dict). 하드코딩 색보다 이 문법 우선.
+- 공용 헬퍼(실증): `_open_modal(title, cancelable, kind)` MainGame.gd:10102(모달 초기화, 기본 760×610) / `_label(text,size,color)` 12073(NO랩·클립) / `_wrap_label` 12084(워드랩+EXPAND) / `_essential_btn(title,subtitle,icon_id,accent,fn,disabled,...)` 5866(레일 카드+`_run_ap_action_from_button` 배선).
 
 ---
 
-## P1 — 신규 기능 표면 폴리싱 (기능은 있고 옷이 없다)
+## P1-1. 몽타주 표면 (최우선 — 방금 들어간 최대 기능의 옷)
 
-### 1. 몽타주 표면 (최우선 — 방금 들어간 최대 기능)
-- 대상: `_maybe_add_montage_card`(레일 카드), `_open_routine_modal`(루틴 2슬롯 선택), `_show_montage_card`(결과 카드) — 전부 기능 최소선으로 구현돼 있음.
-- 할 것: ①레일 카드에 전용 픽토그램(시계/달력 계열, action_tiles 스타일) ②루틴 모달을 카드형 선택으로(현 버튼 나열) ③결과 카드 "N주가 흘렀다"를 기록장/몽타주 필름 톤으로 — 돈/건강/정신 Δ 배지는 AP 결과 카드(`ACTION RESULT`)와 같은 문법 ④몽타주 진행 중 짧은 전환 연출(잉크 페이드 몇 프레임 — 즉시 끝나도 "시간이 흐른" 느낌).
-- 카피 제약: "몽타주" 단어 표면 노출 금지(현재 안 나옴 — 유지). 축 요약 문장("돈에 3주, 사람에게 1주")은 원문 유지.
-- 검증: `ScreenshotQA --qa=ap-en --lang=en` + 몽타주 카드/루틴 모달/결과 카드 컷 추가 권장(`--qa=ap-en`에 씬 심기), `CompileCheck`, `./tools/audit.sh`.
-- 수용 기준: 1280×800에서 루틴 모달·결과 카드 노스크롤, 결과 카드가 웹 모달이 아니라 게임 내 기록물로 보일 것.
+**코드 앵커 (실증)**
+- `_maybe_add_montage_card()` — MainGame.gd:5765. `turn<8` 또는 AP 비만땅 return; `_essential_btn(_tr("루틴대로 시간을 보낸다","Let the weeks pass"), _tr("다음 사건까지 — 최대 4주","Until something happens — up to 4 weeks"), "rest", "#5a6478", "_open_routine_modal", ...)`.
+- `_open_routine_modal()` — MainGame.gd:7234. `_routine_draft` 2슬롯을 `GameState.week_routine`에서 프리필 → `_open_modal(_tr("이번 루틴","This Routine"), true)` → `_render_routine_modal_body()`(7247)가 `_ROUTINE_KINDS` 토글 버튼 2행. 시작 버튼(7270)이 week_routine 기록→닫기→`_montage_advance()`.
+- `_montage_advance()` — MainGame.gd:7353. 최대 4주 루프; 중단 사유 `"gameover"/"arc"/"health"/"mental"/"cash"/"cap"`; `week_of_month==4`면 `_run_month_end_transition()` 후 **조기 return**(몽타주 카드 없이 월말 결산이 대신 뜸 — 전환 연출은 두 출구 모두 처리).
+- `_show_montage_card(weeks, assets_before, health_before, mental_before, money_wk, human_wk, reason)` — MainGame.gd:7428. `_open_modal(_tr("시간이 흘렀다","Time Passed"))`; Δ 계산 7432-34; 3열 Grid(`_month_summary_metric_card`, `#00c896`/`#ff6b6b`); 축 서사 `_montage_axis_line`(7409)·사유 `_montage_reason_line`(7418); 확인→`_begin_month_story_and_render()`.
+- 참고 문법: AP 결과 카드 `_ap_result_feedback_card(disp, accent)` — 7986 (오버라인 "ACTION RESULT" 8008, 톤 라벨 `_ap_result_tone_label` 8038: TRADE-OFF/COST/GAIN/LOG, Δ 배지 `_ap_result_effect_badge` 8066). 커밋 토스트 `_show_ap_action_commit` — 1085 (`_ap_commit_layer` 오버레이, "행동 확정/ACTION LOCKED" 1154).
 
-### 2. 곁의 사람 셀 + 포기 힌트 폴리싱
-- 대상: This Week 압박 행 4번째 셀 "곁의 사람"(`_people_pressure_state`), ACTION RAIL 위 그라인드 힌트("돈을 쫓는 사이 — %s에게 연락 못 한 지 %d주"), "이번 주도 전부 돈에 썼다" 라벨.
-- 할 것: 셀 상태(곁에 있다/뜸하다/멀어진다)별 미세한 색온도 차이(따뜻함→식음), 힌트 라인의 타이포/여백 정리. 4셀이 EN 장문에서 잘리지 않는지 재확인.
-- 제약: 관계 수치·tint 노출 금지(서술로만 — 현행 유지).
-- 검증: `ScreenshotQA --qa=ap-en` (grind_streak 상태 시드 컷 추가 권장).
+**구현 순서**
+1. 레일 카드 전용 픽토그램(시계/달력, action_tiles 스타일 — 현재 "rest" 아이콘 차용 중).
+2. 루틴 모달을 카드형 선택으로(4종 카드 × 2슬롯), 각 카드에 축 태그 칩(`_add_week_axis_compact` 5091 근처의 `_axis_count_chip` 문법 재사용).
+3. 결과 카드를 게임 내 "기록물" 톤으로 — `_ap_result_feedback_card`의 오버라인/배지 문법 + 경과 주 수만큼 잉크 점 틱.
+4. 몽타주 실행 시 짧은 잉크 전환(StoryMode `_play_story_ink_transition`(StoryMode.gd:565)과 같은 어휘).
 
-### 3. 시장 생동감 표면화 (레버: "정적/웹소설" 체감 해소)
-- 배경: 시장 시뮬(장세·공포탐욕·폭락 리스크·뉴스→가격)이 실재하는데 플레이어가 "살아있는 시스템 위에 서 있다"를 못 느낌.
-- 할 것: ①주 시작 시 티커가 실제로 *움직이는* 짧은 모션(전주 대비 등락 스윕) ②보유 자산이 있으면 상단/정보패널에서 포트폴리오 등락이 그 주에 체감되게(±색 펄스 1회) ③뉴스 이벤트 직후 "이 뉴스가 어느 자산을 흔들지"가 다음 주 티커에서 이어져 보이는 연출(인과 체감) ④투자 모달 Market 페이지의 스파크라인 강조.
-- 데이터는 전부 있음: `GameState.market_prices/price_history/market_context`, NewsManager 영향 계수.
-- 제약: 예측 정보를 공짜로 주지 말 것(Market Analysis 스킬 게이트 유지). 장식이지 치트 아님.
-- 검증: `ScreenshotQA --qa=invest-en`, `--qa=ap-en`.
+**함정**: "몽타주" 단어 표면 노출 금지(현재 0). 축 요약 문장("돈에 N주, 사람에게 M주") 원문 유지.
+**검증**: `ScreenshotQA --qa=ap-en --lang=en` + 루틴 모달/결과 카드 컷 추가(ScreenshotQA.gd의 기존 모달 캡처 패턴). 1280×800 노스크롤. `./tools/audit.sh` ✅.
+**수용 기준**: 결과 카드가 웹 모달이 아니라 게임 내 기록물로 보일 것.
 
-## P2 — 흥행 표면
+## P1-2. 곁의 사람 셀 + 그라인드 힌트 폴리싱
 
-### 4. 잔인한 통계 리캡 카드 (클립/공유용)
-- 배경: 런 종료 화면에 스크린샷 한 장으로 퍼지는 카드. 예: "5년간 다은에게 연락한 횟수: 3회 / 돈에 쓴 주 178, 사람에게 쓴 주 12 / 아버지와의 마지막 통화: 죽기 11개월 전".
-- 지금 쓸 수 있는 데이터: `money_weeks_total` / `human_weeks_total` / `grind_streak_weeks`(최종), cast affinity/stage/met, 주요 플래그(결혼/이혼/사별). **인물별 연락 원장 존재(2026-07-07)**: `GameState.contact_counts`/`last_contact_turn`(연락 횟수·마지막 턴). 텍스트 1차 버전은 엔딩 화면 '시간의 기록'(`_ending_time_ledger`)으로 이미 렌더 — Codex는 이걸 공유 특화 비주얼 카드로 승격.
-- 할 것: 엔딩/데모 종료 화면에 `RUN RECORD` 계열의 공유 특화 카드 1장 — Gangnam Ink 톤, 게임 로고+엔딩명+통계 3~4줄. 기존 공유 텍스트(`_ending_run_summary`)와 별개의 *시각* 카드.
-- 카피 제약: **설교 방지 4원칙 "기록하되 지시하지 않는다"** — 통계는 사실 서술만, 평가 어휘 금지.
-- 검증: `ScreenshotQA --qa=endings-en`, `--qa=demo-end-en`.
+**코드 앵커 (실증)**
+- `_people_pressure_state()` — MainGame.gd:5042 (grind_streak `>=4` "멀어진다/drifting" 5049 / `>=2` "뜸하다/quiet" 5051 / else "곁에 있다/near"). `_closest_person()` — 5022 (배우자>연인>최고호감(≥10, daeun/jiyeon/hyunsu/jaehyuk)>아버지>빈 dict).
+- 셀: `_add_week_pressure_cell(parent,label,value,good)` — 5157 (34px, bad면 보더 `#6a4b4b`·값 `#f0c1c1`). 호출부 `_render_week_pressure_row` 5014-19 (CASHFLOW/TO GANGNAM/CONDITION/PEOPLE).
+- 그라인드 힌트: `_render_situation_cards()` 내부 5504-13 ("돈을 쫓는 사이 — {p}에게 연락 못 한 지 {w}주", `#8a7f74`); "이번 주도 전부 돈에 썼다" 5520-22.
+- 주간 보드 전체: `_render_week_focus_panel(ap, net, total, has_warning, ...)` — 4880 (WEEK PLAN 4918 → 압박 행 4950 → 우선순위 스트립 4958).
 
-### 5. 오디오 moral-shift (레버⑤ — 시각이 하는 걸 청각이 완성)
-- 배경: moral band(−2~+2)에 따라 화면은 이미 변하는데 음악은 불변. `docs/DECISIONS.md` 2026-07-07 파이프라인 판정: **메인 테마+3변주(회색/검정/하양 — 같은 멜로디의 탈색 편곡)만 외부(작곡 외주 또는 AI 초안+큐레이션), 나머지 오디오는 로컬 파이프라인 유지.**
-- 할 것(외부 소스 확보 전이라도): ①`BGMPlayer`에 moral band 구독(`GameState.moral_tint_changed` 시그널 이미 존재) → 밴드 전이 시 크로스페이드 훅 골격 ②현행 트랙으로 임시 매핑(low-pass/볼륨 레이어 등 코드 처리로 어둠 밴드 톤 다운) ③외부 트랙 도착 시 교체만 하면 되는 구조.
-- 검증: `BGMContinuityCheck`(밴드 전이 시 재시작 없이 크로스페이드), `AudioAssetCheck`.
+**구현 순서**: ①3상태 색온도(온기 미색→중성→한색 — moral_role 문법으로) ②4셀 EN 장문 오버플로 재확인 ③힌트 라인 타이포/여백.
+**함정**: 관계 수치·tint 노출 금지(서술로만 — 현행 유지).
+**검증**: `ScreenshotQA --qa=ap-en` + grind_streak 시드 컷(`GameState.grind_streak_weeks` 직접 세팅).
 
-### 5.5 씬 연출 디렉션 키 (Claude 협업 — "애니메이션 없이 연출을")
-- 배경(유저 질문 2026-07-07): "연출이 중요한데 애니메이션을 만들어야 하나?" → 판정: **아니오.** 이 장르의 연출 = 타이밍·소리·정적·정지화면의 카메라. 준거: Disco Elysium/Kentucky Route Zero(애니메이션 최소, 연출 최대), 실패 준거: 감정 강요 QTE.
-- 컨셉: 이벤트 JSON에 선택적 `direction` 키를 도입해 **작가가 장면을 연출**할 수 있게 — 예: `{"pace":"slow","amb":"cut","sting":"low_note","camera":"slow_zoom"}`.
-  - `pace`: 타이핑 속도 변주(무거운 문장은 느리게, 문단 사이 박자 멈춤)
-  - `amb`: 앰비언스 컷/드랍(아버지 위독 전화 직전, 소리가 먼저 사라진다)
-  - `sting`: 원샷 스팅어(진실 재독 dik 발화 순간의 낮은 현 한 음)
-  - `camera`: 배경 정지화면의 느린 팬/줌(Ken Burns), 초상화 미세 호흡 스케일(1~2%)
-- 분담: **키 스키마 설계+어느 장면에 어떤 연출을 쓸지(연출 대본)=Claude**, StoryMode 렌더러 구현+audit 이벤트 키 화이트리스트 등록=Codex. **Claude 선행분 완료(2026-07-07)**: `docs/SCENE_DIRECTION.md`에 스키마+정점 16장면 연출 대본 확정 — 바로 착수 가능. 구현 순서는 그 문서 4절.
-- 제약: 설교 방지 5원칙의 연출판 — **감정을 명령하는 연출 금지**(강제 슬로우+눈물 BGM 조합 남발 등). 절제·여백·침묵이 이 게임의 연출 언어. 남발 방지를 위해 direction 키는 **아크 이벤트의 정점 비트에만**(전체 이벤트의 ~5% 이하).
+## P1-3. 시장 생동감 표면화 ("정적/웹소설" 체감 해소 레버)
 
-## P3 — 대형 (착수 전 설계 합의)
+**코드 앵커 (실증)**
+- 상단 바에 자산 티커 **없음** — `_refresh_all()`(3767)은 날짜/돈/AP/바이탈만(3773-86). `top_labels` dict 선언 14행, 구성 1221-38.
+- 자산 티커는 사이드바: `_render_sidebars()` — 4290. `investment_system.get_asset_rows().slice(0,12)`(4295) → 전주 대비 `change_pct`(4298, `prev_prices`) → 6포인트 스파크라인(4315-18) → `ticker_rtl` RichTextLabel(선언 20행)에 기록(4320-21). `_price_sparkline(history)` — 11895 (`▁▂▃▄▅▆▇█`, <2pt→"——", 평탄→"━━━━━━").
+- 투자 모달: `_open_investments()` — 9449 (trade/holdings/market/bank 데스크). 데이터: `GameState.market_prices`(8990/9300/9393), `price_history`(8445/9327), `market_context`(8405-07: cycle/fear_greed/crash_risk, 8977-82).
 
-### 6. 서울 지도 허브 (웹소설→게임 체감의 최대 변환)
-- 컨셉: AP 행동 메뉴를 "장소"로 재프레임 — 편의점(다은)·사무실·한강·헬스장·지하 홀덤·정선行·강남(목표, 처음엔 멀리 흐릿). 몽타주/주간 보드와 공존.
-- **제안서 완료(2026-07-07)**: `docs/MAP_HUB_PROPOSAL.md` — 판정: 레일 대체가 아니라 프레임(장소→기존 레일 카드 시트). M1 컨텍스트 레이어(잉크 미니맵 스트립, 리스크 0) → M2 장소 내비게이션 2단계. 장소↔행동 매핑 정본 포함(투자는 장소화하지 않고 폰 오버레이). **유저 승인 대기 — 승인 항목: M1 즉시 / M2는 M1 체감 후.**
-- 참고: `docs/CONTROLLER_UX_STRATEGY.md`(화면당 하나의 명확한 조작 모델 원칙 준수).
+**구현 순서**
+1. 주 시작 시 `ticker_rtl` 등락 스윕 모션(± 항목 순차 하이라이트, Tween 1회 ≤0.6s).
+2. 보유 자산 시 상단 자산 라벨 주간 ± 색 펄스 1회(키는 1221-38에서 확인).
+3. 뉴스 직후 다음 주 티커의 해당 자산 행에 뉴스 마커(·) — NewsManager 영향 경로에서 자산 id를 얻어 GameState에 1주 기록(새 var면 serialize).
+4. Market 페이지 스파크라인 색 강조(차트화 과투자 금지).
 
-### 7. 엔딩 CG 파이프라인 가동
-- `docs/DECISIONS.md` 파이프라인 판정 + `docs/ENDING_ART.md` P0 큐 기준: 외부 생성 → 큐레이션 → **Gangnam Ink 그레이딩 셰이더 통과**(스타일 통일 장치). 결혼식·gangnam_dream·lonely_rich 등 페이오프 화면 우선.
-- `docs/PRODUCTION_ASSET_PIPELINE.md` Gate 기준 적용.
+**함정**: 예측 정보 공짜 금지 — Market Analysis 게이트(investment_skill≥50) 유지. 장식이지 치트 아님.
+**검증**: `ScreenshotQA --qa=invest-en`, `--qa=ap-en`.
 
-### 8. 데모 플래시포워드 콜드오픈 (Claude 협업 — 콘텐츠는 Claude)
-- 배경: 데모가 셀링포인트(tint 붕괴)를 못 보여줌(2026-07-07 감사). 처방: 데모 시작에 5년 뒤 새까만 tint의 민준 10초 컷 — "이게 누구인지는, 당신이 정한다."
-- 분담: **장면 콘텐츠 완료(2026-07-07)** — `story_flashforward`(story_events.json, 프롤로그 큐 선두 배선, 전 빌드 공통) + t5 SNS dik 양변주까지 구현됨. Codex 몫: 이 씬 재생 동안 **tint −80 상태 셰이더 강제**(어두운 그레이딩) + 컷백 시 원상 복귀. SCENE_DIRECTION 렌더러(5.5) 구현 후엔 이 씬에 풀스택 direction 예약(문서 3절 참조).
+## P2-4. 잔인한 통계 리캡 카드 (클립/공유용)
+
+**코드 앵커 (실증)**
+- **텍스트 1차 이미 존재**: `_ending_time_ledger(parent)` — MainGame.gd:10874. 라인: "돈에 쓴 주 {m} · 사람에게 쓴 주 {h}"(10879, 합≥8 게이트) / "{p}에게 먼저 연락한 횟수: {n}회"(10887, `GameState.contact_counts`) / "마지막 연락은 {w}주 전이었다"(10891, 24주+ 게이트). 타이틀 "시간의 기록/The Time Ledger"(10898).
+- 엔딩 모달: `_show_ending(ending_id)` — 10388 (CG 프리뷰 10430 / 무드카드 10432 → 한줄요약 `_ending_run_summary` 10434 → dik 설명 10437-43 → 인연 에필로그 10445 → **시간의 기록 10447** → 스탯 그리드).
+- 데모 종료: `_show_demo_ending()` — 10174 (플래그 기반 story_lines 개인화).
+- 데이터: `contact_counts`/`last_contact_turn`/`money_weeks_total`/`human_weeks_total`/`grind_streak_weeks`, cast affinity/stage, 결혼·이혼·사별 플래그.
+
+**구현 순서**: ①시간의 기록 라인들을 **공유 특화 비주얼 카드 1장**으로 승격 — Gangnam Ink 톤, 로고+엔딩명+통계 3~4줄, 가로형(스크린샷 1장=광고) ②`_show_demo_ending`에 6개월판 동일 카드(위시리스트 CTA 옆) ③기존 텍스트 블록은 카드로 흡수 또는 하단 유지.
+**함정**: 평가 어휘 금지(기록>지시). "0회"도 그대로(그게 잔인함의 본체).
+**검증**: `ScreenshotQA --qa=endings-en --lang=ko/en`, 데모 종료 스코프.
+
+## P2-5. 오디오 moral-shift (레버⑤)
+
+**코드 앵커 (실증)**
+- BGMPlayer(autoloads/BGMPlayer.gd): 듀얼 플레이어 크로스페이드 구조 있음 — `_player_a/_player_b`(51-52), `_FADE_TIME=2.5`(59), `TRACKS`(6)/`AMBIENCE_TRACKS`(16). 컨텍스트 선곡 `update_context()`(107), 엔딩 `on_ending(ending_id)`(114), 앰비언스 `set_ambience(key)`(137)/`clear_ambience()`(158)/`update_event_ambience(ev)`(131)/`update_idle_ambience()`(119).
+- 시그널: `GameState.moral_tint_changed(norm: float, stage: int)` — shift_moral_tint 말미 emit. 구독 패턴 예시: StoryMode `_on_story_moral_tint_changed`(StoryMode.gd:96).
+
+**구현 순서**: ①BGMPlayer가 moral_tint_changed 구독 — **stage(밴드) 전이 시에만** 반응(연속 norm 반응은 과민) ②외부 트랙 전 임시: 어둠 밴드에서 low-pass/볼륨 레이어(오디오 버스에 AudioEffectLowPassFilter) 또는 어두운 기존 트랙 크로스페이드 ③외부 메인 테마+3변주 도착 시 `TRACKS["theme_neutral"/"theme_dark"/"theme_white"]` 슬롯 교체만 하면 되는 구조.
+**함정**: 밴드 전이 시 **재시작 금지** — 크로스페이드만(_FADE_TIME 재사용). `on_ending` 스팅어 경로와 충돌 주의.
+**검증**: `BGMContinuityCheck`(전이 시 재시작 없음), `AudioAssetCheck`, 수동: tint −20 돌파 청감.
+
+## P2-5.5 씬 연출 디렉션 키 (Claude 선행분 완료 — 바로 착수 가능)
+
+**정본**: `docs/SCENE_DIRECTION.md` — 스키마(pace/beat·amb cut/duck·sting 3종·camera Ken Burns·hold≤2s) + 규율(전체 ~5% 이하, 풀스택 런당 3~4회, 스킵 항상 허용) + **정점 16장면 연출 대본**(상철 대면·아버지 임종·이혼 풀스택 3장면). 구현 순서는 그 문서 4절.
+
+**코드 앵커 (실증)**
+- 타이핑 엔진: `_start_typing(full_text)` — StoryMode.gd:788, 진행 `_process(delta)`(796), `_typing` 플래그(24). pace/hold 훅 지점.
+- 배경: `_bg_img: TextureRect`(StoryMode.gd:33) — camera는 이 노드 scale/position Tween. 배경 로드 677-682. 그레이딩 셰이더 로드 305-310(`background_grade.gdshader`) — Tween과 머티리얼 공존 확인.
+- 사운드: `BGMPlayer.set_ambience/clear_ambience`(위 앵커). sting=AudioManager 원샷(`AudioManager.play(key)`, 키 등록 `_load_sounds` AudioManager.gd:92).
+- audit: `tools/audit.py` `EVENT_ROOT_KEYS` 410행에 `"direction"` + 필드/값 화이트리스트 검사 추가.
+
+**함정**: direction 키는 KR 소스에만(EN 오버레이 text-only 원칙). 어떤 연출도 스킵 입력을 막지 않는다(hold ≤2s만 예외). **대본 16장면에 키를 넣는 것과 렌더러 구현은 같은 커밋에서**(키만 먼저 넣으면 audit 미지 키 ERROR).
+**검증**: `ScreenshotQA --qa=story-en` + 대면/프로포즈 수동 확인, `BGMContinuityCheck`(sting이 BGM 재시작 안 함), audit ✅.
+
+## P3-6. 서울 지도 허브
+
+**정본**: `docs/MAP_HUB_PROPOSAL.md` — 판정: 레일 **대체가 아니라 프레임**(장소→기존 레일 카드 시트). M1 컨텍스트 레이어(잉크 미니맵 스트립, 리스크 0) → M2 장소 내비게이션. 장소↔행동 매핑 정본 포함(투자는 폰 오버레이 — 장소화 금지). **유저 승인 대기: M1 즉시 / M2는 M1 체감 후.**
+**앵커**: M1 스트립 삽입 지점 = `_render_week_focus_panel` MainGame.gd:4880. 조작 모델 = `docs/CONTROLLER_UX_STRATEGY.md`.
+
+## P3-7. 엔딩 CG 파이프라인 가동
+
+**코드 앵커 (실증)**
+- CG 결정: `_get_ending_cg_path(ending)` — MainGame.gd:10866 (`ending["cg"]` id → `ImageRegistry.get_cg`).
+- 인라인 프리뷰: `_add_ending_art_preview(parent, art_path, is_cg)` — 10565. **발견된 갭: 이 TextureRect에는 그레이딩 셰이더 미적용.** CG가 `event_bg`로 깔릴 때(10400-02, modulate 0.50)만 `_moral_bg_material`(생성 790행, `background_grade.gdshader`)을 받는다.
+- 전역 그레이딩: `_apply_moral_surface_shader`(420 — bg 파라미터 433-45, 초상 465-77), 풀스크린 `_moral_surface_material`(871-885, `moral_surface.gdshader`).
+
+**구현 순서**: ①`docs/ENDING_ART.md` P0 큐(결혼식·gangnam_dream·lonely_rich 우선) 외부 생성→큐레이션→그레이딩 통과 ②**인라인 프리뷰에도 `_moral_bg_material` 계열 적용**(위 갭 수리 — 스타일 통일 보장) ③`docs/PRODUCTION_ASSET_PIPELINE.md` Gate.
+
+## P3-8. 플래시포워드 셰이더 강제 (콘텐츠는 완료)
+
+**코드 앵커**: `story_flashforward`(content/events/story_events.json 선두, 프롤로그 큐 선두 배선 — `_begin_month_story_and_render()` turn-1 분기, `follow_up_event: story_arrival` 체인). StoryMode moral 반영: `_story_palette()`(102)/`_apply_story_surface_palette`(148)/배경 그레이딩(305-10) — 전부 GameState.moral_tint 기반.
+**할 것**: 이 씬 재생 동안만 **tint −80 상당의 시각 상태 강제** — StoryMode에 씬-로컬 오버라이드 파라미터(셰이더 파라미터만 변경) + `story_arrival` 컷백 시 원상 복귀. SCENE_DIRECTION 렌더러(5.5) 후엔 이 씬에 풀스택 direction 예약.
+**함정 (중대)**: `GameState.moral_tint`를 임시로 바꾸는 구현 **금지** — 그 사이 autosave가 돌면 세이브가 오염된다. 시각 레이어에서만 해결.
 
 ---
 
 ## 공통 검증 (모든 항목)
 ```bash
-GODOT=<경로> ./tools/audit.sh          # ✅ 감사 통과 (영어 표면 스캐너 포함 — 한글 리터럴은 _tr 안으로)
+GODOT=<경로> ./tools/audit.sh          # 마지막 줄 "✅ 감사 통과"
 python3 tools/english_hangul_audit.py  # content_issues=0, runtime_candidate=0
-xvfb-run -a godot ... ScreenshotQA -- --qa=<해당 스코프> --lang=en   # 수정 부위 스코프만
+xvfb-run -a godot --display-driver x11 --rendering-driver opengl3 --resolution 1280x800 \
+  res://tools/ScreenshotQA.tscn -- --qa=<해당 스코프> --lang=en
 ```
-- 새 GameState var 추가 시 serialize 또는 audit.py SERIALIZE_EXEMPT.
-- 완료 시 CLAUDE.md 현재 상태 + docs/WORK_LOG.md 갱신, 이 파일의 해당 항목에 `[x]`와 날짜.
+- 완료 시 CLAUDE.md 현재 상태 + docs/WORK_LOG.md 갱신, 이 파일 해당 항목에 `[x]`+날짜.
