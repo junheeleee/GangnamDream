@@ -126,6 +126,14 @@ var grind_streak_weeks: int = 0   # 연속 그라인드-only 주
 var money_weeks_total: int = 0    # 통계: 돈축을 쓴 주
 var human_weeks_total: int = 0    # 통계: 사람축을 챙긴 주
 var loop_tint_spent: float = 0.0  # 루프 드립으로 깎은 tint 누적 (상한 -20)
+# ── 몽타주 시간 압축 (docs/AP_REDESIGN.md Phase B) ──
+# week_routine: 루틴 슬롯 2개 — "study"/"rest"/"save"/"network". 몽타주가 이 배분대로 주를 흘려보낸다.
+var week_routine: Array = []
+# 이 달의 축 배분 — 월말 몽타주 요약("돈에 N주, 사람에게 M주")용. 월말마다 last_*로 넘긴다.
+var month_money_weeks: int = 0
+var month_human_weeks: int = 0
+var last_month_money_weeks: int = 0
+var last_month_human_weeks: int = 0
 var tutorial_step = 3
 
 var route_orthodox: int = 0
@@ -257,6 +265,11 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	money_weeks_total = 0
 	human_weeks_total = 0
 	loop_tint_spent = 0.0
+	week_routine = []
+	month_money_weeks = 0
+	month_human_weeks = 0
+	last_month_money_weeks = 0
+	last_month_human_weeks = 0
 	tutorial_step = 3
 	reputation = 5
 	gambling_tendency = 0
@@ -538,6 +551,11 @@ func advance_calendar() -> bool:
 		week_of_month = 1
 		month += 1
 		month_ended = true
+		# 지난 달의 축 배분을 몽타주/월말 요약이 읽을 수 있게 넘기고 새 달을 위해 리셋
+		last_month_money_weeks = month_money_weeks
+		last_month_human_weeks = month_human_weeks
+		month_money_weeks = 0
+		month_human_weeks = 0
 		if month > 12:
 			month = 1
 			year += 1
@@ -1039,8 +1057,10 @@ func finalize_action_axis_week() -> void:
 	var human_count := int(action_axis_this_week.get("human", 0))
 	if money_count > 0:
 		money_weeks_total += 1
+		month_money_weeks += 1
 	if human_count > 0:
 		human_weeks_total += 1
+		month_human_weeks += 1
 		grind_streak_weeks = 0
 	elif money_count > 0:
 		grind_streak_weeks += 1
@@ -1710,6 +1730,11 @@ func serialize():
 		"money_weeks_total": money_weeks_total,
 		"human_weeks_total": human_weeks_total,
 		"loop_tint_spent": loop_tint_spent,
+		"week_routine": week_routine,
+		"month_money_weeks": month_money_weeks,
+		"month_human_weeks": month_human_weeks,
+		"last_month_money_weeks": last_month_money_weeks,
+		"last_month_human_weeks": last_month_human_weeks,
 		"tutorial_step": tutorial_step,
 		"route_orthodox": route_orthodox,
 		"route_unorthodox": route_unorthodox,
@@ -1760,6 +1785,8 @@ func load_from_dict(data):
 		"job_tenure", "work_performance",
 		"action_points", "max_action_points", "tutorial_step",
 		"grind_streak_weeks", "money_weeks_total", "human_weeks_total",
+		"month_money_weeks", "month_human_weeks",
+		"last_month_money_weeks", "last_month_human_weeks",
 		"route_orthodox", "route_unorthodox", "events_seen",
 		"moral_band_last",
 	]
@@ -1780,6 +1807,9 @@ func load_from_dict(data):
 	# 구버전 세이브 호환 — AP 행동 축
 	if typeof(action_axis_this_week) != TYPE_DICTIONARY or action_axis_this_week.is_empty():
 		action_axis_this_week = {"money": 0, "human": 0}
+	# 구버전 세이브 호환 — 몽타주 루틴
+	if typeof(week_routine) != TYPE_ARRAY:
+		week_routine = []
 	# 구버전 세이브 호환 — run_theme 없으면 run_theme_categories로 역추론
 	if run_theme == "자유런" and not run_theme_categories.is_empty():
 		var cat_str = ",".join(run_theme_categories)

@@ -59,6 +59,7 @@ var _feedback_flash_tween: Tween = null
 var _ap_commit_layer: Control = null
 var _ap_commit_tween: Tween = null
 var _ap_rail_slot_counter: int = 0
+var _routine_draft: Array = []   # 몽타주 루틴 모달 편집 중 임시 선택
 var _event_bg_path: String = ""   # 현재 표시 중인 배경 경로 (크로스페이드 중복 방지)
 var _typing_tween: Tween = null   # 타이핑 효과 전용 트윈
 var _choice_reveal_pending: bool = false  # 타이핑 완료 후 선택지 표시 대기
@@ -1994,25 +1995,35 @@ func _clean_log_surface_text(value: Variant) -> String:
 func _escape_bbcode_text(value: Variant) -> String:
 	return str(value).replace("[", "(").replace("]", ")")
 
+## 월초 전용 경제 처리(뉴스·시장·크라이시스) — 새 달 첫 주(week_of_month==1)에만.
+## _begin_month와 몽타주 주-전환이 공유한다(경제 코드 중복 방지, 동작 불변).
+func _run_week_start_economy() -> void:
+	if GameState.week_of_month != 1:
+		return
+	if GameState.turn > 4:  # 튜토리얼 1달(4주) 이후부터 크라이시스
+		var crisis = _roll_monthly_crisis()
+		if not crisis.is_empty():
+			_apply_monthly_event(crisis)
+	if GameState.news_log.is_empty() or GameState.turn > 1:
+		var news = NewsManager.generate_monthly_news()
+		var had_margin_call_before: bool = GameState.flags.get("margin_called_happened", false)
+		investment_system.process_month(news)
+		# 마진콜 발생 시 전체 화면 흔들림 + 빨간 플래시
+		if not had_margin_call_before and GameState.flags.get("margin_called_happened", false):
+			_full_screen_shake(14.0, 0.55)
+			_screen_flash(Color("#d73a49"), 0.35, 0.55)
+
 func _begin_month():
 	GameState.restore_ap()
 	_animate_ap_refill()
 	turn_action_log.clear()
 	prev_prices = GameState.market_prices.duplicate()
-	# ── 월초 전용: 뉴스·시장·크라이시스는 새 달 첫 주(week_of_month==1)에만 ──
-	if GameState.week_of_month == 1:
-		if GameState.turn > 4:  # 튜토리얼 1달(4주) 이후부터 크라이시스
-			var crisis = _roll_monthly_crisis()
-			if not crisis.is_empty():
-				_apply_monthly_event(crisis)
-		if GameState.news_log.is_empty() or GameState.turn > 1:
-			var news = NewsManager.generate_monthly_news()
-			var had_margin_call_before: bool = GameState.flags.get("margin_called_happened", false)
-			investment_system.process_month(news)
-			# 마진콜 발생 시 전체 화면 흔들림 + 빨간 플래시
-			if not had_margin_call_before and GameState.flags.get("margin_called_happened", false):
-				_full_screen_shake(14.0, 0.55)
-				_screen_flash(Color("#d73a49"), 0.35, 0.55)
+	_run_week_start_economy()
+	_begin_month_story_and_render()
+
+## _begin_month의 스토리 트리거 + 화면 렌더 꼬리 부분.
+## 몽타주 종료 후 재개도 이 경로를 쓴다(주-시작 경제는 이미 처리됐으므로 재실행하지 않음).
+func _begin_month_story_and_render():
 	# ── 스토리 이벤트 트리거 ─────────────────────────
 	# 턴 1: 프롤로그 → StoryMode(비주얼노벨)로 재생 (1회만)
 	if GameState.turn == 1 and not GameState.flags.get("prologue_done", false):
@@ -3247,6 +3258,47 @@ func _present_tendency_realization(kind: String):
 	AudioManager.play("housing_up")
 	GameState.add_log(_tr("습관이 굳어진다 — %s. %s", "A pattern emerges — %s. %s") % [tname, passive], "system")
 
+## 월말 처리 파이프라인 — 정상 "다음 주"(월말)와 몽타주가 공유한다.
+## 경제/월처리 + 월말 결산 모달까지. 동작은 기존 _on_next_month 월말 분기와 동일.
+func _run_month_end_transition() -> void:
+	job_system.process_monthly_job()
+	relationship_system.process_monthly_relationships()
+	inventory_system.process_monthly_items()
+	if not GameState.current_job.is_empty():
+		GameState.add_tendency("career", 1)
+	BGMPlayer.update_context()
+
+	# 1개월만 정착 지원금 — 2개월차부터 진짜 생존 압박
+	var subsidy_applied = GameState.month <= 1
+	if subsidy_applied:
+		GameState.add_money(300_000.0)
+		GameState.add_log(_tr("초기 정착 지원금 30만원 수령", "Received KRW 300,000 initial settlement subsidy"), "system")
+
+	var snap = {
+		"date": GameState.get_date_string(),
+		"money_before": GameState.money,
+		"monthly_income": GameState.monthly_income,
+		"fixed_expense": GameState.get_housing_expense(),
+		"assets_before": GameState.get_total_asset_value(),
+		"health_before": GameState.health,
+		"mental_before": GameState.mental,
+		"mental_before_pressure": GameState.mental,
+		"actions": turn_action_log.duplicate(),
+		"subsidy": subsidy_applied,
+	}
+
+	var had_paycheck_before: bool = GameState.flags.get("has_received_paycheck", false)
+	GameState.apply_monthly_pressure()
+	GameState.advance_calendar()
+	_refresh_all()
+	if not had_paycheck_before and GameState.flags.get("has_received_paycheck", false):
+		_show_toast(_tr("첫 월급 수령! 투자·상점이 열렸습니다", "First paycheck received! Investing and the shop are now open"), Color("#00c896"))
+	if GameState.is_game_over:
+		return
+	SaveManager.autosave()
+	_check_title_unlocks()
+	_show_month_summary(snap)
+
 func _on_next_month():
 	if not current_event.is_empty():
 		return
@@ -3259,44 +3311,7 @@ func _on_next_month():
 	var is_month_end := (GameState.week_of_month == 4)
 
 	if is_month_end:
-		# ── 월말 처리 ─────────────────────────────────────────
-		job_system.process_monthly_job()
-		relationship_system.process_monthly_relationships()
-		inventory_system.process_monthly_items()
-		if not GameState.current_job.is_empty():
-			GameState.add_tendency("career", 1)
-		BGMPlayer.update_context()
-
-		# 1개월만 정착 지원금 — 2개월차부터 진짜 생존 압박
-		var subsidy_applied = GameState.month <= 1
-		if subsidy_applied:
-			GameState.add_money(300_000.0)
-			GameState.add_log(_tr("초기 정착 지원금 30만원 수령", "Received KRW 300,000 initial settlement subsidy"), "system")
-
-		var snap = {
-			"date": GameState.get_date_string(),
-			"money_before": GameState.money,
-			"monthly_income": GameState.monthly_income,
-			"fixed_expense": GameState.get_housing_expense(),
-			"assets_before": GameState.get_total_asset_value(),
-			"health_before": GameState.health,
-			"mental_before": GameState.mental,
-			"mental_before_pressure": GameState.mental,
-			"actions": turn_action_log.duplicate(),
-			"subsidy": subsidy_applied,
-		}
-
-		var had_paycheck_before: bool = GameState.flags.get("has_received_paycheck", false)
-		GameState.apply_monthly_pressure()
-		GameState.advance_calendar()
-		_refresh_all()
-		if not had_paycheck_before and GameState.flags.get("has_received_paycheck", false):
-			_show_toast(_tr("첫 월급 수령! 투자·상점이 열렸습니다", "First paycheck received! Investing and the shop are now open"), Color("#00c896"))
-		if GameState.is_game_over:
-			return
-		SaveManager.autosave()
-		_check_title_unlocks()
-		_show_month_summary(snap)
+		_run_month_end_transition()
 	else:
 		# ── 주 전환 (월말 아님) ───────────────────────────────
 		GameState.advance_calendar()
@@ -5632,6 +5647,7 @@ func _render_essential_actions(ap: int):
 		_essential_btn(_tr("생계", "Survival Money"), _tr("알바·절약으로 이번 달을 버틴다", "Take gigs or cut back to survive this month"), "money", "#3a8a5a", "_open_cat_money", disabled, false, menu_badge)
 		_essential_btn(_tr("자기계발", "Self-Dev"), _tr("독서·운동·명상 중 한 가지", "One of: reading, exercise, meditation"), "study", "#5a6ea8", "_ap_study", disabled)
 		_essential_btn(_tr("휴식", "Rest"), _tr("숨을 고르고 정신력을 회복한다", "Catch your breath and recover mental"), "rest", "#3a8a9a", "_ap_free_time", disabled)
+		_maybe_add_montage_card()
 		return
 
 	if act == 2:
@@ -5678,6 +5694,18 @@ func _render_essential_actions(ap: int):
 			var g5_sub: String = _tr("회복 중 — 닫혀 있다", "In recovery — closed") if _gambling_locked else _tr("마지막 판은 가장 크게 흔든다", "The last table shakes the hardest")
 			_essential_btn(_tr("도박장", "Gambling"), g5_sub, "casino", "#7b3fd1", "_open_cat_gambling", disabled or _gambling_locked, false, menu_badge)
 		_essential_btn(_tr("휴식", "Rest"), _tr("결말 직전에도 사람은 쉬어야 한다", "Even before the ending, a person has to rest"), "rest", "#3a8a9a", "_ap_free_time", disabled)
+	_maybe_add_montage_card()
+
+## 몽타주 진입 카드 — 저스테이크 주간을 루틴대로 흘려보낸다. turn>=8 + AP 만땅일 때만.
+func _maybe_add_montage_card() -> void:
+	if GameState.turn < 8:
+		return
+	if GameState.action_points != GameState.max_action_points:
+		return
+	_essential_btn(
+		_tr("루틴대로 시간을 보낸다", "Let the weeks pass"),
+		_tr("다음 사건까지 — 최대 4주", "Until something happens — up to 4 weeks"),
+		"rest", "#5a6478", "_open_routine_modal", GameState.action_points <= 0)
 
 func _mastery_badge(game_id: String) -> String:
 	var grade: int = MetaProgression.get_mastery(game_id)
@@ -7115,6 +7143,262 @@ func _ap_network():
 	_show_vignette(_tr("인맥 넓히기", "Networking"), flavor, eff, "#8a5a9a")
 	_render_ap_actions()
 	_refresh_all()
+
+# ─────────────────────────────────────────────────────────────
+# 몽타주 시간 압축 (docs/AP_REDESIGN.md Phase B)
+# 무사건 저스테이크 주간을 루틴대로 흘려보낸다. 보장 스토리·임계값에서 멈춘다.
+# ─────────────────────────────────────────────────────────────
+const _ROUTINE_KINDS := ["study", "rest", "save", "network"]
+
+func _routine_kind_label(kind: String) -> String:
+	match kind:
+		"study": return _tr("자기계발", "Self-Dev")
+		"rest": return _tr("휴식", "Rest")
+		"save": return _tr("절약", "Save")
+		"network": return _tr("인맥", "Network")
+	return kind
+
+func _routine_kind_desc(kind: String) -> String:
+	match kind:
+		"study": return _tr("몸과 머리를 만든다 — 사람 쪽 시간", "Build body and mind — time for the self")
+		"rest": return _tr("숨을 고르고 정신력을 회복한다 — 사람 쪽 시간", "Catch your breath — time for the self")
+		"save": return _tr("허리띠를 졸라 돈을 남긴다 — 돈 쪽 시간", "Cut back to save — time for money")
+		"network": return _tr("돈이 되는 연결을 넓힌다 — 돈 쪽 시간", "Widen money-minded ties — time for money")
+	return ""
+
+func _open_routine_modal() -> void:
+	if GameState.action_points <= 0:
+		return
+	# 기존 루틴 프리선택 (없으면 기본 자기계발/휴식)
+	_routine_draft = []
+	for k in GameState.week_routine:
+		if _ROUTINE_KINDS.has(str(k)) and _routine_draft.size() < 2:
+			_routine_draft.append(str(k))
+	while _routine_draft.size() < 2:
+		_routine_draft.append("study" if _routine_draft.is_empty() else "rest")
+	_open_modal(_tr("이번 루틴", "This Routine"), true)
+	_render_routine_modal_body()
+
+func _render_routine_modal_body() -> void:
+	_clear_box(modal_body)
+	modal_body.add_child(_wrap_label(
+		_tr("두 칸의 루틴을 정하면, 사건이 생길 때까지 그 리듬대로 시간이 흐른다.",
+			"Set two routine slots — the weeks flow in that rhythm until something happens."),
+		13, "#9aa4b8"))
+	for slot in range(2):
+		modal_body.add_child(_label(_tr("슬롯 %d", "Slot %d") % (slot + 1), 15, "#dce5ee"))
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 6)
+		row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		modal_body.add_child(row)
+		for kind in _ROUTINE_KINDS:
+			var selected: bool = (str(_routine_draft[slot]) == kind)
+			var col: String = "#3a5a7a" if selected else "#1c2230"
+			var b := _button(("● " if selected else "") + _routine_kind_label(kind), col)
+			var s: int = slot
+			var k: String = str(kind)
+			b.pressed.connect(func():
+				_routine_draft[s] = k
+				_render_routine_modal_body())
+			row.add_child(b)
+		modal_body.add_child(_wrap_label(_routine_kind_desc(str(_routine_draft[slot])), 11, "#7a8496"))
+	var start_btn := _button(_tr("시작", "Start"), "#2f6f4f")
+	start_btn.pressed.connect(func():
+		GameState.week_routine = _routine_draft.duplicate()
+		_close_modal()
+		_montage_advance())
+	modal_body.add_child(start_btn)
+
+## 여러 비네트 풀의 "e" 효과 dict 평균(반올림). 하드코딩 없이 원본 상수에서 계산.
+func _avg_vignette_effects(pools: Array) -> Dictionary:
+	var sums: Dictionary = {}
+	var count: int = 0
+	for pool in pools:
+		for v in pool:
+			var e: Dictionary = v.get("e", {})
+			for key in e:
+				sums[key] = float(sums.get(key, 0.0)) + float(e[key])
+			count += 1
+	var avg: Dictionary = {}
+	if count > 0:
+		for key in sums:
+			avg[key] = int(round(float(sums[key]) / float(count)))
+	return avg
+
+## 효과 dict를 GameState에 적용 (비네트 apply 로직 미러). UI 없음.
+func _montage_apply_effect_dict(eff: Dictionary) -> void:
+	for k in eff:
+		var val: int = int(eff[k])
+		if val == 0:
+			continue
+		if k == "money":
+			GameState.add_money(float(val))
+		elif k == "stress" or k == "reputation":
+			GameState.modify_hidden_stat(k, val)
+		else:
+			GameState.modify_stat(k, val)
+
+## 루틴 슬롯 1개를 조용히 적용 — spend_ap + 효과 + register_action_axis + tendency. 반환: 사용한 축.
+func _montage_apply_slot(kind: String) -> String:
+	if not GameState.spend_ap():
+		return ""
+	var axis: String = "human"
+	var eff: Dictionary = {}
+	match kind:
+		"study":
+			axis = "human"
+			eff = _avg_vignette_effects([STUDY_EXERCISE_VIGNETTES, STUDY_MEDITATE_VIGNETTES])
+			GameState.add_tendency("career", 1)
+		"rest":
+			axis = "human"
+			eff = _avg_vignette_effects([REST_VIGNETTES])
+		"save":
+			axis = "money"
+			eff = {"money": 30000 + randi() % 70000, "stress": 2}
+			GameState.add_tendency("career", 1)
+		"network":
+			axis = "money"
+			eff = _avg_vignette_effects([NETWORK_VIGNETTES])
+			GameState.add_tendency("career", 1)
+		_:
+			axis = "human"
+			eff = _avg_vignette_effects([REST_VIGNETTES])
+	_montage_apply_effect_dict(eff)
+	GameState.register_action_axis(axis)
+	return axis
+
+## 이번 주의 루틴 2슬롯을 적용. 반환: {"money":bool, "human":bool} — 이 주에 쓴 축들.
+func _montage_apply_routine() -> Dictionary:
+	var used_money: bool = false
+	var used_human: bool = false
+	var routine: Array = GameState.week_routine
+	if routine.is_empty():
+		routine = ["study", "rest"]
+	for slot in routine:
+		if GameState.action_points <= 0:
+			break
+		var axis := _montage_apply_slot(str(slot))
+		if axis == "money":
+			used_money = true
+		elif axis == "human":
+			used_human = true
+	return {"money": used_money, "human": used_human}
+
+## 몽타주 루프 — 무사건 주간을 루틴대로 최대 4주 압축한다.
+func _montage_advance() -> void:
+	if GameState.is_game_over:
+		return
+	var assets_before: float = GameState.get_total_asset_value()
+	var health_before: int = GameState.health
+	var mental_before: int = GameState.mental
+	var money_wk: int = 0
+	var human_wk: int = 0
+	var weeks: int = 0
+	var reason: String = "cap"
+	while weeks < 4:
+		# (a) 시작 가드 — 보장 스토리/게임오버는 절대 삼키지 않는다
+		if GameState.is_game_over:
+			reason = "gameover"
+			break
+		if _next_arc_id() != "":
+			reason = "arc"
+			break
+		# (b) 루틴 2슬롯 적용 (팝업/토스트/turn_action_log 없음)
+		var used := _montage_apply_routine()
+		if bool(used.get("money", false)):
+			money_wk += 1
+		if bool(used.get("human", false)):
+			human_wk += 1
+		# (c/d) 주 전진 — 랜덤 사건 draw 없음, 경제만
+		if GameState.week_of_month == 4:
+			# 월말: 기존 월말 파이프라인이 결산 모달까지 띄우고 종료된다
+			_run_month_end_transition()
+			return
+		GameState.advance_calendar()
+		weeks += 1
+		if GameState.is_game_over:
+			reason = "gameover"
+			break
+		# 새 주 시작 경제(뉴스/시장/크라이시스) — restore_ap 포함, 스토리/렌더는 안 함
+		GameState.restore_ap()
+		turn_action_log.clear()
+		prev_prices = GameState.market_prices.duplicate()
+		_run_week_start_economy()
+		# (e) 주 종료 체크
+		if GameState.health <= 35:
+			reason = "health"
+			break
+		if GameState.mental <= 25:
+			reason = "mental"
+			break
+		if GameState.money < GameState.get_housing_expense():
+			reason = "cash"
+			break
+		if _next_arc_id() != "":
+			reason = "arc"
+			break
+	SaveManager.autosave()
+	_refresh_all()
+	_show_montage_card(weeks, assets_before, health_before, mental_before, money_wk, human_wk, reason)
+
+func _montage_axis_line(money_wk: int, human_wk: int) -> String:
+	if money_wk == 0 and human_wk == 0:
+		return _tr("아무 데도 시간을 남기지 못한 주들.", "Weeks that left time nowhere.")
+	if human_wk == 0:
+		return _tr("돈에 %d주 — 사람에게는 한 주도 없었다.", "%d weeks on money — not one for people.") % money_wk
+	if money_wk == 0:
+		return _tr("사람에게 %d주 — 돈은 잠시 밀어뒀다.", "%d weeks on people — money set aside for now.") % human_wk
+	return _tr("돈에 %d주, 사람에게 %d주.", "%d weeks on money, %d weeks on people.") % [money_wk, human_wk]
+
+func _montage_reason_line(reason: String) -> String:
+	match reason:
+		"arc": return _tr("무언가 일어났다.", "Something happened.")
+		"month": return _tr("한 달이 끝났다.", "A month ended.")
+		"health": return _tr("몸이 신호를 보낸다.", "The body is sending signals.")
+		"mental": return _tr("마음이 버티기 어려워졌다.", "The mind can't hold much longer.")
+		"cash": return _tr("통장이 바닥을 보인다.", "The bank balance is running dry.")
+		"gameover": return _tr("여기서 시간이 멈췄다.", "Time stopped here.")
+	return _tr("네 주가 지나갔다.", "Four weeks went by.")
+
+func _show_montage_card(weeks: int, assets_before: float, health_before: int, mental_before: int,
+		money_wk: int, human_wk: int, reason: String) -> void:
+	_open_modal(_tr("시간이 흘렀다", "Time Passed"))
+	modal_body.add_child(_label(_tr("%d주가 흘렀다.", "%d weeks passed.") % weeks, 20, "#dce5ee"))
+	var asset_d: int = int(round(GameState.get_total_asset_value() - assets_before))
+	var health_d: int = GameState.health - health_before
+	var mental_d: int = GameState.mental - mental_before
+	var grid := GridContainer.new()
+	grid.columns = 3
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	grid.add_theme_constant_override("h_separation", 8)
+	grid.add_theme_constant_override("v_separation", 8)
+	modal_body.add_child(grid)
+	var asset_sign: String = "+" if asset_d >= 0 else ""
+	grid.add_child(_month_summary_metric_card(
+		_tr("돈", "Money"),
+		"%s%s" % [asset_sign, GameState.format_money(float(asset_d))],
+		_tr("총자산 변화", "Total asset change"),
+		"#00c896" if asset_d >= 0 else "#ff6b6b"))
+	grid.add_child(_month_summary_metric_card(
+		_tr("건강", "Health"),
+		"%s%d" % ["+" if health_d >= 0 else "", health_d],
+		_tr("몸 상태", "Body"),
+		"#00c896" if health_d >= 0 else "#ff6b6b"))
+	grid.add_child(_month_summary_metric_card(
+		_tr("정신", "Mental"),
+		"%s%d" % ["+" if mental_d >= 0 else "", mental_d],
+		_tr("마음 상태", "Mind"),
+		"#00c896" if mental_d >= 0 else "#ff6b6b"))
+	modal_body.add_child(_wrap_label(_montage_axis_line(money_wk, human_wk), 13, "#a0aabf"))
+	var div := HSeparator.new()
+	div.add_theme_color_override("color", Color("#252535"))
+	modal_body.add_child(div)
+	modal_body.add_child(_wrap_label("— " + _montage_reason_line(reason), 13, "#8892a4"))
+	var ok := _button(_tr("확인", "Confirm"), "#1f6feb")
+	ok.pressed.connect(func():
+		_close_modal()
+		_begin_month_story_and_render())
+	modal_body.add_child(ok)
 
 func _ap_contact_person(person_id: String):
 	if not GameState.spend_ap():
@@ -11102,6 +11386,22 @@ func _show_month_summary(snap: Dictionary):
 	var ap_comment = _get_ap_pattern_comment(snap["actions"])
 	if not ap_comment.is_empty():
 		modal_body.add_child(_wrap_label(_tr("기록 — ", "Note — ") + ap_comment, 12, "#7a8496"))
+
+	# ── 이 달의 축 배분 (몽타주 프리뷰) — 돈에 몇 주, 사람에게 몇 주 ─────
+	var mw: int = GameState.last_month_money_weeks
+	var hw: int = GameState.last_month_human_weeks
+	if mw > 0 or hw > 0:
+		var axis_line: String
+		if hw == 0:
+			axis_line = _tr("이 달의 시간 — 돈에 %d주, 사람에게는 한 주도 없었다.",
+				"This month — %d weeks on money, not one for people.") % mw
+		elif mw == 0:
+			axis_line = _tr("이 달의 시간 — 사람에게 %d주, 돈은 잠시 밀어뒀다.",
+				"This month — %d weeks on people, money set aside.") % hw
+		else:
+			axis_line = _tr("이 달의 시간 — 돈에 %d주, 사람에게 %d주.",
+				"This month — %d weeks on money, %d weeks on people.") % [mw, hw]
+		modal_body.add_child(_wrap_label(axis_line, 12, "#8892a4"))
 
 	# ── A-6: 월말 서사 내레이션 ───────────────────
 	var narrative = _get_month_narrative()
