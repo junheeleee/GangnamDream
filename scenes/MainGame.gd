@@ -3088,58 +3088,61 @@ func _next_arc_id() -> String:
 		return "arc_final_week"
 
 	# ── H2 데드존 채움 비트 (경로 반응형, 최저 우선순위 — 기존 아크를 굶기지 않음) ──
-	# Zone A (t74~95, Y2 후반: 확장의 뒷면)
-	if t >= 74 and t <= 95:
-		# A1 — 상철의 첫 부탁 (네트워크가 공짜가 아니었음)
-		if f.get("entered_network", false) \
+	# 계단식 턴 게이트 (2026-07-07 재측정): 존 전체를 창으로 열면 입구(t75~78/t169~171)에서
+	# 조기 소진돼 스파인 구멍(t78-88, t177-187 각 11주)이 그대로 남는다.
+	# 비트별 시작 턴을 늦춰 존 꼬리까지 정지가 퍼지게 한다.
+	# Zone A (Y2 후반: 확장의 뒷면) — 스파인 구멍 t78~88
+	if t <= 95:
+		# A1 — 상철의 첫 부탁 (입구: t74~)
+		if t >= 74 and f.get("entered_network", false) \
 				and not f.get("sangchul_truth_known", false) \
 				and not f.get("arc_y2_sangchul_first_favor_seen", false):
 			return "arc_y2_sangchul_first_favor"
-		# A2 — 몇 주째 돈만 본 얼굴을 다은이 알아본다 (그라인드 축 기반)
-		if GameState.grind_streak_weeks >= 3 \
+		# A2 — 몇 주째 돈만 본 얼굴을 다은이 알아본다 (구멍 앞: t79~)
+		if t >= 79 and GameState.grind_streak_weeks >= 3 \
 				and (f.get("daeun_supportive", false) or f.get("daeun_understood", false) or f.get("daeun_chose_her", false)) \
 				and not f.get("arc_y2_worn_face_seen", false):
 			return "arc_y2_worn_face"
-		# A3 — 현수가 밤 버스로 본가에 (안정과 야망의 거울)
-		if f.get("arc_intro_hyunsu_seen", false) \
+		# A3 — 현수가 밤 버스로 (구멍 한복판: t82~ — 유일한 준보편 비트라 여기에)
+		if t >= 82 and f.get("arc_intro_hyunsu_seen", false) \
 				and not f.get("arc_y2_hyunsu_night_bus_seen", false):
 			return "arc_y2_hyunsu_night_bus"
-	# Zone B (t122~140, Y3 후반: 무게 — 최악 데드존)
-	if t >= 122 and t <= 140:
-		# B1a — 돈에만 갈아넣은 1년의 장부 (돈축 기반)
-		if GameState.money_weeks_total >= 30 and GameState.human_weeks_total <= 8 \
+	# Zone B (Y3 후반: 무게 — 최악 데드존)
+	if t <= 140:
+		# B1a — 돈에만 갈아넣은 1년의 장부 (t122~)
+		if t >= 122 and GameState.money_weeks_total >= 30 and GameState.human_weeks_total <= 8 \
 				and not f.get("arc_y3_ledger_grind_seen", false):
 			return "arc_y3_ledger_grind"
-		# B1b — 지키면서 온 1년 (사람축 기반, B1a와 상호배타)
-		if GameState.human_weeks_total >= 20 \
+		# B1b — 지키면서 온 1년 (t122~, B1a와 상호배타)
+		if t >= 122 and GameState.human_weeks_total >= 20 \
 				and not f.get("arc_y3_ledger_kept_seen", false):
 			return "arc_y3_ledger_kept"
-		# B2 — 상철이 더 안쪽 방으로 (진실을 아는 자/쓴 자)
-		if (f.get("used_sangchul_knowingly", false) or f.get("sangchul_truth_known", false)) \
+		# B2 — 상철이 더 안쪽 방으로 (중반: t128~)
+		if t >= 128 and (f.get("used_sangchul_knowingly", false) or f.get("sangchul_truth_known", false)) \
 				and not f.get("arc_y3_sangchul_deeper_room_seen", false):
 			return "arc_y3_sangchul_deeper_room"
-		# B3 — 현수의 공시 결과 (A3 체인, 합격 경로면 스킵)
-		if f.get("arc_intro_hyunsu_seen", false) \
+		# B3 — 현수의 공시 결과 (꼬리: t133~ — 준보편 비트를 최장 스파인 갭 t131-137에)
+		if t >= 133 and f.get("arc_intro_hyunsu_seen", false) \
 				and f.get("arc_y2_hyunsu_night_bus_seen", false) \
 				and not f.get("hyunsu_passed", false) \
 				and not f.get("arc_y3_hyunsu_verdict_seen", false):
 			return "arc_y3_hyunsu_verdict"
-	# Zone C (t170~188, Y4 후반: 균열 — 엔딩 직전 긴장)
-	if t >= 170 and t <= 188:
-		# C1 — 시간을 접어 달려온 사람의 거울 (그라인드/축 격차 기반)
-		if (GameState.grind_streak_weeks >= 4 \
-				or (GameState.money_weeks_total - GameState.human_weeks_total >= 40)) \
-				and not f.get("arc_y4_folded_time_seen", false):
-			return "arc_y4_folded_time"
-		# C2 — 결혼 이야기가 처음 공기 중에 (다은/지연 경로별 변주)
-		if (f.get("daeun_romance_started", false) or f.get("jiyeon_romance_started", false)) \
+	# Zone C (Y4 후반: 균열) — 스파인 구멍 t177~187
+	if t <= 188:
+		# C3 — 네트워크의 정산 (입구: t170~)
+		if t >= 170 and f.get("entered_network", false) \
+				and not f.get("arc_y4_network_bill_seen", false):
+			return "arc_y4_network_bill"
+		# C2 — 결혼 이야기 (중반: t175~)
+		if t >= 175 and (f.get("daeun_romance_started", false) or f.get("jiyeon_romance_started", false)) \
 				and not f.get("daeun_married", false) \
 				and not f.get("arc_y4_marriage_talk_seen", false):
 			return "arc_y4_marriage_talk"
-		# C3 — 네트워크의 정산 (끊은 자/끝까지 쓴 자 거울)
-		if f.get("entered_network", false) \
-				and not f.get("arc_y4_network_bill_seen", false):
-			return "arc_y4_network_bill"
+		# C1 — 시간을 접어 달려온 자의 거울 (구멍 한복판: t179~ — 피날레 직전이 제자리)
+		if t >= 179 and (GameState.grind_streak_weeks >= 4 \
+				or (GameState.money_weeks_total - GameState.human_weeks_total >= 40)) \
+				and not f.get("arc_y4_folded_time_seen", false):
+			return "arc_y4_folded_time"
 
 	return ""
 
