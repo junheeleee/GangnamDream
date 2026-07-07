@@ -1,5 +1,16 @@
 [
   {
+    "id": "story_flashforward",
+    "title": "2031",
+    "description": "Dawn over Gangnam. A window on a high floor.\n\nA man in a good suit stands alone in an unlit living room.\nBeyond the glass, the city bleeds the blue of the hour before it wakes.\n\nA phone on the table. A few missed calls. The man looks down at them for a moment.\nThen he turns his eyes back to the window.\n\nHis face cannot be seen.\n\nWho this man is — that part is yours to decide.",
+    "choices": [
+      {
+        "text": "…",
+        "result_text": "Five years earlier.\nBefore any of it."
+      }
+    ]
+  },
+  {
     "id": "story_arrival",
     "title": "January 2026, Seoul",
     "description": "Eyes open in the dark.\n\nA room where you can touch the ceiling. Four-and-a-half square meters.\nOpen the window and the next building is close enough to touch.\nA goshiwon — a micro-studio — in Sinchon. {name}'s room.\n\n{name}. Thirty-three years old.\nUntil half a year ago, he was paying off debt.\n\nHis father co-signed a loan. The debtor vanished.\nThe debt fell to the father, and then to {name}.\nAge twenty-seven to thirty-three. Six years.\n\nAll paid. And what's left — 500,000 won in the bank, and this room.",

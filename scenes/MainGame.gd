@@ -2028,7 +2028,12 @@ func _begin_month_story_and_render():
 	# 턴 1: 프롤로그 → StoryMode(비주얼노벨)로 재생 (1회만)
 	if GameState.turn == 1 and not GameState.flags.get("prologue_done", false):
 		GameState.flags["prologue_done"] = true
-		_go_story_mode(["story_arrival"])
+		# 플래시포워드 콜드오픈(5년 뒤 '가능한' 민준) → follow_up으로 프롤로그(story_arrival)에 이어짐.
+		# story_flashforward_seen: 1회 가드(위 prologue_done가 실질 가드, 이 플래그는 재생 이력 판독).
+		if not GameState.flags.get("story_flashforward_seen", false):
+			_go_story_mode(["story_flashforward"])
+		else:
+			_go_story_mode(["story_arrival"])
 		return
 	# 아크 이벤트 (인물 스토리) — 마일스톤보다 우선
 	var arc_id = _next_arc_id()
