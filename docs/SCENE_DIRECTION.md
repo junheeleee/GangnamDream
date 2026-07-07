@@ -55,7 +55,8 @@
 | `arc_37_burn_or_light` | `{"pace":"beat"}` | 마지막 해의 자문 — 박자만 |
 | `age_39_final` | `{"pace":"slow","hold":1.5}` | 5년의 끝, 정적 |
 
-- 후속 후보(2차): 밴드 전이 moral beat(엔진 레벨 — Codex 재량), chapter_cards(`camera:drift` 일괄), 데모 플래시포워드(제작 시 풀스택 ④ 예약).
+- 후속 후보(2차): 밴드 전이 moral beat(엔진 레벨 — Codex 재량), chapter_cards(`camera:drift` 일괄), 데모 플래시포워드(풀스택 ④ 예약).
+- **로맨스 명장면 4종 예약**(ROMANCE_SYSTEM.md 7절 구현 시): 어머니의 밥상 `{"pace":"slow","amb":"duck"}` / 밤 버스 `{"camera":"drift","hold":1.5}` / 좁은 방 `{"amb":"cut","hold":1.5}` / 벚꽃(어둠 변주) `{"pace":"slow","sting":"cold"}`.
 - 적용 방법: 위 id의 KR 이벤트에 `direction` 키 추가는 렌더러 구현과 **같은 커밋**에서(키만 먼저 넣으면 audit 미지 키 ERROR).
 
 ## 4. 구현 순서 (Codex)
