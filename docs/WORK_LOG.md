@@ -1,5 +1,14 @@
 # Gangnam Dream Work Log
 
+## 2026-07-07 (Claude — 오후: 데모 훅·시간의 기록·H2 계단 게이트·문서 상세화)
+
+- **플래시포워드 콜드오픈**(story_flashforward, 전 빌드 공통, 프롤로그 큐 선두) + **SNS dik 양변주**(lent_account/kept_clean_hands) — 데모 훅 레버② 완료.
+- **시간의 기록**: GameState 연락 원장(contact_counts/last_contact_turn) + 엔딩 화면 사실 통계 블록(_ending_time_ledger) — 리캡 레버③ 데이터·텍스트 완료.
+- **H2 비트 계단식 턴 게이트**: 재측정으로 존 입구 조기 소진(스파인 구멍 t78-88/t177-187 잔존) 확인 → A1 t74/A2 t79/A3 t82, B1 t122/B2 t128/B3 t133, C3 t170/C2 t175/C1 t179 재배치. 세 아키타입 모두 구멍 내 정지 확보.
+- **시작화면 표면 수리**: "자유런/현실 모드/매 런/고르는 설정은 없다" 제거, 정보패널 테마 상시 노출·미니게임 raw id 수리.
+- **문서**: CODEX_QUEUE 상세 실행 스펙화(grep 실증 앵커 — 엔딩 CG 프리뷰 그레이딩 미적용 갭 발견), SCENE_DIRECTION.md(연출 스키마+16장면 대본), MAP_HUB_PROPOSAL.md(M1/M2), 설교 방지 5원칙·Godot 네이티브 원칙 DECISIONS 등재, STEAM_PAGE.md 상품 정의 정렬(34엔딩·1,200사건·색 정체성·Romance 태그).
+- 검증: 전 커밋 audit ✅ / en_coverage / arc_flow_sim / ScreenshotQA 해당 스코프.
+
 ## 2026-07-07 (Claude — 몽타주 압축 + main 병합 정합 + EN 일관성 + 문서 재정비)
 
 ### 전략 (3종 병렬 감사 → 5레버 확정)
