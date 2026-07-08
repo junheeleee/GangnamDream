@@ -107,23 +107,23 @@
   {
     "id": "arc_sangchul_reckoning",
     "title": "I'm Sorry",
-    "description": "After a long silence, Sangchul spoke.\n\n\"I knew he was your father. From the beginning.\"\n\nMinjun didn't respond.\n\n\"When Park Sang-jin called and made the introduction... I just did him a favor. I didn't know it would go this far.\"\n\nA beat of silence.\n\nSangchul said,\n\"I'm sorry.\"",
+    "description": "After a long pause, Lim Sangchul spoke.\n\"...You're his son. I knew from the start.\"\n\n{name} didn't answer. He only looked at his coffee cup. The steam had long gone cold.\n\n\"When Park Sangjin called and made the introduction... I was just doing a favor. I never thought it would come to this.\" Sangchul's voice didn't sound like an excuse. Which made it harder to bear.\n\nSilence again. Then Sangchul said,\n\"I'm sorry.\"\nThose words, carried across more than a decade, were laid on the table. {name} couldn't pick them up right away.",
     "choices": [
       {
         "text": "\"I'm going to report you.\"",
-        "result_text": "Sangchul nodded quietly.\n\"Yeah. That's the right call.\"\n\nMinjun stood up. The network was gone. Everything Sangchul knew was out of reach. Gangnam felt farther away.\n\nAnd yet — for the first time, he could picture his father's face clearly."
+        "result_text": "\"I'm going to report you.\" {name}'s voice didn't shake.\nSangchul nodded quietly. \"...Right. I think that's what's correct.\" No surprise, no plea.\n\n{name} rose. In that moment the network was severed. Sangchul's information, his doors, his people — all gone with it. Gangnam receded that far again.\nAnd yet, strangely, his feet were light going down the stairs. Between what he'd lost and what he'd taken back, which was larger, {name} could not yet reckon."
       },
       {
         "text": "\"That's all I needed to hear.\" (He let it go)",
-        "result_text": "Sangchul lifted his head and looked at Minjun.\n\"Thank you.\"\n\nThe words felt off. Thanking someone who was apologizing.\n\nBut maybe — maybe this is the right way. Not tearing everything apart and scrubbing it clean. Just letting it be."
+        "result_text": "\"That one word was enough,\" {name} said.\nSangchul lifted his head and looked at him. \"...Thank you.\"\n\nBeing thanked felt strange. He was thanking the one who had apologized.\nAnd still — maybe this was the right way. Tearing it all open, breaking it all down, wouldn't bring Father back. Setting down the hatred wasn't the same as forgiveness. {name} had simply decided to set down one weight."
       },
       {
         "text": "\"I'm only here because of you.\" (He chose to use it)",
-        "result_text": "Sangchul paused.\n\"...You're going to use this.\"\n\nMinjun smiled. It came out wrong.\n\nThis man destroyed his father. But without this man's network, Gangnam was impossible. So — this guilt was an asset too.\n\nIt was Jaehyuk's move. Now Minjun was making it."
+        "result_text": "\"It's thanks to you that I'm even here.\" When {name} said it, Sangchul paused.\n\"...So that's how you'll use it.\"\n\n{name} smiled. The smile felt strange even to himself.\nThis man had ruined his father. And yet without this man's network, he couldn't reach Gangnam. So he folded the hatred away and chose to use this hand as a tool.\nThe math was right. Only, after that day, it grew a little harder to look his own face straight in the mirror."
       },
       {
         "text": "\"Pay it back. My father's debt. With your own hands.\"",
-        "result_text": "Sangchul looked at Minjun for a long moment.\n\n\"...So that's what you want.\"\n\n\"'Sorry' doesn't put anything back in my father's account.\"\n\nInstead of answering, Sangchul took out his notebook. A few days later, an old number landed in his father's account. His father asked what the money was for, and Minjun only said, 'Just something owed, finally paid.'\n\nNot a report. Not forgiveness. Just — the one who owed it, paying it."
+        "result_text": "\"Pay it back. My father's debt. With your own hands.\" {name} said it, clear and even.\nSangchul looked at him a long time. \"...So that's what you want.\"\n\"An apology doesn't fill my father's bankbook.\"\n\nInstead of answering, Sangchul took out a notebook. A few days later, money entered Father's old account. The sum that had vanished over a decade ago returned, exact to the number.\nAnd yet even as he confirmed that number, something in {name} stayed unfilled. The debt was paid — but Father never got to see it."
       }
     ],
     "description_if_known": {
@@ -136,19 +136,19 @@
   {
     "id": "arc_jaehyuk_mirror",
     "title": "The Same Question",
-    "description": "A message from Jaehyuk.\n\nIt had been a while. Contact had been sparse since the scam arc.\n\n\"Minjun. I've got an investment deal going — can you co-sign for me? Just this once.\"\n\nMinjun set his phone down and stared out the window.\n\nA guarantor.\n\nThat's what ruined his father.",
+    "description": "A message came from Jaehyuk.\nIt had been a while. Contact had gone thin since the scam arc.\n\n\"Minjun. I've got an investment deal going — could you co-sign a guarantee, just once?\"\n\n{name} set the phone down and looked out the window a long time.\nA guarantee. Those words.\n\nThat was exactly how Father had been ruined. Someone's favor, one signature he couldn't refuse. {name} knew that in that seat now sat not his father, but himself.",
     "choices": [
       {
         "text": "\"No.\" (He refused, flat)",
-        "result_text": "A pause.\nJaehyuk replied: \"Okay.\" That was it.\n\nMinjun set his phone on the table and thought about his father.\nHis father must have had a moment like this. The moment he couldn't say no.\n\nMinjun said no today. He still doesn't know if it was right. He just did it."
+        "result_text": "\"I can't.\" {name} kept it short. Say more, and he might waver.\nA silence. Jaehyuk answered, \"...Okay.\" That was all. No anger, no resentment. Which made it linger longer.\n\n{name} set the phone on the table and thought of his father.\nFather must have had this moment too. Before a friend's request, the moment when refusing felt like being a bad person. Father couldn't refuse; {name} did.\nTo make a different choice in the same seat — maybe that was all {name} had learned in five years."
       },
       {
         "text": "\"How much are we talking?\" (He decided to hear it out)",
-        "result_text": "Jaehyuk explained. As Minjun listened, something felt off.\n\nWas this guy hiding something again? Or — was this actually a solid deal this time?\n\nMinjun signed the guarantee.\n\nThat's probably what his father thought too. \"This time it'll be fine.\""
+        "result_text": "\"How much is it?\" {name} decided to at least hear it out.\nJaehyuk explained. The whole time, an odd feeling wouldn't leave. Was this man hiding something again? Or — was it really a good deal this time? He couldn't tell.\n\nIn the end, {name} signed. Refusing to trust an old friend felt like its own kind of wrong.\nThe moment he signed, his father's face flickered past. Father must have felt exactly this — not a hand held out from failing to doubt, but from wanting to believe."
       },
       {
         "text": "(He closed the message and pretended not to have seen it)",
-        "result_text": "Minjun closed the message and opened another app.\n\nPractical choice. He didn't want to be tangled up with Jaehyuk anymore.\n\nBut on the day his father agreed to be a guarantor, that man probably reached out exactly like this.\n\nMinjun put his phone in the drawer."
+        "result_text": "{name} closed the message as if he hadn't read it, and opened another app.\nA practical choice. He didn't want to get tangled with Jaehyuk further. Look away just this once, and it would pass quietly.\n\nBut on the day Father signed his guarantee too, this man must have reached out just like this. Bright, urgent, familiar.\n{name} looked at the dark phone screen a moment. Looking away and refusing were not the same thing. Which was more of a coward's move, he couldn't quite say."
       }
     ]
   },
