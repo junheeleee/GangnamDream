@@ -2,49 +2,49 @@
   {
     "id": "arc_date_namsan_daeun",
     "title": "On Namsan",
-    "description": "The cable car climbed slowly. Daeun pressed to the window, looking down.\n\"Minjun, you can see our neighborhood from here.\" She'd never seen Seoul look that small before.\n\nThey ordered the giant Namsan tonkatsu. The plate was the size of a face. Daeun cut hers in half and set it on {name}'s plate. \"Things like this taste better shared.\"\n\nThey went up to the observation deck. Seoul spread out beyond the glass — and across the river, the lights of Gangnam. The one moment he got to look down at the goal from beside her.\n\nAmong all those lights, where {name}'s eyes settled was—",
+    "description": "The cable car lifted slowly. Below, the whole city sank away.\nDaeun pressed her forehead to the glass and looked down. \"Minjun, over there... you can see our neighborhood.\" Somewhere in the direction her fingertip traced, the convenience store where she pulled all those nights would be, too.\nSeoul looking that small — Daeun was seeing it for the first time. The city she walked every day fit entirely inside one span of glass.\n\nThe giant Namsan tonkatsu came out the size of a face. With a practiced motion, Daeun cut hers in half and moved it onto {name}'s plate. \"Things like this taste better shared.\" Sharing out her own portion was second nature to her.\n\nThey went up to the observation deck. Beyond the wall of glass, Seoul's night stretched on without end — and across the river, one place burned brighter, clustered close. Gangnam.\nThe goal he'd chased for five years, and for the first time he was looking down at it standing beside her. Those lights that felt close enough to touch if he reached for the glass.\n\nAmong all those countless lights, where {name}'s eyes finally settled was—",
     "choices": [
       {
         "text": "Across the river, the lights of Gangnam.",
-        "result_text": "From up here it looked close enough to grab. Which made it feel farther.\nThe distance of a single pane of glass felt vast tonight."
+        "result_text": "From up here, it really did look close enough to grab. Put a hand to the glass, and those lights sat in his palm.\nWhich made it feel farther. A distance that's almost-but-not-quite within reach wears at a person more than one that's simply far.\nThe distance of a single pane of glass felt vast tonight. Daeun was right beside him, and for a moment he forgot even that."
       },
       {
         "text": "Daeun's profile, watching the view.",
-        "result_text": "\"...What are you looking at, not the view?\" Daeun caught him and smiled.\nThe view would be here tomorrow, but this profile was here today."
+        "result_text": "More than the view, it was Daeun's profile watching the view that caught his eye. The lights drew the line of her face soft.\n\"...What are you looking at, not the view?\" Feeling the look, Daeun turned and smiled. The tips of her ears were a little red, but she didn't hide it.\nThe view would be here tomorrow, and next year too. But this profile was here today, beside {name}. That felt more certain, somehow, than Gangnam."
       },
       {
         "text": "The dark side where the lights don't reach.",
-        "result_text": "There was a place the lights didn't reach. Toward the hometown.\nDaeun was looking at the same spot. Neither of them said a word."
+        "result_text": "Among all the brilliant lights, there was a dark corner the light didn't reach. Out at the edge where the city's glow ran out — the direction of the hometown.\nHe glanced beside him, and Daeun was looking at the same place. Not the bright side, but the dark one.\nNeither of them said a word. That each of them was looking at their own hometown, at what they'd left behind, in that darkness — they knew without saying it."
       },
       {
         "text": "My own face reflected in the glass.",
-        "result_text": "Over the night view, my face was overlaid, half-transparent.\nWhen I reach those lights, will this face do — {name} looked at that face a long moment."
+        "result_text": "Over the night view, {name}'s own face was overlaid in the glass, half-transparent. The lights of Gangnam passed straight through it.\nThe day he reaches those lights — will this face do. Standing there, just as he is now, could he do it without shame.\n{name} looked, a long moment, at that face in the glass. The answer didn't come easily."
       }
     ]
   },
   {
     "id": "arc_date_namsan_lock_daeun",
     "title": "The Lock",
-    "description": "The deck railing was packed with padlocks. Daeun stood in front of them.\n\n\"Should we... hang one too?\" She knew it was childish, and asked anyway.",
+    "description": "Along the deck railing, padlocks hung packed together. On each colored lock, someone's name and date. Daeun stood in front of them.\nShe fiddled with one lock between her fingers, then, carefully, spoke.\n\"Should we... hang one too?\" Her face knew it was childish. And still, without hiding it, she asked, plainly. Her eyes shone a little.",
     "choices": [
       {
         "text": "Hang it — childish or not, lock today in place.",
-        "result_text": "They fastened the lock and threw the key down below.\n\"Come find it in ten years, us.\" Daeun smiled.\nIt became one of the countless locks on the railing. Strangely, that felt like something solid."
+        "result_text": "They bought a small lock and wrote their two names side by side. Fastened it to the railing, and Daeun flung the key down hard into the dark below. That it couldn't be undone now — that, somehow, felt good.\n\"Come find it in ten years, us.\" Daeun smiled. How they'd find it with no key, they both laughed knowing.\nOne of the thousands of locks on that railing was, now, the two of theirs. Strangely, that felt like something solid. That somewhere in the city, their today was locked away."
       },
       {
         "text": "Don't — we don't need this kind of thing.",
-        "result_text": "\"We don't need this kind of thing, right?\" When {name} smiled, Daeun did too.\n\"That's very you too, Minjun.\" The walk down without a lock was light, and good."
+        "result_text": "\"We don't need this kind of thing, right?\" When {name} smiled, Daeun smiled along with him.\n\"...That's very you too, Minjun.\" She might well have been let down, but there was no letdown in her voice. If anything, she turned the words over as if she liked them.\nEven without locking today into a single padlock, the two of them already knew each other. The walk down without a lock was, strangely, light and good."
       }
     ]
   },
   {
     "id": "arc_date_namsan_jiyeon",
     "title": "On Namsan",
-    "description": "\"We could just walk up.\" Jiyeon said it, then bought the cable car tickets first anyway.\nThe whole way up she didn't look out the window. Seoul getting small was nothing new to her.\n\nThe giant Namsan tonkatsu. \"This is that famous?\" she said, and ate her whole portion.\n\nThe observation deck. Beyond the glass, across the river, the lights of Gangnam.\n\"Oppa's goal — from here, it's right over there.\" Jiyeon pointed with her chin.\n\nAmong all those lights, where {name}'s eyes settled was—",
+    "description": "\"It's close enough to just walk up, honestly.\" Jiyeon said it, and yet the cable car tickets were already bought, in her own hand, first. Her words and her hands running separate was an old grammar of hers.\nThe whole way up she didn't look out the window. The city shrinking below wasn't a new sight to her. A life of looking down from high places — she'd already lived it.\n\nThe giant Namsan tonkatsu. \"This is that famous?\" she asked, unimpressed, and cleared the face-sized plate without leaving a bite. The reason it was famous, her mouth admitted and her words did not.\n\nThe observation deck. Beyond the wall of glass, across the river, the lights of Gangnam burned in a cluster.\n\"Oppa's goal — from here, it's right over there.\" Jiyeon pointed with her chin. To her, the lights of a familiar neighborhood. To {name}, lights he still hadn't reached in five years. Over the same lights, the distance between the two of them was that different.\n\nAmong all those countless lights, where {name}'s eyes finally settled was—",
     "choices": [
       {
         "text": "Across the river, the lights of Gangnam.",
-        "result_text": "From up here it looked close enough to grab. Which made it feel farther.\nJiyeon read that look from beside him. She said nothing."
+        "result_text": "From up here it looked close enough to grab. Which made it feel farther. That almost-but-not-quite distance was what had squeezed {name} for five straight years.\nJiyeon read that look from beside him. She knew exactly what oppa was thinking — she was someone who'd walked out from under her own father to have a world of her own.\nShe said nothing. Only, that silence had a different grain than her usual pride."
       },
       {
         "text": "Jiyeon's profile, watching the view.",
@@ -108,30 +108,30 @@
   {
     "id": "arc_daeun_first_kiss",
     "title": "Dawn Alley",
-    "description": "Dawn, after helping her close up. Two canned coffees in the alley outside the store.\nSteam rose between them and scattered.\n\n\"...Minjun.\" Daeun started to say something, then stopped.\nIn the place where the words broke off, a silence pooled.",
+    "description": "Dawn, after helping her close up. An hour when the city still hadn't woken.\nOnly the store's light soaked the alley yellow, and a thin wind slipped between the shuttered shops. Daeun took two canned coffees from the warmer and held one out. The moment their fingertips touched, he knew — her hand was warmer than the can.\n\nThey cupped the cans without speaking. Their breath rose white between them, scattered, rose again.\nAfter a night of work there was tiredness settled around Daeun's eyes, and tonight she didn't try to hide it.\n\n\"...Minjun.\" She started to say something, then stopped.\nIn the place where the words broke off, a silence pooled. Strangely, it wasn't heavy — it was close.\nDaeun lifted her chin, just a little. Their eyes met — and this time, neither of them looked away. The steam rising off the cans wavered, slowly, in the narrow air between their two faces.",
     "choices": [
       {
         "text": "In that silence, close the distance first.",
-        "result_text": "Before the steam had fully cooled, the distance was gone.\nShort, and clumsy. When they parted, Daeun smiled first.\n\"...Now we're really in trouble, us.\"\nShe called it trouble, but he'd never seen her face look that good."
+        "result_text": "{name} stepped half a pace closer. Daeun didn't step back. If anything, her grip on the can tightened — he could feel all of it in that short distance.\nOne beat. Two. Before the steam had cooled, the last of the distance was gone.\nShort, and a little clumsy. Her lips were warm in the cold dawn air. Even after they parted, the two of them stood there a moment, just like that.\nDaeun was the one who smiled first. Her eyes had gone red — not crying, a smiling face.\n\"...Now we're really in trouble, us.\"\nShe called it trouble, but he'd never seen her face that bright. The canned coffee had long gone cold, and neither of them minded."
       },
       {
         "text": "Press the coffee into her hands — that's enough for tonight.",
-        "result_text": "He pressed the warm can into her hands. \"Go on in, it's cold.\"\nDaeun stood a moment, then smiled. \"...Minjun, honestly.\"\nNot rushing worked too, with this person. Because there'd be a next time."
+        "result_text": "{name} folded away the impulse to close the distance, and instead pressed the cooling can firmly back into her hands. \"Go on in, it's cold.\"\nDaeun stood there a moment. With a face that looked, somehow, like it had been waiting for something. Then, without hiding it, she smiled.\n\"...Minjun, honestly.\" Whether the end of that was disappointment or relief, Daeun herself didn't seem to know.\nNot rushing worked too, in front of this person. Even if not tonight, there'd be a next time. That certainty was warmer than the dawn air."
       }
     ]
   },
   {
     "id": "arc_jiyeon_first_kiss",
     "title": "In the Car",
-    "description": "Jiyeon stopped the car. She cut the engine, but nobody got out.\nJust the dashboard glow left in the car. Jiyeon looked out the window, then turned her head toward {name}.\n\n\"...What are you looking at.\" A cool line, but the end of her voice wavered for half a second.",
+    "description": "Jiyeon stopped the car. She cut the engine, but neither of them said anything about getting out.\nOnly the low glow of the dashboard left in the car. When the heater died, the lights outside began to blur across the glass. The radio had gone off at some point too, and all that was left was the sound of the two of them breathing.\nJiyeon was looking out the window. The lights of Gangnam swept across her profile. The kind of person who'd have thrown out some line by now went, this night, a long while without a word.\nThen slowly she turned her head toward {name}. In the narrow car, the distance between them felt newly close.\n\n\"...What are you looking at.\" A cool line, but the end of her voice wavered for half a second. Her hand on the wheel — nothing to grip — flinched once.",
     "choices": [
       {
         "text": "In that half-second, close the distance.",
-        "result_text": "The distance in the car was gone. It was short.\nWhen they parted, Jiyeon looked back out the window. \"...Just drive.\"\nHe started the engine. In the rearview mirror, the tips of her ears were red."
+        "result_text": "That half-second, {name} didn't let slip. In the narrow car, closing the remaining distance took only a single beat.\nIt was short. Jiyeon didn't close her eyes, didn't turn away — only her shoulders stiffened, just slightly, then eased.\nWhen they parted, she turned straight back to the window. \"...Just drive.\" Her voice wasn't a quarter as sharp as usual.\n{name} started the engine. In the rearview mirror, the tips of her ears were red. Whether she knew it or not, Jiyeon kept pretending to watch the lights outside. Until the signal changed, there wasn't a word in the car — but the air had already changed completely."
       },
       {
         "text": "Just smile — \"Nothing.\"",
-        "result_text": "\"Nothing.\" When {name} smiled, Jiyeon shot him a look.\n\"...You're no fun.\" And yet she didn't start the engine for a long while.\nEven without rushing, the air in the car had already changed."
+        "result_text": "\"Nothing.\" When {name} let it go with a smile, Jiyeon shot him a look.\n\"...You're no fun.\" She tossed it off, but she didn't start the engine for a long while. Her hand was on the key, and she didn't turn it.\nIn the narrow car, the two of them just watched the lights blur across the windshield. Even without rushing, this silence didn't feel wasted.\nWhen Jiyeon finally started the engine, she muttered, low, \"...Next time I won't let it go.\" What she'd let go of, neither of them said — both knowing."
       }
     ]
   },
