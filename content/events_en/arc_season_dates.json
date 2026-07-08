@@ -76,38 +76,38 @@
   {
     "id": "arc_season_fireworks_daeun",
     "title": "Fireworks, a Profile",
-    "description": "The Yeouido fireworks festival. {name} didn't recognize Daeun at the meeting spot at first.\nA dress he had never seen.\n\"...First time seeing me out of uniform, right?\" she said first — not sure where to put her eyes, but not hiding either.\nThree seconds of silence while {name} chose his answer.",
+    "description": "Yeouido. The riverside was packed with crowds out for the fireworks festival.\nAt the meeting spot, {name} didn't recognize Daeun at first. The one always in a convenience-store uniform or plain clothes was, tonight, in a dress he'd never seen. Her hair done differently, light makeup, strands lifting in the river wind.\n\"...First time seeing me out of uniform, right?\" she said first — not sure where to put her eyes, hands going to the hem of her dress, but not hiding either.\nThree seconds of silence while {name} chose his answer. Those three seconds stretched strangely long.",
     "choices": [
       {
         "text": "\"You look beautiful.\" — before the three seconds run out.",
-        "result_text": "Daeun tried to hold back a smile and failed.\n\"...Even if that's a lie, tonight I'll believe it.\"\nIt wasn't a lie. The first firework went up, and everyone looked at the sky at once."
+        "result_text": "\"You look beautiful.\" Before the three seconds ran out, {name} said it.\nDaeun tried to hold back a smile and failed. Covering her flushed face with the back of her hand,\n\"...Even if it's a lie, tonight I'll believe it.\"\nIt wasn't a lie. Right then the first firework went off — boom, over the river. Everyone looked up at once, and the light poured down in colors over Daeun's dress, over her laughing face. {name} had no wish to take the words back."
       },
       {
         "text": "When the fireworks burst, watch her profile instead of the sky.",
-        "result_text": "Boom — every time the sky lit up, color landed on her face.\nDaeun watched the fireworks; {name} watched the person watching them.\n\"...Minjun, aren't you watching?\" \"I am.\"\nThey were looking at different things, and both answers were true."
+        "result_text": "Boom — every time the sky lit, color landed on Daeun's face and vanished. Red, green, gold.\nDaeun watched the fireworks; {name} watched the one watching them.\n\"...Minjun, aren't you going to look?\" she asked, feeling his gaze.\n\"I'm looking.\" An answer given while they watched two different things. A beat later Daeun caught what he meant, and — face turned to the sky — went red to the tips of her ears. And still, not hiding it, she smiled a little."
       },
       {
         "text": "Take her hand before the crowd can push between you.",
-        "result_text": "When he took her hand, Daeun startled, then squeezed back.\n\"If we lose each other, we won't find each other. Us.\"\nThe sentence carried farther than the night."
+        "result_text": "Just before the crowd surged, {name} took Daeun's hand. She startled, looked at him, then squeezed back. Small, but unmistakable.\n\"If we lose each other, we'll never find our way back,\" Daeun said, loud enough not to drown in the crowd.\nThe words carried far past the crowd of that night. As fireworks burst overhead one after another, neither of them let go. Even their palms sweating together was no reason to."
       }
     ]
   },
   {
     "id": "arc_season_fireworks_jiyeon",
     "title": "Off Duty",
-    "description": "The Yeouido fireworks festival. Jiyeon waved — in a hoodie and sneakers.\nNo suit, no heels, no business cards. Just her.\n\"If anyone from the office saw me, they'd faint.\" She pulled the hood down lower.\nWhen the crowd surged, she took {name}'s hand first.",
+    "description": "The Yeouido fireworks festival. Someone waved from the crowd — Jiyeon, in a hoodie and sneakers, barely any makeup.\nNo suit, no heels, no business cards. Hard to believe it was the same 'Han Jiyeon' {name} knew.\n\"If anyone from the office saw me, they'd faint.\" She pulled the hood lower and smirked. Not minding others' eyes — the face, tonight, of someone let loose from them.\nWhen the crowd surged toward the river, Jiyeon took {name}'s hand first. Playing it casual, and yet unmistakable.",
     "choices": [
       {
         "text": "Re-grip her hand — fingers interlaced.",
-        "result_text": "Jiyeon looked down at their hands. Half a second.\n\"...It's because of the crowd.\" The recovery was fast. She didn't pull her hand away.\nThe first firework burst. While she watched the sky, the laced fingers tightened."
+        "result_text": "When {name} re-gripped her hand with fingers interlaced, Jiyeon glanced down at it. Half a second.\n\"...It's because of the crowd.\" The recovery was quick, as always. And still she didn't pull away — if anything, her fingers tightened between his.\nThe first firework burst over the river. While Jiyeon looked up at the sky, {name} felt only the warmth of that hand. Whatever went off up there, the one certain thing right now was this hand held in his."
       },
       {
         "text": "\"I like this version of you better.\"",
-        "result_text": "\"...Which part.\" Under the hood, the tips of her ears went red.\n\"Never mind. Watch the fireworks.\"\nAnd then she took the hood off."
+        "result_text": "\"I like this version of you better.\" When {name} said it, Jiyeon stopped walking.\n\"...Which part.\" Even in the dark, the red creeping up the tips of her ears under the hood was visible.\n\"Never mind. Watch the fireworks.\" A snap — and then she pulled the hood off. The hood she'd kept pulled down, gone at that one line.\nHer hair lifted in the river wind, and above it the first firework broke. {name} watched, a long while, the light settling over her uncovered face."
       },
       {
         "text": "When the fireworks burst, watch her profile instead of the sky.",
-        "result_text": "Boom — the light kept changing colors on her face.\nJiyeon noticed and turned. \"...What are you looking at.\"\n\"The fireworks.\" \"Liar.\" She laughed.\nSomething went off much closer than the sky."
+        "result_text": "Boom — the light repainted Jiyeon's face in shifting colors. Red to gold, then to blue.\nCatching {name}'s gaze, she turned. \"...What are you looking at.\"\n\"The fireworks.\" \"Liar.\" She smirked — this time without the thorn.\nMore than the fireworks bursting in the sky, it felt like something quieter had gone off much closer. Jiyeon pretended to watch the sky again, but the held hand stayed exactly as it was."
       }
     ]
   },
