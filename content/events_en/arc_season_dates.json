@@ -46,30 +46,30 @@
   {
     "id": "arc_season_sea_daeun",
     "title": "The Sea, After Five Years",
-    "description": "First train to the east coast. Daeun sat by the window and never once dozed off.\nAt a shop by the station they picked out swimsuits. Daeun flipped the price tag over twice and reached for the cheapest one — and when {name} held out a different one, her face went red.\n\"Something like this... it's been so long since I wore one.\"\nOn the sand, when the waves rolled in, she laughed out loud. He had never heard her laugh that big.\n\"Minjun, it's been five years since I saw the sea.\"\nOn the list of things Seoul had taken from her, there was the sea.",
+    "description": "First train to the east coast. Daeun sat by the window, watching for the direction the sea would appear. She never once dozed off.\n\nAt a shop by the station they picked out swimsuits. Daeun flipped the price tag over twice and reached for the cheapest one — and when {name} held out a prettier one, her hand stopped. She hesitated, and her face went red.\n\"Something like this... it's been so long. I don't know if it'll suit me.\" She said it that way, and still turned once before the fitting-room mirror.\n\nOn the sand, the salt wind tossed her hair. The moment the first wave reached her feet, Daeun laughed out loud — a laugh bigger than {name} had ever heard from her, childlike, forgetting even to cover her mouth.\n\"Minjun, it's been... five years since I saw the sea.\"\nAt the end of the words, for a second, her throat caught. On the list of things Seoul had quietly taken from her was the sea — and this was the face of getting it back after five years.",
     "choices": [
       {
         "text": "\"Next year we're staying overnight.\"",
-        "result_text": "Daeun answered loud enough to beat the waves.\n\"Okay. Promises like that scare me... but not when they're yours, Minjun.\"\nOn the train home she fell asleep against the window. The seashell in her hand never dropped."
+        "result_text": "Daeun answered loud enough to beat the waves.\n\"Okay. ...Promises like that scare me — but if it's you making it, I'm not scared.\"\n\nOn the train back, Daeun fell asleep against the window. A few shells she'd picked up were wrapped in a handkerchief on her lap, and even half-asleep her hand didn't let them go.\nAs the sea drew away outside the glass, {name} watched her sleeping face for a long time. A day that gave back five years was riding home to Seoul in a handful of palm-sized shells."
       },
       {
         "text": "Say nothing — take her hand and run to the waterline.",
-        "result_text": "When the water reached her ankles, Daeun grabbed {name}'s arm, half scream, half laughter.\n\"It's freezing! ...But I'm not getting out.\"\nNext to someone laughing five years' worth at once, {name} just laughed too."
+        "result_text": "When {name} took her hand and ran for the water, Daeun grabbed his arm, half scream, half laugh. The instant the cold reached her ankles —\n\"It's cold! It's c—\" and still she didn't step back. \"...But I don't want to get out. Just a little longer.\"\n\nWet sand held their feet, and each time a wave rushed in and pulled back, the two of them swayed a little. Every time, Daeun gripped {name}'s arm tighter.\nBeside someone laughing off five years all at once, {name} just laughed along too — not even noticing his cuffs soaking through with saltwater."
       }
     ]
   },
   {
     "id": "arc_season_sea_jiyeon",
     "title": "Haeundae",
-    "description": "\"Haeundae is my turf.\" The moment they stepped off at Busan Station, even Jiyeon's accent changed.\nThe market alleys, the best mulhoe place, haggling over the parasol — she really was on home ground.\nBut when he suggested going in the water, she didn't move from under the parasol.\n\"...Oppa, don't laugh.\" Jiyeon said it without taking off her sunglasses.\n\"I can't swim.\"",
+    "description": "\"Haeundae is my turf.\" From the moment they stepped off at Busan Station, an accent crept into Jiyeon's speech — the hometown tongue she kept pressed down in Seoul.\nThe market alleys, the best mulhoe place, haggling over the parasol — she really was on home ground, not a hitch in the words she traded with the vendors.\n\nBut when he suggested going in the water, Jiyeon didn't move from under the parasol. She hugged her knees and just stared at the sea.\n\"...Oppa.\" The sunglasses stayed on. {name} couldn't tell where the eyes behind them were looking.\n\"Don't laugh.\" A beat later, her voice dropped a little.\n\"I... can't swim.\"\nThe one who'd called it her turf had the face of someone who'd never once been into that sea.",
     "choices": [
       {
         "text": "Laugh — try not to, and fail.",
-        "result_text": "\"Hey!\" Jiyeon threw a fistful of sand. That was the one time the composure broke.\n\"...Not everyone who grows up by Haeundae can swim.\" The recovery was fast.\nThat day she went in ankle-deep, no further, and it seemed to be enough."
+        "result_text": "Watching {name} try not to laugh and fail, \"Hey!\" — Jiyeon flung a fistful of sand. Her sunglasses slipped a little, and through the gap her eyes shot him a glare. The composure broke for exactly half a second.\n\"...Growing up in Haeundae doesn't mean everyone can swim.\" The recovery was quick, as always. She pushed the sunglasses back up, as if nothing had happened.\n\nThat day Jiyeon went in only ankle-deep. No further. But in that shallow water, every time a wave came she'd secretly catch {name}'s sleeve — and {name} pretended not to notice."
       },
       {
         "text": "\"Then I'll hold on to you. Just to the knees.\"",
-        "result_text": "Jiyeon looked at {name} for a long moment over her sunglasses.\n\"...Knees. That's it.\" She held out her hand.\nEvery time a wave came, the grip tightened. Holding that hand without laughing was {name}'s whole job."
+        "result_text": "Jiyeon looked at {name} for a long moment over her sunglasses. A weighing kind of silence. Then she took them off. For the first time, her eyes were simply there, bare.\n\"...To the knees. Cross it and you're dead.\" And the hand she held out trembled a beat ahead of the waves.\n\nEach time the water touched her knees, that hand tightened. {name} had never seen the proud one grip anything so hard. Not laughing, holding that hand to the end — that was {name}'s only job that day.\nOn the way back, Jiyeon tossed it out: \"...Maybe chest-deep next time.\" Knowing she wouldn't, and saying it anyway — that was the kind of person she was."
       }
     ]
   },
