@@ -172,6 +172,7 @@ const ACHIEVEMENT_TEXT_EN := {
 	"ten_lives": {"name": "Ten Lives", "description": "Lived ten lives. Gangnam no longer feels unfamiliar.", "hint": "Play 10 runs"},
 	"beat_addiction": {"name": "Thirty Circles", "description": "Hit the bottom of gambling addiction and climbed back up. The strongest graduation.", "hint": "Complete the addiction recovery arc"},
 	"four_seasons": {"name": "Four Seasons", "description": "Spent spring, summer, fall, and winter — all four — with one person.", "hint": "Some years are beautiful four times"},
+	"kept_evidence": {"name": "What He Kept", "description": "At the moment of reckoning, drew out something he'd never thrown away — of his own will.", "hint": "Some things are kept for a decisive moment"},
 }
 
 const CLUE_TEXT_EN := {

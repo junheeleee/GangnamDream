@@ -11112,6 +11112,7 @@ func _show_ending(ending_id):
 			"beat_addiction":    _tr("동그라미 서른 개 (중독 회복)", "Thirty Circles (Addiction Recovery)"),
 			"white_gangnam":     _tr("사람으로 강남에 (0.1%의 길)", "Human Until Gangnam (The 0.1% Path)"),
 			"four_seasons":      _tr("사계 (한 해의 네 계절을 함께)", "Four Seasons (A Year, Together)"),
+			"kept_evidence":     _tr("간직한 이유 (유물 제시)", "What He Kept (Presented a Keepsake)"),
 		}
 		for a in new_ach:
 			var ach_name = ach_names.get(a, a)

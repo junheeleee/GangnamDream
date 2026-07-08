@@ -430,6 +430,9 @@ func record_run(summary):
 	if int(rf.get("last_cherry_date_year", 0)) > 0 and int(rf.get("last_sea_date_year", 0)) > 0 \
 			and int(rf.get("last_fireworks_date_year", 0)) > 0 and int(rf.get("last_snow_date_year", 0)) > 0:
 		unlock_achievement("four_seasons")
+	# 히든 업적 "증거 제출" — 대면 장면에서 간직한 유물을 스스로 꺼내 보임(역전재판식 제시)
+	if rf.get("presented_artifact_correct", false):
+		unlock_achievement("kept_evidence")
 
 	_check_progression_unlocks(summary)
 	save_meta()

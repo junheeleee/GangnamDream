@@ -1098,8 +1098,14 @@ func _show_choices():
 	_choice_box.visible = true
 	_choice_box.modulate = Color(1, 1, 1, 0)
 	_set_portrait_choice_focus(true)
+	# 유물 제시(역전재판식): requires_item 게이팅 — 보유한 유물만 선택지로 노출.
+	# 표시 번호는 순차, 바인딩은 원래 인덱스 유지(_on_choice가 choices[idx]를 씀).
+	var display_n := 0
 	for i in range(choices.size()):
 		var ch: Dictionary = choices[i]
+		if not _choice_visible(ch):
+			continue
+		display_n += 1
 		# 버튼+미리보기를 묶어 그룹 컨테이너에 넣기
 		var group := VBoxContainer.new()
 		group.add_theme_constant_override("separation", 3)
@@ -1107,7 +1113,7 @@ func _show_choices():
 		group.modulate = Color(1, 1, 1, 0)
 		group.scale = Vector2(0.986, 0.986)
 		_choice_box.add_child(group)
-		var btn = _make_choice_button(_fmt(str(ch.get("text", _tr("선택", "Choose")))), i)
+		var btn = _make_choice_button(_fmt(str(ch.get("text", _tr("선택", "Choose")))), i, display_n)
 		group.add_child(btn)
 	var tw := create_tween()
 	tw.tween_property(_choice_box, "modulate:a", 1.0, 0.12)
@@ -1121,9 +1127,18 @@ func _show_choices():
 		if first_group.get_child_count() > 0:
 			first_group.get_child(0).grab_focus()
 
-func _make_choice_button(text: String, idx: int) -> Button:
+## 선택지 노출 게이트 — requires_item 보유 시에만 표시(유물 제시 메커니즘).
+## 향후 requires_flag/requires_not_flag 확장 여지. 없으면 항상 표시.
+func _choice_visible(ch: Dictionary) -> bool:
+	var need_item := str(ch.get("requires_item", ""))
+	if need_item != "" and not GameState.has_item(need_item):
+		return false
+	return true
+
+func _make_choice_button(text: String, idx: int, display_num: int = -1) -> Button:
 	var btn = Button.new()
-	btn.text = "  %02d  %s" % [idx + 1, text]
+	var shown := display_num if display_num > 0 else idx + 1
+	btn.text = "  %02d  %s" % [shown, text]
 	btn.custom_minimum_size = Vector2(0, 60)
 	btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

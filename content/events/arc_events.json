@@ -1083,6 +1083,27 @@
           "joined_victims"
         ],
         "result_text": "카페에 가입하고 글을 남겼다.\n'저도 당했습니다. 군대 동기였어요.'\n\n댓글이 달렸다. '저도요.' '저도 동창이었어요.'\n그는 늘 가까운 사람을 노렸다. 신뢰를 무기로.\n\n피해자들이 모이기 시작했다. {name}은 그 중심에 섰다.\n잃은 걸 되찾는 방법이 아예 없는 건 아니었다."
+      },
+      {
+        "text": "(주머니 속… 그날의 사진이 생각났다)",
+        "requires_item": "artifact_jaehyuk_photo",
+        "effects": {
+          "mental": -18,
+          "tint": 3
+        },
+        "cast_effects": {
+          "jaehyuk": {
+            "affinity": -100,
+            "stage": "betrayed"
+          }
+        },
+        "flags": [
+          "arc_jaehyuk_ghost_seen",
+          "jaehyuk_scammed",
+          "presented_artifact_correct"
+        ],
+        "follow_up_event": "arc_jaehyuk_photo_in_dark",
+        "result_text": "{name}은 폰 갤러리를 열었다. 포장마차 앞에서 둘이 찍은 사진 한 장이, 아직 거기 있었다.\n지우지 않고 남겨둔 그 한 장을, {name}은 한참 들여다봤다."
       }
     ],
     "description_if_known": {

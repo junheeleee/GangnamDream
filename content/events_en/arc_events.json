@@ -275,6 +275,10 @@
       {
         "text": "Join the victims' group — not alone in this.",
         "result_text": "Joined the café and posted.\n'Me too. He was my army buddy.'\n\nComments: 'Same.' 'My classmate too.'\nHe always targeted people close. Used trust as his weapon.\n\nVictims started gathering. {name} ended up at the center.\nThere was still a way to get some of it back."
+      },
+      {
+        "text": "(In his pocket... that photo from that night came to mind.)",
+        "result_text": "{name} opened the phone gallery. The one photo of the two of them at the pojangmacha was still there.\nThe one he'd never deleted — he looked at it for a long time."
       }
     ],
     "description_if_known": {
