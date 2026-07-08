@@ -3144,6 +3144,20 @@ func _next_arc_id() -> String:
 				and not f.get("arc_y4_folded_time_seen", false):
 			return "arc_y4_folded_time"
 
+	# ── 첫 키스 (고백과 분리된 별도 비트 — 데이트 2회 이후 어색기의 끝) ──
+	# 최하위 우선순위: 턴 임계가 없어 다른 아크를 굶기지 않고 조용한 주에 발화.
+	# 프로포즈/결혼 이후엔 시간 역행이라 게이트로 차단(이미 부부면 자연 소멸).
+	if f.get("daeun_romance_started", false) \
+			and int(f.get("date_count_daeun", 0)) >= 2 \
+			and not f.get("arc_daeun_first_kiss_seen", false) \
+			and not f.get("arc_daeun_proposal_seen", false):
+		return "arc_daeun_first_kiss"
+	if f.get("jiyeon_romance_started", false) \
+			and int(f.get("date_count_jiyeon", 0)) >= 2 \
+			and not f.get("arc_jiyeon_first_kiss_seen", false) \
+			and not f.get("arc_jiyeon_wedding_gap_seen", false):
+		return "arc_jiyeon_first_kiss"
+
 	return ""
 
 ## 마일스톤 스토리 이벤트 — 조건 맞으면 ID 반환 (없으면 ""). StoryMode로 재생.
@@ -7316,6 +7330,22 @@ func _ap_date():
 		pid = "daeun"   # 방어적 폴백 — 렌더 게이트가 없으면 카드가 안 뜨므로 정상 경로에선 도달 안 함
 	GameState.register_action_axis("human")   # 데이트 = 사람에게 쓴 시간
 	GameState.note_contact(pid)                # 리캡 원장 연동
+	# ── 마일스톤 데이트 오버라이드 (누적 3회=남산 / 6회=놀이동산, 각 런 1회) ──
+	# 데이트 카운터를 올리고, 마일스톤 회차면 일반 비네트 대신 결정 이벤트를 재생한다.
+	# 이벤트 effects가 비용·affinity·tint를 대신하므로 비네트 경로는 스킵(이중 적용 금지).
+	# 파트너별 리터럴 set — 감사 플래그 교차검증이 인식하도록.
+	var _dc: int = 0
+	if pid == "jiyeon":
+		_dc = int(GameState.flags.get("date_count_jiyeon", 0)) + 1
+		GameState.flags["date_count_jiyeon"] = _dc
+	else:
+		_dc = int(GameState.flags.get("date_count_daeun", 0)) + 1
+		GameState.flags["date_count_daeun"] = _dc
+	var _ms_id := _date_milestone_id(pid, _dc)
+	if _ms_id != "":
+		turn_action_log.append(_tr("✓ 데이트 — 특별한 하루", "✓ Date — a day to remember"))
+		_go_story_mode([_ms_id])
+		return
 	var info: Dictionary = ImageRegistry.PERSON_INFO.get(pid, {})
 	var accent: String = str(info.get("color", "#db2777"))
 	var married := _romance_is_married(pid)
@@ -7353,6 +7383,23 @@ func _ap_date():
 	_show_vignette(title, flavor, eff, accent)
 	_render_ap_actions()
 	_refresh_all()
+
+## 마일스톤 데이트 판정 — 누적 데이트 회차가 임계치면 해당 이벤트 id 반환(없으면 "").
+## id를 문자열 리터럴로 반환해 감사(죽은 아크 검사)가 배선을 인식하게 한다.
+## 각 런 1회 — *_seen 가드(이벤트 choices가 set)로 재발동 방지.
+func _date_milestone_id(pid: String, dc: int) -> String:
+	var f = GameState.flags
+	if dc == 3:
+		if pid == "daeun" and not f.get("arc_date_namsan_daeun_seen", false):
+			return "arc_date_namsan_daeun"
+		if pid == "jiyeon" and not f.get("arc_date_namsan_jiyeon_seen", false):
+			return "arc_date_namsan_jiyeon"
+	elif dc == 6:
+		if pid == "daeun" and not f.get("arc_date_park_daeun_seen", false):
+			return "arc_date_park_daeun"
+		if pid == "jiyeon" and not f.get("arc_date_park_jiyeon_seen", false):
+			return "arc_date_park_jiyeon"
+	return ""
 
 # ─────────────────────────────────────────────────────────────
 # 몽타주 시간 압축 (docs/AP_REDESIGN.md Phase B)

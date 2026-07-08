@@ -27,6 +27,9 @@
         "text": "\"This is me. I can't change it. ...I'm sorry.\" (Let her go)",
         "result_text": "Jiyeon looked at him for a long time. She didn't get angry. She wasn't the type.\n\n\"...I know. You're a good person, oppa. You're just not from my world.\"\n\nShe went back to her world. To a life that suited it, with someone who suited it.\n\n{name} never reached Gangnam, and lost her too. But the face in the mirror was still his.\nSmall and whole, and traded for nothing."
       }
-    ]
+    ],
+    "description_if_known": {
+      "namsan_lock_jiyeon": "Five years are ending. Gangnam stayed out of reach.\n\nJiyeon sat across from him, serious for once.\n\"I'll be honest. I didn't know you were someone who'd live like this.\"\n\nNamsan came to mind. The night she called it childish and took a photo anyway, and hung the lock.\nThat lock would still be there. Whatever became of us.\n\nHer eyes waited for an answer. On whatever {name} said now, this marriage hung."
+    }
   }
 ]

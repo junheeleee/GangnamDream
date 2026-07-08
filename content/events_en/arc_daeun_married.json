@@ -60,7 +60,10 @@
         "text": "Sign it. Gangnam is one step ahead.",
         "result_text": "He signed. The Gangnam deed came into his hands.\n\nIt didn't take Daeun long to learn the truth.\nShe didn't cry. Like someone who had already, quietly, cried it all out years ago.\n\n\"...When did you start seeing me as a document?\"\n\n{name} couldn't answer. He couldn't name the exact date.\nHe'd never even filed a marriage certificate — but he stamped the divorce papers."
       }
-    ]
+    ],
+    "description_if_known": {
+      "namsan_lock_daeun": "One last step to the Gangnam deed.\n\nAnd that step — could only be reached by betraying Daeun. Liquidate the property he'd quietly held in her name and she loses everything, but {name} stands in Gangnam.\n\nAs he picked up the pen, Namsan came to mind. The padlock fastened to the railing. The night they'd said, come find it in ten years.\nThat lock would still be there.\n\nIn the next room, Daeun is picking wedding invitation designs. Humming.\nThree billion was in this one signature. And Daeun, too, was in this one signature."
+    }
   },
   {
     "id": "arc_daeun_wedding_prep",
@@ -94,7 +97,8 @@
     "description_if_known": {
       "father_passed": "The wedding day.\n\nThe bride's side was packed. Daeun's hometown friends, her mart coworkers, relatives.\nThe groom's side — {name} could hardly bring himself to look back.\n\nFive years chasing nothing but Gangnam. He'd watched charts instead of meeting people, worked overtime instead of drinks.\nThe price of that sat here today, in this empty groom's section.\n\nIn the front row, the seat where his father should have sat was empty.\nIf he'd only been a little faster, his father could have sat there and seen this.\n\nThe MC announced the groom's entrance. {name} walked past that empty front seat, in.",
       "father_reconciled": "The wedding day.\n\nThe bride's side was packed. Daeun's hometown friends, her mart coworkers, relatives.\nThe groom's side was sparse. But in the front row sat his father — hands that worked a factory floor for a lifetime resting on his knees, shoulders stooped.\nThat front row with one man in it was, to {name}, bigger than a hundred.\n\nFive years chasing nothing but Gangnam. He'd watched charts instead of meeting people, worked overtime instead of drinks.\nThe MC announced the groom's entrance. {name} walked in alone.",
-      "hyunsu_reconnected": "The wedding day.\n\nThe bride's side was packed. Daeun's hometown friends, her mart coworkers, relatives.\nThe groom's side was bare. But in the back row, one familiar face — Hyunsu, who'd lived next door in the goshiwon days.\n\"Hyung, I was going to sulk if you didn't invite me.\" {name} laughed, and his throat tightened.\nEven one person who'd known these five years had come.\n\nFive years chasing nothing but Gangnam. He'd watched charts instead of meeting people, worked overtime instead of drinks.\nThe price of that sat here today, in this empty groom's section.\n\nThe MC announced the groom's entrance. {name} walked in alone."
+      "hyunsu_reconnected": "The wedding day.\n\nThe bride's side was packed. Daeun's hometown friends, her mart coworkers, relatives.\nThe groom's side was bare. But in the back row, one familiar face — Hyunsu, who'd lived next door in the goshiwon days.\n\"Hyung, I was going to sulk if you didn't invite me.\" {name} laughed, and his throat tightened.\nEven one person who'd known these five years had come.\n\nFive years chasing nothing but Gangnam. He'd watched charts instead of meeting people, worked overtime instead of drinks.\nThe price of that sat here today, in this empty groom's section.\n\nThe MC announced the groom's entrance. {name} walked in alone.",
+      "namsan_lock_daeun": "The wedding day.\n\nThe bride's side was packed. Daeun's hometown friends, her mart coworkers, relatives.\nThe groom's side was small.\n\nWaiting to walk in, {name} thought of Namsan. The night they fastened a padlock to the railing, Daeun saying, \"Come find it in ten years.\"\nThat promise stood in the hall today.\n\nThe MC announced the groom's entrance. {name} walked toward that promise."
     }
   }
 ]

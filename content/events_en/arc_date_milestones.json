@@ -1,0 +1,163 @@
+[
+  {
+    "id": "arc_date_namsan_daeun",
+    "title": "On Namsan",
+    "description": "The cable car climbed slowly. Daeun pressed to the window, looking down.\n\"Minjun, you can see our neighborhood from here.\" She'd never seen Seoul look that small before.\n\nThey ordered the giant Namsan tonkatsu. The plate was the size of a face. Daeun cut hers in half and set it on {name}'s plate. \"Things like this taste better shared.\"\n\nThey went up to the observation deck. Seoul spread out beyond the glass — and across the river, the lights of Gangnam. The one moment he got to look down at the goal from beside her.\n\nAmong all those lights, where {name}'s eyes settled was—",
+    "choices": [
+      {
+        "text": "Across the river, the lights of Gangnam.",
+        "result_text": "From up here it looked close enough to grab. Which made it feel farther.\nThe distance of a single pane of glass felt vast tonight."
+      },
+      {
+        "text": "Daeun's profile, watching the view.",
+        "result_text": "\"...What are you looking at, not the view?\" Daeun caught him and smiled.\nThe view would be here tomorrow, but this profile was here today."
+      },
+      {
+        "text": "The dark side where the lights don't reach.",
+        "result_text": "There was a place the lights didn't reach. Toward the hometown.\nDaeun was looking at the same spot. Neither of them said a word."
+      },
+      {
+        "text": "My own face reflected in the glass.",
+        "result_text": "Over the night view, my face was overlaid, half-transparent.\nWhen I reach those lights, will this face do — {name} looked at that face a long moment."
+      }
+    ]
+  },
+  {
+    "id": "arc_date_namsan_lock_daeun",
+    "title": "The Lock",
+    "description": "The deck railing was packed with padlocks. Daeun stood in front of them.\n\n\"Should we... hang one too?\" She knew it was childish, and asked anyway.",
+    "choices": [
+      {
+        "text": "Hang it — childish or not, lock today in place.",
+        "result_text": "They fastened the lock and threw the key down below.\n\"Come find it in ten years, us.\" Daeun smiled.\nIt became one of the countless locks on the railing. Strangely, that felt like something solid."
+      },
+      {
+        "text": "Don't — we don't need this kind of thing.",
+        "result_text": "\"We don't need this kind of thing, right?\" When {name} smiled, Daeun did too.\n\"That's very you too, Minjun.\" The walk down without a lock was light, and good."
+      }
+    ]
+  },
+  {
+    "id": "arc_date_namsan_jiyeon",
+    "title": "On Namsan",
+    "description": "\"We could just walk up.\" Jiyeon said it, then bought the cable car tickets first anyway.\nThe whole way up she didn't look out the window. Seoul getting small was nothing new to her.\n\nThe giant Namsan tonkatsu. \"This is that famous?\" she said, and ate her whole portion.\n\nThe observation deck. Beyond the glass, across the river, the lights of Gangnam.\n\"Oppa's goal — from here, it's right over there.\" Jiyeon pointed with her chin.\n\nAmong all those lights, where {name}'s eyes settled was—",
+    "choices": [
+      {
+        "text": "Across the river, the lights of Gangnam.",
+        "result_text": "From up here it looked close enough to grab. Which made it feel farther.\nJiyeon read that look from beside him. She said nothing."
+      },
+      {
+        "text": "Jiyeon's profile, watching the view.",
+        "result_text": "\"...What.\" Jiyeon turned, and this time she didn't play it cool — she just smiled.\nBrighter than the night view, that smile."
+      },
+      {
+        "text": "The dark side where the lights don't reach.",
+        "result_text": "He looked at the place the lights didn't reach. \"You came from somewhere like that.\" Jiyeon said it quietly.\nThere was no scorn in it. It was just a fact."
+      },
+      {
+        "text": "My own face reflected in the glass.",
+        "result_text": "Over the night view, my face was overlaid, half-transparent.\nWhen I reach those lights, will this face do. {name} looked at himself in the glass a long time."
+      }
+    ]
+  },
+  {
+    "id": "arc_date_namsan_lock_jiyeon",
+    "title": "The Lock",
+    "description": "The railing was packed with padlocks. Jiyeon crossed her arms in front of them.\n\n\"...So people actually do this.\" She said it, but her feet didn't move.",
+    "choices": [
+      {
+        "text": "Hang it — childish or not, lock today in place.",
+        "result_text": "\"Childish.\" She said it, and threw the key. Then took out her phone and photographed the lock.\nThe one who called it childish kept a picture."
+      },
+      {
+        "text": "Don't — we don't need this kind of thing.",
+        "result_text": "\"We don't need this kind of thing.\" Jiyeon turned first.\n\"Yeah, that's us.\" {name} followed her down, smiling."
+      }
+    ]
+  },
+  {
+    "id": "arc_date_park_daeun",
+    "title": "Lost Child",
+    "description": "The amusement park. The parade started and a crowd surged.\nIn the middle of it, a child was crying. Before {name} could, Daeun knelt down.\n\"Did you lose your mom? I'll help you find her.\"\n\nHelping find the parents took the whole afternoon. They'd only gotten on two rides.",
+    "choices": [
+      {
+        "text": "Stay with the child to the end, together.",
+        "result_text": "They went all the way to the lost-child center. The mother bowed again and again, crying.\n\nThey'd only ridden two rides. But Daeun said this:\n\"We didn't get to ride much. ...But today was the most fun.\"\n{name} knew, strangely, that it was true."
+      },
+      {
+        "text": "Hand the child to staff and go back to the rides.",
+        "result_text": "He handed the child to a staff member and turned away. It was the correct thing to do.\nThey rode everything, and Daeun smiled too.\nBut she brought up that child one more time, on the way home."
+      }
+    ]
+  },
+  {
+    "id": "arc_date_park_jiyeon",
+    "title": "The Highest Point",
+    "description": "The amusement park. Jiyeon picked the very front row of the roller coaster like it was obvious.\nRight before the peak, as the rail stood straight up into the sky, she grabbed {name}'s hand.\n\"Oppa, from up here even Gangnam looks small.\"\n\nComing down, churros in hand, they stood in front of the photo booth.",
+    "choices": [
+      {
+        "text": "Take the whole four-frame strip.",
+        "result_text": "They took four frames in the booth. In the last one, Jiyeon suddenly kissed his cheek, so {name}'s face came out a mess.\n\"This one's yours.\" she said, and slipped the other strip into her own wallet."
+      },
+      {
+        "text": "Skip the photos, ride it again.",
+        "result_text": "\"Photos, please.\" Jiyeon pulled {name} by the hand and got back in line.\nFront row, again. At the peak, {name} saw her laughing without a sound."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_first_kiss",
+    "title": "Dawn Alley",
+    "description": "Dawn, after helping her close up. Two canned coffees in the alley outside the store.\nSteam rose between them and scattered.\n\n\"...Minjun.\" Daeun started to say something, then stopped.\nIn the place where the words broke off, a silence pooled.",
+    "choices": [
+      {
+        "text": "In that silence, close the distance first.",
+        "result_text": "Before the steam had fully cooled, the distance was gone.\nShort, and clumsy. When they parted, Daeun smiled first.\n\"...Now we're really in trouble, us.\"\nShe called it trouble, but he'd never seen her face look that good."
+      },
+      {
+        "text": "Press the coffee into her hands — that's enough for tonight.",
+        "result_text": "He pressed the warm can into her hands. \"Go on in, it's cold.\"\nDaeun stood a moment, then smiled. \"...Minjun, honestly.\"\nNot rushing worked too, with this person. Because there'd be a next time."
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_first_kiss",
+    "title": "In the Car",
+    "description": "Jiyeon stopped the car. She cut the engine, but nobody got out.\nJust the dashboard glow left in the car. Jiyeon looked out the window, then turned her head toward {name}.\n\n\"...What are you looking at.\" A cool line, but the end of her voice wavered for half a second.",
+    "choices": [
+      {
+        "text": "In that half-second, close the distance.",
+        "result_text": "The distance in the car was gone. It was short.\nWhen they parted, Jiyeon looked back out the window. \"...Just drive.\"\nHe started the engine. In the rearview mirror, the tips of her ears were red."
+      },
+      {
+        "text": "Just smile — \"Nothing.\"",
+        "result_text": "\"Nothing.\" When {name} smiled, Jiyeon shot him a look.\n\"...You're no fun.\" And yet she didn't start the engine for a long while.\nEven without rushing, the air in the car had already changed."
+      }
+    ]
+  },
+  {
+    "id": "callback_amusement_child_reunion",
+    "title": "That Child",
+    "description": "He was shopping at the mart when someone tugged his sleeve.\nIt was the child who'd been lost at the amusement park. Holding mom's hand, and not crying this time.\n\n\"That man! The man who found me!\" The child waved.\nThe mother recognized him and came over to say hello.",
+    "choices": [
+      {
+        "text": "Greet them warmly.",
+        "result_text": "\"Thank you so much back then. He still talks about that day.\"\nHe waved it off as nothing, but a corner of his heart went warm.\n\nA small kindness, coming back around like this — no interest charged."
+      }
+    ]
+  },
+  {
+    "id": "callback_amusement_photo_found",
+    "title": "Four Frames",
+    "description": "Catching a ride in Jiyeon's car, he flipped down the sun visor and something dropped out.\nIt was the four-frame photo strip from the amusement park. Down to that last frame where her face came out a mess.\n\nThe cool one had been keeping this tucked up here all this time.",
+    "description_if_known": {
+      "arc_jiyeon_wedding_gap_seen": "He was opening the fridge when he stopped.\nThe four-frame amusement park strip was stuck there with a magnet. On the newlywed fridge.\n\nEven after marrying, Jiyeon hadn't thrown it away. The things a cool person quietly keeps.\n{name} looked at that strip a little longer."
+    },
+    "choices": [
+      {
+        "text": "Pretend not to notice and put it back.",
+        "result_text": "He put the strip back where it was. Said nothing to Jiyeon.\nIf he had, she'd have said something like \"I meant to toss it and forgot,\" for sure.\n\nQuietly keeping things wasn't only her way."
+      }
+    ]
+  }
+]
