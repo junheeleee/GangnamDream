@@ -1,0 +1,104 @@
+[
+  {
+    "id": "arc_daeun_hometown_1",
+    "title": "The Way Down",
+    "description": "Daeun brought it up carefully.\n\"Minjun... this weekend, could you come down to the countryside with me? My mom has a hospital appointment.\"\n\nTwo train tickets. They sat side by side at the window. Seoul slid backward; rice paddies filled the glass.\n\nAfter staring out the window a long while, Daeun spoke.\n\"Minjun, honestly — I'm scared.\"\n\"I came up to Seoul to be able to take care of her someday... and lately I'm not sure that's even a thing that can happen.\"\n\nFor the first time, the reason she'd held on for five years came out of her mouth with weight.",
+    "choices": [
+      {
+        "text": "\"Whatever happens, I'll be right beside you.\" (Take her hand)",
+        "result_text": "Daeun looked down at the hand holding hers. And smiled, a little.\n\"...You say things like that so easily, Minjun.\"\n\"I'm not saying it easily.\" When {name} said that, Daeun leaned her head against the window instead of answering.\nThe train kept going down, toward her hometown."
+      },
+      {
+        "text": "Say nothing, and look out the window with her.",
+        "result_text": "{name} said nothing. Instead, he looked where she was looking.\n\nInstead of answering 'scared' with 'it'll be fine,' he just sat beside that fear.\nAfter a long while Daeun said, quietly, \"...It's a little easier, you looking at it with me.\"\nThe train kept going down, toward her hometown."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_hometown_2",
+    "title": "Her Mother's Table",
+    "description": "After the appointment, they had dinner at Daeun's country home.\n\nHer mother wasn't one for words. Instead she kept heaping more rice into {name}'s bowl. \"Eat more. You can't get food like this up in Seoul.\"\n\nThen, out of nowhere, her mother glanced at {name}'s hands.\n\"...Hands that have worked hard.\"\n\nIn the middle of the table sat a gyeran-mari, the rolled omelet — yellow, thick, the ends neatly folded.\n{name} knew that shape. It was the very same rolled omelet Daeun used to bring to his goshiwon in a side-dish container.\nWithout a word, he understood where it had come from.",
+    "choices": [
+      {
+        "text": "\"Thank you for the meal, Mother.\" Finish the bowl with care.",
+        "result_text": "{name} finished the bowl without leaving a single grain. Her mother saw it, and smiled for the first time, a little.\n\nThe night bus back. Daeun slept leaning against the window.\nIn one pane, the receding lights of the countryside and the approaching lights of Seoul were held together.\n\nThere had been nights spent counting three billion won. Tonight, for the first time, was a night he didn't have to count."
+      },
+      {
+        "text": "\"...So the gyeran-mari you used to make — it was your mother's.\"",
+        "result_text": "Daeun stopped her chopsticks. Her face went a little red.\n\"...I copied hers. I'm still not as good as her.\"\nAt those words, her mother looked at her daughter for a long moment.\n\nThe night bus back. Daeun slept leaning against the window.\nIn one pane, the receding lights of the countryside and the approaching lights of Seoul were held together.\n\nThere had been nights spent counting three billion won. Tonight, for the first time, was a night he didn't have to count."
+      }
+    ],
+    "description_if_known": {
+      "father_passed": "After the appointment, they had dinner at Daeun's country home.\n\nHer mother wasn't one for words. Instead she kept heaping more rice into {name}'s bowl.\nThen she asked, \"And your parents, Minjun — what do they do?\"\n\n{name} lost his answer for a moment. His father was gone now. Not knowing what to say, he just looked at his bowl.\nHer mother must have read the silence; she didn't ask again, only glanced at {name}'s hands.\n\"...Hands that have worked hard.\"\n\nIn the middle of the table sat a gyeran-mari, the rolled omelet — the very same one Daeun used to bring to his goshiwon.\nWithout a word, he understood where it had come from."
+    }
+  },
+  {
+    "id": "arc_jiyeon_narrow_room_1",
+    "title": "Three Days of Silence",
+    "description": "Three days, and no word from Jiyeon.\n\nShe was never one to reach out first. Still, three days was long.\n\nEleven at night. A knock at the door — Jiyeon, standing outside it.\nNo makeup, eyes that hadn't slept in days.\n\n\"...Oppa.\" She searched for the words a moment.\n\"Turns out tonight, this was the only place I had to go.\"\n\nThe woman who always looked down from the height of her own world stood, for the first time, lowered — outside {name}'s narrow door.",
+    "choices": [
+      {
+        "text": "Ask nothing, and open the door.",
+        "result_text": "{name} asked nothing and stepped aside.\nJiyeon took off her shoes and came in. She looked once around the narrow room, then just sat on the floor.\n\n\"...You're not even going to ask.\"\n\"Do I have to?\" When {name} said that, Jiyeon let the tension out of her shoulders for the first time."
+      },
+      {
+        "text": "\"What happened?\" Ask without hiding the worry.",
+        "result_text": "\"What happened?\" When {name} asked, Jiyeon let out a small laugh.\n\"...Of course that's the first thing you'd ask.\"\nShe didn't answer. Instead she took off her shoes, came in, and sat on the narrow room's floor.\n\"I'll stay a bit. ...That okay?\"\n{name} nodded."
+      }
+    ],
+    "description_if_known": {
+      "arc_y3_jiyeon_departure_seen": "Three days, and no word from Jiyeon. With her down in Busan, contact was always sparse to begin with.\n\nStill, three days was long.\n\nEleven at night. A knock at the door — Jiyeon, standing outside it.\nThe face of someone who'd taken the last late-night KTX up from Busan. No makeup, eyes that hadn't slept in days.\n\n\"...Oppa.\" She searched for the words a moment.\n\"Turns out tonight, this was the only place I had to go.\"\n\nShe'd left the wide house in Busan, caught the last train up, and the place she ended up standing was outside {name}'s narrow door.\nThe woman who always looked down from the height of her own world stood, for the first time, lowered."
+    }
+  },
+  {
+    "id": "arc_jiyeon_narrow_room_2",
+    "title": "The Narrow Room",
+    "description": "She sat in the narrow room, designer coat tossed off to one side, knees drawn up.\n\n{name} poured water into two cup ramyeon. There was nothing else to offer.\n\nJiyeon looked slowly around the room. A few books, a folded blanket, one window. By the standards of her world, a room with nothing in it.\n\n\"This room is like you, oppa,\" she said.\n\"It's narrow... but all of it is real. My house is wide, and there's barely anything real in it.\"\n\nSteam rose off the cup ramyeon and fogged the window pale.",
+    "choices": [
+      {
+        "text": "Say nothing, and hold her.",
+        "result_text": "Instead of words, {name} held her. Jiyeon was stiff at first, then pressed her forehead into his shoulder.\n\n\"...The ramyeon's going soft,\" she said, but for a long while neither of them moved.\nThat night, the narrow room was exactly two people wide."
+      },
+      {
+        "text": "Say nothing, and finish cooking the ramyeon, and set it down.",
+        "result_text": "Instead of answering, {name} set the ramyeon in front of her. \"Eat it before it goes soft.\"\nJiyeon split the wooden chopsticks. One bite, and she snorted a laugh.\n\"...It's good. Why is this good.\"\nA night sharing two cup ramyeon in a narrow room — for her, it was the first."
+      }
+    ],
+    "description_if_known": {
+      "told_jiyeon_about_records": "She sat in the narrow room, designer coat tossed off to one side, knees drawn up.\n\n{name} poured water into two cup ramyeon. There was nothing else to offer.\n\nJiyeon looked slowly around the room. She knows now — whose son the owner of this room is, that the name was on the list her own father had ruined.\n\n\"...It's funny.\" Jiyeon said, looking down at the cup ramyeon.\n\"I'm eating ramyeon in the room of a man my dad ruined.\"\n\nA cruelly honest thing to say. She didn't look away from it.\n\"But this room is like you, oppa. Narrow, and all of it real. My house is wide, and barely anything in it is.\""
+    }
+  },
+  {
+    "id": "arc_daeun_wedding_night",
+    "title": "The First Night",
+    "description": "The wedding over, the night with just the two of them.\n\nAt the bedroom door Daeun paused. She fidgeted with her fingertips, then said, small,\n\"I've... never done this before, so — don't laugh.\"\n\nAn honest person. She didn't hide it; she said her shyness as it was.\nIn the face of that honesty, {name} chose how to ease the tension.",
+    "choices": [
+      {
+        "text": "Take her hand. \"We can go slow. I'm the same.\"",
+        "result_text": "\"I'm the same.\" At that, Daeun's eyes went wide, then she burst out laughing.\n\"...You're the one shaking more, Minjun.\"\nThe tension came loose through the laughter. The room's light went quietly out.\n\nThe next morning, {name} woke to a familiar smell.\nThe sound of gyeran-mari frying in the kitchen. Daeun, up first, was making breakfast.\nThe first morning of marriage began with that sound."
+      },
+      {
+        "text": "Ease it with a joke. \"Once the light's off you can't see my face anyway — relax.\"",
+        "result_text": "Daeun snorted and swatted his arm. \"...Listen to him.\"\nBut the joke loosened her stiffened shoulders. The room's light went quietly out.\n\nThe next morning, {name} woke to a familiar smell.\nThe sound of gyeran-mari frying in the kitchen. Daeun, up first, was making breakfast.\nThe first morning of marriage began with that sound."
+      }
+    ],
+    "description_if_known": {
+      "daeun_hometown_visited": "The wedding over, the night with just the two of them.\n\nAt the bedroom door Daeun paused. She fidgeted with her fingertips, then said, small,\n\"I've... never done this before, so — don't laugh.\"\n\nAn honest person. She didn't hide it; she said her shyness as it was.\nSomething made him think of that country table. The mother heaping more rice without a word, the gyeran-mari those hands had rolled.\nCome morning, that same smell would fill this room too.\nThinking it, {name} took Daeun's hand."
+    }
+  },
+  {
+    "id": "arc_jiyeon_wedding_night",
+    "title": "The First Night",
+    "description": "The wedding over, the night with just the two of them.\n\nJiyeon, always quick with words, went quiet this night. She stood at the window and only looked out.\nThe silence of a proud person was a different thing from her pride.\n\n\"...Why are you standing there like that.\" When {name} came closer, Jiyeon flinched her shoulders slightly.\nWithout words, he chose how to meet that silence.",
+    "choices": [
+      {
+        "text": "Respect the silence, and offer his hand first.",
+        "result_text": "{name} held out his hand without a word. Jiyeon looked at it a moment, then took it, silent.\nThe usual her would have had something to say, but not this night.\nThe room's light went quietly out.\n\nThe next morning. Waking beside her, {name} saw a face he'd never seen.\nMakeup all wiped away, eyes puffy, bare. Jiyeon felt the look and pulled the blanket up.\n\"...What are you staring at. Mornings are just like this.\"\nThe tips of her ears were red."
+      },
+      {
+        "text": "Break the mood with a joke. \"The great Han Jiyeon, out of words.\"",
+        "result_text": "\"The great Han Jiyeon, out of words.\" When {name} said it, Jiyeon turned.\n\"...Shut up.\" But her stiff face eased a little.\nThe room's light went quietly out.\n\nThe next morning. Waking beside her, {name} saw a face he'd never seen.\nMakeup all wiped away, eyes puffy, bare. Jiyeon felt the look and pulled the blanket up.\n\"...What are you staring at. Mornings are just like this.\"\nThe tips of her ears were red."
+      }
+    ]
+  }
+]

@@ -2339,6 +2339,10 @@ func _next_arc_id() -> String:
 	if t >= 200 and f.get("daeun_married", false) \
 			and not f.get("arc_daeun_wedding_day_seen", false):
 		return "arc_daeun_wedding_day"
+		# ②-d 첫날밤 (7-G) — 결혼식 이후. 존엄 페이드아웃 + 아침 비트(계란말이 실 최종 회수, dik).
+		if f.get("arc_daeun_wedding_day_seen", false) \
+				and not f.get("arc_daeun_wedding_night_seen", false):
+			return "arc_daeun_wedding_night"
 	# ③ 시험 — 아내를 서류로 쓰는 지름길. our_home 기반(상견례 스킵돼도 체인 유지).
 	#    상철 신고/절연 후엔 안 뜸(그가 제안할 리 없음).
 	if t >= 182 and f.get("arc_daeun_our_home_seen", false) \
@@ -2985,6 +2989,14 @@ func _next_arc_id() -> String:
 			and (f.get("arc_daeun_ghost_seen", false) or f.get("daeun_breakup_accepted", false)) \
 			and not f.get("arc_daeun_year3_apart_seen", false):
 		return "arc_daeun_year3_apart"
+		# ── 다은 특별 스토리 「시골의 이틀」 (7-A, Y3 여름 t100~130) ──
+		# EP1 내려가는 길 → EP2 어머니의 밥상(명장면, 계란말이 실 회수). romance_started 게이트로 충분.
+		if t >= 100 and t <= 130 and f.get("daeun_romance_started", false) \
+				and not f.get("arc_daeun_hometown_1_seen", false):
+			return "arc_daeun_hometown_1"
+		if f.get("arc_daeun_hometown_1_seen", false) \
+				and not f.get("arc_daeun_hometown_2_seen", false):
+			return "arc_daeun_hometown_2"
 	# 이민서 — Year 4 신규 인물
 	if t >= 145 and not f.get("arc_minseo_01_seen", false):
 		return "arc_minseo_01_meet"
@@ -2999,6 +3011,15 @@ func _next_arc_id() -> String:
 			and GameState.get_cast_affinity("jiyeon") >= 40 \
 			and not f.get("arc_jiyeon_father_records_seen", false):
 		return "arc_jiyeon_father_records"
+		# ── 지연 특별 스토리 「좁은 방」 (7-B, Y4 t150~175) — 진실 국면 이후(흔들린 상태) ──
+		# EP1 연락 없는 사흘 → EP2 좁은 방(명장면). 진실 공유 아크 이후에만.
+		if t >= 150 and t <= 175 and f.get("jiyeon_romance_started", false) \
+				and (f.get("told_jiyeon_about_records", false) or f.get("arc_jiyeon_father_records_seen", false)) \
+				and not f.get("arc_jiyeon_narrow_room_1_seen", false):
+			return "arc_jiyeon_narrow_room_1"
+		if f.get("arc_jiyeon_narrow_room_1_seen", false) \
+				and not f.get("arc_jiyeon_narrow_room_2_seen", false):
+			return "arc_jiyeon_narrow_room_2"
 
 	# 이민서 — 강남 도착 페이오프 (Y5, 목표 근접 시 그녀의 경고가 회수된다)
 	if t >= 200 and f.get("arc_minseo_02_seen", false) \
@@ -3052,6 +3073,10 @@ func _next_arc_id() -> String:
 	if t >= 205 and f.get("jiyeon_romance_started", false) \
 			and not f.get("arc_jiyeon_wedding_gap_seen", false):
 		return "arc_jiyeon_wedding_gap"
+		# 첫날밤 (7-G) — 결혼식 이후. 존엄 페이드아웃 + 아침 비트(민낯).
+		if f.get("arc_jiyeon_wedding_gap_seen", false) \
+				and not f.get("arc_jiyeon_wedding_night_seen", false):
+			return "arc_jiyeon_wedding_night"
 	# ② 이렇게 살 사람 — 강남 미달+작게 산 경우에만(성공하면 스킵→jiyeon_man). 반전 이혼.
 	if t >= 228 and f.get("jiyeon_romance_started", false) \
 			and not f.get("arc_jiyeon_verdict_seen", false) \
