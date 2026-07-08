@@ -5803,14 +5803,24 @@ func _romance_partner_id() -> String:
 		return "jiyeon"
 	return ""
 
-## 결혼 상태 판정 — 다은은 결혼 플래그, 지연은 결혼 플래그가 없으므로 예식 아크로 판정.
+## 결혼 상태 판정(데이트 풀 전용) — 실제 예식을 치른 뒤부터 부부 풀을 돈다.
+## daeun_married는 약혼(arc_daeun_proposal, t150+)에서 서고 예식은 t200이므로,
+## 데이트 풀만은 예식 아크(arc_daeun_wedding_day_seen)로 판정한다.
+## 주의: daeun_married 플래그·finish_run 캐스케이드와는 무관 — 여기선 풀 선택만.
 func _romance_is_married(pid: String) -> bool:
 	var f = GameState.flags
 	if pid == "daeun":
-		return bool(f.get("daeun_married", false))
+		return bool(f.get("arc_daeun_wedding_day_seen", false))
 	if pid == "jiyeon":
 		return bool(f.get("arc_jiyeon_wedding_gap_seen", false))
 	return false
+
+## 지연 원거리 기간 — 부산 이주(arc_y3_jiyeon_departure) 후 서울 복귀(arc_jiyeon_year5_return) 전.
+## 이 창에선 데이트가 장거리(KTX·전화·1박)로만 성립한다.
+func _jiyeon_longdist_active() -> bool:
+	var f = GameState.flags
+	return bool(f.get("arc_y3_jiyeon_departure_seen", false)) \
+		and not bool(f.get("arc_jiyeon_year5_return_seen", false))
 
 func _maybe_add_date_card(disabled: bool) -> void:
 	var pid := _romance_partner_id()
@@ -5818,7 +5828,11 @@ func _maybe_add_date_card(disabled: bool) -> void:
 		return
 	var pname: String = str(ImageRegistry.get_person_info(pid).get("name", _tr("연인", "partner")))
 	var accent: String = str(ImageRegistry.PERSON_INFO.get(pid, {}).get("color", "#db2777"))
-	if _romance_is_married(pid):
+	if pid == "jiyeon" and _jiyeon_longdist_active():
+		_essential_btn(_tr("장거리 데이트", "Long-Distance"),
+			_tr("멀리 있는 그녀와", "Across the distance"),
+			"people", accent, "_ap_date", disabled)
+	elif _romance_is_married(pid):
 		_essential_btn(_tr("부부의 시간", "Time Together"),
 			_tr("{p}와 하루를 나눠 산다", "Share the day with {p}").format({"p": pname}),
 			"people", accent, "_ap_date", disabled)
@@ -6753,6 +6767,20 @@ func _people_actions_for_page(page_id: String) -> Array:
 			var pname: String = str(info.get("name", _tr("인연", "Connection")))
 			var accent: String = str(info.get("color", "#8a5a9a"))
 			var aff: int = GameState.get_cast_affinity(pid)
+			# 퇴장한 인물 — 연락·선물 대신 닿지 않는다는 사유만 비활성 카드로.
+			var reach: Dictionary = _person_reachable(pid)
+			if not bool(reach.get("ok", true)):
+				actions.append({
+					"title": "%s · %s" % [_tr("닿지 않음", "Out of reach"), pname],
+					"subtitle": str(reach.get("reason", "")),
+					"accent": "#3a3a4a",
+					"icon": "people",
+					"fn": "",
+					"arg": pid,
+					"free": true,
+					"disabled": true,
+				})
+				continue
 			var verb := _tr("연락하기", "Reach out")
 			if pid in ["jiyeon", "daeun"]:
 				verb = _tr("만나기", "Meet up") if aff >= 50 else _tr("안부 묻기", "Check in")
@@ -6953,7 +6981,7 @@ func _build_people_action_card(action: Dictionary, index: int) -> Button:
 		str(action.get("subtitle", "")),
 		str(action.get("icon", "people")),
 		str(action.get("accent", "#8a5a9a")),
-		false,
+		bool(action.get("disabled", false)),
 		bool(action.get("free", false)),
 		"",
 		"",
@@ -7349,16 +7377,20 @@ func _ap_date():
 	var info: Dictionary = ImageRegistry.PERSON_INFO.get(pid, {})
 	var accent: String = str(info.get("color", "#db2777"))
 	var married := _romance_is_married(pid)
+	# 지연 원거리 기간엔 장거리 전용 풀 — 일반/기혼/무료 풀보다 우선(그녀는 부산에 있다).
+	var jiyeon_longdist: bool = pid == "jiyeon" and _jiyeon_longdist_active()
 	# 비용: 데이트 비용을 지불한다. 잔고가 빠듯하면 무료(편의점) 서브풀을 쓰고 비용 0.
 	var broke: bool = GameState.money < 30000.0
 	var pool: Array
-	if broke:
+	if jiyeon_longdist:
+		pool = JIYEON_LONGDIST_DATE_VIGNETTES   # 비용은 각 비네트 e.money에 내장(KTX 등)
+	elif broke:
 		pool = DAEUN_FREE_DATE_VIGNETTES if pid == "daeun" else JIYEON_FREE_DATE_VIGNETTES
 	elif married:
 		pool = DAEUN_MARRIED_DATE_VIGNETTES if pid == "daeun" else JIYEON_MARRIED_DATE_VIGNETTES
 	else:
 		pool = DAEUN_DATE_VIGNETTES if pid == "daeun" else JIYEON_DATE_VIGNETTES
-	if not broke:
+	if not broke and not jiyeon_longdist:
 		var cost: int = 30000 + randi() % 50000
 		GameState.add_money(-float(cost))
 	var v: Dictionary = pool[randi() % pool.size()]
@@ -7708,7 +7740,22 @@ func _gift_eligible(pid: String) -> bool:
 		return false
 	if not GameState.cast_has_met(pid):
 		return false
+	# 퇴장한 인물에게는 선물이 닿지 않는다.
+	if not _person_reachable(pid).get("ok", true):
+		return false
 	return GameState.get_cast_affinity(pid) >= GIFT_MIN_AFFINITY
+
+## 인물이 아직 닿을 수 있는가 — 별세/이혼/떠남이면 연락·선물이 불가.
+## 사유는 판단 없이 사실만(설교 방지). {"ok": bool, "reason": String}.
+func _person_reachable(pid: String) -> Dictionary:
+	var f = GameState.flags
+	if pid == "father" and bool(f.get("father_passed", false)):
+		return {"ok": false, "reason": _tr("이제 닿지 않는 번호다.", "A number that no longer connects.")}
+	if pid == "daeun" and bool(f.get("daeun_divorced", false)):
+		return {"ok": false, "reason": _tr("더는 걸 수 없는 번호가 됐다.", "Not a number he can call anymore.")}
+	if pid == "jiyeon" and bool(f.get("jiyeon_left", false)):
+		return {"ok": false, "reason": _tr("그녀는 자기 세계로 돌아갔다.", "She went back to her own world.")}
+	return {"ok": true, "reason": ""}
 
 func _gift_cooldown_left(pid: String) -> int:
 	var last: int = int(GameState.flags.get("last_gift_turn_%s" % pid, -999))
@@ -8068,6 +8115,13 @@ const JIYEON_FREE_DATE_VIGNETTES := [
 	{"t":"주머니가 비어 미안하다고 했더니 지연이 웃었다. 오빠, 나 편의점 데이트 한 번도 안 해봤어. 우리는 창가 자리에서 컵라면을 나눴다. 그녀는 이게 왜 재밌지, 하고 진짜로 궁금해했다.", "et":"When I said I was sorry my pockets were empty, Jiyeon laughed. Oppa, I've never once done a convenience store date. We shared cup ramyeon at the window counter. Why is this fun, she wondered, genuinely puzzled.", "e":{"mental":9,"stress":-5,"tint":1}},
 	{"t":"기름값 말고는 쓸 게 없던 날, 지연이 그냥 달리자, 하고 시동을 걸었다. 목적지도 없이 외곽을 돌았다. 돈 안 쓰는 데이트도 나쁘지 않네, 하고 그녀가 인정하듯 말했다.", "et":"On a day when there was nothing to spend but gas money, Jiyeon said, let's just drive, and started the engine. We circled the outskirts with no destination. A date that spends nothing isn't bad either, she admitted.", "e":{"mental":8,"stress":-5}},
 	{"t":"지연이 비싼 데 가자고 하지 않았다. 우리는 공원 벤치에 앉아 편의점 맥주를 땄다. 오빠, 나 이런 거 오래 못 해봤다. 그녀의 목소리가 평소보다 낮았다.", "et":"Jiyeon didn't ask to go anywhere expensive. We sat on a park bench and cracked convenience store beers. Oppa, I haven't done this kind of thing in a long time. Her voice was lower than usual.", "e":{"mental":9,"stress":-5,"tint":1}},
+]
+
+## 지연이 부산에 있는 기간(장거리) 전용 — KTX·전화·상경 1박. 첫 비네트만 KTX 비용 내장.
+const JIYEON_LONGDIST_DATE_VIGNETTES := [
+	{"t":"주말에 KTX를 타고 부산에 내려갔다. 지연이 역까지 마중 나왔다. 자기 사무소로 데려가더니, 유리문에 붙은 자기 이름을 손끝으로 가리켰다. 오빠, 여기가 내 거야. 작았지만, 그 말을 하는 목소리는 처음 듣는 온도였다.", "et":"Rode the KTX down to Busan for the weekend. Jiyeon met me at the station. She took me to her office and touched her own name on the glass door with a fingertip. This is mine, oppa. It was small, but the voice saying it carried a warmth I'd never heard from her.", "e":{"mental":9,"stress":-5,"money":-60000}},
+	{"t":"자정이 넘도록 전화를 끊지 못했다. 이제 진짜 자야지, 하고 그녀가 말했다. 응, 끊어, 하고 내가 답했다. 둘 다 끊지 않았다. 수화기 너머로 부산의 밤 소리가, 서울의 좁은 방으로 흘러들어왔다.", "et":"Neither of us could hang up past midnight. Okay, I really should sleep now, she said. Yeah, hang up then, I answered. Neither of us did. Through the receiver, the sound of a Busan night drifted into a narrow Seoul room.", "e":{"mental":8,"stress":-4}},
+	{"t":"지연이 하룻밤 서울에 올라왔다. 나는 도착 시간보다 삼십 분 일찍 서울역에 나가 게이트를 봤다. 캐리어를 끌고 나오는 그녀를 먼 데서 먼저 알아봤다. 하루뿐인데, 그 하루를 위해 온 도시가 정리된 것 같았다.", "et":"Jiyeon came up to Seoul for a single night. I got to Seoul Station thirty minutes early and watched the gate. I spotted her from far off, wheeling her suitcase out. Just one day — and yet the whole city felt arranged around it.", "e":{"mental":10,"stress":-6,"tint":1}},
 ]
 
 const JOB_HUNT_VIGNETTES := [
