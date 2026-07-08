@@ -2,15 +2,15 @@
   {
     "id": "arc_daeun_first_night",
     "title": "That Night",
-    "description": "A rainy night. It had been a hard day for both of them.\nDaeun brought a bottle of soju and some convenience-store snacks.\n\nSmall room, low light. They laughed, then talked less, and at some point both went quiet.\n\nDaeun looked at {name} for a long moment. He didn't look away.\n\nBetween two people in their thirties, there was a distance that no longer needed explaining.\n\nDaeun reached over and turned off the light.",
+    "description": "It rained. The sound of it against the window made the small room feel even smaller.\n\nIt had been a hard day for both of them. Daeun brought a bottle of soju and some convenience-store snacks. She hadn't packed an umbrella — the ends of her hair were wet — and when {name} handed her a towel, she smiled.\n\"Thanks. ...For some reason, I didn't want to go straight home tonight.\"\n\nUnder the low light, the soju glasses passed back and forth a couple of times. They laughed, then talked less — and at some point only the rain was left.\n\nDaeun looked at {name} for a long moment. Instead of her usual shyness, tonight she didn't look away. Neither did he.\nBetween two people in their thirties, there was a distance that no longer needed explaining. And little by little, it closed.\n\nHer fingertips touched the back of his hand. He'd expected them cold; they were warm. And trembling, just slightly.\n\"...Minjun.\" Her voice was lower than usual.\n\nAnd on that word, Daeun reached over and turned off the light.",
     "choices": [
       {
-        "text": "Take her hand.",
-        "result_text": "The sound of rain outside filled the room.\n\nWhen he woke in the morning, there were two people in the narrow bed.\nDaeun was still asleep. {name} watched her face for a long time.\n\nGangnam, three billion — that morning, at least, they were far away.\nFor a man whose only possession was this one room — today, that was enough."
+        "text": "Take that trembling hand in his.",
+        "result_text": "{name} took that trembling hand in his. In the dark, Daeun's breath came closer.\nThe rain filled the room — and the rest of that night belonged to the two of them alone.\n\nMorning. He woke as a grey light came through the window. Two people, in the narrow bed.\nDaeun was still asleep, her head on his arm. A face that hadn't turned once all night.\nHer glasses lay where she'd taken them off, by the pillow. That one small thing said it plainly: this was no longer a room for one.\n\nGangnam, three billion — that morning, at least, they were very far away.\nFor a man whose only possession was this one room — today, that was enough."
       },
       {
         "text": "\"...Just stay next to me tonight.\" (Falls asleep holding her)",
-        "result_text": "Daeun looked startled for a second, then smiled quietly.\n\"...That's nice too.\"\n\nThey just lay side by side and listened to the rain.\nBeing two people who didn't have to hurry — somehow that ran deeper.\n\nLove in your thirties — it held firmer precisely because it wasn't in a rush."
+        "result_text": "{name} held her hand, but pulled the blanket up over her damp shoulders.\n\"...Let's just stay like this tonight.\"\nDaeun looked startled for a second, then smiled quietly. \"...You really are tender in the strangest places, Minjun.\"\n\nThey lay side by side in the narrow bed and listened to the rain against the window. Daeun's breathing slowed, and before long she was asleep on his shoulder.\nBeing two people who didn't have to hurry — somehow that ran deeper.\n\nLove in your thirties — it held firmer precisely because it wasn't in a rush."
       }
     ]
   },
