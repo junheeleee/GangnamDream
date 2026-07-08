@@ -155,7 +155,7 @@
   {
     "id": "arc_father_passing",
     "title": "Three Times Absent",
-    "description": "The hospital called.\n\nThey said Dad was in critical condition. He needed to come down right away.\n\nThis wasn't the first time Minjun had gotten this call.\n\nThree times. He hadn't gone down any of them. Something important came up. A deal. No time.\n\nThis call — was the fourth.",
+    "description": "The hospital called.\nFather was critical, they said. He had to come down at once.\n\nIt wasn't the first such call Minjun had taken.\nThree times. All three, he hadn't gone down. Something important came up. A deal came up. No time. Each time he told himself so, and each time it sounded reasonable enough.\n\nThis call was — the fourth.\nThe nurse's voice on the other end was different from the three before. Not urgent. A voice for which there was no longer any need to hurry.\nPhone in hand, Minjun couldn't move for a long while.",
     "description_if_known": {
       "father_mentally_updated": "The hospital called.\n\nThey said Dad was in critical condition. He needed to come down right away.\n\nThree times. He hadn't gone down any of them.\n\nBut there had been one real conversation.\n{name} had told him — what he was doing, why he was in Seoul, how he was living.\nDad listened, quiet. Said he hoped things would work out.\n\nThat was the last thing he heard his father say.",
       "called_father_on_ktx": "The fourth call came.\n\nThere'd been a time he dialed the number on the KTX.\nIt just rang. No answer.\n\nBack then he simply looked out the window.\nThis call — was a different kind.",
@@ -167,11 +167,11 @@
     "choices": [
       {
         "text": "(He took the KTX. Knowing he was already too late.)",
-        "result_text": "When he arrived at Changwon Station, Dad was already gone.\n\nThe nurse said \"about an hour ago.\"\n\nMinjun sat down beside the hospital bed. He stayed for a long time. There was nothing left.\n\nHe'd come to Seoul to show his father something.\nThat reason had left first."
+        "result_text": "The KTX felt impossibly slow. The whole way, as the scenery fled backward outside the window, Minjun tried to think of nothing at all.\n\nBy the time he reached Changwon Station, Father was already gone.\nThe nurse said, \"An hour ago.\" Exactly one hour.\n\nMinjun sat beside the empty hospital bed. He stayed like that a long time. Nothing was left but the smell of antiseptic.\nHe'd wanted to show him. That the number in the bankbook had climbed this high, that his son had made it this far — and now there was one fewer person in the world to show it to.\nIn his pocket, the phone still held a call log from some day long ago. Twenty-three seconds."
       },
       {
         "text": "(He hung up. There was a deal he had to close right now.)",
-        "result_text": "He made five million won on that deal.\n\nThe next morning, the call came again. Dad had passed away the night before.\n\nMinjun set down his phone and looked at his bank balance.\n\nThe number had gone up."
+        "result_text": "\"I'm sorry. This time I really can't come.\" Minjun hung up. And he went into the deal.\nHe made five million won on it. Just as planned.\n\nThe next morning, another call. Father had passed in the night — at the very hour Minjun was making his five million.\n\nMinjun set the phone down and opened the banking app. The number had gone up. Five million won, exactly.\nHe looked at it a long time. He'd thought he'd feel nothing; he was wrong. That this number would, for the rest of his life, be priced at the same value as this morning — only now did Minjun understand it."
       }
     ]
   },
@@ -280,15 +280,15 @@
   {
     "id": "arc_father_call_on_ktx",
     "title": "KTX, Outside the Window",
-    "description": "Inside the KTX.\nThe view was sliding past the window.\n\n{name} opened the call history.\nDad. 23 seconds.\n\nScrolling up, that was the first one.\nThere had been nothing before it.\n\nA finger stopped over the number.",
+    "description": "On the KTX. Outside the window, the scenery slid backward without a sound.\n{name} opened the call log. Father. Twenty-three seconds.\n\nNo matter how far he scrolled up, that was the first and nearly the only record. In five years, the calls between father and son came to just those few. Twenty-three seconds — what could you fit inside that? No — even in those twenty-three seconds, {name} had wanted to hang up quickly.\n\nHis finger stopped over the number. That this train going down might be the last one — he knew it, and was pretending not to.",
     "choices": [
       {
         "text": "Call him",
-        "result_text": "The phone rang.\nHe did not pick up.\n\n{name} set the phone down and looked out the window.\nThe landscape ran backward."
+        "result_text": "{name} pressed the number.\nIt rang. Once, twice, three times. No answer.\nMaybe, right now, Father was in no state to take a call. The thought turned his fingertips cold.\n{name} set the phone down and looked out the window. The scenery kept fleeing backward — at a speed there was no catching."
       },
       {
         "text": "Do not call",
-        "result_text": "The screen went dark.\n{name} closed their eyes.\nOutside the window, the world kept running backward."
+        "result_text": "{name} couldn't bring himself to call. What to say, what to lead with in twenty-three seconds — he didn't know.\nThe screen went dark on its own. In the black glass, his own face was faintly reflected.\n{name} closed his eyes. With them shut, he listened to the scenery fleeing backward and backward. The train still had a long way left to go."
       }
     ]
   }
