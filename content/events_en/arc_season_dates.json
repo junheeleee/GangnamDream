@@ -1,0 +1,150 @@
+[
+  {
+    "id": "arc_season_cherry_daeun",
+    "title": "Cherry Blossom Road",
+    "description": "April on the Han River cherry blossom road. The flowers were white.\nDaeun stopped under the canopy and looked up.\n\"Minjun, it's like it's snowing.\" Every gust brought petals down, and she laughed.\nAn afternoon with no uniform, no register. One petal settled on her shoulder.",
+    "description_if_known": {
+      "cherry_grey_view": "April on the Han River cherry blossom road.\nDaeun stopped under the canopy and looked up. \"Minjun, it's like it's snowing.\"\n{name} looked up too. It was the first time the cherry blossoms looked grey.\nEven {name} knew it wasn't the flowers that had changed.\n\"...Minjun? Are you okay?\" Daeun peered at his face. One petal settled on her shoulder."
+    },
+    "choices": [
+      {
+        "text": "Brush the petal from her shoulder.",
+        "result_text": "When his fingertips touched her shoulder, Daeun smiled a little. \"...That tickles.\"\nShe caught the petal in her palm. \"This year's blossoms — I saw them with you, Minjun.\"\nHe wanted to hold onto that sentence for a long time."
+      },
+      {
+        "text": "Say nothing — watch the petals fall together.",
+        "result_text": "Neither of them spoke. Falling petals make no sound, but it felt like he could hear them.\n\"...I've never had a moment like this,\" Daeun said quietly.\nNeither had {name}."
+      },
+      {
+        "text": "\"Let's see them together next year too.\"",
+        "result_text": "Daeun's eyes went round, and then she smiled without hiding it.\n\"...That's a promise now. I remember all of these, you know.\"\nCherry blossoms last a week. The promise stayed."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_cherry_jiyeon",
+    "title": "Cherry Blossom Road",
+    "description": "\"I even checked the bloom map. This is the peak.\" Jiyeon led the way.\nApril on the Han River cherry blossom road. The flowers were white.\nShe'd picked the route with data, but once under the canopy her steps slowed.\n\"...Better than I expected.\" The wind brought petals down, and one landed in her hair.",
+    "description_if_known": {
+      "cherry_grey_view": "\"I even checked the bloom map. This is the peak.\" Jiyeon led the way.\nApril on the Han River cherry blossom road. {name} looked up.\nIt was the first time the cherry blossoms looked grey. He knew it wasn't the flowers that had changed.\n\"Oppa.\" Jiyeon turned around. \"...What's going on in your head these days.\" Her voice wasn't joking.\nA petal landed in her hair."
+    },
+    "choices": [
+      {
+        "text": "Pick the petal out of her hair.",
+        "result_text": "\"...What do you think you're doing.\" She said it without moving away.\nThe composure that slipped for half a second came right back. \"...If there's another one, get that too.\"\nThere wasn't. He pretended there was."
+      },
+      {
+        "text": "Say nothing — watch the petals fall together.",
+        "result_text": "Jiyeon was quiet for a long while.\n\"...If I were at the office right now, I'd be in my second meeting.\"\nBy now {name} knew that was her way of saying it was beautiful."
+      },
+      {
+        "text": "\"Let's see them together next year too.\"",
+        "result_text": "\"You talk like a project proposal.\" Jiyeon laughed. \"...Approved. Next April, same spot.\"\nShe actually put it in her phone calendar."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_sea_daeun",
+    "title": "The Sea, After Five Years",
+    "description": "First train to the east coast. Daeun sat by the window and never once dozed off.\nAt a shop by the station they picked out swimsuits. Daeun flipped the price tag over twice and reached for the cheapest one — and when {name} held out a different one, her face went red.\n\"Something like this... it's been so long since I wore one.\"\nOn the sand, when the waves rolled in, she laughed out loud. He had never heard her laugh that big.\n\"Minjun, it's been five years since I saw the sea.\"\nOn the list of things Seoul had taken from her, there was the sea.",
+    "choices": [
+      {
+        "text": "\"Next year we're staying overnight.\"",
+        "result_text": "Daeun answered loud enough to beat the waves.\n\"Okay. Promises like that scare me... but not when they're yours, Minjun.\"\nOn the train home she fell asleep against the window. The seashell in her hand never dropped."
+      },
+      {
+        "text": "Say nothing — take her hand and run to the waterline.",
+        "result_text": "When the water reached her ankles, Daeun grabbed {name}'s arm, half scream, half laughter.\n\"It's freezing! ...But I'm not getting out.\"\nNext to someone laughing five years' worth at once, {name} just laughed too."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_sea_jiyeon",
+    "title": "Haeundae",
+    "description": "\"Haeundae is my turf.\" The moment they stepped off at Busan Station, even Jiyeon's accent changed.\nThe market alleys, the best mulhoe place, haggling over the parasol — she really was on home ground.\nBut when he suggested going in the water, she didn't move from under the parasol.\n\"...Oppa, don't laugh.\" Jiyeon said it without taking off her sunglasses.\n\"I can't swim.\"",
+    "choices": [
+      {
+        "text": "Laugh — try not to, and fail.",
+        "result_text": "\"Hey!\" Jiyeon threw a fistful of sand. That was the one time the composure broke.\n\"...Not everyone who grows up by Haeundae can swim.\" The recovery was fast.\nThat day she went in ankle-deep, no further, and it seemed to be enough."
+      },
+      {
+        "text": "\"Then I'll hold on to you. Just to the knees.\"",
+        "result_text": "Jiyeon looked at {name} for a long moment over her sunglasses.\n\"...Knees. That's it.\" She held out her hand.\nEvery time a wave came, the grip tightened. Holding that hand without laughing was {name}'s whole job."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_fireworks_daeun",
+    "title": "Fireworks, a Profile",
+    "description": "The Yeouido fireworks festival. {name} didn't recognize Daeun at the meeting spot at first.\nA dress he had never seen.\n\"...First time seeing me out of uniform, right?\" she said first — not sure where to put her eyes, but not hiding either.\nThree seconds of silence while {name} chose his answer.",
+    "choices": [
+      {
+        "text": "\"You look beautiful.\" — before the three seconds run out.",
+        "result_text": "Daeun tried to hold back a smile and failed.\n\"...Even if that's a lie, tonight I'll believe it.\"\nIt wasn't a lie. The first firework went up, and everyone looked at the sky at once."
+      },
+      {
+        "text": "When the fireworks burst, watch her profile instead of the sky.",
+        "result_text": "Boom — every time the sky lit up, color landed on her face.\nDaeun watched the fireworks; {name} watched the person watching them.\n\"...Minjun, aren't you watching?\" \"I am.\"\nThey were looking at different things, and both answers were true."
+      },
+      {
+        "text": "Take her hand before the crowd can push between you.",
+        "result_text": "When he took her hand, Daeun startled, then squeezed back.\n\"If we lose each other, we won't find each other. Us.\"\nThe sentence carried farther than the night."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_fireworks_jiyeon",
+    "title": "Off Duty",
+    "description": "The Yeouido fireworks festival. Jiyeon waved — in a hoodie and sneakers.\nNo suit, no heels, no business cards. Just her.\n\"If anyone from the office saw me, they'd faint.\" She pulled the hood down lower.\nWhen the crowd surged, she took {name}'s hand first.",
+    "choices": [
+      {
+        "text": "Re-grip her hand — fingers interlaced.",
+        "result_text": "Jiyeon looked down at their hands. Half a second.\n\"...It's because of the crowd.\" The recovery was fast. She didn't pull her hand away.\nThe first firework burst. While she watched the sky, the laced fingers tightened."
+      },
+      {
+        "text": "\"I like this version of you better.\"",
+        "result_text": "\"...Which part.\" Under the hood, the tips of her ears went red.\n\"Never mind. Watch the fireworks.\"\nAnd then she took the hood off."
+      },
+      {
+        "text": "When the fireworks burst, watch her profile instead of the sky.",
+        "result_text": "Boom — the light kept changing colors on her face.\nJiyeon noticed and turned. \"...What are you looking at.\"\n\"The fireworks.\" \"Liar.\" She laughed.\nSomething went off much closer than the sky."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_snow_daeun",
+    "title": "First Snow, That Convenience Store",
+    "description": "The first snow came on the way home. Daeun was waiting in front of the convenience store — the one where everything started.\nTwo cans of coffee in her hands.\n\"First snow calls for these.\" She held one out. \"Remember us standing here, just like this?\"\nThe snow was visible only in the light of the sign, then vanished into the dark.",
+    "description_if_known": {
+      "daeun_sea_5years": "The first snow came on the way home. Daeun was waiting in front of the convenience store — the one where everything started. Two cans of coffee in her hands.\nAt the summer sea she said she hadn't seen in five years, he had watched the seasons come back to her one by one. This time it was first snow.\n\"First snow calls for these.\" She held one out. \"Remember us standing here, just like this?\"\nThe snow was visible only in the light of the sign, then vanished into the dark."
+    },
+    "choices": [
+      {
+        "text": "\"I remember. It was this same coffee.\"",
+        "result_text": "\"Right. You looked so... cold back then, Minjun.\" Daeun laughed, then let the sentence trail off.\n\"Not anymore. Now you look like someone who's with someone.\"\nUntil the cans went cold, neither of them suggested going inside."
+      },
+      {
+        "text": "Say nothing — tap the cans together, like a toast.",
+        "result_text": "Clink. The sound of can on can rang small in the snowing alley.\n\"...What are we toasting to?\" \"First snow.\"\nDaeun smiled. \"Then we'll have to do this every year.\""
+      }
+    ]
+  },
+  {
+    "id": "arc_season_snow_jiyeon",
+    "title": "The Wipers",
+    "description": "The first snow started inside the car on the drive home. The wipers pushed it away twice.\nThe alley in front of his place. Even with the car stopped, Jiyeon didn't tell him to get out. Then she turned the wipers off.\nSnow began to pile on the windshield. The lights smeared away until only the inside of the car was left.\n\"Oppa, wait,\" she said. \"Let's stay like this.\"",
+    "description_if_known": {
+      "jiyeon_cant_swim": "The first snow started inside the car on the drive home. The wipers pushed it away twice.\nThe alley in front of his place. Even with the car stopped, Jiyeon didn't tell him to get out. Then she turned the wipers off.\nSnow began to pile on the windshield.\nThe woman who was afraid of the water was watching the snow pile up to the very end. The same one who never went past the shallows at Haeundae.\n\"Oppa, wait,\" she said. \"Let's stay like this.\""
+    },
+    "choices": [
+      {
+        "text": "Turn off the engine — listen to the snow settling.",
+        "result_text": "When the engine died, the world went quiet. Snow makes no sound, but he could almost hear it landing.\n\"...I'm not the kind of person who does this,\" Jiyeon said, watching the windshield.\n\"I know.\" \"...I'm only like this in front of you.\"\nUntil the glass was covered white, neither of them got out."
+      },
+      {
+        "text": "\"Want to walk a little, before it melts?\"",
+        "result_text": "Jiyeon looked at {name}. \"...Walking in the first snow? Oppa, you're such an old soul.\"\nShe was already unbuckling her seatbelt as she said it.\nUnder the alley streetlight, two sets of footprints went into the snow first."
+      }
+    ]
+  }
+]

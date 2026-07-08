@@ -1094,6 +1094,14 @@ func get_current_title() -> String:
 	if mental <= 12: return LocaleManager.ui("번아웃 직전", "Near Burnout")
 	if mental <= 20: return LocaleManager.ui("벼랑 끝의 청년", "On the Edge")
 	if get_total_asset_value() < -50_000_000: return LocaleManager.ui("파산 위기자", "Bankruptcy Risk")
+	# 삶의 모양 티어 — 자산보다 먼저. 칭호가 잔고가 아니라 삶의 모양을 비춘다.
+	# 결혼 판정은 예식 아크 기준(_romance_is_married 미러) — 잃었으면(이혼/떠남) 내려간다.
+	if (flags.get("arc_daeun_wedding_day_seen", false) and not flags.get("daeun_divorced", false)) \
+			or (flags.get("arc_jiyeon_wedding_gap_seen", false) and not flags.get("jiyeon_left", false)):
+		return LocaleManager.ui("가정을 이룬 사람", "Built a Home")
+	if (flags.get("daeun_romance_started", false) and not flags.get("daeun_divorced", false)) \
+			or (flags.get("jiyeon_romance_started", false) and not flags.get("jiyeon_left", false)):
+		return LocaleManager.ui("누군가의 사람", "Someone's Person")
 	var total = get_total_asset_value()
 	if total >= 3_000_000_000: return LocaleManager.ui("강남드림 달성자", "Gangnam Dreamer")
 	if total >= 500_000_000: return LocaleManager.ui("신흥 자산가", "Emerging Wealth")
@@ -1104,6 +1112,9 @@ func get_current_title() -> String:
 	if flags.get("startup_launched", false): return LocaleManager.ui("창업가", "Founder")
 	if flags.get("creator_monetized", false): return LocaleManager.ui("유튜버", "YouTuber")
 	if flags.get("creator_started", false): return LocaleManager.ui("콘텐츠 크리에이터", "Content Creator")
+	# 루틴 누적 티어 (AP_REDESIGN 루틴 심화) — 몸과 머리에 쌓인 시간이 이름이 된다.
+	if int(flags.get("study_count_exercise", 0)) >= 12: return LocaleManager.ui("몸이 기억하는 사람", "Kept the Habit")
+	if int(flags.get("study_count_read", 0)) >= 20: return LocaleManager.ui("읽는 사람", "The Reader")
 	var diff = route_orthodox - route_unorthodox
 	if diff >= 18: return LocaleManager.ui("엘리트 코스", "Elite Track")
 	if diff >= 8: return LocaleManager.ui("착실한 청년", "Diligent Striver")

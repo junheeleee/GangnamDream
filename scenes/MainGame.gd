@@ -5730,7 +5730,7 @@ func _render_essential_actions(ap: int):
 		else:
 			_essential_btn(_tr("일 · 커리어", "Work · Career"), _tr("월급과 승진 상태를 관리한다", "Manage paychecks and promotion pressure"), "job", "#8f98a8", "_open_cat_work", disabled, false, menu_badge)
 		_essential_btn(_tr("생계", "Survival Money"), _tr("알바·절약으로 이번 달을 버틴다", "Take gigs or cut back to survive this month"), "money", "#3a8a5a", "_open_cat_money", disabled, false, menu_badge)
-		_essential_btn(_tr("자기계발", "Self-Dev"), _tr("독서·운동·명상 중 한 가지", "One of: reading, exercise, meditation"), "study", "#5a6ea8", "_ap_study", disabled)
+		_essential_btn(_tr("자기계발", "Self-Dev"), _tr("독서·운동·명상·투자공부 중 선택", "Choose: reading, exercise, meditation, investing"), "study", "#5a6ea8", "_ap_study", disabled)
 		_essential_btn(_tr("휴식", "Rest"), _tr("숨을 고르고 정신력을 회복한다", "Catch your breath and recover mental"), "rest", "#3a8a9a", "_ap_free_time", disabled)
 		_maybe_add_date_card(disabled)
 		_maybe_add_montage_card()
@@ -5849,7 +5849,7 @@ func _mastery_badge(game_id: String) -> String:
 
 func _is_ap_commit_function(fn_name: String) -> bool:
 	match fn_name:
-		"_ap_study", "_ap_free_time", "_ap_job_hunt", "_ap_side_job", "_ap_save_money":
+		"_ap_free_time", "_ap_job_hunt", "_ap_side_job", "_ap_save_money":
 			return true
 		"_ap_network", "_ap_vip_network", "_ap_contact_person", "_ap_date":
 			return true
@@ -7227,14 +7227,101 @@ func _add_action_buttons(parent: Control, actions: Array, disabled: bool):
 		)
 		parent.add_child(btn)
 
+## 자기계발 — 종류 선택 모달 (AP_REDESIGN 루틴 심화 ①: 랜덤 4종 → 플레이어 선택).
+## AP 소비·축 등록은 _ap_study_commit에서 1회 — 여기선 선택만 받는다(이중 집계 방지).
 func _ap_study():
+	if GameState.action_points <= 0:
+		_show_toast(_tr("행동력이 없습니다", "No Action Points"), Color("#ff4444"))
+		return
+	_open_modal(_tr("자기계발", "Self-Dev"), true)
+	modal_body.add_child(_wrap_label(
+		_tr("이번 주, 무엇을 갈고닦을까.", "This week — what to sharpen."), 13, "#7a8496"))
+	var kinds := [
+		[0, _tr("독서", "Reading"), _tr("책 한 권만큼 넓어진다", "One book wider")],
+		[1, _tr("운동", "Exercise"), _tr("몸을 만든다 — 사람 쪽 시간", "Build the body — time for the self")],
+		[2, _tr("명상", "Meditation"), _tr("숨을 고르고 머리를 비운다", "Breathe and clear your head")],
+		[3, _tr("투자공부", "Invest Study"), _tr("돈이 되기 전의 눈을 만든다", "Train the eye before the money")],
+	]
+	for entry in kinds:
+		var st: int = int(entry[0])
+		var count: int = _study_count(st)
+		var sub: String = str(entry[2])
+		if count > 0:
+			sub += "  ·  " + _study_progress_label(st, count)
+		var btn := _make_essential_action_card(str(entry[1]), sub, "study", "#5a6ea8", false, false, "", "", null, "")
+		btn.custom_minimum_size = Vector2(0, 60)
+		btn.pressed.connect(func():
+			_close_modal()
+			_ap_study_commit(st))
+		modal_body.add_child(btn)
+
+## 종류별 누적 카운트 읽기 — 리터럴 키(감사 플래그 교차검증 인식용).
+func _study_count(study_type: int) -> int:
+	var f = GameState.flags
+	match study_type:
+		0: return int(f.get("study_count_read", 0))
+		1: return int(f.get("study_count_exercise", 0))
+		2: return int(f.get("study_count_meditate", 0))
+		3: return int(f.get("study_count_invest", 0))
+	return 0
+
+## 종류별 누적 카운트 증가 — 리터럴 set(감사 플래그 교차검증 인식용). 반환: 증가 후 값.
+func _bump_study_count(study_type: int) -> int:
+	var n: int = _study_count(study_type) + 1
+	match study_type:
+		0: GameState.flags["study_count_read"] = n
+		1: GameState.flags["study_count_exercise"] = n
+		2: GameState.flags["study_count_meditate"] = n
+		3: GameState.flags["study_count_invest"] = n
+	return n
+
+## 누적 가시화 (AP_REDESIGN 루틴 심화 ②) — "독서 — 12권째" / "운동 — 6주차" 형식.
+func _study_progress_label(study_type: int, n: int) -> String:
+	match study_type:
+		0: return _tr("독서 — {n}권째", "Reading — book {n}").format({"n": n})
+		1: return _tr("운동 — {n}주차", "Exercise — week {n}").format({"n": n})
+		2: return _tr("명상 — {n}회째", "Meditation — session {n}").format({"n": n})
+		3: return _tr("투자공부 — {n}회째", "Invest Study — session {n}").format({"n": n})
+	return _tr("자기계발", "Self-Dev")
+
+## 임계 보상 (AP_REDESIGN 루틴 심화 ③) — 독서 10권째/운동 12주차 특별 비네트 1회.
+## 연애 중이면 파트너 반응 한 줄 크로스오버(호칭 정본: 다은 "민준씨"+존댓말 / 지연 "오빠"+반말).
+func _study_threshold_special(study_type: int, n: int) -> String:
+	var f = GameState.flags
+	var pid := _romance_partner_id()
+	if study_type == 0 and n >= 10 and not f.get("study_read_10_seen", false):
+		GameState.flags["study_read_10_seen"] = true
+		var body := _tr("열 권째 책을 덮었다. 첫 권을 펼치던 날엔 몰랐던 단어들이, 이제 문장 사이에서 아는 얼굴을 한다.\n읽은 게 다 어디로 갔는지는 몰라도, 없어지지 않았다는 건 안다.",
+			"Closed the tenth book. Words that meant nothing the day the first one opened now show familiar faces between the sentences.\nWhere it all went, who knows — but it didn't disappear. That much is certain.")
+		if pid == "daeun":
+			body += _tr("\n\n다은이 가방에 꽂힌 책을 보더니 웃었다. \"민준씨가 뭘 읽는지, 요즘 나도 궁금해요.\"",
+				"\n\nDaeun spotted the book in his bag and smiled. \"What you're reading, Minjun — these days I'm curious too.\"")
+		elif pid == "jiyeon":
+			body += _tr("\n\n지연이 책 제목을 힐끔 봤다. \"오빠 가방에 책 있는 거, 나 다 봤어. …다음 건 내가 골라줄까?\"",
+				"\n\nJiyeon glanced at the title. \"I've seen the books in your bag, oppa. ...Want me to pick the next one?\"")
+		return body
+	if study_type == 1 and n >= 12 and not f.get("study_exercise_12_seen", false):
+		GameState.flags["study_exercise_12_seen"] = true
+		var body := _tr("12주째. 이제는 안 가면 몸이 먼저 이상하다고 말한다.\n시간이 몸에 쌓이는 걸, 처음으로 눈으로 봤다.",
+			"Week twelve. Now the body is the first to complain on the days he skips.\nFor the first time, time piling up inside a body was something he could see.")
+		if pid == "daeun":
+			body += _tr("\n\n다은이 마주 앉다가 말했다. \"민준씨, 얼굴 좋아졌어요.\"",
+				"\n\nSitting down across from him, Daeun said, \"Minjun, you look healthier these days.\"")
+		elif pid == "jiyeon":
+			body += _tr("\n\n지연이 지나가듯 말했다. \"오빠, 요즘 어깨가 좀 달라졌다?\"",
+				"\n\nJiyeon said it in passing. \"Oppa, your shoulders look different lately?\"")
+		return body
+	return ""
+
+## 실제 실행 — 1 AP + 축 등록 1회 + 누적 카운트 + 비네트. (모달 선택 후 진입)
+func _ap_study_commit(study_type: int) -> void:
 	if not GameState.spend_ap():
 		return
-	var study_type: int = randi() % 4
 	var tag: String = [_tr("독서", "Reading"), _tr("운동", "Exercise"), _tr("명상", "Meditation"), _tr("투자공부", "Invest Study")][study_type]
 	var pool: Array = [STUDY_READ_VIGNETTES, STUDY_EXERCISE_VIGNETTES, STUDY_MEDITATE_VIGNETTES, STUDY_INVEST_VIGNETTES][study_type]
 	var study_axis := "human" if (study_type == 1 or study_type == 2) else "money"
 	GameState.register_action_axis(study_axis)
+	var n: int = _bump_study_count(study_type)
 	var v: Dictionary = pool[randi() % pool.size()]
 	var eff: Dictionary = v.get("e", {}).duplicate()
 	if study_type == 1:
@@ -7252,8 +7339,12 @@ func _ap_study():
 	GameState.add_tendency("invest" if study_type == 3 else "career", 1)
 	var _st_key := "et" if LocaleManager.is_english() else "t"
 	var flavor: String = str(v.get(_st_key, v.get("t", "")))
-	GameState.add_log(tag + " — " + flavor, "event")
-	_show_vignette(_tr("자기계발", "Self-Dev"), flavor, eff, "#5a6ea8")
+	var special: String = _study_threshold_special(study_type, n)
+	if special != "":
+		flavor = special
+	var title: String = _study_progress_label(study_type, n)
+	GameState.add_log(title + " — " + flavor, "event")
+	_show_vignette(title, flavor, eff, "#5a6ea8")
 	turn_action_log.append("✓ " + tag + " — " + flavor.substr(0, 20))
 	_render_ap_actions()
 	_refresh_all()
@@ -7374,6 +7465,13 @@ func _ap_date():
 		turn_action_log.append(_tr("✓ 데이트 — 특별한 하루", "✓ Date — a day to remember"))
 		_go_story_mode([_ms_id])
 		return
+	# ── 계절 스페셜 오버라이드 (ROMANCE_SYSTEM 7-C) — 마일스톤 > 시즌 > 일반 비네트 ──
+	# 이벤트 effects가 비용·affinity·tint를 대신하므로 비네트 경로는 스킵(이중 적용 금지).
+	var _season_id := _season_date_id(pid)
+	if _season_id != "":
+		turn_action_log.append(_tr("✓ 데이트 — 계절의 하루", "✓ Date — a day in season"))
+		_go_story_mode([_season_id])
+		return
 	var info: Dictionary = ImageRegistry.PERSON_INFO.get(pid, {})
 	var accent: String = str(info.get("color", "#db2777"))
 	var married := _romance_is_married(pid)
@@ -7431,6 +7529,37 @@ func _date_milestone_id(pid: String, dc: int) -> String:
 			return "arc_date_park_daeun"
 		if pid == "jiyeon" and not f.get("arc_date_park_jiyeon_seen", false):
 			return "arc_date_park_jiyeon"
+	return ""
+
+## 계절 스페셜 데이트 판정 (ROMANCE_SYSTEM 7-C) — 시즌 월이면 이벤트 id 반환(없으면 "").
+## 연 1회 가드: flags["last_<season>_date_year"]에 발동 연도를 기록·비교(코드가 독자).
+## 지연 원거리 기간엔 sea(부산 해운대 — 그녀가 거기 있다)만 성립, 나머지 시즌은 스킵.
+## id를 문자열 리터럴로 반환해 감사(죽은 아크 검사)가 배선을 인식하게 한다.
+func _season_date_id(pid: String) -> String:
+	var f = GameState.flags
+	var m: int = GameState.month
+	var y: int = GameState.year
+	var longdist: bool = pid == "jiyeon" and _jiyeon_longdist_active()
+	# 봄 — 벚꽃 (4월). 발동부에서 tint 분기: 어두운 민준(stage<=-1)이면 벚꽃이 회색으로 보인다(dik가 독자).
+	if m == 4 and int(f.get("last_cherry_date_year", 0)) != y and not longdist:
+		GameState.flags["last_cherry_date_year"] = y
+		if GameState.moral_stage() <= -1:
+			GameState.flags["cherry_grey_view"] = true
+		else:
+			GameState.flags.erase("cherry_grey_view")
+		return "arc_season_cherry_daeun" if pid == "daeun" else "arc_season_cherry_jiyeon"
+	# 여름 — 바다 (7~8월). 지연=부산 해운대 홈그라운드라 원거리 기간과도 정합.
+	if (m == 7 or m == 8) and int(f.get("last_sea_date_year", 0)) != y:
+		GameState.flags["last_sea_date_year"] = y
+		return "arc_season_sea_daeun" if pid == "daeun" else "arc_season_sea_jiyeon"
+	# 가을 — 여의도 불꽃축제 (9~10월)
+	if (m == 9 or m == 10) and int(f.get("last_fireworks_date_year", 0)) != y and not longdist:
+		GameState.flags["last_fireworks_date_year"] = y
+		return "arc_season_fireworks_daeun" if pid == "daeun" else "arc_season_fireworks_jiyeon"
+	# 겨울 — 첫눈 (12월)
+	if m == 12 and int(f.get("last_snow_date_year", 0)) != y and not longdist:
+		GameState.flags["last_snow_date_year"] = y
+		return "arc_season_snow_daeun" if pid == "daeun" else "arc_season_snow_jiyeon"
 	return ""
 
 # ─────────────────────────────────────────────────────────────
@@ -10957,6 +11086,7 @@ func _show_ending(ending_id):
 			"ten_lives":         _tr("열 번의 인생", "Ten Lives"),
 			"beat_addiction":    _tr("동그라미 서른 개 (중독 회복)", "Thirty Circles (Addiction Recovery)"),
 			"white_gangnam":     _tr("사람으로 강남에 (0.1%의 길)", "Human Until Gangnam (The 0.1% Path)"),
+			"four_seasons":      _tr("사계 (한 해의 네 계절을 함께)", "Four Seasons (A Year, Together)"),
 		}
 		for a in new_ach:
 			var ach_name = ach_names.get(a, a)

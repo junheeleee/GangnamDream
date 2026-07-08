@@ -1,0 +1,486 @@
+[
+  {
+    "id": "arc_season_cherry_daeun",
+    "title": "벚꽃길",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "cherry_blossom_path",
+    "portrait": "daeun_smile",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "daeun",
+      "romance",
+      "season",
+      "cherry_blossom"
+    ],
+    "description": "4월의 한강 벚꽃길. 꽃이 희었다.\n다은이 꽃그늘 아래서 걸음을 멈추고 위를 올려다봤다.\n\"민준씨, 눈 오는 것 같아요.\" 바람이 불 때마다 꽃잎이 내렸고, 그녀가 웃었다.\n유니폼도, 계산대도 없는 오후였다. 꽃잎 하나가 그녀 어깨에 앉았다.",
+    "description_if_known": {
+      "cherry_grey_view": "4월의 한강 벚꽃길.\n다은이 꽃그늘 아래서 걸음을 멈추고 위를 올려다봤다. \"민준씨, 눈 오는 것 같아요.\"\n{name}도 고개를 들었다. 벚꽃이 회색으로 보인 건 처음이었다.\n꽃이 변한 게 아니라는 것쯤은 {name}도 알았다.\n\"…민준씨? 어디 안 좋아요?\" 다은이 얼굴을 들여다봤다. 꽃잎 하나가 그녀 어깨에 앉았다."
+    },
+    "choices": [
+      {
+        "text": "어깨의 꽃잎을 떼어준다.",
+        "effects": {
+          "mental": 6,
+          "tint": 2
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 7
+          }
+        },
+        "result_text": "손끝이 어깨에 닿자 다은이 조금 웃었다. \"…간지러워요.\"\n떼어낸 꽃잎을 그녀가 손바닥에 받았다. \"올해 벚꽃, 민준씨랑 봤네요.\"\n그 말을 오래 가지고 있고 싶었다."
+      },
+      {
+        "text": "말없이, 꽃 내리는 걸 같이 본다.",
+        "effects": {
+          "mental": 8,
+          "tint": 1
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 4
+          }
+        },
+        "result_text": "둘 다 아무 말 안 했다. 꽃잎이 내리는 소리는 없는데, 들리는 것 같았다.\n\"…이런 시간, 처음이에요.\" 다은이 작게 말했다.\n{name}도 그랬다."
+      },
+      {
+        "text": "\"내년에도 같이 봐요.\"",
+        "effects": {
+          "mental": 5,
+          "tint": 2
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 6
+          }
+        },
+        "result_text": "다은이 눈을 동그랗게 떴다가, 숨기지 않고 웃었다.\n\"…약속한 거예요. 나 이런 거 다 기억해요.\"\n벚꽃은 일주일이면 지지만, 약속은 남았다."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_cherry_jiyeon",
+    "title": "벚꽃길",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "cherry_blossom_path",
+    "portrait": "jiyeon_warm",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon",
+      "romance",
+      "season",
+      "cherry_blossom"
+    ],
+    "description": "\"개화 지도까지 확인했어. 지금이 피크야.\" 지연이 앞장서 걸었다.\n4월의 한강 벚꽃길. 꽃이 희었다.\n데이터로 골라 온 길인데, 꽃그늘에 들어서자 그녀 걸음이 느려졌다.\n\"…생각보다 좋네.\" 바람에 꽃잎이 내렸고, 한 장이 그녀 머리에 앉았다.",
+    "description_if_known": {
+      "cherry_grey_view": "\"개화 지도까지 확인했어. 지금이 피크야.\" 지연이 앞장서 걸었다.\n4월의 한강 벚꽃길. {name}은 고개를 들었다.\n벚꽃이 회색으로 보인 건 처음이었다. 꽃이 변한 게 아니라는 것쯤은 알았다.\n\"오빠.\" 지연이 돌아봤다. \"…요즘 무슨 생각 하고 살아.\" 농담이 아닌 목소리였다.\n꽃잎 한 장이 그녀 머리에 앉았다."
+    },
+    "choices": [
+      {
+        "text": "머리의 꽃잎을 떼어준다.",
+        "effects": {
+          "mental": 6,
+          "tint": 2
+        },
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 7
+          }
+        },
+        "result_text": "\"…뭐 하는 거야.\" 말은 그렇게 하면서 피하지는 않았다.\n0.5초 무너졌던 표정이 도도하게 돌아왔다. \"…하나 더 있으면 마저 떼든가.\"\n없었지만, 있는 척했다."
+      },
+      {
+        "text": "말없이, 꽃 내리는 걸 같이 본다.",
+        "effects": {
+          "mental": 8,
+          "tint": 1
+        },
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 4
+          }
+        },
+        "result_text": "지연은 한참 아무 말이 없었다.\n\"…회사에 있었으면 지금 회의 두 개째야.\"\n그 말이 그녀식 감탄이라는 걸, {name}은 이제 알았다."
+      },
+      {
+        "text": "\"내년에도 같이 봅시다.\"",
+        "effects": {
+          "mental": 5,
+          "tint": 2
+        },
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 6
+          }
+        },
+        "result_text": "\"기획서처럼 말하네.\" 지연이 웃었다. \"…승인. 내년 4월, 같은 자리.\"\n그녀는 폰 캘린더에 진짜로 일정을 넣었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_sea_daeun",
+    "title": "바다, 5년 만",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "ktx_window",
+    "portrait": "daeun_smile",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "daeun",
+      "romance",
+      "season"
+    ],
+    "description": "동해행 첫차. 다은은 창가에 앉아 한 번도 졸지 않았다.\n역 앞 상가에서 수영복을 골랐다. 다은이 가격표를 두 번 뒤집어 보고 제일 싼 걸 집었다가, {name}이 다른 걸 내밀자 얼굴이 붉어졌다.\n\"이런 거… 오랜만에 입어봐요.\"\n모래사장. 파도가 밀려오자 그녀가 소리 내서 웃었다. 처음 듣는 크기의 웃음이었다.\n\"민준씨, 나 바다 5년 만이에요.\"\n서울이 그녀에게서 가져간 목록에, 바다가 있었다.",
+    "choices": [
+      {
+        "text": "\"내년엔 1박으로 와요.\"",
+        "effects": {
+          "money": -45000,
+          "mental": 8,
+          "tint": 2
+        },
+        "flags": [
+          "daeun_sea_5years"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": 8
+          }
+        },
+        "result_text": "다은이 파도 소리에 지지 않게 대답했다.\n\"좋아요. 나 그런 약속 무서운데… 민준씨 거라 안 무서워요.\"\n돌아오는 기차에서 그녀는 창에 기대 잠들었다. 손에 쥔 조개껍데기가 안 떨어졌다."
+      },
+      {
+        "text": "말없이 손을 끌고 파도 앞까지 같이 뛴다.",
+        "effects": {
+          "money": -45000,
+          "mental": 10,
+          "tint": 1
+        },
+        "flags": [
+          "daeun_sea_5years"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": 5
+          }
+        },
+        "result_text": "발목까지 물이 차자 다은이 비명 반 웃음 반으로 {name}의 팔을 붙잡았다.\n\"차가워요! …근데 안 나갈래요.\"\n5년치를 한 번에 웃는 사람 옆에서, {name}도 그냥 웃었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_sea_jiyeon",
+    "title": "해운대",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "ktx_window",
+    "portrait": "jiyeon_warm",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon",
+      "romance",
+      "season"
+    ],
+    "description": "\"해운대는 내 구역이야.\" 부산역에 내리자 지연의 말투부터 달라졌다.\n시장 골목, 물회 잘하는 집, 파라솔 흥정까지 — 그녀는 정말로 홈그라운드였다.\n그런데 물에 들어가자는 말에, 파라솔 밑에서 그녀가 움직이지 않았다.\n\"…오빠, 웃지 마.\" 지연이 선글라스를 벗지 않고 말했다.\n\"나 수영 못 해.\"",
+    "choices": [
+      {
+        "text": "웃는다 — 참으려다 실패한다.",
+        "effects": {
+          "money": -60000,
+          "mental": 6,
+          "tint": 1
+        },
+        "flags": [
+          "jiyeon_cant_swim"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 4
+          }
+        },
+        "result_text": "\"야!\" 지연이 모래를 한 줌 던졌다. 도도가 무너진 건 그 한 번뿐이었다.\n\"…해운대에서 자란 애들이 다 수영하는 건 아니야.\" 회복은 빨랐다.\n그날 그녀는 발목 깊이까지만 들어갔고, 그걸로 충분해 보였다."
+      },
+      {
+        "text": "\"그럼 내가 잡고 있을게요. 무릎까지만.\"",
+        "effects": {
+          "money": -60000,
+          "mental": 8,
+          "tint": 2
+        },
+        "flags": [
+          "jiyeon_cant_swim"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 8
+          }
+        },
+        "result_text": "지연이 선글라스 너머로 한참 {name}을 봤다.\n\"…무릎까지다.\" 그녀가 손을 내밀었다.\n파도가 올 때마다 손에 힘이 들어왔다. 그 손을 웃지 않고 잡고 있는 게 {name}의 일이었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_fireworks_daeun",
+    "title": "불꽃, 옆얼굴",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "hangang_riverside",
+    "portrait": "daeun_smile",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "daeun",
+      "romance",
+      "season",
+      "hangang"
+    ],
+    "description": "여의도 불꽃축제. 약속 장소에 나온 다은을 {name}은 한 번에 못 알아봤다.\n처음 보는 원피스였다.\n\"…유니폼 아닌 거, 처음 보죠.\" 그녀가 먼저 말했다. 시선을 어디 둘지 모르는 얼굴로, 그래도 숨기지는 않고.\n{name}이 대답을 고르는 3초의 정적.",
+    "choices": [
+      {
+        "text": "\"예뻐요.\" — 3초를 넘기기 전에.",
+        "effects": {
+          "mental": 6,
+          "tint": 2
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 8
+          }
+        },
+        "result_text": "다은이 웃음을 참다가 실패했다.\n\"…거짓말이어도 오늘은 믿을래요.\"\n거짓말이 아니었다. 첫 불꽃이 터졌고, 사람들이 일제히 하늘을 봤다."
+      },
+      {
+        "text": "불꽃이 터지는 순간, 하늘 대신 옆얼굴을 본다.",
+        "effects": {
+          "mental": 8,
+          "tint": 2
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 6
+          }
+        },
+        "result_text": "펑 — 하늘이 밝아질 때마다 그녀 얼굴에 색이 얹혔다.\n다은은 불꽃을 보고, {name}은 그걸 보는 사람을 봤다.\n\"…민준씨, 안 봐요?\" \"보고 있어요.\"\n서로 다른 걸 보고 한 대답이었다."
+      },
+      {
+        "text": "인파에 밀리기 전에 손을 잡는다.",
+        "effects": {
+          "mental": 5,
+          "tint": 1
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 5
+          }
+        },
+        "result_text": "손을 잡자 다은이 놀랐다가, 이내 힘을 마주 줬다.\n\"놓치면 못 찾아요, 우리.\"\n그 말이 오늘 밤보다 멀리까지 갔다."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_fireworks_jiyeon",
+    "title": "반전룩",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "hangang_riverside",
+    "portrait": "jiyeon_warm",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon",
+      "romance",
+      "season",
+      "hangang"
+    ],
+    "description": "여의도 불꽃축제. 후드티에 운동화 차림의 지연이 손을 흔들었다.\n정장도, 하이힐도, 명함도 없는 그녀였다.\n\"회사 사람들이 보면 기절할걸.\" 지연이 후드를 눌러썼다.\n인파가 밀려들자, 그녀가 먼저 {name}의 손을 잡았다.",
+    "choices": [
+      {
+        "text": "잡힌 손을 깍지로 고쳐 잡는다.",
+        "effects": {
+          "mental": 6,
+          "tint": 2
+        },
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 8
+          }
+        },
+        "result_text": "지연이 손을 내려다봤다. 0.5초.\n\"…인파 때문이야.\" 회복도 빨랐다. 손은 안 뺐다.\n첫 불꽃이 터졌다. 그녀가 하늘을 보는 사이, 깍지에 힘이 들어왔다."
+      },
+      {
+        "text": "\"이쪽 모습이 더 좋은데요.\"",
+        "effects": {
+          "mental": 5,
+          "tint": 1
+        },
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 6
+          }
+        },
+        "result_text": "\"…뭐가.\" 후드 밑에서 귀 끝이 빨개졌다.\n\"몰라. 불꽃이나 봐.\"\n그러면서 그녀는 후드를 벗었다."
+      },
+      {
+        "text": "불꽃이 터지는 순간, 하늘 대신 옆얼굴을 본다.",
+        "effects": {
+          "mental": 8,
+          "tint": 2
+        },
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 6
+          }
+        },
+        "result_text": "펑 — 불빛이 그녀 얼굴에서 색을 바꿨다.\n지연이 눈치채고 고개를 돌렸다. \"…뭘 봐.\"\n\"불꽃이요.\" \"거짓말.\" 그녀가 웃었다.\n하늘보다 가까운 데서 뭔가 터진 기분이었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_snow_daeun",
+    "title": "첫눈, 그 편의점 앞",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "convenience_night",
+    "portrait": "daeun_smile",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "daeun",
+      "romance",
+      "season"
+    ],
+    "description": "퇴근길에 첫눈이 왔다. 다은이 편의점 앞에서 기다리고 있었다 — 모든 게 시작된 그 편의점.\n손에는 캔커피 두 개.\n\"첫눈엔 이거죠.\" 그녀가 하나를 내밀었다. \"우리, 여기서 이러고 있던 거 기억나요?\"\n눈이 간판 불빛 속에서만 보였다가, 어둠 속으로 사라졌다.",
+    "description_if_known": {
+      "daeun_sea_5years": "퇴근길에 첫눈이 왔다. 다은이 편의점 앞에서 기다리고 있었다 — 모든 게 시작된 그 편의점. 손에는 캔커피 두 개.\n5년 만이라던 여름 바다에서, 계절이 하나씩 그녀에게 돌아오는 걸 봤다. 이번엔 첫눈이었다.\n\"첫눈엔 이거죠.\" 그녀가 하나를 내밀었다. \"우리, 여기서 이러고 있던 거 기억나요?\"\n눈이 간판 불빛 속에서만 보였다가, 어둠 속으로 사라졌다."
+    },
+    "choices": [
+      {
+        "text": "\"기억나요. 그때도 이 커피였어요.\"",
+        "effects": {
+          "mental": 8,
+          "tint": 2
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 8
+          }
+        },
+        "result_text": "\"맞아요. 민준씨 그때 되게… 추워 보였어요.\" 다은이 웃다가 말끝을 흐렸다.\n\"지금은 안 그래요. 지금은, 같이 있는 사람 같아요.\"\n캔이 식을 때까지 아무도 들어가자고 안 했다."
+      },
+      {
+        "text": "말없이 캔을 부딪친다 — 건배처럼.",
+        "effects": {
+          "mental": 6,
+          "tint": 1
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 5
+          }
+        },
+        "result_text": "탁. 캔끼리 부딪는 소리가 눈 오는 골목에 작게 울렸다.\n\"…뭐에 대한 건배예요?\" \"첫눈이요.\"\n다은이 웃었다. \"그럼 매년 해야겠네요, 이거.\""
+      }
+    ]
+  },
+  {
+    "id": "arc_season_snow_jiyeon",
+    "title": "와이퍼",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "gangnam_night",
+    "portrait": "jiyeon_warm",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon",
+      "romance",
+      "season"
+    ],
+    "description": "데려다주는 차 안에서 첫눈이 시작됐다. 와이퍼가 두 번 눈을 밀어냈다.\n집 앞 골목. 차를 세우고도 지연은 내리라는 말을 안 했다. 그러다 와이퍼를 껐다.\n앞유리에 눈이 쌓이기 시작했다. 불빛이 뭉개지고, 차 안만 남았다.\n\"오빠, 잠깐만.\" 그녀가 말했다. \"이대로 있자.\"",
+    "description_if_known": {
+      "jiyeon_cant_swim": "데려다주는 차 안에서 첫눈이 시작됐다. 와이퍼가 두 번 눈을 밀어냈다.\n집 앞 골목. 차를 세우고도 지연은 내리라는 말을 안 했다. 그러다 와이퍼를 껐다.\n앞유리에 눈이 쌓이기 시작했다.\n물은 무서워하던 사람이, 눈은 쌓이는 걸 끝까지 보고 있었다. 해운대에서 끝내 깊은 물엔 들어가지 않던 그 사람이.\n\"오빠, 잠깐만.\" 그녀가 말했다. \"이대로 있자.\""
+    },
+    "choices": [
+      {
+        "text": "시동을 끈다 — 눈 쌓이는 소리까지 듣는다.",
+        "effects": {
+          "mental": 8,
+          "tint": 2
+        },
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 8
+          }
+        },
+        "result_text": "엔진이 멎자 세상이 조용해졌다. 눈은 소리가 없는데, 쌓이는 건 들리는 것 같았다.\n\"…나 이런 거 하는 사람 아니야.\" 지연이 앞유리를 보며 말했다.\n\"압니다.\" \"…오빠 앞에서만 이래.\"\n유리가 하얗게 다 덮일 때까지, 둘 다 내리지 않았다."
+      },
+      {
+        "text": "\"녹기 전에 잠깐 걸을까요.\"",
+        "effects": {
+          "mental": 6,
+          "tint": 1
+        },
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 5
+          }
+        },
+        "result_text": "지연이 {name}을 봤다. \"…첫눈에 걷자는 거, 오빠 되게 옛날 사람 같아.\"\n그러면서 안전벨트는 벌써 풀고 있었다.\n골목 가로등 밑, 눈 위에 두 사람 발자국이 먼저 찍혔다."
+      }
+    ]
+  }
+]

@@ -97,6 +97,7 @@ const EVENT_PATHS = [
 	"res://content/events/arc_romance_y5.json",
 	"res://content/events/arc_h2_beats.json",
 	"res://content/events/arc_date_milestones.json",
+	"res://content/events/arc_season_dates.json",
 ]
 const ASSETS_PATH = "res://content/assets.json"
 const JOBS_PATH = "res://content/jobs.json"
@@ -169,6 +170,7 @@ const ACHIEVEMENT_TEXT_EN := {
 	"reputation_legend": {"name": "Beginning of a Legend", "description": "Your reputation became legendary. Your name is a brand.", "hint": "Reach the reputation legend ending"},
 	"ten_lives": {"name": "Ten Lives", "description": "Lived ten lives. Gangnam no longer feels unfamiliar.", "hint": "Play 10 runs"},
 	"beat_addiction": {"name": "Thirty Circles", "description": "Hit the bottom of gambling addiction and climbed back up. The strongest graduation.", "hint": "Complete the addiction recovery arc"},
+	"four_seasons": {"name": "Four Seasons", "description": "Spent spring, summer, fall, and winter — all four — with one person.", "hint": "Some years are beautiful four times"},
 }
 
 const CLUE_TEXT_EN := {

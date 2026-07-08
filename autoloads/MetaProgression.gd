@@ -426,6 +426,10 @@ func record_run(summary):
 	if rf.get("beat_addiction", false):
 		data["beat_addiction_ever"] = true
 		unlock_achievement("beat_addiction")
+	# 히든 업적 "사계" — 한 런에서 계절 스페셜 데이트 4종(벚꽃·바다·불꽃·첫눈)을 모두 경험
+	if int(rf.get("last_cherry_date_year", 0)) > 0 and int(rf.get("last_sea_date_year", 0)) > 0 \
+			and int(rf.get("last_fireworks_date_year", 0)) > 0 and int(rf.get("last_snow_date_year", 0)) > 0:
+		unlock_achievement("four_seasons")
 
 	_check_progression_unlocks(summary)
 	save_meta()
