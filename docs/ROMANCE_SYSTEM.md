@@ -228,3 +228,18 @@
 - **4대 가치 정점**: 남산 야경 "타워가 묻는다" 4문(원형)
 
 > **판정 규율**: 위 레지스트리 씬을 신규/수정할 때 6요소 루브릭을 체크리스트로 적용. 골드 스탠다드 예시 = `arc_daeun_first_night`(그 밤), `arc_daeun_wedding_night`/`arc_jiyeon_wedding_night`(첫날밤). 성인 명시는 별도 patch slot(§5) — 본편은 tasteful 상한 유지.
+
+### 8-A. 산문 밀도 티어링 + 격상 로드맵 (유저 결정 2026-07-08: "정점+진짜 얇은 것")
+
+> **Tier0 (랜덤 풀·주간 필러·amb)**: 의도적 타이트. 몽타주 압축 대상 — 늘리지 않는다.
+> **Tier1 (레지스트리 정점 §8)**: 풀 소설급(그 밤/첫날밤 수준). 6요소 전부.
+> **Tier2 (그 외 아크 스파인)**: 산문 바닥선 — 감각 근거 1+ / 내면 1+ / 여운 1줄. "요약으로 때움" 금지. 분량은 정점보다 아래, 그러나 두세 문장 금지.
+> **격상 제외(의도적 여백)**: `chapter_cards`(연도 마커), `arc_year_close`(짧은 성찰), 그리고 이미 충분한 180자+ 스파인.
+
+**격상 로드맵 (감사 2026-07-08, desc<160자 기준 108종 → 배치)**
+- **패스 R (진행 중, Tier1 정점)**: 첫 키스 2종·어머니의 밥상·좁은 방·남산 자물쇠·여름 바다·불꽃축제 — `arc_date_milestones`/`arc_romance_specials`/`arc_season_dates`.
+- **패스 S (Tier1 정점, 상철/재혁/아버지 진실)**: `arc_drama`(sangchul_confrontation·sangchul_reckoning·jaehyuk_mirror·father_passing·father_call_on_ktx), `arc_events`(sangchul_card_at_confrontation·jaehyuk_photo_in_dark·hyunsu_lifeline_call·father_05_after_visit), `arc_web_crossbeams`(father_records). 유물 제시(웨이브 3b)와 같은 장면이라 동기.
+- **패스 H (Tier2, 현수 라인)**: `arc_hyunsu` 8종(exam/result/pivot/reunion — 60~148자, 최우선 저술 부족), `arc_h2_beats` 9종.
+- **패스 M (Tier2, 미드게임 스파인)**: `arc_midgame` 핵심 비트(goshiwon_goodbye·money_loneliness·goal_vertigo·father_medication 등 — 전 37종 아닌 서사 하중 큰 것 선별), `story_events` 14종.
+- **패스 D (Tier2, 로맨스 주변 아크)**: `arc_daeun_extension` 4·`arc_year3_drama` 7(지연 부산 라인)·`arc_daeun`/`arc_romance_y5`·`arc_specialization` 3.
+> 각 패스: 정점=6요소 풀, 연결=바닥선. 기계 필드·dik 키 불변, KR+EN 동시, audit/en_coverage 통과. Claude 판정 후 커밋.
