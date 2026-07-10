@@ -64,6 +64,7 @@
   },
   {
     "id": "arc_jiyeon_verdict",
+    "direction": {"pace": "slow", "amb": "duck", "sting": "cold"},
     "title": "이렇게 살 사람",
     "category": "story",
     "rarity": "story",

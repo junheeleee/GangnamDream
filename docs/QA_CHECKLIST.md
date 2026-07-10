@@ -22,7 +22,7 @@ Use this checklist before major commits, playable builds, and release candidates
 | Change area | Fast QA command |
 |---|---|
 | Splash, opening, StartMenu press-any-key, start menu, content notice | `--qa=start-en` |
-| StoryMode/VN intro events, choices, chapter card | `--qa=story-en` |
+| StoryMode/VN intro events, choices, chapter card, scene direction framing | `--qa=story-en` |
 | Main AP screen, warning state, people pressure grind hints, routine modal/time record, market ticker/info panel, keepsake thumbnails, action modals, people modal pages | `--qa=ap-en` |
 | AP Act 1~5 action rail evolution, no-scroll 4-slot regression, ACT4 relationship pressure modal | `--qa=ap-act-en` |
 | Investment modal Trade/Holdings/Market movers/Bank pages | `--qa=invest-en` |
@@ -64,10 +64,12 @@ Command template:
 
 ## Event System
 - Event conditions work.
+- Every `content/events/*.json` file is registered in `DataRegistry.EVENT_PATHS`.
 - Rare and hidden events respect unlock rules.
 - Repeated events are prevented or reduced.
 - Chained events can follow previous choices.
 - Invalid event data fails safely.
+- `SceneDirectionCheck.tscn` passes hold, camera, beat, sting, ambience restore, and BGM continuity.
 
 ## News And Market
 - Monthly news generates.

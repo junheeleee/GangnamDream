@@ -413,7 +413,14 @@ EVENT_ROOT_KEYS = {"id", "title", "description", "category", "rarity", "weight",
                    "timed", "timer_seconds",
                    "description_orthodox", "description_unorthodox",
                    "description_low_mental", "description_long_gosiwon",
-                   "description_if_known"}
+                   "description_if_known", "direction"}
+DIRECTION_KEYS = {"pace", "amb", "sting", "camera", "hold"}
+DIRECTION_VALUES = {
+    "pace": {"slow", "beat"},
+    "amb": {"cut", "duck"},
+    "sting": {"reveal", "loss", "cold"},
+    "camera": {"slow_zoom", "drift"},
+}
 # apply_choice()가 실제로 처리하는 선택지 키 + 주석용 키
 CHOICE_KEYS = {"text", "effects", "flags", "follow_up_event", "result_text",
                "opportunity", "cast_effects", "relationship_effects",
@@ -437,6 +444,26 @@ def _match_arm_keys(src, func_pattern):
             keys.update(re.findall(r'"([a-z_][a-z0-9_]*)"', s))
     return keys
 
+def check_event_registry_coverage():
+    """모든 이벤트 JSON이 런타임 DataRegistry에 실제로 연결됐는지 확인한다."""
+    registry_path = os.path.join(ROOT, "autoloads", "DataRegistry.gd")
+    registry_src = open(registry_path, encoding="utf-8").read()
+    registered_list = re.findall(r'res://content/events/([^"\n]+\.json)', registry_src)
+    registered = set(registered_list)
+    disk = {
+        os.path.basename(path)
+        for path in glob.glob(os.path.join(ROOT, "content", "events", "*.json"))
+    }
+    duplicates = sorted(name for name in registered if registered_list.count(name) > 1)
+    missing = sorted(disk - registered)
+    dangling = sorted(registered - disk)
+    if duplicates:
+        err("DataRegistry EVENT_PATHS 중복 등록: %s" % ", ".join(duplicates))
+    if missing:
+        err("DataRegistry EVENT_PATHS 미등록 이벤트 파일: %s" % ", ".join(missing))
+    if dangling:
+        err("DataRegistry EVENT_PATHS가 없는 파일을 참조: %s" % ", ".join(dangling))
+
 def check_event_keys():
     gs = open(os.path.join(ROOT, "autoloads", "GameState.gd"), encoding="utf-8").read()
     em = open(os.path.join(ROOT, "autoloads", "EventManager.gd"), encoding="utf-8").read()
@@ -457,6 +484,19 @@ def check_event_keys():
             for k in e.keys():
                 if k not in EVENT_ROOT_KEYS:
                     warn('%s  [%s] 모르는 이벤트 루트 키 "%s"' % (rel(p), eid, k))
+            direction = e.get("direction")
+            if direction is not None:
+                if not isinstance(direction, dict):
+                    err('%s  [%s] direction은 object여야 함' % (rel(p), eid))
+                else:
+                    for dk, dv in direction.items():
+                        if dk not in DIRECTION_KEYS:
+                            err('%s  [%s] direction 미지 필드 "%s"' % (rel(p), eid, dk))
+                        elif dk == "hold":
+                            if not isinstance(dv, (int, float)) or isinstance(dv, bool) or not 0.5 <= float(dv) <= 2.0:
+                                err('%s  [%s] direction.hold는 0.5~2.0초 숫자여야 함' % (rel(p), eid))
+                        elif dv not in DIRECTION_VALUES.get(dk, set()):
+                            err('%s  [%s] direction.%s 값 "%s"를 렌더러가 처리하지 않음' % (rel(p), eid, dk, dv))
             cond = e.get("conditions", {})
             if isinstance(cond, dict):
                 for k in cond.keys():
@@ -952,6 +992,7 @@ def main():
     check_events()
     check_flags()
     check_serialize()
+    check_event_registry_coverage()
     check_event_keys()
     check_cast_stages()
     check_dead_arc_events()

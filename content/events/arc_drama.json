@@ -56,6 +56,7 @@
   },
   {
     "id": "arc_sangchul_deduction",
+    "direction": {"pace": "beat", "sting": "reveal"},
     "title": "걸어둔 이름",
     "background": "goshiwon_room",
     "portrait": "player_normal",
@@ -115,6 +116,7 @@
   },
   {
     "id": "arc_father_06_confession",
+    "direction": {"pace": "slow", "amb": "duck"},
     "title": "아버지의 비밀",
     "background": "goshiwon_room",
     "portrait": "player_shocked",
@@ -209,6 +211,7 @@
   },
   {
     "id": "arc_sangchul_confrontation",
+    "direction": {"pace": "slow", "amb": "cut", "sting": "cold", "hold": 1.5},
     "title": "질문",
     "background": "cafe",
     "portrait": "sangchul_serious",
@@ -292,6 +295,7 @@
   },
   {
     "id": "arc_sangchul_reckoning",
+    "direction": {"pace": "beat", "sting": "reveal"},
     "title": "미안하다",
     "background": "cafe",
     "portrait": "sangchul_serious",
@@ -461,6 +465,7 @@
   },
   {
     "id": "arc_father_passing",
+    "direction": {"pace": "slow", "amb": "cut", "sting": "loss", "camera": "drift", "hold": 2.0},
     "title": "세 번의 부재",
     "background": "hospital",
     "category": "story",

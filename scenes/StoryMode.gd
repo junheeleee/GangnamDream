@@ -28,6 +28,14 @@ var _showing_choices: bool = false
 var _transitioning: bool = false
 var _pending_after_result: bool = false
 var _pending_follow_up: String = ""
+var _direction: Dictionary = {}
+var _direction_camera_tween: Tween = null
+var _direction_hold_active: bool = false
+var _direction_hold_consumed: bool = false
+var _direction_hold_remaining: float = 0.0
+var _direction_beat_waiting: bool = false
+var _direction_beat_remaining: float = 0.0
+var _direction_pending_text: String = ""
 
 # ── 노드 ──────────────────────────────────────────────────────
 var _bg_img: TextureRect
@@ -639,6 +647,8 @@ func _load_next_event():
 	_render_current()
 
 func _render_current():
+	_reset_scene_direction()
+	_prepare_scene_direction()
 	_play_story_ink_transition("scene", 0.80)
 	_showing_choices = false
 	_clear_result_record_card()
@@ -684,6 +694,7 @@ func _render_current():
 	_apply_story_surface_palette(_current_uses_cg)
 	BGMPlayer.update_event_ambience(_current)
 	AudioManager.play_event_cue(_current)
+	_apply_scene_direction_entry()
 
 	# 초상화 + 이름표 — bg_focus:true 장면은 배경만(초상화 생략)
 	var pid = str(_current.get("portrait", ""))
@@ -782,6 +793,107 @@ func _set_portrait_choice_focus(choices_visible: bool) -> void:
 	tw.tween_property(_portrait_frame, "offset_left", PORTRAIT_OFFSET_LEFT + target_shift, 0.22).set_trans(Tween.TRANS_SINE)
 	tw.tween_property(_portrait_frame, "offset_right", PORTRAIT_OFFSET_RIGHT + target_shift, 0.22).set_trans(Tween.TRANS_SINE)
 
+# ── 장면 연출 디렉션 ─────────────────────────────────────────
+func _prepare_scene_direction() -> void:
+	var raw: Variant = _current.get("direction", {})
+	_direction = raw.duplicate(true) if raw is Dictionary else {}
+	_direction_hold_consumed = false
+
+func _reset_scene_direction() -> void:
+	if _direction_camera_tween and _direction_camera_tween.is_running():
+		_direction_camera_tween.kill()
+	_direction_camera_tween = null
+	if is_instance_valid(_bg_img):
+		_bg_img.scale = Vector2.ONE
+		_bg_img.position = Vector2.ZERO
+		_bg_img.pivot_offset = _bg_img.size * 0.5
+	_direction_hold_active = false
+	_direction_hold_consumed = false
+	_direction_hold_remaining = 0.0
+	_direction_beat_waiting = false
+	_direction_beat_remaining = 0.0
+	_direction_pending_text = ""
+	_direction = {}
+	BGMPlayer.restore_ambience()
+
+func _apply_scene_direction_entry() -> void:
+	if _direction.is_empty():
+		return
+	var ambience_mode: String = str(_direction.get("amb", ""))
+	if ambience_mode == "cut":
+		BGMPlayer.clear_ambience()
+	elif ambience_mode == "duck":
+		BGMPlayer.duck_ambience(-8.0, 0.45)
+	var sting: String = str(_direction.get("sting", ""))
+	if not sting.is_empty():
+		AudioManager.play_direction_sting(sting, str(_current.get("id", "")))
+	var camera: String = str(_direction.get("camera", ""))
+	if not camera.is_empty():
+		_start_scene_direction_camera(camera)
+
+func _start_scene_direction_camera(mode: String) -> void:
+	if not is_instance_valid(_bg_img) or _bg_img.texture == null:
+		return
+	if _direction_camera_tween and _direction_camera_tween.is_running():
+		_direction_camera_tween.kill()
+	_bg_img.pivot_offset = _bg_img.size * 0.5
+	_bg_img.position = Vector2.ZERO
+	var text_length: int = str(_current.get("description", "")).length()
+	var duration: float = clampf(7.0 + float(text_length) * 0.012, 7.0, 16.0)
+	_direction_camera_tween = create_tween()
+	_direction_camera_tween.set_trans(Tween.TRANS_SINE)
+	_direction_camera_tween.set_ease(Tween.EASE_IN_OUT)
+	if mode == "slow_zoom":
+		_bg_img.scale = Vector2.ONE
+		_direction_camera_tween.tween_property(_bg_img, "scale", Vector2(1.045, 1.045), duration)
+	elif mode == "drift":
+		_bg_img.scale = Vector2(1.04, 1.04)
+		_bg_img.position = Vector2(-12.0, 0.0)
+		_direction_camera_tween.tween_property(_bg_img, "position", Vector2(12.0, 0.0), duration)
+
+func _direction_type_interval() -> float:
+	return TYPE_SPEED / 0.60 if str(_direction.get("pace", "")) == "slow" else TYPE_SPEED
+
+func _begin_direction_beat(text: String) -> void:
+	_direction_beat_waiting = true
+	_direction_beat_remaining = 0.65
+	_direction_pending_text = text
+	_continue_hint.visible = false
+
+func _finish_direction_beat() -> void:
+	if not _direction_beat_waiting:
+		return
+	var text: String = _direction_pending_text
+	_direction_beat_waiting = false
+	_direction_beat_remaining = 0.0
+	_direction_pending_text = ""
+	_start_typing(text)
+
+func _should_begin_direction_hold() -> bool:
+	if _direction_hold_consumed or _pending_after_result:
+		return false
+	if _para_index != _paragraphs.size() - 1:
+		return false
+	var choices: Array = _current.get("choices", [])
+	return not choices.is_empty() and float(_direction.get("hold", 0.0)) >= 0.5
+
+func _begin_direction_hold() -> void:
+	_direction_hold_consumed = true
+	_direction_hold_active = true
+	_direction_hold_remaining = clampf(float(_direction.get("hold", 0.0)), 0.5, 2.0)
+	_continue_hint.visible = false
+
+func _complete_typing() -> void:
+	_type_pos = _type_full.length()
+	_typing = false
+	_body_lbl.text = _type_full
+	if _should_begin_direction_hold():
+		_begin_direction_hold()
+		return
+	_continue_hint.text = _tr("[%s] 또는 클릭", "[%s] or click") % ControllerHints.south() \
+			if ControllerHints.is_pad_active() else _tr("▼  클릭하여 계속", "▼  Click to continue")
+	_continue_hint.visible = true
+
 # ── 타이핑 효과 ───────────────────────────────────────────────
 var _type_accum: float = 0.0
 
@@ -794,23 +906,38 @@ func _start_typing(full_text: String):
 	_continue_hint.visible = false
 
 func _process(delta):
+	if _direction_hold_active:
+		_direction_hold_remaining -= delta
+		if _direction_hold_remaining <= 0.0:
+			_direction_hold_active = false
+			_direction_hold_remaining = 0.0
+			_show_choices()
+		return
+	if _direction_beat_waiting:
+		_direction_beat_remaining -= delta
+		if _direction_beat_remaining <= 0.0:
+			_finish_direction_beat()
+		return
 	if not _typing:
 		return
 	_type_accum += delta
-	while _type_accum >= TYPE_SPEED and _type_pos < _type_full.length():
-		_type_accum -= TYPE_SPEED
+	var interval: float = _direction_type_interval()
+	while _type_accum >= interval and _type_pos < _type_full.length():
+		_type_accum -= interval
 		_type_pos += 1
 	if _type_pos >= _type_full.length():
-		_type_pos = _type_full.length()
-		_typing = false
-		_continue_hint.text = _tr("[%s] 또는 클릭", "[%s] or click") % ControllerHints.south() \
-				if ControllerHints.is_pad_active() else _tr("▼  클릭하여 계속", "▼  Click to continue")
-		_continue_hint.visible = true
-	_body_lbl.text = _type_full.substr(0, _type_pos)
+		_complete_typing()
+	else:
+		_body_lbl.text = _type_full.substr(0, _type_pos)
 
 # ── 입력: 클릭하여 진행 ───────────────────────────────────────
 func _on_advance():
 	if _transitioning or _showing_choices:
+		return
+	if _direction_hold_active:
+		return
+	if _direction_beat_waiting:
+		_finish_direction_beat()
 		return
 	# 챕터 카드 모드 — 클릭하면 첫 번째 선택지 자동 적용 후 진행
 	if _is_chapter_card:
@@ -818,15 +945,15 @@ func _on_advance():
 		return
 	# 타이핑 중이면 즉시 완성
 	if _typing:
-		_typing = false
-		_type_pos = _type_full.length()
-		_body_lbl.text = _type_full
-		_continue_hint.visible = true
+		_complete_typing()
 		return
 	# 다음 문단
 	_para_index += 1
 	if _para_index < _paragraphs.size():
-		_start_typing(_paragraphs[_para_index])
+		if str(_direction.get("pace", "")) == "beat":
+			_begin_direction_beat(str(_paragraphs[_para_index]))
+		else:
+			_start_typing(str(_paragraphs[_para_index]))
 		return
 	# 문단 끝에 도달
 	if _pending_after_result:
@@ -1649,6 +1776,7 @@ func _finish_all():
 		return
 	_transitioning = true
 	EventManager.current_event = {}
+	_reset_scene_direction()
 	BGMPlayer.update_idle_ambience()
 	# MainGame이 '달을 다시 시작하지 않도록' 복귀 플래그 설정
 	GameState.returning_from_story = true
@@ -1658,6 +1786,9 @@ func _finish_all():
 		ret = "res://scenes/MainGame.tscn"
 	GameState.story_return_scene = ""
 	SceneTransition.go(ret)
+
+func _exit_tree() -> void:
+	BGMPlayer.restore_ambience()
 
 func _fmt(s: String) -> String:
 	return GameState.format_event_text(s)

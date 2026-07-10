@@ -12,10 +12,10 @@
 | **목표 지표** | Steam 유저 평가 **"압도적으로 긍정적"(95%+)**. (Metacritic 90은 방향이지 지표가 아님 — DECISIONS 2026-07-07) |
 | **상품 정의** | "강남 가는 게임"이 아니라 **"영혼이 색으로 무너지는 걸 지켜보는 게임"** — MORAL_TINT + description_if_known(재독) + 잃을 수 있는 결혼. 마케팅·데모·트레일러 전부 이 하나로 정렬. |
 | **이번 스프린트 (5레버)** | ①**루프 압축(몽타주)** ✅완료 ②**데모 훅** ✅완료(콜드오픈+SNS dik 양변주) ③**클립 가능성** ✅완료(시간의 기록 비주얼 카드+데모판) ④**EN 일관성** ✅완료 ⑤**오디오 정체성** ✅완료(moral band BGM 질감 전이+선택적 3변주 슬롯) |
-| **최근 완료** | **2026-07-10** — **Codex 오디오 moral-shift P2-5 완료**: BGM 전용 버스/low-pass 레이어 추가, moral stage 전이 때만 2.4초 질감 변화, 메뉴/밝은 방향 전대역 복귀, 곡 재시작 없음. 선택적 `neutral/dark/white` 3변주 팩은 3파일 all-or-none 게이트로 배선. `BGMContinuityCheck`, `AudioAssetCheck`, CompileCheck 통과. |
+| **최근 완료** | **2026-07-10** — **Codex 씬 연출 디렉션 P2-5.5 완료**: StoryMode에 `pace/amb/sting/camera/hold` 렌더러를 추가하고 정점 16장면에 절제된 호흡·주변음·원샷·Ken Burns를 배선. 신규 이벤트 JSON 27개가 `DataRegistry.EVENT_PATHS`에서 빠져 실제 재생 불가하던 기존 누락을 전부 복구하고 감사 래칫을 추가. `SceneDirectionCheck`, `BGMContinuityCheck`, story-en 실렌더, audit 통과. |
 | **이전 주요** | **2026-07-10** — Codex 잔인한 통계 리캡 P2-4 완료(`THE TIME LEDGER` 정식/데모 카드), 유물 오브젝트 아트 P1-4 완료, 시장 생동감 표면 P1-3 완료, 곁의 사람 표면 P1-2 완료, 몽타주 표면 P1-1 완료. **2026-07-08** — 미연시 웨이브 1~2 완료(데이트 AP·선물하기·첫 키스·계절 스페셜·루틴 심화·사계 업적). **2026-07-07** — 몽타주 시간 압축, main 병합 정합, EN 일관성 패스, 데모 훅, H2 비트 9종+계단 게이트, 시간의 기록. 전체 이력 → `docs/WORK_LOG.md` |
-| **다음 작업** | **웨이브 3**: ①특별 스토리 2종(7-A 시골의 이틀 t100-130 / 7-B 좁은 방 t150-175, 각 2연작) ②첫날밤 2종(존엄 페이드아웃+아침 비트) ③**유물 제시 메커니즘**(역전재판식 — 재혁 ghost·상철 대면·다은 이혼 담판·지연 verdict·아버지 병상 등 대면 6장면 한정 "(…무언가 꺼내 보인다)", 오답 무벌점·장면당 1회, 고아 유물 2종=다은 포스트잇→이혼 담판/지연 첫 문자→verdict, 첫 기회만 살짝 유도+히든 업적) ④엔딩 리캡 "간직한 것들"+이사 "두고 간다" 비트. **웨이브 4**: 히든 2종(7-H)+회상 갤러리(7-I)+업적 전수 감사. 그 외: 밸런스 다양화 패스(30억 3경로), 몽타주 실플레이 QA, 3대 목표 게이트(위) |
-| **마지막 업데이트** | 2026-07-10 (Codex: 오디오 moral-shift P2-5 완료 — WORK_LOG 2026-07-10) |
+| **다음 작업** | **Codex 외형**: P3-6 서울 지도 허브 M1(기존 AP 레일의 컨텍스트 프레임) → P3-7 엔딩 CG 그레이딩 파이프라인 → P3-8 플래시포워드 시각 오버라이드. **Claude 웨이브 3**: 특별 스토리·첫날밤·유물 제시·엔딩 리캡, 이후 웨이브 4 회상/업적. 그 외: 밸런스 다양화 패스(30억 3경로), 몽타주 실플레이 QA, 3대 목표 게이트(위) |
+| **마지막 업데이트** | 2026-07-10 (Codex: 씬 연출 디렉션 P2-5.5 + 이벤트 레지스트리 복구 완료 — WORK_LOG 2026-07-10) |
 
 **세션 시작 시 위 "다음 작업"부터. 유저가 다른 지시를 하면 그쪽 우선.**
 
@@ -85,7 +85,7 @@ python3 tools/arc_flow_sim.py                   # 아크 체인/잼 (아크 트�
 - 실렌더: `xvfb-run -a godot --display-driver x11 --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=<scope> --lang=en` (scope 매트릭스: `docs/QA_CHECKLIST.md`)
 - JSON 단건: `python3 -c "import json; json.load(open('파일.json'))"`
 
-audit.sh가 잡는 것(요약): dangling 동적 호출 / 폐기 키워드 / 이벤트 JSON 무결성 / 플래그 교차검증 / serialize 완전성(신규 var는 serialize 또는 audit.py SERIALIZE_EXEMPT) / 이벤트 키 화이트리스트 / cast stage 상태기계 / 밸런스 밴드 / 죽은 아크·stage 분기 / **구조 부채 래칫(write-only 0·inert 0)** / dik 섀도잉 / UI 이모지 표면 / 영어 표면 한글 스캐너 / Godot 컴파일. <!-- audit-ignore -->
+audit.sh가 잡는 것(요약): dangling 동적 호출 / 폐기 키워드 / 이벤트 JSON 무결성 / **DataRegistry 이벤트 파일 등록 누락** / 플래그 교차검증 / serialize 완전성(신규 var는 serialize 또는 audit.py SERIALIZE_EXEMPT) / 이벤트 키 화이트리스트 / cast stage 상태기계 / 밸런스 밴드 / 죽은 아크·stage 분기 / **구조 부채 래칫(write-only 0·inert 0)** / dik 섀도잉 / UI 이모지 표면 / 영어 표면 한글 스캐너 / Godot 컴파일. <!-- audit-ignore -->
 
 ### 새 이벤트 추가 체크
 - `id`=snake_case 전역 고유, `result_text` 빈 문자열 금지, `cooldown` 3+, `conditions` 없으면 `{}`

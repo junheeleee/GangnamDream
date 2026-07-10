@@ -137,6 +137,7 @@
   },
   {
     "id": "arc_daeun_02b_dream",
+    "direction": {"amb": "duck"},
     "title": "꿈 이야기",
     "background": "convenience_night",
     "portrait": "daeun_normal",
@@ -252,6 +253,7 @@
   },
   {
     "id": "arc_daeun_04_morning",
+    "direction": {"pace": "slow", "camera": "drift"},
     "title": "새벽의 이유",
     "background": "goshiwon_room",
     "portrait": "player_happy",

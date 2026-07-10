@@ -3024,6 +3024,7 @@
   },
   {
     "id": "arc_37_burn_or_light",
+    "direction": {"pace": "beat"},
     "title": "불씨냐 재냐",
     "background": "late_night",
     "portrait": "player_tired",

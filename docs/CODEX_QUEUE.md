@@ -154,7 +154,9 @@
 **함정**: 밴드 전이 시 **재시작 금지** — 크로스페이드만(_FADE_TIME 재사용). `on_ending` 스팅어 경로와 충돌 주의.
 **검증**: `BGMContinuityCheck`(전이 시 재시작 없음), `AudioAssetCheck`, 수동: tint −20 돌파 청감.
 
-## P2-5.5 씬 연출 디렉션 키 (Claude 선행분 완료 — 바로 착수 가능)
+## [x] P2-5.5 씬 연출 디렉션 키 (2026-07-10 Codex 완료)
+
+완료: StoryMode가 KR 이벤트 소스의 `direction`을 읽어 느린 타이핑/문단 beat, 앰비언스 cut·duck, 의미별 원샷 reveal·loss·cold, 배경 전용 slow zoom·drift, 최대 2초 선택지 hold를 렌더링한다. 일반 진행 입력은 slow/beat를 건너뛸 수 있고 hold만 대본 범위에서 잠깐 잠근다. 정점 16장면에 배선했으며 `SceneDirectionCheck`가 hold·camera·beat·sting·duck 복원과 BGM 연속성을 검증한다. 작업 중 발견한 `DataRegistry.EVENT_PATHS` 누락 27개도 전부 복구했고, 앞으로 디스크의 이벤트 JSON과 등록 목록이 어긋나면 audit가 실패한다.
 
 **정본**: `docs/SCENE_DIRECTION.md` — 스키마(pace/beat·amb cut/duck·sting 3종·camera Ken Burns·hold≤2s) + 규율(전체 ~5% 이하, 풀스택 런당 3~4회, 스킵 항상 허용) + **정점 16장면 연출 대본**(상철 대면·아버지 임종·이혼 풀스택 3장면). 구현 순서는 그 문서 4절.
 

@@ -1,5 +1,25 @@
 # Gangnam Dream Work Log
 
+## 2026-07-10 (Codex — scene direction renderer + event registry recovery)
+
+### 배경
+- 정점 장면도 일반 이벤트와 같은 속도·주변음·정지 화면으로 흘러가 감정의 호흡이 약했고, `docs/SCENE_DIRECTION.md`의 16장면 대본은 아직 데이터와 렌더러에 연결되지 않았다.
+- 실장 후 프로포즈 QA에서 `arc_daeun_romance.json`을 포함한 신규 이벤트 파일 일부가 저장소에는 존재하지만 `DataRegistry.EVENT_PATHS`에 없어 게임에서 영원히 로드되지 않는 기존 통합 누락을 발견했다.
+
+### 수정
+- StoryMode에 데이터 기반 `direction` 렌더러를 추가했다: `pace=slow/beat`, `amb=cut/duck`, `sting=reveal/loss/cold`, `camera=slow_zoom/drift`, `hold=0.5~2.0`.
+- 카메라 연출은 배경 TextureRect에만 적용해 초상화와 텍스트 가독성을 흔들지 않는다. 장면을 나가거나 다음 이벤트로 넘어가면 배경 transform과 앰비언스 duck이 반드시 복원된다.
+- 스팅은 BGM을 교체하지 않는 AudioManager 원샷으로 분리했다. 동일 장면 재진입 중 중복 재생을 막고 일반 SFX의 pitch를 다음 재생 전에 정상화한다.
+- 상철 대면·추론·결산, 아버지 고백·임종, 다은 프로포즈·결혼·마지막 선택, 지연 verdict·5년차 감정 등 정점 16장면에 대본의 direction을 배선했다.
+- `callback_events_35~55`, 챕터 테마 콜백, 다은/지연 결혼·로맨스, 웹 교차빔 등 누락 이벤트 JSON 27개를 런타임 레지스트리에 등록했다.
+- `tools/audit.py`에 direction 스키마/값 검사와 이벤트 파일 등록 완전성 검사를 추가했다. `SceneDirectionCheck`는 hold·slow zoom·beat·reveal sting·duck 복원·BGM 재생 위치 연속성을 자동 검증한다.
+
+### 검증
+- `tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드·EN zero-Hangul·AudioAssetCheck·CompileCheck 포함.
+- `SceneDirectionCheck.tscn` 통과: `hold=1.5 camera=slow_zoom beat=0.65 duck=-8db`.
+- `BGMContinuityCheck.tscn` 및 `python3 tools/arc_flow_sim.py` 통과.
+- `ScreenshotQA --qa=story-en --lang=en` 통과. 1280×800 상철 대면/다은 프로포즈 컷을 직접 확인해 텍스트·초상화·배경 프레이밍 이상 없음.
+
 ## 2026-07-10 (Codex — moral-band BGM texture pass)
 
 ### 배경

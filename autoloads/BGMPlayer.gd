@@ -64,6 +64,7 @@ var _ambience_tween: Tween
 var _moral_filter_tween: Tween
 var _procedural_stream: AudioStreamWAV  # 폴백 스트림 (1회 생성)
 var _current_ambience_key: String = ""
+var _ambience_duck_db: float = 0.0
 var _moral_filter: AudioEffectLowPassFilter
 var _bgm_bus_index: int = -1
 var _last_moral_stage: int = 0
@@ -189,13 +190,14 @@ func stop():
 	_active_key = ""
 	_fade_target_key = ""
 	_current_ambience_key = ""
+	_ambience_duck_db = 0.0
 
 func apply_volume(v: float):
 	volume = clampf(v, 0.0, 1.0)
 	_player_a.volume_db = _db(volume)
 	_player_b.volume_db = _db(0.0 if not _player_b.playing else volume)
 	if _ambience_player and _ambience_player.playing:
-		_ambience_player.volume_db = _db(volume * _AMBIENCE_VOLUME)
+		_ambience_player.volume_db = _ambience_target_db()
 
 # ── 매월 상태 체크 ─────────────────────────────────────────────
 func update_context():
@@ -247,10 +249,33 @@ func set_ambience(key: String) -> void:
 	_ambience_player.volume_db = -80.0
 	_ambience_player.play()
 	_ambience_tween = create_tween()
-	_ambience_tween.tween_property(_ambience_player, "volume_db", _db(volume * _AMBIENCE_VOLUME), 0.65)
+	_ambience_tween.tween_property(_ambience_player, "volume_db", _ambience_target_db(), 0.65)
 
 func clear_ambience() -> void:
 	set_ambience("")
+
+func duck_ambience(amount_db: float = -8.0, duration: float = 0.45) -> void:
+	_ambience_duck_db = minf(0.0, amount_db)
+	if not _ambience_player or not _ambience_player.playing:
+		return
+	if _ambience_tween and _ambience_tween.is_running():
+		_ambience_tween.kill()
+	_ambience_tween = create_tween()
+	_ambience_tween.tween_property(_ambience_player, "volume_db", _ambience_target_db(), maxf(0.05, duration))
+
+func restore_ambience(duration: float = 0.35) -> void:
+	if is_zero_approx(_ambience_duck_db):
+		return
+	_ambience_duck_db = 0.0
+	if not _ambience_player or not _ambience_player.playing:
+		return
+	if _ambience_tween and _ambience_tween.is_running():
+		_ambience_tween.kill()
+	_ambience_tween = create_tween()
+	_ambience_tween.tween_property(_ambience_player, "volume_db", _ambience_target_db(), maxf(0.05, duration))
+
+func _ambience_target_db() -> float:
+	return _db(volume * _AMBIENCE_VOLUME) + _ambience_duck_db
 
 func _pick_ambience(ev: Dictionary) -> String:
 	var tags: Array = ev.get("tags", [])

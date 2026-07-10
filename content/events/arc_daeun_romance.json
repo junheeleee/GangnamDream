@@ -59,6 +59,7 @@
   },
   {
     "id": "arc_daeun_proposal",
+    "direction": {"pace": "slow", "camera": "slow_zoom", "hold": 1.0},
     "title": "프로포즈",
     "category": "story",
     "rarity": "story",

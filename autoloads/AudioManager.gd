@@ -14,6 +14,8 @@ var _last_ending_stinger_id: String = ""
 var _last_ending_stinger_ms: int = 0
 var _last_event_cue_id: String = ""
 var _last_event_cue_ms: int = 0
+var _last_direction_sting_token: String = ""
+var _last_direction_sting_ms: int = 0
 
 const _SFX_COOLDOWN_MS = {
 	"click": 45,
@@ -211,6 +213,33 @@ func play(sound_id: String, volume_mod: float = 0.0):
 		if not p.playing:
 			p.stream    = _sounds[sound_id]
 			p.volume_db = _vol_db() + volume_mod
+			p.pitch_scale = 1.0
+			p.play()
+			return
+
+func play_direction_sting(kind: String, event_id: String = "") -> void:
+	var token: String = "%s:%s" % [event_id, kind]
+	var now: int = Time.get_ticks_msec()
+	if token == _last_direction_sting_token and now - _last_direction_sting_ms < 3500:
+		return
+	_last_direction_sting_token = token
+	_last_direction_sting_ms = now
+	match kind:
+		"reveal":
+			_play_shaped("ending_stinger_good", -11.0, 0.78)
+		"loss":
+			_play_shaped("ending_stinger_bad", -4.0, 0.90)
+		"cold":
+			_play_shaped("ending_stinger_bad", -10.0, 1.12)
+
+func _play_shaped(sound_id: String, volume_mod: float, pitch: float) -> void:
+	if not sfx_enabled or not _sounds.has(sound_id):
+		return
+	for p in _pool:
+		if not p.playing:
+			p.stream = _sounds[sound_id]
+			p.volume_db = _vol_db() + volume_mod
+			p.pitch_scale = clampf(pitch, 0.5, 2.0)
 			p.play()
 			return
 

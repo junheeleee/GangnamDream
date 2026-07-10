@@ -284,6 +284,7 @@
   },
   {
     "id": "arc_sangchul_01_meet",
+    "direction": {"camera": "drift"},
     "title": "왜 강남인가",
     "background": "realestate_office",
     "portrait": "sangchul_normal",
@@ -1357,6 +1358,7 @@
   },
   {
     "id": "arc_temptation_01",
+    "direction": {"sting": "cold"},
     "title": "쉬운 돈",
     "background": "goshiwon_room",
     "portrait": "player_tired",

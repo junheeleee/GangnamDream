@@ -63,6 +63,7 @@
   },
   {
     "id": "arc_jiyeon_y5_feelings",
+    "direction": {"camera": "drift", "amb": "duck"},
     "title": "두 개의 강남",
     "category": "story",
     "rarity": "story",
