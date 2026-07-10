@@ -174,6 +174,8 @@ const UI_ICON_PATHS := {
 
 var current_event: Dictionary = {}
 var prev_prices: Dictionary = {}
+var _last_market_ticker_pulse_turn: int = -1
+var _last_market_asset_pulse_turn: int = -1
 var pending_result_text: String = ""
 var _last_chosen_foreshadow: String = ""
 var _choice_countdown_timer: Timer = null
@@ -689,6 +691,41 @@ func _apply_money_label_style(label: Label, color: Color, shadow_color: Color, s
 		label.remove_theme_constant_override("shadow_outline_size")
 		label.remove_theme_constant_override("shadow_offset_x")
 		label.remove_theme_constant_override("shadow_offset_y")
+
+func _portfolio_value_at_prices(prices: Dictionary) -> float:
+	var total: float = 0.0
+	for raw_id in GameState.portfolio.keys():
+		var asset_id: String = str(raw_id)
+		var holding: Dictionary = GameState.portfolio.get(asset_id, {})
+		var qty: float = float(holding.get("quantity", 0.0))
+		var fallback: float = float(GameState.market_prices.get(asset_id, holding.get("avg_price", 0.0)))
+		var price: float = float(prices.get(asset_id, fallback))
+		total += qty * price
+	return total
+
+func _maybe_pulse_market_asset_label(_total_assets: float) -> void:
+	if _last_market_asset_pulse_turn == GameState.turn:
+		return
+	if GameState.portfolio.is_empty() or prev_prices.is_empty():
+		return
+	var before_value: float = _portfolio_value_at_prices(prev_prices)
+	var now_value: float = _portfolio_value_at_prices(GameState.market_prices)
+	var delta: float = now_value - before_value
+	if before_value <= 0.0 or absf(delta) < 10_000.0:
+		return
+	var delta_pct: float = delta / before_value * 100.0
+	if absf(delta_pct) < 0.05:
+		return
+	_last_market_asset_pulse_turn = GameState.turn
+	var lbl: Label = top_labels.get("money", null) as Label
+	if not is_instance_valid(lbl):
+		return
+	_pulse_node(lbl, 1.055, 0.34)
+	var base: Color = lbl.modulate
+	var target: Color = Color("#dff7ea") if delta >= 0.0 else Color("#f4d5d5")
+	var tw := create_tween()
+	tw.tween_property(lbl, "modulate", target, 0.10).set_trans(Tween.TRANS_SINE)
+	tw.tween_property(lbl, "modulate", base, 0.34).set_trans(Tween.TRANS_SINE)
 
 func _play_moral_choice_echo(delta_norm: float, previous_stage: int, new_stage: int) -> void:
 	# MORAL_TINT는 점수 표시가 아니라 "방금 선택 때문에 세계를 보는 렌즈가 변했다"는 체감이어야 한다.
@@ -3823,6 +3860,7 @@ func _refresh_all():
 	else:
 		top_labels["money"].text = cash_str if LocaleManager.is_english() else (_tr("현금 %s", "Cash %s") % cash_str)
 	_apply_money_moral_glow()
+	_maybe_pulse_market_asset_label(total_assets)
 	# AP 도트 (이벤트 없을 때만 표시, _render_ap_actions에서도 갱신)
 	var ap = GameState.action_points
 	top_labels["ap"].text = "%d/%d" % [ap, GameState.max_action_points]
@@ -4329,11 +4367,51 @@ func _render_news():
 		box.add_child(_wrap_label(text, 14, "#c8d0df"))
 		news_box.add_child(card)
 
+func _current_market_news_map() -> Dictionary:
+	var out: Dictionary = {}
+	var items: Array = NewsManager.last_news
+	if items.is_empty():
+		items = GameState.news_log.slice(maxi(0, GameState.news_log.size() - 5))
+	for news_v in items:
+		var news: Dictionary = news_v
+		var effect: Dictionary = news.get("market_effect", news.get("market_effects", {}))
+		var category: String = str(effect.get("category", ""))
+		if category.is_empty():
+			continue
+		var power: float = float(effect.get("power", 0.0))
+		var current: float = float(out.get(category, 0.0))
+		if absf(power) > absf(current):
+			out[category] = power
+	return out
+
+func _market_news_marker(category: String, news_map: Dictionary) -> String:
+	var power: float = float(news_map.get(category, 0.0))
+	if absf(power) < 0.001:
+		return ""
+	var color: String = "#00c896" if power >= 0.0 else "#ff6b6b"
+	return "[color=%s]·[/color] " % _info_signal_hex(color, 0.05)
+
+func _pulse_market_ticker(strongest_move: float) -> void:
+	if not is_instance_valid(ticker_rtl):
+		return
+	if _last_market_ticker_pulse_turn == GameState.turn:
+		return
+	if absf(strongest_move) < 0.05:
+		return
+	_last_market_ticker_pulse_turn = GameState.turn
+	var base: Color = ticker_rtl.modulate
+	var target: Color = Color("#dff7ea") if strongest_move >= 0.0 else Color("#f4d6d6")
+	ticker_rtl.modulate = base.lerp(target, 0.34)
+	var tw := create_tween()
+	tw.tween_property(ticker_rtl, "modulate", base, 0.55).set_trans(Tween.TRANS_SINE)
+
 func _render_sidebars():
 	# ── 시세 패널: RichTextLabel 단일 업데이트 ──
 	if ticker_rtl:
 		var lines: PackedStringArray = PackedStringArray()
 		lines.append("[color=%s][b]MARKET TICKER[/b][/color]" % _info_signal_hex("#3fb950"))
+		var news_map: Dictionary = _current_market_news_map()
+		var strongest_move: float = 0.0
 		for row in investment_system.get_asset_rows().slice(0, 12):
 			var asset_id = row["id"]
 			var price = float(row["price"])
@@ -4349,6 +4427,8 @@ func _render_sidebars():
 			elif change_pct < -0.05:
 				pct_str = " %.1f%%" % change_pct
 				color = "#ff4444"
+			if absf(change_pct) > absf(strongest_move):
+				strongest_move = change_pct
 			var owned_str = ""
 			if float(row["owned_value"]) > 0:
 				owned_str = "  [color=%s]• %s[/color]" % [_info_signal_hex("#c9a227"), GameState.format_money(row["owned_value"])]
@@ -4358,9 +4438,11 @@ func _render_sidebars():
 			var mini_spark = ""
 			if spark_hist.size() >= 2:
 				mini_spark = "  " + _price_sparkline(spark_hist.slice(max(0, spark_hist.size() - 6)))
-			lines.append("[color=%s]%s  %s%s%s  %s%s[/color]" % [_info_signal_hex(color), row["name"], GameState.format_money(price), pct_str, owned_str, risk_dots, mini_spark])
+			var marker: String = _market_news_marker(str(row.get("category", "")), news_map)
+			lines.append("%s[color=%s]%s  %s%s%s  %s%s[/color]" % [marker, _info_signal_hex(color), row["name"], GameState.format_money(price), pct_str, owned_str, risk_dots, mini_spark])
 		ticker_rtl.clear()
 		ticker_rtl.append_text("\n".join(lines))
+		_pulse_market_ticker(strongest_move)
 
 	_clear_box(relationship_box)
 	relationship_box.add_child(_info_section_title(_tr("내 사람들", "Relationships"), "#d8b4fe"))
@@ -10378,13 +10460,11 @@ func _render_investment_market_page() -> void:
 	if movers.is_empty():
 		_invest_page_body.add_child(_build_investment_empty_card(_tr("가격 기록 축적 중입니다.", "Price history is still building."), "#64748b"))
 	else:
+		var news_map: Dictionary = _current_market_news_map()
 		for i in range(mini(4, movers.size())):
 			var row: Dictionary = movers[i].get("row", {})
 			var delta := float(movers[i].get("delta", 0.0))
-			var color := "#34d399" if delta >= 0.0 else "#ff7070"
-			_invest_page_body.add_child(_build_investment_empty_card(
-				"%s   %s   %+.1f%%" % [str(row.get("name", row.get("id", ""))), GameState.format_money(float(row.get("price", 0.0))), delta],
-				color))
+			_invest_page_body.add_child(_build_market_mover_card(row, delta, news_map))
 
 func _render_investment_bank_page() -> void:
 	_invest_page_body.add_child(_build_investment_page_caption(
@@ -10424,6 +10504,86 @@ func _build_investment_empty_card(text: String, accent: String) -> Control:
 	st.content_margin_bottom = 8
 	panel.add_theme_stylebox_override("panel", st)
 	panel.add_child(_wrap_label(text, 13, "#cbd5e1"))
+	return panel
+
+func _build_market_mover_card(row: Dictionary, delta: float, news_map: Dictionary) -> Control:
+	var asset_id: String = str(row.get("id", ""))
+	var category: String = str(row.get("category", ""))
+	var price: float = float(row.get("price", 0.0))
+	var color: String = "#34d399" if delta >= 0.0 else "#ff7070"
+	var hist: Array = GameState.price_history.get(asset_id, [])
+	var spark_hist: Array = hist.slice(maxi(0, hist.size() - 8))
+	var sparkline: String = _price_sparkline(spark_hist)
+	var has_news: bool = absf(float(news_map.get(category, 0.0))) >= 0.001
+	var owned_value: float = float(row.get("owned_value", 0.0))
+
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#090d13")
+	st.border_color = Color(_info_signal_hex(color, 0.04))
+	st.set_border_width_all(1)
+	st.border_width_left = 4
+	st.set_corner_radius_all(6)
+	st.content_margin_left = 12
+	st.content_margin_right = 12
+	st.content_margin_top = 7
+	st.content_margin_bottom = 7
+	panel.add_theme_stylebox_override("panel", st)
+
+	var main := HBoxContainer.new()
+	main.add_theme_constant_override("separation", 12)
+	main.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.add_child(main)
+
+	var left := VBoxContainer.new()
+	left.add_theme_constant_override("separation", 2)
+	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	main.add_child(left)
+
+	var name_row := HBoxContainer.new()
+	name_row.add_theme_constant_override("separation", 7)
+	left.add_child(name_row)
+
+	var asset_name: String = str(row.get("name", asset_id))
+	var name_lbl: Label = _label(asset_name, 14, "#eef3f8")
+	name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	name_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	if _font_bold:
+		name_lbl.add_theme_font_override("font", _font_bold)
+	name_row.add_child(name_lbl)
+
+	if has_news:
+		var news_chip: Label = _label("NEWS", 9, _info_signal_hex(color, 0.05))
+		news_chip.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		news_chip.custom_minimum_size = Vector2(42, 0)
+		if _font_bold:
+			news_chip.add_theme_font_override("font", _font_bold)
+		name_row.add_child(news_chip)
+
+	var spark_lbl: Label = _label(sparkline, 13, _info_signal_hex(color, 0.03))
+	spark_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	left.add_child(spark_lbl)
+
+	var right := VBoxContainer.new()
+	right.add_theme_constant_override("separation", 2)
+	right.custom_minimum_size = Vector2(170, 0)
+	main.add_child(right)
+
+	var price_lbl: Label = _label(GameState.format_money(price), 13, "#cbd5e1")
+	price_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	right.add_child(price_lbl)
+
+	var delta_lbl: Label = _label("%+.1f%%" % delta, 16, _info_signal_hex(color, 0.05))
+	delta_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	if _font_bold:
+		delta_lbl.add_theme_font_override("font", _font_bold)
+	right.add_child(delta_lbl)
+
+	if owned_value > 0.0:
+		var owned_lbl: Label = _label(_tr("보유 %s", "Held %s") % GameState.format_money(owned_value), 10, _info_signal_hex("#c9a227", 0.02))
+		owned_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		right.add_child(owned_lbl)
 	return panel
 
 func _investment_asset_row(asset_id: String) -> Dictionary:

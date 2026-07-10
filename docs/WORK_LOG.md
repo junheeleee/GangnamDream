@@ -1,5 +1,26 @@
 # Gangnam Dream Work Log
 
+## 2026-07-10 (Codex — market liveliness surface pass)
+
+### 배경
+- `docs/CODEX_QUEUE.md` P1-3의 목표는 투자/시장 표면이 정적인 텍스트 목록처럼 보이는 문제를 줄이는 것이다.
+- 핵심 제약은 공짜 예측 정보를 주지 않는 것: Market Analysis 게이트는 유지하고, 이미 발생한 뉴스/가격 변화/보유 포지션만 더 잘 보이게 한다.
+
+### 수정
+- 사이드 Info Deck의 `MARKET TICKER`가 최신 뉴스 영향을 받은 자산군에 작은 뉴스 마커를 붙인다.
+- 주간 가격 변화가 충분히 크면 티커 영역이 1회 짧게 색 펄스된다. 턴당 1회로 제한해 화면이 번잡하게 흔들리지 않게 했다.
+- 보유 포트폴리오 가치가 전주 가격 대비 의미 있게 변하면 상단 자산 라벨이 상승/하락 색으로 1회 반응한다.
+- 투자 모달의 Market 페이지를 단순 텍스트 카드에서 `Top movers` 카드로 교체했다. 자산명, 스파크라인, 가격, 변동률, NEWS 태그, 보유 금액이 한 카드 안에 들어온다.
+- `ScreenshotQA` 투자 시드에 가격 히스토리와 뉴스 샘플을 보강해 Market 페이지 회귀를 실제 움직임이 있는 상태로 캡처한다.
+
+### 검증
+- `CompileCheck.tscn` 통과.
+- `ScreenshotQA --qa=invest-en --lang=en` 통과 및 Market/Trade/Holdings 컷 직접 확인.
+- `ScreenshotQA --qa=ap-en --lang=en` 통과 및 Info Deck Market/투자 모달 컷 직접 확인.
+- `./tools/audit.sh` 통과.
+- `git diff --check` 통과.
+- Godot 종료 시 RID/Texture leak 경고는 기존 OpenGL QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
+
 ## 2026-07-10 (Codex — people pressure surface pass)
 
 ### 배경

@@ -1298,6 +1298,25 @@ func _collect_nodes_by_script(node: Node, script_path: String, targets: Array[No
 func _seed_portfolio() -> void:
 	if not (GameState.portfolio is Dictionary):
 		return
+	if GameState.market_prices.is_empty():
+		for asset in DataRegistry.assets:
+			var asset_id: String = str(asset.get("id", ""))
+			if asset_id.is_empty():
+				continue
+			GameState.market_prices[asset_id] = float(asset.get("initial_price", asset.get("base_price", 10_000.0)))
+	GameState.market_prices["samsung"] = 72800.0
+	GameState.market_prices["nvidia"] = 892000.0
+	GameState.market_prices["bitcoin"] = 74_800_000.0
+	GameState.market_prices["kospi_etf"] = 35_900.0
+	GameState.price_history["samsung"] = [68000.0, 69400.0, 70400.0, 69800.0, 71300.0, 72800.0]
+	GameState.price_history["nvidia"] = [820000.0, 798000.0, 838000.0, 866000.0, 884000.0, 892000.0]
+	GameState.price_history["bitcoin"] = [80_000_000.0, 83_400_000.0, 78_200_000.0, 76_900_000.0, 73_500_000.0, 74_800_000.0]
+	GameState.price_history["kospi_etf"] = [35000.0, 35120.0, 35080.0, 35400.0, 35620.0, 35900.0]
+	GameState.news_log.append({
+		"headline": "AI export orders lifted chip names overnight.",
+		"market_effect": {"category": "us_stock", "power": 0.052},
+	})
+	NewsManager.last_news = [GameState.news_log[-1]]
 	GameState.portfolio["samsung"] = {"quantity": 30.0, "avg_price": 68000.0}
 	GameState.portfolio["nvidia"] = {"quantity": 2.0, "avg_price": 820000.0}
 
