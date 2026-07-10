@@ -11575,6 +11575,15 @@ func _show_demo_ending():
 		12, "#aeb8c8"))
 	_apply_moral_tree_styles(record_card, _moral_ui_palette())
 
+	# 정식 엔딩과 같은 문법의 6개월 시간 원장. 숫자를 평가하지 않고 그대로 남긴다.
+	var demo_ledger_sep := HSeparator.new()
+	demo_ledger_sep.add_theme_color_override("color", Color("#252535"))
+	modal_body.add_child(demo_ledger_sep)
+	modal_body.add_child(_build_time_ledger_card(
+		_tr("6개월의 기록", "A 6-Month Record"),
+		"",
+		true))
+
 	# ── Steam 위시리스트 CTA ───────────────────────────────────
 	# App ID가 아직 플레이스홀더면 깨진 /app/STEAM_APP_ID/ URL 대신 상점 검색으로 폴백.
 	var steam_url := STEAM_FALLBACK_URL
@@ -11692,7 +11701,7 @@ func _show_ending(ending_id):
 	# ── 인연 에필로그 — 같은 결말이라도 곁에 누가 있었는지가 다르다 ──
 	_ending_cast_epilogue(modal_body, ending_id)
 	# ── 시간의 기록 — 평가 없이 사실만 (설교 방지 4원칙: 기록>지시) ──
-	_ending_time_ledger(modal_body)
+	_ending_time_ledger(modal_body, ending_id, ending)
 	# ── 스탯 그리드 ──
 	var stats_sep = HSeparator.new()
 	stats_sep.add_theme_color_override("color", Color("#252535"))
@@ -12121,33 +12130,204 @@ func _get_ending_cg_path(ending: Dictionary) -> String:
 
 # 시간의 기록 — 이 런이 시간을 어디에 썼는지, 판단 없이 사실만 남긴다.
 # 데이터: 축 주간 통계 + 인물별 연락 원장(contact_counts/last_contact_turn).
-func _ending_time_ledger(parent: Control) -> void:
-	var lines: Array[String] = []
-	var mw: int = GameState.money_weeks_total
-	var hw: int = GameState.human_weeks_total
-	if mw + hw >= 8:
-		lines.append(_tr("돈에 쓴 주 {m} · 사람에게 쓴 주 {h}",
-			"{m} weeks on money · {h} weeks on people").format({"m": mw, "h": hw}))
-	var person := _closest_person()
-	if not person.is_empty():
-		var pid: String = str(person["id"])
-		if GameState.cast_has_met(pid):
-			var pname: String = str(ImageRegistry.get_person_info(pid).get("name", ""))
-			var cnt: int = int(GameState.contact_counts.get(pid, 0))
-			lines.append(_tr("{p}에게 먼저 연락한 횟수: {n}회",
-				"Times you reached out to {p}: {n}").format({"p": pname, "n": cnt}))
-			var last_t: int = int(GameState.last_contact_turn.get(pid, -1))
-			if last_t > 0 and GameState.turn - last_t >= 24:
-				lines.append(_tr("마지막 연락은 {w}주 전이었다",
-					"The last call was {w} weeks ago").format({"w": GameState.turn - last_t}))
-	if lines.is_empty():
-		return
+func _ending_time_ledger(parent: Control, ending_id: String, ending: Dictionary) -> void:
 	var sep := HSeparator.new()
 	sep.add_theme_color_override("color", Color("#252535"))
 	parent.add_child(sep)
-	parent.add_child(_label(_tr("시간의 기록", "The Time Ledger"), 13, "#697386"))
-	for ln in lines:
-		parent.add_child(_wrap_label(ln, 13, "#9aa4b8"))
+	var title: String = _fmt(str(ending.get("title", ending_id)))
+	var grade: String = str(ending.get("grade", "?"))
+	parent.add_child(_build_time_ledger_card(title, grade, false))
+
+func _build_time_ledger_card(record_title: String, grade: String, is_demo: bool) -> PanelContainer:
+	var palette: Dictionary = _moral_ui_palette()
+	var accent: Color = _moral_gray_accent(Color("#dce5ee"), palette, 0.05)
+	var money_color: Color = _moral_gray_accent(Color("#858d98"), palette, 0.02)
+	var people_color: Color = _moral_gray_accent(Color("#dce5ee"), palette, 0.04)
+	var money_weeks: int = GameState.money_weeks_total
+	var human_weeks: int = GameState.human_weeks_total
+
+	var card := PanelContainer.new()
+	card.set_meta("qa_surface", "time_ledger")
+	card.set_meta("moral_role", "info_card")
+	card.set_meta("moral_accent", _moral_hex(accent))
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.custom_minimum_size = Vector2(0, 220)
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("#07090c", 0.985)
+	style.border_color = Color(accent.r, accent.g, accent.b, 0.58)
+	style.set_border_width_all(1)
+	style.border_width_left = 5
+	style.set_corner_radius_all(6)
+	style.content_margin_left = 18
+	style.content_margin_right = 18
+	style.content_margin_top = 14
+	style.content_margin_bottom = 13
+	card.add_theme_stylebox_override("panel", style)
+
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 9)
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	card.add_child(box)
+
+	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 16)
+	box.add_child(header)
+	var title_col := VBoxContainer.new()
+	title_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title_col.add_theme_constant_override("separation", 1)
+	header.add_child(title_col)
+	var wordmark := _label("GANGNAM DREAM", 10, _moral_hex(Color(accent.r, accent.g, accent.b, 0.72)))
+	if _font_bold:
+		wordmark.add_theme_font_override("font", _font_bold)
+	title_col.add_child(wordmark)
+	var title_lbl := _label(record_title, 18, _moral_hex(_moral_text_accent(Color("#eef3f8"), 0.04)))
+	if _font_bold:
+		title_lbl.add_theme_font_override("font", _font_bold)
+	title_col.add_child(title_lbl)
+	var stamp_text: String
+	if is_demo:
+		stamp_text = _tr("6개월 기록", "6-MONTH RECORD")
+	else:
+		stamp_text = _tr("최종 기록 · 등급 %s", "FINAL RECORD · GRADE %s") % grade
+	var stamp := _label(stamp_text, 11, _moral_hex(accent))
+	stamp.custom_minimum_size = Vector2(210, 0)
+	stamp.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	stamp.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	stamp.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	header.add_child(stamp)
+
+	var rule := HSeparator.new()
+	rule.add_theme_color_override("color", Color(accent.r, accent.g, accent.b, 0.24))
+	box.add_child(rule)
+
+	var body := HBoxContainer.new()
+	body.add_theme_constant_override("separation", 18)
+	body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	body.custom_minimum_size = Vector2(0, 92)
+	box.add_child(body)
+
+	var time_col := VBoxContainer.new()
+	time_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	time_col.size_flags_stretch_ratio = 1.25
+	time_col.add_theme_constant_override("separation", 7)
+	body.add_child(time_col)
+	time_col.add_child(_label(_tr("시간 배분", "TIME ALLOCATION"), 10, "#707987"))
+	var time_metrics := HBoxContainer.new()
+	time_metrics.add_theme_constant_override("separation", 22)
+	time_col.add_child(time_metrics)
+	time_metrics.add_child(_time_ledger_metric(
+		_tr("돈에 쓴 시간", "Weeks on money"), str(money_weeks), _tr("주", "weeks"), money_color))
+	time_metrics.add_child(_time_ledger_metric(
+		_tr("사람에게 쓴 시간", "Weeks on people"), str(human_weeks), _tr("주", "weeks"), people_color))
+	time_col.add_child(_time_ledger_split_bar(money_weeks, human_weeks, money_color, people_color))
+
+	var divider := VSeparator.new()
+	divider.add_theme_color_override("color", Color(accent.r, accent.g, accent.b, 0.20))
+	divider.custom_minimum_size = Vector2(1, 0)
+	body.add_child(divider)
+
+	var contact: Dictionary = _time_ledger_contact_record()
+	var contact_col := VBoxContainer.new()
+	contact_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	contact_col.add_theme_constant_override("separation", 5)
+	body.add_child(contact_col)
+	contact_col.add_child(_label(_tr("연락 원장", "CONTACT LEDGER"), 10, "#707987"))
+	var person_lbl: Label = _label(str(contact.get("name", _tr("기록 없음", "No record"))), 16, _moral_hex(_moral_text_accent(Color("#d9e0e8"), 0.03)))
+	if _font_bold:
+		person_lbl.add_theme_font_override("font", _font_bold)
+	contact_col.add_child(person_lbl)
+	contact_col.add_child(_wrap_label(
+		_tr("먼저 연락한 횟수  {n}회", "Times you reached out first  {n}").format({"n": int(contact.get("count", 0))}),
+		12, "#a3acb9"))
+	contact_col.add_child(_wrap_label(
+		_tr("마지막 연락  {when}", "Last contact  {when}").format({"when": str(contact.get("last", _tr("기록 없음", "No record")))}),
+		12, "#7f8997"))
+
+	var footer := HBoxContainer.new()
+	footer.add_theme_constant_override("separation", 12)
+	box.add_child(footer)
+	var ledger_label := _label(_tr("시간의 기록", "THE TIME LEDGER"), 10, "#5f6875")
+	ledger_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	footer.add_child(ledger_label)
+	var date_label := _label(
+		_tr("{date} · {weeks}주차", "{date} · WEEK {weeks}").format({"date": GameState.get_date_string(), "weeks": GameState.turn}),
+		10, "#5f6875")
+	date_label.custom_minimum_size = Vector2(210, 0)
+	date_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	footer.add_child(date_label)
+
+	_apply_moral_tree_styles(card, palette)
+	return card
+
+func _time_ledger_metric(title: String, value: String, unit: String, accent: Color) -> VBoxContainer:
+	var box := VBoxContainer.new()
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_theme_constant_override("separation", 0)
+	box.add_child(_label(title, 11, "#87909d"))
+	var value_lbl := _label("%s  %s" % [value, unit.to_upper()], 23, _moral_hex(accent))
+	value_lbl.custom_minimum_size = Vector2(0, 34)
+	value_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	value_lbl.clip_text = false
+	if _font_bold:
+		value_lbl.add_theme_font_override("font", _font_bold)
+	box.add_child(value_lbl)
+	return box
+
+func _time_ledger_split_bar(money_weeks: int, human_weeks: int, money_color: Color, people_color: Color) -> HBoxContainer:
+	var bar := HBoxContainer.new()
+	bar.add_theme_constant_override("separation", 3)
+	bar.custom_minimum_size = Vector2(0, 8)
+	var total: int = money_weeks + human_weeks
+	var money_ratio: float = 0.5 if total <= 0 else float(money_weeks) / float(total)
+	var people_ratio: float = 0.5 if total <= 0 else float(human_weeks) / float(total)
+	var money_fill := ColorRect.new()
+	money_fill.color = money_color
+	money_fill.custom_minimum_size = Vector2(3, 8)
+	money_fill.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	money_fill.size_flags_stretch_ratio = maxf(0.025, money_ratio)
+	money_fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bar.add_child(money_fill)
+	var people_fill := ColorRect.new()
+	people_fill.color = people_color
+	people_fill.custom_minimum_size = Vector2(3, 8)
+	people_fill.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	people_fill.size_flags_stretch_ratio = maxf(0.025, people_ratio)
+	people_fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bar.add_child(people_fill)
+	return bar
+
+func _time_ledger_contact_record() -> Dictionary:
+	var person: Dictionary = _closest_person()
+	if person.is_empty():
+		return {
+			"name": _tr("기록된 인연 없음", "No recorded contact"),
+			"count": 0,
+			"last": _tr("기록 없음", "No record"),
+		}
+	var person_id: String = str(person.get("id", ""))
+	var known: bool = person_id == "father" or GameState.cast_has_met(person_id)
+	if not known:
+		return {
+			"name": _tr("기록된 인연 없음", "No recorded contact"),
+			"count": 0,
+			"last": _tr("기록 없음", "No record"),
+		}
+	var person_info: Dictionary = ImageRegistry.get_person_info(person_id)
+	var person_name: String = str(person_info.get("name", _tr("누군가", "Someone")))
+	var count: int = int(GameState.contact_counts.get(person_id, 0))
+	var last_turn: int = int(GameState.last_contact_turn.get(person_id, -1))
+	var last_text: String = _tr("기록 없음", "No record")
+	if last_turn > 0:
+		var weeks_ago: int = maxi(0, GameState.turn - last_turn)
+		if weeks_ago == 0:
+			last_text = _tr("이번 주", "This week")
+		else:
+			last_text = _tr("{n}주 전", "{n} weeks ago").format({"n": weeks_ago})
+	return {
+		"name": person_name,
+		"count": count,
+		"last": last_text,
+	}
 
 func _ending_run_summary(ending_id: String) -> String:
 	var route_diff := GameState.route_orthodox - GameState.route_unorthodox

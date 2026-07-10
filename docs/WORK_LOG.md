@@ -1,5 +1,24 @@
 # Gangnam Dream Work Log
 
+## 2026-07-10 (Codex — ending time-ledger recap card)
+
+### 배경
+- `docs/CODEX_QUEUE.md` P2-4의 기존 `시간의 기록`은 엔딩 하단의 작은 회색 텍스트라, 플레이어의 5년을 한눈에 읽거나 공유할 수 있는 화면이 아니었다.
+- 숨은 moral/tint 점수를 노출하거나 행동을 평가하지 않고도, 돈과 사람에게 실제로 쓴 시간이 스스로 의미를 만들게 해야 했다.
+
+### 수정
+- 정식 엔딩에 독립 가로형 `GANGNAM DREAM / THE TIME LEDGER` 카드를 추가했다.
+- 돈에 쓴 주와 사람에게 쓴 주를 큰 숫자와 비율 바로 대비하고, 가장 가까운 인물에게 먼저 연락한 횟수와 마지막 연락 시점을 같은 프레임에 배치했다. 연락 0회와 장기 단절도 그대로 표시한다.
+- 카드 헤더에 엔딩명과 등급을 넣고, 하단에는 날짜/최종 주차만 남겨 스크린샷 한 장이 완결된 기록처럼 보이게 했다.
+- 6개월 데모 종료에도 같은 문법의 전용 카드를 추가했다. 정식 엔딩을 스포일러하지 않고 현재까지의 행동 기록만 보여준다.
+- `ScreenshotQA`가 엔딩/데모 모달 안에서 `time_ledger` 표면을 찾아 자동 스크롤하고 전용 캡처를 저장하도록 확장했다.
+
+### 검증
+- `CompileCheck.tscn` 통과.
+- `ScreenshotQA --qa=endings-en --lang=en/ko` 통과, 밝은/어두운/파산 엔딩 카드 직접 확인.
+- `ScreenshotQA --qa=demo-end-en --lang=en/ko` 통과, 6개월 카드 직접 확인.
+- Godot 종료 시 RID/Texture leak 경고는 기존 OpenGL QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
+
 ## 2026-07-10 (Codex — artifact object art + keepsake thumbnail pass)
 
 ### 배경

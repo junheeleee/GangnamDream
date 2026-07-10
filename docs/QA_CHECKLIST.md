@@ -26,8 +26,8 @@ Use this checklist before major commits, playable builds, and release candidates
 | Main AP screen, warning state, people pressure grind hints, routine modal/time record, market ticker/info panel, keepsake thumbnails, action modals, people modal pages | `--qa=ap-en` |
 | AP Act 1~5 action rail evolution, no-scroll 4-slot regression, ACT4 relationship pressure modal | `--qa=ap-act-en` |
 | Investment modal Trade/Holdings/Market movers/Bank pages | `--qa=invest-en` |
-| Demo month summary and demo ending CTA | `--qa=demo-end-en` |
-| Ending modals and ending CG/card surface | `--qa=endings-en` |
+| Demo month summary, demo ending CTA, 6-month Time Ledger card | `--qa=demo-end-en` |
+| Ending modals, ending CG/card surface, final Time Ledger card | `--qa=endings-en` |
 | Title collection and meta-title reward surface | `--qa=title-en` |
 | Tutorial overlay surface and onboarding copy | `--qa=tutorial-en` |
 | Job hunt/career modal tier pages and resume/interview minigame surface | `--qa=job-en` |

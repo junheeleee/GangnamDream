@@ -1252,6 +1252,11 @@ func _shot_demo_loop_surfaces(lang: String, prefix: String) -> void:
 	GameState.turn = GameState.DEMO_TURN_LIMIT + 1
 	GameState.month = 7
 	GameState.week_of_month = 1
+	GameState.money_weeks_total = 16
+	GameState.human_weeks_total = 6
+	GameState.grind_streak_weeks = 3
+	GameState.contact_counts = {"daeun": 2}
+	GameState.last_contact_turn = {"daeun": 18}
 	var snap := {
 		"date": GameState.get_date_string(),
 		"money_before": GameState.money,
@@ -1275,6 +1280,8 @@ func _shot_demo_loop_surfaces(lang: String, prefix: String) -> void:
 		_mg._show_demo_ending()
 	await _settle(0.9)
 	await _save(prefix + "04_demo_ending_cta")
+	if await _focus_modal_qa_surface("time_ledger"):
+		await _save(prefix + "05_demo_time_ledger")
 
 func _remove_nodes_by_script(script_path: String) -> void:
 	var targets: Array[Node] = []
@@ -1839,7 +1846,30 @@ func _shot_ending(ending_id: String, shot_name: String) -> void:
 		_mg._show_ending(ending_id)
 		await _settle(1.0)
 		await _save(shot_name)
+		if await _focus_modal_qa_surface("time_ledger"):
+			await _save(shot_name + "_time_ledger")
 		await _settle(0.3)
+
+func _focus_modal_qa_surface(surface_id: String) -> bool:
+	if not is_instance_valid(_mg):
+		return false
+	var target: Control = _find_qa_surface(_mg, surface_id)
+	var scroll: ScrollContainer = _mg.get("modal_scroll") as ScrollContainer
+	if target == null or not is_instance_valid(scroll):
+		return false
+	scroll.ensure_control_visible(target)
+	await get_tree().process_frame
+	await _settle(0.35)
+	return true
+
+func _find_qa_surface(node: Node, surface_id: String) -> Control:
+	if node is Control and node.has_meta("qa_surface") and str(node.get_meta("qa_surface")) == surface_id:
+		return node as Control
+	for child in node.get_children():
+		var found: Control = _find_qa_surface(child, surface_id)
+		if found != null:
+			return found
+	return null
 
 func _seed_ending_state(ending_id: String) -> void:
 	GameState.age = 38
@@ -1856,6 +1886,11 @@ func _seed_ending_state(ending_id: String) -> void:
 	GameState.route_orthodox = 8
 	GameState.route_unorthodox = 8
 	GameState.moral_tint = 0.0
+	GameState.money_weeks_total = 142
+	GameState.human_weeks_total = 70
+	GameState.grind_streak_weeks = 2
+	GameState.contact_counts = {"daeun": 7}
+	GameState.last_contact_turn = {"daeun": 217}
 	GameState.housing = "apartment"
 	GameState.current_job = {"name":("Office Worker" if LocaleManager.is_english() else "사무직"), "base_salary": 2_240_000.0, "tier": 2}
 	match ending_id:
@@ -1868,6 +1903,10 @@ func _seed_ending_state(ending_id: String) -> void:
 			GameState.route_orthodox = 18
 			GameState.route_unorthodox = 9
 			GameState.moral_tint = 72.0 if ending_id == "gangnam_dream_white" else 24.0
+			GameState.money_weeks_total = 146
+			GameState.human_weeks_total = 88
+			GameState.contact_counts = {"daeun": 19}
+			GameState.last_contact_turn = {"daeun": 239}
 		"empty_house", "jaehyuk_way", "lonely_rich":
 			GameState.money = 3_050_000_000.0
 			GameState.housing = "gangnam"
@@ -1877,6 +1916,11 @@ func _seed_ending_state(ending_id: String) -> void:
 			GameState.route_orthodox = 5
 			GameState.route_unorthodox = 24
 			GameState.moral_tint = -72.0
+			GameState.money_weeks_total = 211
+			GameState.human_weeks_total = 15
+			GameState.grind_streak_weeks = 11
+			GameState.contact_counts = {"daeun": 0}
+			GameState.last_contact_turn = {"daeun": 106}
 		"bankruptcy", "debt_spiral":
 			GameState.money = -118_000_000.0
 			GameState.housing = "gosiwon"
@@ -1886,6 +1930,10 @@ func _seed_ending_state(ending_id: String) -> void:
 			GameState.route_orthodox = 4
 			GameState.route_unorthodox = 16
 			GameState.moral_tint = -34.0
+			GameState.money_weeks_total = 196
+			GameState.human_weeks_total = 22
+			GameState.contact_counts = {"daeun": 1}
+			GameState.last_contact_turn = {"daeun": 81}
 		"burnout", "mental_break", "career_burnout":
 			GameState.money = 18_000_000.0
 			GameState.health = 12 if ending_id == "burnout" else 28
@@ -1901,6 +1949,11 @@ func _seed_ending_state(ending_id: String) -> void:
 			GameState.route_orthodox = 2
 			GameState.route_unorthodox = 26
 			GameState.moral_tint = -86.0
+			GameState.money_weeks_total = 224
+			GameState.human_weeks_total = 8
+			GameState.grind_streak_weeks = 18
+			GameState.contact_counts = {"daeun": 0}
+			GameState.last_contact_turn = {"daeun": 52}
 		"stable_success":
 			GameState.money = 1_050_000_000.0
 			GameState.health = 70
