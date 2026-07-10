@@ -78,8 +78,9 @@ Updated on 2026-07-03 for Lee Minseo transparent portrait and post-Claude story 
 - `assets/characters/npc_daeun_sad.png`
   - Kim Daeun sad transparent expression variant for conflict, disappointment, and relationship crisis beats.
 
-- `assets/characters/npc_daeun_sea.png`
-  - East Sea T0 outfit portrait: muted-navy swim dress and off-white cover-up, matched to `sea_daeun.png`.
+- `assets/characters/npc_daeun_sea_v2.png`
+  - East Sea T0 outfit portrait: coral-rose wrap swim dress and pale sky-blue cover-up, matched to `sea_daeun_v3.png`.
+  - Gaze lock: right-anchored portrait looks screen-left into Minjun/dialogue space rather than at the lens.
 
 - `assets/characters/npc_daeun_fireworks.png`
   - Fireworks T0 outfit portrait: muted blue-gray wrap dress, matched to `fireworks_daeun.png`.
@@ -109,8 +110,9 @@ Updated on 2026-07-03 for Lee Minseo transparent portrait and post-Claude story 
   - Han Jiyeon cold transparent expression variant for negotiation, status pressure, and calculating investor scenes.
   - Production status: approved for first in-game QA. Same identity/outfit as `npc_mentor.png`.
 
-- `assets/characters/npc_jiyeon_sea.png`
-  - Haeundae T0 outfit portrait: black high-neck swim dress and cream linen overshirt, matched to `sea_jiyeon.png`.
+- `assets/characters/npc_jiyeon_sea_v2.png`
+  - Haeundae T0 outfit portrait: deep emerald asymmetric swim dress, smoke-gray cover-up, and silver jewelry, matched to `sea_jiyeon_v2.png`.
+  - Gaze lock: right-anchored portrait looks screen-left toward Minjun/dialogue space rather than at the lens.
 
 - `assets/characters/npc_jiyeon_fireworks.png`
   - Fireworks T0 outfit portrait: unbranded deep-charcoal hooded windbreaker, matched to `fireworks_jiyeon.png`.
@@ -210,10 +212,12 @@ Updated on 2026-07-03 for Lee Minseo transparent portrait and post-Claude story 
   - Use instead of `office_desk.png` whenever the text is about a formal interview rather than overtime or late-night work.
   - Status: approved for first in-game QA. 1280x800, reusable person-free Korean office interview room, no readable signs/logos.
 
-- `assets/backgrounds/convenience_store_night.png`
-  - Midnight Korean convenience store interior.
+- `assets/backgrounds/convenience_store_night_v2.png`
+  - Midnight Korean convenience store interior with a physically locked Korean retail floor plan.
   - Use for comedy, health, night, convenience, and food events.
-  - Status: approved for first in-game QA. Regenerated as a person-free reusable background with empty checkout counter.
+  - Status: approved. Entrance and customer lane are on the right, counter/POS beside the entrance, staff storage wall behind the clerk, and refrigerators on the far-left perimeter. See `assets/CONVENIENCE_STORE_VISUAL_BIBLE.md`.
+- `assets/backgrounds/convenience_store_night.png`
+  - Legacy layout. Do not route new events here.
 
 - `assets/backgrounds/cafe_seoul.png`
   - Small rainy Seoul cafe interior.
@@ -407,12 +411,14 @@ Updated on 2026-07-03 for Lee Minseo transparent portrait and post-Claude story 
 - `assets/cg/jaehyuk_reveal.png`
   - Jaehyuk route reveal CG: private meeting room, moral line-crossing moment.
 
+- `assets/cg/jiyeon_crash_day_v3.png`
+  - Canon Jiyeon first-contact CG: rainy overcast Gangnam afternoon, complete bicycle, unbranded black S-Class-level sedan, and left-hand driver exit.
+  - Jiyeon and Minjun look at each other; neither looks at the lens. The lower road remains dialogue-safe.
 - `assets/cg/jiyeon_crash.png`
-  - Jiyeon first-contact CG: rainy Gangnam bicycle incident.
-  - Updated to match Han Jiyeon's transparent portrait identity: long wavy black hair, sharp almond eyes, cream blazer, black blouse, gold jewelry.
+  - Legacy night version. Do not route new events here.
 
-- `assets/cg/romance/sea_daeun.png`
-- `assets/cg/romance/sea_jiyeon.png`
+- `assets/cg/romance/sea_daeun_v3.png`
+- `assets/cg/romance/sea_jiyeon_v2.png`
 - `assets/cg/romance/fireworks_daeun.png`
 - `assets/cg/romance/fireworks_jiyeon.png`
 - `assets/cg/romance/cherry_daeun.png`
@@ -423,6 +429,11 @@ Updated on 2026-07-03 for Lee Minseo transparent portrait and post-Claude story 
   - Uses 2D Korean manhwa/Japanese VN scene grammar with restrained full color at Gray, White clarity, and Black ink loss at runtime.
   - First-kiss images freeze before contact so the player's choice remains valid.
   - Jiyeon's car interior is the left-hand-drive reference for her recurring black executive sedan; see `assets/VEHICLE_VISUAL_BIBLE.md`.
+
+- `assets/cg/demo/daeun_first_kindness_v2.png`
+  - Demo kindness CG: Daeun remains inside the staff pocket, Minjun remains on the customer side near the entrance, and both share an explicit mutual eye line over two triangle rice packages.
+- `assets/cg/demo/father_first_call_v1.png`
+  - Demo father-call diptych: Minjun in the goshiwon and Father in a factory break room, with inward-facing phone poses and parallel emotional blocking.
 
 ### Logo Concept
 - `assets/logos/gangnam_dream_logo_concept.png`

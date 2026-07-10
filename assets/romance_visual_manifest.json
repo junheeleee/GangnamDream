@@ -9,17 +9,17 @@
       "event_id": "arc_season_sea_daeun",
       "cg": "cg_romance_sea_daeun",
       "heroine_portrait": "daeun_sea",
-      "heroine_outfit": "Muted-navy swim dress with an open off-white cover-up.",
+      "heroine_outfit": "Muted coral-rose wrap swim dress with an open pale sky-blue cover-up.",
       "player_visibility": "pov",
-      "eye_line": "Daeun looks into Minjun's first-person viewpoint."
+      "eye_line": "Daeun looks just off-axis toward Minjun at camera-left; her head, shoulders, and smile follow the same line."
     },
     {
       "event_id": "arc_season_sea_jiyeon",
       "cg": "cg_romance_sea_jiyeon",
       "heroine_portrait": "jiyeon_sea",
-      "heroine_outfit": "Black high-neck swim dress with an open cream linen overshirt.",
+      "heroine_outfit": "Deep emerald asymmetric high-neck swim dress with an open smoke-gray cover-up and restrained silver jewelry.",
       "player_visibility": "cropped_left",
-      "eye_line": "Jiyeon looks down-left toward Minjun."
+      "eye_line": "Jiyeon looks down-left directly toward the visible Minjun; Minjun looks up-right at her."
     },
     {
       "event_id": "arc_season_fireworks_daeun",

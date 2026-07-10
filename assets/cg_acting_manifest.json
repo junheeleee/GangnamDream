@@ -1,0 +1,154 @@
+{
+  "version": 1,
+  "updated": "2026-07-10",
+  "rule": "Every active CG owns an explicit camera role and every visible named actor owns a gaze target plus a supporting body action. Lens gaze is legal only for player_pov.",
+  "cg": {
+    "cg_start": {
+      "path": "assets/cg/start.png",
+      "camera_role": "environment",
+      "story_action": "The empty goshiwon asks the player to inhabit Minjun's absence before he appears.",
+      "actors": []
+    },
+    "cg_jiyeon_crash": {
+      "path": "assets/cg/jiyeon_crash_day_v3.png",
+      "camera_role": "observational_two_shot",
+      "story_action": "The stopped sedan, complete bicycle, and open driver door form one readable accident chain.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "Jiyeon at the driver door", "pose_support": "Head and shoulders turn up-right toward her."},
+        {"id": "jiyeon", "gaze_target": "Minjun beside the bicycle", "pose_support": "Eyes and chin turn down-left while she steps out from the driver side."}
+      ]
+    },
+    "cg_demo_daeun_first_kindness": {
+      "path": "assets/cg/demo/daeun_first_kindness_v2.png",
+      "camera_role": "observational_two_shot",
+      "story_action": "The counter separates staff and customer while the offered triangle rice package bridges them.",
+      "actors": [
+        {"id": "daeun", "gaze_target": "Minjun on the public side", "pose_support": "Eyes and smile rise screen-right while her offering hand crosses the counter."},
+        {"id": "minjun", "gaze_target": "Daeun and the offered package", "pose_support": "Head and eyes angle down-left; his receiving hand remains near the package."}
+      ]
+    },
+    "cg_demo_father_first_call": {
+      "path": "assets/cg/demo/father_first_call_v1.png",
+      "camera_role": "parallel_split_space",
+      "story_action": "Separate rooms and inward-facing phones make distance visible without pretending they share a room.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The implied caller through his handset", "pose_support": "Head lowers toward the phone and the center divide."},
+        {"id": "father", "gaze_target": "The implied caller through his handset", "pose_support": "Head and phone angle inward toward the center divide."}
+      ]
+    },
+    "cg_jaehyuk_reveal": {
+      "path": "assets/cg/jaehyuk_reveal.png",
+      "camera_role": "over_minjun_shoulder",
+      "story_action": "Documents and drink remain between Jaehyuk and Minjun as the reveal changes their relationship.",
+      "actors": [
+        {"id": "jaehyuk", "gaze_target": "Minjun across the table", "pose_support": "Face and torso stay oriented toward the foreground Minjun."},
+        {"id": "minjun", "gaze_target": "Jaehyuk and the documents", "pose_support": "Back and shoulder line frame Jaehyuk rather than the lens."}
+      ]
+    },
+    "cg_ending_father": {
+      "path": "assets/cg/ending_father.png",
+      "camera_role": "observational_two_shot",
+      "story_action": "Their joined hands carry the reconciliation while the hospital room stays secondary.",
+      "actors": [
+        {"id": "father", "gaze_target": "Minjun at bedside", "pose_support": "Head rests screen-right toward Minjun and their joined hands."},
+        {"id": "minjun", "gaze_target": "Father and their joined hands", "pose_support": "Head bows toward Father; both hands remain engaged."}
+      ]
+    },
+    "cg_ending_gangnam_dream": {
+      "path": "assets/cg/ending_gangnam_dream.png",
+      "camera_role": "shared_back_view",
+      "story_action": "Two figures share the Gangnam skyline instead of performing for the viewer.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The skyline", "pose_support": "Back-view posture faces the window."},
+        {"id": "partner", "gaze_target": "The skyline", "pose_support": "Back-view posture parallels Minjun without lens contact."}
+      ]
+    },
+    "cg_ending_empty_house": {
+      "path": "assets/cg/ending_empty_house.png",
+      "camera_role": "distant_observer",
+      "story_action": "The empty apartment dominates while Minjun folds inward on the sofa.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "His hands and the unoccupied room", "pose_support": "Head, shoulders, and seated torso collapse inward."}
+      ]
+    },
+    "cg_ending_crypto_ghost": {
+      "path": "assets/cg/ending_crypto_ghost.png",
+      "camera_role": "distant_observer",
+      "story_action": "The phone and hostile monitor light trap Minjun inside the trading den.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The phone in his hand", "pose_support": "Head, shoulders, and hands close around the device."}
+      ]
+    },
+    "cg_romance_sea_daeun": {
+      "path": "assets/cg/romance/sea_daeun_v3.png",
+      "camera_role": "player_pov",
+      "story_action": "Daeun turns back from the surf to share an unguarded laugh with Minjun.",
+      "actors": [
+        {"id": "daeun", "gaze_target": "Minjun implied just left of the lens", "pose_support": "Pupils, face, shoulders, and open smile turn camera-left together."}
+      ]
+    },
+    "cg_romance_sea_jiyeon": {
+      "path": "assets/cg/romance/sea_jiyeon_v2.png",
+      "camera_role": "over_minjun_shoulder",
+      "story_action": "Jiyeon lowers her sunglasses as her composure briefly opens under the parasol.",
+      "actors": [
+        {"id": "jiyeon", "gaze_target": "Visible Minjun at far left", "pose_support": "Pupils and chin angle down-left; the sunglasses hand opens the same line."},
+        {"id": "minjun", "gaze_target": "Jiyeon", "pose_support": "Cropped face and shoulder turn up-right toward her."}
+      ]
+    },
+    "cg_romance_fireworks_daeun": {
+      "path": "assets/cg/romance/fireworks_daeun.png",
+      "camera_role": "over_minjun_shoulder",
+      "story_action": "Daeun watches the fireworks while Minjun watches her reaction.",
+      "actors": [
+        {"id": "daeun", "gaze_target": "The fireworks above the river", "pose_support": "Eyes, chin, and upper body lift toward the sky."},
+        {"id": "minjun", "gaze_target": "Daeun beside him", "pose_support": "Foreground head and shoulder turn toward her profile."}
+      ]
+    },
+    "cg_romance_fireworks_jiyeon": {
+      "path": "assets/cg/romance/fireworks_jiyeon.png",
+      "camera_role": "over_minjun_shoulder",
+      "story_action": "Jiyeon turns back after taking Minjun's hand, choosing him over the spectacle.",
+      "actors": [
+        {"id": "jiyeon", "gaze_target": "Visible Minjun at left", "pose_support": "Eyes and face turn over her shoulder while her hand reaches back."},
+        {"id": "minjun", "gaze_target": "Jiyeon", "pose_support": "Foreground head follows her turn and joined hand."}
+      ]
+    },
+    "cg_romance_cherry_daeun": {
+      "path": "assets/cg/romance/cherry_daeun.png",
+      "camera_role": "over_minjun_shoulder",
+      "story_action": "Daeun looks into the blossom canopy while Minjun notices her delight.",
+      "actors": [
+        {"id": "daeun", "gaze_target": "The blossom canopy", "pose_support": "Eyes, chin, and smile lift above camera-left."},
+        {"id": "minjun", "gaze_target": "Daeun beneath the blossoms", "pose_support": "Foreground head turns toward her."}
+      ]
+    },
+    "cg_romance_cherry_jiyeon": {
+      "path": "assets/cg/romance/cherry_jiyeon.png",
+      "camera_role": "over_minjun_shoulder",
+      "story_action": "Jiyeon interrupts her walk to look back at Minjun beneath the blossoms.",
+      "actors": [
+        {"id": "jiyeon", "gaze_target": "Visible Minjun at left", "pose_support": "Pupils, face, and shoulder turn back toward him."},
+        {"id": "minjun", "gaze_target": "Jiyeon", "pose_support": "Foreground head and shoulder frame her return glance."}
+      ]
+    },
+    "cg_romance_first_kiss_daeun": {
+      "path": "assets/cg/romance/first_kiss_daeun.png",
+      "camera_role": "intimate_two_shot",
+      "story_action": "The near-kiss freezes before contact while both characters seek consent in each other's face.",
+      "actors": [
+        {"id": "daeun", "gaze_target": "Minjun's eyes", "pose_support": "Eyes and chin lift toward him while her hands keep hold of the cans."},
+        {"id": "minjun", "gaze_target": "Daeun's eyes", "pose_support": "Head and torso lean down toward her without lens contact."}
+      ]
+    },
+    "cg_romance_first_kiss_jiyeon": {
+      "path": "assets/cg/romance/first_kiss_jiyeon.png",
+      "camera_role": "intimate_two_shot",
+      "story_action": "The car-cabin near-kiss freezes before contact and centers mutual choice.",
+      "actors": [
+        {"id": "jiyeon", "gaze_target": "Minjun's eyes", "pose_support": "Pupils, chin, and shoulders turn toward him."},
+        {"id": "minjun", "gaze_target": "Jiyeon's eyes", "pose_support": "Pupils, chin, and shoulders turn toward her."}
+      ]
+    }
+  }
+}

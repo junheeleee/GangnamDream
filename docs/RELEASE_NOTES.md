@@ -1,6 +1,7 @@
 # Gangnam Dream Release Notes
 
 ## Unreleased
+- Added demo-defining Daeun-kindness and Father-call CGs, rebuilt the convenience store around a locked real-world floor plan, corrected Jiyeon's first accident to a daylight left-hand-drive scene, and replaced both heroines' sea CG/portrait pairs with distinct outfits and relationship-aware eye lines. Every active CG now requires a machine-checked camera, gaze, and body-acting contract.
 - Replaced the split-layer title prototype and legacy rooftop branding with one identity-locked 1920x1080 Minjun/Daeun/Jiyeon glass composition; unified publisher splash, KO/EN architectural wordmark, StartMenu, and all three Steam capsule sizes under a deterministic exporter and release audit.
 - Replaced the locked early-game Seoul map with a reactive first-month horizon for income, week-four rent, and route formation; restored Seoul Trace after onboarding and added exact first-week KO/EN visual assertions.
 - Replaced pitched arcade-like choice/modal/tab sounds with deterministic sample-free paper stamps, slides, latches, and mechanical snaps; added exact-source ownership for all 62 audio files and made BGM continuity a required audit gate.

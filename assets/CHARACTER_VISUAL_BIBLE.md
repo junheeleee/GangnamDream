@@ -81,11 +81,11 @@ No luxury watch, no designer styling, no polished Gangnam success look in early/
 
 **Seasonal Outfit Locks:**
 - Cherry blossom: muted light cardigan or simple spring jacket over a modest dress/skirt; no luxury bag.
-- East Sea: tasteful affordable one-piece swimsuit or swim dress with a light cover-up; practical, non-glamorous, no bikini-model styling.
+- East Sea: muted coral-rose wrap-front swim dress with a pale sky-blue cotton cover-up. It is an affordable special outfit, warm and memorable without influencer or bikini-model styling.
 - Fireworks: simple softly colored knee-length dress, light makeup, hair carefully set but still short with the same clip.
 - First kiss: navy work polo and beige cardigan after the convenience-store closing shift.
 
-**Current Asset Status:** `assets/characters/npc_romantic_interest.png`, `assets/characters/npc_daeun_smile.png`, and `assets/characters/npc_daeun_sad.png` are the identity references. T0 scene outfits are locked by `npc_daeun_sea.png`, `npc_daeun_fireworks.png`, and `npc_daeun_cherry.png`; first kiss reuses `npc_daeun_smile.png` because its work outfit already matches the CG exactly.
+**Current Asset Status:** `assets/characters/npc_romantic_interest.png`, `assets/characters/npc_daeun_smile.png`, and `assets/characters/npc_daeun_sad.png` are the identity references. T0 scene outfits are locked by `npc_daeun_sea_v2.png`, `npc_daeun_fireworks.png`, and `npc_daeun_cherry.png`; first kiss reuses `npc_daeun_smile.png` because its work outfit already matches the CG exactly. The East Sea paired CG is `assets/cg/romance/sea_daeun_v3.png`.
 
 **Negative Prompt / Prohibited:** 20s college-student styling, teenager, long hair, Han Jiyeon-like glamour, luxury jewelry, influencer makeup, idol stage styling, childish proportions, generic convenience-store logo, background baked into a reusable portrait, photoreal DSLR portrait, changing face or hair length between outfits.
 
@@ -105,9 +105,11 @@ No luxury watch, no designer styling, no polished Gangnam success look in early/
 - `jiyeon_cold`: beautiful but distant, status pressure visible in the eyes.
 - `jiyeon_surprised`: composure cracked because Minjun did something she did not expect.
 
-**Vehicle Canon:** First-contact scene uses a black Mercedes-Benz S-Class-level luxury sedan, matching `assets/cg/jiyeon_crash.png`. The left-hand-drive interior reference is `assets/cg/romance/first_kiss_jiyeon.png`. Full exterior/interior locks live in `assets/VEHICLE_VISUAL_BIBLE.md`. Do not describe it as a white BMW or change the model family between scenes.
+**Seasonal Outfit Lock:** Haeundae uses a deep emerald asymmetric high-neck swim dress, an open smoke-gray cover-up, and restrained brushed-silver jewelry. It must not repeat her default cream jacket and black inner palette.
 
-**Current Asset Status:** `assets/characters/npc_mentor.png`, `assets/characters/npc_jiyeon_warm.png`, and `assets/characters/npc_jiyeon_cold.png` are identity references. T0 scene outfits are locked by `npc_jiyeon_sea.png`, `npc_jiyeon_fireworks.png`, and `npc_jiyeon_cherry.png`; first kiss reuses `npc_jiyeon_warm.png` because its cream jacket and black inner already match the CG. `assets/cg/jiyeon_crash.png` remains acceptable for first contact.
+**Vehicle Canon:** First-contact scene uses an unbranded black S-Class-level luxury sedan, matching `assets/cg/jiyeon_crash_day_v3.png`. The left-hand-drive interior reference is `assets/cg/romance/first_kiss_jiyeon.png`. Full exterior/interior locks live in `assets/VEHICLE_VISUAL_BIBLE.md`. Do not describe it as a white BMW or change the model family between scenes.
+
+**Current Asset Status:** `assets/characters/npc_mentor.png`, `assets/characters/npc_jiyeon_warm.png`, and `assets/characters/npc_jiyeon_cold.png` are identity references. T0 scene outfits are locked by `npc_jiyeon_sea_v2.png`, `npc_jiyeon_fireworks.png`, and `npc_jiyeon_cherry.png`; first kiss reuses `npc_jiyeon_warm.png` because its cream jacket and black inner already match the CG. The Haeundae paired CG is `assets/cg/romance/sea_jiyeon_v2.png`; first contact is `assets/cg/jiyeon_crash_day_v3.png`.
 
 **Negative Prompt / Prohibited:** middle-aged mentor, short bob as default identity, office background, cafe background, smiling auntie, professor, generic businesswoman, white BMW, photoreal DSLR portrait.
 

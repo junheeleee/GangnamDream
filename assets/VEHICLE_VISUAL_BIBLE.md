@@ -16,7 +16,7 @@ Vehicles used by recurring characters are identity-bearing props. They must rema
 
 - Glossy black paint, long wheelbase, low formal roofline, broad rear door, chrome window surround, restrained horizontal rear lamps, and silver multi-spoke wheels.
 - Executive sedan proportions, never a sports coupe, SUV, crossover, hatchback, white BMW, or brightly colored supercar.
-- Current exterior reference: `assets/cg/jiyeon_crash.png`.
+- Current exterior reference: `assets/cg/jiyeon_crash_day_v3.png`.
 - Jiyeon exits from the left driver side in Korean road context.
 
 **Interior lock:**

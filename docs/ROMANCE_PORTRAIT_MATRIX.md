@@ -12,8 +12,8 @@ The machine-readable source is `assets/romance_visual_manifest.json`. `CGRuntime
 
 | Event | Heroine portrait | Heroine outfit | Minjun | Gaze logic |
 |---|---|---|---|---|
-| Daeun / East Sea | `daeun_sea` | navy swim dress + off-white cover-up | POV; black casual if shown | Daeun looks into Minjun's viewpoint |
-| Jiyeon / Haeundae | `jiyeon_sea` | black high-neck swim dress + cream overshirt | cropped left, black casual | Jiyeon looks down-left at Minjun |
+| Daeun / East Sea | `daeun_sea` | coral-rose wrap swim dress + pale sky-blue cover-up | POV; black casual if shown | Daeun looks just off-axis toward Minjun at camera-left |
+| Jiyeon / Haeundae | `jiyeon_sea` | deep emerald asymmetric swim dress + smoke-gray cover-up | cropped left, black casual | Jiyeon looks down-left at Minjun; he looks up-right at her |
 | Daeun / fireworks | `daeun_fireworks` | muted blue-gray wrap dress | cropped left, black casual | Daeun watches the sky; Minjun watches her |
 | Jiyeon / fireworks | `jiyeon_fireworks` | charcoal hooded windbreaker | cropped left, black casual | Jiyeon turns back toward Minjun |
 | Daeun / cherry | `daeun_cherry` | pale-blue belted shirt dress + beige cardigan | POV; black casual if shown | Daeun looks up at the canopy |
@@ -21,7 +21,7 @@ The machine-readable source is `assets/romance_visual_manifest.json`. `CGRuntime
 | Daeun / first kiss | `daeun_smile` | navy work polo + beige cardigan | visible left, black casual | mutual eye contact |
 | Jiyeon / first kiss | `jiyeon_warm` | cream jacket + black inner | visible right, black casual | mutual eye contact |
 
-`arc_season_sea_daeun` is intentionally staged. The upper-body portrait reads as an ordinary navy travel layer under the same off-white shirt during the train and shop paragraphs. The complete swim-dress silhouette appears only when the beach CG reveals at paragraph 2.
+`arc_season_sea_daeun` is intentionally staged. The upper-body portrait reveals the coral wrap neckline beneath the same pale-blue travel layer during the train and shop paragraphs. The complete swim-dress silhouette appears only when the beach CG reveals at paragraph 2.
 
 ## Minjun Outfit Lock
 
@@ -37,8 +37,9 @@ Each named character must have one readable target:
 - `mutual`: both pupils converge on the other character's eye line.
 - `scene_target`: the heroine looks at fireworks, blossoms, a road, or another explicit story object while Minjun may watch her.
 - `over_shoulder`: the heroine looks toward the visible foreground Minjun, not toward an unrelated lens position.
+- `right_portrait`: the reusable portrait is anchored screen-right, so its pupils and slight head turn face screen-left into the dialogue/player space. A straight lens stare is not the neutral default.
 
-An attractive face looking vaguely toward the viewer is not enough. If the gaze target cannot be explained in one sentence, the CG is rejected.
+An attractive face looking vaguely toward the viewer is not enough. Pupils, head angle, chin, shoulders, torso, and any active hand must tell the same action. If the gaze target cannot be explained in one sentence, or if any of those vectors contradict it, the CG is rejected.
 
 ## T1 Production Order
 

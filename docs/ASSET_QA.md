@@ -70,7 +70,7 @@ Live-screen semantic routing QA found and fixed a separate class of issue: valid
 - `goshiwon_room.png` and `start.png` now share the canonical goshiwon layout: tiny high frosted ventilation window, bed, low desk at bed foot / screen-bottom foreground, no large scenic window.
 - `family_living_room.png` has been regenerated as Minjun's father's modest Changwon working-class home and reconnected for family events.
 - `late_night` / inferred night-room scenes now map to the regenerated `late_night_room.png`, which preserves the exact `goshiwon_room.png` structure as a colder 4am variant.
-- `convenience_store_night.png` has been regenerated as a person-free reusable store background with an empty checkout counter.
+- `convenience_store_night_v2.png` is the canonical person-free store background. Its entrance, customer lane, counter/POS, staff pocket, storage wall, and far-left refrigerators follow `assets/CONVENIENCE_STORE_VISUAL_BIBLE.md`; the old filename is legacy-only.
 - Gangnam day/night/station backgrounds have been regenerated without foreground protagonist-like figures.
 - `penthouse_view.png` has been regenerated as an empty luxury ending background with no lone male silhouette.
 - `late_night_room.png` has been recreated from `goshiwon_room.png` as a colder 4am variant, preserving exact room structure, and runtime maps back to it.

@@ -23,7 +23,7 @@ const PORTRAITS = {
 	"daeun_normal":       "res://assets/characters/npc_romantic_interest.png",
 	"daeun_smile":        "res://assets/characters/npc_daeun_smile.png",
 	"daeun_sad":          "res://assets/characters/npc_daeun_sad.png",
-	"daeun_sea":          "res://assets/characters/npc_daeun_sea.png",
+	"daeun_sea":          "res://assets/characters/npc_daeun_sea_v2.png",
 	"daeun_fireworks":    "res://assets/characters/npc_daeun_fireworks.png",
 	"daeun_cherry":       "res://assets/characters/npc_daeun_cherry.png",
 
@@ -39,7 +39,7 @@ const PORTRAITS = {
 	"jiyeon_normal":      "res://assets/characters/npc_mentor.png",
 	"jiyeon_warm":        "res://assets/characters/npc_jiyeon_warm.png",
 	"jiyeon_cold":        "res://assets/characters/npc_jiyeon_cold.png",
-	"jiyeon_sea":         "res://assets/characters/npc_jiyeon_sea.png",
+	"jiyeon_sea":         "res://assets/characters/npc_jiyeon_sea_v2.png",
 	"jiyeon_fireworks":   "res://assets/characters/npc_jiyeon_fireworks.png",
 	"jiyeon_cherry":      "res://assets/characters/npc_jiyeon_cherry.png",
 
@@ -115,7 +115,7 @@ const BACKGROUNDS = {
 	"goshiwon_room":     "res://assets/backgrounds/goshiwon_room.png",
 	"goshiwon_hallway":  "res://assets/backgrounds/goshiwon_hallway.png",
 	# 서울 일상
-	"convenience_night": "res://assets/backgrounds/convenience_store_night.png",
+	"convenience_night": "res://assets/backgrounds/convenience_store_night_v2.png",
 	"cafe":              "res://assets/backgrounds/cafe_seoul.png",
 	"street_day":        "res://assets/backgrounds/street_seoul_day.png",
 	"subway":            "res://assets/backgrounds/seoul_subway.png",
@@ -173,7 +173,7 @@ const BACKGROUNDS = {
 	"street":            "res://assets/backgrounds/street_seoul_day.png",
 	"apartment":         "res://assets/backgrounds/oneroom_apartment.png",
 	"apartment_balcony": "res://assets/backgrounds/oneroom_apartment.png",
-	"convenience_store": "res://assets/backgrounds/convenience_store_night.png",
+	"convenience_store": "res://assets/backgrounds/convenience_store_night_v2.png",
 	# 미니게임 전용
 	"racetrack_betting": "res://assets/backgrounds/racetrack_betting_hall.png",
 	"racetrack_track":   "res://assets/backgrounds/racetrack_track_view.png",
@@ -191,14 +191,16 @@ const FALLBACK_BG = "res://assets/backgrounds/goshiwon_room.png"
 # ── CG (감정적 클라이맥스 전체화면) ────────────────────────────
 const CG = {
 	"cg_start":          "res://assets/cg/start.png",
-	"cg_jiyeon_crash":   "res://assets/cg/jiyeon_crash.png",
+	"cg_jiyeon_crash":   "res://assets/cg/jiyeon_crash_day_v3.png",
+	"cg_demo_daeun_first_kindness": "res://assets/cg/demo/daeun_first_kindness_v2.png",
+	"cg_demo_father_first_call": "res://assets/cg/demo/father_first_call_v1.png",
 	"cg_jaehyuk_reveal": "res://assets/cg/jaehyuk_reveal.png",
 	"cg_ending_father":  "res://assets/cg/ending_father.png",
 	"cg_ending_gangnam_dream": "res://assets/cg/ending_gangnam_dream.png",
 	"cg_ending_empty_house":   "res://assets/cg/ending_empty_house.png",
 	"cg_ending_crypto_ghost":  "res://assets/cg/ending_crypto_ghost.png",
-	"cg_romance_sea_daeun":    "res://assets/cg/romance/sea_daeun.png",
-	"cg_romance_sea_jiyeon":   "res://assets/cg/romance/sea_jiyeon.png",
+	"cg_romance_sea_daeun":    "res://assets/cg/romance/sea_daeun_v3.png",
+	"cg_romance_sea_jiyeon":   "res://assets/cg/romance/sea_jiyeon_v2.png",
 	"cg_romance_fireworks_daeun": "res://assets/cg/romance/fireworks_daeun.png",
 	"cg_romance_fireworks_jiyeon": "res://assets/cg/romance/fireworks_jiyeon.png",
 	"cg_romance_cherry_daeun": "res://assets/cg/romance/cherry_daeun.png",

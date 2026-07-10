@@ -1,6 +1,6 @@
 # Gangnam Dream Asset Continuity Checklist
 
-Updated: 2026-07-01
+Updated: 2026-07-10
 
 Use this before generating, accepting, wiring, or replacing any image asset. A visually strong image still fails if it says the wrong thing about the story.
 
@@ -54,6 +54,16 @@ Use this before generating, accepting, wiring, or replacing any image asset. A v
 - Name every character's gaze target: partner, player POV, or a scene object. Unexplained lens gaze is a rejection.
 - CGs are allowed to be dramatic; they are not allowed to rewrite character age, wealth, relationship state, or location layout.
 
+#### Gaze And Acting Hard Gate
+
+- Every CG job must declare `camera_role`, `gaze_source`, and `gaze_target` before generation.
+- A character looks into the lens only when the event explicitly makes the camera the player POV. Even then, the pupils target the player's implied eye position, not the image center by default.
+- In a two-person frame, head angle, pupil direction, shoulder turn, and hand gesture must all point to the same partner or object. Correct pupils on a catalog pose still fail.
+- Natural expression is asymmetric: brows, lids, mouth corners, cheek tension, and head tilt do not mirror perfectly. A stock smile pasted onto a face is a rejection.
+- The expression must answer the current verb in the prose: offering, checking, withholding, turning back, flinching, listening, or deciding. Generic `smiling at viewer` is not an acting direction.
+- UI portraits may address the player as interface figures. Narrative CGs must belong to the scene and its relationships.
+- During crop QA, cover the dialogue area and confirm that the remaining eyes still explain who is looking at whom.
+
 ### Key Art / Store Capsules
 
 - Keep master key art textless whenever possible.
@@ -93,7 +103,7 @@ Use this before generating, accepting, wiring, or replacing any image asset. A v
 ### Han Jiyeon's Recurring Sedan
 
 - Treat the sedan as a recurring character prop, not a generic luxury-car placeholder.
-- Exterior reference is `assets/cg/jiyeon_crash.png`; interior reference is `assets/cg/romance/first_kiss_jiyeon.png`.
+- Exterior reference is `assets/cg/jiyeon_crash_day_v3.png`; interior reference is `assets/cg/romance/first_kiss_jiyeon.png`.
 - Follow `assets/VEHICLE_VISUAL_BIBLE.md` for body class, wheel/trim language, black leather cabin, and left-hand-drive seating.
 - The first-snow, sun-visor photo-strip, drive-home, and future DLC scenes all use the same car unless the story explicitly records a replacement.
 
@@ -102,6 +112,15 @@ Use this before generating, accepting, wiring, or replacing any image asset. A v
 - For generic street backgrounds, keep the road, sidewalk, curb, and lane direction immediately readable.
 - Do not include a bus stop unless the event needs it. If a bus stop appears, the road-facing/boarding side, bench direction, shelter glass, and pedestrian approach must be spatially coherent.
 - Avoid ambiguous glass shelters in non-bus-stop backgrounds; they create the same continuity risk as misplaced car doors or missing bicycle wheels.
+
+### Daeun's Convenience Store
+
+- The canonical floor plan and camera lanes live in `assets/CONVENIENCE_STORE_VISUAL_BIBLE.md`.
+- Checkout sits beside the glass entrance so the clerk can see arrivals and departures.
+- The clerk stands between the counter and a solid tobacco/storage wall. Refrigerators never occupy the wall directly behind the clerk.
+- The POS screen faces the clerk. Customers see the back or side of the monitor.
+- Refrigerators run along the opposite or perpendicular perimeter wall, separated from the staff pocket.
+- Minjun stands on the public store side near the entrance; Daeun remains inside the staff pocket. The counter must visibly separate them.
 
 ## Production Status Tags
 

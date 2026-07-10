@@ -1,5 +1,27 @@
 # Gangnam Dream Work Log
 
+## 2026-07-10 (Codex — demo CG continuity and gaze-acting release gate)
+
+### 진단
+- 다은 첫 친절과 아버지 첫 전화는 데모 감정 척추인데 전용 CG가 없었고, 기존 편의점 배경은 카운터·직원 구역·냉장고·출입문 관계가 실제 매장처럼 읽히지 않았다.
+- 지연 첫 사고는 본문이 봄 오후인데 밤 장면이었고, 자전거·운전석·차량 정본이 대사창 아래로 사라졌다.
+- 다은/지연의 바다 특별 의상이 기본 복장과 같은 남색/흑백 팔레트를 반복했고, 다은 해변 컷은 머리 비율과 렌즈성 표정 때문에 CG보다 AI 포즈처럼 보였다.
+- 기존 체크리스트가 시선 목표를 언급했지만 활성 CG 전체가 그 계약을 갖는지 자동으로 보장하지 못했다.
+
+### 구현
+- `convenience_store_night_v2.png`와 공간 바이블을 추가했다. 입구와 고객 동선은 우측, 카운터/POS는 입구 옆, 직원 뒤는 고형 수납벽, 냉장고는 좌측 외곽 벽으로 잠갔다.
+- `daeun_first_kindness_v2.png`를 첫 만남 아크에 배선했다. 다은은 직원 구역, 민준은 출입문 쪽 고객 구역에 있고 두 삼각김밥을 사이에 둔 상호 시선을 사용한다.
+- `father_first_call_v1.png`를 서로 다른 방의 평행 분할 CG로 배선했다. 두 전화기와 고개가 중앙으로 향해 물리적으로 같은 방처럼 보이지 않으면서 감정선은 이어진다.
+- 지연 첫 사고를 `jiyeon_crash_day_v3.png`로 교체했다. 흐린 낮, 완전한 자전거, 좌측 운전석에서 내리는 지연, 무상표 검은 S-Class급 세단, 민준↔지연 시선을 대사창 위에 고정했다.
+- 다은 바다는 산호색 랩 수영복+옅은 하늘색 커버업(`sea_daeun_v3`/`npc_daeun_sea_v2`), 지연 바다는 에메랄드 비대칭 수영복+스모크 그레이 커버업(`sea_jiyeon_v2`/`npc_jiyeon_sea_v2`)으로 CG와 512x768 RGBA 초상을 함께 교체했다.
+- `cg_acting_manifest.json`과 `cg_acting_contract_check.py`를 추가했다. 활성 CG 17개가 경로·카메라 역할·장면 동사와 인물 29명의 시선 목표·몸 연기를 모두 가져야 하며, POV가 아닌 렌즈 응시는 감사 실패다.
+
+### 검증
+- `CGRuntimeCheck`: 새 데모 CG 2종과 사고/로맨스 CG 경로 전부 통과.
+- `ScreenshotQA --qa=story-en`: 편의점, 아버지 전화, 사고, 다은/지연 바다 CG를 1280x800 대사창 크롭 상태로 확인. `--qa=romance-portraits`: 새 특별 초상 2종의 의상·시선·알파 배치 확인.
+- `CG_ACTING_CHECK_OK active=17 actor_contracts=29 missing=0 stale=0`.
+- 전체 감사 ERROR 0 / WARNING 0, EN 한글 누출 0, 오디오/BGM/튜토리얼/AUTO/밸런스, 57개 GDScript 컴파일 통과.
+
 ## 2026-07-10 (Codex — identity-owned launch key art and store surface)
 
 ### 진단

@@ -19,6 +19,8 @@ func _ready() -> void:
 
 func _check_story_mode_cg() -> void:
 	await _check_story_event_cg("arc_jiyeon_01_crash", "cg_jiyeon_crash")
+	await _check_story_event_cg("arc_daeun_01_meet", "cg_demo_daeun_first_kindness")
+	await _check_story_event_cg("arc_father_01_call", "cg_demo_father_first_call")
 	await _check_story_event_cg("arc_season_sea_daeun", "cg_romance_sea_daeun")
 	await _check_story_event_cg("arc_season_sea_jiyeon", "cg_romance_sea_jiyeon")
 	await _check_story_event_cg("arc_season_fireworks_daeun", "cg_romance_fireworks_daeun")

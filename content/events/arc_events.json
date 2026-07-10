@@ -2419,6 +2419,7 @@
     "title": "전화",
     "background": "goshiwon_room",
     "portrait": "player_tired",
+    "cg": "cg_demo_father_first_call",
     "category": "story",
     "rarity": "story",
     "weight": 0,
