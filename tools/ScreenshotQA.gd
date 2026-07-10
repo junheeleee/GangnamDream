@@ -476,6 +476,13 @@ func _shot_start_menu_notice(lang: String, prefix: String) -> void:
 		menu._dismiss_splash()
 	await _settle(0.5)
 	await _save(prefix + "02_start_menu")
+	if menu.has_method("_open_load_overlay"):
+		menu._open_load_overlay()
+		await _settle(0.35)
+		await _save(prefix + "02b_load_game")
+		if menu.has_method("_close_load_overlay"):
+			menu._close_load_overlay()
+		await _settle(0.25)
 	if menu.has_method("_show_content_warning"):
 		menu._show_content_warning()
 		await _settle(0.4)

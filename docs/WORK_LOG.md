@@ -1,5 +1,22 @@
 # Gangnam Dream Work Log
 
+## 2026-07-10 (Codex — character-led StartMenu reconstruction)
+
+### 문제
+- 기존 첫 화면은 고시원 배경 위 타이틀·런 통계·저장 슬롯·설명 패널이 동시에 떠서, 시작부터 게임 포스터가 아니라 저장 관리 대시보드처럼 읽혔다.
+- 옥상 키아트는 분위기는 좋지만 민준의 뒷모습만 보여 지연·다은과의 갈등이나 캐릭터 팬덤 입구가 없었다.
+
+### 구현
+- `StartMenu`를 민준·다은·지연이 서울 유리면 안에서 보이는 풀스크린 포스터와 `계속하기/새 이야기/불러오기/설정/종료` 단일 세로 레일로 재구현했다.
+- 가장 최근 세이브를 자동 판정해 Continue에 연결하고, 기존 4슬롯·삭제 기능은 별도 Load Game overlay로 이동했다.
+- splash도 같은 아트 문법을 쓰며 패드 입력으로 즉시 진입하고, PlayStation/Xbox/Nintendo별 South 버튼 이름을 표시한다.
+- KO/EN 콘텐츠 안내를 같은 콘크리트 패널 재질과 15px 본문으로 정리했다.
+- `ScreenshotQA start-en`이 Load overlay까지 캡처하도록 확장했다.
+
+### QA 판정
+- KO/EN 1280x800과 EN 1920x1080에서 제목·얼굴·메뉴·포커스·불러오기·콘텐츠 안내 잘림 없음.
+- 현재 세 인물 합성은 상업 화면용 구도 프로토타입이다. 최종 IP 게이트는 단일 소유 키아트와 커스텀 워드마크가 들어온 뒤에만 완료 처리한다.
+
 ## 2026-07-10 (Codex — master release audit baseline + bilingual dead-overlay repair)
 
 ### 기준점

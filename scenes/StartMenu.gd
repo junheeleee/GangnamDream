@@ -5,6 +5,8 @@ extends Control
 
 var slot_container: VBoxContainer
 var _settings_overlay: ColorRect
+var _load_overlay: ColorRect
+var _title_command_buttons: Array[Button] = []
 
 var _splash_layer: Control
 var _splash_active: bool = true
@@ -162,6 +164,8 @@ func _rebuild_language_ui(show_splash: bool = false) -> void:
 		_splash_prompt_tween.kill()
 	_splash_prompt_tween = null
 	_settings_overlay = null
+	_load_overlay = null
+	_title_command_buttons.clear()
 	for child in get_children():
 		remove_child(child)
 		child.queue_free()
@@ -177,99 +181,196 @@ func _build_splash():
 	_splash_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_splash_layer.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(_splash_layer)
+	_build_title_backdrop(_splash_layer, true)
 
-	# 배경
-	var bg = ColorRect.new()
-	bg.color = Color("#0a0a0e")
-	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_splash_layer.add_child(bg)
+	var margin := MarginContainer.new()
+	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
+	margin.add_theme_constant_override("margin_left", 58)
+	margin.add_theme_constant_override("margin_right", 58)
+	margin.add_theme_constant_override("margin_top", 56)
+	margin.add_theme_constant_override("margin_bottom", 60)
+	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_splash_layer.add_child(margin)
 
-	var bg_img = TextureRect.new()
-	bg_img.set_anchors_preset(Control.PRESET_FULL_RECT)
-	bg_img.stretch_mode = TextureRect.STRETCH_SCALE
-	bg_img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	bg_img.modulate = Color(1, 1, 1, 0.10)
-	bg_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var tex = load("res://assets/backgrounds/goshiwon_room.png")
-	if tex:
-		bg_img.texture = tex
-	_splash_layer.add_child(bg_img)
+	var column := VBoxContainer.new()
+	column.custom_minimum_size = Vector2(410, 0)
+	column.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	column.add_theme_constant_override("separation", 8)
+	margin.add_child(column)
 
-	# 중앙 컨텐츠
-	var center = CenterContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
-	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_splash_layer.add_child(center)
+	var upper_spacer := Control.new()
+	upper_spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	column.add_child(upper_spacer)
 
-	var vbox = VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 10)
-	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
-	center.add_child(vbox)
+	column.add_child(_title_wordmark(74))
 
-	# 로고
-	var logo = Label.new()
-	logo.text = _tr("강남드림", "Gangnam Dream")
-	logo.add_theme_font_size_override("font_size", 80)
-	logo.add_theme_color_override("font_color", Color(MENU_ACCENT_BRIGHT))
-	logo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	vbox.add_child(logo)
+	var premise := Label.new()
+	premise.text = _tr("통장 50만원. 남은 시간 5년.", "KRW 500K. Five years left.")
+	premise.add_theme_font_size_override("font_size", 17)
+	premise.add_theme_color_override("font_color", Color("#aab1ba"))
+	premise.autowrap_mode = TextServer.AUTOWRAP_OFF
+	column.add_child(premise)
 
-	var sub = Label.new()
-	sub.text = _tr("KOREAN LIFE SIM", "SEOUL STATUS LIFE SIM")
-	sub.add_theme_font_size_override("font_size", 15)
-	sub.add_theme_color_override("font_color", Color("#515a76"))
-	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	vbox.add_child(sub)
+	var rule := HSeparator.new()
+	rule.custom_minimum_size = Vector2(320, 1)
+	rule.add_theme_color_override("color", Color("#d8dee8", 0.34))
+	column.add_child(rule)
 
-	var sep = HSeparator.new()
-	sep.modulate = Color("#1e1e2a")
-	sep.custom_minimum_size = Vector2(320, 0)
-	vbox.add_child(sep)
-
-	var tagline = Label.new()
-	tagline.text = _tr("서울 고시원 50만원에서 강남드림까지", "From KRW 500K in a Seoul goshiwon to Gangnam")
-	tagline.add_theme_font_size_override("font_size", 15)
-	tagline.add_theme_color_override("font_color", Color("#4a5068"))
-	tagline.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	vbox.add_child(tagline)
-
-	# 누적 기록 (런 있을 때만 표시)
-	var meta = MetaProgression.data
-	var total_runs = int(meta.get("total_runs", 0))
-	if total_runs > 0:
-		var meta_row := HBoxContainer.new()
-		meta_row.alignment = BoxContainer.ALIGNMENT_CENTER
-		meta_row.add_theme_constant_override("separation", 8)
-		vbox.add_child(meta_row)
-		meta_row.add_child(_splash_meta_badge(_tr("런", "RUNS"), "%d" % total_runs))
-		meta_row.add_child(_splash_meta_badge(
-			_tr("최고", "BEST"),
-			_format_money(meta.get("best_asset", 0)) if not LocaleManager.is_english() else _format_start_money(float(meta.get("best_asset", 0)))))
-
-		# 엔딩 도감 진행도 — 컴플리션 후크 (메뉴에서 바로 보이게)
-		var coll: Dictionary = MetaProgression.get_ending_collection_progress()
-		var coll_found: int = int(coll.get("found", 0))
-		var coll_total: int = int(coll.get("total", 0))
-		if coll_total > 0:
-			meta_row.add_child(_splash_meta_badge(_tr("엔딩", "ENDINGS"), "%d / %d" % [coll_found, coll_total], coll_found >= coll_total))
-
-	var spacer = Control.new()
-	spacer.custom_minimum_size = Vector2(0, 52)
-	vbox.add_child(spacer)
-
-	# PRESS ANY KEY — 깜빡임
-	var press_lbl = Label.new()
-	press_lbl.text = "PRESS ANY KEY"
-	press_lbl.add_theme_font_size_override("font_size", 17)
-	press_lbl.add_theme_color_override("font_color", Color("#5a6075"))
-	press_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	vbox.add_child(press_lbl)
+	var press_lbl := Label.new()
+	press_lbl.text = ("[%s]  " % ControllerHints.south() + _tr("시작", "START")) \
+		if ControllerHints.is_pad_active() else _tr("아무 키나 누르세요", "PRESS ANY KEY")
+	press_lbl.add_theme_font_size_override("font_size", 15)
+	press_lbl.add_theme_color_override("font_color", Color("#d8dee8"))
+	press_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	column.add_child(press_lbl)
 
 	_splash_prompt_tween = create_tween()
 	_splash_prompt_tween.set_loops()
 	_splash_prompt_tween.tween_property(press_lbl, "modulate:a", 0.12, 0.75)
 	_splash_prompt_tween.tween_property(press_lbl, "modulate:a", 1.0, 0.75)
+
+func _build_title_backdrop(parent: Control, splash: bool = false) -> void:
+	var base := ColorRect.new()
+	base.color = Color("#08090c")
+	base.set_anchors_preset(Control.PRESET_FULL_RECT)
+	base.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(base)
+
+	var city := _title_texture("res://assets/backgrounds/gangnam_night_street.png")
+	city.set_anchors_preset(Control.PRESET_FULL_RECT)
+	city.modulate = Color(1, 1, 1, 0.72 if splash else 0.78)
+	_apply_title_grade(city, 0.70, 0.62, 0.16, 3.0)
+	parent.add_child(city)
+
+	# The goshiwon is not a second card. It bleeds into the city as the left pane
+	# of the same window, so the first image already holds origin and ambition.
+	var room_clip := Control.new()
+	room_clip.set_anchors_preset(Control.PRESET_FULL_RECT)
+	room_clip.anchor_right = 0.48
+	room_clip.clip_contents = true
+	room_clip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(room_clip)
+	var room := _title_texture("res://assets/cg/start.png")
+	room.set_anchors_preset(Control.PRESET_FULL_RECT)
+	room.anchor_right = 2.08
+	room.modulate = Color(1, 1, 1, 0.78)
+	_apply_title_grade(room, 0.84, 0.55, 0.20, 7.0)
+	room_clip.add_child(room)
+
+	var daeun := _title_portrait("res://assets/characters/npc_romantic_interest.png", 0.43, 0.69, 0.18, 1.04, 0.74)
+	var jiyeon := _title_portrait("res://assets/characters/npc_mentor.png", 0.75, 1.02, 0.09, 1.03, 0.82)
+	var minjun := _title_portrait("res://assets/characters/main_character_unemployed.png", 0.56, 0.87, 0.06, 1.04, 0.98)
+	_apply_title_grade(daeun, 0.44, 0.82, 0.08, 13.0)
+	_apply_title_grade(jiyeon, 0.30, 0.84, 0.08, 17.0)
+	_apply_title_grade(minjun, 0.68, 0.77, 0.12, 11.0)
+	parent.add_child(daeun)
+	parent.add_child(jiyeon)
+	parent.add_child(minjun)
+
+	# Thin glass divisions make the cast part of one reflected city surface.
+	for x in [0.55, 0.74]:
+		var glass_line := ColorRect.new()
+		glass_line.color = Color("#dce4ec", 0.10)
+		glass_line.anchor_left = x
+		glass_line.anchor_right = x
+		glass_line.anchor_top = 0.06
+		glass_line.anchor_bottom = 0.94
+		glass_line.offset_right = 1.0
+		glass_line.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		parent.add_child(glass_line)
+
+	var scrim := TextureRect.new()
+	scrim.texture = _horizontal_scrim_texture()
+	scrim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	scrim.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	scrim.stretch_mode = TextureRect.STRETCH_SCALE
+	scrim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(scrim)
+
+	var lower := ColorRect.new()
+	lower.color = Color(0.02, 0.025, 0.035, 0.30)
+	lower.anchor_left = 0.0
+	lower.anchor_right = 1.0
+	lower.anchor_top = 0.88
+	lower.anchor_bottom = 1.0
+	lower.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(lower)
+
+func _title_texture(path: String) -> TextureRect:
+	var rect := TextureRect.new()
+	rect.texture = load(path)
+	rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return rect
+
+func _title_portrait(path: String, left: float, right: float, top: float, bottom: float, alpha: float) -> TextureRect:
+	var rect := _title_texture(path)
+	rect.anchor_left = left
+	rect.anchor_right = right
+	rect.anchor_top = top
+	rect.anchor_bottom = bottom
+	rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	rect.modulate = Color(1, 1, 1, alpha)
+	return rect
+
+func _apply_title_grade(rect: TextureRect, desaturation: float, brightness: float, edge_burn: float, seed: float) -> void:
+	var shader := load("res://assets/shaders/background_grade.gdshader") as Shader
+	if shader == null:
+		return
+	var material := ShaderMaterial.new()
+	material.shader = shader
+	material.set_shader_parameter("desaturation", desaturation)
+	material.set_shader_parameter("brightness", brightness)
+	material.set_shader_parameter("contrast", 0.96)
+	material.set_shader_parameter("grain_amount", 0.016)
+	material.set_shader_parameter("ink_bleed", 0.045)
+	material.set_shader_parameter("paper_fade", 0.012)
+	material.set_shader_parameter("edge_burn", edge_burn)
+	material.set_shader_parameter("print_screen", 0.010)
+	material.set_shader_parameter("seed", seed)
+	rect.material = material
+
+func _horizontal_scrim_texture() -> GradientTexture2D:
+	var gradient := Gradient.new()
+	gradient.offsets = PackedFloat32Array([0.0, 0.34, 0.62, 1.0])
+	gradient.colors = PackedColorArray([
+		Color(0.018, 0.020, 0.026, 0.98),
+		Color(0.018, 0.020, 0.026, 0.90),
+		Color(0.018, 0.020, 0.026, 0.22),
+		Color(0.018, 0.020, 0.026, 0.08),
+	])
+	var texture := GradientTexture2D.new()
+	texture.gradient = gradient
+	texture.width = 1280
+	texture.height = 8
+	texture.fill_from = Vector2(0.0, 0.5)
+	texture.fill_to = Vector2(1.0, 0.5)
+	return texture
+
+func _title_wordmark(font_size: int = 66) -> VBoxContainer:
+	var stack := VBoxContainer.new()
+	stack.add_theme_constant_override("separation", -4)
+	stack.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+
+	var ko := Label.new()
+	ko.text = _tr("강남\n드림", "GANGNAM\nDREAM")
+	ko.add_theme_font_size_override("font_size", font_size)
+	ko.add_theme_color_override("font_color", Color("#f0f2f5"))
+	ko.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.55))
+	ko.add_theme_constant_override("shadow_offset_x", 2)
+	ko.add_theme_constant_override("shadow_offset_y", 2)
+	ko.autowrap_mode = TextServer.AUTOWRAP_OFF
+	ko.clip_text = false
+	stack.add_child(ko)
+
+	var en := Label.new()
+	en.text = "GANGNAM DREAM" if not LocaleManager.is_english() else "A KOREAN SOCIAL-REALITY DRAMA"
+	en.add_theme_font_size_override("font_size", 11)
+	en.add_theme_color_override("font_color", Color("#8d96a2"))
+	en.autowrap_mode = TextServer.AUTOWRAP_OFF
+	stack.add_child(en)
+	return stack
 
 func _splash_meta_badge(label_text: String, value_text: String, complete: bool = false) -> PanelContainer:
 	var badge := PanelContainer.new()
@@ -306,16 +407,21 @@ func _splash_meta_badge(label_text: String, value_text: String, complete: bool =
 	return badge
 
 func _input(event):
-	if not _splash_active:
+	if _splash_active:
+		var dismiss := false
+		if event is InputEventKey and event.pressed and not event.echo:
+			dismiss = true
+		elif event is InputEventMouseButton and event.pressed:
+			dismiss = true
+		elif event is InputEventJoypadButton and event.pressed:
+			dismiss = true
+		if dismiss:
+			get_viewport().set_input_as_handled()
+			_dismiss_splash()
 		return
-	var dismiss = false
-	if event is InputEventKey and event.pressed and not event.echo:
-		dismiss = true
-	elif event is InputEventMouseButton and event.pressed:
-		dismiss = true
-	if dismiss:
+	if is_instance_valid(_load_overlay) and event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()
-		_dismiss_splash()
+		_close_load_overlay()
 
 func _dismiss_splash():
 	_splash_active = false
@@ -328,6 +434,259 @@ func _dismiss_splash():
 	tween.tween_callback(_splash_layer.queue_free)
 
 func _build_ui():
+	_build_title_backdrop(self)
+	_title_command_buttons.clear()
+
+	var margin := MarginContainer.new()
+	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
+	margin.add_theme_constant_override("margin_left", 56)
+	margin.add_theme_constant_override("margin_right", 44)
+	margin.add_theme_constant_override("margin_top", 48)
+	margin.add_theme_constant_override("margin_bottom", 46)
+	add_child(margin)
+
+	var column := VBoxContainer.new()
+	column.custom_minimum_size = Vector2(390, 0)
+	column.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	column.add_theme_constant_override("separation", 10)
+	margin.add_child(column)
+
+	column.add_child(_title_wordmark(64))
+
+	var premise := Label.new()
+	premise.text = _tr(
+		"김민준, 33세. 통장 50만원. 남은 시간 5년.",
+		"Kim Minjun, 33. KRW 500K. Five years left.")
+	premise.add_theme_font_size_override("font_size", 15)
+	premise.add_theme_color_override("font_color", Color("#b3bac4"))
+	premise.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	premise.custom_minimum_size = Vector2(370, 0)
+	column.add_child(premise)
+
+	var subpremise := Label.new()
+	subpremise.text = _tr(
+		"어떤 사람이 되어 도착할지는, 아직 모른다.",
+		"Who he becomes along the way is still unwritten.")
+	subpremise.add_theme_font_size_override("font_size", 12)
+	subpremise.add_theme_color_override("font_color", Color("#707985"))
+	subpremise.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	column.add_child(subpremise)
+
+	var spacer := Control.new()
+	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	column.add_child(spacer)
+
+	var latest_slot := _latest_save_slot()
+	if latest_slot >= 0:
+		var latest: Dictionary = SaveManager.get_save_info(latest_slot)
+		var resume := Label.new()
+		resume.text = _tr(
+			"최근 기록  ·  %d년 %d월  ·  %s" % [
+				int(latest.get("year", 2026)), int(latest.get("month", 1)),
+				_format_money(latest.get("total_assets", 0))],
+			"LAST RECORD  ·  %d / %02d  ·  %s" % [
+				int(latest.get("year", 2026)), int(latest.get("month", 1)),
+				_format_start_money(float(latest.get("total_assets", 0)))])
+		resume.add_theme_font_size_override("font_size", 11)
+		resume.add_theme_color_override("font_color", Color("#747e89"))
+		column.add_child(resume)
+
+	var menu := VBoxContainer.new()
+	menu.custom_minimum_size = Vector2(360, 0)
+	menu.add_theme_constant_override("separation", 5)
+	column.add_child(menu)
+
+	var continue_btn := _title_command_button(_tr("계속하기", "Continue"))
+	continue_btn.disabled = latest_slot < 0
+	if latest_slot >= 0:
+		continue_btn.pressed.connect(func(): _load_slot(latest_slot))
+	menu.add_child(continue_btn)
+
+	var new_btn := _title_command_button(_tr("새 이야기", "New Story"))
+	new_btn.pressed.connect(_start_new_run)
+	menu.add_child(new_btn)
+
+	var load_btn := _title_command_button(_tr("불러오기", "Load Game"))
+	load_btn.pressed.connect(_open_load_overlay)
+	menu.add_child(load_btn)
+
+	var options_btn := _title_command_button(_tr("설정", "Options"))
+	options_btn.pressed.connect(_open_settings_popup)
+	menu.add_child(options_btn)
+
+	var quit_btn := _title_command_button(_tr("게임 종료", "Quit"), true)
+	quit_btn.pressed.connect(func(): get_tree().quit())
+	menu.add_child(quit_btn)
+
+	var hint := Label.new()
+	hint.text = ("[%s] %s" % [ControllerHints.south(), _tr("선택", "Select")]) \
+		if ControllerHints.is_pad_active() else ""
+	hint.add_theme_font_size_override("font_size", 11)
+	hint.add_theme_color_override("font_color", Color("#66707b"))
+	hint.custom_minimum_size = Vector2(0, 18)
+	column.add_child(hint)
+
+	if latest_slot >= 0:
+		continue_btn.call_deferred("grab_focus")
+	else:
+		new_btn.call_deferred("grab_focus")
+
+func _title_command_button(text: String, quiet: bool = false) -> Button:
+	var button := Button.new()
+	button.text = text
+	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	button.custom_minimum_size = Vector2(360, 50)
+	button.focus_mode = Control.FOCUS_ALL
+	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	button.add_theme_font_size_override("font_size", 17)
+	button.add_theme_color_override("font_color", Color("#cbd1d8") if quiet else Color("#eef1f4"))
+	button.add_theme_color_override("font_hover_color", Color("#ffffff"))
+	button.add_theme_color_override("font_focus_color", Color("#ffffff"))
+	button.add_theme_color_override("font_disabled_color", Color("#4e5661"))
+
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = Color(0.035, 0.041, 0.052, 0.46)
+	normal.border_color = Color("#68727e", 0.34)
+	normal.border_width_left = 2
+	normal.content_margin_left = 17
+	normal.content_margin_right = 14
+	normal.set_corner_radius_all(2)
+
+	var hover := normal.duplicate()
+	hover.bg_color = Color(0.075, 0.085, 0.102, 0.76)
+	hover.border_color = Color("#c8d0d9", 0.74)
+	hover.border_width_left = 4
+
+	var pressed := hover.duplicate()
+	pressed.bg_color = Color(0.025, 0.030, 0.038, 0.92)
+
+	var focus := hover.duplicate()
+	focus.bg_color = Color(0.095, 0.107, 0.124, 0.86)
+	focus.border_color = Color("#f0f3f6")
+	focus.border_width_left = 5
+	focus.border_width_top = 1
+	focus.border_width_right = 1
+	focus.border_width_bottom = 1
+
+	var disabled := normal.duplicate()
+	disabled.bg_color = Color(0.02, 0.024, 0.031, 0.24)
+	disabled.border_color = Color("#343b45", 0.30)
+
+	button.add_theme_stylebox_override("normal", normal)
+	button.add_theme_stylebox_override("hover", hover)
+	button.add_theme_stylebox_override("pressed", pressed)
+	button.add_theme_stylebox_override("focus", focus)
+	button.add_theme_stylebox_override("disabled", disabled)
+	_title_command_buttons.append(button)
+	return button
+
+func _latest_save_slot() -> int:
+	var latest_slot := -1
+	var latest_stamp := ""
+	for slot in range(0, SaveManager.SLOT_COUNT + 1):
+		var info: Dictionary = SaveManager.get_save_info(slot)
+		if bool(info.get("empty", true)):
+			continue
+		var stamp := str(info.get("saved_at", ""))
+		if latest_slot < 0 or stamp > latest_stamp:
+			latest_slot = slot
+			latest_stamp = stamp
+	return latest_slot
+
+func _open_load_overlay() -> void:
+	if is_instance_valid(_load_overlay):
+		_load_overlay.queue_free()
+
+	_load_overlay = ColorRect.new()
+	_load_overlay.color = Color(0.015, 0.018, 0.024, 0.90)
+	_load_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_load_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(_load_overlay)
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_load_overlay.add_child(center)
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(590, 0)
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color("#0d1016", 0.98)
+	panel_style.border_color = Color("#5d6773", 0.72)
+	panel_style.set_border_width_all(1)
+	panel_style.border_width_left = 4
+	panel_style.set_corner_radius_all(4)
+	panel_style.content_margin_left = 24
+	panel_style.content_margin_right = 24
+	panel_style.content_margin_top = 20
+	panel_style.content_margin_bottom = 20
+	panel.add_theme_stylebox_override("panel", panel_style)
+	center.add_child(panel)
+
+	var body := VBoxContainer.new()
+	body.add_theme_constant_override("separation", 12)
+	panel.add_child(body)
+
+	var header := HBoxContainer.new()
+	body.add_child(header)
+	var titles := VBoxContainer.new()
+	titles.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	titles.add_theme_constant_override("separation", 2)
+	header.add_child(titles)
+	var title := Label.new()
+	title.text = _tr("기록 불러오기", "Load Game")
+	title.add_theme_font_size_override("font_size", 24)
+	title.add_theme_color_override("font_color", Color("#eef1f4"))
+	titles.add_child(title)
+	var note := Label.new()
+	note.text = _tr("이어갈 시간을 선택하세요.", "Choose the life you want to continue.")
+	note.add_theme_font_size_override("font_size", 12)
+	note.add_theme_color_override("font_color", Color("#7b8490"))
+	titles.add_child(note)
+
+	var close_btn := Button.new()
+	close_btn.text = "×"
+	close_btn.tooltip_text = _tr("닫기", "Close")
+	close_btn.custom_minimum_size = Vector2(44, 44)
+	close_btn.add_theme_font_size_override("font_size", 22)
+	close_btn.flat = true
+	close_btn.pressed.connect(_close_load_overlay)
+	header.add_child(close_btn)
+
+	var rule := HSeparator.new()
+	rule.add_theme_color_override("color", Color("#343b45"))
+	body.add_child(rule)
+
+	slot_container = VBoxContainer.new()
+	slot_container.add_theme_constant_override("separation", 8)
+	body.add_child(slot_container)
+	_rebuild_slots()
+
+	var back := _title_command_button(_tr("뒤로", "Back"), true)
+	back.custom_minimum_size = Vector2(0, 46)
+	back.pressed.connect(_close_load_overlay)
+	body.add_child(back)
+	call_deferred("_focus_first_load_button")
+
+func _focus_first_load_button() -> void:
+	if not is_instance_valid(slot_container):
+		return
+	for node in slot_container.find_children("*", "Button", true, false):
+		if node is Button and not (node as Button).disabled:
+			(node as Button).grab_focus()
+			return
+
+func _close_load_overlay() -> void:
+	if is_instance_valid(_load_overlay):
+		_load_overlay.queue_free()
+	_load_overlay = null
+	for button in _title_command_buttons:
+		if is_instance_valid(button) and not button.disabled:
+			button.call_deferred("grab_focus")
+			break
+
+# Retained temporarily as a functional reference while settings/content notice
+# are migrated to the same poster grammar. It is no longer called by StartMenu.
+func _build_legacy_ui():
 	# ── 배경 ──
 	var bg = ColorRect.new()
 	bg.color = Color("#080810")
@@ -909,10 +1268,11 @@ func _show_content_warning():
 	var panel = PanelContainer.new()
 	panel.custom_minimum_size = Vector2(460, 0)
 	var panel_st = StyleBoxFlat.new()
-	panel_st.bg_color = Color("#12121e")
-	panel_st.border_color = Color(MENU_BORDER_ACTIVE)
+	panel_st.bg_color = Color("#0d1016", 0.98)
+	panel_st.border_color = Color("#7b8591", 0.82)
 	panel_st.set_border_width_all(1)
-	panel_st.set_corner_radius_all(10)
+	panel_st.border_width_left = 4
+	panel_st.set_corner_radius_all(4)
 	panel_st.content_margin_left = 28
 	panel_st.content_margin_right = 28
 	panel_st.content_margin_top = 28
@@ -953,8 +1313,8 @@ func _show_content_warning():
 			+ "• Mental health struggles\n\n"
 			+ "Gangnam Dream is a realistic portrayal of life. "
 			+ "Difficult situations are part of the story — not endorsements.")
-	body_lbl.add_theme_font_size_override("font_size", 13)
-	body_lbl.add_theme_color_override("font_color", Color("#8892a4"))
+	body_lbl.add_theme_font_size_override("font_size", 15)
+	body_lbl.add_theme_color_override("font_color", Color("#aeb6c0"))
 	vbox.add_child(body_lbl)
 
 	var sep1 = HSeparator.new()

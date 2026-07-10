@@ -6,6 +6,8 @@ Updated: 2026-07-10
 
 This is the final cross-discipline quality gate for Gangnam Dream. It covers the work as a game, a story, a bilingual release, a controller product, a visual IP, and a commercial Steam package.
 
+Adjacent and top-selling execution references are assigned by surface in `docs/STEAM_QUALITY_BENCHMARKS.md`.
+
 `Metacritic 90` and `one million copies` are ambitions, not promises. They are useful only when translated into observable gates:
 
 - No review-killing weakness may remain in first impression, core loop, writing, controls, localization, stability, or asset legitimacy.
@@ -38,7 +40,7 @@ These are confidence bands, not review scores. Every band must be replaced by pl
 | Dimension | Current band | Evidence / primary risk |
 |---|---|---|
 | Premise and social theme | Strong | 500K to 3B in five years, father debt, class pressure, moral erosion are immediately legible and culturally specific |
-| First impression / IP | Critical | StartMenu is a goshiwon dashboard; current rooftop image hides Minjun's face; no launch image sells the cast |
+| First impression / IP | Developing | StartMenu now sells Minjun/Daeun/Jiyeon through a single-axis poster layout; final owned key art and custom wordmark are still missing |
 | Flagship character appeal | Weak to developing | Portraits are readable, but props, silhouette grammar, leitmotifs, and promotional scene ownership were not locked |
 | Core weekly loop | Critical | AP screen reads like a dark web admin page; action selection lacks anticipation, tactile commitment, and a visible short-term plan |
 | Story architecture | Unverified | Large authored spine exists, but a full black-box 240-week dramatic trace has not been critic-read end to end |
@@ -48,7 +50,7 @@ These are confidence bands, not review scores. Every band must be replaced by pl
 | Balance | Technically stable | Fixed policy simulations pass current bands; human fun, exploitability, and difficulty perception remain unverified |
 | Writing quality | Uneven | Several flagship scenes are strong; ambient pool and EN overlays contain visible style variance |
 | EN localization | Critical to developing | Zero-Hangul is clean, but native voice, pronouns, cultural context, and dead overlay parity require a full prose pass |
-| UI/UX | Weak | Too many simultaneous panels, repeated rectangles, small text, and weak material hierarchy |
+| UI/UX | Weak to developing | Title surface now has a clear hierarchy and second-layer save management; AP and dense modals still carry the old dashboard grammar |
 | Controller / Steam Deck | Developing | Brand-aware glyphs and several focus models exist; dense modals and large betting boards still require task-level tests |
 | Image quality / continuity | Developing | Background/portrait separation and romance manifest exist; style generation eras and key-scene coverage remain visible |
 | Audio identity | Developing | Context routing exists; only seven BGM tracks and no asset-license ledger create repetition and release risk |
