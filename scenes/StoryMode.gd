@@ -72,20 +72,28 @@ var _story_ink_transition_layer: Control = null
 var _story_ink_transition_tween: Tween = null
 var _story_ink_transition_progress: float = 0.0
 var _story_ink_transition_kind: String = "scene"
+var _auto_button: Button = null
+var _auto_mode: bool = false
+var _auto_wait: float = -1.0
+var _auto_button_signature: String = ""
 
 var _font: FontFile
 var _font_bold: FontFile
 
 const TYPE_SPEED := 0.018   # 글자당 초
+const JOY_BUTTON_NORTH := 3
 const PORTRAIT_OFFSET_LEFT := -430
 const PORTRAIT_OFFSET_RIGHT := -28
 const PORTRAIT_OFFSET_TOP := -690
 const PORTRAIT_OFFSET_BOTTOM := -40
 const PORTRAIT_CHOICE_SHIFT_X := 72
 
+static var _auto_enabled_session: bool = false
+
 func _ready():
 	_load_fonts()
 	_build_ui()
+	_set_auto_mode(_auto_enabled_session, false)
 	_refresh_hud()
 	GameState.stats_changed.connect(_refresh_hud)
 	if not GameState.moral_tint_changed.is_connected(_on_story_moral_tint_changed):
@@ -523,6 +531,34 @@ func _build_ui():
 	_continue_hint.visible = false
 	text_panel.add_child(_continue_hint)
 
+	# VN 본문 자동 재생. 선택지와 챕터 카드는 자동으로 확정하지 않는다.
+	_auto_button = Button.new()
+	_auto_button.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	_auto_button.offset_left = 34
+	_auto_button.offset_top = -30
+	_auto_button.offset_right = 142
+	_auto_button.offset_bottom = -7
+	_auto_button.focus_mode = Control.FOCUS_NONE
+	_auto_button.add_theme_font_size_override("font_size", 11)
+	_auto_button.add_theme_color_override("font_color", Color("#6f7886"))
+	_auto_button.add_theme_color_override("font_hover_color", Color("#dce3eb"))
+	var auto_normal := StyleBoxFlat.new()
+	auto_normal.bg_color = Color("#0a0c10", 0.72)
+	auto_normal.border_color = Color("#343a43", 0.78)
+	auto_normal.set_border_width_all(1)
+	auto_normal.set_corner_radius_all(2)
+	var auto_hover := auto_normal.duplicate()
+	auto_hover.bg_color = Color("#171b21", 0.92)
+	auto_hover.border_color = Color("#788390")
+	_auto_button.add_theme_stylebox_override("normal", auto_normal)
+	_auto_button.add_theme_stylebox_override("hover", auto_hover)
+	_auto_button.add_theme_stylebox_override("pressed", auto_hover)
+	if _font_bold:
+		_auto_button.add_theme_font_override("font", _font_bold)
+	_auto_button.pressed.connect(func(): _set_auto_mode(not _auto_mode))
+	text_panel.add_child(_auto_button)
+	_refresh_auto_button()
+
 	# 8. 선택지 박스 — 텍스트 박스(높이250) 위에 띄움. 겹치지 않게 -270부터.
 	_choice_box = VBoxContainer.new()
 	_choice_box.anchor_left = 0.08
@@ -941,6 +977,7 @@ func _complete_typing() -> void:
 	_continue_hint.text = _tr("[%s] 또는 클릭", "[%s] or click") % ControllerHints.south() \
 			if ControllerHints.is_pad_active() else _tr("▼  클릭하여 계속", "▼  Click to continue")
 	_continue_hint.visible = true
+	_arm_auto_advance(_type_full)
 
 # ── 타이핑 효과 ───────────────────────────────────────────────
 var _type_accum: float = 0.0
@@ -950,10 +987,12 @@ func _start_typing(full_text: String):
 	_type_pos = 0
 	_type_accum = 0.0
 	_typing = true
+	_auto_wait = -1.0
 	_body_lbl.text = ""
 	_continue_hint.visible = false
 
 func _process(delta):
+	_refresh_auto_button()
 	if _direction_hold_active:
 		_direction_hold_remaining -= delta
 		if _direction_hold_remaining <= 0.0:
@@ -967,6 +1006,11 @@ func _process(delta):
 			_finish_direction_beat()
 		return
 	if not _typing:
+		if _can_auto_advance():
+			_auto_wait -= delta
+			if _auto_wait <= 0.0:
+				_auto_wait = -1.0
+				_on_advance()
 		return
 	_type_accum += delta
 	var interval: float = _direction_type_interval()
@@ -1021,6 +1065,10 @@ func _unhandled_input(event: InputEvent):
 			_close_tutorial_popup()
 			get_viewport().set_input_as_handled()
 		return
+	if _is_auto_toggle_event(event):
+		_set_auto_mode(not _auto_mode)
+		get_viewport().set_input_as_handled()
+		return
 	if event.is_action_pressed("ui_accept"):
 		if _showing_choices:
 			return  # 포커스된 선택지 버튼이 직접 처리
@@ -1029,6 +1077,58 @@ func _unhandled_input(event: InputEvent):
 	elif event.is_action_pressed("ui_cancel"):
 		# B/○/East: 이야기 도중엔 뒤로 가지 않음 (실수 방지)
 		get_viewport().set_input_as_handled()
+
+func _is_auto_toggle_event(event: InputEvent) -> bool:
+	if event is InputEventKey:
+		var key := event as InputEventKey
+		return key.pressed and not key.echo and key.keycode == KEY_A \
+				and not key.ctrl_pressed and not key.alt_pressed and not key.meta_pressed
+	if event is InputEventJoypadButton:
+		var joy := event as InputEventJoypadButton
+		return joy.pressed and int(joy.button_index) == JOY_BUTTON_NORTH
+	return false
+
+func _set_auto_mode(enabled: bool, announce: bool = true) -> void:
+	_auto_mode = enabled
+	_auto_enabled_session = enabled
+	if enabled and not _typing and not _showing_choices:
+		_arm_auto_advance(_type_full)
+	else:
+		_auto_wait = -1.0
+	_refresh_auto_button(true)
+	if announce and is_instance_valid(_text_panel):
+		_pulse_story_choice_commit()
+
+func _arm_auto_advance(text: String) -> void:
+	if not _auto_mode:
+		_auto_wait = -1.0
+		return
+	# 타이핑 중에도 읽는다는 전제에서 짧은 여운만 더한다. 긴 문단은 최대 3.3초.
+	_auto_wait = 0.85 + clampf(float(text.length()) * 0.012, 0.35, 2.45)
+
+func _can_auto_advance() -> bool:
+	return _auto_mode \
+			and _auto_wait >= 0.0 \
+			and not _typing \
+			and not _showing_choices \
+			and not _is_chapter_card \
+			and not _transitioning \
+			and not _direction_hold_active \
+			and not _direction_beat_waiting \
+			and not is_instance_valid(_tutorial_popup) \
+			and is_instance_valid(_continue_hint) \
+			and _continue_hint.visible
+
+func _refresh_auto_button(force: bool = false) -> void:
+	if not is_instance_valid(_auto_button):
+		return
+	var key_name := ControllerHints.north() if ControllerHints.is_pad_active() else "A"
+	var signature := "%s:%s" % ["on" if _auto_mode else "off", key_name]
+	if not force and signature == _auto_button_signature:
+		return
+	_auto_button_signature = signature
+	_auto_button.text = "%s  [%s]" % ["AUTO ON" if _auto_mode else "AUTO", key_name]
+	_auto_button.add_theme_color_override("font_color", Color("#dce3eb") if _auto_mode else Color("#6f7886"))
 
 # ── 선택지 ────────────────────────────────────────────────────
 func _clear_result_record_card() -> void:

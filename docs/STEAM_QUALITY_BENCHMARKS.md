@@ -8,6 +8,20 @@ Steam's global top-seller list changes continuously. Gangnam Dream should not im
 
 The benchmark is not asset quantity or studio budget. It is whether the player can identify the promise, understand the next input, feel the result, remember the cast, and describe why another run matters.
 
+## Live Top-100 Calibration
+
+Steam's Top Sellers list is a commercial signal, not a review score or a fixed quality canon. Valve states that the real-time chart rolls up the previous 24 hours of revenue, gives extra weight to the most recent three hours, and includes base-game, DLC, and in-game spending. Source: https://partner.steamgames.com/doc/store/top_sellers
+
+Therefore Gangnam Dream does not chase the current Top 100's genres. It uses the list to audit commercial execution:
+
+1. A store thumbnail communicates the product before the title is read.
+2. The first session reaches the product's signature interaction without input fatigue.
+3. Every repeated action has readable anticipation, response, and a reason to repeat.
+4. Controller, text size, audio continuity, save trust, and language parity create no refund excuse.
+5. The game has an ownable character, object, sound, or transformation that survives outside the store page.
+
+The live chart is refreshed before store/capsule reviews. Surface design remains anchored to adjacent narrative references below, because revenue rank alone cannot tell us how a text-heavy single-player game should play.
+
 ## Reference Matrix
 
 | Reference | Public evidence | What Gangnam Dream benchmarks | What not to copy |

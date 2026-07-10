@@ -42,7 +42,7 @@ These are confidence bands, not review scores. Every band must be replaced by pl
 | Premise and social theme | Strong | 500K to 3B in five years, father debt, class pressure, moral erosion are immediately legible and culturally specific |
 | First impression / IP | Developing | StartMenu now sells Minjun/Daeun/Jiyeon through a single-axis poster layout; final owned key art and custom wordmark are still missing |
 | Flagship character appeal | Weak to developing | Portraits are readable, but props, silhouette grammar, leitmotifs, and promotional scene ownership were not locked |
-| Core weekly loop | Developing | A real-input pass now reaches the first AP board without progression blockers, and the board leads with visible outcome/risk/echo cues; first-30-minute pacing, tactile execution, and voluntary reading still need timed stranger proof |
+| Core weekly loop | Developing | A real-input pass reaches the first AP board without blockers; AUTO reduces pre-AP manual confirms to six and is choice-safe. Weekly tactile execution, three-week planning, and voluntary reading still need timed stranger proof |
 | Story architecture | Unverified | Large authored spine exists, but a full black-box 240-week dramatic trace has not been critic-read end to end |
 | Chapter pacing | Unverified | Content counts cannot prove that each act has escalation, reversal, climax, and breathing room |
 | Choice consequence | Developing | Callback architecture is a real strength; immediate cost and player comprehension vary by event |

@@ -52,6 +52,8 @@ Command template:
 Automated onboarding gates:
 
 - `TutorialInputCheck.tscn` must advance exactly one tutorial slide per accept input, never activate an underlying AP action, dismiss cleanly, and restore the previous focus. It runs inside `tools/audit.sh`.
+- `StoryPlaybackCheck.tscn` must let AUTO advance prose while remaining parked at every choice; keyboard `A` and gamepad North are toggles, never surrogate choice inputs.
+- `first_session_pacing_audit.py` caps the authored prologue at eight chained scenes/eight AUTO confirmations, requires a meaningful choice by scene three, checks KO/EN choice parity, and rejects placeholder-only choices or oversized text-panel paragraphs.
 - Demo ending ScreenshotQA fails when the record requires vertical scrolling; the wishlist, restart, and main-menu actions must remain in the first 1280×800 viewport in both languages.
 
 ## Launch

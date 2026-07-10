@@ -17,6 +17,11 @@ python3 tools/surface_emoji_audit.py
 SURFACE_EXIT=$?
 
 echo "──────────────────────────────────────────"
+echo "● 첫 세션 입력 밀도/프롤로그 체인 검사"
+python3 tools/first_session_pacing_audit.py
+PACING_EXIT=$?
+
+echo "──────────────────────────────────────────"
 echo "● 영어 표면/커버리지 검사"
 python3 tools/english_hangul_audit.py
 EN_HANGUL_EXIT=$?
@@ -59,6 +64,21 @@ else
 fi
 
 echo "──────────────────────────────────────────"
+echo "● 스토리 자동 재생 선택지 안전 검사"
+if [ -x "$GODOT" ]; then
+  STORY_PLAYBACK_RAW=$($GT "$GODOT" --headless res://tools/StoryPlaybackCheck.tscn 2>&1)
+  echo "$STORY_PLAYBACK_RAW" | grep -E "STORY_PLAYBACK_CHECK_OK|STORY_PLAYBACK_CHECK_FAIL|ERROR:|SCRIPT ERROR" | sed 's/^/  /'
+  if echo "$STORY_PLAYBACK_RAW" | grep -q "STORY_PLAYBACK_CHECK_OK"; then
+    STORY_PLAYBACK_EXIT=0
+  else
+    STORY_PLAYBACK_EXIT=1
+  fi
+else
+  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 스토리 자동 재생 체크 건너뜀."
+  STORY_PLAYBACK_EXIT=0
+fi
+
+echo "──────────────────────────────────────────"
 echo "● Godot 전체 스크립트 컴파일 체크 (씬 부팅 → 모든 .gd load 강제 컴파일)"
 # 주의: --quit-after 2(메인씬 부팅)는 RaceTrack/MainGame 등 부팅 시 미로드 스크립트를
 # 컴파일하지 않아 컴파일 버그를 놓친다(게다가 macOS엔 timeout 바이너리도 없어 헛돌았음).
@@ -88,7 +108,7 @@ else
 fi
 
 echo "──────────────────────────────────────────"
-if [ "$PY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$TUTORIAL_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
+if [ "$PY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$PACING_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_PLAYBACK_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
   echo "❌ 감사 실패 — 위 ERROR를 고치고 다시 돌리세요."
   exit 1
 fi

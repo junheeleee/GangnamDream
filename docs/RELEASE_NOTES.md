@@ -1,6 +1,7 @@
 # Gangnam Dream Release Notes
 
 ## Unreleased
+- Added safe VN auto playback for mouse, keyboard, and brand-aware gamepads. It advances prose and choice aftermath, always stops at player decisions and chapter cards, and is protected by first-session pacing and playback regression gates.
 - Closed first-session black-box failures: explicit cold-open choice, calendar-correct Act 1 wording, truthful paycheck/investment unlock copy, input-trapped tutorials, and a no-scroll six-month demo record with the Steam wishlist CTA always visible.
 - Rebuilt the weekly AP surface as a controller-native 2x2 decision board with visible outcome/risk/echo cues, compact weekly stakes, full-width romance/routine opportunities, and coherent post-interview `Keep Applying` flow.
 - Rebuilt the title surface as a character-led glass/reflection poster with a controller-friendly single-axis menu, latest-save Continue, and second-layer Load Game overlay in Korean and English.

@@ -1,5 +1,23 @@
 # Gangnam Dream Work Log
 
+## 2026-07-10 (Codex — StoryMode auto playback and pacing ratchet)
+
+### 진단
+- 프롤로그 6개 장면은 정상 독해 기준 44회, 타이핑을 빠르게 넘기면 최대 82회의 확인 입력 뒤 첫 AP에 도달했다.
+- 내용의 양보다 짧은 문단마다 같은 버튼을 반복하는 피로가 먼저 왔다. 텍스트 중심 상업작의 기본 접근성인 자동 재생도 없었다.
+
+### 구현
+- StoryMode 하단에 작은 `AUTO` 제어를 추가했다. 마우스 클릭, 키보드 A, 패드 North(Y/△/X)로 토글하며 패드 브랜드에 맞는 글리프를 표시한다.
+- 자동 재생은 타이핑과 문단 여운을 보존해 본문·선택 결과만 진행한다. 선택지, 챕터 카드, 팝업, 연출 hold에서는 절대 자동 확정하지 않는다.
+- 자동 재생 상태는 StoryMode 장면이 주차별로 다시 생성돼도 현재 세션에서 유지된다.
+- `first_session_pacing_audit.py`가 프롤로그 분기 4경로의 체인 길이, KO/EN 선택지 패리티, 점만 있는 선택지, 문단 밀도, 첫 의미 있는 선택 시점을 검사한다.
+- `StoryPlaybackCheck`가 AUTO가 선택지 앞에서 멈추고 키보드 토글이 작동하는지 검증하며 둘 다 `audit.sh`에 편입했다.
+
+### 검증
+- 현재 프롤로그: 4경로, 6장면, AUTO 수동 확인 최대 6회, 기존 연타 최대 82회, 첫 의미 선택 3번째 장면.
+- `ScreenshotQA --qa=story-en --lang=en` 1280×800에서 AUTO가 본문·계속 힌트와 겹치지 않음을 확인했다.
+- 감사 ERROR 0 / WARNING 0, 영문 한글 누출 0, 밸런스 밴드, 튜토리얼 포커스, AUTO 선택지 안전, 전체 GDScript 컴파일 통과.
+
 ## 2026-07-10 (Codex — first-session black-box P0 and demo close)
 
 ### 실제 플레이에서 발견한 문제
