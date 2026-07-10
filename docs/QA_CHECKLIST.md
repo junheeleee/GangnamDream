@@ -2,6 +2,8 @@
 
 Use this checklist before major commits, playable builds, and release candidates.
 
+Cross-discipline release gates and current product risks live in `docs/MASTER_RELEASE_AUDIT.md`.
+
 ## Controller / Steam Deck Release Gate
 - Controller support is a release gate, not a polish extra. See `docs/CONTROLLER_UX_STRATEGY.md`.
 - Do not treat "all buttons are focusable" as success. Dense screens need a semantic controller model.

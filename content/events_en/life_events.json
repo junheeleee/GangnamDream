@@ -97,15 +97,15 @@
   {
     "id": "late_night_driver",
     "title": "The Driver",
-    "description": "1 AM. The designated driver arrived.\n\nThe moment he got in, he started talking.\n'Where are you from? Office worker?'\n\n{name} gave a vague answer. The driver said:\n'I used to be a division manager at a mid-size company. Restructuring got me.'\n\nFor a second, his eyes were visible in the rearview mirror.\nSeoul's night skyline slid across the glass.\n\n'If I'd saved just a little more back then, I wouldn't be doing this.'\n\nSilence. Sleep drained away.",
+    "description": "1 AM. The designated driver settled behind the wheel and started talking.\n\n'Where are you from? You work for a company?'\n\n{name} gave a vague answer. The driver glanced into the rearview mirror.\n'I used to be a division manager at a mid-sized company. Then the restructuring came.'\n\nSeoul's night skyline slid across the glass.\n\n'If I'd saved just a little more back then, I wouldn't be doing this now.'\n\nSleep drained away.",
     "choices": [
       {
-        "text": "Listen without saying much. Nothing to say.",
-        "result_text": "At the destination, {name} got out.\n'Take care,' the driver said.\n'You too,' {name} said.\n\nHis name, company, or salary from back then — unknown.\nBut what he said stayed a long time.\n\n'I used to be.'"
+        "text": "Listen. There is nothing useful to say.",
+        "result_text": "At the destination, {name} got out.\n'Take care,' the driver said.\n'You too.'\n\n{name} never learned his company or what he used to earn.\nBut one sentence lingered.\n\n'I used to be a division manager.'"
       },
       {
         "text": "Ask: how are things now?",
-        "result_text": "'Once the kids get through college, things'll pick up,' he said.\n'It's fine now. This job isn't bad.'\nWhether he meant it — impossible to know.\n\nGetting out, {name} added a little more to the tip.\nThe driver said thank you.\n\nHis voice stayed for a while."
+        "result_text": "'Once the kids are through college, things will ease up,' he said.\n'This job isn't bad, really.'\n\nThere was no way to know whether he meant it.\n{name} added a little extra to the tip before getting out.\n\nHis thank-you lingered after the car door closed."
       }
     ]
   },
@@ -146,7 +146,7 @@
     "choices": [
       {
         "text": "Ask how things have been. Catch up.",
-        "result_text": "He'd changed jobs. Got a raise.\nSaid he lived in an officetel nearby now.\n\n'How about you?' he asked.\n'Doing well,' {name} said.\n\nAfter parting, {name} sat on a bench in the alley for a while.\nCouldn't tell if that was a lie or not."
+        "result_text": "He had changed jobs and gotten a raise. He lived in an officetel nearby now.\n\n'How about you?' he asked.\n'Doing well,' {name} said.\n\nAfter they parted, {name} sat on a bench in a side street.\nHe could not tell whether that had been a lie."
       },
       {
         "text": "Pretend not to see him. Keep walking.",
@@ -161,11 +161,11 @@
     "choices": [
       {
         "text": "Keep one in the wallet. Go to the meeting.",
-        "result_text": "After the meeting, handed one over.\nThe other person took it naturally, slipped it into their wallet.\n\nA gesture that meant nothing to them.\nIt meant something to {name}.\n\nOn the subway back, opened the wallet and looked at the card again.\nA name, pressed into paper."
+        "result_text": "After the meeting, {name} handed one over.\nThe other person accepted it without a thought and slipped it into a wallet.\n\nTo them, it was routine. To {name}, it was not.\n\nOn the subway home, {name} opened his wallet again.\nHis own name, pressed into paper."
       },
       {
         "text": "Pause for a moment. It still doesn't feel real.",
-        "result_text": "Hand trembled slightly when handing the card over in the meeting.\nThe other person didn't notice.\n\nBack home, placed a card on the desk.\nLooked at it for a long time.\n\nWhether this is the beginning, or the middle of a long road — impossible to say.\nBut — made it here."
+        "result_text": "His hand trembled slightly when he offered the card. The other person did not notice.\n\nBack home, {name} placed one on the desk and looked at it for a long time.\n\nMaybe this was the beginning. Maybe it was only the middle of a much longer road.\nStill, he had made it this far."
       }
     ]
   },
@@ -180,37 +180,37 @@
       },
       {
         "text": "Close the app. Not sure what I'm doing.",
-        "result_text": "Closed the app.\nThe room went quiet.\nStared at the ceiling.\n\nDo you actually want Gangnam, or am you just anxious?\nThat line gets blurry sometimes.\n\nWent to sleep. Felt right."
+        "result_text": "{name} closed the app. The room went quiet.\n\nDid he truly want Gangnam, or was he only afraid of falling behind?\nSometimes the line between them disappeared.\n\nHe stared at the ceiling until sleep came. Tonight, closing the app felt right."
       }
     ]
   },
   {
     "id": "hometown_friend_ask",
     "title": "A Friend from Home",
-    "description": "A message from an old friend.\n\n'Hey, what's it actually like living in Seoul? You think you're fine staying here.'\n\nThat friend works at a job back in their hometown.\nDoesn't earn much, but has a place to live, family nearby.\n\n'What do you think, {name}? Is Seoul really that great?'\n\n{name} stared at the screen for a moment.\n\nHad no idea what to say.",
+    "description": "A message arrived from an old friend back home.\n\n'What's it actually like living in Seoul? Do you think I'd be fine staying here?'\n\nThe friend did not earn much, but had a place to live and family close by.\n\n'What do you think, {name}? Is Seoul really that great?'\n\n{name} stared at the screen, unsure what an honest answer would be.",
     "choices": [
       {
         "text": "Be honest: 'I genuinely can't say.'",
-        "result_text": "'you don't know. Some good things, some hard things.'\n\nFriend replied: 'Still, you've got your reasons for staying.'\n\nThat one line was, strangely, a comfort.\n\nThere are reasons. Hard to put into words.\nThat's enough, sometimes."
+        "result_text": "'Honestly? I don't know. Some things are good. Some are hard.'\n\nThe reply came: 'You must have your reasons for staying.'\n\nStrangely, that was a comfort.\nThe reasons were difficult to put into words, but they existed. Sometimes that was enough."
       },
       {
-        "text": "Positive spin: 'Seoul's worth it. So many opportunities.'",
-        "result_text": "Friend replied: 'That's impressive, seriously.'\n\nThe word 'impressive' felt strange.\nNot sure if impressive is the right word.\n\nAfter hanging up, {name} thought:\nDo you stay because Seoul is good — or because leaving feels impossible?\n\nOne of those must be true."
+        "text": "Give the answer he wants: 'Seoul is worth it. There are so many opportunities.'",
+        "result_text": "The friend replied, 'Seriously, that's impressive.'\n\nThe word felt wrong.\nAfter the call, {name} wondered whether he stayed because Seoul was good, or because leaving felt impossible.\n\nOne of those had to be true."
       }
     ]
   },
   {
     "id": "convenience_extra_kimbap",
     "title": "Night Shift Kindness",
-    "description": "2 AM, a convenience store run.\n\nPicked up a triangle kimbap, walked to the register.\nThe part-timer said while scanning:\n\n'There's one with thirty minutes left on the label — want it? We'd just throw it out.'\n\n{name} looked at them.\nLooked like a student. Someone working nights.\n\nThe kindness had no special reason. That made it linger.",
+    "description": "2 AM. {name} stopped at an unfamiliar convenience store two blocks from home.\n\nHe put a triangle gimbap on the counter. The night clerk scanned it, then paused.\n\n'There's another one that expires in thirty minutes. Want it? We have to throw it out anyway.'\n\nThe kindness had no particular reason. That was why it lingered.",
     "choices": [
       {
         "text": "Say thanks. Take it.",
-        "result_text": "Walked out with two rolls of kimbap.\nSat on the bench outside and ate.\nTasted fine.\n\nThat part-timer is out here holding on too. Or maybe it's just a part-time job.\n\nEither way — their kindness was the warmest thing that night."
+        "result_text": "{name} walked out with two triangle gimbap and ate them on the bench outside.\n\nMaybe the clerk was holding on through the night too. Maybe it was simply a shift.\nEither way, an unasked-for kindness was the warmest thing in the city that night."
       },
       {
         "text": "It's okay. Leave it.",
-        "result_text": "Walking out: 'Should have taken it.'\n\nThought about going back. Kept walking.\n\nSeemed like nothing. Kept coming back to mind.\nIf you'd taken it, you'd have eaten it and forgotten."
+        "result_text": "Outside, {name} wondered whether he should have accepted it.\nHe considered going back, then kept walking.\n\nIt was nothing. It kept returning to him.\nPerhaps if he had taken it, he would have eaten it and forgotten."
       }
     ]
   },

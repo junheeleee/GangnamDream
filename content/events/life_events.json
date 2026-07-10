@@ -5535,5 +5535,271 @@
         "result_text": "전화를 끊었다.\n민수가 꼴등이었던 게 맞나 다시 생각해봤다. 맞는 것 같았다.\n근데 지금은 관계없다."
       }
     ]
+  },
+  {
+    "id": "late_night_driver",
+    "title": "대리기사",
+    "description": "새벽 한 시. 대리기사가 운전석에 앉자마자 말을 걸었다.\n\n\"고향이 어디예요? 회사 다녀요?\"\n\n{name}이 얼버무리자 기사가 백미러를 보며 말했다.\n\"나도 중견기업 부장이었어요. 구조조정 당했지.\"\n\n창밖으로 서울의 밤이 미끄러졌다.\n\n\"그때 조금만 더 모아뒀으면, 지금 이 일 안 했을 텐데.\"\n\n잠이 달아났다.",
+    "category": "daily_life",
+    "rarity": "uncommon",
+    "weight": 0.7,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 40
+    },
+    "tags": ["identity", "work", "night", "seoul"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "말없이 듣는다. 할 말이 없다",
+        "effects": {
+          "mental": 2,
+          "social_skill": 1
+        },
+        "result_text": "목적지에 도착했다.\n\n\"고생해요.\"\n\"기사님도요.\"\n\n그가 다녔던 회사도, 그때 받았던 연봉도 모른다.\n그런데 한 문장은 오래 남았다.\n\n\"나도 부장이었어요.\""
+      },
+      {
+        "text": "요즘은 어떠시냐고 묻는다",
+        "effects": {
+          "money": -20000,
+          "social_skill": 2,
+          "tint": 2
+        },
+        "result_text": "\"애들 대학만 끝나면 좀 낫겠지. 이 일도 나쁘진 않아요.\"\n\n진심인지는 알 수 없었다.\n{name}은 내리며 팁을 조금 더 얹었다.\n\n감사하다는 목소리가 차 문이 닫힌 뒤에도 남았다."
+      }
+    ]
+  },
+  {
+    "id": "friend_housewarming",
+    "title": "집들이 사진",
+    "description": "대학 친구의 집들이 사진이 단톡방에 올라왔다.\n\n새 아파트. 새 소파. 창밖으로 보이는 한강.\n\n\"와, 미쳤다.\" \"진짜 부럽다.\" \"여기 어디야?\"\n댓글이 쌓였다.\n\n{name}도 창문을 봤다.\n창문 밖에는 맞은편 벽이 있었다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "housing": "gosiwon",
+      "min_turn": 8,
+      "max_turn": 80
+    },
+    "tags": ["social", "comparison", "housing", "gosiwon"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "축하 스티커를 보낸다",
+        "effects": {
+          "mental": -3,
+          "social_skill": 2
+        },
+        "result_text": "스티커를 보내고 폰을 내려놓았다.\n\n부러웠다. 친구가 잘돼서 기뻤다. 언젠가는 나도, 싶었다.\n\n세 마음이 동시에 진짜라는 게 조금 피곤했다."
+      },
+      {
+        "text": "알림을 끄고 폰을 뒤집는다",
+        "effects": {
+          "mental": 1,
+          "social_skill": -1
+        },
+        "result_text": "사진이 하나 더 왔다. 원목 식탁과 거실.\n\n{name}은 폰을 서랍에 넣었다.\n내일은 일찍 일어나야 한다. 오늘 할 수 있는 일을 하자.\n\n그렇게 두 번 생각했다."
+      }
+    ]
+  },
+  {
+    "id": "old_colleague_gangnam",
+    "title": "강남에서 만난 옛 동료",
+    "description": "강남 거리에서 낯익은 얼굴을 봤다.\n\n예전 직장 동료. 비슷한 시기에 회사를 나왔던 사람.\n그런데 옷도, 가방도, 걷는 자세도 달라져 있었다.\n\n\"어, {name}! 진짜 오랜만이다.\"\n\n그는 진심으로 반가워 보였다. {name}도 반가웠다.\n그 마음에 다른 것이 조금 섞여 있었다.",
+    "category": "daily_life",
+    "rarity": "uncommon",
+    "weight": 0.7,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 20
+    },
+    "tags": ["identity", "comparison", "gangnam"],
+    "background": "gangnam_night",
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "근황을 묻고 잠깐 이야기한다",
+        "effects": {
+          "social_skill": 2,
+          "mental": -2
+        },
+        "result_text": "그는 이직했고 연봉이 올랐다. 근처 오피스텔에 산다고 했다.\n\n\"너는 요즘 어때?\"\n\"잘 지내지.\"\n\n헤어진 뒤 {name}은 골목 벤치에 잠깐 앉았다.\n방금 말이 거짓말이었는지, 스스로도 알 수 없었다."
+      },
+      {
+        "text": "못 본 척 지나간다",
+        "effects": {
+          "mental": 1,
+          "social_skill": -2
+        },
+        "result_text": "그대로 걸었다.\n\n오십 미터쯤 지나서 그가 뒤를 봤을지 궁금해졌다.\n돌아보지는 않았다.\n\n편한 선택이었다는 사실이 묘하게 서글펐다."
+      }
+    ]
+  },
+  {
+    "id": "business_card_first",
+    "title": "첫 명함",
+    "description": "직함이 찍힌 첫 명함이 나왔다.\n\n팀장이 외부 미팅 전에 한 묶음을 건넸다.\n\"이제 회사 얼굴이야. 잘해.\"\n\n이름. 직함. 회사. 번호.\n작은 종이 한 장이 지금의 {name}에게 세상이 매긴 무게 같았다.\n\n몇 해 전에는 상상하지 못했던 물건이었다.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_job_tier": 2,
+      "min_turn": 8
+    },
+    "tags": ["jobs", "identity", "milestone", "office"],
+    "background": "office",
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "한 장을 지갑에 넣고 미팅에 간다",
+        "effects": {
+          "reputation": 2,
+          "social_skill": 1
+        },
+        "result_text": "미팅이 끝나고 명함을 건넸다. 상대는 자연스럽게 받아 지갑에 넣었다.\n\n그에게는 아무 의미 없는 동작이었다. {name}에게는 아니었다.\n\n돌아오는 지하철에서 지갑을 열었다. 종이에 눌러 찍힌 자기 이름이 있었다."
+      },
+      {
+        "text": "아직 실감이 나지 않아 잠깐 바라본다",
+        "effects": {
+          "mental": 2,
+          "reputation": 1
+        },
+        "result_text": "미팅에서 명함을 내밀 때 손이 조금 떨렸다. 상대는 눈치채지 못했다.\n\n집에 돌아와 한 장을 책상 위에 놓았다.\n시작인지, 긴 길의 중간인지 알 수 없었다.\n\n그래도 여기까지는 왔다."
+      }
+    ]
+  },
+  {
+    "id": "algorithm_knows_me",
+    "title": "알고리즘은 안다",
+    "description": "동영상 추천 목록이 달라져 있었다.\n\n예전에는 예능이었다. 지금은 '30대 자산관리', '투자로 3억 만든 법', '강남 입성의 현실' 같은 영상뿐이다.\n\n{name}이 본 영상. 검색한 단어. 멈춰 본 썸네일.\n\n알고리즘은 거짓말하지 않는다.\n{name}이 원하는 것을 본인보다 먼저 알고 있었다.",
+    "category": "daily_life",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 5
+    },
+    "tags": ["identity", "digital", "night", "pressure"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "하나만 본다. 어차피 곧 잘 거다",
+        "effects": {
+          "intelligence": 1,
+          "mental": -4
+        },
+        "result_text": "새벽 1시 47분.\n\n하나를 봤다. 다음 영상이 자동으로 재생됐다. 관련 영상. 더 관련 있는 영상.\n\n두 시간 뒤, 십 년 전 모르는 사람의 투자 실패담을 보고 있었다.\n도움이 됐는지는 모르겠다. 잠이 달아난 건 확실했다."
+      },
+      {
+        "text": "앱을 닫는다. 내가 뭘 하는지 모르겠다",
+        "effects": {
+          "mental": 5,
+          "tint": 1
+        },
+        "result_text": "앱을 닫자 방이 조용해졌다.\n\n정말 강남을 원하는 걸까. 뒤처지는 게 무서운 걸까.\n가끔은 그 경계가 흐렸다.\n\n{name}은 천장을 보다가 잠들었다. 오늘은 이게 맞았다."
+      }
+    ]
+  },
+  {
+    "id": "hometown_friend_ask",
+    "title": "고향 친구의 질문",
+    "description": "오래된 친구에게 메시지가 왔다.\n\n\"서울에서 사는 거 실제로 어때? 난 그냥 여기 있어도 괜찮을까?\"\n\n친구는 고향에서 일한다. 월급은 많지 않지만 살 집이 있고 가족이 가깝다.\n\n\"너는 어떻게 생각해? 서울이 그렇게 좋아?\"\n\n{name}은 한동안 화면을 봤다.\n뭐라고 해야 할지 몰랐다.",
+    "category": "daily_life",
+    "rarity": "uncommon",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 10
+    },
+    "tags": ["identity", "hometown", "social", "seoul"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "솔직하게 말한다. 나도 잘 모르겠다고",
+        "effects": {
+          "mental": 5,
+          "social_skill": 2,
+          "tint": 2
+        },
+        "result_text": "\"나도 모르겠어. 좋은 것도 있고 힘든 것도 있고.\"\n\n친구가 답했다.\n\"그래도 네가 거기 남아 있는 이유는 있겠지.\"\n\n그 한마디가 이상하게 위로가 됐다. 말로 다 못 해도 이유는 있었다. 가끔은 그걸로 충분했다."
+      },
+      {
+        "text": "듣고 싶어 할 답을 한다. 기회가 많다고",
+        "effects": {
+          "reputation": 1,
+          "mental": -2
+        },
+        "result_text": "\"역시 너 대단하다.\"\n\n대단하다는 말이 어색했다.\n통화를 끊고 생각했다. 서울이 좋아서 남아 있는 걸까, 떠나는 게 두려워서일까.\n\n둘 중 하나는 사실일 것이다."
+      }
+    ]
+  },
+  {
+    "id": "convenience_extra_kimbap",
+    "title": "야간 근무자의 친절",
+    "description": "새벽 두 시. 집에서 두 블록 떨어진 낯선 편의점에 들어갔다.\n\n삼각김밥 하나를 계산대에 올리자 야간 직원이 말했다.\n\"폐기까지 30분 남은 게 하나 있는데, 드릴까요? 어차피 버려야 해서.\"\n\n특별한 이유가 없는 친절이었다. 그래서 오래 남았다.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 3,
+      "max_turn": 60
+    },
+    "tags": ["social", "convenience", "night", "kindness"],
+    "background": "convenience_night",
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "감사하다고 하고 받는다",
+        "effects": {
+          "mental": 6,
+          "tint": 2
+        },
+        "result_text": "삼각김밥 두 개를 들고 나왔다. 밖의 벤치에 앉아 먹었다.\n\n그 직원도 이 시간에 버티고 있었다. 아니면 그저 야간 근무였을지도 모른다.\n어느 쪽이든 그날 밤 가장 따뜻한 것은 이유 없는 친절이었다."
+      },
+      {
+        "text": "괜찮다고 하고 하나만 계산한다",
+        "effects": {
+          "mental": -1
+        },
+        "result_text": "나오자마자 받을 걸 그랬나 싶었다.\n돌아갈까 생각하다 계속 걸었다.\n\n아무것도 아닌 일이 자꾸 생각났다. 받았으면 먹고 잊었을지도 모른다."
+      }
+    ]
+  },
+  {
+    "id": "seoul_five_years",
+    "title": "서울에서 보낸 5년",
+    "description": "짐을 정리하다 오래된 상자 하나가 열렸다.\n\n처음 서울에 올라올 때 가져온 물건들. 낡은 이어폰, 빈 노트, 예전 명함.\n\n그때의 {name}은 이 도시를 어떤 곳이라고 생각했을까.\n\n5년이 지났다. 그때보다 나아졌는지는 솔직히 모르겠다.\n무언가 달라진 것만은 분명했다.",
+    "category": "daily_life",
+    "rarity": "rare",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 220
+    },
+    "tags": ["identity", "seoul", "year5", "reflection"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "버린다. 과거에 붙잡혀 있을 시간은 없다",
+        "effects": {
+          "mental": 2,
+          "tint": -1
+        },
+        "result_text": "상자를 닫아 재활용품 위에 올렸다.\n\n아쉽지 않았다. 조금 아쉬웠다. 두 마음이 동시에 진짜였다.\n앞을 본다는 건 과거를 지우는 일이 아니다. 그저 앞을 보는 일이다."
+      },
+      {
+        "text": "한 번 들여다보고 다시 넣어둔다",
+        "effects": {
+          "mental": 4,
+          "tint": 1
+        },
+        "result_text": "상자를 새 집 한쪽에 넣어두었다.\n\n언젠가 이 물건들을 다시 꺼낼 것이다. 그때는 지금이 어떻게 보일까.\n\n지금은 그저 살아야 한다. 그 생각만 남았다."
+      }
+    ]
   }
 ]

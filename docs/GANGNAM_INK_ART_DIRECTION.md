@@ -6,6 +6,8 @@ Updated: 2026-07-01
 
 `Gangnam Ink` is the final surface language for Gangnam Dream. It exists because the game is built from many generated and hand-authored layers, and raw asset quality alone will not make it feel premium. Every image, UI surface, transition, and ending screen should feel like it passed through the same moral film stock.
 
+Character ownership, title composition, the glass/reflection symbol, and merchandise-scale recognition are defined in `docs/IP_VISUAL_IDENTITY.md`. Gangnam Ink unifies those subjects; it does not replace them with desaturation.
+
 The visual question is not "Is this image pretty?" The question is "Does this screen show what chasing Gangnam is doing to Minjun?"
 
 ## Core Metaphor
@@ -38,6 +40,7 @@ Gold, green, and saturated blue are no longer brand colors. They can remain as n
 ## Image Rules
 
 - All production backgrounds should tolerate strong desaturation. If the image only works because of bright color, it is not a Gangnam Dream image.
+- Every flagship scene should preserve an owned face, gesture, prop, or material from `IP_VISUAL_IDENTITY.md`. A consistent filter over generic people is still generic art.
 - Reusable backgrounds should look like places, not CG illustrations with implied protagonists.
 - Character portraits stay transparent and separate from backgrounds. Main cast should not be baked into reusable scene images.
 - CGs may include main cast, but only for unique story moments and must obey canon continuity.
@@ -66,6 +69,7 @@ The target is **Korean social-reality VN with Japanese scene readability**, not 
 - Button feedback should be tactile but restrained: slight luminance pulse, pressed compression, border clarity, short SFX.
 - Warning red is reserved for true danger. Routine negative outcomes use gray, dimming, or text weight.
 - Money may be visually seductive only when the player is morally Black. Otherwise it is just information.
+- StartMenu is a character poster with a single command rail. Save management and run statistics are second-layer utilities, not the launch composition.
 
 ## Transition Rules
 

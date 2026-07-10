@@ -25,6 +25,12 @@ for f in glob.glob(os.path.join(ENDIR, '*.json')):
         if isinstance(e, dict) and 'id' in e:
             en_by_id[e['id']] = e
 
+kr_by_id = {}
+for f in glob.glob(os.path.join(KRDIR, '*.json')):
+    for e in load(f):
+        if isinstance(e, dict) and 'id' in e:
+            kr_by_id[e['id']] = e
+
 leaks = []
 for f in glob.glob(os.path.join(KRDIR, '*.json')):
     for e in load(f):
@@ -52,6 +58,11 @@ for f in glob.glob(os.path.join(KRDIR, '*.json')):
         if len(en.get('choices', [])) < len(e.get('choices', [])):
             leaks.append((eid, 'FEWER_CHOICES %d<%d' % (
                 len(en.get('choices', [])), len(e.get('choices', [])))))
+
+# DataRegistry only overlays EN rows whose base KO id exists. An EN-only row is
+# dead data: translators may believe it ships even though no player can see it.
+for eid in sorted(set(en_by_id) - set(kr_by_id)):
+    leaks.append((eid, 'EN_ONLY_DEAD_OVERLAY'))
 
 # ── 엔딩 dik 패리티: 엔딩 EN 오버레이는 dict "통째 덮어쓰기"(DataRegistry
 #    _apply_endings_en_overlay)라 EN 키가 KR보다 적으면 KR 변주가 조용히

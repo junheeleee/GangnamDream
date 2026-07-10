@@ -1,5 +1,27 @@
 # Gangnam Dream Work Log
 
+## 2026-07-10 (Codex — master release audit baseline + bilingual dead-overlay repair)
+
+### 기준점
+- 전 영역을 `docs/MASTER_RELEASE_AUDIT.md` 한 장의 품질 게이트로 통합했다. 스토리·게임성·밸런스·IP·인물·개연성·UI/Deck·번역·글·엔딩·이미지·오디오·모랄 틴트·상품성을 블랙박스/소스/외부시장 증거로 각각 판정한다.
+- 현재 인벤토리: KO/EN 이벤트 각 1,477, 선택지 각 3,316, 엔딩 35, 명시 CG 이벤트 11, 배경 55, 초상 37, CG 15, 오디오 64, ScreenshotQA 범위 22.
+
+### 첫 결함과 수정
+- EN `life_events.json`에만 있던 이벤트 8개는 DataRegistry가 KO base id가 없어 조용히 무시하는 dead overlay였다. 번역자는 출시된다고 생각하지만 누구도 볼 수 없는 데이터였다.
+- 8개를 KO 정본 이벤트로 완성하고 등장 조건·weight·category·선택 효과·tint·배경·1회성 cooldown을 부여했다. EN의 대명사/시제/기계번역 문장도 함께 교정했다.
+- `en_coverage_check.py`에 EN-only dead overlay 역방향 검사를 추가했다. 앞으로 양언어 수가 어긋나면 통합 감사가 실패한다.
+
+## 2026-07-10 (Codex — IP visual identity diagnosis and canon)
+
+### 진단
+- 최신 시작 화면은 어두운 고시원 위 텍스트·런 기록·저장 슬롯을 먼저 보여 주어 웹 대시보드처럼 읽힌다. 옥상 키아트는 고립감은 좋지만 뒷모습 하나라 캐릭터 IP를 만들지 못한다.
+- 기존 주연 초상은 개별 품질보다 `누구의 물건/실루엣/장면인가`가 잠기지 않아, 예쁜 얼굴과 분위기 이미지의 모음으로 남는다.
+
+### 결정
+- 외형 P0를 AP 폴리시보다 먼저 `기억되는 게임 얼굴`로 전환했다.
+- `docs/IP_VISUAL_IDENTITY.md`에 유리/반사 시그니처, 민준·지연·다은·재혁·상철·아버지의 실루엣/재질/소품/오디오 모티프, 히로인 대척 문법, 타이틀 키아트·워드마크·시작 화면 계약을 고정했다.
+- 금색 스카이라인 로고와 고시원 저장 관리 화면은 production 최종안이 아니다. 시작 화면은 캐릭터 포스터와 단일축 명령 레일로 교체한다.
+
 ## 2026-07-10 (Codex — T0 portrait/CG clothing and gaze continuity)
 
 ### 배경
