@@ -829,6 +829,15 @@ func _shot_ap_act_surfaces(lang: String = "en", prefix: String = "ap_act_en_") -
 			_mg.call("_finish_typing")
 		await _settle(0.45)
 		await _save("%s%02d_act%d" % [prefix, act, act])
+		if act == 1:
+			GameState.flags["arc_intro_meal_seen"] = true
+			if _mg.has_method("_render_ap_actions"):
+				_mg.call("_render_ap_actions")
+			if _mg.has_method("_finish_typing"):
+				_mg.call("_finish_typing")
+			await _settle(0.35)
+			await _save("%s01b_after_first_interview" % prefix)
+			GameState.flags.erase("arc_intro_meal_seen")
 		if act == 4 and _mg.has_method("_open_cat_people"):
 			_mg.call("_open_cat_people")
 			await _settle(0.45)

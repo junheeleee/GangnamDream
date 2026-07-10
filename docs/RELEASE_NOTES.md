@@ -1,6 +1,7 @@
 # Gangnam Dream Release Notes
 
 ## Unreleased
+- Rebuilt the weekly AP surface as a controller-native 2x2 decision board with visible outcome/risk/echo cues, compact weekly stakes, full-width romance/routine opportunities, and coherent post-interview `Keep Applying` flow.
 - Rebuilt the title surface as a character-led glass/reflection poster with a controller-friendly single-axis menu, latest-save Continue, and second-layer Load Game overlay in Korean and English.
 - Added six transparent T0 romance outfit portraits and a machine-checked visual manifest that locks heroine clothing, Minjun's off-duty outfit, and CG gaze direction across all eight romance climaxes.
 - 연애 데이트 확장: 데이트 마일스톤(남산 자물쇠·놀이동산), 첫 키스 2종, 계절 스페셜 8종(벚꽃·바다·불꽃축제·첫눈 — 어두운 눈에는 벚꽃이 회색으로 보인다)
