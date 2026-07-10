@@ -36,6 +36,8 @@ var _direction_hold_remaining: float = 0.0
 var _direction_beat_waiting: bool = false
 var _direction_beat_remaining: float = 0.0
 var _direction_pending_text: String = ""
+var _story_visual_override_active: bool = false
+var _story_visual_override_norm: float = 0.0
 
 # ── 노드 ──────────────────────────────────────────────────────
 var _bg_img: TextureRect
@@ -154,8 +156,12 @@ func _story_dim_color(has_cg: bool) -> Color:
 	return base
 
 func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false) -> void:
-	_story_moral_norm = clampf(GameState.moral_tint_norm(), -1.0, 1.0)
-	_story_moral_stage = GameState.moral_stage()
+	if _story_visual_override_active:
+		_story_moral_norm = clampf(_story_visual_override_norm, -1.0, 1.0)
+		_story_moral_stage = -2 if _story_moral_norm <= -0.6 else (-1 if _story_moral_norm < -0.2 else 0)
+	else:
+		_story_moral_norm = clampf(GameState.moral_tint_norm(), -1.0, 1.0)
+		_story_moral_stage = GameState.moral_stage()
 	var palette := _story_palette()
 	var black: float = float(palette["moral_black"])
 	var white: float = float(palette["moral_white"])
@@ -672,6 +678,8 @@ func _render_current():
 		_is_chapter_card = true
 		_render_chapter_card_cinematic()
 		return
+	if _story_visual_override_active and _hud_panel != null:
+		_hud_panel.visible = false
 
 	var cg_path := ""
 	var cg_id := str(_current.get("cg", ""))
@@ -764,6 +772,7 @@ func _show_portrait(portrait_id: String, bg_only: bool = false):
 	# 초상화 이미지가 실제로 있을 때만 액자 표시. 없으면(배경전용/플레이스홀더) 프레임 통째로 숨김.
 	if path != "" and ResourceLoader.exists(path):
 		_portrait.texture = load(path)
+		_portrait.modulate = Color.WHITE
 		_apply_story_portrait_surface()
 		_portrait_frame.visible = true
 		_portrait_frame.modulate = Color(1, 1, 1, 0)
@@ -779,6 +788,10 @@ func _show_portrait(portrait_id: String, bg_only: bool = false):
 		if _name_panel:
 			_name_panel.visible = true
 	else:
+		if _name_panel:
+			_name_panel.visible = false
+	if _story_visual_override_active:
+		_portrait.modulate = Color(0.08, 0.085, 0.09, 0.70)
 		if _name_panel:
 			_name_panel.visible = false
 
@@ -798,6 +811,9 @@ func _prepare_scene_direction() -> void:
 	var raw: Variant = _current.get("direction", {})
 	_direction = raw.duplicate(true) if raw is Dictionary else {}
 	_direction_hold_consumed = false
+	if str(_direction.get("visual", "")) == "black_future":
+		_story_visual_override_active = true
+		_story_visual_override_norm = -0.80
 
 func _reset_scene_direction() -> void:
 	if _direction_camera_tween and _direction_camera_tween.is_running():
@@ -814,6 +830,8 @@ func _reset_scene_direction() -> void:
 	_direction_beat_remaining = 0.0
 	_direction_pending_text = ""
 	_direction = {}
+	_story_visual_override_active = false
+	_story_visual_override_norm = 0.0
 	BGMPlayer.restore_ambience()
 
 func _apply_scene_direction_entry() -> void:

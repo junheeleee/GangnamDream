@@ -566,7 +566,8 @@ func _shot_start_surfaces(lang: String = "en", prefix: String = "start_en_") -> 
 
 func _shot_story_surfaces(lang: String = "en", prefix: String = "story_en_") -> void:
 	# 플래시포워드 콜드오픈(신규) — 프롤로그보다 앞서 재생되는 5년 뒤 씬.
-	await _shot_story_event("story_flashforward", prefix + "00_flashforward", lang, 0.45, true)
+	await _shot_story_event("story_flashforward", prefix + "00_flashforward", lang, 1.0, true)
+	await _shot_story_event("story_arrival", prefix + "00b_arrival_reset", lang, 0.45, true)
 	await _shot_story_event("chapter_card_33", prefix + "01_chapter_card_33", lang, 2.7)
 	for event_id in [
 		"arc_intro_01_meal",

@@ -22,6 +22,7 @@
 | `sting` | `"reveal"` \| `"loss"` \| `"cold"` | 원샷 스팅어 — 의도만 명명, 실제 사운드는 Codex 선택. reveal=진실이 드러나는 낮은 현. loss=상실. cold=서늘함(상철 계열). **BGM 재시작 금지** — 스팅어는 레이어 |
 | `camera` | `"slow_zoom"` \| `"drift"` | 배경 정지화면의 Ken Burns — slow_zoom=중앙 1.00→1.04 (씬 길이에 걸쳐), drift=수평 미세 팬. 초상화에는 적용하지 않음(호흡 스케일 1~2%는 Codex 재량의 전역 옵션) |
 | `hold` | 0.5~2.0 (초) | 본문 타이핑 완료 후 선택지 등장까지 강제 정적. **최대 2.0** — 그 이상은 연출이 아니라 구속 |
+| `visual` | `"black_future"` | 플래시포워드 전용 장면 로컬 Black 2단계 상당. 실제 moral/save 값은 불변이며 다음 장면에서 즉시 복원 |
 
 - dik 변주가 발화해도 direction은 동일 적용(장면 단위 속성).
 - **audit 등록 필수**: 첫 사용 시 `tools/audit.py` `EVENT_ROOT_KEYS`에 `"direction"` 추가 + 필드/값 화이트리스트 검사 한 줄(미지의 값이 조용히 무시되는 클래스 방지).
@@ -54,8 +55,9 @@
 | `arc_jiyeon_y5_feelings` | `{"camera":"drift","amb":"duck"}` | 재회의 밤공기 |
 | `arc_37_burn_or_light` | `{"pace":"beat"}` | 마지막 해의 자문 — 박자만 |
 | `age_39_final` | `{"pace":"slow","hold":1.5}` | 5년의 끝, 정적 |
+| `story_flashforward` | `{"pace":"slow","amb":"cut","sting":"cold","camera":"slow_zoom","hold":1.5,"visual":"black_future"}` | 풀스택 ④ — 아직 정해지지 않은 어두운 미래 가능성 |
 
-- 후속 후보(2차): 밴드 전이 moral beat(엔진 레벨 — Codex 재량), chapter_cards(`camera:drift` 일괄), 데모 플래시포워드(풀스택 ④ 예약).
+- 후속 후보(2차): 밴드 전이 moral beat(엔진 레벨 — Codex 재량), chapter_cards(`camera:drift` 일괄). 데모 플래시포워드 풀스택 ④는 2026-07-10 완료.
 - **로맨스 명장면 4종 예약**(ROMANCE_SYSTEM.md 7절 구현 시): 어머니의 밥상 `{"pace":"slow","amb":"duck"}` / 밤 버스 `{"camera":"drift","hold":1.5}` / 좁은 방 `{"amb":"cut","hold":1.5}` / 벚꽃(어둠 변주) `{"pace":"slow","sting":"cold"}`.
 - 적용 방법: 위 id의 KR 이벤트에 `direction` 키 추가는 렌더러 구현과 **같은 커밋**에서(키만 먼저 넣으면 audit 미지 키 ERROR).
 

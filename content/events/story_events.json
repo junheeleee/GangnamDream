@@ -2,7 +2,9 @@
   {
     "id": "story_flashforward",
     "title": "2031년",
-    "background": "gangnam_night",
+    "background": "penthouse",
+    "portrait": "player_suit",
+    "direction": {"pace":"slow","amb":"cut","sting":"cold","camera":"slow_zoom","hold":1.5,"visual":"black_future"},
     "description": "새벽의 강남. 높은 층의 창.\n\n좋은 정장을 입은 남자가, 불 꺼진 거실에 혼자 서 있다.\n창밖으로 도시가 깨어나기 전의 푸른빛이 번진다.\n\n탁자 위에 전화기. 부재중 몇 개. 남자는 그것을 잠깐 내려다본다.\n그리고 다시, 창밖으로 눈을 돌린다.\n\n얼굴은 보이지 않는다.\n\n이게 누구인지는, 당신이 정한다.",
     "category": "story",
     "rarity": "story",

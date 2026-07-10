@@ -414,12 +414,13 @@ EVENT_ROOT_KEYS = {"id", "title", "description", "category", "rarity", "weight",
                    "description_orthodox", "description_unorthodox",
                    "description_low_mental", "description_long_gosiwon",
                    "description_if_known", "direction"}
-DIRECTION_KEYS = {"pace", "amb", "sting", "camera", "hold"}
+DIRECTION_KEYS = {"pace", "amb", "sting", "camera", "hold", "visual"}
 DIRECTION_VALUES = {
     "pace": {"slow", "beat"},
     "amb": {"cut", "duck"},
     "sting": {"reveal", "loss", "cold"},
     "camera": {"slow_zoom", "drift"},
+    "visual": {"black_future"},
 }
 # apply_choice()가 실제로 처리하는 선택지 키 + 주석용 키
 CHOICE_KEYS = {"text", "effects", "flags", "follow_up_event", "result_text",

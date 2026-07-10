@@ -1,5 +1,23 @@
 # Gangnam Dream Work Log
 
+## 2026-07-10 (Codex — flashforward scene-local Black future)
+
+### 배경
+- 콜드오픈 `story_flashforward`는 2031년의 불길한 가능성을 보여줘야 하지만 실제 새 게임의 Gray moral 셰이더로 렌더되어 현재와 미래의 대비가 약했다.
+- 첫 실렌더에서 본문은 높은 층 거실을 말하는데 강남 거리 배경이었고, 2031 장면 위에 시작 자산/남은 5년 HUD가 떠 시간축을 깨는 기존 정합성 오류도 확인했다.
+
+### 수정
+- direction 스키마에 `visual=black_future`를 추가했다. StoryMode가 이 장면에서만 moral norm −0.80 상당의 Black 2단계 셰이더 파라미터를 사용하며 `GameState.moral_tint`는 변경하지 않는다.
+- 플래시포워드에 slow 타이핑, 앰비언스 cut, cold sting, slow zoom, 1.5초 hold를 묶어 런의 네 번째 풀스택 정점으로 배선했다.
+- 배경을 강남 거리에서 실제 높은 층 내부인 `penthouse`로 교체하고, 미래 장면 동안 HUD를 숨겼다.
+- 기존 정장 민준 초상화를 별도 레이어로 사용하되 이름표를 숨기고 인물만 거의 검게 눌러 “좋은 정장의 남자 / 얼굴은 보이지 않는다”를 배경 합성 CG 없이 구현했다.
+- 후속 `story_arrival`에서 override를 끄고 HUD, Gray 셰이더, 현재 민준 초상 색과 이름표를 즉시 복원한다. ScreenshotQA에 두 컷을 연속 회귀 캡처로 추가했다.
+
+### 검증
+- `FlashforwardVisualCheck.tscn` 통과: `local=-0.80 arrival=0.00 save_clean=1`. 펜트하우스 경로·HUD hide/restore·실루엣/이름표·셰이더 밝기도 함께 검증.
+- `CompileCheck.tscn` 통과.
+- `ScreenshotQA --qa=story-en --lang=en` 통과. 2031 펜트하우스 실루엣과 2026 고시원 Gray 복귀 컷을 직접 비교 확인.
+
 ## 2026-07-10 (Codex — ending CG grading and ownership gate)
 
 ### 배경

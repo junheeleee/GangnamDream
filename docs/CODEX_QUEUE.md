@@ -191,7 +191,9 @@
 
 **구현 순서**: ①`docs/ENDING_ART.md` P0 큐(결혼식·gangnam_dream·lonely_rich 우선) 외부 생성→큐레이션→그레이딩 통과 ②**인라인 프리뷰에도 `_moral_bg_material` 계열 적용**(위 갭 수리 — 스타일 통일 보장) ③`docs/PRODUCTION_ASSET_PIPELINE.md` Gate.
 
-## P3-8. 플래시포워드 셰이더 강제 (콘텐츠는 완료)
+## [x] P3-8. 플래시포워드 셰이더 강제 (2026-07-10 Codex 완료)
+
+완료: `story_flashforward`에 풀스택 direction(`slow/cut/cold/slow_zoom/hold=1.5/visual=black_future`)을 배선했다. `visual=black_future`는 StoryMode의 장면 로컬 norm만 −0.80으로 사용하며 `GameState.moral_tint`와 세이브는 건드리지 않는다. 2031 장면의 현재시점 HUD를 숨기고, 본문과 맞지 않던 강남 거리 배경을 펜트하우스 실내로 교정했다. 기존 `player_suit` 초상은 배경과 분리한 무명/무안면 실루엣으로만 합성한다. `story_arrival` 로드 시 override·HUD·초상 이름/색이 같은 프레임에 Gray로 복원된다. `FlashforwardVisualCheck`와 `ScreenshotQA --qa=story-en` 통과.
 
 **코드 앵커**: `story_flashforward`(content/events/story_events.json 선두, 프롤로그 큐 선두 배선 — `_begin_month_story_and_render()` turn-1 분기, `follow_up_event: story_arrival` 체인). StoryMode moral 반영: `_story_palette()`(102)/`_apply_story_surface_palette`(148)/배경 그레이딩(305-10) — 전부 GameState.moral_tint 기반.
 **할 것**: 이 씬 재생 동안만 **tint −80 상당의 시각 상태 강제** — StoryMode에 씬-로컬 오버라이드 파라미터(셰이더 파라미터만 변경) + `story_arrival` 컷백 시 원상 복귀. SCENE_DIRECTION 렌더러(5.5) 후엔 이 씬에 풀스택 direction 예약.
