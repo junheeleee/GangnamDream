@@ -4887,8 +4887,8 @@ func _add_ap_controller_hint_strip(ap_empty: bool) -> void:
 	st.set_corner_radius_all(2)
 	st.content_margin_left = 10
 	st.content_margin_right = 10
-	st.content_margin_top = 6
-	st.content_margin_bottom = 6
+	st.content_margin_top = 4
+	st.content_margin_bottom = 4
 	strip.add_theme_stylebox_override("panel", st)
 	choice_box.add_child(strip)
 
@@ -5061,7 +5061,7 @@ func _render_week_pressure_row(parent: Control, net: float, total: float, has_wa
 	_add_week_pressure_cell(row, _tr("몸과 마음", "CONDITION"), condition, not has_warning)
 	# 네 번째 긴장: 강남까지 ↔ 곁의 사람. 돈에만 갈아넣으면 이 칸이 식는다 (AP_REDESIGN 1b)
 	var people := _people_pressure_state()
-	_add_week_pressure_cell(row, _tr("곁의 사람", "PEOPLE"), str(people.get("text", "")), bool(people.get("good", true)))
+	_add_people_pressure_cell(row, people)
 
 ## 지금 가장 가까운 사람 — 배우자/연인 > 최고 호감 인연 > 아버지. 아무도 없으면 빈 dict.
 func _closest_person() -> Dictionary:
@@ -5087,14 +5087,48 @@ func _closest_person() -> Dictionary:
 func _people_pressure_state() -> Dictionary:
 	var person := _closest_person()
 	if person.is_empty():
-		return {"text": _tr("아무도 없다", "No one"), "good": false}
+		return {
+			"id": "",
+			"name": _tr("아무도 없다", "No one"),
+			"status": "alone",
+			"status_text": _tr("비어 있음", "empty"),
+			"detail": _tr("연락할 사람이 없다", "No one to call"),
+			"good": false,
+			"tone": "cold",
+		}
 	var pname: String = str(ImageRegistry.get_person_info(str(person["id"])).get("name", ""))
+	if pname.is_empty():
+		pname = _tr("누군가", "Someone")
 	var streak: int = GameState.grind_streak_weeks
 	if streak >= 4:
-		return {"text": _tr("%s — 멀어진다", "%s — drifting") % pname, "good": false}
+		return {
+			"id": str(person["id"]),
+			"name": pname,
+			"status": "drifting",
+			"status_text": _tr("멀어진다", "drifting"),
+			"detail": _tr("{w}주째 말이 없다", "{w} weeks quiet").format({"w": streak}),
+			"good": false,
+			"tone": "cold",
+		}
 	if streak >= 2:
-		return {"text": _tr("%s — 뜸하다", "%s — quiet") % pname, "good": false}
-	return {"text": _tr("%s — 곁에 있다", "%s — near") % pname, "good": true}
+		return {
+			"id": str(person["id"]),
+			"name": pname,
+			"status": "quiet",
+			"status_text": _tr("뜸하다", "quiet"),
+			"detail": _tr("연락이 늦어지고 있다", "reach out soon"),
+			"good": false,
+			"tone": "neutral",
+		}
+	return {
+		"id": str(person["id"]),
+		"name": pname,
+		"status": "near",
+		"status_text": _tr("곁에 있다", "near"),
+		"detail": _tr("아직 말이 닿는다", "still within reach"),
+		"good": true,
+		"tone": "warm",
+	}
 
 func _add_week_axis_strip(parent: Control) -> void:
 	var money_count := int(GameState.action_axis_this_week.get("money", 0))
@@ -5202,7 +5236,7 @@ func _axis_meter_chip(axis: String, count: int, max_ap: int) -> Control:
 func _add_week_pressure_cell(parent: Control, label_text: String, value_text: String, good: bool) -> void:
 	var cell := PanelContainer.new()
 	cell.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	cell.custom_minimum_size = Vector2(0, 34)
+	cell.custom_minimum_size = Vector2(0, 42)
 	cell.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color("#11141a", 0.68)
@@ -5234,6 +5268,103 @@ func _add_week_pressure_cell(parent: Control, label_text: String, value_text: St
 	value.clip_text = true
 	value.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	box.add_child(value)
+
+func _people_pressure_style(tone: String) -> Dictionary:
+	var palette := _moral_ui_palette()
+	match tone:
+		"warm":
+			return {
+				"bg": Color("#121613", 0.82).lerp(palette["choice_bg"], 0.20),
+				"border": _moral_gray_accent(Color("#d6d0b6"), palette, 0.04),
+				"bar": _moral_signal_color(Color("#d9d3bd"), 0.16),
+				"text": "#eef1ec",
+				"detail": "#aeb8ae",
+			}
+		"neutral":
+			return {
+				"bg": Color("#101217", 0.84).lerp(palette["choice_bg"], 0.24),
+				"border": _moral_gray_accent(Color("#9da7b3"), palette, 0.02),
+				"bar": _moral_signal_color(Color("#9da7b3"), 0.13),
+				"text": "#d7dde6",
+				"detail": "#929cab",
+			}
+		_:
+			return {
+				"bg": Color("#090c0d", 0.90).lerp(palette["choice_bg"], 0.18),
+				"border": _moral_gray_accent(Color("#6f7a82"), palette, 0.00),
+				"bar": _moral_signal_color(Color("#73818a"), 0.10),
+				"text": "#c6cfce",
+				"detail": "#7f8b88",
+			}
+
+func _add_people_pressure_cell(parent: Control, people: Dictionary) -> void:
+	var tone: String = str(people.get("tone", "warm"))
+	var pstyle := _people_pressure_style(tone)
+	var cell := PanelContainer.new()
+	cell.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	cell.custom_minimum_size = Vector2(0, 42)
+	cell.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var st := StyleBoxFlat.new()
+	st.bg_color = pstyle["bg"]
+	st.border_color = pstyle["border"]
+	st.set_border_width_all(1)
+	st.border_width_left = 3
+	st.set_corner_radius_all(3)
+	st.content_margin_left = 8
+	st.content_margin_right = 8
+	st.content_margin_top = 5
+	st.content_margin_bottom = 5
+	cell.add_theme_stylebox_override("panel", st)
+	parent.add_child(cell)
+
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 7)
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	cell.add_child(row)
+
+	var bar := ColorRect.new()
+	bar.color = pstyle["bar"]
+	bar.custom_minimum_size = Vector2(3, 30)
+	bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(bar)
+
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 1)
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(box)
+
+	var key_row := HBoxContainer.new()
+	key_row.add_theme_constant_override("separation", 5)
+	key_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	box.add_child(key_row)
+
+	var key := _label(_tr("곁의 사람", "PEOPLE"), 9, "#7f8794")
+	key.set_meta("moral_role", "hint_text")
+	key.uppercase = true
+	key.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	key_row.add_child(key)
+
+	var state: Label = _label(str(people.get("status_text", "")), 9, str(pstyle["detail"]))
+	state.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	state.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	state.clip_text = true
+	state.custom_minimum_size = Vector2(54, 0)
+	if _font_bold:
+		state.add_theme_font_override("font", _font_bold)
+	key_row.add_child(state)
+
+	var name_lbl: Label = _label(str(people.get("name", "")), 12, str(pstyle["text"]))
+	name_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	name_lbl.clip_text = true
+	if _font_bold:
+		name_lbl.add_theme_font_override("font", _font_bold)
+	box.add_child(name_lbl)
+
+	var detail: Label = _label(str(people.get("detail", "")), 9, str(pstyle["detail"]))
+	detail.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	detail.clip_text = true
+	box.add_child(detail)
 
 func _add_week_ap_slots(parent: Control, ap: int) -> void:
 	var max_ap: int = maxi(1, GameState.max_action_points)
@@ -5553,9 +5684,7 @@ func _render_situation_cards():
 				var cost_text: String = _tr(
 					"돈을 쫓는 사이 — {p}에게 연락 못 한 지 {w}주가 됐다.",
 					"While chasing money — it's been {w} weeks since you reached out to {p}.").format({"p": pname, "w": streak})
-				var cost_lbl := _wrap_label(cost_text, 11, "#8a7f74")
-				cost_lbl.set_meta("moral_role", "hint_text")
-				choice_box.add_child(cost_lbl)
+				_add_grind_hint_strip(cost_text, streak)
 	else:
 		_add_ap_section_header(_tr("이번 주 종료", "WEEK CLOSED"), "%s — %s" % [
 			act_prefix,
@@ -5564,10 +5693,47 @@ func _render_situation_cards():
 		# 한 주를 전부 돈에 썼다면 — 그 사실을 짧게 비춘다
 		if int(GameState.action_axis_this_week.get("human", 0)) == 0 \
 				and int(GameState.action_axis_this_week.get("money", 0)) >= 2:
-			var spent_lbl := _label(_tr("이번 주도 전부 돈에 썼다.", "Another week spent entirely on money."), 11, "#8a7f74")
-			spent_lbl.set_meta("moral_role", "hint_text")
-			choice_box.add_child(spent_lbl)
+			_add_grind_hint_strip(_tr("이번 주도 전부 돈에 썼다.", "Another week spent entirely on money."), GameState.grind_streak_weeks + 1)
 	_render_essential_actions(ap)
+
+func _add_grind_hint_strip(text: String, streak: int) -> void:
+	var palette := _moral_ui_palette()
+	var severity := clampf(float(maxi(1, streak)) / 4.0, 0.0, 1.0)
+	var strip := PanelContainer.new()
+	strip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	strip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#08090b", 0.84).lerp(palette["choice_bg"], 0.24)
+	st.border_color = _moral_gray_accent(Color("#7a8287").lerp(Color("#4d5658"), severity), palette, 0.01)
+	st.border_width_left = 3
+	st.set_border_width(SIDE_TOP, 1)
+	st.set_border_width(SIDE_RIGHT, 1)
+	st.set_border_width(SIDE_BOTTOM, 1)
+	st.set_corner_radius_all(2)
+	st.content_margin_left = 10
+	st.content_margin_right = 10
+	st.content_margin_top = 6
+	st.content_margin_bottom = 6
+	strip.add_theme_stylebox_override("panel", st)
+	choice_box.add_child(strip)
+
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	strip.add_child(row)
+
+	var tag := _label(_tr("빈자리", "ABSENCE"), 8, "#798389")
+	tag.custom_minimum_size = Vector2(58, 0)
+	tag.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	tag.uppercase = true
+	if _font_bold:
+		tag.add_theme_font_override("font", _font_bold)
+	row.add_child(tag)
+
+	var msg := _wrap_label(text, 10, _moral_hex(_moral_text_accent(Color("#a5aba6"), -0.03)))
+	msg.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	msg.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	row.add_child(msg)
 
 func _add_ap_section_header(title: String, subtitle: String) -> void:
 	var panel := PanelContainer.new()
@@ -6002,7 +6168,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	btn.set_meta("moral_role", "choice_card")
 	btn.set_meta("moral_accent", accent if not disabled else "#343446")
 	btn.text = ""
-	btn.custom_minimum_size = Vector2(0, 62)
+	btn.custom_minimum_size = Vector2(0, 56)
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn.disabled = disabled
 	btn.focus_mode = Control.FOCUS_ALL
@@ -6042,8 +6208,8 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	margin.add_theme_constant_override("margin_left", 14)
 	margin.add_theme_constant_override("margin_right", 14)
-	margin.add_theme_constant_override("margin_top", 6)
-	margin.add_theme_constant_override("margin_bottom", 6)
+	margin.add_theme_constant_override("margin_top", 4)
+	margin.add_theme_constant_override("margin_bottom", 4)
 	btn.add_child(margin)
 
 	var row := HBoxContainer.new()
@@ -6054,7 +6220,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	if not rail_label.is_empty():
 		var rail := PanelContainer.new()
 		rail.set_meta("moral_role", "choice_badge")
-		rail.custom_minimum_size = Vector2(38, 44)
+		rail.custom_minimum_size = Vector2(38, 40)
 		rail.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		rail.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var rail_style := StyleBoxFlat.new()
@@ -6090,7 +6256,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	var icon_box := PanelContainer.new()
 	icon_box.set_meta("moral_role", "choice_icon")
 	icon_box.set_meta("moral_accent", accent if not disabled else "#343446")
-	icon_box.custom_minimum_size = Vector2(48, 48)
+	icon_box.custom_minimum_size = Vector2(42, 42)
 	icon_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	icon_box.clip_contents = true
 	var icon_style := StyleBoxFlat.new()
@@ -6106,7 +6272,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 		art_tex.set_meta("moral_role", "choice_thumbnail")
 		art_tex.set_meta("moral_accent", accent if not disabled else "#343446")
 		art_tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		art_tex.custom_minimum_size = Vector2(48, 48)
+		art_tex.custom_minimum_size = Vector2(42, 42)
 		art_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		art_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 		art_tex.texture = art_thumb
@@ -6117,7 +6283,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 		icon_tex.set_meta("moral_role", "hud_icon")
 		icon_tex.set_meta("moral_accent", accent if not disabled else "#343446")
 		icon_tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		icon_tex.custom_minimum_size = Vector2(38, 38)
+		icon_tex.custom_minimum_size = Vector2(32, 32)
 		icon_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		icon_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		icon_tex.texture = _ui_icon_texture(icon_id)

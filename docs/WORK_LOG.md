@@ -1,5 +1,24 @@
 # Gangnam Dream Work Log
 
+## 2026-07-10 (Codex — people pressure surface pass)
+
+### 배경
+- `docs/CODEX_QUEUE.md` P1-2의 목표는 AP 주간 보드의 네 번째 긴장인 `PEOPLE`이 관계 수치표처럼 보이지 않으면서도 돈-only 루프의 비용을 눈으로 읽히게 하는 것이다.
+- 기존 표면은 `Kim Daeun — drifting` 같은 한 줄 텍스트와 얇은 힌트 라벨이라 영어 화면에서 의미는 전달되지만 게임 내 기록물/압박 셀처럼 느껴지는 힘이 약했다.
+
+### 수정
+- `PEOPLE` 압박 셀을 전용 렌더러로 분리했다. 이름, 상태(`near/quiet/drifting`), 세부 문장을 나눠 보여주며 3단계 온도(온기 미색/중성/한색)를 적용한다.
+- 관계 수치나 moral/tint 값은 노출하지 않고, `still within reach`, `reach out soon`, `4 weeks quiet` 같은 서술형 상태만 남겼다.
+- 돈-only 힌트를 단순 라벨에서 `ABSENCE` 스트립으로 승격했다. 행동 가능 상태와 AP 0 종료 상태 모두 같은 문법으로 보인다.
+- 힌트가 추가되어도 1280x800 AP 화면에서 4개 행동 카드가 한 화면에 들어오도록 AP 카드 높이와 액션 타일 크기를 소폭 압축했다.
+- `ScreenshotQA --qa=ap-en`에 그라인드 시드 컷 2종을 추가했다: `ap_en_03h_people_pressure_grind.png`, `ap_en_03i_money_only_closed.png`.
+
+### 검증
+- `CompileCheck.tscn` 통과.
+- `git diff --check` 통과.
+- `ScreenshotQA --qa=ap-en --lang=en` 통과 및 신규 그라인드 컷/기본 AP 컷 직접 확인.
+- Godot 종료 시 RID/Texture leak 경고는 기존 OpenGL QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
+
 ## 2026-07-10 (Codex — montage surface pass)
 
 ### 배경

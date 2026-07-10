@@ -73,7 +73,9 @@
 **검증**: `ScreenshotQA --qa=ap-en --lang=en` + 루틴 모달/결과 카드 컷 추가(ScreenshotQA.gd의 기존 모달 캡처 패턴). 1280×800 노스크롤. `./tools/audit.sh` ✅.
 **수용 기준**: 결과 카드가 웹 모달이 아니라 게임 내 기록물로 보일 것.
 
-## P1-2. 곁의 사람 셀 + 그라인드 힌트 폴리싱
+## [x] P1-2. 곁의 사람 셀 + 그라인드 힌트 폴리싱 (2026-07-10 Codex 완료)
+
+완료: `PEOPLE` 압박 셀을 이름/상태/세부 문장으로 분리한 3상태 온도 카드로 승격, 돈-only 루프 힌트를 `ABSENCE` 스트립으로 정리, AP 카드 높이 소폭 압축, `--qa=ap-en`에 `ap_en_03h_people_pressure_grind.png`/`ap_en_03i_money_only_closed.png` 캡처 추가.
 
 **코드 앵커 (실증)**
 - `_people_pressure_state()` — MainGame.gd:5042 (grind_streak `>=4` "멀어진다/drifting" 5049 / `>=2` "뜸하다/quiet" 5051 / else "곁에 있다/near"). `_closest_person()` — 5022 (배우자>연인>최고호감(≥10, daeun/jiyeon/hyunsu/jaehyuk)>아버지>빈 dict).

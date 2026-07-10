@@ -593,6 +593,34 @@ func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> 
 		_mg._finish_typing()
 	await _settle(0.8)
 	await _save(prefix + "03_ap_actions")
+	var _old_grind_streak: int = GameState.grind_streak_weeks
+	var _old_axis: Dictionary = GameState.action_axis_this_week.duplicate(true)
+	var _old_ap: int = GameState.action_points
+	GameState.grind_streak_weeks = 4
+	GameState.action_axis_this_week = {"money": 1, "human": 0}
+	GameState.action_points = GameState.max_action_points
+	if _mg.has_method("_render_ap_actions"):
+		_mg._render_ap_actions()
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
+	await _settle(0.45)
+	await _save(prefix + "03h_people_pressure_grind")
+	GameState.action_points = 0
+	GameState.action_axis_this_week = {"money": 2, "human": 0}
+	if _mg.has_method("_render_ap_actions"):
+		_mg._render_ap_actions()
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
+	await _settle(0.45)
+	await _save(prefix + "03i_money_only_closed")
+	GameState.grind_streak_weeks = _old_grind_streak
+	GameState.action_axis_this_week = _old_axis
+	GameState.action_points = _old_ap
+	if _mg.has_method("_render_ap_actions"):
+		_mg._render_ap_actions()
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
+	await _settle(0.2)
 	# 연애 중 전용 '데이트' 카드가 레일에 뜨는지 확인 (다은 로맨스 시드)
 	var _had_daeun_romance = GameState.flags.get("daeun_romance_started", false)
 	GameState.flags["daeun_romance_started"] = true
