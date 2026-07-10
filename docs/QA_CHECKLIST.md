@@ -28,7 +28,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Romance CG Gray/Black/White color hierarchy and no-HUD climax framing | `--qa=romance-cg` |
 | Romance portrait outfit/scale against exact paired CG contract | `--qa=romance-portraits` |
 | Main AP screen, Seoul Trace visited/locked nodes, warning state, people pressure grind hints, routine modal/time record, market ticker/info panel, keepsake thumbnails, action modals, people modal pages | `--qa=ap-en` |
-| AP Act 1~5 2x2 decision board, post-first-interview `Keep Applying`, no-scroll special-action row, ACT4 relationship pressure modal | `--qa=ap-act-en` |
+| AP Act 1~5 2x2 decision board, actual KRW 500K first-month horizon, post-first-interview `Keep Applying`, action-commit overlay, Seoul Trace restoration, no-scroll special-action row, ACT4 relationship pressure modal | `--qa=ap-act-en` |
 | Investment modal Trade/Holdings/Market movers/Bank pages | `--qa=invest-en` |
 | Demo month summary, demo ending CTA, 6-month Time Ledger card | `--qa=demo-end-en` |
 | Ending modals, graded ending CG/card surface, White no-CG fallback, final Time Ledger card | `--qa=endings-en` |

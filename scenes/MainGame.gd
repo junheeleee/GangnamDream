@@ -5823,11 +5823,13 @@ func _render_situation_cards():
 	var ap: int = GameState.action_points
 	var act_info: Dictionary = _ap_act_info()
 	var act_prefix: String = "%s · %s" % [str(act_info.get("label", "")), str(act_info.get("title", ""))]
+	var first_month_horizon: bool = int(GameState.turn) <= 4
 	if ap > 0:
-		_add_ap_section_header(_tr("서울 동선", "SEOUL TRACE"), "%s — %s" % [
+		var section_title := _tr("첫 달", "FIRST MONTH") if first_month_horizon else _tr("서울 동선", "SEOUL TRACE")
+		_add_ap_section_header(section_title, "%s — %s" % [
 			act_prefix,
 			_tr("이번 주의 남은 시간을 어디에 쓸지 고른다", "Choose where this week's remaining time goes")
-		])
+		], first_month_horizon)
 		# 보이는 tradeoff — 몇 주째 돈만 쫓고 있으면, 지금 포기 중인 사람이 구체적으로 보인다
 		var streak: int = GameState.grind_streak_weeks
 		if streak >= 2:
@@ -5901,7 +5903,7 @@ func _add_grind_hint_strip(text: String, streak: int) -> void:
 	msg.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	row.add_child(msg)
 
-func _add_ap_section_header(title: String, subtitle: String) -> void:
+func _add_ap_section_header(title: String, subtitle: String, first_month_horizon: bool = false) -> void:
 	var panel := PanelContainer.new()
 	panel.set_meta("moral_role", "separator")
 	panel.set_meta("moral_accent", "#6f7788")
@@ -5934,9 +5936,9 @@ func _add_ap_section_header(title: String, subtitle: String) -> void:
 		title_lbl.add_theme_font_override("font", _font_bold)
 	row.add_child(title_lbl)
 
-	var map_strip: Control = _build_seoul_map_strip()
-	map_strip.tooltip_text = subtitle
-	row.add_child(map_strip)
+	var middle_strip: Control = _build_first_month_horizon_strip() if first_month_horizon else _build_seoul_map_strip()
+	middle_strip.tooltip_text = subtitle
+	row.add_child(middle_strip)
 
 	var life_btn := _icon_small_button(_tr("생활", "Life"), "life", "#111820")
 	life_btn.set_meta("moral_role", "button")
@@ -5946,6 +5948,68 @@ func _add_ap_section_header(title: String, subtitle: String) -> void:
 	life_btn.tooltip_text = _tr("이사·상점. 시간 소모 없음", "Move and shop. No time cost")
 	life_btn.pressed.connect(_open_cat_life)
 	row.add_child(life_btn)
+
+func _build_first_month_horizon_strip() -> Control:
+	var strip := HBoxContainer.new()
+	strip.name = "FirstMonthHorizon"
+	strip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	strip.custom_minimum_size = Vector2(420, 34)
+	strip.add_theme_constant_override("separation", 10)
+	strip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	var has_job: bool = not GameState.current_job.is_empty()
+	var rent_cost: float = GameState.get_housing_expense()
+	var rent_ready: bool = float(GameState.money) + maxf(0.0, float(GameState.monthly_income)) >= rent_cost
+	var route_open: bool = bool(GameState.flags.get("arc_invest_guidance_seen", false)) \
+			or GameState.flags.get("route_career", false) \
+			or GameState.flags.get("route_invest", false) \
+			or GameState.flags.get("route_startup", false)
+	var steps: Array = [
+		{
+			"key": _tr("01 · 지금", "01 · NOW"),
+			"value": _tr("수입 확보됨", "Income secured") if has_job else (_tr("지원 계속", "Keep applying") if _opening_interview_seen() else _tr("수입 만들기", "Find income")),
+			"state": "done" if has_job else "active",
+		},
+		{
+			"key": _tr("02 · 4주차", "02 · WEEK 4"),
+			"value": (_tr("월세 방어됨", "Rent covered") if rent_ready else _tr("월세 %s 필요", "Need %s for rent") % GameState.format_money(rent_cost)),
+			"state": "done" if rent_ready else "danger",
+		},
+		{
+			"key": _tr("03 · 그다음", "03 · NEXT"),
+			"value": _tr("경로가 열림", "Route forming") if route_open else _tr("내 경로 만들기", "Build a route"),
+			"state": "done" if route_open else "pending",
+		},
+	]
+	for i in range(steps.size()):
+		if i > 0:
+			var separator := ColorRect.new()
+			separator.custom_minimum_size = Vector2(1, 24)
+			separator.color = Color("#343a43", 0.72)
+			separator.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			strip.add_child(separator)
+		var step: Dictionary = steps[i]
+		var state := str(step["state"])
+		var column := VBoxContainer.new()
+		column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		column.add_theme_constant_override("separation", 1)
+		column.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		strip.add_child(column)
+		var key_color := "#9aa5b3" if state == "active" else "#68717e"
+		if state == "danger":
+			key_color = "#b98787"
+		var value_color := "#eef3f8" if state == "active" else ("#b8c5d1" if state == "done" else "#8f98a8")
+		if state == "danger":
+			value_color = "#efb3b3"
+		var key := _label(str(step["key"]), 9, key_color)
+		key.uppercase = true
+		column.add_child(key)
+		var value := _label(str(step["value"]), 12, value_color)
+		value.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		if state in ["active", "danger"] and _font_bold:
+			value.add_theme_font_override("font", _font_bold)
+		column.add_child(value)
+	return strip
 
 func _build_seoul_map_strip() -> Control:
 	var visits: Dictionary = GameState.action_places_this_week
@@ -5984,6 +6048,7 @@ func _build_seoul_map_strip() -> Control:
 		"mixed": _moral_text_accent(Color("#d9e0e8"), 0.02),
 	}
 	var strip: Control = SEOUL_MAP_STRIP_SCRIPT.new()
+	strip.name = "SeoulMapStrip"
 	strip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	strip.custom_minimum_size = Vector2(420, 34)
 	strip.call("setup", locations, visits, GameState.recent_action_places,

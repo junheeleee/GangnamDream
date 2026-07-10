@@ -386,6 +386,9 @@ func _prepare_main_game_state() -> void:
 	GameState.investment_skill = 35
 	GameState.flags["has_received_paycheck"] = true
 	GameState.flags["arc_invest_guidance_seen"] = true
+	GameState.flags.erase("route_career")
+	GameState.flags.erase("route_invest")
+	GameState.flags.erase("route_startup")
 	_seed_cast_state()
 	_suppress_tutorial_overlays()
 
@@ -828,6 +831,12 @@ func _shot_ap_act_surfaces(lang: String = "en", prefix: String = "ap_act_en_") -
 		if _mg.has_method("_finish_typing"):
 			_mg.call("_finish_typing")
 		await _settle(0.45)
+		if act == 1 and _mg.find_child("FirstMonthHorizon", true, false) == null:
+			_fail("Act 1 AP surface is missing the first-month horizon.")
+			return
+		if act == 2 and _mg.find_child("SeoulMapStrip", true, false) == null:
+			_fail("Post-onboarding AP surface did not restore Seoul Trace.")
+			return
 		await _save("%s%02d_act%d" % [prefix, act, act])
 		if act == 1:
 			GameState.flags["arc_intro_meal_seen"] = true
@@ -837,6 +846,12 @@ func _shot_ap_act_surfaces(lang: String = "en", prefix: String = "ap_act_en_") -
 				_mg.call("_finish_typing")
 			await _settle(0.35)
 			await _save("%s01b_after_first_interview" % prefix)
+			if _mg.has_method("_show_ap_action_commit"):
+				_mg.call("_show_ap_action_commit", _tr("지원 계속", "Keep Applying"), "job", "#dc6a2a", false, null)
+				await _settle(0.14)
+				await _save("%s01c_action_commit" % prefix)
+				if _mg.has_method("_hide_ap_action_commit"):
+					_mg.call("_hide_ap_action_commit")
 			GameState.flags.erase("arc_intro_meal_seen")
 		if act == 4 and _mg.has_method("_open_cat_people"):
 			_mg.call("_open_cat_people")
@@ -881,15 +896,17 @@ func _seed_ap_act_state(act: int, lang: String = "en") -> void:
 			GameState.year = 2026
 			GameState.month = 1
 			GameState.week_of_month = 1
-			GameState.turn = 8
+			GameState.turn = 1
 			GameState.current_job = {}
 			GameState.monthly_income = 0.0
-			GameState.money = 900_000.0
+			GameState.money = 500_000.0
 			GameState.health = 60
 			GameState.mental = 54
 			GameState.flags["has_received_paycheck"] = false
 			GameState.flags["arc_invest_guidance_seen"] = false
 			GameState.action_axis_this_week = {"money": 0, "human": 0}
+			GameState.portfolio = {}
+			GameState.loans = {"bank": 0.0, "second": 0.0}
 		2:
 			GameState.year = 2027
 			GameState.month = 3
