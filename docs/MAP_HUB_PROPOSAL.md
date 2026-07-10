@@ -3,6 +3,8 @@
 > CODEX_QUEUE 6번의 선행 설계. 목적: "메뉴를 고른다"를 "장소에 간다"로 바꿔 웹소설 체감을 게임 체감으로.
 > **유저 승인 후 Codex 구현.** 원칙: `docs/CONTROLLER_UX_STRATEGY.md`(화면당 하나의 조작 모델), Gangnam Ink(실사 지도 아님 — 잉크 라인 노드맵), Godot 네이티브(DECISIONS 2026-07-07).
 
+> **구현 상태 (2026-07-10)**: Phase M1 완료. AP 헤더 `SEOUL TRACE`, 주간 방문/최근 동선 저장, 잠금/강남 진행 반영, KR/EN Steam Deck 실렌더 검증 완료. Phase M2는 M1 체감 후 판정.
+
 ---
 
 ## 0. 핵심 판정: 레일을 버리지 않는다

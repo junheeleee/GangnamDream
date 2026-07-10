@@ -1,5 +1,23 @@
 # Gangnam Dream Work Log
 
+## 2026-07-10 (Codex — Seoul trace map hub M1)
+
+### 배경
+- AP 행동 레일은 패드 친화적으로 정리됐지만, 여전히 추상 메뉴를 고르는 감각이 강해 서울에서 한 주를 보낸다는 공간성이 약했다.
+- 1280×800 화면은 이미 주간 압박 카드와 4개 행동 카드로 꽉 차 있어 별도 지도 패널을 추가하면 스크롤과 작은 글씨 문제가 되살아나는 상태였다.
+
+### 수정
+- 중복 ACT 설명이 있던 ACTION RAIL 헤더 중앙을 비상호작용 8노드 `SEOUL TRACE`/`서울 동선` 스트립으로 교체했다. 화면 높이와 포커스 대상 수는 늘리지 않았다.
+- 고시원/주거, 편의점, 일터, 한강, 시내, 지하, 정선행, 강남을 Godot 커스텀 드로잉 점·선으로 표현한다. 미해금 지하·정선은 흐리고 강남은 자산 30억 진행률만큼만 선명하다.
+- 주요 AP 실행 시 장소 ID를 돈/사람 축과 함께 구조화해 `action_places_this_week`에 기록하고, 최근 8개 동선을 `recent_action_places`로 남긴다. 투자 거래는 폰 행동이라 장소를 기록하지 않는다.
+- 현재 주 점등은 주 종료 때 초기화하지만 최근 동선은 잔흔으로 유지한다. 두 상태 모두 세이브에 포함했고 구버전 세이브는 빈 동선으로 안전하게 시작한다.
+- `SeoulTraceCheck`를 추가해 행동→장소 배선, 저장/로드, 주간 초기화, 레거시 세이브를 자동 검증한다. ScreenshotQA에는 주차/ACT별 동선 시드를 추가했다.
+
+### 검증
+- `tools/audit.sh` 통과: ERROR 0 / WARNING 0, serialize·밸런스·EN·컴파일 포함.
+- `SeoulTraceCheck.tscn` 통과: `visits=2 save=1 weekly_reset=1 legacy=1`.
+- `ScreenshotQA --qa=ap-en --lang=en/ko` 통과. 두 언어 모두 1280×800에서 지도 라벨과 4개 AP 카드가 스크롤 없이 보이며 기존 패드 포커스 수는 불변.
+
 ## 2026-07-10 (Codex — scene direction renderer + event registry recovery)
 
 ### 배경

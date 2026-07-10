@@ -5,6 +5,7 @@ extends Control
 # 버튼이 정식 상점 페이지로 연결된다. 그 전까지는 안전한 폴백(상점 검색)으로 연결.
 const STEAM_APP_ID := "STEAM_APP_ID"  # TODO: Steamworks 등록 후 실제 App ID(숫자)로 교체
 const STEAM_FALLBACK_URL := "https://store.steampowered.com/search/?term=Gangnam%20Dream"
+const SEOUL_MAP_STRIP_SCRIPT = preload("res://ui_components/SeoulMapStrip.gd")
 
 var investment_system: Node
 var job_system: Node
@@ -5763,7 +5764,7 @@ func _render_situation_cards():
 	var act_info: Dictionary = _ap_act_info()
 	var act_prefix: String = "%s · %s" % [str(act_info.get("label", "")), str(act_info.get("title", ""))]
 	if ap > 0:
-		_add_ap_section_header(_tr("행동 레일", "ACTION RAIL"), "%s — %s" % [
+		_add_ap_section_header(_tr("서울 동선", "SEOUL TRACE"), "%s — %s" % [
 			act_prefix,
 			_tr("이번 주의 남은 시간을 어디에 쓸지 고른다", "Choose where this week's remaining time goes")
 		])
@@ -5860,11 +5861,9 @@ func _add_ap_section_header(title: String, subtitle: String) -> void:
 		title_lbl.add_theme_font_override("font", _font_bold)
 	row.add_child(title_lbl)
 
-	var sub_lbl := _label(subtitle, 12, "#7f8794")
-	sub_lbl.set_meta("moral_role", "hint_text")
-	sub_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	sub_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	row.add_child(sub_lbl)
+	var map_strip: Control = _build_seoul_map_strip()
+	map_strip.tooltip_text = subtitle
+	row.add_child(map_strip)
 
 	var life_btn := _icon_small_button(_tr("생활", "Life"), "life", "#111820")
 	life_btn.set_meta("moral_role", "button")
@@ -5874,6 +5873,50 @@ func _add_ap_section_header(title: String, subtitle: String) -> void:
 	life_btn.tooltip_text = _tr("이사·상점. 시간 소모 없음", "Move and shop. No time cost")
 	life_btn.pressed.connect(_open_cat_life)
 	row.add_child(life_btn)
+
+func _build_seoul_map_strip() -> Control:
+	var visits: Dictionary = GameState.action_places_this_week
+	var underground_open: bool = visits.has("underground") \
+			or GameState.flags.get("entered_network", false) \
+			or GameState.flags.get("scalping_introduced", false)
+	var expedition_open: bool = visits.has("expedition") \
+			or GameState.flags.get("racetrack_guide_met", false) \
+			or GameState.flags.get("racetrack_visited", false) \
+			or GameState.flags.get("casino_club_introduced", false)
+	var work_label: String = _tr("일터", "Work") if not GameState.current_job.is_empty() else _tr("구인", "Jobs")
+	var housing_label: String
+	match GameState.housing:
+		"oneroom": housing_label = _tr("원룸", "Studio")
+		"villa": housing_label = _tr("빌라", "Villa")
+		"apartment": housing_label = _tr("아파트", "Apartment")
+		_: housing_label = _tr("고시원", "Goshiwon")
+	var locations: Array = [
+		{"id": "home", "label": housing_label, "locked": false},
+		{"id": "store", "label": _tr("편의점", "Store"), "locked": false},
+		{"id": "work", "label": work_label, "locked": false},
+		{"id": "river", "label": _tr("한강", "Han River"), "locked": false},
+		{"id": "city", "label": _tr("시내", "City"), "locked": false},
+		{"id": "underground", "label": _tr("지하", "Below"), "locked": not underground_open},
+		{"id": "expedition", "label": _tr("정선행", "Jeongseon"), "locked": not expedition_open},
+		{"id": "gangnam", "label": _tr("강남", "Gangnam"), "locked": false},
+	]
+	var colors: Dictionary = {
+		"line": _moral_gray_accent(Color("#59616d"), _moral_ui_palette(), 0.0),
+		"trace": _moral_signal_color(Color("#9099a5"), 0.08),
+		"dim": _moral_text_accent(Color("#5f6772"), -0.10),
+		"text": _moral_text_accent(Color("#aeb6c2"), -0.02),
+		"current": _moral_text_accent(Color("#edf2f7"), 0.05),
+		"money": _moral_signal_color(Color("#c3a56b"), 0.12),
+		"human": _moral_signal_color(Color("#c09b96"), 0.10),
+		"mixed": _moral_text_accent(Color("#d9e0e8"), 0.02),
+	}
+	var strip: Control = SEOUL_MAP_STRIP_SCRIPT.new()
+	strip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	strip.custom_minimum_size = Vector2(420, 34)
+	strip.call("setup", locations, visits, GameState.recent_action_places,
+		clampf(GameState.get_total_asset_value() / 3_000_000_000.0, 0.0, 1.0),
+		_font_regular, _font_bold, colors)
+	return strip
 
 func _situation_card(sit: Dictionary, engaged: bool, no_ap: bool) -> Button:
 	var cat: String = str(sit.get("category", "social"))
@@ -7642,7 +7685,7 @@ func _ap_study_commit(study_type: int) -> void:
 	var tag: String = [_tr("독서", "Reading"), _tr("운동", "Exercise"), _tr("명상", "Meditation"), _tr("투자공부", "Invest Study")][study_type]
 	var pool: Array = [STUDY_READ_VIGNETTES, STUDY_EXERCISE_VIGNETTES, STUDY_MEDITATE_VIGNETTES, STUDY_INVEST_VIGNETTES][study_type]
 	var study_axis := "human" if (study_type == 1 or study_type == 2) else "money"
-	GameState.register_action_axis(study_axis)
+	GameState.register_action_axis(study_axis, "river" if study_type == 1 else "home")
 	var n: int = _bump_study_count(study_type)
 	var v: Dictionary = pool[randi() % pool.size()]
 	var eff: Dictionary = v.get("e", {}).duplicate()
@@ -7680,14 +7723,14 @@ func _ap_invest():
 func _ap_job_hunt():
 	if not GameState.spend_ap():
 		return
-	GameState.register_action_axis("money")
+	GameState.register_action_axis("money", "work")
 	turn_action_log.append(_tr("구직활동 — 직업 목록 열람", "Job Hunt — browse job list"))
 	_open_jobs()
 
 func _ap_side_job():
 	if not GameState.spend_ap():
 		return
-	GameState.register_action_axis("money")
+	GameState.register_action_axis("money", "work")
 	_enter_minigame_overlay(aruba_game)
 	aruba_game.open()
 
@@ -7721,7 +7764,7 @@ const _SAVE_SCENES = [
 func _ap_save_money():
 	if not GameState.spend_ap():
 		return
-	GameState.register_action_axis("money")
+	GameState.register_action_axis("money", "store")
 	var saved: int = 30000 + randi() % 70000
 	GameState.add_money(float(saved))
 	GameState.modify_hidden_stat("stress", 2)
@@ -7739,7 +7782,7 @@ func _ap_save_money():
 func _ap_network():
 	if not GameState.spend_ap():
 		return
-	GameState.register_action_axis("money")   # 돈을 위한 연결
+	GameState.register_action_axis("money", "city")   # 돈을 위한 연결
 	GameState.flags["network_count"] = int(GameState.flags.get("network_count", 0)) + 1
 	GameState.add_tendency("career", 1)
 	var v: Dictionary = NETWORK_VIGNETTES[randi() % NETWORK_VIGNETTES.size()]
@@ -7769,7 +7812,7 @@ func _ap_date():
 	var pid := _romance_partner_id()
 	if pid.is_empty():
 		pid = "daeun"   # 방어적 폴백 — 렌더 게이트가 없으면 카드가 안 뜨므로 정상 경로에선 도달 안 함
-	GameState.register_action_axis("human")   # 데이트 = 사람에게 쓴 시간
+	GameState.register_action_axis("human", "store" if pid == "daeun" else "city")   # 데이트 = 사람에게 쓴 시간
 	GameState.note_contact(pid)                # 리캡 원장 연동
 	# ── 마일스톤 데이트 오버라이드 (누적 3회=남산 / 6회=놀이동산, 각 런 1회) ──
 	# 데이트 카운터를 올리고, 마일스톤 회차면 일반 비네트 대신 결정 이벤트를 재생한다.
@@ -8151,6 +8194,7 @@ func _montage_apply_slot(kind: String) -> String:
 	if not GameState.spend_ap():
 		return ""
 	var axis: String = "human"
+	var place_id: String = "home"
 	var eff: Dictionary = {}
 	match kind:
 		"study":
@@ -8162,17 +8206,19 @@ func _montage_apply_slot(kind: String) -> String:
 			eff = _avg_vignette_effects([REST_VIGNETTES])
 		"save":
 			axis = "money"
+			place_id = "store"
 			eff = {"money": 30000 + randi() % 70000, "stress": 2}
 			GameState.add_tendency("career", 1)
 		"network":
 			axis = "money"
+			place_id = "city"
 			eff = _avg_vignette_effects([NETWORK_VIGNETTES])
 			GameState.add_tendency("career", 1)
 		_:
 			axis = "human"
 			eff = _avg_vignette_effects([REST_VIGNETTES])
 	_montage_apply_effect_dict(eff)
-	GameState.register_action_axis(axis)
+	GameState.register_action_axis(axis, place_id)
 	return axis
 
 ## 이번 주의 루틴 2슬롯을 적용. 반환: {"money":bool, "human":bool} — 이 주에 쓴 축들.
@@ -8541,7 +8587,7 @@ func _ap_give_gift(pid: String, gid: String) -> void:
 	if not GameState.spend_ap():
 		_show_toast(_tr("행동력이 없습니다 — 다음 달에", "No Action Points — try next month"), Color("#ff7070"))
 		return
-	GameState.register_action_axis("human")   # 만나러 가는 시간 = 사람에게 쓴 시간
+	GameState.register_action_axis("human", "store" if pid == "daeun" else "city")   # 만나러 가는 시간 = 사람에게 쓴 시간
 	GameState.note_contact(pid)                # 리캡 원장 연동
 	var repeat_key: String = "gift_gave_%s_%s" % [pid, gid]
 	var is_repeat: bool = bool(GameState.flags.get(repeat_key, false))
@@ -8577,7 +8623,7 @@ func _ap_give_gift(pid: String, gid: String) -> void:
 func _ap_contact_person(person_id: String):
 	if not GameState.spend_ap():
 		return
-	GameState.register_action_axis("human")   # 사람에게 쓴 시간
+	GameState.register_action_axis("human", "store" if person_id == "daeun" else ("home" if person_id == "father" else "city"))   # 사람에게 쓴 시간
 	GameState.note_contact(person_id)          # 리캡 원장 — 누구에게 몇 번, 마지막이 언제였는지
 	var info: Dictionary = ImageRegistry.PERSON_INFO.get(person_id, {})
 	var pname: String = str(ImageRegistry.get_person_info(person_id).get("name", info.get("name", _tr("인연", "Connection"))))
@@ -8978,7 +9024,7 @@ func _bank_repay(product: String, amount: float):
 func _open_racetrack():
 	if not GameState.spend_ap():
 		return
-	GameState.register_action_axis("money")
+	GameState.register_action_axis("money", "expedition")
 	_enter_minigame_overlay(racetrack)
 	racetrack.open()
 
@@ -8993,7 +9039,7 @@ func _on_racetrack_closed():
 func _open_holdem():
 	if not GameState.spend_ap():
 		return
-	GameState.register_action_axis("money")
+	GameState.register_action_axis("money", "underground")
 	_enter_minigame_overlay(holdem_club)
 	holdem_club.open()
 
@@ -9009,7 +9055,7 @@ func _on_holdem_closed():
 func _open_scalping():
 	if not GameState.spend_ap():
 		return
-	GameState.register_action_axis("money")
+	GameState.register_action_axis("money", "underground")
 	_enter_minigame_overlay(scalping_game)
 	scalping_game.open()
 
@@ -9024,7 +9070,7 @@ func _on_scalping_closed():
 func _open_jeongseon_casino():
 	if not GameState.spend_ap():
 		return
-	GameState.register_action_axis("money")
+	GameState.register_action_axis("money", "expedition")
 	_enter_minigame_overlay(jeongseon_casino)
 	BGMPlayer.set_ambience("casino")
 	jeongseon_casino.open()
@@ -9067,18 +9113,18 @@ func _exit_minigame_overlay() -> void:
 	_update_vignette()
 
 func _ap_selfdev():
-	_ap_vignette(_tr("자기계발", "Self-Dev"), SELFDEV_VIGNETTES, "#5a6ea8")
+	_ap_vignette(_tr("자기계발", "Self-Dev"), SELFDEV_VIGNETTES, "#5a6ea8", "home")
 
 func _ap_free_time():
 	# 자유시간 누적 → 칭호 "자유로운 영혼" (MetaProgression free_spirit) 조건
 	GameState.flags["free_time_count"] = int(GameState.flags.get("free_time_count", 0)) + 1
-	_ap_vignette(_tr("휴식", "Rest"), REST_VIGNETTES, "#0891b2")
+	_ap_vignette(_tr("휴식", "Rest"), REST_VIGNETTES, "#0891b2", "home")
 
 ## 루틴 행동을 '변주되는 미니 장면'으로 처리. 풀에서 무작위 결과를 뽑아 적용.
-func _ap_vignette(title: String, pool: Array, color: String):
+func _ap_vignette(title: String, pool: Array, color: String, place_id: String = "home"):
 	if not GameState.spend_ap():
 		return
-	GameState.register_action_axis("human")   # 자기계발·휴식 = 자기 돌봄
+	GameState.register_action_axis("human", place_id)   # 자기계발·휴식 = 자기 돌봄
 	var v: Dictionary = pool[randi() % pool.size()]
 	var eff: Dictionary = v.get("e", {})
 	for k in eff:
@@ -9436,7 +9482,7 @@ func _get_bg_for_vignette(title: String, body: String, eff: Dictionary) -> Strin
 func _ap_startup_work():
 	if not GameState.spend_ap():
 		return
-	GameState.register_action_axis("money")
+	GameState.register_action_axis("money", "work")
 	var v: Dictionary = STARTUP_VIGNETTES[randi() % STARTUP_VIGNETTES.size()]
 	var eff: Dictionary = v.get("e", {})
 	for k in eff:
@@ -9457,7 +9503,7 @@ func _ap_startup_work():
 func _ap_create_content():
 	if not GameState.spend_ap():
 		return
-	GameState.register_action_axis("money")
+	GameState.register_action_axis("money", "river")
 	var v: Dictionary = CONTENT_VIGNETTES[randi() % CONTENT_VIGNETTES.size()]
 	var eff: Dictionary = v.get("e", {})
 	var extra_eff: Dictionary = {}
@@ -9485,7 +9531,7 @@ func _ap_create_content():
 func _ap_write_resume():
 	if not GameState.spend_ap():
 		return
-	GameState.register_action_axis("money")
+	GameState.register_action_axis("money", "work")
 	turn_action_log.append(_tr("Resume writing — assessment started", "Resume Writing — assessment started"))
 	_enter_minigame_overlay(job_hunt_game)
 	job_hunt_game.open(0)  # Mode.RESUME = 0
@@ -9493,7 +9539,7 @@ func _ap_write_resume():
 func _ap_interview_prep():
 	if not GameState.spend_ap():
 		return
-	GameState.register_action_axis("money")
+	GameState.register_action_axis("money", "work")
 	turn_action_log.append(_tr("Mock interview — assessment started", "Mock Interview — assessment started"))
 	_enter_minigame_overlay(job_hunt_game)
 	job_hunt_game.open(1)  # Mode.INTERVIEW = 1
@@ -9560,7 +9606,7 @@ func _ap_move_housing():
 func _ap_deep_study():
 	if not GameState.spend_ap():
 		return
-	GameState.register_action_axis("money")
+	GameState.register_action_axis("money", "home")
 	var int_before = GameState.intelligence
 	GameState.modify_stat("intelligence", 8)
 	AudioManager.play("stat_up")
@@ -9659,7 +9705,7 @@ func _on_leverage_buy(asset_id: String, amount: float):
 func _ap_vip_network():
 	if not GameState.spend_ap():
 		return
-	GameState.register_action_axis("money")
+	GameState.register_action_axis("money", "city")
 	var soc_before = GameState.social_skill
 	var rep_before = GameState.reputation
 	GameState.modify_stat("social_skill", 3)

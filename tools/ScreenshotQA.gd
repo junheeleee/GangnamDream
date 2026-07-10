@@ -589,6 +589,11 @@ func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> 
 	await _boot_main_game()
 	_mg.current_event = {}
 	_seed_ap_action_log_surface_samples(lang)
+	GameState.action_places_this_week = {
+		"work": {"count": 1, "money": 1, "human": 0},
+		"expedition": {"count": 1, "money": 1, "human": 0},
+	}
+	GameState.recent_action_places = ["home", "store", "work", "city", "expedition"]
 	if _mg.has_method("_render_ap_actions"):
 		_mg._render_ap_actions()
 	if _mg.has_method("_finish_typing"):
@@ -748,6 +753,8 @@ func _shot_ap_act_surfaces(lang: String = "en", prefix: String = "ap_act_en_") -
 func _seed_ap_act_state(act: int, lang: String = "en") -> void:
 	GameState.action_points = GameState.max_action_points
 	GameState.action_axis_this_week = {"money": 0, "human": 0}
+	GameState.action_places_this_week = {}
+	GameState.recent_action_places = ["home"]
 	GameState.player_name = LocaleManager.DEFAULT_NAME_EN if lang == "en" else LocaleManager.DEFAULT_NAME_KO
 	GameState.current_job = {"name":("Office Worker" if lang == "en" else "사무직"), "base_salary":2_240_000.0, "tier":2}
 	GameState.monthly_income = 2_240_000.0
@@ -796,6 +803,8 @@ func _seed_ap_act_state(act: int, lang: String = "en") -> void:
 			GameState.money = 8_600_000.0
 			GameState.investment_skill = 42
 			GameState.action_axis_this_week = {"money": 1, "human": 0}
+			GameState.action_places_this_week = {"work": {"count": 1, "money": 1, "human": 0}}
+			GameState.recent_action_places = ["home", "store", "work"]
 		3:
 			GameState.year = 2028
 			GameState.month = 6
@@ -805,6 +814,8 @@ func _seed_ap_act_state(act: int, lang: String = "en") -> void:
 			GameState.investment_skill = 58
 			GameState.mental = 49
 			GameState.action_axis_this_week = {"money": 2, "human": 0}
+			GameState.action_places_this_week = {"underground": {"count": 2, "money": 2, "human": 0}}
+			GameState.recent_action_places = ["home", "work", "city", "underground"]
 		4:
 			GameState.year = 2029
 			GameState.month = 8
@@ -814,6 +825,8 @@ func _seed_ap_act_state(act: int, lang: String = "en") -> void:
 			GameState.investment_skill = 63
 			GameState.mental = 44
 			GameState.action_axis_this_week = {"money": 1, "human": 0}
+			GameState.action_places_this_week = {"city": {"count": 1, "money": 1, "human": 0}}
+			GameState.recent_action_places = ["work", "city", "underground", "expedition", "city"]
 			_set_cast_relation_for_qa("father", 34)
 			_set_cast_relation_for_qa("sangchul", 54)
 			_set_cast_relation_for_qa("jiyeon", 58)
@@ -831,6 +844,11 @@ func _seed_ap_act_state(act: int, lang: String = "en") -> void:
 			GameState.health = 52
 			GameState.mental = 39
 			GameState.action_axis_this_week = {"money": 1, "human": 1}
+			GameState.action_places_this_week = {
+				"work": {"count": 1, "money": 1, "human": 0},
+				"store": {"count": 1, "money": 0, "human": 1},
+			}
+			GameState.recent_action_places = ["underground", "work", "city", "store"]
 			_set_cast_relation_for_qa("father", 18)
 			_set_cast_relation_for_qa("sangchul", 49)
 			_set_cast_relation_for_qa("jiyeon", 52)

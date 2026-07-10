@@ -150,6 +150,9 @@ var housing_months: Dictionary = {}
 # ── AP 행동 축 — 돈을 좇는 주간 vs 사람/회복에 남긴 주간 ─────────────
 # 플레이어에게 도덕 점수를 보여주지 않고, 반복 루프가 어떤 삶의 모양으로 굳는지만 기록한다.
 var action_axis_this_week: Dictionary = {"money": 0, "human": 0}
+# 서울 지도 M1 — 이번 주 실제로 시간을 쓴 장소와 최근 동선. 수치 평가는 노출하지 않는다.
+var action_places_this_week: Dictionary = {}
+var recent_action_places: Array = []
 # 인물별 연락 기록 — 리캡 카드의 "잔인한 통계"용 원장 (person_id → 횟수 / 마지막 턴)
 var contact_counts: Dictionary = {}
 var last_contact_turn: Dictionary = {}
@@ -309,6 +312,8 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	month_focus = ""
 	housing_months = {}
 	action_axis_this_week = {"money": 0, "human": 0}
+	action_places_this_week = {}
+	recent_action_places = []
 	contact_counts = {}
 	last_contact_turn = {}
 	tendency ={"career": 0, "invest": 0, "found": 0}
@@ -1049,7 +1054,7 @@ func spend_ap(amount: int = 1) -> bool:
 
 # AP 축 기록 — 각 행동이 돈축("money")인지 사람·자기축("human")인지 알린다.
 # docs/AP_REDESIGN.md Phase 1. 숫자는 도덕 점수가 아니라 시간의 모양 — UI는 칩/서술로만 보여준다.
-func register_action_axis(axis: String) -> void:
+func register_action_axis(axis: String, place_id: String = "") -> void:
 	match axis:
 		"money":
 			action_axis_this_week["money"] = int(action_axis_this_week.get("money", 0)) + 1
@@ -1057,7 +1062,24 @@ func register_action_axis(axis: String) -> void:
 			action_axis_this_week["human"] = int(action_axis_this_week.get("human", 0)) + 1
 		_:
 			return
+	_register_action_place(place_id, axis)
 	stats_changed.emit()
+
+func _register_action_place(place_id: String, axis: String) -> void:
+	if not place_id in ["home", "store", "work", "river", "city", "underground", "expedition"]:
+		return
+	var visit: Dictionary = action_places_this_week.get(place_id, {
+		"count": 0,
+		"money": 0,
+		"human": 0,
+	}).duplicate(true)
+	visit["count"] = int(visit.get("count", 0)) + 1
+	visit[axis] = int(visit.get(axis, 0)) + 1
+	action_places_this_week[place_id] = visit
+	if recent_action_places.is_empty() or str(recent_action_places[-1]) != place_id:
+		recent_action_places.append(place_id)
+		while recent_action_places.size() > 8:
+			recent_action_places.pop_front()
 
 # 주가 끝날 때(advance_calendar) 한 번 호출 — 그 주를 무엇에 썼는지 정산한다.
 # 사람축을 한 번이라도 챙긴 주는 마모를 리셋. 돈에만 갈아넣은 주가 쌓이면 서서히 마모.
@@ -1084,6 +1106,7 @@ func finalize_action_axis_week() -> void:
 				"A full month went only toward money. A little fatigue remained."
 			), "system")
 	action_axis_this_week = {"money": 0, "human": 0}
+	action_places_this_week = {}
 
 func restore_ap():
 	action_points = max_action_points
@@ -1761,6 +1784,8 @@ func serialize():
 		"moral_tint": moral_tint,
 		"moral_band_last": moral_band_last,
 		"action_axis_this_week": action_axis_this_week,
+		"action_places_this_week": action_places_this_week,
+		"recent_action_places": recent_action_places,
 		"contact_counts": contact_counts,
 		"last_contact_turn": last_contact_turn,
 		"tendency": tendency,
@@ -1829,6 +1854,10 @@ func load_from_dict(data):
 	# 구버전 세이브 호환 — AP 행동 축
 	if typeof(action_axis_this_week) != TYPE_DICTIONARY or action_axis_this_week.is_empty():
 		action_axis_this_week = {"money": 0, "human": 0}
+	if not data.has("action_places_this_week") or typeof(action_places_this_week) != TYPE_DICTIONARY:
+		action_places_this_week = {}
+	if not data.has("recent_action_places") or typeof(recent_action_places) != TYPE_ARRAY:
+		recent_action_places = []
 	# 구버전 세이브 호환 — 몽타주 루틴
 	if typeof(week_routine) != TYPE_ARRAY:
 		week_routine = []
