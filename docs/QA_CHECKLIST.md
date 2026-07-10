@@ -23,6 +23,7 @@ Use this checklist before major commits, playable builds, and release candidates
 |---|---|
 | Splash, opening, StartMenu press-any-key, start menu, content notice | `--qa=start-en` |
 | StoryMode/VN flashforward Black→arrival Gray reset, intro events, choices, chapter card, scene direction framing | `--qa=story-en` |
+| Romance CG Gray/Black/White color hierarchy and no-HUD climax framing | `--qa=romance-cg` |
 | Main AP screen, Seoul Trace visited/locked nodes, warning state, people pressure grind hints, routine modal/time record, market ticker/info panel, keepsake thumbnails, action modals, people modal pages | `--qa=ap-en` |
 | AP Act 1~5 action rail evolution, no-scroll 4-slot regression, ACT4 relationship pressure modal | `--qa=ap-act-en` |
 | Investment modal Trade/Holdings/Market movers/Bank pages | `--qa=invest-en` |
@@ -74,6 +75,7 @@ Command template:
 
 ## Ending Art
 - `CGRuntimeCheck.tscn` passes all ending CG paths, minimum 1280×720 dimensions, unique ownership, and Gangnam Ink preview grading.
+- `CGRuntimeCheck.tscn` also passes all story CG paths, unique event ownership, exact 1280×800 romance dimensions, paragraph reveal timing, hidden portraits, and hidden HUD.
 - An ending without a dedicated CG uses its moral mood card; it never borrows another ending's image.
 
 ## News And Market

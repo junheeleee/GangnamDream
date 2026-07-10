@@ -59,6 +59,34 @@ No luxury watch, no designer styling, no polished Gangnam success look in early/
 
 **Negative Prompt / Prohibited:** plain black sweatshirt, same short messy hair silhouette as Minjun, no-glasses version, polished office styling, handsome rival styling, middle-aged 36+ look, unappealing slob caricature, goshiwon background.
 
+## Kim Daeun
+
+**Role:** Convenience-store night worker / ordinary survival heroine / romance route B. She represents the warmth and dignity that remain outside Gangnam's fast ladder. She is not a younger-coworker fantasy or a generic cheerful shop clerk.
+
+**Age:** 33 at the start, the same age as Minjun. She should read as an adult woman who has endured several unsettled years in Seoul, never as a teenager, college student, or woman in her early 20s.
+
+**Visual Core:** Soft but clearly adult Korean woman with a slim ordinary build, short layered dark-brown hair ending around the jaw and nape, wispy parted bangs, one small dark hair clip over her left temple, warm brown eyes, and a gently tired face. Her beauty is approachable and specific rather than glamorous. Keep the same almond eye shape, narrow nose bridge, soft jaw, and small composed mouth across every expression and CG.
+
+**Class Signal:** Beige knit cardigan over a navy convenience-store work polo for her default portrait. Clothes are clean, repeatedly worn, and practical. No visible store logo. Her off-duty wardrobe uses modest solid-color pieces with ordinary fabrics and almost no jewelry. Even in a dress or swimsuit she should look like Daeun dressing up, not like a wealthy influencer or a different heroine.
+
+**Body Language:** Slightly closed shoulders from night work, hands kept close to the body when shy, direct eye contact once she chooses honesty. Her embarrassment is explicit and sincere: she may blush or admit that she is nervous, but she does not perform Jiyeon's sharp recovery or status composure.
+
+**Emotional Range:**
+- `daeun_normal`: quiet warmth, tired but attentive eyes, restrained mouth.
+- `daeun_smile`: genuine open smile that reaches the eyes, still recognizable as the same tired adult.
+- `daeun_sad`: hurt and disappointed rather than helpless, gaze lowered only slightly.
+- Future special portraits: preserve the same face, short hair, hair clip, age, and modest styling even when the outfit changes.
+
+**Seasonal Outfit Locks:**
+- Cherry blossom: muted light cardigan or simple spring jacket over a modest dress/skirt; no luxury bag.
+- East Sea: tasteful affordable one-piece swimsuit or swim dress with a light cover-up; practical, non-glamorous, no bikini-model styling.
+- Fireworks: simple softly colored knee-length dress, light makeup, hair carefully set but still short with the same clip.
+- First kiss: navy work polo and beige cardigan after the convenience-store closing shift.
+
+**Current Asset Status:** `assets/characters/npc_romantic_interest.png`, `assets/characters/npc_daeun_smile.png`, and `assets/characters/npc_daeun_sad.png` are the identity references. The three assets lock the same face, hair, hair clip, age, and default work outfit.
+
+**Negative Prompt / Prohibited:** 20s college-student styling, teenager, long hair, Han Jiyeon-like glamour, luxury jewelry, influencer makeup, idol stage styling, childish proportions, generic convenience-store logo, background baked into a reusable portrait, photoreal DSLR portrait, changing face or hair length between outfits.
+
 ## Han Jiyeon
 
 **Role:** Wealthy Gangnam investor / dangerous heroine / romance route A. She is not a middle-aged mentor. She represents the door into Gangnam: seductive, useful, sincere in places, and never fully safe.
@@ -75,7 +103,7 @@ No luxury watch, no designer styling, no polished Gangnam success look in early/
 - `jiyeon_cold`: beautiful but distant, status pressure visible in the eyes.
 - `jiyeon_surprised`: composure cracked because Minjun did something she did not expect.
 
-**Vehicle Canon:** First-contact scene uses a black Mercedes-Benz S-Class-level luxury sedan, matching `assets/cg/jiyeon_crash.png`. Do not describe it as a white BMW.
+**Vehicle Canon:** First-contact scene uses a black Mercedes-Benz S-Class-level luxury sedan, matching `assets/cg/jiyeon_crash.png`. The left-hand-drive interior reference is `assets/cg/romance/first_kiss_jiyeon.png`. Full exterior/interior locks live in `assets/VEHICLE_VISUAL_BIBLE.md`. Do not describe it as a white BMW or change the model family between scenes.
 
 **Current Asset Status:** `assets/characters/npc_mentor.png`, `assets/characters/npc_jiyeon_warm.png`, and `assets/characters/npc_jiyeon_cold.png` were regenerated on 2026-06-12 as transparent portraits matching this canon. `assets/cg/jiyeon_crash.png` remains acceptable for first-contact CG unless in-game crop QA reveals ambiguity.
 

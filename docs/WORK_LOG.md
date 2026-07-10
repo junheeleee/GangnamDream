@@ -1,5 +1,27 @@
 # Gangnam Dream Work Log
 
+## 2026-07-10 (Codex — romance CG color climax and paragraph reveal)
+
+### 배경
+- 기존 StoryMode가 모든 CG에 일반 배경과 같은 높은 desaturation/어두운 dim을 적용해, 미연시의 핵심 장면도 웹소설 기록 카드처럼 보였다.
+- `arc_season_sea_daeun`은 첫차·수영복 구매·해변 도착이 한 이벤트에 들어가 있는데 CG를 처음부터 고정하면 첫 문장과 그림의 시간이 충돌했다.
+- 다은은 STORY_BIBLE에서 민준과 같은 33세인데 오래된 ASSET_GAP_SPEC에는 20대 후반으로 남아 있어 생성 시 연령 드리프트 위험이 있었다.
+
+### 수정
+- 다은의 상세 비주얼 정본을 `assets/CHARACTER_VISUAL_BIBLE.md`에 추가하고 기존 공백 문서의 나이를 33세로 정렬했다.
+- T0 로맨스 CG 8장에 대한 참조 파일·구도·UI 안전영역·의상·금지 요소·입고 게이트를 `docs/ROMANCE_T0_ASSET_JOBS.md`로 고정했다.
+- T0 로맨스 CG 8장(다은·지연의 바다/불꽃축제/벚꽃/첫 키스)을 1280×800으로 입고했다. 기존 초상화와 얼굴, 나이, 머리, 계급 신호를 대조하고 각 이벤트에 독립 CG로 배선했다.
+- 이벤트 루트에 `cg_reveal_paragraph`를 추가했다. 해변 CG는 0번 문단인 기차와 1번 문단인 수영복 구매를 기존 배경/초상화로 보여준 뒤, 2번 문단에 진입할 때만 CG와 잉크 전환을 연다.
+- CG는 Gray에서 색을 유지하도록 StoryMode grading을 분리했다. Black은 색을 잉크처럼 회수하고 White는 색과 공기를 맑게 한다. 일반 배경과 UI의 절제된 모노톤은 유지한다.
+- `assets/VEHICLE_VISUAL_BIBLE.md`를 추가해 지연의 검은 S-Class급 세단을 주연 소품으로 고정했다. 외관은 사고 CG, 실내는 첫 키스 CG가 정본이며 왼쪽 운전석·검은 가죽·수평 대시보드·다중 스포크 휠을 이후 장면에 강제한다.
+- 영어 1280×800 QA에서 넘치던 다은 불꽃축제와 지연 첫 키스 문단을 의미 단위로 분할해 작은 화면에서 본문이 잘리지 않게 했다.
+
+### 검증
+- `CGRuntimeCheck`: story CG의 중복 소유·경로·해상도·문단 reveal을 포함해 통과.
+- `CompileCheck`, JSON/audit Python syntax, `git diff --check` 통과.
+- `ScreenshotQA --qa=story-en --lang=en`에서 기차→다은 동해 reveal과 T0 8장 전체를 생성해 본문 시간순서, 대화창 크롭, 차량 좌측 운전석, 컬러 CG 전환을 확인.
+- `ScreenshotQA --qa=romance-cg --lang=en` 전용 회귀 스코프를 추가했다. 같은 벚꽃 CG를 Black/Gray/White로 캡처해 Black 무채색·Gray 컬러·White clarity의 위계를 직접 확인했다.
+
 ## 2026-07-10 (Codex — flashforward scene-local Black future)
 
 ### 배경

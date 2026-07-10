@@ -9,6 +9,7 @@ extends Node
 ## 수정 부위별 빠른 확인:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=start-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=romance-cg
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-act-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=endings-en
@@ -38,6 +39,7 @@ const QA_SCOPE_DEMO_FLOW := "demo_flow"
 const QA_SCOPE_DEMO_BLACKBOX := "demo_blackbox"
 const QA_SCOPE_START_EN := "start_en"
 const QA_SCOPE_STORY_EN := "story_en"
+const QA_SCOPE_ROMANCE_CG := "romance_cg"
 const QA_SCOPE_AP_EN := "ap_en"
 const QA_SCOPE_AP_ACT_EN := "ap_act_en"
 const QA_SCOPE_ENDINGS_EN := "endings_en"
@@ -111,6 +113,12 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_story_surfaces(lang, "story_en_" if lang == "en" else "story_ko_")
 		print("SCREENSHOT_QA_DONE scope=story-en lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_ROMANCE_CG:
+		var lang := _qa_language("en")
+		await _shot_romance_cg_tints(lang, "romance_cg_en_" if lang == "en" else "romance_cg_ko_")
+		print("SCREENSHOT_QA_DONE scope=romance-cg lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_AP_EN:
@@ -259,6 +267,10 @@ func _qa_scope() -> String:
 				"qa=story-en", "--qa=story-en", "qa=story_en", "--qa=story_en",
 				"scope=story-en", "--scope=story-en", "scope=story_en", "--scope=story_en"]:
 			return QA_SCOPE_STORY_EN
+		if arg in ["romance-cg", "romance_cg", "--romance-cg", "--romance_cg",
+				"qa=romance-cg", "--qa=romance-cg", "qa=romance_cg", "--qa=romance_cg",
+				"scope=romance-cg", "--scope=romance-cg", "scope=romance_cg", "--scope=romance_cg"]:
+			return QA_SCOPE_ROMANCE_CG
 		if arg in ["ap-en", "ap_en", "main-en", "main_en", "--ap-en", "--ap_en",
 				"qa=ap-en", "--qa=ap-en", "qa=ap_en", "--qa=ap_en",
 				"qa=main-en", "--qa=main-en", "scope=ap-en", "--scope=ap-en"]:
@@ -481,7 +493,7 @@ func _collect_start_menu_nodes(node: Node, targets: Array[Node]) -> void:
 		else:
 			_collect_start_menu_nodes(child, targets)
 
-func _shot_story_event(event_id: String, shot_name: String, lang: String = "", settle_time: float = 1.1, finish_first_paragraph: bool = false, show_choices: bool = false, select_choice: int = -1) -> void:
+func _shot_story_event(event_id: String, shot_name: String, lang: String = "", settle_time: float = 1.1, finish_first_paragraph: bool = false, show_choices: bool = false, select_choice: int = -1, advance_paragraphs: int = 0) -> void:
 	if not lang.is_empty():
 		_set_qa_language(lang)
 		_prepare_main_game_state()
@@ -495,6 +507,13 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 			and bool(story.get("_typing")) and story.has_method("_on_advance"):
 		story._on_advance()
 		await _settle(0.2)
+	for _paragraph in range(advance_paragraphs):
+		if story.has_method("_on_advance"):
+			story._on_advance()
+			await _settle(0.12)
+			if bool(story.get("_typing")):
+				story._on_advance()
+				await _settle(0.12)
 	if show_choices and not event_id.begins_with("chapter_card_") and story.has_method("_on_advance"):
 		for _step in range(30):
 			if bool(story.get("_showing_choices")):
@@ -581,6 +600,28 @@ func _shot_story_surfaces(lang: String = "en", prefix: String = "story_en_") -> 
 	await _shot_story_event("arc_intro_02_dad_call", prefix + "02c_story_result", lang, 0.45, true, true, 0)
 	await _shot_story_event("arc_sangchul_confrontation", prefix + "03_direction_confrontation", lang, 1.0, true)
 	await _shot_story_event("arc_daeun_proposal", prefix + "04_direction_proposal", lang, 1.2, true)
+	await _shot_story_event("arc_season_sea_daeun", prefix + "05a_romance_sea_daeun_train", lang, 0.65, true)
+	await _shot_story_event("arc_season_sea_daeun", prefix + "05b_romance_sea_daeun_reveal", lang, 0.45, true, false, -1, 2)
+	await _shot_story_event("arc_season_sea_jiyeon", prefix + "06_romance_sea_jiyeon", lang, 0.65, true)
+	await _shot_story_event("arc_season_fireworks_daeun", prefix + "07_romance_fireworks_daeun", lang, 0.65, true)
+	await _shot_story_event("arc_season_fireworks_jiyeon", prefix + "08_romance_fireworks_jiyeon", lang, 0.65, true)
+	await _shot_story_event("arc_season_cherry_daeun", prefix + "09_romance_cherry_daeun", lang, 0.65, true)
+	await _shot_story_event("arc_season_cherry_jiyeon", prefix + "10_romance_cherry_jiyeon", lang, 0.65, true)
+	await _shot_story_event("arc_daeun_first_kiss", prefix + "11_romance_first_kiss_daeun", lang, 0.65, true)
+	await _shot_story_event("arc_jiyeon_first_kiss", prefix + "12_romance_first_kiss_jiyeon", lang, 0.65, true)
+
+func _shot_romance_cg_tints(lang: String = "en", prefix: String = "romance_cg_en_") -> void:
+	_set_qa_language(lang)
+	var cases := [
+		[-80.0, "black"],
+		[0.0, "gray"],
+		[80.0, "white"],
+	]
+	for data in cases:
+		_prepare_main_game_state()
+		GameState.moral_tint = float(data[0])
+		await _shot_story_event("arc_season_cherry_daeun", prefix + str(data[1]), "", 0.55, true)
+	GameState.moral_tint = 0.0
 
 func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> void:
 	_set_qa_language(lang)

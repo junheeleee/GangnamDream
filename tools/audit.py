@@ -409,7 +409,7 @@ CAST_EFFECT_KEYS = {"affinity", "stage", "met", "flags"}
 # 이벤트 루트에서 허용되는 키 (스키마)
 EVENT_ROOT_KEYS = {"id", "title", "description", "category", "rarity", "weight",
                    "hidden", "conditions", "tags", "cooldown", "choices",
-                   "portrait", "background", "cg", "speaker", "one_time", "_file",
+                   "portrait", "background", "cg", "cg_reveal_paragraph", "speaker", "one_time", "_file",
                    "timed", "timer_seconds",
                    "description_orthodox", "description_unorthodox",
                    "description_low_mental", "description_long_gosiwon",
@@ -498,6 +498,12 @@ def check_event_keys():
                                 err('%s  [%s] direction.hold는 0.5~2.0초 숫자여야 함' % (rel(p), eid))
                         elif dv not in DIRECTION_VALUES.get(dk, set()):
                             err('%s  [%s] direction.%s 값 "%s"를 렌더러가 처리하지 않음' % (rel(p), eid, dk, dv))
+            cg_reveal = e.get("cg_reveal_paragraph")
+            if cg_reveal is not None:
+                if not isinstance(cg_reveal, int) or isinstance(cg_reveal, bool) or cg_reveal < 1:
+                    err('%s  [%s] cg_reveal_paragraph는 1 이상의 문단 인덱스여야 함' % (rel(p), eid))
+                if not str(e.get("cg", "")):
+                    err('%s  [%s] cg_reveal_paragraph에는 cg가 필요함' % (rel(p), eid))
             cond = e.get("conditions", {})
             if isinstance(cond, dict):
                 for k in cond.keys():

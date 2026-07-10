@@ -190,6 +190,14 @@ const CG = {
 	"cg_ending_gangnam_dream": "res://assets/cg/ending_gangnam_dream.png",
 	"cg_ending_empty_house":   "res://assets/cg/ending_empty_house.png",
 	"cg_ending_crypto_ghost":  "res://assets/cg/ending_crypto_ghost.png",
+	"cg_romance_sea_daeun":    "res://assets/cg/romance/sea_daeun.png",
+	"cg_romance_sea_jiyeon":   "res://assets/cg/romance/sea_jiyeon.png",
+	"cg_romance_fireworks_daeun": "res://assets/cg/romance/fireworks_daeun.png",
+	"cg_romance_fireworks_jiyeon": "res://assets/cg/romance/fireworks_jiyeon.png",
+	"cg_romance_cherry_daeun": "res://assets/cg/romance/cherry_daeun.png",
+	"cg_romance_cherry_jiyeon": "res://assets/cg/romance/cherry_jiyeon.png",
+	"cg_romance_first_kiss_daeun": "res://assets/cg/romance/first_kiss_daeun.png",
+	"cg_romance_first_kiss_jiyeon": "res://assets/cg/romance/first_kiss_jiyeon.png",
 }
 
 # ── 유물 오브젝트 스틸 ────────────────────────────────────────

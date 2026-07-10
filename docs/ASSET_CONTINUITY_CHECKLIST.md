@@ -87,6 +87,13 @@ Use this before generating, accepting, wiring, or replacing any image asset. A v
 - Korean road context: left-hand driver seat.
 - She exits from the driver side in the canonical first accident.
 
+### Han Jiyeon's Recurring Sedan
+
+- Treat the sedan as a recurring character prop, not a generic luxury-car placeholder.
+- Exterior reference is `assets/cg/jiyeon_crash.png`; interior reference is `assets/cg/romance/first_kiss_jiyeon.png`.
+- Follow `assets/VEHICLE_VISUAL_BIBLE.md` for body class, wheel/trim language, black leather cabin, and left-hand-drive seating.
+- The first-snow, sun-visor photo-strip, drive-home, and future DLC scenes all use the same car unless the story explicitly records a replacement.
+
 ### Seoul Street / Bus Stop / Road Backgrounds
 
 - For generic street backgrounds, keep the road, sidewalk, curb, and lane direction immediately readable.

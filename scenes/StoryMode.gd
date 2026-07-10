@@ -63,6 +63,8 @@ var _result_record_card: Control = null
 var _chapter_overlay: Control = null  # 챕터 카드 전용 오버레이
 var _is_chapter_card: bool = false    # 챕터 카드 모드 플래그
 var _current_uses_cg: bool = false
+var _event_cg_path: String = ""
+var _event_cg_reveal_paragraph: int = 0
 var _story_moral_norm: float = 0.0
 var _story_moral_stage: int = 0
 var _story_ink_transition_layer: Control = null
@@ -150,7 +152,7 @@ func _story_dim_color(has_cg: bool) -> Color:
 	var white := clampf(_story_moral_norm, 0.0, 1.0)
 	var base := Color("#050609", 0.58)
 	if has_cg:
-		base = Color("#040508", 0.38)
+		base = Color("#040508", 0.04)
 	base = base.lerp(Color("#010202", 0.72 if not has_cg else 0.54), black)
 	base = base.lerp(Color("#dfefff", 0.12 if not has_cg else 0.08), white)
 	return base
@@ -177,8 +179,13 @@ func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false)
 	if is_instance_valid(_bg_dim):
 		_bg_dim.color = _story_dim_color(has_cg)
 	if _story_bg_material:
-		_story_bg_material.set_shader_parameter("desaturation", clampf(0.86 + black * 0.14 - white * 0.46, 0.28, 1.0))
-		_story_bg_material.set_shader_parameter("brightness", clampf(0.88 - black * 0.26 + white * 0.20, 0.42, 1.20))
+		# Reusable locations stay documentary. One-off CGs are the emotional
+		# reward surface, so they keep color until Black-route damage earns its removal.
+		var base_desaturation := 0.14 if has_cg else 0.86
+		var black_desaturation := 0.64 if has_cg else 0.14
+		var white_clearance := 0.16 if has_cg else 0.46
+		_story_bg_material.set_shader_parameter("desaturation", clampf(base_desaturation + black * black_desaturation - white * white_clearance, 0.04, 1.0))
+		_story_bg_material.set_shader_parameter("brightness", clampf((1.06 if has_cg else 0.88) - black * (0.22 if has_cg else 0.26) + white * (0.16 if has_cg else 0.20), 0.42, 1.20))
 		_story_bg_material.set_shader_parameter("contrast", clampf(0.94 - black * 0.08 + white * 0.16, 0.68, 1.24))
 		_story_bg_material.set_shader_parameter("tint_amount", clampf(black * 0.12 + white * 0.035, 0.0, 0.18))
 		_story_bg_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#f7fbff"), white))
@@ -659,6 +666,8 @@ func _render_current():
 	_showing_choices = false
 	_clear_result_record_card()
 	_current_uses_cg = false
+	_event_cg_path = ""
+	_event_cg_reveal_paragraph = 0
 	_choice_box.visible = false
 	for c in _choice_box.get_children():
 		c.queue_free()
@@ -685,10 +694,13 @@ func _render_current():
 	var cg_id := str(_current.get("cg", ""))
 	if cg_id != "":
 		cg_path = ImageRegistry.get_cg(cg_id)
+	_event_cg_path = cg_path
+	_event_cg_reveal_paragraph = maxi(0, int(_current.get("cg_reveal_paragraph", 0)))
+	var cg_active_at_start := cg_path != "" and _event_cg_reveal_paragraph == 0
 
 	# CG가 있는 장면은 CG를 최우선 전체화면 배경으로 사용한다.
-	# 없을 때만 명시 background / 태그 추론 배경으로 폴백한다.
-	if cg_path != "" and ResourceLoader.exists(cg_path):
+	# 문단 reveal이 있으면 지정 문단 전까지 명시 background와 초상화를 유지한다.
+	if cg_active_at_start and ResourceLoader.exists(cg_path):
 		_bg_img.texture = load(cg_path)
 		_current_uses_cg = true
 	else:
@@ -706,8 +718,10 @@ func _render_current():
 
 	# 초상화 + 이름표 — bg_focus:true 장면은 배경만(초상화 생략)
 	var pid = str(_current.get("portrait", ""))
-	var bg_only := bool(_current.get("bg_focus", false)) or cg_path != ""
+	var bg_only := bool(_current.get("bg_focus", false)) or _current_uses_cg
 	_show_portrait(pid, bg_only)
+	if _current_uses_cg and _hud_panel != null and is_instance_valid(_hud_panel):
+		_hud_panel.visible = false
 
 	# 제목
 	_title_lbl.text = "— %s —" % _fmt(str(_current.get("title", "")))
@@ -759,6 +773,21 @@ func _render_current():
 		_paragraphs = [""]
 	_para_index = 0
 	_start_typing(_paragraphs[0])
+
+func _maybe_reveal_event_cg(paragraph_index: int) -> void:
+	if _current_uses_cg or _event_cg_path.is_empty():
+		return
+	if _event_cg_reveal_paragraph <= 0 or paragraph_index < _event_cg_reveal_paragraph:
+		return
+	if not ResourceLoader.exists(_event_cg_path):
+		return
+	_current_uses_cg = true
+	_play_story_ink_transition("scene", 0.65)
+	_bg_img.texture = load(_event_cg_path)
+	_apply_story_surface_palette(true)
+	_show_portrait(str(_current.get("portrait", "")), true)
+	if _hud_panel != null and is_instance_valid(_hud_panel):
+		_hud_panel.visible = false
 
 func _show_portrait(portrait_id: String, bg_only: bool = false):
 	var info := {}
@@ -968,6 +997,7 @@ func _on_advance():
 	# 다음 문단
 	_para_index += 1
 	if _para_index < _paragraphs.size():
+		_maybe_reveal_event_cg(_para_index)
 		if str(_direction.get("pace", "")) == "beat":
 			_begin_direction_beat(str(_paragraphs[_para_index]))
 		else:

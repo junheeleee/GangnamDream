@@ -18,12 +18,24 @@ func _ready() -> void:
 		get_tree().quit(1)
 
 func _check_story_mode_cg() -> void:
-	var expected_path := ImageRegistry.get_cg("cg_jiyeon_crash")
+	await _check_story_event_cg("arc_jiyeon_01_crash", "cg_jiyeon_crash")
+	await _check_story_event_cg("arc_season_sea_daeun", "cg_romance_sea_daeun")
+	await _check_story_event_cg("arc_season_sea_jiyeon", "cg_romance_sea_jiyeon")
+	await _check_story_event_cg("arc_season_fireworks_daeun", "cg_romance_fireworks_daeun")
+	await _check_story_event_cg("arc_season_fireworks_jiyeon", "cg_romance_fireworks_jiyeon")
+	await _check_story_event_cg("arc_season_cherry_daeun", "cg_romance_cherry_daeun")
+	await _check_story_event_cg("arc_season_cherry_jiyeon", "cg_romance_cherry_jiyeon")
+	await _check_story_event_cg("arc_daeun_first_kiss", "cg_romance_first_kiss_daeun")
+	await _check_story_event_cg("arc_jiyeon_first_kiss", "cg_romance_first_kiss_jiyeon")
+	_check_all_story_cg_contracts()
+
+func _check_story_event_cg(event_id: String, cg_id: String) -> void:
+	var expected_path := ImageRegistry.get_cg(cg_id)
 	if expected_path == "":
-		_failures.append("missing cg_jiyeon_crash")
+		_failures.append("missing %s" % cg_id)
 		return
 
-	GameState.pending_story_queue = ["arc_jiyeon_01_crash"]
+	GameState.pending_story_queue = [event_id]
 	var story_scene := load("res://scenes/StoryMode.tscn") as PackedScene
 	var story: Node = story_scene.instantiate()
 	add_child(story)
@@ -31,17 +43,54 @@ func _check_story_mode_cg() -> void:
 	await get_tree().process_frame
 
 	var bg_img := story.get("_bg_img") as TextureRect
+	var event: Dictionary = DataRegistry.find_event(event_id)
+	var reveal_paragraph := int(event.get("cg_reveal_paragraph", 0))
+	if reveal_paragraph > 0:
+		if bg_img != null and bg_img.texture != null and bg_img.texture.resource_path == expected_path:
+			_failures.append("StoryMode revealed %s before paragraph %d" % [event_id, reveal_paragraph])
+		for _paragraph in range(reveal_paragraph):
+			if bool(story.get("_typing")):
+				story.call("_on_advance")
+			story.call("_on_advance")
+			await get_tree().process_frame
+			await get_tree().process_frame
+
 	if bg_img == null or bg_img.texture == null:
-		_failures.append("StoryMode did not assign a background texture for cg event")
+		_failures.append("StoryMode did not assign a background texture for %s" % event_id)
 	elif bg_img.texture.resource_path != expected_path:
-		_failures.append("StoryMode cg mismatch: expected %s, got %s" % [expected_path, bg_img.texture.resource_path])
+		_failures.append("StoryMode %s cg mismatch: expected %s, got %s" % [event_id, expected_path, bg_img.texture.resource_path])
 
 	var portrait_frame := story.get("_portrait_frame") as Control
 	if portrait_frame != null and portrait_frame.visible:
-		_failures.append("StoryMode should hide portrait frame when a cg is active")
+		_failures.append("StoryMode should hide portrait frame when %s cg is active" % event_id)
+	var hud_panel := story.get("_hud_panel") as Control
+	if hud_panel != null and hud_panel.visible:
+		_failures.append("StoryMode should hide HUD when %s cg is active" % event_id)
 
 	remove_child(story)
 	story.queue_free()
+
+func _check_all_story_cg_contracts() -> void:
+	var owners: Dictionary = {}
+	for raw_event in DataRegistry.events:
+		var event: Dictionary = raw_event
+		var event_id: String = str(event.get("id", ""))
+		var cg_id: String = str(event.get("cg", ""))
+		if cg_id.is_empty():
+			continue
+		if owners.has(cg_id):
+			_failures.append("story cg %s is shared by %s and %s" % [cg_id, str(owners[cg_id]), event_id])
+		else:
+			owners[cg_id] = event_id
+		var path := ImageRegistry.get_cg(cg_id)
+		if path.is_empty() or not ResourceLoader.exists(path):
+			_failures.append("%s references missing story cg %s" % [event_id, cg_id])
+			continue
+		var texture := load(path) as Texture2D
+		if texture == null or texture.get_width() < 1280 or texture.get_height() < 720:
+			_failures.append("%s story cg must be at least 1280x720: %s" % [event_id, path])
+		elif cg_id.begins_with("cg_romance_") and (texture.get_width() != 1280 or texture.get_height() != 800):
+			_failures.append("%s romance cg must be exactly 1280x800: %s" % [event_id, path])
 
 func _check_ending_cg() -> void:
 	var synthetic_path := ImageRegistry.get_cg("cg_ending_father")

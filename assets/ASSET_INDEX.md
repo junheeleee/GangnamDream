@@ -387,6 +387,19 @@ Updated on 2026-07-03 for Lee Minseo transparent portrait and post-Claude story 
   - Jiyeon first-contact CG: rainy Gangnam bicycle incident.
   - Updated to match Han Jiyeon's transparent portrait identity: long wavy black hair, sharp almond eyes, cream blazer, black blouse, gold jewelry.
 
+- `assets/cg/romance/sea_daeun.png`
+- `assets/cg/romance/sea_jiyeon.png`
+- `assets/cg/romance/fireworks_daeun.png`
+- `assets/cg/romance/fireworks_jiyeon.png`
+- `assets/cg/romance/cherry_daeun.png`
+- `assets/cg/romance/cherry_jiyeon.png`
+- `assets/cg/romance/first_kiss_daeun.png`
+- `assets/cg/romance/first_kiss_jiyeon.png`
+  - Approved T0 romance CG set, all 1280x800 and wired to their exact event owners.
+  - Uses 2D Korean manhwa/Japanese VN scene grammar with restrained full color at Gray, White clarity, and Black ink loss at runtime.
+  - First-kiss images freeze before contact so the player's choice remains valid.
+  - Jiyeon's car interior is the left-hand-drive reference for her recurring black executive sedan; see `assets/VEHICLE_VISUAL_BIBLE.md`.
+
 ### Logo Concept
 - `assets/logos/gangnam_dream_logo_concept.png`
   - AI-generated logo direction only.

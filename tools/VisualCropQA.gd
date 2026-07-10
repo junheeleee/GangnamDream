@@ -173,6 +173,62 @@ func _run() -> void:
 			"title": "CG / 코인 망령 엔딩",
 			"body": "차트광·좁은 방·중독 감정이 보이되 UI 텍스트나 브랜드로 오해될 요소가 없어야 한다."
 		},
+		{
+			"mode": "cg",
+			"name": "cg_08_romance_sea_daeun",
+			"background": "res://assets/cg/romance/sea_daeun.png",
+			"title": "CG / 다은 동해",
+			"body": "대화창 위로 다은의 동일 얼굴·짧은 머리·헤어핀과 5년 만의 큰 웃음이 모두 살아야 한다."
+		},
+		{
+			"mode": "cg",
+			"name": "cg_09_romance_sea_jiyeon",
+			"background": "res://assets/cg/romance/sea_jiyeon.png",
+			"title": "CG / 지연 해운대",
+			"body": "지연의 긴 머리·날카로운 눈·크림 커버업과 물을 무서워하는 시선이 다은과 혼동 없이 읽혀야 한다."
+		},
+		{
+			"mode": "cg",
+			"name": "cg_10_romance_fireworks_daeun",
+			"background": "res://assets/cg/romance/fireworks_daeun.png",
+			"title": "CG / 다은 불꽃축제",
+			"body": "다은의 첫 원피스와 옆얼굴, 민준의 시선, 하단 대화창 안전영역이 동시에 살아야 한다."
+		},
+		{
+			"mode": "cg",
+			"name": "cg_11_romance_fireworks_jiyeon",
+			"background": "res://assets/cg/romance/fireworks_jiyeon.png",
+			"title": "CG / 지연 불꽃축제",
+			"body": "지연의 후드티·긴 머리·먼저 잡은 손과 도도의 균열이 한눈에 읽혀야 한다."
+		},
+		{
+			"mode": "cg",
+			"name": "cg_12_romance_cherry_daeun",
+			"background": "res://assets/cg/romance/cherry_daeun.png",
+			"title": "CG / 다은 벚꽃",
+			"body": "한강 산책로 구조와 다은의 짧은 머리·헤어핀·어깨 위 꽃잎이 대화창 위로 읽혀야 한다."
+		},
+		{
+			"mode": "cg",
+			"name": "cg_13_romance_cherry_jiyeon",
+			"background": "res://assets/cg/romance/cherry_jiyeon.png",
+			"title": "CG / 지연 벚꽃",
+			"body": "지연의 크림 재킷·긴 머리·꽃잎과 데이터로 골랐지만 마음이 움직인 산책의 표정이 읽혀야 한다."
+		},
+		{
+			"mode": "cg",
+			"name": "cg_14_romance_first_kiss_daeun",
+			"background": "res://assets/cg/romance/first_kiss_daeun.png",
+			"title": "CG / 다은 첫 키스",
+			"body": "키스 전 거리·두 캔의 김·다은의 시선이 남고 입술은 닿지 않아 선택을 침범하지 않아야 한다."
+		},
+		{
+			"mode": "cg",
+			"name": "cg_15_romance_first_kiss_jiyeon",
+			"background": "res://assets/cg/romance/first_kiss_jiyeon.png",
+			"title": "CG / 지연 첫 키스",
+			"body": "왼쪽 운전석과 핸들, 오른쪽 조수석, 지연의 도도한 균열과 키스 전 거리가 모두 맞아야 한다."
+		},
 	]
 
 	for item in cases:

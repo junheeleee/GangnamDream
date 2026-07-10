@@ -47,6 +47,18 @@ Gold, green, and saturated blue are no longer brand colors. They can remain as n
 - Do not convert the whole game to pixel art. Gangnam Dream needs faces, class signals, and Seoul spaces to remain readable. Use subtle ink-print screening, grain, and light tonal stepping as a unifying film stock instead.
 - Pixel/dither language is allowed only as a controlled accent: casino machines, money fixation, memory collapse, or Black-route disorientation. It should never make the whole UI look like a cheap filter.
 
+### VN Climax Layer
+
+Gangnam Dream is not a full monochrome game. Reusable locations and the interface use the restrained documentary surface so the moral drift can accumulate without becoming a color theme. One-off emotional CGs are a separate readability layer:
+
+- Romance, father, Sangchul truth, and ending CGs keep restrained but visible color at neutral Gray.
+- White choices clear the air and recover color; they do not add a generic golden glow.
+- Black choices remove color from the CG through ink spread and crushed edges, with money and metal remaining selectively legible.
+- The scene should still read as a visual-novel climax at a glance: a face, a gesture, a relationship, and a single physical place have priority over the filter.
+- Use Japanese visual-novel grammar as a staging reference, not as a full identity swap: readable face crops, clear eye-lines, deliberate holds, silhouette contrast, and emotionally timed CG reveals. Keep Korean adult faces, Seoul spaces, and Gangnam Ink material language.
+
+The target is **Korean social-reality VN with Japanese scene readability**, not generic anime key art and not photoreal AI photography. If a generated image looks like a stock photo or a polished mobile-game illustration, reject it even when the composition is attractive.
+
 ## UI Rules
 
 - UI is quiet, matte, and readable. No glossy mobile-game panels.
