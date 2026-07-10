@@ -43,6 +43,8 @@ No luxury watch, no designer styling, no polished Gangnam success look in early/
 
 **Runtime Outfit Rules:** `ImageRegistry.get_player_context_portrait()` is the source of truth. Survival jobs (`job_01`, `job_02`) use part-time workwear; ordinary low/mid-tier office/education/tech jobs use office wear; `job_08`, finance, sales, and tier 3+ jobs use corporate suit. Stress/critical/milestone states still override with tired/shocked/happy emotional portraits.
 
+**CG Outfit Rule:** Personal dates, hospital visits, family scenes, and off-duty romance beats use the worn black crewneck locked by `player_romance_casual`, regardless of Minjun's current job. Office/corporate clothing appears in a CG only when the scene text explicitly places him at work, arriving directly from work, or performing public success. Every future CG job must name the matching Minjun portrait reference.
+
 **Negative Prompt / Prohibited:** goshiwon room inside portrait, phone prop, visible hands holding phone, large window, skyline, luxury styling, old-man epilogue look, teenage look, photoreal DSLR portrait, changing face between outfit variants.
 
 ## Kang Hyunsu
@@ -83,7 +85,7 @@ No luxury watch, no designer styling, no polished Gangnam success look in early/
 - Fireworks: simple softly colored knee-length dress, light makeup, hair carefully set but still short with the same clip.
 - First kiss: navy work polo and beige cardigan after the convenience-store closing shift.
 
-**Current Asset Status:** `assets/characters/npc_romantic_interest.png`, `assets/characters/npc_daeun_smile.png`, and `assets/characters/npc_daeun_sad.png` are the identity references. The three assets lock the same face, hair, hair clip, age, and default work outfit.
+**Current Asset Status:** `assets/characters/npc_romantic_interest.png`, `assets/characters/npc_daeun_smile.png`, and `assets/characters/npc_daeun_sad.png` are the identity references. T0 scene outfits are locked by `npc_daeun_sea.png`, `npc_daeun_fireworks.png`, and `npc_daeun_cherry.png`; first kiss reuses `npc_daeun_smile.png` because its work outfit already matches the CG exactly.
 
 **Negative Prompt / Prohibited:** 20s college-student styling, teenager, long hair, Han Jiyeon-like glamour, luxury jewelry, influencer makeup, idol stage styling, childish proportions, generic convenience-store logo, background baked into a reusable portrait, photoreal DSLR portrait, changing face or hair length between outfits.
 
@@ -105,7 +107,7 @@ No luxury watch, no designer styling, no polished Gangnam success look in early/
 
 **Vehicle Canon:** First-contact scene uses a black Mercedes-Benz S-Class-level luxury sedan, matching `assets/cg/jiyeon_crash.png`. The left-hand-drive interior reference is `assets/cg/romance/first_kiss_jiyeon.png`. Full exterior/interior locks live in `assets/VEHICLE_VISUAL_BIBLE.md`. Do not describe it as a white BMW or change the model family between scenes.
 
-**Current Asset Status:** `assets/characters/npc_mentor.png`, `assets/characters/npc_jiyeon_warm.png`, and `assets/characters/npc_jiyeon_cold.png` were regenerated on 2026-06-12 as transparent portraits matching this canon. `assets/cg/jiyeon_crash.png` remains acceptable for first-contact CG unless in-game crop QA reveals ambiguity.
+**Current Asset Status:** `assets/characters/npc_mentor.png`, `assets/characters/npc_jiyeon_warm.png`, and `assets/characters/npc_jiyeon_cold.png` are identity references. T0 scene outfits are locked by `npc_jiyeon_sea.png`, `npc_jiyeon_fireworks.png`, and `npc_jiyeon_cherry.png`; first kiss reuses `npc_jiyeon_warm.png` because its cream jacket and black inner already match the CG. `assets/cg/jiyeon_crash.png` remains acceptable for first contact.
 
 **Negative Prompt / Prohibited:** middle-aged mentor, short bob as default identity, office background, cafe background, smiling auntie, professor, generic businesswoman, white BMW, photoreal DSLR portrait.
 

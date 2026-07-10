@@ -1,5 +1,24 @@
 # Gangnam Dream Work Log
 
+## 2026-07-10 (Codex — T0 portrait/CG clothing and gaze continuity)
+
+### 배경
+- 같은 히로인이라도 CG와 초상화에서 옷이 달라지면 장면이 이어지지 않고, 민준의 옷이나 눈동자 방향까지 흔들리면 생성 이미지 모음처럼 보인다.
+- 추상적인 `여름옷`, `데이트 사복` 슬롯은 실제 CG의 칼라·소매·레이어·계급 신호를 보존하지 못한다.
+
+### 수정
+- 다은·지연의 바다/불꽃/벚꽃 의상을 기존 T0 CG 자체에서 파생한 투명 512x768 초상화 6종으로 제작했다. 첫 키스는 기존 `daeun_smile`, `jiyeon_warm`이 CG와 같은 옷이라 재사용했다.
+- `assets/romance_visual_manifest.json`과 `docs/ROMANCE_PORTRAIT_MATRIX.md`에 이벤트별 CG, 히로인 초상, 의상, 민준의 검은 사복, 시선 목표를 1:1로 고정했다.
+- `CGRuntimeCheck`와 `audit.py`가 8개 계약, 512x768, 투명 모서리, 이벤트 배선, 누락된 시선·의상을 검사한다.
+- `ScreenshotQA --qa=romance-portraits --lang=en`으로 여섯 신규 초상과 두 재사용 초상을 실제 StoryMode 배경·대화창 위에서 검수했다.
+
+### 판정
+- T0 CG의 시선은 모두 서사적으로 성립한다. 다은 바다는 Minjun POV, 다은 불꽃·벚꽃은 장면 대상을 보고, 나머지 둘샷은 화면 속 민준과 시선이 연결된다.
+- 개인 데이트의 민준은 직업과 무관한 off-duty 검은 크루넥으로 고정하며, 회사에서 직접 이어지는 장면만 직업 정장을 사용한다.
+
+### 검증
+- 정적 감사 ERROR 0 / WARNING 0, `CompileCheck`, `CGRuntimeCheck`, 영문 StoryMode 8컷 통과.
+
 ## 2026-07-10 (Codex — romance CG color climax and paragraph reveal)
 
 ### 배경

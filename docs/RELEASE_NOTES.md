@@ -1,6 +1,7 @@
 # Gangnam Dream Release Notes
 
 ## Unreleased
+- Added six transparent T0 romance outfit portraits and a machine-checked visual manifest that locks heroine clothing, Minjun's off-duty outfit, and CG gaze direction across all eight romance climaxes.
 - 연애 데이트 확장: 데이트 마일스톤(남산 자물쇠·놀이동산), 첫 키스 2종, 계절 스페셜 8종(벚꽃·바다·불꽃축제·첫눈 — 어두운 눈에는 벚꽃이 회색으로 보인다)
 - 선물하기: 상점 선물 진열대 + 사람 메뉴 전달 — 가격이 아니라 알아봄이 답
 - 자기계발 종류 선택 + 누적 서사("독서 — 12권째") + 임계 보상, 칭호가 삶의 모양(결혼·연애·루틴)을 비춤

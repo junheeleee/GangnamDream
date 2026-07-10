@@ -10,6 +10,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=start-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=romance-cg
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=romance-portraits
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-act-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=endings-en
@@ -40,6 +41,7 @@ const QA_SCOPE_DEMO_BLACKBOX := "demo_blackbox"
 const QA_SCOPE_START_EN := "start_en"
 const QA_SCOPE_STORY_EN := "story_en"
 const QA_SCOPE_ROMANCE_CG := "romance_cg"
+const QA_SCOPE_ROMANCE_PORTRAITS := "romance_portraits"
 const QA_SCOPE_AP_EN := "ap_en"
 const QA_SCOPE_AP_ACT_EN := "ap_act_en"
 const QA_SCOPE_ENDINGS_EN := "endings_en"
@@ -119,6 +121,12 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_romance_cg_tints(lang, "romance_cg_en_" if lang == "en" else "romance_cg_ko_")
 		print("SCREENSHOT_QA_DONE scope=romance-cg lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_ROMANCE_PORTRAITS:
+		var lang := _qa_language("en")
+		await _shot_romance_portrait_surfaces(lang, "romance_portrait_en_" if lang == "en" else "romance_portrait_ko_")
+		print("SCREENSHOT_QA_DONE scope=romance-portraits lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_AP_EN:
@@ -271,6 +279,10 @@ func _qa_scope() -> String:
 				"qa=romance-cg", "--qa=romance-cg", "qa=romance_cg", "--qa=romance_cg",
 				"scope=romance-cg", "--scope=romance-cg", "scope=romance_cg", "--scope=romance_cg"]:
 			return QA_SCOPE_ROMANCE_CG
+		if arg in ["romance-portraits", "romance_portraits", "--romance-portraits", "--romance_portraits",
+				"qa=romance-portraits", "--qa=romance-portraits", "qa=romance_portraits", "--qa=romance_portraits",
+				"scope=romance-portraits", "--scope=romance-portraits"]:
+			return QA_SCOPE_ROMANCE_PORTRAITS
 		if arg in ["ap-en", "ap_en", "main-en", "main_en", "--ap-en", "--ap_en",
 				"qa=ap-en", "--qa=ap-en", "qa=ap_en", "--qa=ap_en",
 				"qa=main-en", "--qa=main-en", "scope=ap-en", "--scope=ap-en"]:
@@ -493,10 +505,18 @@ func _collect_start_menu_nodes(node: Node, targets: Array[Node]) -> void:
 		else:
 			_collect_start_menu_nodes(child, targets)
 
-func _shot_story_event(event_id: String, shot_name: String, lang: String = "", settle_time: float = 1.1, finish_first_paragraph: bool = false, show_choices: bool = false, select_choice: int = -1, advance_paragraphs: int = 0) -> void:
+func _shot_story_event(event_id: String, shot_name: String, lang: String = "", settle_time: float = 1.1, finish_first_paragraph: bool = false, show_choices: bool = false, select_choice: int = -1, advance_paragraphs: int = 0, suppress_cg: bool = false) -> void:
 	if not lang.is_empty():
 		_set_qa_language(lang)
 		_prepare_main_game_state()
+	var overridden_event: Dictionary = {}
+	var original_cg: Variant = null
+	var had_cg := false
+	if suppress_cg:
+		overridden_event = DataRegistry.find_event(event_id)
+		had_cg = overridden_event.has("cg")
+		original_cg = overridden_event.get("cg")
+		overridden_event.erase("cg")
 	GameState.pending_story_queue = [event_id]
 	var packed: PackedScene = load("res://scenes/StoryMode.tscn")
 	var story := packed.instantiate()
@@ -530,6 +550,8 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 			await _settle(0.25)
 	await _save(shot_name)
 	_remove_nodes_by_script("res://scenes/StoryMode.gd")
+	if suppress_cg and had_cg:
+		overridden_event["cg"] = original_cg
 	GameState.pending_story_queue.clear()
 	await _settle(0.3)
 
@@ -622,6 +644,21 @@ func _shot_romance_cg_tints(lang: String = "en", prefix: String = "romance_cg_en
 		GameState.moral_tint = float(data[0])
 		await _shot_story_event("arc_season_cherry_daeun", prefix + str(data[1]), "", 0.55, true)
 	GameState.moral_tint = 0.0
+
+func _shot_romance_portrait_surfaces(lang: String = "en", prefix: String = "romance_portrait_en_") -> void:
+	_set_qa_language(lang)
+	var cases := [
+		["arc_season_sea_daeun", "01_daeun_sea"],
+		["arc_season_fireworks_daeun", "02_daeun_fireworks"],
+		["arc_season_cherry_daeun", "03_daeun_cherry"],
+		["arc_season_sea_jiyeon", "04_jiyeon_sea"],
+		["arc_season_fireworks_jiyeon", "05_jiyeon_fireworks"],
+		["arc_season_cherry_jiyeon", "06_jiyeon_cherry"],
+		["arc_daeun_first_kiss", "07_daeun_first_kiss_reuse"],
+		["arc_jiyeon_first_kiss", "08_jiyeon_first_kiss_reuse"],
+	]
+	for data in cases:
+		await _shot_story_event(str(data[0]), prefix + str(data[1]), lang, 0.45, true, false, -1, 0, true)
 
 func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> void:
 	_set_qa_language(lang)

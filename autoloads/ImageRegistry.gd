@@ -17,11 +17,15 @@ const PORTRAITS = {
 	"player_sad":         "res://assets/characters/main_character_tired.png",
 	"player_suit":        "res://assets/characters/main_character_corporate.png",
 	"player_hollow":      "res://assets/characters/main_character_50s.png",
+	"player_romance_casual": "res://assets/characters/main_character_unemployed.png",
 
 	# 김다은 (연인)
 	"daeun_normal":       "res://assets/characters/npc_romantic_interest.png",
 	"daeun_smile":        "res://assets/characters/npc_daeun_smile.png",
 	"daeun_sad":          "res://assets/characters/npc_daeun_sad.png",
+	"daeun_sea":          "res://assets/characters/npc_daeun_sea.png",
+	"daeun_fireworks":    "res://assets/characters/npc_daeun_fireworks.png",
+	"daeun_cherry":       "res://assets/characters/npc_daeun_cherry.png",
 
 	# 임상철 (인맥 브로커)
 	"sangchul_normal":    "res://assets/characters/npc_boss.png",
@@ -35,6 +39,9 @@ const PORTRAITS = {
 	"jiyeon_normal":      "res://assets/characters/npc_mentor.png",
 	"jiyeon_warm":        "res://assets/characters/npc_jiyeon_warm.png",
 	"jiyeon_cold":        "res://assets/characters/npc_jiyeon_cold.png",
+	"jiyeon_sea":         "res://assets/characters/npc_jiyeon_sea.png",
+	"jiyeon_fireworks":   "res://assets/characters/npc_jiyeon_fireworks.png",
+	"jiyeon_cherry":      "res://assets/characters/npc_jiyeon_cherry.png",
 
 	# 조연
 	"boss":               "res://assets/characters/npc_team_lead.png",

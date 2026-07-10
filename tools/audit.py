@@ -251,6 +251,66 @@ def check_events():
                         if CAST_IDS and pid not in CAST_IDS:
                             warn('%s  [%s] 선택지%d 모르는 cast 인물 → "%s"' % (rel(p), eid, ci, pid))
 
+def check_romance_visual_manifest():
+    path = os.path.join(ROOT, "assets", "romance_visual_manifest.json")
+    if not os.path.exists(path):
+        err("assets/romance_visual_manifest.json  로맨스 비주얼 계약 누락")
+        return
+    try:
+        root = json.load(open(path, encoding="utf-8"))
+    except Exception as e:
+        err("%s  JSON 파싱 실패: %s" % (rel(path), e))
+        return
+    rows = root.get("t0", []) if isinstance(root, dict) else []
+    if not isinstance(rows, list) or len(rows) != 8:
+        err("%s  T0 계약은 정확히 8개여야 함" % rel(path))
+        return
+
+    events = {}
+    for event_path in glob.glob(os.path.join(ROOT, "content", "events", "*.json")):
+        try:
+            for event in load_events(event_path):
+                events[str(event.get("id", ""))] = event
+        except Exception:
+            continue
+
+    player_spec = root.get("player_outfit", {})
+    player_portrait = str(player_spec.get("portrait", "")) if isinstance(player_spec, dict) else ""
+    if player_portrait not in VALID_PORTRAITS:
+        err('%s  모르는 Minjun portrait id → "%s"' % (rel(path), player_portrait))
+
+    owners = set()
+    valid_visibility = {"pov", "cropped_left", "visible_left", "visible_right"}
+    for row in rows:
+        if not isinstance(row, dict):
+            err("%s  T0 계약 행이 dictionary가 아님" % rel(path))
+            continue
+        event_id = str(row.get("event_id", ""))
+        if not event_id or event_id in owners:
+            err('%s  비어 있거나 중복된 event_id → "%s"' % (rel(path), event_id))
+            continue
+        owners.add(event_id)
+        event = events.get(event_id)
+        if not event:
+            err('%s  없는 이벤트 계약 → "%s"' % (rel(path), event_id))
+            continue
+        cg_id = str(row.get("cg", ""))
+        portrait_id = str(row.get("heroine_portrait", ""))
+        if str(event.get("cg", "")) != cg_id:
+            err('%s  [%s] CG가 romance manifest와 다름' % (rel(path), event_id))
+        if str(event.get("portrait", "")) != portrait_id:
+            err('%s  [%s] 초상화 의상이 romance manifest와 다름' % (rel(path), event_id))
+        if cg_id not in VALID_CG:
+            err('%s  [%s] 모르는 CG id → "%s"' % (rel(path), event_id, cg_id))
+        if portrait_id not in VALID_PORTRAITS:
+            err('%s  [%s] 모르는 portrait id → "%s"' % (rel(path), event_id, portrait_id))
+        if not str(row.get("heroine_outfit", "")).strip():
+            err('%s  [%s] heroine_outfit 계약 누락' % (rel(path), event_id))
+        if not str(row.get("eye_line", "")).strip():
+            err('%s  [%s] eye_line 계약 누락' % (rel(path), event_id))
+        if str(row.get("player_visibility", "")) not in valid_visibility:
+            err('%s  [%s] player_visibility 값 오류' % (rel(path), event_id))
+
 # ══════════════════════════════════════════════════════════════
 # 4) 플래그 교차 검증 — 읽기만 하고 아무도 set 안 하는 플래그를 잡는다
 # ══════════════════════════════════════════════════════════════
@@ -997,6 +1057,7 @@ def main():
     check_gdscript()
     check_deprecated()
     check_events()
+    check_romance_visual_manifest()
     check_flags()
     check_serialize()
     check_event_registry_coverage()

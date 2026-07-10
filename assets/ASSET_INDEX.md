@@ -78,6 +78,15 @@ Updated on 2026-07-03 for Lee Minseo transparent portrait and post-Claude story 
 - `assets/characters/npc_daeun_sad.png`
   - Kim Daeun sad transparent expression variant for conflict, disappointment, and relationship crisis beats.
 
+- `assets/characters/npc_daeun_sea.png`
+  - East Sea T0 outfit portrait: muted-navy swim dress and off-white cover-up, matched to `sea_daeun.png`.
+
+- `assets/characters/npc_daeun_fireworks.png`
+  - Fireworks T0 outfit portrait: muted blue-gray wrap dress, matched to `fireworks_daeun.png`.
+
+- `assets/characters/npc_daeun_cherry.png`
+  - Cherry T0 outfit portrait: pale-blue belted shirt dress and beige cardigan, matched to `cherry_daeun.png`.
+
 - `assets/characters/npc_boss.png`
   - Im Sangcheol normal transparent portrait, 52-year-old self-made broker/mentor.
 
@@ -99,6 +108,15 @@ Updated on 2026-07-03 for Lee Minseo transparent portrait and post-Claude story 
 - `assets/characters/npc_jiyeon_cold.png`
   - Han Jiyeon cold transparent expression variant for negotiation, status pressure, and calculating investor scenes.
   - Production status: approved for first in-game QA. Same identity/outfit as `npc_mentor.png`.
+
+- `assets/characters/npc_jiyeon_sea.png`
+  - Haeundae T0 outfit portrait: black high-neck swim dress and cream linen overshirt, matched to `sea_jiyeon.png`.
+
+- `assets/characters/npc_jiyeon_fireworks.png`
+  - Fireworks T0 outfit portrait: unbranded deep-charcoal hooded windbreaker, matched to `fireworks_jiyeon.png`.
+
+- `assets/characters/npc_jiyeon_cherry.png`
+  - Cherry T0 outfit portrait: warm-cream spring jacket over black, matched to `cherry_jiyeon.png`.
 
 - `assets/characters/npc_minseo.png`
   - Lee Minseo transparent portrait, 38-year-old self-made Gangnam arrival mentor.

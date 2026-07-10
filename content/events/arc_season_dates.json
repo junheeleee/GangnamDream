@@ -8,7 +8,7 @@
     "hidden": true,
     "background": "cherry_blossom_path",
     "cg": "cg_romance_cherry_daeun",
-    "portrait": "daeun_smile",
+    "portrait": "daeun_cherry",
     "conditions": {
       "min_turn": 9999
     },
@@ -76,7 +76,7 @@
     "hidden": true,
     "background": "cherry_blossom_path",
     "cg": "cg_romance_cherry_jiyeon",
-    "portrait": "jiyeon_warm",
+    "portrait": "jiyeon_cherry",
     "conditions": {
       "min_turn": 9999
     },
@@ -145,7 +145,7 @@
     "background": "ktx_window",
     "cg": "cg_romance_sea_daeun",
     "cg_reveal_paragraph": 2,
-    "portrait": "daeun_smile",
+    "portrait": "daeun_sea",
     "conditions": {
       "min_turn": 9999
     },
@@ -204,7 +204,7 @@
     "hidden": true,
     "background": "ktx_window",
     "cg": "cg_romance_sea_jiyeon",
-    "portrait": "jiyeon_warm",
+    "portrait": "jiyeon_sea",
     "conditions": {
       "min_turn": 9999
     },
@@ -263,7 +263,7 @@
     "hidden": true,
     "background": "hangang_riverside",
     "cg": "cg_romance_fireworks_daeun",
-    "portrait": "daeun_smile",
+    "portrait": "daeun_fireworks",
     "conditions": {
       "min_turn": 9999
     },
@@ -328,7 +328,7 @@
     "hidden": true,
     "background": "hangang_riverside",
     "cg": "cg_romance_fireworks_jiyeon",
-    "portrait": "jiyeon_warm",
+    "portrait": "jiyeon_fireworks",
     "conditions": {
       "min_turn": 9999
     },

@@ -34,6 +34,8 @@ Use this before generating, accepting, wiring, or replacing any image asset. A v
 - No room, street, office, car, skyline, or event-specific props in the portrait.
 - Lock age, hair, outfit class signal, expression range, and silhouette in `assets/CHARACTER_VISUAL_BIBLE.md`.
 - Reuse the same character design across expressions; do not let the model age or recast the person.
+- A CG outfit and its event portrait must use the same clothing unless the text explicitly shows a wardrobe change between paragraphs.
+- Lock Minjun's clothing too. A heroine match does not excuse a protagonist who changes from sweatshirt to suit between portrait and CG.
 
 ### Backgrounds
 
@@ -49,6 +51,7 @@ Use this before generating, accepting, wiring, or replacing any image asset. A v
 
 - CGs may combine people and place, but must match the exact event text.
 - Check positions and objects: driver/passenger side, phone direction, bicycle wheels, hands, steering wheel, door, weather, and lighting.
+- Name every character's gaze target: partner, player POV, or a scene object. Unexplained lens gaze is a rejection.
 - CGs are allowed to be dramatic; they are not allowed to rewrite character age, wealth, relationship state, or location layout.
 
 ### Key Art / Store Capsules

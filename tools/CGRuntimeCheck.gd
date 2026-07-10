@@ -28,6 +28,7 @@ func _check_story_mode_cg() -> void:
 	await _check_story_event_cg("arc_daeun_first_kiss", "cg_romance_first_kiss_daeun")
 	await _check_story_event_cg("arc_jiyeon_first_kiss", "cg_romance_first_kiss_jiyeon")
 	_check_all_story_cg_contracts()
+	_check_romance_visual_manifest()
 
 func _check_story_event_cg(event_id: String, cg_id: String) -> void:
 	var expected_path := ImageRegistry.get_cg(cg_id)
@@ -91,6 +92,79 @@ func _check_all_story_cg_contracts() -> void:
 			_failures.append("%s story cg must be at least 1280x720: %s" % [event_id, path])
 		elif cg_id.begins_with("cg_romance_") and (texture.get_width() != 1280 or texture.get_height() != 800):
 			_failures.append("%s romance cg must be exactly 1280x800: %s" % [event_id, path])
+
+func _check_romance_visual_manifest() -> void:
+	const MANIFEST_PATH := "res://assets/romance_visual_manifest.json"
+	if not FileAccess.file_exists(MANIFEST_PATH):
+		_failures.append("missing romance visual manifest")
+		return
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(MANIFEST_PATH))
+	if not parsed is Dictionary:
+		_failures.append("romance visual manifest root must be a dictionary")
+		return
+	var root: Dictionary = parsed
+	var rows_value: Variant = root.get("t0", [])
+	if not rows_value is Array:
+		_failures.append("romance visual manifest t0 must be an array")
+		return
+	var rows: Array = rows_value
+	if rows.size() != 8:
+		_failures.append("romance visual manifest must own exactly 8 T0 events")
+
+	var player_value: Variant = root.get("player_outfit", {})
+	if not player_value is Dictionary:
+		_failures.append("romance visual manifest player_outfit must be a dictionary")
+		return
+	var player_spec: Dictionary = player_value
+	var player_portrait_id: String = str(player_spec.get("portrait", ""))
+	_check_romance_portrait(player_portrait_id, "T0 Minjun")
+
+	var owners: Dictionary = {}
+	for raw_row in rows:
+		if not raw_row is Dictionary:
+			_failures.append("romance visual manifest row must be a dictionary")
+			continue
+		var row: Dictionary = raw_row
+		var event_id: String = str(row.get("event_id", ""))
+		var cg_id: String = str(row.get("cg", ""))
+		var portrait_id: String = str(row.get("heroine_portrait", ""))
+		if event_id.is_empty() or owners.has(event_id):
+			_failures.append("romance visual manifest has empty or duplicate event: %s" % event_id)
+			continue
+		owners[event_id] = true
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		if event.is_empty():
+			_failures.append("romance visual manifest event is missing: %s" % event_id)
+			continue
+		if str(event.get("cg", "")) != cg_id:
+			_failures.append("%s cg drifted from romance visual manifest" % event_id)
+		if str(event.get("portrait", "")) != portrait_id:
+			_failures.append("%s portrait outfit drifted from romance visual manifest" % event_id)
+		if str(row.get("heroine_outfit", "")).is_empty():
+			_failures.append("%s has no heroine outfit contract" % event_id)
+		if str(row.get("eye_line", "")).is_empty():
+			_failures.append("%s has no gaze target contract" % event_id)
+		if str(row.get("player_visibility", "")) not in ["pov", "cropped_left", "visible_left", "visible_right"]:
+			_failures.append("%s has invalid player visibility" % event_id)
+		_check_romance_portrait(portrait_id, event_id)
+
+func _check_romance_portrait(portrait_id: String, owner: String) -> void:
+	var path: String = ImageRegistry.get_portrait(portrait_id)
+	if path.is_empty() or not ResourceLoader.exists(path):
+		_failures.append("%s references missing romance portrait %s" % [owner, portrait_id])
+		return
+	var texture := load(path) as Texture2D
+	if texture == null or texture.get_width() != 512 or texture.get_height() != 768:
+		_failures.append("%s romance portrait must be exactly 512x768: %s" % [owner, path])
+		return
+	var image: Image = Image.load_from_file(ProjectSettings.globalize_path(path))
+	if image == null or image.is_empty():
+		_failures.append("%s romance portrait source could not be read: %s" % [owner, path])
+		return
+	for corner in [Vector2i(0, 0), Vector2i(image.get_width() - 1, 0), Vector2i(0, image.get_height() - 1), Vector2i(image.get_width() - 1, image.get_height() - 1)]:
+		if image.get_pixelv(corner).a > 0.05:
+			_failures.append("%s romance portrait must have transparent corners: %s" % [owner, path])
+			break
 
 func _check_ending_cg() -> void:
 	var synthetic_path := ImageRegistry.get_cg("cg_ending_father")
