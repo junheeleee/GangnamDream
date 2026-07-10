@@ -91,13 +91,14 @@ Live-screen semantic routing QA found and fixed a separate class of issue: valid
   - StoryMode: goshiwon + Minjun, late-night goshiwon + tired Minjun, convenience + Daeun, Gangnam station + Jiyeon, family home + father, office + team lead, library + Hyunsu.
   - MainGame dashboard: goshiwon + unemployed Minjun, Gangnam day + corporate Minjun, Gangnam night + Jiyeon, late-night goshiwon + tired Minjun.
   - CG fullscreen: start goshiwon, Jiyeon crash, Jaehyuk reveal, ending father.
-- In-game splash key art has been replaced with the anime rooftop-to-Gangnam composition.
-- P2 Steam/store key art is usable for first store-material QA:
-  - `gangnam_dream_keyart_rooftop.png` — 1920x1080 textless master
-  - `steam_capsule_main.png` — 616x353 title overlay
-  - `steam_header.png` — 460x215 title overlay
-  - `steam_capsule_small.png` — 231x87 compact title overlay
-  - QA sheet: `/tmp/gangnamdream_p2_keyart_after.png`.
+- The publisher splash and StartMenu now share the same identity-locked cast master and architectural wordmark. The obsolete rooftop concept is no longer a runtime brand surface.
+- P0 Steam/store key art passes the first identity and crop review:
+  - `gangnam_dream_keyart_cast_v1.png` — 1920x1080 textless cast master
+  - `steam_capsule_main.png` — 616x353, three faces and reflection motif survive
+  - `steam_header.png` — 460x215, Minjun remains primary
+  - `steam_capsule_small.png` — 231x87, compact title and three distinct silhouettes remain readable
+  - Deterministic exporter: `tools/KeyArtExport.tscn`
+  - Runtime QA: `ScreenshotQA --qa=start-en` plus Korean default surface capture.
 
 ## Fix Or Review Before Final
 

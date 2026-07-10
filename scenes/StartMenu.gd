@@ -1,5 +1,7 @@
 extends Control
 
+const GangnamWordmarkScript := preload("res://scenes/ui/GangnamWordmark.gd")
+
 # 드라마 모드: 루트/특성 선택 없이 김민준 33세 백수로 고정 시작.
 # 성향(직장/투자/창업)은 플레이 중 선택 누적으로 자연스럽게 결정된다.
 
@@ -82,6 +84,7 @@ const MENU_TEXT := "#d6dce4"
 const MENU_TEXT_DIM := "#7b8490"
 const MENU_TEXT_FAINT := "#3f4752"
 const MENU_DANGER := "#6b1f1f"
+const TITLE_KEY_ART := "res://assets/keyart/gangnam_dream_keyart_cast_v1.png"
 
 const RUN_THEME_TEXT_EN := {
 	"자유런": {
@@ -236,48 +239,14 @@ func _build_title_backdrop(parent: Control, splash: bool = false) -> void:
 	base.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	parent.add_child(base)
 
-	var city := _title_texture("res://assets/backgrounds/gangnam_night_street.png")
-	city.set_anchors_preset(Control.PRESET_FULL_RECT)
-	city.modulate = Color(1, 1, 1, 0.72 if splash else 0.78)
-	_apply_title_grade(city, 0.70, 0.62, 0.16, 3.0)
-	parent.add_child(city)
-
-	# The goshiwon is not a second card. It bleeds into the city as the left pane
-	# of the same window, so the first image already holds origin and ambition.
-	var room_clip := Control.new()
-	room_clip.set_anchors_preset(Control.PRESET_FULL_RECT)
-	room_clip.anchor_right = 0.48
-	room_clip.clip_contents = true
-	room_clip.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	parent.add_child(room_clip)
-	var room := _title_texture("res://assets/cg/start.png")
-	room.set_anchors_preset(Control.PRESET_FULL_RECT)
-	room.anchor_right = 2.08
-	room.modulate = Color(1, 1, 1, 0.78)
-	_apply_title_grade(room, 0.84, 0.55, 0.20, 7.0)
-	room_clip.add_child(room)
-
-	var daeun := _title_portrait("res://assets/characters/npc_romantic_interest.png", 0.43, 0.69, 0.18, 1.04, 0.74)
-	var jiyeon := _title_portrait("res://assets/characters/npc_mentor.png", 0.75, 1.02, 0.09, 1.03, 0.82)
-	var minjun := _title_portrait("res://assets/characters/main_character_unemployed.png", 0.56, 0.87, 0.06, 1.04, 0.98)
-	_apply_title_grade(daeun, 0.44, 0.82, 0.08, 13.0)
-	_apply_title_grade(jiyeon, 0.30, 0.84, 0.08, 17.0)
-	_apply_title_grade(minjun, 0.68, 0.77, 0.12, 11.0)
-	parent.add_child(daeun)
-	parent.add_child(jiyeon)
-	parent.add_child(minjun)
-
-	# Thin glass divisions make the cast part of one reflected city surface.
-	for x in [0.55, 0.74]:
-		var glass_line := ColorRect.new()
-		glass_line.color = Color("#dce4ec", 0.10)
-		glass_line.anchor_left = x
-		glass_line.anchor_right = x
-		glass_line.anchor_top = 0.06
-		glass_line.anchor_bottom = 0.94
-		glass_line.offset_right = 1.0
-		glass_line.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		parent.add_child(glass_line)
+	# The launch image is one owned scene. Keeping the cast, room, street, and
+	# reflections in a single painting prevents the title screen from reading as
+	# layered portrait cards and gives every Steam crop the same visual identity.
+	var key_art := _title_texture(TITLE_KEY_ART)
+	key_art.set_anchors_preset(Control.PRESET_FULL_RECT)
+	key_art.modulate = Color(1, 1, 1, 0.88 if splash else 0.94)
+	_apply_title_grade(key_art, 0.18, 0.84 if splash else 0.91, 0.08, 3.0)
+	parent.add_child(key_art)
 
 	var scrim := TextureRect.new()
 	scrim.texture = _horizontal_scrim_texture()
@@ -304,16 +273,6 @@ func _title_texture(path: String) -> TextureRect:
 	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return rect
 
-func _title_portrait(path: String, left: float, right: float, top: float, bottom: float, alpha: float) -> TextureRect:
-	var rect := _title_texture(path)
-	rect.anchor_left = left
-	rect.anchor_right = right
-	rect.anchor_top = top
-	rect.anchor_bottom = bottom
-	rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	rect.modulate = Color(1, 1, 1, alpha)
-	return rect
-
 func _apply_title_grade(rect: TextureRect, desaturation: float, brightness: float, edge_burn: float, seed: float) -> void:
 	var shader := load("res://assets/shaders/background_grade.gdshader") as Shader
 	if shader == null:
@@ -333,12 +292,12 @@ func _apply_title_grade(rect: TextureRect, desaturation: float, brightness: floa
 
 func _horizontal_scrim_texture() -> GradientTexture2D:
 	var gradient := Gradient.new()
-	gradient.offsets = PackedFloat32Array([0.0, 0.34, 0.62, 1.0])
+	gradient.offsets = PackedFloat32Array([0.0, 0.22, 0.39, 1.0])
 	gradient.colors = PackedColorArray([
-		Color(0.018, 0.020, 0.026, 0.98),
-		Color(0.018, 0.020, 0.026, 0.90),
-		Color(0.018, 0.020, 0.026, 0.22),
-		Color(0.018, 0.020, 0.026, 0.08),
+		Color(0.018, 0.020, 0.026, 0.84),
+		Color(0.018, 0.020, 0.026, 0.58),
+		Color(0.018, 0.020, 0.026, 0.10),
+		Color(0.018, 0.020, 0.026, 0.03),
 	])
 	var texture := GradientTexture2D.new()
 	texture.gradient = gradient
@@ -349,28 +308,8 @@ func _horizontal_scrim_texture() -> GradientTexture2D:
 	return texture
 
 func _title_wordmark(font_size: int = 66) -> VBoxContainer:
-	var stack := VBoxContainer.new()
-	stack.add_theme_constant_override("separation", -4)
-	stack.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-
-	var ko := Label.new()
-	ko.text = _tr("강남\n드림", "GANGNAM\nDREAM")
-	ko.add_theme_font_size_override("font_size", font_size)
-	ko.add_theme_color_override("font_color", Color("#f0f2f5"))
-	ko.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.55))
-	ko.add_theme_constant_override("shadow_offset_x", 2)
-	ko.add_theme_constant_override("shadow_offset_y", 2)
-	ko.autowrap_mode = TextServer.AUTOWRAP_OFF
-	ko.clip_text = false
-	stack.add_child(ko)
-
-	var en := Label.new()
-	en.text = "GANGNAM DREAM" if not LocaleManager.is_english() else "A KOREAN SOCIAL-REALITY DRAMA"
-	en.add_theme_font_size_override("font_size", 11)
-	en.add_theme_color_override("font_color", Color("#8d96a2"))
-	en.autowrap_mode = TextServer.AUTOWRAP_OFF
-	stack.add_child(en)
-	return stack
+	var subtitle := "GANGNAM DREAM" if not LocaleManager.is_english() else "A KOREAN SOCIAL-REALITY DRAMA"
+	return GangnamWordmarkScript.new(font_size, subtitle)
 
 func _splash_meta_badge(label_text: String, value_text: String, complete: bool = false) -> PanelContainer:
 	var badge := PanelContainer.new()

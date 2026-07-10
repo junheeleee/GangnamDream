@@ -73,10 +73,10 @@ ASSETS: list[Asset] = [
     Asset("assets/ui/card_back.png", "ui_square", "Playing card back design. Dark navy background with subtle geometric Korean traditional pattern inspired by dancheong, restrained and not ornate. Thin gold border. Simple, elegant, slightly underground aesthetic. Card centered on dark neutral background."),
     Asset("assets/ui/poker_chip_icon.png", "ui_square", "Single poker chip icon, top-down view. Dark red and gold color scheme. Simple clean graphic, crisp edges. Centered on neutral dark background, icon illustration style."),
     Asset("assets/ui/horse_silhouette.png", "ui_wide", "Eight distinct thoroughbred horse silhouettes in a single row on a plain light background. Side view. Each horse slightly different build: leaner, stockier, different head and tail positions. Clean black silhouettes, flat 2D illustration, evenly spaced."),
-    Asset("assets/keyart/steam_capsule_main.png", "keyart", "Key art for a Korean noir life-sim game. A lone Korean man in his early 30s, casual clothing, dark circles, standing at the edge of a Seoul rooftop at night, back to viewer. Sprawling Seoul city lights below, Gangnam illuminated towers in the distance. The gap between where he stands and where he wants to be is visually vast. Determined, lonely, cinematic. No text."),
-    Asset("assets/keyart/steam_header.png", "keyart", "Wider cinematic version of the Seoul rooftop key art. Korean man silhouetted on rooftop, Seoul skyline wider and more panoramic. Distance to Gangnam towers emphasized. Dark charcoal and navy, warm city lights below. No text."),
-    Asset("assets/keyart/steam_capsule_small.png", "ui_square", "Cropped version of the Seoul rooftop key art: character silhouette against Seoul skyline, city lights as main visual. Very dark with glittering city below. No text."),
 ]
+
+# Steam capsules are locally composed from the approved identity-locked master
+# by tools/KeyArtExport.tscn. They must never be regenerated as unrelated art.
 
 
 OUTPUT_SIZES = {

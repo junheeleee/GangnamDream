@@ -1,13 +1,12 @@
 extends Control
 
+const GangnamWordmarkScript := preload("res://scenes/ui/GangnamWordmark.gd")
+
 var _transitioning: bool = false
 
 var _bg_img:     TextureRect
-var _logo_img:   TextureRect
 var _publisher_logo: Control
-var _title_lbl:  Label
-var _sub_lbl:    Label
-var _line_rect:  ColorRect
+var _wordmark: VBoxContainer
 var _tagline_lbl: Label
 var _context_lbl: Label
 var _press_lbl:  Label
@@ -49,89 +48,75 @@ func _build_ui():
 	_bg_img.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
 	_bg_img.modulate     = Color(1, 1, 1, 0.0)
 	_bg_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var keyart = load("res://assets/keyart/gangnam_dream_keyart_rooftop.png")
+	_bg_img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	var keyart = load("res://assets/keyart/gangnam_dream_keyart_cast_v1.png")
 	if keyart:
 		_bg_img.texture = keyart
 	add_child(_bg_img)
 
-	# 3. 어두운 그라데이션 오버레이
+	# 3. The painting already owns its left safe area; this only keeps the
+	# publisher and wordmark readable without burying the cast.
 	var overlay = ColorRect.new()
 	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
-	overlay.color        = Color(0.0, 0.0, 0.0, 0.72)
+	overlay.color        = Color(0.0, 0.0, 0.0, 0.38)
 	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(overlay)
 
-	# 4. 중앙 세로 레이아웃
-	var center = CenterContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
-	add_child(center)
-
-	var vbox = VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 14)
-	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
-	center.add_child(vbox)
-
-	# ── 퍼블리셔 로고: JUNPAC GAMES ──
+	# 4. The publisher pre-roll is an overlay, never a layout spacer that moves
+	# the title after it fades.
+	var publisher_center := CenterContainer.new()
+	publisher_center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	publisher_center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(publisher_center)
 	_publisher_logo = _build_junpac_logo()
-	vbox.add_child(_publisher_logo)
+	publisher_center.add_child(_publisher_logo)
 
-	# ── 로고 이미지 ──
-	_logo_img = TextureRect.new()
-	_logo_img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	_logo_img.expand_mode  = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
-	_logo_img.custom_minimum_size = Vector2(0, 6)
-	_logo_img.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	_logo_img.modulate = Color(1, 1, 1, 0.0)
-	_logo_img.visible = false
-	vbox.add_child(_logo_img)
+	# 5. Shared poster lockup in the art's reserved left third.
+	var margin := MarginContainer.new()
+	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
+	margin.add_theme_constant_override("margin_left", 58)
+	margin.add_theme_constant_override("margin_right", 58)
+	margin.add_theme_constant_override("margin_top", 52)
+	margin.add_theme_constant_override("margin_bottom", 58)
+	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(margin)
 
-	# ── 한글 타이틀 ──
-	_title_lbl = Label.new()
-	_title_lbl.text = LocaleManager.ui("강남드림", "Gangnam Dream")
-	_title_lbl.add_theme_font_size_override("font_size", 64)
-	_title_lbl.add_theme_color_override("font_color", Color("#f0f4ff"))
-	_title_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_title_lbl.modulate = Color(1, 1, 1, 0.0)
-	_apply_font(_title_lbl, true)
-	vbox.add_child(_title_lbl)
+	var column := VBoxContainer.new()
+	column.custom_minimum_size = Vector2(410, 0)
+	column.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	column.add_theme_constant_override("separation", 10)
+	margin.add_child(column)
 
-	# ── 영문 부제 ──
-	_sub_lbl = Label.new()
-	_sub_lbl.text = LocaleManager.ui("KOREAN LIFE SIM", "SEOUL STATUS LIFE SIM")
-	_sub_lbl.add_theme_font_size_override("font_size", 16)
-	_sub_lbl.add_theme_color_override("font_color", Color("#aab2bc"))
-	_sub_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_sub_lbl.modulate = Color(1, 1, 1, 0.0)
-	_apply_font(_sub_lbl)
-	vbox.add_child(_sub_lbl)
+	var upper_spacer := Control.new()
+	upper_spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	column.add_child(upper_spacer)
 
-	# ── 구분선 ──
-	_line_rect = ColorRect.new()
-	_line_rect.custom_minimum_size      = Vector2(260, 1)
-	_line_rect.color                    = Color("#4b5566")
-	_line_rect.size_flags_horizontal    = Control.SIZE_SHRINK_CENTER
-	_line_rect.modulate = Color(1, 1, 1, 0.0)
-	vbox.add_child(_line_rect)
+	_wordmark = GangnamWordmarkScript.new(68,
+		"GANGNAM DREAM" if not LocaleManager.is_english() else "A KOREAN SOCIAL-REALITY DRAMA")
+	_wordmark.modulate = Color(1, 1, 1, 0.0)
+	column.add_child(_wordmark)
 
-	# ── 태그라인 ──
 	_tagline_lbl = Label.new()
-	_tagline_lbl.text = LocaleManager.ui("50만원에서 30억까지", "KRW 500K to KRW 3B")
-	_tagline_lbl.add_theme_font_size_override("font_size", 19)
-	_tagline_lbl.add_theme_color_override("font_color", Color("#8892a4"))
-	_tagline_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_tagline_lbl.text = LocaleManager.ui("통장 50만원. 남은 시간 5년.", "KRW 500K. Five years left.")
+	_tagline_lbl.add_theme_font_size_override("font_size", 17)
+	_tagline_lbl.add_theme_color_override("font_color", Color("#aab2bc"))
+	_tagline_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	_tagline_lbl.modulate = Color(1, 1, 1, 0.0)
 	_apply_font(_tagline_lbl, true)
-	vbox.add_child(_tagline_lbl)
+	column.add_child(_tagline_lbl)
 
-	# ── 배경 설명 ──
 	_context_lbl = Label.new()
-	_context_lbl.text = LocaleManager.ui("― 2026년 서울. 5년. 정답도 보장도 없다. ―", "Seoul, 2026. Gangnam means wealth, status, arrival.")
+	_context_lbl.text = LocaleManager.ui("서울, 2026. 정답도 보장도 없다.", "Seoul, 2026. No guarantees.")
 	_context_lbl.add_theme_font_size_override("font_size", 13)
-	_context_lbl.add_theme_color_override("font_color", Color("#5f6b7a"))
-	_context_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_context_lbl.add_theme_color_override("font_color", Color("#687381"))
+	_context_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	_context_lbl.modulate = Color(1, 1, 1, 0.0)
 	_apply_font(_context_lbl)
-	vbox.add_child(_context_lbl)
+	column.add_child(_context_lbl)
+
+	var lower_spacer := Control.new()
+	lower_spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	column.add_child(lower_spacer)
 
 	# _press_lbl 는 더 이상 사용하지 않음 (컷신에서 처리)
 	_press_lbl = Label.new()
@@ -166,11 +151,7 @@ func _run_sequence():
 	_fade_in(_bg_img, 1.0, 0.38)
 
 	await get_tree().create_timer(0.4).timeout
-	_fade_in(_title_lbl, 0.65)
-
-	await get_tree().create_timer(0.4).timeout
-	_fade_in(_sub_lbl, 0.5)
-	_fade_in(_line_rect, 0.6)
+	_fade_in(_wordmark, 0.65)
 
 	await get_tree().create_timer(0.5).timeout
 	_fade_in(_tagline_lbl, 0.55)

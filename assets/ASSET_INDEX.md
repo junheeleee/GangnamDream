@@ -361,21 +361,27 @@ Updated on 2026-07-03 for Lee Minseo transparent portrait and post-Claude story 
   - Status: approved for first in-game QA. 1672x941, cold rainy civilian eye-level gate, guard post, barrier, shuttle bus, no readable signs/insignia/weapons/clear faces.
 
 ### Key Art
+- `assets/keyart/gangnam_dream_keyart_cast_v1.png`
+  - Current textless launch master, 1920x1080.
+  - Identity-locked Minjun, Daeun, and Jiyeon share one rain-darkened glass composition. This is the source for title screens, trailers, and store crops.
+
 - `assets/keyart/gangnam_dream_keyart_rooftop.png`
-  - Textless master key art, 1920x1080 anime rooftop view toward Gangnam.
-  - No embedded title text; use it as the clean source for title screens, trailers, and store crops.
+  - Legacy textless concept, 1920x1080. Retained for archive/reference only.
+  - Do not use for launch branding: the back-view silhouette does not sell the cast or the game's human conflict.
 
 - `assets/keyart/steam_capsule_main.png`
   - Steam main capsule, 616x353.
-  - Derived from the textless rooftop master with deterministic local-font title overlay: `GANGNAM DREAM` + `강남드림`.
+  - Derived from the cast master with the deterministic Gangnam wordmark. `steam_capsule_main_v2.png` is the versioned approval copy.
 
 - `assets/keyart/steam_header.png`
   - Steam header, 460x215.
-  - Derived from the same rooftop master with local-font title overlay.
+  - Derived from the same cast master. `steam_header_v2.png` is the versioned approval copy.
 
 - `assets/keyart/steam_capsule_small.png`
   - Steam small capsule, 231x87.
-  - High-contrast compact `GANGNAM DREAM` title overlay for small-store readability.
+  - Compact wordmark plus all three locked character silhouettes. `steam_capsule_small_v2.png` is the versioned approval copy.
+
+- Store derivatives are rendered by `tools/KeyArtExport.tscn`; `tools/generate_assets.py` does not own or regenerate them.
 
 ### Story CG
 - `assets/cg/start.png`

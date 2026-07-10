@@ -99,6 +99,44 @@ The launch image must be character-led and readable at Steam capsule scale.
 - Heroine fan service unrelated to class, danger, or intimacy.
 - Showing White and Black outcomes as an explicit morality-choice tutorial.
 
+### Locked Production Inputs
+
+The launch key art is an identity-preserving composition job. These files are
+the canonical source images, not loose mood references:
+
+| Role | Canonical source | Identity invariants |
+|---|---|---|
+| Minjun | `assets/characters/main_character_unemployed.png` | Same 33-year-old face, uneven short fringe, lean shoulders, worn black crewneck |
+| Daeun | `assets/characters/npc_romantic_interest.png` | Same adult face, short layered bob, left hair clip, beige knit over navy work shirt |
+| Jiyeon | `assets/characters/npc_mentor.png` | Same 31-year-old face, long one-sided waves, ivory tailoring over black, angular earrings |
+| Low-status origin | `assets/cg/start.png` | Tight goshiwon scale and worn material language; never enlarge the room into a studio apartment |
+| Status pressure | `assets/backgrounds/gangnam_night_street.png` | Wet Seoul glass, compressed commercial light, no postcard skyline |
+
+The generated master contains no title, logo, UI, readable brand, vehicle
+badge, watermark, or moral-route label. Typography is owned by the game and is
+composited after art approval.
+
+### Acceptance Matrix
+
+A candidate is production-ready only when all rows pass:
+
+| Gate | 1920x1080 master | 616x353 main capsule | 460x215 header | 231x87 small capsule |
+|---|---|---|---|---|
+| Minjun recognition | Face and reflected face agree | Face reads before skyline | Silhouette and eyes survive | Silhouette remains the primary human signal |
+| Heroine polarity | Both women occupy distinct material worlds | Hair and clothing blocks stay separate | At least one heroine plus Minjun survives | Do not force three tiny floating heads |
+| Premise | Origin, pressure, and two human paths share one physical scene | Conflict reads without body copy | Status pressure reads without tourism | Image remains unique without text |
+| Safe area | Left 32% has low-detail title contrast | No face under logo | No face under compact lockup | One clean high-contrast title edge |
+| Style | Gangnam Ink matte print and restrained color | No glossy AI skin | No random micro-detail noise | No mud-black collapse |
+
+Rejected candidates stay versioned and disconnected from runtime. A candidate
+must not replace an existing asset merely because it is newer.
+
+Approved launch master: `assets/keyart/gangnam_dream_keyart_cast_v1.png`.
+Steam derivatives are rendered with `tools/KeyArtExport.tscn` so the same local
+wordmark, title-safe area, and crop logic are used at every store size. The
+versioned `*_v2.png` files are approval proofs; the filenames without `_v2`
+are the current upload-ready exports.
+
 ## Wordmark Contract
 
 The current gold skyline logo is a concept asset, not production identity.
