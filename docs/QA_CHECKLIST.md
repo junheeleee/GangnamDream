@@ -27,7 +27,7 @@ Use this checklist before major commits, playable builds, and release candidates
 | AP Act 1~5 action rail evolution, no-scroll 4-slot regression, ACT4 relationship pressure modal | `--qa=ap-act-en` |
 | Investment modal Trade/Holdings/Market movers/Bank pages | `--qa=invest-en` |
 | Demo month summary, demo ending CTA, 6-month Time Ledger card | `--qa=demo-end-en` |
-| Ending modals, ending CG/card surface, final Time Ledger card | `--qa=endings-en` |
+| Ending modals, graded ending CG/card surface, White no-CG fallback, final Time Ledger card | `--qa=endings-en` |
 | Title collection and meta-title reward surface | `--qa=title-en` |
 | Tutorial overlay surface and onboarding copy | `--qa=tutorial-en` |
 | Job hunt/career modal tier pages and resume/interview minigame surface | `--qa=job-en` |
@@ -70,6 +70,10 @@ Command template:
 - Chained events can follow previous choices.
 - Invalid event data fails safely.
 - `SceneDirectionCheck.tscn` passes hold, camera, beat, sting, ambience restore, and BGM continuity.
+
+## Ending Art
+- `CGRuntimeCheck.tscn` passes all ending CG paths, minimum 1280×720 dimensions, unique ownership, and Gangnam Ink preview grading.
+- An ending without a dedicated CG uses its moral mood card; it never borrows another ending's image.
 
 ## News And Market
 - Monthly news generates.

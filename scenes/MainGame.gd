@@ -11890,6 +11890,9 @@ func _add_ending_art_preview(parent: Control, art_path: String, is_cg: bool = fa
 	img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	img.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	img.clip_contents = true
+	img.set_meta("ending_art_preview", true)
+	if _moral_bg_material:
+		img.material = _moral_bg_material.duplicate(true)
 	frame.add_child(img)
 
 func _add_ending_mood_card(parent: Control, ending: Dictionary, ending_id: String) -> void:

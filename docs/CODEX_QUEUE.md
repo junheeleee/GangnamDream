@@ -178,7 +178,11 @@
 **정본**: `docs/MAP_HUB_PROPOSAL.md` — 판정: 레일 **대체가 아니라 프레임**(장소→기존 레일 카드 시트). M1 컨텍스트 레이어(잉크 미니맵 스트립, 리스크 0) → M2 장소 내비게이션. 장소↔행동 매핑 정본 포함(투자는 폰 오버레이 — 장소화 금지). **유저 승인 대기: M1 즉시 / M2는 M1 체감 후.**
 **앵커**: M1 스트립 삽입 지점 = `_render_week_focus_panel` MainGame.gd:4880. 조작 모델 = `docs/CONTROLLER_UX_STRATEGY.md`.
 
-## P3-7. 엔딩 CG 파이프라인 가동
+## [x] P3-7A. 엔딩 CG 런타임 그레이딩·계약 (2026-07-10 Codex 완료)
+
+완료: 인라인 엔딩 CG TextureRect도 전체화면 배경과 동일한 `background_grade.gdshader`의 현재 moral 파라미터 복제본을 사용한다. 일반 강남 CG를 임시 공유하던 `gangnam_dream_white`는 연결을 제거해 전용 White 컷 입고 전까지 정합한 S+ 무드카드로 끝난다. `CGRuntimeCheck`는 모든 엔딩 CG가 1280×720 이상인지, 유효한 ImageRegistry 경로인지, 두 엔딩이 같은 컷을 공유하지 않는지, 인라인 프리뷰가 올바른 셰이더를 받는지 검사한다. EN 엔딩 QA에 White 엔딩을 추가했다.
+
+**남은 아트 제작**: `docs/ENDING_ART.md` P0 신규 CG 8종은 외부 생성/큐레이션/정합성 게이트를 통과한 파일이 입고될 때 연결한다. 전용 컷 없는 상태에서 다른 엔딩 CG를 임시 재사용하지 않는다.
 
 **코드 앵커 (실증)**
 - CG 결정: `_get_ending_cg_path(ending)` — MainGame.gd:10866 (`ending["cg"]` id → `ImageRegistry.get_cg`).

@@ -1,6 +1,6 @@
 # 엔딩 아트 점검 & 컷신 우선순위
 
-Updated: 2026-06-29
+Updated: 2026-07-10
 
 ## 목적
 
@@ -31,7 +31,7 @@ Updated: 2026-06-29
 | `cg_jiyeon_crash` | `assets/cg/jiyeon_crash.png` | 지연 사고 CG | 지연 얼굴/차량 정합성 계속 확인 |
 | `cg_jaehyuk_reveal` | `assets/cg/jaehyuk_reveal.png` | 재혁 폭로 CG | 재혁/성준 유사성 주의 |
 | `cg_ending_father` | `assets/cg/ending_father.png` | `arc_father_04_visit` 병실 CG | 엔딩에는 아직 연결하지 않는다. 병실 방문 장면이라 `full_circle`/`guardian`과 맥락이 다름 |
-| `cg_ending_gangnam_dream` | `assets/cg/ending_gangnam_dream.png` | `gangnam_dream`, 임시로 `gangnam_dream_white` | White 진엔딩은 향후 전용 CG 필요 |
+| `cg_ending_gangnam_dream` | `assets/cg/ending_gangnam_dream.png` | `gangnam_dream` | 아버지 생존 조건과 본문에 맞는 부자 야경. White 엔딩과 공유 금지 |
 | `cg_ending_empty_house` | `assets/cg/ending_empty_house.png` | `empty_house` | 유지 |
 | `cg_ending_crypto_ghost` | `assets/cg/ending_crypto_ghost.png` | `crypto_ghost` | 유지 |
 
@@ -78,7 +78,7 @@ Updated: 2026-06-29
 | `creator_success` | A | 없음 | 없음 | P2 신규 CG 후보 |
 | `instant_legend` | ? | 없음 | `gangnam_apartment` | P1. 히든 엔딩이라 한 장의 강한 CG 가치 높음 |
 | `full_circle` | S+ | 없음 | `gangnam_penthouse` | P0 신규 CG 필요 |
-| `gangnam_dream_white` | S+ | `cg_ending_gangnam_dream` 임시 공유 | `gangnam_night` | P0 전용 White CG 필요 |
+| `gangnam_dream_white` | S+ | 없음 | `gangnam_night` | 잘못된 일반 CG 공유 제거. P0 전용 White CG 필요, 입고 전에는 S+ 무드카드 |
 | `second_love` | A+ | 없음 | `gangnam_night` | P0 신규 CG 필요 |
 | `guardian` | A+ | 없음 | `hospital` | P0 신규 CG 필요 |
 | `gambling_recovery` | B | 없음 | `goshiwon_room` | P1 신규 CG 후보. 도박 아크 결산 |
@@ -160,7 +160,8 @@ Updated: 2026-06-29
 - [x] `gangnam_dream` 전용 CG 연결
 - [x] `empty_house` 전용 CG 연결
 - [x] `crypto_ghost` 전용 CG 연결
-- [ ] `gangnam_dream_white` 전용 White CG 제작 후 기존 공유 제거
+- [x] `gangnam_dream_white`의 일반 강남 CG 임시 공유 제거
+- [ ] `gangnam_dream_white` 전용 White CG 제작 후 연결
 - [ ] P0 신규 CG 8종 제작/보정/연결
 - [ ] P1 신규 CG 8종 제작/보정/연결
 - [ ] P2 엔딩은 CG보다 엔딩 카드/스팅/배경 정합성 먼저 보강

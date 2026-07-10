@@ -1,5 +1,22 @@
 # Gangnam Dream Work Log
 
+## 2026-07-10 (Codex — ending CG grading and ownership gate)
+
+### 배경
+- 엔딩 CG가 전체화면 배경으로 쓰일 때는 Gangnam Ink/moral 셰이더를 받았지만, 같은 이미지의 모달 내부 와이드 프리뷰는 원본 텍스처 그대로 보여 스타일 통일이 깨졌다.
+- `gangnam_dream_white`는 전용 CG가 없는데 일반 `gangnam_dream` CG를 임시 공유해, 서로 다른 결말을 같은 장면으로 주장하고 있었다.
+
+### 수정
+- `_add_ending_art_preview()`가 현재 `_moral_bg_material`의 복제본을 인라인 TextureRect에 적용하도록 변경했다. 배경과 카드가 같은 desaturation·grain·ink bleed·edge burn·moral 파라미터를 쓴다.
+- `gangnam_dream_white`의 공유 CG 키를 제거했다. 전용 White 컷이 입고될 때까지 평가 수치를 드러내지 않는 기존 S+ 무드카드로 마감한다.
+- `CGRuntimeCheck`를 전체 엔딩 CG 계약 검사로 확장했다: ImageRegistry 경로, 실제 리소스, 최소 1280×720, 엔딩 간 CG 중복 소유 금지, 인라인 프리뷰 셰이더 경로를 자동 검증한다.
+- `ScreenshotQA --qa=endings-en`에 White 진엔딩을 추가해 CG 없는 최상위 엔딩의 폴백 카드도 회귀 캡처한다.
+
+### 검증
+- `CompileCheck.tscn` 및 `CGRuntimeCheck.tscn` 통과: `CG_RUNTIME_CHECK_OK`.
+- `ScreenshotQA --qa=endings-en --lang=en` 통과. 일반 강남/White/빈집/코인 망령을 직접 비교해 CG 소유와 moral 질감이 본문에 맞음을 확인.
+- 일반 강남 CG의 두 실루엣은 해당 엔딩 조건인 아버지 생존 및 본문의 부자 야경 장면과 정합한다.
+
 ## 2026-07-10 (Codex — Seoul trace map hub M1)
 
 ### 배경
