@@ -11,6 +11,7 @@
 - 엔딩 화면 "시간의 기록" — 돈/사람에 쓴 주, 연락 횟수 등 사실 통계
 - 시작화면 내부 용어 노출 제거, 곁의 사람 압박 셀 3상태 표면·`ABSENCE` 그라인드 힌트
 - 시장 표면 생동감: 뉴스 마커가 붙는 Market Ticker, 보유 자산 주간 펄스, 투자 Market 페이지 Top movers 카드
+- 유물 오브젝트 아트 6종 추가 및 소지품 `Keepsakes` 탭 썸네일화
 
 ### Changed (2026-07-04) — AP color action tile pass
 

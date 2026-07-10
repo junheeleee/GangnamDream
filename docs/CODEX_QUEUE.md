@@ -105,7 +105,9 @@
 **함정**: 예측 정보 공짜 금지 — Market Analysis 게이트(investment_skill≥50) 유지. 장식이지 치트 아님.
 **검증**: `ScreenshotQA --qa=invest-en`, `--qa=ap-en`.
 
-## P1-4. 유물 오브젝트 아트 — 유물 하나하나 이미지 필수 (유저 지시 2026-07-08)
+## [x] P1-4. 유물 오브젝트 아트 — 유물 하나하나 이미지 필수 (유저 지시 2026-07-08) (2026-07-10 Codex 완료)
+
+완료: `assets/items/artifacts/`에 유물 6종 오브젝트 스틸 SVG를 추가하고 `ImageRegistry.ITEM_ART` / `get_item_art(id)`로 등록했다. Info Deck `Items/Keepsakes` 탭은 유물 썸네일 슬롯을 표시하며, 유물은 `Auto-active` 대신 `Keepsake`로 표면화한다. Claude 웨이브 3b의 유물 제시 UI와 엔딩 리캡은 같은 `get_item_art(id)` API를 재사용하면 된다. `Godot --headless --import`, `CompileCheck`, `ScreenshotQA --qa=ap-en`, `git diff --check` 통과.
 
 > 유물은 이 게임의 기억 물성이다 — 소지품 탭 텍스트 카드로는 반쪽. **6종 각각 단독 오브젝트 스틸 1장씩.**
 > 파이프라인: 외부 생성 → Gangnam Ink 그레이딩(P0-0과 동일 게이트). 구도: 어두운 바닥/무광 배경 위 오브젝트 단독, 물성(종이 질감·액정 빛·명함 모서리 해짐) 강조. 인물 얼굴 금지(기억은 물건으로만).

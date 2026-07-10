@@ -1,5 +1,26 @@
 # Gangnam Dream Work Log
 
+## 2026-07-10 (Codex — artifact object art + keepsake thumbnail pass)
+
+### 배경
+- `docs/CODEX_QUEUE.md` P1-4의 목표는 유물을 단순 텍스트 카드가 아니라 기억의 물성으로 보이게 하는 것이다.
+- 현 상태의 소지품 탭은 유물 6종이 모두 이모지/텍스트 중심으로만 렌더링되어, 이후 유물 제시 메커니즘과 엔딩 리캡에서 시각적 힘이 부족했다.
+
+### 수정
+- `assets/items/artifacts/`에 유물 6종 전용 오브젝트 스틸 SVG를 추가했다.
+  - 임상철의 명함, 다은의 포스트잇, 아버지 통화기록, 지연의 첫 문자, 재혁 포장마차 셀카, 현수 명함.
+- 6종 모두 같은 320x200 구도, 무광 검은 바닥, 차가운 회색 물성, 작은 앰버 포인트로 통일했다. 인물 얼굴·실제 브랜드·워터마크는 넣지 않았다.
+- `ImageRegistry.ITEM_ART`와 `get_item_art(id)`를 추가해 유물 ID 그대로 이미지 경로를 조회할 수 있게 했다.
+- Info Deck `Items/Keepsakes` 카드에 유물 썸네일 슬롯을 추가했다. 유물은 시스템 효과 설명 대신 `Keepsake`로 표시해 아이템처럼 소모되는 느낌을 줄였다.
+- `ScreenshotQA --qa=ap-en` 시드에 유물 6종을 넣어 영어 Items 탭에서 이미지 렌더링을 회귀 확인한다.
+
+### 검증
+- `Godot --headless --import`로 신규 SVG 6종 임포트 확인.
+- `CompileCheck.tscn` 통과.
+- `git diff --check` 통과.
+- `ScreenshotQA --qa=ap-en --lang=en` 통과 및 `ap_en_04e_info_items.png` 직접 확인.
+- Godot 종료 시 RID/Texture leak 경고는 기존 OpenGL QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
+
 ## 2026-07-10 (Codex — market liveliness surface pass)
 
 ### 배경

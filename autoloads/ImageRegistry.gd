@@ -192,6 +192,16 @@ const CG = {
 	"cg_ending_crypto_ghost":  "res://assets/cg/ending_crypto_ghost.png",
 }
 
+# ── 유물 오브젝트 스틸 ────────────────────────────────────────
+const ITEM_ART = {
+	"artifact_sangchul_card": "res://assets/items/artifacts/artifact_sangchul_card.svg",
+	"artifact_daeun_note":   "res://assets/items/artifacts/artifact_daeun_note.svg",
+	"artifact_father_call":  "res://assets/items/artifacts/artifact_father_call.svg",
+	"artifact_jiyeon_text":  "res://assets/items/artifacts/artifact_jiyeon_text.svg",
+	"artifact_jaehyuk_photo": "res://assets/items/artifacts/artifact_jaehyuk_photo.svg",
+	"artifact_hyunsu_card":  "res://assets/items/artifacts/artifact_hyunsu_card.svg",
+}
+
 # ── 조회 API ──────────────────────────────────────────────────
 
 ## 초상화 경로 반환. 파일 없으면 "" (UI가 플레이스홀더 처리)
@@ -268,6 +278,12 @@ func get_background(id: String) -> String:
 		return path
 	if ResourceLoader.exists(FALLBACK_BG):
 		return FALLBACK_BG
+	return ""
+
+func get_item_art(id: String) -> String:
+	var path: String = str(ITEM_ART.get(id, ""))
+	if path != "" and ResourceLoader.exists(path):
+		return path
 	return ""
 
 ## 명시 background가 없는 이벤트의 배경을 태그/카테고리로 추론.

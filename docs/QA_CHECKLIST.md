@@ -23,7 +23,7 @@ Use this checklist before major commits, playable builds, and release candidates
 |---|---|
 | Splash, opening, StartMenu press-any-key, start menu, content notice | `--qa=start-en` |
 | StoryMode/VN intro events, choices, chapter card | `--qa=story-en` |
-| Main AP screen, warning state, people pressure grind hints, routine modal/time record, market ticker/info panel, action modals, people modal pages | `--qa=ap-en` |
+| Main AP screen, warning state, people pressure grind hints, routine modal/time record, market ticker/info panel, keepsake thumbnails, action modals, people modal pages | `--qa=ap-en` |
 | AP Act 1~5 action rail evolution, no-scroll 4-slot regression, ACT4 relationship pressure modal | `--qa=ap-act-en` |
 | Investment modal Trade/Holdings/Market movers/Bank pages | `--qa=invest-en` |
 | Demo month summary and demo ending CTA | `--qa=demo-end-en` |

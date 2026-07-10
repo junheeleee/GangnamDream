@@ -4501,21 +4501,29 @@ func _render_sidebars():
 	if GameState.inventory.is_empty():
 		inventory_box.add_child(_info_empty_card(_tr("아직 아무것도 없다.\n이야기 속에서 받거나 남긴 것들이 여기 남는다.", "Nothing yet.\nThings given or left behind through the story collect here."), "#64748b"))
 	for item in GameState.inventory:
+		var item_id: String = str(item.get("id", ""))
 		var item_card: PanelContainer = _info_card("#fbbf24", "#0d1018")
 		var item_box: VBoxContainer = VBoxContainer.new()
 		item_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		item_box.add_theme_constant_override("separation", 8)
 		item_card.add_child(item_box)
 		var item_row: HBoxContainer = HBoxContainer.new()
-		item_row.add_theme_constant_override("separation", 8)
+		item_row.add_theme_constant_override("separation", 10)
 		item_box.add_child(item_row)
-		var inv_name: String = _gift_display_name(str(item.get("id", ""))) if str(item.get("category", "")) == "gift" else str(item.get("name", _tr("아이템", "Item")))
+		var item_art_path: String = ImageRegistry.get_item_art(item_id)
+		if not item_art_path.is_empty():
+			item_row.add_child(_item_art_frame(item_id, "#fbbf24"))
+		var item_content := VBoxContainer.new()
+		item_content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		item_content.add_theme_constant_override("separation", 6)
+		item_row.add_child(item_content)
+		var inv_name: String = _gift_display_name(item_id) if str(item.get("category", "")) == "gift" else str(item.get("name", _tr("아이템", "Item")))
 		var item_label: Label = _label("%s x%d" % [inv_name, item.get("quantity", 1)], 15, "#e8eaf0")
 		if _font_bold:
 			item_label.add_theme_font_override("font", _font_bold)
 		item_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		item_row.add_child(item_label)
-		var has_immediate = not item.get("effects", {}).is_empty()
+		item_content.add_child(item_label)
+		var has_immediate: bool = not item.get("effects", {}).is_empty()
 		var effect_parts: Array = []
 		for k in item.get("effects", {}):
 			var v: int = int(item["effects"][k])
@@ -4526,17 +4534,19 @@ func _render_sidebars():
 			var sign2: String = "+" if v2 >= 0 else ""
 			effect_parts.append(_tr("매달 %s %s%d", "monthly %s %s%d") % [_stat_name(k), sign2, v2])
 		if not effect_parts.is_empty():
-			item_box.add_child(_wrap_label(", ".join(effect_parts), 13, _info_signal_hex("#fbbf24")))
+			item_content.add_child(_wrap_label(", ".join(effect_parts), 13, _info_signal_hex("#fbbf24")))
 		if has_immediate:
 			var use_btn = _small_button(_tr("사용 AP 1", "Use AP 1"), "#0f766e")
 			if GameState.action_points <= 0:
 				use_btn.disabled = true
-			use_btn.pressed.connect(Callable(self, "_on_use_item").bind(item.get("id", "")))
-			item_box.add_child(use_btn)
+			use_btn.pressed.connect(Callable(self, "_on_use_item").bind(item_id))
+			item_content.add_child(use_btn)
 		elif str(item.get("category", "")) == "gift":
-			item_box.add_child(_wrap_label(_tr("선물 — 사람 메뉴에서 전달", "Gift — deliver from the People menu"), 13, "#c8a0d8"))
+			item_content.add_child(_wrap_label(_tr("선물 — 사람 메뉴에서 전달", "Gift — deliver from the People menu"), 13, "#c8a0d8"))
+		elif not item_art_path.is_empty():
+			item_content.add_child(_wrap_label(_tr("간직한 물건", "Keepsake"), 13, _info_signal_hex("#fbbf24", 0.02)))
 		else:
-			item_box.add_child(_wrap_label(_tr("자동 활성", "Auto-active"), 13, "#34d399"))
+			item_content.add_child(_wrap_label(_tr("자동 활성", "Auto-active"), 13, "#34d399"))
 		inventory_box.add_child(item_card)
 
 	_refresh_arc_box()
@@ -6729,6 +6739,39 @@ func _person_thumb_frame(person_id: String, accent: String, size: int = 52) -> C
 		lbl.custom_minimum_size = Vector2(size, size)
 		lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		frame.add_child(lbl)
+	return frame
+
+func _item_art_frame(item_id: String, accent: String, size: Vector2 = Vector2(92, 58)) -> Control:
+	var frame := PanelContainer.new()
+	frame.set_meta("moral_role", "choice_icon")
+	frame.set_meta("moral_accent", accent)
+	frame.custom_minimum_size = size
+	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	frame.clip_contents = true
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#06080c", 0.96)
+	st.border_color = Color(accent, 0.54)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(4)
+	frame.add_theme_stylebox_override("panel", st)
+
+	var tex: Texture2D = _load_art_thumb(ImageRegistry.get_item_art(item_id))
+	if tex != null:
+		var img := TextureRect.new()
+		img.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		img.custom_minimum_size = size
+		img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		img.texture = tex
+		img.modulate = Color(1, 1, 1, 0.95)
+		frame.add_child(img)
+	else:
+		var mark: Label = _label(_tr("기억", "KEEP"), 10, "#7b8494")
+		mark.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		mark.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		mark.custom_minimum_size = size
+		mark.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		frame.add_child(mark)
 	return frame
 
 ## 5개 카테고리 행동 카드 렌더링 (구버전 — 상황 카드로 대체됨)

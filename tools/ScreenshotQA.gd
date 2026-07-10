@@ -1645,6 +1645,15 @@ func _seed_info_panel_state(lang: String = "ko") -> void:
 			{"id": "daeun", "name": "김다은", "type": "friends", "affection": 48, "trust": 36},
 		]
 	GameState.inventory.clear()
+	for artifact_id in [
+		"artifact_sangchul_card",
+		"artifact_daeun_note",
+		"artifact_father_call",
+		"artifact_jiyeon_text",
+		"artifact_jaehyuk_photo",
+		"artifact_hyunsu_card",
+	]:
+		GameState.add_item(str(artifact_id), 1)
 	GameState.add_item("item_vitamins", 1)
 	GameState.add_item("item_meditation_app", 1)
 	GameState.flags["arc_intro_hyunsu_seen"] = true
