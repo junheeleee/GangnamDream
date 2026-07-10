@@ -3434,7 +3434,10 @@ func _run_month_end_transition() -> void:
 	GameState.advance_calendar()
 	_refresh_all()
 	if not had_paycheck_before and GameState.flags.get("has_received_paycheck", false):
-		_show_toast(_tr("첫 월급 수령! 투자·상점이 열렸습니다", "First paycheck received! Investing and the shop are now open"), Color("#00c896"))
+		var paycheck_toast := _tr("첫 월급 수령! 돈 관리·상점이 열렸습니다", "First paycheck received! Money options and the shop are now open")
+		if GameState.flags.get("arc_invest_guidance_seen", false):
+			paycheck_toast = _tr("첫 월급 수령! 투자·상점이 열렸습니다", "First paycheck received! Investing and the shop are now open")
+		_show_toast(paycheck_toast, Color("#00c896"))
 	if GameState.is_game_over:
 		return
 	SaveManager.autosave()
@@ -4912,7 +4915,9 @@ func _render_ap_actions():
 		hint_color = "#ef4444"
 	elif just_got_paycheck:
 		GameState.flags["invest_hint_shown"] = true
-		hint_text = _tr("첫 월급 수령 — 이제 투자 메뉴가 열렸습니다.", "First paycheck received — Invest is now available.")
+		hint_text = _tr("첫 월급 수령 — 상철의 안내를 받으면 투자를 시작할 수 있다.", "First paycheck received — Sangchul can show you how to start investing.")
+		if GameState.flags.get("arc_invest_guidance_seen", false):
+			hint_text = _tr("첫 월급 수령 — 이제 투자 메뉴가 열렸습니다.", "First paycheck received — Invest is now available.")
 		hint_color = "#c8cdd4"
 	elif GameState.tutorial_step == 0 and GameState.turn <= 4:
 		hint_text = _tr("목표: 자산 30억 → 강남 입성 (남은 시간 %d년)", "Goal: KRW 3B assets → reach Seoul's status district (%d years left)") % max(0, 38 - GameState.age)
@@ -6136,7 +6141,10 @@ func _render_essential_actions(ap: int):
 			_essential_btn(_ap_job_hunt_title(), _ap_job_hunt_subtitle(), "job", "#dc6a2a", "_ap_job_hunt", disabled)
 		else:
 			_essential_btn(_tr("일 · 커리어", "Work · Career"), _tr("월급과 승진 상태를 관리한다", "Manage paychecks and promotion pressure"), "job", "#8f98a8", "_open_cat_work", disabled, false, menu_badge)
-		_essential_btn(_tr("생계", "Survival Money"), _tr("알바·절약으로 이번 달을 버틴다", "Take gigs or cut back to survive this month"), "money", "#3a8a5a", "_open_cat_money", disabled, false, menu_badge)
+		if invest_unlocked:
+			_essential_btn(_tr("돈 · 투자", "Money · Invest"), _tr("매매·부업·절약으로 자산을 움직인다", "Trade, take gigs, or protect cash"), "money", "#3a8a5a", "_open_cat_money", disabled, false, menu_badge)
+		else:
+			_essential_btn(_tr("생계", "Survival Money"), _tr("알바·절약으로 이번 달을 버틴다", "Take gigs or cut back to survive this month"), "money", "#3a8a5a", "_open_cat_money", disabled, false, menu_badge)
 		_essential_btn(_tr("자기계발", "Self-Dev"), _tr("독서·운동·명상·투자공부 중 선택", "Choose: reading, exercise, meditation, investing"), "study", "#5a6ea8", "_ap_study", disabled)
 		_essential_btn(_tr("휴식", "Rest"), _tr("숨을 고르고 정신력을 회복한다", "Catch your breath and recover mental"), "rest", "#3a8a9a", "_ap_free_time", disabled)
 		_maybe_add_date_card(disabled)
@@ -6397,6 +6405,8 @@ func _ap_action_preview(fn_name: String, icon_id: String) -> String:
 		"_open_cat_work":
 			return _tr("선택  업무 · 이력서 · 면접 준비", "CHOOSE  Work · resume · interview prep")
 		"_open_cat_money":
+			if GameState.flags.get("arc_invest_guidance_seen", false):
+				return _tr("선택  투자 · 알바 · 절약", "CHOOSE  Invest · gigs · saving")
 			return _tr("선택  알바 · 절약 · 금융", "CHOOSE  Gigs · saving · finance")
 		"_ap_study":
 			return _tr("선택  지력 · 건강 · 마음 · 투자", "CHOOSE  Mind · body · calm · investing")
@@ -11755,191 +11765,114 @@ func _close_modal():
 func _show_demo_ending():
 	BGMPlayer.on_ending("stable_success")
 	AudioManager.play_ending_stinger("stable_success")
-	var f = GameState.flags
-	var total_assets = GameState.get_total_asset_value()
-
-	# ── 개인화 요약 문장 ───────────────────────────────────
-	var story_lines: Array = []
-	# 도덕적 선택
+	var f: Dictionary = GameState.flags
+	var total_assets: float = GameState.get_total_asset_value()
+	var story_lines: Array[String] = []
 	if f.get("kept_clean_hands", false):
 		story_lines.append(_tr("대포통장 제안을 거절했다. 손은 깨끗하다.", "Turned down the burner account offer. Hands are clean."))
 	elif f.get("lent_account", false):
 		story_lines.append(_tr("선을 한 번 넘었다. 그 200만원은 아직도 기억한다.", "Crossed a line once. Still remember that 2M won."))
-	# 직업
+	if f.get("arc_daeun_met", false):
+		story_lines.append(_tr("새벽 편의점의 다은 씨. 그 불빛이 멀리서도 눈에 들어왔다.", "Daeun at the late-night store. Its light began catching your eye from far away."))
+	elif f.get("arc_jiyeon_crash_seen", false):
+		story_lines.append(_tr("한지연 씨를 우연히 만났다. 다른 세계의 사람이 자꾸 머릿속에 남았다.", "You met Jiyeon by chance. A woman from another world stayed on your mind."))
+	elif f.get("arc_sangchul_met_seen", false):
+		story_lines.append(_tr("임상철이라는 사람을 만났다. 그가 보는 세계가 조금 보이기 시작했다.", "You met Im Sangchul. His world began to come into focus."))
 	if GameState.current_job.is_empty():
-		story_lines.append(_tr("직장은 아직 없다. 그게 지금 가장 큰 과제다.", "Still no job. That's the biggest challenge right now."))
+		story_lines.append(_tr("직장은 아직 없다. 그게 지금 가장 큰 과제다.", "Still no job. That remains the immediate problem."))
 	else:
 		story_lines.append(_tr("현재 직업: %s.", "Current work: %s.") % GameState.get_job_display_name())
-	# 인물 관계
-	# 인물(특히 두 사람)을 상철·재혁보다 앞에 둔다 — 데모 마지막 인상에 '사람이 남았다'는 여운이 오게.
-	if f.get("arc_daeun_met", false):
-		story_lines.append(_tr("새벽 편의점의 다은 씨. 삼각김밥을 하나 더 쥐여주던 사람. 언제부턴가 그 불빛이, 멀리서도 눈에 들어왔다.", "Daeun, at the late-night store — the one who slipped you an extra rice ball. At some point, that store's light started catching your eye from far off."))
-	if f.get("arc_jiyeon_crash_seen", false):
-		story_lines.append(_tr("한지연 씨를 우연히 만났다. 다른 세계의 사람인데 — 그날 이후 자꾸 머릿속에 남았다.", "Ran into Jiyeon by chance. A woman from another world — and somehow, she's stayed on your mind ever since."))
-	if f.get("arc_sangchul_met_seen", false):
-		if f.get("arc_sangchul_casino_seen", false):
-			story_lines.append(_tr("임상철 씨의 정선 카지노 제안을 받았다.", "Got Sangchul's invitation to Jeongseon Casino."))
-		elif f.get("arc_sangchul_02_seen", false):
-			story_lines.append(_tr("임상철 씨와 커피를 마셨다. 그가 보는 세계가 조금 보이기 시작했다.", "Had coffee with Sangchul. His world is starting to come into focus."))
-		else:
-			story_lines.append(_tr("임상철이라는 사람을 만났다. 뭔가 다른 세계의 사람 같았다.", "Met someone named Sangchul. Felt like a man from another world."))
-	if f.get("arc_jaehyuk_reunion_seen", false):
-		story_lines.append(_tr("군대 동기 재혁을 만났다. 좋은 건지 나쁜 건지 모르겠다.", "Ran into Jaehyuk from the army. Hard to say if that's good or bad."))
-	# 도박
-	if f.get("racetrack_guide_met", false):
-		story_lines.append(_tr("경마장 아저씨를 따라 과천까지 갔다왔다.", "Followed the racetrack man all the way to Gwacheon."))
-	# 자산
-	if total_assets >= 10_000_000:
-		story_lines.append(_tr("총자산 %s. 작은 숫자지만 민준에게는 처음이다.", "Total assets %s. Small, but a first for Minjun.") % GameState.format_money(total_assets))
-	elif total_assets < 0:
-		story_lines.append(_tr("통장이 마이너스다. 6개월이 이랬다.", "Account is in the red. That's what six months looked like."))
+	if story_lines.is_empty():
+		story_lines.append(_tr("6개월 동안 선택한 것들이 아직 이름 없는 기록으로 남았다.", "Six months of choices remain in a record without a name."))
 
-	_open_modal(_tr("강남드림 — 6개월의 기록", "Gangnam Dream — A 6-Month Record"))
-	var date_str = GameState.get_date_string()
-	var asset_color = "#34d399" if total_assets >= 1_000_000 else "#c8d0df"
-	var record_card := PanelContainer.new()
-	record_card.set_meta("moral_role", "info_card")
-	record_card.set_meta("moral_accent", "#dce6ee")
-	var record_style := StyleBoxFlat.new()
-	record_style.bg_color = Color("#0b0d12", 0.985)
-	record_style.border_color = Color("#dce6ee", 0.58)
-	record_style.set_border_width_all(1)
-	record_style.border_width_left = 4
-	record_style.set_corner_radius_all(6)
-	record_style.content_margin_left = 14
-	record_style.content_margin_right = 14
-	record_style.content_margin_top = 13
-	record_style.content_margin_bottom = 13
-	record_card.add_theme_stylebox_override("panel", record_style)
-	modal_body.add_child(record_card)
+	_open_modal(_tr("강남드림 — 6개월의 기록", "Gangnam Dream — A 6-Month Record"), false, "demo_ending")
+	modal_body.add_theme_constant_override("separation", 8)
+	if modal_scroll:
+		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
+		modal_scroll.custom_minimum_size = Vector2(0, 610)
+	if modal_panel:
+		modal_panel.custom_minimum_size = Vector2(960, 720)
+		modal_panel.offset_left = -480
+		modal_panel.offset_right = 480
+		modal_panel.offset_top = -360
+		modal_panel.offset_bottom = 360
 
-	var record_box := VBoxContainer.new()
-	record_box.add_theme_constant_override("separation", 7)
-	record_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	record_card.add_child(record_box)
-
-	var record_header := HBoxContainer.new()
-	record_header.add_theme_constant_override("separation", 12)
-	record_box.add_child(record_header)
-	var record_title_box := VBoxContainer.new()
-	record_title_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	record_title_box.add_theme_constant_override("separation", 2)
-	record_header.add_child(record_title_box)
-	record_title_box.add_child(_label(_tr("런 기록", "RUN RECORD"), 11, "#697386"))
-	var act_lbl := _label(_tr("1막 종료", "Act 1 End"), 19, "#eef3f8")
+	var date_str: String = GameState.get_date_string()
+	var asset_color := "#34d399" if total_assets >= 1_000_000.0 else "#c8d0df"
+	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 16)
+	modal_body.add_child(header)
+	var title_box := VBoxContainer.new()
+	title_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title_box.add_theme_constant_override("separation", 1)
+	header.add_child(title_box)
+	title_box.add_child(_label(_tr("6개월 기록 · 1막 종료", "6-MONTH RECORD · ACT 1 END"), 11, "#758092"))
+	var remain_lbl := _label(_tr("아직 4년 반이 남아있다", "Four and a half years remain"), 22, "#f2f5f8")
 	if _font_bold:
-		act_lbl.add_theme_font_override("font", _font_bold)
-	record_title_box.add_child(act_lbl)
-	record_title_box.add_child(_wrap_label(
-		_tr("%s. 민준은 여전히 33세다. 아직 4년 반이 남아있다.", "%s. Minjun is still 33. Four and a half years left.") % date_str, 13, "#aeb8c8"))
-	var stamp := _demo_record_metric(_tr("기간", "Period"), _tr("6개월", "6 months"), _tr("데모 기록", "Demo record"), "#dce6ee")
-	stamp.custom_minimum_size = Vector2(150, 0)
+		remain_lbl.add_theme_font_override("font", _font_bold)
+	title_box.add_child(remain_lbl)
+	title_box.add_child(_label(_tr("이 기록은 끝난 게 아니라, 잠시 접힌 것이다.", "This record is not over. It is only folded shut for now."), 13, "#aeb8c8"))
+	var stamp := _demo_record_metric(_tr("기간", "Period"), _tr("6개월", "6 months"), date_str, "#dce6ee")
+	stamp.custom_minimum_size = Vector2(170, 0)
 	stamp.size_flags_horizontal = Control.SIZE_SHRINK_END
-	record_header.add_child(stamp)
+	header.add_child(stamp)
 
 	var metrics := HBoxContainer.new()
 	metrics.add_theme_constant_override("separation", 8)
-	record_box.add_child(metrics)
-	metrics.add_child(_demo_record_metric(
-		_tr("현재", "Current"),
-		GameState.get_job_display_name() if not GameState.current_job.is_empty() else _tr("무직", "Unemployed"),
-		_tr("생활 기반", "Life base"),
-		"#9aa4b8"))
-	metrics.add_child(_demo_record_metric(
-		_tr("총자산", "Assets"),
-		GameState.format_money(total_assets),
-		_tr("6개월 결과", "6-month result"),
-		asset_color))
-	metrics.add_child(_demo_record_metric(
-		_tr("남은 거리", "Distance"),
-		GameState.format_money(max(0.0, 3_000_000_000.0 - total_assets)),
-		_tr("강남까지", "To Gangnam"),
-		"#aeb8c8"))
+	modal_body.add_child(metrics)
+	metrics.add_child(_demo_record_metric(_tr("현재", "Current"), GameState.get_job_display_name() if not GameState.current_job.is_empty() else _tr("무직", "Unemployed"), _tr("생활 기반", "Life base"), "#9aa4b8"))
+	metrics.add_child(_demo_record_metric(_tr("총자산", "Assets"), GameState.format_money(total_assets), _tr("6개월 결과", "6-month result"), asset_color))
+	metrics.add_child(_demo_record_metric(_tr("남은 거리", "Distance"), GameState.format_money(maxf(0.0, 3_000_000_000.0 - total_assets)), _tr("강남까지", "To Gangnam"), "#aeb8c8"))
 
-	record_box.add_child(_demo_record_separator())
+	var progress_pct := clampf(total_assets / 3_000_000_000.0 * 100.0, 0.0, 100.0)
+	modal_body.add_child(_make_progress_row(_tr("강남드림 (30억)", "Gangnam Dream (KRW 3B)"), progress_pct / 100.0, asset_color, _tr("%.3f%% 달성", "%.3f%% reached") % progress_pct))
 
-	# 개인화 스토리 요약
-	record_box.add_child(_label(_tr("지난 6개월", "Past 6 Months"), 14, _moral_hex(_moral_text_accent(Color("#c9a227"), 0.04))))
-	var shown_story_count := 0
-	for line in story_lines:
-		if shown_story_count >= 3:
-			break
-		record_box.add_child(_wrap_label("• " + line, 13, "#a0aabf"))
-		shown_story_count += 1
-	if story_lines.size() > shown_story_count:
-		record_box.add_child(_wrap_label(_tr("• 나머지는 아직 정리되지 않은 기록으로 남았다.", "• The rest remains an unfinished record."), 12, "#697386"))
+	var echo := PanelContainer.new()
+	echo.set_meta("moral_role", "info_card")
+	echo.set_meta("moral_accent", "#9aa4b8")
+	var echo_style := StyleBoxFlat.new()
+	echo_style.bg_color = Color("#0b0d12", 0.94)
+	echo_style.border_color = Color("#404752", 0.78)
+	echo_style.border_width_left = 3
+	echo_style.set_border_width(SIDE_TOP, 1)
+	echo_style.set_border_width(SIDE_RIGHT, 1)
+	echo_style.set_border_width(SIDE_BOTTOM, 1)
+	echo_style.set_corner_radius_all(3)
+	echo_style.content_margin_left = 12
+	echo_style.content_margin_right = 12
+	echo_style.content_margin_top = 8
+	echo_style.content_margin_bottom = 8
+	echo.add_theme_stylebox_override("panel", echo_style)
+	modal_body.add_child(echo)
+	var echo_box := VBoxContainer.new()
+	echo_box.add_theme_constant_override("separation", 2)
+	echo.add_child(echo_box)
+	echo_box.add_child(_label(_tr("남은 장면", "WHAT REMAINS"), 10, "#758092"))
+	for i in range(mini(2, story_lines.size())):
+		echo_box.add_child(_label("· " + story_lines[i], 12, "#bdc6d3"))
+	_apply_moral_tree_styles(echo, _moral_ui_palette())
 
-	record_box.add_child(_demo_record_separator())
-	# 자산 성적표
-	var progress_pct = clampf(total_assets / 3_000_000_000.0 * 100.0, 0.0, 100.0)
-	record_box.add_child(_make_progress_row(
-		_tr("강남드림 (30억)", "Gangnam Dream (KRW 3B)"),
-		progress_pct / 100.0,
-		asset_color,
-		_tr("%.3f%% 달성", "%.3f%% reached") % progress_pct))
+	modal_body.add_child(_build_time_ledger_card(_tr("6개월의 기록", "A 6-Month Record"), "", true))
 
-	record_box.add_child(_demo_record_separator())
-	# 풀버전 티저는 광고 문구가 아니라 기록장 하단의 미완 항목처럼 보이게 둔다.
-	var next_card := PanelContainer.new()
-	next_card.set_meta("moral_role", "info_card")
-	next_card.set_meta("moral_accent", "#dce6ee")
-	var next_style := StyleBoxFlat.new()
-	next_style.bg_color = Color("#111820", 0.72)
-	next_style.border_color = Color("#dce6ee", 0.42)
-	next_style.set_border_width_all(1)
-	next_style.border_width_left = 3
-	next_style.set_corner_radius_all(5)
-	next_style.content_margin_left = 10
-	next_style.content_margin_right = 10
-	next_style.content_margin_top = 7
-	next_style.content_margin_bottom = 7
-	next_card.add_theme_stylebox_override("panel", next_style)
-	record_box.add_child(next_card)
-	var next_box := VBoxContainer.new()
-	next_box.add_theme_constant_override("separation", 2)
-	next_card.add_child(next_box)
-	var next_title := _label(_tr("아직 4년 반이 남아있다", "Four and a half years remain"), 14, "#f4f7fb")
-	if _font_bold:
-		next_title.add_theme_font_override("font", _font_bold)
-	next_box.add_child(next_title)
-	next_box.add_child(_wrap_label(
-		_tr("이 기록은 끝난 게 아니라, 잠시 접힌 것이다.",
-			"This record is not over. It is only folded shut for now."),
-		12, "#aeb8c8"))
-	_apply_moral_tree_styles(record_card, _moral_ui_palette())
-
-	# 정식 엔딩과 같은 문법의 6개월 시간 원장. 숫자를 평가하지 않고 그대로 남긴다.
-	var demo_ledger_sep := HSeparator.new()
-	demo_ledger_sep.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(demo_ledger_sep)
-	modal_body.add_child(_build_time_ledger_card(
-		_tr("6개월의 기록", "A 6-Month Record"),
-		"",
-		true))
-
-	# ── Steam 위시리스트 CTA ───────────────────────────────────
-	# App ID가 아직 플레이스홀더면 깨진 /app/STEAM_APP_ID/ URL 대신 상점 검색으로 폴백.
 	var steam_url := STEAM_FALLBACK_URL
 	if STEAM_APP_ID != "STEAM_APP_ID" and STEAM_APP_ID.is_valid_int():
 		steam_url = "https://store.steampowered.com/app/%s/Gangnam_Dream/" % STEAM_APP_ID
-	var wishlist_btn = _primary_cta_button(
-		_tr("Steam 위시리스트에 추가  ›", "Add to Steam Wishlist  ›"))
+	var actions := HBoxContainer.new()
+	actions.add_theme_constant_override("separation", 8)
+	modal_body.add_child(actions)
+	var wishlist_btn := _primary_cta_button(_tr("Steam 위시리스트에 추가  ›", "Add to Steam Wishlist  ›"))
+	wishlist_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	wishlist_btn.pressed.connect(func(): OS.shell_open(steam_url))
 	wishlist_btn.call_deferred("grab_focus")
-	modal_body.add_child(wishlist_btn)
-
-	var sep4 = HSeparator.new()
-	sep4.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(sep4)
-	var end_buttons := HBoxContainer.new()
-	end_buttons.add_theme_constant_override("separation", 8)
-	modal_body.add_child(end_buttons)
-	var restart_btn = _button(_tr("처음부터 다시  ▶", "Start Over  ▶"), "#0e3a2a")
+	actions.add_child(wishlist_btn)
+	var restart_btn := _button(_tr("다시 시작", "Start Over"), "#111820")
+	restart_btn.custom_minimum_size = Vector2(150, 46)
 	restart_btn.pressed.connect(_restart_run)
-	end_buttons.add_child(restart_btn)
-	var menu_btn = _button(_tr("메인 메뉴로", "Main Menu"), "#1a1a28")
+	actions.add_child(restart_btn)
+	var menu_btn := _button(_tr("메인 메뉴", "Main Menu"), "#11131a")
+	menu_btn.custom_minimum_size = Vector2(150, 46)
 	menu_btn.pressed.connect(_go_to_menu)
-	end_buttons.add_child(menu_btn)
+	actions.add_child(menu_btn)
 
 func _demo_record_separator() -> HSeparator:
 	var sep := HSeparator.new()

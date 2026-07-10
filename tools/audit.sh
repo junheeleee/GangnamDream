@@ -44,6 +44,21 @@ else
 fi
 
 echo "──────────────────────────────────────────"
+echo "● 튜토리얼 입력 포커스 회귀 검사"
+if [ -x "$GODOT" ]; then
+  TUTORIAL_RAW=$($GT "$GODOT" --headless res://tools/TutorialInputCheck.tscn 2>&1)
+  echo "$TUTORIAL_RAW" | grep -E "TUTORIAL_INPUT_CHECK_OK|TUTORIAL_INPUT_CHECK_FAIL|ERROR:|SCRIPT ERROR" | sed 's/^/  /'
+  if echo "$TUTORIAL_RAW" | grep -q "TUTORIAL_INPUT_CHECK_OK"; then
+    TUTORIAL_EXIT=0
+  else
+    TUTORIAL_EXIT=1
+  fi
+else
+  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 튜토리얼 입력 체크 건너뜀."
+  TUTORIAL_EXIT=0
+fi
+
+echo "──────────────────────────────────────────"
 echo "● Godot 전체 스크립트 컴파일 체크 (씬 부팅 → 모든 .gd load 강제 컴파일)"
 # 주의: --quit-after 2(메인씬 부팅)는 RaceTrack/MainGame 등 부팅 시 미로드 스크립트를
 # 컴파일하지 않아 컴파일 버그를 놓친다(게다가 macOS엔 timeout 바이너리도 없어 헛돌았음).
@@ -73,7 +88,7 @@ else
 fi
 
 echo "──────────────────────────────────────────"
-if [ "$PY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
+if [ "$PY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$TUTORIAL_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
   echo "❌ 감사 실패 — 위 ERROR를 고치고 다시 돌리세요."
   exit 1
 fi

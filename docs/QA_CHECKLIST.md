@@ -49,6 +49,11 @@ Command template:
   res://tools/ScreenshotQA.tscn -- --qa=start-en
 ```
 
+Automated onboarding gates:
+
+- `TutorialInputCheck.tscn` must advance exactly one tutorial slide per accept input, never activate an underlying AP action, dismiss cleanly, and restore the previous focus. It runs inside `tools/audit.sh`.
+- Demo ending ScreenshotQA fails when the record requires vertical scrolling; the wishlist, restart, and main-menu actions must remain in the first 1280×800 viewport in both languages.
+
 ## Launch
 - Project opens in Godot 4.6.
 - Start screen loads.

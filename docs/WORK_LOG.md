@@ -1,5 +1,26 @@
 # Gangnam Dream Work Log
 
+## 2026-07-10 (Codex — first-session black-box P0 and demo close)
+
+### 실제 플레이에서 발견한 문제
+- 콘텐츠 안내부터 2031 콜드오픈, 첫 면접, 첫 AP까지 실제 키 입력으로 진행했다.
+- 콜드오픈의 단일 선택지가 `…`라 빈 번호처럼 보였고, 첫 월급은 상철의 투자 안내 전인데도 투자 해금을 선언했다.
+- t8 장면이 주간 캘린더로 바뀐 뒤에도 `첫 주`라고 말했으며, StoryMode 안내 팝업과 메인 튜토리얼에서 Enter 연타가 뒤의 선택지/AP 버튼까지 전달됐다.
+- 6개월 데모 종료 화면은 같은 기록을 두 번 보여주고, 가장 중요한 위시리스트 CTA를 스크롤 아래에 숨겼다.
+
+### 수정
+- 콜드오픈 선택지를 `5년 전으로 돌아간다 / Go back five years`로 명시했다.
+- 첫 월급 표면을 돈 관리·상점 해금으로 정정하고, 상철의 안내 뒤에만 투자 카드와 투자 해금 문구가 나타나게 했다.
+- t8 장면을 `서울에서의 첫 두 달 / Two Months In`으로 고쳐 주간 시간축과 일치시켰다.
+- StoryMode 팝업에 Enter/취소 입력을 가두고, `TutorialOverlay`는 이전 포커스를 저장한 뒤 내부 버튼에 포커스를 고정하고 종료 시 복구한다.
+- 데모 종료를 960×720 단일 기록 화면으로 압축했다. 현재 상태·자산·남은 거리·개인화 여운·시간 원장·위시리스트/재시작/메인 메뉴가 1280×800 한 화면에 들어온다.
+- 튜토리얼 뒤 UI 입력 누출을 재현하는 `TutorialInputCheck`를 추가하고 `audit.sh` 필수 회귀로 연결했다.
+
+### 검증
+- `ScreenshotQA --qa=story-en --lang=en`, `--qa=tutorial-en --lang=en`, `--qa=demo-end-en --lang=en/ko` 시각 검수 통과.
+- 데모 종료 모달은 세로 오버플로가 생기면 ScreenshotQA가 실패한다.
+- 정적 감사 ERROR 0 / WARNING 0, EN 한글 누출 0, 밸런스 3정책×1,200런, 오디오 자산, 튜토리얼 포커스, Godot 56스크립트 컴파일 통과.
+
 ## 2026-07-10 (Codex — AP weekly decision board reconstruction)
 
 ### 문제

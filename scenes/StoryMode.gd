@@ -60,6 +60,7 @@ var _hud_panel: Panel      # 챕터 카드 시 전체 HUD 바를 숨기기 위�
 var _hud_label: Label   # 얇은 상단 HUD — 자산/돈/컨디션/시간
 var _text_panel: Panel           # 하단 텍스트 박스 (챕터 카드 시 숨김)
 var _result_record_card: Control = null
+var _tutorial_popup: Control = null
 var _chapter_overlay: Control = null  # 챕터 카드 전용 오버레이
 var _is_chapter_card: bool = false    # 챕터 카드 모드 플래그
 var _current_uses_cg: bool = false
@@ -1015,6 +1016,11 @@ func _on_advance():
 func _unhandled_input(event: InputEvent):
 	if _transitioning:
 		return
+	if is_instance_valid(_tutorial_popup):
+		if event.is_action_pressed("ui_accept") or event.is_action_pressed("ui_cancel"):
+			_close_tutorial_popup()
+			get_viewport().set_input_as_handled()
+		return
 	if event.is_action_pressed("ui_accept"):
 		if _showing_choices:
 			return  # 포커스된 선택지 버튼이 직접 처리
@@ -1715,6 +1721,7 @@ func _maybe_show_tutorial_popup(stat_before: Dictionary, cast_before: Dictionary
 
 ## 화면 중앙 안내 팝업 (클릭하면 닫힘)
 func _show_popup(title: String, body: String):
+	_close_tutorial_popup()
 	_apply_story_surface_palette(_current_uses_cg)
 	var palette := _story_palette()
 	var panel_bg: Color = palette["panel_bg"]
@@ -1729,6 +1736,10 @@ func _show_popup(title: String, body: String):
 	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
 	overlay.z_index = 100
 	add_child(overlay)
+	_tutorial_popup = overlay
+	overlay.tree_exited.connect(func():
+		if _tutorial_popup == overlay:
+			_tutorial_popup = null)
 
 	var panel = PanelContainer.new()
 	panel.anchor_left = 0.5; panel.anchor_right = 0.5
@@ -1761,7 +1772,7 @@ func _show_popup(title: String, body: String):
 	vb.add_child(bl)
 
 	var hint = Label.new()
-	hint.text = _tr("[%s] 또는 클릭하여 닫기", "[%s] or click to close") % ControllerHints.south() if ControllerHints.is_pad_active() else _tr("클릭하여 닫기", "Click to close")
+	hint.text = _tr("[%s] 또는 클릭하여 닫기", "[%s] or click to close") % ControllerHints.south() if ControllerHints.is_pad_active() else _tr("Enter 또는 클릭하여 닫기", "Enter or click to close")
 	hint.add_theme_font_size_override("font_size", 12)
 	hint.add_theme_color_override("font_color", dead_col)
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -1778,9 +1789,17 @@ func _show_popup(title: String, body: String):
 	var _close_fn = func(ev):
 		if (ev is InputEventMouseButton and ev.pressed) or \
 				(ev is InputEventJoypadButton and ev.pressed):
-			overlay.queue_free()
+			_close_tutorial_popup()
 	overlay.gui_input.connect(_close_fn)
 	panel.gui_input.connect(_close_fn)
+
+func _close_tutorial_popup() -> void:
+	if not is_instance_valid(_tutorial_popup):
+		_tutorial_popup = null
+		return
+	var popup := _tutorial_popup
+	_tutorial_popup = null
+	popup.queue_free()
 
 func _spawn_toast(text: String, color: Color):
 	var palette := _story_palette()

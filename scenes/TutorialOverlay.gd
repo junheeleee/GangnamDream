@@ -533,6 +533,7 @@ var _next_btn: Button
 var _icon_tex: TextureRect
 var _title_lbl: Label
 var _ui_icon_cache: Dictionary = {}
+var _previous_focus: Control = null
 
 func _ready() -> void:
 	_font      = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
@@ -541,6 +542,29 @@ func _ready() -> void:
 	z_index = 200
 	_build_ui()
 	_show_slide(0)
+	var owner := get_viewport().gui_get_focus_owner()
+	if owner is Control and not is_ancestor_of(owner):
+		_previous_focus = owner as Control
+	_next_btn.grab_focus()
+	set_process(true)
+
+func _process(_delta: float) -> void:
+	if not is_instance_valid(_next_btn):
+		return
+	var owner := get_viewport().gui_get_focus_owner()
+	if owner == _next_btn or (owner != null and is_ancestor_of(owner)):
+		return
+	if owner is Control:
+		_previous_focus = owner as Control
+	_next_btn.grab_focus()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_accept"):
+		_on_next()
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("ui_cancel"):
+		_dismiss()
+		get_viewport().set_input_as_handled()
 
 func _f(n: Object, bold: bool = false) -> void:
 	var ft: FontFile = _font_bold if bold else _font
@@ -554,7 +578,7 @@ func _build_ui() -> void:
 	# 배경 (어두운 반투명 오버레이)
 	var bg := ColorRect.new()
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	bg.color = Color(0.0, 0.0, 0.0, 0.75)
+	bg.color = Color(0.0, 0.0, 0.0, 0.82)
 	add_child(bg)
 
 	# 카드 패널 (중앙 정렬)
@@ -565,10 +589,11 @@ func _build_ui() -> void:
 	card.offset_top    = -280
 	card.offset_bottom = 280
 	var card_sb := StyleBoxFlat.new()
-	card_sb.bg_color             = Color("#100d14")   # 누아르 다크
-	card_sb.border_color         = Color("#8a7320")   # 어두운 골드
-	card_sb.set_border_width_all(2)
-	card_sb.set_corner_radius_all(12)
+	card_sb.bg_color             = Color("#090b0f")
+	card_sb.border_color         = Color("#4b5562")
+	card_sb.set_border_width_all(1)
+	card_sb.border_width_left = 4
+	card_sb.set_corner_radius_all(3)
 	card_sb.content_margin_left   = 28
 	card_sb.content_margin_right  = 28
 	card_sb.content_margin_top    = 24
@@ -602,14 +627,14 @@ func _build_ui() -> void:
 	_title_lbl = Label.new()
 	_title_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_title_lbl.add_theme_font_size_override("font_size", 22)
-	_title_lbl.add_theme_color_override("font_color", Color("#c9a227"))   # 앤틱 골드
+	_title_lbl.add_theme_color_override("font_color", Color("#f0f3f6"))
 	_f(_title_lbl, true)
 	vbox.add_child(_title_lbl)
 
 	# 구분선
 	var sep := ColorRect.new()
 	sep.custom_minimum_size = Vector2(0, 1)
-	sep.color = Color("#3a2e1a")   # 따뜻한 다크 구분선
+	sep.color = Color("#343a43")
 	vbox.add_child(sep)
 
 	# 본문
@@ -618,8 +643,8 @@ func _build_ui() -> void:
 	_body_lbl.scroll_active = false
 	_body_lbl.fit_content = false
 	_body_lbl.custom_minimum_size = Vector2(0, 310)
-	_body_lbl.add_theme_font_size_override("normal_font_size", 15)
-	_body_lbl.add_theme_color_override("default_color", Color("#d8d2c4"))   # 따뜻한 아이보리
+	_body_lbl.add_theme_font_size_override("normal_font_size", 16)
+	_body_lbl.add_theme_color_override("default_color", Color("#c8d0da"))
 	_f(_body_lbl)
 	vbox.add_child(_body_lbl)
 
@@ -631,7 +656,7 @@ func _build_ui() -> void:
 	_page_lbl = Label.new()
 	_page_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_page_lbl.add_theme_font_size_override("font_size", 13)
-	_page_lbl.add_theme_color_override("font_color", Color("#6a5e42"))   # 세피아 딤
+	_page_lbl.add_theme_color_override("font_color", Color("#7d8794"))
 	_f(_page_lbl)
 	bottom_row.add_child(_page_lbl)
 
@@ -639,18 +664,23 @@ func _build_ui() -> void:
 	_next_btn.custom_minimum_size = Vector2(180, 44)
 	_next_btn.add_theme_font_size_override("font_size", 16)
 	var btn_sb := StyleBoxFlat.new()
-	btn_sb.bg_color = Color("#3a2c0a")   # 어두운 골드 버튼
-	btn_sb.border_color = Color("#c9a227")
+	btn_sb.bg_color = Color("#151a20")
+	btn_sb.border_color = Color("#788390")
 	btn_sb.border_width_left = 1; btn_sb.border_width_right = 1
 	btn_sb.border_width_top = 1; btn_sb.border_width_bottom = 1
-	btn_sb.set_corner_radius_all(6)
+	btn_sb.set_corner_radius_all(3)
 	btn_sb.content_margin_left  = 16
 	btn_sb.content_margin_right = 16
 	_next_btn.add_theme_stylebox_override("normal", btn_sb)
 	var btn_hov := btn_sb.duplicate()
-	btn_hov.bg_color = Color("#5a4510")
+	btn_hov.bg_color = Color("#20262d")
+	btn_hov.border_color = Color("#dce3eb")
 	_next_btn.add_theme_stylebox_override("hover", btn_hov)
-	_next_btn.add_theme_color_override("font_color", Color("#e3c45a"))   # 밝은 골드
+	var btn_focus := btn_hov.duplicate()
+	btn_focus.set_border_width_all(3)
+	_next_btn.add_theme_stylebox_override("focus", btn_focus)
+	_next_btn.add_theme_color_override("font_color", Color("#f0f3f6"))
+	_next_btn.add_theme_color_override("font_focus_color", Color("#ffffff"))
 	_f(_next_btn, true)
 	_next_btn.pressed.connect(_on_next)
 	bottom_row.add_child(_next_btn)
@@ -687,7 +717,7 @@ func _set_slide_icon(slide: Dictionary) -> void:
 		_icon_tex.modulate = Color.WHITE
 	else:
 		_icon_tex.texture = _ui_icon_texture(icon_id)
-		_icon_tex.modulate = Color("#c9a227")
+		_icon_tex.modulate = Color("#dce3eb")
 
 func _icon_id_for_slide(slide: Dictionary) -> String:
 	match _game_id:
@@ -730,5 +760,10 @@ func _on_next() -> void:
 		_show_slide(_slide_idx)
 
 func _dismiss() -> void:
+	var restore_focus := _previous_focus
+	if is_instance_valid(restore_focus):
+		tree_exited.connect(func():
+			if is_instance_valid(restore_focus):
+				restore_focus.call_deferred("grab_focus"), CONNECT_ONE_SHOT)
 	emit_signal("dismissed")
 	queue_free()

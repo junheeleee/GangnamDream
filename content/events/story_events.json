@@ -21,7 +21,7 @@
     "cooldown": 9999,
     "choices": [
       {
-        "text": "…",
+        "text": "5년 전으로 돌아간다",
         "effects": {},
         "flags": [
           "story_flashforward_seen"

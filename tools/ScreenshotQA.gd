@@ -1396,9 +1396,19 @@ func _shot_demo_loop_surfaces(lang: String, prefix: String) -> void:
 	if _mg.has_method("_show_demo_ending"):
 		_mg._show_demo_ending()
 	await _settle(0.9)
+	_assert_modal_no_vertical_overflow("demo ending")
 	await _save(prefix + "04_demo_ending_cta")
-	if await _focus_modal_qa_surface("time_ledger"):
-		await _save(prefix + "05_demo_time_ledger")
+
+func _assert_modal_no_vertical_overflow(context: String) -> void:
+	var scroll := _mg.get("modal_scroll") as ScrollContainer
+	if not is_instance_valid(scroll):
+		push_error("SCREENSHOT_QA_ASSERT: %s modal scroll missing" % context)
+		get_tree().quit(1)
+		return
+	var bar := scroll.get_v_scroll_bar()
+	if bar.max_value > bar.page + 2.0:
+		push_error("SCREENSHOT_QA_ASSERT: %s requires vertical scrolling (%.1f > %.1f)" % [context, bar.max_value, bar.page])
+		get_tree().quit(1)
 
 func _remove_nodes_by_script(script_path: String) -> void:
 	var targets: Array[Node] = []
