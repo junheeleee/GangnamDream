@@ -53,7 +53,7 @@ These are confidence bands, not review scores. Every band must be replaced by pl
 | UI/UX | Developing | Title and AP surfaces now have clear command hierarchies; several dense submodals and the top HUD still carry older dashboard grammar |
 | Controller / Steam Deck | Developing | Brand-aware glyphs and several focus models exist; tutorial focus is now trapped and regression-tested, while dense modals and large betting boards still require task-level tests |
 | Image quality / continuity | Developing | Background/portrait separation and romance manifest exist; style generation eras and key-scene coverage remain visible |
-| Audio identity | Developing | Context routing exists; only seven BGM tracks and no asset-license ledger create repetition and release risk |
+| Audio identity | Developing | All 62 files are now project-owned, reproducible, and source-audited; core UI sounds use a dry Gangnam Ink tactile set and BGM continuity is gated. Seven-track long-session fatigue and character leitmotifs remain |
 | Motion / game feel | Weak to developing | AP commitment has a clearer board and feedback vocabulary, but input feel, audio tactility, and several navigation transitions still need measured play tests |
 | Moral Tint impact | Promising, unproven | The thesis is distinctive; a complete neutral-to-White/Black run has not yet proven the player notices it without explanation |
 | Endings | Developing | 35 outcomes and recap logic are substantial; bespoke visual/audio aftermath and critic-level final images are incomplete |

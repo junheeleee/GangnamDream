@@ -386,6 +386,10 @@ def main() -> None:
     render_loop("bgm_ending.ogg", 76.0, 20, [["C3", "Eb4", "G4", "Bb4"], ["Ab2", "C4", "Eb4", "G4"],
              ["Eb3", "G4", "Bb4", "D5"], ["Bb2", "D4", "F4", "Ab4"]], "ending", "light")
     render_sfx()
+    # The broad generator intentionally finishes with the dry Gangnam Ink UI set;
+    # otherwise its older pitched placeholders would overwrite these release assets.
+    from generate_gangnam_ui_sfx import main as render_gangnam_ui_sfx
+    render_gangnam_ui_sfx()
     print("AUDIO_ASSETS_GENERATED")
 
 

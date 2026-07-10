@@ -1,6 +1,6 @@
 # Gangnam Dream Audio QA
 
-Updated: 2026-06-19
+Updated: 2026-07-10
 
 Production gate: audio assets must also satisfy `docs/PRODUCTION_ASSET_PIPELINE.md` before they are treated as Steam-demo-ready. This includes commercial-use provenance, loop/tail cleanup, mix balance, runtime key mapping, and live-play fatigue checks.
 
@@ -20,6 +20,8 @@ VISUAL_AUDIO P3 audio replacement is complete for the current runtime surface.
 - Previously silent runtime SFX calls are now mapped: `buy`, `sell`, `tab_open`.
 - Casino runtime SFX calls are now backed by real wav files: `casino_win`, `casino_lose`, `casino_bet`, `casino_coin`, `casino_spin`, `casino_card`, `casino_jackpot`, `casino_reel`.
 - `tools/AudioAssetCheck.tscn` verifies all BGM/SFX paths resolve to `AudioStream` and scans source code for unmapped `AudioManager.play("...")` keys.
+- `tools/audio_source_audit.py` assigns all 62 shippable audio files to exactly one deterministic in-repo source and confirms no external samples are used.
+- `tools/BGMContinuityCheck.tscn` verifies that same-context scene re-entry preserves playback position, Moral Tint changes texture without restarting music, and semantic ambience routing remains stable.
 - BGM import loop settings are on for menu/goshiwon/main/apartment/crisis/ending and off for victory.
 
 ## BGM
@@ -39,10 +41,10 @@ VISUAL_AUDIO P3 audio replacement is complete for the current runtime surface.
 | File | Runtime Key | Duration | Role |
 |---|---|---:|---|
 | `sfx_click.wav` | `click` | 0.055s | Button click |
-| `sfx_close.wav` | `close` | 0.120s | Modal close |
-| `sfx_open_modal.wav` | `open_modal` | 0.180s | Modal open |
-| `sfx_tab_open.wav` | `tab_open` | 0.140s | Tab/minigame panel open |
-| `sfx_choice_made.wav` | `choice_made` | 0.120s | Story choice confirm |
+| `sfx_close.wav` | `close` | 0.155s | Dry paper close/latch |
+| `sfx_open_modal.wav` | `open_modal` | 0.155s | Dry paper slide/open |
+| `sfx_tab_open.wav` | `tab_open` | 0.075s | Mechanical tab snap |
+| `sfx_choice_made.wav` | `choice_made` | 0.105s | Ink/paper choice stamp |
 | `sfx_event_new.wav` | `event_new` | 0.320s | Event/race cue |
 | `sfx_month.wav` | `month` | 0.350s | Month transition |
 | `sfx_money_gain.wav` | `money_gain` | 0.280s | Small/normal gain |
@@ -69,6 +71,7 @@ VISUAL_AUDIO P3 audio replacement is complete for the current runtime surface.
 - Script: `tools/generate_audio_assets.py`
 - BGM generation: deterministic local lo-fi synthesis, then Ogg Vorbis encoding.
 - SFX generation: deterministic local synthesis to WAV.
+- Core UI replacement: `tools/generate_gangnam_ui_sfx.py`; noise-shaped, non-pitched paper/mechanical transients with no external samples. The broad generator reapplies this set last so old tonal placeholders cannot overwrite it.
 - Encoding fallback used in this session: `imageio-ffmpeg` installed into `/tmp/gangnam_audio_deps` because the CapCut-bundled ffmpeg binary exited with SIGTRAP on this machine.
 
 ## Verification

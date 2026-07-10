@@ -56,6 +56,12 @@ Automated onboarding gates:
 - `first_session_pacing_audit.py` caps the authored prologue at eight chained scenes/eight AUTO confirmations, requires a meaningful choice by scene three, checks KO/EN choice parity, and rejects placeholder-only choices or oversized text-panel paragraphs.
 - Demo ending ScreenshotQA fails when the record requires vertical scrolling; the wishlist, restart, and main-menu actions must remain in the first 1280×800 viewport in both languages.
 
+Automated audio gates:
+
+- `audio_source_audit.py` must assign every shippable WAV/OGG to exactly one reproducible source script; no missing, stale, duplicate, or undocumented audio may ship.
+- `generate_gangnam_ui_sfx.py --check` must reproduce the four tactile UI WAV files byte-for-byte without external samples.
+- `BGMContinuityCheck.tscn` must preserve playback position across same-context scene re-entry and Moral Tint texture changes; semantic ambience routing must remain stable.
+
 ## Launch
 - Project opens in Godot 4.6.
 - Start screen loads.

@@ -1,5 +1,23 @@
 # Gangnam Dream Work Log
 
+## 2026-07-10 (Codex — Gangnam Ink UI audio and ownership gate)
+
+### 진단
+- `choice_made`는 120ms의 658Hz 순음이 지배했고, 모달 열기·닫기·탭도 400~780Hz 음정 중심이었다. 버튼이 종이/잉크 인터페이스가 아니라 아케이드식 발사음처럼 들릴 구조였다.
+- 오디오가 저장소에서 합성됐음에도 파일별 소유권 원장이 없어 출시 감사에서는 출처 불명으로 남았다.
+
+### 구현
+- `choice_made`, `open_modal`, `close`, `tab_open`을 외부 샘플 없는 무음정 종이 스탬프·슬라이드·래치·기계식 스냅으로 재합성했다.
+- `generate_gangnam_ui_sfx.py`가 4개 WAV를 표준 라이브러리만으로 결정론적으로 재생성하고 `--check`에서 PCM 원본 일치를 검증한다.
+- 기존 전체 오디오 생성기는 마지막에 새 UI 세트를 다시 적용해 오래된 음정형 플레이스홀더가 덮어쓰지 못하게 했다.
+- `audio_source_audit.py`와 `AUDIO_SOURCE_LEDGER.md`를 추가했다. BGM 7·앰비언스 25·SFX 30, 총 62개가 정확히 하나의 저장소 내 생성 스크립트에 귀속되며 외부 샘플은 0개다.
+- 기존 `BGMContinuityCheck`를 `audit.sh` 필수 게이트로 승격해 같은 컨텍스트 재진입, Moral Tint 질감 전이, 장면별 앰비언스 라우팅을 매 커밋 검사한다.
+
+### 검증
+- `UI_SFX_CHECK_OK assets=4 source=deterministic`.
+- `AUDIO_SOURCE_AUDIT_OK assets=62 bgm=7 ambience=25 sfx=30 external_samples=0`.
+- `AUDIO_ASSET_CHECK_OK`, `BGM_CONTINUITY_OK`, 전체 정적 감사/EN/밸런스/GDScript 컴파일 통과.
+
 ## 2026-07-10 (Codex — StoryMode auto playback and pacing ratchet)
 
 ### 진단

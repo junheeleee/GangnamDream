@@ -34,6 +34,10 @@ BAL_EXIT=$?
 
 echo "──────────────────────────────────────────"
 echo "● 오디오 자산/엔딩 톤 회귀 검사"
+python3 tools/audio_source_audit.py
+AUDIO_SOURCE_EXIT=$?
+python3 tools/generate_gangnam_ui_sfx.py --check
+UI_SFX_EXIT=$?
 if [ -x "$GODOT" ]; then
   command -v gtimeout >/dev/null 2>&1 && GT="gtimeout 150" || GT=""
   AUDIO_RAW=$($GT "$GODOT" --headless res://tools/AudioAssetCheck.tscn 2>&1)
@@ -46,6 +50,21 @@ if [ -x "$GODOT" ]; then
 else
   echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 오디오 체크 건너뜀."
   AUDIO_EXIT=0
+fi
+
+echo "──────────────────────────────────────────"
+echo "● BGM 재시작/도덕 질감/장면 앰비언스 연속성 검사"
+if [ -x "$GODOT" ]; then
+  BGM_RAW=$($GT "$GODOT" --headless res://tools/BGMContinuityCheck.tscn 2>&1)
+  echo "$BGM_RAW" | grep -E "BGM_CONTINUITY_OK|BGM_CONTINUITY_FAIL|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
+  if echo "$BGM_RAW" | grep -q "BGM_CONTINUITY_OK"; then
+    BGM_EXIT=0
+  else
+    BGM_EXIT=1
+  fi
+else
+  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — BGM 연속성 체크 건너뜀."
+  BGM_EXIT=0
 fi
 
 echo "──────────────────────────────────────────"
@@ -108,7 +127,7 @@ else
 fi
 
 echo "──────────────────────────────────────────"
-if [ "$PY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$PACING_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_PLAYBACK_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
+if [ "$PY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$PACING_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$AUDIO_SOURCE_EXIT" -ne 0 ] || [ "$UI_SFX_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$BGM_EXIT" -ne 0 ] || [ "$TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_PLAYBACK_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
   echo "❌ 감사 실패 — 위 ERROR를 고치고 다시 돌리세요."
   exit 1
 fi
