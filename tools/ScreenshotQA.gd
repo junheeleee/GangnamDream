@@ -608,6 +608,26 @@ func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> 
 	if _mg.has_method("_finish_typing"):
 		_mg._finish_typing()
 	await _settle(0.3)
+	if _mg.has_method("_open_routine_modal"):
+		GameState.action_points = GameState.max_action_points
+		GameState.week_routine = ["study", "save"]
+		_mg.call("_open_routine_modal")
+		await _settle(0.55)
+		await _save(prefix + "03f_routine_modal")
+		_close_modal()
+		await _settle(0.25)
+	if _mg.has_method("_show_montage_card"):
+		var assets_before: float = float(GameState.get_total_asset_value()) - 420_000.0
+		_mg.call("_show_montage_card", 3, assets_before, GameState.health + 2, GameState.mental + 3, 2, 1, "arc")
+		await _settle(0.55)
+		await _save(prefix + "03g_time_record")
+		_close_modal()
+		await _settle(0.25)
+	if _mg.has_method("_render_ap_actions"):
+		_mg._render_ap_actions()
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
+	await _settle(0.2)
 	if _mg.has_method("_show_vignette"):
 		_mg.call("_show_vignette",
 			_tr("자기계발", "Self-Dev"),

@@ -5814,10 +5814,12 @@ func _maybe_add_montage_card() -> void:
 		return
 	if GameState.action_points != GameState.max_action_points:
 		return
+	if _next_arc_id() != "":
+		return
 	_essential_btn(
 		_tr("루틴대로 시간을 보낸다", "Let the weeks pass"),
 		_tr("다음 사건까지 — 최대 4주", "Until something happens — up to 4 weeks"),
-		"rest", "#5a6478", "_open_routine_modal", GameState.action_points <= 0)
+		"routine", "#5a6478", "_open_routine_modal", GameState.action_points <= 0)
 
 ## 연애/결혼 중 전용 데이트 카드 — 파트너는 상호배타라 자동 결정된다.
 func _romance_partner_id() -> String:
@@ -6401,6 +6403,8 @@ func _action_thumb_path(fn: String, icon_id: String = "") -> String:
 			return "res://assets/ui/action_tiles/action_study.svg"
 		"_ap_free_time":
 			return "res://assets/ui/action_tiles/action_rest.svg"
+		"_open_routine_modal":
+			return "res://assets/ui/action_tiles/action_routine.svg"
 		"_ap_network", "_ap_vip_network":
 			return "res://assets/ui/action_tiles/action_people.svg"
 		"_ap_move_housing", "_open_cat_life":
@@ -6420,6 +6424,8 @@ func _action_thumb_path(fn: String, icon_id: String = "") -> String:
 			return "res://assets/ui/action_tiles/action_study.svg"
 		"rest":
 			return "res://assets/ui/action_tiles/action_rest.svg"
+		"routine":
+			return "res://assets/ui/action_tiles/action_routine.svg"
 		"invest":
 			return "res://assets/ui/action_tiles/action_invest.svg"
 		"market":
@@ -7609,6 +7615,29 @@ func _routine_kind_desc(kind: String) -> String:
 		"network": return _tr("돈이 되는 연결을 넓힌다 — 돈 쪽 시간", "Widen money-minded ties — time for money")
 	return ""
 
+func _routine_kind_icon(kind: String) -> String:
+	match kind:
+		"study": return "study"
+		"rest": return "rest"
+		"save": return "money"
+		"network": return "people"
+	return "routine"
+
+func _routine_kind_accent(kind: String) -> String:
+	match kind:
+		"study": return "#5a6ea8"
+		"rest": return "#3a8a9a"
+		"save": return "#3a8a5a"
+		"network": return "#8a5a9a"
+	return "#5a6478"
+
+func _routine_kind_axis(kind: String) -> String:
+	match kind:
+		"save", "network":
+			return "money"
+		_:
+			return "human"
+
 func _open_routine_modal() -> void:
 	if GameState.action_points <= 0:
 		return
@@ -7620,37 +7649,182 @@ func _open_routine_modal() -> void:
 	while _routine_draft.size() < 2:
 		_routine_draft.append("study" if _routine_draft.is_empty() else "rest")
 	_open_modal(_tr("이번 루틴", "This Routine"), true)
+	if modal_scroll:
+		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
+		modal_scroll.custom_minimum_size = Vector2(0, 500)
+	if modal_panel:
+		modal_panel.custom_minimum_size = Vector2(820, 670)
+		modal_panel.offset_left = -410
+		modal_panel.offset_right = 410
+		modal_panel.offset_top = -335
+		modal_panel.offset_bottom = 335
 	_render_routine_modal_body()
 
 func _render_routine_modal_body() -> void:
 	_clear_box(modal_body)
-	modal_body.add_child(_wrap_label(
-		_tr("두 칸의 루틴을 정하면, 사건이 생길 때까지 그 리듬대로 시간이 흐른다.",
-			"Set two routine slots — the weeks flow in that rhythm until something happens."),
-		13, "#9aa4b8"))
+	modal_body.add_theme_constant_override("separation", 9)
+	modal_body.add_child(_modal_section_header(
+		_tr("시간 루틴", "Time Routine"),
+		"routine",
+		"#5a6478",
+		_tr("두 칸의 리듬을 정한다. 조용한 주는 이 기록대로 흘러간다.",
+			"Choose two beats. Quiet weeks will follow this record.")))
 	for slot in range(2):
-		modal_body.add_child(_label(_tr("슬롯 %d", "Slot %d") % (slot + 1), 15, "#dce5ee"))
-		var row := HBoxContainer.new()
-		row.add_theme_constant_override("separation", 6)
-		row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		modal_body.add_child(row)
-		for kind in _ROUTINE_KINDS:
-			var selected: bool = (str(_routine_draft[slot]) == kind)
-			var col: String = "#3a5a7a" if selected else "#1c2230"
-			var b := _button(("● " if selected else "") + _routine_kind_label(kind), col)
-			var s: int = slot
-			var k: String = str(kind)
-			b.pressed.connect(func():
-				_routine_draft[s] = k
-				_render_routine_modal_body())
-			row.add_child(b)
-		modal_body.add_child(_wrap_label(_routine_kind_desc(str(_routine_draft[slot])), 11, "#7a8496"))
+		modal_body.add_child(_routine_slot_panel(slot))
 	var start_btn := _button(_tr("시작", "Start"), "#2f6f4f")
+	start_btn.custom_minimum_size = Vector2(0, 42)
 	start_btn.pressed.connect(func():
 		GameState.week_routine = _routine_draft.duplicate()
 		_close_modal()
+		_play_ink_transition("ap", 0.45)
 		_montage_advance())
 	modal_body.add_child(start_btn)
+
+func _routine_slot_panel(slot: int) -> Control:
+	var panel := PanelContainer.new()
+	panel.set_meta("moral_role", "choice_card")
+	panel.set_meta("moral_accent", "#6f7788")
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#080b11", 0.94)
+	st.border_color = Color("#252c37", 0.95)
+	st.set_border_width_all(1)
+	st.border_width_left = 3
+	st.set_corner_radius_all(6)
+	st.content_margin_left = 11
+	st.content_margin_right = 11
+	st.content_margin_top = 9
+	st.content_margin_bottom = 9
+	panel.add_theme_stylebox_override("panel", st)
+
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 7)
+	panel.add_child(box)
+
+	var selected_kind: String = str(_routine_draft[slot])
+	var head := HBoxContainer.new()
+	head.add_theme_constant_override("separation", 8)
+	box.add_child(head)
+	var slot_lbl := _label(_tr("기록 %02d", "RECORD %02d") % (slot + 1), 10, "#687386")
+	slot_lbl.custom_minimum_size = Vector2(86, 0)
+	head.add_child(slot_lbl)
+	var title_lbl := _label(_routine_kind_label(selected_kind), 14, "#dce5ee")
+	title_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	if _font_bold:
+		title_lbl.add_theme_font_override("font", _font_bold)
+	head.add_child(title_lbl)
+	head.add_child(_routine_axis_chip(_routine_kind_axis(selected_kind)))
+
+	var desc_lbl := _wrap_label(_routine_kind_desc(selected_kind), 11, "#8a95a8")
+	desc_lbl.custom_minimum_size = Vector2(0, 20)
+	box.add_child(desc_lbl)
+
+	var grid := GridContainer.new()
+	grid.columns = 4
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	grid.add_theme_constant_override("h_separation", 7)
+	grid.add_theme_constant_override("v_separation", 7)
+	box.add_child(grid)
+	for kind in _ROUTINE_KINDS:
+		grid.add_child(_routine_choice_card(slot, str(kind), selected_kind == str(kind)))
+	return panel
+
+func _routine_choice_card(slot: int, kind: String, selected: bool) -> Button:
+	var accent := _routine_kind_accent(kind)
+	var btn := Button.new()
+	btn.set_meta("moral_role", "choice_card")
+	btn.set_meta("moral_accent", accent)
+	btn.text = ""
+	btn.custom_minimum_size = Vector2(0, 70)
+	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	btn.focus_mode = Control.FOCUS_ALL
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = Color("#141820", 0.96) if selected else Color("#090b10", 0.94)
+	normal.border_color = Color(accent, 0.82 if selected else 0.26)
+	normal.set_border_width_all(1)
+	normal.border_width_bottom = 3 if selected else 1
+	normal.set_corner_radius_all(5)
+	normal.content_margin_left = 8
+	normal.content_margin_right = 8
+	normal.content_margin_top = 8
+	normal.content_margin_bottom = 8
+	var hover := normal.duplicate()
+	hover.bg_color = normal.bg_color.lightened(0.08)
+	var focus := normal.duplicate()
+	focus.border_color = Color(COL_GOLD_BRIGHT)
+	focus.set_border_width_all(2)
+	btn.add_theme_stylebox_override("normal", normal)
+	btn.add_theme_stylebox_override("hover", hover)
+	btn.add_theme_stylebox_override("pressed", normal)
+	btn.add_theme_stylebox_override("focus", focus)
+
+	var margin := MarginContainer.new()
+	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
+	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	margin.add_theme_constant_override("margin_left", 8)
+	margin.add_theme_constant_override("margin_right", 8)
+	margin.add_theme_constant_override("margin_top", 7)
+	margin.add_theme_constant_override("margin_bottom", 7)
+	btn.add_child(margin)
+
+	var box := VBoxContainer.new()
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	box.add_theme_constant_override("separation", 4)
+	margin.add_child(box)
+
+	var row := HBoxContainer.new()
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_theme_constant_override("separation", 6)
+	box.add_child(row)
+	var icon := TextureRect.new()
+	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	icon.custom_minimum_size = Vector2(26, 26)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.texture = _action_thumb_texture("", _routine_kind_icon(kind))
+	icon.modulate = Color(1, 1, 1, 0.94 if selected else 0.68)
+	row.add_child(icon)
+	var name_lbl := _label(_routine_kind_label(kind), 12, "#eef3f8" if selected else "#9aa4b8")
+	name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	name_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	if _font_bold:
+		name_lbl.add_theme_font_override("font", _font_bold)
+	row.add_child(name_lbl)
+
+	box.add_child(_routine_axis_chip(_routine_kind_axis(kind), selected))
+
+	var s := slot
+	var k := kind
+	btn.pressed.connect(func():
+		_routine_draft[s] = k
+		AudioManager.play_ui_click(-8.0)
+		_render_routine_modal_body())
+	return btn
+
+func _routine_axis_chip(axis: String, active: bool = true) -> Control:
+	var chip := PanelContainer.new()
+	chip.set_meta("moral_role", "choice_badge")
+	chip.set_meta("moral_accent", _axis_color(axis))
+	chip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	chip.custom_minimum_size = Vector2(66, 21)
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#0b0d12", 0.84)
+	st.border_color = Color(_axis_color(axis), 0.52 if active else 0.20)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(3)
+	st.content_margin_left = 6
+	st.content_margin_right = 6
+	st.content_margin_top = 3
+	st.content_margin_bottom = 3
+	chip.add_theme_stylebox_override("panel", st)
+	var lbl := _label(_axis_label(axis), 9, _axis_color(axis) if active else "#647084")
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if _font_bold:
+		lbl.add_theme_font_override("font", _font_bold)
+	chip.add_child(lbl)
+	return chip
 
 ## 여러 비네트 풀의 "e" 효과 dict 평균(반올림). 하드코딩 없이 원본 상수에서 계산.
 func _avg_vignette_effects(pools: Array) -> Dictionary:
@@ -7803,19 +7977,70 @@ func _montage_reason_line(reason: String) -> String:
 		"gameover": return _tr("여기서 시간이 멈췄다.", "Time stopped here.")
 	return _tr("네 주가 지나갔다.", "Four weeks went by.")
 
-func _show_montage_card(weeks: int, assets_before: float, health_before: int, mental_before: int,
-		money_wk: int, human_wk: int, reason: String) -> void:
-	_open_modal(_tr("시간이 흘렀다", "Time Passed"))
-	modal_body.add_child(_label(_tr("%d주가 흘렀다.", "%d weeks passed.") % weeks, 20, "#dce5ee"))
-	var asset_d: int = int(round(GameState.get_total_asset_value() - assets_before))
-	var health_d: int = GameState.health - health_before
-	var mental_d: int = GameState.mental - mental_before
+func _montage_week_ticks(weeks: int) -> Control:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 5)
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	for i in range(4):
+		var tick := PanelContainer.new()
+		tick.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		tick.custom_minimum_size = Vector2(22, 7)
+		var st := StyleBoxFlat.new()
+		var active := i < weeks
+		st.bg_color = Color("#dce5ee", 0.72 if active else 0.10)
+		st.border_color = Color("#dce5ee", 0.32 if active else 0.12)
+		st.set_border_width_all(1)
+		st.set_corner_radius_all(2)
+		tick.add_theme_stylebox_override("panel", st)
+		row.add_child(tick)
+	return row
+
+func _montage_record_card(weeks: int, asset_d: int, health_d: int, mental_d: int,
+		money_wk: int, human_wk: int, reason: String) -> Control:
+	var card := PanelContainer.new()
+	card.set_meta("moral_role", "choice_card")
+	card.set_meta("moral_accent", "#6f7788")
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#07090e", 0.97)
+	st.border_color = _moral_signal_color(Color("#8f98a8"), 0.28)
+	st.set_border_width_all(1)
+	st.border_width_left = 4
+	st.set_corner_radius_all(7)
+	st.content_margin_left = 16
+	st.content_margin_right = 16
+	st.content_margin_top = 14
+	st.content_margin_bottom = 14
+	card.add_theme_stylebox_override("panel", st)
+
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 11)
+	card.add_child(box)
+
+	var top := HBoxContainer.new()
+	top.add_theme_constant_override("separation", 10)
+	box.add_child(top)
+	var overline := _label(_tr("시간 기록", "TIME RECORD"), 10, "#687386")
+	overline.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top.add_child(overline)
+	top.add_child(_montage_week_ticks(weeks))
+
+	var headline := _label(_tr("%d주가 흘렀다.", "%d weeks passed.") % weeks, 22, "#edf3f8")
+	headline.set_meta("moral_role", "choice_title")
+	if _font_bold:
+		headline.add_theme_font_override("font", _font_bold)
+	box.add_child(headline)
+
+	var axis_line := _wrap_label(_montage_axis_line(money_wk, human_wk), 13, "#c4ccda")
+	axis_line.set_meta("moral_role", "choice_subtitle")
+	box.add_child(axis_line)
+
 	var grid := GridContainer.new()
 	grid.columns = 3
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	grid.add_theme_constant_override("h_separation", 8)
 	grid.add_theme_constant_override("v_separation", 8)
-	modal_body.add_child(grid)
+	box.add_child(grid)
 	var asset_sign: String = "+" if asset_d >= 0 else ""
 	grid.add_child(_month_summary_metric_card(
 		_tr("돈", "Money"),
@@ -7832,12 +8057,30 @@ func _show_montage_card(weeks: int, assets_before: float, health_before: int, me
 		"%s%d" % ["+" if mental_d >= 0 else "", mental_d],
 		_tr("마음 상태", "Mind"),
 		"#00c896" if mental_d >= 0 else "#ff6b6b"))
-	modal_body.add_child(_wrap_label(_montage_axis_line(money_wk, human_wk), 13, "#a0aabf"))
+
 	var div := HSeparator.new()
-	div.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(div)
-	modal_body.add_child(_wrap_label("— " + _montage_reason_line(reason), 13, "#8892a4"))
+	div.add_theme_color_override("color", Color("#252b35"))
+	box.add_child(div)
+	box.add_child(_wrap_label("— " + _montage_reason_line(reason), 13, "#8f98aa"))
+	return card
+
+func _show_montage_card(weeks: int, assets_before: float, health_before: int, mental_before: int,
+		money_wk: int, human_wk: int, reason: String) -> void:
+	_open_modal(_tr("시간이 흘렀다", "Time Passed"), true, "routine_result")
+	if modal_scroll:
+		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
+	if modal_panel:
+		modal_panel.custom_minimum_size = Vector2(760, 560)
+		modal_panel.offset_left = -380
+		modal_panel.offset_right = 380
+		modal_panel.offset_top = -280
+		modal_panel.offset_bottom = 280
+	var asset_d: int = int(round(GameState.get_total_asset_value() - assets_before))
+	var health_d: int = GameState.health - health_before
+	var mental_d: int = GameState.mental - mental_before
+	modal_body.add_child(_montage_record_card(weeks, asset_d, health_d, mental_d, money_wk, human_wk, reason))
 	var ok := _button(_tr("확인", "Confirm"), "#1f6feb")
+	ok.custom_minimum_size = Vector2(0, 42)
 	ok.pressed.connect(func():
 		_close_modal()
 		_begin_month_story_and_render())

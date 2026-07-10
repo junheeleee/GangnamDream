@@ -52,7 +52,9 @@
 
 **수용 기준**: T0 8장이 최우선(계절 스페셜·키스 구현과 동기화). 각 CG는 회상 갤러리(P2-5.7) 해금 대상으로 설계.
 
-## P1-1. 몽타주 표면 (최우선 — 방금 들어간 최대 기능의 옷)
+## [x] P1-1. 몽타주 표면 (2026-07-10 Codex 완료)
+
+완료: 전용 `action_routine.svg`, 카드형 2슬롯 루틴 모달, `TIME RECORD` 결과 카드, 진입 ink 전환, `--qa=ap-en` 루틴/기록 캡처 추가.
 
 **코드 앵커 (실증)**
 - `_maybe_add_montage_card()` — MainGame.gd:5765. `turn<8` 또는 AP 비만땅 return; `_essential_btn(_tr("루틴대로 시간을 보낸다","Let the weeks pass"), _tr("다음 사건까지 — 최대 4주","Until something happens — up to 4 weeks"), "rest", "#5a6478", "_open_routine_modal", ...)`.

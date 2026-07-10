@@ -1,5 +1,26 @@
 # Gangnam Dream Work Log
 
+## 2026-07-10 (Codex — montage surface pass)
+
+### 배경
+- Claude 웨이브에서 몽타주 시간 압축이 들어왔지만, 표면은 작은 토글 버튼과 단순 결과 그리드에 가까워 새 핵심 루프의 무게가 충분히 보이지 않았다.
+- `docs/CODEX_QUEUE.md` P1-1의 기준은 "웹 모달이 아니라 게임 내 기록물"이다.
+
+### 수정
+- AP 레일의 `Let the weeks pass` 카드가 `rest` 아이콘을 빌려 쓰지 않도록 `assets/ui/action_tiles/action_routine.svg` 전용 픽토그램을 추가했다.
+- 보장 아크가 이미 대기 중이면 루틴 카드가 뜨지 않게 막아 0주 결과 카드 가능성을 줄였다.
+- 루틴 모달을 2슬롯 카드형 선택 화면으로 재구성했다. 각 슬롯은 현재 선택 설명을 한 줄로 보여주고, 4개 선택지는 아이콘+이름+MONEY/PEOPLE 칩으로 읽힌다.
+- 루틴 시작 시 기존 내부 ink 전환을 짧게 호출해 시간 압축 진입감이 생기게 했다.
+- 시간 경과 결과 모달을 `TIME RECORD` 카드로 승격했다. 경과 주 수는 4칸 잉크 틱으로 표시하고, 돈/건강/정신 변화와 "돈에 N주, 사람에게 M주" 기록을 한 카드 안에 묶었다.
+- `ScreenshotQA --qa=ap-en`에 루틴 모달(`ap_en_03f_routine_modal.png`)과 시간 기록 카드(`ap_en_03g_time_record.png`) 캡처를 추가했다.
+
+### 검증
+- `Godot --headless --import`로 신규 SVG import 확인.
+- `CompileCheck.tscn` 통과.
+- `git diff --check` 통과.
+- `ScreenshotQA --qa=ap-en --lang=en` 통과 및 루틴 모달/시간 기록 카드 직접 확인.
+- Godot 종료 시 RID/Texture leak 경고는 기존 OpenGL QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
+
 ## 2026-07-08 (Claude — 미연시 패키지 웨이브 2: 첫 키스·마일스톤·계절 스페셜·루틴 심화 + 의미 정합 수리)
 
 - **웨이브 2a**: 첫 키스 아크 2종(다은 새벽 골목/지연 차 안 — 고백 4~8주 후, 프로포즈·결혼식 전 게이트) + 데이트 마일스톤 2종(3회차 남산: 케이블카·돈까스·야경 4문·자물쇠 2택 / 6회차 놀이동산: 다은 「미아」·지연 「가장 높은 곳」) + 스노우볼 콜백 2종(미아 재회/네컷 사진 발견).
