@@ -8,6 +8,7 @@ var _failures: Array[String] = []
 
 func _ready() -> void:
 	_check_bgm()
+	_check_optional_moral_theme_pack()
 	_check_ambience()
 	_check_sfx()
 	_check_used_sfx_keys()
@@ -24,6 +25,23 @@ func _ready() -> void:
 func _check_bgm() -> void:
 	for key in BGMPlayer.TRACKS:
 		_check_audio_stream("BGM:%s" % key, str(BGMPlayer.TRACKS[key]))
+
+func _check_optional_moral_theme_pack() -> void:
+	var present: Array[String] = []
+	for key_value in BGMPlayer.MORAL_THEME_TRACKS.keys():
+		var key: String = str(key_value)
+		var path: String = str(BGMPlayer.MORAL_THEME_TRACKS.get(key, ""))
+		if ResourceLoader.exists(path):
+			present.append(key)
+	if present.is_empty():
+		return
+	if present.size() != BGMPlayer.MORAL_THEME_TRACKS.size():
+		_failures.append("Moral theme pack must be all-or-none; found %d/%d tracks" % [
+			present.size(), BGMPlayer.MORAL_THEME_TRACKS.size()])
+		return
+	for key_value in BGMPlayer.MORAL_THEME_TRACKS.keys():
+		var key: String = str(key_value)
+		_check_audio_stream("MORAL_BGM:%s" % key, str(BGMPlayer.MORAL_THEME_TRACKS.get(key, "")))
 
 func _check_ambience() -> void:
 	for key in BGMPlayer.AMBIENCE_TRACKS:

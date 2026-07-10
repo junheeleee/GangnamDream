@@ -1,5 +1,24 @@
 # Gangnam Dream Work Log
 
+## 2026-07-10 (Codex — moral-band BGM texture pass)
+
+### 배경
+- MORAL_TINT의 변화가 화면에는 보이지만 음악은 같은 질감으로 남아 있어, 주인공이 무너지는 감각이 시각에만 머물렀다.
+- 이벤트마다 곡을 교체하거나 처음부터 재생하면 이미 해결했던 BGM 연속성 문제가 되살아나므로, 같은 재생 위치 위에서 질감만 변해야 했다.
+
+### 수정
+- BGM 듀얼 플레이어를 `GangnamDreamBGM` 전용 오디오 버스로 분리했다. 앰비언스와 SFX는 `Master`에 남아 필터 영향을 받지 않는다.
+- `GameState.moral_tint_changed`를 구독하되 stage 경계를 넘을 때만 반응한다. 같은 밴드 안의 작은 수치 변화는 오디오 전이를 다시 시작하지 않는다.
+- Black 1단계는 4.8kHz, Black 2단계는 1.45kHz low-pass와 소폭 레벨 저하로 2.4초 동안 서서히 닫힌다. Gray/White와 메뉴는 전대역으로 복귀한다.
+- `bgm_theme_neutral/dark/white.ogg` 선택적 출시용 3변주 슬롯을 추가했다. 세 파일이 모두 존재할 때만 밴드 크로스페이드를 활성화하며, 없을 때는 버스 필터가 폴백이다.
+- `AudioAssetCheck`가 변주 팩의 부분 납품을 실패 처리하도록 all-or-none 게이트를 추가했다.
+- `BGMContinuityCheck`에 버스 분리, 밴드당 1회 전이, 같은 밴드 무반응, 재생 위치 유지, 메뉴 중립 복귀 회귀를 추가했다.
+
+### 검증
+- `CompileCheck.tscn` 통과.
+- `BGMContinuityCheck.tscn` 통과: `BGM_CONTINUITY_OK`.
+- `AudioAssetCheck.tscn` 통과: BGM 7 / ambience 25 / SFX 30.
+
 ## 2026-07-10 (Codex — ending time-ledger recap card)
 
 ### 배경

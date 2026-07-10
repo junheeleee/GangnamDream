@@ -1,6 +1,6 @@
-# 강남드림 — 오디오 에셋 가이드 (v10)
+# 강남드림 — 오디오 에셋 가이드 (v11)
 
-Updated: 2026-07-01 — Digital/holiday/climate/library ambience pass complete.
+Updated: 2026-07-10 — MORAL_TINT BGM bus + optional three-variant theme pack spec.
 
 ## 파일 구조
 
@@ -16,7 +16,10 @@ assets/audio/
 │   ├── bgm_apartment.ogg   ← 아파트/강남 생활 (올라가는 중, 자신감)
 │   ├── bgm_crisis.ogg      ← 위기 BGM (건강/정신 30 이하)
 │   ├── bgm_victory.ogg     ← 마일스톤 달성 BGM (8초, 자동 복귀)
-│   └── bgm_ending.ogg      ← 엔딩 BGM
+│   ├── bgm_ending.ogg      ← 엔딩 BGM
+│   ├── bgm_theme_neutral.ogg ← 선택적 출시용 대표 테마 중립 변주
+│   ├── bgm_theme_dark.ogg    ← 선택적 출시용 대표 테마 어둠 변주
+│   └── bgm_theme_white.ogg   ← 선택적 출시용 대표 테마 밝음 변주
 ├── Ambience (BGM 아래 낮게 깔리는 장소 레이어)
 │   ├── amb_goshiwon_room.wav      ← 고시원/원룸 방 공기, 형광등/도시 저음
 │   ├── amb_seoul_rain.wav         ← 비 오는 서울 거리/강남 야경
@@ -72,13 +75,28 @@ assets/audio/
 
 ```
 시작 메뉴          → bgm_menu.ogg
-게임 중 고시원     → bgm_gosiwon.ogg
-게임 중 원룸       → bgm_main.ogg
-게임 중 아파트/강남 → bgm_apartment.ogg
-건강 또는 정신 ≤ 30 → bgm_crisis.ogg (주거 BGM 위에 덮임)
+게임 초반          → bgm_gosiwon.ogg
+취업 후 1년 이상   → bgm_main.ogg
+36세 이후          → bgm_apartment.ogg
+건강 ≤35 또는 정신 ≤25 → bgm_crisis.ogg (최우선)
 마일스톤 달성      → bgm_victory.ogg (8초 후 주거 BGM 복귀)
 엔딩 화면          → bgm_ending.ogg
 ```
+
+## MORAL_TINT 음악 전이
+
+- 현재 런타임 폴백은 BGM 전용 버스에서만 작동한다. Gray/White는 전대역, Black 1단계는 4.8kHz, Black 2단계는 1.45kHz low-pass로 2.4초 동안 서서히 변한다.
+- 앰비언스와 SFX는 필터 대상이 아니며, 밴드가 바뀌어도 현재 곡은 처음부터 재생되지 않는다.
+- 출시용 `bgm_theme_neutral/dark/white.ogg` 세 파일이 모두 존재하면 자동으로 3변주 팩을 사용한다. 한두 파일만 들어온 상태는 QA 실패다.
+
+### 3변주 제작 게이트
+
+- 세 곡은 같은 작곡, BPM, 마디 수, 전체 길이, 루프 지점과 첫 박자를 공유해야 한다. 서로 다른 신곡 3개가 아니다.
+- 48kHz, stereo, OGG Vorbis, 약 -16 LUFS-I, true peak -1dB 이하, 최소 2분 seamless loop.
+- `neutral`: 차가운 서울의 회색. 감정 결론을 내리지 않는 피아노/로파이 리듬.
+- `dark`: 공포 음악 금지. 같은 멜로디의 음을 덜어내고, 불안정한 테이프 피치·마른 저역·끊긴 퍼커션으로 인간적인 온기만 사라지게 한다.
+- `white`: 승리 팡파르 금지. 같은 멜로디에 호흡, 현의 배음, 맑은 공간감을 되돌려 세상이 선명해진 느낌을 만든다.
+- 세 변주를 DAW 한 세션의 공통 stem에서 export해 크로스페이드 시 박자와 위상이 무너지지 않게 한다.
 
 ---
 

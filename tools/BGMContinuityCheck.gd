@@ -12,6 +12,12 @@ func _ready() -> void:
 
 	BGMPlayer.start()
 	await get_tree().create_timer(0.35).timeout
+	if BGMPlayer._player_a.bus != "GangnamDreamBGM" or BGMPlayer._player_b.bus != "GangnamDreamBGM":
+		_fail("BGM players are not isolated on the moral audio bus")
+		return
+	if BGMPlayer._ambience_player.bus != "Master":
+		_fail("moral BGM bus should not filter ambience")
+		return
 	var first_key := BGMPlayer._current_key
 	var first_pos := BGMPlayer._player_a.get_playback_position()
 	BGMPlayer.start()
@@ -22,6 +28,38 @@ func _ready() -> void:
 		return
 	if second_pos + 0.05 < first_pos:
 		_fail("main BGM restarted: %.3f -> %.3f" % [first_pos, second_pos])
+		return
+
+	# MORAL_TINT는 밴드 경계를 넘을 때 BGM 버스 질감만 바꾸고 재생 위치는 유지해야 한다.
+	var moral_pos_before: float = BGMPlayer._player_a.get_playback_position()
+	var moral_transitions_before: int = BGMPlayer._moral_transition_count
+	GameState.shift_moral_tint(-25.0)
+	await get_tree().process_frame
+	var moral_pos_after: float = BGMPlayer._player_a.get_playback_position()
+	if BGMPlayer._last_moral_stage != -1 or not is_equal_approx(BGMPlayer._moral_target_cutoff_hz, 4800.0):
+		_fail("dark moral band did not target low-pass stage -1")
+		return
+	if BGMPlayer._moral_transition_count != moral_transitions_before + 1:
+		_fail("moral band transition was not counted exactly once")
+		return
+	if moral_pos_after + 0.05 < moral_pos_before or BGMPlayer._current_key != "early":
+		_fail("moral audio shift restarted or replaced BGM")
+		return
+	var same_band_count: int = BGMPlayer._moral_transition_count
+	GameState.shift_moral_tint(-5.0)
+	await get_tree().process_frame
+	if BGMPlayer._moral_transition_count != same_band_count:
+		_fail("same moral band retriggered audio transition")
+		return
+	GameState.shift_moral_tint(-35.0)
+	await get_tree().process_frame
+	if BGMPlayer._last_moral_stage != -2 or not is_equal_approx(BGMPlayer._moral_target_cutoff_hz, 1450.0):
+		_fail("deep dark moral band did not target low-pass stage -2")
+		return
+	GameState.shift_moral_tint(90.0)
+	await get_tree().process_frame
+	if BGMPlayer._last_moral_stage != 1 or not is_equal_approx(BGMPlayer._moral_target_cutoff_hz, 20500.0):
+		_fail("bright moral band did not restore full-range BGM")
 		return
 
 	GameState.age = 36
@@ -55,6 +93,9 @@ func _ready() -> void:
 		return
 	if not (BGMPlayer._player_a.playing or BGMPlayer._player_b.playing):
 		_fail("menu BGM stopped during repeated start_menu")
+		return
+	if BGMPlayer._last_moral_stage != 0 or not is_equal_approx(BGMPlayer._moral_target_cutoff_hz, 20500.0):
+		_fail("menu did not restore neutral BGM texture")
 		return
 
 	var interview_ev := {

@@ -13,6 +13,14 @@ const TRACKS = {
 	"ending_bad":  "res://assets/audio/bgm_ending.ogg",
 }
 
+# 선택적 출시용 테마 팩. 세 파일이 모두 있을 때만 컨텍스트 BGM 대신 밴드 변주를 쓴다.
+# 일부 파일만 섞여 곡의 정체성이 흔들리는 상태는 AudioAssetCheck가 차단한다.
+const MORAL_THEME_TRACKS = {
+	"theme_neutral": "res://assets/audio/bgm_theme_neutral.ogg",
+	"theme_dark":    "res://assets/audio/bgm_theme_dark.ogg",
+	"theme_white":   "res://assets/audio/bgm_theme_white.ogg",
+}
+
 const AMBIENCE_TRACKS = {
 	"room":        "res://assets/audio/amb_goshiwon_room.wav",
 	"rain":        "res://assets/audio/amb_seoul_rain.wav",
@@ -53,40 +61,126 @@ var _player_b: AudioStreamPlayer  # 크로스페이드 대상
 var _ambience_player: AudioStreamPlayer
 var _fade_tween: Tween
 var _ambience_tween: Tween
+var _moral_filter_tween: Tween
 var _procedural_stream: AudioStreamWAV  # 폴백 스트림 (1회 생성)
 var _current_ambience_key: String = ""
+var _moral_filter: AudioEffectLowPassFilter
+var _bgm_bus_index: int = -1
+var _last_moral_stage: int = 0
+var _moral_target_cutoff_hz: float = 20500.0
+var _moral_target_bus_db: float = 0.0
+var _moral_transition_count: int = 0
 
 const _FADE_TIME = 2.5  # 크로스페이드 초
 const _AMBIENCE_VOLUME = 0.18
+const _BGM_BUS_NAME = "GangnamDreamBGM"
+const _MORAL_FILTER_TIME = 2.4
+const _MORAL_CUTOFFS = {
+	-2: 1450.0,
+	-1: 4800.0,
+	0: 20500.0,
+	1: 20500.0,
+	2: 20500.0,
+}
+const _MORAL_BUS_DB = {
+	-2: -1.8,
+	-1: -0.7,
+	0: 0.0,
+	1: 0.0,
+	2: 0.0,
+}
 
 # ── 초기화 ────────────────────────────────────────────────────
 func _ready():
-	_player_a = _make_player()
-	_player_b = _make_player()
+	_ensure_bgm_bus()
+	_player_a = _make_player(_BGM_BUS_NAME)
+	_player_b = _make_player(_BGM_BUS_NAME)
 	_ambience_player = _make_player()
 	_procedural_stream = _bake_procedural()
+	_last_moral_stage = GameState.moral_stage()
+	_apply_moral_stage(_last_moral_stage, true)
+	if not GameState.moral_tint_changed.is_connected(_on_moral_tint_changed):
+		GameState.moral_tint_changed.connect(_on_moral_tint_changed)
 
-func _make_player() -> AudioStreamPlayer:
+func _make_player(bus_name: String = "Master") -> AudioStreamPlayer:
 	var p = AudioStreamPlayer.new()
-	p.bus = "Master"
+	p.bus = bus_name
 	add_child(p)
 	return p
+
+func _ensure_bgm_bus() -> void:
+	_bgm_bus_index = AudioServer.get_bus_index(_BGM_BUS_NAME)
+	if _bgm_bus_index < 0:
+		AudioServer.add_bus()
+		_bgm_bus_index = AudioServer.bus_count - 1
+		AudioServer.set_bus_name(_bgm_bus_index, _BGM_BUS_NAME)
+		AudioServer.set_bus_send(_bgm_bus_index, "Master")
+	for effect_idx in range(AudioServer.get_bus_effect_count(_bgm_bus_index)):
+		var existing: AudioEffect = AudioServer.get_bus_effect(_bgm_bus_index, effect_idx)
+		if existing is AudioEffectLowPassFilter:
+			_moral_filter = existing as AudioEffectLowPassFilter
+			break
+	if _moral_filter == null:
+		_moral_filter = AudioEffectLowPassFilter.new()
+		_moral_filter.cutoff_hz = 20500.0
+		_moral_filter.resonance = 0.18
+		AudioServer.add_bus_effect(_bgm_bus_index, _moral_filter)
+
+func _on_moral_tint_changed(_norm: float, stage: int) -> void:
+	if stage == _last_moral_stage:
+		return
+	_last_moral_stage = stage
+	_moral_transition_count += 1
+	_apply_moral_stage(stage, false)
+	if _moral_theme_pack_ready() and not _is_ending and _current_key != "menu":
+		var target_key: String = _pick_track()
+		if target_key != _current_key:
+			_crossfade_to(target_key)
+
+func _apply_moral_stage(stage: int, immediate: bool) -> void:
+	if _moral_filter == null or _bgm_bus_index < 0:
+		return
+	_moral_target_cutoff_hz = float(_MORAL_CUTOFFS.get(stage, 20500.0))
+	_moral_target_bus_db = float(_MORAL_BUS_DB.get(stage, 0.0))
+	if _moral_filter_tween and _moral_filter_tween.is_running():
+		_moral_filter_tween.kill()
+	if immediate:
+		_moral_filter.cutoff_hz = _moral_target_cutoff_hz
+		AudioServer.set_bus_volume_db(_bgm_bus_index, _moral_target_bus_db)
+		return
+	var current_bus_db: float = AudioServer.get_bus_volume_db(_bgm_bus_index)
+	_moral_filter_tween = create_tween()
+	_moral_filter_tween.set_parallel(true)
+	_moral_filter_tween.set_trans(Tween.TRANS_SINE)
+	_moral_filter_tween.set_ease(Tween.EASE_IN_OUT)
+	_moral_filter_tween.tween_property(_moral_filter, "cutoff_hz", _moral_target_cutoff_hz, _MORAL_FILTER_TIME)
+	_moral_filter_tween.tween_method(_set_moral_bus_db, current_bus_db, _moral_target_bus_db, _MORAL_FILTER_TIME)
+
+func _set_moral_bus_db(value: float) -> void:
+	if _bgm_bus_index >= 0:
+		AudioServer.set_bus_volume_db(_bgm_bus_index, value)
 
 func start():
 	volume = AudioManager.bgm_volume
 	_is_ending = false
+	_last_moral_stage = GameState.moral_stage()
+	_apply_moral_stage(_last_moral_stage, true)
 	_play_or_keep(_pick_track())
 	update_idle_ambience()
 
 func start_menu():
 	volume = AudioManager.bgm_volume
 	_is_ending = false
+	_last_moral_stage = 0
+	_apply_moral_stage(0, true)
 	_play_or_keep("menu")
 	clear_ambience()
 
 func stop():
 	if _fade_tween and _fade_tween.is_running():
 		_fade_tween.kill()
+	if _moral_filter_tween and _moral_filter_tween.is_running():
+		_moral_filter_tween.kill()
 	_player_a.stop()
 	_player_b.stop()
 	if _ambience_player:
@@ -255,6 +349,9 @@ func _pick_track() -> String:
 	# 위기 우선 — 건강 ≤35 OR 정신력 ≤25
 	if GameState.health <= 35 or GameState.mental <= 25:
 		return "crisis"
+	# 출시용 3변주 팩이 완성되면 평상시 컨텍스트 대신 moral 밴드 테마를 사용한다.
+	if _moral_theme_pack_ready():
+		return _moral_theme_key(_last_moral_stage)
 	# 후반 긴장 — 마감 2년 이내(36세부터)
 	if GameState.age >= 36:
 		return "late_tense"
@@ -263,6 +360,19 @@ func _pick_track() -> String:
 	if _me >= 12 and not GameState.current_job.is_empty():
 		return "hustle"
 	return "early"
+
+func _moral_theme_pack_ready() -> bool:
+	for path_value in MORAL_THEME_TRACKS.values():
+		if not ResourceLoader.exists(str(path_value)):
+			return false
+	return true
+
+func _moral_theme_key(stage: int) -> String:
+	if stage <= -1:
+		return "theme_dark"
+	if stage >= 1:
+		return "theme_white"
+	return "theme_neutral"
 
 # ── 크로스페이드 ──────────────────────────────────────────────
 func _switch_to(key: String, immediate: bool = false):
@@ -335,7 +445,7 @@ func _swap_players():
 
 # ── 스트림 로딩 ───────────────────────────────────────────────
 func _load_track(key: String) -> AudioStream:
-	var path = TRACKS.get(key, "")
+	var path: String = str(MORAL_THEME_TRACKS.get(key, TRACKS.get(key, "")))
 	if path != "" and ResourceLoader.exists(path):
 		return load(path)
 	# 파일 없으면 프로시저럴 폴백

@@ -142,7 +142,9 @@
 **함정**: 평가 어휘 금지(기록>지시). "0회"도 그대로(그게 잔인함의 본체).
 **검증**: `ScreenshotQA --qa=endings-en --lang=ko/en`, 데모 종료 스코프.
 
-## P2-5. 오디오 moral-shift (레버⑤)
+## [x] P2-5. 오디오 moral-shift (레버⑤) (2026-07-10 Codex 완료)
+
+완료: BGM 두 플레이어만 `GangnamDreamBGM` 전용 버스로 분리하고 `moral_tint_changed`의 **stage 전이 때만** 2.4초 low-pass/버스 레벨 전이를 적용했다. Gray/White/menu는 전대역, Black 1단계는 4.8kHz, Black 2단계는 1.45kHz로 닫힌다. 같은 밴드 안의 연속 norm 변화는 재발동하지 않으며 재생 위치·앰비언스·SFX는 유지된다. 선택적 `bgm_theme_neutral/dark/white.ogg` 3변주 팩은 세 파일이 모두 있을 때만 자동 사용하고, 부분 납품은 `AudioAssetCheck`가 차단한다. 제작 스펙은 `assets/audio/AUDIO_PROMPTS.md` v11.
 
 **코드 앵커 (실증)**
 - BGMPlayer(autoloads/BGMPlayer.gd): 듀얼 플레이어 크로스페이드 구조 있음 — `_player_a/_player_b`(51-52), `_FADE_TIME=2.5`(59), `TRACKS`(6)/`AMBIENCE_TRACKS`(16). 컨텍스트 선곡 `update_context()`(107), 엔딩 `on_ending(ending_id)`(114), 앰비언스 `set_ambience(key)`(137)/`clear_ambience()`(158)/`update_event_ambience(ev)`(131)/`update_idle_ambience()`(119).
