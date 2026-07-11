@@ -11,6 +11,7 @@ Updated on 2026-07-01 for dedicated Korean-culture background pass: hagwon stree
 Updated on 2026-07-01 for workplace/climate surface pass: company dinner restaurant, heatwave city, Seoul street ambience, civil-defense siren, and monsoon rain cue.
 Updated on 2026-07-01 for digital/holiday/climate/library surface pass: fine dust sky, Chuseok highway traffic, open chat screen, matching ambience loops, and library-room ambience.
 Updated on 2026-07-03 for Lee Minseo transparent portrait and post-Claude story background alignment.
+Updated on 2026-07-11 for paired Namsan observation-deck and love-lock romance assets.
 
 ## Use These Assets
 
@@ -88,6 +89,10 @@ Updated on 2026-07-03 for Lee Minseo transparent portrait and post-Claude story 
 - `assets/characters/npc_daeun_cherry.png`
   - Cherry T0 outfit portrait: pale-blue belted shirt dress and beige cardigan, matched to `cherry_daeun.png`.
 
+- `assets/characters/npc_daeun_namsan.png`
+  - Namsan T1 outfit portrait: moss-green short duffle coat over ivory ribbed knit, matched to `namsan_lock_daeun_v1.png`.
+  - Gaze lock: right-anchored portrait looks screen-left toward Minjun, with the same short hair and left-temple clip as Daeun's identity reference.
+
 - `assets/characters/npc_boss.png`
   - Im Sangcheol normal transparent portrait, 52-year-old self-made broker/mentor.
 
@@ -119,6 +124,10 @@ Updated on 2026-07-03 for Lee Minseo transparent portrait and post-Claude story 
 
 - `assets/characters/npc_jiyeon_cherry.png`
   - Cherry T0 outfit portrait: warm-cream spring jacket over black, matched to `cherry_jiyeon.png`.
+
+- `assets/characters/npc_jiyeon_namsan.png`
+  - Namsan T1 outfit portrait: deep sapphire tailored belted coat over charcoal-black, matched to `namsan_lock_jiyeon_v1.png`.
+  - Gaze lock: lowered screen-left gaze studies a scene object rather than addressing the lens.
 
 - `assets/characters/npc_jiyeon_narrow_door.png`
   - T1 Narrow Room prelude portrait: travel-creased charcoal coat worn open over a muted oxblood top, nearly bare face, exhausted screen-left gaze.
@@ -209,6 +218,18 @@ Updated on 2026-07-03 for Lee Minseo transparent portrait and post-Claude story 
   - Namsan Tower night overlook background for aspirational Seoul, reflective city-view, and future landmark events.
   - Use for `namsan_tower` inferred backgrounds and explicit `namsan` tags.
   - Status: approved for first in-game QA. 1280x800, clear tower landmark, Seoul city lights, overlook path, no readable signs/logos or foreground character.
+
+- `assets/backgrounds/namsan_cable_car_night.png`
+  - Person-free enclosed cable-car ascent for Namsan date paragraph 0.
+  - Status: approved. 1280x800, coherent cabin/window/cable geometry, Seoul and the Han River below, no people or signage.
+- `assets/backgrounds/namsan_tonkatsu_restaurant_night.png`
+  - Modest Namsan wang-donkatsu restaurant for date paragraph 1.
+  - Status: approved. 1280x800, two oversized pork-cutlet plates, no tabletop grills, no readable menu text, only tiny distant staff backs.
+
+- `assets/backgrounds/namsan_observation_deck_night.png`
+  - Person-free summit observation-deck interior for the two Namsan date preludes.
+  - Status: approved. 1280x800, floor-to-ceiling glass, Han River and Seoul/Gangnam lights below, no cafe furniture, signage, crowd, or named character.
+  - Layout owner: `assets/NAMSAN_VISUAL_BIBLE.md`.
 
 - `assets/backgrounds/office_desk.png`
   - Late-night office desk background for overtime, salary, promotion, startup, and burnout events.
@@ -440,6 +461,12 @@ Updated on 2026-07-03 for Lee Minseo transparent portrait and post-Claude story 
 - `assets/cg/romance/narrow_room_jiyeon_v1.png`
   - T1 Jiyeon climax: canonical left-wall bed/right-front desk goshiwon geometry, exactly two cup ramyeon bowls, coat-off oxblood outfit, and mutual Jiyeon/Minjun eye line.
   - Layout owner: `assets/GOSHIWON_VISUAL_BIBLE.md`.
+
+- `assets/cg/romance/namsan_lock_daeun_v1.png`
+  - T1 Daeun love-lock beat: same-summit terrace, immediate partial tower structure, moss duffle outfit, and mutual Daeun/Minjun eye line before the choice.
+- `assets/cg/romance/namsan_lock_jiyeon_v1.png`
+  - T1 Jiyeon love-lock beat: same-summit terrace, sapphire tailored coat, Jiyeon studying an existing lock while Minjun watches her contradiction.
+  - Both Namsan CGs are 1280x800 and owned by `assets/NAMSAN_VISUAL_BIBLE.md`.
 
 - `assets/cg/demo/daeun_first_kindness_v2.png`
   - Demo kindness CG: Daeun remains inside the staff pocket, Minjun remains on the customer side near the entrance, and both share an explicit mutual eye line over two triangle rice packages.

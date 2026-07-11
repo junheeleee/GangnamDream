@@ -1,5 +1,24 @@
 # Gangnam Dream Work Log
 
+## 2026-07-11 (Codex — Namsan paragraph staging and covered story handoff)
+
+### 진단
+- 남산 데이트 본문은 케이블카, 왕돈가스 식당, 실내 전망대, 야외 자물쇠 테라스를 이동하지만 기존에는 전 구간에 외부 타워 배경 한 장과 기본 초상만 사용했다.
+- 다은과 지연이 같은 자물쇠 컷을 공유하면 얼굴·의상·몸 연기뿐 아니라 두 인물의 장면 해석까지 섞인다. 기존 다은 후보의 자물쇠 쪽 손가락도 부자연스러웠다.
+- 한 StoryMode가 끝난 뒤 같은 주에 다음 아크가 예정돼 있으면 MainGame이 먼저 0.3초가량 페이드인되어 AP 화면이 잠깐 보였다.
+
+### 구현
+- `paragraph_backgrounds` 이벤트 키를 추가했다. 남산 두 프리루드는 문단 0 케이블카, 1 왕돈가스 식당, 2~3 실내 전망대로 전환하며, 배열 길이는 KR 본문 문단 수와 일치해야 한다.
+- 인물 없는 `namsan_cable_car_night`, `namsan_tonkatsu_restaurant_night`, `namsan_observation_deck_night` 배경을 제작하고 물리 구조를 `NAMSAN_VISUAL_BIBLE.md`에 잠갔다.
+- 다은은 이끼색 더플코트/아이보리 니트와 난간을 자연스럽게 짚는 손, 민준과의 상호 시선으로 완성했다. 지연은 사파이어 테일러드 코트/교차한 팔, 자물쇠를 보는 시선과 그녀를 보는 민준으로 별도 CG·초상을 완성했다.
+- `SceneTransition.go_covered()`와 MainGame 복귀 분기를 추가해 다음 아크가 있으면 검은 덮개 아래에서 바로 StoryMode로 넘어가고, 큐가 끝났을 때만 AP 화면을 페이드인한다.
+
+### 검증
+- `StoryPlaybackCheck`: 첫 면접 이후 다음 아크가 예정된 합성 상태에서 MainGame 페이드 트윈 없이 덮개 알파 1.0 유지 및 다음 이벤트 큐잉 확인.
+- `CGRuntimeCheck`: 남산 CG 2개와 네 문단 배경 순서, 512x768 투명 초상, 1280x800 CG 계약 통과.
+- `CG_ACTING_CHECK_OK active=21 actor_contracts=37 missing=0 stale=0`.
+- 실제 1280x800 `--qa=namsan --lang=en/ko`: 케이블카→식당→전망대, 다은/지연 CG 첫 노출·선택지, 이름 현지화, 긴 영어 줄바꿈, 손·얼굴·시선 크롭 확인.
+
 ## 2026-07-11 (Codex — first-language gate, localized names, and T1 paired CG staging)
 
 ### 진단

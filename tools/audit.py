@@ -228,6 +228,10 @@ def check_events():
             bg = e.get("background")
             if bg and VALID_BACKGROUNDS and bg not in VALID_BACKGROUNDS:
                 warn('%s  [%s] 모르는 background id → "%s"' % (rel(p), eid, bg))
+            for paragraph_index, paragraph_bg in enumerate(e.get("paragraph_backgrounds", [])):
+                if VALID_BACKGROUNDS and paragraph_bg not in VALID_BACKGROUNDS:
+                    err('%s  [%s] paragraph_backgrounds[%d] 모르는 background id → "%s"'
+                        % (rel(p), eid, paragraph_index, paragraph_bg))
             cg = e.get("cg")
             if cg and VALID_CG and cg not in VALID_CG:
                 warn('%s  [%s] 모르는 cg id → "%s"' % (rel(p), eid, cg))
@@ -469,7 +473,7 @@ CAST_EFFECT_KEYS = {"affinity", "stage", "met", "flags"}
 # 이벤트 루트에서 허용되는 키 (스키마)
 EVENT_ROOT_KEYS = {"id", "title", "description", "category", "rarity", "weight",
                    "hidden", "conditions", "tags", "cooldown", "choices",
-                   "portrait", "portrait_reveal_paragraph", "background", "cg", "cg_reveal_paragraph", "speaker", "one_time", "_file",
+                   "portrait", "portrait_reveal_paragraph", "background", "paragraph_backgrounds", "cg", "cg_reveal_paragraph", "speaker", "one_time", "_file",
                    "timed", "timer_seconds",
                    "description_orthodox", "description_unorthodox",
                    "description_low_mental", "description_long_gosiwon",
@@ -564,6 +568,27 @@ def check_event_keys():
                     err('%s  [%s] cg_reveal_paragraph는 1 이상의 문단 인덱스여야 함' % (rel(p), eid))
                 if not str(e.get("cg", "")):
                     err('%s  [%s] cg_reveal_paragraph에는 cg가 필요함' % (rel(p), eid))
+            paragraph_backgrounds = e.get("paragraph_backgrounds")
+            if paragraph_backgrounds is not None:
+                if not isinstance(paragraph_backgrounds, list) or len(paragraph_backgrounds) < 2:
+                    err('%s  [%s] paragraph_backgrounds는 2개 이상의 배경 ID 배열이어야 함' % (rel(p), eid))
+                elif any(not isinstance(bg, str) or not bg.strip() for bg in paragraph_backgrounds):
+                    err('%s  [%s] paragraph_backgrounds의 모든 항목은 빈 값이 아닌 문자열이어야 함' % (rel(p), eid))
+                else:
+                    paragraph_texts = [("description", e.get("description", ""))]
+                    for variant_key in ["description_orthodox", "description_unorthodox",
+                                        "description_low_mental", "description_long_gosiwon"]:
+                        if variant_key in e:
+                            paragraph_texts.append((variant_key, e.get(variant_key, "")))
+                    known_map = e.get("description_if_known", {})
+                    if isinstance(known_map, dict):
+                        for flag_id, text in known_map.items():
+                            paragraph_texts.append(("description_if_known.%s" % flag_id, text))
+                    for variant_name, variant_text in paragraph_texts:
+                        paragraph_count = len([part for part in str(variant_text).split("\n\n") if part.strip()])
+                        if paragraph_count and len(paragraph_backgrounds) != paragraph_count:
+                            err('%s  [%s] paragraph_backgrounds %d개가 %s 문단 %d개와 일치하지 않음'
+                                % (rel(p), eid, len(paragraph_backgrounds), variant_name, paragraph_count))
             portrait_reveal = e.get("portrait_reveal_paragraph")
             if portrait_reveal is not None:
                 if not isinstance(portrait_reveal, int) or isinstance(portrait_reveal, bool) or portrait_reveal < 1:

@@ -30,7 +30,15 @@ func _check_story_mode_cg() -> void:
 	await _check_story_event_cg("arc_season_cherry_jiyeon", "cg_romance_cherry_jiyeon")
 	await _check_story_event_cg("arc_daeun_first_kiss", "cg_romance_first_kiss_daeun")
 	await _check_story_event_cg("arc_jiyeon_first_kiss", "cg_romance_first_kiss_jiyeon")
+	await _check_story_event_cg("arc_date_namsan_lock_daeun", "cg_romance_namsan_lock_daeun")
+	await _check_story_event_cg("arc_date_namsan_lock_jiyeon", "cg_romance_namsan_lock_jiyeon")
 	await _check_story_event_cg("arc_jiyeon_narrow_room_2", "cg_romance_narrow_room_jiyeon")
+	await _check_story_event_paragraph_backgrounds("arc_date_namsan_daeun", [
+		"namsan_cable_car",
+		"namsan_tonkatsu_restaurant",
+		"namsan_observation_deck",
+		"namsan_observation_deck",
+	])
 	await _check_story_event_portrait_reveal("arc_jiyeon_narrow_room_1", "jiyeon_narrow_door", 2)
 	_check_all_story_cg_contracts()
 	_check_romance_visual_manifest()
@@ -72,6 +80,37 @@ func _check_story_event_cg(event_id: String, cg_id: String) -> void:
 	var hud_panel := story.get("_hud_panel") as Control
 	if hud_panel != null and hud_panel.visible:
 		_failures.append("StoryMode should hide HUD when %s cg is active" % event_id)
+
+	remove_child(story)
+	story.queue_free()
+
+func _check_story_event_paragraph_backgrounds(event_id: String, expected_ids: Array) -> void:
+	GameState.pending_story_queue = [event_id]
+	var story_scene := load("res://scenes/StoryMode.tscn") as PackedScene
+	var story: Node = story_scene.instantiate()
+	add_child(story)
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	var bg_img := story.get("_bg_img") as TextureRect
+	for index in range(expected_ids.size()):
+		if index > 0:
+			if bool(story.get("_typing")):
+				story.call("_on_advance")
+			story.call("_on_advance")
+			await get_tree().process_frame
+			await get_tree().process_frame
+		var background_id := str(expected_ids[index])
+		var expected_path := ImageRegistry.get_background(background_id)
+		if bg_img == null or bg_img.texture == null:
+			_failures.append("StoryMode did not render paragraph background %s[%d]" % [event_id, index])
+		elif bg_img.texture.resource_path != expected_path:
+			_failures.append("StoryMode %s paragraph %d background mismatch: expected %s, got %s" % [
+				event_id,
+				index,
+				expected_path,
+				bg_img.texture.resource_path,
+			])
 
 	remove_child(story)
 	story.queue_free()

@@ -1,6 +1,6 @@
 # Romance Portrait And CG Continuity Matrix
 
-Updated: 2026-07-10
+Updated: 2026-07-11
 
 ## Rule
 
@@ -33,9 +33,13 @@ The machine-readable source is `assets/romance_visual_manifest.json`. `CGRuntime
 
 | Event | Prelude portrait | Climax portrait | Heroine outfit | Minjun | Gaze logic |
 |---|---|---|---|---|---|
+| Daeun / Namsan | `daeun_namsan` | `daeun_namsan` | moss-green short duffle coat + ivory knit + dark jeans | visible left, worn black crewneck/jacket | mutual eye contact; Daeun's hand rests naturally on the rail above the locks |
+| Jiyeon / Namsan | `jiyeon_namsan` | `jiyeon_namsan` | sapphire tailored belted coat + charcoal-black mock-neck | visible right, worn black crewneck/jacket | Jiyeon studies a lock; Minjun watches Jiyeon |
 | Jiyeon / Narrow Room | `jiyeon_narrow_door` | `jiyeon_narrow_room` | charcoal travel coat over oxblood top, then coat removed with charcoal trousers | visible right, worn black crewneck | mutual eye contact across the floor aisle; observer camera |
 
 The Narrow Room is also a location-continuity contract. `assets/GOSHIWON_VISUAL_BIBLE.md` fixes the left-wall bed, right-front desk, high frosted window, single door, two cup ramyeon bowls, and the dialogue-safe prop band.
+
+Namsan is a four-location continuity contract. `assets/NAMSAN_VISUAL_BIBLE.md` locks the cable-car ascent, wang-donkatsu restaurant, person-free indoor observation deck, and outdoor same-summit love-lock CG, where only an immediate partial tower structure may appear.
 
 ## Gaze Gate
 

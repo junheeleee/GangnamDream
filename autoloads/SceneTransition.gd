@@ -37,6 +37,16 @@ func go(scene_path: String):
 		get_tree().change_scene_to_file(scene_path)
 	)
 
+## 이미 화면이 완전히 덮인 상태에서 중간 씬을 노출하지 않고 다음 씬으로 넘긴다.
+## 연속 StoryMode 큐가 MainGame/AP 화면을 한 프레임 비추는 것을 막는 용도다.
+func go_covered(scene_path: String) -> void:
+	if _tween:
+		_tween.kill()
+		_tween = null
+	_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	_set_transition_alpha(1.0)
+	get_tree().call_deferred("change_scene_to_file", scene_path)
+
 # 새 씬 로드 후 페이드인 — 각 씬의 _ready() 마지막에 호출
 func fade_in():
 	if _tween:

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-07-10",
+  "updated": "2026-07-11",
   "rule": "Every active CG owns an explicit camera role and every visible named actor owns a gaze target plus a supporting body action. Lens gaze is legal only for player_pov.",
   "cg": {
     "cg_start": {
@@ -157,6 +157,24 @@
       "actors": [
         {"id": "jiyeon", "gaze_target": "Minjun's eyes", "pose_support": "Pupils, chin, and shoulders turn toward him."},
         {"id": "minjun", "gaze_target": "Jiyeon's eyes", "pose_support": "Pupils, chin, and shoulders turn toward her."}
+      ]
+    },
+    "cg_romance_namsan_lock_daeun": {
+      "path": "assets/cg/romance/namsan_lock_daeun_v1.png",
+      "camera_role": "intimate_observational_two_shot",
+      "story_action": "Daeun asks whether they should add their own lock while the existing lock wall and summit tower structure keep the request physically grounded.",
+      "actors": [
+        {"id": "daeun", "gaze_target": "Minjun's eyes", "pose_support": "Pupils, chin, and shoulders turn screen-left toward him while her relaxed hand rests on the rail above the existing locks."},
+        {"id": "minjun", "gaze_target": "Daeun's eyes", "pose_support": "Pupils, face, and upper torso turn screen-right toward her; his hands stay withdrawn so her question owns the beat."}
+      ]
+    },
+    "cg_romance_namsan_lock_jiyeon": {
+      "path": "assets/cg/romance/namsan_lock_jiyeon_v1.png",
+      "camera_role": "observational_two_shot",
+      "story_action": "Jiyeon dismisses the love locks with words but remains planted before them long enough for Minjun to notice.",
+      "actors": [
+        {"id": "jiyeon", "gaze_target": "An existing padlock below her eye line", "pose_support": "Lowered pupils and chin point to the lock wall while crossed arms and planted feet preserve her guarded contradiction."},
+        {"id": "minjun", "gaze_target": "Jiyeon's face", "pose_support": "Pupils, chin, and torso angle screen-left toward her rather than toward the camera or city."}
       ]
     },
     "cg_romance_narrow_room_jiyeon": {

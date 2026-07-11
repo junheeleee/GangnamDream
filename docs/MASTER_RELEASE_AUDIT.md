@@ -23,13 +23,13 @@ Adjacent and top-selling execution references are assigned by surface in `docs/S
 | EN event overlays | 1,477 | Native English voice or cultural clarity |
 | Choices per language | 3,316 | Meaningful tradeoffs or delayed consequence |
 | Endings | 35 | Distinct emotional payoff or bespoke presentation |
-| Explicit event CG links | 15 | Enough climax imagery for a commercial VN |
-| Background assets | 56 | Canon continuity, physical logic, or correct event mapping |
-| Character portrait assets | 41 | Flagship identity, expression coverage, or outfit continuity |
-| CG files | 22 | Launch key moments and ending coverage |
+| Explicit event CG links | 17 | Enough climax imagery for a commercial VN |
+| Background assets | 59 | Canon continuity, physical logic, or correct event mapping |
+| Character portrait assets | 43 | Flagship identity, expression coverage, or outfit continuity |
+| CG files | 24 | Launch key moments and ending coverage |
 | BGM / ambience / SFX | 7 / 25 / 30 | Loop fatigue, mix quality, ownership, or license proof |
 | Achievements / easter eggs | 13 / 8 | Discovery quality or community conversation |
-| Screenshot QA scopes | 23 | Full-playthrough correctness or subjective fun |
+| Screenshot QA scopes | 25 | Full-playthrough correctness or subjective fun |
 
 The first parity audit found eight EN-only overlay rows. DataRegistry silently ignored them because no KO base event existed, so translated scenes appeared to ship while no player could reach them. They are now promoted to complete bilingual events with conditions and consequences, and EN-only dead overlays fail CI.
 
@@ -52,9 +52,9 @@ These are confidence bands, not review scores. Every band must be replaced by pl
 | EN localization | Developing | First-run language selection, zero-Hangul, catalog parity, and localized canonical names are gated; native voice, pronouns, cultural context, and a full prose pass remain |
 | UI/UX | Developing | Title and AP surfaces now have clear command hierarchies; several dense submodals and the top HUD still carry older dashboard grammar |
 | Controller / Steam Deck | Developing | Brand-aware glyphs and several focus models exist; tutorial focus is now trapped and regression-tested, while dense modals and large betting boards still require task-level tests |
-| Image quality / continuity | Developing | Background/portrait separation, romance outfit pairs, spatial bibles, and 19 active CG acting contracts exist; generation-era drift and remaining climax coverage remain visible |
+| Image quality / continuity | Developing | Background/portrait separation, romance outfit pairs, spatial bibles, and 21 active CG/37 actor acting contracts exist; generation-era drift and remaining climax coverage remain visible |
 | Audio identity | Developing | All 62 files are now project-owned, reproducible, and source-audited; core UI sounds use a dry Gangnam Ink tactile set and BGM continuity is gated. Seven-track long-session fatigue and character leitmotifs remain |
-| Motion / game feel | Weak to developing | AP commitment has a clearer board and feedback vocabulary, but input feel, audio tactility, and several navigation transitions still need measured play tests |
+| Motion / game feel | Weak to developing | AP commitment has a clearer board and feedback vocabulary, and chained story scenes no longer flash the AP shell between them; input feel and several navigation transitions still need measured play tests |
 | Moral Tint impact | Promising, unproven | The thesis is distinctive; a complete neutral-to-White/Black run has not yet proven the player notices it without explanation |
 | Endings | Developing | 35 outcomes and recap logic are substantial; bespoke visual/audio aftermath and critic-level final images are incomplete |
 | Stability / save integrity | Good static baseline | Audit, compile, language, balance, asset, and tutorial input-leak checks pass; full branch/save migration and long-session soak remain |

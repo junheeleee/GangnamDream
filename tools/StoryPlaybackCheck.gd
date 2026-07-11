@@ -40,9 +40,41 @@ func _ready() -> void:
 	if bool(_story.get("_auto_mode")):
 		_fail("keyboard auto toggle did not turn playback off")
 		return
+	if not _check_covered_story_handoff():
+		return
 
 	print("STORY_PLAYBACK_CHECK_OK")
 	get_tree().quit(0)
+
+func _check_covered_story_handoff() -> bool:
+	GameState.turn = 3
+	GameState.housing = "gosiwon"
+	GameState.flags = {
+		"prologue_done": true,
+		"chapter_33_seen": true,
+		"arc_intro_meal_seen": true,
+	}
+	GameState.pending_story_queue.clear()
+	var active_tween := SceneTransition.get("_tween") as Tween
+	if active_tween != null:
+		active_tween.kill()
+	SceneTransition.set("_tween", null)
+	SceneTransition.call("_set_transition_alpha", 1.0)
+
+	var main_script := load("res://scenes/MainGame.gd") as GDScript
+	var main: Node = main_script.new()
+	main.call("_continue_after_story")
+	var queued_id := str(GameState.pending_story_queue[0]) if not GameState.pending_story_queue.is_empty() else ""
+	if queued_id != "arc_intro_02_dad_call":
+		main.free()
+		_fail("story return did not queue the next due arc behind the cover")
+		return false
+	if SceneTransition.get("_tween") != null or float(SceneTransition.get("_transition_alpha")) < 0.99:
+		main.free()
+		_fail("story return began revealing MainGame before the next arc")
+		return false
+	main.free()
+	return true
 
 func _fail(message: String) -> void:
 	push_error("STORY_PLAYBACK_CHECK_FAIL: %s" % message)

@@ -66,6 +66,8 @@ var _is_chapter_card: bool = false    # 챕터 카드 모드 플래그
 var _current_uses_cg: bool = false
 var _event_cg_path: String = ""
 var _event_cg_reveal_paragraph: int = 0
+var _event_paragraph_backgrounds: Array = []
+var _event_background_id: String = ""
 var _event_portrait_reveal_paragraph: int = 0
 var _event_portrait_revealed: bool = true
 var _story_moral_norm: float = 0.0
@@ -707,6 +709,8 @@ func _render_current():
 	_current_uses_cg = false
 	_event_cg_path = ""
 	_event_cg_reveal_paragraph = 0
+	_event_paragraph_backgrounds = []
+	_event_background_id = ""
 	_event_portrait_reveal_paragraph = 0
 	_event_portrait_revealed = true
 	_choice_box.visible = false
@@ -737,6 +741,10 @@ func _render_current():
 		cg_path = ImageRegistry.get_cg(cg_id)
 	_event_cg_path = cg_path
 	_event_cg_reveal_paragraph = maxi(0, int(_current.get("cg_reveal_paragraph", 0)))
+	var raw_paragraph_backgrounds: Variant = _current.get("paragraph_backgrounds", [])
+	if raw_paragraph_backgrounds is Array:
+		for raw_background_id in raw_paragraph_backgrounds:
+			_event_paragraph_backgrounds.append(str(raw_background_id))
 	_event_portrait_reveal_paragraph = maxi(0, int(_current.get("portrait_reveal_paragraph", 0)))
 	_event_portrait_revealed = _event_portrait_reveal_paragraph == 0
 	var cg_active_at_start := cg_path != "" and _event_cg_reveal_paragraph == 0
@@ -747,13 +755,16 @@ func _render_current():
 		_bg_img.texture = load(cg_path)
 		_current_uses_cg = true
 	else:
-		var bg_id = str(_current.get("background", ""))
+		var bg_id := _event_background_id_for_paragraph(0)
+		if bg_id == "":
+			bg_id = str(_current.get("background", ""))
 		if bg_id == "":
 			bg_id = ImageRegistry.infer_background_id(_current, GameState.housing)
 		if bg_id != "":
 			var bp = ImageRegistry.get_background(bg_id)
 			if bp != "" and ResourceLoader.exists(bp):
 				_bg_img.texture = load(bp)
+				_event_background_id = bg_id
 	_apply_story_surface_palette(_current_uses_cg)
 	BGMPlayer.update_event_ambience(_current)
 	AudioManager.play_event_cue(_current)
@@ -820,6 +831,26 @@ func _render_current():
 		_paragraphs = [""]
 	_para_index = 0
 	_start_typing(_paragraphs[0])
+
+func _event_background_id_for_paragraph(paragraph_index: int) -> String:
+	if _event_paragraph_backgrounds.is_empty():
+		return ""
+	var index := clampi(paragraph_index, 0, _event_paragraph_backgrounds.size() - 1)
+	return str(_event_paragraph_backgrounds[index])
+
+func _maybe_change_event_background(paragraph_index: int) -> void:
+	if _current_uses_cg or _pending_after_result:
+		return
+	var bg_id := _event_background_id_for_paragraph(paragraph_index)
+	if bg_id.is_empty() or bg_id == _event_background_id:
+		return
+	var path := ImageRegistry.get_background(bg_id)
+	if path.is_empty() or not ResourceLoader.exists(path):
+		return
+	_event_background_id = bg_id
+	_play_story_ink_transition("scene", 0.35)
+	_bg_img.texture = load(path)
+	_apply_story_surface_palette(false)
 
 func _maybe_reveal_event_cg(paragraph_index: int) -> void:
 	if _current_uses_cg or _event_cg_path.is_empty():
@@ -1060,6 +1091,7 @@ func _on_advance():
 	# 다음 문단
 	_para_index += 1
 	if _para_index < _paragraphs.size():
+		_maybe_change_event_background(_para_index)
 		_maybe_reveal_event_portrait(_para_index)
 		_maybe_reveal_event_cg(_para_index)
 		if str(_direction.get("pace", "")) == "beat":

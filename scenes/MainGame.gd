@@ -280,7 +280,6 @@ func _ready():
 		GameState.new_game()
 	investment_system.initialize()
 	BGMPlayer.start()
-	SceneTransition.fade_in()
 	if not LocaleManager.language_changed.is_connected(_on_language_changed):
 		LocaleManager.language_changed.connect(_on_language_changed)
 	_refresh_all()
@@ -290,6 +289,7 @@ func _ready():
 		GameState.returning_from_story = false
 		_continue_after_story()
 	else:
+		SceneTransition.fade_in()
 		_begin_month()
 
 ## 언어 전환 시 대시보드 전체 다시 그림 (인게임 토글 대응)
@@ -325,13 +325,14 @@ func _run_theme_display(theme_id: String) -> String:
 func _continue_after_story():
 	var arc_id = _next_arc_id()
 	if arc_id != "":
-		_go_story_mode([arc_id])
+		_go_story_mode([arc_id], true)
 		return
 	var ms_id = _next_milestone_id()
 	if ms_id != "":
-		_go_story_mode([ms_id])
+		_go_story_mode([ms_id], true)
 		return
 	# 더 없으면 바로 루틴 행동 화면
+	SceneTransition.fade_in()
 	current_event = {}
 	TutorialOverlay.maybe_show("main_game", self)
 	_render_event()
@@ -2117,10 +2118,13 @@ func _maybe_play_month_situation() -> bool:
 	return true
 
 ## 스토리/아크 이벤트들을 StoryMode 화면으로 보낸다.
-func _go_story_mode(event_ids: Array):
+func _go_story_mode(event_ids: Array, keep_cover: bool = false):
 	GameState.pending_story_queue = event_ids
 	GameState.story_return_scene = "res://scenes/MainGame.tscn"
-	SceneTransition.go("res://scenes/StoryMode.tscn")
+	if keep_cover:
+		SceneTransition.go_covered("res://scenes/StoryMode.tscn")
+	else:
+		SceneTransition.go("res://scenes/StoryMode.tscn")
 
 ## 아크 이벤트 트리거 — 조건 맞으면 이벤트 ID를 반환 (없으면 "").
 ## 우선순위: 위에서부터. 한 턴에 하나만 발동. StoryMode로 재생됨.

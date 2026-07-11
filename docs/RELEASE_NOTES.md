@@ -1,6 +1,7 @@
 # Gangnam Dream Release Notes
 
 ## Unreleased
+- Added route-specific Namsan presentation: cable-car, wang-donkatsu restaurant, and glass observation-deck backgrounds now change with the exact prose paragraph; Daeun and Jiyeon each receive a matched outfit portrait and distinct same-summit love-lock CG with explicit gaze/acting contracts. Chained story scenes now remain under the transition cover instead of briefly flashing the AP screen between arcs.
 - Added a controller-first language choice before any localized splash or cinematic, persisted it after first setup, localized canonical save names on display/load, and covered Korean/English protagonist and cast names with runtime checks. Also completed English text for all eight gift items.
 - Replaced the first interview with a daylight two-person CG and staged Jiyeon's narrow-room arc as a matched doorway portrait, interior portrait, and canon-locked goshiwon CG. Portrait and name now reveal only when she actually knocks, with machine-checked paragraph timing.
 - Added demo-defining Daeun-kindness and Father-call CGs, rebuilt the convenience store around a locked real-world floor plan, corrected Jiyeon's first accident to a daylight left-hand-drive scene, and replaced both heroines' sea CG/portrait pairs with distinct outfits and relationship-aware eye lines. Every active CG now requires a machine-checked camera, gaze, and body-acting contract.

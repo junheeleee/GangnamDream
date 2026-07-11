@@ -1,6 +1,6 @@
 # Gangnam Dream Asset Continuity Checklist
 
-Updated: 2026-07-10
+Updated: 2026-07-11
 
 Use this before generating, accepting, wiring, or replacing any image asset. A visually strong image still fails if it says the wrong thing about the story.
 
@@ -131,6 +131,16 @@ Use this before generating, accepting, wiring, or replacing any image asset. A v
 - Interviewer sits on the window/staff side; Minjun sits on the door/candidate side in the inexpensive navy interview suit.
 - The resume and their mutual eye line carry the six-year-gap question. Neither actor looks at the lens.
 - Reusable interview backgrounds remain person-free. The unnamed interviewer appears only in the one-off CG.
+
+### Namsan Date Route
+
+- Full layout and paired-route owner: `assets/NAMSAN_VISUAL_BIBLE.md`.
+- The first paragraph uses the enclosed aerial cable-car cabin; it must not read as a bus, subway, or observation deck.
+- The second paragraph uses the wang-donkatsu restaurant with oversized pork-cutlet plates and no tabletop barbecue grill.
+- Observation-deck preludes use the person-free indoor glass-wall background; do not show an exterior mountain path or cafe.
+- Love-lock follow-ups use heroine-specific CGs on the outdoor summit terrace.
+- The tower complex is immediately beside the terrace. A full tower across another hill is a structural rejection error.
+- Do not show a newly personalized couple lock before the player chooses to hang one.
 
 ## Production Status Tags
 

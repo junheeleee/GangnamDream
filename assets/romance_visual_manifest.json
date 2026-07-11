@@ -81,6 +81,28 @@
       "prelude_event_id": "arc_jiyeon_narrow_room_1",
       "prelude_portrait": "jiyeon_narrow_door",
       "prelude_outfit": "Travel-creased charcoal long coat worn open over the same oxblood fine-knit top."
+    },
+    {
+      "event_id": "arc_date_namsan_lock_daeun",
+      "cg": "cg_romance_namsan_lock_daeun",
+      "heroine_portrait": "daeun_namsan",
+      "heroine_outfit": "Muted moss-green short duffle coat over an ivory ribbed knit and dark straight jeans.",
+      "player_visibility": "visible_left",
+      "eye_line": "Daeun and Minjun hold mutual eye contact; her head, pupils, shoulders, and relaxed hand on the rail above the existing locks all support the exchange.",
+      "prelude_event_id": "arc_date_namsan_daeun",
+      "prelude_portrait": "daeun_namsan",
+      "prelude_outfit": "Muted moss-green short duffle coat over an ivory ribbed knit and dark straight jeans."
+    },
+    {
+      "event_id": "arc_date_namsan_lock_jiyeon",
+      "cg": "cg_romance_namsan_lock_jiyeon",
+      "heroine_portrait": "jiyeon_namsan",
+      "heroine_outfit": "Deep sapphire-blue tailored belted wool coat over a charcoal-black silk mock-neck and slim black trousers.",
+      "player_visibility": "visible_right",
+      "eye_line": "Jiyeon studies an existing padlock while Minjun watches her; her lowered pupils, chin, crossed arms, and planted feet share the same target.",
+      "prelude_event_id": "arc_date_namsan_jiyeon",
+      "prelude_portrait": "jiyeon_namsan",
+      "prelude_outfit": "Deep sapphire-blue tailored belted wool coat over a charcoal-black silk mock-neck and slim black trousers."
     }
   ]
 }

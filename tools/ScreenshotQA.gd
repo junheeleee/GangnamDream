@@ -12,6 +12,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=romance-cg
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=romance-portraits
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=namsan --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-act-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=endings-en
@@ -44,6 +45,7 @@ const QA_SCOPE_LOCALE_GATE := "locale_gate"
 const QA_SCOPE_STORY_EN := "story_en"
 const QA_SCOPE_ROMANCE_CG := "romance_cg"
 const QA_SCOPE_ROMANCE_PORTRAITS := "romance_portraits"
+const QA_SCOPE_NAMSAN := "namsan"
 const QA_SCOPE_AP_EN := "ap_en"
 const QA_SCOPE_AP_ACT_EN := "ap_act_en"
 const QA_SCOPE_ENDINGS_EN := "endings_en"
@@ -134,6 +136,12 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_romance_portrait_surfaces(lang, "romance_portrait_en_" if lang == "en" else "romance_portrait_ko_")
 		print("SCREENSHOT_QA_DONE scope=romance-portraits lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_NAMSAN:
+		var lang := _qa_language("en")
+		await _shot_namsan_surfaces(lang, "namsan_en_" if lang == "en" else "namsan_ko_")
+		print("SCREENSHOT_QA_DONE scope=namsan lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_AP_EN:
@@ -294,6 +302,9 @@ func _qa_scope() -> String:
 				"qa=romance-portraits", "--qa=romance-portraits", "qa=romance_portraits", "--qa=romance_portraits",
 				"scope=romance-portraits", "--scope=romance-portraits"]:
 			return QA_SCOPE_ROMANCE_PORTRAITS
+		if arg in ["namsan", "namsan-romance", "namsan_romance", "--namsan",
+				"qa=namsan", "--qa=namsan", "scope=namsan", "--scope=namsan"]:
+			return QA_SCOPE_NAMSAN
 		if arg in ["ap-en", "ap_en", "main-en", "main_en", "--ap-en", "--ap_en",
 				"qa=ap-en", "--qa=ap-en", "qa=ap_en", "--qa=ap_en",
 				"qa=main-en", "--qa=main-en", "scope=ap-en", "--scope=ap-en"]:
@@ -708,6 +719,20 @@ func _shot_romance_portrait_surfaces(lang: String = "en", prefix: String = "roma
 	]
 	for data in cases:
 		await _shot_story_event(str(data[0]), prefix + str(data[1]), lang, 0.45, true, false, -1, 0, true)
+
+func _shot_namsan_surfaces(lang: String = "en", prefix: String = "namsan_en_") -> void:
+	for route in [
+		["daeun", "arc_date_namsan_daeun", "arc_date_namsan_lock_daeun"],
+		["jiyeon", "arc_date_namsan_jiyeon", "arc_date_namsan_lock_jiyeon"],
+	]:
+		var label := str(route[0])
+		var prelude_id := str(route[1])
+		var lock_id := str(route[2])
+		await _shot_story_event(prelude_id, prefix + label + "_00_cable_car", lang, 0.45, true)
+		await _shot_story_event(prelude_id, prefix + label + "_01_tonkatsu", lang, 0.45, true, false, -1, 1)
+		await _shot_story_event(prelude_id, prefix + label + "_02_observation_deck", lang, 0.45, true, false, -1, 2)
+		await _shot_story_event(lock_id, prefix + label + "_03_lock_intro", lang, 0.55, true)
+		await _shot_story_event(lock_id, prefix + label + "_04_lock_choices", lang, 0.55, true, true)
 
 func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> void:
 	_set_qa_language(lang)

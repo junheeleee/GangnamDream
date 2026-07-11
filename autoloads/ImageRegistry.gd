@@ -26,6 +26,7 @@ const PORTRAITS = {
 	"daeun_sea":          "res://assets/characters/npc_daeun_sea_v2.png",
 	"daeun_fireworks":    "res://assets/characters/npc_daeun_fireworks.png",
 	"daeun_cherry":       "res://assets/characters/npc_daeun_cherry.png",
+	"daeun_namsan":       "res://assets/characters/npc_daeun_namsan.png",
 
 	# 임상철 (인맥 브로커)
 	"sangchul_normal":    "res://assets/characters/npc_boss.png",
@@ -42,6 +43,7 @@ const PORTRAITS = {
 	"jiyeon_sea":         "res://assets/characters/npc_jiyeon_sea_v2.png",
 	"jiyeon_fireworks":   "res://assets/characters/npc_jiyeon_fireworks.png",
 	"jiyeon_cherry":      "res://assets/characters/npc_jiyeon_cherry.png",
+	"jiyeon_namsan":      "res://assets/characters/npc_jiyeon_namsan.png",
 	"jiyeon_narrow_door": "res://assets/characters/npc_jiyeon_narrow_door.png",
 	"jiyeon_narrow_room": "res://assets/characters/npc_jiyeon_narrow_room.png",
 
@@ -125,6 +127,9 @@ const BACKGROUNDS = {
 	"pojangmacha":       "res://assets/backgrounds/pojangmacha.png",
 	"hangang_riverside": "res://assets/backgrounds/hangang_riverside_walk.png",
 	"namsan_tower":      "res://assets/backgrounds/namsan_tower_view.png",
+	"namsan_cable_car":  "res://assets/backgrounds/namsan_cable_car_night.png",
+	"namsan_tonkatsu_restaurant": "res://assets/backgrounds/namsan_tonkatsu_restaurant_night.png",
+	"namsan_observation_deck": "res://assets/backgrounds/namsan_observation_deck_night.png",
 	"rooftop_day":       "res://assets/backgrounds/rooftop_daytime.png",
 	"rooftop_night":     "res://assets/backgrounds/rooftop_night.png",
 	"hagwon_street":     "res://assets/backgrounds/hagwon_street.png",
@@ -210,6 +215,8 @@ const CG = {
 	"cg_romance_cherry_jiyeon": "res://assets/cg/romance/cherry_jiyeon.png",
 	"cg_romance_first_kiss_daeun": "res://assets/cg/romance/first_kiss_daeun.png",
 	"cg_romance_first_kiss_jiyeon": "res://assets/cg/romance/first_kiss_jiyeon.png",
+	"cg_romance_namsan_lock_daeun": "res://assets/cg/romance/namsan_lock_daeun_v1.png",
+	"cg_romance_namsan_lock_jiyeon": "res://assets/cg/romance/namsan_lock_jiyeon_v1.png",
 	"cg_romance_narrow_room_jiyeon": "res://assets/cg/romance/narrow_room_jiyeon_v1.png",
 }
 
