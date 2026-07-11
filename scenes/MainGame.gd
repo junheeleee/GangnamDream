@@ -284,8 +284,15 @@ func _ready():
 		LocaleManager.language_changed.connect(_on_language_changed)
 	_refresh_all()
 	_apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
+	# ScreenshotQA는 메인 표면을 고정한 채 모달/필터를 캡처한다.
+	# 예정 아크로 씬이 바뀌면 QA 노드 자체가 사라지므로 테스트 인스턴스만 초기 흐름을 건너뛴다.
+	if bool(get_meta("_screenshot_qa_static_surface", false)):
+		GameState.returning_from_story = false
+		SceneTransition.fade_in()
+		current_event = {}
+		_render_event()
 	# StoryMode에서 복귀한 경우: 달을 다시 시작하지 않고 이어진 스토리만 체크
-	if GameState.returning_from_story:
+	elif GameState.returning_from_story:
 		GameState.returning_from_story = false
 		_continue_after_story()
 	else:

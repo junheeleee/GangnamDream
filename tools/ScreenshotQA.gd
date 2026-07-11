@@ -88,6 +88,7 @@ func _ready() -> void:
 		_prepare_main_game_state()
 		await _boot_main_game()
 		await _shot_casino_suite(prefix)
+		await _dispose_main_game()
 		print("SCREENSHOT_QA_DONE scope=casino lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
@@ -97,6 +98,7 @@ func _ready() -> void:
 		_seed_portfolio()
 		await _boot_main_game()
 		await _shot_moral_tint_states()
+		await _dispose_main_game()
 		print("SCREENSHOT_QA_DONE scope=moral dir=%s" % OUT_DIR)
 		get_tree().quit(0)
 		return
@@ -106,6 +108,7 @@ func _ready() -> void:
 		_seed_portfolio()
 		await _boot_main_game()
 		await _shot_transition_states()
+		await _dispose_main_game()
 		print("SCREENSHOT_QA_DONE scope=transition dir=%s" % OUT_DIR)
 		get_tree().quit(0)
 		return
@@ -492,14 +495,22 @@ func _boot_main_game() -> void:
 
 	var packed: PackedScene = load("res://scenes/MainGame.tscn")
 	_mg = packed.instantiate()
+	_mg.set_meta("_screenshot_qa_static_surface", true)
 	get_tree().root.add_child.call_deferred(_mg)
 
-	# 0.35s 전환 트윈이 change_scene 을 쏘기 전에 계속 죽인다 (현재 씬=QA 보호)
+	# 남아 있을 수 있는 전환 덮개를 걷어 실제 표면만 캡처한다.
 	for _i in range(40):
 		_kill_transition()
 		await get_tree().process_frame
 	await get_tree().create_timer(0.5).timeout
 	_kill_transition()
+
+func _dispose_main_game() -> void:
+	if is_instance_valid(_mg):
+		_mg.queue_free()
+		_mg = null
+		await get_tree().process_frame
+		await get_tree().process_frame
 
 func _shot_casino_suite(prefix: String = "") -> void:
 	await _shot_minigame("jeongseon_casino", _shot_name(prefix, "08_jeongseon_casino"))

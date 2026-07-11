@@ -16,6 +16,7 @@
 - StoryMode 영어 금액을 `million/billion won` 후치 표기로 통일하고, 한파 선택지의 찜질방 첫 설명과 steamed bun/fish cake 표현을 자연스럽게 다듬었다.
 - StoryMode의 Gray 전역 암막을 걷고 중간톤 감마를 분리해 배경 구조와 얼굴을 살렸다. Black은 노출값 대신 탈색·잉크·가장자리·계조 손상이 커지고, White는 흰 막 대신 실제 색과 공간 깊이가 회복된다.
 - 선택 순간에는 기존 대화창/이름표를 접고 1~4개 선택지를 하단 단일 도크에 배치한다. 초상화의 오른쪽 이동은 유지하되 과도한 유령화는 줄였다.
+- MainGame ScreenshotQA 인스턴스에는 테스트 전용 정적 표면 메타를 주어, 예정 아크가 QA 씬을 교체해 `--qa=moral` 캡처를 중단하던 경합을 제거했다.
 
 ### 검증
 - `CG_RUNTIME_CHECK_OK`: 첫눈 문단 0의 전용 배경/초상, 문단 1 CG, 12월 전용 라우팅, 512x768/1280x800 규격을 확인했다.
@@ -23,6 +24,7 @@
 - 실제 1280x800 KO/EN 첫눈 각 8장, 기후 각 6장으로 편의점/세단 구조, 계절복, 손·캔·와이퍼·시선, 선택지 크롭, 영어 HUD와 현지화를 확인했다.
 - 실제 1280x800 `story-en`에서 주간 면접, 병원 4선택지, 일반/CG 선택 화면을 확인했다. 모든 선택지는 하단 도크에 들어오고 장면 상단 절반 이상이 열리며, Gray 야간 골목·편의점·병원 구조가 읽힌다. `romance-cg` Gray/Black/White 3상태도 얼굴과 장소를 잃지 않았다.
 - `story-moral` 실렌더 4장으로 강제 Black 펜트하우스와 동일 폭염 거리의 Black/Gray/White를 직접 비교했다. Black에서도 도시·실루엣·도로 구조가 남고, Gray는 기록 톤, White는 실제 색 회복으로 분리됐다.
+- `--qa=moral --lang=en`이 MainGame Black/Gray/White와 양방향 선택 에코 5장을 끝까지 출력했다.
 - 전체 `audit.sh` ERROR 0/WARNING 0, English zero-Hangul, 밸런스 밴드, 오디오/BGM 연속성, 튜토리얼, StoryPlayback, 57 GDScript compile 통과. `arc_flow_sim.py`도 잼 0·대표 체인 완결로 통과했다.
 
 ## 2026-07-11 (Codex — first-night homes, first-morning CGs, and late-game clock)
