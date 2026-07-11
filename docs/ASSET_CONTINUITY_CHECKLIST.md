@@ -75,10 +75,12 @@ Use this before generating, accepting, wiring, or replacing any image asset. A v
 
 ### Minjun's Goshiwon
 
+- Full layout owner: `assets/GOSHIWON_VISUAL_BIBLE.md`.
 - Tiny Sinchon goshiwon room.
 - Small high frosted ventilation window only.
 - Narrow bed and low desk at bed foot / screen-bottom foreground.
 - No skyline window, luxury furniture, separate workroom, or large monitor trading setup.
+- One left-wall bed running front-to-back, one right-front low desk, one small high frosted window, and one right-side door. Duplicate doors/switches and transverse beds are rejection errors.
 
 ### Minjun's Family Home
 
@@ -121,6 +123,14 @@ Use this before generating, accepting, wiring, or replacing any image asset. A v
 - The POS screen faces the clerk. Customers see the back or side of the monitor.
 - Refrigerators run along the opposite or perpendicular perimeter wall, separated from the staff pocket.
 - Minjun stands on the public store side near the entrance; Daeun remains inside the staff pocket. The counter must visibly separate them.
+
+### Minjun's First Interview
+
+- The canonical layout and two-person staging live in `assets/OFFICE_INTERVIEW_VISUAL_BIBLE.md`.
+- Daytime Mapo small-company office, not a night office or Gangnam executive room.
+- Interviewer sits on the window/staff side; Minjun sits on the door/candidate side in the inexpensive navy interview suit.
+- The resume and their mutual eye line carry the six-year-gap question. Neither actor looks at the lens.
+- Reusable interview backgrounds remain person-free. The unnamed interviewer appears only in the one-off CG.
 
 ## Production Status Tags
 

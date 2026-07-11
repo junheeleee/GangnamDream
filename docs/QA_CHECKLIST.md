@@ -23,6 +23,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 
 | Change area | Fast QA command |
 |---|---|
+| First-run language gate, KO default names, localized portrait name tags | `--qa=locale-gate` |
 | Splash, opening, StartMenu press-any-key, start menu, content notice | `--qa=start-en` |
 | StoryMode/VN flashforward Black→arrival Gray reset, intro events, choices, chapter card, scene direction framing | `--qa=story-en` |
 | Romance CG Gray/Black/White color hierarchy and no-HUD climax framing | `--qa=romance-cg` |
@@ -51,6 +52,7 @@ Command template:
 
 Automated onboarding gates:
 
+- `LocaleSurfaceCheck.tscn` must render the bilingual first-run language gate, enter the selected locale, localize canonical KO/EN save names, and return Jiyeon/Daeun portrait names in the active language.
 - `TutorialInputCheck.tscn` must advance exactly one tutorial slide per accept input, never activate an underlying AP action, dismiss cleanly, and restore the previous focus. It runs inside `tools/audit.sh`.
 - `StoryPlaybackCheck.tscn` must let AUTO advance prose while remaining parked at every choice; keyboard `A` and gamepad North are toggles, never surrogate choice inputs.
 - `first_session_pacing_audit.py` caps the authored prologue at eight chained scenes/eight AUTO confirmations, requires a meaningful choice by scene three, checks KO/EN choice parity, and rejects placeholder-only choices or oversized text-panel paragraphs.

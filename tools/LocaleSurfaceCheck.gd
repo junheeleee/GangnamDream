@@ -7,9 +7,12 @@ func _ready() -> void:
 	LocaleManager.set_language("en")
 	await get_tree().process_frame
 	_check_registry_text()
+	_check_english_names()
+	await _check_language_gate()
 	await _check_start_menu()
 	await _check_opening_cinematic()
 	LocaleManager.set_language("ko")
+	_check_korean_names()
 	if _failures.is_empty():
 		print("LOCALE_SURFACE_CHECK_OK")
 		get_tree().quit(0)
@@ -25,7 +28,7 @@ func _check_start_menu() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 	var text := _collect_text(menu)
-	for expected in ["Gangnam Dream", "Start New Story", "Continue", "Difficulty", "Run Theme", "Kim Minjun"]:
+	for expected in ["Continue", "New Story", "Load Game", "Options", "Kim Minjun, 33."]:
 		if expected not in text:
 			_failures.append("StartMenu missing English text: %s" % expected)
 	for forbidden in ["새 이야기 시작", "이어하기", "난이도", "런 테마", "김민준, 33세"]:
@@ -65,6 +68,42 @@ func _check_registry_text() -> void:
 	_check_rows("clues", DataRegistry.clues, ["title", "text"])
 	_check_rows("thoughts", DataRegistry.thoughts, ["title", "description", "conclusion"])
 	_check_rows("news", DataRegistry.news_templates, ["headline", "topics"])
+
+func _check_english_names() -> void:
+	if str(ImageRegistry.get_person_info("jiyeon_normal").get("name", "")) != "Han Jiyeon":
+		_failures.append("English portrait name did not localize to Han Jiyeon")
+	if str(ImageRegistry.get_person_info("daeun_normal").get("name", "")) != "Kim Daeun":
+		_failures.append("English portrait name did not localize to Kim Daeun")
+
+func _check_korean_names() -> void:
+	# 같은 언어를 다시 선택해도 세이브에서 넘어온 기본 영문 이름을 복원해야 한다.
+	GameState.player_name = LocaleManager.DEFAULT_NAME_EN
+	LocaleManager.set_language("ko")
+	if GameState.player_name != LocaleManager.DEFAULT_NAME_KO:
+		_failures.append("Korean locale left the default player name in English")
+	if str(ImageRegistry.get_person_info("jiyeon_normal").get("name", "")) != "한지연":
+		_failures.append("Korean portrait name did not localize to 한지연")
+	if str(ImageRegistry.get_person_info("daeun_normal").get("name", "")) != "김다은":
+		_failures.append("Korean portrait name did not localize to 김다은")
+
+func _check_language_gate() -> void:
+	var packed := load("res://scenes/SplashScreen.tscn") as PackedScene
+	var splash := packed.instantiate()
+	splash.set("_force_language_gate_for_qa", true)
+	add_child(splash)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var text := _collect_text(splash)
+	for expected in ["LANGUAGE  /  언어", "한국어\nKO", "English\nEN"]:
+		if expected not in text:
+			_failures.append("First-run language gate missing: %s" % expected)
+	splash.call("_select_language", "ko")
+	await get_tree().create_timer(0.3).timeout
+	if LocaleManager.language != "ko" or bool(splash.get("_language_gate_active")):
+		_failures.append("First-run language choice did not enter the selected locale")
+	LocaleManager.set_language("en")
+	remove_child(splash)
+	splash.queue_free()
 
 func _check_rows(label: String, rows: Array, keys: Array[String]) -> void:
 	for row in rows:

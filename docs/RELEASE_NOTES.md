@@ -1,6 +1,8 @@
 # Gangnam Dream Release Notes
 
 ## Unreleased
+- Added a controller-first language choice before any localized splash or cinematic, persisted it after first setup, localized canonical save names on display/load, and covered Korean/English protagonist and cast names with runtime checks. Also completed English text for all eight gift items.
+- Replaced the first interview with a daylight two-person CG and staged Jiyeon's narrow-room arc as a matched doorway portrait, interior portrait, and canon-locked goshiwon CG. Portrait and name now reveal only when she actually knocks, with machine-checked paragraph timing.
 - Added demo-defining Daeun-kindness and Father-call CGs, rebuilt the convenience store around a locked real-world floor plan, corrected Jiyeon's first accident to a daylight left-hand-drive scene, and replaced both heroines' sea CG/portrait pairs with distinct outfits and relationship-aware eye lines. Every active CG now requires a machine-checked camera, gaze, and body-acting contract.
 - Replaced the split-layer title prototype and legacy rooftop branding with one identity-locked 1920x1080 Minjun/Daeun/Jiyeon glass composition; unified publisher splash, KO/EN architectural wordmark, StartMenu, and all three Steam capsule sizes under a deterministic exporter and release audit.
 - Replaced the locked early-game Seoul map with a reactive first-month horizon for income, week-four rent, and route formation; restored Seoul Trace after onboarding and added exact first-week KO/EN visual assertions.

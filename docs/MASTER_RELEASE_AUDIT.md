@@ -1,6 +1,6 @@
 # Gangnam Dream Master Release Audit
 
-Updated: 2026-07-10
+Updated: 2026-07-11
 
 ## Mission
 
@@ -23,13 +23,13 @@ Adjacent and top-selling execution references are assigned by surface in `docs/S
 | EN event overlays | 1,477 | Native English voice or cultural clarity |
 | Choices per language | 3,316 | Meaningful tradeoffs or delayed consequence |
 | Endings | 35 | Distinct emotional payoff or bespoke presentation |
-| Explicit event CG links | 11 | Enough climax imagery for a commercial VN |
-| Background assets | 55 | Canon continuity, physical logic, or correct event mapping |
-| Character portrait assets | 37 | Flagship identity, expression coverage, or outfit continuity |
-| CG files | 15 | Launch key moments and ending coverage |
+| Explicit event CG links | 15 | Enough climax imagery for a commercial VN |
+| Background assets | 56 | Canon continuity, physical logic, or correct event mapping |
+| Character portrait assets | 41 | Flagship identity, expression coverage, or outfit continuity |
+| CG files | 22 | Launch key moments and ending coverage |
 | BGM / ambience / SFX | 7 / 25 / 30 | Loop fatigue, mix quality, ownership, or license proof |
 | Achievements / easter eggs | 13 / 8 | Discovery quality or community conversation |
-| Screenshot QA scopes | 22 | Full-playthrough correctness or subjective fun |
+| Screenshot QA scopes | 23 | Full-playthrough correctness or subjective fun |
 
 The first parity audit found eight EN-only overlay rows. DataRegistry silently ignored them because no KO base event existed, so translated scenes appeared to ship while no player could reach them. They are now promoted to complete bilingual events with conditions and consequences, and EN-only dead overlays fail CI.
 
@@ -40,8 +40,8 @@ These are confidence bands, not review scores. Every band must be replaced by pl
 | Dimension | Current band | Evidence / primary risk |
 |---|---|---|
 | Premise and social theme | Strong | 500K to 3B in five years, father debt, class pressure, moral erosion are immediately legible and culturally specific |
-| First impression / IP | Developing | StartMenu now sells Minjun/Daeun/Jiyeon through a single-axis poster layout; final owned key art and custom wordmark are still missing |
-| Flagship character appeal | Weak to developing | Portraits are readable, but props, silhouette grammar, leitmotifs, and promotional scene ownership were not locked |
+| First impression / IP | Developing to strong | One identity-locked Minjun/Daeun/Jiyeon key art now owns splash, StartMenu, and Steam capsules; external character recall and conversion remain unverified |
+| Flagship character appeal | Developing | Portrait/CG outfit pairs and gaze contracts now protect key heroine scenes; expression breadth, leitmotifs, merchandise recall, and remaining T1/T2 coverage are incomplete |
 | Core weekly loop | Developing to coherent | A real-input pass reaches the first AP board; AUTO reduces pre-AP confirms to six, the first-month horizon exposes income/rent/route pressure, and AP commitment/result feedback is captured. Voluntary reading and three-week plan recall still need timed stranger proof |
 | Story architecture | Unverified | Large authored spine exists, but a full black-box 240-week dramatic trace has not been critic-read end to end |
 | Chapter pacing | Unverified | Content counts cannot prove that each act has escalation, reversal, climax, and breathing room |
@@ -49,16 +49,16 @@ These are confidence bands, not review scores. Every band must be replaced by pl
 | Strategy /攻略 readability | Weak | The player cannot yet explain a viable 3B plan, risk bands, or why one run failed without external knowledge |
 | Balance | Technically stable | Fixed policy simulations pass current bands; human fun, exploitability, and difficulty perception remain unverified |
 | Writing quality | Uneven | Several flagship scenes are strong; ambient pool and EN overlays contain visible style variance |
-| EN localization | Critical to developing | Zero-Hangul is clean, but native voice, pronouns, cultural context, and dead overlay parity require a full prose pass |
+| EN localization | Developing | First-run language selection, zero-Hangul, catalog parity, and localized canonical names are gated; native voice, pronouns, cultural context, and a full prose pass remain |
 | UI/UX | Developing | Title and AP surfaces now have clear command hierarchies; several dense submodals and the top HUD still carry older dashboard grammar |
 | Controller / Steam Deck | Developing | Brand-aware glyphs and several focus models exist; tutorial focus is now trapped and regression-tested, while dense modals and large betting boards still require task-level tests |
-| Image quality / continuity | Developing | Background/portrait separation and romance manifest exist; style generation eras and key-scene coverage remain visible |
+| Image quality / continuity | Developing | Background/portrait separation, romance outfit pairs, spatial bibles, and 19 active CG acting contracts exist; generation-era drift and remaining climax coverage remain visible |
 | Audio identity | Developing | All 62 files are now project-owned, reproducible, and source-audited; core UI sounds use a dry Gangnam Ink tactile set and BGM continuity is gated. Seven-track long-session fatigue and character leitmotifs remain |
 | Motion / game feel | Weak to developing | AP commitment has a clearer board and feedback vocabulary, but input feel, audio tactility, and several navigation transitions still need measured play tests |
 | Moral Tint impact | Promising, unproven | The thesis is distinctive; a complete neutral-to-White/Black run has not yet proven the player notices it without explanation |
 | Endings | Developing | 35 outcomes and recap logic are substantial; bespoke visual/audio aftermath and critic-level final images are incomplete |
 | Stability / save integrity | Good static baseline | Audit, compile, language, balance, asset, and tutorial input-leak checks pass; full branch/save migration and long-session soak remain |
-| Commercial package | Critical | Capsule and title screen are mood-led rather than character-led; no external conversion evidence yet |
+| Commercial package | Developing | Owned character key art, three Steam capsule sizes, and a localized first-run path exist; no external capsule conversion or wishlist evidence yet |
 
 ## Three Potential Review-Leading Strengths
 

@@ -120,6 +120,12 @@ Updated on 2026-07-03 for Lee Minseo transparent portrait and post-Claude story 
 - `assets/characters/npc_jiyeon_cherry.png`
   - Cherry T0 outfit portrait: warm-cream spring jacket over black, matched to `cherry_jiyeon.png`.
 
+- `assets/characters/npc_jiyeon_narrow_door.png`
+  - T1 Narrow Room prelude portrait: travel-creased charcoal coat worn open over a muted oxblood top, nearly bare face, exhausted screen-left gaze.
+
+- `assets/characters/npc_jiyeon_narrow_room.png`
+  - T1 Narrow Room interior portrait: coat removed, muted oxblood fine-knit top, relaxed shoulders and vulnerable screen-left gaze, matched to `narrow_room_jiyeon_v1.png`.
+
 - `assets/characters/npc_minseo.png`
   - Lee Minseo transparent portrait, 38-year-old self-made Gangnam arrival mentor.
   - Runtime use: `minseo` / `minseo_normal` portrait IDs in late-game Minseo arc events.
@@ -211,6 +217,7 @@ Updated on 2026-07-03 for Lee Minseo transparent portrait and post-Claude story 
   - Daytime small-company interview room background for first interview, interviewer, and job-entry events.
   - Use instead of `office_desk.png` whenever the text is about a formal interview rather than overtime or late-night work.
   - Status: approved for first in-game QA. 1280x800, reusable person-free Korean office interview room, no readable signs/logos.
+  - Layout owner: `assets/OFFICE_INTERVIEW_VISUAL_BIBLE.md`.
 
 - `assets/backgrounds/convenience_store_night_v2.png`
   - Midnight Korean convenience store interior with a physically locked Korean retail floor plan.
@@ -430,10 +437,17 @@ Updated on 2026-07-03 for Lee Minseo transparent portrait and post-Claude story 
   - First-kiss images freeze before contact so the player's choice remains valid.
   - Jiyeon's car interior is the left-hand-drive reference for her recurring black executive sedan; see `assets/VEHICLE_VISUAL_BIBLE.md`.
 
+- `assets/cg/romance/narrow_room_jiyeon_v1.png`
+  - T1 Jiyeon climax: canonical left-wall bed/right-front desk goshiwon geometry, exactly two cup ramyeon bowls, coat-off oxblood outfit, and mutual Jiyeon/Minjun eye line.
+  - Layout owner: `assets/GOSHIWON_VISUAL_BIBLE.md`.
+
 - `assets/cg/demo/daeun_first_kindness_v2.png`
   - Demo kindness CG: Daeun remains inside the staff pocket, Minjun remains on the customer side near the entrance, and both share an explicit mutual eye line over two triangle rice packages.
 - `assets/cg/demo/father_first_call_v1.png`
   - Demo father-call diptych: Minjun in the goshiwon and Father in a factory break room, with inward-facing phone poses and parallel emotional blocking.
+- `assets/cg/demo/first_interview_v1.png`
+  - Demo opening-interview CG: inexpensive-suit Minjun on the candidate side and a distinct early-40s interviewer on the staff side share a mutual eye line over the resume.
+  - Lower 30 percent remains dialogue-safe; layout and acting owner is `assets/OFFICE_INTERVIEW_VISUAL_BIBLE.md`.
 
 ### Logo Concept
 - `assets/logos/gangnam_dream_logo_concept.png`

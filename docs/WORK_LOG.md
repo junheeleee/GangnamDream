@@ -1,5 +1,26 @@
 # Gangnam Dream Work Log
 
+## 2026-07-11 (Codex — first-language gate, localized names, and T1 paired CG staging)
+
+### 진단
+- 저장 언어를 한 프레임 뒤에 읽어 퍼블리셔 스플래시와 오프닝이 잘못된 언어로 먼저 만들어질 수 있었다.
+- 이미 한국어인 상태에서 한국어를 다시 선택하면 조기 반환해, 영문 세이브의 기본 이름 `Kim Minjun`이 한국어 슬롯·HUD에 남을 수 있었다.
+- 첫 면접은 면접관이 없는 빈 의자와 렌즈를 보는 민준이었고, 지연의 좁은 방 아크는 등장 전부터 초상화를 보여 줬으며 전용 CG/동일 의상 초상이 없었다.
+
+### 구현
+- `SplashScreen` 최전면에 최초 1회 언어 게이트를 추가했다. 한국어/English 두 버튼만 제공하고 OS·저장 언어에 맞춰 패드 기본 포커스를 잡으며, 선택 후에만 JUNPAC 스플래시와 오프닝을 시작한다.
+- 기본 이름은 KO/EN 어느 문자열로 저장돼 있어도 현재 언어의 `김민준`/`Kim Minjun`으로 표시하고, 사용자 지정 이름만 보존한다. 세이브 슬롯과 실제 로드 직후에도 같은 규칙을 적용했다.
+- 영어 카탈로그에서 누락된 선물 8종의 이름·설명을 보완하고, `LocaleSurfaceCheck`가 첫 언어 게이트와 KO/EN 민준·지연·다은 이름을 회귀 검사한다.
+- 낮의 작은 마포 면접실에 민준과 면접관이 서로 보는 `first_interview_v1`을 첫 면접에 배선했다.
+- 고시원 정본 구조를 잠근 `GOSHIWON_VISUAL_BIBLE.md`, 지연의 문밖 롱코트/실내 니트 512x768 초상, 상호 시선과 컵라면 두 개를 가진 `narrow_room_jiyeon_v1`을 추가했다.
+- `portrait_reveal_paragraph`를 도입해 지연의 초상과 이름표가 연락 두절 문단에는 숨고, 문을 두드리는 정확한 문단에서 함께 등장한다. 잘못된 키·CG 병용·타이밍은 감사와 런타임 검사에서 실패한다.
+
+### 검증
+- `LocaleSurfaceCheck`: 최초 언어 선택, 동일 언어 재선택, KO/EN 기본 이름과 주연 이름표 통과.
+- 실제 1280x800 `--qa=locale-gate`: 언어 게이트, 한국어 StartMenu `김민준`, 한국어 StoryMode `한지연` 확인.
+- 실제 1280x800 `--qa=story-en`: 첫 면접 본문/선택/결과, 지연 등장 전/후, 좁은 방 CG/선택지의 얼굴·시선·크롭 확인.
+- `CGRuntimeCheck` 및 CG 연기 계약 통과: 활성 CG 19개, 인물 계약 33개.
+
 ## 2026-07-10 (Codex — demo CG continuity and gaze-acting release gate)
 
 ### 진단

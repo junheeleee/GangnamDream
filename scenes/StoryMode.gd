@@ -66,6 +66,8 @@ var _is_chapter_card: bool = false    # 챕터 카드 모드 플래그
 var _current_uses_cg: bool = false
 var _event_cg_path: String = ""
 var _event_cg_reveal_paragraph: int = 0
+var _event_portrait_reveal_paragraph: int = 0
+var _event_portrait_revealed: bool = true
 var _story_moral_norm: float = 0.0
 var _story_moral_stage: int = 0
 var _story_ink_transition_layer: Control = null
@@ -705,6 +707,8 @@ func _render_current():
 	_current_uses_cg = false
 	_event_cg_path = ""
 	_event_cg_reveal_paragraph = 0
+	_event_portrait_reveal_paragraph = 0
+	_event_portrait_revealed = true
 	_choice_box.visible = false
 	for c in _choice_box.get_children():
 		c.queue_free()
@@ -733,6 +737,8 @@ func _render_current():
 		cg_path = ImageRegistry.get_cg(cg_id)
 	_event_cg_path = cg_path
 	_event_cg_reveal_paragraph = maxi(0, int(_current.get("cg_reveal_paragraph", 0)))
+	_event_portrait_reveal_paragraph = maxi(0, int(_current.get("portrait_reveal_paragraph", 0)))
+	_event_portrait_revealed = _event_portrait_reveal_paragraph == 0
 	var cg_active_at_start := cg_path != "" and _event_cg_reveal_paragraph == 0
 
 	# CG가 있는 장면은 CG를 최우선 전체화면 배경으로 사용한다.
@@ -756,7 +762,11 @@ func _render_current():
 	# 초상화 + 이름표 — bg_focus:true 장면은 배경만(초상화 생략)
 	var pid = str(_current.get("portrait", ""))
 	var bg_only := bool(_current.get("bg_focus", false)) or _current_uses_cg
-	_show_portrait(pid, bg_only)
+	if _event_portrait_revealed:
+		_show_portrait(pid, bg_only)
+	else:
+		# 인물이 실제로 등장하기 전에는 이름표도 함께 감춘다.
+		_show_portrait("", true)
 	if _current_uses_cg and _hud_panel != null and is_instance_valid(_hud_panel):
 		_hud_panel.visible = false
 
@@ -825,6 +835,14 @@ func _maybe_reveal_event_cg(paragraph_index: int) -> void:
 	_show_portrait(str(_current.get("portrait", "")), true)
 	if _hud_panel != null and is_instance_valid(_hud_panel):
 		_hud_panel.visible = false
+
+func _maybe_reveal_event_portrait(paragraph_index: int) -> void:
+	if _event_portrait_revealed or _current_uses_cg:
+		return
+	if _event_portrait_reveal_paragraph <= 0 or paragraph_index < _event_portrait_reveal_paragraph:
+		return
+	_event_portrait_revealed = true
+	_show_portrait(str(_current.get("portrait", "")), bool(_current.get("bg_focus", false)))
 
 func _show_portrait(portrait_id: String, bg_only: bool = false):
 	var info := {}
@@ -1042,6 +1060,7 @@ func _on_advance():
 	# 다음 문단
 	_para_index += 1
 	if _para_index < _paragraphs.size():
+		_maybe_reveal_event_portrait(_para_index)
 		_maybe_reveal_event_cg(_para_index)
 		if str(_direction.get("pace", "")) == "beat":
 			_begin_direction_beat(str(_paragraphs[_para_index]))

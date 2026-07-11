@@ -107,9 +107,11 @@ No luxury watch, no designer styling, no polished Gangnam success look in early/
 
 **Seasonal Outfit Lock:** Haeundae uses a deep emerald asymmetric high-neck swim dress, an open smoke-gray cover-up, and restrained brushed-silver jewelry. It must not repeat her default cream jacket and black inner palette.
 
+**Narrow Room Outfit Lock:** At Minjun's door she wears a travel-creased charcoal long coat open over a deep muted oxblood fine-knit top. Inside, the coat is removed and the same oxblood top is paired with charcoal trousers. Makeup is nearly absent, hair is slightly disordered, and her gaze loses its normal status composure without changing her identity.
+
 **Vehicle Canon:** First-contact scene uses an unbranded black S-Class-level luxury sedan, matching `assets/cg/jiyeon_crash_day_v3.png`. The left-hand-drive interior reference is `assets/cg/romance/first_kiss_jiyeon.png`. Full exterior/interior locks live in `assets/VEHICLE_VISUAL_BIBLE.md`. Do not describe it as a white BMW or change the model family between scenes.
 
-**Current Asset Status:** `assets/characters/npc_mentor.png`, `assets/characters/npc_jiyeon_warm.png`, and `assets/characters/npc_jiyeon_cold.png` are identity references. T0 scene outfits are locked by `npc_jiyeon_sea_v2.png`, `npc_jiyeon_fireworks.png`, and `npc_jiyeon_cherry.png`; first kiss reuses `npc_jiyeon_warm.png` because its cream jacket and black inner already match the CG. The Haeundae paired CG is `assets/cg/romance/sea_jiyeon_v2.png`; first contact is `assets/cg/jiyeon_crash_day_v3.png`.
+**Current Asset Status:** `assets/characters/npc_mentor.png`, `assets/characters/npc_jiyeon_warm.png`, and `assets/characters/npc_jiyeon_cold.png` are identity references. T0 scene outfits are locked by `npc_jiyeon_sea_v2.png`, `npc_jiyeon_fireworks.png`, and `npc_jiyeon_cherry.png`; first kiss reuses `npc_jiyeon_warm.png` because its cream jacket and black inner already match the CG. T1 Narrow Room uses `npc_jiyeon_narrow_door.png` before entry and `npc_jiyeon_narrow_room.png` after the coat comes off, paired with `assets/cg/romance/narrow_room_jiyeon_v1.png`. The Haeundae paired CG is `assets/cg/romance/sea_jiyeon_v2.png`; first contact is `assets/cg/jiyeon_crash_day_v3.png`.
 
 **Negative Prompt / Prohibited:** middle-aged mentor, short bob as default identity, office background, cafe background, smiling auntie, professor, generic businesswoman, white BMW, photoreal DSLR portrait.
 

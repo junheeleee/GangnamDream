@@ -20,20 +20,23 @@ func _load_saved_language() -> void:
 		return
 	var saved = sm.get_setting("language", "en")
 	var lang := str(saved) if str(saved) in ["ko", "en"] else "en"
-	if lang != language:
-		language = lang
-		_sync_player_name(lang)
+	var changed := lang != language
+	language = lang
+	_sync_player_name(lang)
+	if changed:
 		language_changed.emit(lang)
 		DataRegistry.reload()
 
 func set_language(lang: String) -> void:
-	if lang == language:
+	if lang not in ["ko", "en"]:
 		return
+	var changed := lang != language
 	language = lang
 	SaveManager.set_setting("language", lang)
 	_sync_player_name(lang)
-	language_changed.emit(lang)
-	DataRegistry.reload()
+	if changed:
+		language_changed.emit(lang)
+		DataRegistry.reload()
 
 ## 주인공 이름이 기본값이면 새 언어 기본값으로 교체 (유저가 직접 지은 이름은 건드리지 않음)
 func _sync_player_name(lang: String) -> void:
@@ -43,6 +46,14 @@ func _sync_player_name(lang: String) -> void:
 	var cur := str(gs.player_name)
 	if cur == DEFAULT_NAME_KO or cur == DEFAULT_NAME_EN:
 		gs.player_name = DEFAULT_NAME_EN if lang == "en" else DEFAULT_NAME_KO
+
+func sync_player_name_for_current_language() -> void:
+	_sync_player_name(language)
+
+func localize_player_name(raw_name: String) -> String:
+	if raw_name in [DEFAULT_NAME_KO, DEFAULT_NAME_EN]:
+		return DEFAULT_NAME_EN if is_english() else DEFAULT_NAME_KO
+	return raw_name
 
 func is_english() -> bool:
 	return language == "en"

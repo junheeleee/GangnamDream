@@ -18,6 +18,7 @@ func _ready() -> void:
 		get_tree().quit(1)
 
 func _check_story_mode_cg() -> void:
+	await _check_story_event_cg("arc_intro_01_meal", "cg_demo_first_interview")
 	await _check_story_event_cg("arc_jiyeon_01_crash", "cg_jiyeon_crash")
 	await _check_story_event_cg("arc_daeun_01_meet", "cg_demo_daeun_first_kindness")
 	await _check_story_event_cg("arc_father_01_call", "cg_demo_father_first_call")
@@ -29,6 +30,8 @@ func _check_story_mode_cg() -> void:
 	await _check_story_event_cg("arc_season_cherry_jiyeon", "cg_romance_cherry_jiyeon")
 	await _check_story_event_cg("arc_daeun_first_kiss", "cg_romance_first_kiss_daeun")
 	await _check_story_event_cg("arc_jiyeon_first_kiss", "cg_romance_first_kiss_jiyeon")
+	await _check_story_event_cg("arc_jiyeon_narrow_room_2", "cg_romance_narrow_room_jiyeon")
+	await _check_story_event_portrait_reveal("arc_jiyeon_narrow_room_1", "jiyeon_narrow_door", 2)
 	_check_all_story_cg_contracts()
 	_check_romance_visual_manifest()
 
@@ -73,6 +76,44 @@ func _check_story_event_cg(event_id: String, cg_id: String) -> void:
 	remove_child(story)
 	story.queue_free()
 
+func _check_story_event_portrait_reveal(event_id: String, portrait_id: String, reveal_paragraph: int) -> void:
+	var expected_path := ImageRegistry.get_portrait(portrait_id)
+	if expected_path.is_empty():
+		_failures.append("missing %s" % portrait_id)
+		return
+
+	GameState.pending_story_queue = [event_id]
+	var story_scene := load("res://scenes/StoryMode.tscn") as PackedScene
+	var story: Node = story_scene.instantiate()
+	add_child(story)
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	var portrait_frame := story.get("_portrait_frame") as Control
+	var name_panel := story.get("_name_panel") as Control
+	if portrait_frame != null and portrait_frame.visible:
+		_failures.append("StoryMode revealed %s portrait before paragraph %d" % [event_id, reveal_paragraph])
+	if name_panel != null and name_panel.visible:
+		_failures.append("StoryMode revealed %s name before paragraph %d" % [event_id, reveal_paragraph])
+
+	for _paragraph in range(reveal_paragraph):
+		if bool(story.get("_typing")):
+			story.call("_on_advance")
+		story.call("_on_advance")
+		await get_tree().process_frame
+		await get_tree().process_frame
+
+	var portrait := story.get("_portrait") as TextureRect
+	if portrait_frame == null or not portrait_frame.visible:
+		_failures.append("StoryMode did not reveal %s portrait at paragraph %d" % [event_id, reveal_paragraph])
+	elif portrait == null or portrait.texture == null or portrait.texture.resource_path != expected_path:
+		_failures.append("StoryMode %s portrait mismatch after reveal" % event_id)
+	if name_panel == null or not name_panel.visible:
+		_failures.append("StoryMode did not reveal %s name with its portrait" % event_id)
+
+	remove_child(story)
+	story.queue_free()
+
 func _check_all_story_cg_contracts() -> void:
 	var owners: Dictionary = {}
 	for raw_event in DataRegistry.events:
@@ -112,6 +153,12 @@ func _check_romance_visual_manifest() -> void:
 	var rows: Array = rows_value
 	if rows.size() != 8:
 		_failures.append("romance visual manifest must own exactly 8 T0 events")
+	var t1_value: Variant = root.get("t1", [])
+	if not t1_value is Array:
+		_failures.append("romance visual manifest t1 must be an array")
+		return
+	rows = rows.duplicate()
+	rows.append_array(t1_value as Array)
 
 	var player_value: Variant = root.get("player_outfit", {})
 	if not player_value is Dictionary:
@@ -149,6 +196,17 @@ func _check_romance_visual_manifest() -> void:
 		if str(row.get("player_visibility", "")) not in ["pov", "cropped_left", "visible_left", "visible_right"]:
 			_failures.append("%s has invalid player visibility" % event_id)
 		_check_romance_portrait(portrait_id, event_id)
+		var prelude_event_id: String = str(row.get("prelude_event_id", ""))
+		if not prelude_event_id.is_empty():
+			var prelude_event: Dictionary = DataRegistry.find_event(prelude_event_id)
+			var prelude_portrait: String = str(row.get("prelude_portrait", ""))
+			if prelude_event.is_empty():
+				_failures.append("romance visual manifest prelude is missing: %s" % prelude_event_id)
+			elif str(prelude_event.get("portrait", "")) != prelude_portrait:
+				_failures.append("%s portrait drifted from romance visual manifest" % prelude_event_id)
+			if str(row.get("prelude_outfit", "")).is_empty():
+				_failures.append("%s has no prelude outfit contract" % prelude_event_id)
+			_check_romance_portrait(prelude_portrait, prelude_event_id)
 
 func _check_romance_portrait(portrait_id: String, owner: String) -> void:
 	var path: String = ImageRegistry.get_portrait(portrait_id)

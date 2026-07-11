@@ -69,5 +69,18 @@
       "player_visibility": "visible_right",
       "eye_line": "Jiyeon and Minjun hold mutual eye contact."
     }
+  ],
+  "t1": [
+    {
+      "event_id": "arc_jiyeon_narrow_room_2",
+      "cg": "cg_romance_narrow_room_jiyeon",
+      "heroine_portrait": "jiyeon_narrow_room",
+      "heroine_outfit": "Deep muted oxblood fine-knit top and charcoal trousers, coat removed, nearly bare face.",
+      "player_visibility": "visible_right",
+      "eye_line": "Jiyeon and Minjun hold mutual eye contact across the narrow floor aisle; neither looks at the lens.",
+      "prelude_event_id": "arc_jiyeon_narrow_room_1",
+      "prelude_portrait": "jiyeon_narrow_door",
+      "prelude_outfit": "Travel-creased charcoal long coat worn open over the same oxblood fine-knit top."
+    }
   ]
 }

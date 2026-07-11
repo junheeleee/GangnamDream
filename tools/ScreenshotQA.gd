@@ -8,6 +8,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=casino-en
 ## 수정 부위별 빠른 확인:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=start-en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=locale-gate
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=romance-cg
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=romance-portraits
@@ -39,6 +40,7 @@ const QA_SCOPE_MORAL := "moral"
 const QA_SCOPE_DEMO_FLOW := "demo_flow"
 const QA_SCOPE_DEMO_BLACKBOX := "demo_blackbox"
 const QA_SCOPE_START_EN := "start_en"
+const QA_SCOPE_LOCALE_GATE := "locale_gate"
 const QA_SCOPE_STORY_EN := "story_en"
 const QA_SCOPE_ROMANCE_CG := "romance_cg"
 const QA_SCOPE_ROMANCE_PORTRAITS := "romance_portraits"
@@ -109,6 +111,11 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_start_surfaces(lang, "start_en_" if lang == "en" else "start_ko_")
 		print("SCREENSHOT_QA_DONE scope=start-en lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_LOCALE_GATE:
+		await _shot_language_gate()
+		print("SCREENSHOT_QA_DONE scope=locale-gate dir=%s" % OUT_DIR)
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_STORY_EN:
@@ -271,6 +278,10 @@ func _qa_scope() -> String:
 				"qa=start-en", "--qa=start-en", "qa=start_en", "--qa=start_en",
 				"scope=start-en", "--scope=start-en", "scope=start_en", "--scope=start_en"]:
 			return QA_SCOPE_START_EN
+		if arg in ["locale-gate", "locale_gate", "language-gate", "language_gate",
+				"--locale-gate", "--locale_gate", "qa=locale-gate", "--qa=locale-gate",
+				"qa=locale_gate", "--qa=locale_gate", "scope=locale-gate", "--scope=locale-gate"]:
+			return QA_SCOPE_LOCALE_GATE
 		if arg in ["story-en", "story_en", "story", "--story-en", "--story_en",
 				"qa=story-en", "--qa=story-en", "qa=story_en", "--qa=story_en",
 				"scope=story-en", "--scope=story-en", "scope=story_en", "--scope=story_en"]:
@@ -362,6 +373,7 @@ func _qa_language(default_lang: String = "ko") -> String:
 func _set_qa_language(lang: String) -> void:
 	if SaveManager.has_method("set_setting"):
 		SaveManager.set_setting("language", lang)
+		SaveManager.set_setting("language_gate_seen", true)
 	if LocaleManager.has_method("set_language"):
 		LocaleManager.set_language(lang)
 	else:
@@ -451,6 +463,24 @@ func _shot_start_menu(lang: String, shot_name: String) -> void:
 		menu.free()
 	_remove_start_menu_nodes()
 	await _settle(0.4)
+
+func _shot_language_gate() -> void:
+	var packed := load("res://scenes/SplashScreen.tscn") as PackedScene
+	var splash := packed.instantiate()
+	splash.set("_force_language_gate_for_qa", true)
+	get_tree().root.add_child.call_deferred(splash)
+	await get_tree().process_frame
+	await _settle(0.7)
+	await _save("locale_00_first_language_choice")
+	_remove_nodes_by_script("res://scenes/SplashScreen.gd")
+	await _settle(0.25)
+
+	# 같은 한국어를 다시 선택하는 경로에서도 기본 영문 이름이 남지 않아야 한다.
+	_set_qa_language("ko")
+	GameState.player_name = LocaleManager.DEFAULT_NAME_EN
+	LocaleManager.set_language("ko")
+	await _shot_start_menu("ko", "locale_01_korean_start_menu")
+	await _shot_story_event("arc_jiyeon_narrow_room_1", "locale_02_korean_jiyeon_name", "ko", 0.45, true, false, -1, 2, true)
 
 func _shot_splash_screen(lang: String, shot_name: String) -> void:
 	_set_qa_language(lang)
@@ -628,6 +658,8 @@ func _shot_story_surfaces(lang: String = "en", prefix: String = "story_en_") -> 
 		"arc_chapter1_close",
 	]:
 		await _shot_story_event(event_id, prefix + event_id, lang, 0.45, true)
+	await _shot_story_event("arc_intro_01_meal", prefix + "01a_first_interview_choices", lang, 0.45, true, true)
+	await _shot_story_event("arc_intro_01_meal", prefix + "01b_first_interview_truth_result", lang, 0.45, true, true, 0)
 	await _shot_story_event("arc_intro_02_dad_call", prefix + "02b_story_choices", lang, 0.45, true, true)
 	await _shot_story_event("arc_intro_02_dad_call", prefix + "02c_story_result", lang, 0.45, true, true, 0)
 	await _shot_story_event("arc_daeun_01_meet", prefix + "02d_demo_daeun_first_kindness", lang, 0.65, true)
@@ -644,6 +676,10 @@ func _shot_story_surfaces(lang: String = "en", prefix: String = "story_en_") -> 
 	await _shot_story_event("arc_season_cherry_jiyeon", prefix + "10_romance_cherry_jiyeon", lang, 0.65, true)
 	await _shot_story_event("arc_daeun_first_kiss", prefix + "11_romance_first_kiss_daeun", lang, 0.65, true)
 	await _shot_story_event("arc_jiyeon_first_kiss", prefix + "12_romance_first_kiss_jiyeon", lang, 0.65, true)
+	await _shot_story_event("arc_jiyeon_narrow_room_1", prefix + "13a0_romance_jiyeon_before_knock", lang, 0.45, true, false, -1, 0, true)
+	await _shot_story_event("arc_jiyeon_narrow_room_1", prefix + "13a1_romance_jiyeon_narrow_door", lang, 0.45, true, false, -1, 2, true)
+	await _shot_story_event("arc_jiyeon_narrow_room_2", prefix + "13b_romance_jiyeon_narrow_room", lang, 0.65, true)
+	await _shot_story_event("arc_jiyeon_narrow_room_2", prefix + "13c_romance_jiyeon_narrow_choices", lang, 0.45, true, true)
 
 func _shot_romance_cg_tints(lang: String = "en", prefix: String = "romance_cg_en_") -> void:
 	_set_qa_language(lang)

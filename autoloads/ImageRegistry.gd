@@ -42,6 +42,8 @@ const PORTRAITS = {
 	"jiyeon_sea":         "res://assets/characters/npc_jiyeon_sea_v2.png",
 	"jiyeon_fireworks":   "res://assets/characters/npc_jiyeon_fireworks.png",
 	"jiyeon_cherry":      "res://assets/characters/npc_jiyeon_cherry.png",
+	"jiyeon_narrow_door": "res://assets/characters/npc_jiyeon_narrow_door.png",
+	"jiyeon_narrow_room": "res://assets/characters/npc_jiyeon_narrow_room.png",
 
 	# 조연
 	"boss":               "res://assets/characters/npc_team_lead.png",
@@ -191,6 +193,7 @@ const FALLBACK_BG = "res://assets/backgrounds/goshiwon_room.png"
 # ── CG (감정적 클라이맥스 전체화면) ────────────────────────────
 const CG = {
 	"cg_start":          "res://assets/cg/start.png",
+	"cg_demo_first_interview": "res://assets/cg/demo/first_interview_v1.png",
 	"cg_jiyeon_crash":   "res://assets/cg/jiyeon_crash_day_v3.png",
 	"cg_demo_daeun_first_kindness": "res://assets/cg/demo/daeun_first_kindness_v2.png",
 	"cg_demo_father_first_call": "res://assets/cg/demo/father_first_call_v1.png",
@@ -207,6 +210,7 @@ const CG = {
 	"cg_romance_cherry_jiyeon": "res://assets/cg/romance/cherry_jiyeon.png",
 	"cg_romance_first_kiss_daeun": "res://assets/cg/romance/first_kiss_daeun.png",
 	"cg_romance_first_kiss_jiyeon": "res://assets/cg/romance/first_kiss_jiyeon.png",
+	"cg_romance_narrow_room_jiyeon": "res://assets/cg/romance/narrow_room_jiyeon_v1.png",
 }
 
 # ── 유물 오브젝트 스틸 ────────────────────────────────────────

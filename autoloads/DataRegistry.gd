@@ -184,6 +184,14 @@ const ITEM_TEXT_EN := {
 	"artifact_jiyeon_text": {"name": "That Morning's Text", "description": "It was the first text she sent.\n'Am I kind of strange?'\nYou answered that she was not."},
 	"artifact_jaehyuk_photo": {"name": "Pojangmacha Selfie", "description": "Taken together on the night you met again.\nWhatever happened after, that night he was truly an old friend."},
 	"artifact_hyunsu_card": {"name": "Hyunsu's Business Card", "description": "After four years studying for exams.\nSuit. Card. 'It's thanks to you, hyung.'\nYou kept it."},
+	"gift_can_coffee": {"name": "Canned Coffee Set", "description": "Inexpensive, gentle, and made for someone enduring another long night."},
+	"gift_socks": {"name": "Sock Set", "description": "A practical gift that reveals more care precisely because it is practical."},
+	"gift_essay_book": {"name": "Essay Collection", "description": "A book with plenty of room for underlining. The giver's time is part of the gift."},
+	"gift_exhibit_catalog": {"name": "Exhibition Catalog", "description": "Something you can only choose if you remember which exhibitions they loved."},
+	"gift_scarf": {"name": "Scarf", "description": "Something chosen while thinking of a person who spends too long out in the cold."},
+	"gift_perfume": {"name": "Perfume", "description": "A gift whose price arrives first. The pressure may reach them before the feeling does."},
+	"gift_wallet": {"name": "Designer Wallet", "description": "A good gift for almost anyone, which may be why it feels special to no one."},
+	"gift_necklace": {"name": "Necklace", "description": "The most expensive answer, and the one that misses hardest when it is not the right answer."},
 }
 
 const ACHIEVEMENT_TEXT_EN := {

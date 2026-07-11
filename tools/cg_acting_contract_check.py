@@ -105,7 +105,8 @@ def main() -> int:
             if len(pose_support) < 12:
                 failures.append(f"{asset_id}/{actor_id}: pose_support is missing or vague")
             gaze_lower = gaze_target.lower()
-            if ("lens" in gaze_lower or "camera" in gaze_lower or "viewer" in gaze_lower) and camera_role != "player_pov":
+            lens_facing = re.search(r"\b(?:lens|camera|viewer)\b", gaze_lower) is not None
+            if lens_facing and camera_role != "player_pov":
                 failures.append(
                     f"{asset_id}/{actor_id}: lens-facing gaze requires camera_role=player_pov"
                 )

@@ -29,6 +29,14 @@ The machine-readable source is `assets/romance_visual_manifest.json`. `CGRuntime
 - A job does not force Minjun to wear his office uniform on a weekend date. Corporate or office clothing is required only when the text says he came directly from work, is at work, or is performing public success.
 - T1 and ending jobs must name Minjun's outfit in the CG prompt and point to an existing portrait reference. If no portrait matches, the CG and new portrait are produced as one pair.
 
+## T1 Contract
+
+| Event | Prelude portrait | Climax portrait | Heroine outfit | Minjun | Gaze logic |
+|---|---|---|---|---|---|
+| Jiyeon / Narrow Room | `jiyeon_narrow_door` | `jiyeon_narrow_room` | charcoal travel coat over oxblood top, then coat removed with charcoal trousers | visible right, worn black crewneck | mutual eye contact across the floor aisle; observer camera |
+
+The Narrow Room is also a location-continuity contract. `assets/GOSHIWON_VISUAL_BIBLE.md` fixes the left-wall bed, right-front desk, high frosted window, single door, two cup ramyeon bowls, and the dialogue-safe prop band.
+
 ## Gaze Gate
 
 Each named character must have one readable target:

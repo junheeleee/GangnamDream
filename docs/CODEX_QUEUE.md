@@ -36,7 +36,7 @@
 
 ## P0-0. 로맨스 아트 패키지 — 히로인 장면 전면 CG + 특별 초상화 (유저 지시 2026-07-07: "모든 히로인 관련 장면은 단독 CG와 특별 초상화 필수")
 
-**진행 상태 (2026-07-10 Codex): T0 CG 8/8 + T0 의상 초상 계약 8/8 완료, 바다 paired assets 재검수 완료.** 다은 바다는 산호색/하늘색, 지연 바다는 에메랄드/스모크 그레이로 기본 복장과 분리했고, CG와 512x768 투명 초상 시선을 화면 배치에 맞게 다시 잠갔다. `assets/romance_visual_manifest.json`이 의상·민준 사복·시선을 1:1로 잠그며, `assets/cg_acting_manifest.json`과 감사 게이트가 로맨스를 포함한 활성 CG 17개 전체의 카메라·시선·몸 연기를 검사한다. 다음 하위 큐는 T1 CG+초상화 paired jobs다.
+**진행 상태 (2026-07-11 Codex): T0 CG 8/8 + T0 의상 초상 8/8, T1 좁은 방 paired job 1건 완료.** 지연의 문밖 롱코트 초상과 실내 니트 초상, 정본 고시원 CG를 한 세트로 잠갔고 등장 문단 전에는 얼굴·이름을 모두 숨긴다. 첫 면접 CG도 낮·상호 시선으로 교체했다. `romance_visual_manifest.json`과 `cg_acting_manifest.json`은 활성 CG 19개/인물 계약 33개를 검사한다. 다음 하위 큐는 남산·놀이동산·시골 밤 버스·첫날밤 아침 paired jobs다.
 
 > 미연시 축은 비주얼 장르다 — 오타쿠 소구 CG가 엔딩 CG보다 커뮤니티 확산력이 높다(DECISIONS·ROMANCE_SYSTEM 7-D/7-G).
 > 파이프라인: 외부 생성 → 사람 큐레이션 → **Gangnam Ink 그레이딩 통과**(스타일 통일). 초상화는 투명 배경 단독(DECISIONS 2026-07-03 인물 규칙). **기존 daeun/jiyeon 초상 기준 동일 인물성(얼굴) 유지가 게이트 1순위** — `docs/ASSET_CONTINUITY_CHECKLIST.md` 적용.

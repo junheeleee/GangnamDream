@@ -127,7 +127,8 @@
     "weight": 0,
     "hidden": true,
     "background": "goshiwon_room",
-    "portrait": "jiyeon_cold",
+    "portrait": "jiyeon_narrow_door",
+    "portrait_reveal_paragraph": 2,
     "conditions": {
       "min_turn": 9999
     },
@@ -187,7 +188,8 @@
     "weight": 0,
     "hidden": true,
     "background": "goshiwon_room",
-    "portrait": "jiyeon_warm",
+    "portrait": "jiyeon_narrow_room",
+    "cg": "cg_romance_narrow_room_jiyeon",
     "conditions": {
       "min_turn": 9999
     },

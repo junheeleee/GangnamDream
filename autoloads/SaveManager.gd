@@ -76,6 +76,7 @@ func load_game(slot):
 	if file_version < SAVE_VERSION:
 		push_warning("SaveManager: save file version %d < current %d (slot %d). Loading anyway." % [file_version, SAVE_VERSION, slot])
 	GameState.load_from_dict(parsed.get("state", parsed))
+	LocaleManager.sync_player_name_for_current_language()
 	load_completed.emit(true, slot)
 	return true
 
@@ -103,7 +104,7 @@ func get_save_info(slot):
 		"slot": slot,
 		"empty": false,
 		"saved_at": parsed.get("saved_at", ""),
-		"player_name": state.get("player_name", "김민준"),
+		"player_name": LocaleManager.localize_player_name(str(state.get("player_name", "김민준"))),
 		"year": state.get("year", 2026),
 		"month": state.get("month", 1),
 		"age": state.get("age", 20),

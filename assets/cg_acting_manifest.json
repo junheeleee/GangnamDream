@@ -9,6 +9,15 @@
       "story_action": "The empty goshiwon asks the player to inhabit Minjun's absence before he appears.",
       "actors": []
     },
+    "cg_demo_first_interview": {
+      "path": "assets/cg/demo/first_interview_v1.png",
+      "camera_role": "observational_two_shot",
+      "story_action": "The interviewer reaches the six-year gap while Minjun decides whether the next sentence will be true.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The interviewer across the desk", "pose_support": "Pupils and lowered chin turn screen-right; tense shoulders and closed hands hold the candidate side."},
+        {"id": "interviewer", "gaze_target": "Minjun across the resume", "pose_support": "Pupils, glasses, chin, and resume hand turn screen-left toward him from the staff side."}
+      ]
+    },
     "cg_jiyeon_crash": {
       "path": "assets/cg/jiyeon_crash_day_v3.png",
       "camera_role": "observational_two_shot",
@@ -148,6 +157,15 @@
       "actors": [
         {"id": "jiyeon", "gaze_target": "Minjun's eyes", "pose_support": "Pupils, chin, and shoulders turn toward him."},
         {"id": "minjun", "gaze_target": "Jiyeon's eyes", "pose_support": "Pupils, chin, and shoulders turn toward her."}
+      ]
+    },
+    "cg_romance_narrow_room_jiyeon": {
+      "path": "assets/cg/romance/narrow_room_jiyeon_v1.png",
+      "camera_role": "intimate_observational_two_shot",
+      "story_action": "Jiyeon calls Minjun's narrow room real while two cups of ramyeon make the room physically two people wide.",
+      "actors": [
+        {"id": "jiyeon", "gaze_target": "Minjun across the narrow floor aisle", "pose_support": "Pupils and chin turn screen-right while relaxed shoulders and arms around her knees hold the same line."},
+        {"id": "minjun", "gaze_target": "Jiyeon beside the bed", "pose_support": "Pupils, face, and torso turn screen-left while his ramen-setting hand remains between them."}
       ]
     }
   }
