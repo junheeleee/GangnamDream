@@ -1,5 +1,30 @@
 # Gangnam Dream Work Log
 
+## 2026-07-11 (Codex — first-snow pairs, climate wardrobe, and store continuity)
+
+### 진단
+- 첫눈 다은 장면은 편의점 밖 지문에 실내 배경과 근무복을, 지연 장면은 세단 안 지문에 강남 거리와 기본 재킷을 사용했다.
+- 민준의 장마·폭염·한파 세 장면이 모두 검은 긴팔 `player_tired`를 재사용해 날씨와 복장이 충돌했다.
+- 편의점 외관을 새로 만들면서 기존 실내의 오른쪽 출입문·인접 계산대·중앙 진열대·왼쪽 냉장고 순서가 바뀌면 같은 장소가 아니게 된다.
+- 영어 StoryMode 상단의 `KRW 3.5M` 표기와 한파 선택지의 `hobbang`은 최신 영어 표기 정본과 자연스러운 현지화에 어긋났다.
+
+### 구현
+- 다은/지연 첫눈 겨울 초상, 무인 편의점 외관, 무인 지연 세단 실내, 첫눈 2인 CG 2종을 제작했다. 두 CG는 본문 문단 1에서만 공개한다.
+- 다은 장면은 작은 캔커피 정확히 두 개와 상호 시선, 지연 장면은 왼쪽 운전석/오른쪽 조수석·안전벨트·멈춘 와이퍼·상호 시선을 연기 manifest에 고정했다.
+- 편의점 실내·외관·CG가 모두 오른쪽 문→문 왼쪽 계산대/POS→중앙 낮은 진열→왼쪽 냉장고 구조를 공유하도록 `CONVENIENCE_STORE_VISUAL_BIBLE.md`에 외관 규칙을 추가했다.
+- 민준의 장마 방수 재킷, 폭염 반팔/냉각 수건, 한파 패딩/목도리 투명 초상과 무인 한파 서울 거리를 이벤트에 배선했다.
+- StoryMode 영어 금액을 `million/billion won` 후치 표기로 통일하고, 한파 선택지의 찜질방 첫 설명과 steamed bun/fish cake 표현을 자연스럽게 다듬었다.
+- StoryMode의 Gray 전역 암막을 걷고 중간톤 감마를 분리해 배경 구조와 얼굴을 살렸다. Black은 노출값 대신 탈색·잉크·가장자리·계조 손상이 커지고, White는 흰 막 대신 실제 색과 공간 깊이가 회복된다.
+- 선택 순간에는 기존 대화창/이름표를 접고 1~4개 선택지를 하단 단일 도크에 배치한다. 초상화의 오른쪽 이동은 유지하되 과도한 유령화는 줄였다.
+
+### 검증
+- `CG_RUNTIME_CHECK_OK`: 첫눈 문단 0의 전용 배경/초상, 문단 1 CG, 12월 전용 라우팅, 512x768/1280x800 규격을 확인했다.
+- `CG_ACTING_CHECK_OK active=28 actor_contracts=50 missing=0 stale=0`; `en_coverage_check.py` 한글 누출 0건.
+- 실제 1280x800 KO/EN 첫눈 각 8장, 기후 각 6장으로 편의점/세단 구조, 계절복, 손·캔·와이퍼·시선, 선택지 크롭, 영어 HUD와 현지화를 확인했다.
+- 실제 1280x800 `story-en`에서 주간 면접, 병원 4선택지, 일반/CG 선택 화면을 확인했다. 모든 선택지는 하단 도크에 들어오고 장면 상단 절반 이상이 열리며, Gray 야간 골목·편의점·병원 구조가 읽힌다. `romance-cg` Gray/Black/White 3상태도 얼굴과 장소를 잃지 않았다.
+- `story-moral` 실렌더 4장으로 강제 Black 펜트하우스와 동일 폭염 거리의 Black/Gray/White를 직접 비교했다. Black에서도 도시·실루엣·도로 구조가 남고, Gray는 기록 톤, White는 실제 색 회복으로 분리됐다.
+- 전체 `audit.sh` ERROR 0/WARNING 0, English zero-Hangul, 밸런스 밴드, 오디오/BGM 연속성, 튜토리얼, StoryPlayback, 57 GDScript compile 통과. `arc_flow_sim.py`도 잼 0·대표 체인 완결로 통과했다.
+
 ## 2026-07-11 (Codex — first-night homes, first-morning CGs, and late-game clock)
 
 ### 진단

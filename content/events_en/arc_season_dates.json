@@ -114,9 +114,9 @@
   {
     "id": "arc_season_snow_daeun",
     "title": "First Snow, That Convenience Store",
-    "description": "The first snow came on the way home. Daeun was waiting in front of the convenience store — the one where everything started.\nTwo cans of coffee in her hands.\n\"First snow calls for these.\" She held one out. \"Remember us standing here, just like this?\"\nThe snow was visible only in the light of the sign, then vanished into the dark.",
+    "description": "The first snow came on the way home. Daeun was waiting in front of the convenience store — the one where everything started.\n\nTwo small cans of coffee in her hands.\n\"First snow calls for these.\" She held one out. \"Remember us standing here, just like this?\"\nThe snow was visible only in the light of the sign, then vanished into the dark.",
     "description_if_known": {
-      "daeun_sea_5years": "The first snow came on the way home. Daeun was waiting in front of the convenience store — the one where everything started. Two cans of coffee in her hands.\nAt the summer sea she said she hadn't seen in five years, he had watched the seasons come back to her one by one. This time it was first snow.\n\"First snow calls for these.\" She held one out. \"Remember us standing here, just like this?\"\nThe snow was visible only in the light of the sign, then vanished into the dark."
+      "daeun_sea_5years": "The first snow came on the way home. Daeun was waiting in front of the convenience store — the one where everything started.\nAt the summer sea she said she hadn't seen in five years, he had watched the seasons come back to her one by one. This time it was first snow.\n\nTwo small cans of coffee in her hands.\n\"First snow calls for these.\" She held one out. \"Remember us standing here, just like this?\"\nThe snow was visible only in the light of the sign, then vanished into the dark."
     },
     "choices": [
       {
@@ -132,9 +132,9 @@
   {
     "id": "arc_season_snow_jiyeon",
     "title": "The Wipers",
-    "description": "The first snow started inside the car on the drive home. The wipers pushed it away twice.\nThe alley in front of his place. Even with the car stopped, Jiyeon didn't tell him to get out. Then she turned the wipers off.\nSnow began to pile on the windshield. The lights smeared away until only the inside of the car was left.\n\"Oppa, wait,\" she said. \"Let's stay like this.\"",
+    "description": "The first snow started inside the car on the drive home. The wipers pushed it away twice.\n\nThe alley in front of his place. Even with the car stopped, Jiyeon didn't tell him to get out. Then she turned the wipers off.\nSnow began to pile on the windshield. The lights smeared away until only the inside of the car was left.\n\"Oppa, wait,\" she said. \"Let's stay like this.\"",
     "description_if_known": {
-      "jiyeon_cant_swim": "The first snow started inside the car on the drive home. The wipers pushed it away twice.\nThe alley in front of his place. Even with the car stopped, Jiyeon didn't tell him to get out. Then she turned the wipers off.\nSnow began to pile on the windshield.\nThe woman who was afraid of the water was watching the snow pile up to the very end. The same one who never went past the shallows at Haeundae.\n\"Oppa, wait,\" she said. \"Let's stay like this.\""
+      "jiyeon_cant_swim": "The first snow started inside the car on the drive home. The wipers pushed it away twice.\n\nThe alley in front of his place. Even with the car stopped, Jiyeon didn't tell him to get out. Then she turned the wipers off.\nSnow began to pile on the windshield.\nThe woman who was afraid of the water was watching the snow pile up to the very end. The same one who never went past the shallows at Haeundae.\n\"Oppa, wait,\" she said. \"Let's stay like this.\""
     },
     "choices": [
       {

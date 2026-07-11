@@ -9,6 +9,7 @@ var _failures: Array[String] = []
 func _ready() -> void:
 	await _check_story_mode_cg()
 	_check_date_milestone_season_contract()
+	_check_first_snow_season_contract()
 	_check_special_story_season_contract()
 	_check_wedding_night_reachability_contract()
 	await _check_ending_cg()
@@ -31,6 +32,8 @@ func _check_story_mode_cg() -> void:
 	await _check_story_event_cg("arc_season_fireworks_jiyeon", "cg_romance_fireworks_jiyeon")
 	await _check_story_event_cg("arc_season_cherry_daeun", "cg_romance_cherry_daeun")
 	await _check_story_event_cg("arc_season_cherry_jiyeon", "cg_romance_cherry_jiyeon")
+	await _check_story_event_cg("arc_season_snow_daeun", "cg_romance_first_snow_daeun")
+	await _check_story_event_cg("arc_season_snow_jiyeon", "cg_romance_first_snow_jiyeon")
 	await _check_story_event_cg("arc_daeun_first_kiss", "cg_romance_first_kiss_daeun")
 	await _check_story_event_cg("arc_jiyeon_first_kiss", "cg_romance_first_kiss_jiyeon")
 	await _check_story_event_cg("arc_date_namsan_lock_daeun", "cg_romance_namsan_lock_daeun")
@@ -63,6 +66,10 @@ func _check_story_mode_cg() -> void:
 			"arc_jiyeon_wedding_night", 0, "jiyeon_newlywed_home",
 			"cg_romance_wedding_morning_jiyeon", 1)
 	await _check_story_event_portrait_reveal("arc_jiyeon_narrow_room_1", "jiyeon_narrow_door", 2)
+	await _check_story_event_prelude_visual(
+		"arc_season_snow_daeun", "convenience_first_snow_exterior", "daeun_first_snow")
+	await _check_story_event_prelude_visual(
+		"arc_season_snow_jiyeon", "jiyeon_sedan_first_snow", "jiyeon_first_snow")
 	_check_all_story_cg_contracts()
 	_check_romance_visual_manifest()
 
@@ -172,6 +179,30 @@ func _check_story_event_portrait_reveal(event_id: String, portrait_id: String, r
 		_failures.append("StoryMode %s portrait mismatch after reveal" % event_id)
 	if name_panel == null or not name_panel.visible:
 		_failures.append("StoryMode did not reveal %s name with its portrait" % event_id)
+
+	remove_child(story)
+	story.queue_free()
+
+func _check_story_event_prelude_visual(
+		event_id: String, background_id: String, portrait_id: String) -> void:
+	GameState.pending_story_queue = [event_id]
+	var story_scene := load("res://scenes/StoryMode.tscn") as PackedScene
+	var story: Node = story_scene.instantiate()
+	add_child(story)
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	var expected_background := ImageRegistry.get_background(background_id)
+	var bg_img := story.get("_bg_img") as TextureRect
+	if bg_img == null or bg_img.texture == null or bg_img.texture.resource_path != expected_background:
+		_failures.append("StoryMode %s prelude background mismatch" % event_id)
+	var expected_portrait := ImageRegistry.get_portrait(portrait_id)
+	var portrait_frame := story.get("_portrait_frame") as Control
+	var portrait := story.get("_portrait") as TextureRect
+	if portrait_frame == null or not portrait_frame.visible:
+		_failures.append("StoryMode %s prelude should show its winter portrait" % event_id)
+	elif portrait == null or portrait.texture == null or portrait.texture.resource_path != expected_portrait:
+		_failures.append("StoryMode %s prelude portrait mismatch" % event_id)
 
 	remove_child(story)
 	story.queue_free()
@@ -300,6 +331,28 @@ func _check_date_milestone_season_contract() -> void:
 	GameState.month = saved_month
 	GameState.flags = saved_flags
 
+func _check_first_snow_season_contract() -> void:
+	var saved_month: int = int(GameState.month)
+	var saved_year: int = int(GameState.year)
+	var saved_flags: Dictionary = GameState.flags.duplicate(true)
+	var main_script := load("res://scenes/MainGame.gd") as GDScript
+	var main: Node = main_script.new()
+	GameState.year = 2028
+	GameState.flags = {}
+	GameState.month = 11
+	if str(main.call("_season_date_id", "daeun")) != "":
+		_failures.append("first-snow date must not fire before December")
+	GameState.month = 12
+	if str(main.call("_season_date_id", "daeun")) != "arc_season_snow_daeun":
+		_failures.append("Daeun first-snow date did not fire in December")
+	GameState.flags = {}
+	if str(main.call("_season_date_id", "jiyeon")) != "arc_season_snow_jiyeon":
+		_failures.append("Jiyeon first-snow date did not fire in December")
+	main.free()
+	GameState.month = saved_month
+	GameState.year = saved_year
+	GameState.flags = saved_flags
+
 func _check_special_story_season_contract() -> void:
 	var saved_month: int = int(GameState.month)
 	var saved_flags: Dictionary = GameState.flags.duplicate(true)
@@ -412,8 +465,8 @@ func _check_romance_visual_manifest() -> void:
 		_failures.append("romance visual manifest t0 must be an array")
 		return
 	var rows: Array = rows_value
-	if rows.size() != 8:
-		_failures.append("romance visual manifest must own exactly 8 T0 events")
+	if rows.size() != 10:
+		_failures.append("romance visual manifest must own exactly 10 T0 events")
 	var t1_value: Variant = root.get("t1", [])
 	if not t1_value is Array:
 		_failures.append("romance visual manifest t1 must be an array")

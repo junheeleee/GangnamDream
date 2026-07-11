@@ -18,6 +18,9 @@ const PORTRAITS = {
 	"player_suit":        "res://assets/characters/main_character_corporate.png",
 	"player_hollow":      "res://assets/characters/main_character_50s.png",
 	"player_romance_casual": "res://assets/characters/main_character_unemployed.png",
+	"player_heatwave":    "res://assets/characters/main_character_heatwave.png",
+	"player_monsoon":     "res://assets/characters/main_character_monsoon.png",
+	"player_cold_snap":   "res://assets/characters/main_character_cold_snap.png",
 
 	# 김다은 (연인)
 	"daeun_normal":       "res://assets/characters/npc_romantic_interest.png",
@@ -31,6 +34,7 @@ const PORTRAITS = {
 	"daeun_hometown_worried": "res://assets/characters/npc_daeun_hometown_worried.png",
 	"daeun_hometown_warm": "res://assets/characters/npc_daeun_hometown_warm.png",
 	"daeun_wedding_night": "res://assets/characters/npc_daeun_wedding_night.png",
+	"daeun_first_snow":  "res://assets/characters/npc_daeun_first_snow.png",
 
 	# 임상철 (인맥 브로커)
 	"sangchul_normal":    "res://assets/characters/npc_boss.png",
@@ -52,6 +56,7 @@ const PORTRAITS = {
 	"jiyeon_narrow_door": "res://assets/characters/npc_jiyeon_narrow_door.png",
 	"jiyeon_narrow_room": "res://assets/characters/npc_jiyeon_narrow_room.png",
 	"jiyeon_wedding_night": "res://assets/characters/npc_jiyeon_wedding_night.png",
+	"jiyeon_first_snow": "res://assets/characters/npc_jiyeon_first_snow.png",
 
 	# 조연
 	"boss":               "res://assets/characters/npc_team_lead.png",
@@ -126,10 +131,12 @@ const BACKGROUNDS = {
 	"goshiwon_hallway":  "res://assets/backgrounds/goshiwon_hallway.png",
 	# 서울 일상
 	"convenience_night": "res://assets/backgrounds/convenience_store_night_v2.png",
+	"convenience_first_snow_exterior": "res://assets/backgrounds/convenience_store_exterior_first_snow.png",
 	"cafe":              "res://assets/backgrounds/cafe_seoul.png",
 	"street_day":        "res://assets/backgrounds/street_seoul_day.png",
 	"subway":            "res://assets/backgrounds/seoul_subway.png",
 	"street_rainy":      "res://assets/backgrounds/seoul_rainy_street.png",
+	"cold_snap_street":  "res://assets/backgrounds/seoul_cold_snap_street.png",
 	"pojangmacha":       "res://assets/backgrounds/pojangmacha.png",
 	"hangang_riverside": "res://assets/backgrounds/hangang_riverside_walk.png",
 	"namsan_tower":      "res://assets/backgrounds/namsan_tower_view.png",
@@ -175,6 +182,7 @@ const BACKGROUNDS = {
 	"daeun_mother_home_dining": "res://assets/backgrounds/daeun_mother_home_dining_summer.png",
 	"daeun_newlywed_home": "res://assets/backgrounds/daeun_newlywed_home_night.png",
 	"jiyeon_newlywed_home": "res://assets/backgrounds/jiyeon_newlywed_home_night.png",
+	"jiyeon_sedan_first_snow": "res://assets/backgrounds/jiyeon_sedan_first_snow_interior.png",
 	"burnout":           "res://assets/backgrounds/burnout_hospital_room.png",
 	"penthouse":         "res://assets/backgrounds/penthouse_view.png",
 	"gangnam_penthouse": "res://assets/backgrounds/penthouse_view.png",
@@ -236,6 +244,8 @@ const CG = {
 	"cg_romance_hometown_night_bus_daeun": "res://assets/cg/romance/hometown_night_bus_daeun_v1.png",
 	"cg_romance_wedding_morning_daeun": "res://assets/cg/romance/wedding_morning_daeun_v1.png",
 	"cg_romance_wedding_morning_jiyeon": "res://assets/cg/romance/wedding_morning_jiyeon_v1.png",
+	"cg_romance_first_snow_daeun": "res://assets/cg/romance/first_snow_daeun_v1.png",
+	"cg_romance_first_snow_jiyeon": "res://assets/cg/romance/first_snow_jiyeon_v1.png",
 }
 
 # ── 유물 오브젝트 스틸 ────────────────────────────────────────

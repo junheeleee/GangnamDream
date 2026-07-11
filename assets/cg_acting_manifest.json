@@ -214,6 +214,24 @@
         {"id": "minjun", "gaze_target": "Daeun and the city lights reflected beyond her", "pose_support": "Pupils and chin turn screen-left; a restrained peaceful smile and open shoulders replace his default defeated expression."}
       ]
     },
+    "cg_romance_first_snow_daeun": {
+      "path": "assets/cg/romance/first_snow_daeun_v1.png",
+      "camera_role": "observational_two_shot",
+      "story_action": "Outside the convenience store where they met, Daeun offers Minjun one of exactly two small canned coffees as the first snow falls.",
+      "actors": [
+        {"id": "daeun", "gaze_target": "Minjun's eyes", "pose_support": "Her pupils, face, and shoulders turn screen-left toward him while her right hand offers one small can and her left hand holds the second can close to her coat."},
+        {"id": "minjun", "gaze_target": "Daeun and the offered coffee", "pose_support": "His pupils and chin turn screen-right toward her while one open hand reaches naturally toward the offered can without touching her fingers."}
+      ]
+    },
+    "cg_romance_first_snow_jiyeon": {
+      "path": "assets/cg/romance/first_snow_jiyeon_v1.png",
+      "camera_role": "back_seat_observational_two_shot",
+      "story_action": "With the left-hand-drive sedan stopped and the wipers resting, Jiyeon asks Minjun to remain inside while snow gathers on the windshield.",
+      "actors": [
+        {"id": "jiyeon", "gaze_target": "Minjun in the front passenger seat", "pose_support": "From the screen-left driver's seat, her pupils, face, and upper torso turn screen-right toward him while her seat belt and winter coat remain physically coherent."},
+        {"id": "minjun", "gaze_target": "Jiyeon in the driver's seat", "pose_support": "From the screen-right passenger seat, his pupils, face, and upper torso turn screen-left toward her while his seat belt and quilted winter jacket remain coherent."}
+      ]
+    },
     "cg_romance_wedding_morning_daeun": {
       "path": "assets/cg/romance/wedding_morning_daeun_v1.png",
       "camera_role": "player_pov_domestic_observer",

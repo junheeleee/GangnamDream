@@ -297,8 +297,8 @@ def check_romance_visual_manifest():
         return
     t0_rows = root.get("t0", []) if isinstance(root, dict) else []
     t1_rows = root.get("t1", []) if isinstance(root, dict) else []
-    if not isinstance(t0_rows, list) or len(t0_rows) != 8:
-        err("%s  T0 계약은 정확히 8개여야 함" % rel(path))
+    if not isinstance(t0_rows, list) or len(t0_rows) != 10:
+        err("%s  T0 계약은 정확히 10개여야 함" % rel(path))
         return
     if not isinstance(t1_rows, list):
         err("%s  T1 계약은 배열이어야 함" % rel(path))

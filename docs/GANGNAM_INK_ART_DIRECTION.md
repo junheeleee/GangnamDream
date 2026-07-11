@@ -1,6 +1,6 @@
 # Gangnam Ink Art Direction
 
-Updated: 2026-07-01
+Updated: 2026-07-11
 
 ## Purpose
 
@@ -16,6 +16,8 @@ The visual question is not "Is this image pretty?" The question is "Does this sc
 - White route: sharper air, clearer text, calmer spacing, pale light, less visual noise.
 - Black route: ink stain, crushed contrast, darker edge burn, slight world tilt, money remains unnaturally legible.
 - Gray route: desaturated, documentary, tired, unresolved.
+
+Exposure is a readability constant, not the moral axis. Gray and Black must preserve the authored architecture, face, gaze, and gesture. Black degrades attention and surface integrity; White restores color and human detail. Neither route is communicated by laying a nearly opaque black or white rectangle over the work.
 
 The filter is not decoration. It is the visible form of `MORAL_TINT`.
 
@@ -70,6 +72,7 @@ The target is **Korean social-reality VN with Japanese scene readability**, not 
 - Warning red is reserved for true danger. Routine negative outcomes use gray, dimming, or text weight.
 - Money may be visually seductive only when the player is morally Black. Otherwise it is just information.
 - StartMenu is a character poster with a single command rail. Save management and run statistics are second-layer utilities, not the launch composition.
+- Choice presentation uses one lower safe-area dock. When choices open, the dialogue panel folds away so the image is never covered by both systems at once.
 
 ## Transition Rules
 
@@ -105,5 +108,7 @@ For White-route variants add:
 - Black state should read as ink/concrete, not brown, green, or sepia.
 - White state should read as clear and pale, not beige, gold, or fantasy holy light.
 - Gray state should feel premium and intentional, not merely low saturation.
+- Gray and Black must retain readable architecture, eye-lines, and hand actions; darkness alone never passes the moral check.
+- Choice screens must leave at least the upper half of the scene unobstructed at 1280×800.
 - Text must remain readable at 1280x800 and on Steam Deck.
 - Casino, investment, and UI semantic colors may appear, but they must not overpower the moral surface.

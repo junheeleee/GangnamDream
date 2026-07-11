@@ -54,6 +54,26 @@
       "eye_line": "Jiyeon looks back toward Minjun over her shoulder."
     },
     {
+      "event_id": "arc_season_snow_daeun",
+      "cg": "cg_romance_first_snow_daeun",
+      "heroine_portrait": "daeun_first_snow",
+      "heroine_outfit": "Muted cranberry quilted winter coat over charcoal layers with an oatmeal knit scarf and dark trousers.",
+      "player_outfit": "Worn black quilted winter jacket over a charcoal crewneck and dark trousers.",
+      "season_months": [12],
+      "player_visibility": "visible_left",
+      "eye_line": "Daeun and Minjun hold mutual eye contact while she offers exactly one of two small canned coffees."
+    },
+    {
+      "event_id": "arc_season_snow_jiyeon",
+      "cg": "cg_romance_first_snow_jiyeon",
+      "heroine_portrait": "jiyeon_first_snow",
+      "heroine_outfit": "Deep charcoal tailored cashmere coat over a dark garnet turtleneck with black trousers and restrained geometric earrings.",
+      "player_outfit": "Worn black quilted winter jacket over a charcoal crewneck and dark trousers.",
+      "season_months": [12],
+      "player_visibility": "visible_right",
+      "eye_line": "Jiyeon turns from the left-hand-drive driver's seat and holds mutual eye contact with Minjun in the front passenger seat after asking him to stay."
+    },
+    {
       "event_id": "arc_daeun_first_kiss",
       "cg": "cg_romance_first_kiss_daeun",
       "heroine_portrait": "daeun_smile",

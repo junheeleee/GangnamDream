@@ -18,10 +18,14 @@ The machine-readable source is `assets/romance_visual_manifest.json`. `CGRuntime
 | Jiyeon / fireworks | `jiyeon_fireworks` | charcoal hooded windbreaker | cropped left, black casual | Jiyeon turns back toward Minjun |
 | Daeun / cherry | `daeun_cherry` | pale-blue belted shirt dress + beige cardigan | POV; black casual if shown | Daeun looks up at the canopy |
 | Jiyeon / cherry | `jiyeon_cherry` | cream spring jacket + black knit | cropped left, black casual | Jiyeon looks back at Minjun |
+| Daeun / first snow | `daeun_first_snow` | cranberry quilted coat + oatmeal scarf | visible left, black quilted winter jacket | mutual gaze across one offered can; exactly two small cans |
+| Jiyeon / first snow | `jiyeon_first_snow` | charcoal tailored coat + garnet knit | visible right, black quilted winter jacket | mutual gaze across left-driver/right-passenger seats after her line |
 | Daeun / first kiss | `daeun_smile` | navy work polo + beige cardigan | visible left, black casual | mutual eye contact |
 | Jiyeon / first kiss | `jiyeon_warm` | cream jacket + black inner | visible right, black casual | mutual eye contact |
 
 `arc_season_sea_daeun` is intentionally staged. The upper-body portrait reveals the coral wrap neckline beneath the same pale-blue travel layer during the train and shop paragraphs. The complete swim-dress silhouette appears only when the beach CG reveals at paragraph 2.
+
+The two first-snow routes are December, location, and paragraph-reveal contracts. `assets/FIRST_SNOW_VISUAL_BIBLE.md` locks the store exterior/two cans and Jiyeon's recurring left-hand-drive sedan; both CGs reveal only at paragraph 1.
 
 ## Minjun Outfit Lock
 

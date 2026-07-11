@@ -65,12 +65,12 @@
     "description": "Minus 17°C. The weather service has issued an extreme cold warning.\nThe asphalt underfoot is frozen. Breath comes out white.\n\nA Siberian air mass came down, they say.\nKorea's winter doesn't explain itself — it just arrives.",
     "choices": [
       {
-        "text": "Spend the day at the jjimjilbang",
-        "result_text": "Dipped my feet into the hot water and felt my whole body thaw.\n\nLay there in the sauna suit eating a steamed egg.\nOne of Seoul's survival secrets: 12,000 won buys you warmth, a shower, and somewhere to sleep."
+        "text": "Spend the day at a jjimjilbang (Korean bathhouse-sauna)",
+        "result_text": "You dipped your feet into the hot water and felt your whole body thaw.\n\nYou lay there in the sauna clothes eating a baked egg.\nOne of Seoul's survival secrets: 12,000 won buys you warmth, a shower, and somewhere to sleep."
       },
       {
-        "text": "Survive on hobbang and fish cake at the convenience store",
-        "result_text": "Stood in front of the convenience store's warming case for a while.\nOne steamed bun, one fish cake stick. Breath mixing with steam.\n\nIn a cold snap, the convenience store is a refuge.\nEven with no money, you can stand somewhere warm for a moment."
+        "text": "Warm up with a steamed bun and fish cake at the convenience store",
+        "result_text": "You stood in front of the convenience store's warming case for a while.\nOne steamed bun, one fish cake skewer. Your breath mixed with the steam.\n\nIn a cold snap, the convenience store is a refuge.\nEven with no money, you can stand somewhere warm for a moment."
       }
     ]
   }

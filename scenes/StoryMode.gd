@@ -80,6 +80,7 @@ var _auto_button: Button = null
 var _auto_mode: bool = false
 var _auto_wait: float = -1.0
 var _auto_button_signature: String = ""
+var _name_panel_visible_before_choices: bool = false
 
 var _font: FontFile
 var _font_bold: FontFile
@@ -163,12 +164,14 @@ func _story_panel_style(bg: Color, border: Color, radius: int, h_margin: int = 0
 func _story_dim_color(has_cg: bool) -> Color:
 	var black := clampf(-_story_moral_norm, 0.0, 1.0)
 	var white := clampf(_story_moral_norm, 0.0, 1.0)
-	var base := Color("#050609", 0.58)
-	if has_cg:
-		base = Color("#040508", 0.04)
-	base = base.lerp(Color("#010202", 0.72 if not has_cg else 0.54), black)
-	base = base.lerp(Color("#dfefff", 0.12 if not has_cg else 0.08), white)
-	return base
+	# Text and choices already own local opaque surfaces. Keep the world readable;
+	# moral collapse comes from damaged tone and focus, not a global black curtain.
+	var alpha := (0.16 if not has_cg else 0.015)
+	alpha += black * (0.10 if not has_cg else 0.055)
+	alpha -= white * (0.11 if not has_cg else 0.01)
+	var tone := Color("#050609").lerp(Color("#010202"), black)
+	tone.a = clampf(alpha, 0.0, 0.40)
+	return tone
 
 func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false) -> void:
 	if _story_visual_override_active:
@@ -194,20 +197,21 @@ func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false)
 	if _story_bg_material:
 		# Reusable locations stay documentary. One-off CGs are the emotional
 		# reward surface, so they keep color until Black-route damage earns its removal.
-		var base_desaturation := 0.14 if has_cg else 0.86
-		var black_desaturation := 0.64 if has_cg else 0.14
-		var white_clearance := 0.16 if has_cg else 0.46
+		var base_desaturation := 0.12 if has_cg else 0.78
+		var black_desaturation := 0.76 if has_cg else 0.22
+		var white_clearance := 0.08 if has_cg else 0.48
 		_story_bg_material.set_shader_parameter("desaturation", clampf(base_desaturation + black * black_desaturation - white * white_clearance, 0.04, 1.0))
-		_story_bg_material.set_shader_parameter("brightness", clampf((1.06 if has_cg else 0.88) - black * (0.22 if has_cg else 0.26) + white * (0.16 if has_cg else 0.20), 0.42, 1.20))
-		_story_bg_material.set_shader_parameter("contrast", clampf(0.94 - black * 0.08 + white * 0.16, 0.68, 1.24))
-		_story_bg_material.set_shader_parameter("tint_amount", clampf(black * 0.12 + white * 0.035, 0.0, 0.18))
+		_story_bg_material.set_shader_parameter("brightness", clampf((1.04 if has_cg else 1.02) - black * 0.04 + white * 0.06, 0.90, 1.16))
+		_story_bg_material.set_shader_parameter("contrast", clampf(0.98 - black * 0.04 + white * 0.04, 0.90, 1.08))
+		_story_bg_material.set_shader_parameter("mid_gamma", clampf((0.96 if has_cg else 0.86) + black * (0.02 if has_cg else -0.08) - white * 0.05, 0.72, 1.04))
+		_story_bg_material.set_shader_parameter("tint_amount", clampf(black * 0.07 + white * 0.035, 0.0, 0.12))
 		_story_bg_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#f7fbff"), white))
-		_story_bg_material.set_shader_parameter("grain_amount", clampf(0.020 + black * 0.030 - white * 0.014, 0.0, 0.075))
-		_story_bg_material.set_shader_parameter("ink_bleed", clampf(0.060 + black * 0.120 - white * 0.042, 0.0, 0.24))
-		_story_bg_material.set_shader_parameter("paper_fade", clampf(0.016 + white * 0.030, 0.0, 0.07))
-		_story_bg_material.set_shader_parameter("edge_burn", clampf(0.075 + black * 0.145 - white * 0.065, 0.0, 0.25))
-		_story_bg_material.set_shader_parameter("print_screen", clampf(0.011 + black * 0.026 - white * 0.009, 0.002, 0.052))
-		_story_bg_material.set_shader_parameter("tone_quantize", clampf(0.018 + black * 0.095 - white * 0.014, 0.0, 0.14))
+		_story_bg_material.set_shader_parameter("grain_amount", clampf(0.012 + black * 0.038 - white * 0.009, 0.0, 0.075))
+		_story_bg_material.set_shader_parameter("ink_bleed", clampf(0.035 + black * 0.165 - white * 0.025, 0.0, 0.24))
+		_story_bg_material.set_shader_parameter("paper_fade", clampf(0.012 + white * 0.038, 0.0, 0.07))
+		_story_bg_material.set_shader_parameter("edge_burn", clampf(0.045 + black * 0.180 - white * 0.035, 0.0, 0.25))
+		_story_bg_material.set_shader_parameter("print_screen", clampf(0.006 + black * 0.034 - white * 0.004, 0.002, 0.052))
+		_story_bg_material.set_shader_parameter("tone_quantize", clampf(0.008 + black * 0.112 - white * 0.006, 0.0, 0.14))
 		_story_bg_material.set_shader_parameter("screen_scale", 620.0 + black * 80.0 - white * 40.0)
 		_story_bg_material.set_shader_parameter("seed", float(GameState.turn % 131) + absf(_story_moral_norm) * 19.0)
 	if _story_surface_material and is_instance_valid(_story_surface_overlay):
@@ -247,16 +251,17 @@ func _apply_story_portrait_surface() -> void:
 	var black := clampf(-_story_moral_norm, 0.0, 1.0)
 	var white := clampf(_story_moral_norm, 0.0, 1.0)
 	if _story_portrait_material:
-		_story_portrait_material.set_shader_parameter("desaturation", clampf(0.36 + black * 0.54 - white * 0.24, 0.08, 0.96))
-		_story_portrait_material.set_shader_parameter("brightness", clampf(0.98 - black * 0.26 + white * 0.10, 0.56, 1.18))
-		_story_portrait_material.set_shader_parameter("contrast", clampf(0.98 - black * 0.06 + white * 0.12, 0.70, 1.24))
+		_story_portrait_material.set_shader_parameter("desaturation", clampf(0.30 + black * 0.62 - white * 0.18, 0.08, 0.96))
+		_story_portrait_material.set_shader_parameter("brightness", clampf(1.02 - black * 0.04 + white * 0.04, 0.92, 1.14))
+		_story_portrait_material.set_shader_parameter("contrast", clampf(0.98 + black * 0.06 + white * 0.06, 0.90, 1.16))
+		_story_portrait_material.set_shader_parameter("mid_gamma", clampf(0.96 + black * 0.06 - white * 0.03, 0.88, 1.06))
 		_story_portrait_material.set_shader_parameter("tint_amount", clampf(black * 0.14 + white * 0.025, 0.0, 0.16))
 		_story_portrait_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#f6fbff"), white))
-		_story_portrait_material.set_shader_parameter("grain_amount", clampf(0.004 + black * 0.026 - white * 0.004, 0.0, 0.055))
-		_story_portrait_material.set_shader_parameter("ink_bleed", clampf(0.010 + black * 0.120 - white * 0.008, 0.0, 0.18))
+		_story_portrait_material.set_shader_parameter("grain_amount", clampf(0.003 + black * 0.027 - white * 0.003, 0.0, 0.055))
+		_story_portrait_material.set_shader_parameter("ink_bleed", clampf(0.008 + black * 0.132 - white * 0.006, 0.0, 0.18))
 		_story_portrait_material.set_shader_parameter("paper_fade", clampf(white * 0.022, 0.0, 0.05))
-		_story_portrait_material.set_shader_parameter("edge_burn", clampf(0.020 + black * 0.115 - white * 0.020, 0.0, 0.16))
-		_story_portrait_material.set_shader_parameter("print_screen", clampf(0.004 + black * 0.014 - white * 0.003, 0.0, 0.025))
+		_story_portrait_material.set_shader_parameter("edge_burn", clampf(0.012 + black * 0.123 - white * 0.010, 0.0, 0.16))
+		_story_portrait_material.set_shader_parameter("print_screen", clampf(0.003 + black * 0.017 - white * 0.002, 0.0, 0.025))
 		_story_portrait_material.set_shader_parameter("tone_quantize", clampf(black * 0.045 - white * 0.010, 0.0, 0.075))
 		_story_portrait_material.set_shader_parameter("screen_scale", 700.0 + black * 90.0)
 		_story_portrait_material.set_shader_parameter("seed", float(GameState.turn % 149) + absf(_story_moral_norm) * 23.0)
@@ -343,17 +348,18 @@ func _build_ui():
 	if bg_grade_shader:
 		_story_bg_material = ShaderMaterial.new()
 		_story_bg_material.shader = bg_grade_shader
-		_story_bg_material.set_shader_parameter("desaturation", 0.86)
-		_story_bg_material.set_shader_parameter("brightness", 0.88)
-		_story_bg_material.set_shader_parameter("contrast", 0.94)
+		_story_bg_material.set_shader_parameter("desaturation", 0.78)
+		_story_bg_material.set_shader_parameter("brightness", 1.02)
+		_story_bg_material.set_shader_parameter("contrast", 0.98)
+		_story_bg_material.set_shader_parameter("mid_gamma", 0.86)
 		_story_bg_material.set_shader_parameter("tint_color", Color("#020303"))
 		_story_bg_material.set_shader_parameter("tint_amount", 0.0)
-		_story_bg_material.set_shader_parameter("grain_amount", 0.020)
-		_story_bg_material.set_shader_parameter("ink_bleed", 0.060)
-		_story_bg_material.set_shader_parameter("paper_fade", 0.016)
-		_story_bg_material.set_shader_parameter("edge_burn", 0.075)
-		_story_bg_material.set_shader_parameter("print_screen", 0.011)
-		_story_bg_material.set_shader_parameter("tone_quantize", 0.018)
+		_story_bg_material.set_shader_parameter("grain_amount", 0.012)
+		_story_bg_material.set_shader_parameter("ink_bleed", 0.035)
+		_story_bg_material.set_shader_parameter("paper_fade", 0.012)
+		_story_bg_material.set_shader_parameter("edge_burn", 0.045)
+		_story_bg_material.set_shader_parameter("print_screen", 0.006)
+		_story_bg_material.set_shader_parameter("tone_quantize", 0.008)
 		_story_bg_material.set_shader_parameter("screen_scale", 620.0)
 		_story_bg_material.set_shader_parameter("seed", 0.0)
 		_bg_img.material = _story_bg_material
@@ -363,7 +369,7 @@ func _build_ui():
 	# 2. 어두운 오버레이 (텍스트 가독성)
 	_bg_dim = ColorRect.new()
 	_bg_dim.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_bg_dim.color = Color(0.04, 0.04, 0.07, 0.62)
+	_bg_dim.color = Color(0.04, 0.04, 0.07, 0.16)
 	_bg_dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_bg_dim)
 
@@ -419,16 +425,17 @@ func _build_ui():
 	if bg_grade_shader:
 		_story_portrait_material = ShaderMaterial.new()
 		_story_portrait_material.shader = bg_grade_shader
-		_story_portrait_material.set_shader_parameter("desaturation", 0.36)
-		_story_portrait_material.set_shader_parameter("brightness", 0.98)
+		_story_portrait_material.set_shader_parameter("desaturation", 0.30)
+		_story_portrait_material.set_shader_parameter("brightness", 1.02)
 		_story_portrait_material.set_shader_parameter("contrast", 0.98)
+		_story_portrait_material.set_shader_parameter("mid_gamma", 0.96)
 		_story_portrait_material.set_shader_parameter("tint_color", Color("#020303"))
 		_story_portrait_material.set_shader_parameter("tint_amount", 0.0)
-		_story_portrait_material.set_shader_parameter("grain_amount", 0.004)
-		_story_portrait_material.set_shader_parameter("ink_bleed", 0.010)
+		_story_portrait_material.set_shader_parameter("grain_amount", 0.003)
+		_story_portrait_material.set_shader_parameter("ink_bleed", 0.008)
 		_story_portrait_material.set_shader_parameter("paper_fade", 0.0)
-		_story_portrait_material.set_shader_parameter("edge_burn", 0.020)
-		_story_portrait_material.set_shader_parameter("print_screen", 0.004)
+		_story_portrait_material.set_shader_parameter("edge_burn", 0.012)
+		_story_portrait_material.set_shader_parameter("print_screen", 0.003)
 		_story_portrait_material.set_shader_parameter("tone_quantize", 0.0)
 		_story_portrait_material.set_shader_parameter("screen_scale", 700.0)
 		_story_portrait_material.set_shader_parameter("seed", 0.0)
@@ -563,7 +570,8 @@ func _build_ui():
 	text_panel.add_child(_auto_button)
 	_refresh_auto_button()
 
-	# 8. 선택지 박스 — 텍스트 박스(높이250) 위에 띄움. 겹치지 않게 -270부터.
+	# 8. 선택지 도크 — 읽던 대화창을 접고 같은 하단 안전영역을 사용한다.
+	# 배경과 인물을 동시에 가리는 두 겹 UI를 만들지 않는다.
 	_choice_box = VBoxContainer.new()
 	_choice_box.anchor_left = 0.08
 	_choice_box.anchor_right = 0.74
@@ -571,8 +579,8 @@ func _build_ui():
 	_choice_box.anchor_bottom = 1.0
 	_choice_box.offset_left = 0
 	_choice_box.offset_right = 0
-	_choice_box.offset_top = -654
-	_choice_box.offset_bottom = -314
+	_choice_box.offset_top = -388
+	_choice_box.offset_bottom = -48
 	_choice_box.add_theme_constant_override("separation", 10)
 	_choice_box.alignment = BoxContainer.ALIGNMENT_END
 	_choice_box.visible = false
@@ -677,10 +685,27 @@ func _refresh_hud():
 	var assets: float = GameState.get_total_asset_value()
 	var pct: int = clampi(int(assets / 3_000_000_000.0 * 100.0), 0, 100)
 	var months_left: int = max(0, (38 - GameState.age) * 12 - GameState.month + 1)
-	_hud_label.text = _tr("자산 %s / 30억 (%d%%)      현금 %s      건강 %d  정신 %d      남은 %d개월", "Assets %s / 3B (%d%%)      Cash %s      Health %d  Mental %d      %d mo left") % [
-		GameState.format_money(assets), pct,
-		GameState.format_money(GameState.money),
+	_hud_label.text = _tr("자산 %s / 30억 (%d%%)      현금 %s      건강 %d  정신 %d      남은 %d개월", "Assets %s / 3 billion won (%d%%)      Cash %s      Health %d  Mental %d      %d mo left") % [
+		_story_money(assets), pct,
+		_story_money(GameState.money),
 		GameState.health, GameState.mental, months_left]
+
+func _story_money(amount: float) -> String:
+	if not LocaleManager.is_english():
+		return GameState.format_money(amount)
+	var sign := "-" if amount < 0.0 else ""
+	var value := absf(amount)
+	if value >= 1_000_000_000.0:
+		return "%s%s billion won" % [sign, _story_money_number(value / 1_000_000_000.0)]
+	if value >= 1_000_000.0:
+		return "%s%s million won" % [sign, _story_money_number(value / 1_000_000.0)]
+	if value >= 1_000.0:
+		return "%s%s thousand won" % [sign, _story_money_number(value / 1_000.0)]
+	return "%s%d won" % [sign, int(roundf(value))]
+
+func _story_money_number(value: float) -> String:
+	var rounded := int(roundf(value))
+	return str(rounded) if is_equal_approx(value, float(rounded)) else "%.1f" % value
 
 func _apply_font(lbl: Label, bold: bool = false):
 	var f = _font_bold if bold else _font
@@ -913,13 +938,26 @@ func _show_portrait(portrait_id: String, bg_only: bool = false):
 func _set_portrait_choice_focus(choices_visible: bool) -> void:
 	if not is_inside_tree() or not is_instance_valid(_portrait_frame) or not _portrait_frame.visible:
 		return
-	var target_alpha := 0.46 if choices_visible else 1.0
+	var target_alpha := 0.72 if choices_visible else 1.0
 	var target_shift := PORTRAIT_CHOICE_SHIFT_X if choices_visible else 0
 	var tw := create_tween()
 	tw.set_parallel(true)
 	tw.tween_property(_portrait_frame, "modulate:a", target_alpha, 0.18).set_trans(Tween.TRANS_SINE)
 	tw.tween_property(_portrait_frame, "offset_left", PORTRAIT_OFFSET_LEFT + target_shift, 0.22).set_trans(Tween.TRANS_SINE)
 	tw.tween_property(_portrait_frame, "offset_right", PORTRAIT_OFFSET_RIGHT + target_shift, 0.22).set_trans(Tween.TRANS_SINE)
+
+func _set_choice_dock_active(active: bool) -> void:
+	if active:
+		_name_panel_visible_before_choices = is_instance_valid(_name_panel) and _name_panel.visible
+		if is_instance_valid(_text_panel):
+			_text_panel.visible = false
+		if is_instance_valid(_name_panel):
+			_name_panel.visible = false
+		return
+	if is_instance_valid(_text_panel):
+		_text_panel.visible = not _is_chapter_card
+	if is_instance_valid(_name_panel):
+		_name_panel.visible = _name_panel_visible_before_choices and not _story_visual_override_active
 
 # ── 장면 연출 디렉션 ─────────────────────────────────────────
 func _prepare_scene_direction() -> void:
@@ -1381,8 +1419,8 @@ func _story_result_effect_color(key: String, val: int) -> Color:
 func _story_result_value_text(key: String, val: int) -> String:
 	if key == "money" or key == "monthly_income":
 		if val >= 0:
-			return "+%s" % GameState.format_money(float(val))
-		return "-%s" % GameState.format_money(absf(float(val)))
+			return "+%s" % _story_money(float(val))
+		return "-%s" % _story_money(absf(float(val)))
 	var sign := "+" if val > 0 else ""
 	return "%s%d" % [sign, val]
 
@@ -1410,7 +1448,7 @@ func _choice_effect_preview(choice: Dictionary) -> String:
 		var stat_name: String = _stat_display_name(key, str(STAT_INFO.get(key, {}).get("name", key)))
 		var sign: String = "+" if val > 0 else ""
 		if key == "money":
-			parts.append("%s %s%s" % [stat_name, sign, GameState.format_money(float(val))])
+			parts.append("%s %s%s" % [stat_name, sign, _story_money(float(val))])
 		else:
 			parts.append("%s %s%d" % [stat_name, sign, val])
 		if parts.size() >= 4:
@@ -1426,6 +1464,7 @@ func _show_choices():
 		return
 	_apply_story_surface_palette(_current_uses_cg)
 	_showing_choices = true
+	_set_choice_dock_active(true)
 	_continue_hint.visible = false
 	_choice_box.visible = true
 	_choice_box.modulate = Color(1, 1, 1, 0)
@@ -1577,6 +1616,7 @@ func _on_choice(idx: int):
 	# 결과 텍스트 표시
 	_showing_choices = false
 	_choice_box.visible = false
+	_set_choice_dock_active(false)
 	_set_portrait_choice_focus(false)
 	for c in _choice_box.get_children():
 		c.queue_free()
@@ -1661,7 +1701,7 @@ func _add_chapter_ink_frame(ov: Control, palette: Dictionary) -> void:
 	file_box.add_child(case_lbl)
 
 	var run_lbl := Label.new()
-	run_lbl.text = _tr("50만원 / 30억 / 5년", "KRW 500K / KRW 3B / 5 YEARS")
+	run_lbl.text = _tr("50만원 / 30억 / 5년", "500 thousand won / 3 billion won / 5 YEARS")
 	run_lbl.add_theme_font_size_override("font_size", 13)
 	run_lbl.add_theme_color_override("font_color", Color("#d7dce5").lerp(Color("#f8fbff"), white * 0.45))
 	run_lbl.modulate.a = 0.48
@@ -1859,7 +1899,7 @@ func _show_change_toasts(before: Dictionary):
 		var disp_name = _stat_display_name(key, str(info["name"]))
 		var txt = ""
 		if key == "money":
-			txt = "%s  %s%s" % [disp_name, "+" if diff > 0 else "-", GameState.format_money(abs(diff))]
+			txt = "%s  %s%s" % [disp_name, "+" if diff > 0 else "-", _story_money(abs(diff))]
 		else:
 			txt = "%s  %s%d" % [disp_name, "+" if diff > 0 else "", int(diff)]
 		# 스트레스는 +가 나쁨

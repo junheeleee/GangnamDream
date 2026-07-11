@@ -25,13 +25,16 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 |---|---|
 | First-run language gate, KO default names, localized portrait name tags | `--qa=locale-gate` |
 | Splash, opening, StartMenu press-any-key, start menu, content notice | `--qa=start-en` |
-| StoryMode/VN flashforward Black→arrival Gray reset, intro events, choices, chapter card, scene direction framing | `--qa=story-en` |
+| StoryMode/VN flashforward Black→arrival Gray reset, intro events, 1~4-choice lower dock, readable backgrounds, chapter card, scene direction framing | `--qa=story-en` |
+| StoryMode non-CG Black/Gray/White luminance, surface damage, color recovery, and forced-Black future framing | `--qa=story-moral --lang=ko/en` |
 | Romance CG Gray/Black/White color hierarchy and no-HUD climax framing | `--qa=romance-cg` |
 | Romance portrait outfit/scale against exact paired CG contract | `--qa=romance-portraits` |
 | Namsan route cable car→restaurant→observation-deck paragraph backgrounds, paired portraits, lock CG intro/choices | `--qa=namsan --lang=ko/en` |
 | Amusement routes: parade→helping CG/result fork, coaster→correct booth→choice-only four-cut CG, KO/EN crop and expression continuity | `--qa=amusement --lang=ko/en` |
 | Daeun hometown route: interior train→separate maternal dining room→delayed night-bus result CG, summer outfit and KO/EN crop continuity | `--qa=hometown --lang=ko/en` |
 | First nights: heroine-specific home/portrait→night result→paragraph-delayed morning CG, same outfit, late-game month HUD, KO/EN crop | `--qa=wedding-morning --lang=ko/en` |
+| First snow: December-only store/car prelude→paragraph-1 CG, winter outfits, exactly two cans, left-driver/right-passenger seating, resting wipers, gaze and KO/EN crop | `--qa=first-snow --lang=ko/en` |
+| Climate portraits: monsoon rain shell, heatwave short sleeves/cooling towel, cold-snap parka/scarf and dedicated frozen street | `--qa=climate --lang=ko/en` |
 | Main AP screen, Seoul Trace visited/locked nodes, warning state, people pressure grind hints, routine modal/time record, market ticker/info panel, keepsake thumbnails, action modals, people modal pages | `--qa=ap-en` |
 | AP Act 1~5 2x2 decision board, actual KRW 500K first-month horizon, post-first-interview `Keep Applying`, action-commit overlay, Seoul Trace restoration, no-scroll special-action row, ACT4 relationship pressure modal | `--qa=ap-act-en` |
 | Investment modal Trade/Holdings/Market movers/Bank pages | `--qa=invest-en` |
@@ -98,6 +101,7 @@ Automated audio gates:
 ## Ending Art
 - `CGRuntimeCheck.tscn` passes all ending CG paths, minimum 1280×720 dimensions, unique ownership, and Gangnam Ink preview grading.
 - `CGRuntimeCheck.tscn` also passes all story CG paths, unique event ownership, exact 1280×800 romance dimensions, paragraph reveal timing, paragraph-specific background order, hidden portraits, and hidden HUD.
+- First-snow runtime checks also prove December-only routing and correct person-free prelude background/portrait before each delayed CG.
 - An ending without a dedicated CG uses its moral mood card; it never borrows another ending's image.
 
 ## News And Market
@@ -117,4 +121,6 @@ Automated audio gates:
 - Investment panel remains readable.
 - Relationship panel remains readable.
 - Event choices fit on screen.
+- Opening choices folds the dialogue panel away; dialogue and choice surfaces never cover the scene in two stacked layers.
+- Gray and Black StoryMode backgrounds retain readable architecture, eye-lines, and hand actions at 1280×800.
 - Notifications do not block important buttons.

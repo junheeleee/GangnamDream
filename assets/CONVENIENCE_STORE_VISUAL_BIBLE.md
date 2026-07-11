@@ -1,6 +1,6 @@
 # Daeun Convenience Store Visual Bible
 
-Updated: 2026-07-10
+Updated: 2026-07-11
 
 This location is Daeun's recurring stage and must remain one recognizable
 store across backgrounds, portraits, CGs, chapter cards, and future DLC.
@@ -53,6 +53,20 @@ STREET / RAIN
 - Bottom dialogue-safe area may contain floor and low counter panels, but not
   an abstract blank slab.
 
+## Exterior And First-Snow Camera
+
+- The exterior is the same store seen through the glass, never a second branch.
+- From screen-left to screen-right, the readable order remains refrigerator
+  bank, low center aisle, counter/POS and staff pocket, then the glass entrance.
+- The counter stays immediately left of the entrance from the street view.
+  Moving it to the rear wall or placing refrigerators behind the clerk changes
+  the building and is a rejection error.
+- `convenience_store_exterior_first_snow.png` is the canonical exterior shell.
+  `first_snow_daeun_v1.png` must preserve that same facade, door, counter,
+  refrigerator bank, wet pavement, and blank unbranded fascia.
+- Snow, daylight, signage treatment, and camera distance may vary in future
+  scenes. The floor plan, glass-bay order, and entrance/counter relationship may not.
+
 ## First Kindness CG
 
 - Camera: side three-quarter view from the public aisle, not a dead-center
@@ -77,3 +91,4 @@ STREET / RAIN
 - Minjun placed outside the store or behind the register.
 - Counter reads as a wall, bar, supermarket belt, or display case.
 - Entrance absent from a first-meeting CG.
+- Exterior door, counter, aisle, or refrigerator order contradicts the canonical interior.

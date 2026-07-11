@@ -91,7 +91,7 @@
     },
     "cooldown": 48,
     "background": "street_rainy",
-    "portrait": "player_tired",
+    "portrait": "player_monsoon",
     "tags": [
       "korea",
       "culture",
@@ -129,7 +129,7 @@
     },
     "cooldown": 48,
     "background": "heatwave_city",
-    "portrait": "player_tired",
+    "portrait": "player_heatwave",
     "tags": [
       "korea",
       "culture",
@@ -168,8 +168,8 @@
       "month": [12, 1, 2]
     },
     "cooldown": 48,
-    "background": "street",
-    "portrait": "player_tired",
+    "background": "cold_snap_street",
+    "portrait": "player_cold_snap",
     "tags": [
       "korea",
       "culture",

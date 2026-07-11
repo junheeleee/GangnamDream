@@ -14,6 +14,7 @@ Updated on 2026-07-11 for Daeun's summer hometown train, maternal dining room, p
 Updated on 2026-07-03 for Lee Minseo transparent portrait and post-Claude story background alignment.
 Updated on 2026-07-11 for paired Namsan observation-deck and love-lock romance assets.
 Updated on 2026-07-11 for heroine-specific newlywed homes, same-outfit first-night portraits, and paragraph-delayed first-morning CGs.
+Updated on 2026-07-11 for paired first-snow route art and Minjun's explicit monsoon, heatwave, and cold-snap portraits.
 
 ## Use These Assets
 
@@ -64,6 +65,14 @@ Updated on 2026-07-11 for heroine-specific newlywed homes, same-outfit first-nig
   - Kim Minjun big-company/corporate suit outfit variant, transparent portrait.
   - Runtime use: large corporation, finance, sales, tier 3+ jobs, and upward-mobility no-job states.
 
+- `assets/characters/main_character_monsoon.png`
+  - Kim Minjun monsoon portrait: wet charcoal rain shell over muted navy, damp hair and shoulders, restrained rain fatigue.
+- `assets/characters/main_character_heatwave.png`
+  - Kim Minjun heatwave portrait: washed short-sleeve charcoal tee, pale cooling towel, sweat-damp hair and heat-flushed skin.
+- `assets/characters/main_character_cold_snap.png`
+  - Kim Minjun cold-snap portrait: dark olive-charcoal padded parka, knit scarf, cold-tense shoulders and face.
+  - All three are transparent 512x768 weather-event portraits; they do not replace job/context portraits outside their explicit climate events.
+
 - `assets/characters/main_character_30s.png`
   - Legacy mid-game Kim Minjun portrait with baked room background.
   - Do not use as the default runtime status portrait; prefer `main_character_corporate.png` or future transparent success variants.
@@ -108,6 +117,10 @@ Updated on 2026-07-11 for heroine-specific newlywed homes, same-outfit first-nig
 - `assets/characters/npc_daeun_wedding_night.png`
   - First-night T1 portrait: dusty-mauve wrap cardigan, cream cotton top, charcoal lounge trousers, short hair and left-temple clip.
   - Same indoor outfit continues into `wedding_morning_daeun_v1.png`; owned by `assets/FIRST_MORNING_VISUAL_BIBLE.md`.
+
+- `assets/characters/npc_daeun_first_snow.png`
+  - December T0 portrait: muted cranberry quilted coat, oatmeal scarf, charcoal layers, and the same short hair/left-temple clip.
+  - Paired with `first_snow_daeun_v1.png`; owned by `assets/FIRST_SNOW_VISUAL_BIBLE.md`.
 
 - `assets/characters/npc_boss.png`
   - Im Sangcheol normal transparent portrait, 52-year-old self-made broker/mentor.
@@ -158,6 +171,10 @@ Updated on 2026-07-11 for heroine-specific newlywed homes, same-outfit first-nig
 - `assets/characters/npc_jiyeon_wedding_night.png`
   - First-night T1 portrait: midnight-blue matte-silk lounge blouse with muted burgundy piping and black tailored lounge trousers.
   - Same indoor outfit continues into `wedding_morning_jiyeon_v1.png`; owned by `assets/FIRST_MORNING_VISUAL_BIBLE.md`.
+
+- `assets/characters/npc_jiyeon_first_snow.png`
+  - December T0 portrait: deep charcoal tailored coat over a dark garnet knit with restrained geometric earrings.
+  - Paired with the recurring left-hand-drive black sedan in `first_snow_jiyeon_v1.png`; owned by `assets/FIRST_SNOW_VISUAL_BIBLE.md`.
 
 - `assets/characters/npc_minseo.png`
   - Lee Minseo transparent portrait, 38-year-old self-made Gangnam arrival mentor.
@@ -218,6 +235,10 @@ Updated on 2026-07-11 for heroine-specific newlywed homes, same-outfit first-nig
   - Use for `heatwave_city` inferred/explicit backgrounds and `kx_heatwave`.
   - Status: approved for first in-game QA. Person-free, no readable signs/logos, dry asphalt/heat haze signal.
 
+- `assets/backgrounds/seoul_cold_snap_street.png`
+  - Person-free working-class Seoul street with frozen asphalt, bare trees, light snow residue, and immediately readable curb/road geometry.
+  - Use only for explicit cold-snap and severe-winter outdoor events.
+
 - `assets/backgrounds/fine_dust_sky.png`
   - Dry yellow-gray Seoul street under fine dust / yellow dust conditions.
   - Use for `fine_dust_sky` inferred/explicit backgrounds and `kx_fine_dust`.
@@ -276,6 +297,9 @@ Updated on 2026-07-11 for heroine-specific newlywed homes, same-outfit first-nig
   - Midnight Korean convenience store interior with a physically locked Korean retail floor plan.
   - Use for comedy, health, night, convenience, and food events.
   - Status: approved. Entrance and customer lane are on the right, counter/POS beside the entrance, staff storage wall behind the clerk, and refrigerators on the far-left perimeter. See `assets/CONVENIENCE_STORE_VISUAL_BIBLE.md`.
+- `assets/backgrounds/convenience_store_exterior_first_snow.png`
+  - Person-free exterior of the same neighborhood store during first snow, with blank fascia, right-side entrance/counter relation, and refrigerators deeper at left.
+  - December prelude owner: `assets/FIRST_SNOW_VISUAL_BIBLE.md`.
 - `assets/backgrounds/convenience_store_night.png`
   - Legacy layout. Do not route new events here.
 
@@ -313,6 +337,10 @@ Updated on 2026-07-11 for heroine-specific newlywed homes, same-outfit first-nig
 - `assets/backgrounds/jiyeon_newlywed_home_night.png`
   - Jiyeon's spacious high-rise home with charcoal materials, broad Seoul city window, restrained wine service, and sparse moving boxes.
   - Both are person-free 1280x800 first-night backgrounds and must never collapse back to the generic `apartment` key.
+
+- `assets/backgrounds/jiyeon_sedan_first_snow_interior.png`
+  - Person-free rear-seat view of Jiyeon's recurring black sedan: left-hand-drive wheel, two front seats, resting wipers, and snow gathering outside.
+  - Prelude background only; the paired two-shot is a separate CG.
 
 - `assets/backgrounds/library.png`
   - Quiet public library/study room background for study, exam prep, self-improvement, and solitude scenes.
@@ -530,6 +558,12 @@ Updated on 2026-07-11 for heroine-specific newlywed homes, same-outfit first-nig
 - `assets/cg/romance/wedding_morning_jiyeon_v1.png`
   - Jiyeon's first married morning from Minjun's POV: bare face, same midnight-blue blouse, one visible duvet hand, and cool dawn high-rise continuity.
   - Both are 1280x800 event-result CGs revealed only at result paragraph 1 and owned by `assets/FIRST_MORNING_VISUAL_BIBLE.md`.
+
+- `assets/cg/romance/first_snow_daeun_v1.png`
+  - December two-shot outside the canonical convenience store: mutual gaze and exactly two small plain canned coffees, one offered and one retained.
+- `assets/cg/romance/first_snow_jiyeon_v1.png`
+  - December back-seat two-shot: Jiyeon at the left driver seat, Minjun at the right passenger seat, both belted, wipers resting, and mutual gaze after her line.
+  - Both are 1280x800 paragraph-1 event CGs owned by `assets/FIRST_SNOW_VISUAL_BIBLE.md`.
 
 - `assets/cg/demo/daeun_first_kindness_v2.png`
   - Demo kindness CG: Daeun remains inside the staff pocket, Minjun remains on the customer side near the entrance, and both share an explicit mutual eye line over two triangle rice packages.

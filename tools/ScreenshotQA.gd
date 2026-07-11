@@ -10,12 +10,15 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=start-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=locale-gate
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-moral --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=romance-cg
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=romance-portraits
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=namsan --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=amusement --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=hometown --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=wedding-morning --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=first-snow --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=climate --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-act-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=endings-en
@@ -46,12 +49,15 @@ const QA_SCOPE_DEMO_BLACKBOX := "demo_blackbox"
 const QA_SCOPE_START_EN := "start_en"
 const QA_SCOPE_LOCALE_GATE := "locale_gate"
 const QA_SCOPE_STORY_EN := "story_en"
+const QA_SCOPE_STORY_MORAL := "story_moral"
 const QA_SCOPE_ROMANCE_CG := "romance_cg"
 const QA_SCOPE_ROMANCE_PORTRAITS := "romance_portraits"
 const QA_SCOPE_NAMSAN := "namsan"
 const QA_SCOPE_AMUSEMENT := "amusement"
 const QA_SCOPE_HOMETOWN := "hometown"
 const QA_SCOPE_WEDDING_MORNING := "wedding_morning"
+const QA_SCOPE_FIRST_SNOW := "first_snow"
+const QA_SCOPE_CLIMATE := "climate"
 const QA_SCOPE_AP_EN := "ap_en"
 const QA_SCOPE_AP_ACT_EN := "ap_act_en"
 const QA_SCOPE_ENDINGS_EN := "endings_en"
@@ -132,6 +138,12 @@ func _ready() -> void:
 		print("SCREENSHOT_QA_DONE scope=story-en lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
+	if scope == QA_SCOPE_STORY_MORAL:
+		var lang := _qa_language("en")
+		await _shot_story_moral_surfaces(lang, "story_moral_en_" if lang == "en" else "story_moral_ko_")
+		print("SCREENSHOT_QA_DONE scope=story-moral lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
 	if scope == QA_SCOPE_ROMANCE_CG:
 		var lang := _qa_language("en")
 		await _shot_romance_cg_tints(lang, "romance_cg_en_" if lang == "en" else "romance_cg_ko_")
@@ -166,6 +178,18 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_wedding_morning_surfaces(lang, "wedding_morning_en_" if lang == "en" else "wedding_morning_ko_")
 		print("SCREENSHOT_QA_DONE scope=wedding-morning lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_FIRST_SNOW:
+		var lang := _qa_language("en")
+		await _shot_first_snow_surfaces(lang, "first_snow_en_" if lang == "en" else "first_snow_ko_")
+		print("SCREENSHOT_QA_DONE scope=first-snow lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_CLIMATE:
+		var lang := _qa_language("en")
+		await _shot_climate_surfaces(lang, "climate_en_" if lang == "en" else "climate_ko_")
+		print("SCREENSHOT_QA_DONE scope=climate lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_AP_EN:
@@ -318,6 +342,10 @@ func _qa_scope() -> String:
 				"qa=story-en", "--qa=story-en", "qa=story_en", "--qa=story_en",
 				"scope=story-en", "--scope=story-en", "scope=story_en", "--scope=story_en"]:
 			return QA_SCOPE_STORY_EN
+		if arg in ["story-moral", "story_moral", "vn-moral", "vn_moral",
+				"--story-moral", "--story_moral", "qa=story-moral", "--qa=story-moral",
+				"qa=story_moral", "--qa=story_moral", "scope=story-moral", "--scope=story-moral"]:
+			return QA_SCOPE_STORY_MORAL
 		if arg in ["romance-cg", "romance_cg", "--romance-cg", "--romance_cg",
 				"qa=romance-cg", "--qa=romance-cg", "qa=romance_cg", "--qa=romance_cg",
 				"scope=romance-cg", "--scope=romance-cg", "scope=romance_cg", "--scope=romance_cg"]:
@@ -339,6 +367,14 @@ func _qa_scope() -> String:
 				"--wedding-morning", "--wedding_morning", "qa=wedding-morning", "--qa=wedding-morning",
 				"qa=wedding_morning", "--qa=wedding_morning", "scope=wedding-morning", "--scope=wedding-morning"]:
 			return QA_SCOPE_WEDDING_MORNING
+		if arg in ["first-snow", "first_snow", "snow-romance", "snow_romance",
+				"--first-snow", "--first_snow", "qa=first-snow", "--qa=first-snow",
+				"qa=first_snow", "--qa=first_snow", "scope=first-snow", "--scope=first-snow"]:
+			return QA_SCOPE_FIRST_SNOW
+		if arg in ["climate", "weather", "season-weather", "season_weather",
+				"--climate", "--weather", "qa=climate", "--qa=climate",
+				"qa=weather", "--qa=weather", "scope=climate", "--scope=climate"]:
+			return QA_SCOPE_CLIMATE
 		if arg in ["ap-en", "ap_en", "main-en", "main_en", "--ap-en", "--ap_en",
 				"qa=ap-en", "--qa=ap-en", "qa=ap_en", "--qa=ap_en",
 				"qa=main-en", "--qa=main-en", "scope=ap-en", "--scope=ap-en"]:
@@ -716,6 +752,7 @@ func _shot_story_surfaces(lang: String = "en", prefix: String = "story_en_") -> 
 	await _shot_story_event("arc_intro_01_meal", prefix + "01b_first_interview_truth_result", lang, 0.45, true, true, 0)
 	await _shot_story_event("arc_intro_02_dad_call", prefix + "02b_story_choices", lang, 0.45, true, true)
 	await _shot_story_event("arc_intro_02_dad_call", prefix + "02c_story_result", lang, 0.45, true, true, 0)
+	await _shot_story_event("arc_father_03_hospital", prefix + "02d_four_choice_dock", lang, 0.45, true, true)
 	await _shot_story_event("arc_daeun_01_meet", prefix + "02d_demo_daeun_first_kindness", lang, 0.65, true)
 	await _shot_story_event("arc_father_01_call", prefix + "02e_demo_father_first_call", lang, 0.65, true)
 	await _shot_story_event("arc_jiyeon_01_crash", prefix + "02f_demo_jiyeon_crash", lang, 0.65, true)
@@ -746,6 +783,20 @@ func _shot_romance_cg_tints(lang: String = "en", prefix: String = "romance_cg_en
 		_prepare_main_game_state()
 		GameState.moral_tint = float(data[0])
 		await _shot_story_event("arc_season_cherry_daeun", prefix + str(data[1]), "", 0.55, true)
+	GameState.moral_tint = 0.0
+
+func _shot_story_moral_surfaces(lang: String = "en", prefix: String = "story_moral_en_") -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	await _shot_story_event("story_flashforward", prefix + "00_black_future", "", 1.0, true)
+	for data in [
+		[-80.0, "01_black"],
+		[0.0, "02_gray"],
+		[80.0, "03_white"],
+	]:
+		_prepare_main_game_state()
+		GameState.moral_tint = float(data[0])
+		await _shot_story_event("kx_heatwave", prefix + str(data[1]), "", 0.55, true)
 	GameState.moral_tint = 0.0
 
 func _shot_romance_portrait_surfaces(lang: String = "en", prefix: String = "romance_portrait_en_") -> void:
@@ -816,6 +867,46 @@ func _shot_wedding_morning_surfaces(lang: String = "en", prefix: String = "weddi
 		await _shot_story_event(event_id, prefix + label + "_03_morning_result", "", 0.45, true, true, 0, 0, false, 1)
 		_prepare_wedding_morning_qa_state(label)
 		await _shot_story_event(event_id, prefix + label + "_04_morning_alt", "", 0.45, true, true, 1, 0, false, 1)
+
+func _shot_first_snow_surfaces(lang: String = "en", prefix: String = "first_snow_en_") -> void:
+	_set_qa_language(lang)
+	for route in [
+		["daeun", "arc_season_snow_daeun"],
+		["jiyeon", "arc_season_snow_jiyeon"],
+	]:
+		var label := str(route[0])
+		var event_id := str(route[1])
+		_prepare_first_snow_qa_state(label)
+		await _shot_story_event(event_id, prefix + label + "_00_winter_prelude", "", 0.45, true, false, -1, 0, true)
+		_prepare_first_snow_qa_state(label)
+		await _shot_story_event(event_id, prefix + label + "_01_cg_reveal", "", 0.45, true, false, -1, 1)
+		_prepare_first_snow_qa_state(label)
+		await _shot_story_event(event_id, prefix + label + "_02_choices", "", 0.45, true, true)
+		_prepare_first_snow_qa_state(label)
+		await _shot_story_event(event_id, prefix + label + "_03_result", "", 0.45, true, true, 0)
+
+func _prepare_first_snow_qa_state(person_id: String) -> void:
+	_prepare_main_game_state()
+	GameState.age = 34
+	GameState.turn = 95
+	GameState.year = 2027
+	GameState.month = 12
+	GameState.week_of_month = 4
+	if person_id == "daeun":
+		GameState.flags["daeun_romance_started"] = true
+	else:
+		GameState.flags["jiyeon_romance_started"] = true
+
+func _shot_climate_surfaces(lang: String = "en", prefix: String = "climate_en_") -> void:
+	for data in [
+		["kx_monsoon", "01_monsoon"],
+		["kx_heatwave", "02_heatwave"],
+		["kx_cold_snap", "03_cold_snap"],
+	]:
+		var event_id := str(data[0])
+		var label := str(data[1])
+		await _shot_story_event(event_id, prefix + label + "_intro", lang, 0.45, true)
+		await _shot_story_event(event_id, prefix + label + "_choices", lang, 0.45, true, true)
 
 func _prepare_wedding_morning_qa_state(person_id: String) -> void:
 	_prepare_main_game_state()

@@ -171,6 +171,21 @@ Use this before generating, accepting, wiring, or replacing any image asset. A v
 - Daeun's two hands must remain attached to one cooking action: ring hand on the pan, other hand on the spatula, rolled omelet in the pan.
 - Jiyeon's direct gaze is legal only as Minjun's explicit POV; exactly one hand pulls the duvet to her nose and the other remains hidden.
 
+### First-Snow Romance Routes
+
+- Full calendar, location, wardrobe, prop, vehicle, and gaze owner: `assets/FIRST_SNOW_VISUAL_BIBLE.md`.
+- Both routes fire only in December. Paragraph 0 retains a person-free location background and the dedicated winter portrait; paragraph 1 reveals the full CG and hides portrait/HUD.
+- Daeun waits outside the canonical convenience store in a cranberry quilted coat and oatmeal scarf. Exactly two small canned coffees exist: one offered, one retained.
+- Jiyeon remains in the screen-left driver seat of her recurring left-hand-drive black sedan; Minjun remains in the screen-right passenger seat. Both belts stay fastened and the stopped wipers rest at the windshield base.
+- Mutual gaze is legal only after the prose establishes Daeun's offered coffee or Jiyeon's request to stay. Neither scene uses accidental lens contact.
+
+### Explicit Climate Portraits
+
+- `kx_monsoon`, `kx_heatwave`, and `kx_cold_snap` use dedicated Minjun portraits rather than the generic long-sleeve tired portrait.
+- Rain shell, short sleeves/cooling towel, and padded parka/scarf must be readable before expression detail.
+- Climate portraits remain transparent 512x768 assets and never bake in their street backgrounds.
+- Cold-snap streets must show frozen road/curb logic without ambiguous bus shelters or unrelated foreground people.
+
 ## Production Status Tags
 
 - `approved`: canon-safe and wired.
