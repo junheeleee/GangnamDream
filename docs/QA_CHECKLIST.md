@@ -45,7 +45,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Tutorial overlay surface and onboarding copy | `--qa=tutorial-en` |
 | Job hunt/career modal tier pages and resume/interview minigame surface | `--qa=job-en` |
 | Casino/minigame UI only | `--qa=casino-en` |
-| Moral tint/filter only | `--qa=moral` |
+| Moral tint/filter, choice echo, and same-room five-stage Minjun threshold acting | `--qa=moral --lang=ko/en` |
 | Scene transition only | `--qa=transition` |
 | Broad Steam Deck English regression | `--qa=surface-en` |
 

@@ -1965,10 +1965,31 @@ func _shot_moral_tint_states() -> void:
 		_mg._apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
 	await _shot_moral_choice_echo(-25.0, "03e_moral_black_choice_echo")
 	await _shot_moral_choice_echo(25.0, "03f_moral_white_choice_echo")
+	await _shot_moral_beat_surfaces()
 	GameState.pending_tint_vignette = {}
 	GameState.moral_tint = 0.0
 	if _mg.has_method("_apply_moral_visuals"):
 		_mg._apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
+
+func _shot_moral_beat_surfaces() -> void:
+	var cases := [
+		[-80.0, -1, -2, "03g_moral_beat_deep_black"],
+		[-35.0, 0, -1, "03h_moral_beat_light_black"],
+		[0.0, -1, 0, "03i_moral_beat_gray"],
+		[35.0, 0, 1, "03j_moral_beat_light_white"],
+		[80.0, 1, 2, "03k_moral_beat_deep_white"],
+	]
+	for data in cases:
+		GameState.moral_tint = float(data[0])
+		if _mg.has_method("_apply_moral_visuals"):
+			_mg._apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
+		_mg.current_event = {}
+		if _mg.has_method("_show_moral_beat"):
+			_mg._show_moral_beat(int(data[1]), int(data[2]))
+		if _mg.has_method("_finish_typing"):
+			_mg._finish_typing()
+		await _settle(1.35)
+		await _save(str(data[3]))
 
 func _shot_transition_states() -> void:
 	var cases := [

@@ -21,6 +21,10 @@ const PORTRAITS = {
 	"player_heatwave":    "res://assets/characters/main_character_heatwave.png",
 	"player_monsoon":     "res://assets/characters/main_character_monsoon.png",
 	"player_cold_snap":   "res://assets/characters/main_character_cold_snap.png",
+	# 밴드 경계 자각 장면 전용. 같은 검은 크루넥/동일 얼굴에서 표정만 단계적으로 변한다.
+	"player_moral_gray":  "res://assets/characters/main_character_neutral_goshiwon.png",
+	"player_moral_black": "res://assets/characters/main_character_determined.png",
+	"player_moral_white": "res://assets/characters/main_character_happy.png",
 
 	# 김다은 (연인)
 	"daeun_normal":       "res://assets/characters/npc_romantic_interest.png",
@@ -89,6 +93,9 @@ const PLAYER_TIRED = "res://assets/characters/main_character_tired.png"
 const PLAYER_HAPPY = "res://assets/characters/main_character_happy.png"
 const PLAYER_SHOCKED = "res://assets/characters/main_character_shocked.png"
 const PLAYER_HOLLOW = "res://assets/characters/main_character_50s.png"
+const PLAYER_MORAL_GRAY = "res://assets/characters/main_character_neutral_goshiwon.png"
+const PLAYER_MORAL_BLACK = "res://assets/characters/main_character_determined.png"
+const PLAYER_MORAL_WHITE = "res://assets/characters/main_character_happy.png"
 
 # ── 인물 표시 정보 (플레이스홀더용 — 이름 + 테마색) ──────────────
 const PERSON_INFO = {
@@ -307,6 +314,21 @@ func get_player_context_portrait() -> String:
 	if job_id == "job_08" or category in ["finance", "sales"] or tier >= 3:
 		return PLAYER_CORPORATE
 	return PLAYER_OFFICE
+
+## 밴드 경계 비네트는 직업 복장이 아니라 시작 당시의 검은 크루넥으로 돌아간다.
+## 같은 기억 프레임에서 표정과 시선만 바뀌어야 전후 비교가 성립한다.
+func get_player_moral_portrait(stage: int) -> String:
+	match clampi(stage, -2, 2):
+		-2:
+			return PLAYER_MORAL_BLACK
+		-1:
+			return PLAYER_TIRED
+		0:
+			return PLAYER_MORAL_GRAY
+		1, 2:
+			return PLAYER_MORAL_WHITE
+		_:
+			return PLAYER_MORAL_GRAY
 
 func _get_dynamic_player_portrait(id: String) -> String:
 	match id:

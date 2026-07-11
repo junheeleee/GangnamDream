@@ -89,6 +89,8 @@ var _ink_transition_progress: float = 0.0
 var _ink_transition_kind: String = "neutral"
 var _event_bg_motion_tween: Tween = null
 var _transient_bg_active: bool = false
+var _moral_beat_surface_active: bool = false
+var _moral_beat_bg_tween: Tween = null
 var _main_ui_root: Control = null
 var _minigame_overlay_active: bool = false
 var character_portrait: TextureRect
@@ -3617,6 +3619,13 @@ func _reveal_result_controls(animated: bool) -> void:
 func _on_result_confirmed():
 	pending_result_text = ""
 	_transient_bg_active = false
+	if _moral_beat_surface_active:
+		_moral_beat_surface_active = false
+		if _moral_beat_bg_tween and _moral_beat_bg_tween.is_running():
+			_moral_beat_bg_tween.kill()
+		_moral_beat_bg_tween = null
+		if is_instance_valid(event_bg):
+			event_bg.modulate.a = 0.25
 	# 흉터 비네트 — 삶의 선을 처음 넘는 순간 (band 전이보다 우선)
 	if not GameState.pending_scar_vignette.is_empty():
 		var scar := GameState.pending_scar_vignette
@@ -3639,6 +3648,7 @@ func _show_moral_beat(from_band: int, to_band: int):
 	_transient_bg_active = true
 	_clear_category_tint(true)
 	_clear_feedback_flash()
+	_stage_moral_beat_surface(to_band)
 	var body := _moral_beat_text(from_band, to_band)
 	event_title.text = ""
 	_type_text(_fmt(body), 42.0)
@@ -3646,6 +3656,32 @@ func _show_moral_beat(from_band: int, to_band: int):
 	btn.pressed.connect(func(): _finish_typing(); _on_result_confirmed())
 	choice_box.add_child(btn)
 	next_button.disabled = true
+
+func _stage_moral_beat_surface(to_band: int) -> void:
+	# 모든 경계는 시작점인 고시원으로 잠깐 돌아간다. 실제 이사가 아니라
+	# 동일한 기억 프레임에서 민준의 얼굴만 달라지는 시각적 전후 비교다.
+	var room_path := ImageRegistry.get_background("goshiwon_room")
+	if not room_path.is_empty() and ResourceLoader.exists(room_path):
+		_apply_event_bg_path(room_path)
+	_moral_beat_surface_active = true
+	if _moral_beat_bg_tween and _moral_beat_bg_tween.is_running():
+		_moral_beat_bg_tween.kill()
+	if is_instance_valid(event_bg):
+		# 일반 대시보드 배경보다 또렷하게 보여 주되 모든 밴드에서 같은 알파를 쓴다.
+		# 밝기 차이가 아니라 같은 방·다른 얼굴을 비교하게 하는 장치다.
+		_moral_beat_bg_tween = create_tween()
+		_moral_beat_bg_tween.tween_interval(0.42)
+		_moral_beat_bg_tween.tween_property(event_bg, "modulate:a", 0.52, 0.32).set_trans(Tween.TRANS_SINE)
+	var portrait_path := ImageRegistry.get_player_moral_portrait(to_band)
+	if not portrait_path.is_empty() and ResourceLoader.exists(portrait_path):
+		character_portrait.texture = load(portrait_path)
+		_apply_moral_portrait_state()
+	var player_info := ImageRegistry.get_person_info("player_moral_gray")
+	if player_name_label:
+		player_name_label.text = str(player_info.get("name", GameState.player_name))
+	if title_label:
+		title_label.text = ""
+	BGMPlayer.set_ambience("room")
 
 # 흉터 비네트 — 삶의 선을 처음 넘은 날 밤, 한 장면. 숫자 없음. (docs/MORAL_TINT.md §7)
 func _show_scar_beat(scar_flag: String) -> void:
@@ -3691,8 +3727,8 @@ func _moral_beat_text(from_band: int, to_band: int) -> String:
 	# 하양 쪽으로 (되찾음 — 불완전)
 	if to_band >= 2:
 		return _tr(
-			"창밖의 간판 색이 이상하게 선명했다.\n원래 저렇게 많은 색이 있었나, 잠깐 생각했다.",
-			"The signs outside the window looked strangely vivid.\nFor a moment I wondered whether there had always been that much color.")
+			"책상 위 낡은 노트와 컵라면 용기의 색이 이상하게 선명했다.\n원래 이 방에도 색이 있었나, 잠깐 생각했다.",
+			"The worn notebook and ramyeon cup on the desk looked strangely vivid.\nFor a moment I wondered whether this room had always held that much color.")
 	if to_band == 1:
 		return _tr(
 			"오랜만에 통화 끝에 웃었다.\n웃는 게 어색했다는 걸, 웃고 나서 알았다.",
