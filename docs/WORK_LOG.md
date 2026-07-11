@@ -1,5 +1,26 @@
 # Gangnam Dream Work Log
 
+## 2026-07-11 (Codex — first-night homes, first-morning CGs, and late-game clock)
+
+### 진단
+- 다은·지연 첫날밤 트리거가 각각 결혼식 `return` 아래에 들여쓰기되어 실제로 도달할 수 없었다.
+- 두 장면이 같은 일반 원룸 배경과 기존 일상 초상을 사용해 계급·공간·의상 연속성이 없었다.
+- 결과 두 번째 문단이 다음 날 아침인데 선택 직후 CG를 띄우면 밤 페이드 지문과 충돌한다.
+- 전용 QA가 새 게임 상태로 후반 이벤트를 열었고, StoryMode HUD도 나이 정수만 계산해 `5 yrs left`처럼 거짓된 시간 압박을 표시했다.
+
+### 구현
+- 다은의 작은 신혼집과 지연의 고층 신혼집, 동일 실내복 초상 2종, 첫아침 POV CG 2종을 제작·배선했다.
+- 두 이벤트는 공통 `result_cg`를 결과 문단 1에서만 공개하며, 밤 결과 문단 0까지 각 신혼집과 초상을 유지한다.
+- `_wedding_night_arc_id()`로 결혼식 다음 주 도달성과 1회성 완료를 명시하고 런타임 회귀를 추가했다.
+- StoryMode 남은 시간을 메인 화면과 동일한 월 계산으로 바꾸고, QA는 다은 t200/11개월·지연 t205/9개월 상태를 재현한다.
+- 두 장면의 영어 번역투를 교정하고 `FIRST_MORNING_VISUAL_BIBLE.md`, 의상/로맨스/연기 manifest, 전용 `--qa=wedding-morning` 범위를 추가했다.
+
+### 검증
+- `CG_RUNTIME_CHECK_OK`: 결혼식 전 차단, 결혼식 후 도달, 완료 후 반복 차단, 밤 배경 유지와 문단 1 아침 CG 공개 확인.
+- `CG_ACTING_CHECK_OK active=26 actor_contracts=46 missing=0 stale=0`.
+- 실제 1280×800 KO/EN 각 10장으로 별도 집·동일 의상·손/시선·긴 문장 크롭·11/9개월 HUD를 확인했다.
+- 전체 `audit.sh` ERROR 0/WARNING 0, English zero-Hangul, 밸런스 밴드, 오디오/BGM 연속성, StoryPlayback, 57 GDScript compile 통과. `en_coverage_check.py`와 `arc_flow_sim.py`도 통과.
+
 ## 2026-07-11 (Codex — Daeun hometown continuity and wardrobe-season audit)
 
 ### 진단

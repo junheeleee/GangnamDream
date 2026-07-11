@@ -2384,10 +2384,10 @@ func _next_arc_id() -> String:
 	if t >= 200 and f.get("daeun_married", false) \
 			and not f.get("arc_daeun_wedding_day_seen", false):
 		return "arc_daeun_wedding_day"
-		# ②-d 첫날밤 (7-G) — 결혼식 이후. 존엄 페이드아웃 + 아침 비트(계란말이 실 최종 회수, dik).
-		if f.get("arc_daeun_wedding_day_seen", false) \
-				and not f.get("arc_daeun_wedding_night_seen", false):
-			return "arc_daeun_wedding_night"
+	# ②-d 첫날밤 (7-G) — 결혼식 이후. 존엄 페이드아웃 + 아침 비트(계란말이 실 최종 회수, dik).
+	var daeun_wedding_night_id := _wedding_night_arc_id("daeun", f)
+	if daeun_wedding_night_id != "":
+		return daeun_wedding_night_id
 	# ③ 시험 — 아내를 서류로 쓰는 지름길. our_home 기반(상견례 스킵돼도 체인 유지).
 	#    상철 신고/절연 후엔 안 뜸(그가 제안할 리 없음).
 	if t >= 182 and f.get("arc_daeun_our_home_seen", false) \
@@ -3111,10 +3111,10 @@ func _next_arc_id() -> String:
 	if t >= 205 and f.get("jiyeon_romance_started", false) \
 			and not f.get("arc_jiyeon_wedding_gap_seen", false):
 		return "arc_jiyeon_wedding_gap"
-		# 첫날밤 (7-G) — 결혼식 이후. 존엄 페이드아웃 + 아침 비트(민낯).
-		if f.get("arc_jiyeon_wedding_gap_seen", false) \
-				and not f.get("arc_jiyeon_wedding_night_seen", false):
-			return "arc_jiyeon_wedding_night"
+	# 첫날밤 (7-G) — 결혼식 이후. 존엄 페이드아웃 + 아침 비트(민낯).
+	var jiyeon_wedding_night_id := _wedding_night_arc_id("jiyeon", f)
+	if jiyeon_wedding_night_id != "":
+		return jiyeon_wedding_night_id
 	# ② 이렇게 살 사람 — 강남 미달+작게 산 경우에만(성공하면 스킵→jiyeon_man). 반전 이혼.
 	if t >= 228 and f.get("jiyeon_romance_started", false) \
 			and not f.get("arc_jiyeon_verdict_seen", false) \
@@ -3243,6 +3243,18 @@ func _jiyeon_narrow_room_arc_id(t: int, f: Dictionary) -> String:
 				or f.get("arc_jiyeon_father_records_seen", false)) \
 			and not f.get("arc_jiyeon_narrow_room_1_seen", false):
 		return "arc_jiyeon_narrow_room_1"
+	return ""
+
+func _wedding_night_arc_id(person_id: String, f: Dictionary) -> String:
+	match person_id:
+		"daeun":
+			if f.get("arc_daeun_wedding_day_seen", false) \
+					and not f.get("arc_daeun_wedding_night_seen", false):
+				return "arc_daeun_wedding_night"
+		"jiyeon":
+			if f.get("arc_jiyeon_wedding_gap_seen", false) \
+					and not f.get("arc_jiyeon_wedding_night_seen", false):
+				return "arc_jiyeon_wedding_night"
 	return ""
 
 ## 마일스톤 스토리 이벤트 — 조건 맞으면 ID 반환 (없으면 ""). StoryMode로 재생.

@@ -251,8 +251,10 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "background": "apartment",
-    "portrait": "daeun_smile",
+    "background": "daeun_newlywed_home",
+    "portrait": "daeun_wedding_night",
+    "result_cg": "cg_romance_wedding_morning_daeun",
+    "result_cg_reveal_paragraph": 1,
     "conditions": {
       "min_turn": 9999
     },
@@ -310,8 +312,10 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "background": "apartment",
-    "portrait": "jiyeon_warm",
+    "background": "jiyeon_newlywed_home",
+    "portrait": "jiyeon_wedding_night",
+    "result_cg": "cg_romance_wedding_morning_jiyeon",
+    "result_cg_reveal_paragraph": 1,
     "conditions": {
       "min_turn": 9999
     },

@@ -106,7 +106,10 @@ def main() -> int:
                 failures.append(f"{asset_id}/{actor_id}: pose_support is missing or vague")
             gaze_lower = gaze_target.lower()
             lens_facing = re.search(r"\b(?:lens|camera|viewer)\b", gaze_lower) is not None
-            if lens_facing and camera_role not in {"player_pov", "four_cut_booth_camera"}:
+            diegetic_camera = camera_role == "four_cut_booth_camera" or (
+                camera_role == "player_pov" or camera_role.startswith("player_pov_")
+            )
+            if lens_facing and not diegetic_camera:
                 failures.append(
                     f"{asset_id}/{actor_id}: lens-facing gaze requires a diegetic camera role"
                 )

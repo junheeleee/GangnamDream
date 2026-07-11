@@ -676,11 +676,11 @@ func _refresh_hud():
 		return
 	var assets: float = GameState.get_total_asset_value()
 	var pct: int = clampi(int(assets / 3_000_000_000.0 * 100.0), 0, 100)
-	var yrs_left: int = max(0, 38 - GameState.age)
-	_hud_label.text = _tr("자산 %s / 30억 (%d%%)      현금 %s      건강 %d  정신 %d      남은 %d년", "Assets %s / 3B (%d%%)      Cash %s      Health %d  Mental %d      %d yrs left") % [
+	var months_left: int = max(0, (38 - GameState.age) * 12 - GameState.month + 1)
+	_hud_label.text = _tr("자산 %s / 30억 (%d%%)      현금 %s      건강 %d  정신 %d      남은 %d개월", "Assets %s / 3B (%d%%)      Cash %s      Health %d  Mental %d      %d mo left") % [
 		GameState.format_money(assets), pct,
 		GameState.format_money(GameState.money),
-		GameState.health, GameState.mental, yrs_left]
+		GameState.health, GameState.mental, months_left]
 
 func _apply_font(lbl: Label, bold: bool = false):
 	var f = _font_bold if bold else _font

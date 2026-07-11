@@ -30,6 +30,7 @@ const PORTRAITS = {
 	"daeun_amusement":    "res://assets/characters/npc_daeun_amusement.png",
 	"daeun_hometown_worried": "res://assets/characters/npc_daeun_hometown_worried.png",
 	"daeun_hometown_warm": "res://assets/characters/npc_daeun_hometown_warm.png",
+	"daeun_wedding_night": "res://assets/characters/npc_daeun_wedding_night.png",
 
 	# 임상철 (인맥 브로커)
 	"sangchul_normal":    "res://assets/characters/npc_boss.png",
@@ -50,6 +51,7 @@ const PORTRAITS = {
 	"jiyeon_amusement":   "res://assets/characters/npc_jiyeon_amusement.png",
 	"jiyeon_narrow_door": "res://assets/characters/npc_jiyeon_narrow_door.png",
 	"jiyeon_narrow_room": "res://assets/characters/npc_jiyeon_narrow_room.png",
+	"jiyeon_wedding_night": "res://assets/characters/npc_jiyeon_wedding_night.png",
 
 	# 조연
 	"boss":               "res://assets/characters/npc_team_lead.png",
@@ -171,6 +173,8 @@ const BACKGROUNDS = {
 	"ktx_window":        "res://assets/backgrounds/hometown_train_station.png",
 	"regional_train_window": "res://assets/backgrounds/regional_train_window_summer.png",
 	"daeun_mother_home_dining": "res://assets/backgrounds/daeun_mother_home_dining_summer.png",
+	"daeun_newlywed_home": "res://assets/backgrounds/daeun_newlywed_home_night.png",
+	"jiyeon_newlywed_home": "res://assets/backgrounds/jiyeon_newlywed_home_night.png",
 	"burnout":           "res://assets/backgrounds/burnout_hospital_room.png",
 	"penthouse":         "res://assets/backgrounds/penthouse_view.png",
 	"gangnam_penthouse": "res://assets/backgrounds/penthouse_view.png",
@@ -230,6 +234,8 @@ const CG = {
 	"cg_romance_amusement_photo_strip_jiyeon": "res://assets/cg/romance/amusement_photo_strip_jiyeon_v1.png",
 	"cg_romance_narrow_room_jiyeon": "res://assets/cg/romance/narrow_room_jiyeon_v1.png",
 	"cg_romance_hometown_night_bus_daeun": "res://assets/cg/romance/hometown_night_bus_daeun_v1.png",
+	"cg_romance_wedding_morning_daeun": "res://assets/cg/romance/wedding_morning_daeun_v1.png",
+	"cg_romance_wedding_morning_jiyeon": "res://assets/cg/romance/wedding_morning_jiyeon_v1.png",
 }
 
 # ── 유물 오브젝트 스틸 ────────────────────────────────────────

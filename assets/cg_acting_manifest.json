@@ -213,6 +213,22 @@
         {"id": "daeun", "gaze_target": "Sleep against the bus window", "pose_support": "Closed eyes, relaxed jaw, lowered shoulders, and the weight of her head against the glass all support genuine sleep without leaning on Minjun."},
         {"id": "minjun", "gaze_target": "Daeun and the city lights reflected beyond her", "pose_support": "Pupils and chin turn screen-left; a restrained peaceful smile and open shoulders replace his default defeated expression."}
       ]
+    },
+    "cg_romance_wedding_morning_daeun": {
+      "path": "assets/cg/romance/wedding_morning_daeun_v1.png",
+      "camera_role": "player_pov_domestic_observer",
+      "story_action": "On their first married morning, Daeun cooks a rolled omelet in the half-unpacked kitchen while Minjun watches from the bedroom doorway.",
+      "actors": [
+        {"id": "daeun", "gaze_target": "The rolled omelet in the pan", "pose_support": "Her profile and lowered eyes follow the pan; her left hand grips its handle while her right hand holds the wooden spatula above the omelet."}
+      ]
+    },
+    "cg_romance_wedding_morning_jiyeon": {
+      "path": "assets/cg/romance/wedding_morning_jiyeon_v1.png",
+      "camera_role": "player_pov_intimate_closeup",
+      "story_action": "Bare-faced on their first married morning, Jiyeon meets Minjun's gaze and hides her embarrassment behind the duvet.",
+      "actors": [
+        {"id": "jiyeon", "gaze_target": "Minjun at the player camera", "pose_support": "Her pupils and face meet the player POV while one visible hand pulls the duvet to her nose and the other remains hidden."}
+      ]
     }
   }
 }

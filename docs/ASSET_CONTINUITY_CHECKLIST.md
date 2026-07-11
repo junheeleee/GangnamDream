@@ -162,6 +162,15 @@ Use this before generating, accepting, wiring, or replacing any image asset. A v
 - Daeun keeps the same pale-sage summer outfit in both portraits and the return-bus CG.
 - The dinner stays visible through result paragraph 0. The night-bus CG appears only at result paragraph 1.
 
+### First Night And Morning Routes
+
+- Full home, wardrobe, gaze, and result-timing owner: `assets/FIRST_MORNING_VISUAL_BIBLE.md`.
+- Daeun and Jiyeon never share the generic apartment background. Daeun owns a modest small one-bedroom rental; Jiyeon owns a spacious high-rise home.
+- The first-night portrait and morning CG preserve the same indoor outfit. Indoor scene contracts are valid across seasons and must not be mistaken for missing outdoor winter coverage.
+- Night result paragraph 0 retains the home background and portrait. The morning CG appears only at result paragraph 1.
+- Daeun's two hands must remain attached to one cooking action: ring hand on the pan, other hand on the spatula, rolled omelet in the pan.
+- Jiyeon's direct gaze is legal only as Minjun's explicit POV; exactly one hand pulls the duvet to her nose and the other remains hidden.
+
 ## Production Status Tags
 
 - `approved`: canon-safe and wired.

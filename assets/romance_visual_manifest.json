@@ -138,6 +138,26 @@
       "prelude_event_id": "arc_daeun_hometown_1",
       "prelude_portrait": "daeun_hometown_worried",
       "prelude_outfit": "The same pale sage overshirt, ivory T-shirt, navy trousers, and charcoal shoulder strap used through the two-day summer trip."
+    },
+    {
+      "event_id": "arc_daeun_wedding_night",
+      "cg_placement": "event_result",
+      "cg": "cg_romance_wedding_morning_daeun",
+      "heroine_portrait": "daeun_wedding_night",
+      "heroine_outfit": "Muted dusty-mauve soft-knit wrap cardigan over a cream square-neck cotton top with charcoal lounge trousers; the same indoor outfit continues into the first morning.",
+      "season_scope": "indoor_all_season",
+      "player_visibility": "pov",
+      "eye_line": "Daeun looks down at the rolled omelet in the pan; her profile, shoulders, spatula hand, and pan hand all support the cooking action without lens contact."
+    },
+    {
+      "event_id": "arc_jiyeon_wedding_night",
+      "cg_placement": "event_result",
+      "cg": "cg_romance_wedding_morning_jiyeon",
+      "heroine_portrait": "jiyeon_wedding_night",
+      "heroine_outfit": "Deep midnight-blue matte-silk wrap lounge blouse with muted burgundy piping and black tailored lounge trousers; the same indoor outfit continues into the first morning.",
+      "season_scope": "indoor_all_season",
+      "player_visibility": "pov",
+      "eye_line": "Bare-faced Jiyeon looks directly at Minjun at the player camera while one hand pulls the duvet to her nose; the other hand remains hidden."
     }
   ]
 }

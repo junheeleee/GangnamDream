@@ -39,6 +39,8 @@ The machine-readable source is `assets/romance_visual_manifest.json`. `CGRuntime
 | Jiyeon / Amusement Park | `jiyeon_amusement` | `jiyeon_amusement` | wine-red tailored suede jacket + charcoal-black mock-neck | visible right in all four frames, worn black crewneck/jacket | lens pose → mutual gaze → shared laugh → cheek-kiss surprise |
 | Daeun / Hometown | `daeun_hometown_worried` | `daeun_hometown_warm` | pale sage summer overshirt + ivory T-shirt + navy trousers | visible right on bus, worn black crewneck/jacket | Daeun sleeps against the window; Minjun watches her and the rural-to-Seoul reflection |
 | Jiyeon / Narrow Room | `jiyeon_narrow_door` | `jiyeon_narrow_room` | charcoal travel coat over oxblood top, then coat removed with charcoal trousers | visible right, worn black crewneck | mutual eye contact across the floor aisle; observer camera |
+| Daeun / First Morning | `daeun_wedding_night` | `daeun_wedding_night` | dusty-mauve wrap cardigan + cream cotton top + charcoal lounge trousers | player POV, not drawn | Daeun looks at the omelet; pan and spatula hands complete one action |
+| Jiyeon / First Morning | `jiyeon_wedding_night` | `jiyeon_wedding_night` | midnight-blue matte-silk lounge blouse + black tailored lounge trousers | player POV, not drawn | Jiyeon notices Minjun looking and raises the duvet with one visible hand |
 
 The Narrow Room is also a location-continuity contract. `assets/GOSHIWON_VISUAL_BIBLE.md` fixes the left-wall bed, right-front desk, high frosted window, single door, two cup ramyeon bowls, and the dialogue-safe prop band.
 
@@ -47,6 +49,8 @@ Namsan is a four-location continuity contract. `assets/NAMSAN_VISUAL_BIBLE.md` l
 The amusement park is a choice-timed and season-timed contract. `assets/AMUSEMENT_PARK_VISUAL_BIBLE.md` locks mild-weather months, the park/roller-coaster/booth progression, opposing booth camera and bench, and result-only four-cut CG. `main_character_unemployed.png` supplies Minjun's identity but never forces its defeated expression onto the date.
 
 The hometown trip is a calendar, location, and delayed-result contract. `assets/HOMETOWN_VISUAL_BIBLE.md` locks June-August entry, the interior train and separate maternal home, one continuous summer outfit, and the night-bus CG at result paragraph 1 rather than at choice commit.
+
+The two first mornings are home, outfit, and delayed-result contracts. `assets/FIRST_MORNING_VISUAL_BIBLE.md` keeps the heroines in separate newlywed homes, preserves each night outfit into morning, and reveals the POV CG only at result paragraph 1.
 
 ## Gaze Gate
 

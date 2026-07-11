@@ -24,11 +24,13 @@ The game does not yet provide four-season wardrobe coverage for every character.
 | Kim Daeun spring/sea/fireworks | Dedicated portrait + CG | Complete for April, July-August, September-October | Maintain existing month gates |
 | Kim Daeun Namsan/amusement | Dedicated mild-weather outfit | Complete for March-May, September-November | Runtime deferral is tested |
 | Kim Daeun hometown | One summer outfit across train/home/bus | Complete for June-August entry | Runtime deferral and delayed bus CG are tested |
+| Kim Daeun first night/morning | Mauve indoor lounge outfit across portrait/CG | Complete, indoor all-season | Dedicated small newlywed home and paragraph-1 morning reveal are tested |
 | Kim Daeun first snow | Default work outfit outside store | Incomplete | Produce winter outerwear portrait/CG or stage her clearly inside before any exterior beat |
 | Han Jiyeon default | Cream tailored jacket + black inner | Valid for office/vehicle interiors; not universal outdoors | Avoid using as generic all-season exterior wear |
 | Han Jiyeon spring/sea/fireworks | Dedicated portrait + CG | Complete for April, July-August, September-October | Maintain existing month gates |
 | Han Jiyeon Namsan/amusement | Dedicated mild-weather outfit | Complete for March-May, September-November | Runtime deferral is tested |
 | Han Jiyeon Narrow Room | Long coat at door, oxblood top indoors | Complete for January-April, October-December entry | Runtime deferral is tested |
+| Han Jiyeon first night/morning | Midnight-blue indoor lounge outfit across portrait/CG | Complete, indoor all-season | Dedicated high-rise home, bare-face continuity, and paragraph-1 morning reveal are tested |
 | Han Jiyeon first snow | Default warm portrait in car; optional walk follows | Incomplete | Add winter car/exterior outfit and preserve the black sedan interior canon |
 | Hyunsu, Sangchul, Father, Jaehyuk, Seongjun, Minseo, minor recurring cast | One primary outfit each | Mostly season-neutral indoor use; not audited for every exterior event | Inventory explicit outdoor appearances before generating variants |
 
@@ -37,7 +39,7 @@ The game does not yet provide four-season wardrobe coverage for every character.
 1. Daeun and Jiyeon first-snow winter portrait pairs, with the exterior result path checked separately from the car/store interior.
 2. Minjun heatwave, monsoon, and cold-snap presentation: dedicated seasonal portrait or deliberate background-only staging.
 3. Recurring-cast exterior-event inventory, ordered by demo visibility and emotional importance.
-4. First-morning, proposal, wedding, and ending outfits remain scene contracts rather than generic season variants.
+4. First-morning outfits are complete scene contracts; proposal, wedding, and ending outfits remain scene contracts rather than generic season variants.
 
 ## Completion Gate
 

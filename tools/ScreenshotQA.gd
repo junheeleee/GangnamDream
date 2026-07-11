@@ -15,6 +15,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=namsan --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=amusement --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=hometown --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=wedding-morning --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-act-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=endings-en
@@ -50,6 +51,7 @@ const QA_SCOPE_ROMANCE_PORTRAITS := "romance_portraits"
 const QA_SCOPE_NAMSAN := "namsan"
 const QA_SCOPE_AMUSEMENT := "amusement"
 const QA_SCOPE_HOMETOWN := "hometown"
+const QA_SCOPE_WEDDING_MORNING := "wedding_morning"
 const QA_SCOPE_AP_EN := "ap_en"
 const QA_SCOPE_AP_ACT_EN := "ap_act_en"
 const QA_SCOPE_ENDINGS_EN := "endings_en"
@@ -158,6 +160,12 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_hometown_surfaces(lang, "hometown_en_" if lang == "en" else "hometown_ko_")
 		print("SCREENSHOT_QA_DONE scope=hometown lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_WEDDING_MORNING:
+		var lang := _qa_language("en")
+		await _shot_wedding_morning_surfaces(lang, "wedding_morning_en_" if lang == "en" else "wedding_morning_ko_")
+		print("SCREENSHOT_QA_DONE scope=wedding-morning lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_AP_EN:
@@ -327,6 +335,10 @@ func _qa_scope() -> String:
 		if arg in ["hometown", "hometown-romance", "hometown_romance", "--hometown",
 				"qa=hometown", "--qa=hometown", "scope=hometown", "--scope=hometown"]:
 			return QA_SCOPE_HOMETOWN
+		if arg in ["wedding-morning", "wedding_morning", "first-morning", "first_morning",
+				"--wedding-morning", "--wedding_morning", "qa=wedding-morning", "--qa=wedding-morning",
+				"qa=wedding_morning", "--qa=wedding_morning", "scope=wedding-morning", "--scope=wedding-morning"]:
+			return QA_SCOPE_WEDDING_MORNING
 		if arg in ["ap-en", "ap_en", "main-en", "main_en", "--ap-en", "--ap_en",
 				"qa=ap-en", "--qa=ap-en", "qa=ap_en", "--qa=ap_en",
 				"qa=main-en", "--qa=main-en", "scope=ap-en", "--scope=ap-en"]:
@@ -613,6 +625,8 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 				break
 			story._on_advance()
 			await _settle(0.16)
+		if bool(story.get("_showing_choices")):
+			await _settle(0.4)
 	if select_choice >= 0 and bool(story.get("_showing_choices")) and story.has_method("_on_choice"):
 		GameState.flags["tut_stat_shown"] = true
 		GameState.flags["tut_cast_shown"] = true
@@ -783,6 +797,43 @@ func _shot_hometown_surfaces(lang: String = "en", prefix: String = "hometown_en_
 	await _shot_story_event("arc_daeun_hometown_2", prefix + "04_mother_table_choices", lang, 0.45, true, true)
 	await _shot_story_event("arc_daeun_hometown_2", prefix + "05_dinner_result", lang, 0.45, true, true, 0)
 	await _shot_story_event("arc_daeun_hometown_2", prefix + "06_night_bus_result", lang, 0.45, true, true, 0, 0, false, 1)
+
+func _shot_wedding_morning_surfaces(lang: String = "en", prefix: String = "wedding_morning_en_") -> void:
+	_set_qa_language(lang)
+	for route in [
+		["daeun", "arc_daeun_wedding_night"],
+		["jiyeon", "arc_jiyeon_wedding_night"],
+	]:
+		var label := str(route[0])
+		var event_id := str(route[1])
+		_prepare_wedding_morning_qa_state(label)
+		await _shot_story_event(event_id, prefix + label + "_00_night_intro", "", 0.45, true)
+		_prepare_wedding_morning_qa_state(label)
+		await _shot_story_event(event_id, prefix + label + "_01_choices", "", 0.45, true, true)
+		_prepare_wedding_morning_qa_state(label)
+		await _shot_story_event(event_id, prefix + label + "_02_night_result", "", 0.45, true, true, 0)
+		_prepare_wedding_morning_qa_state(label)
+		await _shot_story_event(event_id, prefix + label + "_03_morning_result", "", 0.45, true, true, 0, 0, false, 1)
+		_prepare_wedding_morning_qa_state(label)
+		await _shot_story_event(event_id, prefix + label + "_04_morning_alt", "", 0.45, true, true, 1, 0, false, 1)
+
+func _prepare_wedding_morning_qa_state(person_id: String) -> void:
+	_prepare_main_game_state()
+	GameState.age = 37
+	GameState.year = 2030
+	GameState.money = 350_000_000.0
+	if person_id == "daeun":
+		GameState.turn = 200
+		GameState.month = 2
+		GameState.week_of_month = 4
+		GameState.flags["daeun_married"] = true
+		GameState.flags["arc_daeun_wedding_day_seen"] = true
+	else:
+		GameState.turn = 205
+		GameState.month = 4
+		GameState.week_of_month = 1
+		GameState.flags["jiyeon_romance_started"] = true
+		GameState.flags["arc_jiyeon_wedding_gap_seen"] = true
 
 func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> void:
 	_set_qa_language(lang)

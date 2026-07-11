@@ -10,6 +10,7 @@ func _ready() -> void:
 	await _check_story_mode_cg()
 	_check_date_milestone_season_contract()
 	_check_special_story_season_contract()
+	_check_wedding_night_reachability_contract()
 	await _check_ending_cg()
 	if _failures.is_empty():
 		print("CG_RUNTIME_CHECK_OK")
@@ -53,8 +54,14 @@ func _check_story_mode_cg() -> void:
 	await _check_story_choice_result_visual(
 		"arc_date_park_daeun", 1, "amusement_roller_coaster", false)
 	await _check_story_shared_result_cg(
-		"arc_daeun_hometown_2", 0, "daeun_mother_home_dining",
-		"cg_romance_hometown_night_bus_daeun", 1)
+			"arc_daeun_hometown_2", 0, "daeun_mother_home_dining",
+			"cg_romance_hometown_night_bus_daeun", 1)
+	await _check_story_shared_result_cg(
+			"arc_daeun_wedding_night", 0, "daeun_newlywed_home",
+			"cg_romance_wedding_morning_daeun", 1)
+	await _check_story_shared_result_cg(
+			"arc_jiyeon_wedding_night", 0, "jiyeon_newlywed_home",
+			"cg_romance_wedding_morning_jiyeon", 1)
 	await _check_story_event_portrait_reveal("arc_jiyeon_narrow_room_1", "jiyeon_narrow_door", 2)
 	_check_all_story_cg_contracts()
 	_check_romance_visual_manifest()
@@ -332,6 +339,28 @@ func _check_special_story_season_contract() -> void:
 	main.free()
 	GameState.month = saved_month
 	GameState.flags = saved_flags
+
+func _check_wedding_night_reachability_contract() -> void:
+	var main_script := load("res://scenes/MainGame.gd") as GDScript
+	var main: Node = main_script.new()
+	if str(main.call("_wedding_night_arc_id", "daeun", {})) != "":
+		_failures.append("Daeun wedding night must wait for the wedding day")
+	var daeun_flags := {"arc_daeun_wedding_day_seen": true}
+	if str(main.call("_wedding_night_arc_id", "daeun", daeun_flags)) != "arc_daeun_wedding_night":
+		_failures.append("Daeun wedding night is unreachable after the wedding day")
+	daeun_flags["arc_daeun_wedding_night_seen"] = true
+	if str(main.call("_wedding_night_arc_id", "daeun", daeun_flags)) != "":
+		_failures.append("Daeun wedding night repeats after completion")
+
+	if str(main.call("_wedding_night_arc_id", "jiyeon", {})) != "":
+		_failures.append("Jiyeon wedding night must wait for the wedding gap scene")
+	var jiyeon_flags := {"arc_jiyeon_wedding_gap_seen": true}
+	if str(main.call("_wedding_night_arc_id", "jiyeon", jiyeon_flags)) != "arc_jiyeon_wedding_night":
+		_failures.append("Jiyeon wedding night is unreachable after the wedding gap scene")
+	jiyeon_flags["arc_jiyeon_wedding_night_seen"] = true
+	if str(main.call("_wedding_night_arc_id", "jiyeon", jiyeon_flags)) != "":
+		_failures.append("Jiyeon wedding night repeats after completion")
+	main.free()
 
 func _check_all_story_cg_contracts() -> void:
 	var owners: Dictionary = {}

@@ -13,6 +13,7 @@ Updated on 2026-07-01 for digital/holiday/climate/library surface pass: fine dus
 Updated on 2026-07-11 for Daeun's summer hometown train, maternal dining room, paired travel portraits, and delayed night-bus CG.
 Updated on 2026-07-03 for Lee Minseo transparent portrait and post-Claude story background alignment.
 Updated on 2026-07-11 for paired Namsan observation-deck and love-lock romance assets.
+Updated on 2026-07-11 for heroine-specific newlywed homes, same-outfit first-night portraits, and paragraph-delayed first-morning CGs.
 
 ## Use These Assets
 
@@ -104,6 +105,10 @@ Updated on 2026-07-11 for paired Namsan observation-deck and love-lock romance a
   - Hometown T1 dinner portrait: same exact summer outfit and identity, with a small embarrassed closed-mouth smile.
   - Both are transparent 512x768 assets and are owned by `assets/HOMETOWN_VISUAL_BIBLE.md`.
 
+- `assets/characters/npc_daeun_wedding_night.png`
+  - First-night T1 portrait: dusty-mauve wrap cardigan, cream cotton top, charcoal lounge trousers, short hair and left-temple clip.
+  - Same indoor outfit continues into `wedding_morning_daeun_v1.png`; owned by `assets/FIRST_MORNING_VISUAL_BIBLE.md`.
+
 - `assets/characters/npc_boss.png`
   - Im Sangcheol normal transparent portrait, 52-year-old self-made broker/mentor.
 
@@ -149,6 +154,10 @@ Updated on 2026-07-11 for paired Namsan observation-deck and love-lock romance a
 
 - `assets/characters/npc_jiyeon_narrow_room.png`
   - T1 Narrow Room interior portrait: coat removed, muted oxblood fine-knit top, relaxed shoulders and vulnerable screen-left gaze, matched to `narrow_room_jiyeon_v1.png`.
+
+- `assets/characters/npc_jiyeon_wedding_night.png`
+  - First-night T1 portrait: midnight-blue matte-silk lounge blouse with muted burgundy piping and black tailored lounge trousers.
+  - Same indoor outfit continues into `wedding_morning_jiyeon_v1.png`; owned by `assets/FIRST_MORNING_VISUAL_BIBLE.md`.
 
 - `assets/characters/npc_minseo.png`
   - Lee Minseo transparent portrait, 38-year-old self-made Gangnam arrival mentor.
@@ -298,6 +307,12 @@ Updated on 2026-07-11 for paired Namsan observation-deck and love-lock romance a
   - Daeun mother's modest rural dining room at summer dusk, separate from Minjun's father's Changwon home.
   - Exactly three rice/soup place settings, centered rolled omelet, standing fan, medicine and reading glasses; no large family portrait or male factory jacket.
   - Both are approved 1280x800 backgrounds owned by `assets/HOMETOWN_VISUAL_BIBLE.md`.
+
+- `assets/backgrounds/daeun_newlywed_home_night.png`
+  - Daeun's modest small Seoul one-bedroom rental with compact kitchen, center bedroom doorway, right-side entrance, two pairs of shoes, and half-unpacked boxes.
+- `assets/backgrounds/jiyeon_newlywed_home_night.png`
+  - Jiyeon's spacious high-rise home with charcoal materials, broad Seoul city window, restrained wine service, and sparse moving boxes.
+  - Both are person-free 1280x800 first-night backgrounds and must never collapse back to the generic `apartment` key.
 
 - `assets/backgrounds/library.png`
   - Quiet public library/study room background for study, exam prep, self-improvement, and solitude scenes.
@@ -509,6 +524,12 @@ Updated on 2026-07-11 for paired Namsan observation-deck and love-lock romance a
 - `assets/cg/romance/hometown_night_bus_daeun_v1.png`
   - T1 Daeun return-bus CG: Daeun sleeps against the window in the same summer outfit while Minjun watches her and the rural-to-Seoul reflection with quiet relief.
   - Approved 1280x800. Shared event-result CG for both dinner choices, revealed only at result paragraph 1; owned by `assets/HOMETOWN_VISUAL_BIBLE.md`.
+
+- `assets/cg/romance/wedding_morning_daeun_v1.png`
+  - Daeun's first married morning from Minjun's POV: same mauve indoor outfit, wedding-ring pan hand, spatula hand, and rolled omelet in the canonical small kitchen.
+- `assets/cg/romance/wedding_morning_jiyeon_v1.png`
+  - Jiyeon's first married morning from Minjun's POV: bare face, same midnight-blue blouse, one visible duvet hand, and cool dawn high-rise continuity.
+  - Both are 1280x800 event-result CGs revealed only at result paragraph 1 and owned by `assets/FIRST_MORNING_VISUAL_BIBLE.md`.
 
 - `assets/cg/demo/daeun_first_kindness_v2.png`
   - Demo kindness CG: Daeun remains inside the staff pocket, Minjun remains on the customer side near the entrance, and both share an explicit mutual eye line over two triangle rice packages.
