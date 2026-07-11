@@ -153,6 +153,15 @@ Use this before generating, accepting, wiring, or replacing any image asset. A v
 - Booth bench and camera/monitor sit on opposite walls and face each other. A camera behind the bench or a one-person passport stool is a structural rejection.
 - Jiyeon's four-cut CG appears only after the photo choice. All four face beats stay above the dialogue-safe lower region; the skipped-photo result returns to the roller coaster.
 
+### Daeun Hometown Route
+
+- Full calendar, location, wardrobe, and result-timing owner: `assets/HOMETOWN_VISUAL_BIBLE.md`.
+- Episode 1 starts only in June-August and defers to a later summer; episode 2 completes an already-started trip.
+- The train scene must use an interior window-seat background, not the provincial station platform.
+- Daeun's mother's dining room is separate from Minjun's father's Changwon home and has exactly three place settings.
+- Daeun keeps the same pale-sage summer outfit in both portraits and the return-bus CG.
+- The dinner stays visible through result paragraph 0. The night-bus CG appears only at result paragraph 1.
+
 ## Production Status Tags
 
 - `approved`: canon-safe and wired.

@@ -125,6 +125,19 @@
       "season_months": [3, 4, 5, 9, 10, 11],
       "player_visibility": "visible_right",
       "eye_line": "Four-frame sequence: both address the booth lens, then share mutual eye contact, laugh together, and end with Jiyeon kissing Minjun's cheek while his surprise remains natural."
+    },
+    {
+      "event_id": "arc_daeun_hometown_2",
+      "cg_placement": "event_result",
+      "cg": "cg_romance_hometown_night_bus_daeun",
+      "heroine_portrait": "daeun_hometown_warm",
+      "heroine_outfit": "Pale sage lightweight cotton overshirt with rolled sleeves over an ivory T-shirt, dark navy trousers, and a charcoal shoulder strap.",
+      "season_months": [6, 7, 8, 9],
+      "player_visibility": "visible_right",
+      "eye_line": "Daeun sleeps with her head resting against the bus window while Minjun watches her and the shared rural-to-Seoul reflection with a quiet, relieved expression.",
+      "prelude_event_id": "arc_daeun_hometown_1",
+      "prelude_portrait": "daeun_hometown_worried",
+      "prelude_outfit": "The same pale sage overshirt, ivory T-shirt, navy trousers, and charcoal shoulder strap used through the two-day summer trip."
     }
   ]
 }

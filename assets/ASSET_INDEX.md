@@ -10,6 +10,7 @@ Updated on 2026-06-20 for dedicated P1 ending CGs and Slot/Roulette/BigWheel chi
 Updated on 2026-07-01 for dedicated Korean-culture background pass: hagwon street, Suneung test hall, community center, jjimjilbang, cherry blossom path, saju cafe, and reserve-duty gate.
 Updated on 2026-07-01 for workplace/climate surface pass: company dinner restaurant, heatwave city, Seoul street ambience, civil-defense siren, and monsoon rain cue.
 Updated on 2026-07-01 for digital/holiday/climate/library surface pass: fine dust sky, Chuseok highway traffic, open chat screen, matching ambience loops, and library-room ambience.
+Updated on 2026-07-11 for Daeun's summer hometown train, maternal dining room, paired travel portraits, and delayed night-bus CG.
 Updated on 2026-07-03 for Lee Minseo transparent portrait and post-Claude story background alignment.
 Updated on 2026-07-11 for paired Namsan observation-deck and love-lock romance assets.
 
@@ -96,6 +97,12 @@ Updated on 2026-07-11 for paired Namsan observation-deck and love-lock romance a
 - `assets/characters/npc_daeun_amusement.png`
   - Amusement-park T1 portrait: slate-blue chore jacket, ivory knit, dark jeans, and canvas crossbody strap, matched to `amusement_lost_child_daeun_v1.png`.
   - Mild-weather only (March-May, September-November); child-directed gaze, both hands naturally pocketed.
+
+- `assets/characters/npc_daeun_hometown_worried.png`
+  - Hometown T1 train portrait: pale-sage summer overshirt over ivory T-shirt, navy trousers, charcoal shoulder strap, worried screen-left gaze.
+- `assets/characters/npc_daeun_hometown_warm.png`
+  - Hometown T1 dinner portrait: same exact summer outfit and identity, with a small embarrassed closed-mouth smile.
+  - Both are transparent 512x768 assets and are owned by `assets/HOMETOWN_VISUAL_BIBLE.md`.
 
 - `assets/characters/npc_boss.png`
   - Im Sangcheol normal transparent portrait, 52-year-old self-made broker/mentor.
@@ -283,6 +290,14 @@ Updated on 2026-07-11 for paired Namsan observation-deck and love-lock romance a
 - `assets/backgrounds/hometown_train_station.png`
   - Modest provincial Korean station platform for hometown return/family-pressure scenes.
   - Status: P2 regenerated without a central traveler; should feel working-class and regional, not wealthy Seoul.
+
+- `assets/backgrounds/regional_train_window_summer.png`
+  - Person-free interior of a modest Korean intercity train with a two-seat window pair and summer rice paddies outside.
+  - Use for written in-train window scenes; do not substitute the outdoor station platform.
+- `assets/backgrounds/daeun_mother_home_dining_summer.png`
+  - Daeun mother's modest rural dining room at summer dusk, separate from Minjun's father's Changwon home.
+  - Exactly three rice/soup place settings, centered rolled omelet, standing fan, medicine and reading glasses; no large family portrait or male factory jacket.
+  - Both are approved 1280x800 backgrounds owned by `assets/HOMETOWN_VISUAL_BIBLE.md`.
 
 - `assets/backgrounds/library.png`
   - Quiet public library/study room background for study, exam prep, self-improvement, and solitude scenes.
@@ -490,6 +505,10 @@ Updated on 2026-07-11 for paired Namsan observation-deck and love-lock romance a
 - `assets/cg/romance/amusement_photo_strip_jiyeon_v1.png`
   - T1 Jiyeon choice-result CG: four fixed-identity booth frames progress from posing to mutual gaze, laughter, and a surprise cheek kiss.
   - Both are 1280x800, mild-weather outfit locked, and owned by `assets/AMUSEMENT_PARK_VISUAL_BIBLE.md`.
+
+- `assets/cg/romance/hometown_night_bus_daeun_v1.png`
+  - T1 Daeun return-bus CG: Daeun sleeps against the window in the same summer outfit while Minjun watches her and the rural-to-Seoul reflection with quiet relief.
+  - Approved 1280x800. Shared event-result CG for both dinner choices, revealed only at result paragraph 1; owned by `assets/HOMETOWN_VISUAL_BIBLE.md`.
 
 - `assets/cg/demo/daeun_first_kindness_v2.png`
   - Demo kindness CG: Daeun remains inside the staff pocket, Minjun remains on the customer side near the entrance, and both share an explicit mutual eye line over two triangle rice packages.

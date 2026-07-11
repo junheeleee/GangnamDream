@@ -1,5 +1,27 @@
 # Gangnam Dream Work Log
 
+## 2026-07-11 (Codex — Daeun hometown continuity and wardrobe-season audit)
+
+### 진단
+- 「시골의 이틀」은 여름 장면인데 월 제한이 없고, 기차 안 지문에 야외 플랫폼을, 다은 어머니 집에 민준 아버지의 창원 집을 사용했다.
+- 다은은 기차에서 슬픈 편의점 유니폼, 밥상에서 웃는 편의점 유니폼으로 바뀌어 이틀 여행의 옷이 이어지지 않았다.
+- 밤 버스는 결과 두 번째 문단부터인데 선택 즉시 CG를 띄우면 밥상 결과 첫 문단과 충돌한다.
+- 시골/좁은 방 아크 트리거가 앞선 `return` 아래로 잘못 들여쓰기되어 실제로 도달할 수 없었다. 지연의 긴 코트도 여름 발동 가능했다.
+- 전역 계절 의상 자동 교체는 존재하지 않는다. 민준은 직업/상태 기반, 조연 다수는 단일 초상이며 겨울 첫눈은 전용 겨울옷이 없다.
+
+### 구현
+- 인물 없는 여름 지방열차 실내, 다은 어머니의 3인 밥상, 동일 연녹색 여름 사복의 걱정/따뜻한 초상, 시골→서울 불빛이 겹치는 밤 버스 2인 CG를 제작·배선했다.
+- 이벤트 공통 `result_cg`와 `result_cg_reveal_paragraph`를 추가해 두 선택지가 같은 버스 CG를 소유하되 결과 문단 1에서만 공개한다.
+- 시골 1편은 t100 이후 6~8월에만 시작하고 다음 여름으로 이월한다. 시작된 2편은 월 경계와 무관하게 완결한다.
+- 좁은 방 1편은 긴 코트가 자연스러운 1~4월/10~12월에만 시작하고 이월한다. 두 아크의 도달 불가 들여쓰기를 고쳤다.
+- `HOMETOWN_VISUAL_BIBLE.md`, `WARDROBE_SEASON_AUDIT.md`, 로맨스/연기 manifest, ImageRegistry, 정적 스키마·런타임 회귀와 `--qa=hometown` 스코프를 추가했다.
+
+### 검증
+- 실제 1280×800 `--qa=hometown --lang=ko/en` 각 7장: 기차/밥상/결과 첫 문단/밤 버스 순서, 동일 의상, 이름·줄바꿈, 대사 안전 크롭 확인.
+- `CG_RUNTIME_CHECK_OK`: 5월 차단·다음 여름 이월, 밥상 유지 후 문단 1 CG 공개, 좁은 방 7월 차단·10월 이월 확인.
+- `CG_ACTING_CHECK_OK active=24 actor_contracts=44 missing=0 stale=0`.
+- 전체 `audit.sh` ERROR 0/WARNING 0, English zero-Hangul, 밸런스 밴드, 오디오/BGM 연속성, StoryPlayback, 57 GDScript compile 통과. `en_coverage_check.py`와 `arc_flow_sim.py`도 통과.
+
 ## 2026-07-11 (Codex — amusement-park paired art, result visuals, and season contract)
 
 ### 진단

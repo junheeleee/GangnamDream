@@ -204,6 +204,15 @@
         {"id": "jiyeon", "gaze_target": "Minjun across the narrow floor aisle", "pose_support": "Pupils and chin turn screen-right while relaxed shoulders and arms around her knees hold the same line."},
         {"id": "minjun", "gaze_target": "Jiyeon beside the bed", "pose_support": "Pupils, face, and torso turn screen-left while his ramen-setting hand remains between them."}
       ]
+    },
+    "cg_romance_hometown_night_bus_daeun": {
+      "path": "assets/cg/romance/hometown_night_bus_daeun_v1.png",
+      "camera_role": "intimate_bus_observer_two_shot",
+      "story_action": "The same window holds receding rural lights and approaching Seoul while Daeun finally sleeps and Minjun stops counting money for one night.",
+      "actors": [
+        {"id": "daeun", "gaze_target": "Sleep against the bus window", "pose_support": "Closed eyes, relaxed jaw, lowered shoulders, and the weight of her head against the glass all support genuine sleep without leaning on Minjun."},
+        {"id": "minjun", "gaze_target": "Daeun and the city lights reflected beyond her", "pose_support": "Pupils and chin turn screen-left; a restrained peaceful smile and open shoulders replace his default defeated expression."}
+      ]
     }
   }
 }

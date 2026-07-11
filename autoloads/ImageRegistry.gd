@@ -28,6 +28,8 @@ const PORTRAITS = {
 	"daeun_cherry":       "res://assets/characters/npc_daeun_cherry.png",
 	"daeun_namsan":       "res://assets/characters/npc_daeun_namsan.png",
 	"daeun_amusement":    "res://assets/characters/npc_daeun_amusement.png",
+	"daeun_hometown_worried": "res://assets/characters/npc_daeun_hometown_worried.png",
+	"daeun_hometown_warm": "res://assets/characters/npc_daeun_hometown_warm.png",
 
 	# 임상철 (인맥 브로커)
 	"sangchul_normal":    "res://assets/characters/npc_boss.png",
@@ -167,6 +169,8 @@ const BACKGROUNDS = {
 	# Canon-safe Changwon father-home background regenerated on 2026-06-12.
 	"dad_house":         "res://assets/backgrounds/family_living_room.png",
 	"ktx_window":        "res://assets/backgrounds/hometown_train_station.png",
+	"regional_train_window": "res://assets/backgrounds/regional_train_window_summer.png",
+	"daeun_mother_home_dining": "res://assets/backgrounds/daeun_mother_home_dining_summer.png",
 	"burnout":           "res://assets/backgrounds/burnout_hospital_room.png",
 	"penthouse":         "res://assets/backgrounds/penthouse_view.png",
 	"gangnam_penthouse": "res://assets/backgrounds/penthouse_view.png",
@@ -225,6 +229,7 @@ const CG = {
 	"cg_romance_amusement_lost_child_daeun": "res://assets/cg/romance/amusement_lost_child_daeun_v1.png",
 	"cg_romance_amusement_photo_strip_jiyeon": "res://assets/cg/romance/amusement_photo_strip_jiyeon_v1.png",
 	"cg_romance_narrow_room_jiyeon": "res://assets/cg/romance/narrow_room_jiyeon_v1.png",
+	"cg_romance_hometown_night_bus_daeun": "res://assets/cg/romance/hometown_night_bus_daeun_v1.png",
 }
 
 # ── 유물 오브젝트 스틸 ────────────────────────────────────────

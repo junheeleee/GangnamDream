@@ -6,8 +6,8 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "background": "ktx_window",
-    "portrait": "daeun_sad",
+    "background": "regional_train_window",
+    "portrait": "daeun_hometown_worried",
     "conditions": {
       "min_turn": 9999
     },
@@ -64,8 +64,10 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "background": "dad_house",
-    "portrait": "daeun_smile",
+    "background": "daeun_mother_home_dining",
+    "portrait": "daeun_hometown_warm",
+    "result_cg": "cg_romance_hometown_night_bus_daeun",
+    "result_cg_reveal_paragraph": 1,
     "conditions": {
       "min_turn": 9999
     },

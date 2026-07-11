@@ -235,6 +235,25 @@ def check_events():
             cg = e.get("cg")
             if cg and VALID_CG and cg not in VALID_CG:
                 warn('%s  [%s] 모르는 cg id → "%s"' % (rel(p), eid, cg))
+            result_cg = e.get("result_cg")
+            result_bg = e.get("result_background")
+            result_reveal = e.get("result_cg_reveal_paragraph")
+            if result_cg and VALID_CG and result_cg not in VALID_CG:
+                err('%s  [%s] 모르는 공통 result_cg id → "%s"' % (rel(p), eid, result_cg))
+            if result_bg and VALID_BACKGROUNDS and result_bg not in VALID_BACKGROUNDS:
+                err('%s  [%s] 모르는 공통 result_background id → "%s"'
+                    % (rel(p), eid, result_bg))
+            if result_cg and result_bg:
+                err('%s  [%s] 공통 result_cg와 result_background를 동시에 지정할 수 없음'
+                    % (rel(p), eid))
+            if result_reveal is not None:
+                if not result_cg:
+                    err('%s  [%s] result_cg_reveal_paragraph에는 공통 result_cg가 필요함'
+                        % (rel(p), eid))
+                if not isinstance(result_reveal, int) or isinstance(result_reveal, bool) \
+                        or result_reveal < 1:
+                    err('%s  [%s] result_cg_reveal_paragraph는 1 이상의 정수여야 함'
+                        % (rel(p), eid))
             # choices
             for ci, ch in enumerate(e.get("choices", [])):
                 result_cg = ch.get("result_cg")
@@ -317,8 +336,11 @@ def check_romance_visual_manifest():
         cg_id = str(row.get("cg", ""))
         portrait_id = str(row.get("heroine_portrait", ""))
         choice_index = row.get("choice_index")
+        placement = str(row.get("cg_placement", "choice_result" if choice_index is not None else "event"))
         actual_cg = str(event.get("cg", ""))
-        if choice_index is not None:
+        if placement == "event_result":
+            actual_cg = str(event.get("result_cg", ""))
+        elif placement == "choice_result":
             choices = event.get("choices", [])
             if not isinstance(choice_index, int) or isinstance(choice_index, bool) \
                     or choice_index < 0 or choice_index >= len(choices):
@@ -326,6 +348,9 @@ def check_romance_visual_manifest():
                 actual_cg = ""
             else:
                 actual_cg = str(choices[choice_index].get("result_cg", ""))
+        elif placement != "event":
+            err('%s  [%s] cg_placement 값 오류 → "%s"' % (rel(path), event_id, placement))
+            actual_cg = ""
         if actual_cg != cg_id:
             err('%s  [%s] CG가 romance manifest와 다름' % (rel(path), event_id))
         if str(event.get("portrait", "")) != portrait_id:
@@ -506,6 +531,7 @@ CAST_EFFECT_KEYS = {"affinity", "stage", "met", "flags"}
 EVENT_ROOT_KEYS = {"id", "title", "description", "category", "rarity", "weight",
                    "hidden", "conditions", "tags", "cooldown", "choices",
                    "portrait", "portrait_reveal_paragraph", "background", "paragraph_backgrounds", "cg", "cg_reveal_paragraph", "speaker", "one_time", "_file",
+                   "result_cg", "result_cg_reveal_paragraph", "result_background",
                    "timed", "timer_seconds",
                    "description_orthodox", "description_unorthodox",
                    "description_low_mental", "description_long_gosiwon",

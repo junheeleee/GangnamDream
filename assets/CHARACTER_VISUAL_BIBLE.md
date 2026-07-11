@@ -1,6 +1,6 @@
 # Gangnam Dream Character Visual Bible
 
-Updated: 2026-07-03
+Updated: 2026-07-11
 
 This file is the visual canon for recurring characters. It overrides older one-off prompt notes when there is a conflict. Recurring character portraits must be generated as transparent-background PNGs and then composited over location backgrounds in Godot.
 
@@ -91,7 +91,9 @@ No luxury watch, no designer styling, no polished Gangnam success look in early/
 
 **Amusement Park Outfit Lock:** Muted slate-blue cotton chore jacket over an ivory crewneck knit, dark straight jeans, and a charcoal canvas crossbody strap. It is a mild-weather outfit and may appear only in March-May or September-November. `npc_daeun_amusement.png` and `amusement_lost_child_daeun_v1.png` own the same outfit and child-directed gaze.
 
-**Current Asset Status:** `assets/characters/npc_romantic_interest.png`, `assets/characters/npc_daeun_smile.png`, and `assets/characters/npc_daeun_sad.png` are the identity references. T0 scene outfits are locked by `npc_daeun_sea_v2.png`, `npc_daeun_fireworks.png`, and `npc_daeun_cherry.png`; first kiss reuses `npc_daeun_smile.png` because its work outfit already matches the CG exactly. T1 Namsan uses `npc_daeun_namsan.png` paired with `assets/cg/romance/namsan_lock_daeun_v1.png`. T1 Amusement Park uses `npc_daeun_amusement.png` paired with `assets/cg/romance/amusement_lost_child_daeun_v1.png`. The East Sea paired CG is `assets/cg/romance/sea_daeun_v3.png`.
+**Hometown Summer Outfit Lock:** Pale sage lightweight cotton overshirt with sleeves rolled below the elbows over an ivory T-shirt, dark navy trousers, and a charcoal shoulder strap. `npc_daeun_hometown_worried.png`, `npc_daeun_hometown_warm.png`, and `hometown_night_bus_daeun_v1.png` own one continuous outfit across the train, mother's table, and return bus. The trip begins only in June-August; full continuity lives in `assets/HOMETOWN_VISUAL_BIBLE.md`.
+
+**Current Asset Status:** `assets/characters/npc_romantic_interest.png`, `assets/characters/npc_daeun_smile.png`, and `assets/characters/npc_daeun_sad.png` are the identity references. T0 scene outfits are locked by `npc_daeun_sea_v2.png`, `npc_daeun_fireworks.png`, and `npc_daeun_cherry.png`; first kiss reuses `npc_daeun_smile.png` because its work outfit already matches the CG exactly. T1 Namsan uses `npc_daeun_namsan.png` paired with `assets/cg/romance/namsan_lock_daeun_v1.png`. T1 Amusement Park uses `npc_daeun_amusement.png` paired with `assets/cg/romance/amusement_lost_child_daeun_v1.png`. T1 Hometown uses `npc_daeun_hometown_worried.png` and `npc_daeun_hometown_warm.png` paired with `assets/cg/romance/hometown_night_bus_daeun_v1.png`. The East Sea paired CG is `assets/cg/romance/sea_daeun_v3.png`.
 
 **Negative Prompt / Prohibited:** 20s college-student styling, teenager, long hair, Han Jiyeon-like glamour, luxury jewelry, influencer makeup, idol stage styling, childish proportions, generic convenience-store logo, background baked into a reusable portrait, photoreal DSLR portrait, changing face or hair length between outfits.
 
@@ -113,7 +115,7 @@ No luxury watch, no designer styling, no polished Gangnam success look in early/
 
 **Seasonal Outfit Lock:** Haeundae uses a deep emerald asymmetric high-neck swim dress, an open smoke-gray cover-up, and restrained brushed-silver jewelry. It must not repeat her default cream jacket and black inner palette.
 
-**Narrow Room Outfit Lock:** At Minjun's door she wears a travel-creased charcoal long coat open over a deep muted oxblood fine-knit top. Inside, the coat is removed and the same oxblood top is paired with charcoal trousers. Makeup is nearly absent, hair is slightly disordered, and her gaze loses its normal status composure without changing her identity.
+**Narrow Room Outfit Lock:** At Minjun's door she wears a travel-creased charcoal long coat open over a deep muted oxblood fine-knit top. Inside, the coat is removed and the same oxblood top is paired with charcoal trousers. Makeup is nearly absent, hair is slightly disordered, and her gaze loses its normal status composure without changing her identity. The long-coat prelude starts only in January-April or October-December and waits outside those months.
 
 **Namsan Outfit Lock:** Deep sapphire-blue tailored belted wool coat over a charcoal-black silk mock-neck and slim black trousers, with restrained geometric gold earrings. Her crossed-arm silhouette and blue tailoring must read distinctly from Daeun's soft moss duffle coat. `npc_jiyeon_namsan.png` and `namsan_lock_jiyeon_v1.png` own the same outfit.
 

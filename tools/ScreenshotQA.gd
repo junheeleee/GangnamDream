@@ -14,6 +14,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=romance-portraits
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=namsan --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=amusement --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=hometown --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-act-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=endings-en
@@ -48,6 +49,7 @@ const QA_SCOPE_ROMANCE_CG := "romance_cg"
 const QA_SCOPE_ROMANCE_PORTRAITS := "romance_portraits"
 const QA_SCOPE_NAMSAN := "namsan"
 const QA_SCOPE_AMUSEMENT := "amusement"
+const QA_SCOPE_HOMETOWN := "hometown"
 const QA_SCOPE_AP_EN := "ap_en"
 const QA_SCOPE_AP_ACT_EN := "ap_act_en"
 const QA_SCOPE_ENDINGS_EN := "endings_en"
@@ -150,6 +152,12 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_amusement_surfaces(lang, "amusement_en_" if lang == "en" else "amusement_ko_")
 		print("SCREENSHOT_QA_DONE scope=amusement lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_HOMETOWN:
+		var lang := _qa_language("en")
+		await _shot_hometown_surfaces(lang, "hometown_en_" if lang == "en" else "hometown_ko_")
+		print("SCREENSHOT_QA_DONE scope=hometown lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_AP_EN:
@@ -316,6 +324,9 @@ func _qa_scope() -> String:
 		if arg in ["amusement", "amusement-park", "amusement_park", "--amusement",
 				"qa=amusement", "--qa=amusement", "scope=amusement", "--scope=amusement"]:
 			return QA_SCOPE_AMUSEMENT
+		if arg in ["hometown", "hometown-romance", "hometown_romance", "--hometown",
+				"qa=hometown", "--qa=hometown", "scope=hometown", "--scope=hometown"]:
+			return QA_SCOPE_HOMETOWN
 		if arg in ["ap-en", "ap_en", "main-en", "main_en", "--ap-en", "--ap_en",
 				"qa=ap-en", "--qa=ap-en", "qa=ap_en", "--qa=ap_en",
 				"qa=main-en", "--qa=main-en", "scope=ap-en", "--scope=ap-en"]:
@@ -567,7 +578,7 @@ func _collect_start_menu_nodes(node: Node, targets: Array[Node]) -> void:
 		else:
 			_collect_start_menu_nodes(child, targets)
 
-func _shot_story_event(event_id: String, shot_name: String, lang: String = "", settle_time: float = 1.1, finish_first_paragraph: bool = false, show_choices: bool = false, select_choice: int = -1, advance_paragraphs: int = 0, suppress_cg: bool = false) -> void:
+func _shot_story_event(event_id: String, shot_name: String, lang: String = "", settle_time: float = 1.1, finish_first_paragraph: bool = false, show_choices: bool = false, select_choice: int = -1, advance_paragraphs: int = 0, suppress_cg: bool = false, advance_result_paragraphs: int = 0) -> void:
 	if not lang.is_empty():
 		_set_qa_language(lang)
 		_prepare_main_game_state()
@@ -610,6 +621,13 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 		if bool(story.get("_typing")) and story.has_method("_on_advance"):
 			story._on_advance()
 			await _settle(0.25)
+		for _result_paragraph in range(advance_result_paragraphs):
+			if story.has_method("_on_advance"):
+				story._on_advance()
+				await _settle(0.16)
+				if bool(story.get("_typing")):
+					story._on_advance()
+					await _settle(0.16)
 	await _save(shot_name)
 	_remove_nodes_by_script("res://scenes/StoryMode.gd")
 	if suppress_cg and had_cg:
@@ -756,6 +774,15 @@ func _shot_amusement_surfaces(lang: String = "en", prefix: String = "amusement_e
 	await _shot_story_event("arc_date_park_jiyeon", prefix + "jiyeon_02_choices", lang, 0.45, true, true)
 	await _shot_story_event("arc_date_park_jiyeon", prefix + "jiyeon_03_photo_result", lang, 0.45, true, true, 0)
 	await _shot_story_event("arc_date_park_jiyeon", prefix + "jiyeon_04_ride_result", lang, 0.45, true, true, 1)
+
+func _shot_hometown_surfaces(lang: String = "en", prefix: String = "hometown_en_") -> void:
+	await _shot_story_event("arc_daeun_hometown_1", prefix + "00_train_intro", lang, 0.45, true)
+	await _shot_story_event("arc_daeun_hometown_1", prefix + "01_train_choices", lang, 0.45, true, true)
+	await _shot_story_event("arc_daeun_hometown_1", prefix + "02_train_result", lang, 0.45, true, true, 0)
+	await _shot_story_event("arc_daeun_hometown_2", prefix + "03_mother_table_intro", lang, 0.45, true)
+	await _shot_story_event("arc_daeun_hometown_2", prefix + "04_mother_table_choices", lang, 0.45, true, true)
+	await _shot_story_event("arc_daeun_hometown_2", prefix + "05_dinner_result", lang, 0.45, true, true, 0)
+	await _shot_story_event("arc_daeun_hometown_2", prefix + "06_night_bus_result", lang, 0.45, true, true, 0, 0, false, 1)
 
 func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> void:
 	_set_qa_language(lang)

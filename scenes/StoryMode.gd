@@ -1507,12 +1507,18 @@ func _make_choice_button(text: String, idx: int, display_num: int = -1) -> Butto
 	return btn
 
 ## 선택 결과에만 속하는 CG/배경은 선택 전에 스포일러하지 않는다.
+## 선택 키가 이벤트 공통 결과 키보다 우선한다. 지연 CG는 해당 결과 문단까지 현재 장면을 유지한다.
 ## result_cg가 result_background보다 우선하며, 배경 결과는 현재 인물 초상을 복원한다.
 func _apply_choice_result_visual(choice: Dictionary) -> void:
-	var result_cg_id := str(choice.get("result_cg", ""))
+	var result_cg_id := str(choice.get("result_cg", _current.get("result_cg", "")))
 	if result_cg_id != "":
 		var result_cg_path := ImageRegistry.get_cg(result_cg_id)
 		if result_cg_path != "" and ResourceLoader.exists(result_cg_path):
+			var reveal_paragraph: int = maxi(0, int(_current.get("result_cg_reveal_paragraph", 0)))
+			if reveal_paragraph > 0:
+				_event_cg_path = result_cg_path
+				_event_cg_reveal_paragraph = reveal_paragraph
+				return
 			_play_story_ink_transition("scene", 0.55)
 			_bg_img.texture = load(result_cg_path)
 			_current_uses_cg = true
@@ -1522,7 +1528,7 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 				_hud_panel.visible = false
 		return
 
-	var result_background_id := str(choice.get("result_background", ""))
+	var result_background_id := str(choice.get("result_background", _current.get("result_background", "")))
 	if result_background_id == "":
 		return
 	var result_background_path := ImageRegistry.get_background(result_background_id)
