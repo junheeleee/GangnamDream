@@ -35,6 +35,8 @@ sfx_ending_stinger_legend.wav sfx_monsoon_rain.wav
         "sfx_choice_made.wav",
         "sfx_close.wav",
         "sfx_open_modal.wav",
+        "sfx_result_human.wav",
+        "sfx_result_ledger.wav",
         "sfx_tab_open.wav",
     },
 }

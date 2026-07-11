@@ -61,6 +61,8 @@ assets/audio/
     ├── sfx_stat_down.wav   ← 스탯 하락
     ├── sfx_event_new.wav   ← 이벤트 등장
     ├── sfx_choice_made.wav ← 선택지 결정
+    ├── sfx_result_ledger.wav ← Black 결과에서 돈/성과에 먼저 닿는 마른 장부 접점음
+    ├── sfx_result_human.wav  ← White 결과에서 사람/몸/마음에 먼저 닿는 천·호흡음
     ├── sfx_housing_up.wav  ← 이사
     ├── sfx_game_over.wav   ← 게임오버
     ├── sfx_success.wav     ← 성공/강남드림 달성
@@ -87,6 +89,7 @@ assets/audio/
 
 - 현재 런타임 폴백은 BGM 전용 버스에서만 작동한다. Gray/White는 전대역, Black 1단계는 4.8kHz, Black 2단계는 1.45kHz low-pass로 2.4초 동안 서서히 변한다.
 - 앰비언스와 SFX는 필터 대상이 아니며, 밴드가 바뀌어도 현재 곡은 처음부터 재생되지 않는다.
+- 결과 주의음은 보상/벌칙 징글이 아니다. Black의 `result_ledger`는 계산기·장부 접점처럼 건조하고, White의 `result_human`은 천과 숨이 움직이는 정도로만 들린다. Gray에는 별도 주의음을 넣지 않는다.
 - 출시용 `bgm_theme_neutral/dark/white.ogg` 세 파일이 모두 존재하면 자동으로 3변주 팩을 사용한다. 한두 파일만 들어온 상태는 QA 실패다.
 
 ### 3변주 제작 게이트

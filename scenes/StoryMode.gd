@@ -94,6 +94,13 @@ const PORTRAIT_OFFSET_BOTTOM := -40
 const PORTRAIT_CHOICE_SHIFT_X := 72
 const PORTRAIT_BLACK_PERIPHERY_SHIFT_X := 30
 const PORTRAIT_WHITE_CLOSENESS_SHIFT_X := -10
+const RESULT_ECONOMIC_KEYS: Array[String] = [
+	"money", "monthly_income", "investment_skill", "work_performance", "reputation",
+]
+const RESULT_HUMAN_KEYS: Array[String] = [
+	"health", "mental", "social_skill", "addiction_tendency", "gambling_tendency",
+]
+const RESULT_OTHER_KEYS: Array[String] = ["intelligence", "appearance", "luck"]
 
 static var _auto_enabled_session: bool = false
 
@@ -1317,44 +1324,57 @@ func _show_story_result_record(choice: Dictionary) -> void:
 	head.add_theme_constant_override("separation", 2)
 	row.add_child(head)
 	head.add_child(_story_record_label(_tr("선택 기록", "CHOICE RESULT"), 10, dim_col, false))
-	var tone := _story_result_tone_label(disp)
+	var tone := _story_result_tone_label(disp, cast_items)
 	head.add_child(_story_record_label(str(tone["label"]), 13, tone["color"], true))
 
 	var grid := GridContainer.new()
+	grid.name = "StoryResultGrid"
 	grid.columns = 4
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	grid.add_theme_constant_override("h_separation", 7)
 	grid.add_theme_constant_override("v_separation", 5)
 	row.add_child(grid)
 
+	var stage := GameState.moral_stage()
+	var result_items := _story_result_visible_items(
+		_story_result_ordered_items(disp, cast_items, stage), stage, 4)
+	var badges: Array[Control] = []
 	var added := 0
-	for key in _story_result_effect_order(disp):
-		var val := int(disp.get(key, 0))
-		if val == 0:
-			continue
-		grid.add_child(_story_result_badge(str(_stat_display_name(key, str(STAT_INFO.get(key, {}).get("name", key)))).to_upper(),
-				_story_result_value_text(key, val), _story_result_effect_color(key, val)))
-		added += 1
-		if added >= 4:
-			break
-	for cast_item in cast_items:
-		if added >= 4:
-			break
-		var cast_name := _cast_display_name(str(cast_item["id"])).to_upper()
-		var aff := int(cast_item["affinity"])
-		var sign := "+" if aff > 0 else ""
-		grid.add_child(_story_result_badge(cast_name, _tr("호감도 ", "Affinity ") + "%s%d" % [sign, aff],
-				Color("#c9b6df") if aff > 0 else Color("#d99494")))
+	for item in result_items:
+		var kind := str(item.get("kind", "stat"))
+		var key := str(item.get("key", ""))
+		var val := int(item.get("value", 0))
+		var is_primary := added == 0 and _story_result_item_is_attended(item, stage)
+		var badge: Control
+		if kind == "cast":
+			var cast_name := _cast_display_name(key).to_upper()
+			var sign := "+" if val > 0 else ""
+			badge = _story_result_badge(
+				cast_name, _tr("호감도 ", "Affinity ") + "%s%d" % [sign, val],
+				Color("#c9b6df") if val > 0 else Color("#d99494"), is_primary)
+		else:
+			badge = _story_result_badge(
+				str(_stat_display_name(key, str(STAT_INFO.get(key, {}).get("name", key)))).to_upper(),
+				_story_result_value_text(key, val), _story_result_effect_color(key, val), is_primary)
+		badge.name = "StoryResultBadge_%02d_%s" % [added + 1, ("cast_" + key) if kind == "cast" else key]
+		badge.set_meta("attention_key", ("cast:" + key) if kind == "cast" else key)
+		badge.set_meta("attention_kind", str(item.get("attention_kind", "other")))
+		badge.set_meta("target_alpha", _story_result_item_alpha(item, stage))
+		grid.add_child(badge)
+		badges.append(badge)
 		added += 1
 	if added == 0:
-		grid.add_child(_story_result_badge(_tr("기록", "LOG"), _tr("변화 없음", "No visible change"), dim_col))
+		var empty_badge := _story_result_badge(
+			_tr("기록", "LOG"), _tr("변화 없음", "No visible change"), dim_col)
+		empty_badge.name = "StoryResultBadge_01_log"
+		empty_badge.set_meta("attention_key", "log")
+		empty_badge.set_meta("attention_kind", "other")
+		empty_badge.set_meta("target_alpha", 1.0)
+		grid.add_child(empty_badge)
+		badges.append(empty_badge)
 
-	card.modulate = Color(1, 1, 1, 0)
-	card.scale = Vector2(0.992, 0.992)
-	var tw := create_tween()
-	tw.tween_interval(0.08)
-	tw.tween_property(card, "modulate:a", 1.0, 0.18).set_trans(Tween.TRANS_SINE)
-	tw.parallel().tween_property(card, "scale", Vector2.ONE, 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_animate_story_result_attention(card, badges, stage)
+	_play_story_result_attention_cue(result_items, stage)
 
 func _story_choice_has_visible_result(choice: Dictionary) -> bool:
 	var disp: Dictionary = _story_result_display_effects(choice.get("effects", {}))
@@ -1373,7 +1393,7 @@ func _story_record_label(text: String, size: int, color: Color, bold: bool = fal
 	_apply_font(lbl, bold)
 	return lbl
 
-func _story_result_badge(label_text: String, value_text: String, accent: Color) -> Control:
+func _story_result_badge(label_text: String, value_text: String, accent: Color, primary: bool = false) -> Control:
 	var badge := PanelContainer.new()
 	badge.custom_minimum_size = Vector2(0, 46)
 	badge.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -1381,8 +1401,10 @@ func _story_result_badge(label_text: String, value_text: String, accent: Color) 
 	var palette := _story_palette()
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color("#0a0c11", 0.72).lerp(palette["choice_bg"], 0.30)
-	st.border_color = accent.lerp(palette["panel_border"], 0.58)
+	st.border_color = accent.lerp(palette["panel_border"], 0.38 if primary else 0.58)
 	st.set_border_width_all(1)
+	if primary:
+		st.border_width_left = 3
 	st.set_corner_radius_all(5)
 	st.content_margin_left = 9
 	st.content_margin_right = 9
@@ -1393,8 +1415,126 @@ func _story_result_badge(label_text: String, value_text: String, accent: Color) 
 	box.add_theme_constant_override("separation", 1)
 	badge.add_child(box)
 	box.add_child(_story_record_label(label_text, 9, palette["dead"], false))
-	box.add_child(_story_record_label(value_text, 13, accent, true))
+	box.add_child(_story_record_label(value_text, 14 if primary else 13, accent, true))
 	return badge
+
+func _story_result_ordered_items(disp: Dictionary, cast_items: Array, stage: int) -> Array:
+	var economic: Array = []
+	var human: Array = []
+	var other: Array = []
+	var cast: Array = []
+	var seen: Dictionary = {}
+	_append_story_result_stat_items(economic, disp, RESULT_ECONOMIC_KEYS, "economic", seen)
+	_append_story_result_stat_items(human, disp, RESULT_HUMAN_KEYS, "human", seen)
+	_append_story_result_stat_items(other, disp, RESULT_OTHER_KEYS, "other", seen)
+	for raw_key in disp.keys():
+		var key := str(raw_key)
+		if seen.has(key) or int(disp.get(key, 0)) == 0:
+			continue
+		other.append({"kind": "stat", "key": key, "value": int(disp[key]), "attention_kind": "other"})
+	for raw_item in cast_items:
+		cast.append({
+			"kind": "cast",
+			"key": str(raw_item.get("id", "")),
+			"value": int(raw_item.get("affinity", 0)),
+			"attention_kind": "human",
+		})
+
+	var ordered: Array = []
+	if stage < 0:
+		ordered.append_array(economic)
+		ordered.append_array(other)
+		ordered.append_array(human)
+		ordered.append_array(cast)
+	elif stage > 0:
+		ordered.append_array(cast)
+		ordered.append_array(human)
+		ordered.append_array(other)
+		ordered.append_array(economic)
+	else:
+		# Gray keeps the game's material premise first, but lets people enter before
+		# the remaining utility ledger. No item receives a moral emphasis treatment.
+		if not economic.is_empty():
+			ordered.append(economic.pop_front())
+		ordered.append_array(cast)
+		ordered.append_array(human)
+		ordered.append_array(economic)
+		ordered.append_array(other)
+	return ordered
+
+func _append_story_result_stat_items(
+		target: Array, disp: Dictionary, keys: Array[String], attention_kind: String,
+		seen: Dictionary) -> void:
+	for key in keys:
+		var val := int(disp.get(key, 0))
+		if val == 0:
+			continue
+		target.append({"kind": "stat", "key": key, "value": val, "attention_kind": attention_kind})
+		seen[key] = true
+
+func _story_result_visible_items(items: Array, stage: int, limit: int) -> Array:
+	if items.size() <= limit:
+		return items
+	var visible: Array = []
+	for index in range(mini(limit, items.size())):
+		visible.append(items[index])
+	# A perspective may delay a consequence, never erase it. Reserve the final
+	# slot for the category this route is inclined to overlook.
+	var counter_kind := "human" if stage < 0 else "economic" if stage > 0 else ""
+	if counter_kind.is_empty():
+		return visible
+	for item in visible:
+		if str(item.get("attention_kind", "")) == counter_kind:
+			return visible
+	for item in items:
+		if str(item.get("attention_kind", "")) == counter_kind:
+			visible[limit - 1] = item
+			break
+	return visible
+
+func _story_result_item_is_attended(item: Dictionary, stage: int) -> bool:
+	var kind := str(item.get("attention_kind", "other"))
+	return (stage < 0 and kind == "economic") or (stage > 0 and kind == "human")
+
+func _story_result_item_alpha(item: Dictionary, stage: int) -> float:
+	if stage == 0 or _story_result_item_is_attended(item, stage):
+		return 1.0
+	var kind := str(item.get("attention_kind", "other"))
+	var overlooked := (stage < 0 and kind == "human") or (stage > 0 and kind == "economic")
+	if not overlooked:
+		return 0.96
+	return 0.82 if absi(stage) >= 2 else 0.89
+
+func _animate_story_result_attention(card: Control, badges: Array[Control], stage: int) -> void:
+	card.modulate = Color(1, 1, 1, 0)
+	card.scale = Vector2(0.992, 0.992)
+	for badge in badges:
+		badge.modulate.a = 0.0
+	var card_tw := create_tween()
+	card_tw.tween_interval(0.05)
+	card_tw.tween_property(card, "modulate:a", 1.0, 0.15).set_trans(Tween.TRANS_SINE)
+	card_tw.parallel().tween_property(card, "scale", Vector2.ONE, 0.20).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	for index in range(badges.size()):
+		var badge := badges[index]
+		var target_alpha := float(badge.get_meta("target_alpha", 1.0))
+		var badge_tw := create_tween()
+		badge_tw.tween_interval(0.08 + float(index) * (0.095 if stage != 0 else 0.065))
+		badge_tw.tween_property(badge, "modulate:a", target_alpha, 0.16).set_trans(Tween.TRANS_SINE)
+
+func _play_story_result_attention_cue(items: Array, stage: int) -> void:
+	if stage == 0 or items.is_empty():
+		return
+	var first_kind := str(items[0].get("attention_kind", "other"))
+	var cue := ""
+	if stage < 0 and first_kind == "economic":
+		cue = "result_ledger"
+	elif stage > 0 and first_kind == "human":
+		cue = "result_human"
+	if cue.is_empty():
+		return
+	var cue_tw := create_tween()
+	cue_tw.tween_interval(0.11)
+	cue_tw.tween_callback(func(): AudioManager.play(cue))
 
 func _story_result_display_effects(eff: Dictionary) -> Dictionary:
 	var disp: Dictionary = {}
@@ -1428,19 +1568,7 @@ func _story_result_visible_cast_effects(cast_effects: Dictionary) -> Array:
 		visible.append({"id": str(pid), "affinity": val})
 	return visible
 
-func _story_result_effect_order(disp: Dictionary) -> Array[String]:
-	var order: Array[String] = [
-		"money", "health", "mental", "reputation", "intelligence",
-		"investment_skill", "social_skill", "appearance", "luck",
-		"addiction_tendency", "gambling_tendency", "work_performance", "monthly_income"
-	]
-	for key in disp.keys():
-		var key_str := str(key)
-		if not order.has(key_str):
-			order.append(key_str)
-	return order
-
-func _story_result_tone_label(disp: Dictionary) -> Dictionary:
+func _story_result_tone_label(disp: Dictionary, cast_items: Array = []) -> Dictionary:
 	var positive := 0
 	var negative := 0
 	for key in disp:
@@ -1450,6 +1578,12 @@ func _story_result_tone_label(disp: Dictionary) -> Dictionary:
 		if val > 0:
 			positive += 1
 		elif val < 0:
+			negative += 1
+	for cast_item in cast_items:
+		var affinity := int(cast_item.get("affinity", 0))
+		if affinity > 0:
+			positive += 1
+		elif affinity < 0:
 			negative += 1
 	if positive > 0 and negative > 0:
 		return {"label": _tr("대가 있음", "TRADE-OFF"), "color": Color("#c8d0df")}

@@ -80,6 +80,34 @@ def tab_snap() -> list[float]:
     return normalize(samples, 0.08)
 
 
+def result_ledger_focus() -> list[float]:
+    """A dry register contact: attention landing on money, not a reward jingle."""
+    duration = 0.145
+    noise = band_noise(duration, 8128, 0.54, 0.085)
+    samples: list[float] = []
+    for i, grain in enumerate(noise):
+        t = i / SAMPLE_RATE
+        key_contact = 0.70 * burst(t, 0.0, 125.0) + 0.34 * burst(t, 0.047, 150.0)
+        paper_stop = 0.18 * burst(t, 0.092, 90.0)
+        body = math.sin(2.0 * math.pi * 104.0 * t) * burst(t, 0.0, 62.0)
+        samples.append(grain * (key_contact + paper_stop) + body * 0.055)
+    return normalize(samples, 0.09)
+
+
+def result_human_focus() -> list[float]:
+    """A soft cloth-and-breath swell: attention returning to a person, not a win cue."""
+    duration = 0.260
+    noise = band_noise(duration, 5772, 0.20, 0.018)
+    samples: list[float] = []
+    for i, grain in enumerate(noise):
+        t = i / SAMPLE_RATE
+        swell = math.sin(math.pi * min(1.0, t / duration)) ** 1.35
+        cloth = 0.24 * burst(t, 0.025, 24.0) + 0.12 * burst(t, 0.128, 34.0)
+        soft_pulse = math.sin(2.0 * math.pi * 76.0 * max(0.0, t - 0.055)) * burst(t, 0.055, 30.0)
+        samples.append(grain * (0.18 * swell + cloth) + soft_pulse * 0.025)
+    return normalize(samples, 0.065)
+
+
 def normalize(samples: list[float], target_peak: float) -> list[float]:
     peak = max((abs(value) for value in samples), default=1.0)
     gain = target_peak / max(peak, 1e-9)
@@ -122,6 +150,8 @@ def main() -> None:
         "sfx_open_modal.wav": modal_slide(True),
         "sfx_close.wav": modal_slide(False),
         "sfx_tab_open.wav": tab_snap(),
+        "sfx_result_ledger.wav": result_ledger_focus(),
+        "sfx_result_human.wav": result_human_focus(),
     }
     for name, samples in assets.items():
         if args.check:
@@ -129,7 +159,7 @@ def main() -> None:
         else:
             write_wav(name, samples)
     if args.check:
-        print("UI_SFX_CHECK_OK assets=4 source=deterministic")
+        print(f"UI_SFX_CHECK_OK assets={len(assets)} source=deterministic")
 
 
 if __name__ == "__main__":

@@ -22,6 +22,8 @@ const _SFX_COOLDOWN_MS = {
 	"close": 90,
 	"open_modal": 90,
 	"tab_open": 70,
+	"result_ledger": 120,
+	"result_human": 120,
 	"casino_coin": 24,
 	"civil_defense_siren": 5000,
 	"monsoon_rain": 1800,
@@ -43,6 +45,8 @@ const _SFX_FILES = {
 	"stat_down":   "res://assets/audio/sfx_stat_down.wav",
 	"event_new":   "res://assets/audio/sfx_event_new.wav",
 	"choice_made": "res://assets/audio/sfx_choice_made.wav",
+	"result_ledger": "res://assets/audio/sfx_result_ledger.wav",
+	"result_human":  "res://assets/audio/sfx_result_human.wav",
 	"housing_up":  "res://assets/audio/sfx_housing_up.wav",
 	"game_over":   "res://assets/audio/sfx_game_over.wav",
 	"success":     "res://assets/audio/sfx_success.wav",
@@ -117,6 +121,8 @@ func _make_fallback(key: String) -> AudioStreamWAV:
 		"stat_down":  return _tone(330, 0.20, [0.5, 1.0, 0.0])
 		"event_new":  return _chord([440, 550], 0.14, [0.0, 1.0, 0.5, 0.0])
 		"choice_made":return _tone(600, 0.09, [0.5, 1.0, 0.0])
+		"result_ledger": return _tone(110, 0.12, [0.7, 1.0, 0.0])
+		"result_human": return _tone(76, 0.22, [0.0, 0.35, 0.6, 0.35, 0.0])
 		"housing_up": return _chord([523, 659, 784, 1047], 0.30, [0.0, 0.4, 1.0, 0.6, 0.0])
 		"game_over":    return _tone(110, 0.70, [0.0, 0.5, 1.0, 0.8, 0.5, 0.0])
 		"success":      return _chord([523, 659, 784, 1047], 0.55, [0.0, 0.3, 1.0, 0.8, 0.4, 0.0])

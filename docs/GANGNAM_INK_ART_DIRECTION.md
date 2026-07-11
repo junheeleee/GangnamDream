@@ -1,6 +1,6 @@
 # Gangnam Ink Art Direction
 
-Updated: 2026-07-11
+Updated: 2026-07-12
 
 ## Purpose
 
@@ -71,6 +71,7 @@ The target is **Korean social-reality VN with Japanese scene readability**, not 
 - Button feedback should be tactile but restrained: slight luminance pulse, pressed compression, border clarity, short SFX.
 - Warning red is reserved for true danger. Routine negative outcomes use gray, dimming, or text weight.
 - Money may be visually seductive only when the player is morally Black. Otherwise it is just information.
+- Narrative result cards preserve every consequence but alter attention order. Black reveals economic/status outcomes first and human consequences later; White reveals people/body/mind first and economic cost later; Gray remains balanced. The delayed category stays readable and can never be removed merely because the four-slot card is full.
 - StartMenu is a character poster with a single command rail. Save management and run statistics are second-layer utilities, not the launch composition.
 - Choice presentation uses one lower safe-area dock. When choices open, the dialogue panel folds away so the image is never covered by both systems at once.
 

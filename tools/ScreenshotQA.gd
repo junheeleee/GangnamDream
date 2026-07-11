@@ -648,7 +648,7 @@ func _collect_start_menu_nodes(node: Node, targets: Array[Node]) -> void:
 		else:
 			_collect_start_menu_nodes(child, targets)
 
-func _shot_story_event(event_id: String, shot_name: String, lang: String = "", settle_time: float = 1.1, finish_first_paragraph: bool = false, show_choices: bool = false, select_choice: int = -1, advance_paragraphs: int = 0, suppress_cg: bool = false, advance_result_paragraphs: int = 0) -> void:
+func _shot_story_event(event_id: String, shot_name: String, lang: String = "", settle_time: float = 1.1, finish_first_paragraph: bool = false, show_choices: bool = false, select_choice: int = -1, advance_paragraphs: int = 0, suppress_cg: bool = false, advance_result_paragraphs: int = 0, expected_result_first: String = "", expected_result_last: String = "") -> void:
 	if not lang.is_empty():
 		_set_qa_language(lang)
 		_prepare_main_game_state()
@@ -700,6 +700,8 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 				if bool(story.get("_typing")):
 					story._on_advance()
 					await _settle(0.16)
+	if not expected_result_first.is_empty():
+		_assert_story_result_attention(story, expected_result_first, expected_result_last)
 	await _save(shot_name)
 	_remove_nodes_by_script("res://scenes/StoryMode.gd")
 	if suppress_cg and had_cg:
@@ -830,7 +832,58 @@ func _shot_story_moral_surfaces(lang: String = "en", prefix: String = "story_mor
 		_prepare_main_game_state()
 		GameState.moral_tint = float(data[0])
 		await _shot_story_event("arc_y2_worn_face", prefix + "05_choices_" + str(data[1]), "", 0.45, true, true)
+	for data in [
+		[-80.0, "06_result_black", "money", "cast:sangchul"],
+		[0.0, "07_result_gray", "money", "mental"],
+		[80.0, "08_result_white", "cast:sangchul", "money"],
+	]:
+		_prepare_main_game_state()
+		GameState.moral_tint = float(data[0])
+		await _shot_story_event(
+			"arc_sangchul_known_offer", prefix + str(data[1]), "", 0.45,
+			true, true, 0, 0, false, 0, str(data[2]), str(data[3]))
 	GameState.moral_tint = 0.0
+
+func _assert_story_result_attention(story: Node, expected_first: String, expected_last: String) -> void:
+	var card := story.find_child("StoryResultRecord", true, false)
+	if card == null:
+		_fail("Story result attention QA could not find StoryResultRecord.")
+		return
+	var grid := card.find_child("StoryResultGrid", true, false)
+	if grid == null or grid.get_child_count() == 0:
+		_fail("Story result attention QA could not find populated StoryResultGrid.")
+		return
+	var first_badge := grid.get_child(0) as Control
+	var last_badge := grid.get_child(grid.get_child_count() - 1) as Control
+	var actual_first := str(first_badge.get_meta("attention_key", ""))
+	var actual_last := str(last_badge.get_meta("attention_key", ""))
+	if actual_first != expected_first:
+		_fail("Story result attention expected first '%s', got '%s'." % [expected_first, actual_first])
+	if not expected_last.is_empty() and actual_last != expected_last:
+		_fail("Story result attention expected last '%s', got '%s'." % [expected_last, actual_last])
+	if GameState.moral_stage() != 0 and first_badge.modulate.a <= last_badge.modulate.a:
+		_fail("Story result attention did not keep the first-noticed consequence visually dominant.")
+	if GameState.moral_stage() < 0:
+		_assert_story_result_counterweight_reserve(story)
+
+func _assert_story_result_counterweight_reserve(story: Node) -> void:
+	var dense_disp := {
+		"money": 2_000_000,
+		"monthly_income": 300_000,
+		"investment_skill": 4,
+		"work_performance": 5,
+		"reputation": 3,
+		"mental": -9,
+	}
+	var cast_items := [{"id": "father", "affinity": -6}]
+	var black_items: Array = story._story_result_visible_items(
+		story._story_result_ordered_items(dense_disp, cast_items, -2), -2, 4)
+	var white_items: Array = story._story_result_visible_items(
+		story._story_result_ordered_items(dense_disp, cast_items, 2), 2, 4)
+	if not black_items.any(func(item): return str(item.get("attention_kind", "")) == "human"):
+		_fail("Black result hierarchy erased every human consequence from a dense result.")
+	if not white_items.any(func(item): return str(item.get("attention_kind", "")) == "economic"):
+		_fail("White result hierarchy erased every economic consequence from a dense result.")
 
 func _shot_moral_anchor_surfaces(lang: String = "en", prefix: String = "moral_anchors_en_") -> void:
 	_set_qa_language(lang)

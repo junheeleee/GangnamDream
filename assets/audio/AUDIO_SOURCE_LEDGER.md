@@ -8,6 +8,8 @@ This ledger records source and redistribution status for production audio. `tool
 | `sfx_open_modal.wav` | Deterministic in-repo synthesis | None | Project-owned | `python3 tools/generate_gangnam_ui_sfx.py` |
 | `sfx_close.wav` | Deterministic in-repo synthesis | None | Project-owned | `python3 tools/generate_gangnam_ui_sfx.py` |
 | `sfx_tab_open.wav` | Deterministic in-repo synthesis | None | Project-owned | `python3 tools/generate_gangnam_ui_sfx.py` |
+| `sfx_result_ledger.wav` | Deterministic dry register contact | None | Project-owned | `python3 tools/generate_gangnam_ui_sfx.py` |
+| `sfx_result_human.wav` | Deterministic cloth-and-breath swell | None | Project-owned | `python3 tools/generate_gangnam_ui_sfx.py` |
 
 | Asset group | Source | External samples | Commercial status | Reproduction |
 |---|---|---|---|---|
