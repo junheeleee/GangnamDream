@@ -50,18 +50,34 @@
   {
     "id": "arc_final_countdown",
     "title": "The Last Two Months",
-    "description": "He turned the calendar. Two pages left.\n\nA five-year clock now reads in weeks.\nThe gap between the account and the goal — whatever it is, the room for it to change is no longer wide.\n\nThe strange part was how quiet his mind felt.\nNot anxiety — a kind of clarity.\n\nWhat could still be done in eight weeks, what was already finished, and what had never been possible —\nfor the first time, they sorted themselves into three separate drawers.",
+    "description": "He turned the calendar. Two pages remained.\n\nThe five-year clock was now measured in weeks.\nThe gap between the balance and the goal — whatever it was — had little room left to move.\n\nThe strange part was how quiet his mind felt.\nNot anxiety — a kind of clarity.\n\nWhat could still be done in eight weeks, what was already over, and what had never been possible —\nfor the first time, they settled into three separate drawers.",
+    "description_if_moral": {
+      "black": "He turned the calendar. Two pages remained. Two paychecks, two interest payments, and the remaining market days came first in the calculation.\n\nThe five-year clock was now measured in weeks.\nThe gap between the balance and the goal — whatever it was — had little room left to move.\n\nThe strange part was how quiet his mind felt.\nWhat remained arranged itself by expected return. A few promises with names beside them slipped outside the calculation.\n\nWhat could still be done in eight weeks, what was already over, and what had never been possible —\nfor the first time, they settled into three separate drawers.",
+      "white": "He turned the calendar. Two pages remained. Beside the dates were postponed promises and names he still owed an answer.\n\nThe five-year clock was now measured in weeks.\nThe gap between the balance and the goal — whatever it was — had little room left to move.\n\nThe strange part was how quiet his mind felt.\nNot anxiety — a kind of clarity.\n\nWhat could still be done in eight weeks, the faces he needed to see now, and what could no longer be undone —\nfor the first time, they settled into three separate drawers."
+    },
     "choices": [
       {
-        "text": "Open only the drawer of what can be done. Precise, to the end.",
+        "text": "Open only the drawer of what can still be done. Stay precise to the end.",
+        "text_if_moral": {
+          "black": "Keep only what can still be done. Zero margin for error.",
+          "white": "Keep what can still be done and the promises that must be kept."
+        },
         "result_text": "He sat at the desk and reduced the eight-week plan to a single page.\nWith the impossible cleared out, the plan felt light for the first time.\nPrecision is a skill you learn at the end."
       },
       {
         "text": "Shake the numbers one more time. There are still two months.",
+        "text_if_moral": {
+          "black": "The numbers can still be forced. Two months is enough to turn this around.",
+          "white": "Take one more swing at the numbers. Accept the cost as well."
+        },
         "result_text": "He ran scenarios late into the night. Leverage, concentrated bets, one last rotation.\nNumbers look like they move when you shake them.\nWhether that's an illusion or an opening — eight weeks will answer."
       },
       {
         "text": "Make a list of people. Faces to see before this ends.",
+        "text_if_moral": {
+          "black": "List the people to contact, ordered by what remains to settle.",
+          "white": "Write down the names of the people he needs to see before this ends."
+        },
         "result_text": "He wrote names in a notebook. There weren't many.\nThat short list — felt like the real balance sheet of five years.\nMoney can be counted even in the last week. People have to be seen now."
       }
     ]

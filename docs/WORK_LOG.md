@@ -1,6 +1,6 @@
 # Gangnam Dream Work Log
 
-## 2026-07-12 (Codex — Moral Perception vertical slice)
+## 2026-07-12 (Codex — Moral Perception spine)
 
 ### 진단
 - 기존 MORAL_TINT는 배경·초상 셰이더, UI 팔레트, 돈 HUD, BGM 저역화까지 연결됐지만 같은 사건의 본문과 선택지는 어느 루트에서도 같았다.
@@ -10,14 +10,17 @@
 ### 구현
 - StoryMode에 `description_if_moral`과 `text_if_moral`을 추가했다. 깊은 Black/White는 전용 문장이 없으면 각 기본 밴드로 폴백하며, 구체적 기억인 `description_if_known`가 우선한다.
 - 「거울 봤어요?」를 첫 기준 장면으로 만들었다. Black 민준은 다은의 시선보다 11,800원 영수증을 먼저 보고, Gray는 기존 관찰을 유지하며, White는 야간 근무복 위 닳은 카디건 소매와 걱정을 먼저 본다. 선택의 결과는 같지만 행동을 부르는 내면어가 달라진다.
+- 같은 문법을 네 개의 시기별 정점으로 확장했다. 상철의 「거울」은 빠른 길과 버린 것, 「왜 강남인가」는 계좌 알림과 도시의 얼굴, 아버지의 「세 번의 부재」는 딜 알림과 `아버님`이라는 말, 「마지막 두 달」은 수익률과 미룬 약속 중 무엇이 먼저 보이는지를 Black/Gray/White마다 달리한다.
+- 영어 오버레이의 오래된 「왜 강남인가」 드리프트를 한국어 정본에 맞춰 복구하고, 핵심 변주의 번역투(`Father was critical`, `becoming alike`, `numbers can be moved`)를 자연스러운 서사 영어로 교정했다.
 - Black에서는 상대 초상이 최대 30px 화면 가장자리로 물러나고 3% 작아지며, White에서는 10px 가까워진다. 선택지 시 초상 알파는 0.94로 복구해 시선 이동만 남겼다.
 - BGM 재생 위치를 유지한 채 생활 앰비언스가 Black -2.2/-5dB, White +1/+2dB로 변하도록 했다. 세계가 어두워지는 대신 사람과 생활 소리에 덜 주의를 기울이는 연출이다.
 - 이벤트 스키마, KR/EN 밴드 키 패리티, BGM 연속성 검사와 `story-moral` 동일 장면 3밴드 본문/선택지 캡처를 추가했다.
 
 ### 검증
 - 실제 1280x800 `--qa=story-moral --lang=ko/en` 각 10장으로 Black/Gray/White 본문, 선택지, 인물 거리, 가독성, 영어 한 줄 크롭을 확인했다.
+- 전용 `--qa=moral-anchors --lang=ko/en`을 추가하고 각 24장(4장면×3밴드×본문/선택지), 총 48장을 직접 비교했다. 모든 선택지가 하단 안전영역 안에 들어오며 상철·민준 초상 이동, 병원처럼 원래 무채색인 공간의 비강제 White 처리, 영어 줄바꿈을 확인했다.
 - Black/White 모두 같은 행동과 게임 효과를 유지하며, 화면에는 moral 수치·밴드명·설명 문구가 노출되지 않는다.
-- `BGM_CONTINUITY_OK`, GDScript 57개 컴파일, 이벤트 정적 감사 ERROR 0/WARNING 0, EN 커버리지 및 JSON 파싱을 통과했다.
+- 전체 `audit.sh` ERROR 0/WARNING 0, English zero-Hangul, 밸런스·오디오 소유권·BGM 연속성·튜토리얼·StoryPlayback·GDScript 57개 컴파일을 통과했다. `arc_flow_sim.py`도 잼 0·대표 체인 완결로 통과했다.
 
 ## 2026-07-11 (Codex — first-snow pairs, climate wardrobe, and store continuity)
 

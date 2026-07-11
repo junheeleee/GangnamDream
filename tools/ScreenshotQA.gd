@@ -50,6 +50,7 @@ const QA_SCOPE_START_EN := "start_en"
 const QA_SCOPE_LOCALE_GATE := "locale_gate"
 const QA_SCOPE_STORY_EN := "story_en"
 const QA_SCOPE_STORY_MORAL := "story_moral"
+const QA_SCOPE_MORAL_ANCHORS := "moral_anchors"
 const QA_SCOPE_ROMANCE_CG := "romance_cg"
 const QA_SCOPE_ROMANCE_PORTRAITS := "romance_portraits"
 const QA_SCOPE_NAMSAN := "namsan"
@@ -145,6 +146,12 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_story_moral_surfaces(lang, "story_moral_en_" if lang == "en" else "story_moral_ko_")
 		print("SCREENSHOT_QA_DONE scope=story-moral lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_MORAL_ANCHORS:
+		var lang := _qa_language("en")
+		await _shot_moral_anchor_surfaces(lang, "moral_anchors_en_" if lang == "en" else "moral_anchors_ko_")
+		print("SCREENSHOT_QA_DONE scope=moral-anchors lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_ROMANCE_CG:
@@ -349,6 +356,10 @@ func _qa_scope() -> String:
 				"--story-moral", "--story_moral", "qa=story-moral", "--qa=story-moral",
 				"qa=story_moral", "--qa=story_moral", "scope=story-moral", "--scope=story-moral"]:
 			return QA_SCOPE_STORY_MORAL
+		if arg in ["moral-anchors", "moral_anchors", "perception-anchors", "perception_anchors",
+				"--moral-anchors", "--moral_anchors", "qa=moral-anchors", "--qa=moral-anchors",
+				"qa=moral_anchors", "--qa=moral_anchors", "scope=moral-anchors", "--scope=moral-anchors"]:
+			return QA_SCOPE_MORAL_ANCHORS
 		if arg in ["romance-cg", "romance_cg", "--romance-cg", "--romance_cg",
 				"qa=romance-cg", "--qa=romance-cg", "qa=romance_cg", "--qa=romance_cg",
 				"scope=romance-cg", "--scope=romance-cg", "scope=romance_cg", "--scope=romance_cg"]:
@@ -820,6 +831,63 @@ func _shot_story_moral_surfaces(lang: String = "en", prefix: String = "story_mor
 		GameState.moral_tint = float(data[0])
 		await _shot_story_event("arc_y2_worn_face", prefix + "05_choices_" + str(data[1]), "", 0.45, true, true)
 	GameState.moral_tint = 0.0
+
+func _shot_moral_anchor_surfaces(lang: String = "en", prefix: String = "moral_anchors_en_") -> void:
+	_set_qa_language(lang)
+	var anchors := [
+		["arc_sangchul_mirror", "01_sangchul_mirror", 0],
+		["arc_why_gangnam_real", "02_why_gangnam", 1],
+		["arc_father_passing", "03_father_passing", 0],
+		["arc_final_countdown", "04_final_countdown", 0],
+	]
+	var moral_cases := [
+		[-80.0, "black"],
+		[0.0, "gray"],
+		[80.0, "white"],
+	]
+	for anchor in anchors:
+		var event_id := str(anchor[0])
+		var label := str(anchor[1])
+		var advance_paragraphs := int(anchor[2])
+		for moral_case in moral_cases:
+			var tint := float(moral_case[0])
+			var band := str(moral_case[1])
+			_prepare_main_game_state()
+			_seed_moral_anchor_context(event_id)
+			GameState.moral_tint = tint
+			await _shot_story_event(
+				event_id, prefix + label + "_" + band + "_prose", "", 0.55,
+				true, false, -1, advance_paragraphs)
+			_prepare_main_game_state()
+			_seed_moral_anchor_context(event_id)
+			GameState.moral_tint = tint
+			await _shot_story_event(
+				event_id, prefix + label + "_" + band + "_choices", "", 0.45,
+				true, true)
+	GameState.moral_tint = 0.0
+
+func _seed_moral_anchor_context(event_id: String) -> void:
+	match event_id:
+		"arc_sangchul_mirror":
+			GameState.turn = 60
+			GameState.age = 34
+			GameState.month = 4
+			GameState.money = 85_000_000.0
+		"arc_why_gangnam_real":
+			GameState.turn = 120
+			GameState.age = 35
+			GameState.month = 7
+			GameState.money = 320_000_000.0
+		"arc_father_passing":
+			GameState.turn = 150
+			GameState.age = 36
+			GameState.month = 2
+			GameState.money = 800_000_000.0
+		"arc_final_countdown":
+			GameState.turn = 232
+			GameState.age = 37
+			GameState.month = 11
+			GameState.money = 2_100_000_000.0
 
 func _shot_romance_portrait_surfaces(lang: String = "en", prefix: String = "romance_portrait_en_") -> void:
 	_set_qa_language(lang)

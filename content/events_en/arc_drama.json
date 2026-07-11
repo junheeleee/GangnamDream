@@ -61,17 +61,33 @@
     "id": "arc_sangchul_mirror",
     "title": "Mirror",
     "description": "Late at night, Sangchul spoke.\n\n\"Minjun, can I be honest with you?\"\n\n{name} set down his glass.\n\n\"At first I just thought you were someone with drive.\nBut the more I watch you — you're like me.\nYou know how to move fast.\nYou know what you have to let go of.\"\n\n{name} said nothing.\n\n\"I don't mean that as an insult. It's a compliment.\"\n\nThrough the window, Gangnam glittered.",
+    "description_if_moral": {
+      "black": "Late at night, Sangchul spoke. The contacts Sangchul had arranged and the figures exchanged that day were still sorting themselves in {name}'s head.\n\n\"Minjun, can I be honest with you?\"\n\n{name} set down his glass.\n\n\"At first I just thought you were someone with drive.\nBut the more I watch you — you're like me.\nYou know how to move fast.\nYou know what you have to let go of.\"\n\nThe words 'move fast' stayed clearest in {name}'s mind. 'What you have to let go of' sounded like a condition attached afterward.\n\n\"I don't mean that as an insult. It's a compliment.\"\n\nCalling it a compliment made the calculation simpler. Through the window, Gangnam glittered.",
+      "white": "Late at night, Sangchul spoke. While he searched for the words, {name} watched his face longer than his glass for the first time.\n\n\"Minjun, can I be honest with you?\"\n\n{name} set down his glass.\n\n\"At first I just thought you were someone with drive.\nBut the more I watch you — you're like me.\nYou know how to move fast.\nYou know what you have to let go of.\"\n\nIt wasn't 'move fast' that caught {name}; it was 'what you have to let go of.'\n\n\"I don't mean that as an insult. It's a compliment.\"\n\nHe called it a compliment, but there was no pleasure in Sangchul's voice. Through the window, Gangnam glittered."
+    },
     "choices": [
       {
-        "text": "Raised his glass",
+        "text": "Raise his glass",
+        "text_if_moral": {
+          "black": "Raise the glass. Take it as proof that this world has accepted him",
+          "white": "Raise the glass. Buy time instead of answering"
+        },
         "result_text": "They clinked glasses.\nSangchul smiled.\n{name} spent the whole walk home trying to figure out whether that was a compliment."
       },
       {
         "text": "\"Do I seem that way?\"",
+        "text_if_moral": {
+          "black": "\"Do I seem that way?\" Find out just how alike they have become",
+          "white": "\"Do I seem that way?\" Ask what Sangchul sees"
+        },
         "result_text": "Sangchul looked at him for a moment.\n\"You don't know? Or you're asking even though you do?\"\n\n{name} didn't answer.\nLooked out the window."
       },
       {
         "text": "(He wanted to deny it)",
+        "text_if_moral": {
+          "black": "(Deny it. Tell himself he has not crossed the line yet)",
+          "white": "(Deny it. He wanted to stop becoming like Sangchul)"
+        },
         "result_text": "\"I'm a bit different.\"\nSangchul nodded.\n\"If that's what you think, then sure.\"\n\n{name} spent all night turning that over in his head."
       }
     ]
@@ -155,7 +171,11 @@
   {
     "id": "arc_father_passing",
     "title": "Three Times Absent",
-    "description": "The hospital called.\nFather was critical, they said. He had to come down at once.\n\nIt wasn't the first such call Minjun had taken.\nThree times. All three, he hadn't gone down. Something important came up. A deal came up. No time. Each time he told himself so, and each time it sounded reasonable enough.\n\nThis call was — the fourth.\nThe nurse's voice on the other end was different from the three before. Not urgent. A voice for which there was no longer any need to hurry.\nPhone in hand, Minjun couldn't move for a long while.",
+    "description": "The hospital called.\nHis father was in critical condition, they said. He had to come down at once.\n\nIt wasn't the first such call Minjun had taken.\nThree times. All three, he hadn't gone down. Something important came up. A deal came up. No time. Each time he told himself so, and each time it sounded reasonable enough.\n\nThis call was — the fourth.\nThe nurse's voice on the other end was different from the three before. Not urgent. A voice for which there was no longer any need to hurry.\nPhone in hand, Minjun couldn't move for a long while.",
+    "description_if_moral": {
+      "black": "The hospital called.\nHis father was in critical condition, they said. He had to come down at once. A reminder for the deal about to start appeared over the call. The hospital number and the calendar alert were rectangles of the same size.\n\nIt wasn't the first such call Minjun had taken.\nThree times. All three, he hadn't gone down. Something important came up. A deal came up. No time. Each time he told himself so, and each time it sounded reasonable enough.\n\nThis call was — the fourth.\nThe nurse's voice on the other end was different from the three before. Not urgent. A voice for which there was no longer any need to hurry.\nPhone in hand, Minjun couldn't move for a long while.",
+      "white": "The hospital called.\nThe nurse said his father was in critical condition and he had to come down at once. The word 'father' reached {name} before 'at once.'\n\nIt wasn't the first such call Minjun had taken.\nThree times. All three, he hadn't gone down. Something important came up. A deal came up. No time. Each time he told himself so, and each time it sounded reasonable enough.\n\nThis call was — the fourth.\nThe nurse's voice on the other end was different from the three before. Not urgent. A voice for which there was no longer any need to hurry.\nPhone in hand, Minjun couldn't move for a long while."
+    },
     "description_if_known": {
       "father_mentally_updated": "The hospital called.\n\nThey said Dad was in critical condition. He needed to come down right away.\n\nThree times. He hadn't gone down any of them.\n\nBut there had been one real conversation.\n{name} had told him — what he was doing, why he was in Seoul, how he was living.\nDad listened, quiet. Said he hoped things would work out.\n\nThat was the last thing he heard his father say.",
       "called_father_on_ktx": "The fourth call came.\n\nThere'd been a time he dialed the number on the KTX.\nIt just rang. No answer.\n\nBack then he simply looked out the window.\nThis call — was a different kind.",
@@ -167,10 +187,18 @@
     "choices": [
       {
         "text": "(He took the KTX. Knowing he was already too late.)",
+        "text_if_moral": {
+          "black": "(Take the KTX. Buy the ticket before he finishes calculating the cost.)",
+          "white": "(Take the KTX. Even if it is too late, go where he needs to be.)"
+        },
         "result_text": "The KTX felt impossibly slow. The whole way, as the scenery fled backward outside the window, Minjun tried to think of nothing at all.\n\nBy the time he reached Changwon Station, Father was already gone.\nThe nurse said, \"An hour ago.\" Exactly one hour.\n\nMinjun sat beside the empty hospital bed. He stayed like that a long time. Nothing was left but the smell of antiseptic.\nHe'd wanted to show him. That the number in the bankbook had climbed this high, that his son had made it this far — and now there was one fewer person in the world to show it to.\nIn his pocket, the phone still held a call log from some day long ago. Twenty-three seconds."
       },
       {
         "text": "(He hung up. There was a deal he had to close right now.)",
+        "text_if_moral": {
+          "black": "(Hang up. This deal vanishes if he does not take it now.)",
+          "white": "(Hang up. Take the deal, knowing what he is leaving behind.)"
+        },
         "result_text": "\"I'm sorry. This time I really can't come.\" Minjun hung up. And he went into the deal.\nHe made five million won on it. Just as planned.\n\nThe next morning, another call. Father had passed in the night — at the very hour Minjun was making his five million.\n\nMinjun set the phone down and opened the banking app. The number had gone up. Five million won, exactly.\nHe looked at it a long time. He'd thought he'd feel nothing; he was wrong. That this number would, for the rest of his life, be priced at the same value as this morning — only now did Minjun understand it."
       }
     ]
@@ -258,23 +286,39 @@
   {
     "id": "arc_why_gangnam_real",
     "title": "Why Gangnam",
-    "description": "Late night. A milestone number finally crossed.\n\n{name} sat looking at the screen for a while after the notification.\n\nSomewhere in the middle of it all, the question surfaced:\n\"Why was it Gangnam in the first place?\"\n\nBack at the start — what was it that made that the destination?",
+    "description": "Eleven at night.\n\nFor the first time, his assets had crossed that number.\n{name} stood alone where he could see the lights in the direction of Gangnam.\n\nSomeone asked.\nIt might have been his father, Hyunsu, or simply a voice carried from somewhere else.\n\n\"Why was it Gangnam in the first place?\"\n\nAfter nearly three years of running, {name} had an answer different from the one he would have given at the start.",
+    "description_if_moral": {
+      "black": "Eleven at night.\n\nFor the first time, his assets had crossed that number.\nBefore looking toward the lights of Gangnam, {name} reopened the account alert. The number had not changed. He refreshed it once more.\n\nSomeone asked.\nIt might have been his father, Hyunsu, or simply a voice carried from somewhere else.\n\n\"Why was it Gangnam in the first place?\"\n\nThe next target came to mind before an answer did. What had changed in three years was less the reason than the speed of his calculation.",
+      "white": "Eleven at night.\n\nFor the first time, his assets had crossed that number.\n{name} stood alone where he could see the lights in the direction of Gangnam. Below them were people waiting for the last bus and shops whose owners had not yet gone home.\n\nSomeone asked.\nIt might have been his father, Hyunsu, or simply a voice carried from somewhere else. Every voice had a face.\n\n\"Why was it Gangnam in the first place?\"\n\nFor the first time, the answer arrived with names instead of a number."
+    },
     "choices": [
       {
-        "text": "\"To prove something.\"",
-        "result_text": "To whom — {name} wasn't sure anymore.\nTo the people who wrote him off. To the hometown. Maybe to himself.\n\nSomewhere along the way, the thing to prove had blurred.\nBut the legs had kept walking anyway."
+        "text": "\"To prove that I wasn't wrong.\"",
+        "text_if_moral": {
+          "black": "\"To prove it. So no one can dismiss me again.\"",
+          "white": "\"To prove that I did not break.\""
+        },
+        "result_text": "That was the most honest answer.\nTo someone — or perhaps to nothing at all — he had wanted to say, 'I wasn't wrong.'\n\nThere was nothing wrong with wanting to prove yourself.\n{name} simply could not yet say exactly who that proof was for."
       },
       {
         "text": "\"I think I wanted to pay back my father's debt — my way.\"",
-        "result_text": "Not the money. Not literally.\n\nThe debt of not being able to do anything then.\nThe debt of watching him collapse and just standing there.\n\n{name} looked at the screen for a long time.\nThis was the real answer. It had been there the whole time."
+        "text_if_moral": {
+          "black": "\"To replace what my father lost with a number of my own.\"",
+          "white": "\"I think I wanted to pay back my father's debt — my way.\""
+        },
+        "result_text": "Something loosened when he said it to himself.\n\nIt was not about paying the money back. His father had lost to the world, and {name} had wanted to repay that by standing before the world again.\n\nGangnam was the proof. Not a point on a map, but the person standing there."
       },
       {
         "text": "\"I thought Gangnam would make things different. Now I'm not sure.\"",
-        "result_text": "Different from what? Honestly — didn't know anymore.\n\nThe number on screen meant something. Just not exactly what {name} had imagined it would mean.\n\nMaybe the answer comes when the destination is actually reached."
+        "text_if_moral": {
+          "black": "\"I thought Gangnam would end it. But the number has not ended anything.\"",
+          "white": "\"I thought Gangnam would make things different. Now I'm not sure.\""
+        },
+        "result_text": "It was the most honest answer.\n\nAt first, Gangnam had felt like freedom.\nNow he could no longer say exactly what it was.\n\nKnowing that he did not know might itself be something he had learned in three years."
       }
     ],
     "description_if_known": {
-      "motive_clarified": "Late night. A milestone number finally crossed.\n\n{name} sat looking at the screen for a while after the notification.\n\nSomewhere in the middle of it all, the question surfaced:\n\"Why was it Gangnam in the first place?\"\n\nBack at the start — what was it that made that the destination?\n\nHe had actually put this question to himself once before.\nThe day pride and purpose blurred, he had sorted out his reasons.\nWhich is why now — the answer came at once."
+      "motive_clarified": "Eleven at night.\n\nFor the first time, his assets had crossed that number.\n{name} stood alone where he could see the lights in the direction of Gangnam.\n\nSomeone asked.\nIt might have been his father, Hyunsu, or simply a voice carried from somewhere else.\n\n\"Why was it Gangnam in the first place?\"\n\nAfter nearly three years of running, {name} had an answer different from the one he would have given at the start.\n\nHe had asked himself this question once before.\nOn a day when pride and purpose had blurred together, he had sorted through his reasons.\nSo this time, the answer came at once."
     }
   },
   {

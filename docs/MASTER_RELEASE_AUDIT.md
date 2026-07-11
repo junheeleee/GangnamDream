@@ -1,6 +1,6 @@
 # Gangnam Dream Master Release Audit
 
-Updated: 2026-07-11
+Updated: 2026-07-12
 
 ## Mission
 
@@ -29,7 +29,7 @@ Adjacent and top-selling execution references are assigned by surface in `docs/S
 | CG PNG files | 31 | Launch key moments and ending coverage |
 | BGM / ambience / SFX | 7 / 25 / 30 | Loop fatigue, mix quality, ownership, or license proof |
 | Achievements / easter eggs | 13 / 8 | Discovery quality or community conversation |
-| Screenshot QA scopes | 31 | Full-playthrough correctness or subjective fun |
+| Screenshot QA scopes | 32 | Full-playthrough correctness or subjective fun |
 
 The first parity audit found eight EN-only overlay rows. DataRegistry silently ignored them because no KO base event existed, so translated scenes appeared to ship while no player could reach them. They are now promoted to complete bilingual events with conditions and consequences, and EN-only dead overlays fail CI.
 
@@ -55,7 +55,7 @@ These are confidence bands, not review scores. Every band must be replaced by pl
 | Image quality / continuity | Developing | Background/portrait separation, romance outfit pairs, spatial bibles, and 28 active CG/50 actor acting contracts exist; first-snow and Minjun climate P0 gaps are closed, while recurring-cast exterior seasons and remaining climax coverage are incomplete |
 | Audio identity | Developing | All 62 files are now project-owned, reproducible, and source-audited; core UI sounds use a dry Gangnam Ink tactile set and BGM continuity is gated. Seven-track long-session fatigue and character leitmotifs remain |
 | Motion / game feel | Weak to developing | AP commitment has a clearer board and feedback vocabulary, and chained story scenes no longer flash the AP shell between them; input feel and several navigation transitions still need measured play tests |
-| Moral Tint impact | Promising, partially embodied | One same-scene KO/EN vertical slice now changes attention, choice language, portrait distance, surface, and lived ambience across Black/Gray/White; a complete neutral-to-White/Black blind run still has not proven players notice it without explanation |
+| Moral Tint impact | Promising, partially embodied | Five KO/EN anchor scenes now carry the same hidden attention grammar from Daeun's cafe through Sangchul, Gangnam, Father, and the final countdown while portrait distance, surface, and lived ambience shift across Black/Gray/White; a complete neutral-to-White/Black blind run still has not proven players notice it without explanation |
 | Endings | Developing | 35 outcomes and recap logic are substantial; bespoke visual/audio aftermath and critic-level final images are incomplete |
 | Stability / save integrity | Good static baseline | Audit, compile, language, balance, asset, and tutorial input-leak checks pass; full branch/save migration and long-session soak remain |
 | Commercial package | Developing | Owned character key art, three Steam capsule sizes, and a localized first-run path exist; no external capsule conversion or wishlist evidence yet |

@@ -27,6 +27,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Splash, opening, StartMenu press-any-key, start menu, content notice | `--qa=start-en` |
 | StoryMode/VN flashforward Black→arrival Gray reset, intro events, 1~4-choice lower dock, readable backgrounds, chapter card, scene direction framing | `--qa=story-en` |
 | StoryMode non-CG Black/Gray/White luminance, forced-Black framing, same-scene perception prose, moral choice wording, portrait distance, and KO/EN crop | `--qa=story-moral --lang=ko/en` |
+| Authored Moral Perception anchors: Daeun cafe, Sangchul mirror, why Gangnam, father's last call, and final countdown across Black/Gray/White prose and choices | `--qa=moral-anchors --lang=ko/en` |
 | Romance CG Gray/Black/White color hierarchy and no-HUD climax framing | `--qa=romance-cg` |
 | Romance portrait outfit/scale against exact paired CG contract | `--qa=romance-portraits` |
 | Namsan route cable car→restaurant→observation-deck paragraph backgrounds, paired portraits, lock CG intro/choices | `--qa=namsan --lang=ko/en` |
