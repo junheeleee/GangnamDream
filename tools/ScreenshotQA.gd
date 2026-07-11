@@ -13,6 +13,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=romance-cg
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=romance-portraits
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=namsan --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=amusement --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-act-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=endings-en
@@ -46,6 +47,7 @@ const QA_SCOPE_STORY_EN := "story_en"
 const QA_SCOPE_ROMANCE_CG := "romance_cg"
 const QA_SCOPE_ROMANCE_PORTRAITS := "romance_portraits"
 const QA_SCOPE_NAMSAN := "namsan"
+const QA_SCOPE_AMUSEMENT := "amusement"
 const QA_SCOPE_AP_EN := "ap_en"
 const QA_SCOPE_AP_ACT_EN := "ap_act_en"
 const QA_SCOPE_ENDINGS_EN := "endings_en"
@@ -142,6 +144,12 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_namsan_surfaces(lang, "namsan_en_" if lang == "en" else "namsan_ko_")
 		print("SCREENSHOT_QA_DONE scope=namsan lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_AMUSEMENT:
+		var lang := _qa_language("en")
+		await _shot_amusement_surfaces(lang, "amusement_en_" if lang == "en" else "amusement_ko_")
+		print("SCREENSHOT_QA_DONE scope=amusement lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_AP_EN:
@@ -305,6 +313,9 @@ func _qa_scope() -> String:
 		if arg in ["namsan", "namsan-romance", "namsan_romance", "--namsan",
 				"qa=namsan", "--qa=namsan", "scope=namsan", "--scope=namsan"]:
 			return QA_SCOPE_NAMSAN
+		if arg in ["amusement", "amusement-park", "amusement_park", "--amusement",
+				"qa=amusement", "--qa=amusement", "scope=amusement", "--scope=amusement"]:
+			return QA_SCOPE_AMUSEMENT
 		if arg in ["ap-en", "ap_en", "main-en", "main_en", "--ap-en", "--ap_en",
 				"qa=ap-en", "--qa=ap-en", "qa=ap_en", "--qa=ap_en",
 				"qa=main-en", "--qa=main-en", "scope=ap-en", "--scope=ap-en"]:
@@ -733,6 +744,18 @@ func _shot_namsan_surfaces(lang: String = "en", prefix: String = "namsan_en_") -
 		await _shot_story_event(prelude_id, prefix + label + "_02_observation_deck", lang, 0.45, true, false, -1, 2)
 		await _shot_story_event(lock_id, prefix + label + "_03_lock_intro", lang, 0.55, true)
 		await _shot_story_event(lock_id, prefix + label + "_04_lock_choices", lang, 0.55, true, true)
+
+func _shot_amusement_surfaces(lang: String = "en", prefix: String = "amusement_en_") -> void:
+	await _shot_story_event("arc_date_park_daeun", prefix + "daeun_00_parade", lang, 0.45, true)
+	await _shot_story_event("arc_date_park_daeun", prefix + "daeun_01_helping_cg", lang, 0.45, true, false, -1, 1)
+	await _shot_story_event("arc_date_park_daeun", prefix + "daeun_02_choices", lang, 0.45, true, true)
+	await _shot_story_event("arc_date_park_daeun", prefix + "daeun_03_stay_result", lang, 0.45, true, true, 0)
+	await _shot_story_event("arc_date_park_daeun", prefix + "daeun_04_rides_result", lang, 0.45, true, true, 1)
+	await _shot_story_event("arc_date_park_jiyeon", prefix + "jiyeon_00_coaster", lang, 0.45, true)
+	await _shot_story_event("arc_date_park_jiyeon", prefix + "jiyeon_01_booth", lang, 0.45, true, false, -1, 1)
+	await _shot_story_event("arc_date_park_jiyeon", prefix + "jiyeon_02_choices", lang, 0.45, true, true)
+	await _shot_story_event("arc_date_park_jiyeon", prefix + "jiyeon_03_photo_result", lang, 0.45, true, true, 0)
+	await _shot_story_event("arc_date_park_jiyeon", prefix + "jiyeon_04_ride_result", lang, 0.45, true, true, 1)
 
 func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> void:
 	_set_qa_language(lang)

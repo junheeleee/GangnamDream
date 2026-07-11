@@ -1506,6 +1506,37 @@ func _make_choice_button(text: String, idx: int, display_num: int = -1) -> Butto
 	_bind_story_tactile_button(btn, 1.0)
 	return btn
 
+## 선택 결과에만 속하는 CG/배경은 선택 전에 스포일러하지 않는다.
+## result_cg가 result_background보다 우선하며, 배경 결과는 현재 인물 초상을 복원한다.
+func _apply_choice_result_visual(choice: Dictionary) -> void:
+	var result_cg_id := str(choice.get("result_cg", ""))
+	if result_cg_id != "":
+		var result_cg_path := ImageRegistry.get_cg(result_cg_id)
+		if result_cg_path != "" and ResourceLoader.exists(result_cg_path):
+			_play_story_ink_transition("scene", 0.55)
+			_bg_img.texture = load(result_cg_path)
+			_current_uses_cg = true
+			_apply_story_surface_palette(true)
+			_show_portrait(str(_current.get("portrait", "")), true)
+			if _hud_panel != null and is_instance_valid(_hud_panel):
+				_hud_panel.visible = false
+		return
+
+	var result_background_id := str(choice.get("result_background", ""))
+	if result_background_id == "":
+		return
+	var result_background_path := ImageRegistry.get_background(result_background_id)
+	if result_background_path == "" or not ResourceLoader.exists(result_background_path):
+		return
+	_play_story_ink_transition("scene", 0.45)
+	_bg_img.texture = load(result_background_path)
+	_event_background_id = result_background_id
+	_current_uses_cg = false
+	_apply_story_surface_palette(false)
+	_show_portrait(str(_current.get("portrait", "")), bool(_current.get("bg_focus", false)))
+	if _hud_panel != null and is_instance_valid(_hud_panel):
+		_hud_panel.visible = not _story_visual_override_active
+
 func _on_choice(idx: int):
 	if _transitioning:
 		return
@@ -1543,6 +1574,7 @@ func _on_choice(idx: int):
 	_set_portrait_choice_focus(false)
 	for c in _choice_box.get_children():
 		c.queue_free()
+	_apply_choice_result_visual(choice)
 
 	if result != "":
 		_show_story_result_record(choice)

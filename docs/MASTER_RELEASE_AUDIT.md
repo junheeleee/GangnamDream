@@ -41,7 +41,7 @@ These are confidence bands, not review scores. Every band must be replaced by pl
 |---|---|---|
 | Premise and social theme | Strong | 500K to 3B in five years, father debt, class pressure, moral erosion are immediately legible and culturally specific |
 | First impression / IP | Developing to strong | One identity-locked Minjun/Daeun/Jiyeon key art now owns splash, StartMenu, and Steam capsules; external character recall and conversion remain unverified |
-| Flagship character appeal | Developing | Portrait/CG outfit pairs and gaze contracts now protect key heroine scenes; expression breadth, leitmotifs, merchandise recall, and remaining T1/T2 coverage are incomplete |
+| Flagship character appeal | Developing | Portrait/CG outfit pairs, gaze contracts, scene-specific Minjun expressions, and season-gated Namsan/amusement milestones now protect key heroine scenes; leitmotifs, merchandise recall, and remaining T1/T2 coverage are incomplete |
 | Core weekly loop | Developing to coherent | A real-input pass reaches the first AP board; AUTO reduces pre-AP confirms to six, the first-month horizon exposes income/rent/route pressure, and AP commitment/result feedback is captured. Voluntary reading and three-week plan recall still need timed stranger proof |
 | Story architecture | Unverified | Large authored spine exists, but a full black-box 240-week dramatic trace has not been critic-read end to end |
 | Chapter pacing | Unverified | Content counts cannot prove that each act has escalation, reversal, climax, and breathing room |

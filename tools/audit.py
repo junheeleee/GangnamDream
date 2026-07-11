@@ -237,6 +237,17 @@ def check_events():
                 warn('%s  [%s] 모르는 cg id → "%s"' % (rel(p), eid, cg))
             # choices
             for ci, ch in enumerate(e.get("choices", [])):
+                result_cg = ch.get("result_cg")
+                result_bg = ch.get("result_background")
+                if result_cg and VALID_CG and result_cg not in VALID_CG:
+                    err('%s  [%s] 선택지%d 모르는 result_cg id → "%s"'
+                        % (rel(p), eid, ci, result_cg))
+                if result_bg and VALID_BACKGROUNDS and result_bg not in VALID_BACKGROUNDS:
+                    err('%s  [%s] 선택지%d 모르는 result_background id → "%s"'
+                        % (rel(p), eid, ci, result_bg))
+                if result_cg and result_bg:
+                    err('%s  [%s] 선택지%d result_cg와 result_background를 동시에 지정할 수 없음'
+                        % (rel(p), eid, ci))
                 fu = ch.get("follow_up_event", "")
                 if fu and fu not in known_ids:
                     err('%s  [%s] 선택지%d follow_up_event "%s" 가 존재하지 않음 (스토리 체인 끊김)'
@@ -265,10 +276,15 @@ def check_romance_visual_manifest():
     except Exception as e:
         err("%s  JSON 파싱 실패: %s" % (rel(path), e))
         return
-    rows = root.get("t0", []) if isinstance(root, dict) else []
-    if not isinstance(rows, list) or len(rows) != 8:
+    t0_rows = root.get("t0", []) if isinstance(root, dict) else []
+    t1_rows = root.get("t1", []) if isinstance(root, dict) else []
+    if not isinstance(t0_rows, list) or len(t0_rows) != 8:
         err("%s  T0 계약은 정확히 8개여야 함" % rel(path))
         return
+    if not isinstance(t1_rows, list):
+        err("%s  T1 계약은 배열이어야 함" % rel(path))
+        return
+    rows = t0_rows + t1_rows
 
     events = {}
     for event_path in glob.glob(os.path.join(ROOT, "content", "events", "*.json")):
@@ -287,7 +303,7 @@ def check_romance_visual_manifest():
     valid_visibility = {"pov", "cropped_left", "visible_left", "visible_right"}
     for row in rows:
         if not isinstance(row, dict):
-            err("%s  T0 계약 행이 dictionary가 아님" % rel(path))
+            err("%s  로맨스 비주얼 계약 행이 dictionary가 아님" % rel(path))
             continue
         event_id = str(row.get("event_id", ""))
         if not event_id or event_id in owners:
@@ -300,7 +316,17 @@ def check_romance_visual_manifest():
             continue
         cg_id = str(row.get("cg", ""))
         portrait_id = str(row.get("heroine_portrait", ""))
-        if str(event.get("cg", "")) != cg_id:
+        choice_index = row.get("choice_index")
+        actual_cg = str(event.get("cg", ""))
+        if choice_index is not None:
+            choices = event.get("choices", [])
+            if not isinstance(choice_index, int) or isinstance(choice_index, bool) \
+                    or choice_index < 0 or choice_index >= len(choices):
+                err('%s  [%s] choice_index 범위 오류' % (rel(path), event_id))
+                actual_cg = ""
+            else:
+                actual_cg = str(choices[choice_index].get("result_cg", ""))
+        if actual_cg != cg_id:
             err('%s  [%s] CG가 romance manifest와 다름' % (rel(path), event_id))
         if str(event.get("portrait", "")) != portrait_id:
             err('%s  [%s] 초상화 의상이 romance manifest와 다름' % (rel(path), event_id))
@@ -314,6 +340,12 @@ def check_romance_visual_manifest():
             err('%s  [%s] eye_line 계약 누락' % (rel(path), event_id))
         if str(row.get("player_visibility", "")) not in valid_visibility:
             err('%s  [%s] player_visibility 값 오류' % (rel(path), event_id))
+        season_months = row.get("season_months")
+        if season_months is not None:
+            if not isinstance(season_months, list) or not season_months \
+                    or any(not isinstance(month, int) or isinstance(month, bool)
+                           or month < 1 or month > 12 for month in season_months):
+                err('%s  [%s] season_months 계약 오류' % (rel(path), event_id))
 
 # ══════════════════════════════════════════════════════════════
 # 4) 플래그 교차 검증 — 읽기만 하고 아무도 set 안 하는 플래그를 잡는다
@@ -488,6 +520,7 @@ DIRECTION_VALUES = {
 }
 # apply_choice()가 실제로 처리하는 선택지 키 + 주석용 키
 CHOICE_KEYS = {"text", "effects", "flags", "follow_up_event", "result_text",
+               "result_cg", "result_background",
                "opportunity", "cast_effects", "relationship_effects",
                "investment_effects", "tendency", "route", "grant_job",
                "conditions_note", "deferred_follow_up", "deferred_delay",

@@ -8242,17 +8242,24 @@ func _ap_date():
 	_render_ap_actions()
 	_refresh_all()
 
+## 고정 의상 마일스톤은 서울에서 가벼운 외투가 자연스러운 달에만 발화한다.
+## 회차를 넘겨도 seen 전이면 다음 적합한 데이트로 이월해 CG와 달력의 계절을 맞춘다.
+func _date_milestone_weather_ok() -> bool:
+	return GameState.month in [3, 4, 5, 9, 10, 11]
+
 ## 마일스톤 데이트 판정 — 누적 데이트 회차가 임계치면 해당 이벤트 id 반환(없으면 "").
 ## id를 문자열 리터럴로 반환해 감사(죽은 아크 검사)가 배선을 인식하게 한다.
 ## 각 런 1회 — *_seen 가드(이벤트 choices가 set)로 재발동 방지.
 func _date_milestone_id(pid: String, dc: int) -> String:
 	var f = GameState.flags
-	if dc == 3:
+	if not _date_milestone_weather_ok():
+		return ""
+	if dc >= 3:
 		if pid == "daeun" and not f.get("arc_date_namsan_daeun_seen", false):
 			return "arc_date_namsan_daeun"
 		if pid == "jiyeon" and not f.get("arc_date_namsan_jiyeon_seen", false):
 			return "arc_date_namsan_jiyeon"
-	elif dc == 6:
+	if dc >= 6:
 		if pid == "daeun" and not f.get("arc_date_park_daeun_seen", false):
 			return "arc_date_park_daeun"
 		if pid == "jiyeon" and not f.get("arc_date_park_jiyeon_seen", false):

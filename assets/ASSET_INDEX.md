@@ -93,6 +93,10 @@ Updated on 2026-07-11 for paired Namsan observation-deck and love-lock romance a
   - Namsan T1 outfit portrait: moss-green short duffle coat over ivory ribbed knit, matched to `namsan_lock_daeun_v1.png`.
   - Gaze lock: right-anchored portrait looks screen-left toward Minjun, with the same short hair and left-temple clip as Daeun's identity reference.
 
+- `assets/characters/npc_daeun_amusement.png`
+  - Amusement-park T1 portrait: slate-blue chore jacket, ivory knit, dark jeans, and canvas crossbody strap, matched to `amusement_lost_child_daeun_v1.png`.
+  - Mild-weather only (March-May, September-November); child-directed gaze, both hands naturally pocketed.
+
 - `assets/characters/npc_boss.png`
   - Im Sangcheol normal transparent portrait, 52-year-old self-made broker/mentor.
 
@@ -128,6 +132,10 @@ Updated on 2026-07-11 for paired Namsan observation-deck and love-lock romance a
 - `assets/characters/npc_jiyeon_namsan.png`
   - Namsan T1 outfit portrait: deep sapphire tailored belted coat over charcoal-black, matched to `namsan_lock_jiyeon_v1.png`.
   - Gaze lock: lowered screen-left gaze studies a scene object rather than addressing the lens.
+
+- `assets/characters/npc_jiyeon_amusement.png`
+  - Amusement-park T1 portrait: wine-red tailored suede jacket over charcoal-black, matched across all four frames of `amusement_photo_strip_jiyeon_v1.png`.
+  - Mild-weather only (March-May, September-November); challenging eye line toward Minjun, both hands pocketed.
 
 - `assets/characters/npc_jiyeon_narrow_door.png`
   - T1 Narrow Room prelude portrait: travel-creased charcoal coat worn open over a muted oxblood top, nearly bare face, exhausted screen-left gaze.
@@ -230,6 +238,14 @@ Updated on 2026-07-11 for paired Namsan observation-deck and love-lock romance a
   - Person-free summit observation-deck interior for the two Namsan date preludes.
   - Status: approved. 1280x800, floor-to-ceiling glass, Han River and Seoul/Gangnam lights below, no cafe furniture, signage, crowd, or named character.
   - Layout owner: `assets/NAMSAN_VISUAL_BIBLE.md`.
+
+- `assets/backgrounds/amusement_park_parade_day.png`
+  - Fictional Korean urban amusement-park promenade during a distant parade; named-character-free, coherent ride/support/circulation geometry.
+- `assets/backgrounds/amusement_roller_coaster_day.png`
+  - Empty front-row lift-hill viewpoint with plausible rails, chain and park/city depth; no protagonist hands or passengers.
+- `assets/backgrounds/amusement_photo_booth_evening.png`
+  - Correct two-person four-cut booth: right-wall bench faces left-wall camera/monitor, with a side entrance on the near wall.
+  - Status: approved. All three are 1280x800 and owned by `assets/AMUSEMENT_PARK_VISUAL_BIBLE.md`.
 
 - `assets/backgrounds/office_desk.png`
   - Late-night office desk background for overtime, salary, promotion, startup, and burnout events.
@@ -467,6 +483,13 @@ Updated on 2026-07-11 for paired Namsan observation-deck and love-lock romance a
 - `assets/cg/romance/namsan_lock_jiyeon_v1.png`
   - T1 Jiyeon love-lock beat: same-summit terrace, sapphire tailored coat, Jiyeon studying an existing lock while Minjun watches her contradiction.
   - Both Namsan CGs are 1280x800 and owned by `assets/NAMSAN_VISUAL_BIBLE.md`.
+
+- `assets/cg/romance/amusement_lost_child_daeun_v1.png`
+  - T1 Daeun kindness beat: Daeun and Minjun each hold one hand of the tearful lost child; all three gazes form a coherent triangle.
+  - Minjun uses a small reassuring smile rather than inheriting the defeated default-portrait expression.
+- `assets/cg/romance/amusement_photo_strip_jiyeon_v1.png`
+  - T1 Jiyeon choice-result CG: four fixed-identity booth frames progress from posing to mutual gaze, laughter, and a surprise cheek kiss.
+  - Both are 1280x800, mild-weather outfit locked, and owned by `assets/AMUSEMENT_PARK_VISUAL_BIBLE.md`.
 
 - `assets/cg/demo/daeun_first_kindness_v2.png`
   - Demo kindness CG: Daeun remains inside the staff pocket, Minjun remains on the customer side near the entrance, and both share an explicit mutual eye line over two triangle rice packages.

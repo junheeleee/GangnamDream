@@ -254,8 +254,10 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "background": "street_day",
-    "portrait": "daeun_smile",
+    "background": "amusement_park_parade",
+    "portrait": "daeun_amusement",
+    "cg": "cg_romance_amusement_lost_child_daeun",
+    "cg_reveal_paragraph": 1,
     "conditions": {
       "min_turn": 9999
     },
@@ -287,6 +289,7 @@
       },
       {
         "text": "직원에게 맡기고 놀이기구로 돌아간다.",
+        "result_background": "amusement_roller_coaster",
         "effects": {
           "mental": 3,
           "tint": -1
@@ -305,8 +308,12 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "background": "street_day",
-    "portrait": "jiyeon_warm",
+    "background": "amusement_roller_coaster",
+    "paragraph_backgrounds": [
+      "amusement_roller_coaster",
+      "amusement_photo_booth"
+    ],
+    "portrait": "jiyeon_amusement",
     "conditions": {
       "min_turn": 9999
     },
@@ -321,6 +328,7 @@
     "choices": [
       {
         "text": "네 컷을 다 찍는다.",
+        "result_cg": "cg_romance_amusement_photo_strip_jiyeon",
         "effects": {
           "tint": 2,
           "mental": 4
@@ -338,6 +346,7 @@
       },
       {
         "text": "사진은 됐고, 한 번 더 탄다.",
+        "result_background": "amusement_roller_coaster",
         "effects": {
           "mental": 3,
           "tint": 1

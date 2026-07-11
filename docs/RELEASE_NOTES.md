@@ -1,6 +1,7 @@
 # Gangnam Dream Release Notes
 
 ## Unreleased
+- Completed both T1 amusement-park routes with person-free parade/coaster/two-person-booth backgrounds, route-specific mild-weather portraits, Daeun's lost-child three-shot, and Jiyeon's choice-only four-cut CG. Choice results now support their own CG/background without spoiling the branch, the booth camera physically faces its bench, Minjun uses scene-specific expressions, and fixed outerwear milestones defer to March-May or September-November.
 - Added route-specific Namsan presentation: cable-car, wang-donkatsu restaurant, and glass observation-deck backgrounds now change with the exact prose paragraph; Daeun and Jiyeon each receive a matched outfit portrait and distinct same-summit love-lock CG with explicit gaze/acting contracts. Chained story scenes now remain under the transition cover instead of briefly flashing the AP screen between arcs.
 - Added a controller-first language choice before any localized splash or cinematic, persisted it after first setup, localized canonical save names on display/load, and covered Korean/English protagonist and cast names with runtime checks. Also completed English text for all eight gift items.
 - Replaced the first interview with a daylight two-person CG and staged Jiyeon's narrow-room arc as a matched doorway portrait, interior portrait, and canon-locked goshiwon CG. Portrait and name now reveal only when she actually knocks, with machine-checked paragraph timing.

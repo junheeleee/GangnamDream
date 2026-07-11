@@ -8,6 +8,7 @@ var _failures: Array[String] = []
 
 func _ready() -> void:
 	await _check_story_mode_cg()
+	_check_date_milestone_season_contract()
 	await _check_ending_cg()
 	if _failures.is_empty():
 		print("CG_RUNTIME_CHECK_OK")
@@ -32,6 +33,7 @@ func _check_story_mode_cg() -> void:
 	await _check_story_event_cg("arc_jiyeon_first_kiss", "cg_romance_first_kiss_jiyeon")
 	await _check_story_event_cg("arc_date_namsan_lock_daeun", "cg_romance_namsan_lock_daeun")
 	await _check_story_event_cg("arc_date_namsan_lock_jiyeon", "cg_romance_namsan_lock_jiyeon")
+	await _check_story_event_cg("arc_date_park_daeun", "cg_romance_amusement_lost_child_daeun")
 	await _check_story_event_cg("arc_jiyeon_narrow_room_2", "cg_romance_narrow_room_jiyeon")
 	await _check_story_event_paragraph_backgrounds("arc_date_namsan_daeun", [
 		"namsan_cable_car",
@@ -39,6 +41,16 @@ func _check_story_mode_cg() -> void:
 		"namsan_observation_deck",
 		"namsan_observation_deck",
 	])
+	await _check_story_event_paragraph_backgrounds("arc_date_park_jiyeon", [
+		"amusement_roller_coaster",
+		"amusement_photo_booth",
+	])
+	await _check_story_choice_result_visual(
+		"arc_date_park_jiyeon", 0, "cg_romance_amusement_photo_strip_jiyeon", true)
+	await _check_story_choice_result_visual(
+		"arc_date_park_jiyeon", 1, "amusement_roller_coaster", false)
+	await _check_story_choice_result_visual(
+		"arc_date_park_daeun", 1, "amusement_roller_coaster", false)
 	await _check_story_event_portrait_reveal("arc_jiyeon_narrow_room_1", "jiyeon_narrow_door", 2)
 	_check_all_story_cg_contracts()
 	_check_romance_visual_manifest()
@@ -153,27 +165,102 @@ func _check_story_event_portrait_reveal(event_id: String, portrait_id: String, r
 	remove_child(story)
 	story.queue_free()
 
+func _check_story_choice_result_visual(
+		event_id: String, choice_index: int, expected_id: String, expect_cg: bool) -> void:
+	GameState.pending_story_queue = [event_id]
+	var story_scene := load("res://scenes/StoryMode.tscn") as PackedScene
+	var story: Node = story_scene.instantiate()
+	add_child(story)
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	for _step in range(12):
+		if bool(story.get("_showing_choices")):
+			break
+		if bool(story.get("_typing")):
+			story.call("_complete_typing")
+		story.call("_on_advance")
+		await get_tree().process_frame
+		await get_tree().process_frame
+	if not bool(story.get("_showing_choices")):
+		_failures.append("StoryMode did not reach choices for %s" % event_id)
+		remove_child(story)
+		story.queue_free()
+		return
+
+	story.call("_on_choice", choice_index)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var expected_path := ImageRegistry.get_cg(expected_id) if expect_cg \
+		else ImageRegistry.get_background(expected_id)
+	var bg_img := story.get("_bg_img") as TextureRect
+	if bg_img == null or bg_img.texture == null or bg_img.texture.resource_path != expected_path:
+		_failures.append("StoryMode %s choice %d result visual mismatch" % [event_id, choice_index])
+	var portrait_frame := story.get("_portrait_frame") as Control
+	if expect_cg and portrait_frame != null and portrait_frame.visible:
+		_failures.append("StoryMode %s choice %d CG should hide portrait" % [event_id, choice_index])
+	if not expect_cg and (portrait_frame == null or not portrait_frame.visible):
+		_failures.append("StoryMode %s choice %d background should restore portrait" % [event_id, choice_index])
+
+	remove_child(story)
+	story.queue_free()
+
+func _check_date_milestone_season_contract() -> void:
+	var saved_month: int = int(GameState.month)
+	var saved_flags: Dictionary = GameState.flags.duplicate(true)
+	var main_script := load("res://scenes/MainGame.gd") as GDScript
+	var main: Node = main_script.new()
+	GameState.flags = {}
+	GameState.month = 1
+	if str(main.call("_date_milestone_id", "daeun", 6)) != "":
+		_failures.append("date milestone outerwear must not fire in January")
+	GameState.month = 4
+	if str(main.call("_date_milestone_id", "daeun", 6)) != "arc_date_namsan_daeun":
+		_failures.append("deferred Namsan milestone did not resume in mild weather")
+	GameState.flags["arc_date_namsan_daeun_seen"] = true
+	if str(main.call("_date_milestone_id", "daeun", 6)) != "arc_date_park_daeun":
+		_failures.append("amusement milestone did not follow Namsan in mild weather")
+	GameState.month = 7
+	if str(main.call("_date_milestone_id", "daeun", 8)) != "":
+		_failures.append("date milestone outerwear must not fire in July")
+	GameState.month = 10
+	if str(main.call("_date_milestone_id", "daeun", 8)) != "arc_date_park_daeun":
+		_failures.append("deferred amusement milestone did not resume in mild weather")
+	main.free()
+	GameState.month = saved_month
+	GameState.flags = saved_flags
+
 func _check_all_story_cg_contracts() -> void:
 	var owners: Dictionary = {}
 	for raw_event in DataRegistry.events:
 		var event: Dictionary = raw_event
 		var event_id: String = str(event.get("id", ""))
-		var cg_id: String = str(event.get("cg", ""))
-		if cg_id.is_empty():
-			continue
-		if owners.has(cg_id):
-			_failures.append("story cg %s is shared by %s and %s" % [cg_id, str(owners[cg_id]), event_id])
-		else:
-			owners[cg_id] = event_id
-		var path := ImageRegistry.get_cg(cg_id)
-		if path.is_empty() or not ResourceLoader.exists(path):
-			_failures.append("%s references missing story cg %s" % [event_id, cg_id])
-			continue
-		var texture := load(path) as Texture2D
-		if texture == null or texture.get_width() < 1280 or texture.get_height() < 720:
-			_failures.append("%s story cg must be at least 1280x720: %s" % [event_id, path])
-		elif cg_id.begins_with("cg_romance_") and (texture.get_width() != 1280 or texture.get_height() != 800):
-			_failures.append("%s romance cg must be exactly 1280x800: %s" % [event_id, path])
+		var refs: Array[Dictionary] = []
+		var event_cg_id := str(event.get("cg", ""))
+		if not event_cg_id.is_empty():
+			refs.append({"owner": event_id, "cg": event_cg_id})
+		var choices: Array = event.get("choices", [])
+		for choice_index in range(choices.size()):
+			var choice: Dictionary = choices[choice_index]
+			var result_cg_id := str(choice.get("result_cg", ""))
+			if not result_cg_id.is_empty():
+				refs.append({"owner": "%s#choice%d" % [event_id, choice_index], "cg": result_cg_id})
+		for ref in refs:
+			var owner := str(ref["owner"])
+			var cg_id := str(ref["cg"])
+			if owners.has(cg_id):
+				_failures.append("story cg %s is shared by %s and %s" % [cg_id, str(owners[cg_id]), owner])
+			else:
+				owners[cg_id] = owner
+			var path := ImageRegistry.get_cg(cg_id)
+			if path.is_empty() or not ResourceLoader.exists(path):
+				_failures.append("%s references missing story cg %s" % [owner, cg_id])
+				continue
+			var texture := load(path) as Texture2D
+			if texture == null or texture.get_width() < 1280 or texture.get_height() < 720:
+				_failures.append("%s story cg must be at least 1280x720: %s" % [owner, path])
+			elif cg_id.begins_with("cg_romance_") and (texture.get_width() != 1280 or texture.get_height() != 800):
+				_failures.append("%s romance cg must be exactly 1280x800: %s" % [owner, path])
 
 func _check_romance_visual_manifest() -> void:
 	const MANIFEST_PATH := "res://assets/romance_visual_manifest.json"
@@ -224,7 +311,17 @@ func _check_romance_visual_manifest() -> void:
 		if event.is_empty():
 			_failures.append("romance visual manifest event is missing: %s" % event_id)
 			continue
-		if str(event.get("cg", "")) != cg_id:
+		var actual_cg_id := str(event.get("cg", ""))
+		if row.has("choice_index"):
+			var choice_index := int(row.get("choice_index", -1))
+			var choices: Array = event.get("choices", [])
+			if choice_index < 0 or choice_index >= choices.size():
+				_failures.append("%s has invalid romance result choice index" % event_id)
+				actual_cg_id = ""
+			else:
+				var result_choice: Dictionary = choices[choice_index]
+				actual_cg_id = str(result_choice.get("result_cg", ""))
+		if actual_cg_id != cg_id:
 			_failures.append("%s cg drifted from romance visual manifest" % event_id)
 		if str(event.get("portrait", "")) != portrait_id:
 			_failures.append("%s portrait outfit drifted from romance visual manifest" % event_id)
@@ -234,6 +331,14 @@ func _check_romance_visual_manifest() -> void:
 			_failures.append("%s has no gaze target contract" % event_id)
 		if str(row.get("player_visibility", "")) not in ["pov", "cropped_left", "visible_left", "visible_right"]:
 			_failures.append("%s has invalid player visibility" % event_id)
+		if row.has("season_months"):
+			var season_months: Array = row.get("season_months", [])
+			if season_months.is_empty():
+				_failures.append("%s has an empty season month contract" % event_id)
+			for raw_month in season_months:
+				var month := int(raw_month)
+				if month < 1 or month > 12:
+					_failures.append("%s has an invalid season month" % event_id)
 		_check_romance_portrait(portrait_id, event_id)
 		var prelude_event_id: String = str(row.get("prelude_event_id", ""))
 		if not prelude_event_id.is_empty():

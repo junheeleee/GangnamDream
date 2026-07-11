@@ -76,6 +76,7 @@
       "cg": "cg_romance_narrow_room_jiyeon",
       "heroine_portrait": "jiyeon_narrow_room",
       "heroine_outfit": "Deep muted oxblood fine-knit top and charcoal trousers, coat removed, nearly bare face.",
+      "season_scope": "indoor",
       "player_visibility": "visible_right",
       "eye_line": "Jiyeon and Minjun hold mutual eye contact across the narrow floor aisle; neither looks at the lens.",
       "prelude_event_id": "arc_jiyeon_narrow_room_1",
@@ -87,6 +88,7 @@
       "cg": "cg_romance_namsan_lock_daeun",
       "heroine_portrait": "daeun_namsan",
       "heroine_outfit": "Muted moss-green short duffle coat over an ivory ribbed knit and dark straight jeans.",
+      "season_months": [3, 4, 5, 9, 10, 11],
       "player_visibility": "visible_left",
       "eye_line": "Daeun and Minjun hold mutual eye contact; her head, pupils, shoulders, and relaxed hand on the rail above the existing locks all support the exchange.",
       "prelude_event_id": "arc_date_namsan_daeun",
@@ -98,11 +100,31 @@
       "cg": "cg_romance_namsan_lock_jiyeon",
       "heroine_portrait": "jiyeon_namsan",
       "heroine_outfit": "Deep sapphire-blue tailored belted wool coat over a charcoal-black silk mock-neck and slim black trousers.",
+      "season_months": [3, 4, 5, 9, 10, 11],
       "player_visibility": "visible_right",
       "eye_line": "Jiyeon studies an existing padlock while Minjun watches her; her lowered pupils, chin, crossed arms, and planted feet share the same target.",
       "prelude_event_id": "arc_date_namsan_jiyeon",
       "prelude_portrait": "jiyeon_namsan",
       "prelude_outfit": "Deep sapphire-blue tailored belted wool coat over a charcoal-black silk mock-neck and slim black trousers."
+    },
+    {
+      "event_id": "arc_date_park_daeun",
+      "cg": "cg_romance_amusement_lost_child_daeun",
+      "heroine_portrait": "daeun_amusement",
+      "heroine_outfit": "Muted slate-blue cotton chore jacket over an ivory crewneck knit, dark straight jeans, and a charcoal canvas crossbody strap.",
+      "season_months": [3, 4, 5, 9, 10, 11],
+      "player_visibility": "visible_right",
+      "eye_line": "Daeun and Minjun both look down toward the lost child; the child looks directly up at Daeun. Their joined hands remain centered and anatomically separate."
+    },
+    {
+      "event_id": "arc_date_park_jiyeon",
+      "choice_index": 0,
+      "cg": "cg_romance_amusement_photo_strip_jiyeon",
+      "heroine_portrait": "jiyeon_amusement",
+      "heroine_outfit": "Deep wine-red tailored suede cropped jacket over a charcoal-black silk mock-neck and fitted black trousers.",
+      "season_months": [3, 4, 5, 9, 10, 11],
+      "player_visibility": "visible_right",
+      "eye_line": "Four-frame sequence: both address the booth lens, then share mutual eye contact, laugh together, and end with Jiyeon kissing Minjun's cheek while his surprise remains natural."
     }
   ]
 }

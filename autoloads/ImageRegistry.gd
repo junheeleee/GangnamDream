@@ -27,6 +27,7 @@ const PORTRAITS = {
 	"daeun_fireworks":    "res://assets/characters/npc_daeun_fireworks.png",
 	"daeun_cherry":       "res://assets/characters/npc_daeun_cherry.png",
 	"daeun_namsan":       "res://assets/characters/npc_daeun_namsan.png",
+	"daeun_amusement":    "res://assets/characters/npc_daeun_amusement.png",
 
 	# 임상철 (인맥 브로커)
 	"sangchul_normal":    "res://assets/characters/npc_boss.png",
@@ -44,6 +45,7 @@ const PORTRAITS = {
 	"jiyeon_fireworks":   "res://assets/characters/npc_jiyeon_fireworks.png",
 	"jiyeon_cherry":      "res://assets/characters/npc_jiyeon_cherry.png",
 	"jiyeon_namsan":      "res://assets/characters/npc_jiyeon_namsan.png",
+	"jiyeon_amusement":   "res://assets/characters/npc_jiyeon_amusement.png",
 	"jiyeon_narrow_door": "res://assets/characters/npc_jiyeon_narrow_door.png",
 	"jiyeon_narrow_room": "res://assets/characters/npc_jiyeon_narrow_room.png",
 
@@ -130,6 +132,9 @@ const BACKGROUNDS = {
 	"namsan_cable_car":  "res://assets/backgrounds/namsan_cable_car_night.png",
 	"namsan_tonkatsu_restaurant": "res://assets/backgrounds/namsan_tonkatsu_restaurant_night.png",
 	"namsan_observation_deck": "res://assets/backgrounds/namsan_observation_deck_night.png",
+	"amusement_park_parade": "res://assets/backgrounds/amusement_park_parade_day.png",
+	"amusement_roller_coaster": "res://assets/backgrounds/amusement_roller_coaster_day.png",
+	"amusement_photo_booth": "res://assets/backgrounds/amusement_photo_booth_evening.png",
 	"rooftop_day":       "res://assets/backgrounds/rooftop_daytime.png",
 	"rooftop_night":     "res://assets/backgrounds/rooftop_night.png",
 	"hagwon_street":     "res://assets/backgrounds/hagwon_street.png",
@@ -217,6 +222,8 @@ const CG = {
 	"cg_romance_first_kiss_jiyeon": "res://assets/cg/romance/first_kiss_jiyeon.png",
 	"cg_romance_namsan_lock_daeun": "res://assets/cg/romance/namsan_lock_daeun_v1.png",
 	"cg_romance_namsan_lock_jiyeon": "res://assets/cg/romance/namsan_lock_jiyeon_v1.png",
+	"cg_romance_amusement_lost_child_daeun": "res://assets/cg/romance/amusement_lost_child_daeun_v1.png",
+	"cg_romance_amusement_photo_strip_jiyeon": "res://assets/cg/romance/amusement_photo_strip_jiyeon_v1.png",
 	"cg_romance_narrow_room_jiyeon": "res://assets/cg/romance/narrow_room_jiyeon_v1.png",
 }
 

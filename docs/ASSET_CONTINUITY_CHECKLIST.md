@@ -142,6 +142,17 @@ Use this before generating, accepting, wiring, or replacing any image asset. A v
 - The tower complex is immediately beside the terrace. A full tower across another hill is a structural rejection error.
 - Do not show a newly personalized couple lock before the player chooses to hang one.
 
+### Amusement Park Date Routes
+
+- Full location, floor-plan, outfit, and acting owner: `assets/AMUSEMENT_PARK_VISUAL_BIBLE.md`.
+- Fixed outerwear is valid only in March-May or September-November; the milestone waits outside those months.
+- Daeun's first paragraph uses the person-free parade promenade and her slate-blue portrait. The helping CG begins only after she has met the lost child.
+- In Daeun's CG, each adult holds exactly one separate child hand. Minjun must look reassuringly present rather than inheriting his unemployed defeat expression.
+- If the player returns to rides, the result must restore the roller-coaster background and Daeun portrait instead of leaving the helping CG under contradictory prose.
+- Jiyeon's first paragraph uses the front-row lift-hill background, and the second uses the physically correct two-person booth.
+- Booth bench and camera/monitor sit on opposite walls and face each other. A camera behind the bench or a one-person passport stool is a structural rejection.
+- Jiyeon's four-cut CG appears only after the photo choice. All four face beats stay above the dialogue-safe lower region; the skipped-photo result returns to the roller coaster.
+
 ## Production Status Tags
 
 - `approved`: canon-safe and wired.

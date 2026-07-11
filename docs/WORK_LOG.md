@@ -1,5 +1,28 @@
 # Gangnam Dream Work Log
 
+## 2026-07-11 (Codex — amusement-park paired art, result visuals, and season contract)
+
+### 진단
+- 두 놀이동산 마일스톤이 일반 서울 거리 배경과 기본 초상을 재사용해 롤러코스터·퍼레이드·사진 부스가 보이지 않았다.
+- 지연의 네 컷은 사진 선택 결과인데 이벤트 시작부터 CG로 보이면 선택을 스포일러한다. 반대 선택 뒤에도 사진 부스 배경이 남으면 다시 탄다는 결과와 충돌한다.
+- 첫 2인용 사진 부스 후보는 카메라/모니터를 벤치 뒤에 놓는 물리 오류가 있었고, 첫 네 컷 2×2 배열은 마지막 볼키스를 대사창 뒤에 숨겼다.
+- `main_character_unemployed.png`의 무기력한 표정을 신원과 함께 계승해 민준이 좋은 장면에서도 계속 우울해 보였다.
+- 데이트 3/6회차 마일스톤은 계절 무관 발동이라 겨울·한여름에도 고정 외투가 나올 수 있었다.
+
+### 구현
+- 인물 없는 퍼레이드 산책로, 앞자리 롤러코스터, 카메라와 2인 벤치가 맞은편 벽에서 서로 마주보는 네 컷 부스 배경을 추가했다.
+- 다은은 슬레이트색 실용 재킷 초상과 미아의 손을 양쪽에서 잡는 3인 CG를, 지연은 와인색 테일러드 재킷 초상과 상단 가로 4분할 네 컷 CG를 한 의상 세트로 제작했다.
+- 민준의 정본 초상은 얼굴·헤어·나이만 잠그고 표정은 장면별 계약으로 분리했다. 미아 장면은 안심시키는 작은 미소, 네 컷은 어색함→눈맞춤→웃음→놀람으로 바뀐다.
+- 선택지 전용 `result_cg`/`result_background`를 StoryMode에 추가했다. 다은의 두 번째 결과와 지연의 재탑승 결과는 롤러코스터+초상으로 돌아가며, 네 컷은 사진 선택 뒤에만 나타난다.
+- 남산·놀이동산 고정 외투 마일스톤을 3~5월/9~11월에만 발동하고, 임계 회차를 지나도 다음 적합한 데이트로 이월하도록 변경했다.
+- `AMUSEMENT_PARK_VISUAL_BIBLE.md`, T1 romance manifest, CG acting manifest, ImageRegistry, 선택 결과 이미지 감사, 계절 회귀 테스트와 `--qa=amusement` 스코프를 추가했다.
+
+### 검증
+- 실제 1280×800 `--qa=amusement --lang=en/ko` 각 10장: 문단 배경 전환, 선택 전 스포일러 없음, 결과별 CG/배경, 이름·줄바꿈, 손·시선·표정, 대사 안전 크롭 확인.
+- `CG_RUNTIME_CHECK_OK`; 1월/7월 차단, 4월/10월 이월 발동, result CG/background 및 초상 복귀 확인.
+- `CG_ACTING_CHECK_OK active=23 actor_contracts=42 missing=0 stale=0`.
+- 전체 `audit.sh` ERROR 0/WARNING 0, English zero-Hangul, 밸런스 밴드, 오디오/BGM 연속성, StoryPlayback, 57 GDScript compile 통과. `en_coverage_check.py`와 `arc_flow_sim.py`도 통과.
+
 ## 2026-07-11 (Codex — Namsan paragraph staging and covered story handoff)
 
 ### 진단

@@ -35,11 +35,15 @@ The machine-readable source is `assets/romance_visual_manifest.json`. `CGRuntime
 |---|---|---|---|---|---|
 | Daeun / Namsan | `daeun_namsan` | `daeun_namsan` | moss-green short duffle coat + ivory knit + dark jeans | visible left, worn black crewneck/jacket | mutual eye contact; Daeun's hand rests naturally on the rail above the locks |
 | Jiyeon / Namsan | `jiyeon_namsan` | `jiyeon_namsan` | sapphire tailored belted coat + charcoal-black mock-neck | visible right, worn black crewneck/jacket | Jiyeon studies a lock; Minjun watches Jiyeon |
+| Daeun / Amusement Park | `daeun_amusement` | `daeun_amusement` | slate-blue chore jacket + ivory knit + dark jeans | visible right, worn black crewneck/jacket | both adults look to the lost child; child looks to Daeun; exactly two adult-child hand contacts |
+| Jiyeon / Amusement Park | `jiyeon_amusement` | `jiyeon_amusement` | wine-red tailored suede jacket + charcoal-black mock-neck | visible right in all four frames, worn black crewneck/jacket | lens pose → mutual gaze → shared laugh → cheek-kiss surprise |
 | Jiyeon / Narrow Room | `jiyeon_narrow_door` | `jiyeon_narrow_room` | charcoal travel coat over oxblood top, then coat removed with charcoal trousers | visible right, worn black crewneck | mutual eye contact across the floor aisle; observer camera |
 
 The Narrow Room is also a location-continuity contract. `assets/GOSHIWON_VISUAL_BIBLE.md` fixes the left-wall bed, right-front desk, high frosted window, single door, two cup ramyeon bowls, and the dialogue-safe prop band.
 
 Namsan is a four-location continuity contract. `assets/NAMSAN_VISUAL_BIBLE.md` locks the cable-car ascent, wang-donkatsu restaurant, person-free indoor observation deck, and outdoor same-summit love-lock CG, where only an immediate partial tower structure may appear.
+
+The amusement park is a choice-timed and season-timed contract. `assets/AMUSEMENT_PARK_VISUAL_BIBLE.md` locks mild-weather months, the park/roller-coaster/booth progression, opposing booth camera and bench, and result-only four-cut CG. `main_character_unemployed.png` supplies Minjun's identity but never forces its defeated expression onto the date.
 
 ## Gaze Gate
 

@@ -177,6 +177,25 @@
         {"id": "minjun", "gaze_target": "Jiyeon's face", "pose_support": "Pupils, chin, and torso angle screen-left toward her rather than toward the camera or city."}
       ]
     },
+    "cg_romance_amusement_lost_child_daeun": {
+      "path": "assets/cg/romance/amusement_lost_child_daeun_v1.png",
+      "camera_role": "observational_three_shot",
+      "story_action": "Daeun and Minjun walk a tearful lost child toward guest services after the parade, each adult holding one of the child's hands.",
+      "actors": [
+        {"id": "daeun", "gaze_target": "The lost child's eyes", "pose_support": "Pupils and chin lower screen-right while her inner right hand holds only the child's left hand; her outer hand remains in her jacket pocket."},
+        {"id": "lost_child", "gaze_target": "Daeun's face", "pose_support": "Tearful eyes and lifted chin point screen-left toward Daeun while each hand remains separately held by one adult."},
+        {"id": "minjun", "gaze_target": "The child between him and Daeun", "pose_support": "Softened eyes, a small reassuring smile, lowered chin, and relaxed shoulders point screen-left; his inner left hand holds only the child's right hand."}
+      ]
+    },
+    "cg_romance_amusement_photo_strip_jiyeon": {
+      "path": "assets/cg/romance/amusement_photo_strip_jiyeon_v1.png",
+      "camera_role": "four_cut_booth_camera",
+      "story_action": "The four booth frames move from composed posing through mutual eye contact and shared laughter to Jiyeon's surprise cheek kiss.",
+      "actors": [
+        {"id": "jiyeon", "gaze_target": "Booth lens, then Minjun, then Minjun's cheek", "pose_support": "Her pupils and chin follow the four-frame sequence while her wine jacket, seat position, and face identity remain fixed."},
+        {"id": "minjun", "gaze_target": "Booth lens, then Jiyeon", "pose_support": "His expression changes from an awkward near-smile to reciprocal eye contact, genuine laughter, and natural surprise; his black date outfit and seat remain fixed."}
+      ]
+    },
     "cg_romance_narrow_room_jiyeon": {
       "path": "assets/cg/romance/narrow_room_jiyeon_v1.png",
       "camera_role": "intimate_observational_two_shot",
