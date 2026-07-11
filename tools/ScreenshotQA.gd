@@ -808,6 +808,17 @@ func _shot_story_moral_surfaces(lang: String = "en", prefix: String = "story_mor
 		_prepare_main_game_state()
 		GameState.moral_tint = float(data[0])
 		await _shot_story_event("kx_heatwave", prefix + str(data[1]), "", 0.55, true)
+	for data in [
+		[-80.0, "black"],
+		[0.0, "gray"],
+		[80.0, "white"],
+	]:
+		_prepare_main_game_state()
+		GameState.moral_tint = float(data[0])
+		await _shot_story_event("arc_y2_worn_face", prefix + "04_perception_" + str(data[1]), "", 0.55, true)
+		_prepare_main_game_state()
+		GameState.moral_tint = float(data[0])
+		await _shot_story_event("arc_y2_worn_face", prefix + "05_choices_" + str(data[1]), "", 0.45, true, true)
 	GameState.moral_tint = 0.0
 
 func _shot_romance_portrait_surfaces(lang: String = "en", prefix: String = "romance_portrait_en_") -> void:

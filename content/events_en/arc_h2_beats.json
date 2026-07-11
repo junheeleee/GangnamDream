@@ -17,14 +17,26 @@
   {
     "id": "arc_y2_worn_face",
     "title": "Have You Looked in a Mirror?",
-    "description": "Daeun watched Minjun for a long moment over her coffee cup.\n\n\"Minjun-ssi, have you looked in a mirror lately?\" She asked it smiling, but her eyes weren't.\n\nFor weeks he'd looked at nothing but his account balance. His face, it seemed, had noticed first.",
+    "description": "Fresh off her night shift, Daeun watched Minjun for a long moment over her coffee cup.\n\n\"Minjun-ssi, have you looked in a mirror lately?\" She asked it smiling, but her eyes weren't.\n\nFor weeks he'd looked at nothing but his account balance. His face, it seemed, had noticed first.",
+    "description_if_moral": {
+      "black": "Fresh off her night shift, Daeun watched Minjun for a long moment over her coffee cup. He noticed the receipt at the edge of the table before he noticed her gaze. Two coffees, 11,800 won.\n\nThe rest of today's spending added itself up in his head.\n\n\"Minjun-ssi, have you looked in a mirror lately?\" Daeun asked with a smile. Her eyes weren't smiling.\n\nBefore answering, Minjun turned over the phone whose balance alert had just gone dark. He noticed Daeun's expression a moment too late.",
+      "white": "Fresh off her night shift, Daeun still wore a beige cardigan over her uniform. One cuff had stretched slightly out of shape.\n\n\"Minjun-ssi, have you looked in a mirror lately?\" she asked with a smile. Her eyes weren't smiling.\n\nMinjun saw the worry in them before he heard the question. For weeks he'd looked at nothing but his account balance. Someone across the table had recognized his face before he had."
+    },
     "choices": [
       {
         "text": "Take the day off — go to the market together",
+        "text_if_moral": {
+          "black": "Clear half a day. Make up the lost time later and go to the market with her",
+          "white": "Take the day off. Go to the market with Daeun"
+        },
         "result_text": "That evening the two of them walked the market alleys. A bowl of sundae soup, three pairs of ten-thousand-won socks. For once he bought something that wasn't a number.\n\nDaeun laughed, and this time her eyes laughed too."
       },
       {
         "text": "\"I'm fine.\" — turn back to work",
+        "text_if_moral": {
+          "black": "\"I'm fine.\" Push the cup away and get back to work",
+          "white": "\"I'm fine.\" Look away and get back to work"
+        },
         "result_text": "\"Fine, sure.\" Daeun didn't press further.\n\nThey both knew it was a lie."
       }
     ]

@@ -535,7 +535,8 @@ EVENT_ROOT_KEYS = {"id", "title", "description", "category", "rarity", "weight",
                    "timed", "timer_seconds",
                    "description_orthodox", "description_unorthodox",
                    "description_low_mental", "description_long_gosiwon",
-                   "description_if_known", "direction"}
+                   "description_if_known", "description_if_moral", "direction"}
+MORAL_PERCEPTION_KEYS = {"deep_black", "black", "gray", "white", "deep_white"}
 DIRECTION_KEYS = {"pace", "amb", "sting", "camera", "hold", "visual"}
 DIRECTION_VALUES = {
     "pace": {"slow", "beat"},
@@ -545,7 +546,7 @@ DIRECTION_VALUES = {
     "visual": {"black_future"},
 }
 # apply_choice()가 실제로 처리하는 선택지 키 + 주석용 키
-CHOICE_KEYS = {"text", "effects", "flags", "follow_up_event", "result_text",
+CHOICE_KEYS = {"text", "text_if_moral", "effects", "flags", "follow_up_event", "result_text",
                "result_cg", "result_background",
                "opportunity", "cast_effects", "relationship_effects",
                "investment_effects", "tendency", "route", "grant_job",
@@ -567,6 +568,16 @@ def _match_arm_keys(src, func_pattern):
         if re.match(r'^"[a-z_]', s) and s.endswith(':'):
             keys.update(re.findall(r'"([a-z_][a-z0-9_]*)"', s))
     return keys
+
+def _check_moral_text_map(value, label):
+    if not isinstance(value, dict) or not value:
+        err('%s는 비어 있지 않은 object여야 함' % label)
+        return
+    for key, text in value.items():
+        if key not in MORAL_PERCEPTION_KEYS:
+            err('%s 미지원 밴드 "%s"' % (label, key))
+        if not isinstance(text, str) or not text.strip():
+            err('%s.%s는 빈 값이 아닌 문자열이어야 함' % (label, key))
 
 def check_event_registry_coverage():
     """모든 이벤트 JSON이 런타임 DataRegistry에 실제로 연결됐는지 확인한다."""
@@ -621,6 +632,10 @@ def check_event_keys():
                                 err('%s  [%s] direction.hold는 0.5~2.0초 숫자여야 함' % (rel(p), eid))
                         elif dv not in DIRECTION_VALUES.get(dk, set()):
                             err('%s  [%s] direction.%s 값 "%s"를 렌더러가 처리하지 않음' % (rel(p), eid, dk, dv))
+            if "description_if_moral" in e:
+                _check_moral_text_map(
+                    e.get("description_if_moral"),
+                    '%s  [%s] description_if_moral' % (rel(p), eid))
             cg_reveal = e.get("cg_reveal_paragraph")
             if cg_reveal is not None:
                 if not isinstance(cg_reveal, int) or isinstance(cg_reveal, bool) or cg_reveal < 1:
@@ -643,6 +658,10 @@ def check_event_keys():
                     if isinstance(known_map, dict):
                         for flag_id, text in known_map.items():
                             paragraph_texts.append(("description_if_known.%s" % flag_id, text))
+                    moral_map = e.get("description_if_moral", {})
+                    if isinstance(moral_map, dict):
+                        for moral_band, text in moral_map.items():
+                            paragraph_texts.append(("description_if_moral.%s" % moral_band, text))
                     for variant_name, variant_text in paragraph_texts:
                         paragraph_count = len([part for part in str(variant_text).split("\n\n") if part.strip()])
                         if paragraph_count and len(paragraph_backgrounds) != paragraph_count:
@@ -668,6 +687,10 @@ def check_event_keys():
                 for k in ch.keys():
                     if k not in CHOICE_KEYS:
                         warn('%s  [%s] 선택지%d 모르는 키 "%s"' % (rel(p), eid, ci, k))
+                if "text_if_moral" in ch:
+                    _check_moral_text_map(
+                        ch.get("text_if_moral"),
+                        '%s  [%s] 선택지%d text_if_moral' % (rel(p), eid, ci))
                 eff = ch.get("effects", {})
                 if isinstance(eff, dict):
                     for k in eff.keys():

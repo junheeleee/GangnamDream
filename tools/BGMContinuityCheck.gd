@@ -30,7 +30,7 @@ func _ready() -> void:
 		_fail("main BGM restarted: %.3f -> %.3f" % [first_pos, second_pos])
 		return
 
-	# MORAL_TINT는 밴드 경계를 넘을 때 BGM 버스 질감만 바꾸고 재생 위치는 유지해야 한다.
+	# MORAL_TINT는 재생 위치를 유지하면서 BGM 질감과 생활 앰비언스의 주의 비중만 바꾼다.
 	var moral_pos_before: float = BGMPlayer._player_a.get_playback_position()
 	var moral_transitions_before: int = BGMPlayer._moral_transition_count
 	GameState.shift_moral_tint(-25.0)
@@ -38,6 +38,9 @@ func _ready() -> void:
 	var moral_pos_after: float = BGMPlayer._player_a.get_playback_position()
 	if BGMPlayer._last_moral_stage != -1 or not is_equal_approx(BGMPlayer._moral_target_cutoff_hz, 4800.0):
 		_fail("dark moral band did not target low-pass stage -1")
+		return
+	if not is_equal_approx(BGMPlayer._moral_ambience_gain_db, -2.2):
+		_fail("dark moral band did not let the lived world recede")
 		return
 	if BGMPlayer._moral_transition_count != moral_transitions_before + 1:
 		_fail("moral band transition was not counted exactly once")
@@ -56,10 +59,16 @@ func _ready() -> void:
 	if BGMPlayer._last_moral_stage != -2 or not is_equal_approx(BGMPlayer._moral_target_cutoff_hz, 1450.0):
 		_fail("deep dark moral band did not target low-pass stage -2")
 		return
+	if not is_equal_approx(BGMPlayer._moral_ambience_gain_db, -5.0):
+		_fail("deep dark moral band did not suppress lived ambience")
+		return
 	GameState.shift_moral_tint(90.0)
 	await get_tree().process_frame
 	if BGMPlayer._last_moral_stage != 1 or not is_equal_approx(BGMPlayer._moral_target_cutoff_hz, 20500.0):
 		_fail("bright moral band did not restore full-range BGM")
+		return
+	if not is_equal_approx(BGMPlayer._moral_ambience_gain_db, 1.0):
+		_fail("bright moral band did not restore lived ambience")
 		return
 
 	GameState.age = 36
@@ -96,6 +105,9 @@ func _ready() -> void:
 		return
 	if BGMPlayer._last_moral_stage != 0 or not is_equal_approx(BGMPlayer._moral_target_cutoff_hz, 20500.0):
 		_fail("menu did not restore neutral BGM texture")
+		return
+	if not is_zero_approx(BGMPlayer._moral_ambience_gain_db):
+		_fail("menu did not restore neutral ambience attention")
 		return
 
 	var interview_ev := {

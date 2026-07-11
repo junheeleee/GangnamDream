@@ -70,6 +70,7 @@ var _bgm_bus_index: int = -1
 var _last_moral_stage: int = 0
 var _moral_target_cutoff_hz: float = 20500.0
 var _moral_target_bus_db: float = 0.0
+var _moral_ambience_gain_db: float = 0.0
 var _moral_transition_count: int = 0
 
 const _FADE_TIME = 2.5  # 크로스페이드 초
@@ -89,6 +90,13 @@ const _MORAL_BUS_DB = {
 	0: 0.0,
 	1: 0.0,
 	2: 0.0,
+}
+const _MORAL_AMBIENCE_DB = {
+	-2: -5.0,
+	-1: -2.2,
+	0: 0.0,
+	1: 1.0,
+	2: 2.0,
 }
 
 # ── 초기화 ────────────────────────────────────────────────────
@@ -139,23 +147,37 @@ func _on_moral_tint_changed(_norm: float, stage: int) -> void:
 			_crossfade_to(target_key)
 
 func _apply_moral_stage(stage: int, immediate: bool) -> void:
-	if _moral_filter == null or _bgm_bus_index < 0:
-		return
 	_moral_target_cutoff_hz = float(_MORAL_CUTOFFS.get(stage, 20500.0))
 	_moral_target_bus_db = float(_MORAL_BUS_DB.get(stage, 0.0))
-	if _moral_filter_tween and _moral_filter_tween.is_running():
-		_moral_filter_tween.kill()
-	if immediate:
-		_moral_filter.cutoff_hz = _moral_target_cutoff_hz
-		AudioServer.set_bus_volume_db(_bgm_bus_index, _moral_target_bus_db)
+	_moral_ambience_gain_db = float(_MORAL_AMBIENCE_DB.get(stage, 0.0))
+	if _moral_filter != null and _bgm_bus_index >= 0:
+		if _moral_filter_tween and _moral_filter_tween.is_running():
+			_moral_filter_tween.kill()
+		if immediate:
+			_moral_filter.cutoff_hz = _moral_target_cutoff_hz
+			AudioServer.set_bus_volume_db(_bgm_bus_index, _moral_target_bus_db)
+		else:
+			var current_bus_db: float = AudioServer.get_bus_volume_db(_bgm_bus_index)
+			_moral_filter_tween = create_tween()
+			_moral_filter_tween.set_parallel(true)
+			_moral_filter_tween.set_trans(Tween.TRANS_SINE)
+			_moral_filter_tween.set_ease(Tween.EASE_IN_OUT)
+			_moral_filter_tween.tween_property(_moral_filter, "cutoff_hz", _moral_target_cutoff_hz, _MORAL_FILTER_TIME)
+			_moral_filter_tween.tween_method(_set_moral_bus_db, current_bus_db, _moral_target_bus_db, _MORAL_FILTER_TIME)
+	_apply_moral_ambience_mix(immediate)
+
+func _apply_moral_ambience_mix(immediate: bool) -> void:
+	if not _ambience_player or not _ambience_player.playing:
 		return
-	var current_bus_db: float = AudioServer.get_bus_volume_db(_bgm_bus_index)
-	_moral_filter_tween = create_tween()
-	_moral_filter_tween.set_parallel(true)
-	_moral_filter_tween.set_trans(Tween.TRANS_SINE)
-	_moral_filter_tween.set_ease(Tween.EASE_IN_OUT)
-	_moral_filter_tween.tween_property(_moral_filter, "cutoff_hz", _moral_target_cutoff_hz, _MORAL_FILTER_TIME)
-	_moral_filter_tween.tween_method(_set_moral_bus_db, current_bus_db, _moral_target_bus_db, _MORAL_FILTER_TIME)
+	if _ambience_tween and _ambience_tween.is_running():
+		_ambience_tween.kill()
+	if immediate:
+		_ambience_player.volume_db = _ambience_target_db()
+		return
+	_ambience_tween = create_tween()
+	_ambience_tween.set_trans(Tween.TRANS_SINE)
+	_ambience_tween.set_ease(Tween.EASE_IN_OUT)
+	_ambience_tween.tween_property(_ambience_player, "volume_db", _ambience_target_db(), _MORAL_FILTER_TIME)
 
 func _set_moral_bus_db(value: float) -> void:
 	if _bgm_bus_index >= 0:
@@ -275,7 +297,7 @@ func restore_ambience(duration: float = 0.35) -> void:
 	_ambience_tween.tween_property(_ambience_player, "volume_db", _ambience_target_db(), maxf(0.05, duration))
 
 func _ambience_target_db() -> float:
-	return _db(volume * _AMBIENCE_VOLUME) + _ambience_duck_db
+	return _db(volume * _AMBIENCE_VOLUME) + _ambience_duck_db + _moral_ambience_gain_db
 
 func _pick_ambience(ev: Dictionary) -> String:
 	var tags: Array = ev.get("tags", [])

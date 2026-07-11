@@ -55,9 +55,33 @@ for f in glob.glob(os.path.join(KRDIR, '*.json')):
                 miss = [k for k in kr_dik if k not in en_dik]
                 if miss:
                     leaks.append((eid, 'MISSING_dik_keys:' + ','.join(miss)))
+        kr_moral = e.get('description_if_moral')
+        if isinstance(kr_moral, dict) and kr_moral:
+            en_moral = en.get('description_if_moral')
+            if not isinstance(en_moral, dict):
+                leaks.append((eid, 'MISSING_description_if_moral'))
+            else:
+                miss = [k for k in kr_moral if k not in en_moral]
+                if miss:
+                    leaks.append((eid, 'MISSING_moral_description_keys:' + ','.join(miss)))
         if len(en.get('choices', [])) < len(e.get('choices', [])):
             leaks.append((eid, 'FEWER_CHOICES %d<%d' % (
                 len(en.get('choices', [])), len(e.get('choices', [])))))
+        else:
+            for i, kr_choice in enumerate(e.get('choices', [])):
+                if not isinstance(kr_choice, dict):
+                    continue
+                kr_choice_moral = kr_choice.get('text_if_moral')
+                if not isinstance(kr_choice_moral, dict) or not kr_choice_moral:
+                    continue
+                en_choice = en.get('choices', [])[i]
+                en_choice_moral = en_choice.get('text_if_moral') if isinstance(en_choice, dict) else None
+                if not isinstance(en_choice_moral, dict):
+                    leaks.append((eid, 'CHOICE_%d_MISSING_text_if_moral' % i))
+                    continue
+                miss = [k for k in kr_choice_moral if k not in en_choice_moral]
+                if miss:
+                    leaks.append((eid, 'CHOICE_%d_MISSING_moral_text_keys:%s' % (i, ','.join(miss))))
 
 # DataRegistry only overlays EN rows whose base KO id exists. An EN-only row is
 # dead data: translators may believe it ships even though no player can see it.

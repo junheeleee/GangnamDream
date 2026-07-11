@@ -92,6 +92,8 @@ const PORTRAIT_OFFSET_RIGHT := -28
 const PORTRAIT_OFFSET_TOP := -690
 const PORTRAIT_OFFSET_BOTTOM := -40
 const PORTRAIT_CHOICE_SHIFT_X := 72
+const PORTRAIT_BLACK_PERIPHERY_SHIFT_X := 30
+const PORTRAIT_WHITE_CLOSENESS_SHIFT_X := -10
 
 static var _auto_enabled_session: bool = false
 
@@ -146,6 +148,31 @@ func _story_palette() -> Dictionary:
 		"moral_black": black,
 		"moral_white": white,
 	}
+
+## 같은 사건도 민준이 무엇을 먼저 보는지에 따라 다르게 읽힌다.
+## 장면 강제 필터(black_future)가 아니라 실제 플레이 상태만 사용한다.
+func _moral_perception_keys() -> Array[String]:
+	match GameState.moral_stage():
+		-2:
+			return ["deep_black", "black"]
+		-1:
+			return ["black"]
+		1:
+			return ["white"]
+		2:
+			return ["deep_white", "white"]
+		_:
+			return ["gray"]
+
+func _moral_perception_text(raw_map: Variant, fallback: String) -> String:
+	if not raw_map is Dictionary:
+		return fallback
+	var variants := raw_map as Dictionary
+	for key in _moral_perception_keys():
+		var candidate := str(variants.get(key, "")).strip_edges()
+		if not candidate.is_empty():
+			return candidate
+	return fallback
 
 func _story_panel_style(bg: Color, border: Color, radius: int, h_margin: int = 0, v_margin: int = 0, left_border: int = 0) -> StyleBoxFlat:
 	var st := StyleBoxFlat.new()
@@ -265,7 +292,25 @@ func _apply_story_portrait_surface() -> void:
 		_story_portrait_material.set_shader_parameter("tone_quantize", clampf(black * 0.045 - white * 0.010, 0.0, 0.075))
 		_story_portrait_material.set_shader_parameter("screen_scale", 700.0 + black * 90.0)
 		_story_portrait_material.set_shader_parameter("seed", float(GameState.turn % 149) + absf(_story_moral_norm) * 23.0)
-	_portrait.modulate = Color(1.0 + white * 0.035 - black * 0.045, 1.0 + white * 0.030 - black * 0.055, 1.0 + white * 0.020 - black * 0.060, 1.0)
+	# Black에서는 사람이 사라지는 게 아니라 시야의 주변부로 물러난다.
+	# White에서는 얼굴이 조금 가까워진다. 텍스트/입력 영역은 움직이지 않는다.
+	_portrait.modulate = Color(
+		1.0 + white * 0.035 - black * 0.045,
+		1.0 + white * 0.030 - black * 0.055,
+		1.0 + white * 0.020 - black * 0.060,
+		1.0 - black * 0.06
+	)
+	if is_instance_valid(_portrait_frame):
+		var moral_shift := int(roundf(
+			black * float(PORTRAIT_BLACK_PERIPHERY_SHIFT_X) +
+			white * float(PORTRAIT_WHITE_CLOSENESS_SHIFT_X)
+		))
+		var choice_shift := PORTRAIT_CHOICE_SHIFT_X if _showing_choices else 0
+		_portrait_frame.offset_left = PORTRAIT_OFFSET_LEFT + moral_shift + choice_shift
+		_portrait_frame.offset_right = PORTRAIT_OFFSET_RIGHT + moral_shift + choice_shift
+		_portrait_frame.pivot_offset = _portrait_frame.size * 0.5
+		var focus_scale := 1.0 - black * 0.030 + white * 0.010
+		_portrait_frame.scale = Vector2.ONE * focus_scale
 
 func _animate_story_text_panel() -> void:
 	if not is_instance_valid(_text_panel):
@@ -838,6 +883,8 @@ func _render_current():
 					break
 	if know_variant != "":
 		desc_raw = know_variant
+	elif _current.has("description_if_moral"):
+		desc_raw = _moral_perception_text(_current.get("description_if_moral", {}), desc_raw)
 	elif mental <= 20 and _current.has("description_low_mental"):
 		desc_raw = str(_current["description_low_mental"])
 	elif housing == "gosiwon" and housing_months >= 6 and _current.has("description_long_gosiwon"):
@@ -938,8 +985,15 @@ func _show_portrait(portrait_id: String, bg_only: bool = false):
 func _set_portrait_choice_focus(choices_visible: bool) -> void:
 	if not is_inside_tree() or not is_instance_valid(_portrait_frame) or not _portrait_frame.visible:
 		return
-	var target_alpha := 0.72 if choices_visible else 1.0
-	var target_shift := PORTRAIT_CHOICE_SHIFT_X if choices_visible else 0
+	# 선택지에서 살짝 물러나는 동작은 유지하되 인물이 유령처럼 비치지 않게 한다.
+	var target_alpha := 0.94 if choices_visible else 1.0
+	var black := clampf(-_story_moral_norm, 0.0, 1.0)
+	var white := clampf(_story_moral_norm, 0.0, 1.0)
+	var moral_shift := int(roundf(
+		black * float(PORTRAIT_BLACK_PERIPHERY_SHIFT_X) +
+		white * float(PORTRAIT_WHITE_CLOSENESS_SHIFT_X)
+	))
+	var target_shift := moral_shift + (PORTRAIT_CHOICE_SHIFT_X if choices_visible else 0)
 	var tw := create_tween()
 	tw.set_parallel(true)
 	tw.tween_property(_portrait_frame, "modulate:a", target_alpha, 0.18).set_trans(Tween.TRANS_SINE)
@@ -1484,7 +1538,9 @@ func _show_choices():
 		group.modulate = Color(1, 1, 1, 0)
 		group.scale = Vector2(0.986, 0.986)
 		_choice_box.add_child(group)
-		var btn = _make_choice_button(_fmt(str(ch.get("text", _tr("선택", "Choose")))), i, display_n)
+		var base_text := str(ch.get("text", _tr("선택", "Choose")))
+		var perceived_text: String = _moral_perception_text(ch.get("text_if_moral", {}), base_text)
+		var btn = _make_choice_button(_fmt(perceived_text), i, display_n)
 		group.add_child(btn)
 	var tw := create_tween()
 	tw.tween_property(_choice_box, "modulate:a", 1.0, 0.12)
