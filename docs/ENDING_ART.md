@@ -93,7 +93,7 @@ Updated: 2026-07-13
 | `gangnam_dream_white` | S+ | `cg_ending_gangnam_dream_white` | `gangnam_night` | P0 완료. 일반 강남 CG와 공유하지 않는 전용 White 컷 |
 | `second_love` | A+ | `cg_ending_second_love` | `gangnam_night` | P0 완료. 두 번째 커피 동작으로 관계를 결산 |
 | `guardian` | A+ | `cg_ending_guardian` | `hospital` | P0 완료. 기존 병실 방문 CG와 구분되는 퇴원 컷 |
-| `gambling_recovery` | B | 없음 | `goshiwon_room` | P1 신규 CG 후보. 도박 아크 결산 |
+| `gambling_recovery` | B | `cg_ending_gambling_recovery` | `goshiwon_room` | P1 완료. 카지노가 아닌 고시원 달력의 반복으로 회복 결산 |
 | `career_climber` | A | 없음 | `office` | P2 신규 CG 후보 |
 | `career_burnout` | B | 없음 | `ktx_window` | P3. `burnout` 실패 연출과 구분 필요 |
 | `sangchul_reckoning` | B | `cg_ending_sangchul_reckoning` | `cafe` | P0 완료. 경찰/직접 청산 변주가 공유 가능한 통화 직후 컷 |
@@ -125,11 +125,11 @@ Updated: 2026-07-13
 | `cg_ending_startup_exit` | `startup_exit` | 작은 사무실/회의실, 계약서와 노트북. 벼락부자보다 숨 돌리는 창업자 |
 | `cg_ending_lonely_rich` | `lonely_rich` | **완료.** 강남 네 자리 식탁에 도착한 1인분, 세 빈 의자, 뒤집은 폰. 이혼/비혼/10억 경고 변주가 같은 최종 물리를 공유 |
 | `cg_ending_orthodox_pinnacle` | `orthodox_pinnacle` | 회식 자리/회사 로비. 정장 차림 민준, 후배의 부러움, 본인은 확신 없음 |
-| `cg_ending_gambling_recovery` | `gambling_recovery` | 고시원 책상 달력의 동그라미. 카지노가 아니라 회복의 일상 |
+| `cg_ending_gambling_recovery` | `gambling_recovery` | **완료.** 정본 고시원, 오늘의 동그라미를 닫는 펜 손, 뒤집은 폰. 카지노가 아니라 회복의 일상 |
 | `cg_ending_bankruptcy` | `bankruptcy`, `debt_spiral` | 계산기, 독촉 문자, 비 오는 방. 실패 공통 컷 가능 |
 | `cg_ending_burnout` | `burnout` | 응급실 형광등/천장/링거와 보호자 연락 질문. 정신건강의학과 `mental_break`와 공유 금지 |
 
-`late_call`과 `lonely_rich`는 완료했다. 노출·감정 회수·상점 스크린샷 가치를 함께 보면 다음 실제 제작 순서는 `gambling_recovery` → `bankruptcy/debt_spiral`이다. `startup_exit`, `instant_legend`, `orthodox_pinnacle`은 강한 성취 컷이지만 조건부 경로라 그다음이다. `mental_break`는 전용 진료실 컷을 만들기 전까지 정합한 엔딩 카드로 남긴다.
+`late_call`, `lonely_rich`, `gambling_recovery`는 완료했다. 다음 실제 제작 순서는 `bankruptcy/debt_spiral`이며, 이후 `startup_exit`, `instant_legend`, `orthodox_pinnacle`, `burnout`을 노출·감정 회수 순으로 판단한다. `mental_break`는 전용 진료실 컷을 만들기 전까지 정합한 엔딩 카드로 남긴다.
 
 ### P2 — 있으면 고급스러운 엔딩
 
@@ -177,6 +177,6 @@ Updated: 2026-07-13
 - [x] `gangnam_dream_white`의 일반 강남 CG 임시 공유 제거
 - [x] `gangnam_dream_white` 전용 White CG 제작 후 연결
 - [x] P0 신규 CG 8종 제작/보정/연결
-- [ ] P1 신규 CG 8종 제작/보정/연결 — 2/8 (`late_call`, `lonely_rich`)
+- [ ] P1 신규 CG 8종 제작/보정/연결 — 3/8 (`late_call`, `lonely_rich`, `gambling_recovery`)
 - [ ] P2 엔딩은 CG보다 엔딩 카드/스팅/배경 정합성 먼저 보강
 - [ ] 엔딩 스팅 5종 제작 및 `AudioManager`/`BGMPlayer` 연결

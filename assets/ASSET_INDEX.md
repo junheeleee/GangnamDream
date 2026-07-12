@@ -606,6 +606,10 @@ Updated on 2026-07-13 for the `lonely_rich` P1 dining-table CG and its strict se
   - `lonely_rich` only. Minjun occupies one end of a four-seat Gangnam dining table with one single-person delivery, one face-down phone, and exactly three empty chairs.
   - Do not substitute `ending_empty_house.png`: that ending owns Father's death, the sofa, two unused cups, envelope, keys, and collapsed posture. A divorce below the Gangnam target receives no rich-apartment CG.
 
+- `assets/cg/ending_gambling_recovery_v1.png`
+  - `gambling_recovery` only. In the canonical goshiwon, late-30s Minjun completes today's circle on one plain wall calendar while one face-down phone remains on the desk.
+  - The 950x430 ending crop must keep his face, pen hand, calendar grid, and current circle. No cards, chips, casino neon, readable dates, helper character, or Gangnam success signal appears.
+
 - `assets/cg/jaehyuk_reveal.png`
   - Jaehyuk route reveal CG: private meeting room, moral line-crossing moment.
 

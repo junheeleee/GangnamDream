@@ -2346,6 +2346,11 @@ func _shot_ending_p1_surfaces(lang: String, prefix: String) -> void:
 	await _shot_ending_without_cg(
 			"ordinary_life", "cg_ending_lonely_rich", prefix + "05_divorce_shortfall",
 			["daeun_divorced"])
+	await _shot_exact_ending_cg(
+			"gambling_recovery", "cg_ending_gambling_recovery", prefix + "06_gambling_recovery")
+	await _shot_exact_ending_cg(
+			"gambling_recovery", "cg_ending_gambling_recovery", prefix + "07_gambling_recovery_father",
+			["father_reconciled"])
 
 func _shot_surface_en() -> void:
 	var prefix := "surface_en_"
@@ -3205,6 +3210,7 @@ func _seed_ending_state(ending_id: String) -> void:
 	GameState.current_job = {"name":("Office Worker" if LocaleManager.is_english() else "사무직"), "base_salary": 2_240_000.0, "tier": 2}
 	for flag in ["daeun_romance_started", "daeun_married", "daeun_final_together",
 			"daeun_divorced", "felt_1b_loneliness", "calculated_bihon",
+			"beat_addiction",
 			"jiyeon_romance_started", "jiyeon_kept_by_diminishing", "crossed_line",
 			"sangchul_used_fully", "sangchul_reported", "cleared_father_debt_from_sangchul",
 			"sangchul_network_finally_cut", "sangchul_truth_known", "jaehyuk_trusted_fully",
@@ -3305,6 +3311,18 @@ func _seed_ending_state(ending_id: String) -> void:
 			GameState.contact_counts = {"father": 19}
 			GameState.last_contact_turn = {"father": 240}
 			GameState.flags["father_reconciled"] = true
+		"gambling_recovery":
+			GameState.money = 18_000_000.0
+			GameState.housing = "gosiwon"
+			GameState.health = 69
+			GameState.mental = 78
+			GameState.reputation = 39
+			GameState.moral_tint = 46.0
+			GameState.money_weeks_total = 102
+			GameState.human_weeks_total = 116
+			GameState.grind_streak_weeks = 0
+			GameState.contact_counts = {"father": 12}
+			GameState.last_contact_turn = {"father": 235}
 		"bankruptcy", "debt_spiral":
 			GameState.money = -118_000_000.0
 			GameState.housing = "gosiwon"
@@ -3378,6 +3396,8 @@ func _seed_ending_state(ending_id: String) -> void:
 		"sangchul_reckoning":
 			GameState.flags["sangchul_reported"] = true
 			GameState.flags["father_reconciled"] = true
+		"gambling_recovery":
+			GameState.flags["beat_addiction"] = true
 	if is_instance_valid(_mg) and _mg.has_method("_apply_moral_visuals"):
 		_mg._apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
 	if is_instance_valid(_mg) and _mg.has_method("_render_sidebars"):

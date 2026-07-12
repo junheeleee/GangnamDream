@@ -13095,7 +13095,7 @@ func _ending_run_summary(ending_id: String) -> String:
 		"guardian":
 			return _tr("강남은 아직 없었다. 하지만 아버지가 살아있었다.", "There was no Gangnam yet. But his father was alive.")
 		"gambling_recovery":
-			return _tr("도박의 바닥에서 올라왔다. 달력에 동그라미 30개. 강남보다 어려운 승리.", "He climbed up from the bottom of gambling. Thirty circles on the calendar. A win harder than Gangnam.")
+			return _tr("도박의 바닥에서 올라왔다. 달력에 동그라미 30개. 강남보다 어려운 승리.", "He climbed out of gambling's deepest hole. Thirty circles on the calendar. A victory harder than Gangnam.")
 		"writer":
 			return _tr("강남에 닿지 못한 이야기가 가장 많은 사람에게 닿았다.", "A story that never reached Gangnam reached the most people of all.")
 		"career_climber":

@@ -33,6 +33,8 @@
           "sought_help",
           "in_recovery_started"
         ],
+        "deferred_follow_up": "recovery_first_week",
+        "deferred_delay": 1,
         "result_text": "떨리는 손으로 단도박 모임 번호를 눌렀다.\n\n낯선 목소리가 받았다. \"네, 여기 있습니다. 천천히 말씀하세요.\"\n\n{name}은 한참 말을 못 했다.\n그러다 겨우 한 마디. \"…도박을, 끊고 싶어요.\"\n\n전화기 너머에서 조용한 대답이 왔다.\n\"잘하셨어요. 그 한 마디가 제일 어렵습니다.\"\n\n바닥을 쳤다는 건, 이제 올라갈 일만 남았다는 뜻이기도 했다.\n적어도 {name}은 그렇게 믿기로 했다."
       },
       {
@@ -48,6 +50,8 @@
           "told_family_addiction",
           "in_recovery_started"
         ],
+        "deferred_follow_up": "recovery_first_week",
+        "deferred_delay": 1,
         "result_text": "아버지에게 전화했다. 새벽 네 시였다.\n\n다 말했다. 도박, 빚, 망가진 통장, 망가진 자신.\n말하면서 울었다. 어른이 되고 처음이었다.\n\n아버지는 한참 말이 없었다.\n그러다 낮게 말했다.\n\"…집에 와라. 한 번 와.\"\n\n혼내지 않았다. 그게 더 아팠다.\n6년 전 아버지의 빚을 갚던 아들이, 이제 아버지에게 빚을 고백하고 있었다.\n끝이 아니라, 다시 시작이어야 했다."
       },
       {
@@ -78,8 +82,8 @@
     "title": "끊은 첫 주",
     "category": "health",
     "rarity": "rare",
-    "weight": 5,
-    "hidden": false,
+    "weight": 0,
+    "hidden": true,
     "portrait": "player_tired",
     "background": "goshiwon_room",
     "conditions": {
@@ -105,6 +109,8 @@
           "recovery_week_passed",
           "recovery_holding"
         ],
+        "deferred_follow_up": "recovery_relapse_test",
+        "deferred_delay": 3,
         "result_text": "{name}은 달력을 샀다.\n\n도박 안 한 날마다 동그라미를 쳤다.\n하나, 둘, 셋… 동그라미가 늘었다.\n\n별거 아닌 것 같은데, 그 동그라미들이 이상하게 힘이 됐다.\n끊는 건 거창한 결심이 아니라, 오늘 하루 동그라미 하나였다.\n\n내일도 하나 더. 그거면 됐다."
       },
       {
@@ -119,6 +125,8 @@
           "recovery_week_passed",
           "recovery_holding"
         ],
+        "deferred_follow_up": "recovery_relapse_test",
+        "deferred_delay": 3,
         "result_text": "베팅하고 싶을 때마다 {name}은 운동화를 신었다.\n\n새벽 한강을 뛰었다. 숨이 차고 다리가 아팠다.\n근데 그 고통은 정직했다. 도박의 고통과 달랐다.\n\n땀을 흘리고 돌아오면, 베팅 생각이 조금 옅어졌다.\n\n중독을 다른 것으로 덮는 게 완벽한 해결은 아니었지만 —\n적어도 오늘 밤은 폰을 켜지 않았다."
       }
     ]
@@ -128,8 +136,8 @@
     "title": "다시, 그 유혹",
     "category": "gambling",
     "rarity": "rare",
-    "weight": 5,
-    "hidden": false,
+    "weight": 0,
+    "hidden": true,
     "portrait": "player_normal",
     "background": "investment_phone",
     "conditions": {
@@ -157,6 +165,8 @@
           "relapse_tested",
           "recovery_proven"
         ],
+        "deferred_follow_up": "recovery_one_month_clean",
+        "deferred_delay": 1,
         "result_text": "{name}은 답장을 보냈다.\n\n'미안. 나 이제 안 해. 너도 적당히 해라.'\n\n보내고 나서 한참 폰을 봤다.\n심장은 여전히 뛰었지만 — 이번엔 이겼다.\n\n끊는 건 한 번의 결심이 아니라, 매번의 선택이었다.\n오늘, {name}은 그 선택에서 이겼다.\n\n한 번 이기면, 다음엔 조금 더 쉬워진다.\n그렇게 믿고, 폰을 내려놓았다."
       },
       {
@@ -180,8 +190,8 @@
     "title": "동그라미 서른 개",
     "category": "health",
     "rarity": "legendary",
-    "weight": 6,
-    "hidden": false,
+    "weight": 0,
+    "hidden": true,
     "portrait": "player_normal",
     "background": "late_night",
     "conditions": {

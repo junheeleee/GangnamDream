@@ -34,9 +34,23 @@ This document owns the release-tier P1 ending CGs added after the eight-image P0
 - Variant lock: Daeun, Father, both mothers, Sangchul, Jaehyuk, and any date remain outside the frame. The divorce seal and unsigned registration are memories in prose, not documents repeated in this final-life image.
 - Avoid: reusing the `empty_house` sofa composition, funeral staging, hunched grief collapse, triumphant wealth pose, luxury-ad glamour, lens gaze, visible brand, fake Korean text, delivery worker, malformed hand, or duplicate phone.
 
+## `cg_ending_gambling_recovery`
+
+- File: `assets/cg/ending_gambling_recovery_v1.png`.
+- Owner: `gambling_recovery` only. It is the ordinary life after recovery, never a casino flashback, jackpot image, or generic failure card.
+- Shared moment: at the five-year close, Minjun adds today's circle to the same calendar that began after rock bottom. The first thirty circles are guaranteed by the deferred recovery chain; the image does not claim an exact larger count.
+- Room continuity: the canonical goshiwon remains one narrow bed along the left wall, bed head at the back, one small high frosted window, far-left shelf/mini-fridge, one right-front low desk at the bed foot, right-wall hooks, and one door by the camera. No skyline window, bathroom, second bed, or trading rig.
+- Camera: intimate doorway-side three-quarter aimed across the bed foot toward the right wall and desk. Minjun's face, pen hand, and the calendar remain inside the central 950x430 crop while enough bed, shelf/mini-fridge, lamp, and right-wall geometry survives to identify the same room. The resting left hand and face-down phone may crop below because they are supporting restraint, not the ending action.
+- Identity: canonical 38-year-old Minjun, lean Korean face, short messy black hair, tired narrow eyes and hollow cheeks. He wears the familiar worn black crewneck and dark trousers, not a suit, casino costume, hospital clothing, or celebratory outfit.
+- Acting: seated low at the desk, Minjun looks only at the calendar. One anatomically clear right hand holds one plain pen and is caught completing a single circle; the left hand rests open beside a closed, face-down unbranded phone. His shoulders are released and his mouth is neutral with the smallest hint of relief, never a victory grin or defeated collapse.
+- Calendar contract: one plain monthly paper grid fixed to the wall above the desk, with many imperfect hand-drawn circles already visible and one current square being closed. No readable month, dates, slogans, recovery-group name, tally claiming one hundred days, or decorative second calendar.
+- Variant lock: Father, Sangchul, Daeun, Jiyeon, a recovery-group member, an old betting friend, and every NG+ helper remain outside the frame. The variants add remembered relationships or lessons, not guaranteed people in the room.
+- Avoid: cards, chips, roulette, slot reels, racehorses, casino neon, betting UI, money pile, alcohol, readable phone screen, broad smile, lens gaze, malformed pen hand, extra fingers, a giant calendar that changes the room, or warm sepia morality.
+
 ## Acceptance Gate
 
 - `ImageRegistry`, Korean ending data, `cg_acting_manifest.json`, and `CGRuntimeCheck` agree on the owner and path.
 - The English ending remains a text-only overlay and inherits the Korean CG key.
-- `ScreenshotQA --qa=ending-p1 --lang=ko/en` proves each exact texture and 430px crop, including `late_call`'s `jaehyuk_trusted_fully` variant and `lonely_rich`'s divorce variant.
+- `ScreenshotQA --qa=ending-p1 --lang=ko/en` proves each exact texture and 430px crop, including `late_call`'s `jaehyuk_trusted_fully` variant, `lonely_rich`'s divorce variant, and `gambling_recovery`'s base/father-memory pair.
 - Event visual contracts prove that `ktx_window` resolves to an actual train interior, while the holiday decision retains the separate provincial station platform.
+- `CGRuntimeCheck` proves the recovery chain is deferred at 1+3+1 weeks, the relapse choice schedules no clean payoff, and the ending owns the exact recovery CG.

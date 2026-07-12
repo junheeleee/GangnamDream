@@ -397,6 +397,14 @@
       "actors": [
         {"id": "minjun", "gaze_target": "The nearest empty dining chair", "pose_support": "He stays upright but drained; one hand rests beside the single delivery bag while the other has placed one phone face-down, keeping his attention off the screen, food, skyline, and lens."}
       ]
+    },
+    "cg_ending_gambling_recovery": {
+      "path": "assets/cg/ending_gambling_recovery_v1.png",
+      "camera_role": "doorway_side_goshiwon_three_quarter",
+      "story_action": "At the five-year close, Minjun adds today's circle to the wall calendar in the same small room where recovery began.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The circle closing beneath his pen", "pose_support": "His clear right hand holds one pen against the calendar while his open left hand rests beside one face-down phone; released shoulders and a quiet profile avoid both triumph and lens contact."}
+      ]
     }
   }
 }

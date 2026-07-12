@@ -354,6 +354,22 @@ Post-processing: center crop 1586x992 to 1584x990, then resample to 1280x800. KO
 
 ---
 
+## 2026-07-13 P1 ending CG — One More Circle
+
+The image was produced with Codex built-in ImageGen using the canonical goshiwon background and late-30s Minjun references. Its room, acting, crop, and variant contract lives in `assets/ENDING_P1_VISUAL_BIBLE.md`.
+
+- `assets/cg/ending_gambling_recovery_v1.png` — accepted corrected source `exec-19b288f9-5cc9-465b-b646-c3c2e067b5f5.png`; SHA-256 `2bdea7f0532a421d5b3405443f5ff871001bf7b2b8b8f81fed9d8da1a9fae949`. The first source `exec-ccac9c10-7104-47e5-8886-87b16a1c4266.png` was rejected because its shortened grid made the recovery passage look briefer than the guaranteed first month. The accepted monthly page shows recovery continuing into another ordinary month without readable dates or a false exact total.
+
+Prompt lock:
+
+```text
+Create the gambling-recovery final-life CG in the exact canonical goshiwon: one left-wall bed, far-left shelf/mini-fridge, one high frosted back window, right-front desk, right-wall hooks/switch, and one door. Preserve canonical 38-year-old Kim Minjun in his worn black crewneck. Seated low at the desk, he looks only at one plain monthly wall calendar while his clear right hand completes today's muted-red circle with one pen; his open left hand rests beside one face-down unbranded phone. Use a physically plausible blank grid with many imperfect circles continuing after the first clean month, but no month name, date numbers, letters, slogans, or exact hundred-day claim. Keep Minjun's face, pen hand, calendar, and current circle inside the centered 950x430 crop. Quiet cool dawn plus one task lamp; no casino, cards, chips, betting UI, neon, money, helper character, lens gaze, broad victory grin, malformed hand, extra object, fake text, logo, or changed room geometry.
+```
+
+Post-processing: center crop 1586x992 to 1584x990, then resample to 1280x800. KO/EN `--qa=ending-p1` locks the base and Father-memory variants; `CGRuntimeCheck` locks the 1+3+1-week recovery chain and prevents relapse from scheduling the clean payoff.
+
+---
+
 ## 2026-07-12 T2 romance rupture result CGs
 
 Both images were produced with Codex built-in ImageGen and normalized to 1280x800. Their exact scene, wardrobe, architecture, acting, and reveal contracts live in `assets/BREAKUP_VISUAL_BIBLE.md`.

@@ -14,6 +14,7 @@ func _ready() -> void:
 	_check_wedding_night_reachability_contract()
 	_check_transport_background_contract()
 	_check_divorce_ending_route_contract()
+	_check_gambling_recovery_chain_contract()
 	await _check_ending_cg()
 	if _failures.is_empty():
 		print("CG_RUNTIME_CHECK_OK")
@@ -433,6 +434,41 @@ func _check_divorce_ending_route_contract() -> void:
 	if gangnam_id != "lonely_rich":
 		_failures.append("Daeun divorce at Gangnam target must resolve to lonely_rich, got %s" % gangnam_id)
 
+func _check_gambling_recovery_chain_contract() -> void:
+	_check_deferred_choice("gambling_rock_bottom", "sought_help", "recovery_first_week", 1)
+	_check_deferred_choice("gambling_rock_bottom", "told_family_addiction", "recovery_first_week", 1)
+	var first_week: Dictionary = DataRegistry.find_event("recovery_first_week")
+	var first_week_choices: Array = first_week.get("choices", [])
+	if first_week_choices.size() != 2:
+		_failures.append("recovery_first_week must keep exactly two coping choices")
+	for raw_choice in first_week_choices:
+		var choice: Dictionary = raw_choice
+		if str(choice.get("deferred_follow_up", "")) != "recovery_relapse_test" \
+				or int(choice.get("deferred_delay", -1)) != 3:
+			_failures.append("every recovery_first_week choice must defer the temptation test by three weeks")
+	_check_deferred_choice("recovery_relapse_test", "recovery_proven", "recovery_one_month_clean", 1)
+	var relapse_event: Dictionary = DataRegistry.find_event("recovery_relapse_test")
+	for raw_choice in relapse_event.get("choices", []):
+		var choice: Dictionary = raw_choice
+		if (choice.get("flags", []) as Array).has("relapsed") and choice.has("deferred_follow_up"):
+			_failures.append("the relapse choice must not schedule the clean-month payoff")
+	for event_id in ["recovery_first_week", "recovery_relapse_test", "recovery_one_month_clean"]:
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		if float(event.get("weight", -1.0)) != 0.0 or not bool(event.get("hidden", false)):
+			_failures.append("%s must be deferred-only (weight 0, hidden)" % event_id)
+
+func _check_deferred_choice(event_id: String, flag_id: String, target_id: String, delay: int) -> void:
+	var event: Dictionary = DataRegistry.find_event(event_id)
+	for raw_choice in event.get("choices", []):
+		var choice: Dictionary = raw_choice
+		if not (choice.get("flags", []) as Array).has(flag_id):
+			continue
+		if str(choice.get("deferred_follow_up", "")) != target_id \
+				or int(choice.get("deferred_delay", -1)) != delay:
+			_failures.append("%s choice %s must defer %s by %d weeks" % [event_id, flag_id, target_id, delay])
+		return
+	_failures.append("%s is missing choice flag %s" % [event_id, flag_id])
+
 func _check_all_story_cg_contracts() -> void:
 	var owners: Dictionary = {}
 	for raw_event in DataRegistry.events:
@@ -624,6 +660,9 @@ func _check_ending_cg() -> void:
 	_check_ending_cg_path(main, "sangchul_reckoning", "cg_ending_sangchul_reckoning")
 	_check_ending_cg_path(main, "late_call", "cg_ending_late_call")
 	_check_ending_cg_path(main, "lonely_rich", "cg_ending_lonely_rich")
+	_check_ending_cg_path(main, "gambling_recovery", "cg_ending_gambling_recovery")
+	if ImageRegistry.get_cg("cg_ending_gambling_recovery") != "res://assets/cg/ending_gambling_recovery_v1.png":
+		_failures.append("gambling_recovery must use its dedicated calendar CG")
 	_check_all_ending_cg_contracts(main)
 
 	var preview_parent := VBoxContainer.new()
