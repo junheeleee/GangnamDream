@@ -1167,6 +1167,7 @@ func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> 
 	if _mg.has_method("_finish_typing"):
 		_mg._finish_typing()
 	await _settle(0.8)
+	_assert_core_action_illustrations()
 	await _save(prefix + "03_ap_actions")
 	var _old_grind_streak: int = GameState.grind_streak_weeks
 	var _old_axis: Dictionary = GameState.action_axis_this_week.duplicate(true)
@@ -1473,6 +1474,21 @@ func _assert_ap_next_week_unlocked() -> void:
 	await _settle(0.15)
 	if GameState.week_of_month != 3:
 		_fail("AP next-week action did not advance from week 2 to week 3.")
+
+func _assert_core_action_illustrations() -> void:
+	if _mg == null:
+		_fail("MainGame instance is unavailable for AP action-art regression.")
+		return
+	var atlas_count := 0
+	for node in _mg.find_children("*", "TextureRect", true, false):
+		var texture_rect := node as TextureRect
+		if texture_rect == null or not (texture_rect.texture is AtlasTexture):
+			continue
+		var atlas_texture := texture_rect.texture as AtlasTexture
+		if atlas_texture.atlas != null and atlas_texture.atlas.resource_path == "res://assets/ui/action_tiles/action_core_atlas.png":
+			atlas_count += 1
+	if atlas_count < 4:
+		_fail("AP shell loaded %d/4 dedicated core action illustrations." % atlas_count)
 		return
 
 func _shot_invest_surfaces(lang: String = "en", prefix: String = "invest_en_") -> void:

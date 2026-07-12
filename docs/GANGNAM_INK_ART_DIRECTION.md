@@ -14,7 +14,7 @@ The visual question is not "Is this image pretty?" The question is "Does this sc
 
 - Start state: neutral concrete gray. Minjun has not become anything yet.
 - White route: sharper air, clearer text, calmer spacing, pale light, less visual noise.
-- Black route: ink stain, crushed contrast, darker edge burn, slight world tilt, money remains unnaturally legible.
+- Black route: ink stain, crushed contrast, darker edge burn, stable controls, money remains unnaturally legible.
 - Gray route: desaturated, documentary, tired, unresolved.
 
 Exposure is a readability constant, not the moral axis. Gray and Black must preserve the authored architecture, face, gaze, and gesture. Black degrades attention and surface integrity; White restores color and human detail. Neither route is communicated by laying a nearly opaque black or white rectangle over the work.
@@ -34,7 +34,7 @@ The filter is not decoration. It is the visible form of `MORAL_TINT`.
 | Dead text | `#5f656b` | Muted or unavailable text |
 | White clarity | `#f3f7ff` | Moral recovery, not generic success |
 | Black ink | `#020303` | Moral collapse, surface burn |
-| Money ghost | `#d9ffe8` | Money HUD only when the player turns Black |
+| Black money | `#ffd45a` / `#e4c376` | Deep/Light Black cash, assets, and goal only |
 | Emergency red | `#ff4f5e` | Actual danger only: health, bankruptcy, game-over risk |
 
 Gold, green, and saturated blue are no longer brand colors. They can remain as narrow semantic signals for casino chips, market gain/loss, or risk, but they must never become the general UI mood.
@@ -74,11 +74,13 @@ The target is **Korean social-reality VN with Japanese scene readability**, not 
 - Narrative result cards preserve every consequence but alter attention order. Black reveals economic/status outcomes first and human consequences later; White reveals people/body/mind first and economic cost later; Gray remains balanced. The delayed category stays readable and can never be removed merely because the four-slot card is full.
 - StartMenu is a character poster with a single command rail. Save management and run statistics are second-layer utilities, not the launch composition.
 - Choice presentation uses one lower safe-area dock. When choices open, the dialogue panel folds away so the image is never covered by both systems at once.
+- The four recurring AP categories use object-focused mini illustrations rather than generic clip-art pictograms. They are small world fragments, not decorative scenic backgrounds: work=resume/ID, money=market phone, self-development=books/body, rest=goshiwon window/blanket.
+- A dedicated AP illustration may only be reused when the action is semantically identical. Never repeat one money image for investing, side work, and saving merely because all three affect cash; keep the distinct symbol fallback until each submenu action owns art.
 
 ## Transition Rules
 
 - Event-to-event transitions should feel like a page, receipt, or memory sliding under glass rather than a website route change.
-- Black transitions: short dim, edge burn, small UI misalignment, low thump.
+- Black transitions: short dim, edge burn, dry ledger contact, stable UI geometry.
 - White transitions: brief clarity lift, quieter edge, cleaner text.
 - Neutral transitions: fast matte crossfade with subtle paper grain.
 

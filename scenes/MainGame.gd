@@ -120,6 +120,13 @@ const UI_MIN_BUTTON_HEIGHT := 46
 const UI_MIN_SMALL_BUTTON_HEIGHT := 38
 const UI_FOCUS_BORDER := 3
 const UI_INFO_PANEL_WIDTH := 440
+const ACTION_CORE_ATLAS_PATH := "res://assets/ui/action_tiles/action_core_atlas.png"
+const ACTION_CORE_ATLAS_REGIONS := {
+	"job": Rect2(0, 0, 512, 512),
+	"money": Rect2(512, 0, 512, 512),
+	"study": Rect2(0, 512, 512, 512),
+	"rest": Rect2(512, 512, 512, 512),
+}
 
 const BG_PATHS = {
 	"gosiwon":   "res://assets/backgrounds/goshiwon_room.png",
@@ -6900,17 +6907,19 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 			rail_num.add_theme_font_override("font", _font_bold)
 		rail_col.add_child(rail_num)
 
+	var is_core_illustration := art_thumb is AtlasTexture
+	var thumb_size := Vector2(76, 48) if is_core_illustration else Vector2(42, 42)
 	var icon_box := PanelContainer.new()
 	icon_box.set_meta("moral_role", "choice_icon")
 	icon_box.set_meta("moral_accent", accent if not disabled else "#343446")
-	icon_box.custom_minimum_size = Vector2(42, 42)
+	icon_box.custom_minimum_size = thumb_size
 	icon_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	icon_box.clip_contents = true
 	var icon_style := StyleBoxFlat.new()
 	icon_style.bg_color = Color("#05070a", 0.96) if art_thumb != null else Color(accent, 0.20 if not disabled else 0.06)
 	icon_style.border_color = accent_color
-	icon_style.set_border_width_all(2 if not disabled else 1)
-	icon_style.set_corner_radius_all(3)
+	icon_style.set_border_width_all(1 if is_core_illustration or disabled else 2)
+	icon_style.set_corner_radius_all(2 if is_core_illustration else 3)
 	icon_box.add_theme_stylebox_override("panel", icon_style)
 	row.add_child(icon_box)
 
@@ -6919,11 +6928,13 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 		art_tex.set_meta("moral_role", "choice_thumbnail")
 		art_tex.set_meta("moral_accent", accent if not disabled else "#343446")
 		art_tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		art_tex.custom_minimum_size = Vector2(42, 42)
+		art_tex.custom_minimum_size = thumb_size
 		art_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		art_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 		art_tex.texture = art_thumb
 		art_tex.modulate = Color(1, 1, 1, 0.92 if not disabled else 0.28)
+		if is_core_illustration and _moral_bg_material:
+			art_tex.material = _moral_bg_material
 		icon_box.add_child(art_tex)
 	else:
 		var icon_tex := TextureRect.new()
@@ -7261,7 +7272,51 @@ func _action_thumb_path(fn: String, icon_id: String = "") -> String:
 			return "res://assets/ui/action_tiles/action_ap.svg"
 
 func _action_thumb_texture(fn: String, icon_id: String = "") -> Texture2D:
+	var core_key := _core_action_tile_key(fn, icon_id)
+	if not core_key.is_empty():
+		var core_texture := _core_action_tile_texture(core_key)
+		if core_texture != null:
+			return core_texture
 	return _load_art_thumb(_action_thumb_path(fn, icon_id))
+
+func _core_action_tile_key(fn: String, icon_id: String) -> String:
+	match fn:
+		"_open_cat_work", "_ap_job_hunt":
+			return "job"
+		"_open_cat_money", "_ap_invest":
+			return "money"
+		"_ap_study":
+			return "study"
+		"_ap_free_time":
+			return "rest"
+	# Dedicated scene art must not be repeated across unrelated submenu actions.
+	# The icon fallback is only for callers that genuinely have no action function.
+	if fn.is_empty():
+		match icon_id:
+			"job":
+				return "job"
+			"money", "invest":
+				return "money"
+			"study":
+				return "study"
+			"rest":
+				return "rest"
+	return ""
+
+func _core_action_tile_texture(tile_key: String) -> Texture2D:
+	if not ACTION_CORE_ATLAS_REGIONS.has(tile_key):
+		return null
+	var cache_key := "%s#%s" % [ACTION_CORE_ATLAS_PATH, tile_key]
+	if _art_thumb_cache.has(cache_key):
+		return _art_thumb_cache[cache_key]
+	var source := _load_art_thumb(ACTION_CORE_ATLAS_PATH)
+	if source == null:
+		return null
+	var atlas := AtlasTexture.new()
+	atlas.atlas = source
+	atlas.region = ACTION_CORE_ATLAS_REGIONS[tile_key]
+	_art_thumb_cache[cache_key] = atlas
+	return atlas
 
 func _person_thumb_frame(person_id: String, accent: String, size: int = 52) -> Control:
 	var frame := PanelContainer.new()
