@@ -18,6 +18,7 @@ Updated on 2026-07-11 for paired first-snow route art and Minjun's explicit mons
 Updated on 2026-07-12 for AP in-world scene-still routing; the earlier prop-only action atlases are no longer runtime canon.
 Updated on 2026-07-12 for Hyunsu's Seoul terminal result and route-dependent accounting/civil-service portrait stages.
 Updated on 2026-07-12 for the separate cafe folder-owner and Manager Kim portrait identities across first meeting and callbacks.
+Updated on 2026-07-12 for the road-facing wallet bus stop, winter bungeoppang cart, and canonical Changwon Seollal bow CG.
 
 ## Use These Assets
 
@@ -253,6 +254,11 @@ Updated on 2026-07-12 for the separate cafe folder-owner and Manager Kim portrai
   - Person-free Seoul intercity terminal at night for the goodbye result of `arc_y2_hyunsu_night_bus`.
   - The coach door faces the curbside platform; vehicle lane, tactile paving, waiting seats, terminal glass, and pedestrian circulation remain physically separate. Keep the right edge readable under Hyunsu's portrait and do not reuse it as an ordinary city bus stop.
 
+- `assets/backgrounds/seoul_bus_stop_wallet.png`
+  - One-off rainy Seoul neighborhood bus shelter for `amb_wallet_00`.
+  - The bench runs parallel to the curb and faces the roadway; the camera sees its back, the full front glass windbreak, open boarding doorway, tactile paving, curb, and bus lane as one usable path.
+  - Exactly one wallet remains under the bench and above the StoryMode dialogue/choice safe area. Do not reuse it as a generic empty bus stop because the wallet is baked into the event background.
+
 - `assets/backgrounds/heatwave_city.png`
   - Dry Seoul heatwave street background for August heat-alert events.
   - Use for `heatwave_city` inferred/explicit backgrounds and `kx_heatwave`.
@@ -261,6 +267,11 @@ Updated on 2026-07-12 for the separate cafe folder-owner and Manager Kim portrai
 - `assets/backgrounds/seoul_cold_snap_street.png`
   - Person-free working-class Seoul street with frozen asphalt, bare trees, light snow residue, and immediately readable curb/road geometry.
   - Use only for explicit cold-snap and severe-winter outdoor events.
+
+- `assets/backgrounds/winter_bungeoppang_stall.png`
+  - One-off winter Seoul alley background for `kx_street_food`.
+  - Screen-left cart shows fish-shaped molds, finished bungeoppang, brown paper bags, fish-cake broth, cups, and warm steam; the vendor is an anonymous obscured silhouette and the right third stays clear for Minjun's winter portrait.
+  - No readable price/menu, brand, recurring face, or protagonist is baked into the background.
 
 - `assets/backgrounds/year2_winter_last_night.png`
   - Person-free late-December Seoul residential street at night for `arc_year2_close` only.
@@ -533,6 +544,11 @@ Updated on 2026-07-12 for the separate cafe folder-owner and Manager Kim portrai
 - `assets/cg/start.png`
   - Opening CG for the start of the run.
   - Cramped goshiwon room; no large view window. Gangnam is implied through the phone/goal object, not a skyline outside the room.
+
+- `assets/cg/seollal_sebae_family_v1.png`
+  - One-off `kx_seollal_sebae` CG in Minjun's canonical modest Changwon family home.
+  - Minjun performs a formal Korean male sebae with both knees grounded, hands overlapped, and forehead lowered toward them; Father and two paternal relatives look at him rather than the lens.
+  - Mother is absent because the parents remain separated. Exactly four people, one plain cream money envelope, no hanbok/Chinese red envelope/large intact-family portrait. The lower third is dialogue-safe.
 
 - `assets/cg/ending_father.png`
   - Father ending CG: Kim Minjun gently holding his weakened father's hand in a quiet hospital room.

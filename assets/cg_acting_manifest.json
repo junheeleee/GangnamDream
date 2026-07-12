@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "updated": "2026-07-11",
+  "version": 2,
+  "updated": "2026-07-12",
   "rule": "Every active CG owns an explicit camera role and every visible named actor owns a gaze target plus a supporting body action. Lens gaze is legal only for player_pov.",
   "cg": {
     "cg_start": {
@@ -43,6 +43,17 @@
       "actors": [
         {"id": "minjun", "gaze_target": "The implied caller through his handset", "pose_support": "Head lowers toward the phone and the center divide."},
         {"id": "father", "gaze_target": "The implied caller through his handset", "pose_support": "Head and phone angle inward toward the center divide."}
+      ]
+    },
+    "cg_seollal_sebae_family": {
+      "path": "assets/cg/seollal_sebae_family_v1.png",
+      "camera_role": "observational_family_wide",
+      "story_action": "Minjun completes a formal Seollal bow in the same modest Changwon living room while Father's affection and the relatives' questions occupy the same frame.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The floor and his stacked hands during the bow", "pose_support": "Both knees stay grounded; both hands overlap directly before his lowered forehead in a formal Korean male sebae rather than a crawling pose."},
+        {"id": "father", "gaze_target": "Bowing Minjun", "pose_support": "Eyes, chin, and seated shoulders lower toward Minjun from the worn sofa."},
+        {"id": "paternal_aunt", "gaze_target": "Bowing Minjun", "pose_support": "Head and torso turn screen-left from the floor cushion toward him."},
+        {"id": "paternal_uncle", "gaze_target": "Bowing Minjun", "pose_support": "Back-view head and seated torso angle screen-left toward the bow without lens contact."}
       ]
     },
     "cg_jaehyuk_reveal": {

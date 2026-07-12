@@ -2,7 +2,7 @@
   {
     "id": "amb_wallet_00",
     "title": "길 위의 지갑",
-    "background": "street_rainy",
+    "background": "street_rainy_bus_stop_wallet",
     "portrait": "player_tired",
     "category": "social",
     "rarity": "uncommon",

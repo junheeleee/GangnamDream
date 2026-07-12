@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check explicit event background, portrait, and calendar contracts.
+"""Check explicit event background, portrait, CG, and calendar contracts.
 
 The normal release audit verifies locked contracts and tagged-event coverage while
 reporting acknowledged production debt. Run with --strict before claiming the
@@ -78,7 +78,7 @@ def main() -> int:
         if event is None:
             errors.append(f"contract references missing event: {event_id}")
             continue
-        for field in ("background", "portrait", "portrait_reveal_paragraph"):
+        for field in ("background", "portrait", "portrait_reveal_paragraph", "cg"):
             if field not in contract:
                 continue
             expected = contract[field]

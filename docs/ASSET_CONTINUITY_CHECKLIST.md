@@ -88,6 +88,7 @@ Use this before generating, accepting, wiring, or replacing any image asset. A v
 - Father and mother are separated after the fraud; Minjun lives alone in Seoul.
 - At most one small faded old photo of father/mother/Minjun or father alone.
 - No large framed extended-family portrait, no warm intact big-family image, no wealthy Seoul apartment.
+- `assets/cg/seollal_sebae_family_v1.png` is the approved one-off Seollal action reference: Father plus two paternal relatives, no mother, exactly four people including bowing Minjun, and the same sofa/table/TV/entry class signal as `family_living_room.png`.
 
 ### Investment Scenes
 
@@ -114,6 +115,7 @@ Use this before generating, accepting, wiring, or replacing any image asset. A v
 - For generic street backgrounds, keep the road, sidewalk, curb, and lane direction immediately readable.
 - Do not include a bus stop unless the event needs it. If a bus stop appears, the road-facing/boarding side, bench direction, shelter glass, and pedestrian approach must be spatially coherent.
 - Avoid ambiguous glass shelters in non-bus-stop backgrounds; they create the same continuity risk as misplaced car doors or missing bicycle wheels.
+- `assets/backgrounds/seoul_bus_stop_wallet.png` is the approved wallet-event reference: road-facing bench, front glass windbreak, open boarding doorway, tactile paving, curb, and bus lane in one readable axis. The wallet is event-specific and must remain above the dialogue crop.
 
 ### Daeun's Convenience Store
 

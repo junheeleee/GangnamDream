@@ -2,7 +2,7 @@
   {
     "id": "amb_wallet_00",
     "title": "A Wallet on the Ground",
-    "description": "Under a bench at a bus stop. A wallet.\nPick it up. Inside — 300,000 won in cash, an ID, a few cards.\nNobody nearby. No CCTV in sight.\n\n{name}'s account barely covers this month's rent.\n300,000 won would breathe for a few days.\nConscience and hunger are sitting on the same palm.",
+    "description": "Under a bench at a bus stop. A wallet.\nPick it up. Inside — 300,000 won in cash, an ID, a few cards.\nNobody nearby. No CCTV in sight.\n\n{name}'s account barely covers this month's rent.\n300,000 won would buy a few days of breathing room.\nConscience and hunger are sitting on the same palm.",
     "choices": [
       {
         "text": "Take it to the police.  (clear conscience + reputation / time + no cash)",
@@ -14,7 +14,7 @@
       },
       {
         "text": "Walk past. Don't touch it either way.  (do nothing / unease)",
-        "result_text": "{name} moved on without looking back.\nNeither took the money nor took responsibility.\nOn the bus, couldn't stop thinking about that wallet.\nDoing nothing is also a choice."
+        "result_text": "{name} moved on without looking back.\n{name} took neither the money nor the burden of choosing.\nOn the bus, that wallet would not leave {name}'s mind.\nDoing nothing is also a choice."
       }
     ]
   },

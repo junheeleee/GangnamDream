@@ -715,6 +715,9 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	if not expected_result_first.is_empty():
 		_assert_story_result_attention(story, expected_result_first, expected_result_last)
 	var expected_event_ambience := {
+		"amb_wallet_00": "rain",
+		"kx_street_food": "street",
+		"kx_seollal_sebae": "room",
 		"arc_year2_close": "street",
 		"arc_year3_close": "hangang",
 		"arc_year4_close": "street",
@@ -727,6 +730,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 			_fail("%s ambience expected %s, got %s." % [event_id, expected_ambience, actual_ambience])
 	_assert_hyunsu_visual_state(story, event_id, select_choice)
 	_assert_cafe_visual_state(story, event_id)
+	_assert_resolved_visual_debt_state(story, event_id)
 	await _save(shot_name)
 	_remove_nodes_by_script("res://scenes/StoryMode.gd")
 	if suppress_cg and had_cg:
@@ -796,6 +800,36 @@ func _assert_cafe_visual_state(story: Node, event_id: String) -> void:
 	var expected_name := str(ImageRegistry.get_person_info(expected_portrait_id).get("name", ""))
 	if not is_instance_valid(name_tag) or name_tag.text != expected_name:
 		_fail("%s name tag expected %s, got %s." % [event_id, expected_name, name_tag.text if is_instance_valid(name_tag) else "<missing>"])
+
+func _assert_resolved_visual_debt_state(story: Node, event_id: String) -> void:
+	var expected_background_id := ""
+	match event_id:
+		"amb_wallet_00":
+			expected_background_id = "street_rainy_bus_stop_wallet"
+		"kx_street_food":
+			expected_background_id = "winter_street_bungeoppang"
+		"kx_seollal_sebae":
+			var expected_cg_path := ImageRegistry.get_cg("cg_seollal_sebae_family")
+			if not bool(story.get("_current_uses_cg")):
+				_fail("kx_seollal_sebae expected its dedicated CG to be active.")
+			if str(story.get("_event_cg_path")) != expected_cg_path:
+				_fail("kx_seollal_sebae CG expected %s, got %s." % [expected_cg_path, story.get("_event_cg_path")])
+			var portrait_frame := story.get("_portrait_frame") as Control
+			if is_instance_valid(portrait_frame) and portrait_frame.visible:
+				_fail("kx_seollal_sebae portrait frame should be hidden behind the full-scene CG.")
+			return
+		_:
+			return
+	var actual_background_id := str(story.get("_event_background_id"))
+	if actual_background_id != expected_background_id:
+		_fail("%s background expected %s, got %s." % [event_id, expected_background_id, actual_background_id])
+	var bg_img := story.get("_bg_img") as TextureRect
+	var actual_background_path := ""
+	if is_instance_valid(bg_img) and bg_img.texture != null:
+		actual_background_path = bg_img.texture.resource_path
+	var expected_background_path := ImageRegistry.get_background(expected_background_id)
+	if actual_background_path != expected_background_path:
+		_fail("%s background path expected %s, got %s." % [event_id, expected_background_path, actual_background_path])
 
 func _shot_opening_cinematic(lang: String, prefix: String) -> void:
 	_set_qa_language(lang)
@@ -1148,6 +1182,7 @@ func _shot_event_visual_surfaces(lang: String = "en", prefix: String = "event_vi
 		["season_rainy_commute", "04_rain_commute"],
 		["story_rainy_night", "05_rain_room"],
 		["callback_gig_grinder_echo", "06_rain_delivery_memory"],
+		["amb_wallet_00", "06a_bus_stop_wallet"],
 		["kx_street_food", "07_winter_street_food"],
 		["kx_seollal_sebae", "08_seollal_home"],
 		["arc_year1_close", "09_year1_room"],
@@ -1179,6 +1214,9 @@ func _shot_event_visual_surfaces(lang: String = "en", prefix: String = "event_vi
 		_prepare_event_visual_qa_state(event_id)
 		await _shot_story_event(event_id, prefix + str(data[1]), "", 0.45, true)
 		if event_id == "arc_sangchul_03_network":
+			_prepare_event_visual_qa_state(event_id)
+			await _shot_story_event(event_id, prefix + str(data[1]) + "_choices", "", 0.45, true, true)
+		if event_id in ["amb_wallet_00", "kx_street_food", "kx_seollal_sebae"]:
 			_prepare_event_visual_qa_state(event_id)
 			await _shot_story_event(event_id, prefix + str(data[1]) + "_choices", "", 0.45, true, true)
 	_prepare_event_visual_qa_state("cafe_peek_01")

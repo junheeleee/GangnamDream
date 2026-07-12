@@ -53,6 +53,7 @@
     },
     "cooldown": 48,
     "background": "dad_house",
+    "cg": "cg_seollal_sebae_family",
     "portrait": "player_offduty_neutral",
     "tags": [
       "korea",

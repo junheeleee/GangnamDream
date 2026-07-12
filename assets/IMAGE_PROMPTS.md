@@ -210,3 +210,79 @@ sips -z 768 512
 - 두 최종 PNG는 RGBA, 512x768이며 네 모서리 alpha=0을 확인했다.
 - 폴더 주인은 키 컬러 잔류 0픽셀, 김 부장은 완전 투명에 가까운 alpha=1 잔류 2픽셀만 있어 실제 합성에서 프린지가 보이지 않는다.
 - 상용 배포 전에는 사용한 생성 서비스의 당시 이용 약관과 계정 권리 범위를 별도 출시 증빙에 보관한다.
+
+---
+
+## 2026-07-12 strict 이벤트 비주얼 부채 0 패스
+
+세 자산은 Codex 내장 ImageGen으로 제작했다. 외부 사진은 사용하지 않았고, 설날 CG만 프로젝트의 정본 배경/인물 파일을 입력 레퍼런스로 사용했다. 최종 출력은 중앙 1536x960 크롭 후 1280x800 PNG로 정규화했다.
+
+공통 스타일 문장:
+
+```text
+Gangnam Ink visual language: desaturated Korean visual novel/manhwa realism, concrete gray and charcoal palette, matte paper grain, subtle ink-wash contrast, controlled linework with painterly cel shading, restrained cinematic lighting, no glossy mobile-game colors, no photoreal DSLR look, no text, no logos, no UI, quiet Seoul social-reality mood.
+```
+
+### seoul_bus_stop_wallet.png
+
+- **최종 경로**: `assets/backgrounds/seoul_bus_stop_wallet.png`
+- **최종 생성 원본**: `/Users/junheelee/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-68b702f0-6cad-4e09-b75d-b3e048135dee.png`
+- **이전 교정 원본**:
+  - `exec-59f2a10b-a2d4-4e68-b74b-5c4154ecd8cf.png`: 벤치가 도로 옆을 향해 물리 구조 탈락.
+  - `exec-d5ae909c-2686-41c2-94f8-f080defff7d2.png`: 도로 방향은 합격했지만 지갑이 대사창 아래로 내려가 크롭 탈락.
+- **최종 프롬프트 체인**:
+
+```text
+Create a modern Seoul neighborhood bus shelter at player eye level after light rain. The road, curb, bus lane, tactile paving, front glass windbreak, and open boarding doorway must form one physically usable axis. The three-seat bench runs parallel to the curb and its occupants would face the road; show the back of the bench from a rear-left interior camera position. Exactly one small worn black wallet lies under the bench. No people, bus, CCTV, route map, readable sign, text, brand, logo, or watermark.
+
+Then reframe without changing the corrected geometry: pull the camera farther back and slightly higher. Keep the complete bench and wallet in the upper-middle, with the wallet entirely above 62% image height, and leave the lower 35% as noncritical empty shelter floor for the visual-novel dialogue panel. Preserve the rainy Seoul exterior and the bench's road-facing direction.
+```
+
+- **합격 기준**: 벤치 등받이→전면 유리→열린 승차구→점자블록→연석→차로가 한 시선축에 있고, 실제 1280x800 도입/선택지 화면에서 지갑 전체가 UI 위에 남는다.
+
+### winter_bungeoppang_stall.png
+
+- **최종 경로**: `assets/backgrounds/winter_bungeoppang_stall.png`
+- **생성 원본**: `/Users/junheelee/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-5cdc2cea-293d-4f4c-bfee-5f112aa6ce34.png`
+- **최종 프롬프트**:
+
+```text
+Create a modest low-rise Seoul alley at winter blue hour. On the screen-left corner, a compact wheeled bungeoppang cart clearly shows cast-iron fish-shaped pastry molds, several finished red-bean pastries, brown paper bags, a steaming fish-cake broth pot, and plain paper cups. A bundled anonymous vendor remains a dark side/back-view silhouette with face obscured by hat and steam. Sparse snow and salt stay at the curb; one or two distant back-view silhouettes may appear far down the alley. Keep the cart, food hardware, steam, and vendor in the upper-safe left/center and reserve the right third for Minjun's separate winter portrait. No protagonist, clear recurring face, readable menu, prices, text, brand, logo, or watermark. Avoid a Japanese festival stall, food truck, Christmas decoration, fake lettering, or empty abandoned cart.
+```
+
+- **합격 기준**: 붕어빵 틀·완성 빵·어묵 국물·김이 1초 안에 읽히며, 상인은 배경 인물로만 남고 실제 도입/선택지 화면에서 민준 초상과 충돌하지 않는다.
+
+### seollal_sebae_family_v1.png
+
+- **최종 경로**: `assets/cg/seollal_sebae_family_v1.png`
+- **입력 레퍼런스**:
+  - `assets/backgrounds/family_living_room.png`: 창원 집 구조/계급 신호.
+  - `assets/characters/main_character_neutral_goshiwon.png`: 민준 얼굴·헤어·검은 크루넥.
+  - `assets/characters/npc_father.png`: 아버지 얼굴·작업복.
+- **최종 생성 원본**: `/Users/junheelee/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-a0fc71df-3735-48ac-8bc7-b9db16d1dacb.png`
+- **이전 교정 원본**:
+  - `exec-ff2a1e4d-45f9-4e20-84a9-108dafa8934c.png`: 민준의 두 손이 벌어진 일반 엎드림이라 세배 동작 탈락.
+  - `exec-54bc9b0d-236e-43da-9290-ca072b779f62.png`: 겹친 손은 합격했지만 핵심 동작이 대사창 아래로 내려가 크롭 탈락.
+- **최종 프롬프트 체인**:
+
+```text
+Using the canonical Changwon living room as the exact layout reference and the supplied Minjun/Father images as identity references, stage Seollal morning with exactly four people. Minjun wears the worn black crewneck and performs a formal Korean male sebae; Father sits on the worn screen-left sofa, one older paternal aunt and one older paternal uncle sit on floor cushions at screen-right, and all three look toward Minjun. Mother is not present. A small plain cream money envelope and modest Seollal dishes sit on the low table. Preserve the sofa, low table, TV, rear entry, cramped proportions, old wallpaper, and working-class tier. No hanbok, Chinese red envelope, large intact-family portrait, luxury furniture, text, logo, or watermark.
+
+Correct Minjun's deepest bow so both knees are grounded, the two hands are neatly stacked/overlapped directly before his head, elbows bend naturally, and his forehead lowers toward the back of the stacked hands. It must not read as crawling, a push-up, or Islamic prostration.
+
+Finally pull the camera farther back and slightly higher without changing identities or the bow. Place Minjun's head, stacked hands, elbows, the low table, and envelope entirely above 62% image height; leave the bottom 32% as quiet empty wooden floor for the dialogue panel. Keep faces readable and all gazes off-lens.
+```
+
+- **합격 기준**: 기존 집·민준·아버지 동일성, 어머니 부재, 정확히 네 사람, 한국식 세배 손/무릎/이마, 세 어른의 민준 향한 시선, 하단 UI 안전 영역을 모두 만족한다.
+
+### 후처리와 검증
+
+```text
+sips --cropToHeightWidth 960 1536
+sips --resampleHeightWidth 800 1280
+```
+
+- Godot 4.6.2 재임포트 후 KO/EN `--qa=event-visuals` 각 41장으로 도입/선택지 크롭을 확인했다.
+- `event_visual_contract_check.py --strict`는 54개 잠금, 부채 0으로 통과했다.
+- `cg_acting_contract_check.py`는 활성 CG 29장과 배우 계약 54개를 누락/고아 0으로 통과했다.
+- 상용 배포 전에는 사용한 생성 서비스의 당시 이용 약관과 계정 권리 범위를 별도 출시 증빙에 보관한다.
