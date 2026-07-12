@@ -19,6 +19,7 @@ Updated on 2026-07-12 for AP in-world scene-still routing; the earlier prop-only
 Updated on 2026-07-12 for Hyunsu's Seoul terminal result and route-dependent accounting/civil-service portrait stages.
 Updated on 2026-07-12 for the separate cafe folder-owner and Manager Kim portrait identities across first meeting and callbacks.
 Updated on 2026-07-12 for the player-facing wallet bus-stop bench, winter bungeoppang cart, and canonical Changwon Seollal bow CG.
+Updated on 2026-07-12 for Daeun's choice-gated proposal and small/full wedding variants plus Jiyeon's pre-decision wedding-scale negotiation CG.
 
 ## Use These Assets
 
@@ -125,6 +126,10 @@ Updated on 2026-07-12 for the player-facing wallet bus-stop bench, winter bungeo
 - `assets/characters/npc_daeun_first_snow.png`
   - December T0 portrait: muted cranberry quilted coat, oatmeal scarf, charcoal layers, and the same short hair/left-temple clip.
   - Paired with `first_snow_daeun_v1.png`; owned by `assets/FIRST_SNOW_VISUAL_BIBLE.md`.
+
+- `assets/characters/npc_daeun_proposal.png`
+  - T1 proposal prelude portrait: muted berry-red fine-knit dress, charcoal cropped cardigan, short hair and left-temple clip, with an unaware screen-left smile.
+  - Transparent 512x768. It appears before the commitment choice; the accepted reaction belongs only to `proposal_daeun_v1.png`.
 
 - `assets/characters/npc_boss.png`
   - Im Sangcheol normal transparent portrait, 52-year-old self-made broker/mentor.
@@ -608,6 +613,17 @@ Updated on 2026-07-12 for the player-facing wallet bus-stop bench, winter bungeo
 - `assets/cg/romance/hometown_night_bus_daeun_v1.png`
   - T1 Daeun return-bus CG: Daeun sleeps against the window in the same summer outfit while Minjun watches her and the rural-to-Seoul reflection with quiet relief.
   - Approved 1280x800. Shared event-result CG for both dinner choices, revealed only at result paragraph 1; owned by `assets/HOMETOWN_VISUAL_BIBLE.md`.
+
+- `assets/cg/romance/proposal_daeun_v1.png`
+  - T1 accepted-proposal CG: rainy cafe, one open ring box, Daeun's hand-over-mouth reaction, and mutual off-lens eye line over Minjun's shoulder.
+  - Approved 1280x800 choice-result CG, revealed at result paragraph 1 only for the accepted branch.
+- `assets/cg/romance/wedding_daeun_small_v1.png`
+  - Modest Seoul wedding-hall variant with simple A-line dress, restrained flowers, full bride side, and sparse groom side.
+- `assets/cg/romance/wedding_daeun_full_v1.png`
+  - Full-package wedding variant with a larger hall, refined gown/veil, and upgraded flowers while preserving the same sparse groom side and camera.
+- `assets/cg/romance/wedding_gap_jiyeon_v1.png`
+  - Pre-decision hotel-ballroom negotiation: Jiyeon's father pressures the couple across unequal blank invitation-card groups; Jiyeon remains in an ivory planning suit, not a bridal gown.
+  - All four are owned by `assets/COMMITMENT_VISUAL_BIBLE.md`; the two Daeun wedding files are flag-selected, while the Jiyeon image deliberately does not depict either choice outcome.
 
 - `assets/cg/romance/wedding_morning_daeun_v1.png`
   - Daeun's first married morning from Minjun's POV: same mauve indoor outfit, wedding-ring pan hand, spatula hand, and rolled omelet in the canonical small kitchen.

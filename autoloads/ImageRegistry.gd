@@ -31,6 +31,7 @@ const PORTRAITS = {
 	# 김다은 (연인)
 	"daeun_normal":       "res://assets/characters/npc_romantic_interest.png",
 	"daeun_smile":        "res://assets/characters/npc_daeun_smile.png",
+	"daeun_proposal":     "res://assets/characters/npc_daeun_proposal.png",
 	"daeun_sad":          "res://assets/characters/npc_daeun_sad.png",
 	"daeun_sea":          "res://assets/characters/npc_daeun_sea_v2.png",
 	"daeun_fireworks":    "res://assets/characters/npc_daeun_fireworks.png",
@@ -269,6 +270,10 @@ const CG = {
 	"cg_romance_amusement_photo_strip_jiyeon": "res://assets/cg/romance/amusement_photo_strip_jiyeon_v1.png",
 	"cg_romance_narrow_room_jiyeon": "res://assets/cg/romance/narrow_room_jiyeon_v1.png",
 	"cg_romance_hometown_night_bus_daeun": "res://assets/cg/romance/hometown_night_bus_daeun_v1.png",
+	"cg_romance_proposal_daeun": "res://assets/cg/romance/proposal_daeun_v1.png",
+	"cg_romance_wedding_daeun_small": "res://assets/cg/romance/wedding_daeun_small_v1.png",
+	"cg_romance_wedding_daeun_full": "res://assets/cg/romance/wedding_daeun_full_v1.png",
+	"cg_romance_wedding_gap_jiyeon": "res://assets/cg/romance/wedding_gap_jiyeon_v1.png",
 	"cg_romance_wedding_morning_daeun": "res://assets/cg/romance/wedding_morning_daeun_v1.png",
 	"cg_romance_wedding_morning_jiyeon": "res://assets/cg/romance/wedding_morning_jiyeon_v1.png",
 	"cg_romance_first_snow_daeun": "res://assets/cg/romance/first_snow_daeun_v1.png",

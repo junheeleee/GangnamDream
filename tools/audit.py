@@ -250,6 +250,21 @@ def check_events():
             cg = e.get("cg")
             if cg and VALID_CG and cg not in VALID_CG:
                 warn('%s  [%s] 모르는 cg id → "%s"' % (rel(p), eid, cg))
+            cg_variants = e.get("cg_if_known")
+            if cg_variants is not None:
+                if not isinstance(cg_variants, dict) or not cg_variants:
+                    err('%s  [%s] cg_if_known은 비어 있지 않은 {flag: cg_id} 객체여야 함'
+                        % (rel(p), eid))
+                else:
+                    for flag_id, variant_cg_id in cg_variants.items():
+                        if not isinstance(flag_id, str) or not flag_id.strip():
+                            err('%s  [%s] cg_if_known 플래그 키가 비어 있음' % (rel(p), eid))
+                        if not isinstance(variant_cg_id, str) or not variant_cg_id.strip():
+                            err('%s  [%s] cg_if_known[%s] CG ID가 비어 있음'
+                                % (rel(p), eid, flag_id))
+                        elif VALID_CG and variant_cg_id not in VALID_CG:
+                            err('%s  [%s] cg_if_known[%s] 모르는 cg id → "%s"'
+                                % (rel(p), eid, flag_id, variant_cg_id))
             result_cg = e.get("result_cg")
             result_bg = e.get("result_background")
             result_reveal = e.get("result_cg_reveal_paragraph")
@@ -273,6 +288,7 @@ def check_events():
             for ci, ch in enumerate(e.get("choices", [])):
                 result_cg = ch.get("result_cg")
                 result_bg = ch.get("result_background")
+                result_reveal = ch.get("result_cg_reveal_paragraph")
                 if result_cg and VALID_CG and result_cg not in VALID_CG:
                     err('%s  [%s] 선택지%d 모르는 result_cg id → "%s"'
                         % (rel(p), eid, ci, result_cg))
@@ -282,6 +298,14 @@ def check_events():
                 if result_cg and result_bg:
                     err('%s  [%s] 선택지%d result_cg와 result_background를 동시에 지정할 수 없음'
                         % (rel(p), eid, ci))
+                if result_reveal is not None:
+                    if not result_cg:
+                        err('%s  [%s] 선택지%d result_cg_reveal_paragraph에는 result_cg가 필요함'
+                            % (rel(p), eid, ci))
+                    if not isinstance(result_reveal, int) or isinstance(result_reveal, bool) \
+                            or result_reveal < 1:
+                        err('%s  [%s] 선택지%d result_cg_reveal_paragraph는 1 이상의 정수여야 함'
+                            % (rel(p), eid, ci))
                 fu = ch.get("follow_up_event", "")
                 if fu and fu not in known_ids:
                     err('%s  [%s] 선택지%d follow_up_event "%s" 가 존재하지 않음 (스토리 체인 끊김)'
@@ -436,6 +460,11 @@ def _walk_event_flags(ev, game_sets, game_reads_json, cast_sets, cast_reads_json
         for fl in pik.keys():
             if isinstance(fl, str) and fl:
                 game_reads_json.setdefault(str(fl), []).append(where)
+    cik = ev.get("cg_if_known", {})
+    if isinstance(cik, dict):
+        for fl in cik.keys():
+            if isinstance(fl, str) and fl:
+                game_reads_json.setdefault(str(fl), []).append(where)
     # 생각정리(thoughts.json) on_complete.flags = 완료 시 set되는 플래그
     oc = ev.get("on_complete", {})
     if isinstance(oc, dict):
@@ -550,7 +579,7 @@ CAST_EFFECT_KEYS = {"affinity", "stage", "met", "flags"}
 # 이벤트 루트에서 허용되는 키 (스키마)
 EVENT_ROOT_KEYS = {"id", "title", "description", "category", "rarity", "weight",
                    "hidden", "conditions", "tags", "cooldown", "choices",
-                   "portrait", "portrait_if_known", "portrait_reveal_paragraph", "background", "paragraph_backgrounds", "cg", "cg_reveal_paragraph", "speaker", "one_time", "_file",
+                   "portrait", "portrait_if_known", "portrait_reveal_paragraph", "background", "paragraph_backgrounds", "cg", "cg_if_known", "cg_reveal_paragraph", "speaker", "one_time", "_file",
                    "result_cg", "result_cg_reveal_paragraph", "result_background",
                    "timed", "timer_seconds",
                    "description_orthodox", "description_unorthodox",
@@ -567,7 +596,7 @@ DIRECTION_VALUES = {
 }
 # apply_choice()가 실제로 처리하는 선택지 키 + 주석용 키
 CHOICE_KEYS = {"text", "text_if_moral", "effects", "flags", "follow_up_event", "result_text",
-               "result_cg", "result_background",
+               "result_cg", "result_cg_reveal_paragraph", "result_background",
                "opportunity", "cast_effects", "relationship_effects",
                "investment_effects", "tendency", "route", "grant_job",
                "conditions_note", "deferred_follow_up", "deferred_delay",

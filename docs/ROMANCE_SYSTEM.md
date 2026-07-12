@@ -25,6 +25,15 @@
 - **지연 라인**: 재회→진짜 이유(내 거 하나)→부산 독립(Y3)→Y4 서울 방문→Y5 귀환/고백→결혼: **처가 눈높이 결혼식(t205**, 빚내서 맞춤 vs 형편대로)→**심판(t228, 자산 5억 미만 시에만**: "오빠가 이렇게 살 사람인 줄 몰랐어" — 붙잡음=`jiyeon_kept_by_diminishing`+crossed_line(자기를 잃음) / 보냄=`jiyeon_left`(자기를 지킴)).
 - **이혼의 거울상**: 다은은 **그녀를 배신하면** 잃고, 지연은 **자기답게 살면** 잃는다. 어느 쪽도 트로피가 아니다.
 
+### 2-A. 프로포즈·결혼 비주얼 상태 계약
+
+- **행동 뒤에만 보상 CG**: `arc_daeun_proposal` 도입은 카페 배경과 `daeun_proposal` 초상만 사용한다. 수락 선택지의 결과 문단 1에서만 `cg_romance_proposal_daeun`이 열리며, 상자를 다시 넣는 선택에는 CG가 절대 누출되지 않는다.
+- **준비 선택은 식장까지 보존**: `arc_daeun_wedding_prep`의 소형 선택은 `daeun_wedding_small`, 풀 패키지는 `daeun_wedding_full`을 기록한다. 두 플래그는 상호배타이며 `arc_daeun_wedding_day`의 `cg_if_known`이 해당 식장/드레스 변주를 선택한다.
+- **레거시 세이브**: 이전 버전에서 결혼 준비 플래그가 없는 기혼 세이브는 소형 결혼식 CG를 기본값으로 사용한다. 저장 호환을 위해 결혼식을 막거나 임의의 새 선택을 발명하지 않는다.
+- **하객 정본**: 신부석이 차고 신랑석이 비는 사회적 결산은 두 이미지에 공통이다. 아버지 생존, 현수 재회, 다은의 어머니 방문처럼 조건부 인물은 식별 가능한 얼굴로 굽지 않고 `description_if_known` 산문에만 남긴다.
+- **지연은 결과 전 압력만 보여준다**: `arc_jiyeon_wedding_gap`은 호텔 볼룸의 계급 협상 CG이며 결혼식 완료나 선택 결과가 아니다. 지연은 웨딩드레스가 아니라 아이보리 플래닝 수트를 입고, 신부 측 다수 카드와 신랑 측 세 장의 빈 카드가 선택 이전의 격차만 보여준다.
+- **소유 문서·검증**: 얼굴·복장·구도는 `assets/COMMITMENT_VISUAL_BIBLE.md`, 카메라·시선·몸 연기는 `assets/cg_acting_manifest.json`, 실제 선택 전후 배선은 `--qa=commitment --lang=ko/en`이 잠근다.
+
 ## 3. 엔딩 라우팅 (finish_run 캐스케이드 순서가 정본)
 
 - **30억 도달 시**: daeun_divorced→`lonely_rich` → daeun_married→`gangnam_dream`(진엔딩 변주) → jiyeon_romance_started(not left)→`gangnam_dream`(그녀 세계 진입 변주) → 이후 crossed_line→jaehyuk_way. **배우자 실이 crossed_line보다 먼저다.**

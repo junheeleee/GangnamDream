@@ -1,6 +1,6 @@
 # 엔딩 아트 점검 & 컷신 우선순위
 
-Updated: 2026-07-10
+Updated: 2026-07-12
 
 ## 목적
 
@@ -34,6 +34,8 @@ Updated: 2026-07-10
 | `cg_ending_gangnam_dream` | `assets/cg/ending_gangnam_dream.png` | `gangnam_dream` | 아버지 생존 조건과 본문에 맞는 부자 야경. White 엔딩과 공유 금지 |
 | `cg_ending_empty_house` | `assets/cg/ending_empty_house.png` | `empty_house` | 유지 |
 | `cg_ending_crypto_ghost` | `assets/cg/ending_crypto_ghost.png` | `crypto_ghost` | 유지 |
+
+프로포즈·결혼 과정 CG인 `cg_romance_proposal_daeun`, `cg_romance_wedding_daeun_small`, `cg_romance_wedding_daeun_full`, `cg_romance_wedding_gap_jiyeon`은 2026-07-12에 완성됐지만 **엔딩 CG가 아니다**. 선택 순간과 결혼 비용을 시각화할 뿐 `with_daeun`, `jiyeon_man`, `second_love` 등의 최종 삶을 대신하지 않으므로 아래 P0 엔딩 큐는 그대로 유지한다.
 
 ## 컷신 연결 금지 규칙
 

@@ -788,6 +788,16 @@ func _resolved_event_portrait_id() -> String:
 				return str(known_map[flag_id])
 	return portrait_id
 
+func _resolved_event_cg_id() -> String:
+	var cg_id := str(_current.get("cg", ""))
+	var known_map: Variant = _current.get("cg_if_known", null)
+	if known_map is Dictionary:
+		# Use the same first-known ordering as description and portrait variants.
+		for flag_id in known_map.keys():
+			if GameState.flags.get(str(flag_id), false):
+				return str(known_map[flag_id])
+	return cg_id
+
 func _render_current():
 	_reset_scene_direction()
 	_prepare_scene_direction()
@@ -824,7 +834,7 @@ func _render_current():
 		_hud_panel.visible = false
 
 	var cg_path := ""
-	var cg_id := str(_current.get("cg", ""))
+	var cg_id := _resolved_event_cg_id()
 	if cg_id != "":
 		cg_path = ImageRegistry.get_cg(cg_id)
 	_event_cg_path = cg_path
@@ -950,6 +960,9 @@ func _maybe_reveal_event_cg(paragraph_index: int) -> void:
 	if not ResourceLoader.exists(_event_cg_path):
 		return
 	_current_uses_cg = true
+	# The ledger has already landed on the prior result paragraph. Once the
+	# authored CG opens, release the middle of the frame to its acting/object.
+	_clear_result_record_card()
 	_play_story_ink_transition("scene", 0.65)
 	_bg_img.texture = load(_event_cg_path)
 	_apply_story_surface_palette(true)
@@ -1754,7 +1767,9 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 	if result_cg_id != "":
 		var result_cg_path := ImageRegistry.get_cg(result_cg_id)
 		if result_cg_path != "" and ResourceLoader.exists(result_cg_path):
-			var reveal_paragraph: int = maxi(0, int(_current.get("result_cg_reveal_paragraph", 0)))
+			var reveal_paragraph: int = maxi(0, int(choice.get(
+				"result_cg_reveal_paragraph",
+				_current.get("result_cg_reveal_paragraph", 0))))
 			if reveal_paragraph > 0:
 				_event_cg_path = result_cg_path
 				_event_cg_reveal_paragraph = reveal_paragraph

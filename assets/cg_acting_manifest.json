@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "updated": "2026-07-12",
   "rule": "Every active CG owns an explicit camera role and every visible named actor owns a gaze target plus a supporting body action. Lens gaze is legal only for player_pov.",
   "cg": {
@@ -223,6 +223,43 @@
       "actors": [
         {"id": "daeun", "gaze_target": "Sleep against the bus window", "pose_support": "Closed eyes, relaxed jaw, lowered shoulders, and the weight of her head against the glass all support genuine sleep without leaning on Minjun."},
         {"id": "minjun", "gaze_target": "Daeun and the city lights reflected beyond her", "pose_support": "Pupils and chin turn screen-left; a restrained peaceful smile and open shoulders replace his default defeated expression."}
+      ]
+    },
+    "cg_romance_proposal_daeun": {
+      "path": "assets/cg/romance/proposal_daeun_v1.png",
+      "camera_role": "over_minjun_shoulder_cafe_wide",
+      "story_action": "Only after Minjun takes out the box, the rainy cafe pulls back far enough to keep Daeun's reaction and the ring visible above the result text.",
+      "actors": [
+        {"id": "daeun", "gaze_target": "Minjun across the table", "pose_support": "Tearful pupils and face turn screen-left toward him; her right hand covers her mouth with five clear fingers while her left hand rests beside the open box."},
+        {"id": "minjun", "gaze_target": "Daeun's reaction", "pose_support": "Back-view head and black-crewneck shoulders face screen-right toward her without lens contact."}
+      ]
+    },
+    "cg_romance_wedding_daeun_small": {
+      "path": "assets/cg/romance/wedding_daeun_small_v1.png",
+      "camera_role": "behind_groom_aisle_wide",
+      "story_action": "Minjun walks through a modest hall whose full bride side and sparse groom side make five years of social cost visible.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "Daeun at the far end of the aisle", "pose_support": "Back-view head, shoulders, and forward step stay centered on her; his plain charcoal suit remains distinct from the guests."},
+        {"id": "daeun", "gaze_target": "Minjun entering the aisle", "pose_support": "Her short-haired face and simple A-line dress face him while both hands hold one small bouquet at her waist."}
+      ]
+    },
+    "cg_romance_wedding_daeun_full": {
+      "path": "assets/cg/romance/wedding_daeun_full_v1.png",
+      "camera_role": "behind_groom_aisle_wide",
+      "story_action": "The full package upgrades the hall, gown, veil, and flowers but cannot fill Minjun's empty side of the room.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "Daeun beneath the floral arch", "pose_support": "Back-view head, shoulders, and forward step remain centered on her while empty chairs stay visible at screen-right."},
+        {"id": "daeun", "gaze_target": "Minjun entering the aisle", "pose_support": "Her same short-haired face looks toward him; both hands hold one bouquet against the refined satin A-line gown."}
+      ]
+    },
+    "cg_romance_wedding_gap_jiyeon": {
+      "path": "assets/cg/romance/wedding_gap_jiyeon_v1.png",
+      "camera_role": "behind_father_negotiation_wide",
+      "story_action": "A vast empty ballroom and unequal stacks of invitation cards turn the Han family's expected scale into visible pressure before Minjun chooses.",
+      "actors": [
+        {"id": "father_in_law", "gaze_target": "Jiyeon and Minjun across the table", "pose_support": "Three-quarter back head and navy-suited torso face the couple while one anatomically clear hand anchors the table edge."},
+        {"id": "jiyeon", "gaze_target": "Her father", "pose_support": "Pupils and chin angle screen-left toward him; controlled shoulders and one pocketed hand keep tension inside the ivory planning suit."},
+        {"id": "minjun", "gaze_target": "The sparse groom-side cards", "pose_support": "Eyes and chin lower toward the three blank cards while his plain charcoal suit and closed shoulders register pressure without a lens-facing defeat pose."}
       ]
     },
     "cg_romance_first_snow_daeun": {

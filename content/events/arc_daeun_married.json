@@ -271,7 +271,8 @@
           "tint": 6
         },
         "flags": [
-          "arc_daeun_wedding_seen"
+          "arc_daeun_wedding_seen",
+          "daeun_wedding_small"
         ],
         "cast_effects": {
           "daeun": {
@@ -288,7 +289,8 @@
           "tint": -3
         },
         "flags": [
-          "arc_daeun_wedding_seen"
+          "arc_daeun_wedding_seen",
+          "daeun_wedding_full"
         ],
         "cast_effects": {
           "daeun": {
@@ -307,8 +309,11 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "background": "cafe",
-    "portrait": "daeun_smile",
+    "cg": "cg_romance_wedding_daeun_small",
+    "cg_if_known": {
+      "daeun_wedding_full": "cg_romance_wedding_daeun_full",
+      "daeun_wedding_small": "cg_romance_wedding_daeun_small"
+    },
     "conditions": {
       "min_turn": 9999
     },

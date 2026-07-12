@@ -98,6 +98,63 @@ def main() -> int:
                     f"{event_id} expected portrait_if_known={expected_portraits!r}, "
                     f"got {actual_portraits!r}"
                 )
+        if "cg_if_known" in contract:
+            expected_cgs = contract["cg_if_known"]
+            actual_cgs = event.get("cg_if_known")
+            if not isinstance(expected_cgs, dict) or not expected_cgs:
+                errors.append(f"{event_id} contract cg_if_known must be a nonempty object")
+            elif actual_cgs != expected_cgs:
+                errors.append(
+                    f"{event_id} expected cg_if_known={expected_cgs!r}, got {actual_cgs!r}"
+                )
+        if "choice_result_cgs" in contract:
+            expected_results = contract["choice_result_cgs"]
+            if not isinstance(expected_results, dict) or not expected_results:
+                errors.append(f"{event_id} contract choice_result_cgs must be a nonempty object")
+            else:
+                choices = event.get("choices") or []
+                for raw_index, expected_cg in expected_results.items():
+                    try:
+                        choice_index = int(raw_index)
+                    except (TypeError, ValueError):
+                        errors.append(f"{event_id} invalid choice_result_cgs index: {raw_index!r}")
+                        continue
+                    if choice_index < 0 or choice_index >= len(choices):
+                        errors.append(f"{event_id} result CG choice index out of range: {choice_index}")
+                        continue
+                    actual_cg = choices[choice_index].get("result_cg")
+                    if actual_cg != expected_cg:
+                        errors.append(
+                            f"{event_id} choice {choice_index} expected result_cg={expected_cg!r}, "
+                            f"got {actual_cg!r}"
+                        )
+        if "choice_result_cg_reveal_paragraphs" in contract:
+            expected_reveals = contract["choice_result_cg_reveal_paragraphs"]
+            if not isinstance(expected_reveals, dict) or not expected_reveals:
+                errors.append(
+                    f"{event_id} contract choice_result_cg_reveal_paragraphs must be a nonempty object"
+                )
+            else:
+                choices = event.get("choices") or []
+                for raw_index, expected_reveal in expected_reveals.items():
+                    try:
+                        choice_index = int(raw_index)
+                    except (TypeError, ValueError):
+                        errors.append(
+                            f"{event_id} invalid choice_result_cg_reveal_paragraphs index: {raw_index!r}"
+                        )
+                        continue
+                    if choice_index < 0 or choice_index >= len(choices):
+                        errors.append(
+                            f"{event_id} result CG reveal choice index out of range: {choice_index}"
+                        )
+                        continue
+                    actual_reveal = choices[choice_index].get("result_cg_reveal_paragraph")
+                    if actual_reveal != expected_reveal:
+                        errors.append(
+                            f"{event_id} choice {choice_index} expected "
+                            f"result_cg_reveal_paragraph={expected_reveal!r}, got {actual_reveal!r}"
+                        )
         if "choice_result_backgrounds" in contract:
             expected_results = contract["choice_result_backgrounds"]
             if not isinstance(expected_results, dict) or not expected_results:

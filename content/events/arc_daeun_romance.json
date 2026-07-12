@@ -65,8 +65,8 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "background": "gangnam_night",
-    "portrait": "daeun_smile",
+    "background": "cafe",
+    "portrait": "daeun_proposal",
     "conditions": {
       "min_turn": 9999
     },
@@ -96,6 +96,8 @@
             "stage": "lover"
           }
         },
+        "result_cg": "cg_romance_proposal_daeun",
+        "result_cg_reveal_paragraph": 1,
         "result_text": "다은의 손이 입을 막았다. 눈이 순식간에 붉어졌다.\n\n\"...바보. 강남 안 가도 된다니까 몇 번을 말해요.\"\n\"그러니까 하는 거예요. 강남 없이도, 당신이면 됐어.\"\n\n다은이 고개를 끄덕였다. 여러 번, 세게.\n\n5년 전 편의점에서 삼각김밥을 건네던 사람이, 이제 {name}의 사람이 됐다.\n숫자로는 못 센 5년이, 그 손가락의 반지 하나에 다 들어갔다."
       },
       {

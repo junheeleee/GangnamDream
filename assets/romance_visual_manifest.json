@@ -178,6 +178,17 @@
       "season_scope": "indoor_all_season",
       "player_visibility": "pov",
       "eye_line": "Bare-faced Jiyeon looks directly at Minjun at the player camera while one hand pulls the duvet to her nose; the other hand remains hidden."
+    },
+    {
+      "event_id": "arc_daeun_proposal",
+      "choice_index": 0,
+      "cg_placement": "choice_result",
+      "cg": "cg_romance_proposal_daeun",
+      "heroine_portrait": "daeun_proposal",
+      "heroine_outfit": "Deep muted berry-red fine-knit date dress with a modest square neckline under a soft charcoal cropped cardigan.",
+      "season_scope": "indoor_all_season",
+      "player_visibility": "cropped_left",
+      "eye_line": "Daeun looks through restrained tears at Minjun across the table; her hand-over-mouth reaction and the open ring box share one readable upper-safe triangle."
     }
   ]
 }

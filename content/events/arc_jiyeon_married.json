@@ -6,8 +6,7 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "background": "gangnam_night",
-    "portrait": "jiyeon_cold",
+    "cg": "cg_romance_wedding_gap_jiyeon",
     "conditions": {
       "min_turn": 9999
     },

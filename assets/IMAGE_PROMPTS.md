@@ -213,6 +213,83 @@ sips -z 768 512
 
 ---
 
+## 2026-07-12 프로포즈·결혼 선택 비주얼 패스
+
+다섯 자산은 Codex 내장 ImageGen으로 제작했다. 외부 사진이나 실존 인물 이미지는 사용하지 않았고, `CHARACTER_VISUAL_BIBLE.md`와 기존 프로젝트 초상의 얼굴·헤어·계급 신호를 프롬프트 정본으로 사용했다. 장면별 선택 결과를 미리 보여주지 않는 것이 1차 계약이며, 전체 연속성은 `assets/COMMITMENT_VISUAL_BIBLE.md`가 소유한다.
+
+공통 스타일 문장:
+
+```text
+Gangnam Ink Korean adult visual-novel illustration: restrained manhwa realism, controlled linework, painterly cel shading, matte paper grain, limited but readable color, natural Korean anatomy and age, deliberate Japanese VN camera blocking, quiet Seoul social-reality mood. No photoreal DSLR rendering, mobile-game gloss, readable text, logos, watermarks, brown/sepia moral grade, lens-facing gaze, or critical object below the lower 34% dialogue-safe area.
+```
+
+### npc_daeun_proposal.png
+
+- **최종 경로**: `assets/characters/npc_daeun_proposal.png`
+- **최종 생성 원본**: `/Users/junheelee/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-7b3b3b98-4280-470a-8dc3-b0eeda5f1fb3.png`
+- **탈락 원본**: `exec-ba444160...`은 투명 배경 대신 가짜 체크무늬를 그려 탈락.
+- **최종 프롬프트**:
+
+```text
+Create one transparent-style Korean VN portrait of Kim Daeun, age 33: the same short layered dark-brown hair, wispy bangs, left-temple clip, warm brown eyes, narrow nose bridge, soft jaw, and slim adult proportions as her canonical portrait. Dress her for a late-game cafe date in a deep muted berry-red fine-knit dress with a modest square neckline and a soft charcoal cropped cardigan. Give her a quiet unaware smile and screen-left eye line toward Minjun. Head to upper thighs, full hair, clean hands outside the crop, one person only. Use a perfectly flat solid #08ef0f chroma-key background with no floor, shadow, texture, or gradient. No ring, bridal clothing, convenience-store uniform, long hair, glamour makeup, lens gaze, text, logo, or extra limbs.
+```
+
+### proposal_daeun_v1.png
+
+- **최종 경로**: `assets/cg/romance/proposal_daeun_v1.png`
+- **최종 생성 원본**: `/Users/junheelee/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-048cc948-4d53-4b4b-b28f-e302ca9093a2.png`
+- **탈락 원본**: `exec-eda4753e...`, `exec-3d9fa433...`, `exec-af287f6d...`은 반지 상자 또는 핵심 손동작이 하단 StoryMode UI 아래로 내려가 탈락.
+- **최종 프롬프트**:
+
+```text
+Stage the accepted proposal in a rainy Seoul cafe from a restrained over-Minjun-shoulder wide camera. Daeun wears the exact berry-red dress and charcoal cardigan, keeps her short hair and left-temple clip, looks screen-left at Minjun through restrained tears, and covers her mouth with one anatomically clear five-finger hand. Exactly one open ring box with one ring sits visibly on the upper table; her other hand rests naturally beside it. Minjun is only a cropped black-crewneck shoulder/forearm at lower-left. Keep Daeun's face, hand, and ring box above the lower 34% dialogue-safe area. No kneeling, ring already worn, lens gaze, duplicate hands, luxury restaurant, wedding dress, text, logo, or extra people.
+```
+
+### wedding_daeun_small_v1.png
+
+- **최종 경로**: `assets/cg/romance/wedding_daeun_small_v1.png`
+- **최종 생성 원본**: `/Users/junheelee/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-38a20b7a-c701-4a87-a868-4955ac421638.png`
+- **최종 프롬프트**:
+
+```text
+Show Minjun entering a modest physically plausible small Seoul wedding hall from a wide camera behind his charcoal-suited back. Daeun waits at the far end in a simple ivory A-line dress, short veil, small lisianthus-and-greenery bouquet, and natural makeup, preserving her short hair, clip, face, and age. The bride side is visibly full while the groom side has only a few anonymous distant guests and empty chairs. Use restrained white/green flowers, low ceiling, and a practical aisle. Keep Daeun, aisle imbalance, and guest rows above the dialogue-safe lower area. No identifiable Father, Mother, Hyunsu, readable signs, brands, lens gaze, luxury ballroom, or duplicated people.
+```
+
+### wedding_daeun_full_v1.png
+
+- **최종 경로**: `assets/cg/romance/wedding_daeun_full_v1.png`
+- **최종 생성 원본**: `/Users/junheelee/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-f017add7-3e2f-4310-8f9f-a9144af05788.png`
+- **최종 프롬프트**:
+
+```text
+Preserve the exact behind-Minjun aisle camera, Daeun identity, and social seating imbalance of the small-wedding variant, but depict the expensive full package: a larger polished Korean wedding hall, higher ceiling, professional floral arch, layered aisle lighting, refined ivory satin A-line gown with restrained beaded bodice, longer veil, and professional makeup that does not change Daeun's face or age. The bride side remains full and Minjun's groom side remains visibly sparse despite the upgraded venue. No identifiable conditional guest, celebrity ballroom, different groom suit, lens gaze, text, logo, or critical face below the dialogue-safe area.
+```
+
+### wedding_gap_jiyeon_v1.png
+
+- **최종 경로**: `assets/cg/romance/wedding_gap_jiyeon_v1.png`
+- **최종 생성 원본**: `/Users/junheelee/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-2d977509-6eb6-47c6-86af-a7537e947cf3.png`
+- **탈락 원본**: `exec-6a829914...`은 하객 명단/카드 대비가 하단 UI에 가려져 탈락.
+- **최종 프롬프트**:
+
+```text
+Stage a pre-decision wedding-scale negotiation in an empty prepared five-star Seoul hotel ballroom, not a proposal or completed ceremony. From behind Jiyeon's older navy-suited father, show Jiyeon in a tailored ivory planning suit and black silk inner layer watching him with controlled tension; her long black waves, sharp eyes, and geometric earrings preserve her canonical identity. Minjun stands beside her in an inexpensive fitted charcoal suit, looking down at exactly three blank groom-side invitation cards. Contrast those with a visibly larger group of blank bride-side cards and the grand aisle beyond. Keep all faces, hands, and unequal card groups above the lower 34% UI-safe area. No bridal gown, choice outcome, readable names, brands, villain gesture, lens gaze, extra named person, or text.
+```
+
+### 후처리와 검증
+
+```text
+remove_chroma_key.py --auto-key border --soft-matte --transparent-threshold 12 --opaque-threshold 220 --despill --edge-contract 1
+sips -z 768 512
+```
+
+- 초상은 RGBA 512x768, 네 CG는 RGB 1280x800으로 확인했다.
+- Godot 4.6.2 재임포트 후 KO/EN `--qa=commitment` 각 11장으로 선택 전·수락/보류 결과·소형/풀 결혼식·지연 협상 도입/선택지 크롭을 확인했다.
+- `event_visual_contract_check.py --strict`는 58개 잠금, 부채 0을 통과했고 `cg_acting_contract_check.py`는 활성 CG 33장, 배우 계약 63개, 누락/고아 0을 통과했다.
+- 상용 배포 전에는 사용한 생성 서비스의 당시 이용 약관과 계정 권리 범위를 별도 출시 증빙에 보관한다.
+
+---
+
 ## 2026-07-12 strict 이벤트 비주얼 부채 0 패스
 
 세 자산은 Codex 내장 ImageGen으로 제작했다. 외부 사진은 사용하지 않았고, 설날 CG만 프로젝트의 정본 배경/인물 파일을 입력 레퍼런스로 사용했다. 최종 출력은 중앙 1536x960 크롭 후 1280x800 PNG로 정규화했다.

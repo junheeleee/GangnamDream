@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 5,
   "tag_coverage": [
     "climate",
     "season",
@@ -38,6 +38,11 @@
     {"id": "callback_called_about_medication_echo", "background": "goshiwon_room", "portrait": "father_normal"},
     {"id": "arc_sangchul_03_network", "background": "sangchul_private_dining", "portrait": "sangchul_normal"},
     {"id": "arc_daeun_the_test", "background": "cafe", "portrait": "sangchul_normal"},
+
+    {"id": "arc_daeun_proposal", "background": "cafe", "portrait": "daeun_proposal", "choice_result_cgs": {"0": "cg_romance_proposal_daeun"}, "choice_result_cg_reveal_paragraphs": {"0": 1}},
+    {"id": "arc_daeun_wedding_prep", "background": "cafe", "portrait": "daeun_normal"},
+    {"id": "arc_daeun_wedding_day", "background": null, "portrait": null, "cg": "cg_romance_wedding_daeun_small", "cg_if_known": {"daeun_wedding_full": "cg_romance_wedding_daeun_full", "daeun_wedding_small": "cg_romance_wedding_daeun_small"}},
+    {"id": "arc_jiyeon_wedding_gap", "background": null, "portrait": null, "cg": "cg_romance_wedding_gap_jiyeon"},
 
     {"id": "cafe_00", "background": "cafe", "portrait": "cafe_investor"},
     {"id": "cafe_peek_01", "background": "cafe", "portrait": "cafe_investor", "portrait_reveal_paragraph": 1},
