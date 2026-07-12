@@ -34,6 +34,14 @@ Updated: 2026-07-12
 | `cg_ending_gangnam_dream` | `assets/cg/ending_gangnam_dream.png` | `gangnam_dream` | 아버지 생존 조건과 본문에 맞는 부자 야경. White 엔딩과 공유 금지 |
 | `cg_ending_empty_house` | `assets/cg/ending_empty_house.png` | `empty_house` | 유지 |
 | `cg_ending_crypto_ghost` | `assets/cg/ending_crypto_ghost.png` | `crypto_ghost` | 유지 |
+| `cg_ending_full_circle` | `assets/cg/ending_full_circle_v1.png` | `full_circle` | 전화·청산·새 집의 첫날을 한 프레임에 고정 |
+| `cg_ending_gangnam_dream_white` | `assets/cg/ending_gangnam_dream_white_v1.png` | `gangnam_dream_white` | 맑은 아침·등기 폴더·자기 인식 |
+| `cg_ending_with_daeun` | `assets/cg/ending_with_daeun_v1.png` | `with_daeun` | 외곽 작은 집·라면 두 그릇·상호 시선 |
+| `cg_ending_second_love` | `assets/cg/ending_second_love_v1.png` | `second_love` | 강남 야경·두 번째 커피·함께 도착 |
+| `cg_ending_jiyeon_man` | `assets/cg/ending_jiyeon_man_v1.png` | `jiyeon_man` | 현실/반사 동일 좌우·어깨·팔 자세의 물리적으로 맞는 거울 |
+| `cg_ending_guardian` | `assets/cg/ending_guardian_v1.png` | `guardian` | 창원 퇴원 날·아버지 짐·나란한 걸음 |
+| `cg_ending_jaehyuk_way` | `assets/cg/ending_jaehyuk_way_v1.png` | `jaehyuk_way` | 반쯤 친 커튼·Deep Black에서도 읽히는 고립 |
+| `cg_ending_sangchul_reckoning` | `assets/cg/ending_sangchul_reckoning_v1.png` | `sangchul_reckoning` | 열린 창·내린 전화·빈 서류와 펜 |
 
 프로포즈·결혼 과정 CG인 `cg_romance_proposal_daeun`, `cg_romance_wedding_daeun_small`, `cg_romance_wedding_daeun_full`, `cg_romance_wedding_gap_jiyeon`은 2026-07-12에 완성됐지만 **엔딩 CG가 아니다**. 선택 순간과 결혼 비용을 시각화할 뿐 `with_daeun`, `jiyeon_man`, `second_love` 등의 최종 삶을 대신하지 않으므로 아래 P0 엔딩 큐는 그대로 유지한다.
 
@@ -55,9 +63,9 @@ Updated: 2026-07-12
 |---|---:|---|---|---|
 | `gangnam_dream` | S | `cg_ending_gangnam_dream` | `gangnam_apartment` | 유지. 단, 최종 S급 페인트오버 후보 |
 | `empty_house` | A | `cg_ending_empty_house` | `gangnam_apartment` | 유지 |
-| `with_daeun` | A | 없음 | `convenience_night` | P0 신규 CG 필요 |
-| `jiyeon_man` | A | 없음 | `gangnam_day` | P0 신규 CG 필요 |
-| `jaehyuk_way` | B | 없음 | `gangnam_night` | P0 신규 CG 필요. B지만 핵심 moral collapse 엔딩 |
+| `with_daeun` | A | `cg_ending_with_daeun` | `convenience_night` | P0 완료. 결혼 여부를 손 각도로 숨긴 최종 생활 컷 |
+| `jiyeon_man` | A | `cg_ending_jiyeon_man` | `gangnam_day` | P0 완료. 현실/반사 인물 순서·시선·자세 1:1 잠금 |
+| `jaehyuk_way` | B | `cg_ending_jaehyuk_way` | `gangnam_night` | P0 완료. 핵심 moral collapse 엔딩 |
 | `late_call` | B | 없음 | `ktx_window` | P1 신규 CG 후보 |
 | `stable_success` | B | 없음 | `rooftop_day` | P2. 전용 안정 배경이 있으면 좋음 |
 | `ordinary_life` | C | 없음 | 없음 | 공통 모노톤 실패/일상 카드 |
@@ -79,19 +87,19 @@ Updated: 2026-07-12
 | `early_retirement` | A | 없음 | 없음 | P2 신규 CG 후보 |
 | `creator_success` | A | 없음 | 없음 | P2 신규 CG 후보 |
 | `instant_legend` | ? | 없음 | `gangnam_apartment` | P1. 히든 엔딩이라 한 장의 강한 CG 가치 높음 |
-| `full_circle` | S+ | 없음 | `gangnam_penthouse` | P0 신규 CG 필요 |
-| `gangnam_dream_white` | S+ | 없음 | `gangnam_night` | 잘못된 일반 CG 공유 제거. P0 전용 White CG 필요, 입고 전에는 S+ 무드카드 |
-| `second_love` | A+ | 없음 | `gangnam_night` | P0 신규 CG 필요 |
-| `guardian` | A+ | 없음 | `hospital` | P0 신규 CG 필요 |
+| `full_circle` | S+ | `cg_ending_full_circle` | `gangnam_penthouse` | P0 완료. 아버지는 전화 상대이며 방 안에 중복 등장하지 않음 |
+| `gangnam_dream_white` | S+ | `cg_ending_gangnam_dream_white` | `gangnam_night` | P0 완료. 일반 강남 CG와 공유하지 않는 전용 White 컷 |
+| `second_love` | A+ | `cg_ending_second_love` | `gangnam_night` | P0 완료. 두 번째 커피 동작으로 관계를 결산 |
+| `guardian` | A+ | `cg_ending_guardian` | `hospital` | P0 완료. 기존 병실 방문 CG와 구분되는 퇴원 컷 |
 | `gambling_recovery` | B | 없음 | `goshiwon_room` | P1 신규 CG 후보. 도박 아크 결산 |
 | `career_climber` | A | 없음 | `office` | P2 신규 CG 후보 |
 | `career_burnout` | B | 없음 | `ktx_window` | P3. `burnout` 실패 연출과 구분 필요 |
-| `sangchul_reckoning` | B | 없음 | `cafe` | P0 신규 CG 필요. 상철/아버지 진실 청산 핵심 |
+| `sangchul_reckoning` | B | `cg_ending_sangchul_reckoning` | `cafe` | P0 완료. 경찰/직접 청산 변주가 공유 가능한 통화 직후 컷 |
 | `writer` | A | 없음 | `library` | P2 신규 CG 후보 |
 
 ## 제작 우선순위
 
-### P0 — Next Fest/상점 스크린샷 후보
+### P0 — Next Fest/상점 스크린샷 후보 (8/8 완료, 2026-07-12)
 
 이 그룹은 데모 이후 기대감을 만들고, 리뷰어에게 "이 게임이 감정적으로 끝나는 게임"임을 보여주는 핵심 엔딩이다.
 
@@ -141,7 +149,7 @@ Updated: 2026-07-12
 3. `autoloads/ImageRegistry.gd`의 `CG`에 키를 추가한다.
 4. `content/endings.json`의 해당 엔딩에 `cg`를 추가한다.
 5. `tools/CGRuntimeCheck.gd`에 주요 CG 경로 검증을 추가한다.
-6. `ScreenshotQA --qa=surface-en`에서 영어 엔딩 화면을 캡처한다.
+6. `ScreenshotQA --qa=ending-p0 --lang=ko/en`에서 전용 CG와 첫 화면 크롭을 캡처한다.
 7. A/S 등급이 아니면 상점/트레일러/Next Fest 스크린샷에 사용하지 않는다.
 
 ## 오디오 우선순위
@@ -163,8 +171,8 @@ Updated: 2026-07-12
 - [x] `empty_house` 전용 CG 연결
 - [x] `crypto_ghost` 전용 CG 연결
 - [x] `gangnam_dream_white`의 일반 강남 CG 임시 공유 제거
-- [ ] `gangnam_dream_white` 전용 White CG 제작 후 연결
-- [ ] P0 신규 CG 8종 제작/보정/연결
+- [x] `gangnam_dream_white` 전용 White CG 제작 후 연결
+- [x] P0 신규 CG 8종 제작/보정/연결
 - [ ] P1 신규 CG 8종 제작/보정/연결
 - [ ] P2 엔딩은 CG보다 엔딩 카드/스팅/배경 정합성 먼저 보강
 - [ ] 엔딩 스팅 5종 제작 및 `AudioManager`/`BGMPlayer` 연결

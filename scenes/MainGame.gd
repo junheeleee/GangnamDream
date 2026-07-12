@@ -12509,7 +12509,24 @@ func _add_ending_art_preview(parent: Control, art_path: String, is_cg: bool = fa
 	img.clip_contents = true
 	img.set_meta("ending_art_preview", true)
 	if _moral_bg_material:
-		img.material = _moral_bg_material.duplicate(true)
+		var preview_material := _moral_bg_material.duplicate(true) as ShaderMaterial
+		if is_cg:
+			var black := clampf(-_moral_norm, 0.0, 1.0)
+			var white := clampf(_moral_norm, 0.0, 1.0)
+			# Final CGs must stay legible even when Black damages color and surface.
+			preview_material.set_shader_parameter("brightness", clampf(1.08 + black * 0.10 + white * 0.04, 1.02, 1.18))
+			preview_material.set_shader_parameter("mid_gamma", clampf(0.82 - black * 0.10 - white * 0.06, 0.68, 0.90))
+			var edge_burn: float = 0.08
+			var edge_burn_param = preview_material.get_shader_parameter("edge_burn")
+			if typeof(edge_burn_param) in [TYPE_FLOAT, TYPE_INT]:
+				edge_burn = edge_burn_param
+			var tint_amount: float = 0.0
+			var tint_amount_param = preview_material.get_shader_parameter("tint_amount")
+			if typeof(tint_amount_param) in [TYPE_FLOAT, TYPE_INT]:
+				tint_amount = tint_amount_param
+			preview_material.set_shader_parameter("edge_burn", edge_burn * 0.55)
+			preview_material.set_shader_parameter("tint_amount", tint_amount * 0.60)
+		img.material = preview_material
 	frame.add_child(img)
 
 func _add_ending_mood_card(parent: Control, ending: Dictionary, ending_id: String) -> void:

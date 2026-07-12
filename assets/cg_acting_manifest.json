@@ -295,6 +295,74 @@
       "actors": [
         {"id": "jiyeon", "gaze_target": "Minjun at the player camera", "pose_support": "Her pupils and face meet the player POV while one visible hand pulls the duvet to her nose and the other remains hidden."}
       ]
+    },
+    "cg_ending_full_circle": {
+      "path": "assets/cg/ending_full_circle_v1.png",
+      "camera_role": "observational_window_three_quarter",
+      "story_action": "In the newly occupied Gangnam room, Minjun tells Father by phone that Sangchul's debt is finally gone.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The ordinary daylight beyond the phone call", "pose_support": "The phone stays at his ear while wet eyes, lowered shoulders, and a quiet three-quarter profile carry relief without looking into the lens."}
+      ]
+    },
+    "cg_ending_gangnam_dream_white": {
+      "path": "assets/cg/ending_gangnam_dream_white_v1.png",
+      "camera_role": "observational_window_wide",
+      "story_action": "Minjun holds the blank deed folder in clear morning light and recognizes the person who reached Gangnam without crossing the line.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "His own faint window reflection", "pose_support": "His body remains open to the city while the cream folder rests at his side and his turned face meets the reflection rather than the camera."}
+      ]
+    },
+    "cg_ending_with_daeun": {
+      "path": "assets/cg/ending_with_daeun_v1.png",
+      "camera_role": "intimate_domestic_two_shot",
+      "story_action": "Two cooling bowls of ramyeon make the modest outer-Seoul home a shared destination rather than a failed one.",
+      "actors": [
+        {"id": "daeun", "gaze_target": "Minjun across the small table", "pose_support": "Her eyes, small smile, raised chopsticks, and near-touching free hand all turn screen-right toward him."},
+        {"id": "minjun", "gaze_target": "Daeun's eyes", "pose_support": "His face and shoulders turn screen-left while his relaxed hand remains beside hers between the two bowls."}
+      ]
+    },
+    "cg_ending_second_love": {
+      "path": "assets/cg/ending_second_love_v1.png",
+      "camera_role": "shared_room_wide",
+      "story_action": "Daeun asks what comes next at the Gangnam window while Minjun answers by making a second cup of coffee.",
+      "actors": [
+        {"id": "daeun", "gaze_target": "Minjun at the coffee counter", "pose_support": "She turns over her shoulder from the window with one mug held low, keeping the night view and his action on one axis."},
+        {"id": "minjun", "gaze_target": "Daeun beside the window", "pose_support": "His eyes turn screen-left toward her while both hands continue the coherent pour-over action above the second mug."}
+      ]
+    },
+    "cg_ending_jiyeon_man": {
+      "path": "assets/cg/ending_jiyeon_man_v1.png",
+      "camera_role": "off_axis_mirror_observer",
+      "story_action": "Jiyeon joins Minjun at the mirror, leaving the same reflected pair readable as intimacy or self-erasure through prose and Moral Tint.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "His own reflected eyes", "pose_support": "His real back and matching reflection both stay screen-left with the same level shoulders, upright head, square torso, and straight lowered arms; every hand is hidden below the vanity crop while the reflected face holds a restrained, deliberately ambiguous smile."},
+        {"id": "jiyeon", "gaze_target": "Minjun's reflection", "pose_support": "Her real back and matching reflection both stay screen-right with the same level shoulders, upright head, square torso, and straight lowered arms; every hand is hidden below the vanity crop while her reflected eyes angle toward Minjun without lens contact."}
+      ]
+    },
+    "cg_ending_guardian": {
+      "path": "assets/cg/ending_guardian_v1.png",
+      "camera_role": "observational_walking_two_shot",
+      "story_action": "Father and Minjun leave the modest Changwon hospital together after the second life Minjun chose to protect.",
+      "actors": [
+        {"id": "father", "gaze_target": "Minjun walking beside him", "pose_support": "His tired face and torso turn screen-right toward his son while his stride remains independent and alive."},
+        {"id": "minjun", "gaze_target": "Father's face", "pose_support": "His head turns screen-left while one hand carries the single duffel and the other arm holds Father's folded jacket."}
+      ]
+    },
+    "cg_ending_jaehyuk_way": {
+      "path": "assets/cg/ending_jaehyuk_way_v1.png",
+      "camera_role": "distant_rear_three_quarter",
+      "story_action": "Alone in the Gangnam apartment, Minjun rests one hand on the half-drawn curtain between the city he bought and the room he emptied.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The remaining strip of city beyond the curtain", "pose_support": "His back dominates the frame while one clear hand stops on the curtain and a narrow profile avoids both triumph and lens contact."}
+      ]
+    },
+    "cg_ending_sangchul_reckoning": {
+      "path": "assets/cg/ending_sangchul_reckoning_v1.png",
+      "camera_role": "observational_room_three_quarter",
+      "story_action": "After the call to Father, Minjun lowers the phone beside blank papers and lets the open window turn Gangnam back into ordinary sky.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The open night air", "pose_support": "The lowered phone, still writing hand beside the pen, released shoulders, and side profile all point away from the lens toward the open window."}
+      ]
     }
   }
 }

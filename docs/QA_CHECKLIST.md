@@ -37,12 +37,13 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Commitment scenes: Daeun proposal prelude→accepted delayed CG/no-CG delay branch, exclusive small/full wedding choice persistence, legacy small fallback, and Jiyeon pre-decision class-gap framing | `--qa=commitment --lang=ko/en` |
 | First snow: December-only store/car prelude→paragraph-1 CG, winter outfits, exactly two cans, left-driver/right-passenger seating, resting wipers, gaze and KO/EN crop | `--qa=first-snow --lang=ko/en` |
 | Climate portraits: monsoon rain shell, heatwave short sleeves/cooling towel, cold-snap parka/scarf and dedicated frozen street | `--qa=climate --lang=ko/en` |
-| Event visual contracts: seasonal Minjun clothing, rainy room/street split, player-facing wallet bus-stop bench, visible bungeoppang cart, full-scene Seollal bow CG, year-close wardrobe, father phone location, split cafe identities/name tags/paragraph reveal, choice-result location/ambience, and flag-dependent character stages | `--qa=event-visuals --lang=ko/en` |
+| Event visual contracts: seasonal Minjun clothing, rainy room/street split, road-facing wallet bus-stop bench, visible bungeoppang cart, full-scene Seollal bow CG, year-close wardrobe, father phone location, split cafe identities/name tags/paragraph reveal, choice-result location/ambience, and flag-dependent character stages | `--qa=event-visuals --lang=ko/en` |
 | Main AP full-height in-world stills, Seoul Trace visited/locked nodes, warning state, people pressure grind hints, routine/date, Work/Money/Self-Dev/People/Life modals, four-scene gambling selector, market/info/keepsake surfaces | `--qa=ap-en --lang=ko/en` |
 | AP Act 1~5 2x2 decision board, actual KRW 500K first-month horizon, post-first-interview `Keep Applying`, action-commit overlay, Seoul Trace restoration, no-scroll special-action row, ACT4 relationship pressure modal | `--qa=ap-act-en` |
 | Investment modal Trade/Holdings/Market movers/Bank pages | `--qa=invest-en` |
 | Demo month summary, demo ending CTA, 6-month Time Ledger card | `--qa=demo-end-en` |
-| Ending modals, graded ending CG/card surface, White no-CG fallback, final Time Ledger card | `--qa=endings-en` |
+| P0 final-life endings: eight exact CG owners, 950x430 crop, Jiyeon mirror with identical real/reflected order and pose, White/Deep Black readability, and KO/EN first viewport | `--qa=ending-p0 --lang=ko/en` |
+| Representative ending modals, graded CG/card surface, fallback mood cards, and final Time Ledger card | `--qa=endings-en` |
 | Title collection and meta-title reward surface | `--qa=title-en` |
 | Tutorial overlay surface and onboarding copy | `--qa=tutorial-en` |
 | Job hunt/career modal tier pages and resume/interview minigame surface | `--qa=job-en` |
@@ -102,7 +103,7 @@ Automated audio gates:
 - `FlashforwardVisualCheck.tscn` passes scene-local Black override, persistent tint safety, semantic background, HUD/portrait treatment, and Gray follow-up restore.
 
 ## Ending Art
-- `CGRuntimeCheck.tscn` passes all ending CG paths, minimum 1280×720 dimensions, unique ownership, and Gangnam Ink preview grading.
+- `CGRuntimeCheck.tscn` passes all ending CG paths, minimum 1280×720 dimensions, unique ownership, Gangnam Ink preview grading, and the ending-CG shadow-legibility grade.
 - `CGRuntimeCheck.tscn` also passes all story CG paths, unique event ownership, exact 1280×800 romance dimensions, paragraph reveal timing, paragraph-specific background order, hidden portraits, and hidden HUD.
 - First-snow runtime checks also prove December-only routing and correct person-free prelude background/portrait before each delayed CG.
 - An ending without a dedicated CG uses its moral mood card; it never borrows another ending's image.

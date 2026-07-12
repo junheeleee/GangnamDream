@@ -290,6 +290,37 @@ sips -z 768 512
 
 ---
 
+## 2026-07-12 P0 final-life ending CG package
+
+All eight images were produced with Codex built-in ImageGen. `assets/ENDING_P0_VISUAL_BIBLE.md` is the exact scene/crop contract; the common final prompt prefix was:
+
+```text
+Create a 1280x800 final-life ending CG in Gangnam Dream's cinematic 2D Korean manhwa / Japanese visual-novel language: believable Korean adult anatomy, controlled linework, painterly cel shading, matte paper grain, restrained contrast, practical Korean architecture, and a charcoal/concrete-gray base with scene-specific natural color. Preserve the canonical recurring identities. Keep every face, gaze target, meaningful hand, and story prop inside the central vertical 72% for the 950x430 ending preview. No text, logo, watermark, brand, invented named person, DSLR photorealism, or glossy 3D render.
+```
+
+Final shot prompts and built-in source outputs:
+
+- `assets/cg/ending_full_circle_v1.png` — `exec-b0f13b8d-2075-4bb8-b087-a5a08fb32ec6.png`. Newly occupied Gangnam room in clear daylight; Minjun holds one phone to his ear after telling Father Sangchul's debt is cleared; one moving box and one blank envelope remain secondary. Father is audio-only.
+- `assets/cg/ending_gangnam_dream_white_v1.png` — `exec-d2e5bbf5-70ab-44f0-83e3-60b3209de139.png`. Clear morning window; Minjun holds a blank cream deed folder and quietly meets one faint physically coherent reflection. Relief, not conquest.
+- `assets/cg/ending_with_daeun_v1.png` — `exec-24db2176-799d-4a80-b4a7-923a5b549e3a.png`. Modest outer-Seoul home; exactly two ramyeon bowls, two chopstick sets, and two water cups; Daeun and Minjun share mutual eye contact and near-touching hands. Rings hidden by angle.
+- `assets/cg/ending_second_love_v1.png` — `exec-379fc274-9d3e-4f01-acea-e3da97276af1.png`. Gangnam night window and compact coffee counter on one axis; Daeun holds one mug and turns toward Minjun while he prepares the second mug with coherent pour-over hands.
+- `assets/cg/ending_jiyeon_man_v1.png` — `exec-87994c38-c7a8-452d-a0a5-40d1a51215c2.png`. Off-axis mirror observer. Real Minjun is screen-left and real Jiyeon screen-right; their reflections preserve the same horizontal order, because a mirror reverses depth rather than swapping actors. Both actors and reflections share the same upright shoulders, square torsos, straight lowered arms, and fully hidden hands. Exactly two real people plus two reflections. `exec-9e721768-f952-406a-9554-4ecf4225873a.png` was rejected for horizontally swapping the reflected pair; `exec-0ebad28c-6535-4608-b8a0-7cae533b8efa.png` fixed the order but was rejected because the real and reflected arm poses differed.
+- `assets/cg/ending_guardian_v1.png` — `exec-85c50d6a-c635-4b5c-980d-ff17cb835e9c.png`. Modest Changwon hospital discharge exterior; Father walks independently and looks at Minjun while Minjun carries one duffel and one folded jacket.
+- `assets/cg/ending_jaehyuk_way_v1.png` — `exec-44a82c54-9458-453e-8060-b2b59c22d745.png`. Expensive empty Gangnam room at night; Minjun's narrow profile and one clear hand stop on a half-drawn curtain while the city remains partly visible.
+- `assets/cg/ending_sangchul_reckoning_v1.png` — `exec-e2eb0ad5-4673-4c53-b1d7-3e57a0e17a51.png`. Modest room at blue hour; visibly open window, lowered phone, still writing hand, blank papers, and one pen. No police form or guaranteed police location.
+
+Post-processing:
+
+```text
+All sources: center crop 1586x992 -> 1584x990, then resample to 1280x800.
+Jaehyuk source exposure: RGB gamma 0.68, contrast 0.93, brightness 1.06.
+Sangchul source exposure: RGB gamma 0.74, contrast 0.95, brightness 1.04.
+```
+
+The two exposure lifts preserve every pixel position and exist only so Deep Black/White runtime grading can damage or recover the print without hiding faces, hands, the curtain, open window, or documents. KO/EN `--qa=ending-p0` owns the final modal crop and exact-texture gate.
+
+---
+
 ## 2026-07-12 strict 이벤트 비주얼 부채 0 패스
 
 세 자산은 Codex 내장 ImageGen으로 제작했다. 외부 사진은 사용하지 않았고, 설날 CG만 프로젝트의 정본 배경/인물 파일을 입력 레퍼런스로 사용했다. 최종 출력은 중앙 1536x960 크롭 후 1280x800 PNG로 정규화했다.

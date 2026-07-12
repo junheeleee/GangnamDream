@@ -66,6 +66,7 @@ const QA_SCOPE_EVENT_VISUALS := "event_visuals"
 const QA_SCOPE_AP_EN := "ap_en"
 const QA_SCOPE_AP_ACT_EN := "ap_act_en"
 const QA_SCOPE_ENDINGS_EN := "endings_en"
+const QA_SCOPE_ENDING_P0 := "ending_p0"
 const QA_SCOPE_DEMO_END_EN := "demo_end_en"
 const QA_SCOPE_TITLE_EN := "title_en"
 const QA_SCOPE_TUTORIAL_EN := "tutorial_en"
@@ -234,6 +235,12 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_ending_suite(lang, "ending_en_" if lang == "en" else "ending_ko_")
 		print("SCREENSHOT_QA_DONE scope=endings-en lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_ENDING_P0:
+		var lang := _qa_language("en")
+		await _shot_ending_p0_surfaces(lang, "ending_p0_en_" if lang == "en" else "ending_p0_ko_")
+		print("SCREENSHOT_QA_DONE scope=ending-p0 lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_DEMO_END_EN:
@@ -424,6 +431,10 @@ func _qa_scope() -> String:
 				"qa=endings-en", "--qa=endings-en", "qa=endings_en", "--qa=endings_en",
 				"qa=ending-en", "--qa=ending-en", "scope=endings-en", "--scope=endings-en"]:
 			return QA_SCOPE_ENDINGS_EN
+		if arg in ["ending-p0", "ending_p0", "endings-p0", "endings_p0", "--ending-p0", "--ending_p0",
+				"qa=ending-p0", "--qa=ending-p0", "qa=ending_p0", "--qa=ending_p0",
+				"scope=ending-p0", "--scope=ending-p0", "scope=ending_p0", "--scope=ending_p0"]:
+			return QA_SCOPE_ENDING_P0
 		if arg in ["demo-end-en", "demo_end_en", "demo-ending-en", "demo_ending_en", "--demo-end-en",
 				"qa=demo-end-en", "--qa=demo-end-en", "qa=demo_end_en", "--qa=demo_end_en",
 				"scope=demo-end-en", "--scope=demo-end-en"]:
@@ -2147,6 +2158,24 @@ func _shot_ending_suite(lang: String = "en", prefix: String = "ending_en_") -> v
 	await _shot_ending("crypto_ghost", prefix + "16_ending_crypto_ghost")
 	await _shot_ending("orthodox_pinnacle", prefix + "17_ending_orthodox_pinnacle")
 
+func _shot_ending_p0_surfaces(lang: String, prefix: String) -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	_seed_portfolio()
+	await _boot_main_game()
+	var targets := [
+		["full_circle", "cg_ending_full_circle", "01_full_circle"],
+		["gangnam_dream_white", "cg_ending_gangnam_dream_white", "02_gangnam_white"],
+		["with_daeun", "cg_ending_with_daeun", "03_with_daeun"],
+		["second_love", "cg_ending_second_love", "04_second_love"],
+		["jiyeon_man", "cg_ending_jiyeon_man", "05_jiyeon_man"],
+		["guardian", "cg_ending_guardian", "06_guardian"],
+		["jaehyuk_way", "cg_ending_jaehyuk_way", "07_jaehyuk_way"],
+		["sangchul_reckoning", "cg_ending_sangchul_reckoning", "08_sangchul_reckoning"],
+	]
+	for target in targets:
+		await _shot_p0_ending(str(target[0]), str(target[1]), prefix + str(target[2]))
+
 func _shot_surface_en() -> void:
 	var prefix := "surface_en_"
 	await _shot_splash_screen("en", prefix + "00_splash")
@@ -2904,6 +2933,40 @@ func _shot_ending(ending_id: String, shot_name: String) -> void:
 			await _save(shot_name + "_time_ledger")
 		await _settle(0.3)
 
+func _shot_p0_ending(ending_id: String, cg_id: String, shot_name: String) -> void:
+	if not _mg.has_method("_show_ending"):
+		_fail("MainGame cannot show P0 ending %s" % ending_id)
+		return
+	_seed_ending_state(ending_id)
+	_mg._show_ending(ending_id)
+	await _settle(1.0)
+	var expected_path := ImageRegistry.get_cg(cg_id)
+	var preview := _find_ending_art_preview(_mg)
+	if expected_path.is_empty():
+		_fail("P0 ending %s references missing CG id %s" % [ending_id, cg_id])
+		return
+	if preview == null or preview.texture == null:
+		_fail("P0 ending %s has no ending_art_preview texture" % ending_id)
+		return
+	if preview.texture.resource_path != expected_path:
+		_fail("P0 ending %s preview mismatch: expected %s, got %s" % [
+			ending_id, expected_path, preview.texture.resource_path])
+		return
+	if preview.custom_minimum_size.y < 430.0:
+		_fail("P0 ending %s preview crop contract fell below 430px" % ending_id)
+		return
+	await _save(shot_name)
+	await _settle(0.3)
+
+func _find_ending_art_preview(node: Node) -> TextureRect:
+	if node is TextureRect and node.has_meta("ending_art_preview"):
+		return node as TextureRect
+	for child in node.get_children():
+		var found := _find_ending_art_preview(child)
+		if found != null:
+			return found
+	return null
+
 func _focus_modal_qa_surface(surface_id: String) -> bool:
 	if not is_instance_valid(_mg):
 		return false
@@ -2947,6 +3010,11 @@ func _seed_ending_state(ending_id: String) -> void:
 	GameState.last_contact_turn = {"daeun": 217}
 	GameState.housing = "apartment"
 	GameState.current_job = {"name":("Office Worker" if LocaleManager.is_english() else "사무직"), "base_salary": 2_240_000.0, "tier": 2}
+	for flag in ["daeun_romance_started", "daeun_married", "daeun_final_together",
+			"jiyeon_romance_started", "jiyeon_kept_by_diminishing", "crossed_line",
+			"sangchul_used_fully", "sangchul_reported", "cleared_father_debt_from_sangchul",
+			"father_reconciled", "father_passed"]:
+		GameState.flags.erase(flag)
 	match ending_id:
 		"gangnam_dream", "gangnam_dream_white", "full_circle":
 			GameState.money = 3_180_000_000.0
@@ -2956,7 +3024,7 @@ func _seed_ending_state(ending_id: String) -> void:
 			GameState.reputation = 88
 			GameState.route_orthodox = 18
 			GameState.route_unorthodox = 9
-			GameState.moral_tint = 72.0 if ending_id == "gangnam_dream_white" else 24.0
+			GameState.moral_tint = 72.0 if ending_id == "gangnam_dream_white" else (48.0 if ending_id == "full_circle" else 24.0)
 			GameState.money_weeks_total = 146
 			GameState.human_weeks_total = 88
 			GameState.contact_counts = {"daeun": 19}
@@ -2975,6 +3043,59 @@ func _seed_ending_state(ending_id: String) -> void:
 			GameState.grind_streak_weeks = 11
 			GameState.contact_counts = {"daeun": 0}
 			GameState.last_contact_turn = {"daeun": 106}
+		"with_daeun":
+			GameState.money = 180_000_000.0
+			GameState.housing = "villa"
+			GameState.health = 68
+			GameState.mental = 76
+			GameState.reputation = 46
+			GameState.moral_tint = 34.0
+			GameState.money_weeks_total = 123
+			GameState.human_weeks_total = 105
+			GameState.contact_counts = {"daeun": 28}
+			GameState.last_contact_turn = {"daeun": 240}
+		"second_love":
+			GameState.money = 1_350_000_000.0
+			GameState.housing = "gangnam"
+			GameState.health = 73
+			GameState.mental = 79
+			GameState.reputation = 70
+			GameState.moral_tint = 46.0
+			GameState.money_weeks_total = 139
+			GameState.human_weeks_total = 101
+			GameState.contact_counts = {"daeun": 31}
+			GameState.last_contact_turn = {"daeun": 240}
+		"jiyeon_man":
+			GameState.money = 3_050_000_000.0
+			GameState.housing = "gangnam"
+			GameState.health = 58
+			GameState.mental = 43
+			GameState.reputation = 82
+			GameState.moral_tint = -42.0
+			GameState.money_weeks_total = 181
+			GameState.human_weeks_total = 45
+			GameState.contact_counts = {"jiyeon": 30}
+			GameState.last_contact_turn = {"jiyeon": 240}
+		"guardian":
+			GameState.money = 240_000_000.0
+			GameState.health = 78
+			GameState.mental = 82
+			GameState.reputation = 57
+			GameState.moral_tint = 52.0
+			GameState.money_weeks_total = 112
+			GameState.human_weeks_total = 118
+			GameState.contact_counts = {"father": 26}
+			GameState.last_contact_turn = {"father": 240}
+		"sangchul_reckoning":
+			GameState.money = 180_000_000.0
+			GameState.health = 64
+			GameState.mental = 71
+			GameState.reputation = 60
+			GameState.moral_tint = 38.0
+			GameState.money_weeks_total = 132
+			GameState.human_weeks_total = 92
+			GameState.contact_counts = {"father": 18}
+			GameState.last_contact_turn = {"father": 239}
 		"bankruptcy", "debt_spiral":
 			GameState.money = -118_000_000.0
 			GameState.housing = "gosiwon"
@@ -3027,6 +3148,27 @@ func _seed_ending_state(ending_id: String) -> void:
 			GameState.current_job = {"name":("Major Corporation Manager" if LocaleManager.is_english() else "대기업 관리자"), "base_salary": 7_200_000.0, "tier": 4}
 		_:
 			GameState.money = 180_000_000.0
+	match ending_id:
+		"full_circle":
+			GameState.flags["cleared_father_debt_from_sangchul"] = true
+			GameState.flags["father_reconciled"] = true
+		"with_daeun":
+			GameState.flags["daeun_romance_started"] = true
+			GameState.flags["daeun_married"] = true
+		"second_love":
+			GameState.flags["daeun_romance_started"] = true
+			GameState.flags["daeun_final_together"] = true
+		"jiyeon_man":
+			GameState.flags["jiyeon_romance_started"] = true
+			GameState.flags["jiyeon_kept_by_diminishing"] = true
+		"guardian":
+			GameState.flags["father_reconciled"] = true
+		"jaehyuk_way":
+			GameState.flags["crossed_line"] = true
+			GameState.flags["sangchul_used_fully"] = true
+		"sangchul_reckoning":
+			GameState.flags["sangchul_reported"] = true
+			GameState.flags["father_reconciled"] = true
 	if is_instance_valid(_mg) and _mg.has_method("_apply_moral_visuals"):
 		_mg._apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
 	if is_instance_valid(_mg) and _mg.has_method("_render_sidebars"):

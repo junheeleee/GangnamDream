@@ -20,6 +20,7 @@ Updated on 2026-07-12 for Hyunsu's Seoul terminal result and route-dependent acc
 Updated on 2026-07-12 for the separate cafe folder-owner and Manager Kim portrait identities across first meeting and callbacks.
 Updated on 2026-07-12 for the player-facing wallet bus-stop bench, winter bungeoppang cart, and canonical Changwon Seollal bow CG.
 Updated on 2026-07-12 for Daeun's choice-gated proposal and small/full wedding variants plus Jiyeon's pre-decision wedding-scale negotiation CG.
+Updated on 2026-07-12 for eight final-life P0 ending CGs, physically correct Jiyeon mirror geometry, and ending-preview Moral legibility.
 
 ## Use These Assets
 
@@ -569,6 +570,30 @@ Updated on 2026-07-12 for Daeun's choice-gated proposal and small/full wedding v
 
 - `assets/cg/ending_crypto_ghost.png`
   - Crypto Ghost ending CG: cramped late-night trading den, abstract chart light, phone in hand, cluttered desk, and exhausted Minjun.
+
+- `assets/cg/ending_full_circle_v1.png`
+  - `full_circle` only. Newly occupied Gangnam room; Minjun tells Father by phone that Sangchul's debt is cleared. Father is not physically present.
+
+- `assets/cg/ending_gangnam_dream_white_v1.png`
+  - `gangnam_dream_white` only. Clear morning, blank deed folder, and one calm self-reflection; never share the ordinary Gangnam ending CG.
+
+- `assets/cg/ending_with_daeun_v1.png`
+  - `with_daeun` only. Two bowls of ramyeon in a modest outer-Seoul home. Rings remain hidden so married and unmarried prose variants stay valid.
+
+- `assets/cg/ending_second_love_v1.png`
+  - `second_love` only. Daeun turns from the Gangnam night window while Minjun prepares the second of exactly two mugs.
+
+- `assets/cg/ending_jiyeon_man_v1.png`
+  - `jiyeon_man` only. Off-axis observer mirror shot: Minjun remains screen-left and Jiyeon screen-right in both reality and reflection. Both real/reflected pairs share one upright, arms-down pose and all hands stay below the vanity crop. A horizontal actor swap or independently posed reflection is a failed mirror.
+
+- `assets/cg/ending_guardian_v1.png`
+  - `guardian` only. Father walks out of a modest Changwon hospital while Minjun carries one duffel and a folded jacket; no bed or wheelchair.
+
+- `assets/cg/ending_jaehyuk_way_v1.png`
+  - `jaehyuk_way` only. Minjun holds a half-drawn curtain in an expensive empty room. Source midtones are lifted so Deep Black damages the print without hiding the action.
+
+- `assets/cg/ending_sangchul_reckoning_v1.png`
+  - `sangchul_reckoning` only. Lowered phone, open window, blank papers, and one pen support both police-statement and direct-settlement prose variants.
   - Use only for `crypto_ghost`; charts must stay abstract with no readable exchange text or real crypto logos.
 
 - `assets/cg/jaehyuk_reveal.png`

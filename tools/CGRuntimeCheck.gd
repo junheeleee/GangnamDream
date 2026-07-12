@@ -582,6 +582,14 @@ func _check_ending_cg() -> void:
 	_check_ending_cg_path(main, "gangnam_dream", "cg_ending_gangnam_dream")
 	_check_ending_cg_path(main, "empty_house", "cg_ending_empty_house")
 	_check_ending_cg_path(main, "crypto_ghost", "cg_ending_crypto_ghost")
+	_check_ending_cg_path(main, "full_circle", "cg_ending_full_circle")
+	_check_ending_cg_path(main, "gangnam_dream_white", "cg_ending_gangnam_dream_white")
+	_check_ending_cg_path(main, "with_daeun", "cg_ending_with_daeun")
+	_check_ending_cg_path(main, "second_love", "cg_ending_second_love")
+	_check_ending_cg_path(main, "jiyeon_man", "cg_ending_jiyeon_man")
+	_check_ending_cg_path(main, "guardian", "cg_ending_guardian")
+	_check_ending_cg_path(main, "jaehyuk_way", "cg_ending_jaehyuk_way")
+	_check_ending_cg_path(main, "sangchul_reckoning", "cg_ending_sangchul_reckoning")
 	_check_all_ending_cg_contracts(main)
 
 	var preview_parent := VBoxContainer.new()
@@ -599,6 +607,8 @@ func _check_ending_cg() -> void:
 		var preview_material := preview.material as ShaderMaterial
 		if preview_material.shader == null or preview_material.shader.resource_path != "res://assets/shaders/background_grade.gdshader":
 			_failures.append("MainGame ending preview uses the wrong grading shader")
+		elif preview_material.get_shader_parameter("mid_gamma") > 0.90:
+			_failures.append("MainGame ending CG preview lost its shadow-legibility grade")
 
 	remove_child(preview_parent)
 	preview_parent.queue_free()
@@ -639,8 +649,8 @@ func _check_all_ending_cg_contracts(main: Node) -> void:
 		if texture == null or texture.get_width() < 1280 or texture.get_height() < 720:
 			_failures.append("%s ending cg must be at least 1280x720: %s" % [ending_id, path])
 	var white_ending: Dictionary = EndingSystem.get_ending("gangnam_dream_white")
-	if not str(white_ending.get("cg", "")).is_empty():
-		_failures.append("gangnam_dream_white must use its own future cg, never a shared placeholder")
+	if str(white_ending.get("cg", "")) != "cg_ending_gangnam_dream_white":
+		_failures.append("gangnam_dream_white must own cg_ending_gangnam_dream_white")
 
 func _find_texture_rect_with_path(node: Node, path: String) -> TextureRect:
 	if node is TextureRect:
