@@ -120,12 +120,23 @@ const UI_MIN_BUTTON_HEIGHT := 46
 const UI_MIN_SMALL_BUTTON_HEIGHT := 38
 const UI_FOCUS_BORDER := 3
 const UI_INFO_PANEL_WIDTH := 440
-const ACTION_CORE_ATLAS_PATH := "res://assets/ui/action_tiles/action_core_atlas.png"
-const ACTION_CORE_ATLAS_REGIONS := {
-	"job": Rect2(0, 0, 512, 512),
-	"money": Rect2(512, 0, 512, 512),
-	"study": Rect2(0, 512, 512, 512),
-	"rest": Rect2(512, 512, 512, 512),
+const ACTION_ILLUSTRATION_DATA := {
+	"job": ["res://assets/ui/action_tiles/action_core_atlas.png", Rect2(0, 0, 512, 512)],
+	"money": ["res://assets/ui/action_tiles/action_core_atlas.png", Rect2(512, 0, 512, 512)],
+	"study": ["res://assets/ui/action_tiles/action_core_atlas.png", Rect2(0, 512, 512, 512)],
+	"rest": ["res://assets/ui/action_tiles/action_core_atlas.png", Rect2(512, 512, 512, 512)],
+	"resume": ["res://assets/ui/action_tiles/action_career_money_atlas.png", Rect2(0, 0, 512, 512)],
+	"interview": ["res://assets/ui/action_tiles/action_career_money_atlas.png", Rect2(512, 0, 512, 512)],
+	"side_job": ["res://assets/ui/action_tiles/action_career_money_atlas.png", Rect2(0, 512, 512, 512)],
+	"saving": ["res://assets/ui/action_tiles/action_career_money_atlas.png", Rect2(512, 512, 512, 512)],
+	"market": ["res://assets/ui/action_tiles/action_advanced_atlas.png", Rect2(0, 0, 512, 512)],
+	"startup": ["res://assets/ui/action_tiles/action_advanced_atlas.png", Rect2(512, 0, 512, 512)],
+	"content": ["res://assets/ui/action_tiles/action_advanced_atlas.png", Rect2(0, 512, 512, 512)],
+	"housing": ["res://assets/ui/action_tiles/action_advanced_atlas.png", Rect2(512, 512, 512, 512)],
+	"reading": ["res://assets/ui/action_tiles/action_study_atlas.png", Rect2(0, 0, 512, 512)],
+	"exercise": ["res://assets/ui/action_tiles/action_study_atlas.png", Rect2(512, 0, 512, 512)],
+	"meditation": ["res://assets/ui/action_tiles/action_study_atlas.png", Rect2(0, 512, 512, 512)],
+	"invest_study": ["res://assets/ui/action_tiles/action_study_atlas.png", Rect2(512, 512, 512, 512)],
 }
 
 const BG_PATHS = {
@@ -6907,8 +6918,8 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 			rail_num.add_theme_font_override("font", _font_bold)
 		rail_col.add_child(rail_num)
 
-	var is_core_illustration := art_thumb is AtlasTexture
-	var thumb_size := Vector2(76, 48) if is_core_illustration else Vector2(42, 42)
+	var is_action_illustration := art_thumb is AtlasTexture
+	var thumb_size := Vector2(76, 48) if is_action_illustration else Vector2(42, 42)
 	var icon_box := PanelContainer.new()
 	icon_box.set_meta("moral_role", "choice_icon")
 	icon_box.set_meta("moral_accent", accent if not disabled else "#343446")
@@ -6918,8 +6929,8 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	var icon_style := StyleBoxFlat.new()
 	icon_style.bg_color = Color("#05070a", 0.96) if art_thumb != null else Color(accent, 0.20 if not disabled else 0.06)
 	icon_style.border_color = accent_color
-	icon_style.set_border_width_all(1 if is_core_illustration or disabled else 2)
-	icon_style.set_corner_radius_all(2 if is_core_illustration else 3)
+	icon_style.set_border_width_all(1 if is_action_illustration or disabled else 2)
+	icon_style.set_corner_radius_all(2 if is_action_illustration else 3)
 	icon_box.add_theme_stylebox_override("panel", icon_style)
 	row.add_child(icon_box)
 
@@ -6932,8 +6943,8 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 		art_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		art_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 		art_tex.texture = art_thumb
-		art_tex.modulate = Color(1, 1, 1, 0.92 if not disabled else 0.28)
-		if is_core_illustration and _moral_bg_material:
+		art_tex.modulate = Color.WHITE if is_action_illustration and not disabled else Color(1, 1, 1, 0.92 if not disabled else 0.28)
+		if is_action_illustration and _moral_bg_material:
 			art_tex.material = _moral_bg_material
 		icon_box.add_child(art_tex)
 	else:
@@ -7272,23 +7283,39 @@ func _action_thumb_path(fn: String, icon_id: String = "") -> String:
 			return "res://assets/ui/action_tiles/action_ap.svg"
 
 func _action_thumb_texture(fn: String, icon_id: String = "") -> Texture2D:
-	var core_key := _core_action_tile_key(fn, icon_id)
-	if not core_key.is_empty():
-		var core_texture := _core_action_tile_texture(core_key)
-		if core_texture != null:
-			return core_texture
+	var illustration_key := _action_illustration_key(fn, icon_id)
+	if not illustration_key.is_empty():
+		var illustration := _action_illustration_texture(illustration_key)
+		if illustration != null:
+			return illustration
 	return _load_art_thumb(_action_thumb_path(fn, icon_id))
 
-func _core_action_tile_key(fn: String, icon_id: String) -> String:
+func _action_illustration_key(fn: String, icon_id: String) -> String:
 	match fn:
 		"_open_cat_work", "_ap_job_hunt":
 			return "job"
+		"_ap_write_resume":
+			return "resume"
+		"_ap_interview_prep":
+			return "interview"
+		"_ap_startup_work":
+			return "startup"
+		"_ap_create_content":
+			return "content"
 		"_open_cat_money", "_ap_invest":
 			return "money"
+		"_ap_market_analysis":
+			return "market"
+		"_ap_side_job":
+			return "side_job"
+		"_ap_save_money":
+			return "saving"
 		"_ap_study":
 			return "study"
 		"_ap_free_time":
 			return "rest"
+		"_ap_move_housing":
+			return "housing"
 	# Dedicated scene art must not be repeated across unrelated submenu actions.
 	# The icon fallback is only for callers that genuinely have no action function.
 	if fn.is_empty():
@@ -7303,18 +7330,21 @@ func _core_action_tile_key(fn: String, icon_id: String) -> String:
 				return "rest"
 	return ""
 
-func _core_action_tile_texture(tile_key: String) -> Texture2D:
-	if not ACTION_CORE_ATLAS_REGIONS.has(tile_key):
+func _action_illustration_texture(tile_key: String) -> Texture2D:
+	if not ACTION_ILLUSTRATION_DATA.has(tile_key):
 		return null
-	var cache_key := "%s#%s" % [ACTION_CORE_ATLAS_PATH, tile_key]
+	var tile_data: Array = ACTION_ILLUSTRATION_DATA[tile_key]
+	var atlas_path := str(tile_data[0])
+	var atlas_region: Rect2 = tile_data[1]
+	var cache_key := "%s#%s" % [atlas_path, tile_key]
 	if _art_thumb_cache.has(cache_key):
 		return _art_thumb_cache[cache_key]
-	var source := _load_art_thumb(ACTION_CORE_ATLAS_PATH)
+	var source := _load_art_thumb(atlas_path)
 	if source == null:
 		return null
 	var atlas := AtlasTexture.new()
 	atlas.atlas = source
-	atlas.region = ACTION_CORE_ATLAS_REGIONS[tile_key]
+	atlas.region = atlas_region
 	_art_thumb_cache[cache_key] = atlas
 	return atlas
 
@@ -8170,18 +8200,21 @@ func _ap_study():
 	modal_body.add_child(_wrap_label(
 		_tr("이번 주, 무엇을 갈고닦을까.", "This week — what to sharpen."), 13, "#7a8496"))
 	var kinds := [
-		[0, _tr("독서", "Reading"), _tr("책 한 권만큼 넓어진다", "One book wider")],
-		[1, _tr("운동", "Exercise"), _tr("몸을 만든다 — 사람 쪽 시간", "Build the body — time for the self")],
-		[2, _tr("명상", "Meditation"), _tr("숨을 고르고 머리를 비운다", "Breathe and clear your head")],
-		[3, _tr("투자공부", "Invest Study"), _tr("돈이 되기 전의 눈을 만든다", "Train the eye before the money")],
+		[0, "reading", _tr("독서", "Reading"), _tr("책 한 권만큼 넓어진다", "One book wider")],
+		[1, "exercise", _tr("운동", "Exercise"), _tr("몸을 만든다 — 사람 쪽 시간", "Build the body — time for the self")],
+		[2, "meditation", _tr("명상", "Meditation"), _tr("숨을 고르고 머리를 비운다", "Breathe and clear your head")],
+		[3, "invest_study", _tr("투자공부", "Invest Study"), _tr("돈이 되기 전의 눈을 만든다", "Train the eye before the money")],
 	]
 	for entry in kinds:
 		var st: int = int(entry[0])
+		var illustration_key := str(entry[1])
 		var count: int = _study_count(st)
-		var sub: String = str(entry[2])
+		var sub: String = str(entry[3])
 		if count > 0:
 			sub += "  ·  " + _study_progress_label(st, count)
-		var btn := _make_essential_action_card(str(entry[1]), sub, "study", "#5a6ea8", false, false, "", "", null, "")
+		var btn := _make_essential_action_card(
+			str(entry[2]), sub, "study", "#5a6ea8", false, false, "", "",
+			_action_illustration_texture(illustration_key), "")
 		btn.custom_minimum_size = Vector2(0, 60)
 		btn.pressed.connect(func():
 			_close_modal()

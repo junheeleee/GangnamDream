@@ -1280,7 +1280,17 @@ func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> 
 	if _mg.has_method("_finish_typing"):
 		_mg._finish_typing()
 	await _settle(0.2)
+	var qa_job: Dictionary = GameState.current_job.duplicate(true)
+	var qa_income: float = GameState.monthly_income
+	GameState.current_job = {}
+	GameState.monthly_income = 0.0
+	await _shot_action_category_modal("_open_cat_work", prefix + "04g_work_modal")
+	GameState.current_job = qa_job
+	GameState.monthly_income = qa_income
+	GameState.investment_skill = 55
 	await _shot_action_category_modal("_open_cat_money", prefix + "04_money_modal")
+	GameState.action_points = GameState.max_action_points
+	await _shot_action_category_modal("_ap_study", prefix + "04h_study_modal")
 	if _mg.has_method("_open_investments"):
 		_mg.call("_open_investments")
 		await _settle(0.7)
@@ -1288,7 +1298,10 @@ func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> 
 		_close_modal()
 		await _settle(0.3)
 	await _shot_action_category_modal("_open_cat_people", prefix + "05_people_modal")
+	var qa_money: float = GameState.money
+	GameState.money = 100_000_000.0
 	await _shot_action_category_modal("_open_cat_life", prefix + "06_life_modal")
+	GameState.money = qa_money
 	await _shot_gift_picker(prefix)
 	await _shot_info_panel_tabs(lang, prefix)
 	await _shot_people(prefix)
@@ -1490,6 +1503,21 @@ func _assert_core_action_illustrations() -> void:
 	if atlas_count < 4:
 		_fail("AP shell loaded %d/4 dedicated core action illustrations." % atlas_count)
 		return
+
+func _assert_action_atlas_regions(atlas_path: String, minimum: int, context: String) -> void:
+	if _mg == null:
+		_fail("MainGame instance is unavailable for %s action-art regression." % context)
+		return
+	var regions := {}
+	for node in _mg.find_children("*", "TextureRect", true, false):
+		var texture_rect := node as TextureRect
+		if texture_rect == null or not (texture_rect.texture is AtlasTexture):
+			continue
+		var atlas_texture := texture_rect.texture as AtlasTexture
+		if atlas_texture.atlas != null and atlas_texture.atlas.resource_path == atlas_path:
+			regions[str(atlas_texture.region)] = true
+	if regions.size() < minimum:
+		_fail("%s loaded %d/%d distinct regions from %s." % [context, regions.size(), minimum, atlas_path])
 
 func _shot_invest_surfaces(lang: String = "en", prefix: String = "invest_en_") -> void:
 	_set_qa_language(lang)
@@ -2286,6 +2314,18 @@ func _shot_action_category_modal(method_name: String, shot_name: String) -> void
 		return
 	_mg.call(method_name)
 	await _settle(0.7)
+	match method_name:
+		"_open_cat_work":
+			_assert_action_atlas_regions("res://assets/ui/action_tiles/action_core_atlas.png", 1, "Work modal")
+			_assert_action_atlas_regions("res://assets/ui/action_tiles/action_career_money_atlas.png", 2, "Work modal")
+		"_open_cat_money":
+			_assert_action_atlas_regions("res://assets/ui/action_tiles/action_core_atlas.png", 1, "Money modal")
+			_assert_action_atlas_regions("res://assets/ui/action_tiles/action_career_money_atlas.png", 2, "Money modal")
+			_assert_action_atlas_regions("res://assets/ui/action_tiles/action_advanced_atlas.png", 1, "Money modal")
+		"_ap_study":
+			_assert_action_atlas_regions("res://assets/ui/action_tiles/action_study_atlas.png", 4, "Self-Dev modal")
+		"_open_cat_life":
+			_assert_action_atlas_regions("res://assets/ui/action_tiles/action_advanced_atlas.png", 1, "Life modal")
 	await _save(shot_name)
 	if method_name == "_open_cat_people" and _mg.has_method("_set_people_page"):
 		_mg.call("_set_people_page", 1)
