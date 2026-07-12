@@ -1,5 +1,17 @@
 # Gangnam Dream Work Log
 
+## 2026-07-12 (Codex — bus-stop bench final reversal)
+
+### 진단
+- 직전 교정은 벤치의 물리 구조를 설명 가능한 상태로 만들었지만, 실제 화면에서는 카메라가 등받이 뒤만 보게 되어 유저가 요구한 앞면 방향과 정반대로 읽혔다.
+
+### 구현
+- 같은 정류장·도로·유리·비 조명·지갑 구도를 유지한 채 벤치만 180도 반전했다. 이제 좌판 전체와 등받이 안쪽이 카메라에 보이고 좌판이 화면 앞쪽으로 뻗어 방향을 설명 없이 판독할 수 있다.
+- 새 원본과 직전 탈락 사유를 `assets/IMAGE_PROMPTS.md`에 기록하고 1280×800으로 정규화했다.
+
+### 검증
+- Godot 재임포트 후 한국어 `--qa=event-visuals`의 `event_visual_ko_06a_bus_stop_wallet` 도입/선택지 컷을 직접 확인했다. 좌판 방향, 뒤쪽 도로, 지갑이 모두 보이며 지갑은 대화창과 선택지 위에 남는다.
+
 ## 2026-07-12 (Codex — bus-stop bench orientation correction)
 
 ### 진단

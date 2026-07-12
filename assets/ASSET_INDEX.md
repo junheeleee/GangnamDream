@@ -18,7 +18,7 @@ Updated on 2026-07-11 for paired first-snow route art and Minjun's explicit mons
 Updated on 2026-07-12 for AP in-world scene-still routing; the earlier prop-only action atlases are no longer runtime canon.
 Updated on 2026-07-12 for Hyunsu's Seoul terminal result and route-dependent accounting/civil-service portrait stages.
 Updated on 2026-07-12 for the separate cafe folder-owner and Manager Kim portrait identities across first meeting and callbacks.
-Updated on 2026-07-12 for the road-facing wallet bus stop, winter bungeoppang cart, and canonical Changwon Seollal bow CG.
+Updated on 2026-07-12 for the player-facing wallet bus-stop bench, winter bungeoppang cart, and canonical Changwon Seollal bow CG.
 
 ## Use These Assets
 
