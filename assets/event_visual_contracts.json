@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "tag_coverage": [
+    "climate",
+    "season",
+    "year_close"
+  ],
+  "contracts": [
+    {"id": "kx_monsoon", "months": [6, 7], "background": "street_rainy", "portrait": "player_monsoon"},
+    {"id": "kx_heatwave", "months": [7, 8], "background": "heatwave_city", "portrait": "player_heatwave"},
+    {"id": "kx_cold_snap", "months": [1, 2, 12], "background": "cold_snap_street", "portrait": "player_cold_snap"},
+    {"id": "kx_fine_dust", "background": "fine_dust_sky", "portrait": "player_tired"},
+    {"id": "kx_spring_cherry", "months": [4], "background": "cherry_blossom_path", "portrait": "player_offduty_neutral"},
+    {"id": "drama_summer_heat", "months": [7, 8], "background": "heatwave_city", "portrait": "player_heatwave"},
+    {"id": "drama_winter_cold", "months": [1, 2, 12], "background": "cold_snap_street", "portrait": "player_cold_snap"},
+    {"id": "rainy_day_umbrella", "months": [6, 7], "background": "street_rainy", "portrait": "player_monsoon"},
+    {"id": "season_rainy_commute", "months": [6, 7], "background": "street_rainy", "portrait": null},
+    {"id": "story_rainy_night", "background": "goshiwon_room", "portrait": "player_tired"},
+    {"id": "callback_gig_grinder_echo", "months": [6, 7], "background": "street_rainy", "portrait": "player_monsoon"},
+    {"id": "kx_street_food", "months": [1, 2, 11, 12], "background": "cold_snap_street", "portrait": "player_cold_snap"},
+    {"id": "kx_seollal_sebae", "months": [1, 2], "background": "dad_house", "portrait": "player_offduty_neutral"},
+
+    {"id": "arc_season_cherry_daeun", "background": "cherry_blossom_path", "portrait": "daeun_cherry"},
+    {"id": "arc_season_cherry_jiyeon", "background": "cherry_blossom_path", "portrait": "jiyeon_cherry"},
+    {"id": "arc_season_fireworks_daeun", "background": "hangang_riverside", "portrait": "daeun_fireworks"},
+    {"id": "arc_season_fireworks_jiyeon", "background": "hangang_riverside", "portrait": "jiyeon_fireworks"},
+    {"id": "arc_season_sea_daeun", "background": "ktx_window", "portrait": "daeun_sea"},
+    {"id": "arc_season_sea_jiyeon", "background": "ktx_window", "portrait": "jiyeon_sea"},
+    {"id": "arc_season_snow_daeun", "background": "convenience_first_snow_exterior", "portrait": "daeun_first_snow"},
+    {"id": "arc_season_snow_jiyeon", "background": "jiyeon_sedan_first_snow", "portrait": "jiyeon_first_snow"},
+    {"id": "arc_year1_close", "background": "goshiwon_room", "portrait": "player_offduty_neutral"},
+    {"id": "arc_year2_close", "background": "cold_snap_street", "portrait": "player_cold_snap"},
+
+    {"id": "arc_father_medication", "background": "goshiwon_room", "portrait": "player_tired"},
+    {"id": "callback_called_about_medication_echo", "background": "goshiwon_room", "portrait": "father_normal"},
+    {"id": "arc_sangchul_03_network", "background": "restaurant", "portrait": "sangchul_normal"},
+    {"id": "arc_daeun_the_test", "background": "cafe", "portrait": "sangchul_normal"},
+
+    {"id": "cafe_cb_stole_00", "background": "goshiwon_room", "portrait": "player_tired"},
+    {"id": "cafe_cb_stole_call", "background": "goshiwon_room", "portrait": null},
+    {"id": "cafe_cb_stole_verify", "background": "investment_phone", "portrait": "player_determined"},
+    {"id": "cafe_cb_stole_allin", "background": "investment_phone", "portrait": "player_shocked"},
+    {"id": "cafe_cb_stole_smart", "background": "cafe", "portrait": "player_determined"},
+    {"id": "cafe_cb_honest_00", "background": "goshiwon_room", "portrait": null},
+    {"id": "cafe_cb_honest_in", "background": "cafe", "portrait": null},
+    {"id": "cafe_cb_humiliated_00", "background": "cafe", "portrait": null}
+  ],
+  "known_debt": [
+    {"id": "arc_year2_close", "issue": "The December coat is correct, but the event is titled the last night and still uses a cold daytime street."},
+    {"id": "arc_year3_close", "issue": "December Hangang scene still uses a green summer riverside and a job-dynamic portrait."},
+    {"id": "arc_year4_close", "issue": "December rooftop scene still shows leaves and hanging laundry with a job-dynamic portrait."},
+    {"id": "arc_sangchul_03_network", "issue": "The event describes an upscale private Gangnam networking room, but the current modest open restaurant is only a closer temporary interior."},
+    {"id": "amb_wallet_00", "issue": "The wallet is under a bus-stop bench, but no physically correct Seoul bus-stop background exists."},
+    {"id": "arc_y2_hyunsu_night_bus", "issue": "The terminal departure result has no bus-terminal background or paragraph result transition."},
+    {"id": "hyunsu_reunion_later", "issue": "The prose shows Hyunsu in a suit-and-business-card photo, but the old hoodie portrait remains."},
+    {"id": "hyunsu_year4_echo", "issue": "The prose shows employed Hyunsu in a suit or civil-service badge, but the old hoodie portrait remains."},
+    {"id": "kx_street_food", "issue": "The winter street and clothing are correct, but the bungeoppang cart described in the prose is not visible."},
+    {"id": "kx_seollal_sebae", "issue": "The family home is correct, but the Seollal gathering and bowing relatives have no dedicated visual."},
+    {"id": "cafe_cb_stole_call", "issue": "Kim, the cafe broker, has no dedicated portrait; the event intentionally hides the old team-lead stand-in."},
+    {"id": "cafe_cb_honest_00", "issue": "Kim, the cafe broker, has no dedicated portrait; the event intentionally hides the old team-lead stand-in."},
+    {"id": "cafe_cb_honest_in", "issue": "Kim, the cafe broker, has no dedicated portrait; the event intentionally hides the old team-lead stand-in."},
+    {"id": "cafe_cb_humiliated_00", "issue": "Kim, the cafe broker, has no dedicated portrait; the event intentionally hides the old team-lead stand-in."}
+  ]
+}

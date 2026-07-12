@@ -7,11 +7,17 @@
     "weight": 1.4,
     "hidden": false,
     "conditions": {
-      "min_turn": 45
+      "min_turn": 45,
+      "month": [
+        11,
+        12,
+        1,
+        2
+      ]
     },
     "cooldown": 48,
-    "background": "street",
-    "portrait": "player_normal",
+    "background": "cold_snap_street",
+    "portrait": "player_cold_snap",
     "tags": [
       "korea",
       "culture",

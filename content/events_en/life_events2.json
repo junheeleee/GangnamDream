@@ -40,7 +40,7 @@
   {
     "id": "rainy_day_umbrella",
     "title": "No Umbrella",
-    "description": "The forecast said clear.\nStep out of the subway exit — and it's pouring.\nUmbrella at home. Important documents in the bag.\n{name} stands under the overhang, watching other people walk past with umbrellas.",
+    "description": "The forecast said clear.\nThe moment {name} steps outside, it starts pouring.\nUmbrella at home. Important documents in the bag.\n{name} stands under the overhang, watching other people walk past with umbrellas.",
     "choices": [
       {
         "text": "Just run. Getting wet is better.  (fast solution / health)",

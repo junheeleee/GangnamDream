@@ -36,6 +36,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | First nights: heroine-specific home/portrait→night result→paragraph-delayed morning CG, same outfit, late-game month HUD, KO/EN crop | `--qa=wedding-morning --lang=ko/en` |
 | First snow: December-only store/car prelude→paragraph-1 CG, winter outfits, exactly two cans, left-driver/right-passenger seating, resting wipers, gaze and KO/EN crop | `--qa=first-snow --lang=ko/en` |
 | Climate portraits: monsoon rain shell, heatwave short sleeves/cooling towel, cold-snap parka/scarf and dedicated frozen street | `--qa=climate --lang=ko/en` |
+| Event visual contracts: seasonal Minjun clothing, rainy room/street split, year-close wardrobe, father phone location, restaurant/cafe callback routing | `--qa=event-visuals --lang=ko/en` |
 | Main AP screen, Seoul Trace visited/locked nodes, warning state, people pressure grind hints, routine modal/time record, market ticker/info panel, keepsake thumbnails, action modals, people modal pages | `--qa=ap-en` |
 | AP Act 1~5 2x2 decision board, actual KRW 500K first-month horizon, post-first-interview `Keep Applying`, action-commit overlay, Seoul Trace restoration, no-scroll special-action row, ACT4 relationship pressure modal | `--qa=ap-act-en` |
 | Investment modal Trade/Holdings/Market movers/Bank pages | `--qa=invest-en` |

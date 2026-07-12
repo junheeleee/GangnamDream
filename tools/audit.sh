@@ -8,6 +8,20 @@ cd "$(dirname "$0")/.."
 
 GODOT="${GODOT:-/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot}"
 
+# macOS 기본 셸에는 GNU timeout이 없다. Godot가 결과를 출력한 뒤 종료를
+# 놓치더라도 감사 프로세스가 몇 시간씩 남지 않도록 동일한 제한을 보장한다.
+run_limited() {
+  if command -v gtimeout >/dev/null 2>&1; then
+    gtimeout 150 "$@"
+  elif command -v timeout >/dev/null 2>&1; then
+    timeout 150 "$@"
+  elif command -v perl >/dev/null 2>&1; then
+    perl -e '$seconds = shift; alarm $seconds; exec @ARGV' 150 "$@"
+  else
+    "$@"
+  fi
+}
+
 echo "──────────────────────────────────────────"
 python3 tools/audit.py
 PY_EXIT=$?
@@ -32,6 +46,11 @@ python3 tools/cg_acting_contract_check.py
 CG_ACTING_EXIT=$?
 
 echo "──────────────────────────────────────────"
+echo "● 이벤트 장소·계절·의상 계약 검사"
+python3 tools/event_visual_contract_check.py
+EVENT_VISUAL_EXIT=$?
+
+echo "──────────────────────────────────────────"
 echo "● 영어 표면/커버리지 검사"
 python3 tools/english_hangul_audit.py
 EN_HANGUL_EXIT=$?
@@ -49,8 +68,7 @@ AUDIO_SOURCE_EXIT=$?
 python3 tools/generate_gangnam_ui_sfx.py --check
 UI_SFX_EXIT=$?
 if [ -x "$GODOT" ]; then
-  command -v gtimeout >/dev/null 2>&1 && GT="gtimeout 150" || GT=""
-  AUDIO_RAW=$($GT "$GODOT" --headless res://tools/AudioAssetCheck.tscn 2>&1)
+  AUDIO_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/AudioAssetCheck.tscn 2>&1)
   echo "$AUDIO_RAW" | grep -E "AUDIO_ASSET_CHECK_OK|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
   if echo "$AUDIO_RAW" | grep -q "AUDIO_ASSET_CHECK_OK"; then
     AUDIO_EXIT=0
@@ -65,7 +83,7 @@ fi
 echo "──────────────────────────────────────────"
 echo "● BGM 재시작/도덕 질감/장면 앰비언스 연속성 검사"
 if [ -x "$GODOT" ]; then
-  BGM_RAW=$($GT "$GODOT" --headless res://tools/BGMContinuityCheck.tscn 2>&1)
+  BGM_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/BGMContinuityCheck.tscn 2>&1)
   echo "$BGM_RAW" | grep -E "BGM_CONTINUITY_OK|BGM_CONTINUITY_FAIL|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
   if echo "$BGM_RAW" | grep -q "BGM_CONTINUITY_OK"; then
     BGM_EXIT=0
@@ -80,7 +98,7 @@ fi
 echo "──────────────────────────────────────────"
 echo "● 튜토리얼 입력 포커스 회귀 검사"
 if [ -x "$GODOT" ]; then
-  TUTORIAL_RAW=$($GT "$GODOT" --headless res://tools/TutorialInputCheck.tscn 2>&1)
+  TUTORIAL_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/TutorialInputCheck.tscn 2>&1)
   echo "$TUTORIAL_RAW" | grep -E "TUTORIAL_INPUT_CHECK_OK|TUTORIAL_INPUT_CHECK_FAIL|ERROR:|SCRIPT ERROR" | sed 's/^/  /'
   if echo "$TUTORIAL_RAW" | grep -q "TUTORIAL_INPUT_CHECK_OK"; then
     TUTORIAL_EXIT=0
@@ -95,7 +113,7 @@ fi
 echo "──────────────────────────────────────────"
 echo "● 스토리 자동 재생 선택지 안전 검사"
 if [ -x "$GODOT" ]; then
-  STORY_PLAYBACK_RAW=$($GT "$GODOT" --headless res://tools/StoryPlaybackCheck.tscn 2>&1)
+  STORY_PLAYBACK_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/StoryPlaybackCheck.tscn 2>&1)
   echo "$STORY_PLAYBACK_RAW" | grep -E "STORY_PLAYBACK_CHECK_OK|STORY_PLAYBACK_CHECK_FAIL|ERROR:|SCRIPT ERROR" | sed 's/^/  /'
   if echo "$STORY_PLAYBACK_RAW" | grep -q "STORY_PLAYBACK_CHECK_OK"; then
     STORY_PLAYBACK_EXIT=0
@@ -115,10 +133,9 @@ echo "● Godot 전체 스크립트 컴파일 체크 (씬 부팅 → 모든 .gd 
 # 함수 본문까지 완전 컴파일한다 → 깨진 스크립트는 stderr에 'Failed to load script'.
 if [ -x "$GODOT" ]; then
   # 1) 에디터 부팅으로 class_name 글로벌 캐시 최신화(스태일 캐시발 콜드 크래시 예방)
-  command -v gtimeout >/dev/null 2>&1 && GT="gtimeout 150" || GT=""
-  $GT "$GODOT" --headless --editor --quit-after 30 >/dev/null 2>&1
+  run_limited "$GODOT" --headless --editor --quit-after 30 >/dev/null 2>&1
   # 2) 씬 부팅으로 전 스크립트 강제 컴파일
-  RAW=$($GT "$GODOT" --headless res://tools/CompileCheck.tscn 2>&1)
+  RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/CompileCheck.tscn 2>&1)
   echo "$RAW" | grep -E "COMPILE_SCAN" | sed 's/^/  /'
   GD_OUT=$(echo "$RAW" | grep -v "COMPILE_SCAN" \
     | grep -iE "Failed to load script|Parse Error|Compile Error" \
@@ -137,7 +154,7 @@ else
 fi
 
 echo "──────────────────────────────────────────"
-if [ "$PY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$PACING_EXIT" -ne 0 ] || [ "$KEY_ART_EXIT" -ne 0 ] || [ "$CG_ACTING_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$AUDIO_SOURCE_EXIT" -ne 0 ] || [ "$UI_SFX_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$BGM_EXIT" -ne 0 ] || [ "$TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_PLAYBACK_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
+if [ "$PY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$PACING_EXIT" -ne 0 ] || [ "$KEY_ART_EXIT" -ne 0 ] || [ "$CG_ACTING_EXIT" -ne 0 ] || [ "$EVENT_VISUAL_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$AUDIO_SOURCE_EXIT" -ne 0 ] || [ "$UI_SFX_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$BGM_EXIT" -ne 0 ] || [ "$TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_PLAYBACK_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
   echo "❌ 감사 실패 — 위 ERROR를 고치고 다시 돌리세요."
   exit 1
 fi

@@ -301,6 +301,8 @@
   {
     "id": "story_rainy_night",
     "title": "비 오는 밤",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
     "description": "밤 11시, 빗소리가 창문을 두드린다.\n\n고시원 복도 자판기에서 캔커피를 뽑아 방으로 돌아왔다.\n침대에 누워 천장을 본다.\n\n오늘 하루를 제대로 살았나.\n서울에 온 이유를 기억하고 있나.\n\n{name}은 조용히 눈을 감는다.",
     "category": "story",
     "rarity": "uncommon",

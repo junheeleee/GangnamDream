@@ -1148,8 +1148,8 @@
   },
   {
     "id": "season_rainy_commute",
-    "title": "Rainy Season Commute",
-    "description": "No forecast, but a downpour. No umbrella. Two hundred meters to the subway. Your dress pants are already soaked.",
+    "title": "Rainy Season Trip Home",
+    "description": "The downpour starts the moment work lets out. No umbrella. Two hundred meters to the subway. Your dress pants are already soaked.",
     "choices": [
       {
         "text": "Buy a convenience store umbrella",
@@ -1157,7 +1157,7 @@
       },
       {
         "text": "Sprint to the subway",
-        "result_text": "Half drenched. You air-dried under the office AC all afternoon. That's one way to experience summer."
+        "result_text": "Half drenched. You hang your clothes up when you get home. This is what commuting in monsoon season looks like."
       },
       {
         "text": "Wait until the rain lets up",

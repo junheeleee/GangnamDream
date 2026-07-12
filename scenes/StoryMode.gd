@@ -200,9 +200,9 @@ func _story_dim_color(has_cg: bool) -> Color:
 	var white := clampf(_story_moral_norm, 0.0, 1.0)
 	# Text and choices already own local opaque surfaces. Keep the world readable;
 	# moral collapse comes from damaged tone and focus, not a global black curtain.
-	var alpha := (0.16 if not has_cg else 0.015)
-	alpha += black * (0.10 if not has_cg else 0.055)
-	alpha -= white * (0.11 if not has_cg else 0.01)
+	var alpha := (0.12 if not has_cg else 0.015)
+	alpha += black * (0.13 if not has_cg else 0.055)
+	alpha -= white * (0.10 if not has_cg else 0.01)
 	var tone := Color("#050609").lerp(Color("#010202"), black)
 	tone.a = clampf(alpha, 0.0, 0.40)
 	return tone
@@ -231,12 +231,12 @@ func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false)
 	if _story_bg_material:
 		# Reusable locations stay documentary. One-off CGs are the emotional
 		# reward surface, so they keep color until Black-route damage earns its removal.
-		var base_desaturation := 0.12 if has_cg else 0.78
-		var black_desaturation := 0.76 if has_cg else 0.22
-		var white_clearance := 0.08 if has_cg else 0.48
+		var base_desaturation := 0.12 if has_cg else 0.68
+		var black_desaturation := 0.76 if has_cg else 0.32
+		var white_clearance := 0.08 if has_cg else 0.38
 		_story_bg_material.set_shader_parameter("desaturation", clampf(base_desaturation + black * black_desaturation - white * white_clearance, 0.04, 1.0))
-		_story_bg_material.set_shader_parameter("brightness", clampf((1.04 if has_cg else 1.02) - black * 0.04 + white * 0.06, 0.90, 1.16))
-		_story_bg_material.set_shader_parameter("contrast", clampf(0.98 - black * 0.04 + white * 0.04, 0.90, 1.08))
+		_story_bg_material.set_shader_parameter("brightness", clampf((1.04 if has_cg else 1.06) - black * (0.04 if has_cg else 0.10) + white * 0.06, 0.90, 1.16))
+		_story_bg_material.set_shader_parameter("contrast", clampf((0.98 if has_cg else 1.00) - black * 0.04 + white * 0.04, 0.90, 1.08))
 		_story_bg_material.set_shader_parameter("mid_gamma", clampf((0.96 if has_cg else 0.86) + black * (0.02 if has_cg else -0.08) - white * 0.05, 0.72, 1.04))
 		_story_bg_material.set_shader_parameter("tint_amount", clampf(black * 0.07 + white * 0.035, 0.0, 0.12))
 		_story_bg_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#f7fbff"), white))
@@ -400,9 +400,9 @@ func _build_ui():
 	if bg_grade_shader:
 		_story_bg_material = ShaderMaterial.new()
 		_story_bg_material.shader = bg_grade_shader
-		_story_bg_material.set_shader_parameter("desaturation", 0.78)
-		_story_bg_material.set_shader_parameter("brightness", 1.02)
-		_story_bg_material.set_shader_parameter("contrast", 0.98)
+		_story_bg_material.set_shader_parameter("desaturation", 0.68)
+		_story_bg_material.set_shader_parameter("brightness", 1.06)
+		_story_bg_material.set_shader_parameter("contrast", 1.00)
 		_story_bg_material.set_shader_parameter("mid_gamma", 0.86)
 		_story_bg_material.set_shader_parameter("tint_color", Color("#020303"))
 		_story_bg_material.set_shader_parameter("tint_amount", 0.0)

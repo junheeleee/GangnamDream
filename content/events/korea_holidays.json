@@ -45,11 +45,15 @@
     "weight": 1.0,
     "hidden": false,
     "conditions": {
-      "min_turn": 5
+      "min_turn": 5,
+      "month": [
+        1,
+        2
+      ]
     },
     "cooldown": 48,
-    "background": "street",
-    "portrait": "player_normal",
+    "background": "dad_house",
+    "portrait": "player_offduty_neutral",
     "tags": [
       "korea",
       "culture",

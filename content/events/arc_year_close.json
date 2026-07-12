@@ -15,7 +15,7 @@
       "arc",
       "year_close"
     ],
-    "portrait": "player_normal",
+    "portrait": "player_offduty_neutral",
     "background": "goshiwon_room",
     "description": "12월이었다.\n\n고시원 방 천장에 금이 하나 있었다. 이사 온 날부터 있었다. 1년 동안 매일 봤다.\n\n1년 전 이맘때, {name}은 버스에서 내렸다. 짐가방 하나. 통장 50만원.\n\n살아남았다.\n\n그게 다인가, 아니면 지금부터인가.",
     "description_if_known": {
@@ -72,8 +72,8 @@
       "arc",
       "year_close"
     ],
-    "portrait": "player_normal",
-    "background": "street",
+    "portrait": "player_cold_snap",
+    "background": "cold_snap_street",
     "description": "또 12월이었다.\n\n1년 전과 비교하면 — 많은 게 달라졌다. 통장 숫자도, 아는 사람도, 아침에 거울을 보는 느낌도.\n\n달라진 게 전부 좋은 건지는 아직 모르겠다.\n\n그냥 달라졌다.\n\n34세. 벌써 2년이 지났다.",
     "description_if_known": {
       "jaehyuk_stood_up": "또 12월이었다.\n\n재혁에게 배신당하고도 다시 일어선 해였다.\n\n그 과정에 한 살이 더 먹었다. 돈도 잃고 사람도 잃었는데, 이상하게 뭔가를 얻은 것 같기도 하다. 정확히 뭔지는 아직 모른다.",

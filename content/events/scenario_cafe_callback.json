@@ -2,7 +2,7 @@
   {
     "id": "cafe_cb_stole_00",
     "title": "그날 외운 번호",
-    "background": "street_rainy",
+    "background": "goshiwon_room",
     "portrait": "player_tired",
     "category": "story",
     "rarity": "story",
@@ -47,8 +47,7 @@
   {
     "id": "cafe_cb_stole_call",
     "title": "통화",
-    "background": "street_rainy",
-    "portrait": "boss",
+    "background": "goshiwon_room",
     "category": "story",
     "rarity": "story",
     "weight": 0,
@@ -90,7 +89,7 @@
   {
     "id": "cafe_cb_stole_verify",
     "title": "파헤치기",
-    "background": "street_rainy",
+    "background": "investment_phone",
     "portrait": "player_determined",
     "category": "story",
     "rarity": "story",
@@ -129,7 +128,7 @@
   {
     "id": "cafe_cb_stole_allin",
     "title": "지른다",
-    "background": "street_rainy",
+    "background": "investment_phone",
     "portrait": "player_shocked",
     "category": "story",
     "rarity": "story",
@@ -169,7 +168,7 @@
   {
     "id": "cafe_cb_stole_smart",
     "title": "거품을 걷고",
-    "background": "street_rainy",
+    "background": "cafe",
     "portrait": "player_determined",
     "category": "story",
     "rarity": "story",
@@ -211,8 +210,7 @@
   {
     "id": "cafe_cb_honest_00",
     "title": "걸려온 전화",
-    "background": "street_rainy",
-    "portrait": "boss",
+    "background": "goshiwon_room",
     "category": "story",
     "rarity": "story",
     "weight": 0,
@@ -255,8 +253,7 @@
   {
     "id": "cafe_cb_honest_in",
     "title": "검증된 기회",
-    "background": "street_rainy",
-    "portrait": "boss",
+    "background": "cafe",
     "category": "story",
     "rarity": "story",
     "weight": 0,
@@ -309,8 +306,7 @@
   {
     "id": "cafe_cb_humiliated_00",
     "title": "다시, 그 카페",
-    "background": "street_rainy",
-    "portrait": "boss",
+    "background": "cafe",
     "category": "story",
     "rarity": "story",
     "weight": 0,

@@ -27,9 +27,9 @@ Adjacent and top-selling execution references are assigned by surface in `docs/S
 | Background PNG assets | 69 | Canon continuity, physical logic, or correct event mapping |
 | Character portrait PNG assets | 54 | Flagship identity, expression coverage, or outfit continuity |
 | CG PNG files | 31 | Launch key moments and ending coverage |
-| BGM / ambience / SFX | 7 / 25 / 30 | Loop fatigue, mix quality, ownership, or license proof |
+| BGM / ambience / SFX | 7 / 25 / 32 | Loop fatigue, mix quality, ownership, or license proof |
 | Achievements / easter eggs | 13 / 8 | Discovery quality or community conversation |
-| Screenshot QA scopes | 32 | Full-playthrough correctness or subjective fun |
+| Screenshot QA scopes | 33 | Full-playthrough correctness or subjective fun |
 
 The first parity audit found eight EN-only overlay rows. DataRegistry silently ignored them because no KO base event existed, so translated scenes appeared to ship while no player could reach them. They are now promoted to complete bilingual events with conditions and consequences, and EN-only dead overlays fail CI.
 
@@ -52,10 +52,10 @@ These are confidence bands, not review scores. Every band must be replaced by pl
 | EN localization | Developing | First-run language selection, zero-Hangul, catalog parity, and localized canonical names are gated; native voice, pronouns, cultural context, and a full prose pass remain |
 | UI/UX | Developing | Title and AP surfaces now have clear command hierarchies; several dense submodals and the top HUD still carry older dashboard grammar |
 | Controller / Steam Deck | Developing | Brand-aware glyphs and several focus models exist; tutorial focus is now trapped and regression-tested, while dense modals and large betting boards still require task-level tests |
-| Image quality / continuity | Developing | Background/portrait separation, romance outfit pairs, spatial bibles, and 28 active CG/50 actor acting contracts exist; first-snow and Minjun climate P0 gaps are closed, while recurring-cast exterior seasons and remaining climax coverage are incomplete |
-| Audio identity | Developing | All 62 files are now project-owned, reproducible, and source-audited; core UI sounds use a dry Gangnam Ink tactile set and BGM continuity is gated. Seven-track long-session fatigue and character leitmotifs remain |
+| Image quality / continuity | Developing | Background/portrait separation, romance outfit pairs, spatial bibles, 28 active CG/50 actor acting contracts, and 35 event visual contracts now gate high-risk scenes. Fourteen explicit winter/night/private-room/transit/cast/cultural art debts remain, so recurring-cast seasons and climax coverage are still incomplete |
+| Audio identity | Developing | All 64 files are now project-owned, reproducible, and source-audited; core UI sounds use a dry Gangnam Ink tactile set and BGM continuity is gated. Seven-track long-session fatigue and character leitmotifs remain |
 | Motion / game feel | Weak to developing | AP commitment has a clearer board and feedback vocabulary, and chained story scenes no longer flash the AP shell between them; input feel and several navigation transitions still need measured play tests |
-| Moral Tint impact | Promising, partially embodied | Five KO/EN anchor scenes carry one hidden attention grammar from Daeun's cafe through Sangchul, Gangnam, Father, and the final countdown. Band crossings return to one canonical goshiwon/black-crewneck memory frame for comparable actor performance, and identical result cards now reveal money/status first in Black versus people/body/mind first in White while preserving the overlooked cost. Portrait distance, surface, lived ambience, and two non-jingle attention cues support the shift; a complete neutral-to-White/Black blind run still has not proven players notice it without explanation |
+| Moral Tint impact | Promising, partially embodied | Five KO/EN anchor scenes carry one hidden attention grammar from Daeun's cafe through Sangchul, Gangnam, Father, and the final countdown. Band crossings return to one canonical goshiwon/black-crewneck memory frame, identical result cards change attention order, and Gray now stays legibly distinct from both Black collapse and White recovery on naturally dark locations. Portrait distance, surface, lived ambience, and two non-jingle attention cues support the shift; a complete neutral-to-White/Black blind run still has not proven players notice it without explanation |
 | Endings | Developing | 35 outcomes and recap logic are substantial; bespoke visual/audio aftermath and critic-level final images are incomplete |
 | Stability / save integrity | Good static baseline | Audit, compile, language, balance, asset, and tutorial input-leak checks pass; full branch/save migration and long-session soak remain |
 | Commercial package | Developing | Owned character key art, three Steam capsule sizes, and a localized first-run path exist; no external capsule conversion or wishlist evidence yet |

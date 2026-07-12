@@ -1150,8 +1150,8 @@
   {
     "id": "arc_father_medication",
     "title": "약 이름",
-    "background": "street_rainy",
-    "portrait": "father_normal",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
     "category": "story",
     "rarity": "story",
     "weight": 0,

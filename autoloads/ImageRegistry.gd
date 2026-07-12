@@ -18,6 +18,8 @@ const PORTRAITS = {
 	"player_suit":        "res://assets/characters/main_character_corporate.png",
 	"player_hollow":      "res://assets/characters/main_character_50s.png",
 	"player_romance_casual": "res://assets/characters/main_character_unemployed.png",
+	# 비직업 일상/산책 장면. 현재 직업 정장으로 동적 교체하지 않는 검은 크루넥 중립 얼굴.
+	"player_offduty_neutral": "res://assets/characters/main_character_neutral_goshiwon.png",
 	"player_heatwave":    "res://assets/characters/main_character_heatwave.png",
 	"player_monsoon":     "res://assets/characters/main_character_monsoon.png",
 	"player_cold_snap":   "res://assets/characters/main_character_cold_snap.png",

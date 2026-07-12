@@ -19,6 +19,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=wedding-morning --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=first-snow --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=climate --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=event-visuals --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-act-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=endings-en
@@ -59,6 +60,7 @@ const QA_SCOPE_HOMETOWN := "hometown"
 const QA_SCOPE_WEDDING_MORNING := "wedding_morning"
 const QA_SCOPE_FIRST_SNOW := "first_snow"
 const QA_SCOPE_CLIMATE := "climate"
+const QA_SCOPE_EVENT_VISUALS := "event_visuals"
 const QA_SCOPE_AP_EN := "ap_en"
 const QA_SCOPE_AP_ACT_EN := "ap_act_en"
 const QA_SCOPE_ENDINGS_EN := "endings_en"
@@ -200,6 +202,12 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_climate_surfaces(lang, "climate_en_" if lang == "en" else "climate_ko_")
 		print("SCREENSHOT_QA_DONE scope=climate lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_EVENT_VISUALS:
+		var lang := _qa_language("en")
+		await _shot_event_visual_surfaces(lang, "event_visual_en_" if lang == "en" else "event_visual_ko_")
+		print("SCREENSHOT_QA_DONE scope=event-visuals lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_AP_EN:
@@ -389,6 +397,10 @@ func _qa_scope() -> String:
 				"--climate", "--weather", "qa=climate", "--qa=climate",
 				"qa=weather", "--qa=weather", "scope=climate", "--scope=climate"]:
 			return QA_SCOPE_CLIMATE
+		if arg in ["event-visuals", "event_visuals", "seasonal-visuals", "seasonal_visuals",
+				"--event-visuals", "--event_visuals", "qa=event-visuals", "--qa=event-visuals",
+				"qa=event_visuals", "--qa=event_visuals", "scope=event-visuals", "--scope=event-visuals"]:
+			return QA_SCOPE_EVENT_VISUALS
 		if arg in ["ap-en", "ap_en", "main-en", "main_en", "--ap-en", "--ap_en",
 				"qa=ap-en", "--qa=ap-en", "qa=ap_en", "--qa=ap_en",
 				"qa=main-en", "--qa=main-en", "scope=ap-en", "--scope=ap-en"]:
@@ -1050,6 +1062,74 @@ func _shot_climate_surfaces(lang: String = "en", prefix: String = "climate_en_")
 		var label := str(data[1])
 		await _shot_story_event(event_id, prefix + label + "_intro", lang, 0.45, true)
 		await _shot_story_event(event_id, prefix + label + "_choices", lang, 0.45, true, true)
+
+func _shot_event_visual_surfaces(lang: String = "en", prefix: String = "event_visual_en_") -> void:
+	_set_qa_language(lang)
+	var cases := [
+		["drama_summer_heat", "01_summer_heat"],
+		["drama_winter_cold", "02_winter_cold"],
+		["rainy_day_umbrella", "03_rain_umbrella"],
+		["season_rainy_commute", "04_rain_commute"],
+		["story_rainy_night", "05_rain_room"],
+		["callback_gig_grinder_echo", "06_rain_delivery_memory"],
+		["kx_street_food", "07_winter_street_food"],
+		["kx_seollal_sebae", "08_seollal_home"],
+		["arc_year1_close", "09_year1_room"],
+		["arc_year2_close", "10_year2_winter_street"],
+		["arc_father_medication", "11_father_medication_room"],
+		["callback_called_about_medication_echo", "12_father_callback_room"],
+		["arc_sangchul_03_network", "13_sangchul_restaurant"],
+		["arc_daeun_the_test", "14_daeun_test_cafe"],
+		["cafe_cb_stole_call", "15_broker_call_room"],
+		["cafe_cb_stole_verify", "16_broker_research_phone"],
+		["cafe_cb_stole_smart", "17_broker_smart_cafe"],
+		["cafe_cb_honest_in", "18_broker_honest_cafe"],
+	]
+	for data in cases:
+		var event_id := str(data[0])
+		_prepare_event_visual_qa_state(event_id)
+		await _shot_story_event(event_id, prefix + str(data[1]), "", 0.45, true)
+
+func _prepare_event_visual_qa_state(event_id: String) -> void:
+	_prepare_main_game_state()
+	GameState.turn = 72
+	GameState.age = 34
+	GameState.year = 2027
+	GameState.month = 7
+	GameState.week_of_month = 2
+	match event_id:
+		"drama_summer_heat":
+			GameState.month = 8
+		"drama_winter_cold", "kx_street_food":
+			GameState.month = 12
+			GameState.week_of_month = 4
+		"kx_seollal_sebae":
+			GameState.month = 2
+			GameState.week_of_month = 1
+		"arc_year1_close":
+			GameState.turn = 48
+			GameState.age = 33
+			GameState.year = 2026
+			GameState.month = 12
+			GameState.week_of_month = 4
+		"arc_year2_close":
+			GameState.turn = 96
+			GameState.age = 34
+			GameState.year = 2027
+			GameState.month = 12
+			GameState.week_of_month = 4
+		"arc_father_medication", "callback_called_about_medication_echo":
+			GameState.month = 5
+		"arc_sangchul_03_network":
+			GameState.turn = 62
+			GameState.month = 4
+		"arc_daeun_the_test":
+			GameState.turn = 142
+			GameState.age = 35
+			GameState.year = 2028
+			GameState.month = 12
+		"cafe_cb_stole_call", "cafe_cb_stole_verify", "cafe_cb_stole_smart", "cafe_cb_honest_in":
+			GameState.month = 10
 
 func _prepare_wedding_morning_qa_state(person_id: String) -> void:
 	_prepare_main_game_state()

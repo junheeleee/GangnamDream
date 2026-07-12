@@ -390,15 +390,19 @@
   {
     "id": "callback_gig_grinder_echo",
     "title": "비 와도 뛴 날",
-    "background": "convenience_night",
-    "portrait": "player_tired",
+    "background": "street_rainy",
+    "portrait": "player_monsoon",
     "category": "jobs",
     "rarity": "uncommon",
     "weight": 0.9,
     "hidden": false,
     "conditions": {
       "flag": "gig_grinder",
-      "min_turn": 34
+      "min_turn": 34,
+      "month": [
+        6,
+        7
+      ]
     },
     "tags": [
       "callback",

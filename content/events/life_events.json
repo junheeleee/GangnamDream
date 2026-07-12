@@ -2430,13 +2430,19 @@
   },
   {
     "id": "season_rainy_commute",
-    "title": "장마철 출근길",
-    "description": "예보 없이 폭우. 우산이 없다. 지하철역까지 200미터. 정장 바지가 이미 젖었다.",
+    "title": "장마철 퇴근길",
+    "background": "street_rainy",
+    "description": "퇴근하자마자 폭우. 우산이 없다. 지하철역까지 200미터. 정장 바지가 이미 젖었다.",
     "category": "daily_life",
     "rarity": "common",
     "weight": 1.4,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "month": [
+        6,
+        7
+      ]
+    },
     "tags": [
       "daily",
       "stress",
@@ -2460,7 +2466,7 @@
           "appearance": -3,
           "mental": -4
         },
-        "result_text": "반쯤 젖었다. 오피스에서 에어컨 맞으며 말렸다. 그것도 나름 여름의 방식이다.",
+        "result_text": "반쯤 젖었다. 집에 도착해 옷을 널었다. 장마철 퇴근은 늘 이런 식이다.",
         "flags": []
       },
       {

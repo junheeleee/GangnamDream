@@ -91,19 +91,24 @@
   {
     "id": "rainy_day_umbrella",
     "title": "우산이 없다",
-    "background": "street",
-    "portrait": "player_tired",
+    "background": "street_rainy",
+    "portrait": "player_monsoon",
     "category": "comedy",
     "rarity": "common",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "month": [
+        6,
+        7
+      ]
+    },
     "tags": [
       "daily",
       "comedy"
     ],
     "cooldown": 7,
-    "description": "분명 맑다고 했다.\n지하철 출구를 나서자마자 비가 쏟아진다.\n우산은 집에. 가방엔 중요한 서류.\n{name}은 출구 처마 밑에서 다른 사람들이 우산 쓰고 지나가는 걸 바라본다.",
+    "description": "분명 맑다고 했다.\n건물 밖으로 나서자마자 비가 쏟아진다.\n우산은 집에. 가방엔 중요한 서류.\n{name}은 처마 밑에서 다른 사람들이 우산 쓰고 지나가는 걸 바라본다.",
     "choices": [
       {
         "text": "그냥 뛴다. 젖는 게 낫다.  (빠른 해결 / 건강)",
