@@ -1,5 +1,24 @@
 # Gangnam Dream Work Log
 
+## 2026-07-12 (Codex — moral exposure invariant, metallic money, and weekly attention)
+
+### 진단
+- 실제 1280×800 비교에서 MainGame Black은 방과 얼굴을 과도하게 지웠고 White는 원본 색 회복보다 흰 안개처럼 보였다. Black 돈 HUD의 8px 광륜은 숫자를 강조하는 대신 글자를 겹쳐 보이게 했다.
+- 핵심 StoryMode 다섯 장면은 지각 문장이 달랐지만, 플레이 대부분을 차지하는 AP 화면은 어느 밴드에서도 같은 월간 내레이션을 사용해 인격 변화가 정점 사이에서 사라졌다.
+- 전체 UI를 0.2도 기울이고 이동시키는 Black 연출은 인격 붕괴보다 조작면이 고장 난 인상을 주며, 안정적인 패드 포커스 원칙과도 충돌했다.
+
+### 구현
+- MainGame의 밴드별 전역 암막과 노출 차이를 크게 줄였다. Black은 탈색·입자·잉크 번짐·가장자리 손상·계조 압축으로, White는 흰 막 없이 원본 색 회복으로 분리했다. 초상도 Black에서 얼굴이 읽히는 노출을 유지한다.
+- 조작면의 회전과 위치 이동을 제거했다. 버튼·포커스·레이아웃은 모든 밴드에서 동일하며 배경·얼굴·문장·소리만 민준의 상태를 연기한다.
+- Deep Black 현금·총자산·목표액을 선명한 금속성 금빛, Light Black을 옅은 금빛으로 만들었다. 상시 광륜은 1~2px로 제한하고 실제 값 변화 때만 기존 펄스가 짧은 번쩍임을 만든다. White에서는 돈만 특별히 빛나지 않는다.
+- 긴급 경고와 아버지 사실 앵커 다음에 주간 지각 문장을 추가했다. Deep 밴드는 4주, Light 밴드는 8주마다 Black이 메시지보다 잔액·입금일·비용을, White가 계좌보다 하지 못한 말·얼굴·생활 소리를 먼저 본다. 한영 문장은 같은 의미를 유지하고 도덕 라벨은 노출하지 않는다.
+- `ScreenshotQA --qa=moral`에 Black/White 주간 지각 컷과 문장 자동 단언을 추가했다.
+
+### 검증
+- KO/EN `--qa=moral` 각 12장을 실제 렌더했다. Deep Black에서도 민준 얼굴과 고시원 구조가 읽히고, White에는 회색 흰 막이 없으며, Black의 현금·자산·목표만 금빛으로 남는다.
+- 주간 컷은 KO `김다은의 메시지에 아직 답하지 않았다. 잔액은 두 번 확인했다.` ↔ `계좌를 열기 전에...`, EN `Kim Daeun's message...` ↔ `Before opening the account...`를 안전영역에서 표시하고 자동 문자열 단언을 통과했다.
+- 전체 `audit.sh`는 ERROR 0/WARNING 0, 영어 한글 누출 0, 이벤트 비주얼 계약 회귀 0(기존 명시 부채 14), 밸런스 전 정책 허용 밴드, 오디오 64개 소유권/BGM 연속성, 입력·StoryPlayback, 57개 GDScript 컴파일을 통과했다. `arc_flow_sim.py`도 잼 0·대표 체인 완결을 확인했다.
+
 ## 2026-07-12 (Codex — event visual contracts, seasonal reuse, and readable Gray)
 
 ### 진단

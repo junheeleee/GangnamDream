@@ -2089,10 +2089,13 @@ func _shot_moral_tint_states() -> void:
 		if _mg.has_method("_apply_moral_visuals"):
 			_mg._apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
 		_mg.current_event = {}
+		if _mg.has_method("_refresh_all"):
+			_mg._refresh_all()
 		if _mg.has_method("_render_ap_actions"):
 			_mg._render_ap_actions()
 		await _settle(0.7)
 		await _save(str(data[1]))
+	await _shot_moral_attention_lines()
 	GameState.moral_tint = 0.0
 	if _mg.has_method("_apply_moral_visuals"):
 		_mg._apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
@@ -2103,6 +2106,38 @@ func _shot_moral_tint_states() -> void:
 	GameState.moral_tint = 0.0
 	if _mg.has_method("_apply_moral_visuals"):
 		_mg._apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
+
+func _shot_moral_attention_lines() -> void:
+	var original_turn: int = int(GameState.turn)
+	var original_month: int = int(GameState.month)
+	var original_week: int = int(GameState.week_of_month)
+	GameState.turn = 32
+	GameState.month = 8
+	GameState.week_of_month = 4
+	var cases := [
+		[-80.0, "03d1_moral_attention_black", _tr("잔액은 두 번 확인했다", "balance was checked twice")],
+		[80.0, "03d2_moral_attention_white", _tr("계좌를 열기 전에", "Before opening the account")],
+	]
+	for data in cases:
+		GameState.moral_tint = float(data[0])
+		if _mg.has_method("_apply_moral_visuals"):
+			_mg._apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
+		_mg.current_event = {}
+		if _mg.has_method("_refresh_all"):
+			_mg._refresh_all()
+		if _mg.has_method("_render_ap_actions"):
+			_mg._render_ap_actions()
+		if _mg.has_method("_finish_typing"):
+			_mg._finish_typing()
+		await _settle(0.6)
+		var body := _mg.get("event_body") as RichTextLabel
+		var expected := str(data[2])
+		if not is_instance_valid(body) or not body.text.contains(expected):
+			_fail("Moral attention line missing expected fragment: %s" % expected)
+		await _save(str(data[1]))
+	GameState.turn = original_turn
+	GameState.month = original_month
+	GameState.week_of_month = original_week
 
 func _shot_moral_beat_surfaces() -> void:
 	var cases := [

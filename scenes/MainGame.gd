@@ -401,14 +401,14 @@ func _apply_moral_visuals(norm: float, stage: int, immediate: bool = false) -> v
 
 func _moral_overlay_color(norm: float, stage: int) -> Color:
 	if stage <= -2:
-		return Color(0.00, 0.018, 0.018, 0.34)
+		return Color(0.00, 0.018, 0.018, 0.10)
 	if stage == -1:
-		return Color(0.01, 0.028, 0.030, 0.20)
+		return Color(0.01, 0.028, 0.030, 0.055)
 	if stage >= 2:
-		return Color(0.96, 1.00, 0.98, 0.105)
+		return Color(0.96, 1.00, 0.98, 0.012)
 	if stage == 1:
-		return Color(0.92, 0.98, 0.96, 0.060)
-	var gray_alpha: float = 0.055 + absf(norm) * 0.025
+		return Color(0.92, 0.98, 0.96, 0.006)
+	var gray_alpha: float = 0.025 + absf(norm) * 0.010
 	return Color(0.28, 0.28, 0.30, gray_alpha)
 
 func _apply_moral_world_state(immediate: bool = false) -> void:
@@ -416,9 +416,11 @@ func _apply_moral_world_state(immediate: bool = false) -> void:
 		return
 	var black := clampf(-_moral_norm, 0.0, 1.0)
 	var white := clampf(_moral_norm, 0.0, 1.0)
-	var target_rotation := deg_to_rad(-0.20 * black)
-	var target_position := Vector2(-3.0 * black, 2.0 * black)
-	var target_modulate := Color(1.0 + white * 0.035 - black * 0.035, 1.0 + white * 0.035 - black * 0.055, 1.0 + white * 0.025 - black * 0.055, 1.0)
+	# Moral collapse must not make controls feel broken. Keep the interaction plane
+	# geometrically stable and let backgrounds, faces, prose and sound carry it.
+	var target_rotation := 0.0
+	var target_position := Vector2.ZERO
+	var target_modulate := Color(1.0 + white * 0.012 - black * 0.010, 1.0 + white * 0.012 - black * 0.016, 1.0 + white * 0.008 - black * 0.016, 1.0)
 	_main_ui_root.pivot_offset = get_viewport_rect().size * 0.5
 	if _moral_world_tween and _moral_world_tween.is_running():
 		_moral_world_tween.kill()
@@ -444,19 +446,19 @@ func _apply_moral_surface_shader() -> void:
 	_moral_surface_material.set_shader_parameter("print_screen", clampf(black * 0.045 - white * 0.010, 0.0, 0.055))
 	_moral_surface_material.set_shader_parameter("seed", float(GameState.turn % 97) + absf(_moral_norm) * 10.0)
 	if _moral_bg_material:
-		# Black is numbness: the world loses color, edges close in, money remains sharp.
-		# White is not a beige skin; it is perception returning, so real image color comes back.
-		_moral_bg_material.set_shader_parameter("desaturation", clampf(0.82 + black * 0.18 - white * 0.46, 0.28, 1.0))
-		_moral_bg_material.set_shader_parameter("brightness", clampf(0.88 - black * 0.30 + white * 0.22, 0.35, 1.25))
-		_moral_bg_material.set_shader_parameter("contrast", clampf(0.92 - black * 0.10 + white * 0.18, 0.65, 1.25))
-		_moral_bg_material.set_shader_parameter("tint_amount", clampf(black * 0.14 + white * 0.035, 0.0, 0.18))
+		# Exposure stays legible in every band. Black loses chroma and surface
+		# integrity; White restores the source image instead of adding a white veil.
+		_moral_bg_material.set_shader_parameter("desaturation", clampf(0.78 + black * 0.22 - white * 0.58, 0.18, 1.0))
+		_moral_bg_material.set_shader_parameter("brightness", clampf(0.98 - black * 0.12 + white * 0.04, 0.82, 1.08))
+		_moral_bg_material.set_shader_parameter("contrast", clampf(0.98 - black * 0.02 + white * 0.06, 0.92, 1.08))
+		_moral_bg_material.set_shader_parameter("tint_amount", clampf(black * 0.08 + white * 0.010, 0.0, 0.10))
 		_moral_bg_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#f7fbff"), white))
-		_moral_bg_material.set_shader_parameter("grain_amount", clampf(0.018 + black * 0.026 - white * 0.014, 0.0, 0.08))
-		_moral_bg_material.set_shader_parameter("ink_bleed", clampf(0.055 + black * 0.130 - white * 0.046, 0.0, 0.25))
+		_moral_bg_material.set_shader_parameter("grain_amount", clampf(0.018 + black * 0.040 - white * 0.014, 0.0, 0.08))
+		_moral_bg_material.set_shader_parameter("ink_bleed", clampf(0.055 + black * 0.150 - white * 0.046, 0.0, 0.25))
 		_moral_bg_material.set_shader_parameter("paper_fade", clampf(0.018 + white * 0.030, 0.0, 0.07))
-		_moral_bg_material.set_shader_parameter("edge_burn", clampf(0.070 + black * 0.130 - white * 0.070, 0.0, 0.24))
-		_moral_bg_material.set_shader_parameter("print_screen", clampf(0.010 + black * 0.026 - white * 0.009, 0.002, 0.052))
-		_moral_bg_material.set_shader_parameter("tone_quantize", clampf(0.018 + black * 0.095 - white * 0.014, 0.0, 0.14))
+		_moral_bg_material.set_shader_parameter("edge_burn", clampf(0.060 + black * 0.150 - white * 0.055, 0.0, 0.24))
+		_moral_bg_material.set_shader_parameter("print_screen", clampf(0.008 + black * 0.038 - white * 0.007, 0.002, 0.052))
+		_moral_bg_material.set_shader_parameter("tone_quantize", clampf(0.012 + black * 0.120 - white * 0.010, 0.0, 0.14))
 		_moral_bg_material.set_shader_parameter("screen_scale", 620.0 + black * 80.0 - white * 40.0)
 		_moral_bg_material.set_shader_parameter("seed", float(GameState.turn % 131) + absf(_moral_norm) * 19.0)
 
@@ -479,9 +481,9 @@ func _apply_moral_portrait_state() -> void:
 		# Portraits carry the moral weight more than buttons do: numbness drains faces,
 		# conscience lets human color return without turning the UI into a morality meter.
 		_moral_portrait_material.set_shader_parameter("desaturation", clampf(0.36 + black * 0.54 - white * 0.24, 0.08, 0.96))
-		_moral_portrait_material.set_shader_parameter("brightness", clampf(0.98 - black * 0.26 + white * 0.10, 0.56, 1.18))
-		_moral_portrait_material.set_shader_parameter("contrast", clampf(0.98 - black * 0.06 + white * 0.12, 0.70, 1.24))
-		_moral_portrait_material.set_shader_parameter("tint_amount", clampf(black * 0.14 + white * 0.025, 0.0, 0.16))
+		_moral_portrait_material.set_shader_parameter("brightness", clampf(0.98 - black * 0.12 + white * 0.04, 0.82, 1.08))
+		_moral_portrait_material.set_shader_parameter("contrast", clampf(0.98 + black * 0.02 + white * 0.08, 0.92, 1.10))
+		_moral_portrait_material.set_shader_parameter("tint_amount", clampf(black * 0.08 + white * 0.012, 0.0, 0.10))
 		_moral_portrait_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#f6fbff"), white))
 		_moral_portrait_material.set_shader_parameter("grain_amount", clampf(0.004 + black * 0.026 - white * 0.004, 0.0, 0.055))
 		_moral_portrait_material.set_shader_parameter("ink_bleed", clampf(0.010 + black * 0.120 - white * 0.008, 0.0, 0.18))
@@ -491,7 +493,7 @@ func _apply_moral_portrait_state() -> void:
 		_moral_portrait_material.set_shader_parameter("tone_quantize", clampf(black * 0.045 - white * 0.010, 0.0, 0.075))
 		_moral_portrait_material.set_shader_parameter("screen_scale", 700.0 + black * 90.0)
 		_moral_portrait_material.set_shader_parameter("seed", float(GameState.turn % 149) + absf(_moral_norm) * 23.0)
-	character_portrait.modulate = Color(1.0 + white * 0.035 - black * 0.045, 1.0 + white * 0.030 - black * 0.055, 1.0 + white * 0.020 - black * 0.060, 1.0)
+	character_portrait.modulate = Color(1.0 + white * 0.012 - black * 0.012, 1.0 + white * 0.010 - black * 0.018, 1.0 + white * 0.006 - black * 0.018, 1.0)
 
 func _moral_ui_palette() -> Dictionary:
 	var black := clampf(-_moral_norm, 0.0, 1.0)
@@ -671,23 +673,23 @@ func _apply_money_moral_glow() -> void:
 	var shadow_col := Color(0, 0, 0, 0)
 	var shadow_size := 0
 	if _moral_stage <= -2:
-		money_col = Color("#ffffff")
-		goal_col = Color("#f7fbff")
-		shadow_col = Color(0.88, 0.96, 1.0, 0.56)
-		shadow_size = 8
+		# In a collapsed world, money is the one surviving color. Keep the
+		# metallic signal crisp; value-change pulses provide the brief flash.
+		money_col = Color("#ffd45a")
+		goal_col = Color("#c8a84e")
+		shadow_col = Color(1.0, 0.68, 0.12, 0.32)
+		shadow_size = 2
 	elif _moral_stage == -1:
-		money_col = Color("#edf4f7")
-		goal_col = Color("#dce6eb")
-		shadow_col = Color(0.75, 0.84, 0.88, 0.30)
-		shadow_size = 4
+		money_col = Color("#e4c376")
+		goal_col = Color("#a8935c")
+		shadow_col = Color(0.92, 0.69, 0.24, 0.18)
+		shadow_size = 1
 	elif _moral_stage >= 2:
-		money_col = Color("#f9fbff")
-		goal_col = Color("#e9f2f7")
-		shadow_col = Color(0.75, 0.95, 1.0, 0.18)
-		shadow_size = 3
+		money_col = Color("#dce3e9")
+		goal_col = Color("#b9c3ca")
 	elif _moral_stage == 1:
-		money_col = Color("#e3eef5")
-		goal_col = Color("#cddce5")
+		money_col = Color("#d6dde4")
+		goal_col = Color("#aeb9c2")
 	_apply_money_label_style(top_labels.get("money", null) as Label, money_col, shadow_col, shadow_size)
 	_apply_money_label_style(_goal_money_lbl, goal_col, shadow_col, shadow_size)
 
@@ -5687,6 +5689,78 @@ func _recommend_action() -> String:
 	return _tr("자기계발 또는 투자  →  꾸준히 스탯과 자산을 키우세요", "Self-Dev or Invest  →  Steadily grow your stats and assets")
 
 ## 매달 분위기 내레이션 한 줄 (계절 + 상태 + 아크 플래그 + 턴 기반)
+## MORAL_TINT is a shift in attention, not a brightness meter. On a restrained
+## cadence, the weekly loop reveals what Minjun notices first without naming a
+## route or changing any gameplay information.
+func _moral_week_perception_line() -> String:
+	var stage := GameState.moral_stage()
+	if stage == 0 or GameState.turn < 8:
+		return ""
+	var cadence := 4 if absi(stage) >= 2 else 8
+	if int(GameState.turn) % cadence != 0:
+		return ""
+	var cycle := int(floor(float(GameState.turn) / float(cadence))) % 4
+	var person := _closest_person()
+	var person_name := ""
+	if not person.is_empty():
+		person_name = str(ImageRegistry.get_person_info(str(person.get("id", ""))).get("name", ""))
+
+	if stage <= -2:
+		if cycle == 0 and not person_name.is_empty():
+			return _tr(
+				"{name}의 메시지에 아직 답하지 않았다. 잔액은 두 번 확인했다.",
+				"{name}'s message was still unanswered. The balance was checked twice.").format({"name": person_name})
+		var lines := [
+			_tr("아침은 3,200원, 이동은 47분. 하루가 숫자로 먼저 정리됐다.",
+				"Breakfast: 3,200 won. Commute: 47 minutes. The day arranged itself into numbers."),
+			_tr("거리는 붐볐다. 얼굴은 남지 않았고, 마감 시세만 기억났다.",
+				"The street was crowded. No faces stayed with him; the market close did."),
+			_tr("읽지 않은 알림은 늘었다. 열어 볼 가치가 있어 보인 건 계좌뿐이었다.",
+				"The unread count rose. Only the account felt worth opening."),
+			_tr("누가 옆을 지나갔다. 향수 냄새보다 휴대폰 속 숫자가 오래 남았다.",
+				"Someone passed close by. The figures on the phone lasted longer than their perfume."),
+		]
+		return str(lines[cycle])
+	if stage == -1:
+		var lines := [
+			_tr("달력의 다른 표시보다 입금일이 먼저 보였다.",
+				"Payday stood out before every other mark on the calendar."),
+			_tr("메시지를 뒤로 밀고 이번 주 지출부터 계산했다.",
+				"I pushed the messages aside and calculated this week's spending first."),
+			_tr("서울은 흐릿하게 지나갔다. 잔액 숫자는 유난히 또렷했다.",
+				"Seoul blurred past. The balance stayed unusually sharp."),
+			_tr("시간은 이미 비용과 수익으로 나뉜 채 도착했다.",
+				"Time arrived already divided into cost and return."),
+		]
+		return str(lines[cycle])
+	if stage >= 2:
+		if cycle == 0 and not person_name.is_empty():
+			return _tr(
+				"계좌를 열기 전에, {name}에게 아직 하지 못한 말이 떠올랐다.",
+				"Before opening the account, I thought of what I still had not said to {name}.").format({"name": person_name})
+		var lines := [
+			_tr("횡단보도에서 초가 줄어드는 숫자보다 옆 사람의 얼굴이 먼저 보였다.",
+				"At the crosswalk, I noticed the face beside me before the numbers counting down."),
+			_tr("도시에 소리가 돌아왔다. 브레이크, 발걸음, 뒤에서 터진 웃음.",
+				"The city had sounds again: brakes, footsteps, laughter breaking out behind me."),
+			_tr("돈은 여전히 중요했다. 다만 선명하게 남는 것이 그것뿐은 아니었다.",
+				"Money still mattered. It simply was not the only thing left in focus."),
+			_tr("창에 비친 얼굴을 봤다. 이번에는 모르는 사람 같지 않았다.",
+				"I saw my face in the window. This time it did not look like a stranger."),
+		]
+		return str(lines[cycle])
+	var lines := [
+		_tr("달력의 빈칸보다 적어 둔 이름이 먼저 보였다.",
+			"A name on the calendar caught my eye before the empty spaces did."),
+		_tr("화면이 꺼진 뒤에도 누군가의 목소리가 오래 남았다.",
+			"Someone's voice stayed with me after the screen went dark."),
+		_tr("출근길에 본 얼굴이 기억났다. 잔액은 그다음이었다.",
+			"I remembered a face from the commute. The balance came later."),
+		_tr("도시가 따뜻해진 건 아니었다. 내가 조금 더 보고 있을 뿐이었다.",
+			"The city had not grown warmer. I was simply noticing more of it."),
+	]
+	return str(lines[cycle])
+
 func _month_narration() -> String:
 	var m = GameState.month
 	var f = GameState.flags
@@ -5719,6 +5793,12 @@ func _month_narration() -> String:
 		return _tr("아버지를 만나고 왔다. 하고 싶은 말을 다 못 했다.", "I visited my father. I couldn't say everything I wanted to.")
 	if f.get("arc_father_02_done", false) and not f.get("visited_father", false):
 		return _tr("아버지가 편찮으시다는 소식이 마음 한구석에 걸려 있다.", "The news that my father is unwell sits in a corner of my mind.")
+
+	# Critical warnings and the father remain factual anchors. Outside them, a
+	# periodic perception line lets the same weekly loop feel internally changed.
+	var moral_perception := _moral_week_perception_line()
+	if not moral_perception.is_empty():
+		return moral_perception
 
 	# ── 관계 아크 ──────────────────────────────────
 	if f.get("daeun_romance_started", false):
