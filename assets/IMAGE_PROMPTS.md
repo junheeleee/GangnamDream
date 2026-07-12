@@ -304,7 +304,7 @@ Final shot prompts and built-in source outputs:
 - `assets/cg/ending_gangnam_dream_white_v1.png` — `exec-d2e5bbf5-70ab-44f0-83e3-60b3209de139.png`. Clear morning window; Minjun holds a blank cream deed folder and quietly meets one faint physically coherent reflection. Relief, not conquest.
 - `assets/cg/ending_with_daeun_v1.png` — `exec-24db2176-799d-4a80-b4a7-923a5b549e3a.png`. Modest outer-Seoul home; exactly two ramyeon bowls, two chopstick sets, and two water cups; Daeun and Minjun share mutual eye contact and near-touching hands. Rings hidden by angle.
 - `assets/cg/ending_second_love_v1.png` — `exec-379fc274-9d3e-4f01-acea-e3da97276af1.png`. Gangnam night window and compact coffee counter on one axis; Daeun holds one mug and turns toward Minjun while he prepares the second mug with coherent pour-over hands.
-- `assets/cg/ending_jiyeon_man_v1.png` — `exec-87994c38-c7a8-452d-a0a5-40d1a51215c2.png`. Off-axis mirror observer. Real Minjun is screen-left and real Jiyeon screen-right; their reflections preserve the same horizontal order, because a mirror reverses depth rather than swapping actors. Both actors and reflections share the same upright shoulders, square torsos, straight lowered arms, and fully hidden hands. Exactly two real people plus two reflections. `exec-9e721768-f952-406a-9554-4ecf4225873a.png` was rejected for horizontally swapping the reflected pair; `exec-0ebad28c-6535-4608-b8a0-7cae533b8efa.png` fixed the order but was rejected because the real and reflected arm poses differed.
+- `assets/cg/ending_jiyeon_man_v1.png` — `exec-9b1c5efb-4fff-4c57-ad1c-dc50cbd4f5bd.png`. Off-axis mirror observer. Real Minjun is screen-left and real Jiyeon screen-right; their reflections preserve the same horizontal order, because a mirror reverses depth rather than swapping actors. Both actors and reflections share one front-facing, upright head/neck, level shoulders, square torso, and straight lowered-arm pose; every hand is below the mirror crop. Exactly two real people plus two reflections. `exec-9e721768-f952-406a-9554-4ecf4225873a.png` was rejected for horizontally swapping the reflected pair; `exec-0ebad28c-6535-4608-b8a0-7cae533b8efa.png` fixed order but changed arm poses; `exec-87994c38-c7a8-452d-a0a5-40d1a51215c2.png` still turned both foreground heads away from the pose shown in reflection; `exec-5d74ad12-cdbf-416f-8a9d-1bacdd79c46c.png` corrected the bodies but left Jiyeon's reflected head turned.
 - `assets/cg/ending_guardian_v1.png` — `exec-85c50d6a-c635-4b5c-980d-ff17cb835e9c.png`. Modest Changwon hospital discharge exterior; Father walks independently and looks at Minjun while Minjun carries one duffel and one folded jacket.
 - `assets/cg/ending_jaehyuk_way_v1.png` — `exec-44a82c54-9458-453e-8060-b2b59c22d745.png`. Expensive empty Gangnam room at night; Minjun's narrow profile and one clear hand stop on a half-drawn curtain while the city remains partly visible.
 - `assets/cg/ending_sangchul_reckoning_v1.png` — `exec-e2eb0ad5-4673-4c53-b1d7-3e57a0e17a51.png`. Modest room at blue hour; visibly open window, lowered phone, still writing hand, blank papers, and one pen. No police form or guaranteed police location.
@@ -318,6 +318,23 @@ Sangchul source exposure: RGB gamma 0.74, contrast 0.95, brightness 1.04.
 ```
 
 The two exposure lifts preserve every pixel position and exist only so Deep Black/White runtime grading can damage or recover the print without hiding faces, hands, the curtain, open window, or documents. KO/EN `--qa=ending-p0` owns the final modal crop and exact-texture gate.
+
+---
+
+## 2026-07-12 T2 romance rupture result CGs
+
+Both images were produced with Codex built-in ImageGen and normalized to 1280x800. Their exact scene, wardrobe, architecture, acting, and reveal contracts live in `assets/BREAKUP_VISUAL_BIBLE.md`.
+
+- `assets/cg/romance/breakup_daeun_v1.png` — accepted source `exec-b167dd0f-4005-4475-b81c-62a2459ec86b.png`. In the canonical modest Daeun home, she wears the dusty-mauve married-home outfit and presses exactly one red seal onto one blank separation agreement while Minjun remains withdrawn in the rear foreground. Her face, both hands, seal, and paper stay above the dialogue-safe lower area. `exec-5d6c0b74-e63f-4dc3-85ab-cc749db30db7.png` was rejected because the decisive hand/document action fell below the runtime dialogue crop.
+- `assets/cg/romance/breakup_jiyeon_v1.png` — accepted source `exec-9a8d1a4b-e8e0-46d2-9ac5-847b18c0fc5a.png`. In the canonical Jiyeon high-rise, the front door opens to an indoor corridor/elevator lobby. Jiyeon crosses the threshold in her ivory/black outfit with one structured handbag and does not turn back; Minjun stays seated and does not reach.
+
+Shared prompt lock:
+
+```text
+Create a quiet choice-result rupture CG in Gangnam Dream's restrained-color Gangnam Ink visual-novel language. Preserve the canonical heroine identity, home architecture, outfit, and exact prose action. Keep the face, gaze target, decisive hand or threshold, and relationship blocking above the lower 30% dialogue-safe area. No readable legal text, brand, logo, watermark, revenge glamour, screaming, lens gaze, invented witness, wedding spectacle, or generic breakup stock pose. This image appears only after the separating choice reaches the depicted result paragraph.
+```
+
+Post-processing: center crop 1586x992 to 1584x990, then resample to 1280x800. KO/EN `--qa=breakup` owns the pre-choice location, no-leak branches, exact reveal paragraph, and final crop.
 
 ---
 

@@ -18,6 +18,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=hometown --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=wedding-morning --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=commitment --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=breakup --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=first-snow --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=climate --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=event-visuals --lang=en
@@ -60,6 +61,7 @@ const QA_SCOPE_AMUSEMENT := "amusement"
 const QA_SCOPE_HOMETOWN := "hometown"
 const QA_SCOPE_WEDDING_MORNING := "wedding_morning"
 const QA_SCOPE_COMMITMENT := "commitment"
+const QA_SCOPE_BREAKUP := "breakup"
 const QA_SCOPE_FIRST_SNOW := "first_snow"
 const QA_SCOPE_CLIMATE := "climate"
 const QA_SCOPE_EVENT_VISUALS := "event_visuals"
@@ -199,6 +201,12 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_commitment_surfaces(lang, "commitment_en_" if lang == "en" else "commitment_ko_")
 		print("SCREENSHOT_QA_DONE scope=commitment lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_BREAKUP:
+		var lang := _qa_language("en")
+		await _shot_breakup_surfaces(lang, "breakup_en_" if lang == "en" else "breakup_ko_")
+		print("SCREENSHOT_QA_DONE scope=breakup lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_FIRST_SNOW:
@@ -407,6 +415,9 @@ func _qa_scope() -> String:
 		if arg in ["commitment", "proposal-wedding", "proposal_wedding", "--commitment",
 				"qa=commitment", "--qa=commitment", "scope=commitment", "--scope=commitment"]:
 			return QA_SCOPE_COMMITMENT
+		if arg in ["breakup", "break-up", "romance-breakup", "romance_breakup", "--breakup",
+				"qa=breakup", "--qa=breakup", "scope=breakup", "--scope=breakup"]:
+			return QA_SCOPE_BREAKUP
 		if arg in ["first-snow", "first_snow", "snow-romance", "snow_romance",
 				"--first-snow", "--first_snow", "qa=first-snow", "--qa=first-snow",
 				"qa=first_snow", "--qa=first_snow", "scope=first-snow", "--scope=first-snow"]:
@@ -699,6 +710,9 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	var story := packed.instantiate()
 	get_tree().root.add_child.call_deferred(story)
 	await get_tree().process_frame
+	# Screenshot scopes own advancement explicitly; persisted AUTO would race the requested frame.
+	if story.has_method("_set_auto_mode"):
+		story._set_auto_mode(false, false)
 	await _settle(settle_time)
 	if finish_first_paragraph and not event_id.begins_with("chapter_card_") \
 			and bool(story.get("_typing")) and story.has_method("_on_advance"):
@@ -725,14 +739,20 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 		story._on_choice(select_choice)
 		await _settle(0.35)
 		if bool(story.get("_typing")) and story.has_method("_on_advance"):
-			story._on_advance()
+			if story.has_method("_complete_typing"):
+				story._complete_typing()
+			else:
+				story._on_advance()
 			await _settle(0.25)
 		for _result_paragraph in range(advance_result_paragraphs):
 			if story.has_method("_on_advance"):
 				story._on_advance()
 				await _settle(0.16)
 				if bool(story.get("_typing")):
-					story._on_advance()
+					if story.has_method("_complete_typing"):
+						story._complete_typing()
+					else:
+						story._on_advance()
 					await _settle(0.16)
 	if not expected_result_first.is_empty():
 		_assert_story_result_attention(story, expected_result_first, expected_result_last)
@@ -754,6 +774,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	_assert_cafe_visual_state(story, event_id)
 	_assert_resolved_visual_debt_state(story, event_id)
 	_assert_commitment_visual_state(story, event_id, select_choice)
+	_assert_breakup_visual_state(story, event_id, select_choice)
 	await _save(shot_name)
 	_remove_nodes_by_script("res://scenes/StoryMode.gd")
 	if suppress_cg and had_cg:
@@ -882,6 +903,37 @@ func _assert_commitment_visual_state(story: Node, event_id: String, selected_cho
 		return
 	if event_id == "arc_jiyeon_wedding_gap":
 		_assert_story_cg(story, "cg_romance_wedding_gap_jiyeon", event_id)
+
+func _assert_breakup_visual_state(story: Node, event_id: String, selected_choice: int) -> void:
+	if event_id not in ["arc_daeun_final_choice", "arc_jiyeon_verdict"]:
+		return
+	var paragraph_index := int(story.get("_para_index"))
+	var reveal_paragraph := 3 if event_id == "arc_daeun_final_choice" else 2
+	var expected_cg_id := "cg_romance_breakup_daeun" if event_id == "arc_daeun_final_choice" else "cg_romance_breakup_jiyeon"
+	var should_show_cg := selected_choice == 1 and paragraph_index >= reveal_paragraph
+	var cg_active := bool(story.get("_current_uses_cg"))
+	if cg_active != should_show_cg:
+		_fail("%s breakup CG expected %s at choice=%d paragraph=%d, got %s." % [
+			event_id, should_show_cg, selected_choice, paragraph_index, cg_active])
+		return
+	if should_show_cg:
+		_assert_story_cg(story, expected_cg_id, event_id)
+		return
+	var expected_background := "daeun_newlywed_home" if event_id == "arc_daeun_final_choice" else "jiyeon_newlywed_home"
+	var actual_background := str(story.get("_event_background_id"))
+	if actual_background != expected_background:
+		_fail("%s pre-reveal background expected %s, got %s." % [event_id, expected_background, actual_background])
+		return
+	var portrait_frame := story.get("_portrait_frame") as Control
+	if event_id == "arc_daeun_final_choice":
+		if is_instance_valid(portrait_frame) and portrait_frame.visible:
+			_fail("Daeun final choice must keep her portrait hidden while prose places her in the adjacent room.")
+		return
+	var portrait := story.get("_portrait") as TextureRect
+	var actual_portrait := portrait.texture.resource_path if is_instance_valid(portrait) and portrait.texture != null else ""
+	var expected_portrait := ImageRegistry.get_portrait("jiyeon_cold")
+	if actual_portrait != expected_portrait:
+		_fail("Jiyeon verdict portrait expected %s, got %s." % [expected_portrait, actual_portrait])
 
 func _assert_story_cg(story: Node, expected_cg_id: String, context: String) -> void:
 	var expected_path := ImageRegistry.get_cg(expected_cg_id)
@@ -1414,6 +1466,27 @@ func _prepare_commitment_qa_state(route: String = "daeun") -> void:
 		GameState.flags["jiyeon_narrow_room"] = true
 		_set_cast_relation_for_qa("jiyeon", 88)
 
+func _prepare_breakup_qa_state(route: String) -> void:
+	_prepare_main_game_state()
+	GameState.age = 37
+	GameState.turn = 238
+	GameState.year = 2030
+	GameState.month = 12
+	GameState.week_of_month = 2
+	GameState.money = 2_650_000_000.0 if route == "daeun" else 420_000_000.0
+	if route == "daeun":
+		GameState.moral_tint = -48.0
+		GameState.flags["daeun_romance_started"] = true
+		GameState.flags["daeun_married"] = true
+		GameState.flags["namsan_lock_daeun"] = true
+		_set_cast_relation_for_qa("daeun", 84)
+	else:
+		GameState.moral_tint = 18.0
+		GameState.flags["jiyeon_romance_started"] = true
+		GameState.flags["jiyeon_narrow_room"] = true
+		GameState.flags["namsan_lock_jiyeon"] = true
+		_set_cast_relation_for_qa("jiyeon", 82)
+
 func _shot_commitment_surfaces(lang: String = "en", prefix: String = "commitment_en_") -> void:
 	_set_qa_language(lang)
 
@@ -1446,6 +1519,31 @@ func _shot_commitment_surfaces(lang: String = "en", prefix: String = "commitment
 	await _shot_story_event("arc_jiyeon_wedding_gap", prefix + "10_jiyeon_gap_intro", "", 0.55, true)
 	_prepare_commitment_qa_state("jiyeon")
 	await _shot_story_event("arc_jiyeon_wedding_gap", prefix + "11_jiyeon_gap_choices", "", 0.45, true, true)
+
+func _shot_breakup_surfaces(lang: String = "en", prefix: String = "breakup_en_") -> void:
+	_set_qa_language(lang)
+
+	_prepare_breakup_qa_state("daeun")
+	await _shot_story_event("arc_daeun_final_choice", prefix + "01_daeun_intro", "", 0.55, true)
+	_prepare_breakup_qa_state("daeun")
+	await _shot_story_event("arc_daeun_final_choice", prefix + "02_daeun_choices", "", 0.45, true, true)
+	_prepare_breakup_qa_state("daeun")
+	await _shot_story_event("arc_daeun_final_choice", prefix + "03_daeun_stays_no_cg", "", 0.45, true, true, 0, 0, false, 1)
+	_prepare_breakup_qa_state("daeun")
+	await _shot_story_event("arc_daeun_final_choice", prefix + "04_daeun_betrayal_before_cg", "", 0.45, true, true, 1, 0, false, 2)
+	_prepare_breakup_qa_state("daeun")
+	await _shot_story_event("arc_daeun_final_choice", prefix + "05_daeun_seal_cg", "", 0.45, true, true, 1, 0, false, 3)
+
+	_prepare_breakup_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_verdict", prefix + "06_jiyeon_intro", "", 0.55, true)
+	_prepare_breakup_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_verdict", prefix + "07_jiyeon_choices", "", 0.45, true, true)
+	_prepare_breakup_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_verdict", prefix + "08_jiyeon_stays_no_cg", "", 0.45, true, true, 0, 0, false, 2)
+	_prepare_breakup_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_verdict", prefix + "09_jiyeon_farewell_before_cg", "", 0.45, true, true, 1, 0, false, 1)
+	_prepare_breakup_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_verdict", prefix + "10_jiyeon_departure_cg", "", 0.45, true, true, 1, 0, false, 2)
 
 func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> void:
 	_set_qa_language(lang)

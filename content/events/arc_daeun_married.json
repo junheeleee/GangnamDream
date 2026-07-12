@@ -184,8 +184,7 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "background": "gangnam_night",
-    "portrait": "daeun_sad",
+    "background": "daeun_newlywed_home",
     "conditions": {
       "min_turn": 9999
     },
@@ -218,6 +217,8 @@
       },
       {
         "text": "서명한다. 강남이 한 걸음 앞이다.",
+        "result_cg": "cg_romance_breakup_daeun",
+        "result_cg_reveal_paragraph": 3,
         "effects": {
           "mental": -15,
           "tint": -12
@@ -233,7 +234,7 @@
             "stage": "distant"
           }
         },
-        "result_text": "서명했다. 강남 등기가 손에 들어왔다.\n\n다은이 진실을 알게 되는 데 오래 걸리지 않았다.\n그녀는 울지 않았다. 이미 몇 년 전에, 조용히 다 울었던 사람처럼.\n\n\"...민준씨, 언제부터 나를 서류로 봤어요?\"\n\n{name}은 대답하지 못했다. 정확한 날짜를 댈 수가 없어서.\n혼인신고서를 낸 적도 없는데, 이혼서류엔 도장을 찍었다."
+        "result_text": "서명했다. 강남 등기가 손에 들어왔다.\n\n다은이 진실을 알게 되는 데 오래 걸리지 않았다.\n그녀는 울지 않았다. 이미 몇 년 전에, 조용히 다 울었던 사람처럼.\n\n\"...민준씨, 언제부터 나를 서류로 봤어요?\"\n\n{name}은 대답하지 못했다. 정확한 날짜를 댈 수가 없어서.\n다은은 혼인신고서에 찍지 못한 도장을, 끝내 둘의 생활을 정리하는 합의서 위에 찍었다."
       }
     ],
     "description_if_known": {

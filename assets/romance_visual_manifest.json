@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "player_outfit": {
     "portrait": "player_romance_casual",
     "description": "Off-duty worn black crewneck and dark trousers. Personal romance scenes never inherit the current job uniform."
@@ -189,6 +189,31 @@
       "season_scope": "indoor_all_season",
       "player_visibility": "cropped_left",
       "eye_line": "Daeun looks through restrained tears at Minjun across the table; her hand-over-mouth reaction and the open ring box share one readable upper-safe triangle."
+    }
+  ],
+  "t2": [
+    {
+      "event_id": "arc_daeun_final_choice",
+      "choice_index": 1,
+      "cg_placement": "choice_result",
+      "cg": "cg_romance_breakup_daeun",
+      "heroine_portrait": "",
+      "portrait_visibility": "hidden_before_reveal",
+      "heroine_outfit": "Muted dusty-mauve wrap cardigan over a cream home top with charcoal lounge trousers; short hair and left-temple clip remain canonical.",
+      "season_scope": "indoor_all_season",
+      "player_visibility": "visible_right",
+      "eye_line": "Daeun looks just past Minjun without lens contact while her right hand presses one red seal and her left hand steadies the blank separation paper; Minjun faces her from the rear foreground without reaching."
+    },
+    {
+      "event_id": "arc_jiyeon_verdict",
+      "choice_index": 1,
+      "cg_placement": "choice_result",
+      "cg": "cg_romance_breakup_jiyeon",
+      "heroine_portrait": "jiyeon_cold",
+      "heroine_outfit": "Ivory tailored blazer over a black blouse and black trousers with geometric earrings, structured black handbag, and canonical waist-length waves.",
+      "season_scope": "indoor_all_season",
+      "player_visibility": "visible_right",
+      "eye_line": "Jiyeon looks into the cool apartment corridor and crosses the threshold without turning to the lens; Minjun remains seated behind her and watches without reaching."
     }
   ]
 }

@@ -43,7 +43,7 @@ Updated: 2026-07-12
 | `cg_ending_jaehyuk_way` | `assets/cg/ending_jaehyuk_way_v1.png` | `jaehyuk_way` | 반쯤 친 커튼·Deep Black에서도 읽히는 고립 |
 | `cg_ending_sangchul_reckoning` | `assets/cg/ending_sangchul_reckoning_v1.png` | `sangchul_reckoning` | 열린 창·내린 전화·빈 서류와 펜 |
 
-프로포즈·결혼 과정 CG인 `cg_romance_proposal_daeun`, `cg_romance_wedding_daeun_small`, `cg_romance_wedding_daeun_full`, `cg_romance_wedding_gap_jiyeon`은 2026-07-12에 완성됐지만 **엔딩 CG가 아니다**. 선택 순간과 결혼 비용을 시각화할 뿐 `with_daeun`, `jiyeon_man`, `second_love` 등의 최종 삶을 대신하지 않으므로 아래 P0 엔딩 큐는 그대로 유지한다.
+프로포즈·결혼 과정 CG인 `cg_romance_proposal_daeun`, `cg_romance_wedding_daeun_small`, `cg_romance_wedding_daeun_full`, `cg_romance_wedding_gap_jiyeon`과 T2 결별 결과인 `cg_romance_breakup_daeun`, `cg_romance_breakup_jiyeon`은 2026-07-12에 완성됐지만 **엔딩 CG가 아니다**. 선택의 실제 순간과 비용을 시각화할 뿐 `with_daeun`, `jiyeon_man`, `lonely_rich`, `ordinary_life`의 최종 생활을 대신하지 않는다.
 
 ## 컷신 연결 금지 규칙
 
@@ -70,7 +70,7 @@ Updated: 2026-07-12
 | `stable_success` | B | 없음 | `rooftop_day` | P2. 전용 안정 배경이 있으면 좋음 |
 | `ordinary_life` | C | 없음 | 없음 | 공통 모노톤 실패/일상 카드 |
 | `burnout` | F | 없음 | 없음 | P1 공통 실패 CG 후보 |
-| `mental_break` | F | 없음 | 없음 | `burnout`과 공통 실패 CG 공유 가능 |
+| `mental_break` | F | 없음 | 없음 | 정신건강의학과 진료실 장면. 응급실 `burnout` CG 공유 금지 |
 | `bankruptcy` | F | 없음 | 없음 | P1 빚/파산 실패 CG 후보 |
 | `crypto_ghost` | F | `cg_ending_crypto_ghost` | `trading_room` | 유지 |
 | `startup_exit` | A | 없음 | 없음 | P1 신규 CG 후보 |
@@ -125,7 +125,9 @@ Updated: 2026-07-12
 | `cg_ending_orthodox_pinnacle` | `orthodox_pinnacle` | 회식 자리/회사 로비. 정장 차림 민준, 후배의 부러움, 본인은 확신 없음 |
 | `cg_ending_gambling_recovery` | `gambling_recovery` | 고시원 책상 달력의 동그라미. 카지노가 아니라 회복의 일상 |
 | `cg_ending_bankruptcy` | `bankruptcy`, `debt_spiral` | 계산기, 독촉 문자, 비 오는 방. 실패 공통 컷 가능 |
-| `cg_ending_burnout` | `burnout`, `mental_break` | 병원 형광등/천장/링거. 과장된 공포보다 현실적 소진 |
+| `cg_ending_burnout` | `burnout` | 응급실 형광등/천장/링거와 보호자 연락 질문. 정신건강의학과 `mental_break`와 공유 금지 |
+
+노출·감정 회수·상점 스크린샷 가치를 함께 보면 다음 실제 제작 순서는 `late_call` → `lonely_rich` → `gambling_recovery` → `bankruptcy/debt_spiral`이다. `startup_exit`, `instant_legend`, `orthodox_pinnacle`은 강한 성취 컷이지만 조건부 경로라 그다음이다. `mental_break`는 전용 진료실 컷을 만들기 전까지 정합한 엔딩 카드로 남긴다.
 
 ### P2 — 있으면 고급스러운 엔딩
 

@@ -473,6 +473,13 @@ func _check_romance_visual_manifest() -> void:
 		return
 	rows = rows.duplicate()
 	rows.append_array(t1_value as Array)
+	var t2_value: Variant = root.get("t2", [])
+	if not t2_value is Array:
+		_failures.append("romance visual manifest t2 must be an array")
+		return
+	if (t2_value as Array).size() != 2:
+		_failures.append("romance visual manifest must own exactly 2 T2 breakup events")
+	rows.append_array(t2_value as Array)
 
 	var player_value: Variant = root.get("player_outfit", {})
 	if not player_value is Dictionary:
@@ -533,7 +540,12 @@ func _check_romance_visual_manifest() -> void:
 				var month := int(raw_month)
 				if month < 1 or month > 12:
 					_failures.append("%s has an invalid season month" % event_id)
-		_check_romance_portrait(portrait_id, event_id)
+		var portrait_visibility := str(row.get("portrait_visibility", "visible"))
+		if portrait_id.is_empty():
+			if portrait_visibility != "hidden_before_reveal":
+				_failures.append("%s empty romance portrait must be hidden before reveal" % event_id)
+		else:
+			_check_romance_portrait(portrait_id, event_id)
 		var prelude_event_id: String = str(row.get("prelude_event_id", ""))
 		if not prelude_event_id.is_empty():
 			var prelude_event: Dictionary = DataRegistry.find_event(prelude_event_id)

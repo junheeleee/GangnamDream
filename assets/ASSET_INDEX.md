@@ -584,7 +584,7 @@ Updated on 2026-07-12 for eight final-life P0 ending CGs, physically correct Jiy
   - `second_love` only. Daeun turns from the Gangnam night window while Minjun prepares the second of exactly two mugs.
 
 - `assets/cg/ending_jiyeon_man_v1.png`
-  - `jiyeon_man` only. Off-axis observer mirror shot: Minjun remains screen-left and Jiyeon screen-right in both reality and reflection. Both real/reflected pairs share one upright, arms-down pose and all hands stay below the vanity crop. A horizontal actor swap or independently posed reflection is a failed mirror.
+  - `jiyeon_man` only. Off-axis observer mirror shot: Minjun remains screen-left and Jiyeon screen-right in both reality and reflection. Both real/reflected pairs share one straight-ahead head/neck, level shoulders, square torso, and arms-down pose; all hands stay below the vanity crop. A horizontal actor swap, turned foreground head, or independently posed reflection is a failed mirror.
 
 - `assets/cg/ending_guardian_v1.png`
   - `guardian` only. Father walks out of a modest Changwon hospital while Minjun carries one duffel and a folded jacket; no bed or wheelchair.
@@ -655,6 +655,12 @@ Updated on 2026-07-12 for eight final-life P0 ending CGs, physically correct Jiy
 - `assets/cg/romance/wedding_morning_jiyeon_v1.png`
   - Jiyeon's first married morning from Minjun's POV: bare face, same midnight-blue blouse, one visible duvet hand, and cool dawn high-rise continuity.
   - Both are 1280x800 event-result CGs revealed only at result paragraph 1 and owned by `assets/FIRST_MORNING_VISUAL_BIBLE.md`.
+
+- `assets/cg/romance/breakup_daeun_v1.png`
+  - T2 betrayal-result CG in the canonical modest Daeun home: Daeun uses her dusty-mauve home outfit and presses one red seal onto one blank separation agreement while Minjun remains withdrawn in the rear foreground.
+- `assets/cg/romance/breakup_jiyeon_v1.png`
+  - T2 release-result CG in the canonical Jiyeon high-rise: Jiyeon crosses the front-door threshold toward an indoor corridor while Minjun stays seated and does not reach after her.
+  - Both are 1280x800 choice-result CGs, never preludes or ending substitutes; exact timing and acting belong to `assets/BREAKUP_VISUAL_BIBLE.md`.
 
 - `assets/cg/romance/first_snow_daeun_v1.png`
   - December two-shot outside the canonical convenience store: mutual gaze and exactly two small plain canned coffees, one offered and one retained.

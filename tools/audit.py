@@ -336,13 +336,17 @@ def check_romance_visual_manifest():
         return
     t0_rows = root.get("t0", []) if isinstance(root, dict) else []
     t1_rows = root.get("t1", []) if isinstance(root, dict) else []
+    t2_rows = root.get("t2", []) if isinstance(root, dict) else []
     if not isinstance(t0_rows, list) or len(t0_rows) != 10:
         err("%s  T0 계약은 정확히 10개여야 함" % rel(path))
         return
     if not isinstance(t1_rows, list):
         err("%s  T1 계약은 배열이어야 함" % rel(path))
         return
-    rows = t0_rows + t1_rows
+    if not isinstance(t2_rows, list) or len(t2_rows) != 2:
+        err("%s  T2 이별 계약은 정확히 2개여야 함" % rel(path))
+        return
+    rows = t0_rows + t1_rows + t2_rows
 
     events = {}
     for event_path in glob.glob(os.path.join(ROOT, "content", "events", "*.json")):
@@ -396,7 +400,11 @@ def check_romance_visual_manifest():
             err('%s  [%s] 초상화 의상이 romance manifest와 다름' % (rel(path), event_id))
         if cg_id not in VALID_CG:
             err('%s  [%s] 모르는 CG id → "%s"' % (rel(path), event_id, cg_id))
-        if portrait_id not in VALID_PORTRAITS:
+        portrait_visibility = str(row.get("portrait_visibility", "visible"))
+        if not portrait_id and portrait_visibility != "hidden_before_reveal":
+            err('%s  [%s] 빈 heroine_portrait에는 hidden_before_reveal 계약이 필요함'
+                % (rel(path), event_id))
+        elif portrait_id and portrait_id not in VALID_PORTRAITS:
             err('%s  [%s] 모르는 portrait id → "%s"' % (rel(path), event_id, portrait_id))
         if not str(row.get("heroine_outfit", "")).strip():
             err('%s  [%s] heroine_outfit 계약 누락' % (rel(path), event_id))

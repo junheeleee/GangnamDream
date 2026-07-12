@@ -296,6 +296,24 @@
         {"id": "jiyeon", "gaze_target": "Minjun at the player camera", "pose_support": "Her pupils and face meet the player POV while one visible hand pulls the duvet to her nose and the other remains hidden."}
       ]
     },
+    "cg_romance_breakup_daeun": {
+      "path": "assets/cg/romance/breakup_daeun_v1.png",
+      "camera_role": "over_minjun_shoulder_document_two_shot",
+      "story_action": "After learning how Minjun used her trust, Daeun quietly presses one seal onto the separation paper between them.",
+      "actors": [
+        {"id": "daeun", "gaze_target": "A point beside Minjun's shoulder", "pose_support": "Her composed face stays lifted toward him while her right hand presses the single red seal and her left hand lies flat on the blank paper edge."},
+        {"id": "minjun", "gaze_target": "Daeun and the paper between them", "pose_support": "His rear three-quarter head and collapsed white-shirt shoulders face her; he remains withdrawn on his side of the table and does not reach for her or the document."}
+      ]
+    },
+    "cg_romance_breakup_jiyeon": {
+      "path": "assets/cg/romance/breakup_jiyeon_v1.png",
+      "camera_role": "rear_departure_two_shot",
+      "story_action": "Jiyeon crosses the apartment threshold toward her own world while Minjun accepts the distance and stays behind.",
+      "actors": [
+        {"id": "jiyeon", "gaze_target": "The cool apartment corridor ahead", "pose_support": "Her straight shoulders, forward step, relaxed free hand, and handbag hand all continue through the threshold without a backward or lens-facing appeal."},
+        {"id": "minjun", "gaze_target": "Jiyeon's departing back", "pose_support": "He remains seated by the room and window with his torso and head turned toward her while both arms stay lowered and never reach."}
+      ]
+    },
     "cg_ending_full_circle": {
       "path": "assets/cg/ending_full_circle_v1.png",
       "camera_role": "observational_window_three_quarter",

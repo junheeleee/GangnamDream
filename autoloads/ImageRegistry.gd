@@ -286,6 +286,8 @@ const CG = {
 	"cg_romance_wedding_morning_jiyeon": "res://assets/cg/romance/wedding_morning_jiyeon_v1.png",
 	"cg_romance_first_snow_daeun": "res://assets/cg/romance/first_snow_daeun_v1.png",
 	"cg_romance_first_snow_jiyeon": "res://assets/cg/romance/first_snow_jiyeon_v1.png",
+	"cg_romance_breakup_daeun": "res://assets/cg/romance/breakup_daeun_v1.png",
+	"cg_romance_breakup_jiyeon": "res://assets/cg/romance/breakup_jiyeon_v1.png",
 }
 
 # ── 유물 오브젝트 스틸 ────────────────────────────────────────

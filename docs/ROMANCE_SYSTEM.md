@@ -195,6 +195,7 @@
   1. **이혼/이별 dik**: `arc_daeun_final_choice` 배신 결과 + `arc_jiyeon_verdict` 보냄 결과에 `namsan_lock_*` dik 변주 — **"남산의 그 자물쇠는, 아직 거기 있을 것이다."** (게임에서 가장 아픈 회수 후보)
   2. **결혼식 dik**: 따뜻한 회수 — "자물쇠를 잠그던 날의 약속이 오늘 식장에 서 있다" 결.
 - 배치: 웨이브 2(첫 키스+계절 스페셜과 동일 메커니즘 — `_ap_date`의 마일스톤 오버라이드). CG 후보: 자물쇠 벽 앞 두 사람(P1).
+- **T2 결별 결과 CG 계약(2026-07-12 완료)**: 다은의 배신 선택은 결과 문단 3에서 `cg_romance_breakup_daeun`의 빈 결별 합의서 도장을, 지연의 보냄 선택은 결과 문단 2에서 `cg_romance_breakup_jiyeon`의 현관 이탈을 공개한다. 반대 선택과 선택 전 화면에는 CG가 없다. 다은은 지문상 옆방에 있으므로 선택 전 초상을 숨기고, 두 장면은 각각 `daeun_newlywed_home`/`jiyeon_newlywed_home`을 유지한다. 정본은 `assets/BREAKUP_VISUAL_BIBLE.md`.
 
 ### 7-K. 렌즈 원칙 — 같은 하루, 다른 세계 (유저 정본 2026-07-07)
 

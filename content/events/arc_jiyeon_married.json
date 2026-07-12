@@ -69,7 +69,7 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "background": "gangnam_night",
+    "background": "jiyeon_newlywed_home",
     "portrait": "jiyeon_cold",
     "conditions": {
       "min_turn": 9999
@@ -105,6 +105,8 @@
       },
       {
         "text": "\"이게 나예요. 못 바꿔요. ...미안해요.\" (그녀를 보낸다)",
+        "result_cg": "cg_romance_breakup_jiyeon",
+        "result_cg_reveal_paragraph": 2,
         "effects": {
           "mental": 10,
           "tint": 8
