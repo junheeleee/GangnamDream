@@ -1326,6 +1326,13 @@ func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> 
 		_close_modal()
 		await _settle(0.3)
 	await _shot_action_category_modal("_open_cat_people", prefix + "05_people_modal")
+	GameState.flags["racetrack_guide_met"] = true
+	GameState.flags["entered_network"] = true
+	GameState.flags["scalping_introduced"] = true
+	GameState.flags["casino_club_introduced"] = true
+	GameState.investment_skill = maxi(GameState.investment_skill, 50)
+	GameState.money = maxf(GameState.money, 5_000_000.0)
+	await _shot_action_category_modal("_open_cat_gambling", prefix + "05a_gambling_modal")
 	var qa_money: float = GameState.money
 	GameState.money = 100_000_000.0
 	await _shot_action_category_modal("_open_cat_life", prefix + "06_life_modal")
@@ -2334,6 +2341,13 @@ func _shot_gift_picker(prefix: String) -> void:
 func _shot_action_category_modals() -> void:
 	await _shot_action_category_modal("_open_cat_money", "04g_action_money_modal")
 	await _shot_action_category_modal("_open_cat_people", "04h_action_people_modal")
+	GameState.flags["racetrack_guide_met"] = true
+	GameState.flags["entered_network"] = true
+	GameState.flags["scalping_introduced"] = true
+	GameState.flags["casino_club_introduced"] = true
+	GameState.investment_skill = maxi(GameState.investment_skill, 50)
+	GameState.money = maxf(GameState.money, 5_000_000.0)
+	await _shot_action_category_modal("_open_cat_gambling", "04j_action_gambling_modal")
 	await _shot_action_category_modal("_open_cat_life", "04i_action_life_modal")
 
 func _shot_action_category_modal(method_name: String, shot_name: String) -> void:
@@ -2354,10 +2368,13 @@ func _shot_action_category_modal(method_name: String, shot_name: String) -> void
 			_assert_action_atlas_regions("res://assets/ui/action_tiles/action_study_atlas.png", 4, "Self-Dev modal")
 		"_open_cat_life":
 			_assert_action_atlas_regions("res://assets/ui/action_tiles/action_advanced_atlas.png", 1, "Life modal")
+		"_open_cat_gambling":
+			_assert_action_atlas_regions("res://assets/ui/action_tiles/action_gambling_atlas.png", 4, "Gambling modal")
 	await _save(shot_name)
 	if method_name == "_open_cat_people" and _mg.has_method("_set_people_page"):
 		_mg.call("_set_people_page", 1)
 		await _settle(0.35)
+		_assert_action_atlas_regions("res://assets/ui/action_tiles/action_social_risk_atlas.png", 1, "People network page")
 		await _save(shot_name + "_network")
 	_close_modal()
 	await _settle(0.3)

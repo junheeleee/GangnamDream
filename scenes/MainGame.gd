@@ -76,6 +76,7 @@ var _moral_tint_overlay: ColorRect = null  # MORAL_TINT: 배경 온도/채도 �
 var _moral_surface_overlay: ColorRect = null  # MORAL_TINT: 화면 표면의 부식/선명도 레이어
 var _moral_surface_material: ShaderMaterial = null
 var _moral_bg_material: ShaderMaterial = null
+var _moral_action_material: ShaderMaterial = null
 var _moral_portrait_material: ShaderMaterial = null
 var _moral_tint_tween: Tween = null
 var _moral_world_tween: Tween = null
@@ -137,6 +138,14 @@ const ACTION_ILLUSTRATION_DATA := {
 	"exercise": ["res://assets/ui/action_tiles/action_study_atlas.png", Rect2(512, 0, 512, 512)],
 	"meditation": ["res://assets/ui/action_tiles/action_study_atlas.png", Rect2(0, 512, 512, 512)],
 	"invest_study": ["res://assets/ui/action_tiles/action_study_atlas.png", Rect2(512, 512, 512, 512)],
+	"people": ["res://assets/ui/action_tiles/action_social_risk_atlas.png", Rect2(0, 0, 512, 512)],
+	"gambling": ["res://assets/ui/action_tiles/action_social_risk_atlas.png", Rect2(512, 0, 512, 512)],
+	"routine": ["res://assets/ui/action_tiles/action_social_risk_atlas.png", Rect2(0, 512, 512, 512)],
+	"date": ["res://assets/ui/action_tiles/action_social_risk_atlas.png", Rect2(512, 512, 512, 512)],
+	"racetrack": ["res://assets/ui/action_tiles/action_gambling_atlas.png", Rect2(0, 0, 512, 512)],
+	"holdem": ["res://assets/ui/action_tiles/action_gambling_atlas.png", Rect2(512, 0, 512, 512)],
+	"scalping": ["res://assets/ui/action_tiles/action_gambling_atlas.png", Rect2(0, 512, 512, 512)],
+	"casino_venue": ["res://assets/ui/action_tiles/action_gambling_atlas.png", Rect2(512, 512, 512, 512)],
 }
 
 const BG_PATHS = {
@@ -479,6 +488,23 @@ func _apply_moral_surface_shader() -> void:
 		_moral_bg_material.set_shader_parameter("tone_quantize", clampf(0.012 + black * 0.120 - white * 0.010, 0.0, 0.14))
 		_moral_bg_material.set_shader_parameter("screen_scale", 620.0 + black * 80.0 - white * 40.0)
 		_moral_bg_material.set_shader_parameter("seed", float(GameState.turn % 131) + absf(_moral_norm) * 19.0)
+	if _moral_action_material:
+		# AP art is much smaller than a scene background. Keep its props readable at
+		# neutral while preserving the same Black corrosion / White clarity language.
+		_moral_action_material.set_shader_parameter("desaturation", clampf(0.55 + black * 0.45 - white * 0.35, 0.18, 1.0))
+		_moral_action_material.set_shader_parameter("brightness", clampf(1.16 - black * 0.18 + white * 0.04, 0.96, 1.20))
+		_moral_action_material.set_shader_parameter("contrast", clampf(1.08 - black * 0.02 + white * 0.03, 1.02, 1.12))
+		_moral_action_material.set_shader_parameter("mid_gamma", clampf(0.82 + black * 0.18 - white * 0.06, 0.74, 1.00))
+		_moral_action_material.set_shader_parameter("tint_amount", clampf(black * 0.06, 0.0, 0.07))
+		_moral_action_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#f7fbff"), white))
+		_moral_action_material.set_shader_parameter("grain_amount", clampf(0.010 + black * 0.028 - white * 0.008, 0.0, 0.045))
+		_moral_action_material.set_shader_parameter("ink_bleed", clampf(0.025 + black * 0.105 - white * 0.020, 0.0, 0.15))
+		_moral_action_material.set_shader_parameter("paper_fade", clampf(0.008 + white * 0.018, 0.0, 0.035))
+		_moral_action_material.set_shader_parameter("edge_burn", clampf(0.010 + black * 0.070 - white * 0.010, 0.0, 0.09))
+		_moral_action_material.set_shader_parameter("print_screen", clampf(0.004 + black * 0.020 - white * 0.003, 0.0, 0.026))
+		_moral_action_material.set_shader_parameter("tone_quantize", clampf(0.004 + black * 0.070 - white * 0.004, 0.0, 0.085))
+		_moral_action_material.set_shader_parameter("screen_scale", 700.0 + black * 70.0)
+		_moral_action_material.set_shader_parameter("seed", float(GameState.turn % 127) + absf(_moral_norm) * 17.0)
 
 func _apply_story_moral_clarity() -> void:
 	var black := clampf(-_moral_norm, 0.0, 1.0)
@@ -876,6 +902,22 @@ func _build_ui():
 		_moral_bg_material.set_shader_parameter("screen_scale", 620.0)
 		_moral_bg_material.set_shader_parameter("seed", 0.0)
 		event_bg.material = _moral_bg_material
+		_moral_action_material = ShaderMaterial.new()
+		_moral_action_material.shader = bg_grade_shader
+		_moral_action_material.set_shader_parameter("desaturation", 0.55)
+		_moral_action_material.set_shader_parameter("brightness", 1.16)
+		_moral_action_material.set_shader_parameter("contrast", 1.08)
+		_moral_action_material.set_shader_parameter("mid_gamma", 0.82)
+		_moral_action_material.set_shader_parameter("tint_color", Color("#020303"))
+		_moral_action_material.set_shader_parameter("tint_amount", 0.0)
+		_moral_action_material.set_shader_parameter("grain_amount", 0.010)
+		_moral_action_material.set_shader_parameter("ink_bleed", 0.025)
+		_moral_action_material.set_shader_parameter("paper_fade", 0.008)
+		_moral_action_material.set_shader_parameter("edge_burn", 0.010)
+		_moral_action_material.set_shader_parameter("print_screen", 0.004)
+		_moral_action_material.set_shader_parameter("tone_quantize", 0.004)
+		_moral_action_material.set_shader_parameter("screen_scale", 700.0)
+		_moral_action_material.set_shader_parameter("seed", 0.0)
 	event_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(event_bg)
 
@@ -1213,6 +1255,8 @@ func _show_ap_action_commit(title: String, icon_id: String, accent: String,
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	icon.texture = thumb if thumb != null else _ui_icon_texture(icon_id)
 	icon.modulate = Color(1, 1, 1, 0.94) if thumb != null else Color(accent, 0.95)
+	if thumb is AtlasTexture and _moral_action_material:
+		icon.material = _moral_action_material
 	icon_box.add_child(icon)
 
 	var text_col := VBoxContainer.new()
@@ -6725,16 +6769,18 @@ func _make_ap_board_card(title: String, subtitle: String, icon_id: String,
 	row.add_theme_constant_override("separation", 11)
 	margin.add_child(row)
 
+	var is_action_illustration := art_thumb is AtlasTexture
+	var image_size := Vector2(112, 84) if is_action_illustration else Vector2(74, 74)
 	var image_frame := PanelContainer.new()
 	image_frame.set_meta("moral_role", "choice_icon")
 	image_frame.set_meta("moral_accent", accent if not disabled else "#343946")
-	image_frame.custom_minimum_size = Vector2(74, 74)
+	image_frame.custom_minimum_size = image_size
 	image_frame.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	image_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	image_frame.clip_contents = true
 	var image_style := StyleBoxFlat.new()
 	image_style.bg_color = Color("#05070a", 0.98)
-	image_style.border_color = Color(accent_color, 0.72 if not disabled else 0.22)
+	image_style.border_color = Color(accent_color, 0.38 if is_action_illustration and not disabled else (0.72 if not disabled else 0.22))
 	image_style.set_border_width_all(1)
 	image_style.set_corner_radius_all(2)
 	image_frame.add_theme_stylebox_override("panel", image_style)
@@ -6744,11 +6790,13 @@ func _make_ap_board_card(title: String, subtitle: String, icon_id: String,
 	visual.set_meta("moral_role", "choice_thumbnail")
 	visual.set_meta("moral_accent", accent if not disabled else "#343946")
 	visual.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	visual.custom_minimum_size = Vector2(74, 74)
+	visual.custom_minimum_size = image_size
 	visual.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	visual.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	visual.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED if is_action_illustration else TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	visual.texture = art_thumb if art_thumb != null else _ui_icon_texture(icon_id)
 	visual.modulate = Color(1, 1, 1, 0.96 if not disabled else 0.28)
+	if is_action_illustration and _moral_action_material:
+		visual.material = _moral_action_material
 	image_frame.add_child(visual)
 
 	var text_col := VBoxContainer.new()
@@ -6919,7 +6967,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 		rail_col.add_child(rail_num)
 
 	var is_action_illustration := art_thumb is AtlasTexture
-	var thumb_size := Vector2(76, 48) if is_action_illustration else Vector2(42, 42)
+	var thumb_size := Vector2(108, 56) if is_action_illustration else Vector2(42, 42)
 	var icon_box := PanelContainer.new()
 	icon_box.set_meta("moral_role", "choice_icon")
 	icon_box.set_meta("moral_accent", accent if not disabled else "#343446")
@@ -6944,8 +6992,8 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 		art_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 		art_tex.texture = art_thumb
 		art_tex.modulate = Color.WHITE if is_action_illustration and not disabled else Color(1, 1, 1, 0.92 if not disabled else 0.28)
-		if is_action_illustration and _moral_bg_material:
-			art_tex.material = _moral_bg_material
+		if is_action_illustration and _moral_action_material:
+			art_tex.material = _moral_action_material
 		icon_box.add_child(art_tex)
 	else:
 		var icon_tex := TextureRect.new()
@@ -7316,6 +7364,24 @@ func _action_illustration_key(fn: String, icon_id: String) -> String:
 			return "rest"
 		"_ap_move_housing":
 			return "housing"
+		"_open_cat_life":
+			return "housing"
+		"_open_cat_people", "_ap_network", "_ap_vip_network":
+			return "people"
+		"_open_cat_gambling":
+			return "gambling"
+		"_open_routine_modal":
+			return "routine"
+		"_ap_date":
+			return "date"
+		"_open_racetrack":
+			return "racetrack"
+		"_open_holdem":
+			return "holdem"
+		"_open_scalping":
+			return "scalping"
+		"_open_jeongseon_casino":
+			return "casino_venue"
 	# Dedicated scene art must not be repeated across unrelated submenu actions.
 	# The icon fallback is only for callers that genuinely have no action function.
 	if fn.is_empty():
@@ -7328,6 +7394,20 @@ func _action_illustration_key(fn: String, icon_id: String) -> String:
 				return "study"
 			"rest":
 				return "rest"
+			"people":
+				return "people"
+			"casino":
+				return "gambling"
+			"routine":
+				return "routine"
+			"life":
+				return "housing"
+			"racetrack":
+				return "racetrack"
+			"holdem":
+				return "holdem"
+			"scalping":
+				return "scalping"
 	return ""
 
 func _action_illustration_texture(tile_key: String) -> Texture2D:
@@ -7544,7 +7624,7 @@ func _cat_modal_button(label: String, accent: String, fn: String, arg = null):
 		"",
 		art_thumb,
 		_action_axis_tag_for_card(fn))
-	btn.custom_minimum_size = Vector2(0, 74)
+	btn.custom_minimum_size = Vector2(0, 82)
 	var fn_name := fn
 	var fn_arg = arg
 	btn.pressed.connect(func():
@@ -7554,7 +7634,7 @@ func _cat_modal_button(label: String, accent: String, fn: String, arg = null):
 
 func _cat_modal_status_card(title: String, subtitle: String, accent: String, icon_id: String, badge: String) -> void:
 	var card := _make_essential_action_card(title, subtitle, icon_id, accent, true, true, badge, "", _action_thumb_texture("", icon_id))
-	card.custom_minimum_size = Vector2(0, 74)
+	card.custom_minimum_size = Vector2(0, 82)
 	modal_body.add_child(card)
 
 func _split_action_label(label: String) -> Dictionary:
@@ -8215,7 +8295,7 @@ func _ap_study():
 		var btn := _make_essential_action_card(
 			str(entry[2]), sub, "study", "#5a6ea8", false, false, "", "",
 			_action_illustration_texture(illustration_key), "")
-		btn.custom_minimum_size = Vector2(0, 60)
+		btn.custom_minimum_size = Vector2(0, 72)
 		btn.pressed.connect(func():
 			_close_modal()
 			_ap_study_commit(st))
@@ -8723,8 +8803,8 @@ func _routine_choice_card(slot: int, kind: String, selected: bool) -> Button:
 	icon.custom_minimum_size = Vector2(26, 26)
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icon.texture = _action_thumb_texture("", _routine_kind_icon(kind))
-	icon.modulate = Color(1, 1, 1, 0.94 if selected else 0.68)
+	icon.texture = _ui_icon_texture(_routine_kind_icon(kind))
+	icon.modulate = Color(accent, 0.94 if selected else 0.68)
 	row.add_child(icon)
 	var name_lbl := _label(_routine_kind_label(kind), 12, "#eef3f8" if selected else "#9aa4b8")
 	name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
