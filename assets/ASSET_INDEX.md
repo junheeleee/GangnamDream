@@ -16,6 +16,7 @@ Updated on 2026-07-11 for paired Namsan observation-deck and love-lock romance a
 Updated on 2026-07-11 for heroine-specific newlywed homes, same-outfit first-night portraits, and paragraph-delayed first-morning CGs.
 Updated on 2026-07-11 for paired first-snow route art and Minjun's explicit monsoon, heatwave, and cold-snap portraits.
 Updated on 2026-07-12 for AP in-world scene-still routing; the earlier prop-only action atlases are no longer runtime canon.
+Updated on 2026-07-12 for Hyunsu's Seoul terminal result and route-dependent accounting/civil-service portrait stages.
 
 ## Use These Assets
 
@@ -133,6 +134,14 @@ Updated on 2026-07-12 for AP in-world scene-still routing; the earlier prop-only
   - Kang Hyunsu transparent portrait, redesigned as a likable 26-27-year-old chubby exam-prep junior.
   - Distinctive lock: round glasses, soft round face, stockier body, olive-gray hoodie, muted burgundy striped shirt, awkward warm half-smile.
 
+- `assets/characters/npc_hyunsu_accounting.png`
+  - Kang Hyunsu settled accounting-route portrait: same round glasses, face, stocky build, hair, and restrained smile in a navy suit, pale shirt, burgundy tie, and blank business card.
+  - Runtime use: `hyunsu_accounting` for the reunion and later callbacks when `hyunsu_pivoted` is the known route.
+
+- `assets/characters/npc_hyunsu_civil_service.png`
+  - Kang Hyunsu civil-service route portrait: same identity in a practical charcoal jacket, pale shirt, and blank clipped badge.
+  - Runtime use: `hyunsu_civil_service` when `hyunsu_passed` is known. Do not add readable government names or reuse Park Seongjun's lanyard silhouette.
+
 - `assets/characters/npc_mentor.png`
   - Han Jiyeon normal transparent portrait.
   - Production status: approved for first in-game QA. 31-year-old wealthy Gangnam heroine, long black hair, cream jacket, black inner top.
@@ -230,6 +239,10 @@ Updated on 2026-07-12 for AP in-world scene-still routing; the earlier prop-only
 
 - `assets/backgrounds/seoul_subway.png`
   - Late-night transit background for commute, loneliness, job, and fatigue events.
+
+- `assets/backgrounds/seoul_bus_terminal_night.png`
+  - Person-free Seoul intercity terminal at night for the goodbye result of `arc_y2_hyunsu_night_bus`.
+  - The coach door faces the curbside platform; vehicle lane, tactile paving, waiting seats, terminal glass, and pedestrian circulation remain physically separate. Keep the right edge readable under Hyunsu's portrait and do not reuse it as an ordinary city bus stop.
 
 - `assets/backgrounds/heatwave_city.png`
   - Dry Seoul heatwave street background for August heat-alert events.

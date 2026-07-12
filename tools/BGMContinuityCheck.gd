@@ -265,6 +265,14 @@ func _ready() -> void:
 			"tags": [],
 		}, "highway"],
 		[{
+			"id": "qa_bus_terminal_audio",
+			"title": "Last Coach",
+			"description": "He waits on the platform until the coach departs.",
+			"category": "story",
+			"background": "seoul_bus_terminal_night",
+			"tags": [],
+		}, "highway"],
+		[{
 			"id": "kx_open_chat",
 			"title": "Open Chat",
 			"description": "An anonymous online investing chat room keeps scrolling on the phone.",

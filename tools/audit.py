@@ -225,6 +225,21 @@ def check_events():
             port = e.get("portrait")
             if port and VALID_PORTRAITS and port not in VALID_PORTRAITS:
                 warn('%s  [%s] 모르는 portrait id → "%s"' % (rel(p), eid, port))
+            portrait_variants = e.get("portrait_if_known")
+            if portrait_variants is not None:
+                if not isinstance(portrait_variants, dict) or not portrait_variants:
+                    err('%s  [%s] portrait_if_known은 비어 있지 않은 {flag: portrait_id} 객체여야 함'
+                        % (rel(p), eid))
+                else:
+                    for flag_id, portrait_id in portrait_variants.items():
+                        if not isinstance(flag_id, str) or not flag_id.strip():
+                            err('%s  [%s] portrait_if_known 플래그 키가 비어 있음' % (rel(p), eid))
+                        if not isinstance(portrait_id, str) or not portrait_id.strip():
+                            err('%s  [%s] portrait_if_known[%s] 초상 ID가 비어 있음'
+                                % (rel(p), eid, flag_id))
+                        elif VALID_PORTRAITS and portrait_id not in VALID_PORTRAITS:
+                            err('%s  [%s] portrait_if_known[%s] 모르는 portrait id → "%s"'
+                                % (rel(p), eid, flag_id, portrait_id))
             bg = e.get("background")
             if bg and VALID_BACKGROUNDS and bg not in VALID_BACKGROUNDS:
                 warn('%s  [%s] 모르는 background id → "%s"' % (rel(p), eid, bg))
@@ -416,6 +431,11 @@ def _walk_event_flags(ev, game_sets, game_reads_json, cast_sets, cast_reads_json
         for fl in dik.keys():
             if isinstance(fl, str) and fl:
                 game_reads_json.setdefault(str(fl), []).append(where)
+    pik = ev.get("portrait_if_known", {})
+    if isinstance(pik, dict):
+        for fl in pik.keys():
+            if isinstance(fl, str) and fl:
+                game_reads_json.setdefault(str(fl), []).append(where)
     # 생각정리(thoughts.json) on_complete.flags = 완료 시 set되는 플래그
     oc = ev.get("on_complete", {})
     if isinstance(oc, dict):
@@ -530,7 +550,7 @@ CAST_EFFECT_KEYS = {"affinity", "stage", "met", "flags"}
 # 이벤트 루트에서 허용되는 키 (스키마)
 EVENT_ROOT_KEYS = {"id", "title", "description", "category", "rarity", "weight",
                    "hidden", "conditions", "tags", "cooldown", "choices",
-                   "portrait", "portrait_reveal_paragraph", "background", "paragraph_backgrounds", "cg", "cg_reveal_paragraph", "speaker", "one_time", "_file",
+                   "portrait", "portrait_if_known", "portrait_reveal_paragraph", "background", "paragraph_backgrounds", "cg", "cg_reveal_paragraph", "speaker", "one_time", "_file",
                    "result_cg", "result_cg_reveal_paragraph", "result_background",
                    "timed", "timer_seconds",
                    "description_orthodox", "description_unorthodox",

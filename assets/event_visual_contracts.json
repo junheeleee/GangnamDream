@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "tag_coverage": [
     "climate",
     "season",
@@ -38,6 +38,11 @@
     {"id": "arc_sangchul_03_network", "background": "sangchul_private_dining", "portrait": "sangchul_normal"},
     {"id": "arc_daeun_the_test", "background": "cafe", "portrait": "sangchul_normal"},
 
+    {"id": "arc_y2_hyunsu_night_bus", "background": "late_night", "portrait": "hyunsu", "choice_result_backgrounds": {"0": "seoul_bus_terminal_night"}},
+    {"id": "hyunsu_reunion_later", "background": "street", "portrait": "hyunsu_accounting"},
+    {"id": "hyunsu_year4_echo", "background": "goshiwon_room", "portrait": "hyunsu_accounting", "portrait_if_known": {"hyunsu_passed": "hyunsu_civil_service"}},
+    {"id": "hyunsu_year5_call", "background": "goshiwon_room", "portrait": "hyunsu_accounting", "portrait_if_known": {"hyunsu_passed": "hyunsu_civil_service"}},
+
     {"id": "cafe_cb_stole_00", "background": "goshiwon_room", "portrait": "player_tired"},
     {"id": "cafe_cb_stole_call", "background": "goshiwon_room", "portrait": null},
     {"id": "cafe_cb_stole_verify", "background": "investment_phone", "portrait": "player_determined"},
@@ -49,9 +54,6 @@
   ],
   "known_debt": [
     {"id": "amb_wallet_00", "issue": "The wallet is under a bus-stop bench, but no physically correct Seoul bus-stop background exists."},
-    {"id": "arc_y2_hyunsu_night_bus", "issue": "The terminal departure result has no bus-terminal background or paragraph result transition."},
-    {"id": "hyunsu_reunion_later", "issue": "The prose shows Hyunsu in a suit-and-business-card photo, but the old hoodie portrait remains."},
-    {"id": "hyunsu_year4_echo", "issue": "The prose shows employed Hyunsu in a suit or civil-service badge, but the old hoodie portrait remains."},
     {"id": "kx_street_food", "issue": "The winter street and clothing are correct, but the bungeoppang cart described in the prose is not visible."},
     {"id": "kx_seollal_sebae", "issue": "The family home is correct, but the Seollal gathering and bowing relatives have no dedicated visual."},
     {"id": "cafe_cb_stole_call", "issue": "Kim, the cafe broker, has no dedicated portrait; the event intentionally hides the old team-lead stand-in."},

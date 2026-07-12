@@ -725,12 +725,38 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 		var actual_ambience := str(BGMPlayer.get("_current_ambience_key"))
 		if actual_ambience != expected_ambience:
 			_fail("%s ambience expected %s, got %s." % [event_id, expected_ambience, actual_ambience])
+	_assert_hyunsu_visual_state(story, event_id, select_choice)
 	await _save(shot_name)
 	_remove_nodes_by_script("res://scenes/StoryMode.gd")
 	if suppress_cg and had_cg:
 		overridden_event["cg"] = original_cg
 	GameState.pending_story_queue.clear()
 	await _settle(0.3)
+
+func _assert_hyunsu_visual_state(story: Node, event_id: String, selected_choice: int) -> void:
+	var expected_portrait_id := ""
+	match event_id:
+		"arc_y2_hyunsu_night_bus":
+			expected_portrait_id = "hyunsu"
+		"hyunsu_reunion_later":
+			expected_portrait_id = "hyunsu_accounting"
+		"hyunsu_year4_echo", "hyunsu_year5_call":
+			expected_portrait_id = "hyunsu_civil_service" if GameState.flags.get("hyunsu_passed", false) else "hyunsu_accounting"
+	if not expected_portrait_id.is_empty():
+		var portrait := story.get("_portrait") as TextureRect
+		var actual_portrait_path := ""
+		if is_instance_valid(portrait) and portrait.texture != null:
+			actual_portrait_path = portrait.texture.resource_path
+		var expected_portrait_path := ImageRegistry.get_portrait(expected_portrait_id)
+		if actual_portrait_path != expected_portrait_path:
+			_fail("%s portrait expected %s, got %s." % [event_id, expected_portrait_path, actual_portrait_path])
+	if event_id == "arc_y2_hyunsu_night_bus" and selected_choice == 0:
+		var actual_background := str(story.get("_event_background_id"))
+		if actual_background != "seoul_bus_terminal_night":
+			_fail("Hyunsu send-off result expected bus terminal, got %s." % actual_background)
+		var actual_ambience := str(BGMPlayer.get("_current_ambience_key"))
+		if actual_ambience != "highway":
+			_fail("Hyunsu send-off result expected highway ambience, got %s." % actual_ambience)
 
 func _shot_opening_cinematic(lang: String, prefix: String) -> void:
 	_set_qa_language(lang)
@@ -1097,6 +1123,10 @@ func _shot_event_visual_surfaces(lang: String = "en", prefix: String = "event_vi
 		["cafe_cb_stole_verify", "16_broker_research_phone"],
 		["cafe_cb_stole_smart", "17_broker_smart_cafe"],
 		["cafe_cb_honest_in", "18_broker_honest_cafe"],
+		["arc_y2_hyunsu_night_bus", "19_hyunsu_phone_room"],
+		["hyunsu_reunion_later", "20_hyunsu_accounting_reunion"],
+		["hyunsu_year4_echo", "21_hyunsu_accounting_year4"],
+		["hyunsu_year5_call", "22_hyunsu_accounting_year5"],
 	]
 	for data in cases:
 		var event_id := str(data[0])
@@ -1105,6 +1135,16 @@ func _shot_event_visual_surfaces(lang: String = "en", prefix: String = "event_vi
 		if event_id == "arc_sangchul_03_network":
 			_prepare_event_visual_qa_state(event_id)
 			await _shot_story_event(event_id, prefix + str(data[1]) + "_choices", "", 0.45, true, true)
+	_prepare_event_visual_qa_state("arc_y2_hyunsu_night_bus")
+	await _shot_story_event("arc_y2_hyunsu_night_bus", prefix + "19a_hyunsu_terminal_result", "", 0.45, true, true, 0)
+	_prepare_event_visual_qa_state("hyunsu_year4_echo")
+	GameState.flags.erase("hyunsu_pivoted")
+	GameState.flags["hyunsu_passed"] = true
+	await _shot_story_event("hyunsu_year4_echo", prefix + "21a_hyunsu_civil_year4", "", 0.45, true)
+	_prepare_event_visual_qa_state("hyunsu_year5_call")
+	GameState.flags.erase("hyunsu_pivoted")
+	GameState.flags["hyunsu_passed"] = true
+	await _shot_story_event("hyunsu_year5_call", prefix + "22a_hyunsu_civil_year5", "", 0.45, true)
 
 func _prepare_event_visual_qa_state(event_id: String) -> void:
 	_prepare_main_game_state()
@@ -1158,6 +1198,26 @@ func _prepare_event_visual_qa_state(event_id: String) -> void:
 			GameState.month = 12
 		"cafe_cb_stole_call", "cafe_cb_stole_verify", "cafe_cb_stole_smart", "cafe_cb_honest_in":
 			GameState.month = 10
+		"arc_y2_hyunsu_night_bus":
+			GameState.turn = 82
+			GameState.month = 9
+			GameState.flags["arc_intro_hyunsu_seen"] = true
+		"hyunsu_reunion_later":
+			GameState.turn = 96
+			GameState.month = 12
+			GameState.flags["hyunsu_pivoted"] = true
+		"hyunsu_year4_echo":
+			GameState.turn = 160
+			GameState.age = 36
+			GameState.year = 2029
+			GameState.month = 4
+			GameState.flags["hyunsu_pivoted"] = true
+		"hyunsu_year5_call":
+			GameState.turn = 208
+			GameState.age = 37
+			GameState.year = 2030
+			GameState.month = 4
+			GameState.flags["hyunsu_pivoted"] = true
 
 func _prepare_wedding_morning_qa_state(person_id: String) -> void:
 	_prepare_main_game_state()

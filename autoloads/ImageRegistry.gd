@@ -49,6 +49,8 @@ const PORTRAITS = {
 	# 강현수 (고시원 옆방 공시생 후배)
 	"hyunsu":             "res://assets/characters/npc_close_friend.png",
 	"hyunsu_normal":      "res://assets/characters/npc_close_friend.png",
+	"hyunsu_accounting":  "res://assets/characters/npc_hyunsu_accounting.png",
+	"hyunsu_civil_service": "res://assets/characters/npc_hyunsu_civil_service.png",
 
 	# 한지연 (투자·로맨스) — legacy file names, regenerate as transparent portraits
 	"jiyeon_normal":      "res://assets/characters/npc_mentor.png",
@@ -144,6 +146,7 @@ const BACKGROUNDS = {
 	"cafe":              "res://assets/backgrounds/cafe_seoul.png",
 	"street_day":        "res://assets/backgrounds/street_seoul_day.png",
 	"subway":            "res://assets/backgrounds/seoul_subway.png",
+	"seoul_bus_terminal_night": "res://assets/backgrounds/seoul_bus_terminal_night.png",
 	"street_rainy":      "res://assets/backgrounds/seoul_rainy_street.png",
 	"cold_snap_street":  "res://assets/backgrounds/seoul_cold_snap_street.png",
 	"year2_winter_street_night": "res://assets/backgrounds/year2_winter_last_night.png",

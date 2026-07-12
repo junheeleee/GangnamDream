@@ -4,7 +4,7 @@ Updated: 2026-07-12
 
 ## Current Verdict
 
-The game does not yet provide four-season wardrobe coverage for every character. Runtime portrait selection is partly scene-specific and partly state-based. Thirty-seven high-risk event surfaces are now locked by `assets/event_visual_contracts.json`; ten acknowledged background, portrait, or staging debts remain. This document prevents partial coverage from being reported as complete.
+The game does not yet provide four-season wardrobe coverage for every character. Runtime portrait selection is partly scene-specific and partly state-based. Forty-one high-risk event surfaces are now locked by `assets/event_visual_contracts.json`; seven acknowledged background, portrait, or staging debts remain. This document prevents partial coverage from being reported as complete.
 
 ## Contract
 
@@ -32,28 +32,27 @@ The game does not yet provide four-season wardrobe coverage for every character.
 | Han Jiyeon Narrow Room | Long coat at door, oxblood top indoors | Complete for January-April, October-December entry | Runtime deferral is tested |
 | Han Jiyeon first night/morning | Midnight-blue indoor lounge outfit across portrait/CG | Complete, indoor all-season | Dedicated high-rise home, bare-face continuity, and paragraph-1 morning reveal are tested |
 | Han Jiyeon first snow | Charcoal tailored coat + garnet knit inside her sedan | Complete for December | Left-hand-drive seating, resting wipers, mutual gaze, delayed reveal, and December routing are tested |
-| Hyunsu, Sangchul, Father, Jaehyuk, Seongjun, Minseo, minor recurring cast | One primary outfit each | Mostly season-neutral indoor use; explicit debt now inventoried | Employed Hyunsu, cafe broker, and transit scenes remain in the strict debt gate; Sangchul's network room is complete |
+| Hyunsu, Sangchul, Father, Jaehyuk, Seongjun, Minseo, minor recurring cast | Primary outfit plus Hyunsu accounting/civil-service stages | Mostly season-neutral indoor use; Hyunsu's time passage is now state-locked | Cafe broker and bus-stop staging remain in the strict debt gate; Hyunsu terminal/employment and Sangchul's network room are complete |
 
 ## Locked Event Surfaces
 
 - Weather reuse: heatwave, monsoon, cold snap, rainy commute, rainy delivery memory, and winter street food now use explicit backgrounds/portraits and allowed months where the clothing is seasonal.
 - Indoor/outdoor routing: rainy-night introspection and father-medication calls stay in Minjun's goshiwon; Sangchul's network scene uses its Gangnam private dining room; Daeun's test and broker meetings use the cafe; phone research uses the investment-phone still.
 - Year close: Year 1 uses the canonical off-duty goshiwon frame. Years 2-4 use the same cold-weather Minjun continuity with dedicated December night street, bare winter Han River, and laundry-free winter rooftop backgrounds.
+- Hyunsu passage: the late-night call retains his exam-prep hoodie, the goodbye result moves to a physically coherent intercity terminal, and Year 4/5 callbacks select accounting-firm or civil-service clothing from the known route flag.
 - Identity safety: cafe broker events hide the old office-team-lead stand-in until a dedicated portrait exists. A missing portrait is visible production debt; a wrong recurring identity is a continuity error.
 - `python3 tools/event_visual_contract_check.py` is part of `tools/audit.sh`. `--strict` intentionally fails while any acknowledged row remains.
 
 ## Known Production Debt
 
 1. Physically correct Seoul bus-stop background for `amb_wallet_00`.
-2. Bus-terminal departure/result visual for `arc_y2_hyunsu_night_bus`.
-3. Employed Hyunsu suit/business-card and civil-service badge variants for two later callbacks.
-4. Dedicated cafe broker portrait for four callback events.
-5. Visible winter bungeoppang cart for `kx_street_food`.
-6. Seollal family gathering/bowing visual for `kx_seollal_sebae`.
+2. Dedicated cafe broker portrait for four callback events.
+3. Visible winter bungeoppang cart for `kx_street_food`.
+4. Seollal family gathering/bowing visual for `kx_seollal_sebae`.
 
 ## Next Production Order
 
-1. Clear the ten remaining strict debt rows in emotional order: Hyunsu terminal/employment, cafe broker, bus stop, then cultural ambient scenes.
+1. Clear the seven remaining strict debt rows in emotional order: cafe broker, bus stop, then the bungeoppang and Seollal cultural scenes.
 2. Re-run the machine contract plus `--qa=event-visuals --lang=ko/en` whenever a debt row is replaced.
 3. First-morning and first-snow outfits are complete scene contracts; proposal, wedding, and ending outfits remain scene contracts rather than generic season variants.
 

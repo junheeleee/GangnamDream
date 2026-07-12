@@ -129,6 +129,7 @@
         "flags": [
           "arc_y2_hyunsu_night_bus_seen"
         ],
+        "result_background": "seoul_bus_terminal_night",
         "result_text": "택시를 잡아탔다. 터미널 불빛 아래서 현수가 놀란 얼굴로 웃었다. \"뭐 하러 여기까지 와요.\"\n\n버스가 떠날 때까지 서 있었다. 돌아오는 길이 이상하게 춥지 않았다."
       },
       {

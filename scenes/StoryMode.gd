@@ -777,6 +777,17 @@ func _load_next_event():
 	EventManager.current_event = _current
 	_render_current()
 
+func _resolved_event_portrait_id() -> String:
+	var portrait_id := str(_current.get("portrait", ""))
+	var known_map: Variant = _current.get("portrait_if_known", null)
+	if known_map is Dictionary:
+		# Match description_if_known ordering so prose and wardrobe resolve from
+		# the same first-known fact.
+		for flag_id in known_map.keys():
+			if GameState.flags.get(str(flag_id), false):
+				return str(known_map[flag_id])
+	return portrait_id
+
 func _render_current():
 	_reset_scene_direction()
 	_prepare_scene_direction()
@@ -848,7 +859,7 @@ func _render_current():
 	_apply_scene_direction_entry()
 
 	# 초상화 + 이름표 — bg_focus:true 장면은 배경만(초상화 생략)
-	var pid = str(_current.get("portrait", ""))
+	var pid := _resolved_event_portrait_id()
 	var bg_only := bool(_current.get("bg_focus", false)) or _current_uses_cg
 	if _event_portrait_revealed:
 		_show_portrait(pid, bg_only)
@@ -942,7 +953,7 @@ func _maybe_reveal_event_cg(paragraph_index: int) -> void:
 	_play_story_ink_transition("scene", 0.65)
 	_bg_img.texture = load(_event_cg_path)
 	_apply_story_surface_palette(true)
-	_show_portrait(str(_current.get("portrait", "")), true)
+	_show_portrait(_resolved_event_portrait_id(), true)
 	if _hud_panel != null and is_instance_valid(_hud_panel):
 		_hud_panel.visible = false
 
@@ -952,7 +963,7 @@ func _maybe_reveal_event_portrait(paragraph_index: int) -> void:
 	if _event_portrait_reveal_paragraph <= 0 or paragraph_index < _event_portrait_reveal_paragraph:
 		return
 	_event_portrait_revealed = true
-	_show_portrait(str(_current.get("portrait", "")), bool(_current.get("bg_focus", false)))
+	_show_portrait(_resolved_event_portrait_id(), bool(_current.get("bg_focus", false)))
 
 func _show_portrait(portrait_id: String, bg_only: bool = false):
 	var info := {}
@@ -1752,7 +1763,7 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 			_bg_img.texture = load(result_cg_path)
 			_current_uses_cg = true
 			_apply_story_surface_palette(true)
-			_show_portrait(str(_current.get("portrait", "")), true)
+			_show_portrait(_resolved_event_portrait_id(), true)
 			if _hud_panel != null and is_instance_valid(_hud_panel):
 				_hud_panel.visible = false
 		return
@@ -1768,7 +1779,10 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 	_event_background_id = result_background_id
 	_current_uses_cg = false
 	_apply_story_surface_palette(false)
-	_show_portrait(str(_current.get("portrait", "")), bool(_current.get("bg_focus", false)))
+	_show_portrait(_resolved_event_portrait_id(), bool(_current.get("bg_focus", false)))
+	var result_event: Dictionary = _current.duplicate(true)
+	result_event["background"] = result_background_id
+	BGMPlayer.update_event_ambience(result_event)
 	if _hud_panel != null and is_instance_valid(_hud_panel):
 		_hud_panel.visible = not _story_visual_override_active
 

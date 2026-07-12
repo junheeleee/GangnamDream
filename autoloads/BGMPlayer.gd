@@ -339,7 +339,7 @@ func _pick_ambience(ev: Dictionary) -> String:
 	if "fine_dust" in tags or "fine_dust" in bg_id \
 			or "미세먼지" in hay or "황사" in hay or "fine dust" in hay or "yellow dust" in hay or "air pollution" in hay:
 		return "fine_dust"
-	if "chuseok_highway" in bg_id \
+	if "bus_terminal" in bg_id or "chuseok_highway" in bg_id \
 			or "추석 귀성길" in hay or "귀성길" in hay or "고속도로" in hay or "시외버스" in hay \
 			or "chuseok traffic" in hay or "homecoming traffic" in hay or "intercity bus" in hay:
 		return "highway"

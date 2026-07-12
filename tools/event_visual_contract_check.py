@@ -88,6 +88,43 @@ def main() -> int:
                     errors.append(f"{event_id} expected no {field}, got {actual!r}")
             elif actual != expected:
                 errors.append(f"{event_id} expected {field}={expected!r}, got {actual!r}")
+        if "portrait_if_known" in contract:
+            expected_portraits = contract["portrait_if_known"]
+            actual_portraits = event.get("portrait_if_known")
+            if not isinstance(expected_portraits, dict) or not expected_portraits:
+                errors.append(f"{event_id} contract portrait_if_known must be a nonempty object")
+            elif actual_portraits != expected_portraits:
+                errors.append(
+                    f"{event_id} expected portrait_if_known={expected_portraits!r}, "
+                    f"got {actual_portraits!r}"
+                )
+        if "choice_result_backgrounds" in contract:
+            expected_results = contract["choice_result_backgrounds"]
+            if not isinstance(expected_results, dict) or not expected_results:
+                errors.append(
+                    f"{event_id} contract choice_result_backgrounds must be a nonempty object"
+                )
+            else:
+                choices = event.get("choices") or []
+                for raw_index, expected_background in expected_results.items():
+                    try:
+                        choice_index = int(raw_index)
+                    except (TypeError, ValueError):
+                        errors.append(
+                            f"{event_id} invalid choice_result_backgrounds index: {raw_index!r}"
+                        )
+                        continue
+                    if choice_index < 0 or choice_index >= len(choices):
+                        errors.append(
+                            f"{event_id} result background choice index out of range: {choice_index}"
+                        )
+                        continue
+                    actual_background = choices[choice_index].get("result_background")
+                    if actual_background != expected_background:
+                        errors.append(
+                            f"{event_id} choice {choice_index} expected "
+                            f"result_background={expected_background!r}, got {actual_background!r}"
+                        )
         if "months" in contract:
             expected_months = normalized_months(contract["months"])
             actual_months = normalized_months((event.get("conditions") or {}).get("month"))
