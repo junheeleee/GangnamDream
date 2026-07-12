@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "tag_coverage": [
     "climate",
     "season",
@@ -38,27 +38,37 @@
     {"id": "arc_sangchul_03_network", "background": "sangchul_private_dining", "portrait": "sangchul_normal"},
     {"id": "arc_daeun_the_test", "background": "cafe", "portrait": "sangchul_normal"},
 
+    {"id": "cafe_00", "background": "cafe", "portrait": "cafe_investor"},
+    {"id": "cafe_peek_01", "background": "cafe", "portrait": "cafe_investor", "portrait_reveal_paragraph": 1},
+    {"id": "cafe_caught_honest", "background": "cafe", "portrait": "cafe_investor"},
+    {"id": "cafe_talk_01", "background": "cafe", "portrait": "cafe_investor"},
+    {"id": "cafe_humble", "background": "cafe", "portrait": "cafe_investor"},
+    {"id": "cafe_bluff_01", "background": "cafe", "portrait": "cafe_investor"},
+    {"id": "cafe_bluff_caught", "background": "cafe", "portrait": "cafe_investor"},
+    {"id": "cafe_bluff_recover", "background": "cafe", "portrait": "cafe_investor"},
+
     {"id": "arc_y2_hyunsu_night_bus", "background": "late_night", "portrait": "hyunsu", "choice_result_backgrounds": {"0": "seoul_bus_terminal_night"}},
     {"id": "hyunsu_reunion_later", "background": "street", "portrait": "hyunsu_accounting"},
     {"id": "hyunsu_year4_echo", "background": "goshiwon_room", "portrait": "hyunsu_accounting", "portrait_if_known": {"hyunsu_passed": "hyunsu_civil_service"}},
     {"id": "hyunsu_year5_call", "background": "goshiwon_room", "portrait": "hyunsu_accounting", "portrait_if_known": {"hyunsu_passed": "hyunsu_civil_service"}},
 
     {"id": "cafe_cb_stole_00", "background": "goshiwon_room", "portrait": "player_tired"},
-    {"id": "cafe_cb_stole_call", "background": "goshiwon_room", "portrait": null},
+    {"id": "cafe_cb_stole_call", "background": "goshiwon_room", "portrait": "cafe_broker_kim"},
     {"id": "cafe_cb_stole_verify", "background": "investment_phone", "portrait": "player_determined"},
     {"id": "cafe_cb_stole_allin", "background": "investment_phone", "portrait": "player_shocked"},
-    {"id": "cafe_cb_stole_smart", "background": "cafe", "portrait": "player_determined"},
-    {"id": "cafe_cb_honest_00", "background": "goshiwon_room", "portrait": null},
-    {"id": "cafe_cb_honest_in", "background": "cafe", "portrait": null},
-    {"id": "cafe_cb_humiliated_00", "background": "cafe", "portrait": null}
+    {"id": "cafe_cb_stole_smart", "background": "cafe", "portrait": "cafe_broker_kim"},
+    {"id": "cafe_cb_honest_00", "background": "goshiwon_room", "portrait": "cafe_investor"},
+    {"id": "cafe_cb_honest_in", "background": "cafe", "portrait": "cafe_investor"},
+    {"id": "cafe_cb_humiliated_00", "background": "cafe", "portrait": "cafe_investor"},
+
+    {"id": "callback_cafe_jackpot_greed", "portrait": "cafe_broker_kim"},
+    {"id": "callback_cafe_smart_win_mentor", "portrait": "cafe_broker_kim"},
+    {"id": "callback_cafe_honest_win_deeper", "portrait": "cafe_investor"},
+    {"id": "callback_cafe_honest_trust_return", "portrait": "cafe_investor"}
   ],
   "known_debt": [
     {"id": "amb_wallet_00", "issue": "The wallet is under a bus-stop bench, but no physically correct Seoul bus-stop background exists."},
     {"id": "kx_street_food", "issue": "The winter street and clothing are correct, but the bungeoppang cart described in the prose is not visible."},
-    {"id": "kx_seollal_sebae", "issue": "The family home is correct, but the Seollal gathering and bowing relatives have no dedicated visual."},
-    {"id": "cafe_cb_stole_call", "issue": "Kim, the cafe broker, has no dedicated portrait; the event intentionally hides the old team-lead stand-in."},
-    {"id": "cafe_cb_honest_00", "issue": "Kim, the cafe broker, has no dedicated portrait; the event intentionally hides the old team-lead stand-in."},
-    {"id": "cafe_cb_honest_in", "issue": "Kim, the cafe broker, has no dedicated portrait; the event intentionally hides the old team-lead stand-in."},
-    {"id": "cafe_cb_humiliated_00", "issue": "Kim, the cafe broker, has no dedicated portrait; the event intentionally hides the old team-lead stand-in."}
+    {"id": "kx_seollal_sebae", "issue": "The family home is correct, but the Seollal gathering and bowing relatives have no dedicated visual."}
   ]
 }

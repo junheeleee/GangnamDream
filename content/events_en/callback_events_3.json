@@ -2,7 +2,7 @@
   {
     "id": "callback_cafe_jackpot_greed",
     "title": "The Broker Returns",
-    "description": "You went all-in and it worked. Luck or skill — who knows.\nKim Bujang calls again.\n'This time it's real. Three times bigger and way more certain than last time.\nYou made it before. No reason it won't work again, right?'",
+    "description": "You went all-in and it worked. Luck or skill — who knows.\nManager Kim calls again.\n'This time it's real. Three times bigger and way more certain than last time.\nYou made it before. No reason it won't work again, right?'",
     "choices": [
       {
         "text": "Verify it first",
@@ -14,7 +14,7 @@
       },
       {
         "text": "Decline",
-        "result_text": "'No. Last time was enough.'\nKim Bujang went quiet, then hung up.\nGreed is expecting luck to repeat itself."
+        "result_text": "'No. Last time was enough.'\nManager Kim went quiet, then hung up.\nGreed is expecting luck to repeat itself."
       }
     ]
   },
@@ -36,7 +36,7 @@
   {
     "id": "callback_cafe_smart_win_mentor",
     "title": "The Man Calls",
-    "description": "A call from Kim Bujang.\n'Hey. I knew you cut the markup — from the start.\nThat's exactly why I figured you were the right kind of person.\nThis time there's something real. No broker. Just you and me, direct.'",
+    "description": "A call from Manager Kim.\n'Hey. I knew you cut the markup — from the start.\nThat's exactly why I figured you were the right kind of person.\nThis time there's something real. No commission. Just you and me, direct.'",
     "choices": [
       {
         "text": "Meet him",
@@ -44,7 +44,7 @@
       },
       {
         "text": "Politely pass",
-        "result_text": "'I want to build up a bit more first.'\nKim Bujang said 'Call anytime' and hung up.\nThe door wasn't closed."
+        "result_text": "'I want to build up a bit more first.'\nManager Kim said 'Call anytime' and hung up.\nThe door wasn't closed."
       }
     ]
   },

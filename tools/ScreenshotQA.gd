@@ -726,6 +726,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 		if actual_ambience != expected_ambience:
 			_fail("%s ambience expected %s, got %s." % [event_id, expected_ambience, actual_ambience])
 	_assert_hyunsu_visual_state(story, event_id, select_choice)
+	_assert_cafe_visual_state(story, event_id)
 	await _save(shot_name)
 	_remove_nodes_by_script("res://scenes/StoryMode.gd")
 	if suppress_cg and had_cg:
@@ -757,6 +758,44 @@ func _assert_hyunsu_visual_state(story: Node, event_id: String, selected_choice:
 		var actual_ambience := str(BGMPlayer.get("_current_ambience_key"))
 		if actual_ambience != "highway":
 			_fail("Hyunsu send-off result expected highway ambience, got %s." % actual_ambience)
+
+func _assert_cafe_visual_state(story: Node, event_id: String) -> void:
+	var investor_events := [
+		"cafe_00", "cafe_peek_01", "cafe_caught_honest", "cafe_talk_01",
+		"cafe_humble", "cafe_bluff_01", "cafe_bluff_caught", "cafe_bluff_recover",
+		"cafe_cb_honest_00", "cafe_cb_honest_in", "cafe_cb_humiliated_00",
+		"callback_cafe_honest_win_deeper", "callback_cafe_honest_trust_return",
+	]
+	var broker_events := [
+		"cafe_cb_stole_call", "cafe_cb_stole_smart",
+		"callback_cafe_jackpot_greed", "callback_cafe_smart_win_mentor",
+	]
+	var expected_portrait_id := ""
+	if event_id in investor_events:
+		expected_portrait_id = "cafe_investor"
+	elif event_id in broker_events:
+		expected_portrait_id = "cafe_broker_kim"
+	else:
+		return
+	var portrait_frame := story.get("_portrait_frame") as Control
+	if event_id == "cafe_peek_01" and not bool(story.get("_event_portrait_revealed")):
+		if is_instance_valid(portrait_frame) and portrait_frame.visible:
+			_fail("cafe_peek_01 revealed the folder owner before paragraph 1.")
+		return
+	if not is_instance_valid(portrait_frame) or not portrait_frame.visible:
+		_fail("%s expected a visible %s portrait." % [event_id, expected_portrait_id])
+		return
+	var portrait := story.get("_portrait") as TextureRect
+	var actual_portrait_path := ""
+	if is_instance_valid(portrait) and portrait.texture != null:
+		actual_portrait_path = portrait.texture.resource_path
+	var expected_portrait_path := ImageRegistry.get_portrait(expected_portrait_id)
+	if actual_portrait_path != expected_portrait_path:
+		_fail("%s portrait expected %s, got %s." % [event_id, expected_portrait_path, actual_portrait_path])
+	var name_tag := story.get("_name_tag") as Label
+	var expected_name := str(ImageRegistry.get_person_info(expected_portrait_id).get("name", ""))
+	if not is_instance_valid(name_tag) or name_tag.text != expected_name:
+		_fail("%s name tag expected %s, got %s." % [event_id, expected_name, name_tag.text if is_instance_valid(name_tag) else "<missing>"])
 
 func _shot_opening_cinematic(lang: String, prefix: String) -> void:
 	_set_qa_language(lang)
@@ -1119,10 +1158,17 @@ func _shot_event_visual_surfaces(lang: String = "en", prefix: String = "event_vi
 		["callback_called_about_medication_echo", "12_father_callback_room"],
 		["arc_sangchul_03_network", "13_sangchul_restaurant"],
 		["arc_daeun_the_test", "14_daeun_test_cafe"],
+		["cafe_00", "14a_cafe_investor_intro"],
+		["cafe_caught_honest", "14b_cafe_investor_card"],
+		["cafe_bluff_caught", "14c_cafe_investor_bluff"],
 		["cafe_cb_stole_call", "15_broker_call_room"],
 		["cafe_cb_stole_verify", "16_broker_research_phone"],
 		["cafe_cb_stole_smart", "17_broker_smart_cafe"],
-		["cafe_cb_honest_in", "18_broker_honest_cafe"],
+		["cafe_cb_honest_00", "17a_investor_honest_call_room"],
+		["cafe_cb_honest_in", "18_investor_honest_cafe"],
+		["cafe_cb_humiliated_00", "18a_investor_humiliated_cafe"],
+		["callback_cafe_jackpot_greed", "18b_broker_return_call"],
+		["callback_cafe_honest_win_deeper", "18c_investor_network_call"],
 		["arc_y2_hyunsu_night_bus", "19_hyunsu_phone_room"],
 		["hyunsu_reunion_later", "20_hyunsu_accounting_reunion"],
 		["hyunsu_year4_echo", "21_hyunsu_accounting_year4"],
@@ -1135,6 +1181,10 @@ func _shot_event_visual_surfaces(lang: String = "en", prefix: String = "event_vi
 		if event_id == "arc_sangchul_03_network":
 			_prepare_event_visual_qa_state(event_id)
 			await _shot_story_event(event_id, prefix + str(data[1]) + "_choices", "", 0.45, true, true)
+	_prepare_event_visual_qa_state("cafe_peek_01")
+	await _shot_story_event("cafe_peek_01", prefix + "14d_cafe_folder_owner_hidden", "", 0.45, true)
+	_prepare_event_visual_qa_state("cafe_peek_01")
+	await _shot_story_event("cafe_peek_01", prefix + "14e_cafe_folder_owner_reveal", "", 0.45, true, false, -1, 1)
 	_prepare_event_visual_qa_state("arc_y2_hyunsu_night_bus")
 	await _shot_story_event("arc_y2_hyunsu_night_bus", prefix + "19a_hyunsu_terminal_result", "", 0.45, true, true, 0)
 	_prepare_event_visual_qa_state("hyunsu_year4_echo")

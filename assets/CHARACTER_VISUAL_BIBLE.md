@@ -1,6 +1,6 @@
 # Gangnam Dream Character Visual Bible
 
-Updated: 2026-07-11
+Updated: 2026-07-12
 
 This file is the visual canon for recurring characters. It overrides older one-off prompt notes when there is a conflict. Recurring character portraits must be generated as transparent-background PNGs and then composited over location backgrounds in Godot.
 
@@ -18,6 +18,8 @@ This file is the visual canon for recurring characters. It overrides older one-o
 - Kang Hyunsu: chubby but likable 26-27-year-old exam-prep neighbor, round wire-frame glasses, soft round face, messy medium black hair, faded olive-gray zip hoodie, muted burgundy striped shirt, awkward warm half-smile.
 - Choi Jaehyuk: sharp hair, dark suit, confident/charming smile or shadowed pressure, polished success signal.
 - Im Sangchul: 52-year-old broker, salt-and-pepper hair, practical suit jacket, weathered mentor expression.
+- Cafe Folder Owner: lean 39-year-old investor, angular face, swept-back black hair, teal open collar, charcoal micro-check suit, blank black folio, skeptical screen-left gaze.
+- Manager Kim: stocky 45-year-old broker, round-square face, close side part, cheek mole, taupe blazer, oxblood knit, blank black phone, practiced sales smile.
 - Father: 63-year-old factory worker, worn work jacket, heavier guilt/warmth, older working-class signal.
 - Kim Daeun: ordinary convenience-store survival warmth, beige cardigan/navy work shirt, soft tired eyes.
 - Han Jiyeon: long black hair, cream/black tailored suit, old-money jewelry, dangerous high-status aura.
@@ -141,6 +143,30 @@ No luxury watch, no designer styling, no polished Gangnam success look in early/
 ## Recurring Minor NPCs
 
 These characters are not main routes, but they have stable IDs and can recur. They must use transparent portraits, not baked room/office/racetrack backgrounds.
+
+### Cafe Folder Owner
+
+**Role:** The unnamed man whose document folder Minjun sees in the Gangnam cafe. He tests bluffing, recognizes honest desperation, and can become a clean network contact. He is not the phone number written in the folder.
+
+**Visual Core:** Lean 39-year-old Korean man with an angular face, narrow monolid eyes, swept-back black hair, and a restrained skeptical half-smile. His body and gaze turn screen-left toward Minjun.
+
+**Class Signal:** Tailored charcoal micro-check suit over a muted deep-teal open-collar knit polo, no tie, with a blank matte-black document folio. Self-made property-investor polish without Sangchul's age, Jaehyuk's seduction, or Team Lead's salaried authority.
+
+**Current Asset Status:** `npc_cafe_investor.png` is the transparent 512x768 source for `cafe_investor`. It owns the initial cafe chain, honest/humiliated callbacks, and explicit later mentor messages. `cafe_peek_01` reveals it only when the man returns in paragraph 1.
+
+**Negative Prompt / Prohibited:** Manager Kim's broad body or taupe/oxblood palette, rectangular office glasses, salt-and-pepper mentor hair, young all-black Jaehyuk styling, readable folio text, cafe background baked into the portrait.
+
+### Manager Kim
+
+**Role:** The separate broker whose number is written inside the cafe folder. He does not remember Minjun on the stolen-number route, inflates the entry pass with a service-fee markup, and can return with later high-risk or no-commission offers.
+
+**Visual Core:** Stocky 45-year-old Korean man with a broad round-square face, close side-parted black hair, thick eyebrows, small assessing eyes, and a cheek mole. His practiced sales smile is plausible rather than cartoon-villainous.
+
+**Class Signal:** Warm taupe textured blazer over a muted oxblood knit and pale collar, holding a blank black smartphone. He reads as a grounded Seoul property middleman, not corporate management or old-money finance.
+
+**Current Asset Status:** `npc_cafe_broker_kim.png` is the transparent 512x768 source for `cafe_broker_kim`. It owns the stolen-number call, markup negotiation, and every callback that explicitly names Manager Kim.
+
+**Negative Prompt / Prohibited:** the folder owner's lean teal/charcoal silhouette, Team Lead glasses/white shirt/loose tie, Sangchul salt-and-pepper charisma, gangster stereotype, readable phone UI, background baked into the portrait.
 
 ### Lee Minseo
 

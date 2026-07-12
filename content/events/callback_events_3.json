@@ -2,6 +2,7 @@
   {
     "id": "callback_cafe_jackpot_greed",
     "title": "브로커의 재등장",
+    "portrait": "cafe_broker_kim",
     "description": "그날 올인해서 됐다. 운이었는지 실력이었는지 모르겠지만.\n김 부장에게서 다시 전화가 왔다.\n\"이번엔 진짜야. 그때보다 세 배 크고 훨씬 확실해.\n너 그때 됐잖아. 이번에도 안 될 이유 없지?\"",
     "category": "investment",
     "rarity": "rare",
@@ -109,7 +110,8 @@
   {
     "id": "callback_cafe_smart_win_mentor",
     "title": "그 남자의 전화",
-    "description": "김 부장에게서 전화가 왔다.\n\"야. 거품 깎은 거 나 알고 있었어. 처음부터.\n그래서 오히려 네가 맞는 사람인 줄 알았지.\n이번엔 제대로 된 거 하나 있어. 브로커 없이, 나랑 직접.\"",
+    "portrait": "cafe_broker_kim",
+    "description": "김 부장에게서 전화가 왔다.\n\"야. 거품 깎은 거 나 알고 있었어. 처음부터.\n그래서 오히려 네가 맞는 사람인 줄 알았지.\n이번엔 제대로 된 거 하나 있어. 수수료 없이, 나랑 직접.\"",
     "category": "investment",
     "rarity": "rare",
     "weight": 0.8,
@@ -152,6 +154,7 @@
   {
     "id": "callback_cafe_honest_win_deeper",
     "title": "스승의 연락",
+    "portrait": "cafe_investor",
     "description": "그 남자에게서 연락이 왔다.\n\"저번에 들어간 거, 잘 됐지?\n오래 기다렸어. 네가 어떻게 하나 봤거든.\n이번엔 소개 하나 해줄게. 내 사람이야. 믿어도 돼.\"",
     "category": "investment",
     "rarity": "rare",
@@ -196,6 +199,7 @@
   {
     "id": "callback_cafe_honest_trust_return",
     "title": "1년 6개월 뒤",
+    "portrait": "cafe_investor",
     "description": "\"아직입니다. 더 배우고 연락드리겠습니다.\"\n그때 그렇게 말했다.\n오늘 그 번호에서 전화가 왔다. 1년 6개월 만에.\n\"아직도 배우고 있어?\"",
     "category": "investment",
     "rarity": "rare",

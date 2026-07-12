@@ -46,6 +46,10 @@ const PORTRAITS = {
 	"sangchul_normal":    "res://assets/characters/npc_boss.png",
 	"sangchul_serious":   "res://assets/characters/npc_sangchul_serious.png",
 
+	# 강남 카페 시나리오 — 폴더 주인과 폴더 속 김 부장은 별개 인물
+	"cafe_investor":      "res://assets/characters/npc_cafe_investor.png",
+	"cafe_broker_kim":    "res://assets/characters/npc_cafe_broker_kim.png",
+
 	# 강현수 (고시원 옆방 공시생 후배)
 	"hyunsu":             "res://assets/characters/npc_close_friend.png",
 	"hyunsu_normal":      "res://assets/characters/npc_close_friend.png",
@@ -109,6 +113,8 @@ const PERSON_INFO = {
 	"jaehyuk":  {"name": "최재혁",        "color": "#d08a4a"},
 	"father":   {"name": "아버지",        "color": "#9a8a6a"},
 	"sangchul": {"name": "임상철",        "color": "#8a8aa0"},
+	"cafe_investor": {"name": "카페의 남자", "color": "#78929a"},
+	"cafe_broker_kim": {"name": "김 부장",   "color": "#9a7a72"},
 	"goshiwon_owner": {"name": "고시원 원장", "color": "#a0907a"},
 	"hyunsu":   {"name": "현수",          "color": "#7a8a9a"},
 	"seongjun": {"name": "박성준",        "color": "#6a9ab0"},
@@ -125,6 +131,8 @@ const PERSON_NAMES_EN = {
 	"jaehyuk": "Choi Jaehyuk",
 	"father": "Father",
 	"sangchul": "Lim Sangchul",
+	"cafe_investor": "Man at the Cafe",
+	"cafe_broker_kim": "Manager Kim",
 	"goshiwon_owner": "Goshiwon Manager",
 	"hyunsu": "Kang Hyunsu",
 	"seongjun": "Park Seongjun",

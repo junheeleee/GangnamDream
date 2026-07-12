@@ -8,6 +8,8 @@
 | 강남드림 | Gangnam Dream |
 | 강남 | Gangnam |
 | 김민준 | Kim Minjun |
+| 카페의 남자 | Man at the Cafe |
+| 김 부장 (카페 브로커) | Manager Kim |
 | 행동력(AP) | Action Points (AP) |
 | 구직활동 | Job Hunt |
 | 자기계발 | Self-Dev |
@@ -50,6 +52,7 @@
 - 간결한 게임 UI 영어. 마침표 최소화.
 - 이모지·BBCode `[color]`·`%d/%s` 포맷 지정자·`\n`는 **절대 변경 금지**, 위치 보존.
 - `{name}` `{housing}` 토큰 보존.
+- 카페 시나리오의 `김 부장`은 항상 `Manager Kim`이다. `Kim Bujang`을 혼용하지 않는다.
 
 ## 문화 설명 원칙
 - `Gangnam`은 고유명사로 유지한다.

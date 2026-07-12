@@ -78,7 +78,7 @@ def main() -> int:
         if event is None:
             errors.append(f"contract references missing event: {event_id}")
             continue
-        for field in ("background", "portrait"):
+        for field in ("background", "portrait", "portrait_reveal_paragraph"):
             if field not in contract:
                 continue
             expected = contract[field]

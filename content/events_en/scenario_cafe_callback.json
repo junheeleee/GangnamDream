@@ -73,7 +73,7 @@
   {
     "id": "cafe_cb_honest_00",
     "title": "An Incoming Call",
-    "description": "Unknown number. The voice is familiar.\n\"The café friend. Remember me? The one you caught peeking at my folder.\"\nIt was the man from that day. The one {name} received a card from with both hands.\n\n\"Wondering if you've done your homework. Small deal in circulation —\nI only give it to people who are genuinely prepared. Interested?\"",
+    "description": "Unknown number. The voice is familiar.\n\"Remember me? I caught you peeking through my folder at that café.\"\nIt was the man from that day. The one {name} received a card from with both hands.\n\n\"Wondering if you've done your homework. Small deal in circulation —\nI only give it to people who are genuinely prepared. Interested?\"",
     "choices": [
       {
         "text": "\"I'm prepared. I'd like to hear.\"",

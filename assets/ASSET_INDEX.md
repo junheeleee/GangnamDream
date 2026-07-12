@@ -17,6 +17,7 @@ Updated on 2026-07-11 for heroine-specific newlywed homes, same-outfit first-nig
 Updated on 2026-07-11 for paired first-snow route art and Minjun's explicit monsoon, heatwave, and cold-snap portraits.
 Updated on 2026-07-12 for AP in-world scene-still routing; the earlier prop-only action atlases are no longer runtime canon.
 Updated on 2026-07-12 for Hyunsu's Seoul terminal result and route-dependent accounting/civil-service portrait stages.
+Updated on 2026-07-12 for the separate cafe folder-owner and Manager Kim portrait identities across first meeting and callbacks.
 
 ## Use These Assets
 
@@ -129,6 +130,14 @@ Updated on 2026-07-12 for Hyunsu's Seoul terminal result and route-dependent acc
 
 - `assets/characters/npc_sangchul_serious.png`
   - Im Sangcheol serious transparent expression variant for warnings, high-stakes information, and morally tense choices.
+
+- `assets/characters/npc_cafe_investor.png`
+  - The unnamed cafe folder owner's transparent portrait: lean 39-year-old Korean man, angular face, teal open-collar knit, charcoal micro-check suit, and blank black document folio.
+  - Runtime use: `cafe_investor` / `Man at the Cafe` for the initial cafe test, honest/humiliated routes, and clean-investment callbacks. He is not Manager Kim, the office Team Lead, Sangchul, or Jaehyuk.
+
+- `assets/characters/npc_cafe_broker_kim.png`
+  - Manager Kim's transparent portrait: stocky 45-year-old Korean broker, round-square face and cheek mole, taupe blazer, oxblood knit, and blank black smartphone.
+  - Runtime use: `cafe_broker_kim` / `Manager Kim` for the stolen-number route, markup negotiation, and his explicit later calls. He never owns the cafe folder in the initial scene.
 
 - `assets/characters/npc_close_friend.png`
   - Kang Hyunsu transparent portrait, redesigned as a likable 26-27-year-old chubby exam-prep junior.
