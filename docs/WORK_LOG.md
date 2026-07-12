@@ -1,5 +1,18 @@
 # Gangnam Dream Work Log
 
+## 2026-07-12 (Codex — bus-stop bench orientation correction)
+
+### 진단
+- 정류장 배경은 문서상 도로를 향하는 벤치였지만 좌석면이 카메라 쪽으로 돌출돼 실제 화면에서는 반대 방향으로 읽혔다. 구조가 맞다는 설명보다 플레이어가 한눈에 방향을 판독할 수 있는지가 우선이었다.
+
+### 구현
+- 카메라가 벤치 등받이의 뒷면을 명확히 보도록 벤치를 다시 구성했다. 좌석면은 카메라 쪽으로 전혀 나오지 않고 전면 유리·승차구·도로 쪽으로만 뻗으며, 우측 끝의 얇은 측면으로 방향을 확인할 수 있다. 지갑과 도로·연석·점자블록·전면 유리 구조는 유지했다.
+- 최종 이미지는 중앙 크롭 후 1280×800 PNG로 정규화하고 생성 원본과 탈락 사유를 `assets/IMAGE_PROMPTS.md`에 기록했다.
+
+### 검증
+- Godot 재임포트 후 한국어 `--qa=event-visuals`의 `event_visual_ko_06a_bus_stop_wallet` 도입/선택지 컷을 직접 확인했다. 두 컷 모두 등받이 뒷면·도로 방향 좌석·지갑·승차구가 UI와 겹치지 않는다.
+- `event_visual_contract_check.py --strict`는 54개 잠금 / 부채 0을 유지했다. 전체 `audit.sh`도 ERROR 0/WARNING 0, 영어 누출 0, CG 연기 계약, 오디오/BGM, 밸런스, 57개 GDScript 컴파일을 통과하고 `✅ 감사 통과`로 종료됐다.
+
 ## 2026-07-12 (Codex — strict event visual debt zero)
 
 ### 진단

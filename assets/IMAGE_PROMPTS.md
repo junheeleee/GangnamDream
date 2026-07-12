@@ -226,19 +226,23 @@ Gangnam Ink visual language: desaturated Korean visual novel/manhwa realism, con
 ### seoul_bus_stop_wallet.png
 
 - **최종 경로**: `assets/backgrounds/seoul_bus_stop_wallet.png`
-- **최종 생성 원본**: `/Users/junheelee/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-68b702f0-6cad-4e09-b75d-b3e048135dee.png`
+- **최종 생성 원본**: `/Users/junheelee/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-3ddf43b2-a2c0-4499-8341-8f6ebd28e894.png`
 - **이전 교정 원본**:
   - `exec-59f2a10b-a2d4-4e68-b74b-5c4154ecd8cf.png`: 벤치가 도로 옆을 향해 물리 구조 탈락.
   - `exec-d5ae909c-2686-41c2-94f8-f080defff7d2.png`: 도로 방향은 합격했지만 지갑이 대사창 아래로 내려가 크롭 탈락.
+  - `exec-68b702f0-6cad-4e09-b75d-b3e048135dee.png`: 좌석면이 카메라 쪽으로 읽혀 도로 반대 방향처럼 보이는 시각적 모호성으로 탈락.
+  - `exec-3de8df09-9f81-4efa-bab5-d78103f13d67.png`: 등받이 뒤/좌석면 구분이 여전히 약해 방향 판독이 모호해 탈락.
 - **최종 프롬프트 체인**:
 
 ```text
 Create a modern Seoul neighborhood bus shelter at player eye level after light rain. The road, curb, bus lane, tactile paving, front glass windbreak, and open boarding doorway must form one physically usable axis. The three-seat bench runs parallel to the curb and its occupants would face the road; show the back of the bench from a rear-left interior camera position. Exactly one small worn black wallet lies under the bench. No people, bus, CCTV, route map, readable sign, text, brand, logo, or watermark.
 
 Then reframe without changing the corrected geometry: pull the camera farther back and slightly higher. Keep the complete bench and wallet in the upper-middle, with the wallet entirely above 62% image height, and leave the lower 35% as noncritical empty shelter floor for the visual-novel dialogue panel. Preserve the rainy Seoul exterior and the bench's road-facing direction.
+
+Finally make the orientation physically unmistakable: show the bench from behind and slightly from its left rear corner. The broad wooden backrest must sit between the camera and the seat; no sitting surface may project toward the camera. The seat plane projects only toward the road-facing glass/open boarding side, visible as a narrow side-profile sliver beyond the right/front edge of the backrest. Keep the wallet visible under the rear side of the bench.
 ```
 
-- **합격 기준**: 벤치 등받이→전면 유리→열린 승차구→점자블록→연석→차로가 한 시선축에 있고, 실제 1280x800 도입/선택지 화면에서 지갑 전체가 UI 위에 남는다.
+- **합격 기준**: 카메라가 등받이의 뒷면을 보고 좌석면은 도로 쪽으로만 뻗는다. 벤치 등받이→전면 유리→열린 승차구→점자블록→연석→차로가 한 시선축에 있고, 실제 1280x800 도입/선택지 화면에서 지갑 전체가 UI 위에 남는다.
 
 ### winter_bungeoppang_stall.png
 
