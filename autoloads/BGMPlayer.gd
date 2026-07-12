@@ -370,6 +370,8 @@ func _pick_ambience(ev: Dictionary) -> String:
 		return "gym"
 	if "convenience" in tags or "convenience" in bg_id or "편의점" in hay:
 		return "convenience"
+	if "private_dining" in bg_id:
+		return "cafe"
 	if "cafe" in tags or "date" in tags or "cafe" in bg_id or "카페" in hay or "커피" in hay:
 		return "cafe"
 	if "pojangmacha" in tags or "pojangmacha" in bg_id or "포장마차" in hay:

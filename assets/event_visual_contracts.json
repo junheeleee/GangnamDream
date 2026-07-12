@@ -35,7 +35,7 @@
 
     {"id": "arc_father_medication", "background": "goshiwon_room", "portrait": "player_tired"},
     {"id": "callback_called_about_medication_echo", "background": "goshiwon_room", "portrait": "father_normal"},
-    {"id": "arc_sangchul_03_network", "background": "restaurant", "portrait": "sangchul_normal"},
+    {"id": "arc_sangchul_03_network", "background": "sangchul_private_dining", "portrait": "sangchul_normal"},
     {"id": "arc_daeun_the_test", "background": "cafe", "portrait": "sangchul_normal"},
 
     {"id": "cafe_cb_stole_00", "background": "goshiwon_room", "portrait": "player_tired"},
@@ -48,7 +48,6 @@
     {"id": "cafe_cb_humiliated_00", "background": "cafe", "portrait": null}
   ],
   "known_debt": [
-    {"id": "arc_sangchul_03_network", "issue": "The event describes an upscale private Gangnam networking room, but the current modest open restaurant is only a closer temporary interior."},
     {"id": "amb_wallet_00", "issue": "The wallet is under a bus-stop bench, but no physically correct Seoul bus-stop background exists."},
     {"id": "arc_y2_hyunsu_night_bus", "issue": "The terminal departure result has no bus-terminal background or paragraph result transition."},
     {"id": "hyunsu_reunion_later", "issue": "The prose shows Hyunsu in a suit-and-business-card photo, but the old hoodie portrait remains."},

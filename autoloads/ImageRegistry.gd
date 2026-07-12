@@ -176,6 +176,7 @@ const BACKGROUNDS = {
 	"office_interview_day": "res://assets/backgrounds/office_interview_day.png",
 	"realestate_office": "res://assets/backgrounds/realestate_office.png",
 	"meeting":           "res://assets/backgrounds/investment_meeting.png",
+	"sangchul_private_dining": "res://assets/backgrounds/sangchul_private_dining.png",
 	# 강남
 	"gangnam_day":       "res://assets/backgrounds/gangnam_day.png",
 	"gangnam_night":     "res://assets/backgrounds/gangnam_night_street.png",

@@ -714,13 +714,14 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 					await _settle(0.16)
 	if not expected_result_first.is_empty():
 		_assert_story_result_attention(story, expected_result_first, expected_result_last)
-	var year_close_ambience := {
+	var expected_event_ambience := {
 		"arc_year2_close": "street",
 		"arc_year3_close": "hangang",
 		"arc_year4_close": "street",
+		"arc_sangchul_03_network": "cafe",
 	}
-	if year_close_ambience.has(event_id):
-		var expected_ambience := str(year_close_ambience[event_id])
+	if expected_event_ambience.has(event_id):
+		var expected_ambience := str(expected_event_ambience[event_id])
 		var actual_ambience := str(BGMPlayer.get("_current_ambience_key"))
 		if actual_ambience != expected_ambience:
 			_fail("%s ambience expected %s, got %s." % [event_id, expected_ambience, actual_ambience])
@@ -1101,6 +1102,9 @@ func _shot_event_visual_surfaces(lang: String = "en", prefix: String = "event_vi
 		var event_id := str(data[0])
 		_prepare_event_visual_qa_state(event_id)
 		await _shot_story_event(event_id, prefix + str(data[1]), "", 0.45, true)
+		if event_id == "arc_sangchul_03_network":
+			_prepare_event_visual_qa_state(event_id)
+			await _shot_story_event(event_id, prefix + str(data[1]) + "_choices", "", 0.45, true, true)
 
 func _prepare_event_visual_qa_state(event_id: String) -> void:
 	_prepare_main_game_state()

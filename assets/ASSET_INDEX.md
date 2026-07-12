@@ -258,6 +258,11 @@ Updated on 2026-07-11 for paired first-snow route art and Minjun's explicit mons
   - Use for `open_chat_screen` inferred/explicit backgrounds, `kx_open_chat`, and `geojibang_chat`.
   - Status: approved for first in-game QA. Brand-free abstract chat UI only; no readable fake text, no app logo, no wall note text.
 
+- `assets/backgrounds/sangchul_private_dining.png`
+  - One-off Gangnam private dining/networking room for `arc_sangchul_03_network`.
+  - Two physically coherent table groups, blank business cards, restrained fine-dining service, and anonymous background-only business silhouettes make the social machinery visible without baking Sangchul or Minjun into the room.
+  - The right third stays quiet for Sangchul's separate portrait. Do not reuse for public restaurant, company dinner, or generic meeting events.
+
 - `assets/backgrounds/hangang_riverside_walk.png`
   - Han River evening promenade background for Seoul rest, walking, running, romance, and reflective callback events.
   - Use for `hangang_riverside` inferred backgrounds and explicit `hangang` tags.

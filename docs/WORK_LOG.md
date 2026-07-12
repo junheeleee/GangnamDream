@@ -1,5 +1,22 @@
 # Gangnam Dream Work Log
 
+## 2026-07-12 (Codex — Sangchul private network room)
+
+### 진단
+- `강남이 돌아가는 방식`은 건설사·시행사·투자조합 인맥이 모인 강남 레스토랑 개인실을 묘사하지만, 런타임은 공개된 소박한 고깃집을 사용했다. 계층 신호와 프라이버시, 명함이 오가는 두 집단이 보이지 않았다.
+- 빈 고급 회의실로 바꾸면 물리적 격은 올라가도 ‘강남은 이 사람들의 망’이라는 장면의 핵심을 잃는다. 반대로 선명한 생성 인물을 넣으면 상철과 반복 인물 정합성이 충돌한다.
+
+### 구현
+- 명함이 오가는 주 테이블과 안쪽 그림자 투자자 테이블을 가진 1280x800 전용 개인실을 제작했다. 식기·의자·통로가 물리적으로 연결되고, 익명 사업가는 등·옆얼굴의 어두운 배경 실루엣으로 제한했다.
+- 우측을 비워 `sangchul_normal` 초상이 유일한 선명한 반복 얼굴이 되게 했다. 이벤트와 ImageRegistry를 `sangchul_private_dining`으로 배선하고 공개 식당 대신 낮은 대화/잔 질감의 `cafe` 앰비언스를 사용한다.
+- 이벤트 비주얼 계약의 임시 `restaurant`를 전용 배경으로 교체하고 strict known debt를 11→10으로 줄였다.
+- `--qa=event-visuals`에 상철 선택지 상태와 KO/EN 앰비언스 자동 단언을 추가했다. 두 선택지가 배경의 두 그룹과 시각적으로 대응한다.
+
+### 검증
+- KO/EN `--qa=event-visuals` 각 21장을 1280x800으로 렌더했다. 도입부와 선택지에서 명함 교환, 상철 초상, 두 집단, 한영 문장 크롭과 패드 포커스가 충돌하지 않는다.
+- `event_visual_contract_check.py`는 locked=37, known_debt=10을 보고했고 BGM 연속성·57개 GDScript 컴파일을 통과했다.
+- 전체 `audit.sh`는 ERROR 0/WARNING 0, 영어 누출 0, 밸런스 정책 밴드, 오디오 64개 소유권, 입력·StoryPlayback을 통과했다.
+
 ## 2026-07-12 (Codex — Year 2-4 winter closing-scene continuity)
 
 ### 진단

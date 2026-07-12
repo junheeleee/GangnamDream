@@ -1563,7 +1563,7 @@
   {
     "id": "arc_sangchul_03_network",
     "title": "강남이 돌아가는 방식",
-    "background": "restaurant",
+    "background": "sangchul_private_dining",
     "portrait": "sangchul_normal",
     "category": "story",
     "rarity": "story",

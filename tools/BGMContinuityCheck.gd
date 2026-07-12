@@ -187,6 +187,14 @@ func _ready() -> void:
 			"tags": [],
 		}, "cafe"],
 		[{
+			"id": "arc_sangchul_03_network",
+			"title": "강남이 돌아가는 방식",
+			"description": "강남 한복판 레스토랑 개인실에서 명함이 오갔다.",
+			"category": "story",
+			"background": "sangchul_private_dining",
+			"tags": ["story", "arc", "sangchul"],
+		}, "cafe"],
+		[{
 			"id": "qa_gym_audio",
 			"title": "Workout",
 			"description": "At the gym, every machine sounds more certain than he feels.",
