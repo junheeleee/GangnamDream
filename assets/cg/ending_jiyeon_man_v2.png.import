@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dmpbwselpkrxy"
-path="res://.godot/imported/ending_jiyeon_man_v1.png-85d15ca3f16e40d30e4a8f2ec7457316.ctex"
+uid="uid://dc3dfmcpcdx4i"
+path="res://.godot/imported/ending_jiyeon_man_v2.png-f0a7902a1cb876aefe748d85f5352071.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cg/ending_jiyeon_man_v1.png"
-dest_files=["res://.godot/imported/ending_jiyeon_man_v1.png-85d15ca3f16e40d30e4a8f2ec7457316.ctex"]
+source_file="res://assets/cg/ending_jiyeon_man_v2.png"
+dest_files=["res://.godot/imported/ending_jiyeon_man_v2.png-f0a7902a1cb876aefe748d85f5352071.ctex"]
 
 [params]
 

@@ -22,9 +22,21 @@ This document owns the release-tier P1 ending CGs added after the eight-image P0
 - Variant lock: Sangchul and Jaehyuk are memories only. No Father, scammer, partner, romance heroine, gukbap bowl, Gangnam apartment, or station platform appears.
 - Avoid: subway bench, luxury first class, Japanese rail styling, readable route display, repeated phone/earbud/case, malformed hands, lens gaze, funeral mood, or triumphant arrival.
 
+## `cg_ending_lonely_rich`
+
+- File: `assets/cg/ending_lonely_rich_v1.png`.
+- Owner: `lonely_rich` only. It must never replace `empty_house`, whose physical story is Father's death, two unused cups, deed/envelope, and a collapsed sofa posture.
+- Shared moment: after reaching the three-billion-won Gangnam target, Minjun receives one single-person delivery and sits alone at a table for four. The meal, three empty chairs, and city view carry every base, divorce, one-billion-warning, and calculated-singlehood variant.
+- Camera: quiet kitchen-side room-wide three-quarter. The rectangular dining table runs across the middle; Minjun occupies one end inside the central crop, exactly three empty chairs remain readable, and the Gangnam night window establishes the apartment without turning into a skyline poster.
+- Identity: canonical 38-year-old Minjun, lean Korean face, short messy black hair, tired narrow eyes, hollow cheeks. Home clothes are a plain charcoal knit over a muted gray crewneck and dark trousers, never a suit, casino costume, coat, or wedding outfit.
+- Acting: Minjun's torso stays upright but drained. One hand rests beside a single plain paper delivery bag; the other has just turned one unbranded phone face-down. His eyes settle on the nearest empty chair, not the phone, food, skyline, or lens.
+- Prop count: one delivery bag, at most one plain single-person container, one phone, four chairs total with Minjun using one. No second meal, paired cups, extra place setting, envelope, deed, keys, flowers, moving box, or readable app/order slip.
+- Variant lock: Daeun, Father, both mothers, Sangchul, Jaehyuk, and any date remain outside the frame. The divorce seal and unsigned registration are memories in prose, not documents repeated in this final-life image.
+- Avoid: reusing the `empty_house` sofa composition, funeral staging, hunched grief collapse, triumphant wealth pose, luxury-ad glamour, lens gaze, visible brand, fake Korean text, delivery worker, malformed hand, or duplicate phone.
+
 ## Acceptance Gate
 
 - `ImageRegistry`, Korean ending data, `cg_acting_manifest.json`, and `CGRuntimeCheck` agree on the owner and path.
 - The English ending remains a text-only overlay and inherits the Korean CG key.
-- `ScreenshotQA --qa=ending-p1 --lang=ko/en` proves the exact texture, 430px crop, base copy, and the `jaehyuk_trusted_fully` variant that previously omitted the train.
+- `ScreenshotQA --qa=ending-p1 --lang=ko/en` proves each exact texture and 430px crop, including `late_call`'s `jaehyuk_trusted_fully` variant and `lonely_rich`'s divorce variant.
 - Event visual contracts prove that `ktx_window` resolves to an actual train interior, while the holiday decision retains the separate provincial station platform.

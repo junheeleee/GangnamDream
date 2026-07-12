@@ -56,14 +56,14 @@ This document owns the eight bespoke P0 ending CGs listed in `docs/ENDING_ART.md
 
 ## 5. `cg_ending_jiyeon_man`
 
-- File: `assets/cg/ending_jiyeon_man_v1.png`.
+- File: `assets/cg/ending_jiyeon_man_v2.png`.
 - Ending: `jiyeon_man`, across hollow, promise-completed, truth-shared, recovery, and father-reconciled prose variants.
 - Moment: a Gangnam high-rise bathroom/foyer mirror after Jiyeon opens the door and stands beside Minjun.
-- Camera: observer camera outside the mirror axis, so the mirror reflection is physically coherent and the camera is never visible. Minjun is screen-left and Jiyeon screen-right in both the real foreground pair and the reflected pair; a mirror reverses depth, not their horizontal order.
-- Mirror pose lock: both actors stand upright with level shoulders, square torsos, and both arms lowered. The real and reflected head angle, shoulder line, sleeve fall, elbow position, collar, torso, and waist must correspond one-for-one. The raised vanity crop hides every hand in both views; pockets, counter contact, bent elbows, and independently staged reflections are failures.
+- Camera: reflection-only observer shot from outside the mirror axis. Exactly two people appear in the entire frame, each exactly once and only inside the mirror: Minjun screen-left and Jiyeon screen-right. The illuminated frame, off-axis reflected room depth, and vanity edge establish the mirror while the camera and real-world bodies remain outside the image.
+- Mirror pose lock: never generate a second foreground copy of either actor. Removing the duplicate body/reflection pair is the physical guarantee: there is only one head, shoulder line, torso, sleeve fall, and waist per person to stage. Both actors stay upright with level shoulders and square torsos; the vanity crop hides every hand. A visible back, duplicate face, extra limb, camera reflection, or third/fourth person is a failure.
 - Acting: Minjun wears a rumpled white shirt with no tie, holding a restrained smile whose eyes remain ambiguous rather than villainous. Jiyeon wears an ivory silk blouse and black trousers, long waves and geometric earrings; she watches his reflection with composed intimacy and danger.
-- This ambiguity is intentional: runtime Moral Tint and prose determine whether the same reflected pair reads as chosen togetherness or self-erasure.
-- Avoid: bridal gown, mentor-middle-age face, explicit misery, happy-idol pose, duplicate bodies, pose mismatch between body and reflection, impossible mirror geometry, or luxury brand props.
+- This ambiguity is intentional: runtime Moral Tint and prose determine whether the same pair inside the mirror reads as chosen togetherness or self-erasure.
+- Avoid: bridal gown, mentor-middle-age face, explicit misery, happy-idol pose, duplicate bodies/reflections, lens gaze, impossible mirror geometry, or luxury brand props.
 
 ## 6. `cg_ending_guardian`
 

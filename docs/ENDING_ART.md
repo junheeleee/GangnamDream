@@ -38,11 +38,12 @@ Updated: 2026-07-13
 | `cg_ending_gangnam_dream_white` | `assets/cg/ending_gangnam_dream_white_v1.png` | `gangnam_dream_white` | 맑은 아침·등기 폴더·자기 인식 |
 | `cg_ending_with_daeun` | `assets/cg/ending_with_daeun_v1.png` | `with_daeun` | 외곽 작은 집·라면 두 그릇·상호 시선 |
 | `cg_ending_second_love` | `assets/cg/ending_second_love_v1.png` | `second_love` | 강남 야경·두 번째 커피·함께 도착 |
-| `cg_ending_jiyeon_man` | `assets/cg/ending_jiyeon_man_v1.png` | `jiyeon_man` | 현실/반사 동일 좌우·어깨·팔 자세의 물리적으로 맞는 거울 |
+| `cg_ending_jiyeon_man` | `assets/cg/ending_jiyeon_man_v2.png` | `jiyeon_man` | 두 인물이 거울 안에 한 번씩만 등장하는 반사 전용 구도 |
 | `cg_ending_guardian` | `assets/cg/ending_guardian_v1.png` | `guardian` | 창원 퇴원 날·아버지 짐·나란한 걸음 |
 | `cg_ending_jaehyuk_way` | `assets/cg/ending_jaehyuk_way_v1.png` | `jaehyuk_way` | 반쯤 친 커튼·Deep Black에서도 읽히는 고립 |
 | `cg_ending_sangchul_reckoning` | `assets/cg/ending_sangchul_reckoning_v1.png` | `sangchul_reckoning` | 열린 창·내린 전화·빈 서류와 펜 |
 | `cg_ending_late_call` | `assets/cg/ending_late_call_v1.png` | `late_call` | 창원행 KTX·겨울비·전화·뺀 이어버드 |
+| `cg_ending_lonely_rich` | `assets/cg/ending_lonely_rich_v1.png` | `lonely_rich` | 네 자리 식탁·1인분·세 빈 의자·뒤집은 폰 |
 
 프로포즈·결혼 과정 CG인 `cg_romance_proposal_daeun`, `cg_romance_wedding_daeun_small`, `cg_romance_wedding_daeun_full`, `cg_romance_wedding_gap_jiyeon`과 T2 결별 결과인 `cg_romance_breakup_daeun`, `cg_romance_breakup_jiyeon`은 2026-07-12에 완성됐지만 **엔딩 CG가 아니다**. 선택의 실제 순간과 비용을 시각화할 뿐 `with_daeun`, `jiyeon_man`, `lonely_rich`, `ordinary_life`의 최종 생활을 대신하지 않는다.
 
@@ -58,14 +59,14 @@ Updated: 2026-07-13
 - 엔딩 본문은 화해/보존인데 이미지가 임종/상실처럼 읽힌다.
 - 영어권 플레이어가 캐릭터를 구분하기 어려울 정도로 실루엣이 비슷하다.
 
-## 34개 엔딩 현황
+## 35개 엔딩 현황
 
 | id | 등급 | 현재 CG | 현재 배경 | 판정 |
 |---|---:|---|---|---|
 | `gangnam_dream` | S | `cg_ending_gangnam_dream` | `gangnam_apartment` | 유지. 단, 최종 S급 페인트오버 후보 |
 | `empty_house` | A | `cg_ending_empty_house` | `gangnam_apartment` | 유지 |
 | `with_daeun` | A | `cg_ending_with_daeun` | `convenience_night` | P0 완료. 결혼 여부를 손 각도로 숨긴 최종 생활 컷 |
-| `jiyeon_man` | A | `cg_ending_jiyeon_man` | `gangnam_day` | P0 완료. 현실/반사 인물 순서·시선·자세 1:1 잠금 |
+| `jiyeon_man` | A | `cg_ending_jiyeon_man` | `gangnam_day` | P0 완료. 중복 신체 없는 반사 전용 두 사람·시선 잠금 |
 | `jaehyuk_way` | B | `cg_ending_jaehyuk_way` | `gangnam_night` | P0 완료. 핵심 moral collapse 엔딩 |
 | `late_call` | B | `cg_ending_late_call` | `ktx_window` | P1 완료. 모든 기억 변주의 공통 물리인 KTX·전화·비만 고정 |
 | `stable_success` | B | 없음 | `rooftop_day` | P2. 전용 안정 배경이 있으면 좋음 |
@@ -76,7 +77,7 @@ Updated: 2026-07-13
 | `crypto_ghost` | F | `cg_ending_crypto_ghost` | `trading_room` | 유지 |
 | `startup_exit` | A | 없음 | 없음 | P1 신규 CG 후보 |
 | `political_fix` | B | 없음 | 없음 | P3. 출시 후 후보 |
-| `lonely_rich` | A | 없음 | 없음 | P1 신규 CG 후보 |
+| `lonely_rich` | A | `cg_ending_lonely_rich` | `gangnam_apartment` | P1 완료. 아버지 상실 `empty_house`와 식탁/소파 문법 분리 |
 | `investment_master` | A | 없음 | 없음 | P2. 투자 시스템 성취 컷 후보 |
 | `reputation_legend` | A | 없음 | 없음 | P2. 텍스트로도 버틸 수 있음 |
 | `healthy_retirement` | B | 없음 | 없음 | P3. 한강 산책 배경과 연결 가능 |
@@ -122,13 +123,13 @@ Updated: 2026-07-13
 | `cg_ending_late_call` | `late_call` | **완료.** 창원행 KTX 창가, 폰을 귀에 붙인 오른손, 화면 안에 남는 뺀 이어버드 왼손, 빗방울. 아버지는 음성으로만 존재 |
 | `cg_ending_instant_legend` | `instant_legend` | 너무 이른 강남 도착. 넓은 거실이 오히려 비현실적으로 비어 보임 |
 | `cg_ending_startup_exit` | `startup_exit` | 작은 사무실/회의실, 계약서와 노트북. 벼락부자보다 숨 돌리는 창업자 |
-| `cg_ending_lonely_rich` | `lonely_rich` | 고급 거실에서 혼자 배달앱을 닫는 장면. 돈과 외로움의 대비 |
+| `cg_ending_lonely_rich` | `lonely_rich` | **완료.** 강남 네 자리 식탁에 도착한 1인분, 세 빈 의자, 뒤집은 폰. 이혼/비혼/10억 경고 변주가 같은 최종 물리를 공유 |
 | `cg_ending_orthodox_pinnacle` | `orthodox_pinnacle` | 회식 자리/회사 로비. 정장 차림 민준, 후배의 부러움, 본인은 확신 없음 |
 | `cg_ending_gambling_recovery` | `gambling_recovery` | 고시원 책상 달력의 동그라미. 카지노가 아니라 회복의 일상 |
 | `cg_ending_bankruptcy` | `bankruptcy`, `debt_spiral` | 계산기, 독촉 문자, 비 오는 방. 실패 공통 컷 가능 |
 | `cg_ending_burnout` | `burnout` | 응급실 형광등/천장/링거와 보호자 연락 질문. 정신건강의학과 `mental_break`와 공유 금지 |
 
-`late_call`은 완료했다. 노출·감정 회수·상점 스크린샷 가치를 함께 보면 다음 실제 제작 순서는 `lonely_rich` → `gambling_recovery` → `bankruptcy/debt_spiral`이다. `startup_exit`, `instant_legend`, `orthodox_pinnacle`은 강한 성취 컷이지만 조건부 경로라 그다음이다. `mental_break`는 전용 진료실 컷을 만들기 전까지 정합한 엔딩 카드로 남긴다.
+`late_call`과 `lonely_rich`는 완료했다. 노출·감정 회수·상점 스크린샷 가치를 함께 보면 다음 실제 제작 순서는 `gambling_recovery` → `bankruptcy/debt_spiral`이다. `startup_exit`, `instant_legend`, `orthodox_pinnacle`은 강한 성취 컷이지만 조건부 경로라 그다음이다. `mental_break`는 전용 진료실 컷을 만들기 전까지 정합한 엔딩 카드로 남긴다.
 
 ### P2 — 있으면 고급스러운 엔딩
 
@@ -176,6 +177,6 @@ Updated: 2026-07-13
 - [x] `gangnam_dream_white`의 일반 강남 CG 임시 공유 제거
 - [x] `gangnam_dream_white` 전용 White CG 제작 후 연결
 - [x] P0 신규 CG 8종 제작/보정/연결
-- [ ] P1 신규 CG 8종 제작/보정/연결
+- [ ] P1 신규 CG 8종 제작/보정/연결 — 2/8 (`late_call`, `lonely_rich`)
 - [ ] P2 엔딩은 CG보다 엔딩 카드/스팅/배경 정합성 먼저 보강
 - [ ] 엔딩 스팅 5종 제작 및 `AudioManager`/`BGMPlayer` 연결

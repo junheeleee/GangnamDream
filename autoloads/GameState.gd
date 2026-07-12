@@ -1548,6 +1548,11 @@ func get_wealth_tier():
 		return LocaleManager.ui("종잣돈 모으는 중", "Building Seed Money")
 	return LocaleManager.ui("고시원 생존자", "Goshiwon Survivor")
 
+func _divorce_ending_for_assets(total_assets: float) -> String:
+	# 외로운 부자는 실제 강남 입성 결말이다. 다은을 잃었어도 목표 미달이면
+	# 부자 엔딩을 꾸며내지 않고 그냥 사람의 전용 결별 변주로 회수한다.
+	return "lonely_rich" if total_assets >= GANGNAM_TARGET else "ordinary_life"
+
 func check_game_over():
 	if is_game_over:
 		return
@@ -1620,7 +1625,7 @@ func check_game_over():
 		# ── 결혼 분기 (배우자 실을 강남 엔딩에서 회수) ──
 		# 아내를 배신하고(이혼) 강남 = 직접 버린 '외로운 부자'. crossed_line보다 먼저.
 		if flags.get("daeun_divorced", false):
-			finish_run("lonely_rich"); return         # 이혼 후 강남 (dik: daeun_divorced 변주)
+			finish_run(_divorce_ending_for_assets(total_now)); return
 		# 결혼 유지한 채 강남 = 따뜻하게 온 진엔딩(두 부모 방 있는 집, 둘이 함께).
 		if flags.get("daeun_married", false):
 			finish_run("gangnam_dream"); return       # dik: daeun_married 변주
@@ -1655,7 +1660,7 @@ func check_game_over():
 		var total = get_total_asset_value()
 		# 이혼(강남 미달 엣지 — 서명했으나 끝내 못 닿음): 버렸는데 얻지도 못한 결말
 		if flags.get("daeun_divorced", false):
-			finish_run("lonely_rich"); return         # dik: daeun_divorced 변주
+			finish_run(_divorce_ending_for_assets(total)); return
 		# 연인 엔딩
 		if flags.get("daeun_romance_started", false):
 			finish_run("with_daeun"); return          # 다은과 연인 (Y5 고백)

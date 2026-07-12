@@ -349,12 +349,12 @@
       ]
     },
     "cg_ending_jiyeon_man": {
-      "path": "assets/cg/ending_jiyeon_man_v1.png",
-      "camera_role": "off_axis_mirror_observer",
-      "story_action": "Jiyeon joins Minjun at the mirror, leaving the same reflected pair readable as intimacy or self-erasure through prose and Moral Tint.",
+      "path": "assets/cg/ending_jiyeon_man_v2.png",
+      "camera_role": "off_axis_reflection_only_observer",
+      "story_action": "Jiyeon joins Minjun at the mirror; the camera sees each actor exactly once inside the reflection so the pair can read as intimacy or self-erasure without inventing a second pose.",
       "actors": [
-        {"id": "minjun", "gaze_target": "His own reflected eyes", "pose_support": "His real back and matching reflection both stay screen-left with the same level shoulders, upright head, square torso, and straight lowered arms; every hand is hidden below the vanity crop while the reflected face holds a restrained, deliberately ambiguous smile."},
-        {"id": "jiyeon", "gaze_target": "Minjun's reflection", "pose_support": "Her real back and matching reflection both stay screen-right with the same level shoulders, upright head, square torso, and straight lowered arms; every hand is hidden below the vanity crop while her reflected eyes angle toward Minjun without lens contact."}
+        {"id": "minjun", "gaze_target": "His own eyes in the mirror", "pose_support": "He appears only once, screen-left inside the mirror, with level shoulders, an upright square torso, and both hands below the vanity crop; his restrained expression avoids lens contact."},
+        {"id": "jiyeon", "gaze_target": "Minjun's face inside the same reflection", "pose_support": "She appears only once, screen-right inside the mirror, with level shoulders, an upright square torso, and both hands below the vanity crop; her eyes turn toward Minjun rather than the lens."}
       ]
     },
     "cg_ending_guardian": {
@@ -388,6 +388,14 @@
       "story_action": "On the KTX bound for Changwon, Minjun removes an earbud and presses the phone closer after Father promises him an ordinary bowl of gukbap.",
       "actors": [
         {"id": "minjun", "gaze_target": "Rain moving down the train window", "pose_support": "His right hand holds one phone to his ear while his raised left hand holds one removed earbud; released shoulders and damp restrained eyes turn toward the glass rather than the lens."}
+      ]
+    },
+    "cg_ending_lonely_rich": {
+      "path": "assets/cg/ending_lonely_rich_v1.png",
+      "camera_role": "kitchen_side_dining_wide",
+      "story_action": "After one single-person delivery arrives, Minjun sits at one end of a four-seat Gangnam table and finally sees the three empty chairs his balance cannot fill.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The nearest empty dining chair", "pose_support": "He stays upright but drained; one hand rests beside the single delivery bag while the other has placed one phone face-down, keeping his attention off the screen, food, skyline, and lens."}
       ]
     }
   }

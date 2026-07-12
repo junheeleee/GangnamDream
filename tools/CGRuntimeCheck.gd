@@ -13,6 +13,7 @@ func _ready() -> void:
 	_check_special_story_season_contract()
 	_check_wedding_night_reachability_contract()
 	_check_transport_background_contract()
+	_check_divorce_ending_route_contract()
 	await _check_ending_cg()
 	if _failures.is_empty():
 		print("CG_RUNTIME_CHECK_OK")
@@ -424,6 +425,14 @@ func _check_transport_background_contract() -> void:
 	if station_path != "res://assets/backgrounds/hometown_train_station.png":
 		_failures.append("hometown_train_station must keep the provincial platform, got %s" % station_path)
 
+func _check_divorce_ending_route_contract() -> void:
+	var shortfall_id := str(GameState.call("_divorce_ending_for_assets", 2_999_999_999.0))
+	if shortfall_id != "ordinary_life":
+		_failures.append("Daeun divorce below Gangnam target must resolve to ordinary_life, got %s" % shortfall_id)
+	var gangnam_id := str(GameState.call("_divorce_ending_for_assets", 3_000_000_000.0))
+	if gangnam_id != "lonely_rich":
+		_failures.append("Daeun divorce at Gangnam target must resolve to lonely_rich, got %s" % gangnam_id)
+
 func _check_all_story_cg_contracts() -> void:
 	var owners: Dictionary = {}
 	for raw_event in DataRegistry.events:
@@ -608,10 +617,13 @@ func _check_ending_cg() -> void:
 	_check_ending_cg_path(main, "with_daeun", "cg_ending_with_daeun")
 	_check_ending_cg_path(main, "second_love", "cg_ending_second_love")
 	_check_ending_cg_path(main, "jiyeon_man", "cg_ending_jiyeon_man")
+	if ImageRegistry.get_cg("cg_ending_jiyeon_man") != "res://assets/cg/ending_jiyeon_man_v2.png":
+		_failures.append("jiyeon_man must use the reflection-only v2 CG")
 	_check_ending_cg_path(main, "guardian", "cg_ending_guardian")
 	_check_ending_cg_path(main, "jaehyuk_way", "cg_ending_jaehyuk_way")
 	_check_ending_cg_path(main, "sangchul_reckoning", "cg_ending_sangchul_reckoning")
 	_check_ending_cg_path(main, "late_call", "cg_ending_late_call")
+	_check_ending_cg_path(main, "lonely_rich", "cg_ending_lonely_rich")
 	_check_all_ending_cg_contracts(main)
 
 	var preview_parent := VBoxContainer.new()

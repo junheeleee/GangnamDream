@@ -43,8 +43,8 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | AP Act 1~5 2x2 decision board, actual KRW 500K first-month horizon, post-first-interview `Keep Applying`, action-commit overlay, Seoul Trace restoration, no-scroll special-action row, ACT4 relationship pressure modal | `--qa=ap-act-en` |
 | Investment modal Trade/Holdings/Market movers/Bank pages | `--qa=invest-en` |
 | Demo month summary, demo ending CTA, 6-month Time Ledger card | `--qa=demo-end-en` |
-| P0 final-life endings: eight exact CG owners, 950x430 crop, Jiyeon mirror with identical real/reflected order and pose, White/Deep Black readability, and KO/EN first viewport | `--qa=ending-p0 --lang=ko/en` |
-| P1 final-life endings: exact CG owner/crop plus the highest-priority memory variant sharing the same physical scene | `--qa=ending-p1 --lang=ko/en` |
+| P0 final-life endings: eight exact CG owners, 950x430 crop, Jiyeon reflection-only mirror with exactly two non-duplicated actors and coherent gaze, White/Deep Black readability, and KO/EN first viewport | `--qa=ending-p0 --lang=ko/en` |
+| P1 final-life endings: exact CG owner/crop, Late Call memory variant, Rich and Alone base/divorce four-seat table, and no rich-CG leak on a Gangnam-shortfall divorce | `--qa=ending-p1 --lang=ko/en` |
 | Train semantics: summer/date and Father-call scenes remain inside the train, while the holiday decision remains on the provincial platform | `--qa=transport --lang=ko/en` |
 | Representative ending modals, graded CG/card surface, fallback mood cards, and final Time Ledger card | `--qa=endings-en` |
 | Title collection and meta-title reward surface | `--qa=title-en` |

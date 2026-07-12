@@ -2339,6 +2339,13 @@ func _shot_ending_p1_surfaces(lang: String, prefix: String) -> void:
 	await _shot_exact_ending_cg(
 			"late_call", "cg_ending_late_call", prefix + "02_late_call_jaehyuk_memory",
 			["jaehyuk_trusted_fully"])
+	await _shot_exact_ending_cg("lonely_rich", "cg_ending_lonely_rich", prefix + "03_lonely_rich")
+	await _shot_exact_ending_cg(
+			"lonely_rich", "cg_ending_lonely_rich", prefix + "04_lonely_rich_divorce",
+			["daeun_divorced"])
+	await _shot_ending_without_cg(
+			"ordinary_life", "cg_ending_lonely_rich", prefix + "05_divorce_shortfall",
+			["daeun_divorced"])
 
 func _shot_surface_en() -> void:
 	var prefix := "surface_en_"
@@ -3125,6 +3132,24 @@ func _shot_exact_ending_cg(
 	await _save(shot_name)
 	await _settle(0.3)
 
+func _shot_ending_without_cg(
+		ending_id: String, forbidden_cg_id: String, shot_name: String, extra_flags: Array = []) -> void:
+	if not _mg.has_method("_show_ending"):
+		_fail("MainGame cannot show ending %s" % ending_id)
+		return
+	_seed_ending_state(ending_id)
+	for flag in extra_flags:
+		GameState.flags[str(flag)] = true
+	_mg._show_ending(ending_id)
+	await _settle(1.0)
+	var preview := _find_ending_art_preview(_mg)
+	var forbidden_path := ImageRegistry.get_cg(forbidden_cg_id)
+	if preview != null and preview.texture != null and preview.texture.resource_path == forbidden_path:
+		_fail("Ending %s leaked forbidden CG %s" % [ending_id, forbidden_cg_id])
+		return
+	await _save(shot_name)
+	await _settle(0.3)
+
 func _find_ending_art_preview(node: Node) -> TextureRect:
 	if node is TextureRect and node.has_meta("ending_art_preview"):
 		return node as TextureRect
@@ -3163,6 +3188,7 @@ func _seed_ending_state(ending_id: String) -> void:
 	GameState.turn = 240
 	GameState.portfolio.clear()
 	GameState.loans = {"bank": 0.0, "second": 0.0}
+	GameState.money = 74_000_000.0
 	GameState.monthly_income = 0.0
 	GameState.health = 62
 	GameState.mental = 58
@@ -3178,6 +3204,7 @@ func _seed_ending_state(ending_id: String) -> void:
 	GameState.housing = "apartment"
 	GameState.current_job = {"name":("Office Worker" if LocaleManager.is_english() else "사무직"), "base_salary": 2_240_000.0, "tier": 2}
 	for flag in ["daeun_romance_started", "daeun_married", "daeun_final_together",
+			"daeun_divorced", "felt_1b_loneliness", "calculated_bihon",
 			"jiyeon_romance_started", "jiyeon_kept_by_diminishing", "crossed_line",
 			"sangchul_used_fully", "sangchul_reported", "cleared_father_debt_from_sangchul",
 			"sangchul_network_finally_cut", "sangchul_truth_known", "jaehyuk_trusted_fully",

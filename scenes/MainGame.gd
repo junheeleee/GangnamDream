@@ -13043,6 +13043,8 @@ func _ending_run_summary(ending_id: String) -> String:
 			else:
 				return _tr("파란만장했지만 결국 자기만의 안정을 찾았다", "Turbulent, but in the end he found his own stability.")
 		"ordinary_life":
+			if f.get("daeun_divorced", false):
+				return _tr("다은을 밀어내고도 강남에 닿지 못했다. 남은 것은 그 선택의 기록이었다.", "He pushed Daeun away and still missed Gangnam. What remained was the record of that choice.")
 			if f.get("startup_launched", false):
 				return _tr("창업의 꿈을 꿨지만 결국 평범한 오늘을 선택했다", "He dreamed of a startup, but in the end chose an ordinary today.")
 			return _tr("특별하지 않아도 괜찮다 — 그것도 하나의 삶이다", "It's okay to not be special — that too is a life.")
@@ -13053,7 +13055,7 @@ func _ending_run_summary(ending_id: String) -> String:
 		"debt_spiral":
 			return _tr("빚을 막으려고 빚을 냈다. 서울에서 자주 있는 일이다.", "He borrowed to cover debt. A common story in Seoul.")
 		"lonely_rich":
-			return _tr("돈은 모았지만 곁에 남은 사람이 없었다", "He gathered the money, but no one stayed by his side.")
+			return _tr("30억은 모였다. 네 자리 식탁에는 혼자였다.", "He reached three billion won. At a table for four, he sat alone.")
 		"political_fix":
 			return _tr("강남이 아닌 더 높은 곳으로 — 정계에 발을 들였다", "Not Gangnam, but somewhere higher — he stepped into politics.")
 		"investment_master":

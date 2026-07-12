@@ -304,7 +304,7 @@ Final shot prompts and built-in source outputs:
 - `assets/cg/ending_gangnam_dream_white_v1.png` — `exec-d2e5bbf5-70ab-44f0-83e3-60b3209de139.png`. Clear morning window; Minjun holds a blank cream deed folder and quietly meets one faint physically coherent reflection. Relief, not conquest.
 - `assets/cg/ending_with_daeun_v1.png` — `exec-24db2176-799d-4a80-b4a7-923a5b549e3a.png`. Modest outer-Seoul home; exactly two ramyeon bowls, two chopstick sets, and two water cups; Daeun and Minjun share mutual eye contact and near-touching hands. Rings hidden by angle.
 - `assets/cg/ending_second_love_v1.png` — `exec-379fc274-9d3e-4f01-acea-e3da97276af1.png`. Gangnam night window and compact coffee counter on one axis; Daeun holds one mug and turns toward Minjun while he prepares the second mug with coherent pour-over hands.
-- `assets/cg/ending_jiyeon_man_v1.png` — final correction source `exec-8f135993-0d87-4742-81f4-5dc9b336fe6f.png`. Off-axis mirror observer. Real Minjun is screen-left and real Jiyeon screen-right; their reflections preserve the same horizontal order, because a mirror reverses depth rather than swapping actors. Both actors and reflections share one upright head/neck, level shoulders, square torso, and straight lowered-arm pose; every hand is below the mirror crop. Exactly two real people plus two reflections. `exec-9e721768-f952-406a-9554-4ecf4225873a.png` was rejected for horizontally swapping the reflected pair; `exec-0ebad28c-6535-4608-b8a0-7cae533b8efa.png` fixed order but changed arm poses; `exec-87994c38-c7a8-452d-a0a5-40d1a51215c2.png` still turned both foreground heads away from the pose shown in reflection; `exec-5d74ad12-cdbf-416f-8a9d-1bacdd79c46c.png` corrected the bodies but left Jiyeon's reflected head turned; `exec-9b1c5efb-4fff-4c57-ad1c-dc50cbd4f5bd.png` kept the order but was rejected after runtime review because Minjun's head/torso axis and Jiyeon's shoulder/arm spacing still read as independent poses rather than one reflected stance.
+- `assets/cg/ending_jiyeon_man_v2.png` — final reflection-only source `exec-cfc94269-318d-4e7b-986b-618f64b6cee8.png`; SHA-256 `62a7f17d4aec7268e318194c91b2c1932dd208e00a6b71269552a85c6df3024a`. The camera sees exactly one Minjun at screen-left and one Jiyeon at screen-right, both only inside the same off-axis mirror. The illuminated frame, reflected bathroom depth, and vanity edge establish the optical surface; no real-world backs, duplicate faces, extra limbs, or camera appear. Minjun looks toward his own mirrored eyes while Jiyeon looks toward him, and both hands remain below the crop. This replaces the `v1` family after repeated generations preserved actor order but still gave the foreground bodies and reflections independently staged head, shoulder, torso, or arm poses. The reliable rule is now not “draw four perfectly matched bodies,” but “never draw the duplicate pair.”
 - `assets/cg/ending_guardian_v1.png` — `exec-85c50d6a-c635-4b5c-980d-ff17cb835e9c.png`. Modest Changwon hospital discharge exterior; Father walks independently and looks at Minjun while Minjun carries one duffel and one folded jacket.
 - `assets/cg/ending_jaehyuk_way_v1.png` — `exec-44a82c54-9458-453e-8060-b2b59c22d745.png`. Expensive empty Gangnam room at night; Minjun's narrow profile and one clear hand stop on a half-drawn curtain while the city remains partly visible.
 - `assets/cg/ending_sangchul_reckoning_v1.png` — `exec-e2eb0ad5-4673-4c53-b1d7-3e57a0e17a51.png`. Modest room at blue hour; visibly open window, lowered phone, still writing hand, blank papers, and one pen. No police form or guaranteed police location.
@@ -313,7 +313,7 @@ Post-processing:
 
 ```text
 All sources: center crop 1586x992 -> 1584x990, then resample to 1280x800.
-Jiyeon mirror final correction: center crop 1586x992 -> 1536x960, then resample to 1280x800.
+Jiyeon mirror `v2`: center crop 1586x992 -> 1584x990, then resample to 1280x800.
 Jaehyuk source exposure: RGB gamma 0.68, contrast 0.93, brightness 1.06.
 Sangchul source exposure: RGB gamma 0.74, contrast 0.95, brightness 1.04.
 ```
@@ -335,6 +335,22 @@ Create a restrained-color Gangnam Ink final-life ending CG aboard a KTX bound fo
 ```
 
 Post-processing: center crop 1586x992 to 1584x990, then resample to 1280x800. KO/EN `--qa=ending-p1` locks the base and Jaehyuk-memory variant; KO/EN `--qa=transport` separately proves that `ktx_window` is an interior and `hometown_train_station` remains a platform.
+
+---
+
+## 2026-07-13 P1 ending CG — Rich and Alone
+
+The image was produced with Codex built-in ImageGen. Its invariant scene, object count, distinction from `empty_house`, and crop contract live in `assets/ENDING_P1_VISUAL_BIBLE.md`.
+
+- `assets/cg/ending_lonely_rich_v1.png` — accepted first source `exec-3426d54b-5d3e-49e9-9dd5-33d8934cfe77.png`. Canonical late-30s Minjun sits upright at the screen-left end of one rectangular Gangnam dining table. Exactly four chairs exist: his occupied chair and three readable empty chairs. One plain paper delivery bag, one single-person container, and one face-down phone remain inside the centered preview. The scene avoids `empty_house`'s sofa, two cups, envelope, keys, and collapsed bereavement pose.
+
+Prompt lock:
+
+```text
+Create a restrained-color Gangnam Ink final-life ending CG in a Gangnam high-rise dining area at night. Preserve canonical 38-year-old Kim Minjun: lean angular Korean face, short messy black hair, narrow tired eyes, charcoal at-home knit and dark trousers. Use one rectangular table and exactly four chairs total; Minjun occupies the screen-left short-end chair and exactly three empty chairs remain visible. One natural hand rests beside exactly one plain paper delivery bag and at most one single-person container; the other has just placed exactly one unbranded phone face-down. He looks toward the nearest empty chair, never the lens, skyline, phone, or food. Keep his face, both hands, the one meal, phone, and all three empty chairs inside the centered 950x430 crop. Preserve readable source midtones for Deep Black. No other person, second meal, paired cup, second place setting, deed, envelope, keys, flowers, legal papers, moving box, readable receipt/UI, logo, brand, delivery worker, sofa grief pose, triumphant wealth pose, fake lettering, malformed hand, extra chair, or duplicate phone.
+```
+
+Post-processing: center crop 1586x992 to 1584x990, then resample to 1280x800. KO/EN `--qa=ending-p1` locks the base, Daeun-divorce variant, and the no-CG Gangnam-shortfall divorce result.
 
 ---
 

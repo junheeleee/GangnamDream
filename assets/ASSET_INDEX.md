@@ -22,6 +22,7 @@ Updated on 2026-07-12 for the player-facing wallet bus-stop bench, winter bungeo
 Updated on 2026-07-12 for Daeun's choice-gated proposal and small/full wedding variants plus Jiyeon's pre-decision wedding-scale negotiation CG.
 Updated on 2026-07-12 for eight final-life P0 ending CGs, physically correct Jiyeon mirror geometry, and ending-preview Moral legibility.
 Updated on 2026-07-13 for the `late_call` P1 ending CG, final Jiyeon mirror-pose correction, and separate KTX-interior/station semantic IDs.
+Updated on 2026-07-13 for the `lonely_rich` P1 dining-table CG and its strict separation from `empty_house`.
 
 ## Use These Assets
 
@@ -585,8 +586,8 @@ Updated on 2026-07-13 for the `late_call` P1 ending CG, final Jiyeon mirror-pose
 - `assets/cg/ending_second_love_v1.png`
   - `second_love` only. Daeun turns from the Gangnam night window while Minjun prepares the second of exactly two mugs.
 
-- `assets/cg/ending_jiyeon_man_v1.png`
-  - `jiyeon_man` only. Off-axis observer mirror shot: Minjun remains screen-left and Jiyeon screen-right in both reality and reflection. Both real/reflected pairs share one straight-ahead head/neck, level shoulders, square torso, and arms-down pose; all hands stay below the vanity crop. A horizontal actor swap, turned foreground head, or independently posed reflection is a failed mirror.
+- `assets/cg/ending_jiyeon_man_v2.png`
+  - `jiyeon_man` only. Reflection-only off-axis mirror shot: Minjun appears once at screen-left and Jiyeon once at screen-right, both inside the same mirror. No foreground backs or duplicate reflections are permitted; the frame, reflected room depth, and vanity edge establish the mirror while all hands remain below the crop.
 
 - `assets/cg/ending_guardian_v1.png`
   - `guardian` only. Father walks out of a modest Changwon hospital while Minjun carries one duffel and a folded jacket; no bed or wheelchair.
@@ -600,6 +601,10 @@ Updated on 2026-07-13 for the `late_call` P1 ending CG, final Jiyeon mirror-pose
 - `assets/cg/ending_late_call_v1.png`
   - `late_call` only. On the Changwon-bound KTX, late-30s Minjun holds one phone to his right ear and one removed earbud above the ending crop while winter rain moves down the window.
   - Father, Sangchul, Jaehyuk, and romance characters remain outside the frame because the ending variants guarantee only Minjun, the train, the call, and the rain.
+
+- `assets/cg/ending_lonely_rich_v1.png`
+  - `lonely_rich` only. Minjun occupies one end of a four-seat Gangnam dining table with one single-person delivery, one face-down phone, and exactly three empty chairs.
+  - Do not substitute `ending_empty_house.png`: that ending owns Father's death, the sofa, two unused cups, envelope, keys, and collapsed posture. A divorce below the Gangnam target receives no rich-apartment CG.
 
 - `assets/cg/jaehyuk_reveal.png`
   - Jaehyuk route reveal CG: private meeting room, moral line-crossing moment.
