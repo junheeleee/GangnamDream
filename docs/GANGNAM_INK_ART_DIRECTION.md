@@ -74,8 +74,10 @@ The target is **Korean social-reality VN with Japanese scene readability**, not 
 - Narrative result cards preserve every consequence but alter attention order. Black reveals economic/status outcomes first and human consequences later; White reveals people/body/mind first and economic cost later; Gray remains balanced. The delayed category stays readable and can never be removed merely because the four-slot card is full.
 - StartMenu is a character poster with a single command rail. Save management and run statistics are second-layer utilities, not the launch composition.
 - Choice presentation uses one lower safe-area dock. When choices open, the dialogue panel folds away so the image is never covered by both systems at once.
-- Recurring AP categories and high-frequency subactions use object-focused scene strips rather than generic clip-art pictograms. They are small world fragments that occupy meaningful card width, not symbols trapped in square icon frames: work=resume/ID, money=market phone, self-development=books/body, rest=goshiwon window/blanket, people=two seats/cups, gambling=physical table props. Career, money, study, social/routine/date, and each gambling venue own explicit atlas regions.
-- A dedicated AP illustration may only be reused when the action is semantically identical. Never repeat one money image for investing, side work, and saving merely because all three affect cash; keep the distinct symbol fallback until each submenu action owns art.
+- Recurring AP categories and high-frequency subactions use stills from the actual world they open: the interview room, goshiwon, convenience store, library, gym, Han River, racetrack, Hold'em room, and Jeongseon Casino. A prop-only still life is still a pictogram at card scale, even when it is a PNG.
+- Main AP cards treat the still as a full-height destination frame, not an icon inside a bordered square. Compact modals use a wide scene strip. SVG pictograms are reserved for AP cost, lock, focus, navigation, and genuine missing-art fallbacks.
+- A scene may only be reused when the action fantasy is semantically the same, such as the broad Self-Dev category and Reading. Never repeat one money image for investing, gig work, and saving merely because all three affect cash.
+- AP stills use a dedicated Moral material: Gray preserves color and midtone separation for one-second recognition, Black corrodes and desaturates the same scene, and White clears it. Moral treatment may not make a navigational image unreadable.
 
 ## Transition Rules
 

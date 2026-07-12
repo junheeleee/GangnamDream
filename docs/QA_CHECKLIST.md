@@ -37,7 +37,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | First snow: December-only store/car prelude→paragraph-1 CG, winter outfits, exactly two cans, left-driver/right-passenger seating, resting wipers, gaze and KO/EN crop | `--qa=first-snow --lang=ko/en` |
 | Climate portraits: monsoon rain shell, heatwave short sleeves/cooling towel, cold-snap parka/scarf and dedicated frozen street | `--qa=climate --lang=ko/en` |
 | Event visual contracts: seasonal Minjun clothing, rainy room/street split, year-close wardrobe, father phone location, restaurant/cafe callback routing | `--qa=event-visuals --lang=ko/en` |
-| Main AP scene strips, Seoul Trace visited/locked nodes, warning state, people pressure grind hints, routine/date, Work/Money/Self-Dev/People/Life modals, four-image gambling selector, market/info/keepsake surfaces | `--qa=ap-en --lang=ko/en` |
+| Main AP full-height in-world stills, Seoul Trace visited/locked nodes, warning state, people pressure grind hints, routine/date, Work/Money/Self-Dev/People/Life modals, four-scene gambling selector, market/info/keepsake surfaces | `--qa=ap-en --lang=ko/en` |
 | AP Act 1~5 2x2 decision board, actual KRW 500K first-month horizon, post-first-interview `Keep Applying`, action-commit overlay, Seoul Trace restoration, no-scroll special-action row, ACT4 relationship pressure modal | `--qa=ap-act-en` |
 | Investment modal Trade/Holdings/Market movers/Bank pages | `--qa=invest-en` |
 | Demo month summary, demo ending CTA, 6-month Time Ledger card | `--qa=demo-end-en` |

@@ -15,7 +15,7 @@ Updated on 2026-07-03 for Lee Minseo transparent portrait and post-Claude story 
 Updated on 2026-07-11 for paired Namsan observation-deck and love-lock romance assets.
 Updated on 2026-07-11 for heroine-specific newlywed homes, same-outfit first-night portraits, and paragraph-delayed first-morning CGs.
 Updated on 2026-07-11 for paired first-snow route art and Minjun's explicit monsoon, heatwave, and cold-snap portraits.
-Updated on 2026-07-12 for AP social/risk and gambling scene-strip atlases.
+Updated on 2026-07-12 for AP in-world scene-still routing; the earlier prop-only action atlases are no longer runtime canon.
 
 ## Use These Assets
 
@@ -602,13 +602,11 @@ Updated on 2026-07-12 for AP social/risk and gambling scene-strip atlases.
 Avoid earlier generated images that include orbit rings, sci-fi nodes, or Lumen Run-like icon motifs. Gangnam Dream should stay grounded: Korean webtoon, lo-fi realism, social survival, Seoul anxiety.
 
 ### UI Assets
-- `assets/ui/action_tiles/action_social_risk_atlas.png`
-  - Four equal Gangnam Ink regions for People/Relationships, Gambling, Routine, and Date.
-  - Object-only scenes with no named character, hand, logo, or meaningful text.
-
-- `assets/ui/action_tiles/action_gambling_atlas.png`
-  - Four equal regions for Racetrack, Underground Hold'em, Scalp Trading, and Jeongseon Casino.
-  - The race sheet and timer use non-text marks; cards/chips/felt stay generic and brand-free.
+- `assets/ui/action_tiles/action_*_atlas.png`
+  - Legacy prop-only AP studies retained for source history; no longer referenced by the runtime.
+  - Runtime AP cards use the canonical background/CG paths in `MainGame.ACTION_ILLUSTRATION_DATA`, so the action menu previews the same world the player enters.
+- `assets/ui/action_tiles/action_*.svg`
+  - Functional fallback symbols only. Keep for missing art, compact status, lock, AP cost, and navigation; do not use as the primary recurring AP-card image.
 
 - `assets/ui/card_back.png`
   - Practical 256x358 poker card back design for hidden/deck cards.

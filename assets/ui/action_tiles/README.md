@@ -1,6 +1,17 @@
 # AP Action Tile Assets
 
-The six PNG atlases are the canonical Gangnam Ink illustrations for recurring AP cards and their highest-frequency subactions.
+The six PNG atlases are legacy prop-only studies. They are retained for source history but are no longer the runtime AP-card canon: at Steam Deck size they still read as oversized pictograms.
+
+Runtime recurring AP cards use in-world background/CG stills declared in `MainGame.ACTION_ILLUSTRATION_DATA`. Main weekly cards show a full-height 168x106 destination frame; compact action modals use a 128x64 scene strip. SVG files in this directory remain functional fallbacks and compact control/status symbols.
+
+## Runtime Rule
+
+- Preview the world the action opens: interview room, goshiwon, library, gym, Han River, racetrack, Hold'em room, casino entrance, and so on.
+- Reuse a still only when the action fantasy is genuinely the same.
+- Gray must preserve enough color and midtones to identify the place in one second. Black/White Moral treatment changes the same still without moving the card or hiding navigation.
+- Do not restore a prop-only atlas as the primary AP surface merely because it is a raster image.
+
+## Legacy Atlas Layout
 
 ## Core
 

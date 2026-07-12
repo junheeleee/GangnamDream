@@ -122,30 +122,32 @@ const UI_MIN_SMALL_BUTTON_HEIGHT := 38
 const UI_FOCUS_BORDER := 3
 const UI_INFO_PANEL_WIDTH := 440
 const ACTION_ILLUSTRATION_DATA := {
-	"job": ["res://assets/ui/action_tiles/action_core_atlas.png", Rect2(0, 0, 512, 512)],
-	"money": ["res://assets/ui/action_tiles/action_core_atlas.png", Rect2(512, 0, 512, 512)],
-	"study": ["res://assets/ui/action_tiles/action_core_atlas.png", Rect2(0, 512, 512, 512)],
-	"rest": ["res://assets/ui/action_tiles/action_core_atlas.png", Rect2(512, 512, 512, 512)],
-	"resume": ["res://assets/ui/action_tiles/action_career_money_atlas.png", Rect2(0, 0, 512, 512)],
-	"interview": ["res://assets/ui/action_tiles/action_career_money_atlas.png", Rect2(512, 0, 512, 512)],
-	"side_job": ["res://assets/ui/action_tiles/action_career_money_atlas.png", Rect2(0, 512, 512, 512)],
-	"saving": ["res://assets/ui/action_tiles/action_career_money_atlas.png", Rect2(512, 512, 512, 512)],
-	"market": ["res://assets/ui/action_tiles/action_advanced_atlas.png", Rect2(0, 0, 512, 512)],
-	"startup": ["res://assets/ui/action_tiles/action_advanced_atlas.png", Rect2(512, 0, 512, 512)],
-	"content": ["res://assets/ui/action_tiles/action_advanced_atlas.png", Rect2(0, 512, 512, 512)],
-	"housing": ["res://assets/ui/action_tiles/action_advanced_atlas.png", Rect2(512, 512, 512, 512)],
-	"reading": ["res://assets/ui/action_tiles/action_study_atlas.png", Rect2(0, 0, 512, 512)],
-	"exercise": ["res://assets/ui/action_tiles/action_study_atlas.png", Rect2(512, 0, 512, 512)],
-	"meditation": ["res://assets/ui/action_tiles/action_study_atlas.png", Rect2(0, 512, 512, 512)],
-	"invest_study": ["res://assets/ui/action_tiles/action_study_atlas.png", Rect2(512, 512, 512, 512)],
-	"people": ["res://assets/ui/action_tiles/action_social_risk_atlas.png", Rect2(0, 0, 512, 512)],
-	"gambling": ["res://assets/ui/action_tiles/action_social_risk_atlas.png", Rect2(512, 0, 512, 512)],
-	"routine": ["res://assets/ui/action_tiles/action_social_risk_atlas.png", Rect2(0, 512, 512, 512)],
-	"date": ["res://assets/ui/action_tiles/action_social_risk_atlas.png", Rect2(512, 512, 512, 512)],
-	"racetrack": ["res://assets/ui/action_tiles/action_gambling_atlas.png", Rect2(0, 0, 512, 512)],
-	"holdem": ["res://assets/ui/action_tiles/action_gambling_atlas.png", Rect2(512, 0, 512, 512)],
-	"scalping": ["res://assets/ui/action_tiles/action_gambling_atlas.png", Rect2(0, 512, 512, 512)],
-	"casino_venue": ["res://assets/ui/action_tiles/action_gambling_atlas.png", Rect2(512, 512, 512, 512)],
+	# AP choices use stills from the world they open. Object-only tile art read as
+	# oversized pictograms and visually detached the weekly loop from the VN.
+	"job": ["res://assets/backgrounds/office_interview_day.png", Rect2(0, 0, 1280, 800)],
+	"money": ["res://assets/backgrounds/investment_phone.png", Rect2(0, 0, 1280, 800)],
+	"study": ["res://assets/backgrounds/library.png", Rect2(0, 0, 1280, 800)],
+	"rest": ["res://assets/backgrounds/goshiwon_room.png", Rect2(0, 0, 1280, 800)],
+	"resume": ["res://assets/backgrounds/office_desk.png", Rect2(0, 0, 1280, 800)],
+	"interview": ["res://assets/cg/demo/first_interview_v1.png", Rect2(0, 0, 1280, 800)],
+	"side_job": ["res://assets/backgrounds/aruba_delivery_street.png", Rect2(0, 0, 1280, 800)],
+	"saving": ["res://assets/backgrounds/convenience_store_night_v2.png", Rect2(0, 0, 1280, 800)],
+	"market": ["res://assets/backgrounds/trading_screen_night.png", Rect2(0, 0, 1280, 800)],
+	"startup": ["res://assets/backgrounds/investment_meeting.png", Rect2(0, 0, 1280, 800)],
+	"content": ["res://assets/backgrounds/pc_bang_interior.png", Rect2(0, 0, 1280, 800)],
+	"housing": ["res://assets/backgrounds/oneroom_apartment.png", Rect2(0, 0, 1280, 800)],
+	"reading": ["res://assets/backgrounds/library.png", Rect2(0, 0, 1280, 800)],
+	"exercise": ["res://assets/backgrounds/gym_interior.png", Rect2(0, 0, 1280, 800)],
+	"meditation": ["res://assets/backgrounds/hangang_riverside_walk.png", Rect2(0, 0, 1280, 800)],
+	"invest_study": ["res://assets/backgrounds/investment_phone.png", Rect2(0, 0, 1280, 800)],
+	"people": ["res://assets/backgrounds/cafe_seoul.png", Rect2(0, 0, 1280, 800)],
+	"gambling": ["res://assets/backgrounds/casino_interior.png", Rect2(0, 0, 1280, 800)],
+	"routine": ["res://assets/backgrounds/seoul_subway.png", Rect2(0, 0, 1280, 800)],
+	"date": ["res://assets/backgrounds/namsan_tower_view.png", Rect2(0, 0, 1280, 800)],
+	"racetrack": ["res://assets/backgrounds/racetrack_track_view.png", Rect2(0, 0, 1280, 800)],
+	"holdem": ["res://assets/backgrounds/holdem_club_interior.png", Rect2(0, 0, 1280, 800)],
+	"scalping": ["res://assets/backgrounds/scalping_trading_room.png", Rect2(0, 0, 1280, 800)],
+	"casino_venue": ["res://assets/backgrounds/jeongseon_casino_entrance.png", Rect2(0, 0, 1280, 800)],
 }
 
 const BG_PATHS = {
@@ -489,12 +491,12 @@ func _apply_moral_surface_shader() -> void:
 		_moral_bg_material.set_shader_parameter("screen_scale", 620.0 + black * 80.0 - white * 40.0)
 		_moral_bg_material.set_shader_parameter("seed", float(GameState.turn % 131) + absf(_moral_norm) * 19.0)
 	if _moral_action_material:
-		# AP art is much smaller than a scene background. Keep its props readable at
-		# neutral while preserving the same Black corrosion / White clarity language.
-		_moral_action_material.set_shader_parameter("desaturation", clampf(0.55 + black * 0.45 - white * 0.35, 0.18, 1.0))
-		_moral_action_material.set_shader_parameter("brightness", clampf(1.16 - black * 0.18 + white * 0.04, 0.96, 1.20))
-		_moral_action_material.set_shader_parameter("contrast", clampf(1.08 - black * 0.02 + white * 0.03, 1.02, 1.12))
-		_moral_action_material.set_shader_parameter("mid_gamma", clampf(0.82 + black * 0.18 - white * 0.06, 0.74, 1.00))
+		# These are navigational stills, not miniature backgrounds. Gray must retain
+		# enough color and midtone separation to identify a destination at a glance.
+		_moral_action_material.set_shader_parameter("desaturation", clampf(0.34 + black * 0.56 - white * 0.24, 0.08, 0.92))
+		_moral_action_material.set_shader_parameter("brightness", clampf(1.32 - black * 0.25 + white * 0.05, 1.02, 1.38))
+		_moral_action_material.set_shader_parameter("contrast", clampf(1.02 + black * 0.08 + white * 0.02, 1.00, 1.12))
+		_moral_action_material.set_shader_parameter("mid_gamma", clampf(0.68 + black * 0.24 - white * 0.04, 0.65, 0.94))
 		_moral_action_material.set_shader_parameter("tint_amount", clampf(black * 0.06, 0.0, 0.07))
 		_moral_action_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#f7fbff"), white))
 		_moral_action_material.set_shader_parameter("grain_amount", clampf(0.010 + black * 0.028 - white * 0.008, 0.0, 0.045))
@@ -904,10 +906,10 @@ func _build_ui():
 		event_bg.material = _moral_bg_material
 		_moral_action_material = ShaderMaterial.new()
 		_moral_action_material.shader = bg_grade_shader
-		_moral_action_material.set_shader_parameter("desaturation", 0.55)
-		_moral_action_material.set_shader_parameter("brightness", 1.16)
-		_moral_action_material.set_shader_parameter("contrast", 1.08)
-		_moral_action_material.set_shader_parameter("mid_gamma", 0.82)
+		_moral_action_material.set_shader_parameter("desaturation", 0.34)
+		_moral_action_material.set_shader_parameter("brightness", 1.32)
+		_moral_action_material.set_shader_parameter("contrast", 1.02)
+		_moral_action_material.set_shader_parameter("mid_gamma", 0.68)
 		_moral_action_material.set_shader_parameter("tint_color", Color("#020303"))
 		_moral_action_material.set_shader_parameter("tint_amount", 0.0)
 		_moral_action_material.set_shader_parameter("grain_amount", 0.010)
@@ -6758,10 +6760,10 @@ func _make_ap_board_card(title: String, subtitle: String, icon_id: String,
 	var margin := MarginContainer.new()
 	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
 	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	margin.add_theme_constant_override("margin_left", 10)
+	margin.add_theme_constant_override("margin_left", 0)
 	margin.add_theme_constant_override("margin_right", 11)
-	margin.add_theme_constant_override("margin_top", 9)
-	margin.add_theme_constant_override("margin_bottom", 9)
+	margin.add_theme_constant_override("margin_top", 0)
+	margin.add_theme_constant_override("margin_bottom", 0)
 	btn.add_child(margin)
 
 	var row := HBoxContainer.new()
@@ -6770,19 +6772,20 @@ func _make_ap_board_card(title: String, subtitle: String, icon_id: String,
 	margin.add_child(row)
 
 	var is_action_illustration := art_thumb is AtlasTexture
-	var image_size := Vector2(112, 84) if is_action_illustration else Vector2(74, 74)
+	var image_size := Vector2(168, 106) if is_action_illustration else Vector2(74, 74)
 	var image_frame := PanelContainer.new()
 	image_frame.set_meta("moral_role", "choice_icon")
 	image_frame.set_meta("moral_accent", accent if not disabled else "#343946")
 	image_frame.custom_minimum_size = image_size
-	image_frame.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	image_frame.size_flags_vertical = Control.SIZE_EXPAND_FILL if is_action_illustration else Control.SIZE_SHRINK_CENTER
 	image_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	image_frame.clip_contents = true
 	var image_style := StyleBoxFlat.new()
 	image_style.bg_color = Color("#05070a", 0.98)
-	image_style.border_color = Color(accent_color, 0.38 if is_action_illustration and not disabled else (0.72 if not disabled else 0.22))
-	image_style.set_border_width_all(1)
-	image_style.set_corner_radius_all(2)
+	image_style.border_color = Color(accent_color, 0.24 if is_action_illustration and not disabled else (0.72 if not disabled else 0.22))
+	image_style.set_border_width_all(0 if is_action_illustration else 1)
+	image_style.set_border_width(SIDE_RIGHT, 1)
+	image_style.set_corner_radius_all(0 if is_action_illustration else 2)
 	image_frame.add_theme_stylebox_override("panel", image_style)
 	row.add_child(image_frame)
 
@@ -6967,7 +6970,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 		rail_col.add_child(rail_num)
 
 	var is_action_illustration := art_thumb is AtlasTexture
-	var thumb_size := Vector2(108, 56) if is_action_illustration else Vector2(42, 42)
+	var thumb_size := Vector2(128, 64) if is_action_illustration else Vector2(42, 42)
 	var icon_box := PanelContainer.new()
 	icon_box.set_meta("moral_role", "choice_icon")
 	icon_box.set_meta("moral_accent", accent if not disabled else "#343446")
