@@ -304,7 +304,7 @@ Final shot prompts and built-in source outputs:
 - `assets/cg/ending_gangnam_dream_white_v1.png` — `exec-d2e5bbf5-70ab-44f0-83e3-60b3209de139.png`. Clear morning window; Minjun holds a blank cream deed folder and quietly meets one faint physically coherent reflection. Relief, not conquest.
 - `assets/cg/ending_with_daeun_v1.png` — `exec-24db2176-799d-4a80-b4a7-923a5b549e3a.png`. Modest outer-Seoul home; exactly two ramyeon bowls, two chopstick sets, and two water cups; Daeun and Minjun share mutual eye contact and near-touching hands. Rings hidden by angle.
 - `assets/cg/ending_second_love_v1.png` — `exec-379fc274-9d3e-4f01-acea-e3da97276af1.png`. Gangnam night window and compact coffee counter on one axis; Daeun holds one mug and turns toward Minjun while he prepares the second mug with coherent pour-over hands.
-- `assets/cg/ending_jiyeon_man_v1.png` — `exec-9b1c5efb-4fff-4c57-ad1c-dc50cbd4f5bd.png`. Off-axis mirror observer. Real Minjun is screen-left and real Jiyeon screen-right; their reflections preserve the same horizontal order, because a mirror reverses depth rather than swapping actors. Both actors and reflections share one front-facing, upright head/neck, level shoulders, square torso, and straight lowered-arm pose; every hand is below the mirror crop. Exactly two real people plus two reflections. `exec-9e721768-f952-406a-9554-4ecf4225873a.png` was rejected for horizontally swapping the reflected pair; `exec-0ebad28c-6535-4608-b8a0-7cae533b8efa.png` fixed order but changed arm poses; `exec-87994c38-c7a8-452d-a0a5-40d1a51215c2.png` still turned both foreground heads away from the pose shown in reflection; `exec-5d74ad12-cdbf-416f-8a9d-1bacdd79c46c.png` corrected the bodies but left Jiyeon's reflected head turned.
+- `assets/cg/ending_jiyeon_man_v1.png` — final correction source `exec-8f135993-0d87-4742-81f4-5dc9b336fe6f.png`. Off-axis mirror observer. Real Minjun is screen-left and real Jiyeon screen-right; their reflections preserve the same horizontal order, because a mirror reverses depth rather than swapping actors. Both actors and reflections share one upright head/neck, level shoulders, square torso, and straight lowered-arm pose; every hand is below the mirror crop. Exactly two real people plus two reflections. `exec-9e721768-f952-406a-9554-4ecf4225873a.png` was rejected for horizontally swapping the reflected pair; `exec-0ebad28c-6535-4608-b8a0-7cae533b8efa.png` fixed order but changed arm poses; `exec-87994c38-c7a8-452d-a0a5-40d1a51215c2.png` still turned both foreground heads away from the pose shown in reflection; `exec-5d74ad12-cdbf-416f-8a9d-1bacdd79c46c.png` corrected the bodies but left Jiyeon's reflected head turned; `exec-9b1c5efb-4fff-4c57-ad1c-dc50cbd4f5bd.png` kept the order but was rejected after runtime review because Minjun's head/torso axis and Jiyeon's shoulder/arm spacing still read as independent poses rather than one reflected stance.
 - `assets/cg/ending_guardian_v1.png` — `exec-85c50d6a-c635-4b5c-980d-ff17cb835e9c.png`. Modest Changwon hospital discharge exterior; Father walks independently and looks at Minjun while Minjun carries one duffel and one folded jacket.
 - `assets/cg/ending_jaehyuk_way_v1.png` — `exec-44a82c54-9458-453e-8060-b2b59c22d745.png`. Expensive empty Gangnam room at night; Minjun's narrow profile and one clear hand stop on a half-drawn curtain while the city remains partly visible.
 - `assets/cg/ending_sangchul_reckoning_v1.png` — `exec-e2eb0ad5-4673-4c53-b1d7-3e57a0e17a51.png`. Modest room at blue hour; visibly open window, lowered phone, still writing hand, blank papers, and one pen. No police form or guaranteed police location.
@@ -313,11 +313,28 @@ Post-processing:
 
 ```text
 All sources: center crop 1586x992 -> 1584x990, then resample to 1280x800.
+Jiyeon mirror final correction: center crop 1586x992 -> 1536x960, then resample to 1280x800.
 Jaehyuk source exposure: RGB gamma 0.68, contrast 0.93, brightness 1.06.
 Sangchul source exposure: RGB gamma 0.74, contrast 0.95, brightness 1.04.
 ```
 
 The two exposure lifts preserve every pixel position and exist only so Deep Black/White runtime grading can damage or recover the print without hiding faces, hands, the curtain, open window, or documents. KO/EN `--qa=ending-p0` owns the final modal crop and exact-texture gate.
+
+---
+
+## 2026-07-13 P1 ending CG — The Late Call
+
+The image was produced with Codex built-in ImageGen. Its invariant scene and crop contract lives in `assets/ENDING_P1_VISUAL_BIBLE.md`.
+
+- `assets/cg/ending_late_call_v1.png` — accepted source `exec-f7f29490-a3d1-4f42-997f-4be132387e0e.png`. Late-30s canonical Minjun sits in a physically coherent KTX window seat in winter rain, holds one unbranded phone to his right ear, and raises the removed earbud in his left hand. Father remains voice-only; one earbud case rests on Minjun's lap. The earlier `exec-efc65021-bac7-4f79-a8ad-40df10660347.png` was rejected because the removed-earbud hand fell below the centered 950x430 ending preview.
+
+Prompt lock:
+
+```text
+Create a restrained-color Gangnam Ink final-life ending CG aboard a KTX bound for Changwon. Preserve canonical 38-year-old Kim Minjun: lean Korean face, short messy black hair, tired eyes, charcoal travel coat over a worn black crewneck. Aisle-side three-quarter camera, coherent forward-facing two-seat row, rain-streaked window and moving winter landscape. His right hand holds one phone to his right ear; his raised left hand holds exactly one removed earbud; one case rests on his lap. He looks only at the rain as his shoulders quietly release. Father is voice-only. Keep the face, gaze, both hands, phone, earbud, and rain inside the centered ending crop. No other named person, station platform, readable route display, logo, luxury first class, lens gaze, broad smile, duplicated device, or malformed hand.
+```
+
+Post-processing: center crop 1586x992 to 1584x990, then resample to 1280x800. KO/EN `--qa=ending-p1` locks the base and Jaehyuk-memory variant; KO/EN `--qa=transport` separately proves that `ktx_window` is an interior and `hometown_train_station` remains a platform.
 
 ---
 

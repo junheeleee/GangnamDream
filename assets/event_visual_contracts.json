@@ -1,5 +1,5 @@
 {
-  "version": 6,
+  "version": 7,
   "tag_coverage": [
     "climate",
     "season",
@@ -27,6 +27,8 @@
     {"id": "arc_season_fireworks_jiyeon", "background": "hangang_riverside", "portrait": "jiyeon_fireworks"},
     {"id": "arc_season_sea_daeun", "background": "ktx_window", "portrait": "daeun_sea"},
     {"id": "arc_season_sea_jiyeon", "background": "ktx_window", "portrait": "jiyeon_sea"},
+    {"id": "arc_father_call_on_ktx", "background": "ktx_window", "portrait": null},
+    {"id": "amb_holiday_00", "background": "hometown_train_station", "portrait": "player_tired"},
     {"id": "arc_season_snow_daeun", "background": "convenience_first_snow_exterior", "portrait": "daeun_first_snow"},
     {"id": "arc_season_snow_jiyeon", "background": "jiyeon_sedan_first_snow", "portrait": "jiyeon_first_snow"},
     {"id": "arc_year1_close", "months": [12], "background": "goshiwon_room", "portrait": "player_offduty_neutral"},

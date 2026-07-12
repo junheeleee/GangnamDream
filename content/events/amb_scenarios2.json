@@ -126,7 +126,7 @@
   {
     "id": "amb_holiday_00",
     "title": "명절",
-    "background": "ktx_window",
+    "background": "hometown_train_station",
     "portrait": "player_tired",
     "category": "social",
     "rarity": "uncommon",

@@ -381,6 +381,14 @@
       "actors": [
         {"id": "minjun", "gaze_target": "The open night air", "pose_support": "The lowered phone, still writing hand beside the pen, released shoulders, and side profile all point away from the lens toward the open window."}
       ]
+    },
+    "cg_ending_late_call": {
+      "path": "assets/cg/ending_late_call_v1.png",
+      "camera_role": "aisle_side_train_three_quarter",
+      "story_action": "On the KTX bound for Changwon, Minjun removes an earbud and presses the phone closer after Father promises him an ordinary bowl of gukbap.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "Rain moving down the train window", "pose_support": "His right hand holds one phone to his ear while his raised left hand holds one removed earbud; released shoulders and damp restrained eyes turn toward the glass rather than the lens."}
+      ]
     }
   }
 }

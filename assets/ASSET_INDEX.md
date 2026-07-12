@@ -21,6 +21,7 @@ Updated on 2026-07-12 for the separate cafe folder-owner and Manager Kim portrai
 Updated on 2026-07-12 for the player-facing wallet bus-stop bench, winter bungeoppang cart, and canonical Changwon Seollal bow CG.
 Updated on 2026-07-12 for Daeun's choice-gated proposal and small/full wedding variants plus Jiyeon's pre-decision wedding-scale negotiation CG.
 Updated on 2026-07-12 for eight final-life P0 ending CGs, physically correct Jiyeon mirror geometry, and ending-preview Moral legibility.
+Updated on 2026-07-13 for the `late_call` P1 ending CG, final Jiyeon mirror-pose correction, and separate KTX-interior/station semantic IDs.
 
 ## Use These Assets
 
@@ -383,7 +384,7 @@ Updated on 2026-07-12 for eight final-life P0 ending CGs, physically correct Jiy
 
 - `assets/backgrounds/regional_train_window_summer.png`
   - Person-free interior of a modest Korean intercity train with a two-seat window pair and summer rice paddies outside.
-  - Use for written in-train window scenes; do not substitute the outdoor station platform.
+  - Runtime IDs `ktx_window` and `regional_train_window` both resolve here. Use for written in-train window scenes; do not substitute the outdoor `hometown_train_station` platform.
 - `assets/backgrounds/daeun_mother_home_dining_summer.png`
   - Daeun mother's modest rural dining room at summer dusk, separate from Minjun's father's Changwon home.
   - Exactly three rice/soup place settings, centered rolled omelet, standing fan, medicine and reading glasses; no large family portrait or male factory jacket.
@@ -570,6 +571,7 @@ Updated on 2026-07-12 for eight final-life P0 ending CGs, physically correct Jiy
 
 - `assets/cg/ending_crypto_ghost.png`
   - Crypto Ghost ending CG: cramped late-night trading den, abstract chart light, phone in hand, cluttered desk, and exhausted Minjun.
+  - Use only for `crypto_ghost`; charts must stay abstract with no readable exchange text or real crypto logos.
 
 - `assets/cg/ending_full_circle_v1.png`
   - `full_circle` only. Newly occupied Gangnam room; Minjun tells Father by phone that Sangchul's debt is cleared. Father is not physically present.
@@ -594,7 +596,10 @@ Updated on 2026-07-12 for eight final-life P0 ending CGs, physically correct Jiy
 
 - `assets/cg/ending_sangchul_reckoning_v1.png`
   - `sangchul_reckoning` only. Lowered phone, open window, blank papers, and one pen support both police-statement and direct-settlement prose variants.
-  - Use only for `crypto_ghost`; charts must stay abstract with no readable exchange text or real crypto logos.
+
+- `assets/cg/ending_late_call_v1.png`
+  - `late_call` only. On the Changwon-bound KTX, late-30s Minjun holds one phone to his right ear and one removed earbud above the ending crop while winter rain moves down the window.
+  - Father, Sangchul, Jaehyuk, and romance characters remain outside the frame because the ending variants guarantee only Minjun, the train, the call, and the rain.
 
 - `assets/cg/jaehyuk_reveal.png`
   - Jaehyuk route reveal CG: private meeting room, moral line-crossing moment.

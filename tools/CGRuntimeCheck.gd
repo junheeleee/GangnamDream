@@ -12,6 +12,7 @@ func _ready() -> void:
 	_check_first_snow_season_contract()
 	_check_special_story_season_contract()
 	_check_wedding_night_reachability_contract()
+	_check_transport_background_contract()
 	await _check_ending_cg()
 	if _failures.is_empty():
 		print("CG_RUNTIME_CHECK_OK")
@@ -415,6 +416,14 @@ func _check_wedding_night_reachability_contract() -> void:
 		_failures.append("Jiyeon wedding night repeats after completion")
 	main.free()
 
+func _check_transport_background_contract() -> void:
+	var ktx_path := ImageRegistry.get_background("ktx_window")
+	if ktx_path != "res://assets/backgrounds/regional_train_window_summer.png":
+		_failures.append("ktx_window must resolve to the train interior, got %s" % ktx_path)
+	var station_path := ImageRegistry.get_background("hometown_train_station")
+	if station_path != "res://assets/backgrounds/hometown_train_station.png":
+		_failures.append("hometown_train_station must keep the provincial platform, got %s" % station_path)
+
 func _check_all_story_cg_contracts() -> void:
 	var owners: Dictionary = {}
 	for raw_event in DataRegistry.events:
@@ -602,6 +611,7 @@ func _check_ending_cg() -> void:
 	_check_ending_cg_path(main, "guardian", "cg_ending_guardian")
 	_check_ending_cg_path(main, "jaehyuk_way", "cg_ending_jaehyuk_way")
 	_check_ending_cg_path(main, "sangchul_reckoning", "cg_ending_sangchul_reckoning")
+	_check_ending_cg_path(main, "late_call", "cg_ending_late_call")
 	_check_all_ending_cg_contracts(main)
 
 	var preview_parent := VBoxContainer.new()

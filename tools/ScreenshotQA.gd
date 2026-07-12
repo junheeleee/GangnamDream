@@ -19,6 +19,8 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=wedding-morning --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=commitment --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=breakup --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ending-p1 --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=transport --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=first-snow --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=climate --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=event-visuals --lang=en
@@ -69,6 +71,8 @@ const QA_SCOPE_AP_EN := "ap_en"
 const QA_SCOPE_AP_ACT_EN := "ap_act_en"
 const QA_SCOPE_ENDINGS_EN := "endings_en"
 const QA_SCOPE_ENDING_P0 := "ending_p0"
+const QA_SCOPE_ENDING_P1 := "ending_p1"
+const QA_SCOPE_TRANSPORT := "transport"
 const QA_SCOPE_DEMO_END_EN := "demo_end_en"
 const QA_SCOPE_TITLE_EN := "title_en"
 const QA_SCOPE_TUTORIAL_EN := "tutorial_en"
@@ -249,6 +253,18 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_ending_p0_surfaces(lang, "ending_p0_en_" if lang == "en" else "ending_p0_ko_")
 		print("SCREENSHOT_QA_DONE scope=ending-p0 lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_ENDING_P1:
+		var lang := _qa_language("en")
+		await _shot_ending_p1_surfaces(lang, "ending_p1_en_" if lang == "en" else "ending_p1_ko_")
+		print("SCREENSHOT_QA_DONE scope=ending-p1 lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_TRANSPORT:
+		var lang := _qa_language("en")
+		await _shot_transport_surfaces(lang, "transport_en_" if lang == "en" else "transport_ko_")
+		print("SCREENSHOT_QA_DONE scope=transport lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_DEMO_END_EN:
@@ -446,6 +462,13 @@ func _qa_scope() -> String:
 				"qa=ending-p0", "--qa=ending-p0", "qa=ending_p0", "--qa=ending_p0",
 				"scope=ending-p0", "--scope=ending-p0", "scope=ending_p0", "--scope=ending_p0"]:
 			return QA_SCOPE_ENDING_P0
+		if arg in ["ending-p1", "ending_p1", "endings-p1", "endings_p1", "--ending-p1", "--ending_p1",
+				"qa=ending-p1", "--qa=ending-p1", "qa=ending_p1", "--qa=ending_p1",
+				"scope=ending-p1", "--scope=ending-p1", "scope=ending_p1", "--scope=ending_p1"]:
+			return QA_SCOPE_ENDING_P1
+		if arg in ["transport", "rail", "train", "--transport", "qa=transport", "--qa=transport",
+				"scope=transport", "--scope=transport"]:
+			return QA_SCOPE_TRANSPORT
 		if arg in ["demo-end-en", "demo_end_en", "demo-ending-en", "demo_ending_en", "--demo-end-en",
 				"qa=demo-end-en", "--qa=demo-end-en", "qa=demo_end_en", "--qa=demo_end_en",
 				"scope=demo-end-en", "--scope=demo-end-en"]:
@@ -775,6 +798,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	_assert_resolved_visual_debt_state(story, event_id)
 	_assert_commitment_visual_state(story, event_id, select_choice)
 	_assert_breakup_visual_state(story, event_id, select_choice)
+	_assert_transport_visual_state(story, event_id)
 	await _save(shot_name)
 	_remove_nodes_by_script("res://scenes/StoryMode.gd")
 	if suppress_cg and had_cg:
@@ -934,6 +958,26 @@ func _assert_breakup_visual_state(story: Node, event_id: String, selected_choice
 	var expected_portrait := ImageRegistry.get_portrait("jiyeon_cold")
 	if actual_portrait != expected_portrait:
 		_fail("Jiyeon verdict portrait expected %s, got %s." % [expected_portrait, actual_portrait])
+
+func _assert_transport_visual_state(story: Node, event_id: String) -> void:
+	var expected_ids := {
+		"arc_season_sea_daeun": "ktx_window",
+		"arc_season_sea_jiyeon": "ktx_window",
+		"arc_father_call_on_ktx": "ktx_window",
+		"amb_holiday_00": "hometown_train_station",
+	}
+	if not expected_ids.has(event_id):
+		return
+	var expected_id := str(expected_ids[event_id])
+	var actual_id := str(story.get("_event_background_id"))
+	if actual_id != expected_id:
+		_fail("%s transport background expected %s, got %s." % [event_id, expected_id, actual_id])
+		return
+	var bg_img := story.get("_bg_img") as TextureRect
+	var expected_path := ImageRegistry.get_background(expected_id)
+	var actual_path := bg_img.texture.resource_path if is_instance_valid(bg_img) and bg_img.texture != null else ""
+	if actual_path != expected_path:
+		_fail("%s transport texture expected %s, got %s." % [event_id, expected_path, actual_path])
 
 func _assert_story_cg(story: Node, expected_cg_id: String, context: String) -> void:
 	var expected_path := ImageRegistry.get_cg(expected_cg_id)
@@ -1544,6 +1588,18 @@ func _shot_breakup_surfaces(lang: String = "en", prefix: String = "breakup_en_")
 	await _shot_story_event("arc_jiyeon_verdict", prefix + "09_jiyeon_farewell_before_cg", "", 0.45, true, true, 1, 0, false, 1)
 	_prepare_breakup_qa_state("jiyeon")
 	await _shot_story_event("arc_jiyeon_verdict", prefix + "10_jiyeon_departure_cg", "", 0.45, true, true, 1, 0, false, 2)
+
+func _shot_transport_surfaces(lang: String = "en", prefix: String = "transport_en_") -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	GameState.month = 7
+	await _shot_story_event("arc_season_sea_daeun", prefix + "01_summer_ktx_interior", "", 0.55, true)
+	_prepare_main_game_state()
+	GameState.month = 10
+	await _shot_story_event("arc_father_call_on_ktx", prefix + "02_father_ktx_interior", "", 0.55, true)
+	_prepare_main_game_state()
+	GameState.month = 1
+	await _shot_story_event("amb_holiday_00", prefix + "03_holiday_station_choices", "", 0.45, true, true)
 
 func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> void:
 	_set_qa_language(lang)
@@ -2272,7 +2328,17 @@ func _shot_ending_p0_surfaces(lang: String, prefix: String) -> void:
 		["sangchul_reckoning", "cg_ending_sangchul_reckoning", "08_sangchul_reckoning"],
 	]
 	for target in targets:
-		await _shot_p0_ending(str(target[0]), str(target[1]), prefix + str(target[2]))
+		await _shot_exact_ending_cg(str(target[0]), str(target[1]), prefix + str(target[2]))
+
+func _shot_ending_p1_surfaces(lang: String, prefix: String) -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	_seed_portfolio()
+	await _boot_main_game()
+	await _shot_exact_ending_cg("late_call", "cg_ending_late_call", prefix + "01_late_call")
+	await _shot_exact_ending_cg(
+			"late_call", "cg_ending_late_call", prefix + "02_late_call_jaehyuk_memory",
+			["jaehyuk_trusted_fully"])
 
 func _shot_surface_en() -> void:
 	var prefix := "surface_en_"
@@ -3031,27 +3097,30 @@ func _shot_ending(ending_id: String, shot_name: String) -> void:
 			await _save(shot_name + "_time_ledger")
 		await _settle(0.3)
 
-func _shot_p0_ending(ending_id: String, cg_id: String, shot_name: String) -> void:
+func _shot_exact_ending_cg(
+		ending_id: String, cg_id: String, shot_name: String, extra_flags: Array = []) -> void:
 	if not _mg.has_method("_show_ending"):
-		_fail("MainGame cannot show P0 ending %s" % ending_id)
+		_fail("MainGame cannot show ending CG %s" % ending_id)
 		return
 	_seed_ending_state(ending_id)
+	for flag in extra_flags:
+		GameState.flags[str(flag)] = true
 	_mg._show_ending(ending_id)
 	await _settle(1.0)
 	var expected_path := ImageRegistry.get_cg(cg_id)
 	var preview := _find_ending_art_preview(_mg)
 	if expected_path.is_empty():
-		_fail("P0 ending %s references missing CG id %s" % [ending_id, cg_id])
+		_fail("Ending %s references missing CG id %s" % [ending_id, cg_id])
 		return
 	if preview == null or preview.texture == null:
-		_fail("P0 ending %s has no ending_art_preview texture" % ending_id)
+		_fail("Ending %s has no ending_art_preview texture" % ending_id)
 		return
 	if preview.texture.resource_path != expected_path:
-		_fail("P0 ending %s preview mismatch: expected %s, got %s" % [
+		_fail("Ending %s preview mismatch: expected %s, got %s" % [
 			ending_id, expected_path, preview.texture.resource_path])
 		return
 	if preview.custom_minimum_size.y < 430.0:
-		_fail("P0 ending %s preview crop contract fell below 430px" % ending_id)
+		_fail("Ending %s preview crop contract fell below 430px" % ending_id)
 		return
 	await _save(shot_name)
 	await _settle(0.3)
@@ -3111,6 +3180,9 @@ func _seed_ending_state(ending_id: String) -> void:
 	for flag in ["daeun_romance_started", "daeun_married", "daeun_final_together",
 			"jiyeon_romance_started", "jiyeon_kept_by_diminishing", "crossed_line",
 			"sangchul_used_fully", "sangchul_reported", "cleared_father_debt_from_sangchul",
+			"sangchul_network_finally_cut", "sangchul_truth_known", "jaehyuk_trusted_fully",
+			"made_time_for_father", "delayed_father_visit", "brief_father_meeting",
+			"promise_changed", "sent_parents_money", "parent_debt_acknowledged",
 			"father_reconciled", "father_passed"]:
 		GameState.flags.erase(flag)
 	match ending_id:
@@ -3194,6 +3266,18 @@ func _seed_ending_state(ending_id: String) -> void:
 			GameState.human_weeks_total = 92
 			GameState.contact_counts = {"father": 18}
 			GameState.last_contact_turn = {"father": 239}
+		"late_call":
+			GameState.money = 74_000_000.0
+			GameState.housing = "oneroom"
+			GameState.health = 66
+			GameState.mental = 72
+			GameState.reputation = 44
+			GameState.moral_tint = 32.0
+			GameState.money_weeks_total = 136
+			GameState.human_weeks_total = 94
+			GameState.contact_counts = {"father": 19}
+			GameState.last_contact_turn = {"father": 240}
+			GameState.flags["father_reconciled"] = true
 		"bankruptcy", "debt_spiral":
 			GameState.money = -118_000_000.0
 			GameState.housing = "gosiwon"

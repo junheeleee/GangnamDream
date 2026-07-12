@@ -61,7 +61,11 @@
 
 ## [x] P0-1. 최종 삶 엔딩 CG 8종 (2026-07-12 Codex 완료)
 
-완료: `full_circle`, `gangnam_dream_white`, `with_daeun`, `second_love`, `jiyeon_man`, `guardian`, `jaehyuk_way`, `sangchul_reckoning`이 과정 CG 재사용 없이 각각 전용 1280×800 최종 삶 CG를 소유한다. 지연 거울은 현실/반사 모두 민준 왼쪽·지연 오른쪽 순서와 머리·어깨·몸통·내린 팔 자세를 1:1로 유지하며, Deep Black 엔딩도 얼굴·손·커튼이 읽히는 전용 미리보기 중간톤을 쓴다. 활성 CG 41장·배우 계약 75개, KO/EN `--qa=ending-p0` 8컷, exact texture/430px crop, `CGRuntimeCheck`가 배선을 잠근다.
+완료: `full_circle`, `gangnam_dream_white`, `with_daeun`, `second_love`, `jiyeon_man`, `guardian`, `jaehyuk_way`, `sangchul_reckoning`이 과정 CG 재사용 없이 각각 전용 1280×800 최종 삶 CG를 소유한다. 지연 거울은 현실/반사 모두 민준 왼쪽·지연 오른쪽 순서와 머리-척추 축·어깨·몸통·내린 팔 자세를 1:1로 유지하며, Deep Black 엔딩도 얼굴·손·커튼이 읽히는 전용 미리보기 중간톤을 쓴다. KO/EN `--qa=ending-p0` 8컷, exact texture/430px crop, `CGRuntimeCheck`가 배선을 잠근다.
+
+## [ ] P1-E. 정식 출시 결산 CG 확장 (2026-07-13: 1/8)
+
+`late_call` 완료: 창원행 KTX의 민준·전화·겨울비·뺀 이어버드만 모든 기억 변주의 공통 사실로 고정했다. `ktx_window`를 실제 실내로 복구하고 지방역 `hometown_train_station`을 분리했으며, KO/EN `ending-p1` 2컷과 `transport` 3컷이 배선·크롭·장소 의미를 잠근다. 다음 실제 제작 순서는 `lonely_rich` → `gambling_recovery` → `bankruptcy/debt_spiral`; 이후 조건부 성취 엔딩과 `burnout`을 별도 판단한다.
 
 ## [x] P1-0. AP 주간 결정 보드 (2026-07-10 Codex 완료)
 

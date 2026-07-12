@@ -13081,7 +13081,7 @@ func _ending_run_summary(ending_id: String) -> String:
 		"orthodox_hollow":
 			return _tr("성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.", "He succeeded. But if asked why, he has no answer.")
 		"late_call":
-			return _tr("화해는 늦었지만, 늦었다는 것을 알았기에 의미가 있었다", "The reconciliation was late, but it meant something because he knew it was late.")
+			return _tr("화해는 늦었지만, 늦었다는 것을 알았기에 의미가 있었다", "The reconciliation came late. Knowing that was what made it matter.")
 		"sangchul_reckoning":
 			return _tr("강남은 포기했다. 대신 아버지를 빚에서 해방시켰다.", "He gave up Gangnam. Instead, he freed his father from debt.")
 		"creator_success":

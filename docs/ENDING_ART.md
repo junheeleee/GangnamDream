@@ -1,6 +1,6 @@
 # 엔딩 아트 점검 & 컷신 우선순위
 
-Updated: 2026-07-12
+Updated: 2026-07-13
 
 ## 목적
 
@@ -42,6 +42,7 @@ Updated: 2026-07-12
 | `cg_ending_guardian` | `assets/cg/ending_guardian_v1.png` | `guardian` | 창원 퇴원 날·아버지 짐·나란한 걸음 |
 | `cg_ending_jaehyuk_way` | `assets/cg/ending_jaehyuk_way_v1.png` | `jaehyuk_way` | 반쯤 친 커튼·Deep Black에서도 읽히는 고립 |
 | `cg_ending_sangchul_reckoning` | `assets/cg/ending_sangchul_reckoning_v1.png` | `sangchul_reckoning` | 열린 창·내린 전화·빈 서류와 펜 |
+| `cg_ending_late_call` | `assets/cg/ending_late_call_v1.png` | `late_call` | 창원행 KTX·겨울비·전화·뺀 이어버드 |
 
 프로포즈·결혼 과정 CG인 `cg_romance_proposal_daeun`, `cg_romance_wedding_daeun_small`, `cg_romance_wedding_daeun_full`, `cg_romance_wedding_gap_jiyeon`과 T2 결별 결과인 `cg_romance_breakup_daeun`, `cg_romance_breakup_jiyeon`은 2026-07-12에 완성됐지만 **엔딩 CG가 아니다**. 선택의 실제 순간과 비용을 시각화할 뿐 `with_daeun`, `jiyeon_man`, `lonely_rich`, `ordinary_life`의 최종 생활을 대신하지 않는다.
 
@@ -66,7 +67,7 @@ Updated: 2026-07-12
 | `with_daeun` | A | `cg_ending_with_daeun` | `convenience_night` | P0 완료. 결혼 여부를 손 각도로 숨긴 최종 생활 컷 |
 | `jiyeon_man` | A | `cg_ending_jiyeon_man` | `gangnam_day` | P0 완료. 현실/반사 인물 순서·시선·자세 1:1 잠금 |
 | `jaehyuk_way` | B | `cg_ending_jaehyuk_way` | `gangnam_night` | P0 완료. 핵심 moral collapse 엔딩 |
-| `late_call` | B | 없음 | `ktx_window` | P1 신규 CG 후보 |
+| `late_call` | B | `cg_ending_late_call` | `ktx_window` | P1 완료. 모든 기억 변주의 공통 물리인 KTX·전화·비만 고정 |
 | `stable_success` | B | 없음 | `rooftop_day` | P2. 전용 안정 배경이 있으면 좋음 |
 | `ordinary_life` | C | 없음 | 없음 | 공통 모노톤 실패/일상 카드 |
 | `burnout` | F | 없음 | 없음 | P1 공통 실패 CG 후보 |
@@ -118,7 +119,7 @@ Updated: 2026-07-12
 
 | 새 cg key | 연결 엔딩 | 장면 스펙 |
 |---|---|---|
-| `cg_ending_late_call` | `late_call` | KTX 창가, 폰을 쥔 손, 빗방울. 얼굴을 크게 안 보여줘도 됨 |
+| `cg_ending_late_call` | `late_call` | **완료.** 창원행 KTX 창가, 폰을 귀에 붙인 오른손, 화면 안에 남는 뺀 이어버드 왼손, 빗방울. 아버지는 음성으로만 존재 |
 | `cg_ending_instant_legend` | `instant_legend` | 너무 이른 강남 도착. 넓은 거실이 오히려 비현실적으로 비어 보임 |
 | `cg_ending_startup_exit` | `startup_exit` | 작은 사무실/회의실, 계약서와 노트북. 벼락부자보다 숨 돌리는 창업자 |
 | `cg_ending_lonely_rich` | `lonely_rich` | 고급 거실에서 혼자 배달앱을 닫는 장면. 돈과 외로움의 대비 |
@@ -127,7 +128,7 @@ Updated: 2026-07-12
 | `cg_ending_bankruptcy` | `bankruptcy`, `debt_spiral` | 계산기, 독촉 문자, 비 오는 방. 실패 공통 컷 가능 |
 | `cg_ending_burnout` | `burnout` | 응급실 형광등/천장/링거와 보호자 연락 질문. 정신건강의학과 `mental_break`와 공유 금지 |
 
-노출·감정 회수·상점 스크린샷 가치를 함께 보면 다음 실제 제작 순서는 `late_call` → `lonely_rich` → `gambling_recovery` → `bankruptcy/debt_spiral`이다. `startup_exit`, `instant_legend`, `orthodox_pinnacle`은 강한 성취 컷이지만 조건부 경로라 그다음이다. `mental_break`는 전용 진료실 컷을 만들기 전까지 정합한 엔딩 카드로 남긴다.
+`late_call`은 완료했다. 노출·감정 회수·상점 스크린샷 가치를 함께 보면 다음 실제 제작 순서는 `lonely_rich` → `gambling_recovery` → `bankruptcy/debt_spiral`이다. `startup_exit`, `instant_legend`, `orthodox_pinnacle`은 강한 성취 컷이지만 조건부 경로라 그다음이다. `mental_break`는 전용 진료실 컷을 만들기 전까지 정합한 엔딩 카드로 남긴다.
 
 ### P2 — 있으면 고급스러운 엔딩
 

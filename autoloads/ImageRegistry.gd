@@ -204,7 +204,8 @@ const BACKGROUNDS = {
 	"military_base_gate": "res://assets/backgrounds/military_base_gate.png",
 	# Canon-safe Changwon father-home background regenerated on 2026-06-12.
 	"dad_house":         "res://assets/backgrounds/family_living_room.png",
-	"ktx_window":        "res://assets/backgrounds/hometown_train_station.png",
+	"hometown_train_station": "res://assets/backgrounds/hometown_train_station.png",
+	"ktx_window":        "res://assets/backgrounds/regional_train_window_summer.png",
 	"regional_train_window": "res://assets/backgrounds/regional_train_window_summer.png",
 	"daeun_mother_home_dining": "res://assets/backgrounds/daeun_mother_home_dining_summer.png",
 	"daeun_newlywed_home": "res://assets/backgrounds/daeun_newlywed_home_night.png",
@@ -264,6 +265,7 @@ const CG = {
 	"cg_ending_guardian": "res://assets/cg/ending_guardian_v1.png",
 	"cg_ending_jaehyuk_way": "res://assets/cg/ending_jaehyuk_way_v1.png",
 	"cg_ending_sangchul_reckoning": "res://assets/cg/ending_sangchul_reckoning_v1.png",
+	"cg_ending_late_call": "res://assets/cg/ending_late_call_v1.png",
 	"cg_romance_sea_daeun":    "res://assets/cg/romance/sea_daeun_v3.png",
 	"cg_romance_sea_jiyeon":   "res://assets/cg/romance/sea_jiyeon_v2.png",
 	"cg_romance_fireworks_daeun": "res://assets/cg/romance/fireworks_daeun.png",
