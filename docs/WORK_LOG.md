@@ -1,5 +1,17 @@
 # Gangnam Dream Work Log
 
+## 2026-07-12 (Codex — bus-stop bench road-facing correction)
+
+### 진단
+- 직전 최종본은 카메라에 좌판과 등받이 안쪽이 보여, 실제로 앉은 승객이 유리 너머 도로를 등지는 반대 구조였다. 정본 인덱스의 "카메라는 벤치 뒤를 본다"와 생성 프롬프트도 서로 충돌했다.
+
+### 구현
+- 정류장·도로·유리·지갑·비 조명은 유지하고 벤치만 180도 돌렸다. 카메라에는 등받이 뒷면과 후면 지지대가 보이며, 좌석은 유리와 도로를 향한다.
+- `assets/IMAGE_PROMPTS.md`의 최종 원본·탈락 사유·합격 기준을 같은 방향으로 교정하고 1280×800 PNG로 정규화했다.
+
+### 검증
+- Godot 재임포트 후 한국어 `--qa=event-visuals`의 `event_visual_ko_06a_bus_stop_wallet` 도입/선택지 컷을 실제 렌더러로 확인했다. 등받이 뒤·도로 방향·지갑이 모두 판독되며 지갑은 두 UI 상태에서 가려지지 않는다.
+
 ## 2026-07-12 (Codex — proposal and wedding visual-state package)
 
 ### 진단

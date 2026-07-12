@@ -303,20 +303,21 @@ Gangnam Ink visual language: desaturated Korean visual novel/manhwa realism, con
 ### seoul_bus_stop_wallet.png
 
 - **최종 경로**: `assets/backgrounds/seoul_bus_stop_wallet.png`
-- **최종 생성 원본**: `/Users/junheelee/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-7a0d2b57-e115-418c-a0dc-29c4c12b8249.png`
+- **최종 생성 원본**: `/Users/junheelee/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-8feb6088-144b-4956-a5a5-c324e1c2d5fe.png`
 - **이전 교정 원본**:
   - `exec-59f2a10b-a2d4-4e68-b74b-5c4154ecd8cf.png`: 벤치가 도로 옆을 향해 물리 구조 탈락.
   - `exec-d5ae909c-2686-41c2-94f8-f080defff7d2.png`: 도로 방향은 합격했지만 지갑이 대사창 아래로 내려가 크롭 탈락.
   - `exec-68b702f0-6cad-4e09-b75d-b3e048135dee.png`: 좌석면이 카메라 쪽으로 읽혀 도로 반대 방향처럼 보이는 시각적 모호성으로 탈락.
   - `exec-3de8df09-9f81-4efa-bab5-d78103f13d67.png`: 등받이 뒤/좌석면 구분이 여전히 약해 방향 판독이 모호해 탈락.
-  - `exec-3ddf43b2-a2c0-4499-8341-8f6ebd28e894.png`: 카메라에 등받이 뒷면만 보여 유저가 의도한 벤치 앞면과 정반대로 판독돼 탈락.
+  - `exec-3ddf43b2-a2c0-4499-8341-8f6ebd28e894.png`: 벤치 방향은 맞았지만 이후 교정 과정에서 최종본이 다시 반대로 뒤집혀 대체됨.
+  - `exec-7a0d2b57-e115-418c-a0dc-29c4c12b8249.png`: 카메라에 좌석면이 보여 승객이 도로를 등지고 앉는 구조라 탈락.
 - **최종 프롬프트 체인**:
 
 ```text
-Rotate only the wooden bench 180 degrees around its vertical axis. The corrected bench must show its seat surface and the passenger-facing inner side of the backrest to the camera, exactly opposite the current orientation. Keep the bench parallel to the curb. Make the direction unmistakable: the entire seat plane projects toward the camera and the backrest sits behind it toward the glass and street. Preserve the rainy Seoul roadway, curb, tactile paving, shelter glass and metal structure, architecture, lighting, empty scene, and exactly one small black wallet beneath the front half of the bench. Keep the wallet above the future dialogue UI safe zone. No people, text, logos, signs, extra furniture, duplicate bench, warped furniture, or floating wallet.
+Rotate only the wooden bus-stop bench 180 degrees so the seating side faces the glass wall and the road outside. The camera must see the BACK of the bench backrest, not the seating/front side. A passenger sitting on the bench would look straight through the glass toward approaching buses on the road. Keep the bench in the same footprint and scale, keep the lost black wallet clearly visible on the floor, and preserve the rainy road, curb, tactile paving, shelter, architecture, lighting, and camera angle. No people, bus, text, logos, extra furniture, or architectural changes.
 ```
 
-- **합격 기준**: 카메라에서 좌판 전체와 등받이 안쪽을 동시에 보고 좌판은 화면 앞쪽으로 뻗는다. 뒤쪽 유리 너머 도로·점자블록·연석이 유지되고, 실제 1280x800 도입/선택지 화면에서 지갑 전체가 UI 위에 남는다.
+- **합격 기준**: 카메라에는 등받이 뒷면과 후면 지지대가 보이고 좌판은 도로 쪽에 숨는다. 승객의 시선은 유리 너머 도로를 향하며, 실제 1280x800 도입/선택지 화면에서 지갑 전체가 UI 위에 남는다.
 
 ### winter_bungeoppang_stall.png
 
