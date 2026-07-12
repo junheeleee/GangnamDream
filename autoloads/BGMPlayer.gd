@@ -305,6 +305,11 @@ func _pick_ambience(ev: Dictionary) -> String:
 	var category := str(ev.get("category", "")).to_lower()
 	var event_id := str(ev.get("id", ""))
 	var hay: String = (str(ev.get("title", "")) + " " + str(ev.get("description", ""))).to_lower()
+	var padded_hay := " " + hay.replace("\n", " ") + " "
+	var rain_in_text := " rain " in padded_hay or " rainy " in padded_hay \
+			or " raining " in padded_hay or " rainfall " in padded_hay \
+			or "비가" in hay or "비를" in hay or "비에" in hay \
+			or "비 오는" in hay or "비 내" in hay or "빗" in hay or "장마" in hay or "monsoon" in hay
 	if event_id == "callback_hoesik_payoff":
 		return "office"
 	if event_id in ["arc_36_body_signal", "arc_gangnam_real_estate"]:
@@ -344,7 +349,7 @@ func _pick_ambience(ev: Dictionary) -> String:
 	if "library" in bg_id or "도서관" in hay or "열람실" in hay \
 			or "public library" in hay or "reading room" in hay:
 		return "library"
-	if "rain" in tags or "street_rainy" in bg_id or "비" in hay or "빗" in hay or "장마" in hay or "monsoon" in hay:
+	if "rain" in tags or "street_rainy" in bg_id or rain_in_text:
 		return "rain"
 	if "hagwon" in tags or "hagwon" in bg_id \
 			or "학원가" in hay or "대치동" in hay or "hagwon" in hay or "private academy" in hay:
@@ -376,8 +381,10 @@ func _pick_ambience(ev: Dictionary) -> String:
 	if "office" in tags or "work" in tags or "jobs" in tags or category == "jobs" \
 			or "office" in bg_id or "회사" in hay or "사무실" in hay:
 		return "office"
-	if bg_id in ["street", "street_day"] or "gangnam_station" in bg_id \
+	if "street" in tags or "street" in bg_id or "gangnam_station" in bg_id \
 			or "거리" in hay or "street" in hay:
+		return "street"
+	if "rooftop" in tags or "rooftop" in bg_id:
 		return "street"
 	if "night" in tags:
 		return "rain"

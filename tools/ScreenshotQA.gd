@@ -714,6 +714,16 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 					await _settle(0.16)
 	if not expected_result_first.is_empty():
 		_assert_story_result_attention(story, expected_result_first, expected_result_last)
+	var year_close_ambience := {
+		"arc_year2_close": "street",
+		"arc_year3_close": "hangang",
+		"arc_year4_close": "street",
+	}
+	if year_close_ambience.has(event_id):
+		var expected_ambience := str(year_close_ambience[event_id])
+		var actual_ambience := str(BGMPlayer.get("_current_ambience_key"))
+		if actual_ambience != expected_ambience:
+			_fail("%s ambience expected %s, got %s." % [event_id, expected_ambience, actual_ambience])
 	await _save(shot_name)
 	_remove_nodes_by_script("res://scenes/StoryMode.gd")
 	if suppress_cg and had_cg:
@@ -1076,6 +1086,8 @@ func _shot_event_visual_surfaces(lang: String = "en", prefix: String = "event_vi
 		["kx_seollal_sebae", "08_seollal_home"],
 		["arc_year1_close", "09_year1_room"],
 		["arc_year2_close", "10_year2_winter_street"],
+		["arc_year3_close", "10a_year3_winter_hangang"],
+		["arc_year4_close", "10b_year4_winter_rooftop"],
 		["arc_father_medication", "11_father_medication_room"],
 		["callback_called_about_medication_echo", "12_father_callback_room"],
 		["arc_sangchul_03_network", "13_sangchul_restaurant"],
@@ -1116,6 +1128,18 @@ func _prepare_event_visual_qa_state(event_id: String) -> void:
 			GameState.turn = 96
 			GameState.age = 34
 			GameState.year = 2027
+			GameState.month = 12
+			GameState.week_of_month = 4
+		"arc_year3_close":
+			GameState.turn = 144
+			GameState.age = 35
+			GameState.year = 2028
+			GameState.month = 12
+			GameState.week_of_month = 4
+		"arc_year4_close":
+			GameState.turn = 192
+			GameState.age = 36
+			GameState.year = 2029
 			GameState.month = 12
 			GameState.week_of_month = 4
 		"arc_father_medication", "callback_called_about_medication_echo":

@@ -239,6 +239,10 @@ Updated on 2026-07-11 for paired first-snow route art and Minjun's explicit mons
   - Person-free working-class Seoul street with frozen asphalt, bare trees, light snow residue, and immediately readable curb/road geometry.
   - Use only for explicit cold-snap and severe-winter outdoor events.
 
+- `assets/backgrounds/year2_winter_last_night.png`
+  - Person-free late-December Seoul residential street at night for `arc_year2_close` only.
+  - Preserves the canonical cold-snap street architecture while replacing daylight with practical streetlamps and sparse window light. Do not reuse as a generic snowy street.
+
 - `assets/backgrounds/fine_dust_sky.png`
   - Dry yellow-gray Seoul street under fine dust / yellow dust conditions.
   - Use for `fine_dust_sky` inferred/explicit backgrounds and `kx_fine_dust`.
@@ -258,6 +262,14 @@ Updated on 2026-07-11 for paired first-snow route art and Minjun's explicit mons
   - Han River evening promenade background for Seoul rest, walking, running, romance, and reflective callback events.
   - Use for `hangang_riverside` inferred backgrounds and explicit `hangang` tags.
   - Status: approved for first in-game QA. 1280x800, blue-hour river, bridge, skyline, benches, lamps, only distant anonymous silhouettes, no readable signs/logos.
+
+- `assets/backgrounds/year3_hangang_winter_night.png`
+  - Late-December Han River promenade for `arc_year3_close` only.
+  - Bare branches, dormant shrubs, dark water, restrained practical lights, and no foreground character. It must not replace the mild-weather riverside used by dates and ordinary walks.
+
+- `assets/backgrounds/year4_winter_rooftop.png`
+  - Person-free late-December old-Seoul rooftop for `arc_year4_close` only.
+  - Preserves the canonical door, water tank, parapet, antennas, and skyline while removing laundry and leafy planters. The empty center is reserved for Minjun's separate winter portrait.
 
 - `assets/backgrounds/namsan_tower_view.png`
   - Namsan Tower night overlook background for aspirational Seoul, reflective city-view, and future landmark events.
