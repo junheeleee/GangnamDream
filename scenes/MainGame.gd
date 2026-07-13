@@ -13908,7 +13908,7 @@ func _show_month_summary(snap: Dictionary):
 	var div4 = HSeparator.new()
 	div4.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(div4)
-	if GameState.IS_DEMO and GameState.turn > GameState.DEMO_TURN_LIMIT:
+	if GameState.has_reached_demo_limit():
 		var demo_notice := PanelContainer.new()
 		demo_notice.set_meta("moral_role", "info_card")
 		demo_notice.set_meta("moral_accent", "#dce6ee")

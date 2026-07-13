@@ -95,7 +95,10 @@ Claude 컨테이너가 Godot 바이너리를 잃어(2026-07-13) 최근 Claude �
 4. **오디오·팔레트 연차 레이어(선택)**: moral band와 직교하는 연차 질감(Y1 소음 많음→Y5 정적) — 기존 앰비언스 재배치 우선, 신규 자산 최소.
 5. 검증: audit+arc_flow_sim(게이팅 변경)+밸런스 밴드 재검(Y2 시장 게이팅이 도달률 건드리면 BALANCE.md). **이 오더 완료+13 완료 = 콘텐츠 동결 선언 조건 충족.**
 
-#### [~] ORDER-08 [P0] 외부 플레이테스트 키트 (유저 결정 2026-07-13 — "성공은 절반이 게임 밖") — 착수: 데모/정식 export 분리·패키지 스모크·무설명 30분 키트 — 만지는 파일: `autoloads/GameState.gd`, `scenes/MainGame.gd`, `export_presets.cfg`, `tools/build.sh`, `tools/DemoBuildCheck.gd`, `tools/DemoBuildCheck.gd.uid`, `tools/DemoBuildCheck.tscn`, `tools/audit.sh`, `tools/ScreenshotQA.gd`, `docs/BUILD_PIPELINE.md`, `docs/PLAYTEST_KIT.md`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`
+#### [x] ORDER-08 [P0] 외부 플레이테스트 키트 (유저 결정 2026-07-13 — "성공은 절반이 게임 밖")
+**완료 보고 (2026-07-13 Codex):** 코드에 고정돼 있던 상시 데모 모드를 제거하고 `gangnam_demo` export feature를 정본으로 삼아 Windows/macOS/Linux·Steam Deck의 정식판과 데모판을 분리했다. `DemoBuildCheck`는 실제 아크 선택 효과와 follow-up을 적용하며 W1~W8 정본 체인, W24 허용/W25 차단, 여섯 export preset의 flavor 격리를 영구 검사한다. 세 데모 패키지를 Godot 4.6.2 공식 템플릿으로 실제 생성했고 macOS 패키지는 새 HOME에서 첫 언어 선택→JUNPAC→콜드오픈→영문 시작 메뉴→W1~W8→AP 복귀를 실제 입력으로 완주했다. KO/EN `demo-blackbox` 각 17컷과 전체 audit·57스크립트 컴파일도 통과했다. 무설명 30분, 5~10명 혼합 표본, 정량 5+정성 3+아트 스팟체크, 관찰/집계 시트와 7/10 판정 기준은 `docs/PLAYTEST_KIT.md`, 재현 가능한 빌드·해시·플랫폼 스모크 절차는 `docs/BUILD_PIPELINE.md`에 고정했다. Windows와 Linux/Deck은 교차 export만 끝났으므로 각 실제 기기 실행은 외부 배포 전 별도 통과해야 한다.
+
+**착수·완료 파일:** `autoloads/GameState.gd`, `scenes/MainGame.gd`, `export_presets.cfg`, `tools/build.sh`, `tools/DemoBuildCheck.gd`, `tools/DemoBuildCheck.gd.uid`, `tools/DemoBuildCheck.tscn`, `tools/audit.sh`, `tools/ScreenshotQA.gd`, `docs/BUILD_PIPELINE.md`, `docs/PLAYTEST_KIT.md`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`.
 > 내부 QA는 "깨지지 않음"을 보장하지 "재밌음"을 보장하지 않는다. 실제 사람 5~10명의 무설명 플레이가 출시 GO의 첫 도장.
 1. **데모 빌드 절차 확립**: Windows/Linux export 프리셋 구성 + 실제 export 1회 스모크(부팅→콜드오픈→t=8 통과). 절차를 `docs/BUILD_PIPELINE.md`로 문서화.
 2. **플레이테스트 프로토콜** `docs/PLAYTEST_KIT.md`: 대상 5~10명(서사 게임 경험자 절반+비경험자 절반), **무설명 30분**, 관찰자 개입 금지. 측정 3문(30분 후): ①"다음 세 주에 뭘 할 계획이었나" ②"기억에 남는 선택 하나" ③"계속 하고 싶은 이유/멈춘 이유". 통과 기준: 7/10이 ①에 구체적 답.
@@ -111,6 +114,7 @@ Claude 컨테이너가 Godot 바이너리를 잃어(2026-07-13) 최근 Claude �
 #### [ ] ORDER-10 [P1] 데모 빌드 확정 + 넥스트페스트 준비
 1. 데모 범위(t=24 컷+데모 엔딩 CTA) 빌드 플래그 실증: 데모 모드에서 t=25 진입 불가·위시리스트 CTA 노출·풀버전 예고 카피 확인.
 2. **데모 전용 블랙박스 1회**: 콜드오픈→프롤로그→t=24 풀 플레이(실입력), 막힘·모순·톤 이탈 기록·수리.
+   - ORDER-08 macOS W1~W8 실입력에서 발견한 회귀 후보를 우선 재현한다: 편의점 야간직에도 사무실·지하철 문법인 `story_first_workday`가 발화하는 직종 정합성, 월초 AP가 `3/2`·`3 LEFT`로 보이는 상한/표기 불일치. 플레이테스트 배포 전에 수리·게이트화한다.
 3. Steam Next Fest 참가 체크리스트 리서치(공식 문서 기준: 신청 시기·1회 참가 규칙·데모 페이지 요건) → `docs/NEXTFEST_CHECKLIST.md`. **참가 시기 결정은 유저 몫**(위시리스트가 어느 정도 모인 뒤가 정설 — 근거 포함해 정리).
 
 #### [ ] ORDER-11 [P1] 스토어 트레일러 (30초 + 60초 확장판)

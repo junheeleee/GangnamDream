@@ -1,5 +1,21 @@
 # Gangnam Dream Work Log
 
+## 2026-07-13 (Codex — ORDER-08 외부 플레이테스트 키트·데모 빌드 분리)
+
+### 빌드 계약
+- `GameState.IS_DEMO=true` 상시 하드코딩을 제거했다. 실제 데모 export만 `gangnam_demo` custom feature를 가지며, 에디터/CI는 `--demo-build`로 같은 분기를 명시적으로 검증한다. 정식판은 같은 소스에서 W24 이후에도 계속된다.
+- Windows, macOS, Linux/Steam Deck에 정식/데모 여섯 preset을 분리했다. `tools/build.sh playtest`는 W1~W8·W24/25 계약 검사 뒤 세 데모를 export하고 revision·Godot 버전·세 SHA-256을 하나의 manifest에 쓴다.
+- `DemoBuildCheck`는 SplashScreen 부팅, 여섯 preset 격리, 실제 `_next_arc_id()` W1~W8 순서, `GameState.apply_choice()`와 카페 follow-up, 1막 마감 플래그, W24 허용/W25 차단을 실행한다. 이 검사는 전체 audit의 영구 게이트다.
+
+### 플레이테스트 키트
+- `docs/PLAYTEST_KIT.md`에 5~10명 혼합 표본, 무설명 30분, 관찰자 무개입, 3주 계획/기억 선택/계속·중단 이유, 7/10 구체 답변 판정, 정량 5+정성 3, 아트 분위기·이탈 장면 문항과 세션/집계 시트를 한영으로 고정했다.
+- `docs/BUILD_PIPELINE.md`에 flavor 표, 템플릿 준비, 개별/일괄 빌드, 자동·시각·실제 패키지 스모크, 해시 대조와 플랫폼별 기록 양식을 문서화했다.
+
+### 실제 증적·후속 발견
+- Godot 4.6.2 공식 export template로 Windows PE, macOS universal zip, Linux x86_64 ELF를 실제 생성했다. macOS 데모는 격리 HOME에서 최초 영어 선택, JUNPAC 스플래시, 콜드오픈, 영문 시작 메뉴, 콘텐츠 안내, W1~W8 챕터 마감과 AP 복귀까지 실제 입력으로 완주했다.
+- KO/EN `ScreenshotQA --qa=demo-blackbox --demo-build`는 각각 17컷을 만들고 CTA 첫 화면, 한글 격리, 장면 이미지, 1280x800 배치를 통과했다. 전체 audit는 ERROR/WARNING 0, EN 누출 0, 밸런스 3정책, 오디오 64개, 데모 계약, GDScript 57개 컴파일을 통과했다.
+- 비차단 회귀 후보 2건을 ORDER-10으로 이관했다. 편의점 야간직에도 사무실·지하철 전용 `story_first_workday`가 발화하며, 첫 월초에는 AP가 `3/2`·`3 LEFT`로 보여 상한과 표면이 갈라진다. 외부 테스트 빌드 전에 실제 t24 풀런에서 수리한다.
+
 ## 2026-07-13 (Codex — ORDER-19 연차 정체성 패키지)
 
 ### 구현

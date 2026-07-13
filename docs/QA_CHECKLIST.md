@@ -54,6 +54,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Main AP full-height in-world stills, Seoul Trace visited/locked nodes, warning state, people pressure grind hints, routine/date, Work/Money/Self-Dev/People/Life modals, four-scene gambling selector, market/info/keepsake surfaces | `--qa=ap-en --lang=ko/en` |
 | AP Act 1~5 2x2 decision board, actual KRW 500K first-month horizon, post-first-interview `Keep Applying`, action-commit overlay, Seoul Trace restoration, no-scroll special-action row, ACT4 relationship pressure modal | `--qa=ap-act-en` |
 | Investment modal Trade/Holdings/Market movers/Bank pages | `--qa=invest-en` |
+| Demo boot surfaces, t=1~8 story chain, AP loop, month summary, demo ending CTA | `--qa=demo-blackbox --lang=ko/en --demo-build` |
 | Demo month summary, demo ending CTA, 6-month Time Ledger card | `--qa=demo-end-en` |
 | P0 final-life endings: eight exact CG owners, 950x430 crop, Jiyeon reflection-only mirror with exactly two non-duplicated actors and coherent gaze, White/Deep Black readability, and KO/EN first viewport | `--qa=ending-p0 --lang=ko/en` |
 | P1 final-life endings: exact CG owner/crop, Late Call memory, Rich and Alone base/divorce/no-leak, One More Circle base/Father-memory calendar action, distinct Bankruptcy/Debt Spiral calculation states, Startup Exit base/first-user memory, and 33-year-old first-year Myth arrival | `--qa=ending-p1 --lang=ko/en` |
@@ -83,6 +84,8 @@ Automated onboarding gates:
 - `StoryPlaybackCheck.tscn` must let AUTO advance prose while remaining parked at every choice; keyboard `A` and gamepad North are toggles, never surrogate choice inputs. When another authored arc is already due, the StoryMode return must remain fully covered and enter that arc without flashing the MainGame/AP shell.
 - `first_session_pacing_audit.py` caps the authored prologue at eight chained scenes/eight AUTO confirmations, requires a meaningful choice by scene three, checks KO/EN choice parity, and rejects placeholder-only choices or oversized text-panel paragraphs.
 - Demo ending ScreenshotQA fails when the record requires vertical scrolling; the wishlist, restart, and main-menu actions must remain in the first 1280×800 viewport in both languages.
+- `DemoBuildCheck.tscn -- --demo-build` must keep full and demo export presets separate, execute the canonical t=1~8 arc chain with real choice effects/follow-ups, permit week 24, and stop before week 25. `tools/audit.sh` must print `DEMO_BUILD_CHECK_OK feature=gangnam_demo cutoff=24 chain=8 presets=6`.
+- `ScreenshotQA --qa=demo-blackbox --lang=ko/en --demo-build` is the visual companion gate. `--demo-build` is mandatory because Godot custom export features are unavailable while running from the editor.
 
 Automated artifact and hidden-feature gates:
 

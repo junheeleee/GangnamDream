@@ -16,8 +16,16 @@ signal moral_tint_changed(norm: float, stage: int)
 const STAT_THRESHOLDS: Array = [30, 50, 70]
 var unlocked_stat_thresholds: Dictionary = {}
 
-const IS_DEMO: bool = true
+const DEMO_FEATURE := "gangnam_demo"
+const DEMO_TEST_ARG := "--demo-build"
 const DEMO_TURN_LIMIT: int = 24   # 6개월 × 4주
+
+func is_demo_build() -> bool:
+	# Export preset feature가 정본이다. 명시적 인자는 에디터/CI 게이트에서만 사용한다.
+	return OS.has_feature(DEMO_FEATURE) or OS.get_cmdline_user_args().has(DEMO_TEST_ARG)
+
+func has_reached_demo_limit() -> bool:
+	return is_demo_build() and turn > DEMO_TURN_LIMIT
 
 var player_name = "김민준"
 var player_background = "지방_상경"  # legacy — 신규 런은 player_route 사용

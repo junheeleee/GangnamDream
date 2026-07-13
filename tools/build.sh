@@ -4,6 +4,7 @@
 ##   ./tools/build.sh web      → build/web/index.html
 ##   ./tools/build.sh macos    → build/macos/GangnamDream.zip
 ##   ./tools/build.sh windows  → build/windows/GangnamDream.exe (Steam용)
+##   ./tools/build.sh playtest → 데모 계약 검사 + Win/macOS/Linux 데모 + 체크섬
 ##   ./tools/build.sh all      → 전부
 ##
 ## 전제조건:
@@ -12,7 +13,7 @@
 ##   → Godot 에디터 열기 > Editor 메뉴 > Manage Export Templates > Download
 ##     (버전: 4.6.2.stable)
 
-set -e
+set -euo pipefail
 
 # GODOT=경로 환경변수가 있으면 우선 사용 (audit.sh와 동일)
 GODOT="${GODOT:-}"
@@ -37,13 +38,14 @@ fi
 PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 echo "📂 프로젝트: $PROJECT_DIR"
 echo "🔧 Godot:    $GODOT ($("$GODOT" --version 2>&1 | head -1))"
+TARGET="${1:-web}"
 
 # 템플릿 확인 (macOS / Linux 경로 모두 지원)
 TEMPLATES_DIR="$HOME/Library/Application Support/Godot/export_templates"
 if [[ ! -d "$TEMPLATES_DIR" ]]; then
   TEMPLATES_DIR="$HOME/.local/share/godot/export_templates"
 fi
-if [[ -z "$(ls "$TEMPLATES_DIR" 2>/dev/null)" ]]; then
+if [[ "$TARGET" != "demo-check" && -z "$(ls "$TEMPLATES_DIR" 2>/dev/null)" ]]; then
   echo ""
   echo "⚠️  Export Templates가 설치되지 않았습니다."
   echo "   설치 방법:"
@@ -55,8 +57,6 @@ if [[ -z "$(ls "$TEMPLATES_DIR" 2>/dev/null)" ]]; then
   echo "   → 다운로드 후 위 다이얼로그에서 'Install from File' 선택"
   exit 1
 fi
-
-TARGET="${1:-web}"
 
 build_web() {
   echo ""
@@ -120,14 +120,101 @@ build_linux() {
   fi
 }
 
+run_demo_contract() {
+  echo ""
+  echo "🧪 데모 flavor·1~8주·24주 차단 계약 검사..."
+  local output
+  output=$("$GODOT" --headless --path "$PROJECT_DIR" --quit-after 3600 \
+    res://tools/DemoBuildCheck.tscn -- --demo-build 2>&1)
+  echo "$output" | grep -E "DEMO_BUILD_(CHECK_OK|CHECK_FAIL)|SCRIPT ERROR|Parse Error|Compile Error" || true
+  if ! echo "$output" | grep -q "DEMO_BUILD_CHECK_OK"; then
+    echo "❌ 데모 계약 검사 실패"
+    exit 1
+  fi
+}
+
+build_windows_demo() {
+  echo ""
+  echo "🪟 Windows 데모 빌드 시작..."
+  mkdir -p "$PROJECT_DIR/build/demo/windows"
+  "$GODOT" --headless --path "$PROJECT_DIR" --export-release "Windows Demo" \
+    "$PROJECT_DIR/build/demo/windows/GangnamDreamDemo.exe" 2>&1
+  if [[ ! -f "$PROJECT_DIR/build/demo/windows/GangnamDreamDemo.exe" ]]; then
+    echo "❌ Windows 데모 빌드 실패"
+    exit 1
+  fi
+  echo "✅ Windows 데모 → build/demo/windows/ ($(du -sh "$PROJECT_DIR/build/demo/windows" | cut -f1))"
+}
+
+build_macos_demo() {
+  echo ""
+  echo "🍎 macOS 데모 빌드 시작..."
+  mkdir -p "$PROJECT_DIR/build/demo/macos"
+  "$GODOT" --headless --path "$PROJECT_DIR" --export-release "macOS Demo" \
+    "$PROJECT_DIR/build/demo/macos/GangnamDreamDemo.zip" 2>&1
+  if [[ ! -f "$PROJECT_DIR/build/demo/macos/GangnamDreamDemo.zip" ]]; then
+    echo "❌ macOS 데모 빌드 실패"
+    exit 1
+  fi
+  echo "✅ macOS 데모 → build/demo/macos/GangnamDreamDemo.zip ($(du -sh "$PROJECT_DIR/build/demo/macos/GangnamDreamDemo.zip" | cut -f1))"
+}
+
+build_linux_demo() {
+  echo ""
+  echo "🐧 Linux / Steam Deck 데모 빌드 시작..."
+  mkdir -p "$PROJECT_DIR/build/demo/linux"
+  "$GODOT" --headless --path "$PROJECT_DIR" --export-release "Linux / Steam Deck Demo" \
+    "$PROJECT_DIR/build/demo/linux/GangnamDreamDemo.x86_64" 2>&1
+  if [[ ! -f "$PROJECT_DIR/build/demo/linux/GangnamDreamDemo.x86_64" ]]; then
+    echo "❌ Linux 데모 빌드 실패"
+    exit 1
+  fi
+  chmod +x "$PROJECT_DIR/build/demo/linux/GangnamDreamDemo.x86_64"
+  echo "✅ Linux 데모 → build/demo/linux/ ($(du -sh "$PROJECT_DIR/build/demo/linux" | cut -f1))"
+}
+
+write_demo_manifest() {
+  local manifest="$PROJECT_DIR/build/demo/MANIFEST.sha256"
+  local revision="unknown"
+  if command -v git >/dev/null 2>&1; then
+    revision=$(git -C "$PROJECT_DIR" rev-parse --short HEAD 2>/dev/null || printf 'unknown')
+  fi
+  {
+    echo "# Gangnam Dream demo playtest build"
+    echo "# revision=$revision"
+    echo "# godot=$($GODOT --version 2>&1 | head -1)"
+    echo "# generated_utc=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+    for artifact in \
+      "$PROJECT_DIR/build/demo/windows/GangnamDreamDemo.exe" \
+      "$PROJECT_DIR/build/demo/macos/GangnamDreamDemo.zip" \
+      "$PROJECT_DIR/build/demo/linux/GangnamDreamDemo.x86_64"; do
+      shasum -a 256 "$artifact" | sed "s|$PROJECT_DIR/||"
+    done
+  } > "$manifest"
+  echo "✅ 체크섬 매니페스트 → build/demo/MANIFEST.sha256"
+}
+
+build_playtest() {
+  run_demo_contract
+  build_windows_demo
+  build_macos_demo
+  build_linux_demo
+  write_demo_manifest
+}
+
 case "$TARGET" in
   web)     build_web ;;
   macos)   build_macos ;;
   windows) build_windows ;;
   linux)   build_linux ;;
+  demo-check) run_demo_contract ;;
+  windows-demo) run_demo_contract; build_windows_demo ;;
+  macos-demo) run_demo_contract; build_macos_demo ;;
+  linux-demo) run_demo_contract; build_linux_demo ;;
+  playtest|demo) build_playtest ;;
   all)     build_web; build_macos; build_windows; build_linux ;;
   *)
-    echo "사용법: $0 [web|macos|windows|linux|all]"
+    echo "사용법: $0 [web|macos|windows|linux|all|demo-check|windows-demo|macos-demo|linux-demo|playtest]"
     exit 1
     ;;
 esac

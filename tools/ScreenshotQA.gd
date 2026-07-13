@@ -104,6 +104,9 @@ func _ready() -> void:
 	DirAccess.make_dir_recursive_absolute(OUT_DIR)
 	_clear_output_dir()
 	var scope: String = _qa_scope()
+	if scope in [QA_SCOPE_DEMO_FLOW, QA_SCOPE_DEMO_BLACKBOX] and not GameState.is_demo_build():
+		_fail("Demo QA requires the explicit --demo-build test flag.")
+		return
 	if scope in [QA_SCOPE_CASINO, QA_SCOPE_CASINO_EN]:
 		var lang := _qa_language("en" if scope == QA_SCOPE_CASINO_EN else "ko")
 		var prefix := "en_" if lang == "en" else ""
