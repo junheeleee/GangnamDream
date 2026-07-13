@@ -209,6 +209,7 @@ const ACHIEVEMENT_TEXT_EN := {
 	"four_seasons": {"name": "Four Seasons", "description": "Spent spring, summer, fall, and winter — all four — with one person.", "hint": "Some years are beautiful four times"},
 	"kept_evidence": {"name": "What He Kept", "description": "At the moment of reckoning, drew out something he'd never thrown away — of his own will.", "hint": "Some things are kept for a decisive moment"},
 	"drawer_truth": {"name": "The Truth in the Drawer", "description": "Some things only show after the credits end. She had known from the very beginning.", "hint": "Never say it, to the very end — and past the end"},
+	"dawn_people": {"name": "Dawn People", "description": "Awake in her hours, five times. People awake at dawn recognize each other.", "hint": "Her time flows differently from everyone else's"},
 }
 
 const CLUE_TEXT_EN := {

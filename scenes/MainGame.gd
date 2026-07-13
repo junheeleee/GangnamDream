@@ -8528,9 +8528,14 @@ func _ap_date():
 	var jiyeon_longdist: bool = pid == "jiyeon" and _jiyeon_longdist_active()
 	# 비용: 데이트 비용을 지불한다. 잔고가 빠듯하면 무료(편의점) 서브풀을 쓰고 비용 0.
 	var broke: bool = GameState.money < 30000.0
+	# 히든: 실제 새벽에 하는 다은 데이트 — 그녀의 시간에 들어간다 (7-H ①)
+	var daeun_dawn: bool = pid == "daeun" and _is_real_dawn()
 	var pool: Array
 	if jiyeon_longdist:
 		pool = JIYEON_LONGDIST_DATE_VIGNETTES   # 비용은 각 비네트 e.money에 내장(KTX 등)
+	elif daeun_dawn:
+		_bump_daeun_dawn()
+		pool = DAEUN_DAWN_DATE_VIGNETTES
 	elif broke:
 		pool = DAEUN_FREE_DATE_VIGNETTES if pid == "daeun" else JIYEON_FREE_DATE_VIGNETTES
 	elif married:
@@ -9311,6 +9316,37 @@ func _ap_give_gift(pid: String, gid: String) -> void:
 	_refresh_all()
 	_show_contact_reaction(pname, line, Color(accent))
 
+## ── 히든: 새벽의 사람들 (ROMANCE_SYSTEM 7-H ① — 실제 OS 시계 새벽 0~5시) ──
+## 야간 노동자의 시간을 플레이어가 실제로 살고 있을 때만 열리는 다은의 층위. 발동 전 힌트 0.
+## 로컬 시간 기준(그녀의 새벽 = 플레이어의 새벽). 시계를 돌려 찾아오는 것도 이 히든의 문법이다.
+func _is_real_dawn() -> bool:
+	var h: int = int(Time.get_time_dict_from_system().get("hour", 12))
+	return h <= 5
+
+func _bump_daeun_dawn() -> int:
+	var n: int = int(GameState.flags.get("daeun_dawn_meetings", 0)) + 1
+	GameState.flags["daeun_dawn_meetings"] = n
+	return n
+
+func _daeun_dawn_line() -> String:
+	var n: int = _bump_daeun_dawn()
+	if n >= 5 and not GameState.flags.get("daeun_dawn_deep_seen", false):
+		GameState.flags["daeun_dawn_deep_seen"] = true
+		MetaProgression.unlock_achievement("dawn_people")
+		return _tr("다은이 잠깐 말을 멈추고, 계산대 너머 어두운 유리창을 봤다.\n\"새벽에 깨어 있는 사람들은요, 서로를 알아봐요.\"\n그리고 웃었다. \"민준씨도 이제, 이쪽 사람이네.\"",
+			"Daeun paused, looking past the counter at the dark glass.\n\"People who are awake at dawn — they recognize each other.\"\nThen she smiled. \"You're one of us now, Minjun.\"")
+	var lines := [
+		_tr("\"민준씨, 지금 몇 신 줄 알아요? …나야 일이지만.\" 말은 그렇게 하면서, 다은의 목소리엔 웃음기가 섞여 있었다.",
+			"\"Minjun, do you know what time it is? ...I mean, I'm working, but still.\" She said it that way — and there was a smile mixed into her voice."),
+		_tr("폐기 시간이 막 지난 참이었다. 다은이 삼각김밥 두 개를 골라 하나를 건넸다. \"새벽 두 시의 정찬이에요. 이 시간에 깨어 있는 사람만 먹을 수 있어요.\"",
+			"The expiry pull had just passed. Daeun picked out two samgak-kimbap and handed one over. \"Dinner service, two a.m. Only people awake at this hour get to have it.\""),
+		_tr("새벽 편의점엔 낮과 다른 손님들이 온다. 대리기사, 교대 간호사, 잠 못 든 사람. 다은은 그들의 단골 메뉴를 다 외우고 있었다. \"밤에는요, 다들 조금씩 솔직해져요.\"",
+			"A dawn convenience store gets different customers than the day. Designated drivers, shift nurses, people who can't sleep. Daeun knew all their usual orders. \"At night, everyone gets a little more honest.\""),
+		_tr("첫차 전의 거리는 이상하게 조용했다. 다은이 문 앞까지 나와 밤공기를 마셨다. \"이 시간의 서울, 저만 아는 줄 알았는데.\" 그 말끝이 조금 반가워 보였다.",
+			"The street before the first bus was strangely quiet. Daeun stepped out to the door and breathed the night air. \"I thought I was the only one who knew Seoul at this hour.\" The end of the sentence sounded a little glad."),
+	]
+	return lines[(n - 1) % lines.size()]
+
 func _ap_contact_person(person_id: String):
 	if not GameState.spend_ap():
 		return
@@ -9372,6 +9408,8 @@ func _contact_flavor(person_id: String, aff: int) -> String:
 				return _tr("한지연이 먼저 연락해오는 일이 잦아졌다. 다른 세계였던 그녀가, 조금씩 가까워진다.", "Jiyeon reaches out first more often now. A woman from another world is, little by little, getting closer.")
 			return _tr("한지연과의 대화는 다른 세계를 들여다보는 창 같다.", "Talking with Jiyeon is like a window into another world.")
 		"daeun":
+			if _is_real_dawn() and not f.get("daeun_let_her_go", false):
+				return _daeun_dawn_line()
 			if f.get("daeun_together_path", false):
 				return _tr("다은과는 이제 말이 필요 없는 사이가 됐다. 전화 너머의 숨소리만으로도 충분하다.", "Daeun and I no longer need words. Just her breathing on the other end of the line is enough.")
 			if f.get("daeun_let_her_go", false):
@@ -9490,6 +9528,12 @@ const NETWORK_VIGNETTES := [
 
 # ── 데이트 미니 장면 (연애/결혼 중 전용, human축) ──────────────────
 # 다은: 존댓말+"민준씨". 지연: 반말+"오빠". 지문은 하우스 스타일(절제·감탄부호 없음).
+## 새벽의 사람들 — 실제 OS 새벽에만 열리는 다은 데이트 풀 (7-H ①, 힌트 비노출)
+const DAEUN_DAWN_DATE_VIGNETTES := [
+	{"t":"새벽 세 시의 편의점. 다은씨의 근무가 끝나려면 아직 멀었다. 파라솔에 앉아 폐기 도시락을 나눠 먹었다. 이 시간의 밥이 제일 맛있어요, 아무한테도 말하지 마요, 하고 웃었다.", "et":"Three a.m. at the convenience store. Daeun's shift was far from over. We sat under the parasol and shared an expired bento. Food tastes best at this hour, she said — don't tell anyone. And she laughed.", "e":{"mental":9,"stress":-6}},
+	{"t":"새벽 물류가 왔다. 박스를 같이 날랐다. 다은씨가 커터칼 쓰는 법을 가르쳐줬다. 테이프 결 따라, 한 번에. 사소한 기술이 늘 때마다 그녀의 세계가 조금씩 보였다.", "et":"The dawn delivery arrived. We hauled boxes together. Daeun taught me how to run the box cutter — along the tape's grain, one stroke. With every small skill learned, a little more of her world came into view.", "e":{"mental":7,"stress":-4,"health":2}},
+	{"t":"첫차가 다니기 전, 골목이 제일 조용한 시간. 다은씨와 편의점 불빛 아래 서서 식은 캔커피를 마셨다. 이 시간엔 서울도 숨을 쉬는 것 같아요, 하고 그녀가 말했다.", "et":"Before the first bus, the hour when the alley is quietest. We stood under the store's light with cooled canned coffee. Even Seoul seems to breathe at this hour, she said.", "e":{"mental":8,"stress":-5,"money":-3000}},
+]
 const DAEUN_DATE_VIGNETTES := [
 	{"t":"다은씨가 시장 골목을 앞장서 걸었다. 콩나물 한 봉지를 천 원 깎고, 어묵 국물을 얻어 마셨다. 민준씨, 저는 이런 데가 제일 편해요, 하고 웃었다.", "et":"Daeun led the way through the market alley. Haggled a bag of bean sprouts down by a thousand won, got a free sip of fish-cake broth. Places like this are where I'm most at ease, Minjun, she said, smiling.", "e":{"mental":8,"stress":-6,"money":-8000}},
 	{"t":"다은씨가 좁은 부엌에서 계란말이를 부쳤다. 어머니한테 배운 거예요, 뒤집을 때 숨을 참아야 해요. 접시에 오른 건 조금 탔지만, 그 얘기를 하는 동안 그녀의 손은 떨리지 않았다.", "et":"In the cramped kitchen Daeun folded a rolled omelet. My mother taught me this, she said — you hold your breath when you flip it. What reached the plate was a little burnt, but her hands didn't shake while she told me.", "e":{"mental":9,"stress":-6}},
@@ -12398,6 +12442,7 @@ func _show_ending(ending_id):
 			"four_seasons":      _tr("사계 (한 해의 네 계절을 함께)", "Four Seasons (A Year, Together)"),
 			"kept_evidence":     _tr("간직한 이유 (유물 제시)", "What He Kept (Presented a Keepsake)"),
 			"drawer_truth":      _tr("서랍 속의 진실", "The Truth in the Drawer"),
+			"dawn_people":       _tr("새벽의 사람들", "Dawn People"),
 		}
 		for a in new_ach:
 			var ach_name = ach_names.get(a, a)
