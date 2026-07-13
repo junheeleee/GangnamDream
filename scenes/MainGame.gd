@@ -120,6 +120,12 @@ const UI_MIN_BUTTON_HEIGHT := 46
 const UI_MIN_SMALL_BUTTON_HEIGHT := 38
 const UI_FOCUS_BORDER := 3
 const UI_INFO_PANEL_WIDTH := 440
+const ENDING_CARD_SYMBOL_PATHS := {
+	"ordinary_life": "res://assets/ui/ending_symbols/ordinary_life.svg",
+	"burnout": "res://assets/ui/ending_symbols/burnout.svg",
+	"mental_break": "res://assets/ui/ending_symbols/mental_break.svg",
+	"stable_success": "res://assets/ui/ending_symbols/stable_success.svg",
+}
 const ACTION_ILLUSTRATION_DATA := {
 	# AP choices use stills from the world they open. Object-only tile art read as
 	# oversized pictograms and visually detached the weekly loop from the VN.
@@ -12918,6 +12924,10 @@ func _add_ending_card_scene(parent: Control, ending_id: String, accent: Color, b
 	_ending_scene_rect(scene, 0.04, 0.18, 0.96, 0.19, line_col)
 	_ending_scene_rect(scene, 0.04, 0.76, 0.96, 0.77, Color("#ffffff", 0.045))
 	_ending_scene_rect(scene, 0.08, 0.83, 0.92, 0.88, Color("#000000", 0.30))
+	var symbol_path := str(ENDING_CARD_SYMBOL_PATHS.get(ending_id, ""))
+	if symbol_path != "" and ResourceLoader.exists(symbol_path):
+		_add_ending_card_symbol(scene, ending_id, symbol_path, accent)
+		return
 
 	match _ending_card_scene_kind(ending_id):
 		"debt":
@@ -12961,6 +12971,22 @@ func _add_ending_card_scene(parent: Control, ending_id: String, accent: Color, b
 				var x := 0.18 + float(i) * 0.085
 				_ending_scene_rect(scene, x, 0.40 + float(i % 3) * 0.055, x + 0.052, 0.72, Color("#cbd5df", 0.045))
 			_ending_scene_rect(scene, 0.20, 0.34, 0.80, 0.35, Color("#cbd5df", 0.08))
+
+func _add_ending_card_symbol(
+		parent: Control, ending_id: String, symbol_path: String, accent: Color) -> void:
+	var symbol := TextureRect.new()
+	symbol.anchor_left = 0.35
+	symbol.anchor_top = 0.08
+	symbol.anchor_right = 0.65
+	symbol.anchor_bottom = 0.88
+	symbol.texture = load(symbol_path)
+	symbol.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	symbol.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	symbol.modulate = Color(accent.r, accent.g, accent.b, 0.92)
+	symbol.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	symbol.set_meta("ending_symbol_id", ending_id)
+	symbol.set_meta("ending_symbol_path", symbol_path)
+	parent.add_child(symbol)
 
 func _ending_card_scene_kind(ending_id: String) -> String:
 	if ending_id in ["bankruptcy", "debt_spiral", "crypto_ghost"]:
@@ -13424,7 +13450,7 @@ func _ending_run_summary(ending_id: String) -> String:
 		"with_daeun":
 			return _tr("30억보다 소중한 것을 알게 됐다. 그게 다은이었다.", "He learned what mattered more than KRW 3B. It was Daeun.")
 		"jiyeon_man":
-			return _tr("다른 세계의 사람이 나를 선택했다. 강남은 그렇게 왔다.", "Someone from another world chose me. That's how Gangnam came.")
+			return _tr("다른 세계의 사람이 그를 선택했다. 강남은 그렇게 왔다.", "Someone from another world chose him. That was how Gangnam came to him.")
 		"orthodox_pinnacle":
 			return _tr("가장 정직한 길이 결국 가장 높은 곳으로 이어졌다", "The most honest path led, in the end, to the highest place.")
 		"unorthodox_legend":
@@ -13444,7 +13470,7 @@ func _ending_run_summary(ending_id: String) -> String:
 		"full_circle":
 			return _tr("임상철에게서 아버지 빚을 되찾았다. 강남과 가족, 둘 다 지켰다.", "He reclaimed his father's debt from Im Sangchul. He kept both Gangnam and family.")
 		"second_love":
-			return _tr("다은과 함께 강남에 왔다. 이번엔 혼자가 아니었다.", "He came to Gangnam with Daeun. This time he wasn't alone.")
+			return _tr("다은과 함께 강 너머 강남의 불빛을 본다. 이번엔 혼자가 아니다.", "With Daeun, he watches Gangnam's lights from across the river. This time he isn't alone.")
 		"guardian":
 			return _tr("강남은 아직 없었다. 하지만 아버지가 살아있었다.", "There was no Gangnam yet. But his father was alive.")
 		"gambling_recovery":

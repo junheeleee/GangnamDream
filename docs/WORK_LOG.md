@@ -1,5 +1,16 @@
 # Gangnam Dream Work Log
 
+## 2026-07-13 (Codex — ORDER-20 엔딩 사실 정렬·결산 심벌)
+
+### 라우팅 불변 사실 수리
+- `jiyeon_man`은 자기 힘으로 30억원을 이룬 성공처럼 읽히던 기본·DIK 문장을 제거하고 `한지연의 강남`에 사는 결말로 정렬했다. `second_love`는 10억원 하한에 맞춰 강남 아파트 소유 대신 강 건너 집에서 강남 불빛을 바라본다.
+- `healthy_retirement`와 `early_retirement`는 실제 종료 나이인 38세를 현재로, 쉰 전 퇴직은 미래 가능성으로 분리했다. `orthodox_pinnacle`은 실제 10억원 조건과 본문 숫자를 맞췄다.
+- 30억원 이상 공동창업 엑싯은 기존 승리 라우팅을 유지하되 `gangnam_dream`의 한영 `startup_exit` DIK가 인수 계약과 팀의 마지막 메시지를 회수한다. 엔딩 ID·조건·우선순위는 전혀 바꾸지 않았다.
+
+### 결산 표면·회귀 게이트
+- `ordinary_life`, `burnout`, `mental_break`, `stable_success`에 강남 잉크 선화 기반의 서로 다른 전용 결산 심벌을 추가했다. 실제 1280x800 한영 렌더에서 중앙 배치·가독성·정확한 리소스 소유를 확인했다.
+- `ending_distinctness_audit.py`가 여섯 사실 계약, 네 심벌의 존재·배선·바이트 고유성, 범용 무드 카드 잔여 9종을 고정한다. 한영 `ending-p0` 16컷과 `endings-en` 32컷을 실제 OpenGL 렌더로 완주했다.
+
 ## 2026-07-13 (Codex — ORDER-14 활성 아트 품질 게이트)
 
 ### 179장 전수 판정

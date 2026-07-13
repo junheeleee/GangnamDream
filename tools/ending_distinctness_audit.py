@@ -20,6 +20,19 @@ ROOT = Path(__file__).resolve().parents[1]
 ENDINGS_PATH = ROOT / "content" / "endings.json"
 ENDINGS_EN_PATH = ROOT / "content" / "endings_en.json"
 AUDIT_PATH = ROOT / "docs" / "ENDING_AUDIT.md"
+SYMBOL_DIR = ROOT / "assets" / "ui" / "ending_symbols"
+SYMBOL_IDS = ("ordinary_life", "burnout", "mental_break", "stable_success")
+EXPECTED_GENERIC_IDS = {
+    "political_fix",
+    "investment_master",
+    "reputation_legend",
+    "healthy_retirement",
+    "orthodox_hollow",
+    "balanced_life",
+    "unorthodox_legend",
+    "early_retirement",
+    "creator_success",
+}
 
 ROUTES = {
     "gangnam_dream": "순자산 30억+; 선행 NG+/신화/배우자 상실/Deep Black/고립/White 분기 미해당",
@@ -82,9 +95,16 @@ def _normalized(text: str) -> str:
 def _visual_owner(row: dict) -> str:
     if row.get("cg"):
         return "cg:" + str(row["cg"])
+    symbol = SYMBOL_DIR / (str(row.get("id", "")) + ".svg")
+    if symbol.exists():
+        return "symbol:" + symbol.name
     if row.get("background"):
         return "background:" + str(row["background"])
     return "mood-card:generic"
+
+
+def _all_text(row: dict) -> str:
+    return json.dumps(row, ensure_ascii=False)
 
 
 def main() -> int:
@@ -92,7 +112,8 @@ def main() -> int:
     rows = _load_rows(ENDINGS_PATH)
     rows_en = _load_rows(ENDINGS_EN_PATH)
     by_id = {str(row.get("id", "")): row for row in rows}
-    en_ids = {str(row.get("id", "")) for row in rows_en}
+    by_en_id = {str(row.get("id", "")): row for row in rows_en}
+    en_ids = set(by_en_id)
 
     if len(rows) != 35 or len(by_id) != 35:
         errors.append("expected 35 unique endings, got rows=%d ids=%d" % (len(rows), len(by_id)))
@@ -108,6 +129,62 @@ def main() -> int:
             errors.append("%s: missing title" % ending_id)
         if not _body(row):
             errors.append("%s: missing ending body" % ending_id)
+
+    jiyeon_ko = _all_text(by_id["jiyeon_man"])
+    jiyeon_en = _all_text(by_en_id["jiyeon_man"])
+    if not str(by_id["jiyeon_man"].get("description", "")).startswith("강남에 살고 있다. 한지연의 강남에."):
+        errors.append("jiyeon_man: Korean base must frame Jiyeon's Gangnam, not a 3B arrival")
+    if not str(by_en_id["jiyeon_man"].get("description", "")).startswith("He lives in Gangnam. In Han Jiyeon's Gangnam."):
+        errors.append("jiyeon_man: English base must frame Jiyeon's Gangnam, not a 3B arrival")
+    if "강남에 입성했다. 한지연과 함께." in jiyeon_ko or "He made it to Gangnam. With Han Jiyeon." in jiyeon_en:
+        errors.append("jiyeon_man: stale self-funded Gangnam arrival remains in a DIK branch")
+
+    second_ko = _all_text(by_id["second_love"])
+    second_en = _all_text(by_en_id["second_love"])
+    if "강 건너에서 강남 불빛" not in second_ko or "across the river" not in second_en:
+        errors.append("second_love: 1B home must look toward Gangnam from across the river")
+    if "강남 아파트" in second_ko or "Gangnam apartment" in second_en:
+        errors.append("second_love: stale 3B Gangnam apartment claim remains")
+
+    healthy_ko = _all_text(by_id["healthy_retirement"])
+    healthy_en = _all_text(by_en_id["healthy_retirement"])
+    if "서른여덟" not in healthy_ko or "Thirty-eight" not in healthy_en:
+        errors.append("healthy_retirement: ending must begin at the actual age-38 finish")
+    if "55세" in healthy_ko or "fifty-five" in healthy_en.lower():
+        errors.append("healthy_retirement: stale age-55 present tense remains")
+
+    early_ko = _all_text(by_id["early_retirement"])
+    early_en = _all_text(by_en_id["early_retirement"])
+    if "서른여덟" not in early_ko or "thirty-eight" not in early_en.lower():
+        errors.append("early_retirement: ending must distinguish age-38 pause from future retirement")
+    if "50세 이전에 은퇴했다" in early_ko or "retired before fifty" in early_en.lower():
+        errors.append("early_retirement: stale completed-retirement claim remains")
+
+    orthodox_ko = _all_text(by_id["orthodox_pinnacle"])
+    orthodox_en = _all_text(by_en_id["orthodox_pinnacle"])
+    if "10억. 강남은 아니었다." not in orthodox_ko or "One billion won. It wasn't Gangnam." not in orthodox_en:
+        errors.append("orthodox_pinnacle: body must match the actual 1B threshold")
+    if "2억. 강남은 아니었다." in orthodox_ko or "Two hundred million" in orthodox_en:
+        errors.append("orthodox_pinnacle: stale 200M amount remains")
+
+    startup_ko = by_id["gangnam_dream"].get("description_if_known", {}).get("startup_exit", "")
+    startup_en = by_en_id["gangnam_dream"].get("description_if_known", {}).get("startup_exit", "")
+    if "엑싯 계약서" not in str(startup_ko) or "acquisition contract" not in str(startup_en):
+        errors.append("gangnam_dream: startup_exit DIK is missing or not localized")
+
+    symbol_hashes = set()
+    main_game_source = (ROOT / "scenes" / "MainGame.gd").read_text(encoding="utf-8")
+    for ending_id in SYMBOL_IDS:
+        symbol = SYMBOL_DIR / (ending_id + ".svg")
+        if not symbol.exists():
+            errors.append("%s: dedicated ending symbol missing" % ending_id)
+            continue
+        symbol_hashes.add(symbol.read_bytes())
+        expected_ref = '"%s": "res://assets/ui/ending_symbols/%s.svg"' % (ending_id, ending_id)
+        if expected_ref not in main_game_source:
+            errors.append("%s: symbol is not wired into MainGame" % ending_id)
+    if len(symbol_hashes) != len(SYMBOL_IDS):
+        errors.append("dedicated ending symbols are not visually unique files")
 
     if not AUDIT_PATH.exists():
         errors.append("docs/ENDING_AUDIT.md missing")
@@ -136,10 +213,16 @@ def main() -> int:
     for ending_id, row in by_id.items():
         visual_groups.setdefault(_visual_owner(row), []).append(ending_id)
     shared_visuals = {owner: ids for owner, ids in visual_groups.items() if len(ids) > 1}
+    generic_ids = set(visual_groups.get("mood-card:generic", []))
+    if generic_ids != EXPECTED_GENERIC_IDS:
+        errors.append(
+            "generic mood-card backlog drifted: expected=%s actual=%s"
+            % (sorted(EXPECTED_GENERIC_IDS), sorted(generic_ids))
+        )
 
     print(
-        "ENDING_DISTINCTNESS_AUDIT count=%d high_similarity=%d shared_visual_groups=%d"
-        % (len(rows), len(similarity_pairs), len(shared_visuals))
+        "ENDING_DISTINCTNESS_AUDIT count=%d high_similarity=%d shared_visual_groups=%d symbols=%d generic=%d"
+        % (len(rows), len(similarity_pairs), len(shared_visuals), len(SYMBOL_IDS), len(generic_ids))
     )
     for score, pair in sorted(similarity_pairs, reverse=True):
         print("  text %.3f %s | %s" % (score, pair[0], pair[1]))

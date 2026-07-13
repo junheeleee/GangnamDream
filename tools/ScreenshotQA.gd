@@ -3261,7 +3261,10 @@ func _shot_ending_suite(lang: String = "en", prefix: String = "ending_en_") -> v
 	await _shot_ending("gangnam_dream_white", prefix + "13b_ending_gangnam_white")
 	await _shot_ending("empty_house", prefix + "13a_ending_empty_house")
 	await _shot_ending("bankruptcy", prefix + "14_ending_bankruptcy")
-	await _shot_ending("stable_success", prefix + "15_ending_stable_success")
+	await _shot_ending_symbol("ordinary_life", prefix + "15a_ending_ordinary_life")
+	await _shot_ending_symbol("burnout", prefix + "15b_ending_burnout")
+	await _shot_ending_symbol("mental_break", prefix + "15c_ending_mental_break")
+	await _shot_ending_symbol("stable_success", prefix + "15d_ending_stable_success")
 	await _shot_ending("crypto_ghost", prefix + "16_ending_crypto_ghost")
 	await _shot_ending("orthodox_pinnacle", prefix + "17_ending_orthodox_pinnacle")
 
@@ -4118,6 +4121,28 @@ func _shot_ending(ending_id: String, shot_name: String) -> void:
 			await _save(shot_name + "_time_ledger")
 		await _settle(0.3)
 
+func _shot_ending_symbol(ending_id: String, shot_name: String) -> void:
+	if not _mg.has_method("_show_ending"):
+		_fail("MainGame cannot show ending symbol %s" % ending_id)
+		return
+	_seed_ending_state(ending_id)
+	_mg._show_ending(ending_id)
+	await _settle(1.0)
+	var symbol := _find_ending_symbol(_mg, ending_id)
+	var expected_path := "res://assets/ui/ending_symbols/%s.svg" % ending_id
+	if symbol == null or symbol.texture == null:
+		_fail("Ending %s has no dedicated ending symbol" % ending_id)
+		return
+	if symbol.texture.resource_path != expected_path:
+		_fail("Ending %s symbol mismatch: expected %s, got %s" % [
+				ending_id, expected_path, symbol.texture.resource_path])
+		return
+	if str(symbol.get_meta("ending_symbol_path", "")) != expected_path:
+		_fail("Ending %s symbol metadata is stale" % ending_id)
+		return
+	await _save(shot_name)
+	await _settle(0.3)
+
 func _shot_exact_ending_cg(
 		ending_id: String, cg_id: String, shot_name: String, extra_flags: Array = []) -> void:
 	if not _mg.has_method("_show_ending"):
@@ -4176,6 +4201,15 @@ func _find_ending_art_preview(node: Node) -> TextureRect:
 		return node as TextureRect
 	for child in node.get_children():
 		var found := _find_ending_art_preview(child)
+		if found != null:
+			return found
+	return null
+
+func _find_ending_symbol(node: Node, ending_id: String) -> TextureRect:
+	if node is TextureRect and str(node.get_meta("ending_symbol_id", "")) == ending_id:
+		return node as TextureRect
+	for child in node.get_children():
+		var found := _find_ending_symbol(child, ending_id)
 		if found != null:
 			return found
 	return null
@@ -4275,7 +4309,7 @@ func _seed_ending_state(ending_id: String) -> void:
 			GameState.last_contact_turn = {"daeun": 240}
 		"second_love":
 			GameState.money = 1_350_000_000.0
-			GameState.housing = "gangnam"
+			GameState.housing = "apartment"
 			GameState.health = 73
 			GameState.mental = 79
 			GameState.reputation = 70
@@ -4285,7 +4319,7 @@ func _seed_ending_state(ending_id: String) -> void:
 			GameState.contact_counts = {"daeun": 31}
 			GameState.last_contact_turn = {"daeun": 240}
 		"jiyeon_man":
-			GameState.money = 3_050_000_000.0
+			GameState.money = 1_350_000_000.0
 			GameState.housing = "gangnam"
 			GameState.health = 58
 			GameState.mental = 43

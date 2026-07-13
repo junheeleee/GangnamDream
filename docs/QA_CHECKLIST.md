@@ -61,10 +61,10 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Demo boot surfaces, t=1~8 story chain, AP loop, month summary, demo ending CTA | `--qa=demo-blackbox --lang=ko/en --demo-build` |
 | Full demo input route: real confirm inputs through StoryMode, choices, AP, results, month summaries, and the week-24 CTA | `--qa=demo-input --lang=ko/en --demo-build` |
 | Demo month summary, demo ending CTA, 6-month Time Ledger card | `--qa=demo-end-en` |
-| P0 final-life endings: eight exact CG owners, 950x430 crop, Jiyeon reflection-only mirror with exactly two non-duplicated actors and coherent gaze, White/Deep Black readability, and KO/EN first viewport | `--qa=ending-p0 --lang=ko/en` |
+| P0 final-life endings: eight exact CG owners, 950x430 crop, Jiyeon reflection-only mirror with exactly two non-duplicated actors and coherent gaze, 1B Second Love across-river home, Jiyeon-mediated Gangnam framing, White/Deep Black readability, and KO/EN first viewport | `--qa=ending-p0 --lang=ko/en` |
 | P1 final-life endings: exact CG owner/crop, Late Call memory, Rich and Alone base/divorce/no-leak, One More Circle base/Father-memory calendar action, distinct Bankruptcy/Debt Spiral calculation states, Startup Exit base/first-user memory, and 33-year-old first-year Myth arrival | `--qa=ending-p1 --lang=ko/en` |
 | Train semantics: summer/date and Father-call scenes remain inside the train, while the holiday decision remains on the provincial platform | `--qa=transport --lang=ko/en` |
-| Representative ending modals, graded CG/card surface, fallback mood cards, and final Time Ledger card | `--qa=endings-en` |
+| Representative ending modals, graded CG/card surface, exact dedicated symbols for Ordinary Life/Burnout/Mental Collapse/Stable Success, fallback mood cards, and final Time Ledger card | `--qa=endings-en --lang=ko/en` |
 | Title collection and meta-title reward surface | `--qa=title-en` |
 | Tutorial overlay surface and onboarding copy | `--qa=tutorial-en` |
 | Job hunt/career modal tier pages and resume/interview minigame surface | `--qa=job-en` |
@@ -125,6 +125,12 @@ Automated art-quality gate:
 - Active portraits require alpha. Missing files, stale ledger rows, or unreviewed new registry paths fail immediately.
 - Contact sheets accelerate review but do not replace original-resolution checks for hands, gaze, reflections, readable text, architecture, recurring identity, and the ten store-facing key visuals.
 - After changing a CG, run only its owning ScreenshotQA scope first. The current Crypto Ghost repair is covered by `--qa=endings-en --lang=en`; broad casino/AP QA is unrelated.
+
+Automated ending-fact gate:
+
+- `ending_distinctness_audit.py` must keep all 35 KO/EN endings aligned while rejecting self-funded 3B language in `jiyeon_man`, a Gangnam apartment in the 1B `second_love`, age-55/current-retirement claims, the stale 200M orthodox amount, or a missing `startup_exit` reread in `gangnam_dream`.
+- The same gate requires four byte-distinct dedicated symbols wired to `ordinary_life`, `burnout`, `mental_break`, and `stable_success`, and locks the remaining generic mood-card backlog to the documented nine IDs.
+- `ScreenshotQA --qa=ending-p0 --lang=ko/en` and `--qa=endings-en --lang=ko/en` are the visual companions; they must use factual seed money/housing and exact symbol resource paths.
 
 Automated store-trailer gate:
 
