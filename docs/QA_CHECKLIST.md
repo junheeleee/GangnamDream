@@ -88,6 +88,8 @@ Automated artifact and hidden-feature gates:
 - `AchievementPathCheck.tscn` must keep the achievement catalog, English dictionary, ending unlock labels, and all fifteen executable unlock paths identical while restoring the player's exact pre-check meta file.
 - `HiddenFeatureCheck.tscn` must expose exactly two base choices without each route artifact and the original third choice with it in Korean and English. It must execute Jaehyuk's photo follow-up, Jiyeon's `jiyeon_man` DIK route, Daeun's non-divorce post-it route, four dawn lines plus the fifth deepest line, the post-credits drawer cut and achievement, and all six localized keepsake names in the ending ledger.
 - `tools/audit.sh` must print `HIDDEN_FEATURE_CHECK_OK artifact_choices=3 follow_up=1 jiyeon_dik=1 daeun_route=1 dawn=5 drawer=1 keepsakes=6`. A catalog-only or JSON-only check is not sufficient.
+- `HousingKeepsakeCheck.tscn` must select the oldest owned artifact before a housing upgrade, render the current pre-move housing rather than a fixed room, preserve the artifact on `keep`, remove only that artifact on `leave`, apply the localized result in Korean and English, survive serialization, and hide the artifact-gated route choice afterward without changing ending routing.
+- `tools/audit.sh` must print `HOUSING_KEEPSAKE_CHECK_OK oldest=1 keep=1 leave=1 localized=2 silence=1 route_delta=0` and clean only its exact `gangnam-housing-keepsake.*` isolated-home directory.
 
 Automated audio gates:
 

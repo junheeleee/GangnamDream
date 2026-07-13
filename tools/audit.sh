@@ -22,6 +22,38 @@ run_limited() {
   fi
 }
 
+make_isolated_home() {
+  local prefix="$1"
+  local temp_root="${TMPDIR:-/tmp}"
+  while [ "${temp_root%/}" != "$temp_root" ]; do
+    temp_root="${temp_root%/}"
+  done
+  mktemp -d "$temp_root/$prefix.XXXXXX"
+}
+
+# 감사용 격리 HOME만 정리한다. 사용자 HOME이나 예상 밖 경로가 들어오면
+# 삭제를 거부해 테스트 정리 코드가 실제 사용자 데이터를 건드릴 수 없게 한다.
+cleanup_isolated_home() {
+  local target="${1:-}"
+  local temp_root="${TMPDIR:-/tmp}"
+  while [ "${temp_root%/}" != "$temp_root" ]; do
+    temp_root="${temp_root%/}"
+  done
+  if [ -z "$target" ] || [ "$target" = "${HOME:-}" ] || [ ! -d "$target" ]; then
+    echo "  ⚠ 격리 HOME 정리 거부: ${target:-<empty>}" >&2
+    return 1
+  fi
+  case "$target" in
+    "$temp_root"/gangnam-achievements.*|"$temp_root"/gangnam-hidden.*|"$temp_root"/gangnam-housing-keepsake.*)
+      rm -rf -- "$target"
+      ;;
+    *)
+      echo "  ⚠ 격리 HOME 경로 검증 실패, 정리 안 함: $target" >&2
+      return 1
+      ;;
+  esac
+}
+
 echo "──────────────────────────────────────────"
 python3 tools/audit.py
 PY_EXIT=$?
@@ -128,9 +160,9 @@ fi
 echo "──────────────────────────────────────────"
 echo "● 업적 15종 카탈로그/번역/실제 해금 경로 검사"
 if [ -x "$GODOT" ]; then
-  ACHIEVEMENT_HOME=$(mktemp -d "${TMPDIR:-/tmp}/gangnam-achievements.XXXXXX")
+  ACHIEVEMENT_HOME=$(make_isolated_home "gangnam-achievements")
   ACHIEVEMENT_RAW=$(run_limited env HOME="$ACHIEVEMENT_HOME" "$GODOT" --headless --quit-after 3600 res://tools/AchievementPathCheck.tscn 2>&1)
-  rm -rf "$ACHIEVEMENT_HOME"
+  cleanup_isolated_home "$ACHIEVEMENT_HOME"
   echo "$ACHIEVEMENT_RAW" | grep -E "ACHIEVEMENT_PATH_CHECK_OK|ACHIEVEMENT_PATH_CHECK_FAIL|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
   if echo "$ACHIEVEMENT_RAW" | grep -q "ACHIEVEMENT_PATH_CHECK_OK"; then
     ACHIEVEMENT_EXIT=0
@@ -145,9 +177,9 @@ fi
 echo "──────────────────────────────────────────"
 echo "● 유물 제시·히든 6경로 블랙박스 검사"
 if [ -x "$GODOT" ]; then
-  HIDDEN_HOME=$(mktemp -d "${TMPDIR:-/tmp}/gangnam-hidden.XXXXXX")
+  HIDDEN_HOME=$(make_isolated_home "gangnam-hidden")
   HIDDEN_RAW=$(run_limited env HOME="$HIDDEN_HOME" "$GODOT" --headless --quit-after 3600 res://tools/HiddenFeatureCheck.tscn 2>&1)
-  rm -rf "$HIDDEN_HOME"
+  cleanup_isolated_home "$HIDDEN_HOME"
   echo "$HIDDEN_RAW" | grep -E "HIDDEN_FEATURE_(CHECK_OK|CHECK_FAIL|EVIDENCE)|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
   if echo "$HIDDEN_RAW" | grep -q "HIDDEN_FEATURE_CHECK_OK"; then
     HIDDEN_EXIT=0
@@ -157,6 +189,23 @@ if [ -x "$GODOT" ]; then
 else
   echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 유물·히든 경로 체크 건너뜀."
   HIDDEN_EXIT=0
+fi
+
+echo "──────────────────────────────────────────"
+echo "● 이사 전 유물 보존·처분·후속 침묵 검사"
+if [ -x "$GODOT" ]; then
+  HOUSING_KEEPSAKE_HOME=$(make_isolated_home "gangnam-housing-keepsake")
+  HOUSING_KEEPSAKE_RAW=$(run_limited env HOME="$HOUSING_KEEPSAKE_HOME" "$GODOT" --headless --quit-after 3600 res://tools/HousingKeepsakeCheck.tscn 2>&1)
+  cleanup_isolated_home "$HOUSING_KEEPSAKE_HOME"
+  echo "$HOUSING_KEEPSAKE_RAW" | grep -E "HOUSING_KEEPSAKE_(CHECK_OK|CHECK_FAIL|EVIDENCE)|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
+  if echo "$HOUSING_KEEPSAKE_RAW" | grep -q "HOUSING_KEEPSAKE_CHECK_OK"; then
+    HOUSING_KEEPSAKE_EXIT=0
+  else
+    HOUSING_KEEPSAKE_EXIT=1
+  fi
+else
+  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 이사 유물 비트 체크 건너뜀."
+  HOUSING_KEEPSAKE_EXIT=0
 fi
 
 echo "──────────────────────────────────────────"
@@ -188,7 +237,7 @@ else
 fi
 
 echo "──────────────────────────────────────────"
-if [ "$PY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$PACING_EXIT" -ne 0 ] || [ "$KEY_ART_EXIT" -ne 0 ] || [ "$CG_ACTING_EXIT" -ne 0 ] || [ "$EVENT_VISUAL_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$AUDIO_SOURCE_EXIT" -ne 0 ] || [ "$UI_SFX_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$BGM_EXIT" -ne 0 ] || [ "$TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_PLAYBACK_EXIT" -ne 0 ] || [ "$ACHIEVEMENT_EXIT" -ne 0 ] || [ "$HIDDEN_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
+if [ "$PY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$PACING_EXIT" -ne 0 ] || [ "$KEY_ART_EXIT" -ne 0 ] || [ "$CG_ACTING_EXIT" -ne 0 ] || [ "$EVENT_VISUAL_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$AUDIO_SOURCE_EXIT" -ne 0 ] || [ "$UI_SFX_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$BGM_EXIT" -ne 0 ] || [ "$TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_PLAYBACK_EXIT" -ne 0 ] || [ "$ACHIEVEMENT_EXIT" -ne 0 ] || [ "$HIDDEN_EXIT" -ne 0 ] || [ "$HOUSING_KEEPSAKE_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
   echo "❌ 감사 실패 — 위 ERROR를 고치고 다시 돌리세요."
   exit 1
 fi

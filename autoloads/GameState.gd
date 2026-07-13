@@ -619,6 +619,41 @@ func can_upgrade_housing() -> bool:
 	var next_info = HOUSING_DATA.get(next_id, {})
 	return money >= float(next_info.get("req_cash", 0.0))
 
+## 이사 직전, 획득 순서가 가장 오래된 유물 하나를 선택 비트에 예약한다.
+## inventory 배열은 획득 순서를 보존하므로 별도 시각/턴 카운터를 만들지 않는다.
+func prepare_housing_keepsake() -> String:
+	if not can_upgrade_housing() or flags.get("arc_housing_keepsake_seen", false):
+		return ""
+	var pending_id := str(flags.get("pending_housing_keepsake_id", ""))
+	if pending_id != "" and has_item(pending_id):
+		return pending_id
+	flags.erase("pending_housing_keepsake_id")
+	for owned in inventory:
+		var item_id := str(owned.get("id", ""))
+		if item_id.begins_with("artifact_") and int(owned.get("quantity", 0)) > 0:
+			flags["pending_housing_keepsake_id"] = item_id
+			return item_id
+	return ""
+
+func get_pending_housing_keepsake_name() -> String:
+	var item_id := str(flags.get("pending_housing_keepsake_id", ""))
+	var item: Dictionary = DataRegistry.get_item(item_id)
+	return str(item.get("name", item_id))
+
+## StoryMode의 보존/처분 선택이 끝나는 순간, 사용자가 원래 요청했던 이사를 완료한다.
+func resolve_housing_keepsake(decision: String) -> Dictionary:
+	var item_id := str(flags.get("pending_housing_keepsake_id", ""))
+	if item_id == "" or not has_item(item_id) or decision not in ["keep", "leave"]:
+		return {"success": false, "message": LocaleManager.ui("남겨 둔 유물을 찾을 수 없습니다.", "The selected keepsake could not be found.")}
+	var result := upgrade_housing()
+	if not result.get("success", false):
+		flags.erase("arc_housing_keepsake_seen")
+		return result
+	if decision == "leave":
+		remove_item(item_id, 1)
+	flags.erase("pending_housing_keepsake_id")
+	return result
+
 func upgrade_housing() -> Dictionary:
 	var info = get_housing_info()
 	var current_id := housing
@@ -762,6 +797,9 @@ func apply_choice(event, choice):
 		if not _was_set and fid in ["crossed_line", "chose_money_over_father"]:
 			pending_scar_vignette = fid
 			shift_moral_tint(0.0)  # delta=0, 상한만 즉시 적용
+	# 이사 전 유물 비트 — 선택 결과와 원래 요청한 주거 상승을 한 원자적 장면으로 마친다.
+	if choice.has("housing_keepsake"):
+		resolve_housing_keepsake(str(choice["housing_keepsake"]))
 	# 선택지가 직접 성향 포인트를 줄 수도 있다: "tendency": {"invest": 2}
 	for tk in choice.get("tendency", {}):
 		add_tendency(str(tk), int(choice["tendency"][tk]))
@@ -1362,7 +1400,8 @@ func format_event_text(text: String) -> String:
 		.replace("{income}", format_money(monthly_income)) \
 		.replace("{expense}", format_money(fixed_expense)) \
 		.replace("{debt}", format_money(loan_total)) \
-		.replace("{loan}", format_money(loan_total))
+		.replace("{loan}", format_money(loan_total)) \
+		.replace("{keepsake}", get_pending_housing_keepsake_name())
 
 func get_total_asset_value():
 	var total = money

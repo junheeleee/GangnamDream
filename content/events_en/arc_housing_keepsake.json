@@ -1,0 +1,17 @@
+[
+  {
+    "id": "arc_housing_keepsake",
+    "title": "What Turned Up in the Packing",
+    "description": "In the middle of packing, his hands stopped.\n\nSomething left at the back of a drawer. Maybe a piece of paper. Maybe a record he had kept on a screen.\n\n{keepsake}.\n\nBetween the day he first kept it and now, one room was coming to an end. {name} stayed still for a while, caught between the box going to the new place and what could remain here.",
+    "choices": [
+      {
+        "text": "Take it — there is still no reason to throw it away",
+        "result_text": "He made a place for it at the top of the box.\n\nOne name remained in view: {keepsake}.\n\nThe luggage was no lighter. Still, {name} could close the box. He returned the key and opened the door to the next room."
+      },
+      {
+        "text": "Leave it — decide this is where it ends",
+        "result_text": "If it was paper, he threw it away. If it was a record on a screen, he deleted it.\n\nThe last name he saw: {keepsake}.\n\nThe box itself was no lighter. But when he lifted it, it felt that way. {name} went to the next room without looking back."
+      }
+    ]
+  }
+]

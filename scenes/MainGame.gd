@@ -10326,6 +10326,10 @@ func _on_job_hunt_closed(stress_delta: int, quality: int) -> void:
 
 func _ap_move_housing():
 	# AP 소비 없음 — 이사는 자금으로 하는 결정
+	var keepsake_event_id := _housing_keepsake_event_id()
+	if keepsake_event_id != "":
+		_go_story_mode([keepsake_event_id])
+		return
 	var result = GameState.upgrade_housing()
 	if result["success"]:
 		var info = result["housing"]
@@ -10339,6 +10343,9 @@ func _ap_move_housing():
 		_show_toast(result.get("message", _tr("이사 실패", "Move failed")), Color("#ff4444"))
 	_render_ap_actions()
 	_refresh_all()
+
+func _housing_keepsake_event_id() -> String:
+	return "arc_housing_keepsake" if GameState.prepare_housing_keepsake() != "" else ""
 
 # ── RPG 해금 행동 함수들 ───────────────────────────────────────────────
 
