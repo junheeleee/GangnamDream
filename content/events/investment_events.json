@@ -1023,7 +1023,8 @@
     "hidden": false,
     "conditions": {
       "has_portfolio": true,
-      "min_turn": 8
+      "min_turn": 49,
+      "max_turn": 96
     },
     "tags": [
       "investment",
@@ -1270,7 +1271,9 @@
     "weight": 3.5,
     "hidden": false,
     "conditions": {
-      "has_portfolio": true
+      "has_portfolio": true,
+      "min_turn": 49,
+      "max_turn": 96
     },
     "tags": [
       "investment",
@@ -1847,7 +1850,8 @@
     "weight": 3,
     "hidden": false,
     "conditions": {
-      "min_turn": 12,
+      "min_turn": 49,
+      "max_turn": 96,
       "min_money": 10000000,
       "has_portfolio": true
     },

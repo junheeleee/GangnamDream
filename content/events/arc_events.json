@@ -2054,6 +2054,9 @@
       "gosiwon"
     ],
     "cooldown": 9999,
+    "timed": true,
+    "timer_seconds": 15,
+    "timer_default_choice": 1,
     "background": "goshiwon_hallway",
     "portrait": "goshiwon_owner",
     "choices": [

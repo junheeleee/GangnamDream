@@ -101,5 +101,35 @@
         "result_text": "Will know upon arrival. Decided to believe that."
       }
     ]
+  },
+  {
+    "id": "arc_year1_scene",
+    "title": "Scene of the Year",
+    "description": "Before closing the first year's calendar, {name} turned through its scenes once more.\n\nNot the best act or the worst one. Just the scene that would return first whenever this year was opened again.\n\nWhich one would remain?",
+    "choices": [{"text": "Choose a scene to keep", "result_text": "One scene remained from the first year."}]
+  },
+  {
+    "id": "arc_year2_scene",
+    "title": "Scene of the Year",
+    "description": "The second year opened many doors. Some he entered. Some he turned away from.\n\n{name} chose one scene instead of one result: the moment that would return before the numbers whenever he remembered this year.",
+    "choices": [{"text": "Choose a scene to keep", "result_text": "One scene remained from the second year."}]
+  },
+  {
+    "id": "arc_year3_scene",
+    "title": "Scene of the Year",
+    "description": "What he learned could not become unknown again.\n\nSo {name} kept one scene instead of an explanation: the moment when this year's truth was clearest.",
+    "choices": [{"text": "Choose a scene to keep", "result_text": "One scene remained from the third year."}]
+  },
+  {
+    "id": "arc_year4_scene",
+    "title": "Scene of the Year",
+    "description": "Time folded quickly that year. Some weeks vanished; a few seconds still carried weight.\n\n{name} chose one scene that still held it.",
+    "choices": [{"text": "Choose a scene to keep", "result_text": "One scene remained from the fourth year."}]
+  },
+  {
+    "id": "arc_year5_scene",
+    "title": "Scene of the Final Year",
+    "description": "The end of the calendar was visible. The ending had not arrived, but the final year already had a shape.\n\n{name} chose the scene that would last longest — not to remember the ending, but the person who had reached it.",
+    "choices": [{"text": "Choose a scene to keep", "result_text": "One scene remained from the final year."}]
   }
 ]

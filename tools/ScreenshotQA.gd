@@ -9,6 +9,7 @@ extends Node
 ## 수정 부위별 빠른 확인:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=start-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=gallery --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=year-identity --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=locale-gate
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-moral --lang=en
@@ -54,6 +55,7 @@ const QA_SCOPE_DEMO_FLOW := "demo_flow"
 const QA_SCOPE_DEMO_BLACKBOX := "demo_blackbox"
 const QA_SCOPE_START_EN := "start_en"
 const QA_SCOPE_GALLERY := "gallery"
+const QA_SCOPE_YEAR_IDENTITY := "year_identity"
 const QA_SCOPE_LOCALE_GATE := "locale_gate"
 const QA_SCOPE_STORY_EN := "story_en"
 const QA_SCOPE_STORY_MORAL := "story_moral"
@@ -86,6 +88,13 @@ const QA_SCOPE_RACETRACK_EN := "racetrack_en"
 const QA_SCOPE_TENDENCY_EN := "tendency_en"
 const QA_SCOPE_SURFACE_EN := "surface_en"
 const QA_SCOPE_TRANSITION := "transition"
+const YEAR_IDENTITY_SCENE_SAMPLE: Array[String] = [
+	"arc_temptation_01",
+	"cafe_listen_01",
+	"arc_daeun_01_meet",
+	"arc_sangchul_01_meet",
+	"arc_job_first_rejection",
+]
 var _mg: Node = null
 
 func _tr(ko: String, en: String) -> String:
@@ -148,6 +157,12 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_archive_surfaces(lang, "archive_en_" if lang == "en" else "archive_ko_")
 		print("SCREENSHOT_QA_DONE scope=gallery lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_YEAR_IDENTITY:
+		var lang := _qa_language("en")
+		await _shot_year_identity_surfaces(lang, "year_en_" if lang == "en" else "year_ko_")
+		print("SCREENSHOT_QA_DONE scope=year-identity lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_LOCALE_GATE:
@@ -403,6 +418,10 @@ func _qa_scope() -> String:
 				"--gallery", "--archive", "qa=gallery", "--qa=gallery",
 				"qa=archive", "--qa=archive", "scope=gallery", "--scope=gallery"]:
 			return QA_SCOPE_GALLERY
+		if arg in ["year-identity", "year_identity", "year-scenes", "year_scenes",
+				"--year-identity", "--year_identity", "qa=year-identity", "--qa=year-identity",
+				"qa=year_identity", "--qa=year_identity", "scope=year-identity", "--scope=year-identity"]:
+			return QA_SCOPE_YEAR_IDENTITY
 		if arg in ["locale-gate", "locale_gate", "language-gate", "language_gate",
 				"--locale-gate", "--locale_gate", "qa=locale-gate", "--qa=locale-gate",
 				"qa=locale_gate", "--qa=locale_gate", "scope=locale-gate", "--scope=locale-gate"]:
@@ -1134,6 +1153,100 @@ func _shot_archive_surfaces(lang: String = "en", prefix: String = "archive_en_")
 	_remove_nodes_by_script("res://scenes/StoryMode.gd")
 	MetaProgression.data = original_meta
 	await _settle(0.25)
+
+func _seed_year_scene_history(select_each_year: bool) -> void:
+	GameState.run_seen_scenes_by_year = {}
+	GameState.year_scenes = {}
+	for year_index in range(1, 6):
+		GameState.turn = (year_index - 1) * 48 + 12
+		var target_scene := YEAR_IDENTITY_SCENE_SAMPLE[year_index - 1]
+		var scene_sample: Array[String] = YEAR_IDENTITY_SCENE_SAMPLE.duplicate()
+		if select_each_year:
+			while scene_sample.size() > 4:
+				var remove_index := scene_sample.size() - 1
+				if scene_sample[remove_index] == target_scene:
+					remove_index -= 1
+				scene_sample.remove_at(remove_index)
+		for scene_id in scene_sample:
+			GameState.record_run_scene_seen(scene_id)
+		if select_each_year:
+			var candidates := GameState.get_year_scene_candidates(year_index, 4)
+			if candidates.size() != 4:
+				_fail("Year %d ending recap seed expected four candidates, got %d" % [year_index, candidates.size()])
+				return
+			if not GameState.record_year_scene(year_index, target_scene):
+				_fail("Year %d ending recap seed could not record its selected scene" % year_index)
+				return
+
+func _shot_year_identity_surfaces(lang: String = "en", prefix: String = "year_en_") -> void:
+	_set_qa_language(lang)
+	for year_index in range(1, 6):
+		_prepare_main_game_state()
+		await _shot_story_event(
+			"chapter_card_%d" % (32 + year_index),
+			"%s%02d_chapter_year_%d" % [prefix, year_index, year_index],
+			"", 2.7)
+
+	_prepare_main_game_state()
+	_seed_year_scene_history(false)
+	GameState.turn = 47
+	await _shot_story_event(
+		"arc_year1_scene", prefix + "06_year_scene_choices", "", 0.45, true, true)
+
+	_prepare_main_game_state()
+	GameState.turn = 12
+	await _shot_story_event(
+		"cafe_listen_01", prefix + "07_timed_choice", "", 0.45, true, true)
+
+	_prepare_main_game_state()
+	GameState.turn = 145
+	GameState.age = 36
+	GameState.year = 2029
+	GameState.month = 1
+	GameState.week_of_month = 1
+	await _boot_main_game()
+	_mg._show_montage_card(
+		3, GameState.get_total_asset_value(), GameState.health, GameState.mental, 2, 1, "cap", 3)
+	await _settle(0.45)
+	var montage_text := _collect_control_text(_mg)
+	var expected_montage := "3 weeks passed." if lang == "en" else "3주가 흘렀다."
+	if expected_montage not in montage_text:
+		_fail("Y4 montage result did not show its localized three-week cap")
+		return
+	await _save(prefix + "08_y4_three_week_montage")
+	await _dispose_main_game()
+
+	_prepare_main_game_state()
+	GameState.turn = 193
+	GameState.age = 37
+	GameState.year = 2030
+	GameState.month = 1
+	GameState.week_of_month = 1
+	await _boot_main_game()
+	if _mg.has_method("_refresh_goal_bar"):
+		_mg._refresh_goal_bar()
+	var goal_time := _mg.get("_goal_time_lbl") as Label
+	var expected_countdown := "48 wk left" if lang == "en" else "남은 48주"
+	if not is_instance_valid(goal_time) or goal_time.text != expected_countdown:
+		_fail("Y5 HUD expected '%s', got '%s'" % [
+			expected_countdown, goal_time.text if is_instance_valid(goal_time) else "<missing>"])
+		return
+	await _save(prefix + "09_y5_week_countdown")
+	await _dispose_main_game()
+
+	_prepare_main_game_state()
+	_seed_year_scene_history(true)
+	await _boot_main_game()
+	await _shot_ending("stable_success", prefix + "10_ending_recap")
+	var recap := _find_qa_surface(_mg, "year_scene_recap")
+	var expected_heading := "FIVE YEARS, FIVE SCENES" if lang == "en" else "5년, 다섯 장면"
+	if recap == null:
+		_fail("Ending time ledger did not render the five-scene recap")
+		return
+	if expected_heading not in _collect_control_text(recap):
+		_fail("Ending recap did not show localized heading '%s'" % expected_heading)
+		return
+	await _dispose_main_game()
 
 func _assert_archive_surface(menu: Control, context: String) -> void:
 	var overlay := menu.get("_archive_overlay") as Control

@@ -593,6 +593,7 @@ EVENT_ROOT_KEYS = {"id", "title", "description", "category", "rarity", "weight",
                    "description_orthodox", "description_unorthodox",
                    "description_low_mental", "description_long_gosiwon",
                    "description_if_known", "description_if_moral", "direction"}
+EVENT_ROOT_KEYS.update({"year_scene_year", "timer_default_choice"})
 MORAL_PERCEPTION_KEYS = {"deep_black", "black", "gray", "white", "deep_white"}
 DIRECTION_KEYS = {"pace", "amb", "sting", "camera", "hold", "visual"}
 DIRECTION_VALUES = {
@@ -608,7 +609,8 @@ CHOICE_KEYS = {"text", "text_if_moral", "effects", "flags", "follow_up_event", "
                "opportunity", "cast_effects", "relationship_effects",
                "investment_effects", "tendency", "route", "grant_job",
                "conditions_note", "deferred_follow_up", "deferred_delay",
-               "foreshadow", "clues", "give_items", "requires_item", "housing_keepsake"}
+               "foreshadow", "clues", "give_items", "requires_item", "housing_keepsake",
+               "year_scene"}
 
 def _match_arm_keys(src, func_pattern):
     """함수 본문 안 match 문의 따옴표 키들을 수집 (코드가 진실 — 목록 자동 동기화)."""
@@ -676,6 +678,23 @@ def check_event_keys():
             for k in e.keys():
                 if k not in EVENT_ROOT_KEYS:
                     warn('%s  [%s] 모르는 이벤트 루트 키 "%s"' % (rel(p), eid, k))
+            if "year_scene_year" in e:
+                year_scene_year = e.get("year_scene_year")
+                if not isinstance(year_scene_year, int) or isinstance(year_scene_year, bool) \
+                        or year_scene_year < 1 or year_scene_year > 5:
+                    err('%s  [%s] year_scene_year는 1~5 정수여야 함' % (rel(p), eid))
+                if "year_scene_curation" not in e.get("tags", []):
+                    err('%s  [%s] year_scene_year 이벤트에 year_scene_curation 태그 누락' % (rel(p), eid))
+            if e.get("timed", False):
+                timer_seconds = e.get("timer_seconds", 0)
+                if not isinstance(timer_seconds, int) or isinstance(timer_seconds, bool) or timer_seconds < 1:
+                    err('%s  [%s] timed 이벤트의 timer_seconds는 1 이상 정수여야 함' % (rel(p), eid))
+                timer_default = e.get("timer_default_choice", 0)
+                choice_count = len(e.get("choices", []))
+                if not isinstance(timer_default, int) or isinstance(timer_default, bool) \
+                        or timer_default < 0 or timer_default >= choice_count:
+                    err('%s  [%s] timer_default_choice %s가 선택지 범위 0..%d 밖' \
+                        % (rel(p), eid, timer_default, max(0, choice_count - 1)))
             direction = e.get("direction")
             if direction is not None:
                 if not isinstance(direction, dict):
@@ -748,6 +767,17 @@ def check_event_keys():
                     _check_moral_text_map(
                         ch.get("text_if_moral"),
                         '%s  [%s] 선택지%d text_if_moral' % (rel(p), eid, ci))
+                if "year_scene" in ch:
+                    year_scene = ch.get("year_scene")
+                    if not isinstance(year_scene, dict):
+                        err('%s  [%s] 선택지%d year_scene은 object여야 함' % (rel(p), eid, ci))
+                    else:
+                        year_index = year_scene.get("year", 0)
+                        scene_id = year_scene.get("scene_id", "")
+                        if not isinstance(year_index, int) or isinstance(year_index, bool) \
+                                or year_index < 1 or year_index > 5 or not isinstance(scene_id, str):
+                            err('%s  [%s] 선택지%d year_scene의 year/scene_id 형식 오류' \
+                                % (rel(p), eid, ci))
                 eff = ch.get("effects", {})
                 if isinstance(eff, dict):
                     for k in eff.keys():

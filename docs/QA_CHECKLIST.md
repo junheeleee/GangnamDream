@@ -36,6 +36,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | First-run language gate, KO default names, localized portrait name tags | `--qa=locale-gate` |
 | Splash, opening, StartMenu press-any-key, start menu, content notice | `--qa=start-en` |
 | Archive CG silhouettes/fullscreen preview, scene replay paging, hidden-name secrecy, and read-only GameState/MetaProgression invariants | `--qa=gallery --lang=ko/en` |
+| Five year identities, year-scene curation, Y1 timed choice, Y5 week countdown, and ending five-scene recap | `--qa=year-identity --lang=ko/en` |
 | StoryMode/VN flashforward Black→arrival Gray reset, intro events, 1~4-choice lower dock, readable backgrounds, chapter card, scene direction framing | `--qa=story-en` |
 | StoryMode non-CG Black/Gray/White luminance, forced-Black framing, same-scene perception prose, moral choice wording, portrait distance, result-attention order/counterweight preservation, and KO/EN crop | `--qa=story-moral --lang=ko/en` |
 | Authored Moral Perception anchors: Daeun cafe, Sangchul mirror, why Gangnam, father's last call, and final countdown across Black/Gray/White prose and choices | `--qa=moral-anchors --lang=ko/en` |
@@ -90,6 +91,12 @@ Automated artifact and hidden-feature gates:
 - `tools/audit.sh` must print `HIDDEN_FEATURE_CHECK_OK artifact_choices=3 follow_up=1 jiyeon_dik=1 daeun_route=1 dawn=5 drawer=1 keepsakes=6`. A catalog-only or JSON-only check is not sufficient.
 - `HousingKeepsakeCheck.tscn` must select the oldest owned artifact before a housing upgrade, render the current pre-move housing rather than a fixed room, preserve the artifact on `keep`, remove only that artifact on `leave`, apply the localized result in Korean and English, survive serialization, and hide the artifact-gated route choice afterward without changing ending routing.
 - `tools/audit.sh` must print `HOUSING_KEEPSAKE_CHECK_OK oldest=1 keep=1 leave=1 localized=2 silence=1 route_delta=0` and clean only its exact `gangnam-housing-keepsake.*` isolated-home directory.
+
+Automated year-identity gates:
+
+- `YearIdentityCheck.tscn` must verify all five localized chapter identities; actual-current-run-only year-scene candidates; four distinct dynamic choices; five serialized selections; localized ending recap titles; the three authored Y1 timeout defaults; all three Y2 investment windows; the Y4 three-week montage cap; and the Y5 48-week HUD plus monthly narration.
+- `tools/audit.sh` must print `YEAR_IDENTITY_CHECK_OK chapters=5 curated=5 choices=4 localized=2 timed=3 y2=3 y4_cap=3 y5_weeks=48 serialized=1`.
+- `ScreenshotQA --qa=year-identity --lang=ko/en` must render five chapter cards, the four-choice year-end curation, a visible countdown bar, the Y4 three-week montage result, the Y5 week HUD, and the no-overflow `5년, 다섯 장면 / FIVE YEARS, FIVE SCENES` ending ledger at 1280x800.
 
 Automated audio gates:
 

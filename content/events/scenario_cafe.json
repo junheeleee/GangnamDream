@@ -69,6 +69,9 @@
       "cafe"
     ],
     "cooldown": 9999,
+    "timed": true,
+    "timer_seconds": 12,
+    "timer_default_choice": 2,
     "description": "남자가 통화를 끊고 일어선다. 화장실인가 보다.\n테이블 위에 휴대폰과 — 서류 폴더가 그대로 놓여 있다.\n표지에 큼지막하게: 「○○구역 조합원 분양 안내」.\n\n주위엔 아무도 신경 쓰지 않는다.\n{name}의 심장이 조금 빨라진다.",
     "choices": [
       {

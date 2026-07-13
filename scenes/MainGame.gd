@@ -1898,17 +1898,24 @@ func _refresh_goal_bar() -> void:
 
 	# 남은 시간 레이블 (시간 압박 가시화)
 	if _goal_time_lbl:
-		var months_left: int = (38 - GameState.age) * 12 - GameState.month + 1
-		months_left = max(0, months_left)
-		var time_color: String
-		if months_left <= 12:
-			time_color = "#ff4444"
-		elif months_left <= 24:
-			time_color = "#c5ccd5"
-		else:
-			time_color = "#5a6a7a"
-		_goal_time_lbl.text = _tr("%d개월", "%d mo") % months_left
-		_goal_time_lbl.add_theme_color_override("font_color", Color(time_color))
+		var time_display := _goal_time_display()
+		_goal_time_lbl.text = str(time_display.get("text", ""))
+		_goal_time_lbl.add_theme_color_override("font_color", Color(str(time_display.get("color", "#5a6a7a"))))
+
+func _goal_time_display() -> Dictionary:
+	if GameState.turn >= 193:
+		var weeks_left := maxi(0, 241 - GameState.turn)
+		var weeks_color := "#7b8592"
+		if weeks_left <= 4:
+			weeks_color = "#d88f8f"
+		elif weeks_left <= 12:
+			weeks_color = "#c5ccd5"
+		return {"text": _tr("남은 %d주", "%d wk left") % weeks_left, "color": weeks_color}
+	var months_left: int = maxi(0, (38 - GameState.age) * 12 - GameState.month + 1)
+	return {
+		"text": _tr("%d개월", "%d mo") % months_left,
+		"color": "#c5ccd5" if months_left <= 24 else "#5a6a7a",
+	}
 
 # ══════════════════════════════════════════════════════════════
 # 튜토리얼 — 첫 런, 첫 AP 화면 진입 시 1회 표시
@@ -2204,6 +2211,23 @@ func _go_story_mode(event_ids: Array, keep_cover: bool = false):
 ## 아크 이벤트 트리거 — 조건 맞으면 이벤트 ID를 반환 (없으면 "").
 ## 우선순위: 위에서부터. 한 턴에 하나만 발동. StoryMode로 재생됨.
 ## 설계: 초반(턴1-8)은 주인공 몰입, 중반(9-16) 멘토/조연, 후반(17+) 여주인공.
+func _year_scene_curation_id(year_index: int) -> String:
+	if not GameState.get_year_scene_selection(year_index).is_empty():
+		return ""
+	var skip_key := "year_scene_%d_skipped" % year_index
+	if bool(GameState.year_scenes.get(skip_key, false)):
+		return ""
+	if GameState.get_year_scene_candidates(year_index, 4).size() < 3:
+		GameState.year_scenes[skip_key] = true
+		return ""
+	match year_index:
+		1: return "arc_year1_scene"
+		2: return "arc_year2_scene"
+		3: return "arc_year3_scene"
+		4: return "arc_year4_scene"
+		5: return "arc_year5_scene"
+	return ""
+
 func _next_arc_id() -> String:
 	var t = GameState.turn
 	var f = GameState.flags
@@ -2235,6 +2259,30 @@ func _next_arc_id() -> String:
 		return "arc_year3_close"
 	if t >= 188 and t <= 192 and not f.get("arc_year4_close_seen", false):
 		return "arc_year4_close"
+	# 연말 장면 선택은 직전 클로징을 본 뒤 같은 연차 안에서 바로 이어진다.
+	# 후보는 현재 런에서 실제로 본 장면뿐이며 3개 미만이면 표면을 만들지 않는다.
+	var year_scene_id := ""
+	if f.get("arc_year1_close_seen", false):
+		year_scene_id = _year_scene_curation_id(1)
+		if not year_scene_id.is_empty():
+			return year_scene_id
+	if f.get("arc_year2_close_seen", false):
+		year_scene_id = _year_scene_curation_id(2)
+		if not year_scene_id.is_empty():
+			return year_scene_id
+	if f.get("arc_year3_close_seen", false):
+		year_scene_id = _year_scene_curation_id(3)
+		if not year_scene_id.is_empty():
+			return year_scene_id
+	if f.get("arc_year4_close_seen", false):
+		year_scene_id = _year_scene_curation_id(4)
+		if not year_scene_id.is_empty():
+			return year_scene_id
+	# 다섯째 해에는 별도 연말 카드가 없으므로 마지막 달 초입에서 고른다.
+	if t >= 236:
+		year_scene_id = _year_scene_curation_id(5)
+		if not year_scene_id.is_empty():
+			return year_scene_id
 
 	# ══ 고시원 탈출 — 이사한 첫 턴에 감정 장면 (어느 턴이든) ══
 	if GameState.housing != "gosiwon" \
@@ -3947,9 +3995,11 @@ func _reveal_choices():
 	_apply_moral_tree_styles(choice_box, _moral_ui_palette())
 	# ── 중요 분기 타이머 ──────────────────────────────────────
 	if current_event.get("timed", false):
-		_start_choice_countdown(current_event.get("timer_seconds", 12))
+		_start_choice_countdown(
+			int(current_event.get("timer_seconds", 12)),
+			int(current_event.get("timer_default_choice", 0)))
 
-func _start_choice_countdown(secs: int):
+func _start_choice_countdown(secs: int, default_index: int = 0):
 	_choice_countdown_remaining = secs
 	# 타이머 행 (프로그레스바 + 숫자)
 	var timer_row := HBoxContainer.new()
@@ -3987,7 +4037,7 @@ func _start_choice_countdown(secs: int):
 			if is_instance_valid(_choice_countdown_timer):
 				_choice_countdown_timer.queue_free()
 				_choice_countdown_timer = null
-			_choose(0)
+			_choose(default_index)
 	)
 
 func _refresh_all():
@@ -6482,6 +6532,21 @@ func _render_essential_actions(ap: int):
 	_maybe_add_montage_card()
 
 ## 몽타주 진입 카드 — 저스테이크 주간을 루틴대로 흘려보낸다. turn>=8 + AP 만땅일 때만.
+func _montage_week_cap() -> int:
+	# 4년 차는 시간이 접히는 감각을 더 자주 되돌려 주되, 한 번에 너무 멀리 넘기지 않는다.
+	return 3 if GameState.turn >= 145 and GameState.turn <= 192 else 4
+
+func _montage_offer_copy() -> Dictionary:
+	if GameState.turn >= 145 and GameState.turn <= 192:
+		return {
+			"title": _tr("시간이 접히기 시작했다", "Time is beginning to fold"),
+			"subtitle": _tr("같은 루틴으로 — 최대 3주", "Keep the routine — up to 3 weeks"),
+		}
+	return {
+		"title": _tr("루틴대로 시간을 보낸다", "Let the weeks pass"),
+		"subtitle": _tr("다음 사건까지 — 최대 4주", "Until something happens — up to 4 weeks"),
+	}
+
 func _maybe_add_montage_card() -> void:
 	if GameState.turn < 8:
 		return
@@ -6489,9 +6554,10 @@ func _maybe_add_montage_card() -> void:
 		return
 	if _next_arc_id() != "":
 		return
+	var offer := _montage_offer_copy()
 	_essential_btn(
-		_tr("루틴대로 시간을 보낸다", "Let the weeks pass"),
-		_tr("다음 사건까지 — 최대 4주", "Until something happens — up to 4 weeks"),
+		str(offer.get("title", "")),
+		str(offer.get("subtitle", "")),
 		"routine", "#5a6478", "_open_routine_modal", GameState.action_points <= 0,
 		false, "", true)
 
@@ -8934,7 +9000,7 @@ func _montage_apply_routine() -> Dictionary:
 			used_human = true
 	return {"money": used_money, "human": used_human}
 
-## 몽타주 루프 — 무사건 주간을 루틴대로 최대 4주 압축한다.
+## 몽타주 루프 — 무사건 주간을 루틴대로 연차별 상한까지 압축한다.
 func _montage_advance() -> void:
 	if GameState.is_game_over:
 		return
@@ -8945,7 +9011,8 @@ func _montage_advance() -> void:
 	var human_wk: int = 0
 	var weeks: int = 0
 	var reason: String = "cap"
-	while weeks < 4:
+	var week_cap := _montage_week_cap()
+	while weeks < week_cap:
 		# (a) 시작 가드 — 보장 스토리/게임오버는 절대 삼키지 않는다
 		if GameState.is_game_over:
 			reason = "gameover"
@@ -8989,7 +9056,7 @@ func _montage_advance() -> void:
 			break
 	SaveManager.autosave()
 	_refresh_all()
-	_show_montage_card(weeks, assets_before, health_before, mental_before, money_wk, human_wk, reason)
+	_show_montage_card(weeks, assets_before, health_before, mental_before, money_wk, human_wk, reason, week_cap)
 
 func _montage_axis_line(money_wk: int, human_wk: int) -> String:
 	if money_wk == 0 and human_wk == 0:
@@ -9000,7 +9067,7 @@ func _montage_axis_line(money_wk: int, human_wk: int) -> String:
 		return _tr("사람에게 %d주 — 돈은 잠시 밀어뒀다.", "%d weeks on people — money set aside for now.") % human_wk
 	return _tr("돈에 %d주, 사람에게 %d주.", "%d weeks on money, %d weeks on people.") % [money_wk, human_wk]
 
-func _montage_reason_line(reason: String) -> String:
+func _montage_reason_line(reason: String, weeks: int) -> String:
 	match reason:
 		"arc": return _tr("무언가 일어났다.", "Something happened.")
 		"month": return _tr("한 달이 끝났다.", "A month ended.")
@@ -9008,13 +9075,13 @@ func _montage_reason_line(reason: String) -> String:
 		"mental": return _tr("마음이 버티기 어려워졌다.", "The mind can't hold much longer.")
 		"cash": return _tr("통장이 바닥을 보인다.", "The bank balance is running dry.")
 		"gameover": return _tr("여기서 시간이 멈췄다.", "Time stopped here.")
-	return _tr("네 주가 지나갔다.", "Four weeks went by.")
+	return _tr("%d주가 지나갔다.", "%d weeks went by.") % weeks
 
-func _montage_week_ticks(weeks: int) -> Control:
+func _montage_week_ticks(weeks: int, week_cap: int = 4) -> Control:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 5)
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	for i in range(4):
+	for i in range(maxi(1, week_cap)):
 		var tick := PanelContainer.new()
 		tick.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		tick.custom_minimum_size = Vector2(22, 7)
@@ -9029,7 +9096,7 @@ func _montage_week_ticks(weeks: int) -> Control:
 	return row
 
 func _montage_record_card(weeks: int, asset_d: int, health_d: int, mental_d: int,
-		money_wk: int, human_wk: int, reason: String) -> Control:
+		money_wk: int, human_wk: int, reason: String, week_cap: int = 4) -> Control:
 	var card := PanelContainer.new()
 	card.set_meta("moral_role", "choice_card")
 	card.set_meta("moral_accent", "#6f7788")
@@ -9056,7 +9123,7 @@ func _montage_record_card(weeks: int, asset_d: int, health_d: int, mental_d: int
 	var overline := _label(_tr("시간 기록", "TIME RECORD"), 10, "#687386")
 	overline.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top.add_child(overline)
-	top.add_child(_montage_week_ticks(weeks))
+	top.add_child(_montage_week_ticks(weeks, week_cap))
 
 	var headline := _label(_tr("%d주가 흘렀다.", "%d weeks passed.") % weeks, 22, "#edf3f8")
 	headline.set_meta("moral_role", "choice_title")
@@ -9094,24 +9161,26 @@ func _montage_record_card(weeks: int, asset_d: int, health_d: int, mental_d: int
 	var div := HSeparator.new()
 	div.add_theme_color_override("color", Color("#252b35"))
 	box.add_child(div)
-	box.add_child(_wrap_label("— " + _montage_reason_line(reason), 13, "#8f98aa"))
+	box.add_child(_wrap_label("— " + _montage_reason_line(reason, weeks), 13, "#8f98aa"))
 	return card
 
 func _show_montage_card(weeks: int, assets_before: float, health_before: int, mental_before: int,
-		money_wk: int, human_wk: int, reason: String) -> void:
+		money_wk: int, human_wk: int, reason: String, week_cap: int = 4) -> void:
 	_open_modal(_tr("시간이 흘렀다", "Time Passed"), true, "routine_result")
 	if modal_scroll:
 		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
+		modal_scroll.custom_minimum_size = Vector2(0, 280)
 	if modal_panel:
-		modal_panel.custom_minimum_size = Vector2(760, 560)
+		modal_panel.custom_minimum_size = Vector2(760, 380)
 		modal_panel.offset_left = -380
 		modal_panel.offset_right = 380
-		modal_panel.offset_top = -280
-		modal_panel.offset_bottom = 280
+		modal_panel.offset_top = -190
+		modal_panel.offset_bottom = 190
 	var asset_d: int = int(round(GameState.get_total_asset_value() - assets_before))
 	var health_d: int = GameState.health - health_before
 	var mental_d: int = GameState.mental - mental_before
-	modal_body.add_child(_montage_record_card(weeks, asset_d, health_d, mental_d, money_wk, human_wk, reason))
+	modal_body.add_child(_montage_record_card(
+		weeks, asset_d, health_d, mental_d, money_wk, human_wk, reason, week_cap))
 	var ok := _button(_tr("확인", "Confirm"), "#1f6feb")
 	ok.custom_minimum_size = Vector2(0, 42)
 	ok.pressed.connect(func():
@@ -12970,6 +13039,39 @@ func _kept_artifact_names() -> PackedStringArray:
 			kept_names.append(str(item.get("name", item_id)))
 	return kept_names
 
+func _year_scene_recap_surface() -> Control:
+	var selected: Array = GameState.get_selected_year_scenes()
+	if selected.is_empty():
+		return null
+	var surface := VBoxContainer.new()
+	surface.set_meta("qa_surface", "year_scene_recap")
+	surface.add_theme_constant_override("separation", 7)
+	var heading := _tr("5년, 다섯 장면", "FIVE YEARS, FIVE SCENES") if selected.size() == 5 \
+		else _tr("남겨 둔 장면들", "SCENES THAT REMAINED")
+	surface.add_child(_label(heading, 10, "#707987"))
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	surface.add_child(row)
+	for i in range(selected.size()):
+		if i > 0:
+			var divider := VSeparator.new()
+			divider.add_theme_color_override("color", Color("#2a3039", 0.72))
+			row.add_child(divider)
+		var scene: Dictionary = selected[i]
+		var col := VBoxContainer.new()
+		col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		col.size_flags_stretch_ratio = 1.0
+		col.add_theme_constant_override("separation", 2)
+		row.add_child(col)
+		col.add_child(_label(
+			_tr("%d년 차", "YEAR %d") % int(scene.get("year", i + 1)),
+			9, "#5f6875"))
+		var scene_title: Label = _wrap_label(_fmt(str(scene.get("title", scene.get("id", "")))), 11, "#b8c0cb")
+		scene_title.custom_minimum_size = Vector2(0, 34)
+		col.add_child(scene_title)
+	return surface
+
 func _build_time_ledger_card(record_title: String, grade: String, is_demo: bool) -> PanelContainer:
 	var palette: Dictionary = _moral_ui_palette()
 	var accent: Color = _moral_gray_accent(Color("#dce5ee"), palette, 0.05)
@@ -13031,6 +13133,12 @@ func _build_time_ledger_card(record_title: String, grade: String, is_demo: bool)
 	var rule := HSeparator.new()
 	rule.add_theme_color_override("color", Color(accent.r, accent.g, accent.b, 0.24))
 	box.add_child(rule)
+	var year_scene_recap := _year_scene_recap_surface()
+	if year_scene_recap != null:
+		box.add_child(year_scene_recap)
+		var scene_rule := HSeparator.new()
+		scene_rule.add_theme_color_override("color", Color(accent.r, accent.g, accent.b, 0.16))
+		box.add_child(scene_rule)
 
 	var body := HBoxContainer.new()
 	body.add_theme_constant_override("separation", 18)
@@ -14079,6 +14187,17 @@ func _get_month_narrative() -> String:
 	if f.get("gambling_tempted", false) and not f.get("narrative_gambling_noted", false) and addiction < 30:
 		GameState.flags["narrative_gambling_noted"] = true
 		return _tr("한 방에 뒤집을 수 있다는 생각이 머릿속에서 지워지지 않는다.", "The thought that one big hit could turn it all around won't leave my head.")
+
+	# 마지막 해의 빈 월말에도 시간의 만기가 한 줄씩 남는다. 경고가 아니라 달력의 감각이다.
+	if t >= 193:
+		var weeks_left := maxi(0, 241 - t)
+		if weeks_left <= 4:
+			return _tr("달력 끝의 빈칸이 한 손 안에 들어왔다.", "The blank squares at the end of the calendar now fit in one hand.")
+		if weeks_left <= 12:
+			return _tr("남은 주를 세자, 미뤄 둔 이름들도 함께 세어졌다.", "Counting the weeks also counted the names I had put off.")
+		if weeks_left <= 24:
+			return _tr("이제 선택 하나가 한 계절보다 길게 남는다.", "A single choice now lasts longer than a season.")
+		return _tr("마지막 해부터 달력은 월이 아니라 주로 읽히기 시작했다.", "In the final year, the calendar began to read in weeks instead of months.")
 
 	return ""
 

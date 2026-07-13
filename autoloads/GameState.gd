@@ -156,10 +156,130 @@ var recent_action_places: Array = []
 # 인물별 연락 기록 — 리캡 카드의 "잔인한 통계"용 원장 (person_id → 횟수 / 마지막 턴)
 var contact_counts: Dictionary = {}
 var last_contact_turn: Dictionary = {}
+# 현재 런에서 실제로 본 장면을 연차별로 기록한다. 영구 갤러리의 seen_scenes와
+# 분리해야 이전 런의 기억이 이번 런 연말 후보에 섞이지 않는다.
+var run_seen_scenes_by_year: Dictionary = {}
+# 플레이어가 각 연말에 직접 남긴 한 장면. key는 year_scene_1..5, value는 event id.
+var year_scenes: Dictionary = {}
 
 func note_contact(person_id: String) -> void:
 	contact_counts[person_id] = int(contact_counts.get(person_id, 0)) + 1
 	last_contact_turn[person_id] = turn
+
+func get_run_year_index() -> int:
+	return clampi(floori(float(maxi(turn, 1) - 1) / 48.0) + 1, 1, 5)
+
+func record_run_scene_seen(scene_id: String) -> bool:
+	if scene_id.is_empty():
+		return false
+	var key := str(get_run_year_index())
+	var scenes: Array = run_seen_scenes_by_year.get(key, [])
+	if scenes.has(scene_id):
+		return false
+	scenes.append(scene_id)
+	run_seen_scenes_by_year[key] = scenes
+	return true
+
+func _year_scene_family(scene_id: String) -> String:
+	for prefix in ["cafe_", "arc_intro_", "arc_daeun_", "arc_jiyeon_", "arc_father_", "arc_sangchul_", "arc_jaehyuk_", "arc_hyunsu_"]:
+		if scene_id.begins_with(prefix):
+			return prefix
+	return scene_id
+
+func _year_scene_score(event: Dictionary, order: int) -> int:
+	var score := order
+	var tags: Array = event.get("tags", [])
+	if tags.has("arc"):
+		score += 30
+	if str(event.get("rarity", "")) == "story":
+		score += 20
+	if bool(event.get("timed", false)):
+		score += 25
+	for tag in ["romance", "father", "daeun", "jiyeon", "sangchul", "jaehyuk", "hyunsu", "hidden"]:
+		if tags.has(tag):
+			score += 18
+	if not str(event.get("cg", "")).is_empty() or not str(event.get("result_cg", "")).is_empty():
+		score += 120
+	else:
+		for choice in event.get("choices", []):
+			if choice is Dictionary and not str(choice.get("result_cg", "")).is_empty():
+				score += 100
+				break
+	return score
+
+func get_year_scene_candidates(year_index: int, limit: int = 4) -> Array:
+	var scenes: Array = run_seen_scenes_by_year.get(str(clampi(year_index, 1, 5)), [])
+	var rows: Array = []
+	var families: Dictionary = {}
+	for order in range(scenes.size() - 1, -1, -1):
+		var scene_id := str(scenes[order])
+		var event: Dictionary = DataRegistry.find_event(scene_id)
+		if event.is_empty():
+			continue
+		var tags: Array = event.get("tags", [])
+		if tags.has("chapter_card") or tags.has("year_close") or tags.has("year_scene_curation"):
+			continue
+		var family := _year_scene_family(scene_id)
+		if families.has(family):
+			continue
+		var title := str(event.get("title", "")).strip_edges()
+		if title.is_empty():
+			continue
+		families[family] = true
+		rows.append({
+			"id": scene_id,
+			"title": title,
+			"score": _year_scene_score(event, order),
+			"order": order,
+		})
+	rows.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		var a_score := int(a.get("score", 0))
+		var b_score := int(b.get("score", 0))
+		if a_score == b_score:
+			return int(a.get("order", 0)) > int(b.get("order", 0))
+		return a_score > b_score)
+	return rows.slice(0, mini(maxi(limit, 0), rows.size()))
+
+func build_year_scene_choices(year_index: int) -> Array:
+	var choices: Array = []
+	for row in get_year_scene_candidates(year_index, 4):
+		var title := str(row.get("title", row.get("id", "")))
+		choices.append({
+			"text": LocaleManager.ui("「%s」", "“%s”") % title,
+			"effects": {},
+			"year_scene": {"year": year_index, "scene_id": str(row.get("id", ""))},
+			"result_text": LocaleManager.ui(
+				"그 해를 접으면, 「%s」이 가장 먼저 남았다." % title,
+				"When that year folded shut, “%s” was the scene that remained." % title),
+		})
+	return choices
+
+func record_year_scene(year_index: int, scene_id: String) -> bool:
+	if year_index < 1 or year_index > 5 or scene_id.is_empty():
+		return false
+	for row in get_year_scene_candidates(year_index, 4):
+		if str(row.get("id", "")) == scene_id:
+			year_scenes["year_scene_%d" % year_index] = scene_id
+			stats_changed.emit()
+			return true
+	return false
+
+func get_year_scene_selection(year_index: int) -> String:
+	return str(year_scenes.get("year_scene_%d" % clampi(year_index, 1, 5), ""))
+
+func get_selected_year_scenes() -> Array:
+	var selected: Array = []
+	for year_index in range(1, 6):
+		var scene_id := get_year_scene_selection(year_index)
+		if scene_id.is_empty():
+			continue
+		var event: Dictionary = DataRegistry.find_event(scene_id)
+		selected.append({
+			"year": year_index,
+			"id": scene_id,
+			"title": str(event.get("title", scene_id)),
+		})
+	return selected
 
 # ── 성향(직장/투자/창업) — 플레이로 누적, 임계점에서 '자각' ──────────
 # 죽은 트레이트 시스템을 대체: 선택이 아니라 행동이 정체성을 만든다.
@@ -317,6 +437,8 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	recent_action_places = []
 	contact_counts = {}
 	last_contact_turn = {}
+	run_seen_scenes_by_year = {}
+	year_scenes = {}
 	tendency ={"career": 0, "invest": 0, "found": 0}
 	tendency_realized = ""
 	market_context = {
@@ -800,6 +922,10 @@ func apply_choice(event, choice):
 	# 이사 전 유물 비트 — 선택 결과와 원래 요청한 주거 상승을 한 원자적 장면으로 마친다.
 	if choice.has("housing_keepsake"):
 		resolve_housing_keepsake(str(choice["housing_keepsake"]))
+	# 연말 큐레이션은 수치 효과 없이, 플레이어가 고른 실제 장면 ID만 런 기록에 남긴다.
+	var year_scene: Variant = choice.get("year_scene", null)
+	if year_scene is Dictionary:
+		record_year_scene(int(year_scene.get("year", 0)), str(year_scene.get("scene_id", "")))
 	# 선택지가 직접 성향 포인트를 줄 수도 있다: "tendency": {"invest": 2}
 	for tk in choice.get("tendency", {}):
 		add_tendency(str(tk), int(choice["tendency"][tk]))
@@ -1833,6 +1959,8 @@ func serialize():
 		"recent_action_places": recent_action_places,
 		"contact_counts": contact_counts,
 		"last_contact_turn": last_contact_turn,
+		"run_seen_scenes_by_year": run_seen_scenes_by_year,
+		"year_scenes": year_scenes,
 		"tendency": tendency,
 		"tendency_realized": tendency_realized,
 		"month_focus": month_focus,
@@ -1903,6 +2031,10 @@ func load_from_dict(data):
 		action_places_this_week = {}
 	if not data.has("recent_action_places") or typeof(recent_action_places) != TYPE_ARRAY:
 		recent_action_places = []
+	if not data.has("run_seen_scenes_by_year") or typeof(run_seen_scenes_by_year) != TYPE_DICTIONARY:
+		run_seen_scenes_by_year = {}
+	if not data.has("year_scenes") or typeof(year_scenes) != TYPE_DICTIONARY:
+		year_scenes = {}
 	# 구버전 세이브 호환 — 몽타주 루틴
 	if typeof(week_routine) != TYPE_ARRAY:
 		week_routine = []

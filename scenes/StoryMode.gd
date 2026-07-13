@@ -83,6 +83,11 @@ var _auto_mode: bool = false
 var _auto_wait: float = -1.0
 var _auto_button_signature: String = ""
 var _name_panel_visible_before_choices: bool = false
+var _choice_countdown_timer: Timer = null
+var _choice_countdown_bar: ProgressBar = null
+var _choice_countdown_label: Label = null
+var _choice_countdown_deadline_msec: int = 0
+var _choice_countdown_default_index: int = 0
 
 var _font: FontFile
 var _font_bold: FontFile
@@ -769,6 +774,7 @@ func _apply_font(lbl: Label, bold: bool = false):
 
 # ── 이벤트 로딩 ───────────────────────────────────────────────
 func _load_next_event():
+	_stop_story_choice_countdown()
 	if _queue.is_empty():
 		_finish_all()
 		return
@@ -779,6 +785,15 @@ func _load_next_event():
 		return
 	if not _read_only_replay:
 		MetaProgression.record_scene_seen(event_id)
+		GameState.record_run_scene_seen(event_id)
+	var curation_year := int(_current.get("year_scene_year", 0))
+	if curation_year > 0:
+		_current = _current.duplicate(true)
+		var curation_choices := GameState.build_year_scene_choices(curation_year)
+		if curation_choices.size() < 3:
+			_load_next_event()
+			return
+		_current["choices"] = curation_choices
 	EventManager.current_event = _current
 	_render_current()
 
@@ -1679,6 +1694,7 @@ func _choice_effect_preview(choice: Dictionary) -> String:
 	return "  ".join(parts)
 
 func _show_choices():
+	_stop_story_choice_countdown()
 	_clear_result_record_card()
 	var choices: Array = _current.get("choices", [])
 	if choices.is_empty():
@@ -1720,6 +1736,75 @@ func _show_choices():
 		var first_group = _choice_box.get_child(0)
 		if first_group.get_child_count() > 0:
 			first_group.get_child(0).grab_focus()
+	if bool(_current.get("timed", false)) and not _read_only_replay:
+		_start_story_choice_countdown(
+			maxi(1, int(_current.get("timer_seconds", 12))),
+			int(_current.get("timer_default_choice", 0)))
+
+func _start_story_choice_countdown(seconds: int, default_index: int) -> void:
+	var visible := _visible_choice_indices(_current)
+	if visible.is_empty():
+		return
+	_choice_countdown_default_index = default_index if visible.has(default_index) else int(visible[0])
+	_choice_countdown_deadline_msec = Time.get_ticks_msec() + seconds * 1000
+
+	var timer_row := HBoxContainer.new()
+	timer_row.name = "StoryChoiceCountdown"
+	timer_row.add_theme_constant_override("separation", 10)
+	timer_row.custom_minimum_size = Vector2(0, 28)
+	_choice_box.add_child(timer_row)
+
+	_choice_countdown_bar = ProgressBar.new()
+	_choice_countdown_bar.name = "CountdownBar"
+	_choice_countdown_bar.max_value = float(seconds)
+	_choice_countdown_bar.value = float(seconds)
+	_choice_countdown_bar.show_percentage = false
+	_choice_countdown_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_choice_countdown_bar.custom_minimum_size = Vector2(0, 8)
+	timer_row.add_child(_choice_countdown_bar)
+
+	_choice_countdown_label = Label.new()
+	_choice_countdown_label.name = "CountdownLabel"
+	_choice_countdown_label.text = _tr("남은 시간  %d", "TIME LEFT  %d") % seconds
+	_choice_countdown_label.custom_minimum_size = Vector2(132, 0)
+	_choice_countdown_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_choice_countdown_label.add_theme_font_size_override("font_size", 13)
+	_choice_countdown_label.add_theme_color_override("font_color", Color("#c7ccd4"))
+	if _font_bold:
+		_choice_countdown_label.add_theme_font_override("font", _font_bold)
+	timer_row.add_child(_choice_countdown_label)
+
+	_choice_countdown_timer = Timer.new()
+	_choice_countdown_timer.wait_time = 0.05
+	_choice_countdown_timer.autostart = true
+	add_child(_choice_countdown_timer)
+	_choice_countdown_timer.timeout.connect(_tick_story_choice_countdown)
+
+func _tick_story_choice_countdown() -> void:
+	if not _showing_choices or _transitioning:
+		_stop_story_choice_countdown()
+		return
+	var remaining := maxf(0.0, float(_choice_countdown_deadline_msec - Time.get_ticks_msec()) / 1000.0)
+	if is_instance_valid(_choice_countdown_bar):
+		_choice_countdown_bar.value = remaining
+	if is_instance_valid(_choice_countdown_label):
+		var seconds_left := maxi(0, ceili(remaining))
+		_choice_countdown_label.text = _tr("남은 시간  %d", "TIME LEFT  %d") % seconds_left
+		if seconds_left <= 3:
+			_choice_countdown_label.add_theme_color_override("font_color", Color("#ef9a9a"))
+	if remaining <= 0.0:
+		var default_index := _choice_countdown_default_index
+		_stop_story_choice_countdown()
+		_on_choice(default_index)
+
+func _stop_story_choice_countdown() -> void:
+	if is_instance_valid(_choice_countdown_timer):
+		_choice_countdown_timer.stop()
+		_choice_countdown_timer.queue_free()
+	_choice_countdown_timer = null
+	_choice_countdown_bar = null
+	_choice_countdown_label = null
+	_choice_countdown_deadline_msec = 0
 
 ## 선택지 노출 게이트 — requires_item 보유 시에만 표시(유물 제시 메커니즘).
 ## 향후 requires_flag/requires_not_flag 확장 여지. 없으면 항상 표시.
@@ -1833,6 +1918,7 @@ func _on_choice(idx: int):
 	var choices: Array = _current.get("choices", [])
 	if idx < 0 or idx >= choices.size():
 		return
+	_stop_story_choice_countdown()
 	var choice: Dictionary = choices[idx]
 	AudioManager.play("choice_made")
 	AudioManager.pulse_gamepad(0.035, 0.070, 0.055)
@@ -2318,6 +2404,7 @@ func _finish_all():
 	if _transitioning:
 		return
 	_transitioning = true
+	_stop_story_choice_countdown()
 	EventManager.current_event = {}
 	_reset_scene_direction()
 	BGMPlayer.update_idle_ambience()
@@ -2332,6 +2419,7 @@ func _finish_all():
 	SceneTransition.go(ret)
 
 func _exit_tree() -> void:
+	_stop_story_choice_countdown()
 	GameState.story_replay_mode = false
 	BGMPlayer.restore_ambience()
 
