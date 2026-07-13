@@ -1695,10 +1695,8 @@ func _show_choices():
 	# 유물 제시(역전재판식): requires_item 게이팅 — 보유한 유물만 선택지로 노출.
 	# 표시 번호는 순차, 바인딩은 원래 인덱스 유지(_on_choice가 choices[idx]를 씀).
 	var display_n := 0
-	for i in range(choices.size()):
+	for i in _visible_choice_indices(_current):
 		var ch: Dictionary = choices[i]
-		if not _choice_visible(ch):
-			continue
 		display_n += 1
 		# 버튼+미리보기를 묶어 그룹 컨테이너에 넣기
 		var group := VBoxContainer.new()
@@ -1730,6 +1728,20 @@ func _choice_visible(ch: Dictionary) -> bool:
 	if need_item != "" and not GameState.has_item(need_item):
 		return false
 	return true
+
+## 원본 선택지 인덱스를 유지한 채 현재 플레이어에게 보이는 선택지만 반환한다.
+## UI와 히든 경로 QA가 이 함수를 공유해, 표시 번호와 실제 선택 배선이 갈라지지 않게 한다.
+func _visible_choice_indices(event: Dictionary) -> Array[int]:
+	var visible: Array[int] = []
+	var choices: Array = event.get("choices", [])
+	for i in range(choices.size()):
+		var choice: Dictionary = choices[i]
+		if _choice_visible(choice):
+			visible.append(i)
+	return visible
+
+func _choice_follow_up_id(choice: Dictionary) -> String:
+	return str(choice.get("follow_up_event", ""))
 
 func _make_choice_button(text: String, idx: int, display_num: int = -1) -> Button:
 	var btn = Button.new()
@@ -1828,7 +1840,7 @@ func _on_choice(idx: int):
 	_pulse_story_choice_commit()
 
 	# follow_up_event를 직접 읽어 큐에 이어붙임 (StoryMode는 자체 큐 사용)
-	_pending_follow_up = str(choice.get("follow_up_event", ""))
+	_pending_follow_up = _choice_follow_up_id(choice)
 	var result: String = _fmt(str(choice.get("result_text", "")))
 	var has_result_record: bool = not _read_only_replay \
 		and result != "" and _story_choice_has_visible_result(choice)

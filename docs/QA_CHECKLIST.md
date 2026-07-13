@@ -83,6 +83,12 @@ Automated onboarding gates:
 - `first_session_pacing_audit.py` caps the authored prologue at eight chained scenes/eight AUTO confirmations, requires a meaningful choice by scene three, checks KO/EN choice parity, and rejects placeholder-only choices or oversized text-panel paragraphs.
 - Demo ending ScreenshotQA fails when the record requires vertical scrolling; the wishlist, restart, and main-menu actions must remain in the first 1280×800 viewport in both languages.
 
+Automated artifact and hidden-feature gates:
+
+- `AchievementPathCheck.tscn` must keep the achievement catalog, English dictionary, ending unlock labels, and all fifteen executable unlock paths identical while restoring the player's exact pre-check meta file.
+- `HiddenFeatureCheck.tscn` must expose exactly two base choices without each route artifact and the original third choice with it in Korean and English. It must execute Jaehyuk's photo follow-up, Jiyeon's `jiyeon_man` DIK route, Daeun's non-divorce post-it route, four dawn lines plus the fifth deepest line, the post-credits drawer cut and achievement, and all six localized keepsake names in the ending ledger.
+- `tools/audit.sh` must print `HIDDEN_FEATURE_CHECK_OK artifact_choices=3 follow_up=1 jiyeon_dik=1 daeun_route=1 dawn=5 drawer=1 keepsakes=6`. A catalog-only or JSON-only check is not sufficient.
+
 Automated audio gates:
 
 - `audio_source_audit.py` must assign every shippable WAV/OGG to exactly one reproducible source script; no missing, stale, duplicate, or undocumented audio may ship.

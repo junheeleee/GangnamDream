@@ -9319,8 +9319,12 @@ func _ap_give_gift(pid: String, gid: String) -> void:
 ## ── 히든: 새벽의 사람들 (ROMANCE_SYSTEM 7-H ① — 실제 OS 시계 새벽 0~5시) ──
 ## 야간 노동자의 시간을 플레이어가 실제로 살고 있을 때만 열리는 다은의 층위. 발동 전 힌트 0.
 ## 로컬 시간 기준(그녀의 새벽 = 플레이어의 새벽). 시계를 돌려 찾아오는 것도 이 히든의 문법이다.
+var _qa_real_dawn_hour_override := -1
+
 func _is_real_dawn() -> bool:
-	var h: int = int(Time.get_time_dict_from_system().get("hour", 12))
+	var h: int = _qa_real_dawn_hour_override
+	if h < 0:
+		h = int(Time.get_time_dict_from_system().get("hour", 12))
 	return h <= 5
 
 func _bump_daeun_dawn() -> int:
@@ -12402,13 +12406,7 @@ func _show_ending(ending_id):
 	# ── 드라마틱 한 줄 요약 ──
 	modal_body.add_child(_wrap_label(_quote_ui(_ending_run_summary(ending_id)), 15, _moral_hex(_moral_text_accent(Color("#c8a060"), 0.04))))
 	# ── 엔딩 설명 ── (지식 반응형: 같은 결말도 어떻게 거기 닿았는지 알면 다르게 읽힌다)
-	var ending_desc := str(ending.get("description", ""))
-	var ending_know = ending.get("description_if_known", null)
-	if ending_know is Dictionary:
-		for fl in ending_know.keys():
-			if GameState.flags.get(str(fl), false):
-				ending_desc = str(ending_know[fl])
-				break
+	var ending_desc := _resolved_ending_description(ending)
 	modal_body.add_child(_wrap_label(_fmt(ending_desc), 13, _moral_hex(_moral_text_accent(Color("#6a7486")))))
 	# ── 인연 에필로그 — 같은 결말이라도 곁에 누가 있었는지가 다르다 ──
 	_ending_cast_epilogue(modal_body, ending_id)
@@ -12480,12 +12478,26 @@ func _show_ending(ending_id):
 ## 조건: 지연과 결혼 + 그녀가 떠나지 않음 + 아버지 기록의 진실을 끝내 말하지 않음.
 ## 엔딩 화면을 닫는 순간 — 암전, 무음, 한 컷. 발동 전 UI 흔적 0(도감 힌트에도 없음).
 var _drawer_truth_shown := false
+var _drawer_truth_tween: Tween
+
+func _resolved_ending_description(ending: Dictionary) -> String:
+	var ending_desc := str(ending.get("description", ""))
+	var ending_know = ending.get("description_if_known", null)
+	if ending_know is Dictionary:
+		for flag_id in ending_know.keys():
+			if GameState.flags.get(str(flag_id), false):
+				return str(ending_know[flag_id])
+	return ending_desc
+
+func _should_show_drawer_truth() -> bool:
+	var flags := GameState.flags
+	return flags.get("arc_jiyeon_wedding_gap_seen", false) \
+		and not flags.get("jiyeon_left", false) \
+		and not flags.get("told_jiyeon_about_records", false) \
+		and not _drawer_truth_shown
 
 func _after_ending_exit(next_action: Callable) -> void:
-	var f = GameState.flags
-	if f.get("arc_jiyeon_wedding_gap_seen", false) and not f.get("jiyeon_left", false) \
-			and not f.get("told_jiyeon_about_records", false) \
-			and not _drawer_truth_shown:
+	if _should_show_drawer_truth():
 		_drawer_truth_shown = true
 		_play_drawer_truth_cut(next_action)
 		return
@@ -12515,17 +12527,18 @@ func _play_drawer_truth_cut(next_action: Callable) -> void:
 	text.set_anchors_preset(Control.PRESET_FULL_RECT)
 	text.modulate = Color(1, 1, 1, 0)
 	black.add_child(text)
-	var tw := create_tween()
-	tw.tween_property(black, "color:a", 1.0, 0.6)           # 암전
-	tw.tween_interval(3.0)                                   # 3초의 정적
-	tw.tween_property(text, "modulate:a", 1.0, 1.4)          # 무음의 한 컷
-	tw.tween_interval(3.4)
-	tw.tween_property(text, "modulate:a", 0.0, 1.0)
-	tw.tween_interval(0.6)
-	tw.tween_callback(func():
+	_drawer_truth_tween = create_tween()
+	_drawer_truth_tween.tween_property(black, "color:a", 1.0, 0.6)           # 암전
+	_drawer_truth_tween.tween_interval(3.0)                                   # 3초의 정적
+	_drawer_truth_tween.tween_property(text, "modulate:a", 1.0, 1.4)          # 무음의 한 컷
+	_drawer_truth_tween.tween_interval(3.4)
+	_drawer_truth_tween.tween_property(text, "modulate:a", 0.0, 1.0)
+	_drawer_truth_tween.tween_interval(0.6)
+	_drawer_truth_tween.tween_callback(func():
 		_unlock_drawer_truth_achievement()
 		layer.queue_free()
-		next_action.call())
+		next_action.call()
+		_drawer_truth_tween = null)
 
 func _unlock_drawer_truth_achievement() -> void:
 	MetaProgression.unlock_achievement("drawer_truth")
@@ -12939,6 +12952,17 @@ func _ending_time_ledger(parent: Control, ending_id: String, ending: Dictionary)
 	var grade: String = str(ending.get("grade", "?"))
 	parent.add_child(_build_time_ledger_card(title, grade, false))
 
+func _kept_artifact_names() -> PackedStringArray:
+	var kept_names := PackedStringArray()
+	for owned in GameState.inventory:
+		var item_id := str(owned.get("id", ""))
+		if not item_id.begins_with("artifact_"):
+			continue
+		var item: Dictionary = DataRegistry.get_item(item_id)
+		if not item.is_empty():
+			kept_names.append(str(item.get("name", item_id)))
+	return kept_names
+
 func _build_time_ledger_card(record_title: String, grade: String, is_demo: bool) -> PanelContainer:
 	var palette: Dictionary = _moral_ui_palette()
 	var accent: Color = _moral_gray_accent(Color("#dce5ee"), palette, 0.05)
@@ -13045,14 +13069,7 @@ func _build_time_ledger_card(record_title: String, grade: String, is_demo: bool)
 		12, "#7f8997"))
 
 	# 간직한 것들 — 5년의 끝에 남은 유물 목록 (이야기 속에서 받은 물건들이 엔딩 스크린샷에 남는다)
-	var kept_names: PackedStringArray = PackedStringArray()
-	for owned in GameState.inventory:
-		var kid := str(owned.get("id", ""))
-		if not kid.begins_with("artifact_"):
-			continue
-		var kitem: Dictionary = DataRegistry.get_item(kid)
-		if not kitem.is_empty():
-			kept_names.append(str(kitem.get("name", kid)))
+	var kept_names: PackedStringArray = _kept_artifact_names()
 	if kept_names.size() > 0:
 		var kept_col := VBoxContainer.new()
 		kept_col.add_theme_constant_override("separation", 3)

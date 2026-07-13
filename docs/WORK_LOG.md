@@ -1,5 +1,20 @@
 # Gangnam Dream Work Log
 
+## 2026-07-13 (Codex — ORDER-06 유물 제시·히든 6경로 블랙박스 QA)
+
+### 실행 경로
+- StoryMode의 실제 선택지 렌더가 `_visible_choice_indices()`를 사용하게 해 유물 미보유 시 원본 0·1번만, 보유 시 원본 0·1·2번을 표시한다. 재혁 사진 선택의 `follow_up_event`도 실제 선택 처리와 QA가 같은 헬퍼를 쓴다.
+- 지연 첫 문자 선택은 `GameState.apply_choice()` 뒤 `jiyeon_stayed_as_selves`를 세우고 `check_game_over()`에서 `jiyeon_man`으로 끝난다. KO/EN 엔딩 모두 실제 렌더 헬퍼가 해당 `description_if_known` 문단을 고른다.
+- 다은 포스트잇 선택과 일반 거절을 각각 별도 런으로 실행했다. 둘 다 `with_daeun`으로 끝나며 포스트잇은 `daeun_divorced`·`crossed_line`을 만들지 않고 `presented_artifact_correct`만 추가한다.
+- QA 전용 새벽 시간 오버라이드로 다은 연락의 네 대사가 중복 없이 순환하고 다섯 번째에만 최심부 대사·`dawn_people` 업적이 열리는 것을 확인했다.
+- 실제 MainGame 표면에서 서랍 조건의 긍정/부정 분기를 확인하고, 암전 CanvasLayer와 컷 전체 Tween을 끝까지 진행해 `drawer_truth` 업적과 후속 콜백이 정확히 한 번 실행되는 것을 검증했다.
+- 엔딩 시간의 기록 카드는 KO/EN에서 보유 유물 여섯 이름과 `간직한 것들 / WHAT HE KEPT`를 실제 Control 트리 텍스트로 노출한다.
+
+### 영구 게이트·결과
+- `HiddenFeatureCheck.tscn`과 `tools/audit.sh` 게이트를 추가했다. 검사 전후 사용자 메타 파일은 원문 그대로 복원한다.
+- 결과: `HIDDEN_FEATURE_CHECK_OK artifact_choices=3 follow_up=1 jiyeon_dik=1 daeun_route=1 dawn=5 drawer=1 keepsakes=6`.
+- 전체 audit: 정적 ERROR 0/WARNING 0, write-only/inert 0, EN 한글 누출 0, 밸런스 1,200런 x 3정책, 오디오 64개, 업적 15종, 활성 CG 50장/배우 계약 86개, Godot GDScript 57개 컴파일 통과.
+
 ## 2026-07-13 (Codex — ORDER-05 업적 15종 전수 감사)
 
 ### 발견·수리
