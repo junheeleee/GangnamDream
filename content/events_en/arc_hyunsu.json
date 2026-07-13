@@ -2,93 +2,93 @@
   {
     "id": "hyunsu_study_together",
     "title": "The Guy Who Studies Too",
-    "description": "He ran into Hyunsu again in the shared kitchen.\n\nRamen again. 2 AM again.\n\n\"You prepping for something, too?\"\n\nFour years into the Grade 9 civil service exam. This year was his last shot, he said.\nHis face was exhausted but not surrendered.",
+    "description": "Two in the morning, the goshiwon's shared kitchen. {name} followed the sound of boiling water and found Hyunsu.\n\nAn exam book lay face-down next to the pot. Administrative law. Its corners were so worn the paper had gone soft as cloth.\n\n\"You prepping for something too, hyung?\"\n\nFour years into the Grade 9 civil service exam, he said. This year was his last shot. Even as he said it, he watched the noodles through their full three minutes. The posture of a man who has learned how to wait.\n\nHis face was tired, but it wasn't the face of someone who had given up.",
     "choices": [
       {
         "text": "Encourage him",
-        "result_text": "\"You'll get it this year.\"\n\nHyunsu smiled. A real one.\n\"You'll be fine too, hyung.\"\n\n{name} held onto that longer than expected."
+        "result_text": "\"You'll get it this year.\"\n\nThere was nothing to back it up. Hyunsu grinned anyway. A real one.\n\"You'll be fine too, hyung.\"\n\nBack in his room, lying down, {name} found the words stayed longer than expected. Two baseless sentences traded in a kitchen at dawn — and somehow they held."
       },
       {
         "text": "\"Four years is a long time\"",
-        "result_text": "\"Yeah. But quitting now feels like I'd regret it longer.\"\n\n{name} understood that.\n\nChoosing a different path versus staying on this one — you only know which was right later."
+        "result_text": "\"Yeah, it has.\" Hyunsu said it while setting the pot down. \"But quitting now feels like I'd regret it even longer.\"\n\n{name} understood that.\nChoosing a different path versus staying on this one — you only find out which was right later.\n\nWhile the broth went cold, the two of them quietly went on with their separate arithmetic."
       }
     ]
   },
   {
     "id": "hyunsu_exam_day",
     "title": "Exam Day",
-    "description": "Hyunsu left at 5 AM.\n\n{name} half-woke to the sound of the door, then closed his eyes again.\n\nToday was the exam. Grade 9 administrative track.",
+    "description": "Five in the morning — {name} half-woke to the sound of a door closing.\n\nFootsteps faded down the hall. Hyunsu. Today was the exam. Grade 9 administrative track — four years graded in a single day.\n\nHe closed his eyes again, and when they wouldn't stay closed, stared at the ceiling. Out in the shared kitchen, a single cup sat upturned at Hyunsu's spot. Washed and left to dry. A man who washes his cup even on the dawn he leaves for the exam.\n\nWhat kind of evening he would come home to — nobody knew yet.",
     "choices": [
       {
         "text": "Ask how it went later",
-        "result_text": "Hyunsu came back in the evening.\n\"How'd it go?\"\n\nHe paused before answering.\n\"I think it went okay. Maybe.\"\n\nMaybe. That one word carried a lot."
+        "result_text": "Hyunsu came back late in the evening. The sound of him taking off his shoes was slower than it had been that morning.\n\n\"How'd it go?\"\n\nHe paused before answering.\n\"I think it went okay. Maybe.\"\n\nMaybe. The most honest word available to a man who had bet four years. {name} didn't ask anything else and put water on for ramyeon. That night, {name} did the cooking."
       },
       {
         "text": "Say nothing — better not to press",
-        "result_text": "Hyunsu came back quietly.\n{name} caught his eye in the hallway and asked without words.\nHyunsu gave a small nod. A signal that said: I'm okay."
+        "result_text": "Hyunsu came back quietly in the evening. His door closed more slowly than usual.\n\nWhen they passed in the hallway, {name} asked with his eyes only. Hyunsu gave a small nod. Whether it signaled that he was okay, or that he wanted to be — there was no telling.\n\nThat night the light in Hyunsu's room stayed on late. The unofficial answer key would already be up online by then."
       }
     ]
   },
   {
     "id": "hyunsu_result_pass",
     "title": "Hyunsu Passed",
-    "description": "Hyunsu knocked on his door.\n\n\"Hyung, I passed.\"\n\nHe said it quietly. No shouting, no celebration.\nFour years of weight in his voice.",
+    "description": "Hyunsu knocked on his door. Two knocks, a long gap between them.\n\n\"Hyung, I passed.\"\n\nHe said it quietly. No shouting, no smile. His phone was still in his hand, the acceptance screen glowing, his fingertips pressed white against the glass.\n\nFour years. Every year he failed, he had turned one year older and opened the same workbook again — and all of that time was pressed into that one low voice.\n\n\"I wanted to tell you first, hyung.\"",
     "choices": [
       {
         "text": "Congratulate him",
-        "result_text": "\"Seriously? That's great.\"\n\nHyunsu smiled — the first real smile {name} had seen from him.\n\n{name} felt good about it. Like it was his own.\n\nWhen someone else's success feels like yours — that's what a real connection is."
+        "result_text": "\"Wait, seriously? For real?\"\n\n{name}'s voice got loud first. Only then did Hyunsu smile. A kind of smile {name} hadn't seen before — the kind that comes out when what's been held in finally gives way.\n\nHe clapped Hyunsu's shoulder awkwardly in the narrow hallway. The 2 AM ramyeon, the washed cup left to dry, the worn administrative law book. All of it had been leading to today.\n\n{name} felt good, as if it were his own.\nWhen someone else's success brings this much joy — maybe that's the sign of a real connection."
       }
     ]
   },
   {
     "id": "hyunsu_result_fail",
     "title": "Hyunsu Didn't Pass",
-    "description": "Hyunsu hadn't left his room in three days.\n\nNo sound of him eating.\n\n{name} stood at the door. Should he knock?",
+    "description": "Hyunsu hadn't come out of his room in three days.\n\nIt had been three days, too, since the sound of boiling ramyeon water had disappeared from the shared kitchen. Only light leaked from under his door. That it was on — that was all there was to go by.\n\n{name} stood in front of that door, a convenience store bag in hand. One wall away, four years had ended.\n\nShould he knock. He raised his hand, lowered it, raised it again.",
     "choices": [
       {
         "text": "Knock on the door",
-        "result_text": "After a long while, the door opened.\n\nHyunsu's eyes were swollen.\n\nHe didn't say much. {name} brought him two drinks from the convenience store.\nThat was enough. Sometimes that's everything."
+        "result_text": "After a long while, the door opened.\n\nHyunsu's eyes were swollen. On the floor, a workbook lay open where it had fallen — as if he hadn't had the strength to close it.\n\nNeither of them said much. {name} took two drinks out of the bag and held one out. Hyunsu took it. The sound of the can opening rang strangely loud in the small room.\n\nThat was enough. Sometimes that's everything."
       },
       {
         "text": "Leave him be — he probably wants to be alone",
-        "result_text": "On the fourth day, Hyunsu came out.\n\nWashed his face without a word.\nHis eyes met {name}'s. Hyunsu gave a small nod.\n\nWhether it meant he was okay, or that he still didn't know — hard to say."
+        "result_text": "On the fourth day, Hyunsu came out.\n\nWithout a word, he washed his face at the sink for a long time. The water stopped, and there was the stillness of someone standing in front of the mirror a moment.\n\nHis eyes met {name}'s in the hallway. Hyunsu gave a small nod.\n\nWhether it meant he was okay, or that he still didn't know — {name} chose not to ask. Believing that this, too, was one way of staying near."
       }
     ]
   },
   {
     "id": "hyunsu_pivot",
     "title": "Hyunsu's New Direction",
-    "description": "Hyunsu said he was moving out.\n\nHe was quitting the Grade 9 civil service exam to prepare for a job.\nHis major had been accounting. He'd try working his way back into accounting.\n\n\"It's not farther, and it's not closer. It's just a different road.\"\n\n{name} turned those words over for a long time.",
+    "description": "Hyunsu stopped mid-packing and called {name} over.\n\nHe was done with the civil service exam, he said. He'd prepare for a job instead. His major had been accounting; he'd start over on that road.\n\nInside the box, four years of exam books were stacked in neat rows. He wasn't throwing them out — he was packing them. \"If I sell them used, the next person can use them.\" One by one, Hyunsu laid the worn-cornered books in straight.\n\n\"It's not farther, and it's not closer. It's just a different road.\"\n\n{name} turned those words over for a long time. It was a sentence you could hold up against your own road, too.",
     "choices": [
       {
         "text": "Tell him it'll work out",
-        "result_text": "\"You'll do great.\"\n\nHyunsu smiled. A firmer smile this time.\n\nChoosing a different road and giving up are not the same thing.\n{name} learned that from Hyunsu."
+        "result_text": "\"You'll do great.\"\n\nHyunsu smiled. A firmer smile this time. Not the face of a man folding up four years — the face of a man starting something.\n\nThe last thing into the box was the calendar, the exam date still circled on it. Hyunsu didn't throw that away.\n\nChoosing a different road and giving up are not the same thing.\n{name} learned that from Hyunsu."
       }
     ]
   },
   {
     "id": "hyunsu_reunion_later",
     "title": "Running Into Hyunsu Again",
-    "description": "A KakaoTalk message. It was Hyunsu.\n\n\"Hyung, I got hired at an accounting firm.\"\n\nA photo came through. A suit. A business card.\n\n{name} looked at the photo for a long while.",
+    "description": "A KakaoTalk message. It was Hyunsu.\n\n\"Hyung, I got hired at an accounting firm.\"\n\nA photo followed. Hyunsu in a suit, holding up a business card. An awkward angle, an awkward smile — clearly a photo someone else had made him take. The card looked stiff and new, not a single crease in it.\n\n{name} looked at the photo for a long while. The face that used to wait for ramyeon to cook in the goshiwon kitchen was still there, above the unfamiliar suit.\n\nFour years of failing, folding, starting over — that was the face that had come all this way.",
     "choices": [
       {
         "text": "Send a message of congratulations",
-        "result_text": "\"Wait, for real? That's amazing!!\"\n\n\"It's thanks to you, hyung. For knocking on my door back then.\"\n\n{name} set the phone down.\n\nFive years in Seoul. Some days, a message like this arrives."
+        "result_text": "\"Wait, for real? That's amazing!!\"\n\nThe reply came right away.\n\"It's thanks to you, hyung. For knocking on my door back then.\"\n\n{name} set the phone down. All he'd done was bring over two drinks — and someone had carried that all this time.\n\nFive years in Seoul. Some days, a message like this arrives. A kind of deposit that never shows up in the account."
       }
     ]
   },
   {
     "id": "hyunsu_pass_news",
     "title": "Hyunsu's Posting",
-    "description": "Hyunsu was packing boxes.\n\n\"Hyung, I got my posting. I have to go next week.\"\n\nSome county office in Gyeonggi-do. After four years, he was leaving the goshiwon.\n\nTwo boxes. Exam prep books. A calendar.\nAll that time in this room fit into two boxes.",
+    "description": "Hyunsu was packing boxes.\n\n\"Hyung, I got my posting. I have to go next week.\"\n\nSome county office in Gyeonggi-do. Four years living in this room, and it came to two boxes. One box of exam books, one box of everything else. The calendar sat on top — the circle drawn around the exam date still sharp.\n\nWith his door propped open, Hyunsu tore off a strip of tape. The rasp of it carried down the hall.\n\nFour years in this room, packed into two boxes. Whatever didn't fit — that probably goes with him, written into the body.",
     "choices": [
       {
         "text": "Buy him dinner",
-        "result_text": "A nearby sundae gukbap place. Hyunsu ate a lot.\n\n\"When are you getting out of here, hyung?\"\n\"...Not sure yet.\"\n\nHyunsu just smiled. That smile stayed with {name} a while.\nSame starting line — and one of them had crossed it first."
+        "result_text": "A sundae gukbap place nearby. Hyunsu ate a lot. The meal of a man with no exam tomorrow.\n\n\"When are you getting out of here, hyung?\"\n\"...Not sure yet.\"\n\nInstead of answering further, {name} pushed the dish of radish kimchi toward him. Hyunsu didn't press; he just smiled. That smile stayed a long time.\n\nSame starting line — and one of them had left first. Picking up the bill, {name} thought: strangely, he didn't begrudge this money at all."
       },
       {
         "text": "Tell him it's great news. Say goodbye.",
-        "result_text": "\"Good for you. Take care of yourself out there.\"\n\"Thank you, hyung.\"\n\nThe room was empty the next day.\nThe shared kitchen — one ramyeon pot missing —\nlooked, somehow, bigger than before."
+        "result_text": "\"Good for you. Take care of yourself out there.\"\n\"Thank you, hyung.\"\n\nNo handshake, no hug. The goshiwon hallway was too narrow for that, and the two of them too unpracticed at it.\n\nThe room was empty the next day. The shared kitchen, one ramyeon pot missing, looked strangely bigger than before.\n\nFor a few days, the absence of boiling water at two in the morning felt wrong."
       }
     ]
   },
@@ -113,20 +113,20 @@
   {
     "id": "hyunsu_year5_call",
     "title": "A Call at the End of Five Years",
-    "description": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever. How are you?\"\n\nOn screen Hyunsu looked at ease. The face of someone settled into his own life.\n\n{name} looked at his own face reflected in the camera. Five years were in it.",
+    "description": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever. How are you?\"\n\nBehind Hyunsu on the screen were office fluorescents and stacks of paperwork. Working late, apparently, but his face was at ease. The face of someone settled into his own life. When somebody called him mid-conversation, even his \"Yes, one minute\" carried no strain at all.\n\n{name} looked at his own face in the corner of the screen. Five years were in it.\n\nHe decided not to measure who had come farther. They had never been walking the same map.",
     "description_if_known": {
-      "crossed_line": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever. How are you?\"\n\nHyunsu was smiling, glad to see him, but {name} found it strangely hard to look straight at the screen.\n\nThe guy he'd eaten cup ramyeon with five years ago — what would he say if he saw who {name} was now? The thought passed through, briefly.",
-      "father_passed": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever, how have you—\"\n\nHyunsu started to ask after {name}'s father, then stopped. He seemed to catch something in {name}'s expression.\n\n\"...Hyung, make sure you eat.\" That was all he said.",
-      "called_hyunsu_first": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever. How are you?\"\n\nOn screen Hyunsu looked at ease. The face of someone settled into his own life.\n\n{name} looked at his own face reflected in the camera. Five years were in it.\n\nA number he had once dialed first, for no reason at all.\nSince that day, this call has never once felt awkward."
+      "crossed_line": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever. How are you?\"\n\nHyunsu was smiling, glad to see him, but {name} found it strangely hard to look straight at the screen. His eyes kept drifting to his own face in the corner.\n\nThe guy he'd shared cup ramyeon with in that dawn kitchen five years ago — what would he say if he saw who {name} was now?\n\n\"Hyung? Can you not hear me?\"\n\"No — no, I hear you.\"\n\nHe heard him fine. That was the problem — he heard him too well.",
+      "father_passed": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever. How's your father—\"\n\nHyunsu stopped. Apparently some things carry even across a screen. {name} hadn't said a word, and Hyunsu didn't ask.\n\nA short silence passed. Not the silence of choosing words of comfort — the silence of deciding not to.\n\n\"...Hyung, make sure you eat.\"\n\nThat was all he said. It stayed longer than anything else {name} heard that day.",
+      "called_hyunsu_first": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever. How are you?\"\n\nBehind Hyunsu on the screen were office fluorescents and stacks of paperwork. Working late, apparently, but his face was at ease. The face of someone settled into his own life.\n\n{name} looked at his own face in the corner of the screen. Five years were in it.\n\nA number he had once dialed first, for no reason at all. To have one number you can call without needing a reason — since that day, this call has never once felt awkward."
     },
     "choices": [
       {
         "text": "Say it for real — \"I made it because of you\"",
-        "result_text": "\"What are you talking about, hyung, you did all of it.\"\n\nHe hadn't. It was because someone held on in the same goshiwon that he didn't quit halfway. He never quite got the whole thing out."
+        "result_text": "\"What are you talking about, hyung, you did all of it.\"\n\nHe hadn't. It was because someone had held on beside him in that 2 AM kitchen that he didn't fold halfway. Enduring alone and enduring with someone in the next room are different things.\n\nHe never quite got the whole thing out. Only after hanging up did the unsaid part linger in the room, a long while."
       },
       {
         "text": "\"I'll have good news soon\" — hang up with a smile",
-        "result_text": "\"I'll be waiting, hyung!\"\n\nHe ended the call. When the screen went dark the room went quiet. Soon. Really, soon."
+        "result_text": "\"I'll be waiting, hyung!\"\n\nHe ended the call. When the screen went dark, the room grew one shade quieter.\n\nSoon. Really, soon. {name} sat back down at the desk. For a moment, the face reflected in the darkened screen looked like the one from that kitchen, five years ago."
       }
     ]
   }
