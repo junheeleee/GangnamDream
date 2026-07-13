@@ -160,7 +160,7 @@ Claude 컨테이너가 Godot 바이너리를 잃어(2026-07-13) 최근 Claude �
 
 **완료 보고 (2026-07-13 Codex):** `ImageRegistry`에서 파생한 활성 이미지 179장(CG 50/초상 54/배경 75)을 콘택트시트 22장과 원본 해상도로 전수 판정해 `FAIL 0 / PENDING 0`을 확정했다. 키 비주얼 10컷은 손·시선·동일 인물·공간·크롭을 강화 판정했고, 비현실적인 6면 모니터 코인 폐인 엔딩은 정본 고시원·휴대폰 1대·노트북 1대로 교체했다. 배경이 구워진 50대 민준과 죽은 박재원 등록을 활성 표면에서 제거했다. KR/EN Steam AI 공시, 비유도 플레이테스트 문항, 활성 경로/초상 알파/중복/판정표 자동 게이트를 추가했으며 영문 엔딩 렌더와 전체 audit를 통과했다.
 
-#### [ ] ORDER-20 [P1·수리] 엔딩 감사 판정 집행 — 사실 정렬 6건
+#### [~] ORDER-20 [P1·수리] 엔딩 감사 판정 집행 — 사실 정렬 6건 — 착수: 한영 본문 사실 교정+상위 4 결산 심벌+회귀 게이트 — 만지는 파일: `content/endings.json`, `content/endings_en.json`, `scenes/MainGame.gd`, `assets/ui/ending_symbols/**`, `tools/ending_distinctness_audit.py`, `tools/ScreenshotQA.gd`, `docs/ENDING_AUDIT.md`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`
 `docs/ENDING_AUDIT.md`의 "Claude 판정(2026-07-13)" 그대로: ①jiyeon_man 첫 문장("한지연의 강남에" 결) ②second_love 10억 현실화 ③gangnam_dream에 startup_exit 경로 dik 1종(KR+EN, 라우팅 불변) ④retirement 2종 미래 전망 프레임 ⑤orthodox_pinnacle 숫자 정렬 ⑥무드 카드 12종 → 전용 결산 카드 심벌(빈도순: ordinary_life→burnout→mental_break→stable_success 우선). 전부 라우팅 불변 — ending_distinctness_audit 게이트 통과 확인.
 
 #### [ ] ORDER-21 [P1] 일본어 번역 웨이브 (착수 조건: ORDER-12 인프라 완료 — 콘텐츠 동결로 해금됨)
