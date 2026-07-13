@@ -2,45 +2,45 @@
   {
     "id": "arc_spec_career",
     "title": "What Kind of Professional Will You Be?",
-    "description": "After about a year on the job — things have started to come into focus.\n\nThere were two ways to move up in this company.\nProve your worth in numbers.\nOr rise through people.\n\nThere were people who knew both paths.\n{name} thought today about which one to take.",
+    "description": "After a year on the job, the office's invisible paths began to show. Reports built through overtime reached executive meetings when their numbers held up. People whose names came up over dinner were invited to the next project first.\n\nOn {name}'s desk, a performance report lay beside a dinner invitation from his team lead. Both offered a way upward: make the result impossible to dispute, or win over the people who would speak for it.\n\nHe could not spend every evening on both. Beneath the fluorescent lights, he had to choose which skill would carry his name first.",
     "choices": [
       {
         "text": "Prove it with results — because numbers don't lie  [Elite Track]",
-        "result_text": "{name} reopened the report.\nAt a desk everyone else had already left, he polished the numbers.\nThis way is lonely. But the results are hard to argue with.\nThat's what {name} decided to lean on."
+        "result_text": "{name} politely declined the dinner and reopened the report. In the empty office, he standardized the tables and kept the figures that contradicted his own argument.\n\nAs dawn approached, the screen grew simpler. He wanted a document whose conclusion would survive no matter who presented it.\n\nAfter he sent the email, the office fell quiet again. This road demanded long hours of proving himself alone. In return, the numbers could eventually speak in his place."
       },
       {
         "text": "Rise through people — because in this world, it always comes back to people  [Social Climber]",
-        "result_text": "{name} bought his team lead lunch first.\nHe became the person who picks up the phone before the calculator does.\nThere are things numbers alone can't cover —\nhe was starting to learn that in his gut."
+        "result_text": "{name} saved the report and went to dinner. He remembered his team lead's preferred menu and asked the quietest colleague a question first. The following week, someone from another department called him directly.\n\nThe work had not disappeared. What changed was who saw it and who brought up his name when opportunities were assigned.\n\nAs his contact list grew, calls came sooner. Reading people required labor every bit as precise as reading numbers."
       }
     ]
   },
   {
     "id": "arc_spec_invest",
     "title": "How Will You Make Money Work for You?",
-    "description": "After a few wins and a few losses — a style of his own had started to form.\n\nSome investors believe in spreadsheets.\nExpected value, standard deviation, correlation.\nPeople who wield the emotionlessness of numbers as a weapon.\n\nSome investors believe in instinct.\nPeople who look for when the market is wrong — and bet big.\n\nWhich way fits {name}?",
+    "description": "Profits and losses had begun to alternate through {name}'s trading history. Even with the same asset, he noticed that his reasons for entering and exiting kept changing.\n\nIf he remembered every lucky day as skill, the next loss would only grow.\n\nOne page of his notebook held expected value, volatility, and correlation. Another recorded moments that had felt wrong before he could explain them in numbers.\n\nShould he remove the market's emotion, or stake more when his own conviction said the market was wrong?\n\nBoth methods carried profit and cost. It was time to choose a rule instead of another accident.",
     "choices": [
       {
         "text": "Fight with data and probability — stripping out emotion is the edge  [Quant]",
-        "result_text": "From that day on, {name} started building spreadsheets.\nEvery position, laid out in numbers.\nHe was wrong sometimes. But he didn't get shaken.\nThat was the power of this approach."
+        "result_text": "{name} built a sheet that required an entry condition and stop-loss rule before every position. Even an asset he loved stayed locked unless its figures cleared the threshold.\n\nHis forecasts were still wrong some days. The difference was that he no longer had to invent a new reason after the loss.\n\nWhen he saved the final formula, the cells aligned into clean rows. He could not remove emotion, but he could change whether emotion reached the order button first."
       },
       {
         "text": "When conviction comes, bet big — being timid kills compounding  [Speculator]",
-        "result_text": "{name} put in twice as much as usual on a single position.\nIf he was wrong, it was over.\nHe was right.\nAfter that day, {name} decided to trust this instinct."
+        "result_text": "{name} wrote down three conditions that would justify conviction. Other people's fear alone was not enough. He would size up only when the information read differently to him and he could see the line he could afford to lose.\n\nWhen the next opportunity came, he doubled the order, then waited a long time at the confirmation screen. Trusting instinct did not mean surrendering to impulse.\n\nIf the conviction was his, so was the full weight of being wrong. He chose to stake both together."
       }
     ]
   },
   {
     "id": "arc_spec_found",
     "title": "What Will You Build?",
-    "description": "People who dream of founding a startup come in two kinds.\n\nThe kind who want to turn an idea into a product.\nPeople who start from the question: 'Why doesn't this exist?'\n\nThe kind who want to gather people.\nPeople who start from: 'Something will happen if these people come together.'\n\nWhich one is {name}?",
+    "description": "Two different pages faced each other in {name}'s startup notebook. One was crowded with problems people encountered repeatedly and features that might solve them.\n\nThe other linked names with arrows, matching people who could supply what the others lacked.\n\nStarting with a product meant finishing something no one else had built. Starting with people meant persuading them to believe in a possibility that had no shape yet. Both were businesses, but their first days required different work.\n\nBefore writing a company name on the blank cover, {name} had to decide whether he wanted to build a thing or a relationship.",
     "choices": [
       {
         "text": "Build something nobody else has — product comes first  [Tech Founder]",
-        "result_text": "{name} wrote the first outline in his notebook.\nHe asked not 'can it be built' but 'should it be built' first.\nTechnology is just a tool. If the problem is real, the tool will follow.\nThat was the way {name} believed in."
+        "result_text": "{name} covered the list of names and drafted his first product brief. Before listing features, he rewrote one sentence describing who faced what problem and when. Anything included merely because he could build it was deleted.\n\nBy dawn, one small problem remained on the screen instead of a grand introduction. If the problem was real, technology could become a tool.\n\nHe decided to shrink the idea until he could put it before a first user. The company would begin not with a finished product, but with a question that could be tested."
       },
       {
         "text": "Build a place where people gather — the network is the asset  [Social Entrepreneur]",
-        "result_text": "{name} had his business cards remade.\nAn era where the contact matters more than the title.\nOne person brings two, two bring four.\n{name} decided to be the starting point."
+        "result_text": "{name} covered the feature list and rearranged the names. Beside each arrow, he wrote what two strangers might offer one another if they met. Six people would be enough for the first gathering.\n\nHis business card carried no grand title, only one line giving people a reason to call. A structure in which one person brought the next would become the product's earliest form.\n\nAs he sent the invitations, read receipts appeared one by one. This business's first asset would not be code, but the trust of people willing to enter the same room."
       }
     ]
   },

@@ -36,15 +36,15 @@
   {
     "id": "arc_daeun_02b_dream",
     "title": "The Dream",
-    "description": "\"Five years from now, I'll be in Gangnam. Three billion won in assets.\"\nDaeun went still for a moment, then laughed quietly.\n\"...That's big. But why Gangnam specifically?\"\nThe question stopped {name} cold.\nThere was no contempt in her eyes — just genuine curiosity.",
+  "description": "When the late-night convenience store emptied, only the refrigerator motor remained. Folding the lid of his ramyeon cup, {name} said, \"Within five years, I'll be living in Gangnam with 3 billion won in assets.\"\n\nDaeun's hand stopped over the barcode scanner. She gave a short laugh of surprise, then grew serious. \"That's a very big dream. But why Gangnam, Minjun?\"\n\n{name} looked down at the steam rising from the cup. He had prepared an answer about success and status. Daeun's eyes held no contempt, only a quiet curiosity waiting for whatever he had hidden behind that answer.",
     "choices": [
       {
-        "text": "\"So no one can look down on me.\" Say it straight  (understood / vulnerable)",
-        "result_text": "{name} opened up for the first time — the moments when being poor felt like a mark of shame.\nDaeun listened for a long time, then said quietly:\n\"...I get that. But even without Gangnam, you're not someone people should look down on.\"\nNo one had ever said that to him before."
+      "text": "\"Because I never want to be looked down on again.\" — give her the hidden reason",
+      "result_text": "For the first time, {name} spoke about shrinking before anyone could discover he was poor, and avoiding people's eyes through the years spent paying his father's debt. The steam blurred his sight as the words continued.\n\nDaeun rested both hands on the counter and listened to the end. \"I understand. But where you live doesn't give anyone permission to look down on you, Minjun.\"\n\nNo one had ever taken his side before taking the side of his goal. Her sentence remained above the cooling broth."
       },
       {
-        "text": "\"Just the symbol of success, really.\" Brush it off  (distance kept / opportunity missed)",
-        "result_text": "{name} smiled and kept his real answer buried.\nShe didn't press. The conversation stayed light and safe.\nThe less he showed, the less they grew closer.\nThe chance passed, by one small step."
+      "text": "\"It's just the symbol of success.\" — use the answer he prepared",
+      "result_text": "{name} smiled and used the answer he had prepared. Daeun watched for another moment, then said, \"I see,\" and returned to arranging the register. The scanner's red line passed between them.\n\nTheir conversation moved on to rent and the night shift. It stayed light and safe, catching on nothing.\n\nAs he carried the ramyeon toward the door, {name} felt as if one unasked question remained behind the counter."
       }
     ]
   },

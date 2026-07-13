@@ -21,15 +21,15 @@
   {
     "id": "arc_jiyeon_year3",
     "title": "Three Years Later",
-    "description": "A KakaoTalk from Han Jiyeon.\n\n\"Long time no contact. How have you been since then?\"\n\nThen. The Im Sangchul introduction. Scalping. That intersection. Two years have passed.\n\nSomeone who briefly orbited close from a different life trajectory, then drifted as each got on with living.",
+    "description": "Han Jiyeon's name appeared in a KakaoTalk alert. {name} would have had to scroll a long way to find where their last conversation ended. The new message was brief and polite.\n\n\"It's been a while. How have you been since then?\"\n\nSangchul's introduction. The first short trades. A day when two different worlds had briefly touched. Two years had passed. \"Life got busy\" did not quite explain how neatly the silence had accumulated.\n\n{name} opened the reply field. Before the typing indicator vanished, he had to decide how much truth to send.",
     "choices": [
       {
         "text": "\"I'm doing okay. Nice to hear from you.\" — straightforward",
-        "result_text": "Jiyeon replied. \"Glad to hear it. I've been shifting directions a bit myself. Let's meet sometime.\"\n\nThat was it. This relationship settled into something that exchanges occasional check-ins from the edges of each other's lives."
+        "result_text": "\"I've been doing all right. It's good to hear from you.\"\n\nHer reply came quickly. \"I'm glad. I've been changing direction a little too. We should meet sometime.\" No date followed the invitation.\n\n{name} sent a smiling face and closed the chat. They retreated again to the edges of each other's lives. This time, at least, one small light remained at the edge."
       },
       {
         "text": "\"You helped me a lot back then. I think I've found my own way now.\" — honest",
-        "result_text": "Jiyeon said \"Oh really?\" Then: \"What way is that?\"\n\nAnswering that question made the last two years fall into order. Strangely — in the process, Jiyeon said something similar. \"I'm figuring that out too.\""
+        "result_text": "\"You helped me a great deal back then. I think I've started finding my own way.\"\n\nAfter a pause, Jiyeon asked, \"What kind of way?\" {name} expected to answer in a few lines. Writing about failed trades, salaries, and rebuilt rules gave the last two years a shape for the first time.\n\nJiyeon sent a long reply of her own. \"I'm looking for something I can do under my own name too.\" After years of silence, the conversation resumed as though it had stopped yesterday."
       }
     ]
   },
@@ -74,38 +74,38 @@
   {
     "id": "arc_jiyeon_real_reason",
     "title": "Not Her Father's Company",
-    "description": "Met up after a long stretch.\n\nOver coffee, Han Jiyeon said:\n\"I've been studying for a real estate agent license.\"\n\n{name} paused.\n\nHer father runs a property firm. Her studying for the license herself was unexpected.\n\n\"For your father's business?\"",
+    "description": "When they finally met, the corner of a thick exam guide protruded from Jiyeon's bag. She pushed it down while they waited for coffee, then spoke first.\n\n\"I'm studying for the licensed real-estate agent exam.\"\n\n{name} stopped with his cup halfway raised. Her father ran a property company; she had once received early listings with a single phone call. He could not see why she would spend evenings adding highlighter marks to an exam book.\n\nJiyeon rested a hand on its cover as if she had expected the question. Her expression waited for a story about her, not her father's company.",
     "choices": [
       {
         "text": "\"Is it for your father's company?\" — asked directly",
-        "result_text": "Jiyeon smiled for a moment.\n\"No. I want something that's mine. Something that isn't the real estate boss's daughter.\"\n\nThat landed harder than expected.\n{name} understood the weight of 'mine.'"
+        "result_text": "\"Is it for your father's company?\"\n\nJiyeon gave the short smile of someone who had expected exactly that. \"No. I want one thing that's mine. Something I can do under my own name, not as the property owner's daughter.\" Her fingertips pressed the book's cover.\n\n{name} did not ask another question. For the first time, he understood that even someone born far ahead might need money and a place carrying only her own name. The word \"mine\" lingered longer than the coffee."
       },
       {
         "text": "\"That exam isn't easy, is it?\" — realistic",
-        "result_text": "\"It's hard.\" Jiyeon said. \"That's why I'm doing it.\"\n\nNothing more needed after that.\nDoing something hard knowing it's hard — that's what sincerity looks like."
+        "result_text": "\"That exam is difficult, isn't it?\"\n\n\"It is.\" Jiyeon opened the guide to a page dense with notes. \"That's why I want to do it. If it were easy, how would it be different from working for my father?\"\n\n{name} noticed how the page corners had worn soft. He did not fully understand why someone with every advantage would choose an inconvenient road. The frayed paper explained more accurately than she could."
       },
       {
         "text": "\"I think you'll do great.\" — kept it light",
-        "result_text": "Jiyeon smiled lightly. \"Thank you.\"\n\nIt was clearly a good thing to say — but after the conversation ended, {name} felt like something was unfinished.\nThe feeling of saying the easy thing instead of the right thing."
+        "result_text": "\"I think you'll do well. You've always been good at anything you try.\"\n\nJiyeon smiled and thanked him. The conversation moved on without harming the mood. The compliment was not false.\n\nOnly after they parted did {name} understand that he had praised what she already possessed without asking why she needed to build what she did not. Easy sentences always ended safely."
       }
     ]
   },
   {
     "id": "arc_y3_jiyeon_departure",
     "title": "Different Directions",
-    "description": "A short text from Han Jiyeon.\n\"I'm heading to Busan. I'm going to open my own office there.\"\n\n{name} read it about three times.\nIt wasn't sudden. She'd said she was studying, said she was finding direction.\nBut 'I'm going' still landed differently.\n\nWhat was the right thing to say?",
+    "description": "A photograph of a train ticket arrived from Han Jiyeon, one way from Seoul Station to Busan.\n\n\"I'm moving down to Busan. I'm going to open a small brokerage under my own name.\"\n\n{name} read the departure time and seat number three times for no reason. It was not sudden.\n\nJiyeon had studied and spoken of finding a direction outside her father's company. A plan he understood in theory acquired a different weight once it became a one-way ticket.\n\nThe cursor blinked in the reply field. On a screen, the distance between sending someone off and asking her to stay was only a few words.",
     "choices": [
       {
         "text": "\"Take care. Sincerely.\" — let her go",
-        "result_text": "Jiyeon replied. \"Thanks. I'll message when I come back to Seoul.\"\n\nThat was the last text. A sincere goodbye is sometimes the most complete kind.\n{name} locked the screen. Something felt properly finished."
+        "result_text": "\"Take care. I truly hope it works out.\"\n\nJiyeon replied, \"Thank you. I'll call when I come up to Seoul.\" A blurred photograph of the platform arrived a moment later, taken through the train window.\n\n{name} wrote nothing more and locked the screen. It felt as though he had sent her off properly, yet words remained in his hand. Even after the departure time passed, the final photograph in the chat did not move."
       },
       {
         "text": "\"You should have done this ages ago.\" — honest",
-        "result_text": "Jiyeon replied after a moment. \"You're right. It's late.\"\nThen another message: \"Still — glad it's now.\"\n\n{name} had a feeling that wasn't only something she was saying to herself."
+        "result_text": "\"You should have done this years ago.\"\n\nAfter a pause, Jiyeon answered, \"You're right. It's late.\" Another bubble followed. \"Still, I'm glad it's now. Before it gets any later.\"\n\n{name} studied the sentence. It did not seem meant only for the woman going to Busan. The one-way ticket quietly told him that it was not too late for him either."
       },
       {
         "text": "\"You could stay here, you know.\" — wanted to hold her back",
-        "result_text": "Jiyeon didn't answer.\nA short time later: just \"Thank you.\"\n\nThat message felt like a goodbye. Trying to hold someone back doesn't keep them — it just makes them leave faster."
+        "result_text": "\"You could stay here, you know.\"\n\nThe read receipt appeared, followed by a long silence. {name} began another sentence and stopped. At last, Jiyeon sent only, \"Thank you.\" She did not say what she was thanking him for.\n\nHe had meant to hold her, but the conversation ended sooner instead. The departure time kept approaching unchanged. Only his words remained on the Seoul side."
       }
     ]
   },
@@ -131,73 +131,73 @@
   {
     "id": "arc_jiyeon_year4_call",
     "title": "A Call from Busan",
-    "description": "A call from Han Jiyeon.\n\n\"Deal closed. Small villa. Goejeong-dong, Busan.\"\n\nHer voice was different. Not light. First time hearing it since she left.\nA year had passed.\n\nThrough the phone, faint sound of the ocean.",
+    "description": "On a rainy night in the goshiwon, Han Jiyeon called. It was the first time {name} had heard her voice since she moved to Busan, almost a year ago.\n\n\"The deal closed. A small villa in Goejeong-dong. My first sale from start to finish.\"\n\nShe did not sound as lightly triumphant as she once had. Papers shifted and a bus braked outside her office at the other end of the call.\n\nJiyeon laughed, caught her breath, then spoke longer about the instant her own stamp met the contract than about the price.\n\nBefore congratulating her, {name} wondered why she had wanted him to hear this first.",
     "choices": [
       {
         "text": "\"That's great. Genuinely. You made it happen.\"",
-        "result_text": "A brief silence on the other end. Then Jiyeon said: \"It feels more real hearing you say it.\"\n\nBeing someone who could say that to someone who made it — not a bad year."
+        "result_text": "\"That's wonderful. You carried it from beginning to end.\"\n\nThe line went quiet for a moment. Jiyeon laughed softly. \"It finally feels real when you say it, oppa. I didn't call just anyone tonight.\"\n\n{name} watched rain travel down the window instead of answering. A first contract in Busan and a small room in Seoul occupied the same call. For a moment, the year's distance narrowed to the width of a voice."
       },
       {
         "text": "\"Can I say I've missed you? After this long?\"",
-        "result_text": "Jiyeon laughed on the other end. \"I wanted to hear that.\"\n\nSaid what went unsaid for a year. After hanging up, {name} lay looking at the ceiling for a long time.\n\nThe sound of the ocean was still there."
+        "result_text": "\"May I finally say that I've missed you?\"\n\nThe papers went still. Jiyeon drew a short breath before laughing. \"I wanted to hear that. I missed you too.\" Her usually poised voice dropped on the final words.\n\nAfter the call, {name} stared at the ceiling. The bus outside her Busan office was gone, but the half beat in which she had inhaled remained in his ear."
       },
       {
         "text": "\"I'm holding on here too. Each in our own direction.\"",
-        "result_text": "Jiyeon said \"Yeah.\" Short.\n\nDifferent directions. The weight of those words when they were first written — still the same.\nTwo different cities. Two different staircases."
+        "result_text": "\"I'm holding on here too. Each in our own direction.\"\n\nJiyeon was quiet, then said, \"Yes. We're both still on the way.\" The celebratory call soon ended with ordinary questions about life.\n\nDifferent directions was still a true phrase. After they hung up, the goshiwon stairs and the stairs to her Busan office seemed level for one moment, then moved apart again."
       }
     ]
   },
   {
     "id": "arc_jiyeon_year4_seoul",
     "title": "Briefly in Seoul",
-    "description": "Jiyeon came to Seoul. Two-day continuing education for licensed brokers.\n\nNot a Cheongdam café. A neighborhood place nearby.\n\nJiyeon spoke first. \"Seoul feels strangely unfamiliar. It's only been a year.\"\n\nAfter two sips of coffee, she added: \"Having you here makes it feel like Seoul again.\"",
+    "description": "Jiyeon came up to Seoul for two days of continuing education. A KTX ticket back to Busan the next morning was folded into the side pocket of her bag.\n\nThey met not in some glittering Cheongdam café, but in a small place near {name}'s neighborhood.\n\nJiyeon watched the street for a long time. \"Seoul feels strangely unfamiliar. It's only been a year.\" She took two sips without setting down the cup.\n\n\"Still, having you here makes it feel like Seoul again, oppa.\"\n\nShe kept the line light, but one finger slowly traced the paper cup's seam. Tomorrow, she would be back in Busan.",
     "choices": [
       {
         "text": "\"Come often then. I'll be waiting.\"",
-        "result_text": "Jiyeon smiled. The face she hadn't seen in a while.\n\n\"When can I come?\" \"Anytime.\"\n\nThey walked after leaving the café. No words — but not awkward. It felt like a lot had already been said."
+        "result_text": "\"Then come often. I'll be waiting.\"\n\nJiyeon looked up. She began with her usual poised smile, then let it soften half a beat later. \"May I come whenever I want?\" \"Whenever.\"\n\nThey walked together to the subway after leaving the café. The silence was not awkward. At the gate, Jiyeon adjusted the bag holding her Busan ticket. The promise to wait settled quietly on the shoulders of someone who still had to return."
       },
       {
         "text": "\"Don't let this dismantle what you built in Busan. That's real, what you made there.\"",
-        "result_text": "Jiyeon was quiet for a while. Then: \"Thank you.\"\n\n\"That's what I wanted to hear. Not to be held back.\"\n\nThe two of them living in different cities didn't feel wrong. Each standing in their own place — that's also a form of relationship."
+        "result_text": "\"Don't dismantle the life you built in Busan. What you made there is real.\"\n\nJiyeon touched the rim of her cup for a long time. \"Thank you. That's what I wanted to hear. I wasn't asking you to hold me back.\"\n\nHer ticket south remained unchanged. When they parted, her step looked lighter than when she arrived. {name} learned that he could face someone without pulling her toward him."
       },
       {
         "text": "(Couldn't find words. That was the answer.)",
-        "result_text": "Jiyeon stood up first. \"I should get going.\"\n\nListening to the café door close, {name} looked at his coffee cup.\n\nUnspoken words last longer than the ones you say."
+        "result_text": "{name} looked only at his cup. He could say neither that he would wait nor that returning to Busan was all right. As the silence lengthened, Jiyeon picked up her bag.\n\n\"I should go. I have class again tomorrow.\" Her politeness remained perfectly composed.\n\nTwo cold coffees stayed on the table after the door closed. The answer he never gave left the space between them before her train did."
       }
     ]
   },
   {
     "id": "arc_jiyeon_year5_return",
     "title": "Back to Seoul",
-    "description": "A text from Jiyeon.\n\n\"I've decided to open a Seoul branch. Gangnam. Next month.\"\n\nThen one more line.\n\"I wanted to tell you first.\"\n\n{name} looked at the text for a long time.\nShe's coming back because she grew wide enough in Busan — not because she narrowed.",
+    "description": "A photograph arrived from Jiyeon in Busan: the key to a new office, tagged with an address in Gangnam-gu, Seoul. Her message followed.\n\n\"I've decided to open a Seoul branch next month. The Busan office will keep operating.\"\n\nOne more line appeared. \"I wanted to tell you first, oppa.\"\n\n{name} reread the part that said she was not closing Busan to return. Jiyeon had built a name there and was carrying that name into a wider city.\n\nThough the key could not touch his hand, its metal looked cold. Their directions might meet again in the same place.",
     "choices": [
       {
         "text": "\"See you in Gangnam. I'm on my way there too.\"",
-        "result_text": "Jiyeon replied: \"Then I'll see you in Gangnam. For sure.\"\n\nThat became a promise. Neither of them was there yet. But both were heading there.\n\nSeoul looked different somehow."
+        "result_text": "\"See you in Gangnam. I'm on my way there too.\"\n\nAfter the read receipt, Jiyeon's answer arrived. \"Then I'll see you in Gangnam, oppa. For sure.\" The formality disappeared for the first time. The sentence was short, and therefore unmistakable.\n\n{name} saved the office address on his map. Neither had fully arrived, but this time they were moving toward the same promise. The familiar map of Seoul looked, for a moment, like another city."
       },
       {
         "text": "\"That decision has to be yours. Not because of me.\"",
-        "result_text": "Jiyeon replied after a moment: \"I know. It's my decision. But you're one of the reasons.\"\n\nThat was honest. There's a reason honest is good."
+        "result_text": "\"The decision has to be for you. It cannot be because of me.\"\n\nJiyeon answered after a pause. \"I know. It is for me. I'm more certain because I built something in Busan first. But you are one of the reasons, oppa.\"\n\n{name} did not try to correct the sentence. Her year in Busan had proved the difference between including someone in a reason and abandoning herself for him. The key in the photograph still rested beneath her own name."
       }
     ]
   },
   {
     "id": "arc_jiyeon_year5_news",
     "title": "Word from Busan",
-    "description": "Word came through a mutual contact.\n\nHan Jiyeon. Doing well in Busan. Has staff now. Made a name in the area.\n\nAnd — she's seeing someone from Busan.\n\n{name} paused.\nWhether that was good news, or something else — the feeling didn't have an exact name.",
+    "description": "Jiyeon's name came up over lunch with a mutual contact. Her Busan office had settled in; she had hired staff and earned a local reputation for careful work. News {name} had not asked for arrived one piece at a time across the table.\n\nThe contact took a drink of water, then added, \"Oh, and I hear she's seeing someone there. Someone from Busan.\"\n\n{name}'s chopsticks stopped above a side dish. Relief that she was doing well arrived beside the knowledge that seasons he knew nothing about had accumulated.\n\nNeither feeling was false, which made it difficult to give the whole thing one name.",
     "choices": [
       {
         "text": "\"That's great.\" — said it sincerely",
-        "result_text": "Meant it.\n\nJiyeon is building her own thing in Busan. That was the point. She reached it.\n\nDifferent directions — at first it felt like goodbye. Now it feels like it was the right phrase."
+        "result_text": "\"That's wonderful. I mean it.\"\n\nOnce the words were out, {name} knew they were true. In Busan, Jiyeon had built an office and relationships under her own name. The \"something of mine\" she once described had become a life concrete enough for other people to report.\n\nThe conversation moved on. {name} picked up the cold side dish. \"Different directions\" had first sounded like goodbye. Today it remained as the sentence that had let neither of them be wrong."
       },
       {
         "text": "(Nodded. Nothing to say.)",
-        "result_text": "Nodded.\n\nNothing to say. More precisely — there was something that couldn't be said right now, and that was all.\n\n{name} started walking. Seoul was the same as always."
+        "result_text": "{name} only nodded. Congratulations reached his throat and stopped. It was not that he had nothing to say; something remained that was no longer his to say.\n\nAfter lunch, he stepped into the street alone. The signal changed and people crossed as always. Nothing in Seoul looked different.\n\nSomewhere unseen, a new season that had begun in Busan continued without him."
       }
     ],
     "description_if_known": {
-      "jiyeon_respectfully_distanced": "Word came through a mutual contact.\n\nHan Jiyeon. Doing well in Busan. Has staff now. Made a name in the area.\n\nAnd — she's seeing someone from Busan.\n\n{name} paused. Back in Seoul, they'd been honest — said there was someone. After that, Jiyeon had seemed lighter. Smiled more easily. Talked more freely about herself.\n\nBecause the goodbye was clean — this news could land as something good.",
-      "jiyeon_hidden_feelings": "Word came through a mutual contact.\n\nHan Jiyeon. Doing well in Busan. Has staff now. Made a name in the area.\n\nAnd — she's seeing someone from Busan.\n\n{name} paused. Back in Seoul, they'd chosen silence. Said nothing. What shape that silence had taken by now — the feeling didn't have an exact name."
+      "jiyeon_respectfully_distanced": "Jiyeon's name came up over lunch. Her Busan office had settled in; she had hired staff and made a name locally. Then came the news that she was seeing someone there.\n\n{name}'s chopsticks paused, but he soon said, \"That's wonderful.\" When Jiyeon visited Seoul, he had honestly told her there was someone in his life. She had neither clung to him nor blamed him. Afterward, she had spoken of Busan with greater ease.\n\nA door closed properly did not invite anyone to look through its cracks. That was why today's news could arrive shaped more like congratulations than regret.",
+      "jiyeon_hidden_feelings": "Jiyeon's name came up over lunch. Her Busan office had settled in; she had hired staff and made a name locally. Then came the news that she was seeing someone there.\n\n{name}'s chopsticks stopped. When Jiyeon visited Seoul, he had chosen silence, and she had left two cold coffees behind. A conversation left unfinished hardens into different sentences inside each person.\n\nThat day's silence remained between congratulations and regret. There was no one left to ask what meaning time had given it."
     }
   },
   {

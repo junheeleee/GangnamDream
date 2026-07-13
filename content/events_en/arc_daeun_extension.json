@@ -24,34 +24,34 @@
   {
     "id": "arc_daeun_year3_apart",
     "title": "Wedding Photo",
-    "description": "SNS notification.\n\nA post from Daeun's friend. A wedding venue in Busan. Among the guests — Daeun. At the bride's table. In a wedding dress.\n\n{name} stopped scrolling.\n\nDaeun got married.\n\nThe person who handed over triangle kimbap from behind the convenience store counter. Now in a different life.",
+    "description": "A social-media alert appeared late at night. One of Daeun's friends had posted photographs from a wedding hall in Busan. {name} scrolled without thinking, then stopped at the second image.\n\nDaeun stood at the center of the flowers in a wedding dress. She was not a guest beside the bride. She was the bride. When he enlarged the image, the familiar narrowing of her eyes when she smiled met the unfamiliar white veil.\n\nTwo years ago, she had handed him triangle kimbap across a convenience-store counter in Seoul. Now she stood at the center of a life he did not know.",
     "choices": [
       {
         "text": "Liked it. Genuinely glad for her.",
-        "result_text": "Liked the photo. Closed the app.\n\nGlad. Really. That thought came quickly this time. Two years have passed. Changed that much, at least."
+        "result_text": "{name} pressed the heart. The count rose by one; Daeun kept smiling in the photograph. He said, \"I'm glad,\" under his breath and closed the app.\n\nOnce, it would have taken longer to produce those words. This time the congratulations arrived first and the ache followed. Perhaps two years had changed him that much.\n\nThe phone went dark, but the white dress lingered in his palm for a moment."
       },
       {
         "text": "Closed the screen. Better not to see it.",
-        "result_text": "Scrolled past. Next post was a crypto ad.\n\nLife went on. {name} had to keep going too. Just — stopped for a moment."
+        "result_text": "{name} scrolled past the photograph. The next post advertised impossible returns on a coin. He tried to read the figures as usual, but the words would not settle.\n\nHe closed the app and laid the phone facedown. It did not ring again for a while. Life would continue, and so would he.\n\nBefore he reopened the calculator, the dark screen belonged to no one's destination."
       }
     ]
   },
   {
     "id": "arc_daeun_year4_together",
     "title": "She Got There First",
-    "description": "A message from Daeun.\n\n\"I got a job! A small company over in the Gangnam district.\"\n\n{name} laughed for a second.\n\nThe one who'd be working in Gangnam was Daeun, not {name}. Four years of running — and she got there first.\n\nThat fact, strangely, didn't sit light.",
+    "description": "On the commute home, a photograph arrived from Daeun: a new business card, its corners still perfectly sharp. A message followed beneath it.\n\n\"I got a job! It's a small company in Gangnam.\"\n\n{name} began typing congratulations, then stopped. He had spent four years naming Gangnam as his destination.\n\nDaeun would be the first to commute there. The news was unquestionably good, yet something heavy followed the happiness into his chest.\n\nThe train window reflected a smile that had not quite formed. Even joy for someone else could carry a piece of his own story.",
     "choices": [
       {
         "text": "\"That's great. When I get there, let's grab a cafe nearby.\" — happy for her",
-        "result_text": "\"It's a promise.\" Daeun said.\n\nSaid lightly, landed heavily. Gangnam becoming a promise instead of a goal. That came sooner than expected."
+        "result_text": "\"That's wonderful. Find us a café near the office after your first day.\"\n\nHer reply came at once. \"I already found one. When you get here, that's our first stop. Promise.\" A map pin followed.\n\n{name} studied the saved location. On the map he had climbed alone, there was now a table where two people might sit. For the first time, Gangnam looked less like a target sum than the address of a promise."
       },
       {
         "text": "(First thought: she's going to get there before me)",
-        "result_text": "{name} said nothing. Daeun seemed to notice something.\n\nStrange feeling. Said he'd take her there — and she's already going. Not bad, but — oddly complicated."
+        "result_text": "As {name} typed and erased his congratulations, the typing indicator appeared and vanished several times. Daeun sent another message first. \"You must be busy. We can talk later.\" She seemed to have noticed.\n\nHe finally sent a brief \"That's great.\" He could not explain why her reaching the place he had promised to take her should brush against him like defeat.\n\nThe business card was bright on the screen. Looking directly at that brightness was harder than it should have been."
       }
     ],
     "description_if_known": {
-      "daeun_romance_started": "Daeun landed a job at a company in Gangnam. A small position, but her first business card.\n\nThree years a couple. They know each other's days by heart now.\n\nShe held out the card, smiling. \"Guess I reached Gangnam first?\"\n\"Cheater.\"\n\n{name} laughed, but something in him went quietly heavy.\nShe's someone who'd be fine without me. And still she stays here.\nHe was grateful, and a little afraid."
+      "daeun_romance_started": "Daeun found a job at a small company in Gangnam. At dinner, she offered her new business card with both hands. It still carried the smell of fresh coating.\n\nThey had been together for three years, long enough to know each other's morning faces and tired footsteps. Daeun smiled. \"Looks like I reached Gangnam first, Minjun.\"\n\n\"Cheater.\" {name} laughed, but the card's edge remained against his fingertip. Daeun could build a life anywhere without him. He was grateful that someone like that still chose to stay, and a little afraid that one day the choice might change."
     }
   },
   {
@@ -77,33 +77,33 @@
   {
     "id": "arc_daeun_year5_apart",
     "title": "Separate Arrivals",
-    "description": "Gangnam-daero.\n\nIf Daeun were here — what would she say? That thought comes out of nowhere.\n\nThe person who stood behind a convenience store counter five years ago. Somewhere out there doing fine now. Married — {name} knows that.\n\n{name} looked up at the apartment.",
+    "description": "When the light changed on Gangnam-daero, the crowd crossed all at once. Looking up at apartment lights reflected in a glass façade, {name} suddenly wondered what Daeun would say if she were here.\n\nThe voice that had offered him triangle kimbap across a convenience-store counter five years ago. The white dress in a Busan wedding photograph.\n\nThe time between belonged to each of them without explanation. Daeun was probably sharing a different dinner with someone else now.\n\nThe crossing signal ended. {name} stepped into the street half a beat after everyone else.",
     "choices": [
       {
         "text": "Each got there. Glad she's okay.",
-        "result_text": "{name} didn't dwell on it long.\n\nEveryone has their own destination. He went this way, she went that way. They don't have to overlap. Just — hope she's well."
+        "result_text": "They had simply arrived in different places. His road led here; Daeun's continued somewhere beyond a screen. Neither was wrong because they no longer crossed.\n\n{name} offered one more belated congratulations in his mind. He hoped she was well. This time he attached no story about himself to the sentence.\n\nAs he walked beyond the signal, the apartment lights disappeared behind the buildings."
       },
       {
         "text": "Thought about reaching out for a second, then didn't.",
-        "result_text": "Didn't reach out.\n\nContacting her on the day you make it feels like bragging. Didn't feel right.\n\nJust stood there alone."
+        "result_text": "{name} found Daeun's name in his contacts. Her profile photograph had changed several times since the wedding. He typed, \"How have you been?\" and erased it.\n\nA greeting sent while looking at Gangnam might arrive as a request to be admired. More than that, he no longer knew whether this was a door he had the right to open.\n\nHe pocketed the phone and stood alone. For a moment, the unsent sentence had weight inside his coat."
       }
     ]
   },
   {
     "id": "arc_daeun_year4_quiet",
     "title": "Today's Seoul",
-    "description": "Daeun's been at the Gangnam company for two months.\n\n\"When are you getting to Gangnam? I've already scoped out a cafe nearby.\"\n\n{name} smiled.\n\nFour of five years gone. Still short of Gangnam. Daeun's already close.\nStrangely — no urgency.",
+    "description": "Daeun had been commuting to her Gangnam office for two months. The alley photographs she sent at lunch now contained shops {name} recognized. That day, a window seat in a café arrived with a message.\n\n\"When are you coming to Gangnam, Minjun? I found a café near work.\"\n\nFour of the five years were gone, and the goal remained some distance away. Once, her words would have touched urgency first.\n\nInstead, {name} smiled at the empty chair across from the camera. Knowing someone had gone ahead and saved a place made Seoul feel less far away today.",
     "description_if_known": {
-      "jiyeon_respectfully_distanced": "Daeun's been at the Gangnam company for two months.\n\n\"When are you getting to Gangnam? I've already scoped out a cafe nearby.\"\n\n{name} paused.\n\nLast month, Jiyeon had come to Seoul. {name} had said the hard thing — there's someone. Daeun doesn't know about that conversation.\n\nBut today, hearing Daeun say this — it felt like the right choice."
+      "jiyeon_respectfully_distanced": "Daeun had been commuting to her Gangnam office for two months. That day, a photograph of a café window seat arrived with a message. \"When are you coming to Gangnam, Minjun? I found a café near work.\"\n\n{name} paused before replying. When Jiyeon visited Seoul the month before, he had told her there was someone in his life. Daeun knew nothing about that difficult conversation.\n\nThe chair across from the camera was empty. For the first time, he could see the shape of the choice he had never described. He sent Daeun a smile and wrote the promise without hesitation."
     },
     "choices": [
       {
         "text": "\"Of course. The moment I get there.\" — affirm the promise",
-        "result_text": "That promise still standing — it gave today a different warmth."
+        "result_text": "\"Of course. The day I get there, we go.\"\n\nDaeun sent another photograph, pointing at the chair across from her cup. \"Then I'll save this seat.\" Both knew a café chair could not be held that long, yet the sentence felt natural.\n\n{name} pocketed the phone and walked on. Somewhere he had not reached, it felt as though one chair already belonged to him."
       },
       {
         "text": "\"Let's talk about it then. It's still far away.\" — answer honestly",
-        "result_text": "An honest answer. Daeun nodded. As if willing to wait."
+        "result_text": "\"Let's talk when I get there. It still feels too far away.\"\n\nDaeun replied after a pause. \"Okay. Just don't spend too long calculating by yourself.\" It was neither a promise to wait nor an attempt to hurry him.\n\n{name} did not save the café photograph. The empty window seat remained in his mind anyway."
       }
     ]
   }

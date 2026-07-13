@@ -600,60 +600,60 @@
   {
     "id": "arc_opp_sangchul_win",
     "title": "Redevelopment Confirmed",
-    "description": "A call came from Sangchul.\n\n\"Minjun. It's confirmed.\"\n\nThe official notice designating the redevelopment district. {name} checked the figure twice.\nThe market price had jumped more than two and a half times.\n\nSangchul said it briefly.\n\"This is real estate. Slow, but certain.\"\n\nFor the first time, he felt he'd won at the real table.",
+    "description": "When the phone vibrated, Im Sangchul's name appeared on the screen. Before {name} could answer, a government notice arrived as a PDF.\n\n\"Minjun. It's confirmed.\"\n\nRedevelopment district designation. {name} checked the address and seal, then ran the projected value again. More than two and a half times. His palm sweated while his voice stayed strangely calm.\n\n\"This is real estate. Slow, but certain.\" Sangchul laughed over the line. Only a number had changed, yet for the first time {name} felt like a player at the table instead of a spectator.",
     "choices": [
       {
         "text": "Ask him to let me know if there's another chance",
-        "result_text": "\"Of course. My network in this game is everything.\"\nSangchul laughed and hung up.\n{name} gazed out the window for a moment.\nSeoul looked a little different. Not Gangnam yet, but."
+        "result_text": "\"Please tell me when you find another good one.\"\n\n\"Of course. In this business, people are everything.\" Sangchul laughed and hung up. The ring of an old office phone slipped into the end of the call.\n\n{name} looked at the buildings outside. It was yesterday's Seoul, yet every window seemed to carry a price tag. Gangnam was still far away, but for the first time the road looked almost straight."
       },
       {
         "text": "Use these gains as fuel for the next bet",
-        "result_text": "When you win, you have to bet bigger.\n{name} was already calculating the next opportunity.\nA structure where money brings in money. He was starting to see it."
+        "result_text": "Before replying to the congratulations, {name} opened a calculator. He split the principal from the gains, then tested how much larger the next return could be if he used more credit.\n\nOne victory looked like a formula capable of explaining the world. At last, he could see how money went out and returned with more money behind it. The next property's address began to replace the call log on his screen."
       }
     ]
   },
   {
     "id": "arc_opp_sangchul_lose",
     "title": "Redevelopment Falls Through",
-    "description": "A call came from Sangchul.\n\n\"...Minjun. I'm sorry.\"\n\nThe redevelopment-district designation was pushed to the next session.\nEffectively dead. The money he got back had the losses already subtracted.\n\nHe said nothing more.\nHe didn't say it was the first time in thirty years in this game that he'd been wrong.\nJust that he was sorry.",
+    "description": "Sangchul's call connected later than usual. For a while, only the sound of papers turning came through the receiver.\n\n\"Minjun. I'm sorry.\"\n\nThe redevelopment designation had been deferred to the next session. In administrative language it was pending; in the language of money it was effectively dead. The return estimate already included the loss.\n\nSangchul did not say he had been wrong for the first time in thirty years. He offered no excuse and no next deal. In the voice of a man who usually filled every room, only the apology remained.",
     "choices": [
       {
         "text": "It can't be helped — I knew the risk going in",
-        "result_text": "\"Thanks, Sangchul. I made the call myself.\"\n{name} said it. It was sincere, partly,\nand partly because he had to frame it that way to move forward.\nThe money lost is tuition. Steep tuition, at that."
+        "result_text": "\"I made the decision myself.\"\n\nThe words came more easily than expected. They were sincere, and they also kept the entire loss from hardening into someone else's betrayal.\n\nAfter the call, {name} entered the returned amount in his ledger. The cell labeled \"tuition\" was painfully large. Renaming the loss did not bring the money back, but it left room for another line below it."
       },
       {
         "text": "Honestly, it feels like a betrayal",
-        "result_text": "After hanging up, he couldn't do anything for a while.\nThe injustice of it ran deeper than the anger. Because he'd trusted him.\nSangchul might be blameless.\nBut right now, that was no comfort."
+        "result_text": "{name} hung up without answering. Closing the screen did nothing; the red loss remained against the inside of his eyelids.\n\nA sense of betrayal rose before anger. He had known the deal could fail, but had never pictured the person he trusted being wrong.\n\nSangchul might be blameless. Tonight, that fact offered no comfort. The phone rang again, and {name} let it stop on its own."
       }
     ]
   },
   {
     "id": "arc_opp_jiyeon_win",
     "title": "The Premium",
-    "description": "A text came from Jiyeon.\n\nOne emoticon. And a number.\n\n{name} stared at the screen for a moment.\nAs if to confirm it was real.\n\nHe'd stepped into her world,\nand this time, his side had won.\n\nBut strangely, it felt like he'd repaid a debt to her.",
+    "description": "A message arrived from Han Jiyeon: one congratulatory sticker and the confirmed premium. {name} could not close the notification. He counted the digits again.\n\nThe information she had offered was now an amount that would appear in his account. For a moment, he seemed to stand inside the world of Gangnam cafes and effortless introductions under his own name.\n\nHe should have felt only joy. Instead, gratitude and relief carried the weight of a debt. He had made money, yet it felt as if he had finally returned something long owed to her.",
     "choices": [
       {
-        "text": "Thank Jiyeon",
-        "result_text": "\"This is thanks to you. I mean it.\"\nJiyeon was silent a moment, then replied.\n\"...That's what I wanted to hear.\"\nOne step closer to Gangnam. With her."
+        "text": "\"This is thanks to you. I mean it.\"",
+        "result_text": "\"This is thanks to you. I mean it.\"\n\nThe read receipt sat alone for a while. Then Jiyeon replied, \"I wanted to hear that, oppa. I'm happy it worked out for you too.\"\n\n{name} looked again at the little sticker. More than the amount bringing him closer to Gangnam, the fact that she had thought of him first remained. He wrote and erased his next reply until the screen dimmed."
       },
       {
         "text": "Now I stand equal to her world",
-        "result_text": "Gratitude only takes a moment.\n{name} was already linking these gains to the next plan.\nNot Jiyeon's world, but his own.\nThat, he thought, was the real entry into Gangnam."
+        "result_text": "{name} sent a brief thank-you, then opened his investment app. As he divided the profit between principal and the next opportunity, Jiyeon's reply slipped beneath newer notifications.\n\nHe had passed through a door she opened, but did not want to remain a guest in her world. With enough money, he could build an entrance carrying his own name. On the next plan, only the amount remained."
       }
     ]
   },
   {
     "id": "arc_opp_jiyeon_lose",
     "title": "Pre-Sale Cancelled",
-    "description": "A text arrived saying the pre-sale had been cancelled.\n\nJiyeon called directly.\n\"I'm sorry. I didn't know either.\"\n\nThere was something genuine in her voice. Maybe.\n\nThe deposit was gone.\nJiyeon's world didn't always win.\n\n{name} stared at the ceiling. For a long time.",
+    "description": "The cancellation notice arrived first. Beneath its gray sentences, four words stood out: deposit non-refundable. A moment later, Han Jiyeon called in person.\n\n\"I'm sorry. I didn't know either. I checked it again and again....\"\n\nHer usually steady voice dropped at the end of each sentence. {name} tried to decide whether it was sincere, but the vanished deposit crowded out every other thought.\n\nHe stared at a stain on the goshiwon ceiling. It was the night he learned that even the world Jiyeon crossed so easily contained locked doors.",
     "choices": [
       {
-        "text": "\"It's okay — not your fault\"",
-        "result_text": "\"It's fine.\" The words came out easy enough.\nHonestly, it wasn't fine.\nBut {name} didn't want to fall apart in front of her.\nGangnam felt further away. But the pride held."
+        "text": "\"It's all right. This wasn't your fault.\"",
+        "result_text": "\"It's all right. This wasn't your fault.\"\n\nThe words came easily, though his hand tightened around the blanket. He did not want her to hear him break, nor did he want to turn the tremor in her voice into something to blame.\n\nAfter the call, the room looked smaller. Gangnam was farther away and the deposit was still gone. At least the last sentence had been his own choice."
       },
       {
-        "text": "\"Trusting Jiyeon was a mistake\"",
-        "result_text": "\"I shouldn't have trusted you.\"\nSaid it. Hung up.\nMaybe Jiyeon's world had only ever looked glamorous from the outside.\n{name} saw her differently now."
+        "text": "\"I should never have trusted you.\"",
+        "result_text": "\"I should never have trusted you, or any of your people.\"\n\n{name} hung up before Jiyeon could answer. When she called again, he let it ring. Her glittering world suddenly looked like a thin stage set.\n\nHe saved a screenshot of the loss. Jiyeon's name above it no longer resembled an entrance. From that night on, it read like a warning."
       }
     ]
   },
@@ -811,155 +811,155 @@
   {
     "id": "arc_gosiwon_wall",
     "title": "Thin Wall",
-    "description": "3 a.m. Can't sleep.\n\nA sound from the next room. At first thought it was a TV — no. Someone crying. Muffled. Through a single sheet of plasterboard.\n\nEveryone here is getting through the night for their own reasons.",
+    "description": "At three in the morning, even the corridor's sensor light had gone dark. With his eyes closed, {name} could distinguish the mini-fridge motor from water moving through the pipes.\n\nThen another sound came through the next room. He first mistook it for a television, but it was someone failing to swallow a sob. The thin plasterboard hid a face without stopping the voice.\n\n{name} looked at the ceiling. In every small room in the building, someone seemed to be awake for a different reason.",
     "choices": [
       {
         "text": "Put in earplugs — not my business",
-        "result_text": "The sound disappeared. Or rather, became inaudible. Something inside went quiet too. Whether that's self-protection or just going numb — couldn't tell."
+        "result_text": "{name} pushed the earplugs in. The crying did not vanish; it moved outside with the hum of the fridge. Soon he could hear only his own muffled heartbeat.\n\nTelling himself it was none of his business might let him sleep. He pulled up the blanket without deciding whether this was self-protection or practice at erasing someone else's pain."
       },
       {
         "text": "Knock once on the wall — asking if they're okay",
-        "result_text": "The sound stopped. A brief silence. Then a low, small voice. \"Yes.\"\n\nThat was enough. A conversation through a wall, with someone whose name and face are unknown."
+        "result_text": "{name} tapped twice with his knuckle. The crying stopped. He asked, \"Are you all right?\" After a long pause, a very small \"Yes\" came back.\n\nBoth of them probably knew it was not true. He asked nothing more. Between two people who knew neither face nor name, the thin wall felt for once less like a barrier than a connection."
       },
       {
         "text": "Stare at the ceiling too — get through the night together",
-        "result_text": "How many people here are sleeping comfortably? That thought felt strangely comforting. Not alone — in the strangest possible way."
+        "result_text": "{name} stared at the ceiling without speaking. The sobs weakened, then returned. Unable to sleep, he crossed the same hour beside them.\n\nHow many people in this building slept easily? The thought was sad, yet carried a strange warmth. They could not save one another, but at least no one was crossing this night entirely alone."
       }
     ]
   },
   {
     "id": "arc_ch1_invest_first_chart",
     "title": "First Day on the App",
-    "description": "Desk in the gosiwon. Opened a stock brokerage account for the first time.\n\nCharts going up and down. Red, blue. All of it is someone's money. And from now on, {name}'s money goes in here too.\n\nNot scared — more like: this is real now.",
+    "description": "A brokerage account confirmation appeared on the laptop over the goshiwon desk. After several rounds of identity checks, the first screen looked almost indifferent.\n\nRed and blue candles on the Korean stock chart changed without pause. Whenever one figure moved, someone gained and someone lost. Soon, {name}'s money could enter the same movement.\n\nAn admission ticket felt closer than fear. He had not bought anything, yet every flicker on the screen already seemed nearer than before.",
     "choices": [
       {
         "text": "Put in 10,000 won — have to feel it to understand it",
-        "result_text": "10,000 won. A small number — but now this chart is {name}'s.\nUp feels good, down feels scary. That's what to learn first."
+        "result_text": "{name} deposited 10,000 won and bought one share. When the fill alert sounded, the market price stopped being someone else's number. A rise of a few won lifted his mouth; a fall made him refresh.\n\nIt was too little to call a profit. Still, he learned that his body reacted before thought whenever money moved. The first lesson was not the chart, but his own pulse."
       },
       {
         "text": "Read a book first — understand it before going in",
-        "result_text": "Account created. No money in yet.\nBetter to know what it is before jumping in."
+        "result_text": "The account was open, but {name} did not press Deposit. Instead, he searched order types, fees, and examples of losses, filling the first page of a notebook. Every sentence contained another unknown word.\n\nToday's profit was zero. So was the loss. The empty balance no longer looked like proof that he was behind, but like space that would remain until he understood where he was entering."
       }
     ]
   },
   {
     "id": "arc_ch1_career_first_spec",
     "title": "First Line of the Cover Letter",
-    "description": "Laptop screen. Cover letter question 1.\n\n\"Please describe your motivation for applying.\"\n\nThe cursor has been blinking for a minute. Age 33. No work history. Six-year gap. How does this get written? Honest means rejected; polished means it doesn't sound like you.",
+    "description": "The first cover-letter prompt filled the laptop screen: \"Please describe your motivation for applying.\" A cursor blinked steadily inside the white field.\n\nThirty-three. No career. A six-year gap. Every opening sentence stopped at those facts. Honesty sounded like an excuse; polishing it too smoothly produced someone else's resume.\n\nThe deadline drew nearer while the field stayed empty. {name} had to choose a first sentence somewhere between the applicant the company wanted and the person sitting in this room.",
     "choices": [
       {
         "text": "Write honestly — explain the gap",
-        "result_text": "Wrote it. The reason for the six years. Reading it back, it looks bleak.\nBut it's you. Starting from here."
+        "result_text": "{name} wrote why he had stopped for six years and why he had returned to Seoul. Reading it back, the gap appeared before any achievement. It still looked bleak.\n\nAt least he could answer the same question in an interview without looking away. When he pressed Save, the cursor stopped. His work history was empty, but the first sentence remained in his own voice."
       },
       {
         "text": "Dress it up — make it sound good",
-        "result_text": "Came out polished. It's all true, but not all of it.\nIf the interview asks about this, it has to hold up. That's part of the prep too."
+        "result_text": "The gap became a period of self-directed study, and irregular jobs became project experience. None of it was false. The failed days and hours spent motionless in his room simply vanished between sentences.\n\nThe finished letter was hard to fault. {name} separately memorized answers for the questions it would invite. Performing the person in the document became part of preparing for the interview."
       },
       {
         "text": "Just submit — speed over perfection",
-        "result_text": "Sent.\nDoesn't have to be perfect. Submitting is better than not."
+        "result_text": "Five minutes before the deadline, {name} stopped editing and pressed Submit. An awkward sentence came to mind immediately, but there was no longer a way to change it.\n\nThe confirmation email replaced the empty field with an application number. An imperfect document could at least be judged. His tense face and a trace of relief appeared together on the dark laptop screen."
       }
     ]
   },
   {
     "id": "arc_ch1_startup_first_idea",
     "title": "Idea Notebook",
-    "description": "Gosiwon bed. Smartphone notes app.\n\nThoughts that had been in {name}'s head since before coming to Seoul. Writing them out now, they look small. But if not written down, they'll disappear.\n\nStuck on the very first line.",
+    "description": "Lying on the goshiwon bed, {name} opened a notes app. Ideas that had seemed complete before he came to Seoul could not become even one line against the empty screen.\n\nHe typed a service name, erased it, then tried to explain why anyone would use it. Kept inside his head, the idea had been possibility. Written down, it showed its holes first.\n\nIf he left it unrecorded, tomorrow he would remember it as better than it was. He had to choose between preserving an embarrassing first sentence and waiting for a finer thought.",
     "choices": [
       {
         "text": "Search it right now — see if it already exists",
-        "result_text": "Something similar already existed. Felt disappointed — then: he can do it better.\nExecution beats first-mover advantage."
+        "result_text": "The search results contained several similar services. Their names and features were more concrete than {name}'s note. For a moment, he felt as if someone had stolen an idea he had never shared.\n\nThen the reviews revealed complaints users repeated. The road to being first was closed, but there was still something to repair more precisely. A one-star review became the first line of his new note."
       },
       {
         "text": "Just write everything down — judge later",
-        "result_text": "Fourteen ideas. Some ridiculous, some might be something.\nNot sorting them yet. Ideas need volume first."
+        "result_text": "{name} postponed judgment and wrote down everything that came. By dawn, the list held fourteen ideas. Half were absurd; a few were already too vague to understand.\n\nAt least the screen was no longer empty. For now, he would not separate possibility from scribble. The cursor blinked after the final number, leaving a place for a fifteenth thought."
       }
     ]
   },
   {
     "id": "arc_ch1_theme_network_first",
     "title": "First Meetup",
-    "description": "Cafe. First meeting of a finance study group found online.\n\nEveryone had jobs. {name} didn't. Got handed business cards. Had nothing to hand back — just saved their numbers.\n\nWalking home, a strange feeling. Is this what networking is?",
+    "description": "The finance study group {name} found online met around a long cafe table. People introduced their companies and titles before mentioning what they had ordered.\n\nBusiness cards landed one by one in front of him. Everyone had a job; when his turn came, he had no paper to offer. He took out his phone, saved each number, and repeated every name twice.\n\nOn the subway home, the corners of the cards pressed through his pocket. He could not tell whether he had met people or collected a list of uses they might trade.",
     "choices": [
       {
         "text": "Saved their contacts — might be useful later",
-        "result_text": "Saved. Names, jobs, interests. One-sided for now — but relationships are made by whoever remembers first."
+        "result_text": "{name} added each person's company, interests, and first topic beside their name. He promised himself he would send each of them one relevant article before the next meeting.\n\nDays later, one person replied. A short thank-you ended with a suggestion to meet again next week. The first name in the list no longer looked like an unfamiliar business card."
       },
       {
         "text": "Felt uneasy walking home — what was I trying to get here?",
-        "result_text": "They call it networking — but gathering without purpose is just acquaintances.\nNext time, decide what to give and what to get before going."
+        "result_text": "As he walked home, {name} asked why he had gone. He wanted useful information, perhaps, but also to sit among people who could name a workplace. The answers overlapped.\n\nNumbers saved without purpose were contacts, not a network. Next time, he would write down one thing he could offer and one thing he needed. The cards in his pocket felt heavier than before."
       }
     ]
   },
   {
     "id": "arc_ch1_theme_invest_deep",
     "title": "Three Hours of Charts",
-    "description": "Gosiwon room. 2 a.m.\n\nTechnical indicators, moving averages, trading volume. Watched three YouTube lectures. Starting to see something, maybe — or maybe not yet.\n\nBefore he knew it, it was 2 a.m.",
+    "description": "The goshiwon light was off, and only the laptop lit the desk. Three videos on indicators, moving averages, and trading volume ended one after another.\n\nLines that had meant nothing seemed slightly more legible. Then the next chart broke the rule he had just learned. Understanding and illusion grew at the same pace.\n\nThe taskbar clock had passed two in the morning. One more video seemed likely to connect everything, while tomorrow's body was already asking him to stop tonight.",
     "choices": [
       {
         "text": "Keep watching — something's about to click",
-        "result_text": "4 a.m. Eyes aching.\nBut now MACD makes sense. Can feel understanding accumulating."
+        "result_text": "{name} played the next video. His notes gained golden crosses and the MACD formula; the clock reached four. Whenever he blinked, the lines on the screen briefly doubled.\n\nSolving the final question produced a clear sensation of learning. Red and blue candles remained after he closed the laptop. He had put tomorrow's concentration into tonight's lesson too."
       },
       {
         "text": "Sleep — fresh mind tomorrow",
-        "result_text": "Closed the laptop.\nStudying needs to be consistent. One hour tomorrow beats pulling an all-nighter tonight."
+        "result_text": "{name} saved the unplayed video and closed the laptop. In the sudden darkness, the mini-fridge sounded louder.\n\nThe strength to sit down again tomorrow mattered more than one term memorized tonight. He set his alarm an hour early and lay down. The chart remained unsolved, but he knew exactly where to reopen it."
       }
     ]
   },
   {
     "id": "arc_money_check_low",
     "title": "Account Balance",
-    "description": "A month passed.\n\nOpened the mobile banking app. Gosiwon rent, phone bill, transport, food. Transaction after transaction draining out.\n\nBalance: {money}.\n\nKnew it mentally — but seeing it in numbers was different.",
+    "description": "Only after the month-end alert appeared did {name} open his banking app. Goshiwon rent, phone bill, transit card, convenience-store purchases. Small charges stood in rows by date.\n\nBalance: {money}.\n\nHe had not lost one large sum. The daily price of existing in Seoul had simply thinned the account piece by piece. In his head it was living expense; on the screen it looked like time remaining. His face hovered in the cold light.",
     "choices": [
       {
         "text": "Listed out expenses — where can I cut?",
-        "result_text": "Broke it down by category. The only thing cuttable was food. Convenience store lunch box, 2,800 won. Two meals a day: 160,000 won a month. Knowing the numbers made it less frightening somehow."
+        "result_text": "{name} divided the charges into food, transport, and fixed costs. Only meals could really shrink. A 2,800-won lunch box, twice a day, came to roughly 160,000 won a month.\n\nOnce the table was complete, the shapeless fear fit inside cells. It felt absurd to budget even his future hunger. Still, what he would have to endure was clearer than before."
       },
       {
         "text": "Closed the app — check it later",
-        "result_text": "If you don't look it doesn't exist. Knew that wasn't true. The screen went dark, and {name}'s reflection looked back."
+        "result_text": "{name} swiped the app away. If he did not look, he could live briefly as if the problem did not exist. He knew that was a lie.\n\nHis face appeared when the screen went black. The balance vanished, but the rent date kept approaching. He put the phone face down and left his hand on it, waiting for an alert that had never sounded."
       },
       {
         "text": "Looked for part-time work right away",
-        "result_text": "Opened the job app. Convenience store, warehouse, gas station. 10,320 won/hr. Eight hours a day: 2.1 million won a month. Do it or not — decided to think again tomorrow."
+        "result_text": "Instead of the bank, {name} opened a job app. Convenience-store nights, warehouse loading, gas station. The listed 10,320 won an hour looked more real than his balance.\n\nEight hours times a month of shifts came to about 2.1 million won. Beside the money he could earn sat the time he would lose. He saved three listings. Tomorrow, he would decide whether to press Apply."
       }
     ]
   },
   {
     "id": "arc_money_check_mid",
     "title": "Little by Little",
-    "description": "A month passed.\n\nOpened the mobile banking app. Things went out, yes — but for the first time, more came in.\n\nBalance: {money}.\n\nNot a big number. Not something to brag about. But {name} stared at the screen for a while. First time the account had grown instead of shrunk.",
+    "description": "{name} opened his banking app to close out the month. Beneath the rent and living costs, deposits remained. For the first time, more had entered than left.\n\nBalance: {money}.\n\nIt was too small to show anyone, less than a dot beside three billion won. Still, {name} watched the screen. For the first time since coming to Seoul, his account had not shrunk. The figure seemed to be moving forward, very slowly.",
     "choices": [
       {
         "text": "Took a screenshot — keeping a record",
-        "result_text": "Saved to the photo album. When this number looks laughably small someday, will look back at it then. Keeping the starting point."
+        "result_text": "{name} took a screenshot. In his photo library, the small balance settled between receipts and a copy of his ID.\n\nHe planned to look again when the amount had grown enough to seem laughable. Even if that day never came, the image proved that today he had not moved backward. The timestamp itself looked worth preserving."
       },
       {
         "text": "Wrote down next month's goal",
-        "result_text": "Opened a notes app. Next month's target balance. Wrote one number. What had been vague had a concrete box for the first time."
+        "result_text": "{name} opened his notes and wrote a target balance for next month. It was slightly higher than this month's, reachable if he stretched. Below it, he listed the shifts needed and expenses to cut.\n\nFor the first time, the vague future contained a box he could check. One line that could be crossed out. He pinned the note to the top. The next month had not arrived, but its number already had a place."
       },
       {
         "text": "Thought: this is nothing — still so far",
-        "result_text": "0.0-something percent of 3 billion won. Can't get comfortable with this. {name} closed the app. Satisfaction was a luxury — not yet."
+        "result_text": "{name} calculated the percentage of his goal: zero point zero-something. The pleasure of growth became tiny below the decimal. He told himself this was no place to relax.\n\nWhen he closed the app, the brief curve of his mouth disappeared too. Delaying satisfaction seemed like a way to travel farther. No one was in the room to celebrate, and he left himself nothing to say."
       }
     ]
   },
   {
     "id": "arc_money_check_high",
     "title": "This Is Actually Working",
-    "description": "A month passed.\n\nOpened the mobile banking app. And looked again.\n\nBalance: {money}.\n\nA month ago it was 500,000 won. {name} traced the number with a finger. Counted the digits three times. Correct.\n\nScared. Happy, but scared. Because it's unclear if this is skill or luck.",
+    "description": "After checking the deposit alert, {name} closed his banking app and opened it again.\n\nBalance: {money}.\n\nHe had arrived in Seoul with only 500,000 won. Now he traced the figure with one finger and counted its digits three times. It was neither a mistake nor an unsettled payment.\n\nHis heart accelerated before joy arrived. He could not separate skill from luck in the money he had made. The brighter the balance looked, the more clearly he could see how much there was to lose.",
     "choices": [
       {
         "text": "This is luck — don't get carried away",
-        "result_text": "Know that getting excited is when you lose. Mistaking one lucky break for skill is dangerous next time. {name} stayed calm and thought through the next move."
+        "result_text": "After one look at the balance, {name} covered the screen. He knew the next order grew dangerous the moment one lucky break became proof of skill.\n\nHe wrote down each source of profit and labeled what he could not reproduce as luck. Dividing it into words calmed him. The money had not changed, but the hand choosing his next move became slower."
       },
       {
         "text": "Have to go bigger — this is the moment",
-        "result_text": "Not riding this momentum would be stupid. {name}'s pulse quickened. More, bigger. The thought wouldn't leave. Whether that was a good sign or bad — unknown yet."
+        "result_text": "If he missed this momentum, the same chance might never return. {name} checked his limit and entered an order larger than usual.\n\nHe had not pressed Confirm, yet his heart beat like it already knew the result. Bigger. Just once more. He erased the amount and typed it again. The sentence remained brighter in his mind than the screen."
       },
       {
         "text": "Decided not to tell anyone",
-        "result_text": "The moment you talk about money it gets complicated. Family, friends — not yet. {name} put the phone face down. A secret only {name} knows."
+        "result_text": "{name} decided to tell no one. If his family knew, the number would become an expectation. If friends knew, it would require an explanation. For now, he wanted the money alone on his side.\n\nHe placed the phone face down. Only he knew the balance in this room. The secret was smaller than the money but somehow heavier. An achievement no one had congratulated cooled on the goshiwon desk."
       }
     ]
   },
