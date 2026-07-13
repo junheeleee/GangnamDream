@@ -35,6 +35,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 |---|---|
 | First-run language gate, KO default names, localized portrait name tags | `--qa=locale-gate` |
 | Splash, opening, StartMenu press-any-key, start menu, content notice | `--qa=start-en` |
+| Archive CG silhouettes/fullscreen preview, scene replay paging, hidden-name secrecy, and read-only GameState/MetaProgression invariants | `--qa=gallery --lang=ko/en` |
 | StoryMode/VN flashforward Black→arrival Gray reset, intro events, 1~4-choice lower dock, readable backgrounds, chapter card, scene direction framing | `--qa=story-en` |
 | StoryMode non-CG Black/Gray/White luminance, forced-Black framing, same-scene perception prose, moral choice wording, portrait distance, result-attention order/counterweight preservation, and KO/EN crop | `--qa=story-moral --lang=ko/en` |
 | Authored Moral Perception anchors: Daeun cafe, Sangchul mirror, why Gangnam, father's last call, and final countdown across Black/Gray/White prose and choices | `--qa=moral-anchors --lang=ko/en` |
@@ -131,6 +132,8 @@ Automated audio gates:
 - Autosave works.
 - Manual save slots work.
 - Loading restores player state, portfolio, relationships, flags, inventory, and logs.
+- Archive `seen_scenes` and `unlocked_cgs` survive restarts through MetaProgression; old meta saves receive empty defaults without migration failure.
+- Archive replay never mutates the active run, achievements, scene history, or CG unlock history.
 - Save data remains compatible after content additions where possible.
 
 ## UI/UX

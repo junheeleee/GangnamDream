@@ -8,6 +8,17 @@ const GangnamWordmarkScript := preload("res://scenes/ui/GangnamWordmark.gd")
 var slot_container: VBoxContainer
 var _settings_overlay: ColorRect
 var _load_overlay: ColorRect
+var _archive_overlay: ColorRect
+var _archive_preview_layer: ColorRect
+var _archive_grid: GridContainer
+var _archive_progress_label: Label
+var _archive_page_label: Label
+var _archive_prev_button: Button
+var _archive_next_button: Button
+var _archive_tab_buttons: Array[Button] = []
+var _archive_origin_focus: Control = null
+var _archive_tab: int = 0
+var _archive_page: int = 0
 var _title_command_buttons: Array[Button] = []
 
 var _splash_layer: Control
@@ -85,6 +96,22 @@ const MENU_TEXT_DIM := "#7b8490"
 const MENU_TEXT_FAINT := "#3f4752"
 const MENU_DANGER := "#6b1f1f"
 const TITLE_KEY_ART := "res://assets/keyart/gangnam_dream_keyart_cast_v1.png"
+
+const ARCHIVE_SCENE_IDS: Array[String] = [
+	"arc_date_namsan_daeun", "arc_date_namsan_jiyeon",
+	"arc_date_park_daeun", "arc_date_park_jiyeon",
+	"arc_daeun_hometown_1", "arc_jiyeon_narrow_room_1",
+	"arc_season_cherry_daeun", "arc_season_cherry_jiyeon",
+	"arc_season_sea_daeun", "arc_season_sea_jiyeon",
+	"arc_season_fireworks_daeun", "arc_season_fireworks_jiyeon",
+	"arc_season_snow_daeun", "arc_season_snow_jiyeon",
+	"arc_daeun_first_kiss", "arc_jiyeon_first_kiss",
+	"arc_daeun_first_night", "arc_daeun_wedding_night", "arc_jiyeon_wedding_night",
+]
+const ARCHIVE_HIDDEN_ACHIEVEMENTS: Array[String] = [
+	"four_seasons", "kept_evidence", "drawer_truth", "dawn_people",
+]
+const ARCHIVE_PAGE_SIZE := [6, 6, 4]
 
 const RUN_THEME_TEXT_EN := {
 	"자유런": {
@@ -168,6 +195,10 @@ func _rebuild_language_ui(show_splash: bool = false) -> void:
 	_splash_prompt_tween = null
 	_settings_overlay = null
 	_load_overlay = null
+	_archive_overlay = null
+	_archive_preview_layer = null
+	_archive_grid = null
+	_archive_tab_buttons.clear()
 	_title_command_buttons.clear()
 	for child in get_children():
 		remove_child(child)
@@ -361,6 +392,23 @@ func _input(event):
 	if is_instance_valid(_load_overlay) and event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()
 		_close_load_overlay()
+		return
+	if is_instance_valid(_archive_preview_layer) and event.is_action_pressed("ui_cancel"):
+		get_viewport().set_input_as_handled()
+		_close_archive_cg_preview()
+		return
+	if is_instance_valid(_archive_overlay):
+		if event.is_action_pressed("ui_cancel"):
+			get_viewport().set_input_as_handled()
+			_close_archive_overlay()
+			return
+		if event is InputEventJoypadButton and event.pressed:
+			if event.button_index == JOY_BUTTON_LEFT_SHOULDER:
+				get_viewport().set_input_as_handled()
+				_set_archive_tab((_archive_tab + 2) % 3)
+			elif event.button_index == JOY_BUTTON_RIGHT_SHOULDER:
+				get_viewport().set_input_as_handled()
+				_set_archive_tab((_archive_tab + 1) % 3)
 
 func _dismiss_splash():
 	_splash_active = false
@@ -448,6 +496,10 @@ func _build_ui():
 	var load_btn := _title_command_button(_tr("불러오기", "Load Game"))
 	load_btn.pressed.connect(_open_load_overlay)
 	menu.add_child(load_btn)
+
+	var archive_btn := _title_command_button(_tr("기록", "Archive"))
+	archive_btn.pressed.connect(_open_archive_overlay)
+	menu.add_child(archive_btn)
 
 	var options_btn := _title_command_button(_tr("설정", "Options"))
 	options_btn.pressed.connect(_open_settings_popup)
@@ -622,6 +674,606 @@ func _close_load_overlay() -> void:
 		if is_instance_valid(button) and not button.disabled:
 			button.call_deferred("grab_focus")
 			break
+
+# ── 기록 / 회상 갤러리 ─────────────────────────────────────────
+func _open_archive_overlay() -> void:
+	if is_instance_valid(_archive_overlay):
+		_archive_overlay.queue_free()
+	_archive_origin_focus = get_viewport().gui_get_focus_owner()
+	_archive_tab = 0
+	_archive_page = 0
+	_archive_tab_buttons.clear()
+
+	_archive_overlay = ColorRect.new()
+	_archive_overlay.name = "ArchiveOverlay"
+	_archive_overlay.color = Color(0.008, 0.010, 0.014, 0.965)
+	_archive_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_archive_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	_archive_overlay.z_index = 60
+	add_child(_archive_overlay)
+
+	var margin := MarginContainer.new()
+	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
+	margin.add_theme_constant_override("margin_left", 38)
+	margin.add_theme_constant_override("margin_right", 38)
+	margin.add_theme_constant_override("margin_top", 30)
+	margin.add_theme_constant_override("margin_bottom", 30)
+	_archive_overlay.add_child(margin)
+
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color("#0a0d12", 0.985)
+	panel_style.border_color = Color("#59636f", 0.74)
+	panel_style.set_border_width_all(1)
+	panel_style.border_width_left = 4
+	panel_style.set_corner_radius_all(4)
+	panel_style.content_margin_left = 26
+	panel_style.content_margin_right = 26
+	panel_style.content_margin_top = 20
+	panel_style.content_margin_bottom = 18
+	panel.add_theme_stylebox_override("panel", panel_style)
+	margin.add_child(panel)
+
+	var body := VBoxContainer.new()
+	body.add_theme_constant_override("separation", 11)
+	panel.add_child(body)
+
+	var header := HBoxContainer.new()
+	header.custom_minimum_size = Vector2(0, 58)
+	header.add_theme_constant_override("separation", 18)
+	body.add_child(header)
+	var heading := VBoxContainer.new()
+	heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	heading.add_theme_constant_override("separation", 2)
+	header.add_child(heading)
+	var title := _label(_tr("기록", "ARCHIVE"), 27, "#f0f3f6", HORIZONTAL_ALIGNMENT_LEFT)
+	title.add_theme_font_override("font", load("res://assets/fonts/Pretendard-Bold.ttf"))
+	heading.add_child(title)
+	heading.add_child(_label(
+		_tr("지나온 장면은 남지만, 다시 보는 선택은 현재를 바꾸지 않습니다.",
+			"Scenes remain. Choices made here never rewrite the current life."),
+		12, "#747e8a", HORIZONTAL_ALIGNMENT_LEFT))
+	_archive_progress_label = _label("", 12, "#aeb7c2", HORIZONTAL_ALIGNMENT_RIGHT)
+	_archive_progress_label.custom_minimum_size = Vector2(210, 0)
+	_archive_progress_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	header.add_child(_archive_progress_label)
+	var close_button := _archive_nav_button(_tr("닫기", "Close"), 92)
+	close_button.pressed.connect(_close_archive_overlay)
+	header.add_child(close_button)
+
+	var tabs := HBoxContainer.new()
+	tabs.custom_minimum_size = Vector2(0, 48)
+	tabs.add_theme_constant_override("separation", 8)
+	body.add_child(tabs)
+	for tab_index in range(3):
+		var tab_title: String = [
+			_tr("CG", "CG"),
+			_tr("명장면", "SCENE REPLAY"),
+			_tr("비밀 기록", "HIDDEN RECORDS"),
+		][tab_index]
+		var tab_button := _archive_tab_button(tab_title, tab_index)
+		_archive_tab_buttons.append(tab_button)
+		tabs.add_child(tab_button)
+
+	var rule := HSeparator.new()
+	rule.add_theme_color_override("color", Color("#343b45", 0.85))
+	body.add_child(rule)
+
+	_archive_grid = GridContainer.new()
+	_archive_grid.name = "ArchiveGrid"
+	_archive_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_archive_grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_archive_grid.add_theme_constant_override("h_separation", 12)
+	_archive_grid.add_theme_constant_override("v_separation", 12)
+	body.add_child(_archive_grid)
+
+	var footer_rule := HSeparator.new()
+	footer_rule.add_theme_color_override("color", Color("#252b34", 0.9))
+	body.add_child(footer_rule)
+	var footer := HBoxContainer.new()
+	footer.custom_minimum_size = Vector2(0, 50)
+	footer.add_theme_constant_override("separation", 10)
+	body.add_child(footer)
+	var pad_hint := _label(
+		"[%s/%s] %s" % [ControllerHints.shoulder_l(), ControllerHints.shoulder_r(), _tr("탭 이동", "Change tab")]
+			if ControllerHints.is_pad_active() else _tr("열람 전용 기록", "READ-ONLY ARCHIVE"),
+		11, "#66707b", HORIZONTAL_ALIGNMENT_LEFT)
+	pad_hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pad_hint.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	footer.add_child(pad_hint)
+	_archive_prev_button = _archive_nav_button(_tr("이전", "Previous"), 112)
+	_archive_prev_button.pressed.connect(_change_archive_page.bind(-1))
+	footer.add_child(_archive_prev_button)
+	_archive_page_label = _label("", 12, "#b9c1ca", HORIZONTAL_ALIGNMENT_CENTER)
+	_archive_page_label.custom_minimum_size = Vector2(82, 0)
+	_archive_page_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	footer.add_child(_archive_page_label)
+	_archive_next_button = _archive_nav_button(_tr("다음", "Next"), 112)
+	_archive_next_button.pressed.connect(_change_archive_page.bind(1))
+	footer.add_child(_archive_next_button)
+
+	_render_archive_page()
+
+func _archive_tab_button(text: String, tab_index: int) -> Button:
+	var button := Button.new()
+	button.text = text
+	button.custom_minimum_size = Vector2(0, 46)
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	button.focus_mode = Control.FOCUS_ALL
+	button.add_theme_font_size_override("font_size", 14)
+	button.pressed.connect(_set_archive_tab.bind(tab_index))
+	return button
+
+func _archive_apply_tab_styles() -> void:
+	for index in range(_archive_tab_buttons.size()):
+		var button := _archive_tab_buttons[index]
+		if not is_instance_valid(button):
+			continue
+		var active := index == _archive_tab
+		var normal := StyleBoxFlat.new()
+		normal.bg_color = Color("#1a2028", 0.96) if active else Color("#0e1218", 0.84)
+		normal.border_color = Color("#d9e0e8", 0.82) if active else Color("#343c47", 0.72)
+		normal.set_border_width_all(1)
+		normal.border_width_bottom = 3 if active else 1
+		normal.set_corner_radius_all(3)
+		var hover := normal.duplicate()
+		hover.bg_color = Color("#202731", 0.98)
+		hover.border_color = Color("#d9e0e8", 0.86)
+		var focus := hover.duplicate()
+		focus.set_border_width_all(2)
+		button.add_theme_stylebox_override("normal", normal)
+		button.add_theme_stylebox_override("hover", hover)
+		button.add_theme_stylebox_override("pressed", hover)
+		button.add_theme_stylebox_override("focus", focus)
+		button.add_theme_color_override("font_color", Color("#f2f5f7") if active else Color("#818b97"))
+		button.add_theme_color_override("font_focus_color", Color("#ffffff"))
+
+func _archive_nav_button(text: String, width: int = 108) -> Button:
+	var button := Button.new()
+	button.text = text
+	button.custom_minimum_size = Vector2(width, 42)
+	button.focus_mode = Control.FOCUS_ALL
+	button.add_theme_font_size_override("font_size", 13)
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = Color("#10151c", 0.96)
+	normal.border_color = Color("#3c4652", 0.86)
+	normal.set_border_width_all(1)
+	normal.set_corner_radius_all(3)
+	var hover := normal.duplicate()
+	hover.bg_color = Color("#1b222c", 0.98)
+	hover.border_color = Color("#cfd6de", 0.82)
+	var focus := hover.duplicate()
+	focus.set_border_width_all(2)
+	var disabled := normal.duplicate()
+	disabled.bg_color = Color("#0a0d12", 0.72)
+	disabled.border_color = Color("#252b33", 0.62)
+	button.add_theme_stylebox_override("normal", normal)
+	button.add_theme_stylebox_override("hover", hover)
+	button.add_theme_stylebox_override("pressed", hover)
+	button.add_theme_stylebox_override("focus", focus)
+	button.add_theme_stylebox_override("disabled", disabled)
+	button.add_theme_color_override("font_color", Color("#d8dee6"))
+	button.add_theme_color_override("font_focus_color", Color("#ffffff"))
+	button.add_theme_color_override("font_disabled_color", Color("#4c5560"))
+	return button
+
+func _set_archive_tab(tab_index: int) -> void:
+	_archive_tab = clampi(tab_index, 0, 2)
+	_archive_page = 0
+	_render_archive_page()
+
+func _change_archive_page(delta: int) -> void:
+	var pages := _archive_page_count()
+	_archive_page = clampi(_archive_page + delta, 0, pages - 1)
+	_render_archive_page()
+
+func _archive_page_count() -> int:
+	var count := _archive_item_count()
+	var page_size: int = ARCHIVE_PAGE_SIZE[_archive_tab]
+	return maxi(1, int(ceili(float(count) / float(page_size))))
+
+func _archive_item_count() -> int:
+	match _archive_tab:
+		0:
+			return ImageRegistry.CG.size()
+		1:
+			return ARCHIVE_SCENE_IDS.size()
+		_:
+			return _archive_unlocked_hidden().size()
+
+func _render_archive_page() -> void:
+	if not is_instance_valid(_archive_grid):
+		return
+	for child in _archive_grid.get_children():
+		child.queue_free()
+	_archive_apply_tab_styles()
+	_archive_page = clampi(_archive_page, 0, _archive_page_count() - 1)
+	var page_size: int = ARCHIVE_PAGE_SIZE[_archive_tab]
+	var start := _archive_page * page_size
+	match _archive_tab:
+		0:
+			_archive_grid.columns = 3
+			var cg_ids: Array = ImageRegistry.CG.keys()
+			for index in range(start, mini(start + page_size, cg_ids.size())):
+				_archive_grid.add_child(_archive_cg_card(str(cg_ids[index]), index))
+		1:
+			_archive_grid.columns = 2
+			for index in range(start, mini(start + page_size, ARCHIVE_SCENE_IDS.size())):
+				_archive_grid.add_child(_archive_scene_card(ARCHIVE_SCENE_IDS[index], index))
+		_:
+			var hidden := _archive_unlocked_hidden()
+			if hidden.is_empty():
+				_archive_grid.columns = 1
+				_archive_grid.add_child(_archive_empty_hidden_state())
+			else:
+				_archive_grid.columns = 2
+				for index in range(start, mini(start + page_size, hidden.size())):
+					_archive_grid.add_child(_archive_hidden_card(hidden[index], index))
+	_update_archive_status()
+	call_deferred("_focus_first_archive_item")
+
+func _update_archive_status() -> void:
+	if is_instance_valid(_archive_progress_label):
+		match _archive_tab:
+			0:
+				var unlocked := 0
+				for cg_id in ImageRegistry.CG.keys():
+					if MetaProgression.is_cg_unlocked(str(cg_id)):
+						unlocked += 1
+				_archive_progress_label.text = _tr("CG  %d / %d" % [unlocked, ImageRegistry.CG.size()],
+					"CG  %d / %d" % [unlocked, ImageRegistry.CG.size()])
+			1:
+				var seen := 0
+				for scene_id in ARCHIVE_SCENE_IDS:
+					if MetaProgression.has_seen_scene(scene_id):
+						seen += 1
+				_archive_progress_label.text = _tr("회상  %d / %d" % [seen, ARCHIVE_SCENE_IDS.size()],
+					"SCENES  %d / %d" % [seen, ARCHIVE_SCENE_IDS.size()])
+			_:
+				var hidden_count := _archive_unlocked_hidden().size()
+				_archive_progress_label.text = _tr("발견된 비밀  %d" % hidden_count,
+					"SECRETS FOUND  %d" % hidden_count)
+	var pages := _archive_page_count()
+	if is_instance_valid(_archive_page_label):
+		_archive_page_label.text = "%02d / %02d" % [_archive_page + 1, pages]
+	if is_instance_valid(_archive_prev_button):
+		_archive_prev_button.disabled = _archive_page <= 0
+	if is_instance_valid(_archive_next_button):
+		_archive_next_button.disabled = _archive_page >= pages - 1
+
+func _archive_card_button(height: int) -> Button:
+	var button := Button.new()
+	button.text = ""
+	button.clip_contents = true
+	button.custom_minimum_size = Vector2(0, height)
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	button.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	button.focus_mode = Control.FOCUS_ALL
+	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = Color("#0f1319", 0.98)
+	normal.border_color = Color("#343c47", 0.82)
+	normal.set_border_width_all(1)
+	normal.set_corner_radius_all(3)
+	var hover := normal.duplicate()
+	hover.bg_color = Color("#171d25", 0.99)
+	hover.border_color = Color("#aeb8c3", 0.86)
+	var focus := hover.duplicate()
+	focus.border_color = Color("#f0f3f6")
+	focus.set_border_width_all(3)
+	var disabled := normal.duplicate()
+	disabled.bg_color = Color("#090c10", 0.98)
+	disabled.border_color = Color("#242a32", 0.76)
+	button.add_theme_stylebox_override("normal", normal)
+	button.add_theme_stylebox_override("hover", hover)
+	button.add_theme_stylebox_override("pressed", hover)
+	button.add_theme_stylebox_override("focus", focus)
+	button.add_theme_stylebox_override("disabled", disabled)
+	return button
+
+func _archive_cg_card(cg_id: String, catalog_index: int) -> Button:
+	var unlocked := MetaProgression.is_cg_unlocked(cg_id)
+	var title := _archive_cg_title(cg_id, catalog_index)
+	var button := _archive_card_button(210)
+	button.name = "ArchiveCG_%02d" % (catalog_index + 1)
+	button.disabled = not unlocked
+	button.tooltip_text = title if unlocked else _tr("아직 보지 못한 장면", "A scene not yet witnessed")
+
+	var path := ImageRegistry.get_cg(cg_id)
+	if path != "" and ResourceLoader.exists(path):
+		var preview := TextureRect.new()
+		preview.texture = load(path)
+		preview.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		preview.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		preview.set_anchors_preset(Control.PRESET_FULL_RECT)
+		preview.offset_bottom = -50
+		preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		preview.modulate = Color.WHITE if unlocked else Color(0.10, 0.105, 0.115, 1.0)
+		button.add_child(preview)
+	var shade := ColorRect.new()
+	shade.color = Color(0.005, 0.007, 0.010, 0.10 if unlocked else 0.76)
+	shade.set_anchors_preset(Control.PRESET_FULL_RECT)
+	shade.offset_bottom = -50
+	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	button.add_child(shade)
+	if not unlocked:
+		var locked := _label(_tr("미해금", "LOCKED"), 13, "#59616c", HORIZONTAL_ALIGNMENT_CENTER)
+		locked.set_anchors_preset(Control.PRESET_FULL_RECT)
+		locked.offset_bottom = -50
+		locked.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		locked.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		button.add_child(locked)
+
+	var footer := ColorRect.new()
+	footer.color = Color("#0b0e13", 0.98)
+	footer.anchor_top = 1.0
+	footer.anchor_right = 1.0
+	footer.anchor_bottom = 1.0
+	footer.offset_top = -50
+	footer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	button.add_child(footer)
+	var footer_text := _label(
+		("CG %02d  ·  %s" % [catalog_index + 1, title]) if unlocked else ("CG %02d  ·  ???" % [catalog_index + 1]),
+		12, "#d8dee6" if unlocked else "#4c545e", HORIZONTAL_ALIGNMENT_LEFT)
+	footer_text.set_anchors_preset(Control.PRESET_FULL_RECT)
+	footer_text.offset_left = 14
+	footer_text.offset_right = -12
+	footer_text.clip_text = true
+	footer_text.autowrap_mode = TextServer.AUTOWRAP_OFF
+	footer_text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	footer_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	footer.add_child(footer_text)
+	if unlocked:
+		button.pressed.connect(_open_archive_cg_preview.bind(cg_id, title))
+	return button
+
+func _archive_scene_card(scene_id: String, catalog_index: int) -> Button:
+	var event: Dictionary = DataRegistry.find_event(scene_id)
+	var unlocked: bool = MetaProgression.has_seen_scene(scene_id) and not event.is_empty()
+	var title := str(event.get("title", _tr("기록", "Record"))) if unlocked else "???"
+	var button := _archive_card_button(142)
+	button.name = "ArchiveScene_%02d" % (catalog_index + 1)
+	button.disabled = not unlocked
+
+	var image_path := _archive_event_visual_path(event) if unlocked else ""
+	if image_path != "" and ResourceLoader.exists(image_path):
+		var preview := TextureRect.new()
+		preview.texture = load(image_path)
+		preview.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		preview.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		preview.anchor_bottom = 1.0
+		preview.custom_minimum_size = Vector2(176, 0)
+		preview.offset_right = 176
+		preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		preview.modulate = Color(0.76, 0.78, 0.82, 1.0)
+		button.add_child(preview)
+		var image_shade := ColorRect.new()
+		image_shade.color = Color(0.01, 0.015, 0.02, 0.24)
+		image_shade.anchor_bottom = 1.0
+		image_shade.offset_right = 176
+		image_shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		button.add_child(image_shade)
+
+	var copy := VBoxContainer.new()
+	copy.anchor_right = 1.0
+	copy.anchor_bottom = 1.0
+	copy.offset_left = 194 if image_path != "" else 18
+	copy.offset_right = -18
+	copy.offset_top = 18
+	copy.offset_bottom = -16
+	copy.add_theme_constant_override("separation", 7)
+	copy.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	button.add_child(copy)
+	copy.add_child(_label(_archive_scene_kind(scene_id), 10, "#77818d", HORIZONTAL_ALIGNMENT_LEFT))
+	var title_label := _label(title, 18, "#edf1f5" if unlocked else "#4d5661", HORIZONTAL_ALIGNMENT_LEFT)
+	title_label.add_theme_font_override("font", load("res://assets/fonts/Pretendard-Bold.ttf"))
+	title_label.clip_text = true
+	title_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	copy.add_child(title_label)
+	copy.add_child(_label(
+		_tr("열람 전용 · 선택은 현재 기록을 바꾸지 않음", "READ ONLY · Choices do not alter the current life")
+			if unlocked else _tr("이 장면을 본 뒤 열립니다.", "Unlocked after witnessing this scene."),
+		11, "#8b95a1" if unlocked else "#4a525c", HORIZONTAL_ALIGNMENT_LEFT))
+	if unlocked:
+		button.pressed.connect(_replay_archive_scene.bind(scene_id))
+	return button
+
+func _archive_hidden_card(achievement: Dictionary, catalog_index: int) -> PanelContainer:
+	var card := PanelContainer.new()
+	card.custom_minimum_size = Vector2(0, 176)
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("#101319", 0.98)
+	style.border_color = Color("#8e764c", 0.72)
+	style.set_border_width_all(1)
+	style.border_width_top = 3
+	style.set_corner_radius_all(3)
+	style.content_margin_left = 22
+	style.content_margin_right = 22
+	style.content_margin_top = 18
+	style.content_margin_bottom = 16
+	card.add_theme_stylebox_override("panel", style)
+	var copy := VBoxContainer.new()
+	copy.add_theme_constant_override("separation", 8)
+	card.add_child(copy)
+	copy.add_child(_label(_tr("비밀 기록 %02d" % (catalog_index + 1), "HIDDEN RECORD %02d" % (catalog_index + 1)),
+		10, "#9b8459", HORIZONTAL_ALIGNMENT_LEFT))
+	var title: Label = _label(str(achievement.get("name", "")), 19, "#eef1f4", HORIZONTAL_ALIGNMENT_LEFT)
+	title.add_theme_font_override("font", load("res://assets/fonts/Pretendard-Bold.ttf"))
+	copy.add_child(title)
+	copy.add_child(_label(str(achievement.get("description", "")), 12, "#9ba4ae", HORIZONTAL_ALIGNMENT_LEFT))
+	return card
+
+func _archive_empty_hidden_state() -> PanelContainer:
+	var card := PanelContainer.new()
+	card.custom_minimum_size = Vector2(0, 360)
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("#0b0e13", 0.96)
+	style.border_color = Color("#252c35", 0.82)
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(3)
+	card.add_theme_stylebox_override("panel", style)
+	var empty := _label(
+		_tr("아직 드러난 비밀 기록이 없습니다.", "No hidden records have surfaced."),
+		15, "#59636f", HORIZONTAL_ALIGNMENT_CENTER)
+	empty.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	card.add_child(empty)
+	return card
+
+func _archive_unlocked_hidden() -> Array:
+	var result: Array = []
+	for achievement_id in ARCHIVE_HIDDEN_ACHIEVEMENTS:
+		if not MetaProgression.is_achievement_unlocked(achievement_id):
+			continue
+		var info: Dictionary = DataRegistry.achievements_by_id.get(achievement_id, {})
+		if not info.is_empty():
+			result.append(info)
+	return result
+
+func _archive_cg_title(cg_id: String, catalog_index: int) -> String:
+	for ending in DataRegistry.endings:
+		if str(ending.get("cg", "")) == cg_id:
+			return str(ending.get("title", _tr("엔딩 기록", "Finale Record")))
+	for event in DataRegistry.events:
+		if _archive_value_contains_cg(event, cg_id):
+			return str(event.get("title", _tr("장면 기록", "Scene Record")))
+	if cg_id == "cg_start":
+		return _tr("시작의 기록", "The Beginning")
+	return _tr("장면 기록 %02d" % (catalog_index + 1), "Scene Record %02d" % (catalog_index + 1))
+
+func _archive_value_contains_cg(value: Variant, cg_id: String) -> bool:
+	if value is String:
+		return str(value) == cg_id
+	if value is Array:
+		for item in value:
+			if _archive_value_contains_cg(item, cg_id):
+				return true
+	elif value is Dictionary:
+		for key in value:
+			if _archive_value_contains_cg(value[key], cg_id):
+				return true
+	return false
+
+func _archive_event_visual_path(event: Dictionary) -> String:
+	var cg_id := str(event.get("cg", ""))
+	if cg_id != "":
+		var cg_path := ImageRegistry.get_cg(cg_id)
+		if cg_path != "":
+			return cg_path
+	var bg_id := str(event.get("background", ""))
+	if bg_id != "":
+		return ImageRegistry.get_background(bg_id)
+	return ""
+
+func _archive_scene_kind(scene_id: String) -> String:
+	if "season_" in scene_id:
+		return _tr("계절의 기록", "SEASONAL STORY")
+	if "first_kiss" in scene_id:
+		return _tr("첫 키스", "FIRST KISS")
+	if "first_night" in scene_id or "wedding_night" in scene_id:
+		return _tr("그 밤", "THE NIGHT")
+	return _tr("특별한 이야기", "SPECIAL STORY")
+
+func _open_archive_cg_preview(cg_id: String, title: String) -> void:
+	if not is_instance_valid(_archive_overlay) or not MetaProgression.is_cg_unlocked(cg_id):
+		return
+	var path := ImageRegistry.get_cg(cg_id)
+	if path == "" or not ResourceLoader.exists(path):
+		return
+	if is_instance_valid(_archive_preview_layer):
+		_archive_preview_layer.queue_free()
+	_archive_preview_layer = ColorRect.new()
+	_archive_preview_layer.name = "ArchiveCGPreview"
+	_archive_preview_layer.color = Color(0.002, 0.003, 0.005, 1.0)
+	_archive_preview_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_archive_preview_layer.mouse_filter = Control.MOUSE_FILTER_STOP
+	_archive_preview_layer.z_index = 10
+	_archive_overlay.add_child(_archive_preview_layer)
+	var margin := MarginContainer.new()
+	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
+	margin.add_theme_constant_override("margin_left", 56)
+	margin.add_theme_constant_override("margin_right", 56)
+	margin.add_theme_constant_override("margin_top", 36)
+	margin.add_theme_constant_override("margin_bottom", 32)
+	_archive_preview_layer.add_child(margin)
+	var body := VBoxContainer.new()
+	body.add_theme_constant_override("separation", 12)
+	margin.add_child(body)
+	var header := HBoxContainer.new()
+	header.custom_minimum_size = Vector2(0, 48)
+	body.add_child(header)
+	var title_label := _label(title, 20, "#eef2f5", HORIZONTAL_ALIGNMENT_LEFT)
+	title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(title_label)
+	var close_button := _archive_nav_button(_tr("돌아가기", "Back"), 118)
+	close_button.pressed.connect(_close_archive_cg_preview)
+	header.add_child(close_button)
+	var image_panel := PanelContainer.new()
+	image_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var frame := StyleBoxFlat.new()
+	frame.bg_color = Color("#05070a")
+	frame.border_color = Color("#56606b", 0.74)
+	frame.set_border_width_all(1)
+	frame.set_corner_radius_all(3)
+	frame.content_margin_left = 8
+	frame.content_margin_right = 8
+	frame.content_margin_top = 8
+	frame.content_margin_bottom = 8
+	image_panel.add_theme_stylebox_override("panel", frame)
+	body.add_child(image_panel)
+	var image := TextureRect.new()
+	image.texture = load(path)
+	image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	image_panel.add_child(image)
+	close_button.call_deferred("grab_focus")
+
+func _close_archive_cg_preview() -> void:
+	if is_instance_valid(_archive_preview_layer):
+		_archive_preview_layer.queue_free()
+	_archive_preview_layer = null
+	call_deferred("_focus_first_archive_item")
+
+func _replay_archive_scene(scene_id: String) -> void:
+	if not MetaProgression.has_seen_scene(scene_id) or DataRegistry.find_event(scene_id).is_empty():
+		return
+	GameState.pending_story_queue = [scene_id]
+	GameState.story_return_scene = "res://scenes/StartMenu.tscn"
+	GameState.returning_from_story = false
+	GameState.story_replay_mode = true
+	SceneTransition.go("res://scenes/StoryMode.tscn")
+
+func _focus_first_archive_item() -> void:
+	if not is_instance_valid(_archive_grid):
+		return
+	for node in _archive_grid.get_children():
+		if node is Button and not (node as Button).disabled:
+			(node as Button).grab_focus()
+			return
+	if _archive_tab < _archive_tab_buttons.size() and is_instance_valid(_archive_tab_buttons[_archive_tab]):
+		_archive_tab_buttons[_archive_tab].grab_focus()
+
+func _close_archive_overlay() -> void:
+	if is_instance_valid(_archive_preview_layer):
+		_archive_preview_layer.queue_free()
+	_archive_preview_layer = null
+	if is_instance_valid(_archive_overlay):
+		_archive_overlay.queue_free()
+	_archive_overlay = null
+	_archive_grid = null
+	_archive_tab_buttons.clear()
+	if is_instance_valid(_archive_origin_focus):
+		_archive_origin_focus.call_deferred("grab_focus")
+	else:
+		for button in _title_command_buttons:
+			if is_instance_valid(button) and not button.disabled:
+				button.call_deferred("grab_focus")
+				break
+	_archive_origin_focus = null
 
 # Retained temporarily as a functional reference while settings/content notice
 # are migrated to the same poster grammar. It is no longer called by StartMenu.

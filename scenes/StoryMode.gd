@@ -38,6 +38,7 @@ var _direction_beat_remaining: float = 0.0
 var _direction_pending_text: String = ""
 var _story_visual_override_active: bool = false
 var _story_visual_override_norm: float = 0.0
+var _read_only_replay: bool = false
 
 # ── 노드 ──────────────────────────────────────────────────────
 var _bg_img: TextureRect
@@ -64,6 +65,7 @@ var _tutorial_popup: Control = null
 var _chapter_overlay: Control = null  # 챕터 카드 전용 오버레이
 var _is_chapter_card: bool = false    # 챕터 카드 모드 플래그
 var _current_uses_cg: bool = false
+var _event_cg_id: String = ""
 var _event_cg_path: String = ""
 var _event_cg_reveal_paragraph: int = 0
 var _event_paragraph_backgrounds: Array = []
@@ -105,6 +107,7 @@ const RESULT_OTHER_KEYS: Array[String] = ["intelligence", "appearance", "luck"]
 static var _auto_enabled_session: bool = false
 
 func _ready():
+	_read_only_replay = GameState.story_replay_mode
 	_load_fonts()
 	_build_ui()
 	_set_auto_mode(_auto_enabled_session, false)
@@ -774,6 +777,8 @@ func _load_next_event():
 	if _current.is_empty():
 		_load_next_event()
 		return
+	if not _read_only_replay:
+		MetaProgression.record_scene_seen(event_id)
 	EventManager.current_event = _current
 	_render_current()
 
@@ -805,6 +810,7 @@ func _render_current():
 	_showing_choices = false
 	_clear_result_record_card()
 	_current_uses_cg = false
+	_event_cg_id = ""
 	_event_cg_path = ""
 	_event_cg_reveal_paragraph = 0
 	_event_paragraph_backgrounds = []
@@ -837,6 +843,7 @@ func _render_current():
 	var cg_id := _resolved_event_cg_id()
 	if cg_id != "":
 		cg_path = ImageRegistry.get_cg(cg_id)
+	_event_cg_id = cg_id
 	_event_cg_path = cg_path
 	_event_cg_reveal_paragraph = maxi(0, int(_current.get("cg_reveal_paragraph", 0)))
 	var raw_paragraph_backgrounds: Variant = _current.get("paragraph_backgrounds", [])
@@ -852,6 +859,8 @@ func _render_current():
 	if cg_active_at_start and ResourceLoader.exists(cg_path):
 		_bg_img.texture = load(cg_path)
 		_current_uses_cg = true
+		if not _read_only_replay:
+			MetaProgression.record_cg_unlocked(cg_id)
 	else:
 		var bg_id := _event_background_id_for_paragraph(0)
 		if bg_id == "":
@@ -960,6 +969,8 @@ func _maybe_reveal_event_cg(paragraph_index: int) -> void:
 	if not ResourceLoader.exists(_event_cg_path):
 		return
 	_current_uses_cg = true
+	if not _read_only_replay:
+		MetaProgression.record_cg_unlocked(_event_cg_id)
 	# The ledger has already landed on the prior result paragraph. Once the
 	# authored CG opens, release the middle of the frame to its acting/object.
 	_clear_result_record_card()
@@ -1771,12 +1782,15 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 				"result_cg_reveal_paragraph",
 				_current.get("result_cg_reveal_paragraph", 0))))
 			if reveal_paragraph > 0:
+				_event_cg_id = result_cg_id
 				_event_cg_path = result_cg_path
 				_event_cg_reveal_paragraph = reveal_paragraph
 				return
 			_play_story_ink_transition("scene", 0.55)
 			_bg_img.texture = load(result_cg_path)
 			_current_uses_cg = true
+			if not _read_only_replay:
+				MetaProgression.record_cg_unlocked(result_cg_id)
 			_apply_story_surface_palette(true)
 			_show_portrait(_resolved_event_portrait_id(), true)
 			if _hud_panel != null and is_instance_valid(_hud_panel):
@@ -1816,21 +1830,22 @@ func _on_choice(idx: int):
 	# follow_up_event를 직접 읽어 큐에 이어붙임 (StoryMode는 자체 큐 사용)
 	_pending_follow_up = str(choice.get("follow_up_event", ""))
 	var result: String = _fmt(str(choice.get("result_text", "")))
-	var has_result_record: bool = result != "" and _story_choice_has_visible_result(choice)
+	var has_result_record: bool = not _read_only_replay \
+		and result != "" and _story_choice_has_visible_result(choice)
 
 	# 변화 스냅샷 (노출용) — 스탯 + 인물 관계
 	var before = _snapshot_stats()
 	var cast_before := {}
 	for pid in choice.get("cast_effects", {}):
 		cast_before[str(pid)] = GameState.get_cast_affinity(str(pid))
-	# 실제 적용
-	GameState.apply_choice(_current, choice)
-	# 첫 변화에는 팝업 설명 먼저 (떴으면 토스트는 팝업 닫힌 뒤 자연스럽게 남음)
-	_maybe_show_tutorial_popup(before, cast_before)
-	# 결과 기록판이 있는 선택은 같은 변화를 우측 토스트로 반복 노출하지 않는다.
-	if not has_result_record:
-		_show_change_toasts(before)
-		_show_cast_toasts(cast_before)
+	if not _read_only_replay:
+		GameState.apply_choice(_current, choice)
+		# 첫 변화에는 팝업 설명 먼저 (떴으면 토스트는 팝업 닫힌 뒤 자연스럽게 남음)
+		_maybe_show_tutorial_popup(before, cast_before)
+		# 결과 기록판이 있는 선택은 같은 변화를 우측 토스트로 반복 노출하지 않는다.
+		if not has_result_record:
+			_show_change_toasts(before)
+			_show_cast_toasts(cast_before)
 
 	# 결과 텍스트 표시
 	_showing_choices = false
@@ -1842,7 +1857,8 @@ func _on_choice(idx: int):
 	_apply_choice_result_visual(choice)
 
 	if result != "":
-		_show_story_result_record(choice)
+		if has_result_record:
+			_show_story_result_record(choice)
 		_paragraphs = []
 		for para in result.split("\n\n"):
 			var p = str(para).strip_edges()
@@ -1869,7 +1885,7 @@ func _after_result():
 func _chapter_card_advance():
 	AudioManager.play("choice_made")
 	var choices: Array = _current.get("choices", [])
-	if choices.size() > 0:
+	if choices.size() > 0 and not _read_only_replay:
 		GameState.apply_choice(_current, choices[0])
 	_load_next_event()
 
@@ -2293,16 +2309,18 @@ func _finish_all():
 	EventManager.current_event = {}
 	_reset_scene_direction()
 	BGMPlayer.update_idle_ambience()
-	# MainGame이 '달을 다시 시작하지 않도록' 복귀 플래그 설정
-	GameState.returning_from_story = true
+	# MainGame 복귀만 주간 재시작을 막는다. 메인 메뉴 회상은 런 상태를 건드리지 않는다.
+	GameState.returning_from_story = not _read_only_replay
 	# 복귀 대상 (기본: MainGame)
 	var ret = GameState.story_return_scene
 	if ret == "":
 		ret = "res://scenes/MainGame.tscn"
 	GameState.story_return_scene = ""
+	GameState.story_replay_mode = false
 	SceneTransition.go(ret)
 
 func _exit_tree() -> void:
+	GameState.story_replay_mode = false
 	BGMPlayer.restore_ambience()
 
 func _fmt(s: String) -> String:

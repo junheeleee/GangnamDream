@@ -8,6 +8,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=casino-en
 ## 수정 부위별 빠른 확인:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=start-en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=gallery --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=locale-gate
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-moral --lang=en
@@ -52,6 +53,7 @@ const QA_SCOPE_MORAL := "moral"
 const QA_SCOPE_DEMO_FLOW := "demo_flow"
 const QA_SCOPE_DEMO_BLACKBOX := "demo_blackbox"
 const QA_SCOPE_START_EN := "start_en"
+const QA_SCOPE_GALLERY := "gallery"
 const QA_SCOPE_LOCALE_GATE := "locale_gate"
 const QA_SCOPE_STORY_EN := "story_en"
 const QA_SCOPE_STORY_MORAL := "story_moral"
@@ -140,6 +142,12 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_start_surfaces(lang, "start_en_" if lang == "en" else "start_ko_")
 		print("SCREENSHOT_QA_DONE scope=start-en lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_GALLERY:
+		var lang := _qa_language("en")
+		await _shot_archive_surfaces(lang, "archive_en_" if lang == "en" else "archive_ko_")
+		print("SCREENSHOT_QA_DONE scope=gallery lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_LOCALE_GATE:
@@ -391,6 +399,10 @@ func _qa_scope() -> String:
 				"qa=start-en", "--qa=start-en", "qa=start_en", "--qa=start_en",
 				"scope=start-en", "--scope=start-en", "scope=start_en", "--scope=start_en"]:
 			return QA_SCOPE_START_EN
+		if arg in ["gallery", "archive", "replay-gallery", "replay_gallery",
+				"--gallery", "--archive", "qa=gallery", "--qa=gallery",
+				"qa=archive", "--qa=archive", "scope=gallery", "--scope=gallery"]:
+			return QA_SCOPE_GALLERY
 		if arg in ["locale-gate", "locale_gate", "language-gate", "language_gate",
 				"--locale-gate", "--locale_gate", "qa=locale-gate", "--qa=locale-gate",
 				"qa=locale_gate", "--qa=locale_gate", "scope=locale-gate", "--scope=locale-gate"]:
@@ -1048,6 +1060,119 @@ func _shot_start_surfaces(lang: String = "en", prefix: String = "start_en_") -> 
 	await _shot_splash_screen(lang, prefix + "00_splash")
 	await _shot_opening_cinematic(lang, prefix)
 	await _shot_start_menu_notice(lang, prefix)
+
+func _shot_archive_surfaces(lang: String = "en", prefix: String = "archive_en_") -> void:
+	_set_qa_language(lang)
+	var original_meta := MetaProgression.data.duplicate(true)
+	var cg_ids: Array = ImageRegistry.CG.keys()
+	MetaProgression.data["unlocked_cgs"] = [str(cg_ids[0]), str(cg_ids[2]), str(cg_ids[3])]
+	MetaProgression.data["seen_scenes"] = [
+		"arc_date_namsan_daeun", "arc_date_park_jiyeon",
+		"arc_season_sea_daeun", "arc_daeun_first_kiss",
+	]
+	MetaProgression.data["achievements"] = ["four_seasons"]
+
+	var packed := load("res://scenes/StartMenu.tscn") as PackedScene
+	var menu := packed.instantiate()
+	get_tree().root.add_child.call_deferred(menu)
+	await get_tree().process_frame
+	await _settle(0.75)
+	if menu.has_method("_dismiss_splash"):
+		menu._dismiss_splash()
+	await _settle(0.35)
+	menu._open_archive_overlay()
+	await _settle(0.45)
+	_assert_archive_surface(menu, "CG gallery")
+	await _save(prefix + "01_cg_gallery")
+
+	var first_cg_id := str(cg_ids[0])
+	menu._open_archive_cg_preview(first_cg_id, menu._archive_cg_title(first_cg_id, 0))
+	await _settle(0.3)
+	await _save(prefix + "02_cg_preview")
+	menu._close_archive_cg_preview()
+	menu._set_archive_tab(1)
+	await _settle(0.35)
+	_assert_archive_surface(menu, "scene replay")
+	await _save(prefix + "03_scene_replay")
+
+	menu._set_archive_tab(2)
+	await _settle(0.35)
+	_assert_archive_surface(menu, "hidden records")
+	_assert_locked_hidden_names_absent(menu)
+	await _save(prefix + "04_hidden_records")
+	_remove_start_menu_nodes()
+	await _settle(0.25)
+
+	# Read-only replay contract: a choice may advance prose and reveal its CG,
+	# but no serialized run state or achievement collection is allowed to move.
+	_prepare_main_game_state()
+	MetaProgression.data["seen_scenes"] = ["arc_daeun_first_kiss"]
+	MetaProgression.data["unlocked_cgs"] = ["cg_romance_first_kiss_daeun"]
+	var state_before: Dictionary = GameState.serialize().duplicate(true)
+	var meta_before: Dictionary = MetaProgression.data.duplicate(true)
+	GameState.pending_story_queue = ["arc_daeun_first_kiss"]
+	GameState.story_return_scene = "res://scenes/StartMenu.tscn"
+	GameState.story_replay_mode = true
+	var story_packed := load("res://scenes/StoryMode.tscn") as PackedScene
+	var story := story_packed.instantiate()
+	get_tree().root.add_child.call_deferred(story)
+	await get_tree().process_frame
+	await _settle(0.35)
+	story._on_choice(0)
+	await _settle(0.35)
+	var state_after: Dictionary = GameState.serialize().duplicate(true)
+	if state_before != state_after:
+		_fail("Archive replay mutated serialized GameState")
+		return
+	if meta_before != MetaProgression.data:
+		_fail("Archive replay mutated persistent MetaProgression data")
+		return
+	if story.find_child("StoryResultRecord", true, false) != null:
+		_fail("Archive replay exposed a mechanical choice result card")
+		return
+	await _save(prefix + "05_read_only_result")
+	_remove_nodes_by_script("res://scenes/StoryMode.gd")
+	MetaProgression.data = original_meta
+	await _settle(0.25)
+
+func _assert_archive_surface(menu: Control, context: String) -> void:
+	var overlay := menu.get("_archive_overlay") as Control
+	if not is_instance_valid(overlay):
+		_fail("%s overlay missing" % context)
+		return
+	if not overlay.find_children("*", "ScrollContainer", true, false).is_empty():
+		_fail("%s contains a ScrollContainer" % context)
+		return
+	var viewport_rect := get_viewport().get_visible_rect()
+	for node in overlay.find_children("*", "Button", true, false):
+		var button := node as Button
+		if not button.visible:
+			continue
+		var rect := button.get_global_rect()
+		if rect.position.x < -1.0 or rect.position.y < -1.0 \
+				or rect.end.x > viewport_rect.end.x + 1.0 or rect.end.y > viewport_rect.end.y + 1.0:
+			_fail("%s button leaves viewport: %s %s" % [context, button.name, rect])
+			return
+
+func _assert_locked_hidden_names_absent(menu: Control) -> void:
+	var overlay := menu.get("_archive_overlay") as Control
+	var surface_text := _collect_control_text(overlay)
+	for achievement_id in ["kept_evidence", "drawer_truth", "dawn_people"]:
+		var info: Dictionary = DataRegistry.achievements_by_id.get(achievement_id, {})
+		var locked_name := str(info.get("name", ""))
+		if locked_name != "" and locked_name in surface_text:
+			_fail("Locked hidden achievement name leaked: %s" % achievement_id)
+			return
+
+func _collect_control_text(node: Node) -> String:
+	var result := ""
+	if node is Label:
+		result += (node as Label).text + "\n"
+	elif node is Button:
+		result += (node as Button).text + "\n"
+	for child in node.get_children():
+		result += _collect_control_text(child)
+	return result
 
 func _shot_story_surfaces(lang: String = "en", prefix: String = "story_en_") -> void:
 	# 플래시포워드 콜드오픈(신규) — 프롤로그보다 앞서 재생되는 5년 뒤 씬.

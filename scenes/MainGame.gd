@@ -12353,7 +12353,10 @@ func _show_ending(ending_id):
 	BGMPlayer.on_ending(ending_id)  # BGM 엔딩 트랙으로 전환
 	AudioManager.play_ending_stinger(ending_id)
 	var ending: Dictionary = EndingSystem.get_ending(ending_id)
+	var ending_cg_id := str(ending.get("cg", ""))
 	var ending_cg_path := _get_ending_cg_path(ending)
+	if ending_cg_path != "" and ResourceLoader.exists(ending_cg_path):
+		MetaProgression.record_cg_unlocked(ending_cg_id)
 	var bg_path := ending_cg_path
 	if event_bg:
 		var tex = load(bg_path) if bg_path != "" and ResourceLoader.exists(bg_path) else null

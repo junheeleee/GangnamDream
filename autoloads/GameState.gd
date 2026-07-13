@@ -202,6 +202,7 @@ var cast: Dictionary = {}
 var pending_story_queue: Array = []   # StoryMode에서 재생할 이벤트 ID 목록
 var story_return_scene: String = ""    # StoryMode 종료 후 복귀할 씬 경로
 var returning_from_story: bool = false # true면 MainGame이 달을 다시 시작하지 않음
+var story_replay_mode: bool = false    # 회상 갤러리 열람 중에는 선택 효과를 적용하지 않음
 
 func _default_cast() -> Dictionary:
 	return {

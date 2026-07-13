@@ -459,6 +459,41 @@ func get_ending_collection_progress() -> Dictionary:
 func is_achievement_unlocked(achievement_id: String) -> bool:
 	return data.get("achievements", []).has(achievement_id)
 
+# ── 회상 갤러리 ──────────────────────────────────────────────────
+func record_scene_seen(scene_id: String) -> bool:
+	if scene_id.is_empty():
+		return false
+	var scenes: Array = data.get("seen_scenes", [])
+	if scenes.has(scene_id):
+		return false
+	scenes.append(scene_id)
+	data["seen_scenes"] = scenes
+	save_meta()
+	return true
+
+func has_seen_scene(scene_id: String) -> bool:
+	return data.get("seen_scenes", []).has(scene_id)
+
+func get_seen_scenes() -> Array:
+	return data.get("seen_scenes", []).duplicate()
+
+func record_cg_unlocked(cg_id: String) -> bool:
+	if cg_id.is_empty():
+		return false
+	var cgs: Array = data.get("unlocked_cgs", [])
+	if cgs.has(cg_id):
+		return false
+	cgs.append(cg_id)
+	data["unlocked_cgs"] = cgs
+	save_meta()
+	return true
+
+func is_cg_unlocked(cg_id: String) -> bool:
+	return data.get("unlocked_cgs", []).has(cg_id)
+
+func get_unlocked_cgs() -> Array:
+	return data.get("unlocked_cgs", []).duplicate()
+
 func _check_progression_unlocks(summary):
 	var total_assets = float(summary.get("total_assets", 0.0))
 	var ending_id = str(summary.get("ending_id", ""))

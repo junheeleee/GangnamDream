@@ -1,5 +1,18 @@
 # Gangnam Dream Work Log
 
+## 2026-07-13 (Codex — ORDER-04 회상 갤러리 풀스택)
+
+### 구현
+- `MetaProgression` 영구 저장에 `seen_scenes`와 `unlocked_cgs`를 추가했다. 일반 StoryMode가 실제 씬을 열 때 ID를 기록하고, 시작 CG·문단 지연 CG·선택 결과 CG·엔딩 CG가 실제 파일로 화면에 노출되는 순간에만 CG를 해금한다. 기존 메타 저장은 기본값 병합으로 자동 호환된다.
+- 시작 메뉴에 KO/EN `기록 / Archive`를 추가했다. CG 50개는 3x2 무스크롤 페이지와 미해금 실루엣, 해금 후 전체화면 감상을 제공한다. 명장면은 남산·놀이동산·고향·좁은 방·사계절·첫 키스·첫날밤 19종을 2x3 페이지로 재생한다. `LB/RB` 탭 이동, 방향키 포커스, 이전/다음 페이지와 취소 복귀를 지원한다.
+- 비밀 기록은 해금된 히든 업적만 생성한다. `four_seasons`, `kept_evidence`, `drawer_truth`, `dawn_people`는 잠긴 동안 이름·힌트·전체 개수조차 노출하지 않는다.
+- 회상은 `pending_story_queue`를 재사용하지만 `story_replay_mode`에서 선택 효과·플래그·관계·업적·씬/CG 메타 해금·수치 결과 카드를 모두 차단한다. 결과 산문, CG 연출, 선택별 후속 장면은 그대로 볼 수 있다.
+
+### 검증
+- `ScreenshotQA --qa=gallery`는 CG 도감, 확대 감상, 회상 목록, 히든 기록, 회상 선택 결과 5컷을 KO/EN으로 생성한다. ScrollContainer 0, 모든 버튼의 화면 경계, 잠긴 히든 이름 비노출, 선택 전후 `GameState.serialize()`와 MetaProgression 전체 dict의 완전 동일성을 자동 판정한다.
+- 960x600, 1280x720, 1280x800에서 갤러리 잘림 없이 통과했고 `--qa=start-en`으로 여섯 번째 시작 메뉴 명령도 확인했다.
+- 최종 `audit.sh`: 정적 ERROR 0/WARNING 0, write-only/inert 0, 밸런스 1,200런 x 3정책, 오디오 64개, BGM 연속성, 튜토리얼·스토리 자동 재생, 활성 CG 50장/배우 계약 86개, Godot GDScript 57개 컴파일 통과.
+
 ## 2026-07-13 (Codex — ORDER-03 Tier2 로맨스 주변 아크 한영 산문 패스)
 
 ### 구현
