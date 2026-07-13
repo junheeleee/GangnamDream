@@ -60,7 +60,7 @@ Claude 컨테이너가 Godot 바이너리를 잃어(2026-07-13) 최근 Claude �
 
 같은 규율. 대상: `arc_daeun_extension.json` 4종 + `arc_year3_drama.json` 지연 부산 라인 7종(원거리 정합 주의 — 그녀는 부산에 있다) + `arc_specialization.json` 3종 + `arc_romance_y5.json` arc_daeun_y5_feelings + `arc_daeun.json` arc_daeun_02b_dream + `arc_events.json` 잔여 얇은 씬(arc_opp_* 4종·money_check 3종·ch1 테마 5종·gosiwon_wall). 호칭 정본 필수(다은 존댓말/지연 반말은 연애 확정 후만).
 
-#### [ ] ORDER-04 [P1] 회상 갤러리 (7-I 풀스택)
+#### [~] ORDER-04 [P1] 회상 갤러리 (7-I 풀스택) — 착수, 만지는 파일: `autoloads/MetaProgression.gd`, `autoloads/GameState.gd`, `content/meta/default_meta.json`, `scenes/StoryMode.gd`, `scenes/StartMenu.gd`, `tools/audit.py`, `tools/ScreenshotQA.gd`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`
 `docs/ROMANCE_SYSTEM.md` 7-I 정본. 데이터 계층: MetaProgression에 `seen_scenes`/`unlocked_cgs`(영구 저장, 씬 id·CG id 해금 기록 — StoryMode 재생 시·CG 노출 시 기록 훅). UI: 메인 메뉴 "기록" 갤러리 — ①CG 갤러리(미해금 실루엣) ②명장면 회상(특별 스토리·계절·첫 키스·첫날밤 재생 — pending_story_queue 재사용, 재생 중 효과/플래그 적용 금지=열람 전용 가드 필수) ③히든 업적(해금 후에만 표시 — four_seasons·kept_evidence·drawer_truth·dawn_people는 해금 전 이름도 숨김). 검증: audit+갤러리 ScreenshotQA 스코프 추가.
 
 #### [ ] ORDER-05 [P1] 업적 전수 감사 (15종)
