@@ -78,7 +78,7 @@ Claude 컨테이너가 Godot 바이너리를 잃어(2026-07-13) 최근 Claude �
 **착수 기록 — 만진 파일:** `scenes/StoryMode.gd`, `scenes/MainGame.gd`, `tools/HiddenFeatureCheck.gd`, `tools/HiddenFeatureCheck.gd.uid`, `tools/HiddenFeatureCheck.tscn`, `tools/audit.sh`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`.
 신기능 블랙박스: ①재혁 ghost — 사진 미보유 시 2선택지/보유 시 3번째 "(주머니 속…)" 노출+follow_up 사진 씬 ②지연 verdict 제3의 길 — 첫 문자 보유 시만, 선택 후 jiyeon_man 엔딩에 stayed_as_selves dik 발화 ③다은 이혼 담판 포스트잇 — 라우팅이 거절과 동일(이혼 아님) ④새벽의 사람들 — `_is_real_dawn()` 임시 오버라이드로 새벽 대사 4종 순환·5회 최심부·업적 ⑤서랍 속의 진실 — 조건 충족 엔딩 후 암전 컷 재생·업적 ⑥간직한 것들 — 유물 보유 런 엔딩 리캡에 목록 노출. 각각 캡처 or 로그 증적, 발견 버그 수리 커밋.
 
-#### [ ] ORDER-07 [P2] 이사 "두고 간다" 비트
+#### [~] ORDER-07 [P2] 이사 "두고 간다" 비트 — 착수, 만지는 파일: `autoloads/GameState.gd`, `autoloads/DataRegistry.gd`, `scenes/MainGame.gd`, `content/events/arc_housing_keepsake.json`, `content/events_en/arc_housing_keepsake.json`, `tools/audit.py`, `tools/HousingKeepsakeCheck.gd`, `tools/HousingKeepsakeCheck.gd.uid`, `tools/HousingKeepsakeCheck.tscn`, `tools/audit.sh`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`
 주거 사다리 상승 전환(HOUSING_DATA 상승 이동 처리 지점)에 1회성 비트: 보유 유물이 1개 이상이면 "짐을 싸다가, 그것이 나왔다" 스토리 이벤트 — 선택: 가져간다(변화 없음) / 두고 간다(유물 1개 제거 — 제거 유물의 유물 씬·dik·제시가 이후 침묵, mental+2 tint-2 "가벼워진 짐"). 유물 다수면 가장 오래된 것 하나를 지목. 신규 이벤트 KR+EN, 플래그 독자 확보, 아크 규약 준수. **이건 '간직함을 선택으로 만드는' 설계라 라우팅 영향 0이어야 함.**
 
 #### [ ] ORDER-19 [P1] 연차 정체성 패키지 — 다섯 해에 이름을 (유저 지시 2026-07-13) ⚠ 동결 전 마지막 콘텐츠 신규 기능
