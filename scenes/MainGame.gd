@@ -13172,7 +13172,7 @@ func _ending_run_summary(ending_id: String) -> String:
 			else:
 				return _tr("5년의 고군분투 끝에 강남드림을 이뤘다", "After five years of struggle, the Gangnam Dream came true.")
 		"instant_legend":
-			return _tr("고시원 백수가 첫 해에 30억을 만들었다 — 아무도 믿지 않을 것이다", "A jobless goshiwon dweller made KRW 3B in the first year — no one will believe it.")
+			return _tr("고시원 백수가 첫해에 30억을 만들었다 — 아무도 믿지 않을 것이다", "A jobless goshiwon dweller made 3 billion won in the first year — no one will believe it.")
 		"burnout":
 			return _tr("강남 야경보다 병실 천장을 먼저 봤다. 서울은 그런 도시다.", "He saw a hospital ceiling before the Gangnam skyline. Seoul is that kind of city.")
 		"mental_break":

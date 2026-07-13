@@ -429,6 +429,14 @@
       "actors": [
         {"id": "minjun", "gaze_target": "The signature line nearest his hands", "pose_support": "His lowered eyes, released right hand beside the pen, open left hand beside the correctly oriented phone, and easing shoulders hold relief inward without a victory pose or lens contact."}
       ]
+    },
+    "cg_ending_instant_legend": {
+      "path": "assets/cg/ending_instant_legend_v1.png",
+      "camera_role": "empty_apartment_observational_wide",
+      "story_action": "Before his first year is over, 33-year-old Minjun enters the nearly empty Gangnam apartment and discovers that the goal has arrived before the rest of his life.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The blank deed folder held at mid-torso", "pose_support": "His young face and slim shoulders remain upright but stalled; the left hand holds the folder's left edge while the right loosely supports its lower-right edge, without a victory pose or lens contact."}
+      ]
     }
   }
 }

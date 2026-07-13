@@ -77,6 +77,16 @@ This document owns the release-tier P1 ending CGs added after the eight-image P0
 - Glass contract: the partition shows only the real office beyond it and neutral light. It contains no Minjun reflection, ghost body, duplicated human silhouette, or reflection whose angle disagrees with his position.
 - Props: exactly one contract folder, one pen, one phone, one closed unbranded laptop, and one plain water glass. No readable acquisition amount, app screen, logo, stamp, extra device, or duplicated hand prop.
 
+## `cg_ending_instant_legend`
+
+- File: `assets/cg/ending_instant_legend_v1.png`; owner: `instant_legend` only. It is the impossible first-year arrival, never the five-year `gangnam_dream`, White-route self-recognition, or the older `lonely_rich` aftermath.
+- Shared moment: 33-year-old Minjun has just entered the almost empty Gangnam apartment and looks down at the deed before the achievement can feel real. The image promises no exact month, winning vehicle, moral route, reconciled relationship, or person waiting outside the frame.
+- Space: one physically plausible newly occupied high-rise living room in cool morning light, broad floor-to-ceiling window, coherent ceiling/floor perspective, and an ordinary Seoul apartment skyline. The room remains nearly empty except for exactly one small closed carton and one worn black duffel containing the life that arrived too early.
+- Identity and wardrobe: canonical starting-age Minjun, lean Korean face, uneven short black fringe, narrow tired eyes, slim shoulders, worn black crewneck, dark trousers, and plain shoes. He must read as 33, not the hollow-cheeked 38-year-old used by five-year endings, and never wears a suit or luxury success costume.
+- Acting: Minjun stands upright but stalled. His left hand holds the left edge of one plain cream deed folder while his right hand loosely supports its lower-right edge, as if he has not decided whether the paper is real. Both hands stay at mid-torso inside the preview. His eyes stay on the folder, mouth closed, with no smile, tears, fist pump, skyline pose, or lens gaze.
+- Glass and prop lock: the window contains no human reflection, ghost body, mirrored Minjun, or duplicate limb. No phone, keys, money, chart, casino object, champagne, readable deed text, logo, or route-specific person appears.
+- Preview lock: the default centered 950x430 crop keeps Minjun's face, both hands, deed folder, carton, duffel, and the disproportionate empty room readable together.
+
 ## Acceptance Gate
 
 - `ImageRegistry`, Korean ending data, `cg_acting_manifest.json`, and `CGRuntimeCheck` agree on the owner and path.

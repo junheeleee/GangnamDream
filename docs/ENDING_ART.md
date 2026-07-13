@@ -45,6 +45,7 @@ Updated: 2026-07-13
 | `cg_ending_late_call` | `assets/cg/ending_late_call_v1.png` | `late_call` | 창원행 KTX·겨울비·전화·뺀 이어버드 |
 | `cg_ending_lonely_rich` | `assets/cg/ending_lonely_rich_v1.png` | `lonely_rich` | 네 자리 식탁·1인분·세 빈 의자·뒤집은 폰 |
 | `cg_ending_startup_exit` | `assets/cg/ending_startup_exit_v1.png` | `startup_exit` | 작은 창업 사무실·서명 직후 놓은 펜·민준 방향의 계약서와 휴대폰 |
+| `cg_ending_instant_legend` | `assets/cg/ending_instant_legend_v1.png` | `instant_legend` | 첫해의 33세 민준·등기 폴더·한 상자만 놓인 비현실적으로 빈 강남 거실 |
 
 프로포즈·결혼 과정 CG인 `cg_romance_proposal_daeun`, `cg_romance_wedding_daeun_small`, `cg_romance_wedding_daeun_full`, `cg_romance_wedding_gap_jiyeon`과 T2 결별 결과인 `cg_romance_breakup_daeun`, `cg_romance_breakup_jiyeon`은 2026-07-12에 완성됐지만 **엔딩 CG가 아니다**. 선택의 실제 순간과 비용을 시각화할 뿐 `with_daeun`, `jiyeon_man`, `lonely_rich`, `ordinary_life`의 최종 생활을 대신하지 않는다.
 
@@ -89,7 +90,7 @@ Updated: 2026-07-13
 | `unorthodox_legend` | A | 없음 | 없음 | P2 신규 CG 후보 |
 | `early_retirement` | A | 없음 | 없음 | P2 신규 CG 후보 |
 | `creator_success` | A | 없음 | 없음 | P2 신규 CG 후보 |
-| `instant_legend` | ? | 없음 | `gangnam_apartment` | P1. 히든 엔딩이라 한 장의 강한 CG 가치 높음 |
+| `instant_legend` | ? | `cg_ending_instant_legend` | `gangnam_apartment` | P1 완료. 관계가 따라오기 전 첫해에 끝나버린 목표와 빈 거실 |
 | `full_circle` | S+ | `cg_ending_full_circle` | `gangnam_penthouse` | P0 완료. 아버지는 전화 상대이며 방 안에 중복 등장하지 않음 |
 | `gangnam_dream_white` | S+ | `cg_ending_gangnam_dream_white` | `gangnam_night` | P0 완료. 일반 강남 CG와 공유하지 않는 전용 White 컷 |
 | `second_love` | A+ | `cg_ending_second_love` | `gangnam_night` | P0 완료. 두 번째 커피 동작으로 관계를 결산 |
@@ -122,7 +123,7 @@ Updated: 2026-07-13
 | 새 cg key | 연결 엔딩 | 장면 스펙 |
 |---|---|---|
 | `cg_ending_late_call` | `late_call` | **완료.** 창원행 KTX 창가, 폰을 귀에 붙인 오른손, 화면 안에 남는 뺀 이어버드 왼손, 빗방울. 아버지는 음성으로만 존재 |
-| `cg_ending_instant_legend` | `instant_legend` | 너무 이른 강남 도착. 넓은 거실이 오히려 비현실적으로 비어 보임 |
+| `cg_ending_instant_legend` | `instant_legend` | **완료.** 33세 민준이 등기 폴더를 내려다보는 첫해의 강남 도착. 한 상자·낡은 가방 외에는 비어 있는 거실 |
 | `cg_ending_startup_exit` | `startup_exit` | **완료.** 작은 창업 회의실, 서명 직후 놓은 펜과 열린 손. 계약서·휴대폰은 민준 방향, 유리에는 인물 반사 없음 |
 | `cg_ending_lonely_rich` | `lonely_rich` | **완료.** 강남 네 자리 식탁에 도착한 1인분, 세 빈 의자, 뒤집은 폰. 이혼/비혼/10억 경고 변주가 같은 최종 물리를 공유 |
 | `cg_ending_orthodox_pinnacle` | `orthodox_pinnacle` | 회식 자리/회사 로비. 정장 차림 민준, 후배의 부러움, 본인은 확신 없음 |
@@ -131,7 +132,7 @@ Updated: 2026-07-13
 | `cg_ending_debt_spiral` | `debt_spiral` | **완료.** 같은 방·같은 축에서 뒤집은 계산기와 놓아 버린 손. 하단 소품을 위한 엔딩별 프리뷰 초점 적용 |
 | `cg_ending_burnout` | `burnout` | 응급실 형광등/천장/링거와 보호자 연락 질문. 정신건강의학과 `mental_break`와 공유 금지 |
 
-`late_call`, `lonely_rich`, `gambling_recovery`, `bankruptcy`, `debt_spiral`, `startup_exit`은 완료했다. 다음 실제 제작 순서는 `instant_legend`, `orthodox_pinnacle`, `burnout`이며 노출·감정 회수 순으로 판단한다. `mental_break`는 전용 진료실 컷을 만들기 전까지 정합한 엔딩 카드로 남긴다.
+`late_call`, `lonely_rich`, `gambling_recovery`, `bankruptcy`, `debt_spiral`, `startup_exit`, `instant_legend`는 완료했다. 다음 실제 제작 순서는 `orthodox_pinnacle`, `burnout`이며 노출·감정 회수 순으로 판단한다. `mental_break`는 전용 진료실 컷을 만들기 전까지 정합한 엔딩 카드로 남긴다.
 
 ### P2 — 있으면 고급스러운 엔딩
 
@@ -179,6 +180,6 @@ Updated: 2026-07-13
 - [x] `gangnam_dream_white`의 일반 강남 CG 임시 공유 제거
 - [x] `gangnam_dream_white` 전용 White CG 제작 후 연결
 - [x] P0 신규 CG 8종 제작/보정/연결
-- [ ] P1 신규 CG 8종 제작/보정/연결 — 3/8 (`late_call`, `lonely_rich`, `gambling_recovery`)
+- [ ] P1 신규 CG 9종 제작/보정/연결 — 7/9 (`late_call`, `lonely_rich`, `gambling_recovery`, `bankruptcy`, `debt_spiral`, `startup_exit`, `instant_legend`)
 - [ ] P2 엔딩은 CG보다 엔딩 카드/스팅/배경 정합성 먼저 보강
 - [ ] 엔딩 스팅 5종 제작 및 `AudioManager`/`BGMPlayer` 연결

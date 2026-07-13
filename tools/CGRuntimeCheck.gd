@@ -675,6 +675,9 @@ func _check_ending_cg() -> void:
 	_check_ending_cg_path(main, "startup_exit", "cg_ending_startup_exit")
 	if ImageRegistry.get_cg("cg_ending_startup_exit") != "res://assets/cg/ending_startup_exit_v1.png":
 		_failures.append("startup_exit must use its dedicated signed-acquisition CG")
+	_check_ending_cg_path(main, "instant_legend", "cg_ending_instant_legend")
+	if ImageRegistry.get_cg("cg_ending_instant_legend") != "res://assets/cg/ending_instant_legend_v1.png":
+		_failures.append("instant_legend must use its dedicated first-year empty-apartment CG")
 	_check_all_ending_cg_contracts(main)
 
 	var preview_parent := VBoxContainer.new()
