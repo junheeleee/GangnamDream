@@ -25,6 +25,9 @@ func _run() -> void:
 	_check_build_flavor()
 	_check_export_presets()
 	_check_first_eight_weeks()
+	_check_employment_consistency()
+	_check_side_shift_pay()
+	_check_ap_bonus_surface()
 	_check_demo_cutoff()
 	if not _failures.is_empty():
 		for failure in _failures:
@@ -117,6 +120,79 @@ func _check_demo_cutoff() -> void:
 	_expect(not GameState.has_reached_demo_limit(), "Demo ended before week 24 was completed.")
 	GameState.turn = GameState.DEMO_TURN_LIMIT + 1
 	_expect(GameState.has_reached_demo_limit(), "Demo did not stop before week 25.")
+
+func _check_employment_consistency() -> void:
+	GameState.start_new_game("김민준", "지방_상경", "직장형", "백수", "자유런", "현실")
+	var packed := load("res://scenes/MainGame.tscn") as PackedScene
+	if packed == null:
+		_failures.append("MainGame.tscn failed to load for employment checks.")
+		return
+	var main_game := packed.instantiate()
+	GameState.flags["pending_spec_career"] = true
+	GameState.flags["career_months_total"] = 12
+	GameState.current_job = {}
+	_expect(not bool(main_game.call("_career_specialization_ready", GameState.flags)),
+		"Career specialization appeared while unemployed.")
+
+	GameState.current_job = DataRegistry.get_job("job_03").duplicate(true)
+	GameState.flags["career_months_total"] = 11
+	_expect(not bool(main_game.call("_career_specialization_ready", GameState.flags)),
+		"Career specialization appeared before 12 worked months.")
+	GameState.flags["career_months_total"] = 12
+	_expect(bool(main_game.call("_career_specialization_ready", GameState.flags)),
+		"Career specialization did not unlock after 12 worked months in an office job.")
+	GameState.current_job = DataRegistry.get_job("job_01").duplicate(true)
+	_expect(not bool(main_game.call("_career_specialization_ready", GameState.flags)),
+		"Office specialization appeared during convenience-store survival work.")
+
+	GameState.flags.erase("pending_spec_career")
+	GameState.flags.erase("arc_first_job_week_seen")
+	GameState.turn = 10
+	GameState.job_tenure = 0
+	GameState.flags["job_started_turn"] = 10
+	_expect(str(main_game.call("_first_job_week_arc_id", GameState.flags)).is_empty(),
+		"First-job story chained during the same week as hiring.")
+	GameState.turn = 11
+	_expect(str(main_game.call("_first_job_week_arc_id", GameState.flags)) == "arc_first_job_week_convenience",
+		"Convenience job did not route to its first-week scene.")
+	GameState.current_job = DataRegistry.get_job("job_02").duplicate(true)
+	_expect(str(main_game.call("_first_job_week_arc_id", GameState.flags)) == "arc_first_job_week_delivery",
+		"Delivery job did not route to its first-week scene.")
+	GameState.current_job = DataRegistry.get_job("job_03").duplicate(true)
+	_expect(str(main_game.call("_first_job_week_arc_id", GameState.flags)) == "arc_first_job_week",
+		"Office job did not route to the canonical first-week scene.")
+	_expect(DataRegistry.find_event("story_first_workday").is_empty(),
+		"Obsolete duplicate story_first_workday remains registered.")
+	_expect(str(DataRegistry.find_event("arc_first_job_week_convenience").get("background", "")) == "convenience_night",
+		"Convenience first-week scene has the wrong background.")
+	_expect(str(DataRegistry.find_event("arc_first_job_week_delivery").get("background", "")) == "aruba_delivery",
+		"Delivery first-week scene has the wrong background.")
+	main_game.free()
+
+func _check_side_shift_pay() -> void:
+	var aruba_script := load("res://scenes/ArubaGame.gd") as Script
+	if aruba_script == null:
+		_failures.append("ArubaGame.gd failed to load.")
+		return
+	var constants := aruba_script.get_script_constant_map()
+	var base_pay := int(constants.get("BASE_PAY", 0))
+	_expect(base_pay >= 82_560 and base_pay <= 120_000,
+		"One side shift must stay near a 2026 eight-hour minimum-wage day, got %d." % base_pay)
+
+func _check_ap_bonus_surface() -> void:
+	var packed := load("res://scenes/MainGame.tscn") as PackedScene
+	if packed == null:
+		_failures.append("MainGame.tscn failed to load for AP checks.")
+		return
+	var main_game := packed.instantiate()
+	GameState.max_action_points = 2
+	GameState.action_points = 3
+	var status := str(main_game.call("_ap_status_text"))
+	var remaining := str(main_game.call("_ap_remaining_text"))
+	_expect(not status.contains("3/2"), "Bonus AP surfaced as the invalid-looking fraction 3/2.")
+	_expect(status.contains("+1"), "Bonus AP status did not explain the extra point: %s." % status)
+	_expect(remaining.contains("+1"), "AP rail did not mark the extra point as a bonus: %s." % remaining)
+	main_game.free()
 
 func _expect(condition: bool, message: String) -> void:
 	if not condition:

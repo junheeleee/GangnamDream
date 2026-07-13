@@ -161,21 +161,6 @@
     ]
   },
   {
-    "id": "story_first_workday",
-    "title": "First Day at Work",
-    "description": "You woke up ten minutes before the alarm.\n\nA new job, your first.\nWhat to wear, how many minutes early to arrive,\nWhether to eat lunch alone or with others.\nEvery little thing is a first.\n\nOn the subway, {name} stood there in a daze.\nEveryone was living their own morning.\n\nNow you're one of them too.",
-    "choices": [
-      {
-        "text": "Arrive ten minutes early and survey the place",
-        "result_text": "{name} sat alone in an empty office.\nIt was awkward, but the first impression was made.\nThese ten minutes might be remembered later."
-      },
-      {
-        "text": "Walk in right on time",
-        "result_text": "Punched in exactly on schedule.\nDecided not to overthink it.\n{name} chose to start simply as {name}."
-      }
-    ]
-  },
-  {
     "id": "story_late_night_grind",
     "title": "Working Late",
     "description": "At ten, the cleaning cart rolled past once and left {name} alone in the office. One row of fluorescent lights hummed overhead. His dry eyes stung at the edge of the monitor.\n\nAnything unfinished tonight would move into tomorrow. Tomorrow's work was already waiting, which meant one delayed day could follow him into the next night. He rested a hand over Save and looked outside. Only a few windows remained lit in the building opposite.\n\nSomewhere in Seoul, other people had already ended their day. His was the only one in the room that had not been allowed to leave.",

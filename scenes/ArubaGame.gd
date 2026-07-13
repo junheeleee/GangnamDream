@@ -9,7 +9,8 @@ signal closed(earned: int, stress_delta: int, health_delta: int)
 
 enum Mode { CARDS, CONVENIENCE, DELIVERY }
 
-const BASE_PAY := 400_000
+# 2026 최저임금 10,320원 × 8시간 = 82,560원. 게임에서는 야간/단기 가산을 둥글게 반영한다.
+const BASE_PAY := 90_000
 
 # ── 상황 카드 데이터 ──────────────────────────────────────────────
 const SCENARIOS_CONVENIENCE = [
@@ -364,6 +365,9 @@ func open() -> void:
 		Mode.CARDS:
 			_header_lbl.text = LocaleManager.ui("알바 시프트", "Part-Time Shift")
 			_start_cards()
+
+func get_base_pay() -> int:
+	return BASE_PAY
 
 func _clear_content() -> void:
 	for ch in _content_vb.get_children():

@@ -2,7 +2,7 @@
   {
     "id": "arc_spec_career",
     "title": "What Kind of Professional Will You Be?",
-    "description": "After a year on the job, the office's invisible paths began to show. Reports built through overtime reached executive meetings when their numbers held up. People whose names came up over dinner were invited to the next project first.\n\nOn {name}'s desk, a performance report lay beside a dinner invitation from his team lead. Both offered a way upward: make the result impossible to dispute, or win over the people who would speak for it.\n\nHe could not spend every evening on both. Beneath the fluorescent lights, he had to choose which skill would carry his name first.",
+    "description": "After a full year in the workforce, the office's invisible paths began to show. Reports built through overtime reached executive meetings when their numbers held up. People whose names came up over dinner were invited to the next project first.\n\nOn {name}'s desk, a performance report lay beside a dinner invitation from his team lead. Both offered a way upward: make the result impossible to dispute, or win over the people who would speak for it.\n\nHe could not spend every evening on both. Beneath the fluorescent lights, he had to choose which skill would carry his name first.",
     "choices": [
       {
         "text": "Prove it with results — because numbers don't lie  [Elite Track]",

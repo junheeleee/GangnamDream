@@ -430,47 +430,6 @@
     ]
   },
   {
-    "id": "story_first_workday",
-    "title": "첫 출근",
-    "description": "자명종이 울리기 10분 전에 눈이 떠졌다.\n\n처음 가는 직장.\n뭘 입어야 할지, 몇 분 일찍 가야 할지,\n점심은 혼자 먹는 건지 같이 먹는 건지.\n사소한 게 전부 처음이다.\n\n지하철 안에서 {name}은 멍하니 서 있었다.\n다들 각자의 아침을 살아가고 있었다.\n\n나도 이제 그 중 한 명이 됐다.",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": true,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "story",
-      "job"
-    ],
-    "cooldown": 9999,
-    "choices": [
-      {
-        "text": "10분 일찍 도착해서 자리를 살핀다",
-        "effects": {
-          "reputation": 4,
-          "mental": -3
-        },
-        "flags": [
-          "story_first_workday_seen"
-        ],
-        "result_text": "아무도 없는 사무실에 {name} 혼자 앉아 있었다.\n어색했지만, 첫인상은 챙겼다.\n이 10분이 나중에 기억될 수도 있다."
-      },
-      {
-        "text": "정시에 딱 맞춰 들어간다",
-        "effects": {
-          "social_skill": 2,
-          "mental": 2
-        },
-        "flags": [
-          "story_first_workday_seen"
-        ],
-        "result_text": "칼같이 정시 출근.\n너무 의식하지 않기로 했다.\n{name}은 그냥 {name}답게 시작하기로 했다."
-      }
-    ]
-  },
-  {
     "id": "story_late_night_grind",
     "title": "야근",
     "description": "밤 열 시. 청소 카트 바퀴 소리가 한 번 지나간 뒤 사무실에는 {name}만 남았다. 형광등 한 줄이 낮게 웅웅거렸고, 모니터 가장자리에는 마른 눈물이 얇게 맺혔다.\n\n오늘 끝내지 못하면 일이 내일로 넘어간다. 내일의 일은 이미 와 있으니, 밀린 하루는 그다음 밤까지 따라올 것이다. 저장 버튼 위에 손을 얹은 채 창밖을 봤다. 맞은편 빌딩의 불도 몇 칸 남지 않았다.\n\n서울 어딘가에서 누군가는 지금 하루를 끝냈을 것이다. {name}의 하루만 아직 퇴근하지 못했다.",

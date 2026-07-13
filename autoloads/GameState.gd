@@ -598,6 +598,8 @@ func _apply_starting_profile(profile: String):
 				current_job    = job.duplicate(true)
 				job_tenure     = 0
 				monthly_income = float(job.get("base_salary", 1_320_000))
+				flags["has_job"] = true
+				flags["job_started_turn"] = 0
 		"직장인":
 			# 대기업 회사원 — 월급은 두둑하지만 삶이 없다
 			money          += 2_000_000.0  # 2년치 저축
@@ -613,6 +615,8 @@ func _apply_starting_profile(profile: String):
 				current_job    = job.duplicate(true)
 				job_tenure     = 0
 				monthly_income = float(job.get("base_salary", 4_550_000))
+				flags["has_job"] = true
+				flags["job_started_turn"] = 0
 		"유튜버":
 			# 유튜버 지망생 — 구독자 3천명, 가능성과 불안정성 공존
 			money          += 200_000.0
@@ -948,6 +952,8 @@ func apply_choice(event, choice):
 			job_tenure     = 0
 			work_performance = 50
 			monthly_income = float(gj.get("base_salary", 0))
+			flags["has_job"] = true
+			flags["job_started_turn"] = turn
 			add_log(LocaleManager.ui("💼 취업: %s", "💼 Hired: %s") % get_job_display_name(gj), "job")
 	# 스토리 인물 관계 변화 (cast_effects)
 	# 예: "cast_effects": { "jiyeon": { "affinity": 10, "stage": "interest", "met": true } }

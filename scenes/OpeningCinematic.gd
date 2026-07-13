@@ -120,6 +120,7 @@ const FADE_OUT := 0.7
 var _transitioning := false
 var _card_index    := 0
 var _waiting_input := false
+var _play_generation := 0
 
 var _bg:       ColorRect
 var _main_lbl: Label
@@ -238,6 +239,8 @@ func _build_ui():
 
 # ── 카드 재생 ─────────────────────────────────────────────────
 func _play_card(idx: int):
+	_play_generation += 1
+	var generation := _play_generation
 	_card_index    = idx
 	_waiting_input = false
 	var cards := CARDS_EN if LocaleManager.is_english() else CARDS
@@ -267,7 +270,11 @@ func _play_card(idx: int):
 	# 마지막 카드: 입력 대기 + 힌트 표시
 	if card["hold"] < 0:
 		await tw.finished
+		if generation != _play_generation or _transitioning:
+			return
 		await get_tree().create_timer(0.3).timeout
+		if generation != _play_generation or _transitioning:
+			return
 		_show_hint()
 		_waiting_input = true
 		return
@@ -276,7 +283,7 @@ func _play_card(idx: int):
 	await tw.finished
 	await get_tree().create_timer(card["hold"]).timeout
 
-	if _transitioning:
+	if generation != _play_generation or _transitioning:
 		return
 
 	var tw2 = create_tween()
@@ -287,10 +294,12 @@ func _play_card(idx: int):
 		tw2.parallel().tween_property(_stats_row, "modulate", Color(1, 1, 1, 0.0), FADE_OUT * 0.9)
 	await tw2.finished
 
-	if _transitioning:
+	if generation != _play_generation or _transitioning:
 		return
 
 	await get_tree().create_timer(0.25).timeout
+	if generation != _play_generation or _transitioning:
+		return
 	_play_card(idx + 1)
 
 func _apply_card_stats(card: Dictionary) -> void:
@@ -369,7 +378,10 @@ func _input(event: InputEvent):
 
 	# 카드 진행 중: 현재 카드 스킵 → 마지막 카드로 점프
 	if not _waiting_input:
-		_skip_to_last()
+		var cards := CARDS_EN if LocaleManager.is_english() else CARDS
+		# 마지막 카드의 페이드가 끝나기 전 연타는 같은 카드를 다시 시작하지 않는다.
+		if _card_index < cards.size() - 1:
+			_skip_to_last()
 	else:
 		_go_to_menu()
 

@@ -212,7 +212,7 @@
     "id": "cafe_cb_honest_00",
     "title": "걸려온 전화",
     "background": "goshiwon_room",
-    "portrait": "cafe_investor",
+    "portrait": "player_tired",
     "category": "story",
     "rarity": "story",
     "weight": 0,

@@ -67,7 +67,7 @@
     {"id": "cafe_cb_stole_verify", "background": "investment_phone", "portrait": "player_determined"},
     {"id": "cafe_cb_stole_allin", "background": "investment_phone", "portrait": "player_shocked"},
     {"id": "cafe_cb_stole_smart", "background": "cafe", "portrait": "cafe_broker_kim"},
-    {"id": "cafe_cb_honest_00", "background": "goshiwon_room", "portrait": "cafe_investor"},
+    {"id": "cafe_cb_honest_00", "background": "goshiwon_room", "portrait": "player_tired"},
     {"id": "cafe_cb_honest_in", "background": "cafe", "portrait": "cafe_investor"},
     {"id": "cafe_cb_humiliated_00", "background": "cafe", "portrait": "cafe_investor"},
 

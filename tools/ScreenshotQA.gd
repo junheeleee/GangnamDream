@@ -45,6 +45,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=moral
 ## 전환 레이어만 빠르게 확인:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=transition
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-input --lang=en --demo-build
 ## 헤드리스 더미 렌더러는 빈 텍스처를 주므로 x11+opengl3(xvfb) 필요.
 ## .tscn 으로 부팅해야 autoload(GameState 등)가 로드된다.
 
@@ -54,6 +55,7 @@ const QA_SCOPE_CASINO_EN := "casino_en"
 const QA_SCOPE_MORAL := "moral"
 const QA_SCOPE_DEMO_FLOW := "demo_flow"
 const QA_SCOPE_DEMO_BLACKBOX := "demo_blackbox"
+const QA_SCOPE_DEMO_INPUT := "demo_input"
 const QA_SCOPE_START_EN := "start_en"
 const QA_SCOPE_GALLERY := "gallery"
 const QA_SCOPE_YEAR_IDENTITY := "year_identity"
@@ -106,7 +108,7 @@ func _ready() -> void:
 	DirAccess.make_dir_recursive_absolute(OUT_DIR)
 	_clear_output_dir()
 	var scope: String = _qa_scope()
-	if scope in [QA_SCOPE_DEMO_FLOW, QA_SCOPE_DEMO_BLACKBOX] and not GameState.is_demo_build():
+	if scope in [QA_SCOPE_DEMO_FLOW, QA_SCOPE_DEMO_BLACKBOX, QA_SCOPE_DEMO_INPUT] and not GameState.is_demo_build():
 		_fail("Demo QA requires the explicit --demo-build test flag.")
 		return
 	if scope in [QA_SCOPE_CASINO, QA_SCOPE_CASINO_EN]:
@@ -151,6 +153,10 @@ func _ready() -> void:
 		await _shot_demo_blackbox(lang)
 		print("SCREENSHOT_QA_DONE scope=demo-blackbox lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_DEMO_INPUT:
+		var lang := _qa_language("en")
+		await _run_demo_input_route(lang)
 		return
 	if scope == QA_SCOPE_START_EN:
 		var lang := _qa_language("en")
@@ -421,6 +427,10 @@ func _qa_scope() -> String:
 				"qa=demo-blackbox", "--qa=demo-blackbox", "qa=demo_blackbox", "--qa=demo_blackbox",
 				"scope=demo-blackbox", "--scope=demo-blackbox", "scope=demo_blackbox", "--scope=demo_blackbox"]:
 			return QA_SCOPE_DEMO_BLACKBOX
+		if arg in ["demo-input", "demo_input", "--demo-input", "--demo_input",
+				"qa=demo-input", "--qa=demo-input", "qa=demo_input", "--qa=demo_input",
+				"scope=demo-input", "--scope=demo-input", "scope=demo_input", "--scope=demo_input"]:
+			return QA_SCOPE_DEMO_INPUT
 		if arg in ["start-en", "start_en", "start", "--start-en", "--start_en",
 				"qa=start-en", "--qa=start-en", "qa=start_en", "--qa=start_en",
 				"scope=start-en", "--scope=start-en", "scope=start_en", "--scope=start_en"]:
@@ -613,6 +623,25 @@ func _prepare_main_game_state() -> void:
 	_seed_cast_state()
 	_suppress_tutorial_overlays()
 
+func _prepare_story_event_fixture(event_id: String) -> void:
+	match event_id:
+		"arc_first_job_week_convenience":
+			GameState.current_job = {
+				"id": "job_01", "name": "Convenience Store Night Shift",
+				"category": "survival", "base_salary": 1_320_000.0, "tier": 1,
+			}
+		"arc_first_job_week_delivery":
+			GameState.current_job = {
+				"id": "job_02", "name": "Delivery Rider",
+				"category": "survival", "base_salary": 1_760_000.0, "tier": 1,
+			}
+		"arc_spec_career":
+			GameState.current_job = {
+				"id": "job_06", "name": "Large Company Employee",
+				"category": "office", "base_salary": 4_400_000.0, "tier": 3,
+			}
+			GameState.flags["career_months_total"] = 12
+
 func _boot_main_game() -> void:
 	# MainGame._ready 의 _begin_month 가 StoryMode 로 change_scene 하는 것을 막는다:
 	# returning_from_story=true 로 진입점을 우회하고, 직후 전환 트윈을 매 프레임 죽인다.
@@ -766,6 +795,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	if not lang.is_empty():
 		_set_qa_language(lang)
 		_prepare_main_game_state()
+	_prepare_story_event_fixture(event_id)
 	var overridden_event: Dictionary = {}
 	var original_cg: Variant = null
 	var had_cg := false
@@ -881,7 +911,7 @@ func _assert_cafe_visual_state(story: Node, event_id: String) -> void:
 	var investor_events := [
 		"cafe_00", "cafe_peek_01", "cafe_caught_honest", "cafe_talk_01",
 		"cafe_humble", "cafe_bluff_01", "cafe_bluff_caught", "cafe_bluff_recover",
-		"cafe_cb_honest_00", "cafe_cb_honest_in", "cafe_cb_humiliated_00",
+		"cafe_cb_honest_in", "cafe_cb_humiliated_00",
 		"callback_cafe_honest_win_deeper", "callback_cafe_honest_trust_return",
 	]
 	var broker_events := [
@@ -889,7 +919,9 @@ func _assert_cafe_visual_state(story: Node, event_id: String) -> void:
 		"callback_cafe_jackpot_greed", "callback_cafe_smart_win_mentor",
 	]
 	var expected_portrait_id := ""
-	if event_id in investor_events:
+	if event_id == "cafe_cb_honest_00":
+		expected_portrait_id = "player_tired"
+	elif event_id in investor_events:
 		expected_portrait_id = "cafe_investor"
 	elif event_id in broker_events:
 		expected_portrait_id = "cafe_broker_kim"
@@ -1055,6 +1087,13 @@ func _shot_opening_cinematic(lang: String, prefix: String) -> void:
 	await _save(prefix + "00_opening_first")
 	if cinema.has_method("_skip_to_last"):
 		cinema._skip_to_last()
+		var generation_after_skip := int(cinema.get("_play_generation"))
+		var rapid_click := InputEventMouseButton.new()
+		rapid_click.button_index = MOUSE_BUTTON_LEFT
+		rapid_click.pressed = true
+		cinema._input(rapid_click)
+		if int(cinema.get("_play_generation")) != generation_after_skip:
+			_fail("Opening final card restarted when clicked before its prompt appeared.")
 		await _settle(1.35)
 		await _save(prefix + "00_opening_final")
 	_remove_nodes_by_script("res://scenes/OpeningCinematic.gd")
@@ -1088,7 +1127,239 @@ func _shot_demo_blackbox(lang: String = "en") -> void:
 		"arc_chapter1_close",
 	]:
 		await _shot_story_event(event_id, prefix + event_id, lang, 0.45, true)
+	for regression_event_id in [
+		"arc_first_job_week_convenience",
+		"arc_first_job_week_delivery",
+		"arc_spec_career",
+		"cafe_cb_honest_00",
+	]:
+		await _shot_story_event(regression_event_id, prefix + "regression_" + regression_event_id, lang, 0.45, true)
 	await _shot_demo_loop_surfaces(lang, prefix)
+
+func _run_demo_input_route(lang: String = "en") -> void:
+	_set_qa_language(lang)
+	seed(20260713)
+	var original_meta := MetaProgression.data.duplicate(true)
+	GameState.start_new_game(
+		LocaleManager.DEFAULT_NAME_EN if lang == "en" else LocaleManager.DEFAULT_NAME_KO,
+		"지방_상경", "직장형", "알바", "자유런", "현실")
+	GameState.story_return_scene = "res://scenes/MainGame.tscn"
+	GameState.returning_from_story = false
+	GameState.pending_story_queue.clear()
+	_suppress_tutorial_overlays()
+
+	var packed := load("res://scenes/MainGame.tscn") as PackedScene
+	if packed == null:
+		MetaProgression.data = original_meta
+		_fail("Demo input run could not load MainGame.tscn.")
+		return
+	var main := packed.instantiate()
+	get_tree().root.add_child.call_deferred(main)
+	await get_tree().process_frame
+	get_tree().current_scene = main
+
+	var seen_events: Array[String] = []
+	var input_count := 0
+	var last_signature := ""
+	var stagnant_steps := 0
+	var completed := false
+	var last_reported_turn := 0
+	for _step in range(7000):
+		await get_tree().create_timer(0.015).timeout
+		var scene := get_tree().current_scene
+		if not is_instance_valid(scene):
+			continue
+		var scene_script := scene.get_script() as Script
+		var script_path := scene_script.resource_path if scene_script != null else ""
+		var signature := script_path
+
+		if script_path == "res://scenes/StoryMode.gd":
+			var current: Dictionary = scene.get("_current")
+			var event_id := str(current.get("id", ""))
+			if not event_id.is_empty() and not seen_events.has(event_id):
+				seen_events.append(event_id)
+			signature += ":%s:%d:%s:%s:%s" % [
+				event_id,
+				int(scene.get("_para_index")),
+				str(scene.get("_typing")),
+				str(scene.get("_showing_choices")),
+				str(scene.get("_pending_after_result")),
+			]
+			if bool(scene.get("_transitioning")) or event_id.is_empty():
+				pass
+			else:
+				var tutorial_popup := scene.get("_tutorial_popup") as Control
+				if is_instance_valid(tutorial_popup):
+					await _press_qa_action("ui_accept")
+					input_count += 1
+				elif bool(scene.get("_showing_choices")):
+					var focused := get_viewport().gui_get_focus_owner()
+					if focused == null or not scene.is_ancestor_of(focused):
+						var first_choice := _find_first_enabled_button(scene)
+						if first_choice != null:
+							first_choice.grab_focus()
+							await get_tree().process_frame
+					await _press_qa_action("ui_accept")
+					input_count += 1
+				else:
+					await _press_qa_action("ui_accept")
+					input_count += 1
+		elif script_path == "res://scenes/MainGame.gd":
+			if GameState.turn != last_reported_turn:
+				last_reported_turn = GameState.turn
+				print("DEMO_INPUT_PROGRESS week=%d ap=%d events=%d" % [
+					GameState.turn, GameState.action_points, seen_events.size()])
+			var modal := scene.get("modal_layer") as Control
+			var modal_visible := is_instance_valid(modal) and modal.visible
+			var modal_kind := str(scene.get("_modal_kind"))
+			var cards: Array = scene.get("_ap_grid_cards")
+			signature += ":%d:%d:%s:%s:%d:%s" % [
+				GameState.turn,
+				GameState.action_points,
+				str(modal_visible),
+				modal_kind,
+				cards.size(),
+				str(scene.get("pending_result_text")),
+			]
+			if _qa_scene_transition_active():
+				pass
+			elif modal_visible:
+				var modal_text := _collect_control_text(modal)
+				var wishlist_copy := "Add to Steam Wishlist" if lang == "en" else "Steam 위시리스트에 추가"
+				if modal_kind == "demo_ending":
+					if GameState.turn != GameState.DEMO_TURN_LIMIT + 1:
+						MetaProgression.data = original_meta
+						_fail("Demo CTA appeared at week %d instead of week 25." % GameState.turn)
+						return
+					if not GameState.has_reached_demo_limit():
+						MetaProgression.data = original_meta
+						_fail("Demo CTA appeared without the demo cutoff being active.")
+						return
+					var continuation_copy := "This record is not over" if lang == "en" else "이 기록은 끝난 게 아니라"
+					if not modal_text.contains(wishlist_copy):
+						MetaProgression.data = original_meta
+						_fail("Demo ending is missing its Steam wishlist CTA.")
+						return
+					if not modal_text.contains(continuation_copy):
+						MetaProgression.data = original_meta
+						_fail("Demo ending is missing the full-version continuation promise.")
+						return
+					var commit_layer := scene.get("_ap_commit_layer") as Control
+					if is_instance_valid(commit_layer) and commit_layer.visible:
+						MetaProgression.data = original_meta
+						_fail("Demo ending retained the previous AP commit overlay.")
+						return
+					var toast_layer := scene.get("_toast_container") as Control
+					if is_instance_valid(toast_layer) and toast_layer.get_child_count() > 0:
+						MetaProgression.data = original_meta
+						_fail("Demo ending retained transient notification toasts.")
+						return
+					await _save("demo_%s_input_run_final" % lang)
+					completed = true
+					break
+				var modal_body_node := scene.get("modal_body") as Control
+				var modal_button := _find_first_enabled_button(modal_body_node) if is_instance_valid(modal_body_node) else null
+				if modal_button != null:
+					signature += ":focus=%s" % modal_button.text
+					modal_button.grab_focus()
+					await get_tree().process_frame
+					await _press_qa_action("ui_accept")
+					input_count += 1
+			elif GameState.has_reached_demo_limit():
+				pass
+			else:
+				var focused := get_viewport().gui_get_focus_owner()
+				if bool(scene.get("_transient_bg_active")):
+					var choice_surface := scene.get("choice_box") as Control
+					var confirm := _find_first_enabled_button(choice_surface) if is_instance_valid(choice_surface) else null
+					if confirm != null:
+						confirm.grab_focus()
+						await get_tree().process_frame
+						await _press_qa_action("ui_accept")
+						input_count += 1
+				elif focused is Button and scene.is_ancestor_of(focused) \
+						and focused != scene.get("next_button") and cards.find(focused) < 0:
+					await _press_qa_action("ui_accept")
+					input_count += 1
+				elif GameState.action_points > 0 and cards.size() >= 4:
+					var rest_candidate: Variant = cards[3]
+					if not is_instance_valid(rest_candidate) or not rest_candidate is Button:
+						continue
+					var rest_card := rest_candidate as Button
+					if rest_card.disabled:
+						MetaProgression.data = original_meta
+						_fail("Demo input run could not focus the Rest action at week %d." % GameState.turn)
+						return
+					rest_card.grab_focus()
+					await get_tree().process_frame
+					await _press_qa_action("ui_accept")
+					input_count += 1
+				elif GameState.action_points <= 0:
+					var next_week := scene.get("next_button") as Button
+					if is_instance_valid(next_week) and not next_week.disabled:
+						next_week.grab_focus()
+						await get_tree().process_frame
+						await _press_qa_action("ui_accept")
+						input_count += 1
+
+		if signature == last_signature:
+			stagnant_steps += 1
+		else:
+			last_signature = signature
+			stagnant_steps = 0
+		if stagnant_steps > 550:
+			MetaProgression.data = original_meta
+			_fail("Demo input run stalled at %s." % signature)
+			return
+
+	if not completed:
+		MetaProgression.data = original_meta
+		_fail("Demo input run did not reach the week-24 CTA within the safety limit: %s inputs=%d events=%d." % [
+			last_signature, input_count, seen_events.size()])
+		return
+	for required_id in ["story_flashforward", "story_arrival", "chapter_card_33", "arc_chapter1_close"]:
+		if not seen_events.has(required_id):
+			MetaProgression.data = original_meta
+			_fail("Demo input run never reached required story event %s." % required_id)
+			return
+	for forbidden_id in ["story_first_workday", "arc_spec_career"]:
+		if seen_events.has(forbidden_id):
+			MetaProgression.data = original_meta
+			_fail("Demo input run reached contradictory event %s." % forbidden_id)
+			return
+	if str(GameState.current_job.get("id", "")) != "job_01":
+		MetaProgression.data = original_meta
+		_fail("Convenience-worker demo route lost its declared starting job.")
+		return
+	MetaProgression.data = original_meta
+	print("DEMO_INPUT_RUN_OK weeks=24 inputs=%d events=%d job=job_01 cutoff=cta" % [
+		input_count, seen_events.size()])
+	get_tree().quit(0)
+
+func _find_first_enabled_button(root: Node) -> Button:
+	if root is Button and root.visible and not root.disabled and root.focus_mode != Control.FOCUS_NONE:
+		return root as Button
+	for child in root.get_children():
+		var found := _find_first_enabled_button(child)
+		if found != null:
+			return found
+	return null
+
+func _press_qa_action(action_name: String) -> void:
+	var pressed := InputEventAction.new()
+	pressed.action = action_name
+	pressed.pressed = true
+	Input.parse_input_event(pressed)
+	await get_tree().process_frame
+	var released := InputEventAction.new()
+	released.action = action_name
+	released.pressed = false
+	Input.parse_input_event(released)
+	await get_tree().process_frame
+
+func _qa_scene_transition_active() -> bool:
+	var tween := SceneTransition.get("_tween") as Tween
+	return tween != null and tween.is_running()
 
 func _shot_start_surfaces(lang: String = "en", prefix: String = "start_en_") -> void:
 	await _shot_splash_screen(lang, prefix + "00_splash")
@@ -2756,7 +3027,15 @@ func _shot_demo_loop_surfaces(lang: String, prefix: String) -> void:
 	if _mg.has_method("_finish_typing"):
 		_mg._finish_typing()
 	await _settle(0.8)
+	_assert_ap_cards_inside_viewport()
 	await _save(prefix + "02_ap_loop")
+	GameState.action_points = GameState.max_action_points + 1
+	if _mg.has_method("_render_ap_actions"):
+		_mg._render_ap_actions()
+	await _settle(0.35)
+	_assert_ap_cards_inside_viewport()
+	await _save(prefix + "02b_ap_bonus")
+	GameState.action_points = GameState.max_action_points
 
 	GameState.turn = GameState.DEMO_TURN_LIMIT + 1
 	GameState.month = 7
@@ -2789,7 +3068,37 @@ func _shot_demo_loop_surfaces(lang: String, prefix: String) -> void:
 		_mg._show_demo_ending()
 	await _settle(0.9)
 	_assert_modal_no_vertical_overflow("demo ending")
+	_assert_demo_ending_boundary_copy()
 	await _save(prefix + "04_demo_ending_cta")
+
+func _assert_demo_ending_boundary_copy() -> void:
+	var modal := _mg.get("modal_body") as Control
+	if not is_instance_valid(modal):
+		_fail("Demo ending boundary assertion has no modal body.")
+		return
+	var surface_text := _collect_control_text(modal)
+	var expected := _tr("24주차", "WEEK 24")
+	var forbidden := _tr("25주차", "WEEK 25")
+	if expected not in surface_text:
+		_fail("Demo ending does not identify the final playable week: %s." % expected)
+		return
+	if forbidden in surface_text:
+		_fail("Demo ending leaks blocked week 25 copy: %s." % forbidden)
+
+func _assert_ap_cards_inside_viewport() -> void:
+	if not is_instance_valid(_mg):
+		_fail("AP viewport assertion has no MainGame instance.")
+		return
+	var viewport_size := get_viewport().get_visible_rect().size
+	for card_variant in _mg.get("_ap_grid_cards"):
+		var card := card_variant as Control
+		if not is_instance_valid(card) or not card.visible:
+			continue
+		var rect := card.get_global_rect()
+		if rect.position.x < -0.5 or rect.end.x > viewport_size.x + 0.5:
+			_fail("AP card exceeds viewport at %.1f..%.1f of %.1f px." % [
+				rect.position.x, rect.end.x, viewport_size.x])
+			return
 
 func _assert_modal_no_vertical_overflow(context: String) -> void:
 	var scroll := _mg.get("modal_scroll") as ScrollContainer

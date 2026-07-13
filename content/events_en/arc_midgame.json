@@ -574,6 +574,44 @@
     ]
   },
   {
+    "id": "arc_first_job_week_convenience",
+    "title": "First Week on the Night Shift",
+    "description": "The first week on the job was over. At 2 AM, the manager was gone. Only the refrigerator motors and microwave chimes took turns breaking the silence.\n\n{name} checked the shift sheet taped beneath the counter. Three hours until relief. Three weeks until the first paycheck.\n\nEvery time the door opened, he straightened. Every time it closed, time slowed again. A steady income had arrived, and the nights had grown longer with it.",
+    "choices": [
+      {
+        "text": "This is the best option right now — make it to the handoff.",
+        "result_text": "He straightened one more shelf before the next worker arrived. A job was seed capital. With a purpose, even the same dawn became a little easier to endure."
+      },
+      {
+        "text": "Reading customers taught me more than I expected.",
+        "result_text": "Drunks, night workers, people who could not sleep. They bought the same things for different reasons. {name} began learning to read faces before words."
+      },
+      {
+        "text": "Convert the hours into wages — is this really enough?",
+        "result_text": "He converted the hours left into pay. The number was exact, which somehow made it worse. Beneath the counter, {name} opened the investment app once, then closed it."
+      }
+    ]
+  },
+  {
+    "id": "arc_first_job_week_delivery",
+    "title": "First Week Delivering",
+    "description": "One week into delivery work, the alleys on the map had become familiar. His phone battery and knees ran down faster every day.\n\nAt a red light, {name} checked the week's pending payout. A few days remained before the first deposit. The next order appeared immediately.\n\nHis thumb hovered over Accept. Resting stopped the money. Riding wore down the body.",
+    "choices": [
+      {
+        "text": "This is the best option right now — accept the next order.",
+        "result_text": "The next destination appeared. {name} tightened his helmet strap and decided to believe that one order at a time could still become seed capital."
+      },
+      {
+        "text": "Learning the roads was satisfying.",
+        "result_text": "Blocked alleys, fast elevators, awnings that kept off the rain: they settled into a map in his head. For the first time, Seoul began to make sense beneath his feet."
+      },
+      {
+        "text": "Check the payout again — this pace will never be enough.",
+        "result_text": "He multiplied today's pay by the number of days his body could take. Three billion won belonged to another order of magnitude. The light changed, but {name} did not move at first."
+      }
+    ]
+  },
+  {
     "id": "arc_night_routine",
     "title": "Late Night Routine",
     "description": "It was 1 AM.\n\nHyunsu was listening to a lecture; {name} was studying charts. In the same space at the same time, running hard toward completely different things.\n\nWhich direction is the right one — still don't know. Then again, maybe neither of us knows.",

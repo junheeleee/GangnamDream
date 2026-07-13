@@ -234,6 +234,8 @@ var month_situations_turn: int = -1
 var engaged_situations: Dictionary = {}
 var turn_action_log: Array = []
 var _pending_month_summary: bool = false
+var _pending_tendency_kind: String = ""
+var _resume_after_tendency: bool = false
 
 # ── 목표 진행바 ──────────────────────────────────────────────────
 var _goal_bar: ProgressBar
@@ -1337,7 +1339,9 @@ func _build_top_bar(parent):
 	var date_lbl = _hud_chip(row, "", "#8892a4", 108, false)
 	top_labels["date"] = date_lbl
 
-	var ap_lbl = _hud_chip(row, "ap", "#b9bec7", 74, false)
+	var ap_lbl = _hud_chip(row, "ap", "#b9bec7", 112, false)
+	ap_lbl.clip_text = true
+	ap_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	top_labels["ap"] = ap_lbl
 
 	# ── 바이탈 HUD: 건강 / 정신 ──────────────────
@@ -2228,6 +2232,31 @@ func _year_scene_curation_id(year_index: int) -> String:
 		5: return "arc_year5_scene"
 	return ""
 
+func _career_specialization_ready(f: Dictionary) -> bool:
+	if not f.get("pending_spec_career", false) or f.get("pending_spec_career_done", false):
+		return false
+	if GameState.current_job.is_empty():
+		return false
+	if str(GameState.current_job.get("category", "")) == "survival":
+		return false
+	return int(f.get("career_months_total", 0)) >= 12
+
+func _first_job_week_arc_id(f: Dictionary) -> String:
+	if GameState.current_job.is_empty() or f.get("arc_first_job_week_seen", false):
+		return ""
+	if GameState.job_tenure > 1:
+		return ""
+	# StoryMode에서 취업한 바로 그 주에는 AP 화면으로 돌아간다. 첫 근무 장면은 다음 주부터다.
+	if int(f.get("job_started_turn", GameState.turn - 1)) >= GameState.turn:
+		return ""
+	match str(GameState.current_job.get("id", "")):
+		"job_01":
+			return "arc_first_job_week_convenience"
+		"job_02":
+			return "arc_first_job_week_delivery"
+		_:
+			return "arc_first_job_week"
+
 func _next_arc_id() -> String:
 	var t = GameState.turn
 	var f = GameState.flags
@@ -2377,7 +2406,7 @@ func _next_arc_id() -> String:
 		return "arc_rescue_job"
 
 	# ── 전문화 분기 이벤트 — 성향 자각 직후 1회 ──
-	if f.get("pending_spec_career", false) and not f.get("pending_spec_career_done", false):
+	if _career_specialization_ready(f):
 		return "arc_spec_career"
 	if f.get("pending_spec_invest", false) and not f.get("pending_spec_invest_done", false):
 		return "arc_spec_invest"
@@ -2385,10 +2414,9 @@ func _next_arc_id() -> String:
 		return "arc_spec_found"
 
 	# ── 첫 출근 주 — 취업 후 첫 1개월 안에 (1회) ──
-	if not GameState.current_job.is_empty() \
-			and GameState.job_tenure <= 1 \
-			and not f.get("arc_first_job_week_seen", false):
-		return "arc_first_job_week"
+	var first_job_arc := _first_job_week_arc_id(f)
+	if not first_job_arc.is_empty():
+		return first_job_arc
 
 	# ── 경마 멘토 보장 — gambling_tempted + 100만원 이상이면 t=12에 확정 등장 ──
 	if t >= 12 and f.get("gambling_tempted", false) \
@@ -3385,9 +3413,6 @@ func _next_milestone_id() -> String:
 	var f = GameState.flags
 	# 경과 개월 (1=첫 달, 60=마지막 달) — turn(주)이 아닌 달력 기준
 	var me: int = (GameState.age - 33) * 12 + GameState.month
-	# 첫 출근 (직업 생긴 직후 턴)
-	if not GameState.current_job.is_empty() and not f.get("story_first_workday_seen", false):
-		return "story_first_workday"
 	# 첫 월급 감정 이벤트
 	if f.get("has_received_paycheck", false) and not f.get("story_first_paycheck_seen", false):
 		return "story_first_paycheck_feel"
@@ -3422,8 +3447,8 @@ func _roll_monthly_crisis() -> Dictionary:
 		var bonus_type = randi() % 3
 		match bonus_type:
 			0:
-				return {"type": "bonus_ap", "title": _tr("탄력 받은 달", "A Month on a Roll"),
-					"desc": _tr("컨디션이 최고다. 이번 달 행동력 +1 보너스!", "You're in top form. +1 Action Point this month!"), "color": "#00c896"}
+				return {"type": "bonus_ap", "title": _tr("탄력 받은 한 주", "A Week on a Roll"),
+					"desc": _tr("컨디션이 최고다. 이번 주 행동력 +1 보너스!", "You're in top form. +1 Action Point this week!"), "color": "#00c896"}
 			1:
 				var amt = float(randi_range(200_000, 600_000))
 				return {"type": "bonus_income", "title": _tr("뜻밖의 수입", "Unexpected Income"),
@@ -3524,11 +3549,17 @@ func _on_stat_threshold_crossed(stat_name: String, threshold: int):
 # ── 성향 자각 (직장/투자/창업) ─────────────────────────────────
 func _on_tendency_awakened(kind: String):
 	# 액션 중 동기 호출이면 그 액션의 _close_modal에 닫힐 수 있어 다음 idle로 미룬다
+	_pending_tendency_kind = kind
 	call_deferred("_present_tendency_realization", kind)
 
 func _present_tendency_realization(kind: String):
 	if GameState.is_game_over:
 		return
+	# 월말 결산이나 다른 선택 모달을 덮으면 진행 버튼이 사라진다. 먼저 열린 흐름을 끝낸 뒤 표시한다.
+	if _pending_month_summary or (is_instance_valid(modal_layer) and modal_layer.visible):
+		_pending_tendency_kind = kind
+		return
+	_pending_tendency_kind = ""
 	var tname: String = GameState.tendency_name(kind)
 	var desc: String = GameState.tendency_desc(kind)
 	var accent: String = {"career": "#b8ad8a", "invest": "#8bb6a1", "found": "#aaa0bf"}.get(kind, "#b8ad8a")
@@ -3551,6 +3582,10 @@ func _present_tendency_realization(kind: String):
 	modal_body.add_child(sep)
 	modal_body.add_child(_wrap_label(passive, 14, accent))
 	modal_body.add_child(_wrap_label(_tr("이 길이 옳은지는 아무도 모른다. 다만 같은 선택을 반복할수록, 선택도 너를 닮아간다.", "No one knows if this path is right. But the more you repeat a choice, the more your choices begin to resemble you."), 13, "#7a8496"))
+	var continue_btn := _primary_cta_button(_tr("계속  ›", "Continue  ›"))
+	continue_btn.pressed.connect(_close_modal)
+	continue_btn.call_deferred("grab_focus")
+	modal_body.add_child(continue_btn)
 	AudioManager.play("housing_up")
 	GameState.add_log(_tr("습관이 굳어진다 — %s. %s", "A pattern emerges — %s. %s") % [tname, passive], "system")
 
@@ -4040,6 +4075,23 @@ func _start_choice_countdown(secs: int, default_index: int = 0):
 			_choose(default_index)
 	)
 
+func _ap_bonus_amount() -> int:
+	return maxi(0, GameState.action_points - GameState.max_action_points)
+
+func _ap_status_text() -> String:
+	var bonus := _ap_bonus_amount()
+	if bonus > 0:
+		return "%d AP (+%d)" % [GameState.action_points, bonus]
+	return "%d/%d AP" % [GameState.action_points, GameState.max_action_points]
+
+func _ap_remaining_text() -> String:
+	if GameState.action_points <= 0:
+		return _tr("주 종료", "WEEK SPENT")
+	var bonus := _ap_bonus_amount()
+	if bonus > 0:
+		return _tr("%d번 남음 (+%d)", "%d LEFT (+%d)") % [GameState.action_points, bonus]
+	return _tr("%d번 남음", "%d LEFT") % GameState.action_points
+
 func _refresh_all():
 	if not is_inside_tree():
 		return
@@ -4060,7 +4112,7 @@ func _refresh_all():
 	_maybe_pulse_market_asset_label(total_assets)
 	# AP 도트 (이벤트 없을 때만 표시, _render_ap_actions에서도 갱신)
 	var ap = GameState.action_points
-	top_labels["ap"].text = "%d/%d" % [ap, GameState.max_action_points]
+	top_labels["ap"].text = _ap_status_text()
 	# 초상화 하단 플레이어 정보 (이벤트 중 인물 표시 시에는 건드리지 않음)
 	var showing_character = not current_event.is_empty() and str(current_event.get("portrait", "")) != ""
 	if not showing_character:
@@ -4852,7 +4904,7 @@ func _refresh_arc_box() -> void:
 				{"label": _tr("성향 누적 중", "Tendency Building"), "done": not GameState.tendency_realized.is_empty()},
 				{"label": _tr("전문화 선택", "Specialization Choice"), "done": f.has("spec_elite") or f.has("spec_social_climber") or f.has("spec_quant") or f.has("spec_speculator") or f.has("spec_tech_founder") or f.has("spec_social_entrepreneur")},
 			],
-			"hint": _tr("직장/투자/창업 성향 15 이상 달성 시 발동", "Triggers at 15+ Career/Invest/Startup tendency"),
+			"hint": _tr("직장 전문화는 누적 근무 12개월 이후, 투자/창업은 성향 자각 후 발동", "Career specialization requires 12 worked months; Invest/Startup unlock after realization"),
 		},
 	]
 
@@ -5019,9 +5071,8 @@ func _render_ap_actions():
 	_ap_feature_row = null
 	_ap_grid_cards.clear()
 	var ap = GameState.action_points
-	var ap_dots = "◆".repeat(ap) + "◇".repeat(max(0, GameState.max_action_points - ap))
 	if top_labels.has("ap"):
-		top_labels["ap"].text = "%s  %d/%d" % [ap_dots, ap, GameState.max_action_points]
+		top_labels["ap"].text = _ap_status_text()
 	event_title.text = _tr("%d년 %d월 %d주차", "%d-%02d W%d") % [GameState.year, GameState.month, GameState.week_of_month]
 	_maybe_show_tutorial()
 
@@ -5251,6 +5302,7 @@ func _add_ap_controller_hint_strip(ap_empty: bool) -> void:
 
 func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bool,
 		hint_text: String = "", hint_color: String = "#b9bec7") -> void:
+	var compact_width := get_viewport_rect().size.x <= 1366.0
 	var band := PanelContainer.new()
 	band.set_meta("moral_role", "info_card")
 	band.set_meta("moral_accent", "#c5ccd5")
@@ -5276,14 +5328,16 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 	band.add_child(box)
 
 	var top := HBoxContainer.new()
-	top.add_theme_constant_override("separation", 12)
+	top.add_theme_constant_override("separation", 8 if compact_width else 12)
 	top.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	box.add_child(top)
 
 	var act_info := _ap_act_info()
 	var act_tag: Label = _label("%s  /  %s" % [str(act_info.get("label", "")), str(act_info.get("title", ""))], 12, "#dce3eb")
 	act_tag.set_meta("moral_role", "choice_title")
-	act_tag.custom_minimum_size = Vector2(142, 0)
+	act_tag.custom_minimum_size = Vector2(112 if compact_width else 142, 0)
+	act_tag.clip_text = true
+	act_tag.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	if _font_bold:
 		act_tag.add_theme_font_override("font", _font_bold)
 	top.add_child(act_tag)
@@ -5296,21 +5350,23 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 
 	var slots_box := HBoxContainer.new()
 	slots_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	slots_box.custom_minimum_size = Vector2(72, 0)
+	slots_box.custom_minimum_size = Vector2(62 if compact_width else 72, 0)
 	slots_box.add_theme_constant_override("separation", 6)
 	top.add_child(slots_box)
 	_add_week_ap_slots(slots_box, ap)
 
-	var ap_text := _tr("주 종료", "WEEK SPENT") if ap <= 0 else _tr("%d번 남음", "%d LEFT") % ap
+	var ap_text := _ap_remaining_text()
 	var ap_lbl := _label(ap_text, 11, "#f4f7fb" if ap > 0 else "#707887")
-	ap_lbl.custom_minimum_size = Vector2(86, 0)
+	ap_lbl.custom_minimum_size = Vector2(88 if compact_width else (112 if _ap_bonus_amount() > 0 else 86), 0)
+	ap_lbl.clip_text = true
+	ap_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	ap_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	if _font_bold:
 		ap_lbl.add_theme_font_override("font", _font_bold)
 	top.add_child(ap_lbl)
 
 	var bottom := HBoxContainer.new()
-	bottom.add_theme_constant_override("separation", 12)
+	bottom.add_theme_constant_override("separation", 8 if compact_width else 12)
 	bottom.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	box.add_child(bottom)
 
@@ -5340,7 +5396,8 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 		})
 	var stakes := _label(stakes_text, 11, "#8f98a8")
 	stakes.set_meta("moral_role", "hint_text")
-	stakes.custom_minimum_size = Vector2(360, 0)
+	stakes.custom_minimum_size = Vector2(250 if compact_width else 360, 0)
+	stakes.clip_text = true
 	stakes.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	stakes.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	bottom.add_child(stakes)
@@ -5710,7 +5767,15 @@ func _add_people_pressure_cell(parent: Control, people: Dictionary) -> void:
 	box.add_child(detail)
 
 func _add_week_ap_slots(parent: Control, ap: int) -> void:
-	var max_ap: int = maxi(1, GameState.max_action_points)
+	var base_ap: int = maxi(1, GameState.max_action_points)
+	var display_ap: int = maxi(base_ap, ap)
+	var compact_width := get_viewport_rect().size.x <= 1366.0
+	var slot_separation := 4
+	var slot_width := 32.0
+	if compact_width and display_ap > base_ap:
+		# Bonus AP must fit the same reserved header width instead of widening
+		# the entire weekly board and pushing the right card off-screen.
+		slot_width = maxf(12.0, (68.0 - float(slot_separation * (display_ap - 1))) / float(display_ap))
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 6)
 	row.custom_minimum_size = Vector2(0, 16)
@@ -5719,18 +5784,19 @@ func _add_week_ap_slots(parent: Control, ap: int) -> void:
 	parent.add_child(row)
 
 	var slots := HBoxContainer.new()
-	slots.add_theme_constant_override("separation", 4)
+	slots.add_theme_constant_override("separation", slot_separation)
 	slots.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.add_child(slots)
 
-	for i in range(max_ap):
+	for i in range(display_ap):
 		var filled := i < ap
+		var is_bonus := i >= base_ap
 		var slot := PanelContainer.new()
-		slot.custom_minimum_size = Vector2(32, 12)
+		slot.custom_minimum_size = Vector2(slot_width, 12)
 		slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var st := StyleBoxFlat.new()
-		st.bg_color = Color("#dce4ee", 0.88) if filled else Color("#171b22", 0.86)
-		st.border_color = Color("#f6f8fb", 0.72) if filled else Color("#343a45", 0.9)
+		st.bg_color = Color("#d2a84a", 0.92) if is_bonus and filled else (Color("#dce4ee", 0.88) if filled else Color("#171b22", 0.86))
+		st.border_color = Color("#f2d58a", 0.9) if is_bonus else (Color("#f6f8fb", 0.72) if filled else Color("#343a45", 0.9))
 		st.set_border_width_all(1)
 		st.set_corner_radius_all(2)
 		slot.add_theme_stylebox_override("panel", st)
@@ -6787,6 +6853,7 @@ func _ap_action_preview(fn_name: String, icon_id: String) -> String:
 func _make_ap_board_card(title: String, subtitle: String, icon_id: String,
 		accent: String, disabled: bool, free_action: bool, forced_badge: String,
 		rail_label: String, art_thumb: Texture2D, axis_tag: String, preview: String) -> Button:
+	var compact_width := get_viewport_rect().size.x <= 1366.0
 	var btn := Button.new()
 	btn.set_meta("moral_role", "choice_card")
 	btn.set_meta("moral_accent", accent if not disabled else "#343946")
@@ -6827,18 +6894,19 @@ func _make_ap_board_card(title: String, subtitle: String, icon_id: String,
 	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
 	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	margin.add_theme_constant_override("margin_left", 0)
-	margin.add_theme_constant_override("margin_right", 11)
+	margin.add_theme_constant_override("margin_right", 8 if compact_width else 11)
 	margin.add_theme_constant_override("margin_top", 0)
 	margin.add_theme_constant_override("margin_bottom", 0)
 	btn.add_child(margin)
 
 	var row := HBoxContainer.new()
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	row.add_theme_constant_override("separation", 11)
+	row.add_theme_constant_override("separation", 8 if compact_width else 11)
 	margin.add_child(row)
 
 	var is_action_illustration := art_thumb is AtlasTexture
-	var image_size := Vector2(168, 106) if is_action_illustration else Vector2(74, 74)
+	var image_width := 132.0 if compact_width else 168.0
+	var image_size := Vector2(image_width, 106) if is_action_illustration else Vector2(66, 66)
 	var image_frame := PanelContainer.new()
 	image_frame.set_meta("moral_role", "choice_icon")
 	image_frame.set_meta("moral_accent", accent if not disabled else "#343946")
@@ -6880,6 +6948,8 @@ func _make_ap_board_card(title: String, subtitle: String, icon_id: String,
 		meta_text += "  /  " + _axis_label(axis_tag)
 	var meta_lbl := _label(meta_text, 10, _axis_color(axis_tag) if not disabled and not axis_tag.is_empty() else ("#727b89" if not disabled else "#454b56"))
 	meta_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	meta_lbl.clip_text = true
+	meta_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	if _font_bold:
 		meta_lbl.add_theme_font_override("font", _font_bold)
 	text_col.add_child(meta_lbl)
@@ -6887,6 +6957,7 @@ func _make_ap_board_card(title: String, subtitle: String, icon_id: String,
 	var title_lbl := _label(title, 17, "#f0f3f7" if not disabled else "#666d79")
 	title_lbl.set_meta("moral_role", "choice_title")
 	title_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	title_lbl.clip_text = true
 	title_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	if _font_bold:
 		title_lbl.add_theme_font_override("font", _font_bold)
@@ -6895,18 +6966,20 @@ func _make_ap_board_card(title: String, subtitle: String, icon_id: String,
 	var sub_lbl := _label(subtitle, 12, "#adb5c1" if not disabled else "#4c525e")
 	sub_lbl.set_meta("moral_role", "choice_subtitle")
 	sub_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	sub_lbl.clip_text = true
 	sub_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	text_col.add_child(sub_lbl)
 
 	var preview_lbl := _label(preview, 11, "#7f8998" if not disabled else "#424854")
 	preview_lbl.set_meta("moral_role", "hint_text")
 	preview_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	preview_lbl.clip_text = true
 	preview_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	text_col.add_child(preview_lbl)
 
 	var side := VBoxContainer.new()
 	side.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	side.custom_minimum_size = Vector2(68, 0)
+	side.custom_minimum_size = Vector2(58 if compact_width else 68, 0)
 	side.alignment = BoxContainer.ALIGNMENT_CENTER
 	side.add_theme_constant_override("separation", 8)
 	row.add_child(side)
@@ -6917,7 +6990,7 @@ func _make_ap_board_card(title: String, subtitle: String, icon_id: String,
 	var badge := PanelContainer.new()
 	badge.set_meta("moral_role", "choice_badge")
 	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	badge.custom_minimum_size = Vector2(64, 28)
+	badge.custom_minimum_size = Vector2(54 if compact_width else 64, 28)
 	var badge_style := StyleBoxFlat.new()
 	badge_style.bg_color = Color("#10131a", 0.94)
 	badge_style.border_color = Color(accent_color, 0.48 if not disabled else 0.16)
@@ -7803,9 +7876,19 @@ func _open_cat_work():
 	if GameState.flags.get("creator_started", false) and not GameState.flags.get("creator_viral", false):
 		_cat_modal_button(_tr("콘텐츠 제작  —  채널을 키운다", "Make content  —  grow your channel"), "#4a7a3a", "_ap_create_content")
 
+func _side_shift_title() -> String:
+	match str(GameState.current_job.get("id", "")):
+		"job_01":
+			return _tr("추가 야간 시프트", "Extra night shift")
+		"job_02":
+			return _tr("추가 배달", "Extra delivery run")
+		"":
+			return _tr("단기 알바", "One-off shift")
+		_:
+			return _tr("주말 부업", "Weekend gig")
+
 func _open_cat_money():
 	var has_paycheck: bool = GameState.flags.get("has_received_paycheck", false)
-	var no_job = GameState.current_job.is_empty()
 	_open_modal(_tr("돈 · 투자", "Money · Invest"), true)
 	modal_body.add_child(_wrap_label(_tr("월급만으론 30억에 닿을 수 없다. 돈이 돈을 벌게 해야 한다.", "A salary alone won't reach KRW 3B. Make money work for you."), 13, "#7a8496"))
 	if GameState.flags.get("arc_invest_guidance_seen", false):
@@ -7816,7 +7899,11 @@ func _open_cat_money():
 		modal_body.add_child(_wrap_label(_tr("잠금: 투자는 상철과의 대화 후 가능하다.", "Locked: investing unlocks after talking with Sangchul."), 12, "#5a5a6a"))
 	else:
 		modal_body.add_child(_wrap_label(_tr("잠금: 투자는 첫 월급을 받은 뒤 가능하다.", "Locked: investing unlocks after your first paycheck."), 12, "#5a5a6a"))
-	var side_label = _tr("단기 알바  —  40만원+ (건강-3, 정신력 변동)", "Gig work  —  KRW 400K+ (Health -3, Mental varies)") if no_job else _tr("부업/사이드  —  추가 수입 도전", "Side hustle  —  chase extra income")
+	var shift_pay := 90_000
+	if is_instance_valid(aruba_game) and aruba_game.has_method("get_base_pay"):
+		shift_pay = int(aruba_game.get_base_pay())
+	var side_label := _tr("%s  —  %s+ (건강-3, 정신력 변동)", "%s  —  %s+ (Health -3, Mental varies)") % [
+		_side_shift_title(), GameState.format_money(float(shift_pay))]
 	_cat_modal_button(side_label, "#3a8a5a", "_ap_side_job")
 	_cat_modal_button(_tr("저축/절약  —  이번 달 지출을 줄인다", "Save/cut back  —  trim this month's spending"), "#3a6ea8", "_ap_save_money")
 
@@ -7995,7 +8082,7 @@ func _build_people_status_strip() -> Control:
 	ap.add_theme_constant_override("separation", 2)
 	row.add_child(ap)
 	ap.add_child(_label(_tr("행동력", "ACTION"), 10, "#6f7886"))
-	ap.add_child(_label("%d / %d AP" % [GameState.action_points, GameState.max_action_points], 15, "#cbd5e1" if GameState.action_points > 0 else "#ff7070"))
+	ap.add_child(_label(_ap_status_text(), 15, "#cbd5e1" if GameState.action_points > 0 else "#ff7070"))
 	return panel
 
 func _build_people_page_tabs() -> Control:
@@ -8492,14 +8579,16 @@ func _on_aruba_closed(earned: int, stress_delta: int, health_delta: int) -> void
 	var total_health_delta := -3 + health_delta
 	GameState.modify_stat("health", total_health_delta)
 	GameState.add_tendency("found", 1)   # 알바·부업 = 창업형 기질
-	GameState.add_log(_tr("💼 알바 시프트 수입 %s (건강 %d→%d, 정신력 %+d)", "💼 Gig shift income %s (Health %d→%d, Mental %+d)") % [
-		GameState.format_money(float(earned)), health_before, GameState.health, -stress_delta], "job")
-	var _sj_v: Dictionary = SIDE_JOB_VIGNETTES[randi() % SIDE_JOB_VIGNETTES.size()]
+	var shift_title := _side_shift_title()
+	GameState.add_log(_tr("💼 %s 수입 %s (건강 %d→%d, 정신력 %+d)", "💼 %s income %s (Health %d→%d, Mental %+d)") % [
+		shift_title, GameState.format_money(float(earned)), health_before, GameState.health, -stress_delta], "job")
+	var vignette_pool := _side_shift_vignettes()
+	var _sj_v: Dictionary = vignette_pool[randi() % vignette_pool.size()]
 	var mood: String = str(_sj_v.get("et" if LocaleManager.is_english() else "t", _sj_v.get("t", "")))
-	turn_action_log.append(_tr("✓ 💼 알바 시프트 — ", "✓ 💼 Gig shift — ") + mood.substr(0, 22))
+	turn_action_log.append("✓ 💼 %s — %s" % [shift_title, mood.substr(0, 22)])
 	AudioManager.play("money_gain")
 	_show_effects_float({"money": earned, "health": total_health_delta, "mental": -stress_delta})
-	_show_vignette(_tr("알바 시프트", "Gig Shift"), mood, {"money": earned, "health": total_health_delta, "mental": -stress_delta}, "#dc6a2a")
+	_show_vignette(shift_title, mood, {"money": earned, "health": total_health_delta, "mental": -stress_delta}, "#dc6a2a")
 	_render_ap_actions()
 	_refresh_all()
 
@@ -9679,18 +9768,33 @@ const JOB_HUNT_VIGNETTES := [
 	{"t":"강남은 아직 멀지만, 일단 취직부터. 그게 첫 번째 계단이다.", "et":"Gangnam is still far, but first — get a job. That's the first step."},
 ]
 
-const SIDE_JOB_VIGNETTES := [
-	{"t":"편의점 야간. 새벽 세 시, 손님이 없었다. 그 시간이 가장 길었다.", "et":"Late-night convenience store shift. No customers at 3 AM. That hour felt the longest."},
-	{"t":"배달을 돌았다. 비가 왔다. 우비가 없었다.", "et":"Did delivery runs. It rained. No raincoat."},
-	{"t":"투잡이라는 말을 쓰기엔 부끄러운 금액이었다. 그래도 통장에 찍혔다.", "et":"Too embarrassing to call it a second job for that amount. Still, it showed up in the account."},
-	{"t":"대리운전을 했다. 손님이 취해 있었다. 내가 더 멀쩡해 보였다.", "et":"Did a designated driving shift. The passenger was drunk. I looked more composed."},
-	{"t":"카페 알바 마감 청소. 커피 찌꺼기를 치우면서 내일을 생각했다.", "et":"Closing cleanup at the café part-time. Thought about tomorrow while scrubbing out coffee grounds."},
-	{"t":"주문이 폭발하는 금요일 저녁. 손이 빨라졌다. 몸이 기억하는 것들.", "et":"Orders exploding on Friday evening. Hands got faster. Things the body remembers."},
-	{"t":"시급을 시간으로 나눴다. 안 나눴으면 더 좋았을 것 같다.", "et":"Divided the hourly wage by hours. Wish I hadn't."},
-	{"t":"알바 끝나고 지하철을 탔다. 신발 바닥이 뜨거웠다.", "et":"Took the subway home after the part-time shift. Soles of my shoes were hot."},
-	{"t":"30대 초반에 이러고 있다는 생각. 잠깐 했다. 지운다. 지금은 이게 맞다.", "et":"The thought of doing this in my early thirties. Had it for a moment. Erased it. This is right for now."},
-	{"t":"작은 금액이지만, 내가 번 돈이다. 그 느낌은 크다.", "et":"Small amount, but money I earned myself. That feeling is big."},
+const SIDE_JOB_VIGNETTES_CONVENIENCE := [
+	{"t":"추가 야간 시프트. 새벽 세 시, 손님이 없었다. 그 시간이 가장 길었다.", "et":"An extra night shift. No customers at 3 AM. That hour felt the longest."},
+	{"t":"새벽 물류 상자를 한 번 더 날랐다. 손목이 먼저 오늘을 기억했다.", "et":"Hauled another dawn delivery of boxes. My wrists remembered the day first."},
+	{"t":"교대자가 오자 카운터를 넘겼다. 이번 주 통장에 찍힐 하루가 하나 늘었다.", "et":"Handed the counter to the next shift. One more day's pay would land this week."},
 ]
+
+const SIDE_JOB_VIGNETTES_DELIVERY := [
+	{"t":"추가 배달을 돌았다. 비가 왔다. 우비 안쪽까지 젖었다.", "et":"Took extra delivery runs. Rain soaked through the raincoat."},
+	{"t":"주문이 폭발하는 금요일 저녁. 손이 빨라졌다. 몸이 길을 기억했다.", "et":"Orders exploded Friday night. My hands sped up. My body remembered the roads."},
+	{"t":"마지막 배달 완료를 눌렀다. 오토바이 열기가 식기 전에 정산이 떴다.", "et":"Marked the last delivery complete. The payout appeared before the bike cooled."},
+]
+
+const SIDE_JOB_VIGNETTES_GENERAL := [
+	{"t":"대리운전 한 시프트. 손님은 취했고, 나는 목적지까지 깨어 있었다.", "et":"One designated-driving shift. The passenger was drunk; I stayed awake to the destination."},
+	{"t":"카페 마감 청소. 커피 찌꺼기를 치우면서 다음 주를 계산했다.", "et":"Closed a cafe shift, scrubbing coffee grounds while calculating next week."},
+	{"t":"시급을 시간으로 나눴다. 안 나눴으면 더 좋았을 것 같다.", "et":"Divided the pay by the hours. Wish I hadn't."},
+	{"t":"작은 금액이지만, 내가 번 돈이다. 그 느낌은 컸다.", "et":"A small amount, but money I earned. That part felt large."},
+]
+
+func _side_shift_vignettes() -> Array:
+	match str(GameState.current_job.get("id", "")):
+		"job_01":
+			return SIDE_JOB_VIGNETTES_CONVENIENCE
+		"job_02":
+			return SIDE_JOB_VIGNETTES_DELIVERY
+		_:
+			return SIDE_JOB_VIGNETTES_GENERAL
 
 const STARTUP_VIGNETTES := [
 	{"t":"MVP를 만들었다. 아무도 안 쓰는 것 같지만, 이게 시작이다.", "et":"Built an MVP. Seems like no one is using it, but this is the beginning.", "e":{"reputation":2,"intelligence":1,"stress":5}},
@@ -10467,7 +10571,7 @@ func _open_leverage_investments():
 		"leverage",
 		"#ef4444",
 		_tr("고위험 거래. 수익도 2배, 손실도 2배. 포지션 가치가 원금의 35% 이하로 하락하면 강제 청산됩니다.", "High-risk trade. Gains and losses both 2x. Position is force-liquidated if value drops below 35% of principal.")))
-	modal_body.add_child(_wrap_label(_tr("행동력 %d/%d — 매수 실행 시 1 소비", "AP %d/%d — buying costs 1") % [ap_now, GameState.max_action_points],
+	modal_body.add_child(_wrap_label(_tr("%s — 매수 실행 시 1 소비", "%s — buying costs 1") % _ap_status_text(),
 		12, "#00c896" if ap_now > 0 else "#ff4444"))
 	var sep = HSeparator.new(); sep.add_theme_color_override("color", Color("#252535")); modal_body.add_child(sep)
 	for row in investment_system.get_asset_rows():
@@ -11141,7 +11245,7 @@ func _build_investment_status_strip() -> Control:
 	var ap_color := "#cbd5e1" if GameState.action_points > 0 else "#ff7070"
 	var loan_total := GameState.get_loan_total()
 	var metrics: Array = [
-		[_tr("AP", "AP"), "%d/%d" % [GameState.action_points, GameState.max_action_points], ap_color],
+		[_tr("AP", "AP"), _ap_status_text(), ap_color],
 		[_tr("현금", "Cash"), GameState.format_money(GameState.money), "#cbd5e1"],
 		[_tr("순자산", "Net Worth"), GameState.format_money(GameState.get_total_asset_value()), "#cbd5e1"],
 		[_tr("대출", "Debt"), GameState.format_money(loan_total), "#f59e0b" if loan_total > 0.0 else "#64748b"],
@@ -12277,13 +12381,38 @@ func _close_modal():
 	AudioManager.play_ui_close()
 	if _pending_month_summary:
 		_pending_month_summary = false
+		if GameState.has_reached_demo_limit():
+			# 데모 기록 CTA가 곧 같은 모달에 이어진다. 여기서는 새 주를 시작하지 않는다.
+			_pending_tendency_kind = ""
+			return
+		if not _pending_tendency_kind.is_empty():
+			var tendency_kind := _pending_tendency_kind
+			_pending_tendency_kind = ""
+			_resume_after_tendency = true
+			call_deferred("_present_tendency_realization", tendency_kind)
+			return
+		_begin_month()
+		_refresh_all()
+		return
+	if _resume_after_tendency:
+		_resume_after_tendency = false
 		_begin_month()
 		_refresh_all()
 		return
 	if current_event.is_empty() and not GameState.is_game_over:
 		_render_ap_actions()
+	if not _pending_tendency_kind.is_empty():
+		var tendency_kind := _pending_tendency_kind
+		_pending_tendency_kind = ""
+		call_deferred("_present_tendency_realization", tendency_kind)
 
 func _show_demo_ending():
+	# 결산 화면은 한 막의 마침표다. 직전 AP 확정 카드와 승진 토스트를 위에 남기지 않는다.
+	_hide_ap_action_commit()
+	_clear_feedback_flash()
+	if is_instance_valid(_toast_container):
+		for toast in _toast_container.get_children():
+			toast.queue_free()
 	BGMPlayer.on_ending("stable_success")
 	AudioManager.play_ending_stinger("stable_success")
 	var f: Dictionary = GameState.flags
@@ -12318,7 +12447,7 @@ func _show_demo_ending():
 		modal_panel.offset_top = -360
 		modal_panel.offset_bottom = 360
 
-	var date_str: String = GameState.get_date_string()
+	var date_str: String = _demo_completion_date_string()
 	var asset_color := "#34d399" if total_assets >= 1_000_000.0 else "#c8d0df"
 	var header := HBoxContainer.new()
 	header.add_theme_constant_override("separation", 16)
@@ -12394,6 +12523,21 @@ func _show_demo_ending():
 	menu_btn.custom_minimum_size = Vector2(150, 46)
 	menu_btn.pressed.connect(_go_to_menu)
 	actions.add_child(menu_btn)
+
+func _demo_completion_date_string() -> String:
+	var display_year: int = int(GameState.year)
+	var display_month: int = int(GameState.month)
+	var display_week: int = int(GameState.week_of_month)
+	var weeks_to_rewind := maxi(0, int(GameState.turn) - GameState.DEMO_TURN_LIMIT)
+	for _i in range(weeks_to_rewind):
+		display_week -= 1
+		if display_week < 1:
+			display_week = 4
+			display_month -= 1
+			if display_month < 1:
+				display_month = 12
+				display_year -= 1
+	return _tr("%d년 %d월 %d주차", "%04d-%02d W%d") % [display_year, display_month, display_week]
 
 func _demo_record_separator() -> HSeparator:
 	var sep := HSeparator.new()
@@ -13166,7 +13310,9 @@ func _build_time_ledger_card(record_title: String, grade: String, is_demo: bool)
 	divider.custom_minimum_size = Vector2(1, 0)
 	body.add_child(divider)
 
-	var contact: Dictionary = _time_ledger_contact_record()
+	var record_turn: int = mini(int(GameState.turn), GameState.DEMO_TURN_LIMIT) if is_demo else int(GameState.turn)
+	var record_date: String = _demo_completion_date_string() if is_demo else GameState.get_date_string()
+	var contact: Dictionary = _time_ledger_contact_record(record_turn)
 	var contact_col := VBoxContainer.new()
 	contact_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	contact_col.add_theme_constant_override("separation", 5)
@@ -13199,7 +13345,7 @@ func _build_time_ledger_card(record_title: String, grade: String, is_demo: bool)
 	ledger_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	footer.add_child(ledger_label)
 	var date_label := _label(
-		_tr("{date} · {weeks}주차", "{date} · WEEK {weeks}").format({"date": GameState.get_date_string(), "weeks": GameState.turn}),
+		_tr("{date} · {weeks}주차", "{date} · WEEK {weeks}").format({"date": record_date, "weeks": record_turn}),
 		10, "#5f6875")
 	date_label.custom_minimum_size = Vector2(210, 0)
 	date_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
@@ -13245,7 +13391,9 @@ func _time_ledger_split_bar(money_weeks: int, human_weeks: int, money_color: Col
 	bar.add_child(people_fill)
 	return bar
 
-func _time_ledger_contact_record() -> Dictionary:
+func _time_ledger_contact_record(reference_turn: int = -1) -> Dictionary:
+	if reference_turn < 0:
+		reference_turn = int(GameState.turn)
 	var person: Dictionary = _closest_person()
 	if person.is_empty():
 		return {
@@ -13267,7 +13415,7 @@ func _time_ledger_contact_record() -> Dictionary:
 	var last_turn: int = int(GameState.last_contact_turn.get(person_id, -1))
 	var last_text: String = _tr("기록 없음", "No record")
 	if last_turn > 0:
-		var weeks_ago: int = maxi(0, GameState.turn - last_turn)
+		var weeks_ago: int = maxi(0, reference_turn - last_turn)
 		if weeks_ago == 0:
 			last_text = _tr("이번 주", "This week")
 		else:

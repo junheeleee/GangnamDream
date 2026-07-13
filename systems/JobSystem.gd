@@ -14,6 +14,7 @@ func apply_for_job(job_id):
 	GameState.current_job = job.duplicate(true)
 	GameState.job_tenure = 0
 	GameState.work_performance = 50
+	GameState.flags["job_started_turn"] = GameState.turn
 	var base_sal := float(job.get("base_salary", 0.0))
 	GameState.current_job["effective_salary"] = base_sal
 	GameState.monthly_income += base_sal
@@ -63,6 +64,7 @@ func process_monthly_job():
 		return
 	var job = GameState.current_job
 	GameState.job_tenure += 1
+	GameState.flags["career_months_total"] = int(GameState.flags.get("career_months_total", 0)) + 1
 	GameState.modify_stat("mental", -int(job.get("stress_per_month", 6)) / 2)
 	for stat in job.get("stat_gains", {}):
 		if randf() < 0.55:
