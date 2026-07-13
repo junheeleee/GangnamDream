@@ -12391,7 +12391,9 @@ func _show_ending(ending_id):
 	ending_sep.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(ending_sep)
 	if ending_cg_path != "" and ResourceLoader.exists(ending_cg_path):
-		_add_ending_art_preview(modal_body, ending_cg_path, true)
+		_add_ending_art_preview(
+				modal_body, ending_cg_path, true,
+				float(ending.get("cg_preview_focus_y", 0.5)))
 	else:
 		_add_ending_mood_card(modal_body, ending, ending_id)
 	# ── 드라마틱 한 줄 요약 ──
@@ -12577,7 +12579,9 @@ func _apply_ending_moral_palette() -> void:
 		modal_panel.add_theme_stylebox_override("panel", _modal_style("#090a0d", "#5e6670", 8, 14, 12))
 		modal_title_label.add_theme_color_override("font_color", Color("#e8eaf0"))
 
-func _add_ending_art_preview(parent: Control, art_path: String, is_cg: bool = false) -> void:
+func _add_ending_art_preview(
+		parent: Control, art_path: String, is_cg: bool = false,
+		preview_focus_y: float = 0.5) -> void:
 	var frame := PanelContainer.new()
 	frame.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var st := StyleBoxFlat.new()
@@ -12596,11 +12600,12 @@ func _add_ending_art_preview(parent: Control, art_path: String, is_cg: bool = fa
 	img.custom_minimum_size = Vector2(0, 430 if is_cg else 360)
 	img.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	img.texture = load(art_path)
-	img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	img.stretch_mode = TextureRect.STRETCH_SCALE if is_cg else TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	img.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	img.clip_contents = true
 	img.set_meta("ending_art_preview", true)
+	img.set_meta("ending_preview_focus_y", clampf(preview_focus_y, 0.0, 1.0))
 	if _moral_bg_material:
 		var preview_material := _moral_bg_material.duplicate(true) as ShaderMaterial
 		if is_cg:
@@ -12620,7 +12625,35 @@ func _add_ending_art_preview(parent: Control, art_path: String, is_cg: bool = fa
 			preview_material.set_shader_parameter("edge_burn", edge_burn * 0.55)
 			preview_material.set_shader_parameter("tint_amount", tint_amount * 0.60)
 		img.material = preview_material
-	frame.add_child(img)
+	if is_cg:
+		var crop_host := Control.new()
+		crop_host.custom_minimum_size = Vector2(0, 430)
+		crop_host.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		crop_host.clip_contents = true
+		crop_host.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		frame.add_child(crop_host)
+		crop_host.add_child(img)
+		var source_size := img.texture.get_size() if img.texture != null else Vector2(1280, 800)
+		crop_host.resized.connect(
+				_layout_ending_cg_preview.bind(
+						crop_host, img, source_size, clampf(preview_focus_y, 0.0, 1.0)))
+		call_deferred(
+				"_layout_ending_cg_preview", crop_host, img, source_size,
+				clampf(preview_focus_y, 0.0, 1.0))
+	else:
+		frame.add_child(img)
+
+func _layout_ending_cg_preview(
+		crop_host: Control, img: TextureRect, source_size: Vector2,
+		preview_focus_y: float) -> void:
+	if not is_instance_valid(crop_host) or not is_instance_valid(img):
+		return
+	var width := maxf(crop_host.size.x, 1.0)
+	var aspect := source_size.x / maxf(source_size.y, 1.0)
+	var rendered_height := maxf(width / aspect, crop_host.size.y)
+	var overflow := maxf(rendered_height - crop_host.size.y, 0.0)
+	img.position = Vector2(0.0, -overflow * clampf(preview_focus_y, 0.0, 1.0))
+	img.size = Vector2(width, rendered_height)
 
 func _add_ending_mood_card(parent: Control, ending: Dictionary, ending_id: String) -> void:
 	var palette := _moral_ui_palette()
@@ -13145,7 +13178,7 @@ func _ending_run_summary(ending_id: String) -> String:
 		"mental_break":
 			return _tr("가장 강해야 할 때 마음이 제일 먼저 떠났다", "When he needed to be strongest, his mind left first.")
 		"bankruptcy":
-			return _tr("50만원으로 시작해서 -1억으로 끝났다. 레버리지는 양방향이다.", "Started with KRW 500K, ended at -KRW 100M. Leverage cuts both ways.")
+			return _tr("순자산 마이너스 1억. 몇 번을 다시 눌러도 답은 같았다.", "Net worth below negative 100 million won. Every recalculation gave the same answer.")
 		"stable_success":
 			if is_orthodox:
 				return _tr("강남은 아니었지만 흔들리지 않는 삶을 쌓았다", "Not Gangnam, but he built a life that doesn't waver.")
@@ -13158,11 +13191,11 @@ func _ending_run_summary(ending_id: String) -> String:
 				return _tr("창업의 꿈을 꿨지만 결국 평범한 오늘을 선택했다", "He dreamed of a startup, but in the end chose an ordinary today.")
 			return _tr("특별하지 않아도 괜찮다 — 그것도 하나의 삶이다", "It's okay to not be special — that too is a life.")
 		"startup_exit":
-			return _tr("작은 아이디어 하나가 억대 엑싯으로 이어졌다", "One small idea led to a billion-won exit.")
+			return _tr("작은 아이디어 하나가 첫 엑싯으로 이어졌다", "One small idea became his first startup exit.")
 		"crypto_ghost":
 			return _tr("차트가 현실이 되고, 현실이 배경이 됐다. 결국 전부를 가져갔다.", "The chart became reality, and reality became background. In the end it took everything.")
 		"debt_spiral":
-			return _tr("빚을 막으려고 빚을 냈다. 서울에서 자주 있는 일이다.", "He borrowed to cover debt. A common story in Seoul.")
+			return _tr("계산기를 뒤집었다. 빚은 그대로였다.", "He turned the calculator face-down. The debt remained.")
 		"lonely_rich":
 			return _tr("30억은 모였다. 네 자리 식탁에는 혼자였다.", "He reached three billion won. At a table for four, he sat alone.")
 		"political_fix":

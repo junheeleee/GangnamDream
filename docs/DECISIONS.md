@@ -1,5 +1,13 @@
 # Gangnam Dream Decisions
 
+## 2026-07-13 (PC 기준 빌드는 콘솔을 막지 않으며, 콘솔 약속은 승인과 포팅을 통과한 뒤 한다)
+
+- **플랫폼 순서**: Steam/Steam Deck 데모와 PC 출시 품질을 기준 빌드로 완성한 뒤 PlayStation 5, Xbox Series, Nintendo Switch/Switch 2로 확장한다. 콘솔 동시 출시를 현재 일정의 전제로 삼지 않되, 입력·레이아웃·저장 구조는 지금부터 콘솔을 막지 않게 만든다.
+- **공통 표면 계약**: 960x600 자유 창 최소선, 1280x720 휴대/TV 저해상도, 1280x800 Steam Deck, 1920x1080, 2560x1440, 3840x2160, 21:9를 검증한다. 핵심 UI는 중앙 안전영역을 유지하며 QHD/4K에서 글자와 벡터 표면은 선명하고 CG/배경은 고해상도 마스터에서 내려온다.
+- **입력 의미 계약**: 게임 로직은 South=확인, East=취소, West=보조, North=상세, LB/RB=그룹 이동이라는 의미만 소유한다. `ControllerHints`가 Xbox/Steam Deck, DualSense, Nintendo의 실제 레이블을 골라 표면에 표시하며 특정 플랫폼 글자를 로직에 하드코딩하지 않는다.
+- **출시 현실**: Steam Deck 외 콘솔은 플랫폼 개발자 승인, NDA, 전용 SDK/devkit, 인증, Godot 콘솔 export template 또는 포팅 파트너가 필요하다. 따라서 플랫폼 신청·포팅·인증은 PC 데모의 외부 지표를 본 뒤 별도 예산과 일정으로 승인한다.
+- **게이트**: 콘솔 준비도는 마우스 구조가 아니라 패드 단독 과업, 10-foot/휴대 가독성, 안전영역, 중단·재개, 포커스 복구, 해상도별 무왜곡 캡처로 판정한다.
+
 ## 2026-07-13 (회복은 랜덤 카드 네 장이 아니라 실제 시간이 지나야 하며, 결산은 카지노 밖에서 한다)
 
 - **시간 계약**: `gambling_rock_bottom`에서 도움을 청한 뒤 `recovery_first_week`은 1주, 유혹 시험은 추가 3주, `recovery_one_month_clean`은 거절 뒤 1주 후 예약한다. 세 후속 이벤트는 weight 0/hidden인 deferred 전용이며, 재발 선택은 마지막 회복 비트를 예약하지 않는다.
