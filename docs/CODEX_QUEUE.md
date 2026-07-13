@@ -72,7 +72,7 @@ Claude 컨테이너가 Godot 바이너리를 잃어(2026-07-13) 최근 Claude �
 **착수 기록 — 만진 파일:** `autoloads/MetaProgression.gd`, `autoloads/DataRegistry.gd`, `content/meta/achievements.json`, `scenes/MainGame.gd`, `tools/AchievementPathCheck.gd`, `tools/AchievementPathCheck.gd.uid`, `tools/AchievementPathCheck.tscn`, `tools/audit.sh`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`.
 15종 각각 해금 경로 실증(코드 추적+가능하면 헤드리스 시뮬): 트리거 조건→unlock_achievement 도달 여부, 도감 카운트/엔딩 이름표/EN 사전 3자 정합. 특히 신규 4종(four_seasons — record_run rf 스냅샷에 last_*_date_year가 실제로 담기는지 / kept_evidence — presented_artifact_correct rf 전달 / drawer_truth·dawn_people — 직접 unlock 경로). 누락·불일치는 수리 커밋, 보고서를 WORK_LOG에.
 
-#### [ ] ORDER-06 [P2] 유물 제시·히든 QA 패스
+#### [~] ORDER-06 [P2] 유물 제시·히든 QA 패스 — 착수, 만지는 파일: `scenes/StoryMode.gd`, `scenes/MainGame.gd`, `tools/HiddenFeatureCheck.gd`, `tools/HiddenFeatureCheck.gd.uid`, `tools/HiddenFeatureCheck.tscn`, `tools/audit.sh`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`
 신기능 블랙박스: ①재혁 ghost — 사진 미보유 시 2선택지/보유 시 3번째 "(주머니 속…)" 노출+follow_up 사진 씬 ②지연 verdict 제3의 길 — 첫 문자 보유 시만, 선택 후 jiyeon_man 엔딩에 stayed_as_selves dik 발화 ③다은 이혼 담판 포스트잇 — 라우팅이 거절과 동일(이혼 아님) ④새벽의 사람들 — `_is_real_dawn()` 임시 오버라이드로 새벽 대사 4종 순환·5회 최심부·업적 ⑤서랍 속의 진실 — 조건 충족 엔딩 후 암전 컷 재생·업적 ⑥간직한 것들 — 유물 보유 런 엔딩 리캡에 목록 노출. 각각 캡처 or 로그 증적, 발견 버그 수리 커밋.
 
 #### [ ] ORDER-07 [P2] 이사 "두고 간다" 비트
