@@ -133,6 +133,9 @@ const JOBS_PATH = "res://content/jobs.json"
 const ITEMS_PATH = "res://content/items.json"
 const ENDINGS_PATH = "res://content/endings.json"
 const ENDINGS_EN_PATH = "res://content/endings_en.json"
+const EVENT_LOCALE_DIR := "res://content/events_%s/"
+const ENDINGS_LOCALE_PATH := "res://content/endings_%s.json"
+const CATALOG_LOCALE_PATH := "res://locale/catalog_%s.json"
 const NEWS_PATH = "res://content/news_templates.json"
 const META_PATH = "res://content/meta/default_meta.json"
 const ACHIEVEMENTS_PATH = "res://content/meta/achievements.json"
@@ -291,6 +294,8 @@ func _ready():
 	reload()
 
 func reload():
+	var lang := LocaleManager.language
+	var target_catalog := _load_locale_catalog(lang)
 	events.clear()
 	events_by_id.clear()
 	for path in EVENT_PATHS:
@@ -298,42 +303,53 @@ func reload():
 			events.append(event)
 			events_by_id[event.get("id", "")] = event
 
-	# 영어 이벤트 오버레이 — 같은 id를 영어 버전으로 교체
-	if LocaleManager.language == "en":
-		_apply_en_overlay()
+	# 비한국어는 완성된 EN을 안전망으로 먼저 적용한다. 준비 언어 오버레이가
+	# 비어 있거나 일부만 번역돼도 한국어 본문이 화면에 새지 않는다.
+	if lang != "ko":
+		_apply_event_overlay("en")
+		if lang != "en":
+			_apply_event_overlay(lang)
 
 	assets = _load_array(ASSETS_PATH)
-	if LocaleManager.language == "en":
+	if lang != "ko":
 		_apply_catalog_en_overlay(assets, ASSET_TEXT_EN)
+		_apply_catalog_locale_overlay(assets, target_catalog, "assets")
 	assets_by_id = _index_by_id(assets)
 	jobs = _load_array(JOBS_PATH)
-	if LocaleManager.language == "en":
+	if lang != "ko":
 		_apply_catalog_en_overlay(jobs, JOB_TEXT_EN)
+		_apply_catalog_locale_overlay(jobs, target_catalog, "jobs")
 	jobs_by_id = _index_by_id(jobs)
 	items = _load_array(ITEMS_PATH)
-	if LocaleManager.language == "en":
+	if lang != "ko":
 		_apply_catalog_en_overlay(items, ITEM_TEXT_EN)
+		_apply_catalog_locale_overlay(items, target_catalog, "items")
 	items_by_id = _index_by_id(items)
 	endings = _load_array(ENDINGS_PATH)
 	endings_by_id = _index_by_id(endings)
-	# 영어 엔딩 오버레이 — 같은 id의 텍스트 필드(title/description/condition 등)를 교체
-	if LocaleManager.language == "en":
-		_apply_endings_en_overlay()
+	if lang != "ko":
+		_apply_endings_overlay("en")
+		if lang != "en":
+			_apply_endings_overlay(lang)
 	news_templates = _load_array(NEWS_PATH)
-	if LocaleManager.language == "en":
+	if lang != "ko":
 		_apply_news_en_overlay()
+		_apply_catalog_locale_overlay(news_templates, target_catalog, "news")
 	default_meta = _load_dict(META_PATH)
 	achievements = _load_array(ACHIEVEMENTS_PATH)
-	if LocaleManager.language == "en":
+	if lang != "ko":
 		_apply_catalog_en_overlay(achievements, ACHIEVEMENT_TEXT_EN)
+		_apply_catalog_locale_overlay(achievements, target_catalog, "achievements")
 	achievements_by_id = _index_by_id(achievements)
 	clues = _load_array(CLUES_PATH)
-	if LocaleManager.language == "en":
+	if lang != "ko":
 		_apply_catalog_en_overlay(clues, CLUE_TEXT_EN)
+		_apply_catalog_locale_overlay(clues, target_catalog, "clues")
 	clues_by_id = _index_by_id(clues)
 	thoughts = _load_array(THOUGHTS_PATH)
-	if LocaleManager.language == "en":
+	if lang != "ko":
 		_apply_catalog_en_overlay(thoughts, THOUGHT_TEXT_EN)
+		_apply_catalog_locale_overlay(thoughts, target_catalog, "thoughts")
 	thoughts_by_id = _index_by_id(thoughts)
 
 func find_event(event_id):
@@ -351,16 +367,16 @@ func get_events(category):
 			filtered.append(event)
 	return filtered
 
-func _apply_en_overlay() -> void:
-	var en_dir = "res://content/events_en/"
-	var da := DirAccess.open(en_dir)
+func _apply_event_overlay(lang: String) -> void:
+	var overlay_dir := EVENT_LOCALE_DIR % lang
+	var da := DirAccess.open(overlay_dir)
 	if not da:
 		return
 	da.list_dir_begin()
 	var fname := da.get_next()
 	while fname != "":
 		if fname.ends_with(".json"):
-			for ev in _load_array(en_dir + fname):
+			for ev in _load_array(overlay_dir + fname):
 				var eid: String = str(ev.get("id", ""))
 				if eid == "":
 					fname = da.get_next()
@@ -383,11 +399,11 @@ func _merge_event_overlay(base_event: Dictionary, overlay_event: Dictionary) -> 
 			merged[key] = overlay_event[key]
 	return merged
 
-func _apply_endings_en_overlay() -> void:
-	# endings_en.json의 같은 id 엔딩으로 텍스트 필드를 덮어쓴다(없으면 KR 유지).
-	if not ResourceLoader.exists(ENDINGS_EN_PATH) and not FileAccess.file_exists(ENDINGS_EN_PATH):
+func _apply_endings_overlay(lang: String) -> void:
+	var path := ENDINGS_EN_PATH if lang == "en" else ENDINGS_LOCALE_PATH % lang
+	if not ResourceLoader.exists(path) and not FileAccess.file_exists(path):
 		return
-	for ev in _load_array(ENDINGS_EN_PATH):
+	for ev in _load_array(path):
 		var eid: String = str(ev.get("id", ""))
 		if eid == "" or not endings_by_id.has(eid):
 			continue
@@ -400,6 +416,19 @@ func _apply_endings_en_overlay() -> void:
 		if idx >= 0:
 			endings[idx] = merged
 		endings_by_id[eid] = merged
+
+func _load_locale_catalog(lang: String) -> Dictionary:
+	if lang in ["ko", "en"]:
+		return {}
+	var path := CATALOG_LOCALE_PATH % lang
+	if not FileAccess.file_exists(path):
+		return {}
+	return _load_dict(path)
+
+func _apply_catalog_locale_overlay(rows: Array, catalog: Dictionary, section: String) -> void:
+	var overlay = catalog.get(section, {})
+	if overlay is Dictionary and not overlay.is_empty():
+		_apply_catalog_en_overlay(rows, overlay)
 
 func _apply_catalog_en_overlay(rows: Array, overlay: Dictionary) -> void:
 	for i in range(rows.size()):

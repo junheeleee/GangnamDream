@@ -13,6 +13,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=store --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1920x1080 res://tools/ScreenshotQA.tscn -- --qa=trailer --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=locale-gate
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=i18n-layout --lang=zh-CN
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-moral --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=romance-cg
@@ -63,6 +64,7 @@ const QA_SCOPE_YEAR_IDENTITY := "year_identity"
 const QA_SCOPE_STORE := "store"
 const QA_SCOPE_TRAILER := "trailer"
 const QA_SCOPE_LOCALE_GATE := "locale_gate"
+const QA_SCOPE_I18N_LAYOUT := "i18n_layout"
 const QA_SCOPE_STORY_EN := "story_en"
 const QA_SCOPE_STORY_MORAL := "story_moral"
 const QA_SCOPE_MORAL_ANCHORS := "moral_anchors"
@@ -193,6 +195,12 @@ func _ready() -> void:
 	if scope == QA_SCOPE_LOCALE_GATE:
 		await _shot_language_gate()
 		print("SCREENSHOT_QA_DONE scope=locale-gate dir=%s" % OUT_DIR)
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_I18N_LAYOUT:
+		var lang := _qa_language("zh-CN")
+		await _shot_i18n_layout(lang)
+		print("SCREENSHOT_QA_DONE scope=i18n-layout lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_STORY_EN:
@@ -462,6 +470,10 @@ func _qa_scope() -> String:
 				"--locale-gate", "--locale_gate", "qa=locale-gate", "--qa=locale-gate",
 				"qa=locale_gate", "--qa=locale_gate", "scope=locale-gate", "--scope=locale-gate"]:
 			return QA_SCOPE_LOCALE_GATE
+		if arg in ["i18n-layout", "i18n_layout", "cjk-layout", "cjk_layout",
+				"--i18n-layout", "--i18n_layout", "qa=i18n-layout", "--qa=i18n-layout",
+				"qa=i18n_layout", "--qa=i18n_layout", "scope=i18n-layout", "--scope=i18n-layout"]:
+			return QA_SCOPE_I18N_LAYOUT
 		if arg in ["story-en", "story_en", "story", "--story-en", "--story_en",
 				"qa=story-en", "--qa=story-en", "qa=story_en", "--qa=story_en",
 				"scope=story-en", "--scope=story-en", "scope=story_en", "--scope=story_en"]:
@@ -598,6 +610,12 @@ func _qa_language(default_lang: String = "ko") -> String:
 			return "en"
 		if arg in ["ko", "--ko", "lang=ko", "--lang=ko", "language=ko", "--language=ko"]:
 			return "ko"
+		if arg in ["ja", "--ja", "lang=ja", "--lang=ja", "language=ja", "--language=ja"]:
+			return "ja"
+		if arg in ["zh-cn", "--zh-cn", "lang=zh-cn", "--lang=zh-cn", "language=zh-cn", "--language=zh-cn"]:
+			return "zh-CN"
+		if arg in ["zh-tw", "--zh-tw", "lang=zh-tw", "--lang=zh-tw", "language=zh-tw", "--language=zh-tw"]:
+			return "zh-TW"
 	return default_lang
 
 func _set_qa_language(lang: String) -> void:
@@ -738,6 +756,84 @@ func _shot_language_gate() -> void:
 	LocaleManager.set_language("ko")
 	await _shot_start_menu("ko", "locale_01_korean_start_menu")
 	await _shot_story_event("arc_jiyeon_narrow_room_1", "locale_02_korean_jiyeon_name", "ko", 0.45, true, false, -1, 2, true)
+
+func _shot_i18n_layout(lang: String) -> void:
+	_set_qa_language(lang)
+	var canvas := ColorRect.new()
+	canvas.color = Color("111318")
+	canvas.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	get_tree().root.add_child.call_deferred(canvas)
+	await get_tree().process_frame
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(820.0, 540.0)
+	var viewport_size := get_viewport().get_visible_rect().size
+	panel.position = (viewport_size - panel.custom_minimum_size) * 0.5
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color("171a20")
+	panel_style.border_color = Color("7d828d")
+	panel_style.set_border_width_all(1)
+	panel_style.corner_radius_top_left = 4
+	panel_style.corner_radius_top_right = 4
+	panel_style.corner_radius_bottom_left = 4
+	panel_style.corner_radius_bottom_right = 4
+	panel.add_theme_stylebox_override("panel", panel_style)
+	canvas.add_child(panel)
+
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 52)
+	margin.add_theme_constant_override("margin_right", 52)
+	margin.add_theme_constant_override("margin_top", 44)
+	margin.add_theme_constant_override("margin_bottom", 44)
+	panel.add_child(margin)
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 20)
+	margin.add_child(column)
+	var ui_font = load("res://assets/fonts/Pretendard-Regular.ttf") as Font
+
+	var title := Label.new()
+	title.text = "CJK LINE-WRAP QA  /  %s" % lang
+	if ui_font != null:
+		title.add_theme_font_override("font", ui_font)
+	title.add_theme_font_size_override("font_size", 24)
+	title.add_theme_color_override("font_color", Color("f2c45c"))
+	column.add_child(title)
+
+	var rule := HSeparator.new()
+	rule.modulate = Color("8b909a")
+	column.add_child(rule)
+
+	var samples := {
+		"ja": "これは翻訳そのものではなく、長い日本語の文章が狭い画面でも文字単位で自然に折り返され、選択肢や重要な金額を隠さないことを確認するためのレイアウト検証文です。五年間の選択が、同じ街と同じ人を少しずつ違って見せていきます。",
+		"zh-CN": "这不是正式翻译，而是一段专门用于界面测试的长文本。它用来确认中文在较窄的屏幕上能够自然换行，不会遮挡选项、金额或继续提示。五年里的每一次选择，都会让同一座城市和同一个人呈现出不同的样子。",
+		"zh-TW": "這不是正式翻譯，而是一段專門用於介面測試的長文字。它用來確認中文在較窄的螢幕上能夠自然換行，不會遮擋選項、金額或繼續提示。五年裡的每一次選擇，都會讓同一座城市和同一個人呈現出不同的樣子。",
+	}
+	var body := Label.new()
+	body.text = str(samples.get(lang, samples["zh-CN"]))
+	if ui_font != null:
+		body.add_theme_font_override("font", ui_font)
+	body.custom_minimum_size = Vector2(716.0, 270.0)
+	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	body.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+	body.add_theme_font_size_override("font_size", 30)
+	body.add_theme_color_override("font_color", Color("e7e8eb"))
+	column.add_child(body)
+
+	var footer := Label.new()
+	footer.text = "KRW 123,450,000  |  1280 x 800 safe area  |  prepared locale, not shipping"
+	if ui_font != null:
+		footer.add_theme_font_override("font", ui_font)
+	footer.add_theme_font_size_override("font_size", 17)
+	footer.add_theme_color_override("font_color", Color("9ea3ad"))
+	column.add_child(footer)
+
+	await _settle(0.4)
+	if body.get_line_count() < 3:
+		_fail("CJK sample did not wrap across at least three lines for %s." % lang)
+		return
+	await _save("i18n_layout_%s" % lang.replace("-", "_"), 0.0)
+	canvas.queue_free()
+	await get_tree().process_frame
 
 func _shot_splash_screen(lang: String, shot_name: String) -> void:
 	_set_qa_language(lang)

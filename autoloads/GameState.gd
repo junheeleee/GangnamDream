@@ -539,8 +539,10 @@ func tendency_desc(kind: String) -> String:
 
 func get_loan_name(product: String) -> String:
 	var info: Dictionary = LOAN_PRODUCTS.get(product, {})
-	var key := "name_en" if LocaleManager.is_english() else "name"
-	return str(info.get(key, info.get("name", product)))
+	return LocaleManager.ui(
+		str(info.get("name", product)),
+		str(info.get("name_en", info.get("name", product)))
+	)
 
 func get_job_display_name(job: Dictionary = {}) -> String:
 	var source: Dictionary = current_job if job.is_empty() else job
@@ -721,29 +723,27 @@ func get_housing_info() -> Dictionary:
 
 func get_housing_name(housing_id: String = "") -> String:
 	var id := housing if housing_id.is_empty() else housing_id
-	if LocaleManager.is_english():
-		var names_en := {
-			"gosiwon": "goshiwon",
-			"oneroom": "one-room studio",
-			"villa": "villa jeonse",
-			"apartment": "apartment jeonse",
-			"gangnam": "Gangnam apartment",
-		}
-		return str(names_en.get(id, id))
-	return str(HOUSING_DATA.get(id, HOUSING_DATA["gosiwon"]).get("name", id))
+	var names_en := {
+		"gosiwon": "goshiwon",
+		"oneroom": "one-room studio",
+		"villa": "villa jeonse",
+		"apartment": "apartment jeonse",
+		"gangnam": "Gangnam apartment",
+	}
+	var name_ko := str(HOUSING_DATA.get(id, HOUSING_DATA["gosiwon"]).get("name", id))
+	return LocaleManager.ui(name_ko, str(names_en.get(id, id)))
 
 func get_housing_display_name(housing_id: String = "") -> String:
 	var id := housing if housing_id.is_empty() else housing_id
-	if LocaleManager.is_english():
-		var names_en := {
-			"gosiwon": "Goshiwon Room",
-			"oneroom": "One-room Studio",
-			"villa": "Villa Jeonse",
-			"apartment": "Apartment Jeonse",
-			"gangnam": "Gangnam Apartment",
-		}
-		return str(names_en.get(id, id.capitalize()))
-	return get_housing_name(id)
+	var names_en := {
+		"gosiwon": "Goshiwon Room",
+		"oneroom": "One-room Studio",
+		"villa": "Villa Jeonse",
+		"apartment": "Apartment Jeonse",
+		"gangnam": "Gangnam Apartment",
+	}
+	var name_ko := str(HOUSING_DATA.get(id, HOUSING_DATA["gosiwon"]).get("name", id))
+	return LocaleManager.ui(name_ko, str(names_en.get(id, id.capitalize())))
 
 func can_upgrade_housing() -> bool:
 	var info = get_housing_info()
@@ -1502,23 +1502,10 @@ func get_date_string():
 	return "%d년 %d월 %d주차" % [year, month, week_of_month]
 
 func format_money(amount):
-	var sign = ""
-	if amount < 0:
-		sign = "-"
-	var abs_amount = abs(amount)
-	if LocaleManager.is_english():
-		if abs_amount >= 1_000_000_000:
-			return "%sKRW %.1fB" % [sign, abs_amount / 1_000_000_000.0]
-		if abs_amount >= 1_000_000:
-			return "%sKRW %.1fM" % [sign, abs_amount / 1_000_000.0]
-		if abs_amount >= 1_000:
-			return "%sKRW %.0fK" % [sign, abs_amount / 1_000.0]
-		return "%sKRW %.0f" % [sign, abs_amount]
-	if abs_amount >= 100_000_000:
-		return "%s%.1f억원" % [sign, abs_amount / 100_000_000.0]
-	if abs_amount >= 10_000:
-		return "%s%.0f만원" % [sign, abs_amount / 10_000.0]
-	return "%s%.0f원" % [sign, abs_amount]
+	return LocaleManager.format_money(float(amount))
+
+func format_money_compact(amount) -> String:
+	return LocaleManager.format_money(float(amount), true)
 
 func format_event_text(text: String) -> String:
 	var job_name: String = get_job_display_name()
