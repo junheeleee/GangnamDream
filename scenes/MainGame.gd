@@ -12926,6 +12926,22 @@ func _build_time_ledger_card(record_title: String, grade: String, is_demo: bool)
 		_tr("마지막 연락  {when}", "Last contact  {when}").format({"when": str(contact.get("last", _tr("기록 없음", "No record")))}),
 		12, "#7f8997"))
 
+	# 간직한 것들 — 5년의 끝에 남은 유물 목록 (이야기 속에서 받은 물건들이 엔딩 스크린샷에 남는다)
+	var kept_names: PackedStringArray = PackedStringArray()
+	for owned in GameState.inventory:
+		var kid := str(owned.get("id", ""))
+		if not kid.begins_with("artifact_"):
+			continue
+		var kitem: Dictionary = DataRegistry.get_item(kid)
+		if not kitem.is_empty():
+			kept_names.append(str(kitem.get("name", kid)))
+	if kept_names.size() > 0:
+		var kept_col := VBoxContainer.new()
+		kept_col.add_theme_constant_override("separation", 3)
+		box.add_child(kept_col)
+		kept_col.add_child(_label(_tr("간직한 것들", "WHAT HE KEPT"), 10, "#707987"))
+		kept_col.add_child(_wrap_label(" · ".join(kept_names), 12, _moral_hex(people_color)))
+
 	var footer := HBoxContainer.new()
 	footer.add_theme_constant_override("separation", 12)
 	box.add_child(footer)
