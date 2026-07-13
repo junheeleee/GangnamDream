@@ -178,7 +178,12 @@
   },
   {
     "id": "arc_daeun_final_choice",
-    "direction": {"pace": "slow", "amb": "cut", "sting": "loss", "hold": 1.5},
+    "direction": {
+      "pace": "slow",
+      "amb": "cut",
+      "sting": "loss",
+      "hold": 1.5
+    },
     "title": "마지막 한 걸음",
     "category": "story",
     "rarity": "story",
@@ -235,6 +240,24 @@
           }
         },
         "result_text": "서명했다. 강남 등기가 손에 들어왔다.\n\n다은이 진실을 알게 되는 데 오래 걸리지 않았다.\n그녀는 울지 않았다. 이미 몇 년 전에, 조용히 다 울었던 사람처럼.\n\n\"...민준씨, 언제부터 나를 서류로 봤어요?\"\n\n{name}은 대답하지 못했다. 정확한 날짜를 댈 수가 없어서.\n다은은 혼인신고서에 찍지 못한 도장을, 끝내 둘의 생활을 정리하는 합의서 위에 찍었다."
+      },
+      {
+        "text": "(펜을 든 채 — 서랍 속 그 포스트잇이 생각났다)",
+        "requires_item": "artifact_daeun_note",
+        "effects": {
+          "mental": 20,
+          "tint": 10
+        },
+        "flags": [
+          "arc_daeun_final_choice_seen",
+          "presented_artifact_correct"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": 22
+          }
+        },
+        "result_text": "{name}은 펜을 든 채, 책상 서랍을 열었다.\n오래된 포스트잇 한 장. 냉장고에서 떼어 여기 넣어둔 지 몇 년이 지났다.\n'잘 챙겨 먹어요.' 세 글자씩, 또박또박.\n\n이 글자를 쓴 사람이 지금 옆방에서 청첩장 시안을 고르고 있다. 콧노래를 부르면서.\n그 사람 몰래 서명 하나로 그 사람의 전부를 처분하는 일과 — 이 세 글자는, 같은 세상에 있을 수 없었다.\n\n{name}은 포스트잇을 계약서 위에 붙이고, 펜을 내려놓았다.\n\"다은아. 우리 그냥… 좀 늦게 가자.\"\n옆방의 콧노래가 잠깐 멈췄다가, 다시 이어졌다. 아무것도 모르는 채로. 그게 좋았다."
       }
     ],
     "description_if_known": {
@@ -304,7 +327,10 @@
   },
   {
     "id": "arc_daeun_wedding_day",
-    "direction": {"camera": "slow_zoom", "sting": "reveal"},
+    "direction": {
+      "camera": "slow_zoom",
+      "sting": "reveal"
+    },
     "title": "신랑석",
     "category": "story",
     "rarity": "story",

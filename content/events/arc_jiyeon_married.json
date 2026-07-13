@@ -63,7 +63,11 @@
   },
   {
     "id": "arc_jiyeon_verdict",
-    "direction": {"pace": "slow", "amb": "duck", "sting": "cold"},
+    "direction": {
+      "pace": "slow",
+      "amb": "duck",
+      "sting": "cold"
+    },
     "title": "이렇게 살 사람",
     "category": "story",
     "rarity": "story",
@@ -122,6 +126,25 @@
           }
         },
         "result_text": "지연은 오래 {name}을 봤다. 화내지 않았다. 그녀는 화낼 사람이 아니었다.\n\n\"...알아. 오빠는 좋은 사람이야. 그냥, 내 세계 사람이 아닐 뿐이야.\"\n\n그녀는 자기 세계로 돌아갔다. 그 세계에 어울리는 사람과, 어울리는 삶으로.\n\n{name}은 강남에 못 갔고, 그녀도 잃었다. 근데 거울 속 얼굴은 여전히 자기였다.\n무엇과도 바꾸지 않은, 작고 온전한 자기."
+      },
+      {
+        "text": "(폰을 꺼낸다 — 그녀의 첫 문자를, 아직 지우지 않았다)",
+        "requires_item": "artifact_jiyeon_text",
+        "effects": {
+          "mental": 6,
+          "tint": 5
+        },
+        "flags": [
+          "arc_jiyeon_verdict_seen",
+          "jiyeon_stayed_as_selves",
+          "presented_artifact_correct"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 8
+          }
+        },
+        "result_text": "{name}은 말 대신 폰을 꺼내, 오래된 화면 하나를 그녀 앞에 놓았다.\n새벽에 온 첫 문자. \"나 좀 이상한 애 같지?\"\n\n지연이 그 화면을 내려다봤다. 한 박자, 두 박자. 정색하던 얼굴이 천천히 무너졌다.\n\"…이걸 아직 갖고 있어?\"\n\"그때 아니라고 답했죠. 그 답, 지금도 안 바뀌었어요.\" {name}이 말했다. \"당신은 이상한 사람이 아니고 — 나는 바뀌어야 하는 사람이 아니에요. 우리 둘 다, 그냥 이렇게 생겨먹은 거예요.\"\n\n긴 침묵이 흘렀다. 지연은 창밖을 봤다가, 폰 화면을 봤다가, 마지막으로 {name}을 봤다.\n\"…아빠한텐 내가 말할게.\" 그게 그녀의 대답이었다.\n강남은 오지 않았다. 그런데 떠나는 사람도, 바뀌는 사람도 없었다. 그 밤 두 사람은 5년 전 새벽처럼 — 서로를 이상하지 않다고 믿어주는 두 사람으로 남았다."
       }
     ],
     "description_if_known": {
