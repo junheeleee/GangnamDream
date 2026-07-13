@@ -142,7 +142,7 @@ Claude 컨테이너가 Godot 바이너리를 잃어(2026-07-13) 최근 Claude �
 4. **폰트/레이아웃**: 현 폰트의 CJK 글리프 커버리지 실사 → 부족 시 폰트 후보 보고(라이선스 포함). 긴 독일어식 줄바꿈 문제는 없지만 zh 줄바꿈 규칙(단어 경계 없음) ScreenshotQA 1컷 검증.
 5. **산출물**: 인프라+빈 오버레이 스켈레톤+도구까지. **번역 파일 생성 금지** — 번역 웨이브는 콘텐츠 동결 후 별도 오더(우선순위 ja → zh-CN → zh-TW, 언어별 용어집·호칭 정본표 선행, 네이티브 스팟체크 게이트는 유저와 협의).
 
-#### [ ] ORDER-13 [P1] 마감 게이트 3종 — 30억 경로 다양화·엔딩 구분성·표면 잔재
+#### [~] ORDER-13 [P1] 마감 게이트 3종 — 30억 경로 다양화·엔딩 구분성·표면 잔재 — 착수: 3,000런 경제 경로·35엔딩·첫 투자 표면 통합 감사 — 만지는 파일: `tools/balance_sim.py`, `tools/balance_check.py`, `content/events/life_events.json`, `content/events_en/life_events.json`, `content/events/investment_events.json`, `content/events_en/investment_events.json`, `content/endings.json`, `content/endings_en.json`, `tools/ending_distinctness_audit.py`, `docs/ENDING_AUDIT.md`, `scenes/MainGame.gd`, `tools/ScreenshotQA.gd`, `tools/audit.sh`, `docs/BALANCE.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `docs/DECISIONS.md`, `docs/CODEX_QUEUE.md`, `CLAUDE.md`
 > Claude 판정 2026-07-13: 방향은 확정, 남은 위험은 "마감". 이 오더가 끝나면 콘텐츠 동결 후보 상태.
 1. **30억 정점 경로 다양화 (밸런스 패스)**: 현행 30억 도달이 베팅 수렴(14.8%). 창업 엑싯·부동산 사다리 경로로도 상위 자산 도달이 현실적으로 가능한지 시뮬(3,000런)로 실증 → 상한/수익 파라미터를 밴드 안에서 조정해 **3경로 각각 도달 가능**(각 3%+ 목표)하게. 모든 수치 변경은 `docs/BALANCE.md` 기록+밴드 재검(무직 95~100/직장 0~2/베팅 8~25/중앙값 5천만~1.5억 유지).
 2. **엔딩 35종 구분성 감사**: 전 엔딩을 (제목/본문/CG/라우팅 조건) 4열 표로 뽑아 "플레이어가 받아봤을 때 구분되는가" 판정 — 본문·조건이 사실상 겹치는 쌍은 병합 제안서만 작성(**병합 실행은 Claude 승인 후** — 엔딩 id는 저장 호환·업적 배선에 걸려 있음). 산출물 docs/ENDING_AUDIT.md.
