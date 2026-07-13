@@ -14823,7 +14823,7 @@ func _get_month_advice() -> String:
 	if GameState.current_job.is_empty():
 		return _tr("직업이 없으면 매달 수입이 0원입니다. 생활비만큼 계속 줄어들어요. [구직활동]을 최우선으로 하세요.", "Without a job, monthly income is zero. Living costs will keep draining you. Prioritize Job Hunt.")
 	if GameState.money < 0:
-		return _tr("잔고가 마이너스입니다 (%s). 알바나 투자 수익으로 메우세요. 빚이 1억원을 넘으면 파산 엔딩입니다.", "Your balance is negative (%s). Cover it with gigs or investment gains. Debt over KRW 100M triggers bankruptcy.") % GameState.format_money(GameState.money)
+		return _tr("잔고가 마이너스입니다 (%s). 알바나 투자 수익으로 메우세요. 순자산이 마이너스 1억 아래로 내려가면 파산 엔딩입니다.", "Your balance is negative (%s). Cover it with gigs or investment gains. Net worth below negative 100 million won triggers bankruptcy.") % GameState.format_money(GameState.money)
 	if GameState.can_upgrade_housing() and GameState.housing == "gosiwon":
 		var next_id = str(GameState.get_housing_info().get("next", ""))
 		return _tr("🏠 %s으로 이사할 자금이 생겼습니다 (현금 %s). 이사하면 정신력 패시브가 개선돼요!", "🏠 You can afford to move to a %s (cash %s). Moving improves your passive Mental pressure.") % [
