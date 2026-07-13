@@ -81,38 +81,38 @@
   {
     "id": "arc_social_comparison",
     "title": "Old Classmate",
-    "description": "It was a coincidence. Going into a restaurant alone for lunch — and seeing a face from high school, same class.\n\nSame starting line. Back then.\n\nHe was in a suit, with colleagues, laughing loudly, moving through the place like he belonged there.\n\nTheir eyes met. The other guy saw him too. Both stopped for a moment.",
+    "description": "At lunch, an old laugh met {name} as soon as he opened the restaurant door. A face from his high-school class. Back then they had worn the same uniform and waited for the same final bell. He remembered them starting from the same line.\n\nHis classmate sat among colleagues in a crisp suit, choosing dishes and calling the server with the ease of someone who belonged. {name} held a meal ticket for one.\n\nTheir eyes met. The laughter at the other table stopped half a beat late. In the clink of a spoon against a bowl, both men calculated whether to acknowledge each other.",
     "choices": [
       {
         "text": "Walk over warmly — \"Hey, long time no see.\"",
-        "result_text": "\"Oh, hey, yeah — it's been forever. What are you up to these days?\" the other guy asked.\n\n{name} answered. The response was quick, polite, and hollow. \"Oh, cool, that's great.\" Then he went back to his table."
+        "result_text": "\"Hey. Long time no see.\"\n\nHis classmate stood at once and shook his hand. \"What are you doing these days?\" As {name} answered, the man's eyes flicked toward his employee badge and back. \"I see. That's great.\" The response was quick and impeccably polite.\n\nHe returned to his colleagues, and their laughter soon resumed. A thin skin formed over the cooling soup in front of {name}. He could not tell which phrase had held less: \"long time no see\" or \"that's great.\""
       },
       {
         "text": "Pretend not to see him — find a corner seat",
-        "result_text": "Sat with his back turned. Heard laughter from the other table.\n\nLeft before finishing the food. Whether that was running away or a choice — hard to say."
+        "result_text": "{name} chose a corner seat and turned his back. Each time the laughter rose across the room, his spoon paused. The stainless-steel cup held a tiny, warped reflection of the other table.\n\nHe left half his meal and stood. No one called his name on the walk to the register.\n\nOutside, the sunlight was harsh. Even after the restaurant door closed, he could not decide whether pretending not to see had been a choice or an escape."
       },
       {
         "text": "Go over and have an honest conversation",
-        "result_text": "Talking it through, it turned out the other guy wasn't doing so great either. Just differently.\n\nTwo people who started at the same point and walked in different directions. No one knows yet which was right."
+        "result_text": "After the colleagues left, the two men stayed for another coffee. His classmate spoke of late nights, loans, and the sleep that had stopped coming. His voice was lower than the laughter had sounded from across the room.\n\n{name} offered some of his own story, though not all of it. They laughed once without deciding who had built the better life.\n\nOutside the restaurant, his classmate said, \"We're both still on the way, aren't we?\" Perhaps even the memory of a shared starting line had never been entirely true."
       }
     ]
   },
   {
     "id": "arc_first_real_win",
     "title": "Fifty Million",
-    "description": "Turned off the calculator. Turned it back on. The number was still there.\n\nFifty million won.\n\nStill far from 3 billion. But — this started from 500,000.\n\nFor the first time, {name} saw it as a number, not a feeling: this was possible.",
+    "description": "{name} turned the calculator off, then on again. The figure remained: 50,000,000 won. Its eight digits looked too bright in the small room.\n\nThree billion won was still far away; every calculation made the remaining distance more exact. Yet he had begun with 500,000 won, a balance that once made rent frightening. It had grown a hundredfold, carrying luck, endurance, and several choices he could never make the same way again.\n\nHe covered the number with one finger, then revealed it. For the first time, possibility looked less like a feeling than evidence. The refrigerator sounded exactly as it had yesterday.",
     "choices": [
       {
         "text": "Tell no one. Walk to the convenience store and buy something expensive.",
-        "result_text": "Couldn't think of anyone who'd really understand.\n\nWent to the convenience store alone and bought a 5,000-won ice cream. Sat on the goshiwon staircase and ate it. It was good."
+        "result_text": "Telling anyone would mean explaining only the number. {name} pocketed his phone and went down to the convenience store. He chose the 5,000-won ice cream he usually passed over.\n\nOn the goshiwon stairs, cold mist clung to his fingers as he opened it. The first bite was too sweet. From the second, it tasted like ordinary ice cream.\n\nHe liked that no one knew what he was celebrating. Long after it was gone, the wooden stick remained in his hand."
       },
       {
         "text": "Call his father.",
-        "result_text": "Didn't go into detail. Just said, \"Things are going well for me lately.\"\n\nHis father replied with a short \"Good.\" That was enough."
+        "result_text": "Even after calling, {name} did not give the amount. \"Things have been going pretty well lately.\"\n\nHis father was quiet for a moment. \"That's good. I'm glad.\" He offered neither congratulations nor warnings. Instead he asked whether {name} had eaten.\n\nAfter the call, the calculator showed the same figure. Somehow, it felt a little less like a number he held alone."
       },
       {
         "text": "Set the next target immediately — 500 million.",
-        "result_text": "500,000 to 50 million. Next is 500 million. Then 5 billion.\n\nFor the first time, the staircase was visible."
+        "result_text": "On paper, {name} wrote 500,000 won, 50 million won, then 500 million won. The next box held 3 billion won. Arrows between them made a staircase.\n\nInstead of marking 50 million as a victory, he underlined it and began calculating the next step. The pleasure had nowhere to linger.\n\nAn impossible wall had divided into several ledges. At the same time, he could finally see the full height left to climb."
       }
     ]
   },
@@ -138,42 +138,42 @@
   {
     "id": "arc_career_ceiling",
     "title": "The Salary Ceiling",
-    "description": "Half a year in. Starting to feel settled.\n\nCame home and opened the calculator. To reach 3 billion on just this salary...\n\nThe number came out. No matter how well things went — on this track, it was mathematically impossible.\n\nHis father had also been a salaryman. His whole life.\n\n{name} stared at the calculator screen for a long time.",
+    "description": "Six months in, {name} knew where every desk drawer stuck and could identify his manager by his footsteps. After another late night, he spread out his payslip in the empty office and calculated how long this salary would take to become 3 billion won.\n\nHe subtracted rent and living costs from his take-home pay, then added optimistic promotions and raises. The answer did not change. This line could not reach the target.\n\nHis father had drawn a salary all his life. Fluorescent lights hummed behind the figures. Unable to switch off the calculator, {name} saw with precision that diligence, too, could have a ceiling.",
     "choices": [
       {
-        "text": "\"Still keeping the job\" — use it as a foundation for stability",
-        "result_text": "The salary is a means. It's the source of seed money for investing.\n\nKeep looking like a good employee here while building something else. This place wasn't just one basket."
+        "text": "Turned off the stock app's alerts.",
+        "result_text": "{name} silenced the stock app and laid the phone facedown. During work hours he would protect the salary; after work, he would grow another possibility. The company was not the goal. It was the base that supplied capital.\n\nThe next morning he arrived early and finished every assigned task. No one knew he opened a different ledger each night.\n\nHe had chosen to hold two lives at once. He did not yet know which hand would loosen first."
       },
       {
-        "text": "\"Need to make a bigger move\" — think about changing jobs or another path",
-        "result_text": "This salary won't cut it. There had to be another game to play.\n\nOn the commute home, opened a job-search app. The conviction to change something was there — what to change, not yet."
+        "text": "Opened a job-search site on the way home.",
+        "result_text": "On the subway home, {name} opened a job-search site. The higher he set the salary filter, the fewer postings remained and the longer their required experience became. At least the calculation was clear: his current pay would not be enough.\n\nHe saved three listings. He did not know which field to enter, or whether its rules would truly be different.\n\nHis employee badge swayed in the train-door reflection. It was not the face of someone who had decided to leave, but of someone who had begun looking for somewhere to go."
       },
       {
-        "text": "\"I knew this from the start.\" — accept it",
-        "result_text": "Never planned to rely only on a salary anyway.\n\nClosed the calculator. Just need to grow something else alongside. That's what today is for."
+        "text": "Closed the calculator. He had known this from the start.",
+        "result_text": "{name} turned the calculator facedown. He had never planned to reach the goal on salary alone. This was not a notice of failure, he told himself, merely confirmation of the salary's role.\n\nPay would keep his life standing. The remaining hours would build something else. He woke the work monitor again.\n\nIts light erased the ceiling he had just seen. He knew that disappearing was not the same as being gone."
       }
     ]
   },
   {
     "id": "arc_goshiwon_goodbye",
     "title": "Leaving the Goshiwon",
-    "description": "No moving truck needed. The luggage was two boxes.\n\nWalked down the hallway for the last time. Faded wallpaper, the hum of the shared fridge, that distinct goshiwon smell. The light was on outside Hyunsu's door.\n\nThe building manager was waiting at the bottom of the stairs. {name} handed her the key and she nodded.\n\n\"Live well.\"",
+    "description": "There was no need for a moving truck. Clothes, a laptop, and a few books filled two boxes. Carrying them one at a time, {name} made a final trip down the goshiwon hallway.\n\nPeeling wallpaper. The shared refrigerator's motor. Detergent mingled with instant ramyeon. Light still spilled from beneath Hyunsu's door. Even on the day he left, the corridor looked exactly as it always had.\n\nThe manager took his key at the foot of the stairs. A small piece of metal vanished from his palm.\n\n\"Live well.\" Behind those words, the door that had been his closed quietly.",
     "choices": [
       {
         "text": "\"Thank you for everything.\" — a brief farewell and out the door",
-        "result_text": "Carried the boxes down the stairs. The air outside was different.\n\nDidn't look back."
+        "result_text": "\"Thank you for everything.\"\n\n{name} carried the boxes downstairs, their corners pressing into his forearms as the fluorescent light broke and returned at every landing.\n\nWhen the entrance shut behind him, the air seemed to open wide. It did not smell good: exhaust and wet asphalt. Still, there was no ceiling over it.\n\nHe shifted the boxes and walked on. He never looked back, but heard the automatic door close all the way to the end of the block."
       },
       {
         "text": "Knock on Hyunsu's door before leaving.",
-        "result_text": "\"Hyung, you're moving out?\" Hyunsu opened the door. His eyes were bloodshot — he'd had one earbud in, probably mid-lecture.\n\n\"Let me know when things work out.\" Hyunsu said. Short, but genuine."
+        "result_text": "Hyunsu opened the door after a long pause. One earbud was still in, his eyes bloodshot; a lecture kept playing inside the tiny room.\n\n\"Hyung, you're really leaving?\"\n\"Yeah.\"\n\nHyunsu looked at the boxes, then at {name}. \"Call me when things work out. No, even if they don't.\" Embarrassed by his own sincerity, he fiddled with the earbud cord.\n\nThe lecture resumed as {name} walked away. The farewell stayed clear even after the door closed."
       },
       {
         "text": "Stop at the end of the hallway. Think about the time spent here.",
-        "result_text": "How long had it been. Counted.\n\nPoor and cramped and the smell — but somehow the memories weren't bad. Stood there a moment, then left."
+        "result_text": "At the end of the hall, {name} stopped and counted the months: the first night he cried, ramyeon with Hyunsu at dawn, mornings spent reopening the same salary alert. They were not years he could honestly call good.\n\nThe wallpaper had peeled, the room had been narrow, and summer brought its own smell. Memory did not preserve those years by their conditions alone.\n\nHe touched the handle of what had been his room, then let go. When he picked up the boxes again, the hallway looked longer than it had a moment before."
       }
     ],
     "description_if_known": {
-      "wants_out_of_gosiwon": "No moving truck needed. The luggage was two boxes.\n\nWalked down the hallway for the last time. Faded wallpaper, the hum of the shared fridge, that distinct goshiwon smell. The light was on outside Hyunsu's door.\n\nThe building manager was waiting at the bottom of the stairs. {name} handed her the key and she nodded.\n\n\"Live well.\"\n\nAfter thirty months of goshiwon know-how, there was a night he first admitted: I want out.\nToday is that sentence's due date."
+      "wants_out_of_gosiwon": "There was no need for a moving truck. Clothes, a laptop, and a few books filled two boxes. Carrying them one at a time, {name} made a final trip down the goshiwon hallway.\n\nPeeling wallpaper. The shared refrigerator's motor. Detergent mingled with instant ramyeon. Light still spilled from beneath Hyunsu's door.\n\nWhen the manager took his key, a small piece of metal vanished from his palm. \"Live well.\"\n\nOnly after mastering thirty months of life here had he admitted, for the first time, that he wanted out. These two boxes were that sentence coming due."
     }
   },
   {
@@ -292,20 +292,20 @@
   },
   {
     "id": "arc_goal_vertigo",
-    "title": "The Number: 3 Billion",
-    "description": "Past midnight. Just the glow of the spreadsheet.\n\nTyping a number into the total assets column — and stopped. 3 billion. Remembered when this goal was first set. Back then it was just a number.\n\nStrangely, it still feels like just a number.",
+    "title": "The Number: 3 Billion Won",
+    "description": "It was past midnight. Once the goshiwon light was off, the spreadsheet became the only glow in the room. The laptop fan whispered; the cursor blinked in the same total-assets cell.\n\n{name} stopped midway through typing 3 billion won into the target column. When he first wrote it down, the number had been so large it felt weightless. Now it held every month's rent, every return, every night he had surrendered to it.\n\nStill, it did not feel real. The longer he stared, the more meaning drained away until only commas and zeroes remained. Was the goal getting closer, or was he disappearing inside the number?",
     "choices": [
       {
         "text": "Reopened the plan — go back to the numbers",
-        "result_text": "The plan is right. The figures are real. Feelings are noise. {name} started filling in cells again. It was 2 AM."
+        "result_text": "The plan is sound, he wrote. The figures are real. Feelings are noise in the calculation. {name} began filling the empty cells one by one.\n\nChange the rate of return and the arrival date moved. Cut living costs and the line climbed a little. Inside the screen, everything had a cause and an effect.\n\nAt two in the morning, his wrist had stiffened by the time he closed the final cell. The plan was more precise. The space for why he had begun had not widened at all."
       },
       {
         "text": "Just lay down to sleep.",
-        "result_text": "Stared at the ceiling. Three billion. Three billion. Said it out loud. Still didn't feel real. That was okay. Moving without that feeling was what {name} had become lately."
+        "result_text": "{name} closed the laptop and lay down. In the dark he said \"three billion won\" aloud, twice. The words had all the meaning of a stranger's password.\n\nAn alarm rang once in the next room and stopped. Water moved through the pipes. Those sounds were real in a way the goal was not.\n\nHe closed his eyes. Even if he could not feel the destination, his body would rise at the same time tomorrow. Lately, that was how he kept moving."
       },
       {
         "text": "Went out for some air. Walked all the way to the Han River.",
-        "result_text": "Sat on a bench along the river. The water said nothing. No 3 billion, no spreadsheet. Stayed about 30 minutes, then got up. Only after walking did {name} feel like himself again."
+        "result_text": "{name} put on his sneakers and walked to the Han River. Dawn wind slipped under his shirt; dew had made the bench cold. Across the water, lights stretched and trembled.\n\nThere was no target sum in the river, no rate of return. For thirty minutes, he kept his phone away and listened to the current.\n\nThe soles of his feet hurt on the walk back. The ache felt strangely welcome, proof that his body still existed somewhere outside the numbers."
       }
     ]
   },
@@ -331,57 +331,57 @@
   {
     "id": "arc_money_loneliness",
     "title": "A Number That Can't Be Shared",
-    "description": "Total assets passed 100 million won.\n\nWanted to tell someone. But couldn't. Parents would worry, and friends — wait, how many people could he even call a friend right now.\n\nStared at the phone for a while. Turned it off.",
+    "description": "The total-assets figure crossed 100 million won. The banking app displayed it without ceremony. {name} refreshed twice, then opened his contacts.\n\nHe wanted to tell someone. His parents would first ask whether he had done anything dangerous. With a friend, he would probably lower the amount before saying it, afraid it might sound like boasting. Yet he could not immediately think how many friends were still close enough to worry about.\n\nHis thumb drifted over the names. He pressed none of them and turned off the screen. In the black glass, the number vanished and left only his face.",
     "choices": [
       {
         "text": "Called his father — just to hear his voice.",
-        "result_text": "\"Hey, Minjun.\" His father was glad to hear from him. Not much to say. Just listened to his voice. Felt a bit better after hanging up."
+        "result_text": "{name} called his father and never mentioned the money.\n\n\"Minjun.\" The pleasure in his father's voice came first. They talked about the weather, meals, and his mother's knee. Nothing important was said; {name} laughed quietly in the right places.\n\nAfter the call, 100 million won was still a number he had shared with no one. But another person's voice had occupied the room a moment ago. That alone made it easier to breathe."
       },
       {
         "text": "Told no one — decided to keep it to himself.",
-        "result_text": "This number is mine. {name} put the phone down and opened the spreadsheet again. Next target. This is just what being alone is."
+        "result_text": "The number was his. It needed neither explanation nor witness. {name} closed his contacts and reopened the spreadsheet.\n\nHe marked the 100-million-won cell and entered the next target. The cursor moved right without hesitation. He had begun alone; celebrating alone should be natural too.\n\nAs the night deepened, that sentence grew smoother. No one's name remained in it."
       },
       {
         "text": "Bought a can of beer alone at the convenience store — a private toast.",
-        "result_text": "Sat in a plastic chair outside the convenience store and opened it. One drink, alone. People walking by had no idea. That was fine."
+        "result_text": "{name} sat in a plastic chair outside the convenience store and opened a can of beer. Foam flecked the back of his hand. He raised the can slightly toward the balance glowing on his phone.\n\nPeople passed with umbrellas and grocery bags. None of them knew someone here had crossed 100 million won today. The beer was warmer than he expected.\n\nWhen the can was empty, he turned off the screen. The celebration was over, but the crush of aluminum sounded unusually loud."
       }
     ]
   },
   {
     "id": "arc_quit_job",
     "title": "The Resignation",
-    "description": "Put in the resignation letter.\n\nThe manager called him in. \"Why all of a sudden?\" Started to explain — but where to even begin? Investing? 3 billion? Five-year plan? Just stayed quiet.\n\n\"Personal reasons.\"\n\nThe manager looked at him for a moment. \"Alright.\" That was it.",
+    "description": "The printed resignation was a single sheet of paper. Months of commutes, late nights, and cold lunches folded beneath one signature line. When {name} offered it across the table, his manager looked at the page, then at him.\n\n\"Why so suddenly?\"\n\nInvesting. Three billion won. The five-year plan. Any starting point would sound less like reality than an excuse inside this meeting room. {name} held down one corner of the page.\n\n\"Personal reasons.\"\n\nHis manager waited, then said, \"I see.\" The stamp made a small sound under the fluorescent lights. A decision meant to change his life was quieter than he expected.",
     "choices": [
       {
         "text": "\"I'm sorry for the short notice.\" — left on good terms",
-        "result_text": "Did a proper handover. On the last day, the team brought a cake. \"Hope it works out.\" That line stayed with him."
+        "result_text": "{name} completed every line of the handover document. On his last day, the team placed a small cake on his desk. It had no candles, only plastic forks stuck into paper plates.\n\n\"I hope it works out,\" someone said. He smiled without ever explaining what he was leaving to do.\n\nIn the elevator he looked down at the cake box. Their wish followed him with more weight than his apology."
       },
       {
         "text": "\"I have something I need to do now.\" — calm and matter-of-fact",
-        "result_text": "The manager seemed about to ask more but let it go. On the last day, cleaning out the desk, {name} felt strange about the space for the first time. Four months. He'd been here four months."
+        "result_text": "\"Something has come up that I need to do now.\"\n\nHis manager looked ready to ask more, but only nodded. On the last day, clearing the desk exposed two pens, a ring from his mug, and a line in the dust where the cable had rested.\n\n{name} wiped the marks away. A place he had occupied every day for months became, in minutes, a place where no one had been. The company would smooth over his absence just as quickly."
       },
       {
         "text": "Said nothing. Just stamped the form.",
-        "result_text": "The manager's expression hardened. Knew he should have said something. Just left. The elevator doors closed. He wasn't a salaryman anymore."
+        "result_text": "He stamped the form without explaining. His manager's expression hardened. {name} knew he should say one more thing, but feared that opening his mouth would loosen the decision.\n\nHe left his employee badge on the desk. In the elevator mirror, the collar of his shirt still bore the faint mark of its lanyard.\n\nThe office lights narrowed as the doors closed. By the ground floor, he was no longer an employee. The loss of belonging arrived before freedom did."
       }
     ]
   },
   {
     "id": "arc_father_medication",
     "title": "The Name of the Medication",
-    "description": "A text from his mother.\n\n\"Your father started taking medication recently. He says it's nothing serious. Don't worry.\"\n\nWhen people say \"it's nothing serious,\" it usually is.",
+    "description": "His phone gave a short buzz during the meeting. It was his mother.\n\n\"Your father started taking medication. He says it's nothing serious. Don't worry.\"\n\n{name} read it twice. What medication? Since when? What had the doctor said? His father always removed the important details first when telling people not to worry, and his mother seemed to have copied the habit word for word.\n\nThe reply cursor blinked while papers turned to the next agenda item. When a family says \"nothing serious\" before anyone has asked, it usually means someone is already afraid.",
     "choices": [
       {
         "text": "Called his father directly.",
-        "result_text": "\"I'm fine, it's just blood pressure medication.\" His father said it casually. The voice sounded okay — but something about how quickly he explained it bothered {name}."
+        "result_text": "{name} stepped outside the meeting room and called at once.\n\n\"I'm fine. It's only blood pressure medication.\" Before {name} could ask, his father quickly gave the name and dosage. His voice sounded ordinary, but the pauses between breaths were short.\n\nWhen {name} asked about the hospital, his father laughed. \"I said it's nothing.\" The laugh was so precisely casual that it made things worse.\n\nAfter the call, {name} wrote down the medication's name. The unfamiliar word remained on the screen like an alert all day."
       },
       {
         "text": "Replied to his mother with \"Okay\" and let it go.",
-        "result_text": "Didn't have the bandwidth for this right now. Knowing that, the hand that closed the message still felt a little heavy."
+        "result_text": "He replied, \"Okay. Make sure he takes it,\" and closed the message. There was still a meeting, a deadline, and too much to calculate. He told himself he had no room to hold his father's medication too.\n\nBack at the table, someone asked about the item just discussed. {name} paused like a man who had heard nothing, then answered.\n\nWork resumed. The phone in his pocket stayed silent, yet the sentence he had closed remained heavy in his palm all day."
       },
       {
         "text": "Said he'd come down on the weekend.",
-        "result_text": "His father said \"Don't bother making the trip\" — but set out three dishes for the meal. Glad he went. There was an old photo next to the pill container."
+        "result_text": "When {name} said he would visit that weekend, his father protested that it was too far. He was already waiting at the station when {name} arrived. He seemed to walk more slowly than before, yet still took the bag from his hand.\n\nAt home, the table held too many side dishes for three people. The pill bottle sat beside a water glass, an old family photograph propped next to it.\n\nHis father kept insisting it was nothing. {name} ate a second bowl of rice. He never said aloud that he was glad he had come."
       }
     ]
   },
@@ -418,19 +418,19 @@
   {
     "id": "arc_daeun_trace",
     "title": "Traces of Daeun",
-    "description": "Walked into the convenience store and thought of Daeun.\n\nThe spot behind the counter where she always was. There's a different part-timer there now. {name} paused, reaching for a canned coffee.\n\nHow many conversations had there been, from that spot?",
+    "description": "After another late shift, the convenience-store doors opened with their familiar chime. {name} took a canned coffee from the refrigerator, looked toward the counter, and stopped.\n\nAnother clerk stood before the monitor where Daeun used to work. The uniform and name-tag placement were the same; the expression turned toward customers was not. Daeun had always spoken first when {name} came for hot water, then found one more thing to say after the payment was done.\n\nNow only the barcode scanner spoke. Condensation spread across his palm. Only after those conversations ended did he realize he had never counted them.",
     "choices": [
       {
         "text": "Just paid and left — it's in the past.",
-        "result_text": "Wasn't sure if it was missing those days or missing her. Finished the coffee and tossed the can."
+        "result_text": "{name} paid for the coffee. The clerk asked about a receipt; he shook his head and stepped through the doors, telling himself it was over.\n\nHe finished the can before reaching the end of the alley. He tried to decide whether he missed those days or Daeun, but the coffee had already gone lukewarm.\n\nEven after throwing the can away, a round patch of cold remained in his hand. Perhaps the past did not vanish so much as change its shape."
       },
       {
         "text": "Stood there for a moment.",
-        "result_text": "The part-timer asked, \"Need anything else?\" {name} said \"No.\" Wondered what Daeun would have said instead. Couldn't remember."
+        "result_text": "When {name} lingered at the counter, the clerk asked, \"Do you need anything else?\" He said no.\n\nDaeun would never have let that silence pass untouched. Would she have said he looked tired, or teased him for buying canned coffee again? The exact words would not come back.\n\n{name} stepped away from the register. Her voice was fading, but the habit of waiting for it remained in his body."
       },
       {
         "text": "Started writing a message to Daeun — then deleted it without sending.",
-        "result_text": "Wrote \"How are you?\" three syllables, then erased them. Didn't know if it was right to send. Didn't know if not sending was more decent. Left the store."
+        "result_text": "He took out his phone and typed, \"How have you been?\" His thumb waited over Send. Was the message concern or attachment? Was withholding it decency or fear? He could not separate them.\n\nIn the end, he erased the sentence. Not even a typing indicator would remain on her screen.\n\nCold air entered as the doors opened. {name} left without sending a word, the empty chat moving with him in his pocket."
       }
     ]
   },
@@ -670,20 +670,20 @@
   },
   {
     "id": "arc_invest_first_loss",
-    "title": "Red Numbers",
-    "description": "Opened HTS.\n\nHoldings — profit/loss: red numbers.\n\nSangchul had said it. 'First loss is tuition. The ones who hold on win.' Understood it in theory. But these numbers hit the stomach, not the head.",
+    "title": "First Loss",
+    "description": "When the trading terminal opened, a minus sign stood before the unrealized profit and loss. The figure shifted with every refresh, but the sign did not.\n\nSangchul had called a first loss tuition. The people who hold on are the ones who win, he said. {name} understood the theory. He knew the loss rate, the company's outlook, and the limit he had set in advance. Yet money that had looked like digits at the moment of purchase now took the shape of rent and meals as it shrank.\n\n{name} pressed a palm to his stomach. The market moved on the screen. His body answered first.",
     "choices": [
       {
-        "text": "Cut losses. Getting out before losing more is the right call.",
-        "result_text": "Sold. A message from Sangchul: 'First stop-loss is the hardest. Good job.' That message was oddly comforting."
+        "text": "Sold. His finger hesitated.",
+        "result_text": "His finger stopped once above Sell. Past the confirmation window, the loss became final, and the moving figure hardened into one line of trade history.\n\nA message from Sangchul arrived soon after. \"The first stop-loss is the hardest. Good job.\" {name} did not know whether it deserved praise, yet the sentence was strangely comforting.\n\nClosing the app did not return the money. It did leave his body with a memory of where to stop next time."
       },
       {
-        "text": "Hold on. Like Sangchul said, the market comes back.",
-        "result_text": "Closed the app. Reopened it three days later — the loss had halved. Starting to understand what holding on means."
+        "text": "Closed the app. Sangchul's words came back.",
+        "result_text": "{name} forced the app closed and silenced its alerts. Knowing the price kept moving unseen was worse. For three days, he picked up the phone and put it down again.\n\nWhen he finally reopened the app, the loss had been cut in half. Relief came first. Then the knowledge that relief was not proof of a sound decision.\n\nHolding sounded like doing nothing. In practice, it meant choosing not to sell over and over."
       },
       {
-        "text": "Average down. Buy more and lower the cost basis.",
-        "result_text": "Put in another 200,000 won. The average cost dropped. Whether it was the right call — unclear. Now it's harder to sell."
+        "text": "Put in another 200,000 won. The average cost fell.",
+        "result_text": "{name} added 200,000 won. The average cost fell, and the loss percentage looked smaller. The screen looked healthier; more of his money was now trapped inside it.\n\nHe told himself the mathematics had improved. He also knew the Sell button felt farther away than it had after the first purchase.\n\nThe average went down. The weight of the decision went up. Every move in the chart now carried the new money with it."
       }
     ]
   },
@@ -728,25 +728,25 @@
   {
     "id": "arc_year_three_crossroads",
     "title": "The Crossroads at 36",
-    "description": "Three years have passed.\n\nBefore turning 37, feels like a question needs to be asked. Is this path the right one? Less than two years left. Avoid this question now — and it comes back heavier later.",
+    "description": "Three years had passed. One afternoon at thirty-six, {name} waited at a Gangnam crosswalk. People poured between glass buildings and crossed without hesitation each time the light turned green.\n\nLess than two years remained. He could finally glimpse where the road behind him was likely to end, which made the question harder: was this the right path, or did he need to believe it was right because he had spent three years on it?\n\nThe signal changed once while {name} stood still. A question avoided does not disappear. It only returns at the next crossroads as heavier luggage.",
     "choices": [
       {
-        "text": "Keep going. Stopping here means this is as far as it gets.",
-        "result_text": "Less a choice and more momentum. But momentum is force too. Don't stop, and eventually you arrive."
+        "text": "His feet moved first.",
+        "result_text": "When the light turned green again, his feet stepped out before his thoughts. It was less a choice than momentum built over three years. His mind did not catch up before he reached the other side.\n\n{name} kept the plan unchanged and went to his next appointment. The force of not stopping had brought him this far.\n\nBut momentum never checks the destination. Even after the signal went dark, the speed lingering in his soles quietly reminded him."
       },
       {
-        "text": "Even now, pivot to a more stable path.",
-        "result_text": "Can't say whether this is giving up or growing up. But I don't want to collapse anymore. This is also a life."
+        "text": "He would change direction. Not cowardice. Reality.",
+        "result_text": "{name} erased part of the plan and wrote in a steadier route. The old sentence remained faint beneath the new ink. He decided not to name it surrender or growth.\n\nReducing volatility might restore his sleep and lower his odds of arriving. He placed both truths on the same line.\n\nSaving the revised plan brought relief and grief together. His body was learning that changing direction did not mean he had stopped walking."
       },
       {
-        "text": "Play the cards in hand as best I can. No other cards left.",
-        "result_text": "Took stock again of what was there. Money, relationships, skills, experience. Something remained. Still enough, for now."
+        "text": "He laid out everything he still had. For now, it was enough.",
+        "result_text": "{name} wrote down everything he had: money, skills, standards learned through failure, the people who might still answer his calls. He included what could not be reduced to a number.\n\nHe had thought his hands were empty, yet the list ran onto a second page. It was not a strong hand, but enough to stay at the table.\n\nHe folded the list into his wallet. \"Enough\" did not promise victory. It meant he could still make the next choice."
       }
     ],
     "description_if_known": {
-      "envy_released": "Three years have passed.\n\nBefore turning 37, feels like a question needs to be asked. Is this path the right one? Less than two years left. Avoid this question now — and it comes back heavier later.\n\nOnce, he set down the envy that used to fuel him.\nSince then this question — is this road right — frightens him less.\nHe walks at his own reasons now, not someone else's pace.",
-      "envy_still_burning": "Three years have passed.\n\nBefore turning 37, feels like a question needs to be asked. Is this path the right one? Less than two years left. Avoid this question now — and it comes back heavier later.\n\nThe mornings that started with 'just watch me' are still going.\nHe knows rage isn't a fuel that burns long — and burns it anyway.\nAt the crossroads, the question wasn't only direction — it was fuel.",
-      "trusting_instinct": "Three years have passed.\n\nBefore turning 37, feels like a question needs to be asked. Is this path the right one? Less than two years left. Avoid this question now — and it comes back heavier later.\n\nOne déjà-vu night, he had decided to trust his instinct.\nSince then he doesn't ignore the answers his body already knows.\nAt this crossroads too — the body is leaning before the head."
+      "envy_released": "Three years had passed. One afternoon at thirty-six, {name} waited at a Gangnam crosswalk while people poured between glass buildings.\n\nLess than two years remained. Was this the right path, or did he need to believe it was right because he had spent three years on it?\n\nThere had been a time when seeing anyone move faster gave him fuel. Since setting that envy down, the question frightened him less, not because the answer was easier, but because there was now only one person he had to answer.\n\nThe signal changed. This time he had to decide why to cross, not whom to beat.",
+      "envy_still_burning": "Three years had passed. One afternoon at thirty-six, {name} waited at a Gangnam crosswalk while people poured between glass buildings.\n\nLess than two years remained. Was this the right path, or did he need to believe it was right because he had spent three years on it?\n\nThe mornings that began with \"just watch me\" had never ended. He knew anger was not fuel that burned for long, yet slowing down still felt like losing, so he kept feeding it.\n\nThe signal changed. Direction was no longer the only question. He also had to see what would burn away in place of fuel if he crossed at this speed.",
+      "trusting_instinct": "Three years had passed. One afternoon at thirty-six, {name} waited at a Gangnam crosswalk while people poured between glass buildings.\n\nLess than two years remained. Was this the right path, or did he need to believe it was right because he had spent three years on it?\n\nOn a night that had felt like déjà vu, he chose to trust the answers his body knew first. Now his mind still counted probabilities and losses while his toes had already turned slightly toward one street.\n\nThe signal changed. {name} had to decide whether that lean was impulse to suppress or instinct earned over time."
     }
   },
   {
@@ -771,25 +771,25 @@
   {
     "id": "arc_endgame_sixmonths",
     "title": "Six Months",
-    "description": "24 weeks left.\n\nKnow how much is still missing from Gangnam. How to finish this. Dramas are decided in the final scene.",
+    "description": "Twenty-four weeks remained. Looking over Gangnam at night, {name} moved between the total assets on his phone and the price of an apartment listing. He knew the exact shortfall now. It looked smaller than it had when unknown, and far more cruel.\n\nFor five years, every choice had led into another month. Now there were few months left to recover from one loss, few seasons in which to call the people he had postponed. How he spent the end would remain as clearly as the result.\n\nWhen the screen went dark, his face overlapped the city lights in the glass. Numbers might decide the ending. They did not have to decide the shape of the final twenty-four weeks.",
     "choices": [
       {
-        "text": "Final bet — all in. This is where the drama splits.",
-        "result_text": "Hands trembled. Clicked. Nothing left to do but wait for the result."
+        "text": "His hand shook. He clicked anyway.",
+        "result_text": "{name} raised the order to the limit. His hand shook over Confirm, then pressed it. The execution chime was brief, far too light a sound for a choice carrying five years.\n\nHe refreshed the screen until he finally put the phone down. Everything he could do was finished. Now he could only wait while the market moved.\n\nThe tremor in his fingers did not stop. There was no need to decide whether it was fear or hope. There was no way to undo it."
       },
       {
-        "text": "Finish realistically. Make the best ending with what's here.",
-        "result_text": "Recalculated the numbers. Maybe it's okay without 3 billion. Maybe this journey itself was Gangnam all along."
+        "text": "He ran the numbers again. This, too, was an ending.",
+        "result_text": "{name} calculated everything again from the beginning, separating what he could still reach from what he could not afford to lose. A life did not end without 3 billion won. He stared at that sentence until it no longer sounded like an excuse for defeat.\n\nHe erased the reckless cells and kept a plan he could honor. The goal remained, but he would not let it speak for his entire life.\n\nWhen he saved the file, the screen stamped a time onto the final plan. This, too, was an ending."
       },
       {
-        "text": "This moment is already a drama. No regrets no matter how it ends.",
-        "result_text": "Turned off the phone. Opened the window. Seoul's night air came in. Standing a little higher than the alley beyond the goshiwon window five years ago."
+        "text": "He turned off the phone and opened the window.",
+        "result_text": "{name} shut down the phone and opened the window. Seoul's night wind displaced the heated air in the room. Headlights flowed in the distance; someone passed laughing in the alley below.\n\nThe view was wider than the wall beyond his tiny goshiwon window five years ago. He did not yet know whether he had reached Gangnam, but he was no longer standing at the same height.\n\nFor a while he calculated nothing. The first moment of the final six months began outside the numbers."
       }
     ],
     "description_if_known": {
-      "final_year_all_in": "24 weeks left.\n\nKnow how much is still missing from Gangnam. How to finish this. Dramas are decided in the final scene.\n\nA year ago, he had put everything on the table. Said he was afraid, and did it anyway.\nThe result of that half-year is written in the balance now.\nAnyone who has gone all-in knows — you can pull back, or push further. The last 24 weeks are that decision.",
-      "final_year_conservative": "24 weeks left.\n\nKnow how much is still missing from Gangnam. How to finish this. Dramas are decided in the final scene.\n\nA year ago, he had decided to want less. Called it a strategy.\nWhat he didn't reach for, he didn't lose; what he didn't lose is why he's still standing.\nThe last 24 weeks — trust the strategy to the end, or change it once, at the last.",
-      "final_year_waiting": "24 weeks left.\n\nKnow how much is still missing from Gangnam. How to finish this. Dramas are decided in the final scene.\n\nA year ago he'd said 'not yet.' A year is long, he'd said.\nNow 'not yet' has run out. What's left is 24 weeks.\nEvery deferred decision has crowded into this half-year."
+      "final_year_all_in": "Twenty-four weeks remained. Looking over Gangnam at night, {name} moved between his total assets and apartment prices. He knew the exact shortfall now.\n\nA year ago, he had admitted his fear and still placed nearly everything on the table. The result lived in every rise and hollow of today's balance. Anyone who has gone all in knows that pulling back and pushing farther can make the hand shake in exactly the same way.\n\nHe darkened the screen and saw his face in the glass. The last twenty-four weeks were no longer a test of courage, but a choice about which tremor to follow.",
+      "final_year_conservative": "Twenty-four weeks remained. Looking over Gangnam at night, {name} moved between his total assets and apartment prices. He knew the exact shortfall now.\n\nA year ago, he decided that wanting less could also be strategy. What failed to rise had also failed to fall, and what he had preserved was why he still stood here. Yet with the end in sight, he could no longer tell whether his rule was prudence or fear.\n\nHe darkened the screen and saw his face in the glass. The last twenty-four weeks could be a final act of trust in the plan, or the moment to revise it once.",
+      "final_year_waiting": "Twenty-four weeks remained. Looking over Gangnam at night, {name} moved between his total assets and apartment prices. He knew the exact shortfall now.\n\nA year ago, he had said, \"Not yet.\" A year was long, and there was time to postpone an answer. Now the calendar held no square he could still call \"not yet.\" Every deferred decision had crowded into these twenty-four weeks.\n\nHe darkened the screen and saw his face in the glass. At the very end, it became clear that waiting had been a choice too."
     }
   },
   {
@@ -868,19 +868,19 @@
   {
     "id": "arc_35_alone",
     "title": "Saturday Morning",
-    "description": "Saturday morning.\n\nNothing scheduled.\n\nLiving in Seoul for over two years now, and having no one to spend the weekend with has become something like normal. It's not that there's no one to contact — it's that contact just stopped happening.\n\n{name} made a cup of coffee and looked out the window. Seoul looked busy, even on weekends.",
+    "description": "On Saturday morning, the second coffee went cold because {name} had no reason to leave the café. The chair opposite was empty. At the next table, three people laughed while settling on dates for a trip.\n\nHe had lived in Seoul for more than two years. At some point, having no one to spend a weekend with had ceased to be either a problem or an event. His contacts were not empty. It was more that he had slowly stopped using the part of himself that reached first.\n\n{name} opened his phone, then set it down. Outside, everyone seemed to be walking toward an appointment. His face wavered faintly on the cold coffee.",
     "choices": [
       {
-        "text": "Reached out. To anyone.",
-        "result_text": "Got through to someone. Short call. Nothing much said. Still — hearing a voice changed something."
+        "text": "He reached out first. To anyone.",
+        "result_text": "Scrolling through his contacts, {name} pressed a name he had not called in a long time. The other person answered after three rings. They spoke about weather, work, and getting together sometime.\n\nThe call was short. No date was set. Still, the café sounded different after it ended.\n\n{name} finished the cold coffee. One ordinary voice could not fill the empty chair, but it reminded him that he had not fallen out of the world."
       },
       {
-        "text": "Went out alone. Walked to the Han River.",
-        "result_text": "Four hours of walking. Sat on a bench by the river for a while. Seoul is wide, even when you walk it alone. Strangely, didn't feel lonely."
+        "text": "He went out alone and walked to the Han River.",
+        "result_text": "{name} left the café without a destination. Four hours had passed by the time alleys and avenues opened onto the Han River. His soles burned; river wind cooled the sweat on his back.\n\nFrom a bench he watched bicycles, strollers, and solitary runners. People who had come together and people who had come alone all faced the same direction beside the water.\n\nThe loneliness had not vanished when he turned home. Seoul was simply wide enough that even walking alone did not reach its end."
       },
       {
-        "text": "Just stayed. This is me too.",
-        "result_text": "Did nothing. At first it felt like guilt. Then something like peace. Hard to say when being alone became comfortable."
+        "text": "He stayed alone. This was part of him too.",
+        "result_text": "{name} called no one. He finished the coffee, went home, and started the washing machine. He ate a late lunch while clothes turned behind the glass.\n\nAt first, wasting a day made him restless. As the afternoon leaned toward evening, the feeling quieted. Whether solitude was loneliness or peace changed from one day to the next.\n\nHe stretched out on the sofa. He could not remember when being alone had become this familiar. Familiarity was not an answer either."
       }
     ]
   },
@@ -976,51 +976,51 @@
   {
     "id": "arc_37_reckoning",
     "title": "Final Accounting",
-    "description": "Thirty-seven.\n\nPulled out the calculator. Current assets. Distance to goal. Time remaining.\n\nFour years have passed. For the first time, there's a clear question: does this number still belong to me?\n\nWhere you stand at this point determines the temperature of the final year.",
+    "description": "Late one night at thirty-seven, {name} laid a calculator beside the notebook from four years ago. The ink around 500,000 won and 3 billion won had bled on the first page. His current assets shone on the phone in cold, new digits.\n\nHe wrote down the distance to the goal, the time remaining, and the loss he could still bear. The figures had grown over four years. So had everything postponed for their sake. Only now could he ask the question clearly: did he still want this goal, or was he pretending to want it because he no longer knew how to stop?\n\nThe calculator left warmth in his palm. Tonight's answer would set the temperature of the final year.",
     "choices": [
       {
-        "text": "Whatever the number — this trajectory is mine. Going to the end.",
-        "result_text": "500,000 won at thirty-three. Here now. Whatever the number — this trajectory is mine. Last year. Just live it."
+        "text": "Whatever the number, this trajectory was his.",
+        "result_text": "{name} traced a line from 500,000 won on the first page to today's figure. It was not straight. Losses, detours, and pages bearing people's names broke the route.\n\nHe decided not to erase a single one. Whether he reached the target or missed it, the path would not become someone else's failure or success.\n\nWhen he closed the notebook, its cover felt solid beneath his palm. The final year was no longer time to prove the result, but time to live his own road as his own until the end."
       },
       {
-        "text": "Adjust the plan once more. Live the end knowing.",
-        "result_text": "Numbers don't lie. Whatever the result — knowing the truth and living the final chapter beats not knowing. {name} adjusted the plan one more time."
+        "text": "He revised the plan once more. He would enter the end knowing.",
+        "result_text": "{name} lowered the expected return and entered his real expenses. The chance of arriving shrank, but for the first time every cell balanced without exaggeration. The numbers offered no comfort, which made them useful.\n\nHe marked the points where the plan would break and revised it once more. He chose to act with the truth rather than hope without it.\n\nThe saved file carried a new timestamp. The final year looked less spectacular, but at least he could enter it with his eyes open."
       },
       {
-        "text": "Not drawing conclusions. Have to see the end to know.",
-        "result_text": "Closed the calculator. Have to see the end to know. That's what four years taught."
+        "text": "He closed the calculator. Only the end could answer.",
+        "result_text": "{name} closed the calculator. Making the figures more precise would not make the ending arrive early. The greatest deviations of the last four years had come from beyond the calculation. So had the things that remained longest.\n\nHe left only the notebook on the desk and turned out the light. Entering the final year without forcing an answer was also a choice.\n\nThe calculator display faded slowly in the dark. The sentence \"only the end can answer\" remained after everything else was gone."
       }
     ],
     "description_if_known": {
-      "year3_doubled_down": "Thirty-seven.\n\nPulled out the calculator. Current assets. Distance to goal. Time remaining.\n\nFour years have passed. For the first time, there's a clear question: does this number still belong to me?\n\nWhere you stand at this point determines the temperature of the final year.\n\nLast year, he'd given himself an answer: push harder.\nThe cost of that speed, and its result — is this number.",
-      "year3_questioned_path": "Thirty-seven.\n\nPulled out the calculator. Current assets. Distance to goal. Time remaining.\n\nFour years have passed. For the first time, there's a clear question: does this number still belong to me?\n\nWhere you stand at this point determines the temperature of the final year.\n\nLast year there was a night he asked whether this road was the right one.\nThe question never left. He just learned to walk alongside it.",
-      "year3_steady_path": "Thirty-seven.\n\nPulled out the calculator. Current assets. Distance to goal. Time remaining.\n\nFour years have passed. For the first time, there's a clear question: does this number still belong to me?\n\nWhere you stand at this point determines the temperature of the final year.\n\nLast year, he'd chosen not to waver.\nThe number that steadiness built is here. Big or small — there's no lie in it.",
-      "vision_revised": "Thirty-seven.\n\nPulled out the calculator. Current assets. Distance to goal. Time remaining.\n\nFour years have passed. For the first time, there's a clear question: does this number still belong to me?\n\nWhere you stand at this point determines the temperature of the final year.\n\nOnce, midway, he had revised the vision.\nRevision wasn't an admission of failure — it was seamanship.\nBecause of it, this number is the result of a course, not a drift."
+      "year3_doubled_down": "Late one night at thirty-seven, {name} laid a calculator beside the notebook from four years ago. The ink around 500,000 won and 3 billion won had bled on the first page. His current assets shone in cold, new digits.\n\nAt last year's crossroads, he had chosen to push harder. The speed drove the figures upward and widened the blanks in his sleep and contacts. Result and cost now occupied the same line.\n\nThe calculator warmed the palm asking whether he still wanted this goal or merely pretended because he could not stop. A higher number alone would not set the temperature of the final year.",
+      "year3_questioned_path": "Late one night at thirty-seven, {name} laid a calculator beside the notebook from four years ago. The ink around 500,000 won and 3 billion won had bled on the first page. His current assets shone in cold, new digits.\n\nLast year, he had finally asked whether this road was right. The question never left; it sat beside him each time he opened the plan. He no longer believed anxiety had to disappear before he could move.\n\nHe wrote down the distance and the time remaining. For someone who had learned to walk beside the question, the final year was not about proving an answer, but preserving the courage to keep asking.",
+      "year3_steady_path": "Late one night at thirty-seven, {name} laid a calculator beside the notebook from four years ago. The ink around 500,000 won and 3 billion won had bled on the first page. His current assets shone in cold, new digits.\n\nLast year, he had chosen not to waver. The ledger showed no great leap, only deposits, expenses, and repeated decisions aligned in steady rows. Large or small, the figure held neither exaggeration nor luck renamed as skill.\n\n{name} followed the rows with one finger. The final year's temperature would be set not by greater speed, but by deciding what this steadiness was meant to protect.",
+      "vision_revised": "Late one night at thirty-seven, {name} laid a calculator beside the notebook from four years ago. The ink around 500,000 won and 3 billion won had bled on the first page. His current assets shone in cold, new digits.\n\nSomewhere along the way, he had revised how he would reach the goal. The old line remained faint beneath the erased plan. It was not an attempt to hide failure, but a course correction made to keep from drifting.\n\nHe wrote down the distance and the time remaining. In the final year, remembering why he changed course mattered more than preserving the straight line he first drew."
     }
   },
   {
     "id": "arc_37_burn_or_light",
     "title": "Ember or Ash",
-    "description": "Something feels off lately.\n\nNot that focus is gone — it's a different kind of focus. A sense of knowing how this will end. Not fear, just knowing.\n\nWhen the ending comes into sight, what emerges — burnout or a final surge of clarity — {name} still doesn't know.",
+    "description": "Lately, focus came easily. Too easily. {name} could stare into the center of the screen until the coffee went cold and hunger disappeared. He read messages without answering, revised the same sentence three times, then could not remember what had changed.\n\nThe approaching end seemed to sharpen everything. Yet the only thing in focus was the goal. Fear had receded along with every signal from his body. Certainty and numbness carried nearly the same temperature from the inside.\n\n{name} lifted the cold cup. He still could not tell whether what remained was a final ember or merely the heat left after everything had burned.",
     "choices": [
       {
-        "text": "This is the last flame. Burning harder.",
-        "result_text": "Cut sleep. Simplified meals. Can rest when this is over. There's no stopping in a final sprint."
+        "text": "He cut his sleep. He only had to survive this stretch.",
+        "result_text": "{name} set the alarm earlier and replaced meals with packaged food. At the bottom of his schedule, he wrote that he would rest when this stretch was over.\n\nFor the first few days, output grew with the added hours. Then letters began to shift and saved files had to be reopened. He corrected each mistake and said he could still endure.\n\nHis face in the dawn window looked like a man concentrating. Even after the lights went out, the screen remained lit behind his eyes."
       },
       {
-        "text": "Admitted the exhaustion. Need to rest a little.",
-        "result_text": "Cleared a whole day. Did nothing. Guilt at first. Then — something came back. Rest was strategy too."
+        "text": "He cleared a day and did nothing.",
+        "result_text": "{name} cleared one day and put his phone in a drawer. For the first few hours, his hand kept searching an empty pocket. He napped, cooked a meal, and walked the neighborhood at sunset.\n\nBy evening, postponed thoughts began to return. Faces and voices unrelated to the goal came with them. They had not vanished; they had only been waiting for enough quiet.\n\nHe set the next morning's alarm to its old time. The day was blank in the plan, but not inside him."
       },
       {
-        "text": "Sat down to figure out what this feeling actually is.",
-        "result_text": "The difference between burnout and clarity seems to be: do you still remember what this is for? {name} remembered. Why it started. That was enough."
+        "text": "He sat with it: burnout, or focus?",
+        "result_text": "{name} opened the notebook to the page where the goal first appeared. Beside 3 billion won was not another figure, but a short line about his father and a home. He added the reasons that had come later, and the reasons he had lost.\n\nHe could not separate burnout from focus with certainty. He could feel whether remembering the purpose tightened his body or let it loosen.\n\n{name} set down the pen. The answer was not enough, but enough of him had returned to ask again."
       }
     ],
     "description_if_known": {
-      "improved_diet": "Something feels off lately.\n\nNot that focus is gone — it's a different kind of focus. A sense of knowing how this will end. Not fear, just knowing.\n\nWhen the ending comes into sight, what emerges — burnout or a final surge of clarity — {name} still doesn't know.\n\nThe body whose diet he fixed last year is what's holding up this final stretch.\nBurnout or focus — at least the body was still on his side.",
-      "deferred_question": "Something feels off lately.\n\nNot that focus is gone — it's a different kind of focus. A sense of knowing how this will end. Not fear, just knowing.\n\nWhen the ending comes into sight, what emerges — burnout or a final surge of clarity — {name} still doesn't know.\n\nLast year at 3 a.m., there was a question he'd started to ask himself and shelved.\nIt rises again inside this strange focus. This time he won't dodge it.",
-      "opened_other_door": "Something feels off lately.\n\nNot that focus is gone — it's a different kind of focus. A sense of knowing how this will end. Not fear, just knowing.\n\nWhen the ending comes into sight, what emerges — burnout or a final surge of clarity — {name} still doesn't know.\n\nLast year, in the small hours, he'd left one other door open.\nKnowing it's still open is what makes this stretch bearable.",
-      "reaffirmed_motive": "Something feels off lately.\n\nNot that focus is gone — it's a different kind of focus. A sense of knowing how this will end. Not fear, just knowing.\n\nWhen the ending comes into sight, what emerges — burnout or a final surge of clarity — {name} still doesn't know.\n\nLast year at 3 a.m., he'd reconfirmed why he started.\nThat confirmation is burning as fuel now. This isn't burnout — it's the final focus."
+      "improved_diet": "Lately, focus came too easily. {name} could stare into the center of the screen until the coffee went cold. The approaching end seemed to sharpen everything, yet the only thing in focus was the goal.\n\nStill, the body whose diet he had changed last year announced hunger on time. Prepared food waited in the refrigerator, and his hands shook less than before. These were small proofs that his body remained on his side.\n\n{name} set down the cold cup and heated a meal first. Ember or ash, at least he was no longer burning his body in place of fuel.",
+      "deferred_question": "Lately, focus came too easily. {name} could stare into the center of the screen until the coffee went cold and hunger disappeared. It troubled him that the goal was the only thing still sharp.\n\nAt three in the morning last year, he had begun a question and set it aside: what had brought him this far, and what would remain if he arrived like this? The unanswered sentence kept blinking at the edge of his focus.\n\n{name} lifted the cold cup, then put it down. This time, before opening another file, he would read the question to its end.",
+      "opened_other_door": "Lately, focus came too easily. {name} could stare into the center of the screen until the coffee went cold and hunger disappeared. It troubled him that the goal was the only thing still sharp.\n\nOne early morning last year, he had left open a door leading somewhere other than the goal. He did not know whether it led back or somewhere new, but the knowledge that it had not closed allowed one deeper breath.\n\n{name} set down the cold cup. The strength to endure the final stretch did not come only from what waited ahead. Remembering that he could still step sideways held him too.",
+      "reaffirmed_motive": "Lately, focus came too easily. {name} could stare into the center of the screen until the coffee went cold and hunger disappeared. It troubled him that the goal was the only thing still sharp.\n\nAt three in the morning last year, he had returned to the reasons he began. He read the sentence on the notebook's first page and the reasons added since. Several lines remained clear in his memory.\n\n{name} set down the cold cup. Whether that memory was fuel or an excuse could be known only at the end. Today, at least, he could look away from the screen and read the reasons again."
     }
   },
   {

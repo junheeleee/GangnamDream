@@ -47,8 +47,8 @@
 
 Claude 컨테이너가 Godot 바이너리를 잃어(2026-07-13) 최근 Claude 커밋들(간직한 것들 리캡·서랍 속의 진실·새벽의 사람들)이 **GDScript 컴파일 검증 없이** main에 반영됐다(정적 검증만 통과). 최신 main에서 `GODOT=<로컬 경로> ./tools/audit.sh` 풀 실행(컴파일 포함)+`--qa=ap-en` 스모크 1회. 컴파일 에러 발견 시 즉시 수리 커밋. **이후 상시**: Claude 커밋이 main에 들어올 때마다 컴파일 게이트는 Codex 몫.
 
-#### [~] ORDER-02 [P1] Tier2 산문 패스 M — 미드게임 스파인
-**[~] 착수 — 만지는 파일:** `content/events/story_events.json`, `content/events_en/story_events.json`, `content/events/arc_midgame.json`, `content/events_en/arc_midgame.json`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 지정된 29개 이벤트의 산문 필드만 한영 동시 격상하며 id·flags·effects·cast_effects·conditions·dik 및 기계 필드는 불변으로 둔다.
+#### [x] ORDER-02 [P1] Tier2 산문 패스 M — 미드게임 스파인
+**완료 보고 (2026-07-13 Codex):** 지정된 일반 스토리 14종과 미드게임 아크 15종의 KO/EN 산문을 감각 근거·내면·여운이 있는 Tier2 장면으로 동시 격상했다. 첫 월급의 임의 고정액, 첫 저축 이정표의 실제 300만원 트리거, 최종 반년의 24주, 한국 주식 UI와 충돌하던 `Red Numbers`, 다은 편의점 카운터 동선을 함께 바로잡았다. HEAD 대비 자동 불변 검사가 정확히 29개 이벤트의 산문 필드만 변경했고 id·flags·effects·cast_effects·conditions·dik 키·선택지 수는 동일함을 확인했다. EN coverage/zero-Hangul과 첫 세션 밀도, 전체 audit, 밸런스 3정책, Godot 57스크립트 컴파일이 모두 통과했다.
 
 `docs/ROMANCE_SYSTEM.md` §8(6요소 루브릭)·§8-A(Tier2 바닥선: 감각 근거 1+/내면 1+/여운 1줄, 요약 금지, 200~300자대) 선독. **산문만 수정**(id/flags/effects/cast_effects/conditions/dik 키 불변), KR+EN 동시.
 대상: `story_events.json` 14종(story_prologue_dad·six_months·rainy_night·compare_friend·first_paycheck_feel·late_night_grind·weekend_choice·gosiwon_neighbor·payday_morning·hometown_nostalgia·first_savings_milestone·three_year·four_year·age_39_final) + `arc_midgame.json` 서사 하중 상위 15종(goshiwon_goodbye·money_loneliness·goal_vertigo·father_medication·quit_job·first_real_win·career_ceiling·social_comparison·daeun_trace·invest_first_loss·year_three_crossroads·endgame_sixmonths·35_alone·37_reckoning·37_burn_or_light). 결 레퍼런스=arc_hyunsu(패스 H 완료본)·arc_father_passing. 검증: audit ✅+en_coverage clean.

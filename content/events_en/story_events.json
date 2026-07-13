@@ -24,15 +24,15 @@
   {
     "id": "story_prologue_dad",
     "title": "A Call",
-    "description": "The phone rings. The screen reads 'Dad'.\n\nA moment's hesitation — then you answer.\n\n\"Hey, son. You up?\"\n\"Yeah.\"\n\nA brief silence. Dad never rehearses what he wants to say.\n\n\"...You eat yet?\"\n\nSix years in those three words.\nGuilt, shame, and everything he can't quite say.",
+    "description": "The phone's vibration rattled the thin desk. The screen read DAD. Those three letters shone brighter than anything else in the room.\n\n{name} took one breath before answering.\n\n\"Hey, son. You up?\"\n\"Yeah.\"\n\nA television murmured somewhere behind his father's voice. Dad always sent silence ahead of whatever he meant to say.\n\n\"...You eat yet?\"\n\nHe didn't ask about work, money, or Seoul. Yet the whole of the last six years sat inside that one question: guilt, shame, everything neither of them could bring up first.\n\nBefore {name} answered, it felt as though his empty stomach had already given him away.",
     "choices": [
       {
         "text": "\"Yeah, I ate. Don't skip meals, Dad.\"",
-        "result_text": "A lie. You haven't eaten anything yet.\nBut you felt him relax on the other end of the line.\n\"Good... I'm sorry, son.\"\n\"Nothing to be sorry for.\"\nYou hung up and stared at the ceiling for a long time."
+        "result_text": "It was a lie. There was nothing by the sink but a water glass.\n\n\"Yeah, I ate. Don't skip meals, Dad.\"\nOn the other end, his breathing eased.\n\"Good... I'm sorry, son.\"\n\"Nothing to be sorry for.\"\n\nWhen the call ended, the room went quiet again. {name} stared at the ceiling. Two lies, each meant to put the other man at ease, were all that remained in the room."
       },
       {
         "text": "\"I'm busy. I'll call you back.\" Click.",
-        "result_text": "You cut it short. Longer calls just make the silence hurt more.\nYou put the phone down and swallowed what you didn't say.\nThat small hesitation in his voice before you hung up — you couldn't stop thinking about it."
+        "result_text": "\"I'm busy. I'll call you later.\"\n\n{name} spoke over him and ended the call. Longer calls left room for silence, and silence made space for questions neither of them could answer. He wanted none of it.\n\nHis face hovered faintly in the dead screen. Just before Dad said \"Okay,\" he had stopped breathing for half a beat. {name} kept hearing that pause. The room seemed a little smaller than before."
       }
     ]
   },
@@ -76,19 +76,19 @@
   {
     "id": "story_six_months",
     "title": "Half a Year Gone",
-    "description": "Six months in.\n\nYou still remember how lost you felt when you first moved into this room.\nOne suitcase, five hundred thousand won.\n\nWhere does {name} stand now?\nBetter than back then? Or did you just survive it?\n\nOutside the window, Seoul keeps spinning, fast as ever.",
+    "description": "Six calendar pages had turned. On the day {name} first entered this room, a suitcase wheel caught on the threshold and there was only five hundred thousand won in the bank. The damp wallpaper smell from that day still rose whenever it rained.\n\nHe pushed the receipts and notes on the desk to one side. Some numbers had changed. Other things had not. Was this progress, or had he merely learned how to endure?\n\nBeyond the small window, Seoul's lights moved as quickly as they had on the first night. The city did not slow down for someone just because he had survived half a year inside it.",
     "choices": [
       {
         "text": "I held on well. Let's keep going.",
-        "result_text": "Half a year.\nSmall things piled up and carried you this far.\n{name} is still here. That's all of it, and that's enough."
+        "result_text": "\"You held on.\" Saying it aloud felt a little embarrassing.\n\nBefore the account balance, {name} remembered the mornings he had not missed and the nights he had managed to stand up again. He folded the old calendar page and put it in the drawer.\n\nHe was still here. For once, that fact did not feel small."
       },
       {
         "text": "Still not enough. I need to move faster.",
-        "result_text": "A restlessness set in. It isn't a bad thing.\nYou just have to tighten the screws only as much as you can take without breaking.\n{name} knows where that line is."
+        "result_text": "{name} reopened the planner and filled every blank with a task. The harder he wrote, the deeper the pen pressed into the paper.\n\nWhen you speed up, the scenery is the first thing to blur. He knew that and moved his alarm an hour earlier anyway.\n\nLong after the light went out, the boxes of the new schedule remained behind his eyelids."
       },
       {
         "text": "Just rest. Today, at least, I won't think about anything.",
-        "result_text": "Half a day of doing nothing.\nGuilt rose up, then faded.\nEnduring takes stamina too. Today {name} recharged it."
+        "result_text": "{name} turned the phone face-down and slept for half the day. When he woke, the angle of the light in the room had changed.\n\nAt first his chest tightened with the sense of time thrown away. After a hot shower, his shoulders finally dropped.\n\nThat night he did not snooze the alarm. The hours spent resting had not vanished after all."
       }
     ]
   },
@@ -110,53 +110,53 @@
   {
     "id": "story_rainy_night",
     "title": "A Rainy Night",
-    "description": "11 p.m. Rain taps against the window.\n\nYou grabbed a can of coffee from the vending machine in the goshiwon hallway and came back to your room.\nLying on the bed, you stare at the ceiling.\n\nDid you live today properly?\nDo you still remember why you came to Seoul?\n\n{name} quietly closes both eyes.",
+    "description": "At eleven, rain tapped a dense rhythm against the goshiwon's small window. The canned coffee from the hallway machine held only a palmful of warmth. Wet slippers left thin marks across the floor.\n\n{name} sat on the edge of the bed and turned off the fluorescent light. Only the rain and a low cough from the next room remained. Had he lived this day properly? Did he still remember why he had come to Seoul?\n\nThe can lost its warmth first. The questions stayed, and the rain answered neither one.",
     "choices": [
       {
         "text": "Yeah, one step at a time. I won't give up.",
-        "result_text": "One sip of coffee.\nYou can start over tomorrow.\n{name} is still here."
+        "result_text": "{name} swallowed a mouthful of lukewarm coffee. The bitterness lingered on his tongue.\n\nHe wrote one thing at the top of tomorrow's list. Not a grand resolution, just something he could do the moment he got up.\n\nThe rain went on, but the room now held one small sequence of events. That was enough to begin again."
       },
       {
         "text": "I'm worn out. I'll just rest today.",
-        "result_text": "Sometimes resting properly beats\nforcing yourself to do something and getting nothing done.\n{name} learned that today."
+        "result_text": "{name} switched off the alarm and pulled the blanket to his chin. The unfinished tasks knocked around in his head for a while, until the rain covered them one by one.\n\nFor the first time in weeks, he slept without waking in the middle. The window was still gray in the morning, and the work was still there.\n\nBut when he sat up, he felt a little more present inside his own body than he had the night before."
       }
     ]
   },
   {
     "id": "story_compare_friend",
     "title": "News from a Friend",
-    "description": "A KakaoTalk message came from a high school friend.\n\n'I got into a big company lol'\n\nFor a second, as you typed 'congrats,' your fingers froze.\n\nWe came to Seoul the same year.\nThey're at a major firm, and {name} is still...\n\nYou tried not to compare. It's harder than you expected.",
+    "description": "A KakaoTalk alert appeared. A friend from high school.\n\n'I got into a major company lol'\n\n{name}'s thumb stopped above Send halfway through a congratulatory message. In the profile photo, his friend wore an employee badge; a clean glass office tower rose behind him. They had come to Seoul in the same year. One of them already belonged inside a company people knew. {name} was still waiting to hear back from applications.\n\nThe harder he tried not to compare them, the sharper their two positions became. When the screen went dark, the employee badge disappeared and left only his own reflection.",
     "choices": [
       {
         "text": "I'm genuinely happy for them. I have my own path.",
-        "result_text": "You sent a message of congratulations.\nYour heart is a little tangled, but that's okay too.\nOnly {name} can walk {name}'s road."
+        "result_text": "\"Seriously, congratulations. You worked for it.\"\n\nA grinning sticker came back almost at once. Pride for his friend and the ache in his own stomach occupied the same place. Neither feeling had to make the other one false.\n\n{name} left the conversation near the top of his inbox. Even after he closed the app, the congratulations remained sincere."
       },
       {
         "text": "It lit a fire under me. I should work harder.",
-        "result_text": "You sent a reply and sat down at your desk.\nA night where impatience and will got mixed together.\nYou hope this feeling doesn't become poison for {name}."
+        "result_text": "{name} sent a quick congratulations and opened the laptop. Every job posting suddenly looked close to its deadline.\n\nHe revised one more line, submitted one more application, then another whenever the employee badge returned to mind. By dawn his eyes burned and three confirmation emails sat in the inbox.\n\nA spark could drive a person forward or burn through him. Tonight, he could not yet tell which this was."
       },
       {
         "text": "Close the SNS app. Now is the time to focus on what's mine.",
-        "result_text": "Comparing is a waste of energy.\n{name} decided to focus on what {name} can do right now.\nNot being shaken by someone else's pace is a skill too."
+        "result_text": "After replying, {name} closed the social app and silenced its alerts. On the quiet screen he wrote only what he could do now: one resume, one meal, a thirty-minute walk.\n\nHis friend's pace had not disappeared. It simply no longer occupied the desk tonight.\n\n{name} returned to his own time. It was smaller than the life on the profile page, but it was a size he could hold."
       }
     ]
   },
   {
     "id": "story_first_paycheck_feel",
     "title": "First Paycheck",
-    "description": "A notification chimed.\n\n[Deposit] {name}'s account  1.2 million won\n\nYou stared blankly at the screen.\nAfter taxes and transit costs, it isn't much.\nStill, it's money you earned by working.\n\nThe first money ever to land in your account under your own name.\nA small number, but somehow it moved you.",
+    "description": "Just before lunch, a short vibration announced a bank deposit.\n\n[DEPOSIT] SALARY\n\n{name} looked at the amount, opened the app, and checked it again. After tax, transit, and rent, the money would not remain for long. But it was not an allowance or something borrowed. The early alarms, crowded trains, and hours spent holding his tongue among strangers had become a number beneath his own name.\n\nWhen he turned off the screen, the vibration seemed to remain in his palm. The first paycheck registered as weight before it registered as money.",
     "choices": [
       {
         "text": "Buy my parents something with my first paycheck",
-        "result_text": "You sent a 100,000-won gift card.\n'It's fine, save your money,' came the reply.\n{name} stared at that text for a long time."
+        "result_text": "{name} sent his parents a small gift card. Choosing the amount took longer than checking the paycheck had.\n\nThe reply came soon: 'You should save your money.' Their happiness showed through the warning anyway.\n\nHe read the message several times without clearing it. Only after some of that first paycheck left the account did the rest of it feel as though it truly belonged to him."
       },
       {
         "text": "Save it all. The future comes before feelings.",
-        "result_text": "You left it untouched in the account.\nThe lump in your throat lasted only a moment. {name} starts preparing for next month."
+        "result_text": "{name} moved the whole paycheck into savings. The deposit notification was replaced almost immediately by a transfer receipt, and the feeling folded itself beneath another line of numbers.\n\nHe listed next month's fixed expenses and calculated what remained. There was less room to celebrate than there was money to protect.\n\nThe balance did not grow while the app was closed, but for the first time he had given every won a place to stand."
       },
       {
         "text": "Buy a small gift for myself, who worked so hard",
-        "result_text": "A 50,000-won pair of sneakers.\nNot expensive, but bought with {name}'s first paycheck.\nYou think you'll remember this day every time you wear them."
+        "result_text": "After a long hesitation, {name} bought a new pair of sneakers. They were not expensive, yet pressing Pay felt like asking himself for permission.\n\nThe box smelled of rubber and new fabric. The next morning the heels rubbed raw, and he kept looking down at them on the way to work.\n\nThe first thing he bought with wages he had earned was not perfect. That made it feel more likely to stay in his memory."
       }
     ]
   },
@@ -178,106 +178,106 @@
   {
     "id": "story_late_night_grind",
     "title": "Working Late",
-    "description": "10 p.m. Only {name} is left in the office.\n\nWhen you looked up from the screen under the fluorescent lights,\nIt was already pitch black outside.\n\nIf you don't finish today, it carries over to tomorrow.\nTomorrow might mean another late night.\n\nSomewhere in Seoul, what are your friends doing right now?",
+    "description": "At ten, the cleaning cart rolled past once and left {name} alone in the office. One row of fluorescent lights hummed overhead. His dry eyes stung at the edge of the monitor.\n\nAnything unfinished tonight would move into tomorrow. Tomorrow's work was already waiting, which meant one delayed day could follow him into the next night. He rested a hand over Save and looked outside. Only a few windows remained lit in the building opposite.\n\nSomewhere in Seoul, other people had already ended their day. His was the only one in the room that had not been allowed to leave.",
     "choices": [
       {
         "text": "Finish it and go. Home's just a goshiwon anyway.",
-        "result_text": "11:30 p.m. The deadline's met.\nYou fell asleep the moment you got on the bus.\n{name} held on again today."
+        "result_text": "At 11:30, the last file went through. Only when the delivery receipt appeared did {name} notice the pain in his shoulders.\n\nHe fell asleep with his head against the bus window and woke two stops beyond home, then walked back through the cold.\n\nThe deadline was gone and tomorrow had become a little lighter. Today's exhaustion remained exactly where it had settled in his body."
       },
       {
         "text": "Just clock out today. Tomorrow's work is for tomorrow.",
-        "result_text": "You felt the stares, but you left.\nThe fish-cake broth from the convenience store on the way home was the best part of the day.\n{name} gave today back to {name}."
+        "result_text": "{name} saved the file and shut down the computer. The sign-off tone sounded enormous in the empty office. Tomorrow's disapproval seemed to be waiting beyond the door, but he left anyway.\n\nOn the way home, convenience-store fish-cake broth burned his tongue. He wrapped both hands around the paper cup until feeling returned to his fingers.\n\nThere was unfinished work behind him, and one evening he had managed not to surrender with it."
       },
       {
         "text": "Grab one more coffee and push through",
-        "result_text": "1 a.m. All done.\nThe way home was long, but oddly you felt refreshed.\nThis exhaustion is slowly making {name} a little tougher."
+        "result_text": "{name} bought one more vending-machine coffee. The sweetness numbed his tongue and put his hands back in motion.\n\nAt one in the morning he closed the file. His exhausted face floated in the office glass. Relief arrived together with the fatigue already waiting for tomorrow.\n\nThe elevator numbers descended slowly. He still could not tell which part of this was making him stronger, and which part was simply wearing him away."
       }
     ]
   },
   {
     "id": "story_weekend_choice",
     "title": "Saturday Morning",
-    "description": "9 a.m. A day with no alarm.\n\nOn weekdays you'd already be on the commuter subway by now.\nToday you don't have to do anything.\n\nBut doing nothing somehow feels like falling behind.\n{name} stares at the ceiling from the bed.\nWhat is this feeling, this guilt that comes from resting?",
+    "description": "Saturday, nine in the morning. No alarm had gone off, but {name} woke at the weekday hour anyway. His body tensed as though reaching for a subway strap. Only the refrigerator motor turned in the room.\n\nHe did not have to do anything today. Lying still, however, felt as if somebody else were taking his share of time first. His eyes followed an old stain across the ceiling.\n\nEven on a day off, the sensation of falling behind did not rest. He could not yet decide whether the guilt was discipline or fear.",
     "choices": [
       {
         "text": "Go to a cafe and study. Time is precious.",
-        "result_text": "Sat and studied for four hours. It was productive. But you're a bit tired."
+        "result_text": "{name} carried the laptop and books to a cafe and stayed at a window seat for four hours. As the highlighted lines multiplied, so did the relief of having used the morning correctly.\n\nBy the time he stepped outside, the sun had already dropped. He had learned something, certainly. He had not rested.\n\nHe adjusted the heavy bag on his shoulder. One square of the weekend closed neatly inside the plan."
       },
       {
         "text": "Just rest. I'll give this one day to myself.",
-        "result_text": "Did nothing. Took only a walk around the neighborhood in the afternoon.\nSomehow it felt like next week would go better."
+        "result_text": "{name} put the phone out of reach and lay down again. After a late lunch, he walked the neighborhood without a destination. For once he noticed the plants outside the laundromat and paw prints dried into an alley.\n\nBy evening there was nothing he could call an achievement. His breathing had deepened.\n\nNext week had not become easier, but the body that would have to enter it had begun to return."
       },
       {
         "text": "Go out to meet a friend",
-        "result_text": "Laughed for the first time in a while. Living alone in Seoul, this is the hardest thing of all."
+        "result_text": "{name} met a friend and talked about nothing important: bad bosses, expensive food, an old homeroom teacher. He laughed hard enough to swallow water wrong and cough for a full minute.\n\nOn the subway home, his face muscles felt faintly sore. Not once had they discussed the goal or the balance in his account.\n\nSeeing people in Seoul cost time and money. Still, the silence on the way back felt different from the usual kind."
       }
     ]
   },
   {
     "id": "story_gosiwon_neighbor",
     "title": "The Person Next Door",
-    "description": "You've lived in the goshiwon for a few months now,\nBut you still haven't gotten a proper look at the person in the next room.\n\nWhen we pass in the hallway, we avoid each other's eyes.\nYou, and them too.\n\nWe're each here for our own reasons,\nEnduring in our own ways, you suppose.\n\nToday {name} thought about saying hello for the first time.",
+    "description": "After several months in the goshiwon, {name} still remembered only the lower half of the neighbor's face. Whenever they met in the hall, one flattened against the wall and the other studied his slippers. They knew only how quickly the other's door closed.\n\nAt night, alarms, coughs, and the tear of ramyeon lids traveled through the wall. They were the sounds of people who had come to this narrow place for reasons of their own, people who had learned that not asking was a form of courtesy.\n\nThey met again by the shared sink. Between bursts of running water, {name} wondered if he could be the first to speak.",
     "choices": [
       {
         "text": "Offer a single 'Hello'",
-        "result_text": "'Oh, hi.' A short reply, then they walked off.\nBut after that, the hallway felt a little less awkward.\n{name} figured that was enough."
+        "result_text": "\"Hello.\"\n\nThe neighbor looked surprised, then dipped his head. \"Oh. Hi.\" That was the entire conversation. They went back to their separate rooms.\n\nWhen they met again that night, both nodded before either body moved aside. The walls had not shifted, yet the hall seemed a little less narrow. They still did not know each other's names. The greeting remained."
       },
       {
         "text": "Just pass by. It's easier not to get involved.",
-        "result_text": "Eyes down, you walked past.\nThis is what it means to live alone in Seoul.\n{name} is learning that way too now."
+        "result_text": "{name} shook the water from his hands and passed with his eyes down. The neighbor moved toward the wall at the same instant. Their shoulders did not touch.\n\n{name}'s lock clicked, and the next door answered almost at once. If you never got involved, there were fewer ways to be hurt.\n\nHe was learning the convenience of that rule. Still, whenever the cough came through the wall, he briefly saw the face he had chosen not to acknowledge."
       }
     ]
   },
   {
     "id": "story_payday_morning",
     "title": "Payday",
-    "description": "Morning of the 25th. On the commuter subway, you opened the app.\n\nDeposit confirmed.\nThe number in {name}'s account had changed.\n\nAfter taxes, after rent, you'd already calculated how little would be left.\nStill, the fact that a month of work amounted to that number\nSomehow moved you a little.",
+    "description": "On the morning of the twenty-fifth, {name} opened the banking app as the commuter train crossed the river. His arm swayed on the overhead strap, and the screen moved with it. The number at the top of the account had changed. Payday.\n\nCalculation came before pleasure: rent, transit, phone bill, the next card payment. A month of labor shrank within a few lines of subtraction. Still, the early alarms, packed transfers, and words swallowed at work all existed inside that number.\n\nThe train entered a tunnel and his face appeared over the account. Payday came every month. He was not yet numb to it.",
     "choices": [
       {
         "text": "Save it all. Now is the time to scrimp.",
-        "result_text": "Left it untouched in the account. Held down the urge. For later."
+        "result_text": "As soon as {name} moved the money into savings, the deposit alert became a transfer receipt. The paycheck had not stayed where it arrived for long.\n\nHe closed the shopping cart he had been keeping and left only next month's fixed expenses. Satisfaction at having resisted arrived beside the thought of living another month exactly this way.\n\nHe checked the balance once more. Unspent money made no noise, but it remained on his side."
       },
       {
         "text": "Buy a small gift for myself, who worked so hard",
-        "result_text": "A 50,000-won pair of sneakers. Not expensive, but bought with your own money."
+        "result_text": "{name} bought new sneakers after work. Even after walking in front of the store mirror, he hesitated until the moment of payment.\n\nThe next day they rubbed one heel raw. Still, as he tied the new laces, the month no longer seemed to have vanished entirely into fixed expenses.\n\nIt was not an expensive gift. It was a piece of the paycheck that stayed beneath his feet, where he could see it every day."
       },
       {
         "text": "Think about how to grow this money",
-        "result_text": "You jotted income and expenses in a notes app. You started to see how much you could put toward investing."
+        "result_text": "{name} listed income and expenses line by line. The money he imagined remained and the money that truly remained were not the same.\n\nOnce the figures had names, he could see what was available to invest. He could also see the line beyond which one mistake would reach next month's rent.\n\nHe underlined that boundary. Growing money began with knowing which money must not be touched."
       }
     ]
   },
   {
     "id": "story_hometown_nostalgia",
     "title": "Thinking of Home",
-    "description": "Around the holidays. The news shows crowds heading home.\n\n{name} didn't buy a ticket. No, didn't bother to.\nGo home and the questions pour out.\n'Got a job yet?' 'Saved any money?' 'How's Seoul?'\n\nEven if Seoul is suffocating,\nHome isn't ready to take you back yet.",
+    "description": "On the evening before the holiday rush, the news showed long lines at the express bus terminal. People hurried beneath the departure board carrying gift boxes. {name} opened the booking app and stared at the seats.\n\nAt home, the same questions would be waiting on the table. Do you have a job? Have you saved anything? How is Seoul? He knew they asked because they worried. He still had no sentence ready for them.\n\nSeoul was suffocating, and home felt too heavy to return to. As more buses turned red with SOLD OUT, the smell of his mother's soup came back with impossible clarity.",
     "choices": [
       {
         "text": "Go down anyway. I miss my parents.",
-        "result_text": "You ate the meal Mom made.\nThe questions poured out, but they were bearable.\nOn the bus back to Seoul, {name} felt strangely lighter."
+        "result_text": "{name} caught a canceled seat and went home. Opening the door released the smell of sesame oil and the sound of the television. The table held too many dishes for three people.\n\nThe questions arrived exactly as expected. He answered that what he did not know, he did not know; what had not happened yet, had not happened yet. Nothing terrible followed.\n\nOn the bus back to Seoul, the bag of side dishes was heavy. His chest was somehow lighter than it had been on the way down."
       },
       {
         "text": "Stay in Seoul this year. This is the right call.",
-        "result_text": "You called, at least. Their voice sounded a little lonely.\nSpending the holiday alone in a goshiwon\nWas far lonelier than {name} had expected."
+        "result_text": "{name} did not buy a ticket. He only called. \"Work came up this year.\" His mother went quiet, then told him not to skip meals. Television laughter traveled through the phone.\n\nOn the holiday morning, the goshiwon hallway was quieter than usual. Most of the delivery apps still read NOT OPEN.\n\n{name} poured hot water into instant soup. He had thought staying would be the easier choice. The smell of the empty corridor lasted longer than he expected."
       }
     ]
   },
   {
     "id": "story_first_savings_milestone",
     "title": "I Opened My Bankbook",
-    "description": "Today you happened to check your balance.\n\nWhen you first came to Seoul it was a million won.\nUnder {name}'s name, the number had changed.\n\nIt isn't a huge amount, but it's a number you built.\nEating, sleeping, working, saving, stacking it up.\n\nGangnam is far off,\nBut it feels like you've taken one step from the starting line.",
+    "description": "{name} opened the banking app and stopped at the balance. It had crossed three million won. This was the account that held only five hundred thousand when he came to Seoul.\n\nThere was no grand success in the transaction history: wages, transit, convenience-store meals, rent. The small differences left after eating, sleeping, working, and closing things he wanted to buy had accumulated one line at a time.\n\nGangnam seemed almost no closer. The starting balance, however, had finally been pushed below the visible part of the screen. For the first time, {name} could see that money protected was also distance traveled.",
     "choices": [
       {
         "text": "Protect this money and grow it further",
-        "result_text": "Not losing comes first. Growing it comes next.\nFor the first time, {name} became someone who protects money."
+        "result_text": "{name} renamed the savings account DO NOT TOUCH. They were only words, but perhaps they would make his finger pause before every transfer.\n\nThe idea that preservation came before growth was not glamorous. Yet the path from five hundred thousand won to here had been made of small refusals, not one brilliant move.\n\nHe closed the app. For the first time, he felt less like someone earning money and more like someone capable of keeping it."
       },
       {
         "text": "It's time to move more aggressively",
-        "result_text": "No time to hesitate. Now is the chance.\n{name} began preparing the first real bet."
+        "result_text": "The fact that one number had been built made a larger number easy to imagine. {name} opened the investment app and returned to the assets he had only watched before.\n\nOnce he entered an order amount, three million won looked suddenly thin. The possible loss expanded with it. His finger remained closer to Confirm than Cancel.\n\nThe first real bet delivered a sensation before it delivered any return: the time he had saved was now capable of moving against him."
       },
       {
         "text": "Record this moment",
-        "result_text": "You wrote the date and the amount in your notes.\nYou hope you can look back at this number and smile someday.\n{name}'s Gangnam Dream began here."
+        "result_text": "{name} wrote down the date and balance, then took a screenshot. In the photo roll it looked like an ordinary banking screen.\n\nBeneath it he added: 'Started with 500,000 won.' He could not know whether this amount would someday look tiny or remain the largest moment of all.\n\nHe closed the note. The goal was still far away, but one piece of evidence now proved that he had begun."
       }
     ]
   },
@@ -318,34 +318,34 @@
   {
     "id": "story_three_year",
     "title": "Three Years",
-    "description": "Three years.\n\nThirty-six.\n\nThe people around you are starting to change.\nSomeone got married, someone bought a house,\nSomeone went abroad to study, someone started a company.\n\nWhere is {name} right now?\nGangnam is still far.\nBut strangely, you don't want to give up.\n\nThat's still the reason {name} is here.",
+    "description": "Three years in Seoul. Thirty-six years old.\n\nWedding links, housewarming photos, and airport departures took turns appearing in the group chat. People who had worn the same school uniform now answered to different addresses and titles. Each time {name} pressed Congratulations, his own three years appeared beside theirs.\n\nGangnam was still far away. The numbers said it was closer than before; the calendar said he had already spent three years. Yet imagining himself folding up the goal made it harder to breathe.\n\n{name} watched the chat go dark. What kept him here was less certainty than an inability to let go.",
     "choices": [
       {
         "text": "My path is the right one. Different pace is fine.",
-        "result_text": "You decided not to measure yourself by someone else's milestones.\n{name}'s starting line was different from the start.\nComparing is meaningless. The direction {name} is heading is the right one."
+        "result_text": "{name} looked through the wedding and housewarming photos again and left congratulations. Then he opened his own ledger. Erasing other people's milestones would not create a road of his own.\n\nHe wrote the balance from three years ago beside today's. The start and speed were different. Movement was still visible.\n\nHe did not yet know whether the direction was right. He chose only to set the next step by his own record rather than someone else's clock."
       },
       {
         "text": "I have to move faster. Three years is long enough.",
-        "result_text": "The restlessness rose again. This time it has direction.\nNo time to waste.\n{name} shifted up a gear."
+        "result_text": "{name} marked the two years remaining and cut the plan into smaller pieces. Monthly goals became weekly goals; weekly goals became tonight's tasks.\n\nThis time, impatience seemed to have a direction. He postponed several plans and moved the alarm earlier.\n\nAs the desk calendar grew denser, other things were pushed off its edge. The gear went up. The view outside began to blur."
       },
       {
         "text": "Do everything I can right where I am",
-        "result_text": "Living today properly, rather than some grand strategy.\n{name} chose to focus on the cards in hand.\nOpportunity comes to those who are ready."
+        "result_text": "Instead of another grand plan, {name} wrote down three things for today: work, exercise, one hour of study. When each was done, he crossed it out.\n\nThe goal remained three billion won, but the only things within reach were these three boxes. Their smallness felt comforting rather than pathetic.\n\nHe closed the list before bed. Tomorrow would arrive in the same modest size. He chose to live that day properly too."
       }
     ]
   },
   {
     "id": "story_four_year",
     "title": "Four Years",
-    "description": "The fourth year.\n\nThirty-seven.\n\nNow Seoul feels like home.\nWhether you've escaped the goshiwon or am still in it, this city has become {name}'s ground.\n\nThese days the question is less 'is this the right path?'\nAnd more 'is this pace enough?'\n\nGangnam is still far.\nBut closer than it was two years ago.\nThat's a fact.",
+    "description": "Year four. Thirty-seven. By now {name}'s body knew which subway stairs were fastest and which alley stayed least slippery in the rain. Whether he had escaped the goshiwon or still lived there, Seoul was no longer a strange city. It had become a set of habits.\n\nThese days he asked less often whether the road was right and more often whether the speed was enough. His assets had grown. Gangnam was closer than two years ago. The time remaining had shrunk even faster.\n\nIn the late train window, {name} studied his reflection. As he had grown used to the city, the old urgency had grown used to living in his face.",
     "choices": [
       {
         "text": "Pick up the pace. Move more aggressively.",
-        "result_text": "You set down the comfortable choice.\nYou chose the uncomfortable but growing path.\n{name}'s four years carry into the fifth."
+        "result_text": "{name} erased every block marked margin and replaced it with growth or return. He answered opportunities he had postponed and chose greater volatility over familiar methods.\n\nThe decision brought relief, but his jaw remained tight. Forward motion and the sense of being chased could feel almost identical.\n\nHe left no time to test the difference. The final night of year four ran directly into the first appointment of year five."
       },
       {
         "text": "Stabilizing where I am comes first",
-        "result_text": "Before running, you tended to your stamina.\nIf you collapse, everything starts from scratch.\n{name} knows that building a foundation is a strategy too."
+        "result_text": "{name} first listed the things beginning to shake: sleep, meals, debt, the calls he had put off too long. Before pushing the number higher, he would repair the floor beneath it.\n\nFor several days he slept earlier, reorganized automatic payments, and checked in with one person. Nothing produced a visible return. The pressure on his chest in the morning eased a little.\n\nA foundation offered no scene worth boasting about. It would be proven later only by the days that did not collapse."
       }
     ]
   },
@@ -367,27 +367,27 @@
   {
     "id": "age_39_final",
     "title": "The Final Half Year",
-    "description": "Thirty-eight is right around the corner.\n\nExactly six months left.\n\nThe bank balance, the portfolio, the pay stubs.\n{name} looked over the numbers again.\n\nHow far is it to a Gangnam apartment?\nIs it possible within this half year?\n\nA single choice made this month weighs heavier than any month so far.",
+    "description": "Thirty-eight was six months away. Twenty-four squares remained on the calendar.\n\nA pay stub lay on the desk; the bank balance and portfolio glowed on the phone. {name} moved between the three, calculating the remaining distance to Gangnam again. The figures were familiar. His fingertips felt colder than before.\n\nFive years had once sounded long. Now a single choice could change the shape of the weeks that remained. Dawn moved across the glass of the buildings outside.\n\nOne question weighed more than whether the goal was possible: what kind of person would pass through these final six months?",
     "choices": [
       {
-        "text": "The last year, pour everything into it",
-        "result_text": "Regret can come later.\nFor now, just go.\n{name} laid down every remaining card."
+        "text": "Pour everything into the six months that remain",
+        "result_text": "{name} cleared everything from the desk except the plan. Regret could wait until the end. Now was the time to put down every card that remained.\n\nHis hand shook as he entered the order, but he pressed Confirm. His heart ran fast. The room was unnaturally quiet.\n\nHe circled the final date on the calendar. Every blank square between here and there now faced in the same direction."
       },
       {
         "text": "Don't push it. What I've done so far is enough",
-        "result_text": "Maybe Gangnam isn't everything.\nFor the first time, {name} truly accepted that thought."
+        "result_text": "{name} closed the apps and put the calculator in the drawer. This time he did not push away the thought that Gangnam might not be everything as if it were only an excuse.\n\nHe counted what remained: his body, the people around him, the things he had learned, the places that might still take him back. Not everything of value lived inside the number.\n\nCold air entered through the window. The goal had not vanished. For the first time, it looked smaller than he was."
       },
       {
         "text": "There's still a way. Run the numbers again",
-        "result_text": "Numbers don't lie.\n{name} ran the simulation for the remaining twelve months.\nA possibility came into view."
+        "result_text": "{name} opened a new sheet and divided the remaining twenty-four weeks into cells: income, fixed costs, tolerable loss. The numbers offered neither hope nor despair. They left only a cold range of possibility.\n\nHe marked the interval that remained unchanged after three calculations. The road was narrow, not fully closed.\n\nBy dawn, the limit he had to protect looked clearer on the screen than the chance he wanted to chase."
       }
     ],
     "description_if_known": {
-      "final_year_resolve": "Thirty-eight is right around the corner.\n\nExactly six months left.\n\nThe bank balance, the portfolio, the pay stubs.\n{name} looked over the numbers again.\n\nHow far is it to a Gangnam apartment?\nIs it possible within this half year?\n\nA single choice made this month weighs heavier than any month so far.\n\nThere's a sentence from last year's reckoning: whatever the number turns out to be — this trajectory is mine.\nHe carries that sentence into the final six months.",
-      "final_year_realistic": "Thirty-eight is right around the corner.\n\nExactly six months left.\n\nThe bank balance, the portfolio, the pay stubs.\n{name} looked over the numbers again.\n\nHow far is it to a Gangnam apartment?\nIs it possible within this half year?\n\nA single choice made this month weighs heavier than any month so far.\n\nLast year, he adjusted the plan and chose to live the ending with his eyes open.\nThis half-year is the last page of that calculation.",
-      "final_year_open": "Thirty-eight is right around the corner.\n\nExactly six months left.\n\nThe bank balance, the portfolio, the pay stubs.\n{name} looked over the numbers again.\n\nHow far is it to a Gangnam apartment?\nIs it possible within this half year?\n\nA single choice made this month weighs heavier than any month so far.\n\nLast year he closed the calculator. Said he'd only know at the end.\nNow the end is six months away.",
-      "accepted_current_path": "Thirty-eight is right around the corner.\n\nExactly six months left.\n\nThe bank balance, the portfolio, the pay stubs.\n{name} looked over the numbers again.\n\nHow far is it to a Gangnam apartment?\nIs it possible within this half year?\n\nA single choice made this month weighs heavier than any month so far.\n\nOne night, he had decided to accept the path he was on.\nAcceptance wasn't surrender — it was how you keep from wasting the last six months.",
-      "final_push_decided": "Thirty-eight is right around the corner.\n\nExactly six months left.\n\nThe bank balance, the portfolio, the pay stubs.\n{name} looked over the numbers again.\n\nHow far is it to a Gangnam apartment?\nIs it possible within this half year?\n\nA single choice made this month weighs heavier than any month so far.\n\nOne night, he had committed to a final push.\nThis half-year is that decision coming due."
+      "final_year_resolve": "Thirty-eight was six months away. Twenty-four squares remained on the calendar.\n\nA pay stub lay on the desk; the bank balance and portfolio glowed on the phone. {name} moved between the three, calculating the remaining distance to Gangnam again. The figures were familiar. His fingertips felt colder than before.\n\nA sentence from last year's reckoning returned: whatever the number, this trajectory was his. Dawn moved across the glass of the buildings outside.\n\nOne question weighed more than whether the goal was possible. Could he carry that sentence through the final six months without losing the person who had said it?",
+      "final_year_realistic": "Thirty-eight was six months away. Twenty-four squares remained on the calendar.\n\nA pay stub lay on the desk; the bank balance and portfolio glowed on the phone. {name} moved between the three, calculating the remaining distance to Gangnam again. The figures were familiar. His fingertips felt colder than before.\n\nLast year he had adjusted the plan and chosen to live the ending with his eyes open. This calculation was the last page of that decision.\n\nThe figures remained cold beneath the dawn light. Could he pass through these final six months without looking away from what they said?",
+      "final_year_open": "Thirty-eight was six months away. Twenty-four squares remained on the calendar.\n\nA pay stub lay on the desk; the bank balance and portfolio glowed on the phone. {name} moved between the three, calculating the remaining distance to Gangnam again. The figures were familiar. His fingertips felt colder than before.\n\nLast year he had closed the calculator and said he would know only at the end. The end now waited twenty-four squares away.\n\nDawn moved across the glass of the buildings outside. The final six months approached at the same speed even for someone who had postponed the answer.",
+      "accepted_current_path": "Thirty-eight was six months away. Twenty-four squares remained on the calendar.\n\nA pay stub lay on the desk; the bank balance and portfolio glowed on the phone. {name} moved between the three, calculating the remaining distance to Gangnam again. The figures were familiar. His fingertips felt colder than before.\n\nOne night, he had chosen to accept the path he was on. Acceptance was not surrender. It was how he kept from living the time that remained as somebody else's failure.\n\nOne question now weighed more than whether Gangnam was possible: could he keep that choice his own for six more months?",
+      "final_push_decided": "Thirty-eight was six months away. Twenty-four squares remained on the calendar.\n\nA pay stub lay on the desk; the bank balance and portfolio glowed on the phone. {name} moved between the three, calculating the remaining distance to Gangnam again. The figures were familiar. His fingertips felt colder than before.\n\nOne night, he had committed to a final push. Back then it was a sentence. Now it had become twenty-four actual weeks.\n\nDawn moved across the glass of the buildings outside. The spreadsheet still had no cell for the person who would remain when that commitment came due."
     }
   }
 ]
