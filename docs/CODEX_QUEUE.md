@@ -30,6 +30,41 @@
 
 ---
 
+## 🎖 운영 프로토콜 v2 (2026-07-13 유저 지시 — Claude=지휘·판정 / Codex=실행 전부)
+
+> 유저 결정: Codex 토큰은 상시 가용, Claude 토큰은 희소. **Claude는 오더 발행·diff/카피 판정·병합 정합·정본 수호만** 하고,
+> 구현·산문·QA·이미지·번역·리서치·반복 작업은 전부 Codex가 수행한다.
+
+**루프**: ①Claude가 아래 "활성 오더"에 스펙 발행 → ②Codex가 위에서부터 실행, 완료 시 `[x]`+보고 단락+WORK_LOG 기록+main 커밋 → ③Claude가 다음 세션에서 diff 감사·카피 스팟체크로 판정(불합격=REWORK 오더) → ④상태 블록 갱신.
+**Codex 사전 승인 대기 항목**(오더 없이 착수 금지): 정본 규칙 변경 / finish_run·엔딩 라우팅 / 밸런스 밴드 밖 수치 / 오더에 없는 신규 시스템. 그 외(표면·아트·QA·기존 큐 항목)는 기존처럼 자율.
+**Tier1 정점 산문**(§8 레지스트리)은 Codex가 초안 작성까지, 커밋 후 Claude 판정·리터치를 받는다(불합격 시 리라이트).
+
+### 활성 오더 (Claude 발행 — 위에서부터)
+
+#### [ ] ORDER-01 [P0] 컴파일 게이트 복구 실행
+Claude 컨테이너가 Godot 바이너리를 잃어(2026-07-13) 최근 Claude 커밋들(간직한 것들 리캡·서랍 속의 진실·새벽의 사람들)이 **GDScript 컴파일 검증 없이** main에 반영됐다(정적 검증만 통과). 최신 main에서 `GODOT=<로컬 경로> ./tools/audit.sh` 풀 실행(컴파일 포함)+`--qa=ap-en` 스모크 1회. 컴파일 에러 발견 시 즉시 수리 커밋. **이후 상시**: Claude 커밋이 main에 들어올 때마다 컴파일 게이트는 Codex 몫.
+
+#### [ ] ORDER-02 [P1] Tier2 산문 패스 M — 미드게임 스파인
+`docs/ROMANCE_SYSTEM.md` §8(6요소 루브릭)·§8-A(Tier2 바닥선: 감각 근거 1+/내면 1+/여운 1줄, 요약 금지, 200~300자대) 선독. **산문만 수정**(id/flags/effects/cast_effects/conditions/dik 키 불변), KR+EN 동시.
+대상: `story_events.json` 14종(story_prologue_dad·six_months·rainy_night·compare_friend·first_paycheck_feel·late_night_grind·weekend_choice·gosiwon_neighbor·payday_morning·hometown_nostalgia·first_savings_milestone·three_year·four_year·age_39_final) + `arc_midgame.json` 서사 하중 상위 15종(goshiwon_goodbye·money_loneliness·goal_vertigo·father_medication·quit_job·first_real_win·career_ceiling·social_comparison·daeun_trace·invest_first_loss·year_three_crossroads·endgame_sixmonths·35_alone·37_reckoning·37_burn_or_light). 결 레퍼런스=arc_hyunsu(패스 H 완료본)·arc_father_passing. 검증: audit ✅+en_coverage clean.
+
+#### [ ] ORDER-03 [P1] Tier2 산문 패스 D — 로맨스 주변 아크
+같은 규율. 대상: `arc_daeun_extension.json` 4종 + `arc_year3_drama.json` 지연 부산 라인 7종(원거리 정합 주의 — 그녀는 부산에 있다) + `arc_specialization.json` 3종 + `arc_romance_y5.json` arc_daeun_y5_feelings + `arc_daeun.json` arc_daeun_02b_dream + `arc_events.json` 잔여 얇은 씬(arc_opp_* 4종·money_check 3종·ch1 테마 5종·gosiwon_wall). 호칭 정본 필수(다은 존댓말/지연 반말은 연애 확정 후만).
+
+#### [ ] ORDER-04 [P1] 회상 갤러리 (7-I 풀스택)
+`docs/ROMANCE_SYSTEM.md` 7-I 정본. 데이터 계층: MetaProgression에 `seen_scenes`/`unlocked_cgs`(영구 저장, 씬 id·CG id 해금 기록 — StoryMode 재생 시·CG 노출 시 기록 훅). UI: 메인 메뉴 "기록" 갤러리 — ①CG 갤러리(미해금 실루엣) ②명장면 회상(특별 스토리·계절·첫 키스·첫날밤 재생 — pending_story_queue 재사용, 재생 중 효과/플래그 적용 금지=열람 전용 가드 필수) ③히든 업적(해금 후에만 표시 — four_seasons·kept_evidence·drawer_truth·dawn_people는 해금 전 이름도 숨김). 검증: audit+갤러리 ScreenshotQA 스코프 추가.
+
+#### [ ] ORDER-05 [P1] 업적 전수 감사 (15종)
+15종 각각 해금 경로 실증(코드 추적+가능하면 헤드리스 시뮬): 트리거 조건→unlock_achievement 도달 여부, 도감 카운트/엔딩 이름표/EN 사전 3자 정합. 특히 신규 4종(four_seasons — record_run rf 스냅샷에 last_*_date_year가 실제로 담기는지 / kept_evidence — presented_artifact_correct rf 전달 / drawer_truth·dawn_people — 직접 unlock 경로). 누락·불일치는 수리 커밋, 보고서를 WORK_LOG에.
+
+#### [ ] ORDER-06 [P2] 유물 제시·히든 QA 패스
+신기능 블랙박스: ①재혁 ghost — 사진 미보유 시 2선택지/보유 시 3번째 "(주머니 속…)" 노출+follow_up 사진 씬 ②지연 verdict 제3의 길 — 첫 문자 보유 시만, 선택 후 jiyeon_man 엔딩에 stayed_as_selves dik 발화 ③다은 이혼 담판 포스트잇 — 라우팅이 거절과 동일(이혼 아님) ④새벽의 사람들 — `_is_real_dawn()` 임시 오버라이드로 새벽 대사 4종 순환·5회 최심부·업적 ⑤서랍 속의 진실 — 조건 충족 엔딩 후 암전 컷 재생·업적 ⑥간직한 것들 — 유물 보유 런 엔딩 리캡에 목록 노출. 각각 캡처 or 로그 증적, 발견 버그 수리 커밋.
+
+#### [ ] ORDER-07 [P2] 이사 "두고 간다" 비트
+주거 사다리 상승 전환(HOUSING_DATA 상승 이동 처리 지점)에 1회성 비트: 보유 유물이 1개 이상이면 "짐을 싸다가, 그것이 나왔다" 스토리 이벤트 — 선택: 가져간다(변화 없음) / 두고 간다(유물 1개 제거 — 제거 유물의 유물 씬·dik·제시가 이후 침묵, mental+2 tint-2 "가벼워진 짐"). 유물 다수면 가장 오래된 것 하나를 지목. 신규 이벤트 KR+EN, 플래그 독자 확보, 아크 규약 준수. **이건 '간직함을 선택으로 만드는' 설계라 라우팅 영향 0이어야 함.**
+
+---
+
 ## P0-IP. 기억되는 게임 얼굴 — 플래그십 캐스트 + 타이틀 키아트 + 시작 화면
 
 **진행 상태 (2026-07-10 Codex): 완료.** 시작 화면은 민준·다은·지연의 신원 잠금 단일 1920x1080 유리/반사 키아트, 공용 KO/EN 건축형 워드마크, 단일 세로 명령 레일, 최신 기록 Continue, 별도 Load overlay로 교체했다. 같은 마스터에서 Steam 캡슐 3종을 결정론적으로 파생하고 `keyart_asset_check.py`로 런타임 소유권을 잠갔다.
