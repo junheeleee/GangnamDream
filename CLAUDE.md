@@ -13,10 +13,10 @@
 | **상품 정의** | "강남 가는 게임"이 아니라 **"영혼이 색으로 무너지는 걸 지켜보는 게임"** — MORAL_TINT + description_if_known(재독) + 잃을 수 있는 결혼. 마케팅·데모·트레일러 전부 이 하나로 정렬. |
 | **최종 품질 게이트** | 전 영역 기준점·P0~P3·메타90/100만장 검증 조건은 `docs/MASTER_RELEASE_AUDIT.md`. 콘텐츠 수량이 아니라 블랙박스 플레이·한영 패리티·패드 과업·외부 기억/전환 증거로 판정. |
 | **이번 스프린트 (5레버)** | ①**루프 압축(몽타주)** ✅완료 ②**데모 훅** ✅완료(콜드오픈+SNS dik 양변주) ③**클립 가능성** ✅완료(시간의 기록 비주얼 카드+데모판) ④**EN 일관성** ✅완료 ⑤**오디오 정체성** ✅완료(moral band BGM 질감 전이+선택적 3변주 슬롯) |
-| **최근 완료** | **2026-07-13 (Codex)** — `ORDER-12` 다국어 인프라. 기존 2인자 UI 호출을 유지한 ja/zh UI 사전, KR→EN→대상 언어 콘텐츠/엔딩/카탈로그 오버레이, 영어 안전 폴백, 원화 로케일 표기, 빈 스켈레톤, 일반 커버리지·한글 누수·런타임·CJK 줄바꿈 게이트를 완성했다. Pretendard의 중국어 핵심 글리프 부족을 실사해 Noto Sans CJK 번들 전까지 ja/zh는 비출시 준비 언어로 잠갔다. |
+| **최근 완료** | **2026-07-13 (Codex)** — `ORDER-13` 마감 게이트. 240주 3,000런에서 창업 4.8%·재개발 3.9%의 30억 경로를 실증하고 기존 베팅 14.8%·생존/직장 밴드를 유지했다. 35엔딩 제목/본문/CG/실라우팅 감사표와 자동 게이트, 죽은 일반 상점 제거, 한영 최초 투자 용어·위험 카드를 완료했다. 라우팅 사실 충돌과 범용 무드 카드 12종은 승인 대기로 문서화했다. |
 | **이전 주요** | **2026-07-13** — `gambling_recovery`를 1+3+1주 예약 체인과 정본 고시원 달력 CG로 완성, 지연 엔딩 거울을 반사 전용 구도로 교체, `late_call` P1 CG, KTX 실내/지방역 분리. **2026-07-12** — T2 결별 CG 2종, P0 최종 삶 엔딩 CG 8종, T1 프로포즈·결혼 비주얼, 정류장·설날·붕어빵, 카페/현수 정본, AP 인월드 스틸, 상철 개인실, Year 2-4 겨울, MORAL_TINT 주간 지각 완료. 전체 이력 → `docs/WORK_LOG.md` |
-| **다음 작업** | **(Codex)** `ORDER-13` 마감 게이트. 30억 도달을 베팅 외 창업 엑싯·부동산 사다리에서도 실증하고, 35종 엔딩 구분성 표와 표면 잔재를 감사한다. P1 결산 CG는 활성 오더 뒤 `orthodox_pinnacle` → `burnout`을 재개한다. |
-| **마지막 업데이트** | 2026-07-13 (Codex: ORDER-12 ja/zh 준비 로더·빈 스켈레톤·영어 안전 폴백·원화 규칙·일반 감사·CJK QA, 번역/노출은 동결 후) |
+| **다음 작업** | **(Codex)** `ORDER-14` 이미지 품질 게이트. 활성 CG 50장+초상+배경의 손·눈·인물 동일성·배경 논리·뭉개진 글자·그레이딩을 전수 판정하고, 키 비주얼 10컷을 2배 엄격하게 수리한다. |
+| **마지막 업데이트** | 2026-07-13 (Codex: ORDER-13 3경로 30억 실증·35엔딩 구분성 감사·죽은 상점 제거·첫 투자 안내·전체 audit 통과) |
 
 **세션 시작 시 위 "다음 작업"부터. 유저가 다른 지시를 하면 그쪽 우선.**
 
@@ -134,7 +134,7 @@ GangnamDream/
 ├── content/
 │   ├── events/                # KR 이벤트 70+ 파일 (life/investment/relationship/hidden/arc_*/callback_*)
 │   ├── events_en/             # EN 오버레이 (id 병합, text-only)
-│   ├── endings.json (+_en)    # 34 엔딩 + dik 변주 (EN 패리티 필수)
+│   ├── endings.json (+_en)    # 35 엔딩 + dik 변주 (EN 패리티 필수)
 │   ├── assets.json / jobs.json / items.json / news_templates.json
 │   └── meta/cast_stages.json  # 인물 stage 상태기계 정본
 ├── systems/                   # Investment / Job / Relationship / Inventory / Ending
@@ -163,4 +163,4 @@ GangnamDream/
 ### 엔딩 라우팅 요점 (GameState.finish_run 캐스케이드 — 순서가 정본)
 - 30억 분기: `daeun_divorced`→lonely_rich → `daeun_married`→gangnam_dream → `jiyeon_romance_started`(not jiyeon_left)→gangnam_dream → **그 다음** crossed_line→jaehyuk_way (배우자 실이 crossed_line보다 먼저)
 - age>=38 분기: daeun_divorced→lonely_rich / jiyeon_left→ordinary_life / with_daeun / jiyeon_man / …
-- 전체 34 엔딩: `content/endings.json` + `EndingSystem.gd`
+- 전체 35 엔딩: `content/endings.json` + `EndingSystem.gd`

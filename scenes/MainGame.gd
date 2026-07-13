@@ -30,7 +30,6 @@ var modal_body: VBoxContainer
 var modal_title_label: Label
 var modal_pad_hint_label: Label
 var next_button: Button
-var shop_button: Button
 var _modal_cancelable: bool = false
 var _modal_kind: String = ""
 var _invest_pad_asset_idx: int = 0
@@ -1385,13 +1384,6 @@ func _build_top_bar(parent):
 	next_button.size_flags_horizontal = Control.SIZE_SHRINK_END
 	next_button.pressed.connect(_on_next_month)
 	row.add_child(next_button)
-
-	shop_button = _small_button(_tr("상점", "Shop"), "#173329")
-	shop_button.custom_minimum_size = Vector2(56, 40)
-	shop_button.add_theme_font_size_override("font_size", 14)
-	shop_button.size_flags_horizontal = Control.SIZE_SHRINK_END
-	shop_button.pressed.connect(_open_shop)
-	# 상점 버튼 비활성화 — 아이템 시스템은 서사 유물 방향으로 전환 예정 (DECISIONS.md 2026-06-24)
 
 	var title_btn2 = _small_button(_tr("칭호", "Title"), "#1a2a1a")
 	title_btn2.custom_minimum_size = Vector2(56, 40)
@@ -3623,9 +3615,9 @@ func _run_month_end_transition() -> void:
 	GameState.advance_calendar()
 	_refresh_all()
 	if not had_paycheck_before and GameState.flags.get("has_received_paycheck", false):
-		var paycheck_toast := _tr("첫 월급 수령! 돈 관리·상점이 열렸습니다", "First paycheck received! Money options and the shop are now open")
+		var paycheck_toast := _tr("첫 월급 수령! 현금 흐름이 시작됩니다", "First paycheck received! Your cash flow has begun")
 		if GameState.flags.get("arc_invest_guidance_seen", false):
-			paycheck_toast = _tr("첫 월급 수령! 투자·상점이 열렸습니다", "First paycheck received! Investing and the shop are now open")
+			paycheck_toast = _tr("첫 월급 수령! 투자 거래 조건을 갖췄습니다", "First paycheck received! You can now access trading")
 		_show_toast(paycheck_toast, Color("#00c896"))
 	if GameState.is_game_over:
 		return
@@ -5176,9 +5168,6 @@ func _render_ap_actions():
 		_add_ap_controller_hint_strip(disabled)
 	_apply_ap_focus_routes(disabled)
 
-	# ── 상점 버튼 비활성화 (서사 유물로 전환 예정) ─────────────
-	if shop_button:
-		shop_button.disabled = true
 	_apply_moral_ui_palette()
 
 func _ap_recent_action_line() -> String:
@@ -6279,7 +6268,7 @@ func _add_ap_section_header(title: String, subtitle: String, first_month_horizon
 	life_btn.set_meta("moral_accent", "#9a8a5a")
 	life_btn.custom_minimum_size = Vector2(84, 30)
 	life_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
-	life_btn.tooltip_text = _tr("이사·상점. 시간 소모 없음", "Move and shop. No time cost")
+	life_btn.tooltip_text = _tr("이사·선물 진열대. 시간 소모 없음", "Housing and gift shelf. No time cost")
 	life_btn.pressed.connect(_open_cat_life)
 	row.add_child(life_btn)
 
@@ -7669,9 +7658,9 @@ func _render_action_cards(disabled: bool, no_job: bool, has_paycheck: bool, job_
 		"🤝", _tr("사람 · 관계", "People · Relations"), _tr("내 사람 챙기기·인맥·휴식", "Care for people · network · rest"),
 		"#8a5a9a", disabled, "_open_cat_people", false, "", false)
 
-	# [생활] — AP 불필요 (이사/상점)
+	# [생활] — AP 불필요 (이사/선물 진열대)
 	var can_move = GameState.can_upgrade_housing()
-	var life_sub = _tr("이사 가능!", "Can move!") if can_move else _tr("주거·생활 관리", "Housing · living")
+	var life_sub = _tr("이사 가능!", "Can move!") if can_move else _tr("주거·선물 관리", "Housing · gifts")
 	_add_category_card(
 		"🏠", _tr("생활", "Living"), life_sub,
 		"#9a8a5a", false, "_open_cat_life", false, "", can_move)
@@ -7774,9 +7763,9 @@ func _cat_modal_button(label: String, accent: String, fn: String, arg = null):
 	)
 	modal_body.add_child(btn)
 
-func _cat_modal_status_card(title: String, subtitle: String, accent: String, icon_id: String, badge: String) -> void:
+func _cat_modal_status_card(title: String, subtitle: String, accent: String, icon_id: String, badge: String, min_height: float = 82.0) -> void:
 	var card := _make_essential_action_card(title, subtitle, icon_id, accent, true, true, badge, "", _action_thumb_texture("", icon_id))
-	card.custom_minimum_size = Vector2(0, 82)
+	card.custom_minimum_size = Vector2(0, min_height)
 	modal_body.add_child(card)
 
 func _split_action_label(label: String) -> Dictionary:
@@ -7810,8 +7799,6 @@ func _cat_modal_icon(fn: String) -> String:
 			return "rest"
 		"_ap_move_housing":
 			return "life"
-		"_open_shop":
-			return "shop"
 		_:
 			return "ap"
 
@@ -8337,7 +8324,7 @@ func _open_cat_life():
 			"#7a8496",
 			"life",
 			_tr("대기", "Need"))
-	# 상점 항목 제거 — 서사 유물로 전환 예정
+	# 일반 소모품 상점은 제거하고, 관계 서사에 쓰이는 선물 진열대만 유지한다.
 	_build_gift_shelf()
 
 ## 선물 상점 — 생활 카테고리 하단. 가격이 아니라 알아봄이 답이다(반응 테이블은 코드 숨김).
@@ -11395,16 +11382,10 @@ func _render_investment_assets_page() -> void:
 		page_no,
 		_tr("↑↓ 자산 · ←→ 매수/매도 · LB/RB 페이지", "↑↓ asset · ←→ buy/sell · LB/RB page"),
 		"#5b9cf6"))
-	if not GameState.flags.get("investment_first_visited", false):
-		GameState.flags["investment_first_visited"] = true
+	if GameState.investment_skill < 25:
 		_invest_page_body.add_child(_wrap_label(
-			_tr("첫 투자: 낮은 리스크 자산에 10~20만원씩 작게 들어가고, 레버리지는 익숙해진 뒤에 쓰세요.",
-			"First trade: start small, KRW 100k-200k in low-risk assets. Save leverage for later."),
-			12, "#a7b0c2"))
-	elif GameState.investment_skill < 25:
-		_invest_page_body.add_child(_wrap_label(
-			_tr("입문 팁: 투자감각이 낮으면 수수료가 높습니다. 낮은 리스크 자산부터 작게 시작하세요.",
-			"Beginner tip: low Investing means higher fees. Start small with lower-risk assets."),
+			_tr("투자감각이 낮으면 거래 수수료가 높습니다. 주문 전 위험 등급과 수수료를 확인하세요.",
+			"Low Investing means higher trading fees. Check the risk rating and fee before an order."),
 			12, "#f0b429"))
 	var visible_count := mini(2, rows.size())
 	var start_idx := clampi(_invest_pad_asset_idx - 1, 0, maxi(0, rows.size() - visible_count))
@@ -11663,6 +11644,9 @@ func _build_investment_loan_card(product: String) -> Control:
 	return panel
 
 func _open_investments():
+	if not GameState.flags.get("investment_first_visited", false):
+		_open_first_investment_guide()
+		return
 	_open_modal(_tr("투자 / 매수·매도", "Invest / Buy·Sell"), true, "investments")
 	_invest_page_idx = clampi(_invest_page_idx, 0, _invest_pages().size() - 1)
 	_invest_pad_asset_cards.clear()
@@ -11701,6 +11685,44 @@ func _open_investments():
 	_invest_page_body.add_theme_constant_override("separation", 8)
 	modal_body.add_child(_invest_page_body)
 	_render_investment_page()
+
+func _open_first_investment_guide() -> void:
+	# 첫 진입은 미래를 맞히는 법이 아니라, 화면의 언어와 손실 구조만 설명한다.
+	GameState.flags["investment_first_visited"] = true
+	_open_modal(_tr("투자 화면 읽는 법", "How to Read the Investment Desk"), true, "investment_guide")
+	if modal_scroll:
+		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
+		modal_scroll.custom_minimum_size = Vector2(0, 468)
+	modal_body.add_theme_constant_override("separation", 8)
+	modal_body.add_child(_modal_section_header(
+		_tr("거래 전에 알아둘 것", "Before Your First Trade"),
+		"invest",
+		"#34d399",
+		_tr("조회는 무료입니다. 매수·매도 주문을 확정할 때만 행동력 1을 씁니다.",
+		"Browsing is free. Confirming a buy or sell order costs 1 AP.")))
+	_cat_modal_status_card(
+		_tr("현재가", "Current Price"),
+		_tr("자산 1단위가 지금 거래되는 가격입니다. 보유 수량과는 별개입니다.",
+		"The current transaction price for one unit, separate from how many units you hold."),
+		"#5b9cf6", "market", _tr("용어", "TERM"), 64.0)
+	_cat_modal_status_card(
+		_tr("위험 등급 1-5", "Risk Rating 1-5"),
+		_tr("가격 변동폭의 상대 등급입니다. 손실 확률이나 수익을 보장하지 않습니다.",
+		"A relative volatility rating. It does not predict losses or guarantee returns."),
+		"#f0b429", "invest", _tr("변동", "RISK"), 64.0)
+	_cat_modal_status_card(
+		_tr("거래 수수료", "Trading Fee"),
+		_tr("매수 금액과 매도 대금에서 차감됩니다. 투자감각이 낮을수록 더 높습니다.",
+		"Deducted from buys and sales. Lower Investing means a higher fee."),
+		"#a7b0c2", "money", _tr("비용", "COST"), 64.0)
+	_cat_modal_status_card(
+		_tr("레버리지", "Leverage"),
+		_tr("수익·손실 모두 2배입니다. 가치가 원금의 35% 아래면 강제 청산됩니다.",
+		"Gains and losses are 2x. Forced liquidation below 35% of principal."),
+		"#ef7070", "leverage", _tr("주의", "WARN"), 64.0)
+	var open_btn := _icon_button(_tr("투자 데스크 열기", "Open Investment Desk"), "invest", "#183a2b")
+	open_btn.pressed.connect(_open_investments)
+	modal_body.add_child(open_btn)
 
 func _handle_investment_modal_input(event: InputEvent) -> bool:
 	if event is InputEventKey and (event as InputEventKey).echo:
@@ -11960,83 +11982,6 @@ func _build_investment_asset_card(row: Dictionary) -> Control:
 
 	return panel
 
-func _open_shop():
-	_open_modal(_tr("상점", "Shop"), true)
-	modal_body.add_child(_modal_section_header(
-		_tr("생활 / 자기관리 아이템", "Life / Self-Care Items"),
-		"shop",
-		"#34d399",
-		_tr("구매한 아이템은 인벤토리에 보관되며 일부는 사용 시 행동력을 소비합니다.", "Purchased items go to your inventory; some cost AP to use.")))
-	for item in inventory_system.get_shop_items():
-		modal_body.add_child(_build_shop_item_card(item))
-
-func _build_shop_item_card(item: Dictionary) -> Control:
-	var price: float = float(item.get("price", 0.0))
-	var can_buy: bool = GameState.money >= price
-	var accent: Color = _moral_gray_accent(Color("#34d399" if can_buy else "#64748b"), _moral_ui_palette(), 0.04)
-
-	var panel := PanelContainer.new()
-	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var st := StyleBoxFlat.new()
-	st.bg_color = Color("#0b1116")
-	st.border_color = accent
-	st.set_border_width_all(1)
-	st.border_width_left = 4
-	st.set_corner_radius_all(7)
-	st.content_margin_left = 14
-	st.content_margin_right = 14
-	st.content_margin_top = 12
-	st.content_margin_bottom = 12
-	panel.add_theme_stylebox_override("panel", st)
-
-	var box := VBoxContainer.new()
-	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	box.add_theme_constant_override("separation", 8)
-	panel.add_child(box)
-
-	var header := HBoxContainer.new()
-	header.add_theme_constant_override("separation", 10)
-	box.add_child(header)
-
-	var item_name: String = str(item.get("name", ""))
-	var name_lbl := _label(item_name, 16, "#e8eaf0")
-	name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	if _font_bold:
-		name_lbl.add_theme_font_override("font", _font_bold)
-	header.add_child(name_lbl)
-
-	var price_lbl := _label(GameState.format_money(price), 15, "#e2e8f0" if can_buy else "#94a3b8")
-	price_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	price_lbl.custom_minimum_size = Vector2(110, 0)
-	if _font_bold:
-		price_lbl.add_theme_font_override("font", _font_bold)
-	header.add_child(price_lbl)
-
-	var effect_parts: Array = []
-	for k in item.get("effects", {}):
-		var v: int = int(item["effects"][k])
-		var sign: String = "+" if v >= 0 else ""
-		effect_parts.append("%s %s%d" % [_stat_name(k), sign, v])
-	for k in item.get("passive_effects", {}):
-		var v2: int = int(item["passive_effects"][k])
-		var sign2: String = "+" if v2 >= 0 else ""
-		effect_parts.append(_tr("매달 %s %s%d", "monthly %s %s%d") % [_stat_name(k), sign2, v2])
-	var one_time: bool = bool(item.get("one_time", true))
-	var use_type: String = _tr("사용 시 소모", "Consumed on use") if one_time else _tr("보유 지속 효과", "Passive while held")
-	if not effect_parts.is_empty():
-		box.add_child(_wrap_label("%s  [%s]" % [", ".join(effect_parts), use_type], 14, "#cbd5e1" if can_buy else "#94a3b8"))
-	if not item.get("description", "").is_empty():
-		box.add_child(_wrap_label(str(item.get("description", "")), 14, "#7f8ea3"))
-
-	var buy_btn := _small_button(_tr("구매", "Buy"), "#1c242c" if can_buy else "#334155")
-	buy_btn.custom_minimum_size = Vector2(0, UI_MIN_BUTTON_HEIGHT)
-	buy_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	buy_btn.disabled = not can_buy
-	buy_btn.pressed.connect(Callable(self, "_on_shop_item").bind(item.get("id", "")))
-	box.add_child(buy_btn)
-
-	return panel
-
 func _on_save_pressed():
 	SaveManager.save_game(1)
 	GameState.add_log(_tr("게임 저장 완료", "Game saved"), "system")
@@ -12103,12 +12048,6 @@ func _on_sell_asset(asset_id, ratio):
 	_close_modal()
 	_refresh_all()
 	_show_toast(_tr("매도 완료", "Sold"), Color("#ff4444"))
-
-func _on_shop_item(item_id):
-	inventory_system.purchase_item(item_id)
-	_close_modal()
-	_refresh_all()
-	_show_toast(_tr("아이템 구매 완료", "Item purchased"), Color("#d8b4fe"))
 
 func _on_use_item(item_id):
 	var result: Dictionary = inventory_system.use_item(item_id)

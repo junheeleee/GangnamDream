@@ -1217,11 +1217,11 @@
   {
     "id": "startup_acquisition_offer",
     "title": "Startup Acquisition Offer",
-    "description": "The startup you helped build just received an acquisition offer from a major conglomerate. They want to buy your 20% stake for 400 million won, with guaranteed employment for the whole team. Cash out now, or keep growing?",
+    "description": "The startup you helped build just received an acquisition offer from a major conglomerate. They want to buy your 20% stake for 3.2 billion won, with guaranteed employment for the whole team. That stake began with 3 million won years ago. Cash out now, or keep growing?",
     "choices": [
       {
-        "text": "Accept — exit now for 400 million won",
-        "result_text": "Your hand trembled slightly as you signed. A moment later, 400 million won appeared in your account. A startup exit. So this is what it feels like."
+        "text": "Accept — exit now for 3.2 billion won",
+        "result_text": "Your hand trembled slightly as you signed. A moment later, 3.2 billion won appeared in your account. A stake that began with 3 million won had crossed Gangnam's threshold. A startup exit. So this is what it feels like."
       },
       {
         "text": "Decline — there's still potential here",

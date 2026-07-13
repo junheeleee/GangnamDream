@@ -8,8 +8,10 @@ SimRun.gd(헤드리스 60턴 시뮬)와 동일한 정책 봇 구조를 따르되
 미모델(SimRun과 동일한 한계): 랜덤 이벤트 스탯 노이즈, 정밀 AP,
 포트폴리오 시장 가격 변동. 급여 고정, 휴식은 대표값.
 """
+import json
 import random
 from collections import Counter
+from pathlib import Path
 
 # SimRun.gd와 동일한 기회 파라미터
 OPPS = [
@@ -23,6 +25,36 @@ OPP_MEGA = {"stake_ratio": 0.65, "success_rate": 0.40, "win_multiplier": 7.0, "l
 OPP_SANGCHUL = {"stake_ratio": 0.40, "success_rate": 0.62, "win_multiplier": 1.8, "loss_ratio": 0.50}
 SALARY = 2_240_000.0
 LUCK_FACTOR = 0.0015
+
+ROOT = Path(__file__).resolve().parents[1]
+RARITY_WEIGHT = {"common": 1.0, "uncommon": 0.7, "rare": 0.28, "legendary": 0.08}
+# Representative eligible-pool weight measured from the live event catalog at
+# weeks 40/100/160/200. The snapshots ranged from 327 to 356, so 340 is used
+# as a fixed conservative denominator for deterministic route comparisons.
+ROUTE_EVENT_POOL_WEIGHT = 340.0
+
+
+def _load_route_events():
+    wanted = {
+        "startup_opportunity",
+        "startup_acquisition_offer",
+        "sangchul_tip_redev",
+        "inv_redev_zone_tip",
+        "inv_redev_completion_sale",
+    }
+    found = {}
+    for path in (ROOT / "content" / "events").glob("*.json"):
+        for event in json.loads(path.read_text(encoding="utf-8")):
+            event_id = str(event.get("id", ""))
+            if event_id in wanted:
+                found[event_id] = event
+    missing = wanted - set(found)
+    if missing:
+        raise RuntimeError("route simulation events missing: %s" % sorted(missing))
+    return found
+
+
+ROUTE_EVENTS = _load_route_events()
 
 
 # 난이도 (GameState.DIFFICULTY_DATA 포트, 2026-06-11)
@@ -65,11 +97,14 @@ class Run:
         if random.random() < rate:
             self.money += stake + stake * opp["win_multiplier"]
             self.stress -= 3
+            won = True
         else:
             self.money += stake * (1.0 - opp["loss_ratio"])
             self.stress += 12
             self.mental -= 6
+            won = False
         self.clamp()
+        return won
 
     def loan_total(self):
         return sum(self.loans.values())
@@ -258,6 +293,168 @@ def run_policy(name, mode, runs=3000, cast_passives=False, sangchul_tips=False, 
     return {"win_rate": reached30 / runs, "fail_rate": fail / runs, "median": med}
 
 
+def _event_weight(event_id, focused=False, trusted_sangchul=False):
+    event = ROUTE_EVENTS[event_id]
+    weight = float(event.get("weight", 1.0)) * RARITY_WEIGHT.get(event.get("rarity", "common"), 1.0)
+    if focused:
+        weight *= 1.25  # EventManager month_focus tag boost
+    if trusted_sangchul and (
+        event.get("category", "") == "investment" or "investment" in event.get("tags", [])
+    ):
+        weight *= 1.25  # EventManager max Sangchul-affinity curation boost
+    return weight
+
+
+def _draw_route_event(rng, event_ids, focused=False, trusted_sangchul=False):
+    roll = rng.random() * ROUTE_EVENT_POOL_WEIGHT
+    cursor = 0.0
+    for event_id in event_ids:
+        cursor += _event_weight(event_id, focused, trusted_sangchul)
+        if roll <= cursor:
+            return event_id
+    return ""
+
+
+def _event_choice(event_id, choice_index=0):
+    choices = ROUTE_EVENTS[event_id].get("choices", [])
+    if choice_index < 0 or choice_index >= len(choices):
+        raise RuntimeError("route simulation choice missing: %s[%d]" % (event_id, choice_index))
+    return choices[choice_index]
+
+
+def _apply_fixed_money_choice(state, event_id, choice_index=0):
+    choice = _event_choice(event_id, choice_index)
+    state.money += float(choice.get("effects", {}).get("money", 0.0))
+    return choice
+
+
+def run_route_policy(name, route, runs=3000, diff="현실"):
+    """Run a route-focused 240-week policy against live event parameters.
+
+    Like the baseline simulator, generic event stat noise and portfolio ticks are
+    intentionally omitted. Unlike the old 64-month policy loop, route exposure
+    uses the real weekly cadence, one weighted situation draw per week, the live
+    rarity/weight values, and monthly salary/rent every four weeks.
+    """
+    if route not in ("startup", "property"):
+        raise ValueError("unknown route: %s" % route)
+    endings = Counter()
+    assets = []
+    reached30 = 0
+    route_steps = Counter()
+
+    startup_join = ROUTE_EVENTS["startup_opportunity"]
+    startup_exit = ROUTE_EVENTS["startup_acquisition_offer"]
+    redev = ROUTE_EVENTS["inv_redev_zone_tip"]
+    redev_min = float(redev.get("conditions", {}).get("min_money", 0.0))
+    redev_min_week = int(redev.get("conditions", {}).get("min_turn", 0))
+    completion_min_week = int(
+        ROUTE_EVENTS["inv_redev_completion_sale"].get("conditions", {}).get("min_turn", 0)
+    )
+
+    for run_index in range(runs):
+        seed_salt = 31 if route == "startup" else 47
+        rng = random.Random(run_index * 982_451_653 + seed_salt)
+        random.seed(run_index * 982_451_653 + seed_salt)
+        state = Run(diff)
+        state.income = SALARY
+        founded = False
+        acquisition_seen = False
+        redev_seen = False
+        redev_approved = False
+        completion_seen = False
+        tip_lock_until = 0
+
+        for week in range(1, 241):
+            if state.over:
+                break
+
+            if route == "startup":
+                eligible = []
+                # A focused founder policy reaches the live skill/reputation gates
+                # through weekly study/networking by the end of the first quarter.
+                if not founded and week >= 36 and state.money >= float(startup_join["conditions"]["min_money"]):
+                    eligible.append("startup_opportunity")
+                elif founded and not acquisition_seen and week >= int(startup_exit["conditions"]["min_turn"]):
+                    eligible.append("startup_acquisition_offer")
+                drawn = _draw_route_event(rng, eligible)
+                if drawn == "startup_opportunity":
+                    choice = _apply_fixed_money_choice(state, drawn)
+                    founded = True
+                    route_steps["startup_founded"] += 1
+                    for flag in choice.get("flags", []):
+                        if flag == "startup_founded":
+                            founded = True
+                elif drawn == "startup_acquisition_offer":
+                    _apply_fixed_money_choice(state, drawn)
+                    acquisition_seen = True
+                    route_steps["startup_exit"] += 1
+
+            else:
+                eligible = []
+                trusted = week >= 40
+                if redev_approved and not completion_seen and week >= completion_min_week:
+                    eligible.append("inv_redev_completion_sale")
+                if not redev_seen and week >= redev_min_week and state.money >= redev_min:
+                    eligible.append("inv_redev_zone_tip")
+                if trusted and state.money >= 10_000_000.0 and week >= tip_lock_until:
+                    eligible.append("sangchul_tip_redev")
+                drawn = _draw_route_event(rng, eligible, focused=True, trusted_sangchul=trusted)
+                if drawn == "sangchul_tip_redev":
+                    opp = dict(_event_choice(drawn)["opportunity"])
+                    opp["success_rate"] = float(opp["success_rate"]) + 0.15
+                    state.resolve_opportunity(opp)
+                    tip_lock_until = week + 25  # recent-event window dominates cooldown 12
+                    route_steps["property_tip"] += 1
+                elif drawn == "inv_redev_zone_tip":
+                    opp = dict(_event_choice(drawn)["opportunity"])
+                    opp["success_rate"] = float(opp["success_rate"]) + 0.15
+                    redev_approved = state.resolve_opportunity(opp)
+                    redev_seen = True
+                    route_steps["redev_attempt"] += 1
+                    if redev_approved:
+                        route_steps["redev_approved"] += 1
+                elif drawn == "inv_redev_completion_sale":
+                    _apply_fixed_money_choice(state, drawn)
+                    completion_seen = True
+                    route_steps["redev_exit"] += 1
+
+            if state.net_worth() >= 3_000_000_000.0:
+                reached30 += 1
+                endings["gangnam_dream(30억)"] += 1
+                break
+
+            if week % 4 == 0:
+                if state.mental <= 30 or state.stress >= 58:
+                    state.mental += 10
+                    state.health += 5
+                    state.stress -= 20
+                    state.clamp()
+                state.tenure += 1
+                if week == 4:
+                    state.money += 300_000.0
+                state.monthly_pressure()
+                if not state.over:
+                    state.advance()
+        if state.net_worth() < 3_000_000_000.0:
+            if not state.over:
+                state.age = 38
+                state.check_over()
+            endings[state.over or "(미종료)"] += 1
+        assets.append(state.net_worth())
+
+    assets.sort()
+    med = assets[runs // 2]
+    fail = sum(v for key, v in endings.items() if key in ("burnout", "mental_break", "bankruptcy", "debt_spiral"))
+    print("\n[%s]  %d런 / 240주" % (name, runs))
+    print(
+        "  자산 중앙값 %s | 30억 도달 %d (%.1f%%) | 실패엔딩 %.1f%%"
+        % (won(med), reached30, 100 * reached30 / runs, 100 * fail / runs)
+    )
+    print("  경로 노출: " + "  ".join("%s %.2f/런" % (k, v / runs) for k, v in route_steps.items()))
+    return {"win_rate": reached30 / runs, "fail_rate": fail / runs, "median": med, "steps": route_steps}
+
+
 def won(v):
     if abs(v) >= 100_000_000:
         return f"{v/100_000_000:.1f}억"
@@ -278,6 +475,9 @@ if __name__ == "__main__":
     run_policy("④'' 공격 베팅 + 패시브 + 상철 팁", 3, cast_passives=True, sangchul_tips=True)
     print("\n--- 대출 레버리지 (2026-06-11 신규 시스템) ---")
     run_policy("③ᴸ 가끔 베팅 + 대출 풀레버리지", 2, use_loans=True)
+    print("\n--- 240주 경로 다양화 (실제 이벤트 가중치, 2026-07-13) ---")
+    run_route_policy("⑤ 창업 공동창업→엑싯", "startup")
+    run_route_policy("⑥ 임상철 급매→재개발 사다리", "property")
     run_policy("④ᴸ 공격 베팅 + 대출 풀레버리지", 3, use_loans=True)
     print("\n--- 난이도 모드 비교 (2026-06-11 신규) ---")
     for d in ("드라마", "현실", "지옥고"):

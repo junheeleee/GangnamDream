@@ -1904,6 +1904,7 @@ func _shot_trailer_extended_surfaces() -> void:
 	if not _mg.has_method("_open_investments"):
 		_fail("Trailer investment surface is unavailable.")
 		return
+	GameState.flags["investment_first_visited"] = true
 	_mg.call("_open_investments")
 	await _settle(0.65)
 	await _save("trailer_19_investment")
@@ -2691,6 +2692,7 @@ func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> 
 	GameState.action_points = GameState.max_action_points
 	await _shot_action_category_modal("_ap_study", prefix + "04h_study_modal")
 	if _mg.has_method("_open_investments"):
+		GameState.flags["investment_first_visited"] = true
 		_mg.call("_open_investments")
 		await _settle(0.7)
 		await _save(prefix + "04a_investment_modal")
@@ -2932,8 +2934,12 @@ func _shot_invest_surfaces(lang: String = "en", prefix: String = "invest_en_") -
 	if _mg.has_method("_render_ap_actions"):
 		_mg._render_ap_actions()
 	if _mg.has_method("_open_investments"):
+		GameState.flags.erase("investment_first_visited")
 		_mg.call("_open_investments")
 		await _settle(0.7)
+		await _save(prefix + "00_first_guide")
+		_mg.call("_open_investments")
+		await _settle(0.45)
 		await _save(prefix + "00_trade_page")
 		if _mg.has_method("_set_invest_page"):
 			for page_info in [[1, "01_holdings_page"], [2, "02_market_page"], [3, "03_bank_page"]]:
@@ -3562,8 +3568,12 @@ func _shot_event_gambling() -> void:
 
 func _shot_investment() -> void:
 	if _mg.has_method("_open_investments"):
+		GameState.flags.erase("investment_first_visited")
 		_mg._open_investments()
 		await _settle(0.8)
+		await _save("02_investment_first_guide")
+		_mg._open_investments()
+		await _settle(0.45)
 		await _save("02_investment_trade_page")
 		if _mg.has_method("_set_invest_page"):
 			for page_info in [[1, "02a_investment_holdings_page"], [2, "02b_investment_market_page"], [3, "02c_investment_bank_page"]]:
@@ -3578,12 +3588,6 @@ func _shot_support_modals() -> void:
 		_mg._open_bank()
 		await _settle(0.7)
 		await _save("02a_bank_modal")
-		_close_modal()
-		await _settle(0.3)
-	if _mg.has_method("_open_shop"):
-		_mg._open_shop()
-		await _settle(0.7)
-		await _save("02b_shop_modal")
 		_close_modal()
 		await _settle(0.3)
 	if _mg.has_method("_open_system_menu"):

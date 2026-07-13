@@ -1,0 +1,157 @@
+#!/usr/bin/env python3
+"""Validate the 35-ending player-facing distinctness audit.
+
+The JSON `condition` field is old authoring metadata in several rows. ROUTES is
+therefore a compact mirror of the authoritative branch order in
+GameState.check_game_over(), written for human review rather than execution.
+"""
+
+from __future__ import annotations
+
+import json
+import re
+import sys
+from difflib import SequenceMatcher
+from itertools import combinations
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[1]
+ENDINGS_PATH = ROOT / "content" / "endings.json"
+ENDINGS_EN_PATH = ROOT / "content" / "endings_en.json"
+AUDIT_PATH = ROOT / "docs" / "ENDING_AUDIT.md"
+
+ROUTES = {
+    "gangnam_dream": "순자산 30억+; 선행 NG+/신화/배우자 상실/Deep Black/고립/White 분기 미해당",
+    "empty_house": "순자산 30억+; 가까운 관계 없음; 아버지 미화해 또는 별세",
+    "with_daeun": "38세 종료; 다은 연애 시작; 이혼 아님; 선행 특수 엔딩 미해당",
+    "jiyeon_man": "38세 종료; 지연 연애 유지; 지연이 떠나지 않음; 순자산 30억 미만",
+    "jaehyuk_way": "순자산 30억+; fell_to_darkness 또는 crossed_line; 배우자 분기 미해당",
+    "late_call": "38세 종료; 아버지 화해; 모든 상위 결산 분기 미해당",
+    "stable_success": "38세 종료; 순자산 10억+; 정석 정점 등 상위 자산 분기 미해당",
+    "ordinary_life": "38세 종료 기본값; 또는 지연 이탈/강남 미달 이혼 변주",
+    "burnout": "건강 0 이하 즉시 종료",
+    "mental_break": "정신력 0 이하 즉시 종료",
+    "bankruptcy": "순자산 -2억 이상 -1억 미만 즉시 종료",
+    "crypto_ghost": "도박 중독 성향 90+ 즉시 종료; 파산 분기 뒤",
+    "startup_exit": "startup_exit 플래그; 순자산 30억 미만; 선행 특수 성공 미해당",
+    "political_fix": "political_winner 플래그; 창업/크리에이터 성공 미해당",
+    "lonely_rich": "순자산 30억+ 이혼; 또는 가까운 관계 없이 아버지만 화해·생존",
+    "investment_master": "38세 종료; 순자산 5억+; 투자감각 55+; 상위 결산 미해당",
+    "reputation_legend": "38세 종료; 평판 80+; 회복/상철 청산 등 선행 분기 미해당",
+    "healthy_retirement": "38세 종료; 건강·정신 70+; 가까운 관계 있음; 상위 결산 미해당",
+    "debt_spiral": "순자산 -2억 미만 즉시 종료",
+    "orthodox_pinnacle": "38세 종료; 순자산 10억+; 정석-비정석 15+",
+    "orthodox_hollow": "38세 종료; 정석 20+; 순자산 3억 미만; 상위 결산 미해당",
+    "balanced_life": "38세 종료; 순자산 1억+; 양 루트 8+; 격차 5 이하",
+    "unorthodox_legend": "38세 종료; 순자산 5억+; 비정석-정석 15+",
+    "early_retirement": "38세 종료; 순자산 5억+; 현재 무직; 상위 결산 미해당",
+    "creator_success": "creator_viral 플래그; 순자산 3억+; 30억 미만",
+    "instant_legend": "33세 안에 순자산 30억+",
+    "full_circle": "NG+ 상철 진실 기억; 30억+; 아버지 화해·생존; 빚 청산",
+    "gangnam_dream_white": "순자산 30억+; moral stage White(+2); 배우자/고립/Deep Black 분기 미해당",
+    "second_love": "NG+ 다은 엔딩 기억; 다은 재선택·04b 완료; 순자산 10억+",
+    "guardian": "NG+ 아버지 별세 기억; 아버지 우선; 화해·생존",
+    "gambling_recovery": "38세 종료; 도박 회복 아크 완료; 연애 결산 미해당",
+    "career_climber": "38세 종료; 재직; 순자산 1억+; 이직 성공 또는 최고 티어 4+",
+    "career_burnout": "38세 종료; 재직; 번아웃 인지 또는 이직 시동; 상위 결산 미해당",
+    "sangchul_reckoning": "38세 종료; 상철 신고 또는 아버지 빚 청산; 아버지 생존",
+    "writer": "38세 종료; 사건 90+; 지력 65+; 고시원; 순자산 3억 미만; 상위 결산 미해당",
+}
+
+REVIEW_MARKER = re.compile(r"<!-- reviewed-pair: ([a-z0-9_]+)\|([a-z0-9_]+) -->")
+TABLE_ID = re.compile(r"^\| `([a-z0-9_]+)` \|", re.MULTILINE)
+
+
+def _load_rows(path: Path) -> list[dict]:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _body(row: dict) -> str:
+    return "\n".join(
+        str(row.get(key, "")) for key in ("description", "detailed_description", "epilogue")
+    ).strip()
+
+
+def _normalized(text: str) -> str:
+    text = re.sub(r"\{[^}]+\}", " ", text.lower())
+    text = re.sub(r"[^0-9a-z가-힣]+", "", text)
+    return text
+
+
+def _visual_owner(row: dict) -> str:
+    if row.get("cg"):
+        return "cg:" + str(row["cg"])
+    if row.get("background"):
+        return "background:" + str(row["background"])
+    return "mood-card:generic"
+
+
+def main() -> int:
+    errors: list[str] = []
+    rows = _load_rows(ENDINGS_PATH)
+    rows_en = _load_rows(ENDINGS_EN_PATH)
+    by_id = {str(row.get("id", "")): row for row in rows}
+    en_ids = {str(row.get("id", "")) for row in rows_en}
+
+    if len(rows) != 35 or len(by_id) != 35:
+        errors.append("expected 35 unique endings, got rows=%d ids=%d" % (len(rows), len(by_id)))
+    if set(by_id) != en_ids:
+        errors.append("KO/EN ending id mismatch")
+    if set(by_id) != set(ROUTES):
+        errors.append(
+            "route mirror mismatch missing=%s extra=%s"
+            % (sorted(set(by_id) - set(ROUTES)), sorted(set(ROUTES) - set(by_id)))
+        )
+    for ending_id, row in by_id.items():
+        if not str(row.get("title", "")).strip():
+            errors.append("%s: missing title" % ending_id)
+        if not _body(row):
+            errors.append("%s: missing ending body" % ending_id)
+
+    if not AUDIT_PATH.exists():
+        errors.append("docs/ENDING_AUDIT.md missing")
+        audit_text = ""
+    else:
+        audit_text = AUDIT_PATH.read_text(encoding="utf-8")
+        documented = set(TABLE_ID.findall(audit_text))
+        if documented != set(by_id):
+            errors.append(
+                "ending audit table mismatch missing=%s extra=%s"
+                % (sorted(set(by_id) - documented), sorted(documented - set(by_id)))
+            )
+
+    similarity_pairs = []
+    for left, right in combinations(rows, 2):
+        score = SequenceMatcher(None, _normalized(_body(left)), _normalized(_body(right))).ratio()
+        if score >= 0.68:
+            pair = tuple(sorted((str(left["id"]), str(right["id"]))))
+            similarity_pairs.append((score, pair))
+    reviewed_pairs = {tuple(sorted(match)) for match in REVIEW_MARKER.findall(audit_text)}
+    unreviewed = [pair for _score, pair in similarity_pairs if pair not in reviewed_pairs]
+    if unreviewed:
+        errors.append("high-similarity ending pairs not reviewed: %s" % unreviewed)
+
+    visual_groups: dict[str, list[str]] = {}
+    for ending_id, row in by_id.items():
+        visual_groups.setdefault(_visual_owner(row), []).append(ending_id)
+    shared_visuals = {owner: ids for owner, ids in visual_groups.items() if len(ids) > 1}
+
+    print(
+        "ENDING_DISTINCTNESS_AUDIT count=%d high_similarity=%d shared_visual_groups=%d"
+        % (len(rows), len(similarity_pairs), len(shared_visuals))
+    )
+    for score, pair in sorted(similarity_pairs, reverse=True):
+        print("  text %.3f %s | %s" % (score, pair[0], pair[1]))
+    for owner, ids in sorted(shared_visuals.items()):
+        print("  visual %s -> %s" % (owner, ", ".join(ids)))
+    if errors:
+        for error in errors:
+            print("ENDING_DISTINCTNESS_ERROR " + error)
+        return 1
+    print("ENDING_DISTINCTNESS_AUDIT_OK")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

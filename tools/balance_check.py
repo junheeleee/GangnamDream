@@ -13,9 +13,10 @@ balance_sim의 핵심 정책 3개를 줄인 런 수로 돌리고, 결과가 허�
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from balance_sim import run_policy
+from balance_sim import run_policy, run_route_policy
 
 RUNS = 1200
+ROUTE_RUNS = 3000
 failures = []
 
 
@@ -31,12 +32,16 @@ print("● 밸런스 회귀 검사 (%d런/정책, 시드 고정)" % RUNS)
 r0 = run_policy("①무직 방치", 0, runs=RUNS)
 r1 = run_policy("②성실 직장(무베팅)", 1, runs=RUNS)
 r2 = run_policy("③직장+가끔 베팅(25%)", 2, runs=RUNS)
+startup = run_route_policy("④창업 공동창업→엑싯", "startup", runs=ROUTE_RUNS)
+property_route = run_route_policy("⑤임상철 급매→재개발 사다리", "property", runs=ROUTE_RUNS)
 
 print("\n● 밴드 판정")
 band("① 무직 실패율", r0["fail_rate"], 0.95, 1.00)
 band("② 직장 실패율", r1["fail_rate"], 0.00, 0.02)
 band("③ 베팅 30억 도달률", r2["win_rate"], 0.08, 0.25)
 band("③ 베팅 실패율", r2["fail_rate"], 0.00, 0.05)
+band("④ 창업 30억 도달률", startup["win_rate"], 0.03, 0.25)
+band("⑤ 부동산 30억 도달률", property_route["win_rate"], 0.03, 0.25)
 med_ok = 50_000_000 <= r1["median"] <= 150_000_000
 print("  %s ② 직장 최종자산 중앙값 = %s  (허용 5천만~1.5억)"
       % ("✓" if med_ok else "✗", f"{r1['median']/100_000_000:.2f}억"))

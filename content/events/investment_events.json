@@ -1910,11 +1910,11 @@
     "description": "오래된 지인에게서 연락이 왔다.\n\"민준아, 이건 나만 아는 거야. 구청 담당자한테 들었는데,\n저기 빌라촌 일대가 내년에 재개발 지구 지정 확정이래.\n지금 평당 시세의 30%짜리 물건이 나왔는데, 알음알음 팔리고 있어.\"\n\n부동산 정보의 가치는 타이밍에 있다.\n재개발이 확정되면 몇 배는 뛰지만, 불발되면 그냥 허름한 빌라다.\n이 금액이면 올인이다. 판단은 네가 해.",
     "category": "investment",
     "rarity": "rare",
-    "weight": 2,
+    "weight": 8,
     "hidden": false,
     "conditions": {
       "min_turn": 112,
-      "min_money": 100000000
+      "min_money": 80000000
     },
     "tags": [
       "investment",
@@ -1936,7 +1936,8 @@
           "win_multiplier": 7.0,
           "loss_ratio": 0.7,
           "luck_factor": 0.0015,
-          "skill_gain": 6
+          "skill_gain": 6,
+          "win_flag": "redev_project_approved"
         },
         "flags": [
           "redev_bet_taken"
@@ -1955,7 +1956,8 @@
           "win_multiplier": 5.0,
           "loss_ratio": 0.55,
           "luck_factor": 0.0015,
-          "skill_gain": 3
+          "skill_gain": 3,
+          "win_flag": "redev_project_approved"
         },
         "flags": [
           "redev_bet_taken"
@@ -1972,6 +1974,56 @@
         },
         "route": "orthodox",
         "result_text": "내부 정보를 이용한 거래는 법적 위험이 있다.\n솔깃하지만 패스다.\n{name}은 전화를 끊고 창밖을 바라봤다.\n깨끗한 손이 낫다고, 그렇게 믿기로 했다."
+      }
+    ]
+  },
+  {
+    "id": "inv_redev_completion_sale",
+    "title": "재개발 준공 전 매각 제안",
+    "description": "기다리던 관리처분인가가 났다. 낡은 빌라 자리에 아파트 단지가 올라가기 전, 시행사에서 조합원 지분을 한꺼번에 사들이겠다는 제안이 왔다.\n\n매각 대금 26억원.\n\n처음 계약서에 도장을 찍던 날에는 상상하지 못한 숫자였다. 지금 팔면 긴 기다림은 여기서 끝난다. 남기면 입주권과 더 큰 가능성이 남지만, 추가 분담금과 몇 년의 시간이 더 필요하다.",
+    "category": "investment",
+    "rarity": "rare",
+    "weight": 3.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "redev_project_approved",
+      "min_turn": 160,
+      "no_flag": [
+        "redev_ladder_exit",
+        "redev_ladder_held"
+      ]
+    },
+    "tags": [
+      "investment",
+      "real_estate",
+      "opportunity"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "지분을 판다 — 26억원을 현금화한다",
+        "effects": {
+          "money": 2600000000,
+          "reputation": 12,
+          "investment_skill": 5,
+          "mental": 12
+        },
+        "flags": [
+          "redev_ladder_exit"
+        ],
+        "result_text": "매매 계약서에 서명했다. 오래된 빌라 열쇠가 26억원으로 바뀌었다. 한 번의 대박이 아니었다. 급매를 지나고, 조합 총회를 견디고, 사업이 멈출 때마다 기다린 끝에 도착한 숫자였다."
+      },
+      {
+        "text": "입주권을 지킨다 — 아직 팔 때가 아니다",
+        "effects": {
+          "investment_skill": 4,
+          "mental": -6,
+          "reputation": 3
+        },
+        "flags": [
+          "redev_ladder_held"
+        ],
+        "result_text": "제안을 거절했다. 통장에 찍힐 숫자 대신 입주권을 남겼다. 공사장 가림막 너머로 아직 없는 집을 봤다. 더 큰 수익일지, 더 긴 기다림일지는 아무도 몰랐다."
       }
     ]
   },

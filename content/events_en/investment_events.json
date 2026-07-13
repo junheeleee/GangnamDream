@@ -747,6 +747,21 @@
     ]
   },
   {
+    "id": "inv_redev_completion_sale",
+    "title": "Pre-Completion Redevelopment Buyout",
+    "description": "The redevelopment plan finally cleared its management approval. Before the apartment complex replaces the old villas, the developer offered to buy the members' stakes in one sweep.\n\nThe offer: 2.6 billion won.\n\nIt was a number you could not have imagined when you first stamped the contract. Sell now and the long wait ends here. Hold on and the occupancy right may be worth more, but more assessments and more years will follow.",
+    "choices": [
+      {
+        "text": "Sell the stake — cash out 2.6 billion won",
+        "result_text": "You signed the sale agreement. The key to an old villa became 2.6 billion won. It was not one lucky hit. It was the distress sale, the association meetings, and the months of waiting whenever the project stalled."
+      },
+      {
+        "text": "Keep the occupancy right — it is not time to sell",
+        "result_text": "You declined. Instead of a number in the bank, you kept the occupancy right. Beyond the construction fence, you looked at a home that did not exist yet. No one knew whether it meant a larger return or only a longer wait."
+      }
+    ]
+  },
+  {
     "id": "sangchul_tip_redev",
     "title": "Sangchul's Tip — A Distress Sale",
     "description": "Pushed open the real estate office door. Sangchul waved {name} over.\n\n\"Minjun, this isn't something I tell just anyone.\"\n\nStation-adjacent commercial building share, distress sale. Owner needs cash fast — listed way below market.\n\n\"In 30 years of looking, this is one I can count on my fingers. But money — nothing's certain. Know that before you go in.\"\n\nInformation only a trusted person hears. The decision is still yours to make.",
