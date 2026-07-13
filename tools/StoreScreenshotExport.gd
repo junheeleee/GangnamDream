@@ -8,56 +8,52 @@ const TARGET_SIZE := Vector2i(1280, 720)
 
 const STORE_SET := [
 	{
-		"src": "00a_story_interview.png",
-		"dst": "01_story_hook.png",
-		"ko": "5년, 50만원, 30억. 첫 장면부터 목표가 분명해야 한다.",
-		"en": "Five years, ₩500,000, ₩3 billion. The stakes are immediate."
+		"src": "store_en_01_cold_open.png",
+		"dst": "01_cold_open.png",
+		"ko": "2031년 새벽. 누가 이곳에 도착했는지는 아직 모른다.",
+		"en": "Dawn, 2031. You do not yet know who survived the climb."
 	},
 	{
-		"src": "01_event_gambling_wave.png",
-		"dst": "02_event_choice.png",
-		"ko": "선택은 짧고, 결과는 오래 따라온다.",
-		"en": "Choices are brief. Consequences linger."
+		"src": "store_en_02_money_mule_timer.png",
+		"dst": "02_money_mule_timer.png",
+		"ko": "12초. 200만원. 한 번 넘으면 돌아오기 어려운 선.",
+		"en": "Twelve seconds. Two million won. One line that is hard to uncross."
 	},
 	{
-		"src": "04_ap_actions_dashboard.png",
-		"dst": "03_life_dashboard.png",
-		"ko": "매주 무엇을 할지 고르고, 5년을 설계한다.",
-		"en": "Plan each week. Survive five years.",
-		"anchor": "top"
+		"src": "store_en_03_montage_card.png",
+		"dst": "03_montage_card.png",
+		"ko": "조용한 주는 접혀 지나가지만, 그 대가는 남는다.",
+		"en": "Quiet weeks fold forward. Their cost remains."
 	},
 	{
-		"src": "02_investment_portfolio_chart.png",
-		"dst": "04_investment_portfolio.png",
-		"ko": "월급만으로는 부족하다. 시장도 또 하나의 전장이다.",
-		"en": "A salary is not enough. The market is another battlefield.",
-		"anchor": "top"
+		"src": "store_en_04_time_ledger.png",
+		"dst": "04_time_ledger.png",
+		"ko": "돈, 건강, 인연, 간직한 것. 게임은 5년을 기록한다.",
+		"en": "Money, health, relationships, keepsakes. The game records all five years."
 	},
 	{
-		"src": "05_people_relationships.png",
-		"dst": "05_relationship_arcs.png",
-		"ko": "돈만이 결말을 정하지 않는다. 사람도 기억된다.",
-		"en": "Money is not the only ending. People are remembered too.",
-		"anchor": "top"
+		"src": "store_en_05_moral_bright.png",
+		"dst": "05_moral_bright.png",
+		"ko": "같은 장면, 아직 사람을 먼저 보는 시선.",
+		"en": "The same scene, while he can still see the person first."
 	},
 	{
-		"src": "06a_holdem_showdown.png",
-		"dst": "06_holdem_showdown.png",
-		"ko": "홀덤, 경마, 카지노. 한 번의 베팅이 런을 뒤집는다.",
-		"en": "Holdem, racing, casino. One bet can overturn a run.",
-		"anchor": "top"
+		"src": "store_en_06_moral_dark.png",
+		"dst": "06_moral_dark.png",
+		"ko": "같은 장면, 이제 숫자를 먼저 세는 시선.",
+		"en": "The same scene, after the numbers have learned to come first."
 	},
 	{
-		"src": "13_ending_gangnam_win.png",
-		"dst": "07_ending_gangnam.png",
-		"ko": "5년의 끝. 강남드림을 이뤘다.",
-		"en": "The end of five years. Gangnam Dream achieved."
+		"src": "store_en_07_season_date_cg.png",
+		"dst": "07_season_date_cg.png",
+		"ko": "사랑은 계절을 따라 자라고, 선택에 따라 사라질 수도 있다.",
+		"en": "Love grows across seasons, and your choices can still cost it."
 	},
 	{
-		"src": "14_ending_bankruptcy.png",
-		"dst": "08_ending_bankruptcy.png",
-		"ko": "파산도 엔딩이다. 그래서 다시 시작한다.",
-		"en": "Bankruptcy is an ending too. That is why you start over."
+		"src": "store_en_08_ending_recap.png",
+		"dst": "08_ending_recap.png",
+		"ko": "5년, 다섯 장면. 무엇을 기억할지도 플레이어가 고른다.",
+		"en": "Five years, five scenes. You choose what the ending remembers."
 	},
 ]
 

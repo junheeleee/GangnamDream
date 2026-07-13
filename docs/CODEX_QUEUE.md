@@ -105,7 +105,8 @@ Claude 컨테이너가 Godot 바이너리를 잃어(2026-07-13) 최근 Claude �
 3. **피드백 양식 초안**: 설문 문항(정량 5 + 정성 3), 세션 기록 시트.
 4. **사람 모집·실행은 유저 몫** — Codex는 키트까지.
 
-#### [~] ORDER-09 [P1] 스토어 페이지 3초 전달력 — 착수: 숏 설명 3축·태그 전략·실제 인게임 스크린샷 8장 큐레이션 — 만지는 파일: `docs/STEAM_PAGE.md`, `docs/STORE_PAGE.md`, `docs/STORE_SHOTLIST.md`, `assets/store/screenshots/`, `tools/store_shot_check.py`, `tools/ScreenshotQA.gd`, `tools/StoreScreenshotExport.gd`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`
+#### [x] ORDER-09 [P1] 스토어 페이지 3초 전달력 — 완료: 숏 설명 3축·태그 전략·실제 인게임 스크린샷 8장 큐레이션 — 만진 파일: `docs/STEAM_PAGE.md`, `docs/STORE_PAGE.md`, `docs/STORE_SHOTLIST.md`, `assets/store/screenshots/`, `tools/store_shot_check.py`, `tools/ScreenshotQA.gd`, `tools/StoreScreenshotExport.gd`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`
+**완료 보고 (2026-07-13 Codex):** 월 단위·27엔딩·로그라이트·영어 후출시가 섞인 옛 스토어 초안을 폐기하고 `STEAM_PAGE.md` 하나를 정본으로 통합했다. 돈의 절박함·도덕 붕괴·로맨스 상실을 각각 훅으로 한 KR/EN 숏 설명 3안, `Choices Matter / Life Sim / Visual Novel / Romance / Multiple Endings / Story Rich` 상위 태그, 35엔딩·1,400+ 사건·24주 데모·KR/EN 동시 출시의 실제 상품 계약을 고정했다. 전용 `--qa=store --lang=en` 스코프는 콜드오픈, 대포통장 12초 타이머, 3주 몽타주, 시간 원장, 같은 다은 카페의 밝음/어둠 쌍, 벚꽃 데이트 CG, 5년 다섯 장면 리캡을 실제 인게임 상태로 재현한다. 중앙 16:9 크롭 8장을 `assets/store/screenshots/`에 고정했고 `.gdignore`로 빌드 패키지에서는 제외했다. `STORE_SHOT_CHECK_OK count=8 size=1280x720 unique=8`, 전체 audit ERROR 0/WARNING 0·EN 누출 0·밸런스 3정책·오디오 64개·Godot 57스크립트 컴파일이 통과했다.
 1. `docs/STEAM_PAGE.md` 현행화(신기능 반영: 유물 제시·히든·계절 데이트·회상 갤러리 예정).
 2. **숏 설명 3안**(KR/EN 각): 3초 테스트 기준 — 첫 문장+캡슐만으로 "한국 사회 리얼리즘 인생 시뮬 + 색으로 무너지는 영혼 + 잃을 수 있는 결혼"이 전달되는가. 서로 다른 훅(①돈의 절박함 ②도덕 붕괴 ③로맨스 상실)으로 차별화해 유저가 고르게.
 3. **스크린샷 8장 큐레이션**: 기존 ScreenshotQA 산출물에서 후보 추출(콜드오픈·대포통장 타이머·몽타주 카드·시간의 기록·tint 밝/어둠 대비 한 쌍·CG 1·엔딩 리캡·데이트) — 각 장이 "다른 시스템 하나"를 말해야 함. `docs/STORE_SHOTLIST.md`.
@@ -126,7 +127,7 @@ Claude 컨테이너가 Godot 바이너리를 잃어(2026-07-13) 최근 Claude �
 4. (12-17s) **tint 붕괴 시퀀스**: 같은 초상/거리 화면이 밝음→회색→어둠으로 전이(MORAL_TINT 3단) — 자막 "영혼이 색으로 무너진다."
 5. (17-22s) 로맨스 컷 몽타주: 벚꽃→바다→불꽃 옆얼굴→첫날밤 아침 CG 4연타 — "잃을 수 있는 결혼."
 6. (22-26s) 파국 플래시: 이혼 도장·떠나는 뒷모습·네 자리 식탁 1인분 — 무음 처리.
-7. (26-30s) 키아트 + 워드마크 + "34개의 엔딩. 당신은 몇 번째로 무너질까." + 위시리스트 CTA.
+7. (26-30s) 키아트 + 워드마크 + "35개의 엔딩. 당신은 몇 번째로 무너질까." + 위시리스트 CTA.
 **규칙**: 인게임 캡처만(외부 모션그래픽 금지 — Godot 네이티브 원칙), BGM=메인 테마의 moral band 전이(밝→어둠)를 컷4와 동기, KR/EN 자막 2벌, 1080p60. 60초판은 동일 골격+데이트·미니게임·시간의 기록 카드 삽입. 조립은 ffmpeg 스크립트를 `tools/trailer/`에 재현 가능하게. 최종 컷 판정=Claude.
 
 #### [ ] ORDER-12 [P1] 다국어 인프라 (ja·zh-CN·zh-TW 준비 — 번역은 아직 금지)
@@ -142,7 +143,7 @@ Claude 컨테이너가 Godot 바이너리를 잃어(2026-07-13) 최근 Claude �
 #### [ ] ORDER-13 [P1] 마감 게이트 3종 — 30억 경로 다양화·엔딩 구분성·표면 잔재
 > Claude 판정 2026-07-13: 방향은 확정, 남은 위험은 "마감". 이 오더가 끝나면 콘텐츠 동결 후보 상태.
 1. **30억 정점 경로 다양화 (밸런스 패스)**: 현행 30억 도달이 베팅 수렴(14.8%). 창업 엑싯·부동산 사다리 경로로도 상위 자산 도달이 현실적으로 가능한지 시뮬(3,000런)로 실증 → 상한/수익 파라미터를 밴드 안에서 조정해 **3경로 각각 도달 가능**(각 3%+ 목표)하게. 모든 수치 변경은 `docs/BALANCE.md` 기록+밴드 재검(무직 95~100/직장 0~2/베팅 8~25/중앙값 5천만~1.5억 유지).
-2. **엔딩 34종 구분성 감사**: 전 엔딩을 (제목/본문/CG/라우팅 조건) 4열 표로 뽑아 "플레이어가 받아봤을 때 구분되는가" 판정 — 본문·조건이 사실상 겹치는 쌍은 병합 제안서만 작성(**병합 실행은 Claude 승인 후** — 엔딩 id는 저장 호환·업적 배선에 걸려 있음). 산출물 docs/ENDING_AUDIT.md.
+2. **엔딩 35종 구분성 감사**: 전 엔딩을 (제목/본문/CG/라우팅 조건) 4열 표로 뽑아 "플레이어가 받아봤을 때 구분되는가" 판정 — 본문·조건이 사실상 겹치는 쌍은 병합 제안서만 작성(**병합 실행은 Claude 승인 후** — 엔딩 id는 저장 호환·업적 배선에 걸려 있음). 산출물 docs/ENDING_AUDIT.md.
 
 #### [ ] ORDER-14 [P1] "AI 티" 전수 감사 — 이미지 품질 게이트
 > 판정 기준: 유저는 AI 사용이 아니라 그 증상을 때린다. 출시 전 전 이미지에서 증상을 제거한다.

@@ -10,6 +10,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=start-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=gallery --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=year-identity --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=store --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=locale-gate
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-moral --lang=en
@@ -56,6 +57,7 @@ const QA_SCOPE_DEMO_BLACKBOX := "demo_blackbox"
 const QA_SCOPE_START_EN := "start_en"
 const QA_SCOPE_GALLERY := "gallery"
 const QA_SCOPE_YEAR_IDENTITY := "year_identity"
+const QA_SCOPE_STORE := "store"
 const QA_SCOPE_LOCALE_GATE := "locale_gate"
 const QA_SCOPE_STORY_EN := "story_en"
 const QA_SCOPE_STORY_MORAL := "story_moral"
@@ -166,6 +168,12 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_year_identity_surfaces(lang, "year_en_" if lang == "en" else "year_ko_")
 		print("SCREENSHOT_QA_DONE scope=year-identity lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_STORE:
+		var lang := _qa_language("en")
+		await _shot_store_surfaces(lang, "store_en_" if lang == "en" else "store_ko_")
+		print("SCREENSHOT_QA_DONE scope=store lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_LOCALE_GATE:
@@ -425,6 +433,10 @@ func _qa_scope() -> String:
 				"--year-identity", "--year_identity", "qa=year-identity", "--qa=year-identity",
 				"qa=year_identity", "--qa=year_identity", "scope=year-identity", "--scope=year-identity"]:
 			return QA_SCOPE_YEAR_IDENTITY
+		if arg in ["store", "store-shots", "store_shots", "steam-store", "steam_store",
+				"--store", "--store-shots", "--store_shots", "qa=store", "--qa=store",
+				"scope=store", "--scope=store"]:
+			return QA_SCOPE_STORE
 		if arg in ["locale-gate", "locale_gate", "language-gate", "language_gate",
 				"--locale-gate", "--locale_gate", "qa=locale-gate", "--qa=locale-gate",
 				"qa=locale_gate", "--qa=locale_gate", "scope=locale-gate", "--scope=locale-gate"]:
@@ -1249,6 +1261,90 @@ func _shot_year_identity_surfaces(lang: String = "en", prefix: String = "year_en
 	if expected_heading not in _collect_control_text(recap):
 		_fail("Ending recap did not show localized heading '%s'" % expected_heading)
 		return
+	await _dispose_main_game()
+
+func _shot_store_surfaces(lang: String = "en", prefix: String = "store_en_") -> void:
+	_set_qa_language(lang)
+
+	_prepare_main_game_state()
+	GameState.moral_tint = 0.0
+	await _shot_story_event(
+		"story_flashforward", prefix + "01_cold_open", "", 0.9, true)
+
+	_prepare_main_game_state()
+	GameState.turn = 4
+	await _shot_story_event(
+		"arc_temptation_01", prefix + "02_money_mule_timer", "", 0.35, true, true)
+
+	_prepare_main_game_state()
+	GameState.turn = 145
+	GameState.age = 36
+	GameState.year = 2029
+	GameState.month = 1
+	GameState.week_of_month = 1
+	await _boot_main_game()
+	var assets_before := float(GameState.get_total_asset_value()) - 420_000.0
+	_mg.call(
+		"_show_montage_card", 3, assets_before, GameState.health + 2,
+		GameState.mental + 3, 2, 1, "cap", 3)
+	await _settle(0.55)
+	var montage_text := _collect_control_text(_mg)
+	var expected_montage := "3 weeks passed." if lang == "en" else "3주가 흘렀다."
+	if expected_montage not in montage_text:
+		_fail("Store montage shot did not show '%s'" % expected_montage)
+		return
+	await _save(prefix + "03_montage_card")
+	await _dispose_main_game()
+
+	_prepare_main_game_state()
+	await _boot_main_game()
+	_seed_ending_state("stable_success")
+	GameState.year_scenes = {}
+	_mg.call("_show_ending", "stable_success")
+	await _settle(1.0)
+	var ledger_focused := await _focus_modal_qa_surface("time_ledger")
+	if not ledger_focused:
+		_fail("Store time-ledger shot could not find the ending ledger")
+		return
+	await _save(prefix + "04_time_ledger")
+	await _dispose_main_game()
+
+	for moral_case in [
+		[80.0, "05_moral_bright"],
+		[-80.0, "06_moral_dark"],
+	]:
+		_prepare_main_game_state()
+		GameState.turn = 72
+		GameState.age = 34
+		GameState.moral_tint = float(moral_case[0])
+		await _shot_story_event(
+			"arc_y2_worn_face", prefix + str(moral_case[1]), "", 0.55, true, true)
+
+	_prepare_main_game_state()
+	GameState.turn = 64
+	GameState.age = 34
+	GameState.month = 4
+	GameState.flags["daeun_romance_started"] = true
+	GameState.moral_tint = 32.0
+	await _shot_story_event(
+		"arc_season_cherry_daeun", prefix + "07_season_date_cg", "", 0.55, true, true)
+
+	_prepare_main_game_state()
+	_seed_year_scene_history(true)
+	await _boot_main_game()
+	_seed_ending_state("stable_success")
+	_mg.call("_show_ending", "stable_success")
+	await _settle(1.0)
+	var recap_focused := await _focus_modal_qa_surface("year_scene_recap")
+	if not recap_focused:
+		_fail("Store ending-recap shot could not find the five-scene recap")
+		return
+	var recap := _find_qa_surface(_mg, "year_scene_recap")
+	var expected_heading := "FIVE YEARS, FIVE SCENES" if lang == "en" else "5년, 다섯 장면"
+	if recap == null or expected_heading not in _collect_control_text(recap):
+		_fail("Store ending recap did not show '%s'" % expected_heading)
+		return
+	await _save(prefix + "08_ending_recap")
 	await _dispose_main_game()
 
 func _assert_archive_surface(menu: Control, context: String) -> void:

@@ -37,6 +37,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Splash, opening, StartMenu press-any-key, start menu, content notice | `--qa=start-en` |
 | Archive CG silhouettes/fullscreen preview, scene replay paging, hidden-name secrecy, and read-only GameState/MetaProgression invariants | `--qa=gallery --lang=ko/en` |
 | Five year identities, year-scene curation, Y1 timed choice, Y5 week countdown, and ending five-scene recap | `--qa=year-identity --lang=ko/en` |
+| Steam store sequence: cold-open, money-mule timer, montage, time ledger, identical bright/dark scene pair, seasonal date CG, and five-scene ending recap | `--qa=store --lang=en` then `StoreScreenshotExport.tscn` |
 | StoryMode/VN flashforward Black→arrival Gray reset, intro events, 1~4-choice lower dock, readable backgrounds, chapter card, scene direction framing | `--qa=story-en` |
 | StoryMode non-CG Black/Gray/White luminance, forced-Black framing, same-scene perception prose, moral choice wording, portrait distance, result-attention order/counterweight preservation, and KO/EN crop | `--qa=story-moral --lang=ko/en` |
 | Authored Moral Perception anchors: Daeun cafe, Sangchul mirror, why Gangnam, father's last call, and final countdown across Black/Gray/White prose and choices | `--qa=moral-anchors --lang=ko/en` |
@@ -100,6 +101,12 @@ Automated year-identity gates:
 - `YearIdentityCheck.tscn` must verify all five localized chapter identities; actual-current-run-only year-scene candidates; four distinct dynamic choices; five serialized selections; localized ending recap titles; the three authored Y1 timeout defaults; all three Y2 investment windows; the Y4 three-week montage cap; and the Y5 48-week HUD plus monthly narration.
 - `tools/audit.sh` must print `YEAR_IDENTITY_CHECK_OK chapters=5 curated=5 choices=4 localized=2 timed=3 y2=3 y4_cap=3 y5_weeks=48 serialized=1`.
 - `ScreenshotQA --qa=year-identity --lang=ko/en` must render five chapter cards, the four-choice year-end curation, a visible countdown bar, the Y4 three-week montage result, the Y5 week HUD, and the no-overflow `5년, 다섯 장면 / FIVE YEARS, FIVE SCENES` ending ledger at 1280x800.
+
+Automated store-asset gate:
+
+- `ScreenshotQA --qa=store --lang=en` must generate exactly eight named source frames from actual game state, including the same Daeun cafe event at Moral Tint +80 and -80.
+- `StoreScreenshotExport.tscn` must crop those sources to the canonical 1280x720 filenames in `/tmp/gangnamdream_store_screenshots`.
+- `python3 tools/store_shot_check.py` must print `STORE_SHOT_CHECK_OK count=8 size=1280x720 unique=8`; missing, stale, duplicate, undersized, or wrongly sized PNGs fail the gate.
 
 Automated audio gates:
 

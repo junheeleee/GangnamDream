@@ -1,5 +1,21 @@
 # Gangnam Dream Work Log
 
+## 2026-07-13 (Codex — ORDER-09 스토어 페이지 3초 전달력)
+
+### 포지셔닝 정본
+- 서로 충돌하던 `STEAM_PAGE.md`와 2026-06-17 `STORE_PAGE.md`를 정리했다. 후자는 이전 안내만 남기고, 주간 240턴·35엔딩·1,400+ 사건·24주 데모·KR/EN 동시 출시를 `STEAM_PAGE.md`의 단일 계약으로 고정했다.
+- 돈의 절박함, 도덕 붕괴, 로맨스 상실을 각각 첫 훅으로 둔 KR/EN Short Description 3안을 작성했다. 기본 권장안은 50만원/5년/30억을 첫 문장에 두며, 세 안 모두 한국 사회 리얼리즘, 세계의 색 변화, 잃을 수 있는 결혼을 300자 안에서 함께 전달한다.
+- 상위 태그를 `Choices Matter / Life Sim / Visual Novel / Romance / Multiple Endings / Story Rich`로 고정했다. 실제 장르 기대와 어긋나는 Roguelike/Roguelite, 시스템 일부만 과장하는 Economy/Gambling 상위 태그는 제외했다.
+
+### 실제 인게임 스크린샷 8장
+- `ScreenshotQA --qa=store --lang=en`을 추가해 콜드오픈, 대포통장 12초 타이머, Y4 3주 몽타주, 최종 시간 원장, 같은 다은 카페의 tint +80/-80 쌍, 벚꽃 데이트 CG+선택지, `5년, 다섯 장면` 엔딩 리캡을 한 번에 재현한다.
+- `StoreScreenshotExport`가 1280x800 원본을 중앙 1280x720으로 자르고 정본 파일명과 한영 캡션 manifest를 만든다. 결과 8장은 `assets/store/screenshots/`에 고정했으며 `.gdignore`로 런타임 import와 배포 패키지에서는 제외했다.
+- `docs/STORE_SHOTLIST.md`에 각 장의 단일 메시지, 실제 이벤트/시스템 소스, 한영 캡션, 육안 판정, 재생성 명령과 제외 후보를 기록했다. 밝음/어둠 쌍은 반드시 연속 배치하고, CG와 날짜는 벚꽃 장면 한 장으로 함께 충족한다.
+
+### QA
+- 실제 OpenGL 렌더에서 영문 8장을 생성하고 모두 육안 확인했다. 타이머·두 선택지, 3주 변화 카드, Time Allocation/Contact Ledger, 동일 구도의 tint 쌍, 다은·벚꽃·세 선택지, Year 1-5 리캡이 16:9 안에 남는다.
+- `python3 tools/store_shot_check.py` 결과는 `STORE_SHOT_CHECK_OK count=8 size=1280x720 unique=8`이다. 전체 audit도 정적 ERROR 0/WARNING 0, 영어 한글 누출 0, 밸런스 1,200런 x 3정책, 오디오 64개, 데모·연차·히든 게이트, Godot 57개 GDScript 컴파일까지 통과했다.
+
 ## 2026-07-13 (Codex — ORDER-08 외부 플레이테스트 키트·데모 빌드 분리)
 
 ### 빌드 계약
