@@ -105,7 +105,7 @@ Claude 컨테이너가 Godot 바이너리를 잃어(2026-07-13) 최근 Claude �
 3. **피드백 양식 초안**: 설문 문항(정량 5 + 정성 3), 세션 기록 시트.
 4. **사람 모집·실행은 유저 몫** — Codex는 키트까지.
 
-#### [~] ORDER-09 [P1] 스토어 페이지 3초 전달력 — 착수: 숏 설명 3축·태그 전략·실제 인게임 스크린샷 8장 큐레이션 — 만지는 파일: `docs/STEAM_PAGE.md`, `docs/STORE_SHOTLIST.md`, `assets/store/screenshots/`, `tools/store_shot_check.py`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`
+#### [~] ORDER-09 [P1] 스토어 페이지 3초 전달력 — 착수: 숏 설명 3축·태그 전략·실제 인게임 스크린샷 8장 큐레이션 — 만지는 파일: `docs/STEAM_PAGE.md`, `docs/STORE_PAGE.md`, `docs/STORE_SHOTLIST.md`, `assets/store/screenshots/`, `tools/store_shot_check.py`, `tools/ScreenshotQA.gd`, `tools/StoreScreenshotExport.gd`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`
 1. `docs/STEAM_PAGE.md` 현행화(신기능 반영: 유물 제시·히든·계절 데이트·회상 갤러리 예정).
 2. **숏 설명 3안**(KR/EN 각): 3초 테스트 기준 — 첫 문장+캡슐만으로 "한국 사회 리얼리즘 인생 시뮬 + 색으로 무너지는 영혼 + 잃을 수 있는 결혼"이 전달되는가. 서로 다른 훅(①돈의 절박함 ②도덕 붕괴 ③로맨스 상실)으로 차별화해 유저가 고르게.
 3. **스크린샷 8장 큐레이션**: 기존 ScreenshotQA 산출물에서 후보 추출(콜드오픈·대포통장 타이머·몽타주 카드·시간의 기록·tint 밝/어둠 대비 한 쌍·CG 1·엔딩 리캡·데이트) — 각 장이 "다른 시스템 하나"를 말해야 함. `docs/STORE_SHOTLIST.md`.
