@@ -132,7 +132,7 @@ Claude 컨테이너가 Godot 바이너리를 잃어(2026-07-13) 최근 Claude �
 7. (26-30s) 키아트 + 워드마크 + "35개의 엔딩. 당신은 몇 번째로 무너질까." + 위시리스트 CTA.
 **규칙**: 인게임 캡처만(외부 모션그래픽 금지 — Godot 네이티브 원칙), BGM=메인 테마의 moral band 전이(밝→어둠)를 컷4와 동기, KR/EN 자막 2벌, 1080p60. 60초판은 동일 골격+데이트·미니게임·시간의 기록 카드 삽입. 조립은 ffmpeg 스크립트를 `tools/trailer/`에 재현 가능하게. 최종 컷 판정=Claude.
 
-#### [ ] ORDER-12 [P1] 다국어 인프라 (ja·zh-CN·zh-TW 준비 — 번역은 아직 금지)
+#### [~] ORDER-12 [P1] 다국어 인프라 (ja·zh-CN·zh-TW 준비 — 번역은 아직 금지) — 착수: 영어 안전망 기반 로더·UI 사전·로케일 포맷·감사 일반화 — 만지는 파일: `autoloads/LocaleManager.gd`, `autoloads/DataRegistry.gd`, `autoloads/GameState.gd`, `tools/ScreenshotQA.gd`, `tools/audit.sh`, `tools/i18n_coverage_check.py`, `tools/multilingual_surface_audit.py`, `tools/I18nInfrastructureCheck.gd`, `tools/I18nInfrastructureCheck.gd.uid`, `tools/I18nInfrastructureCheck.tscn`, `locale/`, `content/events_ja/`, `content/events_zh-CN/`, `content/events_zh-TW/`, `content/endings_ja.json`, `content/endings_zh-CN.json`, `content/endings_zh-TW.json`, `docs/I18N_INFRASTRUCTURE.md`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `docs/DECISIONS.md`, `CLAUDE.md`
 > Codex 제안 승인(Claude 판정 2026-07-13): 방향 합격 — ja(미연시 본고장+존댓말/반말을 케이고로 재현 가능)·zh-CN(스팀 최대 언어권+미지원 리뷰 폭격 방어)·zh-TW(간체 파생). **단 번역 착수는 콘텐츠 동결 선언 후** — ORDER-02·03이 텍스트를 다시 쓰는 중이라 지금 번역=전량 재작업.
 **지금 할 것 (인프라만, 텍스트 독립)**:
 1. **코드 표면 계층**: `_tr(kr,en)`/`LocaleManager.ui(ko,en)` 1,835 호출을 **무수정 유지**하는 절충 설계 — ui() 내부에서 lang이 ja/zh면 **KR 원문을 키로 하는 사전 조회**(`locale/ui_ja.json` 등), 미스는 EN 폴백+미스 로그. 호출부 1,835곳을 안 건드리는 게 이 설계의 전부다.
