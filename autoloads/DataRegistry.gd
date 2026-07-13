@@ -465,6 +465,9 @@ func get_job(job_id):
 func get_item(item_id):
 	return items_by_id.get(item_id, {})
 
+func get_achievement(achievement_id):
+	return achievements_by_id.get(achievement_id, {})
+
 func get_ending(ending_id):
 	return endings_by_id.get(ending_id, {})
 

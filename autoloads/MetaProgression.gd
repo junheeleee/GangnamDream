@@ -1,6 +1,7 @@
 extends Node
 
 const META_SAVE_PATH = "user://gangnam_dream_meta.json"
+const LEGACY_ACHIEVEMENT_IDS: Array[String] = ["white_gangnam", "clean_gangnam"]
 
 var data: Dictionary = {}
 # NG+ 메타 플래그 접근용 alias (data와 동일 객체)
@@ -218,12 +219,30 @@ func load_meta():
 		var parsed = JSON.parse_string(FileAccess.get_file_as_string(META_SAVE_PATH))
 		if parsed is Dictionary:
 			data.merge(parsed, true)
+	var achievements: Array = data.get("achievements", [])
+	var sanitized: Array = []
+	var migrated := false
+	for raw_id in achievements:
+		var achievement_id := str(raw_id)
+		if achievement_id in LEGACY_ACHIEVEMENT_IDS or not DataRegistry.achievements_by_id.has(achievement_id):
+			migrated = true
+			continue
+		if sanitized.has(achievement_id):
+			migrated = true
+			continue
+		sanitized.append(achievement_id)
+	if migrated:
+		data["achievements"] = sanitized
+		save_meta()
 
 func save_meta():
 	var file = FileAccess.open(META_SAVE_PATH, FileAccess.WRITE)
 	file.store_string(JSON.stringify(data, "\t"))
 
-func unlock_achievement(achievement_id):
+func unlock_achievement(achievement_id: String) -> bool:
+	if not DataRegistry.achievements_by_id.has(achievement_id):
+		push_warning("Unknown achievement id rejected: %s" % achievement_id)
+		return false
 	var achievements: Array = data.get("achievements", [])
 	if not achievements.has(achievement_id):
 		achievements.append(achievement_id)
@@ -232,6 +251,8 @@ func unlock_achievement(achievement_id):
 		# 이번 런 해금 목록에 추가
 		if not _new_this_run["achievements"].has(achievement_id):
 			_new_this_run["achievements"].append(achievement_id)
+		return true
+	return false
 
 # ── 칭호 시스템 ───────────────────────────────────────────────────
 func get_unlocked_titles() -> Array:
@@ -346,7 +367,7 @@ func _check_title_condition(tid: String) -> bool:
 		"father_peace_title":      return GameState.flags.get("father_reconciled", false)
 		"love_chosen_title":       return GameState.flags.get("daeun_chose_her", false)
 		"investigator_title":      return GameState.flags.get("started_investigating", false)
-		"white_gangnam_title":     return data.get("achievements", []).has("white_gangnam")
+		"white_gangnam_title":     return has_discovered_ending("gangnam_dream_white")
 	return false
 
 func is_hidden_event_unlocked(event_id):
@@ -510,7 +531,6 @@ func _check_progression_unlocks(summary):
 		unlock_achievement("gangnam_dream")
 	if ending_id == "gangnam_dream_white":
 		unlock_achievement("gangnam_dream")    # 강남드림 기본 업적도 함께
-		unlock_achievement("white_gangnam")
 	if ending_id in ["burnout", "mental_break"]:
 		unlock_achievement("survived_burnout")
 	if ending_id == "startup_exit":
@@ -527,10 +547,6 @@ func _check_progression_unlocks(summary):
 		unlock_achievement("five_lives")
 	if total_runs >= 10:
 		unlock_achievement("ten_lives")
-
-	# 청렴런 승리
-	if str(summary.get("run_theme","")) == "청렴런" and float(summary.get("total_assets",0)) >= 3_000_000_000:
-		unlock_achievement("clean_gangnam")
 
 	# 런 종료 시점 칭호 체크 (메타 칭호)
 	check_and_unlock_titles()

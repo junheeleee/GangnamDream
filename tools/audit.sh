@@ -126,6 +126,23 @@ else
 fi
 
 echo "──────────────────────────────────────────"
+echo "● 업적 15종 카탈로그/번역/실제 해금 경로 검사"
+if [ -x "$GODOT" ]; then
+  ACHIEVEMENT_HOME=$(mktemp -d "${TMPDIR:-/tmp}/gangnam-achievements.XXXXXX")
+  ACHIEVEMENT_RAW=$(run_limited env HOME="$ACHIEVEMENT_HOME" "$GODOT" --headless --quit-after 3600 res://tools/AchievementPathCheck.tscn 2>&1)
+  rm -rf "$ACHIEVEMENT_HOME"
+  echo "$ACHIEVEMENT_RAW" | grep -E "ACHIEVEMENT_PATH_CHECK_OK|ACHIEVEMENT_PATH_CHECK_FAIL|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
+  if echo "$ACHIEVEMENT_RAW" | grep -q "ACHIEVEMENT_PATH_CHECK_OK"; then
+    ACHIEVEMENT_EXIT=0
+  else
+    ACHIEVEMENT_EXIT=1
+  fi
+else
+  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 업적 경로 체크 건너뜀."
+  ACHIEVEMENT_EXIT=0
+fi
+
+echo "──────────────────────────────────────────"
 echo "● Godot 전체 스크립트 컴파일 체크 (씬 부팅 → 모든 .gd load 강제 컴파일)"
 # 주의: --quit-after 2(메인씬 부팅)는 RaceTrack/MainGame 등 부팅 시 미로드 스크립트를
 # 컴파일하지 않아 컴파일 버그를 놓친다(게다가 macOS엔 timeout 바이너리도 없어 헛돌았음).
@@ -154,7 +171,7 @@ else
 fi
 
 echo "──────────────────────────────────────────"
-if [ "$PY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$PACING_EXIT" -ne 0 ] || [ "$KEY_ART_EXIT" -ne 0 ] || [ "$CG_ACTING_EXIT" -ne 0 ] || [ "$EVENT_VISUAL_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$AUDIO_SOURCE_EXIT" -ne 0 ] || [ "$UI_SFX_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$BGM_EXIT" -ne 0 ] || [ "$TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_PLAYBACK_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
+if [ "$PY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$PACING_EXIT" -ne 0 ] || [ "$KEY_ART_EXIT" -ne 0 ] || [ "$CG_ACTING_EXIT" -ne 0 ] || [ "$EVENT_VISUAL_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$AUDIO_SOURCE_EXIT" -ne 0 ] || [ "$UI_SFX_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$BGM_EXIT" -ne 0 ] || [ "$TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_PLAYBACK_EXIT" -ne 0 ] || [ "$ACHIEVEMENT_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
   echo "❌ 감사 실패 — 위 ERROR를 고치고 다시 돌리세요."
   exit 1
 fi

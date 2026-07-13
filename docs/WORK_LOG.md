@@ -1,5 +1,18 @@
 # Gangnam Dream Work Log
 
+## 2026-07-13 (Codex — ORDER-05 업적 15종 전수 감사)
+
+### 발견·수리
+- 업적 JSON과 영어 사전은 15종인데 `MetaProgression`과 엔딩 해금 명패에는 카탈로그에 없는 `white_gangnam`·`clean_gangnam`이 남아 있었다. 신규 유령 해금을 제거하고, `white_gangnam_title`은 실제 `gangnam_dream_white` 엔딩 발견으로 판정하도록 교정했다.
+- `unlock_achievement()`는 미등록 ID를 거부한다. 기존 저장은 로드 시 유령·미지·중복 ID를 제거하되 정상 업적은 보존한다.
+- 엔딩의 "이번 런 해금" 명패에서 16개 이름을 별도 하드코딩하던 표를 제거했다. `DataRegistry.get_achievement()` 단일 경로를 통해 현재 언어 카탈로그의 이름을 표시하므로 KO/EN 이름이 업적 도감과 갈라지지 않는다.
+
+### 실행 증적
+- `AchievementPathCheck`를 추가했다. 정확한 15개 ID, 카탈로그 인덱스, 영어 `name/description/hint`, KO/EN 엔딩 명패를 먼저 대조한다.
+- 자산·엔딩·런 횟수 경로 11종과 `beat_addiction`, 실제 `_season_date_id()`가 만드는 사계절 플래그, 세 이벤트 선택지가 만드는 `presented_artifact_correct`, 다은 새벽 대사 5회, 서랍 컷 직접 해금을 실행했다. 사계절·유물 플래그가 `GameState.serialize()`와 `record_run()`을 거쳐 해금되는 것도 확인했다.
+- 검사기는 실행 전 사용자 메타 원문을 복원하고, `audit.sh`도 별도 HOME을 사용한다. 메타 SHA-256 실행 전후 동일을 직접 확인했다.
+- 최종 `audit.sh`: `ACHIEVEMENT_PATH_CHECK_OK catalog=15 paths=15 hidden=4`, 정적 ERROR 0/WARNING 0, write-only/inert 0, EN 누출 0, 밸런스 1,200런 x 3정책, 오디오 64개, BGM·입력·스토리 재생, 활성 CG 50장/배우 계약 86개, Godot GDScript 57개 컴파일 통과.
+
 ## 2026-07-13 (Codex — ORDER-04 회상 갤러리 풀스택)
 
 ### 구현

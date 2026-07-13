@@ -12431,26 +12431,8 @@ func _show_ending(ending_id):
 		unlock_sep.add_theme_color_override("color", Color("#252535"))
 		modal_body.add_child(unlock_sep)
 		modal_body.add_child(_label(_tr("이번 런 해금", "Unlocked This Run"), 15, "#f0b429"))
-		var ach_names = {
-			"first_billion":     _tr("첫 1억 달성", "First KRW 100M"),
-			"stable_life":       _tr("안정적인 삶", "A Stable Life"),
-			"gangnam_dream":     _tr("강남드림 달성", "Gangnam Dream Achieved"),
-			"survived_burnout":  _tr("번아웃 생존", "Survived Burnout"),
-			"startup_exit":      _tr("스타트업 엑싯", "Startup Exit"),
-			"political_fix":     _tr("정계 입문", "Into Politics"),
-			"investment_master": _tr("투자의 달인", "Investment Master"),
-			"reputation_legend": _tr("평판 전설", "Reputation Legend"),
-			"five_lives":        _tr("다섯 번의 인생", "Five Lives"),
-			"ten_lives":         _tr("열 번의 인생", "Ten Lives"),
-			"beat_addiction":    _tr("동그라미 서른 개 (중독 회복)", "Thirty Circles (Addiction Recovery)"),
-			"white_gangnam":     _tr("사람으로 강남에 (0.1%의 길)", "Human Until Gangnam (The 0.1% Path)"),
-			"four_seasons":      _tr("사계 (한 해의 네 계절을 함께)", "Four Seasons (A Year, Together)"),
-			"kept_evidence":     _tr("간직한 이유 (유물 제시)", "What He Kept (Presented a Keepsake)"),
-			"drawer_truth":      _tr("서랍 속의 진실", "The Truth in the Drawer"),
-			"dawn_people":       _tr("새벽의 사람들", "Dawn People"),
-		}
 		for a in new_ach:
-			var ach_name = ach_names.get(a, a)
+			var ach_name := _achievement_display_name(str(a))
 			modal_body.add_child(_wrap_label(_tr("업적 달성: %s", "Achievement: %s") % ach_name, 13, "#fbbf24"))
 
 	# 이번 런 새 칭호 해금
@@ -12509,6 +12491,10 @@ func _after_ending_exit(next_action: Callable) -> void:
 		return
 	next_action.call()
 
+func _achievement_display_name(achievement_id: String) -> String:
+	var achievement: Dictionary = DataRegistry.get_achievement(achievement_id)
+	return str(achievement.get("name", achievement_id))
+
 func _play_drawer_truth_cut(next_action: Callable) -> void:
 	_close_modal()
 	BGMPlayer.stop()   # 완전 무음 — amb cut의 극단
@@ -12537,9 +12523,12 @@ func _play_drawer_truth_cut(next_action: Callable) -> void:
 	tw.tween_property(text, "modulate:a", 0.0, 1.0)
 	tw.tween_interval(0.6)
 	tw.tween_callback(func():
-		MetaProgression.unlock_achievement("drawer_truth")
+		_unlock_drawer_truth_achievement()
 		layer.queue_free()
 		next_action.call())
+
+func _unlock_drawer_truth_achievement() -> void:
+	MetaProgression.unlock_achievement("drawer_truth")
 
 func _add_ending_cg_preview(parent: Control, cg_path: String) -> void:
 	_add_ending_art_preview(parent, cg_path, true)
