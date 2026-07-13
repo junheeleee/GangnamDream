@@ -53,7 +53,9 @@ Claude 컨테이너가 Godot 바이너리를 잃어(2026-07-13) 최근 Claude �
 `docs/ROMANCE_SYSTEM.md` §8(6요소 루브릭)·§8-A(Tier2 바닥선: 감각 근거 1+/내면 1+/여운 1줄, 요약 금지, 200~300자대) 선독. **산문만 수정**(id/flags/effects/cast_effects/conditions/dik 키 불변), KR+EN 동시.
 대상: `story_events.json` 14종(story_prologue_dad·six_months·rainy_night·compare_friend·first_paycheck_feel·late_night_grind·weekend_choice·gosiwon_neighbor·payday_morning·hometown_nostalgia·first_savings_milestone·three_year·four_year·age_39_final) + `arc_midgame.json` 서사 하중 상위 15종(goshiwon_goodbye·money_loneliness·goal_vertigo·father_medication·quit_job·first_real_win·career_ceiling·social_comparison·daeun_trace·invest_first_loss·year_three_crossroads·endgame_sixmonths·35_alone·37_reckoning·37_burn_or_light). 결 레퍼런스=arc_hyunsu(패스 H 완료본)·arc_father_passing. 검증: audit ✅+en_coverage clean.
 
-#### [ ] ORDER-03 [P1] Tier2 산문 패스 D — 로맨스 주변 아크
+#### [~] ORDER-03 [P1] Tier2 산문 패스 D — 로맨스 주변 아크
+**[~] 착수 — 만지는 파일:** `content/events/arc_daeun_extension.json`, `content/events_en/arc_daeun_extension.json`, `content/events/arc_year3_drama.json`, `content/events_en/arc_year3_drama.json`, `content/events/arc_specialization.json`, `content/events_en/arc_specialization.json`, `content/events/arc_romance_y5.json`, `content/events_en/arc_romance_y5.json`, `content/events/arc_daeun.json`, `content/events_en/arc_daeun.json`, `content/events/arc_events.json`, `content/events_en/arc_events.json`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 지정 장면의 산문 필드만 한영 동시 격상하며 다은/지연 호칭·부산 원거리 위치와 모든 기계 필드를 고정한다.
+
 같은 규율. 대상: `arc_daeun_extension.json` 4종 + `arc_year3_drama.json` 지연 부산 라인 7종(원거리 정합 주의 — 그녀는 부산에 있다) + `arc_specialization.json` 3종 + `arc_romance_y5.json` arc_daeun_y5_feelings + `arc_daeun.json` arc_daeun_02b_dream + `arc_events.json` 잔여 얇은 씬(arc_opp_* 4종·money_check 3종·ch1 테마 5종·gosiwon_wall). 호칭 정본 필수(다은 존댓말/지연 반말은 연애 확정 후만).
 
 #### [ ] ORDER-04 [P1] 회상 갤러리 (7-I 풀스택)
