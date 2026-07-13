@@ -44,6 +44,7 @@ Updated: 2026-07-13
 | `cg_ending_sangchul_reckoning` | `assets/cg/ending_sangchul_reckoning_v1.png` | `sangchul_reckoning` | 열린 창·내린 전화·빈 서류와 펜 |
 | `cg_ending_late_call` | `assets/cg/ending_late_call_v1.png` | `late_call` | 창원행 KTX·겨울비·전화·뺀 이어버드 |
 | `cg_ending_lonely_rich` | `assets/cg/ending_lonely_rich_v1.png` | `lonely_rich` | 네 자리 식탁·1인분·세 빈 의자·뒤집은 폰 |
+| `cg_ending_startup_exit` | `assets/cg/ending_startup_exit_v1.png` | `startup_exit` | 작은 창업 사무실·서명 직후 놓은 펜·민준 방향의 계약서와 휴대폰 |
 
 프로포즈·결혼 과정 CG인 `cg_romance_proposal_daeun`, `cg_romance_wedding_daeun_small`, `cg_romance_wedding_daeun_full`, `cg_romance_wedding_gap_jiyeon`과 T2 결별 결과인 `cg_romance_breakup_daeun`, `cg_romance_breakup_jiyeon`은 2026-07-12에 완성됐지만 **엔딩 CG가 아니다**. 선택의 실제 순간과 비용을 시각화할 뿐 `with_daeun`, `jiyeon_man`, `lonely_rich`, `ordinary_life`의 최종 생활을 대신하지 않는다.
 
@@ -75,7 +76,7 @@ Updated: 2026-07-13
 | `mental_break` | F | 없음 | 없음 | 정신건강의학과 진료실 장면. 응급실 `burnout` CG 공유 금지 |
 | `bankruptcy` | F | `cg_ending_bankruptcy` | 없음 | P1 완료. 계산을 반복하다 손을 멈춘 첫 파산 임계 |
 | `crypto_ghost` | F | `cg_ending_crypto_ghost` | `trading_room` | 유지 |
-| `startup_exit` | A | 없음 | 없음 | P1 신규 CG 후보 |
+| `startup_exit` | A | `cg_ending_startup_exit` | 없음 | P1 완료. 서명 직후의 작은 창업 회의실, 승리보다 호흡 |
 | `political_fix` | B | 없음 | 없음 | P3. 출시 후 후보 |
 | `lonely_rich` | A | `cg_ending_lonely_rich` | `gangnam_apartment` | P1 완료. 아버지 상실 `empty_house`와 식탁/소파 문법 분리 |
 | `investment_master` | A | 없음 | 없음 | P2. 투자 시스템 성취 컷 후보 |
@@ -122,7 +123,7 @@ Updated: 2026-07-13
 |---|---|---|
 | `cg_ending_late_call` | `late_call` | **완료.** 창원행 KTX 창가, 폰을 귀에 붙인 오른손, 화면 안에 남는 뺀 이어버드 왼손, 빗방울. 아버지는 음성으로만 존재 |
 | `cg_ending_instant_legend` | `instant_legend` | 너무 이른 강남 도착. 넓은 거실이 오히려 비현실적으로 비어 보임 |
-| `cg_ending_startup_exit` | `startup_exit` | 작은 사무실/회의실, 계약서와 노트북. 벼락부자보다 숨 돌리는 창업자 |
+| `cg_ending_startup_exit` | `startup_exit` | **완료.** 작은 창업 회의실, 서명 직후 놓은 펜과 열린 손. 계약서·휴대폰은 민준 방향, 유리에는 인물 반사 없음 |
 | `cg_ending_lonely_rich` | `lonely_rich` | **완료.** 강남 네 자리 식탁에 도착한 1인분, 세 빈 의자, 뒤집은 폰. 이혼/비혼/10억 경고 변주가 같은 최종 물리를 공유 |
 | `cg_ending_orthodox_pinnacle` | `orthodox_pinnacle` | 회식 자리/회사 로비. 정장 차림 민준, 후배의 부러움, 본인은 확신 없음 |
 | `cg_ending_gambling_recovery` | `gambling_recovery` | **완료.** 정본 고시원, 오늘의 동그라미를 닫는 펜 손, 뒤집은 폰. 카지노가 아니라 회복의 일상 |
@@ -130,7 +131,7 @@ Updated: 2026-07-13
 | `cg_ending_debt_spiral` | `debt_spiral` | **완료.** 같은 방·같은 축에서 뒤집은 계산기와 놓아 버린 손. 하단 소품을 위한 엔딩별 프리뷰 초점 적용 |
 | `cg_ending_burnout` | `burnout` | 응급실 형광등/천장/링거와 보호자 연락 질문. 정신건강의학과 `mental_break`와 공유 금지 |
 
-`late_call`, `lonely_rich`, `gambling_recovery`, `bankruptcy`, `debt_spiral`은 완료했다. 다음 실제 제작 순서는 `startup_exit`, `instant_legend`, `orthodox_pinnacle`, `burnout`이며 노출·감정 회수 순으로 판단한다. `mental_break`는 전용 진료실 컷을 만들기 전까지 정합한 엔딩 카드로 남긴다.
+`late_call`, `lonely_rich`, `gambling_recovery`, `bankruptcy`, `debt_spiral`, `startup_exit`은 완료했다. 다음 실제 제작 순서는 `instant_legend`, `orthodox_pinnacle`, `burnout`이며 노출·감정 회수 순으로 판단한다. `mental_break`는 전용 진료실 컷을 만들기 전까지 정합한 엔딩 카드로 남긴다.
 
 ### P2 — 있으면 고급스러운 엔딩
 

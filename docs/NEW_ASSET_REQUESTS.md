@@ -83,7 +83,7 @@
 |---|---|---|
 | `cg_ending_late_call` | `late_call` | KTX 창가, 폰을 쥔 손, 빗방울 |
 | `cg_ending_instant_legend` | `instant_legend` | 너무 이른 강남 도착. 비현실적으로 비어 있는 거실 |
-| `cg_ending_startup_exit` | `startup_exit` | 작은 사무실/회의실, 계약서와 노트북 |
+| `cg_ending_startup_exit` | `startup_exit` | **완료.** 작은 창업 회의실, 서명 직후 놓은 펜, 민준 방향의 계약서·휴대폰 |
 | `cg_ending_lonely_rich` | `lonely_rich` | 고급 거실에서 혼자 배달앱을 닫는 장면 |
 | `cg_ending_orthodox_pinnacle` | `orthodox_pinnacle` | 회식 자리/회사 로비. 후배의 부러움과 본인의 공허함 |
 | `cg_ending_gambling_recovery` | `gambling_recovery` | 고시원 책상 달력의 동그라미. 카지노가 아니라 회복의 일상 |

@@ -66,6 +66,17 @@ This document owns the release-tier P1 ending CGs added after the eight-image P0
 - Emotional delta: shoulders sit lower, the free hand has released the calculator, and cold pre-dawn light has overtaken more of the desk-lamp pool. He is not physically collapsed and there is no self-harm, alcohol, eviction, or horror staging.
 - Preview lock: `cg_preview_focus_y: 0.9` lowers only the modal crop so the complete face, unreadable phone, face-down calculator, and decisive released hand remain together in the 950x430 preview. The fullscreen CG keeps its original framing.
 
+## `cg_ending_startup_exit`
+
+- File: `assets/cg/ending_startup_exit_v1.png`; owner: `startup_exit` only. It is a built-company ending, not a generic office promotion or instant Gangnam wealth image.
+- Shared moment: immediately after signing the acquisition agreement, Minjun has released the pen and is taking one quiet breath before addressing the team. The first user, cofounder split, Series A choice, and reinvested dividend remain memories outside the frame.
+- Space: one modest Korean startup meeting room with a worn plywood table, practical mismatched chairs, a glass partition, and a small lived-in workspace beyond it. No luxury boardroom, skyline wall, party decoration, investor, handshake, champagne, or money pile.
+- Identity and wardrobe: canonical 38-year-old Minjun, lean Korean face, short messy black hair, tired narrow eyes, hollow cheeks, charcoal overshirt over a worn black crewneck, and dark trousers. Founder-casual clothing keeps this ending separate from the corporate suit in `orthodox_pinnacle`.
+- Acting: Minjun looks only at the signature line. His right hand has released exactly one black pen; his left hand rests open beside one unbranded phone. His shoulders lower and his closed mouth barely releases, without a grin, tears, fist pump, collapse, or lens gaze.
+- Document and phone orientation: the contract's signature line sits at the far edge nearest Minjun and all marks are unreadable. The phone is screen-up but unlit, with its earpiece/top toward Minjun and charging-port/bottom toward the viewer. They must never face the spectator as if someone across the table signed or used them.
+- Glass contract: the partition shows only the real office beyond it and neutral light. It contains no Minjun reflection, ghost body, duplicated human silhouette, or reflection whose angle disagrees with his position.
+- Props: exactly one contract folder, one pen, one phone, one closed unbranded laptop, and one plain water glass. No readable acquisition amount, app screen, logo, stamp, extra device, or duplicated hand prop.
+
 ## Acceptance Gate
 
 - `ImageRegistry`, Korean ending data, `cg_acting_manifest.json`, and `CGRuntimeCheck` agree on the owner and path.

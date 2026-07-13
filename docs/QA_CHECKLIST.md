@@ -54,7 +54,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Investment modal Trade/Holdings/Market movers/Bank pages | `--qa=invest-en` |
 | Demo month summary, demo ending CTA, 6-month Time Ledger card | `--qa=demo-end-en` |
 | P0 final-life endings: eight exact CG owners, 950x430 crop, Jiyeon reflection-only mirror with exactly two non-duplicated actors and coherent gaze, White/Deep Black readability, and KO/EN first viewport | `--qa=ending-p0 --lang=ko/en` |
-| P1 final-life endings: exact CG owner/crop, Late Call memory, Rich and Alone base/divorce/no-leak, One More Circle base/Father-memory calendar action, and distinct Bankruptcy/Debt Spiral calculation states | `--qa=ending-p1 --lang=ko/en` |
+| P1 final-life endings: exact CG owner/crop, Late Call memory, Rich and Alone base/divorce/no-leak, One More Circle base/Father-memory calendar action, distinct Bankruptcy/Debt Spiral calculation states, and Startup Exit base/first-user memory | `--qa=ending-p1 --lang=ko/en` |
 | Train semantics: summer/date and Father-call scenes remain inside the train, while the holiday decision remains on the provincial platform | `--qa=transport --lang=ko/en` |
 | Representative ending modals, graded CG/card surface, fallback mood cards, and final Time Ledger card | `--qa=endings-en` |
 | Title collection and meta-title reward surface | `--qa=title-en` |

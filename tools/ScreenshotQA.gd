@@ -2364,6 +2364,11 @@ func _shot_ending_p1_surfaces(lang: String, prefix: String) -> void:
 	await _shot_exact_ending_cg(
 			"debt_spiral", "cg_ending_debt_spiral", prefix + "12_debt_spiral_lender_memory",
 			["credit_second_tier_loan"])
+	await _shot_exact_ending_cg(
+			"startup_exit", "cg_ending_startup_exit", prefix + "13_startup_exit")
+	await _shot_exact_ending_cg(
+			"startup_exit", "cg_ending_startup_exit", prefix + "14_startup_exit_first_user",
+			["first_user_connected"])
 
 func _shot_surface_en() -> void:
 	var prefix := "surface_en_"

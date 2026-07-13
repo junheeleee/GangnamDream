@@ -672,6 +672,9 @@ func _check_ending_cg() -> void:
 	var debt_spiral: Dictionary = EndingSystem.get_ending("debt_spiral")
 	if not is_equal_approx(float(debt_spiral.get("cg_preview_focus_y", 0.5)), 0.9):
 		_failures.append("debt_spiral must keep its lower-table ending preview focus")
+	_check_ending_cg_path(main, "startup_exit", "cg_ending_startup_exit")
+	if ImageRegistry.get_cg("cg_ending_startup_exit") != "res://assets/cg/ending_startup_exit_v1.png":
+		_failures.append("startup_exit must use its dedicated signed-acquisition CG")
 	_check_all_ending_cg_contracts(main)
 
 	var preview_parent := VBoxContainer.new()

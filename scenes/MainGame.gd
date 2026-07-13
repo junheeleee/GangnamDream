@@ -13191,7 +13191,7 @@ func _ending_run_summary(ending_id: String) -> String:
 				return _tr("창업의 꿈을 꿨지만 결국 평범한 오늘을 선택했다", "He dreamed of a startup, but in the end chose an ordinary today.")
 			return _tr("특별하지 않아도 괜찮다 — 그것도 하나의 삶이다", "It's okay to not be special — that too is a life.")
 		"startup_exit":
-			return _tr("작은 아이디어 하나가 억대 엑싯으로 이어졌다", "One small idea led to a billion-won exit.")
+			return _tr("작은 아이디어 하나가 첫 엑싯으로 이어졌다", "One small idea became his first startup exit.")
 		"crypto_ghost":
 			return _tr("차트가 현실이 되고, 현실이 배경이 됐다. 결국 전부를 가져갔다.", "The chart became reality, and reality became background. In the end it took everything.")
 		"debt_spiral":
