@@ -150,6 +150,9 @@ Claude 컨테이너가 Godot 바이너리를 잃어(2026-07-13) 최근 Claude �
 
 **완료 보고 (2026-07-13 Codex):** 고정 시드 240주 시뮬에서 베팅 14.8%, 공동창업 M&A 4.8%, 재개발 사다리 3.9%로 세 경로 모두 30억 도달 3% 하한을 넘겼고 기존 무직/직장/중앙값 밴드도 유지했다. 35종 엔딩 4열 감사표와 자동 게이트를 추가해 한영 35/35, 본문 고유성, 공유 비주얼을 잠갔으며 라우팅 변경·병합은 승인 대기로 남겼다. 죽은 상점 표면과 거짓 첫 월급 해금 문구를 제거하고 한영 첫 투자 손잡이를 1280x800에서 검증했다. `--qa=invest-en --lang=ko/en`, 정적 ERROR/WARNING 0, 오디오·데모·업적·히든·57개 GDScript 강제 컴파일을 포함한 전체 `audit.sh`가 통과했다.
 
+#### [ ] ORDER-20 [P1·수리] 엔딩 감사 판정 집행 — 사실 정렬 6건
+`docs/ENDING_AUDIT.md`의 "Claude 판정(2026-07-13)" 그대로: ①jiyeon_man 첫 문장("한지연의 강남에" 결) ②second_love 10억 현실화 ③gangnam_dream에 startup_exit 경로 dik 1종(KR+EN, 라우팅 불변) ④retirement 2종 미래 전망 프레임 ⑤orthodox_pinnacle 숫자 정렬 ⑥무드 카드 12종 → 전용 결산 카드 심벌(빈도순: ordinary_life→burnout→mental_break→stable_success 우선). 전부 라우팅 불변 — ending_distinctness_audit 게이트 통과 확인.
+
 #### [~] ORDER-14 [P1] "AI 티" 전수 감사 — 이미지 품질 게이트 — 착수: 활성 CG·초상·배경 전수 인벤토리/육안 판정/불합격 수리 — 만지는 파일: `docs/ART_AI_AUDIT.md`, `docs/STEAM_PAGE.md`, `docs/PLAYTEST_KIT.md`, `docs/QA_CHECKLIST.md`, `docs/DECISIONS.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `docs/CODEX_QUEUE.md`, `CLAUDE.md`, `tools/art_ai_audit.py`, `tools/audit.sh`, `tools/ScreenshotQA.gd`, `autoloads/ImageRegistry.gd`, `content/meta/cg_acting_manifest.json`, `content/meta/event_visual_contracts.json`, `assets/cg/**`, `assets/characters/**`, `assets/backgrounds/**`
 > 판정 기준: 유저는 AI 사용이 아니라 그 증상을 때린다. 출시 전 전 이미지에서 증상을 제거한다.
 1. **전수 실사**: 활성 CG 50장+초상 전종+배경 전종을 체크리스트로 감사 — ①손가락/손 형태 ②눈·좌우 비대칭 ③**인물 일관성**(다은/지연/민준이 전 컷에서 같은 얼굴인가 — 최우선) ④질감(플라스틱 광택·과포화) ⑤배경 논리(문·창·가구 배치, 텍스트 뭉개짐 — 간판·책등 글자는 AI 티 1순위) ⑥그레이딩 통일 이탈. 컷별 판정표 docs/ART_AI_AUDIT.md, 불합격 컷은 재생성/수정.
