@@ -95,7 +95,7 @@ Claude 컨테이너가 Godot 바이너리를 잃어(2026-07-13) 최근 Claude �
 4. **오디오·팔레트 연차 레이어(선택)**: moral band와 직교하는 연차 질감(Y1 소음 많음→Y5 정적) — 기존 앰비언스 재배치 우선, 신규 자산 최소.
 5. 검증: audit+arc_flow_sim(게이팅 변경)+밸런스 밴드 재검(Y2 시장 게이팅이 도달률 건드리면 BALANCE.md). **이 오더 완료+13 완료 = 콘텐츠 동결 선언 조건 충족.**
 
-#### [ ] ORDER-08 [P0] 외부 플레이테스트 키트 (유저 결정 2026-07-13 — "성공은 절반이 게임 밖")
+#### [~] ORDER-08 [P0] 외부 플레이테스트 키트 (유저 결정 2026-07-13 — "성공은 절반이 게임 밖") — 착수: 데모/정식 export 분리·패키지 스모크·무설명 30분 키트 — 만지는 파일: `autoloads/GameState.gd`, `scenes/MainGame.gd`, `export_presets.cfg`, `tools/build.sh`, `tools/DemoBuildCheck.gd`, `tools/DemoBuildCheck.gd.uid`, `tools/DemoBuildCheck.tscn`, `tools/audit.sh`, `tools/ScreenshotQA.gd`, `docs/BUILD_PIPELINE.md`, `docs/PLAYTEST_KIT.md`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`
 > 내부 QA는 "깨지지 않음"을 보장하지 "재밌음"을 보장하지 않는다. 실제 사람 5~10명의 무설명 플레이가 출시 GO의 첫 도장.
 1. **데모 빌드 절차 확립**: Windows/Linux export 프리셋 구성 + 실제 export 1회 스모크(부팅→콜드오픈→t=8 통과). 절차를 `docs/BUILD_PIPELINE.md`로 문서화.
 2. **플레이테스트 프로토콜** `docs/PLAYTEST_KIT.md`: 대상 5~10명(서사 게임 경험자 절반+비경험자 절반), **무설명 30분**, 관찰자 개입 금지. 측정 3문(30분 후): ①"다음 세 주에 뭘 할 계획이었나" ②"기억에 남는 선택 하나" ③"계속 하고 싶은 이유/멈춘 이유". 통과 기준: 7/10이 ①에 구체적 답.
