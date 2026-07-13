@@ -63,9 +63,9 @@
 
 완료: `full_circle`, `gangnam_dream_white`, `with_daeun`, `second_love`, `jiyeon_man`, `guardian`, `jaehyuk_way`, `sangchul_reckoning`이 과정 CG 재사용 없이 각각 전용 1280×800 최종 삶 CG를 소유한다. 지연 거울은 현실 인물과 반사상을 따로 생성하지 않고 거울 안의 민준 왼쪽·지연 오른쪽만 한 번씩 보여, 좌우·자세 모순을 구조적으로 차단한다. Deep Black 엔딩도 얼굴·손·커튼이 읽히는 전용 미리보기 중간톤을 쓴다. KO/EN `--qa=ending-p0` 8컷, exact texture/430px crop, `CGRuntimeCheck`가 배선을 잠근다.
 
-## [ ] P1-E. 정식 출시 결산 CG 확장 (2026-07-13: 3/8)
+## [ ] P1-E. 정식 출시 결산 CG 확장 (2026-07-13: 5/9)
 
-`late_call` 완료: 창원행 KTX의 민준·전화·겨울비·뺀 이어버드만 모든 기억 변주의 공통 사실로 고정했다. `ktx_window`를 실제 실내로 복구하고 지방역 `hometown_train_station`을 분리했다. `lonely_rich` 완료: 네 자리 식탁·1인분·세 빈 의자로 `empty_house`의 아버지 상실 소파와 분리하고, 강남 미달 이혼이 부자 CG/방 세 개 산문을 받던 라우팅 오류도 `ordinary_life` 전용 변주로 교정했다. `gambling_recovery` 완료: 랜덤 연속 노출이던 회복 아크를 1+3+1주 예약 체인으로 바꾸고, 과장된 100일 문구를 실제 서른 동그라미 이후의 반복으로 교정한 뒤 정본 고시원 달력 CG를 연결했다. KO/EN `ending-p1` 7컷과 `transport` 3컷이 배선·크롭·분기 의미를 잠근다. 다음은 `bankruptcy/debt_spiral`; 이후 조건부 성취 엔딩과 `burnout`을 판단한다.
+`late_call` 완료: 창원행 KTX의 민준·전화·겨울비·뺀 이어버드만 모든 기억 변주의 공통 사실로 고정했다. `ktx_window`를 실제 실내로 복구하고 지방역 `hometown_train_station`을 분리했다. `lonely_rich` 완료: 네 자리 식탁·1인분·세 빈 의자로 `empty_house`의 아버지 상실 소파와 분리하고, 강남 미달 이혼이 부자 CG/방 세 개 산문을 받던 라우팅 오류도 `ordinary_life` 전용 변주로 교정했다. `gambling_recovery` 완료: 랜덤 연속 노출이던 회복 아크를 1+3+1주 예약 체인으로 바꾸고, 과장된 100일 문구를 실제 서른 동그라미 이후의 반복으로 교정한 뒤 정본 고시원 달력 CG를 연결했다. `bankruptcy/debt_spiral` 완료: 임의의 원금·월급·500원 문구를 순자산 임계와 실제 공통 사실로 고치고, 같은 정본 고시원에서 계산을 멈춘 단계와 계산기를 뒤집은 단계를 별도 CG로 분리했다. 엔딩별 `cg_preview_focus_y`가 얼굴·손·하단 소품을 같은 950x430 안에 보존한다. KO/EN `ending-p1` 12컷과 `transport` 3컷이 배선·크롭·분기 의미를 잠근다. 다음은 `startup_exit`; 이후 `instant_legend`, `orthodox_pinnacle`, `burnout`을 판단한다.
 
 ## [x] P1-0. AP 주간 결정 보드 (2026-07-10 Codex 완료)
 

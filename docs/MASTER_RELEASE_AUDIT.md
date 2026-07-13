@@ -52,6 +52,7 @@ These are confidence bands, not review scores. Every band must be replaced by pl
 | EN localization | Developing | First-run language selection, zero-Hangul, catalog parity, and localized canonical names are gated; native voice, pronouns, cultural context, and a full prose pass remain |
 | UI/UX | Developing | Title and AP surfaces now have clear command hierarchies; several dense submodals and the top HUD still carry older dashboard grammar |
 | Controller / Steam Deck | Developing | Brand-aware glyphs and several focus models exist; tutorial focus is now trapped and regression-tested, while dense modals and large betting boards still require task-level tests |
+| Display / console readiness | Early | The base viewport scales from 1280x800 and the desktop window is resizable to 960x600, but 720p/1080p/QHD/4K/21:9 safe-area evidence, high-resolution raster masters, suspend/resume, and platform certification builds are not yet proven |
 | Image quality / continuity | Developing | Background/portrait separation, romance outfit pairs, spatial bibles, 28 active CG/50 actor acting contracts, and 35 event visual contracts now gate high-risk scenes. Fourteen explicit winter/night/private-room/transit/cast/cultural art debts remain, so recurring-cast seasons and climax coverage are still incomplete |
 | Audio identity | Developing | All 64 files are now project-owned, reproducible, and source-audited; core UI sounds use a dry Gangnam Ink tactile set and BGM continuity is gated. Seven-track long-session fatigue and character leitmotifs remain |
 | Motion / game feel | Weak to developing | AP commitment has a clearer board and feedback vocabulary, and chained story scenes no longer flash the AP shell between them; input feel and several navigation transitions still need measured play tests |
@@ -109,6 +110,7 @@ If a feature does not strengthen one of these, improve usability or create delig
 - External critics identify the same three intended strengths without being briefed.
 - Native Korean and native English editors approve flagship prose; machine-like lines are absent from sampled ambient pools.
 - Controller-only completion is possible without mouse rescue or focus hunting.
+- 720p, Steam Deck, 1080p, QHD, 4K, and 21:9 preserve the same command hierarchy without stretched art, clipped text, or unsafe-edge controls.
 - Key art, title screen, story mode, AP, minigames, and endings look like one authored product.
 - Asset source, license, and modification records are complete.
 

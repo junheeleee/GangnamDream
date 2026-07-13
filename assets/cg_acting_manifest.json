@@ -405,6 +405,22 @@
       "actors": [
         {"id": "minjun", "gaze_target": "The circle closing beneath his pen", "pose_support": "His clear right hand holds one pen against the calendar while his open left hand rests beside one face-down phone; released shoulders and a quiet profile avoid both triumph and lens contact."}
       ]
+    },
+    "cg_ending_bankruptcy": {
+      "path": "assets/cg/ending_bankruptcy_v1.png",
+      "camera_role": "doorway_side_goshiwon_calculation_three_quarter",
+      "story_action": "At the first bankruptcy threshold, Minjun stops re-entering the same impossible calculation while the collection phone falls silent beside him.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The calculator beneath his stopped right hand", "pose_support": "He remains upright but drained; his right fingers stop beside one calculator while his left hand rests near the face-down phone, holding shock inward without collapsing or facing the lens."}
+      ]
+    },
+    "cg_ending_debt_spiral": {
+      "path": "assets/cg/ending_debt_spiral_v1.png",
+      "camera_role": "doorway_side_goshiwon_released_three_quarter",
+      "story_action": "Below the deeper debt threshold, Minjun turns the calculator face-down, releases it, and leaves the collection phone unanswered.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The face-down calculator beyond his released right hand", "pose_support": "He sits lower but remains upright; his open right hand has stopped short of the calculator while his left hand hangs beside one knee, carrying hollow stillness without self-harm staging or lens contact."}
+      ]
     }
   }
 }

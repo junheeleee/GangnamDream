@@ -663,6 +663,15 @@ func _check_ending_cg() -> void:
 	_check_ending_cg_path(main, "gambling_recovery", "cg_ending_gambling_recovery")
 	if ImageRegistry.get_cg("cg_ending_gambling_recovery") != "res://assets/cg/ending_gambling_recovery_v1.png":
 		_failures.append("gambling_recovery must use its dedicated calendar CG")
+	_check_ending_cg_path(main, "bankruptcy", "cg_ending_bankruptcy")
+	if ImageRegistry.get_cg("cg_ending_bankruptcy") != "res://assets/cg/ending_bankruptcy_v1.png":
+		_failures.append("bankruptcy must use its dedicated stopped-calculation CG")
+	_check_ending_cg_path(main, "debt_spiral", "cg_ending_debt_spiral")
+	if ImageRegistry.get_cg("cg_ending_debt_spiral") != "res://assets/cg/ending_debt_spiral_v1.png":
+		_failures.append("debt_spiral must use its dedicated released-calculator CG")
+	var debt_spiral: Dictionary = EndingSystem.get_ending("debt_spiral")
+	if not is_equal_approx(float(debt_spiral.get("cg_preview_focus_y", 0.5)), 0.9):
+		_failures.append("debt_spiral must keep its lower-table ending preview focus")
 	_check_all_ending_cg_contracts(main)
 
 	var preview_parent := VBoxContainer.new()

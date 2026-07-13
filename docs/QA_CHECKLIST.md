@@ -16,6 +16,16 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 - When the right-side Info Deck is open, `B/East` must close it instead of opening the system menu.
 - Basic actions must not require hidden multi-button chords.
 
+## Display / Console Readiness Gate
+- Windowed mode remains freely resizable down to the explicit 960x600 minimum; resizing never loses focus, hides a primary command, or requires restarting the scene.
+- Validate 960x600, 1280x720, 1280x800, 1920x1080, 2560x1440, 3840x2160, and one 21:9 viewport. This is one responsive layout system, not seven manually positioned variants.
+- Story text, AP decisions, casino controls, result actions, and subtitles stay inside a central safe area suitable for TV overscan and handheld edges.
+- Backgrounds and CGs use aspect-cover cropping without geometric stretching. Faces, gaze targets, decisive hands, cards, chips, and result states survive every supported aspect ratio.
+- QHD/4K text and vector surfaces remain native-sharp. Raster masters must not reveal obvious 1280px upscale softness at normal viewing distance.
+- A platform glyph changes presentation only. Xbox/Steam Deck, DualSense, and Nintendo controllers preserve the same semantic South/East/West/North actions.
+- Controller-only suspend/resume restores the last safe focus and never advances prose, confirms a bet, or consumes AP on wake.
+- Gamepad vibration is optional and intensity-controlled. Repeated prose/menu confirms do not buzz continuously; semantic pulses are reserved for tactile table actions, race impacts, real danger, and major result beats.
+
 ## Targeted Screenshot QA
 - Run screenshot QA for the surface you changed, not the entire visual suite by default.
 - Use full `surface-en` or casino QA only before release candidates, before/after broad UI refactors, or when casino/minigame code changed.
@@ -44,7 +54,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Investment modal Trade/Holdings/Market movers/Bank pages | `--qa=invest-en` |
 | Demo month summary, demo ending CTA, 6-month Time Ledger card | `--qa=demo-end-en` |
 | P0 final-life endings: eight exact CG owners, 950x430 crop, Jiyeon reflection-only mirror with exactly two non-duplicated actors and coherent gaze, White/Deep Black readability, and KO/EN first viewport | `--qa=ending-p0 --lang=ko/en` |
-| P1 final-life endings: exact CG owner/crop, Late Call memory, Rich and Alone base/divorce/no-leak, and One More Circle base/Father-memory calendar action | `--qa=ending-p1 --lang=ko/en` |
+| P1 final-life endings: exact CG owner/crop, Late Call memory, Rich and Alone base/divorce/no-leak, One More Circle base/Father-memory calendar action, and distinct Bankruptcy/Debt Spiral calculation states | `--qa=ending-p1 --lang=ko/en` |
 | Train semantics: summer/date and Father-call scenes remain inside the train, while the holiday decision remains on the provincial platform | `--qa=transport --lang=ko/en` |
 | Representative ending modals, graded CG/card surface, fallback mood cards, and final Time Ledger card | `--qa=endings-en` |
 | Title collection and meta-title reward surface | `--qa=title-en` |

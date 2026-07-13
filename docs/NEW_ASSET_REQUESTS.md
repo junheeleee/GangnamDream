@@ -87,8 +87,9 @@
 | `cg_ending_lonely_rich` | `lonely_rich` | 고급 거실에서 혼자 배달앱을 닫는 장면 |
 | `cg_ending_orthodox_pinnacle` | `orthodox_pinnacle` | 회식 자리/회사 로비. 후배의 부러움과 본인의 공허함 |
 | `cg_ending_gambling_recovery` | `gambling_recovery` | 고시원 책상 달력의 동그라미. 카지노가 아니라 회복의 일상 |
-| `cg_ending_bankruptcy` | `bankruptcy`, `debt_spiral` | 계산기, 독촉 문자, 비 오는 방. 실패 공통 컷 가능 |
-| `cg_ending_burnout` | `burnout`, `mental_break` | 병원 형광등/천장/링거. 현실적인 소진 |
+| `cg_ending_bankruptcy` | `bankruptcy` | **완료.** 계산을 반복하다 멈춘 첫 파산 임계 |
+| `cg_ending_debt_spiral` | `debt_spiral` | **완료.** 뒤집은 계산기와 놓아 버린 손의 더 깊은 부채 단계 |
+| `cg_ending_burnout` | `burnout` | 병원 형광등/천장/링거. 현실적인 신체 소진. 정신과 `mental_break`와 공유 금지 |
 
 ---
 

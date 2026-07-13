@@ -2351,6 +2351,19 @@ func _shot_ending_p1_surfaces(lang: String, prefix: String) -> void:
 	await _shot_exact_ending_cg(
 			"gambling_recovery", "cg_ending_gambling_recovery", prefix + "07_gambling_recovery_father",
 			["father_reconciled"])
+	await _shot_exact_ending_cg(
+			"bankruptcy", "cg_ending_bankruptcy", prefix + "08_bankruptcy")
+	await _shot_exact_ending_cg(
+			"bankruptcy", "cg_ending_bankruptcy", prefix + "09_bankruptcy_cafe_memory",
+			["cafe_greed_burned"])
+	await _shot_exact_ending_cg(
+			"debt_spiral", "cg_ending_debt_spiral", prefix + "10_debt_spiral")
+	await _shot_exact_ending_cg(
+			"debt_spiral", "cg_ending_debt_spiral", prefix + "11_debt_spiral_margin_memory",
+			["accepted_margin_call"])
+	await _shot_exact_ending_cg(
+			"debt_spiral", "cg_ending_debt_spiral", prefix + "12_debt_spiral_lender_memory",
+			["credit_second_tier_loan"])
 
 func _shot_surface_en() -> void:
 	var prefix := "surface_en_"
@@ -3134,6 +3147,13 @@ func _shot_exact_ending_cg(
 	if preview.custom_minimum_size.y < 430.0:
 		_fail("Ending %s preview crop contract fell below 430px" % ending_id)
 		return
+	var ending: Dictionary = EndingSystem.get_ending(ending_id)
+	var expected_focus := float(ending.get("cg_preview_focus_y", 0.5))
+	var actual_focus := float(preview.get_meta("ending_preview_focus_y", 0.5))
+	if not is_equal_approx(actual_focus, expected_focus):
+		_fail("Ending %s preview focus expected %.2f, got %.2f" % [
+				ending_id, expected_focus, actual_focus])
+		return
 	await _save(shot_name)
 	await _settle(0.3)
 
@@ -3323,7 +3343,7 @@ func _seed_ending_state(ending_id: String) -> void:
 			GameState.grind_streak_weeks = 0
 			GameState.contact_counts = {"father": 12}
 			GameState.last_contact_turn = {"father": 235}
-		"bankruptcy", "debt_spiral":
+		"bankruptcy":
 			GameState.money = -118_000_000.0
 			GameState.housing = "gosiwon"
 			GameState.health = 31
@@ -3336,6 +3356,20 @@ func _seed_ending_state(ending_id: String) -> void:
 			GameState.human_weeks_total = 22
 			GameState.contact_counts = {"daeun": 1}
 			GameState.last_contact_turn = {"daeun": 81}
+		"debt_spiral":
+			GameState.money = -218_000_000.0
+			GameState.housing = "gosiwon"
+			GameState.health = 24
+			GameState.mental = 14
+			GameState.reputation = 2
+			GameState.route_orthodox = 2
+			GameState.route_unorthodox = 24
+			GameState.moral_tint = -58.0
+			GameState.money_weeks_total = 218
+			GameState.human_weeks_total = 12
+			GameState.grind_streak_weeks = 11
+			GameState.contact_counts = {"daeun": 0}
+			GameState.last_contact_turn = {"daeun": 57}
 		"burnout", "mental_break", "career_burnout":
 			GameState.money = 18_000_000.0
 			GameState.health = 12 if ending_id == "burnout" else 28

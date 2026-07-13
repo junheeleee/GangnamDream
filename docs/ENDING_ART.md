@@ -73,7 +73,7 @@ Updated: 2026-07-13
 | `ordinary_life` | C | 없음 | 없음 | 공통 모노톤 실패/일상 카드 |
 | `burnout` | F | 없음 | 없음 | P1 공통 실패 CG 후보 |
 | `mental_break` | F | 없음 | 없음 | 정신건강의학과 진료실 장면. 응급실 `burnout` CG 공유 금지 |
-| `bankruptcy` | F | 없음 | 없음 | P1 빚/파산 실패 CG 후보 |
+| `bankruptcy` | F | `cg_ending_bankruptcy` | 없음 | P1 완료. 계산을 반복하다 손을 멈춘 첫 파산 임계 |
 | `crypto_ghost` | F | `cg_ending_crypto_ghost` | `trading_room` | 유지 |
 | `startup_exit` | A | 없음 | 없음 | P1 신규 CG 후보 |
 | `political_fix` | B | 없음 | 없음 | P3. 출시 후 후보 |
@@ -81,7 +81,7 @@ Updated: 2026-07-13
 | `investment_master` | A | 없음 | 없음 | P2. 투자 시스템 성취 컷 후보 |
 | `reputation_legend` | A | 없음 | 없음 | P2. 텍스트로도 버틸 수 있음 |
 | `healthy_retirement` | B | 없음 | 없음 | P3. 한강 산책 배경과 연결 가능 |
-| `debt_spiral` | F | 없음 | 없음 | `bankruptcy`와 공통 실패 CG 공유 가능 |
+| `debt_spiral` | F | `cg_ending_debt_spiral` | 없음 | P1 완료. 같은 방에서 계산기를 뒤집고 손을 놓은 더 깊은 부채 단계 |
 | `orthodox_pinnacle` | A | 없음 | `restaurant` | P1 신규 CG 후보 |
 | `orthodox_hollow` | C | 없음 | 없음 | 공통 모노톤 성공-공허 카드 |
 | `balanced_life` | B | 없음 | 없음 | P3. 텍스트/배경 중심 |
@@ -126,10 +126,11 @@ Updated: 2026-07-13
 | `cg_ending_lonely_rich` | `lonely_rich` | **완료.** 강남 네 자리 식탁에 도착한 1인분, 세 빈 의자, 뒤집은 폰. 이혼/비혼/10억 경고 변주가 같은 최종 물리를 공유 |
 | `cg_ending_orthodox_pinnacle` | `orthodox_pinnacle` | 회식 자리/회사 로비. 정장 차림 민준, 후배의 부러움, 본인은 확신 없음 |
 | `cg_ending_gambling_recovery` | `gambling_recovery` | **완료.** 정본 고시원, 오늘의 동그라미를 닫는 펜 손, 뒤집은 폰. 카지노가 아니라 회복의 일상 |
-| `cg_ending_bankruptcy` | `bankruptcy`, `debt_spiral` | 계산기, 독촉 문자, 비 오는 방. 실패 공통 컷 가능 |
+| `cg_ending_bankruptcy` | `bankruptcy` | **완료.** 정본 고시원, 작동 중인 계산기에서 멈춘 손, 받지 않은 전화. 정확한 원금·월급은 표시하지 않음 |
+| `cg_ending_debt_spiral` | `debt_spiral` | **완료.** 같은 방·같은 축에서 뒤집은 계산기와 놓아 버린 손. 하단 소품을 위한 엔딩별 프리뷰 초점 적용 |
 | `cg_ending_burnout` | `burnout` | 응급실 형광등/천장/링거와 보호자 연락 질문. 정신건강의학과 `mental_break`와 공유 금지 |
 
-`late_call`, `lonely_rich`, `gambling_recovery`는 완료했다. 다음 실제 제작 순서는 `bankruptcy/debt_spiral`이며, 이후 `startup_exit`, `instant_legend`, `orthodox_pinnacle`, `burnout`을 노출·감정 회수 순으로 판단한다. `mental_break`는 전용 진료실 컷을 만들기 전까지 정합한 엔딩 카드로 남긴다.
+`late_call`, `lonely_rich`, `gambling_recovery`, `bankruptcy`, `debt_spiral`은 완료했다. 다음 실제 제작 순서는 `startup_exit`, `instant_legend`, `orthodox_pinnacle`, `burnout`이며 노출·감정 회수 순으로 판단한다. `mental_break`는 전용 진료실 컷을 만들기 전까지 정합한 엔딩 카드로 남긴다.
 
 ### P2 — 있으면 고급스러운 엔딩
 

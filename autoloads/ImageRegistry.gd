@@ -268,6 +268,8 @@ const CG = {
 	"cg_ending_late_call": "res://assets/cg/ending_late_call_v1.png",
 	"cg_ending_lonely_rich": "res://assets/cg/ending_lonely_rich_v1.png",
 	"cg_ending_gambling_recovery": "res://assets/cg/ending_gambling_recovery_v1.png",
+	"cg_ending_bankruptcy": "res://assets/cg/ending_bankruptcy_v1.png",
+	"cg_ending_debt_spiral": "res://assets/cg/ending_debt_spiral_v1.png",
 	"cg_romance_sea_daeun":    "res://assets/cg/romance/sea_daeun_v3.png",
 	"cg_romance_sea_jiyeon":   "res://assets/cg/romance/sea_jiyeon_v2.png",
 	"cg_romance_fireworks_daeun": "res://assets/cg/romance/fireworks_daeun.png",

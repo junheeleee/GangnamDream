@@ -47,6 +47,25 @@ This document owns the release-tier P1 ending CGs added after the eight-image P0
 - Variant lock: Father, Sangchul, Daeun, Jiyeon, a recovery-group member, an old betting friend, and every NG+ helper remain outside the frame. The variants add remembered relationships or lessons, not guaranteed people in the room.
 - Avoid: cards, chips, roulette, slot reels, racehorses, casino neon, betting UI, money pile, alcohol, readable phone screen, broad smile, lens gaze, malformed pen hand, extra fingers, a giant calendar that changes the room, or warm sepia morality.
 
+## `cg_ending_bankruptcy`
+
+- File: `assets/cg/ending_bankruptcy_v1.png`.
+- Owner: `bankruptcy` only. It depicts the first net-asset failure threshold, not the deeper `debt_spiral`, an eviction, or a casino flashback.
+- Shared moment: in the canonical goshiwon, Minjun stops entering the same impossible calculation as one face-down collection phone falls silent. The frame carries every job, salary, portfolio, and `cafe_greed_burned` variant without displaying invented amounts.
+- Room and camera: the exact goshiwon continuity remains bed left, shelf/mini-fridge far-left, small high frosted window, right-front desk, right-wall hooks/lamp/switch, and camera-side door. The doorway-side medium-wide three-quarter keeps Minjun's face, calculator, stopped right hand, and phone inside the central 950x430 preview.
+- Identity and wardrobe: canonical 38-year-old Minjun, lean Korean face, short messy black hair, tired narrow eyes, hollow cheeks, worn black crewneck, and dark trousers. No suit, casino costume, coat, or hospital clothing.
+- Acting: Minjun remains upright but drained, gaze fixed only on the calculator. His right fingers have stopped beside it; his left hand rests near the face-down phone. The mouth stays closed and shock is held inward, leaving a narrow possibility of tomorrow without a smile, tears, or collapse.
+- Props: exactly one calculator, one unbranded face-down phone, one desk lamp, and two or three blank envelopes. No readable figures, lender name, legal notice, money, trading device, or second phone.
+- Avoid: `debt_spiral`'s calculator turned face-down, head-in-hands despair, eviction, police, lender, casino imagery, stock charts, extra window, skyline, warm sepia morality, lens gaze, malformed hands, readable text, or exact monetary claim.
+
+## `cg_ending_debt_spiral`
+
+- File: `assets/cg/ending_debt_spiral_v1.png`; owner: `debt_spiral` only. It remains a distinct image, key, and acting contract rather than a copy of `bankruptcy`.
+- Paired continuity: preserve the same canonical room, camera axis, Minjun identity, and worn black crewneck so the two failure screens read as consecutive depths of the same life.
+- Shared moment: after net assets pass the deeper threshold, Minjun turns the calculator face-down and lets one phone ring unanswered. The broad calculator back has visible rubber feet and a folded stand so it cannot read as a second phone. The image contains no exact principal, salary, rate, lender, margin-call screen, or route-only person.
+- Emotional delta: shoulders sit lower, the free hand has released the calculator, and cold pre-dawn light has overtaken more of the desk-lamp pool. He is not physically collapsed and there is no self-harm, alcohol, eviction, or horror staging.
+- Preview lock: `cg_preview_focus_y: 0.9` lowers only the modal crop so the complete face, unreadable phone, face-down calculator, and decisive released hand remain together in the 950x430 preview. The fullscreen CG keeps its original framing.
+
 ## Acceptance Gate
 
 - `ImageRegistry`, Korean ending data, `cg_acting_manifest.json`, and `CGRuntimeCheck` agree on the owner and path.
