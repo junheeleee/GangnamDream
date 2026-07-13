@@ -12397,6 +12397,7 @@ func _show_ending(ending_id):
 			"white_gangnam":     _tr("사람으로 강남에 (0.1%의 길)", "Human Until Gangnam (The 0.1% Path)"),
 			"four_seasons":      _tr("사계 (한 해의 네 계절을 함께)", "Four Seasons (A Year, Together)"),
 			"kept_evidence":     _tr("간직한 이유 (유물 제시)", "What He Kept (Presented a Keepsake)"),
+			"drawer_truth":      _tr("서랍 속의 진실", "The Truth in the Drawer"),
 		}
 		for a in new_ach:
 			var ach_name = ach_names.get(a, a)
@@ -12437,11 +12438,58 @@ func _show_ending(ending_id):
 	_ending_share_section(modal_body, ending_id)
 
 	var restart_btn = _button(_tr("새 런 시작  ▶", "New Run  ▶"), "#0e3a2a")
-	restart_btn.pressed.connect(_restart_run)
+	restart_btn.pressed.connect(func(): _after_ending_exit(_restart_run))
 	modal_body.add_child(restart_btn)
 	var menu_btn = _button(_tr("메인 메뉴로", "Main Menu"), "#1a1a28")
-	menu_btn.pressed.connect(_go_to_menu)
+	menu_btn.pressed.connect(func(): _after_ending_exit(_go_to_menu))
 	modal_body.add_child(menu_btn)
+
+## ── 크레딧 후 히든 「그녀는 알고 있었다」 (ROMANCE_SYSTEM 7-H ②) ──
+## 조건: 지연과 결혼 + 그녀가 떠나지 않음 + 아버지 기록의 진실을 끝내 말하지 않음.
+## 엔딩 화면을 닫는 순간 — 암전, 무음, 한 컷. 발동 전 UI 흔적 0(도감 힌트에도 없음).
+var _drawer_truth_shown := false
+
+func _after_ending_exit(next_action: Callable) -> void:
+	var f = GameState.flags
+	if f.get("arc_jiyeon_wedding_gap_seen", false) and not f.get("jiyeon_left", false) \
+			and not f.get("told_jiyeon_about_records", false) \
+			and not _drawer_truth_shown:
+		_drawer_truth_shown = true
+		_play_drawer_truth_cut(next_action)
+		return
+	next_action.call()
+
+func _play_drawer_truth_cut(next_action: Callable) -> void:
+	_close_modal()
+	BGMPlayer.stop()   # 완전 무음 — amb cut의 극단
+	var layer := CanvasLayer.new()
+	layer.layer = 99
+	add_child(layer)
+	var black := ColorRect.new()
+	black.color = Color(0, 0, 0, 0)
+	black.set_anchors_preset(Control.PRESET_FULL_RECT)
+	black.mouse_filter = Control.MOUSE_FILTER_STOP
+	layer.add_child(black)
+	var text := _label(_tr(
+		"서랍 깊은 곳. 오래된 등기부등본 한 장.\n\n지연이 그것을 접어, 다시 넣었다.\n\n— 그녀는 처음부터 알고 있었다.",
+		"Deep in a drawer. One old property register.\n\nJiyeon folded it, and put it back.\n\n— She had known from the very beginning."), 20, "#c8ccd4")
+	text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	text.set_anchors_preset(Control.PRESET_FULL_RECT)
+	text.modulate = Color(1, 1, 1, 0)
+	black.add_child(text)
+	var tw := create_tween()
+	tw.tween_property(black, "color:a", 1.0, 0.6)           # 암전
+	tw.tween_interval(3.0)                                   # 3초의 정적
+	tw.tween_property(text, "modulate:a", 1.0, 1.4)          # 무음의 한 컷
+	tw.tween_interval(3.4)
+	tw.tween_property(text, "modulate:a", 0.0, 1.0)
+	tw.tween_interval(0.6)
+	tw.tween_callback(func():
+		MetaProgression.unlock_achievement("drawer_truth")
+		layer.queue_free()
+		next_action.call())
 
 func _add_ending_cg_preview(parent: Control, cg_path: String) -> void:
 	_add_ending_art_preview(parent, cg_path, true)

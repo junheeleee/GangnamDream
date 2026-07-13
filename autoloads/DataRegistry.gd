@@ -208,6 +208,7 @@ const ACHIEVEMENT_TEXT_EN := {
 	"beat_addiction": {"name": "Thirty Circles", "description": "Hit the bottom of gambling addiction and climbed back up. The strongest graduation.", "hint": "Complete the addiction recovery arc"},
 	"four_seasons": {"name": "Four Seasons", "description": "Spent spring, summer, fall, and winter — all four — with one person.", "hint": "Some years are beautiful four times"},
 	"kept_evidence": {"name": "What He Kept", "description": "At the moment of reckoning, drew out something he'd never thrown away — of his own will.", "hint": "Some things are kept for a decisive moment"},
+	"drawer_truth": {"name": "The Truth in the Drawer", "description": "Some things only show after the credits end. She had known from the very beginning.", "hint": "Never say it, to the very end — and past the end"},
 }
 
 const CLUE_TEXT_EN := {
