@@ -239,6 +239,14 @@ else
 fi
 
 echo "──────────────────────────────────────────"
+echo "● 스토어 트레일러 30/60초·한영·자산 계약 검사"
+if python3 tools/trailer/trailer_check.py; then
+  TRAILER_EXIT=0
+else
+  TRAILER_EXIT=1
+fi
+
+echo "──────────────────────────────────────────"
 echo "● Godot 전체 스크립트 컴파일 체크 (씬 부팅 → 모든 .gd load 강제 컴파일)"
 # 주의: --quit-after 2(메인씬 부팅)는 RaceTrack/MainGame 등 부팅 시 미로드 스크립트를
 # 컴파일하지 않아 컴파일 버그를 놓친다(게다가 macOS엔 timeout 바이너리도 없어 헛돌았음).
@@ -267,7 +275,7 @@ else
 fi
 
 echo "──────────────────────────────────────────"
-if [ "$PY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$PACING_EXIT" -ne 0 ] || [ "$KEY_ART_EXIT" -ne 0 ] || [ "$CG_ACTING_EXIT" -ne 0 ] || [ "$EVENT_VISUAL_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$AUDIO_SOURCE_EXIT" -ne 0 ] || [ "$UI_SFX_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$BGM_EXIT" -ne 0 ] || [ "$TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_PLAYBACK_EXIT" -ne 0 ] || [ "$ACHIEVEMENT_EXIT" -ne 0 ] || [ "$HIDDEN_EXIT" -ne 0 ] || [ "$HOUSING_KEEPSAKE_EXIT" -ne 0 ] || [ "$YEAR_IDENTITY_EXIT" -ne 0 ] || [ "$DEMO_BUILD_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
+if [ "$PY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$PACING_EXIT" -ne 0 ] || [ "$KEY_ART_EXIT" -ne 0 ] || [ "$CG_ACTING_EXIT" -ne 0 ] || [ "$EVENT_VISUAL_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$AUDIO_SOURCE_EXIT" -ne 0 ] || [ "$UI_SFX_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$BGM_EXIT" -ne 0 ] || [ "$TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_PLAYBACK_EXIT" -ne 0 ] || [ "$ACHIEVEMENT_EXIT" -ne 0 ] || [ "$HIDDEN_EXIT" -ne 0 ] || [ "$HOUSING_KEEPSAKE_EXIT" -ne 0 ] || [ "$YEAR_IDENTITY_EXIT" -ne 0 ] || [ "$DEMO_BUILD_EXIT" -ne 0 ] || [ "$TRAILER_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
   echo "❌ 감사 실패 — 위 ERROR를 고치고 다시 돌리세요."
   exit 1
 fi

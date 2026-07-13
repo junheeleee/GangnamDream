@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "video": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 60
+  },
+  "keyart": "assets/keyart/gangnam_dream_keyart_cast_v1.png",
+  "music": "assets/audio/bgm_main.ogg",
+  "edits": {
+    "30": {
+      "duration": 30.0,
+      "cuts": [
+        {"frame": "trailer_01_cold_open.png", "duration": 4.0},
+        {"frame": "trailer_02_goal_dashboard.png", "duration": 4.0},
+        {"frame": "trailer_03_timer_12.png", "duration": 1.3},
+        {"frame": "trailer_04_timer_07.png", "duration": 1.35},
+        {"frame": "trailer_05_timer_03.png", "duration": 1.35},
+        {"frame": "trailer_06_tint_bright.png", "duration": 1.6},
+        {"frame": "trailer_07_tint_gray.png", "duration": 1.7},
+        {"frame": "trailer_08_tint_dark.png", "duration": 1.7},
+        {"frame": "trailer_09_romance_cherry.png", "duration": 1.25},
+        {"frame": "trailer_10_romance_sea.png", "duration": 1.25},
+        {"frame": "trailer_11_romance_fireworks.png", "duration": 1.25},
+        {"frame": "trailer_12_romance_morning.png", "duration": 1.25},
+        {"frame": "trailer_13_divorce_seal.png", "duration": 1.33},
+        {"frame": "trailer_14_departure.png", "duration": 1.33},
+        {"frame": "trailer_15_empty_table.png", "duration": 1.34},
+        {"frame": "@keyart", "duration": 4.0}
+      ],
+      "captions": [
+        {"start": 0.3, "end": 3.65, "style": "Hook", "ko": "이게 누구인지는, 당신이 정한다.", "en": "Who he becomes is up to you."},
+        {"start": 4.3, "end": 7.65, "style": "Hook", "ko": "5년밖에 없다.", "en": "You have five years."},
+        {"start": 12.25, "end": 16.7, "style": "Hook", "ko": "영혼이 색으로 무너진다.", "en": "Watch a soul collapse in color."},
+        {"start": 17.2, "end": 21.75, "style": "Hook", "ko": "잃을 수 있는 결혼.", "en": "A marriage you can lose."},
+        {"start": 26.15, "end": 29.9, "style": "EndTitle", "ko": "강남드림", "en": "GANGNAM DREAM"},
+        {"start": 26.6, "end": 29.9, "style": "EndBody", "ko": "35개의 엔딩. 당신은 몇 번째로 무너질까?\\NSTEAM 위시리스트에 추가", "en": "35 ENDINGS. HOW WILL YOU BREAK?\\NWISHLIST ON STEAM"}
+      ],
+      "audio": {
+        "gray": [13.6, 15.3],
+        "dark": [15.3, 26.0],
+        "silence": [22.0, 26.0],
+        "cues": [
+          {"path": "assets/audio/sfx_event_new.wav", "at": 8.0, "volume": 0.48},
+          {"path": "assets/audio/sfx_choice_made.wav", "at": 12.0, "volume": 0.42},
+          {"path": "assets/audio/sfx_ending_stinger_bad.wav", "at": 26.0, "volume": 0.72}
+        ]
+      }
+    },
+    "60": {
+      "duration": 60.0,
+      "cuts": [
+        {"frame": "trailer_01_cold_open.png", "duration": 4.0},
+        {"frame": "trailer_02_goal_dashboard.png", "duration": 4.0},
+        {"frame": "trailer_03_timer_12.png", "duration": 1.3},
+        {"frame": "trailer_04_timer_07.png", "duration": 1.35},
+        {"frame": "trailer_05_timer_03.png", "duration": 1.35},
+        {"frame": "trailer_06_tint_bright.png", "duration": 2.0},
+        {"frame": "trailer_07_tint_gray.png", "duration": 2.0},
+        {"frame": "trailer_08_tint_dark.png", "duration": 2.0},
+        {"frame": "trailer_16_montage.png", "duration": 3.0},
+        {"frame": "trailer_19_investment.png", "duration": 3.0},
+        {"frame": "trailer_09_romance_cherry.png", "duration": 2.5},
+        {"frame": "trailer_10_romance_sea.png", "duration": 2.5},
+        {"frame": "trailer_11_romance_fireworks.png", "duration": 2.5},
+        {"frame": "trailer_12_romance_morning.png", "duration": 2.5},
+        {"frame": "trailer_20_racetrack.png", "duration": 3.33},
+        {"frame": "trailer_21_blackjack.png", "duration": 3.33},
+        {"frame": "trailer_22_roulette.png", "duration": 3.34},
+        {"frame": "trailer_13_divorce_seal.png", "duration": 2.0},
+        {"frame": "trailer_14_departure.png", "duration": 2.0},
+        {"frame": "trailer_15_empty_table.png", "duration": 2.0},
+        {"frame": "trailer_17_time_ledger.png", "duration": 2.5},
+        {"frame": "trailer_18_ending_recap.png", "duration": 2.5},
+        {"frame": "@keyart", "duration": 5.0}
+      ],
+      "captions": [
+        {"start": 0.3, "end": 3.65, "style": "Hook", "ko": "이게 누구인지는, 당신이 정한다.", "en": "Who he becomes is up to you."},
+        {"start": 4.3, "end": 7.65, "style": "Hook", "ko": "5년밖에 없다.", "en": "You have five years."},
+        {"start": 12.25, "end": 17.7, "style": "Hook", "ko": "영혼이 색으로 무너진다.", "en": "Watch a soul collapse in color."},
+        {"start": 18.25, "end": 23.7, "style": "Hook", "ko": "매주는 기록으로 남는다.", "en": "Every week leaves a record."},
+        {"start": 24.25, "end": 33.7, "style": "Hook", "ko": "잃을 수 있는 결혼.", "en": "A marriage you can lose."},
+        {"start": 34.2, "end": 43.7, "style": "Hook", "ko": "투자하고. 베팅하고. 버틴다.", "en": "INVEST. BET. SURVIVE."},
+        {"start": 50.25, "end": 54.7, "style": "Hook", "ko": "5년, 다섯 장면, 35개의 엔딩.", "en": "FIVE YEARS. FIVE SCENES. 35 ENDINGS."},
+        {"start": 55.15, "end": 59.9, "style": "EndTitle", "ko": "강남드림", "en": "GANGNAM DREAM"},
+        {"start": 55.6, "end": 59.9, "style": "EndBody", "ko": "당신은 몇 번째로 무너질까?\\NSTEAM 위시리스트에 추가", "en": "HOW WILL YOU BREAK?\\NWISHLIST ON STEAM"}
+      ],
+      "audio": {
+        "gray": [14.0, 16.0],
+        "dark": [16.0, 55.0],
+        "silence": [44.0, 50.0],
+        "cues": [
+          {"path": "assets/audio/sfx_event_new.wav", "at": 8.0, "volume": 0.48},
+          {"path": "assets/audio/sfx_choice_made.wav", "at": 12.0, "volume": 0.42},
+          {"path": "assets/audio/sfx_month.wav", "at": 18.0, "volume": 0.35},
+          {"path": "assets/audio/sfx_casino_spin.wav", "at": 37.3, "volume": 0.22},
+          {"path": "assets/audio/sfx_ending_stinger_bad.wav", "at": 55.0, "volume": 0.72}
+        ]
+      }
+    }
+  }
+}

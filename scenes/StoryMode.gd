@@ -1750,8 +1750,8 @@ func _start_story_choice_countdown(seconds: int, default_index: int) -> void:
 
 	var timer_row := HBoxContainer.new()
 	timer_row.name = "StoryChoiceCountdown"
-	timer_row.add_theme_constant_override("separation", 10)
-	timer_row.custom_minimum_size = Vector2(0, 28)
+	timer_row.add_theme_constant_override("separation", 14)
+	timer_row.custom_minimum_size = Vector2(0, 36)
 	_choice_box.add_child(timer_row)
 
 	_choice_countdown_bar = ProgressBar.new()
@@ -1760,16 +1760,27 @@ func _start_story_choice_countdown(seconds: int, default_index: int) -> void:
 	_choice_countdown_bar.value = float(seconds)
 	_choice_countdown_bar.show_percentage = false
 	_choice_countdown_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_choice_countdown_bar.custom_minimum_size = Vector2(0, 8)
+	_choice_countdown_bar.custom_minimum_size = Vector2(0, 12)
+	var timer_track := StyleBoxFlat.new()
+	timer_track.bg_color = Color("#121820e6")
+	timer_track.border_color = Color("#59616dbf")
+	timer_track.set_border_width_all(1)
+	timer_track.set_corner_radius_all(4)
+	_choice_countdown_bar.add_theme_stylebox_override("background", timer_track)
+	var timer_fill := StyleBoxFlat.new()
+	timer_fill.bg_color = Color("#e0b35a")
+	timer_fill.set_corner_radius_all(4)
+	_choice_countdown_bar.add_theme_stylebox_override("fill", timer_fill)
 	timer_row.add_child(_choice_countdown_bar)
 
 	_choice_countdown_label = Label.new()
 	_choice_countdown_label.name = "CountdownLabel"
 	_choice_countdown_label.text = _tr("남은 시간  %d", "TIME LEFT  %d") % seconds
-	_choice_countdown_label.custom_minimum_size = Vector2(132, 0)
+	_choice_countdown_label.custom_minimum_size = Vector2(168, 0)
 	_choice_countdown_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	_choice_countdown_label.add_theme_font_size_override("font_size", 13)
-	_choice_countdown_label.add_theme_color_override("font_color", Color("#c7ccd4"))
+	_choice_countdown_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_choice_countdown_label.add_theme_font_size_override("font_size", 17)
+	_choice_countdown_label.add_theme_color_override("font_color", Color("#f2c66d"))
 	if _font_bold:
 		_choice_countdown_label.add_theme_font_override("font", _font_bold)
 	timer_row.add_child(_choice_countdown_label)
@@ -1791,7 +1802,12 @@ func _tick_story_choice_countdown() -> void:
 		var seconds_left := maxi(0, ceili(remaining))
 		_choice_countdown_label.text = _tr("남은 시간  %d", "TIME LEFT  %d") % seconds_left
 		if seconds_left <= 3:
-			_choice_countdown_label.add_theme_color_override("font_color", Color("#ef9a9a"))
+			_choice_countdown_label.add_theme_color_override("font_color", Color("#ff7070"))
+			if is_instance_valid(_choice_countdown_bar):
+				var urgent_fill := StyleBoxFlat.new()
+				urgent_fill.bg_color = Color("#d94b4b")
+				urgent_fill.set_corner_radius_all(4)
+				_choice_countdown_bar.add_theme_stylebox_override("fill", urgent_fill)
 	if remaining <= 0.0:
 		var default_index := _choice_countdown_default_index
 		_stop_story_choice_countdown()

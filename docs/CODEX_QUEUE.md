@@ -119,7 +119,8 @@ Claude 컨테이너가 Godot 바이너리를 잃어(2026-07-13) 최근 Claude �
    - ORDER-08 macOS W1~W8 실입력에서 발견한 회귀 후보를 우선 재현한다: 편의점 야간직에도 사무실·지하철 문법인 `story_first_workday`가 발화하는 직종 정합성, 월초 AP가 `3/2`·`3 LEFT`로 보이는 상한/표기 불일치. 플레이테스트 배포 전에 수리·게이트화한다.
 3. Steam Next Fest 참가 체크리스트 리서치(공식 문서 기준: 신청 시기·1회 참가 규칙·데모 페이지 요건) → `docs/NEXTFEST_CHECKLIST.md`. **참가 시기 결정은 유저 몫**(위시리스트가 어느 정도 모인 뒤가 정설 — 근거 포함해 정리).
 
-#### [~] ORDER-11 [P1] 스토어 트레일러 (30초 + 60초 확장판) — 착수: 실제 인게임 캡처·KR/EN 조립 파이프라인 — 만지는 파일: `scenes/StoryMode.gd`, `tools/ScreenshotQA.gd`, `tools/audit.sh`, `tools/trailer/`, `docs/TRAILER_PRODUCTION.md`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`
+#### [x] ORDER-11 [P1] 스토어 트레일러 (30초 + 60초 확장판)
+**완료 보고 (2026-07-13 Codex):** 실제 Godot 표면만으로 KO/EN 각 22컷을 1920x1080으로 재현하는 `--qa=trailer`를 추가하고, 12/7/3초 대포통장 선택·동일 장면 White/Gray/Black·연애 4컷·파국 3컷·시간 기록·투자·경마·블랙잭·룰렛을 고정했다. 실제 선택 타이머는 12초부터 읽히고 3초에 적색 위기로 바뀐다. `timeline.json` 단일 정본에서 30초와 60초 컷, KO/EN 자막, moral 저역 통과, 파국 완전 무음, 프로젝트 소유 효과음을 조립하며 ffmpeg는 컷·자막·믹스·H.264/AAC 인코딩에만 쓴다. KO/EN 30초·60초 4종이 정확한 길이, 1080p60, H.264 High, AAC 48kHz stereo 검사를 통과했고 각 SRT·SHA-256 manifest·QA 프레임을 생성했다. 30초 EN 믹스 실측은 -15.3 LUFS/-1.1 dBTP이며 22-26초 무음이 확인됐다. 재생성·판정 계약은 `TRAILER_PRODUCTION.md`; 최종 편집/카피 판정은 Claude 몫이다.
 > 깔때기에서 스크린샷보다 먼저 재생되는 최강 요소. 콘티는 Claude 확정본(아래) — Codex는 인게임 캡처·조립.
 **30초 콘티 (컷 순서 고정)**:
 1. (0-4s) 콜드오픈 — 2031년 새벽 강남, 플래시포워드 화면 + 자막 "이게 누구인지는, 당신이 정한다."

@@ -11,6 +11,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=gallery --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=year-identity --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=store --lang=en
+##       godot --rendering-driver opengl3 --resolution 1920x1080 res://tools/ScreenshotQA.tscn -- --qa=trailer --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=locale-gate
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-moral --lang=en
@@ -60,6 +61,7 @@ const QA_SCOPE_START_EN := "start_en"
 const QA_SCOPE_GALLERY := "gallery"
 const QA_SCOPE_YEAR_IDENTITY := "year_identity"
 const QA_SCOPE_STORE := "store"
+const QA_SCOPE_TRAILER := "trailer"
 const QA_SCOPE_LOCALE_GATE := "locale_gate"
 const QA_SCOPE_STORY_EN := "story_en"
 const QA_SCOPE_STORY_MORAL := "story_moral"
@@ -180,6 +182,12 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_store_surfaces(lang, "store_en_" if lang == "en" else "store_ko_")
 		print("SCREENSHOT_QA_DONE scope=store lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_TRAILER:
+		var lang := _qa_language("en")
+		await _shot_trailer_surfaces(lang)
+		print("SCREENSHOT_QA_DONE scope=trailer lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_LOCALE_GATE:
@@ -447,6 +455,9 @@ func _qa_scope() -> String:
 				"--store", "--store-shots", "--store_shots", "qa=store", "--qa=store",
 				"scope=store", "--scope=store"]:
 			return QA_SCOPE_STORE
+		if arg in ["trailer", "store-trailer", "store_trailer", "--trailer",
+				"qa=trailer", "--qa=trailer", "scope=trailer", "--scope=trailer"]:
+			return QA_SCOPE_TRAILER
 		if arg in ["locale-gate", "locale_gate", "language-gate", "language_gate",
 				"--locale-gate", "--locale_gate", "qa=locale-gate", "--qa=locale-gate",
 				"qa=locale_gate", "--qa=locale_gate", "scope=locale-gate", "--scope=locale-gate"]:
@@ -1046,6 +1057,10 @@ func _assert_transport_visual_state(story: Node, event_id: String) -> void:
 	}
 	if not expected_ids.has(event_id):
 		return
+	# Sea events deliberately replace the train backdrop with a full-scene CG later.
+	# The transport contract only governs the pre-reveal frame.
+	if bool(story.get("_current_uses_cg")):
+		return
 	var expected_id := str(expected_ids[event_id])
 	var actual_id := str(story.get("_event_background_id"))
 	if actual_id != expected_id:
@@ -1616,6 +1631,234 @@ func _shot_store_surfaces(lang: String = "en", prefix: String = "store_en_") -> 
 		_fail("Store ending recap did not show '%s'" % expected_heading)
 		return
 	await _save(prefix + "08_ending_recap")
+	await _dispose_main_game()
+
+func _shot_trailer_surfaces(lang: String = "en") -> void:
+	_set_qa_language(lang)
+
+	_prepare_main_game_state()
+	GameState.moral_tint = 0.0
+	await _shot_story_event("story_flashforward", "trailer_01_cold_open", "", 0.9, true)
+	await _shot_trailer_goal_dashboard()
+	await _shot_trailer_timer_sequence()
+
+	for moral_case in [
+		[80.0, "trailer_06_tint_bright"],
+		[0.0, "trailer_07_tint_gray"],
+		[-80.0, "trailer_08_tint_dark"],
+	]:
+		_prepare_main_game_state()
+		GameState.turn = 72
+		GameState.age = 34
+		GameState.moral_tint = float(moral_case[0])
+		await _shot_story_event(
+			"arc_y2_worn_face", str(moral_case[1]), "", 0.45, true, true)
+
+	_prepare_main_game_state()
+	GameState.flags["daeun_romance_started"] = true
+	GameState.moral_tint = 32.0
+	await _shot_story_event("arc_season_cherry_daeun", "trailer_09_romance_cherry", "", 0.45, true)
+	_prepare_main_game_state()
+	GameState.flags["daeun_romance_started"] = true
+	GameState.moral_tint = 32.0
+	await _shot_story_event(
+		"arc_season_sea_daeun", "trailer_10_romance_sea", "", 0.35, true, false, -1, 2)
+	_prepare_main_game_state()
+	GameState.flags["daeun_romance_started"] = true
+	GameState.moral_tint = 32.0
+	await _shot_story_event("arc_season_fireworks_daeun", "trailer_11_romance_fireworks", "", 0.45, true)
+	_prepare_wedding_morning_qa_state("daeun")
+	GameState.moral_tint = 32.0
+	await _shot_story_event(
+		"arc_daeun_wedding_night", "trailer_12_romance_morning", "", 0.35,
+		true, true, 0, 0, false, 1)
+
+	_prepare_breakup_qa_state("daeun")
+	await _shot_story_event(
+		"arc_daeun_final_choice", "trailer_13_divorce_seal", "", 0.35,
+		true, true, 1, 0, false, 3)
+	_prepare_breakup_qa_state("jiyeon")
+	await _shot_story_event(
+		"arc_jiyeon_verdict", "trailer_14_departure", "", 0.35,
+		true, true, 1, 0, false, 2)
+
+	_prepare_main_game_state()
+	await _boot_main_game()
+	_seed_ending_state("lonely_rich")
+	_mg.call("_show_ending", "lonely_rich")
+	await _settle(0.8)
+	var empty_table_preview := _find_ending_art_preview(_mg)
+	var empty_table_path := ImageRegistry.get_cg("cg_ending_lonely_rich")
+	if empty_table_preview == null or empty_table_preview.texture == null \
+			or empty_table_preview.texture.resource_path != empty_table_path:
+		_fail("Trailer catastrophe shot did not render the lonely-rich table CG.")
+		return
+	await _save("trailer_15_empty_table")
+	await _dispose_main_game()
+
+	await _shot_trailer_extended_surfaces()
+	GameState.moral_tint = 0.0
+
+func _shot_trailer_goal_dashboard() -> void:
+	_prepare_main_game_state()
+	GameState.turn = 1
+	GameState.year = 2026
+	GameState.month = 1
+	GameState.week_of_month = 1
+	GameState.money = 500_000.0
+	GameState.monthly_income = 0.0
+	GameState.current_job = {}
+	GameState.action_points = 2
+	GameState.flags.erase("has_received_paycheck")
+	GameState.flags.erase("is_employed")
+	await _boot_main_game()
+	_mg.set("current_event", {})
+	if _mg.has_method("_render_ap_actions"):
+		_mg.call("_render_ap_actions")
+	if _mg.has_method("_finish_typing"):
+		_mg.call("_finish_typing")
+	await _settle(0.55)
+	await _save("trailer_02_goal_dashboard")
+	await _dispose_main_game()
+
+func _shot_trailer_timer_sequence() -> void:
+	_prepare_main_game_state()
+	GameState.turn = 4
+	GameState.money = 500_000.0
+	GameState.monthly_income = 0.0
+	GameState.current_job = {}
+	GameState.flags.erase("has_received_paycheck")
+	GameState.flags.erase("is_employed")
+	GameState.pending_story_queue = ["arc_temptation_01"]
+	var packed := load("res://scenes/StoryMode.tscn") as PackedScene
+	var story := packed.instantiate()
+	get_tree().root.add_child.call_deferred(story)
+	await get_tree().process_frame
+	if story.has_method("_set_auto_mode"):
+		story.call("_set_auto_mode", false, false)
+	await _settle(0.2)
+	for _step in range(80):
+		if bool(story.get("_showing_choices")):
+			break
+		if bool(story.get("_typing")) and story.has_method("_complete_typing"):
+			story.call("_complete_typing")
+		elif story.has_method("_on_advance"):
+			story.call("_on_advance")
+		await _settle(0.025)
+	if not bool(story.get("_showing_choices")):
+		_fail("Trailer timer fixture could not reach the actual timed choices.")
+		return
+	# Let the real choice-entry tween finish before freezing the countdown frames.
+	await _settle(0.4)
+	for timer_case in [
+		[12, "trailer_03_timer_12"],
+		[7, "trailer_04_timer_07"],
+		[3, "trailer_05_timer_03"],
+	]:
+		var seconds_left := int(timer_case[0])
+		story.set("_choice_countdown_deadline_msec", Time.get_ticks_msec() + seconds_left * 1000)
+		story.call("_tick_story_choice_countdown")
+		await get_tree().process_frame
+		var timer_label := story.get("_choice_countdown_label") as Label
+		var expected := _tr("남은 시간  %d", "TIME LEFT  %d") % seconds_left
+		if timer_label == null or timer_label.text != expected:
+			_fail("Trailer timer expected '%s'." % expected)
+			return
+		await _save(str(timer_case[1]), 0.02)
+	_remove_nodes_by_script("res://scenes/StoryMode.gd")
+	GameState.pending_story_queue.clear()
+	await _settle(0.2)
+
+func _shot_trailer_extended_surfaces() -> void:
+	_prepare_main_game_state()
+	GameState.turn = 145
+	GameState.age = 36
+	GameState.year = 2029
+	GameState.month = 1
+	GameState.week_of_month = 1
+	await _boot_main_game()
+	var assets_before := float(GameState.get_total_asset_value()) - 420_000.0
+	_mg.call(
+		"_show_montage_card", 3, assets_before, GameState.health + 2,
+		GameState.mental + 3, 2, 1, "cap", 3)
+	await _settle(0.45)
+	await _save("trailer_16_montage")
+	await _dispose_main_game()
+
+	_prepare_main_game_state()
+	_seed_year_scene_history(true)
+	await _boot_main_game()
+	_seed_ending_state("stable_success")
+	_mg.call("_show_ending", "stable_success")
+	await _settle(0.8)
+	if not await _focus_modal_qa_surface("time_ledger"):
+		_fail("Trailer could not focus the time ledger.")
+		return
+	await _save("trailer_17_time_ledger")
+	if not await _focus_modal_qa_surface("year_scene_recap"):
+		_fail("Trailer could not focus the five-scene recap.")
+		return
+	await _save("trailer_18_ending_recap")
+	await _dispose_main_game()
+
+	_prepare_main_game_state()
+	_seed_portfolio()
+	GameState.money = 10_000_000.0
+	await _boot_main_game()
+	if not _mg.has_method("_open_investments"):
+		_fail("Trailer investment surface is unavailable.")
+		return
+	_mg.call("_open_investments")
+	await _settle(0.65)
+	await _save("trailer_19_investment")
+	_close_modal()
+	await _settle(0.25)
+
+	var racetrack = _mg.get("racetrack")
+	if racetrack == null or not racetrack.has_method("open"):
+		_fail("Trailer racetrack surface is unavailable.")
+		return
+	racetrack.call("open")
+	racetrack.set("skip_countdown_for_smoke", true)
+	racetrack.set("_bet_type", 1)
+	racetrack.set("_picks", [0])
+	racetrack.call("_render")
+	racetrack.call("_place_bet", 10_000.0)
+	await _settle(1.2)
+	await _save("trailer_20_racetrack")
+	racetrack.set("skip_countdown_for_smoke", false)
+	racetrack.set("visible", false)
+	if _mg.has_method("_exit_minigame_overlay"):
+		_mg.call("_exit_minigame_overlay")
+	await _settle(0.25)
+
+	var blackjack = _mg.get("blackjack_table")
+	if blackjack == null or not blackjack.has_method("open"):
+		_fail("Trailer blackjack surface is unavailable.")
+		return
+	blackjack.call("open")
+	blackjack.call("_set_stake_and_deal", 10_000)
+	await _settle(0.8)
+	await _save("trailer_21_blackjack")
+	blackjack.set("visible", false)
+	if _mg.has_method("_exit_minigame_overlay"):
+		_mg.call("_exit_minigame_overlay")
+	await _settle(0.25)
+
+	var roulette = _mg.get("roulette_table")
+	if roulette == null or not roulette.has_method("open"):
+		_fail("Trailer roulette surface is unavailable.")
+		return
+	roulette.call("open")
+	roulette.call("_select_bet_type", 1)
+	roulette.call("_select_stake", 10_000)
+	roulette.call("_do_bet")
+	roulette.call("_do_spin")
+	await _settle(1.55)
+	await _save("trailer_22_roulette")
+	roulette.set("visible", false)
+	if _mg.has_method("_exit_minigame_overlay"):
+		_mg.call("_exit_minigame_overlay")
 	await _dispose_main_game()
 
 func _assert_archive_surface(menu: Control, context: String) -> void:

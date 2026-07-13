@@ -38,6 +38,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Archive CG silhouettes/fullscreen preview, scene replay paging, hidden-name secrecy, and read-only GameState/MetaProgression invariants | `--qa=gallery --lang=ko/en` |
 | Five year identities, year-scene curation, Y1 timed choice, Y5 week countdown, and ending five-scene recap | `--qa=year-identity --lang=ko/en` |
 | Steam store sequence: cold-open, money-mule timer, montage, time ledger, identical bright/dark scene pair, seasonal date CG, and five-scene ending recap | `--qa=store --lang=en` then `StoreScreenshotExport.tscn` |
+| Store trailer sources: 22 actual Godot surfaces covering goal, timer, tint, romance, rupture, time records, investment, and minigames | `--qa=trailer --lang=ko/en` at 1920x1080 |
 | StoryMode/VN flashforward Black→arrival Gray reset, intro events, 1~4-choice lower dock, readable backgrounds, chapter card, scene direction framing | `--qa=story-en` |
 | StoryMode non-CG Black/Gray/White luminance, forced-Black framing, same-scene perception prose, moral choice wording, portrait distance, result-attention order/counterweight preservation, and KO/EN crop | `--qa=story-moral --lang=ko/en` |
 | Authored Moral Perception anchors: Daeun cafe, Sangchul mirror, why Gangnam, father's last call, and final countdown across Black/Gray/White prose and choices | `--qa=moral-anchors --lang=ko/en` |
@@ -110,6 +111,13 @@ Automated store-asset gate:
 - `ScreenshotQA --qa=store --lang=en` must generate exactly eight named source frames from actual game state, including the same Daeun cafe event at Moral Tint +80 and -80.
 - `StoreScreenshotExport.tscn` must crop those sources to the canonical 1280x720 filenames in `/tmp/gangnamdream_store_screenshots`.
 - `python3 tools/store_shot_check.py` must print `STORE_SHOT_CHECK_OK count=8 size=1280x720 unique=8`; missing, stale, duplicate, undersized, or wrongly sized PNGs fail the gate.
+
+Automated store-trailer gate:
+
+- `ScreenshotQA --qa=trailer --lang=ko/en` must render all 22 named in-game sources at 1920x1080. The actual timed-choice surface must remain readable at 12/7/3 seconds and turn urgent at three seconds.
+- `python3 tools/trailer/trailer_check.py` must keep the exact 30/60-second cut totals, Korean/English caption pairs, canonical key art/music, project-owned cues, and complete source contract valid. It runs inside `tools/audit.sh` without requiring generated footage.
+- `./tools/trailer/render_all.sh` must produce four H.264/AAC 1080p60 MP4s, SRT files, checksum manifests, and five QA frames per edit under ignored `build/trailer/`.
+- Reviewers must confirm the same-scene Moral Tint progression, title-safe captions, 22-26s/44-50s catastrophe silence, and no unsupported marketing claim. See `docs/TRAILER_PRODUCTION.md`.
 
 Automated audio gates:
 
