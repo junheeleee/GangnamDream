@@ -86,6 +86,7 @@ English:
 정량 5번과 짝을 이루는 필수 후속 질문이다. 핵심 정성 3문항 수에는 포함하지 않는다.
 
 - 거슬리거나 게임에서 튄 그림이 있었다면 장면 하나를 적어 주세요. / Name one scene whose art bothered you or felt out of place, if any.
+- 답변에는 가능하면 장면 제목 또는 당시 장소를 적는다. 진행자는 “AI 같았나요?”처럼 원인을 유도하지 않는다. / Ask for a scene title or location when possible. Do not lead the player by asking whether it looked AI-generated.
 
 ## 6. 관찰 기록지
 

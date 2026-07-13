@@ -235,7 +235,31 @@ English:
 
 다른 영화나 게임의 상표를 빌려 “한국판 OOO”로 소개하지 않는다. 레퍼런스는 내부 설계에만 쓰고, 외부에서는 강남드림 자체의 이미지와 문장으로 기억되게 한다.
 
-## 12. 업로드 전 게이트
+## 12. 생성형 AI 공시 정본
+
+Steamworks의 [콘텐츠 설문 조사](https://partner.steamgames.com/doc/gettingstarted/contentsurvey?l=koreana)는 플레이어가 소비하는 아트·음향·서사·현지화 등에 AI 도구가 쓰였으면 사전 생성/실시간 생성을 구분해 자세히 적도록 요구한다. 강남드림은 **사전 생성만 사용**하며 게임 실행 중 AI 모델이나 외부 생성 서비스에 접속하지 않는다.
+
+### Steam Content Survey - 한국어 초안
+
+```text
+사전 생성 생성형 AI 도구가 일부 2D 배경, 캐릭터 초상화, 이벤트 CG의 초기 제작과 서사 초안 및 영문 현지화 보조에 사용되었습니다. 출시 빌드에 포함되는 모든 결과물은 개발자가 직접 선별·편집·수정하고 게임 안에서 검수했습니다. 이미지는 반복 인물의 얼굴과 의상, 손과 시선, 한국 공간의 구조, 이미지 안의 글자·상표, 색감과 크롭을 전수 확인했습니다. 서사와 현지화는 한국어/영어 의미 대응, 인물 말투, 조건·선택 결과와 화면 잘림을 검수했습니다. 게임 실행 중에는 생성형 AI 콘텐츠가 만들어지지 않으며 외부 AI 서비스에 접속하지 않습니다.
+```
+
+### Steam Content Survey - English draft
+
+```text
+Pre-generated generative AI tools assisted with initial drafts of some 2D backgrounds, character portraits, event CGs, narrative text, and English localization. Every output included in the release build was selected, edited, corrected, and tested in-game by the developer. Visual review covers recurring character identity and wardrobe, hands and gaze, Korean spatial logic, embedded text and trademarks, grading, and crop safety. Narrative and localization review covers Korean-English meaning parity, character voice, conditions and choice consequences, and on-screen layout. The game does not generate AI content at runtime and does not connect to an external AI service during play.
+```
+
+공개 페이지에 짧은 설명이 필요한 경우 다음 문장만 사용한다. “AI가 다 만들었다”거나 “사람이 전부 다시 그렸다”는 식의 과장된 양극단 표현은 쓰지 않는다.
+
+```text
+일부 2D 아트와 문안·영문 현지화의 초기 제작에 생성형 AI 도구의 도움을 받았으며, 출시되는 모든 콘텐츠는 개발자가 직접 편집·수정·검수했습니다. 플레이 중 생성되는 AI 콘텐츠는 없습니다.
+
+Generative AI tools assisted with early production of some 2D art, writing, and English localization. All shipped content was edited, corrected, and reviewed by the developer. No AI content is generated during play.
+```
+
+## 13. 업로드 전 게이트
 
 - [ ] Short Description A/B 중 하나를 캡슐과 함께 5명에게 3초 노출하고, “무슨 게임인가”를 설명 없이 회수한다.
 - [ ] 8장 모두 `python3 tools/store_shot_check.py` 통과.
@@ -243,4 +267,4 @@ English:
 - [ ] 모든 스크린샷이 실제 영문 인게임 UI이며 외부 합성 문구가 없는지 확인.
 - [ ] 첫 4장만 보고도 목표, 선택, 시간 압축, 장기 결과가 각각 하나씩 읽히는지 확인.
 - [ ] 지원 언어, 엔딩 수, 데모 범위가 현재 빌드와 일치하는지 출시 후보마다 재확인.
-- [ ] AI 보조 이미지 공시 문구는 `ORDER-14` 전수 감사가 끝난 뒤 최종 확정.
+- [x] AI 보조 콘텐츠 공시 초안이 실제 사용 범위와 `docs/ART_AI_AUDIT.md` 전수 감사 결과를 반영함.

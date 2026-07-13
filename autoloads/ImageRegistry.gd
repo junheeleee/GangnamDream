@@ -16,7 +16,8 @@ const PORTRAITS = {
 	"player_shocked":     "res://assets/characters/main_character_shocked.png",
 	"player_sad":         "res://assets/characters/main_character_tired.png",
 	"player_suit":        "res://assets/characters/main_character_corporate.png",
-	"player_hollow":      "res://assets/characters/main_character_50s.png",
+	# 본편은 33~38세다. 배경이 구워진 50대 에필로그 원화 대신 같은 신원의 투명 피로 초상을 쓴다.
+	"player_hollow":      "res://assets/characters/main_character_tired.png",
 	"player_romance_casual": "res://assets/characters/main_character_unemployed.png",
 	# 비직업 일상/산책 장면. 현재 직업 정장으로 동적 교체하지 않는 검은 크루넥 중립 얼굴.
 	"player_offduty_neutral": "res://assets/characters/main_character_neutral_goshiwon.png",
@@ -88,8 +89,6 @@ const PORTRAITS = {
 	"tip_seller":         "res://assets/characters/npc_tip_seller.png",
 
 	# 신규 인물 (Year 3-5)
-	"jaewon":             "res://assets/characters/npc_jaewon.png",
-	"jaewon_normal":      "res://assets/characters/npc_jaewon.png",
 	"minseo":             "res://assets/characters/npc_minseo.png",
 	"minseo_normal":      "res://assets/characters/npc_minseo.png",
 }
@@ -101,7 +100,7 @@ const PLAYER_CORPORATE = "res://assets/characters/main_character_corporate.png"
 const PLAYER_TIRED = "res://assets/characters/main_character_tired.png"
 const PLAYER_HAPPY = "res://assets/characters/main_character_happy.png"
 const PLAYER_SHOCKED = "res://assets/characters/main_character_shocked.png"
-const PLAYER_HOLLOW = "res://assets/characters/main_character_50s.png"
+const PLAYER_HOLLOW = "res://assets/characters/main_character_tired.png"
 const PLAYER_MORAL_GRAY = "res://assets/characters/main_character_neutral_goshiwon.png"
 const PLAYER_MORAL_BLACK = "res://assets/characters/main_character_determined.png"
 const PLAYER_MORAL_WHITE = "res://assets/characters/main_character_happy.png"
