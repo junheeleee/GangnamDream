@@ -119,7 +119,7 @@ Claude 컨테이너가 Godot 바이너리를 잃어(2026-07-13) 최근 Claude �
    - ORDER-08 macOS W1~W8 실입력에서 발견한 회귀 후보를 우선 재현한다: 편의점 야간직에도 사무실·지하철 문법인 `story_first_workday`가 발화하는 직종 정합성, 월초 AP가 `3/2`·`3 LEFT`로 보이는 상한/표기 불일치. 플레이테스트 배포 전에 수리·게이트화한다.
 3. Steam Next Fest 참가 체크리스트 리서치(공식 문서 기준: 신청 시기·1회 참가 규칙·데모 페이지 요건) → `docs/NEXTFEST_CHECKLIST.md`. **참가 시기 결정은 유저 몫**(위시리스트가 어느 정도 모인 뒤가 정설 — 근거 포함해 정리).
 
-#### [~] ORDER-11 [P1] 스토어 트레일러 (30초 + 60초 확장판) — 착수: 실제 인게임 캡처·KR/EN 조립 파이프라인 — 만지는 파일: `tools/ScreenshotQA.gd`, `tools/audit.sh`, `tools/trailer/`, `docs/TRAILER_PRODUCTION.md`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`
+#### [~] ORDER-11 [P1] 스토어 트레일러 (30초 + 60초 확장판) — 착수: 실제 인게임 캡처·KR/EN 조립 파이프라인 — 만지는 파일: `scenes/StoryMode.gd`, `tools/ScreenshotQA.gd`, `tools/audit.sh`, `tools/trailer/`, `docs/TRAILER_PRODUCTION.md`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`
 > 깔때기에서 스크린샷보다 먼저 재생되는 최강 요소. 콘티는 Claude 확정본(아래) — Codex는 인게임 캡처·조립.
 **30초 콘티 (컷 순서 고정)**:
 1. (0-4s) 콜드오픈 — 2031년 새벽 강남, 플래시포워드 화면 + 자막 "이게 누구인지는, 당신이 정한다."
