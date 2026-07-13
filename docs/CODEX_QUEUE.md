@@ -42,8 +42,8 @@
 
 ### 활성 오더 (Claude 발행 — 위에서부터)
 
-#### [~] ORDER-01 [P0] 컴파일 게이트 복구 실행
-**[~] 착수 — 만지는 파일:** `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `CLAUDE.md`. 최신 `main`에서 컴파일 포함 전체 audit와 `--qa=ap-en` 스모크를 실행한다. 오류가 발견되면 수정 전에 해당 소스 파일을 별도 범위 확장 선언 커밋으로 추가한다.
+#### [x] ORDER-01 [P0] 컴파일 게이트 복구 실행
+**완료 보고 (2026-07-13 Codex):** Godot 4.6.3으로 최신 `main`의 `GODOT=<로컬 경로> ./tools/audit.sh`를 풀 실행했다. 정적 감사 ERROR 0/WARNING 0, 밸런스 3정책, 오디오·BGM 연속성, 튜토리얼 입력, 스토리 자동 재생, 영어 zero-Hangul/커버리지, 활성 CG 50장/배우 계약 86개가 모두 통과했고 57개 GDScript 강제 로드 컴파일도 깨끗했다. `--qa=ap-en`은 영어 AP·루틴·구직·관계·정보 모달 25컷을 완주했으며 대표 화면의 1280x800 잘림·한글 누출이 없었다. 종료 시 기존 OpenGL Texture/RID 정리 경고만 재현됐고 실행 결과는 `SCREENSHOT_QA_DONE`이다. 수리할 컴파일 오류가 없어 소스 범위 확장은 없었다.
 
 Claude 컨테이너가 Godot 바이너리를 잃어(2026-07-13) 최근 Claude 커밋들(간직한 것들 리캡·서랍 속의 진실·새벽의 사람들)이 **GDScript 컴파일 검증 없이** main에 반영됐다(정적 검증만 통과). 최신 main에서 `GODOT=<로컬 경로> ./tools/audit.sh` 풀 실행(컴파일 포함)+`--qa=ap-en` 스모크 1회. 컴파일 에러 발견 시 즉시 수리 커밋. **이후 상시**: Claude 커밋이 main에 들어올 때마다 컴파일 게이트는 Codex 몫.
 

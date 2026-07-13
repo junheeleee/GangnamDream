@@ -1,5 +1,17 @@
 # Gangnam Dream Work Log
 
+## 2026-07-13 (Codex — ORDER-01 최신 main 컴파일 게이트)
+
+### 실행
+- 공식 Godot 4.6.3으로 `GODOT=<local> ./tools/audit.sh` 전체 게이트를 실행했다. 정적 감사, 첫 세션 입력 밀도, 키아트, CG 연기/시선, 이벤트 비주얼, 한영 표면, 1,200런 x 3정책 밸런스, 오디오 자산, BGM 연속성, 튜토리얼 포커스, 스토리 자동 재생을 생략 없이 통과했다.
+- CompileCheck가 프로젝트의 GDScript 57개를 강제 로드했고 컴파일 오류는 0이었다. Claude 웨이브 3b 이후의 별도 수리 커밋은 필요하지 않았다.
+- `ScreenshotQA --qa=ap-en`은 1280x800 영어 AP 보드와 루틴·구직·투자·관계·도박·생활·정보 모달 25컷을 생성하고 `SCREENSHOT_QA_DONE`으로 종료했다. 대표 화면을 직접 확인해 잘림과 한글 누출이 없음을 확인했다.
+
+### 결과
+- `audit.sh`: ERROR 0 / WARNING 0 / 전체 컴파일 깨끗.
+- `ap-en`: 25/25 캡처 완료. 종료 시 기존 OpenGL Texture/RID 해제 경고는 재현되지만 QA 실패나 게임플레이 오류는 아니다.
+- 다음 활성 오더는 `ORDER-02` Tier2 미드게임 스파인 한영 산문 패스다.
+
 ## 2026-07-13 (Codex — 히든 `instant_legend` 첫해 결산 CG)
 
 ### 진단
