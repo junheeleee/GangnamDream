@@ -35,6 +35,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 |---|---|
 | First-run language gate, KO default names, localized portrait name tags | `--qa=locale-gate` |
 | Prologue motivation imprint: Knee, Last Payment, notebook choices, persistent goal sentence, notebook modal, montage, and month-end ritual | `--qa=motivation-imprint --lang=ko/en` |
+| Tier-1 peak scene chain count, meaningful decision points, StoryMode panels, dialogue exchange, and KO/EN choice parity | `python3 tools/peak_scene_chain_audit.py --strict` |
 | Prepared Japanese/Chinese arbitrary-character wrapping and 1280x800 safe area | `--qa=i18n-layout --lang=ja/zh-CN/zh-TW` |
 | Splash, opening, StartMenu press-any-key, start menu, content notice | `--qa=start-en` |
 | Archive CG silhouettes/fullscreen preview, scene replay paging, hidden-name secrecy, and read-only GameState/MetaProgression invariants | `--qa=gallery --lang=ko/en` |
@@ -100,6 +101,7 @@ Automated onboarding gates:
 - `MotivationImprintCheck.tscn` must prove the exact nine-link Knee→Last Payment→Father→Notebook chain, all nine identity choices and serialized flags, nine KO/EN memory readers, three persistent notebook motives, and Father contacts at weeks 11, 15, and 21.
 - `tools/audit.sh` must print `MOTIVATION_IMPRINT_OK chain=9 identity=9 readers=9 motives=3 father_contacts=3`.
 - `ScreenshotQA --qa=motivation-imprint --lang=ko/en` must render the three identity-choice surfaces, the full persistent notebook sentence on the AP goal bar, the no-scroll notebook and montage modals, and the visible month-end ritual at 1280x800.
+- `peak_scene_chain_audit.py --strict` measures the 28 canonical Tier-1 roots through their actual `follow_up_event` paths. It must preserve both Namsan gold-standard chains and may never raise the recorded expansion debt above 26; each accepted expansion ratchets that ceiling down.
 - Demo ending ScreenshotQA fails when the record requires vertical scrolling; the wishlist, restart, and main-menu actions must remain in the first 1280×800 viewport in both languages.
 - `DemoBuildCheck.tscn -- --demo-build` must keep full and demo export presets separate, execute the canonical t=1~8 arc chain with real choice effects/follow-ups, permit week 24, and stop before week 25. `tools/audit.sh` must print `DEMO_BUILD_CHECK_OK feature=gangnam_demo cutoff=24 chain=8 presets=6`.
 - `ScreenshotQA --qa=demo-blackbox --lang=ko/en --demo-build` is the visual companion gate. `--demo-build` is mandatory because Godot custom export features are unavailable while running from the editor.
