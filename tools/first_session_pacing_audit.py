@@ -11,6 +11,22 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 START_ID = "story_flashforward"
 PLACEHOLDER_CHARS = ".…"
+EXPECTED_EVENT_SEQUENCE = (
+    "story_flashforward",
+    "story_arrival",
+    "story_knee_door",
+    "story_knee_witness",
+    "story_knee_choice",
+    "story_last_payment_wait",
+    "story_last_payment_word",
+    "story_last_payment_exit",
+    "story_prologue_dad",
+    "story_prologue_goal",
+    "story_prologue_meal",
+    "story_pressure",
+)
+MAX_PARAGRAPHS = 84
+MAX_FAST_INPUTS = 180
 
 
 @dataclass(frozen=True)
@@ -136,18 +152,32 @@ def main() -> int:
     max_events = max(len(path.event_ids) for path in paths)
     max_auto_confirms = max(path.manual_confirms_with_auto for path in paths)
     max_fast_inputs = max(path.fast_inputs for path in paths)
+    max_paragraphs = max(path.paragraphs for path in paths)
     first_meaningful = min(path.first_meaningful_event for path in paths)
-    if max_events > 8:
-        raise ValueError(f"prologue chains too many scenes before AP: {max_events}>8")
-    if max_auto_confirms > 8:
-        raise ValueError(f"prologue needs too many confirms even with auto playback: {max_auto_confirms}>8")
-    if first_meaningful > 3:
-        raise ValueError(f"first meaningful choice arrives too late: event {first_meaningful}>3")
+    unexpected_sequences = [path.event_ids for path in paths if path.event_ids != EXPECTED_EVENT_SEQUENCE]
+    if unexpected_sequences:
+        raise ValueError(f"prologue sequence drifted: {unexpected_sequences[0]}")
+    if min_events != len(EXPECTED_EVENT_SEQUENCE) or max_events != len(EXPECTED_EVENT_SEQUENCE):
+        raise ValueError(
+            f"prologue event count drifted: {min_events}-{max_events}!={len(EXPECTED_EVENT_SEQUENCE)}"
+        )
+    if max_paragraphs > MAX_PARAGRAPHS:
+        raise ValueError(f"prologue prose exceeded the 5-7 minute budget: {max_paragraphs}>{MAX_PARAGRAPHS}")
+    if max_auto_confirms > len(EXPECTED_EVENT_SEQUENCE):
+        raise ValueError(
+            f"prologue needs too many confirms even with auto playback: "
+            f"{max_auto_confirms}>{len(EXPECTED_EVENT_SEQUENCE)}"
+        )
+    if max_fast_inputs > MAX_FAST_INPUTS:
+        raise ValueError(f"prologue fast-forward input budget exceeded: {max_fast_inputs}>{MAX_FAST_INPUTS}")
+    if first_meaningful > 5:
+        raise ValueError(f"first meaningful choice arrives too late: event {first_meaningful}>5")
 
     print(
         "FIRST_SESSION_PACING_OK "
         f"paths={len(paths)} events={min_events}-{max_events} "
-        f"auto_confirms<={max_auto_confirms} fast_inputs<={max_fast_inputs} "
+        f"paragraphs<={max_paragraphs} auto_confirms<={max_auto_confirms} "
+        f"fast_inputs<={max_fast_inputs} "
         f"first_meaningful={first_meaningful}"
     )
     return 0

@@ -946,6 +946,16 @@ func _render_current():
 		desc_raw = str(_current["description_orthodox"])
 	elif unorth > ortho + 15 and _current.has("description_unorthodox"):
 		desc_raw = str(_current["description_unorthodox"])
+	# 정체성 흔적은 기존 발견/도덕/루트 본문을 덮지 않고 뒤에 되돌아온다.
+	# 첫 매치만 붙여 한 장면에 기억 문단이 겹쳐 쌓이지 않게 한다.
+	var memory_map = _current.get("description_memory_if_known", null)
+	if memory_map is Dictionary:
+		for fl in memory_map.keys():
+			if GameState.flags.get(str(fl), false):
+				var memory_text := str(memory_map[fl]).strip_edges()
+				if not memory_text.is_empty():
+					desc_raw += "\n\n" + memory_text
+				break
 	var desc = _fmt(desc_raw)
 	# 랜덤 사건의 첫 문장에 최근 행동의 흔적을 붙인다. 별도 문단으로 만들면
 	# CG/초상 reveal 인덱스가 밀리므로 첫 문단 안의 조용한 인과 프레임으로만 표시한다.

@@ -32,6 +32,7 @@ TEXT_EVENT_KEYS = {
     "title",
     "description",
     "description_if_known",
+    "description_memory_if_known",
     "description_if_moral",
     "description_orthodox",
     "description_unorthodox",
@@ -136,7 +137,11 @@ def validate_event(
         for field in ("title", "description"):
             if isinstance(base.get(field), str) and not isinstance(overlay.get(field), str):
                 errors.append(f"{lang}:{event_id}: missing {field}")
-    for field in ("description_if_known", "description_if_moral"):
+    for field in (
+        "description_if_known",
+        "description_memory_if_known",
+        "description_if_moral",
+    ):
         if not key_parity(base.get(field), overlay.get(field)):
             errors.append(f"{lang}:{event_id}: {field} key mismatch")
 

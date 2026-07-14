@@ -55,6 +55,15 @@ for f in glob.glob(os.path.join(KRDIR, '*.json')):
                 miss = [k for k in kr_dik if k not in en_dik]
                 if miss:
                     leaks.append((eid, 'MISSING_dik_keys:' + ','.join(miss)))
+        kr_memory = e.get('description_memory_if_known')
+        if isinstance(kr_memory, dict) and kr_memory:
+            en_memory = en.get('description_memory_if_known')
+            if not isinstance(en_memory, dict):
+                leaks.append((eid, 'MISSING_description_memory_if_known(%d keys)' % len(kr_memory)))
+            else:
+                miss = [k for k in kr_memory if k not in en_memory]
+                if miss:
+                    leaks.append((eid, 'MISSING_memory_dik_keys:' + ','.join(miss)))
         kr_moral = e.get('description_if_moral')
         if isinstance(kr_moral, dict) and kr_moral:
             en_moral = en.get('description_if_moral')

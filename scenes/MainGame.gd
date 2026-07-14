@@ -248,6 +248,7 @@ var _resume_after_tendency: bool = false
 var _goal_bar: ProgressBar
 var _goal_pct_label: Label
 var _goal_money_lbl: Label
+var _goal_motive_lbl: Label
 var _goal_time_lbl: Label  # 남은 개월 표시
 
 # ── Pretendard 폰트 (한국어 가독성) ─────────────────────────────
@@ -1800,7 +1801,7 @@ func _build_goal_bar(parent: Control) -> void:
 	row_panel.add_child(row)
 
 	_goal_money_lbl = _label(_tr("자산 50만", "Assets KRW 500K"), 11, "#9aa4b8")
-	_goal_money_lbl.custom_minimum_size = Vector2(210, 0)
+	_goal_money_lbl.custom_minimum_size = Vector2(225, 0)
 	row.add_child(_goal_money_lbl)
 
 	var bar_wrap = PanelContainer.new()
@@ -1837,11 +1838,12 @@ func _build_goal_bar(parent: Control) -> void:
 	_goal_pct_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	row.add_child(_goal_pct_label)
 
-	var goal_lbl = _label(_tr("목표 30억", "Goal KRW 3B"), 11, COL_GOLD_DIM)
-	goal_lbl.tooltip_text = _tr("강남 입성 목표", "Gangnam means Seoul's status district.")
-	goal_lbl.custom_minimum_size = Vector2(92, 0)
-	goal_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	row.add_child(goal_lbl)
+	_goal_motive_lbl = _label("", 10, "#9aa4b8")
+	_goal_motive_lbl.custom_minimum_size = Vector2(330, 0)
+	_goal_motive_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_goal_motive_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_goal_motive_lbl.clip_text = true
+	row.add_child(_goal_motive_lbl)
 
 	_goal_time_lbl = _label("", 10, "#5a6a7a")
 	_goal_time_lbl.custom_minimum_size = Vector2(68, 0)
@@ -1899,6 +1901,10 @@ func _refresh_goal_bar() -> void:
 	# 다음 마일스톤은 아래 주간 판단 카드에서 따로 보여줘야 첫 화면이 덜 산만하다.
 	if _goal_money_lbl:
 		_goal_money_lbl.text = "%s / %s" % [GameState.format_money(total), GameState.format_money(3_000_000_000.0)]
+	if _goal_motive_lbl:
+		var motive := _notebook_motive_sentence()
+		_goal_motive_lbl.text = _tr("수첩 · {sentence}", "NOTEBOOK · {sentence}").format({"sentence": motive})
+		_goal_motive_lbl.tooltip_text = motive
 
 	# 남은 시간 레이블 (시간 압박 가시화)
 	if _goal_time_lbl:
@@ -1920,6 +1926,40 @@ func _goal_time_display() -> Dictionary:
 		"text": _tr("%d개월", "%d mo") % months_left,
 		"color": "#c5ccd5" if months_left <= 24 else "#5a6a7a",
 	}
+
+func _notebook_motive_sentence() -> String:
+	var f: Dictionary = GameState.flags
+	if bool(f.get("notebook_motive_family", false)):
+		return _tr("아버지가 그 거실에 서는 걸 본다", "I will see my father standing in that living room.")
+	if bool(f.get("notebook_motive_proof", false)):
+		return _tr("우리를 무너뜨린 세계에 내 이름으로 선다", "I will stand in my own name inside the world that broke us.")
+	if bool(f.get("notebook_motive_survival", false)):
+		return _tr("다시는 돈 앞에 무릎 꿇지 않는다", "I will never kneel before money again.")
+	return _tr("30억. 5년 안에.", "Three billion won. Five years.")
+
+func _notebook_elapsed_months() -> int:
+	return maxi(0, int((maxi(1, GameState.turn) - 1) / 4))
+
+func _notebook_ritual_line() -> String:
+	return _tr(
+		"수첩을 폈다. {sentence}. {months}개월째.",
+		"I opened the notebook. {sentence} Month {months}."
+	).format({
+		"sentence": _notebook_motive_sentence(),
+		"months": _notebook_elapsed_months(),
+	})
+
+func _notebook_father_state_line() -> String:
+	var f: Dictionary = GameState.flags
+	if bool(f.get("father_passed", false)):
+		return _tr("아버지에게는 이제 전화를 걸 수 없다.", "There is no longer a number I can call for Dad.")
+	if bool(f.get("arc_father_02_done", false)):
+		return _tr("아버지는 병원 이야기를 피하고 있다.", "Dad keeps avoiding the subject of the hospital.")
+	if bool(f.get("arc_father_quiet_call_seen", false)):
+		return _tr("아버지는 짧은 전화만 남긴다.", "Dad leaves only short calls now.")
+	if bool(f.get("arc_father_01_seen", false)):
+		return _tr("아버지는 괜찮다는 말만 반복한다.", "Dad keeps saying that he is fine.")
+	return _tr("아버지는 먼저 전화를 끊지 않는다.", "Dad never hangs up first.")
 
 # ══════════════════════════════════════════════════════════════
 # 튜토리얼 — 첫 런, 첫 AP 화면 진입 시 1회 표시
@@ -6432,6 +6472,15 @@ func _add_ap_section_header(title: String, subtitle: String, first_month_horizon
 	middle_strip.tooltip_text = subtitle
 	row.add_child(middle_strip)
 
+	var notebook_btn := _icon_small_button(_tr("수첩", "Notebook"), "goal", "#111820")
+	notebook_btn.set_meta("moral_role", "button")
+	notebook_btn.set_meta("moral_accent", "#a8a193")
+	notebook_btn.custom_minimum_size = Vector2(102, 30)
+	notebook_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
+	notebook_btn.tooltip_text = _tr("처음 적은 문장과 남은 시간을 펼친다", "Open the sentence you wrote and the time remaining")
+	notebook_btn.pressed.connect(_open_notebook)
+	row.add_child(notebook_btn)
+
 	var life_btn := _icon_small_button(_tr("생활", "Life"), "life", "#111820")
 	life_btn.set_meta("moral_role", "button")
 	life_btn.set_meta("moral_accent", "#9a8a5a")
@@ -8980,6 +9029,65 @@ func _routine_kind_axis(kind: String) -> String:
 		_:
 			return "human"
 
+func _open_notebook() -> void:
+	_open_modal(_tr("수첩", "Notebook"), true, "notebook")
+	if modal_scroll:
+		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
+		modal_scroll.custom_minimum_size = Vector2(0, 300)
+	if modal_panel:
+		modal_panel.custom_minimum_size = Vector2(720, 450)
+		modal_panel.offset_left = -360
+		modal_panel.offset_right = 360
+		modal_panel.offset_top = -225
+		modal_panel.offset_bottom = 225
+	modal_body.add_theme_constant_override("separation", 12)
+	modal_body.add_child(_modal_section_header(
+		_tr("처음 적은 문장", "What I Wrote"),
+		"goal",
+		"#a8a193",
+		_tr("숫자보다 먼저 적었던 이유", "The reason that came before the number")))
+
+	var page := _info_card("#a8a193", "#0a0b0d")
+	page.set_meta("moral_role", "info_card")
+	page.set_meta("moral_accent", "#a8a193")
+	var page_box := VBoxContainer.new()
+	page_box.add_theme_constant_override("separation", 10)
+	page.add_child(page_box)
+	var quote := _wrap_label("“%s”" % _notebook_motive_sentence(), 20, "#e0e3e6")
+	quote.set_meta("moral_role", "choice_title")
+	if _font_bold:
+		quote.add_theme_font_override("font", _font_bold)
+	page_box.add_child(quote)
+	var elapsed := _label(
+		_tr("서울에 온 뒤 {months}개월", "{months} months since arriving in Seoul").format({"months": _notebook_elapsed_months()}),
+		11, "#747d89")
+	page_box.add_child(elapsed)
+	modal_body.add_child(page)
+
+	var state_row := HBoxContainer.new()
+	state_row.add_theme_constant_override("separation", 10)
+	modal_body.add_child(state_row)
+	var weeks_left := maxi(0, 241 - GameState.turn)
+	state_row.add_child(_month_summary_metric_card(
+		_tr("남은 시간", "Time Left"),
+		_tr("{weeks}주", "{weeks} weeks").format({"weeks": weeks_left}),
+		_tr("처음 약속한 5년", "The five years first promised"),
+		"#8f98a8"))
+	var father_card := _info_card("#7f8798", "#090c11")
+	father_card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	father_card.custom_minimum_size = Vector2(0, 74)
+	var father_box := VBoxContainer.new()
+	father_box.add_theme_constant_override("separation", 4)
+	father_card.add_child(father_box)
+	father_box.add_child(_label(_tr("아버지", "Father"), 10, "#5f6878"))
+	father_box.add_child(_wrap_label(_notebook_father_state_line(), 13, "#a0a8b8"))
+	state_row.add_child(father_card)
+
+	var close_btn := _button(_tr("덮는다", "Close It"), "#20242b")
+	close_btn.custom_minimum_size = Vector2(0, 42)
+	close_btn.pressed.connect(_close_modal)
+	modal_body.add_child(close_btn)
+
 func _open_routine_modal() -> void:
 	if GameState.action_points <= 0:
 		return
@@ -9404,6 +9512,10 @@ func _montage_record_card(weeks: int, asset_d: int, health_d: int, mental_d: int
 		_tr("마음 상태", "Mind"),
 		"#00c896" if mental_d >= 0 else "#ff6b6b"))
 
+	var notebook_line := _wrap_label(_notebook_ritual_line(), 12, "#9da4ad")
+	notebook_line.set_meta("moral_role", "choice_subtitle")
+	box.add_child(notebook_line)
+
 	var div := HSeparator.new()
 	div.add_theme_color_override("color", Color("#252b35"))
 	box.add_child(div)
@@ -9415,13 +9527,13 @@ func _show_montage_card(weeks: int, assets_before: float, health_before: int, me
 	_open_modal(_tr("시간이 흘렀다", "Time Passed"), true, "routine_result")
 	if modal_scroll:
 		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
-		modal_scroll.custom_minimum_size = Vector2(0, 280)
+		modal_scroll.custom_minimum_size = Vector2(0, 340)
 	if modal_panel:
-		modal_panel.custom_minimum_size = Vector2(760, 380)
+		modal_panel.custom_minimum_size = Vector2(760, 440)
 		modal_panel.offset_left = -380
 		modal_panel.offset_right = 380
-		modal_panel.offset_top = -190
-		modal_panel.offset_bottom = 190
+		modal_panel.offset_top = -220
+		modal_panel.offset_bottom = 220
 	var asset_d: int = int(round(GameState.get_total_asset_value() - assets_before))
 	var health_d: int = GameState.health - health_before
 	var mental_d: int = GameState.mental - mental_before
@@ -14158,6 +14270,10 @@ func _show_month_summary(snap: Dictionary):
 			axis_line = _tr("이 달의 시간 — 돈에 %d주, 사람에게 %d주.",
 				"This month — %d weeks on money, %d weeks on people.") % [mw, hw]
 		modal_body.add_child(_wrap_label(axis_line, 12, "#8892a4"))
+
+	var notebook_ritual := _wrap_label(_notebook_ritual_line(), 12, "#9da4ad")
+	notebook_ritual.set_meta("moral_role", "choice_subtitle")
+	modal_body.add_child(notebook_ritual)
 
 	# ── A-6: 월말 서사 내레이션 ───────────────────
 	var narrative = _get_month_narrative()

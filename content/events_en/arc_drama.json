@@ -42,6 +42,11 @@
       "sangchul_clue_noted": "After the hospital visit, Dad started calling more.\n\nToday was different.\nHe spoke slowly.\n\"Minjun. That debt. A man named Im from the Gangnam real estate scene introduced us.\"\n\nMinjun remembered.\nThe name that had passed through that dinner. The one he'd filed away and chosen not to dig into.\nNot sure enough. Not yet.\n\nNow he was sure.\nThe night he'd decided to leave it alone — suddenly felt very heavy.",
       "father_closeness_deepened": "After the hospital visit, Dad started calling more often.\nShort calls. How's the weather. Have you eaten.\n\nToday was different.\nHe spoke slowly.\n\"Minjun. About that debt. It was... Park Sang-jin.\"\n\nMinjun had never heard that name before.\n\n\"Someone from the Gangnam real estate scene introduced us. A man named Im. He seemed decent at first... He said Park Sang-jin was someone you could trust.\"\n\nMinjun set down the cup he'd been holding.\n\nOnce, when he first admitted he was struggling, his father had answered: \"Your father is right here.\"\nNow it was his father's turn to bring out the hard story.\n{name} decided to be right there, the same way."
     },
+    "description_memory_if_known": {
+      "knee_day_faced": "The eyes he'd met when he opened the door and pulled Dad to his feet returned through the phone.",
+      "knee_day_froze": "The hand that had done nothing behind the door went rigid around his cup again.",
+      "knee_day_turned": "The scene he'd tried to erase on the stairs returned at last, carried by the name from Dad's mouth."
+    },
     "choices": [
       {
         "text": "\"That man named Im — do you happen to know his full name?\"",
@@ -118,6 +123,11 @@
       "ng_confronted_sangchul_early": "For a month, Minjun did nothing.\nHe still met Sangchul. Talked like usual. Charts, markets, strategy for next month.\n\nOnce — at the very first table, the day he took the man's card — Minjun had already asked. 'Do you know my father?' Back then, that was the end of it.\nThis time he kept him close, and sat across from him a long while, knowing.\n\nHe set his coffee down and spoke.\n\"Sangchul. Do you know a man named Park Sang-jin?\"\n\nThis time, he would hear the answer to the end.",
       "ng_playing_sangchul": "For a month, Minjun did nothing.\nHe still met Sangchul. Talked like usual. Charts, markets, strategy for next month.\n\nThen today, he reached his limit.\n\nHe set his coffee down and spoke.\n\"Sangchul. Do you know a man named Park Sang-jin?\"\n\nThe truth was, he had known from the start. From the day he took the card, the pretending had been Minjun's own choice.\nHe just hadn't known, back then, how long the pretending would last.",
       "sangchul_trust_deepened": "For a month, Minjun did nothing.\nHe still met Sangchul. Talked like usual. Charts, markets, strategy for next month.\n\nThen today, he reached his limit.\n\nHe set his coffee down and spoke.\n\"Sangchul. Do you know a man named Park Sang-jin?\"\n\nHe remembered the first time one of the man's tips made him money.\n\"It worked out, thanks to you. Thank you.\"\nThat thank-you — it was lodged somewhere in his throat now."
+    },
+    "description_memory_if_known": {
+      "knee_day_faced": "The hand that had once gripped his father's elbow set down the cup. Across from him sat the man who had helped put Dad on his knees.",
+      "knee_day_froze": "The fist that had frozen behind the door closed again beneath the table. This time, having no money was not what held him still.",
+      "knee_day_turned": "He had turned away that day. Leaving now would show the same back again. Across from him sat the man who had helped put Dad on his knees."
     }
   },
   {

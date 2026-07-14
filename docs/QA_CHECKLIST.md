@@ -34,6 +34,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Change area | Fast QA command |
 |---|---|
 | First-run language gate, KO default names, localized portrait name tags | `--qa=locale-gate` |
+| Prologue motivation imprint: Knee, Last Payment, notebook choices, persistent goal sentence, notebook modal, montage, and month-end ritual | `--qa=motivation-imprint --lang=ko/en` |
 | Prepared Japanese/Chinese arbitrary-character wrapping and 1280x800 safe area | `--qa=i18n-layout --lang=ja/zh-CN/zh-TW` |
 | Splash, opening, StartMenu press-any-key, start menu, content notice | `--qa=start-en` |
 | Archive CG silhouettes/fullscreen preview, scene replay paging, hidden-name secrecy, and read-only GameState/MetaProgression invariants | `--qa=gallery --lang=ko/en` |
@@ -90,12 +91,15 @@ Automated onboarding gates:
 - `I18nInfrastructureCheck.tscn` must keep `ja`, `zh-CN`, and `zh-TW` hidden from shipping selection while proving alias normalization, unique UI-miss logging, complete English event/ending/catalog fallback, non-Korean date/housing/money surfaces, and actual bundled-font glyph coverage reporting.
 - `i18n_coverage_check.py` keeps English strict and prepared locales in empty-skeleton mode. After a language translation wave, `--lang <code> --strict` must pass before that code is added to `SHIPPING_LANGUAGES`.
 - `multilingual_surface_audit.py` rejects malformed locale/catalog files and Korean text leaked into target values. Korean source strings are allowed only as keys in `ui_<code>.json`.
-- `ja_translation_audit.py --scope ui` must cover all 2,013 extracted `_tr`/`LocaleManager.ui` keys with exact placeholders and line breaks, zero Hangul/yen leakage, canonical names, valid casino terminology, and correct lock/unlock polarity. Japanese prose scopes remain held until explicit demo GO.
+- `ja_translation_audit.py --scope ui` must cover all 2,034 extracted `_tr`/`LocaleManager.ui` keys with exact placeholders and line breaks, zero Hangul/yen leakage, canonical names, valid casino terminology, and correct lock/unlock polarity. Japanese prose scopes remain held until explicit demo GO.
 - `ScreenshotQA --qa=i18n-layout --lang=ja/zh-CN/zh-TW` must wrap the QA-only CJK paragraph without clipping or covering the footer at 1280x800. An OS-provided glyph fallback is not sufficient for release; the font must be bundled through `FontKit`.
 - Japanese remains a hidden beta even after the UI/font checks pass. The 15-scene Japanese story capture set, strict event/ending parity, and native-speaker spot check are required after the prose hold is lifted and before `ja` can enter `SHIPPING_LANGUAGES`.
 - `TutorialInputCheck.tscn` must advance exactly one tutorial slide per accept input, never activate an underlying AP action, dismiss cleanly, and restore the previous focus. It runs inside `tools/audit.sh`.
 - `StoryPlaybackCheck.tscn` must let AUTO advance prose while remaining parked at every choice; keyboard `A` and gamepad North are toggles, never surrogate choice inputs. When another authored arc is already due, the StoryMode return must remain fully covered and enter that arc without flashing the MainGame/AP shell.
-- `first_session_pacing_audit.py` caps the authored prologue at eight chained scenes/eight AUTO confirmations, requires a meaningful choice by scene three, checks KO/EN choice parity, and rejects placeholder-only choices or oversized text-panel paragraphs.
+- `first_session_pacing_audit.py` locks the authored prologue to the canonical twelve-scene sequence across all 108 identity paths, allows at most 84 text-panel paragraphs, 12 AUTO confirmations, and 180 fast inputs, and requires the first meaningful choice by scene five. It also checks KO/EN choice parity and rejects placeholder-only choices or oversized paragraphs.
+- `MotivationImprintCheck.tscn` must prove the exact nine-link Knee→Last Payment→Father→Notebook chain, all nine identity choices and serialized flags, nine KO/EN memory readers, three persistent notebook motives, and Father contacts at weeks 11, 15, and 21.
+- `tools/audit.sh` must print `MOTIVATION_IMPRINT_OK chain=9 identity=9 readers=9 motives=3 father_contacts=3`.
+- `ScreenshotQA --qa=motivation-imprint --lang=ko/en` must render the three identity-choice surfaces, the full persistent notebook sentence on the AP goal bar, the no-scroll notebook and montage modals, and the visible month-end ritual at 1280x800.
 - Demo ending ScreenshotQA fails when the record requires vertical scrolling; the wishlist, restart, and main-menu actions must remain in the first 1280×800 viewport in both languages.
 - `DemoBuildCheck.tscn -- --demo-build` must keep full and demo export presets separate, execute the canonical t=1~8 arc chain with real choice effects/follow-ups, permit week 24, and stop before week 25. `tools/audit.sh` must print `DEMO_BUILD_CHECK_OK feature=gangnam_demo cutoff=24 chain=8 presets=6`.
 - `ScreenshotQA --qa=demo-blackbox --lang=ko/en --demo-build` is the visual companion gate. `--demo-build` is mandatory because Godot custom export features are unavailable while running from the editor.

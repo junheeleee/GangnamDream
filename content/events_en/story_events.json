@@ -13,11 +13,93 @@
   {
     "id": "story_arrival",
     "title": "January 2026, Seoul",
-    "description": "Eyes open in the dark.\n\nA room where you can touch the ceiling. Four-and-a-half square meters.\nOpen the window and the next building is close enough to touch.\nA goshiwon — a micro-studio — in Sinchon. {name}'s room.\n\n{name}. Thirty-three years old.\nUntil half a year ago, he was paying off debt.\n\nHis father co-signed a loan. The debtor vanished.\nThe debt fell to the father, and then to {name}.\nAge twenty-seven to thirty-three. Six years.\n\nAll paid. And what's left — 500,000 won in the bank, and this room.",
+    "description": "Eyes open in the dark.\n\nA room where you can touch the ceiling. Four-and-a-half square meters. The window faces the wall of the next building. A goshiwon — a micro-studio — in Sinchon. {name}'s room.\n\n{name}. Thirty-three.\nYesterday, he made the last payment on six years of debt.\n\nThe confirmation message still glows on the thin desk. The date on the screen pulls up a scene he has spent years trying to bury.",
     "choices": [
       {
-        "text": "Slowly pull yourself up",
-        "result_text": "Peel back the blanket and stand.\nWinter morning light seeps through the small window.\nAnother day. A day you have to live through."
+        "text": "Close your eyes. Go back six years.",
+        "result_text": "The winter light disappears behind his eyelids.\nIn its place: the cold floor of his father's entryway in Changwon."
+      }
+    ]
+  },
+  {
+    "id": "story_knee_door",
+    "title": "The Gap",
+    "description": "Winter, age twenty-seven. The entryway of his father's home in Changwon.\n\nThree unfamiliar pairs of dress shoes sit beside Dad's work boots. The living-room door is open by the width of a palm.\n\nCold vinyl seeps through {name}'s socks. A man's low voice carries from the other side.\n\n\"This isn't going to produce money you don't have.\"",
+    "choices": [
+      {
+        "text": "Put a hand against the door",
+        "result_text": "{name} cannot make himself open it. He widens the gap by an inch.\nThe floor, the edge of the table, and the back of his father's head enter his view."
+      }
+    ]
+  },
+  {
+    "id": "story_knee_witness",
+    "title": "On His Knees",
+    "description": "Guarantee papers lie open on the table. The stamp mark is the only bright red in the room.\n\nDad is on his knees on the vinyl floor. Gray has begun to spread across the bowed back of his head. His hands rest awkwardly on his thighs.\n\n\"I'm sorry. I'll repay it.\"\n\nThe man across from him does not raise his voice. He checks the time on his phone and sighs.\n\n\"You said that already.\"",
+    "choices": [
+      {
+        "text": "Watch Dad open his mouth again",
+        "result_text": "Dad's palms touch the floor.\n\n\"I'm sorry. I will repay every won.\"\n\nThe same sentence is placed in the room one more time. The creditor turns a page.\nBehind the door, {name} closes his fist until his nails cut into his palm."
+      }
+    ]
+  },
+  {
+    "id": "story_knee_choice",
+    "title": "Who I Was That Day",
+    "description": "No one knows {name} is behind the door.\n\nThere is room for one step between his father's knees and those guarantee papers. But twenty-seven-year-old {name} has no money to place there.\n\nThe doorknob is right in front of him.",
+    "choices": [
+      {
+        "text": "Rush in and pull Dad to his feet",
+        "result_text": "{name} opens the door and takes hold of his father's elbows.\n\n\"Please. Get up.\"\n\nDad raises his head. That day, {name} looks him straight in the eye. He has no money to repay them, but he refuses to disappear."
+      },
+      {
+        "text": "Clench your fist behind the door. You have no money to step in.",
+        "result_text": "{name} stays behind the door.\n\nWhen he opens his fist, half-moon marks cover his palm. Walking into the room would change nothing. There is nothing he can do.\n\nThe person {name} hates most that day is not anyone inside."
+      },
+      {
+        "text": "Turn away. You cannot bear to watch.",
+        "result_text": "{name} opens the front door without a sound and leaves.\n\nHe takes the stairs two at a time. Another apology carries from behind him. This time, he does not turn.\n\nThe harder he tries to erase that day, the sharper it becomes."
+      }
+    ]
+  },
+  {
+    "id": "story_last_payment_wait",
+    "title": "Ticket 147",
+    "description": "Yesterday. Six years later.\n\nThe display reads 146. {name} holds ticket 147 and the final repayment papers. Fluorescent lights hum in a perfectly even row.\n\nHe opens the transfer confirmation again. This is the end of it. The last payment of six years.\n\nBalance: 500,000 won.",
+    "choices": [
+      {
+        "text": "Press down the corner of the papers and wait",
+        "result_text": "The display sounds a short tone.\n\n[Customer 147, please proceed to Window 4.]\n\n{name} stands without managing to smooth the crease he has pressed into the papers."
+      }
+    ]
+  },
+  {
+    "id": "story_last_payment_word",
+    "title": "The Last Payment",
+    "description": "The man behind the window checks the transfer against the papers twice. He stamps the release and slides it toward {name}.\n\n\"Payment confirmed. That settles it.\"\n\nHe is already looking at the next number. Aligning the papers in front of him, he adds without looking up:\n\n\"Tell your father you don't co-sign a loan for just anyone.\"\n\nIt is not advice. Just a sentence worn smooth from repetition.",
+    "choices": [
+      {
+        "text": "Bow your head and take the papers",
+        "result_text": "\"Understood.\"\n\nIt is a skill six years have taught him: swallow the sentence, take the paper, walk to the next door.\n\n{name} folds the release twice and slips it inside his coat."
+      },
+      {
+        "text": "\"That was out of line.\"",
+        "result_text": "The man finally looks up.\n\n\"The account is settled. Someone else is waiting.\"\n\nThere is no apology. Nothing changes. Still, {name} leaves one sentence behind in his own voice before he turns away."
+      },
+      {
+        "text": "Smile, as if to say: just wait.",
+        "result_text": "{name} raises the corners of his mouth.\n\n\"Sure. I'll tell him.\"\n\nHis reflection in the glass is not smiling. Someday, he thinks, this man will see what six years of repayment made."
+      }
+    ]
+  },
+  {
+    "id": "story_last_payment_exit",
+    "title": "Outside",
+    "description": "Winter rain falls outside. Water runs down the bus-shelter glass, catching the headlights from the road.\n\nThe ad panel changes: a bright living room suspended over Gangnam at night. [A city where your place is waiting.]\n\n{name} opens the banking app.\n\nBalance: 500,000 won.\n\nThen the phone rings. DAD.",
+    "choices": [
+      {
+        "text": "Answer",
+        "result_text": "The living room from six years ago overlaps with the window he just left.\n{name} takes one breath and accepts the call."
       }
     ]
   },
@@ -38,12 +120,20 @@
   },
   {
     "id": "story_prologue_goal",
-    "title": "Gangnam",
-    "description": "After the call, {name} opens a worn notebook.\n\nOn the very first page, a single line.\nThe apartment his father spent a lifetime saving for. The one stolen by fraud.\n— An apartment in Gangnam.\n\nDad never brings it up anymore.\n{name} never asks.\nBut they both know what it means.\n\nThe doctor told his father: no overexerting yourself.\nHow much time is left — nobody knows.\n\n{name} does the math.\nAt minimum wage, saving every single won without spending a cent:\n82 years.\n\nHe's 33. He doesn't have 82 years.\n\nThe doctor never named a number. So {name} named one himself.\nFive years. While his father can still stand in that living room and see it.\n\n{name} writes a number in the notebook anyway.\nThree billion won. Five years.\nThe math says impossible.\nThat's exactly why — he starts.",
+    "title": "The Notebook",
+    "description": "After the call, {name} opens a worn notebook.\n\nThe Gangnam apartment his father spent a lifetime saving for. The one the fraud took. Dad has never spoken of it since.\n\nThe doctor said not to overwork, but gave no number for the time left. So {name} sets the deadline himself.\n\nFive years. Three billion won.\n\nThe pen stops before the numbers. What this money is for — that sentence has to be his.",
     "choices": [
       {
-        "text": "Close the notebook. Stand up.",
-        "result_text": "The goal is set.\nNo plan yet. Not enough money, connections, or time.\nBut — stop moving and it's over. {name} laced up his shoes."
+        "text": "I will see my father standing in that living room.",
+        "result_text": "{name} writes the first line.\n\nI will see my father standing in that living room.\n\nUnder it: three billion won, five years. There is no plan yet. But the person who belongs in that room is now written down."
+      },
+      {
+        "text": "I will stand in my own name inside the world that broke us.",
+        "result_text": "{name} writes the first line.\n\nI will stand in my own name inside the world that broke us.\n\nUnder it: three billion won, five years. He wants his name at the door, not at the bottom of somebody else's papers."
+      },
+      {
+        "text": "I will never kneel before money again.",
+        "result_text": "{name} writes the first line.\n\nI will never kneel before money again.\n\nUnder it: three billion won, five years. The cold of the vinyl floor beyond that door still lingers beneath his feet."
       }
     ]
   },

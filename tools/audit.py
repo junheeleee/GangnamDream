@@ -463,6 +463,11 @@ def _walk_event_flags(ev, game_sets, game_reads_json, cast_sets, cast_reads_json
         for fl in dik.keys():
             if isinstance(fl, str) and fl:
                 game_reads_json.setdefault(str(fl), []).append(where)
+    memory_dik = ev.get("description_memory_if_known", {})
+    if isinstance(memory_dik, dict):
+        for fl in memory_dik.keys():
+            if isinstance(fl, str) and fl:
+                game_reads_json.setdefault(str(fl), []).append(where)
     pik = ev.get("portrait_if_known", {})
     if isinstance(pik, dict):
         for fl in pik.keys():
@@ -592,7 +597,8 @@ EVENT_ROOT_KEYS = {"id", "title", "description", "category", "rarity", "weight",
                    "timed", "timer_seconds",
                    "description_orthodox", "description_unorthodox",
                    "description_low_mental", "description_long_gosiwon",
-                   "description_if_known", "description_if_moral", "direction"}
+                   "description_if_known", "description_memory_if_known",
+                   "description_if_moral", "direction"}
 EVENT_ROOT_KEYS.update({"year_scene_year", "timer_default_choice"})
 MORAL_PERCEPTION_KEYS = {"deep_black", "black", "gray", "white", "deep_white"}
 DIRECTION_KEYS = {"pace", "amb", "sting", "camera", "hold", "visual"}
@@ -1236,6 +1242,10 @@ def check_dik_shadowing():
             dik = e.get("description_if_known")
             if isinstance(dik, dict) and len(dik) >= 2:
                 dik_owners.append(("event:" + str(e.get("id")), dik,
+                                   (e.get("conditions") or {}).get("flag")))
+            memory_dik = e.get("description_memory_if_known")
+            if isinstance(memory_dik, dict) and len(memory_dik) >= 2:
+                dik_owners.append(("event-memory:" + str(e.get("id")), memory_dik,
                                    (e.get("conditions") or {}).get("flag")))
     try:
         for e in json.load(open(os.path.join(ROOT, "content", "endings.json"), encoding="utf-8")):

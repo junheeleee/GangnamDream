@@ -3,6 +3,11 @@
     "id": "amb_guarantee_00",
     "title": "Just One Stamp",
     "description": "A high school friend calls out of nowhere and insists on buying drinks.\nA few rounds in, the real reason surfaces.\n\"Business loan — I'm one guarantor short. Just need your stamp.\nYou won't be on the hook, I promise. Between us, this much at least?\"\n\n{name} knows. A guarantee turns someone else's debt into yours.\nAnd — saying no puts a crack in twenty years of friendship.",
+    "description_memory_if_known": {
+      "last_payment_endured": "He remembered taking the final receipt with his head bowed — and the casual warning that guarantees were not for just anyone.",
+      "last_payment_spoke": "His own voice at the final counter came back first: \"That was out of line.\" This stamp crossed the same line, turning another person's debt into his.",
+      "last_payment_smiled": "He remembered the reflection that had not smiled on the day of the final payment. His mouth had said wait and see; his eyes had not joined it."
+    },
     "choices": [
       {
         "text": "\"I'm sorry. I can't sign a guarantee.\" Refuse.  (safety / friendship)",

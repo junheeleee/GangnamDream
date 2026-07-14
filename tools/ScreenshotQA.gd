@@ -32,6 +32,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-act-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=immersion-loop --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=motivation-imprint --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=endings-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-end-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=title-en
@@ -83,6 +84,7 @@ const QA_SCOPE_EVENT_VISUALS := "event_visuals"
 const QA_SCOPE_AP_EN := "ap_en"
 const QA_SCOPE_AP_ACT_EN := "ap_act_en"
 const QA_SCOPE_IMMERSION_LOOP := "immersion_loop"
+const QA_SCOPE_MOTIVATION_IMPRINT := "motivation_imprint"
 const QA_SCOPE_ENDINGS_EN := "endings_en"
 const QA_SCOPE_ENDING_P0 := "ending_p0"
 const QA_SCOPE_ENDING_P1 := "ending_p1"
@@ -311,6 +313,15 @@ func _ready() -> void:
 			get_tree().quit(1)
 			return
 		print("SCREENSHOT_QA_DONE scope=immersion-loop lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_MOTIVATION_IMPRINT:
+		var lang := _qa_language("en")
+		await _shot_motivation_imprint_surfaces(lang, "motivation_en_" if lang == "en" else "motivation_ko_")
+		if _qa_failed:
+			get_tree().quit(1)
+			return
+		print("SCREENSHOT_QA_DONE scope=motivation-imprint lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_ENDINGS_EN:
@@ -551,6 +562,11 @@ func _qa_scope() -> String:
 				"qa=immersion-loop", "--qa=immersion-loop", "qa=immersion_loop", "--qa=immersion_loop",
 				"scope=immersion-loop", "--scope=immersion-loop"]:
 			return QA_SCOPE_IMMERSION_LOOP
+		if arg in ["motivation-imprint", "motivation_imprint", "motivation", "--motivation-imprint",
+				"--motivation_imprint", "qa=motivation-imprint", "--qa=motivation-imprint",
+				"qa=motivation_imprint", "--qa=motivation_imprint",
+				"scope=motivation-imprint", "--scope=motivation-imprint"]:
+			return QA_SCOPE_MOTIVATION_IMPRINT
 		if arg in ["endings-en", "endings_en", "ending-en", "ending_en", "--endings-en", "--ending-en",
 				"qa=endings-en", "--qa=endings-en", "qa=endings_en", "--qa=endings_en",
 				"qa=ending-en", "--qa=ending-en", "scope=endings-en", "--scope=endings-en"]:
@@ -2895,6 +2911,92 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 		"places": {"work": {"count": 1, "money": 1, "human": 0}},
 	}]
 	await _shot_story_event("rare_rejection_then_call", prefix + "03_action_causal_frame", "", 0.55, true)
+
+func _shot_motivation_imprint_surfaces(lang: String = "en", prefix: String = "motivation_en_") -> void:
+	_set_qa_language(lang)
+	await _shot_story_event(
+		"story_knee_choice", prefix + "01_knee_identity_choice", "", 0.45, true, true)
+	await _shot_story_event(
+		"story_last_payment_word", prefix + "02_last_payment_choice", "", 0.45, true, true)
+	await _shot_story_event(
+		"story_prologue_goal", prefix + "03_notebook_motive_choice", "", 0.45, true, true)
+
+	_prepare_main_game_state()
+	GameState.turn = 13
+	GameState.month = 4
+	GameState.week_of_month = 1
+	GameState.flags["notebook_motive_survival"] = true
+	await _boot_main_game()
+	if _mg.has_method("_render_ap_actions"):
+		_mg.call("_render_ap_actions")
+	if _mg.has_method("_finish_typing"):
+		_mg.call("_finish_typing")
+	if _mg.has_method("_refresh_goal_bar"):
+		_mg.call("_refresh_goal_bar")
+	await _settle(0.45)
+	var expected_motive := _tr(
+		"다시는 돈 앞에 무릎 꿇지 않는다",
+		"I will never kneel before money again.")
+	var ap_text := _collect_control_text(_mg)
+	if expected_motive not in ap_text:
+		_fail("Motivation goal bar lost the chosen sentence in %s." % lang)
+		return
+	_assert_ap_cards_inside_viewport()
+	await _save(prefix + "04_ap_goal_sentence")
+
+	_mg.call("_open_notebook")
+	await _settle(0.4)
+	var notebook_text := _collect_control_text(_mg.get("modal_body"))
+	if expected_motive not in notebook_text:
+		_fail("Notebook modal lost the chosen sentence in %s." % lang)
+		return
+	var expected_father := _tr(
+		"아버지는 먼저 전화를 끊지 않는다.",
+		"Dad never hangs up first.")
+	if expected_father not in notebook_text:
+		_fail("Notebook modal lost the father-state line in %s." % lang)
+		return
+	_assert_modal_no_vertical_overflow("motivation notebook")
+	await _save(prefix + "05_notebook_open")
+
+	_mg.call("_close_modal")
+	await _settle(0.25)
+	var assets_before := float(GameState.get_total_asset_value()) - 420_000.0
+	_mg.call("_show_montage_card", 3, assets_before, GameState.health + 1,
+		GameState.mental + 2, 2, 1, "routine", 4)
+	await _settle(0.4)
+	var montage_text := _collect_control_text(_mg.get("modal_body"))
+	if expected_motive not in montage_text:
+		_fail("Montage card lost the notebook ritual in %s." % lang)
+		return
+	_assert_modal_no_vertical_overflow("motivation montage")
+	await _save(prefix + "06_montage_ritual")
+
+	_mg.call("_close_modal")
+	await _settle(0.25)
+	GameState.last_month_money_weeks = 2
+	GameState.last_month_human_weeks = 1
+	var snap := {
+		"date": "2026. 4.",
+		"monthly_income": GameState.monthly_income,
+		"fixed_expense": GameState.get_housing_expense(),
+		"assets_before": GameState.get_total_asset_value() - 350_000.0,
+		"actions": [],
+		"health_before": GameState.health,
+		"mental_before": GameState.mental,
+	}
+	_mg.call("_show_month_summary", snap)
+	await _settle(0.5)
+	var month_text := _collect_control_text(_mg.get("modal_body"))
+	if expected_motive not in month_text:
+		_fail("Month summary lost the notebook ritual in %s." % lang)
+		return
+	var scroll := _mg.get("modal_scroll") as ScrollContainer
+	if is_instance_valid(scroll):
+		scroll.scroll_vertical = int(scroll.get_v_scroll_bar().max_value)
+	await _settle(0.25)
+	await _save(prefix + "07_month_end_ritual")
+	await _dispose_main_game()
 
 func _seed_ap_act_state(act: int, lang: String = "en") -> void:
 	GameState.action_points = GameState.max_action_points
