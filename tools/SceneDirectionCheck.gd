@@ -57,7 +57,7 @@ func _run() -> void:
 		return
 	await _remove_story()
 
-	_story = await _boot_story("arc_daeun_proposal")
+	_story = await _boot_story("arc_daeun_proposal_answer")
 	if _story == null:
 		return
 	var proposal_direction: Dictionary = _story.get("_direction")

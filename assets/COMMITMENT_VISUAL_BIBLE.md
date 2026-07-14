@@ -67,7 +67,7 @@ The wedding-prep choice must survive into the wedding-day image. Both variants s
 
 ## Runtime Contract
 
-- `arc_daeun_proposal`: cafe background + proposal portrait before choice; accepted choice owns `cg_romance_proposal_daeun`; reveal paragraph 1.
+- `arc_daeun_proposal` → `arc_daeun_proposal_last_cup` → `arc_daeun_proposal_answer`: all buildup frames retain the cafe background and proposal portrait. Only the final event's accepted choice owns `cg_romance_proposal_daeun`, revealed at result paragraph 1; the defer branch never reveals it.
 - `arc_daeun_wedding_prep`: choice 0 records `daeun_wedding_small`; choice 1 records `daeun_wedding_full`.
 - `arc_daeun_wedding_day`: default small CG for legacy saves; `cg_if_known` selects the explicit small/full variant.
 - `arc_jiyeon_wedding_gap`: dedicated pre-decision full-scene CG.

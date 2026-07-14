@@ -180,7 +180,7 @@
       "eye_line": "Bare-faced Jiyeon looks directly at Minjun at the player camera while one hand pulls the duvet to her nose; the other hand remains hidden."
     },
     {
-      "event_id": "arc_daeun_proposal",
+      "event_id": "arc_daeun_proposal_answer",
       "choice_index": 0,
       "cg_placement": "choice_result",
       "cg": "cg_romance_proposal_daeun",

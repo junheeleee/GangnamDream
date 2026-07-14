@@ -1119,26 +1119,32 @@ func _assert_resolved_visual_debt_state(story: Node, event_id: String) -> void:
 		_fail("%s background path expected %s, got %s." % [event_id, expected_background_path, actual_background_path])
 
 func _assert_commitment_visual_state(story: Node, event_id: String, selected_choice: int) -> void:
-	if event_id == "arc_daeun_proposal":
+	var proposal_events := [
+		"arc_daeun_proposal",
+		"arc_daeun_proposal_last_cup",
+		"arc_daeun_proposal_answer",
+	]
+	if event_id in proposal_events:
 		var paragraph_index := int(story.get("_para_index"))
-		var should_show_cg := selected_choice == 0 and paragraph_index >= 1
+		var is_final_answer := event_id == "arc_daeun_proposal_answer"
+		var should_show_cg := is_final_answer and selected_choice == 0 and paragraph_index >= 1
 		var cg_active := bool(story.get("_current_uses_cg"))
 		if cg_active != should_show_cg:
-			_fail("Daeun proposal CG state expected %s at choice=%d paragraph=%d, got %s." % [
-				should_show_cg, selected_choice, paragraph_index, cg_active])
+			_fail("Daeun proposal CG state expected %s at event=%s choice=%d paragraph=%d, got %s." % [
+				should_show_cg, event_id, selected_choice, paragraph_index, cg_active])
 			return
 		if should_show_cg:
 			_assert_story_cg(story, "cg_romance_proposal_daeun", event_id)
 			return
 		var background_id := str(story.get("_event_background_id"))
 		if background_id != "cafe":
-			_fail("Daeun proposal pre-result expected cafe background, got %s." % background_id)
+			_fail("Daeun proposal chain expected cafe background, got %s at %s." % [background_id, event_id])
 			return
 		var portrait := story.get("_portrait") as TextureRect
 		var portrait_path := portrait.texture.resource_path if is_instance_valid(portrait) and portrait.texture != null else ""
 		var expected_portrait := ImageRegistry.get_portrait("daeun_proposal")
 		if portrait_path != expected_portrait:
-			_fail("Daeun proposal portrait expected %s, got %s." % [expected_portrait, portrait_path])
+			_fail("Daeun proposal portrait expected %s, got %s at %s." % [expected_portrait, portrait_path, event_id])
 		return
 	if event_id == "arc_daeun_wedding_day":
 		var expected_id := "cg_romance_wedding_daeun_full" if GameState.flags.get("daeun_wedding_full", false) else "cg_romance_wedding_daeun_small"
@@ -2055,7 +2061,7 @@ func _shot_story_surfaces(lang: String = "en", prefix: String = "story_en_") -> 
 	await _shot_story_event("arc_father_01_call", prefix + "02e_demo_father_first_call", lang, 0.65, true)
 	await _shot_story_event("arc_jiyeon_01_crash", prefix + "02f_demo_jiyeon_crash", lang, 0.65, true)
 	await _shot_story_event("arc_sangchul_confrontation", prefix + "03_direction_confrontation", lang, 1.0, true)
-	await _shot_story_event("arc_daeun_proposal", prefix + "04_direction_proposal", lang, 1.2, true)
+	await _shot_story_event("arc_daeun_proposal_answer", prefix + "04_direction_proposal", lang, 1.2, true)
 	await _shot_story_event("arc_season_sea_daeun", prefix + "05a_romance_sea_daeun_train", lang, 0.65, true)
 	await _shot_story_event("arc_season_sea_daeun", prefix + "05b_romance_sea_daeun_reveal", lang, 0.45, true, false, -1, 2)
 	await _shot_story_event("arc_season_sea_jiyeon", prefix + "06_romance_sea_jiyeon", lang, 0.65, true)
@@ -2523,30 +2529,57 @@ func _shot_commitment_surfaces(lang: String = "en", prefix: String = "commitment
 	_prepare_commitment_qa_state("daeun")
 	await _shot_story_event("arc_daeun_proposal", prefix + "02_proposal_choices", "", 0.45, true, true)
 	_prepare_commitment_qa_state("daeun")
-	await _shot_story_event("arc_daeun_proposal", prefix + "03_proposal_accept_reaction", "", 0.45, true, true, 0)
+	await _shot_story_event("arc_daeun_proposal", prefix + "03_proposal_future_reply", "", 0.45, true, true, 0)
+	if GameState.flags.get("arc_daeun_proposal_seen", false) or GameState.flags.get("daeun_married", false):
+		_fail("Daeun proposal buildup choice committed the final proposal route too early.")
+		return
 	_prepare_commitment_qa_state("daeun")
-	await _shot_story_event("arc_daeun_proposal", prefix + "04_proposal_accept_cg", "", 0.45, true, true, 0, 0, false, 1)
+	await _shot_story_event("arc_daeun_proposal", prefix + "04_proposal_fear_reply", "", 0.45, true, true, 1)
+	if GameState.flags.get("arc_daeun_proposal_seen", false) or GameState.flags.get("daeun_married", false):
+		_fail("Daeun proposal honesty choice committed the final proposal route too early.")
+		return
 	_prepare_commitment_qa_state("daeun")
-	await _shot_story_event("arc_daeun_proposal", prefix + "05_proposal_delay_no_cg", "", 0.45, true, true, 1, 0, false, 1)
+	await _shot_story_event("arc_daeun_proposal_last_cup", prefix + "05_proposal_last_cup", "", 0.55, true)
+	_prepare_commitment_qa_state("daeun")
+	await _shot_story_event("arc_daeun_proposal_last_cup", prefix + "06_proposal_call_back", "", 0.45, true, true, 0)
+	if GameState.flags.get("arc_daeun_proposal_seen", false) or GameState.flags.get("daeun_married", false):
+		_fail("Daeun proposal bridge committed the final proposal route too early.")
+		return
+	_prepare_commitment_qa_state("daeun")
+	await _shot_story_event("arc_daeun_proposal_answer", prefix + "07_proposal_answer_intro", "", 0.55, true)
+	_prepare_commitment_qa_state("daeun")
+	await _shot_story_event("arc_daeun_proposal_answer", prefix + "08_proposal_answer_choices", "", 0.45, true, true)
+	_prepare_commitment_qa_state("daeun")
+	await _shot_story_event("arc_daeun_proposal_answer", prefix + "09_proposal_accept_reaction", "", 0.45, true, true, 0)
+	if not GameState.flags.get("arc_daeun_proposal_seen", false) or not GameState.flags.get("daeun_married", false):
+		_fail("Daeun proposal acceptance did not commit its canonical final flags.")
+		return
+	_prepare_commitment_qa_state("daeun")
+	await _shot_story_event("arc_daeun_proposal_answer", prefix + "10_proposal_accept_cg", "", 0.45, true, true, 0, 0, false, 1)
+	_prepare_commitment_qa_state("daeun")
+	await _shot_story_event("arc_daeun_proposal_answer", prefix + "11_proposal_delay_no_cg", "", 0.45, true, true, 1, 0, false, 1)
+	if not GameState.flags.get("arc_daeun_proposal_seen", false) or GameState.flags.get("daeun_married", false):
+		_fail("Daeun proposal defer branch did not preserve its canonical unmarried route.")
+		return
 
 	_prepare_commitment_qa_state("daeun")
-	await _shot_story_event("arc_daeun_wedding_prep", prefix + "06_wedding_small_choice", "", 0.45, true, true, 0)
+	await _shot_story_event("arc_daeun_wedding_prep", prefix + "12_wedding_small_choice", "", 0.45, true, true, 0)
 	if not GameState.flags.get("daeun_wedding_small", false) or GameState.flags.get("daeun_wedding_full", false):
 		_fail("Daeun small-wedding choice did not preserve an exclusive small route flag.")
 		return
-	await _shot_story_event("arc_daeun_wedding_day", prefix + "07_wedding_small_cg", "", 0.45, true)
+	await _shot_story_event("arc_daeun_wedding_day", prefix + "13_wedding_small_cg", "", 0.45, true)
 
 	_prepare_commitment_qa_state("daeun")
-	await _shot_story_event("arc_daeun_wedding_prep", prefix + "08_wedding_full_choice", "", 0.45, true, true, 1)
+	await _shot_story_event("arc_daeun_wedding_prep", prefix + "14_wedding_full_choice", "", 0.45, true, true, 1)
 	if not GameState.flags.get("daeun_wedding_full", false) or GameState.flags.get("daeun_wedding_small", false):
 		_fail("Daeun full-package choice did not preserve an exclusive full route flag.")
 		return
-	await _shot_story_event("arc_daeun_wedding_day", prefix + "09_wedding_full_cg", "", 0.45, true)
+	await _shot_story_event("arc_daeun_wedding_day", prefix + "15_wedding_full_cg", "", 0.45, true)
 
 	_prepare_commitment_qa_state("jiyeon")
-	await _shot_story_event("arc_jiyeon_wedding_gap", prefix + "10_jiyeon_gap_intro", "", 0.55, true)
+	await _shot_story_event("arc_jiyeon_wedding_gap", prefix + "16_jiyeon_gap_intro", "", 0.55, true)
 	_prepare_commitment_qa_state("jiyeon")
-	await _shot_story_event("arc_jiyeon_wedding_gap", prefix + "11_jiyeon_gap_choices", "", 0.45, true, true)
+	await _shot_story_event("arc_jiyeon_wedding_gap", prefix + "17_jiyeon_gap_choices", "", 0.45, true, true)
 
 func _shot_breakup_surfaces(lang: String = "en", prefix: String = "breakup_en_") -> void:
 	_set_qa_language(lang)

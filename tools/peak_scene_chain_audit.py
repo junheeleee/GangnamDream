@@ -57,8 +57,12 @@ MIN_DIALOGUE_TURNS = 2
 MIN_PANELS = 6
 
 # Ratchet updated only after a peak is expanded and its rendered QA passes.
-BASELINE_DEBT = 26
-REQUIRED_PASS = {"arc_date_namsan_daeun", "arc_date_namsan_jiyeon"}
+BASELINE_DEBT = 25
+REQUIRED_PASS = {
+    "arc_date_namsan_daeun",
+    "arc_date_namsan_jiyeon",
+    "arc_daeun_proposal",
+}
 
 
 @dataclass(frozen=True)
@@ -178,6 +182,65 @@ def validate_english_path(
             )
 
 
+def validate_daeun_proposal_contract(events: dict[str, dict[str, Any]]) -> None:
+    """Keep buildup choices from silently changing the canonical marriage route."""
+    root_id = "arc_daeun_proposal"
+    final_id = "arc_daeun_proposal_answer"
+    paths = walk_paths(events, root_id)
+    for path in paths:
+        if not path.event_ids or path.event_ids[-1] != final_id:
+            raise ValueError(
+                f"Daeun proposal path must end at {final_id}: "
+                f"{' -> '.join(path.event_ids)}"
+            )
+
+    protected_flags = {"arc_daeun_proposal_seen", "daeun_married"}
+    pre_final_ids = {
+        event_id
+        for path in paths
+        for event_id in path.event_ids
+        if event_id != final_id
+    }
+    for event_id in sorted(pre_final_ids):
+        for choice in events[event_id].get("choices") or []:
+            leaked = protected_flags.intersection(choice.get("flags") or [])
+            if leaked:
+                raise ValueError(
+                    f"Daeun proposal buildup commits final flags at {event_id}: "
+                    f"{', '.join(sorted(leaked))}"
+                )
+
+    final_choices = events[final_id].get("choices") or []
+    if len(final_choices) != 2:
+        raise ValueError("Daeun proposal final decision must retain exactly two choices")
+    expected = (
+        {
+            "effects": {"mental": 25, "tint": 8},
+            "flags": ["arc_daeun_proposal_seen", "daeun_married"],
+            "cast_effects": {
+                "daeun": {"affinity": 30, "stage": "lover"},
+            },
+            "result_cg": "cg_romance_proposal_daeun",
+            "result_cg_reveal_paragraph": 1,
+        },
+        {
+            "effects": {"mental": -6, "tint": -1},
+            "flags": ["arc_daeun_proposal_seen"],
+            "cast_effects": {"daeun": {"affinity": -4}},
+        },
+    )
+    for index, contract in enumerate(expected):
+        choice = final_choices[index]
+        for key, value in contract.items():
+            if choice.get(key) != value:
+                raise ValueError(
+                    f"Daeun proposal final choice {index} changed {key}: "
+                    f"{choice.get(key)!r}!={value!r}"
+                )
+    if final_choices[1].get("result_cg"):
+        raise ValueError("Daeun proposal defer branch must never reveal a CG")
+
+
 def measure(label: str, root_id: str, events: dict[str, dict[str, Any]]) -> PeakMetric:
     paths = walk_paths(events, root_id)
     links = [len(path.event_ids) for path in paths]
@@ -234,6 +297,7 @@ def main() -> int:
 
     ko_events = load_events(EVENTS_KO)
     en_events = load_events(EVENTS_EN)
+    validate_daeun_proposal_contract(ko_events)
     metrics = [measure(label, root_id, ko_events) for label, root_id in PEAK_ROOTS]
     visited = {
         event_id

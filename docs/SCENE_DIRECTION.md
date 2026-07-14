@@ -48,7 +48,7 @@
 | `arc_father_passing` | `{"pace":"slow","amb":"cut","sting":"loss","camera":"drift","hold":2.0}` | 풀스택 ② — 소리가 먼저 사라진다 |
 | `arc_daeun_02b_dream` | `{"amb":"duck"}` | "강남 못 가도 민준씨는" — 편의점 소음이 가라앉는 순간 |
 | `arc_daeun_04_morning` (고백) | `{"pace":"slow","camera":"drift"}` | 느린 아침 |
-| `arc_daeun_proposal` | `{"pace":"slow","camera":"slow_zoom","hold":1.0}` | 반지 — 줌은 여기 한 번 |
+| `arc_daeun_proposal_answer` | `{"pace":"slow","camera":"slow_zoom","hold":1.0}` | 반지 — 축적 두 링크를 지난 최종 선택에서만 줌 |
 | `arc_daeun_wedding_day` | `{"camera":"slow_zoom","sting":"reveal"}` | 텅 빈/채워진 신랑석이 보이는 줌 |
 | `arc_daeun_final_choice` | `{"pace":"slow","amb":"cut","sting":"loss","hold":1.5}` | 풀스택 ③ — 서류 위의 결혼 |
 | `arc_jiyeon_verdict` | `{"pace":"slow","amb":"duck","sting":"cold"}` | "오빠가 이렇게 살 사람인 줄 몰랐어" |

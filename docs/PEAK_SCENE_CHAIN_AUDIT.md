@@ -11,7 +11,7 @@
 - **PASS**: 모든 분기가 2~4링크, 2~3선택점, 6패널 이상, 대사 2회 이상을 만족한다. 하나라도 짧은 분기가 있으면 `EXPAND`다.
 - KO가 게임플레이 정본이며 EN은 같은 이벤트·선택지 수를 가져야 한다. 라우팅·기존 최종 선택·효과·플래그는 확장 중에도 불변이다.
 
-## 2026-07-15 기준선
+## 2026-07-15 기준선 및 현재 래칫
 
 | 정점 | 루트 이벤트 | 링크 | 선택점 | 패널 | 대화 | 판정 |
 |---|---|---:|---:|---:|---:|---|
@@ -28,7 +28,7 @@
 | 지연 바다 | `arc_season_sea_jiyeon` | 1 | 1 | 5 | 6 | EXPAND |
 | 다은 불꽃 | `arc_season_fireworks_daeun` | 1 | 1 | 4 | 2-3 | EXPAND |
 | 지연 불꽃 | `arc_season_fireworks_jiyeon` | 1 | 1 | 3 | 2-4 | EXPAND |
-| 다은 프로포즈 | `arc_daeun_proposal` | 1 | 1 | 9-10 | 2 | EXPAND |
+| 다은 프로포즈 | `arc_daeun_proposal` | 3 | 2 | 25-26 | 9-10 | **PASS** |
 | 다은 결혼식 | `arc_daeun_wedding_day` | 1 | 1 | 7 | 0 | EXPAND |
 | 지연 결혼 격차 | `arc_jiyeon_wedding_gap` | 1 | 1 | 8 | 1-2 | EXPAND |
 | 지연 심판 | `arc_jiyeon_verdict` | 1 | 1 | 9-10 | 3-8 | EXPAND |
@@ -44,12 +44,12 @@
 | 재혁 ghost | `arc_jaehyuk_04a_ghost` | 1-2 | 1-2 | 8-14 | 0 | EXPAND |
 | 재혁의 진짜 얼굴 | `arc_jaehyuk_mirror` | 1 | 1 | 7 | 1-3 | EXPAND |
 
-**기준선:** 28개 중 PASS 2, 확장 부채 26. `tools/audit.sh`는 부채가 26보다 늘거나 남산 두 골드 스탠다드가 퇴행하면 실패한다.
+**현재 래칫:** 28개 중 PASS 3, 확장 부채 25. `tools/audit.sh`는 부채가 25보다 늘거나 남산 두 골드 스탠다드·다은 프로포즈가 퇴행하면 실패한다.
 
 ## 집행 순서
 
-1. `arc_daeun_proposal`: 최종 수락·보류 선택과 기존 효과는 마지막 링크에 원형 유지한다. 상자를 꺼내기 전 CG 노출 금지 계약도 유지한다.
-2. `arc_daeun_wedding_day`, `arc_jiyeon_wedding_gap`: 결혼식 두 경로를 각각 독립 체인으로 만든다. 다은 소형/풀 CG와 지연의 선택 전 계급 압력이라는 기존 비주얼 사실은 바꾸지 않는다.
+1. ✅ `arc_daeun_proposal`: `마지막 잔 → 내년 이맘때 → 프로포즈` 3링크와 2선택점으로 확장했다. 수락·보류 효과와 플래그는 최종 링크에만 남고, 수락 CG는 결과 문단 1에서만 열린다.
+2. **다음:** `arc_daeun_wedding_day`, `arc_jiyeon_wedding_gap`을 각각 독립 체인으로 만든다. 다은 소형/풀 CG와 지연의 선택 전 계급 압력이라는 기존 비주얼 사실은 바꾸지 않는다.
 3. `arc_sangchul_confrontation`: 떠남·묻음 분기도 1링크에서 끝나지 않도록 각 결과의 여파를 확보한다.
 4. 아버지 병상·별세·KTX, 첫 키스·첫날밤, 재혁, 어머니의 밥상·좁은 방, 심판·이혼, 계절 정점 순으로 부채를 낮춘다.
 

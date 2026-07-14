@@ -52,7 +52,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Amusement routes: parade→helping CG/result fork, coaster→correct booth→choice-only four-cut CG, KO/EN crop and expression continuity | `--qa=amusement --lang=ko/en` |
 | Daeun hometown route: interior train→separate maternal dining room→delayed night-bus result CG, summer outfit and KO/EN crop continuity | `--qa=hometown --lang=ko/en` |
 | First nights: heroine-specific home/portrait→night result→paragraph-delayed morning CG, same outfit, late-game month HUD, KO/EN crop | `--qa=wedding-morning --lang=ko/en` |
-| Commitment scenes: Daeun proposal prelude→accepted delayed CG/no-CG delay branch, exclusive small/full wedding choice persistence, legacy small fallback, and Jiyeon pre-decision class-gap framing | `--qa=commitment --lang=ko/en` |
+| Commitment scenes: Daeun's three-link last-cup→next-year→proposal buildup, no premature marriage flags, final accepted delayed CG/no-CG defer branch, exclusive small/full wedding choice persistence, legacy small fallback, and Jiyeon pre-decision class-gap framing | `--qa=commitment --lang=ko/en` |
 | Romance ruptures: canonical newlywed homes, Daeun hidden while she is in the adjacent room, non-separating branches with no leaked CG, and paragraph-delayed seal/departure CGs | `--qa=breakup --lang=ko/en` |
 | First snow: December-only store/car prelude→paragraph-1 CG, winter outfits, exactly two cans, left-driver/right-passenger seating, resting wipers, gaze and KO/EN crop | `--qa=first-snow --lang=ko/en` |
 | Climate portraits: monsoon rain shell, heatwave short sleeves/cooling towel, cold-snap parka/scarf and dedicated frozen street | `--qa=climate --lang=ko/en` |
