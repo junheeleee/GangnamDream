@@ -132,6 +132,10 @@ def validate_event(
     for variant in VARIANTS:
         if variant in base and variant not in overlay:
             errors.append(f"{lang}:{event_id}: missing {variant}")
+    if lang != "en":
+        for field in ("title", "description"):
+            if isinstance(base.get(field), str) and not isinstance(overlay.get(field), str):
+                errors.append(f"{lang}:{event_id}: missing {field}")
     for field in ("description_if_known", "description_if_moral"):
         if not key_parity(base.get(field), overlay.get(field)):
             errors.append(f"{lang}:{event_id}: {field} key mismatch")
@@ -162,6 +166,10 @@ def validate_event(
             )
         if not key_parity(base_choice.get("text_if_moral"), choice.get("text_if_moral")):
             errors.append(f"{lang}:{event_id}: choice {index} moral key mismatch")
+        if lang != "en":
+            for field in ("text", "result_text"):
+                if isinstance(base_choice.get(field), str) and not isinstance(choice.get(field), str):
+                    errors.append(f"{lang}:{event_id}: choice {index} missing {field}")
 
 
 def check_language(lang: str, strict: bool) -> tuple[list[str], str]:
@@ -201,6 +209,10 @@ def check_language(lang: str, strict: bool) -> tuple[list[str], str]:
                 f"{lang}:ending:{ending_id}: non-text keys {sorted(extra)}"
             )
         base = base_endings.get(ending_id, {})
+        if lang != "en":
+            for field in ("title", "description", "condition"):
+                if isinstance(base.get(field), str) and not isinstance(overlay.get(field), str):
+                    errors.append(f"{lang}:ending:{ending_id}: missing {field}")
         if not key_parity(
             base.get("description_if_known"), overlay.get("description_if_known")
         ):

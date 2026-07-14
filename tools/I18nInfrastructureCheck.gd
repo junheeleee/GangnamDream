@@ -79,8 +79,12 @@ func _check_font_coverage() -> void:
 	if not font is Font:
 		_failures.append("Pretendard font could not be loaded for CJK coverage inspection.")
 		return
+	FontKit.attach_locale_fallbacks(font)
 	var samples := {
 		"ja_hiragana": 0x3042,
+		"ja_katakana": 0x30AA,
+		"ja_kanji": 0x6F22,
+		"ja_punctuation": 0x300C,
 		"zh_simplified": 0x6C49,
 		"zh_traditional": 0x6F22,
 	}
@@ -91,9 +95,12 @@ func _check_font_coverage() -> void:
 			covered.append(str(label))
 		else:
 			missing.append(str(label))
-	print("I18N_FONT_COVERAGE font=Pretendard covered=%s missing=%s shipping_ready=%s" % [
-		str(covered), str(missing), str(missing.is_empty())
+	var jp_ready := ["ja_hiragana", "ja_katakana", "ja_kanji", "ja_punctuation"].all(
+		func(label): return label in covered)
+	print("I18N_FONT_COVERAGE base=Pretendard fallback=NotoSansJP covered=%s missing=%s ja_ready=%s" % [
+		str(covered), str(missing), str(jp_ready)
 	])
+	_expect(jp_ready, "Bundled Japanese fallback is missing required glyph classes.")
 
 func _contains_hangul(text: String) -> bool:
 	for index in range(text.length()):

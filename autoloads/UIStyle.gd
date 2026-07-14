@@ -47,6 +47,9 @@ func _load_fonts():
 	font_regular  = _PRELOAD_REGULAR
 	font_semibold = _PRELOAD_SEMIBOLD
 	font_bold     = _PRELOAD_BOLD
+	FontKit.attach_emoji_fallback(font_regular)
+	FontKit.attach_emoji_fallback(font_semibold)
+	FontKit.attach_emoji_fallback(font_bold)
 	# 전역 fallback 설정 → 폰트 오버라이드 없는 라벨도 한국어 표시
 	if font_regular:
 		ThemeDB.fallback_font      = font_regular
