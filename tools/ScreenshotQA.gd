@@ -3261,15 +3261,50 @@ func _shot_aruba_surfaces(lang: String = "en", prefix: String = "aruba_en_") -> 
 		"tier": 1,
 	}
 	await _open_aruba_for_qa(node)
+	var conv_slots: Array = node.get("_conv_slot_panels")
+	if conv_slots.size() != 3 or not conv_slots.all(func(slot): return slot is Button):
+		_fail("Convenience shift did not expose three focusable customer buttons.")
+		return
+	var focus := get_viewport().gui_get_focus_owner()
+	if focus != conv_slots[0]:
+		_fail("Convenience shift did not focus the first customer on entry.")
+		return
 	await _save(prefix + "01_convenience_slots")
-	if node.has_method("_conv_click_slot"):
-		node.call("_conv_click_slot", 0)
-		await _settle(0.25)
-		await _save(prefix + "01a_convenience_actions")
-	if node.has_method("_conv_handle"):
-		node.call("_conv_handle", 0, 0)
-		await _settle(0.25)
-		await _save(prefix + "01b_convenience_result")
+	await _press_qa_action("ui_accept")
+	await _settle(0.25)
+	var action_surface := node.get("_conv_action_vb") as Control
+	focus = get_viewport().gui_get_focus_owner()
+	if not is_instance_valid(action_surface) or not (focus is Button) or not action_surface.is_ancestor_of(focus):
+		_fail("Convenience shift customer selection did not focus a response button.")
+		return
+	await _save(prefix + "01a_convenience_actions")
+	await _press_qa_action("ui_accept")
+	await _settle(0.25)
+	if int(node.get("_conv_served")) != 1:
+		_fail("Convenience shift response input did not serve the selected customer.")
+		return
+	await _save(prefix + "01b_convenience_result")
+	await _settle(0.65)
+	focus = get_viewport().gui_get_focus_owner()
+	if not conv_slots.has(focus):
+		_fail("Convenience shift did not return focus to the customer queue.")
+		return
+	_hide_aruba_for_qa(node)
+
+	# 응답 선택 중 다른 손님이 떠나도 새 슬롯이 현재 응답 포커스를 빼앗으면 안 된다.
+	await _open_aruba_for_qa(node)
+	await _press_qa_action("ui_accept")
+	await _settle(0.25)
+	action_surface = node.get("_conv_action_vb") as Control
+	var response_focus := get_viewport().gui_get_focus_owner()
+	var patience: Array = node.get("_conv_slot_patience")
+	patience[1] = 0.01
+	node.set("_conv_slot_patience", patience)
+	await _settle(0.7)
+	focus = get_viewport().gui_get_focus_owner()
+	if focus != response_focus or not is_instance_valid(action_surface) or not action_surface.is_ancestor_of(focus):
+		_fail("Convenience shift stole response focus when another customer timed out.")
+		return
 	_hide_aruba_for_qa(node)
 
 	GameState.current_job = {

@@ -69,6 +69,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Title collection and meta-title reward surface | `--qa=title-en` |
 | Tutorial overlay surface and onboarding copy | `--qa=tutorial-en` |
 | Job hunt/career modal tier pages and resume/interview minigame surface | `--qa=job-en` |
+| Part-time shifts: cards, convenience customer→response→next-customer controller focus loop, no focus theft on another-customer timeout, delivery route, mode-specific background/ambience, KO/EN crop | `--qa=aruba-en --lang=ko/en` |
 | Casino/minigame UI only | `--qa=casino-en` |
 | Moral tint/filter, choice echo, and same-room five-stage Minjun threshold acting | `--qa=moral --lang=ko/en` |
 | Scene transition only | `--qa=transition` |

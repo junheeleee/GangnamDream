@@ -227,7 +227,7 @@ const CUSTOMER_TYPES = [
 
 const CONV_TOTAL := 10           # 시프트당 총 손님 수
 const CONV_SLOTS := 3            # 동시 처리 슬롯
-const CONV_SLOT_H := 72.0        # 슬롯 패널 높이 (px)
+const CONV_SLOT_H := 112.0       # 슬롯 패널 높이 (px)
 const CONV_TIMEOUT_STRESS := 2   # 타임아웃당 스트레스 (기본; urgency 3이면 +1 추가)
 
 # ── 배달 루트 상수 ────────────────────────────────────────────────
@@ -264,8 +264,9 @@ var _conv_feedback_slot: int = -1                    # 피드백 표시 중인 �
 var _conv_action_cooldown: float = 0.0               # 액션 후 짧은 대기
 var _conv_served: int = 0                            # 처리 완료 손님 수 (성공+실패)
 var _conv_good: int = 0                              # 성공 응대 수
+var _conv_last_focus_slot: int = 0                   # 패드 포커스 복귀 슬롯
 # 패널 참조
-var _conv_slot_panels: Array = []                    # 3개 Panel 노드
+var _conv_slot_panels: Array = []                    # 3개 Button 슬롯
 var _conv_slot_bars: Array = []                      # 3개 ProgressBar 노드
 var _conv_slot_name_lbls: Array = []                 # 3개 이름 Label
 var _conv_slot_text_lbls: Array = []                 # 3개 대사/상태 Label
@@ -284,6 +285,7 @@ var _root_vb: VBoxContainer
 var _header_lbl: Label
 var _progress_lbl: Label
 var _content_vb: VBoxContainer
+var _scene_bg: TextureRect
 
 # CARDS UI
 var _scene_lbl: Label
@@ -329,6 +331,20 @@ func _process(delta: float) -> void:
 					else:
 						_show_scenario(_card_idx)
 
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event.is_action_pressed("ui_cancel"):
+		if _mode == Mode.CONVENIENCE and _conv_selected >= 0:
+			_conv_reset_selection()
+		get_viewport().set_input_as_handled()
+		return
+	if event.is_action_pressed("ui_accept") and _mode == Mode.CONVENIENCE:
+		var focus := get_viewport().gui_get_focus_owner()
+		if focus == null or not is_ancestor_of(focus):
+			_conv_focus_slot()
+			get_viewport().set_input_as_handled()
+
 # ── 진입 ─────────────────────────────────────────────────────────
 func open() -> void:
 	_earned = BASE_PAY
@@ -342,6 +358,7 @@ func open() -> void:
 	_conv_selected = -1
 	_conv_feedback_slot = -1
 	_conv_action_cooldown = 0.0
+	_conv_last_focus_slot = 0
 	_conv_slots = [null, null, null]
 	_conv_slot_patience = [0.0, 0.0, 0.0]
 	_conv_queue = []
@@ -357,12 +374,15 @@ func open() -> void:
 
 	match _mode:
 		Mode.CONVENIENCE:
+			_set_scene_surface("res://assets/backgrounds/convenience_store_night_v2.png", "convenience")
 			_header_lbl.text = LocaleManager.ui("편의점 야간 시프트", "Convenience Store Night Shift")
 			_start_convenience()
 		Mode.DELIVERY:
+			_set_scene_surface("res://assets/backgrounds/aruba_delivery_street.png", "street")
 			_header_lbl.text = LocaleManager.ui("배달 루트 설정", "Delivery Route Planning")
 			_start_delivery()
 		Mode.CARDS:
+			_set_scene_surface("res://assets/backgrounds/office_desk.png", "office")
 			_header_lbl.text = LocaleManager.ui("알바 시프트", "Part-Time Shift")
 			_start_cards()
 
@@ -385,34 +405,60 @@ func _clear_content() -> void:
 
 # ── 기반 UI ──────────────────────────────────────────────────────
 func _build_base_ui() -> void:
+	_scene_bg = TextureRect.new()
+	_scene_bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_scene_bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_scene_bg.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	_scene_bg.modulate = Color(0.42, 0.44, 0.48, 1.0)
+	_scene_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_scene_bg)
+
 	var bg := ColorRect.new()
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	bg.color = Color("#060a12")
+	bg.color = Color("#03060b", 0.58)
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)
 
 	var margin := MarginContainer.new()
 	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
-	margin.add_theme_constant_override("margin_left", 24)
-	margin.add_theme_constant_override("margin_right", 24)
-	margin.add_theme_constant_override("margin_top", 20)
-	margin.add_theme_constant_override("margin_bottom", 20)
+	margin.add_theme_constant_override("margin_left", 34)
+	margin.add_theme_constant_override("margin_right", 34)
+	margin.add_theme_constant_override("margin_top", 24)
+	margin.add_theme_constant_override("margin_bottom", 24)
 	add_child(margin)
 
+	var frame := PanelContainer.new()
+	frame.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	frame.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var frame_st := StyleBoxFlat.new()
+	frame_st.bg_color = Color("#070b12", 0.84)
+	frame_st.border_color = Color("#526071", 0.54)
+	frame_st.set_border_width_all(1)
+	frame_st.border_width_left = 3
+	frame_st.set_corner_radius_all(7)
+	frame_st.content_margin_left = 24
+	frame_st.content_margin_right = 24
+	frame_st.content_margin_top = 19
+	frame_st.content_margin_bottom = 19
+	frame.add_theme_stylebox_override("panel", frame_st)
+	margin.add_child(frame)
+
 	_root_vb = VBoxContainer.new()
-	_root_vb.add_theme_constant_override("separation", 10)
-	margin.add_child(_root_vb)
+	_root_vb.add_theme_constant_override("separation", 12)
+	frame.add_child(_root_vb)
 
 	var hdr := HBoxContainer.new()
 	_root_vb.add_child(hdr)
 	_header_lbl = Label.new()
 	_header_lbl.text = LocaleManager.ui("알바 시프트", "Part-Time Shift")
-	_header_lbl.add_theme_font_size_override("font_size", 17)
-	_header_lbl.add_theme_color_override("font_color", Color("#f0b429"))
+	_header_lbl.add_theme_font_size_override("font_size", 24)
+	_header_lbl.add_theme_color_override("font_color", Color("#f0c36a"))
 	_header_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hdr.add_child(_header_lbl)
 	_progress_lbl = Label.new()
-	_progress_lbl.add_theme_font_size_override("font_size", 12)
-	_progress_lbl.add_theme_color_override("font_color", Color("#5a6a8a"))
+	_progress_lbl.add_theme_font_size_override("font_size", 14)
+	_progress_lbl.add_theme_color_override("font_color", Color("#a9b4c4"))
+	_progress_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	hdr.add_child(_progress_lbl)
 
 	var sep := HSeparator.new()
@@ -423,6 +469,12 @@ func _build_base_ui() -> void:
 	_content_vb.add_theme_constant_override("separation", 8)
 	_content_vb.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_root_vb.add_child(_content_vb)
+
+func _set_scene_surface(path: String, ambience_key: String) -> void:
+	if is_instance_valid(_scene_bg):
+		_scene_bg.texture = load(path) if ResourceLoader.exists(path) else null
+	BGMPlayer.set_season_ambience("")
+	BGMPlayer.set_ambience(ambience_key)
 
 # ══════════════════════════════════════════════════════════════════
 # CARDS 모드
@@ -444,18 +496,33 @@ func _start_cards() -> void:
 	if mastery >= 3: count = 5
 	_scenarios = shuffled.slice(0, mini(count, shuffled.size()))
 
+	var scene_panel := PanelContainer.new()
+	scene_panel.custom_minimum_size = Vector2(0, 160)
+	var scene_st := StyleBoxFlat.new()
+	scene_st.bg_color = Color("#0d141e", 0.92)
+	scene_st.border_color = Color("#344454", 0.86)
+	scene_st.set_border_width_all(1)
+	scene_st.border_width_left = 4
+	scene_st.set_corner_radius_all(6)
+	scene_st.content_margin_left = 22
+	scene_st.content_margin_right = 22
+	scene_st.content_margin_top = 20
+	scene_st.content_margin_bottom = 20
+	scene_panel.add_theme_stylebox_override("panel", scene_st)
+	_content_vb.add_child(scene_panel)
+
 	_scene_lbl = Label.new()
 	_scene_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_scene_lbl.add_theme_font_size_override("font_size", 14)
-	_scene_lbl.add_theme_color_override("font_color", Color("#d0d8e0"))
-	_scene_lbl.custom_minimum_size = Vector2(0, 70)
-	_content_vb.add_child(_scene_lbl)
+	_scene_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_scene_lbl.add_theme_font_size_override("font_size", 19)
+	_scene_lbl.add_theme_color_override("font_color", Color("#e4e8ed"))
+	scene_panel.add_child(_scene_lbl)
 
 	_feedback_lbl = Label.new()
 	_feedback_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_feedback_lbl.add_theme_font_size_override("font_size", 12)
+	_feedback_lbl.add_theme_font_size_override("font_size", 15)
 	_feedback_lbl.add_theme_color_override("font_color", Color("#3dba6a"))
-	_feedback_lbl.custom_minimum_size = Vector2(0, 22)
+	_feedback_lbl.custom_minimum_size = Vector2(0, 32)
 	_content_vb.add_child(_feedback_lbl)
 
 	_choice_vb = VBoxContainer.new()
@@ -472,11 +539,17 @@ func _show_scenario(idx: int) -> void:
 	_progress_lbl.text = "%d / %d" % [idx + 1, _scenarios.size()]
 	for ch in _choice_vb.get_children():
 		ch.queue_free()
+	var first_btn: Button = null
 	for ci in range(sc["choices"].size()):
-		var btn := _make_btn(_loc(sc["choices"][ci], "text"), "#0e1a2a", 13)
-		btn.custom_minimum_size = Vector2(0, 42)
+		var btn := _make_btn("%02d  %s" % [ci + 1, _loc(sc["choices"][ci], "text")], "#0e1a2a", 16)
+		btn.custom_minimum_size = Vector2(0, 58)
+		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		btn.pressed.connect(func(): _on_cards_choice(sc, ci))
 		_choice_vb.add_child(btn)
+		if first_btn == null:
+			first_btn = btn
+	if first_btn != null:
+		first_btn.call_deferred("grab_focus")
 
 func _on_cards_choice(sc: Dictionary, ci: int) -> void:
 	var choice: Dictionary = sc["choices"][ci]
@@ -518,37 +591,41 @@ func _start_convenience() -> void:
 		fill.bg_color = Color("#2a7a3a")
 		_conv_fill_styles.append(fill)
 
-	# 슬롯 패널 3개 생성
+	var scene_line := Label.new()
+	scene_line.text = LocaleManager.ui(
+		"새벽 1시 47분. 냉장고 모터음 사이로 계산대 앞 손님 셋이 겹쳤다.",
+		"1:47 AM. Three customers converge at the counter over the refrigerator hum.")
+	scene_line.add_theme_font_size_override("font_size", 16)
+	scene_line.add_theme_color_override("font_color", Color("#d7dee8"))
+	scene_line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_content_vb.add_child(scene_line)
+
+	# 슬롯 카드 3개 생성. Button으로 만들어 마우스·키보드·패드가 같은 경로를 쓴다.
 	var slots_vb := VBoxContainer.new()
-	slots_vb.add_theme_constant_override("separation", 5)
+	slots_vb.add_theme_constant_override("separation", 9)
 	_content_vb.add_child(slots_vb)
 
 	for i in range(CONV_SLOTS):
-		var panel := Panel.new()
+		var panel := Button.new()
+		panel.text = ""
 		panel.custom_minimum_size = Vector2(0, CONV_SLOT_H)
 		panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		var panel_st := StyleBoxFlat.new()
-		panel_st.bg_color = Color("#0d1420")
-		panel_st.set_corner_radius_all(6)
-		panel.add_theme_stylebox_override("panel", panel_st)
+		panel.focus_mode = Control.FOCUS_ALL
+		panel.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		panel.clip_contents = true
 		slots_vb.add_child(panel)
 		_conv_slot_panels.append(panel)
 		_conv_slot_bars.append(null)
 		_conv_slot_name_lbls.append(null)
 		_conv_slot_text_lbls.append(null)
-
-		# 패널 클릭 핸들러 (1회 연결)
 		var cap_i: int = i
-		panel.gui_input.connect(func(event: InputEvent):
-			if event is InputEventMouseButton:
-				var mb := event as InputEventMouseButton
-				if mb.button_index == MOUSE_BUTTON_LEFT and mb.pressed:
-					_conv_click_slot(cap_i))
+		panel.pressed.connect(func(): _conv_click_slot(cap_i))
+		_conv_apply_slot_style(i)
 
 	# 점수 라벨
 	_conv_score_lbl = Label.new()
-	_conv_score_lbl.add_theme_font_size_override("font_size", 12)
-	_conv_score_lbl.add_theme_color_override("font_color", Color("#5a8a6a"))
+	_conv_score_lbl.add_theme_font_size_override("font_size", 14)
+	_conv_score_lbl.add_theme_color_override("font_color", Color("#9eb8a7"))
 	_content_vb.add_child(_conv_score_lbl)
 
 	# 액션 영역 (클릭 시 동적 버튼 표시)
@@ -557,15 +634,15 @@ func _start_convenience() -> void:
 	_content_vb.add_child(action_sep)
 
 	_conv_action_vb = VBoxContainer.new()
-	_conv_action_vb.add_theme_constant_override("separation", 6)
+	_conv_action_vb.add_theme_constant_override("separation", 8)
 	_conv_action_vb.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_content_vb.add_child(_conv_action_vb)
 
 	var hint := Label.new()
-	hint.text = LocaleManager.ui("손님 패널을 클릭해서 응대하세요", "Select a customer panel to respond")
+	hint.text = LocaleManager.ui("누구를 먼저 상대할지 고른다.", "Choose who gets your attention first.")
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	hint.add_theme_font_size_override("font_size", 11)
-	hint.add_theme_color_override("font_color", Color("#3a4a5a"))
+	hint.add_theme_font_size_override("font_size", 14)
+	hint.add_theme_color_override("font_color", Color("#778596"))
 	_conv_action_vb.add_child(hint)
 
 	_conv_update_score_lbl()
@@ -574,6 +651,8 @@ func _start_convenience() -> void:
 	# 첫 손님 3명 즉시 등장
 	for i in range(CONV_SLOTS):
 		_conv_spawn_into(i)
+	_progress_lbl.text = LocaleManager.ui("심야  01:47", "NIGHT  01:47")
+	_conv_focus_slot.call_deferred(0)
 
 func _conv_spawn_into(slot_idx: int) -> void:
 	if _conv_queue.is_empty():
@@ -584,7 +663,7 @@ func _conv_spawn_into(slot_idx: int) -> void:
 	_conv_build_slot_content(slot_idx)
 
 func _conv_build_slot_content(slot_idx: int) -> void:
-	var panel: Panel = _conv_slot_panels[slot_idx]
+	var panel: Button = _conv_slot_panels[slot_idx]
 	# 기존 콘텐츠 제거
 	for ch in panel.get_children():
 		ch.queue_free()
@@ -593,25 +672,32 @@ func _conv_build_slot_content(slot_idx: int) -> void:
 	if customer == null:
 		return
 
-	# 패널 스타일 리셋 (선택 해제)
-	var st := StyleBoxFlat.new()
-	st.bg_color = Color("#0d1420")
-	st.set_corner_radius_all(6)
-	panel.add_theme_stylebox_override("panel", st)
+	panel.disabled = false
+	panel.focus_mode = Control.FOCUS_ALL
+	_conv_apply_slot_style(slot_idx)
 
 	var margin := MarginContainer.new()
 	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
-	margin.add_theme_constant_override("margin_left", 10)
-	margin.add_theme_constant_override("margin_right", 8)
-	margin.add_theme_constant_override("margin_top", 7)
-	margin.add_theme_constant_override("margin_bottom", 7)
+	margin.add_theme_constant_override("margin_left", 18)
+	margin.add_theme_constant_override("margin_right", 15)
+	margin.add_theme_constant_override("margin_top", 13)
+	margin.add_theme_constant_override("margin_bottom", 13)
 	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel.add_child(margin)
 
 	var hb := HBoxContainer.new()
 	hb.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	hb.add_theme_constant_override("separation", 8)
+	hb.add_theme_constant_override("separation", 14)
 	margin.add_child(hb)
+
+	var slot_no := Label.new()
+	slot_no.text = "%02d" % (slot_idx + 1)
+	slot_no.custom_minimum_size = Vector2(42, 0)
+	slot_no.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	slot_no.add_theme_font_size_override("font_size", 22)
+	slot_no.add_theme_color_override("font_color", Color("#667789"))
+	slot_no.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hb.add_child(slot_no)
 
 	# 짧은 태그 + 이름
 	var info_vb := VBoxContainer.new()
@@ -621,7 +707,7 @@ func _conv_build_slot_content(slot_idx: int) -> void:
 
 	var name_lbl := Label.new()
 	name_lbl.text = "%s  %s" % [_customer_tag(customer), _loc(customer, "name", LocaleManager.ui("손님", "Customer"))]
-	name_lbl.add_theme_font_size_override("font_size", 13)
+	name_lbl.add_theme_font_size_override("font_size", 17)
 	name_lbl.add_theme_color_override("font_color", Color("#dde8f0"))
 	name_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	info_vb.add_child(name_lbl)
@@ -629,8 +715,8 @@ func _conv_build_slot_content(slot_idx: int) -> void:
 
 	var text_lbl := Label.new()
 	text_lbl.text = "\"%s\"" % _loc(customer, "text")
-	text_lbl.add_theme_font_size_override("font_size", 11)
-	text_lbl.add_theme_color_override("font_color", Color("#5a7a8a"))
+	text_lbl.add_theme_font_size_override("font_size", 14)
+	text_lbl.add_theme_color_override("font_color", Color("#96a9b8"))
 	text_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	text_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	info_vb.add_child(text_lbl)
@@ -638,7 +724,7 @@ func _conv_build_slot_content(slot_idx: int) -> void:
 
 	# 인내심 바 + 긴급도
 	var bar_vb := VBoxContainer.new()
-	bar_vb.custom_minimum_size = Vector2(72, 0)
+	bar_vb.custom_minimum_size = Vector2(132, 0)
 	bar_vb.alignment = BoxContainer.ALIGNMENT_CENTER
 	bar_vb.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hb.add_child(bar_vb)
@@ -648,7 +734,7 @@ func _conv_build_slot_content(slot_idx: int) -> void:
 	bar.max_value = 100
 	bar.value = 100
 	bar.show_percentage = false
-	bar.custom_minimum_size = Vector2(72, 10)
+	bar.custom_minimum_size = Vector2(132, 13)
 	bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	bar.add_theme_stylebox_override("fill", _conv_fill_styles[slot_idx])
 	bar_vb.add_child(bar)
@@ -657,7 +743,7 @@ func _conv_build_slot_content(slot_idx: int) -> void:
 	var urg: int = int(customer.get("urgency", 1))
 	var urg_lbl := Label.new()
 	urg_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	urg_lbl.add_theme_font_size_override("font_size", 10)
+	urg_lbl.add_theme_font_size_override("font_size", 12)
 	urg_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	match urg:
 		0:
@@ -675,19 +761,84 @@ func _conv_build_slot_content(slot_idx: int) -> void:
 	bar_vb.add_child(urg_lbl)
 
 func _conv_clear_slot_panel(slot_idx: int) -> void:
-	var panel: Panel = _conv_slot_panels[slot_idx]
+	var panel: Button = _conv_slot_panels[slot_idx]
 	for ch in panel.get_children():
 		ch.queue_free()
 	_conv_slot_bars[slot_idx] = null
 	_conv_slot_name_lbls[slot_idx] = null
 	_conv_slot_text_lbls[slot_idx] = null
-	# 빈 슬롯 스타일
+	panel.disabled = true
+	panel.focus_mode = Control.FOCUS_NONE
+	_conv_apply_slot_style(slot_idx, true)
+
+func _conv_slot_style(bg: Color, border: Color, border_width: int = 1) -> StyleBoxFlat:
 	var st := StyleBoxFlat.new()
-	st.bg_color = Color("#080e18")
+	st.bg_color = bg
+	st.border_color = border
+	st.set_border_width_all(border_width)
+	st.border_width_left = maxi(3, border_width)
 	st.set_corner_radius_all(6)
-	st.border_color = Color("#1a2030")
-	st.set_border_width_all(1)
-	panel.add_theme_stylebox_override("panel", st)
+	return st
+
+func _conv_apply_slot_style(slot_idx: int, empty: bool = false) -> void:
+	if slot_idx < 0 or slot_idx >= _conv_slot_panels.size():
+		return
+	var panel := _conv_slot_panels[slot_idx] as Button
+	if not is_instance_valid(panel):
+		return
+	if empty:
+		var empty_st := _conv_slot_style(Color("#080b11", 0.72), Color("#26303b", 0.72), 1)
+		panel.add_theme_stylebox_override("normal", empty_st)
+		panel.add_theme_stylebox_override("disabled", empty_st)
+		return
+	var selected := slot_idx == _conv_selected
+	var normal := _conv_slot_style(
+		Color("#13202c", 0.95) if selected else Color("#0d141e", 0.94),
+		Color("#d4ad58", 0.86) if selected else Color("#344454", 0.90),
+		2 if selected else 1)
+	var hover := normal.duplicate()
+	hover.bg_color = normal.bg_color.lightened(0.06)
+	hover.border_color = Color("#8799aa")
+	var focus := normal.duplicate()
+	focus.bg_color = normal.bg_color.lightened(0.09)
+	focus.border_color = Color("#f0d18a")
+	focus.set_border_width_all(2)
+	focus.border_width_left = 5
+	var pressed := focus.duplicate()
+	pressed.bg_color = focus.bg_color.darkened(0.08)
+	panel.add_theme_stylebox_override("normal", normal)
+	panel.add_theme_stylebox_override("hover", hover)
+	panel.add_theme_stylebox_override("focus", focus)
+	panel.add_theme_stylebox_override("pressed", pressed)
+
+func _conv_focus_slot(preferred: int = -1) -> void:
+	if not visible or _mode != Mode.CONVENIENCE:
+		return
+	var start := preferred if preferred >= 0 else _conv_last_focus_slot
+	for offset in range(CONV_SLOTS):
+		var idx := posmod(start + offset, CONV_SLOTS)
+		if _conv_slots[idx] == null:
+			continue
+		var panel := _conv_slot_panels[idx] as Button
+		if is_instance_valid(panel) and not panel.disabled:
+			_conv_last_focus_slot = idx
+			panel.grab_focus()
+			return
+
+func _conv_reset_selection(refocus: bool = true) -> void:
+	var previous := _conv_selected
+	_conv_selected = -1
+	for ch in _conv_action_vb.get_children():
+		ch.queue_free()
+	var hint := Label.new()
+	hint.text = LocaleManager.ui("누구를 먼저 상대할지 고른다.", "Choose who gets your attention first.")
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint.add_theme_font_size_override("font_size", 14)
+	hint.add_theme_color_override("font_color", Color("#778596"))
+	_conv_action_vb.add_child(hint)
+	_conv_highlight_selected()
+	if refocus:
+		_conv_focus_slot.call_deferred(previous if previous >= 0 else _conv_last_focus_slot)
 
 func _conv_refresh_bar(slot_idx: int) -> void:
 	var bar: ProgressBar = _conv_slot_bars[slot_idx]
@@ -713,25 +864,14 @@ func _conv_click_slot(slot_idx: int) -> void:
 		return
 
 	_conv_selected = slot_idx
+	_conv_last_focus_slot = slot_idx
 	_conv_highlight_selected()
 	_conv_show_actions(slot_idx)
 	AudioManager.play("click")
 
 func _conv_highlight_selected() -> void:
 	for i in range(CONV_SLOTS):
-		if _conv_slots[i] == null:
-			continue
-		var panel: Panel = _conv_slot_panels[i]
-		var st := StyleBoxFlat.new()
-		if i == _conv_selected:
-			st.bg_color = Color("#0d2040")
-			st.set_corner_radius_all(6)
-			st.border_color = Color("#5a4510")
-			st.set_border_width_all(2)
-		else:
-			st.bg_color = Color("#0d1420")
-			st.set_corner_radius_all(6)
-		panel.add_theme_stylebox_override("panel", st)
+		_conv_apply_slot_style(i, _conv_slots[i] == null)
 
 func _conv_show_actions(slot_idx: int) -> void:
 	for ch in _conv_action_vb.get_children():
@@ -739,20 +879,26 @@ func _conv_show_actions(slot_idx: int) -> void:
 
 	var customer: Dictionary = _conv_slots[slot_idx]
 	var who_lbl := Label.new()
-	who_lbl.text = LocaleManager.ui("%s %s 응대", "%s %s") % [_customer_tag(customer), _loc(customer, "name")]
-	who_lbl.add_theme_font_size_override("font_size", 12)
-	who_lbl.add_theme_color_override("font_color", Color("#a0b8c0"))
+	who_lbl.text = LocaleManager.ui("%s · %s에게 뭐라고 할까", "%s · What do you say to %s?") % [_customer_tag(customer), _loc(customer, "name")]
+	who_lbl.add_theme_font_size_override("font_size", 16)
+	who_lbl.add_theme_color_override("font_color", Color("#d8c28f"))
 	_conv_action_vb.add_child(who_lbl)
 
 	var actions: Array = customer.get("actions", [])
+	var first_action: Button = null
 	for ai in range(actions.size()):
 		var action: Dictionary = actions[ai]
-		var btn := _make_btn(_loc(action, "text"), "#0e1a2e", 13)
-		btn.custom_minimum_size = Vector2(0, 38)
+		var btn := _make_btn("%02d  %s" % [ai + 1, _loc(action, "text")], "#101923", 15)
+		btn.custom_minimum_size = Vector2(0, 48)
+		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		var cap_slot: int = slot_idx
 		var cap_ai: int = ai
 		btn.pressed.connect(func(): _conv_handle(cap_slot, cap_ai))
 		_conv_action_vb.add_child(btn)
+		if first_action == null:
+			first_action = btn
+	if first_action != null:
+		first_action.call_deferred("grab_focus")
 
 func _conv_handle(slot_idx: int, action_idx: int) -> void:
 	if _conv_slots[slot_idx] == null or _conv_feedback_slot == slot_idx:
@@ -785,6 +931,12 @@ func _conv_handle(slot_idx: int, action_idx: int) -> void:
 	# 액션 영역 지우기
 	for ch in _conv_action_vb.get_children():
 		ch.queue_free()
+	var wait_lbl := Label.new()
+	wait_lbl.text = LocaleManager.ui("다음 손님이 계산대로 다가온다.", "The next customer steps up to the counter.")
+	wait_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	wait_lbl.add_theme_font_size_override("font_size", 14)
+	wait_lbl.add_theme_color_override("font_color", Color("#789387"))
+	_conv_action_vb.add_child(wait_lbl)
 	_conv_selected = -1
 	_conv_highlight_selected()
 
@@ -809,10 +961,7 @@ func _conv_timeout(slot_idx: int) -> void:
 		name_lbl.text = LocaleManager.ui("실패  ", "MISS  ") + _loc(customer, "name")
 
 	if _conv_selected == slot_idx:
-		_conv_selected = -1
-		_conv_highlight_selected()
-		for ch in _conv_action_vb.get_children():
-			ch.queue_free()
+		_conv_reset_selection(false)
 
 	_conv_served += 1
 	_conv_feedback_slot = slot_idx
@@ -839,15 +988,18 @@ func _conv_free_slot(slot_idx: int) -> void:
 	# 다음 손님 즉시 투입
 	_conv_spawn_into(slot_idx)
 	_conv_update_score_lbl()
+	# 다른 손님 응답을 고르는 중이라면 새 손님이 포커스를 빼앗지 않는다.
+	if _conv_selected < 0:
+		_conv_focus_slot.call_deferred(slot_idx)
 
 func _conv_update_score_lbl() -> void:
 	if not is_instance_valid(_conv_score_lbl):
 		return
-	var remaining: int = _conv_queue.size() + (CONV_TOTAL - _conv_served - _conv_queue.size())
-	remaining = CONV_TOTAL - _conv_served
-	_conv_score_lbl.text = LocaleManager.ui("처리: %d / %d  |  남은 손님: %d명", "Served: %d / %d  |  Customers left: %d") % [
-		_conv_served, CONV_TOTAL,
-		_conv_queue.size() + _conv_slots.filter(func(s): return s != null).size()]
+	var remaining := _conv_queue.size() + _conv_slots.filter(func(s): return s != null).size()
+	_conv_score_lbl.text = LocaleManager.ui(
+		"응대 %d/%d · 성공 %d · 남은 손님 %d · 기본 수당 %s",
+		"SERVED %d/%d · GOOD %d · LEFT %d · BASE %s") % [
+		_conv_served, CONV_TOTAL, _conv_good, remaining, _fmt(BASE_PAY)]
 
 # ══════════════════════════════════════════════════════════════════
 # DELIVERY 모드 — 배달 루트 최적화 퍼즐
@@ -857,10 +1009,10 @@ func _start_delivery() -> void:
 	_progress_lbl.text = LocaleManager.ui("루트 설정", "Route")
 
 	var guide := Label.new()
-	guide.text = LocaleManager.ui("제한 시간 %d분. 배달할 순서대로 클릭하세요. (클릭 취소 가능)", "Time limit: %d minutes. Click deliveries in order. Click again to cancel.") % DEL_TIME_BUDGET
+	guide.text = LocaleManager.ui("제한 시간 %d분. 배달할 순서대로 선택하세요. 다시 선택하면 취소됩니다.", "Time limit: %d minutes. Select deliveries in order. Select again to cancel.") % DEL_TIME_BUDGET
 	guide.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	guide.add_theme_font_size_override("font_size", 12)
-	guide.add_theme_color_override("font_color", Color("#7a9ab0"))
+	guide.add_theme_font_size_override("font_size", 15)
+	guide.add_theme_color_override("font_color", Color("#b1c0cc"))
 	_content_vb.add_child(guide)
 
 	var orders_vb := VBoxContainer.new()
@@ -871,26 +1023,29 @@ func _start_delivery() -> void:
 		var o: Dictionary = DEL_ORDERS_DATA[i]
 		var btn := _make_btn(
 			_delivery_label(o),
-			"#0e1a2e", 13)
-		btn.custom_minimum_size = Vector2(0, 40)
+			"#0e1a2e", 15)
+		btn.custom_minimum_size = Vector2(0, 54)
+		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		var cap_i: int = i
 		btn.pressed.connect(func(): _del_toggle(cap_i))
 		orders_vb.add_child(btn)
 		_del_order_btns.append(btn)
 
 	_del_status_lbl = Label.new()
-	_del_status_lbl.add_theme_font_size_override("font_size", 13)
+	_del_status_lbl.add_theme_font_size_override("font_size", 15)
 	_del_status_lbl.add_theme_color_override("font_color", Color("#c8a060"))
 	_del_status_lbl.custom_minimum_size = Vector2(0, 22)
 	_content_vb.add_child(_del_status_lbl)
 
-	_del_confirm_btn = _make_btn(LocaleManager.ui("배달 출발", "Start Delivery"), "#0d3a1a", 15)
-	_del_confirm_btn.custom_minimum_size = Vector2(0, 48)
+	_del_confirm_btn = _make_btn(LocaleManager.ui("배달 출발", "Start Delivery"), "#0d3a1a", 16)
+	_del_confirm_btn.custom_minimum_size = Vector2(0, 58)
 	_del_confirm_btn.disabled = true
 	_del_confirm_btn.pressed.connect(_del_confirm)
 	_content_vb.add_child(_del_confirm_btn)
 
 	_del_refresh_ui()
+	if not _del_order_btns.is_empty():
+		(_del_order_btns[0] as Button).call_deferred("grab_focus")
 
 func _del_toggle(idx: int) -> void:
 	var pos := _del_selected.find(idx)
@@ -918,6 +1073,10 @@ func _del_refresh_ui() -> void:
 			var st := StyleBoxFlat.new()
 			st.bg_color = Color("#1a3a1a")
 			st.set_corner_radius_all(5)
+			st.content_margin_left = 18
+			st.content_margin_right = 18
+			st.content_margin_top = 8
+			st.content_margin_bottom = 8
 			btn.add_theme_stylebox_override("normal", st)
 			btn.add_theme_color_override("font_color", Color("#6af0a0"))
 			btn.disabled = false
@@ -926,6 +1085,10 @@ func _del_refresh_ui() -> void:
 			var st := StyleBoxFlat.new()
 			st.bg_color = Color("#0e1a2e" if not would_exceed else "#1a1218")
 			st.set_corner_radius_all(5)
+			st.content_margin_left = 18
+			st.content_margin_right = 18
+			st.content_margin_top = 8
+			st.content_margin_bottom = 8
 			btn.add_theme_stylebox_override("normal", st)
 			btn.add_theme_color_override("font_color",
 				Color("#c8d8e8") if not would_exceed else Color("#4a3a4a"))
@@ -1006,9 +1169,11 @@ func _show_result() -> void:
 	ok_btn.custom_minimum_size = Vector2(0, 46)
 	ok_btn.pressed.connect(_on_finish)
 	_content_vb.add_child(ok_btn)
+	ok_btn.call_deferred("grab_focus")
 
 func _on_finish() -> void:
 	MetaProgression.record_minigame_play("aruba")
+	BGMPlayer.update_idle_ambience()
 	visible = false
 	closed.emit(_earned, _stress_delta, _health_delta)
 
@@ -1042,17 +1207,31 @@ func _make_btn(text: String, bg_hex: String, font_size: int) -> Button:
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color(bg_hex)
 	st.set_corner_radius_all(6)
+	st.content_margin_left = 18
+	st.content_margin_right = 18
+	st.content_margin_top = 8
+	st.content_margin_bottom = 8
 	var hov := st.duplicate()
 	hov.bg_color = st.bg_color.lightened(0.1)
+	hov.border_color = Color("#66788a")
+	hov.set_border_width_all(1)
+	var focus := hov.duplicate()
+	focus.bg_color = st.bg_color.lightened(0.14)
+	focus.border_color = Color("#f0d18a")
+	focus.set_border_width_all(2)
+	focus.border_width_left = 5
 	var dis := st.duplicate()
 	dis.bg_color = st.bg_color.darkened(0.4)
 	btn.add_theme_stylebox_override("normal", st)
 	btn.add_theme_stylebox_override("hover", hov)
-	btn.add_theme_stylebox_override("pressed", hov)
+	btn.add_theme_stylebox_override("focus", focus)
+	btn.add_theme_stylebox_override("pressed", focus)
 	btn.add_theme_stylebox_override("disabled", dis)
 	btn.add_theme_color_override("font_color", Color("#e8eaf0"))
 	btn.add_theme_color_override("font_disabled_color", Color("#4a5a6a"))
 	btn.add_theme_font_size_override("font_size", font_size)
+	btn.focus_mode = Control.FOCUS_ALL
+	btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	return btn
 
 func _mini_lbl(text: String, color_hex: String) -> Label:
