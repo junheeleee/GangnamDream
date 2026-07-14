@@ -178,6 +178,18 @@ Claude 컨테이너가 Godot 바이너리를 잃어(2026-07-13) 최근 Claude �
 
 **인프라 진행 보고 (2026-07-14 Codex):** 공식 Noto Sans JP 가변 TTF와 OFL을 번들하고 프로젝트 폰트 폴백으로 연결해 히라가나·가타카나·한자·문장부호 실글리프와 1280x800 줄바꿈을 통과했다. KR 정본 직역 파이프라인은 기본 UI 전용이며 `events/endings/catalog`은 명시적 `--allow-body` 없이는 `BODY_TRANSLATION_HELD`로 실패한다. UI 표면 1,957개를 원문 대조 교정해 `ui_ja` 베타로 채우고 한글·엔화·자리표시자·줄바꿈·호칭·도박/트리플·잠금/해금 극성 감사를 전체 audit에 연결했다. 일본어는 여전히 선택 화면·Steam에서 비노출이며, 이벤트·엔딩·카탈로그 본문과 15컷·네이티브 검수는 유저 데모 GO 전까지 보류한다. 따라서 ORDER-21은 `[~]` 유지한다.
 
+#### [ ] ORDER-23 [P0·데모] 동기 각인 수술 — "읽게 하지 말고 하게 하라" (유저 진단 2026-07-14: "왜 30억을 모아야 하는지 모르겠다")
+> 발견: 동기(아버지 보증 빚 6년·사기로 날아간 강남 집·아버지의 시간=5년)는 프롤로그 4씬에 전부 존재 — 문제는 ①내레이션으로 스쳐감(행위 없음) ②이후 게임이 재호출 안 함. 각인=행위, 기억=반복 호출. (+유저가 Continue로 진입해 프롤로그 자체를 못 봤을 가능성 확인 중 — 결과 무관하게 본 오더 유효)
+**A. 프롤로그 각인 전환 (기존 4씬 개작, 신규 최소)**
+1. **잃은 것을 플레이어가 집행**: 스물일곱의 민준이 빚 때문에 포기하는 것 하나를 플레이어가 고르는 1컷 플래시백(전세 보증금/대학원/그녀 — 선택별 흔적 플래그+이후 dik 독자 1곳 이상). 6년이 설명이 아니라 "내가 잃은 것"이 되게.
+2. **수첩의 주어 교체**: story_prologue_goal에서 목표 문장을 플레이어가 고른다 — ①"아버지가 그 거실에 서는 걸 본다"(가족) ②"우리를 무너뜨린 세계에 내 이름으로 선다"(증명) ③"다시는 돈 앞에 무릎 꿇지 않는다"(생존). 선택=동기 플래그+미세 route 씨앗, **문장을 게임이 저장**.
+**B. 동기 재호출 시스템 (표출 수리, 데모 우선)**
+3. 골 바 툴팁/옆에 **내가 적은 수첩 문장** 상시 노출 — 목표가 스코어가 아니라 문장이 되게.
+4. AP 화면에 수첩 오브젝트(클릭=내 문장+남은 주+아버지 상태 한 줄) — ORDER-22 시계·인박스와 통합 배치.
+5. 월말 결산·몽타주 카드에 수첩 한 줄 리추얼("수첩을 폈다. {내 문장}. {n}개월째.").
+6. 데모 구간(t≤24) 아버지 접점 3회 보장(기존 이벤트 게이팅 확인·재배치 우선, 신규 최소).
+**검증**: 자동 게이트 + 유저 라운드 고정 질문: "민준한테 무슨 일이 생길지 궁금했는가 / 네 수첩 문장이 뭐였는지 기억나는가" — 후자 기억 못 하면 불합격.
+
 #### [~] ORDER-22 [P0·체험 수리] 몰입 수리 — 주간 루프의 감정 설계 (유저 실플레이 판정 2026-07-14: "버튼만 누르게 되고 재미가 안 느껴진다")
 **착수 (2026-07-14 Codex) — 만지는 파일:** `autoloads/GameState.gd`, `autoloads/EventManager.gd`, `autoloads/BGMPlayer.gd`, `autoloads/AudioManager.gd`, `scenes/MainGame.gd`, `scenes/StoryMode.gd`, `scenes/ArubaGame.gd`, `locale/ui_ja.json`, `tools/BGMContinuityCheck.gd`, `tools/ImmersionLoopCheck.gd`, `tools/ImmersionLoopCheck.gd.uid`, `tools/ImmersionLoopCheck.tscn`, `tools/ScreenshotQA.gd`, `tools/audit.sh`, `tools/arc_flow_sim.py`, `tools/audio_source_audit.py`, `tools/generate_audio_p1_assets.py`, `assets/audio/amb_*.wav`, `assets/audio/amb_*.wav.import`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 자동 게이트 완료 후에도 유저 재플레이 GO 전에는 `[x]`로 닫지 않는다.
 **범위 확장 (2026-07-14 Codex 블랙박스 재플레이):** 데모 W6의 편의점 야간 시프트에서 손님 슬롯이 마우스 전용 `Panel`이라 키보드·패드 진행이 막히고, 1280×800 표면 대부분이 빈 공간인 것을 실제 입력으로 재현했다. 같은 오더의 주간 루프 몰입 수리로 `scenes/ArubaGame.gd`를 추가 잠금한다.
