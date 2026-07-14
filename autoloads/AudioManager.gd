@@ -29,6 +29,19 @@ const _SFX_COOLDOWN_MS = {
 	"monsoon_rain": 1800,
 }
 
+# 파일별 체감 라우드니스가 다른 큰 소리만 보정한다. 공용 UI음은 각 래퍼의
+# 기존 감쇄를 유지해 클릭 촉감까지 함께 죽이지 않는다.
+const _SFX_MIX_TRIM_DB = {
+	"game_over": -4.0,
+	"casino_lose": -2.0,
+	"casino_spin": -2.0,
+	"casino_jackpot": -4.0,
+	"civil_defense_siren": -3.0,
+	"ending_stinger_good": -7.0,
+	"ending_stinger_bad": -7.0,
+	"ending_stinger_legend": -9.0,
+}
+
 # wav 파일 → AudioManager key 매핑
 const _SFX_FILES = {
 	"click":       "res://assets/audio/sfx_click.wav",
@@ -167,7 +180,9 @@ func _connect_signals():
 	GameState.game_over.connect(_on_game_over)
 
 func _on_turn_advanced(_turn: int):
-	play("month")
+	# `turn_advanced`는 주마다 온다. 결산음은 실제 달이 바뀐 첫 주에만 울린다.
+	if GameState.week_of_month == 1:
+		play("month", -3.0)
 
 func _on_game_over(ending: String):
 	play_ending_stinger(ending)
@@ -215,6 +230,7 @@ func play(sound_id: String, volume_mod: float = 0.0):
 		return
 	if sound_id == "click":
 		volume_mod -= 8.0
+	volume_mod += sfx_mix_trim_db(sound_id)
 	for p in _pool:
 		if not p.playing:
 			p.stream    = _sounds[sound_id]
@@ -222,6 +238,9 @@ func play(sound_id: String, volume_mod: float = 0.0):
 			p.pitch_scale = 1.0
 			p.play()
 			return
+
+func sfx_mix_trim_db(sound_id: String) -> float:
+	return float(_SFX_MIX_TRIM_DB.get(sound_id, 0.0))
 
 func play_direction_sting(kind: String, event_id: String = "") -> void:
 	var token: String = "%s:%s" % [event_id, kind]

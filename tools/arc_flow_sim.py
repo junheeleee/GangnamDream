@@ -37,8 +37,13 @@ for fp in glob.glob("content/events/*.json"):
 
 # ── _next_arc_id() 파싱 (들여쓰기 스택으로 중첩 if AND) ───────────────────
 src = open("scenes/MainGame.gd").read()
-s = src.find("func _next_arc_id()")
-e = src.find("\nfunc ", s + 10)
+next_arc_decl = re.search(
+    r"^func _next_arc_id\([^)]*\)(?:\s*->\s*[^:]+)?\s*:", src, re.MULTILINE)
+if next_arc_decl is None:
+    print("❌ _next_arc_id declaration not found")
+    sys.exit(1)
+s = next_arc_decl.start()
+e = src.find("\nfunc ", next_arc_decl.end())
 raw = src[s:e].split("\n")
 merged = []
 i = 0

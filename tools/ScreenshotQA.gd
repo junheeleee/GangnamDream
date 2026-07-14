@@ -31,6 +31,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=event-visuals --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-act-en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=immersion-loop --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=endings-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-end-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=title-en
@@ -81,6 +82,7 @@ const QA_SCOPE_CLIMATE := "climate"
 const QA_SCOPE_EVENT_VISUALS := "event_visuals"
 const QA_SCOPE_AP_EN := "ap_en"
 const QA_SCOPE_AP_ACT_EN := "ap_act_en"
+const QA_SCOPE_IMMERSION_LOOP := "immersion_loop"
 const QA_SCOPE_ENDINGS_EN := "endings_en"
 const QA_SCOPE_ENDING_P0 := "ending_p0"
 const QA_SCOPE_ENDING_P1 := "ending_p1"
@@ -104,6 +106,7 @@ const YEAR_IDENTITY_SCENE_SAMPLE: Array[String] = [
 	"arc_job_first_rejection",
 ]
 var _mg: Node = null
+var _qa_failed := false
 
 func _tr(ko: String, en: String) -> String:
 	return LocaleManager.ui(ko, en)
@@ -297,6 +300,15 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_ap_act_surfaces(lang, "ap_act_en_" if lang == "en" else "ap_act_ko_")
 		print("SCREENSHOT_QA_DONE scope=ap-act-en lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_IMMERSION_LOOP:
+		var lang := _qa_language("en")
+		await _shot_immersion_loop_surfaces(lang, "immersion_en_" if lang == "en" else "immersion_ko_")
+		if _qa_failed:
+			get_tree().quit(1)
+			return
+		print("SCREENSHOT_QA_DONE scope=immersion-loop lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_ENDINGS_EN:
@@ -533,6 +545,10 @@ func _qa_scope() -> String:
 				"qa=ap-act-en", "--qa=ap-act-en", "qa=ap_act_en", "--qa=ap_act_en",
 				"scope=ap-act-en", "--scope=ap-act-en", "scope=ap_act_en", "--scope=ap_act_en"]:
 			return QA_SCOPE_AP_ACT_EN
+		if arg in ["immersion-loop", "immersion_loop", "--immersion-loop", "--immersion_loop",
+				"qa=immersion-loop", "--qa=immersion-loop", "qa=immersion_loop", "--qa=immersion_loop",
+				"scope=immersion-loop", "--scope=immersion-loop"]:
+			return QA_SCOPE_IMMERSION_LOOP
 		if arg in ["endings-en", "endings_en", "ending-en", "ending_en", "--endings-en", "--ending-en",
 				"qa=endings-en", "--qa=endings-en", "qa=endings_en", "--qa=endings_en",
 				"qa=ending-en", "--qa=ending-en", "scope=endings-en", "--scope=endings-en"]:
@@ -1991,6 +2007,8 @@ func _collect_control_text(node: Node) -> String:
 	var result := ""
 	if node is Label:
 		result += (node as Label).text + "\n"
+	elif node is RichTextLabel:
+		result += (node as RichTextLabel).text + "\n"
 	elif node is Button:
 		result += (node as Button).text + "\n"
 	for child in node.get_children():
@@ -2755,11 +2773,72 @@ func _shot_ap_act_surfaces(lang: String = "en", prefix: String = "ap_act_en_") -
 					_mg.call("_hide_ap_action_commit")
 			GameState.flags.erase("arc_intro_meal_seen")
 		if act == 4 and _mg.has_method("_open_cat_people"):
-			_mg.call("_open_cat_people")
-			await _settle(0.45)
-			await _save("%s%02da_act%d_people_modal" % [prefix, act, act])
-			_close_modal()
-			await _settle(0.2)
+				_mg.call("_open_cat_people")
+				await _settle(0.45)
+				await _save("%s%02da_act%d_people_modal" % [prefix, act, act])
+				_close_modal()
+				await _settle(0.2)
+
+func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immersion_en_") -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	GameState.turn = 1
+	GameState.month = 1
+	GameState.week_of_month = 1
+	GameState.housing = "gosiwon"
+	GameState.current_job = {}
+	GameState.monthly_income = 0.0
+	GameState.money = 500_000.0
+	GameState.flags["arc_intro_meal_seen"] = true
+	GameState.flags.erase("arc_intro_dad_seen")
+	GameState.recent_action_weeks = [{
+		"turn": 0,
+		"money": 1,
+		"human": 0,
+		"places": {"work": {"count": 1, "money": 1, "human": 0}},
+	}]
+	await _boot_main_game()
+	_mg.current_event = {}
+	if _mg.has_method("_render_ap_actions"):
+		_mg.call("_render_ap_actions")
+	if _mg.has_method("_finish_typing"):
+		_mg.call("_finish_typing")
+	await _settle(0.55)
+	var first_text := _collect_control_text(_mg)
+	var expected_season := _tr("겨울", "winter")
+	var expected_omen := _tr("창원", "Changwon")
+	var expected_rent := _tr("월세 D-3주", "RENT D-3W")
+	for expected in [expected_season, expected_omen, expected_rent]:
+		if first_text.findn(str(expected)) < 0:
+			_fail("Immersion AP opening is missing '%s' in %s." % [expected, lang])
+			return
+	_assert_ap_cards_inside_viewport()
+	await _save(prefix + "01_week_opening_omen")
+
+	GameState.week_of_month = 4
+	if _mg.has_method("_render_ap_actions"):
+		_mg.call("_render_ap_actions")
+	if _mg.has_method("_finish_typing"):
+		_mg.call("_finish_typing")
+	await _settle(0.4)
+	var due_text := _collect_control_text(_mg)
+	var due_marker := _tr("월세 이번 주", "RENT DUE")
+	if due_text.findn(due_marker) < 0:
+		_fail("Immersion AP surface is missing the rent deadline in %s." % lang)
+		return
+	await _save(prefix + "02_rent_due")
+	await _dispose_main_game()
+
+	_prepare_main_game_state()
+	GameState.current_job = {}
+	GameState.monthly_income = 0.0
+	GameState.recent_action_weeks = [{
+		"turn": GameState.turn - 1,
+		"money": 1,
+		"human": 0,
+		"places": {"work": {"count": 1, "money": 1, "human": 0}},
+	}]
+	await _shot_story_event("rare_rejection_then_call", prefix + "03_action_causal_frame", "", 0.55, true)
 
 func _seed_ap_act_state(act: int, lang: String = "en") -> void:
 	GameState.action_points = GameState.max_action_points
@@ -3545,6 +3624,7 @@ func _save(shot_name: String, settle_time: float = 0.3) -> void:
 	print("SHOT %s" % path)
 
 func _fail(msg: String) -> void:
+	_qa_failed = true
 	push_error("SCREENSHOT_QA_FAIL " + msg)
 	get_tree().quit(1)
 

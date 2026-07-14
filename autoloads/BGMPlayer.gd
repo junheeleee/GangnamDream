@@ -47,6 +47,10 @@ const AMBIENCE_TRACKS = {
 	"highway":     "res://assets/audio/amb_highway_traffic.wav",
 	"open_chat":   "res://assets/audio/amb_open_chat_room.wav",
 	"library":     "res://assets/audio/amb_library_room.wav",
+	"oneroom":     "res://assets/audio/amb_oneroom_room.wav",
+	"apartment":   "res://assets/audio/amb_apartment_room.wav",
+	"summer":      "res://assets/audio/amb_summer_night.wav",
+	"winter":      "res://assets/audio/amb_winter_wind.wav",
 }
 
 # ── 상태 ──────────────────────────────────────────────────────
@@ -59,11 +63,14 @@ var _is_ending: bool    = false
 var _player_a: AudioStreamPlayer  # 현재 재생
 var _player_b: AudioStreamPlayer  # 크로스페이드 대상
 var _ambience_player: AudioStreamPlayer
+var _season_player: AudioStreamPlayer
 var _fade_tween: Tween
 var _ambience_tween: Tween
+var _season_tween: Tween
 var _moral_filter_tween: Tween
 var _procedural_stream: AudioStreamWAV  # 폴백 스트림 (1회 생성)
 var _current_ambience_key: String = ""
+var _current_season_key: String = ""
 var _ambience_duck_db: float = 0.0
 var _moral_filter: AudioEffectLowPassFilter
 var _bgm_bus_index: int = -1
@@ -72,9 +79,13 @@ var _moral_target_cutoff_hz: float = 20500.0
 var _moral_target_bus_db: float = 0.0
 var _moral_ambience_gain_db: float = 0.0
 var _moral_transition_count: int = 0
+var _music_mode: String = "ambient"  # ambient | pending | punctuation | menu | ending
+var _punctuation_token: int = 0
 
 const _FADE_TIME = 2.5  # 크로스페이드 초
 const _AMBIENCE_VOLUME = 0.18
+const _SEASON_VOLUME = 0.085
+const _ARC_SILENCE_SECONDS = 3.2
 const _BGM_BUS_NAME = "GangnamDreamBGM"
 const _MORAL_FILTER_TIME = 2.4
 const _MORAL_CUTOFFS = {
@@ -105,6 +116,7 @@ func _ready():
 	_player_a = _make_player(_BGM_BUS_NAME)
 	_player_b = _make_player(_BGM_BUS_NAME)
 	_ambience_player = _make_player()
+	_season_player = _make_player()
 	_procedural_stream = _bake_procedural()
 	_last_moral_stage = GameState.moral_stage()
 	_apply_moral_stage(_last_moral_stage, true)
@@ -141,7 +153,7 @@ func _on_moral_tint_changed(_norm: float, stage: int) -> void:
 	_last_moral_stage = stage
 	_moral_transition_count += 1
 	_apply_moral_stage(stage, false)
-	if _moral_theme_pack_ready() and not _is_ending and _current_key != "menu":
+	if _moral_theme_pack_ready() and not _is_ending and _music_mode == "punctuation":
 		var target_key: String = _pick_track()
 		if target_key != _current_key:
 			_crossfade_to(target_key)
@@ -167,17 +179,26 @@ func _apply_moral_stage(stage: int, immediate: bool) -> void:
 	_apply_moral_ambience_mix(immediate)
 
 func _apply_moral_ambience_mix(immediate: bool) -> void:
-	if not _ambience_player or not _ambience_player.playing:
-		return
 	if _ambience_tween and _ambience_tween.is_running():
 		_ambience_tween.kill()
-	if immediate:
-		_ambience_player.volume_db = _ambience_target_db()
-		return
-	_ambience_tween = create_tween()
-	_ambience_tween.set_trans(Tween.TRANS_SINE)
-	_ambience_tween.set_ease(Tween.EASE_IN_OUT)
-	_ambience_tween.tween_property(_ambience_player, "volume_db", _ambience_target_db(), _MORAL_FILTER_TIME)
+	if _season_tween and _season_tween.is_running():
+		_season_tween.kill()
+	if _ambience_player and _ambience_player.playing:
+		if immediate:
+			_ambience_player.volume_db = _ambience_target_db()
+		else:
+			_ambience_tween = create_tween()
+			_ambience_tween.set_trans(Tween.TRANS_SINE)
+			_ambience_tween.set_ease(Tween.EASE_IN_OUT)
+			_ambience_tween.tween_property(_ambience_player, "volume_db", _ambience_target_db(), _MORAL_FILTER_TIME)
+	if _season_player and _season_player.playing:
+		if immediate:
+			_season_player.volume_db = _season_target_db()
+		else:
+			_season_tween = create_tween()
+			_season_tween.set_trans(Tween.TRANS_SINE)
+			_season_tween.set_ease(Tween.EASE_IN_OUT)
+			_season_tween.tween_property(_season_player, "volume_db", _season_target_db(), _MORAL_FILTER_TIME)
 
 func _set_moral_bus_db(value: float) -> void:
 	if _bgm_bus_index >= 0:
@@ -188,12 +209,14 @@ func start():
 	_is_ending = false
 	_last_moral_stage = GameState.moral_stage()
 	_apply_moral_stage(_last_moral_stage, true)
-	_play_or_keep(_pick_track())
+	enter_ambient_bed(0.65)
 	update_idle_ambience()
 
 func start_menu():
 	volume = AudioManager.bgm_volume
 	_is_ending = false
+	_music_mode = "menu"
+	_punctuation_token += 1
 	_last_moral_stage = 0
 	_apply_moral_stage(0, true)
 	_play_or_keep("menu")
@@ -204,15 +227,22 @@ func stop():
 		_fade_tween.kill()
 	if _moral_filter_tween and _moral_filter_tween.is_running():
 		_moral_filter_tween.kill()
+	if _season_tween and _season_tween.is_running():
+		_season_tween.kill()
 	_player_a.stop()
 	_player_b.stop()
 	if _ambience_player:
 		_ambience_player.stop()
+	if _season_player:
+		_season_player.stop()
 	_current_key = ""
 	_active_key = ""
 	_fade_target_key = ""
 	_current_ambience_key = ""
+	_current_season_key = ""
 	_ambience_duck_db = 0.0
+	_music_mode = "ambient"
+	_punctuation_token += 1
 
 func apply_volume(v: float):
 	volume = clampf(v, 0.0, 1.0)
@@ -220,17 +250,82 @@ func apply_volume(v: float):
 	_player_b.volume_db = _db(0.0 if not _player_b.playing else volume)
 	if _ambience_player and _ambience_player.playing:
 		_ambience_player.volume_db = _ambience_target_db()
+	if _season_player and _season_player.playing:
+		_season_player.volume_db = _season_target_db()
 
 # ── 매월 상태 체크 ─────────────────────────────────────────────
 func update_context():
 	if _is_ending:
 		return
-	var target = _pick_track()
-	if target != _current_key:
-		_crossfade_to(target)
+	play_punctuation(_pick_track())
+
+func enter_ambient_bed(fade_seconds: float = 0.8) -> void:
+	_is_ending = false
+	_music_mode = "ambient"
+	_punctuation_token += 1
+	if _fade_tween and _fade_tween.is_running():
+		_fade_tween.kill()
+		_fade_tween = null
+	if not _player_a.playing and not _player_b.playing:
+		_finish_music_bed()
+		return
+	if fade_seconds <= 0.0:
+		_finish_music_bed()
+		return
+	_fade_tween = create_tween()
+	_fade_tween.set_parallel(true)
+	if _player_a.playing:
+		_fade_tween.tween_property(_player_a, "volume_db", -80.0, fade_seconds)
+	if _player_b.playing:
+		_fade_tween.tween_property(_player_b, "volume_db", -80.0, fade_seconds)
+	_fade_tween.chain().tween_callback(_finish_music_bed)
+
+func _finish_music_bed() -> void:
+	_player_a.stop()
+	_player_b.stop()
+	_current_key = ""
+	_active_key = ""
+	_fade_target_key = ""
+	_fade_tween = null
+
+func play_punctuation(key: String = "") -> void:
+	if _is_ending:
+		return
+	var target := key if not key.is_empty() else _pick_track()
+	_music_mode = "punctuation"
+	_punctuation_token += 1
+	_play_or_keep(target)
+
+func begin_story_event(ev: Dictionary) -> void:
+	if not _story_music_worthy(ev):
+		enter_ambient_bed(0.55)
+		return
+	var target := _pick_track()
+	if _music_mode == "punctuation" and _current_key == target \
+			and (_player_a.playing or _player_b.playing):
+		return
+	enter_ambient_bed(0.4)
+	_music_mode = "pending"
+	_punctuation_token += 1
+	var token := _punctuation_token
+	await get_tree().create_timer(_ARC_SILENCE_SECONDS).timeout
+	if token != _punctuation_token or _music_mode != "pending" or _is_ending:
+		return
+	play_punctuation(target)
+
+func _story_music_worthy(ev: Dictionary) -> bool:
+	var event_id := str(ev.get("id", ""))
+	var category := str(ev.get("category", ""))
+	var rarity := str(ev.get("rarity", ""))
+	var tags: Array = ev.get("tags", [])
+	return category == "story" or rarity == "story" or event_id.begins_with("arc_") \
+			or event_id.begins_with("chapter_card_") or tags.has("arc") \
+			or tags.has("climax") or tags.has("year_close")
 
 func on_ending(ending_id: String):
 	_is_ending = true
+	_music_mode = "ending"
+	_punctuation_token += 1
 	clear_ambience()
 	_crossfade_to(AudioManager.ending_bgm_key(ending_id))
 
@@ -240,17 +335,20 @@ func update_idle_ambience() -> void:
 		return
 	match str(GameState.housing):
 		"gangnam", "apartment":
-			set_ambience("rain")
+			set_ambience("apartment")
 		"villa", "oneroom":
-			set_ambience("room")
+			set_ambience("oneroom")
 		_:
 			set_ambience("room")
+	set_season_ambience(_calendar_season_key())
 
 func update_event_ambience(ev: Dictionary) -> void:
 	if _is_ending:
 		clear_ambience()
 		return
-	set_ambience(_pick_ambience(ev))
+	var ambience_key := _pick_ambience(ev)
+	set_ambience(ambience_key)
+	set_season_ambience(_event_season_key(ambience_key))
 
 func set_ambience(key: String) -> void:
 	if key == _current_ambience_key and _ambience_player and _ambience_player.playing:
@@ -273,8 +371,30 @@ func set_ambience(key: String) -> void:
 	_ambience_tween = create_tween()
 	_ambience_tween.tween_property(_ambience_player, "volume_db", _ambience_target_db(), 0.65)
 
+func set_season_ambience(key: String) -> void:
+	if key == _current_season_key and _season_player and _season_player.playing:
+		return
+	_current_season_key = key
+	if _season_tween and _season_tween.is_running():
+		_season_tween.kill()
+	if key == "" or not AMBIENCE_TRACKS.has(key):
+		if _season_player and _season_player.playing:
+			_season_tween = create_tween()
+			_season_tween.tween_property(_season_player, "volume_db", -80.0, 0.45)
+			_season_tween.tween_callback(_season_player.stop)
+		return
+	var stream := _load_ambience(key)
+	if stream == null:
+		return
+	_season_player.stream = stream
+	_season_player.volume_db = -80.0
+	_season_player.play()
+	_season_tween = create_tween()
+	_season_tween.tween_property(_season_player, "volume_db", _season_target_db(), 0.85)
+
 func clear_ambience() -> void:
 	set_ambience("")
+	set_season_ambience("")
 
 func duck_ambience(amount_db: float = -8.0, duration: float = 0.45) -> void:
 	_ambience_duck_db = minf(0.0, amount_db)
@@ -284,6 +404,11 @@ func duck_ambience(amount_db: float = -8.0, duration: float = 0.45) -> void:
 		_ambience_tween.kill()
 	_ambience_tween = create_tween()
 	_ambience_tween.tween_property(_ambience_player, "volume_db", _ambience_target_db(), maxf(0.05, duration))
+	if _season_player and _season_player.playing:
+		if _season_tween and _season_tween.is_running():
+			_season_tween.kill()
+		_season_tween = create_tween()
+		_season_tween.tween_property(_season_player, "volume_db", _season_target_db(), maxf(0.05, duration))
 
 func restore_ambience(duration: float = 0.35) -> void:
 	if is_zero_approx(_ambience_duck_db):
@@ -295,9 +420,31 @@ func restore_ambience(duration: float = 0.35) -> void:
 		_ambience_tween.kill()
 	_ambience_tween = create_tween()
 	_ambience_tween.tween_property(_ambience_player, "volume_db", _ambience_target_db(), maxf(0.05, duration))
+	if _season_player and _season_player.playing:
+		if _season_tween and _season_tween.is_running():
+			_season_tween.kill()
+		_season_tween = create_tween()
+		_season_tween.tween_property(_season_player, "volume_db", _season_target_db(), maxf(0.05, duration))
 
 func _ambience_target_db() -> float:
 	return _db(volume * _AMBIENCE_VOLUME) + _ambience_duck_db + _moral_ambience_gain_db
+
+func _season_target_db() -> float:
+	return _db(volume * _SEASON_VOLUME) + _ambience_duck_db + _moral_ambience_gain_db
+
+func _calendar_season_key() -> String:
+	if GameState.month in [6, 7, 8]:
+		return "summer"
+	if GameState.month in [12, 1, 2]:
+		return "winter"
+	return ""
+
+func _event_season_key(ambience_key: String) -> String:
+	if ambience_key in ["rain", "heatwave", "fine_dust", "casino", "office", "cafe", \
+			"pc_bang", "gym", "convenience", "library", "school", "public_office", \
+			"jjimjilbang", "open_chat", "room", "oneroom", "apartment"]:
+		return ""
+	return _calendar_season_key()
 
 func _pick_ambience(ev: Dictionary) -> String:
 	var tags: Array = ev.get("tags", [])

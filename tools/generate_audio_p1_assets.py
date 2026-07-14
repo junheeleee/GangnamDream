@@ -168,6 +168,11 @@ def ambience_goshiwon() -> list[list[float]]:
     _add_tone(buf, 0.0, 116.0, 6.0, 0.014, 0.12, "sine")
     for t in [0.9, 2.45, 4.8]:
         _add_tick(buf, t, 0.040, RNG.uniform(-0.6, 0.4))
+    # Thin-wall life: muffled corridor steps and a restrained cough next door.
+    for t, pos in [(1.55, -0.62), (1.88, -0.48), (4.05, 0.55), (4.38, 0.42)]:
+        _add_sweep(buf, t, 105.0, 68.0, 0.18, 0.026, pos, "sine")
+    _add_sweep(buf, 3.05, 210.0, 112.0, 0.20, 0.018, 0.68, "tri")
+    _add_sweep(buf, 3.31, 185.0, 98.0, 0.16, 0.014, 0.68, "tri")
     return buf
 
 
@@ -441,6 +446,48 @@ def ambience_library_room() -> list[list[float]]:
     return buf
 
 
+def ambience_oneroom_room() -> list[list[float]]:
+    """A private room: refrigerator compressor, relay clicks, no shared-wall traffic."""
+    buf = _empty(6.0)
+    _add_noise(buf, 0.014, "dark", 0.0, 0.04)
+    _add_tone(buf, 0.0, 49.5, 6.0, 0.026, -0.08, "sine")
+    _add_tone(buf, 0.0, 99.0, 6.0, 0.010, 0.10, "sine")
+    _add_tick(buf, 0.55, 0.013, -0.25)
+    _add_tick(buf, 5.25, 0.011, -0.20)
+    _add_sweep(buf, 2.7, 86.0, 72.0, 0.28, 0.010, 0.22, "sine")
+    return buf
+
+
+def ambience_apartment_room() -> list[list[float]]:
+    """An insulated apartment: deliberate near-silence with distant building systems."""
+    buf = _empty(6.0)
+    _add_noise(buf, 0.007, "dark", 0.0, 0.025)
+    _add_tone(buf, 0.0, 42.0, 6.0, 0.009, -0.05, "sine")
+    _add_sweep(buf, 1.65, 132.0, 118.0, 0.42, 0.006, 0.55, "sine")
+    _add_tone(buf, 4.35, 660.0, 0.12, 0.004, -0.48, "tri")
+    return buf
+
+
+def ambience_summer_night() -> list[list[float]]:
+    """A low seasonal layer: distant cicadas, kept below the room tone."""
+    buf = _empty(6.0)
+    _add_noise(buf, 0.006, "bright", 0.0, 0.0)
+    for start, pos in [(0.30, -0.55), (1.15, 0.48), (2.15, -0.18), (3.25, 0.58), (4.45, -0.42), (5.15, 0.20)]:
+        for pulse in range(4):
+            _add_sweep(buf, start + pulse * 0.075, 3450.0, 2850.0, 0.055, 0.010, pos, "tri")
+    return buf
+
+
+def ambience_winter_wind() -> list[list[float]]:
+    """A low seasonal layer: wind pressure outside a closed Seoul room."""
+    buf = _empty(6.0)
+    _add_noise(buf, 0.012, "dark", -0.12, 0.035)
+    _add_sweep(buf, 0.25, 118.0, 82.0, 1.15, 0.010, -0.38, "sine")
+    _add_sweep(buf, 2.35, 92.0, 128.0, 1.35, 0.009, 0.34, "sine")
+    _add_sweep(buf, 4.55, 110.0, 76.0, 0.95, 0.008, -0.08, "sine")
+    return buf
+
+
 def sfx_civil_defense_siren() -> list[list[float]]:
     buf = _empty(2.8)
     _add_noise(buf, 0.008, "dark", 0.0, 0.0)
@@ -519,6 +566,10 @@ def main() -> None:
         "amb_library_room.wav": ambience_library_room(),
         "sfx_civil_defense_siren.wav": sfx_civil_defense_siren(),
         "sfx_monsoon_rain.wav": sfx_monsoon_rain(),
+        "amb_oneroom_room.wav": ambience_oneroom_room(),
+        "amb_apartment_room.wav": ambience_apartment_room(),
+        "amb_summer_night.wav": ambience_summer_night(),
+        "amb_winter_wind.wav": ambience_winter_wind(),
     }
     for name, buf in targets.items():
         _write(AUDIO_DIR / name, buf)

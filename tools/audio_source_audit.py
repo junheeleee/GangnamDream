@@ -25,6 +25,8 @@ amb_goshiwon_room.wav amb_gym_room.wav amb_hagwon_street.wav
 amb_hangang_riverside.wav amb_heatwave_city.wav amb_highway_traffic.wav
 amb_jjimjilbang.wav amb_library_room.wav amb_military_gate.wav
 amb_office_room.wav amb_open_chat_room.wav amb_pc_bang.wav
+amb_oneroom_room.wav amb_apartment_room.wav amb_summer_night.wav
+amb_winter_wind.wav
 amb_public_office.wav amb_racetrack_crowd.wav amb_saju_cafe.wav
 amb_school_hall.wav amb_seoul_rain.wav amb_seoul_street.wav
 amb_subway_platform.wav sfx_civil_defense_siren.wav

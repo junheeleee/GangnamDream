@@ -889,6 +889,7 @@ func _render_current():
 				_event_background_id = bg_id
 	_apply_story_surface_palette(_current_uses_cg)
 	BGMPlayer.update_event_ambience(_current)
+	BGMPlayer.begin_story_event(_current)
 	AudioManager.play_event_cue(_current)
 	_apply_scene_direction_entry()
 
@@ -946,6 +947,11 @@ func _render_current():
 	elif unorth > ortho + 15 and _current.has("description_unorthodox"):
 		desc_raw = str(_current["description_unorthodox"])
 	var desc = _fmt(desc_raw)
+	# 랜덤 사건의 첫 문장에 최근 행동의 흔적을 붙인다. 별도 문단으로 만들면
+	# CG/초상 reveal 인덱스가 밀리므로 첫 문단 안의 조용한 인과 프레임으로만 표시한다.
+	var causal_frame := EventManager.causal_frame_for(_current)
+	if not causal_frame.is_empty():
+		desc = "[color=#9aa4b2][i]%s[/i][/color]\n%s" % [_fmt(causal_frame), desc]
 	_paragraphs = []
 	for para in desc.split("\n\n"):
 		var p = str(para).strip_edges()
@@ -2423,6 +2429,7 @@ func _finish_all():
 	_stop_story_choice_countdown()
 	EventManager.current_event = {}
 	_reset_scene_direction()
+	BGMPlayer.enter_ambient_bed(0.75)
 	BGMPlayer.update_idle_ambience()
 	# MainGame 복귀만 주간 재시작을 막는다. 메인 메뉴 회상은 런 상태를 건드리지 않는다.
 	GameState.returning_from_story = not _read_only_replay

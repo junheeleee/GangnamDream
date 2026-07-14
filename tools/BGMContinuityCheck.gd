@@ -1,11 +1,12 @@
 extends Node
-## BGMContinuityCheck — 같은 컨텍스트 재진입 시 BGM이 0초로 재시작하지 않는지 확인.
+## BGMContinuityCheck — 기본 베드=장소/계절, 음악=정점 구두점이라는 규칙을 잠근다.
 
 func _ready() -> void:
 	AudioManager.bgm_volume = 0.25
 	GameState.start_new_game()
 	GameState.age = 33
 	GameState.month = 1
+	GameState.housing = "gosiwon"
 	GameState.health = 80
 	GameState.mental = 80
 	GameState.current_job = {}
@@ -15,27 +16,30 @@ func _ready() -> void:
 	if BGMPlayer._player_a.bus != "GangnamDreamBGM" or BGMPlayer._player_b.bus != "GangnamDreamBGM":
 		_fail("BGM players are not isolated on the moral audio bus")
 		return
-	if BGMPlayer._ambience_player.bus != "Master":
-		_fail("moral BGM bus should not filter ambience")
+	if BGMPlayer._ambience_player.bus != "Master" or BGMPlayer._season_player.bus != "Master":
+		_fail("moral BGM bus should not filter lived ambience")
 		return
-	var first_key := BGMPlayer._current_key
-	var first_pos := BGMPlayer._player_a.get_playback_position()
+	if BGMPlayer._music_mode != "ambient" or not BGMPlayer._current_key.is_empty():
+		_fail("weekly hub started with continuous music instead of ambience")
+		return
+	if BGMPlayer._current_ambience_key != "room" or BGMPlayer._current_season_key != "winter":
+		_fail("January goshiwon did not start with room+winter layers")
+		return
+	if not BGMPlayer._ambience_player.playing or not BGMPlayer._season_player.playing:
+		_fail("weekly ambience layers are not playing")
+		return
+	var ambience_pos := BGMPlayer._ambience_player.get_playback_position()
 	BGMPlayer.start()
 	await get_tree().process_frame
-	var second_pos := BGMPlayer._player_a.get_playback_position()
-	if first_key != "early":
-		_fail("expected early track, got %s" % first_key)
-		return
-	if second_pos + 0.05 < first_pos:
-		_fail("main BGM restarted: %.3f -> %.3f" % [first_pos, second_pos])
+	var repeated_ambience_pos := BGMPlayer._ambience_player.get_playback_position()
+	if repeated_ambience_pos + 0.05 < ambience_pos:
+		_fail("same weekly ambience restarted: %.3f -> %.3f" % [ambience_pos, repeated_ambience_pos])
 		return
 
-	# MORAL_TINT는 재생 위치를 유지하면서 BGM 질감과 생활 앰비언스의 주의 비중만 바꾼다.
-	var moral_pos_before: float = BGMPlayer._player_a.get_playback_position()
+	# MORAL_TINT는 음악을 강제로 시작하지 않고, 살아 있는 세계의 비중만 바꾼다.
 	var moral_transitions_before: int = BGMPlayer._moral_transition_count
 	GameState.shift_moral_tint(-25.0)
 	await get_tree().process_frame
-	var moral_pos_after: float = BGMPlayer._player_a.get_playback_position()
 	if BGMPlayer._last_moral_stage != -1 or not is_equal_approx(BGMPlayer._moral_target_cutoff_hz, 4800.0):
 		_fail("dark moral band did not target low-pass stage -1")
 		return
@@ -45,8 +49,8 @@ func _ready() -> void:
 	if BGMPlayer._moral_transition_count != moral_transitions_before + 1:
 		_fail("moral band transition was not counted exactly once")
 		return
-	if moral_pos_after + 0.05 < moral_pos_before or BGMPlayer._current_key != "early":
-		_fail("moral audio shift restarted or replaced BGM")
+	if BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("moral shift started music during ambient mode")
 		return
 	var same_band_count: int = BGMPlayer._moral_transition_count
 	GameState.shift_moral_tint(-5.0)
@@ -64,11 +68,23 @@ func _ready() -> void:
 		return
 	GameState.shift_moral_tint(90.0)
 	await get_tree().process_frame
-	if BGMPlayer._last_moral_stage != 1 or not is_equal_approx(BGMPlayer._moral_target_cutoff_hz, 20500.0):
-		_fail("bright moral band did not restore full-range BGM")
-		return
-	if not is_equal_approx(BGMPlayer._moral_ambience_gain_db, 1.0):
+	if BGMPlayer._last_moral_stage != 1 or not is_equal_approx(BGMPlayer._moral_ambience_gain_db, 1.0):
 		_fail("bright moral band did not restore lived ambience")
+		return
+
+	# 음악은 월말/정점에서만 명시적으로 진입하고, 같은 키 재호출은 재시작하지 않는다.
+	BGMPlayer.play_punctuation("early")
+	await get_tree().create_timer(0.18).timeout
+	var first_key := BGMPlayer._current_key
+	var first_pos := BGMPlayer._player_a.get_playback_position()
+	BGMPlayer.play_punctuation("early")
+	await get_tree().process_frame
+	var second_pos := BGMPlayer._player_a.get_playback_position()
+	if first_key != "early" or BGMPlayer._music_mode != "punctuation":
+		_fail("punctuation did not start the requested early track")
+		return
+	if second_pos + 0.05 < first_pos:
+		_fail("punctuation BGM restarted: %.3f -> %.3f" % [first_pos, second_pos])
 		return
 
 	GameState.age = 36
@@ -93,11 +109,53 @@ func _ready() -> void:
 		_fail("returning to active track during fade should keep early, got current=%s target=%s" % [
 			BGMPlayer._current_key, BGMPlayer._fade_target_key])
 		return
+	BGMPlayer.enter_ambient_bed(0.0)
+	if not BGMPlayer._current_key.is_empty() or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("ambient bed did not stop punctuation music")
+		return
+
+	# 주거 사다리와 계절은 서로 독립된 장소 레이어다.
+	GameState.housing = "oneroom"
+	GameState.month = 4
+	BGMPlayer.update_idle_ambience()
+	if BGMPlayer._current_ambience_key != "oneroom" or not BGMPlayer._current_season_key.is_empty():
+		_fail("spring one-room ambience mapping failed")
+		return
+	GameState.housing = "apartment"
+	GameState.month = 7
+	BGMPlayer.update_idle_ambience()
+	if BGMPlayer._current_ambience_key != "apartment" or BGMPlayer._current_season_key != "summer":
+		_fail("summer apartment ambience mapping failed")
+		return
+	GameState.housing = "villa"
+	GameState.month = 10
+	BGMPlayer.update_idle_ambience()
+	if BGMPlayer._current_ambience_key != "oneroom" or not BGMPlayer._current_season_key.is_empty():
+		_fail("autumn villa ambience mapping failed")
+		return
+
+	# 랜덤 사건은 앰비언스만 유지한다. 아크는 정적 뒤에만 음악을 시작한다.
+	var random_ev := {"id": "qa_random_audio", "category": "daily_life", "rarity": "common", "tags": []}
+	BGMPlayer.begin_story_event(random_ev)
+	await get_tree().process_frame
+	if BGMPlayer._music_mode != "ambient" or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("ordinary event started directive music")
+		return
+	var arc_ev := {"id": "arc_qa_audio", "category": "story", "rarity": "story", "tags": ["arc"]}
+	BGMPlayer.begin_story_event(arc_ev)
+	await get_tree().create_timer(0.15).timeout
+	if BGMPlayer._music_mode != "pending" or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("arc did not hold its pre-music silence")
+		return
+	await get_tree().create_timer(BGMPlayer._ARC_SILENCE_SECONDS + 0.2).timeout
+	if BGMPlayer._music_mode != "punctuation" or BGMPlayer._current_key != "early":
+		_fail("arc music did not enter after the silence window")
+		return
 
 	BGMPlayer.start_menu()
 	await get_tree().create_timer(0.15).timeout
 	BGMPlayer.start_menu()
-	if BGMPlayer._current_key != "menu":
+	if BGMPlayer._current_key != "menu" or BGMPlayer._music_mode != "menu":
 		_fail("expected menu track after start_menu, got %s" % BGMPlayer._current_key)
 		return
 	if not (BGMPlayer._player_a.playing or BGMPlayer._player_b.playing):

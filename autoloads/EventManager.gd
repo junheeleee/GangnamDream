@@ -8,6 +8,41 @@ var current_event: Dictionary = {}
 var event_cooldowns: Dictionary = {}
 var recent_event_ids: Array = []
 
+const ECHO_CATEGORY_ALIASES := {
+	"career": ["jobs", "job", "work", "career"],
+	"daily_life": ["daily_life", "daily", "rest"],
+	"family": ["family", "relationship"],
+	"finance": ["finance", "investment", "money"],
+	"gambling": ["gambling", "casino", "racetrack", "risk"],
+	"health": ["health", "rest", "mental"],
+	"investment": ["investment", "finance", "risk"],
+	"jobs": ["jobs", "job", "work", "career", "spec"],
+	"relationship": ["relationship", "romance", "social"],
+	"romance": ["romance", "relationship", "social"],
+	"self_development": ["self_development", "study", "spec", "health"],
+	"social": ["social", "relationship", "network"],
+}
+
+const ECHO_TAG_ALIASES := {
+	"addiction": ["gambling", "risk"],
+	"career": ["jobs", "work"],
+	"casino": ["gambling"],
+	"commute": ["jobs", "work"],
+	"daily": ["daily_life", "rest"],
+	"finance": ["investment", "money"],
+	"holdem": ["gambling"],
+	"job": ["jobs", "work"],
+	"mental": ["health", "rest"],
+	"network": ["social", "relationship"],
+	"racetrack": ["gambling"],
+	"romance": ["relationship", "social"],
+	"side_job": ["jobs", "finance"],
+	"spec": ["jobs", "self_development"],
+	"stress": ["health", "rest"],
+	"study": ["self_development"],
+	"work": ["jobs", "career"],
+}
+
 func _ready():
 	GameState.run_started.connect(_on_run_started)
 
@@ -46,6 +81,8 @@ func draw_situations(count: int) -> Array:
 		if float(event.get("weight", 1.0)) <= 0.0:
 			continue
 		eligible.append(event)
+	if count == 1 and _should_hold_quiet_week(eligible):
+		return []
 	var picked: Array = []
 	for i in range(count):
 		if eligible.is_empty():
@@ -56,6 +93,132 @@ func draw_situations(count: int) -> Array:
 		picked.append(e)
 		eligible.erase(e)
 	return picked
+
+func _event_echo_families(event: Dictionary) -> Array:
+	var families: Array = []
+	var category := str(event.get("category", "")).to_lower()
+	for family in ECHO_CATEGORY_ALIASES.get(category, [category]):
+		if not str(family).is_empty() and not families.has(str(family)):
+			families.append(str(family))
+	for raw_tag in event.get("tags", []):
+		var tag := str(raw_tag).to_lower()
+		if not tag.is_empty() and not families.has(tag):
+			families.append(tag)
+		for alias in ECHO_TAG_ALIASES.get(tag, []):
+			if not families.has(str(alias)):
+				families.append(str(alias))
+	return families
+
+## QA와 StoryMode가 공유하는 최근 행동 매치. 본문/선택지 데이터는 건드리지 않는다.
+func action_echo_match(event: Dictionary) -> Dictionary:
+	if str(event.get("category", "")) == "story" or str(event.get("rarity", "")) == "story" \
+			or float(event.get("weight", 1.0)) <= 0.0:
+		return {}
+	var recent: Dictionary = GameState.get_recent_action_echoes()
+	var best_family := ""
+	var best_strength := 0.0
+	for family in _event_echo_families(event):
+		var strength := float(recent.get(str(family), 0.0))
+		if strength > best_strength:
+			best_strength = strength
+			best_family = str(family)
+	if best_family.is_empty():
+		return {}
+	return {
+		"family": best_family,
+		"strength": best_strength,
+		"multiplier": lerpf(1.0, 2.6, clampf(best_strength, 0.0, 1.0)),
+	}
+
+func action_echo_multiplier(event: Dictionary) -> float:
+	var match_data := action_echo_match(event)
+	return float(match_data.get("multiplier", 1.0))
+
+func _causal_variant(event: Dictionary, lines: Array) -> String:
+	if lines.is_empty():
+		return ""
+	var index: int = posmod(hash(str(event.get("id", ""))) + GameState.turn * 31, lines.size())
+	return str(lines[index])
+
+func causal_frame_for(event: Dictionary) -> String:
+	var match_data := action_echo_match(event)
+	if float(match_data.get("strength", 0.0)) < 0.5:
+		return ""
+	match str(match_data.get("family", "")):
+		"jobs", "job", "career", "work", "workplace", "spec", "side_job":
+			return _causal_variant(event, [
+				LocaleManager.ui("지원서와 일 생각으로 며칠을 보낸 뒤였다.", "It came after days spent thinking about applications and work."),
+				LocaleManager.ui("일자리 화면을 몇 번이나 다시 열어 본 주였다.", "He had reopened the job listings several times that week."),
+				LocaleManager.ui("이번 주에는 일에 관한 말이 유난히 오래 남았다.", "Words about work had lingered longer than usual that week."),
+			])
+		"investment", "finance", "money", "risk":
+			return _causal_variant(event, [
+				LocaleManager.ui("며칠째 숫자와 시세를 들여다보던 주였다.", "It had been a week of watching numbers and prices."),
+				LocaleManager.ui("닫아 둔 시세창을 습관처럼 다시 열었다.", "He reopened the market screen out of habit."),
+				LocaleManager.ui("숫자를 오래 본 뒤에는 다른 소식도 숫자처럼 들렸다.", "After staring at numbers for so long, even other news sounded numerical."),
+			])
+		"gambling", "casino", "racetrack", "holdem", "addiction":
+			return _causal_variant(event, [
+				LocaleManager.ui("베팅판을 떠난 뒤에도 숫자가 머릿속에 남아 있었다.", "The numbers stayed in his head even after he left the betting floor."),
+				LocaleManager.ui("끝난 승부를 머릿속에서 한 번 더 돌려 보던 주였다.", "He had been replaying an already finished bet in his head."),
+				LocaleManager.ui("이번 주에는 우연도 신호처럼 보였다.", "That week, even coincidence looked like a signal."),
+			])
+		"relationship", "romance", "social", "network", "daeun", "family":
+			return _causal_variant(event, [
+				LocaleManager.ui("이번 주에는 사람 쪽으로 시간을 내고 있었다.", "This week, he had been making time for people."),
+				LocaleManager.ui("혼자 보내지 않은 시간이 아직 몸에 남아 있었다.", "The hours he had not spent alone still lingered in him."),
+				LocaleManager.ui("연락을 주고받은 뒤라 휴대폰이 평소보다 가까이 놓여 있었다.", "After trading messages, he kept his phone closer than usual."),
+			])
+		"health", "rest", "mental", "self_development", "study", "daily_life", "daily":
+			return _causal_variant(event, [
+				LocaleManager.ui("몸과 마음을 추스를 시간을 겨우 만들어 둔 주였다.", "It had been a week of barely making room to recover."),
+				LocaleManager.ui("억지로라도 숨을 고른 뒤라 몸의 신호가 더 또렷했다.", "After forcing himself to slow down, his body's signals felt clearer."),
+				LocaleManager.ui("잠깐 멈춘 시간이 이번 주의 감각을 바꾸어 놓았다.", "A brief pause had changed the texture of the week."),
+			])
+	return ""
+
+func _event_has_follow_up(event: Dictionary) -> bool:
+	if not str(event.get("follow_up_event", "")).is_empty():
+		return true
+	for choice in event.get("choices", []):
+		if not str(choice.get("follow_up_event", "")).is_empty() \
+				or not str(choice.get("deferred_follow_up", "")).is_empty():
+			return true
+	return false
+
+func _is_low_signal_filler(event: Dictionary) -> bool:
+	var conditions: Dictionary = event.get("conditions", {})
+	if not conditions.is_empty():
+		return false
+	if str(event.get("rarity", "common")) != "common" or _event_has_follow_up(event):
+		return false
+	var tags: Array = event.get("tags", [])
+	return not tags.has("tradeoff") and not tags.has("callback") and not tags.has("milestone")
+
+func quiet_week_chance(eligible: Array) -> float:
+	if GameState.turn <= 8 or eligible.is_empty():
+		return 0.0
+	var strongest_echo := 1.0
+	var filler_count := 0
+	for event in eligible:
+		strongest_echo = maxf(strongest_echo, action_echo_multiplier(event))
+		if _is_low_signal_filler(event):
+			filler_count += 1
+	if strongest_echo >= 2.0:
+		return 0.04
+	return 0.28 if filler_count * 2 >= eligible.size() else 0.16
+
+func _should_hold_quiet_week(eligible: Array) -> bool:
+	var chance := quiet_week_chance(eligible)
+	if chance <= 0.0:
+		return false
+	# 같은 저장/같은 주를 다시 열어도 사건 유무가 뒤집히지 않는 결정론적 호흡.
+	var signature := posmod(
+		GameState.turn * 37 + GameState.month * 17 + GameState.events_seen * 11 \
+				+ recent_event_ids.size() * 7,
+		1000
+	)
+	return signature < int(roundf(chance * 1000.0))
 
 func queue_event(event):
 	if event.is_empty():
@@ -304,6 +467,9 @@ func _effective_weight(event):
 			weight *= 0.28
 		"legendary":
 			weight *= 0.08
+	weight *= action_echo_multiplier(event)
+	if _is_low_signal_filler(event):
+		weight *= 0.42
 	if GameState.mental < 30 and event.get("tags", []).has("stress"):
 		weight *= 1.6
 	if GameState.market_context.get("fear_greed", 50) > 75 and event.get("category", "") == "finance":

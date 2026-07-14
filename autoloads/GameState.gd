@@ -161,6 +161,9 @@ var action_axis_this_week: Dictionary = {"money": 0, "human": 0}
 # 서울 지도 M1 — 이번 주 실제로 시간을 쓴 장소와 최근 동선. 수치 평가는 노출하지 않는다.
 var action_places_this_week: Dictionary = {}
 var recent_action_places: Array = []
+# 사건 에코용 최근 2주 스냅샷. UI에는 수치로 노출하지 않고 EventManager가
+# "내가 보낸 시간이 다음 사건을 불렀다"는 인과를 만드는 데만 쓴다.
+var recent_action_weeks: Array = []
 # 인물별 연락 기록 — 리캡 카드의 "잔인한 통계"용 원장 (person_id → 횟수 / 마지막 턴)
 var contact_counts: Dictionary = {}
 var last_contact_turn: Dictionary = {}
@@ -443,6 +446,7 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	action_axis_this_week = {"money": 0, "human": 0}
 	action_places_this_week = {}
 	recent_action_places = []
+	recent_action_weeks = []
 	contact_counts = {}
 	last_contact_turn = {}
 	run_seen_scenes_by_year = {}
@@ -1260,11 +1264,78 @@ func _register_action_place(place_id: String, axis: String) -> void:
 		while recent_action_places.size() > 8:
 			recent_action_places.pop_front()
 
+const ACTION_PLACE_ECHO_FAMILIES := {
+	"money:home": ["self_development", "study", "spec"],
+	"money:store": ["finance", "money", "daily_life"],
+	"money:work": ["jobs", "job", "career", "work", "workplace", "spec", "side_job"],
+	"money:river": ["self_development", "creative"],
+	"money:city": ["social", "network", "career"],
+	"money:underground": ["investment", "finance", "gambling", "risk", "holdem"],
+	"money:expedition": ["gambling", "casino", "racetrack", "risk"],
+	"human:home": ["health", "rest", "daily_life", "family", "relationship"],
+	"human:store": ["relationship", "romance", "social", "daeun"],
+	"human:river": ["health", "rest", "leisure", "social", "relationship"],
+	"human:city": ["relationship", "romance", "social", "network"],
+}
+
+func _remember_action_week(money_count: int, human_count: int) -> void:
+	recent_action_weeks.append({
+		"turn": turn,
+		"money": money_count,
+		"human": human_count,
+		"places": action_places_this_week.duplicate(true),
+	})
+	while recent_action_weeks.size() > 2:
+		recent_action_weeks.pop_front()
+
+func _merge_action_echo(target: Dictionary, family: String, strength: float) -> void:
+	if family.is_empty():
+		return
+	target[family] = maxf(float(target.get(family, 0.0)), strength)
+
+## 최근 행동이 어떤 사건 계열을 부를 수 있는지 반환한다.
+## 최신 주=1.0, 한 주 전=0.55. EventManager가 이를 2~3배 가중치로 변환한다.
+func get_recent_action_echoes() -> Dictionary:
+	var echoes: Dictionary = {}
+	var total_weeks := recent_action_weeks.size()
+	for index in range(total_weeks):
+		var week: Dictionary = recent_action_weeks[index]
+		var strength := 1.0 if index == total_weeks - 1 else 0.55
+		var money_count := int(week.get("money", 0))
+		var human_count := int(week.get("human", 0))
+		var places: Dictionary = week.get("places", {})
+		var placed_money := 0
+		var placed_human := 0
+		for place_id in places:
+			var visit: Dictionary = places.get(place_id, {})
+			for axis in ["money", "human"]:
+				var count := int(visit.get(axis, 0))
+				if count <= 0:
+					continue
+				if axis == "money":
+					placed_money += count
+				else:
+					placed_human += count
+				for family in ACTION_PLACE_ECHO_FAMILIES.get("%s:%s" % [axis, place_id], []):
+					_merge_action_echo(echoes, str(family), strength)
+		# 매수·매도는 장소 없이 등록된다. 다른 돈축 행동과 같은 주여도 남은 횟수로 구분한다.
+		if money_count > placed_money:
+			_merge_action_echo(echoes, "investment", strength)
+			_merge_action_echo(echoes, "finance", strength)
+			_merge_action_echo(echoes, "money", strength)
+		# 방어적 폴백. 현재 사람축 행동은 모두 장소를 전달하지만 저장 호환을 위해 남긴다.
+		if human_count > placed_human:
+			_merge_action_echo(echoes, "health", strength)
+			_merge_action_echo(echoes, "rest", strength)
+			_merge_action_echo(echoes, "relationship", strength)
+	return echoes
+
 # 주가 끝날 때(advance_calendar) 한 번 호출 — 그 주를 무엇에 썼는지 정산한다.
 # 사람축을 한 번이라도 챙긴 주는 마모를 리셋. 돈에만 갈아넣은 주가 쌓이면 서서히 마모.
 func finalize_action_axis_week() -> void:
 	var money_count := int(action_axis_this_week.get("money", 0))
 	var human_count := int(action_axis_this_week.get("human", 0))
+	_remember_action_week(money_count, human_count)
 	if money_count > 0:
 		money_weeks_total += 1
 		month_money_weeks += 1
@@ -1958,6 +2029,7 @@ func serialize():
 		"action_axis_this_week": action_axis_this_week,
 		"action_places_this_week": action_places_this_week,
 		"recent_action_places": recent_action_places,
+		"recent_action_weeks": recent_action_weeks,
 		"contact_counts": contact_counts,
 		"last_contact_turn": last_contact_turn,
 		"run_seen_scenes_by_year": run_seen_scenes_by_year,
@@ -2032,6 +2104,10 @@ func load_from_dict(data):
 		action_places_this_week = {}
 	if not data.has("recent_action_places") or typeof(recent_action_places) != TYPE_ARRAY:
 		recent_action_places = []
+	if not data.has("recent_action_weeks") or typeof(recent_action_weeks) != TYPE_ARRAY:
+		recent_action_weeks = []
+	while recent_action_weeks.size() > 2:
+		recent_action_weeks.pop_front()
 	if not data.has("run_seen_scenes_by_year") or typeof(run_seen_scenes_by_year) != TYPE_DICTIONARY:
 		run_seen_scenes_by_year = {}
 	if not data.has("year_scenes") or typeof(year_scenes) != TYPE_DICTIONARY:

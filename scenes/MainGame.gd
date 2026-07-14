@@ -2140,6 +2140,8 @@ func _run_week_start_economy() -> void:
 			_screen_flash(Color("#d73a49"), 0.35, 0.55)
 
 func _begin_month():
+	BGMPlayer.enter_ambient_bed(0.9)
+	BGMPlayer.update_idle_ambience()
 	GameState.restore_ap()
 	_animate_ap_refill()
 	turn_action_log.clear()
@@ -2239,13 +2241,14 @@ func _career_specialization_ready(f: Dictionary) -> bool:
 		return false
 	return int(f.get("career_months_total", 0)) >= 12
 
-func _first_job_week_arc_id(f: Dictionary) -> String:
+func _first_job_week_arc_id(f: Dictionary, at_turn: int = -1) -> String:
+	var query_turn: int = GameState.turn if at_turn < 0 else at_turn
 	if GameState.current_job.is_empty() or f.get("arc_first_job_week_seen", false):
 		return ""
 	if GameState.job_tenure > 1:
 		return ""
 	# StoryMode에서 취업한 바로 그 주에는 AP 화면으로 돌아간다. 첫 근무 장면은 다음 주부터다.
-	if int(f.get("job_started_turn", GameState.turn - 1)) >= GameState.turn:
+	if int(f.get("job_started_turn", query_turn - 1)) >= query_turn:
 		return ""
 	match str(GameState.current_job.get("id", "")):
 		"job_01":
@@ -2255,19 +2258,19 @@ func _first_job_week_arc_id(f: Dictionary) -> String:
 		_:
 			return "arc_first_job_week"
 
-func _next_arc_id() -> String:
-	var t = GameState.turn
+func _next_arc_id(at_turn: int = -1, preview_only: bool = false) -> String:
+	var t = GameState.turn if at_turn < 0 else at_turn
 	var f = GameState.flags
 
 	# 랜덤 sangchul_meet이 arc보다 먼저 발동한 경우 arc 플래그 동기화
-	if f.get("sangchul_met", false) and not f.get("arc_sangchul_met_seen", false):
+	if not preview_only and f.get("sangchul_met", false) and not f.get("arc_sangchul_met_seen", false):
 		GameState.flags["arc_sangchul_met_seen"] = true
 
 	# ══ 챕터 전환 카드 — 연도(나이) 넘어가는 첫 턴 ══════════
 	# 챕터 1: 프롤로그 직후 1회
 	if f.get("prologue_done", false) and not f.get("chapter_33_seen", false):
 		return "chapter_card_33"
-	var _age = GameState.age
+	var _age = (33 + int(floor(float(t - 1) / 48.0))) if preview_only else GameState.age
 	if _age == 34 and not f.get("chapter_34_seen", false):
 		return "chapter_card_34"
 	if _age == 35 and not f.get("chapter_35_seen", false):
@@ -2288,28 +2291,29 @@ func _next_arc_id() -> String:
 		return "arc_year4_close"
 	# 연말 장면 선택은 직전 클로징을 본 뒤 같은 연차 안에서 바로 이어진다.
 	# 후보는 현재 런에서 실제로 본 장면뿐이며 3개 미만이면 표면을 만들지 않는다.
-	var year_scene_id := ""
-	if f.get("arc_year1_close_seen", false):
-		year_scene_id = _year_scene_curation_id(1)
-		if not year_scene_id.is_empty():
-			return year_scene_id
-	if f.get("arc_year2_close_seen", false):
-		year_scene_id = _year_scene_curation_id(2)
-		if not year_scene_id.is_empty():
-			return year_scene_id
-	if f.get("arc_year3_close_seen", false):
-		year_scene_id = _year_scene_curation_id(3)
-		if not year_scene_id.is_empty():
-			return year_scene_id
-	if f.get("arc_year4_close_seen", false):
-		year_scene_id = _year_scene_curation_id(4)
-		if not year_scene_id.is_empty():
-			return year_scene_id
-	# 다섯째 해에는 별도 연말 카드가 없으므로 마지막 달 초입에서 고른다.
-	if t >= 236:
-		year_scene_id = _year_scene_curation_id(5)
-		if not year_scene_id.is_empty():
-			return year_scene_id
+	if not preview_only:
+		var year_scene_id := ""
+		if f.get("arc_year1_close_seen", false):
+			year_scene_id = _year_scene_curation_id(1)
+			if not year_scene_id.is_empty():
+				return year_scene_id
+		if f.get("arc_year2_close_seen", false):
+			year_scene_id = _year_scene_curation_id(2)
+			if not year_scene_id.is_empty():
+				return year_scene_id
+		if f.get("arc_year3_close_seen", false):
+			year_scene_id = _year_scene_curation_id(3)
+			if not year_scene_id.is_empty():
+				return year_scene_id
+		if f.get("arc_year4_close_seen", false):
+			year_scene_id = _year_scene_curation_id(4)
+			if not year_scene_id.is_empty():
+				return year_scene_id
+		# 다섯째 해에는 별도 연말 카드가 없으므로 마지막 달 초입에서 고른다.
+		if t >= 236:
+			year_scene_id = _year_scene_curation_id(5)
+			if not year_scene_id.is_empty():
+				return year_scene_id
 
 	# ══ 고시원 탈출 — 이사한 첫 턴에 감정 장면 (어느 턴이든) ══
 	if GameState.housing != "gosiwon" \
@@ -2317,11 +2321,12 @@ func _next_arc_id() -> String:
 		return "arc_goshiwon_goodbye"
 
 	# ══ 그림자 이벤트 — N턴 후 과거 선택이 되돌아온다 ══════════
-	var shadow_events = GameState.pop_ready_deferred_events()
-	for sid in shadow_events:
-		if not sid.is_empty():
-			EventManager.trigger_event_by_id(sid)
-			return ""  # 이번 턴 arc는 그림자가 가져간다
+	if not preview_only:
+		var shadow_events = GameState.pop_ready_deferred_events()
+		for sid in shadow_events:
+			if not sid.is_empty():
+				EventManager.trigger_event_by_id(sid)
+				return ""  # 이번 턴 arc는 그림자가 가져간다
 
 
 	# ══ 1구간: 주인공 몰입 (턴 1-8, 인물 없음) ══════════
@@ -2352,7 +2357,8 @@ func _next_arc_id() -> String:
 		if f.get("cafe_humiliated", false):
 			return "cafe_cb_humiliated_00"
 		# 세 플래그 모두 없으면 카페 씬을 안 본 것 — 재검사 방지
-		GameState.flags["cafe_callback_seen"] = true
+		if not preview_only:
+			GameState.flags["cafe_callback_seen"] = true
 	# ★ 첫 유혹의 후폭풍/보상 (턴 8) — 선택에 따라 갈림
 	if f.get("lent_account", false) and not f.get("arc_temptation_fallout_seen", false) and t >= 8:
 		return "arc_temptation_fallout"
@@ -2412,7 +2418,7 @@ func _next_arc_id() -> String:
 		return "arc_spec_found"
 
 	# ── 첫 출근 주 — 취업 후 첫 1개월 안에 (1회) ──
-	var first_job_arc := _first_job_week_arc_id(f)
+	var first_job_arc := _first_job_week_arc_id(f, t)
 	if not first_job_arc.is_empty():
 		return first_job_arc
 
@@ -2904,7 +2910,8 @@ func _next_arc_id() -> String:
 	# ── 사표 — 자발적 퇴사 직후 드라마 장면 (1회) ──
 	if f.get("just_quit_job", false) \
 			and not f.get("arc_quit_job_seen", false):
-		GameState.flags.erase("just_quit_job")
+		if not preview_only:
+			GameState.flags.erase("just_quit_job")
 		return "arc_quit_job"
 
 	# ── 아버지 약 이야기 — 병원 방문 전 중간 신호 (아버지 01 이후, 02 이전) ──
@@ -3370,6 +3377,43 @@ func _next_arc_id() -> String:
 			and not f.get("arc_jiyeon_wedding_gap_seen", false):
 		return "arc_jiyeon_first_kiss"
 
+	return ""
+
+func _upcoming_arc_foreshadow_line() -> String:
+	# 미래 조회는 현재 달 안에서만 한다. 계절/월 조건을 가진 아크를 다음 달 상태로
+	# 잘못 예고하지 않으면서 기존 스케줄러를 그대로 재사용한다.
+	var max_offset := mini(3, 4 - GameState.week_of_month)
+	for offset in range(1, max_offset + 1):
+		var arc_id := _next_arc_id(GameState.turn + offset, true)
+		if arc_id.is_empty():
+			continue
+		var event: Dictionary = DataRegistry.find_event(arc_id)
+		var tags: Array = event.get("tags", [])
+		var tag_words := PackedStringArray()
+		for tag in tags:
+			tag_words.append(str(tag))
+		var hay := (arc_id + " " + " ".join(tag_words)).to_lower()
+		if "father" in hay or "dad" in hay:
+			return _tr("창원 부재중 전화.", "Missed call: Changwon.")
+		if "sangchul" in hay:
+			return _tr("상철 씨가 또 연락했다.", "Sangchul called again.")
+		if "daeun" in hay:
+			if GameState.cast_has_met("daeun"):
+				return _tr("다은 씨가 떠오른다.", "Daeun comes to mind.")
+			return _tr("편의점 불빛이 남는다.", "The store lights linger.")
+		if "jiyeon" in hay:
+			if GameState.cast_has_met("jiyeon"):
+				return _tr("지연 씨에게 남은 말이 있다.", "Jiyeon left something unsaid.")
+			return _tr("모르는 번호가 두 번 울렸다.", "Two calls. Unknown number.")
+		if "jaehyuk" in hay:
+			return _tr("오래된 이름이 다시 떴다.", "An old name resurfaces.")
+		if "hyunsu" in hay:
+			return _tr("현수의 답장이 늦다.", "Hyunsu's reply is late.")
+		if "year_close" in hay or arc_id.begins_with("chapter_card"):
+			return _tr("달력 끝이 가까워진다.", "The calendar is running out.")
+		if "job" in hay or "career" in hay:
+			return _tr("다음 주, 일이 달라질 듯하다.", "Work may change next week.")
+		return _tr("미뤄 둔 일이 가까워진다.", "Something postponed is near.")
 	return ""
 
 func _hometown_special_arc_id(t: int, f: Dictionary) -> String:
@@ -5079,7 +5123,7 @@ func _render_ap_actions():
 	var total = GameState.get_total_asset_value()
 	var lines: PackedStringArray = PackedStringArray()
 	# 분위기 내레이션 한 줄 (비주얼노벨 톤)
-	lines.append("[i]%s[/i]" % _month_narration())
+	lines.append("[i]%s[/i]" % _week_opening_line())
 	if not turn_action_log.is_empty():
 		lines.append(_ap_recent_action_line())
 	# 월 현금흐름/마일스톤/목표까지의 압박은 아래 'This Week' 카드로 모아
@@ -5295,6 +5339,21 @@ func _add_ap_controller_hint_strip(ap_empty: bool) -> void:
 	body.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	row.add_child(body)
 
+func _week_rent_deadline() -> Dictionary:
+	var weeks_left := maxi(0, 4 - GameState.week_of_month)
+	var rent := GameState.get_housing_expense()
+	var covered: bool = GameState.money + maxf(0.0, GameState.monthly_income) >= rent
+	var label_text: String
+	if weeks_left == 0:
+		label_text = _tr("월세 이번 주 · %s", "RENT DUE · %s") % GameState.format_money_compact(rent)
+	else:
+		label_text = _tr("월세 D-%d주 · %s", "RENT D-%dW · %s") % [weeks_left, GameState.format_money_compact(rent)]
+	return {
+		"text": label_text,
+		"covered": covered,
+		"urgent": weeks_left <= 1 or not covered,
+	}
+
 func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bool,
 		hint_text: String = "", hint_color: String = "#b9bec7") -> void:
 	var compact_width := get_viewport_rect().size.x <= 1366.0
@@ -5343,6 +5402,24 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 	act_subtitle.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	top.add_child(act_subtitle)
 
+	var rent_info := _week_rent_deadline()
+	var rent_color: String = "#ef9a9a" if bool(rent_info.get("urgent", false)) else "#9aa4b2"
+	if bool(rent_info.get("covered", false)) and not bool(rent_info.get("urgent", false)):
+		rent_color = "#aeb7c3"
+	var rent_lbl: Label = _label(str(rent_info.get("text", "")), 11, rent_color)
+	rent_lbl.set_meta("moral_role", "hint_text")
+	rent_lbl.custom_minimum_size = Vector2(176 if compact_width else 196, 0)
+	rent_lbl.clip_text = true
+	rent_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	rent_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	rent_lbl.tooltip_text = _tr(
+		"월말 자동 납부 · 현재 현금 %s",
+		"Paid automatically at month-end · Cash %s"
+	) % GameState.format_money(GameState.money)
+	if _font_bold:
+		rent_lbl.add_theme_font_override("font", _font_bold)
+	top.add_child(rent_lbl)
+
 	var slots_box := HBoxContainer.new()
 	slots_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	slots_box.custom_minimum_size = Vector2(62 if compact_width else 72, 0)
@@ -5376,7 +5453,10 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 
 	var people := _people_pressure_state()
 	var stakes_text: String
-	if not str(people.get("id", "")).is_empty():
+	var upcoming := _upcoming_arc_foreshadow_line()
+	if not upcoming.is_empty():
+		stakes_text = _tr("기척  %s", "IN THE AIR  %s") % upcoming
+	elif not str(people.get("id", "")).is_empty():
 		stakes_text = _tr("곁  {name} · {detail}", "BESIDE YOU  {name} · {detail}").format({
 			"name": str(people.get("name", "")),
 			"detail": str(people.get("detail", "")),
@@ -5935,6 +6015,73 @@ func _moral_week_perception_line() -> String:
 			"The city had not grown warmer. I was simply noticing more of it."),
 	]
 	return str(lines[cycle])
+
+func _week_opening_line() -> String:
+	var anchor := _week_scene_anchor()
+	var state_line := _month_narration()
+	var season := _week_season_label()
+	if state_line.findn(season) >= 0:
+		return "%s %s" % [anchor, state_line]
+	return _tr(
+		"{season}, {anchor} {state}",
+		"In {season}, {anchor} {state}"
+	).format({"season": season, "anchor": anchor, "state": state_line})
+
+func _week_season_label() -> String:
+	match GameState.month:
+		3, 4, 5:
+			return _tr("봄", "spring")
+		6, 7, 8:
+			return _tr("여름", "summer")
+		9, 10, 11:
+			return _tr("가을", "autumn")
+		_:
+			return _tr("겨울", "winter")
+
+func _week_scene_anchor() -> String:
+	var moments := [
+		_tr("월요일 이른 아침", "Early Monday morning"),
+		_tr("수요일 밤", "Wednesday night"),
+		_tr("토요일 새벽", "Before dawn on Saturday"),
+		_tr("일요일 저녁", "Sunday evening"),
+	]
+	var details := {
+		"gosiwon": [
+			_tr("복도 발소리가 얇은 벽을 건넜다", "footsteps crossed the paper-thin wall"),
+			_tr("형광등이 한 번 떨리고 옆방에서 기침이 났다", "the fluorescent light trembled and someone coughed next door"),
+			_tr("공용 세면대 물소리가 문틈으로 들어왔다", "water from the shared sink slipped under the door"),
+			_tr("복도 문들이 하나씩 닫혔다", "the corridor doors closed one by one"),
+		],
+		"oneroom": [
+			_tr("냉장고 압축기가 낮게 깨어났다", "the refrigerator compressor woke with a low hum"),
+			_tr("싱크대 위 시계와 냉장고만 소리를 냈다", "only the clock above the sink and the refrigerator made a sound"),
+			_tr("보일러 배관이 짧게 울렸다", "the boiler pipe answered with a short knock"),
+			_tr("현관 밖 계단이 조용해졌다", "the stairs beyond the front door fell quiet"),
+		],
+		"villa": [
+			_tr("아래층 현관문이 닫히는 소리가 올라왔다", "the downstairs door closing traveled upward"),
+			_tr("배관이 벽 안에서 한 번 울렸다", "a pipe knocked once inside the wall"),
+			_tr("골목 배달 오토바이가 멀어졌다", "a delivery scooter faded down the alley"),
+			_tr("계단 센서등이 문틈에서 꺼졌다", "the stairwell sensor light went dark beneath the door"),
+		],
+		"apartment": [
+			_tr("멀리 엘리베이터 도착음이 한 번 울렸다", "an elevator chime sounded far away"),
+			_tr("이중창 너머 도로 소리가 낮게 남았다", "traffic remained as a low trace beyond the double glazing"),
+			_tr("집 안의 정적이 낯설 만큼 깊었다", "the apartment was quiet enough to feel unfamiliar"),
+			_tr("복도 카펫이 모든 발소리를 삼켰다", "the corridor carpet swallowed every footstep"),
+		],
+	}
+	var housing_key := "apartment" if GameState.housing == "gangnam" else GameState.housing
+	var housing_details: Array = details.get(housing_key, details["gosiwon"])
+	var index := clampi(GameState.week_of_month - 1, 0, 3)
+	var detail := str(housing_details[index])
+	return _tr(
+		"{moment}, {detail}.",
+		"{moment}, {detail}."
+	).format({
+		"moment": moments[index],
+		"detail": detail,
+	})
 
 func _month_narration() -> String:
 	var m = GameState.month

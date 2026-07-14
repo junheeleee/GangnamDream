@@ -55,6 +55,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | First snow: December-only store/car prelude→paragraph-1 CG, winter outfits, exactly two cans, left-driver/right-passenger seating, resting wipers, gaze and KO/EN crop | `--qa=first-snow --lang=ko/en` |
 | Climate portraits: monsoon rain shell, heatwave short sleeves/cooling towel, cold-snap parka/scarf and dedicated frozen street | `--qa=climate --lang=ko/en` |
 | Event visual contracts: seasonal Minjun clothing, rainy room/street split, road-facing wallet bus-stop bench, visible bungeoppang cart, full-scene Seollal bow CG, year-close wardrobe, father phone location, split cafe identities/name tags/paragraph reveal, choice-result location/ambience, and flag-dependent character stages | `--qa=event-visuals --lang=ko/en` |
+| Weekly immersion loop: season/housing opening line, one-to-three-week authored-arc omen, rent countdown/due state, and action-causal StoryMode frame | `--qa=immersion-loop --lang=ko/en` |
 | Main AP full-height in-world stills, Seoul Trace visited/locked nodes, warning state, people pressure grind hints, routine/date, Work/Money/Self-Dev/People/Life modals, four-scene gambling selector, market/info/keepsake surfaces | `--qa=ap-en --lang=ko/en` |
 | AP Act 1~5 2x2 decision board, actual KRW 500K first-month horizon, post-first-interview `Keep Applying`, action-commit overlay, Seoul Trace restoration, no-scroll special-action row, ACT4 relationship pressure modal | `--qa=ap-act-en` |
 | One-time investment terminology/risk guide, controller default focus, then Trade/Holdings/Market movers/Bank pages in Korean and English | `--qa=invest-en --lang=ko/en` |
@@ -88,7 +89,7 @@ Automated onboarding gates:
 - `I18nInfrastructureCheck.tscn` must keep `ja`, `zh-CN`, and `zh-TW` hidden from shipping selection while proving alias normalization, unique UI-miss logging, complete English event/ending/catalog fallback, non-Korean date/housing/money surfaces, and actual bundled-font glyph coverage reporting.
 - `i18n_coverage_check.py` keeps English strict and prepared locales in empty-skeleton mode. After a language translation wave, `--lang <code> --strict` must pass before that code is added to `SHIPPING_LANGUAGES`.
 - `multilingual_surface_audit.py` rejects malformed locale/catalog files and Korean text leaked into target values. Korean source strings are allowed only as keys in `ui_<code>.json`.
-- `ja_translation_audit.py --scope ui` must cover all 1,957 extracted `_tr`/`LocaleManager.ui` keys with exact placeholders and line breaks, zero Hangul/yen leakage, canonical names, valid casino terminology, and correct lock/unlock polarity. Japanese prose scopes remain held until explicit demo GO.
+- `ja_translation_audit.py --scope ui` must cover all 2,013 extracted `_tr`/`LocaleManager.ui` keys with exact placeholders and line breaks, zero Hangul/yen leakage, canonical names, valid casino terminology, and correct lock/unlock polarity. Japanese prose scopes remain held until explicit demo GO.
 - `ScreenshotQA --qa=i18n-layout --lang=ja/zh-CN/zh-TW` must wrap the QA-only CJK paragraph without clipping or covering the footer at 1280x800. An OS-provided glyph fallback is not sufficient for release; the font must be bundled through `FontKit`.
 - Japanese remains a hidden beta even after the UI/font checks pass. The 15-scene Japanese story capture set, strict event/ending parity, and native-speaker spot check are required after the prose hold is lifted and before `ja` can enter `SHIPPING_LANGUAGES`.
 - `TutorialInputCheck.tscn` must advance exactly one tutorial slide per accept input, never activate an underlying AP action, dismiss cleanly, and restore the previous focus. It runs inside `tools/audit.sh`.
@@ -145,7 +146,8 @@ Automated audio gates:
 
 - `audio_source_audit.py` must assign every shippable WAV/OGG to exactly one reproducible source script; no missing, stale, duplicate, or undocumented audio may ship.
 - `generate_gangnam_ui_sfx.py --check` must reproduce the four tactile UI WAV files byte-for-byte without external samples.
-- `BGMContinuityCheck.tscn` must preserve playback position across same-context scene re-entry and Moral Tint texture changes; semantic ambience routing must remain stable.
+- `BGMContinuityCheck.tscn` must keep the weekly hub and ordinary random events on housing/season ambience without starting music, preserve same-context playback and Moral Tint texture changes, insert the authored-arc silence, and reserve explicit music for punctuation/menu/ending states.
+- `ImmersionLoopCheck.tscn` must prove two-week action memory and serialization, precise no-leak event families, ×2.6/×1.88 echo strength, ×0.42 filler attenuation, deterministic quiet-week bands, localized causal frames, season/housing vignettes, non-mutating arc omens, rent deadlines, and SFX mix trims.
 
 ## Launch
 - Project opens in Godot 4.6.
