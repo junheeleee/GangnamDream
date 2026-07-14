@@ -62,6 +62,8 @@ var _ap_rail_slot_counter: int = 0
 var _ap_action_grid: GridContainer = null
 var _ap_feature_row: HBoxContainer = null
 var _ap_grid_cards: Array[Button] = []
+var _ap_focus_restore_index: int = 0
+var _ap_focus_restore_turn: int = -1
 var _routine_draft: Array = []   # 몽타주 루틴 모달 편집 중 임시 선택
 var _event_bg_path: String = ""   # 현재 표시 중인 배경 경로 (크로스페이드 중복 방지)
 var _typing_tween: Tween = null   # 타이핑 효과 전용 트윈
@@ -5101,6 +5103,9 @@ func _render_log():
 
 func _render_ap_actions():
 	_play_ink_transition("ap", 0.55)
+	if _ap_focus_restore_turn != GameState.turn:
+		_ap_focus_restore_turn = GameState.turn
+		_ap_focus_restore_index = 0
 	next_button.disabled = false
 	_transient_bg_active = false
 	_clear_category_tint(true)
@@ -5261,7 +5266,18 @@ func _apply_ap_focus_routes(ap_empty: bool) -> void:
 		if is_instance_valid(next_button) and not next_button.disabled:
 			next_button.call_deferred("grab_focus")
 	elif not buttons.is_empty():
-		buttons[0].call_deferred("grab_focus")
+		_ap_focus_restore_button(buttons).call_deferred("grab_focus")
+
+func _ap_focus_restore_button(buttons: Array[Button]) -> Button:
+	var best: Button = buttons[0]
+	var best_distance: int = 1_000_000
+	for btn in buttons:
+		var grid_idx: int = int(btn.get_meta("ap_grid_index", 0))
+		var distance: int = absi(grid_idx - _ap_focus_restore_index)
+		if distance < best_distance:
+			best = btn
+			best_distance = distance
+	return best
 
 func _ap_grid_focus_neighbor(from_idx: int, direction: Vector2i, fallback: Button) -> Button:
 	var from_pos := Vector2i(from_idx % 2, from_idx / 2)
@@ -6895,6 +6911,12 @@ func _run_ap_action_from_button(card: Control, title: String, icon_id: String, a
 		free_action: bool = false, art_thumb: Texture2D = null) -> void:
 	if fn_name.is_empty():
 		return
+	if card is Button:
+		var grid_btn := card as Button
+		var grid_index: int = _ap_grid_cards.find(grid_btn)
+		if grid_index >= 0:
+			_ap_focus_restore_turn = GameState.turn
+			_ap_focus_restore_index = int(grid_btn.get_meta("ap_grid_index", grid_index))
 	if _is_ap_commit_function(fn_name):
 		_pulse_ap_action_card(card)
 		_show_ap_action_commit(title, icon_id, accent, free_action, art_thumb)
@@ -8688,7 +8710,6 @@ func _ap_study_commit(study_type: int) -> void:
 	GameState.add_log(title + " — " + flavor, "event")
 	_show_vignette(title, flavor, eff, "#5a6ea8")
 	turn_action_log.append("✓ " + tag + " — " + flavor.substr(0, 20))
-	_render_ap_actions()
 	_refresh_all()
 
 func _ap_invest():
@@ -8729,7 +8750,6 @@ func _on_aruba_closed(earned: int, stress_delta: int, health_delta: int) -> void
 	AudioManager.play("money_gain")
 	_show_effects_float({"money": earned, "health": total_health_delta, "mental": -stress_delta})
 	_show_vignette(shift_title, mood, {"money": earned, "health": total_health_delta, "mental": -stress_delta}, "#dc6a2a")
-	_render_ap_actions()
 	_refresh_all()
 
 const _SAVE_SCENES = [
@@ -8755,7 +8775,6 @@ func _ap_save_money():
 		{"money": saved, "stress": 2}, "#4a7a5a")
 	turn_action_log.append(_tr("✓ 💰 절약 — %s", "✓ 💰 Saving — %s") % GameState.format_money(saved))
 	AudioManager.play("money_gain")
-	_render_ap_actions()
 	_refresh_all()
 
 func _ap_network():
@@ -8781,7 +8800,6 @@ func _ap_network():
 	turn_action_log.append(_tr("✓ 🤝 인맥 넓히기 — ", "✓ 🤝 Networking — ") + flavor.substr(0, 20))
 	GameState.stats_changed.emit()
 	_show_vignette(_tr("인맥 넓히기", "Networking"), flavor, eff, "#8a5a9a")
-	_render_ap_actions()
 	_refresh_all()
 
 ## 연애/결혼 중 전용 human축 행동. 연인과 시간을 보낸다. 잔고가 빠듯하면 무료(편의점) 데이트로 폴백.
@@ -8860,7 +8878,6 @@ func _ap_date():
 	turn_action_log.append("✓ " + title + " — " + flavor.substr(0, 22))
 	GameState.stats_changed.emit()
 	_show_vignette(title, flavor, eff, accent)
-	_render_ap_actions()
 	_refresh_all()
 
 ## 고정 의상 마일스톤은 서울에서 가벼운 외투가 자연스러운 달에만 발화한다.

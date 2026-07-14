@@ -299,6 +299,8 @@ func _ready() -> void:
 	if scope == QA_SCOPE_AP_ACT_EN:
 		var lang := _qa_language("en")
 		await _shot_ap_act_surfaces(lang, "ap_act_en_" if lang == "en" else "ap_act_ko_")
+		if _qa_failed:
+			return
 		print("SCREENSHOT_QA_DONE scope=ap-act-en lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
@@ -2773,11 +2775,65 @@ func _shot_ap_act_surfaces(lang: String = "en", prefix: String = "ap_act_en_") -
 					_mg.call("_hide_ap_action_commit")
 			GameState.flags.erase("arc_intro_meal_seen")
 		if act == 4 and _mg.has_method("_open_cat_people"):
-				_mg.call("_open_cat_people")
-				await _settle(0.45)
-				await _save("%s%02da_act%d_people_modal" % [prefix, act, act])
-				_close_modal()
-				await _settle(0.2)
+			_mg.call("_open_cat_people")
+			await _settle(0.45)
+			await _save("%s%02da_act%d_people_modal" % [prefix, act, act])
+			_close_modal()
+			await _settle(0.2)
+	await _assert_ap_result_lifecycle(lang, prefix)
+
+func _assert_ap_result_lifecycle(lang: String, prefix: String) -> void:
+	_seed_ap_act_state(1, lang)
+	GameState.flags["arc_intro_meal_seen"] = true
+	_mg.current_event = {}
+	_mg.set("pending_result_text", "")
+	_mg.call("_render_ap_actions")
+	_mg.call("_finish_typing")
+	await _settle(0.35)
+
+	var cards: Array = _mg.get("_ap_grid_cards")
+	if cards.size() < 2 or not (cards[1] is Button):
+		_fail("AP result lifecycle regression could not find the Survival Money card.")
+		return
+	var money_card := cards[1] as Button
+	money_card.grab_focus()
+	await _press_qa_action("ui_accept")
+	await _settle(0.25)
+	var modal_root := _mg.get("modal_body") as Control
+	var saving_btn: Button = null
+	if modal_root != null:
+		var saving_label := _tr("저축/절약", "Save/cut back")
+		for candidate in modal_root.find_children("*", "Button", true, false):
+			var candidate_btn := candidate as Button
+			if candidate_btn != null and not candidate_btn.disabled \
+					and _collect_control_text(candidate_btn).findn(saving_label) >= 0:
+				saving_btn = candidate_btn
+				break
+	if saving_btn == null:
+		_fail("AP result lifecycle regression could not find the Saving action.")
+		return
+	saving_btn.grab_focus()
+	await _press_qa_action("ui_accept")
+	await _settle(0.35)
+	if not bool(_mg.get("_transient_bg_active")):
+		_fail("Saving action discarded its result surface before player confirmation.")
+		return
+	var choice_root := _mg.get("choice_box") as Control
+	var confirm_btn := _find_first_enabled_button(choice_root) if choice_root != null else null
+	if confirm_btn == null or confirm_btn.text != _tr("확인", "OK"):
+		_fail("Saving action result is missing its confirmation button in %s." % lang)
+		return
+	await _save(prefix + "06_saving_result_persists", 0.05)
+
+	_mg.call("_finish_typing")
+	confirm_btn.grab_focus()
+	await _press_qa_action("ui_accept")
+	await _settle(0.45)
+	var focus_owner := get_viewport().gui_get_focus_owner() as Button
+	if focus_owner == null or int(focus_owner.get_meta("ap_grid_index", -1)) != 1:
+		_fail("AP result confirmation did not return focus to the selected parent card.")
+		return
+	await _save(prefix + "07_saving_focus_returns", 0.05)
 
 func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immersion_en_") -> void:
 	_set_qa_language(lang)
