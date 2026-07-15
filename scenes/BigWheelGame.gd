@@ -167,7 +167,7 @@ func _process(delta: float) -> void:
 	if current_sector < 0:
 		current_sector += TOTAL_SLOTS
 	if _prev_sector >= 0 and current_sector != _prev_sector:
-		AudioManager.play("casino_coin")
+		AudioManager.play_varied("big_wheel_tick", -2.0, 0.91, 1.08)
 	_prev_sector = current_sector
 
 	if is_instance_valid(_wheel_ctrl):
@@ -321,7 +321,7 @@ func _select_segment(seg: int) -> void:
 		return
 	_bet_segment = seg
 	_pad_seg_idx = seg
-	AudioManager.play("casino_bet")
+	AudioManager.play_ui_click(-8.0)
 	_refresh()
 
 func _select_stake(s: int) -> void:
@@ -350,7 +350,8 @@ func _do_spin() -> void:
 	_pointer_scale       = 1.0
 	_phase               = Phase.SPINNING
 
-	AudioManager.play("casino_spin")
+	AudioManager.play_varied("chip_place")
+	AudioManager.play_delayed("roulette_wheel", 0.08, -2.0)
 	set_process(true)
 	_refresh()
 
@@ -380,6 +381,7 @@ func _finish_spin() -> void:
 		GameState.add_money(float(wagered + gain))
 		_net  += float(gain)
 		_wins += 1
+		AudioManager.play("chip_collect")
 		AudioManager.play_casino_result(float(gain), float(wagered), payout >= 45.0)
 		GameState.modify_hidden_stat("gambling_tendency", 2)
 	else:

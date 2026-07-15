@@ -248,6 +248,7 @@ def validate_daeun_wedding_contract(events: dict[str, dict[str, Any]]) -> None:
     final_id = "arc_daeun_wedding_aisle"
     expected_path = (
         "arc_daeun_wedding_day",
+        "arc_daeun_wedding_groom_side",
         "arc_daeun_wedding_walk",
         "arc_daeun_wedding_aisle",
     )
@@ -255,7 +256,7 @@ def validate_daeun_wedding_contract(events: dict[str, dict[str, Any]]) -> None:
     for path in paths:
         if path.event_ids != expected_path:
             raise ValueError(
-                "Daeun wedding path must retain the three-link aisle: "
+                "Daeun wedding path must retain the four-link reaction/aisle chain: "
                 f"{' -> '.join(path.event_ids)}"
             )
 
@@ -273,16 +274,42 @@ def validate_daeun_wedding_contract(events: dict[str, dict[str, Any]]) -> None:
                     f"{', '.join(sorted(leaked))}"
                 )
 
-    expected_cg_if_known = {
+    root = events[root_id]
+    if root.get("cg") != "cg_romance_wedding_daeun_mother_reaction":
+        raise ValueError("Daeun wedding mother reaction CG changed at entry")
+    if root.get("cg_if_known"):
+        raise ValueError("Daeun wedding mother reaction must not carry route variants")
+
+    groom_side = events["arc_daeun_wedding_groom_side"]
+    groom_side_cg_if_known = {
+        "father_passed&hyunsu_reconnected": "cg_romance_wedding_daeun_father_reaction_passed_hyunsu",
+        "father_passed": "cg_romance_wedding_daeun_father_reaction_passed",
+        "hyunsu_reconnected": "cg_romance_wedding_daeun_father_reaction_hyunsu",
+    }
+    if groom_side.get("cg") != "cg_romance_wedding_daeun_father_reaction":
+        raise ValueError("Daeun wedding groom-side reaction CG changed")
+    if list((groom_side.get("cg_if_known") or {}).items()) != list(groom_side_cg_if_known.items()):
+        raise ValueError("Daeun wedding groom-side state map or precedence changed")
+
+    wide_cg_if_known = {
         "daeun_wedding_full": "cg_romance_wedding_daeun_full",
         "daeun_wedding_small": "cg_romance_wedding_daeun_small",
     }
-    for event_id in expected_path:
-        event = events[event_id]
-        if event.get("cg") != "cg_romance_wedding_daeun_small":
-            raise ValueError(f"Daeun wedding legacy CG changed at {event_id}")
-        if event.get("cg_if_known") != expected_cg_if_known:
-            raise ValueError(f"Daeun wedding variant map changed at {event_id}")
+    walk = events["arc_daeun_wedding_walk"]
+    if walk.get("cg") != "cg_romance_wedding_daeun_small":
+        raise ValueError("Daeun wedding couple-wide CG changed at bride entrance")
+    if list((walk.get("cg_if_known") or {}).items()) != list(wide_cg_if_known.items()):
+        raise ValueError("Daeun wedding couple-wide package map changed")
+
+    close_cg_if_known = {
+        "daeun_wedding_full": "cg_romance_wedding_daeun_full_close",
+        "daeun_wedding_small": "cg_romance_wedding_daeun_small_close",
+    }
+    final_event = events[final_id]
+    if final_event.get("cg") != "cg_romance_wedding_daeun_small_close":
+        raise ValueError("Daeun wedding close CG changed at final aisle link")
+    if list((final_event.get("cg_if_known") or {}).items()) != list(close_cg_if_known.items()):
+        raise ValueError("Daeun wedding close package map changed at final aisle link")
 
     final_choices = events[final_id].get("choices") or []
     if len(final_choices) != 2:

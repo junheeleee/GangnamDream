@@ -7,7 +7,7 @@ var bgm_volume: float    = 0.25
 var sfx_enabled: bool    = true
 
 var _pool: Array[AudioStreamPlayer] = []
-const _POOL_SIZE = 8
+const _POOL_SIZE = 12
 var _sounds: Dictionary = {}
 var _last_sfx_ms: Dictionary = {}
 var _last_ending_stinger_id: String = ""
@@ -16,6 +16,8 @@ var _last_event_cue_id: String = ""
 var _last_event_cue_ms: int = 0
 var _last_direction_sting_token: String = ""
 var _last_direction_sting_ms: int = 0
+var _story_audio_generation: int = 0
+var _story_audio_seen: Dictionary = {}
 
 const _SFX_COOLDOWN_MS = {
 	"click": 45,
@@ -25,8 +27,28 @@ const _SFX_COOLDOWN_MS = {
 	"result_ledger": 120,
 	"result_human": 120,
 	"casino_coin": 24,
+	"card_shuffle": 500,
+	"card_deal": 24,
+	"card_flip": 45,
+	"chip_place": 35,
+	"chip_collect": 250,
+	"dice_cup_shake": 500,
+	"dice_roll": 35,
+	"roulette_wheel": 1000,
+	"roulette_ball": 35,
+	"roulette_land": 350,
+	"slot_start": 500,
+	"slot_reel_stop": 70,
+	"big_wheel_tick": 25,
+	"race_gate": 1000,
+	"horse_gallop": 40,
+	"race_crowd_rise": 2500,
+	"race_finish": 1000,
 	"civil_defense_siren": 5000,
 	"monsoon_rain": 1800,
+	"wedding_applause": 5000,
+	"wedding_cheer": 5000,
+	"distant_fireworks": 4500,
 }
 
 # 파일별 체감 라우드니스가 다른 큰 소리만 보정한다. 공용 UI음은 각 래퍼의
@@ -40,6 +62,26 @@ const _SFX_MIX_TRIM_DB = {
 	"ending_stinger_good": -7.0,
 	"ending_stinger_bad": -7.0,
 	"ending_stinger_legend": -9.0,
+	"wedding_applause": -2.0,
+	"wedding_cheer": -4.0,
+	"distant_fireworks": -3.0,
+	"card_shuffle": 0.0,
+	"card_deal": 2.0,
+	"card_flip": 2.0,
+	"chip_place": -1.0,
+	"chip_collect": 1.0,
+	"dice_cup_shake": 0.0,
+	"dice_roll": 1.0,
+	"roulette_wheel": 2.0,
+	"roulette_ball": 2.0,
+	"roulette_land": 0.0,
+	"slot_start": 1.0,
+	"slot_reel_stop": 0.0,
+	"big_wheel_tick": -1.0,
+	"race_gate": -2.0,
+	"horse_gallop": -4.0,
+	"race_crowd_rise": -2.0,
+	"race_finish": -2.0,
 }
 
 # wav 파일 → AudioManager key 매핑
@@ -77,6 +119,27 @@ const _SFX_FILES = {
 	"ending_stinger_good": "res://assets/audio/sfx_ending_stinger_good.wav",
 	"ending_stinger_bad": "res://assets/audio/sfx_ending_stinger_bad.wav",
 	"ending_stinger_legend": "res://assets/audio/sfx_ending_stinger_legend.wav",
+	"wedding_applause": "res://assets/audio/sfx_wedding_applause.wav",
+	"wedding_cheer": "res://assets/audio/sfx_wedding_cheer.wav",
+	"distant_fireworks": "res://assets/audio/sfx_distant_fireworks.wav",
+	# 카드·칩·기계 단계별 물리음. 공용 카지노 전자음은 결과 피드백에만 남긴다.
+	"card_shuffle": "res://assets/audio/sfx_card_shuffle.wav",
+	"card_deal": "res://assets/audio/sfx_card_deal.wav",
+	"card_flip": "res://assets/audio/sfx_card_flip.wav",
+	"chip_place": "res://assets/audio/sfx_chip_place.wav",
+	"chip_collect": "res://assets/audio/sfx_chip_collect.wav",
+	"dice_cup_shake": "res://assets/audio/sfx_dice_cup_shake.wav",
+	"dice_roll": "res://assets/audio/sfx_dice_roll.wav",
+	"roulette_wheel": "res://assets/audio/sfx_roulette_wheel.wav",
+	"roulette_ball": "res://assets/audio/sfx_roulette_ball.wav",
+	"roulette_land": "res://assets/audio/sfx_roulette_land.wav",
+	"slot_start": "res://assets/audio/sfx_slot_start.wav",
+	"slot_reel_stop": "res://assets/audio/sfx_slot_reel_stop.wav",
+	"big_wheel_tick": "res://assets/audio/sfx_big_wheel_tick.wav",
+	"race_gate": "res://assets/audio/sfx_race_gate.wav",
+	"horse_gallop": "res://assets/audio/sfx_horse_gallop.wav",
+	"race_crowd_rise": "res://assets/audio/sfx_race_crowd_rise.wav",
+	"race_finish": "res://assets/audio/sfx_race_finish.wav",
 }
 
 const _ENDING_AUDIO_LEGEND = [
@@ -147,6 +210,12 @@ func _make_fallback(key: String) -> AudioStreamWAV:
 		"casino_card":  return _tone(880, 0.06, [1.0, 0.6, 0.0])
 		"casino_jackpot": return _chord([523, 659, 784, 1047, 1319], 0.80, [0.0, 0.3, 0.8, 1.0, 0.8, 0.4, 0.0])
 		"casino_reel":  return _tone(494, 0.04, [1.0, 0.0])
+		"card_shuffle", "card_deal", "card_flip": return _tone(720, 0.10, [1.0, 0.25, 0.0])
+		"chip_place", "chip_collect": return _tone(1480, 0.08, [1.0, 0.35, 0.0])
+		"dice_cup_shake", "dice_roll": return _tone(310, 0.12, [1.0, 0.45, 0.0])
+		"roulette_wheel", "roulette_ball", "roulette_land": return _tone(540, 0.10, [1.0, 0.25, 0.0])
+		"slot_start", "slot_reel_stop", "big_wheel_tick": return _tone(420, 0.10, [1.0, 0.25, 0.0])
+		"race_gate", "horse_gallop", "race_crowd_rise", "race_finish": return _tone(180, 0.16, [1.0, 0.45, 0.0])
 		"civil_defense_siren": return _chord([740, 988], 0.75, [0.0, 0.8, 1.0, 0.8, 0.0])
 		"monsoon_rain": return _tone(180, 0.80, [0.0, 0.7, 1.0, 0.8, 0.0])
 		"ending_stinger_good": return _chord([523, 659, 784, 1047], 1.10, [0.0, 0.4, 1.0, 0.6, 0.0])
@@ -230,14 +299,30 @@ func play(sound_id: String, volume_mod: float = 0.0):
 		return
 	if sound_id == "click":
 		volume_mod -= 8.0
+	_play_from_pool(sound_id, volume_mod, 1.0)
+
+func play_varied(sound_id: String, volume_mod: float = 0.0,
+		pitch_min: float = 0.94, pitch_max: float = 1.06) -> void:
+	if not sfx_enabled or not _sounds.has(sound_id):
+		return
+	if _is_sfx_throttled(sound_id):
+		return
+	var low := minf(pitch_min, pitch_max)
+	var high := maxf(pitch_min, pitch_max)
+	_play_from_pool(sound_id, volume_mod, randf_range(low, high))
+
+func _play_from_pool(sound_id: String, volume_mod: float, pitch: float) -> void:
 	volume_mod += sfx_mix_trim_db(sound_id)
 	for p in _pool:
 		if not p.playing:
 			p.stream    = _sounds[sound_id]
 			p.volume_db = _vol_db() + volume_mod
-			p.pitch_scale = 1.0
+			p.pitch_scale = clampf(pitch, 0.5, 2.0)
 			p.play()
 			return
+
+func has_sound(sound_id: String) -> bool:
+	return _sounds.has(sound_id)
 
 func sfx_mix_trim_db(sound_id: String) -> float:
 	return float(_SFX_MIX_TRIM_DB.get(sound_id, 0.0))
@@ -286,6 +371,41 @@ func play_event_cue(ev: Dictionary) -> void:
 		_:
 			play(cue_key)
 
+func begin_story_audio_event(_event_id: String) -> void:
+	_story_audio_generation += 1
+	_story_audio_seen.clear()
+
+func play_scene_paragraph_cues(event_id: String, cg_id: String, paragraph_index: int) -> void:
+	var contract := BGMPlayer.scene_audio_contract(event_id, cg_id)
+	var paragraph_cues: Variant = contract.get("paragraph_cues", null)
+	if not (paragraph_cues is Dictionary):
+		return
+	var raw_cues: Variant = paragraph_cues.get(str(paragraph_index), null)
+	if not (raw_cues is Array):
+		return
+	for cue_index in range(raw_cues.size()):
+		var raw_cue: Variant = raw_cues[cue_index]
+		if not (raw_cue is Dictionary):
+			continue
+		var sound_id := str(raw_cue.get("sfx", ""))
+		if sound_id.is_empty() or not _sounds.has(sound_id):
+			continue
+		var cue_token := "%s:%s:%d:%d:%s" % [event_id, cg_id, paragraph_index, cue_index, sound_id]
+		if _story_audio_seen.has(cue_token):
+			continue
+		_story_audio_seen[cue_token] = true
+		var delay: float = maxf(0.0, float(raw_cue.get("delay", 0.0)))
+		var volume_mod: float = float(raw_cue.get("volume_db", 0.0))
+		_play_story_cue(sound_id, delay, volume_mod, _story_audio_generation)
+
+func _play_story_cue(sound_id: String, delay: float, volume_mod: float, generation: int) -> void:
+	if delay <= 0.0:
+		play(sound_id, volume_mod)
+		return
+	get_tree().create_timer(delay).timeout.connect(func():
+		if generation == _story_audio_generation:
+			play(sound_id, volume_mod))
+
 func _event_cue_key(ev: Dictionary) -> String:
 	var event_id := str(ev.get("id", "")).to_lower()
 	if event_id == "kx_civil_defense_siren":
@@ -320,6 +440,14 @@ func play_delayed(sound_id: String, delay: float, volume_mod: float = 0.0) -> vo
 		return
 	get_tree().create_timer(delay).timeout.connect(func():
 		play(sound_id, volume_mod))
+
+func play_delayed_varied(sound_id: String, delay: float, volume_mod: float = 0.0,
+		pitch_min: float = 0.94, pitch_max: float = 1.06) -> void:
+	if delay <= 0.0:
+		play_varied(sound_id, volume_mod, pitch_min, pitch_max)
+		return
+	get_tree().create_timer(delay).timeout.connect(func():
+		play_varied(sound_id, volume_mod, pitch_min, pitch_max))
 
 func play_casino_result(net_amount: float, stake: float = 0.0, force_jackpot: bool = false) -> void:
 	var stake_abs: float = maxf(absf(stake), 1.0)

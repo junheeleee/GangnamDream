@@ -82,6 +82,11 @@ var _auto_button: Button = null
 var _auto_mode: bool = false
 var _auto_wait: float = -1.0
 var _auto_button_signature: String = ""
+var _audio_settings_button: Button = null
+var _audio_settings_popup: Control = null
+var _audio_settings_previous_focus: Control = null
+var _audio_bgm_slider: HSlider = null
+var _audio_sfx_slider: HSlider = null
 var _name_panel_visible_before_choices: bool = false
 var _choice_countdown_timer: Timer = null
 var _choice_countdown_bar: ProgressBar = null
@@ -673,15 +678,187 @@ func _build_ui():
 	_hud_label = Label.new()
 	_hud_label.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_hud_label.offset_left = 24
-	_hud_label.offset_right = -24
+	_hud_label.offset_right = -126
 	_hud_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_hud_label.add_theme_font_size_override("font_size", 14)
 	_hud_label.add_theme_color_override("font_color", Color("#aeb6c8"))
 	_hud_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_apply_font(_hud_label)
 	hud_panel.add_child(_hud_label)
+	_build_story_audio_settings_button()
 	_apply_story_surface_palette(false, true)
 	_build_story_ink_transition_layer()
+
+func _build_story_audio_settings_button() -> void:
+	_audio_settings_button = Button.new()
+	_audio_settings_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	_audio_settings_button.offset_left = -108
+	_audio_settings_button.offset_top = 5
+	_audio_settings_button.offset_right = -14
+	_audio_settings_button.offset_bottom = 33
+	_audio_settings_button.text = _tr("음량", "Audio")
+	_audio_settings_button.tooltip_text = _tr(
+		"장면 오디오 설정 (%s)" % ControllerHints.start_btn(),
+		"Scene audio settings (%s)" % ControllerHints.start_btn())
+	_audio_settings_button.focus_mode = Control.FOCUS_NONE
+	_audio_settings_button.z_index = 74
+	_audio_settings_button.add_theme_font_size_override("font_size", 12)
+	_audio_settings_button.add_theme_color_override("font_color", Color("#b8c0cc"))
+	_audio_settings_button.add_theme_color_override("font_hover_color", Color("#f1f4f8"))
+	if _font_bold:
+		_audio_settings_button.add_theme_font_override("font", _font_bold)
+	var normal := _story_panel_style(Color("#0a0c10", 0.82), Color("#343a43", 0.88), 4, 12, 4)
+	var hover := normal.duplicate()
+	hover.bg_color = Color("#171b21", 0.96)
+	hover.border_color = Color("#8a949f")
+	_audio_settings_button.add_theme_stylebox_override("normal", normal)
+	_audio_settings_button.add_theme_stylebox_override("hover", hover)
+	_audio_settings_button.add_theme_stylebox_override("pressed", hover)
+	_audio_settings_button.pressed.connect(_open_audio_settings)
+	add_child(_audio_settings_button)
+
+func _open_audio_settings() -> void:
+	if is_instance_valid(_audio_settings_popup):
+		return
+	_audio_settings_previous_focus = get_viewport().gui_get_focus_owner()
+	var overlay := ColorRect.new()
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.color = Color(0, 0, 0, 0.66)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	overlay.z_index = 120
+	add_child(overlay)
+	_audio_settings_popup = overlay
+	overlay.tree_exited.connect(func():
+		if _audio_settings_popup == overlay:
+			_audio_settings_popup = null)
+
+	var panel := PanelContainer.new()
+	panel.anchor_left = 0.5
+	panel.anchor_right = 0.5
+	panel.anchor_top = 0.5
+	panel.anchor_bottom = 0.5
+	panel.offset_left = -270
+	panel.offset_right = 270
+	panel.offset_top = -148
+	panel.offset_bottom = 148
+	panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	var palette := _story_palette()
+	panel.add_theme_stylebox_override("panel", _story_panel_style(
+		palette["panel_bg"], palette["panel_border"], 7, 30, 24, 3))
+	overlay.add_child(panel)
+
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 16)
+	panel.add_child(column)
+	var title := Label.new()
+	title.text = _tr("오디오", "Audio")
+	title.add_theme_font_size_override("font_size", 22)
+	title.add_theme_color_override("font_color", palette["focus"])
+	if _font_bold:
+		title.add_theme_font_override("font", _font_bold)
+	column.add_child(title)
+
+	var separator := HSeparator.new()
+	separator.modulate = palette["line"]
+	column.add_child(separator)
+	_audio_bgm_slider = _add_story_volume_row(
+		column, _tr("음악 / 환경음", "Music / Ambience"), AudioManager.bgm_volume,
+		func(value: float): AudioManager.set_bgm_volume(value))
+	_audio_sfx_slider = _add_story_volume_row(
+		column, _tr("효과음", "Sound Effects"), AudioManager.master_volume,
+		func(value: float): AudioManager.set_sfx_volume(value))
+
+	var close_button := Button.new()
+	close_button.text = _tr("닫기", "Close")
+	close_button.custom_minimum_size = Vector2(0, 42)
+	close_button.focus_mode = Control.FOCUS_ALL
+	close_button.add_theme_font_size_override("font_size", 15)
+	if _font_bold:
+		close_button.add_theme_font_override("font", _font_bold)
+	var close_normal := _story_panel_style(palette["choice_bg"], palette["panel_border"], 5, 16, 8)
+	var close_focus := close_normal.duplicate()
+	close_focus.bg_color = palette["choice_hover"]
+	close_focus.border_color = palette["focus"]
+	close_focus.set_border_width_all(2)
+	close_button.add_theme_stylebox_override("normal", close_normal)
+	close_button.add_theme_stylebox_override("hover", close_focus)
+	close_button.add_theme_stylebox_override("focus", close_focus)
+	close_button.add_theme_stylebox_override("pressed", close_focus)
+	close_button.pressed.connect(_close_audio_settings)
+	column.add_child(close_button)
+
+	_audio_bgm_slider.focus_neighbor_bottom = _audio_sfx_slider.get_path()
+	_audio_sfx_slider.focus_neighbor_top = _audio_bgm_slider.get_path()
+	_audio_sfx_slider.focus_neighbor_bottom = close_button.get_path()
+	close_button.focus_neighbor_top = _audio_sfx_slider.get_path()
+	_audio_bgm_slider.call_deferred("grab_focus")
+	AudioManager.play_ui_open(-12.0)
+
+	var close_from_backdrop := func(event: InputEvent):
+		if event is InputEventMouseButton and event.pressed:
+			_close_audio_settings()
+	overlay.gui_input.connect(close_from_backdrop)
+
+func _add_story_volume_row(
+		parent: Control, label_text: String, initial_value: float, on_change: Callable) -> HSlider:
+	var row := HBoxContainer.new()
+	row.custom_minimum_size = Vector2(0, 50)
+	row.add_theme_constant_override("separation", 14)
+	parent.add_child(row)
+	var label := Label.new()
+	label.text = label_text
+	label.custom_minimum_size = Vector2(142, 0)
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.add_theme_font_size_override("font_size", 15)
+	label.add_theme_color_override("font_color", _story_palette()["text"])
+	if _font:
+		label.add_theme_font_override("font", _font)
+	row.add_child(label)
+	var slider := HSlider.new()
+	slider.min_value = 0.0
+	slider.max_value = 1.0
+	slider.step = 0.05
+	slider.value = initial_value
+	slider.custom_minimum_size = Vector2(260, 42)
+	slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	slider.focus_mode = Control.FOCUS_ALL
+	var slider_focus := StyleBoxFlat.new()
+	slider_focus.bg_color = Color(0, 0, 0, 0)
+	slider_focus.border_color = _story_palette()["focus"]
+	slider_focus.set_border_width_all(2)
+	slider_focus.set_corner_radius_all(4)
+	slider_focus.content_margin_left = 8
+	slider_focus.content_margin_right = 8
+	slider.add_theme_stylebox_override("focus", slider_focus)
+	row.add_child(slider)
+	var value_label := Label.new()
+	value_label.text = "%d%%" % int(roundf(initial_value * 100.0))
+	value_label.custom_minimum_size = Vector2(48, 0)
+	value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	value_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	value_label.add_theme_font_size_override("font_size", 14)
+	value_label.add_theme_color_override("font_color", _story_palette()["dim"])
+	if _font:
+		value_label.add_theme_font_override("font", _font)
+	row.add_child(value_label)
+	slider.value_changed.connect(func(value: float):
+		value_label.text = "%d%%" % int(roundf(value * 100.0))
+		on_change.call(value))
+	return slider
+
+func _close_audio_settings() -> void:
+	if not is_instance_valid(_audio_settings_popup):
+		_audio_settings_popup = null
+		return
+	var popup := _audio_settings_popup
+	_audio_settings_popup = null
+	_audio_bgm_slider = null
+	_audio_sfx_slider = null
+	popup.queue_free()
+	AudioManager.play_ui_close(-14.0)
+	if is_instance_valid(_audio_settings_previous_focus):
+		_audio_settings_previous_focus.call_deferred("grab_focus")
+	_audio_settings_previous_focus = null
 
 func _build_story_ink_transition_layer() -> void:
 	_story_ink_transition_layer = Control.new()
@@ -801,11 +978,10 @@ func _resolved_event_portrait_id() -> String:
 	var portrait_id := str(_current.get("portrait", ""))
 	var known_map: Variant = _current.get("portrait_if_known", null)
 	if known_map is Dictionary:
-		# Match description_if_known ordering so prose and wardrobe resolve from
-		# the same first-known fact.
-		for flag_id in known_map.keys():
-			if GameState.flags.get(str(flag_id), false):
-				return str(known_map[flag_id])
+		# First match wins. Compound facts use the same ampersand syntax as CGs.
+		for condition_key in known_map.keys():
+			if _known_flag_condition_matches(str(condition_key)):
+				return str(known_map[condition_key])
 	return portrait_id
 
 func _resolved_event_cg_id() -> String:
@@ -813,10 +989,19 @@ func _resolved_event_cg_id() -> String:
 	var known_map: Variant = _current.get("cg_if_known", null)
 	if known_map is Dictionary:
 		# Use the same first-known ordering as description and portrait variants.
-		for flag_id in known_map.keys():
-			if GameState.flags.get(str(flag_id), false):
-				return str(known_map[flag_id])
+		# Ampersand joins route facts that must all be true. Compound entries must
+		# remain before their simpler fallbacks in authored JSON order.
+		for condition_key in known_map.keys():
+			if _known_flag_condition_matches(str(condition_key)):
+				return str(known_map[condition_key])
 	return cg_id
+
+func _known_flag_condition_matches(condition_key: String) -> bool:
+	for raw_flag_id in condition_key.split("&", false):
+		var flag_id := str(raw_flag_id).strip_edges()
+		if flag_id.is_empty() or not GameState.flags.get(flag_id, false):
+			return false
+	return true
 
 func _render_current():
 	_reset_scene_direction()
@@ -888,8 +1073,9 @@ func _render_current():
 				_bg_img.texture = load(bp)
 				_event_background_id = bg_id
 	_apply_story_surface_palette(_current_uses_cg)
-	BGMPlayer.update_event_ambience(_current)
-	BGMPlayer.begin_story_event(_current)
+	BGMPlayer.update_event_ambience(_current, _event_cg_id)
+	BGMPlayer.begin_story_event(_current, _event_cg_id)
+	AudioManager.begin_story_audio_event(str(_current.get("id", "")))
 	AudioManager.play_event_cue(_current)
 	_apply_scene_direction_entry()
 
@@ -923,9 +1109,9 @@ func _render_current():
 	var know_variant: String = ""
 	var know_map = _current.get("description_if_known", null)
 	if know_map is Dictionary:
-		for fl in know_map.keys():
-			if GameState.flags.get(str(fl), false):
-				know_variant = str(know_map[fl])
+		for condition_key in know_map.keys():
+			if _known_flag_condition_matches(str(condition_key)):
+				know_variant = str(know_map[condition_key])
 				break
 	if know_variant == "":
 		var held_map = _current.get("description_if_held", null)
@@ -950,9 +1136,9 @@ func _render_current():
 	# 첫 매치만 붙여 한 장면에 기억 문단이 겹쳐 쌓이지 않게 한다.
 	var memory_map = _current.get("description_memory_if_known", null)
 	if memory_map is Dictionary:
-		for fl in memory_map.keys():
-			if GameState.flags.get(str(fl), false):
-				var memory_text := str(memory_map[fl]).strip_edges()
+		for condition_key in memory_map.keys():
+			if _known_flag_condition_matches(str(condition_key)):
+				var memory_text := str(memory_map[condition_key]).strip_edges()
 				if not memory_text.is_empty():
 					desc_raw += "\n\n" + memory_text
 				break
@@ -970,7 +1156,13 @@ func _render_current():
 	if _paragraphs.is_empty():
 		_paragraphs = [""]
 	_para_index = 0
+	_play_current_paragraph_audio(_para_index)
 	_start_typing(_paragraphs[0])
+
+func _play_current_paragraph_audio(paragraph_index: int) -> void:
+	var event_id := str(_current.get("id", ""))
+	BGMPlayer.play_scene_paragraph_music(_current, _event_cg_id, paragraph_index)
+	AudioManager.play_scene_paragraph_cues(event_id, _event_cg_id, paragraph_index)
 
 func _event_background_id_for_paragraph(paragraph_index: int) -> String:
 	if _event_paragraph_backgrounds.is_empty():
@@ -1008,6 +1200,7 @@ func _maybe_reveal_event_cg(paragraph_index: int) -> void:
 	_play_story_ink_transition("scene", 0.65)
 	_bg_img.texture = load(_event_cg_path)
 	_apply_story_surface_palette(true)
+	BGMPlayer.update_event_ambience(_current, _event_cg_id)
 	_show_portrait(_resolved_event_portrait_id(), true)
 	if _hud_panel != null and is_instance_valid(_hud_panel):
 		_hud_panel.visible = false
@@ -1238,7 +1431,7 @@ func _process(delta):
 
 # ── 입력: 클릭하여 진행 ───────────────────────────────────────
 func _on_advance():
-	if _transitioning or _showing_choices:
+	if _transitioning or _showing_choices or is_instance_valid(_audio_settings_popup):
 		return
 	if _direction_hold_active:
 		return
@@ -1259,6 +1452,8 @@ func _on_advance():
 		_maybe_change_event_background(_para_index)
 		_maybe_reveal_event_portrait(_para_index)
 		_maybe_reveal_event_cg(_para_index)
+		if not _pending_after_result:
+			_play_current_paragraph_audio(_para_index)
 		if str(_direction.get("pace", "")) == "beat":
 			_begin_direction_beat(str(_paragraphs[_para_index]))
 		else:
@@ -1275,6 +1470,16 @@ func _on_advance():
 # ── 컨트롤러 입력 ─────────────────────────────────────────────
 func _unhandled_input(event: InputEvent):
 	if _transitioning:
+		return
+	if is_instance_valid(_audio_settings_popup):
+		if event.is_action_pressed("gd_menu") or event.is_action_pressed("ui_cancel"):
+			_close_audio_settings()
+		get_viewport().set_input_as_handled()
+		return
+	if event.is_action_pressed("gd_menu"):
+		if not is_instance_valid(_tutorial_popup):
+			_open_audio_settings()
+		get_viewport().set_input_as_handled()
 		return
 	if is_instance_valid(_tutorial_popup):
 		if event.is_action_pressed("ui_accept") or event.is_action_pressed("ui_cancel"):
@@ -1332,6 +1537,7 @@ func _can_auto_advance() -> bool:
 			and not _direction_hold_active \
 			and not _direction_beat_waiting \
 			and not is_instance_valid(_tutorial_popup) \
+			and not is_instance_valid(_audio_settings_popup) \
 			and is_instance_valid(_continue_hint) \
 			and _continue_hint.visible
 
@@ -1918,9 +2124,11 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 			_play_story_ink_transition("scene", 0.55)
 			_bg_img.texture = load(result_cg_path)
 			_current_uses_cg = true
+			_event_cg_id = result_cg_id
 			if not _read_only_replay:
 				MetaProgression.record_cg_unlocked(result_cg_id)
 			_apply_story_surface_palette(true)
+			BGMPlayer.update_event_ambience(_current, result_cg_id)
 			_show_portrait(_resolved_event_portrait_id(), true)
 			if _hud_panel != null and is_instance_valid(_hud_panel):
 				_hud_panel.visible = false

@@ -245,24 +245,47 @@ Create one transparent-style Korean VN portrait of Kim Daeun, age 33: the same s
 Stage the accepted proposal in a rainy Seoul cafe from a restrained over-Minjun-shoulder wide camera. Daeun wears the exact berry-red dress and charcoal cardigan, keeps her short hair and left-temple clip, looks screen-left at Minjun through restrained tears, and covers her mouth with one anatomically clear five-finger hand. Exactly one open ring box with one ring sits visibly on the upper table; her other hand rests naturally beside it. Minjun is only a cropped black-crewneck shoulder/forearm at lower-left. Keep Daeun's face, hand, and ring box above the lower 34% dialogue-safe area. No kneeling, ring already worn, lens gaze, duplicate hands, luxury restaurant, wedding dress, text, logo, or extra people.
 ```
 
-### wedding_daeun_small_v1.png
+### wedding_daeun_mother_reaction_v1.png
 
-- **최종 경로**: `assets/cg/romance/wedding_daeun_small_v1.png`
-- **최종 생성 원본**: `/Users/junheelee/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-38a20b7a-c701-4a87-a868-4955ac421638.png`
+- **최종 경로**: `assets/cg/romance/wedding_daeun_mother_reaction_v1.png`
+- **최종 생성 원본**: `/Users/junheelee/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-1abd5964-5847-4395-bbe2-43be82f7d36a.png`
 - **최종 프롬프트**:
 
 ```text
-Show Minjun entering a modest physically plausible small Seoul wedding hall from a wide camera behind his charcoal-suited back. Daeun waits at the far end in a simple ivory A-line dress, short veil, small lisianthus-and-greenery bouquet, and natural makeup, preserving her short hair, clip, face, and age. The bride side is visibly full while the groom side has only a few anonymous distant guests and empty chairs. Use restrained white/green flowers, low ceiling, and a practical aisle. Keep Daeun, aisle imbalance, and guest rows above the dialogue-safe lower area. No identifiable Father, Mother, Hyunsu, readable signs, brands, lens gaze, luxury ballroom, or duplicated people.
+Isolate Daeun's mother in a bride-side reaction shot inside one contemporary Seoul wedding hall. She sits naturally in the screen-left front aisle chair, wears a muted dusty-rose jeogori with a crisp ivory collar and deep muted raspberry chima, rests both hands on her lap, and watches her unseen daughter enter with restrained emotion. Unnamed guests behind her are varied low-contrast faceless silhouettes. Keep chair perspective altar-facing and her face and hands above the dialogue-safe zone. No bride, groom, extra named face, paper, phone, lens gaze, text, logo, or duplicated hands.
 ```
 
-### wedding_daeun_full_v1.png
+### wedding_daeun_father_reaction_v1.png 계열
 
-- **최종 경로**: `assets/cg/romance/wedding_daeun_full_v1.png`
-- **최종 생성 원본**: `/Users/junheelee/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-f017add7-3e2f-4310-8f9f-a9144af05788.png`
+- **최종 경로/원본**:
+  - `wedding_daeun_father_reaction_v1.png` — `exec-2899fc0a-f2f3-4b48-b43f-13708bb6cbb9.png`
+  - `wedding_daeun_father_reaction_hyunsu_v1.png` — `exec-592d5ad6-d99e-4e73-bcba-d6510e097ad8.png`
+  - `wedding_daeun_father_reaction_passed_v1.png` — `exec-c3f5a5b0-efcd-4071-824d-8ab1ff7f4bc8.png`
+  - `wedding_daeun_father_reaction_passed_hyunsu_v1.png` — `exec-8b20a907-d551-4fec-b3dd-c656ae19ad8b.png`
 - **최종 프롬프트**:
 
 ```text
-Preserve the exact behind-Minjun aisle camera, Daeun identity, and social seating imbalance of the small-wedding variant, but depict the expensive full package: a larger polished Korean wedding hall, higher ceiling, professional floral arch, layered aisle lighting, refined ivory satin A-line gown with restrained beaded bodice, longer veil, and professional makeup that does not change Daeun's face or age. The bride side remains full and Minjun's groom side remains visibly sparse despite the upgraded venue. No identifiable conditional guest, celebrity ballroom, different groom suit, lens gaze, text, logo, or critical face below the dialogue-safe area.
+Isolate the screen-right groom-side front row. In the living-Father state, Minjun's father sits in a dark charcoal formal honju suit and looks screen-left toward the unseen aisle without lens contact. The reconnected state adds only canonical Hyunsu one full row behind Father: youthful stocky build, broad soft round face, full cheeks, low gentle almond eyes, rounded jaw, medium tousled wavy black hair, thin round metal glasses, navy guest suit, white shirt, and muted burgundy tie. His head and pupils turn screen-left toward the unseen bride rather than the lens. In father-passed states, Father's reserved front-row aisle chair is completely empty; the combined state keeps it empty while Hyunsu remains alone behind it. All unnamed guests are low-contrast faceless silhouettes. No generic stocky substitute, sharp or middle-aged face, mother, couple, spouse, child, memorial portrait, ghost, replacement guest, text, logo, or mismatched chair axis.
+```
+
+### wedding_daeun_small_v1.png / wedding_daeun_full_v1.png
+
+- **최종 경로**: `assets/cg/romance/wedding_daeun_small_v1.png`, `assets/cg/romance/wedding_daeun_full_v1.png`
+- **최종 생성 원본**: `exec-8b055007-da44-434a-9d1e-1e25dfe126e7.png`, `exec-d4f6beaf-5428-4606-a366-e100120e5b28.png`
+- **최종 프롬프트**:
+
+```text
+Show only Minjun and Daeun as identifiable people in an altar-to-rear-door wedding entrance wide. Minjun has entered first and waits at the altar in a fitted charcoal suit; Daeun enters later and walks toward him, meeting his gaze without looking at the lens. Lock Daeun's attractive adult face, short layered dark-brown hair, wispy bangs, left-temple clip, natural two-hand bouquet grip, and route-specific dress. Small route: modest plausible Seoul hall, simple ivory A-line dress, short veil, restrained flowers. Full route: polished Seoul hall, refined beaded ivory A-line gown, longer veil, coherent flowers and warm professional lighting. Any distant guests are anonymous low-contrast silhouettes. No readable parent, Hyunsu, extra named face, oversized head, text, or logo.
+```
+
+### wedding_daeun_small_close_v1.png / wedding_daeun_full_close_v1.png
+
+- **최종 경로**: `assets/cg/romance/wedding_daeun_small_close_v1.png`, `assets/cg/romance/wedding_daeun_full_close_v1.png`
+- **최종 생성 원본**: `exec-01a977e1-ee83-4e62-b691-1fa0040adb72.png`, `exec-deae033e-5b9a-44b7-8a56-4f55158f06b8.png`
+- **최종 프롬프트**:
+
+```text
+Move into a restrained medium-close wedding shot containing only Minjun and Daeun as identifiable people. Daeun has reached Minjun; they look naturally at each other rather than the lens. Lock her canonical attractive 33-year-old face, short layered dark-brown hair, wispy bangs, left-temple clip, warm almond eyes, adult proportions, clear bouquet hands, and small/full dress tier. Minjun retains the same lean face, short tousled black hair, and charcoal formal suit. Keep both heads, eye lines, hands, and bouquet above the lower dialogue-safe area. No parent, Hyunsu, extra named guest, oversized head, idol/teenage face, distorted hands, text, logo, or watermark.
 ```
 
 ### wedding_gap_jiyeon_v1.png
@@ -283,9 +306,9 @@ remove_chroma_key.py --auto-key border --soft-matte --transparent-threshold 12 -
 sips -z 768 512
 ```
 
-- 초상은 RGBA 512x768, 네 CG는 RGB 1280x800으로 확인했다.
-- Godot 4.6.2 재임포트 후 KO/EN `--qa=commitment` 각 11장으로 선택 전·수락/보류 결과·소형/풀 결혼식·지연 협상 도입/선택지 크롭을 확인했다.
-- `event_visual_contract_check.py --strict`는 58개 잠금, 부채 0을 통과했고 `cg_acting_contract_check.py`는 활성 CG 33장, 배우 계약 63개, 누락/고아 0을 통과했다.
+- 초상은 RGBA 512x768, 본 섹션의 CG는 RGB 1280x800으로 확인했다.
+- Godot 4.6.2 재임포트 후 KO/EN `--qa=commitment` 각 33장으로 제안 선택 전·수락/보류 결과, 다은 어머니·신랑석 상태·소형/풀 커플 와이드·근접, 지연 협상 크롭을 확인한다.
+- `event_visual_contract_check.py --strict`, `cg_acting_contract_check.py`, `cast_detail_contract_check.py`, `peak_scene_chain_audit.py`가 분리된 9개 다은 결혼식 CG의 라우팅·배우·시선·빈자리 계약을 함께 강제한다.
 - 상용 배포 전에는 사용한 생성 서비스의 당시 이용 약관과 계정 권리 범위를 별도 출시 증빙에 보관한다.
 
 ---

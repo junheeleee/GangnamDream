@@ -152,6 +152,64 @@ func _ready() -> void:
 		_fail("arc music did not enter after the silence window")
 		return
 
+	# 저작된 정점 음악은 지정 문단까지 기다리고, 체인 경계에서 재시작하지 않는다.
+	BGMPlayer.enter_ambient_bed(0.0)
+	var wedding_ev: Dictionary = DataRegistry.find_event("arc_daeun_wedding_day")
+	var wedding_walk_ev: Dictionary = DataRegistry.find_event("arc_daeun_wedding_walk")
+	var wedding_aisle_ev: Dictionary = DataRegistry.find_event("arc_daeun_wedding_aisle")
+	if wedding_ev.is_empty() or wedding_walk_ev.is_empty() or wedding_aisle_ev.is_empty():
+		_fail("wedding scene audio fixtures are missing")
+		return
+	BGMPlayer.update_event_ambience(wedding_ev, "cg_romance_wedding_daeun_mother_reaction")
+	BGMPlayer.begin_story_event(wedding_ev, "cg_romance_wedding_daeun_mother_reaction")
+	await get_tree().process_frame
+	if BGMPlayer._current_ambience_key != "wedding_hall" or not BGMPlayer._current_season_key.is_empty():
+		_fail("wedding CG did not select the authored hall ambience")
+		return
+	if BGMPlayer._music_mode != "ambient" or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("wedding reaction shot did not preserve ambience-only silence")
+		return
+	BGMPlayer.play_scene_paragraph_music(wedding_ev, "cg_romance_wedding_daeun_mother_reaction", 0)
+	await get_tree().process_frame
+	if BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("wedding processional started during the parent reaction shot")
+		return
+	BGMPlayer.begin_story_event(wedding_walk_ev, "cg_romance_wedding_daeun_small")
+	BGMPlayer.play_scene_paragraph_music(wedding_walk_ev, "cg_romance_wedding_daeun_small", 0)
+	await get_tree().create_timer(0.18).timeout
+	if BGMPlayer._current_key != "wedding_processional" or not BGMPlayer._player_a.playing:
+		_fail("wedding processional did not start on the bride entrance paragraph")
+		return
+	var processional_pos: float = BGMPlayer._player_a.get_playback_position()
+	BGMPlayer.begin_story_event(wedding_aisle_ev, "cg_romance_wedding_daeun_small_close")
+	BGMPlayer.play_scene_paragraph_music(wedding_aisle_ev, "cg_romance_wedding_daeun_small_close", 0)
+	await get_tree().process_frame
+	var continued_processional_pos: float = BGMPlayer._player_a.get_playback_position()
+	if continued_processional_pos + 0.05 < processional_pos:
+		_fail("wedding processional restarted across the scene chain: %.3f -> %.3f" % [
+			processional_pos, continued_processional_pos])
+		return
+
+	# 신부 입장 반응은 장면 진입음이 아니라 해당 문단에서 한 번만 겹친다.
+	AudioManager.begin_story_audio_event("arc_daeun_wedding_walk")
+	AudioManager.play_scene_paragraph_cues(
+		"arc_daeun_wedding_walk", "cg_romance_wedding_daeun_small", 1)
+	await get_tree().process_frame
+	if not _sfx_stream_playing("wedding_applause"):
+		_fail("wedding applause did not start on its authored paragraph")
+		return
+	await get_tree().create_timer(0.42).timeout
+	if not _sfx_stream_playing("wedding_cheer"):
+		_fail("wedding cheer did not layer after the applause")
+		return
+
+	# 엔딩 CG도 엔딩 음악 아래에 그림의 실제 장소음을 유지한다.
+	BGMPlayer.on_ending("with_daeun", "cg_ending_with_daeun")
+	await get_tree().process_frame
+	if BGMPlayer._current_ambience_key != "oneroom" or not BGMPlayer._ambience_player.playing:
+		_fail("ending CG did not apply its authored place ambience")
+		return
+
 	BGMPlayer.start_menu()
 	await get_tree().create_timer(0.15).timeout
 	BGMPlayer.start_menu()
@@ -387,3 +445,12 @@ func _ready() -> void:
 func _fail(msg: String) -> void:
 	push_error("BGM_CONTINUITY_FAIL " + msg)
 	get_tree().quit(1)
+
+func _sfx_stream_playing(sound_id: String) -> bool:
+	var expected: AudioStream = AudioManager._sounds.get(sound_id)
+	if expected == null:
+		return false
+	for player: AudioStreamPlayer in AudioManager._pool:
+		if player.playing and player.stream == expected:
+			return true
+	return false

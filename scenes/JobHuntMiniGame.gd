@@ -280,6 +280,7 @@ func _process(delta: float) -> void:
 
 # ── 진입 ─────────────────────────────────────────────────────────
 func open(mode: Mode) -> void:
+	BGMPlayer.enter_activity_ambience("office")
 	_mode = mode
 	current_mode = mode
 	_q_idx = 0
@@ -628,6 +629,7 @@ func _show_result() -> void:
 	_content_vb.add_child(ok_btn)
 
 func _on_finish(quality: int) -> void:
+	BGMPlayer.leave_activity_ambience("office")
 	visible = false
 	closed.emit(_stress_delta, quality)
 

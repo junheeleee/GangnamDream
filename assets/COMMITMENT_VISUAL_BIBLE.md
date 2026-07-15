@@ -35,23 +35,34 @@ The wedding-prep choice must survive into the wedding-day image. Both variants s
 
 ### Invariant Staging
 
+- Do not overload one frame with the couple, both families, Hyunsu, and the empty-seat state. The wedding is edited as four distinct shots: Daeun's mother reaction, groom-side reaction, couple entrance wide, and couple close.
 - Korean ceremony order is explicit: Minjun has already entered first and waits at the altar; Daeun enters afterward and walks from the rear doors toward him. The rear entrance, never an altar or podium, is visible behind Daeun.
-- Camera is behind/three-quarter behind Minjun at the altar and looks outward toward the entrance. Daeun approaches the camera and Minjun without lens contact.
-- Screen-left groom side is sparse; screen-right bride side is visibly fuller. The imbalance must read in one second without labels.
-- Guests remain anonymous and distant. Do not identify Father, Hyunsu, Daeun's mother, or any deceased/conditional person; those variants stay in prose and may contradict a baked guest face.
+- Couple cameras are behind/three-quarter behind Minjun at the altar and look outward toward the entrance. Daeun approaches Minjun without lens contact; Minjun and Daeun are the only identifiable people in these frames.
+- The mother reaction isolates Daeun's mother seated naturally at the screen-left bride-side front aisle chair. She wears one contemporary bride-side honju hanbok: muted dusty-rose jeogori, crisp ivory collar, deep muted raspberry chima, and looks toward her unseen daughter.
+- The groom-side reaction isolates the screen-right front row. A living Father wears a dark charcoal honju suit and looks toward the unseen aisle. `hyunsu_reconnected` adds Hyunsu alone one full row behind him. `father_passed` leaves Father's reserved front-row aisle chair entirely empty; the combined state preserves that empty chair with Hyunsu alone behind it. Hyunsu has no canonical spouse or child.
+- Every unnamed guest is a varied, low-contrast, faceless silhouette. No cloned crowd or extra named face competes with the subject of a reaction shot.
+- Both chair banks retain one altar-facing axis and mirror one another in perspective. Neither side may face the aisle or doors at an unrelated angle.
 - Daeun looks toward Minjun with contained emotion and a natural adult expression. Minjun's posture is tense but waiting, not defeated or staring at the lens.
-- Do not place critical guests in the lower dialogue-safe zone.
+- Keep faces, the reserved empty chair, and essential acting above the lower 34% StoryMode dialogue-safe zone.
+
+### Shared Reaction Shots
+
+- Bride-side asset: `assets/cg/romance/wedding_daeun_mother_reaction_v1.png`.
+- Groom-side assets: `wedding_daeun_father_reaction_v1.png`, `wedding_daeun_father_reaction_hyunsu_v1.png`, `wedding_daeun_father_reaction_passed_v1.png`, and `wedding_daeun_father_reaction_passed_hyunsu_v1.png` under `assets/cg/romance/`.
+- These reactions are shared by the small/full package routes because the human state, not the price tier, is their subject. Decor stays restrained enough to cut into either route without changing venue identity.
 
 ### Small Wedding
 
-- Asset: `assets/cg/romance/wedding_daeun_small_v1.png`.
+- Wide asset: `assets/cg/romance/wedding_daeun_small_v1.png`.
+- Close asset: `assets/cg/romance/wedding_daeun_small_close_v1.png`.
 - Venue: modest, physically plausible small Seoul wedding hall with simple chairs, restrained white/green flowers, low ceiling, and practical aisle.
 - Daeun: simple ivory A-line dress, minimal short veil, small lisianthus/greenery bouquet, natural makeup, same short hair and clip identity.
 - Minjun: clean charcoal suit with a plain dark tie. No luxury tuxedo styling.
 
 ### Full-Package Wedding
 
-- Asset: `assets/cg/romance/wedding_daeun_full_v1.png`.
+- Wide asset: `assets/cg/romance/wedding_daeun_full_v1.png`.
+- Close asset: `assets/cg/romance/wedding_daeun_full_close_v1.png`.
 - Venue: polished full-package Seoul wedding hall with refined wall lighting and more elaborate but coherent aisle flowers. It stays spatially comparable to the modest hall so the social imbalance, not sheer room size, remains the focal difference.
 - Daeun: refined ivory satin A-line gown with restrained beaded bodice and longer veil; professional makeup must not change her face or age.
 - Minjun: fitted charcoal formal suit. The image may look expensive, but groom-side emptiness remains visible.
@@ -70,6 +81,8 @@ The wedding-prep choice must survive into the wedding-day image. Both variants s
 
 - `arc_daeun_proposal` → `arc_daeun_proposal_last_cup` → `arc_daeun_proposal_answer`: all buildup frames retain the cafe background and proposal portrait. Only the final event's accepted choice owns `cg_romance_proposal_daeun`, revealed at result paragraph 1; the defer branch never reveals it.
 - `arc_daeun_wedding_prep`: choice 0 records `daeun_wedding_small`; choice 1 records `daeun_wedding_full`.
-- `arc_daeun_wedding_day` → `arc_daeun_wedding_walk` → `arc_daeun_wedding_aisle`: all three aisle frames retain the same ceremony variant. The default is the small CG for legacy saves; every link's `cg_if_known` selects the explicit small/full variant. Only the final aisle event may set `arc_daeun_wedding_day_seen`.
+- `arc_daeun_wedding_day` owns Daeun's mother reaction. It does not branch on package or groom-side state.
+- `arc_daeun_wedding_groom_side` owns the groom-side reaction. First-match precedence resolves `father_passed` plus `hyunsu_reconnected`; the combined state must be checked before either single-state fallback. Hyunsu attends alone. Legacy saves default to the living-Father reaction.
+- `arc_daeun_wedding_walk` owns the small/full couple-wide entrance frame. `arc_daeun_wedding_aisle` switches to the corresponding small/full couple close. Only the final aisle event may set `arc_daeun_wedding_day_seen`.
 - `arc_jiyeon_wedding_gap`: dedicated pre-decision full-scene CG.
-- All four CG files require active actor/camera/gaze/body contracts and Korean/English 1280x800 intro/choice/result captures where applicable.
+- All eleven commitment CG files (proposal 1, Daeun wedding 9, Jiyeon gap 1) require active actor/camera/gaze/body contracts and Korean/English 1280x800 intro/choice/result captures where applicable.

@@ -242,7 +242,7 @@ func _start_spin() -> void:
 	if is_instance_valid(_cabinet_overlay):
 		_cabinet_overlay.queue_redraw()
 
-	AudioManager.play("casino_spin")
+	AudioManager.play("slot_start")
 	AudioManager.pulse_gamepad(0.08, 0.18, 0.10)
 
 func _process(delta: float) -> void:
@@ -268,7 +268,7 @@ func _process(delta: float) -> void:
 		_reel_stopped[0] = true
 		var reels0: Array = _pending_result.get("reels", [4, 4, 4])
 		_set_reel_symbol(0, int(reels0[0]))
-		AudioManager.play("casino_reel")
+		AudioManager.play_varied("slot_reel_stop", 0.0, 0.94, 0.98)
 		_bump_reel(0)
 
 	# 릴 2 정지: SPIN_DURATION - 0.3초
@@ -277,7 +277,7 @@ func _process(delta: float) -> void:
 		_reel_stopped[1] = true
 		var reels1: Array = _pending_result.get("reels", [4, 4, 4])
 		_set_reel_symbol(1, int(reels1[1]))
-		AudioManager.play("casino_reel")
+		AudioManager.play_varied("slot_reel_stop", 0.0, 0.99, 1.03)
 		_bump_reel(1)
 
 	# 릴 3 정지: SPIN_DURATION
@@ -285,7 +285,7 @@ func _process(delta: float) -> void:
 		_reel_stopped[2] = true
 		var reels2: Array = _pending_result.get("reels", [4, 4, 4])
 		_set_reel_symbol(2, int(reels2[2]))
-		AudioManager.play("casino_reel")
+		AudioManager.play_varied("slot_reel_stop", 0.5, 1.04, 1.08)
 		_bump_reel(2)
 		set_process(false)
 		_finish_spin()

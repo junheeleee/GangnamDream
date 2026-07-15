@@ -95,7 +95,7 @@ func open() -> void:
 	visible = true
 	TutorialOverlay.maybe_show("blackjack", self)
 	_render()
-	AudioManager.play("casino_card")
+	AudioManager.play("card_shuffle")
 
 func _on_exit() -> void:
 	MetaProgression.record_minigame_play("blackjack")
@@ -236,11 +236,11 @@ func _deal() -> void:
 		_flash(_tr("현금 부족", "Insufficient cash"), "#e85d5d"); return
 	if BJ.shoe_remaining_ratio(_shoe) < SHOE_CUT:
 		_shoe = BJ.new_shoe(_rng)
+		AudioManager.play("card_shuffle")
 		_flash(_tr("🔀 슈 리셔플", "🔀 Shoe reshuffled"), "#c9a227")
 
 	GameState.add_money(-float(_stake))
-	AudioManager.play("casino_bet")
-	AudioManager.play_delayed("casino_coin", 0.08, -5.0)
+	AudioManager.play_varied("chip_place")
 	AudioManager.pulse_gamepad(0.07, 0.15, 0.08)
 	_spawn_bet_chip(_stake, Vector2(0.50, 0.66))
 	_dealer = [_shoe.pop_front(), _shoe.pop_front()]
@@ -270,7 +270,7 @@ func _deal() -> void:
 func _hit() -> void:
 	var hand := _split_hand()
 	hand.append(_shoe.pop_front())
-	AudioManager.play("casino_card")
+	AudioManager.play_varied("card_deal")
 	AudioManager.pulse_gamepad(0.04, 0.10, 0.06)
 	_show_table_banner("HIT", Color("#c9a227"), 0.38)
 	_screen_flash(Color("#c9a227"), 0.08, 0.16)
@@ -295,8 +295,7 @@ func _double_down() -> void:
 	var hand := _split_hand()
 	if GameState.money < float(_stake): return
 	GameState.add_money(-float(_stake))
-	AudioManager.play("casino_bet")
-	AudioManager.play_delayed("casino_coin", 0.08, -5.0)
+	AudioManager.play_varied("chip_place")
 	AudioManager.pulse_gamepad(0.10, 0.25, 0.10)
 	_spawn_bet_chip(_stake, Vector2(0.50, 0.66))
 	_show_table_banner("DOUBLE DOWN", Color("#f0b429"), 0.55)
@@ -316,8 +315,7 @@ func _do_split() -> void:
 	if (mini(v0 + 1, 10) != mini(v1 + 1, 10)) and not (v0 >= 9 and v1 >= 9): return
 	if GameState.money < float(_stake): return
 	GameState.add_money(-float(_stake))
-	AudioManager.play("casino_bet")
-	AudioManager.play_delayed("casino_coin", 0.08, -5.0)
+	AudioManager.play_varied("chip_place")
 	AudioManager.pulse_gamepad(0.08, 0.18, 0.08)
 	_spawn_bet_chip(_stake, Vector2(0.58, 0.66))
 	_show_table_banner("SPLIT", Color("#d4a0ff"), 0.52)
@@ -383,10 +381,13 @@ func _next_or_dealer() -> void:
 # ── 딜러 플레이 → 결과 ──────────────────────────────────────
 func _dealer_play_and_resolve() -> void:
 	# 딜러 두 번째 카드 공개 후 플레이
-	AudioManager.play("casino_card")
+	AudioManager.play_varied("card_flip")
 	AudioManager.pulse_gamepad(0.05, 0.13, 0.08)
 	_show_table_banner("DEALER", Color("#e85d5d"), 0.40)
+	var cards_before := _dealer.size()
 	BJ.dealer_play(_dealer, _shoe)
+	for i in range(_dealer.size() - cards_before):
+		AudioManager.play_delayed_varied("card_deal", 0.16 + float(i) * 0.11, -1.5)
 	_resolve_hand()
 
 func _resolve_hand() -> void:
@@ -1326,7 +1327,7 @@ func _pulse_node(node: Node, scale_to: float = 1.08, duration: float = 0.28) -> 
 
 func _play_card_sound_sequence(count: int, gap: float = 0.08) -> void:
 	for i in range(count):
-		AudioManager.play_delayed("casino_card", float(i) * gap, -1.5)
+		AudioManager.play_delayed_varied("card_deal", float(i) * gap, -1.5, 0.94, 1.07)
 
 func _spawn_bet_chip(stake: int, target_ratio: Vector2) -> void:
 	var root_size := size

@@ -441,6 +441,12 @@ FLAG_READ_GD  = [
 ]
 CAST_READ_GD  = re.compile(r'cast_has_flag\(\s*"([a-z0-9_]+)"\s*,\s*"([A-Za-z0-9_]+)"')
 
+def _known_condition_flags(raw_key):
+    """Known-variant keys may require several flags with `a&b` syntax."""
+    if not isinstance(raw_key, str):
+        return []
+    return [part.strip() for part in raw_key.split("&") if part.strip()]
+
 def _walk_event_flags(ev, game_sets, game_reads_json, cast_sets, cast_reads_json, where):
     cond = ev.get("conditions", {})
     if isinstance(cond, dict):
@@ -460,24 +466,24 @@ def _walk_event_flags(ev, game_sets, game_reads_json, cast_sets, cast_reads_json
     # description_if_known 키 = 렌더링 엔진이 flags.get()으로 읽는 플래그
     dik = ev.get("description_if_known", {})
     if isinstance(dik, dict):
-        for fl in dik.keys():
-            if isinstance(fl, str) and fl:
-                game_reads_json.setdefault(str(fl), []).append(where)
+        for condition_key in dik.keys():
+            for fl in _known_condition_flags(condition_key):
+                game_reads_json.setdefault(fl, []).append(where)
     memory_dik = ev.get("description_memory_if_known", {})
     if isinstance(memory_dik, dict):
-        for fl in memory_dik.keys():
-            if isinstance(fl, str) and fl:
-                game_reads_json.setdefault(str(fl), []).append(where)
+        for condition_key in memory_dik.keys():
+            for fl in _known_condition_flags(condition_key):
+                game_reads_json.setdefault(fl, []).append(where)
     pik = ev.get("portrait_if_known", {})
     if isinstance(pik, dict):
-        for fl in pik.keys():
-            if isinstance(fl, str) and fl:
-                game_reads_json.setdefault(str(fl), []).append(where)
+        for condition_key in pik.keys():
+            for fl in _known_condition_flags(condition_key):
+                game_reads_json.setdefault(fl, []).append(where)
     cik = ev.get("cg_if_known", {})
     if isinstance(cik, dict):
-        for fl in cik.keys():
-            if isinstance(fl, str) and fl:
-                game_reads_json.setdefault(str(fl), []).append(where)
+        for condition_key in cik.keys():
+            for fl in _known_condition_flags(condition_key):
+                game_reads_json.setdefault(fl, []).append(where)
     # 생각정리(thoughts.json) on_complete.flags = 완료 시 set되는 플래그
     oc = ev.get("on_complete", {})
     if isinstance(oc, dict):
@@ -1021,7 +1027,8 @@ def _gather_game_flags():
         endings = json.load(open(os.path.join(ROOT, "content", "endings.json"), encoding="utf-8"))
         for en in endings:
             if isinstance(en, dict) and isinstance(en.get("description_if_known"), dict):
-                reads |= set(en["description_if_known"].keys())
+                for condition_key in en["description_if_known"].keys():
+                    reads |= set(_known_condition_flags(condition_key))
     except Exception:
         pass
     LIT = re.compile(r'"([A-Za-z0-9_]+)"')
@@ -1257,12 +1264,20 @@ def check_dik_shadowing():
     for owner, dik, trig in dik_owners:
         keys = list(dik.keys())
         for i, late in enumerate(keys):
+            late_flags = set(_known_condition_flags(late))
             for early in keys[:i]:
-                if trig and early == trig:
+                early_flags = set(_known_condition_flags(early))
+                trigger_flags = set(_known_condition_flags(trig))
+                if trigger_flags and early_flags and early_flags.issubset(trigger_flags):
                     errors.append("dik 섀도잉: %s의 '%s'는 트리거 필수 키 '%s' 뒤라 영원히 발화 불가 — 앞으로 이동할 것" % (owner, late, early))
-                ls, es = setters.get(late, set()), setters.get(early, set())
-                if ls and ls.issubset(es):
-                    errors.append("dik 섀도잉: %s의 '%s'는 '%s'와 항상 함께 set되는데 뒤 순서라 발화 불가 — 구체 키를 앞으로" % (owner, late, early))
+                elif early_flags and early_flags.issubset(late_flags):
+                    errors.append("dik 섀도잉: %s의 복합 조건 '%s'는 더 넓은 선행 조건 '%s' 뒤라 발화 불가 — 구체 키를 앞으로" % (owner, late, early))
+                elif len(late_flags) == 1 and len(early_flags) == 1:
+                    late_flag = next(iter(late_flags))
+                    early_flag = next(iter(early_flags))
+                    ls, es = setters.get(late_flag, set()), setters.get(early_flag, set())
+                    if ls and ls.issubset(es):
+                        errors.append("dik 섀도잉: %s의 '%s'는 '%s'와 항상 함께 set되는데 뒤 순서라 발화 불가 — 구체 키를 앞으로" % (owner, late, early))
 
 def main():
     print(C.BOLD + "═══ 강남드림 정적 감사 ═══" + C.Z)

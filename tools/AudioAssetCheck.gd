@@ -10,12 +10,15 @@ func _ready() -> void:
 	_check_bgm()
 	_check_optional_moral_theme_pack()
 	_check_ambience()
+	_check_human_ambience()
 	_check_sfx()
 	_check_used_sfx_keys()
 	_check_ending_audio_tones()
 	if _failures.is_empty():
 		print("AUDIO_ASSET_CHECK_OK bgm=%d ambience=%d sfx=%d" % [
-			BGMPlayer.TRACKS.size(), BGMPlayer.AMBIENCE_TRACKS.size(), AudioManager._SFX_FILES.size()])
+			BGMPlayer.TRACKS.size(),
+			BGMPlayer.AMBIENCE_TRACKS.size() + BGMPlayer.HUMAN_AMBIENCE_TRACKS.size(),
+			AudioManager._SFX_FILES.size()])
 		get_tree().quit(0)
 	else:
 		for failure in _failures:
@@ -47,6 +50,17 @@ func _check_ambience() -> void:
 	for key in BGMPlayer.AMBIENCE_TRACKS:
 		_check_audio_stream("AMBIENCE:%s" % key, str(BGMPlayer.AMBIENCE_TRACKS[key]))
 
+func _check_human_ambience() -> void:
+	for key in BGMPlayer.HUMAN_AMBIENCE_TRACKS:
+		_check_audio_stream(
+			"HUMAN_AMBIENCE:%s" % key, str(BGMPlayer.HUMAN_AMBIENCE_TRACKS[key]))
+	for world_key in BGMPlayer.HUMAN_AMBIENCE_BY_WORLD:
+		var human_key := str(BGMPlayer.HUMAN_AMBIENCE_BY_WORLD[world_key])
+		if not BGMPlayer.AMBIENCE_TRACKS.has(world_key):
+			_failures.append("Human ambience world key is not a room tone: %s" % world_key)
+		if not BGMPlayer.HUMAN_AMBIENCE_TRACKS.has(human_key):
+			_failures.append("Human ambience profile is missing: %s -> %s" % [world_key, human_key])
+
 func _check_sfx() -> void:
 	for key in AudioManager._SFX_FILES:
 		_check_audio_stream("SFX:%s" % key, str(AudioManager._SFX_FILES[key]))
@@ -54,7 +68,7 @@ func _check_sfx() -> void:
 func _check_used_sfx_keys() -> void:
 	var used := {}
 	var re := RegEx.new()
-	re.compile("AudioManager\\.play\\(\\\"([a-z_]+)\\\"")
+	re.compile("AudioManager\\.play(?:_delayed|_varied|_delayed_varied)?\\(\\\"([a-z_]+)\\\"")
 	for dir in ["res://autoloads", "res://scenes", "res://systems", "res://ui_components", "res://tools"]:
 		_scan_audio_calls(dir, re, used)
 	for key in used.keys():

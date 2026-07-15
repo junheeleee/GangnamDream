@@ -52,6 +52,17 @@ Gold, green, and saturated blue are no longer brand colors. They can remain as n
 - Do not convert the whole game to pixel art. Gangnam Dream needs faces, class signals, and Seoul spaces to remain readable. Use subtle ink-print screening, grain, and light tonal stepping as a unifying film stock instead.
 - Pixel/dither language is allowed only as a controlled accent: casino machines, money fixation, memory collapse, or Black-route disorientation. It should never make the whole UI look like a cheap filter.
 
+### Narrative Detail Hierarchy
+
+`assets/cast_detail_manifest.json` (`CAST_DETAIL_CONTRACT_V1`) is the machine-readable rule. Detail follows narrative agency, not a person's social worth.
+
+- **A / Story anchor:** Minjun and the relationship-changing cast keep authored faces, eye-lines, outfits, full acting, and restrained color. Moral Black may corrode the frame but cannot erase their gaze or gesture.
+- **B / Scene actor:** recurring supporting cast and one-scene people who carry an action keep a distinct age, silhouette, posture, and simplified readable face. They use a narrower Gangnam Ink palette so they support rather than compete with A-tier actors.
+- **C / Atmospheric extra:** anonymous commuters, patrons, guests, and crowds use two or three low-contrast value planes with scene-correct clothing and posture. They have no readable facial features, but they are not pure-black cutouts or cloned bodies.
+- Reusable backgrounds may embed only C-tier extras. A- and B-tier characters remain separate portraits or scene-specific CG actors.
+- Any person with dialogue, a choice-bearing action, a relationship state, or a required gaze target is A/B and must appear in `cg_acting_manifest.json` when baked into a CG.
+- Public locations should not be emptied merely to avoid AI artifacts. Population remains visible through C-tier depth silhouettes while the authored actors own the eye-lines and color contrast.
+
 ### VN Climax Layer
 
 Gangnam Dream is not a full monochrome game. Reusable locations and the interface use the restrained documentary surface so the moral drift can accumulate without becoming a color theme. One-off emotional CGs are a separate readability layer:
@@ -85,6 +96,21 @@ The target is **Korean social-reality VN with Japanese scene readability**, not 
 - Black transitions: short dim, edge burn, dry ledger contact, stable UI geometry.
 - White transitions: brief clarity lift, quieter edge, cleaner text.
 - Neutral transitions: fast matte crossfade with subtle paper grain.
+
+## Cross-Modal Era Lock
+
+The image and sound must feel made by the same 2026 Seoul production. Gangnam Ink is contemporary illustration, so its default soundtrack cannot use chiptune, 8-bit oscillators, arcade lasers, retro menu bleeps, or exaggerated mobile-game reward sounds.
+
+| Visual material | Matching sound material |
+|---|---|
+| Matte paper grain and concrete | Close, dry physical contact; restrained room reflections |
+| Contemporary Seoul architecture | Current traffic, HVAC, appliances, transit, and indistinct real-world population |
+| Clear A-tier face and eye-line | Human ambience with readable air and mid/high-frequency detail |
+| Black ink corrosion | Subtraction: people recede, machinery and silence remain; no obvious horror sting |
+| White clarity | Human detail and acoustic air return; no heavenly choir or gold-glow chord |
+| Emergency red | A short, serious transient only for actual danger |
+
+Diegetic casino or arcade cabinets may sound electronic when the visible machine justifies it, but those sounds stay inside that machine and never become the global UI language. Semantic audio keys are stable replacement slots: a timing-safe generated master may prove the interaction, but any synthetic-sounding launch asset must be replaced with a licensed or commissioned recording in the same slot.
 
 ## Asset Generation Prompt Prefix
 

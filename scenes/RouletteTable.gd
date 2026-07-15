@@ -164,7 +164,7 @@ func _process(delta: float) -> void:
 	# tick SFX: 0.15초마다
 	if _sfx_tick_timer >= SFX_TICK_INTERVAL:
 		_sfx_tick_timer = 0.0
-		AudioManager.play("casino_coin")
+		AudioManager.play_varied("roulette_ball", -2.0, 0.88, 1.16)
 
 	# 현재 단계 인터벌 도달 시 숫자 교체
 	var cur_interval: float = SPIN_PHASES[_spin_phase_idx]["interval"]
@@ -419,7 +419,7 @@ func _select_bet_type(t: int) -> void:
 		return
 	_bet_type = t
 	_sync_pad_cursor_to_bet(t)
-	AudioManager.play("casino_bet")
+	AudioManager.play_ui_click(-8.0)
 	_refresh()
 
 func _select_number(n: int) -> void:
@@ -427,7 +427,7 @@ func _select_number(n: int) -> void:
 	_chosen_number = n
 	_pad_mode = PadMode.NUMBER
 	_pad_number = n
-	AudioManager.play("casino_bet")
+	AudioManager.play_ui_click(-8.0)
 	_refresh()
 
 func _select_stake(s: int) -> void:
@@ -446,7 +446,7 @@ func _do_bet() -> void:
 		_flash(_tr("현금이 부족합니다", "Insufficient cash"), "#e85d5d"); return
 	_bet_amount = _stake
 	_pad_action_idx = 1
-	AudioManager.play("casino_bet")
+	AudioManager.play_varied("chip_place")
 	_refresh()
 
 func _do_spin() -> void:
@@ -471,7 +471,7 @@ func _do_spin() -> void:
 	_display_number   = _rng.randi_range(0, 36)
 
 	# 스핀 시작 SFX
-	AudioManager.play("casino_spin")
+	AudioManager.play("roulette_wheel")
 
 	# 베팅 버튼 반투명 (스핀 중 잠금 시각화)
 	_set_bet_btns_alpha(0.4)
@@ -480,6 +480,7 @@ func _do_spin() -> void:
 	_refresh()
 
 func _finish_spin() -> void:
+	AudioManager.play("roulette_land")
 	var result: int       = _result_number
 	var won: bool         = _roulette.check_win(_bet_type, _chosen_number, result)
 	var multiplier: float = _roulette.payout_multiplier(_bet_type)
@@ -490,6 +491,7 @@ func _finish_spin() -> void:
 		GameState.add_money(gain)
 		_net  += float(wagered) * multiplier
 		_wins += 1
+		AudioManager.play_delayed("chip_collect", 0.16)
 		AudioManager.play_casino_result(float(wagered) * multiplier, float(wagered), multiplier >= 35.0)
 		GameState.modify_hidden_stat("gambling_tendency", 2)
 	else:

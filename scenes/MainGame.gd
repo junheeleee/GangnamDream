@@ -10253,14 +10253,12 @@ func _open_jeongseon_casino():
 		return
 	GameState.register_action_axis("money", "expedition")
 	_enter_minigame_overlay(jeongseon_casino)
-	BGMPlayer.set_ambience("casino")
 	jeongseon_casino.open()
 
 func _on_jeongseon_casino_closed():
 	_exit_minigame_overlay()
 	turn_action_log.append(_tr("✓ 🎰 정선 카지노", "✓ 🎰 Jeongseon Casino"))
 	GameState.add_log(_tr("🎰 정선 카지노를 나왔다.", "🎰 Left the Jeongseon Casino."), "event")
-	BGMPlayer.update_idle_ambience()
 	_check_addiction_warnings()
 	_refresh_all()
 	_render_ap_actions()
@@ -12795,10 +12793,10 @@ func _demo_record_metric(title: String, value: String, hint: String, accent: Str
 	return card
 
 func _show_ending(ending_id):
-	BGMPlayer.on_ending(ending_id)  # BGM 엔딩 트랙으로 전환
-	AudioManager.play_ending_stinger(ending_id)
 	var ending: Dictionary = EndingSystem.get_ending(ending_id)
 	var ending_cg_id := str(ending.get("cg", ""))
+	BGMPlayer.on_ending(ending_id, ending_cg_id)  # BGM과 CG 장소음을 함께 전환
+	AudioManager.play_ending_stinger(ending_id)
 	var ending_cg_path := _get_ending_cg_path(ending)
 	if ending_cg_path != "" and ResourceLoader.exists(ending_cg_path):
 		MetaProgression.record_cg_unlocked(ending_cg_id)

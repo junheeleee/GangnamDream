@@ -15,6 +15,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=locale-gate
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=i18n-layout --lang=zh-CN
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-audio --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-moral --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=romance-cg
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=romance-portraits
@@ -68,6 +69,7 @@ const QA_SCOPE_TRAILER := "trailer"
 const QA_SCOPE_LOCALE_GATE := "locale_gate"
 const QA_SCOPE_I18N_LAYOUT := "i18n_layout"
 const QA_SCOPE_STORY_EN := "story_en"
+const QA_SCOPE_STORY_AUDIO := "story_audio"
 const QA_SCOPE_STORY_MORAL := "story_moral"
 const QA_SCOPE_MORAL_ANCHORS := "moral_anchors"
 const QA_SCOPE_ROMANCE_CG := "romance_cg"
@@ -212,6 +214,12 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_story_surfaces(lang, "story_en_" if lang == "en" else "story_ko_")
 		print("SCREENSHOT_QA_DONE scope=story-en lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_STORY_AUDIO:
+		var lang := _qa_language("en")
+		await _shot_story_audio_settings(lang, "story_audio_en_" if lang == "en" else "story_audio_ko_")
+		print("SCREENSHOT_QA_DONE scope=story-audio lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_STORY_MORAL:
@@ -503,6 +511,10 @@ func _qa_scope() -> String:
 				"qa=story-en", "--qa=story-en", "qa=story_en", "--qa=story_en",
 				"scope=story-en", "--scope=story-en", "scope=story_en", "--scope=story_en"]:
 			return QA_SCOPE_STORY_EN
+		if arg in ["story-audio", "story_audio", "vn-audio", "vn_audio",
+				"--story-audio", "--story_audio", "qa=story-audio", "--qa=story-audio",
+				"qa=story_audio", "--qa=story_audio", "scope=story-audio", "--scope=story-audio"]:
+			return QA_SCOPE_STORY_AUDIO
 		if arg in ["story-moral", "story_moral", "vn-moral", "vn_moral",
 				"--story-moral", "--story_moral", "qa=story-moral", "--qa=story-moral",
 				"qa=story_moral", "--qa=story_moral", "scope=story-moral", "--scope=story-moral"]:
@@ -1148,11 +1160,30 @@ func _assert_commitment_visual_state(story: Node, event_id: String, selected_cho
 		return
 	var daeun_wedding_events := [
 		"arc_daeun_wedding_day",
+		"arc_daeun_wedding_groom_side",
 		"arc_daeun_wedding_walk",
 		"arc_daeun_wedding_aisle",
 	]
 	if event_id in daeun_wedding_events:
-		var expected_id := "cg_romance_wedding_daeun_full" if GameState.flags.get("daeun_wedding_full", false) else "cg_romance_wedding_daeun_small"
+		var is_full: bool = bool(GameState.flags.get("daeun_wedding_full", false))
+		var expected_id := ""
+		if event_id == "arc_daeun_wedding_day":
+			expected_id = "cg_romance_wedding_daeun_mother_reaction"
+		elif event_id == "arc_daeun_wedding_groom_side":
+			var includes_hyunsu: bool = bool(GameState.flags.get("hyunsu_reconnected", false))
+			var father_passed: bool = bool(GameState.flags.get("father_passed", false))
+			if father_passed and includes_hyunsu:
+				expected_id = "cg_romance_wedding_daeun_father_reaction_passed_hyunsu"
+			elif father_passed:
+				expected_id = "cg_romance_wedding_daeun_father_reaction_passed"
+			elif includes_hyunsu:
+				expected_id = "cg_romance_wedding_daeun_father_reaction_hyunsu"
+			else:
+				expected_id = "cg_romance_wedding_daeun_father_reaction"
+		elif event_id == "arc_daeun_wedding_walk":
+			expected_id = "cg_romance_wedding_daeun_full" if is_full else "cg_romance_wedding_daeun_small"
+		else:
+			expected_id = "cg_romance_wedding_daeun_full_close" if is_full else "cg_romance_wedding_daeun_small_close"
 		_assert_story_cg(story, expected_id, event_id, true)
 		return
 	if event_id == "arc_jiyeon_wedding_gap":
@@ -2044,6 +2075,15 @@ func _collect_control_text(node: Node) -> String:
 		result += _collect_control_text(child)
 	return result
 
+func _contains_hangul(text: String) -> bool:
+	for index in range(text.length()):
+		var codepoint := text.unicode_at(index)
+		if (codepoint >= 0xAC00 and codepoint <= 0xD7A3) \
+				or (codepoint >= 0x3130 and codepoint <= 0x318F) \
+				or (codepoint >= 0x1100 and codepoint <= 0x11FF):
+			return true
+	return false
+
 func _shot_story_surfaces(lang: String = "en", prefix: String = "story_en_") -> void:
 	# 플래시포워드 콜드오픈(신규) — 프롤로그보다 앞서 재생되는 5년 뒤 씬.
 	await _shot_story_event("story_flashforward", prefix + "00_flashforward", lang, 1.0, true)
@@ -2080,6 +2120,34 @@ func _shot_story_surfaces(lang: String = "en", prefix: String = "story_en_") -> 
 	await _shot_story_event("arc_jiyeon_narrow_room_1", prefix + "13a1_romance_jiyeon_narrow_door", lang, 0.45, true, false, -1, 2, true)
 	await _shot_story_event("arc_jiyeon_narrow_room_2", prefix + "13b_romance_jiyeon_narrow_room", lang, 0.65, true)
 	await _shot_story_event("arc_jiyeon_narrow_room_2", prefix + "13c_romance_jiyeon_narrow_choices", lang, 0.45, true, true)
+
+func _shot_story_audio_settings(lang: String = "en", prefix: String = "story_audio_en_") -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	_prepare_story_event_fixture("arc_daeun_wedding_day")
+	GameState.flags["daeun_wedding_small"] = true
+	GameState.pending_story_queue = ["arc_daeun_wedding_day"]
+	var packed := load("res://scenes/StoryMode.tscn") as PackedScene
+	var story := packed.instantiate() as Control
+	get_tree().root.add_child.call_deferred(story)
+	await get_tree().process_frame
+	await _settle(0.55)
+	story.call("_complete_typing")
+	story.call("_open_audio_settings")
+	await _settle(0.35)
+	var popup := story.get("_audio_settings_popup") as Control
+	var bgm_slider := story.get("_audio_bgm_slider") as HSlider
+	var sfx_slider := story.get("_audio_sfx_slider") as HSlider
+	if not is_instance_valid(popup) or not is_instance_valid(bgm_slider) or not is_instance_valid(sfx_slider):
+		_fail("Story audio settings surface did not open.")
+		return
+	if lang == "en" and _contains_hangul(_collect_control_text(popup)):
+		_fail("Story audio settings leaked Hangul in English mode.")
+		return
+	await _save(prefix + "01_wedding_audio_settings")
+	_remove_nodes_by_script("res://scenes/StoryMode.gd")
+	GameState.pending_story_queue.clear()
+	await _settle(0.2)
 
 func _shot_romance_cg_tints(lang: String = "en", prefix: String = "romance_cg_en_") -> void:
 	_set_qa_language(lang)
@@ -2572,21 +2640,27 @@ func _shot_commitment_surfaces(lang: String = "en", prefix: String = "commitment
 	if not GameState.flags.get("daeun_wedding_small", false) or GameState.flags.get("daeun_wedding_full", false):
 		_fail("Daeun small-wedding choice did not preserve an exclusive small route flag.")
 		return
-	await _shot_story_event("arc_daeun_wedding_day", prefix + "13_wedding_small_entry", "", 0.45, true)
-	await _shot_story_event("arc_daeun_wedding_day", prefix + "14_wedding_small_entry_choices", "", 0.45, true, true)
-	await _shot_story_event("arc_daeun_wedding_day", prefix + "15_wedding_small_empty_chairs", "", 0.45, true, true, 0)
+	await _shot_story_event("arc_daeun_wedding_day", prefix + "13_wedding_mother_reaction", "", 0.45, true)
+	await _shot_story_event("arc_daeun_wedding_day", prefix + "14_wedding_mother_continue", "", 0.45, true, true)
+	await _shot_story_event("arc_daeun_wedding_day", prefix + "15_wedding_mother_reply", "", 0.45, true, true, 0)
 	if GameState.flags.get("arc_daeun_wedding_day_seen", false) \
 			or not GameState.flags.get("daeun_wedding_small", false) \
 			or GameState.flags.get("daeun_wedding_full", false):
-		_fail("Daeun wedding entry choice changed ceremony route flags or completed the wedding early.")
+		_fail("Daeun mother reaction changed ceremony route flags or completed the wedding early.")
 		return
-	await _shot_story_event("arc_daeun_wedding_walk", prefix + "16_wedding_small_walk", "", 0.45, true)
-	await _shot_story_event("arc_daeun_wedding_walk", prefix + "17_wedding_small_walk_reply", "", 0.45, true, true, 0)
+	await _shot_story_event("arc_daeun_wedding_groom_side", prefix + "16_wedding_father_reaction", "", 0.45, true)
+	await _shot_story_event("arc_daeun_wedding_groom_side", prefix + "17_wedding_groom_side_choices", "", 0.45, true, true)
+	await _shot_story_event("arc_daeun_wedding_groom_side", prefix + "18_wedding_empty_chairs_reply", "", 0.45, true, true, 0)
+	if GameState.flags.get("arc_daeun_wedding_day_seen", false):
+		_fail("Daeun groom-side reaction completed the wedding before the bride entrance.")
+		return
+	await _shot_story_event("arc_daeun_wedding_walk", prefix + "19_wedding_small_walk", "", 0.45, true)
+	await _shot_story_event("arc_daeun_wedding_walk", prefix + "20_wedding_small_walk_reply", "", 0.45, true, true, 0)
 	if GameState.flags.get("arc_daeun_wedding_day_seen", false):
 		_fail("Daeun wedding walk bridge completed the wedding before the aisle decision.")
 		return
-	await _shot_story_event("arc_daeun_wedding_aisle", prefix + "18_wedding_small_final_choices", "", 0.45, true, true)
-	await _shot_story_event("arc_daeun_wedding_aisle", prefix + "19_wedding_small_daeun_result", "", 0.45, true, true, 0)
+	await _shot_story_event("arc_daeun_wedding_aisle", prefix + "21_wedding_small_final_choices", "", 0.45, true, true)
+	await _shot_story_event("arc_daeun_wedding_aisle", prefix + "22_wedding_small_daeun_result", "", 0.45, true, true, 0)
 	if not GameState.flags.get("arc_daeun_wedding_day_seen", false) \
 			or not GameState.flags.get("daeun_wedding_small", false) \
 			or GameState.flags.get("daeun_wedding_full", false):
@@ -2594,14 +2668,13 @@ func _shot_commitment_surfaces(lang: String = "en", prefix: String = "commitment
 		return
 
 	_prepare_commitment_qa_state("daeun")
-	await _shot_story_event("arc_daeun_wedding_prep", prefix + "20_wedding_full_choice", "", 0.45, true, true, 1)
+	await _shot_story_event("arc_daeun_wedding_prep", prefix + "23_wedding_full_choice", "", 0.45, true, true, 1)
 	if not GameState.flags.get("daeun_wedding_full", false) or GameState.flags.get("daeun_wedding_small", false):
 		_fail("Daeun full-package choice did not preserve an exclusive full route flag.")
 		return
-	await _shot_story_event("arc_daeun_wedding_day", prefix + "21_wedding_full_entry", "", 0.45, true)
-	await _shot_story_event("arc_daeun_wedding_walk", prefix + "22_wedding_full_walk", "", 0.45, true)
-	await _shot_story_event("arc_daeun_wedding_aisle", prefix + "23_wedding_full_final_choices", "", 0.45, true, true)
-	await _shot_story_event("arc_daeun_wedding_aisle", prefix + "24_wedding_full_empty_seat_result", "", 0.45, true, true, 1)
+	await _shot_story_event("arc_daeun_wedding_walk", prefix + "24_wedding_full_walk", "", 0.45, true)
+	await _shot_story_event("arc_daeun_wedding_aisle", prefix + "25_wedding_full_final_choices", "", 0.45, true, true)
+	await _shot_story_event("arc_daeun_wedding_aisle", prefix + "26_wedding_full_empty_seat_result", "", 0.45, true, true, 1)
 	if not GameState.flags.get("arc_daeun_wedding_day_seen", false) \
 			or not GameState.flags.get("daeun_wedding_full", false) \
 			or GameState.flags.get("daeun_wedding_small", false):
@@ -2609,12 +2682,27 @@ func _shot_commitment_surfaces(lang: String = "en", prefix: String = "commitment
 		return
 
 	_prepare_commitment_qa_state("daeun")
-	await _shot_story_event("arc_daeun_wedding_day", prefix + "25_wedding_legacy_small_fallback", "", 0.45, true)
+	await _shot_story_event("arc_daeun_wedding_walk", prefix + "27_wedding_legacy_small_fallback", "", 0.45, true)
+
+	_prepare_commitment_qa_state("daeun")
+	GameState.flags["hyunsu_reconnected"] = true
+	await _shot_story_event("arc_daeun_wedding_groom_side", prefix + "28_wedding_father_hyunsu", "", 0.45, true)
+	_prepare_commitment_qa_state("daeun")
+	GameState.flags["father_passed"] = true
+	await _shot_story_event("arc_daeun_wedding_groom_side", prefix + "29_wedding_father_seat_empty", "", 0.45, true)
+	_prepare_commitment_qa_state("daeun")
+	GameState.flags["father_passed"] = true
+	GameState.flags["hyunsu_reconnected"] = true
+	await _shot_story_event("arc_daeun_wedding_groom_side", prefix + "30_wedding_empty_father_hyunsu_alone", "", 0.45, true)
+	_prepare_commitment_qa_state("daeun")
+	GameState.flags["father_reconciled"] = true
+	GameState.flags["hyunsu_reconnected"] = true
+	await _shot_story_event("arc_daeun_wedding_groom_side", prefix + "31_wedding_reconciled_father_hyunsu_copy", "", 0.45, true)
 
 	_prepare_commitment_qa_state("jiyeon")
-	await _shot_story_event("arc_jiyeon_wedding_gap", prefix + "26_jiyeon_gap_intro", "", 0.55, true)
+	await _shot_story_event("arc_jiyeon_wedding_gap", prefix + "32_jiyeon_gap_intro", "", 0.55, true)
 	_prepare_commitment_qa_state("jiyeon")
-	await _shot_story_event("arc_jiyeon_wedding_gap", prefix + "27_jiyeon_gap_choices", "", 0.45, true, true)
+	await _shot_story_event("arc_jiyeon_wedding_gap", prefix + "33_jiyeon_gap_choices", "", 0.45, true, true)
 
 func _shot_breakup_surfaces(lang: String = "en", prefix: String = "breakup_en_") -> void:
 	_set_qa_language(lang)

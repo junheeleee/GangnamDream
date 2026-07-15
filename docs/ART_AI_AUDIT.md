@@ -13,11 +13,11 @@
 
 ## 감사 결과
 
-- 활성 인벤토리: **179장** (`CG 50 / Portrait 54 / Background 75`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
+- 활성 인벤토리: **186장** (`CG 57 / Portrait 54 / Background 75`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
 - 전수 방법: 종류별 콘택트시트 22장으로 얼굴·실루엣·그레이딩·공간을 1차 비교하고, 손·반사·차량·카운터·정류장처럼 오독 위험이 있는 컷과 키 비주얼 10장은 원본 해상도로 다시 열었다.
 - 런타임 수리: 배경이 구워진 `main_character_50s.png`를 본편의 `player_hollow` 슬롯에서 제외하고 같은 민준의 투명 피로 초상으로 통합했다. 현재 이벤트가 없는 박재원의 죽은 초상 등록도 제거했다.
 - 이미지 수리: `ending_crypto_ghost.png`의 비현실적인 6면 모니터 벽을 정본 고시원 안의 휴대폰 1대·낡은 노트북 1대로 교체했다. 방 크기, 작은 불투명창, 침대/책상 방향, 민준 신원, 다섯 손가락, 무문자 차트를 원본에서 재검수했다.
-- 특별 정합: 사고 컷은 검은 장축 세단·한국식 왼쪽 운전석·운전석 문·자전거 두 바퀴를 유지한다. 정류장은 카메라가 벤치 등받이 뒤를 보며 좌석이 도로를 향한다. 편의점 CG는 다은이 카운터 안, 민준이 출입문 쪽에 있다.
+- 특별 정합: 사고 컷은 검은 장축 세단·한국식 왼쪽 운전석·운전석 문·자전거 두 바퀴를 유지한다. 정류장은 카메라가 벤치 등받이 뒤를 보며 좌석이 도로를 향한다. 편의점 CG는 다은이 카운터 안, 민준이 출입문 쪽에 있다. 다은 결혼식 9종은 한 프레임에 가족 상태를 과적하지 않고 `다은 어머니 반응 1 → 신랑석 상태 4 → 커플 와이드 2 → 커플 근접 2`로 분리한다. 어머니는 혼주 한복과 딸을 향한 시선, 아버지는 혼주 정장과 통로를 향한 시선, 별세 경로는 완전히 빈 예약석, 현수 재회 경로는 배우자·아이 없는 현수 단독을 지킨다. 커플 컷의 식별 인물은 민준·다은뿐이며 민준 선입장/다은 후입장·소형/풀 의상·상호 시선을 유지한다.
 - 글자 게이트: 전경 핵심 소품에는 판독을 요구하는 AI 글자가 없다. 투자 차트·포장지·책등의 작은 표식은 언어처럼 읽히지 않는 비서사 질감이며, 실제 UI 카피를 대신하지 않는다.
 - 최종 판정: **FAIL 0 / PENDING 0**. 비활성 원화는 향후 다시 등록할 때 새 감사 대상이 된다.
 
@@ -93,8 +93,15 @@
 | CG | `assets/cg/romance/proposal_daeun_v1.png` | `cg_romance_proposal_daeun` | 1280x800 | no | `43dd3019f278` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/romance/sea_daeun_v3.png` | `cg_romance_sea_daeun` | 1280x800 | no | `ab8f1fc8ff17` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/romance/sea_jiyeon_v2.png` | `cg_romance_sea_jiyeon` | 1280x800 | no | `66255a056e3d` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
-| CG | `assets/cg/romance/wedding_daeun_full_v1.png` | `cg_romance_wedding_daeun_full` | 1280x800 | no | `ffcb3d2637ef` | PASS-A | 원본·KO/EN 렌더 확인. 민준 선입장/단상 대기, 후면 문에서 다은 후입장, 화면 왼쪽 빈 신랑석/오른쪽 찬 신부석이 읽힌다. 다은의 성인 체형·얼굴·양손 꽃다발·민준을 향한 시선과 하단 안전 크롭에 이상 없음. |
-| CG | `assets/cg/romance/wedding_daeun_small_v1.png` | `cg_romance_wedding_daeun_small` | 1280x800 | no | `b2c89404d098` | PASS-A | 원본·KO/EN 렌더 확인. 민준 선입장/단상 대기, 후면 문에서 다은 후입장, 화면 왼쪽 빈 신랑석/오른쪽 찬 신부석이 읽힌다. 다은의 정본 얼굴·짧은 머리·양손 꽃다발·민준을 향한 시선과 하단 안전 크롭에 이상 없음. |
+| CG | `assets/cg/romance/wedding_daeun_father_reaction_hyunsu_v1.png` | `cg_romance_wedding_daeun_father_reaction_hyunsu` | 1280x800 | no | `5bd1b635fa1b` | REPAIRED-A | 신랑석 반응. 혼주 정장의 아버지는 통로를 보고, 현수는 정본의 넓고 부드러운 얼굴·웨이브·원형 안경을 유지한 채 배우자·아이 없이 한 줄 뒤에 단독 착석하며 두 사람 모두 렌즈를 보지 않는다. |
+| CG | `assets/cg/romance/wedding_daeun_father_reaction_passed_hyunsu_v1.png` | `cg_romance_wedding_daeun_father_reaction_passed_hyunsu` | 1280x800 | no | `c6e1465d86a6` | REPAIRED-A | 아버지 예약석은 완전히 비어 있고 정본 얼굴과 통로 시선을 유지한 현수만 한 줄 뒤에 단독 착석한다. 대체 혼주·배우자·아이·영정이 없다. |
+| CG | `assets/cg/romance/wedding_daeun_father_reaction_passed_v1.png` | `cg_romance_wedding_daeun_father_reaction_passed` | 1280x800 | no | `624d3649c593` | REPAIRED-A | 신랑석 앞줄 통로측 예약석이 완전히 비어 있으며 이름 있는 대체 하객·영정·유령 표현이 없다. |
+| CG | `assets/cg/romance/wedding_daeun_father_reaction_v1.png` | `cg_romance_wedding_daeun_father_reaction` | 1280x800 | no | `267dbbb868ff` | REPAIRED-A | 아버지 단독 반응. 혼주 정장, 자연스러운 착석 자세, 화면 왼쪽 통로를 향한 시선, 손·좌석 원근 통과. |
+| CG | `assets/cg/romance/wedding_daeun_full_v1.png` | `cg_romance_wedding_daeun_full` | 1280x800 | no | `9f5802b4cdd7` | REPAIRED-A | 풀 패키지 커플 와이드. 식별 인물은 민준·다은뿐이며 긴 베일·비즈 드레스·상호 시선·꽃다발 손과 후입장 동선 통과. |
+| CG | `assets/cg/romance/wedding_daeun_full_close_v1.png` | `cg_romance_wedding_daeun_full_close` | 1280x800 | no | `44cf880b8e84` | REPAIRED-A | 풀 패키지 커플 근접. 같은 얼굴·정장·드레스·베일, 자연스러운 눈맞춤과 해부학적 손, 낮은 대화창 안전 크롭 통과. |
+| CG | `assets/cg/romance/wedding_daeun_mother_reaction_v1.png` | `cg_romance_wedding_daeun_mother_reaction` | 1280x800 | no | `e2565e08f7f7` | REPAIRED-A | 다은 어머니 단독 반응. 분홍 저고리·아이보리 동정·짙은 자주 치마의 혼주 한복, 무릎 위 두 손, 딸을 향한 비렌즈 시선 통과. |
+| CG | `assets/cg/romance/wedding_daeun_small_v1.png` | `cg_romance_wedding_daeun_small` | 1280x800 | no | `1ca0ee918da7` | REPAIRED-A | 소형식 커플 와이드. 식별 인물은 민준·다은뿐이며 단순 드레스·짧은 베일·작은 꽃다발·후입장 동선과 상호 시선 통과. |
+| CG | `assets/cg/romance/wedding_daeun_small_close_v1.png` | `cg_romance_wedding_daeun_small_close` | 1280x800 | no | `6f7858061cf4` | REPAIRED-A | 소형식 커플 근접. 정본 얼굴·머리핀·성인 체형·민준과의 눈맞춤·양손 꽃다발과 안전 크롭 통과. |
 | CG | `assets/cg/romance/wedding_gap_jiyeon_v1.png` | `cg_romance_wedding_gap_jiyeon` | 1280x800 | no | `cfc057f42309` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/romance/wedding_morning_daeun_v1.png` | `cg_romance_wedding_morning_daeun` | 1280x800 | no | `2ef8ad7e7552` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/romance/wedding_morning_jiyeon_v1.png` | `cg_romance_wedding_morning_jiyeon` | 1280x800 | no | `a6407b70c350` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
@@ -230,4 +237,4 @@
 | Background | `assets/backgrounds/year3_hangang_winter_night.png` | `year3_hangang_winter_night` | 1280x800 | no | `b8387ccb4707` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/year4_winter_rooftop.png` | `year4_winter_rooftop` | 1280x800 | no | `46803837d191` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 
-Inventory: 50 CG / 54 portraits / 75 backgrounds / 179 total.
+Inventory: 54 CG / 54 portraits / 75 backgrounds / 183 total.

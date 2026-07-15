@@ -6,10 +6,10 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 
 ## Controller / Steam Deck Release Gate
 - Controller support is a release gate, not a polish extra. See `docs/CONTROLLER_UX_STRATEGY.md`.
-- Do not treat "all buttons are focusable" as success. Dense screens need a semantic controller model.
+- Focus traversal is the last resort, not the default controller model. Gameplay uses direct contextual actions or a semantic mode/cursor; focus is reserved for settings and short conventional lists.
 - A first-time player must complete the first 15 minutes with controller only: no mouse, no keyboard, no hidden shortcuts.
-- Every major screen must present a default focus within 0.5 seconds.
-- No ordinary screen should force the player through more than 12 focusable targets in one rail.
+- Every major screen must present a default active selection or contextual action within 0.5 seconds. Only a conventional menu needs an actual GUI focus owner.
+- No short menu should force the player through more than 12 focusable targets in one rail; gameplay must not become a focus rail at all.
 - Casino minigames must pass controller-only flow: change stake, place bet, read bet, start round, read result, repeat/exit.
 - Dense casino layouts such as Dai Sai and Roulette must use mode/cursor models, not flat focus traversal over every visible bet button.
 - `A/South` confirms the highlighted item, `B/East` backs out or clears pending action, `Y/North` opens rules/details, `LB/RB` changes group/tab/mode.
@@ -42,6 +42,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Five year identities, year-scene curation, Y1 timed choice, Y5 week countdown, and ending five-scene recap | `--qa=year-identity --lang=ko/en` |
 | Steam store sequence: cold-open, money-mule timer, montage, time ledger, identical bright/dark scene pair, seasonal date CG, and five-scene ending recap | `--qa=store --lang=en` then `StoreScreenshotExport.tscn` |
 | Active raster inventory and completed human verdict ledger for every CG, portrait, and background | `python3 tools/art_ai_audit.py` |
+| A/B/C narrative detail hierarchy: authored actors remain readable, anonymous extras alone become low-detail silhouettes, and wedding focus stays Minjun/Daeun/conditional Hyunsu | `python3 tools/cast_detail_contract_check.py` |
 | Store trailer sources: 22 actual Godot surfaces covering goal, timer, tint, romance, rupture, time records, investment, and minigames | `--qa=trailer --lang=ko/en` at 1920x1080 |
 | StoryMode/VN flashforward Black→arrival Gray reset, intro events, 1~4-choice lower dock, readable backgrounds, chapter card, scene direction framing | `--qa=story-en` |
 | StoryMode non-CG Black/Gray/White luminance, forced-Black framing, same-scene perception prose, moral choice wording, portrait distance, result-attention order/counterweight preservation, and KO/EN crop | `--qa=story-moral --lang=ko/en` |
@@ -52,7 +53,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Amusement routes: parade→helping CG/result fork, coaster→correct booth→choice-only four-cut CG, KO/EN crop and expression continuity | `--qa=amusement --lang=ko/en` |
 | Daeun hometown route: interior train→separate maternal dining room→delayed night-bus result CG, summer outfit and KO/EN crop continuity | `--qa=hometown --lang=ko/en` |
 | First nights: heroine-specific home/portrait→night result→paragraph-delayed morning CG, same outfit, late-game month HUD, KO/EN crop | `--qa=wedding-morning --lang=ko/en` |
-| Commitment scenes: Daeun's three-link last-cup→next-year→proposal buildup; three-link groom-enters-first→bride-enters-later wedding; screen-left empty groom side/screen-right full bride side; no premature marriage flags; final accepted delayed CG/no-CG defer branch; exclusive small/full wedding choice persistence; legacy small fallback; and Jiyeon pre-decision class-gap framing (27 shots per language) | `--qa=commitment --lang=ko/en` |
+| Commitment scenes: Daeun's three-link last-cup→next-year→proposal buildup; four-link mother reaction→groom-side state→groom-enters-first/bride-enters-later couple wide→couple close wedding; mother honju hanbok, Father honju suit, living/passed Father × Hyunsu-alone variants, truly empty reserved chair and no invented spouse/child; only Minjun/Daeun identifiable in couple frames; no premature marriage flags; final accepted delayed CG/no-CG defer branch; exclusive small/full wedding choice persistence; legacy small fallback; and Jiyeon pre-decision class-gap framing (33 shots per language) | `--qa=commitment --lang=ko/en` |
 | Romance ruptures: canonical newlywed homes, Daeun hidden while she is in the adjacent room, non-separating branches with no leaked CG, and paragraph-delayed seal/departure CGs | `--qa=breakup --lang=ko/en` |
 | First snow: December-only store/car prelude→paragraph-1 CG, winter outfits, exactly two cans, left-driver/right-passenger seating, resting wipers, gaze and KO/EN crop | `--qa=first-snow --lang=ko/en` |
 | Climate portraits: monsoon rain shell, heatwave short sleeves/cooling towel, cold-snap parka/scarf and dedicated frozen street | `--qa=climate --lang=ko/en` |
@@ -72,7 +73,10 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Tutorial overlay surface and onboarding copy | `--qa=tutorial-en` |
 | Job hunt/career modal tier pages and resume/interview minigame surface | `--qa=job-en` |
 | Part-time shifts: cards, convenience customer→response→next-customer controller focus loop, no focus theft on another-customer timeout, delivery route, mode-specific background/ambience, KO/EN crop | `--qa=aruba-en --lang=ko/en` |
-| Casino/minigame UI only | `--qa=casino-en` |
+| Event-scene Music/Ambience + SFX settings, dedicated Menu input, modal input block, and no stream restart | `StoryAudioSettingsCheck.tscn` plus `--qa=story-audio --lang=ko/en` |
+| Casino/minigame UI, direct controller cursors, physical card/chip/dice/wheel/reel stages, and activity ambience | `game_audio_contract_check.py`, `GameAudioContractCheck.tscn`, then `--qa=casino-en` |
+| Moral ambience: inert room tone persists, human presence recedes at Black and returns at White without music or UI disclosure | `MoralAmbienceCheck.tscn` |
+| Racetrack bet→gate→gallop→crowd rise→finish and controller-only round trip | `SmokeRace.tscn` then `--qa=racetrack-en --lang=ko/en` |
 | Moral tint/filter, choice echo, and same-room five-stage Minjun threshold acting | `--qa=moral --lang=ko/en` |
 | Scene transition only | `--qa=transition` |
 | Broad Steam Deck English regression | `--qa=surface-en` |
@@ -133,6 +137,7 @@ Automated art-quality gate:
 - `tools/art_ai_audit.py` derives the active CG, portrait, and background paths from `ImageRegistry`; no hand-maintained inventory may silently omit a runtime asset.
 - Every active path must have exactly one row and its reviewed file hash in `docs/ART_AI_AUDIT.md`; duplicate rows, changed hashes, and `FAIL` or `PENDING` verdicts fail `tools/audit.sh`.
 - Active portraits require alpha. Missing files, stale ledger rows, or unreviewed new registry paths fail immediately.
+- `cast_detail_contract_check.py` requires every CG gaze/action actor to be A/B-tier, keeps relationship cast tiered, and forbids atmospheric C-tier extras from becoming acting focus. Reusable backgrounds may embed only C-tier extras.
 - Contact sheets accelerate review but do not replace original-resolution checks for hands, gaze, reflections, readable text, architecture, recurring identity, and the ten store-facing key visuals.
 - After changing a CG, run only its owning ScreenshotQA scope first. The current Crypto Ghost repair is covered by `--qa=endings-en --lang=en`; broad casino/AP QA is unrelated.
 
@@ -152,7 +157,12 @@ Automated store-trailer gate:
 Automated audio gates:
 
 - `audio_source_audit.py` must assign every shippable WAV/OGG to exactly one reproducible source script; no missing, stale, duplicate, or undocumented audio may ship.
-- `generate_gangnam_ui_sfx.py --check` must reproduce the four tactile UI WAV files byte-for-byte without external samples.
+- `generate_gangnam_ui_sfx.py --check` must reproduce the six tactile UI WAV files byte-for-byte without external samples.
+- `scene_audio_contract_check.py` must give every active CG an ambience and every event on all 28 Tier-1 peak paths an authored scene-audio contract. Diegetic spoken language remains Korean under every text locale.
+- `game_audio_contract_check.py` must preserve 17 physical SFX keys, 19 stage call sites, seven activity ambience owners, nine direct-controller minigames, and nine separate human-presence layers. It rejects a regression from semantic controls to `grab_focus()` traversal.
+- `GameAudioContractCheck.tscn` must load every physical stream, prove bounded playback variation, keep same-activity ambience continuous, reject stale-owner clearing, and restore housing ambience on exit.
+- `MoralAmbienceCheck.tscn` must prove that Light/Deep Black progressively remove and low-pass only the human layer, that inert machinery remains legible, that White restores people, and that the transition starts no explanatory music.
+- `StoryAudioSettingsCheck.tscn` must open from `gd_menu`, block prose/AUTO behind the modal, apply Music/Ambience and SFX gain immediately, close from Menu/Cancel, and never restart either stream.
 - `BGMContinuityCheck.tscn` must keep the weekly hub and ordinary random events on housing/season ambience without starting music, preserve same-context playback and Moral Tint texture changes, insert the authored-arc silence, and reserve explicit music for punctuation/menu/ending states.
 - `ImmersionLoopCheck.tscn` must prove two-week action memory and serialization, precise no-leak event families, ×2.6/×1.88 echo strength, ×0.42 filler attenuation, deterministic quiet-week bands, localized causal frames, season/housing vignettes, non-mutating arc omens, rent deadlines, and SFX mix trims.
 

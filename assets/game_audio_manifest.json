@@ -1,0 +1,122 @@
+{
+  "version": 1,
+  "art_direction": {
+    "visual_pair": "Gangnam Ink: contemporary 2D illustration, restrained ink texture, grounded 2026 Seoul",
+    "world_sound": "close dry foley, believable modern rooms, restrained cinematic low end",
+    "ui_sound": "short paper, latch, and muted mechanical contact; no arcade laser or chiptune language",
+    "moral_sound": "dark routes remove human presence before adding distortion; bright routes restore air and human detail",
+    "replacement_policy": "procedural masters are timing-safe originals; replace any synthetic-sounding launch asset behind the same semantic key"
+  },
+  "moral_ambience": {
+    "principle": "the darker Minjun becomes, the less human the same contemporary Seoul space sounds",
+    "inert_layer": "room machinery, traffic, weather, ventilation, and physical resonance remain legible",
+    "human_bus": "GangnamDreamHumanAmbience",
+    "transition_seconds": 3.8,
+    "stage_gain_db": {
+      "-2": -48.0,
+      "-1": -16.0,
+      "0": -2.0,
+      "1": 1.5,
+      "2": 3.5
+    },
+    "stage_cutoff_hz": {
+      "-2": 780.0,
+      "-1": 2600.0,
+      "0": 20500.0,
+      "1": 20500.0,
+      "2": 20500.0
+    },
+    "profiles": {
+      "thin_wall": "res://assets/audio/amb_human_thin_wall.wav",
+      "street": "res://assets/audio/amb_human_street.wav",
+      "public_interior": "res://assets/audio/amb_human_public_interior.wav",
+      "cafe": "res://assets/audio/amb_human_cafe.wav",
+      "casino": "res://assets/audio/amb_human_casino.wav",
+      "racetrack": "res://assets/audio/amb_human_racetrack.wav",
+      "wedding": "res://assets/audio/amb_human_wedding.wav",
+      "transit": "res://assets/audio/amb_human_transit.wav",
+      "leisure": "res://assets/audio/amb_human_leisure.wav"
+    },
+    "prohibitions": [
+      "no exposed morality label or meter",
+      "no chiptune, 8-bit, arcade laser, or retro reward timbre",
+      "no horror sting at a moral threshold",
+      "no intelligible generated dialogue in ambience"
+    ]
+  },
+  "controller": {
+    "gameplay_navigation": "direct_action_mapping",
+    "focus_policy": "settings_and_short_linear_menus_only",
+    "focus_is_last_resort": true,
+    "direct_control_scenes": [
+      "JeongseonCasino",
+      "BlackjackTable",
+      "BaccaratTable",
+      "HoldemClub",
+      "RouletteTable",
+      "DaiSaiTable",
+      "SlotMachineGame",
+      "BigWheelGame",
+      "RaceTrack"
+    ]
+  },
+  "physical_sfx": {
+    "card_shuffle": "res://assets/audio/sfx_card_shuffle.wav",
+    "card_deal": "res://assets/audio/sfx_card_deal.wav",
+    "card_flip": "res://assets/audio/sfx_card_flip.wav",
+    "chip_place": "res://assets/audio/sfx_chip_place.wav",
+    "chip_collect": "res://assets/audio/sfx_chip_collect.wav",
+    "dice_cup_shake": "res://assets/audio/sfx_dice_cup_shake.wav",
+    "dice_roll": "res://assets/audio/sfx_dice_roll.wav",
+    "roulette_wheel": "res://assets/audio/sfx_roulette_wheel.wav",
+    "roulette_ball": "res://assets/audio/sfx_roulette_ball.wav",
+    "roulette_land": "res://assets/audio/sfx_roulette_land.wav",
+    "slot_start": "res://assets/audio/sfx_slot_start.wav",
+    "slot_reel_stop": "res://assets/audio/sfx_slot_reel_stop.wav",
+    "big_wheel_tick": "res://assets/audio/sfx_big_wheel_tick.wav",
+    "race_gate": "res://assets/audio/sfx_race_gate.wav",
+    "horse_gallop": "res://assets/audio/sfx_horse_gallop.wav",
+    "race_crowd_rise": "res://assets/audio/sfx_race_crowd_rise.wav",
+    "race_finish": "res://assets/audio/sfx_race_finish.wav"
+  },
+  "activity_ambience": {
+    "casino_hub": {"file": "scenes/JeongseonCasino.gd", "key": "casino"},
+    "holdem": {"file": "scenes/HoldemClub.gd", "key": "casino"},
+    "racetrack": {"file": "scenes/RaceTrack.gd", "key": "racetrack"},
+    "trading": {"file": "scenes/TradingFloor.gd", "key": "office"},
+    "scalping": {"file": "scenes/ScalpingGame.gd", "key": "office"},
+    "job_hunt": {"file": "scenes/JobHuntMiniGame.gd", "key": "office"},
+    "part_time_shift": {"file": "scenes/ArubaGame.gd", "key": "dynamic"}
+  },
+  "stage_contracts": [
+    {"system": "blackjack", "stage": "shoe", "file": "scenes/BlackjackTable.gd", "key": "card_shuffle"},
+    {"system": "blackjack", "stage": "deal", "file": "scenes/BlackjackTable.gd", "key": "card_deal"},
+    {"system": "blackjack", "stage": "dealer_reveal", "file": "scenes/BlackjackTable.gd", "key": "card_flip"},
+    {"system": "baccarat", "stage": "deal", "file": "scenes/BaccaratTable.gd", "key": "card_deal"},
+    {"system": "holdem", "stage": "deal", "file": "scenes/HoldemClub.gd", "key": "card_deal"},
+    {"system": "holdem", "stage": "board_reveal", "file": "scenes/HoldemClub.gd", "key": "card_flip"},
+    {"system": "holdem", "stage": "bet", "file": "scenes/HoldemClub.gd", "key": "chip_place"},
+    {"system": "roulette", "stage": "wheel_start", "file": "scenes/RouletteTable.gd", "key": "roulette_wheel"},
+    {"system": "roulette", "stage": "ball_ticks", "file": "scenes/RouletteTable.gd", "key": "roulette_ball"},
+    {"system": "roulette", "stage": "landing", "file": "scenes/RouletteTable.gd", "key": "roulette_land"},
+    {"system": "daisai", "stage": "cup", "file": "scenes/DaiSaiTable.gd", "key": "dice_cup_shake"},
+    {"system": "daisai", "stage": "dice", "file": "scenes/DaiSaiTable.gd", "key": "dice_roll"},
+    {"system": "slot", "stage": "start", "file": "scenes/SlotMachineGame.gd", "key": "slot_start"},
+    {"system": "slot", "stage": "reel_stop", "file": "scenes/SlotMachineGame.gd", "key": "slot_reel_stop"},
+    {"system": "bigwheel", "stage": "pointer", "file": "scenes/BigWheelGame.gd", "key": "big_wheel_tick"},
+    {"system": "race", "stage": "gate", "file": "scenes/RaceTrack.gd", "key": "race_gate"},
+    {"system": "race", "stage": "run", "file": "scenes/RaceTrack.gd", "key": "horse_gallop"},
+    {"system": "race", "stage": "final_stretch", "file": "scenes/RaceTrack.gd", "key": "race_crowd_rise"},
+    {"system": "race", "stage": "finish", "file": "scenes/RaceTrack.gd", "key": "race_finish"}
+  ],
+  "legacy_stage_bans": [
+    {"file": "scenes/BlackjackTable.gd", "keys": ["casino_card"]},
+    {"file": "scenes/BaccaratTable.gd", "keys": ["casino_card"]},
+    {"file": "scenes/HoldemClub.gd", "keys": ["casino_card"]},
+    {"file": "scenes/RouletteTable.gd", "keys": ["casino_spin"]},
+    {"file": "scenes/DaiSaiTable.gd", "keys": ["casino_spin", "casino_reel"]},
+    {"file": "scenes/SlotMachineGame.gd", "keys": ["casino_spin", "casino_reel"]},
+    {"file": "scenes/BigWheelGame.gd", "keys": ["casino_spin"]},
+    {"file": "scenes/RaceTrack.gd", "keys": ["casino_reel"]}
+  ]
+}

@@ -11,6 +11,11 @@ const TRACKS = {
 	"crisis":      "res://assets/audio/bgm_crisis.ogg",
 	"ending_good": "res://assets/audio/bgm_victory.ogg",
 	"ending_bad":  "res://assets/audio/bgm_ending.ogg",
+	"wedding_processional": "res://assets/audio/bgm_wedding_processional.ogg",
+	"intimate":    "res://assets/audio/bgm_intimate.ogg",
+	"reckoning":   "res://assets/audio/bgm_reckoning.ogg",
+	"grief":       "res://assets/audio/bgm_grief.ogg",
+	"wonder":      "res://assets/audio/bgm_wonder.ogg",
 }
 
 # 선택적 출시용 테마 팩. 세 파일이 모두 있을 때만 컨텍스트 BGM 대신 밴드 변주를 쓴다.
@@ -51,7 +56,62 @@ const AMBIENCE_TRACKS = {
 	"apartment":   "res://assets/audio/amb_apartment_room.wav",
 	"summer":      "res://assets/audio/amb_summer_night.wav",
 	"winter":      "res://assets/audio/amb_winter_wind.wav",
+	"wedding_hall": "res://assets/audio/amb_wedding_hall.wav",
+	"hospital":    "res://assets/audio/amb_hospital_room.wav",
+	"seaside":     "res://assets/audio/amb_seaside.wav",
+	"amusement":   "res://assets/audio/amb_amusement_park.wav",
+	"car":         "res://assets/audio/amb_car_interior.wav",
+	"night_bus":   "res://assets/audio/amb_night_bus.wav",
+	"train":       "res://assets/audio/amb_train_interior.wav",
 }
+
+# Mechanical/environmental room tone stays in AMBIENCE_TRACKS. These separate,
+# wordless human layers are the only part that recedes strongly on dark routes.
+const HUMAN_AMBIENCE_TRACKS = {
+	"thin_wall":      "res://assets/audio/amb_human_thin_wall.wav",
+	"street":         "res://assets/audio/amb_human_street.wav",
+	"public_interior": "res://assets/audio/amb_human_public_interior.wav",
+	"cafe":           "res://assets/audio/amb_human_cafe.wav",
+	"casino":         "res://assets/audio/amb_human_casino.wav",
+	"racetrack":      "res://assets/audio/amb_human_racetrack.wav",
+	"wedding":        "res://assets/audio/amb_human_wedding.wav",
+	"transit":        "res://assets/audio/amb_human_transit.wav",
+	"leisure":        "res://assets/audio/amb_human_leisure.wav",
+}
+
+const HUMAN_AMBIENCE_BY_WORLD = {
+	"room": "thin_wall",
+	"rain": "street",
+	"hangang": "street",
+	"office": "public_interior",
+	"casino": "casino",
+	"street": "street",
+	"subway": "transit",
+	"racetrack": "racetrack",
+	"cafe": "cafe",
+	"pc_bang": "leisure",
+	"gym": "leisure",
+	"convenience": "public_interior",
+	"hagwon": "street",
+	"school": "public_interior",
+	"public_office": "public_interior",
+	"jjimjilbang": "leisure",
+	"cherry": "street",
+	"saju": "cafe",
+	"military_gate": "street",
+	"hoesik": "leisure",
+	"heatwave": "street",
+	"fine_dust": "street",
+	"highway": "transit",
+	"library": "public_interior",
+	"wedding_hall": "wedding",
+	"hospital": "public_interior",
+	"amusement": "leisure",
+	"night_bus": "transit",
+	"train": "transit",
+}
+
+const SCENE_AUDIO_MANIFEST_PATH = "res://assets/scene_audio_manifest.json"
 
 # ── 상태 ──────────────────────────────────────────────────────
 var volume: float       = 0.25
@@ -64,30 +124,44 @@ var _player_a: AudioStreamPlayer  # 현재 재생
 var _player_b: AudioStreamPlayer  # 크로스페이드 대상
 var _ambience_player: AudioStreamPlayer
 var _season_player: AudioStreamPlayer
+var _human_ambience_player: AudioStreamPlayer
 var _fade_tween: Tween
 var _ambience_tween: Tween
 var _season_tween: Tween
+var _human_ambience_tween: Tween
+var _moral_human_tween: Tween
 var _moral_filter_tween: Tween
 var _procedural_stream: AudioStreamWAV  # 폴백 스트림 (1회 생성)
 var _current_ambience_key: String = ""
 var _current_season_key: String = ""
+var _current_human_ambience_key: String = ""
+var _activity_ambience_key: String = ""
 var _ambience_duck_db: float = 0.0
 var _moral_filter: AudioEffectLowPassFilter
+var _human_filter: AudioEffectLowPassFilter
 var _bgm_bus_index: int = -1
+var _human_bus_index: int = -1
 var _last_moral_stage: int = 0
 var _moral_target_cutoff_hz: float = 20500.0
 var _moral_target_bus_db: float = 0.0
 var _moral_ambience_gain_db: float = 0.0
+var _moral_human_gain_db: float = -2.0
+var _moral_human_cutoff_hz: float = 20500.0
 var _moral_transition_count: int = 0
 var _music_mode: String = "ambient"  # ambient | pending | punctuation | menu | ending
 var _punctuation_token: int = 0
+var _scene_audio_cg: Dictionary = {}
+var _scene_audio_events: Dictionary = {}
 
 const _FADE_TIME = 2.5  # 크로스페이드 초
 const _AMBIENCE_VOLUME = 0.18
 const _SEASON_VOLUME = 0.085
+const _HUMAN_AMBIENCE_VOLUME = 0.20
 const _ARC_SILENCE_SECONDS = 3.2
 const _BGM_BUS_NAME = "GangnamDreamBGM"
+const _HUMAN_BUS_NAME = "GangnamDreamHumanAmbience"
 const _MORAL_FILTER_TIME = 2.4
+const _MORAL_HUMAN_TIME = 3.8
 const _MORAL_CUTOFFS = {
 	-2: 1450.0,
 	-1: 4800.0,
@@ -109,14 +183,31 @@ const _MORAL_AMBIENCE_DB = {
 	1: 1.0,
 	2: 2.0,
 }
+const _MORAL_HUMAN_DB = {
+	-2: -48.0,
+	-1: -16.0,
+	0: -2.0,
+	1: 1.5,
+	2: 3.5,
+}
+const _MORAL_HUMAN_CUTOFFS = {
+	-2: 780.0,
+	-1: 2600.0,
+	0: 20500.0,
+	1: 20500.0,
+	2: 20500.0,
+}
 
 # ── 초기화 ────────────────────────────────────────────────────
 func _ready():
+	_load_scene_audio_manifest()
 	_ensure_bgm_bus()
+	_ensure_human_ambience_bus()
 	_player_a = _make_player(_BGM_BUS_NAME)
 	_player_b = _make_player(_BGM_BUS_NAME)
 	_ambience_player = _make_player()
 	_season_player = _make_player()
+	_human_ambience_player = _make_player(_HUMAN_BUS_NAME)
 	_procedural_stream = _bake_procedural()
 	_last_moral_stage = GameState.moral_stage()
 	_apply_moral_stage(_last_moral_stage, true)
@@ -147,6 +238,24 @@ func _ensure_bgm_bus() -> void:
 		_moral_filter.resonance = 0.18
 		AudioServer.add_bus_effect(_bgm_bus_index, _moral_filter)
 
+func _ensure_human_ambience_bus() -> void:
+	_human_bus_index = AudioServer.get_bus_index(_HUMAN_BUS_NAME)
+	if _human_bus_index < 0:
+		AudioServer.add_bus()
+		_human_bus_index = AudioServer.bus_count - 1
+		AudioServer.set_bus_name(_human_bus_index, _HUMAN_BUS_NAME)
+		AudioServer.set_bus_send(_human_bus_index, "Master")
+	for effect_idx in range(AudioServer.get_bus_effect_count(_human_bus_index)):
+		var existing: AudioEffect = AudioServer.get_bus_effect(_human_bus_index, effect_idx)
+		if existing is AudioEffectLowPassFilter:
+			_human_filter = existing as AudioEffectLowPassFilter
+			break
+	if _human_filter == null:
+		_human_filter = AudioEffectLowPassFilter.new()
+		_human_filter.cutoff_hz = 20500.0
+		_human_filter.resonance = 0.12
+		AudioServer.add_bus_effect(_human_bus_index, _human_filter)
+
 func _on_moral_tint_changed(_norm: float, stage: int) -> void:
 	if stage == _last_moral_stage:
 		return
@@ -162,6 +271,8 @@ func _apply_moral_stage(stage: int, immediate: bool) -> void:
 	_moral_target_cutoff_hz = float(_MORAL_CUTOFFS.get(stage, 20500.0))
 	_moral_target_bus_db = float(_MORAL_BUS_DB.get(stage, 0.0))
 	_moral_ambience_gain_db = float(_MORAL_AMBIENCE_DB.get(stage, 0.0))
+	_moral_human_gain_db = float(_MORAL_HUMAN_DB.get(stage, -2.0))
+	_moral_human_cutoff_hz = float(_MORAL_HUMAN_CUTOFFS.get(stage, 20500.0))
 	if _moral_filter != null and _bgm_bus_index >= 0:
 		if _moral_filter_tween and _moral_filter_tween.is_running():
 			_moral_filter_tween.kill()
@@ -177,6 +288,7 @@ func _apply_moral_stage(stage: int, immediate: bool) -> void:
 			_moral_filter_tween.tween_property(_moral_filter, "cutoff_hz", _moral_target_cutoff_hz, _MORAL_FILTER_TIME)
 			_moral_filter_tween.tween_method(_set_moral_bus_db, current_bus_db, _moral_target_bus_db, _MORAL_FILTER_TIME)
 	_apply_moral_ambience_mix(immediate)
+	_apply_moral_human_mix(immediate)
 
 func _apply_moral_ambience_mix(immediate: bool) -> void:
 	if _ambience_tween and _ambience_tween.is_running():
@@ -200,6 +312,27 @@ func _apply_moral_ambience_mix(immediate: bool) -> void:
 			_season_tween.set_ease(Tween.EASE_IN_OUT)
 			_season_tween.tween_property(_season_player, "volume_db", _season_target_db(), _MORAL_FILTER_TIME)
 
+func _apply_moral_human_mix(immediate: bool) -> void:
+	if _moral_human_tween and _moral_human_tween.is_running():
+		_moral_human_tween.kill()
+	if _human_ambience_tween and _human_ambience_tween.is_running():
+		_human_ambience_tween.kill()
+	if immediate or not _human_ambience_player or not _human_ambience_player.playing:
+		if _human_filter != null:
+			_human_filter.cutoff_hz = _moral_human_cutoff_hz
+		if _human_ambience_player and _human_ambience_player.playing:
+			_human_ambience_player.volume_db = _human_ambience_target_db()
+		return
+	_moral_human_tween = create_tween()
+	_moral_human_tween.set_parallel(true)
+	_moral_human_tween.set_trans(Tween.TRANS_SINE)
+	_moral_human_tween.set_ease(Tween.EASE_IN_OUT)
+	_moral_human_tween.tween_property(
+		_human_ambience_player, "volume_db", _human_ambience_target_db(), _MORAL_HUMAN_TIME)
+	if _human_filter != null:
+		_moral_human_tween.tween_property(
+			_human_filter, "cutoff_hz", _moral_human_cutoff_hz, _MORAL_HUMAN_TIME)
+
 func _set_moral_bus_db(value: float) -> void:
 	if _bgm_bus_index >= 0:
 		AudioServer.set_bus_volume_db(_bgm_bus_index, value)
@@ -207,6 +340,7 @@ func _set_moral_bus_db(value: float) -> void:
 func start():
 	volume = AudioManager.bgm_volume
 	_is_ending = false
+	_activity_ambience_key = ""
 	_last_moral_stage = GameState.moral_stage()
 	_apply_moral_stage(_last_moral_stage, true)
 	enter_ambient_bed(0.65)
@@ -215,6 +349,7 @@ func start():
 func start_menu():
 	volume = AudioManager.bgm_volume
 	_is_ending = false
+	_activity_ambience_key = ""
 	_music_mode = "menu"
 	_punctuation_token += 1
 	_last_moral_stage = 0
@@ -229,17 +364,25 @@ func stop():
 		_moral_filter_tween.kill()
 	if _season_tween and _season_tween.is_running():
 		_season_tween.kill()
+	if _human_ambience_tween and _human_ambience_tween.is_running():
+		_human_ambience_tween.kill()
+	if _moral_human_tween and _moral_human_tween.is_running():
+		_moral_human_tween.kill()
 	_player_a.stop()
 	_player_b.stop()
 	if _ambience_player:
 		_ambience_player.stop()
 	if _season_player:
 		_season_player.stop()
+	if _human_ambience_player:
+		_human_ambience_player.stop()
 	_current_key = ""
 	_active_key = ""
 	_fade_target_key = ""
 	_current_ambience_key = ""
 	_current_season_key = ""
+	_current_human_ambience_key = ""
+	_activity_ambience_key = ""
 	_ambience_duck_db = 0.0
 	_music_mode = "ambient"
 	_punctuation_token += 1
@@ -252,6 +395,8 @@ func apply_volume(v: float):
 		_ambience_player.volume_db = _ambience_target_db()
 	if _season_player and _season_player.playing:
 		_season_player.volume_db = _season_target_db()
+	if _human_ambience_player and _human_ambience_player.playing:
+		_human_ambience_player.volume_db = _human_ambience_target_db()
 
 # ── 매월 상태 체크 ─────────────────────────────────────────────
 func update_context():
@@ -296,7 +441,20 @@ func play_punctuation(key: String = "") -> void:
 	_punctuation_token += 1
 	_play_or_keep(target)
 
-func begin_story_event(ev: Dictionary) -> void:
+func begin_story_event(ev: Dictionary, cg_id: String = "") -> void:
+	var contract: Dictionary = scene_audio_contract(str(ev.get("id", "")), cg_id)
+	if bool(contract.get("suppress_music", false)):
+		enter_ambient_bed(0.4)
+		return
+	var authored_music: Variant = contract.get("music", null)
+	if authored_music is Dictionary:
+		var start_paragraph: int = maxi(0, int(authored_music.get("start_paragraph", 0)))
+		var target_key: String = str(authored_music.get("key", ""))
+		if start_paragraph > 0 and target_key != _current_key:
+			enter_ambient_bed(0.4)
+		# 저작 음악은 실제 문단 훅이 재생을 맡는다. 여기서 일반 아크 음악을
+		# 예약하면 같은 곡으로 이어지는 체인도 이벤트 경계에서 끊긴다.
+		return
 	if not _story_music_worthy(ev):
 		enter_ambient_bed(0.55)
 		return
@@ -322,16 +480,23 @@ func _story_music_worthy(ev: Dictionary) -> bool:
 			or event_id.begins_with("chapter_card_") or tags.has("arc") \
 			or tags.has("climax") or tags.has("year_close")
 
-func on_ending(ending_id: String):
+func on_ending(ending_id: String, cg_id: String = ""):
 	_is_ending = true
+	_activity_ambience_key = ""
 	_music_mode = "ending"
 	_punctuation_token += 1
 	clear_ambience()
 	_crossfade_to(AudioManager.ending_bgm_key(ending_id))
+	if not cg_id.is_empty():
+		apply_ending_cg_ambience(cg_id)
 
 func update_idle_ambience() -> void:
 	if _is_ending:
 		clear_ambience()
+		return
+	if not _activity_ambience_key.is_empty():
+		set_ambience(_activity_ambience_key)
+		set_season_ambience("")
 		return
 	match str(GameState.housing):
 		"gangnam", "apartment":
@@ -342,18 +507,90 @@ func update_idle_ambience() -> void:
 			set_ambience("room")
 	set_season_ambience(_calendar_season_key())
 
-func update_event_ambience(ev: Dictionary) -> void:
+func enter_activity_ambience(key: String) -> void:
+	if key.is_empty() or not AMBIENCE_TRACKS.has(key):
+		return
+	_activity_ambience_key = key
+	# 미니게임은 배경 음악을 새로 시작하지 않는다. 장소 룸톤만 유지해
+	# AP 허브가 뒤에 보이거나 들리는 인상을 끊는다.
+	enter_ambient_bed(0.45)
+	set_ambience(key)
+	set_season_ambience("")
+
+func leave_activity_ambience(key: String = "") -> void:
+	if not key.is_empty() and _activity_ambience_key != key:
+		return
+	_activity_ambience_key = ""
+	update_idle_ambience()
+
+func activity_ambience_key() -> String:
+	return _activity_ambience_key
+
+func update_event_ambience(ev: Dictionary, cg_id: String = "") -> void:
 	if _is_ending:
 		clear_ambience()
 		return
-	var ambience_key := _pick_ambience(ev)
+	var contract: Dictionary = scene_audio_contract(str(ev.get("id", "")), cg_id)
+	var ambience_key: String = str(contract.get("ambience", ""))
+	if ambience_key.is_empty():
+		ambience_key = _pick_ambience(ev)
 	set_ambience(ambience_key)
 	set_season_ambience(_event_season_key(ambience_key))
 
+func play_scene_paragraph_music(ev: Dictionary, cg_id: String, paragraph_index: int) -> void:
+	var contract: Dictionary = scene_audio_contract(str(ev.get("id", "")), cg_id)
+	var authored_music: Variant = contract.get("music", null)
+	if not (authored_music is Dictionary):
+		return
+	if maxi(0, int(authored_music.get("start_paragraph", 0))) != paragraph_index:
+		return
+	var key: String = str(authored_music.get("key", ""))
+	if key.is_empty() or not TRACKS.has(key):
+		return
+	play_punctuation(key)
+
+func apply_ending_cg_ambience(cg_id: String) -> void:
+	var contract: Dictionary = scene_audio_contract("", cg_id)
+	var ambience_key: String = str(contract.get("ambience", ""))
+	if ambience_key.is_empty():
+		return
+	set_ambience(ambience_key)
+	set_season_ambience("")
+
+func scene_audio_contract(event_id: String = "", cg_id: String = "") -> Dictionary:
+	var merged: Dictionary = {}
+	if not cg_id.is_empty() and _scene_audio_cg.has(cg_id):
+		var cg_contract: Variant = _scene_audio_cg.get(cg_id, {})
+		if cg_contract is Dictionary:
+			merged = cg_contract.duplicate(true)
+	if not event_id.is_empty() and _scene_audio_events.has(event_id):
+		var event_contract: Variant = _scene_audio_events.get(event_id, {})
+		if event_contract is Dictionary:
+			for key in event_contract.keys():
+				merged[key] = event_contract[key]
+	return merged
+
+func _load_scene_audio_manifest() -> void:
+	_scene_audio_cg = {}
+	_scene_audio_events = {}
+	if not FileAccess.file_exists(SCENE_AUDIO_MANIFEST_PATH):
+		return
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SCENE_AUDIO_MANIFEST_PATH))
+	if not (parsed is Dictionary):
+		return
+	var cg_contracts: Variant = parsed.get("cg", {})
+	var event_contracts: Variant = parsed.get("events", {})
+	if cg_contracts is Dictionary:
+		_scene_audio_cg = cg_contracts.duplicate(true)
+	if event_contracts is Dictionary:
+		_scene_audio_events = event_contracts.duplicate(true)
+
 func set_ambience(key: String) -> void:
 	if key == _current_ambience_key and _ambience_player and _ambience_player.playing:
+		_set_human_ambience_for_world(key)
 		return
 	_current_ambience_key = key
+	_set_human_ambience_for_world(key)
 	if _ambience_tween and _ambience_tween.is_running():
 		_ambience_tween.kill()
 	if key == "" or not AMBIENCE_TRACKS.has(key):
@@ -370,6 +607,37 @@ func set_ambience(key: String) -> void:
 	_ambience_player.play()
 	_ambience_tween = create_tween()
 	_ambience_tween.tween_property(_ambience_player, "volume_db", _ambience_target_db(), 0.65)
+
+func _set_human_ambience_for_world(world_key: String) -> void:
+	var human_key := str(HUMAN_AMBIENCE_BY_WORLD.get(world_key, ""))
+	if human_key == _current_human_ambience_key \
+			and _human_ambience_player and _human_ambience_player.playing:
+		return
+	_current_human_ambience_key = human_key
+	if _human_ambience_tween and _human_ambience_tween.is_running():
+		_human_ambience_tween.kill()
+	if _moral_human_tween and _moral_human_tween.is_running():
+		_moral_human_tween.kill()
+	if human_key.is_empty() or not HUMAN_AMBIENCE_TRACKS.has(human_key):
+		if _human_ambience_player and _human_ambience_player.playing:
+			_human_ambience_tween = create_tween()
+			_human_ambience_tween.tween_property(
+				_human_ambience_player, "volume_db", -80.0, 0.55)
+			_human_ambience_tween.tween_callback(_human_ambience_player.stop)
+		return
+	var stream := _load_human_ambience(human_key)
+	if stream == null:
+		return
+	_human_ambience_player.stream = stream
+	_human_ambience_player.volume_db = -80.0
+	_human_ambience_player.play()
+	if _human_filter != null:
+		_human_filter.cutoff_hz = _moral_human_cutoff_hz
+	_human_ambience_tween = create_tween()
+	_human_ambience_tween.set_trans(Tween.TRANS_SINE)
+	_human_ambience_tween.set_ease(Tween.EASE_IN_OUT)
+	_human_ambience_tween.tween_property(
+		_human_ambience_player, "volume_db", _human_ambience_target_db(), 1.1)
 
 func set_season_ambience(key: String) -> void:
 	if key == _current_season_key and _season_player and _season_player.playing:
@@ -409,6 +677,14 @@ func duck_ambience(amount_db: float = -8.0, duration: float = 0.45) -> void:
 			_season_tween.kill()
 		_season_tween = create_tween()
 		_season_tween.tween_property(_season_player, "volume_db", _season_target_db(), maxf(0.05, duration))
+	if _human_ambience_player and _human_ambience_player.playing:
+		if _human_ambience_tween and _human_ambience_tween.is_running():
+			_human_ambience_tween.kill()
+		if _moral_human_tween and _moral_human_tween.is_running():
+			_moral_human_tween.kill()
+		_human_ambience_tween = create_tween()
+		_human_ambience_tween.tween_property(
+			_human_ambience_player, "volume_db", _human_ambience_target_db(), maxf(0.05, duration))
 
 func restore_ambience(duration: float = 0.35) -> void:
 	if is_zero_approx(_ambience_duck_db):
@@ -425,12 +701,23 @@ func restore_ambience(duration: float = 0.35) -> void:
 			_season_tween.kill()
 		_season_tween = create_tween()
 		_season_tween.tween_property(_season_player, "volume_db", _season_target_db(), maxf(0.05, duration))
+	if _human_ambience_player and _human_ambience_player.playing:
+		if _human_ambience_tween and _human_ambience_tween.is_running():
+			_human_ambience_tween.kill()
+		if _moral_human_tween and _moral_human_tween.is_running():
+			_moral_human_tween.kill()
+		_human_ambience_tween = create_tween()
+		_human_ambience_tween.tween_property(
+			_human_ambience_player, "volume_db", _human_ambience_target_db(), maxf(0.05, duration))
 
 func _ambience_target_db() -> float:
 	return _db(volume * _AMBIENCE_VOLUME) + _ambience_duck_db + _moral_ambience_gain_db
 
 func _season_target_db() -> float:
 	return _db(volume * _SEASON_VOLUME) + _ambience_duck_db + _moral_ambience_gain_db
+
+func _human_ambience_target_db() -> float:
+	return _db(volume * _HUMAN_AMBIENCE_VOLUME) + _ambience_duck_db + _moral_human_gain_db
 
 func _calendar_season_key() -> String:
 	if GameState.month in [6, 7, 8]:
@@ -442,7 +729,8 @@ func _calendar_season_key() -> String:
 func _event_season_key(ambience_key: String) -> String:
 	if ambience_key in ["rain", "heatwave", "fine_dust", "casino", "office", "cafe", \
 			"pc_bang", "gym", "convenience", "library", "school", "public_office", \
-			"jjimjilbang", "open_chat", "room", "oneroom", "apartment"]:
+			"jjimjilbang", "open_chat", "room", "oneroom", "apartment", "wedding_hall", \
+			"hospital", "seaside", "amusement", "car", "night_bus", "train"]:
 		return ""
 	return _calendar_season_key()
 
@@ -656,6 +944,13 @@ func _load_track(key: String) -> AudioStream:
 
 func _load_ambience(key: String) -> AudioStream:
 	var path = AMBIENCE_TRACKS.get(key, "")
+	return _load_looping_wav(str(path))
+
+func _load_human_ambience(key: String) -> AudioStream:
+	var path = HUMAN_AMBIENCE_TRACKS.get(key, "")
+	return _load_looping_wav(str(path))
+
+func _load_looping_wav(path: String) -> AudioStream:
 	if path == "" or not ResourceLoader.exists(path):
 		return null
 	var stream = load(path)

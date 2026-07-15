@@ -181,6 +181,7 @@ func _build_skeleton() -> void:
 # ── 진입 ──────────────────────────────────────────────────────
 func open() -> void:
 	visible = true
+	BGMPlayer.enter_activity_ambience("racetrack")
 	TutorialOverlay.maybe_show("racetrack", self)
 	_races_today = 0
 	_last_lost = false
@@ -320,6 +321,7 @@ func _new_race() -> void:
 func _on_exit() -> void:
 	MetaProgression.record_minigame_play("racetrack")
 	set_process(false)
+	BGMPlayer.leave_activity_ambience("racetrack")
 	visible = false
 	closed.emit()
 
@@ -615,7 +617,7 @@ func _place_bet(stake: float) -> void:
 		_flash(_tr("현금이 부족하다", "Not enough cash"), "#e85d5d"); return
 	_bet_stake = stake
 	GameState.add_money(-stake)
-	AudioManager.play("sell")
+	AudioManager.play_varied("chip_place")
 	# 도박 — 중독·도박성향 상승. 진 뒤 또 거는(추격) + 엑조틱(고변동)이면 가속.
 	var add: int = 3 + (4 if _last_lost else 0)
 	if _bet_type == BetType.TRIFECTA: add += 2
@@ -648,6 +650,7 @@ func _start_race() -> void:
 	_clear()
 	_render_race()
 	if skip_countdown_for_smoke:
+		AudioManager.play("race_gate")
 		set_process(true)
 	else:
 		_run_countdown()
@@ -675,7 +678,7 @@ func _play_countdown_step(overlay: Label, steps: Array, colors: Array, idx: int)
 		_flash(_tr("출발!", "GO!"), "#f0c45d")
 		_screen_flash(Color("#f0c45d"), 0.14, 0.28)
 		_shake_node(_content, 4.0, 0.18)
-		AudioManager.play("event_new")
+		AudioManager.play("race_gate")
 		set_process(true)
 		return
 	overlay.text = str(steps[idx])
@@ -724,7 +727,7 @@ func _update_race_call(delta: float) -> void:
 		_set_race_msg(_tr("마지막 직선!  %s 버틴다!", "Final stretch! %s holds on!") % leader_name, "#f0c45d")
 		if not _final_stretch_sfx_played:
 			_final_stretch_sfx_played = true
-			AudioManager.play("event_new", -2.0)
+			AudioManager.play("race_crowd_rise")
 			AudioManager.pulse_gamepad(0.14, 0.34, 0.16)
 			_shake_node(_content, 3.0, 0.16)
 		if is_instance_valid(_msg):
@@ -741,7 +744,7 @@ func _update_race_sfx(delta: float) -> void:
 	var interval := lerpf(0.17, 0.08, phase_prog)
 	if _hoof_sfx_t >= interval:
 		_hoof_sfx_t = 0.0
-		AudioManager.play("casino_reel", -7.0)
+		AudioManager.play_varied("horse_gallop", -1.0, 0.91, 1.09)
 
 func _current_display_leader() -> int:
 	if not _race.has("horses"):
@@ -925,6 +928,7 @@ func _draw_jockey(dst: Rect2, lane_color: Color, index: int) -> void:
 
 func _finish_race() -> void:
 	_phase = Phase.RESULT
+	AudioManager.play("race_finish")
 	if is_instance_valid(_msg):
 		_msg.visible = false
 	var payout: float = 0.0
@@ -936,6 +940,7 @@ func _finish_race() -> void:
 	if payout > 0:
 		GameState.add_money(payout)
 		var profit := payout - _bet_stake
+		AudioManager.play_delayed("chip_collect", 0.16)
 		AudioManager.play_casino_result(profit, float(_bet_stake), profit >= float(_bet_stake) * 10.0)
 		AudioManager.pulse_gamepad(0.16, 0.48, 0.16)
 		_screen_flash(Color("#f0b429"), 0.22, 0.44)

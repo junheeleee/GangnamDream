@@ -223,6 +223,7 @@ func _build_ui() -> void:
 func open() -> void:
 	if _selected == "":
 		_selected = _pick_default()
+	BGMPlayer.enter_activity_ambience("office")
 	visible = true
 	TutorialOverlay.maybe_show("trading", self)
 	_refresh()
@@ -233,6 +234,7 @@ func _pick_default() -> String:
 	return FEATURED[0]
 
 func _on_close() -> void:
+	BGMPlayer.leave_activity_ambience("office")
 	visible = false
 	closed.emit()
 

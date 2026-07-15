@@ -32,6 +32,21 @@ amb_school_hall.wav amb_seoul_rain.wav amb_seoul_street.wav
 amb_subway_platform.wav sfx_civil_defense_siren.wav
 sfx_ending_stinger_bad.wav sfx_ending_stinger_good.wav
 sfx_ending_stinger_legend.wav sfx_monsoon_rain.wav
+amb_wedding_hall.wav amb_hospital_room.wav amb_seaside.wav
+amb_amusement_park.wav amb_car_interior.wav amb_night_bus.wav
+amb_train_interior.wav sfx_wedding_applause.wav sfx_wedding_cheer.wav
+sfx_distant_fireworks.wav bgm_wedding_processional.ogg bgm_intimate.ogg
+bgm_reckoning.ogg bgm_grief.ogg bgm_wonder.ogg
+sfx_card_shuffle.wav sfx_card_deal.wav sfx_card_flip.wav
+sfx_chip_place.wav sfx_chip_collect.wav sfx_dice_cup_shake.wav
+sfx_dice_roll.wav sfx_roulette_wheel.wav sfx_roulette_ball.wav
+sfx_roulette_land.wav sfx_slot_start.wav sfx_slot_reel_stop.wav
+sfx_big_wheel_tick.wav sfx_race_gate.wav sfx_horse_gallop.wav
+sfx_race_crowd_rise.wav sfx_race_finish.wav
+amb_human_thin_wall.wav amb_human_street.wav
+amb_human_public_interior.wav amb_human_cafe.wav
+amb_human_casino.wav amb_human_racetrack.wav amb_human_wedding.wav
+amb_human_transit.wav amb_human_leisure.wav
 """.split()),
     "tools/generate_gangnam_ui_sfx.py": {
         "sfx_choice_made.wav",

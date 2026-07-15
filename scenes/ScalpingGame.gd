@@ -66,6 +66,7 @@ func _f(n: Control, bold := false) -> void:
 
 # ── 진입 ──────────────────────────────────────────────────────────
 func open() -> void:
+	BGMPlayer.enter_activity_ambience("office")
 	_skill_level = GameState.investment_skill
 	# 마스터리 등급에 따라 힌트 해금 임계치 하향
 	var mastery: int = MetaProgression.get_mastery("scalping")
@@ -602,6 +603,7 @@ func _on_close_pressed() -> void:
 		_end_game()
 		return
 	set_process(false)
+	BGMPlayer.leave_activity_ambience("office")
 	visible = false
 	AudioManager.play("click")
 	closed.emit()

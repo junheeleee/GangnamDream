@@ -63,6 +63,7 @@ func _tr(ko: String, en: String) -> String:
 
 func open() -> void:
 	visible = true
+	BGMPlayer.enter_activity_ambience("casino")
 	_pad_navigation_active = false
 	_pad_game_idx = clampi(_pad_game_idx, 0, maxi(_game_entries.size() - 1, 0))
 	_refresh_pad_cursor()
@@ -179,6 +180,7 @@ func _close() -> void:
 		GameState.flags["jeongseon_session_win"]  = true
 	# 방문 자체가 중독 성향을 조금씩 높인다
 	GameState.modify_hidden_stat("addiction_tendency", 3)
+	BGMPlayer.leave_activity_ambience("casino")
 	visible = false
 	emit_signal("closed")
 

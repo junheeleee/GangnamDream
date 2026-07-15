@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "contract_id": "CAST_DETAIL_CONTRACT_V1",
+  "principle": "render detail follows narrative agency, never social worth",
+  "tiers": {
+    "A_story_anchor": {
+      "purpose": "people whose choices, memory, or relationship can change Minjun",
+      "characters": [
+        "minjun",
+        "daeun",
+        "jiyeon",
+        "father",
+        "jaehyuk",
+        "sangchul",
+        "hyunsu"
+      ],
+      "render": "full identity, readable face and eye-line, authored outfit, restrained full color, scene-specific acting"
+    },
+    "B_scene_actor": {
+      "purpose": "recurring supporting cast or a one-scene person whose gaze or action carries story information",
+      "characters": [
+        "minseo",
+        "mother",
+        "cafe_investor",
+        "cafe_broker_kim",
+        "goshiwon_owner",
+        "team_lead",
+        "seongjun",
+        "tip_seller",
+        "daeun_mother",
+        "father_in_law",
+        "interviewer",
+        "lost_child",
+        "partner",
+        "paternal_aunt",
+        "paternal_uncle"
+      ],
+      "render": "distinct silhouette and age/class signal, visible but simplified face, limited Gangnam Ink palette, no generic stock-photo polish"
+    },
+    "C_atmospheric_extra": {
+      "purpose": "people who establish population, scale, or social pressure without speaking or steering the scene",
+      "roles": [
+        "passerby",
+        "commuter",
+        "cafe_patron",
+        "restaurant_patron",
+        "casino_patron",
+        "racetrack_spectator",
+        "office_extra",
+        "pc_bang_customer",
+        "wedding_guest"
+      ],
+      "render": "two or three low-contrast value planes, scene-correct clothing and posture, no readable facial features, no pure-black cutout, no cloned crowd pose"
+    }
+  },
+  "cg_policy": {
+    "listed_actor_tiers": ["A_story_anchor", "B_scene_actor"],
+    "atmospheric_extras_are_not_actor_contracts": true,
+    "gaze_or_choice_requires_actor_contract": true,
+    "wedding_rule": "The wedding uses separate acting shots instead of one overloaded composite: Daeun's mother alone anchors the bride-side reaction in a dusty-rose honju hanbok; living Father anchors the groom-side reaction in a charcoal honju suit; reconnected Hyunsu appears alone one row behind only when the route permits him; and the couple-wide and close shots identify only Minjun and Daeun. Every unnamed guest remains a low-contrast faceless silhouette, and Hyunsu is never assigned an unauthored partner or child.",
+    "identity_exception": "partner may remain a back-view B-tier role only where revealing Daeun or Jiyeon would contradict ending routing"
+  },
+  "reusable_background_policy": {
+    "allowed_embedded_tier": "C_atmospheric_extra",
+    "forbidden_embedded_tiers": ["A_story_anchor", "B_scene_actor"],
+    "reason": "reusable places cannot silently recast a named person or freeze a route-specific action"
+  },
+  "moral_treatment": {
+    "gray": "all tiers keep spatial separation; A and B faces remain readable",
+    "black": "C recedes first, B loses color before identity, A keeps gaze and gesture; darkness may not erase acting",
+    "white": "human detail and air return without halo, bloom, or higher social-status styling"
+  }
+}

@@ -113,7 +113,7 @@ func open() -> void:
 	TutorialOverlay.maybe_show("baccarat", self)
 	set_process(false)
 	_render()
-	AudioManager.play("tab_open")
+	AudioManager.play("card_shuffle")
 
 func _on_exit() -> void:
 	# 커미션 정산
@@ -148,7 +148,7 @@ func _process(delta: float) -> void:
 		_deal_b_visible.append(step["card"])
 		_show_table_banner("BANKER CARD", Color("#e85d5d"), 0.28)
 	_deal_idx += 1
-	AudioManager.play("casino_card")
+	AudioManager.play_varied("card_deal", -1.5, 0.94, 1.07)
 	_render()
 	_screen_flash(Color("#d4a020") if step["side"] == "player" else Color("#e85d5d"), 0.06, 0.14)
 
@@ -320,8 +320,7 @@ func _add_bet(type: String) -> void:
 		"T":  _bet_t  += add
 		"PP": _bet_pp += add
 		"BP": _bet_bp += add
-	AudioManager.play("casino_bet")
-	AudioManager.play_delayed("casino_coin", 0.08, -5.0)
+	AudioManager.play_varied("chip_place")
 	AudioManager.pulse_gamepad(0.06, 0.12, 0.06)
 	_spawn_bet_chip(type, add)
 	_show_table_banner("BET  %s" % type, Color("#f0b429"), 0.22)
@@ -329,7 +328,7 @@ func _add_bet(type: String) -> void:
 
 func _clear_bets() -> void:
 	_reset_bets()
-	AudioManager.play("click")
+	AudioManager.play("chip_collect")
 	_render()
 
 func _total_bet() -> int:
@@ -345,6 +344,7 @@ func _deal() -> void:
 	# 슈 리셔플 체크
 	if BAC.shoe_remaining_ratio(_shoe) < SHOE_CUT:
 		_shoe = BAC.new_shoe(_rng)
+		AudioManager.play("card_shuffle")
 		_flash(_tr("🔀 슈 리셔플", "🔀 Shoe reshuffled"), "#d4a020")
 
 	GameState.add_money(-float(_total_bet()))
@@ -371,7 +371,6 @@ func _deal() -> void:
 	_deal_idx = 0
 	_deal_timer = 0.1
 	_phase = Phase.DEALING
-	AudioManager.play("event_new")
 	AudioManager.pulse_gamepad(0.08, 0.18, 0.10)
 	set_process(true)
 	_render()
@@ -426,6 +425,7 @@ func _finish_result() -> void:
 	var has_pair_win: bool = (bool(_result.get("p_pair", false)) and _bet_pp > 0) or (bool(_result.get("b_pair", false)) and _bet_bp > 0)
 	if is_win:
 		GameState.modify_hidden_stat("gambling_tendency", 2)
+		AudioManager.play("chip_collect")
 		AudioManager.play_casino_result(net_round, float(_total_bet()), res == "tie" or has_pair_win)
 	else:
 		GameState.modify_hidden_stat("addiction_tendency", 2)

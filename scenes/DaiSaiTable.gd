@@ -138,7 +138,7 @@ func _process(delta: float) -> void:
 	if _roll_tick_elapsed >= ROLL_TICK:
 		_roll_tick_elapsed = 0.0
 		_dice = DAI_SAI.roll(_rng)
-		AudioManager.play("casino_reel")
+		AudioManager.play_varied("dice_roll", -3.0, 0.86, 1.14)
 		if is_instance_valid(_dice_ctrl):
 			_dice_ctrl.queue_redraw()
 	if _roll_elapsed >= ROLL_DURATION:
@@ -347,7 +347,7 @@ func _reset_default_bet(play_sound: bool = true) -> void:
 	_stake = 50_000
 	_sync_pad_cursor_to_bet(_bet_type, _selected)
 	if play_sound:
-		AudioManager.play("casino_bet")
+		AudioManager.play_ui_click(-8.0)
 	_refresh()
 
 func _should_show_pad_cursor() -> bool:
@@ -359,7 +359,7 @@ func _select_bet(t: int, selected: int = -1) -> void:
 	_bet_type = t
 	_selected = selected
 	_sync_pad_cursor_to_bet(t, selected)
-	AudioManager.play("casino_bet")
+	AudioManager.play_ui_click(-8.0)
 	_refresh()
 
 func _select_stake(amount: int) -> void:
@@ -383,7 +383,9 @@ func _do_roll() -> void:
 	_roll_tick_elapsed = 0.0
 	_msg_lbl.text = _tr("주사위가 굴러갑니다...", "Dice rolling...")
 	_msg_lbl.add_theme_color_override("font_color", Color("#e8c45d"))
-	AudioManager.play("casino_spin")
+	AudioManager.play_varied("chip_place")
+	AudioManager.play_delayed("dice_cup_shake", 0.08)
+	AudioManager.play_delayed_varied("dice_roll", 0.46, -3.0, 0.90, 1.10)
 	AudioManager.pulse_gamepad(0.10, 0.22, 0.12)
 	set_process(true)
 	_refresh()
@@ -400,6 +402,7 @@ func _finish_roll() -> void:
 		net_round = gross - _stake
 		_wins += 1
 		GameState.modify_hidden_stat("gambling_tendency", 2 if multiplier >= 8.0 else 1)
+		AudioManager.play("chip_collect")
 		AudioManager.play_casino_result(float(net_round), float(_stake), multiplier >= 24.0)
 		_flash_msg(_tr("당첨! %s  +%s", "Win! %s  +%s") % [_dice_label(), GameState.format_money(float(net_round))], "#3de87a")
 		_pulse_dice()

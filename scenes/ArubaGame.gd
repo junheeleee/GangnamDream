@@ -473,8 +473,7 @@ func _build_base_ui() -> void:
 func _set_scene_surface(path: String, ambience_key: String) -> void:
 	if is_instance_valid(_scene_bg):
 		_scene_bg.texture = load(path) if ResourceLoader.exists(path) else null
-	BGMPlayer.set_season_ambience("")
-	BGMPlayer.set_ambience(ambience_key)
+	BGMPlayer.enter_activity_ambience(ambience_key)
 
 # ══════════════════════════════════════════════════════════════════
 # CARDS 모드
@@ -1173,7 +1172,7 @@ func _show_result() -> void:
 
 func _on_finish() -> void:
 	MetaProgression.record_minigame_play("aruba")
-	BGMPlayer.update_idle_ambience()
+	BGMPlayer.leave_activity_ambience()
 	visible = false
 	closed.emit(_earned, _stress_delta, _health_delta)
 

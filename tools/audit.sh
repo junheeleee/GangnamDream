@@ -44,7 +44,7 @@ cleanup_isolated_home() {
     return 1
   fi
   case "$target" in
-    "$temp_root"/gangnam-achievements.*|"$temp_root"/gangnam-hidden.*|"$temp_root"/gangnam-housing-keepsake.*)
+    "$temp_root"/gangnam-achievements.*|"$temp_root"/gangnam-hidden.*|"$temp_root"/gangnam-housing-keepsake.*|"$temp_root"/gangnam-story-audio.*)
       rm -rf -- "$target"
       ;;
     *)
@@ -86,6 +86,11 @@ echo "────────────────────────�
 echo "● 활성 CG 카메라·시선·연기 계약 검사"
 python3 tools/cg_acting_contract_check.py
 CG_ACTING_EXIT=$?
+
+echo "──────────────────────────────────────────"
+echo "● A/B/C 배우 디테일·익명 군중 위계 검사"
+python3 tools/cast_detail_contract_check.py
+CAST_DETAIL_EXIT=$?
 
 echo "──────────────────────────────────────────"
 echo "● 이벤트 장소·계절·의상 계약 검사"
@@ -133,6 +138,10 @@ echo "────────────────────────�
 echo "● 오디오 자산/엔딩 톤 회귀 검사"
 python3 tools/audio_source_audit.py
 AUDIO_SOURCE_EXIT=$?
+python3 tools/scene_audio_contract_check.py
+SCENE_AUDIO_EXIT=$?
+python3 tools/game_audio_contract_check.py
+GAME_AUDIO_CONTRACT_EXIT=$?
 python3 tools/generate_gangnam_ui_sfx.py --check
 UI_SFX_EXIT=$?
 if [ -x "$GODOT" ]; then
@@ -149,6 +158,21 @@ else
 fi
 
 echo "──────────────────────────────────────────"
+echo "● 미니게임 물리음·장소 앰비언스 런타임 검사"
+if [ -x "$GODOT" ]; then
+  GAME_AUDIO_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/GameAudioContractCheck.tscn 2>&1)
+  echo "$GAME_AUDIO_RAW" | grep -E "GAME_AUDIO_RUNTIME_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
+  if echo "$GAME_AUDIO_RAW" | grep -q "GAME_AUDIO_RUNTIME_OK"; then
+    GAME_AUDIO_RUNTIME_EXIT=0
+  else
+    GAME_AUDIO_RUNTIME_EXIT=1
+  fi
+else
+  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 게임 오디오 런타임 체크 건너뜀."
+  GAME_AUDIO_RUNTIME_EXIT=0
+fi
+
+echo "──────────────────────────────────────────"
 echo "● BGM 재시작/도덕 질감/장면 앰비언스 연속성 검사"
 if [ -x "$GODOT" ]; then
   BGM_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/BGMContinuityCheck.tscn 2>&1)
@@ -161,6 +185,21 @@ if [ -x "$GODOT" ]; then
 else
   echo "  ⚠ Godot 실행파일 없음 ($GODOT) — BGM 연속성 체크 건너뜀."
   BGM_EXIT=0
+fi
+
+echo "──────────────────────────────────────────"
+echo "● 도덕 밴드 사람층 소거·무기질 장소 지속 검사"
+if [ -x "$GODOT" ]; then
+  MORAL_AMBIENCE_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/MoralAmbienceCheck.tscn 2>&1)
+  echo "$MORAL_AMBIENCE_RAW" | grep -E "MORAL_AMBIENCE_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
+  if echo "$MORAL_AMBIENCE_RAW" | grep -q "MORAL_AMBIENCE_CHECK_OK"; then
+    MORAL_AMBIENCE_EXIT=0
+  else
+    MORAL_AMBIENCE_EXIT=1
+  fi
+else
+  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 도덕 앰비언스 체크 건너뜀."
+  MORAL_AMBIENCE_EXIT=0
 fi
 
 echo "──────────────────────────────────────────"
@@ -221,6 +260,23 @@ if [ -x "$GODOT" ]; then
 else
   echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 스토리 자동 재생 체크 건너뜀."
   STORY_PLAYBACK_EXIT=0
+fi
+
+echo "──────────────────────────────────────────"
+echo "● 이벤트 중 오디오 설정·패드 메뉴·재생 연속성 검사"
+if [ -x "$GODOT" ]; then
+  STORY_AUDIO_HOME=$(make_isolated_home "gangnam-story-audio")
+  STORY_AUDIO_RAW=$(run_limited env HOME="$STORY_AUDIO_HOME" "$GODOT" --headless --quit-after 3600 res://tools/StoryAudioSettingsCheck.tscn 2>&1)
+  cleanup_isolated_home "$STORY_AUDIO_HOME"
+  echo "$STORY_AUDIO_RAW" | grep -E "STORY_AUDIO_SETTINGS_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
+  if echo "$STORY_AUDIO_RAW" | grep -q "STORY_AUDIO_SETTINGS_CHECK_OK"; then
+    STORY_AUDIO_EXIT=0
+  else
+    STORY_AUDIO_EXIT=1
+  fi
+else
+  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 이벤트 오디오 설정 체크 건너뜀."
+  STORY_AUDIO_EXIT=0
 fi
 
 echo "──────────────────────────────────────────"
@@ -341,7 +397,7 @@ else
 fi
 
 echo "──────────────────────────────────────────"
-if [ "$PY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$PACING_EXIT" -ne 0 ] || [ "$PEAK_CHAIN_EXIT" -ne 0 ] || [ "$KEY_ART_EXIT" -ne 0 ] || [ "$ART_AI_EXIT" -ne 0 ] || [ "$CG_ACTING_EXIT" -ne 0 ] || [ "$EVENT_VISUAL_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$I18N_COVERAGE_EXIT" -ne 0 ] || [ "$I18N_SURFACE_EXIT" -ne 0 ] || [ "$JA_UI_EXIT" -ne 0 ] || [ "$I18N_RUNTIME_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$ENDING_DISTINCTNESS_EXIT" -ne 0 ] || [ "$AUDIO_SOURCE_EXIT" -ne 0 ] || [ "$UI_SFX_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$BGM_EXIT" -ne 0 ] || [ "$IMMERSION_EXIT" -ne 0 ] || [ "$MOTIVATION_EXIT" -ne 0 ] || [ "$TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_PLAYBACK_EXIT" -ne 0 ] || [ "$ACHIEVEMENT_EXIT" -ne 0 ] || [ "$HIDDEN_EXIT" -ne 0 ] || [ "$HOUSING_KEEPSAKE_EXIT" -ne 0 ] || [ "$YEAR_IDENTITY_EXIT" -ne 0 ] || [ "$DEMO_BUILD_EXIT" -ne 0 ] || [ "$TRAILER_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
+if [ "$PY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$PACING_EXIT" -ne 0 ] || [ "$PEAK_CHAIN_EXIT" -ne 0 ] || [ "$KEY_ART_EXIT" -ne 0 ] || [ "$ART_AI_EXIT" -ne 0 ] || [ "$CG_ACTING_EXIT" -ne 0 ] || [ "$CAST_DETAIL_EXIT" -ne 0 ] || [ "$EVENT_VISUAL_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$I18N_COVERAGE_EXIT" -ne 0 ] || [ "$I18N_SURFACE_EXIT" -ne 0 ] || [ "$JA_UI_EXIT" -ne 0 ] || [ "$I18N_RUNTIME_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$ENDING_DISTINCTNESS_EXIT" -ne 0 ] || [ "$AUDIO_SOURCE_EXIT" -ne 0 ] || [ "$SCENE_AUDIO_EXIT" -ne 0 ] || [ "$GAME_AUDIO_CONTRACT_EXIT" -ne 0 ] || [ "$UI_SFX_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$GAME_AUDIO_RUNTIME_EXIT" -ne 0 ] || [ "$BGM_EXIT" -ne 0 ] || [ "$MORAL_AMBIENCE_EXIT" -ne 0 ] || [ "$IMMERSION_EXIT" -ne 0 ] || [ "$MOTIVATION_EXIT" -ne 0 ] || [ "$TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_PLAYBACK_EXIT" -ne 0 ] || [ "$STORY_AUDIO_EXIT" -ne 0 ] || [ "$ACHIEVEMENT_EXIT" -ne 0 ] || [ "$HIDDEN_EXIT" -ne 0 ] || [ "$HOUSING_KEEPSAKE_EXIT" -ne 0 ] || [ "$YEAR_IDENTITY_EXIT" -ne 0 ] || [ "$DEMO_BUILD_EXIT" -ne 0 ] || [ "$TRAILER_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
   echo "❌ 감사 실패 — 위 ERROR를 고치고 다시 돌리세요."
   exit 1
 fi

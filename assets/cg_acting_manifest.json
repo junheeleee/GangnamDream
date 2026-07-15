@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "updated": "2026-07-13",
+  "updated": "2026-07-15",
   "rule": "Every active CG owns an explicit camera role and every visible named actor owns a gaze target plus a supporting body action. Lens gaze is legal only for player_pov.",
   "cg": {
     "cg_start": {
@@ -234,22 +234,79 @@
         {"id": "minjun", "gaze_target": "Daeun's reaction", "pose_support": "Back-view head and black-crewneck shoulders face screen-right toward her without lens contact."}
       ]
     },
+    "cg_romance_wedding_daeun_mother_reaction": {
+      "path": "assets/cg/romance/wedding_daeun_mother_reaction_v1.png",
+      "camera_role": "bride_side_parent_reaction_medium",
+      "story_action": "Before the rear doors open, Daeun's mother holds the bride-side aisle seat in a Korean honju hanbok while every unnamed guest recedes into a faceless silhouette.",
+      "actors": [
+        {"id": "daeun_mother", "gaze_target": "The closed rear doors where Daeun will appear", "pose_support": "Her torso remains grounded in the screen-left front-row aisle chair; both hands rest naturally on the dusty-rose and raspberry honju hanbok while her head and pupils turn toward the doors."}
+      ]
+    },
+    "cg_romance_wedding_daeun_father_reaction": {
+      "path": "assets/cg/romance/wedding_daeun_father_reaction_v1.png",
+      "camera_role": "groom_side_parent_reaction_medium",
+      "story_action": "Minjun's living father occupies the groom-side front-row aisle seat alone, turning toward the unseen bride instead of staring at the player.",
+      "actors": [
+        {"id": "father", "gaze_target": "The unseen bride entering along the screen-left aisle", "pose_support": "His charcoal honju suit, seated legs, grounded shoes, and hands on both knees follow the front-row chair perspective while his head and pupils turn screen-left."}
+      ]
+    },
+    "cg_romance_wedding_daeun_father_reaction_hyunsu": {
+      "path": "assets/cg/romance/wedding_daeun_father_reaction_hyunsu_v1.png",
+      "camera_role": "groom_side_parent_reaction_medium",
+      "story_action": "Father keeps the front-row aisle seat and reconnected Hyunsu attends alone one row behind him; the sparse groom side invents no spouse or child.",
+      "actors": [
+        {"id": "father", "gaze_target": "The unseen bride entering along the screen-left aisle", "pose_support": "His seated charcoal-suited body remains the front-row anchor while his face and pupils turn screen-left."},
+        {"id": "hyunsu", "gaze_target": "The unseen bride entering along the screen-left aisle", "pose_support": "Round glasses, soft broad face, navy suit, burgundy tie, grounded feet, and folded hands sit one complete row behind Father without blocking him."}
+      ]
+    },
+    "cg_romance_wedding_daeun_father_reaction_passed": {
+      "path": "assets/cg/romance/wedding_daeun_father_reaction_passed_v1.png",
+      "camera_role": "environment",
+      "story_action": "The groom-side front-row aisle chair remains entirely empty after Father's death; no person or memorial prop fills the absence.",
+      "actors": []
+    },
+    "cg_romance_wedding_daeun_father_reaction_passed_hyunsu": {
+      "path": "assets/cg/romance/wedding_daeun_father_reaction_passed_hyunsu_v1.png",
+      "camera_role": "groom_side_absence_reaction_medium",
+      "story_action": "Father's front-row aisle chair remains empty while reconnected Hyunsu attends alone one row behind it, preserving both route facts without crowding the frame.",
+      "actors": [
+        {"id": "hyunsu", "gaze_target": "The unseen bride entering along the screen-left aisle", "pose_support": "His round glasses, broad face, navy suit, burgundy tie, grounded feet, and folded hands occupy one second-row chair while the entire front-row seat stays visible and empty."}
+      ]
+    },
     "cg_romance_wedding_daeun_small": {
       "path": "assets/cg/romance/wedding_daeun_small_v1.png",
       "camera_role": "over_groom_shoulder_from_altar_toward_entrance_wide",
-      "story_action": "After entering first, Minjun waits at the altar while Daeun walks from the rear doors toward him; the sparse screen-left groom side and full screen-right bride side make five years of social cost visible.",
+      "story_action": "The modest wedding entrance isolates Minjun and Daeun: faceless bride-side silhouettes and empty groom-side chairs remain context rather than competing actors.",
       "actors": [
-        {"id": "minjun", "gaze_target": "Daeun approaching from the rear entrance", "pose_support": "Back-view head and squared shoulders remain still at the altar and face her; his plain charcoal suit stays distinct from the seated guests."},
-        {"id": "daeun", "gaze_target": "Minjun waiting at the altar", "pose_support": "Her short-haired adult face, pupils, and walking posture align toward him; both hands hold one small bouquet naturally at her waist."}
+        {"id": "minjun", "gaze_target": "Daeun approaching from the rear entrance", "pose_support": "Back-view head and squared charcoal-suited shoulders remain still at the altar and face her without lens contact."},
+        {"id": "daeun", "gaze_target": "Minjun waiting at the altar", "pose_support": "Her short-haired adult face, pupils, walking posture, simple A-line dress, and both hands around the modest bouquet align toward him."}
       ]
     },
     "cg_romance_wedding_daeun_full": {
       "path": "assets/cg/romance/wedding_daeun_full_v1.png",
       "camera_role": "over_groom_shoulder_from_altar_toward_entrance_wide",
-      "story_action": "The full package upgrades the hall, gown, veil, bouquet, and flowers while Minjun waits at the altar, but it cannot fill the sparse screen-left groom side.",
+      "story_action": "The full-package entrance keeps only Minjun and Daeun readable while richer flowers, candles, gown, veil, and bouquet preserve the paid tier.",
       "actors": [
-        {"id": "minjun", "gaze_target": "Daeun approaching from the rear entrance", "pose_support": "Back-view head and squared shoulders remain still at the altar and face her while empty chairs stay visible at screen-left."},
-        {"id": "daeun", "gaze_target": "Minjun waiting at the altar", "pose_support": "Her same short-haired adult face and pupils look toward him as she walks; both hands hold one bouquet against the refined satin A-line gown."}
+        {"id": "minjun", "gaze_target": "Daeun approaching from the rear entrance", "pose_support": "Back-view head and squared charcoal-suited shoulders remain at the altar and face her without lens contact."},
+        {"id": "daeun", "gaze_target": "Minjun waiting at the altar", "pose_support": "Her same adult face and pupils align toward him as both hands hold the larger bouquet against the refined beaded A-line gown."}
+      ]
+    },
+    "cg_romance_wedding_daeun_small_close": {
+      "path": "assets/cg/romance/wedding_daeun_small_close_v1.png",
+      "camera_role": "over_groom_shoulder_from_altar_toward_entrance_medium",
+      "story_action": "As Daeun closes the last steps in the modest ceremony, the camera moves near enough to read her restrained smile, eye line, bouquet grip, and the social imbalance behind her.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "Daeun's eyes", "pose_support": "His cropped back-view head and shoulder frame screen-left while facing her directly."},
+        {"id": "daeun", "gaze_target": "Minjun's eyes", "pose_support": "Her canonical short-haired adult face, pupils, shoulders, and clasped bouquet all align toward Minjun without lens contact; no parent competes in the frame."}
+      ]
+    },
+    "cg_romance_wedding_daeun_full_close": {
+      "path": "assets/cg/romance/wedding_daeun_full_close_v1.png",
+      "camera_role": "over_groom_shoulder_from_altar_toward_entrance_medium",
+      "story_action": "As Daeun closes the last steps in the full-package ceremony, the camera prioritizes her same face and gaze over the richer beaded gown, veil, bouquet, flowers, and candles.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "Daeun's eyes", "pose_support": "His cropped back-view head and shoulder frame screen-left while facing her directly."},
+        {"id": "daeun", "gaze_target": "Minjun's eyes", "pose_support": "Her canonical short-haired adult face, pupils, shoulders, and two naturally clasped bouquet hands align toward Minjun without lens contact; richer flowers do not obscure her hands."}
       ]
     },
     "cg_romance_wedding_gap_jiyeon": {

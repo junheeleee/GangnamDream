@@ -657,12 +657,25 @@ Updated on 2026-07-13 for the `lonely_rich` P1 dining-table CG and its strict se
   - T1 accepted-proposal CG: rainy cafe, one open ring box, Daeun's hand-over-mouth reaction, and mutual off-lens eye line over Minjun's shoulder.
   - Approved 1280x800 choice-result CG, revealed at result paragraph 1 only for the accepted branch.
 - `assets/cg/romance/wedding_daeun_small_v1.png`
-  - Modest Seoul wedding-hall variant with simple A-line dress, restrained flowers, full bride side, and sparse groom side.
+  - Modest couple-only wide entry: Minjun waits at the altar and Daeun approaches in the simple A-line dress; only the couple is identifiable, with faceless bride-side silhouettes and empty groom-side chairs kept as context.
 - `assets/cg/romance/wedding_daeun_full_v1.png`
-  - Full-package wedding variant with a larger hall, refined gown/veil, and upgraded flowers while preserving the same sparse groom side and camera.
+  - Full-package couple-only wide entry with refined gown/veil, larger bouquet, and upgraded flowers while preserving the same two-person gaze and sparse-seat geometry.
+- `assets/cg/romance/wedding_daeun_mother_reaction_v1.png`
+  - Bride-side parent reaction: Daeun's mother is grounded in the screen-left front-row aisle seat, wears the fixed dusty-rose/raspberry honju hanbok, and looks toward the closed doors; every guest behind her is a low-contrast faceless silhouette.
+- `assets/cg/romance/wedding_daeun_father_reaction_v1.png`
+  - Living-Father groom-side reaction: he occupies the screen-right front-row aisle seat in a charcoal honju suit and turns his face and eyes toward the unseen bride rather than the viewer.
+- `assets/cg/romance/wedding_daeun_father_reaction_hyunsu_v1.png`
+  - `hyunsu_reconnected`: Father keeps the front row and Hyunsu attends alone one full row behind him; no spouse or child is invented.
+- `assets/cg/romance/wedding_daeun_father_reaction_passed_v1.png`
+  - `father_passed`: the front-row aisle chair remains completely empty, with no portrait, prop, or replacement guest.
+- `assets/cg/romance/wedding_daeun_father_reaction_passed_hyunsu_v1.png`
+  - `father_passed&hyunsu_reconnected`: Father's empty chair remains unobstructed while Hyunsu sits alone one row behind it.
+- `assets/cg/romance/wedding_daeun_small_close_v1.png`
+- `assets/cg/romance/wedding_daeun_full_close_v1.png`
+  - Couple-only aisle close variants that preserve the small/full wardrobe while making Daeun's canonical face, mutual gaze, bouquet grip, and restrained emotion readable without a parent competing in frame.
 - `assets/cg/romance/wedding_gap_jiyeon_v1.png`
   - Pre-decision hotel-ballroom negotiation: Jiyeon's father pressures the couple across unequal blank invitation-card groups; Jiyeon remains in an ivory planning suit, not a bridal gown.
-  - All four are owned by `assets/COMMITMENT_VISUAL_BIBLE.md`; the two Daeun wedding files are flag-selected, while the Jiyeon image deliberately does not depict either choice outcome.
+  - All commitment assets are owned by `assets/COMMITMENT_VISUAL_BIBLE.md`; Daeun's nine wedding files separate couple/package state from family-route state, while the Jiyeon image deliberately does not depict either choice outcome.
 
 - `assets/cg/romance/wedding_morning_daeun_v1.png`
   - Daeun's first married morning from Minjun's POV: same mauve indoor outfit, wedding-ring pan hand, spatula hand, and rolled omelet in the canonical small kitchen.
