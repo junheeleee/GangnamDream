@@ -57,12 +57,13 @@ MIN_DIALOGUE_TURNS = 2
 MIN_PANELS = 6
 
 # Ratchet updated only after a peak is expanded and its rendered QA passes.
-BASELINE_DEBT = 24
+BASELINE_DEBT = 23
 REQUIRED_PASS = {
     "arc_date_namsan_daeun",
     "arc_date_namsan_jiyeon",
     "arc_daeun_proposal",
     "arc_daeun_wedding_day",
+    "arc_jiyeon_wedding_gap",
 }
 
 
@@ -337,6 +338,69 @@ def validate_daeun_wedding_contract(events: dict[str, dict[str, Any]]) -> None:
         raise ValueError("Daeun wedding empty-seat reflection must not gain cast effects")
 
 
+def validate_jiyeon_wedding_gap_contract(events: dict[str, dict[str, Any]]) -> None:
+    """Preserve Jiyeon's class-pressure scene as pre-decision negotiation only."""
+    root_id = "arc_jiyeon_wedding_gap"
+    final_id = "arc_jiyeon_wedding_gap_decision"
+    expected_path = (
+        "arc_jiyeon_wedding_gap",
+        "arc_jiyeon_wedding_guest_list",
+        "arc_jiyeon_wedding_gap_decision",
+    )
+    paths = walk_paths(events, root_id)
+    for path in paths:
+        if path.event_ids != expected_path:
+            raise ValueError(
+                "Jiyeon wedding gap must retain the three-link class-pressure chain: "
+                f"{' -> '.join(path.event_ids)}"
+            )
+
+    protected_flags = {"arc_jiyeon_wedding_gap_seen"}
+    for event_id in expected_path[:-1]:
+        event = events[event_id]
+        if event.get("cg") != "cg_romance_wedding_gap_jiyeon":
+            raise ValueError(f"Jiyeon wedding gap buildup CG changed at {event_id}")
+        for choice in event.get("choices") or []:
+            leaked = protected_flags.intersection(choice.get("flags") or [])
+            if leaked:
+                raise ValueError(
+                    f"Jiyeon wedding gap buildup commits final flags at {event_id}: "
+                    f"{', '.join(sorted(leaked))}"
+                )
+            for forbidden in ("effects", "cast_effects", "result_cg", "result_background"):
+                if choice.get(forbidden):
+                    raise ValueError(
+                        f"Jiyeon wedding gap buildup must not apply {forbidden} at {event_id}"
+                    )
+
+    final_event = events[final_id]
+    if final_event.get("cg") != "cg_romance_wedding_gap_jiyeon":
+        raise ValueError("Jiyeon wedding gap final decision CG changed")
+    final_choices = final_event.get("choices") or []
+    if len(final_choices) != 2:
+        raise ValueError("Jiyeon wedding gap final decision must retain exactly two choices")
+    expected = (
+        {
+            "effects": {"money": -20000000, "mental": -8, "tint": -4},
+            "flags": ["arc_jiyeon_wedding_gap_seen"],
+            "cast_effects": {"jiyeon": {"affinity": 4}},
+        },
+        {
+            "effects": {"mental": 6, "tint": 5},
+            "flags": ["arc_jiyeon_wedding_gap_seen"],
+            "cast_effects": {"jiyeon": {"affinity": -6}},
+        },
+    )
+    for index, contract in enumerate(expected):
+        choice = final_choices[index]
+        for key, value in contract.items():
+            if choice.get(key) != value:
+                raise ValueError(
+                    f"Jiyeon wedding gap final choice {index} changed {key}: "
+                    f"{choice.get(key)!r}!={value!r}"
+                )
+
+
 def measure(label: str, root_id: str, events: dict[str, dict[str, Any]]) -> PeakMetric:
     paths = walk_paths(events, root_id)
     links = [len(path.event_ids) for path in paths]
@@ -395,6 +459,7 @@ def main() -> int:
     en_events = load_events(EVENTS_EN)
     validate_daeun_proposal_contract(ko_events)
     validate_daeun_wedding_contract(ko_events)
+    validate_jiyeon_wedding_gap_contract(ko_events)
     metrics = [measure(label, root_id, ko_events) for label, root_id in PEAK_ROOTS]
     visited = {
         event_id

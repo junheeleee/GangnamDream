@@ -307,7 +307,7 @@ sips -z 768 512
 ```
 
 - 초상은 RGBA 512x768, 본 섹션의 CG는 RGB 1280x800으로 확인했다.
-- Godot 4.6.2 재임포트 후 KO/EN `--qa=commitment` 각 33장으로 제안 선택 전·수락/보류 결과, 다은 어머니·신랑석 상태·소형/풀 커플 와이드·근접, 지연 협상 크롭을 확인한다.
+- Godot 4.6.2 재임포트 후 KO/EN `--qa=commitment` 각 38장으로 제안 선택 전·수락/보류 결과, 다은 어머니·신랑석 상태·소형/풀 커플 와이드·근접, 지연 3링크 협상 크롭과 양 결과를 확인한다.
 - `event_visual_contract_check.py --strict`, `cg_acting_contract_check.py`, `cast_detail_contract_check.py`, `peak_scene_chain_audit.py`가 분리된 9개 다은 결혼식 CG의 라우팅·배우·시선·빈자리 계약을 함께 강제한다.
 - 상용 배포 전에는 사용한 생성 서비스의 당시 이용 약관과 계정 권리 범위를 별도 출시 증빙에 보관한다.
 

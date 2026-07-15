@@ -106,6 +106,8 @@
     },
     "arc_daeun_wedding_aisle": {"ambience": "wedding_hall", "music": {"key": "wedding_processional", "start_paragraph": 0}},
     "arc_jiyeon_wedding_gap": {"ambience": "wedding_hall", "music": {"key": "reckoning", "start_paragraph": 0}},
+    "arc_jiyeon_wedding_guest_list": {"ambience": "wedding_hall", "music": {"key": "reckoning", "start_paragraph": 0}},
+    "arc_jiyeon_wedding_gap_decision": {"ambience": "wedding_hall", "music": {"key": "reckoning", "start_paragraph": 0}},
     "arc_jiyeon_verdict": {"ambience": "apartment", "music": {"key": "grief", "start_paragraph": 0}},
     "arc_daeun_final_choice": {"ambience": "oneroom", "music": {"key": "grief", "start_paragraph": 0}},
     "arc_sangchul_01_meet": {"ambience": "office", "music": {"key": "reckoning", "start_paragraph": 0}},

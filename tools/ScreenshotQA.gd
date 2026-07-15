@@ -1186,8 +1186,12 @@ func _assert_commitment_visual_state(story: Node, event_id: String, selected_cho
 			expected_id = "cg_romance_wedding_daeun_full_close" if is_full else "cg_romance_wedding_daeun_small_close"
 		_assert_story_cg(story, expected_id, event_id, true)
 		return
-	if event_id == "arc_jiyeon_wedding_gap":
-		_assert_story_cg(story, "cg_romance_wedding_gap_jiyeon", event_id)
+	if event_id in [
+		"arc_jiyeon_wedding_gap",
+		"arc_jiyeon_wedding_guest_list",
+		"arc_jiyeon_wedding_gap_decision",
+	]:
+		_assert_story_cg(story, "cg_romance_wedding_gap_jiyeon", event_id, selected_choice >= 0)
 
 func _assert_breakup_visual_state(story: Node, event_id: String, selected_choice: int) -> void:
 	if event_id not in ["arc_daeun_final_choice", "arc_jiyeon_verdict"]:
@@ -2702,7 +2706,17 @@ func _shot_commitment_surfaces(lang: String = "en", prefix: String = "commitment
 	_prepare_commitment_qa_state("jiyeon")
 	await _shot_story_event("arc_jiyeon_wedding_gap", prefix + "32_jiyeon_gap_intro", "", 0.55, true)
 	_prepare_commitment_qa_state("jiyeon")
-	await _shot_story_event("arc_jiyeon_wedding_gap", prefix + "33_jiyeon_gap_choices", "", 0.45, true, true)
+	await _shot_story_event("arc_jiyeon_wedding_gap", prefix + "33_jiyeon_gap_first_choice", "", 0.45, true, true)
+	_prepare_commitment_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_wedding_guest_list", prefix + "34_jiyeon_gap_guest_list", "", 0.55, true)
+	_prepare_commitment_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_wedding_guest_list", prefix + "35_jiyeon_gap_guest_choice", "", 0.45, true, true)
+	_prepare_commitment_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_wedding_gap_decision", prefix + "36_jiyeon_gap_final_choice", "", 0.45, true, true)
+	_prepare_commitment_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_wedding_gap_decision", prefix + "37_jiyeon_gap_debt_result", "", 0.45, true, true, 0, 0, false, 1)
+	_prepare_commitment_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_wedding_gap_decision", prefix + "38_jiyeon_gap_means_result", "", 0.45, true, true, 1, 0, false, 1)
 
 func _shot_breakup_surfaces(lang: String = "en", prefix: String = "breakup_en_") -> void:
 	_set_qa_language(lang)

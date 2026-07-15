@@ -71,6 +71,7 @@ The wedding-prep choice must survive into the wedding-day image. Both variants s
 
 - Asset: `assets/cg/romance/wedding_gap_jiyeon_v1.png`.
 - This is the pre-decision class negotiation, not a proposal and not the completed ceremony. Do not put Jiyeon in a bridal gown or show the choice outcome.
+- The scene is edited as three continuous StoryMode links: the ballroom pressure, the groom-side guest-list pressure, and the final decision. All three links may reuse the same prepared-hotel CG because the point is a single negotiation space, not a new ceremony state.
 - Location: an empty/prepared five-star Seoul hotel grand ballroom with a long central aisle, restrained chandeliers, formal round tables, and a seating-plan table. No hotel brand or readable guest names.
 - Jiyeon: tailored ivory planning suit over a black silk inner layer, long black hair, geometric earrings. She stands beside Minjun but watches her father with controlled tension.
 - Minjun: inexpensive charcoal suit, visibly less polished but properly fitted; he looks toward the father or the blank groom-side list.
@@ -84,5 +85,5 @@ The wedding-prep choice must survive into the wedding-day image. Both variants s
 - `arc_daeun_wedding_day` owns Daeun's mother reaction. It does not branch on package or groom-side state.
 - `arc_daeun_wedding_groom_side` owns the groom-side reaction. First-match precedence resolves `father_passed` plus `hyunsu_reconnected`; the combined state must be checked before either single-state fallback. Hyunsu attends alone. Legacy saves default to the living-Father reaction.
 - `arc_daeun_wedding_walk` owns the small/full couple-wide entrance frame. `arc_daeun_wedding_aisle` switches to the corresponding small/full couple close. Only the final aisle event may set `arc_daeun_wedding_day_seen`.
-- `arc_jiyeon_wedding_gap`: dedicated pre-decision full-scene CG.
+- `arc_jiyeon_wedding_gap` → `arc_jiyeon_wedding_guest_list` → `arc_jiyeon_wedding_gap_decision`: dedicated pre-decision full-scene CG. Only the final link may set `arc_jiyeon_wedding_gap_seen` or apply the existing money/mental/tint/affinity effects.
 - All eleven commitment CG files (proposal 1, Daeun wedding 9, Jiyeon gap 1) require active actor/camera/gaze/body contracts and Korean/English 1280x800 intro/choice/result captures where applicable.

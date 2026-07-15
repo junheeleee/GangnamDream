@@ -2,7 +2,46 @@
   {
     "id": "arc_jiyeon_wedding_gap",
     "title": "Her Wedding",
-    "description": "The Han family's wedding was on another scale.\n\nA five-star hotel grand ballroom. The ye-dan alone — the formal betrothal gifts the two families exchange — ran to tens of millions of won. The guest list traded names from business and politics. His future father-in-law said,\n\"It's my daughter's wedding. It has to be done without embarrassment. You understand that much, don't you?\"\n\n{name} understood that 'that much' exceeded his entire net worth.\n\nAnd the seating — the bride's side would fill with names everyone knew.\nOn the groom's list, {name}... could barely write a few. His father, Hyunsu, and blank space.",
+    "description": "When the hotel staff opened the heavy doors, chandelier light spilled out first.\n\nA five-star hotel grand ballroom. Floral estimates, ye-dan lists, and guest-flow charts lay across the long table. Jiyeon stood in an ivory planning suit, holding one edge of the papers down with her fingertips. She looked composed as ever, except for the faint red at the tips of her ears.\n\nHis future father-in-law looked across the ballroom and said,\n\"It's my daughter's wedding. It has to be done without embarrassment. You understand that much, don't you?\"\n\n{name} understood that 'that much' exceeded his entire net worth. Jiyeon did not cut in right away. Instead she said, very low,\n\"Oppa, wait. Let's look at it ourselves first.\"",
+    "choices": [
+      {
+        "text": "\"Yes. We'll look first, then decide.\" Meet her father's eyes.",
+        "result_text": "Her father looked at {name} for a moment. It was the look of someone measuring him.\n\nJiyeon folded the file shut. \"Oppa, this way.\" Her voice had gone thin and low. The ballroom carpet swallowed their footsteps as the two of them walked toward the seating-plan table."
+      },
+      {
+        "text": "Look at Jiyeon's hand first. See whether she is shaking.",
+        "result_text": "Jiyeon's fingers were gripping the edge of the file too hard. The paper had bent slightly.\n\nShe noticed {name}'s gaze and tried to smile, then failed. \"It's okay. It's just... this is how my family does things.\" The end of the sentence came half a beat late.\n\nShe walked first to the seating-plan table. {name} followed."
+      }
+    ],
+    "description_if_known": {
+      "told_jiyeon_about_records": "The Han family's wedding was on another scale.\n\nA five-star hotel grand ballroom. The ye-dan alone ran to tens of millions of won. The guest list traded names from business and politics. His future father-in-law said,\n\"It's my daughter's wedding. It has to be done without embarrassment.\"\n\n{name} knows where all of it — the ballroom, the ye-dan, those names — came from. Han PD Construction. The name at the bottom of a list, over a decade ago, that ruined his father.\nAnd Jiyeon knows it now too.\n\nThey stand facing each other in a hall paid for with that money, both of them knowing. The groom's seats were still bare. {name} looked back and forth between those empty chairs and the bride's side across from them.",
+      "jiyeon_narrow_room": "The Han family's wedding was on another scale.\n\nA five-star hotel grand ballroom. The ye-dan alone ran to tens of millions of won. The guest list traded names from business and politics. His future father-in-law said,\n\"It's my daughter's wedding. It has to be done without embarrassment. You understand that much, don't you?\"\n\nStanding in this wide ballroom, {name} suddenly thought of that narrow room. Two cup ramyeon, a fogged window. The night she said, \"This room is like you, oppa — narrow, and all of it real.\"\nTwo people who knew that night now stood facing each other in a wide place with barely anything real in it.\n\nThe groom's seats were bare. {name} looked back and forth between those empty chairs and the bride's side across from them.",
+      "father_passed": "The Han family's wedding was on another scale.\n\nA five-star hotel grand ballroom. The ye-dan alone ran to tens of millions of won. The guest list traded names from business and politics. His future father-in-law said,\n\"It's my daughter's wedding. It has to be done without embarrassment. You understand that much, don't you?\"\n\n{name} understood that 'that much' exceeded his entire net worth.\n\nAnd the seating — the bride's side would fill with names everyone knew.\nOn the groom's list, {name} wrote down Hyunsu and left the rest blank. His hand stopped as he went to write his father's name. That seat, now, couldn't be filled — not even with a photo."
+    }
+  },
+  {
+    "id": "arc_jiyeon_wedding_guest_list",
+    "title": "The Empty Side",
+    "description": "The seating chart was cruel in how neatly it was laid out.\n\nThe bride's side ran line after line with names everyone would recognize. Business, politics, real estate. Some would come to congratulate Jiyeon. Some would come to be seen at Chairman Han's daughter's wedding.\n\nThe groom's side had been left wide and blank. {name} held the pen and stopped for a long time. His father, Hyunsu, and empty space. The empty space looked clearer than people.\n\nJiyeon asked quietly,\n\"Oppa's side... is there no one else?\"",
+    "choices": [
+      {
+        "text": "\"If there isn't, then that's what we write.\" Do not hide the blanks.",
+        "result_text": "The pen touched the paper. {name} did not borrow people who were not there.\n\nJiyeon looked at the groom's list, then the bride's list, then back at {name}. \"That's like you, oppa.\" It sounded like praise, but the weight of the whole hall was folded inside it."
+      },
+      {
+        "text": "\"There are ways to fill it.\" Start calculating the blanks first.",
+        "result_text": "{name} thought of hired guests, coworkers, even Jiyeon's company staff.\n\nHis head started counting seats before it counted people. Jiyeon seemed to notice. She said nothing. She only looked once at {name}'s hand on the papers, then looked away."
+      }
+    ],
+    "description_if_known": {
+      "father_passed": "The seating chart was cruel in how neatly it was laid out.\n\nThe bride's side ran line after line with names everyone would recognize. The groom's side had been left wide and blank. {name} held the pen and stopped for a long time.\n\nHe wrote Hyunsu and left the rest blank. His hand stopped as he went to write his father's name. That seat, now, couldn't be filled — not even with a photo.\n\nJiyeon asked quietly,\n\"Oppa's side... is there no one else?\"",
+      "hyunsu_reconnected": "The seating chart was cruel in how neatly it was laid out.\n\nThe bride's side ran line after line with names everyone would recognize. The groom's side had been left wide and blank. {name} held the pen and stopped for a long time.\n\nHis father. Hyunsu. After those two names, his hand stopped. Still, those letters held out longer than a completely blank page.\n\nJiyeon asked quietly,\n\"Oppa's side... is there no one else?\""
+    }
+  },
+  {
+    "id": "arc_jiyeon_wedding_gap_decision",
+    "title": "That Much",
+    "description": "Her father came back over. He pretended not to look at the list, but his face said he had already seen it.\n\n\"A wedding is between families,\" he said. \"People will look at you. They'll look at the man standing beside my daughter.\"\n\nJiyeon drew breath half a beat too late. She looked as if she wanted to stop him, and as if she knew that world had lived inside her for too long.\n\n{name} looked from the paper full of blanks to the estimate full of numbers. Now he had to choose. Stand in her world on tiptoe, or stand at his own height.",
     "choices": [
       {
         "text": "\"I'll make it work.\" Go into debt to stand at that level.",
@@ -12,12 +51,7 @@
         "text": "\"I can't do that. I want to do it within my means.\"",
         "result_text": "His father-in-law's face hardened. Jiyeon looked at {name} without a word.\n\n\"...It's fine. I've got you, oppa. That's all I need,\" Jiyeon said.\nBut at the end of those words, something flickered, just for a moment. Disappointment, or resignation.\n\n{name} stood as himself. Only — the distance between her world and his became visible for the first time that day."
       }
-    ],
-    "description_if_known": {
-      "told_jiyeon_about_records": "The Han family's wedding was on another scale.\n\nA five-star hotel grand ballroom. The ye-dan alone ran to tens of millions of won. The guest list traded names from business and politics. His future father-in-law said,\n\"It's my daughter's wedding. It has to be done without embarrassment.\"\n\n{name} knows where all of it — the ballroom, the ye-dan, those names — came from. Han PD Construction. The name at the bottom of a list, over a decade ago, that ruined his father.\nAnd Jiyeon knows it now too.\n\nThey stand facing each other in a hall paid for with that money, both of them knowing. The groom's seats were still bare. {name} looked back and forth between those empty chairs and the bride's side across from them.",
-      "jiyeon_narrow_room": "The Han family's wedding was on another scale.\n\nA five-star hotel grand ballroom. The ye-dan alone ran to tens of millions of won. The guest list traded names from business and politics. His future father-in-law said,\n\"It's my daughter's wedding. It has to be done without embarrassment. You understand that much, don't you?\"\n\nStanding in this wide ballroom, {name} suddenly thought of that narrow room. Two cup ramyeon, a fogged window. The night she said, \"This room is like you, oppa — narrow, and all of it real.\"\nTwo people who knew that night now stood facing each other in a wide place with barely anything real in it.\n\nThe groom's seats were bare. {name} looked back and forth between those empty chairs and the bride's side across from them.",
-      "father_passed": "The Han family's wedding was on another scale.\n\nA five-star hotel grand ballroom. The ye-dan alone ran to tens of millions of won. The guest list traded names from business and politics. His future father-in-law said,\n\"It's my daughter's wedding. It has to be done without embarrassment. You understand that much, don't you?\"\n\n{name} understood that 'that much' exceeded his entire net worth.\n\nAnd the seating — the bride's side would fill with names everyone knew.\nOn the groom's list, {name} wrote down Hyunsu and left the rest blank. His hand stopped as he went to write his father's name. That seat, now, couldn't be filled — not even with a photo."
-    }
+    ]
   },
   {
     "id": "arc_jiyeon_verdict",
