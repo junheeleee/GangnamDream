@@ -1146,9 +1146,14 @@ func _assert_commitment_visual_state(story: Node, event_id: String, selected_cho
 		if portrait_path != expected_portrait:
 			_fail("Daeun proposal portrait expected %s, got %s at %s." % [expected_portrait, portrait_path, event_id])
 		return
-	if event_id == "arc_daeun_wedding_day":
+	var daeun_wedding_events := [
+		"arc_daeun_wedding_day",
+		"arc_daeun_wedding_walk",
+		"arc_daeun_wedding_aisle",
+	]
+	if event_id in daeun_wedding_events:
 		var expected_id := "cg_romance_wedding_daeun_full" if GameState.flags.get("daeun_wedding_full", false) else "cg_romance_wedding_daeun_small"
-		_assert_story_cg(story, expected_id, event_id)
+		_assert_story_cg(story, expected_id, event_id, true)
 		return
 	if event_id == "arc_jiyeon_wedding_gap":
 		_assert_story_cg(story, "cg_romance_wedding_gap_jiyeon", event_id)
@@ -1208,7 +1213,7 @@ func _assert_transport_visual_state(story: Node, event_id: String) -> void:
 	if actual_path != expected_path:
 		_fail("%s transport texture expected %s, got %s." % [event_id, expected_path, actual_path])
 
-func _assert_story_cg(story: Node, expected_cg_id: String, context: String) -> void:
+func _assert_story_cg(story: Node, expected_cg_id: String, context: String, allow_result_record: bool = false) -> void:
 	var expected_path := ImageRegistry.get_cg(expected_cg_id)
 	if not bool(story.get("_current_uses_cg")):
 		_fail("%s expected active CG %s." % [context, expected_cg_id])
@@ -1225,7 +1230,7 @@ func _assert_story_cg(story: Node, expected_cg_id: String, context: String) -> v
 	if is_instance_valid(portrait_frame) and portrait_frame.visible:
 		_fail("%s portrait frame should be hidden while full-scene CG is active." % context)
 		return
-	if story.find_child("StoryResultRecord", true, false) != null:
+	if not allow_result_record and story.find_child("StoryResultRecord", true, false) != null:
 		_fail("%s delayed CG should clear the result record from its focal frame." % context)
 
 func _shot_opening_cinematic(lang: String, prefix: String) -> void:
@@ -2567,19 +2572,49 @@ func _shot_commitment_surfaces(lang: String = "en", prefix: String = "commitment
 	if not GameState.flags.get("daeun_wedding_small", false) or GameState.flags.get("daeun_wedding_full", false):
 		_fail("Daeun small-wedding choice did not preserve an exclusive small route flag.")
 		return
-	await _shot_story_event("arc_daeun_wedding_day", prefix + "13_wedding_small_cg", "", 0.45, true)
+	await _shot_story_event("arc_daeun_wedding_day", prefix + "13_wedding_small_entry", "", 0.45, true)
+	await _shot_story_event("arc_daeun_wedding_day", prefix + "14_wedding_small_entry_choices", "", 0.45, true, true)
+	await _shot_story_event("arc_daeun_wedding_day", prefix + "15_wedding_small_empty_chairs", "", 0.45, true, true, 0)
+	if GameState.flags.get("arc_daeun_wedding_day_seen", false) \
+			or not GameState.flags.get("daeun_wedding_small", false) \
+			or GameState.flags.get("daeun_wedding_full", false):
+		_fail("Daeun wedding entry choice changed ceremony route flags or completed the wedding early.")
+		return
+	await _shot_story_event("arc_daeun_wedding_walk", prefix + "16_wedding_small_walk", "", 0.45, true)
+	await _shot_story_event("arc_daeun_wedding_walk", prefix + "17_wedding_small_walk_reply", "", 0.45, true, true, 0)
+	if GameState.flags.get("arc_daeun_wedding_day_seen", false):
+		_fail("Daeun wedding walk bridge completed the wedding before the aisle decision.")
+		return
+	await _shot_story_event("arc_daeun_wedding_aisle", prefix + "18_wedding_small_final_choices", "", 0.45, true, true)
+	await _shot_story_event("arc_daeun_wedding_aisle", prefix + "19_wedding_small_daeun_result", "", 0.45, true, true, 0)
+	if not GameState.flags.get("arc_daeun_wedding_day_seen", false) \
+			or not GameState.flags.get("daeun_wedding_small", false) \
+			or GameState.flags.get("daeun_wedding_full", false):
+		_fail("Daeun small-wedding final choice did not preserve its canonical completion flags.")
+		return
 
 	_prepare_commitment_qa_state("daeun")
-	await _shot_story_event("arc_daeun_wedding_prep", prefix + "14_wedding_full_choice", "", 0.45, true, true, 1)
+	await _shot_story_event("arc_daeun_wedding_prep", prefix + "20_wedding_full_choice", "", 0.45, true, true, 1)
 	if not GameState.flags.get("daeun_wedding_full", false) or GameState.flags.get("daeun_wedding_small", false):
 		_fail("Daeun full-package choice did not preserve an exclusive full route flag.")
 		return
-	await _shot_story_event("arc_daeun_wedding_day", prefix + "15_wedding_full_cg", "", 0.45, true)
+	await _shot_story_event("arc_daeun_wedding_day", prefix + "21_wedding_full_entry", "", 0.45, true)
+	await _shot_story_event("arc_daeun_wedding_walk", prefix + "22_wedding_full_walk", "", 0.45, true)
+	await _shot_story_event("arc_daeun_wedding_aisle", prefix + "23_wedding_full_final_choices", "", 0.45, true, true)
+	await _shot_story_event("arc_daeun_wedding_aisle", prefix + "24_wedding_full_empty_seat_result", "", 0.45, true, true, 1)
+	if not GameState.flags.get("arc_daeun_wedding_day_seen", false) \
+			or not GameState.flags.get("daeun_wedding_full", false) \
+			or GameState.flags.get("daeun_wedding_small", false):
+		_fail("Daeun full-wedding final choice did not preserve its canonical completion flags.")
+		return
+
+	_prepare_commitment_qa_state("daeun")
+	await _shot_story_event("arc_daeun_wedding_day", prefix + "25_wedding_legacy_small_fallback", "", 0.45, true)
 
 	_prepare_commitment_qa_state("jiyeon")
-	await _shot_story_event("arc_jiyeon_wedding_gap", prefix + "16_jiyeon_gap_intro", "", 0.55, true)
+	await _shot_story_event("arc_jiyeon_wedding_gap", prefix + "26_jiyeon_gap_intro", "", 0.55, true)
 	_prepare_commitment_qa_state("jiyeon")
-	await _shot_story_event("arc_jiyeon_wedding_gap", prefix + "17_jiyeon_gap_choices", "", 0.45, true, true)
+	await _shot_story_event("arc_jiyeon_wedding_gap", prefix + "27_jiyeon_gap_choices", "", 0.45, true, true)
 
 func _shot_breakup_surfaces(lang: String = "en", prefix: String = "breakup_en_") -> void:
 	_set_qa_language(lang)

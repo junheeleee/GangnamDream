@@ -6,7 +6,7 @@ This document owns the visual continuity for proposal and wedding-choice scenes.
 
 - Use Gangnam Ink: Korean adult faces, restrained manhwa/VN rendering, matte paper grain, readable limited color, and deliberate Japanese visual-novel staging. No DSLR realism, mobile-game gloss, text, logos, or fake signage.
 - Minjun remains the same 33-37-year-old Korean man as `main_character_unemployed.png`: lean face, short tousled black hair, and worn black off-duty crewneck unless the scene explicitly requires formalwear.
-- Daeun remains the same 30-year-old Korean woman as `npc_daeun_smile.png`: short layered dark-brown hair, small clip at her left temple, warm brown eyes, modest adult styling. Never lengthen her hair or turn her into Jiyeon's glamorous silhouette.
+- Daeun remains the same 33-year-old Korean woman as `npc_daeun_smile.png`: short layered dark-brown hair, small clip at her left temple, warm brown eyes, modest adult styling. Never lengthen her hair or turn her into Jiyeon's glamorous silhouette.
 - Jiyeon remains the same 31-year-old Korean woman as `npc_mentor.png`: long black waves, sharp almond eyes, controlled old-money styling, and restrained geometric jewelry.
 - Named characters look at each other or the scene object. They do not address the lens unless the prose explicitly makes Minjun's POV the person being watched.
 - Keep faces, hands, the ring box, aisle imbalance, and seating chart above the lower 34% StoryMode dialogue/choice safe area.
@@ -35,10 +35,11 @@ The wedding-prep choice must survive into the wedding-day image. Both variants s
 
 ### Invariant Staging
 
-- Camera is behind/three-quarter behind Minjun as he begins walking toward Daeun at the far end of the aisle.
-- Bride side is visibly fuller; groom side is sparse. The imbalance must read in one second without labels.
+- Korean ceremony order is explicit: Minjun has already entered first and waits at the altar; Daeun enters afterward and walks from the rear doors toward him. The rear entrance, never an altar or podium, is visible behind Daeun.
+- Camera is behind/three-quarter behind Minjun at the altar and looks outward toward the entrance. Daeun approaches the camera and Minjun without lens contact.
+- Screen-left groom side is sparse; screen-right bride side is visibly fuller. The imbalance must read in one second without labels.
 - Guests remain anonymous and distant. Do not identify Father, Hyunsu, Daeun's mother, or any deceased/conditional person; those variants stay in prose and may contradict a baked guest face.
-- Daeun looks toward Minjun with contained emotion. Minjun's posture is tense but moving forward, not defeated or staring at the lens.
+- Daeun looks toward Minjun with contained emotion and a natural adult expression. Minjun's posture is tense but waiting, not defeated or staring at the lens.
 - Do not place critical guests in the lower dialogue-safe zone.
 
 ### Small Wedding
@@ -51,7 +52,7 @@ The wedding-prep choice must survive into the wedding-day image. Both variants s
 ### Full-Package Wedding
 
 - Asset: `assets/cg/romance/wedding_daeun_full_v1.png`.
-- Venue: polished larger Korean wedding hall with professional floral arch, higher ceiling, layered aisle lighting, and more elaborate but coherent decor.
+- Venue: polished full-package Seoul wedding hall with refined wall lighting and more elaborate but coherent aisle flowers. It stays spatially comparable to the modest hall so the social imbalance, not sheer room size, remains the focal difference.
 - Daeun: refined ivory satin A-line gown with restrained beaded bodice and longer veil; professional makeup must not change her face or age.
 - Minjun: fitted charcoal formal suit. The image may look expensive, but groom-side emptiness remains visible.
 
@@ -69,6 +70,6 @@ The wedding-prep choice must survive into the wedding-day image. Both variants s
 
 - `arc_daeun_proposal` → `arc_daeun_proposal_last_cup` → `arc_daeun_proposal_answer`: all buildup frames retain the cafe background and proposal portrait. Only the final event's accepted choice owns `cg_romance_proposal_daeun`, revealed at result paragraph 1; the defer branch never reveals it.
 - `arc_daeun_wedding_prep`: choice 0 records `daeun_wedding_small`; choice 1 records `daeun_wedding_full`.
-- `arc_daeun_wedding_day`: default small CG for legacy saves; `cg_if_known` selects the explicit small/full variant.
+- `arc_daeun_wedding_day` → `arc_daeun_wedding_walk` → `arc_daeun_wedding_aisle`: all three aisle frames retain the same ceremony variant. The default is the small CG for legacy saves; every link's `cg_if_known` selects the explicit small/full variant. Only the final aisle event may set `arc_daeun_wedding_day_seen`.
 - `arc_jiyeon_wedding_gap`: dedicated pre-decision full-scene CG.
 - All four CG files require active actor/camera/gaze/body contracts and Korean/English 1280x800 intro/choice/result captures where applicable.

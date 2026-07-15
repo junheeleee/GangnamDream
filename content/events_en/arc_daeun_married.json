@@ -86,24 +86,50 @@
   },
   {
     "id": "arc_daeun_wedding_day",
-    "title": "The Groom's Side",
-    "description": "The wedding day.\n\nThe bride's side was packed. Daeun's hometown friends, her mart coworkers, relatives.\nThe groom's side — {name} could hardly bring himself to look back.\n\nFive years chasing nothing but Gangnam. He'd watched charts instead of meeting people, worked overtime instead of drinks.\nThe price of that sat here today, in this empty groom's section.\n\nThe MC announced the groom's entrance. {name} walked in alone.",
+    "title": "The One Waiting First",
+    "description": "The wedding day. The groom's entrance was already over.\n\n{name} had walked the aisle alone and taken his place at the altar. In the few seconds while the MC prepared the next cue, both guest sections lay open before him. Daeun's side was packed with hometown friends, mart coworkers, and relatives. It wasn't one or two gaps on his side. The entire left section looked empty.\n\nFor five years, he'd watched charts instead of meeting people and worked overtime instead of going out. At some point, he'd stopped even thinking of names to call with good news.\n\nThe music changed. \"Please welcome the bride.\"\n\nThe rear doors opened and Daeun appeared. As she stepped slowly onto the aisle, the empty seats and the faces who had come occupied the same frame.",
     "choices": [
       {
-        "text": "Look only at Daeun. The groom's side is empty, but she's at the far end.",
-        "result_text": "Daeun stood at the end of the aisle. Instead of the empty seats behind him, {name} looked at the person ahead.\n\nHowever many guests there were, it didn't matter. One person to spend a life with was enough.\n{name} walked toward that one. The empty groom's section, strangely, no longer stung."
+        "text": "Don't avoid the empty groom's chairs. Look all the way down the rows.",
+        "result_text": "He had thought that if he didn't look, it might not count. So {name} looked at the chairs one by one.\n\nThe seats were empty, but faces came to mind: people whose calls he had put off, people he hadn't met because the numbers came first, people he'd promised to call as one season passed into another.\n\nHis breath caught once. He did not look away."
       },
       {
-        "text": "The empty groom's section stings. What did he run five years for?",
-        "result_text": "Walking in, {name} kept catching on the empty chairs.\n\nGangnam had come closer, and along that road people had dropped away one by one.\nOnly today could he see the tally. What he'd gained, and what he'd lost without even a goodbye.\nUntil he reached Daeun, that short aisle felt unusually long."
+        "text": "Turn to the bride's side and bow first to the people who came today.",
+        "result_text": "When {name} gave a short bow, the applause grew a little louder.\n\nA mart coworker who had traded shifts, a hometown friend who had taken the dawn bus, relatives he'd met only once. Every one of them had made time to be here for Daeun.\n\nAt the end of the aisle, Daeun saw the greeting and smiled. Only then did {name} understand that this wedding was not something he was doing alone."
       }
     ],
     "description_if_known": {
-      "father_passed": "The wedding day.\n\nThe bride's side was packed. Daeun's hometown friends, her mart coworkers, relatives.\nThe groom's side — {name} could hardly bring himself to look back.\n\nFive years chasing nothing but Gangnam. He'd watched charts instead of meeting people, worked overtime instead of drinks.\nThe price of that sat here today, in this empty groom's section.\n\nIn the front row, the seat where his father should have sat was empty.\nIf he'd only been a little faster, his father could have sat there and seen this.\n\nThe MC announced the groom's entrance. {name} walked past that empty front seat, in.",
-      "father_reconciled": "The wedding day.\n\nThe bride's side was packed. Daeun's hometown friends, her mart coworkers, relatives.\nThe groom's side was sparse. But in the front row sat his father — hands that worked a factory floor for a lifetime resting on his knees, shoulders stooped.\nThat front row with one man in it was, to {name}, bigger than a hundred.\n\nFive years chasing nothing but Gangnam. He'd watched charts instead of meeting people, worked overtime instead of drinks.\nThe MC announced the groom's entrance. {name} walked in alone.",
-      "hyunsu_reconnected": "The wedding day.\n\nThe bride's side was packed. Daeun's hometown friends, her mart coworkers, relatives.\nThe groom's side was bare. But in the back row, one familiar face — Hyunsu, who'd lived next door in the goshiwon days.\n\"Hyung, I was going to sulk if you didn't invite me.\" {name} laughed, and his throat tightened.\nEven one person who'd known these five years had come.\n\nFive years chasing nothing but Gangnam. He'd watched charts instead of meeting people, worked overtime instead of drinks.\nThe price of that sat here today, in this empty groom's section.\n\nThe MC announced the groom's entrance. {name} walked in alone.",
-      "daeun_hometown_visited": "The wedding day.\n\nIn the front row of the bride's side sat Daeun's mother, up on the dawn bus from the countryside, work-thickened knuckles resting on her knees.\nWhen her eyes met {name}'s, she gave one small nod, without a word. Just as she had that night at her table.\n\nThe groom's side was sparse. The price of five years spent chasing nothing but Gangnam.\nBut that one person in the front row let {name} bear the empty groom's section. The mother who'd said 'hands that have worked hard' was, today, in the guest seats.\n\nThe MC announced the groom's entrance. {name} walked toward the face that knew that table.",
-      "namsan_lock_daeun": "The wedding day.\n\nThe bride's side was packed. Daeun's hometown friends, her mart coworkers, relatives.\nThe groom's side was small.\n\nWaiting to walk in, {name} thought of Namsan. The night they fastened a padlock to the railing, Daeun saying, \"Come find it in ten years.\"\nThat promise stood in the hall today.\n\nThe MC announced the groom's entrance. {name} walked toward that promise."
+      "father_passed": "The wedding day. The groom's entrance was already over.\n\n{name} had walked the aisle alone and taken his place at the altar. The groom's section on the left was empty. One front-row seat stood out more sharply than the rest. It was where his father should have been.\n\nIf only he'd been a little faster, his father could have sat there and seen this. Not even money could move time forward today.\n\nThe music changed. \"Please welcome the bride.\"\n\nThe rear doors opened and Daeun appeared. As she stepped slowly onto the aisle, his father's empty seat and Daeun occupied the same frame.",
+      "father_reconciled": "The wedding day. The groom's entrance was already over.\n\n{name} had walked the aisle alone and taken his place at the altar. The groom's section on the left was sparse. Still, beyond the flowers, he heard his father straighten up — the scrape of an armrest under hands that had worked a factory floor for a lifetime.\n\nRows of empty chairs or not, his father had come. Today, that was bigger than a hundred guests.\n\nThe music changed. \"Please welcome the bride.\"\n\nThe rear doors opened and Daeun appeared. As she stepped slowly onto the aisle, his father and Daeun entered the same field of view.",
+      "hyunsu_reconnected": "The wedding day. The groom's entrance was already over.\n\n{name} had walked the aisle alone and taken his place at the altar. The groom's section on the left was bare. From beyond the flowers came Hyunsu's voice: \"Hyung, look ahead. You'll ruin the photos.\"\n\n{name} laughed, and his throat tightened. Even one person who knew these five years had come.\n\nThe music changed. \"Please welcome the bride.\"\n\nThe rear doors opened and Daeun appeared. As she stepped slowly onto the aisle, Hyunsu's voice dissolved into the applause.",
+      "daeun_hometown_visited": "The wedding day. The groom's entrance was already over.\n\n{name} had walked the aisle alone and taken his place at the altar. In the front row on the bride's side sat Daeun's mother, up on the dawn bus from the countryside, work-thickened hands on her knees. Just as she had that night at her table, she met {name}'s eyes and gave one silent nod.\n\nThe groom's section on the left was sparse. Even so, that one person in the front row reached him before the empty chairs did.\n\nThe music changed. \"Please welcome the bride.\"\n\nThe rear doors opened and Daeun appeared. Her mother's eyes followed her daughter down the aisle.",
+      "namsan_lock_daeun": "The wedding day. The groom's entrance was already over.\n\n{name} had walked the aisle alone and taken his place at the altar. The groom's section on the left was sparse; the right was packed with Daeun's people.\n\nThe music changed. \"Please welcome the bride.\"\n\nThe rear doors opened and Daeun appeared. In that instant, he remembered the railing on Namsan. \"Come find it in ten years.\" The promise from the night they fastened the padlock was now coming toward {name} down the aisle."
     }
+  },
+  {
+    "id": "arc_daeun_wedding_walk",
+    "title": "At Daeun's Pace",
+    "description": "Daeun's first step. The hem of her dress swept the aisle. On the second, a flash went off. On the third, applause and music folded into each other.\n\nEven through the noise, he saw Daeun's lips move.\n\n\"Minjun.\"\n\nShe was too far away for him to hear her, but he could recognize his own name. Daeun did not hurry. As she had for five years, she was coming toward {name} at her own pace.\n\nThe distance between them shortened one step at a time.",
+    "choices": [
+      {
+        "text": "As if he heard his name, loosen his rigid shoulders and meet Daeun's eyes.",
+        "result_text": "When their eyes met, Daeun's mouth softened.\n\nThe applause and camera shutters moved one step farther away. He saw, in order, her hands around the bouquet, the lips pressed together to hold back tears, the smile spreading at the corners of her eyes.\n\nOnly a few steps remained. The empty groom's section and the person approaching him now fit in the same view."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_wedding_aisle",
+    "title": "The Groom's Side",
+    "description": "Daeun was halfway down the aisle.\n\nOn one side was Daeun coming closer: the person who had passed him triangle gimbap across a convenience-store counter, the person who had fallen asleep on his shoulder in that narrow room on a rainy night.\n\nOn the other were the empty chairs. The calls he had put off and the faces he'd lost while chasing Gangnam remained in the shape of neat chair backs.\n\nBehind her bouquet, Daeun quietly formed the words, \"It's okay.\" He couldn't tell whether she meant the empty seats, his shaking hands, or the last five years.\n\nBefore Daeun reached the altar, {name}'s gaze stood one last time between the two.",
+    "choices": [
+      {
+        "text": "Look only at Daeun. The groom's side is empty, but she's coming toward him.",
+        "result_text": "Daeun walked down the aisle toward {name}. Instead of the empty seats beside him, {name} watched the person coming closer.\n\nHowever many guests there were, it didn't matter. One person to spend a life with was enough.\nDaeun stopped before the altar. The empty groom's section, strangely, no longer stung."
+      },
+      {
+        "text": "Beyond Daeun approaching him, the empty groom's section stings. What did he run five years for?",
+        "result_text": "From the altar, {name}'s eyes kept catching on the empty chairs.\n\nGangnam had come closer, and along that road people had dropped away one by one.\nOnly today could he see the tally. What he'd gained, and what he'd lost without even a goodbye.\nThe short time it took Daeun to reach him felt unusually long."
+      }
+    ]
   }
 ]

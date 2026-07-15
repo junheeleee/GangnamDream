@@ -28,9 +28,10 @@
 ### 2-A. 프로포즈·결혼 비주얼 상태 계약
 
 - **행동 뒤에만 보상 CG**: `arc_daeun_proposal` → `arc_daeun_proposal_last_cup`의 도입·축적은 카페 배경과 `daeun_proposal` 초상만 사용한다. 최종 `arc_daeun_proposal_answer` 수락 선택지의 결과 문단 1에서만 `cg_romance_proposal_daeun`이 열리며, 상자를 다시 넣는 선택에는 CG가 절대 누출되지 않는다.
-- **준비 선택은 식장까지 보존**: `arc_daeun_wedding_prep`의 소형 선택은 `daeun_wedding_small`, 풀 패키지는 `daeun_wedding_full`을 기록한다. 두 플래그는 상호배타이며 `arc_daeun_wedding_day`의 `cg_if_known`이 해당 식장/드레스 변주를 선택한다.
+- **준비 선택은 식장 전체에 보존**: `arc_daeun_wedding_prep`의 소형 선택은 `daeun_wedding_small`, 풀 패키지는 `daeun_wedding_full`을 기록한다. 두 플래그는 상호배타이며 `arc_daeun_wedding_day` → `arc_daeun_wedding_walk` → `arc_daeun_wedding_aisle`의 모든 `cg_if_known`이 같은 식장/드레스 변주를 유지한다. 준비 비용을 당일에 다시 고르지 않으며 결혼 완료 플래그는 마지막 링크에서만 선다.
+- **입장 순서·화면 방향**: 민준이 먼저 입장해 단상에서 기다리고, 사회자의 신부 입장 선언 뒤 다은이 뒤쪽 문에서 나중에 들어와 민준에게 걸어온다. 단상에서 입구를 보는 화면 기준 왼쪽은 비어 있는 신랑석, 오른쪽은 다은의 사람들로 찬 신부석이다. 두 CG와 세 링크의 산문은 이 순서와 방향을 바꾸지 않는다.
 - **레거시 세이브**: 이전 버전에서 결혼 준비 플래그가 없는 기혼 세이브는 소형 결혼식 CG를 기본값으로 사용한다. 저장 호환을 위해 결혼식을 막거나 임의의 새 선택을 발명하지 않는다.
-- **하객 정본**: 신부석이 차고 신랑석이 비는 사회적 결산은 두 이미지에 공통이다. 아버지 생존, 현수 재회, 다은의 어머니 방문처럼 조건부 인물은 식별 가능한 얼굴로 굽지 않고 `description_if_known` 산문에만 남긴다.
+- **하객 정본**: 화면 오른쪽 신부석이 차고 화면 왼쪽 신랑석이 비는 사회적 결산은 두 이미지에 공통이다. 아버지 생존, 현수 재회, 다은의 어머니 방문처럼 조건부 인물은 식별 가능한 얼굴로 굽지 않고 `description_if_known` 산문에만 남긴다.
 - **지연은 결과 전 압력만 보여준다**: `arc_jiyeon_wedding_gap`은 호텔 볼룸의 계급 협상 CG이며 결혼식 완료나 선택 결과가 아니다. 지연은 웨딩드레스가 아니라 아이보리 플래닝 수트를 입고, 신부 측 다수 카드와 신랑 측 세 장의 빈 카드가 선택 이전의 격차만 보여준다.
 - **소유 문서·검증**: 얼굴·복장·구도는 `assets/COMMITMENT_VISUAL_BIBLE.md`, 카메라·시선·몸 연기는 `assets/cg_acting_manifest.json`, 실제 선택 전후 배선은 `--qa=commitment --lang=ko/en`이 잠근다.
 

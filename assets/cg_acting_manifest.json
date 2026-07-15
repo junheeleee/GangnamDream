@@ -236,20 +236,20 @@
     },
     "cg_romance_wedding_daeun_small": {
       "path": "assets/cg/romance/wedding_daeun_small_v1.png",
-      "camera_role": "behind_groom_aisle_wide",
-      "story_action": "Minjun walks through a modest hall whose full bride side and sparse groom side make five years of social cost visible.",
+      "camera_role": "over_groom_shoulder_from_altar_toward_entrance_wide",
+      "story_action": "After entering first, Minjun waits at the altar while Daeun walks from the rear doors toward him; the sparse screen-left groom side and full screen-right bride side make five years of social cost visible.",
       "actors": [
-        {"id": "minjun", "gaze_target": "Daeun at the far end of the aisle", "pose_support": "Back-view head, shoulders, and forward step stay centered on her; his plain charcoal suit remains distinct from the guests."},
-        {"id": "daeun", "gaze_target": "Minjun entering the aisle", "pose_support": "Her short-haired face and simple A-line dress face him while both hands hold one small bouquet at her waist."}
+        {"id": "minjun", "gaze_target": "Daeun approaching from the rear entrance", "pose_support": "Back-view head and squared shoulders remain still at the altar and face her; his plain charcoal suit stays distinct from the seated guests."},
+        {"id": "daeun", "gaze_target": "Minjun waiting at the altar", "pose_support": "Her short-haired adult face, pupils, and walking posture align toward him; both hands hold one small bouquet naturally at her waist."}
       ]
     },
     "cg_romance_wedding_daeun_full": {
       "path": "assets/cg/romance/wedding_daeun_full_v1.png",
-      "camera_role": "behind_groom_aisle_wide",
-      "story_action": "The full package upgrades the hall, gown, veil, and flowers but cannot fill Minjun's empty side of the room.",
+      "camera_role": "over_groom_shoulder_from_altar_toward_entrance_wide",
+      "story_action": "The full package upgrades the hall, gown, veil, bouquet, and flowers while Minjun waits at the altar, but it cannot fill the sparse screen-left groom side.",
       "actors": [
-        {"id": "minjun", "gaze_target": "Daeun beneath the floral arch", "pose_support": "Back-view head, shoulders, and forward step remain centered on her while empty chairs stay visible at screen-right."},
-        {"id": "daeun", "gaze_target": "Minjun entering the aisle", "pose_support": "Her same short-haired face looks toward him; both hands hold one bouquet against the refined satin A-line gown."}
+        {"id": "minjun", "gaze_target": "Daeun approaching from the rear entrance", "pose_support": "Back-view head and squared shoulders remain still at the altar and face her while empty chairs stay visible at screen-left."},
+        {"id": "daeun", "gaze_target": "Minjun waiting at the altar", "pose_support": "Her same short-haired adult face and pupils look toward him as she walks; both hands hold one bouquet against the refined satin A-line gown."}
       ]
     },
     "cg_romance_wedding_gap_jiyeon": {

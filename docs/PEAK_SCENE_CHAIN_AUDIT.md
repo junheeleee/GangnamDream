@@ -29,7 +29,7 @@
 | 다은 불꽃 | `arc_season_fireworks_daeun` | 1 | 1 | 4 | 2-3 | EXPAND |
 | 지연 불꽃 | `arc_season_fireworks_jiyeon` | 1 | 1 | 3 | 2-4 | EXPAND |
 | 다은 프로포즈 | `arc_daeun_proposal` | 3 | 2 | 25-26 | 9-10 | **PASS** |
-| 다은 결혼식 | `arc_daeun_wedding_day` | 1 | 1 | 7 | 0 | EXPAND |
+| 다은 결혼식 | `arc_daeun_wedding_day` | 3 | 2 | 26 | 3 | **PASS** |
 | 지연 결혼 격차 | `arc_jiyeon_wedding_gap` | 1 | 1 | 8 | 1-2 | EXPAND |
 | 지연 심판 | `arc_jiyeon_verdict` | 1 | 1 | 9-10 | 3-8 | EXPAND |
 | 다은 이혼 담판 | `arc_daeun_final_choice` | 1 | 1 | 8-10 | 1-2 | EXPAND |
@@ -44,13 +44,14 @@
 | 재혁 ghost | `arc_jaehyuk_04a_ghost` | 1-2 | 1-2 | 8-14 | 0 | EXPAND |
 | 재혁의 진짜 얼굴 | `arc_jaehyuk_mirror` | 1 | 1 | 7 | 1-3 | EXPAND |
 
-**현재 래칫:** 28개 중 PASS 3, 확장 부채 25. `tools/audit.sh`는 부채가 25보다 늘거나 남산 두 골드 스탠다드·다은 프로포즈가 퇴행하면 실패한다.
+**현재 래칫:** 28개 중 PASS 4, 확장 부채 24. `tools/audit.sh`는 부채가 24보다 늘거나 남산 두 골드 스탠다드·다은 프로포즈·다은 결혼식이 퇴행하면 실패한다.
 
 ## 집행 순서
 
 1. ✅ `arc_daeun_proposal`: `마지막 잔 → 내년 이맘때 → 프로포즈` 3링크와 2선택점으로 확장했다. 수락·보류 효과와 플래그는 최종 링크에만 남고, 수락 CG는 결과 문단 1에서만 열린다.
-2. **다음:** `arc_daeun_wedding_day`, `arc_jiyeon_wedding_gap`을 각각 독립 체인으로 만든다. 다은 소형/풀 CG와 지연의 선택 전 계급 압력이라는 기존 비주얼 사실은 바꾸지 않는다.
-3. `arc_sangchul_confrontation`: 떠남·묻음 분기도 1링크에서 끝나지 않도록 각 결과의 여파를 확보한다.
-4. 아버지 병상·별세·KTX, 첫 키스·첫날밤, 재혁, 어머니의 밥상·좁은 방, 심판·이혼, 계절 정점 순으로 부채를 낮춘다.
+2. ✅ `arc_daeun_wedding_day`: `먼저 선 사람 → 다은의 속도 → 신랑석` 3링크와 2선택점으로 확장했다. 민준이 먼저 입장해 기다리고 다은이 뒤쪽 문에서 나중에 들어오는 순서, 화면 왼쪽의 빈 신랑석과 오른쪽의 찬 신부석, 소형/풀 변주, 기존 최종 효과를 고정했다.
+3. **다음:** `arc_jiyeon_wedding_gap`을 독립 체인으로 만든다. 선택 전 계급 압력이라는 기존 비주얼 사실과 최종 결혼 라우팅은 바꾸지 않는다.
+4. `arc_sangchul_confrontation`: 떠남·묻음 분기도 1링크에서 끝나지 않도록 각 결과의 여파를 확보한다.
+5. 아버지 병상·별세·KTX, 첫 키스·첫날밤, 재혁, 어머니의 밥상·좁은 방, 심판·이혼, 계절 정점 순으로 부채를 낮춘다.
 
 각 정점은 별도 착수 선언·커밋·KO/EN 렌더를 갖는다. 사용자 Round 2 피드백이 들어오면 즉시 멈추고 ORDER-22/23 재수리를 우선한다.

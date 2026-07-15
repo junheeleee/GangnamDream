@@ -93,8 +93,8 @@
 | CG | `assets/cg/romance/proposal_daeun_v1.png` | `cg_romance_proposal_daeun` | 1280x800 | no | `43dd3019f278` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/romance/sea_daeun_v3.png` | `cg_romance_sea_daeun` | 1280x800 | no | `ab8f1fc8ff17` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/romance/sea_jiyeon_v2.png` | `cg_romance_sea_jiyeon` | 1280x800 | no | `66255a056e3d` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
-| CG | `assets/cg/romance/wedding_daeun_full_v1.png` | `cg_romance_wedding_daeun_full` | 1280x800 | no | `83b1b7d160c7` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
-| CG | `assets/cg/romance/wedding_daeun_small_v1.png` | `cg_romance_wedding_daeun_small` | 1280x800 | no | `53b364e063bb` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
+| CG | `assets/cg/romance/wedding_daeun_full_v1.png` | `cg_romance_wedding_daeun_full` | 1280x800 | no | `ffcb3d2637ef` | PASS-A | 원본·KO/EN 렌더 확인. 민준 선입장/단상 대기, 후면 문에서 다은 후입장, 화면 왼쪽 빈 신랑석/오른쪽 찬 신부석이 읽힌다. 다은의 성인 체형·얼굴·양손 꽃다발·민준을 향한 시선과 하단 안전 크롭에 이상 없음. |
+| CG | `assets/cg/romance/wedding_daeun_small_v1.png` | `cg_romance_wedding_daeun_small` | 1280x800 | no | `b2c89404d098` | PASS-A | 원본·KO/EN 렌더 확인. 민준 선입장/단상 대기, 후면 문에서 다은 후입장, 화면 왼쪽 빈 신랑석/오른쪽 찬 신부석이 읽힌다. 다은의 정본 얼굴·짧은 머리·양손 꽃다발·민준을 향한 시선과 하단 안전 크롭에 이상 없음. |
 | CG | `assets/cg/romance/wedding_gap_jiyeon_v1.png` | `cg_romance_wedding_gap_jiyeon` | 1280x800 | no | `cfc057f42309` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/romance/wedding_morning_daeun_v1.png` | `cg_romance_wedding_morning_daeun` | 1280x800 | no | `2ef8ad7e7552` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/romance/wedding_morning_jiyeon_v1.png` | `cg_romance_wedding_morning_jiyeon` | 1280x800 | no | `a6407b70c350` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
