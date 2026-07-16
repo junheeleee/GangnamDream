@@ -50,24 +50,61 @@
   {
     "id": "arc_daeun_final_choice",
     "title": "The Last Step",
-    "description": "One last step to the Gangnam deed.\n\nAnd that step — could only be reached by betraying Daeun. Liquidate the property he'd quietly held in her name and she loses everything, but {name} stands in Gangnam.\n\nThe contract sits in front of him. In the next room, Daeun is picking wedding invitation designs. Humming.\n\nHe picked up the pen.\n\nThree billion was in this one signature. And Daeun, too, was in this one signature.",
+    "description": "One document remained, looking like the last shortcut to Gangnam.\n\nYears ago, {name} had put the property under Daeun's name. If he turned the trust he borrowed then into permission to sell today, there would be no going back.\n\nThe contract lay before him. From the kitchen came the sound of a knife touching the cutting board.\n\"Minjun, is it okay if I put scallions in the rolled omelet?\"\n\nDaeun was asking about one small preference at dinner. {name} was about to decide the shape of her whole life without asking at all.",
     "choices": [
       {
-        "text": "Put the pen down. \"Daeun, let's just... get there a little later.\"",
-        "result_text": "Daeun came out of the room. \"What'd you say?\"\n\"Nothing. Did you pick a pretty invitation?\"\n\nThe shortcut went in the trash that night.\nGangnam would come honestly, or it wouldn't come at all — one of the two.\nEither way, he wasn't trading it for the person humming in the next room.\n{name} learned that day it was worth more than any deed."
+        "text": "Count the knife beats from the kitchen instead of reading the contract.",
+        "result_text": "The knife touched the board. One, two. The rhythm of an ordinary evening gathered over the signature line."
       },
       {
-        "text": "Sign it. Gangnam is one step ahead.",
-        "result_text": "He signed. The Gangnam deed came into his hands.\n\nIt didn't take Daeun long to learn the truth.\nShe didn't cry. Like someone who had already, quietly, cried it all out years ago.\n\n\"...When did you start seeing me as a document?\"\n\n{name} couldn't answer. He couldn't name the exact date.\nThe seal they'd never put on a marriage registration finally met paper — on the agreement ending their life together."
-      },
-      {
-        "text": "(Pen in hand — that post-it in the drawer came to mind.)",
-        "result_text": "Pen still in hand, {name} opened the desk drawer.\nOne old post-it note. Years had passed since he peeled it off the fridge and put it here.\n'Eat properly.' Three words, written careful and round.\n\nThe person who wrote these words was in the next room right now, humming, choosing wedding invitation designs.\nSelling off everything she had with one secret signature — and these three words — could not exist in the same world.\n\n{name} stuck the post-it onto the contract, and put the pen down.\n\"Daeun. Let's just... go a little late.\"\nThe humming in the next room paused a moment, then went on. Knowing nothing. That was good."
+        "text": "Trace the name 'Kim Daeun' in the ownership field.",
+        "result_text": "Her name took one short line. The debt, collateral, and numbers beneath it ran much longer."
       }
     ],
     "description_if_known": {
-      "namsan_lock_daeun": "One last step to the Gangnam deed.\n\nAnd that step — could only be reached by betraying Daeun. Liquidate the property he'd quietly held in her name and she loses everything, but {name} stands in Gangnam.\n\nAs he picked up the pen, Namsan came to mind. The padlock fastened to the railing. The night they'd said, come find it in ten years.\nThat lock would still be there.\n\nIn the next room, Daeun is picking wedding invitation designs. Humming.\nThree billion was in this one signature. And Daeun, too, was in this one signature."
+      "namsan_lock_daeun": "One document remained, looking like the last shortcut to Gangnam.\n\nYears ago, {name} had put the property under Daeun's name. If he turned the trust he borrowed then into permission to sell today, there would be no going back.\n\nAs he reached for the pen, the lock on the Namsan railing came back to him. The night they had said they would find it in ten years. That lock would still be there.\n\nFrom the kitchen came the sound of a knife on a cutting board.\n\"Minjun, is it okay if I put scallions in the rolled omelet?\"\n\nDaeun was asking about one small preference at dinner. {name} was about to decide the shape of her whole life without asking at all."
     }
+  },
+  {
+    "id": "arc_daeun_final_choice_kitchen",
+    "title": "The Kitchen Rhythm",
+    "description": "Daeun had asked whether to add scallions because even a preference that small was not hers to decide for the person beside her.\n\nYears ago, she had handed over her seal without asking why. She trusted {name}. That trust was not permission for today.\n\n\"Minjun?\"\n\"Yeah. Put them in.\"\n\nThat answer was easy. Only the answer at the contract remained.",
+    "choices": [
+      {
+        "text": "Go back to the contract waiting on the table.",
+        "result_text": "The knife resumed its rhythm. {name} picked up the pen."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_final_choice_name",
+    "title": "Her Name",
+    "description": "Kim Daeun. One short name held a dawn convenience store, rolled omelet, years of waiting, and the seal she had handed him in trust.\n\nThe document reduced all of that to a single ownership field. {name} had been reading people that way for a long time.\n\n\"Daeun.\"\n\"Yes?\"\n\"...Nothing.\"\n\nHer humming stopped for half a beat, then continued in the kitchen.",
+    "choices": [
+      {
+        "text": "Lift his finger from her name and pick up the pen.",
+        "result_text": "Only one thing remained: whether to sign."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_final_choice_decision",
+    "title": "The Last Step",
+    "description": "The pen stopped above the signature line.\n\nWhether this paper would ever reach Gangnam was still for the numbers to decide. What it turned Daeun's trust into would be decided now.\n\nThe knife in the kitchen fell silent. {name} chose his final answer.",
+    "choices": [
+      {
+        "text": "Put the pen down. \"Daeun, let's just... get there a little later.\"",
+        "result_text": "Daeun came out of the kitchen. \"What'd you say?\"\n\"Nothing. The rolled omelet smells good.\"\n\nThe shortcut went in the trash that night.\nGangnam would come honestly, or it wouldn't come at all — one of the two.\nEither way, he wasn't trading it for the person making dinner in the kitchen.\n{name} learned that day it was worth more than any deed."
+      },
+      {
+        "text": "Sign it. Gangnam is one step ahead.",
+        "result_text": "He signed. He took the last shortcut.\n\nIt didn't take Daeun long to learn the truth. She didn't cry. Like someone who had already, quietly, cried it all out years ago.\n\n\"...When did you start seeing me as a document?\"\n\n{name} couldn't answer. He couldn't name the exact date. On the agreement ending their life together, Daeun pressed the seal she had taken back that day."
+      },
+      {
+        "text": "(Pen in hand — that post-it in the drawer came to mind.)",
+        "result_text": "Pen still in hand, {name} opened the desk drawer.\nOne old post-it note. Years had passed since he peeled it off the fridge and put it here.\n'Eat properly.' Three words, written careful and round.\n\nThe person who wrote those words was in the kitchen making rolled omelet. Selling off everything she had with one secret signature — and those three words — could not exist in the same world.\n\n{name} stuck the post-it onto the contract, and put the pen down.\n\"Daeun. Let's just... go a little late.\"\nThe humming in the kitchen paused a moment, then went on. Knowing nothing. That was good."
+      }
+    ]
   },
   {
     "id": "arc_daeun_wedding_prep",

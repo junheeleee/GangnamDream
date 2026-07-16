@@ -209,7 +209,8 @@
   ],
   "t2": [
     {
-      "event_id": "arc_daeun_final_choice",
+      "event_id": "arc_daeun_final_choice_decision",
+      "chain_event_ids": ["arc_daeun_final_choice", "arc_daeun_final_choice_kitchen", "arc_daeun_final_choice_name"],
       "choice_index": 1,
       "cg_placement": "choice_result",
       "cg": "cg_romance_breakup_daeun",
@@ -221,7 +222,8 @@
       "eye_line": "Daeun looks just past Minjun without lens contact while her right hand presses one red seal and her left hand steadies the blank separation paper; Minjun faces her from the rear foreground without reaching."
     },
     {
-      "event_id": "arc_jiyeon_verdict",
+      "event_id": "arc_jiyeon_verdict_decision",
+      "chain_event_ids": ["arc_jiyeon_verdict", "arc_jiyeon_verdict_voice", "arc_jiyeon_verdict_fear"],
       "choice_index": 1,
       "cg_placement": "choice_result",
       "cg": "cg_romance_breakup_jiyeon",

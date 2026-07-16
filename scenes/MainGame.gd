@@ -2648,6 +2648,8 @@ func _next_arc_id(at_turn: int = -1, preview_only: bool = false) -> String:
 		return "arc_daeun_the_test"
 	# ④ 최종 선택 — 돈이냐 배우자냐. 30억 미달+마감 임박에만(정직-부자는 스킵→진엔딩).
 	if t >= 228 and f.get("daeun_married", false) \
+			and f.get("arc_daeun_wedding_day_seen", false) \
+			and f.get("used_daeun_as_means", false) \
 			and not f.get("daeun_divorced", false) \
 			and not f.get("arc_daeun_final_choice_seen", false) \
 			and GameState.get_total_asset_value() >= 1_800_000_000.0 \

@@ -58,7 +58,7 @@ MIN_DIALOGUE_TURNS = 2
 MIN_PANELS = 6
 
 # Ratchet updated only after a peak is expanded and its rendered QA passes.
-BASELINE_DEBT = 11
+BASELINE_DEBT = 9
 REQUIRED_PASS = {
     "arc_daeun_wedding_night",
     "arc_jiyeon_wedding_night",
@@ -71,6 +71,8 @@ REQUIRED_PASS = {
     "arc_daeun_proposal",
     "arc_daeun_wedding_day",
     "arc_jiyeon_wedding_gap",
+    "arc_jiyeon_verdict",
+    "arc_daeun_final_choice",
     "arc_sangchul_confrontation",
     "father_hospital_wait",
     "arc_father_passing",
@@ -1125,6 +1127,166 @@ def validate_father_passing_contract(events: dict[str, dict[str, Any]]) -> None:
                 )
 
 
+def validate_breakup_peak_contracts(events: dict[str, dict[str, Any]]) -> None:
+    """Lock state-free preludes, terminal costs, CG timing, and causal gates."""
+    contracts = (
+        {
+            "label": "Daeun final choice",
+            "root": "arc_daeun_final_choice",
+            "branches": (
+                "arc_daeun_final_choice_kitchen",
+                "arc_daeun_final_choice_name",
+            ),
+            "final": "arc_daeun_final_choice_decision",
+            "background": "daeun_newlywed_home",
+            "portrait": None,
+            "actor": "daeun",
+            "texts": (
+                '펜을 내려놓는다. "다은아, 우리 그냥... 좀 늦게 가자."',
+                "서명한다. 강남이 한 걸음 앞이다.",
+                "(펜을 든 채 — 서랍 속 그 포스트잇이 생각났다)",
+            ),
+            "effects": (
+                {"mental": 20, "tint": 10},
+                {"mental": -15, "tint": -12},
+                {"mental": 20, "tint": 10},
+            ),
+            "flags": (
+                ["arc_daeun_final_choice_seen"],
+                ["arc_daeun_final_choice_seen", "daeun_divorced", "crossed_line"],
+                ["arc_daeun_final_choice_seen", "presented_artifact_correct"],
+            ),
+            "affinity": (20, -40, 22),
+            "stages": (None, "distant", None),
+            "items": (None, None, "artifact_daeun_note"),
+            "cg": "cg_romance_breakup_daeun",
+            "reveal": 3,
+        },
+        {
+            "label": "Jiyeon verdict",
+            "root": "arc_jiyeon_verdict",
+            "branches": (
+                "arc_jiyeon_verdict_voice",
+                "arc_jiyeon_verdict_fear",
+            ),
+            "final": "arc_jiyeon_verdict_decision",
+            "background": "jiyeon_newlywed_home",
+            "portrait": "jiyeon_cold",
+            "actor": "jiyeon",
+            "texts": (
+                '"바뀔게. 당신 세계에 맞출게. 뭐든 할게." (그녀를 붙잡는다)',
+                '"이게 나예요. 못 바꿔요. ...미안해요." (그녀를 보낸다)',
+                "(폰을 꺼낸다 — 그녀의 첫 문자를, 아직 지우지 않았다)",
+            ),
+            "effects": (
+                {"mental": -12, "tint": -8},
+                {"mental": 10, "tint": 8},
+                {"mental": 6, "tint": 5},
+            ),
+            "flags": (
+                ["arc_jiyeon_verdict_seen", "jiyeon_kept_by_diminishing", "crossed_line"],
+                ["arc_jiyeon_verdict_seen", "jiyeon_left"],
+                ["arc_jiyeon_verdict_seen", "jiyeon_stayed_as_selves", "presented_artifact_correct"],
+            ),
+            "affinity": (10, -30, 8),
+            "stages": (None, "distant", None),
+            "items": (None, None, "artifact_jiyeon_text"),
+            "cg": "cg_romance_breakup_jiyeon",
+            "reveal": 2,
+        },
+    )
+
+    for contract in contracts:
+        root_id = str(contract["root"])
+        branches = tuple(str(event_id) for event_id in contract["branches"])
+        final_id = str(contract["final"])
+        expected_paths = {(root_id, branch_id, final_id) for branch_id in branches}
+        actual_paths = {path.event_ids for path in walk_paths(events, root_id)}
+        if actual_paths != expected_paths:
+            rendered = ", ".join(" -> ".join(path) for path in sorted(actual_paths))
+            raise ValueError(f"{contract['label']} paths changed: {rendered}")
+
+        for event_id in (root_id, *branches):
+            event = events[event_id]
+            if event.get("background") != contract["background"] \
+                    or event.get("portrait") != contract["portrait"]:
+                raise ValueError(f"{contract['label']} buildup visual changed at {event_id}")
+            if event.get("cg") or event.get("result_cg"):
+                raise ValueError(f"{contract['label']} breakup CG appeared before commitment")
+            for choice in event.get("choices") or []:
+                for forbidden in (
+                    "effects", "flags", "cast_effects", "requires_item",
+                    "result_cg", "result_background",
+                ):
+                    if choice.get(forbidden):
+                        raise ValueError(
+                            f"{contract['label']} buildup applies {forbidden} at {event_id}"
+                        )
+
+        final_event = events[final_id]
+        if final_event.get("background") != contract["background"] \
+                or final_event.get("portrait") != contract["portrait"]:
+            raise ValueError(f"{contract['label']} final visual changed")
+        final_choices = final_event.get("choices") or []
+        if len(final_choices) != 3:
+            raise ValueError(f"{contract['label']} final must retain three authored choices")
+        for index, choice in enumerate(final_choices):
+            cast_payload: dict[str, Any] = {"affinity": contract["affinity"][index]}
+            stage = contract["stages"][index]
+            if stage is not None:
+                cast_payload["stage"] = stage
+            expected_cast = {str(contract["actor"]): cast_payload}
+            expected_cg = contract["cg"] if index == 1 else None
+            expected_reveal = contract["reveal"] if index == 1 else None
+            if choice.get("text") != contract["texts"][index] \
+                    or choice.get("effects") != contract["effects"][index] \
+                    or choice.get("flags") != contract["flags"][index] \
+                    or choice.get("cast_effects") != expected_cast \
+                    or choice.get("requires_item") != contract["items"][index] \
+                    or choice.get("result_cg") != expected_cg \
+                    or choice.get("result_cg_reveal_paragraph") != expected_reveal:
+                raise ValueError(f"{contract['label']} final choice {index} changed")
+
+    daeun_chain = {
+        event_id
+        for event_id in (
+            "arc_daeun_final_choice",
+            "arc_daeun_final_choice_kitchen",
+            "arc_daeun_final_choice_name",
+            "arc_daeun_final_choice_decision",
+        )
+    }
+    daeun_copy = "\n".join(
+        str(events[event_id].get("description", ""))
+        + "\n"
+        + "\n".join(str(choice.get("result_text", "")) for choice in events[event_id].get("choices", []))
+        for event_id in daeun_chain
+    )
+    for stale_claim in ("청첩장", "강남 등기가 손에 들어왔다"):
+        if stale_claim in daeun_copy:
+            raise ValueError(f"Daeun final chain retained the false claim: {stale_claim}")
+
+    with open(MAIN_GAME, encoding="utf-8") as handle:
+        source = handle.read()
+    return_at = source.find('return "arc_daeun_final_choice"')
+    block_at = source.rfind("\n\tif ", 0, return_at)
+    if return_at < 0 or block_at < 0:
+        raise ValueError("missing Daeun final-choice routing block")
+    daeun_gate = source[block_at:return_at + len('return "arc_daeun_final_choice"')]
+    for token in (
+        "t >= 228",
+        'f.get("daeun_married", false)',
+        'f.get("arc_daeun_wedding_day_seen", false)',
+        'f.get("used_daeun_as_means", false)',
+        'not f.get("daeun_divorced", false)',
+        'not f.get("arc_daeun_final_choice_seen", false)',
+        "GameState.get_total_asset_value() >= 1_800_000_000.0",
+        "GameState.get_total_asset_value() < 3_000_000_000.0",
+    ):
+        if token not in daeun_gate:
+            raise ValueError(f"Daeun final-choice causal gate missing: {token}")
+
+
 def validate_jiyeon_marriage_routing_contract() -> None:
     """Keep Jiyeon's marriage chronology explicit even when Minjun is broke."""
     with open(MAIN_GAME, encoding="utf-8") as handle:
@@ -1236,6 +1398,7 @@ def main() -> int:
     validate_sangchul_confrontation_contract(ko_events)
     validate_father_hospital_contract(ko_events)
     validate_father_passing_contract(ko_events)
+    validate_breakup_peak_contracts(ko_events)
     validate_jiyeon_marriage_routing_contract()
     metrics = [measure(label, root_id, ko_events) for label, root_id in PEAK_ROOTS]
     visited = {

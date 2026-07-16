@@ -56,7 +56,49 @@
   {
     "id": "arc_jiyeon_verdict",
     "title": "The Kind of Man He'd Be",
-    "description": "Five years are ending. Gangnam stayed out of reach.\n\nFor the first time in a while, Jiyeon sat him down, serious.\n\"I knew you had no money from the beginning, oppa. If that were the problem, I wouldn't have married you.\"\n\nShe looked once around the home leased in her name.\n\"What I believed in wasn't the money you had. It was that you'd keep moving. But somewhere along the way, you just stopped. Dodging anything risky, settling for something small.\"\n\n\"I can't tell if that's stability or giving up. My father calls it giving up. Worse... part of me is starting to believe him.\"\n\nHer eyes waited for an answer. Whatever {name} said now, this marriage hung on it.",
+    "description": "Their five years were almost up. Gangnam stayed out of reach.\n\nFor the first time in a while, Jiyeon sat him down, serious.\n\"I knew you had no money from the beginning, oppa. If that were the problem, I wouldn't have married you.\"\n\nShe looked once around the home leased in her name.\n\"What I believed in wasn't the money you had. It was that you'd keep moving. But somewhere along the way, you just stopped. Dodging anything risky, settling for something small.\"\n\n\"I can't tell if that's stability or giving up. My father calls it giving up. Worse... part of me is starting to believe him.\"\n\nInstead of choosing an answer first, {name} decided to ask where those words had come from.",
+    "choices": [
+      {
+        "text": "\"When you say I 'stopped' — is that you talking, or your father?\"",
+        "result_text": "Jiyeon's lips parted, then closed. For the first time, a gap opened in the sentence she had made sound so certain."
+      },
+      {
+        "text": "\"What are you most afraid of right now?\"",
+        "result_text": "Jiyeon looked out the window instead of answering. In the expensive glow of the skyline, the fear she had not named slowly showed itself."
+      }
+    ],
+    "description_if_known": {
+      "told_jiyeon_about_records": "Five years are ending. Gangnam stayed out of reach.\n\nFor the first time in a while, Jiyeon sat him down, serious.\n\"I knew you had no money from the beginning, oppa. If that were the problem, I wouldn't have married you. I believed you'd keep moving.\"\n\n\"But my father calls this giving up.\"\nAt that, {name} paused. A life that dodges risk and settles for something small — the man handing down that verdict was the owner of the company that, over a decade ago, made his own father exactly that small.\nJiyeon knew it now too. \"Worse... part of me is starting to believe him.\" They sat facing each other with that knowledge between them.\n\nHer eyes waited for an answer. Whatever {name} said now, this marriage hung on it.",
+      "jiyeon_narrow_room": "Five years are ending. Gangnam stayed out of reach.\n\nFor the first time in a while, Jiyeon sat him down, serious.\n\"I knew you had no money from the beginning, oppa. If that were the problem, I wouldn't have married you. I believed you'd keep moving.\"\n\n\"But somewhere along the way, you just stopped. I can't tell if that's stability or giving up.\"\n\n{name} thought of that narrow room. Sharing two cup ramyeon, the night she said, \"This room is like you, oppa — narrow, and all of it real.\"\nThe person who had once called the small thing real was not asking about smallness now. She was asking about standing still.\n\nHer eyes waited for an answer. Whatever {name} said now, this marriage hung on it.",
+      "namsan_lock_jiyeon": "Five years are ending. Gangnam stayed out of reach.\n\nJiyeon sat across from him, serious for once.\n\"I knew you had no money from the beginning, oppa. If that were the problem, I wouldn't have married you. I believed you'd keep moving.\"\n\nNamsan came to mind. The night she called it childish and took a photo anyway, and hung the lock.\nThat lock would still be there. Whatever became of us.\n\nShe was not accusing him of living small. She was asking whether either of them could bear a life that had stopped moving. Whatever {name} said now, this marriage hung on it."
+    }
+  },
+  {
+    "id": "arc_jiyeon_verdict_voice",
+    "title": "A Borrowed Voice",
+    "description": "\"At first, it was Dad talking.\"\n\nJiyeon ran one finger along the seam of the sofa.\n\"But after hearing it long enough... one day it started sounding like what I was about to say. That's the part I hate most.\"\n\n{name} was no longer facing only her father's judgment. He was facing Jiyeon after that judgment had begun to sound like her own voice — and deciding whether to make himself smaller to fit it.",
+    "choices": [
+      {
+        "text": "Wait until Jiyeon's own voice is all that remains.",
+        "result_text": "Her father's voice receded a little from the room. What remained to be said belonged to the two of them."
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_verdict_fear",
+    "title": "What It Means to Stop",
+    "description": "\"I'm not afraid of living in a small home.\"\n\nJiyeon spoke without looking away.\n\"I'm afraid that one day neither of us will want anything. That we'll call it happiness and never even notice we gave up.\"\n\nOnly then did money, desire, and love separate inside the same sentence. Jiyeon did not fear poverty. She feared a life in which neither of them could move the other anymore.",
+    "choices": [
+      {
+        "text": "Do not dismiss that fear as vanity. Listen all the way through.",
+        "result_text": "{name} did not argue. At the end of the silence, it was time to answer what kind of life they could still choose."
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_verdict_decision",
+    "title": "The Kind of Man He'd Be",
+    "description": "Jiyeon was not leaving because the account was small. {name} could not hide behind poverty as an excuse either.\n\nChange himself to fit someone else's measure, let her go while remaining himself, or find a way to remain the two people who had first recognized each other.\n\nThe answer now belonged neither to her father nor to Gangnam, but to the two people sitting face to face.",
     "choices": [
       {
         "text": "\"I'll change. I'll fit your world. Anything.\" (Hold on to her)",
@@ -70,11 +112,6 @@
         "text": "(Take out the phone — her first text, never deleted.)",
         "result_text": "Instead of answering, {name} took out his phone and set one old screen in front of her.\nThe first text, sent at dawn: \"Am I kind of strange?\"\n\nJiyeon looked down at the screen. One beat, two. The stern face slowly came undone.\n\"...You still have this?\"\n\"I answered no back then. That answer hasn't changed.\" {name} said. \"You're not a strange person — and I'm not a person who needs to change. We're both just built this way.\"\n\nA long silence. Jiyeon looked out the window, then at the screen, then finally at {name}.\n\"...I'll talk to Dad myself.\" That was her answer.\nGangnam never came. But no one left, and no one changed. That night the two of them remained what they'd been at that dawn five years ago — two people who believed each other not strange."
       }
-    ],
-    "description_if_known": {
-      "told_jiyeon_about_records": "Five years are ending. Gangnam stayed out of reach.\n\nFor the first time in a while, Jiyeon sat him down, serious.\n\"I knew you had no money from the beginning, oppa. If that were the problem, I wouldn't have married you. I believed you'd keep moving.\"\n\n\"But my father calls this giving up.\"\nAt that, {name} paused. A life that dodges risk and settles for something small — the man handing down that verdict was the owner of the company that, over a decade ago, made his own father exactly that small.\nJiyeon knew it now too. \"Worse... part of me is starting to believe him.\" They sat facing each other with that knowledge between them.\n\nHer eyes waited for an answer. Whatever {name} said now, this marriage hung on it.",
-      "jiyeon_narrow_room": "Five years are ending. Gangnam stayed out of reach.\n\nFor the first time in a while, Jiyeon sat him down, serious.\n\"I knew you had no money from the beginning, oppa. If that were the problem, I wouldn't have married you. I believed you'd keep moving.\"\n\n\"But somewhere along the way, you just stopped. I can't tell if that's stability or giving up.\"\n\n{name} thought of that narrow room. Sharing two cup ramyeon, the night she said, \"This room is like you, oppa — narrow, and all of it real.\"\nThe person who had once called the small thing real was not asking about smallness now. She was asking about standing still.\n\nHer eyes waited for an answer. Whatever {name} said now, this marriage hung on it.",
-      "namsan_lock_jiyeon": "Five years are ending. Gangnam stayed out of reach.\n\nJiyeon sat across from him, serious for once.\n\"I knew you had no money from the beginning, oppa. If that were the problem, I wouldn't have married you. I believed you'd keep moving.\"\n\nNamsan came to mind. The night she called it childish and took a photo anyway, and hung the lock.\nThat lock would still be there. Whatever became of us.\n\nShe was not accusing him of living small. She was asking whether either of them could bear a life that had stopped moving. Whatever {name} said now, this marriage hung on it."
-    }
+    ]
   }
 ]

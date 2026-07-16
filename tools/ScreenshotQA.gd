@@ -65,6 +65,8 @@ extends Node
 ## 헤드리스 더미 렌더러는 빈 텍스처를 주므로 x11+opengl3(xvfb) 필요.
 ## .tscn 으로 부팅해야 autoload(GameState 등)가 로드된다.
 
+const StoryModeScript = preload("res://scenes/StoryMode.gd")
+
 # Parallel matrix jobs must not erase one another's screenshots. Set
 # GANGNAM_QA_OUT per process when durable, isolated evidence is required.
 var OUT_DIR := OS.get_environment("GANGNAM_QA_OUT") \
@@ -1827,12 +1829,27 @@ func _assert_commitment_visual_state(story: Node, event_id: String, selected_cho
 		_assert_story_cg(story, "cg_romance_wedding_gap_jiyeon", event_id, selected_choice >= 0)
 
 func _assert_breakup_visual_state(story: Node, event_id: String, selected_choice: int) -> void:
-	if event_id not in ["arc_daeun_final_choice", "arc_jiyeon_verdict"]:
+	var daeun_chain := event_id in [
+		"arc_daeun_final_choice",
+		"arc_daeun_final_choice_kitchen",
+		"arc_daeun_final_choice_name",
+		"arc_daeun_final_choice_decision",
+	]
+	var jiyeon_chain := event_id in [
+		"arc_jiyeon_verdict",
+		"arc_jiyeon_verdict_voice",
+		"arc_jiyeon_verdict_fear",
+		"arc_jiyeon_verdict_decision",
+	]
+	if not daeun_chain and not jiyeon_chain:
 		return
 	var paragraph_index := int(story.get("_para_index"))
-	var reveal_paragraph := 3 if event_id == "arc_daeun_final_choice" else 2
-	var expected_cg_id := "cg_romance_breakup_daeun" if event_id == "arc_daeun_final_choice" else "cg_romance_breakup_jiyeon"
-	var should_show_cg := selected_choice == 1 and paragraph_index >= reveal_paragraph
+	var final_event := event_id in [
+		"arc_daeun_final_choice_decision", "arc_jiyeon_verdict_decision",
+	]
+	var reveal_paragraph := 3 if daeun_chain else 2
+	var expected_cg_id := "cg_romance_breakup_daeun" if daeun_chain else "cg_romance_breakup_jiyeon"
+	var should_show_cg := final_event and selected_choice == 1 and paragraph_index >= reveal_paragraph
 	var cg_active := bool(story.get("_current_uses_cg"))
 	if cg_active != should_show_cg:
 		_fail("%s breakup CG expected %s at choice=%d paragraph=%d, got %s." % [
@@ -1841,15 +1858,15 @@ func _assert_breakup_visual_state(story: Node, event_id: String, selected_choice
 	if should_show_cg:
 		_assert_story_cg(story, expected_cg_id, event_id)
 		return
-	var expected_background := "daeun_newlywed_home" if event_id == "arc_daeun_final_choice" else "jiyeon_newlywed_home"
+	var expected_background := "daeun_newlywed_home" if daeun_chain else "jiyeon_newlywed_home"
 	var actual_background := str(story.get("_event_background_id"))
 	if actual_background != expected_background:
 		_fail("%s pre-reveal background expected %s, got %s." % [event_id, expected_background, actual_background])
 		return
 	var portrait_frame := story.get("_portrait_frame") as Control
-	if event_id == "arc_daeun_final_choice":
+	if daeun_chain:
 		if is_instance_valid(portrait_frame) and portrait_frame.visible:
-			_fail("Daeun final choice must keep her portrait hidden while prose places her in the adjacent room.")
+			_fail("Daeun final-choice chain must keep her portrait hidden while prose places her in the kitchen.")
 		return
 	var portrait := story.get("_portrait") as TextureRect
 	var actual_portrait := portrait.texture.resource_path if is_instance_valid(portrait) and portrait.texture != null else ""
@@ -2657,11 +2674,11 @@ func _shot_trailer_surfaces(lang: String = "en") -> void:
 
 	_prepare_breakup_qa_state("daeun")
 	await _shot_story_event(
-		"arc_daeun_final_choice", "trailer_13_divorce_seal", "", 0.35,
+		"arc_daeun_final_choice_decision", "trailer_13_divorce_seal", "", 0.35,
 		true, true, 1, 0, false, 3)
 	_prepare_breakup_qa_state("jiyeon")
 	await _shot_story_event(
-		"arc_jiyeon_verdict", "trailer_14_departure", "", 0.35,
+		"arc_jiyeon_verdict_decision", "trailer_14_departure", "", 0.35,
 		true, true, 1, 0, false, 2)
 
 	_prepare_main_game_state()
@@ -3616,14 +3633,22 @@ func _prepare_breakup_qa_state(route: String) -> void:
 		GameState.moral_tint = -48.0
 		GameState.flags["daeun_romance_started"] = true
 		GameState.flags["daeun_married"] = true
+		GameState.flags["arc_daeun_wedding_day_seen"] = true
+		GameState.flags["arc_daeun_wedding_night_seen"] = true
+		GameState.flags["arc_daeun_test_seen"] = true
+		GameState.flags["used_daeun_as_means"] = true
+		GameState.flags["crossed_line"] = true
 		GameState.flags["namsan_lock_daeun"] = true
 		_set_cast_relation_for_qa("daeun", 84)
+		GameState.cast["daeun"]["stage"] = "spouse"
 	else:
 		GameState.moral_tint = 18.0
 		GameState.flags["jiyeon_romance_started"] = true
+		GameState.flags["arc_jiyeon_wedding_night_seen"] = true
 		GameState.flags["jiyeon_narrow_room"] = true
 		GameState.flags["namsan_lock_jiyeon"] = true
 		_set_cast_relation_for_qa("jiyeon", 82)
+		GameState.cast["jiyeon"]["stage"] = "spouse"
 
 func _shot_commitment_surfaces(lang: String = "en", prefix: String = "commitment_en_") -> void:
 	_set_qa_language(lang)
@@ -3749,26 +3774,147 @@ func _shot_breakup_surfaces(lang: String = "en", prefix: String = "breakup_en_")
 	_set_qa_language(lang)
 
 	_prepare_breakup_qa_state("daeun")
+	GameState.flags.erase("namsan_lock_daeun")
 	await _shot_story_event("arc_daeun_final_choice", prefix + "01_daeun_intro", "", 0.55, true)
+	_assert_breakup_uncommitted("daeun", "intro")
 	_prepare_breakup_qa_state("daeun")
+	GameState.flags.erase("namsan_lock_daeun")
 	await _shot_story_event("arc_daeun_final_choice", prefix + "02_daeun_choices", "", 0.45, true, true)
+	_assert_breakup_uncommitted("daeun", "opening choices")
 	_prepare_breakup_qa_state("daeun")
-	await _shot_story_event("arc_daeun_final_choice", prefix + "03_daeun_stays_no_cg", "", 0.45, true, true, 0, 0, false, 1)
+	GameState.flags.erase("namsan_lock_daeun")
+	await _shot_story_event("arc_daeun_final_choice", prefix + "03_daeun_kitchen_opening", "", 0.45, true, true, 0)
+	_assert_breakup_uncommitted("daeun", "kitchen opening")
 	_prepare_breakup_qa_state("daeun")
-	await _shot_story_event("arc_daeun_final_choice", prefix + "04_daeun_betrayal_before_cg", "", 0.45, true, true, 1, 0, false, 2)
+	await _shot_story_event("arc_daeun_final_choice_kitchen", prefix + "04_daeun_kitchen_reply", "", 0.45, true, true, 0)
+	_assert_breakup_uncommitted("daeun", "kitchen reply")
 	_prepare_breakup_qa_state("daeun")
-	await _shot_story_event("arc_daeun_final_choice", prefix + "05_daeun_seal_cg", "", 0.45, true, true, 1, 0, false, 3)
+	await _shot_story_event("arc_daeun_final_choice_name", prefix + "05_daeun_name_intro", "", 0.45, true)
+	_assert_breakup_uncommitted("daeun", "name intro")
+	_prepare_breakup_qa_state("daeun")
+	await _shot_story_event("arc_daeun_final_choice_name", prefix + "06_daeun_name_reply", "", 0.45, true, true, 0)
+	_assert_breakup_uncommitted("daeun", "name reply")
+	_prepare_breakup_qa_state("daeun")
+	_assert_breakup_choice_count("arc_daeun_final_choice_decision", 2, "Daeun without post-it")
+	await _shot_story_event("arc_daeun_final_choice_decision", prefix + "07_daeun_final_two_choices", "", 0.45, true, true)
+	_assert_breakup_uncommitted("daeun", "final choices")
+	_prepare_breakup_qa_state("daeun")
+	GameState.add_item("artifact_daeun_note", 1)
+	_assert_breakup_choice_count("arc_daeun_final_choice_decision", 3, "Daeun with post-it")
+	await _shot_story_event("arc_daeun_final_choice_decision", prefix + "08_daeun_final_artifact_choice", "", 0.45, true, true)
+	_assert_breakup_uncommitted("daeun", "artifact choices")
+	_prepare_breakup_qa_state("daeun")
+	await _shot_story_event("arc_daeun_final_choice_decision", prefix + "09_daeun_stays_no_cg", "", 0.45, true, true, 0, 0, false, 1)
+	_assert_breakup_state("daeun", "refusal", 78, -38.0, 100, "spouse", ["arc_daeun_final_choice_seen", "crossed_line"], ["daeun_divorced", "presented_artifact_correct"])
+	_prepare_breakup_qa_state("daeun")
+	await _shot_story_event("arc_daeun_final_choice_decision", prefix + "10_daeun_betrayal_before_cg", "", 0.45, true, true, 1, 0, false, 2)
+	_assert_breakup_state("daeun", "betrayal pre-reveal", 43, -60.0, 44, "distant", ["arc_daeun_final_choice_seen", "daeun_divorced", "crossed_line"], ["presented_artifact_correct"])
+	_prepare_breakup_qa_state("daeun")
+	await _shot_story_event("arc_daeun_final_choice_decision", prefix + "11_daeun_seal_cg", "", 0.45, true, true, 1, 0, false, 3)
+	_assert_breakup_state("daeun", "betrayal reveal", 43, -60.0, 44, "distant", ["arc_daeun_final_choice_seen", "daeun_divorced", "crossed_line"], ["presented_artifact_correct"])
+	_prepare_breakup_qa_state("daeun")
+	GameState.add_item("artifact_daeun_note", 1)
+	await _shot_story_event("arc_daeun_final_choice_decision", prefix + "12_daeun_post_it_result", "", 0.45, true, true, 2, 0, false, 2)
+	_assert_breakup_state("daeun", "post-it", 78, -38.0, 100, "spouse", ["arc_daeun_final_choice_seen", "crossed_line", "presented_artifact_correct"], ["daeun_divorced"])
+	_prepare_breakup_qa_state("daeun")
+	await _shot_story_event("arc_daeun_final_choice", prefix + "13_daeun_namsan_known", "", 0.5, true)
+	_assert_breakup_uncommitted("daeun", "Namsan recall")
 
 	_prepare_breakup_qa_state("jiyeon")
-	await _shot_story_event("arc_jiyeon_verdict", prefix + "06_jiyeon_intro", "", 0.55, true)
+	GameState.flags.erase("jiyeon_narrow_room")
+	GameState.flags.erase("namsan_lock_jiyeon")
+	await _shot_story_event("arc_jiyeon_verdict", prefix + "14_jiyeon_intro", "", 0.55, true)
+	_assert_breakup_uncommitted("jiyeon", "intro")
 	_prepare_breakup_qa_state("jiyeon")
-	await _shot_story_event("arc_jiyeon_verdict", prefix + "07_jiyeon_choices", "", 0.45, true, true)
+	GameState.flags.erase("jiyeon_narrow_room")
+	GameState.flags.erase("namsan_lock_jiyeon")
+	await _shot_story_event("arc_jiyeon_verdict", prefix + "15_jiyeon_choices", "", 0.45, true, true)
+	_assert_breakup_uncommitted("jiyeon", "opening choices")
 	_prepare_breakup_qa_state("jiyeon")
-	await _shot_story_event("arc_jiyeon_verdict", prefix + "08_jiyeon_stays_no_cg", "", 0.45, true, true, 0, 0, false, 2)
+	await _shot_story_event("arc_jiyeon_verdict", prefix + "16_jiyeon_voice_opening", "", 0.45, true, true, 0)
+	_assert_breakup_uncommitted("jiyeon", "voice opening")
 	_prepare_breakup_qa_state("jiyeon")
-	await _shot_story_event("arc_jiyeon_verdict", prefix + "09_jiyeon_farewell_before_cg", "", 0.45, true, true, 1, 0, false, 1)
+	await _shot_story_event("arc_jiyeon_verdict_voice", prefix + "17_jiyeon_voice_reply", "", 0.45, true, true, 0)
+	_assert_breakup_uncommitted("jiyeon", "voice reply")
 	_prepare_breakup_qa_state("jiyeon")
-	await _shot_story_event("arc_jiyeon_verdict", prefix + "10_jiyeon_departure_cg", "", 0.45, true, true, 1, 0, false, 2)
+	await _shot_story_event("arc_jiyeon_verdict_fear", prefix + "18_jiyeon_fear_intro", "", 0.45, true)
+	_assert_breakup_uncommitted("jiyeon", "fear intro")
+	_prepare_breakup_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_verdict_fear", prefix + "19_jiyeon_fear_reply", "", 0.45, true, true, 0)
+	_assert_breakup_uncommitted("jiyeon", "fear reply")
+	_prepare_breakup_qa_state("jiyeon")
+	_assert_breakup_choice_count("arc_jiyeon_verdict_decision", 2, "Jiyeon without first text")
+	await _shot_story_event("arc_jiyeon_verdict_decision", prefix + "20_jiyeon_final_two_choices", "", 0.45, true, true)
+	_assert_breakup_uncommitted("jiyeon", "final choices")
+	_prepare_breakup_qa_state("jiyeon")
+	GameState.add_item("artifact_jiyeon_text", 1)
+	_assert_breakup_choice_count("arc_jiyeon_verdict_decision", 3, "Jiyeon with first text")
+	await _shot_story_event("arc_jiyeon_verdict_decision", prefix + "21_jiyeon_final_artifact_choice", "", 0.45, true, true)
+	_assert_breakup_uncommitted("jiyeon", "artifact choices")
+	_prepare_breakup_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_verdict_decision", prefix + "22_jiyeon_stays_no_cg", "", 0.45, true, true, 0, 0, false, 2)
+	_assert_breakup_state("jiyeon", "diminishing", 46, -20.0, 92, "spouse", ["arc_jiyeon_verdict_seen", "jiyeon_kept_by_diminishing", "crossed_line"], ["jiyeon_left", "jiyeon_stayed_as_selves", "presented_artifact_correct"])
+	_prepare_breakup_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_verdict_decision", prefix + "23_jiyeon_farewell_before_cg", "", 0.45, true, true, 1, 0, false, 1)
+	_assert_breakup_state("jiyeon", "release pre-reveal", 68, 26.0, 52, "distant", ["arc_jiyeon_verdict_seen", "jiyeon_left"], ["crossed_line", "jiyeon_kept_by_diminishing", "jiyeon_stayed_as_selves", "presented_artifact_correct"])
+	_prepare_breakup_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_verdict_decision", prefix + "24_jiyeon_departure_cg", "", 0.45, true, true, 1, 0, false, 2)
+	_assert_breakup_state("jiyeon", "release reveal", 68, 26.0, 52, "distant", ["arc_jiyeon_verdict_seen", "jiyeon_left"], ["crossed_line", "jiyeon_kept_by_diminishing", "jiyeon_stayed_as_selves", "presented_artifact_correct"])
+	_prepare_breakup_qa_state("jiyeon")
+	GameState.add_item("artifact_jiyeon_text", 1)
+	await _shot_story_event("arc_jiyeon_verdict_decision", prefix + "25_jiyeon_first_text_result", "", 0.45, true, true, 2, 0, false, 2)
+	_assert_breakup_state("jiyeon", "first text", 64, 23.0, 90, "spouse", ["arc_jiyeon_verdict_seen", "jiyeon_stayed_as_selves", "presented_artifact_correct"], ["crossed_line", "jiyeon_left", "jiyeon_kept_by_diminishing"])
+	_prepare_breakup_qa_state("jiyeon")
+	GameState.flags["told_jiyeon_about_records"] = true
+	await _shot_story_event("arc_jiyeon_verdict", prefix + "26_jiyeon_records_known", "", 0.5, true)
+	_assert_breakup_uncommitted("jiyeon", "records recall")
+	_prepare_breakup_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_verdict", prefix + "27_jiyeon_narrow_room_known", "", 0.5, true)
+	_assert_breakup_uncommitted("jiyeon", "narrow-room recall")
+	_prepare_breakup_qa_state("jiyeon")
+	GameState.flags.erase("jiyeon_narrow_room")
+	await _shot_story_event("arc_jiyeon_verdict", prefix + "28_jiyeon_namsan_known", "", 0.5, true)
+	_assert_breakup_uncommitted("jiyeon", "Namsan recall")
+
+func _assert_breakup_choice_count(event_id: String, expected: int, label: String) -> void:
+	var story = StoryModeScript.new()
+	var event: Dictionary = DataRegistry.find_event(event_id)
+	var actual: int = story._visible_choice_indices(event).size()
+	if actual != expected:
+		_fail("%s expected %d visible choices, got %d." % [label, expected, actual])
+	story.free()
+
+func _assert_breakup_uncommitted(route: String, label: String) -> void:
+	var expected_tint := -48.0 if route == "daeun" else 18.0
+	var expected_affinity := 84 if route == "daeun" else 82
+	var actual_affinity := int(GameState.cast.get(route, {}).get("affinity", -999))
+	if int(GameState.mental) != 58 or not is_equal_approx(GameState.moral_tint, expected_tint) \
+			or actual_affinity != expected_affinity:
+		_fail("%s breakup %s changed state before the final decision: mental=%s tint=%s affinity=%s." % [
+			route, label, GameState.mental, GameState.moral_tint, actual_affinity,
+		])
+	var completion_flag := "arc_daeun_final_choice_seen" if route == "daeun" else "arc_jiyeon_verdict_seen"
+	if GameState.flags.get(completion_flag, false) or GameState.flags.get("daeun_divorced", false) \
+			or GameState.flags.get("jiyeon_left", false) or GameState.flags.get("presented_artifact_correct", false):
+		_fail("%s breakup %s committed a terminal flag early." % [route, label])
+
+func _assert_breakup_state(
+		route: String, label: String, mental: int, tint: float, affinity: int,
+		stage: String, required_flags: Array, forbidden_flags: Array) -> void:
+	var cast_state: Dictionary = GameState.cast.get(route, {})
+	var actual_affinity := int(cast_state.get("affinity", -999))
+	var actual_stage := str(cast_state.get("stage", ""))
+	if int(GameState.mental) != mental or not is_equal_approx(GameState.moral_tint, tint) \
+			or actual_affinity != affinity or actual_stage != stage:
+		_fail("%s breakup %s totals changed: mental=%s tint=%s affinity=%s stage=%s." % [
+			route, label, GameState.mental, GameState.moral_tint, actual_affinity, actual_stage,
+		])
+	for flag_id in required_flags:
+		if not GameState.flags.get(str(flag_id), false):
+			_fail("%s breakup %s did not set %s." % [route, label, str(flag_id)])
+	for flag_id in forbidden_flags:
+		if GameState.flags.get(str(flag_id), false):
+			_fail("%s breakup %s incorrectly set %s." % [route, label, str(flag_id)])
 
 func _shot_sangchul_confrontation_surfaces(lang: String = "en", prefix: String = "sangchul_en_") -> void:
 	_set_qa_language(lang)

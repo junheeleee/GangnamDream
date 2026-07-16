@@ -92,7 +92,7 @@ func _check_leave_path() -> void:
 		_fail("leave path did not select the oldest artifact")
 
 	var story = StoryModeScript.new()
-	var artifact_event: Dictionary = DataRegistry.find_event("arc_daeun_final_choice")
+	var artifact_event: Dictionary = DataRegistry.find_event("arc_daeun_final_choice_decision")
 	_assert_indices("artifact choice before leaving", story._visible_choice_indices(artifact_event), [0, 1, 2])
 	var event: Dictionary = DataRegistry.find_event("arc_housing_keepsake")
 	var result_preview := GameState.format_event_text(str(event.get("choices", [])[1].get("result_text", "")))

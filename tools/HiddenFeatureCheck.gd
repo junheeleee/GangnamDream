@@ -52,8 +52,8 @@ func _check_artifact_choice_visibility() -> void:
 	var story = StoryModeScript.new()
 	var cases := [
 		{"event": "arc_jaehyuk_ghost_decision", "item": "artifact_jaehyuk_photo"},
-		{"event": "arc_jiyeon_verdict", "item": "artifact_jiyeon_text"},
-		{"event": "arc_daeun_final_choice", "item": "artifact_daeun_note"},
+		{"event": "arc_jiyeon_verdict_decision", "item": "artifact_jiyeon_text"},
+		{"event": "arc_daeun_final_choice_decision", "item": "artifact_daeun_note"},
 	]
 	for language in ["ko", "en"]:
 		LocaleManager.language = language
@@ -102,19 +102,31 @@ func _check_jaehyuk_follow_up() -> void:
 func _check_jiyeon_third_path() -> void:
 	LocaleManager.language = "ko"
 	DataRegistry.reload()
-	_reset_run()
-	GameState.add_item("artifact_jiyeon_text", 1)
-	GameState.age = 38
-	GameState.flags["jiyeon_romance_started"] = true
-	var event: Dictionary = DataRegistry.find_event("arc_jiyeon_verdict")
-	GameState.apply_choice(event, event.get("choices", [])[2])
+	var ending_ids: Array[String] = []
+	for choice_index in range(3):
+		var ending_id := _jiyeon_ending_after_choice(choice_index, choice_index == 2)
+		ending_ids.append(ending_id)
+		match choice_index:
+			0:
+				if not GameState.flags.get("jiyeon_kept_by_diminishing", false) \
+						or not GameState.flags.get("crossed_line", false) \
+						or GameState.flags.get("jiyeon_left", false):
+					_fail("Jiyeon diminishing route did not preserve its terminal state")
+			1:
+				if not GameState.flags.get("jiyeon_left", false):
+					_fail("Jiyeon release route did not set jiyeon_left")
+			2:
+				if not GameState.flags.get("jiyeon_stayed_as_selves", false) \
+						or GameState.flags.get("jiyeon_left", false) \
+						or not GameState.flags.get("presented_artifact_correct", false):
+					_fail("Jiyeon artifact route did not preserve its terminal state")
+	var expected_endings: Array[String] = ["jiyeon_man", "ordinary_life", "jiyeon_man"]
+	if ending_ids != expected_endings:
+		_fail("Jiyeon verdict routes were %s instead of %s" % [ending_ids, expected_endings])
 	if not GameState.flags.get("jiyeon_stayed_as_selves", false):
 		_fail("Jiyeon third path did not set jiyeon_stayed_as_selves")
 	if GameState.flags.get("jiyeon_left", false):
 		_fail("Jiyeon third path incorrectly set jiyeon_left")
-	var ending_id := _capture_game_over()
-	if ending_id != "jiyeon_man":
-		_fail("Jiyeon third path routed to %s instead of jiyeon_man" % ending_id)
 	var game = MainGameScript.new()
 	for language in ["ko", "en"]:
 		LocaleManager.language = language
@@ -125,29 +137,47 @@ func _check_jiyeon_third_path() -> void:
 		var actual := game._resolved_ending_description(ending)
 		if expected.is_empty() or actual != expected:
 			_fail("Jiyeon stayed-as-selves DIK did not resolve in %s" % language)
-	print("HIDDEN_FEATURE_EVIDENCE jiyeon ending=%s dik=jiyeon_stayed_as_selves KO_EN=1" % ending_id)
+	print("HIDDEN_FEATURE_EVIDENCE jiyeon endings=%s dik=jiyeon_stayed_as_selves KO_EN=1" % [ending_ids])
 	game.free()
+
+func _jiyeon_ending_after_choice(choice_index: int, with_artifact: bool) -> String:
+	_reset_run()
+	GameState.age = 38
+	GameState.flags["jiyeon_romance_started"] = true
+	if with_artifact:
+		GameState.add_item("artifact_jiyeon_text", 1)
+	var event: Dictionary = DataRegistry.find_event("arc_jiyeon_verdict_decision")
+	GameState.apply_choice(event, event.get("choices", [])[choice_index])
+	return _capture_game_over()
 
 func _check_daeun_post_it_route() -> void:
 	LocaleManager.language = "ko"
 	DataRegistry.reload()
 	var refusal_ending := _daeun_ending_after_choice(0, false)
+	var betrayal_ending := _daeun_ending_after_choice(1, false)
+	if betrayal_ending != "ordinary_life" \
+			or not GameState.flags.get("daeun_divorced", false) \
+			or not GameState.flags.get("crossed_line", false):
+		_fail("Daeun betrayal route did not reach the sub-target divorce ending")
 	var post_it_ending := _daeun_ending_after_choice(2, true)
-	if refusal_ending != "with_daeun" or post_it_ending != refusal_ending:
-		_fail("Daeun refusal/post-it routes diverged: %s vs %s" % [refusal_ending, post_it_ending])
+	var ending_ids: Array[String] = [refusal_ending, betrayal_ending, post_it_ending]
+	var expected_endings: Array[String] = ["with_daeun", "ordinary_life", "with_daeun"]
+	if ending_ids != expected_endings:
+		_fail("Daeun final routes were %s instead of %s" % [ending_ids, expected_endings])
 	if GameState.flags.get("daeun_divorced", false) or GameState.flags.get("crossed_line", false):
 		_fail("Daeun post-it route incorrectly marked divorce or crossed_line")
 	if not GameState.flags.get("presented_artifact_correct", false):
 		_fail("Daeun post-it route did not record artifact presentation")
-	print("HIDDEN_FEATURE_EVIDENCE daeun refusal=%s post_it=%s divorced=0" % [refusal_ending, post_it_ending])
+	print("HIDDEN_FEATURE_EVIDENCE daeun endings=%s post_it_divorced=0" % [ending_ids])
 
 func _daeun_ending_after_choice(choice_index: int, with_artifact: bool) -> String:
 	_reset_run()
 	GameState.age = 38
 	GameState.flags["daeun_romance_started"] = true
+	GameState.flags["daeun_married"] = true
 	if with_artifact:
 		GameState.add_item("artifact_daeun_note", 1)
-	var event: Dictionary = DataRegistry.find_event("arc_daeun_final_choice")
+	var event: Dictionary = DataRegistry.find_event("arc_daeun_final_choice_decision")
 	GameState.apply_choice(event, event.get("choices", [])[choice_index])
 	return _capture_game_over()
 

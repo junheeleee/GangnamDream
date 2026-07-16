@@ -13,9 +13,9 @@ This document owns the two T2 romance rupture CGs. They are choice-result images
 ## Daeun: `cg_romance_breakup_daeun`
 
 - File: `assets/cg/romance/breakup_daeun_v1.png`.
-- Owner: `arc_daeun_final_choice`, betrayal choice 1, result paragraph 3.
+- Owner: `arc_daeun_final_choice_decision`, betrayal choice 1, result paragraph 3. The prelude chain is `arc_daeun_final_choice` → kitchen/name branch → decision.
 - Prelude location: the canonical modest `daeun_newlywed_home`, not a Gangnam street.
-- Prelude portrait: hidden. The prose places Daeun in the adjacent room; showing a floating convenience-store-uniform portrait would contradict the blocking.
+- Prelude portrait: hidden. The prose places Daeun offscreen in the kitchen; showing a floating convenience-store-uniform portrait would contradict the blocking.
 - Moment: after learning the truth, Daeun presses one red seal onto one blank separation paper at the dining table.
 - Wardrobe: same dusty-mauve wrap cardigan, cream home top, charcoal trousers, short hair, and left-temple clip as the married-home continuity set. Never the convenience-store uniform.
 - Acting: no tears or lens gaze. Daeun looks just past Minjun, right hand on the seal, left hand flat on the paper. Minjun is a rear three-quarter white-shirt foreground with lowered shoulders and withdrawn hands.
@@ -24,7 +24,7 @@ This document owns the two T2 romance rupture CGs. They are choice-result images
 ## Jiyeon: `cg_romance_breakup_jiyeon`
 
 - File: `assets/cg/romance/breakup_jiyeon_v1.png`.
-- Owner: `arc_jiyeon_verdict`, release choice 1, result paragraph 2.
+- Owner: `arc_jiyeon_verdict_decision`, release choice 1, result paragraph 2. The prelude chain is `arc_jiyeon_verdict` → voice/fear branch → decision.
 - Prelude location: the canonical `jiyeon_newlywed_home`, not a generic Gangnam street.
 - Moment: Jiyeon crosses the apartment threshold toward a physically coherent corridor/elevator lobby while Minjun stays behind.
 - Wardrobe: canonical ivory blazer, black blouse and trousers, geometric earrings, waist-length black waves, and one small structured black handbag. No wedding dress or suitcase.

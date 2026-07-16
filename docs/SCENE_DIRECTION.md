@@ -50,8 +50,8 @@
 | `arc_daeun_04_morning` (고백) | `{"pace":"slow","camera":"drift"}` | 느린 아침 |
 | `arc_daeun_proposal_answer` | `{"pace":"slow","camera":"slow_zoom","hold":1.0}` | 반지 — 축적 두 링크를 지난 최종 선택에서만 줌 |
 | `arc_daeun_wedding_day` | `{"camera":"slow_zoom","sting":"reveal"}` | 텅 빈/채워진 신랑석이 보이는 줌 |
-| `arc_daeun_final_choice` | `{"pace":"slow","amb":"cut","sting":"loss","hold":1.5}` | 풀스택 ③ — 서류 위의 결혼 |
-| `arc_jiyeon_verdict` | `{"pace":"slow","amb":"duck","sting":"cold"}` | "오빠가 이렇게 살 사람인 줄 몰랐어" |
+| `arc_daeun_final_choice_decision` | `{"pace":"slow","amb":"cut","sting":"loss","hold":1.5}` | 풀스택 ③ — 부엌의 생활음을 지난 뒤 서류 위의 결혼 |
+| `arc_jiyeon_verdict_decision` | `{"pace":"slow","amb":"duck","sting":"cold"}` | 아버지의 목소리와 지연의 두려움을 분리해 들은 뒤 내리는 심판 |
 | `arc_jiyeon_y5_feelings` | `{"camera":"drift","amb":"duck"}` | 재회의 밤공기 |
 | `arc_37_burn_or_light` | `{"pace":"beat"}` | 마지막 해의 자문 — 박자만 |
 | `age_39_final` | `{"pace":"slow","hold":1.5}` | 5년의 끝, 정적 |
