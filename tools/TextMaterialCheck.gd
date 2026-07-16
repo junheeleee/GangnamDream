@@ -82,6 +82,8 @@ func _check_main_game_materials() -> void:
 	var demo_card := _demo_material_fixture()
 	main.call("_apply_moral_button_box", demo_card, Color("#a7adb5"), palette, true)
 	_check_button_depth(demo_card, "Demo AP pressure card")
+	main.call("_apply_moral_button_box", demo_card, Color("#a7adb5"), palette, true)
+	_check_button_depth(demo_card, "Demo AP pressure card after Moral reapply")
 	demo_card.free()
 
 	choice.free()
