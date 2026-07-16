@@ -336,8 +336,9 @@ Codex가 오더 없이 `content/meta/story_rules.json`(언어 독립 서사 사�
 7. **검증:** 비·눈·기억/안개·불꽃·중립 장면 프로필, 명시 카메라 우선, 숨은 Moral 비노출, KO/EN 동일 효과, 결과/선택 UI 비가림을 실행 게이트로 잠근다. 1920×1080 실렌더와 픽셀 샘플로 레이어가 실제 비어 있지 않고 텍스트·얼굴을 덮지 않는지 확인한다. 이 수직 슬라이스 뒤 AP 허브와 챕터 카드 확산을 별도 판정한다.
 **완료 보고 (2026-07-16 Codex):** 배경-초상/UI 사이 공통 계층, 의미 기반 비·눈·기억·도시 빛·폭죽, 0~2px 배경 전용 blur, 명시 카메라 우선과 1~2% 기본 호흡, 대면 초상 0.3% 호흡, Black의 생기 감쇠/잔상과 White의 깊이 회복, Reduce Motion 폴백을 구현했다. 1920×1080 KO/EN 각 5장면에서 레이어 순서·안전 영역을 확인했고, 최종 조정 뒤 독립 비 프레임 960표본 중 EN 19/KO 15개 변화로 실제 운동을 통과했다. 일반 실내는 입자 0이며 영상은 짧고 스킵 가능한 오프닝·보스·핵심 엔딩 후보에만 제한한다.
 
-#### [~] ORDER-30 [P0·데모/오디오·공간] 서사 음악 문법 + 프롤로그 연속성 수리 (유저 실플레이 판정 2026-07-16)
+#### [x] ORDER-30 [P0·데모/오디오·공간] 서사 음악 문법 + 프롤로그 연속성 수리 (유저 실플레이 판정 2026-07-16)
 **착수 (2026-07-16 Codex) — 만지는 파일:** `content/events/story_events.json`, `content/events_en/story_events.json`, `content/meta/story_rules.json`, `assets/event_visual_contracts.json`, `autoloads/BGMPlayer.gd`, `tools/story_consistency_audit.py`, `tools/BGMContinuityCheck.gd`, `tools/StoryPresenceCheck.gd`, `tools/MotivationImprintCheck.gd`, `docs/STORY_CONSISTENCY_SYSTEM.md`, `docs/AUDIO_QA.md`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`과 병렬 ORDER-18 파일은 건드리지 않는다. `story_last_payment_exit`의 비 오는 버스정류장에서 받은 아버지 전화를 후속 장면 끝까지 같은 장소로 유지하고, 통화 종료 뒤 귀가를 산문으로 명시한 다음에만 고시원 수첩 장면으로 전환한다. `story_rules.json`의 전환 계약은 `same_location`과 `explicit_move`를 구분하고, 감사가 데모 핵심 체인의 무단 공간 점프를 0으로 강제한다. 로파이 계열은 타이틀/게임 메뉴 로비에만 허용하고 일반 사건은 장소·계절·사람 앰비언스만, 정점은 명시된 문단 스코어만 사용하도록 런타임 게이트로 잠근다. 같은 사건·장면 전환에서 재생 위치를 초기화하지 않는다.
+**완료 보고 (2026-07-16 Codex):** 아버지 통화는 비 오는 정류장과 rain 앰비언스를 끝까지 유지하고, 버스 탑승 결과 뒤 한영 귀가 문장이 나온 다음에만 고시원 수첩으로 이동한다. 스키마 2 전환 원장이 데모 핵심 11개 follow-up의 실제 위치·이동 방식·한영 도착 문장을 검사해 무단 점프 0을 강제한다. `menu/early/hustle/late_tense`는 로비 전용이며 일반 사건과 미배정 아크는 환경음만, 정점은 명시 문단 스코어만 사용한다. BGM·원격 초상·한영 커버리지·전체 audit와 53스크립트 컴파일을 통과했다.
 
 #### [ ] ORDER-31 [P0·오디오] 정선 카지노 전용 음악 정체성
 카지노 입장부터 게임 테이블까지 로파이를 재사용하지 않는다. 카지노 플로어는 절제된 유혹의 모티프, 실제 베팅 구간은 같은 모티프의 더 강한 리듬 변주를 사용하며, 허브↔테이블 왕복에서 불필요한 재시작 없이 크로스페이드한다. 환경음·칩·카드·휠 물리음은 음악 아래에서 분리해 유지한다.
@@ -382,12 +383,13 @@ Codex가 오더 없이 `content/meta/story_rules.json`(언어 독립 서사 사�
 4b. **테마 팔레트 데이터화 (색 모딩 + 접근성)**: `_moral_ui_palette()`의 밴드별 색 세트를 JSON 테마 파일로 추출 → user:// 오버라이드 허용. **구조 불변·값만 스킨**(밝음/회색/어둠 3단 밴드 구조는 도덕 표현이라 게임플레이 — 모더는 각 밴드의 색 값만 교체). 부수 산출: 공식 접근성 프리셋 2종(색약 팔레트·고대비) — "색으로 도덕을 말하는 게임"의 색약 지원은 리뷰 자산. 산재 hex 리터럴 전량 추출은 ORDER-18 B(v1.1 엔진 경화)로.
 5. **Steam Workshop은 보류** — 출시 후 모드 씬 형성 확인 시 별도 오더(GodotSteam 연동 공수 큼).
 > **포지셔닝 정본(유저 논의 2026-07-13)**: 토탈 컨버전("뉴욕 버전") 역량은 만들되 **스토어는 게임으로만 포지셔닝** — 플랫폼 지위는 커뮤니티가 사후에 명명하게(스카이림 패턴). 이 인프라의 1차 고객은 모더가 아니라 **우리 DLC**(다은의 5년·공식 스핀오프)다.
-#### [~] ORDER-18 [P1] 기술 부채 전수 인벤토리 + 3분류 수리 (유저 원칙 2026-07-13: "길게 봐서 하드코딩 정리" — 시점 분류로 집행)
+#### [x] ORDER-18 [P1] 기술 부채 전수 인벤토리 + 3분류 수리 (유저 원칙 2026-07-13: "길게 봐서 하드코딩 정리" — 시점 분류로 집행)
 **착수 (2026-07-16 Codex) — 만지는 파일:** `tools/tech_debt_inventory.py`, `docs/TECH_DEBT.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 먼저 전 `.gd`의 크기·책임·긴 함수·매직 리터럴·복제 함수·동적 호출·죽은 코드 후보를 읽기 전용으로 재현하는 인벤토리를 만들고 A/B/C를 판정한다. A급 수리 대상이 확정되면 해당 소스와 검증 파일을 이 선언에 추가한 별도 커밋을 먼저 푸시한 뒤에만 수정한다. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
 **A급 수리 범위 추가 (2026-07-16 Codex) — 만지는 파일:** `data/EventData.gd`, `data/EventData.gd.uid`, `data/InvestmentData.gd`, `data/InvestmentData.gd.uid`, `data/ItemData.gd`, `data/ItemData.gd.uid`, `data/JobData.gd`, `data/JobData.gd.uid`, `data/NewsData.gd`, `data/NewsData.gd.uid`, `scenes/StartMenu.gd`, `autoloads/GameState.gd`, `scenes/MainGame.gd`. A-01 참조 0 초기 GDScript 데이터 정본, A-02 호출 0 폐기 타이틀 UI, A-03 명시 legacy no-op·제거된 미니게임 필드만 삭제한다. ORDER-30의 오디오·스토리 파일 범위와 `project.godot`은 건드리지 않는다.
 **A-02 번역 잔여키 범위 추가 (2026-07-16 Codex) — 추가로 만지는 파일:** `locale/ui_ja.json`. 폐기 타이틀 UI에서만 쓰던 일본어 베타 키 5개를 제거해 UI 원문 집합과 정확히 맞춘다. 현재 화면의 번역은 바꾸지 않는다.
 **A급 AP 시각 회귀 게이트 수리 (2026-07-16 Codex) — 만지는 파일:** `tools/ScreenshotQA.gd`. 과거 4개 고정 행동 카탈로그를 요구하던 검사를 현재 데모의 3개 상황별 결정 카드 계약으로 교체한다. 보이는 카드 수·각 카드의 장면 스틸 소유·서로 다른 장면 구성을 검사하며, 제품 화면과 콘텐츠 데이터는 변경하지 않는다.
 **A급 AP 연락 카드 스틸 수리 (2026-07-16 Codex) — 만지는 파일:** `scenes/MainGame.gd`. 데모의 `contact` 결정만 일반 SVG로 후퇴하던 매핑 누락을 공용 `people` 장면 스틸에 연결해 세 카드 모두 같은 시각 문법을 지키게 한다.
+**완료 보고 (2026-07-16 Codex):** 전수 기준선 91파일/61,569줄을 A/B/C로 판정하고, 참조 0 데이터 스크립트 5개+UID·폐기 타이틀 함수 3개·일본어 고아 키 5개·명시 legacy no-op만 제거했다. 사후 기준선은 86파일/59,524줄/2,429함수로 -5파일/-2,045줄/-19함수다. AP 상황 카드 3개는 각기 다른 장면 스틸 소유를 실렌더로 잠갔다. MainGame 분할·아크 스케줄러·미니게임 공용화는 B(v1.1), 엔딩 순서·dik 첫 매치·직렬화·원화 단위는 C 정본으로 보호한다. 전체 audit와 53스크립트 컴파일 통과; Steam AppID는 외부 발급 대기다.
 > 판정 기준: **"로드맵을 막느냐"가 수리 기준** — 하드코딩≠스파게티(finish_run 캐스케이드·_next_arc_id 분기는 의도된 정본). 출시 직전 대수술 금지.
 1. **전수 인벤토리**: 전 .gd에서 ①매직 넘버/문자열 상수 ②중복 패턴(복붙 함수) ③god-object 핫스팟(MainGame.gd 책임 지도) ④데이터여야 할 코드(표면 상수·수치 테이블) ⑤죽은 코드를 카탈로그 → docs/TECH_DEBT.md에 항목별 (위치·위험도·로드맵 연관) 표.
 2. **3분류 집행**:

@@ -169,7 +169,7 @@ Automated audio gates:
 - `GameAudioContractCheck.tscn` must load every physical stream, prove bounded playback variation, keep same-activity ambience continuous, reject stale-owner clearing, and restore housing ambience on exit.
 - `MoralAmbienceCheck.tscn` must prove that Light/Deep Black progressively remove and low-pass only the human layer, that inert machinery remains legible, that White restores people, and that the transition starts no explanatory music.
 - `StoryAudioSettingsCheck.tscn` must open from `gd_menu`, block prose/AUTO behind the modal, apply Music/Ambience and SFX gain immediately, close from Menu/Cancel, and never restart either stream.
-- `BGMContinuityCheck.tscn` must keep the weekly hub and ordinary random events on housing/season ambience without starting music, preserve same-context playback and Moral Tint texture changes, insert the authored-arc silence, and reserve explicit music for punctuation/menu/ending states.
+- `BGMContinuityCheck.tscn` must keep the weekly hub, ordinary random events, and unscored arcs on place/season ambience without starting generic lo-fi; preserve same-context playback and Moral Tint texture changes; and permit story music only through an explicit paragraph score contract. `menu/early/hustle/late_tense` remain lobby-only.
 - `ImmersionLoopCheck.tscn` must prove two-week action memory and serialization, precise no-leak event families, ×2.6/×1.88 echo strength, ×0.42 filler attenuation, deterministic quiet-week bands, localized causal frames, season/housing vignettes, non-mutating arc omens, rent deadlines, and SFX mix trims.
 
 Automated Living Scene gates:

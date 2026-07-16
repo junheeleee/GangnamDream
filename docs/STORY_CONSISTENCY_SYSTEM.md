@@ -48,6 +48,17 @@ Every high-risk remote scene declares:
 
 For remote media, identical local and remote locations are invalid. A remote portrait must resolve to the declared remote actor.
 
+### Scene transitions
+
+Demo-critical follow-up edges declare one of four modes:
+
+- `same_location`: camera and physical location must remain identical.
+- `explicit_move`: the destination description must name the move or arrival.
+- `time_cut`: the destination must carry an authored Korean and English time cue.
+- `memory_cut`: the destination must identify the recalled time and place in both languages.
+
+Every contract owns `from_location` and `to_location`. Non-local cuts also own exact `arrival_cue_ko` and `arrival_cue_en` strings that must occur in the destination event. The audit follows the real `follow_up_event` edge, resolves presentation locations before background fallbacks, and rejects undeclared demo jumps.
+
 ## Runtime Visual Grammar
 
 - `in_person`: full standing portrait over the physical location, no media badge.
@@ -66,10 +77,12 @@ The first pass intentionally covers high-risk material instead of pretending all
 - Ledger events: 58 / 1,505 (3.9%)
 - Typed logic contracts: 21
 - Remote/media presentation contracts: 38
+- Demo transition contracts: 11 / 11
+- Unauthorized demo location jumps: 0
 - Unclassified non-player portraits with phone/message titles: 0
 - Demo father-contact logic targets: 4 / 4
 
-The migrated Father peaks are now explicit as well. Minjun waits opposite an inpatient examination room on Father's third day in a Changwon hospital; Father appears in a hospital gown only after the door opens, and the return trip is to Seoul. Changwon-home meetings and calls use the worn home cardigan, while the late illness call changes acting without changing clothes. The final call begins in Minjun's actual current housing, then separates the winter Seoul KTX platform or Seoul deal room from the empty Changwon hospital room or next-morning hospital call. Neither buildup link can commit Father's death, money, mental, or moral state before the terminal scene.
+The migrated Father peaks are now explicit as well. The prologue call remains at the rainy bus stop reached by the previous scene; the result boards a bus, and only `Back at the goshiwon / 고시원에 돌아온 뒤` authorizes the notebook background change. Minjun later waits opposite an inpatient examination room on Father's third day in a Changwon hospital; Father appears in a hospital gown only after the door opens, and the return trip is to Seoul. Changwon-home meetings and calls use the worn home cardigan, while the late illness call changes acting without changing clothes. The final call begins in Minjun's actual current housing, then separates the winter Seoul KTX platform or Seoul deal room from the empty Changwon hospital room or next-morning hospital call. Neither buildup link can commit Father's death, money, mental, or moral state before the terminal scene.
 
 These are ratchets. `minimum_ledger_events` cannot fall, and the unclassified communication count cannot rise above zero.
 
@@ -79,8 +92,9 @@ These are ratchets. `minimum_ledger_events` cannot fall, and the unclassified co
 2. Add its rule to `story_rules.json` before wiring visuals.
 3. Declare typed prerequisites and outcomes for a critical arc.
 4. Declare scene presence whenever dialogue is not physically co-located.
-5. Run `python3 tools/story_consistency_audit.py`.
-6. For presentation changes, run `StoryPresenceCheck.tscn` and `ScreenshotQA --qa=story-presence` in Korean and English.
+5. Add a transition contract when a demo-critical follow-up moves camera, place, time, or memory frame.
+6. Run `python3 tools/story_consistency_audit.py`.
+7. For presentation changes, run `StoryPresenceCheck.tscn` and `ScreenshotQA --qa=story-presence` in Korean and English.
 
 Do not infer channels from localized prose at runtime. Text scanning is only an audit signal; authored data owns the result.
 

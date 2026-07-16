@@ -1,6 +1,6 @@
 # Gangnam Dream Audio QA
 
-Updated: 2026-07-15
+Updated: 2026-07-16
 
 Production gate: an audio file existing and loading is not the same as launch approval. Every asset must also satisfy `docs/PRODUCTION_ASSET_PIPELINE.md`: commercial provenance, clean head/tail, mix balance, semantic runtime mapping, image-paired listening, and 30-minute fatigue QA.
 
@@ -31,6 +31,8 @@ All current audio uses original deterministic synthesis; external samples: 0. Th
 
 ## Scene Music
 
+`menu`, `early`, `hustle`, and `late_tense` are lobby-only masters. StoryMode, the weekly hub, month transitions, ordinary events, and unscored arcs may not infer them from age, rarity, category, or an `arc_` prefix. Those surfaces retain only authored place, season, and human ambience. Cinematic music enters solely through an explicit `scene_audio_manifest` paragraph contract, or through a menu/ending owner.
+
 The seven base tracks cover title, routine, crisis, and endings. Five authored scene tracks cover emotional peaks:
 
 | Key | Role | Loop rule |
@@ -41,7 +43,7 @@ The seven base tracks cover title, routine, crisis, and endings. Five authored s
 | `grief` | death, separation, aftermath | paragraph-triggered |
 | `wonder` | awe, release, landmark-scale emotional lift | paragraph-triggered |
 
-`assets/scene_audio_manifest.json` maps all 57 active CGs to ambience and all 37 events on the 28 Tier-1 peak paths to explicit scene audio. The mother and groom-side reaction shots keep one wedding-hall room tone; the processional begins on the couple-wide entrance and continues into the close without restarting. Wedding applause and cheer are tied to the authored entrance paragraph, not to a timer from scene load.
+`assets/scene_audio_manifest.json` maps all 57 active CGs to ambience and all 46 events on the 28 Tier-1 peak paths to explicit scene audio. The mother and groom-side reaction shots keep one wedding-hall room tone; the processional begins on the couple-wide entrance and continues into the close without restarting. Wedding applause and cheer are tied to the authored entrance paragraph, not to a timer from scene load.
 
 ## Physical Gameplay SFX
 
@@ -109,10 +111,10 @@ Latest targeted result:
 
 ```text
 AUDIO_SOURCE_AUDIT_OK assets=109 bgm=12 ambience=45 sfx=52 external_samples=0
-SCENE_AUDIO_CONTRACT_OK cg=57 peak_events=37 ambience_keys=36 music_keys=12
+SCENE_AUDIO_CONTRACT_OK cg=57 peak_events=46 ambience_keys=36 music_keys=12
 GAME_AUDIO_CONTRACT_OK physical=17 stages=19 activities=7 human_layers=9 direct_pad=9
 AUDIO_ASSET_CHECK_OK bgm=12 ambience=45 sfx=52
-BGM_CONTINUITY_OK
+BGM_CONTINUITY_OK mode=menu key=menu ambience=
 GAME_AUDIO_RUNTIME_OK physical=17 ambience_roundtrip=3 varied_playback=1
 MORAL_AMBIENCE_CHECK_OK profiles=9
 STORY_AUDIO_SETTINGS_CHECK_OK
