@@ -306,6 +306,7 @@ Codex가 오더 없이 `content/meta/story_rules.json`(언어 독립 서사 사�
 
 #### [ ] ORDER-26 [P0·데모/전범위] AP 의미화 — "눌러도 차이가 없으면 고민을 안 한다" (유저 진단 2026-07-16: 즉각+전략 둘 다 밋밋)
 > 원리: 흥미로운 선택 = 어느 쪽도 명백한 정답 아님 + 고른 것이 미래를 실제로 가른다(시드 마이어). **감으로 밸런스 금지 — 측정→표적 수리 순.** 밸런스 밴드 밖 수치 변경은 BALANCE.md 기록+밴드 재검 필수.
+**A 수렴 진단 착수 (2026-07-16 Codex) — 만지는 파일:** `tools/convergence_sim.py`, `tools/balance_check.py`, `docs/CONVERGENCE_REPORT.md`, `docs/BALANCE.md`, `docs/GAME_RECOMPOSITION_PLAN.md`, `docs/MASTER_RELEASE_AUDIT.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 경제 회귀 밴드는 그대로 유지하고, 별도 결정론적 240주 모델로 안전 직장형·공격 투자형·사람 중심형·도박형·스펙/창업형을 각 3,000런 측정한다. 자산만이 아니라 건강·정신·주요 인물 호감·돈/사람 주차·MORAL_TINT·정석/비정석 루트·엔딩 패밀리의 종착 분포를 보고한다. 모델이 생략한 런타임 요소와 신뢰 한계를 문서에 명시하며, 수렴 원인이 확인되기 전 게임 수치·주간 스케줄러·콘텐츠는 수정하지 않는다. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
 **A. 수렴 진단 (반드시 먼저 — 데이터 없이 수리 금지)**
 1. `balance_check`를 **전략 발산 측정기**로 확장: 대표 아키타입 5종(안전 직장형 / 공격 투자형 / 사람 중심형 / 도박형 / 스펙·창업형)을 각 3,000런 시뮬 → **결과가 실제로 갈리는가**를 3층으로 리포트: ①자산 분포 ②도달 엔딩 분포 ③tint/route 종착 상태. `docs/CONVERGENCE_REPORT.md`.
 2. 판정 기준: 아키타입 간 엔딩·자산·도덕 종착이 **유의미하게 다르면 건강**, 다 비슷한 곳에 수렴하면 그 지점이 병소. 어느 축이 "결국 다 돈으로 환금"되는지 지목.
