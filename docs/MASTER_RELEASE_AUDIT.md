@@ -1,6 +1,6 @@
 # Gangnam Dream Master Release Audit
 
-Updated: 2026-07-12
+Updated: 2026-07-16
 
 ## Mission
 
@@ -19,15 +19,15 @@ Adjacent and top-selling execution references are assigned by surface in `docs/S
 
 | Surface | Current baseline | What the number does not prove |
 |---|---:|---|
-| KO events | 1,477 | Consistent prose, reachability, pacing, or relevance |
-| EN event overlays | 1,477 | Native English voice or cultural clarity |
+| KO events | 1,505 | Consistent prose, reachability, pacing, or relevance |
+| EN event overlays | 1,505 | Native English voice or cultural clarity |
 | Choices per language | 3,316 | Meaningful tradeoffs or delayed consequence |
 | Endings | 35 | Distinct emotional payoff or bespoke presentation |
 | Explicit event/result CG links | 24 | Enough climax imagery for a commercial VN |
 | Background PNG assets | 69 | Canon continuity, physical logic, or correct event mapping |
 | Character portrait PNG assets | 54 | Flagship identity, expression coverage, or outfit continuity |
 | CG PNG files | 31 | Launch key moments and ending coverage |
-| BGM / ambience / SFX | 7 / 25 / 32 | Loop fatigue, mix quality, ownership, or license proof |
+| BGM / ambience / SFX | 12 / 45 / 52 | Loop fatigue, mix quality, ownership, or license proof |
 | Achievements / easter eggs | 13 / 8 | Discovery quality or community conversation |
 | Screenshot QA scopes | 33 | Full-playthrough correctness or subjective fun |
 
@@ -42,22 +42,40 @@ These are confidence bands, not review scores. Every band must be replaced by pl
 | Premise and social theme | Strong | 500K to 3B in five years, father debt, class pressure, moral erosion are immediately legible and culturally specific |
 | First impression / IP | Developing to strong | One identity-locked Minjun/Daeun/Jiyeon key art now owns splash, StartMenu, and Steam capsules; external character recall and conversion remain unverified |
 | Flagship character appeal | Developing | Portrait/CG outfit pairs, gaze contracts, scene-specific Minjun expressions, first-snow winter pairs, season-gated dates, and heroine-specific first-morning scenes now protect key heroine moments; general-cast seasonal coverage, leitmotifs, merchandise recall, and remaining T1/T2 work are incomplete |
-| Core weekly loop | Developing to coherent | A real-input pass reaches the first AP board; AUTO reduces pre-AP confirms to six, the first-month horizon exposes income/rent/route pressure, and AP commitment/result feedback is captured. Voluntary reading and three-week plan recall still need timed stranger proof |
+| Core weekly loop | Structurally weak, redesign specified | The calendar currently asks for up to 480 AP commits; even montage leaves an estimated 141-142 stopping weeks. Manual quiet weeks draw random content while montage silently skips it. The 240-week calendar can stay, but pacing must move to 40-60 authored decision weeks under one invisible director |
 | Story architecture | Unverified | Large authored spine exists, but a full black-box 240-week dramatic trace has not been critic-read end to end |
-| Chapter pacing | Unverified | Content counts cannot prove that each act has escalation, reversal, climax, and breathing room |
+| Chapter pacing | Front-loaded | Representative authored paths distribute 46/29/14/16/12 and 46/27/16/19/12 beats across Years 1-5. Each chapter now needs a setup, escalation, reversal, pressure boss, and aftermath rather than more undirected events |
 | Choice consequence | Developing | Callback architecture is a real strength; immediate cost and player comprehension vary by event |
 | Strategy /攻略 readability | Weak | The player cannot yet explain a viable 3B plan, risk bands, or why one run failed without external knowledge |
 | Balance | Technically stable | Fixed policy simulations pass current bands; human fun, exploitability, and difficulty perception remain unverified |
 | Writing quality | Uneven | Several flagship scenes are strong; ambient pool and EN overlays contain visible style variance |
 | EN localization | Developing | First-run language selection, zero-Hangul, catalog parity, and localized canonical names are gated; native voice, pronouns, cultural context, and a full prose pass remain |
-| UI/UX | Developing | Title and AP surfaces now have clear command hierarchies; several dense submodals and the top HUD still carry older dashboard grammar |
+| UI/UX | Developing, over-surfaced | MainGame exposes 22 `_open_*` surfaces plus seven page renderers. Title and AP navigation work, but People, gambling, routine, Info Deck, and ending report still read as web/list interfaces and compete with the story |
 | Controller / Steam Deck | Developing | Brand-aware glyphs and several focus models exist; tutorial focus is now trapped and regression-tested, while dense modals and large betting boards still require task-level tests |
 | Display / console readiness | Early | The base viewport scales from 1280x800 and the desktop window is resizable to 960x600, but 720p/1080p/QHD/4K/21:9 safe-area evidence, high-resolution raster masters, suspend/resume, and platform certification builds are not yet proven |
 | Image quality / continuity | Developing | Background/portrait separation, romance outfit pairs, spatial bibles, 28 active CG/50 actor acting contracts, and 35 event visual contracts now gate high-risk scenes. Fourteen explicit winter/night/private-room/transit/cast/cultural art debts remain, so recurring-cast seasons and climax coverage are still incomplete |
-| Audio identity | Developing | All 64 files are now project-owned, reproducible, and source-audited; core UI sounds use a dry Gangnam Ink tactile set and BGM continuity is gated. Seven-track long-session fatigue and character leitmotifs remain |
+| Audio identity | Developing | All 109 files are project-owned, reproducible, and source-audited; 12 scores, 45 ambience beds, and 52 effects have scene contracts. Long-session musical grammar, one memorable four-note identity, chapter-boss arrangements, and human listening proof remain |
 | Motion / game feel | Weak to developing | AP commitment has a clearer board and feedback vocabulary, and chained story scenes no longer flash the AP shell between them; input feel and several navigation transitions still need measured play tests |
 | Moral Tint impact | Promising, partially embodied | Five KO/EN anchor scenes carry one hidden attention grammar from Daeun's cafe through Sangchul, Gangnam, Father, and the final countdown. Band crossings return to one canonical goshiwon/black-crewneck memory frame, identical result cards change attention order, and Gray now stays legibly distinct from both Black collapse and White recovery on naturally dark locations. Portrait distance, surface, lived ambience, and two non-jingle attention cues support the shift; a complete neutral-to-White/Black blind run still has not proven players notice it without explanation |
-| Endings | Developing | 35 outcomes and recap logic are substantial; bespoke visual/audio aftermath and critic-level final images are incomplete |
+| Endings | Developing, wrong reveal order | Thirty-five save-compatible outcomes and eighteen explicit final-CG routes are substantial, but the current Grade/stat report arrives before emotional closure. Final scene, silence, title, and credits must precede records and statistics; the IDs should read as 8-10 finale families with state variants |
+
+## 2026-07-16 Whole-Game Structure Baseline
+
+The reproducible source is `python3 tools/game_structure_audit.py`; the design response is `docs/GAME_RECOMPOSITION_PLAN.md`.
+
+| Measured surface | Baseline | Release implication |
+|---|---:|---|
+| Events / authored / random pool | 1,505 / 328 / 1,177 | Stop adding volume; curate priority and causality |
+| Representative authored path | 117-120 beats | Enough material for one run; pacing and selection are the work |
+| Manual AP ceiling | 480 commits | Cannot ship as the default dramatic rhythm |
+| Estimated montage stopping weeks | 141-142 | Current compression is insufficient |
+| Longest authored gap | 11 weeks | Quiet time is valid only when deliberate and legible |
+| Monthly summaries | 60 | Compress to quarterly/exceptional presentation while preserving monthly economy |
+| AP functions / routine kinds | 42 / 4 | Do not add actions; contextualize existing ones and expand routine representation |
+| Independent minigame/hub surfaces | 13 | Keep as optional fantasy, but return consequences to the main narrative |
+| Endings / explicit final CG | 35 / 18 | Preserve IDs, group emotional finales, and put scenes before reports |
+
+The accepted target keeps 240 internal weeks and default AP 2 but requires only 40-60 direct decision weeks. The six-month demo is the mandatory vertical slice: 8-10 decisions, two pressure peaks, three to five echoes, no unknown content loss, Korean/English parity, and controller-only completion. Full-game migration is forbidden until that slice is materially better in black-box play.
 | Stability / save integrity | Good static baseline | Audit, compile, language, balance, asset, and tutorial input-leak checks pass; full branch/save migration and long-session soak remain |
 | Commercial package | Developing | Owned character key art, three Steam capsule sizes, and a localized first-run path exist; no external capsule conversion or wishlist evidence yet |
 
