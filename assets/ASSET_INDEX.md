@@ -415,6 +415,10 @@ Updated on 2026-07-16 for Father wardrobe separation and the Father-passing Seou
   - Person-free rear-seat view of Jiyeon's recurring black sedan: left-hand-drive wheel, two front seats, resting wipers, and snow gathering outside.
   - Prelude background only; the paired two-shot is a separate CG.
 
+- `assets/backgrounds/jiyeon_sedan_night_interior.png`
+  - Person-free front-cabin view of the same black executive sedan at night: steering wheel and driver cluster on image left, black leather, horizontal dashboard, and a quiet Gangnam side street beyond the windshield.
+  - First-kiss buildup only. Jiyeon is the left-side driver and Minjun the right-side passenger; the final two-shot remains a separate CG.
+
 - `assets/backgrounds/library.png`
   - Quiet public library/study room background for study, exam prep, self-improvement, and solitude scenes.
   - Status: P2 regenerated as reusable study-room background with no recognizable students or protagonist-like figure.

@@ -213,6 +213,26 @@ sips -z 768 512
 
 ---
 
+## 2026-07-17 지연 첫 키스 무인 세단 배경
+
+- **출시 경로**: `assets/backgrounds/jiyeon_sedan_night_interior.png`
+- **생성 방식**: OpenAI 내장 ImageGen 편집
+- **참조 이미지**: `assets/cg/romance/first_kiss_jiyeon.png`
+- **생성 원본**: `/Users/junheelee/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-3addc9a4-9522-43dc-ae6a-6bedcb5df0eb.png`
+- **출시 해시**: `68473f8a5062cb9705ca867b531321156d7650ace0de64b2fa374d7420356f74`
+
+```text
+Unified Gangnam Dream art direction: full anime / Korean manhwa visual novel art for a serious 2026 Seoul noir life-sim. Use expressive clean linework, clearly illustrated faces, cel shading with soft gradient shadows, simplified skin, sharp readable silhouettes, and cinematic anime background painting. The mood comes from the existing asset set: late-night Seoul, class anxiety, cramped rooms, rain, empty transit, offices, hospitals, rooftops, and lonely city lights. Palette stays restrained and dark: charcoal, ink navy, graphite gray concrete, muted brown wood, pale hospital gray, restrained olive, warm amber practical lamps, city-window gold, cold blue monitor/window glow, fluorescent white, and subdued purple PC-bang neon. Lighting is motivated and low-key: desk lamps, ceiling fluorescents, refrigerators, subway fixtures, monitors, rain reflections, shop lights, and skyline windows create dramatic value separation, but all surfaces remain anime-rendered rather than photographic. Characters should be serious seinen/manhwa-style VN portraits, not cute chibi and not real actors. Backgrounds should be anime painted game backgrounds with clean perspective, simplified readable forms, atmospheric shadows, and UI-friendly negative space. Absolutely avoid photorealism, DSLR portraits, visible pores, camera bokeh, hyperreal skin texture, celebrity-photo lighting, raw-photo textures, sci-fi UI, magic effects, glowing abstract rings, and oversaturated colors.
+
+Gangnam Ink visual language: desaturated Korean visual novel/manhwa realism, concrete gray and charcoal palette, matte paper grain, subtle ink-wash contrast, controlled linework with painterly cel shading, restrained cinematic lighting, no glossy mobile-game colors, no photoreal DSLR look, no text, no logos, no UI, quiet Seoul social-reality mood.
+
+Edit the referenced first-kiss image into a reusable, completely empty nighttime sedan interior background. Remove both people and every human trace while preserving the exact recurring vehicle: a black S-Class-level long-wheelbase executive sedan, left-hand-drive steering wheel and driver cluster on image left, right front passenger position, broad black leather cabin, restrained metallic trim, and low horizontal dashboard. Keep the same nighttime Gangnam side-street lights through the windshield and the same camera height and perspective so the later two-person CG reads as the identical car. No person, body, reflection, hand, face, readable instrument text, emblem, model badge, logo, license plate, watermark, right-hand drive, tan or red upholstery, sports bucket seat, autonomous lounge, rain, or snow. Compose at 16:10 with the lower 30 percent safe for the dialogue panel.
+```
+
+- **검수**: 1280×800, 무인, 무문자·무상표, 왼쪽 운전대, 검은 가죽, 수평 대시보드, 첫 키스 CG와 동일 차급·시점, KO/EN 실제 게임 크롭을 확인했다.
+
+---
+
 ## 2026-07-12 프로포즈·결혼 선택 비주얼 패스
 
 다섯 자산은 Codex 내장 ImageGen으로 제작했다. 외부 사진이나 실존 인물 이미지는 사용하지 않았고, `CHARACTER_VISUAL_BIBLE.md`와 기존 프로젝트 초상의 얼굴·헤어·계급 신호를 프롬프트 정본으로 사용했다. 장면별 선택 결과를 미리 보여주지 않는 것이 1차 계약이며, 전체 연속성은 `assets/COMMITMENT_VISUAL_BIBLE.md`가 소유한다.

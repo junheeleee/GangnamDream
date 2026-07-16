@@ -108,30 +108,104 @@
   {
     "id": "arc_daeun_first_kiss",
     "title": "Dawn Alley",
-    "description": "Dawn, after helping her close up. An hour when the city still hadn't woken.\nOnly the store's light soaked the alley yellow, and a thin wind slipped between the shuttered shops. Daeun took two canned coffees from the warmer and held one out. The moment their fingertips touched, he knew — her hand was warmer than the can.\n\nThey cupped the cans without speaking. Their breath rose white between them, scattered, rose again.\nAfter a night of work there was tiredness settled around Daeun's eyes, and tonight she didn't try to hide it.\n\n\"...Minjun.\" She started to say something, then stopped.\nIn the place where the words broke off, a silence pooled. Strangely, it wasn't heavy — it was close.\nDaeun lifted her chin, just a little. Their eyes met — and this time, neither of them looked away. The steam rising off the cans wavered, slowly, in the narrow air between their two faces.",
+    "description": "Dawn, after helping her close. The city had not woken yet. Before locking the door, Daeun took two cans of coffee from the warmer. Once the shutter was down, she handed one to {name}. Their fingertips met, leaving behind a warmth that did not belong to the can.\n\nOnly the convenience store sign washed the alley in thin yellow light. No delivery truck yet. No first bus. They stood before the shutter with both hands around their cans, their breath appearing between them and vanishing in the wind.\n\nFatigue sat beneath Daeun's eyes after the night shift. Tonight, she did not cover it with the first smile. She traced the rim of the can once, opened her mouth, then closed it again.",
+    "choices": [
+      {
+        "text": "Wait for whatever she was about to say.",
+        "result_text": "{name} did not hurry her. Something clicked softly inside the can, then the alley went quiet again.\n\nDaeun noticed the silence he was holding open for her. At last she let out a long breath and looked up at him without arranging her face first."
+      },
+      {
+        "text": "\"Rough night?\" Ask first.",
+        "result_text": "It was an ordinary question, but Daeun did not answer with an automatic I'm fine. She tightened both hands around the can and nodded.\n\n\"A little.\" After that, the words she had swallowed all night began to come out."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_first_kiss_wait",
+    "title": "Someone Who Waits",
+    "description": "\"Minjun, sometimes you wait too long for me.\"\n\nDaeun said it without smiling first. It was not a complaint. It sounded like she still did not know what to do with someone who made room for her like that.\n\n\"Do you hate it?\"\n\"No. That's why I end up saying more. I don't usually talk about this stuff.\"\n\nShe told him, briefly, about the customer who had worn her down and the bill that was overdue. When the last sentence ended and {name} was still there, some of the tension left her hands around the can.",
+    "choices": [
+      {
+        "text": "Answer by meeting her eyes.",
+        "result_text": "\"...Minjun.\"\n\nNothing followed his name. Daeun raised her chin a little. This time, {name} did not look away."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_first_kiss_ask",
+    "title": "Allowed Not to Be Fine",
+    "description": "\"It was a little rough.\"\n\nDaeun did not brush it aside. At two in the morning, a drunk had knocked over a display. The owner wanted next week's shifts changed again. Her voice grew quieter as she spoke, but her eyes did not hide.\n\n\"It's strange. Around you, I feel like I'm allowed to say I had a hard night.\"\n\"That's not strange.\"\n\"Good.\"\n\nDaeun looked down at the rim of the can, then back up. Relief and nerves occupied the same face.",
+    "choices": [
+      {
+        "text": "\"You can tell me that anytime.\"",
+        "result_text": "Daeun gave the smallest nod. \"Then can I say one more thing now?\"\n\nBefore he could ask what, she lifted her chin. Their eyes came to rest at the same height."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_first_kiss_choice",
+    "title": "One Step",
+    "description": "When the words stopped, only the outdoor unit at the end of the alley and the sound of their breathing remained. As the steam above the cans thinned, the single step between them became more exact.\n\nDaeun did not move away. Both hands still held the can, but the tension left her shoulders. She asked with her eyes first, and waited while {name} understood the question.\n\nOne beat. Two. Their breath rose between their faces and slowly came apart.",
     "choices": [
       {
         "text": "In that silence, close the distance first.",
-        "result_text": "{name} stepped half a pace closer. Daeun didn't step back. If anything, her grip on the can tightened — he could feel all of it in that short distance.\nOne beat. Two. Before the steam had cooled, the last of the distance was gone.\nShort, and a little clumsy. Her lips were warm in the cold dawn air. Even after they parted, the two of them stood there a moment, just like that.\nDaeun was the one who smiled first. Her eyes had gone red — not crying, a smiling face.\n\"...Now we're really in trouble, us.\"\nShe called it trouble, but he'd never seen her face that bright. The canned coffee had long gone cold, and neither of them minded."
+        "result_text": "{name} stepped half a pace closer. Daeun did not step back. Her fingers tightened around the can, and from this close he could see it happen. One beat. Two. Before the steam faded, the last of the distance was gone.\n\nThe kiss was brief and a little clumsy, warm against the cold dawn air. Even after they parted, neither of them moved. Daeun smiled first. Her eyes were wet, but she was not crying.\n\n\"We're really in trouble now, aren't we?\" She called it trouble, but {name} had never seen her look so bright. The coffee had gone cold. Neither of them cared."
       },
       {
         "text": "Press the coffee into her hands — that's enough for tonight.",
-        "result_text": "{name} folded away the impulse to close the distance, and instead pressed the cooling can firmly back into her hands. \"Go on in, it's cold.\"\nDaeun stood there a moment. With a face that looked, somehow, like it had been waiting for something. Then, without hiding it, she smiled.\n\"...Minjun, honestly.\" Whether the end of that was disappointment or relief, Daeun herself didn't seem to know.\nNot rushing worked too, in front of this person. Even if not tonight, there'd be a next time. That certainty was warmer than the dawn air."
+        "result_text": "{name} let the impulse pass and pressed the cooling can firmly back into her hands. \"You should go inside. It's cold.\"\n\nDaeun remained where she was for a moment, looking almost as if she had expected something else. Then she smiled without trying to hide it.\n\n\"Minjun, you really are...\" She did not seem to know whether the unfinished sentence held relief or disappointment. Not rushing made sense with him. If not tonight, there would be another chance. The certainty felt warmer than the dawn air."
       }
     ]
   },
   {
     "id": "arc_jiyeon_first_kiss",
     "title": "In the Car",
-    "description": "Jiyeon stopped the car. She cut the engine, but neither of them said anything about getting out.\nOnly the low glow of the dashboard left in the car. When the heater died, the lights outside began to blur across the glass. The radio had gone off at some point too, and all that was left was the sound of the two of them breathing.\n\nJiyeon was looking out the window. The lights of Gangnam swept across her profile. The kind of person who'd have thrown out some line by now went, this night, a long while without a word.\nThen slowly she turned her head toward {name}. In the narrow car, the distance between them felt newly close.\n\n\"...What are you looking at.\" A cool line, but the end of her voice wavered for half a second. Her hand on the wheel — nothing to grip — flinched once.",
+    "description": "Jiyeon pulled her black sedan into a side street in Gangnam and killed the engine. {name} stayed in the passenger seat, seat belt still fastened. Neither of them said anything about getting out.\n\nThe dashboard kept a low afterglow. When the heater stopped, Seoul's lights spread thinly across the windshield. Once the radio was gone, only their breathing and the cooling engine remained.\n\nJiyeon looked straight ahead for a long time. Anyone else would have gotten a line from her by now. Tonight she only pressed her lips together once. Her hand left the wheel, but did not return to the ignition button.",
+    "choices": [
+      {
+        "text": "Do not rush her. Watch the windshield with her.",
+        "result_text": "{name} looked ahead too. Their reflections on the glass faded and returned with the changing traffic lights.\n\nWith someone beside her who did not break the silence, Jiyeon took a few measured breaths. Then she spoke first."
+      },
+      {
+        "text": "\"You're quiet tonight.\" Smile first.",
+        "result_text": "One eyebrow lifted. Jiyeon looked caught for half a second, then her usual expression returned.\n\n\"I'm not allowed to be quiet?\" She tried for cold. The end of the sentence did not quite make it."
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_first_kiss_silence",
+    "title": "Engine Off",
+    "description": "\"Uncomfortable?\"\n\"No.\"\n\"Then why are you sitting so still?\"\n\n{name} watched her profile reflected in the windshield. \"Because being quiet together is fine.\"\n\nJiyeon's fingertips tapped the center console once and stopped. She could have laughed at the answer or brushed it aside. She did neither. Instead, she turned slowly toward him. The crack in her composure did not last long. This time, {name} was there to see it.",
+    "choices": [
+      {
+        "text": "Hold her gaze when she turns.",
+        "result_text": "In the close cabin, not looking away felt a great deal like moving closer.\n\nJiyeon drew a breath. Her lips shifted as if she meant to get some line out first."
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_first_kiss_speak",
+    "title": "You Notice Everything",
+    "description": "\"I'm not used to you being quiet.\"\n\"You notice everything.\"\n\nThe answer came quickly, but Jiyeon did not start the engine. Her finger rested at the edge of the button while light from the windshield crossed the back of her hand.\n\n\"So you hate it?\"\n\"No. I like this side too.\"\n\nThe corner of her mouth moved as if she might scoff. She never quite managed it. Instead, she turned toward {name}.",
+    "choices": [
+      {
+        "text": "Do not cover it with a joke. Look at her.",
+        "result_text": "Jiyeon's eyes reached his first. It was not the look she used when she meant to win.\n\nWith no words left between them, the distance inside the car became suddenly exact."
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_first_kiss_choice",
+    "title": "Half a Second",
+    "description": "Jiyeon turned all the way toward him. Between the driver's seat and the passenger seat, the center console that usually looked broad had narrowed to the width of one resting hand.\n\n\"...What are you looking at?\"\n\nA cool line, but the end of her voice wavered for half a second. Her eyes did not leave his. Only the fingers above the console flinched once. Before another sentence could cover the crack, there was a single beat left for either of them to choose.",
     "choices": [
       {
         "text": "In that half-second, close the distance.",
-        "result_text": "That half-second, {name} didn't let slip. In the narrow car, closing the remaining distance took only a single beat.\nIt was short. Jiyeon didn't close her eyes, didn't turn away — only her shoulders stiffened, just slightly, then eased.\nWhen they parted, she turned straight back to the window. \"...Just drive.\" Her voice wasn't a quarter as sharp as usual.\n{name} started the engine. In the rearview mirror, the tips of her ears were red. Whether she knew it or not, Jiyeon kept pretending to watch the lights outside. Until the signal changed, there wasn't a word in the car — but the air had already changed completely."
+        "result_text": "{name} did not let that half-second pass. In the narrow car, one beat was enough to close the distance. The kiss was brief. Jiyeon neither closed her eyes nor pulled away; her shoulders only tensed, then softened.\n\nWhen they parted, she faced the windshield at once. \"...Eyes front.\" Her voice had lost nearly all of its usual edge.\n\nJiyeon pressed the ignition button. Each passing streetlight caught the red at the tips of her ears. She pretended to see only the road ahead. No one spoke before the car began moving again — but the air had already changed completely."
       },
       {
         "text": "Just smile — \"Nothing.\"",
-        "result_text": "\"Nothing.\" When {name} let it go with a smile, Jiyeon shot him a look.\n\"...You're no fun.\" She tossed it off, but she didn't start the engine for a long while. Her hand was on the key, and she didn't turn it.\nIn the narrow car, the two of them just watched the lights blur across the windshield. Even without rushing, this silence didn't feel wasted.\nWhen Jiyeon finally started the engine, she muttered, low, \"...Next time I won't let it go.\" What she'd let go of, neither of them said — both knowing."
+        "result_text": "\"Nothing.\" {name} smiled. Jiyeon shot him a look. \"...You're no fun.\" She tried to toss it off, but she left the engine off, her hand hovering above the ignition button.\n\nIn the narrow car, they watched the lights blur across the windshield. Even without rushing, the silence did not feel wasted.\n\nWhen Jiyeon finally pressed the button, she murmured, \"...Next time, I won't let you off.\" Neither of them said what she had let him off for. Neither needed to."
       }
     ]
   },

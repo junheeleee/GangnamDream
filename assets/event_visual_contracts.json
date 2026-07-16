@@ -1,5 +1,5 @@
 {
-  "version": 12,
+  "version": 13,
   "tag_coverage": [
     "climate",
     "season",
@@ -27,6 +27,14 @@
     {"id": "arc_season_fireworks_jiyeon", "background": "hangang_riverside", "portrait": "jiyeon_fireworks"},
     {"id": "arc_season_sea_daeun", "background": "ktx_window", "portrait": "daeun_sea"},
     {"id": "arc_season_sea_jiyeon", "background": "ktx_window", "portrait": "jiyeon_sea"},
+    {"id": "arc_daeun_first_kiss", "background": "convenience_night", "portrait": "daeun_smile", "cg": null},
+    {"id": "arc_daeun_first_kiss_wait", "background": "convenience_night", "portrait": "daeun_smile", "cg": null},
+    {"id": "arc_daeun_first_kiss_ask", "background": "convenience_night", "portrait": "daeun_smile", "cg": null},
+    {"id": "arc_daeun_first_kiss_choice", "background": "convenience_night", "portrait": "daeun_smile", "cg": "cg_romance_first_kiss_daeun"},
+    {"id": "arc_jiyeon_first_kiss", "background": "jiyeon_sedan_night", "portrait": "jiyeon_warm", "cg": null},
+    {"id": "arc_jiyeon_first_kiss_silence", "background": "jiyeon_sedan_night", "portrait": "jiyeon_warm", "cg": null},
+    {"id": "arc_jiyeon_first_kiss_speak", "background": "jiyeon_sedan_night", "portrait": "jiyeon_warm", "cg": null},
+    {"id": "arc_jiyeon_first_kiss_choice", "background": "jiyeon_sedan_night", "portrait": "jiyeon_warm", "cg": "cg_romance_first_kiss_jiyeon"},
     {"id": "arc_father_call_on_ktx", "background": "ktx_window", "portrait": null},
     {"id": "arc_father_call_on_ktx_memory", "background": "ktx_window", "portrait": "father_home"},
     {"id": "arc_father_call_on_ktx_number", "background": "ktx_window", "portrait": null},

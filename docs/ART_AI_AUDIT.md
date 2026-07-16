@@ -13,7 +13,7 @@
 
 ## 감사 결과
 
-- 활성 인벤토리: **191장** (`CG 57 / Portrait 57 / Background 77`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
+- 활성 인벤토리: **192장** (`CG 57 / Portrait 57 / Background 78`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
 - 전수 방법: 종류별 콘택트시트 22장으로 얼굴·실루엣·그레이딩·공간을 1차 비교하고, 손·반사·차량·카운터·정류장처럼 오독 위험이 있는 컷과 키 비주얼 10장은 원본 해상도로 다시 열었다.
 - 런타임 수리: 배경이 구워진 `main_character_50s.png`를 본편의 `player_hollow` 슬롯에서 제외하고 같은 민준의 투명 피로 초상으로 통합했다. 현재 이벤트가 없는 박재원의 죽은 초상 등록도 제거했다.
 - 이미지 수리: `ending_crypto_ghost.png`의 비현실적인 6면 모니터 벽을 정본 고시원 안의 휴대폰 1대·낡은 노트북 1대로 교체했다. 방 크기, 작은 불투명창, 침대/책상 방향, 민준 신원, 다섯 손가락, 무문자 차트를 원본에서 재검수했다.
@@ -36,6 +36,12 @@
 - 공통 프롬프트 축: 확정된 `STYLE_SUMMARY`와 Gangnam Ink 가이드, 반사실 한국 만화형 디지털 페인팅, 저채도 차콜·슬레이트, 절제된 실용광, 무인 재사용 배경, 무상표·무문자·1280x800 안전 구도.
 - 생성 원본: `$HOME/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-999b0bbe-fd05-4554-a394-679852313c2c.png`, `$HOME/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-3f31fb84-10d9-408b-ba71-d0284ac25493.png`.
 - 출시 경로: `assets/backgrounds/seoul_station_ktx_platform_winter.png`, `assets/backgrounds/changwon_hospital_room_empty.png` (중앙 16:10 크롭 후 1280x800).
+
+### 지연 첫 키스 무인 세단 배경
+
+- 모드: OpenAI 내장 ImageGen 편집. 정본 `first_kiss_jiyeon.png`의 두 인물만 제거하고 차체 시점과 실내 구조를 보존했다.
+- 출시 경로: `assets/backgrounds/jiyeon_sedan_night_interior.png` (1280x800).
+- 검수: 왼쪽 운전대·검은 가죽·수평 대시보드·동일 차급, 인물/반사/상표/문자 부재, CG 전후 KO/EN 게임 크롭을 확인했다.
 
 ## 키 비주얼 상위 10컷
 
@@ -210,6 +216,7 @@
 | Background | `assets/backgrounds/jeongseon_casino_exterior.png` | `jeongseon_casino_exterior` | 1280x800 | no | `9a75a100f407` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/jiyeon_newlywed_home_night.png` | `jiyeon_newlywed_home` | 1280x800 | no | `12d80a5fd425` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/jiyeon_sedan_first_snow_interior.png` | `jiyeon_sedan_first_snow` | 1280x800 | no | `7c94031a0536` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
+| Background | `assets/backgrounds/jiyeon_sedan_night_interior.png` | `jiyeon_sedan_night` | 1280x800 | no | `68473f8a5062` | PASS-B | 왼쪽 운전대·검은 가죽·수평 대시보드·무인/무상표와 첫 키스 CG 전후 크롭 확인. |
 | Background | `assets/backgrounds/jjimjilbang.png` | `jjimjilbang` | 1672x941 | no | `bfc44b61d4c4` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/late_night_room.png` | `late_night` | 1280x800 | no | `0555c89b0480` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/library.png` | `library` | 1280x800 | no | `481604b1b302` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |

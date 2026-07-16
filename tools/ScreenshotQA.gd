@@ -104,6 +104,7 @@ const QA_SCOPE_BREAKUP := "breakup"
 const QA_SCOPE_SANGCHUL_CONFRONTATION := "sangchul_confrontation"
 const QA_SCOPE_FATHER_PEAKS := "father_peaks"
 const QA_SCOPE_FATHER_KTX := "father_ktx"
+const QA_SCOPE_FIRST_KISS := "first_kiss"
 const QA_SCOPE_FIRST_SNOW := "first_snow"
 const QA_SCOPE_CLIMATE := "climate"
 const QA_SCOPE_EVENT_VISUALS := "event_visuals"
@@ -384,6 +385,16 @@ func _ready() -> void:
 			get_tree().quit(1)
 			return
 		print("SCREENSHOT_QA_DONE scope=father-ktx lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_FIRST_KISS:
+		var lang := _qa_language("en")
+		await _shot_first_kiss_surfaces(
+				lang, "first_kiss_en_" if lang == "en" else "first_kiss_ko_")
+		if _qa_failed:
+			get_tree().quit(1)
+			return
+		print("SCREENSHOT_QA_DONE scope=first-kiss lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_FIRST_SNOW:
@@ -693,6 +704,10 @@ func _qa_scope() -> String:
 				"qa=father-ktx", "--qa=father-ktx", "qa=father_ktx", "--qa=father_ktx",
 				"scope=father-ktx", "--scope=father-ktx"]:
 			return QA_SCOPE_FATHER_KTX
+		if arg in ["first-kiss", "first_kiss", "romance-kiss", "romance_kiss",
+				"--first-kiss", "--first_kiss", "qa=first-kiss", "--qa=first-kiss",
+				"qa=first_kiss", "--qa=first_kiss", "scope=first-kiss", "--scope=first-kiss"]:
+			return QA_SCOPE_FIRST_KISS
 		if arg in ["first-snow", "first_snow", "snow-romance", "snow_romance",
 				"--first-snow", "--first_snow", "qa=first-snow", "--qa=first-snow",
 				"qa=first_snow", "--qa=first_snow", "scope=first-snow", "--scope=first-snow"]:
@@ -3820,6 +3835,91 @@ func _assert_father_ktx_state(label: String, mental: int, tint: float, called: b
 	if str(GameState.cast["father"].get("stage", "")) != "hospitalized" \
 			or GameState.flags.get("father_passed", false):
 		_fail("Father KTX %s changed Father before the passing chain." % label)
+
+func _shot_first_kiss_surfaces(
+		lang: String = "en", prefix: String = "first_kiss_en_") -> void:
+	_set_qa_language(lang)
+	for route in [
+		["daeun", "arc_daeun_first_kiss", "arc_daeun_first_kiss_wait",
+			"arc_daeun_first_kiss_ask", "arc_daeun_first_kiss_choice"],
+		["jiyeon", "arc_jiyeon_first_kiss", "arc_jiyeon_first_kiss_silence",
+			"arc_jiyeon_first_kiss_speak", "arc_jiyeon_first_kiss_choice"],
+	]:
+		var person_id := str(route[0])
+		var root_id := str(route[1])
+		var branch_a_id := str(route[2])
+		var branch_b_id := str(route[3])
+		var final_id := str(route[4])
+
+		_prepare_first_kiss_qa_state(person_id)
+		await _shot_story_event(root_id, prefix + person_id + "_01_prelude", "", 0.45, true)
+		_assert_first_kiss_uncommitted(person_id, "prelude")
+		_prepare_first_kiss_qa_state(person_id)
+		await _shot_story_event(root_id, prefix + person_id + "_02_opening_choice", "", 0.45, true, true)
+		_assert_first_kiss_uncommitted(person_id, "opening choice")
+
+		_prepare_first_kiss_qa_state(person_id)
+		await _shot_story_event(branch_a_id, prefix + person_id + "_03_branch_a", "", 0.45, true, true)
+		_assert_first_kiss_uncommitted(person_id, "branch A")
+		_prepare_first_kiss_qa_state(person_id)
+		await _shot_story_event(branch_b_id, prefix + person_id + "_04_branch_b", "", 0.45, true, true)
+		_assert_first_kiss_uncommitted(person_id, "branch B")
+
+		_prepare_first_kiss_qa_state(person_id)
+		await _shot_story_event(final_id, prefix + person_id + "_05_final_choice", "", 0.55, true, true)
+		_assert_first_kiss_uncommitted(person_id, "final choice")
+		_prepare_first_kiss_qa_state(person_id)
+		await _shot_story_event(
+			final_id, prefix + person_id + "_06_kiss_result", "", 0.45,
+			true, true, 0, 0, false, 2)
+		_assert_first_kiss_state(person_id, "kiss", 70, 2.0, 62)
+		_prepare_first_kiss_qa_state(person_id)
+		await _shot_story_event(
+			final_id, prefix + person_id + "_07_defer_result", "", 0.45,
+			true, true, 1, 0, false, 2)
+		_assert_first_kiss_state(person_id, "defer", 64, 1.0, 54)
+
+func _prepare_first_kiss_qa_state(person_id: String) -> void:
+	_prepare_main_game_state()
+	GameState.age = 34
+	GameState.turn = 72
+	GameState.year = 2027
+	GameState.month = 1
+	GameState.week_of_month = 2
+	GameState.mental = 60
+	GameState.moral_tint = 0.0
+	for flag in [
+		"daeun_romance_started", "jiyeon_romance_started",
+		"arc_daeun_first_kiss_seen", "arc_jiyeon_first_kiss_seen",
+	]:
+		GameState.flags.erase(flag)
+	GameState.flags[person_id + "_romance_started"] = true
+	GameState.flags["date_count_" + person_id] = 2
+	_set_cast_relation_for_qa(person_id, 50)
+	GameState.cast[person_id]["stage"] = "lover"
+
+func _assert_first_kiss_uncommitted(person_id: String, label: String) -> void:
+	var completion_flag := "arc_%s_first_kiss_seen" % person_id
+	var affinity := int(GameState.cast.get(person_id, {}).get("affinity", -999))
+	if int(GameState.mental) != 60 or not is_equal_approx(GameState.moral_tint, 0.0) \
+			or affinity != 50:
+		_fail("%s first-kiss %s changed state before the final decision: mental=%s tint=%s affinity=%s." % [
+			person_id, label, GameState.mental, GameState.moral_tint, affinity,
+		])
+	if GameState.flags.get(completion_flag, false):
+		_fail("%s first-kiss %s committed its completion flag early." % [person_id, label])
+
+func _assert_first_kiss_state(
+		person_id: String, label: String, mental: int, tint: float, affinity: int) -> void:
+	var completion_flag := "arc_%s_first_kiss_seen" % person_id
+	var actual_affinity := int(GameState.cast.get(person_id, {}).get("affinity", -999))
+	if int(GameState.mental) != mental or not is_equal_approx(GameState.moral_tint, tint) \
+			or actual_affinity != affinity:
+		_fail("%s first-kiss %s totals changed: mental=%s tint=%s affinity=%s." % [
+			person_id, label, GameState.mental, GameState.moral_tint, actual_affinity,
+		])
+	if not GameState.flags.get(completion_flag, false):
+		_fail("%s first-kiss %s did not commit its completion flag." % [person_id, label])
 
 func _shot_transport_surfaces(lang: String = "en", prefix: String = "transport_en_") -> void:
 	_set_qa_language(lang)

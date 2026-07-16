@@ -251,8 +251,8 @@ def main() -> int:
     directed_random = [
         event for event in events if is_directed_random(event, manifest, direct_targets)
     ]
-    if len(events) != 1507:
-        errors.append(f"registered event count drifted: expected 1507, got {len(events)}")
+    if len(events) != 1513:
+        errors.append(f"registered event count drifted: expected 1513, got {len(events)}")
     if len(catalog_random) != EXPECTED_CATALOG_RANDOM:
         errors.append(
             f"catalog random count drifted: expected {EXPECTED_CATALOG_RANDOM}, got {len(catalog_random)}"

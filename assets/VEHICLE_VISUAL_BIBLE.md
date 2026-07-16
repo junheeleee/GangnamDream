@@ -1,6 +1,6 @@
 # Gangnam Dream Vehicle Visual Bible
 
-Updated: 2026-07-10
+Updated: 2026-07-17
 
 Vehicles used by recurring characters are identity-bearing props. They must remain as consistent as faces, rooms, and clothing. A different body shape, cabin layout, drive side, or wealth tier is a continuity failure even when no logo is visible.
 
@@ -25,12 +25,13 @@ Vehicles used by recurring characters are identity-bearing props. They must rema
 - Jiyeon occupies the left driver seat; Minjun occupies the right front passenger seat.
 - Black leather seats, dark horizontal dashboard, restrained metallic trim, broad quiet cabin, low amber/white instrument light.
 - No right-hand-drive mirror, no steering wheel on the passenger side, no visible logo, and no sports-car bucket-seat styling.
-- Current interior reference: `assets/cg/romance/first_kiss_jiyeon.png`.
+- Person-free prelude reference: `assets/backgrounds/jiyeon_sedan_night_interior.png`.
+- Two-actor interior reference: `assets/cg/romance/first_kiss_jiyeon.png`.
 
 **Continuity details:**
 
 - First accident: rain-damp exterior, cream tailored suit, left driver door.
-- First kiss: stopped cabin at night, engine/radio off, left steering wheel, Gangnam light across the glass.
+- First kiss: stopped cabin at night, engine/radio off, left steering wheel, Jiyeon driving on the left and Minjun seated on the right. Jiyeon alone presses the ignition button after the decision.
 - First snow and photo-strip callbacks use this same vehicle even when no CG is shown.
 - Future DLC or update scenes must use one of the two approved references before generation. A new angle may change perspective, not model family, cabin side, trim language, or class signal.
 

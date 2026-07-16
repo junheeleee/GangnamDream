@@ -50,7 +50,7 @@ The seven base tracks cover title, routine, crisis, and endings. Five authored s
 | `grief` | death, separation, aftermath | paragraph-triggered |
 | `wonder` | awe, release, landmark-scale emotional lift | paragraph-triggered |
 
-`assets/scene_audio_manifest.json` maps all 57 active CGs to ambience and all 46 events on the 28 Tier-1 peak paths to explicit scene audio. The mother and groom-side reaction shots keep one wedding-hall room tone; the processional begins on the couple-wide entrance and continues into the close without restarting. Wedding applause and cheer are tied to the authored entrance paragraph, not to a timer from scene load.
+`assets/scene_audio_manifest.json` maps all 57 active CGs to ambience and all 54 events on the 28 Tier-1 peak paths to explicit scene audio. The mother and groom-side reaction shots keep one wedding-hall room tone; the processional begins on the couple-wide entrance and continues into the close without restarting. Wedding applause and cheer are tied to the authored entrance paragraph, not to a timer from scene load.
 
 ## Jeongseon Casino Music
 
@@ -131,7 +131,7 @@ Latest targeted result:
 
 ```text
 AUDIO_SOURCE_AUDIT_OK assets=112 bgm=14 ambience=45 sfx=53 external_samples=0
-SCENE_AUDIO_CONTRACT_OK cg=57 peak_events=48 ambience_keys=36 music_keys=14
+SCENE_AUDIO_CONTRACT_OK cg=57 peak_events=54 ambience_keys=36 music_keys=14
 GAME_AUDIO_CONTRACT_OK physical=17 stages=19 activities=7 activity_music=1 human_layers=9 direct_pad=9
 AUDIO_ASSET_CHECK_OK bgm=14 ambience=45 sfx=53
 LAUNCH_AUDIO_OK stereo=2 rate=48000 duration=1.55

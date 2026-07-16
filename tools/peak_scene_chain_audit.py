@@ -58,8 +58,10 @@ MIN_DIALOGUE_TURNS = 2
 MIN_PANELS = 6
 
 # Ratchet updated only after a peak is expanded and its rendered QA passes.
-BASELINE_DEBT = 19
+BASELINE_DEBT = 17
 REQUIRED_PASS = {
+    "arc_daeun_first_kiss",
+    "arc_jiyeon_first_kiss",
     "arc_date_namsan_daeun",
     "arc_date_namsan_jiyeon",
     "arc_daeun_proposal",
@@ -246,6 +248,93 @@ def validate_daeun_proposal_contract(events: dict[str, dict[str, Any]]) -> None:
                 )
     if final_choices[1].get("result_cg"):
         raise ValueError("Daeun proposal defer branch must never reveal a CG")
+
+
+def validate_first_kiss_contracts(events: dict[str, dict[str, Any]]) -> None:
+    """Keep buildup expressive while the canonical kiss choice owns every effect."""
+    contracts = (
+        {
+            "label": "Daeun",
+            "root": "arc_daeun_first_kiss",
+            "branches": ("arc_daeun_first_kiss_wait", "arc_daeun_first_kiss_ask"),
+            "final": "arc_daeun_first_kiss_choice",
+            "background": "convenience_night",
+            "portrait": "daeun_smile",
+            "cg": "cg_romance_first_kiss_daeun",
+            "flag": "arc_daeun_first_kiss_seen",
+            "actor": "daeun",
+            "texts": (
+                "그 정적 속에서, 먼저 다가간다.",
+                "캔커피를 쥐여주고, 오늘은 여기까지.",
+            ),
+        },
+        {
+            "label": "Jiyeon",
+            "root": "arc_jiyeon_first_kiss",
+            "branches": ("arc_jiyeon_first_kiss_silence", "arc_jiyeon_first_kiss_speak"),
+            "final": "arc_jiyeon_first_kiss_choice",
+            "background": "jiyeon_sedan_night",
+            "portrait": "jiyeon_warm",
+            "cg": "cg_romance_first_kiss_jiyeon",
+            "flag": "arc_jiyeon_first_kiss_seen",
+            "actor": "jiyeon",
+            "texts": (
+                "그 0.5초에, 다가간다.",
+                "웃고 만다 — \"아무것도.\"",
+            ),
+        },
+    )
+    expected_effects = (
+        {"mental": 10, "tint": 2},
+        {"mental": 4, "tint": 1},
+    )
+    expected_affinity = (12, 4)
+
+    for contract in contracts:
+        root_id = str(contract["root"])
+        branches = tuple(str(event_id) for event_id in contract["branches"])
+        final_id = str(contract["final"])
+        paths = walk_paths(events, root_id)
+        expected_paths = {(root_id, branch_id, final_id) for branch_id in branches}
+        actual_paths = {path.event_ids for path in paths}
+        if actual_paths != expected_paths:
+            rendered = ", ".join(" -> ".join(path) for path in sorted(actual_paths))
+            raise ValueError(f"{contract['label']} first-kiss paths changed: {rendered}")
+
+        for event_id in (root_id, *branches):
+            event = events[event_id]
+            if event.get("background") != contract["background"] \
+                    or event.get("portrait") != contract["portrait"]:
+                raise ValueError(f"{contract['label']} first-kiss buildup visual changed at {event_id}")
+            if event.get("cg"):
+                raise ValueError(f"{contract['label']} first-kiss CG revealed before the decision")
+            for choice in event.get("choices") or []:
+                for forbidden in ("effects", "flags", "cast_effects", "result_cg", "result_background"):
+                    if choice.get(forbidden):
+                        raise ValueError(
+                            f"{contract['label']} first-kiss buildup applies {forbidden} at {event_id}"
+                        )
+
+        final_event = events[final_id]
+        if final_event.get("background") != contract["background"] \
+                or final_event.get("portrait") != contract["portrait"] \
+                or final_event.get("cg") != contract["cg"]:
+            raise ValueError(f"{contract['label']} first-kiss decision visual changed")
+        final_choices = final_event.get("choices") or []
+        if len(final_choices) != 2:
+            raise ValueError(f"{contract['label']} first-kiss decision must retain two choices")
+        for index, choice in enumerate(final_choices):
+            expected_cast = {str(contract["actor"]): {"affinity": expected_affinity[index]}}
+            expected_flag = [str(contract["flag"])]
+            if choice.get("text") != contract["texts"][index] \
+                    or choice.get("effects") != expected_effects[index] \
+                    or choice.get("flags") != expected_flag \
+                    or choice.get("cast_effects") != expected_cast:
+                raise ValueError(f"{contract['label']} first-kiss final choice {index} changed")
+
+    jiyeon_result = str(events["arc_jiyeon_first_kiss_choice"]["choices"][0].get("result_text", ""))
+    if "{name}이 시동" in jiyeon_result or "운전이나 해" in jiyeon_result:
+        raise ValueError("Jiyeon first-kiss result put the passenger in the driver role")
 
 
 def validate_daeun_wedding_contract(events: dict[str, dict[str, Any]]) -> None:
@@ -770,6 +859,7 @@ def main() -> int:
 
     ko_events = load_events(EVENTS_KO)
     en_events = load_events(EVENTS_EN)
+    validate_first_kiss_contracts(ko_events)
     validate_daeun_proposal_contract(ko_events)
     validate_daeun_wedding_contract(ko_events)
     validate_jiyeon_wedding_gap_contract(ko_events)

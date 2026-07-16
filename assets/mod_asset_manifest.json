@@ -316,6 +316,14 @@
     {
       "kind": "background",
       "ids": [
+        "jiyeon_sedan_night"
+      ],
+      "relative_path": "backgrounds/jiyeon_sedan_night_interior.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "jjimjilbang"
       ],
       "relative_path": "backgrounds/jjimjilbang.png",

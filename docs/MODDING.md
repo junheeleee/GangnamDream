@@ -189,6 +189,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `jeongseon_casino_exterior` | `backgrounds/jeongseon_casino_exterior.png` | 1280x800 |
 | background | `jiyeon_newlywed_home` | `backgrounds/jiyeon_newlywed_home_night.png` | 1280x800 |
 | background | `jiyeon_sedan_first_snow` | `backgrounds/jiyeon_sedan_first_snow_interior.png` | 1280x800 |
+| background | `jiyeon_sedan_night` | `backgrounds/jiyeon_sedan_night_interior.png` | 1280x800 |
 | background | `jjimjilbang` | `backgrounds/jjimjilbang.png` | 1672x941 |
 | background | `late_night` | `backgrounds/late_night_room.png` | 1280x800 |
 | background | `library` | `backgrounds/library.png` | 1280x800 |

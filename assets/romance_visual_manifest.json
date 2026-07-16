@@ -74,20 +74,26 @@
       "eye_line": "Jiyeon turns from the left-hand-drive driver's seat and holds mutual eye contact with Minjun in the front passenger seat after asking him to stay."
     },
     {
-      "event_id": "arc_daeun_first_kiss",
+      "event_id": "arc_daeun_first_kiss_choice",
       "cg": "cg_romance_first_kiss_daeun",
       "heroine_portrait": "daeun_smile",
       "heroine_outfit": "Navy work polo with a beige knit cardigan.",
       "player_visibility": "visible_left",
-      "eye_line": "Daeun and Minjun hold mutual eye contact."
+      "eye_line": "Daeun and Minjun hold mutual eye contact.",
+      "prelude_event_id": "arc_daeun_first_kiss",
+      "prelude_portrait": "daeun_smile",
+      "prelude_outfit": "The same navy work polo and beige knit cardigan before the CG reveal."
     },
     {
-      "event_id": "arc_jiyeon_first_kiss",
+      "event_id": "arc_jiyeon_first_kiss_choice",
       "cg": "cg_romance_first_kiss_jiyeon",
       "heroine_portrait": "jiyeon_warm",
       "heroine_outfit": "Cream tailored jacket over black with restrained gold jewelry.",
       "player_visibility": "visible_right",
-      "eye_line": "Jiyeon and Minjun hold mutual eye contact."
+      "eye_line": "Jiyeon and Minjun hold mutual eye contact.",
+      "prelude_event_id": "arc_jiyeon_first_kiss",
+      "prelude_portrait": "jiyeon_warm",
+      "prelude_outfit": "The same cream tailored jacket and black inner before the CG reveal."
     }
   ],
   "t1": [

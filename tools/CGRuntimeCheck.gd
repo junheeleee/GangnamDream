@@ -37,8 +37,8 @@ func _check_story_mode_cg() -> void:
 	await _check_story_event_cg("arc_season_cherry_jiyeon", "cg_romance_cherry_jiyeon")
 	await _check_story_event_cg("arc_season_snow_daeun", "cg_romance_first_snow_daeun")
 	await _check_story_event_cg("arc_season_snow_jiyeon", "cg_romance_first_snow_jiyeon")
-	await _check_story_event_cg("arc_daeun_first_kiss", "cg_romance_first_kiss_daeun")
-	await _check_story_event_cg("arc_jiyeon_first_kiss", "cg_romance_first_kiss_jiyeon")
+	await _check_story_event_cg("arc_daeun_first_kiss_choice", "cg_romance_first_kiss_daeun")
+	await _check_story_event_cg("arc_jiyeon_first_kiss_choice", "cg_romance_first_kiss_jiyeon")
 	await _check_story_event_cg("arc_date_namsan_lock_daeun", "cg_romance_namsan_lock_daeun")
 	await _check_story_event_cg("arc_date_namsan_lock_jiyeon", "cg_romance_namsan_lock_jiyeon")
 	await _check_story_event_cg("arc_date_park_daeun", "cg_romance_amusement_lost_child_daeun")
@@ -425,6 +425,9 @@ func _check_transport_background_contract() -> void:
 	var station_path := ImageRegistry.get_background("hometown_train_station")
 	if station_path != "res://assets/backgrounds/hometown_train_station.png":
 		_failures.append("hometown_train_station must keep the provincial platform, got %s" % station_path)
+	var jiyeon_car_path := ImageRegistry.get_background("jiyeon_sedan_night")
+	if jiyeon_car_path != "res://assets/backgrounds/jiyeon_sedan_night_interior.png":
+		_failures.append("Jiyeon first-kiss buildup must keep the canonical empty sedan, got %s" % jiyeon_car_path)
 
 func _check_divorce_ending_route_contract() -> void:
 	var shortfall_id := str(GameState.call("_divorce_ending_for_assets", 2_999_999_999.0))

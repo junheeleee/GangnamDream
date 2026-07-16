@@ -216,6 +216,7 @@ const BACKGROUNDS = {
 	"daeun_mother_home_dining": "res://assets/backgrounds/daeun_mother_home_dining_summer.png",
 	"daeun_newlywed_home": "res://assets/backgrounds/daeun_newlywed_home_night.png",
 	"jiyeon_newlywed_home": "res://assets/backgrounds/jiyeon_newlywed_home_night.png",
+	"jiyeon_sedan_night": "res://assets/backgrounds/jiyeon_sedan_night_interior.png",
 	"jiyeon_sedan_first_snow": "res://assets/backgrounds/jiyeon_sedan_first_snow_interior.png",
 	"burnout":           "res://assets/backgrounds/burnout_hospital_room.png",
 	"penthouse":         "res://assets/backgrounds/penthouse_view.png",
