@@ -58,7 +58,7 @@ MIN_DIALOGUE_TURNS = 2
 MIN_PANELS = 6
 
 # Ratchet updated only after a peak is expanded and its rendered QA passes.
-BASELINE_DEBT = 21
+BASELINE_DEBT = 20
 REQUIRED_PASS = {
     "arc_date_namsan_daeun",
     "arc_date_namsan_jiyeon",
@@ -67,6 +67,7 @@ REQUIRED_PASS = {
     "arc_jiyeon_wedding_gap",
     "arc_sangchul_confrontation",
     "father_hospital_wait",
+    "arc_father_passing",
 }
 
 
@@ -581,6 +582,92 @@ def validate_father_hospital_contract(events: dict[str, dict[str, Any]]) -> None
                 )
 
 
+def validate_father_passing_contract(events: dict[str, dict[str, Any]]) -> None:
+    """Separate every physical location while preserving both canonical losses."""
+    root_id = "arc_father_passing"
+    platform_id = "arc_father_passing_platform"
+    deal_room_id = "arc_father_passing_deal_room"
+    hospital_id = "arc_father_passing_hospital_room"
+    deal_morning_id = "arc_father_passing_deal_morning"
+    expected_paths = {
+        (root_id, platform_id, hospital_id),
+        (root_id, platform_id, deal_morning_id),
+        (root_id, deal_room_id, hospital_id),
+        (root_id, deal_room_id, deal_morning_id),
+    }
+    actual_paths = {path.event_ids for path in walk_paths(events, root_id)}
+    if actual_paths != expected_paths:
+        raise ValueError(
+            "Father passing paths changed: "
+            f"actual={sorted(actual_paths)!r} expected={sorted(expected_paths)!r}"
+        )
+
+    expected_visuals = {
+        root_id: ("current_housing", "player_shocked"),
+        platform_id: ("seoul_station_ktx_platform_winter", None),
+        deal_room_id: ("meeting", "player_suit"),
+        hospital_id: ("changwon_hospital_room_empty", None),
+        deal_morning_id: ("meeting", "player_suit"),
+    }
+    for event_id, (background, portrait) in expected_visuals.items():
+        event = events[event_id]
+        if event.get("background") != background or event.get("portrait") != portrait:
+            raise ValueError(
+                f"Father passing {event_id} visual changed: "
+                f"{event.get('background')!r}/{event.get('portrait')!r}"
+            )
+
+    root_choices = events[root_id].get("choices") or []
+    if len(root_choices) != 2 or [choice.get("follow_up_event") for choice in root_choices] != [
+        platform_id,
+        deal_room_id,
+    ]:
+        raise ValueError("Father passing root must branch to platform or deal room")
+
+    for event_id in (root_id, platform_id, deal_room_id):
+        choices = events[event_id].get("choices") or []
+        if len(choices) != 2:
+            raise ValueError(f"Father passing buildup must retain two choices: {event_id}")
+        for choice_index, choice in enumerate(choices):
+            for forbidden in ("effects", "cast_effects", "flags"):
+                if choice.get(forbidden):
+                    raise ValueError(
+                        f"Father passing buildup {event_id}[{choice_index}] "
+                        f"commits {forbidden} before the terminal scene"
+                    )
+
+    expected_terminal = {
+        hospital_id: {
+            "effects": {"mental": -40, "tint": 10},
+            "cast_effects": {"father": {"stage": "passed"}},
+            "flags": [
+                "arc_father_passing_seen",
+                "father_passed",
+                "tried_to_go_to_father",
+            ],
+        },
+        deal_morning_id: {
+            "effects": {"mental": -25, "money": 5_000_000, "tint": -8},
+            "cast_effects": {"father": {"stage": "passed"}},
+            "flags": [
+                "arc_father_passing_seen",
+                "father_passed",
+                "chose_money_over_father",
+            ],
+        },
+    }
+    for event_id, contract in expected_terminal.items():
+        choices = events[event_id].get("choices") or []
+        if len(choices) != 1:
+            raise ValueError(f"Father passing terminal must have one acknowledgement: {event_id}")
+        for key, value in contract.items():
+            if choices[0].get(key) != value:
+                raise ValueError(
+                    f"Father passing terminal {event_id} changed {key}: "
+                    f"{choices[0].get(key)!r}!={value!r}"
+                )
+
+
 def validate_jiyeon_marriage_routing_contract() -> None:
     """Keep Jiyeon's marriage chronology explicit even when Minjun is broke."""
     with open(MAIN_GAME, encoding="utf-8") as handle:
@@ -687,6 +774,7 @@ def main() -> int:
     validate_jiyeon_wedding_gap_contract(ko_events)
     validate_sangchul_confrontation_contract(ko_events)
     validate_father_hospital_contract(ko_events)
+    validate_father_passing_contract(ko_events)
     validate_jiyeon_marriage_routing_contract()
     metrics = [measure(label, root_id, ko_events) for label, root_id in PEAK_ROOTS]
     visited = {

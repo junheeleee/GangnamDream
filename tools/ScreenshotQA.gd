@@ -2919,6 +2919,30 @@ func _shot_father_peak_surfaces(lang: String = "en", prefix: String = "father_pe
 	_prepare_father_peak_qa_state()
 	await _shot_story_event("arc_pre_ending_father_call", prefix + "11_home_weak_call", "", 0.55, true)
 
+	_prepare_father_passing_qa_state()
+	await _shot_story_event("arc_father_passing", prefix + "12_passing_home_call", "", 0.55, true)
+	_prepare_father_passing_qa_state()
+	await _shot_story_event("arc_father_passing", prefix + "13_passing_home_choices", "", 0.45, true, true)
+	_prepare_father_passing_qa_state()
+	await _shot_story_event("arc_father_passing", prefix + "14_passing_ticket_result", "", 0.45, true, true, 0)
+	_assert_father_passing_uncommitted("home-call ticket")
+
+	_prepare_father_passing_qa_state()
+	await _shot_story_event("arc_father_passing_platform", prefix + "15_passing_platform_choices", "", 0.55, true, true)
+	_prepare_father_passing_qa_state()
+	await _shot_story_event("arc_father_passing_hospital_room", prefix + "16_passing_empty_room", "", 0.55, true)
+	_prepare_father_passing_qa_state()
+	await _shot_story_event("arc_father_passing_hospital_room", prefix + "17_passing_ktx_result", "", 0.45, true, true, 0)
+	_assert_father_passing_state("KTX", 20, 100_000_000.0, 10.0, "tried_to_go_to_father")
+
+	_prepare_father_passing_qa_state()
+	await _shot_story_event("arc_father_passing_deal_room", prefix + "18_passing_deal_choices", "", 0.55, true, true)
+	_prepare_father_passing_qa_state()
+	await _shot_story_event("arc_father_passing_deal_morning", prefix + "19_passing_deal_morning", "", 0.55, true)
+	_prepare_father_passing_qa_state()
+	await _shot_story_event("arc_father_passing_deal_morning", prefix + "20_passing_deal_result", "", 0.45, true, true, 0)
+	_assert_father_passing_state("deal", 35, 105_000_000.0, -8.0, "chose_money_over_father")
+
 func _prepare_father_peak_qa_state() -> void:
 	_prepare_main_game_state()
 	GameState.mental = 60
@@ -2951,6 +2975,41 @@ func _assert_father_hospital_state(
 		])
 	if bool(GameState.flags.get("saw_father_medical", false)) != saw_results:
 		_fail("Father hospital %s changed the medical-result flag contract." % label)
+
+func _prepare_father_passing_qa_state() -> void:
+	_prepare_main_game_state()
+	GameState.housing = "oneroom"
+	GameState.money = 100_000_000.0
+	GameState.mental = 60
+	GameState.moral_tint = 0.0
+	for flag in [
+		"arc_father_passing_seen", "father_passed", "tried_to_go_to_father",
+		"chose_money_over_father",
+	]:
+		GameState.flags.erase(flag)
+	_set_cast_relation_for_qa("father", 50)
+	GameState.cast["father"]["stage"] = "hospitalized"
+
+func _assert_father_passing_uncommitted(label: String) -> void:
+	if int(GameState.mental) != 60 or not is_equal_approx(GameState.money, 100_000_000.0) \
+			or not is_equal_approx(GameState.moral_tint, 0.0):
+		_fail("Father passing %s changed stats before the terminal scene." % label)
+	if str(GameState.cast["father"].get("stage", "")) != "hospitalized" \
+			or GameState.flags.get("father_passed", false):
+		_fail("Father passing %s committed death state before the terminal scene." % label)
+
+func _assert_father_passing_state(
+		label: String, mental: int, money: float, tint: float, route_flag: String) -> void:
+	if int(GameState.mental) != mental or not is_equal_approx(GameState.money, money) \
+			or not is_equal_approx(GameState.moral_tint, tint):
+		_fail("Father passing %s totals changed: mental=%s money=%s tint=%s." % [
+			label, GameState.mental, GameState.money, GameState.moral_tint,
+		])
+	if str(GameState.cast["father"].get("stage", "")) != "passed" \
+			or not GameState.flags.get("arc_father_passing_seen", false) \
+			or not GameState.flags.get("father_passed", false) \
+			or not GameState.flags.get(route_flag, false):
+		_fail("Father passing %s did not commit its canonical final route." % label)
 
 func _shot_transport_surfaces(lang: String = "en", prefix: String = "transport_en_") -> void:
 	_set_qa_language(lang)

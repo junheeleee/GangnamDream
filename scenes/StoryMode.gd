@@ -1120,13 +1120,17 @@ func _render_current():
 			bg_id = str(_current.get("background", ""))
 		if bg_id == "":
 			bg_id = ImageRegistry.infer_background_id(_current, GameState.housing)
+		bg_id = _resolve_story_background_id(bg_id)
 		if bg_id != "":
 			var bp = ImageRegistry.get_background(bg_id)
 			if bp != "" and ResourceLoader.exists(bp):
 				_bg_img.texture = load(bp)
 				_event_background_id = bg_id
 	_apply_story_surface_palette(_current_uses_cg)
-	BGMPlayer.update_event_ambience(_current, _event_cg_id)
+	if str(_current.get("background", "")) == "current_housing" and not _current_uses_cg:
+		BGMPlayer.update_idle_ambience()
+	else:
+		BGMPlayer.update_event_ambience(_current, _event_cg_id)
 	BGMPlayer.begin_story_event(_current, _event_cg_id)
 	AudioManager.begin_story_audio_event(str(_current.get("id", "")))
 	AudioManager.play_event_cue(_current)
@@ -1222,7 +1226,13 @@ func _event_background_id_for_paragraph(paragraph_index: int) -> String:
 	if _event_paragraph_backgrounds.is_empty():
 		return ""
 	var index := clampi(paragraph_index, 0, _event_paragraph_backgrounds.size() - 1)
-	return str(_event_paragraph_backgrounds[index])
+	return _resolve_story_background_id(str(_event_paragraph_backgrounds[index]))
+
+func _resolve_story_background_id(background_id: String) -> String:
+	var resolved_id := background_id.strip_edges()
+	if resolved_id == "current_housing":
+		return ImageRegistry.infer_background_id({}, GameState.housing)
+	return resolved_id
 
 func _maybe_change_event_background(paragraph_index: int) -> void:
 	if _current_uses_cg or _pending_after_result:
@@ -2252,7 +2262,8 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 				_hud_panel.visible = false
 		return
 
-	var result_background_id := str(choice.get("result_background", _current.get("result_background", "")))
+	var result_background_id := _resolve_story_background_id(
+		str(choice.get("result_background", _current.get("result_background", ""))))
 	if result_background_id == "":
 		return
 	var result_background_path := ImageRegistry.get_background(result_background_id)

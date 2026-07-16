@@ -1,5 +1,5 @@
 {
-  "version": 11,
+  "version": 12,
   "tag_coverage": [
     "climate",
     "season",
@@ -28,6 +28,11 @@
     {"id": "arc_season_sea_daeun", "background": "ktx_window", "portrait": "daeun_sea"},
     {"id": "arc_season_sea_jiyeon", "background": "ktx_window", "portrait": "jiyeon_sea"},
     {"id": "arc_father_call_on_ktx", "background": "ktx_window", "portrait": null},
+    {"id": "arc_father_passing", "background": "current_housing", "portrait": "player_shocked"},
+    {"id": "arc_father_passing_platform", "background": "seoul_station_ktx_platform_winter", "portrait": null},
+    {"id": "arc_father_passing_deal_room", "background": "meeting", "portrait": "player_suit"},
+    {"id": "arc_father_passing_hospital_room", "background": "changwon_hospital_room_empty", "portrait": null},
+    {"id": "arc_father_passing_deal_morning", "background": "meeting", "portrait": "player_suit"},
     {"id": "father_hospital_wait", "background": "hospital", "portrait": "player_offduty_neutral"},
     {"id": "father_hospital_results", "background": "hospital", "portrait": "father_hospitalized"},
     {"id": "arc_father_04_visit", "background": "hospital", "portrait": "father_hospitalized"},

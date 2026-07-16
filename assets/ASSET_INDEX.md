@@ -23,6 +23,7 @@ Updated on 2026-07-12 for Daeun's choice-gated proposal and small/full wedding v
 Updated on 2026-07-12 for eight final-life P0 ending CGs, physically correct Jiyeon mirror geometry, and ending-preview Moral legibility.
 Updated on 2026-07-13 for the `late_call` P1 ending CG, final Jiyeon mirror-pose correction, and separate KTX-interior/station semantic IDs.
 Updated on 2026-07-13 for the `lonely_rich` P1 dining-table CG and its strict separation from `empty_house`.
+Updated on 2026-07-16 for Father wardrobe separation and the Father-passing Seoul KTX platform/empty Changwon hospital room backgrounds.
 
 ## Use These Assets
 
@@ -392,6 +393,10 @@ Updated on 2026-07-13 for the `lonely_rich` P1 dining-table CG and its strict se
   - Modest provincial Korean station platform for hometown return/family-pressure scenes.
   - Status: P2 regenerated without a central traveler; should feel working-class and regional, not wealthy Seoul.
 
+- `assets/backgrounds/seoul_station_ktx_platform_winter.png`
+  - Winter-night Seoul high-speed rail platform for the Father-passing departure decision.
+  - Generic unbranded train, open door, tactile strip and physically coherent tracks; no baked traveler, logo, readable sign, or named-character proxy.
+
 - `assets/backgrounds/regional_train_window_summer.png`
   - Person-free interior of a modest Korean intercity train with a two-seat window pair and summer rice paddies outside.
   - Runtime IDs `ktx_window` and `regional_train_window` both resolve here. Use for written in-train window scenes; do not substitute the outdoor `hometown_train_station` platform.
@@ -421,6 +426,10 @@ Updated on 2026-07-13 for the `lonely_rich` P1 dining-table CG and its strict se
 - `assets/backgrounds/hospital_corridor.png`
   - Quiet Korean hospital corridor at night.
   - Use for health, hospital, crisis, and disaster events.
+
+- `assets/backgrounds/changwon_hospital_room_empty.png`
+  - Modest empty Changwon inpatient room after Father's body and belongings have been removed.
+  - Use only for the Father-passing arrival terminal. The empty made bed, IV stand, bare cabinet and dark hill/apartment view carry the absence without a body, gore, phone, text, logo, or baked character.
 
 - `assets/backgrounds/gym_interior.png`
   - Korean neighborhood gym interior for exercise, workout, and health-improvement events.

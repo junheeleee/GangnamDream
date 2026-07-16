@@ -51,7 +51,7 @@
     ]
   },
   "coverage_targets": {
-    "minimum_ledger_events": 54,
+    "minimum_ledger_events": 58,
     "max_unclassified_communication_suspects": 0,
     "demo_logic": [
       "arc_intro_02_dad_call",
@@ -80,6 +80,8 @@
       "callback_called_father_first_echo",
       "callback_proactive_parent_care_echo",
       "callback_rushed_to_father_echo",
+      "arc_father_passing",
+      "arc_father_passing_deal_morning",
       "arc_opp_sangchul_realty",
       "callback_knows_dad_reason_echo",
       "callback_sangchul_personal_echo",
@@ -327,16 +329,84 @@
     "arc_father_passing": {
       "logic": {
         "requires": [{"fact": "father.life", "is": "hospitalized"}],
+        "legacy": {
+          "forbids_flags": ["father_passed"]
+        }
+      },
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "changwon_hospital",
+        "remote_actor": "nurse",
+        "portrait_role": "local",
+        "expected_portrait": "player_shocked"
+      }
+    },
+    "arc_father_passing_platform": {
+      "logic": {
+        "requires": [{"fact": "father.life", "is": "hospitalized"}],
+        "legacy": {"forbids_flags": ["father_passed"]}
+      },
+      "presentation": {
+        "channel": "narration",
+        "scene_location": "seoul_station_ktx_platform",
+        "portrait_role": "none"
+      }
+    },
+    "arc_father_passing_deal_room": {
+      "logic": {
+        "requires": [{"fact": "father.life", "is": "hospitalized"}],
+        "legacy": {"forbids_flags": ["father_passed"]}
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "seoul_investment_meeting_room",
+        "participants": ["player", "deal_counterpart"],
+        "portrait_role": "local",
+        "expected_portrait": "player_suit"
+      }
+    },
+    "arc_father_passing_hospital_room": {
+      "logic": {
+        "requires": [{"fact": "father.life", "is": "hospitalized"}],
         "produces": [{"fact": "father.life", "set": "passed"}],
         "legacy": {
           "forbids_flags": ["father_passed"],
-          "produces_all": ["arc_father_passing_seen", "father_passed"]
+          "produces_all": [
+            "arc_father_passing_seen",
+            "father_passed",
+            "tried_to_go_to_father"
+          ]
         }
       },
       "presentation": {
         "channel": "narration",
-        "scene_location": "changwon_hospital",
+        "scene_location": "changwon_hospital_room",
         "portrait_role": "none"
+      }
+    },
+    "arc_father_passing_deal_morning": {
+      "logic": {
+        "requires": [{"fact": "father.life", "is": "hospitalized"}],
+        "produces": [{"fact": "father.life", "set": "passed"}],
+        "legacy": {
+          "forbids_flags": ["father_passed"],
+          "produces_all": [
+            "arc_father_passing_seen",
+            "father_passed",
+            "chose_money_over_father"
+          ]
+        }
+      },
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "seoul_investment_meeting_room",
+        "remote_location": "changwon_hospital",
+        "remote_actor": "nurse",
+        "portrait_role": "local",
+        "expected_portrait": "player_suit"
       }
     },
     "arc_father_ng_call": {

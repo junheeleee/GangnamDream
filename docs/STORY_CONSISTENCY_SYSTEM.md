@@ -63,13 +63,13 @@ CGs remain authoritative. A split-screen phone CG may hide the standing portrait
 
 The first pass intentionally covers high-risk material instead of pretending all 1,500 events are migrated:
 
-- Ledger events: 54 / 1,501 (3.6%)
-- Typed logic contracts: 17
-- Remote/media presentation contracts: 36
+- Ledger events: 58 / 1,505 (3.9%)
+- Typed logic contracts: 21
+- Remote/media presentation contracts: 38
 - Unclassified non-player portraits with phone/message titles: 0
 - Demo father-contact logic targets: 4 / 4
 
-The first migrated in-person Father peak is now explicit as well: Minjun waits opposite an inpatient examination room on Father's third day in a Changwon hospital, Father appears in a hospital gown only after the door opens, and the return trip is to Seoul. Changwon-home meetings and calls use the worn home cardigan, while the late illness call changes acting without changing clothes. The waiting response cannot commit medical-result state before the final decision.
+The migrated Father peaks are now explicit as well. Minjun waits opposite an inpatient examination room on Father's third day in a Changwon hospital; Father appears in a hospital gown only after the door opens, and the return trip is to Seoul. Changwon-home meetings and calls use the worn home cardigan, while the late illness call changes acting without changing clothes. The final call begins in Minjun's actual current housing, then separates the winter Seoul KTX platform or Seoul deal room from the empty Changwon hospital room or next-morning hospital call. Neither buildup link can commit Father's death, money, mental, or moral state before the terminal scene.
 
 These are ratchets. `minimum_ledger_events` cannot fall, and the unclassified communication count cannot rise above zero.
 

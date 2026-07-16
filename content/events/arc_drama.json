@@ -547,7 +547,8 @@
     "id": "arc_father_passing",
     "direction": {"pace": "slow", "amb": "cut", "sting": "loss", "camera": "drift", "hold": 2.0},
     "title": "세 번의 부재",
-    "background": "hospital",
+    "background": "current_housing",
+    "portrait": "player_shocked",
     "category": "story",
     "rarity": "story",
     "weight": 0,
@@ -562,7 +563,7 @@
       "death"
     ],
     "cooldown": 9999,
-    "description": "병원에서 전화가 왔다.\n아버지가 위독하다고, 당장 내려와야 한다고 했다.\n\n민준은 이 전화를 오늘 처음 받은 게 아니었다.\n세 번이었다. 세 번 다 못 내려갔다. 중요한 일이 있어서. 딜이 있어서. 시간이 없어서. 그때마다 스스로에게 그렇게 말했고, 그 말은 매번 그럴듯했다.\n\n이번 전화는 — 네 번째였다.\n수화기 너머 간호사의 목소리가, 앞의 세 번과 달랐다. 급하지 않았다. 급할 필요가 없어진 목소리였다.\n민준은 폰을 쥔 채, 한참을 움직이지 못했다.",
+    "description": "병원에서 전화가 왔다.\n아버지가 위독하다고, 당장 내려와야 한다고 했다.\n\"보호자분, 지금 바로 내려오실 수 있나요?\"\n\n민준은 이 전화를 오늘 처음 받은 게 아니었다.\n세 번이었다. 세 번 다 못 내려갔다. 중요한 일이 있어서. 딜이 있어서. 시간이 없어서. 그때마다 스스로에게 그렇게 말했고, 그 말은 매번 그럴듯했다.\n\n이번 전화는 — 네 번째였다.\n수화기 너머 간호사의 목소리가, 앞의 세 번과 달랐다. 급하지 않았다. 급할 필요가 없어진 목소리였다.\n민준은 폰을 쥔 채, 한참을 움직이지 못했다.",
     "description_if_moral": {
       "black": "병원에서 전화가 왔다.\n아버지가 위독하다고, 당장 내려와야 한다고 했다. 화면 위로 곧 시작할 딜 알림이 겹쳐 떴다. 병원 번호와 일정 알림은 같은 크기의 사각형이었다.\n\n민준은 이 전화를 오늘 처음 받은 게 아니었다.\n세 번이었다. 세 번 다 못 내려갔다. 중요한 일이 있어서. 딜이 있어서. 시간이 없어서. 그때마다 스스로에게 그렇게 말했고, 그 말은 매번 그럴듯했다.\n\n이번 전화는 — 네 번째였다.\n수화기 너머 간호사의 목소리가, 앞의 세 번과 달랐다. 급하지 않았다. 급할 필요가 없어진 목소리였다.\n민준은 폰을 쥔 채, 한참을 움직이지 못했다.",
       "white": "병원에서 전화가 왔다.\n간호사는 '아버님'이 위독하다고, 당장 내려와야 한다고 했다. {name}에게는 '당장'보다 '아버님'이라는 말이 먼저 남았다.\n\n민준은 이 전화를 오늘 처음 받은 게 아니었다.\n세 번이었다. 세 번 다 못 내려갔다. 중요한 일이 있어서. 딜이 있어서. 시간이 없어서. 그때마다 스스로에게 그렇게 말했고, 그 말은 매번 그럴듯했다.\n\n이번 전화는 — 네 번째였다.\n수화기 너머 간호사의 목소리가, 앞의 세 번과 달랐다. 급하지 않았다. 급할 필요가 없어진 목소리였다.\n민준은 폰을 쥔 채, 한참을 움직이지 못했다."
@@ -577,26 +578,82 @@
     },
     "choices": [
       {
+        "text": "표부터 산다. 서울역으로 간다.",
+        "text_if_moral": {
+          "black": "표부터 산다. 손실 계산은 승강장에서 한다.",
+          "white": "표부터 산다. 늦었더라도 내려갈 준비를 한다."
+        },
+        "result_text": "\"최대한 빨리 와주세요.\"\n\n간호사의 마지막 말이 끊긴 뒤에도 민준은 폰을 귀에서 떼지 못했다. 다른 손으로 가장 빠른 창원행 표를 샀다. 코트를 집어 들고 문을 나섰다.",
+        "follow_up_event": "arc_father_passing_platform"
+      },
+      {
+        "text": "겹쳐 뜬 딜 알림을 연다. 회의실로 간다.",
+        "text_if_moral": {
+          "black": "딜 알림을 연다. 이 기회도 지금 아니면 사라진다.",
+          "white": "딜 알림을 연다. 아직 결정을 미룰 수 있다고 생각한다."
+        },
+        "result_text": "병원 번호 위로 투자 미팅 주소가 떠 있었다. 시작까지 스물여덟 분. 서울역으로 가도, 회의실로 가도 지금 나서야 했다.\n\n민준은 가방을 들었다. 병원 통화 화면을 닫지 않은 채, 일단 회의실 주소를 불렀다.",
+        "follow_up_event": "arc_father_passing_deal_room"
+      }
+    ]
+  },
+  {
+    "id": "arc_father_passing_platform",
+    "direction": {"pace": "slow", "amb": "duck", "camera": "drift", "hold": 1.2},
+    "title": "출발 직전",
+    "background": "seoul_station_ktx_platform_winter",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "father", "death", "winter", "transit"],
+    "cooldown": 9999,
+    "description": "겨울밤의 서울역 승강장. 열린 열차 문 안으로 마른 난방 바람이 새어 나왔다. 전광판의 시각과 휴대폰의 딜 시작 시각이 같은 분을 가리켰다.\n\n\"곧 출발합니다. 승객 여러분은 탑승해 주십시오.\"\n\n민준은 문 앞에 섰다. 주머니 속 폰이 다시 한 번 울렸다가 멎었다. 병원 번호였다.\n\n열차 문과 계단은 서로 반대쪽에 있었다. 어느 쪽도 아직 닫히지 않았다.",
+    "choices": [
+      {
         "text": "(KTX를 탔다. 늦었다는 걸 알면서도.)",
         "text_if_moral": {
-          "black": "(KTX를 탄다. 손실 계산이 끝나기 전에 표부터 샀다.)",
+          "black": "(KTX를 탄다. 손실 계산이 끝나기 전에 발부터 옮긴다.)",
           "white": "(KTX를 탄다. 늦었다는 걸 알아도, 가야 할 곳으로.)"
         },
-        "effects": {
-          "mental": -40,
-          "tint": 10
+        "result_text": "KTX는 왜 이렇게 느린가 싶었다. 창밖 풍경이 뒤로 달아나는 내내, 민준은 아무 생각도 하지 않으려 했다.",
+        "follow_up_event": "arc_father_passing_hospital_room"
+      },
+      {
+        "text": "문이 닫히기 전에 돌아선다. 딜로 간다.",
+        "text_if_moral": {
+          "black": "열차에서 돌아선다. 이 딜은 지금 아니면 사라진다.",
+          "white": "열차에서 돌아선다. 무엇을 놓치는지 알면서도 딜로 간다."
         },
-        "cast_effects": {
-          "father": {
-            "stage": "passed"
-          }
+        "result_text": "\"죄송해요. 이번엔 진짜 못 가요.\" 민준은 병원에 다시 전화를 걸어 그렇게 말했다. 그리고 그 딜에 들어갔다.\n그 딜에서 5백만원을 벌었다. 계획대로였다.",
+        "follow_up_event": "arc_father_passing_deal_morning"
+      }
+    ]
+  },
+  {
+    "id": "arc_father_passing_deal_room",
+    "direction": {"pace": "slow", "amb": "duck", "sting": "cold", "hold": 1.2},
+    "title": "십 분",
+    "background": "meeting",
+    "portrait": "player_suit",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "father", "death", "investment"],
+    "cooldown": 9999,
+    "description": "회의실에는 계약서와 식은 생수병이 놓여 있었다. 맞은편 사람이 시계를 보고 말했다.\n\n\"십 분 안에 사인하셔야 합니다. 다른 쪽에서도 기다리고 있어서요.\"\n\n민준의 휴대폰은 뒤집힌 채 테이블 위에 있었다. 진동이 올 때마다 얇은 유리판이 울렸다. 화면을 들추면 병원 번호, 다시 엎으면 서명란이었다.\n\n펜을 쥔 손에 힘이 들어가지 않았다. 서울역까지는 택시로 열두 분이었다.",
+    "choices": [
+      {
+        "text": "펜을 놓는다. 가장 빠른 KTX를 탄다.",
+        "text_if_moral": {
+          "black": "펜을 놓는다. 계산을 끝내지 못한 채 회의실을 나간다.",
+          "white": "펜을 놓는다. 더 늦기 전에 가야 할 곳으로 간다."
         },
-        "flags": [
-          "arc_father_passing_seen",
-          "father_passed",
-          "tried_to_go_to_father"
-        ],
-        "result_text": "KTX는 왜 이렇게 느린가 싶었다. 창밖 풍경이 뒤로 달아나는 내내, 민준은 아무 생각도 하지 않으려 했다.\n\n창원역에 도착했을 때, 아버지는 이미 없었다.\n간호사가 \"한 시간 전에\"라고 했다. 딱 한 시간.\n\n민준은 텅 빈 병실 침대 옆에 앉았다. 한참을 그렇게 있었다. 소독약 냄새 말고는, 아무것도 남아 있지 않았다.\n보여주고 싶었다. 통장 숫자가 이만큼 올라왔다고, 아들이 이만큼 해냈다고 — 이제 그걸 보여줄 사람이, 세상에 한 명 줄었다.\n주머니 속 폰에는, 언젠가의 23초짜리 통화 기록이 아직 남아 있었다."
+        "result_text": "민준은 서명란을 비워 둔 채 일어났다. 상대가 이름을 불렀지만 돌아보지 않았다.\n\nKTX는 왜 이렇게 느린가 싶었다. 창밖 풍경이 뒤로 달아나는 내내, 민준은 아무 생각도 하지 않으려 했다.",
+        "follow_up_event": "arc_father_passing_hospital_room"
       },
       {
         "text": "(전화를 끊었다. 지금 당장 가야 할 딜이 있었다.)",
@@ -604,22 +661,55 @@
           "black": "(전화를 끊는다. 이 딜은 지금 아니면 사라진다.)",
           "white": "(전화를 끊는다. 무엇을 놓치는지 알면서도 딜로 간다.)"
         },
-        "effects": {
-          "mental": -25,
-          "money": 5000000,
-          "tint": -8
-        },
-        "cast_effects": {
-          "father": {
-            "stage": "passed"
-          }
-        },
-        "flags": [
-          "arc_father_passing_seen",
-          "father_passed",
-          "chose_money_over_father"
-        ],
-        "result_text": "\"죄송해요. 이번엔 진짜 못 가요.\" 민준은 전화를 끊었다. 그리고 그 딜에 들어갔다.\n그 딜에서 5백만원을 벌었다. 계획대로였다.\n\n다음 날 아침, 다시 전화가 왔다. 아버지가 어젯밤에 돌아가셨다고. 민준이 5백만원을 벌던, 바로 그 시간에.\n\n민준은 폰을 내려놓고 통장 앱을 열었다. 숫자는 올라가 있었다. 정확히 5백만원.\n그 숫자를 오래 봤다. 아무 느낌도 안 들 줄 알았는데, 아니었다. 저 숫자가 앞으로 평생 이 아침과 같은 값으로 매겨질 거라는 걸 — 민준은 그제야 알았다."
+        "result_text": "\"죄송해요. 이번엔 진짜 못 가요.\" 민준은 전화를 끊었다. 그리고 그 딜에 들어갔다.\n그 딜에서 5백만원을 벌었다. 계획대로였다.",
+        "follow_up_event": "arc_father_passing_deal_morning"
+      }
+    ]
+  },
+  {
+    "id": "arc_father_passing_hospital_room",
+    "direction": {"pace": "slow", "amb": "cut", "sting": "loss", "camera": "drift", "hold": 2.0},
+    "title": "한 시간",
+    "background": "changwon_hospital_room_empty",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "father", "death", "hospital"],
+    "cooldown": 9999,
+    "description": "창원역에 도착했을 때, 아버지는 이미 없었다.\n간호사가 \"한 시간 전에\"라고 했다. 딱 한 시간.\n\n병실 문은 열려 있었다. 침대 위 시트는 새로 당겨져 있었고, 협탁은 비어 있었다. 누군가 머물렀다는 흔적보다 치운 흔적이 더 선명했다.",
+    "choices": [
+      {
+        "text": "빈 침대 옆에 앉는다.",
+        "effects": {"mental": -40, "tint": 10},
+        "cast_effects": {"father": {"stage": "passed"}},
+        "flags": ["arc_father_passing_seen", "father_passed", "tried_to_go_to_father"],
+        "result_text": "민준은 텅 빈 병실 침대 옆에 앉았다. 한참을 그렇게 있었다. 소독약 냄새 말고는, 아무것도 남아 있지 않았다.\n보여주고 싶었다. 통장 숫자가 이만큼 올라왔다고, 아들이 이만큼 해냈다고 — 이제 그걸 보여줄 사람이, 세상에 한 명 줄었다.\n주머니 속 폰에는, 언젠가의 23초짜리 통화 기록이 아직 남아 있었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_father_passing_deal_morning",
+    "direction": {"pace": "slow", "amb": "cut", "sting": "loss", "camera": "drift", "hold": 2.0},
+    "title": "오백만원",
+    "background": "meeting",
+    "portrait": "player_suit",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "father", "death", "investment", "phone"],
+    "cooldown": 9999,
+    "description": "다음 날 아침, 텅 빈 회의실에서 다시 전화가 왔다.\n\n\"아버님이 어젯밤에 돌아가셨습니다.\"\n\n민준이 5백만원을 벌던, 바로 그 시간이었다. 계약서는 정리돼 있었고 입금 알림은 아직 지워지지 않았다. 전화가 끝난 뒤에도 숫자와 병원 번호가 같은 화면에 남았다.",
+    "choices": [
+      {
+        "text": "통장 앱을 연다.",
+        "effects": {"mental": -25, "money": 5000000, "tint": -8},
+        "cast_effects": {"father": {"stage": "passed"}},
+        "flags": ["arc_father_passing_seen", "father_passed", "chose_money_over_father"],
+        "result_text": "민준은 폰을 내려놓고 통장 앱을 열었다. 숫자는 올라가 있었다. 정확히 5백만원.\n그 숫자를 오래 봤다. 아무 느낌도 안 들 줄 알았는데, 아니었다. 저 숫자가 앞으로 평생 이 아침과 같은 값으로 매겨질 거라는 걸 — 민준은 그제야 알았다."
       }
     ]
   },

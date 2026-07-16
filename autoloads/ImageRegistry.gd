@@ -148,6 +148,8 @@ const PERSON_NAMES_EN = {
 # ── 배경 이미지 ────────────────────────────────────────────────
 const BACKGROUNDS = {
 	# 고시원/생활권
+	# Runtime sentinel. get_background() resolves this to the player's actual home.
+	"current_housing":   "res://assets/backgrounds/goshiwon_room.png",
 	"goshiwon":          "res://assets/backgrounds/goshiwon_room.png",
 	"goshiwon_room":     "res://assets/backgrounds/goshiwon_room.png",
 	"goshiwon_hallway":  "res://assets/backgrounds/goshiwon_hallway.png",
@@ -200,6 +202,7 @@ const BACKGROUNDS = {
 	# 특수
 	"hospital":          "res://assets/backgrounds/hospital_corridor.png",
 	"hospital_clinic":   "res://assets/backgrounds/hospital_clinic.png",
+	"changwon_hospital_room_empty": "res://assets/backgrounds/changwon_hospital_room_empty.png",
 	"gym":               "res://assets/backgrounds/gym_interior.png",
 	"exercise":          "res://assets/backgrounds/gym_interior.png",
 	"military":          "res://assets/backgrounds/military_training_ground.png",
@@ -207,6 +210,7 @@ const BACKGROUNDS = {
 	# Canon-safe Changwon father-home background regenerated on 2026-06-12.
 	"dad_house":         "res://assets/backgrounds/family_living_room.png",
 	"hometown_train_station": "res://assets/backgrounds/hometown_train_station.png",
+	"seoul_station_ktx_platform_winter": "res://assets/backgrounds/seoul_station_ktx_platform_winter.png",
 	"ktx_window":        "res://assets/backgrounds/regional_train_window_summer.png",
 	"regional_train_window": "res://assets/backgrounds/regional_train_window_summer.png",
 	"daeun_mother_home_dining": "res://assets/backgrounds/daeun_mother_home_dining_summer.png",
@@ -403,7 +407,10 @@ func _get_dynamic_player_portrait(id: String) -> String:
 
 ## 배경 경로 반환. 파일 없으면 기본 배경으로 폴백
 func get_background(id: String) -> String:
-	var path = str(BACKGROUNDS.get(id, ""))
+	var resolved_id := id
+	if resolved_id == "current_housing":
+		resolved_id = _housing_background_id(str(GameState.housing))
+	var path = str(BACKGROUNDS.get(resolved_id, ""))
 	if path != "" and ResourceLoader.exists(path):
 		return path
 	if ResourceLoader.exists(FALLBACK_BG):

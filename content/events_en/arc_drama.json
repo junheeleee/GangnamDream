@@ -211,7 +211,7 @@
   {
     "id": "arc_father_passing",
     "title": "Three Times Absent",
-    "description": "The hospital called.\nHis father was in critical condition, they said. He had to come down at once.\n\nIt wasn't the first such call Minjun had taken.\nThree times. All three, he hadn't gone down. Something important came up. A deal came up. No time. Each time he told himself so, and each time it sounded reasonable enough.\n\nThis call was — the fourth.\nThe nurse's voice on the other end was different from the three before. Not urgent. A voice for which there was no longer any need to hurry.\nPhone in hand, Minjun couldn't move for a long while.",
+    "description": "The hospital called.\nHis father was in critical condition, they said. He had to come down at once.\n\"Are you able to come down right now?\"\n\nIt wasn't the first such call Minjun had taken.\nThree times. All three, he hadn't gone down. Something important came up. A deal came up. No time. Each time he told himself so, and each time it sounded reasonable enough.\n\nThis call was — the fourth.\nThe nurse's voice on the other end was different from the three before. Not urgent. A voice for which there was no longer any need to hurry.\nPhone in hand, Minjun couldn't move for a long while.",
     "description_if_moral": {
       "black": "The hospital called.\nHis father was in critical condition, they said. He had to come down at once. A reminder for the deal about to start appeared over the call. The hospital number and the calendar alert were rectangles of the same size.\n\nIt wasn't the first such call Minjun had taken.\nThree times. All three, he hadn't gone down. Something important came up. A deal came up. No time. Each time he told himself so, and each time it sounded reasonable enough.\n\nThis call was — the fourth.\nThe nurse's voice on the other end was different from the three before. Not urgent. A voice for which there was no longer any need to hurry.\nPhone in hand, Minjun couldn't move for a long while.",
       "white": "The hospital called.\nThe nurse said his father was in critical condition and he had to come down at once. The word 'father' reached {name} before 'at once.'\n\nIt wasn't the first such call Minjun had taken.\nThree times. All three, he hadn't gone down. Something important came up. A deal came up. No time. Each time he told himself so, and each time it sounded reasonable enough.\n\nThis call was — the fourth.\nThe nurse's voice on the other end was different from the three before. Not urgent. A voice for which there was no longer any need to hurry.\nPhone in hand, Minjun couldn't move for a long while."
@@ -226,12 +226,58 @@
     },
     "choices": [
       {
+        "text": "Buy the ticket first. Go to Seoul Station.",
+        "text_if_moral": {
+          "black": "Buy the ticket first. Calculate the loss on the platform.",
+          "white": "Buy the ticket first. Even if it is late, get ready to go."
+        },
+        "result_text": "\"Please come as quickly as you can.\"\n\nEven after the nurse's last words, Minjun could not lower the phone from his ear. With his other hand he bought the fastest ticket to Changwon. He grabbed his coat and left."
+      },
+      {
+        "text": "Open the deal alert layered over the call. Go to the meeting room.",
+        "text_if_moral": {
+          "black": "Open the deal alert. This chance also disappears if he waits.",
+          "white": "Open the deal alert. Tell himself the decision can wait a little longer."
+        },
+        "result_text": "The investment meeting address sat over the hospital number. Twenty-eight minutes until it began. Whether he went to Seoul Station or the meeting room, he had to leave now.\n\nMinjun picked up his bag. Without closing the hospital call screen, he gave the driver the meeting-room address first."
+      }
+    ]
+  },
+  {
+    "id": "arc_father_passing_platform",
+    "title": "Before Departure",
+    "description": "Seoul Station on a winter night. Dry heated air leaked through the open train door. The departure board and the deal alert on his phone showed the same minute.\n\n\"This train will depart shortly. Please board now.\"\n\nMinjun stood before the door. The phone in his pocket rang once more, then stopped. The hospital number.\n\nThe train door and the stairs lay in opposite directions. Neither had closed yet.",
+    "choices": [
+      {
         "text": "(He took the KTX. Knowing he was already too late.)",
         "text_if_moral": {
-          "black": "(Take the KTX. Buy the ticket before he finishes calculating the cost.)",
+          "black": "(Take the KTX. Move before he finishes calculating the loss.)",
           "white": "(Take the KTX. Even if it is too late, go where he needs to be.)"
         },
-        "result_text": "The KTX felt impossibly slow. The whole way, as the scenery fled backward outside the window, Minjun tried to think of nothing at all.\n\nBy the time he reached Changwon Station, Father was already gone.\nThe nurse said, \"An hour ago.\" Exactly one hour.\n\nMinjun sat beside the empty hospital bed. He stayed like that a long time. Nothing was left but the smell of antiseptic.\nHe'd wanted to show him. That the number in the bankbook had climbed this high, that his son had made it this far — and now there was one fewer person in the world to show it to.\nIn his pocket, the phone still held a call log from some day long ago. Twenty-three seconds."
+        "result_text": "The KTX felt impossibly slow. The whole way, as the scenery fled backward outside the window, Minjun tried to think of nothing at all."
+      },
+      {
+        "text": "Turn back before the doors close. Take the deal.",
+        "text_if_moral": {
+          "black": "Turn away from the train. This deal disappears if he waits.",
+          "white": "Turn away from the train. Take the deal, knowing what he is leaving behind."
+        },
+        "result_text": "\"I'm sorry. This time I really can't come.\" Minjun called the hospital back and said it. Then he went into the deal.\nHe made five million won on it. Just as planned."
+      }
+    ]
+  },
+  {
+    "id": "arc_father_passing_deal_room",
+    "title": "Ten Minutes",
+    "description": "A contract and a bottle of water gone warm sat in the meeting room. The person across from Minjun checked the time.\n\n\"We need your signature within ten minutes. The other side is waiting too.\"\n\nMinjun's phone lay face down on the table. Each vibration made the thin glass surface hum. Turn it over: the hospital number. Turn it back: the signature line.\n\nHis pen would not settle in his hand. Seoul Station was twelve minutes away by taxi.",
+    "choices": [
+      {
+        "text": "Put down the pen. Take the fastest KTX.",
+        "text_if_moral": {
+          "black": "Put down the pen. Leave before the calculation is complete.",
+          "white": "Put down the pen. Go where he needs to be before it is any later."
+        },
+        "result_text": "Minjun stood, leaving the signature line blank. Someone called his name, but he did not turn around.\n\nThe KTX felt impossibly slow. The whole way, as the scenery fled backward outside the window, Minjun tried to think of nothing at all."
       },
       {
         "text": "(He hung up. There was a deal he had to close right now.)",
@@ -239,7 +285,29 @@
           "black": "(Hang up. This deal vanishes if he does not take it now.)",
           "white": "(Hang up. Take the deal, knowing what he is leaving behind.)"
         },
-        "result_text": "\"I'm sorry. This time I really can't come.\" Minjun hung up. And he went into the deal.\nHe made five million won on it. Just as planned.\n\nThe next morning, another call. Father had passed in the night — at the very hour Minjun was making his five million.\n\nMinjun set the phone down and opened the banking app. The number had gone up. Five million won, exactly.\nHe looked at it a long time. He'd thought he'd feel nothing; he was wrong. That this number would, for the rest of his life, be priced at the same value as this morning — only now did Minjun understand it."
+        "result_text": "\"I'm sorry. This time I really can't come.\" Minjun hung up. And he went into the deal.\nHe made five million won on it. Just as planned."
+      }
+    ]
+  },
+  {
+    "id": "arc_father_passing_hospital_room",
+    "title": "One Hour",
+    "description": "By the time he reached Changwon Station, Father was already gone.\nThe nurse said, \"An hour ago.\" Exactly one hour.\n\nThe door to the room stood open. The sheet had been pulled tight again and the bedside cabinet was bare. The traces of someone having been removed were clearer than the traces of anyone having stayed.",
+    "choices": [
+      {
+        "text": "Sit beside the empty bed.",
+        "result_text": "Minjun sat beside the empty hospital bed. He stayed like that a long time. Nothing was left but the smell of antiseptic.\nHe'd wanted to show him. That the number in the bankbook had climbed this high, that his son had made it this far — and now there was one fewer person in the world to show it to.\nIn his pocket, the phone still held a call log from some day long ago. Twenty-three seconds."
+      }
+    ]
+  },
+  {
+    "id": "arc_father_passing_deal_morning",
+    "title": "Five Million Won",
+    "description": "The next morning, another call came in the empty meeting room.\n\n\"Your father passed away last night.\"\n\nAt the very hour Minjun was making his five million. The contract had been cleared away, but the deposit alert was still on his screen. After the call ended, the number and the hospital call remained side by side.",
+    "choices": [
+      {
+        "text": "Open the banking app.",
+        "result_text": "Minjun set the phone down and opened the banking app. The number had gone up. Five million won, exactly.\nHe looked at it a long time. He'd thought he'd feel nothing; he was wrong. That this number would, for the rest of his life, be priced at the same value as this morning — only now did Minjun understand it."
       }
     ]
   },

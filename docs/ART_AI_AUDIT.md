@@ -13,7 +13,7 @@
 
 ## 감사 결과
 
-- 활성 인벤토리: **189장** (`CG 57 / Portrait 57 / Background 75`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
+- 활성 인벤토리: **191장** (`CG 57 / Portrait 57 / Background 77`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
 - 전수 방법: 종류별 콘택트시트 22장으로 얼굴·실루엣·그레이딩·공간을 1차 비교하고, 손·반사·차량·카운터·정류장처럼 오독 위험이 있는 컷과 키 비주얼 10장은 원본 해상도로 다시 열었다.
 - 런타임 수리: 배경이 구워진 `main_character_50s.png`를 본편의 `player_hollow` 슬롯에서 제외하고 같은 민준의 투명 피로 초상으로 통합했다. 현재 이벤트가 없는 박재원의 죽은 초상 등록도 제거했다.
 - 이미지 수리: `ending_crypto_ghost.png`의 비현실적인 6면 모니터 벽을 정본 고시원 안의 휴대폰 1대·낡은 노트북 1대로 교체했다. 방 크기, 작은 불투명창, 침대/책상 방향, 민준 신원, 다섯 손가락, 무문자 차트를 원본에서 재검수했다.
@@ -29,6 +29,13 @@
 - 최종 프롬프트: “정본 고시원 구조와 동일한 좁은 방, 동일한 33세 민준, 휴대폰 1대와 낡은 노트북 1대만 있는 코인 손실 후 장면. 모니터 벽·추가 화면·텍스트·로고를 제거하고, 자연스러운 다섯 손가락과 휴대폰/노트북을 향한 시선, Gangnam Ink 반사실 애니메이션 질감을 유지한다.”
 - 생성 원본: `$HOME/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-6a8364f4-5f1f-4b68-b5b3-d1ee3f35bf20.png`.
 - 출시 경로: `assets/cg/ending_crypto_ghost.png` (중앙 16:10 크롭 후 1280x800).
+
+### 아버지 별세 공간 분리 배경
+
+- 모드: OpenAI 내장 ImageGen 신규 생성. 기존 `hospital_corridor.png`와 `regional_train_window_summer.png`는 화풍 참조로만 사용했다.
+- 공통 프롬프트 축: 확정된 `STYLE_SUMMARY`와 Gangnam Ink 가이드, 반사실 한국 만화형 디지털 페인팅, 저채도 차콜·슬레이트, 절제된 실용광, 무인 재사용 배경, 무상표·무문자·1280x800 안전 구도.
+- 생성 원본: `$HOME/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-999b0bbe-fd05-4554-a394-679852313c2c.png`, `$HOME/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-3f31fb84-10d9-408b-ba71-d0284ac25493.png`.
+- 출시 경로: `assets/backgrounds/seoul_station_ktx_platform_winter.png`, `assets/backgrounds/changwon_hospital_room_empty.png` (중앙 16:10 크롭 후 1280x800).
 
 ## 키 비주얼 상위 10컷
 
@@ -172,6 +179,7 @@
 | Background | `assets/backgrounds/burnout_hospital_room.png` | `burnout` | 1280x800 | no | `958398df156a` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/cafe_seoul.png` | `cafe` | 1280x800 | no | `a8e34c6e5f11` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/casino_interior.png` | `casino` | 1280x800 | no | `b8a8b18fa8fc` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
+| Background | `assets/backgrounds/changwon_hospital_room_empty.png` | `changwon_hospital_room_empty` | 1280x800 | no | `2f6125ab80ed` | PASS-B | 아버지 별세 뒤 비워진 병상·정돈된 시트·IV 스탠드·창원 야경, 인물·시신·문자·로고 없음 확인. |
 | Background | `assets/backgrounds/cherry_blossom_path.png` | `cherry_blossom_path` | 1672x941 | no | `a721f10fb5a7` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/chuseok_highway.png` | `chuseok_highway` | 1672x941 | no | `4ac567c34bdb` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/community_center.png` | `community_center` | 1672x941 | no | `220622b0f60b` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
@@ -232,6 +240,7 @@
 | Background | `assets/backgrounds/seoul_bus_terminal_night.png` | `seoul_bus_terminal_night` | 1280x800 | no | `4d0fdbd04d29` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/seoul_cold_snap_street.png` | `cold_snap_street` | 1280x800 | no | `9864aa265d41` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/seoul_rainy_street.png` | `street_rainy` | 1280x800 | no | `6b4909a89eb3` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
+| Background | `assets/backgrounds/seoul_station_ktx_platform_winter.png` | `seoul_station_ktx_platform_winter` | 1280x800 | no | `35b6f9957c36` | PASS-B | 겨울 서울 고속철 승강장·열린 무상표 열차 문·촉지도·레일 원근, 인물·상표·문자 없음 확인. |
 | Background | `assets/backgrounds/seoul_subway.png` | `subway` | 1280x800 | no | `e0dee873fcdf` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/street_seoul_day.png` | `street`, `street_day` | 1280x800 | no | `c7730fce4f73` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/suneung_test_hall.png` | `suneung_test_hall` | 1672x941 | no | `4b72655552ff` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
@@ -241,4 +250,4 @@
 | Background | `assets/backgrounds/year3_hangang_winter_night.png` | `year3_hangang_winter_night` | 1280x800 | no | `b8387ccb4707` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/year4_winter_rooftop.png` | `year4_winter_rooftop` | 1280x800 | no | `46803837d191` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 
-Inventory: 54 CG / 54 portraits / 75 backgrounds / 183 total.
+Inventory: 57 CG / 57 portraits / 77 backgrounds / 191 total.
