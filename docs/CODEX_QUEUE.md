@@ -349,9 +349,6 @@ Codex가 오더 없이 `content/meta/story_rules.json`(언어 독립 서사 사�
 #### [~] USER-P0B [P0·데모/튜토리얼] 프롤로그 서사 위 능력치 팝업 침범 제거
 **착수 (2026-07-17 Codex) — 만지는 파일:** `scenes/StoryMode.gd`, `tools/StoryTutorialPlacementCheck.gd`, `tools/StoryTutorialPlacementCheck.gd.uid`, `tools/StoryTutorialPlacementCheck.tscn`, `tools/audit.sh`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`과 진행 중 ORDER-32 파일은 되돌리거나 섞지 않는다. `story_knee_witness`의 단일 진행 버튼이 정신력 변화를 만든 직후 범용 `능력치와 자원` 팝업을 결과 문단 위에 띄우는 회귀를 제거한다. StoryMode의 프롤로그·결과·핵심 선택 도중에는 튜토리얼 모달을 열지 않으며, 자산·건강·정신력·AP 설명은 서사가 끝나고 첫 AP 대시보드에 진입한 뒤 기존 `TutorialOverlay.main_game`에서만 제공한다. 실제 단일 선택→결과 문단→후속 장면 경로와 첫 AP 통합 안내의 존속을 런타임 게이트로 잠근다.
 
-#### [~] USER-P0B [P0·데모/튜토리얼] 프롤로그 서사 위 능력치 팝업 침범 제거
-**착수 (2026-07-17 Codex) — 만지는 파일:** `scenes/StoryMode.gd`, `tools/StoryTutorialPlacementCheck.gd`, `tools/StoryTutorialPlacementCheck.gd.uid`, `tools/StoryTutorialPlacementCheck.tscn`, `tools/audit.sh`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`과 진행 중 ORDER-32 파일은 되돌리거나 섞지 않는다. `story_knee_witness`의 단일 진행 버튼이 정신력 변화를 만든 직후 범용 `능력치와 자원` 팝업을 결과 문단 위에 띄우는 회귀를 제거한다. StoryMode의 프롤로그·결과·핵심 선택 도중에는 튜토리얼 모달을 열지 않으며, 자산·건강·정신력·AP 설명은 서사가 끝나고 첫 AP 대시보드에 진입한 뒤 기존 `TutorialOverlay.main_game`에서만 제공한다. 실제 단일 선택→결과 문단→후속 장면 경로와 첫 AP 통합 안내의 존속을 런타임 게이트로 잠근다.
-
 #### [x] ORDER-32 [P0·서사 데이터] 챕터·자산·선택 기반 랜덤 이벤트 디렉터
 기존 1,177개 랜덤 풀을 새 콘텐츠로 늘리지 않고 챕터 창, 자산 밴드, 직업·주거·관계·최근 선택 조건과 1회성/반복 가능 정책으로 데이터화한다. 일반 랜덤 사건은 기본 1회/런으로 하고 명시적 반복 사건만 감쇠·쿨다운을 허용한다. 보장 아크와 follow-up 체인은 디렉터 밖에서 정본 순서를 보존한다.
 
