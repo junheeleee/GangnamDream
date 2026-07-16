@@ -15,6 +15,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=locale-gate
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=i18n-layout --lang=zh-CN
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-presence --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-audio --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-moral --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=romance-cg
@@ -70,6 +71,7 @@ const QA_SCOPE_TRAILER := "trailer"
 const QA_SCOPE_LOCALE_GATE := "locale_gate"
 const QA_SCOPE_I18N_LAYOUT := "i18n_layout"
 const QA_SCOPE_STORY_EN := "story_en"
+const QA_SCOPE_STORY_PRESENCE := "story_presence"
 const QA_SCOPE_STORY_AUDIO := "story_audio"
 const QA_SCOPE_STORY_MORAL := "story_moral"
 const QA_SCOPE_MORAL_ANCHORS := "moral_anchors"
@@ -216,6 +218,13 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_story_surfaces(lang, "story_en_" if lang == "en" else "story_ko_")
 		print("SCREENSHOT_QA_DONE scope=story-en lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_STORY_PRESENCE:
+		var lang := _qa_language("en")
+		await _shot_story_presence_surfaces(
+				lang, "presence_en_" if lang == "en" else "presence_ko_")
+		print("SCREENSHOT_QA_DONE scope=story-presence lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_STORY_AUDIO:
@@ -520,6 +529,11 @@ func _qa_scope() -> String:
 				"qa=story-en", "--qa=story-en", "qa=story_en", "--qa=story_en",
 				"scope=story-en", "--scope=story-en", "scope=story_en", "--scope=story_en"]:
 			return QA_SCOPE_STORY_EN
+		if arg in ["story-presence", "story_presence", "presence", "--story-presence",
+				"--story_presence", "qa=story-presence", "--qa=story-presence",
+				"qa=story_presence", "--qa=story_presence",
+				"scope=story-presence", "--scope=story-presence"]:
+			return QA_SCOPE_STORY_PRESENCE
 		if arg in ["story-audio", "story_audio", "vn-audio", "vn_audio",
 				"--story-audio", "--story_audio", "qa=story-audio", "--qa=story-audio",
 				"qa=story_audio", "--qa=story_audio", "scope=story-audio", "--scope=story-audio"]:
@@ -2137,6 +2151,15 @@ func _shot_story_surfaces(lang: String = "en", prefix: String = "story_en_") -> 
 	await _shot_story_event("arc_jiyeon_narrow_room_1", prefix + "13a1_romance_jiyeon_narrow_door", lang, 0.45, true, false, -1, 2, true)
 	await _shot_story_event("arc_jiyeon_narrow_room_2", prefix + "13b_romance_jiyeon_narrow_room", lang, 0.65, true)
 	await _shot_story_event("arc_jiyeon_narrow_room_2", prefix + "13c_romance_jiyeon_narrow_choices", lang, 0.45, true, true)
+
+func _shot_story_presence_surfaces(lang: String = "en", prefix: String = "presence_en_") -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	await _shot_story_event("story_prologue_dad", prefix + "01_father_remote_phone", "", 0.55, true)
+	await _shot_story_event("arc_father_quiet_call", prefix + "02_father_remote_callback", "", 0.55, true)
+	await _shot_story_event("arc_father_02_signal", prefix + "03_local_message", "", 0.55, true)
+	await _shot_story_event("callback_sangchul_personal_echo", prefix + "04_memory_inset", "", 0.55, true)
+	await _shot_story_event("arc_sangchul_confrontation", prefix + "05_in_person_full_portrait", "", 0.55, true)
 
 func _shot_story_audio_settings(lang: String = "en", prefix: String = "story_audio_en_") -> void:
 	_set_qa_language(lang)

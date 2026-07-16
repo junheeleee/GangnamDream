@@ -1,5 +1,19 @@
 # Gangnam Dream Work Log
 
+## 2026-07-16 (Codex — 서사 규칙 원장·원격 대화 공간)
+
+### 개연성을 코드 기억이 아니라 데이터 계약으로
+- 언어 독립 `content/meta/story_rules.json`을 만들고 `father.life`, `relationship.jiyeon.phase`, `sangchul.truth_resolution` 세 타입 상태와 로맨스·지연 심판·상철 결산 세 상호배타 그룹을 선언했다. 저장 호환 플래그를 한 번에 갈아엎지 않고 `requires/forbids/produces`와 현재 불린 플래그를 함께 검사하는 이행 구조다.
+- 우선순위 45/1,500사건을 원장화했다. 논리 계약 15건, 통화·영상통화·문자·회상 계약 34건이며, 비주인공 초상이 붙은 통신 의심 장면은 미분류 0을 래칫으로 고정했다. 새 선택지가 아크 종료 플래그를 빼먹거나 한 선택에서 배타 결과를 동시에 만드는 경우 전체 감사가 실패한다.
+
+### 전화 너머의 사람은 방 안에 서 있지 않는다
+- StoryMode가 이벤트 ID로 원장의 채널·현장 장소·원격 장소·화자 역할을 읽는다. 통화와 영상통화의 상대는 작은 우측 프레임과 채널 명패 안에만 나타나며 이름도 `아버지 · 전화 너머 / Father · Voice call`처럼 공간을 명시한다. 문자는 민준의 현장 반응 초상을 유지하고, 회상은 어둡고 작은 인셋, 실제 대면은 명패 없는 큰 초상으로 즉시 복귀한다.
+- 한국어·영어 `--qa=story-presence` 각 5컷에서 아버지 통화 2종, 현장 문자, 회상, 상철 대면을 비교했다. 일본어 준비 UI에도 통화·수신·발신·부재중·영상·메시지·전화 너머 7표면을 채웠다.
+
+### 재발 방지
+- `story_consistency_audit.py`와 `StoryPresenceCheck`를 전체 `audit.sh`에 연결했다. 최종 수치는 `events=1500 ledger=45 logic=15 remote=34 exclusive_groups=3 unclassified=0`, 런타임은 `phone=remote message=local memory=inset in_person=full en=clean`이다.
+- 전체 audit는 정적 ERROR 0/WARNING 0, 영어 누출 0, 일본어 UI 2,044키, 밸런스 전 정책, 오디오·CG 계약, Godot 57스크립트 컴파일까지 통과했다. 다음 데이터 이관 순서는 데모 1~24주 선행조건, 아버지·로맨스·상철·엔딩 핵심 경로다.
+
 ## 2026-07-16 (Codex — ORDER-24 상철 대면·심판 체인)
 
 ### 묻거나 떠나는 행위에도 여파를

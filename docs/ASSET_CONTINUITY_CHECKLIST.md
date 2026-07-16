@@ -45,6 +45,14 @@ Use this before generating, accepting, wiring, or replacing any image asset. A v
 - Avoid visible family photos, awards, luxury objects, or extra people unless the location canon explicitly allows them.
 - Private/canon-sensitive locations should be person-free unless the image is a one-off CG.
 - Public venues may include ambient anonymous people when the location would feel unnatural empty: small dark silhouettes, distant back views, seated figures hidden by furniture/monitors, or crowd texture only.
+
+### Presence and communication
+
+- A standing portrait means the character is physically present in the scene location.
+- Phone, video-call, message, and memory scenes must be registered in `content/meta/story_rules.json`; prose alone is not enough to distinguish them.
+- A remote speaker uses the compact communication inset. A local reaction portrait may remain full size, but the media badge must stay visible.
+- `scene_location` and `remote_location` must describe different physical spaces for remote media. Example: Minjun's goshiwon / Father's Changwon home.
+- A split-screen call CG is allowed and remains authoritative, but its event still needs a channel contract for fallback portraits and accessibility context.
 - If a person has a clear face, foreground pose, readable outfit identity, detailed hands, or protagonist-like framing, treat the asset as a special CG candidate, not a generic background.
 
 ### CGs

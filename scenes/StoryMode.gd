@@ -51,6 +51,11 @@ var _portrait: TextureRect
 var _portrait_frame: PanelContainer
 var _name_panel: PanelContainer
 var _name_tag: Label
+var _communication_badge: PanelContainer
+var _communication_label: Label
+var _current_presentation: Dictionary = {}
+var _portrait_remote_inset: bool = false
+var _portrait_target_alpha: float = 1.0
 var _title_lbl: Label
 var _body_lbl: RichTextLabel
 var _continue_hint: Label
@@ -106,6 +111,11 @@ const PORTRAIT_OFFSET_BOTTOM := -40
 const PORTRAIT_CHOICE_SHIFT_X := 72
 const PORTRAIT_BLACK_PERIPHERY_SHIFT_X := 30
 const PORTRAIT_WHITE_CLOSENESS_SHIFT_X := -10
+const REMOTE_PORTRAIT_OFFSET_LEFT := -360
+const REMOTE_PORTRAIT_OFFSET_RIGHT := -52
+const REMOTE_PORTRAIT_OFFSET_TOP := -670
+const REMOTE_PORTRAIT_OFFSET_BOTTOM := -286
+const REMOTE_PORTRAIT_CHOICE_SHIFT_X := 34
 const RESULT_ECONOMIC_KEYS: Array[String] = [
 	"money", "monthly_income", "investment_skill", "work_performance", "reputation",
 ]
@@ -325,12 +335,21 @@ func _apply_story_portrait_surface() -> void:
 			black * float(PORTRAIT_BLACK_PERIPHERY_SHIFT_X) +
 			white * float(PORTRAIT_WHITE_CLOSENESS_SHIFT_X)
 		))
-		var choice_shift := PORTRAIT_CHOICE_SHIFT_X if _showing_choices else 0
-		_portrait_frame.offset_left = PORTRAIT_OFFSET_LEFT + moral_shift + choice_shift
-		_portrait_frame.offset_right = PORTRAIT_OFFSET_RIGHT + moral_shift + choice_shift
+		var choice_shift := _portrait_choice_shift() if _showing_choices else 0
+		_portrait_frame.offset_left = _portrait_base_left() + moral_shift + choice_shift
+		_portrait_frame.offset_right = _portrait_base_right() + moral_shift + choice_shift
 		_portrait_frame.pivot_offset = _portrait_frame.size * 0.5
 		var focus_scale := 1.0 - black * 0.030 + white * 0.010
 		_portrait_frame.scale = Vector2.ONE * focus_scale
+
+func _portrait_base_left() -> int:
+	return REMOTE_PORTRAIT_OFFSET_LEFT if _portrait_remote_inset else PORTRAIT_OFFSET_LEFT
+
+func _portrait_base_right() -> int:
+	return REMOTE_PORTRAIT_OFFSET_RIGHT if _portrait_remote_inset else PORTRAIT_OFFSET_RIGHT
+
+func _portrait_choice_shift() -> int:
+	return REMOTE_PORTRAIT_CHOICE_SHIFT_X if _portrait_remote_inset else PORTRAIT_CHOICE_SHIFT_X
 
 func _animate_story_text_panel() -> void:
 	if not is_instance_valid(_text_panel):
@@ -506,6 +525,36 @@ func _build_ui():
 		_story_portrait_material.set_shader_parameter("seed", 0.0)
 		_portrait.material = _story_portrait_material
 	_portrait_frame.add_child(_portrait)
+
+	# 원격 대화는 배경 속 실제 동석자로 오독되지 않도록 별도 통신 표면을 쓴다.
+	_communication_badge = PanelContainer.new()
+	_communication_badge.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	_communication_badge.offset_left = -360
+	_communication_badge.offset_right = -52
+	_communication_badge.offset_top = -716
+	_communication_badge.offset_bottom = -676
+	_communication_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_communication_badge.visible = false
+	var communication_style := StyleBoxFlat.new()
+	communication_style.bg_color = Color("#090c11", 0.94)
+	communication_style.border_color = Color("#718198", 0.86)
+	communication_style.set_border_width_all(1)
+	communication_style.border_width_left = 3
+	communication_style.set_corner_radius_all(6)
+	communication_style.content_margin_left = 14
+	communication_style.content_margin_right = 14
+	communication_style.content_margin_top = 7
+	communication_style.content_margin_bottom = 7
+	_communication_badge.add_theme_stylebox_override("panel", communication_style)
+	add_child(_communication_badge)
+
+	_communication_label = Label.new()
+	_communication_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	_communication_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_communication_label.add_theme_font_size_override("font_size", 12)
+	_communication_label.add_theme_color_override("font_color", Color("#c4cfde"))
+	_apply_font(_communication_label, true)
+	_communication_badge.add_child(_communication_label)
 
 	# 6. 이름표 — 텍스트 박스(상단 -250) 위에 완전히 올림
 	var name_panel = PanelContainer.new()
@@ -1006,6 +1055,10 @@ func _known_flag_condition_matches(condition_key: String) -> bool:
 func _render_current():
 	_reset_scene_direction()
 	_prepare_scene_direction()
+	_current_presentation = {}
+	_portrait_remote_inset = false
+	if is_instance_valid(_communication_badge):
+		_communication_badge.visible = false
 	_play_story_ink_transition("scene", 0.80)
 	_showing_choices = false
 	_clear_result_record_card()
@@ -1078,6 +1131,7 @@ func _render_current():
 	AudioManager.begin_story_audio_event(str(_current.get("id", "")))
 	AudioManager.play_event_cue(_current)
 	_apply_scene_direction_entry()
+	_current_presentation = DataRegistry.get_story_presentation(str(_current.get("id", "")))
 
 	# 초상화 + 이름표 — bg_focus:true 장면은 배경만(초상화 생략)
 	var pid := _resolved_event_portrait_id()
@@ -1213,13 +1267,75 @@ func _maybe_reveal_event_portrait(paragraph_index: int) -> void:
 	_event_portrait_revealed = true
 	_show_portrait(_resolved_event_portrait_id(), bool(_current.get("bg_focus", false)))
 
+func _configure_portrait_presentation() -> void:
+	var channel := str(_current_presentation.get("channel", "in_person"))
+	var portrait_role := str(_current_presentation.get("portrait_role", "present"))
+	_portrait_remote_inset = portrait_role == "remote" and channel in [
+		"phone", "video_call", "message", "memory"
+	]
+	_portrait_target_alpha = 0.80 if channel == "memory" else 1.0
+
+	_portrait_frame.offset_left = _portrait_base_left()
+	_portrait_frame.offset_right = _portrait_base_right()
+	_portrait_frame.offset_top = REMOTE_PORTRAIT_OFFSET_TOP if _portrait_remote_inset else PORTRAIT_OFFSET_TOP
+	_portrait_frame.offset_bottom = REMOTE_PORTRAIT_OFFSET_BOTTOM if _portrait_remote_inset else PORTRAIT_OFFSET_BOTTOM
+	_portrait_frame.scale = Vector2.ONE
+
+	var frame_style := StyleBoxFlat.new()
+	if _portrait_remote_inset:
+		frame_style.bg_color = Color("#080b10", 0.90)
+		frame_style.border_color = Color("#718198", 0.78)
+		frame_style.set_border_width_all(1)
+		frame_style.border_width_left = 3
+		frame_style.set_corner_radius_all(6)
+		frame_style.set_content_margin_all(5)
+	else:
+		frame_style.bg_color = Color(0, 0, 0, 0)
+		frame_style.set_border_width_all(0)
+		frame_style.shadow_size = 0
+		frame_style.set_corner_radius_all(0)
+		frame_style.set_content_margin_all(0)
+	_portrait_frame.add_theme_stylebox_override("panel", frame_style)
+	_update_communication_badge(channel, str(_current_presentation.get("state", "")))
+
+func _update_communication_badge(channel: String, state: String) -> void:
+	if not is_instance_valid(_communication_badge) or not is_instance_valid(_communication_label):
+		return
+	var label := ""
+	match channel:
+		"phone":
+			match state:
+				"missed": label = _tr("부재중 전화", "MISSED CALL")
+				"incoming": label = _tr("수신 전화", "INCOMING CALL")
+				"dialing": label = _tr("연결 중", "CALLING")
+				_: label = _tr("통화 중", "VOICE CALL")
+		"video_call":
+			label = _tr("영상통화", "VIDEO CALL")
+		"message":
+			label = _tr("메시지", "MESSAGE")
+		"memory":
+			label = _tr("기억", "MEMORY")
+	_communication_label.text = label
+	_communication_badge.visible = not label.is_empty() and not _story_visual_override_active
+
+func _remote_name_suffix() -> String:
+	if not _portrait_remote_inset:
+		return ""
+	match str(_current_presentation.get("channel", "")):
+		"phone": return _tr("전화 너머", "Voice call")
+		"video_call": return _tr("영상통화", "Video call")
+		"message": return _tr("메시지", "Message")
+		"memory": return _tr("기억", "Memory")
+	return ""
+
 func _show_portrait(portrait_id: String, bg_only: bool = false):
+	_configure_portrait_presentation()
 	var info := {}
 	var path := ""
 	# bg_only 장면(배경이 주연)에선 초상화 id가 있어도 인물 정보만 쓰고 그림은 띄우지 않는다.
 	if portrait_id != "":
 		info = ImageRegistry.get_person_info(portrait_id)
-		if not bg_only:
+		if not bg_only and str(_current_presentation.get("portrait_role", "present")) != "none":
 			path = ImageRegistry.get_portrait(portrait_id)
 
 	# 초상화 이미지가 실제로 있을 때만 액자 표시. 없으면(배경전용/플레이스홀더) 프레임 통째로 숨김.
@@ -1230,14 +1346,16 @@ func _show_portrait(portrait_id: String, bg_only: bool = false):
 		_portrait_frame.visible = true
 		_portrait_frame.modulate = Color(1, 1, 1, 0)
 		var tw = create_tween()
-		tw.tween_property(_portrait_frame, "modulate", Color(1, 1, 1, 1), 0.4)
+		tw.tween_property(_portrait_frame, "modulate", Color(1, 1, 1, _portrait_target_alpha), 0.4)
 	else:
 		_portrait.texture = null
 		_portrait_frame.visible = false
 
 	# 이름표 — 인물 정보가 있으면 표시 (이미지 없어도 누구 대사인지 알려줌)
 	if not info.is_empty() and str(info.get("name", "")) != "":
-		_name_tag.text = str(info.get("name", ""))
+		var display_name := str(info.get("name", ""))
+		var remote_suffix := _remote_name_suffix()
+		_name_tag.text = display_name if remote_suffix.is_empty() else "%s  ·  %s" % [display_name, remote_suffix]
 		if _name_panel:
 			_name_panel.visible = true
 	else:
@@ -1252,19 +1370,19 @@ func _set_portrait_choice_focus(choices_visible: bool) -> void:
 	if not is_inside_tree() or not is_instance_valid(_portrait_frame) or not _portrait_frame.visible:
 		return
 	# 선택지에서 살짝 물러나는 동작은 유지하되 인물이 유령처럼 비치지 않게 한다.
-	var target_alpha := 0.94 if choices_visible else 1.0
+	var target_alpha := _portrait_target_alpha * (0.94 if choices_visible else 1.0)
 	var black := clampf(-_story_moral_norm, 0.0, 1.0)
 	var white := clampf(_story_moral_norm, 0.0, 1.0)
 	var moral_shift := int(roundf(
 		black * float(PORTRAIT_BLACK_PERIPHERY_SHIFT_X) +
 		white * float(PORTRAIT_WHITE_CLOSENESS_SHIFT_X)
 	))
-	var target_shift := moral_shift + (PORTRAIT_CHOICE_SHIFT_X if choices_visible else 0)
+	var target_shift := moral_shift + (_portrait_choice_shift() if choices_visible else 0)
 	var tw := create_tween()
 	tw.set_parallel(true)
 	tw.tween_property(_portrait_frame, "modulate:a", target_alpha, 0.18).set_trans(Tween.TRANS_SINE)
-	tw.tween_property(_portrait_frame, "offset_left", PORTRAIT_OFFSET_LEFT + target_shift, 0.22).set_trans(Tween.TRANS_SINE)
-	tw.tween_property(_portrait_frame, "offset_right", PORTRAIT_OFFSET_RIGHT + target_shift, 0.22).set_trans(Tween.TRANS_SINE)
+	tw.tween_property(_portrait_frame, "offset_left", _portrait_base_left() + target_shift, 0.22).set_trans(Tween.TRANS_SINE)
+	tw.tween_property(_portrait_frame, "offset_right", _portrait_base_right() + target_shift, 0.22).set_trans(Tween.TRANS_SINE)
 
 func _set_choice_dock_active(active: bool) -> void:
 	if active:

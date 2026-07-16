@@ -1,0 +1,616 @@
+{
+  "schema_version": 1,
+  "fact_types": {
+    "father.life": {
+      "type": "enum",
+      "default": "alive",
+      "values": ["alive", "concern", "hospitalized", "passed"]
+    },
+    "relationship.jiyeon.phase": {
+      "type": "enum",
+      "default": "unmet",
+      "values": [
+        "unmet",
+        "acquainted",
+        "dating",
+        "married",
+        "married_compromised",
+        "married_as_selves",
+        "left"
+      ]
+    },
+    "sangchul.truth_resolution": {
+      "type": "enum",
+      "default": "hidden",
+      "values": [
+        "hidden",
+        "known",
+        "buried",
+        "distanced",
+        "reported",
+        "forgiven",
+        "leveraged",
+        "repaid"
+      ]
+    }
+  },
+  "exclusive_flag_groups": {
+    "romance_route": ["daeun_romance_started", "jiyeon_romance_started"],
+    "jiyeon_verdict": [
+      "jiyeon_kept_by_diminishing",
+      "jiyeon_left",
+      "jiyeon_stayed_as_selves"
+    ],
+    "sangchul_resolution": [
+      "sangchul_truth_buried",
+      "sangchul_quietly_distanced",
+      "sangchul_reported",
+      "sangchul_forgiven",
+      "sangchul_leveraged",
+      "cleared_father_debt_from_sangchul"
+    ]
+  },
+  "coverage_targets": {
+    "minimum_ledger_events": 40,
+    "max_unclassified_communication_suspects": 0,
+    "demo_logic": [
+      "arc_intro_02_dad_call",
+      "arc_father_01_call",
+      "arc_father_quiet_call",
+      "arc_father_02_signal"
+    ],
+    "communication": [
+      "story_prologue_dad",
+      "arc_intro_02_dad_call",
+      "arc_father_01_call",
+      "arc_father_quiet_call",
+      "arc_father_02_signal",
+      "arc_father_03_hospital",
+      "arc_father_medication",
+      "arc_father_06_confession",
+      "arc_father_ng_call",
+      "arc_pre_ending_father_call",
+      "callback_father_promise",
+      "callback_asked_father_more_echo",
+      "callback_medication_ignored_echo",
+      "callback_sangchul_news_father_echo",
+      "callback_told_father_win_echo",
+      "callback_called_dad_milestone_echo",
+      "callback_called_about_medication_echo",
+      "callback_called_father_first_echo",
+      "arc_opp_sangchul_realty",
+      "callback_knows_dad_reason_echo",
+      "callback_sangchul_personal_echo",
+      "arc_jaehyuk_hyunsu_warning",
+      "arc_hyunsu_lifeline_call",
+      "hyunsu_reunion_later",
+      "hyunsu_year5_call",
+      "callback_called_hyunsu_scam_echo",
+      "arc_jiyeon_year3",
+      "arc_jiyeon_year4_call",
+      "rel_daeun_first_text",
+      "mother_call_compare",
+      "callback_cafe_smart_win_mentor",
+      "callback_cafe_honest_win_deeper",
+      "cafe_cb_stole_call",
+      "cafe_cb_honest_00"
+    ]
+  },
+  "events": {
+    "arc_daeun_01_meet": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "convenience_store",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present"
+      }
+    },
+    "story_prologue_dad": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "changwon_home",
+        "remote_actor": "father",
+        "portrait_role": "remote"
+      }
+    },
+    "arc_intro_02_dad_call": {
+      "logic": {
+        "legacy": {
+          "forbids_flags": ["arc_intro_dad_seen"],
+          "produces_all": ["arc_intro_dad_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "phone",
+        "state": "missed",
+        "scene_location": "current_housing",
+        "remote_location": "changwon_home",
+        "remote_actor": "father",
+        "portrait_role": "local"
+      }
+    },
+    "arc_father_01_call": {
+      "logic": {
+        "requires": [{"fact": "father.life", "is": "alive"}],
+        "legacy": {
+          "forbids_flags": ["arc_father_01_seen", "father_passed"],
+          "produces_all": ["arc_father_01_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "changwon_factory",
+        "remote_actor": "father",
+        "portrait_role": "local"
+      }
+    },
+    "arc_father_quiet_call": {
+      "logic": {
+        "requires": [{"fact": "father.life", "is": "alive"}],
+        "legacy": {
+          "requires_flags": ["arc_father_01_seen"],
+          "forbids_flags": ["arc_father_quiet_call_seen", "father_passed"],
+          "produces_all": ["arc_father_quiet_call_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "changwon_home",
+        "remote_actor": "father",
+        "portrait_role": "remote"
+      }
+    },
+    "arc_father_02_signal": {
+      "logic": {
+        "requires": [{"fact": "father.life", "is": "alive"}],
+        "produces": [{"fact": "father.life", "set": "concern"}],
+        "legacy": {
+          "requires_flags": ["arc_father_01_seen"],
+          "forbids_flags": ["arc_father_02_done", "father_passed"],
+          "produces_all": ["arc_father_02_done"]
+        }
+      },
+      "presentation": {
+        "channel": "message",
+        "state": "received",
+        "scene_location": "current_housing",
+        "remote_location": "changwon",
+        "remote_actor": "neighbor_choi",
+        "portrait_role": "local"
+      }
+    },
+    "arc_father_03_hospital": {
+      "logic": {
+        "requires": [{"fact": "father.life", "is": "concern"}],
+        "produces": [{"fact": "father.life", "set": "hospitalized"}],
+        "legacy": {
+          "requires_flags": ["arc_father_02_done"],
+          "forbids_flags": ["arc_father_03_seen", "father_passed"],
+          "produces_all": ["arc_father_03_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_location",
+        "remote_location": "changwon_hospital",
+        "remote_actor": "mother",
+        "portrait_role": "local"
+      }
+    },
+    "arc_father_medication": {
+      "presentation": {
+        "channel": "message",
+        "state": "received",
+        "scene_location": "office",
+        "remote_location": "changwon",
+        "remote_actor": "mother",
+        "portrait_role": "local"
+      }
+    },
+    "arc_father_06_confession": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "changwon_home",
+        "remote_actor": "father",
+        "portrait_role": "local"
+      }
+    },
+    "arc_father_passing": {
+      "logic": {
+        "requires": [{"fact": "father.life", "is": "hospitalized"}],
+        "produces": [{"fact": "father.life", "set": "passed"}],
+        "legacy": {
+          "forbids_flags": ["father_passed"],
+          "produces_all": ["arc_father_passing_seen", "father_passed"]
+        }
+      },
+      "presentation": {
+        "channel": "narration",
+        "scene_location": "changwon_hospital",
+        "portrait_role": "none"
+      }
+    },
+    "arc_father_ng_call": {
+      "presentation": {
+        "channel": "phone",
+        "state": "incoming",
+        "scene_location": "current_housing",
+        "remote_location": "changwon_home",
+        "remote_actor": "father",
+        "portrait_role": "local"
+      }
+    },
+    "arc_pre_ending_father_call": {
+      "logic": {
+        "requires": [{"fact": "father.life", "is": "alive"}],
+        "legacy": {
+          "forbids_flags": ["arc_pre_ending_father_call_seen", "father_passed"],
+          "produces_all": ["arc_pre_ending_father_call_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_location",
+        "remote_location": "changwon_home",
+        "remote_actor": "father",
+        "portrait_role": "remote"
+      }
+    },
+    "callback_father_promise": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "changwon_home",
+        "remote_actor": "father",
+        "portrait_role": "remote"
+      }
+    },
+    "callback_asked_father_more_echo": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "changwon_home",
+        "remote_actor": "father",
+        "portrait_role": "remote"
+      }
+    },
+    "callback_medication_ignored_echo": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "changwon_home",
+        "remote_actor": "father",
+        "portrait_role": "remote"
+      }
+    },
+    "callback_sangchul_news_father_echo": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "changwon_home",
+        "remote_actor": "father",
+        "portrait_role": "remote"
+      }
+    },
+    "callback_told_father_win_echo": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "changwon_home",
+        "remote_actor": "father",
+        "portrait_role": "remote"
+      }
+    },
+    "callback_called_dad_milestone_echo": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "changwon_home",
+        "remote_actor": "father",
+        "portrait_role": "remote"
+      }
+    },
+    "callback_called_about_medication_echo": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "changwon_home",
+        "remote_actor": "father",
+        "portrait_role": "remote"
+      }
+    },
+    "callback_called_father_first_echo": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_location",
+        "remote_location": "changwon_home",
+        "remote_actor": "father",
+        "portrait_role": "local"
+      }
+    },
+    "arc_sangchul_confrontation": {
+      "logic": {
+        "requires": [{"fact": "sangchul.truth_resolution", "is": "known"}],
+        "legacy": {
+          "requires_flags": ["sangchul_truth_known"],
+          "forbids_flags": [
+            "arc_sangchul_confrontation_seen",
+            "sangchul_confronted",
+            "sangchul_truth_buried",
+            "sangchul_quietly_distanced"
+          ]
+        }
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "seoul_cafe",
+        "participants": ["player", "sangchul"],
+        "portrait_role": "present"
+      }
+    },
+    "arc_sangchul_buried_silence": {
+      "logic": {
+        "requires": [{"fact": "sangchul.truth_resolution", "is": "known"}],
+        "choice_produces": {
+          "0": [{"fact": "sangchul.truth_resolution", "set": "buried"}]
+        }
+      }
+    },
+    "arc_sangchul_stairwell": {
+      "logic": {
+        "requires": [{"fact": "sangchul.truth_resolution", "is": "known"}],
+        "choice_produces": {
+          "0": [{"fact": "sangchul.truth_resolution", "set": "distanced"}]
+        }
+      }
+    },
+    "arc_sangchul_reckoning": {
+      "logic": {
+        "requires": [{"fact": "sangchul.truth_resolution", "is": "known"}],
+        "legacy": {
+          "produces_all": [
+            "arc_sangchul_confrontation_seen",
+            "sangchul_confronted",
+            "arc_sangchul_reckoning_seen"
+          ]
+        },
+        "choice_produces": {
+          "0": [{"fact": "sangchul.truth_resolution", "set": "reported"}],
+          "1": [{"fact": "sangchul.truth_resolution", "set": "forgiven"}],
+          "2": [{"fact": "sangchul.truth_resolution", "set": "leveraged"}],
+          "3": [{"fact": "sangchul.truth_resolution", "set": "repaid"}]
+        }
+      }
+    },
+    "arc_opp_sangchul_realty": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_location",
+        "remote_location": "realestate_office",
+        "remote_actor": "sangchul",
+        "portrait_role": "remote"
+      }
+    },
+    "callback_knows_dad_reason_echo": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "realestate_office",
+        "remote_actor": "sangchul",
+        "portrait_role": "remote"
+      }
+    },
+    "callback_sangchul_personal_echo": {
+      "presentation": {
+        "channel": "memory",
+        "scene_location": "current_housing",
+        "remote_location": "remembered_place",
+        "remote_actor": "sangchul",
+        "portrait_role": "remote"
+      }
+    },
+    "arc_jaehyuk_hyunsu_warning": {
+      "presentation": {
+        "channel": "message",
+        "state": "received",
+        "scene_location": "convenience_store",
+        "remote_location": "off_scene",
+        "remote_actor": "hyunsu",
+        "portrait_role": "remote"
+      }
+    },
+    "arc_hyunsu_lifeline_call": {
+      "presentation": {
+        "channel": "phone",
+        "state": "dialing",
+        "scene_location": "current_housing",
+        "remote_location": "off_scene",
+        "remote_actor": "hyunsu",
+        "portrait_role": "remote"
+      }
+    },
+    "hyunsu_reunion_later": {
+      "presentation": {
+        "channel": "message",
+        "state": "received",
+        "scene_location": "current_location",
+        "remote_location": "accounting_office",
+        "remote_actor": "hyunsu",
+        "portrait_role": "remote"
+      }
+    },
+    "hyunsu_year5_call": {
+      "presentation": {
+        "channel": "video_call",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "accounting_office",
+        "remote_actor": "hyunsu",
+        "portrait_role": "remote"
+      }
+    },
+    "callback_called_hyunsu_scam_echo": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "off_scene",
+        "remote_actor": "hyunsu",
+        "portrait_role": "remote"
+      }
+    },
+    "arc_jiyeon_year3": {
+      "presentation": {
+        "channel": "message",
+        "state": "received",
+        "scene_location": "current_location",
+        "remote_location": "busan",
+        "remote_actor": "jiyeon",
+        "portrait_role": "remote"
+      }
+    },
+    "arc_jiyeon_year4_call": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "busan_realestate_office",
+        "remote_actor": "jiyeon",
+        "portrait_role": "remote"
+      }
+    },
+    "arc_jiyeon_narrow_room_1": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "goshiwon_hallway",
+        "participants": ["player", "jiyeon"],
+        "portrait_role": "present"
+      }
+    },
+    "arc_jiyeon_wedding_gap": {
+      "logic": {
+        "requires": [{"fact": "relationship.jiyeon.phase", "is": "dating"}],
+        "legacy": {
+          "requires_flags": ["jiyeon_romance_started", "arc_y4_marriage_talk_seen"],
+          "forbids_flags": ["arc_jiyeon_wedding_gap_seen", "jiyeon_left"]
+        }
+      }
+    },
+    "arc_jiyeon_wedding_guest_list": {
+      "logic": {
+        "requires": [{"fact": "relationship.jiyeon.phase", "is": "dating"}]
+      }
+    },
+    "arc_jiyeon_wedding_gap_decision": {
+      "logic": {
+        "requires": [{"fact": "relationship.jiyeon.phase", "is": "dating"}],
+        "legacy": {"produces_all": ["arc_jiyeon_wedding_gap_seen"]},
+        "choice_produces": {
+          "0": [{"fact": "relationship.jiyeon.phase", "set": "married"}],
+          "1": [{"fact": "relationship.jiyeon.phase", "set": "married"}]
+        }
+      }
+    },
+    "arc_jiyeon_verdict": {
+      "logic": {
+        "requires": [{"fact": "relationship.jiyeon.phase", "is": "married"}],
+        "legacy": {
+          "requires_flags": ["jiyeon_romance_started", "arc_jiyeon_wedding_night_seen"],
+          "forbids_flags": ["arc_jiyeon_verdict_seen", "jiyeon_left"],
+          "produces_all": ["arc_jiyeon_verdict_seen"]
+        },
+        "choice_produces": {
+          "0": [{"fact": "relationship.jiyeon.phase", "set": "married_compromised"}],
+          "1": [{"fact": "relationship.jiyeon.phase", "set": "left"}],
+          "2": [{"fact": "relationship.jiyeon.phase", "set": "married_as_selves"}]
+        }
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "jiyeon_newlywed_home",
+        "participants": ["player", "jiyeon"],
+        "portrait_role": "present"
+      }
+    },
+    "rel_daeun_first_text": {
+      "presentation": {
+        "channel": "message",
+        "state": "received",
+        "scene_location": "current_housing",
+        "remote_location": "off_scene",
+        "remote_actor": "daeun",
+        "portrait_role": "local"
+      }
+    },
+    "mother_call_compare": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_location",
+        "remote_location": "off_scene",
+        "remote_actor": "mother",
+        "portrait_role": "remote"
+      }
+    },
+    "callback_cafe_smart_win_mentor": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_location",
+        "remote_location": "off_scene",
+        "remote_actor": "cafe_broker_kim",
+        "portrait_role": "remote"
+      }
+    },
+    "callback_cafe_honest_win_deeper": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_location",
+        "remote_location": "off_scene",
+        "remote_actor": "cafe_investor",
+        "portrait_role": "remote"
+      }
+    },
+    "cafe_cb_stole_call": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "off_scene",
+        "remote_actor": "cafe_broker_kim",
+        "portrait_role": "remote"
+      }
+    },
+    "cafe_cb_honest_00": {
+      "presentation": {
+        "channel": "phone",
+        "state": "incoming",
+        "scene_location": "current_housing",
+        "remote_location": "off_scene",
+        "remote_actor": "cafe_investor",
+        "portrait_role": "local"
+      }
+    }
+  }
+}

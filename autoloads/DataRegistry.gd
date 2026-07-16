@@ -141,6 +141,7 @@ const META_PATH = "res://content/meta/default_meta.json"
 const ACHIEVEMENTS_PATH = "res://content/meta/achievements.json"
 const CLUES_PATH = "res://content/meta/clues.json"
 const THOUGHTS_PATH = "res://content/meta/thoughts.json"
+const STORY_RULES_PATH = "res://content/meta/story_rules.json"
 
 const JOB_TEXT_EN := {
 	"job_01": {"name": "Convenience Store Night Shift", "description": "Hold the counter late at night: rude customers, parcels, cleaning, all alone. Minimum wage, but right now it is everything."},
@@ -289,6 +290,8 @@ var clues: Array = []
 var clues_by_id: Dictionary = {}
 var thoughts: Array = []
 var thoughts_by_id: Dictionary = {}
+var story_rules: Dictionary = {}
+var story_rules_by_event: Dictionary = {}
 
 func _ready():
 	reload()
@@ -351,9 +354,20 @@ func reload():
 		_apply_catalog_en_overlay(thoughts, THOUGHT_TEXT_EN)
 		_apply_catalog_locale_overlay(thoughts, target_catalog, "thoughts")
 	thoughts_by_id = _index_by_id(thoughts)
+	story_rules = _load_dict(STORY_RULES_PATH)
+	var raw_event_rules: Variant = story_rules.get("events", {})
+	story_rules_by_event = raw_event_rules if raw_event_rules is Dictionary else {}
 
 func find_event(event_id):
 	return events_by_id.get(event_id, {})
+
+func find_story_rule(event_id: String) -> Dictionary:
+	var rule: Variant = story_rules_by_event.get(event_id, {})
+	return rule if rule is Dictionary else {}
+
+func get_story_presentation(event_id: String) -> Dictionary:
+	var presentation: Variant = find_story_rule(event_id).get("presentation", {})
+	return presentation if presentation is Dictionary else {}
 
 func get_all_events():
 	return events
