@@ -1,6 +1,6 @@
 {
-  "version": 2,
-  "updated": "2026-07-15",
+  "version": 3,
+  "updated": "2026-07-17",
   "policy": {
     "diegetic_spoken_language": "ko",
     "localize_diegetic_speech": false,
@@ -13,7 +13,7 @@
     "cg_demo_daeun_first_kindness": {"ambience": "convenience"},
     "cg_demo_father_first_call": {"ambience": "room"},
     "cg_seollal_sebae_family": {"ambience": "room"},
-    "cg_jaehyuk_reveal": {"ambience": "room"},
+    "cg_jaehyuk_reveal": {"ambience": "cafe"},
     "cg_ending_father": {"ambience": "hospital"},
     "cg_ending_gangnam_dream": {"ambience": "apartment"},
     "cg_ending_empty_house": {"ambience": "apartment"},
@@ -140,8 +140,15 @@
     "arc_father_call_on_ktx_memory": {"ambience": "train", "music": {"key": "grief", "start_paragraph": 0}},
     "arc_father_call_on_ktx_number": {"ambience": "train", "music": {"key": "grief", "start_paragraph": 0}},
     "hyunsu_reunion_later": {"ambience": "street", "music": {"key": "intimate", "start_paragraph": 0}},
-    "arc_jaehyuk_04a_ghost": {"ambience": "room", "music": {"key": "reckoning", "start_paragraph": 0}},
+    "arc_jaehyuk_03_pitch": {"ambience": "cafe", "music": {"key": "reckoning", "start_paragraph": 3}},
+    "arc_jaehyuk_04a_ghost": {"ambience": "room", "music": {"key": "reckoning", "start_paragraph": 3}},
+    "arc_jaehyuk_ghost_read": {"ambience": "room", "music": {"key": "reckoning", "start_paragraph": 1}},
+    "arc_jaehyuk_ghost_message": {"ambience": "room", "music": {"key": "reckoning", "start_paragraph": 1}},
+    "arc_jaehyuk_ghost_decision": {"ambience": "room", "music": {"key": "reckoning", "start_paragraph": 0}},
     "arc_jaehyuk_photo_in_dark": {"ambience": "room", "music": {"key": "reckoning", "start_paragraph": 0}},
-    "arc_jaehyuk_mirror": {"ambience": "room", "music": {"key": "reckoning", "start_paragraph": 0}}
+    "arc_jaehyuk_mirror": {"ambience": "room", "music": {"key": "reckoning", "start_paragraph": 2}},
+    "arc_jaehyuk_mirror_reply": {"ambience": "room", "music": {"key": "reckoning", "start_paragraph": 0}},
+    "arc_jaehyuk_mirror_father": {"ambience": "room", "music": {"key": "grief", "start_paragraph": 0}},
+    "arc_jaehyuk_mirror_decision": {"ambience": "room", "music": {"key": "reckoning", "start_paragraph": 0}}
   }
 }

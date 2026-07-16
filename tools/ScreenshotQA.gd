@@ -105,6 +105,7 @@ const QA_SCOPE_SANGCHUL_CONFRONTATION := "sangchul_confrontation"
 const QA_SCOPE_FATHER_PEAKS := "father_peaks"
 const QA_SCOPE_FATHER_KTX := "father_ktx"
 const QA_SCOPE_FIRST_KISS := "first_kiss"
+const QA_SCOPE_JAEHYUK_PEAKS := "jaehyuk_peaks"
 const QA_SCOPE_FIRST_SNOW := "first_snow"
 const QA_SCOPE_CLIMATE := "climate"
 const QA_SCOPE_EVENT_VISUALS := "event_visuals"
@@ -398,6 +399,16 @@ func _ready() -> void:
 			get_tree().quit(1)
 			return
 		print("SCREENSHOT_QA_DONE scope=first-kiss lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_JAEHYUK_PEAKS:
+		var lang := _qa_language("en")
+		await _shot_jaehyuk_peak_surfaces(
+				lang, "jaehyuk_en_" if lang == "en" else "jaehyuk_ko_")
+		if _qa_failed:
+			get_tree().quit(1)
+			return
+		print("SCREENSHOT_QA_DONE scope=jaehyuk-peaks lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_FIRST_SNOW:
@@ -711,6 +722,11 @@ func _qa_scope() -> String:
 				"--first-kiss", "--first_kiss", "qa=first-kiss", "--qa=first-kiss",
 				"qa=first_kiss", "--qa=first_kiss", "scope=first-kiss", "--scope=first-kiss"]:
 			return QA_SCOPE_FIRST_KISS
+		if arg in ["jaehyuk-peaks", "jaehyuk_peaks", "jaehyuk", "fraud-mirror",
+				"--jaehyuk-peaks", "--jaehyuk_peaks", "qa=jaehyuk-peaks",
+				"--qa=jaehyuk-peaks", "qa=jaehyuk_peaks", "--qa=jaehyuk_peaks",
+				"scope=jaehyuk-peaks", "--scope=jaehyuk-peaks"]:
+			return QA_SCOPE_JAEHYUK_PEAKS
 		if arg in ["first-snow", "first_snow", "snow-romance", "snow_romance",
 				"--first-snow", "--first_snow", "qa=first-snow", "--qa=first-snow",
 				"qa=first_snow", "--qa=first_snow", "scope=first-snow", "--scope=first-snow"]:
@@ -1219,6 +1235,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	_assert_hyunsu_visual_state(story, event_id, select_choice)
 	_assert_cafe_visual_state(story, event_id)
 	_assert_resolved_visual_debt_state(story, event_id)
+	_assert_jaehyuk_visual_state(story, event_id)
 	_assert_commitment_visual_state(story, event_id, select_choice)
 	_assert_breakup_visual_state(story, event_id, select_choice)
 	_assert_transport_visual_state(story, event_id)
@@ -3982,6 +3999,200 @@ func _assert_first_kiss_state(
 		])
 	if not GameState.flags.get(completion_flag, false):
 		_fail("%s first-kiss %s did not commit its completion flag." % [person_id, label])
+
+func _shot_jaehyuk_peak_surfaces(
+		lang: String = "en", prefix: String = "jaehyuk_en_") -> void:
+	_set_qa_language(lang)
+
+	_prepare_jaehyuk_peak_qa_state()
+	await _shot_story_event(
+		"arc_jaehyuk_03_pitch", prefix + "01_hotel_pitch_cg", "", 0.55, true)
+
+	_prepare_jaehyuk_peak_qa_state()
+	await _shot_story_event(
+		"arc_jaehyuk_04a_ghost", prefix + "02_ghost_opening_choice", "",
+		0.45, true, true)
+	_assert_jaehyuk_uncommitted("ghost opening")
+	_prepare_jaehyuk_peak_qa_state()
+	await _shot_story_event(
+		"arc_jaehyuk_ghost_read", prefix + "03_ghost_victim_posts", "",
+		0.45, true, true)
+	_assert_jaehyuk_uncommitted("ghost victim posts")
+	_prepare_jaehyuk_peak_qa_state()
+	await _shot_story_event(
+		"arc_jaehyuk_ghost_message", prefix + "04_ghost_voice_message", "",
+		0.45, true, true)
+	_assert_jaehyuk_uncommitted("ghost voice message")
+
+	_prepare_jaehyuk_peak_qa_state()
+	await _shot_story_event(
+		"arc_jaehyuk_ghost_decision", prefix + "05_ghost_two_choices", "",
+		0.45, true, true)
+	_assert_jaehyuk_uncommitted("ghost final without artifact")
+	_prepare_jaehyuk_peak_qa_state()
+	await _shot_story_event(
+		"arc_jaehyuk_ghost_decision", prefix + "06_ghost_collapse_result", "",
+		0.45, true, true, 0, 0, false, 1)
+	_assert_jaehyuk_ghost_state("collapse", 25, 57, 50, 0.0, ["hit_rock_bottom"])
+	_prepare_jaehyuk_peak_qa_state()
+	await _shot_story_event(
+		"arc_jaehyuk_ghost_decision", prefix + "07_ghost_victims_result", "",
+		0.45, true, true, 1, 0, false, 1)
+	_assert_jaehyuk_ghost_state("victims", 40, 65, 54, 5.0, ["joined_victims"])
+	_prepare_jaehyuk_peak_qa_state(true)
+	await _shot_story_event(
+		"arc_jaehyuk_ghost_decision", prefix + "08_ghost_artifact_choices", "",
+		0.45, true, true)
+	_assert_jaehyuk_uncommitted("ghost final with artifact")
+	_prepare_jaehyuk_peak_qa_state(true)
+	await _shot_story_event(
+		"arc_jaehyuk_ghost_decision", prefix + "09_ghost_artifact_result", "",
+		0.45, true, true, 2, 0, false, 0)
+	_assert_jaehyuk_ghost_state(
+		"artifact", 42, 65, 50, 3.0, ["presented_artifact_correct"])
+	_prepare_jaehyuk_peak_qa_state(true)
+	GameState.flags["arc_jaehyuk_ghost_seen"] = true
+	GameState.flags["jaehyuk_scammed"] = true
+	await _shot_story_event(
+		"arc_jaehyuk_photo_in_dark", prefix + "10_photo_after_ghost", "",
+		0.45, true, true)
+
+	_prepare_jaehyuk_peak_qa_state()
+	await _shot_story_event(
+		"arc_jaehyuk_mirror", prefix + "11_mirror_opening_choice", "",
+		0.45, true, true)
+	_assert_jaehyuk_uncommitted("mirror opening")
+	_prepare_jaehyuk_peak_qa_state()
+	await _shot_story_event(
+		"arc_jaehyuk_mirror_reply", prefix + "12_mirror_reply", "",
+		0.45, true, true)
+	_assert_jaehyuk_uncommitted("mirror reply")
+	_prepare_jaehyuk_peak_qa_state()
+	await _shot_story_event(
+		"arc_jaehyuk_mirror_father", prefix + "13_mirror_father", "",
+		0.45, true, true)
+	_assert_jaehyuk_uncommitted("mirror father")
+	_prepare_jaehyuk_peak_qa_state()
+	await _shot_story_event(
+		"arc_jaehyuk_mirror_decision", prefix + "14_mirror_timed_choice", "",
+		0.45, true, true)
+	_assert_jaehyuk_uncommitted("mirror timed choice")
+	for outcome in [
+		[0, "15_mirror_refuse_result", "refuse", 52, 7.0,
+			["refused_jaehyuk_guarantee"]],
+		[1, "16_mirror_vouch_result", "vouch", 45, -20.0,
+			["vouched_jaehyuk_guarantee", "crossed_line"]],
+		[2, "17_mirror_block_result", "block", 55, -2.0,
+			["blocked_jaehyuk_guarantee"]],
+	]:
+		_prepare_jaehyuk_peak_qa_state()
+		await _shot_story_event(
+			"arc_jaehyuk_mirror_decision", prefix + str(outcome[1]), "",
+			0.45, true, true, int(outcome[0]), 0, false, 0)
+		_assert_jaehyuk_mirror_state(
+			str(outcome[2]), int(outcome[3]), float(outcome[4]), outcome[5])
+
+func _prepare_jaehyuk_peak_qa_state(with_photo: bool = false) -> void:
+	_prepare_main_game_state()
+	GameState.age = 35
+	GameState.turn = 84
+	GameState.year = 2027
+	GameState.month = 10
+	GameState.week_of_month = 1
+	GameState.housing = "oneroom"
+	GameState.health = 65
+	GameState.mental = 60
+	GameState.intelligence = 50
+	GameState.moral_tint = 0.0
+	for flag in [
+		"arc_jaehyuk_ghost_seen", "jaehyuk_scammed", "hit_rock_bottom",
+		"joined_victims", "presented_artifact_correct",
+		"arc_jaehyuk_photo_in_dark_seen", "jaehyuk_night_was_real",
+		"deleted_jaehyuk_photo", "arc_jaehyuk_mirror_seen",
+		"refused_jaehyuk_guarantee", "vouched_jaehyuk_guarantee",
+		"blocked_jaehyuk_guarantee", "crossed_line",
+	]:
+		GameState.flags.erase(flag)
+	_set_cast_relation_for_qa("jaehyuk", 50)
+	GameState.cast["jaehyuk"]["stage"] = "all_in"
+	if with_photo:
+		GameState.add_item("artifact_jaehyuk_photo", 1)
+
+func _assert_jaehyuk_uncommitted(label: String) -> void:
+	var jaehyuk: Dictionary = GameState.cast.get("jaehyuk", {})
+	if int(GameState.mental) != 60 or int(GameState.health) != 65 \
+			or int(GameState.intelligence) != 50 \
+			or not is_equal_approx(GameState.moral_tint, 0.0) \
+			or int(jaehyuk.get("affinity", -999)) != 50 \
+			or str(jaehyuk.get("stage", "")) != "all_in":
+		_fail("Jaehyuk %s changed state before the final decision." % label)
+	for flag in ["arc_jaehyuk_ghost_seen", "jaehyuk_scammed", "arc_jaehyuk_mirror_seen"]:
+		if GameState.flags.get(flag, false):
+			_fail("Jaehyuk %s committed %s before the final decision." % [label, flag])
+
+func _assert_jaehyuk_ghost_state(
+		label: String, mental: int, health: int, intelligence: int, tint: float,
+		extra_flags: Array) -> void:
+	var jaehyuk: Dictionary = GameState.cast.get("jaehyuk", {})
+	if int(GameState.mental) != mental or int(GameState.health) != health \
+			or int(GameState.intelligence) != intelligence \
+			or not is_equal_approx(GameState.moral_tint, tint) \
+			or int(jaehyuk.get("affinity", -999)) != -50 \
+			or str(jaehyuk.get("stage", "")) != "betrayed":
+		_fail("Jaehyuk ghost %s totals or cast state changed." % label)
+	for flag in ["arc_jaehyuk_ghost_seen", "jaehyuk_scammed"] + extra_flags:
+		if not GameState.flags.get(str(flag), false):
+			_fail("Jaehyuk ghost %s did not commit %s." % [label, flag])
+
+func _assert_jaehyuk_mirror_state(
+		label: String, mental: int, tint: float, expected_flags: Array) -> void:
+	var jaehyuk: Dictionary = GameState.cast.get("jaehyuk", {})
+	if int(GameState.mental) != mental or int(GameState.health) != 65 \
+			or int(GameState.intelligence) != 50 \
+			or not is_equal_approx(GameState.moral_tint, tint) \
+			or int(jaehyuk.get("affinity", -999)) != 50 \
+			or str(jaehyuk.get("stage", "")) != "all_in":
+		_fail("Jaehyuk mirror %s changed: mental=%s health=%s intelligence=%s tint=%s affinity=%s stage=%s." % [
+			label, GameState.mental, GameState.health, GameState.intelligence,
+			GameState.moral_tint, jaehyuk.get("affinity", -999), jaehyuk.get("stage", ""),
+		])
+	if not GameState.flags.get("arc_jaehyuk_mirror_seen", false):
+		_fail("Jaehyuk mirror %s did not commit its completion flag." % label)
+	for flag in expected_flags:
+		if not GameState.flags.get(str(flag), false):
+			_fail("Jaehyuk mirror %s did not commit %s." % [label, flag])
+
+func _assert_jaehyuk_visual_state(story: Node, event_id: String) -> void:
+	if event_id == "arc_jaehyuk_03_pitch":
+		_assert_story_cg(story, "cg_jaehyuk_reveal", event_id)
+		return
+	var housing_events := [
+		"arc_jaehyuk_04a_ghost", "arc_jaehyuk_ghost_read",
+		"arc_jaehyuk_ghost_message", "arc_jaehyuk_ghost_decision",
+		"arc_jaehyuk_photo_in_dark", "arc_jaehyuk_aftermath",
+		"arc_jaehyuk_mirror", "arc_jaehyuk_mirror_reply",
+		"arc_jaehyuk_mirror_father", "arc_jaehyuk_mirror_decision",
+	]
+	if event_id not in housing_events:
+		return
+	var actual_background := str(story.get("_event_background_id"))
+	var expected_background := ImageRegistry.infer_background_id({}, GameState.housing)
+	if actual_background != expected_background:
+		_fail("%s current housing expected %s, got %s." % [
+			event_id, expected_background, actual_background])
+	if event_id == "arc_jaehyuk_ghost_decision" and bool(story.get("_showing_choices")):
+		var expected_choices := 3 if GameState.has_item("artifact_jaehyuk_photo") else 2
+		var choice_box := story.get("_choice_box") as VBoxContainer
+		var actual_choices := 0
+		if is_instance_valid(choice_box):
+			actual_choices = choice_box.find_children("*", "Button", true, false).size()
+		if actual_choices != expected_choices:
+			_fail("Jaehyuk ghost expected %d available choices, got %d." % [
+				expected_choices, actual_choices])
+	if event_id == "arc_jaehyuk_mirror_decision" and bool(story.get("_showing_choices")):
+		var timer_row := story.find_child("StoryChoiceCountdown", true, false)
+		if timer_row == null or not timer_row.visible:
+			_fail("Jaehyuk mirror final choice did not expose its ten-second countdown.")
 
 func _shot_transport_surfaces(lang: String = "en", prefix: String = "transport_en_") -> void:
 	_set_qa_language(lang)

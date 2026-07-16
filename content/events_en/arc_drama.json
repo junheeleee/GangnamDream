@@ -192,19 +192,56 @@
   {
     "id": "arc_jaehyuk_mirror",
     "title": "The Same Question",
-    "description": "A message came from Jaehyuk.\nIt had been a while. Contact had gone thin since the scam arc.\n\n\"Minjun. I've got an investment deal going — could you co-sign a guarantee, just once?\"\n\n{name} set the phone down and looked out the window a long time.\nA guarantee. Those words.\n\nThat was exactly how Father had been ruined. Someone's favor, one signature he couldn't refuse. {name} knew that in that seat now sat not his father, but himself.",
+    "description": "A message came from Jaehyuk. The chat that had gone silent after the fraud rose to the top of the screen.\n\n\"Minjun. I'm working on an investment deal. Could you co-sign for me, just this once?\"\n\nCo-sign. That word arrived before the rest of the sentence. Father had been ruined by someone's urgent request and a single signature.\n\n{name} understood that he was the one sitting in the requested seat now.",
     "choices": [
       {
-        "text": "\"No.\" (He refused, flat)",
-        "result_text": "\"I can't.\" {name} kept it short. Say more, and he might waver.\nA silence. Jaehyuk answered, \"...Okay.\" That was all. No anger, no resentment. Which made it linger longer.\n\n{name} set the phone on the table and thought of his father.\nFather must have had this moment too. Before a friend's request, the moment when refusing felt like being a bad person. Father couldn't refuse; {name} did.\nTo make a different choice in the same seat — maybe that was all {name} had learned in five years."
+        "text": "Open the chat and ask who needs the guarantee.",
+        "result_text": "{name} typed, 'Who is this for?' The moment he sent it, Jaehyuk's typing indicator appeared. The reply came as if he had been waiting."
       },
       {
-        "text": "\"How much are we talking?\" (He decided to hear it out)",
-        "result_text": "\"How much is it?\" {name} decided to at least hear it out.\nJaehyuk explained. The whole time, an odd feeling wouldn't leave. Was this man hiding something again? Or — was it really a good deal this time? He couldn't tell.\n\nIn the end, {name} signed. Refusing to trust an old friend felt like its own kind of wrong.\nThe moment he signed, his father's face flickered past. Father must have felt exactly this — not a hand held out from failing to doubt, but from wanting to believe."
+        "text": "Set the phone down and remember the day Father signed.",
+        "result_text": "When the screen went dark, {name}'s face appeared in the glass. Behind it, he could almost see the table where Father first told him about the guarantee."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_mirror_reply",
+    "title": "Just This Once",
+    "description": "\"A CEO I know. The paperwork is clean. Seriously, just this once.\"\n\n{name} asked, \"After what happened last time, you're asking me for this?\"\n\nThe typing indicator blinked on and off. Jaehyuk's reply was short. \"That's why I'm asking you. You know me better than anyone.\"\n\nIt read like an apology and a threat at once. Jaehyuk sent a PDF guarantee agreement. The final page held an empty signature line.",
+    "choices": [
+      {
+        "text": "Read the agreement through to the signature line.",
+        "result_text": "{name} scrolled through the final page. When the fine print ended, one blank remained in the center of the screen: full name, resident registration number, signature."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_mirror_father",
+    "title": "One Signature",
+    "description": "That day at the table, Father had kept rubbing the corner of the paper. \"My friend was desperate. I only lent him my name once.\"\n\nAt twenty-seven, {name} had asked, \"Why couldn't you say no to something like that?\" Father had taken a long time to answer.\n\nThe phone lit again. One more message from Jaehyuk: \"Minjun. You're seeing this, right?\"\n\nThere was almost no difference between the paper then and the screen now. Only the person holding the pen had changed.",
+    "choices": [
+      {
+        "text": "Put the memory and the message on the same screen.",
+        "result_text": "{name} reopened the chat. The last page of Jaehyuk's agreement waited for a full name, a resident registration number, and a signature."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_mirror_decision",
+    "title": "The Same Question",
+    "description": "The final page of Jaehyuk's guarantee agreement held an empty signature line.\n\nFather's downfall must have begun with a blank like this: goodwill, fear, and pride compressed into one line that would later be called debt.\n\nThree things remained on the screen: a sentence that refused, a question that kept the conversation alive, and the silence of pretending not to have read it. This time, {name} had to answer.",
+    "choices": [
+      {
+        "text": "\"No.\" (Refuse him outright.)",
+        "result_text": "\"No.\" {name} kept it short. Any longer and he might waver.\nA silence. Jaehyuk answered, \"...Okay.\" That was all. No anger, no resentment. That made it linger longer.\n\n{name} set the phone on the table and thought of Father.\nFather must have had this moment too: the instant when refusing a friend's request felt like becoming a bad person. Father could not refuse. {name} did.\nMaking a different choice in the same seat might have been everything he learned in five years."
       },
       {
-        "text": "(He closed the message and pretended not to have seen it)",
-        "result_text": "{name} closed the message as if he hadn't read it, and opened another app.\nA practical choice. He didn't want to get tangled with Jaehyuk further. Look away just this once, and it would pass quietly.\n\nBut on the day Father signed his guarantee too, this man must have reached out just like this. Bright, urgent, familiar.\n{name} looked at the dark phone screen a moment. Looking away and refusing were not the same thing. Which was more of a coward's move, he couldn't quite say."
+        "text": "\"What's the amount?\" (Hear him out.)",
+        "result_text": "\"What's the amount?\" {name} decided to hear him out.\nJaehyuk explained. The unease never left. Was he hiding something again, or was this one really sound? {name} could not tell.\n\nIn the end, {name} signed. Refusing to trust an old friend felt like its own kind of wrong.\nFather's face crossed his mind as he wrote his name. Father must have felt this too: not a hand extended because it failed to doubt, but because it wanted to believe."
+      },
+      {
+        "text": "(Close the message and pretend not to have read it.)",
+        "result_text": "{name} closed the message as if he had never read it and opened another app.\nIt was practical. He did not want to be entangled with Jaehyuk again. Ignore it once, and it might pass quietly.\n\nBut on the day Father signed, someone must have contacted him exactly this way: bright, urgent, familiar.\n{name} watched the dark phone screen. Looking away was not the same as refusing. He could not decide which was more cowardly."
       }
     ]
   },

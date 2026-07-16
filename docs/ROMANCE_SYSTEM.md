@@ -246,7 +246,7 @@
 - **로맨스**: 그 밤 · 첫날밤 2종(✅ 3링크·2선택점 격상 완료) · 첫 키스 2종(✅ 3링크·2선택점 격상 완료) · 어머니의 밥상(시골 EP2) · 좁은 방(지연 EP2) · 남산 자물쇠 · 계절 정점(여름 바다·불꽃축제) · 프로포즈 · 결혼식 · verdict · 이혼 담판
 - **상철 진실**: 첫 만남 · 진실 추론 완성 · t60 대면(confrontation) · 카지노 유혹 · 엔딩 4경로
 - **가족**: 아버지 병상·별세 · 23초 통화 KTX · 현수 재회
-- **재혁**: ghost 발각 · 진짜 얼굴
+- **재혁**: ghost 발각(✅ 3~4링크·2~3선택점) · 진짜 얼굴(✅ 3링크·2선택점)
 - **4대 가치 정점**: 남산 야경 "타워가 묻는다" 4문(원형)
 
 > **판정 규율**: 위 레지스트리 씬을 신규/수정할 때 6요소 루브릭을 체크리스트로 적용. 골드 스탠다드 예시 = `arc_daeun_first_night`(그 밤), `arc_daeun_wedding_night`/`arc_jiyeon_wedding_night`(첫날밤). 성인 명시는 별도 patch slot(§5) — 본편은 tasteful 상한 유지.
@@ -260,7 +260,7 @@
 
 **격상 로드맵 (감사 2026-07-08, desc<160자 기준 108종 → 배치)**
 - **패스 R (진행 중, Tier1 정점)**: 첫 키스·첫날밤 각 2종 완료. 다음은 어머니의 밥상·좁은 방·여름 바다·불꽃축제 — `arc_romance_specials`/`arc_season_dates`.
-- **패스 S (Tier1 정점, 상철/재혁/아버지 진실)**: `arc_drama`(sangchul_confrontation·sangchul_reckoning·jaehyuk_mirror·father_passing·father_call_on_ktx), `arc_events`(sangchul_card_at_confrontation·jaehyuk_photo_in_dark·hyunsu_lifeline_call·father_05_after_visit), `arc_web_crossbeams`(father_records). 유물 제시(웨이브 3b)와 같은 장면이라 동기.
+- **패스 S (진행 중, Tier1 정점, 상철/재혁/아버지 진실)**: 상철 대면, 아버지 병상·별세·23초 KTX, 재혁 ghost·보증 거울 완료. 남은 상철 첫 만남·진실 추론·카지노 유혹과 현수 재회는 정점 부채 순서에 따라 별도 착수한다. 유물 제시(웨이브 3b)와 같은 장면이라 동기.
 - **패스 H (Tier2, 현수 라인)**: `arc_hyunsu` 8종(exam/result/pivot/reunion — 60~148자, 최우선 저술 부족), `arc_h2_beats` 9종.
 - **패스 M (Tier2, 미드게임 스파인)**: `arc_midgame` 핵심 비트(goshiwon_goodbye·money_loneliness·goal_vertigo·father_medication 등 — 전 37종 아닌 서사 하중 큰 것 선별), `story_events` 14종.
 - **패스 D (Tier2, 로맨스 주변 아크)**: `arc_daeun_extension` 4·`arc_year3_drama` 7(지연 부산 라인)·`arc_daeun`/`arc_romance_y5`·`arc_specialization` 3.

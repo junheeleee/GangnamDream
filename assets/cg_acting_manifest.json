@@ -1,6 +1,6 @@
 {
-  "version": 3,
-  "updated": "2026-07-15",
+  "version": 4,
+  "updated": "2026-07-17",
   "rule": "Every active CG owns an explicit camera role and every visible named actor owns a gaze target plus a supporting body action. Lens gaze is legal only for player_pov.",
   "cg": {
     "cg_start": {
@@ -59,7 +59,7 @@
     "cg_jaehyuk_reveal": {
       "path": "assets/cg/jaehyuk_reveal.png",
       "camera_role": "over_minjun_shoulder",
-      "story_action": "Documents and drink remain between Jaehyuk and Minjun as the reveal changes their relationship.",
+      "story_action": "At the hotel-lounge pitch, Jaehyuk uses the documents, drink, and their shared history to close the distance before Minjun commits his money.",
       "actors": [
         {"id": "jaehyuk", "gaze_target": "Minjun across the table", "pose_support": "Face and torso stay oriented toward the foreground Minjun."},
         {"id": "minjun", "gaze_target": "Jaehyuk and the documents", "pose_support": "Back and shoulder line frame Jaehyuk rather than the lens."}

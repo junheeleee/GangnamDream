@@ -131,7 +131,7 @@ Latest targeted result:
 
 ```text
 AUDIO_SOURCE_AUDIT_OK assets=112 bgm=14 ambience=45 sfx=53 external_samples=0
-SCENE_AUDIO_CONTRACT_OK cg=57 peak_events=60 ambience_keys=36 music_keys=14
+SCENE_AUDIO_CONTRACT_OK cg=57 peak_events=66 ambience_keys=36 music_keys=14
 GAME_AUDIO_CONTRACT_OK physical=17 stages=19 activities=7 activity_music=1 human_layers=9 direct_pad=9
 AUDIO_ASSET_CHECK_OK bgm=14 ambience=45 sfx=53
 LAUNCH_AUDIO_OK stereo=2 rate=48000 duration=1.55

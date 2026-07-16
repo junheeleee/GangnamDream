@@ -114,9 +114,11 @@ Purpose: show the machinery of Gangnam and create the moral warning system aroun
 
 ### 6. Choi Jaehyuk Arc
 
-Events: `arc_jaehyuk_01_reunion`, `arc_jaehyuk_01b_real_face`, `arc_jaehyuk_02_bond`, `arc_jaehyuk_02b_favor`, `arc_jaehyuk_03_pitch`, `arc_jaehyuk_hyunsu_warning`, `arc_jaehyuk_04a_ghost`, `arc_jaehyuk_04b_counter`, `arc_jaehyuk_04c_stand_up`, `arc_jaehyuk_aftermath`.
+Events: `arc_jaehyuk_01_reunion`, `arc_jaehyuk_01b_real_face`, `arc_jaehyuk_02_bond`, `arc_jaehyuk_02b_favor`, `arc_jaehyuk_03_pitch`, `arc_jaehyuk_hyunsu_warning`, `arc_jaehyuk_04a_ghost` → `arc_jaehyuk_ghost_read`/`arc_jaehyuk_ghost_message` → `arc_jaehyuk_ghost_decision` → 선택적 `arc_jaehyuk_photo_in_dark`, `arc_jaehyuk_04b_counter`, `arc_jaehyuk_04c_stand_up`, `arc_jaehyuk_aftermath`, `arc_jaehyuk_mirror` → `arc_jaehyuk_mirror_reply`/`arc_jaehyuk_mirror_father` → `arc_jaehyuk_mirror_decision`.
 
 Purpose: turn Minjun's old debt wound into an active temptation. This is the core fraud/moral-collapse branch.
+
+Visual canon: `cg_jaehyuk_reveal` belongs only to the hotel-lounge pitch where documents and a drink separate Minjun and Jaehyuk. Ghost discovery, its artifact aftermath, and the guarantee mirror occur in Minjun's actual current housing; Jaehyuk is not physically present there.
 
 ### 7. Father Arc
 

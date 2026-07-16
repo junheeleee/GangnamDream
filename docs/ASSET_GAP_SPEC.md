@@ -100,7 +100,7 @@
 |---|---|---|
 | `cg_start` | ✅ 있음 | 오프닝 고시원. 큰 창문/전망 금지 |
 | `cg_jiyeon_crash` | ✅ 있음 | 자전거 접촉 사고. 지연 얼굴/차량/운전석 정합성 유지 |
-| `cg_jaehyuk_reveal` | ✅ 있음 | 재혁 폭로/잠적 발견 |
+| `cg_jaehyuk_reveal` | ✅ 있음 | 호텔 라운지 최종 피치. 민준·재혁 사이 서류와 술잔, 잠적 발견 장면 사용 금지 |
 | `cg_ending_father` | ✅ 있음 | 병실 방문 장면. 현재는 `arc_father_04_visit`용이며 엔딩 CG로 억지 연결 금지 |
 | `cg_ending_gangnam_dream` | ✅ 있음 | 강남 입성/아버지 초대 |
 | `cg_ending_empty_house` | ✅ 있음 | 강남 입성 후 상실 |

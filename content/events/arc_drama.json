@@ -482,7 +482,105 @@
   {
     "id": "arc_jaehyuk_mirror",
     "title": "같은 질문",
-    "background": "goshiwon_room",
+    "background": "current_housing",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "jaehyuk",
+      "moral",
+      "father"
+    ],
+    "cooldown": 9999,
+    "description": "재혁에게서 메시지가 왔다. 사기 사건 뒤로 끊겼던 대화방이 맨 위로 올라왔다.\n\n\"민준아. 나 지금 투자건 하나 있는데 — 보증 한 번만 서줄 수 있어?\"\n\n보증. 두 글자가 화면의 다른 문장보다 먼저 보였다. 아버지가 무너진 것도 누군가의 다급한 부탁과 한 번의 서명이었다.\n\n{name}은 자기가 이제 부탁을 받는 자리에 앉아 있다는 걸 알았다.",
+    "choices": [
+      {
+        "text": "대화창을 열고 누구 보증인지 묻는다",
+        "follow_up_event": "arc_jaehyuk_mirror_reply",
+        "result_text": "{name}은 '누구 보증인데'라고 적었다. 보내기 버튼을 누르자마자 재혁의 입력 중 표시가 떴다. 기다리고 있었다는 듯 빨랐다."
+      },
+      {
+        "text": "폰을 내려놓고 아버지의 그날을 떠올린다",
+        "follow_up_event": "arc_jaehyuk_mirror_father",
+        "result_text": "화면을 끄자 검은 유리에 {name}의 얼굴이 비쳤다. 그 뒤로, 아버지가 보증 이야기를 처음 꺼냈던 식탁이 겹쳐 보였다."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_mirror_reply",
+    "title": "이번 한 번",
+    "background": "current_housing",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "jaehyuk",
+      "moral",
+      "father"
+    ],
+    "cooldown": 9999,
+    "description": "\"내가 아는 대표야. 서류 깨끗해. 진짜 이번 한 번만.\"\n\n{name}이 물었다. \"지난번 일 겪고도 나한테 이걸 부탁해?\"\n\n입력 중 표시가 한참 켜졌다 꺼졌다. 재혁의 답은 짧았다. \"그래서 너한테 부탁하는 거야. 네가 나를 제일 잘 아니까.\"\n\n그 말은 사과처럼도, 협박처럼도 읽혔다. 재혁은 보증 계약서 PDF를 보냈다. 마지막 장에 빈 서명란이 있었다.",
+    "choices": [
+      {
+        "text": "재혁이 보낸 서류와 서명란을 끝까지 본다",
+        "follow_up_event": "arc_jaehyuk_mirror_decision",
+        "result_text": "계약서를 끝까지 내렸다. 작은 글씨가 끝나자 빈칸 하나가 화면 한가운데 남았다. 이름과 주민번호, 그리고 서명."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_mirror_father",
+    "title": "한 번의 서명",
+    "background": "current_housing",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "jaehyuk",
+      "moral",
+      "father"
+    ],
+    "cooldown": 9999,
+    "description": "아버지는 그날 식탁에서 종이 모서리만 만졌다. \"친구가 정말 급하대서. 딱 한 번만 이름을 빌려준 거다.\"\n\n스물일곱의 {name}은 물었다. \"왜 그런 걸 거절 못 했는데요.\" 아버지는 오래 대답하지 못했다.\n\n지금 폰이 다시 켜졌다. 재혁의 메시지가 한 줄 더 와 있었다. \"민준아, 보고 있지?\"\n\n과거의 종이와 현재의 화면 사이에 차이는 거의 없었다. 이번에는 펜을 쥔 사람이 {name}이라는 것만 달랐다.",
+    "choices": [
+      {
+        "text": "기억과 현재 메시지를 한 화면에 놓고 본다",
+        "follow_up_event": "arc_jaehyuk_mirror_decision",
+        "result_text": "{name}은 다시 대화창을 열었다. 재혁이 보낸 계약서 마지막 장에는 이름과 주민번호, 그리고 서명을 기다리는 빈칸이 있었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_mirror_decision",
+    "title": "같은 질문",
+    "direction": {
+      "pace": "slow",
+      "amb": "cut",
+      "sting": "cold",
+      "hold": 1.0
+    },
+    "background": "current_housing",
     "portrait": "player_normal",
     "category": "story",
     "rarity": "story",
@@ -501,7 +599,7 @@
     "cooldown": 9999,
     "timed": true,
     "timer_seconds": 10,
-    "description": "재혁에게서 메시지가 왔다.\n오랜만이었다. 사기 아크 이후로 연락이 뜸했던 사람이다.\n\n\"민준아. 나 지금 투자건 하나 있는데 — 보증 한 번만 서줄 수 있어?\"\n\n{name}은 폰을 내려놓고 창밖을 오래 봤다.\n보증. 그 두 글자를.\n\n아버지가 무너진 이유가 정확히 그것이었다. 누군가의 부탁, 거절하지 못한 한 번의 서명. {name}은 지금 그 자리에, 아버지가 아니라 자기가 앉아 있다는 걸 알았다.",
+    "description": "재혁이 보낸 PDF 마지막 장에 빈 서명란이 있었다.\n\n아버지의 서명도 처음에는 저렇게 빈칸 하나였을 것이다. 선의와 두려움과 체면이, 나중에는 빚이라고 불린 한 줄.\n\n화면 위에는 세 가지가 남았다. 거절하는 문장, 대화를 이어가는 질문, 읽지 않은 척할 침묵. 이번에는 {name}이 답할 차례였다.",
     "choices": [
       {
         "text": "\"못 해.\" (단호하게 거절했다)",

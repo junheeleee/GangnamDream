@@ -51,7 +51,7 @@ func _ready() -> void:
 func _check_artifact_choice_visibility() -> void:
 	var story = StoryModeScript.new()
 	var cases := [
-		{"event": "arc_jaehyuk_04a_ghost", "item": "artifact_jaehyuk_photo"},
+		{"event": "arc_jaehyuk_ghost_decision", "item": "artifact_jaehyuk_photo"},
 		{"event": "arc_jiyeon_verdict", "item": "artifact_jiyeon_text"},
 		{"event": "arc_daeun_final_choice", "item": "artifact_daeun_note"},
 	]
@@ -85,7 +85,7 @@ func _check_jaehyuk_follow_up() -> void:
 	_reset_run()
 	GameState.add_item("artifact_jaehyuk_photo", 1)
 	var story = StoryModeScript.new()
-	var event: Dictionary = DataRegistry.find_event("arc_jaehyuk_04a_ghost")
+	var event: Dictionary = DataRegistry.find_event("arc_jaehyuk_ghost_decision")
 	var choice: Dictionary = event.get("choices", [])[2]
 	var follow_up: String = story._choice_follow_up_id(choice)
 	if follow_up != "arc_jaehyuk_photo_in_dark":

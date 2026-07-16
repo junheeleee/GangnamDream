@@ -58,7 +58,7 @@ MIN_DIALOGUE_TURNS = 2
 MIN_PANELS = 6
 
 # Ratchet updated only after a peak is expanded and its rendered QA passes.
-BASELINE_DEBT = 15
+BASELINE_DEBT = 13
 REQUIRED_PASS = {
     "arc_daeun_wedding_night",
     "arc_jiyeon_wedding_night",
@@ -73,6 +73,8 @@ REQUIRED_PASS = {
     "father_hospital_wait",
     "arc_father_passing",
     "arc_father_call_on_ktx",
+    "arc_jaehyuk_04a_ghost",
+    "arc_jaehyuk_mirror",
 }
 
 
@@ -250,6 +252,162 @@ def validate_daeun_proposal_contract(events: dict[str, dict[str, Any]]) -> None:
                 )
     if final_choices[1].get("result_cg"):
         raise ValueError("Daeun proposal defer branch must never reveal a CG")
+
+
+def validate_jaehyuk_contracts(events: dict[str, dict[str, Any]]) -> None:
+    """Keep Jaehyuk's fraud and guarantee mirrors staged without moving their costs."""
+    ghost_root = "arc_jaehyuk_04a_ghost"
+    ghost_branches = ("arc_jaehyuk_ghost_read", "arc_jaehyuk_ghost_message")
+    ghost_final = "arc_jaehyuk_ghost_decision"
+    ghost_photo = "arc_jaehyuk_photo_in_dark"
+    expected_ghost_paths = {
+        (ghost_root, branch, ghost_final)
+        for branch in ghost_branches
+    } | {
+        (ghost_root, branch, ghost_final, ghost_photo)
+        for branch in ghost_branches
+    }
+    actual_ghost_paths = {path.event_ids for path in walk_paths(events, ghost_root)}
+    if actual_ghost_paths != expected_ghost_paths:
+        raise ValueError(
+            "Jaehyuk ghost paths changed: "
+            f"actual={sorted(actual_ghost_paths)!r} expected={sorted(expected_ghost_paths)!r}"
+        )
+
+    if events["arc_jaehyuk_03_pitch"].get("cg") != "cg_jaehyuk_reveal":
+        raise ValueError("Jaehyuk table CG must belong to the hotel-lounge pitch")
+    if events[ghost_root].get("cg"):
+        raise ValueError("Jaehyuk ghost must not show an in-person table CG")
+
+    for event_id in (ghost_root, *ghost_branches):
+        event = events[event_id]
+        if event.get("background") != "current_housing" \
+                or event.get("portrait") != "player_shocked" \
+                or event.get("cg"):
+            raise ValueError(f"Jaehyuk ghost buildup visual changed at {event_id}")
+        for choice_index, choice in enumerate(event.get("choices") or []):
+            for forbidden in ("effects", "flags", "cast_effects", "requires_item"):
+                if choice.get(forbidden):
+                    raise ValueError(
+                        f"Jaehyuk ghost buildup {event_id}[{choice_index}] "
+                        f"commits {forbidden} before the terminal scene"
+                    )
+
+    ghost_event = events[ghost_final]
+    if ghost_event.get("background") != "current_housing" \
+            or ghost_event.get("portrait") != "player_shocked" \
+            or ghost_event.get("cg"):
+        raise ValueError("Jaehyuk ghost final visual changed")
+    ghost_choices = ghost_event.get("choices") or []
+    expected_ghost_choices = (
+        {
+            "text": "며칠을 방에 누워만 있었다",
+            "effects": {"mental": -35, "health": -8},
+            "cast_effects": {"jaehyuk": {"affinity": -100, "stage": "betrayed"}},
+            "flags": ["arc_jaehyuk_ghost_seen", "jaehyuk_scammed", "hit_rock_bottom"],
+        },
+        {
+            "text": "카페에 가입하고 글을 남겼다. '저도 당했습니다.'",
+            "effects": {"mental": -20, "intelligence": 4, "tint": 5},
+            "cast_effects": {"jaehyuk": {"affinity": -100, "stage": "betrayed"}},
+            "flags": ["arc_jaehyuk_ghost_seen", "jaehyuk_scammed", "joined_victims"],
+        },
+        {
+            "text": "(주머니 속… 그날의 사진이 생각났다)",
+            "requires_item": "artifact_jaehyuk_photo",
+            "effects": {"mental": -18, "tint": 3},
+            "cast_effects": {"jaehyuk": {"affinity": -100, "stage": "betrayed"}},
+            "flags": [
+                "arc_jaehyuk_ghost_seen",
+                "jaehyuk_scammed",
+                "presented_artifact_correct",
+            ],
+            "follow_up_event": ghost_photo,
+        },
+    )
+    if len(ghost_choices) != len(expected_ghost_choices):
+        raise ValueError("Jaehyuk ghost final must retain three choices")
+    for choice_index, contract in enumerate(expected_ghost_choices):
+        choice = ghost_choices[choice_index]
+        for key, value in contract.items():
+            if choice.get(key) != value:
+                raise ValueError(
+                    f"Jaehyuk ghost final choice {choice_index} changed {key}: "
+                    f"{choice.get(key)!r}!={value!r}"
+                )
+
+    for event_id in (ghost_photo, "arc_jaehyuk_aftermath"):
+        if events[event_id].get("background") != "current_housing":
+            raise ValueError(f"Jaehyuk aftermath returned to a fixed goshiwon: {event_id}")
+
+    mirror_root = "arc_jaehyuk_mirror"
+    mirror_branches = ("arc_jaehyuk_mirror_reply", "arc_jaehyuk_mirror_father")
+    mirror_final = "arc_jaehyuk_mirror_decision"
+    expected_mirror_paths = {
+        (mirror_root, branch, mirror_final) for branch in mirror_branches
+    }
+    actual_mirror_paths = {path.event_ids for path in walk_paths(events, mirror_root)}
+    if actual_mirror_paths != expected_mirror_paths:
+        raise ValueError(
+            "Jaehyuk mirror paths changed: "
+            f"actual={sorted(actual_mirror_paths)!r} expected={sorted(expected_mirror_paths)!r}"
+        )
+    for event_id in (mirror_root, *mirror_branches):
+        event = events[event_id]
+        if event.get("background") != "current_housing" \
+                or event.get("portrait") != "player_normal" \
+                or event.get("cg"):
+            raise ValueError(f"Jaehyuk mirror buildup visual changed at {event_id}")
+        if event.get("timed") or event.get("timer_seconds"):
+            raise ValueError(f"Jaehyuk mirror timer started before the final decision at {event_id}")
+        for choice_index, choice in enumerate(event.get("choices") or []):
+            for forbidden in ("effects", "flags", "cast_effects"):
+                if choice.get(forbidden):
+                    raise ValueError(
+                        f"Jaehyuk mirror buildup {event_id}[{choice_index}] "
+                        f"commits {forbidden} before the terminal scene"
+                    )
+
+    mirror_event = events[mirror_final]
+    if mirror_event.get("background") != "current_housing" \
+            or mirror_event.get("portrait") != "player_normal" \
+            or mirror_event.get("cg") \
+            or mirror_event.get("timed") is not True \
+            or mirror_event.get("timer_seconds") != 10:
+        raise ValueError("Jaehyuk mirror final visual or ten-second timer changed")
+    mirror_choices = mirror_event.get("choices") or []
+    expected_mirror_choices = (
+        {
+            "text": '"못 해." (단호하게 거절했다)',
+            "effects": {"mental": -8, "tint": 7},
+            "flags": ["arc_jaehyuk_mirror_seen", "refused_jaehyuk_guarantee"],
+        },
+        {
+            "text": '"얼마짜리야?" (들어보기로 했다)',
+            "effects": {"mental": -15, "tint": -6},
+            "flags": [
+                "arc_jaehyuk_mirror_seen",
+                "vouched_jaehyuk_guarantee",
+                "crossed_line",
+            ],
+            "foreshadow": "그의 방식이 틀리지 않을 수도 있었다. 강남에는 이런 사람들이 필요하다고, 스스로를 설득했다.",
+        },
+        {
+            "text": "(읽지 않은 척 메시지를 닫았다)",
+            "effects": {"mental": -5, "tint": -2},
+            "flags": ["arc_jaehyuk_mirror_seen", "blocked_jaehyuk_guarantee"],
+        },
+    )
+    if len(mirror_choices) != len(expected_mirror_choices):
+        raise ValueError("Jaehyuk mirror final must retain three choices")
+    for choice_index, contract in enumerate(expected_mirror_choices):
+        choice = mirror_choices[choice_index]
+        for key, value in contract.items():
+            if choice.get(key) != value:
+                raise ValueError(
+                    f"Jaehyuk mirror final choice {choice_index} changed {key}: "
+                    f"{choice.get(key)!r}!={value!r}"
+                )
 
 
 def validate_first_kiss_contracts(events: dict[str, dict[str, Any]]) -> None:
@@ -961,6 +1119,7 @@ def main() -> int:
     en_events = load_events(EVENTS_EN)
     validate_wedding_night_contracts(ko_events)
     validate_first_kiss_contracts(ko_events)
+    validate_jaehyuk_contracts(ko_events)
     validate_daeun_proposal_contract(ko_events)
     validate_daeun_wedding_contract(ko_events)
     validate_jiyeon_wedding_gap_contract(ko_events)

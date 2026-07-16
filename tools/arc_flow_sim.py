@@ -154,6 +154,10 @@ SPINE_COMMON = {
     "arc_jaehyuk_02_bond": ["arc_jaehyuk_bond_seen"],
     "arc_jaehyuk_02b_favor": ["arc_jaehyuk_02b_seen"],
     "arc_jaehyuk_aftermath": ["arc_jaehyuk_aftermath_seen"],
+    # The expanded mirror chain writes its route guard on the terminal link,
+    # not on the scheduled root event. Model one canonical terminal outcome so
+    # both representative paths match StoryMode's immediate follow-up chain.
+    "arc_jaehyuk_mirror": ["arc_jaehyuk_mirror_seen", "refused_jaehyuk_guarantee"],
     "arc_hyunsu_night_talk": ["arc_hyunsu_night_seen"],
     "hyunsu_exam_day": ["hyunsu_exam_day_seen"],
     "arc_hyunsu_exam_fail": ["arc_hyunsu_exam_fail_seen"],
@@ -198,7 +202,6 @@ PATH_B = dict(SPINE_COMMON, **{  # 비정석/진실/다은 함께/재혁 역공
     "arc_jiyeon_truth_warned": ["arc_jiyeon_truth_seen"],
     "arc_jaehyuk_03_pitch": ["arc_jaehyuk_pitch_seen"],
     "arc_jaehyuk_04b_counter": ["arc_jaehyuk_counter_seen"],
-    "arc_jaehyuk_mirror": ["arc_jaehyuk_mirror_seen", "refused_jaehyuk_guarantee"],
     "arc_35_unorthodox_weight": ["arc_35_unorthodox_weight_seen", "adjusted_my_path"],
     "arc_36_trust_crack": ["arc_36_trust_crack_seen", "crack_softened"],
 })

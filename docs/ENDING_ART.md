@@ -29,7 +29,7 @@ Updated: 2026-07-13
 |---|---|---|---|
 | `cg_start` | `assets/cg/start.png` | 시작 CG | 고시원 정본 기준 유지 |
 | `cg_jiyeon_crash` | `assets/cg/jiyeon_crash.png` | 지연 사고 CG | 지연 얼굴/차량 정합성 계속 확인 |
-| `cg_jaehyuk_reveal` | `assets/cg/jaehyuk_reveal.png` | 재혁 폭로 CG | 재혁/성준 유사성 주의 |
+| `cg_jaehyuk_reveal` | `assets/cg/jaehyuk_reveal.png` | 호텔 라운지 최종 피치 CG | 민준·재혁 사이 서류/술잔. 혼자 잠적을 확인하는 ghost 장면과 공유 금지 |
 | `cg_ending_father` | `assets/cg/ending_father.png` | `arc_father_04_visit` 병실 CG | 엔딩에는 아직 연결하지 않는다. 병실 방문 장면이라 `full_circle`/`guardian`과 맥락이 다름 |
 | `cg_ending_gangnam_dream` | `assets/cg/ending_gangnam_dream.png` | `gangnam_dream` | 아버지 생존 조건과 본문에 맞는 부자 야경. White 엔딩과 공유 금지 |
 | `cg_ending_empty_house` | `assets/cg/ending_empty_house.png` | `empty_house` | 유지 |
