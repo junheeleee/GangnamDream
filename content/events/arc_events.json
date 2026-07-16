@@ -2681,7 +2681,7 @@
     "id": "arc_father_04_visit",
     "title": "창원",
     "background": "hospital",
-    "portrait": "father_weak",
+    "portrait": "father_hospitalized",
     "cg": "cg_ending_father",
     "category": "story",
     "rarity": "story",

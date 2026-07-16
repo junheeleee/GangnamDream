@@ -318,7 +318,7 @@
     "id": "callback_called_about_medication_echo",
     "title": "아버지한테 직접 전화한 것",
     "background": "goshiwon_room",
-    "portrait": "father_normal",
+    "portrait": "father_home",
     "category": "story",
     "rarity": "uncommon",
     "weight": 1.0,

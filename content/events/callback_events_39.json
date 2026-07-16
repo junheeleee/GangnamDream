@@ -138,7 +138,7 @@
     "id": "callback_sangchul_news_father_echo",
     "title": "그래, 잘 됐다",
     "background": "goshiwon_room",
-    "portrait": "father_normal",
+    "portrait": "father_home",
     "category": "story",
     "rarity": "uncommon",
     "weight": 1.0,

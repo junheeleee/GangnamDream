@@ -58,7 +58,7 @@ MIN_DIALOGUE_TURNS = 2
 MIN_PANELS = 6
 
 # Ratchet updated only after a peak is expanded and its rendered QA passes.
-BASELINE_DEBT = 22
+BASELINE_DEBT = 21
 REQUIRED_PASS = {
     "arc_date_namsan_daeun",
     "arc_date_namsan_jiyeon",
@@ -66,6 +66,7 @@ REQUIRED_PASS = {
     "arc_daeun_wedding_day",
     "arc_jiyeon_wedding_gap",
     "arc_sangchul_confrontation",
+    "father_hospital_wait",
 }
 
 
@@ -522,6 +523,64 @@ def validate_sangchul_confrontation_contract(events: dict[str, dict[str, Any]]) 
                 )
 
 
+def validate_father_hospital_contract(events: dict[str, dict[str, Any]]) -> None:
+    """Keep the Changwon visit physical and preserve both canonical outcomes."""
+    root_id = "father_hospital_wait"
+    final_id = "father_hospital_results"
+    expected_path = (root_id, final_id)
+    for path in walk_paths(events, root_id):
+        if path.event_ids != expected_path:
+            raise ValueError(
+                "Father hospital must retain the wait-to-results chain: "
+                f"{' -> '.join(path.event_ids)}"
+            )
+
+    root = events[root_id]
+    if root.get("background") != "hospital" or root.get("portrait") != "player_offduty_neutral":
+        raise ValueError("Father hospital wait must show local Minjun in the Changwon hospital")
+    conditions = root.get("conditions") or {}
+    if conditions.get("flag") != "father_visited" or conditions.get("no_flag") != "father_passed":
+        raise ValueError("Father hospital wait lost its visited/alive prerequisite")
+    root_choices = root.get("choices") or []
+    if len(root_choices) != 2:
+        raise ValueError("Father hospital wait must retain two waiting responses")
+    for index, choice in enumerate(root_choices):
+        if choice.get("follow_up_event") != final_id:
+            raise ValueError(f"Father hospital waiting response {index} skips the results link")
+        for forbidden in ("effects", "cast_effects", "flags"):
+            if choice.get(forbidden):
+                raise ValueError(
+                    f"Father hospital waiting response {index} commits {forbidden} before results"
+                )
+
+    final = events[final_id]
+    if final.get("background") != "hospital" or final.get("portrait") != "father_hospitalized":
+        raise ValueError("Father hospital results must reveal Father in a patient gown")
+    final_choices = final.get("choices") or []
+    expected = (
+        {
+            "effects": {"mental": -9},
+            "cast_effects": {"father": {"affinity": 3}},
+            "flags": [],
+        },
+        {
+            "effects": {"mental": 1, "intelligence": 2},
+            "cast_effects": {"father": {"affinity": 6, "stage": "hopeful"}},
+            "flags": ["saw_father_medical"],
+        },
+    )
+    if len(final_choices) != len(expected):
+        raise ValueError("Father hospital final decision must retain exactly two choices")
+    for index, contract in enumerate(expected):
+        choice = final_choices[index]
+        for key, value in contract.items():
+            if choice.get(key) != value:
+                raise ValueError(
+                    f"Father hospital final choice {index} changed {key}: "
+                    f"{choice.get(key)!r}!={value!r}"
+                )
+
+
 def validate_jiyeon_marriage_routing_contract() -> None:
     """Keep Jiyeon's marriage chronology explicit even when Minjun is broke."""
     with open(MAIN_GAME, encoding="utf-8") as handle:
@@ -627,6 +686,7 @@ def main() -> int:
     validate_daeun_wedding_contract(ko_events)
     validate_jiyeon_wedding_gap_contract(ko_events)
     validate_sangchul_confrontation_contract(ko_events)
+    validate_father_hospital_contract(ko_events)
     validate_jiyeon_marriage_routing_contract()
     metrics = [measure(label, root_id, ko_events) for label, root_id in PEAK_ROOTS]
     visited = {

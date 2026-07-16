@@ -85,7 +85,7 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "portrait": "father_weak",
+    "portrait": "father_home_weak",
     "background": "late_night",
     "conditions": {},
     "cooldown": 9999,

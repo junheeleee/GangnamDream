@@ -36,6 +36,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | First-run language gate, KO default names, localized portrait name tags | `--qa=locale-gate` |
 | Prologue motivation imprint: Knee, Last Payment, notebook choices, persistent goal sentence, notebook modal, montage, and month-end ritual | `--qa=motivation-imprint --lang=ko/en` |
 | Tier-1 peak scene chain count, meaningful decision points, StoryMode panels, dialogue exchange, and KO/EN choice parity | `python3 tools/peak_scene_chain_audit.py --strict` |
+| Father peaks and wardrobe: Changwon hospital geography, local Minjun before Father's physical reveal, patient gown in ward scenes, old home clothes in Changwon-home meetings/calls, weakened home-call variant, correct Mother speaker, canonical medical-result effects, and KO/EN fit | `--qa=father-peaks --lang=ko/en` |
 | Prepared Japanese/Chinese arbitrary-character wrapping and 1280x800 safe area | `--qa=i18n-layout --lang=ja/zh-CN/zh-TW` |
 | Splash, opening, StartMenu press-any-key, start menu, content notice | `--qa=start-en` |
 | Archive CG silhouettes/fullscreen preview, scene replay paging, hidden-name secrecy, and read-only GameState/MetaProgression invariants | `--qa=gallery --lang=ko/en` |

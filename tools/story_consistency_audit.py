@@ -41,6 +41,7 @@ PRESENTATION_KEYS = {
     "remote_actor",
     "participants",
     "portrait_role",
+    "expected_portrait",
 }
 COMMUNICATION_TITLE = re.compile(r"전화|통화|카톡|문자|연락", re.IGNORECASE)
 
@@ -306,12 +307,18 @@ def main() -> int:
                 channel = str(presentation.get("channel", ""))
                 portrait_role = str(presentation.get("portrait_role", ""))
                 state = str(presentation.get("state", ""))
+                expected_portrait = str(presentation.get("expected_portrait", ""))
                 if channel not in ALLOWED_CHANNELS:
                     errors.append(f"{owner}.presentation: invalid channel {channel!r}")
                 if portrait_role not in ALLOWED_PORTRAIT_ROLES:
                     errors.append(f"{owner}.presentation: invalid portrait_role {portrait_role!r}")
                 if state not in ALLOWED_STATES:
                     errors.append(f"{owner}.presentation: invalid state {state!r}")
+                if expected_portrait and str(event.get("portrait", "")) != expected_portrait:
+                    errors.append(
+                        f"{owner}.presentation: portrait {event.get('portrait', '')!r} "
+                        f"!= expected {expected_portrait!r}"
+                    )
                 if channel in REMOTE_CHANNELS:
                     remote_contracts += 1
                     for key in ("scene_location", "remote_location", "remote_actor"):

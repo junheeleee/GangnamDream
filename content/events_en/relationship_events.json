@@ -17,15 +17,30 @@
   {
     "id": "father_hospital_wait",
     "title": "Waiting Room",
-    "description": "Dad had a check-up.\n\n{name} had come up to Seoul and was waiting in the waiting room.\nFluorescent lights. Plastic chairs. A numbered ticket.\n\nDad came out of the consultation room.\nExpression the same as always.\nNo way to know if that was good or bad.\n\n'Let's go.'\nThat was it.\n\nWalking out, {name} asked:\n'What did the doctor say?'",
+    "description": "A hospital in Changwon. Dad had been admitted for three days, and this morning brought another round of tests.\n\n{name} had taken the train down from Seoul and sat on a plastic chair opposite the ward's examination room. The fluorescent lights hummed without pause. Only the number display on the wall moved.\n\nThe door Dad had gone through would not open. The instruction sheet on {name}'s knee absorbed the sweat from his palm until its corners softened.\n\nTwo notifications arrived from Seoul. Between them, the speaker called another patient's name. Here, waiting was the only thing he could do.",
     "choices": [
       {
-        "text": "'Said everything's fine.' Don't ask more.",
-        "result_text": "Dad said nothing more.\n{name} asked nothing more.\n\nHad lunch. Same as always.\n\nOn the train back to Seoul, {name} stared out the window.\nWhether 'fine' was actually true.\nWanted to know — and maybe it was better not to."
+        "text": "Turn the phone face down and wait by the examination-room door.",
+        "result_text": "With the screen gone, the fluorescent hum grew louder.\n\n{name} smoothed the crumpled instruction sheet and put it in his pocket. He planted both feet on the floor so he could be the first one up when the door opened.\n\nA moment later, the wheels of a gurney crossed a seam in the floor inside."
       },
       {
-        "text": "Ask to look at the results together.",
-        "result_text": "Dad hesitated for a moment, then took out the printout.\n\nRows of numbers. {name} didn't understand most of it.\nBut sitting next to him, reading it together — that itself felt like something new.\n\n'This number's a bit high, they said.'\n'Do you have to keep taking the medication?'\n'Apparently so.'\n\nThe first afternoon they thought about Dad's health together."
+        "text": "Get a cup of water and leave it beside Dad's seat.",
+        "result_text": "The water trembled faintly in the paper cup. {name} left Dad's seat empty and stood beside it.\n\nA nurse opened the door halfway and checked the name on the chart.\n\n\"Kim Youngsu? Is his guardian here?\"\n\n{name}'s hand went up faster than he expected."
+      }
+    ]
+  },
+  {
+    "id": "father_hospital_results",
+    "title": "The Word Fine",
+    "description": "The examination-room door opened. Dad came out in a faded blue-gray hospital gown, folding a white printout into a careful rectangle. His expression was the same as always. There was no way to tell whether that was good or bad.\n\n\"Let's go back to the room.\"\n\nDad glanced once at the untouched paper cup and did not ask about it. They walked side by side to the long bench by the ward window. Outside, a hospital shuttle stopped once and pulled away.\n\n{name} asked, \"What did the doctor say?\"\n\nDad kept his eyes on the folded printout. \"Said I'm fine.\" His fingertips whitened around the paper for a moment.",
+    "choices": [
+      {
+        "text": "\"If he said you're fine, that's enough.\" Do not ask more.",
+        "result_text": "Dad said nothing more. {name} did not look at the folded printout again.\n\nBack in Room 301, the lunch tray arrived. Dad finished even the broth, and {name} accepted that as proof that fine meant fine.\n\nAlone on the KTX back to Seoul, he watched the scenery outside. Whether \"fine\" was actually true. He wanted to know, and maybe it was better not to."
+      },
+      {
+        "text": "\"Let's read the results together. If we don't understand, we can ask together.\"",
+        "result_text": "Dad stopped outside the hospital room. After a moment, he exhaled like a sigh and unfolded the printout.\n\nRows of numbers. {name} understood little of it. Still, they sat beside each other at the far end of the ward lounge.\n\n\"They said this one is a little high.\"\n\"Do you have to keep taking the medication?\"\n\"Apparently so.\"\n\nFor the first time, they placed Dad's body between them and looked at the same page. There was more they did not understand than they did, but this time they did not cross the hospital-room door while pretending not to know."
       }
     ]
   },

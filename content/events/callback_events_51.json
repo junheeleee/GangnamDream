@@ -129,7 +129,7 @@
     "id": "callback_proactive_parent_care_echo",
     "title": "병원 같이 가자고 한 것",
     "background": "dad_house",
-    "portrait": "father_normal",
+    "portrait": "father_home",
     "category": "story",
     "rarity": "uncommon",
     "weight": 1.0,

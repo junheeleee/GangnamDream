@@ -213,10 +213,19 @@ Updated on 2026-07-13 for the `lonely_rich` P1 dining-table CG and its strict se
   - Horse-racing tip seller transparent portrait, 45-50-year-old track information seller with cap, worn windbreaker, and folded racing forms.
 
 - `assets/characters/npc_father.png`
-  - Kim Minjun's father normal transparent portrait, 63-year-old Changwon factory-worker dignity and guilt.
+  - Kim Minjun's father work/outdoor transparent portrait, 63-year-old Changwon factory-worker dignity and guilt.
 
 - `assets/characters/npc_father_weak.png`
-  - Kim Minjun's father weakened transparent illness variant for father-arc crisis scenes.
+  - Kim Minjun's father weakened work/outdoor variant for non-home, non-ward crisis contexts.
+
+- `assets/characters/npc_father_home.png`
+  - Kim Minjun's father at-home transparent portrait: faded burgundy polo and old gray-brown zip knit; normal Changwon-home presence and remote calls.
+
+- `assets/characters/npc_father_home_weak.png`
+  - Same at-home identity and clothes with restrained illness fatigue for the late pre-ending call.
+
+- `assets/characters/npc_father_hospitalized.png`
+  - Same identity in a pale blue-gray inpatient gown, reserved for admitted-patient and ward scenes.
 
 - `assets/characters/npc_mother.png`
   - Kim Minjun's mother transparent portrait, tired and warm 61-year-old family-wound axis.

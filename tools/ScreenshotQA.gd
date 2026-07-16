@@ -84,6 +84,7 @@ const QA_SCOPE_WEDDING_MORNING := "wedding_morning"
 const QA_SCOPE_COMMITMENT := "commitment"
 const QA_SCOPE_BREAKUP := "breakup"
 const QA_SCOPE_SANGCHUL_CONFRONTATION := "sangchul_confrontation"
+const QA_SCOPE_FATHER_PEAKS := "father_peaks"
 const QA_SCOPE_FIRST_SNOW := "first_snow"
 const QA_SCOPE_CLIMATE := "climate"
 const QA_SCOPE_EVENT_VISUALS := "event_visuals"
@@ -298,6 +299,16 @@ func _ready() -> void:
 		await _shot_sangchul_confrontation_surfaces(
 				lang, "sangchul_en_" if lang == "en" else "sangchul_ko_")
 		print("SCREENSHOT_QA_DONE scope=sangchul-confrontation lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_FATHER_PEAKS:
+		var lang := _qa_language("en")
+		await _shot_father_peak_surfaces(
+				lang, "father_peaks_en_" if lang == "en" else "father_peaks_ko_")
+		if _qa_failed:
+			get_tree().quit(1)
+			return
+		print("SCREENSHOT_QA_DONE scope=father-peaks lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_FIRST_SNOW:
@@ -577,6 +588,10 @@ func _qa_scope() -> String:
 				"--sangchul-confrontation", "qa=sangchul-confrontation",
 				"--qa=sangchul-confrontation", "scope=sangchul-confrontation"]:
 			return QA_SCOPE_SANGCHUL_CONFRONTATION
+		if arg in ["father-peaks", "father_peaks", "father-hospital", "father_hospital",
+				"--father-peaks", "--father_peaks", "qa=father-peaks", "--qa=father-peaks",
+				"qa=father_peaks", "--qa=father_peaks", "scope=father-peaks", "--scope=father-peaks"]:
+			return QA_SCOPE_FATHER_PEAKS
 		if arg in ["first-snow", "first_snow", "snow-romance", "snow_romance",
 				"--first-snow", "--first_snow", "qa=first-snow", "--qa=first-snow",
 				"qa=first_snow", "--qa=first_snow", "scope=first-snow", "--scope=first-snow"]:
@@ -2872,6 +2887,70 @@ func _assert_sangchul_confrontation_state(
 	if bool(GameState.flags.get("arc_sangchul_reckoning_seen", false)) != reckoned \
 			or bool(GameState.flags.get("sangchul_confronted", false)) != reckoned:
 		_fail("Sangchul %s changed the confrontation/reckoning route state." % label)
+
+func _shot_father_peak_surfaces(lang: String = "en", prefix: String = "father_peaks_en_") -> void:
+	_set_qa_language(lang)
+
+	_prepare_father_peak_qa_state()
+	await _shot_story_event("father_hospital_wait", prefix + "01_hospital_wait_intro", "", 0.55, true)
+	_prepare_father_peak_qa_state()
+	await _shot_story_event("father_hospital_wait", prefix + "02_hospital_wait_choices", "", 0.45, true, true)
+	_prepare_father_peak_qa_state()
+	await _shot_story_event("father_hospital_wait", prefix + "03_hospital_water_result", "", 0.45, true, true, 1, 0, false, 2)
+	_assert_father_hospital_uncommitted("waiting-room response")
+
+	_prepare_father_peak_qa_state()
+	await _shot_story_event("father_hospital_results", prefix + "04_hospital_results_intro", "", 0.55, true)
+	_prepare_father_peak_qa_state()
+	await _shot_story_event("father_hospital_results", prefix + "05_hospital_results_choices", "", 0.45, true, true)
+	_prepare_father_peak_qa_state()
+	await _shot_story_event("father_hospital_results", prefix + "06_hospital_avoid_result", "", 0.45, true, true, 0, 0, false, 2)
+	_assert_father_hospital_state("avoid results", 51, 40, 53, "normal", false)
+	_prepare_father_peak_qa_state()
+	await _shot_story_event("father_hospital_results", prefix + "07_hospital_read_result", "", 0.45, true, true, 1, 0, false, 2)
+	_assert_father_hospital_state("read together", 61, 42, 56, "hopeful", true)
+
+	_prepare_father_peak_qa_state()
+	await _shot_story_event("callback_showed_room_parents_echo", prefix + "08_home_father", "", 0.55, true)
+	_prepare_father_peak_qa_state()
+	await _shot_story_event("callback_hid_room_parents_echo", prefix + "09_home_mother", "", 0.55, true)
+	_prepare_father_peak_qa_state()
+	await _shot_story_event("story_prologue_dad", prefix + "10_home_call", "", 0.55, true)
+	_prepare_father_peak_qa_state()
+	await _shot_story_event("arc_pre_ending_father_call", prefix + "11_home_weak_call", "", 0.55, true)
+
+func _prepare_father_peak_qa_state() -> void:
+	_prepare_main_game_state()
+	GameState.mental = 60
+	GameState.intelligence = 40
+	GameState.moral_tint = 0.0
+	for flag in ["saw_father_medical", "father_passed"]:
+		GameState.flags.erase(flag)
+	GameState.flags["father_visited"] = true
+	_set_cast_relation_for_qa("father", 50)
+	GameState.cast["father"]["stage"] = "normal"
+
+func _assert_father_hospital_uncommitted(label: String) -> void:
+	if int(GameState.mental) != 60 or int(GameState.intelligence) != 40:
+		_fail("Father hospital %s changed stats before the final decision." % label)
+	if int(GameState.cast["father"].get("affinity", 0)) != 50 \
+			or GameState.flags.get("saw_father_medical", false):
+		_fail("Father hospital %s committed relationship state before results." % label)
+
+func _assert_father_hospital_state(
+		label: String, mental: int, intelligence: int, affinity: int,
+		stage: String, saw_results: bool) -> void:
+	var father: Dictionary = GameState.cast.get("father", {})
+	if int(GameState.mental) != mental or int(GameState.intelligence) != intelligence:
+		_fail("Father hospital %s totals changed: mental=%s intelligence=%s." % [
+			label, GameState.mental, GameState.intelligence,
+		])
+	if int(father.get("affinity", 0)) != affinity or str(father.get("stage", "")) != stage:
+		_fail("Father hospital %s relation changed: affinity=%s stage=%s." % [
+			label, father.get("affinity", 0), father.get("stage", ""),
+		])
+	if bool(GameState.flags.get("saw_father_medical", false)) != saw_results:
+		_fail("Father hospital %s changed the medical-result flag contract." % label)
 
 func _shot_transport_surfaces(lang: String = "en", prefix: String = "transport_en_") -> void:
 	_set_qa_language(lang)

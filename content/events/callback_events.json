@@ -419,7 +419,7 @@
     "rarity": "rare",
     "weight": 1.2,
     "background": "goshiwon_room",
-    "portrait": "father_normal",
+    "portrait": "father_home",
     "conditions": {
       "flag": "promised_father_gangnam",
       "min_turn": 160

@@ -1,6 +1,6 @@
 # Gangnam Dream Character Visual Bible
 
-Updated: 2026-07-12
+Updated: 2026-07-16
 
 This file is the visual canon for recurring characters. It overrides older one-off prompt notes when there is a conflict. Recurring character portraits must be generated as transparent-background PNGs and then composited over location backgrounds in Godot.
 
@@ -25,7 +25,7 @@ This file is the visual canon for recurring characters. It overrides older one-o
 - Im Sangchul: 52-year-old broker, salt-and-pepper hair, practical suit jacket, weathered mentor expression.
 - Cafe Folder Owner: lean 39-year-old investor, angular face, swept-back black hair, teal open collar, charcoal micro-check suit, blank black folio, skeptical screen-left gaze.
 - Manager Kim: stocky 45-year-old broker, round-square face, close side part, cheek mole, taupe blazer, oxblood knit, blank black phone, practiced sales smile.
-- Father: 63-year-old factory worker, worn work jacket, heavier guilt/warmth, older working-class signal.
+- Father: 63-year-old factory worker with one stable lean face; work jacket only outside/at work, old burgundy polo and gray-brown zip knit at home, blue-gray patient gown in hospital.
 - Kim Daeun: ordinary convenience-store survival warmth, beige cardigan/navy work shirt, soft tired eyes.
 - Han Jiyeon: long black hair, cream/black tailored suit, old-money jewelry, dangerous high-status aura.
 - Lee Minseo: 38-year-old self-made Gangnam arrival mentor, short neat dark hair, charcoal practical blazer, calm tired eyes.
@@ -61,6 +61,23 @@ No luxury watch, no designer styling, no polished Gangnam success look in early/
 **CG Acting Rule:** `main_character_unemployed.png` locks Minjun's face, hair, age, and class signal only. Its defeated neutral expression is never an expression reference for a good scene. Every CG must declare scene-specific acting: reassurance, reciprocal eye contact, laughter, surprise, anger, or grief as the prose requires. A date, kindness, or success scene that leaves him chronically hollow fails identity QA even when the facial geometry matches.
 
 **Negative Prompt / Prohibited:** goshiwon room inside portrait, phone prop, visible hands holding phone, large window, skyline, luxury styling, old-man epilogue look, teenage look, photoreal DSLR portrait, changing face between outfit variants.
+
+## Kim Youngsu (Father)
+
+**Role:** Minjun's 63-year-old father, a retired-or-near-retirement Changwon factory worker whose silence, illness, and deferred Seoul dream anchor the family route. He is not a generic elderly patient or a permanently uniformed worker.
+
+**Visual Core:** Lean Korean man in his early 60s, short salt-and-pepper hair, long narrow face, tired deep-set eyes, weathered skin, restrained mouth, and slightly stooped working-life shoulders. The face, hairline, age, and body remain identical across every wardrobe and health state.
+
+**Context Wardrobe Locks:**
+- `father_normal` / `father_proud`: worn navy factory/work jacket over a dark checked work shirt. Use only for work, outdoor arrival, or explicitly work-linked memories.
+- `father_home`: faded muted burgundy polo under an old warm gray-brown zip-front knit cardigan, loose fit, stretched ribbing, and mild pilling. Use for Changwon-home meetings, memories, and ordinary calls whose remote portrait shows him at home.
+- `father_home_weak`: the exact same home clothes and identity with lowered gaze, heavier eyelids, and illness fatigue. Use for the late pre-ending call from Changwon home; illness changes acting, not clothes.
+- `father_hospitalized`: faded pale blue-gray Korean hospital wrap gown. Use whenever Father is physically present as an admitted patient or emerges from inpatient testing.
+- `father_weak`: worn work-jacket crisis variant retained only for non-home, non-ward travel or outdoor contexts that explicitly require those clothes.
+
+**Location Contract:** A `changwon_home` scene may never show the work jacket when Father's remote or present portrait is visible. A `changwon_hospital` inpatient scene may never show workwear or homewear. Phone scenes keep the local room as the full background and place Father in the remote inset; the portrait does not imply he is standing inside Minjun's room.
+
+**Negative Prompt / Prohibited:** fashionable minimalist cardigan, luxury knitwear, permanent work uniform inside the family home, work jacket over a hospital gown, patient gown outside hospital, generic 75+ grandfather, face drift between health states, broad commercial smile, baked room or ward background.
 
 ## Kang Hyunsu
 

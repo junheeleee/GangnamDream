@@ -224,7 +224,7 @@
     "id": "story_prologue_dad",
     "title": "전화",
     "background": "goshiwon_room",
-    "portrait": "father_normal",
+    "portrait": "father_home",
     "description": "휴대폰 진동이 얇은 책상을 울렸다. 화면에는 '아버지'. 작은 액정의 두 글자만 방 안에서 유난히 밝았다.\n\n받기 전, {name}은 한 번 숨을 골랐다.\n\n\"어, 아들. 일어났나.\"\n\"네.\"\n\n수화기 너머로 텔레비전 소리가 작게 새어 왔다. 아버지는 늘 본론보다 침묵을 먼저 보냈다.\n\n\"...밥은 먹었고?\"\n\n취직도, 돈도, 서울 생활도 묻지 않았다. 그런데 그 한마디 안에 여섯 해가 전부 들어 있었다. 미안함과 부끄러움, 서로 먼저 꺼내지 못한 말들. 대답하기도 전에 빈속이 들킨 것 같았다.",
     "category": "story",
     "rarity": "story",

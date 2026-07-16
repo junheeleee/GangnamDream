@@ -44,6 +44,7 @@ Every high-risk remote scene declares:
 - `remote_location`: where the off-screen participant is
 - `remote_actor`: who is on the other end
 - `portrait_role`: `present`, `remote`, `local`, or `none`
+- `expected_portrait`: the exact wardrobe/expression asset required by the location contract
 
 For remote media, identical local and remote locations are invalid. A remote portrait must resolve to the declared remote actor.
 
@@ -62,11 +63,13 @@ CGs remain authoritative. A split-screen phone CG may hide the standing portrait
 
 The first pass intentionally covers high-risk material instead of pretending all 1,500 events are migrated:
 
-- Ledger events: 45 / 1,500 (3.0%)
-- Typed logic contracts: 15
-- Remote/media presentation contracts: 34
+- Ledger events: 54 / 1,501 (3.6%)
+- Typed logic contracts: 17
+- Remote/media presentation contracts: 36
 - Unclassified non-player portraits with phone/message titles: 0
 - Demo father-contact logic targets: 4 / 4
+
+The first migrated in-person Father peak is now explicit as well: Minjun waits opposite an inpatient examination room on Father's third day in a Changwon hospital, Father appears in a hospital gown only after the door opens, and the return trip is to Seoul. Changwon-home meetings and calls use the worn home cardigan, while the late illness call changes acting without changing clothes. The waiting response cannot commit medical-result state before the final decision.
 
 These are ratchets. `minimum_ledger_events` cannot fall, and the unclassified communication count cannot rise above zero.
 
