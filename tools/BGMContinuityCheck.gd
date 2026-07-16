@@ -97,9 +97,11 @@ func _ready() -> void:
 		_fail("casino floor did not enter its authored activity motif")
 		return
 	var floor_pos := BGMPlayer._player_a.get_playback_position()
+	BGMPlayer.enter_activity_ambience("casino")
 	BGMPlayer.enter_casino_music("floor")
 	await get_tree().process_frame
-	if BGMPlayer._player_a.get_playback_position() + 0.02 < floor_pos:
+	if BGMPlayer._player_a.get_playback_position() + 0.02 < floor_pos \
+			or BGMPlayer._fade_tween != null:
 		_fail("same casino floor state restarted its motif")
 		return
 	var phase_before_table := BGMPlayer._player_a.get_playback_position()

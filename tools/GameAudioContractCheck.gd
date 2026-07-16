@@ -103,10 +103,12 @@ func _check_casino_music() -> void:
 		return
 	var floor_stream: AudioStream = BGMPlayer._player_a.stream
 	var floor_position := BGMPlayer._player_a.get_playback_position()
+	BGMPlayer.enter_activity_ambience("casino")
 	BGMPlayer.enter_casino_music("floor")
 	await get_tree().process_frame
 	if BGMPlayer._player_a.stream != floor_stream \
-			or BGMPlayer._player_a.get_playback_position() + 0.02 < floor_position:
+			or BGMPlayer._player_a.get_playback_position() + 0.02 < floor_position \
+			or BGMPlayer._fade_tween != null:
 		_failures.append("re-entering casino floor restarted its motif")
 		return
 

@@ -113,9 +113,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			_glossary_overlay = null
 			handled = true
 	elif event.is_action_pressed("ui_up"):
-		handled = _pad_move_game(-2)
+		handled = _pad_move_game(-3)
 	elif event.is_action_pressed("ui_down"):
-		handled = _pad_move_game(2)
+		handled = _pad_move_game(3)
 	elif event.is_action_pressed("gd_tab_prev") or event.is_action_pressed("ui_left"):
 		handled = _pad_move_game(-1)
 	elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right"):
@@ -304,13 +304,13 @@ func _build_ui() -> void:
 	_f(_msg_lbl)
 	root.add_child(_msg_lbl)
 
-	# ── 게임 목록 (2열 그리드) ──
+	# ── 게임 목록 (3열 그리드: Deck/720p에서도 두 행으로 완결) ──
 	var spacer := Control.new()
 	spacer.custom_minimum_size = Vector2(0, 12)
 	root.add_child(spacer)
 
 	var grid := GridContainer.new()
-	grid.columns = 2
+	grid.columns = 3
 	grid.add_theme_constant_override("h_separation", 16)
 	grid.add_theme_constant_override("v_separation", 16)
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL

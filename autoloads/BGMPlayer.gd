@@ -502,7 +502,10 @@ func enter_activity_ambience(key: String) -> void:
 	_activity_ambience_key = key
 	# 장소 룸톤은 모든 미니게임의 기본 베드다. 전용 음악을 소유한
 	# 정선 카지노만 이 호출 직후 같은 장소 위에 activity score를 얹는다.
-	enter_ambient_bed(0.45)
+	var keep_activity_music := key == "casino" and _music_mode == "activity" \
+			and _current_key in CASINO_TRACK_KEYS
+	if not keep_activity_music:
+		enter_ambient_bed(0.45)
 	set_ambience(key)
 	set_season_ambience("")
 
