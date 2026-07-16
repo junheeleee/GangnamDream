@@ -20,6 +20,46 @@
     "description": "After the appointment, they had dinner at Daeun's country home.\n\nHer mother wasn't one for words. Instead she kept heaping more rice into {name}'s bowl. \"Eat more. You can't get food like this up in Seoul.\"\n\nThen, out of nowhere, her mother glanced at {name}'s hands.\n\"...Hands that have worked hard.\"\n\nIn the middle of the table sat a gyeran-mari, the rolled omelet — yellow, thick, the ends neatly folded.\n{name} knew that shape. It was the very same rolled omelet Daeun used to bring to his goshiwon in a side-dish container.\nWithout a word, he understood where it had come from.",
     "choices": [
       {
+        "text": "Follow her mother's gaze and open your palm beneath the table.",
+        "result_text": "{name} set down his spoon and opened his palm. It felt as if even the fatigue caught between the lines had been read, and he closed it again without meaning to.\n\nHer mother pretended not to notice. She only slid a plate of side dishes closer. Daeun was the one who caught the small movement."
+      },
+      {
+        "text": "Look from the rolled omelet to Daeun, then back again.",
+        "result_text": "Daeun's chopsticks paused over the omelet. Her mother saw it and, without a word, placed the neatest slice in her daughter's bowl.\n\n{name} was beginning to understand how one plate had traveled between two homes."
+      }
+    ],
+    "description_if_known": {
+      "father_passed": "After the appointment, they had dinner at Daeun's country home.\n\nHer mother wasn't one for words. Instead she kept heaping more rice into {name}'s bowl.\nThen she asked, \"And your parents, Minjun — what do they do?\"\n\n{name} lost his answer for a moment. His father was gone now. Not knowing what to say, he just looked at his bowl.\nHer mother must have read the silence; she didn't ask again, only glanced at {name}'s hands.\n\"...Hands that have worked hard.\"\n\nIn the middle of the table sat a gyeran-mari, the rolled omelet — the very same one Daeun used to bring to his goshiwon.\nWithout a word, he understood where it had come from."
+    }
+  },
+  {
+    "id": "arc_daeun_hometown_table_hands",
+    "title": "The Kind of Person Who Looks at Hands",
+    "description": "Her mother ladled more soup into the empty bowl.\n\n\"A face can smile on command. Hands take longer to learn a lie. Daeun's were the same.\"\n\n\"Mom, let him eat. Why are you inspecting him?\"\nDaeun's quiet protest earned no answer. Her mother only filled {name}'s rice bowl once more.\n\n\"If it upsets your stomach, you can sleep here. We have a spare room.\"\n\nIt was impossible to tell whether that was a joke or permission. Daeun turned her water glass as though nothing had happened, but the tips of her ears had gone red.",
+    "choices": [
+      {
+        "text": "Don't ask what she meant. Pick up the spoon again.",
+        "result_text": "The spoon touched the brass bowl with a small, clear sound. No one explained what had just been offered.\n\n{name} was learning, far too late, that some forms of welcome did not need to be explained."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_hometown_table_daughter",
+    "title": "The Same Shape",
+    "description": "Her mother took the crooked end of the rolled omelet for herself.\n\n\"I packed this when she first left for Seoul. There wasn't much else I could give her.\"\n\n\"Mom.\" Daeun laughed, embarrassed. \"The first one fell apart. I opened it at the station and half of it was scrambled eggs.\"\n\"You still ate all of it.\"\n\nAn old side-dish container passed through their laughter: countryside to Seoul, mother to daughter, then daughter to {name}'s goshiwon.\n\nWhat {name} recognized was not the shape of the omelet. It was the way one person made sure another person ate.",
+    "choices": [
+      {
+        "text": "Slide one piece of omelet toward Daeun's empty plate.",
+        "result_text": "Daeun looked at the slice, then at {name}. She did not smile, but the tension left her eyes first.\n\nHer mother pretended not to see as she cleared the soup bowls. Something had passed among the three of them before words could reach it."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_hometown_table_decision",
+    "title": "What You Leave Behind",
+    "description": "The rice bowls were half empty now, and the hospital envelope had been pushed to one end of the table.\n\nHer mother's hands, Daeun's old side-dish container, the nights {name} had eaten alone in Seoul — all of them overlapped here. No one asked him for a grand promise. Her mother only waited for the empty bowl. Daeun waited to see what he had understood.\n\nNow it was {name}'s turn to decide how to name what he had received.",
+    "choices": [
+      {
         "text": "\"Thank you for the meal, Mother.\" Finish the bowl with care.",
         "result_text": "{name} finished the bowl without leaving a single grain. Her mother saw it, and smiled for the first time, a little.\n\nThe night bus back. Daeun slept leaning against the window.\nIn one pane, the receding lights of the countryside and the approaching lights of Seoul were held together.\n\nThere had been nights spent counting three billion won. Tonight, for the first time, was a night he didn't have to count."
       },
@@ -27,10 +67,7 @@
         "text": "\"...So the gyeran-mari you used to make — it was your mother's.\"",
         "result_text": "Daeun stopped her chopsticks. Her face went a little red.\n\"...I copied hers. I'm still not as good as her.\"\nAt those words, her mother looked at her daughter for a long moment.\n\nThe night bus back. Daeun slept leaning against the window.\nIn one pane, the receding lights of the countryside and the approaching lights of Seoul were held together.\n\nThere had been nights spent counting three billion won. Tonight, for the first time, was a night he didn't have to count."
       }
-    ],
-    "description_if_known": {
-      "father_passed": "After the appointment, they had dinner at Daeun's country home.\n\nHer mother wasn't one for words. Instead she kept heaping more rice into {name}'s bowl.\nThen she asked, \"And your parents, Minjun — what do they do?\"\n\n{name} lost his answer for a moment. His father was gone now. Not knowing what to say, he just looked at his bowl.\nHer mother must have read the silence; she didn't ask again, only glanced at {name}'s hands.\n\"...Hands that have worked hard.\"\n\nIn the middle of the table sat a gyeran-mari, the rolled omelet — the very same one Daeun used to bring to his goshiwon.\nWithout a word, he understood where it had come from."
-    }
+    ]
   },
   {
     "id": "arc_jiyeon_narrow_room_1",
@@ -56,6 +93,49 @@
     "description": "She sat in the narrow room, designer coat tossed off to one side, knees drawn up.\n\n{name} poured water into two cup ramyeon. There was nothing else to offer.\n\nJiyeon looked slowly around the room. A few books, a folded blanket, one window. By the standards of her world, a room with nothing in it.\n\n\"This room is like you, oppa,\" she said.\n\"It's narrow... but all of it is real. My house is wide, and there's barely anything real in it.\"\n\nSteam rose off the cup ramyeon and fogged the window pale.",
     "choices": [
       {
+        "text": "Swallow the question and lay the chopsticks across the ramyeon lid.",
+        "result_text": "{name} pinned down the lifting lid with the chopsticks. Instead of asking what had happened, he protected the time she had managed to reach.\n\nJiyeon watched his fingertips, then raised her face a little from between her knees."
+      },
+      {
+        "text": "\"What was false in that big house today?\"",
+        "result_text": "Jiyeon's eyes went straight to {name}. Her lips stopped just before the edge she would normally have put on them.\n\n\"I really hate that question.\"\nShe did not look away. \"But it isn't the wrong one.\""
+      }
+    ],
+    "description_if_known": {
+      "told_jiyeon_about_records": "She sat in the narrow room, designer coat tossed off to one side, knees drawn up.\n\n{name} poured water into two cup ramyeon. There was nothing else to offer.\n\nJiyeon looked slowly around the room. She knows now — whose son the owner of this room is, that the name was on the list her own father had ruined.\n\n\"...It's funny.\" Jiyeon said, looking down at the cup ramyeon.\n\"I'm eating ramyeon in the room of a man my dad ruined.\"\n\nA cruelly honest thing to say. She didn't look away from it.\n\"But this room is like you, oppa. Narrow, and all of it real. My house is wide, and barely anything in it is.\""
+    }
+  },
+  {
+    "id": "arc_jiyeon_narrow_room_silence",
+    "title": "The Right Not to Speak",
+    "description": "A door closed somewhere down the corridor. The electric kettle clicked off, leaving only the sound of two cups of ramyeon softening in the little room.\n\n\"Why aren't you asking?\" Jiyeon broke the silence first.\n\"Tell me when you want to.\"\n\nShe gave a short laugh. \"Everyone says that. They say they'll wait, but they've already decided what answer they want.\"\n\n\"Then tonight doesn't need an answer.\"\n\n{name} did not press her after that, either. Jiyeon's raised knees lowered by the smallest amount.",
+    "choices": [
+      {
+        "text": "Let the silence stay, even as the ramyeon goes soft.",
+        "result_text": "The longer neither of them spoke, the room grew quieter instead of smaller.\n\nFor the first time, Jiyeon breathed like someone who would not be thrown out for having no answer."
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_narrow_room_truth",
+    "title": "The Lie in the Big House",
+    "description": "Jiyeon looked at the coat she had thrown aside. It was the most expensive thing in the room, crumpled on the floor.\n\n\"Everyone at home talked about me today. Where I'll live, who I'll see, what I'll inherit.\"\n\"What about you?\"\n\n\"That's the joke. It was my life, and I wasn't in the conversation.\"\n\nShe ran a fingertip through the beads of water on the ramyeon lid. \"Even the things I thought I chose — Dad had already narrowed the range. School. Work. The house.\"\n\nShe had walked out of that wide home carrying only a phone and the coat on the floor.",
+    "choices": [
+      {
+        "text": "Look at Jiyeon, not the coat she left on the floor.",
+        "result_text": "{name} did not look at the coat, or at her father's name. He looked at the person who had reached this room with nothing chosen.\n\nJiyeon held his gaze for a long time, then blinked first."
+      }
+    ],
+    "description_if_known": {
+      "told_jiyeon_about_records": "Jiyeon looked at the coat she had thrown aside. It was the most expensive thing in the room, crumpled on the floor.\n\n\"Now we know why my house is so wide. Its size came from taking rooms away from other people. Your father's name was on that list.\"\n\nShe did not cover the sentence with an apology. She did not ask to be forgiven.\n\"Everyone at home talked about me today. Where I'll live, what I'll inherit. But in that house, I couldn't tell which part of my life had ever really been mine.\"\n\nJiyeon traced the beads of water on the ramyeon lid. She had walked out of that wide home carrying only a phone and the coat on the floor."
+    }
+  },
+  {
+    "id": "arc_jiyeon_narrow_room_decision",
+    "title": "A Room for Exactly Two",
+    "description": "The last heat left the kettle. The edges of both ramyeon lids were beginning to curl pale.\n\nJiyeon was no longer looking around the room. In the wide house, an answer had always been prepared in her place. This narrow room held no answer at all. It held one person who had waited without leaving.\n\nShe did not ask to be comforted. She did not ask to be left alone.\n\n{name} had to choose what to offer before he chose the words for it.",
+    "choices": [
+      {
         "text": "Say nothing, and hold her.",
         "result_text": "Instead of words, {name} held her. Jiyeon was stiff at first, then pressed her forehead into his shoulder.\n\n\"...The ramyeon's going soft,\" she said, but for a long while neither of them moved.\nThat night, the narrow room was exactly two people wide."
       },
@@ -63,10 +143,7 @@
         "text": "Say nothing, and finish cooking the ramyeon, and set it down.",
         "result_text": "Instead of answering, {name} set the ramyeon in front of her. \"Eat it before it goes soft.\"\nJiyeon split the wooden chopsticks. One bite, and she snorted a laugh.\n\"...It's good. Why is this good.\"\nA night sharing two cup ramyeon in a narrow room — for her, it was the first."
       }
-    ],
-    "description_if_known": {
-      "told_jiyeon_about_records": "She sat in the narrow room, designer coat tossed off to one side, knees drawn up.\n\n{name} poured water into two cup ramyeon. There was nothing else to offer.\n\nJiyeon looked slowly around the room. She knows now — whose son the owner of this room is, that the name was on the list her own father had ruined.\n\n\"...It's funny.\" Jiyeon said, looking down at the cup ramyeon.\n\"I'm eating ramyeon in the room of a man my dad ruined.\"\n\nA cruelly honest thing to say. She didn't look away from it.\n\"But this room is like you, oppa. Narrow, and all of it real. My house is wide, and barely anything in it is.\""
-    }
+    ]
   },
   {
     "id": "arc_daeun_wedding_night",

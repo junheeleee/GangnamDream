@@ -58,12 +58,14 @@ MIN_DIALOGUE_TURNS = 2
 MIN_PANELS = 6
 
 # Ratchet updated only after a peak is expanded and its rendered QA passes.
-BASELINE_DEBT = 13
+BASELINE_DEBT = 11
 REQUIRED_PASS = {
     "arc_daeun_wedding_night",
     "arc_jiyeon_wedding_night",
     "arc_daeun_first_kiss",
     "arc_jiyeon_first_kiss",
+    "arc_daeun_hometown_2",
+    "arc_jiyeon_narrow_room_2",
     "arc_date_namsan_daeun",
     "arc_date_namsan_jiyeon",
     "arc_daeun_proposal",
@@ -595,6 +597,113 @@ def validate_wedding_night_contracts(events: dict[str, dict[str, Any]]) -> None:
                 )
 
 
+def validate_home_peak_contracts(events: dict[str, dict[str, Any]]) -> None:
+    """Keep the two home peaks state-free until their original terminal choices."""
+    contracts = (
+        {
+            "label": "Daeun hometown table",
+            "root": "arc_daeun_hometown_2",
+            "branches": (
+                "arc_daeun_hometown_table_hands",
+                "arc_daeun_hometown_table_daughter",
+            ),
+            "final": "arc_daeun_hometown_table_decision",
+            "background": "daeun_mother_home_dining",
+            "portrait": "daeun_hometown_warm",
+            "cg": "cg_romance_hometown_night_bus_daeun",
+            "cg_mode": "result",
+            "actor": "daeun",
+            "texts": (
+                '"잘 먹겠습니다, 어머니." 밥그릇을 정성껏 비운다.',
+                '"…다은씨가 해주던 계란말이가, 어머니 거였네요."',
+            ),
+            "effects": (
+                {"mental": 10, "tint": 4},
+                {"mental": 8, "tint": 5},
+            ),
+            "affinity": (8, 10),
+            "flags": ["arc_daeun_hometown_2_seen", "daeun_hometown_visited"],
+        },
+        {
+            "label": "Jiyeon narrow room",
+            "root": "arc_jiyeon_narrow_room_2",
+            "branches": (
+                "arc_jiyeon_narrow_room_silence",
+                "arc_jiyeon_narrow_room_truth",
+            ),
+            "final": "arc_jiyeon_narrow_room_decision",
+            "background": "goshiwon_room",
+            "portrait": "jiyeon_narrow_room",
+            "cg": "cg_romance_narrow_room_jiyeon",
+            "cg_mode": "continuous",
+            "actor": "jiyeon",
+            "texts": (
+                "말없이, 그녀를 안아준다.",
+                "말없이, 라면을 마저 끓여 앞에 놓는다.",
+            ),
+            "effects": (
+                {"mental": 8, "tint": 4},
+                {"mental": 6, "tint": 3},
+            ),
+            "affinity": (10, 8),
+            "flags": ["arc_jiyeon_narrow_room_2_seen", "jiyeon_narrow_room"],
+        },
+    )
+
+    for contract in contracts:
+        root_id = str(contract["root"])
+        branches = tuple(str(event_id) for event_id in contract["branches"])
+        final_id = str(contract["final"])
+        expected_paths = {(root_id, branch_id, final_id) for branch_id in branches}
+        actual_paths = {path.event_ids for path in walk_paths(events, root_id)}
+        if actual_paths != expected_paths:
+            rendered = ", ".join(" -> ".join(path) for path in sorted(actual_paths))
+            raise ValueError(f"{contract['label']} paths changed: {rendered}")
+
+        for event_id in (root_id, *branches):
+            event = events[event_id]
+            if event.get("background") != contract["background"] \
+                    or event.get("portrait") != contract["portrait"]:
+                raise ValueError(f"{contract['label']} visual changed at {event_id}")
+            if contract["cg_mode"] == "result" and (event.get("cg") or event.get("result_cg")):
+                raise ValueError(f"{contract['label']} return-bus CG appeared before the final result")
+            if contract["cg_mode"] == "continuous" and event.get("cg") != contract["cg"]:
+                raise ValueError(f"{contract['label']} lost CG continuity at {event_id}")
+            for choice in event.get("choices") or []:
+                for forbidden in (
+                    "effects", "flags", "cast_effects", "result_cg", "result_background"
+                ):
+                    if choice.get(forbidden):
+                        raise ValueError(
+                            f"{contract['label']} buildup applies {forbidden} at {event_id}"
+                        )
+
+        final_event = events[final_id]
+        if final_event.get("background") != contract["background"] \
+                or final_event.get("portrait") != contract["portrait"]:
+            raise ValueError(f"{contract['label']} final visual changed")
+        if contract["cg_mode"] == "result":
+            if final_event.get("result_cg") != contract["cg"] \
+                    or final_event.get("result_cg_reveal_paragraph") != 1 \
+                    or final_event.get("cg"):
+                raise ValueError(f"{contract['label']} final result CG timing changed")
+        elif final_event.get("cg") != contract["cg"] or final_event.get("result_cg"):
+            raise ValueError(f"{contract['label']} final continuous CG changed")
+
+        final_choices = final_event.get("choices") or []
+        if len(final_choices) != 2:
+            raise ValueError(f"{contract['label']} final must retain two choices")
+        for index, choice in enumerate(final_choices):
+            expected_cast = {
+                str(contract["actor"]): {"affinity": contract["affinity"][index]}
+            }
+            if choice.get("text") != contract["texts"][index] \
+                    or choice.get("effects") != contract["effects"][index] \
+                    or choice.get("flags") != contract["flags"] \
+                    or choice.get("cast_effects") != expected_cast:
+                raise ValueError(f"{contract['label']} final choice {index} changed")
+
+
 def validate_daeun_wedding_contract(events: dict[str, dict[str, Any]]) -> None:
     """Preserve the paid ceremony variant and canonical aisle decision."""
     root_id = "arc_daeun_wedding_day"
@@ -1119,6 +1228,7 @@ def main() -> int:
     en_events = load_events(EVENTS_EN)
     validate_wedding_night_contracts(ko_events)
     validate_first_kiss_contracts(ko_events)
+    validate_home_peak_contracts(ko_events)
     validate_jaehyuk_contracts(ko_events)
     validate_daeun_proposal_contract(ko_events)
     validate_daeun_wedding_contract(ko_events)

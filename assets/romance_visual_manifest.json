@@ -98,7 +98,7 @@
   ],
   "t1": [
     {
-      "event_id": "arc_jiyeon_narrow_room_2",
+      "event_id": "arc_jiyeon_narrow_room_decision",
       "cg": "cg_romance_narrow_room_jiyeon",
       "heroine_portrait": "jiyeon_narrow_room",
       "heroine_outfit": "Deep muted oxblood fine-knit top and charcoal trousers, coat removed, nearly bare face.",
@@ -106,6 +106,7 @@
       "player_visibility": "visible_right",
       "eye_line": "Jiyeon and Minjun hold mutual eye contact across the narrow floor aisle; neither looks at the lens.",
       "prelude_event_id": "arc_jiyeon_narrow_room_1",
+      "chain_event_ids": ["arc_jiyeon_narrow_room_2", "arc_jiyeon_narrow_room_silence", "arc_jiyeon_narrow_room_truth"],
       "prelude_portrait": "jiyeon_narrow_door",
       "prelude_outfit": "Travel-creased charcoal long coat worn open over the same oxblood fine-knit top."
     },
@@ -153,7 +154,7 @@
       "eye_line": "Four-frame sequence: both address the booth lens, then share mutual eye contact, laugh together, and end with Jiyeon kissing Minjun's cheek while his surprise remains natural."
     },
     {
-      "event_id": "arc_daeun_hometown_2",
+      "event_id": "arc_daeun_hometown_table_decision",
       "cg_placement": "event_result",
       "cg": "cg_romance_hometown_night_bus_daeun",
       "heroine_portrait": "daeun_hometown_warm",
@@ -162,6 +163,7 @@
       "player_visibility": "visible_right",
       "eye_line": "Daeun sleeps with her head resting against the bus window while Minjun watches her and the shared rural-to-Seoul reflection with a quiet, relieved expression.",
       "prelude_event_id": "arc_daeun_hometown_1",
+      "chain_event_ids": ["arc_daeun_hometown_2", "arc_daeun_hometown_table_hands", "arc_daeun_hometown_table_daughter"],
       "prelude_portrait": "daeun_hometown_worried",
       "prelude_outfit": "The same pale sage overshirt, ivory T-shirt, navy trousers, and charcoal shoulder strap used through the two-day summer trip."
     },

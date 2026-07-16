@@ -1,6 +1,6 @@
 # Daeun Hometown Visual Bible
 
-Updated: 2026-07-11
+Updated: 2026-07-17
 
 This file owns the location, calendar, wardrobe, and acting continuity for `arc_daeun_hometown_1` and `arc_daeun_hometown_2`.
 
@@ -43,6 +43,8 @@ This file owns the location, calendar, wardrobe, and acting continuity for `arc_
 
 ## Runtime Timing
 
+- Episode 2 is one continuous scene across `arc_daeun_hometown_2`, `arc_daeun_hometown_table_hands` or `arc_daeun_hometown_table_daughter`, and `arc_daeun_hometown_table_decision`. All links retain `daeun_mother_home_dining` and `daeun_hometown_warm`.
+- The first two choices are dialogue and observation only. They may not set flags, affinity, Moral Tint, mental, or money before the final decision.
 - The dinner background and `daeun_hometown_warm` portrait remain during result paragraph 0.
 - `cg_romance_hometown_night_bus_daeun` appears at result paragraph 1, exactly when the prose reaches the night bus.
 - The shared event-level result CG applies to both choices; duplicating it on each choice is prohibited.

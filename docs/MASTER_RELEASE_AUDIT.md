@@ -19,9 +19,9 @@ Adjacent and top-selling execution references are assigned by surface in `docs/S
 
 | Surface | Current baseline | What the number does not prove |
 |---|---:|---|
-| KO events | 1,525 | Consistent prose, reachability, pacing, or relevance |
-| EN event overlays | 1,525 | Native English voice or cultural clarity |
-| Choices per language | 3,393 | Meaningful tradeoffs or delayed consequence |
+| KO events | 1,531 | Consistent prose, reachability, pacing, or relevance |
+| EN event overlays | 1,531 | Native English voice or cultural clarity |
+| Choices per language | 3,401 | Meaningful tradeoffs or delayed consequence |
 | Endings | 35 | Distinct emotional payoff or bespoke presentation |
 | Explicit event/result CG links | 32 | Enough climax imagery for a commercial VN |
 | Background PNG assets | 79 | Canon continuity, physical logic, or correct event mapping |
@@ -29,7 +29,7 @@ Adjacent and top-selling execution references are assigned by surface in `docs/S
 | CG PNG files | 60 | Launch key moments and ending coverage |
 | BGM / ambience / SFX | 14 / 45 / 53 | Loop fatigue, mix quality, ownership, or license proof |
 | Achievements / easter eggs | 15 / 8 | Discovery quality or community conversation |
-| Screenshot QA scopes | 59 | Full-playthrough correctness or subjective fun |
+| Screenshot QA scopes | 60 | Full-playthrough correctness or subjective fun |
 
 The first parity audit found eight EN-only overlay rows. DataRegistry silently ignored them because no KO base event existed, so translated scenes appeared to ship while no player could reach them. They are now promoted to complete bilingual events with conditions and consequences, and EN-only dead overlays fail CI.
 
@@ -53,7 +53,7 @@ These are confidence bands, not review scores. Every band must be replaced by pl
 | UI/UX | Developing, over-surfaced | StoryMode and demo AP now share a restrained text/material hierarchy: body copy is shadow-free, semantic text has 1px ink contact, and choice surfaces use a 1px rest/2px focus/1px press contract across 720p, Deck, and 4K. MainGame still exposes 22 `_open_*` surfaces plus seven page renderers; People, gambling, routine, Info Deck, and ending report remain broader web/list debt |
 | Controller / Steam Deck | Developing, automated routes proven | Brand-aware physical-position glyphs, shared keyboard/gamepad verbs, 18 direct casino/race routes, nine keyboard core minigame tasks, and keyboard-only/mouse-only 24-week demo completion are gated. Physical Steam Deck/DualSense/Switch Pro hand feel, reconnect, suspend/resume, and overlay tests remain |
 | Display / console readiness | Developing | 720p, 1280x800, 1080p, QHD, 4K, and 3440x1440 real renders preserve TV-safe settings/AP/story surfaces and 21:9 expands the scene without moving decisions offstage. Physical handheld/TV checks, sofa-distance readability, suspend/resume, raster-master review, and platform certification remain |
-| Image quality / continuity | Developing | Background/portrait separation, romance outfit pairs, spatial bibles, 57 active CG and 125 locked event visual contracts now gate high-risk scenes. Explicit winter/night/private-room/transit/cast/cultural art debts remain, so recurring-cast seasons and climax coverage are still incomplete |
+| Image quality / continuity | Developing | Background/portrait separation, romance outfit pairs, spatial bibles, 57 active CG and 133 locked event visual contracts now gate high-risk scenes. Explicit winter/night/private-room/transit/cast/cultural art debts remain, so recurring-cast seasons and climax coverage are still incomplete |
 | Audio identity | Developing | All 112 files are project-owned, reproducible, and source-audited; 14 scores, 45 ambience beds, and 53 effects have scene contracts. Long-session musical grammar, one memorable four-note identity, chapter-boss arrangements, and human listening proof remain |
 | Motion / game feel | Weak to developing | AP commitment has a clearer board and feedback vocabulary, and chained story scenes no longer flash the AP shell between them; input feel and several navigation transitions still need measured play tests |
 | Moral Tint impact | Promising, partially embodied | Five KO/EN anchor scenes carry one hidden attention grammar from Daeun's cafe through Sangchul, Gangnam, Father, and the final countdown. Band crossings return to one canonical goshiwon/black-crewneck memory frame, identical result cards change attention order, and Gray now stays legibly distinct from both Black collapse and White recovery on naturally dark locations. Portrait distance, surface, lived ambience, and two non-jingle attention cues support the shift; a complete neutral-to-White/Black blind run still has not proven players notice it without explanation |
@@ -67,7 +67,7 @@ The reproducible source is `python3 tools/game_structure_audit.py`; the design r
 
 | Measured surface | Baseline | Release implication |
 |---|---:|---|
-| Events / authored / random pool | 1,525 / 348 / 1,177 | Stop adding volume; curate priority and causality |
+| Events / authored / random pool | 1,531 / 354 / 1,177 | Stop adding volume; curate priority and causality |
 | Representative authored path | 117-120 beats | Enough material for one run; pacing and selection are the work |
 | Manual AP ceiling | 480 commits | Cannot ship as the default dramatic rhythm |
 | Estimated montage stopping weeks | 141-142 | Current compression is insufficient |

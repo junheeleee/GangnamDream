@@ -14,6 +14,12 @@ const ALLOWED_STORY_CG_CONTINUITY := {
 		"arc_jiyeon_wedding_guest_list",
 		"arc_jiyeon_wedding_gap_decision",
 	],
+	"cg_romance_narrow_room_jiyeon": [
+		"arc_jiyeon_narrow_room_2",
+		"arc_jiyeon_narrow_room_silence",
+		"arc_jiyeon_narrow_room_truth",
+		"arc_jiyeon_narrow_room_decision",
+	],
 }
 
 func _ready() -> void:
@@ -52,7 +58,7 @@ func _check_story_mode_cg() -> void:
 	await _check_story_event_cg("arc_date_namsan_lock_daeun", "cg_romance_namsan_lock_daeun")
 	await _check_story_event_cg("arc_date_namsan_lock_jiyeon", "cg_romance_namsan_lock_jiyeon")
 	await _check_story_event_cg("arc_date_park_daeun", "cg_romance_amusement_lost_child_daeun")
-	await _check_story_event_cg("arc_jiyeon_narrow_room_2", "cg_romance_narrow_room_jiyeon")
+	await _check_story_event_cg("arc_jiyeon_narrow_room_decision", "cg_romance_narrow_room_jiyeon")
 	await _check_story_event_paragraph_backgrounds("arc_date_namsan_daeun", [
 		"namsan_cable_car",
 		"namsan_tonkatsu_restaurant",
@@ -70,7 +76,7 @@ func _check_story_mode_cg() -> void:
 	await _check_story_choice_result_visual(
 		"arc_date_park_daeun", 1, "amusement_roller_coaster", false)
 	await _check_story_shared_result_cg(
-			"arc_daeun_hometown_2", 0, "daeun_mother_home_dining",
+			"arc_daeun_hometown_table_decision", 0, "daeun_mother_home_dining",
 			"cg_romance_hometown_night_bus_daeun", 1)
 	await _check_story_shared_result_cg(
 			"arc_daeun_wedding_night_choice", 0, "daeun_newlywed_home",
@@ -642,6 +648,16 @@ func _check_romance_visual_manifest() -> void:
 					_failures.append("%s portrait drifted from its romance prelude" % branch_event_id)
 				if str(branch_event.get("background", "")) != str(prelude_event.get("background", "")):
 					_failures.append("%s background drifted from its romance prelude" % branch_event_id)
+		for raw_chain_id in row.get("chain_event_ids", []):
+			var chain_event_id := str(raw_chain_id)
+			var chain_event: Dictionary = DataRegistry.find_event(chain_event_id)
+			if chain_event.is_empty():
+				_failures.append("romance visual manifest chain event is missing: %s" % chain_event_id)
+				continue
+			if str(chain_event.get("portrait", "")) != str(event.get("portrait", "")):
+				_failures.append("%s portrait drifted inside its peak chain" % chain_event_id)
+			if str(chain_event.get("background", "")) != str(event.get("background", "")):
+				_failures.append("%s background drifted inside its peak chain" % chain_event_id)
 
 func _check_romance_portrait(portrait_id: String, owner: String) -> void:
 	var path: String = ImageRegistry.get_portrait(portrait_id)

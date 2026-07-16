@@ -1,6 +1,6 @@
 # Minjun Goshiwon Visual Bible
 
-Updated: 2026-07-11
+Updated: 2026-07-17
 
 ## Canon Owner
 
@@ -48,6 +48,13 @@ FRONT / CAMERA
 - Exactly two unbranded cup ramyeon bowls sit on the desk's back edge, above the dialogue-safe zone.
 - Jiyeon and Minjun look at each other. The camera is an observer, never either character's lens POV.
 - Steam and the small frosted window may carry the intimacy; no large window, city lights, or luxury prop is allowed.
+
+## Narrow Room Chain Contract
+
+- Episode 2 is one continuous scene across `arc_jiyeon_narrow_room_2`, `arc_jiyeon_narrow_room_silence` or `arc_jiyeon_narrow_room_truth`, and `arc_jiyeon_narrow_room_decision`.
+- Every link retains `goshiwon_room`, `jiyeon_narrow_inside`, and `cg_romance_narrow_room_jiyeon`; Jiyeon cannot return to the doorway travel coat after sitting down.
+- The first two choices are dialogue and observation only. They may not set flags, affinity, Moral Tint, mental, or money before the final decision.
+- The two bowls, mutual eye line, task lamp, bed, desk, and high frosted window remain in the same positions through the final result.
 
 ## Reject When
 

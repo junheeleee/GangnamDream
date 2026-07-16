@@ -28,6 +28,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=namsan --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=amusement --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=hometown --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=home-peaks --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=wedding-morning --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=commitment --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=breakup --lang=en
@@ -98,6 +99,7 @@ const QA_SCOPE_ROMANCE_PORTRAITS := "romance_portraits"
 const QA_SCOPE_NAMSAN := "namsan"
 const QA_SCOPE_AMUSEMENT := "amusement"
 const QA_SCOPE_HOMETOWN := "hometown"
+const QA_SCOPE_HOME_PEAKS := "home_peaks"
 const QA_SCOPE_WEDDING_MORNING := "wedding_morning"
 const QA_SCOPE_COMMITMENT := "commitment"
 const QA_SCOPE_BREAKUP := "breakup"
@@ -340,7 +342,19 @@ func _ready() -> void:
 	if scope == QA_SCOPE_HOMETOWN:
 		var lang := _qa_language("en")
 		await _shot_hometown_surfaces(lang, "hometown_en_" if lang == "en" else "hometown_ko_")
+		if _qa_failed:
+			get_tree().quit(1)
+			return
 		print("SCREENSHOT_QA_DONE scope=hometown lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_HOME_PEAKS:
+		var lang := _qa_language("en")
+		await _shot_home_peak_surfaces(lang, "home_peaks_en_" if lang == "en" else "home_peaks_ko_")
+		if _qa_failed:
+			get_tree().quit(1)
+			return
+		print("SCREENSHOT_QA_DONE scope=home-peaks lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_WEDDING_MORNING:
@@ -696,6 +710,10 @@ func _qa_scope() -> String:
 		if arg in ["hometown", "hometown-romance", "hometown_romance", "--hometown",
 				"qa=hometown", "--qa=hometown", "scope=hometown", "--scope=hometown"]:
 			return QA_SCOPE_HOMETOWN
+		if arg in ["home-peaks", "home_peaks", "table-room", "table_room", "--home-peaks",
+				"--home_peaks", "qa=home-peaks", "--qa=home-peaks", "qa=home_peaks",
+				"--qa=home_peaks", "scope=home-peaks", "--scope=home-peaks"]:
+			return QA_SCOPE_HOME_PEAKS
 		if arg in ["wedding-morning", "wedding_morning", "first-morning", "first_morning",
 				"--wedding-morning", "--wedding_morning", "qa=wedding-morning", "--qa=wedding-morning",
 				"qa=wedding_morning", "--qa=wedding_morning", "scope=wedding-morning", "--scope=wedding-morning"]:
@@ -3173,13 +3191,131 @@ func _shot_amusement_surfaces(lang: String = "en", prefix: String = "amusement_e
 	await _shot_story_event("arc_date_park_jiyeon", prefix + "jiyeon_04_ride_result", lang, 0.45, true, true, 1)
 
 func _shot_hometown_surfaces(lang: String = "en", prefix: String = "hometown_en_") -> void:
-	await _shot_story_event("arc_daeun_hometown_1", prefix + "00_train_intro", lang, 0.45, true)
-	await _shot_story_event("arc_daeun_hometown_1", prefix + "01_train_choices", lang, 0.45, true, true)
-	await _shot_story_event("arc_daeun_hometown_1", prefix + "02_train_result", lang, 0.45, true, true, 0)
-	await _shot_story_event("arc_daeun_hometown_2", prefix + "03_mother_table_intro", lang, 0.45, true)
-	await _shot_story_event("arc_daeun_hometown_2", prefix + "04_mother_table_choices", lang, 0.45, true, true)
-	await _shot_story_event("arc_daeun_hometown_2", prefix + "05_dinner_result", lang, 0.45, true, true, 0)
-	await _shot_story_event("arc_daeun_hometown_2", prefix + "06_night_bus_result", lang, 0.45, true, true, 0, 0, false, 1)
+	_set_qa_language(lang)
+
+	_prepare_home_peak_qa_state("daeun")
+	await _shot_story_event("arc_daeun_hometown_1", prefix + "00_train_intro", "", 0.45, true)
+	_prepare_home_peak_qa_state("daeun")
+	await _shot_story_event("arc_daeun_hometown_1", prefix + "01_train_choices", "", 0.45, true, true)
+	_prepare_home_peak_qa_state("daeun")
+	await _shot_story_event("arc_daeun_hometown_1", prefix + "02_train_result", "", 0.45, true, true, 0)
+
+	_prepare_home_peak_qa_state("daeun")
+	await _shot_story_event("arc_daeun_hometown_2", prefix + "03_table_intro", "", 0.45, true)
+	_assert_home_peak_uncommitted("daeun", "table intro")
+	_prepare_home_peak_qa_state("daeun")
+	await _shot_story_event("arc_daeun_hometown_2", prefix + "04_table_opening_choice", "", 0.45, true, true, 0)
+	_assert_home_peak_uncommitted("daeun", "table opening")
+	_prepare_home_peak_qa_state("daeun")
+	await _shot_story_event("arc_daeun_hometown_table_hands", prefix + "05_table_hands", "", 0.45, true, true, 0)
+	_assert_home_peak_uncommitted("daeun", "table hands")
+	_prepare_home_peak_qa_state("daeun")
+	await _shot_story_event("arc_daeun_hometown_table_daughter", prefix + "06_table_daughter", "", 0.45, true, true, 0)
+	_assert_home_peak_uncommitted("daeun", "table daughter")
+	_prepare_home_peak_qa_state("daeun")
+	await _shot_story_event("arc_daeun_hometown_table_decision", prefix + "07_table_final_choice", "", 0.45, true, true)
+	_assert_home_peak_uncommitted("daeun", "table final")
+	_prepare_home_peak_qa_state("daeun")
+	await _shot_story_event("arc_daeun_hometown_table_decision", prefix + "08_table_empty_bowl", "", 0.45, true, true, 0)
+	_assert_home_peak_state("daeun", "empty bowl", 70, 4.0, 58)
+	_prepare_home_peak_qa_state("daeun")
+	await _shot_story_event("arc_daeun_hometown_table_decision", prefix + "09_table_night_bus", "", 0.45, true, true, 0, 0, false, 1)
+	_assert_home_peak_state("daeun", "night bus", 70, 4.0, 58)
+	_prepare_home_peak_qa_state("daeun")
+	await _shot_story_event("arc_daeun_hometown_table_decision", prefix + "10_table_omelet_result", "", 0.45, true, true, 1, 0, false, 1)
+	_assert_home_peak_state("daeun", "omelet", 68, 5.0, 60)
+	_prepare_home_peak_qa_state("daeun")
+	GameState.flags["father_passed"] = true
+	await _shot_story_event("arc_daeun_hometown_2", prefix + "10b_table_father_known", "", 0.5, true)
+	_assert_home_peak_uncommitted("daeun", "father-known table")
+
+	_prepare_home_peak_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_narrow_room_1", prefix + "11_narrow_door", "", 0.45, true, false, -1, 2)
+	_prepare_home_peak_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_narrow_room_2", prefix + "12_narrow_intro", "", 0.45, true)
+	_assert_home_peak_uncommitted("jiyeon", "narrow intro")
+	_prepare_home_peak_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_narrow_room_2", prefix + "13_narrow_opening_choice", "", 0.45, true, true, 0)
+	_assert_home_peak_uncommitted("jiyeon", "narrow opening")
+	_prepare_home_peak_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_narrow_room_silence", prefix + "14_narrow_silence", "", 0.45, true, true, 0)
+	_assert_home_peak_uncommitted("jiyeon", "narrow silence")
+	_prepare_home_peak_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_narrow_room_truth", prefix + "15_narrow_truth", "", 0.45, true, true, 0)
+	_assert_home_peak_uncommitted("jiyeon", "narrow truth")
+	_prepare_home_peak_qa_state("jiyeon")
+	GameState.flags["told_jiyeon_about_records"] = true
+	await _shot_story_event("arc_jiyeon_narrow_room_truth", prefix + "15b_narrow_records_known", "", 0.5, true)
+	_assert_home_peak_uncommitted("jiyeon", "records-known truth")
+	_prepare_home_peak_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_narrow_room_decision", prefix + "16_narrow_final_choice", "", 0.45, true, true)
+	_assert_home_peak_uncommitted("jiyeon", "narrow final")
+	_prepare_home_peak_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_narrow_room_decision", prefix + "17_narrow_embrace", "", 0.45, true, true, 0)
+	_assert_home_peak_state("jiyeon", "embrace", 68, 4.0, 60)
+	_prepare_home_peak_qa_state("jiyeon")
+	await _shot_story_event("arc_jiyeon_narrow_room_decision", prefix + "18_narrow_ramyeon", "", 0.45, true, true, 1)
+	_assert_home_peak_state("jiyeon", "ramyeon", 66, 3.0, 58)
+
+func _shot_home_peak_surfaces(lang: String = "en", prefix: String = "home_peaks_en_") -> void:
+	await _shot_hometown_surfaces(lang, prefix)
+
+func _prepare_home_peak_qa_state(person_id: String) -> void:
+	_prepare_main_game_state()
+	GameState.age = 35
+	GameState.turn = 181
+	GameState.year = 2029
+	GameState.month = 9 if person_id == "daeun" else 10
+	GameState.week_of_month = 2
+	GameState.mental = 60
+	GameState.moral_tint = 0.0
+	for flag in [
+		"arc_daeun_hometown_2_seen", "arc_jiyeon_narrow_room_2_seen",
+		"father_passed", "told_jiyeon_about_records",
+	]:
+		GameState.flags.erase(flag)
+	GameState.flags[person_id + "_romance_started"] = true
+	if person_id == "daeun":
+		GameState.flags["arc_daeun_hometown_1_seen"] = true
+		GameState.flags["daeun_hometown_visited"] = true
+	else:
+		GameState.flags["arc_jiyeon_narrow_room_1_seen"] = true
+		GameState.flags["jiyeon_narrow_room"] = true
+	_set_cast_relation_for_qa(person_id, 50)
+	GameState.cast[person_id]["stage"] = "lover"
+
+func _assert_home_peak_uncommitted(person_id: String, label: String) -> void:
+	var completion_flag := "arc_%s_%s_seen" % [
+		person_id,
+		"hometown_2" if person_id == "daeun" else "narrow_room_2",
+	]
+	var affinity := int(GameState.cast.get(person_id, {}).get("affinity", -999))
+	if int(GameState.mental) != 60 or not is_equal_approx(GameState.moral_tint, 0.0) \
+			or affinity != 50:
+		_fail("%s home peak %s changed state before the final decision: mental=%s tint=%s affinity=%s." % [
+			person_id, label, GameState.mental, GameState.moral_tint, affinity,
+		])
+	if GameState.flags.get(completion_flag, false):
+		_fail("%s home peak %s committed its completion flag early." % [person_id, label])
+
+func _assert_home_peak_state(
+		person_id: String, label: String, mental: int, tint: float, affinity: int) -> void:
+	var completion_flag := "arc_%s_%s_seen" % [
+		person_id,
+		"hometown_2" if person_id == "daeun" else "narrow_room_2",
+	]
+	var actual_affinity := int(GameState.cast.get(person_id, {}).get("affinity", -999))
+	if int(GameState.mental) != mental or not is_equal_approx(GameState.moral_tint, tint) \
+			or actual_affinity != affinity:
+		_fail("%s home peak %s totals changed: mental=%s tint=%s affinity=%s." % [
+			person_id, label, GameState.mental, GameState.moral_tint, actual_affinity,
+		])
+	if not GameState.flags.get(completion_flag, false):
+		_fail("%s home peak %s did not commit its completion flag." % [person_id, label])
+	var continuity_flag := "daeun_hometown_visited" \
+		if person_id == "daeun" else "jiyeon_narrow_room"
+	if not GameState.flags.get(continuity_flag, false):
+		_fail("%s home peak %s lost its continuity flag." % [person_id, label])
 
 func _shot_wedding_morning_surfaces(lang: String = "en", prefix: String = "wedding_morning_en_") -> void:
 	_set_qa_language(lang)

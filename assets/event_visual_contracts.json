@@ -1,5 +1,5 @@
 {
-  "version": 15,
+  "version": 16,
   "tag_coverage": [
     "climate",
     "season",
@@ -35,6 +35,14 @@
     {"id": "arc_jiyeon_first_kiss_silence", "background": "jiyeon_sedan_night", "portrait": "jiyeon_warm", "cg": null},
     {"id": "arc_jiyeon_first_kiss_speak", "background": "jiyeon_sedan_night", "portrait": "jiyeon_warm", "cg": null},
     {"id": "arc_jiyeon_first_kiss_choice", "background": "jiyeon_sedan_night", "portrait": "jiyeon_warm", "cg": "cg_romance_first_kiss_jiyeon"},
+    {"id": "arc_daeun_hometown_2", "background": "daeun_mother_home_dining", "portrait": "daeun_hometown_warm", "cg": null},
+    {"id": "arc_daeun_hometown_table_hands", "background": "daeun_mother_home_dining", "portrait": "daeun_hometown_warm", "cg": null},
+    {"id": "arc_daeun_hometown_table_daughter", "background": "daeun_mother_home_dining", "portrait": "daeun_hometown_warm", "cg": null},
+    {"id": "arc_daeun_hometown_table_decision", "background": "daeun_mother_home_dining", "portrait": "daeun_hometown_warm", "cg": null},
+    {"id": "arc_jiyeon_narrow_room_2", "background": "goshiwon_room", "portrait": "jiyeon_narrow_room", "cg": "cg_romance_narrow_room_jiyeon"},
+    {"id": "arc_jiyeon_narrow_room_silence", "background": "goshiwon_room", "portrait": "jiyeon_narrow_room", "cg": "cg_romance_narrow_room_jiyeon"},
+    {"id": "arc_jiyeon_narrow_room_truth", "background": "goshiwon_room", "portrait": "jiyeon_narrow_room", "cg": "cg_romance_narrow_room_jiyeon"},
+    {"id": "arc_jiyeon_narrow_room_decision", "background": "goshiwon_room", "portrait": "jiyeon_narrow_room", "cg": "cg_romance_narrow_room_jiyeon"},
     {"id": "arc_daeun_wedding_night", "background": "daeun_newlywed_home", "portrait": "daeun_wedding_night", "cg": null},
     {"id": "arc_daeun_wedding_night_tea", "background": "daeun_newlywed_home", "portrait": "daeun_wedding_night", "cg": null},
     {"id": "arc_daeun_wedding_night_honest", "background": "daeun_newlywed_home", "portrait": "daeun_wedding_night", "cg": null},
