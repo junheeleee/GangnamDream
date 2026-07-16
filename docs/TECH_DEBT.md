@@ -29,6 +29,21 @@ python3 tools/tech_debt_inventory.py --json > /tmp/gangnam_tech_debt.json
 
 전체 원시 목록은 위 JSON 명령으로 보존한다. 이 문서는 원시 후보를 출시 판단으로 바꾼 정본이다.
 
+## A급 수리 후 기준선
+
+| 지표 | 수리 전 | 수리 후 | 변화 |
+|---|---:|---:|---:|
+| GDScript | 91파일 / 61,569줄 | 86파일 / 59,524줄 | **-5파일 / -2,045줄** |
+| 제품 코드 | 58파일 | 53파일 | **-5파일** |
+| 함수 | 2,448 | 2,429 | **-19** |
+| 제품 핫스팟 | 17파일 | 16파일 | **-1** |
+| 120줄 이상 함수 | 44 | 43 | **-1** |
+| 문자열 동적 호출 | 45 | 44 | **-1** |
+| TODO/pass | 4 | 2 | **-2** |
+| 죽은 코드 후보 | 54 | 47 | **-7** |
+
+`python3 tools/tech_debt_inventory.py`의 2026-07-16 사후 출력이다. 동일 본문 그룹 15개와 인라인 데이터 후보 49개는 줄지 않았다. 이 둘은 삭제로 해결할 A급 결함이 아니라, 장치 매트릭스와 정본 소유권을 먼저 잠가야 하는 B급 이관 작업이다.
+
 ## 분류 요약
 
 | 등급 | 뜻 | 출시 전 정책 |
@@ -39,12 +54,12 @@ python3 tools/tech_debt_inventory.py --json > /tmp/gangnam_tech_debt.json
 
 ## A · 출시 전 수리
 
-| ID | 위치 | 증거 | 수리 / 검증 | 로드맵 |
-|---|---|---|---|---|
-| A-01 | `data/EventData.gd`, `InvestmentData.gd`, `ItemData.gd`, `JobData.gd`, `NewsData.gd`와 UID | 초기 커밋의 GDScript 데이터 1,771줄. 전체 코드·씬·리소스에서 파일명, `res://data/`, 정적 배열 독자 0. 현재 실행은 `DataRegistry`의 `content/*.json`만 사용 | 10파일 삭제. 정적 감사, 58스크립트 컴파일, 이벤트/투자/직업/상점/뉴스 런타임 계약 확인 | JSON 정본 단일화, ORDER-12/17 모딩 전 혼선 제거 |
-| A-02 | `scenes/StartMenu.gd`의 `_build_legacy_ui`, `_splash_meta_badge`, `_section_header` | 각 함수 정의 외 참조 0. `_build_legacy_ui` 주석도 “더 이상 호출하지 않음”을 명시. 약 250줄의 폐기 타이틀 표면 | 함수 세 개 삭제. 시작 메뉴 KO/EN 실렌더와 키보드/패드 메뉴 과업 확인 | 데모 첫 화면의 단일 구현 유지 |
-| A-03 | `autoloads/GameState.gd::_apply_background_bonus`, `scenes/MainGame.gd::life_skills_game`, `_build_bottom_bar` | 각각 명시적 legacy `pass`, 제거된 미니게임 필드, 호출 1회뿐인 빈 빌더 | 선언·대입·빈 호출/함수만 삭제. 저장 키·게임 규칙 변경 없음. 전체 audit + 데모 AP 스모크 | 컴파일 표면과 신규 작업자의 오해 감소 |
-| A-04 | `scenes/MainGame.gd::STEAM_APP_ID` | 실제 미완 TODO 1건. 현재 문자열 placeholder라 스토어 이동은 검색 폴백 URL 사용 | Steamworks AppID 발급 즉시 숫자 설정. 발급 전 임의 값 금지 | 패키징 외부 게이트. 코드 정리와 별개 |
+| ID | 상태 | 위치 | 증거 | 수리 / 검증 | 로드맵 |
+|---|---|---|---|---|---|
+| A-01 | **완료** | `data/EventData.gd`, `InvestmentData.gd`, `ItemData.gd`, `JobData.gd`, `NewsData.gd`와 UID | 초기 커밋의 GDScript 데이터 1,771줄. 전체 코드·씬·리소스에서 파일명, `res://data/`, 정적 배열 독자 0. 현재 실행은 `DataRegistry`의 `content/*.json`만 사용 | 10파일 삭제. 정적 감사와 53스크립트 컴파일, 이벤트/투자/직업/상점/뉴스 계약 통과 | JSON 정본 단일화, ORDER-12/17 모딩 전 혼선 제거 |
+| A-02 | **완료** | `scenes/StartMenu.gd`의 `_build_legacy_ui`, `_splash_meta_badge`, `_section_header` | 각 함수 정의 외 참조 0. `_build_legacy_ui` 주석도 “더 이상 호출하지 않음”을 명시. 약 250줄의 폐기 타이틀 표면 | 함수 세 개와 고아 일본어 키 5개 삭제. 1920×1080 KO/EN, Xbox 글리프, 키보드/패드 시작 메뉴 과업 통과 | 데모 첫 화면의 단일 구현 유지 |
+| A-03 | **완료** | `autoloads/GameState.gd::_apply_background_bonus`, `scenes/MainGame.gd::life_skills_game`, `_build_bottom_bar` | 각각 명시적 legacy `pass`, 제거된 미니게임 필드, 호출 1회뿐인 빈 빌더 | 선언·대입·빈 호출/함수만 삭제. 저장 키·게임 규칙 변경 없음. 컴파일 및 AP 화면 회귀 통과 | 컴파일 표면과 신규 작업자의 오해 감소 |
+| A-04 | **외부 대기** | `scenes/MainGame.gd::STEAM_APP_ID` | 실제 미완 TODO 1건. 현재 문자열 placeholder라 스토어 이동은 검색 폴백 URL 사용 | Steamworks AppID 발급 즉시 숫자 설정. 발급 전 임의 값 금지 | 패키징 외부 게이트. 코드 정리와 별개 |
 
 A-01~03은 동작을 바꾸지 않는 삭제만 허용한다. A-04는 외부 값이 생기기 전에는 TODO를 유지한다.
 
@@ -52,7 +67,7 @@ A-01~03은 동작을 바꾸지 않는 삭제만 허용한다. A-04는 외부 값
 
 | ID | 위치 / 규모 | 부채 | 안전한 이관 경계 | 연관 |
 |---|---|---|---|---|
-| B-01 | `scenes/MainGame.gd` 16,107줄 / 550함수 | UI 조립, 주간 경제, 아크 편성, AP 행동, 투자·상점, 엔딩·결산이 한 노드에 공존 | 아래 책임 지도 단위로 먼저 테스트를 소유권 이전한 뒤 분리. 출시 전 파일 쪼개기 금지 | DLC, 유지보수 |
+| B-01 | `scenes/MainGame.gd` 16,100줄 / 549함수 | UI 조립, 주간 경제, 아크 편성, AP 행동, 투자·상점, 엔딩·결산이 한 노드에 공존 | 아래 책임 지도 단위로 먼저 테스트를 소유권 이전한 뒤 분리. 출시 전 파일 쪼개기 금지 | DLC, 유지보수 |
 | B-02 | `_next_arc_id()` 1,127줄 | 턴 창·플래그·체인 순서가 코드 분기 | v1.1에서 읽기 전용 스케줄 데이터 + 현 함수와 결과 비교 하니스부터. 즉시 치환 금지 | ORDER-17 커스텀 아크 |
 | B-03 | 미니게임 9개 | `_pulse_node` 7복제, `_shake_node` 5복제, `_screen_flash` 5복제, `_mark_pad_button` 4복제, 패드 입력 2복제 | 규칙 엔진이 아니라 표면 효과·의미 입력만 공용 컴포넌트화. 장치 매트릭스로 선행 잠금 | 콘솔 포팅 |
 | B-04 | 슬롯 `_build_ui` 479줄, 룰렛 322줄, 빅휠 249줄, 다이사이 168줄 | 코드 생성 UI가 규칙·레이아웃과 결합 | 게임별 테이블 상태와 표현 노드를 먼저 분리하고 1080p/Deck 골든 캡처 비교 | 미니게임 폴리시 |
@@ -129,7 +144,7 @@ A-01~03은 동작을 바꾸지 않는 삭제만 허용한다. A-04는 외부 값
 - 반복 숫자 최다는 `MainGame`의 8/10/12px 간격·글자 크기다. 이는 현재 화면 결함이 아니라 B-07 테마 토큰 후보이다.
 - 룰렛 36, 블랙잭 21, 다이사이 배당처럼 규칙을 표현하는 숫자는 게임별 `const` 또는 규칙 엔진에 남긴다.
 - 배경·초상 경로 중복은 C-07 의미 별칭이다.
-- 제품 코드에서 같은 hex가 3회 이상 비상수로 반복되는 후보는 기준선상 0이다.
+- 같은 hex가 3회 이상 반복되는 후보는 `MainGame` 101종을 포함해 여러 화면에 존재한다. 대부분 Moral 역할색·간격 토큰과 게임별 테이블 색이므로 B-07에서 공식 Theme/토큰 소유권을 정한 뒤 이동한다. 반복 횟수만으로 A급 상수 추출을 하지 않는다.
 - 영어 표면 하드코딩 누수는 `en_coverage_check`와 `english_hangul_audit` 기준 0이다. 문자열을 무조건 JSON으로 옮기는 작업은 A가 아니다.
 
 ## 코드 동결 판정
