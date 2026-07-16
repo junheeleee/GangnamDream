@@ -42,8 +42,17 @@ func _check_remote_phone_ko() -> bool:
 	var badge := _story.get("_communication_badge") as Control
 	var badge_label := _story.get("_communication_label") as Label
 	var name_label := _story.get("_name_tag") as Label
+	var background := _story.get("_bg_img") as TextureRect
 	if str(presentation.get("channel", "")) != "phone":
 		return _fail("prologue father channel is not phone")
+	if str(presentation.get("scene_location", "")) != "street_rainy_bus_stop_wallet":
+		return _fail("prologue father call left the rainy bus stop in its presentation contract")
+	var expected_background := ImageRegistry.get_background("street_rainy_bus_stop_wallet")
+	if not is_instance_valid(background) or background.texture == null \
+			or background.texture.resource_path != expected_background:
+		return _fail("prologue father call rendered outside the rainy bus stop")
+	if BGMPlayer._current_ambience_key != "rain":
+		return _fail("prologue father call lost its rain ambience")
 	if not bool(_story.get("_portrait_remote_inset")):
 		return _fail("father portrait still uses in-person full-body placement")
 	if not is_instance_valid(frame) or not frame.visible or frame.size.x > 330.0 or frame.size.y > 410.0:

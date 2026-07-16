@@ -106,22 +106,22 @@
   {
     "id": "story_prologue_dad",
     "title": "A Call",
-    "description": "The phone's vibration rattled the thin desk. The screen read DAD. Those three letters shone brighter than anything else in the room.\n\n{name} took one breath before answering.\n\n\"Hey, son. You up?\"\n\"Yeah.\"\n\nA television murmured somewhere behind his father's voice. Dad always sent silence ahead of whatever he meant to say.\n\n\"...You eat yet?\"\n\nHe didn't ask about work, money, or Seoul. Yet the whole of the last six years sat inside that one question: guilt, shame, everything neither of them could bring up first.\n\nBefore {name} answered, it felt as though his empty stomach had already given him away.",
+    "description": "Winter rain tapped against the bus-shelter roof. {name} pressed Answer with a wet palm. The screen read DAD.\n\n\"Hey, son. Where are you?\"\n\"At the bus stop.\"\n\nA television murmured somewhere behind his father's voice. Dad always sent silence ahead of whatever he meant to say.\n\n\"...You eat yet?\"\n\nHe didn't ask about work, money, or Seoul. Yet the whole of the last six years sat inside that one question: guilt, shame, everything neither of them could bring up first.\n\nBefore {name} answered, it felt as though his empty stomach had already given him away.",
     "choices": [
       {
         "text": "\"Yeah, I ate. Don't skip meals, Dad.\"",
-        "result_text": "It was a lie. There was nothing by the sink but a water glass.\n\n\"Yeah, I ate. Don't skip meals, Dad.\"\nOn the other end, his breathing eased.\n\"Good... I'm sorry, son.\"\n\"Nothing to be sorry for.\"\n\nWhen the call ended, the room went quiet again. {name} stared at the ceiling. Two lies, each meant to put the other man at ease, were all that remained in the room."
+        "result_text": "It was a lie. There had been nothing he could call dinner.\n\n\"Yeah, I ate. Don't skip meals, Dad.\"\nOn the other end, his breathing eased.\n\"Good... I'm sorry, son.\"\n\"Nothing to be sorry for.\"\n\nAs the call ended, a bus pulled in. {name} wiped the wet screen on his sleeve and climbed aboard. Two lies, each meant to put the other man at ease, followed him home."
       },
       {
         "text": "\"I'm busy. I'll call you back.\" Click.",
-        "result_text": "\"I'm busy. I'll call you later.\"\n\n{name} spoke over him and ended the call. Longer calls left room for silence, and silence made space for questions neither of them could answer. He wanted none of it.\n\nHis face hovered faintly in the dead screen. Just before Dad said \"Okay,\" he had stopped breathing for half a beat. {name} kept hearing that pause. The room seemed a little smaller than before."
+        "result_text": "\"I'm busy. I'll call you later.\"\n\n{name} spoke over him and ended the call. Longer calls left room for silence, and silence made space for questions neither of them could answer. He wanted none of it.\n\nThe bus-shelter light and his face overlapped in the dead screen. Just before Dad said \"Okay,\" he had stopped breathing for half a beat. When the bus arrived, {name} climbed aboard instead of answering that pause."
       }
     ]
   },
   {
     "id": "story_prologue_goal",
     "title": "The Notebook",
-    "description": "After the call, {name} opens a worn notebook.\n\nThe Gangnam apartment his father spent a lifetime saving for. The one the fraud took. Dad has never spoken of it since.\n\nThe doctor said not to overwork, but gave no number for the time left. So {name} sets the deadline himself.\n\nFive years. Three billion won.\n\nThe pen stops before the numbers. What this money is for — that sentence has to be his.",
+    "description": "Back at the goshiwon, {name} hangs up his wet coat and opens a worn notebook.\n\nThe Gangnam apartment his father spent a lifetime saving for. The one the fraud took. Dad has never spoken of it since.\n\nThe doctor said not to overwork, but gave no number for the time left. So {name} sets the deadline himself.\n\nFive years. Three billion won.\n\nThe pen stops before the numbers. What this money is for — that sentence has to be his.",
     "choices": [
       {
         "text": "I will see my father standing in that living room.",

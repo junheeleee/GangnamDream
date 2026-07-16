@@ -18,6 +18,10 @@ const TRACKS = {
 	"wonder":      "res://assets/audio/bgm_wonder.ogg",
 }
 
+# These legacy lo-fi/routine masters may only be entered by the title/menu
+# surface. StoryMode never requests them implicitly from an event category.
+const LOBBY_ONLY_TRACK_KEYS = ["menu", "early", "hustle", "late_tense"]
+
 # 선택적 출시용 테마 팩. 세 파일이 모두 있을 때만 컨텍스트 BGM 대신 밴드 변주를 쓴다.
 # 일부 파일만 섞여 곡의 정체성이 흔들리는 상태는 AudioAssetCheck가 차단한다.
 const MORAL_THEME_TRACKS = {
@@ -148,7 +152,7 @@ var _moral_ambience_gain_db: float = 0.0
 var _moral_human_gain_db: float = -2.0
 var _moral_human_cutoff_hz: float = 20500.0
 var _moral_transition_count: int = 0
-var _music_mode: String = "ambient"  # ambient | pending | punctuation | menu | ending
+var _music_mode: String = "ambient"  # ambient | punctuation | menu | ending
 var _punctuation_token: int = 0
 var _scene_audio_cg: Dictionary = {}
 var _scene_audio_events: Dictionary = {}
@@ -157,7 +161,6 @@ const _FADE_TIME = 2.5  # 크로스페이드 초
 const _AMBIENCE_VOLUME = 0.18
 const _SEASON_VOLUME = 0.085
 const _HUMAN_AMBIENCE_VOLUME = 0.20
-const _ARC_SILENCE_SECONDS = 3.2
 const _BGM_BUS_NAME = "GangnamDreamBGM"
 const _HUMAN_BUS_NAME = "GangnamDreamHumanAmbience"
 const _MORAL_FILTER_TIME = 2.4
@@ -262,10 +265,6 @@ func _on_moral_tint_changed(_norm: float, stage: int) -> void:
 	_last_moral_stage = stage
 	_moral_transition_count += 1
 	_apply_moral_stage(stage, false)
-	if _moral_theme_pack_ready() and not _is_ending and _music_mode == "punctuation":
-		var target_key: String = _pick_track()
-		if target_key != _current_key:
-			_crossfade_to(target_key)
 
 func _apply_moral_stage(stage: int, immediate: bool) -> void:
 	_moral_target_cutoff_hz = float(_MORAL_CUTOFFS.get(stage, 20500.0))
@@ -402,7 +401,10 @@ func apply_volume(v: float):
 func update_context():
 	if _is_ending:
 		return
-	play_punctuation(_pick_track())
+	# Monthly state changes update the lived room, not the soundtrack. Generic
+	# routine music belongs to the menu and must not bleed into story playback.
+	enter_ambient_bed(0.65)
+	update_idle_ambience()
 
 func enter_ambient_bed(fade_seconds: float = 0.8) -> void:
 	_is_ending = false
@@ -437,6 +439,9 @@ func play_punctuation(key: String = "") -> void:
 	if _is_ending:
 		return
 	var target := key if not key.is_empty() else _pick_track()
+	if target in LOBBY_ONLY_TRACK_KEYS:
+		enter_ambient_bed(0.35)
+		return
 	_music_mode = "punctuation"
 	_punctuation_token += 1
 	_play_or_keep(target)
@@ -455,30 +460,10 @@ func begin_story_event(ev: Dictionary, cg_id: String = "") -> void:
 		# 저작 음악은 실제 문단 훅이 재생을 맡는다. 여기서 일반 아크 음악을
 		# 예약하면 같은 곡으로 이어지는 체인도 이벤트 경계에서 끊긴다.
 		return
-	if not _story_music_worthy(ev):
-		enter_ambient_bed(0.55)
-		return
-	var target := _pick_track()
-	if _music_mode == "punctuation" and _current_key == target \
-			and (_player_a.playing or _player_b.playing):
-		return
-	enter_ambient_bed(0.4)
-	_music_mode = "pending"
-	_punctuation_token += 1
-	var token := _punctuation_token
-	await get_tree().create_timer(_ARC_SILENCE_SECONDS).timeout
-	if token != _punctuation_token or _music_mode != "pending" or _is_ending:
-		return
-	play_punctuation(target)
-
-func _story_music_worthy(ev: Dictionary) -> bool:
-	var event_id := str(ev.get("id", ""))
-	var category := str(ev.get("category", ""))
-	var rarity := str(ev.get("rarity", ""))
-	var tags: Array = ev.get("tags", [])
-	return category == "story" or rarity == "story" or event_id.begins_with("arc_") \
-			or event_id.begins_with("chapter_card_") or tags.has("arc") \
-			or tags.has("climax") or tags.has("year_close")
+	# Story importance is not a music cue. Unscored events keep only their
+	# authored place, season, and human ambience; explicit manifest entries own
+	# every cinematic score entrance.
+	enter_ambient_bed(0.55)
 
 func on_ending(ending_id: String, cg_id: String = ""):
 	_is_ending = true

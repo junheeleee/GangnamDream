@@ -72,46 +72,20 @@ func _ready() -> void:
 		_fail("bright moral band did not restore lived ambience")
 		return
 
-	# 음악은 월말/정점에서만 명시적으로 진입하고, 같은 키 재호출은 재시작하지 않는다.
+	# 연차별 로파이 마스터는 메뉴 전용이다. 월말과 일반 허브 호출도
+	# 음악을 시작하지 않고 현재 장소 베드로 돌아간다.
 	BGMPlayer.play_punctuation("early")
 	await get_tree().create_timer(0.18).timeout
-	var first_key := BGMPlayer._current_key
-	var first_pos := BGMPlayer._player_a.get_playback_position()
-	BGMPlayer.play_punctuation("early")
-	await get_tree().process_frame
-	var second_pos := BGMPlayer._player_a.get_playback_position()
-	if first_key != "early" or BGMPlayer._music_mode != "punctuation":
-		_fail("punctuation did not start the requested early track")
+	if BGMPlayer._music_mode != "ambient" or not BGMPlayer._current_key.is_empty() \
+			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("lobby-only early lo-fi entered a story punctuation state")
 		return
-	if second_pos + 0.05 < first_pos:
-		_fail("punctuation BGM restarted: %.3f -> %.3f" % [first_pos, second_pos])
-		return
-
 	GameState.age = 36
 	BGMPlayer.update_context()
 	await get_tree().create_timer(0.18).timeout
-	var fade_key := BGMPlayer._fade_target_key
-	var fade_pos := BGMPlayer._player_b.get_playback_position()
-	BGMPlayer.update_context()
-	await get_tree().process_frame
-	var repeated_fade_pos := BGMPlayer._player_b.get_playback_position()
-	if fade_key != "late_tense":
-		_fail("expected late_tense fade target, got %s" % fade_key)
-		return
-	if repeated_fade_pos + 0.05 < fade_pos:
-		_fail("crossfade target restarted: %.3f -> %.3f" % [fade_pos, repeated_fade_pos])
-		return
-
-	GameState.age = 33
-	BGMPlayer.update_context()
-	await get_tree().process_frame
-	if BGMPlayer._current_key != "early" or BGMPlayer._fade_target_key != "":
-		_fail("returning to active track during fade should keep early, got current=%s target=%s" % [
-			BGMPlayer._current_key, BGMPlayer._fade_target_key])
-		return
-	BGMPlayer.enter_ambient_bed(0.0)
-	if not BGMPlayer._current_key.is_empty() or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
-		_fail("ambient bed did not stop punctuation music")
+	if BGMPlayer._music_mode != "ambient" or not BGMPlayer._current_key.is_empty() \
+			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("monthly context started generic lo-fi outside the menu")
 		return
 
 	# 주거 사다리와 계절은 서로 독립된 장소 레이어다.
@@ -134,7 +108,8 @@ func _ready() -> void:
 		_fail("autumn villa ambience mapping failed")
 		return
 
-	# 랜덤 사건은 앰비언스만 유지한다. 아크는 정적 뒤에만 음악을 시작한다.
+	# 랜덤 사건과 미배정 아크는 모두 앰비언스만 유지한다. 중요도나 ID는
+	# 음악 큐가 아니며, scene_audio_manifest의 명시 계약만 스코어를 연다.
 	var random_ev := {"id": "qa_random_audio", "category": "daily_life", "rarity": "common", "tags": []}
 	BGMPlayer.begin_story_event(random_ev)
 	await get_tree().process_frame
@@ -143,13 +118,10 @@ func _ready() -> void:
 		return
 	var arc_ev := {"id": "arc_qa_audio", "category": "story", "rarity": "story", "tags": ["arc"]}
 	BGMPlayer.begin_story_event(arc_ev)
-	await get_tree().create_timer(0.15).timeout
-	if BGMPlayer._music_mode != "pending" or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
-		_fail("arc did not hold its pre-music silence")
-		return
-	await get_tree().create_timer(BGMPlayer._ARC_SILENCE_SECONDS + 0.2).timeout
-	if BGMPlayer._music_mode != "punctuation" or BGMPlayer._current_key != "early":
-		_fail("arc music did not enter after the silence window")
+	await get_tree().create_timer(3.45).timeout
+	if BGMPlayer._music_mode != "ambient" or not BGMPlayer._current_key.is_empty() \
+			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("unscored arc inferred generic lo-fi from its story category")
 		return
 
 	# 저작된 정점 음악은 지정 문단까지 기다리고, 체인 경계에서 재시작하지 않는다.
@@ -438,8 +410,8 @@ func _ready() -> void:
 			_fail("inferred ambience mismatch: expected %s got %s" % [case[1], actual])
 			return
 
-	print("BGM_CONTINUITY_OK main_pos=%.3f repeated_pos=%.3f key=%s" % [
-		first_pos, second_pos, BGMPlayer._current_key])
+	print("BGM_CONTINUITY_OK mode=%s key=%s ambience=%s" % [
+		BGMPlayer._music_mode, BGMPlayer._current_key, BGMPlayer._current_ambience_key])
 	get_tree().quit(0)
 
 func _fail(msg: String) -> void:

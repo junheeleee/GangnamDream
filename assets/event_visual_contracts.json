@@ -42,7 +42,7 @@
     {"id": "callback_hid_room_parents_echo", "background": "dad_house", "portrait": "mother"},
     {"id": "callback_proactive_parent_care_echo", "background": "dad_house", "portrait": "father_home"},
     {"id": "callback_told_family_addiction_echo", "background": "dad_house", "portrait": "father_home"},
-    {"id": "story_prologue_dad", "background": "goshiwon_room", "portrait": "father_home"},
+    {"id": "story_prologue_dad", "background": "street_rainy_bus_stop_wallet", "portrait": "father_home"},
     {"id": "arc_father_quiet_call", "background": "goshiwon_room", "portrait": "father_home"},
     {"id": "arc_pre_ending_father_call", "background": "late_night", "portrait": "father_home_weak"},
     {"id": "callback_father_promise", "background": "goshiwon_room", "portrait": "father_home"},

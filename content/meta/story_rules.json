@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "fact_types": {
     "father.life": {
       "type": "enum",
@@ -98,7 +98,91 @@
       "callback_cafe_honest_win_deeper",
       "cafe_cb_stole_call",
       "cafe_cb_honest_00"
+    ],
+    "demo_transition_edges": [
+      "story_flashforward->story_arrival",
+      "story_arrival->story_knee_door",
+      "story_knee_door->story_knee_witness",
+      "story_knee_witness->story_knee_choice",
+      "story_knee_choice->story_last_payment_wait",
+      "story_last_payment_wait->story_last_payment_word",
+      "story_last_payment_word->story_last_payment_exit",
+      "story_last_payment_exit->story_prologue_dad",
+      "story_prologue_dad->story_prologue_goal",
+      "story_prologue_goal->story_prologue_meal",
+      "story_prologue_meal->story_pressure"
     ]
+  },
+  "transition_contracts": {
+    "story_flashforward->story_arrival": {
+      "mode": "time_cut",
+      "from_location": "penthouse",
+      "to_location": "goshiwon_room",
+      "arrival_cue_ko": "어둠 속에서 눈을 뜬다",
+      "arrival_cue_en": "Eyes open in the dark"
+    },
+    "story_arrival->story_knee_door": {
+      "mode": "memory_cut",
+      "from_location": "goshiwon_room",
+      "to_location": "dad_house",
+      "arrival_cue_ko": "스물일곱의 겨울. 창원 집 현관",
+      "arrival_cue_en": "Winter, age twenty-seven. The entryway of his father's home in Changwon"
+    },
+    "story_knee_door->story_knee_witness": {
+      "mode": "same_location",
+      "from_location": "dad_house",
+      "to_location": "dad_house"
+    },
+    "story_knee_witness->story_knee_choice": {
+      "mode": "same_location",
+      "from_location": "dad_house",
+      "to_location": "dad_house"
+    },
+    "story_knee_choice->story_last_payment_wait": {
+      "mode": "time_cut",
+      "from_location": "dad_house",
+      "to_location": "community_center",
+      "arrival_cue_ko": "어제. 여섯 해 뒤",
+      "arrival_cue_en": "Yesterday. Six years later"
+    },
+    "story_last_payment_wait->story_last_payment_word": {
+      "mode": "same_location",
+      "from_location": "community_center",
+      "to_location": "community_center"
+    },
+    "story_last_payment_word->story_last_payment_exit": {
+      "mode": "explicit_move",
+      "from_location": "community_center",
+      "to_location": "street_rainy_bus_stop_wallet",
+      "arrival_cue_ko": "밖에는 겨울비가 내리고 있었다",
+      "arrival_cue_en": "Winter rain falls outside"
+    },
+    "story_last_payment_exit->story_prologue_dad": {
+      "mode": "same_location",
+      "from_location": "street_rainy_bus_stop_wallet",
+      "to_location": "street_rainy_bus_stop_wallet"
+    },
+    "story_prologue_dad->story_prologue_goal": {
+      "mode": "explicit_move",
+      "from_location": "street_rainy_bus_stop_wallet",
+      "to_location": "goshiwon_room",
+      "arrival_cue_ko": "고시원에 돌아온 뒤",
+      "arrival_cue_en": "Back at the goshiwon"
+    },
+    "story_prologue_goal->story_prologue_meal": {
+      "mode": "explicit_move",
+      "from_location": "goshiwon_room",
+      "to_location": "convenience_night",
+      "arrival_cue_ko": "고시원을 나와 편의점에 들른다",
+      "arrival_cue_en": "Out of the goshiwon, into the convenience store"
+    },
+    "story_prologue_meal->story_pressure": {
+      "mode": "time_cut",
+      "from_location": "convenience_night",
+      "to_location": "goshiwon_room",
+      "arrival_cue_ko": "보름이 지났다",
+      "arrival_cue_en": "Two weeks in"
+    }
   },
   "events": {
     "arc_daeun_01_meet": {
@@ -113,7 +197,7 @@
       "presentation": {
         "channel": "phone",
         "state": "connected",
-        "scene_location": "current_housing",
+        "scene_location": "street_rainy_bus_stop_wallet",
         "remote_location": "changwon_home",
         "remote_actor": "father",
         "portrait_role": "remote",

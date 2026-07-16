@@ -18,6 +18,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 EVENT_DIR = ROOT / "content" / "events"
+EVENT_EN_DIR = ROOT / "content" / "events_en"
 RULES_PATH = ROOT / "content" / "meta" / "story_rules.json"
 
 ALLOWED_CHANNELS = {
@@ -44,6 +45,14 @@ PRESENTATION_KEYS = {
     "expected_portrait",
 }
 COMMUNICATION_TITLE = re.compile(r"전화|통화|카톡|문자|연락", re.IGNORECASE)
+ALLOWED_TRANSITION_MODES = {"same_location", "explicit_move", "time_cut", "memory_cut"}
+TRANSITION_KEYS = {
+    "mode",
+    "from_location",
+    "to_location",
+    "arrival_cue_ko",
+    "arrival_cue_en",
+}
 
 
 def load_json(path: Path) -> Any:
@@ -73,6 +82,37 @@ def load_events() -> tuple[dict[str, dict[str, Any]], list[str]]:
                 continue
             events[event_id] = row
     return events, errors
+
+
+def load_overlay_events(directory: Path) -> dict[str, dict[str, Any]]:
+    events: dict[str, dict[str, Any]] = {}
+    for path in sorted(directory.glob("*.json")):
+        data = load_json(path)
+        rows = data.get("events", []) if isinstance(data, dict) else data
+        if not isinstance(rows, list):
+            continue
+        for row in rows:
+            if not isinstance(row, dict):
+                continue
+            event_id = str(row.get("id", ""))
+            if event_id:
+                events[event_id] = row
+    return events
+
+
+def event_location(
+    event_id: str,
+    events: dict[str, dict[str, Any]],
+    rules: dict[str, Any],
+) -> str:
+    rule = rules.get(event_id, {})
+    if isinstance(rule, dict):
+        presentation = rule.get("presentation", {})
+        if isinstance(presentation, dict):
+            location = str(presentation.get("scene_location", ""))
+            if location and location not in {"current_location", "current_housing"}:
+                return location
+    return str(events.get(event_id, {}).get("background", ""))
 
 
 def portrait_actor(portrait_id: str) -> str:
@@ -147,8 +187,8 @@ def main() -> int:
     if not isinstance(ledger, dict):
         print("STORY_CONSISTENCY_AUDIT_FAIL ledger root must be an object")
         return 1
-    if int(ledger.get("schema_version", 0)) != 1:
-        errors.append("schema_version must be 1")
+    if int(ledger.get("schema_version", 0)) != 2:
+        errors.append("schema_version must be 2")
 
     fact_types = ledger.get("fact_types", {})
     fact_values: dict[str, set[str]] = {}
@@ -185,6 +225,7 @@ def main() -> int:
     if not isinstance(rules, dict):
         errors.append("events must be an object")
         rules = {}
+    events_en = load_overlay_events(EVENT_EN_DIR)
 
     remote_contracts = 0
     logic_contracts = 0
@@ -380,6 +421,75 @@ def main() -> int:
                 if channel not in REMOTE_CHANNELS:
                     errors.append(f"coverage target communication: {event_id} is not remote/media framed")
 
+    transition_contracts = ledger.get("transition_contracts", {})
+    if not isinstance(transition_contracts, dict):
+        errors.append("transition_contracts must be an object")
+        transition_contracts = {}
+    demo_transition_edges = validate_string_list(
+        coverage.get("demo_transition_edges", []),
+        "coverage_targets.demo_transition_edges",
+        errors,
+        allow_empty=False,
+    )
+    missing_transition_contracts = [
+        edge for edge in demo_transition_edges if edge not in transition_contracts
+    ]
+    for edge in missing_transition_contracts:
+        errors.append(f"demo transition lacks contract: {edge}")
+
+    validated_transition_contracts = 0
+    for edge, contract in transition_contracts.items():
+        owner = f"transition_contracts.{edge}"
+        if not isinstance(contract, dict):
+            errors.append(f"{owner}: must be an object")
+            continue
+        unknown = set(contract) - TRANSITION_KEYS
+        if unknown:
+            errors.append(f"{owner}: unknown keys {sorted(unknown)}")
+        parts = str(edge).split("->")
+        if len(parts) != 2 or not all(parts):
+            errors.append(f"{owner}: edge must use from_event->to_event")
+            continue
+        from_id, to_id = parts
+        if from_id not in events or to_id not in events:
+            errors.append(f"{owner}: references a missing event")
+            continue
+        choices = events[from_id].get("choices", [])
+        follows = {
+            str(choice.get("follow_up_event", ""))
+            for choice in choices
+            if isinstance(choice, dict)
+        } if isinstance(choices, list) else set()
+        if to_id not in follows:
+            errors.append(f"{owner}: {from_id} does not follow to {to_id}")
+
+        mode = str(contract.get("mode", ""))
+        from_location = str(contract.get("from_location", ""))
+        to_location = str(contract.get("to_location", ""))
+        if mode not in ALLOWED_TRANSITION_MODES:
+            errors.append(f"{owner}: invalid mode {mode!r}")
+        if not from_location or not to_location:
+            errors.append(f"{owner}: from_location and to_location are required")
+        actual_from = event_location(from_id, events, rules)
+        actual_to = event_location(to_id, events, rules)
+        if actual_from != from_location:
+            errors.append(f"{owner}: source location {actual_from!r} != {from_location!r}")
+        if actual_to != to_location:
+            errors.append(f"{owner}: destination location {actual_to!r} != {to_location!r}")
+        if mode == "same_location":
+            if from_location != to_location:
+                errors.append(f"{owner}: same_location endpoints differ")
+        else:
+            if from_location == to_location:
+                errors.append(f"{owner}: {mode} must change location or time frame")
+            cue_ko = str(contract.get("arrival_cue_ko", ""))
+            cue_en = str(contract.get("arrival_cue_en", ""))
+            if not cue_ko or cue_ko not in str(events[to_id].get("description", "")):
+                errors.append(f"{owner}: Korean arrival cue is missing from {to_id}")
+            if not cue_en or cue_en not in str(events_en.get(to_id, {}).get("description", "")):
+                errors.append(f"{owner}: English arrival cue is missing from {to_id}")
+        validated_transition_contracts += 1
+
     unclassified_suspects: list[str] = []
     for event_id, event in events.items():
         portrait = str(event.get("portrait", ""))
@@ -407,6 +517,7 @@ def main() -> int:
         "STORY_CONSISTENCY_AUDIT_OK "
         f"events={len(events)} ledger={len(rules)} ({ledger_percent:.1f}%) "
         f"logic={logic_contracts} remote={remote_contracts} "
+        f"transitions={validated_transition_contracts} unauthorized_demo_jumps=0 "
         f"exclusive_groups={len(normalized_groups)} unclassified={len(unclassified_suspects)}"
     )
     if unclassified_suspects:
