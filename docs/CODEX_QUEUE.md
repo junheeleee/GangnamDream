@@ -380,6 +380,12 @@ Codex가 오더 없이 `content/meta/story_rules.json`(언어 독립 서사 사�
 
 **완료 보고 (2026-07-17 Codex):** 현재 main의 비교 모델을 다섯 정책마다 3,000회, 총 15,000 합성 표본으로 다시 실행했다. 동일 가중 결과는 물질·직업·평판 성취 약 57.9%, 관계 중심 결말 20.0%, 파멸 약 22.1%였고 약 53.6%는 가까운 관계가 없었다. 30억 평균 도달률은 0.22%였으나 이는 실제 플레이어 빈도가 아닌 전략 분화 신호로 한정했다. 명시적 이혼·지연 이탈·아버지 상실은 시뮬레이터가 보장 아크를 압축해 비율 추정 불가라고 분리했다. 실제 데모는 무릎과 125년 계산, 대포통장 정점, 첫 정산·취업의 작은 보상, 다은·아버지 갈림길로 이어져 순수 성공 판타지보다 성공의 대가에 정합했다. `docs/STORE_TONE_OPINION.md`는 숫자 목표를 첫 진입 훅으로 쓰되 상품 본체는 성공의 대가로 파는 A안을 추천하고, 한영 첫 3초·데모 CTA 대조안과 사용자 시험만 제시했다. 톤 확정과 트레일러 최종컷은 수정하지 않았다.
 
+#### [~] ORDER-34 [P0·접근성/현지화] 이벤트 중 장면 설정 허브
+**착수 (2026-07-17 Codex) — 만지는 파일:** `scenes/StoryMode.gd`, `locale/ui_ja.json`, `tools/StoryAudioSettingsCheck.gd`, `tools/ScreenshotQA.gd`, `docs/AUDIO_QA.md`, `docs/INPUT_MATRIX.md`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`은 건드리지 않는다. 기존 이벤트 중 음악/환경음·효과음·동작 감소 패널을 장면 설정 허브로 확장해, 글자 크기 3단계와 한국어/English 즉시 전환을 같은 패드 친화적 무스크롤 표면에 둔다. 설정을 여는 동안 타이핑·AUTO·연출 홀드·제한시간 선택을 일시 정지하고, 언어를 바꿔도 현재 이벤트 ID·문단·선택지·결과·선택 포커스·타이머 잔여시간과 BGM/환경음 재생 위치를 보존한다. 선택 효과·후속 이벤트·오디오 큐를 재실행하지 않으며 설정은 즉시 저장된다. KO/EN 1280x720·1280x800 렌더와 런타임 게이트로 큰 글자 잘림, 한글 누출, 패드 포커스, 음원 재시작, 모달 뒤 진행을 잠근다.
+
+#### [ ] ORDER-35 [P0·표면/연출] 첫 30초 상업 품질 + 시네마틱 레이어
+준팍게임즈 초승달·붉은 사각형 정체성은 보존하되 런타임 JPEG를 투명 벡터/코드 네이티브 락업으로 재제작한다. 퍼블리셔 스팅→타이틀→오프닝→Press Any Key의 중복 관문을 하나의 짧고 스킵 가능한 흐름으로 압축하고, 기존 Living Scene의 도시 빛·안개·눈·불꽃·카메라 깊이를 서사 의미가 있는 장면에만 적용한다. KO/EN·720p·Steam Deck·4K·패드·Reduce Motion 첫 30초 캡처로 로고 선명도, 키아트 안전영역, 오디오 스팅, 중복 클릭과 프레젠테이션 같은 검은 텍스트 카드 잔재를 판정한다.
+
 #### [ ] ORDER-15 [P2] 모드 지원 2층 — 커뮤니티 언어팩 + 에셋 오버라이드 (유저 승인 2026-07-13)
 **착수 (2026-07-17 Codex) — 만지는 파일:** `autoloads/ModLoader.gd`, `autoloads/LocaleManager.gd`, `autoloads/DataRegistry.gd`, `autoloads/ImageRegistry.gd`, `autoloads/AudioManager.gd`, `autoloads/BGMPlayer.gd`, `autoloads/SaveManager.gd`, `scenes/SplashScreen.gd`, `scenes/StartMenu.gd`, `scenes/MainGame.gd`, `scenes/StoryMode.gd`, `assets/mod_asset_manifest.json`, `tools/generate_mod_manifest.py`, `tools/mod_layer_audit.py`, `tools/ModLayerCheck.gd`, `tools/ModLayerCheck.gd.uid`, `tools/ModLayerCheck.tscn`, `tools/audit.sh`, `docs/MODDING.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`은 건드리지 않는다. 커뮤니티 언어팩은 텍스트 오버레이만 허용하고, 에셋은 동일 상대경로 이미지·오디오 교체와 내장 폴백만 지원하며 스크립트는 발견·로드하지 않는다.
 > 판정: 스크립트 모딩·샌드박스는 기각(서사 게임 정합·QA 표면), 데이터 2층만 개방 — 공수 대비 커뮤니티 효과 최대 지점.
