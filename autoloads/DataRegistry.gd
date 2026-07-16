@@ -136,6 +136,20 @@ const ENDINGS_EN_PATH = "res://content/endings_en.json"
 const EVENT_LOCALE_DIR := "res://content/events_%s/"
 const ENDINGS_LOCALE_PATH := "res://content/endings_%s.json"
 const CATALOG_LOCALE_PATH := "res://locale/catalog_%s.json"
+const EXTERNAL_EVENT_TEXT_FIELDS := [
+	"title", "description", "subtitle", "description_orthodox",
+	"description_unorthodox", "description_low_mental",
+	"description_long_gosiwon", "description_long_apartment",
+]
+const EXTERNAL_EVENT_DICT_FIELDS := [
+	"description_if_known", "description_memory_if_known", "description_if_moral",
+]
+const EXTERNAL_CHOICE_TEXT_FIELDS := ["text", "result_text", "tooltip"]
+const EXTERNAL_CHOICE_DICT_FIELDS := ["text_if_moral"]
+const EXTERNAL_ENDING_TEXT_FIELDS := [
+	"title", "subtitle", "description", "detailed_description", "epilogue", "condition",
+]
+const EXTERNAL_ENDING_DICT_FIELDS := ["description_if_known"]
 const NEWS_PATH = "res://content/news_templates.json"
 const META_PATH = "res://content/meta/default_meta.json"
 const ACHIEVEMENTS_PATH = "res://content/meta/achievements.json"
@@ -382,18 +396,24 @@ func get_events(category):
 	return filtered
 
 func _apply_event_overlay(lang: String) -> void:
-	var overlay_dir := EVENT_LOCALE_DIR % lang
-	var da := DirAccess.open(overlay_dir)
+	_apply_event_overlay_dir(EVENT_LOCALE_DIR % lang, false)
+	var community_dir := ModLoader.language_events_dir(lang)
+	if not community_dir.is_empty():
+		_apply_event_overlay_dir(community_dir, true)
+
+func _apply_event_overlay_dir(overlay_dir: String, external: bool) -> void:
+	var directory_path := ProjectSettings.globalize_path(overlay_dir) if overlay_dir.begins_with("user://") else overlay_dir
+	var da := DirAccess.open(directory_path)
 	if not da:
 		return
 	da.list_dir_begin()
 	var fname := da.get_next()
 	while fname != "":
 		if fname.ends_with(".json"):
-			for ev in _load_array(overlay_dir + fname):
+			for raw_event in _load_array(overlay_dir.path_join(fname)):
+				var ev: Dictionary = _sanitize_external_event_overlay(raw_event) if external else raw_event
 				var eid: String = str(ev.get("id", ""))
 				if eid == "":
-					fname = da.get_next()
 					continue
 				if events_by_id.has(eid):
 					var old = events_by_id[eid]
@@ -409,27 +429,98 @@ func _merge_event_overlay(base_event: Dictionary, overlay_event: Dictionary) -> 
 	for key in overlay_event.keys():
 		if str(key) == "choices" and base_event.get("choices", []) is Array and overlay_event.get("choices", []) is Array:
 			merged["choices"] = _merge_choice_overlay(base_event.get("choices", []), overlay_event.get("choices", []))
+		elif overlay_event[key] is Dictionary and base_event.get(key, {}) is Dictionary:
+			var nested: Dictionary = (base_event.get(key, {}) as Dictionary).duplicate(true)
+			for nested_key in (overlay_event[key] as Dictionary).keys():
+				nested[nested_key] = (overlay_event[key] as Dictionary)[nested_key]
+			merged[key] = nested
 		else:
 			merged[key] = overlay_event[key]
 	return merged
 
 func _apply_endings_overlay(lang: String) -> void:
 	var path := ENDINGS_EN_PATH if lang == "en" else ENDINGS_LOCALE_PATH % lang
-	if not ResourceLoader.exists(path) and not FileAccess.file_exists(path):
+	_apply_endings_overlay_path(path, false)
+	var community_path := ModLoader.language_endings_path(lang)
+	if not community_path.is_empty():
+		_apply_endings_overlay_path(community_path, true)
+
+func _apply_endings_overlay_path(path: String, external: bool) -> void:
+	if not FileAccess.file_exists(path):
 		return
-	for ev in _load_array(path):
+	for raw_ending in _load_array(path):
+		var ev: Dictionary = _sanitize_external_ending_overlay(raw_ending) if external else raw_ending
 		var eid: String = str(ev.get("id", ""))
 		if eid == "" or not endings_by_id.has(eid):
 			continue
 		var merged: Dictionary = (endings_by_id[eid] as Dictionary).duplicate(true)
 		for key in ev.keys():
-			merged[key] = ev[key]
+			if ev[key] is Dictionary and merged.get(key, {}) is Dictionary:
+				var nested: Dictionary = (merged.get(key, {}) as Dictionary).duplicate(true)
+				for nested_key in (ev[key] as Dictionary).keys():
+					nested[nested_key] = (ev[key] as Dictionary)[nested_key]
+				merged[key] = nested
+			else:
+				merged[key] = ev[key]
 		if _contains_hangul(str(merged.get("condition", ""))):
 			merged["condition"] = "Discover this ending through play."
 		var idx = endings.find(endings_by_id[eid])
 		if idx >= 0:
 			endings[idx] = merged
 		endings_by_id[eid] = merged
+
+func _sanitize_external_event_overlay(raw_event: Variant) -> Dictionary:
+	if not raw_event is Dictionary:
+		return {}
+	var source := raw_event as Dictionary
+	var result: Dictionary = {"id": str(source.get("id", ""))}
+	for key in EXTERNAL_EVENT_TEXT_FIELDS:
+		if source.get(key) is String:
+			result[key] = str(source[key])
+	for key in EXTERNAL_EVENT_DICT_FIELDS:
+		var clean: Dictionary = _text_dictionary(source.get(key))
+		if not clean.is_empty():
+			result[key] = clean
+	var raw_choices: Variant = source.get("choices", [])
+	if raw_choices is Array:
+		var choices: Array = []
+		for raw_choice in raw_choices:
+			var choice: Dictionary = {}
+			if raw_choice is Dictionary:
+				for key in EXTERNAL_CHOICE_TEXT_FIELDS:
+					if (raw_choice as Dictionary).get(key) is String:
+						choice[key] = str((raw_choice as Dictionary)[key])
+				for key in EXTERNAL_CHOICE_DICT_FIELDS:
+					var clean: Dictionary = _text_dictionary((raw_choice as Dictionary).get(key))
+					if not clean.is_empty():
+						choice[key] = clean
+			choices.append(choice)
+		result["choices"] = choices
+	return result
+
+func _sanitize_external_ending_overlay(raw_ending: Variant) -> Dictionary:
+	if not raw_ending is Dictionary:
+		return {}
+	var source := raw_ending as Dictionary
+	var result: Dictionary = {"id": str(source.get("id", ""))}
+	for key in EXTERNAL_ENDING_TEXT_FIELDS:
+		if source.get(key) is String:
+			result[key] = str(source[key])
+	for key in EXTERNAL_ENDING_DICT_FIELDS:
+		var clean: Dictionary = _text_dictionary(source.get(key))
+		if not clean.is_empty():
+			result[key] = clean
+	return result
+
+func _text_dictionary(raw_value: Variant) -> Dictionary:
+	var result: Dictionary = {}
+	if not raw_value is Dictionary:
+		return result
+	for key in (raw_value as Dictionary).keys():
+		var value: Variant = (raw_value as Dictionary)[key]
+		if key is String and value is String:
+			result[str(key)] = str(value)
+	return result
 
 func _load_locale_catalog(lang: String) -> Dictionary:
 	if lang in ["ko", "en"]:

@@ -430,6 +430,7 @@ func _build_ui():
 	subpremise.add_theme_color_override("font_color", Color("#707985"))
 	subpremise.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(subpremise)
+	_add_mod_status_label(column)
 
 	var spacer := Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -956,9 +957,9 @@ func _archive_cg_card(cg_id: String, catalog_index: int) -> Button:
 	button.tooltip_text = title if unlocked else _tr("아직 보지 못한 장면", "A scene not yet witnessed")
 
 	var path := ImageRegistry.get_cg(cg_id)
-	if path != "" and ResourceLoader.exists(path):
+	if path != "" and ImageRegistry.has_texture(path):
 		var preview := TextureRect.new()
-		preview.texture = load(path)
+		preview.texture = ImageRegistry.load_texture(path)
 		preview.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		preview.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 		preview.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -1012,9 +1013,9 @@ func _archive_scene_card(scene_id: String, catalog_index: int) -> Button:
 	button.disabled = not unlocked
 
 	var image_path := _archive_event_visual_path(event) if unlocked else ""
-	if image_path != "" and ResourceLoader.exists(image_path):
+	if image_path != "" and ImageRegistry.has_texture(image_path):
 		var preview := TextureRect.new()
-		preview.texture = load(image_path)
+		preview.texture = ImageRegistry.load_texture(image_path)
 		preview.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		preview.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 		preview.anchor_bottom = 1.0
@@ -1156,7 +1157,7 @@ func _open_archive_cg_preview(cg_id: String, title: String) -> void:
 	if not is_instance_valid(_archive_overlay) or not MetaProgression.is_cg_unlocked(cg_id):
 		return
 	var path := ImageRegistry.get_cg(cg_id)
-	if path == "" or not ResourceLoader.exists(path):
+	if path == "" or not ImageRegistry.has_texture(path):
 		return
 	if is_instance_valid(_archive_preview_layer):
 		_archive_preview_layer.queue_free()
@@ -1200,7 +1201,7 @@ func _open_archive_cg_preview(cg_id: String, title: String) -> void:
 	image_panel.add_theme_stylebox_override("panel", frame)
 	body.add_child(image_panel)
 	var image := TextureRect.new()
-	image.texture = load(path)
+	image.texture = ImageRegistry.load_texture(path)
 	image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	image_panel.add_child(image)
@@ -1983,30 +1984,42 @@ func _build_language_toggle(parent: Control):
 	lbl.add_theme_color_override("font_color", Color("#8892a4"))
 	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(lbl)
-	for lang_code in ["ko", "en"]:
-		var btn = Button.new()
-		btn.text = (_tr("한국어", "Korean") if lang_code == "ko" else "EN")
-		btn.custom_minimum_size = Vector2(64, 28)
-		var is_active = LocaleManager.language == lang_code
-		var st = StyleBoxFlat.new()
-		st.bg_color = Color(MENU_PANEL_SELECTED) if is_active else Color(MENU_PANEL)
-		st.border_color = Color(MENU_BORDER_ACTIVE) if is_active else Color(MENU_BORDER)
-		st.set_border_width_all(1)
-		st.set_corner_radius_all(4)
-		var hov = st.duplicate()
-		hov.bg_color = Color("#1e3040") if is_active else Color("#141a22")
-		btn.add_theme_stylebox_override("normal", st)
-		btn.add_theme_stylebox_override("hover", hov)
-		btn.add_theme_color_override("font_color", Color("#e8eaf0") if is_active else Color("#5a6075"))
-		btn.add_theme_font_size_override("font_size", 12)
-		btn.pressed.connect((func(lc):
-			var show_splash := _splash_active
-			LocaleManager.set_language(lc)
-			if is_instance_valid(_settings_overlay):
-				_settings_overlay.queue_free()
-			call_deferred("_rebuild_language_ui", show_splash)
-		).bind(lang_code))
-		row.add_child(btn)
+	var selector := OptionButton.new()
+	selector.custom_minimum_size = Vector2(190, 38)
+	selector.focus_mode = Control.FOCUS_ALL
+	selector.set_meta("language_control", true)
+	var languages := LocaleManager.get_selectable_languages()
+	var selected_index := 0
+	for lang_code in languages:
+		var index := selector.item_count
+		selector.add_item(LocaleManager.get_language_display_name(lang_code))
+		selector.set_item_metadata(index, lang_code)
+		if lang_code == LocaleManager.language:
+			selected_index = index
+	selector.select(selected_index)
+	selector.item_selected.connect(func(index: int):
+		var lang_code := str(selector.get_item_metadata(index))
+		if lang_code == LocaleManager.language:
+			return
+		var show_splash := _splash_active
+		LocaleManager.set_language(lang_code)
+		if is_instance_valid(_settings_overlay):
+			_settings_overlay.queue_free()
+		call_deferred("_rebuild_language_ui", show_splash)
+	)
+	row.add_child(selector)
+
+func _add_mod_status_label(parent: Control) -> void:
+	if not ModLoader.is_active(LocaleManager.language):
+		return
+	var status := Label.new()
+	status.text = "MODDED"
+	status.tooltip_text = ", ".join(ModLoader.active_mod_labels(LocaleManager.language))
+	status.add_theme_font_size_override("font_size", 10)
+	status.add_theme_color_override("font_color", Color("#747d88"))
+	status.mouse_filter = Control.MOUSE_FILTER_PASS
+	status.set_meta("mod_status", true)
+	parent.add_child(status)
 
 func _build_display_settings_menu(parent: Control) -> void:
 	if not OS.has_feature("web"):

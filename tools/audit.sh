@@ -44,7 +44,7 @@ cleanup_isolated_home() {
     return 1
   fi
   case "$target" in
-	  "$temp_root"/gangnam-achievements.*|"$temp_root"/gangnam-ending-route.*|"$temp_root"/gangnam-hidden.*|"$temp_root"/gangnam-housing-keepsake.*|"$temp_root"/gangnam-input-matrix.*|"$temp_root"/gangnam-story-audio.*|"$temp_root"/gangnam-story-tutorial.*)
+	  "$temp_root"/gangnam-achievements.*|"$temp_root"/gangnam-ending-route.*|"$temp_root"/gangnam-hidden.*|"$temp_root"/gangnam-housing-keepsake.*|"$temp_root"/gangnam-input-matrix.*|"$temp_root"/gangnam-mod-layer.*|"$temp_root"/gangnam-story-audio.*|"$temp_root"/gangnam-story-tutorial.*)
       rm -rf -- "$target"
       ;;
     *)
@@ -128,6 +128,25 @@ if [ -x "$GODOT" ]; then
 else
   echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 다국어 런타임 체크 건너뜀."
   I18N_RUNTIME_EXIT=0
+fi
+
+echo "──────────────────────────────────────────"
+echo "● 커뮤니티 언어팩·에셋 오버라이드 안전성 검사"
+python3 tools/mod_layer_audit.py
+MOD_LAYER_AUDIT_EXIT=$?
+if [ -x "$GODOT" ]; then
+  MOD_LAYER_HOME=$(make_isolated_home "gangnam-mod-layer")
+  MOD_LAYER_RAW=$(run_limited env HOME="$MOD_LAYER_HOME" "$GODOT" --headless --quit-after 1200 res://tools/ModLayerCheck.tscn 2>&1)
+  cleanup_isolated_home "$MOD_LAYER_HOME"
+  echo "$MOD_LAYER_RAW" | grep -E "MOD_LAYER_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
+  if echo "$MOD_LAYER_RAW" | grep -q "MOD_LAYER_CHECK_OK"; then
+    MOD_LAYER_RUNTIME_EXIT=0
+  else
+    MOD_LAYER_RUNTIME_EXIT=1
+  fi
+else
+  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 모드 계층 런타임 체크 건너뜀."
+  MOD_LAYER_RUNTIME_EXIT=0
 fi
 
 echo "──────────────────────────────────────────"
@@ -515,7 +534,7 @@ else
 fi
 
 echo "──────────────────────────────────────────"
-if [ "$PY_EXIT" -ne 0 ] || [ "$STORY_CONSISTENCY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$PACING_EXIT" -ne 0 ] || [ "$PEAK_CHAIN_EXIT" -ne 0 ] || [ "$KEY_ART_EXIT" -ne 0 ] || [ "$ART_AI_EXIT" -ne 0 ] || [ "$CG_ACTING_EXIT" -ne 0 ] || [ "$CAST_DETAIL_EXIT" -ne 0 ] || [ "$EVENT_VISUAL_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$I18N_COVERAGE_EXIT" -ne 0 ] || [ "$I18N_SURFACE_EXIT" -ne 0 ] || [ "$JA_UI_EXIT" -ne 0 ] || [ "$I18N_RUNTIME_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$EVENT_DIRECTOR_EXIT" -ne 0 ] || [ "$EVENT_DIRECTOR_RUNTIME_EXIT" -ne 0 ] || [ "$ENDING_DISTINCTNESS_EXIT" -ne 0 ] || [ "$ENDING_ROUTE_EXIT" -ne 0 ] || [ "$AUDIO_SOURCE_EXIT" -ne 0 ] || [ "$SCENE_AUDIO_EXIT" -ne 0 ] || [ "$GAME_AUDIO_CONTRACT_EXIT" -ne 0 ] || [ "$UI_SFX_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$GAME_AUDIO_RUNTIME_EXIT" -ne 0 ] || [ "$BGM_EXIT" -ne 0 ] || [ "$MORAL_AMBIENCE_EXIT" -ne 0 ] || [ "$IMMERSION_EXIT" -ne 0 ] || [ "$MOTIVATION_EXIT" -ne 0 ] || [ "$TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_PLAYBACK_EXIT" -ne 0 ] || [ "$STORY_PRESENCE_EXIT" -ne 0 ] || [ "$LIVING_SCENE_EXIT" -ne 0 ] || [ "$TEXT_MATERIAL_EXIT" -ne 0 ] || [ "$STORY_AUDIO_EXIT" -ne 0 ] || [ "$INPUT_MATRIX_EXIT" -ne 0 ] || [ "$ACHIEVEMENT_EXIT" -ne 0 ] || [ "$HIDDEN_EXIT" -ne 0 ] || [ "$HOUSING_KEEPSAKE_EXIT" -ne 0 ] || [ "$YEAR_IDENTITY_EXIT" -ne 0 ] || [ "$DEMO_BUILD_EXIT" -ne 0 ] || [ "$TRAILER_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
+if [ "$PY_EXIT" -ne 0 ] || [ "$STORY_CONSISTENCY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$PACING_EXIT" -ne 0 ] || [ "$PEAK_CHAIN_EXIT" -ne 0 ] || [ "$KEY_ART_EXIT" -ne 0 ] || [ "$ART_AI_EXIT" -ne 0 ] || [ "$CG_ACTING_EXIT" -ne 0 ] || [ "$CAST_DETAIL_EXIT" -ne 0 ] || [ "$EVENT_VISUAL_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$I18N_COVERAGE_EXIT" -ne 0 ] || [ "$I18N_SURFACE_EXIT" -ne 0 ] || [ "$JA_UI_EXIT" -ne 0 ] || [ "$I18N_RUNTIME_EXIT" -ne 0 ] || [ "$MOD_LAYER_AUDIT_EXIT" -ne 0 ] || [ "$MOD_LAYER_RUNTIME_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$EVENT_DIRECTOR_EXIT" -ne 0 ] || [ "$EVENT_DIRECTOR_RUNTIME_EXIT" -ne 0 ] || [ "$ENDING_DISTINCTNESS_EXIT" -ne 0 ] || [ "$ENDING_ROUTE_EXIT" -ne 0 ] || [ "$AUDIO_SOURCE_EXIT" -ne 0 ] || [ "$SCENE_AUDIO_EXIT" -ne 0 ] || [ "$GAME_AUDIO_CONTRACT_EXIT" -ne 0 ] || [ "$UI_SFX_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$GAME_AUDIO_RUNTIME_EXIT" -ne 0 ] || [ "$BGM_EXIT" -ne 0 ] || [ "$MORAL_AMBIENCE_EXIT" -ne 0 ] || [ "$IMMERSION_EXIT" -ne 0 ] || [ "$MOTIVATION_EXIT" -ne 0 ] || [ "$TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_PLAYBACK_EXIT" -ne 0 ] || [ "$STORY_PRESENCE_EXIT" -ne 0 ] || [ "$LIVING_SCENE_EXIT" -ne 0 ] || [ "$TEXT_MATERIAL_EXIT" -ne 0 ] || [ "$STORY_AUDIO_EXIT" -ne 0 ] || [ "$INPUT_MATRIX_EXIT" -ne 0 ] || [ "$ACHIEVEMENT_EXIT" -ne 0 ] || [ "$HIDDEN_EXIT" -ne 0 ] || [ "$HOUSING_KEEPSAKE_EXIT" -ne 0 ] || [ "$YEAR_IDENTITY_EXIT" -ne 0 ] || [ "$DEMO_BUILD_EXIT" -ne 0 ] || [ "$TRAILER_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
   echo "❌ 감사 실패 — 위 ERROR를 고치고 다시 돌리세요."
   exit 1
 fi

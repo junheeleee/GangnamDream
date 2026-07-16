@@ -1,6 +1,6 @@
 # Input and Display Matrix
 
-Updated: 2026-07-16
+Updated: 2026-07-17
 
 ## Release Position
 
@@ -15,7 +15,7 @@ The automated evidence below is sufficient for continued demo production. It is 
 | Title to demo ending | PASS | PASS | Contract only | Contract only | Contract only | Real 24-week keyboard and mouse routes |
 | VN choices | Arrows + Enter/Esc | Direct click | D-pad + South/East | D-pad + Cross/Circle | D-pad + B/A | StoryMode route and brand screenshots |
 | AP decision | Arrows + Enter | Direct click | D-pad + A/B | D-pad + Cross/Circle | D-pad + B/A | One-screen decision board, no scroll |
-| Story settings | F10/Esc | Settings button | Menu/B | Options/Circle | Plus/A | Runtime modal gate |
+| Story settings | F10/Esc | Settings button | Menu/B | Options/Circle | Plus/A | Text/language/audio/motion runtime gate, no scroll |
 | Casino hub and direct games | Q/E, X, Y, Enter, Esc | Direct click | LB/RB, X/Y, A/B | L1/R1, Square/Triangle, Cross/Circle | L/R, Y/X, B/A | Nine scenes, 18 keyboard/gamepad secondary routes, nine keyboard core tasks |
 | Vibration | N/A | N/A | API contract | API contract | API contract | Enable, strength, and bounded cue profiles; physical feel pending |
 
@@ -66,6 +66,8 @@ Window settings expose:
 ## Accessibility and Motion
 
 Reduce Motion stops camera drift and portrait breathing, reduces weather speed and fireworks, and preserves all information. It does not remove rain/snow identity or alter timing and choices.
+
+Story text has Small, Default, and Large levels. The event-scene settings hub applies them immediately and can switch the active language without leaving the scene. While open it freezes prose, AUTO, direction timing, and timed choices; closing restores the exact choice focus and countdown remainder. KO/EN 1280x720 and 1280x800 renders must keep every control and the Large body text inside the viewport without a scroll surface.
 
 Rain and snow use canvas-UV-correct downward movement. `LivingSceneCheck` locks the shader sign and `ScreenshotQA` compares real rain frames; the current probe found a best displacement of `+24 px` downward with `0.9507` correlation.
 

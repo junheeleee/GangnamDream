@@ -172,9 +172,10 @@ func _ready():
 func _load_sounds():
 	# 실제 wav 파일 우선 로드, 없으면 프로시저럴 폴백
 	for key in _SFX_FILES:
-		var path = _SFX_FILES[key]
-		if ResourceLoader.exists(path):
-			_sounds[key] = load(path)
+		var path: String = str(_SFX_FILES[key])
+		if ModLoader.audio_exists(path):
+			var stream := ModLoader.load_audio(path)
+			_sounds[key] = stream if stream != null else _make_fallback(key)
 		else:
 			_sounds[key] = _make_fallback(key)
 

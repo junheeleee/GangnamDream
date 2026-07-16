@@ -7,6 +7,7 @@ var _language_gate: Control = null
 var _language_gate_active: bool = false
 var _language_choice_locked: bool = false
 var _language_buttons: Dictionary = {}
+var _community_language_selector: OptionButton = null
 var _force_language_gate_for_qa: bool = false
 
 var _bg_img:     TextureRect
@@ -33,10 +34,10 @@ func _apply_font(lbl: Label, bold: bool = false):
 func _ready():
 	_load_fonts()
 	var saved_language := str(SaveManager.get_setting("language", ""))
-	if saved_language in ["ko", "en"]:
+	if saved_language in LocaleManager.get_selectable_languages():
 		LocaleManager.set_language(saved_language)
 	SceneTransition.fade_in()
-	if _force_language_gate_for_qa or saved_language not in ["ko", "en"] \
+	if _force_language_gate_for_qa or saved_language not in LocaleManager.get_selectable_languages() \
 			or not bool(SaveManager.get_setting("language_gate_seen", false)):
 		_build_language_gate(saved_language)
 		return
@@ -51,6 +52,7 @@ func _build_language_gate(saved_language: String = "") -> void:
 	_language_gate_active = true
 	_language_choice_locked = false
 	_language_buttons.clear()
+	_community_language_selector = null
 
 	_language_gate = Control.new()
 	_language_gate.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -87,7 +89,9 @@ func _build_language_gate(saved_language: String = "") -> void:
 	_language_gate.add_child(center)
 
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(670, 330)
+	var community_languages := LocaleManager.get_selectable_languages().filter(
+		func(code: String): return code not in ["ko", "en"])
+	panel.custom_minimum_size = Vector2(670, 420 if not community_languages.is_empty() else 330)
 	var panel_style := StyleBoxFlat.new()
 	panel_style.bg_color = Color("#0a0c11", 0.96)
 	panel_style.border_color = Color("#343b46")
@@ -148,6 +152,32 @@ func _build_language_gate(saved_language: String = "") -> void:
 	choices.add_child(english)
 	_language_buttons = {"ko": korean, "en": english}
 
+	if not community_languages.is_empty():
+		var community_row := HBoxContainer.new()
+		community_row.alignment = BoxContainer.ALIGNMENT_CENTER
+		community_row.add_theme_constant_override("separation", 10)
+		content.add_child(community_row)
+		var community_label := Label.new()
+		community_label.text = "COMMUNITY"
+		community_label.add_theme_font_size_override("font_size", 11)
+		community_label.add_theme_color_override("font_color", Color("#7c8795"))
+		_apply_font(community_label, true)
+		community_row.add_child(community_label)
+		_community_language_selector = OptionButton.new()
+		_community_language_selector.custom_minimum_size = Vector2(230, 42)
+		for code in community_languages:
+			var index := _community_language_selector.item_count
+			_community_language_selector.add_item(LocaleManager.get_language_display_name(code))
+			_community_language_selector.set_item_metadata(index, code)
+			if code == saved_language:
+				_community_language_selector.select(index)
+		community_row.add_child(_community_language_selector)
+		var use_button := Button.new()
+		use_button.text = "USE"
+		use_button.custom_minimum_size = Vector2(82, 42)
+		use_button.pressed.connect(_select_community_language)
+		community_row.add_child(use_button)
+
 	var note := Label.new()
 	note.text = "설정에서 언제든 변경할 수 있습니다.  /  You can change this later in Settings."
 	note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -157,7 +187,7 @@ func _build_language_gate(saved_language: String = "") -> void:
 	content.add_child(note)
 
 	var preferred := saved_language
-	if preferred not in ["ko", "en"]:
+	if preferred not in LocaleManager.get_selectable_languages():
 		preferred = "ko" if TranslationServer.get_locale().to_lower().begins_with("ko") else "en"
 	call_deferred("_focus_language_button", preferred)
 
@@ -194,9 +224,17 @@ func _focus_language_button(lang: String) -> void:
 	var button: Button = _language_buttons.get(lang) as Button
 	if button != null and is_instance_valid(button):
 		button.grab_focus()
+	elif is_instance_valid(_community_language_selector):
+		_community_language_selector.grab_focus()
+
+func _select_community_language() -> void:
+	if not is_instance_valid(_community_language_selector) or _community_language_selector.item_count == 0:
+		return
+	var index := _community_language_selector.selected
+	_select_language(str(_community_language_selector.get_item_metadata(index)))
 
 func _select_language(lang: String) -> void:
-	if _language_choice_locked or lang not in ["ko", "en"]:
+	if _language_choice_locked or lang not in LocaleManager.get_selectable_languages():
 		return
 	_language_choice_locked = true
 	LocaleManager.set_language(lang)

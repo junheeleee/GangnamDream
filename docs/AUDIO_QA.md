@@ -96,14 +96,15 @@ These generated layers contain no intelligible language and no musical pitch pat
 
 ## Controller Rule
 
-Focus traversal is a last resort. Gameplay scenes use direct state machines and contextual actions; focus is allowed only for settings and short conventional linear menus. The audio settings panel therefore focuses its first of two rows, while casino rounds, racing, and card play never require walking a flat button graph.
+Focus traversal is a last resort. Gameplay scenes use direct state machines and contextual actions; focus is allowed only for settings and short conventional linear menus. The scene settings hub opens on the active text-size segment and uses explicit two-dimensional neighbors through language, audio, motion, and Close. Casino rounds, racing, and card play never require walking a flat button graph.
 
 ## Player-Facing Controls
 
-- Event scenes expose a compact top-right audio button for mouse users.
-- `gd_menu` opens Music/Ambience and SFX sliders from inside a story event.
+- Event scenes expose a compact top-right Settings button for mouse users.
+- `gd_menu` opens text size, language, Music/Ambience, SFX, and Reduce Motion from inside a story event without scrolling.
 - Xbox/Steam Deck Menu, DualSense Options, and Switch `+` resolve through the same action.
-- The modal blocks story advance and AUTO while open; Menu or Cancel closes it.
+- The modal pauses typing, AUTO, direction holds/beats, and timed choices. Menu or Cancel closes it, restores the focused choice and remaining countdown, and does not restart scene audio.
+- Language changes rebind the current paragraph, choices, and result in place. They never replay a choice effect, follow-up, paragraph cue, BGM, or ambience.
 
 ## Automated Gates
 
@@ -122,13 +123,13 @@ Latest targeted result:
 
 ```text
 AUDIO_SOURCE_AUDIT_OK assets=111 bgm=14 ambience=45 sfx=52 external_samples=0
-SCENE_AUDIO_CONTRACT_OK cg=57 peak_events=46 ambience_keys=36 music_keys=12
+SCENE_AUDIO_CONTRACT_OK cg=57 peak_events=46 ambience_keys=36 music_keys=14
 GAME_AUDIO_CONTRACT_OK physical=17 stages=19 activities=7 activity_music=1 human_layers=9 direct_pad=9
 AUDIO_ASSET_CHECK_OK bgm=14 ambience=45 sfx=52
 BGM_CONTINUITY_OK mode=menu key=menu ambience=
 GAME_AUDIO_RUNTIME_OK physical=17 ambience_roundtrip=3 varied_playback=1 casino_music=1
 MORAL_AMBIENCE_CHECK_OK profiles=9
-STORY_AUDIO_SETTINGS_CHECK_OK
+STORY_AUDIO_SETTINGS_CHECK_OK text=3 locale=ko/en timer_pause=11996 result_replay=0
 ```
 
 ## Human Listening Gate

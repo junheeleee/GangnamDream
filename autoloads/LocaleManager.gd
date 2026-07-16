@@ -64,10 +64,36 @@ func normalize_language(raw_language: String) -> String:
 	return normalized
 
 func is_supported(lang: String) -> bool:
-	return normalize_language(lang) in SUPPORTED_LANGUAGES
+	var normalized := normalize_language(lang)
+	return normalized in SUPPORTED_LANGUAGES or ModLoader.has_language_pack(normalized)
 
 func is_shipping_language(lang: String) -> bool:
 	return normalize_language(lang) in SHIPPING_LANGUAGES
+
+func get_selectable_languages() -> Array[String]:
+	var result: Array[String] = SHIPPING_LANGUAGES.duplicate()
+	for code in ModLoader.discover_language_codes():
+		if code not in result:
+			result.append(code)
+	return result
+
+func get_language_display_name(lang: String) -> String:
+	var normalized := normalize_language(lang)
+	match normalized:
+		"ko":
+			return "한국어"
+		"en":
+			return "English"
+		"ja":
+			return "日本語"
+		"zh-CN":
+			return "简体中文"
+		"zh-TW":
+			return "繁體中文"
+	if ModLoader.has_language_pack(normalized):
+		var info := ModLoader.language_pack_info(normalized)
+		return str(info.get("native_name", info.get("name", normalized)))
+	return normalized
 
 ## 주인공 이름이 기본값이면 새 언어 기본값으로 교체 (유저가 직접 지은 이름은 건드리지 않음)
 func _sync_player_name(lang: String) -> void:
@@ -121,8 +147,22 @@ func _get_ui_table(lang: String) -> Dictionary:
 			table = parsed
 		else:
 			push_warning("Invalid UI locale dictionary: %s" % path)
+	var community_path := ModLoader.language_ui_path(lang)
+	if not community_path.is_empty() and FileAccess.file_exists(community_path):
+		var community: Variant = JSON.parse_string(FileAccess.get_file_as_string(community_path))
+		if community is Dictionary:
+			for key in (community as Dictionary).keys():
+				var value: Variant = (community as Dictionary)[key]
+				if key is String and value is String:
+					table[str(key)] = str(value)
+		else:
+			push_warning("Invalid community UI locale dictionary: %s" % community_path)
 	_ui_tables[lang] = table
 	return table
+
+func refresh_community_packs() -> void:
+	_ui_tables.clear()
+	_ui_misses.clear()
 
 func _record_ui_miss(lang: String, source_text: String) -> void:
 	if not _ui_misses.has(lang):

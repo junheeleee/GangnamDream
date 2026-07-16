@@ -50,6 +50,8 @@ func save_game(slot):
 		"version": SAVE_VERSION,
 		"slot": slot,
 		"saved_at": Time.get_datetime_string_from_system(),
+		"mod_active": ModLoader.is_active(LocaleManager.language),
+		"active_mods": ModLoader.active_mod_labels(LocaleManager.language),
 		"state": state,
 	}
 	var file = FileAccess.open(_slot_path(slot), FileAccess.WRITE)
@@ -111,6 +113,7 @@ func get_save_info(slot):
 		"turn": state.get("turn", 1),
 		"money": state.get("money", 0.0),
 		"total_assets": _estimate_total_assets(state),
+		"mod_active": bool(parsed.get("mod_active", false)),
 	}
 
 func _slot_path(slot):

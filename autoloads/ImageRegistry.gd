@@ -327,11 +327,11 @@ const ITEM_ART = {
 func get_portrait(id: String) -> String:
 	var dynamic_path = _get_dynamic_player_portrait(id)
 	if dynamic_path != "":
-		if ResourceLoader.exists(dynamic_path):
+		if has_texture(dynamic_path):
 			return dynamic_path
 		return ""
 	var path = str(PORTRAITS.get(id, ""))
-	if path != "" and ResourceLoader.exists(path):
+	if path != "" and has_texture(path):
 		return path
 	return ""
 
@@ -411,15 +411,15 @@ func get_background(id: String) -> String:
 	if resolved_id == "current_housing":
 		resolved_id = _housing_background_id(str(GameState.housing))
 	var path = str(BACKGROUNDS.get(resolved_id, ""))
-	if path != "" and ResourceLoader.exists(path):
+	if path != "" and has_texture(path):
 		return path
-	if ResourceLoader.exists(FALLBACK_BG):
+	if has_texture(FALLBACK_BG):
 		return FALLBACK_BG
 	return ""
 
 func get_item_art(id: String) -> String:
 	var path: String = str(ITEM_ART.get(id, ""))
-	if path != "" and ResourceLoader.exists(path):
+	if path != "" and has_texture(path):
 		return path
 	return ""
 
@@ -696,9 +696,15 @@ func _has_any(text: String, needles: Array) -> bool:
 ## CG 경로 반환. 파일 없으면 "" (UI가 검은 화면 + 텍스트 처리)
 func get_cg(id: String) -> String:
 	var path = str(CG.get(id, ""))
-	if path != "" and ResourceLoader.exists(path):
+	if path != "" and has_texture(path):
 		return path
 	return ""
+
+func has_texture(canonical_path: String) -> bool:
+	return ModLoader.image_exists(canonical_path)
+
+func load_texture(canonical_path: String) -> Texture2D:
+	return ModLoader.load_texture(canonical_path)
 
 ## 초상화 ID에서 인물 정보(이름/색상) 추출 — 플레이스홀더 렌더용
 ## "jiyeon_warm" → {"name":"한지연", "color":"#e8a0c0"}

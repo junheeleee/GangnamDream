@@ -2822,6 +2822,8 @@ func _shot_story_presence_surfaces(lang: String = "en", prefix: String = "presen
 
 func _shot_story_audio_settings(lang: String = "en", prefix: String = "story_audio_en_") -> void:
 	_set_qa_language(lang)
+	var original_text_size := str(SaveManager.get_setting("story_text_size", "standard"))
+	SaveManager.set_setting("story_text_size", "standard")
 	_prepare_main_game_state()
 	_prepare_story_event_fixture("arc_daeun_wedding_day")
 	GameState.flags["daeun_wedding_small"] = true
@@ -2837,13 +2839,46 @@ func _shot_story_audio_settings(lang: String = "en", prefix: String = "story_aud
 	var popup := story.get("_audio_settings_popup") as Control
 	var bgm_slider := story.get("_audio_bgm_slider") as HSlider
 	var sfx_slider := story.get("_audio_sfx_slider") as HSlider
-	if not is_instance_valid(popup) or not is_instance_valid(bgm_slider) or not is_instance_valid(sfx_slider):
-		_fail("Story audio settings surface did not open.")
+	var text_buttons: Dictionary = story.get("_story_text_size_buttons")
+	var language_buttons: Dictionary = story.get("_story_language_buttons")
+	var large_button := text_buttons.get("large") as Button
+	if not is_instance_valid(popup) or not is_instance_valid(bgm_slider) \
+			or not is_instance_valid(sfx_slider) or not is_instance_valid(large_button) \
+			or not language_buttons.has("ko") or not language_buttons.has("en"):
+		_fail("Story scene settings surface is incomplete.")
+		return
+	var settings_panel := popup.get_child(0) as Control if popup.get_child_count() > 0 else null
+	if not is_instance_valid(settings_panel) \
+			or not get_viewport().get_visible_rect().encloses(settings_panel.get_global_rect()):
+		_fail("Story scene settings escaped the viewport at %s." % str(get_viewport().get_visible_rect().size))
+		return
+	if not popup.find_children("*", "ScrollContainer", true, false).is_empty():
+		_fail("Story scene settings introduced a controller-hostile scroll surface.")
+		return
+	large_button.grab_focus()
+	large_button.button_pressed = true
+	large_button.emit_signal("pressed")
+	await _settle(0.15)
+	if str(story.get("_story_text_size")) != "large":
+		_fail("Story scene settings did not apply large text.")
 		return
 	if lang == "en" and _contains_hangul(_collect_control_text(popup)):
-		_fail("Story audio settings leaked Hangul in English mode.")
+		_fail("Story scene settings leaked Hangul in English mode.")
 		return
-	await _save(prefix + "01_wedding_audio_settings")
+	await _save(prefix + "01_wedding_scene_settings_large")
+	story.call("_close_audio_settings")
+	await _settle(0.18)
+	story.call("_complete_typing")
+	await _settle(0.10)
+	var body := story.get("_body_lbl") as RichTextLabel
+	if not is_instance_valid(body) or body.get_content_height() > body.size.y + 1.0:
+		_fail("Large story text clipped at %s." % str(get_viewport().get_visible_rect().size))
+		return
+	if lang == "en" and _contains_hangul(_collect_control_text(story)):
+		_fail("Large English story surface leaked Hangul.")
+		return
+	await _save(prefix + "02_wedding_large_text")
+	SaveManager.set_setting("story_text_size", original_text_size)
 	_remove_nodes_by_script("res://scenes/StoryMode.gd")
 	GameState.pending_story_queue.clear()
 	await _settle(0.2)

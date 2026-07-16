@@ -1,0 +1,2358 @@
+{
+  "version": 1,
+  "override_root": "user://mods/assets/",
+  "policy": "Exact relative paths only; invalid or absent replacements fall back to built-in assets.",
+  "visuals": [
+    {
+      "kind": "background",
+      "ids": [
+        "amusement_park_parade"
+      ],
+      "relative_path": "backgrounds/amusement_park_parade_day.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "amusement_photo_booth"
+      ],
+      "relative_path": "backgrounds/amusement_photo_booth_evening.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "amusement_roller_coaster"
+      ],
+      "relative_path": "backgrounds/amusement_roller_coaster_day.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "aruba_delivery"
+      ],
+      "relative_path": "backgrounds/aruba_delivery_street.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "burnout"
+      ],
+      "relative_path": "backgrounds/burnout_hospital_room.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "cafe"
+      ],
+      "relative_path": "backgrounds/cafe_seoul.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "casino"
+      ],
+      "relative_path": "backgrounds/casino_interior.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "changwon_hospital_room_empty"
+      ],
+      "relative_path": "backgrounds/changwon_hospital_room_empty.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "cherry_blossom_path"
+      ],
+      "relative_path": "backgrounds/cherry_blossom_path.png",
+      "resolution": "1672x941"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "chuseok_highway"
+      ],
+      "relative_path": "backgrounds/chuseok_highway.png",
+      "resolution": "1672x941"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "community_center"
+      ],
+      "relative_path": "backgrounds/community_center.png",
+      "resolution": "1672x941"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "company_dinner_restaurant"
+      ],
+      "relative_path": "backgrounds/company_dinner_restaurant.png",
+      "resolution": "1672x941"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "convenience_first_snow_exterior"
+      ],
+      "relative_path": "backgrounds/convenience_store_exterior_first_snow.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "convenience_night",
+        "convenience_store"
+      ],
+      "relative_path": "backgrounds/convenience_store_night_v2.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "daeun_mother_home_dining"
+      ],
+      "relative_path": "backgrounds/daeun_mother_home_dining_summer.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "daeun_newlywed_home"
+      ],
+      "relative_path": "backgrounds/daeun_newlywed_home_night.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "dad_house"
+      ],
+      "relative_path": "backgrounds/family_living_room.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "fine_dust_sky"
+      ],
+      "relative_path": "backgrounds/fine_dust_sky.png",
+      "resolution": "1672x941"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "gangnam_apartment"
+      ],
+      "relative_path": "backgrounds/gangnam_apartment.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "gangnam_day"
+      ],
+      "relative_path": "backgrounds/gangnam_day.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "gangnam_night"
+      ],
+      "relative_path": "backgrounds/gangnam_night_street.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "gangnam_station"
+      ],
+      "relative_path": "backgrounds/gangnam_station_exit.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "goshiwon_hallway"
+      ],
+      "relative_path": "backgrounds/goshiwon_hallway.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "current_housing",
+        "goshiwon",
+        "goshiwon_room"
+      ],
+      "relative_path": "backgrounds/goshiwon_room.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "exercise",
+        "gym"
+      ],
+      "relative_path": "backgrounds/gym_interior.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "hagwon_street"
+      ],
+      "relative_path": "backgrounds/hagwon_street.png",
+      "resolution": "1672x941"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "hangang_riverside"
+      ],
+      "relative_path": "backgrounds/hangang_riverside_walk.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "heatwave_city"
+      ],
+      "relative_path": "backgrounds/heatwave_city.png",
+      "resolution": "1672x941"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "holdem_club"
+      ],
+      "relative_path": "backgrounds/holdem_club_interior.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "hometown_train_station"
+      ],
+      "relative_path": "backgrounds/hometown_train_station.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "hospital_clinic"
+      ],
+      "relative_path": "backgrounds/hospital_clinic.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "hospital"
+      ],
+      "relative_path": "backgrounds/hospital_corridor.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "meeting"
+      ],
+      "relative_path": "backgrounds/investment_meeting.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "investment",
+        "investment_phone",
+        "trading"
+      ],
+      "relative_path": "backgrounds/investment_phone.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "jeongseon_casino_entrance"
+      ],
+      "relative_path": "backgrounds/jeongseon_casino_entrance.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "jeongseon_casino_exterior"
+      ],
+      "relative_path": "backgrounds/jeongseon_casino_exterior.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "jiyeon_newlywed_home"
+      ],
+      "relative_path": "backgrounds/jiyeon_newlywed_home_night.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "jiyeon_sedan_first_snow"
+      ],
+      "relative_path": "backgrounds/jiyeon_sedan_first_snow_interior.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "jjimjilbang"
+      ],
+      "relative_path": "backgrounds/jjimjilbang.png",
+      "resolution": "1672x941"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "late_night"
+      ],
+      "relative_path": "backgrounds/late_night_room.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "library"
+      ],
+      "relative_path": "backgrounds/library.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "military_base_gate"
+      ],
+      "relative_path": "backgrounds/military_base_gate.png",
+      "resolution": "1672x941"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "military"
+      ],
+      "relative_path": "backgrounds/military_training_ground.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "namsan_cable_car"
+      ],
+      "relative_path": "backgrounds/namsan_cable_car_night.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "namsan_observation_deck"
+      ],
+      "relative_path": "backgrounds/namsan_observation_deck_night.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "namsan_tonkatsu_restaurant"
+      ],
+      "relative_path": "backgrounds/namsan_tonkatsu_restaurant_night.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "namsan_tower"
+      ],
+      "relative_path": "backgrounds/namsan_tower_view.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "office"
+      ],
+      "relative_path": "backgrounds/office_desk.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "office_interview_day"
+      ],
+      "relative_path": "backgrounds/office_interview_day.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "apartment",
+        "apartment_balcony"
+      ],
+      "relative_path": "backgrounds/oneroom_apartment.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "open_chat_screen"
+      ],
+      "relative_path": "backgrounds/open_chat_screen.png",
+      "resolution": "1672x941"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "pc_bang"
+      ],
+      "relative_path": "backgrounds/pc_bang_interior.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "gangnam_penthouse",
+        "penthouse"
+      ],
+      "relative_path": "backgrounds/penthouse_view.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "pojangmacha"
+      ],
+      "relative_path": "backgrounds/pojangmacha.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "racetrack_betting"
+      ],
+      "relative_path": "backgrounds/racetrack_betting_hall.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "racetrack_track"
+      ],
+      "relative_path": "backgrounds/racetrack_track_view.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "realestate_office"
+      ],
+      "relative_path": "backgrounds/realestate_office.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "ktx_window",
+        "regional_train_window"
+      ],
+      "relative_path": "backgrounds/regional_train_window_summer.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "restaurant"
+      ],
+      "relative_path": "backgrounds/restaurant_korean.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "rooftop_day"
+      ],
+      "relative_path": "backgrounds/rooftop_daytime.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "rooftop_night"
+      ],
+      "relative_path": "backgrounds/rooftop_night.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "saju_cafe"
+      ],
+      "relative_path": "backgrounds/saju_cafe.png",
+      "resolution": "1672x941"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "sangchul_private_dining"
+      ],
+      "relative_path": "backgrounds/sangchul_private_dining.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "scalping_room"
+      ],
+      "relative_path": "backgrounds/scalping_trading_room.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "street_rainy_bus_stop_wallet"
+      ],
+      "relative_path": "backgrounds/seoul_bus_stop_wallet.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "seoul_bus_terminal_night"
+      ],
+      "relative_path": "backgrounds/seoul_bus_terminal_night.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "cold_snap_street"
+      ],
+      "relative_path": "backgrounds/seoul_cold_snap_street.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "street_rainy"
+      ],
+      "relative_path": "backgrounds/seoul_rainy_street.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "seoul_station_ktx_platform_winter"
+      ],
+      "relative_path": "backgrounds/seoul_station_ktx_platform_winter.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "subway"
+      ],
+      "relative_path": "backgrounds/seoul_subway.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "street",
+        "street_day"
+      ],
+      "relative_path": "backgrounds/street_seoul_day.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "suneung_test_hall"
+      ],
+      "relative_path": "backgrounds/suneung_test_hall.png",
+      "resolution": "1672x941"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "trading_room"
+      ],
+      "relative_path": "backgrounds/trading_screen_night.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "winter_street_bungeoppang"
+      ],
+      "relative_path": "backgrounds/winter_bungeoppang_stall.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "year2_winter_street_night"
+      ],
+      "relative_path": "backgrounds/year2_winter_last_night.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "year3_hangang_winter_night"
+      ],
+      "relative_path": "backgrounds/year3_hangang_winter_night.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "year4_winter_rooftop"
+      ],
+      "relative_path": "backgrounds/year4_winter_rooftop.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_demo_daeun_first_kindness"
+      ],
+      "relative_path": "cg/demo/daeun_first_kindness_v2.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_demo_father_first_call"
+      ],
+      "relative_path": "cg/demo/father_first_call_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_demo_first_interview"
+      ],
+      "relative_path": "cg/demo/first_interview_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_bankruptcy"
+      ],
+      "relative_path": "cg/ending_bankruptcy_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_crypto_ghost"
+      ],
+      "relative_path": "cg/ending_crypto_ghost.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_debt_spiral"
+      ],
+      "relative_path": "cg/ending_debt_spiral_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_empty_house"
+      ],
+      "relative_path": "cg/ending_empty_house.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_father"
+      ],
+      "relative_path": "cg/ending_father.png",
+      "resolution": "1280x720"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_full_circle"
+      ],
+      "relative_path": "cg/ending_full_circle_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_gambling_recovery"
+      ],
+      "relative_path": "cg/ending_gambling_recovery_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_gangnam_dream"
+      ],
+      "relative_path": "cg/ending_gangnam_dream.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_gangnam_dream_white"
+      ],
+      "relative_path": "cg/ending_gangnam_dream_white_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_guardian"
+      ],
+      "relative_path": "cg/ending_guardian_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_instant_legend"
+      ],
+      "relative_path": "cg/ending_instant_legend_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_jaehyuk_way"
+      ],
+      "relative_path": "cg/ending_jaehyuk_way_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_jiyeon_man"
+      ],
+      "relative_path": "cg/ending_jiyeon_man_v2.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_late_call"
+      ],
+      "relative_path": "cg/ending_late_call_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_lonely_rich"
+      ],
+      "relative_path": "cg/ending_lonely_rich_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_sangchul_reckoning"
+      ],
+      "relative_path": "cg/ending_sangchul_reckoning_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_second_love"
+      ],
+      "relative_path": "cg/ending_second_love_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_startup_exit"
+      ],
+      "relative_path": "cg/ending_startup_exit_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_with_daeun"
+      ],
+      "relative_path": "cg/ending_with_daeun_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_jaehyuk_reveal"
+      ],
+      "relative_path": "cg/jaehyuk_reveal.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_jiyeon_crash"
+      ],
+      "relative_path": "cg/jiyeon_crash_day_v3.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_amusement_lost_child_daeun"
+      ],
+      "relative_path": "cg/romance/amusement_lost_child_daeun_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_amusement_photo_strip_jiyeon"
+      ],
+      "relative_path": "cg/romance/amusement_photo_strip_jiyeon_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_breakup_daeun"
+      ],
+      "relative_path": "cg/romance/breakup_daeun_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_breakup_jiyeon"
+      ],
+      "relative_path": "cg/romance/breakup_jiyeon_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_cherry_daeun"
+      ],
+      "relative_path": "cg/romance/cherry_daeun.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_cherry_jiyeon"
+      ],
+      "relative_path": "cg/romance/cherry_jiyeon.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_fireworks_daeun"
+      ],
+      "relative_path": "cg/romance/fireworks_daeun.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_fireworks_jiyeon"
+      ],
+      "relative_path": "cg/romance/fireworks_jiyeon.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_first_kiss_daeun"
+      ],
+      "relative_path": "cg/romance/first_kiss_daeun.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_first_kiss_jiyeon"
+      ],
+      "relative_path": "cg/romance/first_kiss_jiyeon.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_first_snow_daeun"
+      ],
+      "relative_path": "cg/romance/first_snow_daeun_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_first_snow_jiyeon"
+      ],
+      "relative_path": "cg/romance/first_snow_jiyeon_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_hometown_night_bus_daeun"
+      ],
+      "relative_path": "cg/romance/hometown_night_bus_daeun_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_namsan_lock_daeun"
+      ],
+      "relative_path": "cg/romance/namsan_lock_daeun_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_namsan_lock_jiyeon"
+      ],
+      "relative_path": "cg/romance/namsan_lock_jiyeon_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_narrow_room_jiyeon"
+      ],
+      "relative_path": "cg/romance/narrow_room_jiyeon_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_proposal_daeun"
+      ],
+      "relative_path": "cg/romance/proposal_daeun_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_sea_daeun"
+      ],
+      "relative_path": "cg/romance/sea_daeun_v3.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_sea_jiyeon"
+      ],
+      "relative_path": "cg/romance/sea_jiyeon_v2.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_wedding_daeun_father_reaction_hyunsu"
+      ],
+      "relative_path": "cg/romance/wedding_daeun_father_reaction_hyunsu_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_wedding_daeun_father_reaction_passed_hyunsu"
+      ],
+      "relative_path": "cg/romance/wedding_daeun_father_reaction_passed_hyunsu_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_wedding_daeun_father_reaction_passed"
+      ],
+      "relative_path": "cg/romance/wedding_daeun_father_reaction_passed_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_wedding_daeun_father_reaction"
+      ],
+      "relative_path": "cg/romance/wedding_daeun_father_reaction_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_wedding_daeun_full_close"
+      ],
+      "relative_path": "cg/romance/wedding_daeun_full_close_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_wedding_daeun_full"
+      ],
+      "relative_path": "cg/romance/wedding_daeun_full_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_wedding_daeun_mother_reaction"
+      ],
+      "relative_path": "cg/romance/wedding_daeun_mother_reaction_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_wedding_daeun_small_close"
+      ],
+      "relative_path": "cg/romance/wedding_daeun_small_close_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_wedding_daeun_small"
+      ],
+      "relative_path": "cg/romance/wedding_daeun_small_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_wedding_gap_jiyeon"
+      ],
+      "relative_path": "cg/romance/wedding_gap_jiyeon_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_wedding_morning_daeun"
+      ],
+      "relative_path": "cg/romance/wedding_morning_daeun_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_romance_wedding_morning_jiyeon"
+      ],
+      "relative_path": "cg/romance/wedding_morning_jiyeon_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_seollal_sebae_family"
+      ],
+      "relative_path": "cg/seollal_sebae_family_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_start"
+      ],
+      "relative_path": "cg/start.png",
+      "resolution": "1280x720"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "player_cold_snap"
+      ],
+      "relative_path": "characters/main_character_cold_snap.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "player_corporate",
+        "player_suit"
+      ],
+      "relative_path": "characters/main_character_corporate.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "player_determined",
+        "player_moral_black"
+      ],
+      "relative_path": "characters/main_character_determined.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "player_happy",
+        "player_moral_white"
+      ],
+      "relative_path": "characters/main_character_happy.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "player_heatwave"
+      ],
+      "relative_path": "characters/main_character_heatwave.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "player_monsoon"
+      ],
+      "relative_path": "characters/main_character_monsoon.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "player_moral_gray",
+        "player_normal",
+        "player_offduty_neutral"
+      ],
+      "relative_path": "characters/main_character_neutral_goshiwon.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "player_office"
+      ],
+      "relative_path": "characters/main_character_office.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "player_part_time"
+      ],
+      "relative_path": "characters/main_character_part_time.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "player_shocked"
+      ],
+      "relative_path": "characters/main_character_shocked.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "player_hollow",
+        "player_sad",
+        "player_tired"
+      ],
+      "relative_path": "characters/main_character_tired.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "player_romance_casual",
+        "player_unemployed"
+      ],
+      "relative_path": "characters/main_character_unemployed.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "sangchul_normal"
+      ],
+      "relative_path": "characters/npc_boss.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "cafe_broker_kim"
+      ],
+      "relative_path": "characters/npc_cafe_broker_kim.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "cafe_investor"
+      ],
+      "relative_path": "characters/npc_cafe_investor.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "hyunsu",
+        "hyunsu_normal"
+      ],
+      "relative_path": "characters/npc_close_friend.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "daeun_amusement"
+      ],
+      "relative_path": "characters/npc_daeun_amusement.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "daeun_cherry"
+      ],
+      "relative_path": "characters/npc_daeun_cherry.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "daeun_fireworks"
+      ],
+      "relative_path": "characters/npc_daeun_fireworks.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "daeun_first_snow"
+      ],
+      "relative_path": "characters/npc_daeun_first_snow.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "daeun_hometown_warm"
+      ],
+      "relative_path": "characters/npc_daeun_hometown_warm.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "daeun_hometown_worried"
+      ],
+      "relative_path": "characters/npc_daeun_hometown_worried.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "daeun_namsan"
+      ],
+      "relative_path": "characters/npc_daeun_namsan.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "daeun_proposal"
+      ],
+      "relative_path": "characters/npc_daeun_proposal.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "daeun_sad"
+      ],
+      "relative_path": "characters/npc_daeun_sad.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "daeun_sea"
+      ],
+      "relative_path": "characters/npc_daeun_sea_v2.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "daeun_smile"
+      ],
+      "relative_path": "characters/npc_daeun_smile.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "daeun_wedding_night"
+      ],
+      "relative_path": "characters/npc_daeun_wedding_night.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "father_normal",
+        "father_proud"
+      ],
+      "relative_path": "characters/npc_father.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "father_home"
+      ],
+      "relative_path": "characters/npc_father_home.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "father_home_weak"
+      ],
+      "relative_path": "characters/npc_father_home_weak.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "father_hospitalized"
+      ],
+      "relative_path": "characters/npc_father_hospitalized.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "father_weak"
+      ],
+      "relative_path": "characters/npc_father_weak.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "goshiwon_owner"
+      ],
+      "relative_path": "characters/npc_goshiwon_owner.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "hyunsu_accounting"
+      ],
+      "relative_path": "characters/npc_hyunsu_accounting.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "hyunsu_civil_service"
+      ],
+      "relative_path": "characters/npc_hyunsu_civil_service.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jaehyuk_charisma",
+        "jaehyuk_cornered",
+        "jaehyuk_friendly"
+      ],
+      "relative_path": "characters/npc_jaehyuk.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jaehyuk_shadow"
+      ],
+      "relative_path": "characters/npc_jaehyuk_shadow.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jiyeon_amusement"
+      ],
+      "relative_path": "characters/npc_jiyeon_amusement.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jiyeon_cherry"
+      ],
+      "relative_path": "characters/npc_jiyeon_cherry.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jiyeon_cold"
+      ],
+      "relative_path": "characters/npc_jiyeon_cold.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jiyeon_fireworks"
+      ],
+      "relative_path": "characters/npc_jiyeon_fireworks.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jiyeon_first_snow"
+      ],
+      "relative_path": "characters/npc_jiyeon_first_snow.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jiyeon_namsan"
+      ],
+      "relative_path": "characters/npc_jiyeon_namsan.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jiyeon_narrow_door"
+      ],
+      "relative_path": "characters/npc_jiyeon_narrow_door.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jiyeon_narrow_room"
+      ],
+      "relative_path": "characters/npc_jiyeon_narrow_room.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jiyeon_sea"
+      ],
+      "relative_path": "characters/npc_jiyeon_sea_v2.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jiyeon_warm"
+      ],
+      "relative_path": "characters/npc_jiyeon_warm.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jiyeon_wedding_night"
+      ],
+      "relative_path": "characters/npc_jiyeon_wedding_night.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jiyeon_normal"
+      ],
+      "relative_path": "characters/npc_mentor.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "minseo",
+        "minseo_normal"
+      ],
+      "relative_path": "characters/npc_minseo.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "mother"
+      ],
+      "relative_path": "characters/npc_mother.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "daeun_normal"
+      ],
+      "relative_path": "characters/npc_romantic_interest.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "sangchul_serious"
+      ],
+      "relative_path": "characters/npc_sangchul_serious.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "seongjun"
+      ],
+      "relative_path": "characters/npc_seongjun.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "boss"
+      ],
+      "relative_path": "characters/npc_team_lead.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "tip_seller"
+      ],
+      "relative_path": "characters/npc_tip_seller.png",
+      "resolution": "512x768"
+    }
+  ],
+  "audio": [
+    {
+      "ids": [
+        "amusement"
+      ],
+      "relative_path": "audio/amb_amusement_park.wav",
+      "bytes": 793844
+    },
+    {
+      "ids": [
+        "apartment"
+      ],
+      "relative_path": "audio/amb_apartment_room.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "cafe"
+      ],
+      "relative_path": "audio/amb_cafe_room.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "car"
+      ],
+      "relative_path": "audio/amb_car_interior.wav",
+      "bytes": 705644
+    },
+    {
+      "ids": [
+        "casino"
+      ],
+      "relative_path": "audio/amb_casino_floor.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "cherry"
+      ],
+      "relative_path": "audio/amb_cherry_blossom.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "hoesik"
+      ],
+      "relative_path": "audio/amb_company_dinner.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "convenience"
+      ],
+      "relative_path": "audio/amb_convenience_store.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "fine_dust"
+      ],
+      "relative_path": "audio/amb_fine_dust_city.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "room"
+      ],
+      "relative_path": "audio/amb_goshiwon_room.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "gym"
+      ],
+      "relative_path": "audio/amb_gym_room.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "hagwon"
+      ],
+      "relative_path": "audio/amb_hagwon_street.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "hangang"
+      ],
+      "relative_path": "audio/amb_hangang_riverside.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "heatwave"
+      ],
+      "relative_path": "audio/amb_heatwave_city.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "highway"
+      ],
+      "relative_path": "audio/amb_highway_traffic.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "hospital"
+      ],
+      "relative_path": "audio/amb_hospital_room.wav",
+      "bytes": 705644
+    },
+    {
+      "ids": [
+        "cafe"
+      ],
+      "relative_path": "audio/amb_human_cafe.wav",
+      "bytes": 882044
+    },
+    {
+      "ids": [
+        "casino"
+      ],
+      "relative_path": "audio/amb_human_casino.wav",
+      "bytes": 882044
+    },
+    {
+      "ids": [
+        "leisure"
+      ],
+      "relative_path": "audio/amb_human_leisure.wav",
+      "bytes": 882044
+    },
+    {
+      "ids": [
+        "public_interior"
+      ],
+      "relative_path": "audio/amb_human_public_interior.wav",
+      "bytes": 882044
+    },
+    {
+      "ids": [
+        "racetrack"
+      ],
+      "relative_path": "audio/amb_human_racetrack.wav",
+      "bytes": 882044
+    },
+    {
+      "ids": [
+        "street"
+      ],
+      "relative_path": "audio/amb_human_street.wav",
+      "bytes": 882044
+    },
+    {
+      "ids": [
+        "thin_wall"
+      ],
+      "relative_path": "audio/amb_human_thin_wall.wav",
+      "bytes": 882044
+    },
+    {
+      "ids": [
+        "transit"
+      ],
+      "relative_path": "audio/amb_human_transit.wav",
+      "bytes": 882044
+    },
+    {
+      "ids": [
+        "wedding"
+      ],
+      "relative_path": "audio/amb_human_wedding.wav",
+      "bytes": 882044
+    },
+    {
+      "ids": [
+        "jjimjilbang"
+      ],
+      "relative_path": "audio/amb_jjimjilbang.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "library"
+      ],
+      "relative_path": "audio/amb_library_room.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "military_gate"
+      ],
+      "relative_path": "audio/amb_military_gate.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "night_bus"
+      ],
+      "relative_path": "audio/amb_night_bus.wav",
+      "bytes": 705644
+    },
+    {
+      "ids": [
+        "office"
+      ],
+      "relative_path": "audio/amb_office_room.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "oneroom"
+      ],
+      "relative_path": "audio/amb_oneroom_room.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "open_chat"
+      ],
+      "relative_path": "audio/amb_open_chat_room.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "pc_bang"
+      ],
+      "relative_path": "audio/amb_pc_bang.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "public_office"
+      ],
+      "relative_path": "audio/amb_public_office.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "racetrack"
+      ],
+      "relative_path": "audio/amb_racetrack_crowd.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "saju"
+      ],
+      "relative_path": "audio/amb_saju_cafe.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "school"
+      ],
+      "relative_path": "audio/amb_school_hall.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "seaside"
+      ],
+      "relative_path": "audio/amb_seaside.wav",
+      "bytes": 882044
+    },
+    {
+      "ids": [
+        "rain"
+      ],
+      "relative_path": "audio/amb_seoul_rain.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "street"
+      ],
+      "relative_path": "audio/amb_seoul_street.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "subway"
+      ],
+      "relative_path": "audio/amb_subway_platform.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "summer"
+      ],
+      "relative_path": "audio/amb_summer_night.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "train"
+      ],
+      "relative_path": "audio/amb_train_interior.wav",
+      "bytes": 705644
+    },
+    {
+      "ids": [
+        "wedding_hall"
+      ],
+      "relative_path": "audio/amb_wedding_hall.wav",
+      "bytes": 882044
+    },
+    {
+      "ids": [
+        "winter"
+      ],
+      "relative_path": "audio/amb_winter_wind.wav",
+      "bytes": 529244
+    },
+    {
+      "ids": [
+        "late_tense"
+      ],
+      "relative_path": "audio/bgm_apartment.ogg",
+      "bytes": 525890
+    },
+    {
+      "ids": [
+        "casino_floor"
+      ],
+      "relative_path": "audio/bgm_casino_floor.ogg",
+      "bytes": 297255
+    },
+    {
+      "ids": [
+        "casino_table"
+      ],
+      "relative_path": "audio/bgm_casino_table.ogg",
+      "bytes": 316880
+    },
+    {
+      "ids": [
+        "crisis"
+      ],
+      "relative_path": "audio/bgm_crisis.ogg",
+      "bytes": 726091
+    },
+    {
+      "ids": [
+        "ending_bad"
+      ],
+      "relative_path": "audio/bgm_ending.ogg",
+      "bytes": 745355
+    },
+    {
+      "ids": [
+        "early"
+      ],
+      "relative_path": "audio/bgm_gosiwon.ogg",
+      "bytes": 614753
+    },
+    {
+      "ids": [
+        "grief"
+      ],
+      "relative_path": "audio/bgm_grief.ogg",
+      "bytes": 247854
+    },
+    {
+      "ids": [
+        "intimate"
+      ],
+      "relative_path": "audio/bgm_intimate.ogg",
+      "bytes": 212973
+    },
+    {
+      "ids": [
+        "hustle"
+      ],
+      "relative_path": "audio/bgm_main.ogg",
+      "bytes": 569407
+    },
+    {
+      "ids": [
+        "menu"
+      ],
+      "relative_path": "audio/bgm_menu.ogg",
+      "bytes": 642097
+    },
+    {
+      "ids": [
+        "reckoning"
+      ],
+      "relative_path": "audio/bgm_reckoning.ogg",
+      "bytes": 237345
+    },
+    {
+      "ids": [
+        "theme_dark"
+      ],
+      "relative_path": "audio/bgm_theme_dark.ogg",
+      "bytes": 0
+    },
+    {
+      "ids": [
+        "theme_neutral"
+      ],
+      "relative_path": "audio/bgm_theme_neutral.ogg",
+      "bytes": 0
+    },
+    {
+      "ids": [
+        "theme_white"
+      ],
+      "relative_path": "audio/bgm_theme_white.ogg",
+      "bytes": 0
+    },
+    {
+      "ids": [
+        "ending_good"
+      ],
+      "relative_path": "audio/bgm_victory.ogg",
+      "bytes": 52612
+    },
+    {
+      "ids": [
+        "wedding_processional"
+      ],
+      "relative_path": "audio/bgm_wedding_processional.ogg",
+      "bytes": 288502
+    },
+    {
+      "ids": [
+        "wonder"
+      ],
+      "relative_path": "audio/bgm_wonder.ogg",
+      "bytes": 166581
+    },
+    {
+      "ids": [
+        "big_wheel_tick"
+      ],
+      "relative_path": "audio/sfx_big_wheel_tick.wav",
+      "bytes": 8864
+    },
+    {
+      "ids": [
+        "buy"
+      ],
+      "relative_path": "audio/sfx_buy.wav",
+      "bytes": 14156
+    },
+    {
+      "ids": [
+        "card_deal"
+      ],
+      "relative_path": "audio/sfx_card_deal.wav",
+      "bytes": 30032
+    },
+    {
+      "ids": [
+        "card_flip"
+      ],
+      "relative_path": "audio/sfx_card_flip.wav",
+      "bytes": 33560
+    },
+    {
+      "ids": [
+        "card_shuffle"
+      ],
+      "relative_path": "audio/sfx_card_shuffle.wav",
+      "bytes": 119112
+    },
+    {
+      "ids": [
+        "casino_bet"
+      ],
+      "relative_path": "audio/sfx_casino_bet.wav",
+      "bytes": 8864
+    },
+    {
+      "ids": [
+        "casino_card"
+      ],
+      "relative_path": "audio/sfx_casino_card.wav",
+      "bytes": 7540
+    },
+    {
+      "ids": [
+        "casino_coin"
+      ],
+      "relative_path": "audio/sfx_casino_coin.wav",
+      "bytes": 11510
+    },
+    {
+      "ids": [
+        "casino_jackpot"
+      ],
+      "relative_path": "audio/sfx_casino_jackpot.wav",
+      "bytes": 79424
+    },
+    {
+      "ids": [
+        "casino_lose"
+      ],
+      "relative_path": "audio/sfx_casino_lose.wav",
+      "bytes": 31796
+    },
+    {
+      "ids": [
+        "casino_reel"
+      ],
+      "relative_path": "audio/sfx_casino_reel.wav",
+      "bytes": 4894
+    },
+    {
+      "ids": [
+        "casino_spin"
+      ],
+      "relative_path": "audio/sfx_casino_spin.wav",
+      "bytes": 37088
+    },
+    {
+      "ids": [
+        "casino_win"
+      ],
+      "relative_path": "audio/sfx_casino_win.wav",
+      "bytes": 37088
+    },
+    {
+      "ids": [
+        "chip_collect"
+      ],
+      "relative_path": "audio/sfx_chip_collect.wav",
+      "bytes": 72368
+    },
+    {
+      "ids": [
+        "chip_place"
+      ],
+      "relative_path": "audio/sfx_chip_place.wav",
+      "bytes": 21212
+    },
+    {
+      "ids": [
+        "choice_made"
+      ],
+      "relative_path": "audio/sfx_choice_made.wav",
+      "bytes": 9304
+    },
+    {
+      "ids": [
+        "civil_defense_siren"
+      ],
+      "relative_path": "audio/sfx_civil_defense_siren.wav",
+      "bytes": 247000
+    },
+    {
+      "ids": [
+        "click"
+      ],
+      "relative_path": "audio/sfx_click.wav",
+      "bytes": 3394
+    },
+    {
+      "ids": [
+        "close"
+      ],
+      "relative_path": "audio/sfx_close.wav",
+      "bytes": 13716
+    },
+    {
+      "ids": [
+        "dice_cup_shake"
+      ],
+      "relative_path": "audio/sfx_dice_cup_shake.wav",
+      "bytes": 95300
+    },
+    {
+      "ids": [
+        "dice_roll"
+      ],
+      "relative_path": "audio/sfx_dice_roll.wav",
+      "bytes": 17684
+    },
+    {
+      "ids": [
+        "distant_fireworks"
+      ],
+      "relative_path": "audio/sfx_distant_fireworks.wav",
+      "bytes": 546884
+    },
+    {
+      "ids": [
+        "ending_stinger_bad"
+      ],
+      "relative_path": "audio/sfx_ending_stinger_bad.wav",
+      "bytes": 141164
+    },
+    {
+      "ids": [
+        "ending_stinger_good"
+      ],
+      "relative_path": "audio/sfx_ending_stinger_good.wav",
+      "bytes": 123520
+    },
+    {
+      "ids": [
+        "ending_stinger_legend"
+      ],
+      "relative_path": "audio/sfx_ending_stinger_legend.wav",
+      "bytes": 176444
+    },
+    {
+      "ids": [
+        "event_new"
+      ],
+      "relative_path": "audio/sfx_event_new.wav",
+      "bytes": 28268
+    },
+    {
+      "ids": [
+        "game_over"
+      ],
+      "relative_path": "audio/sfx_game_over.wav",
+      "bytes": 83834
+    },
+    {
+      "ids": [
+        "horse_gallop"
+      ],
+      "relative_path": "audio/sfx_horse_gallop.wav",
+      "bytes": 16800
+    },
+    {
+      "ids": [
+        "housing_up"
+      ],
+      "relative_path": "audio/sfx_housing_up.wav",
+      "bytes": 48554
+    },
+    {
+      "ids": [
+        "money_big"
+      ],
+      "relative_path": "audio/sfx_money_big.wav",
+      "bytes": 57374
+    },
+    {
+      "ids": [
+        "money_gain"
+      ],
+      "relative_path": "audio/sfx_money_gain.wav",
+      "bytes": 24740
+    },
+    {
+      "ids": [
+        "money_loss"
+      ],
+      "relative_path": "audio/sfx_money_loss.wav",
+      "bytes": 30032
+    },
+    {
+      "ids": [
+        "monsoon_rain"
+      ],
+      "relative_path": "audio/sfx_monsoon_rain.wav",
+      "bytes": 247000
+    },
+    {
+      "ids": [
+        "month"
+      ],
+      "relative_path": "audio/sfx_month.wav",
+      "bytes": 30912
+    },
+    {
+      "ids": [
+        "open_modal"
+      ],
+      "relative_path": "audio/sfx_open_modal.wav",
+      "bytes": 13716
+    },
+    {
+      "ids": [
+        "race_crowd_rise"
+      ],
+      "relative_path": "audio/sfx_race_crowd_rise.wav",
+      "bytes": 247000
+    },
+    {
+      "ids": [
+        "race_finish"
+      ],
+      "relative_path": "audio/sfx_race_finish.wav",
+      "bytes": 101472
+    },
+    {
+      "ids": [
+        "race_gate"
+      ],
+      "relative_path": "audio/sfx_race_gate.wav",
+      "bytes": 92652
+    },
+    {
+      "ids": [
+        "result_human"
+      ],
+      "relative_path": "audio/sfx_result_human.wav",
+      "bytes": 22976
+    },
+    {
+      "ids": [
+        "result_ledger"
+      ],
+      "relative_path": "audio/sfx_result_ledger.wav",
+      "bytes": 12832
+    },
+    {
+      "ids": [
+        "roulette_ball"
+      ],
+      "relative_path": "audio/sfx_roulette_ball.wav",
+      "bytes": 10184
+    },
+    {
+      "ids": [
+        "roulette_land"
+      ],
+      "relative_path": "audio/sfx_roulette_land.wav",
+      "bytes": 42380
+    },
+    {
+      "ids": [
+        "roulette_wheel"
+      ],
+      "relative_path": "audio/sfx_roulette_wheel.wav",
+      "bytes": 273464
+    },
+    {
+      "ids": [
+        "sell"
+      ],
+      "relative_path": "audio/sfx_sell.wav",
+      "bytes": 14156
+    },
+    {
+      "ids": [
+        "slot_reel_stop"
+      ],
+      "relative_path": "audio/sfx_slot_reel_stop.wav",
+      "bytes": 25620
+    },
+    {
+      "ids": [
+        "slot_start"
+      ],
+      "relative_path": "audio/sfx_slot_start.wav",
+      "bytes": 54728
+    },
+    {
+      "ids": [
+        "stat_down"
+      ],
+      "relative_path": "audio/sfx_stat_down.wav",
+      "bytes": 19448
+    },
+    {
+      "ids": [
+        "stat_up"
+      ],
+      "relative_path": "audio/sfx_stat_up.wav",
+      "bytes": 15920
+    },
+    {
+      "ids": [
+        "success"
+      ],
+      "relative_path": "audio/sfx_success.wav",
+      "bytes": 72368
+    },
+    {
+      "ids": [
+        "tab_open"
+      ],
+      "relative_path": "audio/sfx_tab_open.wav",
+      "bytes": 6660
+    },
+    {
+      "ids": [
+        "wedding_applause"
+      ],
+      "relative_path": "audio/sfx_wedding_applause.wav",
+      "bytes": 564524
+    },
+    {
+      "ids": [
+        "wedding_cheer"
+      ],
+      "relative_path": "audio/sfx_wedding_cheer.wav",
+      "bytes": 370484
+    }
+  ]
+}

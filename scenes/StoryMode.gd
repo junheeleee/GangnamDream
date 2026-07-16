@@ -15,6 +15,13 @@ extends Control
 const C_NARRATION := "#d8dce8"
 const C_DIM       := "#8892a4"
 const C_CHOICE    := "#c8d0e0"
+const STORY_TEXT_SIZE_DEFAULT := "standard"
+const STORY_TEXT_SIZE_LEVELS: Array[String] = ["small", "standard", "large"]
+const STORY_TEXT_SCALES := {
+	"small": 0.90,
+	"standard": 1.00,
+	"large": 1.15,
+}
 
 # ── 상태 ──────────────────────────────────────────────────────
 var _queue: Array = []          # 재생할 이벤트 ID 목록
@@ -27,6 +34,7 @@ var _type_pos: int = 0
 var _showing_choices: bool = false
 var _transitioning: bool = false
 var _pending_after_result: bool = false
+var _pending_result_choice_index: int = -1
 var _pending_follow_up: String = ""
 var _direction: Dictionary = {}
 var _direction_camera_tween: Tween = null
@@ -95,11 +103,19 @@ var _audio_settings_previous_focus: Control = null
 var _audio_bgm_slider: HSlider = null
 var _audio_sfx_slider: HSlider = null
 var _audio_reduce_motion_toggle: CheckButton = null
+var _story_text_size: String = STORY_TEXT_SIZE_DEFAULT
+var _story_text_size_buttons: Dictionary = {}
+var _story_language_buttons: Dictionary = {}
+var _settings_countdown_remaining_msec: int = -1
+var _settings_countdown_total_msec: int = -1
+var _settings_focus_key: String = ""
 var _name_panel_visible_before_choices: bool = false
 var _choice_countdown_timer: Timer = null
+var _choice_countdown_row: HBoxContainer = null
 var _choice_countdown_bar: ProgressBar = null
 var _choice_countdown_label: Label = null
 var _choice_countdown_deadline_msec: int = 0
+var _choice_countdown_total_msec: int = 0
 var _choice_countdown_default_index: int = 0
 
 var _font: FontFile
@@ -131,8 +147,11 @@ static var _auto_enabled_session: bool = false
 
 func _ready():
 	_read_only_replay = GameState.story_replay_mode
+	_story_text_size = _normalized_story_text_size(str(
+		SaveManager.get_setting("story_text_size", STORY_TEXT_SIZE_DEFAULT)))
 	_load_fonts()
 	_build_ui()
+	_apply_story_text_size()
 	_set_auto_mode(_auto_enabled_session, false)
 	_refresh_hud()
 	GameState.stats_changed.connect(_refresh_hud)
@@ -575,7 +594,7 @@ func _build_ui():
 	_communication_label = Label.new()
 	_communication_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	_communication_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_communication_label.add_theme_font_size_override("font_size", 12)
+	_register_story_font(_communication_label, "font_size", 12)
 	_communication_label.add_theme_color_override("font_color", Color("#c4cfde"))
 	_apply_font(_communication_label, true)
 	_communication_badge.add_child(_communication_label)
@@ -600,7 +619,7 @@ func _build_ui():
 	name_panel.add_theme_stylebox_override("panel", name_style)
 	add_child(name_panel)
 	_name_tag = Label.new()
-	_name_tag.add_theme_font_size_override("font_size", 18)
+	_register_story_font(_name_tag, "font_size", 18)
 	_name_tag.add_theme_color_override("font_color", Color("#e6e8ec"))
 	_apply_font(_name_tag, true)
 	name_panel.add_child(_name_tag)
@@ -641,7 +660,7 @@ func _build_ui():
 	_title_lbl.offset_left = 36
 	_title_lbl.offset_top = 18
 	_title_lbl.offset_right = -36
-	_title_lbl.add_theme_font_size_override("font_size", 13)
+	_register_story_font(_title_lbl, "font_size", 13)
 	_title_lbl.add_theme_color_override("font_color", Color(C_DIM))
 	_title_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_apply_font(_title_lbl)
@@ -657,7 +676,7 @@ func _build_ui():
 	_body_lbl.offset_top = 44
 	_body_lbl.offset_right = -36
 	_body_lbl.offset_bottom = -34
-	_body_lbl.add_theme_font_size_override("normal_font_size", 20)
+	_register_story_font(_body_lbl, "normal_font_size", 20)
 	_body_lbl.add_theme_color_override("default_color", Color(C_NARRATION))
 	if _font:
 		_body_lbl.add_theme_font_override("normal_font", _font)
@@ -672,7 +691,7 @@ func _build_ui():
 	_continue_hint.offset_right = -16
 	_continue_hint.offset_bottom = -8
 	_continue_hint.text = _tr("▼  Enter 또는 클릭", "▼  Enter or click")
-	_continue_hint.add_theme_font_size_override("font_size", 12)
+	_register_story_font(_continue_hint, "font_size", 12)
 	_continue_hint.add_theme_color_override("font_color", Color("#4a5468"))
 	_continue_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_continue_hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -688,7 +707,7 @@ func _build_ui():
 	_auto_button.offset_right = 142
 	_auto_button.offset_bottom = -7
 	_auto_button.focus_mode = Control.FOCUS_NONE
-	_auto_button.add_theme_font_size_override("font_size", 11)
+	_register_story_font(_auto_button, "font_size", 11)
 	_auto_button.add_theme_color_override("font_color", Color("#6f7886"))
 	_auto_button.add_theme_color_override("font_hover_color", Color("#dce3eb"))
 	var auto_normal := StyleBoxFlat.new()
@@ -753,7 +772,7 @@ func _build_ui():
 	_hud_label.offset_left = 24
 	_hud_label.offset_right = -126
 	_hud_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_hud_label.add_theme_font_size_override("font_size", 14)
+	_register_story_font(_hud_label, "font_size", 14)
 	_hud_label.add_theme_color_override("font_color", Color("#aeb6c8"))
 	_hud_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_apply_font(_hud_label)
@@ -794,6 +813,10 @@ func _open_audio_settings() -> void:
 	if is_instance_valid(_audio_settings_popup):
 		return
 	_audio_settings_previous_focus = get_viewport().gui_get_focus_owner()
+	_pause_story_countdown_for_settings()
+	_create_story_settings_popup("text:%s" % _story_text_size, true)
+
+func _create_story_settings_popup(focus_key: String, play_open_sound: bool) -> void:
 	var overlay := ColorRect.new()
 	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
 	overlay.color = Color(0, 0, 0, 0.66)
@@ -810,10 +833,10 @@ func _open_audio_settings() -> void:
 	panel.anchor_right = 0.5
 	panel.anchor_top = 0.5
 	panel.anchor_bottom = 0.5
-	panel.offset_left = -270
-	panel.offset_right = 270
-	panel.offset_top = -184
-	panel.offset_bottom = 184
+	panel.offset_left = -330
+	panel.offset_right = 330
+	panel.offset_top = -240
+	panel.offset_bottom = 240
 	panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	var palette := _story_palette()
 	panel.add_theme_stylebox_override("panel", _story_panel_style(
@@ -821,7 +844,7 @@ func _open_audio_settings() -> void:
 	overlay.add_child(panel)
 
 	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 16)
+	column.add_theme_constant_override("separation", 12)
 	panel.add_child(column)
 	var title := Label.new()
 	title.text = _tr("장면 설정", "Scene Settings")
@@ -834,6 +857,22 @@ func _open_audio_settings() -> void:
 	var separator := HSeparator.new()
 	separator.modulate = palette["line"]
 	column.add_child(separator)
+	_story_text_size_buttons = _add_story_segmented_row(
+		column,
+		_tr("글자 크기", "Text Size"),
+		[
+			{"key": "small", "label": _tr("작게", "Small")},
+			{"key": "standard", "label": _tr("기본", "Default")},
+			{"key": "large", "label": _tr("크게", "Large")},
+		],
+		_story_text_size,
+		func(level: String): _set_story_text_size(level))
+	_story_language_buttons = _add_story_segmented_row(
+		column,
+		_tr("언어", "Language"),
+		_story_language_options(),
+		LocaleManager.language,
+		func(lang: String): _set_story_language(lang))
 	_audio_bgm_slider = _add_story_volume_row(
 		column, _tr("음악 / 환경음", "Music / Ambience"), AudioManager.bgm_volume,
 		func(value: float): AudioManager.set_bgm_volume(value))
@@ -853,7 +892,7 @@ func _open_audio_settings() -> void:
 	close_button.text = _tr("닫기", "Close")
 	close_button.custom_minimum_size = Vector2(0, 42)
 	close_button.focus_mode = Control.FOCUS_ALL
-	close_button.add_theme_font_size_override("font_size", 15)
+	close_button.add_theme_font_size_override("font_size", 16)
 	if _font_bold:
 		close_button.add_theme_font_override("font", _font_bold)
 	var close_normal := _story_panel_style(palette["choice_bg"], palette["panel_border"], 5, 16, 8)
@@ -868,19 +907,124 @@ func _open_audio_settings() -> void:
 	close_button.pressed.connect(_close_audio_settings)
 	column.add_child(close_button)
 
+	_wire_story_settings_focus(close_button, focus_key)
+	if play_open_sound:
+		AudioManager.play_ui_open(-12.0)
+
+	var close_from_backdrop := func(event: InputEvent):
+		if event is InputEventMouseButton and event.pressed:
+			_close_audio_settings()
+	overlay.gui_input.connect(close_from_backdrop)
+
+func _add_story_segmented_row(
+		parent: Control,
+		label_text: String,
+		options: Array,
+		selected_key: String,
+		on_select: Callable) -> Dictionary:
+	var row := HBoxContainer.new()
+	row.custom_minimum_size = Vector2(0, 48)
+	row.add_theme_constant_override("separation", 14)
+	parent.add_child(row)
+	var label := Label.new()
+	label.text = label_text
+	label.custom_minimum_size = Vector2(160, 0)
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.add_theme_font_size_override("font_size", 16)
+	label.add_theme_color_override("font_color", _story_palette()["text"])
+	if _font:
+		label.add_theme_font_override("font", _font)
+	row.add_child(label)
+
+	var segments := HBoxContainer.new()
+	segments.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	segments.add_theme_constant_override("separation", 8)
+	row.add_child(segments)
+	var group := ButtonGroup.new()
+	group.allow_unpress = false
+	var buttons: Dictionary = {}
+	var palette := _story_palette()
+	for raw_option in options:
+		var option: Dictionary = raw_option
+		var key := str(option.get("key", ""))
+		var button := Button.new()
+		button.text = str(option.get("label", key))
+		button.toggle_mode = true
+		button.button_group = group
+		button.button_pressed = key == selected_key
+		button.focus_mode = Control.FOCUS_ALL
+		button.custom_minimum_size = Vector2(0, 40)
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.add_theme_font_size_override("font_size", 16)
+		if _font_bold:
+			button.add_theme_font_override("font", _font_bold)
+		var normal := _story_panel_style(
+			palette["choice_bg"], palette["panel_border"], 4, 12, 7)
+		var hover := normal.duplicate()
+		hover.bg_color = palette["choice_hover"]
+		hover.border_color = palette["focus"]
+		var active := hover.duplicate()
+		active.border_width_bottom = 3
+		button.add_theme_stylebox_override("normal", normal)
+		button.add_theme_stylebox_override("hover", hover)
+		button.add_theme_stylebox_override("focus", hover)
+		button.add_theme_stylebox_override("pressed", active)
+		button.add_theme_color_override("font_color", palette["dim"])
+		button.add_theme_color_override("font_hover_color", palette["focus"])
+		button.add_theme_color_override("font_focus_color", palette["focus"])
+		button.add_theme_color_override("font_pressed_color", palette["focus"])
+		button.set_meta("segment_key", key)
+		button.pressed.connect(on_select.bind(key))
+		segments.add_child(button)
+		buttons[key] = button
+	return buttons
+
+func _wire_story_settings_focus(close_button: Button, focus_key: String) -> void:
+	var text_buttons: Array[Button] = []
+	for level in STORY_TEXT_SIZE_LEVELS:
+		var text_button: Button = _story_text_size_buttons.get(level) as Button
+		if is_instance_valid(text_button):
+			text_buttons.append(text_button)
+	var language_buttons: Array[Button] = []
+	for lang in LocaleManager.get_selectable_languages():
+		var language_button: Button = _story_language_buttons.get(lang) as Button
+		if is_instance_valid(language_button):
+			language_buttons.append(language_button)
+	for index in range(text_buttons.size()):
+		var button := text_buttons[index]
+		button.focus_neighbor_left = text_buttons[maxi(0, index - 1)].get_path()
+		button.focus_neighbor_right = text_buttons[mini(text_buttons.size() - 1, index + 1)].get_path()
+		button.focus_neighbor_top = close_button.get_path()
+		button.focus_neighbor_bottom = language_buttons[mini(language_buttons.size() - 1, index)].get_path()
+	for index in range(language_buttons.size()):
+		var button := language_buttons[index]
+		button.focus_neighbor_left = language_buttons[maxi(0, index - 1)].get_path()
+		button.focus_neighbor_right = language_buttons[mini(language_buttons.size() - 1, index + 1)].get_path()
+		button.focus_neighbor_top = text_buttons[mini(text_buttons.size() - 1, index + 1)].get_path()
+		button.focus_neighbor_bottom = _audio_bgm_slider.get_path()
+	_audio_bgm_slider.focus_neighbor_top = language_buttons[0].get_path()
 	_audio_bgm_slider.focus_neighbor_bottom = _audio_sfx_slider.get_path()
 	_audio_sfx_slider.focus_neighbor_top = _audio_bgm_slider.get_path()
 	_audio_sfx_slider.focus_neighbor_bottom = _audio_reduce_motion_toggle.get_path()
 	_audio_reduce_motion_toggle.focus_neighbor_top = _audio_sfx_slider.get_path()
 	_audio_reduce_motion_toggle.focus_neighbor_bottom = close_button.get_path()
 	close_button.focus_neighbor_top = _audio_reduce_motion_toggle.get_path()
-	_audio_bgm_slider.call_deferred("grab_focus")
-	AudioManager.play_ui_open(-12.0)
+	close_button.focus_neighbor_bottom = text_buttons[0].get_path()
+	var focus_control := _story_settings_focus_control(focus_key, close_button)
+	if is_instance_valid(focus_control):
+		focus_control.call_deferred("grab_focus")
 
-	var close_from_backdrop := func(event: InputEvent):
-		if event is InputEventMouseButton and event.pressed:
-			_close_audio_settings()
-	overlay.gui_input.connect(close_from_backdrop)
+func _story_settings_focus_control(focus_key: String, close_button: Button) -> Control:
+	if focus_key.begins_with("text:"):
+		return _story_text_size_buttons.get(focus_key.trim_prefix("text:")) as Control
+	if focus_key.begins_with("language:"):
+		return _story_language_buttons.get(focus_key.trim_prefix("language:")) as Control
+	match focus_key:
+		"bgm": return _audio_bgm_slider
+		"sfx": return _audio_sfx_slider
+		"motion": return _audio_reduce_motion_toggle
+		"close": return close_button
+	return _story_text_size_buttons.get(_story_text_size) as Control
 
 func _add_story_volume_row(
 		parent: Control, label_text: String, initial_value: float, on_change: Callable) -> HSlider:
@@ -892,7 +1036,7 @@ func _add_story_volume_row(
 	label.text = label_text
 	label.custom_minimum_size = Vector2(142, 0)
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.add_theme_font_size_override("font_size", 15)
+	label.add_theme_font_size_override("font_size", 16)
 	label.add_theme_color_override("font_color", _story_palette()["text"])
 	if _font:
 		label.add_theme_font_override("font", _font)
@@ -919,7 +1063,7 @@ func _add_story_volume_row(
 	value_label.custom_minimum_size = Vector2(48, 0)
 	value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	value_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	value_label.add_theme_font_size_override("font_size", 14)
+	value_label.add_theme_font_size_override("font_size", 15)
 	value_label.add_theme_color_override("font_color", _story_palette()["dim"])
 	if _font:
 		value_label.add_theme_font_override("font", _font)
@@ -946,14 +1090,14 @@ func _add_story_toggle_row(
 	row.add_child(copy)
 	var label := Label.new()
 	label.text = label_text
-	label.add_theme_font_size_override("font_size", 15)
+	label.add_theme_font_size_override("font_size", 16)
 	label.add_theme_color_override("font_color", _story_palette()["text"])
 	if _font:
 		label.add_theme_font_override("font", _font)
 	copy.add_child(label)
 	var hint := Label.new()
 	hint.text = hint_text
-	hint.add_theme_font_size_override("font_size", 12)
+	hint.add_theme_font_size_override("font_size", 13)
 	hint.add_theme_color_override("font_color", _story_palette()["dim"])
 	if _font:
 		hint.add_theme_font_override("font", _font)
@@ -976,11 +1120,48 @@ func _close_audio_settings() -> void:
 	_audio_bgm_slider = null
 	_audio_sfx_slider = null
 	_audio_reduce_motion_toggle = null
+	_story_text_size_buttons.clear()
+	_story_language_buttons.clear()
 	popup.queue_free()
+	_resume_story_countdown_after_settings()
 	AudioManager.play_ui_close(-14.0)
 	if is_instance_valid(_audio_settings_previous_focus):
 		_audio_settings_previous_focus.call_deferred("grab_focus")
 	_audio_settings_previous_focus = null
+	_settings_focus_key = ""
+
+func _rebuild_story_settings_popup(focus_key: String) -> void:
+	if not is_instance_valid(_audio_settings_popup):
+		return
+	var old_popup := _audio_settings_popup
+	_audio_settings_popup = null
+	_audio_bgm_slider = null
+	_audio_sfx_slider = null
+	_audio_reduce_motion_toggle = null
+	_story_text_size_buttons.clear()
+	_story_language_buttons.clear()
+	old_popup.queue_free()
+	_create_story_settings_popup(focus_key, false)
+
+func _pause_story_countdown_for_settings() -> void:
+	_settings_countdown_remaining_msec = -1
+	_settings_countdown_total_msec = -1
+	if _choice_countdown_deadline_msec <= 0:
+		return
+	_settings_countdown_remaining_msec = maxi(
+		1, _choice_countdown_deadline_msec - Time.get_ticks_msec())
+	_settings_countdown_total_msec = maxi(
+		_settings_countdown_remaining_msec, _choice_countdown_total_msec)
+	_stop_story_choice_countdown()
+
+func _resume_story_countdown_after_settings() -> void:
+	var remaining := _settings_countdown_remaining_msec
+	var total := _settings_countdown_total_msec
+	_settings_countdown_remaining_msec = -1
+	_settings_countdown_total_msec = -1
+	if remaining <= 0 or not _showing_choices or not bool(_current.get("timed", false)):
+		return
+	_start_story_choice_countdown_msec(remaining, _choice_countdown_default_index, total)
 
 func _build_story_ink_transition_layer() -> void:
 	_story_ink_transition_layer = Control.new()
@@ -1071,6 +1252,204 @@ func _apply_font(lbl: Label, bold: bool = false):
 	if f:
 		lbl.add_theme_font_override("font", f)
 
+func _normalized_story_text_size(raw_level: String) -> String:
+	return raw_level if raw_level in STORY_TEXT_SIZE_LEVELS else STORY_TEXT_SIZE_DEFAULT
+
+func _story_font_size(base_size: int) -> int:
+	var scale: float = float(STORY_TEXT_SCALES.get(_story_text_size, 1.0))
+	return maxi(1, int(roundf(float(base_size) * scale)))
+
+func _register_story_font(control: Control, theme_key: String, base_size: int) -> void:
+	control.set_meta("story_font_theme_key", theme_key)
+	control.set_meta("story_font_base_size", base_size)
+	control.add_theme_font_size_override(theme_key, _story_font_size(base_size))
+
+func _apply_story_text_size_to_tree(node: Node) -> void:
+	if node is Control and node.has_meta("story_font_base_size"):
+		var control := node as Control
+		control.add_theme_font_size_override(
+			str(control.get_meta("story_font_theme_key", "font_size")),
+			_story_font_size(int(control.get_meta("story_font_base_size", 14))))
+	for child in node.get_children():
+		_apply_story_text_size_to_tree(child)
+
+func _apply_story_text_size() -> void:
+	if not is_inside_tree():
+		return
+	_apply_story_text_size_to_tree(self)
+	var extra_height := 22.0 if _story_text_size == "large" else 0.0
+	if is_instance_valid(_text_panel):
+		_text_panel.offset_top = -250.0 - extra_height
+	if is_instance_valid(_name_panel):
+		_name_panel.offset_top = -294.0 - extra_height
+		_name_panel.offset_bottom = -256.0 - extra_height
+	for level in _story_text_size_buttons:
+		var button := _story_text_size_buttons[level] as Button
+		if is_instance_valid(button):
+			button.button_pressed = str(level) == _story_text_size
+
+func _set_story_text_size(level: String) -> void:
+	var normalized := _normalized_story_text_size(level)
+	if normalized == _story_text_size:
+		return
+	_story_text_size = normalized
+	SaveManager.set_setting("story_text_size", normalized)
+	_apply_story_text_size()
+
+func _story_language_options() -> Array:
+	var options: Array = []
+	for code in LocaleManager.get_selectable_languages():
+		var display_name := LocaleManager.get_language_display_name(code)
+		if code == "ko":
+			display_name = _tr("한국어", "Korean")
+		options.append({
+			"key": code,
+			"label": display_name,
+		})
+	return options
+
+func _set_story_language(raw_language: String) -> void:
+	var language := LocaleManager.normalize_language(raw_language)
+	if language not in LocaleManager.get_selectable_languages() or language == LocaleManager.language:
+		return
+	var event_id := str(_current.get("id", ""))
+	var paragraph_index := _para_index
+	var was_typing := _typing
+	var old_type_length := maxi(1, _type_full.length())
+	var type_ratio := clampf(float(_type_pos) / float(old_type_length), 0.0, 1.0)
+	var hint_was_visible := is_instance_valid(_continue_hint) and _continue_hint.visible
+	var beat_was_waiting := _direction_beat_waiting
+
+	LocaleManager.set_language(language)
+	var localized := _localized_story_event(event_id)
+	if not localized.is_empty():
+		_current = localized
+		EventManager.current_event = _current
+		_current_presentation = DataRegistry.get_story_presentation(event_id)
+		_title_lbl.text = "— %s —" % _fmt(str(_current.get("title", "")))
+		var localized_paragraphs: Array
+		if _pending_after_result and _pending_result_choice_index >= 0:
+			localized_paragraphs = _localized_result_paragraphs(_pending_result_choice_index)
+			var localized_choices: Array = _current.get("choices", [])
+			if _pending_result_choice_index < localized_choices.size() \
+					and is_instance_valid(_result_record_card):
+				_show_story_result_record(
+					localized_choices[_pending_result_choice_index] as Dictionary, false)
+		else:
+			localized_paragraphs = _split_story_paragraphs(
+				_resolved_story_description(_current))
+		_restore_localized_story_text(
+			localized_paragraphs, paragraph_index, was_typing, type_ratio,
+			hint_was_visible, beat_was_waiting)
+		_refresh_story_choice_language()
+		_refresh_story_speaker_language()
+		if _is_chapter_card:
+			_refresh_chapter_card_language()
+
+	_refresh_hud()
+	_refresh_continue_hint_text()
+	if is_instance_valid(_audio_settings_button):
+		_audio_settings_button.text = _tr("설정", "Settings")
+		_audio_settings_button.tooltip_text = _tr(
+			"장면 설정 (%s)" % ControllerHints.start_btn(),
+			"Scene settings (%s)" % ControllerHints.start_btn())
+	_settings_focus_key = "language:%s" % language
+	call_deferred("_rebuild_story_settings_popup", _settings_focus_key)
+
+func _localized_story_event(event_id: String) -> Dictionary:
+	if event_id.is_empty():
+		return {}
+	var localized: Dictionary = DataRegistry.find_event(event_id)
+	if localized.is_empty():
+		return {}
+	var curation_year := int(localized.get("year_scene_year", 0))
+	if curation_year > 0:
+		localized = localized.duplicate(true)
+		localized["choices"] = GameState.build_year_scene_choices(curation_year)
+	return localized
+
+func _localized_result_paragraphs(choice_index: int) -> Array:
+	var choices: Array = _current.get("choices", [])
+	if choice_index < 0 or choice_index >= choices.size():
+		return _paragraphs.duplicate()
+	var result: String = _fmt(str((choices[choice_index] as Dictionary).get("result_text", "")))
+	return _split_story_paragraphs(result)
+
+func _restore_localized_story_text(
+		localized_paragraphs: Array,
+		paragraph_index: int,
+		was_typing: bool,
+		type_ratio: float,
+		hint_was_visible: bool,
+		beat_was_waiting: bool) -> void:
+	_paragraphs = localized_paragraphs if not localized_paragraphs.is_empty() else [""]
+	_para_index = clampi(paragraph_index, 0, _paragraphs.size() - 1)
+	if beat_was_waiting:
+		_direction_pending_text = str(_paragraphs[_para_index])
+		var previous_index := maxi(0, _para_index - 1)
+		_type_full = str(_paragraphs[previous_index])
+		_type_pos = _type_full.length()
+		_typing = false
+		_body_lbl.text = _type_full
+		_continue_hint.visible = false
+		return
+	_type_full = str(_paragraphs[_para_index])
+	if was_typing:
+		_type_pos = clampi(int(roundf(float(_type_full.length()) * type_ratio)), 0, _type_full.length())
+		_typing = _type_pos < _type_full.length()
+		_body_lbl.text = _type_full.substr(0, _type_pos)
+		_continue_hint.visible = false
+		if not _typing:
+			_body_lbl.text = _type_full
+			_continue_hint.visible = hint_was_visible and not _showing_choices
+	else:
+		_type_pos = _type_full.length()
+		_typing = false
+		_body_lbl.text = _type_full
+		_continue_hint.visible = hint_was_visible \
+				and not _showing_choices and not _direction_hold_active
+
+func _refresh_story_choice_language() -> void:
+	if not is_instance_valid(_choice_box):
+		return
+	var choices: Array = _current.get("choices", [])
+	for group in _choice_box.get_children():
+		for child in group.get_children():
+			if not child is Button or not child.has_meta("choice_index"):
+				continue
+			var button := child as Button
+			var choice_index := int(button.get_meta("choice_index", -1))
+			if choice_index < 0 or choice_index >= choices.size():
+				continue
+			var choice: Dictionary = choices[choice_index]
+			var base_text := str(choice.get("text", _tr("선택", "Choose")))
+			var perceived: String = _moral_perception_text(choice.get("text_if_moral", {}), base_text)
+			var shown := int(button.get_meta("choice_display_num", choice_index + 1))
+			button.text = "  %02d  %s" % [shown, _fmt(perceived)]
+	if is_instance_valid(_choice_countdown_label) and _choice_countdown_deadline_msec > 0:
+		var remaining := maxf(
+			0.0, float(_choice_countdown_deadline_msec - Time.get_ticks_msec()) / 1000.0)
+		_choice_countdown_label.text = _tr("남은 시간  %d", "TIME LEFT  %d") % ceili(remaining)
+
+func _refresh_story_speaker_language() -> void:
+	if _is_chapter_card:
+		return
+	_update_communication_badge(
+		str(_current_presentation.get("channel", "in_person")),
+		str(_current_presentation.get("state", "")))
+	var info := ImageRegistry.get_person_info(_resolved_event_portrait_id())
+	if info.is_empty() or str(info.get("name", "")).is_empty():
+		return
+	var display_name := str(info.get("name", ""))
+	var suffix := _remote_name_suffix()
+	_name_tag.text = display_name if suffix.is_empty() else "%s  ·  %s" % [display_name, suffix]
+
+func _refresh_continue_hint_text() -> void:
+	if not is_instance_valid(_continue_hint):
+		return
+	_continue_hint.text = _tr("[%s] 또는 클릭", "[%s] or click") % ControllerHints.south() \
+			if ControllerHints.is_pad_active() else _tr("▼  Enter 또는 클릭", "▼  Enter or click")
+
 # ── 이벤트 로딩 ───────────────────────────────────────────────
 func _load_next_event():
 	_stop_story_choice_countdown()
@@ -1124,6 +1503,63 @@ func _known_flag_condition_matches(condition_key: String) -> bool:
 		if flag_id.is_empty() or not GameState.flags.get(flag_id, false):
 			return false
 	return true
+
+func _resolved_story_description(event: Dictionary) -> String:
+	var desc_raw: String = str(event.get("description", ""))
+	var ortho: int = int(GameState.route_orthodox)
+	var unorth: int = int(GameState.route_unorthodox)
+	var mental: int = int(GameState.mental)
+	var housing: String = str(GameState.housing)
+	var housing_months: int = int(GameState.housing_months.get(housing, 0))
+	var know_variant := ""
+	var know_map = event.get("description_if_known", null)
+	if know_map is Dictionary:
+		for condition_key in know_map.keys():
+			if _known_flag_condition_matches(str(condition_key)):
+				know_variant = str(know_map[condition_key])
+				break
+	if know_variant.is_empty():
+		var held_map = event.get("description_if_held", null)
+		if held_map is Dictionary:
+			for item_id in held_map.keys():
+				if GameState.has_item(str(item_id)):
+					know_variant = str(held_map[item_id])
+					break
+	if not know_variant.is_empty():
+		desc_raw = know_variant
+	elif event.has("description_if_moral"):
+		desc_raw = _moral_perception_text(event.get("description_if_moral", {}), desc_raw)
+	elif mental <= 20 and event.has("description_low_mental"):
+		desc_raw = str(event["description_low_mental"])
+	elif housing == "gosiwon" and housing_months >= 6 and event.has("description_long_gosiwon"):
+		desc_raw = str(event["description_long_gosiwon"])
+	elif ortho > unorth + 15 and event.has("description_orthodox"):
+		desc_raw = str(event["description_orthodox"])
+	elif unorth > ortho + 15 and event.has("description_unorthodox"):
+		desc_raw = str(event["description_unorthodox"])
+	var memory_map = event.get("description_memory_if_known", null)
+	if memory_map is Dictionary:
+		for condition_key in memory_map.keys():
+			if _known_flag_condition_matches(str(condition_key)):
+				var memory_text := str(memory_map[condition_key]).strip_edges()
+				if not memory_text.is_empty():
+					desc_raw += "\n\n" + memory_text
+				break
+	var desc := _fmt(desc_raw)
+	var causal_frame := EventManager.causal_frame_for(event)
+	if not causal_frame.is_empty():
+		desc = "[color=#9aa4b2][i]%s[/i][/color]\n%s" % [_fmt(causal_frame), desc]
+	return desc
+
+func _split_story_paragraphs(text: String) -> Array:
+	var paragraphs: Array = []
+	for para in text.split("\n\n"):
+		var paragraph := str(para).strip_edges()
+		if not paragraph.is_empty():
+			paragraphs.append(paragraph)
+	if paragraphs.is_empty():
+		paragraphs = [""]
+	return paragraphs
 
 func _render_current():
 	_reset_scene_direction()
@@ -1182,8 +1618,8 @@ func _render_current():
 
 	# CG가 있는 장면은 CG를 최우선 전체화면 배경으로 사용한다.
 	# 문단 reveal이 있으면 지정 문단 전까지 명시 background와 초상화를 유지한다.
-	if cg_active_at_start and ResourceLoader.exists(cg_path):
-		_bg_img.texture = load(cg_path)
+	if cg_active_at_start and ImageRegistry.has_texture(cg_path):
+		_bg_img.texture = ImageRegistry.load_texture(cg_path)
 		_current_uses_cg = true
 		if not _read_only_replay:
 			MetaProgression.record_cg_unlocked(cg_id)
@@ -1196,8 +1632,8 @@ func _render_current():
 		bg_id = _resolve_story_background_id(bg_id)
 		if bg_id != "":
 			var bp = ImageRegistry.get_background(bg_id)
-			if bp != "" and ResourceLoader.exists(bp):
-				_bg_img.texture = load(bp)
+			if bp != "" and ImageRegistry.has_texture(bp):
+				_bg_img.texture = ImageRegistry.load_texture(bp)
 				_event_background_id = bg_id
 	_current_presentation = DataRegistry.get_story_presentation(str(_current.get("id", "")))
 	_apply_story_surface_palette(_current_uses_cg)
@@ -1226,67 +1662,8 @@ func _render_current():
 	_title_lbl.text = "— %s —" % _fmt(str(_current.get("title", "")))
 	_animate_story_text_panel()
 
-	# 본문 문단 분할 (\n\n 기준)
-	# 루트·상태별 대체 description: description_orthodox / description_unorthodox /
-	# description_low_mental / description_long_gosiwon 우선 적용
-	var desc_raw: String = str(_current.get("description", ""))
-	var ortho: int  = int(GameState.route_orthodox)
-	var unorth: int = int(GameState.route_unorthodox)
-	var mental: int = int(GameState.mental)
-	var housing: String = str(GameState.housing)
-	var housing_months: int = int(GameState.housing_months.get(housing, 0))
-	# 지식 반응형 (DE식 발견): 플레이어가 어떤 진실을 '알게 된' 뒤에는
-	# 같은 장면이 다르게 읽힌다. description_if_known = { 플래그: 대체본문 }.
-	# 가진 진실 중 첫 일치를 최우선 적용 — 아는 것이 이야기를 다시 쓴다.
-	var know_variant: String = ""
-	var know_map = _current.get("description_if_known", null)
-	if know_map is Dictionary:
-		for condition_key in know_map.keys():
-			if _known_flag_condition_matches(str(condition_key)):
-				know_variant = str(know_map[condition_key])
-				break
-	if know_variant == "":
-		var held_map = _current.get("description_if_held", null)
-		if held_map is Dictionary:
-			for item_id in held_map.keys():
-				if GameState.has_item(str(item_id)):
-					know_variant = str(held_map[item_id])
-					break
-	if know_variant != "":
-		desc_raw = know_variant
-	elif _current.has("description_if_moral"):
-		desc_raw = _moral_perception_text(_current.get("description_if_moral", {}), desc_raw)
-	elif mental <= 20 and _current.has("description_low_mental"):
-		desc_raw = str(_current["description_low_mental"])
-	elif housing == "gosiwon" and housing_months >= 6 and _current.has("description_long_gosiwon"):
-		desc_raw = str(_current["description_long_gosiwon"])
-	elif ortho > unorth + 15 and _current.has("description_orthodox"):
-		desc_raw = str(_current["description_orthodox"])
-	elif unorth > ortho + 15 and _current.has("description_unorthodox"):
-		desc_raw = str(_current["description_unorthodox"])
-	# 정체성 흔적은 기존 발견/도덕/루트 본문을 덮지 않고 뒤에 되돌아온다.
-	# 첫 매치만 붙여 한 장면에 기억 문단이 겹쳐 쌓이지 않게 한다.
-	var memory_map = _current.get("description_memory_if_known", null)
-	if memory_map is Dictionary:
-		for condition_key in memory_map.keys():
-			if _known_flag_condition_matches(str(condition_key)):
-				var memory_text := str(memory_map[condition_key]).strip_edges()
-				if not memory_text.is_empty():
-					desc_raw += "\n\n" + memory_text
-				break
-	var desc = _fmt(desc_raw)
-	# 랜덤 사건의 첫 문장에 최근 행동의 흔적을 붙인다. 별도 문단으로 만들면
-	# CG/초상 reveal 인덱스가 밀리므로 첫 문단 안의 조용한 인과 프레임으로만 표시한다.
-	var causal_frame := EventManager.causal_frame_for(_current)
-	if not causal_frame.is_empty():
-		desc = "[color=#9aa4b2][i]%s[/i][/color]\n%s" % [_fmt(causal_frame), desc]
-	_paragraphs = []
-	for para in desc.split("\n\n"):
-		var p = str(para).strip_edges()
-		if p != "":
-			_paragraphs.append(p)
-	if _paragraphs.is_empty():
-		_paragraphs = [""]
+	# 본문 문단 분할. 언어 즉시 전환도 같은 해석 함수를 사용해 현재 장면만 다시 바인딩한다.
+	_paragraphs = _split_story_paragraphs(_resolved_story_description(_current))
 	_para_index = 0
 	_play_current_paragraph_audio(_para_index)
 	_start_typing(_paragraphs[0])
@@ -1315,11 +1692,11 @@ func _maybe_change_event_background(paragraph_index: int) -> void:
 	if bg_id.is_empty() or bg_id == _event_background_id:
 		return
 	var path := ImageRegistry.get_background(bg_id)
-	if path.is_empty() or not ResourceLoader.exists(path):
+	if path.is_empty() or not ImageRegistry.has_texture(path):
 		return
 	_event_background_id = bg_id
 	_play_story_ink_transition("scene", 0.35)
-	_bg_img.texture = load(path)
+	_bg_img.texture = ImageRegistry.load_texture(path)
 	_apply_story_surface_palette(false)
 	_configure_living_scene()
 
@@ -1328,7 +1705,7 @@ func _maybe_reveal_event_cg(paragraph_index: int) -> void:
 		return
 	if _event_cg_reveal_paragraph <= 0 or paragraph_index < _event_cg_reveal_paragraph:
 		return
-	if not ResourceLoader.exists(_event_cg_path):
+	if not ImageRegistry.has_texture(_event_cg_path):
 		return
 	_current_uses_cg = true
 	if not _read_only_replay:
@@ -1337,7 +1714,7 @@ func _maybe_reveal_event_cg(paragraph_index: int) -> void:
 	# authored CG opens, release the middle of the frame to its acting/object.
 	_clear_result_record_card()
 	_play_story_ink_transition("scene", 0.65)
-	_bg_img.texture = load(_event_cg_path)
+	_bg_img.texture = ImageRegistry.load_texture(_event_cg_path)
 	_apply_story_surface_palette(true)
 	_configure_living_scene()
 	BGMPlayer.update_event_ambience(_current, _event_cg_id)
@@ -1425,8 +1802,8 @@ func _show_portrait(portrait_id: String, bg_only: bool = false):
 			path = ImageRegistry.get_portrait(portrait_id)
 
 	# 초상화 이미지가 실제로 있을 때만 액자 표시. 없으면(배경전용/플레이스홀더) 프레임 통째로 숨김.
-	if path != "" and ResourceLoader.exists(path):
-		_portrait.texture = load(path)
+	if path != "" and ImageRegistry.has_texture(path):
+		_portrait.texture = ImageRegistry.load_texture(path)
 		_portrait.modulate = Color.WHITE
 		_apply_story_portrait_surface()
 		_portrait_frame.visible = true
@@ -1677,8 +2054,7 @@ func _complete_typing() -> void:
 	if _should_begin_direction_hold():
 		_begin_direction_hold()
 		return
-	_continue_hint.text = _tr("[%s] 또는 클릭", "[%s] or click") % ControllerHints.south() \
-			if ControllerHints.is_pad_active() else _tr("▼  Enter 또는 클릭", "▼  Enter or click")
+	_refresh_continue_hint_text()
 	_continue_hint.visible = true
 	_arm_auto_advance(_type_full)
 
@@ -1696,6 +2072,10 @@ func _start_typing(full_text: String):
 
 func _process(delta):
 	_refresh_auto_button()
+	# 설정을 읽는 동안 장면도 함께 멈춘다. 타이핑·AUTO·연출 홀드가
+	# 모달 뒤에서 진행되면 언어/글자 크기를 확인할 시간이 사라진다.
+	if is_instance_valid(_audio_settings_popup):
+		return
 	if _direction_hold_active:
 		_direction_hold_remaining -= delta
 		if _direction_hold_remaining <= 0.0:
@@ -1847,7 +2227,7 @@ func _clear_result_record_card() -> void:
 		_result_record_card.queue_free()
 	_result_record_card = null
 
-func _show_story_result_record(choice: Dictionary) -> void:
+func _show_story_result_record(choice: Dictionary, play_feedback: bool = true) -> void:
 	_clear_result_record_card()
 	var disp: Dictionary = _story_result_display_effects(choice.get("effects", {}))
 	var cast_items: Array = _story_result_visible_cast_effects(choice.get("cast_effects", {}))
@@ -1935,8 +2315,14 @@ func _show_story_result_record(choice: Dictionary) -> void:
 		grid.add_child(empty_badge)
 		badges.append(empty_badge)
 
-	_animate_story_result_attention(card, badges, stage)
-	_play_story_result_attention_cue(result_items, stage)
+	if play_feedback:
+		_animate_story_result_attention(card, badges, stage)
+		_play_story_result_attention_cue(result_items, stage)
+	else:
+		card.modulate = Color.WHITE
+		card.scale = Vector2.ONE
+		for badge in badges:
+			badge.modulate.a = float(badge.get_meta("target_alpha", 1.0))
 
 func _story_choice_has_visible_result(choice: Dictionary) -> bool:
 	var disp: Dictionary = _story_result_display_effects(choice.get("effects", {}))
@@ -1949,7 +2335,7 @@ func _story_record_label(text: String, size: int, color: Color, bold: bool = fal
 		depth_role: String = "") -> Label:
 	var lbl := Label.new()
 	lbl.text = text
-	lbl.add_theme_font_size_override("font_size", size)
+	_register_story_font(lbl, "font_size", size)
 	lbl.add_theme_color_override("font_color", color)
 	lbl.clip_text = true
 	lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
@@ -2260,22 +2646,30 @@ func _show_choices():
 			int(_current.get("timer_default_choice", 0)))
 
 func _start_story_choice_countdown(seconds: int, default_index: int) -> void:
+	_start_story_choice_countdown_msec(seconds * 1000, default_index, seconds * 1000)
+
+func _start_story_choice_countdown_msec(
+		duration_msec: int, default_index: int, total_msec: int = -1) -> void:
 	var visible := _visible_choice_indices(_current)
-	if visible.is_empty():
+	if visible.is_empty() or duration_msec <= 0:
 		return
 	_choice_countdown_default_index = default_index if visible.has(default_index) else int(visible[0])
-	_choice_countdown_deadline_msec = Time.get_ticks_msec() + seconds * 1000
+	_choice_countdown_total_msec = maxi(duration_msec, total_msec if total_msec > 0 else duration_msec)
+	_choice_countdown_deadline_msec = Time.get_ticks_msec() + duration_msec
+	var duration_seconds := float(duration_msec) / 1000.0
+	var total_seconds := float(_choice_countdown_total_msec) / 1000.0
 
 	var timer_row := HBoxContainer.new()
 	timer_row.name = "StoryChoiceCountdown"
 	timer_row.add_theme_constant_override("separation", 14)
 	timer_row.custom_minimum_size = Vector2(0, 36)
 	_choice_box.add_child(timer_row)
+	_choice_countdown_row = timer_row
 
 	_choice_countdown_bar = ProgressBar.new()
 	_choice_countdown_bar.name = "CountdownBar"
-	_choice_countdown_bar.max_value = float(seconds)
-	_choice_countdown_bar.value = float(seconds)
+	_choice_countdown_bar.max_value = maxf(0.05, total_seconds)
+	_choice_countdown_bar.value = duration_seconds
 	_choice_countdown_bar.show_percentage = false
 	_choice_countdown_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_choice_countdown_bar.custom_minimum_size = Vector2(0, 12)
@@ -2293,11 +2687,11 @@ func _start_story_choice_countdown(seconds: int, default_index: int) -> void:
 
 	_choice_countdown_label = Label.new()
 	_choice_countdown_label.name = "CountdownLabel"
-	_choice_countdown_label.text = _tr("남은 시간  %d", "TIME LEFT  %d") % seconds
+	_choice_countdown_label.text = _tr("남은 시간  %d", "TIME LEFT  %d") % ceili(duration_seconds)
 	_choice_countdown_label.custom_minimum_size = Vector2(168, 0)
 	_choice_countdown_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_choice_countdown_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_choice_countdown_label.add_theme_font_size_override("font_size", 17)
+	_register_story_font(_choice_countdown_label, "font_size", 17)
 	_choice_countdown_label.add_theme_color_override("font_color", Color("#f2c66d"))
 	if _font_bold:
 		_choice_countdown_label.add_theme_font_override("font", _font_bold)
@@ -2335,10 +2729,14 @@ func _stop_story_choice_countdown() -> void:
 	if is_instance_valid(_choice_countdown_timer):
 		_choice_countdown_timer.stop()
 		_choice_countdown_timer.queue_free()
+	if is_instance_valid(_choice_countdown_row):
+		_choice_countdown_row.queue_free()
 	_choice_countdown_timer = null
+	_choice_countdown_row = null
 	_choice_countdown_bar = null
 	_choice_countdown_label = null
 	_choice_countdown_deadline_msec = 0
+	_choice_countdown_total_msec = 0
 
 ## 선택지 노출 게이트 — requires_item 보유 시에만 표시(유물 제시 메커니즘).
 ## 향후 requires_flag/requires_not_flag 확장 여지. 없으면 항상 표시.
@@ -2398,7 +2796,9 @@ func _make_choice_button(text: String, idx: int, display_num: int = -1) -> Butto
 	btn.add_theme_color_override("font_color", text_col)
 	btn.add_theme_color_override("font_hover_color", focus_col)
 	btn.add_theme_color_override("font_focus_color", focus_col)
-	btn.add_theme_font_size_override("font_size", 18)
+	_register_story_font(btn, "font_size", 18)
+	btn.set_meta("choice_index", idx)
+	btn.set_meta("choice_display_num", shown)
 	if _font:
 		btn.add_theme_font_override("font", _font)
 	UIStyle.apply_ink_text_depth(btn, "choice")
@@ -2413,7 +2813,7 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 	var result_cg_id := str(choice.get("result_cg", _current.get("result_cg", "")))
 	if result_cg_id != "":
 		var result_cg_path := ImageRegistry.get_cg(result_cg_id)
-		if result_cg_path != "" and ResourceLoader.exists(result_cg_path):
+		if result_cg_path != "" and ImageRegistry.has_texture(result_cg_path):
 			var reveal_paragraph: int = maxi(0, int(choice.get(
 				"result_cg_reveal_paragraph",
 				_current.get("result_cg_reveal_paragraph", 0))))
@@ -2423,7 +2823,7 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 				_event_cg_reveal_paragraph = reveal_paragraph
 				return
 			_play_story_ink_transition("scene", 0.55)
-			_bg_img.texture = load(result_cg_path)
+			_bg_img.texture = ImageRegistry.load_texture(result_cg_path)
 			_current_uses_cg = true
 			_event_cg_id = result_cg_id
 			if not _read_only_replay:
@@ -2441,10 +2841,10 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 	if result_background_id == "":
 		return
 	var result_background_path := ImageRegistry.get_background(result_background_id)
-	if result_background_path == "" or not ResourceLoader.exists(result_background_path):
+	if result_background_path == "" or not ImageRegistry.has_texture(result_background_path):
 		return
 	_play_story_ink_transition("scene", 0.45)
-	_bg_img.texture = load(result_background_path)
+	_bg_img.texture = ImageRegistry.load_texture(result_background_path)
 	_event_background_id = result_background_id
 	_current_uses_cg = false
 	_apply_story_surface_palette(false)
@@ -2464,6 +2864,7 @@ func _on_choice(idx: int):
 		return
 	_stop_story_choice_countdown()
 	var choice: Dictionary = choices[idx]
+	_pending_result_choice_index = idx
 	AudioManager.play("choice_made")
 	AudioManager.pulse_gamepad(0.035, 0.070, 0.055)
 	_play_story_ink_transition("choice", 0.65)
@@ -2515,6 +2916,7 @@ func _on_choice(idx: int):
 
 func _after_result():
 	_pending_after_result = false
+	_pending_result_choice_index = -1
 	_clear_result_record_card()
 	# 선택의 follow_up_event가 있으면 큐 맨 앞에 끼워 이어서 재생
 	if _pending_follow_up != "" and not DataRegistry.find_event(_pending_follow_up).is_empty():
@@ -2570,7 +2972,7 @@ func _add_chapter_ink_frame(ov: Control, palette: Dictionary) -> void:
 
 	var case_lbl := Label.new()
 	case_lbl.text = _tr("기록 번호", "CASE FILE")
-	case_lbl.add_theme_font_size_override("font_size", 11)
+	_register_story_font(case_lbl, "font_size", 11)
 	case_lbl.add_theme_color_override("font_color", text_col)
 	case_lbl.modulate.a = 0.42
 	_apply_font(case_lbl)
@@ -2578,7 +2980,7 @@ func _add_chapter_ink_frame(ov: Control, palette: Dictionary) -> void:
 
 	var run_lbl := Label.new()
 	run_lbl.text = _tr("50만원 / 30억 / 5년", "500 thousand won / 3 billion won / 5 YEARS")
-	run_lbl.add_theme_font_size_override("font_size", 13)
+	_register_story_font(run_lbl, "font_size", 13)
 	run_lbl.add_theme_color_override("font_color", Color("#d7dce5").lerp(Color("#f8fbff"), white * 0.45))
 	run_lbl.modulate.a = 0.48
 	_apply_font(run_lbl, true)
@@ -2627,9 +3029,10 @@ func _render_chapter_card_cinematic():
 
 	# ① 챕터 번호 — 작게, 차갑게
 	var num_lbl := Label.new()
+	num_lbl.name = "ChapterTitle"
 	num_lbl.text = _fmt(str(_current.get("title", "")))
 	num_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	num_lbl.add_theme_font_size_override("font_size", 15)
+	_register_story_font(num_lbl, "font_size", 15)
 	num_lbl.add_theme_color_override("font_color", focus_col)
 	num_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_apply_font(num_lbl)
@@ -2660,10 +3063,11 @@ func _render_chapter_card_cinematic():
 
 	# 부제 레이블 (크게)
 	var sub_lbl := Label.new()
+	sub_lbl.name = "ChapterSubtitle"
 	sub_lbl.text = subtitle
 	sub_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	sub_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	sub_lbl.add_theme_font_size_override("font_size", 52)
+	_register_story_font(sub_lbl, "font_size", 52)
 	sub_lbl.add_theme_color_override("font_color", text_col)
 	sub_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_apply_font(sub_lbl, true)
@@ -2674,11 +3078,12 @@ func _render_chapter_card_cinematic():
 	var desc_lbl: RichTextLabel = null
 	if body_text != "":
 		desc_lbl = RichTextLabel.new()
+		desc_lbl.name = "ChapterDescription"
 		desc_lbl.bbcode_enabled = true
 		desc_lbl.fit_content = true
 		desc_lbl.scroll_active = false
 		desc_lbl.text = "[center]" + body_text + "[/center]"
-		desc_lbl.add_theme_font_size_override("normal_font_size", 19)
+		_register_story_font(desc_lbl, "normal_font_size", 19)
 		desc_lbl.add_theme_color_override("default_color", dim_col)
 		if _font:
 			desc_lbl.add_theme_font_override("normal_font", _font)
@@ -2688,9 +3093,10 @@ func _render_chapter_card_cinematic():
 
 	# 클릭 힌트 — 하단 고정
 	var hint := Label.new()
+	hint.name = "ChapterHint"
 	hint.text = _tr("▼  Enter 또는 클릭", "▼  Enter or click")
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	hint.add_theme_font_size_override("font_size", 13)
+	_register_story_font(hint, "font_size", 13)
 	hint.add_theme_color_override("font_color", palette["dead"])
 	_apply_font(hint)
 	hint.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
@@ -2712,6 +3118,30 @@ func _render_chapter_card_cinematic():
 		tw.tween_property(desc_lbl, "modulate:a", 1.0, 0.6).set_trans(Tween.TRANS_SINE)
 	tw.tween_interval(0.5)
 	tw.tween_property(hint, "modulate:a", 0.55, 0.4).set_trans(Tween.TRANS_SINE)
+
+func _refresh_chapter_card_language() -> void:
+	if not is_instance_valid(_chapter_overlay):
+		return
+	var title := _chapter_overlay.find_child("ChapterTitle", true, false) as Label
+	var subtitle := _chapter_overlay.find_child("ChapterSubtitle", true, false) as Label
+	var description := _chapter_overlay.find_child("ChapterDescription", true, false) as RichTextLabel
+	var hint := _chapter_overlay.find_child("ChapterHint", true, false) as Label
+	if is_instance_valid(title):
+		title.text = _fmt(str(_current.get("title", "")))
+	var desc: String = _fmt(str(_current.get("description", "")))
+	var lines: PackedStringArray = desc.split("\n")
+	var subtitle_text := lines[0].strip_edges() if not lines.is_empty() else ""
+	var body_parts: Array = []
+	for index in range(1, lines.size()):
+		var line := lines[index].strip_edges()
+		if not line.is_empty():
+			body_parts.append(line)
+	if is_instance_valid(subtitle):
+		subtitle.text = subtitle_text
+	if is_instance_valid(description):
+		description.text = "[center]%s[/center]" % "\n".join(body_parts)
+	if is_instance_valid(hint):
+		hint.text = _tr("▼  Enter 또는 클릭", "▼  Enter or click")
 
 # ── 스탯 변화 노출 ────────────────────────────────────────────
 func _snapshot_stats() -> Dictionary:
@@ -2817,7 +3247,7 @@ func _spawn_toast(text: String, color: Color):
 
 	var lbl = Label.new()
 	lbl.text = text
-	lbl.add_theme_font_size_override("font_size", 15)
+	_register_story_font(lbl, "font_size", 15)
 	lbl.add_theme_color_override("font_color", color)
 	lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
 	if _font_bold:

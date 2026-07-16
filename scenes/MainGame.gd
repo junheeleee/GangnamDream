@@ -1491,8 +1491,8 @@ func _build_portrait_panel(parent):
 		_moral_portrait_material.set_shader_parameter("screen_scale", 700.0)
 		_moral_portrait_material.set_shader_parameter("seed", 0.0)
 		character_portrait.material = _moral_portrait_material
-	if ResourceLoader.exists(PORTRAIT_NEUTRAL):
-		character_portrait.texture = load(PORTRAIT_NEUTRAL)
+	if ImageRegistry.has_texture(PORTRAIT_NEUTRAL):
+		character_portrait.texture = ImageRegistry.load_texture(PORTRAIT_NEUTRAL)
 	vbox.add_child(character_portrait)
 
 	# 이름/직업 영역 — 초상화 아래 고정 높이
@@ -3956,7 +3956,7 @@ func _stage_moral_beat_surface(to_band: int) -> void:
 	# 모든 경계는 시작점인 고시원으로 잠깐 돌아간다. 실제 이사가 아니라
 	# 동일한 기억 프레임에서 민준의 얼굴만 달라지는 시각적 전후 비교다.
 	var room_path := ImageRegistry.get_background("goshiwon_room")
-	if not room_path.is_empty() and ResourceLoader.exists(room_path):
+	if not room_path.is_empty() and ImageRegistry.has_texture(room_path):
 		_apply_event_bg_path(room_path)
 	_moral_beat_surface_active = true
 	if _moral_beat_bg_tween and _moral_beat_bg_tween.is_running():
@@ -3968,8 +3968,8 @@ func _stage_moral_beat_surface(to_band: int) -> void:
 		_moral_beat_bg_tween.tween_interval(0.42)
 		_moral_beat_bg_tween.tween_property(event_bg, "modulate:a", 0.52, 0.32).set_trans(Tween.TRANS_SINE)
 	var portrait_path := ImageRegistry.get_player_moral_portrait(to_band)
-	if not portrait_path.is_empty() and ResourceLoader.exists(portrait_path):
-		character_portrait.texture = load(portrait_path)
+	if not portrait_path.is_empty() and ImageRegistry.has_texture(portrait_path):
+		character_portrait.texture = ImageRegistry.load_texture(portrait_path)
 		_apply_moral_portrait_state()
 	var player_info := ImageRegistry.get_person_info("player_moral_gray")
 	if player_name_label:
@@ -8080,12 +8080,11 @@ func _ui_icon_texture(icon_id: String) -> Texture2D:
 	return tex
 
 func _load_art_thumb(path: String) -> Texture2D:
-	if path.is_empty() or not ResourceLoader.exists(path):
+	if path.is_empty() or not ImageRegistry.has_texture(path):
 		return null
 	if _art_thumb_cache.has(path):
 		return _art_thumb_cache[path]
-	var res := load(path)
-	var tex: Texture2D = res if res is Texture2D else null
+	var tex: Texture2D = ImageRegistry.load_texture(path)
 	_art_thumb_cache[path] = tex
 	return tex
 
@@ -13423,11 +13422,11 @@ func _show_ending(ending_id):
 	BGMPlayer.on_ending(ending_id, ending_cg_id)  # BGM과 CG 장소음을 함께 전환
 	AudioManager.play_ending_stinger(ending_id)
 	var ending_cg_path := _get_ending_cg_path(ending)
-	if ending_cg_path != "" and ResourceLoader.exists(ending_cg_path):
+	if ending_cg_path != "" and ImageRegistry.has_texture(ending_cg_path):
 		MetaProgression.record_cg_unlocked(ending_cg_id)
 	var bg_path := ending_cg_path
 	if event_bg:
-		var tex = load(bg_path) if bg_path != "" and ResourceLoader.exists(bg_path) else null
+		var tex = ImageRegistry.load_texture(bg_path) if bg_path != "" and ImageRegistry.has_texture(bg_path) else null
 		if tex:
 			var tw_end := create_tween()
 			tw_end.tween_property(event_bg, "modulate:a", 0.0, 0.3)
@@ -13461,7 +13460,7 @@ func _show_ending(ending_id):
 	var ending_sep = HSeparator.new()
 	ending_sep.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(ending_sep)
-	if ending_cg_path != "" and ResourceLoader.exists(ending_cg_path):
+	if ending_cg_path != "" and ImageRegistry.has_texture(ending_cg_path):
 		_add_ending_art_preview(
 				modal_body, ending_cg_path, true,
 				float(ending.get("cg_preview_focus_y", 0.5)))
@@ -13668,7 +13667,7 @@ func _add_ending_art_preview(
 	var img := TextureRect.new()
 	img.custom_minimum_size = Vector2(0, 430 if is_cg else 360)
 	img.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	img.texture = load(art_path)
+	img.texture = ImageRegistry.load_texture(art_path)
 	img.stretch_mode = TextureRect.STRETCH_SCALE if is_cg else TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	img.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -15821,12 +15820,12 @@ func _update_event_bg():
 	var explicit_id = str(current_event.get("background", ""))
 	if explicit_id != "":
 		var reg_path = ImageRegistry.get_background(explicit_id)
-		if reg_path != "" and ResourceLoader.exists(reg_path):
+		if reg_path != "" and ImageRegistry.has_texture(reg_path):
 			new_path = reg_path
 	# 2순위: 태그/카테고리 기반 자동 매핑
 	if new_path == "":
 		var bg_path = _get_bg_for_event(current_event)
-		if bg_path != "" and ResourceLoader.exists(bg_path):
+		if bg_path != "" and ImageRegistry.has_texture(bg_path):
 			new_path = bg_path
 	_apply_event_bg_path(new_path)
 
@@ -15836,7 +15835,9 @@ func _apply_event_bg_path(new_path: String):
 	if new_path == "" or new_path == _event_bg_path:
 		return
 	_event_bg_path = new_path
-	var new_tex: Texture2D = load(new_path)
+	var new_tex: Texture2D = ImageRegistry.load_texture(new_path)
+	if new_tex == null:
+		return
 	# 처음 로드는 페이드인만, 이후는 크로스페이드
 	if event_bg.texture == null:
 		event_bg.texture = new_tex
@@ -15874,7 +15875,7 @@ func _start_event_bg_motion() -> void:
 func _get_bg_for_event(ev: Dictionary) -> String:
 	var bg_id := ImageRegistry.infer_background_id(ev, GameState.housing)
 	var bg_path := ImageRegistry.get_background(bg_id)
-	if bg_path != "" and ResourceLoader.exists(bg_path):
+	if bg_path != "" and ImageRegistry.has_texture(bg_path):
 		return bg_path
 	return BG_PATHS.get(GameState.housing, BG_DEFAULT)
 
@@ -15892,8 +15893,8 @@ func _update_portrait():
 
 func _show_character_portrait(portrait_id: String):
 	var reg_path = ImageRegistry.get_portrait(portrait_id)
-	if reg_path != "" and ResourceLoader.exists(reg_path):
-		character_portrait.texture = load(reg_path)
+	if reg_path != "" and ImageRegistry.has_texture(reg_path):
+		character_portrait.texture = ImageRegistry.load_texture(reg_path)
 		_apply_moral_portrait_state()
 	else:
 		# 파일 없음 → 플레이스홀더(이름+색상 박스) 표시
@@ -15907,8 +15908,8 @@ func _show_character_portrait(portrait_id: String):
 
 func _show_player_portrait():
 	var portrait_path = _get_portrait_path()
-	if portrait_path != "" and ResourceLoader.exists(portrait_path):
-		character_portrait.texture = load(portrait_path)
+	if portrait_path != "" and ImageRegistry.has_texture(portrait_path):
+		character_portrait.texture = ImageRegistry.load_texture(portrait_path)
 		_apply_moral_portrait_state()
 	else:
 		_show_portrait_placeholder("player_normal")

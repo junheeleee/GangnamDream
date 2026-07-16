@@ -862,7 +862,7 @@ func _pick_track() -> String:
 
 func _moral_theme_pack_ready() -> bool:
 	for path_value in MORAL_THEME_TRACKS.values():
-		if not ResourceLoader.exists(str(path_value)):
+		if not ModLoader.audio_exists(str(path_value)):
 			return false
 	return true
 
@@ -950,8 +950,10 @@ func _swap_players():
 # ── 스트림 로딩 ───────────────────────────────────────────────
 func _load_track(key: String) -> AudioStream:
 	var path: String = str(MORAL_THEME_TRACKS.get(key, TRACKS.get(key, "")))
-	if path != "" and ResourceLoader.exists(path):
-		return load(path)
+	if path != "" and ModLoader.audio_exists(path):
+		var stream := ModLoader.load_audio(path, true)
+		if stream != null:
+			return stream
 	# 파일 없으면 프로시저럴 폴백
 	return _procedural_stream
 
@@ -964,15 +966,9 @@ func _load_human_ambience(key: String) -> AudioStream:
 	return _load_looping_wav(str(path))
 
 func _load_looping_wav(path: String) -> AudioStream:
-	if path == "" or not ResourceLoader.exists(path):
+	if path == "" or not ModLoader.audio_exists(path):
 		return null
-	var stream = load(path)
-	if stream is AudioStreamWAV:
-		stream = stream.duplicate()
-		stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
-		stream.loop_begin = 0
-		stream.loop_end = int(round((stream as AudioStreamWAV).get_length() * float((stream as AudioStreamWAV).mix_rate)))
-	return stream
+	return ModLoader.load_audio(path, true)
 
 func _db(v: float) -> float:
 	return -80.0 if v < 0.001 else 20.0 * log(v) / log(10.0)
