@@ -15,6 +15,7 @@ from typing import Any
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EVENTS_KO = os.path.join(ROOT, "content", "events")
 EVENTS_EN = os.path.join(ROOT, "content", "events_en")
+MAIN_GAME = os.path.join(ROOT, "scenes", "MainGame.gd")
 
 # The names mirror docs/ROMANCE_SYSTEM.md section 8. Each root is the exact
 # StoryMode entry point; scheduled scenes weeks later do not count as one chain.
@@ -401,6 +402,51 @@ def validate_jiyeon_wedding_gap_contract(events: dict[str, dict[str, Any]]) -> N
                 )
 
 
+def validate_jiyeon_marriage_routing_contract() -> None:
+    """Keep Jiyeon's marriage chronology explicit even when Minjun is broke."""
+    with open(MAIN_GAME, encoding="utf-8") as handle:
+        source = handle.read()
+
+    def if_block_before(return_line: str) -> str:
+        return_at = source.find(return_line)
+        if return_at < 0:
+            raise ValueError(f"missing Jiyeon routing return: {return_line}")
+        block_at = source.rfind("\n\tif ", 0, return_at)
+        if block_at < 0:
+            raise ValueError(f"missing Jiyeon routing condition before: {return_line}")
+        return source[block_at:return_at + len(return_line)]
+
+    wedding_block = if_block_before('return "arc_jiyeon_wedding_gap"')
+    for token in (
+        "t >= 205",
+        'f.get("jiyeon_romance_started", false)',
+        'f.get("arc_y4_marriage_talk_seen", false)',
+        'not f.get("arc_jiyeon_wedding_gap_seen", false)',
+    ):
+        if token not in wedding_block:
+            raise ValueError(f"Jiyeon wedding chronology gate missing: {token}")
+
+    marriage_talk_block = if_block_before('return "arc_y4_marriage_talk"')
+    for token in (
+        "t >= 193",
+        'f.get("jiyeon_romance_started", false)',
+        'not f.get("arc_y4_marriage_talk_seen", false)',
+    ):
+        if token not in marriage_talk_block:
+            raise ValueError(f"Jiyeon Y5 marriage-talk catch-up gate missing: {token}")
+
+    verdict_block = if_block_before('return "arc_jiyeon_verdict"')
+    for token in (
+        "t >= 228",
+        'f.get("jiyeon_romance_started", false)',
+        'f.get("arc_jiyeon_wedding_night_seen", false)',
+        'not f.get("arc_jiyeon_verdict_seen", false)',
+        "GameState.get_total_asset_value() < 500_000_000.0",
+    ):
+        if token not in verdict_block:
+            raise ValueError(f"Jiyeon verdict chronology gate missing: {token}")
+
+
 def measure(label: str, root_id: str, events: dict[str, dict[str, Any]]) -> PeakMetric:
     paths = walk_paths(events, root_id)
     links = [len(path.event_ids) for path in paths]
@@ -460,6 +506,7 @@ def main() -> int:
     validate_daeun_proposal_contract(ko_events)
     validate_daeun_wedding_contract(ko_events)
     validate_jiyeon_wedding_gap_contract(ko_events)
+    validate_jiyeon_marriage_routing_contract()
     metrics = [measure(label, root_id, ko_events) for label, root_id in PEAK_ROOTS]
     visited = {
         event_id

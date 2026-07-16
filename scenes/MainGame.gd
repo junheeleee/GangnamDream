@@ -3305,8 +3305,14 @@ func _next_arc_id(at_turn: int = -1, preview_only: bool = false) -> String:
 			and GameState.moral_stage() <= -1:
 		return "arc_jiyeon_y5_feelings"
 	# ── 지연 결혼 국면 (다은의 거울상: 그녀 세계에 맞출 것인가, 나답게 살 것인가) ──
+	# Y5에 연애가 확정되는 표준 지연 경로는 Y4 결혼 대화 창(t<=188)을 놓친다.
+	# 기존 대화를 먼저 회수해 고백 직후 결혼식으로 점프하는 시간 역행을 막는다.
+	if t >= 193 and f.get("jiyeon_romance_started", false) \
+			and not f.get("arc_y4_marriage_talk_seen", false):
+		return "arc_y4_marriage_talk"
 	# ① 그녀의 결혼식 — 처가 눈높이 vs 민준 현실(텅 빈 신랑석 = class gap 수치화)
 	if t >= 205 and f.get("jiyeon_romance_started", false) \
+			and f.get("arc_y4_marriage_talk_seen", false) \
 			and not f.get("arc_jiyeon_wedding_gap_seen", false):
 		return "arc_jiyeon_wedding_gap"
 	# 첫날밤 (7-G) — 결혼식 이후. 존엄 페이드아웃 + 아침 비트(민낯).
@@ -3315,6 +3321,7 @@ func _next_arc_id(at_turn: int = -1, preview_only: bool = false) -> String:
 		return jiyeon_wedding_night_id
 	# ② 이렇게 살 사람 — 강남 미달+작게 산 경우에만(성공하면 스킵→jiyeon_man). 반전 이혼.
 	if t >= 228 and f.get("jiyeon_romance_started", false) \
+			and f.get("arc_jiyeon_wedding_night_seen", false) \
 			and not f.get("arc_jiyeon_verdict_seen", false) \
 			and GameState.get_total_asset_value() < 500_000_000.0:
 		return "arc_jiyeon_verdict"
