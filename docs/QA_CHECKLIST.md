@@ -175,8 +175,8 @@ Automated audio gates:
 
 Automated random-event director gates:
 
-- `event_director_audit.py` must distinguish the 1,177 structural random candidates from the 1,045 events that can actually enter `draw_situations()`. It requires five contiguous chapter windows, five contiguous asset bands, 1,042 once-per-run events, and exactly three approved repeatable everyday events.
-- `EventDirectorCheck.tscn` must reject commute scenes while unemployed, goshiwon scenes after moving out, and named-cast callbacks before meeting. It must preserve Sangchul's introduction, authored story routing, and the existing ×2.6/×1.88 recent-action echo.
+- `event_director_audit.py` must distinguish 1,177 structural candidates, 1,045 legacy candidates after story/weight exclusions, and the 1,032 events that can actually enter the director after nine scheduled arcs and four direct chain targets are removed. It requires five contiguous chapter windows, five contiguous asset bands, 1,029 once-per-run events, and exactly three approved repeatable everyday events.
+- `EventDirectorCheck.tscn` must reject commute and after-work scenes while unemployed, goshiwon scenes after moving out, a six-month partner scene before romance, and named-cast callbacks before meeting. It must preserve Sangchul's introduction, authored arc/follow-up routing, and the data-owned ×2.6/×1.88 recent-action echo.
 - Selecting an actual random event, not merely drawing it, records its run count and last turn. Both dictionaries must survive save/load. The three repeatable events may return only after 24-32 weeks, at 0.35 weight, and never exceed two appearances.
 - Guaranteed arcs, follow-up events, deferred queues, event prose, effects, and Moral Tint remain outside this director.
 
