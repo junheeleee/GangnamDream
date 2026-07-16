@@ -69,7 +69,6 @@ var _hud_panel: Panel      # 챕터 카드 시 전체 HUD 바를 숨기기 위�
 var _hud_label: Label   # 얇은 상단 HUD — 자산/돈/컨디션/시간
 var _text_panel: Panel           # 하단 텍스트 박스 (챕터 카드 시 숨김)
 var _result_record_card: Control = null
-var _tutorial_popup: Control = null
 var _chapter_overlay: Control = null  # 챕터 카드 전용 오버레이
 var _is_chapter_card: bool = false    # 챕터 카드 모드 플래그
 var _current_uses_cg: bool = false
@@ -1766,14 +1765,8 @@ func _unhandled_input(event: InputEvent):
 		get_viewport().set_input_as_handled()
 		return
 	if event.is_action_pressed("gd_menu"):
-		if not is_instance_valid(_tutorial_popup):
-			_open_audio_settings()
+		_open_audio_settings()
 		get_viewport().set_input_as_handled()
-		return
-	if is_instance_valid(_tutorial_popup):
-		if event.is_action_pressed("ui_accept") or event.is_action_pressed("ui_cancel"):
-			_close_tutorial_popup()
-			get_viewport().set_input_as_handled()
 		return
 	if _is_auto_toggle_event(event):
 		_set_auto_mode(not _auto_mode)
@@ -1825,7 +1818,6 @@ func _can_auto_advance() -> bool:
 			and not _transitioning \
 			and not _direction_hold_active \
 			and not _direction_beat_waiting \
-			and not is_instance_valid(_tutorial_popup) \
 			and not is_instance_valid(_audio_settings_popup) \
 			and is_instance_valid(_continue_hint) \
 			and _continue_hint.visible
@@ -2470,8 +2462,7 @@ func _on_choice(idx: int):
 		cast_before[str(pid)] = GameState.get_cast_affinity(str(pid))
 	if not _read_only_replay:
 		GameState.apply_choice(_current, choice)
-		# 첫 변화에는 팝업 설명 먼저 (떴으면 토스트는 팝업 닫힌 뒤 자연스럽게 남음)
-		_maybe_show_tutorial_popup(before, cast_before)
+		# 서사 결과를 범용 튜토리얼로 가리지 않는다. 자원·AP 설명은 첫 AP 화면이 맡는다.
 		# 결과 기록판이 있는 선택은 같은 변화를 우측 토스트로 반복 노출하지 않는다.
 		if not has_result_record:
 			_show_change_toasts(before)
@@ -2784,116 +2775,6 @@ func _show_cast_toasts(before: Dictionary):
 		var arrow = _tr("▲ 가까워짐", "▲ closer") if diff > 0 else _tr("▼ 멀어짐", "▼ distant")
 		var txt = _tr("%s 호감도 %s%d  (%s)", "%s affinity %s%d  (%s)") % [nm, "+" if diff > 0 else "", diff, arrow]
 		_spawn_toast(txt, Color("#e8a0c0") if diff > 0 else Color("#ff6b6b"))
-
-## 첫 변화에 1회만 안내 팝업. GameState.flags로 중복 방지.
-func _maybe_show_tutorial_popup(stat_before: Dictionary, cast_before: Dictionary):
-	# 자원(돈/스탯) 첫 변화
-	var stat_changed = false
-	for k in stat_before:
-		if abs(GameState.get(k) - stat_before[k]) >= 0.01:
-			stat_changed = true
-			break
-	if stat_changed and not GameState.flags.get("tut_stat_shown", false):
-		GameState.flags["tut_stat_shown"] = true
-		_show_popup(
-			_tr("능력치와 자원", "Stats & Resources"),
-			_tr("선택에는 대가가 따른다.\n\n돈, 건강, 정신력 — 모든 선택이 이 수치들을 움직인다.\n오른쪽 위에 뜨는 변화를 눈여겨봐라.\n\n무엇을 얻고 무엇을 잃을지, 늘 저울질해야 한다.",
-				"Every choice has a cost.\n\nMoney, health, mental — each choice moves these numbers.\nWatch the changes that pop up in the top right.\n\nAlways weigh what you gain against what you lose."))
-		return
-	# 인물 관계 첫 변화
-	var cast_changed = false
-	for pid in cast_before:
-		if GameState.get_cast_affinity(pid) != int(cast_before[pid]):
-			cast_changed = true
-			break
-	if cast_changed and not GameState.flags.get("tut_cast_shown", false):
-		GameState.flags["tut_cast_shown"] = true
-		_show_popup(
-			_tr("호감도 — 사람과의 인연", "Affinity — Bonds With People"),
-			_tr("방금 '아버지 호감도'가 변했다.\n\n호감도는 그 사람과 얼마나 가까운지를 나타낸다.\n네 말과 선택이 호감도를 올리거나 내린다.\n\n쌓인 호감도는 언젠가 위기에서 너를 구하거나,\n결정적 기회가 되어 돌아온다.\n\n혼자 강남에 가는 사람은 없다.",
-				"Your father's affinity just changed.\n\nAffinity shows how close you are to someone.\nYour words and choices raise or lower it.\n\nThe affinity you build can save you in a crisis someday,\nor return as a decisive opportunity.\n\nNo one reaches Gangnam alone."))
-
-## 화면 중앙 안내 팝업 (클릭하면 닫힘)
-func _show_popup(title: String, body: String):
-	_close_tutorial_popup()
-	_apply_story_surface_palette(_current_uses_cg)
-	var palette := _story_palette()
-	var panel_bg: Color = palette["panel_bg"]
-	var panel_border: Color = palette["panel_border"]
-	var text_col: Color = palette["text"]
-	var dead_col: Color = palette["dead"]
-	var focus_col: Color = palette["focus"]
-
-	var overlay = ColorRect.new()
-	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
-	overlay.color = Color(0, 0, 0, 0.62)
-	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
-	overlay.z_index = 100
-	add_child(overlay)
-	_tutorial_popup = overlay
-	overlay.tree_exited.connect(func():
-		if _tutorial_popup == overlay:
-			_tutorial_popup = null)
-
-	var panel = PanelContainer.new()
-	panel.anchor_left = 0.5; panel.anchor_right = 0.5
-	panel.anchor_top = 0.5; panel.anchor_bottom = 0.5
-	panel.offset_left = -300; panel.offset_right = 300
-	panel.offset_top = -150; panel.offset_bottom = 150
-	var st = _story_panel_style(panel_bg, panel_border, 8, 32, 28, 3)
-	panel.add_theme_stylebox_override("panel", st)
-	overlay.add_child(panel)
-
-	var vb = VBoxContainer.new()
-	vb.add_theme_constant_override("separation", 16)
-	panel.add_child(vb)
-
-	var tl = Label.new()
-	tl.text = title
-	tl.add_theme_font_size_override("font_size", 22)
-	tl.add_theme_color_override("font_color", focus_col)
-	tl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	if _font_bold: tl.add_theme_font_override("font", _font_bold)
-	vb.add_child(tl)
-
-	var bl = Label.new()
-	bl.text = body
-	bl.add_theme_font_size_override("font_size", 16)
-	bl.add_theme_color_override("font_color", text_col)
-	bl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	bl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	if _font: bl.add_theme_font_override("font", _font)
-	vb.add_child(bl)
-
-	var hint = Label.new()
-	hint.text = _tr("[%s] 또는 클릭하여 닫기", "[%s] or click to close") % ControllerHints.south() if ControllerHints.is_pad_active() else _tr("Enter 또는 클릭하여 닫기", "Enter or click to close")
-	hint.add_theme_font_size_override("font_size", 12)
-	hint.add_theme_color_override("font_color", dead_col)
-	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	if _font: hint.add_theme_font_override("font", _font)
-	vb.add_child(hint)
-
-	# 등장 애니메이션
-	overlay.modulate.a = 0
-	var tw = create_tween()
-	tw.tween_property(overlay, "modulate:a", 1.0, 0.2)
-	# 클릭 또는 아무 패드 버튼으로 닫힘.
-	# panel(PanelContainer)이 MOUSE_FILTER_STOP이라 overlay까지 이벤트가 안 오므로
-	# overlay와 panel 양쪽에 연결한다.
-	var _close_fn = func(ev):
-		if (ev is InputEventMouseButton and ev.pressed) or \
-				(ev is InputEventJoypadButton and ev.pressed):
-			_close_tutorial_popup()
-	overlay.gui_input.connect(_close_fn)
-	panel.gui_input.connect(_close_fn)
-
-func _close_tutorial_popup() -> void:
-	if not is_instance_valid(_tutorial_popup):
-		_tutorial_popup = null
-		return
-	var popup := _tutorial_popup
-	_tutorial_popup = null
-	popup.queue_free()
 
 func _spawn_toast(text: String, color: Color):
 	var palette := _story_palette()
