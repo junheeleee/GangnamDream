@@ -88,6 +88,34 @@ func _ready() -> void:
 		_fail("monthly context started generic lo-fi outside the menu")
 		return
 
+	# 정선 카지노만은 장소 전용 모티프를 소유한다. 플로어와 테이블은
+	# 같은 위상에서 교차하고, 같은 레이어 재호출은 재생을 되감지 않는다.
+	BGMPlayer.enter_activity_ambience("casino")
+	BGMPlayer.enter_casino_music("floor")
+	await get_tree().create_timer(0.12).timeout
+	if BGMPlayer._music_mode != "activity" or BGMPlayer._current_key != "casino_floor":
+		_fail("casino floor did not enter its authored activity motif")
+		return
+	var floor_pos := BGMPlayer._player_a.get_playback_position()
+	BGMPlayer.enter_casino_music("floor")
+	await get_tree().process_frame
+	if BGMPlayer._player_a.get_playback_position() + 0.02 < floor_pos:
+		_fail("same casino floor state restarted its motif")
+		return
+	var phase_before_table := BGMPlayer._player_a.get_playback_position()
+	BGMPlayer.enter_casino_music("table")
+	await get_tree().process_frame
+	if BGMPlayer._current_key != "casino_table" or not BGMPlayer._player_b.playing \
+			or BGMPlayer._player_b.get_playback_position() + 0.08 < phase_before_table:
+		_fail("casino table variation did not phase-lock its crossfade")
+		return
+	BGMPlayer.leave_casino_music()
+	BGMPlayer.leave_activity_ambience("casino")
+	await get_tree().create_timer(0.9).timeout
+	if BGMPlayer._music_mode != "ambient" or not BGMPlayer._current_key.is_empty():
+		_fail("casino exit did not restore ambience-only context")
+		return
+
 	# 주거 사다리와 계절은 서로 독립된 장소 레이어다.
 	GameState.housing = "oneroom"
 	GameState.month = 4

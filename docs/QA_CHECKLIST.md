@@ -76,7 +76,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Job hunt/career modal tier pages and resume/interview minigame surface | `--qa=job-en` |
 | Part-time shifts: cards, convenience customer→response→next-customer controller focus loop, no focus theft on another-customer timeout, delivery route, mode-specific background/ambience, KO/EN crop | `--qa=aruba-en --lang=ko/en` |
 | Event-scene Music/Ambience + SFX settings, dedicated Menu input, modal input block, and no stream restart | `StoryAudioSettingsCheck.tscn` plus `--qa=story-audio --lang=ko/en` |
-| Casino/minigame UI, direct controller cursors, physical card/chip/dice/wheel/reel stages, and activity ambience | `game_audio_contract_check.py`, `GameAudioContractCheck.tscn`, then `--qa=casino-en` |
+| Casino/minigame UI, direct controller cursors, physical stages, activity ambience, and phase-locked Jeongseon floor/table motif | `game_audio_contract_check.py`, `GameAudioContractCheck.tscn`, `BGMContinuityCheck.tscn`, then `--qa=casino-en` |
 | Keyboard casino labels and longest English stake text | `InputMatrixCheck.tscn`, then inspect `10b_blackjack_keyboard_hint` from `--qa=casino-en` at 1920x1080 |
 | Moral ambience: inert room tone persists, human presence recedes at Black and returns at White without music or UI disclosure | `MoralAmbienceCheck.tscn` |
 | Racetrack bet→gate→gallop→crowd rise→finish and controller-only round trip | `SmokeRace.tscn` then `--qa=racetrack-en --lang=ko/en` |
@@ -166,7 +166,7 @@ Automated audio gates:
 - `generate_gangnam_ui_sfx.py --check` must reproduce the six tactile UI WAV files byte-for-byte without external samples.
 - `scene_audio_contract_check.py` must give every active CG an ambience and every event on all 28 Tier-1 peak paths an authored scene-audio contract. Diegetic spoken language remains Korean under every text locale.
 - `game_audio_contract_check.py` must preserve 17 physical SFX keys, 19 stage call sites, seven activity ambience owners, nine direct-controller minigames, and nine separate human-presence layers. It rejects a regression from semantic controls to `grab_focus()` traversal.
-- `GameAudioContractCheck.tscn` must load every physical stream, prove bounded playback variation, keep same-activity ambience continuous, reject stale-owner clearing, and restore housing ambience on exit.
+- `GameAudioContractCheck.tscn` must load every physical stream, prove bounded playback variation, keep same-activity ambience continuous, reject stale-owner clearing, and restore housing ambience on exit. Jeongseon floor/table masters must have the same substantial loop length; same-layer calls cannot rewind, and both floor→table and table→floor crossfades must inherit playback phase before the score closes on exit.
 - `MoralAmbienceCheck.tscn` must prove that Light/Deep Black progressively remove and low-pass only the human layer, that inert machinery remains legible, that White restores people, and that the transition starts no explanatory music.
 - `StoryAudioSettingsCheck.tscn` must open from `gd_menu`, block prose/AUTO behind the modal, apply Music/Ambience and SFX gain immediately, close from Menu/Cancel, and never restart either stream.
 - `BGMContinuityCheck.tscn` must keep the weekly hub, ordinary random events, and unscored arcs on place/season ambience without starting generic lo-fi; preserve same-context playback and Moral Tint texture changes; and permit story music only through an explicit paragraph score contract. `menu/early/hustle/late_tense` remain lobby-only.

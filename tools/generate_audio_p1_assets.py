@@ -296,10 +296,11 @@ def _ffmpeg() -> str:
             return str(candidate)
     except Exception:
         pass
-    candidates = [
-        shutil.which("ffmpeg"),
-        "/Applications/CapCut.app/Contents/Resources/ffmpeg",
-    ]
+    project_candidates = sorted(
+        (ROOT / "build" / "trailer-tools" / "imageio_ffmpeg" / "binaries").glob("ffmpeg-*")
+    )
+    candidates = [shutil.which("ffmpeg"), *project_candidates,
+                  "/Applications/CapCut.app/Contents/Resources/ffmpeg"]
     for candidate in candidates:
         if candidate and Path(candidate).is_file():
             return str(candidate)
@@ -1104,6 +1105,83 @@ def bgm_wonder() -> list[list[float]]:
     return _scene_music(74.0, 4, 8, progression, melody, "bell")
 
 
+def _casino_music(table_energy: bool) -> list[list[float]]:
+    """One phase-compatible motif in restrained floor and betting variations."""
+    bpm = 92.0
+    beat = 60.0 / bpm
+    bar_len = beat * 4.0
+    bars = 16
+    buf = _empty(bar_len * bars)
+    progression = [
+        ["D2", "A2", "C3", "F3"], ["Bb2", "F3", "A3", "D4"],
+        ["G2", "D3", "F3", "A3"], ["A2", "E3", "G3", "C4"],
+        ["D2", "A2", "C3", "E3"], ["Bb2", "F3", "A3", "C4"],
+        ["G2", "D3", "F3", "Bb3"], ["A2", "E3", "G3", "Db4"],
+    ]
+    motif = ["A4", "C5", "D5", "F5", "E5", "D5", "C5", "A4"]
+    _add_noise(buf, 0.0018 if table_energy else 0.0024, "dark", 0.0, 0.0)
+    for bar in range(bars):
+        start = bar * bar_len
+        chord = progression[bar % len(progression)]
+        _add_scene_chord(buf, start, chord, bar_len * 0.82,
+                         0.036 if table_energy else 0.032, "organ")
+        _add_instrument_note(buf, start, chord[0], bar_len * 0.72,
+                             0.048 if table_energy else 0.030, -0.16, "cello")
+
+        # The same three-note gold-glint figure anchors both layers at the same
+        # bar and beat positions, so a phase-locked crossfade feels continuous.
+        if bar % 2 == 0:
+            motif_index = (bar // 2) % len(motif)
+            notes = [
+                motif[motif_index],
+                motif[(motif_index + 2) % len(motif)],
+                motif[(motif_index + 1) % len(motif)],
+            ]
+            for index, note in enumerate(notes):
+                _add_instrument_note(
+                    buf, start + beat * (1.5 + index * 0.5), note,
+                    beat * 0.38, 0.034 if table_energy else 0.026,
+                    0.26 + index * 0.08, "bell")
+
+        if table_energy:
+            for pulse in range(4):
+                pulse_start = start + beat * pulse
+                _add_sweep(buf, pulse_start, 82.0, 48.0, beat * 0.34,
+                           0.040 if pulse in (0, 2) else 0.024, -0.06, "sine")
+                if pulse in (1, 3):
+                    _add_noise_burst(buf, pulse_start, 0.065, 0.012,
+                                     0.34 if pulse == 1 else -0.28, "bright")
+            for offbeat in range(4):
+                _add_noise_burst(buf, start + beat * (offbeat + 0.5),
+                                 0.045, 0.0065, 0.18, "bright")
+        elif bar % 2 == 1:
+            _add_sweep(buf, start + beat * 2.0, 68.0, 50.0,
+                       beat * 0.52, 0.014, -0.08, "sine")
+    # Match the restrained cinematic masters without competing with close foley.
+    for frame in buf:
+        frame[0] *= 1.75
+        frame[1] *= 1.75
+    return buf
+
+
+def bgm_casino_floor() -> list[list[float]]:
+    previous_state = RNG.getstate()
+    RNG.seed(2026071601)
+    try:
+        return _casino_music(False)
+    finally:
+        RNG.setstate(previous_state)
+
+
+def bgm_casino_table() -> list[list[float]]:
+    previous_state = RNG.getstate()
+    RNG.seed(2026071602)
+    try:
+        return _casino_music(True)
+    finally:
+        RNG.setstate(previous_state)
+
+
 def main() -> None:
     human_layer_targets = {
         "amb_human_thin_wall.wav": lambda: _human_layer("thin_wall"),
@@ -1116,6 +1194,15 @@ def main() -> None:
         "amb_human_transit.wav": lambda: _human_layer("transit"),
         "amb_human_leisure.wav": lambda: _human_layer("leisure"),
     }
+    casino_music_targets = {
+        "bgm_casino_floor.ogg": bgm_casino_floor,
+        "bgm_casino_table.ogg": bgm_casino_table,
+    }
+    if "--casino-only" in sys.argv[1:]:
+        for name, build in casino_music_targets.items():
+            _write_ogg(AUDIO_DIR / name, build())
+        print("AUDIO_P1_CASINO_MUSIC_GENERATED", len(casino_music_targets))
+        return
     if "--human-only" in sys.argv[1:]:
         for name, build in human_layer_targets.items():
             _write(AUDIO_DIR / name, build())
@@ -1204,9 +1291,12 @@ def main() -> None:
     # changes the deterministic masters for existing scene or physical sounds.
     for name, build in human_layer_targets.items():
         _write(AUDIO_DIR / name, build())
+    for name, build in casino_music_targets.items():
+        _write_ogg(AUDIO_DIR / name, build())
     print(
         "AUDIO_P1_ASSETS_GENERATED",
-        len(targets) + len(physical_sfx_targets) + len(music_targets) + len(human_layer_targets),
+        len(targets) + len(physical_sfx_targets) + len(music_targets)
+        + len(human_layer_targets) + len(casino_music_targets),
     )
 
 

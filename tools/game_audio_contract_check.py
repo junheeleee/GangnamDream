@@ -109,6 +109,41 @@ def main() -> int:
         if key != "dynamic" and f'enter_activity_ambience("{key}")' not in source:
             errors.append(f"{activity}: expected ambience key {key}")
 
+    mapped_bgm = gd_map(bgm_player_source, "TRACKS")
+    for activity, contract in manifest.get("activity_music", {}).items():
+        file_name = str(contract.get("file", ""))
+        source = source_cache.setdefault(
+            file_name, (ROOT / file_name).read_text(encoding="utf-8")
+        )
+        floor_key = str(contract.get("floor_key", ""))
+        table_key = str(contract.get("table_key", ""))
+        for layer, key in (("floor", floor_key), ("table", table_key)):
+            resource_path = str(contract.get(f"{layer}_path", ""))
+            if mapped_bgm.get(key) != resource_path:
+                errors.append(f"{activity}:{layer} BGMPlayer path mismatch")
+            disk_path = ROOT / resource_path.removeprefix("res://")
+            if not disk_path.is_file():
+                errors.append(f"{activity}:{layer} missing music {resource_path}")
+            if not Path(str(disk_path) + ".import").is_file():
+                errors.append(f"{activity}:{layer} missing Godot import sidecar")
+            else:
+                import_text = Path(str(disk_path) + ".import").read_text(encoding="utf-8")
+                if "loop=true" not in import_text:
+                    errors.append(f"{activity}:{layer} music must loop")
+                if f'bpm={int(contract.get("shared_bpm", 0))}' not in import_text:
+                    errors.append(f"{activity}:{layer} BPM metadata drifted")
+                expected_beats = int(contract.get("shared_bars", 0)) * 4
+                if f"beat_count={expected_beats}" not in import_text:
+                    errors.append(f"{activity}:{layer} beat metadata drifted")
+            if f'enter_casino_music("{layer}")' not in source:
+                errors.append(f"{activity}: missing {layer} music transition")
+        if "BGMPlayer.leave_casino_music()" not in source:
+            errors.append(f"{activity}: casino music does not return to ambient mode")
+        if contract.get("phase_locked_crossfade") is not True:
+            errors.append(f"{activity}: phase_locked_crossfade must remain true")
+        if "_crossfade_to(target_key, true)" not in bgm_player_source:
+            errors.append(f"{activity}: runtime no longer preserves motif phase")
+
     for ban in manifest.get("legacy_stage_bans", []):
         file_name = str(ban.get("file", ""))
         source = source_cache.setdefault(
@@ -150,6 +185,7 @@ def main() -> int:
         "GAME_AUDIO_CONTRACT_OK "
         f"physical={len(physical_sfx)} stages={len(manifest.get('stage_contracts', []))} "
         f"activities={len(manifest.get('activity_ambience', {}))} "
+        f"activity_music={len(manifest.get('activity_music', {}))} "
         f"human_layers={len(human_profiles)} "
         f"direct_pad={len(controller.get('direct_control_scenes', []))}"
     )

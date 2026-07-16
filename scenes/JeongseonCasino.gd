@@ -62,6 +62,7 @@ func _tr(ko: String, en: String) -> String:
 func open() -> void:
 	visible = true
 	BGMPlayer.enter_activity_ambience("casino")
+	BGMPlayer.enter_casino_music("floor")
 	_pad_navigation_active = false
 	_pad_game_idx = clampi(_pad_game_idx, 0, maxi(_game_entries.size() - 1, 0))
 	_refresh_pad_cursor()
@@ -172,6 +173,7 @@ func _close() -> void:
 		GameState.flags["jeongseon_session_win"]  = true
 	# 방문 자체가 중독 성향을 조금씩 높인다
 	GameState.modify_hidden_stat("addiction_tendency", 3)
+	BGMPlayer.leave_casino_music()
 	BGMPlayer.leave_activity_ambience("casino")
 	visible = false
 	emit_signal("closed")
@@ -685,6 +687,7 @@ func _launch_baccarat() -> void:
 		_msg_lbl.text = _tr("바카라 테이블을 불러올 수 없습니다.", "Baccarat table is unavailable.")
 		return
 	visible = false
+	BGMPlayer.enter_casino_music("table")
 	baccarat_table.open()
 	if not baccarat_table.closed.is_connected(_on_sub_game_closed):
 		baccarat_table.closed.connect(_on_sub_game_closed)
@@ -694,6 +697,7 @@ func _launch_blackjack() -> void:
 		_msg_lbl.text = _tr("블랙잭 테이블을 불러올 수 없습니다.", "Blackjack table is unavailable.")
 		return
 	visible = false
+	BGMPlayer.enter_casino_music("table")
 	blackjack_table.open()
 	if not blackjack_table.closed.is_connected(_on_sub_game_closed):
 		blackjack_table.closed.connect(_on_sub_game_closed)
@@ -703,6 +707,7 @@ func _launch_slot() -> void:
 		_msg_lbl.text = _tr("슬롯머신을 불러올 수 없습니다.", "Slot machine is unavailable.")
 		return
 	visible = false
+	BGMPlayer.enter_casino_music("table")
 	slot_machine_game.open()
 	if not slot_machine_game.closed.is_connected(_on_sub_game_closed):
 		slot_machine_game.closed.connect(_on_sub_game_closed)
@@ -712,6 +717,7 @@ func _launch_roulette() -> void:
 		_msg_lbl.text = _tr("룰렛 테이블을 불러올 수 없습니다.", "Roulette table is unavailable.")
 		return
 	visible = false
+	BGMPlayer.enter_casino_music("table")
 	roulette_table.open()
 	if not roulette_table.closed.is_connected(_on_sub_game_closed):
 		roulette_table.closed.connect(_on_sub_game_closed)
@@ -721,6 +727,7 @@ func _launch_bigwheel() -> void:
 		_msg_lbl.text = _tr("빅휠을 불러올 수 없습니다.", "Big Wheel is unavailable.")
 		return
 	visible = false
+	BGMPlayer.enter_casino_music("table")
 	big_wheel_game.open()
 	if not big_wheel_game.closed.is_connected(_on_sub_game_closed):
 		big_wheel_game.closed.connect(_on_sub_game_closed)
@@ -730,6 +737,7 @@ func _launch_daisai() -> void:
 		_msg_lbl.text = _tr("다이사이 테이블을 불러올 수 없습니다.", "Dai Sai table is unavailable.")
 		return
 	visible = false
+	BGMPlayer.enter_casino_music("table")
 	dai_sai_table.open()
 	if not dai_sai_table.closed.is_connected(_on_sub_game_closed):
 		dai_sai_table.closed.connect(_on_sub_game_closed)
@@ -737,6 +745,7 @@ func _launch_daisai() -> void:
 func _on_sub_game_closed() -> void:
 	# 하위 게임이 닫히면 허브로 복귀
 	visible = true
+	BGMPlayer.enter_casino_music("floor")
 	_refresh_balance()
 
 # ── 헬퍼 ──────────────────────────────────────────────────────

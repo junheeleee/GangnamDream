@@ -16,7 +16,11 @@ const TRACKS = {
 	"reckoning":   "res://assets/audio/bgm_reckoning.ogg",
 	"grief":       "res://assets/audio/bgm_grief.ogg",
 	"wonder":      "res://assets/audio/bgm_wonder.ogg",
+	"casino_floor": "res://assets/audio/bgm_casino_floor.ogg",
+	"casino_table": "res://assets/audio/bgm_casino_table.ogg",
 }
+
+const CASINO_TRACK_KEYS = ["casino_floor", "casino_table"]
 
 # These legacy lo-fi/routine masters may only be entered by the title/menu
 # surface. StoryMode never requests them implicitly from an event category.
@@ -152,7 +156,7 @@ var _moral_ambience_gain_db: float = 0.0
 var _moral_human_gain_db: float = -2.0
 var _moral_human_cutoff_hz: float = 20500.0
 var _moral_transition_count: int = 0
-var _music_mode: String = "ambient"  # ambient | punctuation | menu | ending
+var _music_mode: String = "ambient"  # ambient | punctuation | activity | menu | ending
 var _punctuation_token: int = 0
 var _scene_audio_cg: Dictionary = {}
 var _scene_audio_events: Dictionary = {}
@@ -496,8 +500,8 @@ func enter_activity_ambience(key: String) -> void:
 	if key.is_empty() or not AMBIENCE_TRACKS.has(key):
 		return
 	_activity_ambience_key = key
-	# 미니게임은 배경 음악을 새로 시작하지 않는다. 장소 룸톤만 유지해
-	# AP 허브가 뒤에 보이거나 들리는 인상을 끊는다.
+	# 장소 룸톤은 모든 미니게임의 기본 베드다. 전용 음악을 소유한
+	# 정선 카지노만 이 호출 직후 같은 장소 위에 activity score를 얹는다.
 	enter_ambient_bed(0.45)
 	set_ambience(key)
 	set_season_ambience("")
@@ -510,6 +514,22 @@ func leave_activity_ambience(key: String = "") -> void:
 
 func activity_ambience_key() -> String:
 	return _activity_ambience_key
+
+func enter_casino_music(layer: String = "floor") -> void:
+	if _is_ending:
+		return
+	var target_key := "casino_table" if layer == "table" else "casino_floor"
+	_music_mode = "activity"
+	_punctuation_token += 1
+	if _current_key in CASINO_TRACK_KEYS and _player_a.playing:
+		_crossfade_to(target_key, true)
+	else:
+		_play_or_keep(target_key)
+
+func leave_casino_music() -> void:
+	if _music_mode != "activity" and _current_key not in CASINO_TRACK_KEYS:
+		return
+	enter_ambient_bed(0.8)
 
 func update_event_ambience(ev: Dictionary, cg_id: String = "") -> void:
 	if _is_ending:
@@ -876,7 +896,7 @@ func _play_or_keep(key: String) -> void:
 	else:
 		_switch_to(key, true)
 
-func _crossfade_to(key: String):
+func _crossfade_to(key: String, preserve_phase: bool = false):
 	if key == _current_key:
 		return
 
@@ -897,7 +917,12 @@ func _crossfade_to(key: String):
 	var stream = _load_track(key)
 	_player_b.stream    = stream
 	_player_b.volume_db = _db(0.0)
-	_player_b.play()
+	var start_position := 0.0
+	if preserve_phase and _player_a.playing and stream != null:
+		var stream_length: float = stream.get_length()
+		if stream_length > 0.0:
+			start_position = fmod(_player_a.get_playback_position(), stream_length)
+	_player_b.play(start_position)
 
 	# A 페이드아웃, B 페이드인
 	_fade_tween = create_tween()

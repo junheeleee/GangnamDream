@@ -88,6 +88,19 @@
     "job_hunt": {"file": "scenes/JobHuntMiniGame.gd", "key": "office"},
     "part_time_shift": {"file": "scenes/ArubaGame.gd", "key": "dynamic"}
   },
+  "activity_music": {
+    "jeongseon_casino": {
+      "file": "scenes/JeongseonCasino.gd",
+      "floor_key": "casino_floor",
+      "floor_path": "res://assets/audio/bgm_casino_floor.ogg",
+      "table_key": "casino_table",
+      "table_path": "res://assets/audio/bgm_casino_table.ogg",
+      "shared_bpm": 92,
+      "shared_bars": 16,
+      "phase_locked_crossfade": true,
+      "exit_mode": "ambient"
+    }
+  },
   "stage_contracts": [
     {"system": "blackjack", "stage": "shoe", "file": "scenes/BlackjackTable.gd", "key": "card_shuffle"},
     {"system": "blackjack", "stage": "deal", "file": "scenes/BlackjackTable.gd", "key": "card_deal"},

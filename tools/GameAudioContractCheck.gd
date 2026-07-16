@@ -8,8 +8,9 @@ func _ready() -> void:
 	_check_manifest_assets()
 	_check_varied_playback()
 	await _check_activity_ambience()
+	await _check_casino_music()
 	if _failures.is_empty():
-		print("GAME_AUDIO_RUNTIME_OK physical=17 ambience_roundtrip=3 varied_playback=1")
+		print("GAME_AUDIO_RUNTIME_OK physical=17 ambience_roundtrip=3 varied_playback=1 casino_music=1")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -38,6 +39,18 @@ func _check_manifest_assets() -> void:
 		var stream := load(path) as AudioStream
 		if stream == null or stream.get_length() <= 0.04:
 			_failures.append("invalid or silent-length stream for %s" % key)
+	var activity_music: Variant = parsed.get("activity_music", {})
+	var casino: Variant = activity_music.get("jeongseon_casino", {}) if activity_music is Dictionary else {}
+	if not (casino is Dictionary):
+		_failures.append("Jeongseon activity music contract is missing")
+		return
+	var floor_stream := load(str(casino.get("floor_path", ""))) as AudioStream
+	var table_stream := load(str(casino.get("table_path", ""))) as AudioStream
+	if floor_stream == null or table_stream == null:
+		_failures.append("casino floor/table music could not load")
+	elif floor_stream.get_length() <= 10.0 \
+			or absf(floor_stream.get_length() - table_stream.get_length()) > 0.05:
+		_failures.append("casino variations must be substantial and phase-compatible")
 
 func _check_varied_playback() -> void:
 	AudioManager.play_varied("card_deal", 0.0, 0.88, 0.88)
@@ -79,3 +92,48 @@ func _check_activity_ambience() -> void:
 		_failures.append("activity ambience owner did not clear")
 	if BGMPlayer._current_ambience_key != "room":
 		_failures.append("leaving activity did not restore housing ambience")
+
+func _check_casino_music() -> void:
+	BGMPlayer.enter_activity_ambience("casino")
+	BGMPlayer.enter_casino_music("floor")
+	await get_tree().create_timer(0.12).timeout
+	if BGMPlayer._music_mode != "activity" or BGMPlayer._current_key != "casino_floor" \
+			or not BGMPlayer._player_a.playing:
+		_failures.append("casino floor motif did not start")
+		return
+	var floor_stream: AudioStream = BGMPlayer._player_a.stream
+	var floor_position := BGMPlayer._player_a.get_playback_position()
+	BGMPlayer.enter_casino_music("floor")
+	await get_tree().process_frame
+	if BGMPlayer._player_a.stream != floor_stream \
+			or BGMPlayer._player_a.get_playback_position() + 0.02 < floor_position:
+		_failures.append("re-entering casino floor restarted its motif")
+		return
+
+	var phase_before_table := BGMPlayer._player_a.get_playback_position()
+	BGMPlayer.enter_casino_music("table")
+	await get_tree().process_frame
+	if BGMPlayer._current_key != "casino_table" or not BGMPlayer._player_b.playing:
+		_failures.append("casino table variation did not crossfade")
+		return
+	if BGMPlayer._player_b.get_playback_position() + 0.08 < phase_before_table:
+		_failures.append("casino table variation did not inherit motif phase")
+		return
+
+	await get_tree().create_timer(BGMPlayer._FADE_TIME + 0.12).timeout
+	var phase_before_floor := BGMPlayer._player_a.get_playback_position()
+	BGMPlayer.enter_casino_music("floor")
+	await get_tree().process_frame
+	if BGMPlayer._current_key != "casino_floor" or not BGMPlayer._player_b.playing:
+		_failures.append("casino floor return did not crossfade")
+		return
+	if BGMPlayer._player_b.get_playback_position() + 0.08 < phase_before_floor:
+		_failures.append("casino floor return did not inherit motif phase")
+		return
+
+	BGMPlayer.leave_casino_music()
+	BGMPlayer.leave_activity_ambience("casino")
+	await get_tree().create_timer(0.9).timeout
+	if BGMPlayer._music_mode != "ambient" or not BGMPlayer._current_key.is_empty() \
+			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_failures.append("leaving Jeongseon did not restore the ambience-only hub")

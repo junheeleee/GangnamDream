@@ -37,6 +37,7 @@ amb_amusement_park.wav amb_car_interior.wav amb_night_bus.wav
 amb_train_interior.wav sfx_wedding_applause.wav sfx_wedding_cheer.wav
 sfx_distant_fireworks.wav bgm_wedding_processional.ogg bgm_intimate.ogg
 bgm_reckoning.ogg bgm_grief.ogg bgm_wonder.ogg
+bgm_casino_floor.ogg bgm_casino_table.ogg
 sfx_card_shuffle.wav sfx_card_deal.wav sfx_card_flip.wav
 sfx_chip_place.wav sfx_chip_collect.wav sfx_dice_cup_shake.wav
 sfx_dice_roll.wav sfx_roulette_wheel.wav sfx_roulette_ball.wav

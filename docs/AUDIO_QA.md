@@ -22,16 +22,16 @@ The sound must belong to the same work as the `Gangnam Ink` visual direction.
 
 | Class | Count | Runtime owner |
 |---|---:|---|
-| BGM | 12 | `autoloads/BGMPlayer.gd` |
+| BGM | 14 | `autoloads/BGMPlayer.gd` |
 | Ambience | 45 | `autoloads/BGMPlayer.gd` (36 inert/place + 9 human-presence layers) |
 | SFX | 52 | `autoloads/AudioManager.gd` |
-| **Total** | **109** | one deterministic in-repo source each |
+| **Total** | **111** | one deterministic in-repo source each |
 
 All current audio uses original deterministic synthesis; external samples: 0. The source ledger is enforced by `tools/audio_source_audit.py`.
 
 ## Scene Music
 
-`menu`, `early`, `hustle`, and `late_tense` are lobby-only masters. StoryMode, the weekly hub, month transitions, ordinary events, and unscored arcs may not infer them from age, rarity, category, or an `arc_` prefix. Those surfaces retain only authored place, season, and human ambience. Cinematic music enters solely through an explicit `scene_audio_manifest` paragraph contract, or through a menu/ending owner.
+`menu`, `early`, `hustle`, and `late_tense` are lobby-only masters. StoryMode, the weekly hub, month transitions, ordinary events, and unscored arcs may not infer them from age, rarity, category, or an `arc_` prefix. Those surfaces retain only authored place, season, and human ambience. Cinematic story music enters solely through an explicit `scene_audio_manifest` paragraph contract or a menu/ending owner; continuous activity music requires its own `game_audio_manifest` contract.
 
 The seven base tracks cover title, routine, crisis, and endings. Five authored scene tracks cover emotional peaks:
 
@@ -44,6 +44,17 @@ The seven base tracks cover title, routine, crisis, and endings. Five authored s
 | `wonder` | awe, release, landmark-scale emotional lift | paragraph-triggered |
 
 `assets/scene_audio_manifest.json` maps all 57 active CGs to ambience and all 46 events on the 28 Tier-1 peak paths to explicit scene audio. The mother and groom-side reaction shots keep one wedding-hall room tone; the processional begins on the couple-wide entrance and continues into the close without restarting. Wedding applause and cheer are tied to the authored entrance paragraph, not to a timer from scene load.
+
+## Jeongseon Casino Music
+
+Jeongseon is the only current activity that owns continuous music. `casino_floor` and `casino_table` are two arrangements of one 92 BPM, 16-bar, 41.74-second motif. They share harmony, melody, loop metadata, and playback phase:
+
+- The floor arrangement leaves space for room tone and restrained human presence.
+- The table arrangement adds a low pulse and muted offbeats without replacing chip, card, dice, wheel, or reel transients. Its integrated level is 2.0 LU above the floor arrangement, enough to increase pressure without becoming a separate song.
+- Entering any of the six tables inherits the floor playback position. Returning to the hub inherits it back. Re-entering the same layer never rewinds.
+- Leaving Jeongseon fades the score out once, then restores housing and seasonal ambience. The AP hub cannot remain audible under the casino.
+
+The two generated masters establish timing and identity, not final human approval. They still require headphones, laptop speakers, and living-room TV listening beside ten consecutive rounds of each game.
 
 ## Physical Gameplay SFX
 
@@ -110,12 +121,12 @@ python3 tools/game_audio_contract_check.py
 Latest targeted result:
 
 ```text
-AUDIO_SOURCE_AUDIT_OK assets=109 bgm=12 ambience=45 sfx=52 external_samples=0
+AUDIO_SOURCE_AUDIT_OK assets=111 bgm=14 ambience=45 sfx=52 external_samples=0
 SCENE_AUDIO_CONTRACT_OK cg=57 peak_events=46 ambience_keys=36 music_keys=12
-GAME_AUDIO_CONTRACT_OK physical=17 stages=19 activities=7 human_layers=9 direct_pad=9
-AUDIO_ASSET_CHECK_OK bgm=12 ambience=45 sfx=52
+GAME_AUDIO_CONTRACT_OK physical=17 stages=19 activities=7 activity_music=1 human_layers=9 direct_pad=9
+AUDIO_ASSET_CHECK_OK bgm=14 ambience=45 sfx=52
 BGM_CONTINUITY_OK mode=menu key=menu ambience=
-GAME_AUDIO_RUNTIME_OK physical=17 ambience_roundtrip=3 varied_playback=1
+GAME_AUDIO_RUNTIME_OK physical=17 ambience_roundtrip=3 varied_playback=1 casino_music=1
 MORAL_AMBIENCE_CHECK_OK profiles=9
 STORY_AUDIO_SETTINGS_CHECK_OK
 ```
@@ -126,7 +137,7 @@ Before demo lock, listen at the real 1280x800/Steam Deck presentation and on bot
 
 1. Play ten consecutive rounds of each casino game. Repeated ticks must not become a metronome.
 2. Compare each physical sound with the visible material. Paper, felt, ceramic, metal, glass, and asphalt must not share one transient.
-3. Enter and leave every activity. No BGM restart, abrupt room-tone cut, or AP-hub bleed is allowed.
+3. Enter and leave every activity. In Jeongseon, move floor→table→floor repeatedly; the motif must intensify and relax without restarting, while room tone and physical sounds remain legible. No abrupt cut or AP-hub bleed is allowed.
 4. Play the wedding chain without skipping. Processional continuity, paragraph applause, voice-free room tone, and decision silence must feel like one scene.
 5. A/B every procedural physical asset against a professional foley candidate. Promote only the version that sounds native to the modern illustration while preserving license evidence.
 6. Compare the same cafe, street, casino, and wedding screen at Gray, Light Black, Deep Black, and White. Only human presence should radically recede; the place and interaction timing must remain believable.
