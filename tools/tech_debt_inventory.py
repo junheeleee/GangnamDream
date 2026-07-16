@@ -45,14 +45,14 @@ TOP_LEVEL_DATA_RE = re.compile(
     r"^(?:const|var)\s+([A-Za-z_]\w*)(?:\s*:[^=]+)?\s*(?::=|=)\s*([\[{])"
 )
 MAIN_RESPONSIBILITIES: tuple[tuple[str, tuple[str, ...]], ...] = (
-    ("presentation", ("_build", "_render", "_style", "_make", "_label", "_wrap", "_refresh")),
-    ("navigation_modal", ("_open", "_close", "_show", "_hide", "_transition", "_return")),
     ("weekly_ap", ("_ap_", "action", "week", "montage", "routine", "pressure")),
     ("story_arc", ("event", "arc", "story", "choice", "follow_up", "chapter")),
     ("economy", ("invest", "asset", "bank", "loan", "job", "career", "housing", "money", "market")),
     ("relationships", ("relation", "romance", "contact", "daeun", "jiyeon", "father", "hyunsu", "sangchul", "jaehyuk")),
     ("ending_meta", ("ending", "achievement", "archive", "title", "record")),
-    ("minigame_bridge", ("casino", "roulette", "slot", "blackjack", "baccarat", "holdem", "daisai", "race", "aruba", "delivery")),
+    ("minigame_bridge", ("casino", "roulette", "slot_machine", "blackjack", "baccarat", "holdem", "daisai", "race", "aruba", "delivery")),
+    ("navigation_modal", ("_open", "_close", "_show", "_hide", "_transition", "_return")),
+    ("presentation", ("_build", "_render", "_style", "_make", "_label", "_wrap", "_refresh")),
 )
 
 
@@ -258,7 +258,7 @@ def scan() -> dict:
                 if numeric in {-2.0, -1.0, 0.0, 1.0, 2.0}:
                     continue
                 number_hits[value].append(line_no)
-            for value in HEX_RE.findall(code):
+            for value in HEX_RE.findall(line):
                 hex_hits[value.lower()].append(line_no)
             for value in RESOURCE_RE.findall(code):
                 resource_hits[value].append(line_no)
