@@ -559,9 +559,6 @@ func get_job_display_name(job: Dictionary = {}) -> String:
 			return str(localized.get("name", source.get("name", job_id)))
 	return str(source.get("name", LocaleManager.ui("직장", "Job")))
 
-func _apply_background_bonus(bg: String):
-	pass  # legacy — 신규 런은 _apply_route_bonus 사용
-
 func _apply_route_bonus(route: String):
 	match route:
 		"직장형":

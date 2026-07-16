@@ -229,7 +229,6 @@ var holdem_club    # 홀덤 클럽 미니게임 오버레이
 var scalping_game  # 스캘핑 아케이드 미니게임 오버레이
 var aruba_game     # 아르바이트 시프트 미니게임 오버레이
 var job_hunt_game  # 구직활동 미니게임 오버레이 (이력서/면접)
-var life_skills_game  # (제거됨 — 서사 직접 처리로 교체)
 var baccarat_table   # 정선 카지노 바카라 오버레이
 var blackjack_table  # 정선 카지노 블랙잭 오버레이
 var slot_machine_game  # 정선 카지노 슬롯머신 오버레이
@@ -290,7 +289,6 @@ func _ready():
 	job_hunt_game = load("res://scenes/JobHuntMiniGame.gd").new()
 	add_child(job_hunt_game)
 	job_hunt_game.closed.connect(_on_job_hunt_closed)
-	life_skills_game = null  # 미니게임 제거 — 절약·인맥·자기계발은 서사 직접 처리
 	# 정선 카지노 바카라 오버레이
 	baccarat_table = load("res://scenes/BaccaratTable.gd").new()
 	add_child(baccarat_table)
@@ -981,8 +979,6 @@ func _build_ui():
 
 	_build_portrait_panel(main)
 	_build_story_panel(main)
-
-	_build_bottom_bar(root)
 
 	# ── 5. 우측 슬라이드 정보 패널 (기본 숨김) ──
 	_build_info_panel()
@@ -2064,9 +2060,6 @@ func _tutorial_card(icon_id: String, title: String, body: String, accent: String
 	col.add_child(title_lbl)
 	col.add_child(_wrap_label(body, 12, "#aab3c5"))
 	return panel
-
-func _build_bottom_bar(parent):
-	pass  # 다음 달/상점/도감은 상단 바로 이동됨
 
 func _build_modal():
 	modal_layer = ColorRect.new()
