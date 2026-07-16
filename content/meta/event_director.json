@@ -1,0 +1,252 @@
+{
+  "schema": 1,
+  "default_policy": {
+    "once_per_run": true,
+    "max_per_run": 1,
+    "cooldown": 6,
+    "repeat_decay": 1.0
+  },
+  "recent_action": {
+    "max_multiplier": 2.6,
+    "prior_week_strength": 0.55
+  },
+  "chapter_windows": [
+    {
+      "id": "survival",
+      "min_turn": 1,
+      "max_turn": 48,
+      "category_multipliers": {
+        "career": 1.25,
+        "daily_life": 1.25,
+        "family": 1.05,
+        "finance": 1.1,
+        "gambling": 0.7,
+        "health": 1.2,
+        "housing": 1.25,
+        "investment": 0.75,
+        "jobs": 1.35,
+        "relationship": 0.8,
+        "romance": 0.6,
+        "self_development": 1.2,
+        "social": 0.85
+      }
+    },
+    {
+      "id": "foothold",
+      "min_turn": 49,
+      "max_turn": 96,
+      "category_multipliers": {
+        "career": 1.15,
+        "daily_life": 1.05,
+        "family": 1.0,
+        "finance": 1.15,
+        "gambling": 0.8,
+        "health": 1.0,
+        "housing": 1.1,
+        "investment": 1.05,
+        "jobs": 1.2,
+        "relationship": 1.0,
+        "romance": 0.9,
+        "self_development": 1.05,
+        "social": 1.0
+      }
+    },
+    {
+      "id": "leverage",
+      "min_turn": 97,
+      "max_turn": 144,
+      "category_multipliers": {
+        "career": 1.0,
+        "daily_life": 0.9,
+        "family": 0.95,
+        "finance": 1.15,
+        "gambling": 0.95,
+        "health": 0.95,
+        "housing": 1.0,
+        "investment": 1.25,
+        "jobs": 0.95,
+        "relationship": 1.05,
+        "romance": 1.0,
+        "self_development": 0.9,
+        "social": 1.15
+      }
+    },
+    {
+      "id": "consequence",
+      "min_turn": 145,
+      "max_turn": 192,
+      "category_multipliers": {
+        "career": 0.9,
+        "daily_life": 0.9,
+        "family": 1.25,
+        "finance": 1.05,
+        "gambling": 1.0,
+        "health": 1.2,
+        "housing": 1.0,
+        "investment": 1.1,
+        "jobs": 0.9,
+        "relationship": 1.25,
+        "romance": 1.15,
+        "self_development": 0.85,
+        "social": 1.05
+      }
+    },
+    {
+      "id": "reckoning",
+      "min_turn": 193,
+      "max_turn": 240,
+      "category_multipliers": {
+        "career": 0.85,
+        "daily_life": 0.85,
+        "family": 1.35,
+        "finance": 0.95,
+        "gambling": 0.9,
+        "health": 1.25,
+        "housing": 1.05,
+        "investment": 1.0,
+        "jobs": 0.85,
+        "relationship": 1.3,
+        "romance": 1.2,
+        "self_development": 0.8,
+        "social": 1.0
+      }
+    }
+  ],
+  "asset_bands": [
+    {
+      "id": "negative",
+      "max_assets": 0,
+      "category_multipliers": {
+        "daily_life": 1.2,
+        "finance": 1.1,
+        "gambling": 0.55,
+        "health": 1.15,
+        "housing": 1.2,
+        "investment": 0.55,
+        "jobs": 1.35,
+        "relationship": 0.9,
+        "social": 0.8
+      }
+    },
+    {
+      "id": "survival",
+      "min_assets": 0,
+      "max_assets": 5000000,
+      "category_multipliers": {
+        "daily_life": 1.15,
+        "finance": 1.05,
+        "gambling": 0.7,
+        "health": 1.05,
+        "housing": 1.15,
+        "investment": 0.8,
+        "jobs": 1.25,
+        "self_development": 1.15
+      }
+    },
+    {
+      "id": "foothold",
+      "min_assets": 5000000,
+      "max_assets": 50000000,
+      "category_multipliers": {
+        "finance": 1.1,
+        "investment": 1.1,
+        "jobs": 1.05,
+        "relationship": 1.0,
+        "social": 1.0
+      }
+    },
+    {
+      "id": "capital",
+      "min_assets": 50000000,
+      "max_assets": 300000000,
+      "category_multipliers": {
+        "daily_life": 0.9,
+        "finance": 1.15,
+        "investment": 1.25,
+        "relationship": 1.1,
+        "social": 1.1
+      }
+    },
+    {
+      "id": "affluent",
+      "min_assets": 300000000,
+      "category_multipliers": {
+        "daily_life": 0.75,
+        "family": 1.2,
+        "finance": 1.05,
+        "health": 1.1,
+        "investment": 1.15,
+        "jobs": 0.8,
+        "relationship": 1.25,
+        "social": 1.25
+      }
+    }
+  ],
+  "employment": {
+    "unemployed": {
+      "category_multipliers": {
+        "career": 1.2,
+        "daily_life": 1.1,
+        "finance": 1.05,
+        "housing": 1.1,
+        "jobs": 1.35,
+        "self_development": 1.2
+      }
+    },
+    "employed": {
+      "category_multipliers": {
+        "daily_life": 0.95,
+        "finance": 1.05,
+        "jobs": 1.15,
+        "self_development": 0.9,
+        "social": 1.05
+      }
+    },
+    "requires_job_tags": [
+      "commute"
+    ],
+    "requires_no_job_tags": []
+  },
+  "housing": {
+    "tag_requirements": {
+      "gosiwon": "gosiwon",
+      "oneroom_life": "oneroom",
+      "villa_life": "villa",
+      "apartment_life": "apartment",
+      "gangnam_home": "gangnam"
+    }
+  },
+  "relationships": {
+    "named_cast_tags": [
+      "father",
+      "sangchul",
+      "jiyeon",
+      "daeun",
+      "jaehyuk"
+    ],
+    "known_multiplier": 1.12,
+    "unknown_multiplier": 0.0,
+    "introduction_events": {
+      "sangchul": [
+        "sangchul_meet"
+      ]
+    }
+  },
+  "repeatable_events": {
+    "convenience_store_meal": {
+      "max_per_run": 2,
+      "cooldown": 24,
+      "repeat_decay": 0.35
+    },
+    "delivery_app_temptation": {
+      "max_per_run": 2,
+      "cooldown": 24,
+      "repeat_decay": 0.35
+    },
+    "health_insomnia": {
+      "max_per_run": 2,
+      "cooldown": 32,
+      "repeat_decay": 0.35
+    }
+  }
+}

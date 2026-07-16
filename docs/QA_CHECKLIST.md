@@ -172,6 +172,13 @@ Automated audio gates:
 - `BGMContinuityCheck.tscn` must keep the weekly hub, ordinary random events, and unscored arcs on place/season ambience without starting generic lo-fi; preserve same-context playback and Moral Tint texture changes; and permit story music only through an explicit paragraph score contract. `menu/early/hustle/late_tense` remain lobby-only.
 - `ImmersionLoopCheck.tscn` must prove two-week action memory and serialization, precise no-leak event families, ×2.6/×1.88 echo strength, ×0.42 filler attenuation, deterministic quiet-week bands, localized causal frames, season/housing vignettes, non-mutating arc omens, rent deadlines, and SFX mix trims.
 
+Automated random-event director gates:
+
+- `event_director_audit.py` must distinguish the 1,177 structural random candidates from the 1,045 events that can actually enter `draw_situations()`. It requires five contiguous chapter windows, five contiguous asset bands, 1,042 once-per-run events, and exactly three approved repeatable everyday events.
+- `EventDirectorCheck.tscn` must reject commute scenes while unemployed, goshiwon scenes after moving out, and named-cast callbacks before meeting. It must preserve Sangchul's introduction, authored story routing, and the existing ×2.6/×1.88 recent-action echo.
+- Selecting an actual random event, not merely drawing it, records its run count and last turn. Both dictionaries must survive save/load. The three repeatable events may return only after 24-32 weeks, at 0.35 weight, and never exceed two appearances.
+- Guaranteed arcs, follow-up events, deferred queues, event prose, effects, and Moral Tint remain outside this director.
+
 Automated Living Scene gates:
 
 - `LivingSceneCheck.tscn` must route rain, first snow, memory, fireworks, city light, and neutral scenes from stable IDs/backgrounds/tags/channels only; description text cannot create weather.

@@ -355,6 +355,10 @@ var thoughts_done: Array = []      # 완료한 생각(추론) id 목록
 var active_thought: Dictionary = {}  # {"id": String, "turns_left": int} — 현재 정리 중인 생각 (1슬롯)
 var deferred_events: Array = []  # [{event_id, trigger_turn}] — N턴 후 자동 발동 이벤트
 var events_seen: int = 0   # 이번 런에서 플레이어가 실제 선택한 이벤트 수
+# 랜덤 사건 편성 이력. 일반 사건 1회/런과 명시적 반복 사건의 긴 쿨다운을
+# 저장/불러오기 뒤에도 보존한다. 보장 아크·후속 체인은 여기에 들어오지 않는다.
+var random_event_counts: Dictionary = {}
+var random_event_last_turns: Dictionary = {}
 var peak_asset: float = 0.0   # 이번 런 최고 자산 (분석요소 — 정점 대비 결말 비교)
 var run_theme_categories: Array = []
 var run_theme: String = "자유런"
@@ -431,6 +435,8 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	flags = {}
 	deferred_events = []
 	events_seen = 0
+	random_event_counts = {}
+	random_event_last_turns = {}
 	peak_asset = 0.0
 	run_theme_categories = []
 	run_theme = "자유런"
@@ -911,6 +917,7 @@ func apply_monthly_pressure():
 func apply_choice(event, choice):
 	if not event.is_empty() and event.has("id"):
 		events_seen += 1
+		EventManager.register_directed_event(event)
 	apply_effects(choice.get("effects", {}))
 	for rel_effect in choice.get("relationship_effects", []):
 		apply_relationship_effect(rel_effect)
@@ -1291,13 +1298,13 @@ func _merge_action_echo(target: Dictionary, family: String, strength: float) -> 
 	target[family] = maxf(float(target.get(family, 0.0)), strength)
 
 ## 최근 행동이 어떤 사건 계열을 부를 수 있는지 반환한다.
-## 최신 주=1.0, 한 주 전=0.55. EventManager가 이를 2~3배 가중치로 변환한다.
-func get_recent_action_echoes() -> Dictionary:
+## 최신 주=1.0, 한 주 전은 편성 데이터의 강도. EventManager가 가중치로 변환한다.
+func get_recent_action_echoes(prior_week_strength: float = 0.55) -> Dictionary:
 	var echoes: Dictionary = {}
 	var total_weeks := recent_action_weeks.size()
 	for index in range(total_weeks):
 		var week: Dictionary = recent_action_weeks[index]
-		var strength := 1.0 if index == total_weeks - 1 else 0.55
+		var strength := 1.0 if index == total_weeks - 1 else prior_week_strength
 		var money_count := int(week.get("money", 0))
 		var human_count := int(week.get("human", 0))
 		var places: Dictionary = week.get("places", {})
@@ -2071,6 +2078,8 @@ func serialize():
 		"unlocked_stat_thresholds": unlocked_stat_thresholds,
 		"difficulty": difficulty,
 		"events_seen": events_seen,
+		"random_event_counts": random_event_counts,
+		"random_event_last_turns": random_event_last_turns,
 		"peak_asset": peak_asset,
 	}
 
@@ -2117,6 +2126,10 @@ func load_from_dict(data):
 		run_seen_scenes_by_year = {}
 	if not data.has("year_scenes") or typeof(year_scenes) != TYPE_DICTIONARY:
 		year_scenes = {}
+	if not data.has("random_event_counts") or typeof(random_event_counts) != TYPE_DICTIONARY:
+		random_event_counts = {}
+	if not data.has("random_event_last_turns") or typeof(random_event_last_turns) != TYPE_DICTIONARY:
+		random_event_last_turns = {}
 	# 구버전 세이브 호환 — 몽타주 루틴
 	if typeof(week_routine) != TYPE_ARRAY:
 		week_routine = []

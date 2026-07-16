@@ -7,6 +7,9 @@ var pending_events: Array = []
 var current_event: Dictionary = {}
 var event_cooldowns: Dictionary = {}
 var recent_event_ids: Array = []
+var director_rules: Dictionary = {}
+
+const EVENT_DIRECTOR_PATH := "res://content/meta/event_director.json"
 
 const ECHO_CATEGORY_ALIASES := {
 	"career": ["jobs", "job", "work", "career"],
@@ -44,6 +47,7 @@ const ECHO_TAG_ALIASES := {
 }
 
 func _ready():
+	_load_director_rules()
 	GameState.run_started.connect(_on_run_started)
 
 func _on_run_started():
@@ -51,6 +55,135 @@ func _on_run_started():
 	recent_event_ids.clear()
 	pending_events.clear()
 	current_event = {}
+
+func _load_director_rules() -> void:
+	var file := FileAccess.open(EVENT_DIRECTOR_PATH, FileAccess.READ)
+	if file == null:
+		push_error("Event director manifest missing: %s" % EVENT_DIRECTOR_PATH)
+		director_rules = {}
+		return
+	var parsed: Variant = JSON.parse_string(file.get_as_text())
+	if parsed is Dictionary:
+		director_rules = parsed
+		return
+	push_error("Event director manifest is not a dictionary: %s" % EVENT_DIRECTOR_PATH)
+	director_rules = {}
+
+func is_directed_random_event(event: Dictionary) -> bool:
+	var event_id := str(event.get("id", ""))
+	if event_id.is_empty() or DataRegistry.find_event(event_id).is_empty():
+		return false
+	return str(event.get("rarity", "")) != "story" \
+		and str(event.get("category", "")) != "story" \
+		and float(event.get("weight", 1.0)) > 0.0
+
+func _matching_director_row(rows: Array, value: float) -> Dictionary:
+	for row_value in rows:
+		if not row_value is Dictionary:
+			continue
+		var row: Dictionary = row_value
+		if row.has("min_turn") and value < float(row["min_turn"]):
+			continue
+		if row.has("max_turn") and value > float(row["max_turn"]):
+			continue
+		if row.has("min_assets") and value < float(row["min_assets"]):
+			continue
+		# Asset bands use an exclusive ceiling so adjacent rows never overlap.
+		if row.has("max_assets") and value >= float(row["max_assets"]):
+			continue
+		return row
+	return {}
+
+func _director_chapter_row(turn_value: int = -1) -> Dictionary:
+	var resolved_turn: int = GameState.turn if turn_value < 0 else turn_value
+	return _matching_director_row(director_rules.get("chapter_windows", []), float(resolved_turn))
+
+func _director_asset_row(asset_value: float = -1.0e30) -> Dictionary:
+	var resolved_assets: float = GameState.get_total_asset_value() if asset_value <= -1.0e29 else asset_value
+	return _matching_director_row(director_rules.get("asset_bands", []), resolved_assets)
+
+func director_chapter_id(turn_value: int = -1) -> String:
+	return str(_director_chapter_row(turn_value).get("id", ""))
+
+func director_asset_band_id(asset_value: float = -1.0e30) -> String:
+	return str(_director_asset_row(asset_value).get("id", ""))
+
+func _director_category_multiplier(row: Dictionary, event: Dictionary) -> float:
+	if row.is_empty():
+		return 1.0
+	var category_multipliers: Dictionary = row.get("category_multipliers", {})
+	return float(category_multipliers.get(
+		str(event.get("category", "")), row.get("default_multiplier", 1.0)))
+
+func director_context_multiplier(event: Dictionary) -> float:
+	if not is_directed_random_event(event):
+		return 1.0
+	var tags: Array = event.get("tags", [])
+	var employment: Dictionary = director_rules.get("employment", {})
+	var has_job := not GameState.current_job.is_empty()
+	var impossible_tags: Array = employment.get(
+		"requires_no_job_tags" if has_job else "requires_job_tags", [])
+	for tag in impossible_tags:
+		if tags.has(str(tag)):
+			return 0.0
+
+	var housing_rules: Dictionary = director_rules.get("housing", {})
+	var housing_requirements: Dictionary = housing_rules.get("tag_requirements", {})
+	for tag in housing_requirements:
+		if tags.has(str(tag)) and GameState.housing != str(housing_requirements[tag]):
+			return 0.0
+
+	var relationship_rules: Dictionary = director_rules.get("relationships", {})
+	var named_cast_tags: Array = relationship_rules.get("named_cast_tags", [])
+	var introductions: Dictionary = relationship_rules.get("introduction_events", {})
+	var has_known_cast := false
+	for person_value in named_cast_tags:
+		var person_id := str(person_value)
+		if not tags.has(person_id):
+			continue
+		var introduction_ids: Array = introductions.get(person_id, [])
+		if introduction_ids.has(str(event.get("id", ""))):
+			continue
+		if not GameState.cast_has_met(person_id):
+			return float(relationship_rules.get("unknown_multiplier", 0.0))
+		has_known_cast = true
+
+	var multiplier := _director_category_multiplier(_director_chapter_row(), event)
+	multiplier *= _director_category_multiplier(_director_asset_row(), event)
+	var employment_row: Dictionary = employment.get("employed" if has_job else "unemployed", {})
+	multiplier *= _director_category_multiplier(employment_row, event)
+	if has_known_cast:
+		multiplier *= float(relationship_rules.get("known_multiplier", 1.0))
+	return maxf(0.0, multiplier)
+
+func director_repeat_policy(event: Dictionary) -> Dictionary:
+	var default_policy: Dictionary = director_rules.get("default_policy", {})
+	var policy := default_policy.duplicate(true)
+	var repeatable_events: Dictionary = director_rules.get("repeatable_events", {})
+	var event_id := str(event.get("id", ""))
+	if repeatable_events.has(event_id):
+		policy["once_per_run"] = false
+		for key in (repeatable_events[event_id] as Dictionary):
+			policy[key] = repeatable_events[event_id][key]
+	return policy
+
+func cooldown_for_event(event: Dictionary) -> int:
+	var cooldown := int(event.get("cooldown", 6))
+	if is_directed_random_event(event):
+		cooldown = maxi(cooldown, int(director_repeat_policy(event).get("cooldown", 6)))
+	return maxi(cooldown, 0)
+
+func register_directed_event(event: Dictionary) -> void:
+	if not is_directed_random_event(event):
+		return
+	var event_id := str(event.get("id", ""))
+	GameState.random_event_counts[event_id] = int(
+		GameState.random_event_counts.get(event_id, 0)) + 1
+	GameState.random_event_last_turns[event_id] = GameState.turn
+	var cooldown := cooldown_for_event(event)
+	if cooldown > 0:
+		event_cooldowns[event_id] = maxi(int(event_cooldowns.get(event_id, 0)), cooldown)
+	_remember_recent(event_id)
 
 func process_month_events():
 	_tick_cooldowns()
@@ -114,7 +247,10 @@ func action_echo_match(event: Dictionary) -> Dictionary:
 	if str(event.get("category", "")) == "story" or str(event.get("rarity", "")) == "story" \
 			or float(event.get("weight", 1.0)) <= 0.0:
 		return {}
-	var recent: Dictionary = GameState.get_recent_action_echoes()
+	var recent_action_rules: Dictionary = director_rules.get("recent_action", {})
+	var prior_strength := float(recent_action_rules.get("prior_week_strength", 0.55))
+	var max_multiplier := float(recent_action_rules.get("max_multiplier", 2.6))
+	var recent: Dictionary = GameState.get_recent_action_echoes(prior_strength)
 	var best_family := ""
 	var best_strength := 0.0
 	for family in _event_echo_families(event):
@@ -127,7 +263,7 @@ func action_echo_match(event: Dictionary) -> Dictionary:
 	return {
 		"family": best_family,
 		"strength": best_strength,
-		"multiplier": lerpf(1.0, 2.6, clampf(best_strength, 0.0, 1.0)),
+		"multiplier": lerpf(1.0, max_multiplier, clampf(best_strength, 0.0, 1.0)),
 	}
 
 func action_echo_multiplier(event: Dictionary) -> float:
@@ -242,10 +378,11 @@ func resolve_current_event(choice_index):
 	var choice: Dictionary = choices[choice_index]
 	GameState.apply_choice(current_event, choice)
 
-	var cooldown = int(current_event.get("cooldown", 6))
+	var event_id := str(current_event.get("id", ""))
+	var cooldown := cooldown_for_event(current_event)
 	if cooldown > 0:
-		event_cooldowns[current_event.get("id", "")] = cooldown
-	_remember_recent(current_event.get("id", ""))
+		event_cooldowns[event_id] = maxi(int(event_cooldowns.get(event_id, 0)), cooldown)
+	_remember_recent(event_id)
 
 	var follow_up = str(choice.get("follow_up_event", ""))
 	if not follow_up.is_empty():
@@ -275,6 +412,9 @@ func _tick_cooldowns():
 func _remember_recent(event_id):
 	if event_id.is_empty():
 		return
+	# StoryMode와 EventManager 경로가 같은 사건을 기록해도 최근 목록은 한 칸만 쓴다.
+	if recent_event_ids.has(event_id):
+		recent_event_ids.erase(event_id)
 	recent_event_ids.append(event_id)
 	if recent_event_ids.size() > 25:
 		recent_event_ids.pop_front()
@@ -285,6 +425,20 @@ func _is_event_eligible(event):
 		return false
 	if event_cooldowns.has(event_id) or recent_event_ids.has(event_id):
 		return false
+	if is_directed_random_event(event):
+		if director_context_multiplier(event) <= 0.0:
+			return false
+		var policy := director_repeat_policy(event)
+		var seen_count := int(GameState.random_event_counts.get(event_id, 0))
+		var max_per_run := int(policy.get("max_per_run", 1))
+		if bool(policy.get("once_per_run", true)) and seen_count >= 1:
+			return false
+		if max_per_run > 0 and seen_count >= max_per_run:
+			return false
+		if seen_count > 0:
+			var last_turn := int(GameState.random_event_last_turns.get(event_id, -9999))
+			if GameState.turn - last_turn < int(policy.get("cooldown", 6)):
+				return false
 	if bool(event.get("hidden", false)) and not MetaProgression.is_hidden_event_unlocked(event_id):
 		return _check_hidden_chance(event)
 	return _check_conditions(event.get("conditions", {}))
@@ -445,19 +599,38 @@ func _check_cast_stage(req: Dictionary) -> bool:
 func _weighted_pick(events):
 	if events.is_empty():
 		return {}
-	var total = 0.0
+	var weighted_events: Array = []
+	var weights: Array[float] = []
+	var total := 0.0
 	for event in events:
-		total += _effective_weight(event)
+		var weight: float = float(_effective_weight(event))
+		if weight <= 0.0:
+			continue
+		weighted_events.append(event)
+		weights.append(weight)
+		total += weight
+	if weighted_events.is_empty() or total <= 0.0:
+		return {}
 	var roll = randf() * total
-	var cursor = 0.0
-	for event in events:
-		cursor += _effective_weight(event)
+	var cursor := 0.0
+	for index in range(weighted_events.size()):
+		cursor += weights[index]
 		if roll <= cursor:
-			return event
-	return events.back()
+			return weighted_events[index]
+	return weighted_events.back()
 
 func _effective_weight(event):
 	var weight = float(event.get("weight", 1.0))
+	var context_multiplier := director_context_multiplier(event)
+	if context_multiplier <= 0.0:
+		return 0.0
+	weight *= context_multiplier
+	if is_directed_random_event(event):
+		var event_id := str(event.get("id", ""))
+		var seen_count := int(GameState.random_event_counts.get(event_id, 0))
+		if seen_count > 0:
+			var repeat_decay := float(director_repeat_policy(event).get("repeat_decay", 1.0))
+			weight *= pow(repeat_decay, seen_count)
 	match str(event.get("rarity", "common")):
 		"common":
 			weight *= 1.0

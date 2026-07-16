@@ -2238,8 +2238,9 @@ func _maybe_play_month_situation() -> bool:
 	var sid: String = str(sit.get("id", ""))
 	if sid.is_empty():
 		return false
-	# StoryMode는 apply_choice 경유라 쿨다운을 안 박으므로 여기서 박아 재추첨 방지
-	EventManager.event_cooldowns[sid] = int(sit.get("cooldown", 6))
+	# StoryMode로 왕복하기 전에 편성 정책의 쿨다운을 예약해 재추첨을 막는다.
+	# 실제 1회/런 카운트는 플레이어가 선택을 확정할 때 GameState가 기록한다.
+	EventManager.event_cooldowns[sid] = EventManager.cooldown_for_event(sit)
 	_go_story_mode([sid])
 	return true
 
