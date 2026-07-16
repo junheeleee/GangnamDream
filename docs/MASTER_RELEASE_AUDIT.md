@@ -81,9 +81,9 @@ The accepted target keeps 240 internal weeks and default AP 2 but requires only 
 
 ### Strategy convergence baseline
 
-The deterministic 3,000-run comparison now gates five 240-week policies. Safe career, people-first, pure gambling, and founder play have distinct dominant terminal identities; safe career and aggressive investing still converge on `career_climber`. Mean pairwise ending JSD is 0.893, median human-axis use spans 220 weeks, and Moral Tint spans 52 points. No hidden asset catch-up or leader suppression exists in live source.
+The deterministic 3,000-run comparison now gates five 240-week policies. Safe career, aggressive investing, people-first, pure gambling, and founder play have five distinct dominant terminal identities. Mean pairwise ending JSD is 0.989, median human-axis use spans 220 weeks, and Moral Tint spans 52 points. No hidden asset catch-up or leader suppression exists in live source.
 
-This is a labeling and dramatic-ownership blocker, not a request to inflate returns. Salary-only play reaches 3B in 0% of modeled runs by design. The aggressive investor reaches median investment skill 100 but is swallowed by the earlier 100M career branch. The live startup acquisition pays 3.2B and sets `startup_exit`, but the generic 3B branch catches it first. Release work must repair those identities while preserving current economy bands. The source and limits are recorded in `docs/CONVERGENCE_REPORT.md`.
+The labeling and dramatic-ownership blocker is repaired without inflating returns. Salary-only play reaches 3B in 0% of modeled runs by design. The aggressive investor now resolves to `investment_master` in 93.4% of runs, and the rare founder acquisition resolves to `startup_exit` instead of generic Gangnam. A nine-case live `check_game_over()` gate locks startup, generic Gangnam, investment, orthodox, unorthodox, balanced, and career priority. The source and limits are recorded in `docs/CONVERGENCE_REPORT.md`.
 
 ## Three Potential Review-Leading Strengths
 

@@ -1852,6 +1852,11 @@ func check_game_over():
 			and not flags.get("father_passed", false):
 		finish_run("guardian"); return
 
+	# 창업 인수는 강남 매매와 다른 삶의 정점이다. 실제 인수 이벤트가 32억원을
+	# 지급하므로 일반 30억 분기보다 먼저 판정해야 전용 결산과 CG가 도달한다.
+	if flags.get("startup_exit", false):
+		finish_run("startup_exit"); return
+
 	# ── 강남 입성 = 자산 30억 달성 = 즉시 성공 엔딩 ──────
 	# 30억으로 강남 아파트를 매매한다. 게임의 최종 목표.
 	if total_now >= 3_000_000_000:
@@ -1883,9 +1888,6 @@ func check_game_over():
 			finish_run("gangnam_dream_white"); return
 		finish_run("gangnam_dream"); return           # 강남드림 (정상)
 
-	# 특수 성공 엔딩 (강남 외 경로)
-	if flags.get("startup_exit", false):
-		finish_run("startup_exit"); return
 	# 크리에이터 성공 (바이럴 + 3억 달성 — 강남보다 낮아도 인정)
 	if flags.get("creator_viral", false) and total_now >= 300_000_000:
 		finish_run("creator_success"); return
@@ -1921,11 +1923,6 @@ func check_game_over():
 		# 평판 전설 (평판 80+)
 		if reputation >= 80:
 			finish_run("reputation_legend"); return
-		# 갈아탄 사다리 (이직/커리어 성장 — 직장 유지 + 이직 성공 or 최고 직급 + 1억+)
-		# 30억/10억/5억 대박은 위에서 이미 분기 → 여기 오는 건 "직장으로 착실히 올라온" 사람.
-		if not current_job.is_empty() and total >= 100_000_000 \
-				and (flags.get("job_changed_success", false) or int(flags.get("max_job_tier", 0)) >= 4):
-			finish_run("career_climber"); return
 		# 정석의 정점 (1B+, 정석 압도)
 		if total >= 1_000_000_000 and route_orthodox - route_unorthodox >= 15:
 			finish_run("orthodox_pinnacle"); return
@@ -1935,8 +1932,14 @@ func check_game_over():
 		# 조기 은퇴 (500M+, 무직 선택)
 		if total >= 500_000_000 and current_job.is_empty():
 			finish_run("early_retirement"); return
-		# 재테크 달인 (500M+, 투자감각 고수)
-		if total >= 500_000_000 and investment_skill >= 55:
+		# 재테크 달인. 5억 달성의 기존 조건을 보존하되, 투자 성향을 실제로
+		# 자각하고 비정석 경로를 압도적으로 걸은 고숙련 투자자는 1억부터
+		# 이 결산을 소유한다. 월급/수익률이 아니라 삶의 정체성을 판정한다.
+		var committed_investor: bool = tendency_realized == "invest" \
+				and investment_skill >= 85 \
+				and route_unorthodox - route_orthodox >= 15
+		if (investment_skill >= 55 and total >= 500_000_000) \
+				or (committed_investor and total >= 100_000_000):
 			finish_run("investment_master"); return
 		# 안정 성공 (1B+, 위 조건 미해당)
 		if total >= 1_000_000_000:
@@ -1945,6 +1948,11 @@ func check_game_over():
 		if total >= 100_000_000 and route_orthodox >= 8 and route_unorthodox >= 8 \
 				and abs(route_orthodox - route_unorthodox) <= 5:
 			finish_run("balanced_life"); return
+		# 갈아탄 사다리 (이직/커리어 성장 — 직장 유지 + 이직 성공 or 최고 직급 + 1억+).
+		# 전략·자산 정체성에 해당하지 않는 직장인의 결산이어야 한다.
+		if not current_job.is_empty() and total >= 100_000_000 \
+				and (flags.get("job_changed_success", false) or int(flags.get("max_job_tier", 0)) >= 4):
+			finish_run("career_climber"); return
 		# 건강한 삶 (건강+정신 양호, 관계 있음)
 		if health >= 70 and mental >= 70 and has_any_close_relationship():
 			finish_run("healthy_retirement"); return

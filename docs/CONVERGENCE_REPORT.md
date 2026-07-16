@@ -12,15 +12,15 @@ The model runs five stable policies through 240 internal weeks and 60 monthly pr
 | Archetype | Assets p10 / median / p90 | 3B | Fail | Health / mental | Tint | Money / human weeks | Close relation | Addiction / invest skill | Dominant projected endings |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | Safe career | KRW 242.8M / **KRW 244.0M** / KRW 246.2M | 0.0% | 0.0% | 61 / 34 | 49 | 240 / 95 | 100.0% | 0 / 23 | `career_climber` 99.5%, `reputation_legend` 0.5% |
-| Aggressive investor | KRW 137.4M / **KRW 188.6M** / KRW 251.1M | 0.0% | 6.6% | 64 / 28 | 7 | 238 / 46 | 14.1% | 0 / 100 | `career_climber` 93.4%, `mental_break` 6.6%, `ordinary_life` 0.1% |
+| Aggressive investor | KRW 137.4M / **KRW 188.6M** / KRW 251.1M | 0.0% | 6.6% | 64 / 28 | 7 | 238 / 46 | 14.1% | 0 / 100 | `investment_master` 93.4%, `mental_break` 6.6%, `ordinary_life` 0.1% |
 | People first | KRW 82.1M / **KRW 87.0M** / KRW 88.1M | 0.0% | 0.0% | 95 / 97 | 54 | 40 / 240 | 100.0% | 0 / 30 | `with_daeun` 100.0% |
 | Gambler | KRW 4.2M / **KRW 7.1M** / KRW 14.0M | 0.0% | 100.0% | 35 / 65 | 2 | 36 / 20 | 0.0% | 90 / 15 | `crypto_ghost` 99.2%, `mental_break` 0.8% |
-| Skill / founder | KRW 232.1M / **KRW 236.0M** / KRW 249.0M | 1.1% | 3.8% | 98 / 24 | 36 | 232 / 136 | 17.9% | 0 / 51 | `reputation_legend` 95.1%, `mental_break` 3.8%, `gangnam_dream` 1.1% |
+| Skill / founder | KRW 232.1M / **KRW 236.0M** / KRW 249.0M | 1.1% | 3.8% | 98 / 24 | 36 | 232 / 136 | 17.9% | 0 / 51 | `reputation_legend` 95.1%, `mental_break` 3.8%, `startup_exit` 1.0% |
 
 ## Divergence gates
 
-- Distinct dominant ending families: **4 / 5**.
-- Mean pairwise ending Jensen-Shannon divergence: **0.893** (0=same, 1=fully separate).
+- Distinct dominant ending families: **5 / 5**.
+- Mean pairwise ending Jensen-Shannon divergence: **0.989** (0=same, 1=fully separate).
 - Median human-week spread: **220 weeks**.
 - Median Moral Tint spread: **52 points**.
 
@@ -28,23 +28,22 @@ The model runs five stable policies through 240 internal weeks and 60 monthly pr
 
 No asset catch-up or leader suppression is wired into live play. `GameState.get_run_pace()` is currently definition-only and cannot alter prices, rewards, or event odds. Event weighting reinforces recent actions, selected run themes, route tags, relationships, job context, and market fear; it does not inspect whether the player is behind the 3-billion-won target. Opportunity odds use visible difficulty, Luck, and Sangchul affinity. The low-Mental investment surcharge is a causal impairment penalty, not assistance. There is therefore no rubber-banding to remove in this pass.
 
-## Diagnosis
+## Diagnosis after the targeted repair
 
-Four dominant ending identities separate cleanly, but safe career and aggressive investing still collapse into the same result. The aggressive investor reaches median investment skill 100 and hundreds of unorthodox route points, yet is projected into `career_climber` in more than nine runs out of ten because that branch is checked at KRW 100M while investment-specific endings wait for much higher assets. This is not a request for easier investment returns; it is a request for the ending to name the life that was played.
+All five archetypes now have distinct dominant ending identities. The aggressive investor reaches mastery through repeated study and market exposure and is projected into `investment_master`, while the safe salary path remains `career_climber`. Their asset distributions were not inflated to create this separation; the router now names the life that was actually played.
 
 The pure gambler now mirrors the live immediate ending rule correctly: reaching Addiction 90 ends the run as `crypto_ghost`. Its terminal identity is distinct, but the near-certain collapse confirms that risk and recovery windows must be legible before commitment. The earlier ordinary-life diagnosis was a simulator defect and is not retained.
 
-The startup route has the opposite collision. Its live acquisition event pays KRW 3.2B and sets `startup_exit`, but `GameState.check_game_over()` evaluates the KRW 3B Gangnam branch before the startup ending. The model therefore reports the rare founder win as `gangnam_dream`, not `startup_exit`. The event promise, gallery identity, and actual router disagree.
+The rare founder acquisition now resolves to `startup_exit` before the generic KRW 3B branch. Most founder policies still end as `reputation_legend`, because acquisition is intentionally uncommon and building a company creates reputation even when no buyer arrives. This is strategic identity rather than a guaranteed jackpot.
 
 The current weekly moral wear also has a narrow vocabulary: every money-only policy receives the same capped -20 grind stain regardless of whether Minjun studies, works, invests, builds, or gambles. Most additional moral separation comes from authored event choices, while the AP layer itself mostly distinguishes `people time` from `everything else`. ORDER-26 should not add another meter; it should make current pressure choices promise different delayed consequences and let existing relationship, health, expertise, addiction, and route states own different endings and scenes.
 
 A diligent salary path is intentionally not a 3-billion-won route. Its quality gate is survival, legible career growth, and a satisfying non-Gangnam conclusion. Diligence may qualify Minjun for a rare equity, partnership, or founder opportunity, but the opportunity remains a visible risk and salary itself is never inflated to solve the premise.
 
-## Targeted next repair
+## Next implementation gate
 
-1. Keep the existing economy bands. The source audit found no hidden catch-up system to remove.
-2. Repair ending identity and priority without inflating salary or investment returns: the aggressive investor and startup exit must not be mislabeled by earlier generic branches.
-3. In the 24-week demo, present one pressure and three contextual responses with immediate expectation, cost, and promised echo.
-4. Track Decision/Quiet/Echo/Boss pacing in the invisible director; do not expose Moral Tint or a new route meter.
-5. Give human, health, expertise, addiction, and route states terminal scene value instead of converting all of them into money efficiency.
-6. Re-run this report and the existing economy bands after every numerical change.
+1. Keep the existing economy bands and ending-identity routing locked; no hidden catch-up system exists to remove.
+2. In the 24-week demo, present one pressure and three contextual responses with immediate expectation, cost, and promised echo.
+3. Track Decision/Quiet/Echo/Boss pacing in the invisible director; do not expose Moral Tint or a new route meter.
+4. Make expertise, health, relationships, and addiction legible before commitment without revealing exact outcomes.
+5. Re-run this report and the existing economy bands after every numerical or routing change.

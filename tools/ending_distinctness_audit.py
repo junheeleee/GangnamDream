@@ -47,10 +47,10 @@ ROUTES = {
     "mental_break": "정신력 0 이하 즉시 종료",
     "bankruptcy": "순자산 -2억 이상 -1억 미만 즉시 종료",
     "crypto_ghost": "도박 중독 성향 90+ 즉시 종료; 파산 분기 뒤",
-    "startup_exit": "startup_exit 플래그; 순자산 30억 미만; 선행 특수 성공 미해당",
+    "startup_exit": "startup_exit 플래그; NG+ 특수 결말 뒤·일반 30억 분기보다 우선",
     "political_fix": "political_winner 플래그; 창업/크리에이터 성공 미해당",
     "lonely_rich": "순자산 30억+ 이혼; 또는 가까운 관계 없이 아버지만 화해·생존",
-    "investment_master": "38세 종료; 순자산 5억+; 투자감각 55+; 상위 결산 미해당",
+    "investment_master": "38세 종료; (순자산 5억+·투자감각 55+) 또는 (1억+·투자감각 85+·투자 성향 자각·비정석 우세 15+); 상위 결산 미해당",
     "reputation_legend": "38세 종료; 평판 80+; 회복/상철 청산 등 선행 분기 미해당",
     "healthy_retirement": "38세 종료; 건강·정신 70+; 가까운 관계 있음; 상위 결산 미해당",
     "debt_spiral": "순자산 -2억 미만 즉시 종료",
@@ -171,6 +171,17 @@ def main() -> int:
     startup_en = by_en_id["gangnam_dream"].get("description_if_known", {}).get("startup_exit", "")
     if "엑싯 계약서" not in str(startup_ko) or "acquisition contract" not in str(startup_en):
         errors.append("gangnam_dream: startup_exit DIK is missing or not localized")
+
+    invest_dik_ko = by_id["investment_master"].get("description_if_known", {})
+    invest_dik_en = by_en_id["investment_master"].get("description_if_known", {})
+    if next(iter(invest_dik_ko), "") != "route_invest" or next(iter(invest_dik_en), "") != "route_invest":
+        errors.append("investment_master: route_invest must be the first KO/EN DIK branch")
+    committed_ko = str(invest_dik_ko.get("route_invest", ""))
+    committed_en = str(invest_dik_en.get("route_invest", ""))
+    if "시장에서 살아남는 법" not in committed_ko or "survive it" not in committed_en:
+        errors.append("investment_master: committed investor conclusion is missing or not localized")
+    if "5억" in committed_ko or "five hundred million" in committed_en.lower():
+        errors.append("investment_master: committed investor branch falsely claims the legacy 500M total")
 
     symbol_hashes = set()
     main_game_source = (ROOT / "scenes" / "MainGame.gd").read_text(encoding="utf-8")

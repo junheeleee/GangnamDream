@@ -154,6 +154,8 @@ class SimState:
     loop_tint_spent: float = 0.0
     route_orthodox: int = 0
     route_unorthodox: int = 0
+    tendency: dict[str, int] = field(default_factory=lambda: {"career": 0, "invest": 0, "found": 0})
+    tendency_realized: str = ""
     money_weeks: int = 0
     human_weeks: int = 0
     grind_streak: int = 0
@@ -200,6 +202,16 @@ def _set_job(state: SimState, job_id: str) -> None:
     state.flags.add("has_job")
 
 
+def _add_tendency(state: SimState, kind: str, amount: int = 1) -> None:
+    state.tendency[kind] = state.tendency.get(kind, 0) + amount
+    if state.tendency_realized:
+        return
+    ranked = sorted(((value, key) for key, value in state.tendency.items()), reverse=True)
+    if ranked[0][0] >= 12 and ranked[0][0] - ranked[1][0] >= 4:
+        state.tendency_realized = ranked[0][1]
+        state.flags.add("route_" + state.tendency_realized)
+
+
 def _apply_week_axis(state: SimState, money_slots: int, human_slots: int) -> None:
     if money_slots:
         state.money_weeks += 1
@@ -236,18 +248,21 @@ def _career_action(state: SimState, rng: random.Random) -> None:
     state.work_performance += rng.uniform(0.4, 1.1)
     state.mental -= rng.uniform(0.4, 1.5)
     state.route_orthodox += 1
+    _add_tendency(state, "career")
 
 
 def _save_action(state: SimState, rng: random.Random) -> None:
     state.money += rng.uniform(30_000.0, 99_000.0)
     state.mental -= 2.0
     state.route_orthodox += 1
+    _add_tendency(state, "career")
 
 
 def _invest_study(state: SimState, rng: random.Random) -> None:
     state.investment_skill += rng.uniform(2.0, 4.0)
     state.intelligence += rng.uniform(0.5, 1.5)
     state.route_unorthodox += 1
+    _add_tendency(state, "invest")
 
 
 def _network(state: SimState, rng: random.Random) -> None:
@@ -255,12 +270,14 @@ def _network(state: SimState, rng: random.Random) -> None:
     state.reputation += rng.uniform(1.0, 2.0)
     state.mental -= rng.uniform(1.0, 3.0)
     state.route_orthodox += 1
+    _add_tendency(state, "career")
 
 
 def _side_shift(state: SimState, rng: random.Random) -> None:
     state.money += rng.uniform(78_000.0, 104_000.0)
     state.health -= rng.uniform(2.0, 5.0)
     state.mental -= rng.uniform(2.0, 5.0)
+    _add_tendency(state, "found")
 
 
 def _startup_work(state: SimState, rng: random.Random) -> None:
@@ -268,6 +285,7 @@ def _startup_work(state: SimState, rng: random.Random) -> None:
     state.reputation += rng.uniform(2.0, 3.0)
     state.mental -= rng.uniform(4.0, 6.0)
     state.route_unorthodox += 1
+    _add_tendency(state, "found")
 
 
 def _casino_bet(state: SimState, rng: random.Random) -> None:
@@ -299,6 +317,7 @@ def _market_action(state: SimState, rng: random.Random) -> None:
     state.portfolio += amount
     state.route_unorthodox += 1
     state.mental -= rng.uniform(0.2, 1.2)
+    _add_tendency(state, "invest")
 
 
 def _apply_policy_week(state: SimState, policy: Policy, week: int, rng: random.Random) -> None:
@@ -660,6 +679,7 @@ def _ending_for(state: SimState) -> str:
     if assets < -200_000_000.0: return "debt_spiral"
     if assets < -100_000_000.0: return "bankruptcy"
     if state.addiction >= 90.0: return "crypto_ghost"
+    if "startup_exit" in state.flags: return "startup_exit"
     if assets >= 3_000_000_000.0:
         if "crossed_line" in state.flags or _moral_stage(state.moral_tint) <= -2:
             return "jaehyuk_way"
@@ -668,23 +688,30 @@ def _ending_for(state: SimState) -> str:
         if _moral_stage(state.moral_tint) >= 2:
             return "gangnam_dream_white"
         return "gangnam_dream"
-    # This order deliberately mirrors GameState: a 3B startup exit is caught above.
-    if "startup_exit" in state.flags: return "startup_exit"
     if "daeun_romance_started" in state.flags: return "with_daeun"
     if "jiyeon_romance_started" in state.flags: return "jiyeon_man"
     if state.reputation >= 80.0: return "reputation_legend"
-    tier = int(JOBS.get(state.job_id, {}).get("tier", 0))
-    if state.job_id and assets >= 100_000_000.0 and ("job_changed_success" in state.flags or tier >= 4):
-        return "career_climber"
     if assets >= 1_000_000_000.0 and state.route_orthodox - state.route_unorthodox >= 15:
         return "orthodox_pinnacle"
     if assets >= 500_000_000.0 and state.route_unorthodox - state.route_orthodox >= 15:
         return "unorthodox_legend"
-    if assets >= 500_000_000.0 and state.investment_skill >= 55.0:
+    if assets >= 500_000_000.0 and not state.job_id:
+        return "early_retirement"
+    committed_investor = (
+        state.tendency_realized == "invest"
+        and state.investment_skill >= 85.0
+        and state.route_unorthodox - state.route_orthodox >= 15
+    )
+    if (assets >= 500_000_000.0 and state.investment_skill >= 55.0) or (
+        assets >= 100_000_000.0 and committed_investor
+    ):
         return "investment_master"
     if assets >= 1_000_000_000.0: return "stable_success"
     if assets >= 100_000_000.0 and abs(state.route_orthodox - state.route_unorthodox) <= 5:
         return "balanced_life"
+    tier = int(JOBS.get(state.job_id, {}).get("tier", 0))
+    if state.job_id and assets >= 100_000_000.0 and ("job_changed_success" in state.flags or tier >= 4):
+        return "career_climber"
     if state.health >= 70.0 and state.mental >= 70.0 and max(state.cast.values()) >= 60.0:
         return "healthy_retirement"
     if state.route_orthodox >= 20 and assets < 300_000_000.0:
@@ -849,26 +876,25 @@ def render_markdown(result: dict) -> str:
         "",
         "No asset catch-up or leader suppression is wired into live play. `GameState.get_run_pace()` is currently definition-only and cannot alter prices, rewards, or event odds. Event weighting reinforces recent actions, selected run themes, route tags, relationships, job context, and market fear; it does not inspect whether the player is behind the 3-billion-won target. Opportunity odds use visible difficulty, Luck, and Sangchul affinity. The low-Mental investment surcharge is a causal impairment penalty, not assistance. There is therefore no rubber-banding to remove in this pass.",
         "",
-        "## Diagnosis",
+        "## Diagnosis after the targeted repair",
         "",
-        "Four dominant ending identities separate cleanly, but safe career and aggressive investing still collapse into the same result. The aggressive investor reaches median investment skill 100 and hundreds of unorthodox route points, yet is projected into `career_climber` in more than nine runs out of ten because that branch is checked at KRW 100M while investment-specific endings wait for much higher assets. This is not a request for easier investment returns; it is a request for the ending to name the life that was played.",
+        "All five archetypes now have distinct dominant ending identities. The aggressive investor reaches mastery through repeated study and market exposure and is projected into `investment_master`, while the safe salary path remains `career_climber`. Their asset distributions were not inflated to create this separation; the router now names the life that was actually played.",
         "",
         "The pure gambler now mirrors the live immediate ending rule correctly: reaching Addiction 90 ends the run as `crypto_ghost`. Its terminal identity is distinct, but the near-certain collapse confirms that risk and recovery windows must be legible before commitment. The earlier ordinary-life diagnosis was a simulator defect and is not retained.",
         "",
-        "The startup route has the opposite collision. Its live acquisition event pays KRW 3.2B and sets `startup_exit`, but `GameState.check_game_over()` evaluates the KRW 3B Gangnam branch before the startup ending. The model therefore reports the rare founder win as `gangnam_dream`, not `startup_exit`. The event promise, gallery identity, and actual router disagree.",
+        "The rare founder acquisition now resolves to `startup_exit` before the generic KRW 3B branch. Most founder policies still end as `reputation_legend`, because acquisition is intentionally uncommon and building a company creates reputation even when no buyer arrives. This is strategic identity rather than a guaranteed jackpot.",
         "",
         "The current weekly moral wear also has a narrow vocabulary: every money-only policy receives the same capped -20 grind stain regardless of whether Minjun studies, works, invests, builds, or gambles. Most additional moral separation comes from authored event choices, while the AP layer itself mostly distinguishes `people time` from `everything else`. ORDER-26 should not add another meter; it should make current pressure choices promise different delayed consequences and let existing relationship, health, expertise, addiction, and route states own different endings and scenes.",
         "",
         "A diligent salary path is intentionally not a 3-billion-won route. Its quality gate is survival, legible career growth, and a satisfying non-Gangnam conclusion. Diligence may qualify Minjun for a rare equity, partnership, or founder opportunity, but the opportunity remains a visible risk and salary itself is never inflated to solve the premise.",
         "",
-        "## Targeted next repair",
+        "## Next implementation gate",
         "",
-        "1. Keep the existing economy bands. The source audit found no hidden catch-up system to remove.",
-        "2. Repair ending identity and priority without inflating salary or investment returns: the aggressive investor and startup exit must not be mislabeled by earlier generic branches.",
-        "3. In the 24-week demo, present one pressure and three contextual responses with immediate expectation, cost, and promised echo.",
-        "4. Track Decision/Quiet/Echo/Boss pacing in the invisible director; do not expose Moral Tint or a new route meter.",
-        "5. Give human, health, expertise, addiction, and route states terminal scene value instead of converting all of them into money efficiency.",
-        "6. Re-run this report and the existing economy bands after every numerical change.",
+        "1. Keep the existing economy bands and ending-identity routing locked; no hidden catch-up system exists to remove.",
+        "2. In the 24-week demo, present one pressure and three contextual responses with immediate expectation, cost, and promised echo.",
+        "3. Track Decision/Quiet/Echo/Boss pacing in the invisible director; do not expose Moral Tint or a new route meter.",
+        "4. Make expertise, health, relationships, and addiction legible before commitment without revealing exact outcomes.",
+        "5. Re-run this report and the existing economy bands after every numerical or routing change.",
         "",
     ])
     return "\n".join(lines)

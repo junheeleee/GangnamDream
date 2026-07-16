@@ -207,7 +207,7 @@ const ACHIEVEMENT_TEXT_EN := {
 	"startup_exit": {"name": "Successful Exit", "description": "Pulled off a startup exit. A massive contract before forty.", "hint": "Reach the startup exit ending"},
 	"political_fix": {"name": "Power of Information", "description": "Profited from a political theme. The world belongs to those who know.", "hint": "Reach the political theme ending"},
 	"stable_life": {"name": "Small Certain Happiness", "description": "Chose an ordinary but stable life. That takes courage too.", "hint": "Stable or ordinary life ending"},
-	"investment_master": {"name": "Investment Master", "description": "Succeeded through investing alone. Numbers put food on the table.", "hint": "Reach the investment master ending"},
+	"investment_master": {"name": "Investment Master", "description": "Made investing the defining craft of five years. Learned to survive the market, not merely guess it.", "hint": "Reach the investment master ending"},
 	"reputation_legend": {"name": "Beginning of a Legend", "description": "Your reputation became legendary. Your name is a brand.", "hint": "Reach the reputation legend ending"},
 	"ten_lives": {"name": "Ten Lives", "description": "Lived ten lives. Gangnam no longer feels unfamiliar.", "hint": "Play 10 runs"},
 	"beat_addiction": {"name": "Thirty Circles", "description": "Hit the bottom of gambling addiction and climbed back up. The strongest graduation.", "hint": "Complete the addiction recovery arc"},
