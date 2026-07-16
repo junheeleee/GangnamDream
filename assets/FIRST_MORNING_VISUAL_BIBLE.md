@@ -1,6 +1,6 @@
 # First Night And Morning Visual Bible
 
-Updated: 2026-07-11
+Updated: 2026-07-17
 
 This file owns the spatial, wardrobe, reveal-timing, and acting continuity for `arc_daeun_wedding_night` and `arc_jiyeon_wedding_night`.
 
@@ -9,8 +9,11 @@ This file owns the spatial, wardrobe, reveal-timing, and acting continuity for `
 - The wedding night is a private indoor scene and is valid in every season. Do not add a calendar gate merely to justify clothing.
 - Each heroine owns a separate home. The generic `apartment` background is prohibited for these events.
 - The event portrait and following-morning CG use the same indoor outfit. No unexplained wardrobe change occurs during the fade.
+- Each route is a three-link chain with two decisions. The root and both dialogue branches remain in the same home, portrait, outfit, ambience, and score; no transition may imply a second location or a wardrobe change.
+- Daeun branches through tea or mutual honesty before `arc_daeun_wedding_night_choice`. Jiyeon branches through the shared window or the untouched wineglass before `arc_jiyeon_wedding_night_choice`.
+- The root and branch links apply no effects, cast effects, flags, or CG. Only the final choice owns the canonical relationship result.
 - The night result remains on the home background with the portrait through result paragraph 0.
-- The morning CG appears only at `result_cg_reveal_paragraph: 1`, when the prose explicitly says the next morning.
+- The morning CG appears only on each `*_wedding_night_choice` event at `result_cg_reveal_paragraph: 1`, when the prose explicitly says the next morning.
 - Minjun is the player POV in both morning CGs. Do not draw a duplicate Minjun body into the frame.
 - The lower dialogue region must not cover the heroine's face, gaze target, hands, wedding ring, omelet, or duvet action.
 
@@ -53,4 +56,4 @@ This file owns the spatial, wardrobe, reveal-timing, and acting continuity for `
 - Portrait IDs: `daeun_wedding_night`, `jiyeon_wedding_night`.
 - Background IDs: `daeun_newlywed_home`, `jiyeon_newlywed_home`.
 - CG IDs: `cg_romance_wedding_morning_daeun`, `cg_romance_wedding_morning_jiyeon`.
-- Regression owners: `tools/CGRuntimeCheck.gd`, `assets/romance_visual_manifest.json`, `assets/cg_acting_manifest.json`, and `--qa=wedding-morning --lang=ko/en`.
+- Regression owners: `tools/CGRuntimeCheck.gd`, `tools/peak_scene_chain_audit.py`, `assets/romance_visual_manifest.json`, `assets/cg_acting_manifest.json`, and `--qa=wedding-morning --lang=ko/en`.

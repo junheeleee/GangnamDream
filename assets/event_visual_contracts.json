@@ -1,5 +1,5 @@
 {
-  "version": 13,
+  "version": 14,
   "tag_coverage": [
     "climate",
     "season",
@@ -35,6 +35,14 @@
     {"id": "arc_jiyeon_first_kiss_silence", "background": "jiyeon_sedan_night", "portrait": "jiyeon_warm", "cg": null},
     {"id": "arc_jiyeon_first_kiss_speak", "background": "jiyeon_sedan_night", "portrait": "jiyeon_warm", "cg": null},
     {"id": "arc_jiyeon_first_kiss_choice", "background": "jiyeon_sedan_night", "portrait": "jiyeon_warm", "cg": "cg_romance_first_kiss_jiyeon"},
+    {"id": "arc_daeun_wedding_night", "background": "daeun_newlywed_home", "portrait": "daeun_wedding_night", "cg": null},
+    {"id": "arc_daeun_wedding_night_tea", "background": "daeun_newlywed_home", "portrait": "daeun_wedding_night", "cg": null},
+    {"id": "arc_daeun_wedding_night_honest", "background": "daeun_newlywed_home", "portrait": "daeun_wedding_night", "cg": null},
+    {"id": "arc_daeun_wedding_night_choice", "background": "daeun_newlywed_home", "portrait": "daeun_wedding_night", "cg": null},
+    {"id": "arc_jiyeon_wedding_night", "background": "jiyeon_newlywed_home", "portrait": "jiyeon_wedding_night", "cg": null},
+    {"id": "arc_jiyeon_wedding_night_window", "background": "jiyeon_newlywed_home", "portrait": "jiyeon_wedding_night", "cg": null},
+    {"id": "arc_jiyeon_wedding_night_glass", "background": "jiyeon_newlywed_home", "portrait": "jiyeon_wedding_night", "cg": null},
+    {"id": "arc_jiyeon_wedding_night_choice", "background": "jiyeon_newlywed_home", "portrait": "jiyeon_wedding_night", "cg": null},
     {"id": "arc_father_call_on_ktx", "background": "ktx_window", "portrait": null},
     {"id": "arc_father_call_on_ktx_memory", "background": "ktx_window", "portrait": "father_home"},
     {"id": "arc_father_call_on_ktx_number", "background": "ktx_window", "portrait": null},

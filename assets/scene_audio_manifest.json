@@ -68,7 +68,13 @@
   "events": {
     "arc_daeun_first_night": {"ambience": "room", "music": {"key": "intimate", "start_paragraph": 0}},
     "arc_daeun_wedding_night": {"ambience": "oneroom", "music": {"key": "intimate", "start_paragraph": 0}},
+    "arc_daeun_wedding_night_tea": {"ambience": "oneroom", "music": {"key": "intimate", "start_paragraph": 0}},
+    "arc_daeun_wedding_night_honest": {"ambience": "oneroom", "music": {"key": "intimate", "start_paragraph": 0}},
+    "arc_daeun_wedding_night_choice": {"ambience": "oneroom", "music": {"key": "intimate", "start_paragraph": 0}},
     "arc_jiyeon_wedding_night": {"ambience": "apartment", "music": {"key": "intimate", "start_paragraph": 0}},
+    "arc_jiyeon_wedding_night_window": {"ambience": "apartment", "music": {"key": "intimate", "start_paragraph": 0}},
+    "arc_jiyeon_wedding_night_glass": {"ambience": "apartment", "music": {"key": "intimate", "start_paragraph": 0}},
+    "arc_jiyeon_wedding_night_choice": {"ambience": "apartment", "music": {"key": "intimate", "start_paragraph": 0}},
     "arc_daeun_first_kiss": {"ambience": "street", "music": {"key": "intimate", "start_paragraph": 0}},
     "arc_daeun_first_kiss_wait": {"ambience": "street", "music": {"key": "intimate", "start_paragraph": 0}},
     "arc_daeun_first_kiss_ask": {"ambience": "street", "music": {"key": "intimate", "start_paragraph": 0}},

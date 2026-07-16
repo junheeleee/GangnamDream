@@ -6,6 +6,16 @@ extends Node
 
 var _failures: Array[String] = []
 
+# One continuous wedding-space shot intentionally spans these three beats. Every
+# other story CG keeps single-owner enforcement.
+const ALLOWED_STORY_CG_CONTINUITY := {
+	"cg_romance_wedding_gap_jiyeon": [
+		"arc_jiyeon_wedding_gap",
+		"arc_jiyeon_wedding_guest_list",
+		"arc_jiyeon_wedding_gap_decision",
+	],
+}
+
 func _ready() -> void:
 	await _check_story_mode_cg()
 	_check_date_milestone_season_contract()
@@ -63,10 +73,10 @@ func _check_story_mode_cg() -> void:
 			"arc_daeun_hometown_2", 0, "daeun_mother_home_dining",
 			"cg_romance_hometown_night_bus_daeun", 1)
 	await _check_story_shared_result_cg(
-			"arc_daeun_wedding_night", 0, "daeun_newlywed_home",
+			"arc_daeun_wedding_night_choice", 0, "daeun_newlywed_home",
 			"cg_romance_wedding_morning_daeun", 1)
 	await _check_story_shared_result_cg(
-			"arc_jiyeon_wedding_night", 0, "jiyeon_newlywed_home",
+			"arc_jiyeon_wedding_night_choice", 0, "jiyeon_newlywed_home",
 			"cg_romance_wedding_morning_jiyeon", 1)
 	await _check_story_event_portrait_reveal("arc_jiyeon_narrow_room_1", "jiyeon_narrow_door", 2)
 	await _check_story_event_prelude_visual(
@@ -253,6 +263,9 @@ func _check_story_choice_result_visual(
 func _check_story_shared_result_cg(
 		event_id: String, choice_index: int, initial_background_id: String,
 		cg_id: String, reveal_paragraph: int) -> void:
+	GameState.start_new_game()
+	GameState.flags["tut_stat_shown"] = true
+	GameState.flags["tut_cast_shown"] = true
 	GameState.pending_story_queue = [event_id]
 	var story_scene := load("res://scenes/StoryMode.tscn") as PackedScene
 	var story: Node = story_scene.instantiate()
@@ -265,6 +278,11 @@ func _check_story_shared_result_cg(
 			break
 		if bool(story.get("_typing")):
 			story.call("_complete_typing")
+		# Authored peak-scene silence is measured in real seconds. The contract
+		# check skips only that wait so a headless frame loop stays deterministic.
+		if bool(story.get("_direction_hold_active")):
+			story.set("_direction_hold_active", false)
+			story.set("_direction_hold_remaining", 0.0)
 		story.call("_on_advance")
 		await get_tree().process_frame
 		await get_tree().process_frame
@@ -274,8 +292,6 @@ func _check_story_shared_result_cg(
 		story.queue_free()
 		return
 
-	GameState.flags["tut_stat_shown"] = true
-	GameState.flags["tut_cast_shown"] = true
 	story.call("_on_choice", choice_index)
 	await get_tree().process_frame
 	await get_tree().process_frame
@@ -494,7 +510,9 @@ func _check_all_story_cg_contracts() -> void:
 			var owner := str(ref["owner"])
 			var cg_id := str(ref["cg"])
 			if owners.has(cg_id):
-				_failures.append("story cg %s is shared by %s and %s" % [cg_id, str(owners[cg_id]), owner])
+				var continuity_owners: Array = ALLOWED_STORY_CG_CONTINUITY.get(cg_id, [])
+				if str(owners[cg_id]) not in continuity_owners or owner not in continuity_owners:
+					_failures.append("story cg %s is shared by %s and %s" % [cg_id, str(owners[cg_id]), owner])
 			else:
 				owners[cg_id] = owner
 			var path := ImageRegistry.get_cg(cg_id)
@@ -614,6 +632,16 @@ func _check_romance_visual_manifest() -> void:
 			if str(row.get("prelude_outfit", "")).is_empty():
 				_failures.append("%s has no prelude outfit contract" % prelude_event_id)
 			_check_romance_portrait(prelude_portrait, prelude_event_id)
+			for raw_branch_id in row.get("branch_event_ids", []):
+				var branch_event_id := str(raw_branch_id)
+				var branch_event: Dictionary = DataRegistry.find_event(branch_event_id)
+				if branch_event.is_empty():
+					_failures.append("romance visual manifest branch is missing: %s" % branch_event_id)
+					continue
+				if str(branch_event.get("portrait", "")) != prelude_portrait:
+					_failures.append("%s portrait drifted from its romance prelude" % branch_event_id)
+				if str(branch_event.get("background", "")) != str(prelude_event.get("background", "")):
+					_failures.append("%s background drifted from its romance prelude" % branch_event_id)
 
 func _check_romance_portrait(portrait_id: String, owner: String) -> void:
 	var path: String = ImageRegistry.get_portrait(portrait_id)

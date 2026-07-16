@@ -345,6 +345,9 @@ func _ready() -> void:
 	if scope == QA_SCOPE_WEDDING_MORNING:
 		var lang := _qa_language("en")
 		await _shot_wedding_morning_surfaces(lang, "wedding_morning_en_" if lang == "en" else "wedding_morning_ko_")
+		if _qa_failed:
+			get_tree().quit(1)
+			return
 		print("SCREENSHOT_QA_DONE scope=wedding-morning lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
@@ -2614,7 +2617,7 @@ func _shot_trailer_surfaces(lang: String = "en") -> void:
 	_prepare_wedding_morning_qa_state("daeun")
 	GameState.moral_tint = 32.0
 	await _shot_story_event(
-		"arc_daeun_wedding_night", "trailer_12_romance_morning", "", 0.35,
+		"arc_daeun_wedding_night_choice", "trailer_12_romance_morning", "", 0.35,
 		true, true, 0, 0, false, 1)
 
 	_prepare_breakup_qa_state("daeun")
@@ -3164,21 +3167,49 @@ func _shot_hometown_surfaces(lang: String = "en", prefix: String = "hometown_en_
 func _shot_wedding_morning_surfaces(lang: String = "en", prefix: String = "wedding_morning_en_") -> void:
 	_set_qa_language(lang)
 	for route in [
-		["daeun", "arc_daeun_wedding_night"],
-		["jiyeon", "arc_jiyeon_wedding_night"],
+		["daeun", "arc_daeun_wedding_night", "arc_daeun_wedding_night_tea",
+			"arc_daeun_wedding_night_honest", "arc_daeun_wedding_night_choice"],
+		["jiyeon", "arc_jiyeon_wedding_night", "arc_jiyeon_wedding_night_window",
+			"arc_jiyeon_wedding_night_glass", "arc_jiyeon_wedding_night_choice"],
 	]:
-		var label := str(route[0])
-		var event_id := str(route[1])
-		_prepare_wedding_morning_qa_state(label)
-		await _shot_story_event(event_id, prefix + label + "_00_night_intro", "", 0.45, true)
-		_prepare_wedding_morning_qa_state(label)
-		await _shot_story_event(event_id, prefix + label + "_01_choices", "", 0.45, true, true)
-		_prepare_wedding_morning_qa_state(label)
-		await _shot_story_event(event_id, prefix + label + "_02_night_result", "", 0.45, true, true, 0)
-		_prepare_wedding_morning_qa_state(label)
-		await _shot_story_event(event_id, prefix + label + "_03_morning_result", "", 0.45, true, true, 0, 0, false, 1)
-		_prepare_wedding_morning_qa_state(label)
-		await _shot_story_event(event_id, prefix + label + "_04_morning_alt", "", 0.45, true, true, 1, 0, false, 1)
+		var person_id := str(route[0])
+		var root_id := str(route[1])
+		var branch_a_id := str(route[2])
+		var branch_b_id := str(route[3])
+		var final_id := str(route[4])
+
+		_prepare_wedding_morning_qa_state(person_id)
+		await _shot_story_event(root_id, prefix + person_id + "_01_night_intro", "", 0.45, true)
+		_assert_wedding_night_uncommitted(person_id, "night intro")
+		_prepare_wedding_morning_qa_state(person_id)
+		await _shot_story_event(root_id, prefix + person_id + "_02_opening_choice", "", 0.45, true, true)
+		_assert_wedding_night_uncommitted(person_id, "opening choice")
+
+		_prepare_wedding_morning_qa_state(person_id)
+		await _shot_story_event(branch_a_id, prefix + person_id + "_03_branch_a", "", 0.45, true, true)
+		_assert_wedding_night_uncommitted(person_id, "branch A")
+		_prepare_wedding_morning_qa_state(person_id)
+		await _shot_story_event(branch_b_id, prefix + person_id + "_04_branch_b", "", 0.45, true, true)
+		_assert_wedding_night_uncommitted(person_id, "branch B")
+
+		_prepare_wedding_morning_qa_state(person_id)
+		await _shot_story_event(final_id, prefix + person_id + "_05_final_choice", "", 0.55, true, true)
+		_assert_wedding_night_uncommitted(person_id, "final choice")
+		_prepare_wedding_morning_qa_state(person_id)
+		await _shot_story_event(
+			final_id, prefix + person_id + "_06_night_result", "", 0.45,
+			true, true, 0)
+		_assert_wedding_night_state(person_id, "patient night", 68, 4.0, 58)
+		_prepare_wedding_morning_qa_state(person_id)
+		await _shot_story_event(
+			final_id, prefix + person_id + "_07_morning_result", "", 0.45,
+			true, true, 0, 0, false, 1)
+		_assert_wedding_night_state(person_id, "patient morning", 68, 4.0, 58)
+		_prepare_wedding_morning_qa_state(person_id)
+		await _shot_story_event(
+			final_id, prefix + person_id + "_08_morning_alt", "", 0.45,
+			true, true, 1, 0, false, 1)
+		_assert_wedding_night_state(person_id, "playful morning", 66, 3.0, 56)
 
 func _shot_first_snow_surfaces(lang: String = "en", prefix: String = "first_snow_en_") -> void:
 	_set_qa_language(lang)
@@ -3359,6 +3390,14 @@ func _prepare_wedding_morning_qa_state(person_id: String) -> void:
 	GameState.age = 37
 	GameState.year = 2030
 	GameState.money = 350_000_000.0
+	GameState.mental = 60
+	GameState.moral_tint = 0.0
+	for flag in [
+		"arc_daeun_wedding_night_seen", "arc_jiyeon_wedding_night_seen",
+	]:
+		GameState.flags.erase(flag)
+	_set_cast_relation_for_qa(person_id, 50)
+	GameState.cast[person_id]["stage"] = "spouse"
 	if person_id == "daeun":
 		GameState.turn = 200
 		GameState.month = 2
@@ -3371,6 +3410,29 @@ func _prepare_wedding_morning_qa_state(person_id: String) -> void:
 		GameState.week_of_month = 1
 		GameState.flags["jiyeon_romance_started"] = true
 		GameState.flags["arc_jiyeon_wedding_gap_seen"] = true
+
+func _assert_wedding_night_uncommitted(person_id: String, label: String) -> void:
+	var completion_flag := "arc_%s_wedding_night_seen" % person_id
+	var affinity := int(GameState.cast.get(person_id, {}).get("affinity", -999))
+	if int(GameState.mental) != 60 or not is_equal_approx(GameState.moral_tint, 0.0) \
+			or affinity != 50:
+		_fail("%s wedding-night %s changed state before the final decision: mental=%s tint=%s affinity=%s." % [
+			person_id, label, GameState.mental, GameState.moral_tint, affinity,
+		])
+	if GameState.flags.get(completion_flag, false):
+		_fail("%s wedding-night %s committed its completion flag early." % [person_id, label])
+
+func _assert_wedding_night_state(
+		person_id: String, label: String, mental: int, tint: float, affinity: int) -> void:
+	var completion_flag := "arc_%s_wedding_night_seen" % person_id
+	var actual_affinity := int(GameState.cast.get(person_id, {}).get("affinity", -999))
+	if int(GameState.mental) != mental or not is_equal_approx(GameState.moral_tint, tint) \
+			or actual_affinity != affinity:
+		_fail("%s wedding-night %s totals changed: mental=%s tint=%s affinity=%s." % [
+			person_id, label, GameState.mental, GameState.moral_tint, actual_affinity,
+		])
+	if not GameState.flags.get(completion_flag, false):
+		_fail("%s wedding-night %s did not commit its completion flag." % [person_id, label])
 
 func _prepare_commitment_qa_state(route: String = "daeun") -> void:
 	_prepare_main_game_state()

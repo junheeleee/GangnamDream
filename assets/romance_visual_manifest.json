@@ -166,7 +166,11 @@
       "prelude_outfit": "The same pale sage overshirt, ivory T-shirt, navy trousers, and charcoal shoulder strap used through the two-day summer trip."
     },
     {
-      "event_id": "arc_daeun_wedding_night",
+      "event_id": "arc_daeun_wedding_night_choice",
+      "prelude_event_id": "arc_daeun_wedding_night",
+      "branch_event_ids": ["arc_daeun_wedding_night_tea", "arc_daeun_wedding_night_honest"],
+      "prelude_portrait": "daeun_wedding_night",
+      "prelude_outfit": "The same dusty-mauve wrap cardigan, cream top, and charcoal lounge trousers throughout both night branches.",
       "cg_placement": "event_result",
       "cg": "cg_romance_wedding_morning_daeun",
       "heroine_portrait": "daeun_wedding_night",
@@ -176,7 +180,11 @@
       "eye_line": "Daeun looks down at the rolled omelet in the pan; her profile, shoulders, spatula hand, and pan hand all support the cooking action without lens contact."
     },
     {
-      "event_id": "arc_jiyeon_wedding_night",
+      "event_id": "arc_jiyeon_wedding_night_choice",
+      "prelude_event_id": "arc_jiyeon_wedding_night",
+      "branch_event_ids": ["arc_jiyeon_wedding_night_window", "arc_jiyeon_wedding_night_glass"],
+      "prelude_portrait": "jiyeon_wedding_night",
+      "prelude_outfit": "The same midnight-blue wrap blouse, burgundy piping, and black lounge trousers throughout both night branches.",
       "cg_placement": "event_result",
       "cg": "cg_romance_wedding_morning_jiyeon",
       "heroine_portrait": "jiyeon_wedding_night",

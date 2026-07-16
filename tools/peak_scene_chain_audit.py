@@ -58,8 +58,10 @@ MIN_DIALOGUE_TURNS = 2
 MIN_PANELS = 6
 
 # Ratchet updated only after a peak is expanded and its rendered QA passes.
-BASELINE_DEBT = 17
+BASELINE_DEBT = 15
 REQUIRED_PASS = {
+    "arc_daeun_wedding_night",
+    "arc_jiyeon_wedding_night",
     "arc_daeun_first_kiss",
     "arc_jiyeon_first_kiss",
     "arc_date_namsan_daeun",
@@ -335,6 +337,104 @@ def validate_first_kiss_contracts(events: dict[str, dict[str, Any]]) -> None:
     jiyeon_result = str(events["arc_jiyeon_first_kiss_choice"]["choices"][0].get("result_text", ""))
     if "{name}이 시동" in jiyeon_result or "운전이나 해" in jiyeon_result:
         raise ValueError("Jiyeon first-kiss result put the passenger in the driver role")
+
+
+def validate_wedding_night_contracts(events: dict[str, dict[str, Any]]) -> None:
+    """Keep every buildup state-free and reveal the morning only after the fade."""
+    contracts = (
+        {
+            "label": "Daeun",
+            "root": "arc_daeun_wedding_night",
+            "branches": (
+                "arc_daeun_wedding_night_tea",
+                "arc_daeun_wedding_night_honest",
+            ),
+            "final": "arc_daeun_wedding_night_choice",
+            "background": "daeun_newlywed_home",
+            "portrait": "daeun_wedding_night",
+            "cg": "cg_romance_wedding_morning_daeun",
+            "flag": "arc_daeun_wedding_night_seen",
+            "actor": "daeun",
+            "texts": (
+                '그 손을 잡고, "천천히 해도 돼요. 저도… 떨려요."',
+                '긴장한 그녀를 웃게 한다. "그럼 나도 처음인 걸로 할게요."',
+            ),
+        },
+        {
+            "label": "Jiyeon",
+            "root": "arc_jiyeon_wedding_night",
+            "branches": (
+                "arc_jiyeon_wedding_night_window",
+                "arc_jiyeon_wedding_night_glass",
+            ),
+            "final": "arc_jiyeon_wedding_night_choice",
+            "background": "jiyeon_newlywed_home",
+            "portrait": "jiyeon_wedding_night",
+            "cg": "cg_romance_wedding_morning_jiyeon",
+            "flag": "arc_jiyeon_wedding_night_seen",
+            "actor": "jiyeon",
+            "texts": (
+                "그 침묵을 존중하고, 먼저 손을 내민다.",
+                '긴장을 들킨 그녀를 살짝 놀린다. "천하의 한지연이 말이 없네."',
+            ),
+        },
+    )
+    expected_effects = (
+        {"mental": 8, "tint": 4},
+        {"mental": 6, "tint": 3},
+    )
+    expected_affinity = (8, 6)
+
+    for contract in contracts:
+        root_id = str(contract["root"])
+        branches = tuple(str(event_id) for event_id in contract["branches"])
+        final_id = str(contract["final"])
+        expected_paths = {(root_id, branch_id, final_id) for branch_id in branches}
+        actual_paths = {path.event_ids for path in walk_paths(events, root_id)}
+        if actual_paths != expected_paths:
+            rendered = ", ".join(" -> ".join(path) for path in sorted(actual_paths))
+            raise ValueError(f"{contract['label']} wedding-night paths changed: {rendered}")
+
+        for event_id in (root_id, *branches):
+            event = events[event_id]
+            if event.get("background") != contract["background"] \
+                    or event.get("portrait") != contract["portrait"]:
+                raise ValueError(f"{contract['label']} wedding-night visual changed at {event_id}")
+            if event.get("cg") or event.get("result_cg"):
+                raise ValueError(f"{contract['label']} wedding morning revealed before the final choice")
+            for choice in event.get("choices") or []:
+                for forbidden in (
+                    "effects", "flags", "cast_effects", "result_cg", "result_background"
+                ):
+                    if choice.get(forbidden):
+                        raise ValueError(
+                            f"{contract['label']} wedding-night buildup applies "
+                            f"{forbidden} at {event_id}"
+                        )
+
+        final_event = events[final_id]
+        if final_event.get("background") != contract["background"] \
+                or final_event.get("portrait") != contract["portrait"] \
+                or final_event.get("result_cg") != contract["cg"] \
+                or final_event.get("result_cg_reveal_paragraph") != 1:
+            raise ValueError(f"{contract['label']} wedding-night final visual changed")
+        final_choices = final_event.get("choices") or []
+        if len(final_choices) != 2:
+            raise ValueError(f"{contract['label']} wedding-night final must retain two choices")
+        for index, choice in enumerate(final_choices):
+            expected_cast = {str(contract["actor"]): {"affinity": expected_affinity[index]}}
+            if choice.get("text") != contract["texts"][index] \
+                    or choice.get("effects") != expected_effects[index] \
+                    or choice.get("flags") != [str(contract["flag"])] \
+                    or choice.get("cast_effects") != expected_cast:
+                raise ValueError(
+                    f"{contract['label']} wedding-night final choice {index} changed"
+                )
+            result_text = str(choice.get("result_text", ""))
+            if paragraph_count(result_text) != 3 or "다음 날 아침" not in result_text:
+                raise ValueError(
+                    f"{contract['label']} wedding-night choice {index} lost the night/morning split"
+                )
 
 
 def validate_daeun_wedding_contract(events: dict[str, dict[str, Any]]) -> None:
@@ -859,6 +959,7 @@ def main() -> int:
 
     ko_events = load_events(EVENTS_KO)
     en_events = load_events(EVENTS_EN)
+    validate_wedding_night_contracts(ko_events)
     validate_first_kiss_contracts(ko_events)
     validate_daeun_proposal_contract(ko_events)
     validate_daeun_wedding_contract(ko_events)

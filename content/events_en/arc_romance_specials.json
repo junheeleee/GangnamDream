@@ -71,33 +71,107 @@
   {
     "id": "arc_daeun_wedding_night",
     "title": "The First Night",
-    "description": "After the wedding, they were finally alone. Their first home together was new, with half the boxes still unpacked.\n\nAt the threshold, Daeun could not quite make herself step inside. She kept turning her new ring with one fingertip. The white dress was gone, yet tonight she somehow looked unfamiliar.\n\n\"I...\" Her voice was small. She took a breath, then chose not to hide.\n\"This is my first time, so... don't laugh.\"\n\nThe tips of her ears flushed red, but she did not look away. She was shy, and instead of pretending otherwise, she said so. That was Daeun. The room seemed to grow a little warmer.\nFaced with that honesty, {name} chose how to meet her nervousness.",
+    "description": "After the wedding, they were finally alone. Their first home together was new, with half the boxes still unpacked.\n\nAt the threshold, Daeun could not quite make herself step inside. She kept turning her new ring with one fingertip. The white dress was gone, yet tonight she somehow looked unfamiliar.\n\n\"I...\" Her voice was small. She took a breath, then chose not to hide.\n\"This is my first time, so... don't laugh.\"\n\nThe tips of her ears flushed red, but she did not look away. That was Daeun: shy, and honest enough to say so. {name} did not rush to answer. After an entire day spent in front of other people, the two of them were finally alone for the first time.",
     "choices": [
       {
-        "text": "Take her hand. \"We can take it slow. I'm... nervous too.\"",
-        "result_text": "\"I'm... nervous too.\" His voice did not sound like itself either.\nDaeun's eyes widened, then she burst out laughing.\n\"...What? You're shaking more than I am, Minjun.\"\nHer laughter loosened the taut air like a pulled thread. In his hand, her fingers slowly relaxed. Their foreheads drew close. Daeun closed her eyes, and the room went quietly dark.\n\nThe next morning, {name} woke to a familiar smell.\nGyeran-mari was sizzling in the kitchen. Daeun had risen first and was making breakfast with the same hands that had trembled the night before.\nHe watched her from behind for a long while. Their first morning as a married couple was beginning with that smell."
+        "text": "Dim the lights and make something warm to drink.",
+        "result_text": "Instead of answering, {name} lowered the living-room lights. He found two mugs that were still half wrapped in paper and put water on to boil.\n\nAs the kettle filled the little home with sound, Daeun finally crossed the threshold. Their shoes stood side by side."
       },
       {
-        "text": "Ease her nerves with a joke. \"Then let's call it my first time too.\"",
-        "result_text": "\"Then let's say tonight is my first time too.\"\nDaeun let out a small laugh and swatted his arm. \"...Where did you learn to say things like that?\"\nThat single line relaxed shoulders that had been stiff as stone. She stepped closer, laughter still on her face. As the last distance between them disappeared, the room went quietly dark.\n\nThe next morning, {name} woke to a familiar smell.\nGyeran-mari was sizzling in the kitchen. Daeun had risen first and was making breakfast.\nHe watched her from behind for a long while. Their first morning as a married couple was beginning with that smell."
+        "text": "Don't hide it. \"Tonight feels strange to me too.\"",
+        "result_text": "\"Tonight feels strange to me too.\"\n\nDaeun's eyes widened. A moment later, a small laugh escaped with the breath she had been holding. \"You too, Minjun? You looked like you knew exactly what you were doing.\""
       }
     ],
     "description_if_known": {
-      "daeun_hometown_visited": "After the wedding, they were finally alone in their first home.\n\nAt the threshold, Daeun turned her new ring with one fingertip.\n\"This is my first time, so... don't laugh.\" Her ears were red, but she did not look away.\n\nFaced with that honesty, {name} suddenly remembered the table in her mother's country home: her mother silently heaping more rice into his bowl, those hands rolling a thick gyeran-mari, and her daughter carrying that same taste back to a goshiwon in a side-dish container.\nBy morning, that smell would fill this home too. The thought quietly eased the tension in him.\n{name} took Daeun's hand, trembling ever so slightly."
+      "daeun_hometown_visited": "After the wedding, they were finally alone in their first home.\n\nAt the threshold, Daeun turned her new ring with one fingertip.\n\"This is my first time, so... don't laugh.\" Her ears were red, but she did not look away.\n\nFaced with that honesty, {name} remembered the table in her mother's country home: her mother silently heaping more rice into his bowl, those hands rolling a thick gyeran-mari, and her daughter carrying that same taste back to a goshiwon in a side-dish container.\n\nBy morning, that smell might fill this home too. For now, after an entire day spent in front of other people, the two of them were finally alone for the first time."
     }
+  },
+  {
+    "id": "arc_daeun_wedding_night_tea",
+    "title": "Tea Going Cold",
+    "description": "They sat side by side on the floor with warm mugs in their hands. The sofa was still wrapped in plastic, and an upturned moving box served as a table.\n\n\"Today went by too fast,\" Daeun said, watching the rim of her mug. \"There was always someone looking at us. Taking pictures, saying hello, asking us to smile.\"\n\n\"No one's looking now.\"\n\"That's why I'm more nervous.\"\n\nThis time she did not laugh it away. As the steam faded from the tea, they slowly worked back through the whole day together.",
+    "choices": [
+      {
+        "text": "Set down the last cup and stand before her again.",
+        "result_text": "The silence of this little home felt larger than the empty wedding hall. Daeun set down her mug and stood too.\n\n\"Minjun.\" Her voice still trembled, but this time she did not swallow what came next. \"Come slowly.\""
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_wedding_night_honest",
+    "title": "Strange Together",
+    "description": "\"Even saying we're married doesn't sound like my life yet,\" {name} said. \"I woke up without a ring. Now there are two keys to this place. It's all good. It just arrived at once.\"\n\nDaeun listened, then looked down at the hand wearing her ring.\n\n\"Then we're exactly the same.\"\n\"How?\"\n\"We wanted to get here. We just haven't lived anything after this part before.\"\n\nShe stepped fully inside. The door clicked shut, and the thin blade of hallway light disappeared.",
+    "choices": [
+      {
+        "text": "\"If it's strange for both of us, I think we'll be all right.\"",
+        "result_text": "Daeun repeated it softly. \"Strange for both of us... and all right.\"\n\nSome of the tension left the words. Her fingertips still trembled. She did not hide them. She waited to see how {name} would come closer."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_wedding_night_choice",
+    "title": "Before the Lights Go Out",
+    "description": "When the tea, the laughter, and the story of the day had all run quiet, they stood facing each other in the middle of the little living room. Even the refrigerator motor and the paper smell of unopened boxes felt sharp.\n\nDaeun stopped turning her ring. Her eyes asked first, and she did not look away while {name} understood the question.\n\n\"What do we... do now?\"\n\nThere was no correct answer. They only knew that neither of them had to hurry, and neither of them was going anywhere.",
+    "choices": [
+      {
+        "text": "Take her hand. \"We can take it slow. I'm... nervous too.\"",
+        "result_text": "\"I'm... nervous too.\" His voice did not sound like itself either. Daeun's eyes widened, then she burst out laughing. \"...What? You're shaking more than I am, Minjun.\" Her laughter loosened the taut air like a pulled thread. Their joined hands relaxed. Their foreheads drew close. Daeun closed her eyes, and the room went quietly dark.\n\nThe next morning, {name} woke to a familiar smell and a soft sizzle from the kitchen. Daeun had risen first. Still in the same clothes as last night, she was rolling gyeran-mari. The hands that had trembled now held a pan and wooden spatula.\n\n{name} watched her from behind for a long while. Their first morning as a married couple began without a grand declaration, only the smell of breakfast meant for two."
+      },
+      {
+        "text": "Ease her nerves with a joke. \"Then let's call it my first time too.\"",
+        "result_text": "\"Then let's say tonight is my first time too.\" Daeun let out a small laugh and swatted his arm. \"...Where did you learn to say things like that?\" That single line relaxed shoulders that had been stiff as stone. She stepped closer, laughter still on her face. As the last distance between them disappeared, the room went quietly dark.\n\nThe next morning, {name} woke to a familiar smell and a soft sizzle from the kitchen. Daeun had risen first and was rolling gyeran-mari, still in the same clothes as last night.\n\n{name} held the edge of the duvet and watched her for a long while. Without turning, Daeun somehow knew he was awake. \"Give me a minute. The first one came out crooked.\" It was exactly the kind of mistake a first married morning should have."
+      }
+    ]
   },
   {
     "id": "arc_jiyeon_wedding_night",
     "title": "The First Night",
-    "description": "After the wedding, they were finally alone. Jiyeon had leased their Seoul home in her own name, using the money she had saved and earned closing deals under her own name in Busan. The lease carried one name; the entryway held two pairs of shoes.\n\nJiyeon, usually the first to speak, had nothing to say tonight. She stood at the window, looking down at the city. The level of wine in her glass had not moved.\nSilence from someone so proud was not the same thing as pride. By now, {name} knew her well enough to tell the difference.\n\n\"...Why are you just standing there?\" As {name} approached, her shoulders tightened ever so slightly. Her reflection in the glass was redder than usual.\n{name} chose how to meet that silence.",
+    "description": "After the wedding, they were finally alone. Jiyeon had leased their Seoul home in her own name, using the money she had saved and earned closing deals under her own name in Busan. The lease carried one name; the entryway held two pairs of shoes.\n\nJiyeon, usually the first to speak, had nothing to say tonight. She stood at the window, looking down at the city. The level of wine in her glass had not moved.\n\nSilence from someone so proud was not the same thing as pride. By now, {name} knew her well enough to tell the difference.\n\n\"...Why are you just standing there?\" As {name} approached, her shoulders tightened ever so slightly. Her reflection in the glass was redder than usual. Without turning, Jiyeon waited for what he would say next.",
+    "choices": [
+      {
+        "text": "Don't press. Stand beside her and look out at the same city.",
+        "result_text": "{name} stopped one step away and looked through the same window. Their reflections stood side by side in the glass, though neither turned to the other.\n\nJiyeon lowered the wineglass a little. She knew at once that the person beside her was not going to demand that she fill the silence."
+      },
+      {
+        "text": "Take the wineglass and set it on the table.",
+        "result_text": "{name} took the wineglass from her hand and set it on the table by the window.\n\n\"You didn't drink any of it.\"\n\"If I got drunk, I'd have an excuse,\" Jiyeon said, finally turning around. \"I could say the wine made me nervous.\""
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_wedding_night_window",
+    "title": "Two People in the Glass",
+    "description": "The city moved silently below the glass. Jiyeon watched {name}'s reflection without turning her head.\n\n\"All day, people looked at everything except me.\"\n\"What did they look at?\"\n\"The hotel. The dress. My father's face. No one asked whether any of it was what I chose.\"\n\nHer voice stayed level, but her breath broke slightly on the last sentence. Jiyeon looked directly at {name} in the glass.\n\n\"What did you see, oppa?\"",
+    "choices": [
+      {
+        "text": "\"The person standing in front of me now.\"",
+        "result_text": "Jiyeon finally turned away from the window. The smirk she had prepared never came. Neither did the quick remark meant to cover it.\n\n\"...You know answers like that are cheating, right?\" Her voice was lower than usual. She did not look away."
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_wedding_night_glass",
+    "title": "A Night Without Excuses",
+    "description": "The wineglass made an unnaturally clear sound against the table. Once her hands were empty, Jiyeon looked even less certain what to do with them.\n\n\"So you're nervous without an excuse.\"\n\"You knew without making me say it.\"\n\"I did.\"\n\"That's more annoying.\"\n\nShe said it without stepping back. The woman who always used words to set the distance had left that distance for {name} to cross.",
+    "choices": [
+      {
+        "text": "Stay where you are, without pretending you heard too much or too little.",
+        "result_text": "When {name} did not laugh, Jiyeon was the first to release a short breath.\n\n\"...Just like you, oppa. Only quick when it matters.\" It sounded like a complaint, but there was no barb at the end."
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_wedding_night_choice",
+    "title": "The Night She Set Down Her Armor",
+    "description": "The city lights had not changed, but the distance between their reflections had. Jiyeon was no longer watching the wineglass or the window.\n\nThe words she normally selected and placed with perfect control came late tonight. In that brief gap, tension and expectation occupied the same face.\n\n\"...Why are you looking at me like that?\"\n\nThe sentence tried to sound proud and did not quite make it. {name} could leave the crack untouched, or give her something to push against.",
     "choices": [
       {
         "text": "Respect her silence and offer a hand.",
-        "result_text": "{name} asked nothing. He simply held out his hand.\nJiyeon looked down at it. One beat, then two. The Jiyeon he knew would have fired off a remark by now. Tonight, she took his hand without a word. The fingers that closed around his trembled faintly, and not from the wine.\nWhen {name} gently drew her closer, she came without resisting. The city lights outside blurred over them, and the room went quietly dark.\n\nThe next morning, {name} woke beside a face he had never seen before.\nHer makeup was gone. Her eyes were slightly puffy. None of the armor she normally kept perfectly in place remained. Jiyeon felt his gaze and pulled the duvet up to her nose.\n\"...What are you looking at? I always look like this in the morning.\"\nHer voice was curt, but the tips of her ears above the duvet were red. {name} had to work not to smile."
+        "result_text": "{name} asked nothing more. He simply held out his hand. Jiyeon looked down at it. One beat, then two. The Jiyeon he knew would have fired off a remark by now. Tonight, she took his hand without a word. Her fingers trembled faintly, and not from the wine. When {name} gently drew her closer, she came without resisting. The city lights blurred over them, and the room went quietly dark.\n\nThe next morning, {name} woke beside a face he had never seen before. Her makeup was gone. Her eyes were slightly puffy. None of the armor she normally kept perfectly in place remained. Jiyeon felt his gaze and pulled the duvet up to her nose.\n\n\"...What are you looking at? I always look like this in the morning.\" Her voice was curt, but the tips of her ears above the duvet were red. {name} had to work not to smile."
       },
       {
         "text": "Tease her gently. \"Han Jiyeon, lost for words. That's a first.\"",
-        "result_text": "\"Han Jiyeon, lost for words. That's a first.\" Jiyeon spun around.\n\"...Shut up.\" The words came sharp, but the tension in her face eased. Maybe being caught nervous was a relief.\nShe set down the wine and stepped toward {name}. \"...Laugh and you're dead.\" Her voice trembled just a little.\nThe room went quietly dark.\n\nThe next morning, {name} woke beside a face he had never seen before.\nHer makeup was gone. Her eyes were slightly puffy. None of the armor she normally kept perfectly in place remained. Jiyeon felt his gaze and pulled the duvet up to her nose.\n\"...What are you looking at? I always look like this in the morning.\"\nHer voice was curt, but the tips of her ears above the duvet were red."
+        "result_text": "\"Han Jiyeon, lost for words. That's a first.\" Jiyeon spun around. \"...Shut up.\" The words came sharp, but the tension in her face eased. Maybe being caught nervous was a relief. She stepped closer. \"...Laugh and you're dead.\" The words were steady; her voice was not. The room went quietly dark.\n\nThe next morning, {name} woke beside a face he had never seen before. Her makeup was gone. Her eyes were slightly puffy. None of the armor she normally kept perfectly in place remained. Jiyeon felt his gaze and pulled the duvet up to her nose.\n\n\"...What are you looking at? I always look like this in the morning.\" Her voice was curt, but the tips of her ears above the duvet were red. A moment later, a low voice came from under the covers. \"You're making the coffee, oppa.\""
       }
     ]
   }

@@ -143,9 +143,10 @@
 - 지연 `arc_jiyeon_first_kiss → silence/speak → choice`: 왼쪽 운전석에 지연, 오른쪽 조수석에 민준이 앉은 시동 꺼진 검은 세단. 침묵을 지키거나 그녀의 균열을 짚는 대화가 "…뭘 봐."의 0.5초로 합류한다. 키스 뒤 지연이 "앞이나 봐"라고 말하고 직접 시동 버튼을 누른다.
 - 두 체인 모두 앞 두 링크는 상태를 선점하지 않는다. 기존 키스/보류의 정신·Moral Tint·호감도·`*_first_kiss_seen` 효과는 CG를 소유한 마지막 링크에만 남는다.
 
-**첫날밤 비트 상세** (결혼 아크 연장, 각 1이벤트 — §5 정책 준수):
-- 구조: 호텔 문 앞의 긴장 → 짧은 대화(다은: "나… 이런 거 처음이라, 웃지 마요" / 지연: 말이 없어지는 쪽) → **페이드** → **아침 비트**(장르의 진짜 백미): 다은=먼저 일어나 계란말이 굽는 소리에 깨는 아침(심어진 실 회수) / 지연=처음 보는 민낯, "…뭘 봐. 아침엔 원래 이래."
-- 성인 patch slot 구조 유지(본편은 tasteful 상한).
+**첫날밤 비트 상세** (결혼 아크 연장, 각 3링크·2선택점 — §5 정책 준수):
+- 다은 `arc_daeun_wedding_night → tea/honest → choice`: 두 사람의 신혼집 문턱에서 솔직한 수줍음을 따뜻한 차 또는 같은 긴장의 고백으로 받아들인다. 마지막 선택 뒤 **페이드**하고, 다음 아침 문단에서만 같은 실내복으로 계란말이를 굽는 CG가 열린다.
+- 지연 `arc_jiyeon_wedding_night → window/glass → choice`: 지연 명의의 서울 신혼집 창가에서 침묵을 함께 보거나 변명용 와인잔을 내려놓는다. 도도의 균열을 존중하거나 가볍게 받아친 뒤 **페이드**하고, 다음 아침 문단에서만 같은 실내복·민낯 CG가 열린다.
+- 두 체인 모두 앞 두 링크는 정신·Moral Tint·호감도·완료 플래그를 선점하지 않는다. 기존 최종 효과와 `*_wedding_night_seen`은 마지막 링크에만 남고 성인 patch slot 구조도 유지한다.
 
 **CG 우선순위 재편 제안 (Codex — ENDING_ART/CODEX_QUEUE)**: 오타쿠 소구 CG는 엔딩 CG보다 커뮤니티 확산력이 높다 — **로맨스 CG 티어를 P0로**: ①벚꽃(tint 2벌) ②불꽃축제 옆얼굴(히로인별) ③여름 바다 ④첫 키스 ⑤아침 비트. 엔딩 CG(결혼식·gangnam_dream)는 P0 유지, 나머지 엔딩 CG는 P1로.
 
@@ -242,7 +243,7 @@
 - 체인 각 링크도 §8 6요소 준수. 선택점은 inert 금지(효과/플래그/다음 링크 분기 차등).
 
 **하이라이트 레지스트리 (이 표준 필수 적용 대상 — 정점 씬)**
-- **로맨스**: 그 밤 · 첫날밤 2종 · 첫 키스 2종(✅ 3링크·2선택점 격상 완료) · 어머니의 밥상(시골 EP2) · 좁은 방(지연 EP2) · 남산 자물쇠 · 계절 정점(여름 바다·불꽃축제) · 프로포즈 · 결혼식 · verdict · 이혼 담판
+- **로맨스**: 그 밤 · 첫날밤 2종(✅ 3링크·2선택점 격상 완료) · 첫 키스 2종(✅ 3링크·2선택점 격상 완료) · 어머니의 밥상(시골 EP2) · 좁은 방(지연 EP2) · 남산 자물쇠 · 계절 정점(여름 바다·불꽃축제) · 프로포즈 · 결혼식 · verdict · 이혼 담판
 - **상철 진실**: 첫 만남 · 진실 추론 완성 · t60 대면(confrontation) · 카지노 유혹 · 엔딩 4경로
 - **가족**: 아버지 병상·별세 · 23초 통화 KTX · 현수 재회
 - **재혁**: ghost 발각 · 진짜 얼굴
@@ -258,7 +259,7 @@
 > **격상 제외(의도적 여백)**: `chapter_cards`(연도 마커), `arc_year_close`(짧은 성찰), 그리고 이미 충분한 180자+ 스파인.
 
 **격상 로드맵 (감사 2026-07-08, desc<160자 기준 108종 → 배치)**
-- **패스 R (진행 중, Tier1 정점)**: 첫 키스 2종 완료. 다음은 첫날밤 2종·어머니의 밥상·좁은 방·여름 바다·불꽃축제 — `arc_date_milestones`/`arc_romance_specials`/`arc_season_dates`.
+- **패스 R (진행 중, Tier1 정점)**: 첫 키스·첫날밤 각 2종 완료. 다음은 어머니의 밥상·좁은 방·여름 바다·불꽃축제 — `arc_romance_specials`/`arc_season_dates`.
 - **패스 S (Tier1 정점, 상철/재혁/아버지 진실)**: `arc_drama`(sangchul_confrontation·sangchul_reckoning·jaehyuk_mirror·father_passing·father_call_on_ktx), `arc_events`(sangchul_card_at_confrontation·jaehyuk_photo_in_dark·hyunsu_lifeline_call·father_05_after_visit), `arc_web_crossbeams`(father_records). 유물 제시(웨이브 3b)와 같은 장면이라 동기.
 - **패스 H (Tier2, 현수 라인)**: `arc_hyunsu` 8종(exam/result/pivot/reunion — 60~148자, 최우선 저술 부족), `arc_h2_beats` 9종.
 - **패스 M (Tier2, 미드게임 스파인)**: `arc_midgame` 핵심 비트(goshiwon_goodbye·money_loneliness·goal_vertigo·father_medication 등 — 전 37종 아닌 서사 하중 큰 것 선별), `story_events` 14종.

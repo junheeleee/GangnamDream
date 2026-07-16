@@ -56,7 +56,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Namsan route cable car→restaurant→observation-deck paragraph backgrounds, paired portraits, lock CG intro/choices | `--qa=namsan --lang=ko/en` |
 | Amusement routes: parade→helping CG/result fork, coaster→correct booth→choice-only four-cut CG, KO/EN crop and expression continuity | `--qa=amusement --lang=ko/en` |
 | Daeun hometown route: interior train→separate maternal dining room→delayed night-bus result CG, summer outfit and KO/EN crop continuity | `--qa=hometown --lang=ko/en` |
-| First nights: heroine-specific home/portrait→night result→paragraph-delayed morning CG, same outfit, late-game month HUD, KO/EN crop | `--qa=wedding-morning --lang=ko/en` |
+| First nights: 3-link/2-decision heroine-specific buildup→four terminal state paths→tasteful fade→paragraph-delayed morning CG, same home/outfit, late-game month HUD, KO/EN 16 shots each | `--qa=wedding-morning --lang=ko/en` |
 | Commitment scenes: Daeun's three-link last-cup→next-year→proposal buildup; four-link mother reaction→groom-side state→groom-enters-first/bride-enters-later couple wide→couple close wedding; mother honju hanbok, Father honju suit, living/passed Father × Hyunsu-alone variants, truly empty reserved chair and no invented spouse/child; only Minjun/Daeun identifiable in couple frames; no premature marriage flags; final accepted delayed CG/no-CG defer branch; exclusive small/full wedding choice persistence; legacy small fallback; and Jiyeon's three-link pre-decision class-gap chain with final-only cost/flag effects (38 shots per language) | `--qa=commitment --lang=ko/en` |
 | Romance ruptures: canonical newlywed homes, Daeun hidden while she is in the adjacent room, non-separating branches with no leaked CG, and paragraph-delayed seal/departure CGs | `--qa=breakup --lang=ko/en` |
 | First snow: December-only store/car prelude→paragraph-1 CG, winter outfits, exactly two cans, left-driver/right-passenger seating, resting wipers, gaze and KO/EN crop | `--qa=first-snow --lang=ko/en` |
@@ -249,7 +249,7 @@ Automated input and display gates:
 
 ## Ending Art
 - `CGRuntimeCheck.tscn` passes all ending CG paths, minimum 1280×720 dimensions, unique ownership, Gangnam Ink preview grading, and the ending-CG shadow-legibility grade.
-- `CGRuntimeCheck.tscn` also passes all story CG paths, unique event ownership, exact 1280×800 romance dimensions, paragraph reveal timing, paragraph-specific background order, hidden portraits, and hidden HUD.
+- `CGRuntimeCheck.tscn` also passes all story CG paths, exact 1280×800 romance dimensions, paragraph reveal timing, paragraph-specific background order, hidden portraits, and hidden HUD. Story CGs keep unique ownership except the explicit same-ballroom continuity allowlist for Jiyeon's three-link wedding-gap chain.
 - First-snow runtime checks also prove December-only routing and correct person-free prelude background/portrait before each delayed CG.
 - An ending without a dedicated CG uses its moral mood card; it never borrows another ending's image.
 
