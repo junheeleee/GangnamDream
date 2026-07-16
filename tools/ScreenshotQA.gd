@@ -3559,7 +3559,7 @@ func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> 
 	if _mg.has_method("_finish_typing"):
 		_mg._finish_typing()
 	await _settle(0.8)
-	_assert_core_action_illustrations()
+	_assert_demo_pressure_action_illustrations()
 	await _save(prefix + "03_ap_actions")
 	var _old_grind_streak: int = GameState.grind_streak_weeks
 	var _old_axis: Dictionary = GameState.action_axis_this_week.duplicate(true)
@@ -4188,13 +4188,40 @@ func _assert_ap_next_week_unlocked() -> void:
 	if GameState.week_of_month != 3:
 		_fail("AP next-week action did not advance from week 2 to week 3.")
 
-func _assert_core_action_illustrations() -> void:
-	_assert_action_scene_paths([
-		"res://assets/backgrounds/office_interview_day.png",
-		"res://assets/backgrounds/investment_phone.png",
-		"res://assets/backgrounds/library.png",
-		"res://assets/backgrounds/goshiwon_room.png",
-	], "AP shell")
+func _assert_demo_pressure_action_illustrations() -> void:
+	if _mg == null:
+		_fail("MainGame instance is unavailable for contextual AP art regression.")
+		return
+	var cards := _demo_pressure_primary_cards()
+	if cards.size() != 3:
+		_fail("Contextual AP art check expected exactly three primary cards, found %d." % cards.size())
+		return
+	var scene_owners := {}
+	for card in cards:
+		var card_paths: Array[String] = []
+		for node in card.find_children("*", "TextureRect", true, false):
+			var texture_rect := node as TextureRect
+			if texture_rect == null or not (texture_rect.texture is AtlasTexture):
+				continue
+			var atlas_texture := texture_rect.texture as AtlasTexture
+			if atlas_texture.atlas == null:
+				continue
+			var path := atlas_texture.atlas.resource_path
+			if not path.is_empty() and not card_paths.has(path):
+				card_paths.append(path)
+		var action_id := str(card.get_meta("demo_action_id", card.name))
+		if card_paths.size() != 1:
+			_fail("Contextual AP card '%s' must own one scene still, found %d (%s)." % [
+				action_id, card_paths.size(), ", ".join(card_paths),
+			])
+			return
+		var scene_path := card_paths[0]
+		if scene_owners.has(scene_path):
+			_fail("Contextual AP cards '%s' and '%s' reuse the same scene still: %s" % [
+				str(scene_owners[scene_path]), action_id, scene_path,
+			])
+			return
+		scene_owners[scene_path] = action_id
 
 func _assert_action_scene_paths(expected_paths: Array[String], context: String) -> void:
 	if _mg == null:

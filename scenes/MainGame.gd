@@ -8202,7 +8202,7 @@ func _action_illustration_key(fn: String, icon_id: String) -> String:
 			return "housing"
 		"_open_cat_life":
 			return "housing"
-		"_open_cat_people", "_ap_network", "_ap_vip_network":
+		"_open_cat_people", "_ap_network", "_ap_vip_network", "_ap_contact_person":
 			return "people"
 		"_open_cat_gambling":
 			return "gambling"
