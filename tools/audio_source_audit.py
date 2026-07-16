@@ -57,6 +57,9 @@ amb_human_transit.wav amb_human_leisure.wav
         "sfx_result_ledger.wav",
         "sfx_tab_open.wav",
     },
+    "tools/generate_launch_audio.py": {
+        "sfx_publisher_sting.wav",
+    },
 }
 
 

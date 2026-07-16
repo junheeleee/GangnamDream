@@ -8,6 +8,8 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=casino-en
 ## 수정 부위별 빠른 확인:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=start-en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=first-30 --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=first-30 --lang=ko --pad=playstation --reduce-motion
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=gallery --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=year-identity --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=store --lang=en
@@ -75,6 +77,7 @@ const QA_SCOPE_DEMO_INPUT := "demo_input"
 const QA_SCOPE_DEMO_KEYBOARD := "demo_keyboard"
 const QA_SCOPE_DEMO_MOUSE := "demo_mouse"
 const QA_SCOPE_START_EN := "start_en"
+const QA_SCOPE_FIRST_30 := "first_30"
 const QA_SCOPE_GALLERY := "gallery"
 const QA_SCOPE_YEAR_IDENTITY := "year_identity"
 const QA_SCOPE_STORE := "store"
@@ -226,6 +229,18 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_start_surfaces(lang, "start_en_" if lang == "en" else "start_ko_")
 		print("SCREENSHOT_QA_DONE scope=start-en lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_FIRST_30:
+		var lang := _qa_language("en")
+		var first_30_options := _apply_first_30_qa_options()
+		await _shot_first_30_surfaces(lang)
+		print("SCREENSHOT_QA_DONE scope=first-30 lang=%s pad=%s reduce_motion=%s dir=%s" % [
+			lang,
+			str(first_30_options.get("pad", "keyboard")),
+			str(first_30_options.get("reduce_motion", false)),
+			OUT_DIR,
+		])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_GALLERY:
@@ -536,6 +551,10 @@ func _qa_scope() -> String:
 		args.append(str(raw))
 	for raw in args:
 		var arg := raw.strip_edges().to_lower()
+		if arg in ["first-30", "first_30", "launch", "--first-30", "--first_30",
+				"qa=first-30", "--qa=first-30", "qa=first_30", "--qa=first_30",
+				"scope=first-30", "--scope=first-30"]:
+			return QA_SCOPE_FIRST_30
 		if arg in ["text-material", "text_material", "typography-material", "typography_material",
 				"--text-material", "--text_material", "qa=text-material", "--qa=text-material",
 				"qa=text_material", "--qa=text_material", "scope=text-material", "--scope=text-material"]:
@@ -772,6 +791,38 @@ func _qa_language(default_lang: String = "ko") -> String:
 			return "zh-TW"
 	return default_lang
 
+func _apply_first_30_qa_options() -> Dictionary:
+	var pad := "keyboard"
+	var reduce_motion := false
+	var args: Array[String] = []
+	for raw in OS.get_cmdline_user_args():
+		args.append(str(raw).strip_edges().to_lower())
+	for raw in OS.get_cmdline_args():
+		args.append(str(raw).strip_edges().to_lower())
+	for arg in args:
+		if arg in ["--reduce-motion", "reduce-motion", "--reduce_motion", "reduce_motion"]:
+			reduce_motion = true
+		elif arg in ["--pad=playstation", "pad=playstation", "--pad=ps", "pad=ps",
+				"--pad=dualsense", "pad=dualsense"]:
+			pad = "playstation"
+		elif arg in ["--pad=xbox", "pad=xbox", "--pad=steamdeck", "pad=steamdeck",
+				"--pad=steam-deck", "pad=steam-deck"]:
+			pad = "xbox"
+		elif arg in ["--pad=nintendo", "pad=nintendo", "--pad=switch", "pad=switch"]:
+			pad = "nintendo"
+	SaveManager.set_setting("reduce_motion", reduce_motion)
+	SaveManager.set_setting("reduced_motion", reduce_motion)
+	match pad:
+		"playstation":
+			ControllerHints.force_brand_for_qa(ControllerHints.Brand.PLAYSTATION)
+		"xbox":
+			ControllerHints.force_brand_for_qa(ControllerHints.Brand.XBOX)
+		"nintendo":
+			ControllerHints.force_brand_for_qa(ControllerHints.Brand.NINTENDO)
+		_:
+			ControllerHints.clear_qa_override()
+	return {"pad": pad, "reduce_motion": reduce_motion}
+
 func _set_qa_language(lang: String) -> void:
 	if SaveManager.has_method("set_setting"):
 		SaveManager.set_setting("language", lang)
@@ -993,6 +1044,7 @@ func _shot_splash_screen(lang: String, shot_name: String) -> void:
 	_set_qa_language(lang)
 	var packed: PackedScene = load("res://scenes/SplashScreen.tscn")
 	var splash := packed.instantiate()
+	splash.set("_qa_disable_auto_transition", true)
 	get_tree().root.add_child.call_deferred(splash)
 	await get_tree().process_frame
 	await _settle(0.85)
@@ -1784,21 +1836,14 @@ func _shot_opening_cinematic(lang: String, prefix: String) -> void:
 	_set_qa_language(lang)
 	var packed: PackedScene = load("res://scenes/OpeningCinematic.tscn")
 	var cinema := packed.instantiate()
+	cinema.set("_qa_disable_autoplay", true)
 	get_tree().root.add_child.call_deferred(cinema)
 	await get_tree().process_frame
-	await _settle(1.2)
-	await _save(prefix + "00_opening_first")
-	if cinema.has_method("_skip_to_last"):
-		cinema._skip_to_last()
-		var generation_after_skip := int(cinema.get("_play_generation"))
-		var rapid_click := InputEventMouseButton.new()
-		rapid_click.button_index = MOUSE_BUTTON_LEFT
-		rapid_click.pressed = true
-		cinema._input(rapid_click)
-		if int(cinema.get("_play_generation")) != generation_after_skip:
-			_fail("Opening final card restarted when clicked before its prompt appeared.")
-		await _settle(1.35)
-		await _save(prefix + "00_opening_final")
+	await _settle(0.35)
+	for beat_index in range(3):
+		await cinema._show_beat(beat_index, false)
+		await _settle(0.22)
+		await _save(prefix + "00_opening_beat_%d" % (beat_index + 1), 0.0)
 	_remove_nodes_by_script("res://scenes/OpeningCinematic.gd")
 	await _settle(0.3)
 
@@ -2240,8 +2285,14 @@ func _qa_scene_transition_active() -> bool:
 
 func _shot_start_surfaces(lang: String = "en", prefix: String = "start_en_") -> void:
 	await _shot_splash_screen(lang, prefix + "00_splash")
-	await _shot_opening_cinematic(lang, prefix)
 	await _shot_start_menu_notice(lang, prefix)
+	await _shot_opening_cinematic(lang, prefix)
+
+func _shot_first_30_surfaces(lang: String = "en") -> void:
+	var prefix := "launch_en_" if lang == "en" else "launch_ko_"
+	await _shot_splash_screen(lang, prefix + "00_publisher")
+	await _shot_start_menu_notice(lang, prefix)
+	await _shot_opening_cinematic(lang, prefix)
 
 func _shot_archive_surfaces(lang: String = "en", prefix: String = "archive_en_") -> void:
 	_set_qa_language(lang)

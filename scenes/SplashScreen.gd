@@ -1,6 +1,12 @@
 extends Control
 
 const GangnamWordmarkScript := preload("res://scenes/ui/GangnamWordmark.gd")
+const JunpacMarkScript := preload("res://scenes/ui/JunpacMark.gd")
+const LivingSceneLayerScript := preload("res://scenes/ui/LivingSceneLayer.gd")
+
+const NEXT_SCENE := "res://scenes/StartMenu.tscn"
+const BRAND_SEQUENCE_SECONDS := 3.1
+const LAUNCH_REQUIRED_INPUT_GATES := 0
 
 var _transitioning: bool = false
 var _language_gate: Control = null
@@ -9,6 +15,10 @@ var _language_choice_locked: bool = false
 var _language_buttons: Dictionary = {}
 var _community_language_selector: OptionButton = null
 var _force_language_gate_for_qa: bool = false
+var _qa_disable_auto_transition: bool = false
+var _qa_disable_auto_advance: bool = false
+var _sequence_generation: int = 0
+var _transition_request_count: int = 0
 
 var _bg_img:     TextureRect
 var _publisher_logo: Control
@@ -16,6 +26,7 @@ var _wordmark: VBoxContainer
 var _tagline_lbl: Label
 var _context_lbl: Label
 var _press_lbl:  Label
+var _living_scene: LivingSceneLayer
 
 var _font: FontFile
 var _font_bold: FontFile
@@ -45,7 +56,9 @@ func _ready():
 
 func _begin_brand_sequence() -> void:
 	_build_ui()
-	BGMPlayer.start()
+	set_meta("launch_stage", "publisher")
+	set_meta("launch_required_input_gates", LAUNCH_REQUIRED_INPUT_GATES)
+	set_meta("launch_next_scene", NEXT_SCENE)
 	_run_sequence()
 
 func _build_language_gate(saved_language: String = "") -> void:
@@ -277,11 +290,26 @@ func _build_ui():
 		_bg_img.texture = keyart
 	add_child(_bg_img)
 
+	_living_scene = LivingSceneLayerScript.new()
+	_living_scene.name = "LaunchAtmosphere"
+	add_child(_living_scene)
+	_living_scene.configure(
+		{
+			"id": "launch_title",
+			"living_scene": {"effect": "city_light", "intensity": 0.11},
+		},
+		"gangnam_night_street",
+		"",
+		{"channel": "memory", "portrait_role": "none"},
+		0.0,
+		false,
+		_reduced_motion())
+
 	# 3. The painting already owns its left safe area; this only keeps the
 	# publisher and wordmark readable without burying the cast.
 	var overlay = ColorRect.new()
 	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
-	overlay.color        = Color(0.0, 0.0, 0.0, 0.38)
+	overlay.color        = Color(0.0, 0.0, 0.0, 0.30)
 	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(overlay)
 
@@ -341,49 +369,56 @@ func _build_ui():
 	lower_spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	column.add_child(lower_spacer)
 
-	# _press_lbl 는 더 이상 사용하지 않음 (컷신에서 처리)
-	_press_lbl = Label.new()
+	# The splash has no input prompt. StartMenu owns the launch flow's only gate.
+	# Do not allocate a detached Label here; an orphaned Control leaks its font RID.
 
 func _build_junpac_logo() -> Control:
-	var group = Control.new()
-	group.custom_minimum_size = Vector2(430, 430)
-	group.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	group.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	group.modulate = Color(1, 1, 1, 0.0)
-
-	var logo = TextureRect.new()
-	logo.position = Vector2.ZERO
-	logo.custom_minimum_size = Vector2(430, 430)
-	logo.size = Vector2(430, 430)
-	logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	logo.texture = load("res://assets/logos/junpac_games_logo.jpg")
-	group.add_child(logo)
-	return group
+	var mark := JunpacMarkScript.new()
+	mark.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	mark.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	mark.modulate = Color(1, 1, 1, 0.0)
+	return mark
 
 # ── 애니메이션 시퀀스 ──────────────────────────────────────────────────
 func _run_sequence():
-	# 퍼블리셔 프리롤: 첨부된 JUNPAC GAMES 브랜드 보드의 검정/amber/red 톤을 사용한다.
-	_fade_in(_publisher_logo, 0.5)
-	await get_tree().create_timer(0.85).timeout
-	_fade_out(_publisher_logo, 0.35)
-	await get_tree().create_timer(0.35).timeout
+	_sequence_generation += 1
+	var generation := _sequence_generation
+	# A quiet owned sting and one clean mark replace the old black-box JPEG.
+	AudioManager.play("publisher_sting")
+	set_meta("publisher_sting_play_count", 1)
+	_fade_in(_publisher_logo, 0.42)
+	await get_tree().create_timer(1.15).timeout
+	if generation != _sequence_generation or _transitioning:
+		return
+	_fade_out(_publisher_logo, 0.28)
+	await get_tree().create_timer(0.28).timeout
+	if generation != _sequence_generation or _transitioning:
+		return
 
-	# 배경 먼저 서서히 등장
-	_fade_in(_bg_img, 1.0, 0.38)
+	set_meta("launch_stage", "title")
+	_fade_in(_bg_img, 0.55, 0.68)
 
-	await get_tree().create_timer(0.4).timeout
-	_fade_in(_wordmark, 0.65)
+	await get_tree().create_timer(0.18).timeout
+	if generation != _sequence_generation or _transitioning:
+		return
+	_fade_in(_wordmark, 0.45)
 
-	await get_tree().create_timer(0.5).timeout
-	_fade_in(_tagline_lbl, 0.55)
+	await get_tree().create_timer(0.30).timeout
+	if generation != _sequence_generation or _transitioning:
+		return
+	_fade_in(_tagline_lbl, 0.35)
 
-	await get_tree().create_timer(0.35).timeout
-	_fade_in(_context_lbl, 0.55)
+	await get_tree().create_timer(0.25).timeout
+	if generation != _sequence_generation or _transitioning:
+		return
+	_fade_in(_context_lbl, 0.35)
 
-	# 로고 완성 후 잠시 대기 → 컷신으로 자동 전환
-	await get_tree().create_timer(1.5).timeout
+	await get_tree().create_timer(0.65).timeout
+	if generation != _sequence_generation or _transitioning:
+		return
+	set_meta("launch_stage", "title_complete")
+	if _qa_disable_auto_advance:
+		return
 	_go_to_start()
 
 func _fade_in(node: Control, duration: float, target_alpha: float = 1.0):
@@ -398,8 +433,20 @@ func _fade_out(node: Control, duration: float):
 func _go_to_start():
 	if _transitioning:
 		return
+	if _qa_disable_auto_transition:
+		return
 	_transitioning = true
-	SceneTransition.go("res://scenes/OpeningCinematic.tscn")
+	_sequence_generation += 1
+	_transition_request_count += 1
+	set_meta("launch_stage", "leaving")
+	set_meta("launch_transition_requests", _transition_request_count)
+	if _qa_disable_auto_advance:
+		return
+	SceneTransition.go(NEXT_SCENE)
+
+func _reduced_motion() -> bool:
+	return bool(SaveManager.get_setting(
+		"reduce_motion", SaveManager.get_setting("reduced_motion", false)))
 
 func _input(event):
 	if _transitioning:

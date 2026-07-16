@@ -1,369 +1,288 @@
 extends Control
+## Three-beat, full-bleed motion-comic prologue.
+## It plays only after New Story, never blocks on a final card, and any input
+## skips the complete prologue directly into the first playable week.
 
-# ── 컷신 카드 정의 ─────────────────────────────────────────────
-# 각 카드: { text, sub (선택), hold (초), size (폰트), align }
-const CARDS = [
+const LivingSceneLayerScript := preload("res://scenes/ui/LivingSceneLayer.gd")
+
+const NEXT_SCENE := "res://scenes/MainGame.tscn"
+const OPENING_REQUIRED_INPUT_GATES := 0
+const OPENING_MAX_SECONDS := 14.0
+const FADE_SECONDS := 0.52
+
+const BEATS: Array[Dictionary] = [
 	{
-		"text": "2026년, 서울.",
-		"sub": "",
-		"hold": 2.2,
-		"size": 38,
+		"image": "res://assets/backgrounds/gangnam_night_street.png",
+		"effect": "city_light",
+		"intensity": 0.14,
+		"ambience": "street",
+		"hold": 3.10,
+		"title_ko": "2026년, 서울.",
+		"body_ko": "강남. 부와 지위가 주소가 되는 곳.\n아파트 한 채, 30억원.",
+		"title_en": "2026. Seoul.",
+		"body_en": "Gangnam. Where wealth becomes status.\nOne apartment: KRW 3 billion.",
+		"desaturation": 0.24,
+		"brightness": 0.78,
 	},
 	{
-		"text": "강남구 아파트 평균 매매가,\n30억을 돌파했다.",
-		"sub": "최저시급으로 한 푼도 안 쓰고 모아야 하는 시간 — 82년.",
-		"hold": 3.5,
-		"size": 30,
+		"image": "res://assets/backgrounds/goshiwon_room.png",
+		"effect": "memory",
+		"intensity": 0.10,
+		"ambience": "room",
+		"hold": 3.10,
+		"title_ko": "김민준, 서른셋.",
+		"body_ko": "통장 50만원. 월세 65만원짜리 고시원.",
+		"title_en": "Kim Minjun, 33.",
+		"body_en": "Bank balance: KRW 500K.\nA goshiwon room costs KRW 650K a month.",
+		"desaturation": 0.34,
+		"brightness": 0.74,
 	},
 	{
-		"text": "그래도 사람들은 서울로 온다.",
-		"sub": "고시원 방 1평 반에 짐을 풀고,\n처음으로 혼자 월세를 낸다.\n\n언젠가는 저기 살 수 있을 것 같아서.",
-		"hold": 4.0,
-		"size": 28,
-	},
-	{
-		"text": "강남드림.",
-		"sub": "그곳은 주소가 아니라,\n도착했다는 증명처럼 불린다.",
-		"hold": 2.8,
-		"size": 52,
-	},
-	{
-		"text": "남은 시간: 5년.",
-		"sub": "통장 잔액: 50만원.\n월세: 65만원.\n강남까지는 — 30억이 필요하다.\n\n왜 5년이냐고 묻는다면 —\n아버지의 시간은, 아무도 모르니까.",
-		"hold": 4.4,
-		"size": 34,
-	},
-	{
-		"text": "어떤 선택이 강남을 만드는지,\n아무도 가르쳐준 적 없다.",
-		"sub": "당신이 직접 알아내야 한다.",
-		"hold": 3.0,
-		"size": 26,
-	},
-	{
-		"text": "아버지는 그 길 어딘가에서\n모든 걸 잃었다.",
-		"sub": "빚과 침묵만 남았다.\n\n같은 길을 오르면서 —\n같은 사람이 되지 않을 수 있을까.",
-		"hold": 4.2,
-		"size": 27,
-	},
-	{
-		"text": "이제, 당신의 5년이 시작된다.",
-		"sub": "50만원으로 시작해 30억까지.\n정답은 없다. 다음 선택부터 시작하면 된다.",
-		"hold": -1,
-		"size": 32,
-		"stats": [
-			["START", "50만원"],
-			["GOAL", "30억"],
-			["TIME", "5년"],
-		],
+		"image": "res://assets/backgrounds/gangnam_apartment.png",
+		"effect": "city_light",
+		"intensity": 0.09,
+		"ambience": "street",
+		"hold": 3.00,
+		"title_ko": "목표 30억원. 남은 시간은 5년.",
+		"body_ko": "첫 주가 시작된다.",
+		"title_en": "KRW 3 billion. Five years left.",
+		"body_en": "The first week begins.",
+		"desaturation": 0.18,
+		"brightness": 0.82,
 	},
 ]
-
-const CARDS_EN = [
-	{
-		"text": "2026. Seoul.",
-		"sub": "",
-		"hold": 2.2,
-		"size": 38,
-	},
-	{
-		"text": "The average Gangnam apartment\nhas crossed KRW 3 billion.",
-		"sub": "Gangnam is Seoul's shorthand for wealth, status, and arrival.\nAt minimum wage, saving every won would take 82 years.",
-		"hold": 3.5,
-		"size": 30,
-	},
-	{
-		"text": "Still, people come to Seoul.",
-		"sub": "They unpack in a 1.5-pyeong goshiwon,\nand pay rent alone for the first time.\n\nBecause one day, maybe, they could live over there.",
-		"hold": 4.0,
-		"size": 28,
-	},
-	{
-		"text": "Gangnam Dream.",
-		"sub": "Not just a place.\nProof that you made it.",
-		"hold": 2.8,
-		"size": 52,
-	},
-	{
-		"text": "Time left: 5 years.",
-		"sub": "Bank balance: KRW 500K.\nRent: KRW 650K a month.\nTo reach Gangnam — you need KRW 3 billion.\n\nWhy five years?\nBecause no one knows how much time his father has.",
-		"hold": 4.4,
-		"size": 34,
-	},
-	{
-		"text": "No one teaches you\nwhich choices get you there.",
-		"sub": "You have to figure it out yourself.",
-		"hold": 3.0,
-		"size": 26,
-	},
-	{
-		"text": "Somewhere on that road,\nyour father lost everything.",
-		"sub": "All that was left was debt, and silence.\n\nClimbing the same road —\ncan you keep from becoming the same man?",
-		"hold": 4.2,
-		"size": 27,
-	},
-	{
-		"text": "Your next five years begin now.",
-		"sub": "Start with KRW 500K. Reach Seoul's status district before 38.\nNo guide. Start with the next choice.",
-		"hold": -1,
-		"size": 32,
-		"stats": [
-			["START", "KRW 500K"],
-			["GOAL", "KRW 3B"],
-			["TIME", "5 YEARS"],
-		],
-	},
-]
-
-const FADE_IN  := 0.9
-const FADE_OUT := 0.7
 
 var _transitioning := false
-var _card_index    := 0
-var _waiting_input := false
-var _play_generation := 0
-
-var _bg:       ColorRect
-var _main_lbl: Label
-var _sub_lbl:  Label
-var _stats_row: HBoxContainer
-var _hint_lbl: Label
-var _font:     FontFile
+var _sequence_generation := 0
+var _reduced_motion := false
+var _accept_input_after_ms := 0
+var _current_image: TextureRect = null
+var _visual_frame: Control
+var _living_scene: LivingSceneLayer
+var _title_label: Label
+var _body_label: Label
+var _beat_rule: ColorRect
+var _font: FontFile
 var _font_bold: FontFile
 
-# ── 초기화 ───────────────────────────────────────────────────
-func _ready():
-	_load_fonts()
-	_build_ui()
-	SceneTransition.fade_in()
-	_play_card(0)
+# Runtime check hook: tests may inspect a fully built first beat without timers.
+var _qa_disable_autoplay := false
+var _qa_force_reduced_motion := false
+var _qa_suppress_transition := false
+var _transition_request_count := 0
 
-func _load_fonts():
-	_font      = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
+func _ready() -> void:
+	_font = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
 	_font_bold = load("res://assets/fonts/Pretendard-Bold.ttf") as FontFile
 	FontKit.attach_emoji_fallback(_font)
 	FontKit.attach_emoji_fallback(_font_bold)
+	_reduced_motion = _qa_force_reduced_motion or bool(SaveManager.get_setting(
+		"reduce_motion", SaveManager.get_setting("reduced_motion", false)))
+	_build_ui()
+	set_meta("opening_beat_count", BEATS.size())
+	set_meta("opening_max_seconds", OPENING_MAX_SECONDS)
+	set_meta("opening_required_input_gates", OPENING_REQUIRED_INPUT_GATES)
+	set_meta("opening_skip_target", NEXT_SCENE)
+	set_meta("opening_reduced_motion", _reduced_motion)
+	set_meta("opening_camera_motion", not _reduced_motion)
+	set_meta("opening_transition_requests", 0)
+	_accept_input_after_ms = Time.get_ticks_msec() + 220
+	SceneTransition.fade_in()
+	BGMPlayer.enter_ambient_bed(0.55)
+	if _qa_disable_autoplay:
+		_show_beat(0, false)
+		return
+	_play_sequence()
 
-func _apply_font(lbl: Label, bold: bool = false):
-	var f = _font_bold if bold else _font
-	if f:
-		lbl.add_theme_font_override("font", f)
+func _build_ui() -> void:
+	var base := ColorRect.new()
+	base.name = "InkBase"
+	base.color = Color("#050609")
+	base.set_anchors_preset(Control.PRESET_FULL_RECT)
+	base.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(base)
 
-func _build_ui():
-	# 전체 검정 배경
-	_bg = ColorRect.new()
-	_bg.color = Color("#08080d")
-	_bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(_bg)
+	_visual_frame = Control.new()
+	_visual_frame.name = "OpeningVisualFrame"
+	_visual_frame.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_visual_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_visual_frame)
 
-	var line_layer := Control.new()
-	line_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
-	line_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(line_layer)
-	for x in [0.18, 0.50, 0.82]:
-		var vline := ColorRect.new()
-		vline.color = Color("#161b26", 0.24)
-		vline.anchor_left = x
-		vline.anchor_right = x
-		vline.anchor_top = 0.12
-		vline.anchor_bottom = 0.88
-		vline.offset_left = 0
-		vline.offset_right = 1
-		vline.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		line_layer.add_child(vline)
-	for y in [0.34, 0.66]:
-		var hline := ColorRect.new()
-		hline.color = Color("#141824", 0.22)
-		hline.anchor_left = 0.16
-		hline.anchor_right = 0.84
-		hline.anchor_top = y
-		hline.anchor_bottom = y
-		hline.offset_top = 0
-		hline.offset_bottom = 1
-		hline.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		line_layer.add_child(hline)
+	_living_scene = LivingSceneLayerScript.new()
+	_living_scene.name = "OpeningAtmosphere"
+	add_child(_living_scene)
 
-	# 중앙 컨테이너
-	var center = CenterContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
-	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(center)
+	var scrim := TextureRect.new()
+	scrim.name = "OpeningScrim"
+	scrim.texture = _scrim_texture()
+	scrim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	scrim.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	scrim.stretch_mode = TextureRect.STRETCH_SCALE
+	scrim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(scrim)
 
-	var vbox = VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 24)
-	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
-	vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	center.add_child(vbox)
+	var safe_margin := MarginContainer.new()
+	safe_margin.name = "OpeningSafeArea"
+	safe_margin.set_anchors_preset(Control.PRESET_FULL_RECT)
+	safe_margin.add_theme_constant_override("margin_left", 72)
+	safe_margin.add_theme_constant_override("margin_right", 72)
+	safe_margin.add_theme_constant_override("margin_top", 58)
+	safe_margin.add_theme_constant_override("margin_bottom", 68)
+	safe_margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(safe_margin)
 
-	# 메인 텍스트
-	_main_lbl = Label.new()
-	_main_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_main_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_main_lbl.custom_minimum_size = Vector2(700, 0)
-	_main_lbl.add_theme_color_override("font_color", Color("#e8eaf0"))
-	_main_lbl.modulate = Color(1, 1, 1, 0.0)
-	_apply_font(_main_lbl, true)
-	vbox.add_child(_main_lbl)
+	var column := VBoxContainer.new()
+	column.custom_minimum_size = Vector2(610, 0)
+	column.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	column.add_theme_constant_override("separation", 12)
+	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	safe_margin.add_child(column)
 
-	# 서브 텍스트 (작은 글씨)
-	_sub_lbl = Label.new()
-	_sub_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_sub_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_sub_lbl.custom_minimum_size = Vector2(640, 0)
-	_sub_lbl.add_theme_font_size_override("font_size", 16)
-	_sub_lbl.add_theme_color_override("font_color", Color("#6a7590"))
-	_sub_lbl.modulate = Color(1, 1, 1, 0.0)
-	_apply_font(_sub_lbl)
-	vbox.add_child(_sub_lbl)
+	var spacer := Control.new()
+	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	column.add_child(spacer)
 
-	_stats_row = HBoxContainer.new()
-	_stats_row.add_theme_constant_override("separation", 10)
-	_stats_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	_stats_row.modulate = Color(1, 1, 1, 0.0)
-	_stats_row.visible = false
-	_stats_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	vbox.add_child(_stats_row)
+	_beat_rule = ColorRect.new()
+	_beat_rule.custom_minimum_size = Vector2(48, 3)
+	_beat_rule.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	_beat_rule.color = Color("#dce3ea", 0.72)
+	_beat_rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	column.add_child(_beat_rule)
 
-	# 하단 힌트 ("아무 키나 눌러 시작")
-	_hint_lbl = Label.new()
-	_hint_lbl.text = LocaleManager.ui("아무 키나 눌러 시작", "Press any key to begin")
-	_hint_lbl.add_theme_font_size_override("font_size", 13)
-	_hint_lbl.add_theme_color_override("font_color", Color("#3a4455"))
-	_hint_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_hint_lbl.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	_hint_lbl.offset_top    = -44
-	_hint_lbl.offset_bottom = 0
-	_hint_lbl.modulate = Color(1, 1, 1, 0.0)
-	_apply_font(_hint_lbl)
-	add_child(_hint_lbl)
+	_title_label = Label.new()
+	_title_label.name = "OpeningTitle"
+	_title_label.custom_minimum_size = Vector2(610, 0)
+	_title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_title_label.add_theme_font_size_override("font_size", 36)
+	_title_label.add_theme_color_override("font_color", Color("#f1f3f5"))
+	if _font_bold:
+		_title_label.add_theme_font_override("font", _font_bold)
+	column.add_child(_title_label)
 
-# ── 카드 재생 ─────────────────────────────────────────────────
-func _play_card(idx: int):
-	_play_generation += 1
-	var generation := _play_generation
-	_card_index    = idx
-	_waiting_input = false
-	var cards := CARDS_EN if LocaleManager.is_english() else CARDS
-	var card = cards[idx]
+	_body_label = Label.new()
+	_body_label.name = "OpeningBody"
+	_body_label.custom_minimum_size = Vector2(610, 0)
+	_body_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_body_label.add_theme_font_size_override("font_size", 19)
+	_body_label.add_theme_color_override("font_color", Color("#bcc3cb"))
+	_body_label.add_theme_constant_override("line_spacing", 6)
+	if _font:
+		_body_label.add_theme_font_override("font", _font)
+	column.add_child(_body_label)
 
-	_main_lbl.add_theme_font_size_override("font_size", card["size"])
-	_main_lbl.text = card["text"]
-	_sub_lbl.text  = card["sub"]
-
-	# 서브 텍스트 표시 여부
-	_sub_lbl.visible = card["sub"] != ""
-	_apply_card_stats(card)
-
-	# 메인 텍스트 페이드인
-	_main_lbl.modulate = Color(1, 1, 1, 0.0)
-	_sub_lbl.modulate  = Color(1, 1, 1, 0.0)
-	_stats_row.modulate = Color(1, 1, 1, 0.0)
-
-	var tw = create_tween()
-	tw.tween_property(_main_lbl, "modulate", Color(1, 1, 1, 1.0), FADE_IN)
-
-	if card["sub"] != "":
-		tw.parallel().tween_property(_sub_lbl, "modulate", Color(1, 1, 1, 1.0), FADE_IN * 0.8)
-	if _stats_row.visible:
-		tw.parallel().tween_property(_stats_row, "modulate", Color(1, 1, 1, 1.0), FADE_IN * 0.75)
-
-	# 마지막 카드: 입력 대기 + 힌트 표시
-	if card["hold"] < 0:
-		await tw.finished
-		if generation != _play_generation or _transitioning:
+func _play_sequence() -> void:
+	_sequence_generation += 1
+	var generation := _sequence_generation
+	for index in range(BEATS.size()):
+		await _show_beat(index, true)
+		if _transitioning or generation != _sequence_generation:
 			return
-		await get_tree().create_timer(0.3).timeout
-		if generation != _play_generation or _transitioning:
+		await get_tree().create_timer(float(BEATS[index]["hold"])).timeout
+		if _transitioning or generation != _sequence_generation:
 			return
-		_show_hint()
-		_waiting_input = true
+	_finish_opening()
+
+func _show_beat(index: int, animate: bool = true) -> void:
+	if index < 0 or index >= BEATS.size():
 		return
+	var beat: Dictionary = BEATS[index]
+	set_meta("opening_beat_index", index)
+	var next_image := TextureRect.new()
+	next_image.name = "OpeningImage%d" % (index + 1)
+	next_image.texture = load(str(beat["image"]))
+	next_image.set_anchors_preset(Control.PRESET_FULL_RECT)
+	next_image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	next_image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	next_image.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	next_image.modulate = Color(1, 1, 1, 0.0 if animate else 1.0)
+	next_image.material = _grade_material(
+		float(beat["desaturation"]), float(beat["brightness"]), float(index + 11))
+	_visual_frame.add_child(next_image)
+	await get_tree().process_frame
+	next_image.pivot_offset = next_image.size * 0.5
+	next_image.scale = Vector2.ONE if _reduced_motion else Vector2(1.045, 1.045)
 
-	# 일반 카드: hold 후 페이드아웃 → 다음 카드
-	await tw.finished
-	await get_tree().create_timer(card["hold"]).timeout
+	var old_image := _current_image
+	_current_image = next_image
+	_title_label.text = _localized(beat, "title")
+	_body_label.text = _localized(beat, "body")
+	_title_label.modulate.a = 0.0 if animate else 1.0
+	_body_label.modulate.a = 0.0 if animate else 1.0
+	_beat_rule.modulate.a = 0.0 if animate else 1.0
+	BGMPlayer.set_ambience(str(beat["ambience"]))
+	_living_scene.configure(
+		{
+			"id": "opening_beat_%d" % (index + 1),
+			"living_scene": {
+				"effect": str(beat["effect"]),
+				"intensity": float(beat["intensity"]),
+			},
+		},
+		str(beat["image"]).get_file().get_basename(),
+		"",
+		{"channel": "memory", "portrait_role": "none"},
+		0.0,
+		false,
+		_reduced_motion)
 
-	if generation != _play_generation or _transitioning:
+	if not animate:
 		return
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(next_image, "modulate:a", 1.0, FADE_SECONDS)
+	tween.tween_property(_title_label, "modulate:a", 1.0, FADE_SECONDS * 0.85)
+	tween.tween_property(_body_label, "modulate:a", 1.0, FADE_SECONDS)
+	tween.tween_property(_beat_rule, "modulate:a", 1.0, FADE_SECONDS * 0.75)
+	if not _reduced_motion:
+		var camera_tween := next_image.create_tween()
+		camera_tween.set_trans(Tween.TRANS_SINE)
+		camera_tween.set_ease(Tween.EASE_OUT)
+		camera_tween.tween_property(
+			next_image, "scale", Vector2.ONE, float(beat["hold"]) + FADE_SECONDS)
+	if is_instance_valid(old_image):
+		tween.tween_property(old_image, "modulate:a", 0.0, FADE_SECONDS)
+	await tween.finished
+	if is_instance_valid(old_image):
+		old_image.queue_free()
 
-	var tw2 = create_tween()
-	tw2.tween_property(_main_lbl, "modulate", Color(1, 1, 1, 0.0), FADE_OUT)
-	if card["sub"] != "":
-		tw2.parallel().tween_property(_sub_lbl, "modulate", Color(1, 1, 1, 0.0), FADE_OUT * 0.9)
-	if _stats_row.visible:
-		tw2.parallel().tween_property(_stats_row, "modulate", Color(1, 1, 1, 0.0), FADE_OUT * 0.9)
-	await tw2.finished
+func _localized(beat: Dictionary, field: String) -> String:
+	return str(beat["%s_en" % field] if LocaleManager.is_english() else beat["%s_ko" % field])
 
-	if generation != _play_generation or _transitioning:
-		return
+func _grade_material(desaturation: float, brightness: float, seed: float) -> ShaderMaterial:
+	var material := ShaderMaterial.new()
+	material.shader = load("res://assets/shaders/background_grade.gdshader") as Shader
+	material.set_shader_parameter("desaturation", desaturation)
+	material.set_shader_parameter("brightness", brightness)
+	material.set_shader_parameter("contrast", 0.98)
+	material.set_shader_parameter("grain_amount", 0.018)
+	material.set_shader_parameter("ink_bleed", 0.045)
+	material.set_shader_parameter("paper_fade", 0.012)
+	material.set_shader_parameter("edge_burn", 0.15)
+	material.set_shader_parameter("print_screen", 0.010)
+	material.set_shader_parameter("seed", seed)
+	return material
 
-	await get_tree().create_timer(0.25).timeout
-	if generation != _play_generation or _transitioning:
-		return
-	_play_card(idx + 1)
+func _scrim_texture() -> GradientTexture2D:
+	var gradient := Gradient.new()
+	gradient.offsets = PackedFloat32Array([0.0, 0.22, 0.52, 1.0])
+	gradient.colors = PackedColorArray([
+		Color(0.01, 0.012, 0.016, 0.88),
+		Color(0.01, 0.012, 0.016, 0.58),
+		Color(0.01, 0.012, 0.016, 0.12),
+		Color(0.01, 0.012, 0.016, 0.18),
+	])
+	var texture := GradientTexture2D.new()
+	texture.gradient = gradient
+	texture.width = 1280
+	texture.height = 8
+	texture.fill_from = Vector2(0.0, 0.5)
+	texture.fill_to = Vector2(1.0, 0.5)
+	return texture
 
-func _apply_card_stats(card: Dictionary) -> void:
-	for child in _stats_row.get_children():
-		child.queue_free()
-	var stats: Array = card.get("stats", [])
-	_stats_row.visible = not stats.is_empty()
-	if stats.is_empty():
-		return
-	for entry in stats:
-		if not entry is Array or entry.size() < 2:
-			continue
-		_stats_row.add_child(_make_stat_chip(str(entry[0]), str(entry[1])))
-
-func _make_stat_chip(label_text: String, value_text: String) -> PanelContainer:
-	var chip := PanelContainer.new()
-	chip.custom_minimum_size = Vector2(132, 56)
-	chip.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var st := StyleBoxFlat.new()
-	st.bg_color = Color("#10121a", 0.94)
-	st.border_color = Color("#596273", 0.86)
-	st.set_border_width_all(1)
-	st.set_corner_radius_all(6)
-	st.content_margin_left = 14
-	st.content_margin_right = 14
-	st.content_margin_top = 9
-	st.content_margin_bottom = 9
-	chip.add_theme_stylebox_override("panel", st)
-
-	var box := VBoxContainer.new()
-	box.alignment = BoxContainer.ALIGNMENT_CENTER
-	box.add_theme_constant_override("separation", 3)
-	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	chip.add_child(box)
-
-	var small := Label.new()
-	small.text = label_text
-	small.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	small.add_theme_font_size_override("font_size", 10)
-	small.add_theme_color_override("font_color", Color("#747f92"))
-	_apply_font(small)
-	box.add_child(small)
-
-	var value := Label.new()
-	value.text = value_text
-	value.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	value.add_theme_font_size_override("font_size", 16)
-	value.add_theme_color_override("font_color", Color("#e9edf4"))
-	_apply_font(value, true)
-	box.add_child(value)
-	return chip
-
-func _show_hint():
-	var tw = create_tween()
-	tw.tween_property(_hint_lbl, "modulate", Color(1, 1, 1, 1.0), 0.8)
-	# 깜빡임
-	await tw.finished
-	var blink = create_tween().set_loops(999)
-	blink.tween_property(_hint_lbl, "modulate:a", 0.3, 0.7)
-	blink.tween_property(_hint_lbl, "modulate:a", 1.0, 0.7)
-
-# ── 입력 처리 ─────────────────────────────────────────────────
-func _input(event: InputEvent):
-	if _transitioning:
+func _input(event: InputEvent) -> void:
+	if _transitioning or Time.get_ticks_msec() < _accept_input_after_ms:
 		return
 	var pressed := false
 	if event is InputEventKey and event.pressed and not event.echo:
@@ -372,30 +291,17 @@ func _input(event: InputEvent):
 		pressed = true
 	elif event is InputEventJoypadButton and event.pressed:
 		pressed = true
+	if pressed:
+		get_viewport().set_input_as_handled()
+		_finish_opening()
 
-	if not pressed:
-		return
-
-	# 카드 진행 중: 현재 카드 스킵 → 마지막 카드로 점프
-	if not _waiting_input:
-		var cards := CARDS_EN if LocaleManager.is_english() else CARDS
-		# 마지막 카드의 페이드가 끝나기 전 연타는 같은 카드를 다시 시작하지 않는다.
-		if _card_index < cards.size() - 1:
-			_skip_to_last()
-	else:
-		_go_to_menu()
-
-func _skip_to_last():
-	# 현재 텍스트 숨기고 마지막 카드로 점프
-	_main_lbl.modulate = Color(1, 1, 1, 0.0)
-	_sub_lbl.modulate  = Color(1, 1, 1, 0.0)
-	_hint_lbl.modulate = Color(1, 1, 1, 0.0)
-	var cards := CARDS_EN if LocaleManager.is_english() else CARDS
-	_card_index = cards.size() - 1
-	_play_card(_card_index)
-
-func _go_to_menu():
+func _finish_opening() -> void:
 	if _transitioning:
 		return
 	_transitioning = true
-	SceneTransition.go("res://scenes/StartMenu.tscn")
+	_sequence_generation += 1
+	_transition_request_count += 1
+	set_meta("opening_transition_requests", _transition_request_count)
+	if _qa_suppress_transition:
+		return
+	SceneTransition.go(NEXT_SCENE)

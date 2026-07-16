@@ -52,12 +52,22 @@ def main() -> int:
         if official.exists() and approval.exists() and digest(official) != digest(approval):
             failures.append(f"{stem}.png drifted from its approved _v2 export")
 
-    for source_path in (ROOT / "scenes/StartMenu.gd", ROOT / "scenes/SplashScreen.gd"):
+    runtime_surfaces = (
+        ROOT / "scenes/StartMenu.gd",
+        ROOT / "scenes/SplashScreen.gd",
+    )
+    for source_path in runtime_surfaces:
         source = source_path.read_text(encoding="utf-8")
         if MASTER.name not in source:
             failures.append(f"{source_path.relative_to(ROOT)} does not use the launch master")
         if LEGACY_NAME in source:
             failures.append(f"{source_path.relative_to(ROOT)} still uses legacy rooftop branding")
+
+    splash_source = (ROOT / "scenes/SplashScreen.gd").read_text(encoding="utf-8")
+    if "junpac_games_logo.jpg" in splash_source:
+        failures.append("SplashScreen still embeds the opaque JUNPAC JPEG")
+    if "res://scenes/ui/JunpacMark.gd" not in splash_source:
+        failures.append("SplashScreen does not use the code-native JUNPAC mark")
 
     if failures:
         for failure in failures:
@@ -66,7 +76,7 @@ def main() -> int:
 
     print(
         "KEY_ART_CHECK_OK master=1920x1080 derivatives=616x353,460x215,231x87 "
-        "runtime_surfaces=2 legacy_runtime_refs=0"
+        "runtime_surfaces=2 publisher_mark=code_native legacy_runtime_refs=0"
     )
     return 0
 

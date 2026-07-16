@@ -1,6 +1,6 @@
 # Gangnam Dream Audio QA
 
-Updated: 2026-07-16
+Updated: 2026-07-17
 
 Production gate: an audio file existing and loading is not the same as launch approval. Every asset must also satisfy `docs/PRODUCTION_ASSET_PIPELINE.md`: commercial provenance, clean head/tail, mix balance, semantic runtime mapping, image-paired listening, and 30-minute fatigue QA.
 
@@ -24,10 +24,17 @@ The sound must belong to the same work as the `Gangnam Ink` visual direction.
 |---|---:|---|
 | BGM | 14 | `autoloads/BGMPlayer.gd` |
 | Ambience | 45 | `autoloads/BGMPlayer.gd` (36 inert/place + 9 human-presence layers) |
-| SFX | 52 | `autoloads/AudioManager.gd` |
-| **Total** | **111** | one deterministic in-repo source each |
+| SFX | 53 | `autoloads/AudioManager.gd` |
+| **Total** | **112** | one deterministic in-repo source each |
 
 All current audio uses original deterministic synthesis; external samples: 0. The source ledger is enforced by `tools/audio_source_audit.py`.
+
+## Launch Identity
+
+- `publisher_sting` is a project-owned 1.55-second stereo 48 kHz mark, generated deterministically by `tools/generate_launch_audio.py`.
+- It plays exactly once with the transparent JUNPAC mark, at a restrained -4 dB mix trim. It is neither menu music nor a reusable reward sound.
+- Skipping the publisher pre-roll cannot stack or replay the sting. The title and new-story opening then use their existing music/ambience owners without carrying the sting forward.
+- `First30SecondsCheck.tscn` locks one sting, one mandatory title input gate, and a maximum three-beat opening. `generate_launch_audio.py --check` locks the file format and duration.
 
 ## Scene Music
 
@@ -112,6 +119,7 @@ Focus traversal is a last resort. Gameplay scenes use direct state machines and 
 python3 tools/audio_source_audit.py
 python3 tools/scene_audio_contract_check.py
 python3 tools/game_audio_contract_check.py
+python3 tools/generate_launch_audio.py --check
 /Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot --headless res://tools/AudioAssetCheck.tscn
 /Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot --headless res://tools/BGMContinuityCheck.tscn
 /Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot --headless res://tools/GameAudioContractCheck.tscn
@@ -122,10 +130,11 @@ python3 tools/game_audio_contract_check.py
 Latest targeted result:
 
 ```text
-AUDIO_SOURCE_AUDIT_OK assets=111 bgm=14 ambience=45 sfx=52 external_samples=0
+AUDIO_SOURCE_AUDIT_OK assets=112 bgm=14 ambience=45 sfx=53 external_samples=0
 SCENE_AUDIO_CONTRACT_OK cg=57 peak_events=46 ambience_keys=36 music_keys=14
 GAME_AUDIO_CONTRACT_OK physical=17 stages=19 activities=7 activity_music=1 human_layers=9 direct_pad=9
-AUDIO_ASSET_CHECK_OK bgm=14 ambience=45 sfx=52
+AUDIO_ASSET_CHECK_OK bgm=14 ambience=45 sfx=53
+LAUNCH_AUDIO_OK stereo=2 rate=48000 duration=1.55
 BGM_CONTINUITY_OK mode=menu key=menu ambience=
 GAME_AUDIO_RUNTIME_OK physical=17 ambience_roundtrip=3 varied_playback=1 casino_music=1
 MORAL_AMBIENCE_CHECK_OK profiles=9
@@ -142,3 +151,4 @@ Before demo lock, listen at the real 1280x800/Steam Deck presentation and on bot
 4. Play the wedding chain without skipping. Processional continuity, paragraph applause, voice-free room tone, and decision silence must feel like one scene.
 5. A/B every procedural physical asset against a professional foley candidate. Promote only the version that sounds native to the modern illustration while preserving license evidence.
 6. Compare the same cafe, street, casino, and wedding screen at Gray, Light Black, Deep Black, and White. Only human presence should radically recede; the place and interaction timing must remain believable.
+7. Cold-boot three times on headphones, laptop speakers, and a living-room TV. The publisher sting must read as one restrained brand gesture, never as a mobile reward chirp, and must not replay at the title or New Story transition.

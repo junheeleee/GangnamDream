@@ -235,6 +235,16 @@ Automated input and display gates:
 - `SceneDirectionCheck.tscn` passes hold, camera, beat, sting, ambience restore, and BGM continuity.
 - `FlashforwardVisualCheck.tscn` passes scene-local Black override, persistent tint safety, semantic background, HUD/portrait treatment, and Gray follow-up restore.
 
+## Launch / First 30 Seconds
+- The launch flow contains exactly one mandatory input gate: the title prompt. Publisher pre-roll and the three-beat New Story opening are fully automatic and skippable.
+- The JUNPAC mark is a transparent code-native tapered crescent plus red square. Runtime launch trees must not load the old black-box `junpac_games_logo.jpg`.
+- `publisher_sting` plays once per cold boot. It does not loop, stack on skip, or restart at the title/opening handoff.
+- New Story routes through `OpeningCinematic.tscn`; Continue and Load route directly to the saved game. The opening contains at most three full-bleed illustrated beats and no black presentation cards or final confirmation gate.
+- Keyboard shows `PRESS ANY KEY`; active Xbox/Steam Deck, DualSense, and Switch layouts show their physical South button. Dismissing the gate restores focus to a visible title command.
+- Reduce Motion removes opening camera scaling and inferred Living Scene camera travel while preserving the same image, copy, timing budget, and skip target.
+- `First30SecondsCheck.tscn` must print `FIRST_30_SECONDS_CHECK_OK gates=1 beats=3 budget=17.1s logo=vector audio=1 reduced_motion=1 pad=1`.
+- Run `ScreenshotQA --qa=first-30` for KO/EN at 1280x720, Steam Deck 1280x800, and 3840x2160. Include at least one `--pad=playstation --reduce-motion` run and one 4K pad run; inspect logo edges, title-safe copy, full-bleed crops, English zero-Hangul, and duplicated transitions.
+
 ## Ending Art
 - `CGRuntimeCheck.tscn` passes all ending CG paths, minimum 1280×720 dimensions, unique ownership, Gangnam Ink preview grading, and the ending-CG shadow-legibility grade.
 - `CGRuntimeCheck.tscn` also passes all story CG paths, unique event ownership, exact 1280×800 romance dimensions, paragraph reveal timing, paragraph-specific background order, hidden portraits, and hidden HUD.

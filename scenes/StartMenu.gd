@@ -1,6 +1,10 @@
 extends Control
 
 const GangnamWordmarkScript := preload("res://scenes/ui/GangnamWordmark.gd")
+const LivingSceneLayerScript := preload("res://scenes/ui/LivingSceneLayer.gd")
+
+const LAUNCH_REQUIRED_INPUT_GATES := 1
+const NEW_STORY_SCENE := "res://scenes/OpeningCinematic.tscn"
 
 # 드라마 모드: 루트/특성 선택 없이 김민준 33세 백수로 고정 시작.
 # 성향(직장/투자/창업)은 플레이 중 선택 누적으로 자연스럽게 결정된다.
@@ -156,6 +160,8 @@ const DIFFICULTY_TEXT_EN := {
 }
 
 func _ready():
+	set_meta("launch_required_input_gates", LAUNCH_REQUIRED_INPUT_GATES)
+	set_meta("new_story_scene", NEW_STORY_SCENE)
 	_build_ui()
 	_build_splash()
 	BGMPlayer.start_menu()
@@ -281,6 +287,22 @@ func _build_title_backdrop(parent: Control, splash: bool = false) -> void:
 	_apply_title_grade(key_art, 0.18, 0.84 if splash else 0.91, 0.08, 3.0)
 	parent.add_child(key_art)
 
+	var atmosphere: LivingSceneLayer = LivingSceneLayerScript.new()
+	atmosphere.name = "TitleAtmosphere"
+	parent.add_child(atmosphere)
+	atmosphere.configure(
+		{
+			"id": "start_menu_title",
+			"living_scene": {"effect": "city_light", "intensity": 0.09 if splash else 0.06},
+		},
+		"gangnam_night_street",
+		"",
+		{"channel": "memory", "portrait_role": "none"},
+		0.0,
+		false,
+		bool(SaveManager.get_setting(
+			"reduce_motion", SaveManager.get_setting("reduced_motion", false))))
+
 	var scrim := TextureRect.new()
 	scrim.texture = _horizontal_scrim_texture()
 	scrim.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -384,6 +406,8 @@ func _input(event):
 
 func _dismiss_splash():
 	_splash_active = false
+	set_meta("launch_required_input_gates", 0)
+	set_meta("launch_gate_dismissed", true)
 	if _splash_prompt_tween and _splash_prompt_tween.is_running():
 		_splash_prompt_tween.kill()
 	_splash_prompt_tween = null
@@ -1733,7 +1757,7 @@ func _do_start_run():
 	# 이름·루트 선택 없이 고정 시작 (드라마 모드)
 	# 성향은 플레이 중 선택으로 자연스럽게 결정됨
 	GameState.start_new_game(_tr("김민준", "Kim Minjun"), "지방_상경", "none", "백수", "자유런", "현실")
-	SceneTransition.go("res://scenes/MainGame.tscn")
+	SceneTransition.go(NEW_STORY_SCENE)
 
 func _load_slot(slot):
 	if SaveManager.load_game(slot):

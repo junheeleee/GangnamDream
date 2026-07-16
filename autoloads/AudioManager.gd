@@ -63,6 +63,7 @@ const _SFX_MIX_TRIM_DB = {
 	"wedding_applause": -2.0,
 	"wedding_cheer": -4.0,
 	"distant_fireworks": -3.0,
+	"publisher_sting": -4.0,
 	"card_shuffle": 0.0,
 	"card_deal": 2.0,
 	"card_flip": 2.0,
@@ -120,6 +121,7 @@ const _SFX_FILES = {
 	"wedding_applause": "res://assets/audio/sfx_wedding_applause.wav",
 	"wedding_cheer": "res://assets/audio/sfx_wedding_cheer.wav",
 	"distant_fireworks": "res://assets/audio/sfx_distant_fireworks.wav",
+	"publisher_sting": "res://assets/audio/sfx_publisher_sting.wav",
 	# 카드·칩·기계 단계별 물리음. 공용 카지노 전자음은 결과 피드백에만 남긴다.
 	"card_shuffle": "res://assets/audio/sfx_card_shuffle.wav",
 	"card_deal": "res://assets/audio/sfx_card_deal.wav",

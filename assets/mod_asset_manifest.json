@@ -2237,6 +2237,13 @@
     },
     {
       "ids": [
+        "publisher_sting"
+      ],
+      "relative_path": "audio/sfx_publisher_sting.wav",
+      "bytes": 297644
+    },
+    {
+      "ids": [
         "race_crowd_rise"
       ],
       "relative_path": "audio/sfx_race_crowd_rise.wav",
