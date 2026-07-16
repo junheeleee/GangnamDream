@@ -108,11 +108,11 @@
       },
       {
         "text": "\"Forget it.\" (He took it back)",
-        "result_text": "Something shifted in Sangchul's eyes.\n\nHe probably already knew what Minjun knew.\n\nMinjun finished his coffee and stood up first. He still needs what this man knows. That's all this is.\n\nSangchul said nothing."
+        "result_text": "Something shifted in Sangchul's eyes the instant Minjun took the words back.\n\nHe didn't say, \"All right.\" He didn't say, \"I don't know him.\"\n\nIt was the face of a man who already knew how much Minjun knew."
       },
       {
         "text": "(He got up and left)",
-        "result_text": "Minjun stood and walked out of the café without a word.\n\nSangchul called his name from behind. He didn't turn around.\n\nThat relationship ended that day. With no dramatic scene."
+        "result_text": "The chair legs scraped briefly against the floor. Minjun left the finished bill and the cold cup behind.\n\nSangchul called his name from across the café.\n\nMinjun pushed through the glass door. He hadn't looked back — not yet."
       }
     ],
     "description_if_known": {
@@ -131,9 +131,39 @@
     }
   },
   {
+    "id": "arc_sangchul_buried_silence",
+    "title": "Cold Coffee",
+    "description": "The hiss of the espresso machine returned when Minjun took the question back. The café resumed around them as though nothing had happened.\n\nInstead of answering, Sangchul pushed the water glass toward him. One finger traced the brown ring on the saucer.\n\n\"If you're going to stay beside me, you should know what pretending not to know will cost.\"\n\n\"What cost?\" Minjun asked.\n\n\"Whether you use me later or throw me away — you chose not to ask today. That cost.\"\n\nHe didn't press for an answer. That was how Minjun knew: this silence was no longer ignorance. It was a contract.",
+    "choices": [
+      {
+        "text": "\"I'll leave it buried.\"",
+        "result_text": "Minjun drank the water. It tasted of less than the cold coffee.\n\nI still need what this man knows, he told himself exactly three times. That was all.\n\nWhen Minjun stood first, Sangchul didn't stop him. One name remained on the table, known to both men and spoken by neither."
+      },
+      {
+        "text": "\"No. Tell me all of it.\"",
+        "result_text": "Minjun pushed the water glass back across the table.\n\n\"Then I'll hear the cost too. How did you know Park Sang-jin? Start at the beginning.\"\n\nSangchul's finger stopped on the saucer. The man who had spent years avoiding this finally settled back into his chair."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_stairwell",
+    "title": "Outside the Door",
+    "description": "The café music thinned behind the closing glass door. Minjun took the three front steps at once. Cold air sharpened the bitterness in his mouth.\n\n\"Minjun.\"\n\nSangchul didn't follow. He stood inside the threshold, holding the door with one hand.\n\n\"If you leave now, you aren't leaving without knowing. You're choosing not to hear it.\"\n\nMinjun stopped at the foot of the steps. Without turning, he could feel the exact distance between them. Three paces.",
+    "choices": [
+      {
+        "text": "He never looked back",
+        "result_text": "Minjun took the fourth step. Behind him, the glass door closed.\n\nAfter that day, he never contacted Sangchul first. The information, the introductions, every door Sangchul opened — all of them closed with him.\n\nThe relationship ended without a dramatic scene. Only those three steps stayed with Minjun for a long time."
+      },
+      {
+        "text": "He turned at the foot of the steps",
+        "result_text": "When Minjun turned, Sangchul was still holding the door.\n\n\"I'll hear everything before I go.\"\n\nThey returned to the same table. The coffee was stone cold, and this time neither man ordered another cup."
+      }
+    ]
+  },
+  {
     "id": "arc_sangchul_reckoning",
     "title": "I'm Sorry",
-    "description": "After a long pause, Lim Sangchul spoke.\n\"...You're his son. I knew from the start.\"\n\n{name} didn't answer. He only looked at his coffee cup. The steam had long gone cold.\n\n\"When Park Sangjin called and made the introduction... I was just doing a favor. I never thought it would come to this.\" Sangchul's voice didn't sound like an excuse. Which made it harder to bear.\n\nSilence again. Then Sangchul said,\n\"I'm sorry.\"\nThose words, carried across more than a decade, were laid on the table. {name} couldn't pick them up right away.",
+    "description": "After a long pause, Lim Sangchul spoke.\n\"Your father. I knew you were his son from the start.\"\n\n{name} didn't answer. He only looked at his coffee cup. The steam had long gone cold.\n\n\"You're the one who introduced Park Sang-jin to him, weren't you?\"\n\nSangchul nodded. \"I told him Park could be trusted. I vouched for him. I thought I was doing one favor. I didn't know it would become this.\" It didn't sound like an excuse. That made it harder to bear.\n\nSilence again. Then Sangchul said, \"I'm sorry.\"\n\nThose words, carried across more than a decade, were laid on the table. {name} couldn't pick them up right away.",
     "choices": [
       {
         "text": "\"I'm going to report you.\"",
@@ -149,14 +179,14 @@
       },
       {
         "text": "\"Pay it back. My father's debt. With your own hands.\"",
-        "result_text": "\"Pay it back. My father's debt. With your own hands.\" {name} said it, clear and even.\nSangchul looked at him a long time. \"...So that's what you want.\"\n\"An apology doesn't fill my father's bankbook.\"\n\nInstead of answering, Sangchul took out a notebook. A few days later, money entered Father's old account. The sum that had vanished over a decade ago returned, exact to the number.\nAnd yet even as he confirmed that number, something in {name} stayed unfilled. The debt was paid — but Father never got to see it."
+        "result_text": "\"Pay it back. My father's debt. With your own hands.\" {name} said it, clear and even.\nSangchul looked at him a long time. \"...So that's what you want.\"\n\"An apology doesn't fill my father's bankbook.\"\n\nInstead of answering, Sangchul took out a notebook. A few days later, money entered Father's old account. The sum that had vanished over a decade ago returned, exact to the number.\nAnd yet even as he confirmed that number, something in {name} stayed unfilled. The debt was paid — but the decade Father had lost did not come back."
       }
     ],
     "description_if_known": {
-      "rationalized_using_people": "After a long silence, Sangchul spoke.\n\n\"He's that man's son. I knew from the start.\"\n\nMinjun said nothing.\n\n\"When Park Sang-jin reached out and made the introduction... I just did him the favor. I didn't know it would become this.\"\n\nSangchul said, \"I'm sorry.\"\n\nMinjun remembered something he'd once told himself.\n'Everyone lives like this.'\nIt felt like Sangchul was saying the exact same thing now.\nSomewhere along the way, he too must have talked himself into it.",
-      "denied_sangchul_mirror": "After a long silence, Sangchul spoke.\n\n\"He's that man's son. I knew from the start.\"\n\nMinjun said nothing.\n\n\"When Park Sang-jin reached out and made the introduction... I just did him the favor. I didn't know it would become this.\"\n\nA silence between them.\n\nSangchul said, \"I'm sorry.\"\n\nHe remembered the night he'd said 'I'm a bit different.'\nAnd Sangchul nodding: 'if that's what you think, then sure.'\nSitting here now, those words had weight.",
-      "sangchul_called_you_his_mirror": "After a long silence, Sangchul spoke.\n\n\"He's that man's son. I knew from the start.\"\n\nMinjun said nothing.\n\n\"When Park Sang-jin reached out and made the introduction... I just did him the favor. I didn't know it would become this.\"\n\nA silence between them.\n\nSangchul said, \"I'm sorry.\"\n\nWhat he'd said once before — 'you're like me' — came back.\nHow those words sounded now was different.",
-      "sangchul_personal_known": "After a long silence, Sangchul spoke.\n\n\"I knew he was your father. From the beginning.\"\n\nMinjun didn't respond.\n\n\"When Park Sang-jin called and made the introduction... I just did him a favor. I didn't know it would go this far.\"\n\nA beat of silence.\n\nSangchul said,\n\"I'm sorry.\"\n\nOut of nowhere, Minjun remembered the night the man had mentioned his son — quitting college.\nThe face that had offered that story unasked.\nThe man who broke his father was, somewhere, a father coming apart himself.\nIt didn't make anything forgivable. It was just true."
+      "rationalized_using_people": "After a long silence, Sangchul spoke.\n\n\"Your father. I knew you were his son from the start.\"\n\n\"You introduced Park Sang-jin to him, didn't you?\" Minjun asked.\n\nSangchul nodded. \"I told him Park could be trusted. I vouched for him. I thought I was doing one favor. I didn't know it would become this.\"\n\nThen he said, \"I'm sorry.\"\n\nMinjun remembered something he'd once told himself: Everyone lives like this. Sangchul must have talked himself into it somewhere along the way too. That made the apology heavier.",
+      "denied_sangchul_mirror": "After a long silence, Sangchul spoke.\n\n\"Your father. I knew you were his son from the start.\"\n\n\"You introduced Park Sang-jin to him, didn't you?\" Minjun asked.\n\nSangchul nodded. \"I told him Park could be trusted. I vouched for him. I thought I was doing one favor. I didn't know it would become this.\"\n\nA silence passed. Sangchul said, \"I'm sorry.\"\n\nMinjun remembered the night he'd said, I'm a bit different. Sangchul had answered, If that's what you think, then sure. Sitting here now, those words had weight.",
+      "sangchul_called_you_his_mirror": "After a long silence, Sangchul spoke.\n\n\"Your father. I knew you were his son from the start.\"\n\n\"You introduced Park Sang-jin to him, didn't you?\" Minjun asked.\n\nSangchul nodded. \"I told him Park could be trusted. I vouched for him. I thought I was doing one favor. I didn't know it would become this.\"\n\nA silence passed. Sangchul said, \"I'm sorry.\"\n\nWhat he'd said once before — you're like me — came back. How those words sounded now was different.",
+      "sangchul_personal_known": "After a long silence, Sangchul spoke.\n\n\"Your father. I knew you were his son from the start.\"\n\n\"You introduced Park Sang-jin to him, didn't you?\" Minjun asked.\n\nSangchul nodded. \"I told him Park could be trusted. I vouched for him. I thought I was doing one favor. I didn't know it would become this.\"\n\nA silence passed. Sangchul said, \"I'm sorry.\"\n\nMinjun remembered the night the man had mentioned his son quitting college, and the face that had offered the story unasked. The man who helped break his father was, somewhere, a father coming apart himself. It made nothing forgivable. It was simply true."
     }
   },
   {

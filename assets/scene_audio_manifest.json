@@ -113,6 +113,8 @@
     "arc_sangchul_01_meet": {"ambience": "office", "music": {"key": "reckoning", "start_paragraph": 0}},
     "arc_sangchul_deduction": {"ambience": "room", "music": {"key": "reckoning", "start_paragraph": 0}},
     "arc_sangchul_confrontation": {"ambience": "cafe", "music": {"key": "reckoning", "start_paragraph": 0}},
+    "arc_sangchul_buried_silence": {"ambience": "cafe", "music": {"key": "reckoning", "start_paragraph": 0}},
+    "arc_sangchul_stairwell": {"ambience": "street", "music": {"key": "reckoning", "start_paragraph": 0}},
     "arc_sangchul_reckoning": {"ambience": "cafe", "music": {"key": "reckoning", "start_paragraph": 0}},
     "arc_sangchul_casino_invite": {"ambience": "cafe", "music": {"key": "reckoning", "start_paragraph": 0}},
     "father_hospital_wait": {"ambience": "hospital", "music": {"key": "grief", "start_paragraph": 0}},

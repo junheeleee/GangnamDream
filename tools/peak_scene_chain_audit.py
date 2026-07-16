@@ -58,13 +58,14 @@ MIN_DIALOGUE_TURNS = 2
 MIN_PANELS = 6
 
 # Ratchet updated only after a peak is expanded and its rendered QA passes.
-BASELINE_DEBT = 23
+BASELINE_DEBT = 22
 REQUIRED_PASS = {
     "arc_date_namsan_daeun",
     "arc_date_namsan_jiyeon",
     "arc_daeun_proposal",
     "arc_daeun_wedding_day",
     "arc_jiyeon_wedding_gap",
+    "arc_sangchul_confrontation",
 }
 
 
@@ -402,6 +403,125 @@ def validate_jiyeon_wedding_gap_contract(events: dict[str, dict[str, Any]]) -> N
                 )
 
 
+def validate_sangchul_confrontation_contract(events: dict[str, dict[str, Any]]) -> None:
+    """Keep every t60 response consequential without changing its total outcome."""
+    root_id = "arc_sangchul_confrontation"
+    reckoning_id = "arc_sangchul_reckoning"
+    buried_id = "arc_sangchul_buried_silence"
+    stairwell_id = "arc_sangchul_stairwell"
+    paths = walk_paths(events, root_id)
+    actual_paths = {path.event_ids for path in paths}
+    expected_paths = {
+        (root_id, reckoning_id),
+        (root_id, buried_id),
+        (root_id, buried_id, reckoning_id),
+        (root_id, stairwell_id),
+        (root_id, stairwell_id, reckoning_id),
+    }
+    if actual_paths != expected_paths:
+        rendered = ", ".join(" -> ".join(path) for path in sorted(actual_paths))
+        raise ValueError(f"Sangchul confrontation paths changed: {rendered}")
+
+    root_choices = events[root_id].get("choices") or []
+    if len(root_choices) != 3:
+        raise ValueError("Sangchul confrontation must retain exactly three opening responses")
+    expected_followups = [reckoning_id, buried_id, stairwell_id]
+    for index, choice in enumerate(root_choices):
+        if choice.get("follow_up_event") != expected_followups[index]:
+            raise ValueError(f"Sangchul opening response {index} changed its branch")
+        for forbidden in ("effects", "cast_effects", "flags"):
+            if choice.get(forbidden):
+                raise ValueError(
+                    f"Sangchul opening response {index} commits {forbidden} before its final link"
+                )
+
+    branch_contracts = {
+        buried_id: {
+            "effects": {"mental": 5, "tint": -3},
+            "cast_effects": {"sangchul": {"stage": "strained"}},
+            "flags": ["arc_sangchul_confrontation_seen", "sangchul_truth_buried"],
+        },
+        stairwell_id: {
+            "effects": {"mental": -3, "reputation": -2, "tint": 8},
+            "cast_effects": {"sangchul": {"stage": "strained"}},
+            "flags": ["arc_sangchul_confrontation_seen", "sangchul_quietly_distanced"],
+        },
+    }
+    for event_id, contract in branch_contracts.items():
+        choices = events[event_id].get("choices") or []
+        if len(choices) != 2:
+            raise ValueError(f"{event_id} must offer confirmation or return to the reckoning")
+        for key, value in contract.items():
+            if choices[0].get(key) != value:
+                raise ValueError(
+                    f"{event_id} final confirmation changed {key}: "
+                    f"{choices[0].get(key)!r}!={value!r}"
+                )
+        if choices[0].get("follow_up_event"):
+            raise ValueError(f"{event_id} final confirmation must end its branch")
+        if choices[1].get("follow_up_event") != reckoning_id:
+            raise ValueError(f"{event_id} return choice must rejoin the reckoning")
+        for forbidden in ("effects", "cast_effects", "flags"):
+            if choices[1].get(forbidden):
+                raise ValueError(f"{event_id} return choice commits {forbidden} too early")
+
+    reckoning_choices = events[reckoning_id].get("choices") or []
+    expected_reckoning = (
+        {
+            "effects": {"mental": 10, "reputation": -10, "tint": 9},
+            "cast_effects": {"sangchul": {"stage": "cut_off"}},
+            "flags": [
+                "arc_sangchul_confrontation_seen",
+                "sangchul_confronted",
+                "arc_sangchul_reckoning_seen",
+                "sangchul_reported",
+                "sangchul_cut_ties",
+            ],
+        },
+        {
+            "effects": {"mental": 3, "tint": 6},
+            "cast_effects": {"sangchul": {"stage": "strained", "affinity": -10}},
+            "flags": [
+                "arc_sangchul_confrontation_seen",
+                "sangchul_confronted",
+                "arc_sangchul_reckoning_seen",
+                "sangchul_forgiven",
+            ],
+        },
+        {
+            "effects": {"mental": -15, "investment_skill": 5, "tint": -7},
+            "cast_effects": {"sangchul": {"stage": "strained"}},
+            "flags": [
+                "arc_sangchul_confrontation_seen",
+                "sangchul_confronted",
+                "arc_sangchul_reckoning_seen",
+                "sangchul_leveraged",
+                "crossed_line",
+            ],
+        },
+        {
+            "effects": {"mental": 7, "reputation": 5, "tint": 7},
+            "cast_effects": {"sangchul": {"stage": "strained", "affinity": -5}},
+            "flags": [
+                "arc_sangchul_confrontation_seen",
+                "sangchul_confronted",
+                "arc_sangchul_reckoning_seen",
+                "cleared_father_debt_from_sangchul",
+            ],
+        },
+    )
+    if len(reckoning_choices) != len(expected_reckoning):
+        raise ValueError("Sangchul reckoning must retain exactly four final judgments")
+    for index, contract in enumerate(expected_reckoning):
+        choice = reckoning_choices[index]
+        for key, value in contract.items():
+            if choice.get(key) != value:
+                raise ValueError(
+                    f"Sangchul reckoning choice {index} changed total {key}: "
+                    f"{choice.get(key)!r}!={value!r}"
+                )
+
+
 def validate_jiyeon_marriage_routing_contract() -> None:
     """Keep Jiyeon's marriage chronology explicit even when Minjun is broke."""
     with open(MAIN_GAME, encoding="utf-8") as handle:
@@ -506,6 +626,7 @@ def main() -> int:
     validate_daeun_proposal_contract(ko_events)
     validate_daeun_wedding_contract(ko_events)
     validate_jiyeon_wedding_gap_contract(ko_events)
+    validate_sangchul_confrontation_contract(ko_events)
     validate_jiyeon_marriage_routing_contract()
     metrics = [measure(label, root_id, ko_events) for label, root_id in PEAK_ROOTS]
     visited = {

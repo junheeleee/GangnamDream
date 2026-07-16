@@ -240,52 +240,19 @@
     "choices": [
       {
         "text": "임상철의 반응을 기다렸다",
-        "effects": {
-          "mental": -5,
-          "tint": 1
-        },
-        "flags": [
-          "arc_sangchul_confrontation_seen",
-          "sangchul_confronted"
-        ],
         "follow_up_event": "arc_sangchul_reckoning",
         "result_text": "임상철이 손을 멈췄다.\n\n부정하지 않았다. 놀란 척도 하지 않았다.\n그냥 — 잠깐 조용했다.\n\n\"...어떻게 알았어?\"",
         "foreshadow": "협력이라 불렀다. 공모라고 부를 날이 올지도 모른다는 생각은, 잠깐 스쳤다가 지나갔다."
       },
       {
         "text": "\"됐어요, 잊어버려요.\" (말을 거뒀다)",
-        "effects": {
-          "mental": 5,
-          "tint": -3
-        },
-        "cast_effects": {
-          "sangchul": {
-            "stage": "strained"
-          }
-        },
-        "flags": [
-          "arc_sangchul_confrontation_seen",
-          "sangchul_truth_buried"
-        ],
-        "result_text": "임상철의 눈에서 뭔가가 바뀌었다.\n\n민준이 뭘 아는지 그는 이미 눈치챘을 것이다.\n\n민준은 커피를 다 마시고 먼저 일어섰다. 이 사람이 가진 정보가 아직 필요하다. 그게 전부다.\n\n임상철은 아무 말도 하지 않았다."
+        "follow_up_event": "arc_sangchul_buried_silence",
+        "result_text": "말을 거두는 순간, 임상철의 눈에서 뭔가가 바뀌었다.\n\n그는 \"그래요\"라고도, \"모르는 사람입니다\"라고도 하지 않았다.\n\n민준이 어디까지 아는지 — 이미 알아버린 얼굴이었다."
       },
       {
         "text": "(자리를 떠났다)",
-        "effects": {
-          "mental": -3,
-          "reputation": -2,
-          "tint": 8
-        },
-        "cast_effects": {
-          "sangchul": {
-            "stage": "strained"
-          }
-        },
-        "flags": [
-          "arc_sangchul_confrontation_seen",
-          "sangchul_quietly_distanced"
-        ],
-        "result_text": "민준은 일어서서 아무 말 없이 카페를 나왔다.\n\n임상철이 뒤에서 이름을 불렀다. 돌아보지 않았다.\n\n그 관계는 그날로 끝났다. 아무런 극적인 장면도 없이."
+        "follow_up_event": "arc_sangchul_stairwell",
+        "result_text": "의자 다리가 바닥을 짧게 긁었다. 민준은 계산도 끝난 컵을 두고 카페를 나왔다.\n\n등 뒤에서 임상철이 이름을 불렀다.\n\n민준은 유리문을 밀고 밖으로 나갔다. 아직은 돌아보지 않았다."
       }
     ],
     "description_if_known": {
@@ -302,6 +269,101 @@
       "knee_day_froze": "그날 문 뒤에서 굳었던 주먹이 테이블 아래에서 다시 쥐어졌다. 이번에는 나설 돈이 없어서 못 움직이는 자리가 아니었다.",
       "knee_day_turned": "그날은 등을 돌렸지만, 지금 나가면 또 같은 등을 보이게 된다. 그 무릎을 만든 손이 지금 맞은편에 있었다."
     }
+  },
+  {
+    "id": "arc_sangchul_buried_silence",
+    "direction": {"pace": "beat", "amb": "duck", "hold": 1.2},
+    "title": "식은 커피",
+    "background": "cafe",
+    "portrait": "sangchul_serious",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul",
+      "confrontation",
+      "moral"
+    ],
+    "cooldown": 9999,
+    "description": "말을 거두자 에스프레소 머신의 증기음이 돌아왔다. 방금 전까지 멎어 있던 카페가 아무 일도 없었다는 듯 움직였다.\n\n임상철은 대답 대신 물잔을 민준 쪽으로 밀었다. 컵받침에 번진 갈색 자국을 손가락으로 한 번 문질렀다.\n\n\"계속 내 옆에 있을 거면, 모른 척하는 값도 알아야 해.\"\n\n민준이 물었다. \"무슨 값이요.\"\n\n\"나중에 나를 쓰든, 버리든. 오늘 못 물은 건 네 선택이었다는 값.\"\n\n그는 답을 강요하지 않았다. 그래서 민준은 알았다. 이제 이 침묵은 무지가 아니라 계약이었다.",
+    "choices": [
+      {
+        "text": "\"그대로 묻을게요.\"",
+        "effects": {
+          "mental": 5,
+          "tint": -3
+        },
+        "cast_effects": {
+          "sangchul": {
+            "stage": "strained"
+          }
+        },
+        "flags": [
+          "arc_sangchul_confrontation_seen",
+          "sangchul_truth_buried"
+        ],
+        "result_text": "민준은 물을 마셨다. 식은 커피보다 아무 맛도 나지 않았다.\n\n이 사람이 가진 정보가 아직 필요하다. 그게 전부라고, 속으로 정확히 세 번 말했다.\n\n먼저 일어나자 임상철은 붙잡지 않았다. 테이블 위에는 두 사람 모두 알고도 입 밖에 내지 않은 이름 하나가 남았다."
+      },
+      {
+        "text": "\"아니요. 끝까지 말해요.\"",
+        "follow_up_event": "arc_sangchul_reckoning",
+        "result_text": "민준은 밀려온 물잔을 도로 밀었다.\n\n\"모른 척한 값까지 듣겠습니다. 박상진을 어떻게 알았는지, 처음부터요.\"\n\n임상철의 손가락이 컵받침 위에서 멈췄다. 오래 피하던 사람이 마침내 의자에 깊이 등을 붙였다."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_stairwell",
+    "direction": {"pace": "slow", "amb": "duck", "sting": "cold", "hold": 1.2},
+    "title": "문밖",
+    "background": "street",
+    "portrait": "sangchul_serious",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul",
+      "confrontation",
+      "moral"
+    ],
+    "cooldown": 9999,
+    "description": "유리문이 닫히자 카페 음악이 얇아졌다. 민준은 건물 앞 세 계단을 한 번에 내려갔다. 찬 공기가 입안의 쓴맛을 더 선명하게 했다.\n\n\"민준 씨.\"\n\n임상철은 쫓아오지 않았다. 열린 문을 한 손으로 잡은 채, 문턱 안쪽에 서 있었다.\n\n\"지금 가면, 모른 채로 떠나는 건 아니야. 듣지 않기로 하고 떠나는 거지.\"\n\n민준의 발이 계단 아래에서 멈췄다. 돌아보지 않아도 그와 자신 사이에 남은 거리가 정확히 느껴졌다. 세 걸음이었다.",
+    "choices": [
+      {
+        "text": "끝내 돌아보지 않았다",
+        "effects": {
+          "mental": -3,
+          "reputation": -2,
+          "tint": 8
+        },
+        "cast_effects": {
+          "sangchul": {
+            "stage": "strained"
+          }
+        },
+        "flags": [
+          "arc_sangchul_confrontation_seen",
+          "sangchul_quietly_distanced"
+        ],
+        "result_text": "민준은 네 번째 걸음을 내디뎠다. 뒤에서 유리문이 닫히는 소리가 났다.\n\n그날 이후 임상철에게 먼저 연락하지 않았다. 그가 알려주던 정보도, 그가 열어주던 문도 함께 닫혔다.\n\n관계는 아무런 극적인 장면 없이 끝났다. 다만 그 끝을 선택한 세 걸음만은 오래 기억에 남았다."
+      },
+      {
+        "text": "계단 아래에서 돌아섰다",
+        "follow_up_event": "arc_sangchul_reckoning",
+        "result_text": "민준이 돌아보자 임상철은 여전히 문을 잡고 있었다.\n\n\"다 듣고 갈게요.\"\n\n두 사람은 다시 같은 테이블로 돌아갔다. 커피는 완전히 식어 있었고, 이번에는 누구도 새 잔을 주문하지 않았다."
+      }
+    ]
   },
   {
     "id": "arc_sangchul_reckoning",
@@ -324,14 +386,14 @@
       "moral"
     ],
     "cooldown": 9999,
-    "description": "임상철이 한참 뒤에 입을 열었다.\n\"…그분 아들이야. 처음부터 알았어.\"\n\n{name}은 대답하지 않았다. 커피잔만 봤다. 김은 이미 다 식어 있었다.\n\n\"박상진이 연락해서 소개했을 때… 나는 그냥 부탁을 들어준 거야. 그게 이렇게 될 줄은 몰랐어.\" 임상철의 목소리는 변명 같지 않았다. 그래서 더 견디기 어려웠다.\n\n다시 침묵. 그러다 임상철이 말했다.\n\"미안하다.\"\n십수 년을 건너온 그 한 마디가 식탁 위에 놓였다. {name}은 그걸 바로 집어들 수가 없었다.",
+    "description": "임상철이 한참 뒤에 입을 열었다.\n\"네가 그분 아들이라는 건, 처음부터 알았어.\"\n\n{name}은 대답하지 않았다. 커피잔만 봤다. 김은 이미 다 식어 있었다.\n\n\"아버지한테 박상진을 소개한 사람이 상철 씨였죠.\"\n\n임상철이 고개를 끄덕였다. \"그때는 그냥 부탁 하나 들어준다고 생각했어. 믿을 만한 사람이라고, 내가 보증했지. 그게 이렇게 될 줄은 몰랐어.\" 변명처럼 들리지 않아서 더 견디기 어려웠다.\n\n다시 침묵. 그러다 임상철이 말했다.\n\"미안하다.\"\n\n십수 년을 건너온 그 한 마디가 테이블 위에 놓였다. {name}은 그걸 바로 집어들 수가 없었다.",
     "choices": [
       {
         "text": "\"신고할게요.\"",
         "effects": {
-          "mental": 15,
+          "mental": 10,
           "reputation": -10,
-          "tint": 8
+          "tint": 9
         },
         "cast_effects": {
           "sangchul": {
@@ -339,6 +401,8 @@
           }
         },
         "flags": [
+          "arc_sangchul_confrontation_seen",
+          "sangchul_confronted",
           "arc_sangchul_reckoning_seen",
           "sangchul_reported",
           "sangchul_cut_ties"
@@ -348,8 +412,8 @@
       {
         "text": "\"그 말 한 마디면 됐어요.\" (받아들였다)",
         "effects": {
-          "mental": 8,
-          "tint": 5
+          "mental": 3,
+          "tint": 6
         },
         "cast_effects": {
           "sangchul": {
@@ -358,6 +422,8 @@
           }
         },
         "flags": [
+          "arc_sangchul_confrontation_seen",
+          "sangchul_confronted",
           "arc_sangchul_reckoning_seen",
           "sangchul_forgiven"
         ],
@@ -366,9 +432,9 @@
       {
         "text": "\"그 덕분에 내가 여기 있는 거잖아요.\" (역으로 사용하기로 했다)",
         "effects": {
-          "mental": -10,
+          "mental": -15,
           "investment_skill": 5,
-          "tint": -8
+          "tint": -7
         },
         "cast_effects": {
           "sangchul": {
@@ -376,6 +442,8 @@
           }
         },
         "flags": [
+          "arc_sangchul_confrontation_seen",
+          "sangchul_confronted",
           "arc_sangchul_reckoning_seen",
           "sangchul_leveraged",
           "crossed_line"
@@ -385,9 +453,9 @@
       {
         "text": "\"갚으세요. 아버지 빚. 당신 손으로.\"",
         "effects": {
-          "mental": 12,
+          "mental": 7,
           "reputation": 5,
-          "tint": 6
+          "tint": 7
         },
         "cast_effects": {
           "sangchul": {
@@ -396,17 +464,19 @@
           }
         },
         "flags": [
+          "arc_sangchul_confrontation_seen",
+          "sangchul_confronted",
           "arc_sangchul_reckoning_seen",
           "cleared_father_debt_from_sangchul"
         ],
-        "result_text": "\"갚으세요. 아버지 빚. 당신 손으로.\" {name}은 또박또박 말했다.\n임상철이 오래 {name}을 봤다. \"…그걸 원하는구나.\"\n\"미안하다는 말로는, 아버지 통장이 채워지지 않아요.\"\n\n임상철은 대답 대신 수첩을 꺼냈다. 며칠 뒤, 아버지의 오래된 계좌로 돈이 들어왔다. 십수 년 전 사라진 그 액수가, 숫자로 정확히 돌아왔다.\n그런데 그 숫자를 확인하는 순간에도, {name}의 마음속 무언가는 채워지지 않았다. 빚은 갚아졌는데, 아버지는 그걸 못 봤다."
+        "result_text": "\"갚으세요. 아버지 빚. 당신 손으로.\" {name}은 또박또박 말했다.\n임상철이 오래 {name}을 봤다. \"…그걸 원하는구나.\"\n\"미안하다는 말로는, 아버지 통장이 채워지지 않아요.\"\n\n임상철은 대답 대신 수첩을 꺼냈다. 며칠 뒤, 아버지의 오래된 계좌로 돈이 들어왔다. 십수 년 전 사라진 그 액수가, 숫자로 정확히 돌아왔다.\n그런데 그 숫자를 확인하는 순간에도, {name}의 마음속 무언가는 채워지지 않았다. 빚은 갚아졌지만, 아버지가 잃은 십수 년은 돌아오지 않았다."
       }
     ],
     "description_if_known": {
-      "rationalized_using_people": "임상철이 한참 뒤에 말했다.\n\n\"그 분 아들이야. 처음부터 알았어.\"\n\n민준은 대답하지 않았다.\n\n\"박상진이 연락해서 소개했을 때... 나는 그냥 부탁을 들어준 거야. 그게 이렇게 될 줄 몰랐어.\"\n\n임상철이 말했다. \"미안하다.\"\n\n민준은 언젠가 스스로에게 했던 말을 떠올렸다.\n'다들 이렇게 산다.'\n그 말을 지금 임상철이 똑같이 하고 있는 것 같았다.\n그도 어딘가에서, 그렇게 스스로를 설득했을 것이다.",
-      "denied_sangchul_mirror": "임상철이 한참 뒤에 말했다.\n\n\"그 분 아들이야. 처음부터 알았어.\"\n\n민준은 대답하지 않았다.\n\n\"박상진이 연락해서 소개했을 때... 나는 그냥 부탁을 들어준 거야. 그게 이렇게 될 줄 몰랐어.\"\n\n잠시 침묵이 흘렀다.\n\n임상철이 말했다.\n\"미안하다.\"\n\n'저는 좀 달라요'라고 했던 날이 생각났다.\n임상철이 고개를 끄덕이며 '그렇게 생각하면 그런 거죠'라고 했다.\n지금 이 자리에서, 그 말의 무게가 느껴졌다.",
-      "sangchul_called_you_his_mirror": "임상철이 한참 뒤에 말했다.\n\n\"그 분 아들이야. 처음부터 알았어.\"\n\n민준은 대답하지 않았다.\n\n\"박상진이 연락해서 소개했을 때... 나는 그냥 부탁을 들어준 거야. 그게 이렇게 될 줄 몰랐어.\"\n\n잠시 침묵이 흘렀다.\n\n임상철이 말했다.\n\"미안하다.\"\n\n그가 예전에 했던 말이 떠올랐다. '나랑 비슷해요.'\n그 말이 지금 어떻게 들리는지 — 달랐다.",
-      "sangchul_personal_known": "임상철이 한참 뒤에 말했다.\n\n\"그 분 아들이야. 처음부터 알았어.\"\n\n민준은 대답하지 않았다.\n\n\"박상진이 연락해서 소개했을 때... 나는 그냥 부탁을 들어준 거야. 그게 이렇게 될 줄 몰랐어.\"\n\n잠시 침묵이 흘렀다.\n\n임상철이 말했다.\n\"미안하다.\"\n\n문득, 아들이 대학을 그만두겠다고 했다던 밤이 떠올랐다.\n물어보지도 않았는데 그 얘기를 꺼내던 얼굴.\n아버지를 무너뜨린 사람도 — 어딘가에서는 흔들리는 아버지였다.\n그게 용서가 되는 건 아니었다. 그냥, 사실이었다."
+      "rationalized_using_people": "임상철이 한참 뒤에 말했다.\n\n\"네가 그분 아들이라는 건, 처음부터 알았어.\"\n\n민준이 물었다. \"아버지한테 박상진을 소개한 사람이 상철 씨였죠.\"\n\n임상철이 고개를 끄덕였다. \"믿을 만한 사람이라고 내가 보증했어. 부탁 하나 들어준다고 생각했지. 그게 이렇게 될 줄은 몰랐어.\"\n\n그러고는 말했다. \"미안하다.\"\n\n민준은 언젠가 스스로에게 했던 말을 떠올렸다. '다들 이렇게 산다.'\n그도 어딘가에서 같은 말로 자신을 설득했을 것이다. 그 생각이 들어서, 사과가 더 무거웠다.",
+      "denied_sangchul_mirror": "임상철이 한참 뒤에 말했다.\n\n\"네가 그분 아들이라는 건, 처음부터 알았어.\"\n\n민준이 물었다. \"아버지한테 박상진을 소개한 사람이 상철 씨였죠.\"\n\n임상철이 고개를 끄덕였다. \"믿을 만한 사람이라고 내가 보증했어. 부탁 하나 들어준다고 생각했지. 그게 이렇게 될 줄은 몰랐어.\"\n\n잠시 침묵이 흘렀다. 임상철이 말했다. \"미안하다.\"\n\n'저는 좀 달라요'라고 했던 날이 생각났다. 임상철은 '그렇게 생각하면 그런 거죠'라고 답했었다.\n지금 이 자리에서, 그 말의 무게가 느껴졌다.",
+      "sangchul_called_you_his_mirror": "임상철이 한참 뒤에 말했다.\n\n\"네가 그분 아들이라는 건, 처음부터 알았어.\"\n\n민준이 물었다. \"아버지한테 박상진을 소개한 사람이 상철 씨였죠.\"\n\n임상철이 고개를 끄덕였다. \"믿을 만한 사람이라고 내가 보증했어. 부탁 하나 들어준다고 생각했지. 그게 이렇게 될 줄은 몰랐어.\"\n\n잠시 침묵이 흘렀다. 임상철이 말했다. \"미안하다.\"\n\n그가 예전에 했던 말이 떠올랐다. '나랑 비슷해요.'\n그 말이 지금 어떻게 들리는지 — 달랐다.",
+      "sangchul_personal_known": "임상철이 한참 뒤에 말했다.\n\n\"네가 그분 아들이라는 건, 처음부터 알았어.\"\n\n민준이 물었다. \"아버지한테 박상진을 소개한 사람이 상철 씨였죠.\"\n\n임상철이 고개를 끄덕였다. \"믿을 만한 사람이라고 내가 보증했어. 부탁 하나 들어준다고 생각했지. 그게 이렇게 될 줄은 몰랐어.\"\n\n잠시 침묵이 흘렀다. 임상철이 말했다. \"미안하다.\"\n\n문득, 아들이 대학을 그만두겠다고 했다던 밤이 떠올랐다. 물어보지도 않았는데 그 얘기를 꺼내던 얼굴.\n아버지를 무너뜨린 사람도 — 어딘가에서는 흔들리는 아버지였다. 그게 용서가 되는 건 아니었다. 그냥, 사실이었다."
     }
   },
   {

@@ -1,6 +1,6 @@
 # Tier-1 정점 체인 감사
 
-> 기준일: 2026-07-15 · 정본: `docs/ROMANCE_SYSTEM.md` §8 · 재현: `python3 tools/peak_scene_chain_audit.py --markdown`
+> 기준일: 2026-07-16 · 정본: `docs/ROMANCE_SYSTEM.md` §8 · 재현: `python3 tools/peak_scene_chain_audit.py --markdown`
 
 ## 판정 계약
 
@@ -35,7 +35,7 @@
 | 다은 이혼 담판 | `arc_daeun_final_choice` | 1 | 1 | 8-10 | 1-2 | EXPAND |
 | 상철 첫 만남 | `arc_sangchul_01_meet` | 1 | 1 | 8 | 4-6 | EXPAND |
 | 상철 진실 추론 | `arc_sangchul_deduction` | 1 | 1 | 8-10 | 0 | EXPAND |
-| 상철 대면·심판 | `arc_sangchul_confrontation` | 1-2 | 1-2 | 11-18 | 2-9 | EXPAND |
+| 상철 대면·심판 | `arc_sangchul_confrontation` | 2-3 | 2-3 | 20-30 | 4-15 | **PASS** |
 | 상철 카지노 유혹 | `arc_sangchul_casino_invite` | 1 | 1 | 6 | 1 | EXPAND |
 | 아버지 병상 | `father_hospital_wait` | 1 | 1 | 9-10 | 0 | EXPAND |
 | 아버지 별세 | `arc_father_passing` | 1 | 1 | 7 | 1 | EXPAND |
@@ -44,7 +44,7 @@
 | 재혁 ghost | `arc_jaehyuk_04a_ghost` | 1-2 | 1-2 | 8-14 | 0 | EXPAND |
 | 재혁의 진짜 얼굴 | `arc_jaehyuk_mirror` | 1 | 1 | 7 | 1-3 | EXPAND |
 
-**현재 래칫:** 28개 중 PASS 5, 확장 부채 23. `tools/audit.sh`는 부채가 23보다 늘거나 남산 두 골드 스탠다드·다은 프로포즈·다은 결혼식·지연 결혼 격차가 퇴행하면 실패한다.
+**현재 래칫:** 28개 중 PASS 6, 확장 부채 22. `tools/audit.sh`는 부채가 22보다 늘거나 남산 두 골드 스탠다드·다은 프로포즈·다은 결혼식·지연 결혼 격차·상철 대면이 퇴행하면 실패한다.
 
 ## 집행 순서
 

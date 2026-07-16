@@ -25,6 +25,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=wedding-morning --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=commitment --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=breakup --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=sangchul-confrontation --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ending-p1 --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=transport --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=first-snow --lang=en
@@ -80,6 +81,7 @@ const QA_SCOPE_HOMETOWN := "hometown"
 const QA_SCOPE_WEDDING_MORNING := "wedding_morning"
 const QA_SCOPE_COMMITMENT := "commitment"
 const QA_SCOPE_BREAKUP := "breakup"
+const QA_SCOPE_SANGCHUL_CONFRONTATION := "sangchul_confrontation"
 const QA_SCOPE_FIRST_SNOW := "first_snow"
 const QA_SCOPE_CLIMATE := "climate"
 const QA_SCOPE_EVENT_VISUALS := "event_visuals"
@@ -280,6 +282,13 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_breakup_surfaces(lang, "breakup_en_" if lang == "en" else "breakup_ko_")
 		print("SCREENSHOT_QA_DONE scope=breakup lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_SANGCHUL_CONFRONTATION:
+		var lang := _qa_language("en")
+		await _shot_sangchul_confrontation_surfaces(
+				lang, "sangchul_en_" if lang == "en" else "sangchul_ko_")
+		print("SCREENSHOT_QA_DONE scope=sangchul-confrontation lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_FIRST_SNOW:
@@ -550,6 +559,10 @@ func _qa_scope() -> String:
 		if arg in ["breakup", "break-up", "romance-breakup", "romance_breakup", "--breakup",
 				"qa=breakup", "--qa=breakup", "scope=breakup", "--scope=breakup"]:
 			return QA_SCOPE_BREAKUP
+		if arg in ["sangchul", "sangchul-confrontation", "sangchul_confrontation",
+				"--sangchul-confrontation", "qa=sangchul-confrontation",
+				"--qa=sangchul-confrontation", "scope=sangchul-confrontation"]:
+			return QA_SCOPE_SANGCHUL_CONFRONTATION
 		if arg in ["first-snow", "first_snow", "snow-romance", "snow_romance",
 				"--first-snow", "--first_snow", "qa=first-snow", "--qa=first-snow",
 				"qa=first_snow", "--qa=first_snow", "scope=first-snow", "--scope=first-snow"]:
@@ -2742,6 +2755,100 @@ func _shot_breakup_surfaces(lang: String = "en", prefix: String = "breakup_en_")
 	await _shot_story_event("arc_jiyeon_verdict", prefix + "09_jiyeon_farewell_before_cg", "", 0.45, true, true, 1, 0, false, 1)
 	_prepare_breakup_qa_state("jiyeon")
 	await _shot_story_event("arc_jiyeon_verdict", prefix + "10_jiyeon_departure_cg", "", 0.45, true, true, 1, 0, false, 2)
+
+func _shot_sangchul_confrontation_surfaces(lang: String = "en", prefix: String = "sangchul_en_") -> void:
+	_set_qa_language(lang)
+
+	_prepare_sangchul_confrontation_qa_state()
+	await _shot_story_event("arc_sangchul_confrontation", prefix + "01_question_intro", "", 0.55, true)
+	_prepare_sangchul_confrontation_qa_state()
+	await _shot_story_event("arc_sangchul_confrontation", prefix + "02_question_choices", "", 0.45, true, true)
+	_prepare_sangchul_confrontation_qa_state()
+	await _shot_story_event("arc_sangchul_confrontation", prefix + "03_wait_result", "", 0.45, true, true, 0, 0, false, 1)
+	_assert_sangchul_confrontation_uncommitted("wait opening")
+	_prepare_sangchul_confrontation_qa_state()
+	await _shot_story_event("arc_sangchul_confrontation", prefix + "04_bury_opening_result", "", 0.45, true, true, 1, 0, false, 1)
+	_assert_sangchul_confrontation_uncommitted("bury opening")
+
+	_prepare_sangchul_confrontation_qa_state()
+	await _shot_story_event("arc_sangchul_buried_silence", prefix + "05_buried_intro", "", 0.55, true)
+	_prepare_sangchul_confrontation_qa_state()
+	await _shot_story_event("arc_sangchul_buried_silence", prefix + "06_buried_choices", "", 0.45, true, true)
+	_prepare_sangchul_confrontation_qa_state()
+	await _shot_story_event("arc_sangchul_buried_silence", prefix + "07_buried_final_result", "", 0.45, true, true, 0, 0, false, 2)
+	_assert_sangchul_confrontation_state("buried", 65, 50, 30, -3.0, "sangchul_truth_buried", false)
+	_prepare_sangchul_confrontation_qa_state()
+	await _shot_story_event("arc_sangchul_buried_silence", prefix + "08_buried_turnback_result", "", 0.45, true, true, 1, 0, false, 1)
+	_assert_sangchul_confrontation_uncommitted("bury turnback")
+
+	_prepare_sangchul_confrontation_qa_state()
+	await _shot_story_event("arc_sangchul_stairwell", prefix + "09_stairwell_intro", "", 0.55, true)
+	_prepare_sangchul_confrontation_qa_state()
+	await _shot_story_event("arc_sangchul_stairwell", prefix + "10_stairwell_choices", "", 0.45, true, true)
+	_prepare_sangchul_confrontation_qa_state()
+	await _shot_story_event("arc_sangchul_stairwell", prefix + "11_leave_final_result", "", 0.45, true, true, 0, 0, false, 2)
+	_assert_sangchul_confrontation_state("left", 57, 48, 30, 8.0, "sangchul_quietly_distanced", false)
+	_prepare_sangchul_confrontation_qa_state()
+	await _shot_story_event("arc_sangchul_stairwell", prefix + "12_stairwell_turnback_result", "", 0.45, true, true, 1, 0, false, 1)
+	_assert_sangchul_confrontation_uncommitted("stairwell turnback")
+
+	_prepare_sangchul_confrontation_qa_state()
+	await _shot_story_event("arc_sangchul_reckoning", prefix + "13_reckoning_intro", "", 0.55, true)
+	_prepare_sangchul_confrontation_qa_state()
+	await _shot_story_event("arc_sangchul_reckoning", prefix + "14_reckoning_choices", "", 0.45, true, true)
+	for outcome in [
+		[0, "15_report_result", 70, 40, 30, 9.0, "sangchul_reported"],
+		[1, "16_forgive_result", 63, 50, 30, 6.0, "sangchul_forgiven"],
+		[2, "17_leverage_result", 45, 50, 35, -20.0, "sangchul_leveraged"],
+		[3, "18_repayment_result", 67, 55, 30, 7.0, "cleared_father_debt_from_sangchul"],
+	]:
+		_prepare_sangchul_confrontation_qa_state()
+		await _shot_story_event(
+				"arc_sangchul_reckoning", prefix + str(outcome[1]), "", 0.45,
+				true, true, int(outcome[0]), 0, false, 2)
+		_assert_sangchul_confrontation_state(
+				str(outcome[1]), int(outcome[2]), int(outcome[3]), int(outcome[4]),
+				float(outcome[5]), str(outcome[6]), true)
+
+func _prepare_sangchul_confrontation_qa_state() -> void:
+	_prepare_main_game_state()
+	GameState.mental = 60
+	GameState.reputation = 50
+	GameState.investment_skill = 30
+	GameState.moral_tint = 0.0
+	for flag in [
+		"arc_sangchul_confrontation_seen", "sangchul_confronted",
+		"arc_sangchul_reckoning_seen", "sangchul_truth_buried",
+		"sangchul_quietly_distanced", "sangchul_reported", "sangchul_cut_ties",
+		"sangchul_forgiven", "sangchul_leveraged", "crossed_line",
+		"cleared_father_debt_from_sangchul",
+	]:
+		GameState.flags.erase(flag)
+	_set_cast_relation_for_qa("sangchul", 60)
+	GameState.cast["sangchul"]["stage"] = "trusted"
+
+func _assert_sangchul_confrontation_uncommitted(label: String) -> void:
+	if GameState.flags.get("arc_sangchul_confrontation_seen", false) \
+			or GameState.flags.get("arc_sangchul_reckoning_seen", false):
+		_fail("Sangchul %s committed final route flags before the final link." % label)
+
+func _assert_sangchul_confrontation_state(
+		label: String, mental: int, reputation: int, investment_skill: int,
+		tint: float, route_flag: String, reckoned: bool) -> void:
+	if int(GameState.mental) != mental or int(GameState.reputation) != reputation \
+			or int(GameState.investment_skill) != investment_skill \
+			or not is_equal_approx(GameState.moral_tint, tint):
+		_fail(
+				"Sangchul %s totals changed: mental=%s reputation=%s skill=%s tint=%s." % [
+					label, GameState.mental, GameState.reputation,
+					GameState.investment_skill, GameState.moral_tint,
+				])
+	if not GameState.flags.get("arc_sangchul_confrontation_seen", false) \
+			or not GameState.flags.get(route_flag, false):
+		_fail("Sangchul %s did not commit its canonical final flags." % label)
+	if bool(GameState.flags.get("arc_sangchul_reckoning_seen", false)) != reckoned \
+			or bool(GameState.flags.get("sangchul_confronted", false)) != reckoned:
+		_fail("Sangchul %s changed the confrontation/reckoning route state." % label)
 
 func _shot_transport_surfaces(lang: String = "en", prefix: String = "transport_en_") -> void:
 	_set_qa_language(lang)

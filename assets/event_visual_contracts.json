@@ -40,6 +40,10 @@
     {"id": "callback_called_about_medication_echo", "background": "goshiwon_room", "portrait": "father_normal"},
     {"id": "arc_sangchul_03_network", "background": "sangchul_private_dining", "portrait": "sangchul_normal"},
     {"id": "arc_daeun_the_test", "background": "cafe", "portrait": "sangchul_normal"},
+    {"id": "arc_sangchul_confrontation", "background": "cafe", "portrait": "sangchul_serious"},
+    {"id": "arc_sangchul_buried_silence", "background": "cafe", "portrait": "sangchul_serious"},
+    {"id": "arc_sangchul_stairwell", "background": "street", "portrait": "sangchul_serious"},
+    {"id": "arc_sangchul_reckoning", "background": "cafe", "portrait": "sangchul_serious"},
 
     {"id": "arc_daeun_proposal", "background": "cafe", "portrait": "daeun_proposal"},
     {"id": "arc_daeun_proposal_last_cup", "background": "cafe", "portrait": "daeun_proposal"},
