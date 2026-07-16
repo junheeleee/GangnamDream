@@ -24,8 +24,6 @@ const PUSH_RETURN  := 1.0   # 타이: 베팅 반환
 const SHOE_CUT     := 0.25
 
 const STAKE_OPTIONS := [10_000, 50_000, 100_000, 500_000, 1_000_000]
-const JOY_BUTTON_WEST := 2
-const JOY_BUTTON_NORTH := 3
 const PAD_ACTION_HIT := "hit"
 const PAD_ACTION_STAND := "stand"
 const PAD_ACTION_DOUBLE := "double"
@@ -116,8 +114,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			or event.is_action_pressed("ui_right") \
 			or event.is_action_pressed("ui_accept") \
 			or event.is_action_pressed("ui_cancel") \
-			or _joy_button_pressed(event, JOY_BUTTON_WEST) \
-			or _joy_button_pressed(event, JOY_BUTTON_NORTH)
+			or ControllerHints.secondary_pressed(event) \
+			or ControllerHints.details_pressed(event)
 	if pad_navigation_event:
 		_pad_navigation_active = true
 
@@ -126,31 +124,31 @@ func _unhandled_input(event: InputEvent) -> void:
 		Phase.BETTING:
 			if event.is_action_pressed("gd_tab_prev") or event.is_action_pressed("ui_left"):
 				handled = _pad_cycle_stake(-1)
-			elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right") or _joy_button_pressed(event, JOY_BUTTON_WEST):
+			elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right") or ControllerHints.secondary_pressed(event):
 				handled = _pad_cycle_stake(1)
 			elif event.is_action_pressed("ui_accept"):
 				handled = _pad_deal()
 			elif event.is_action_pressed("ui_cancel"):
 				handled = _pad_exit()
-			elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+			elif ControllerHints.details_pressed(event):
 				handled = _pad_show_rules()
 		Phase.PLAYER_TURN:
 			if event.is_action_pressed("gd_tab_prev") or event.is_action_pressed("ui_left"):
 				handled = _pad_move_action(-1)
-			elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right") or _joy_button_pressed(event, JOY_BUTTON_WEST):
+			elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right") or ControllerHints.secondary_pressed(event):
 				handled = _pad_move_action(1)
 			elif event.is_action_pressed("ui_accept"):
 				handled = _pad_accept_action()
 			elif event.is_action_pressed("ui_cancel"):
 				handled = _pad_exit()
-			elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+			elif ControllerHints.details_pressed(event):
 				handled = _pad_show_rules()
 		Phase.RESULT:
 			if event.is_action_pressed("ui_accept"):
 				handled = _pad_next_hand()
 			elif event.is_action_pressed("ui_cancel"):
 				handled = _pad_exit()
-			elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+			elif ControllerHints.details_pressed(event):
 				handled = _pad_show_rules()
 		_:
 			if event.is_action_pressed("ui_cancel"):
@@ -158,12 +156,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if handled:
 		get_viewport().set_input_as_handled()
-
-func _joy_button_pressed(event: InputEvent, button_index: int) -> bool:
-	if not (event is InputEventJoypadButton):
-		return false
-	var joy := event as InputEventJoypadButton
-	return joy.pressed and int(joy.button_index) == button_index
 
 func _pad_cycle_stake(direction: int) -> bool:
 	var affordable: Array[int] = []
@@ -744,15 +736,15 @@ func _draw_blackjack_betting_mat(ctrl: Control) -> void:
 	ctrl.draw_string(font, Vector2(sz.x * 0.5 - 140, 62), "Dealer hits soft 17 · Double · Split · Basic strategy",
 		HORIZONTAL_ALIGNMENT_CENTER, 280, 10, Color(1, 1, 1, 0.40))
 	var bet_center := Vector2(sz.x * 0.5, 118)
-	var bet_box := Rect2(bet_center - Vector2(112.0, 38.0), Vector2(224.0, 76.0))
+	var bet_box := Rect2(bet_center - Vector2(150.0, 38.0), Vector2(300.0, 76.0))
 	ctrl.draw_rect(Rect2(bet_box.position + Vector2(0, 4), bet_box.size), Color(0, 0, 0, 0.32), true)
 	ctrl.draw_rect(bet_box, Color("#092f18"), true)
 	ctrl.draw_rect(bet_box, Color("#f0b429"), false, 1.6)
 	ctrl.draw_string(font, bet_box.position + Vector2(0, 18), "BETTING SPOT",
 		HORIZONTAL_ALIGNMENT_CENTER, bet_box.size.x, 10, Color(1, 1, 1, 0.42))
-	_draw_bj_chip_stack(ctrl, bet_box.position + Vector2(58, 45), _bj_chip_color(_stake), _stake, 30.0)
-	ctrl.draw_string(bold, bet_box.position + Vector2(88, 51), GameState.format_money(float(_stake)),
-		HORIZONTAL_ALIGNMENT_LEFT, 120, 14, Color("#f0b429"))
+	_draw_bj_chip_stack(ctrl, bet_box.position + Vector2(62, 45), _bj_chip_color(_stake), _stake, 30.0)
+	ctrl.draw_string(bold, bet_box.position + Vector2(94, 51), GameState.format_money(float(_stake)),
+		HORIZONTAL_ALIGNMENT_LEFT, bet_box.size.x - 104.0, 14, Color("#f0b429"))
 	_draw_shoe_box(ctrl, Rect2(Vector2(sz.x - 152, 35), Vector2(92, 76)), font)
 	var discard_box := Rect2(Vector2(54.0, 44.0), Vector2(170.0, 72.0))
 	ctrl.draw_rect(discard_box, Color(0, 0, 0, 0.12), true)

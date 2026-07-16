@@ -19,6 +19,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-audio --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-moral --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1920x1080 res://tools/ScreenshotQA.tscn -- --qa=living-scene --lang=en
+##       godot --rendering-driver opengl3 --resolution 1920x1080 res://tools/ScreenshotQA.tscn -- --qa=display-matrix --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=romance-cg
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=romance-portraits
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=namsan --lang=en
@@ -54,16 +55,24 @@ extends Node
 ## 전환 레이어만 빠르게 확인:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=transition
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-input --lang=en --demo-build
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-keyboard --lang=en --demo-build
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-mouse --lang=en --demo-build
 ## 헤드리스 더미 렌더러는 빈 텍스처를 주므로 x11+opengl3(xvfb) 필요.
 ## .tscn 으로 부팅해야 autoload(GameState 등)가 로드된다.
 
-const OUT_DIR := "/tmp/gangnamdream_qa"
+# Parallel matrix jobs must not erase one another's screenshots. Set
+# GANGNAM_QA_OUT per process when durable, isolated evidence is required.
+var OUT_DIR := OS.get_environment("GANGNAM_QA_OUT") \
+		if not OS.get_environment("GANGNAM_QA_OUT").strip_edges().is_empty() \
+		else "/tmp/gangnamdream_qa"
 const QA_SCOPE_CASINO := "casino"
 const QA_SCOPE_CASINO_EN := "casino_en"
 const QA_SCOPE_MORAL := "moral"
 const QA_SCOPE_DEMO_FLOW := "demo_flow"
 const QA_SCOPE_DEMO_BLACKBOX := "demo_blackbox"
 const QA_SCOPE_DEMO_INPUT := "demo_input"
+const QA_SCOPE_DEMO_KEYBOARD := "demo_keyboard"
+const QA_SCOPE_DEMO_MOUSE := "demo_mouse"
 const QA_SCOPE_START_EN := "start_en"
 const QA_SCOPE_GALLERY := "gallery"
 const QA_SCOPE_YEAR_IDENTITY := "year_identity"
@@ -76,6 +85,7 @@ const QA_SCOPE_STORY_PRESENCE := "story_presence"
 const QA_SCOPE_STORY_AUDIO := "story_audio"
 const QA_SCOPE_STORY_MORAL := "story_moral"
 const QA_SCOPE_LIVING_SCENE := "living_scene"
+const QA_SCOPE_DISPLAY_MATRIX := "display_matrix"
 const QA_SCOPE_MORAL_ANCHORS := "moral_anchors"
 const QA_SCOPE_ROMANCE_CG := "romance_cg"
 const QA_SCOPE_ROMANCE_PORTRAITS := "romance_portraits"
@@ -118,6 +128,8 @@ const YEAR_IDENTITY_SCENE_SAMPLE: Array[String] = [
 ]
 var _mg: Node = null
 var _qa_failed := false
+var _route_keyboard_events := 0
+var _route_mouse_events := 0
 
 func _tr(ko: String, en: String) -> String:
 	return LocaleManager.ui(ko, en)
@@ -126,7 +138,8 @@ func _ready() -> void:
 	DirAccess.make_dir_recursive_absolute(OUT_DIR)
 	_clear_output_dir()
 	var scope: String = _qa_scope()
-	if scope in [QA_SCOPE_DEMO_FLOW, QA_SCOPE_DEMO_BLACKBOX, QA_SCOPE_DEMO_INPUT] and not GameState.is_demo_build():
+	if scope in [QA_SCOPE_DEMO_FLOW, QA_SCOPE_DEMO_BLACKBOX, QA_SCOPE_DEMO_INPUT,
+			QA_SCOPE_DEMO_KEYBOARD, QA_SCOPE_DEMO_MOUSE] and not GameState.is_demo_build():
 		_fail("Demo QA requires the explicit --demo-build test flag.")
 		return
 	if scope in [QA_SCOPE_CASINO, QA_SCOPE_CASINO_EN]:
@@ -145,6 +158,14 @@ func _ready() -> void:
 		await _shot_living_scene_surfaces(
 			lang, "living_en_" if lang == "en" else "living_ko_")
 		print("SCREENSHOT_QA_DONE scope=living-scene lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_DISPLAY_MATRIX:
+		var lang := _qa_language("en")
+		await _shot_display_matrix_surfaces(lang)
+		if _qa_failed:
+			return
+		print("SCREENSHOT_QA_DONE scope=display-matrix lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_MORAL:
@@ -182,6 +203,14 @@ func _ready() -> void:
 	if scope == QA_SCOPE_DEMO_INPUT:
 		var lang := _qa_language("en")
 		await _run_demo_input_route(lang)
+		return
+	if scope == QA_SCOPE_DEMO_KEYBOARD:
+		var lang := _qa_language("en")
+		await _run_demo_input_route(lang, "keyboard")
+		return
+	if scope == QA_SCOPE_DEMO_MOUSE:
+		var lang := _qa_language("en")
+		await _run_demo_input_route(lang, "mouse")
 		return
 	if scope == QA_SCOPE_START_EN:
 		var lang := _qa_language("en")
@@ -497,6 +526,10 @@ func _qa_scope() -> String:
 		args.append(str(raw))
 	for raw in args:
 		var arg := raw.strip_edges().to_lower()
+		if arg in ["display-matrix", "display_matrix", "resolution-matrix", "resolution_matrix",
+				"--display-matrix", "--display_matrix", "qa=display-matrix", "--qa=display-matrix",
+				"scope=display-matrix", "--scope=display-matrix"]:
+			return QA_SCOPE_DISPLAY_MATRIX
 		if arg in ["living-scene", "living_scene", "living", "--living-scene", "--living_scene",
 				"qa=living-scene", "--qa=living-scene", "qa=living_scene", "--qa=living_scene",
 				"scope=living-scene", "--scope=living-scene"]:
@@ -522,6 +555,12 @@ func _qa_scope() -> String:
 				"qa=demo-input", "--qa=demo-input", "qa=demo_input", "--qa=demo_input",
 				"scope=demo-input", "--scope=demo-input", "scope=demo_input", "--scope=demo_input"]:
 			return QA_SCOPE_DEMO_INPUT
+		if arg in ["demo-keyboard", "demo_keyboard", "--demo-keyboard", "--demo_keyboard",
+				"qa=demo-keyboard", "--qa=demo-keyboard", "scope=demo-keyboard", "--scope=demo-keyboard"]:
+			return QA_SCOPE_DEMO_KEYBOARD
+		if arg in ["demo-mouse", "demo_mouse", "--demo-mouse", "--demo_mouse",
+				"qa=demo-mouse", "--qa=demo-mouse", "scope=demo-mouse", "--scope=demo-mouse"]:
+			return QA_SCOPE_DEMO_MOUSE
 		if arg in ["start-en", "start_en", "start", "--start-en", "--start_en",
 				"qa=start-en", "--qa=start-en", "qa=start_en", "--qa=start_en",
 				"scope=start-en", "--scope=start-en", "scope=start_en", "--scope=start_en"]:
@@ -1099,6 +1138,137 @@ func _shot_living_scene_surfaces(lang: String, prefix: String) -> void:
 	await _shot_story_event("arc_job_first_rejection", prefix + "05_neutral", lang, 1.5, true)
 	await _verify_living_scene_motion(lang)
 
+func _shot_display_matrix_surfaces(lang: String) -> void:
+	var viewport_size := get_viewport().get_visible_rect().size
+	var resolution := get_window().size
+	var supported := [
+		Vector2i(1280, 720), Vector2i(1280, 800),
+		Vector2i(1920, 1080), Vector2i(2560, 1440),
+		Vector2i(3840, 2160), Vector2i(3440, 1440),
+	]
+	if not supported.has(resolution):
+		_fail("Display matrix requires 1280x720, 1280x800, 1920x1080, 2560x1440, 3840x2160, or 3440x1440; got %s." % resolution)
+		return
+	var tag := "%dx%d_%s" % [resolution.x, resolution.y, lang]
+	await _shot_display_settings_surface(lang, tag + "_01_settings")
+	if _qa_failed:
+		return
+
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	_seed_portfolio()
+	await _boot_main_game()
+	_seed_ap_act_state(1, lang)
+	_mg.current_event = {}
+	_mg.set("pending_result_text", "")
+	_mg.call("_render_ap_actions")
+	if _mg.has_method("_refresh_all"):
+		_mg.call("_refresh_all")
+	if _mg.has_method("_finish_typing"):
+		_mg.call("_finish_typing")
+	await _settle(0.55)
+	_assert_ap_cards_inside_viewport()
+	var pressure := _find_demo_pressure_frame(_mg)
+	if pressure == null:
+		_fail("Display matrix could not find the demo AP decision frame at %s." % resolution)
+		return
+	_assert_control_in_tv_safe_area(pressure, "AP decision frame %s" % resolution)
+	if _qa_failed:
+		return
+	await _save(tag + "_02_ap_decision")
+	await _dispose_main_game()
+
+	await _shot_story_event(
+		"arc_season_snow_daeun", tag + "_03_story_living", lang, 1.15, true, true)
+	if _qa_failed:
+		return
+	if resolution == Vector2i(1920, 1080):
+		await _shot_controller_brand_titles(lang, tag)
+	ControllerHints.clear_qa_override()
+	print("DISPLAY_MATRIX_OK resolution=%dx%d canvas=%dx%d safe_margin=2.5%% surfaces=3" % [
+		resolution.x, resolution.y, roundi(viewport_size.x), roundi(viewport_size.y)])
+
+func _shot_display_settings_surface(lang: String, shot_name: String) -> void:
+	_set_qa_language(lang)
+	var packed := load("res://scenes/StartMenu.tscn") as PackedScene
+	if packed == null:
+		_fail("Display matrix could not load StartMenu.tscn.")
+		return
+	var menu := packed.instantiate()
+	get_tree().root.add_child.call_deferred(menu)
+	await get_tree().process_frame
+	await _settle(0.25)
+	if menu.has_method("_dismiss_splash"):
+		menu.call("_dismiss_splash")
+	await _settle(0.4)
+	menu.call("_open_settings_popup")
+	await _settle(0.35)
+	var overlay := menu.get("_settings_overlay") as Control
+	if not is_instance_valid(overlay):
+		_fail("Display matrix settings overlay did not open.")
+		return
+	var panel := _find_first_panel_container(overlay)
+	if panel == null:
+		_fail("Display matrix settings panel is missing.")
+		return
+	_assert_control_in_tv_safe_area(panel, "title settings")
+	var focus_owner := get_viewport().gui_get_focus_owner()
+	if focus_owner == null or not overlay.is_ancestor_of(focus_owner):
+		_fail("Title settings has no keyboard/controller focus owner.")
+		return
+	await _save(shot_name)
+	menu.call("_close_settings_popup")
+	if is_instance_valid(menu):
+		menu.queue_free()
+	await get_tree().process_frame
+	_remove_start_menu_nodes()
+	await _settle(0.2)
+
+func _shot_controller_brand_titles(lang: String, prefix: String) -> void:
+	var brands := [
+		[ControllerHints.Brand.XBOX, "xbox"],
+		[ControllerHints.Brand.PLAYSTATION, "playstation"],
+		[ControllerHints.Brand.NINTENDO, "nintendo"],
+	]
+	for entry in brands:
+		ControllerHints.force_brand_for_qa(entry[0])
+		_set_qa_language(lang)
+		var packed := load("res://scenes/StartMenu.tscn") as PackedScene
+		var menu := packed.instantiate()
+		get_tree().root.add_child.call_deferred(menu)
+		await get_tree().process_frame
+		if menu.has_method("_dismiss_splash"):
+			menu.call("_dismiss_splash")
+		await _settle(0.45)
+		var expected_hint := "[%s]" % ControllerHints.south()
+		if not _collect_control_text(menu).contains(expected_hint):
+			_fail("%s title surface is missing its South-button glyph." % ControllerHints.brand_name())
+			return
+		await _save("%s_04_glyph_%s" % [prefix, str(entry[1])])
+		if is_instance_valid(menu):
+			menu.queue_free()
+		await get_tree().process_frame
+		_remove_start_menu_nodes()
+		await _settle(0.15)
+
+func _find_first_panel_container(root: Node) -> PanelContainer:
+	if root is PanelContainer:
+		return root as PanelContainer
+	for child in root.get_children():
+		var found := _find_first_panel_container(child)
+		if found != null:
+			return found
+	return null
+
+func _assert_control_in_tv_safe_area(control: Control, context: String) -> void:
+	if not is_instance_valid(control) or not control.is_visible_in_tree():
+		_fail("%s is absent or hidden." % context)
+		return
+	var safe := DisplayManager.tv_safe_rect(get_viewport().get_visible_rect().size)
+	var rect := control.get_global_rect()
+	if not safe.encloses(rect):
+		_fail("%s exceeds TV safe area: control=%s safe=%s." % [context, rect, safe])
+
 func _verify_living_scene_motion(lang: String) -> void:
 	_set_qa_language(lang)
 	_prepare_main_game_state()
@@ -1153,6 +1323,73 @@ func _verify_living_scene_motion(lang: String) -> void:
 	_remove_nodes_by_script("res://scenes/StoryMode.gd")
 	GameState.pending_story_queue.clear()
 	await _settle(0.25)
+	await _verify_rain_fall_direction()
+
+func _verify_rain_fall_direction() -> void:
+	var canvas := Control.new()
+	canvas.name = "RainDirectionProbe"
+	canvas.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	get_tree().root.add_child(canvas)
+	var black := ColorRect.new()
+	black.color = Color.BLACK
+	black.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	canvas.add_child(black)
+	var rain := LivingSceneLayer.new()
+	canvas.add_child(rain)
+	await get_tree().process_frame
+	rain.configure(
+		{"id": "qa_rain_direction", "background": "street_rainy"},
+		"street_rainy", "", {"channel": "in_person", "portrait_role": "none"},
+		0.0, false, false)
+	await _settle(0.18)
+	RenderingServer.force_draw()
+	await get_tree().process_frame
+	var first := get_viewport().get_texture().get_image().duplicate() as Image
+	await get_tree().create_timer(0.075).timeout
+	RenderingServer.force_draw()
+	await get_tree().process_frame
+	var second := get_viewport().get_texture().get_image().duplicate() as Image
+	var height := mini(first.get_height(), second.get_height())
+	var max_shift := maxi(42, roundi(float(height) * 0.06))
+	var best_dy := 0
+	var best_score := -2.0
+	for dy in range(-max_shift, max_shift + 1, 2):
+		var score := _rain_shift_score(first, second, dy)
+		if score > best_score:
+			best_score = score
+			best_dy = dy
+	print("RAIN_DIRECTION_PROBE best_dy=%d score=%.4f expected=down" % [best_dy, best_score])
+	if best_dy <= 2:
+		_fail("Rain animation travels upward or is static: best_dy=%d score=%.4f." % [
+			best_dy, best_score])
+	canvas.queue_free()
+	await get_tree().process_frame
+
+func _rain_shift_score(first: Image, second: Image, dy: int) -> float:
+	var width := mini(first.get_width(), second.get_width())
+	var height := mini(first.get_height(), second.get_height())
+	var dx := roundi(-0.16 * float(dy) * float(width) / maxf(float(height), 1.0))
+	var sum_ab := 0.0
+	var sum_aa := 0.0
+	var sum_bb := 0.0
+	var sample_bottom := roundi(float(height) * 0.56)
+	for y in range(24, sample_bottom, 4):
+		var by := y + dy
+		if by < 0 or by >= height:
+			continue
+		for x in range(32, width - 32, 4):
+			var bx := x + dx
+			if bx < 0 or bx >= width:
+				continue
+			var a_color := first.get_pixel(x, y)
+			var b_color := second.get_pixel(bx, by)
+			var a := a_color.r * 0.299 + a_color.g * 0.587 + a_color.b * 0.114
+			var b := b_color.r * 0.299 + b_color.g * 0.587 + b_color.b * 0.114
+			sum_ab += a * b
+			sum_aa += a * a
+			sum_bb += b * b
+	var denom := sqrt(maxf(sum_aa * sum_bb, 0.0000001))
+	return sum_ab / denom
 
 func _assert_living_scene_state(story: Node, event_id: String) -> void:
 	var expected := {
@@ -1476,27 +1713,23 @@ func _shot_demo_blackbox(lang: String = "en") -> void:
 		await _shot_story_event(regression_event_id, prefix + "regression_" + regression_event_id, lang, 0.45, true)
 	await _shot_demo_loop_surfaces(lang, prefix)
 
-func _run_demo_input_route(lang: String = "en") -> void:
+func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard") -> void:
+	if input_mode not in ["keyboard", "mouse"]:
+		_fail("Demo input route requires keyboard or mouse, got %s." % input_mode)
+		return
 	_set_qa_language(lang)
 	seed(20260713)
 	var original_meta := MetaProgression.data.duplicate(true)
-	GameState.start_new_game(
-		LocaleManager.DEFAULT_NAME_EN if lang == "en" else LocaleManager.DEFAULT_NAME_KO,
-		"지방_상경", "직장형", "알바", "자유런", "현실")
+	MetaProgression.data["content_warning_seen"] = true
+	_route_keyboard_events = 0
+	_route_mouse_events = 0
+	_suppress_tutorial_overlays()
+	if not await _boot_demo_from_title(input_mode):
+		MetaProgression.data = original_meta
+		return
+	var starting_job_id := str(GameState.current_job.get("id", ""))
 	GameState.story_return_scene = "res://scenes/MainGame.tscn"
 	GameState.returning_from_story = false
-	GameState.pending_story_queue.clear()
-	_suppress_tutorial_overlays()
-
-	var packed := load("res://scenes/MainGame.tscn") as PackedScene
-	if packed == null:
-		MetaProgression.data = original_meta
-		_fail("Demo input run could not load MainGame.tscn.")
-		return
-	var main := packed.instantiate()
-	get_tree().root.add_child.call_deferred(main)
-	await get_tree().process_frame
-	get_tree().current_scene = main
 
 	var seen_events: Array[String] = []
 	var input_count := 0
@@ -1531,7 +1764,11 @@ func _run_demo_input_route(lang: String = "en") -> void:
 			else:
 				var tutorial_popup := scene.get("_tutorial_popup") as Control
 				if is_instance_valid(tutorial_popup):
-					await _press_qa_action("ui_accept")
+					var tutorial_button := _find_first_enabled_button(tutorial_popup)
+					if tutorial_button != null:
+						await _activate_route_control(tutorial_button, input_mode)
+					else:
+						await _advance_route_story(scene, input_mode)
 					input_count += 1
 				elif bool(scene.get("_showing_choices")):
 					var focused := get_viewport().gui_get_focus_owner()
@@ -1540,10 +1777,14 @@ func _run_demo_input_route(lang: String = "en") -> void:
 						if first_choice != null:
 							first_choice.grab_focus()
 							await get_tree().process_frame
-					await _press_qa_action("ui_accept")
+					var route_choice := get_viewport().gui_get_focus_owner() as Control
+					if route_choice != null:
+						await _activate_route_control(route_choice, input_mode)
+					else:
+						await _advance_route_story(scene, input_mode)
 					input_count += 1
 				else:
-					await _press_qa_action("ui_accept")
+					await _advance_route_story(scene, input_mode)
 					input_count += 1
 		elif script_path == "res://scenes/MainGame.gd":
 			if GameState.turn != last_reported_turn:
@@ -1595,16 +1836,18 @@ func _run_demo_input_route(lang: String = "en") -> void:
 						MetaProgression.data = original_meta
 						_fail("Demo ending retained transient notification toasts.")
 						return
-					await _save("demo_%s_input_run_final" % lang)
+					await _save("demo_%s_%s_input_run_final" % [lang, input_mode])
 					completed = true
 					break
 				var modal_body_node := scene.get("modal_body") as Control
 				var modal_button := _find_first_enabled_button(modal_body_node) if is_instance_valid(modal_body_node) else null
+				if modal_button == null and bool(scene.get("_modal_cancelable")):
+					modal_button = _find_first_enabled_button(modal)
 				if modal_button != null:
 					signature += ":focus=%s" % modal_button.text
 					modal_button.grab_focus()
 					await get_tree().process_frame
-					await _press_qa_action("ui_accept")
+					await _activate_route_control(modal_button, input_mode)
 					input_count += 1
 			elif GameState.has_reached_demo_limit():
 				pass
@@ -1614,7 +1857,7 @@ func _run_demo_input_route(lang: String = "en") -> void:
 				if result_confirm != null:
 					result_confirm.grab_focus()
 					await get_tree().process_frame
-					await _press_qa_action("ui_accept")
+					await _activate_route_control(result_confirm, input_mode)
 					input_count += 1
 				elif bool(scene.get("_transient_bg_active")):
 					var choice_surface := scene.get("choice_box") as Control
@@ -1622,7 +1865,7 @@ func _run_demo_input_route(lang: String = "en") -> void:
 					if confirm != null:
 						confirm.grab_focus()
 						await get_tree().process_frame
-						await _press_qa_action("ui_accept")
+						await _activate_route_control(confirm, input_mode)
 						input_count += 1
 				elif GameState.action_points > 0 and not cards.is_empty():
 					var playable_cards: Array[Button] = []
@@ -1633,7 +1876,7 @@ func _run_demo_input_route(lang: String = "en") -> void:
 								and (candidate as Button).is_inside_tree() \
 								and (candidate as Button).visible \
 								and bool((candidate as Button).get_meta("demo_pressure_primary", false)) \
-								and candidate_fn not in ["_ap_side_job", "_ap_write_resume", "_ap_job_hunt", "_ap_invest"] \
+							and candidate_fn not in ["_ap_side_job", "_ap_write_resume", "_ap_job_hunt", "_ap_invest"] \
 								and not (candidate as Button).disabled:
 							playable_cards.append(candidate as Button)
 					# Rotate through the three visible responses. This exercises the controller-first
@@ -1659,19 +1902,19 @@ func _run_demo_input_route(lang: String = "en") -> void:
 						return
 					action_card.grab_focus()
 					await get_tree().process_frame
-					await _press_qa_action("ui_accept")
+					await _activate_route_control(action_card, input_mode)
 					input_count += 1
 				elif GameState.action_points <= 0:
 					var next_week := scene.get("next_button") as Button
 					if is_instance_valid(next_week) and not next_week.disabled:
 						next_week.grab_focus()
 						await get_tree().process_frame
-						await _press_qa_action("ui_accept")
+						await _activate_route_control(next_week, input_mode)
 						input_count += 1
 				elif focused is Button and scene.is_ancestor_of(focused) \
 						and focused != scene.get("next_button") and cards.find(focused) < 0 \
 						and focused.is_visible_in_tree() and not focused.disabled:
-					await _press_qa_action("ui_accept")
+					await _activate_route_control(focused as Control, input_mode)
 					input_count += 1
 
 		if signature == last_signature:
@@ -1680,6 +1923,7 @@ func _run_demo_input_route(lang: String = "en") -> void:
 			last_signature = signature
 			stagnant_steps = 0
 		if stagnant_steps > 550:
+			await _save("demo_%s_%s_stall" % [lang, input_mode], 0.0)
 			MetaProgression.data = original_meta
 			_fail("Demo input run stalled at %s." % signature)
 			return
@@ -1694,24 +1938,139 @@ func _run_demo_input_route(lang: String = "en") -> void:
 			MetaProgression.data = original_meta
 			_fail("Demo input run never reached required story event %s." % required_id)
 			return
-	for forbidden_id in ["story_first_workday", "arc_spec_career"]:
+	for forbidden_id in ["arc_spec_career"]:
 		if seen_events.has(forbidden_id):
 			MetaProgression.data = original_meta
 			_fail("Demo input run reached contradictory event %s." % forbidden_id)
 			return
-	if str(GameState.current_job.get("id", "")) != "job_01":
+	if not starting_job_id.is_empty():
 		MetaProgression.data = original_meta
-		_fail("Convenience-worker demo route lost its declared starting job.")
+		_fail("Title-started demo route did not begin unemployed: %s." % starting_job_id)
 		return
 	if GameState.money_weeks_total <= 0 or GameState.human_weeks_total <= 0:
 		MetaProgression.data = original_meta
 		_fail("Demo input route did not record both sides of the time ledger: money=%d people=%d." % [
 			GameState.money_weeks_total, GameState.human_weeks_total])
 		return
+	if input_mode == "keyboard" and _route_mouse_events != 0:
+		MetaProgression.data = original_meta
+		_fail("Keyboard-only route emitted %d mouse events." % _route_mouse_events)
+		return
+	if input_mode == "mouse" and _route_keyboard_events != 0:
+		MetaProgression.data = original_meta
+		_fail("Mouse-only route emitted %d keyboard events." % _route_keyboard_events)
+		return
 	MetaProgression.data = original_meta
-	print("DEMO_INPUT_RUN_OK weeks=24 inputs=%d events=%d job=job_01 axes=%d/%d cutoff=cta" % [
-		input_count, seen_events.size(), GameState.money_weeks_total, GameState.human_weeks_total])
+	print("DEMO_INPUT_RUN_OK device=%s weeks=24 inputs=%d events=%d start_job=unemployed end_job=%s axes=%d/%d key_events=%d mouse_events=%d cutoff=cta" % [
+		input_mode, input_count, seen_events.size(), str(GameState.current_job.get("id", "unemployed")),
+		GameState.money_weeks_total, GameState.human_weeks_total,
+		_route_keyboard_events, _route_mouse_events])
 	get_tree().quit(0)
+
+func _boot_demo_from_title(input_mode: String) -> bool:
+	var packed := load("res://scenes/StartMenu.tscn") as PackedScene
+	if packed == null:
+		_fail("Demo input run could not load StartMenu.tscn.")
+		return false
+	var menu := packed.instantiate()
+	get_tree().root.add_child.call_deferred(menu)
+	await get_tree().process_frame
+	get_tree().current_scene = menu
+	await _settle(0.25)
+	if input_mode == "keyboard":
+		await _send_route_key(KEY_ENTER)
+	else:
+		await _send_route_mouse_click(get_viewport().get_visible_rect().size * 0.5)
+	await _settle(0.45)
+	var new_story := _find_button_with_any_text(menu, ["New Story", "새 이야기"])
+	if new_story == null:
+		_fail("%s title route could not reach New Story." % input_mode)
+		return false
+	await _activate_route_control(new_story, input_mode)
+	for _frame in range(360):
+		await get_tree().create_timer(0.02).timeout
+		var current := get_tree().current_scene
+		if is_instance_valid(current) and current != menu:
+			var script := current.get_script() as Script
+			var path := script.resource_path if script != null else ""
+			if path in ["res://scenes/MainGame.gd", "res://scenes/StoryMode.gd"]:
+				print("DEMO_INPUT_TITLE_OK device=%s next=%s" % [input_mode, path])
+				return true
+	_fail("%s title route did not hand off to the playable demo." % input_mode)
+	return false
+
+func _find_button_with_any_text(root: Node, candidates: Array[String]) -> Button:
+	if root is Button and (root as Button).visible and not (root as Button).disabled:
+		for candidate in candidates:
+			if (root as Button).text == candidate:
+				return root as Button
+	for child in root.get_children():
+		var found := _find_button_with_any_text(child, candidates)
+		if found != null:
+			return found
+	return null
+
+func _activate_route_control(control: Control, input_mode: String) -> void:
+	if not is_instance_valid(control):
+		return
+	if input_mode == "mouse":
+		var rect := control.get_global_rect()
+		var viewport_rect := get_viewport().get_visible_rect()
+		if not viewport_rect.intersects(rect):
+			print("DEMO_MOUSE_TARGET_OFFSCREEN name=%s rect=%s viewport=%s" % [
+				control.name, rect, viewport_rect])
+		await _send_route_mouse_click(control.get_global_rect().get_center())
+		return
+	control.grab_focus()
+	await get_tree().process_frame
+	await _send_route_key(KEY_ENTER)
+
+func _advance_route_story(_story: Node, input_mode: String) -> void:
+	if input_mode == "mouse":
+		await _send_route_mouse_click(get_viewport().get_visible_rect().size * Vector2(0.5, 0.42))
+	else:
+		await _send_route_key(KEY_ENTER)
+
+func _send_route_key(keycode: Key) -> void:
+	var pressed := InputEventKey.new()
+	pressed.keycode = keycode
+	pressed.physical_keycode = keycode
+	pressed.pressed = true
+	Input.parse_input_event(pressed)
+	_route_keyboard_events += 1
+	await get_tree().process_frame
+	var released := pressed.duplicate() as InputEventKey
+	released.pressed = false
+	Input.parse_input_event(released)
+	_route_keyboard_events += 1
+	await get_tree().process_frame
+
+func _send_route_mouse_click(position: Vector2) -> void:
+	# Push local viewport coordinates directly. Input.parse_input_event() routes via
+	# the host-window transform and can miss scaled VN choice buttons on macOS.
+	Input.warp_mouse(position)
+	await get_tree().process_frame
+	var motion := InputEventMouseMotion.new()
+	motion.position = position
+	motion.global_position = position
+	get_viewport().push_input(motion, true)
+	_route_mouse_events += 1
+	await get_tree().process_frame
+	var pressed := InputEventMouseButton.new()
+	pressed.button_index = MOUSE_BUTTON_LEFT
+	pressed.position = position
+	pressed.global_position = position
+	pressed.pressed = true
+	pressed.button_mask = MOUSE_BUTTON_MASK_LEFT
+	get_viewport().push_input(pressed, true)
+	_route_mouse_events += 1
+	await get_tree().process_frame
+	var released := pressed.duplicate() as InputEventMouseButton
+	released.pressed = false
+	released.button_mask = 0
+	get_viewport().push_input(released, true)
+	_route_mouse_events += 1
+	await get_tree().process_frame
 
 func _find_first_enabled_button(root: Node) -> Button:
 	if root is Button and root.visible and not root.disabled and root.focus_mode != Control.FOCUS_NONE:
@@ -4379,6 +4738,7 @@ func _shot_demo_loop_surfaces(lang: String, prefix: String) -> void:
 	if _mg.has_method("_show_month_summary"):
 		_mg._show_month_summary(snap)
 	await _settle(0.9)
+	_assert_modal_no_vertical_overflow("month summary")
 	await _save(prefix + "03_demo_complete_summary")
 	if _mg.has_method("_show_demo_ending"):
 		_mg._show_demo_ending()
@@ -4510,6 +4870,11 @@ func _save(shot_name: String, settle_time: float = 0.3) -> void:
 	var img: Image = viewport_texture.get_image()
 	if img == null or img.is_empty():
 		_fail("Viewport image is empty. Run ScreenshotQA with a real rendering driver.")
+		return
+	var expected_size := get_window().size
+	if Vector2i(img.get_width(), img.get_height()) != expected_size:
+		_fail("Screenshot size mismatch for %s: image=%dx%d viewport=%dx%d." % [
+			shot_name, img.get_width(), img.get_height(), expected_size.x, expected_size.y])
 		return
 	var path := "%s/%s.png" % [OUT_DIR, shot_name]
 	img.save_png(path)
@@ -5043,6 +5408,9 @@ func _shot_casino_table(node_name: String, shot_name: String, prefix: String = "
 			await _settle(3.2)
 		"blackjack_table":
 			await _save(_shot_name(prefix, "10a_blackjack_betting"))
+			await _send_route_key(KEY_X)
+			await _settle(0.2)
+			await _save(_shot_name(prefix, "10b_blackjack_keyboard_hint"))
 			node._set_stake_and_deal(10_000)
 			await _settle(0.8)
 		"slot_machine_game":

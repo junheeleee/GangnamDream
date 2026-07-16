@@ -1,6 +1,6 @@
 # Controller UX Strategy
 
-Updated: 2026-07-03
+Updated: 2026-07-16
 
 ## Why This Exists
 
@@ -35,6 +35,8 @@ Focus routing is a fallback safety net. It is not the design.
 | LB / RB | Switch tab, group, or betting category |
 | Menu / Start | System menu |
 | R3 | Advance week only when AP is empty |
+
+Keyboard uses the same semantic layer instead of pretending to be an Xbox pad: `Enter` confirms, `Esc` cancels, `X` is the contextual secondary action, `Y` opens details/rules, `Q/E` switch groups, `F10` opens settings, and `N` advances an empty week. Visible hints must switch with the last active device.
 
 The same button should not mean different things on neighboring screens unless the screen title makes the mode unmistakable.
 
@@ -292,3 +294,11 @@ For casino, each minigame must pass:
 - Repeat or exit.
 
 All on controller only.
+
+## Current Automated Evidence
+
+`InputMatrixCheck.tscn` executes the shared West/North secondary routes for the casino hub, Blackjack, Baccarat, Slots, Roulette, Big Wheel, Dai Sai, Holdem, and RaceTrack in both keyboard and gamepad modes. It also drives nine keyboard core tasks through real input dispatch, from stake selection to starting the actual hand, spin, roll, race, or selected casino table. This prevents a keyboard-only command from being documented but unreachable, and prevents gamepad labels from drifting away from their physical action.
+
+The title-to-demo route has completed all 24 weeks with actual keyboard events and zero mouse events, then with actual mouse events and zero keyboard events. The four display-matrix renders and three gamepad-brand title captures are recorded in `docs/INPUT_MATRIX.md`.
+
+These automated passes prove routing and presentation, not hand feel. Full Controller Support remains blocked on physical Steam Deck, DualSense, and Switch Pro blind passes, including reconnect, suspend/resume, Steam overlay, and accidental-input review.

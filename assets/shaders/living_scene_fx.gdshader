@@ -35,7 +35,8 @@ float rain_field(vec2 uv, float t) {
 	vec2 tilted = uv;
 	tilted.x += uv.y * 0.16;
 	vec2 p = tilted * vec2(62.0, 23.0);
-	p.y += t * 8.5;
+	// Canvas UV grows downward. Sampling upward makes the visible streak fall.
+	p.y -= t * 8.5;
 	vec2 cell = floor(p);
 	vec2 f = fract(p);
 	float lane = hash21(cell + seed * 193.0);
@@ -50,7 +51,7 @@ float rain_field(vec2 uv, float t) {
 
 float snow_layer(vec2 uv, float t, float columns, float fall_speed, float layer_seed) {
 	vec2 p = uv * vec2(columns, columns * 0.58);
-	p.y += t * fall_speed;
+	p.y -= t * fall_speed;
 	vec2 cell = floor(p);
 	vec2 f = fract(p);
 	float rnd = hash21(cell + vec2(layer_seed, seed * 113.0));

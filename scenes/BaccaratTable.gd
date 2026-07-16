@@ -27,8 +27,6 @@ const STAKE_OPTIONS  := [10_000, 50_000, 100_000, 500_000, 1_000_000]
 const ROAD_MAX       := 36     # 로드맵 최대 기록 수
 const REVEAL_DELAY   := 0.45   # 카드당 공개 딜레이(초)
 const SHOE_CUT       := 0.25   # 남은 슈 비율 < 25%면 리셔플
-const JOY_BUTTON_WEST := 2
-const JOY_BUTTON_NORTH := 3
 const PAD_TARGETS := ["P", "B", "T", "PP", "BP", "DEAL"]
 
 # ── 상태 ──────────────────────────────────────────────────────
@@ -168,8 +166,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			or event.is_action_pressed("ui_down") \
 			or event.is_action_pressed("ui_accept") \
 			or event.is_action_pressed("ui_cancel") \
-			or _joy_button_pressed(event, JOY_BUTTON_WEST) \
-			or _joy_button_pressed(event, JOY_BUTTON_NORTH)
+			or ControllerHints.secondary_pressed(event) \
+			or ControllerHints.details_pressed(event)
 	if pad_navigation_event:
 		_pad_navigation_active = true
 
@@ -190,19 +188,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		handled = _pad_accept()
 	elif event.is_action_pressed("ui_cancel"):
 		handled = _pad_cancel()
-	elif _joy_button_pressed(event, JOY_BUTTON_WEST):
+	elif ControllerHints.secondary_pressed(event):
 		handled = _pad_cycle_stake(1)
-	elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+	elif ControllerHints.details_pressed(event):
 		handled = _pad_show_rules()
 
 	if handled:
 		get_viewport().set_input_as_handled()
-
-func _joy_button_pressed(event: InputEvent, button_index: int) -> bool:
-	if not (event is InputEventJoypadButton):
-		return false
-	var joy := event as InputEventJoypadButton
-	return joy.pressed and int(joy.button_index) == button_index
 
 func _pad_cycle_target(direction: int) -> bool:
 	if _phase == Phase.DEALING:

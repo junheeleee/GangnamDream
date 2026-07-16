@@ -1478,8 +1478,11 @@ func _build_story_panel(parent):
 
 	var margin = MarginContainer.new()
 	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
-	margin.add_theme_constant_override("margin_left", 32)
-	margin.add_theme_constant_override("margin_right", 32)
+	var tv_safe_x := maxi(32, ceili(get_viewport_rect().size.x * 0.025))
+	margin.add_theme_constant_override("margin_left", tv_safe_x)
+	# Keep the scroll content itself inside the TV-safe edge. ScrollContainer's
+	# internal bar/gutter can otherwise reclaim a few pixels on narrow 16:10 views.
+	margin.add_theme_constant_override("margin_right", tv_safe_x + 16)
 	margin.add_theme_constant_override("margin_top", 24)
 	margin.add_theme_constant_override("margin_bottom", 20)
 	container.add_child(margin)
@@ -12831,7 +12834,7 @@ func _open_system_menu():
 		_tr("오디오, 화면, 세이브 슬롯을 관리합니다.", "Manage audio, display, and save slots.")))
 
 	_build_volume_sliders(modal_body)
-	_build_fullscreen_toggle(modal_body)
+	_build_display_settings(modal_body)
 	_build_save_load_section(modal_body)
 
 	var sep = HSeparator.new()
@@ -12885,27 +12888,111 @@ func _build_volume_sliders(parent: Control):
 	_make_row.call("BGM", AudioManager.bgm_volume, func(v): AudioManager.set_bgm_volume(v))
 	_make_row.call("SFX", AudioManager.master_volume, func(v): AudioManager.set_sfx_volume(v))
 
-func _build_fullscreen_toggle(parent: Control):
-	if OS.has_feature("web"):
-		return
-	var row = HBoxContainer.new()
-	row.add_theme_constant_override("separation", 10)
-	parent.add_child(row)
-	var lbl = Label.new()
-	lbl.text = _tr("전체화면", "Fullscreen")
-	lbl.add_theme_font_size_override("font_size", 13)
-	lbl.add_theme_color_override("font_color", Color("#8892a4"))
-	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	row.add_child(lbl)
-	var hint = Label.new()
-	hint.text = "F11 / Alt+Enter"
-	hint.add_theme_font_size_override("font_size", 11)
-	hint.add_theme_color_override("font_color", Color("#5a6075"))
-	row.add_child(hint)
-	var toggle = CheckButton.new()
-	toggle.button_pressed = DisplayManager.fullscreen
-	toggle.toggled.connect(func(on): DisplayManager.set_fullscreen(on))
-	row.add_child(toggle)
+func _build_display_settings(parent: Control) -> void:
+	if not OS.has_feature("web"):
+		var mode_row := HBoxContainer.new()
+		mode_row.custom_minimum_size = Vector2(0, 42)
+		mode_row.add_theme_constant_override("separation", 10)
+		parent.add_child(mode_row)
+		var mode_label := _label(_tr("화면 모드", "Display Mode"), 13, "#8892a4")
+		mode_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		mode_row.add_child(mode_label)
+		var mode_selector := OptionButton.new()
+		mode_selector.custom_minimum_size = Vector2(210, 38)
+		mode_selector.set_meta("display_mode_control", true)
+		for label_text in [
+			_tr("창모드", "Windowed"),
+			_tr("테두리 없음", "Borderless"),
+			_tr("전체화면", "Fullscreen"),
+		]:
+			mode_selector.add_item(label_text)
+		mode_selector.select(DisplayManager.window_mode_index())
+		mode_row.add_child(mode_selector)
+
+		var resolution_row := HBoxContainer.new()
+		resolution_row.custom_minimum_size = Vector2(0, 42)
+		resolution_row.add_theme_constant_override("separation", 10)
+		parent.add_child(resolution_row)
+		var resolution_label := _label(_tr("창 해상도", "Window Resolution"), 13, "#8892a4")
+		resolution_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		resolution_row.add_child(resolution_label)
+		var resolution_selector := OptionButton.new()
+		resolution_selector.custom_minimum_size = Vector2(210, 38)
+		resolution_selector.set_meta("resolution_control", true)
+		for index in range(DisplayManager.WINDOW_RESOLUTIONS.size()):
+			resolution_selector.add_item(DisplayManager.resolution_label(index))
+		resolution_selector.select(DisplayManager.resolution_index())
+		resolution_selector.disabled = DisplayManager.window_mode != "windowed"
+		resolution_selector.item_selected.connect(func(index: int):
+			DisplayManager.set_resolution_index(index))
+		resolution_row.add_child(resolution_selector)
+		mode_selector.item_selected.connect(func(index: int):
+			DisplayManager.set_window_mode_index(index)
+			resolution_selector.disabled = DisplayManager.window_mode != "windowed")
+
+	var motion_row := HBoxContainer.new()
+	motion_row.custom_minimum_size = Vector2(0, 46)
+	motion_row.add_theme_constant_override("separation", 10)
+	parent.add_child(motion_row)
+	var motion_copy := VBoxContainer.new()
+	motion_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	motion_copy.add_theme_constant_override("separation", 2)
+	motion_row.add_child(motion_copy)
+	var motion_label := _label(_tr("동작 감소", "Reduce Motion"), 13, "#8892a4")
+	motion_copy.add_child(motion_label)
+	var motion_hint := _wrap_label(_tr(
+		"카메라·초상·날씨 움직임을 최소화합니다.",
+		"Minimizes camera, portrait, and weather movement."), 11, "#5a6075")
+	motion_copy.add_child(motion_hint)
+	var motion_toggle := CheckButton.new()
+	motion_toggle.custom_minimum_size = Vector2(54, 40)
+	motion_toggle.button_pressed = bool(SaveManager.get_setting("reduce_motion", false))
+	motion_toggle.set_meta("reduce_motion_control", true)
+	motion_toggle.toggled.connect(func(on: bool): SaveManager.set_setting("reduce_motion", on))
+	motion_row.add_child(motion_toggle)
+
+	var vibration_row := HBoxContainer.new()
+	vibration_row.custom_minimum_size = Vector2(0, 42)
+	vibration_row.add_theme_constant_override("separation", 10)
+	parent.add_child(vibration_row)
+	var vibration_label := _label(_tr("진동", "Vibration"), 13, "#8892a4")
+	vibration_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	vibration_row.add_child(vibration_label)
+	var vibration_toggle := CheckButton.new()
+	vibration_toggle.custom_minimum_size = Vector2(54, 40)
+	vibration_toggle.button_pressed = AudioManager.vibration_enabled()
+	vibration_toggle.set_meta("vibration_control", true)
+	vibration_row.add_child(vibration_toggle)
+
+	var intensity_row := HBoxContainer.new()
+	intensity_row.custom_minimum_size = Vector2(0, 42)
+	intensity_row.add_theme_constant_override("separation", 10)
+	parent.add_child(intensity_row)
+	var intensity_label := _label(_tr("진동 강도", "Vibration Strength"), 13, "#8892a4")
+	intensity_label.custom_minimum_size = Vector2(132, 0)
+	intensity_row.add_child(intensity_label)
+	var intensity_slider := HSlider.new()
+	intensity_slider.min_value = 0.0
+	intensity_slider.max_value = 1.0
+	intensity_slider.step = 0.10
+	intensity_slider.value = AudioManager.vibration_intensity()
+	intensity_slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	intensity_slider.custom_minimum_size = Vector2(170, 32)
+	intensity_slider.editable = vibration_toggle.button_pressed
+	intensity_slider.set_meta("vibration_intensity_control", true)
+	intensity_slider.value_changed.connect(func(value: float):
+		AudioManager.set_vibration_intensity(value))
+	intensity_row.add_child(intensity_slider)
+	var intensity_value := _label(
+		"%d%%" % int(roundf(intensity_slider.value * 100.0)), 12, "#5a6075")
+	intensity_value.custom_minimum_size = Vector2(44, 0)
+	intensity_value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	intensity_slider.value_changed.connect(func(value: float):
+		intensity_value.text = "%d%%" % int(roundf(value * 100.0)))
+	intensity_row.add_child(intensity_value)
+	vibration_toggle.toggled.connect(func(on: bool):
+		AudioManager.set_vibration_enabled(on)
+		intensity_slider.editable = on)
 
 func _build_save_load_section(parent: Control):
 	var sep = HSeparator.new()
@@ -14647,16 +14734,17 @@ func _ending_playstyle(parent: Control):
 func _show_month_summary(snap: Dictionary):
 	_pending_month_summary = true
 	_open_modal(_tr("%s 결산", "%s Summary") % snap["date"])
-	# 결산: 스크롤바만 숨김 (넘치면 마우스 휠로 접근)
+	# 월말은 진행 필수 표면이다. 1280×800에서도 휠 없이 한 화면에 끝나야 한다.
 	if modal_scroll:
-		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
+		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	# 결산은 가운데 모달, 크기를 약간 더 넉넉하게
 	if modal_panel:
-		modal_panel.custom_minimum_size = Vector2(700, 640)
-		modal_panel.offset_left   = -350
-		modal_panel.offset_right  =  350
-		modal_panel.offset_top    = -320
-		modal_panel.offset_bottom =  320
+		modal_panel.custom_minimum_size = Vector2(720, 660)
+		modal_panel.offset_left   = -360
+		modal_panel.offset_right  =  360
+		modal_panel.offset_top    = -330
+		modal_panel.offset_bottom =  330
+	modal_body.add_theme_constant_override("separation", 8)
 
 	var income: float = float(snap["monthly_income"])
 	var expense: float = float(snap["fixed_expense"])
@@ -14725,19 +14813,6 @@ func _show_month_summary(snap: Dictionary):
 	if not stat_parts.is_empty():
 		modal_body.add_child(_wrap_label(_tr("스탯  ", "Stats  ") + "  ".join(stat_parts), 12, "#5a6075"))
 
-	# ── 조언 ──────────────────────────────────────
-	var advice = _get_month_advice()
-	if not advice.is_empty():
-		var div3 = HSeparator.new()
-		div3.add_theme_color_override("color", Color("#252535"))
-		modal_body.add_child(div3)
-		modal_body.add_child(_wrap_label(advice, 12, "#8892a4"))
-
-	# ── A-2: AP 사용 패턴 코멘트 ─────────────────
-	var ap_comment = _get_ap_pattern_comment(snap["actions"])
-	if not ap_comment.is_empty():
-		modal_body.add_child(_wrap_label(_tr("기록 — ", "Note — ") + ap_comment, 12, "#7a8496"))
-
 	# ── 이 달의 축 배분 (몽타주 프리뷰) — 돈에 몇 주, 사람에게 몇 주 ─────
 	var mw: int = GameState.last_month_money_weeks
 	var hw: int = GameState.last_month_human_weeks
@@ -14754,15 +14829,6 @@ func _show_month_summary(snap: Dictionary):
 				"This month — %d weeks on money, %d weeks on people.") % [mw, hw]
 		modal_body.add_child(_wrap_label(axis_line, 12, "#8892a4"))
 
-	var notebook_ritual := _wrap_label(_notebook_ritual_line(), 12, "#9da4ad")
-	notebook_ritual.set_meta("moral_role", "choice_subtitle")
-	modal_body.add_child(notebook_ritual)
-
-	# ── A-6: 월말 서사 내레이션 ───────────────────
-	var narrative = _get_month_narrative()
-	if not narrative.is_empty():
-		modal_body.add_child(_wrap_label("— " + narrative, 13, "#a0aabf"))
-
 	# ── A-3: 중독 90 경고 배너 ───────────────────
 	if GameState.addiction_tendency >= 90:
 		var warn_div = HSeparator.new()
@@ -14773,12 +14839,6 @@ func _show_month_summary(snap: Dictionary):
 		var warn_div2 = HSeparator.new()
 		warn_div2.add_theme_color_override("color", Color("#cc0000"))
 		modal_body.add_child(warn_div2)
-
-	# ── 목표 힌트 ─────────────────────────────────
-	var ms = _next_milestone_hint(assets_now)
-	if not ms.is_empty():
-		var ms_plain := ms.replace("[color=#7a9ab0]", "").replace("[/color]", "")
-		modal_body.add_child(_wrap_label(ms_plain, 11, "#9aa4b8"))
 
 	# ── 확인 버튼 (하단) ──────────────────────────
 	var div4 = HSeparator.new()
@@ -14832,7 +14892,7 @@ func _month_summary_result_card(grade: Dictionary, net: float, net_color: String
 	card.add_child(row)
 
 	var badge := PanelContainer.new()
-	badge.custom_minimum_size = Vector2(58, 58)
+	badge.custom_minimum_size = Vector2(52, 52)
 	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var badge_style := StyleBoxFlat.new()
 	badge_style.bg_color = Color("#050608", 0.96)
@@ -14862,7 +14922,7 @@ func _month_summary_result_card(grade: Dictionary, net: float, net_color: String
 	row.add_child(copy_col)
 	var overline := _label(_tr("이번 달 판정", "This Month"), 10, "#5f6878")
 	copy_col.add_child(overline)
-	var grade_title: Label = _label(grade_title_text, 18, _moral_hex(_moral_text_accent(Color(grade_color), 0.03)))
+	var grade_title: Label = _label(grade_title_text, 17, _moral_hex(_moral_text_accent(Color(grade_color), 0.03)))
 	if _font_bold:
 		grade_title.add_theme_font_override("font", _font_bold)
 	copy_col.add_child(grade_title)
@@ -14875,7 +14935,7 @@ func _month_summary_result_card(grade: Dictionary, net: float, net_color: String
 	var net_label := _label(_tr("순이익", "Net Profit"), 10, "#5f6878")
 	net_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	result_col.add_child(net_label)
-	var net_value := _label(GameState.format_money(net), 22, net_color)
+	var net_value := _label(GameState.format_money(net), 20, net_color)
 	net_value.clip_text = false
 	net_value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	if _font_bold:
@@ -14891,7 +14951,7 @@ func _month_summary_result_card(grade: Dictionary, net: float, net_color: String
 
 func _month_summary_metric_card(title: String, value: String, hint: String, accent: String) -> Control:
 	var card := _info_card(accent, "#090c11")
-	card.custom_minimum_size = Vector2(0, 74)
+	card.custom_minimum_size = Vector2(0, 68)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 3)
 	card.add_child(box)

@@ -349,13 +349,15 @@ Codex가 오더 없이 `content/meta/story_rules.json`(언어 독립 서사 사�
 3. **안전 가드**: 모드 활성 시 타이틀에 소극적 표기(문제 리포트 구분용) + 세이브에 mod_active 플래그(버그 리포트 필터). 스크립트 로딩은 지원하지 않음을 명시.
 4. 스토어 카피 한 줄 확보: "커뮤니티 번역·에셋 모드 지원" — 위시리스트 셀링포인트.
 
-#### [~] ORDER-16 [P1] 입력×해상도 매트릭스 (유저 지시 2026-07-13 — "키보드 온리·마우스 온리 지원해")
+#### [x] ORDER-16 [P1] 입력×해상도 매트릭스 (유저 지시 2026-07-13 — "키보드 온리·마우스 온리 지원해")
 **착수 (2026-07-16 Codex) — 만지는 파일:** `autoloads/DisplayManager.gd`, `autoloads/ControllerHints.gd`, `autoloads/AudioManager.gd`, `scenes/StartMenu.gd`, `scenes/MainGame.gd`, `scenes/StoryMode.gd`, `scenes/BlackjackTable.gd`, `scenes/BaccaratTable.gd`, `scenes/SlotMachineGame.gd`, `scenes/RouletteTable.gd`, `scenes/BigWheelGame.gd`, `scenes/DaiSaiTable.gd`, `scenes/HoldemClub.gd`, `scenes/RaceTrack.gd`, `scenes/JeongseonCasino.gd`, `locale/ui_ja.json`, `tools/InputMatrixCheck.gd`, `tools/InputMatrixCheck.gd.uid`, `tools/InputMatrixCheck.tscn`, `tools/StoryAudioSettingsCheck.gd`, `tools/ScreenshotQA.gd`, `tools/audit.sh`, `steam_input/game_actions_gangnam_dream.vdf`, `docs/INPUT_MATRIX.md`, `docs/CONTROLLER_UX_STRATEGY.md`, `docs/QA_CHECKLIST.md`, `docs/MASTER_RELEASE_AUDIT.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`은 건드리지 않는다. 창 모드·해상도·동작 감소·진동 on/off/강도를 플레이어 표면에 올리고, 키보드/마우스/세 패드 계열과 1080p·QHD·4K·21:9의 데모 핵심 표면을 실행 가능한 계약으로 잠근다. Steam Input 파일은 실제 AppID 없이도 액션셋·행동 이름을 검토할 수 있는 배포 템플릿까지만 만들며 플랫폼 SDK를 코드에 강결합하지 않는다.
 1. **해상도 QA 매트릭스**: 1920×1080(16:9)·2560×1440·3840×2160·울트라와이드(3440×1440) ScreenshotQA 스코프 추가 — expand 여백에서 레이아웃 깨짐·앵커 이탈·글자 잘림 전수. CG/초상 4K 업스케일 체감 확인(필요 시 필터 설정). 창모드/전체화면/해상도 옵션 UI 유무 점검(없으면 추가 — 표준 기대치).
 2. **키보드 온리 완주**: 마우스 입력 0으로 타이틀→데모 엔딩(t=24) 실주행 — 포커스 도달 불가 위젯·포커스 함정(빠져나갈 수 없는 모달)·카지노 7종 조작 가능 여부 전수, 발견 즉시 수리. 키 안내(패드 힌트의 키보드판) 표시.
 3. **마우스 온리 완주**: 동일 구간 — 텍스트 입력 지점(플레이어 이름 등)은 기본값 제공+화면 키보드 or 클릭 진행 가능하게.
 4. **패드 매트릭스**: Xbox·듀얼센스·스위치 프로콘 글리프 3종 스크린샷 검증 + 진동 지점 목록화(과다 진동 금지 — 결정·타이머 순간만). Steam Input 기본 구성 파일 준비.
 5. 산출물: docs/INPUT_MATRIX.md(지원 선언표 — 스토어 페이지 "전체 컨트롤러 지원" 표기 근거).
+
+**완료 보고 (2026-07-16 Codex):** 창모드·테두리 없는 창·전체화면과 720p~4K 선택, 타이틀/인게임의 Reduce Motion·진동 on/off/강도, 마지막 입력 장치에 따른 키보드/Xbox/DualSense/Switch Pro 글리프를 하나의 의미 입력층으로 통합했다. 1080p·QHD·4K·3440×1440 실제 렌더에서 설정·데모 AP·Living Scene과 2.5% TV 안전영역을 통과했고, 키보드 온리와 마우스 온리로 각각 24주 데모를 0 반대장치 이벤트로 완주했다. 카지노 허브·블랙잭·바카라·슬롯·룰렛·빅휠·다이사이·홀덤·경마는 키보드/패드 보조동작 18경로와 키보드 베팅→실행 9과업을 런타임으로 잠갔다. 1080p 영문 블랙잭에서 키보드 힌트와 최장 금액을 확인하며 중앙 베팅 스폿 잘림도 수리했다. `INPUT_MATRIX_CHECK_OK modes=3 resolutions=6 brands=3 direct_scenes=9 direct_routes=18 keyboard_tasks=9 action_sets=4`, 전체 감사 ERROR 0/WARNING 0·58스크립트 컴파일을 통과했다. 실제 Steam Deck/DualSense/Switch Pro의 손맛·재연결·절전복귀·Steam 오버레이는 물리 기기 게이트로 남아 있으므로 그 전까지 Steam의 Full Controller Support 표기는 보류한다.
 
 #### [ ] ORDER-17 [P3·출시 비차단] 데이터 모딩 3·4층 — 커스텀 이벤트 팩 + 밸런스 프리셋
 > Claude 판정: 이 게임은 이벤트 1,477종이 전부 JSON = 반쯤 스토리 플랫폼. 3층을 열면 팬이 자기 사건을 쓴다. **출시 게이트 아님** — ORDER-12·15 로더 작업과 초크포인트가 같으니 그때 함께 하면 공수 최소.

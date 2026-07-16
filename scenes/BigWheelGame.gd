@@ -33,8 +33,6 @@ const BIG_WHEEL_SLOT_LAYOUT: Array = [
 	2, 0, 3, 1, 0, 4, 0, 1, 2, 0, 1, 0, 5, 1, 0, 2, 0, 3,
 	1, 0, 1, 0, 2, 0, 4, 1, 0, 3, 1, 0, 2, 0, 1, 0, 1, 0
 ]
-const JOY_BUTTON_WEST := 2
-const JOY_BUTTON_NORTH := 3
 
 # ── 상태 ──────────────────────────────────────────────────────
 var _rng := RandomNumberGenerator.new()
@@ -196,8 +194,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			or event.is_action_pressed("ui_down") \
 			or event.is_action_pressed("ui_accept") \
 			or event.is_action_pressed("ui_cancel") \
-			or _joy_button_pressed(event, JOY_BUTTON_WEST) \
-			or _joy_button_pressed(event, JOY_BUTTON_NORTH)
+			or ControllerHints.secondary_pressed(event) \
+			or ControllerHints.details_pressed(event)
 	if pad_navigation_event:
 		_pad_navigation_active = true
 
@@ -214,19 +212,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		handled = _pad_accept()
 	elif event.is_action_pressed("ui_cancel"):
 		handled = _pad_cancel()
-	elif _joy_button_pressed(event, JOY_BUTTON_WEST):
+	elif ControllerHints.secondary_pressed(event):
 		handled = _pad_cycle_stake(1)
-	elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+	elif ControllerHints.details_pressed(event):
 		handled = _pad_show_rules()
 
 	if handled:
 		get_viewport().set_input_as_handled()
-
-func _joy_button_pressed(event: InputEvent, button_index: int) -> bool:
-	if not (event is InputEventJoypadButton):
-		return false
-	var joy := event as InputEventJoypadButton
-	return joy.pressed and int(joy.button_index) == button_index
 
 func _pad_move_segment(direction: int) -> bool:
 	if _phase != Phase.IDLE:

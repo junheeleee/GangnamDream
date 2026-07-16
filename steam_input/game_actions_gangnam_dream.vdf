@@ -1,0 +1,141 @@
+"In Game Actions"
+{
+	"major_revision"		"1"
+	"minor_revision"		"0"
+	"major_revision_affects_xinput"		"0"
+	"major_revision_affects_mousekb"	"0"
+
+	"actions"
+	{
+		"Menu"
+		{
+			"title"		"#Set_Menu"
+			"StickPadGyro"
+			{
+				"Navigate"
+				{
+					"title"		"#Action_Navigate"
+					"input_mode"	"joystick_move"
+				}
+			}
+			"Button"
+			{
+				"Confirm"		"#Action_Confirm"
+				"Back"			"#Action_Back"
+				"SystemMenu"		"#Action_SystemMenu"
+				"TabPrevious"		"#Action_TabPrevious"
+				"TabNext"		"#Action_TabNext"
+				"Details"		"#Action_Details"
+			}
+		}
+
+		"Story"
+		{
+			"title"		"#Set_Story"
+			"StickPadGyro"
+			{
+				"Choose"
+				{
+					"title"		"#Action_Choose"
+					"input_mode"	"joystick_move"
+				}
+			}
+			"Button"
+			{
+				"Advance"		"#Action_Advance"
+				"Back"			"#Action_Back"
+				"AutoText"		"#Action_AutoText"
+				"SceneSettings"	"#Action_SceneSettings"
+			}
+		}
+
+		"Life"
+		{
+			"title"		"#Set_Life"
+			"StickPadGyro"
+			{
+				"Navigate"
+				{
+					"title"		"#Action_Navigate"
+					"input_mode"	"joystick_move"
+				}
+			}
+			"Button"
+			{
+				"Confirm"		"#Action_Confirm"
+				"Back"			"#Action_Back"
+				"AdvanceWeek"		"#Action_AdvanceWeek"
+				"TabPrevious"		"#Action_TabPrevious"
+				"TabNext"		"#Action_TabNext"
+				"SystemMenu"		"#Action_SystemMenu"
+			}
+		}
+
+		"Minigame"
+		{
+			"title"		"#Set_Minigame"
+			"StickPadGyro"
+			{
+				"Navigate"
+				{
+					"title"		"#Action_Navigate"
+					"input_mode"	"joystick_move"
+				}
+			}
+			"Button"
+			{
+				"Confirm"		"#Action_Confirm"
+				"Back"			"#Action_Back"
+				"Secondary"		"#Action_Secondary"
+				"Details"		"#Action_Details"
+				"TabPrevious"		"#Action_TabPrevious"
+				"TabNext"		"#Action_TabNext"
+				"SystemMenu"		"#Action_SystemMenu"
+			}
+		}
+	}
+
+	"localization"
+	{
+		"english"
+		{
+			"#Set_Menu"		"Menus"
+			"#Set_Story"		"Story"
+			"#Set_Life"		"Weekly Life"
+			"#Set_Minigame"		"Minigames"
+			"#Action_Navigate"	"Navigate"
+			"#Action_Choose"	"Choose"
+			"#Action_Confirm"	"Confirm"
+			"#Action_Advance"	"Advance Text"
+			"#Action_Back"		"Back"
+			"#Action_Secondary"	"Secondary Action"
+			"#Action_Details"	"Rules / Details"
+			"#Action_TabPrevious"	"Previous Tab"
+			"#Action_TabNext"	"Next Tab"
+			"#Action_AdvanceWeek"	"Advance Week"
+			"#Action_AutoText"	"Auto Text"
+			"#Action_SystemMenu"	"System Menu"
+			"#Action_SceneSettings"	"Scene Settings"
+		}
+		"koreana"
+		{
+			"#Set_Menu"		"메뉴"
+			"#Set_Story"		"스토리"
+			"#Set_Life"		"주간 생활"
+			"#Set_Minigame"		"미니게임"
+			"#Action_Navigate"	"이동"
+			"#Action_Choose"	"선택"
+			"#Action_Confirm"	"확인"
+			"#Action_Advance"	"대사 진행"
+			"#Action_Back"		"뒤로"
+			"#Action_Secondary"	"보조 행동"
+			"#Action_Details"	"규칙 / 상세"
+			"#Action_TabPrevious"	"이전 탭"
+			"#Action_TabNext"	"다음 탭"
+			"#Action_AdvanceWeek"	"다음 주"
+			"#Action_AutoText"	"자동 재생"
+			"#Action_SystemMenu"	"시스템 메뉴"
+			"#Action_SceneSettings"	"장면 설정"
+		}
+	}
+}

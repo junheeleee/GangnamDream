@@ -16,8 +16,6 @@ const HW := preload("res://systems/HorseWorld.gd")  # 영속 명마 세계 + 정
 const HORSE_TEX := preload("res://assets/ui/horse_silhouette.png")  # 질주 실루엣 8프레임(128px) 아틀라스
 const BG_BETTING_PATH := "res://assets/backgrounds/racetrack_betting_hall.png"
 const BG_TRACK_PATH := "res://assets/backgrounds/racetrack_track_view.png"
-const JOY_BUTTON_WEST := 2
-const JOY_BUTTON_NORTH := 3
 const STAKE_OPTIONS := [10000, 30000, 100000, 500000]
 
 var _phase: int = Phase.BETTING
@@ -211,8 +209,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			or event.is_action_pressed("ui_right") \
 			or event.is_action_pressed("ui_accept") \
 			or event.is_action_pressed("ui_cancel") \
-			or _joy_button_pressed(event, JOY_BUTTON_WEST) \
-			or _joy_button_pressed(event, JOY_BUTTON_NORTH)
+			or ControllerHints.secondary_pressed(event) \
+			or ControllerHints.details_pressed(event)
 	if pad_navigation_event:
 		_pad_navigation_active = true
 
@@ -227,13 +225,13 @@ func _unhandled_input(event: InputEvent) -> void:
 				handled = _pad_cycle_bet_type(-1)
 			elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right"):
 				handled = _pad_cycle_bet_type(1)
-			elif _joy_button_pressed(event, JOY_BUTTON_WEST):
+			elif ControllerHints.secondary_pressed(event):
 				handled = _pad_cycle_stake(1)
 			elif event.is_action_pressed("ui_accept"):
 				handled = _pad_accept_betting()
 			elif event.is_action_pressed("ui_cancel"):
 				handled = _pad_cancel_or_exit()
-			elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+			elif ControllerHints.details_pressed(event):
 				handled = _pad_show_rules()
 		Phase.RESULT:
 			if event.is_action_pressed("ui_accept"):
@@ -242,7 +240,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			elif event.is_action_pressed("ui_cancel"):
 				_on_exit()
 				handled = true
-			elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+			elif ControllerHints.details_pressed(event):
 				handled = _pad_show_rules()
 		Phase.RACE:
 			if event.is_action_pressed("ui_cancel"):
@@ -250,12 +248,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if handled:
 		get_viewport().set_input_as_handled()
-
-func _joy_button_pressed(event: InputEvent, button_index: int) -> bool:
-	if not (event is InputEventJoypadButton):
-		return false
-	var joy := event as InputEventJoypadButton
-	return joy.pressed and int(joy.button_index) == button_index
 
 func _should_show_pad_cursor() -> bool:
 	return _pad_navigation_active or ControllerHints.is_pad_active()

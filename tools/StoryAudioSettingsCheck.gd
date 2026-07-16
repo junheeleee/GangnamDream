@@ -4,10 +4,12 @@ extends Node
 var _story: Control
 var _original_bgm: float
 var _original_sfx: float
+var _original_reduce_motion: bool
 
 func _ready() -> void:
 	_original_bgm = AudioManager.bgm_volume
 	_original_sfx = AudioManager.master_volume
+	_original_reduce_motion = bool(SaveManager.get_setting("reduce_motion", false))
 	GameState.start_new_game()
 	GameState.pending_story_queue = ["arc_daeun_wedding_walk"]
 	GameState.story_return_scene = "res://scenes/MainGame.tscn"
@@ -43,8 +45,10 @@ func _ready() -> void:
 		return
 	var bgm_slider := _story.get("_audio_bgm_slider") as HSlider
 	var sfx_slider := _story.get("_audio_sfx_slider") as HSlider
-	if not is_instance_valid(bgm_slider) or not is_instance_valid(sfx_slider):
-		_fail("story audio sliders are missing")
+	var motion_toggle := _story.get("_audio_reduce_motion_toggle") as CheckButton
+	if not is_instance_valid(bgm_slider) or not is_instance_valid(sfx_slider) \
+			or not is_instance_valid(motion_toggle):
+		_fail("story audio or Reduce Motion controls are missing")
 		return
 	if get_viewport().gui_get_focus_owner() != bgm_slider:
 		_fail("story audio popup did not focus the first controller row")
@@ -64,6 +68,16 @@ func _ready() -> void:
 	if BGMPlayer._ambience_player.stream != ambience_stream \
 			or BGMPlayer._ambience_player.get_playback_position() + 0.05 < ambience_pos:
 		_fail("changing volume restarted scene ambience")
+		return
+	motion_toggle.button_pressed = false
+	await get_tree().process_frame
+	motion_toggle.button_pressed = true
+	await get_tree().process_frame
+	var living_profile: Dictionary = _story.get("_living_profile")
+	if not bool(SaveManager.get_setting("reduce_motion", false)) \
+			or not bool(living_profile.get("reduced_motion", false)) \
+			or str(living_profile.get("camera", "missing")) != "none":
+		_fail("story Reduce Motion did not apply to the current living scene")
 		return
 
 	_story.call("_on_advance")
@@ -95,6 +109,7 @@ func _ready() -> void:
 func _restore_settings() -> void:
 	AudioManager.set_bgm_volume(_original_bgm)
 	AudioManager.set_sfx_volume(_original_sfx)
+	SaveManager.set_setting("reduce_motion", _original_reduce_motion)
 
 func _fail(message: String) -> void:
 	_restore_settings()

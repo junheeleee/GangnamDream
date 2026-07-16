@@ -1,7 +1,5 @@
 extends Node
 
-const SETTINGS_PATH = "user://gangnam_dream_settings.json"
-
 var master_volume: float = 0.8
 var bgm_volume: float    = 0.25
 var sfx_enabled: bool    = true
@@ -224,16 +222,14 @@ func _make_fallback(key: String) -> AudioStreamWAV:
 	return _tone(440, 0.1, [1.0, 0.0])
 
 func load_settings():
-	if FileAccess.file_exists(SETTINGS_PATH):
-		var parsed = JSON.parse_string(FileAccess.get_file_as_string(SETTINGS_PATH))
-		if parsed is Dictionary:
-			master_volume = float(parsed.get("sfx_volume", 0.8))
-			bgm_volume    = float(parsed.get("bgm_volume", 0.25))
+	master_volume = clampf(float(SaveManager.get_setting("sfx_volume", 0.8)), 0.0, 1.0)
+	bgm_volume = clampf(float(SaveManager.get_setting("bgm_volume", 0.25)), 0.0, 1.0)
 
 func save_settings():
-	var file = FileAccess.open(SETTINGS_PATH, FileAccess.WRITE)
-	if file:
-		file.store_string(JSON.stringify({"sfx_volume": master_volume, "bgm_volume": bgm_volume}))
+	# SaveManager owns the shared settings dictionary. Writing the JSON directly here
+	# would erase accessibility and vibration preferences saved by other systems.
+	SaveManager.set_setting("sfx_volume", master_volume)
+	SaveManager.set_setting("bgm_volume", bgm_volume)
 
 func set_sfx_volume(v: float):
 	master_volume = clampf(v, 0.0, 1.0)
@@ -467,13 +463,44 @@ func play_casino_result(net_amount: float, stake: float = 0.0, force_jackpot: bo
 func pulse_gamepad(weak: float, strong: float, duration: float = 0.12) -> void:
 	if duration <= 0.0:
 		return
+	if not vibration_enabled():
+		return
+	var intensity := vibration_intensity()
+	if intensity <= 0.0:
+		return
 	for device in Input.get_connected_joypads():
 		Input.start_joy_vibration(
 			int(device),
-			clampf(weak, 0.0, 1.0),
-			clampf(strong, 0.0, 1.0),
+			clampf(weak * intensity, 0.0, 1.0),
+			clampf(strong * intensity, 0.0, 1.0),
 			duration
 		)
+
+func stop_gamepad_vibration() -> void:
+	for device in Input.get_connected_joypads():
+		Input.stop_joy_vibration(int(device))
+
+func set_vibration_enabled(enabled: bool) -> void:
+	SaveManager.set_setting("vibration_enabled", enabled)
+	if not enabled:
+		stop_gamepad_vibration()
+
+func set_vibration_intensity(value: float) -> void:
+	SaveManager.set_setting("vibration_intensity", clampf(value, 0.0, 1.0))
+
+func vibration_enabled() -> bool:
+	return bool(SaveManager.get_setting("vibration_enabled", true))
+
+func vibration_intensity() -> float:
+	return clampf(float(SaveManager.get_setting("vibration_intensity", 0.70)), 0.0, 1.0)
+
+func vibration_profile(weak: float, strong: float) -> Vector2:
+	if not vibration_enabled():
+		return Vector2.ZERO
+	var intensity := vibration_intensity()
+	return Vector2(
+		clampf(weak * intensity, 0.0, 1.0),
+		clampf(strong * intensity, 0.0, 1.0))
 
 func _vol_db() -> float:
 	if master_volume <= 0.0: return -80.0

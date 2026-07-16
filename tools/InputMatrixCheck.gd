@@ -1,0 +1,506 @@
+extends Node
+## InputMatrixCheck — release-facing display, accessibility, glyph, and input contract.
+
+const STEAM_ACTIONS_PATH := "res://steam_input/game_actions_gangnam_dream.vdf"
+const DIRECT_INPUT_SCENES: Array[String] = [
+	"res://scenes/BlackjackTable.gd",
+	"res://scenes/BaccaratTable.gd",
+	"res://scenes/SlotMachineGame.gd",
+	"res://scenes/RouletteTable.gd",
+	"res://scenes/BigWheelGame.gd",
+	"res://scenes/DaiSaiTable.gd",
+	"res://scenes/HoldemClub.gd",
+	"res://scenes/RaceTrack.gd",
+	"res://scenes/JeongseonCasino.gd",
+]
+const DIRECT_INPUT_CASES: Array[Dictionary] = [
+	{"path": "res://scenes/BlackjackTable.gd", "state": "_stake"},
+	{"path": "res://scenes/BaccaratTable.gd", "state": "_active_stake"},
+	{"path": "res://scenes/SlotMachineGame.gd", "state": "_active_stake"},
+	{"path": "res://scenes/RouletteTable.gd", "state": "_stake"},
+	{"path": "res://scenes/BigWheelGame.gd", "state": "_stake"},
+	{"path": "res://scenes/DaiSaiTable.gd", "state": "_stake"},
+	{"path": "res://scenes/HoldemClub.gd", "state": "_buy_in"},
+	{"path": "res://scenes/RaceTrack.gd", "state": "_pad_stake_idx"},
+	{"path": "res://scenes/JeongseonCasino.gd", "state": "_glossary_overlay"},
+]
+
+var _failures: Array[String] = []
+var _original_vibration_enabled: bool
+var _original_vibration_intensity: float
+
+func _ready() -> void:
+	call_deferred("_run")
+
+func _run() -> void:
+	_original_vibration_enabled = AudioManager.vibration_enabled()
+	_original_vibration_intensity = AudioManager.vibration_intensity()
+	_check_display_contract()
+	_check_controller_glyphs()
+	_check_input_actions()
+	_check_accessibility_and_haptics()
+	await _check_settings_surface()
+	_check_direct_input_scenes()
+	await _check_direct_input_runtime()
+	await _check_minigame_keyboard_tasks()
+	_check_steam_input_template()
+	_restore_settings()
+	ControllerHints.clear_qa_override()
+	if _failures.is_empty():
+		print("INPUT_MATRIX_CHECK_OK modes=3 resolutions=6 brands=3 direct_scenes=9 direct_routes=18 keyboard_tasks=9 action_sets=4")
+		get_tree().quit(0)
+		return
+	for failure in _failures:
+		push_error("INPUT_MATRIX_CHECK_FAIL: %s" % failure)
+	get_tree().quit(1)
+
+func _check_display_contract() -> void:
+	_expect(DisplayManager.WINDOW_MODES == ["windowed", "borderless", "fullscreen"],
+		"display modes are not windowed/borderless/fullscreen")
+	var expected: Array[Vector2i] = [
+		Vector2i(1280, 720), Vector2i(1280, 800), Vector2i(1600, 900), Vector2i(1920, 1080),
+		Vector2i(2560, 1440), Vector2i(3840, 2160),
+	]
+	_expect(DisplayManager.WINDOW_RESOLUTIONS.size() == expected.size(), "window resolution count changed")
+	for index in range(expected.size()):
+		_expect(DisplayManager.WINDOW_RESOLUTIONS[index] == expected[index],
+			"window resolution %d changed" % index)
+	_expect(DisplayManager.has_method("set_window_mode_index"), "display mode selector API missing")
+	_expect(DisplayManager.has_method("set_resolution_index"), "resolution selector API missing")
+	var snapshot := DisplayManager.settings_snapshot()
+	for key in ["window_mode", "fullscreen", "width", "height"]:
+		_expect(snapshot.has(key), "display snapshot missing %s" % key)
+	var safe := DisplayManager.tv_safe_rect(Vector2(1920, 1080))
+	_expect(safe.position.x >= 16.0 and safe.position.y >= 16.0,
+		"TV safe area has no protected edge")
+	_expect(safe.end.x < 1920.0 and safe.end.y < 1080.0,
+		"TV safe area reaches the physical edge")
+
+func _check_controller_glyphs() -> void:
+	var cases: Array = [
+		[ControllerHints.Brand.XBOX, ["A", "B", "X", "Y", "RB", "Menu", "LB"]],
+		[ControllerHints.Brand.PLAYSTATION, ["✕", "○", "□", "△", "R1", "Options", "L1"]],
+		[ControllerHints.Brand.NINTENDO, ["B", "A", "Y", "X", "R", "+", "L"]],
+	]
+	for data in cases:
+		ControllerHints.force_brand_for_qa(data[0])
+		var actual: Array[String] = [
+			ControllerHints.south(), ControllerHints.east(), ControllerHints.west(),
+			ControllerHints.north(), ControllerHints.shoulder_r(),
+			ControllerHints.start_btn(), ControllerHints.shoulder_l(),
+		]
+		_expect(actual == data[1], "%s glyph layout is %s" % [ControllerHints.brand_name(), actual])
+	_expect(ControllerHints.brand_from_device_name("DualSense Wireless Controller") \
+		== ControllerHints.Brand.PLAYSTATION, "DualSense detection failed")
+	_expect(ControllerHints.brand_from_device_name("Nintendo Switch Pro Controller") \
+		== ControllerHints.Brand.NINTENDO, "Switch Pro detection failed")
+	_expect(ControllerHints.brand_from_device_name("Steam Deck") \
+		== ControllerHints.Brand.XBOX, "Steam Deck physical layout detection failed")
+	ControllerHints.clear_qa_override()
+
+func _check_input_actions() -> void:
+	for action in [
+		"ui_accept", "ui_cancel", "ui_up", "ui_down", "ui_left", "ui_right",
+		"gd_next_month", "gd_menu", "gd_tab_next", "gd_tab_prev",
+		"gd_secondary", "gd_details",
+	]:
+		_expect(InputMap.has_action(action), "InputMap action missing: %s" % action)
+	var keyboard_contract := {
+		"gd_tab_prev": KEY_Q,
+		"gd_tab_next": KEY_E,
+		"gd_secondary": KEY_X,
+		"gd_details": KEY_Y,
+		"gd_menu": KEY_F10,
+		"gd_next_month": KEY_N,
+	}
+	for action_name in keyboard_contract:
+		var expected_key := int(keyboard_contract[action_name])
+		var found := false
+		for mapped_event in InputMap.action_get_events(action_name):
+			if mapped_event is InputEventKey:
+				var mapped_key := mapped_event as InputEventKey
+				if int(mapped_key.keycode) == expected_key \
+						or int(mapped_key.physical_keycode) == expected_key:
+					found = true
+					break
+		_expect(found, "%s has no keyboard binding for %s" % [
+			action_name, OS.get_keycode_string(expected_key)])
+
+func _check_accessibility_and_haptics() -> void:
+	var reduced := LivingSceneLayer.build_profile(
+		{"id": "kx_monsoon", "background": "street_rainy"},
+		"street_rainy", "", {"channel": "in_person", "portrait_role": "present"},
+		0.0, false, true)
+	_expect(str(reduced.get("camera", "missing")) == "none", "Reduce Motion kept camera travel")
+	_expect(float(reduced.get("portrait_breath", 1.0)) == 0.0, "Reduce Motion kept portrait breathing")
+	AudioManager.set_vibration_enabled(false)
+	_expect(AudioManager.vibration_profile(0.5, 0.8) == Vector2.ZERO, "disabled vibration still pulses")
+	AudioManager.set_vibration_enabled(true)
+	AudioManager.set_vibration_intensity(0.5)
+	var profile := AudioManager.vibration_profile(0.4, 0.8)
+	_expect(profile.is_equal_approx(Vector2(0.2, 0.4)), "vibration intensity scaling is %s" % profile)
+
+func _check_settings_surface() -> void:
+	var packed := load("res://scenes/StartMenu.tscn") as PackedScene
+	_expect(packed != null, "StartMenu settings surface could not be loaded")
+	if packed == null:
+		return
+	var menu := packed.instantiate()
+	add_child(menu)
+	await get_tree().process_frame
+	if menu.has_method("_dismiss_splash"):
+		menu.call("_dismiss_splash")
+	await get_tree().create_timer(0.35).timeout
+	menu.call("_open_settings_popup")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var overlay := menu.get("_settings_overlay") as Control
+	_expect(is_instance_valid(overlay), "StartMenu settings overlay did not open")
+	if is_instance_valid(overlay):
+		var expected_meta := [
+			"display_mode_control", "resolution_control", "reduce_motion_control",
+			"vibration_control", "vibration_intensity_control",
+		]
+		for key in expected_meta:
+			var matches: Array[Control] = []
+			_collect_meta_controls(overlay, key, matches)
+			_expect(matches.size() == 1, "settings expected one %s, found %d" % [key, matches.size()])
+		var panel := _find_first_panel(overlay)
+		_expect(panel != null, "settings panel is missing")
+		if panel != null:
+			var viewport_size := get_viewport().get_visible_rect().size
+			var safe_rect := DisplayManager.tv_safe_rect(viewport_size)
+			var rect := panel.get_global_rect()
+			_expect(safe_rect.encloses(rect), "settings panel exceeds TV safe area: %s / %s" % [rect, safe_rect])
+		var focused := get_viewport().gui_get_focus_owner()
+		_expect(focused != null and overlay.is_ancestor_of(focused),
+			"settings overlay did not assign controller/keyboard focus")
+	menu.call("_close_settings_popup")
+	await get_tree().process_frame
+	menu.queue_free()
+	await get_tree().process_frame
+
+func _collect_meta_controls(root: Node, key: String, output: Array[Control]) -> void:
+	if root is Control and bool((root as Control).get_meta(key, false)):
+		output.append(root as Control)
+	for child in root.get_children():
+		_collect_meta_controls(child, key, output)
+
+func _find_first_panel(root: Node) -> PanelContainer:
+	if root is PanelContainer:
+		return root as PanelContainer
+	for child in root.get_children():
+		var found := _find_first_panel(child)
+		if found != null:
+			return found
+	return null
+
+func _check_direct_input_scenes() -> void:
+	for path in DIRECT_INPUT_SCENES:
+		_expect(FileAccess.file_exists(path), "direct-input scene missing: %s" % path)
+		if not FileAccess.file_exists(path):
+			continue
+		var source := FileAccess.get_file_as_string(path)
+		_expect(source.contains("ControllerHints"), "%s has no controller glyph contract" % path)
+		_expect(source.contains("func _unhandled_input"), "%s has no direct input state machine" % path)
+		_expect(source.contains("ControllerHints.secondary_pressed(event)"),
+			"%s does not share the keyboard/gamepad secondary action" % path)
+		_expect(source.contains("ControllerHints.details_pressed(event)"),
+			"%s does not share the keyboard/gamepad details action" % path)
+
+func _check_direct_input_runtime() -> void:
+	var original_money: float = float(GameState.money)
+	var original_flags := GameState.flags.duplicate(true)
+	GameState.money = 100_000_000.0
+	ControllerHints.clear_qa_override()
+	for test_case in DIRECT_INPUT_CASES:
+		for input_mode in ["keyboard", "gamepad"]:
+			await _exercise_secondary_route(test_case, input_mode)
+	GameState.money = original_money
+	GameState.flags = original_flags
+	BGMPlayer.update_idle_ambience()
+
+func _exercise_secondary_route(test_case: Dictionary, input_mode: String) -> void:
+	var path := str(test_case.get("path", ""))
+	var state_name := str(test_case.get("state", ""))
+	var script := load(path) as Script
+	_expect(script != null, "runtime input route could not load %s" % path)
+	if script == null:
+		return
+	var surface := script.new() as Control
+	_expect(surface != null, "runtime input route could not instantiate %s" % path)
+	if surface == null:
+		return
+	add_child(surface)
+	await get_tree().process_frame
+	_expect(surface.has_method("open"), "runtime input route has no open(): %s" % path)
+	if not surface.has_method("open"):
+		surface.queue_free()
+		await get_tree().process_frame
+		return
+	surface.call("open")
+	await get_tree().process_frame
+	_expect(surface.visible, "runtime input route did not open %s" % path)
+	var before = surface.get(state_name)
+	surface.call("_unhandled_input", _secondary_input_event(input_mode))
+	await get_tree().process_frame
+	var after = surface.get(state_name)
+	if state_name == "_glossary_overlay":
+		_expect(is_instance_valid(after), "%s secondary route did not open the glossary in %s" % [
+			path, input_mode])
+	else:
+		_expect(after != before, "%s secondary route did not change %s in %s" % [
+			path, state_name, input_mode])
+	surface.queue_free()
+	await get_tree().process_frame
+
+func _secondary_input_event(input_mode: String) -> InputEvent:
+	if input_mode == "keyboard":
+		var key := InputEventKey.new()
+		key.physical_keycode = KEY_X
+		key.pressed = true
+		return key
+	var button := InputEventJoypadButton.new()
+	button.button_index = JOY_BUTTON_X
+	button.pressed = true
+	return button
+
+func _check_minigame_keyboard_tasks() -> void:
+	var game_state_snapshot: Dictionary = GameState.serialize().duplicate(true)
+	var tutorial_snapshot: Dictionary = TutorialOverlay._seen.duplicate(true)
+	for tutorial_id in [
+		"blackjack", "baccarat", "slot", "roulette", "bigwheel",
+		"daisai", "holdem", "racetrack",
+	]:
+		TutorialOverlay._seen[tutorial_id] = true
+	ControllerHints.clear_qa_override()
+
+	await _check_blackjack_keyboard()
+	await _check_baccarat_keyboard()
+	await _check_slot_keyboard()
+	await _check_roulette_keyboard()
+	await _check_bigwheel_keyboard()
+	await _check_daisai_keyboard()
+	await _check_holdem_keyboard()
+	await _check_racetrack_keyboard()
+	await _check_casino_hub_keyboard()
+
+	GameState.load_from_dict(game_state_snapshot)
+	TutorialOverlay._seen.clear()
+	TutorialOverlay._seen.merge(tutorial_snapshot, true)
+	BGMPlayer.update_idle_ambience()
+
+func _check_blackjack_keyboard() -> void:
+	var table := await _open_keyboard_surface("res://scenes/BlackjackTable.gd")
+	if table == null:
+		return
+	var first_stake := int(table.get("_stake"))
+	await _press_key(KEY_X)
+	_expect(int(table.get("_stake")) != first_stake, "blackjack X did not change stake")
+	await _press_key(KEY_ENTER)
+	_expect(int(table.get("_rounds")) == 1, "blackjack Enter did not deal a hand")
+	await _dispose_keyboard_surface(table)
+
+func _check_baccarat_keyboard() -> void:
+	var table := await _open_keyboard_surface("res://scenes/BaccaratTable.gd")
+	if table == null:
+		return
+	var first_stake := int(table.get("_active_stake"))
+	await _press_key(KEY_X)
+	_expect(int(table.get("_active_stake")) != first_stake, "baccarat X did not change stake")
+	await _press_key(KEY_ENTER)
+	_expect(int(table.get("_bet_p")) > 0, "baccarat Enter did not place a Player bet")
+	await _press_key(KEY_DOWN)
+	await _press_key(KEY_DOWN)
+	await _press_key(KEY_ENTER)
+	_expect(int(table.get("_phase")) == 1, "baccarat keyboard route did not start the deal")
+	await _dispose_keyboard_surface(table)
+
+func _check_slot_keyboard() -> void:
+	var game := await _open_keyboard_surface("res://scenes/SlotMachineGame.gd")
+	if game == null:
+		return
+	var first_stake := int(game.get("_active_stake"))
+	await _press_key(KEY_X)
+	_expect(int(game.get("_active_stake")) != first_stake, "slot X did not change stake")
+	await _press_key(KEY_ENTER)
+	_expect(int(game.get("_phase")) == 1, "slot Enter did not start the reels")
+	await _dispose_keyboard_surface(game)
+
+func _check_roulette_keyboard() -> void:
+	var table := await _open_keyboard_surface("res://scenes/RouletteTable.gd")
+	if table == null:
+		return
+	var first_stake := int(table.get("_stake"))
+	await _press_key(KEY_X)
+	_expect(int(table.get("_stake")) != first_stake, "roulette X did not change stake")
+	await _press_key(KEY_ENTER)
+	_expect(int(table.get("_bet_amount")) > 0, "roulette Enter did not stage a bet")
+	await _press_key(KEY_E)
+	await _press_key(KEY_E)
+	_expect(int(table.get("_pad_mode")) == 2, "roulette E did not reach the action rail")
+	await _press_key(KEY_ENTER)
+	_expect(int(table.get("_phase")) == 1, "roulette Enter did not spin the wheel")
+	await _dispose_keyboard_surface(table)
+
+func _check_bigwheel_keyboard() -> void:
+	var game := await _open_keyboard_surface("res://scenes/BigWheelGame.gd")
+	if game == null:
+		return
+	var first_stake := int(game.get("_stake"))
+	await _press_key(KEY_X)
+	_expect(int(game.get("_stake")) != first_stake, "big wheel X did not change stake")
+	await _press_key(KEY_ENTER)
+	_expect(int(game.get("_bet_segment")) >= 0, "big wheel Enter did not choose a segment")
+	await _press_key(KEY_ENTER)
+	_expect(int(game.get("_phase")) == 1, "big wheel Enter did not start the wheel")
+	await _dispose_keyboard_surface(game)
+
+func _check_daisai_keyboard() -> void:
+	var table := await _open_keyboard_surface("res://scenes/DaiSaiTable.gd")
+	if table == null:
+		return
+	var first_stake := int(table.get("_stake"))
+	var first_bet_type := int(table.get("_bet_type"))
+	await _press_key(KEY_X)
+	_expect(int(table.get("_stake")) != first_stake, "dai sai X did not change stake")
+	await _press_key(KEY_RIGHT)
+	await _press_key(KEY_ENTER)
+	_expect(int(table.get("_phase")) == 0 and int(table.get("_bet_type")) != first_bet_type,
+		"dai sai Enter did not select the highlighted bet")
+	await _press_key(KEY_ENTER)
+	_expect(int(table.get("_phase")) == 1, "dai sai Enter did not roll the dice")
+	await _dispose_keyboard_surface(table)
+
+func _check_holdem_keyboard() -> void:
+	var table := await _open_keyboard_surface("res://scenes/HoldemClub.gd")
+	if table == null:
+		return
+	var first_buyin := int(table.get("_buy_in"))
+	await _press_key(KEY_X)
+	_expect(int(table.get("_buy_in")) != first_buyin, "holdem X did not change buy-in")
+	await _press_key(KEY_ENTER)
+	var hole: Array = table.get("_hole")
+	_expect(hole.size() == 2 and int(table.get("_phase")) != 0,
+		"holdem Enter did not buy in and deal hole cards")
+	await _dispose_keyboard_surface(table)
+
+func _check_racetrack_keyboard() -> void:
+	var track := await _open_keyboard_surface("res://scenes/RaceTrack.gd", false)
+	if track == null:
+		return
+	track.set("skip_countdown_for_smoke", true)
+	track.call("open")
+	await get_tree().process_frame
+	await _press_key(KEY_X)
+	_expect(int(track.get("_pad_stake_idx")) == 1, "racetrack X did not change stake")
+	await _press_key(KEY_ENTER)
+	var picks: Array = track.get("_picks")
+	_expect(picks.size() == 1, "racetrack Enter did not select a horse")
+	await _press_key(KEY_ENTER)
+	_expect(int(track.get("_phase")) == 1 and float(track.get("_bet_stake")) > 0.0,
+		"racetrack Enter did not place the bet and start the race")
+	await _dispose_keyboard_surface(track)
+
+func _check_casino_hub_keyboard() -> void:
+	GameState.money = 100_000_000.0
+	var child_paths := [
+		"res://scenes/BaccaratTable.gd", "res://scenes/BlackjackTable.gd",
+		"res://scenes/SlotMachineGame.gd", "res://scenes/RouletteTable.gd",
+		"res://scenes/BigWheelGame.gd", "res://scenes/DaiSaiTable.gd",
+	]
+	var children: Array[Control] = []
+	for path in child_paths:
+		var child := await _make_keyboard_surface(path)
+		if child == null:
+			for created in children:
+				await _dispose_keyboard_surface(created)
+			return
+		children.append(child)
+	var hub := await _make_keyboard_surface("res://scenes/JeongseonCasino.gd")
+	if hub == null:
+		for child in children:
+			await _dispose_keyboard_surface(child)
+		return
+	hub.set("baccarat_table", children[0])
+	hub.set("blackjack_table", children[1])
+	hub.set("slot_machine_game", children[2])
+	hub.set("roulette_table", children[3])
+	hub.set("big_wheel_game", children[4])
+	hub.set("dai_sai_table", children[5])
+	hub.call("open")
+	await get_tree().process_frame
+	await _press_key(KEY_RIGHT)
+	_expect(int(hub.get("_pad_game_idx")) == 1, "casino hub Right did not select Blackjack")
+	await _press_key(KEY_ENTER)
+	_expect(not hub.visible and children[1].visible,
+		"casino hub Enter did not launch the selected game")
+	await _dispose_keyboard_surface(hub)
+	for child in children:
+		await _dispose_keyboard_surface(child)
+
+func _open_keyboard_surface(path: String, call_open: bool = true) -> Control:
+	GameState.money = 100_000_000.0
+	var surface := await _make_keyboard_surface(path)
+	if surface == null:
+		return null
+	if call_open:
+		surface.call("open")
+		await get_tree().process_frame
+		_expect(surface.visible, "keyboard task did not open %s" % path)
+	return surface
+
+func _make_keyboard_surface(path: String) -> Control:
+	var script := load(path) as Script
+	_expect(script != null, "keyboard task could not load %s" % path)
+	if script == null:
+		return null
+	var surface := script.new() as Control
+	_expect(surface != null, "keyboard task could not instantiate %s" % path)
+	if surface == null:
+		return null
+	add_child(surface)
+	await get_tree().process_frame
+	return surface
+
+func _dispose_keyboard_surface(surface: Control) -> void:
+	if not is_instance_valid(surface):
+		return
+	surface.visible = false
+	surface.set_process(false)
+	surface.queue_free()
+	await get_tree().process_frame
+
+func _press_key(keycode: Key) -> void:
+	var press := InputEventKey.new()
+	press.keycode = keycode
+	press.physical_keycode = keycode
+	press.pressed = true
+	Input.parse_input_event(press)
+	await get_tree().process_frame
+	var release := InputEventKey.new()
+	release.keycode = keycode
+	release.physical_keycode = keycode
+	release.pressed = false
+	Input.parse_input_event(release)
+	await get_tree().process_frame
+
+func _check_steam_input_template() -> void:
+	_expect(FileAccess.file_exists(STEAM_ACTIONS_PATH), "Steam Input action template missing")
+	if not FileAccess.file_exists(STEAM_ACTIONS_PATH):
+		return
+	var source := FileAccess.get_file_as_string(STEAM_ACTIONS_PATH)
+	for token in [
+		"\"In Game Actions\"", "\"Menu\"", "\"Story\"", "\"Life\"", "\"Minigame\"",
+		"\"Confirm\"", "\"Back\"", "\"AdvanceWeek\"", "\"SystemMenu\"",
+		"\"english\"", "\"koreana\"",
+	]:
+		_expect(source.contains(token), "Steam Input template missing %s" % token)
+
+func _restore_settings() -> void:
+	AudioManager.set_vibration_intensity(_original_vibration_intensity)
+	AudioManager.set_vibration_enabled(_original_vibration_enabled)
+
+func _expect(condition: bool, message: String) -> void:
+	if not condition:
+		_failures.append(message)

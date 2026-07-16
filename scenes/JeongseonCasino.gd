@@ -10,8 +10,6 @@ const COLOR_HEADER := Color(0.10, 0.08, 0.20, 1.0)
 const COLOR_GOLD   := Color(0.95, 0.80, 0.20, 1.0)
 const COLOR_ACCENT := Color(0.30, 0.20, 0.60, 1.0)
 const CASINO_BG_TEX := preload("res://assets/backgrounds/casino_interior.png")
-const JOY_BUTTON_WEST := 2
-const JOY_BUTTON_NORTH := 3
 
 # 하위 미니게임 씬들 (MainGame이 주입)
 var baccarat_table
@@ -102,8 +100,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			or event.is_action_pressed("ui_right") \
 			or event.is_action_pressed("ui_accept") \
 			or event.is_action_pressed("ui_cancel") \
-			or _joy_button_pressed(event, JOY_BUTTON_WEST) \
-			or _joy_button_pressed(event, JOY_BUTTON_NORTH)
+			or ControllerHints.secondary_pressed(event) \
+			or ControllerHints.details_pressed(event)
 	if pad_navigation_event:
 		_pad_navigation_active = true
 
@@ -126,20 +124,14 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("ui_cancel"):
 		_close()
 		handled = true
-	elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+	elif ControllerHints.details_pressed(event):
 		handled = _pad_show_selected_rules()
-	elif _joy_button_pressed(event, JOY_BUTTON_WEST):
+	elif ControllerHints.secondary_pressed(event):
 		_show_casino_glossary()
 		handled = true
 
 	if handled:
 		get_viewport().set_input_as_handled()
-
-func _joy_button_pressed(event: InputEvent, button_index: int) -> bool:
-	if not (event is InputEventJoypadButton):
-		return false
-	var joy := event as InputEventJoypadButton
-	return joy.pressed and int(joy.button_index) == button_index
 
 func _should_show_pad_cursor() -> bool:
 	return _pad_navigation_active or ControllerHints.is_pad_active()

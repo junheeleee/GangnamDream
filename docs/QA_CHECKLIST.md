@@ -77,6 +77,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Part-time shifts: cards, convenience customer→response→next-customer controller focus loop, no focus theft on another-customer timeout, delivery route, mode-specific background/ambience, KO/EN crop | `--qa=aruba-en --lang=ko/en` |
 | Event-scene Music/Ambience + SFX settings, dedicated Menu input, modal input block, and no stream restart | `StoryAudioSettingsCheck.tscn` plus `--qa=story-audio --lang=ko/en` |
 | Casino/minigame UI, direct controller cursors, physical card/chip/dice/wheel/reel stages, and activity ambience | `game_audio_contract_check.py`, `GameAudioContractCheck.tscn`, then `--qa=casino-en` |
+| Keyboard casino labels and longest English stake text | `InputMatrixCheck.tscn`, then inspect `10b_blackjack_keyboard_hint` from `--qa=casino-en` at 1920x1080 |
 | Moral ambience: inert room tone persists, human presence recedes at Black and returns at White without music or UI disclosure | `MoralAmbienceCheck.tscn` |
 | Racetrack bet→gate→gallop→crowd rise→finish and controller-only round trip | `SmokeRace.tscn` then `--qa=racetrack-en --lang=ko/en` |
 | Moral tint/filter, choice echo, and same-room five-stage Minjun threshold acting | `--qa=moral --lang=ko/en` |
@@ -174,9 +175,22 @@ Automated audio gates:
 Automated Living Scene gates:
 
 - `LivingSceneCheck.tscn` must route rain, first snow, memory, fireworks, city light, and neutral scenes from stable IDs/backgrounds/tags/channels only; description text cannot create weather.
+- Rain and snow shader motion must move toward increasing canvas Y. `LivingSceneCheck.tscn` locks the source direction and `ScreenshotQA --qa=living-scene` must identify a positive downward displacement in real rendered frames.
 - Authored `direction.camera` always wins. Reduce Motion stops camera and portrait breathing and reduces particle motion; remote/memory/CG portraits never breathe like a local body.
 - Moral Black must reduce atmospheric life and motion while increasing only a bounded afterimage; White may restore air but cannot exceed the 2px background blur cap.
 - `ScreenshotQA --qa=living-scene --lang=ko/en` runs at 1920x1080, captures five profiles, checks layer order below portraits/text, and compares two independent rain frames. At least eight of 960 upper-scene samples must change; neutral scenes remain particle-free.
+
+Automated input and display gates:
+
+- `InputMatrixCheck.tscn` must print `INPUT_MATRIX_CHECK_OK modes=3 resolutions=6 brands=3 direct_scenes=9 direct_routes=18 keyboard_tasks=9 action_sets=4`.
+- Its keyboard tasks must place/start one real round in Blackjack, Baccarat, Slots, Roulette, Big Wheel, Dai Sai, Holdem, and RaceTrack, then launch the selected table from the casino hub. A stake-only toggle is insufficient.
+- Keyboard-only title-to-demo QA must reach the week-25 CTA with `mouse_events=0`; mouse-only QA must reach the same boundary with `key_events=0`. Both routes must begin unemployed and exercise money and human axes.
+- The month summary and demo-ending CTA must fit at 1280x800 without vertical scrolling or an off-screen progression button.
+- `ScreenshotQA --qa=display-matrix --lang=en` must pass independently at 1920x1080, 2560x1440, 3840x2160, and 3440x1440. Every run captures title settings, the demo AP decision, and a Living Scene choice; 1080p additionally captures Xbox, PlayStation, and Nintendo glyph surfaces.
+- Settings and AP decision controls must stay inside the 2.5% TV-safe rectangle. Captured PNG dimensions must equal the requested output dimensions.
+- Xbox/Steam Deck, PlayStation, and Nintendo labels must come from `ControllerHints` physical positions. Game scenes may not hardcode one brand's face-button letters.
+- Reduce Motion and vibration on/off/strength must be reachable from both title and in-run settings without restarting current audio or changing game state.
+- The Steam Full Controller Support claim remains blocked until physical Steam Deck, DualSense, and Switch Pro blind passes cover reconnect, suspend/resume, overlay, and accidental input.
 
 ## Launch
 - Project opens in Godot 4.6.

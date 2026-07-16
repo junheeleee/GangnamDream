@@ -1,5 +1,17 @@
 # Gangnam Dream Work Log
 
+## 2026-07-16 (Codex — ORDER-16 입력×해상도 매트릭스)
+
+### 같은 명령을 장치마다 자연스럽게 보이게 했다
+- 타이틀과 인게임 설정에 창 모드, 720p~4K 해상도, Reduce Motion, 진동 on/off·강도를 올리고 저장을 분리했다. 키보드는 `Enter/Esc/X/Y/Q/E/F10/N`, 패드는 South/East/West/North/Shoulder/Menu/R3의 같은 의미층을 사용한다.
+- 카지노 허브와 8개 직접 게임은 보조동작만 흉내 내지 않고 실제 키 입력으로 금액 선택, 베팅, 딜·스핀·롤·레이스 시작까지 9개 핵심 과업을 완주한다. Xbox·DualSense·Switch Pro 표시는 물리 위치에 맞춰 바뀐다.
+- 1080p 영문 블랙잭 캡처에서 키보드 안내는 `[Enter] [X/Q/E] [Y] [Esc]`로 전환됐고, 중앙 베팅 스폿의 `500 thousand won` 잘림을 넓은 테이블 마킹으로 수리했다.
+
+### TV와 휴대 화면을 같은 출시 계약으로 묶었다
+- 1920×1080·2560×1440·3840×2160·3440×1440에서 설정, 데모 AP, Living Scene을 실제 렌더하고 2.5% TV 안전영역, 물리 PNG 크기, 배경 비왜곡을 확인했다. 1280×800은 키보드/마우스 각각의 24주 데모 완주로 잠갔다.
+- `InputMatrixCheck`를 전체 감사에 편입해 3창모드·6해상도·3글리프·9직접게임·18보조경로·9키보드 핵심 과업·4 Steam Input 액션셋을 검증한다. 전체 감사는 ERROR 0/WARNING 0과 58개 GDScript 컴파일로 통과했다.
+- 물리 Steam Deck/DualSense/Switch Pro의 손맛, 재연결, suspend/resume, Steam overlay는 자동화가 대신할 수 없는 출시후보 게이트로 남겼다. 그 전까지 Full Controller Support 표기는 보류한다.
+
 ## 2026-07-16 (Codex — ORDER-29 Living Scene 수직 슬라이스)
 
 ### 정지 CG에 장면의 공기를 넣었다

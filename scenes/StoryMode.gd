@@ -95,6 +95,7 @@ var _audio_settings_popup: Control = null
 var _audio_settings_previous_focus: Control = null
 var _audio_bgm_slider: HSlider = null
 var _audio_sfx_slider: HSlider = null
+var _audio_reduce_motion_toggle: CheckButton = null
 var _name_panel_visible_before_choices: bool = false
 var _choice_countdown_timer: Timer = null
 var _choice_countdown_bar: ProgressBar = null
@@ -663,7 +664,7 @@ func _build_ui():
 	_continue_hint.offset_top = -28
 	_continue_hint.offset_right = -16
 	_continue_hint.offset_bottom = -8
-	_continue_hint.text = _tr("▼  클릭하여 계속", "▼  Click to continue")
+	_continue_hint.text = _tr("▼  Enter 또는 클릭", "▼  Enter or click")
 	_continue_hint.add_theme_font_size_override("font_size", 12)
 	_continue_hint.add_theme_color_override("font_color", Color("#4a5468"))
 	_continue_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
@@ -761,10 +762,10 @@ func _build_story_audio_settings_button() -> void:
 	_audio_settings_button.offset_top = 5
 	_audio_settings_button.offset_right = -14
 	_audio_settings_button.offset_bottom = 33
-	_audio_settings_button.text = _tr("음량", "Audio")
+	_audio_settings_button.text = _tr("설정", "Settings")
 	_audio_settings_button.tooltip_text = _tr(
-		"장면 오디오 설정 (%s)" % ControllerHints.start_btn(),
-		"Scene audio settings (%s)" % ControllerHints.start_btn())
+		"장면 설정 (%s)" % ControllerHints.start_btn(),
+		"Scene settings (%s)" % ControllerHints.start_btn())
 	_audio_settings_button.focus_mode = Control.FOCUS_NONE
 	_audio_settings_button.z_index = 74
 	_audio_settings_button.add_theme_font_size_override("font_size", 12)
@@ -804,8 +805,8 @@ func _open_audio_settings() -> void:
 	panel.anchor_bottom = 0.5
 	panel.offset_left = -270
 	panel.offset_right = 270
-	panel.offset_top = -148
-	panel.offset_bottom = 148
+	panel.offset_top = -184
+	panel.offset_bottom = 184
 	panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	var palette := _story_palette()
 	panel.add_theme_stylebox_override("panel", _story_panel_style(
@@ -816,7 +817,7 @@ func _open_audio_settings() -> void:
 	column.add_theme_constant_override("separation", 16)
 	panel.add_child(column)
 	var title := Label.new()
-	title.text = _tr("오디오", "Audio")
+	title.text = _tr("장면 설정", "Scene Settings")
 	title.add_theme_font_size_override("font_size", 22)
 	title.add_theme_color_override("font_color", palette["focus"])
 	if _font_bold:
@@ -832,6 +833,14 @@ func _open_audio_settings() -> void:
 	_audio_sfx_slider = _add_story_volume_row(
 		column, _tr("효과음", "Sound Effects"), AudioManager.master_volume,
 		func(value: float): AudioManager.set_sfx_volume(value))
+	_audio_reduce_motion_toggle = _add_story_toggle_row(
+		column,
+		_tr("동작 감소", "Reduce Motion"),
+		_tr("카메라·초상·날씨 움직임 최소화", "Minimize camera, portrait, and weather motion"),
+		bool(SaveManager.get_setting("reduce_motion", false)),
+		func(on: bool):
+			SaveManager.set_setting("reduce_motion", on)
+			_configure_living_scene())
 
 	var close_button := Button.new()
 	close_button.text = _tr("닫기", "Close")
@@ -854,8 +863,10 @@ func _open_audio_settings() -> void:
 
 	_audio_bgm_slider.focus_neighbor_bottom = _audio_sfx_slider.get_path()
 	_audio_sfx_slider.focus_neighbor_top = _audio_bgm_slider.get_path()
-	_audio_sfx_slider.focus_neighbor_bottom = close_button.get_path()
-	close_button.focus_neighbor_top = _audio_sfx_slider.get_path()
+	_audio_sfx_slider.focus_neighbor_bottom = _audio_reduce_motion_toggle.get_path()
+	_audio_reduce_motion_toggle.focus_neighbor_top = _audio_sfx_slider.get_path()
+	_audio_reduce_motion_toggle.focus_neighbor_bottom = close_button.get_path()
+	close_button.focus_neighbor_top = _audio_reduce_motion_toggle.get_path()
 	_audio_bgm_slider.call_deferred("grab_focus")
 	AudioManager.play_ui_open(-12.0)
 
@@ -911,6 +922,44 @@ func _add_story_volume_row(
 		on_change.call(value))
 	return slider
 
+func _add_story_toggle_row(
+		parent: Control,
+		label_text: String,
+		hint_text: String,
+		initial_value: bool,
+		on_change: Callable) -> CheckButton:
+	var row := HBoxContainer.new()
+	row.custom_minimum_size = Vector2(0, 54)
+	row.add_theme_constant_override("separation", 14)
+	parent.add_child(row)
+	var copy := VBoxContainer.new()
+	copy.custom_minimum_size = Vector2(400, 0)
+	copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	copy.add_theme_constant_override("separation", 2)
+	row.add_child(copy)
+	var label := Label.new()
+	label.text = label_text
+	label.add_theme_font_size_override("font_size", 15)
+	label.add_theme_color_override("font_color", _story_palette()["text"])
+	if _font:
+		label.add_theme_font_override("font", _font)
+	copy.add_child(label)
+	var hint := Label.new()
+	hint.text = hint_text
+	hint.add_theme_font_size_override("font_size", 12)
+	hint.add_theme_color_override("font_color", _story_palette()["dim"])
+	if _font:
+		hint.add_theme_font_override("font", _font)
+	copy.add_child(hint)
+	var toggle := CheckButton.new()
+	toggle.custom_minimum_size = Vector2(58, 46)
+	toggle.button_pressed = initial_value
+	toggle.focus_mode = Control.FOCUS_ALL
+	toggle.set_meta("reduce_motion_control", true)
+	toggle.toggled.connect(func(on: bool): on_change.call(on))
+	row.add_child(toggle)
+	return toggle
+
 func _close_audio_settings() -> void:
 	if not is_instance_valid(_audio_settings_popup):
 		_audio_settings_popup = null
@@ -919,6 +968,7 @@ func _close_audio_settings() -> void:
 	_audio_settings_popup = null
 	_audio_bgm_slider = null
 	_audio_sfx_slider = null
+	_audio_reduce_motion_toggle = null
 	popup.queue_free()
 	AudioManager.play_ui_close(-14.0)
 	if is_instance_valid(_audio_settings_previous_focus):
@@ -1621,7 +1671,7 @@ func _complete_typing() -> void:
 		_begin_direction_hold()
 		return
 	_continue_hint.text = _tr("[%s] 또는 클릭", "[%s] or click") % ControllerHints.south() \
-			if ControllerHints.is_pad_active() else _tr("▼  클릭하여 계속", "▼  Click to continue")
+			if ControllerHints.is_pad_active() else _tr("▼  Enter 또는 클릭", "▼  Enter or click")
 	_continue_hint.visible = true
 	_arm_auto_advance(_type_full)
 
@@ -2627,7 +2677,7 @@ func _render_chapter_card_cinematic():
 
 	# 클릭 힌트 — 하단 고정
 	var hint := Label.new()
-	hint.text = _tr("▼  클릭하여 계속", "▼  Click to continue")
+	hint.text = _tr("▼  Enter 또는 클릭", "▼  Enter or click")
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hint.add_theme_font_size_override("font_size", 13)
 	hint.add_theme_color_override("font_color", palette["dead"])

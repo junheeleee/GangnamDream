@@ -5,6 +5,7 @@ var _failures: Array[String] = []
 
 func _ready() -> void:
 	_check_effect_routing()
+	_check_precipitation_direction_contract()
 	_check_camera_and_accessibility()
 	_check_moral_behavior()
 	_check_runtime_layer()
@@ -15,6 +16,14 @@ func _ready() -> void:
 	for failure in _failures:
 		push_error("LIVING_SCENE_CHECK_FAIL: %s" % failure)
 	get_tree().quit(1)
+
+func _check_precipitation_direction_contract() -> void:
+	var source := FileAccess.get_file_as_string(
+		"res://assets/shaders/living_scene_fx.gdshader")
+	_expect(source.contains("p.y -= t * 8.5;"),
+		"rain shader does not move visible streaks down in canvas UV")
+	_expect(source.contains("p.y -= t * fall_speed;"),
+		"snow shader does not move visible flakes down in canvas UV")
 
 func _check_effect_routing() -> void:
 	_expect_effect(

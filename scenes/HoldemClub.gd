@@ -13,8 +13,6 @@ const CHIP_TEX := preload("res://assets/ui/chips/chip_10k.svg")
 const SMALL_BLIND := 5_000
 const BIG_BLIND   := 10_000
 const VALID_BUYINS := [50_000, 100_000, 200_000, 500_000]
-const JOY_BUTTON_WEST := 2
-const JOY_BUTTON_NORTH := 3
 
 enum Phase { SETUP, PREFLOP, FLOP, TURN, RIVER, SHOWDOWN, RESULT }
 
@@ -139,8 +137,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			or event.is_action_pressed("ui_right") \
 			or event.is_action_pressed("ui_accept") \
 			or event.is_action_pressed("ui_cancel") \
-			or _joy_button_pressed(event, JOY_BUTTON_WEST) \
-			or _joy_button_pressed(event, JOY_BUTTON_NORTH)
+			or ControllerHints.secondary_pressed(event) \
+			or ControllerHints.details_pressed(event)
 	if pad_navigation_event:
 		_pad_navigation_active = true
 
@@ -149,25 +147,25 @@ func _unhandled_input(event: InputEvent) -> void:
 		Phase.SETUP:
 			if event.is_action_pressed("gd_tab_prev") or event.is_action_pressed("ui_left"):
 				handled = _pad_cycle_buyin(-1)
-			elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right") or _joy_button_pressed(event, JOY_BUTTON_WEST):
+			elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right") or ControllerHints.secondary_pressed(event):
 				handled = _pad_cycle_buyin(1)
 			elif event.is_action_pressed("ui_accept"):
 				handled = _pad_start_buyin()
 			elif event.is_action_pressed("ui_cancel"):
 				handled = _pad_leave()
-			elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+			elif ControllerHints.details_pressed(event):
 				handled = _pad_show_rules()
 		Phase.PREFLOP, Phase.FLOP, Phase.TURN, Phase.RIVER:
 			if _is_player_action_waiting():
 				if event.is_action_pressed("gd_tab_prev") or event.is_action_pressed("ui_left"):
 					handled = _pad_move_action(-1)
-				elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right") or _joy_button_pressed(event, JOY_BUTTON_WEST):
+				elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right") or ControllerHints.secondary_pressed(event):
 					handled = _pad_move_action(1)
 				elif event.is_action_pressed("ui_accept"):
 					handled = _pad_accept_action()
 				elif event.is_action_pressed("ui_cancel"):
 					handled = _pad_leave_mid()
-				elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+				elif ControllerHints.details_pressed(event):
 					handled = _pad_show_rules()
 			elif event.is_action_pressed("ui_cancel"):
 				handled = _pad_leave_mid()
@@ -176,22 +174,16 @@ func _unhandled_input(event: InputEvent) -> void:
 				handled = _pad_next_hand()
 			elif event.is_action_pressed("ui_cancel"):
 				handled = _pad_leave_mid()
-			elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+			elif ControllerHints.details_pressed(event):
 				handled = _pad_show_rules()
 		Phase.RESULT:
 			if event.is_action_pressed("ui_accept") or event.is_action_pressed("ui_cancel"):
 				handled = _pad_leave()
-			elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+			elif ControllerHints.details_pressed(event):
 				handled = _pad_show_rules()
 
 	if handled:
 		get_viewport().set_input_as_handled()
-
-func _joy_button_pressed(event: InputEvent, button_index: int) -> bool:
-	if not (event is InputEventJoypadButton):
-		return false
-	var joy := event as InputEventJoypadButton
-	return joy.pressed and int(joy.button_index) == button_index
 
 func _should_show_pad_cursor() -> bool:
 	return _pad_navigation_active or ControllerHints.is_pad_active()

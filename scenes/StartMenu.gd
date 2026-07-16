@@ -17,6 +17,7 @@ var _archive_prev_button: Button
 var _archive_next_button: Button
 var _archive_tab_buttons: Array[Button] = []
 var _archive_origin_focus: Control = null
+var _settings_origin_focus: Control = null
 var _archive_tab: int = 0
 var _archive_page: int = 0
 var _title_command_buttons: Array[Button] = []
@@ -199,6 +200,7 @@ func _rebuild_language_ui(show_splash: bool = false) -> void:
 	_archive_preview_layer = null
 	_archive_grid = null
 	_archive_tab_buttons.clear()
+	_settings_origin_focus = null
 	_title_command_buttons.clear()
 	for child in get_children():
 		remove_child(child)
@@ -389,6 +391,10 @@ func _input(event):
 			get_viewport().set_input_as_handled()
 			_dismiss_splash()
 		return
+	if is_instance_valid(_settings_overlay) and event.is_action_pressed("ui_cancel"):
+		get_viewport().set_input_as_handled()
+		_close_settings_popup()
+		return
 	if is_instance_valid(_load_overlay) and event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()
 		_close_load_overlay()
@@ -511,7 +517,9 @@ func _build_ui():
 
 	var hint := Label.new()
 	hint.text = ("[%s] %s" % [ControllerHints.south(), _tr("선택", "Select")]) \
-		if ControllerHints.is_pad_active() else ""
+		if ControllerHints.is_pad_active() else _tr(
+			"방향키 이동  ·  Enter 선택  ·  Esc 뒤로",
+			"Arrow keys move  ·  Enter selects  ·  Esc goes back")
 	hint.add_theme_font_size_override("font_size", 11)
 	hint.add_theme_color_override("font_color", Color("#66707b"))
 	hint.custom_minimum_size = Vector2(0, 18)
@@ -1964,6 +1972,9 @@ func _show_content_warning():
 		_do_start_run()
 	)
 	btn_row.add_child(ok_btn)
+	back_btn.focus_neighbor_right = ok_btn.get_path()
+	ok_btn.focus_neighbor_left = back_btn.get_path()
+	ok_btn.call_deferred("grab_focus")
 
 func _do_start_run():
 	# 이름·루트 선택 없이 고정 시작 (드라마 모드)
@@ -2107,7 +2118,8 @@ func _slot_button(top_line: String, sub_line: String, enabled: bool, on_press: C
 
 func _open_settings_popup():
 	if _settings_overlay and is_instance_valid(_settings_overlay):
-		_settings_overlay.queue_free()
+		_close_settings_popup()
+	_settings_origin_focus = get_viewport().gui_get_focus_owner()
 
 	_settings_overlay = ColorRect.new()
 	_settings_overlay.color = Color(0, 0, 0, 0.7)
@@ -2115,9 +2127,13 @@ func _open_settings_popup():
 	_settings_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(_settings_overlay)
 
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_settings_overlay.add_child(center)
+
 	var panel = PanelContainer.new()
-	panel.custom_minimum_size = Vector2(340, 0)
-	panel.set_anchors_preset(Control.PRESET_CENTER)
+	panel.custom_minimum_size = Vector2(500, 0)
 	var pst = StyleBoxFlat.new()
 	pst.bg_color = Color("#13131f")
 	pst.border_color = Color("#2a2a40")
@@ -2128,7 +2144,7 @@ func _open_settings_popup():
 	pst.content_margin_top = 20
 	pst.content_margin_bottom = 20
 	panel.add_theme_stylebox_override("panel", pst)
-	_settings_overlay.add_child(panel)
+	center.add_child(panel)
 
 	var vbox = VBoxContainer.new()
 	vbox.add_theme_constant_override("separation", 14)
@@ -2148,8 +2164,36 @@ func _open_settings_popup():
 	_build_language_toggle(vbox)
 
 	var close_btn = _button(_tr("닫기", "Close"), "#1e2a3a")
-	close_btn.pressed.connect(func(): _settings_overlay.queue_free())
+	close_btn.pressed.connect(_close_settings_popup)
 	vbox.add_child(close_btn)
+	call_deferred("_focus_first_settings_control")
+
+func _focus_first_settings_control() -> void:
+	if not is_instance_valid(_settings_overlay):
+		return
+	for node in _settings_overlay.find_children("*", "Control", true, false):
+		if not (node is Control):
+			continue
+		var control := node as Control
+		if control.focus_mode == Control.FOCUS_NONE or not control.is_visible_in_tree():
+			continue
+		if control is BaseButton and (control as BaseButton).disabled:
+			continue
+		control.grab_focus()
+		return
+
+func _close_settings_popup() -> void:
+	if is_instance_valid(_settings_overlay):
+		_settings_overlay.queue_free()
+	_settings_overlay = null
+	if is_instance_valid(_settings_origin_focus):
+		_settings_origin_focus.call_deferred("grab_focus")
+	else:
+		for button in _title_command_buttons:
+			if is_instance_valid(button) and not button.disabled:
+				button.call_deferred("grab_focus")
+				break
+	_settings_origin_focus = null
 
 func _build_volume_sliders_menu(parent: Control):
 	var _make_row = func(label_text: String, init_val: float, on_change: Callable):
@@ -2184,7 +2228,7 @@ func _build_volume_sliders_menu(parent: Control):
 
 	_make_row.call(_tr("BGM", "Music"), AudioManager.bgm_volume, func(v): AudioManager.set_bgm_volume(v))
 	_make_row.call(_tr("효과음", "SFX"), AudioManager.master_volume, func(v): AudioManager.set_sfx_volume(v))
-	_build_fullscreen_toggle(parent)
+	_build_display_settings_menu(parent)
 
 func _build_language_toggle(parent: Control):
 	var row = HBoxContainer.new()
@@ -2221,27 +2265,131 @@ func _build_language_toggle(parent: Control):
 		).bind(lang_code))
 		row.add_child(btn)
 
-func _build_fullscreen_toggle(parent: Control):
-	if OS.has_feature("web"):
-		return
-	var row = HBoxContainer.new()
-	row.add_theme_constant_override("separation", 10)
-	parent.add_child(row)
-	var lbl = Label.new()
-	lbl.text = _tr("전체화면", "Fullscreen")
-	lbl.add_theme_font_size_override("font_size", 13)
-	lbl.add_theme_color_override("font_color", Color("#8892a4"))
-	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	row.add_child(lbl)
-	var hint = Label.new()
-	hint.text = "F11 / Alt+Enter"
-	hint.add_theme_font_size_override("font_size", 11)
-	hint.add_theme_color_override("font_color", Color("#5a6075"))
-	row.add_child(hint)
-	var toggle = CheckButton.new()
-	toggle.button_pressed = DisplayManager.fullscreen
-	toggle.toggled.connect(func(on): DisplayManager.set_fullscreen(on))
-	row.add_child(toggle)
+func _build_display_settings_menu(parent: Control) -> void:
+	if not OS.has_feature("web"):
+		var mode_row := HBoxContainer.new()
+		mode_row.custom_minimum_size = Vector2(0, 42)
+		mode_row.add_theme_constant_override("separation", 10)
+		parent.add_child(mode_row)
+		var mode_label := Label.new()
+		mode_label.text = _tr("화면 모드", "Display Mode")
+		mode_label.add_theme_font_size_override("font_size", 13)
+		mode_label.add_theme_color_override("font_color", Color("#8892a4"))
+		mode_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		mode_row.add_child(mode_label)
+		var mode_selector := OptionButton.new()
+		mode_selector.custom_minimum_size = Vector2(190, 38)
+		mode_selector.set_meta("display_mode_control", true)
+		for label_text in [
+			_tr("창모드", "Windowed"),
+			_tr("테두리 없음", "Borderless"),
+			_tr("전체화면", "Fullscreen"),
+		]:
+			mode_selector.add_item(label_text)
+		mode_selector.select(DisplayManager.window_mode_index())
+		mode_row.add_child(mode_selector)
+
+		var resolution_row := HBoxContainer.new()
+		resolution_row.custom_minimum_size = Vector2(0, 42)
+		resolution_row.add_theme_constant_override("separation", 10)
+		parent.add_child(resolution_row)
+		var resolution_label := Label.new()
+		resolution_label.text = _tr("창 해상도", "Window Resolution")
+		resolution_label.add_theme_font_size_override("font_size", 13)
+		resolution_label.add_theme_color_override("font_color", Color("#8892a4"))
+		resolution_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		resolution_row.add_child(resolution_label)
+		var resolution_selector := OptionButton.new()
+		resolution_selector.custom_minimum_size = Vector2(190, 38)
+		resolution_selector.set_meta("resolution_control", true)
+		for index in range(DisplayManager.WINDOW_RESOLUTIONS.size()):
+			resolution_selector.add_item(DisplayManager.resolution_label(index))
+		resolution_selector.select(DisplayManager.resolution_index())
+		resolution_selector.disabled = DisplayManager.window_mode != "windowed"
+		resolution_selector.item_selected.connect(func(index: int):
+			DisplayManager.set_resolution_index(index))
+		resolution_row.add_child(resolution_selector)
+		mode_selector.item_selected.connect(func(index: int):
+			DisplayManager.set_window_mode_index(index)
+			resolution_selector.disabled = DisplayManager.window_mode != "windowed")
+
+	var motion_row := HBoxContainer.new()
+	motion_row.custom_minimum_size = Vector2(0, 46)
+	motion_row.add_theme_constant_override("separation", 10)
+	parent.add_child(motion_row)
+	var motion_copy := VBoxContainer.new()
+	motion_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	motion_copy.add_theme_constant_override("separation", 2)
+	motion_row.add_child(motion_copy)
+	var motion_label := Label.new()
+	motion_label.text = _tr("동작 감소", "Reduce Motion")
+	motion_label.add_theme_font_size_override("font_size", 13)
+	motion_label.add_theme_color_override("font_color", Color("#8892a4"))
+	motion_copy.add_child(motion_label)
+	var motion_hint := Label.new()
+	motion_hint.text = _tr(
+		"카메라·초상·날씨 움직임을 최소화합니다.",
+		"Minimizes camera, portrait, and weather movement.")
+	motion_hint.add_theme_font_size_override("font_size", 11)
+	motion_hint.add_theme_color_override("font_color", Color("#5a6075"))
+	motion_copy.add_child(motion_hint)
+	var motion_toggle := CheckButton.new()
+	motion_toggle.custom_minimum_size = Vector2(54, 40)
+	motion_toggle.button_pressed = bool(SaveManager.get_setting("reduce_motion", false))
+	motion_toggle.set_meta("reduce_motion_control", true)
+	motion_toggle.toggled.connect(func(on: bool): SaveManager.set_setting("reduce_motion", on))
+	motion_row.add_child(motion_toggle)
+
+	var vibration_row := HBoxContainer.new()
+	vibration_row.custom_minimum_size = Vector2(0, 42)
+	vibration_row.add_theme_constant_override("separation", 10)
+	parent.add_child(vibration_row)
+	var vibration_label := Label.new()
+	vibration_label.text = _tr("진동", "Vibration")
+	vibration_label.add_theme_font_size_override("font_size", 13)
+	vibration_label.add_theme_color_override("font_color", Color("#8892a4"))
+	vibration_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	vibration_row.add_child(vibration_label)
+	var vibration_toggle := CheckButton.new()
+	vibration_toggle.custom_minimum_size = Vector2(54, 40)
+	vibration_toggle.button_pressed = AudioManager.vibration_enabled()
+	vibration_toggle.set_meta("vibration_control", true)
+	vibration_row.add_child(vibration_toggle)
+
+	var intensity_row := HBoxContainer.new()
+	intensity_row.custom_minimum_size = Vector2(0, 42)
+	intensity_row.add_theme_constant_override("separation", 10)
+	parent.add_child(intensity_row)
+	var intensity_label := Label.new()
+	intensity_label.text = _tr("진동 강도", "Vibration Strength")
+	intensity_label.add_theme_font_size_override("font_size", 13)
+	intensity_label.add_theme_color_override("font_color", Color("#8892a4"))
+	intensity_label.custom_minimum_size = Vector2(132, 0)
+	intensity_row.add_child(intensity_label)
+	var intensity_slider := HSlider.new()
+	intensity_slider.min_value = 0.0
+	intensity_slider.max_value = 1.0
+	intensity_slider.step = 0.10
+	intensity_slider.value = AudioManager.vibration_intensity()
+	intensity_slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	intensity_slider.custom_minimum_size = Vector2(170, 32)
+	intensity_slider.editable = vibration_toggle.button_pressed
+	intensity_slider.set_meta("vibration_intensity_control", true)
+	intensity_slider.value_changed.connect(func(value: float):
+		AudioManager.set_vibration_intensity(value))
+	intensity_row.add_child(intensity_slider)
+	var intensity_value := Label.new()
+	intensity_value.text = "%d%%" % int(roundf(intensity_slider.value * 100.0))
+	intensity_value.custom_minimum_size = Vector2(44, 0)
+	intensity_value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	intensity_value.add_theme_font_size_override("font_size", 12)
+	intensity_value.add_theme_color_override("font_color", Color("#5a6075"))
+	intensity_slider.value_changed.connect(func(value: float):
+		intensity_value.text = "%d%%" % int(roundf(value * 100.0)))
+	intensity_row.add_child(intensity_value)
+	vibration_toggle.toggled.connect(func(on: bool):
+		AudioManager.set_vibration_enabled(on)
+		intensity_slider.editable = on)
 
 func _format_money(amount) -> String:
 	return GameState.format_money(float(amount))

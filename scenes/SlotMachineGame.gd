@@ -29,8 +29,6 @@ const CHIP_TEX_BY_STAKE := {
 const SPIN_DURATION  := 1.5   # 릴 애니메이션 총 시간(초)
 const SHUFFLE_EVERY  := 0.05  # 릴 심볼 셔플 간격(초) — 빠른 스크롤 느낌
 const REEL_STOP_GAP  := 0.3   # 릴 순차 정지 간격(초)
-const JOY_BUTTON_WEST := 2
-const JOY_BUTTON_NORTH := 3
 
 # ── 상태 ───────────────────────────────────────────────────────
 var _phase: int         = Phase.IDLE
@@ -153,31 +151,25 @@ func _unhandled_input(event: InputEvent) -> void:
 			or event.is_action_pressed("gd_tab_next") \
 			or event.is_action_pressed("ui_accept") \
 			or event.is_action_pressed("ui_cancel") \
-			or _joy_button_pressed(event, JOY_BUTTON_WEST) \
-			or _joy_button_pressed(event, JOY_BUTTON_NORTH)
+			or ControllerHints.secondary_pressed(event) \
+			or ControllerHints.details_pressed(event)
 	if pad_navigation_event:
 		_pad_navigation_active = true
 
 	var handled := false
 	if event.is_action_pressed("gd_tab_prev"):
 		handled = _pad_cycle_stake(-1)
-	elif event.is_action_pressed("gd_tab_next") or _joy_button_pressed(event, JOY_BUTTON_WEST):
+	elif event.is_action_pressed("gd_tab_next") or ControllerHints.secondary_pressed(event):
 		handled = _pad_cycle_stake(1)
 	elif event.is_action_pressed("ui_accept"):
 		handled = _pad_spin()
 	elif event.is_action_pressed("ui_cancel"):
 		handled = _pad_exit()
-	elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+	elif ControllerHints.details_pressed(event):
 		handled = _pad_show_rules()
 
 	if handled:
 		get_viewport().set_input_as_handled()
-
-func _joy_button_pressed(event: InputEvent, button_index: int) -> bool:
-	if not (event is InputEventJoypadButton):
-		return false
-	var joy := event as InputEventJoypadButton
-	return joy.pressed and int(joy.button_index) == button_index
 
 func _pad_cycle_stake(direction: int) -> bool:
 	if _phase == Phase.SPINNING:

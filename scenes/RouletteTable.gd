@@ -25,8 +25,6 @@ const WHEEL_NUMBERS := [
 const WHEEL_CENTER_Y_RATIO := 0.54
 const CENTER_NUMBER_BOX := Vector2(96.0, 72.0)
 const NUMBER_BUTTON_SIZE := Vector2(58.0, 34.0)
-const JOY_BUTTON_WEST := 2
-const JOY_BUTTON_NORTH := 3
 const PAD_OUTSIDE_TYPES := [1, 2, 3, 4, 5, 6, 7, 8, 9]
 const PAD_ACTIONS := ["BET", "SPIN"]
 
@@ -200,8 +198,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			or event.is_action_pressed("ui_down") \
 			or event.is_action_pressed("ui_accept") \
 			or event.is_action_pressed("ui_cancel") \
-			or _joy_button_pressed(event, JOY_BUTTON_WEST) \
-			or _joy_button_pressed(event, JOY_BUTTON_NORTH)
+			or ControllerHints.secondary_pressed(event) \
+			or ControllerHints.details_pressed(event)
 	if pad_navigation_event:
 		_pad_navigation_active = true
 
@@ -222,19 +220,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		handled = _pad_accept()
 	elif event.is_action_pressed("ui_cancel"):
 		handled = _pad_cancel()
-	elif _joy_button_pressed(event, JOY_BUTTON_WEST):
+	elif ControllerHints.secondary_pressed(event):
 		handled = _pad_cycle_stake(1)
-	elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+	elif ControllerHints.details_pressed(event):
 		handled = _pad_show_rules()
 
 	if handled:
 		get_viewport().set_input_as_handled()
-
-func _joy_button_pressed(event: InputEvent, button_index: int) -> bool:
-	if not (event is InputEventJoypadButton):
-		return false
-	var joy := event as InputEventJoypadButton
-	return joy.pressed and int(joy.button_index) == button_index
 
 func _pad_cycle_mode(direction: int) -> bool:
 	if _phase == Phase.SPINNING:
