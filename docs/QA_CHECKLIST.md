@@ -46,6 +46,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | A/B/C narrative detail hierarchy: authored actors remain readable, anonymous extras alone become low-detail silhouettes, and wedding focus stays Minjun/Daeun/conditional Hyunsu | `python3 tools/cast_detail_contract_check.py` |
 | Store trailer sources: 22 actual Godot surfaces covering goal, timer, tint, romance, rupture, time records, investment, and minigames | `--qa=trailer --lang=ko/en` at 1920x1080 |
 | StoryMode/VN flashforward Black→arrival Gray reset, intro events, 1~4-choice lower dock, readable backgrounds, chapter card, scene direction framing | `--qa=story-en` |
+| Restrained body/title/choice/state material at 720p, Steam Deck, and 4K | `TextMaterialCheck.tscn`, then `--qa=text-material --lang=en` |
 | StoryMode non-CG Black/Gray/White luminance, forced-Black framing, same-scene perception prose, moral choice wording, portrait distance, result-attention order/counterweight preservation, and KO/EN crop | `--qa=story-moral --lang=ko/en` |
 | Authored Moral Perception anchors: Daeun cafe, Sangchul mirror, why Gangnam, father's last call, and final countdown across Black/Gray/White prose and choices | `--qa=moral-anchors --lang=ko/en` |
 | Romance CG Gray/Black/White color hierarchy and no-HUD climax framing | `--qa=romance-cg` |
@@ -187,6 +188,13 @@ Automated Living Scene gates:
 - Authored `direction.camera` always wins. Reduce Motion stops camera and portrait breathing and reduces particle motion; remote/memory/CG portraits never breathe like a local body.
 - Moral Black must reduce atmospheric life and motion while increasing only a bounded afterimage; White may restore air but cannot exceed the 2px background blur cap.
 - `ScreenshotQA --qa=living-scene --lang=ko/en` runs at 1920x1080, captures five profiles, checks layer order below portraits/text, and compares two independent rain frames. At least eight of 960 upper-scene samples must change; neutral scenes remain particle-free.
+
+Automated text-material gates:
+
+- `TextMaterialCheck.tscn` must print `TEXT_MATERIAL_CHECK_OK text_depth=1 surface_depth=2 body_shadow=0 press_travel=1 motion_ms=55`.
+- Story prose and AP explanations must have no visible text shadow or outline. Scene/name/choice/key-money/state roles use one crisp pixel only; Deep Black money may change color but may not grow beyond a 1px metallic edge.
+- Story and AP choice surfaces rest at 1px, hover/focus at no more than 2px, and remove the floating shadow while pressing content exactly 1px. Reapplying Moral Tint may not accumulate that travel.
+- Run `--qa=text-material --lang=en` and `--qa=display-matrix --lang=en` at 1280x720, 1280x800, and 3840x2160 after changing these tokens, then inspect the AP decision and Story choice PNGs for doubled glyphs, blur, clipping, and TV-safe intrusion. `--qa=story-en --lang=en` at 1280x800 is the body/result companion.
 
 Automated input and display gates:
 

@@ -34,6 +34,14 @@ const C_BTN_ACTION     := "#3a2c0a"   # 선택지 (골드 다크)
 const C_BTN_DANGER     := "#dc2626"   # 위험
 const C_BTN_DISABLED   := "#1a1a28"
 
+# ── Gangnam Ink 타이포·재질 토큰 ──────────────────────────────
+# 본문을 선명하게 두고, 의미 있는 표면에만 최대 2px의 물성을 준다.
+const INK_TEXT_DEPTH_PX := 1
+const INK_SURFACE_DEPTH_MAX_PX := 2
+const INK_SURFACE_OFFSET_MAX_PX := 1
+const MATERIAL_PRESS_TRAVEL_PX := 1
+const MATERIAL_PRESS_DURATION_SEC := 0.055
+
 # ── 폰트 레퍼런스 (로드 후 할당) ──────────────────────────────────
 var font_regular:  FontFile = null
 var font_semibold: FontFile = null
@@ -97,6 +105,70 @@ func btn_focus_style() -> StyleBoxFlat:
 	s.set_border_width_all(2)
 	s.set_corner_radius_all(6)
 	return s
+
+## 제목·선택·핵심 값에만 사용하는 1px 잉크 음영.
+## 아웃라인을 늘리지 않아 720p와 4K 스케일에서 이중상을 막는다.
+func apply_ink_text_depth(control: Control, role: String = "display") -> void:
+	if not is_instance_valid(control):
+		return
+	var alpha := 0.70
+	match role:
+		"choice":
+			alpha = 0.64
+		"money", "state":
+			alpha = 0.68
+		"nameplate":
+			alpha = 0.58
+	control.add_theme_color_override("font_shadow_color", Color(0.01, 0.012, 0.015, alpha))
+	control.add_theme_constant_override("shadow_offset_x", 0)
+	control.add_theme_constant_override("shadow_offset_y", INK_TEXT_DEPTH_PX)
+	control.add_theme_constant_override("shadow_outline_size", 0)
+	control.set_meta("ink_text_role", role)
+	control.set_meta("ink_text_depth_px", INK_TEXT_DEPTH_PX)
+
+## 본문·보조 설명은 상위 테마와 무관하게 무음영으로 잠근다.
+func clear_ink_text_depth(control: Control) -> void:
+	if not is_instance_valid(control):
+		return
+	control.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0))
+	control.add_theme_constant_override("shadow_offset_x", 0)
+	control.add_theme_constant_override("shadow_offset_y", 0)
+	control.add_theme_constant_override("shadow_outline_size", 0)
+	control.set_meta("ink_text_role", "body")
+	control.set_meta("ink_text_depth_px", 0)
+
+## 지면에 붙은 카드를 들어 올리는 번짐 없는 직각 음영.
+func apply_ink_surface_depth(style: StyleBoxFlat, depth_px: int = 2,
+		alpha: float = 0.32, offset_y: int = 1) -> StyleBoxFlat:
+	if style == null:
+		return style
+	var depth := clampi(depth_px, 0, INK_SURFACE_DEPTH_MAX_PX)
+	var y_offset := clampi(offset_y, 0, INK_SURFACE_OFFSET_MAX_PX) if depth > 0 else 0
+	style.shadow_color = Color(0.008, 0.010, 0.012,
+		clampf(alpha, 0.0, 0.48) if depth > 0 else 0.0)
+	style.shadow_size = depth
+	style.shadow_offset = Vector2(0, y_offset)
+	style.set_meta("ink_surface_depth", depth)
+	style.set_meta("ink_surface_offset_y", y_offset)
+	return style
+
+## 누른 표면은 음영을 접고 내용만 1px 아래로 이동한다.
+func apply_ink_pressed_depth(style: StyleBoxFlat,
+		travel_px: int = MATERIAL_PRESS_TRAVEL_PX) -> StyleBoxFlat:
+	if style == null:
+		return style
+	var travel := clampi(travel_px, 0, MATERIAL_PRESS_TRAVEL_PX)
+	var previous_travel := int(style.get_meta("material_press_travel", 0))
+	var margin_delta := travel - previous_travel
+	style.shadow_color = Color(0, 0, 0, 0)
+	style.shadow_size = 0
+	style.shadow_offset = Vector2.ZERO
+	style.content_margin_top += margin_delta
+	style.content_margin_bottom = maxf(0.0, style.content_margin_bottom - margin_delta)
+	style.set_meta("ink_surface_depth", 0)
+	style.set_meta("ink_surface_offset_y", 0)
+	style.set_meta("material_press_travel", travel)
+	return style
 
 # ── 위젯 헬퍼 ────────────────────────────────────────────────────
 ## 라벨 생성 — 폰트 자동 적용

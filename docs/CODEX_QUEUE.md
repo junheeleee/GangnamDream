@@ -362,10 +362,12 @@ Codex가 오더 없이 `content/meta/story_rules.json`(언어 독립 서사 사�
 
 **REWORK 완료 보고 (2026-07-17 Codex):** 예약 `arc_` 9개와 실제 이벤트/선택에서 직접 가리키는 follow-up/deferred 대상 4개를 일반 후보 생성에서 제외했다. 따라서 1,177 구조 후보 → 1,045 레거시 중간 후보 → 1,032 실제 디렉터 풀로 정의가 분리됐고, 1,029개는 1회/런·3개만 제한 반복이다. 퇴근 전제가 있는 두 사건, 연애 6개월 사건, 고시원 매트리스·이웃 성공 사건은 취업·활성 연애·현재 주거를 명시 데이터로 요구한다. 최근 행동 최신 주 ×2.6과 직전 주 ×1.88도 각각 데이터 값으로 고정했다. 정적/런타임 디렉터, 몰입 루프, 53개 스크립트 컴파일과 최종 전체 audit를 통과했다.
 
-#### [~] ORDER-33 [P1·UI/타이포그래피] 텍스트 깊이와 재질 패스
+#### [x] ORDER-33 [P1·UI/타이포그래피] 텍스트 깊이와 재질 패스
 유료 폰트 구매 전 기존 번들 폰트로 본문 가독성을 보존하면서 표면 위계를 만든다. 본문에는 과한 그림자를 금지하고, 장면 제목·핵심 금액·선택지·상태 변화에만 얕은 잉크 음영, 국소 배경 대비, 선택/확정 시 1~2px 깊이와 짧은 재질 모션을 적용한다. 720p·Steam Deck·4K에서 번짐과 이중상이 없는지 확인한 뒤 브랜드 디스플레이 글꼴 구매 필요성을 재판정한다.
 
 **착수 (2026-07-17 Codex) — 만지는 파일:** `autoloads/UIStyle.gd`, `scenes/StoryMode.gd`, `scenes/MainGame.gd`, `tools/TextMaterialCheck.gd`, `tools/TextMaterialCheck.gd.uid`, `tools/TextMaterialCheck.tscn`, `tools/ScreenshotQA.gd`, `tools/audit.sh`, `docs/GANGNAM_INK_ART_DIRECTION.md`, `docs/MASTER_RELEASE_AUDIT.md`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`은 건드리지 않는다. 공통 토큰은 본문 그림자 0px, 디스플레이/핵심 금액 1px, 선택/상태 1px를 상한으로 두고 선택 확정 때만 2px 이하의 짧은 눌림을 허용한다. StoryMode와 데모 AP 압박 카드의 실제 생성 경로에만 먼저 적용하며, 1280×720·1280×800·3840×2160에서 글자 번짐·이중상·경계 침범이 없을 때만 전범위 확산 판정을 내린다.
+
+**완료 보고 (2026-07-17 Codex):** StoryMode와 데모 AP의 본문은 0px, 장면 제목·이름·선택·핵심 금액·상태값은 무블러 1px 잉크 접촉으로 분리했다. 선택 표면은 평시 1px·포커스 2px, 확정 시 그림자를 접고 55ms 동안 내용만 1px 이동하며 Moral 재적용에도 누적되지 않는다. Reduce Motion은 스케일 동작을 끈다. 전용 런타임 게이트와 영문 1280×720·1280×800·3840×2160 Display Matrix, 1280×800 Story 전용 렌더에서 이중상·번짐·잘림·안전영역 침범 0을 확인했다. Pretendard는 한영 본문/디스플레이 모두 선명해 유료 폰트 구매를 데모 비차단으로 판정했다.
 
 #### [ ] ORDER-27 [P2·자문] 판매 톤 의견 — "성공의 대가" vs "성공 판타지" (유저 요청: Codex 판단도 듣고 싶다)
 > Claude·유저는 "성공의 대가"(긴장) 쪽으로 기울었으나 미확정. Codex는 게임을 코드/데이터로 만지는 입장에서 **근거 있는 의견**을 낸다 — 최종 결정은 유저.

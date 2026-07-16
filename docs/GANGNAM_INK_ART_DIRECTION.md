@@ -90,6 +90,14 @@ The target is **Korean social-reality VN with Japanese scene readability**, not 
 - A scene may only be reused when the action fantasy is semantically the same, such as the broad Self-Dev category and Reading. Never repeat one money image for investing, gig work, and saving merely because all three affect cash.
 - AP stills use a dedicated Moral material: Gray preserves color and midtone separation for one-second recognition, Black corrodes and desaturates the same scene, and White clears it. Moral treatment may not make a navigational image unreadable.
 
+### Text and surface material
+
+- Body prose and explanatory copy stay optically flat: `0px` shadow, `0px` outline. Readability comes from the local matte panel, not a glow around every glyph.
+- Scene titles, names, key money, choice titles, and visible state changes receive one crisp `1px` ink contact. It has no blur or outline, so Korean and English keep the same letter shape at 720p and 4K.
+- Choice and pressure-card surfaces sit at `1px` at rest, rise to at most `2px` on hover/focus, then collapse their shadow and move content exactly `1px` for `55ms` when confirmed. Disabled surfaces remain flat.
+- `Reduce Motion` removes scale travel while retaining border, luminance, and pressed-state feedback. Material response must never be the only indication of focus.
+- Pretendard remains the release font for body and current display use. The 720p, 1280x800, and 4K renders are sharp in Korean and English, so a paid display face is not a demo blocker. Reconsider one only after blind brand-recall testing proves that the title hierarchy, rather than key art or layout, is the weak link.
+
 ## Transition Rules
 
 - Event-to-event transitions should feel like a page, receipt, or memory sliding under glass rather than a website route change.

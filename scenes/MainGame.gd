@@ -525,8 +525,10 @@ func _apply_story_moral_clarity() -> void:
 	var body_color := Color("#c8d0df").lerp(Color("#89948f"), black * 0.72).lerp(Color("#e9f0fb"), white * 0.85)
 	if is_instance_valid(event_title):
 		event_title.add_theme_color_override("font_color", title_color)
+		UIStyle.apply_ink_text_depth(event_title, "display")
 	if is_instance_valid(event_body):
 		event_body.add_theme_color_override("default_color", body_color)
+		UIStyle.clear_ink_text_depth(event_body)
 
 func _apply_moral_portrait_state() -> void:
 	if not is_instance_valid(character_portrait):
@@ -600,9 +602,11 @@ func _apply_moral_control_style(control: Control, palette: Dictionary) -> void:
 		"hud_text":
 			if control is Label:
 				(control as Label).add_theme_color_override("font_color", palette["text"])
+				UIStyle.clear_ink_text_depth(control)
 		"brand_text":
 			if control is Label:
 				(control as Label).add_theme_color_override("font_color", palette["brand"])
+				UIStyle.apply_ink_text_depth(control, "display")
 		"choice_card":
 			if control is Button:
 				_apply_moral_button_box(control as Button, accent, palette, true)
@@ -614,15 +618,20 @@ func _apply_moral_control_style(control: Control, palette: Dictionary) -> void:
 		"choice_title":
 			if control is Label:
 				(control as Label).add_theme_color_override("font_color", palette["text"])
+				UIStyle.apply_ink_text_depth(control, "choice")
 		"choice_subtitle":
 			if control is Label:
 				(control as Label).add_theme_color_override("font_color", palette["dim"])
+				UIStyle.clear_ink_text_depth(control)
 		"choice_badge":
 			if control is PanelContainer:
-				(control as PanelContainer).add_theme_stylebox_override("panel", _moral_box(palette["chip_bg"], palette["panel_border"], 5, 8, 4))
+				var badge_style := _moral_box(palette["chip_bg"], palette["panel_border"], 5, 8, 4)
+				UIStyle.apply_ink_surface_depth(badge_style, 1, 0.24, 1)
+				(control as PanelContainer).add_theme_stylebox_override("panel", badge_style)
 		"choice_badge_text":
 			if control is Label:
 				(control as Label).add_theme_color_override("font_color", palette["dim"])
+				UIStyle.apply_ink_text_depth(control, "state")
 		"choice_arrow":
 			if control is Label:
 				(control as Label).add_theme_color_override("font_color", accent.lerp(palette["focus"], float(palette["white"]) * 0.35))
@@ -634,6 +643,7 @@ func _apply_moral_control_style(control: Control, palette: Dictionary) -> void:
 		"separator_text", "hint_text":
 			if control is Label:
 				(control as Label).add_theme_color_override("font_color", palette["dim"])
+				UIStyle.clear_ink_text_depth(control)
 		"tabs":
 			if control is TabContainer:
 				var selected := _moral_box(palette["choice_bg"], palette["focus"], 5, 12, 8)
@@ -699,6 +709,9 @@ func _moral_box(bg: Color, border: Color, radius: int, h_margin: int, v_margin: 
 	return st
 
 func _apply_moral_button_box(button: Button, accent: Color, palette: Dictionary, is_choice: bool) -> void:
+	if is_choice and button.has_meta("demo_decision_card"):
+		_apply_demo_decision_material(button, accent, palette)
+		return
 	var bg: Color = palette["choice_bg"] if is_choice else palette["chip_bg"]
 	var hover: Color = palette["choice_hover"]
 	var pressed: Color = bg.darkened(0.12)
@@ -716,6 +729,44 @@ func _apply_moral_button_box(button: Button, accent: Color, palette: Dictionary,
 	var disabled_st := normal.duplicate()
 	disabled_st.bg_color = palette["disabled_bg"]
 	disabled_st.border_color = palette["panel_border"]
+	UIStyle.apply_ink_surface_depth(normal, 1 if is_choice else 0, 0.32, 1)
+	UIStyle.apply_ink_surface_depth(hover_st, 2 if is_choice else 1, 0.40, 1)
+	UIStyle.apply_ink_surface_depth(focus_st, 2 if is_choice else 1, 0.44, 1)
+	UIStyle.apply_ink_surface_depth(disabled_st, 0, 0.0, 0)
+	UIStyle.apply_ink_pressed_depth(pressed_st, 1)
+	button.add_theme_stylebox_override("normal", normal)
+	button.add_theme_stylebox_override("hover", hover_st)
+	button.add_theme_stylebox_override("pressed", pressed_st)
+	button.add_theme_stylebox_override("focus", focus_st)
+	button.add_theme_stylebox_override("disabled", disabled_st)
+	button.add_theme_color_override("font_color", palette["text"])
+	if is_choice:
+		UIStyle.apply_ink_text_depth(button, "choice")
+	else:
+		UIStyle.clear_ink_text_depth(button)
+
+func _apply_demo_decision_material(button: Button, accent: Color, palette: Dictionary) -> void:
+	var normal := button.get_theme_stylebox("normal").duplicate() as StyleBoxFlat
+	var hover_st := button.get_theme_stylebox("hover").duplicate() as StyleBoxFlat
+	var pressed_st := button.get_theme_stylebox("pressed").duplicate() as StyleBoxFlat
+	var focus_st := button.get_theme_stylebox("focus").duplicate() as StyleBoxFlat
+	var disabled_st := button.get_theme_stylebox("disabled").duplicate() as StyleBoxFlat
+	var border := accent.lerp(palette["panel_border"], 0.24)
+	normal.bg_color = palette["choice_bg"].lerp(Color("#090a0d"), 0.28)
+	normal.border_color = border
+	hover_st.bg_color = palette["choice_hover"]
+	hover_st.border_color = accent.lerp(palette["focus"], 0.22)
+	pressed_st.bg_color = normal.bg_color.darkened(0.12)
+	pressed_st.border_color = border
+	focus_st.bg_color = hover_st.bg_color
+	focus_st.border_color = palette["focus"]
+	disabled_st.bg_color = palette["disabled_bg"]
+	disabled_st.border_color = palette["panel_border"]
+	UIStyle.apply_ink_surface_depth(normal, 1, 0.34, 1)
+	UIStyle.apply_ink_surface_depth(hover_st, 2, 0.42, 1)
+	UIStyle.apply_ink_surface_depth(focus_st, 2, 0.46, 1)
+	UIStyle.apply_ink_pressed_depth(pressed_st, 1)
+	UIStyle.apply_ink_surface_depth(disabled_st, 0, 0.0, 0)
 	button.add_theme_stylebox_override("normal", normal)
 	button.add_theme_stylebox_override("hover", hover_st)
 	button.add_theme_stylebox_override("pressed", pressed_st)
@@ -755,14 +806,13 @@ func _apply_money_label_style(label: Label, color: Color, shadow_color: Color, s
 	label.add_theme_color_override("font_color", color)
 	if shadow_size > 0:
 		label.add_theme_color_override("font_shadow_color", shadow_color)
-		label.add_theme_constant_override("shadow_outline_size", shadow_size)
+		label.add_theme_constant_override("shadow_outline_size", mini(shadow_size, 1))
 		label.add_theme_constant_override("shadow_offset_x", 0)
 		label.add_theme_constant_override("shadow_offset_y", 0)
+		label.set_meta("ink_text_role", "money_glow")
+		label.set_meta("ink_text_depth_px", 1)
 	else:
-		label.remove_theme_color_override("font_shadow_color")
-		label.remove_theme_constant_override("shadow_outline_size")
-		label.remove_theme_constant_override("shadow_offset_x")
-		label.remove_theme_constant_override("shadow_offset_y")
+		UIStyle.apply_ink_text_depth(label, "money")
 
 func _portfolio_value_at_prices(prices: Dictionary) -> float:
 	var total: float = 0.0
@@ -1237,6 +1287,7 @@ func _show_ap_action_commit(title: String, icon_id: String, accent: String,
 	style.content_margin_right = 12
 	style.content_margin_top = 10
 	style.content_margin_bottom = 10
+	UIStyle.apply_ink_surface_depth(style, 1, 0.34, 1)
 	panel.add_theme_stylebox_override("panel", style)
 	_ap_commit_layer.add_child(panel)
 
@@ -1279,6 +1330,7 @@ func _show_ap_action_commit(title: String, icon_id: String, accent: String,
 	var overline := _label(_tr("행동 확정", "ACTION LOCKED"), 10, "#7d8796")
 	overline.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	overline.uppercase = true
+	UIStyle.clear_ink_text_depth(overline)
 	text_col.add_child(overline)
 
 	var title_lbl := _label(title, 18, "#eef3f8")
@@ -1286,6 +1338,7 @@ func _show_ap_action_commit(title: String, icon_id: String, accent: String,
 	title_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	if _font_bold:
 		title_lbl.add_theme_font_override("font", _font_bold)
+	UIStyle.apply_ink_text_depth(title_lbl, "state")
 	text_col.add_child(title_lbl)
 
 	var badge := PanelContainer.new()
@@ -1301,6 +1354,7 @@ func _show_ap_action_commit(title: String, icon_id: String, accent: String,
 	badge_style.content_margin_right = 8
 	badge_style.content_margin_top = 4
 	badge_style.content_margin_bottom = 4
+	UIStyle.apply_ink_surface_depth(badge_style, 1, 0.24, 1)
 	badge.add_theme_stylebox_override("panel", badge_style)
 	row.add_child(badge)
 
@@ -1308,6 +1362,7 @@ func _show_ap_action_commit(title: String, icon_id: String, accent: String,
 	badge_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	badge_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	badge_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	UIStyle.apply_ink_text_depth(badge_lbl, "state")
 	badge.add_child(badge_lbl)
 
 	_ap_commit_tween = create_tween()
@@ -4437,7 +4492,7 @@ func _bind_tactile_button(button: Button, strength: float = 1.0) -> void:
 	)
 	button.button_down.connect(func():
 		if not button.disabled:
-			_tactile_button_to(button, press_scale, 0.055, Tween.TRANS_QUAD)
+			_tactile_button_to(button, press_scale, UIStyle.MATERIAL_PRESS_DURATION_SEC, Tween.TRANS_QUAD)
 	)
 	button.button_up.connect(func():
 		if not button.disabled:
@@ -7169,9 +7224,15 @@ func _is_ap_commit_function(fn_name: String) -> bool:
 func _pulse_ap_action_card(card: Control) -> void:
 	if not is_instance_valid(card):
 		return
+	if bool(SaveManager.get_setting("reduce_motion", false)):
+		card.scale = Vector2.ONE
+		return
 	card.pivot_offset = card.size * 0.5
+	var pressed_scale := Vector2(
+		1.0 - minf(1.0 / maxf(card.size.x, 1.0), 0.01),
+		1.0 - minf(1.0 / maxf(card.size.y, 1.0), 0.02))
 	var tw := create_tween()
-	tw.tween_property(card, "scale", Vector2(0.985, 0.985), 0.045).set_trans(Tween.TRANS_SINE)
+	tw.tween_property(card, "scale", pressed_scale, UIStyle.MATERIAL_PRESS_DURATION_SEC).set_trans(Tween.TRANS_SINE)
 	tw.tween_property(card, "scale", Vector2.ONE, 0.16) \
 			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
@@ -7539,27 +7600,24 @@ func _make_demo_decision_card(title: String, subtitle: String, icon_id: String,
 	normal.content_margin_right = 0
 	normal.content_margin_top = 0
 	normal.content_margin_bottom = 0
-	normal.shadow_color = Color(0, 0, 0, 0.62)
-	normal.shadow_size = 8
-	normal.shadow_offset = Vector2(0, 5)
+	UIStyle.apply_ink_surface_depth(normal, 1, 0.34, 1)
 	var hover := normal.duplicate()
 	hover.bg_color = Color("#111419", 0.98)
 	hover.border_color = Color(accent_color, 0.88)
-	hover.shadow_size = 14
-	hover.shadow_offset = Vector2(0, 7)
+	UIStyle.apply_ink_surface_depth(hover, 2, 0.42, 1)
 	var pressed_style := normal.duplicate()
 	pressed_style.bg_color = Color("#050609", 0.99)
 	pressed_style.border_color = Color(accent_color, 0.72)
-	pressed_style.shadow_size = 3
-	pressed_style.shadow_offset = Vector2(0, 2)
+	UIStyle.apply_ink_pressed_depth(pressed_style, 1)
 	var focus_style := hover.duplicate()
 	focus_style.border_color = Color(COL_GOLD_BRIGHT, 0.98)
 	focus_style.set_border_width_all(2)
 	focus_style.border_width_bottom = 4
+	UIStyle.apply_ink_surface_depth(focus_style, 2, 0.46, 1)
 	var disabled_style := normal.duplicate()
 	disabled_style.bg_color = Color("#07080a", 0.88)
 	disabled_style.border_color = Color("#22262d", 0.66)
-	disabled_style.shadow_size = 4
+	UIStyle.apply_ink_surface_depth(disabled_style, 0, 0.0, 0)
 	btn.add_theme_stylebox_override("normal", normal)
 	btn.add_theme_stylebox_override("hover", hover)
 	btn.add_theme_stylebox_override("pressed", pressed_style)
@@ -7650,6 +7708,7 @@ func _make_demo_decision_card(title: String, subtitle: String, icon_id: String,
 	meta_spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	meta_row.add_child(meta_spacer)
 	var ap_label := _label(ap_text.to_upper(), 10, "#e5eaf0" if not disabled else "#555b64")
+	ap_label.set_meta("moral_role", "choice_badge_text")
 	ap_label.custom_minimum_size = Vector2(42, 0)
 	ap_label.clip_text = false
 	ap_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -14919,6 +14978,7 @@ func _month_summary_result_card(grade: Dictionary, net: float, net_color: String
 	var grade_title: Label = _label(grade_title_text, 17, _moral_hex(_moral_text_accent(Color(grade_color), 0.03)))
 	if _font_bold:
 		grade_title.add_theme_font_override("font", _font_bold)
+	UIStyle.apply_ink_text_depth(grade_title, "state")
 	copy_col.add_child(grade_title)
 	copy_col.add_child(_wrap_label(grade_msg_text, 12, "#8f98aa"))
 
@@ -14934,6 +14994,7 @@ func _month_summary_result_card(grade: Dictionary, net: float, net_color: String
 	net_value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	if _font_bold:
 		net_value.add_theme_font_override("font", _font_bold)
+	UIStyle.apply_ink_text_depth(net_value, "money")
 	result_col.add_child(net_value)
 	var asset_hint := _label(_tr("%s / 30억", "%s / KRW 3B") % GameState.format_money(assets_now), 11, "#7f8798")
 	asset_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
@@ -14954,6 +15015,7 @@ func _month_summary_metric_card(title: String, value: String, hint: String, acce
 	value_lbl.clip_text = false
 	if _font_bold:
 		value_lbl.add_theme_font_override("font", _font_bold)
+	UIStyle.apply_ink_text_depth(value_lbl, "state")
 	box.add_child(value_lbl)
 	box.add_child(_wrap_label(hint, 10, "#6f7888"))
 	return card

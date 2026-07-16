@@ -301,14 +301,19 @@ func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false)
 		_text_rule.color = line_col
 	if is_instance_valid(_title_lbl):
 		_title_lbl.add_theme_color_override("font_color", dim_col)
+		UIStyle.apply_ink_text_depth(_title_lbl, "display")
 	if is_instance_valid(_body_lbl):
 		_body_lbl.add_theme_color_override("default_color", text_col)
+		UIStyle.clear_ink_text_depth(_body_lbl)
 	if is_instance_valid(_continue_hint):
 		_continue_hint.add_theme_color_override("font_color", dead_col)
+		UIStyle.clear_ink_text_depth(_continue_hint)
 	if is_instance_valid(_name_tag):
 		_name_tag.add_theme_color_override("font_color", focus_col)
+		UIStyle.apply_ink_text_depth(_name_tag, "nameplate")
 	if is_instance_valid(_hud_label):
 		_hud_label.add_theme_color_override("font_color", dim_col)
+		UIStyle.clear_ink_text_depth(_hud_label)
 
 func _apply_story_portrait_surface() -> void:
 	if not is_instance_valid(_portrait):
@@ -392,8 +397,8 @@ func _bind_story_tactile_button(button: Button, strength: float = 1.0) -> void:
 	if not is_instance_valid(button) or button.has_meta("_story_tactile_bound"):
 		return
 	button.set_meta("_story_tactile_bound", true)
-	var hover_scale := Vector2.ONE * (1.0 + 0.006 * strength)
-	var press_scale := Vector2(1.0 - 0.010 * strength, 1.0 - 0.040 * strength)
+	var hover_scale := Vector2.ONE * (1.0 + 0.002 * strength)
+	var press_scale := Vector2(1.0 - 0.002 * strength, 1.0 - 0.014 * strength)
 	button.mouse_entered.connect(func():
 		if not button.disabled:
 			_story_tactile_button_to(button, hover_scale, 0.10, Tween.TRANS_QUAD)
@@ -404,7 +409,7 @@ func _bind_story_tactile_button(button: Button, strength: float = 1.0) -> void:
 	)
 	button.button_down.connect(func():
 		if not button.disabled:
-			_story_tactile_button_to(button, press_scale, 0.055, Tween.TRANS_QUAD)
+			_story_tactile_button_to(button, press_scale, UIStyle.MATERIAL_PRESS_DURATION_SEC, Tween.TRANS_QUAD)
 	)
 	button.button_up.connect(func():
 		if not button.disabled:
@@ -419,6 +424,9 @@ func _bind_story_tactile_button(button: Button, strength: float = 1.0) -> void:
 
 func _story_tactile_button_to(button: Button, target_scale: Vector2, duration: float, trans: int) -> void:
 	if not is_instance_valid(button) or not is_inside_tree():
+		return
+	if _living_reduced_motion():
+		button.scale = Vector2.ONE
 		return
 	button.pivot_offset = button.size * 0.5
 	var old: Variant = button.get_meta("_story_tactile_tween") if button.has_meta("_story_tactile_tween") else null
@@ -1864,6 +1872,7 @@ func _show_story_result_record(choice: Dictionary) -> void:
 	card.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var st := _story_panel_style(panel_bg, panel_border, 6, 12, 9, 4)
 	st.border_color = panel_border.lerp(focus_col, 0.16)
+	UIStyle.apply_ink_surface_depth(st, 1, 0.30, 1)
 	card.add_theme_stylebox_override("panel", st)
 	add_child(card)
 	_result_record_card = card
@@ -1878,7 +1887,7 @@ func _show_story_result_record(choice: Dictionary) -> void:
 	row.add_child(head)
 	head.add_child(_story_record_label(_tr("선택 기록", "CHOICE RESULT"), 10, dim_col, false))
 	var tone := _story_result_tone_label(disp, cast_items)
-	head.add_child(_story_record_label(str(tone["label"]), 13, tone["color"], true))
+	head.add_child(_story_record_label(str(tone["label"]), 13, tone["color"], true, "state"))
 
 	var grid := GridContainer.new()
 	grid.name = "StoryResultGrid"
@@ -1936,7 +1945,8 @@ func _story_choice_has_visible_result(choice: Dictionary) -> bool:
 	var cast_items: Array = _story_result_visible_cast_effects(choice.get("cast_effects", {}))
 	return not cast_items.is_empty()
 
-func _story_record_label(text: String, size: int, color: Color, bold: bool = false) -> Label:
+func _story_record_label(text: String, size: int, color: Color, bold: bool = false,
+		depth_role: String = "") -> Label:
 	var lbl := Label.new()
 	lbl.text = text
 	lbl.add_theme_font_size_override("font_size", size)
@@ -1944,6 +1954,10 @@ func _story_record_label(text: String, size: int, color: Color, bold: bool = fal
 	lbl.clip_text = true
 	lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
 	_apply_font(lbl, bold)
+	if depth_role.is_empty():
+		UIStyle.clear_ink_text_depth(lbl)
+	else:
+		UIStyle.apply_ink_text_depth(lbl, depth_role)
 	return lbl
 
 func _story_result_badge(label_text: String, value_text: String, accent: Color, primary: bool = false) -> Control:
@@ -1963,12 +1977,13 @@ func _story_result_badge(label_text: String, value_text: String, accent: Color, 
 	st.content_margin_right = 9
 	st.content_margin_top = 6
 	st.content_margin_bottom = 6
+	UIStyle.apply_ink_surface_depth(st, 1, 0.28, 1)
 	badge.add_theme_stylebox_override("panel", st)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 1)
 	badge.add_child(box)
 	box.add_child(_story_record_label(label_text, 9, palette["dead"], false))
-	box.add_child(_story_record_label(value_text, 14 if primary else 13, accent, true))
+	box.add_child(_story_record_label(value_text, 14 if primary else 13, accent, true, "state"))
 	return badge
 
 func _story_result_ordered_items(disp: Dictionary, cast_items: Array, stage: int) -> Array:
@@ -2372,6 +2387,10 @@ func _make_choice_button(text: String, idx: int, display_num: int = -1) -> Butto
 	var pressed = normal.duplicate()
 	pressed.bg_color = choice_bg.darkened(0.14)
 	pressed.border_color = focus_col.darkened(0.12)
+	UIStyle.apply_ink_surface_depth(normal, 1, 0.32, 1)
+	UIStyle.apply_ink_surface_depth(hover, 2, 0.42, 1)
+	UIStyle.apply_ink_surface_depth(focus, 2, 0.46, 1)
+	UIStyle.apply_ink_pressed_depth(pressed, 1)
 	btn.add_theme_stylebox_override("normal", normal)
 	btn.add_theme_stylebox_override("hover", hover)
 	btn.add_theme_stylebox_override("pressed", pressed)
@@ -2382,6 +2401,7 @@ func _make_choice_button(text: String, idx: int, display_num: int = -1) -> Butto
 	btn.add_theme_font_size_override("font_size", 18)
 	if _font:
 		btn.add_theme_font_override("font", _font)
+	UIStyle.apply_ink_text_depth(btn, "choice")
 	btn.pressed.connect(_on_choice.bind(idx))
 	_bind_story_tactile_button(btn, 1.0)
 	return btn

@@ -20,6 +20,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-moral --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1920x1080 res://tools/ScreenshotQA.tscn -- --qa=living-scene --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1920x1080 res://tools/ScreenshotQA.tscn -- --qa=display-matrix --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=text-material --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=romance-cg
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=romance-portraits
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=namsan --lang=en
@@ -86,6 +87,7 @@ const QA_SCOPE_STORY_AUDIO := "story_audio"
 const QA_SCOPE_STORY_MORAL := "story_moral"
 const QA_SCOPE_LIVING_SCENE := "living_scene"
 const QA_SCOPE_DISPLAY_MATRIX := "display_matrix"
+const QA_SCOPE_TEXT_MATERIAL := "text_material"
 const QA_SCOPE_MORAL_ANCHORS := "moral_anchors"
 const QA_SCOPE_ROMANCE_CG := "romance_cg"
 const QA_SCOPE_ROMANCE_PORTRAITS := "romance_portraits"
@@ -166,6 +168,14 @@ func _ready() -> void:
 		if _qa_failed:
 			return
 		print("SCREENSHOT_QA_DONE scope=display-matrix lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_TEXT_MATERIAL:
+		var lang := _qa_language("en")
+		await _shot_text_material_surfaces(lang)
+		if _qa_failed:
+			return
+		print("SCREENSHOT_QA_DONE scope=text-material lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_MORAL:
@@ -526,6 +536,10 @@ func _qa_scope() -> String:
 		args.append(str(raw))
 	for raw in args:
 		var arg := raw.strip_edges().to_lower()
+		if arg in ["text-material", "text_material", "typography-material", "typography_material",
+				"--text-material", "--text_material", "qa=text-material", "--qa=text-material",
+				"qa=text_material", "--qa=text_material", "scope=text-material", "--scope=text-material"]:
+			return QA_SCOPE_TEXT_MATERIAL
 		if arg in ["display-matrix", "display_matrix", "resolution-matrix", "resolution_matrix",
 				"--display-matrix", "--display_matrix", "qa=display-matrix", "--qa=display-matrix",
 				"scope=display-matrix", "--scope=display-matrix"]:
@@ -1123,6 +1137,8 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	_assert_breakup_visual_state(story, event_id, select_choice)
 	_assert_transport_visual_state(story, event_id)
 	_assert_living_scene_state(story, event_id)
+	if _qa_scope() == QA_SCOPE_TEXT_MATERIAL:
+		_assert_story_text_material(story)
 	await _save(shot_name)
 	_remove_nodes_by_script("res://scenes/StoryMode.gd")
 	if suppress_cg and had_cg:
@@ -1137,6 +1153,116 @@ func _shot_living_scene_surfaces(lang: String, prefix: String) -> void:
 	await _shot_story_event("arc_season_fireworks_daeun", prefix + "04_fireworks", lang, 1.5, true)
 	await _shot_story_event("arc_job_first_rejection", prefix + "05_neutral", lang, 1.5, true)
 	await _verify_living_scene_motion(lang)
+
+func _shot_text_material_surfaces(lang: String) -> void:
+	var resolution := get_window().size
+	var supported := [Vector2i(1280, 720), Vector2i(1280, 800), Vector2i(3840, 2160)]
+	if not supported.has(resolution):
+		_fail("Text material QA requires 1280x720, 1280x800, or 3840x2160; got %s." % resolution)
+		return
+	var tag := "%dx%d_%s" % [resolution.x, resolution.y, lang]
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	_seed_portfolio()
+	await _boot_main_game()
+	_seed_ap_act_state(1, lang)
+	_mg.current_event = {}
+	_mg.set("pending_result_text", "")
+	_mg.call("_render_ap_actions")
+	if _mg.has_method("_refresh_all"):
+		_mg.call("_refresh_all")
+	if _mg.has_method("_finish_typing"):
+		_mg.call("_finish_typing")
+	await _settle(0.55)
+	_assert_ap_text_material(_mg, resolution)
+	if _qa_failed:
+		return
+	await _save(tag + "_01_ap_material")
+	await _dispose_main_game()
+
+	await _shot_story_event(
+		"story_knee_choice", tag + "_02_story_material", lang, 0.55, true, true)
+	if _qa_failed:
+		return
+	print("TEXT_MATERIAL_RENDER_OK resolution=%dx%d surfaces=2 body_shadow=0 max_depth=2" % [
+		resolution.x, resolution.y])
+
+func _assert_ap_text_material(main: Node, resolution: Vector2i) -> void:
+	var cards: Array[Button] = []
+	for node in main.find_children("*", "Button", true, false):
+		if bool(node.get_meta("demo_decision_card", false)):
+			cards.append(node as Button)
+	if cards.size() != 3:
+		_fail("Text material AP fixture expected three demo cards at %s, got %d." % [
+			resolution, cards.size()])
+		return
+	var title_count := 0
+	var body_count := 0
+	for card in cards:
+		_assert_material_button(card, "AP decision")
+		for node in card.find_children("*", "Label", true, false):
+			var role := str(node.get_meta("ink_text_role", ""))
+			if role == "choice":
+				title_count += 1
+				_assert_text_depth(node, 1, "AP decision title")
+			elif role == "body":
+				body_count += 1
+				_assert_text_depth(node, 0, "AP decision body")
+	if title_count < 3 or body_count < 3:
+		_fail("Text material AP hierarchy incomplete at %s (titles=%d body=%d)." % [
+			resolution, title_count, body_count])
+
+func _assert_story_text_material(story: Node) -> void:
+	var title := story.get("_title_lbl") as Label
+	var body := story.get("_body_lbl") as RichTextLabel
+	_assert_text_depth(title, 1, "StoryMode title")
+	_assert_text_depth(body, 0, "StoryMode prose")
+	var choice_box := story.get("_choice_box") as VBoxContainer
+	var buttons: Array[Button] = []
+	if choice_box != null:
+		for node in choice_box.find_children("*", "Button", true, false):
+			buttons.append(node as Button)
+	if buttons.is_empty():
+		_fail("Text material StoryMode fixture did not expose choices.")
+		return
+	for button in buttons:
+		_assert_material_button(button, "StoryMode choice")
+		_assert_text_depth(button, 1, "StoryMode choice text")
+
+func _assert_material_button(button: Button, label: String) -> void:
+	if button == null:
+		_fail("%s is missing." % label)
+		return
+	var normal := button.get_theme_stylebox("normal") as StyleBoxFlat
+	var hover := button.get_theme_stylebox("hover") as StyleBoxFlat
+	var focus := button.get_theme_stylebox("focus") as StyleBoxFlat
+	var pressed := button.get_theme_stylebox("pressed") as StyleBoxFlat
+	if normal == null or hover == null or focus == null or pressed == null:
+		_fail("%s is missing a material state." % label)
+		return
+	if normal.shadow_size != 1 or normal.shadow_offset != Vector2(0, 1):
+		_fail("%s normal state must be depth 1/offset 1." % label)
+	if hover.shadow_size > 2 or focus.shadow_size > 2:
+		_fail("%s hover/focus depth exceeds 2px." % label)
+	if pressed.shadow_size != 0:
+		_fail("%s pressed state retained a floating shadow." % label)
+	if not is_equal_approx(pressed.content_margin_top - normal.content_margin_top, 1.0):
+		_fail("%s pressed content does not travel exactly 1px." % label)
+
+func _assert_text_depth(control: Control, expected: int, label: String) -> void:
+	if control == null:
+		_fail("%s is missing." % label)
+		return
+	var y := control.get_theme_constant("shadow_offset_y")
+	var outline := control.get_theme_constant("shadow_outline_size")
+	var shadow := control.get_theme_color("font_shadow_color")
+	if y != expected or outline != 0:
+		_fail("%s depth expected %dpx without outline, got y=%d outline=%d." % [
+			label, expected, y, outline])
+	if expected == 0 and shadow.a > 0.001:
+		_fail("%s body shadow is visible." % label)
+	elif expected > 0 and shadow.a <= 0.001:
+		_fail("%s ink shadow is missing." % label)
 
 func _shot_display_matrix_surfaces(lang: String) -> void:
 	var viewport_size := get_viewport().get_visible_rect().size
