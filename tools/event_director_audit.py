@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "autoloads" / "DataRegistry.gd"
 MANIFEST = ROOT / "content" / "meta" / "event_director.json"
 EXPECTED_CATALOG_RANDOM = 1177
-EXPECTED_DIRECTED_RANDOM = 1045
+EXPECTED_DIRECTED_RANDOM = 1032
 EXPECTED_REPEATABLE = {
     "convenience_store_meal",
     "delivery_app_temptation",
@@ -55,11 +55,34 @@ def is_catalog_random(event: dict[str, Any]) -> bool:
     )
 
 
-def is_directed_random(event: dict[str, Any]) -> bool:
+def follow_up_targets(events: list[dict[str, Any]]) -> set[str]:
+    targets: set[str] = set()
+    for event in events:
+        direct = str(event.get("follow_up_event", ""))
+        if direct:
+            targets.add(direct)
+        for choice in event.get("choices", []):
+            if not isinstance(choice, dict):
+                continue
+            for key in ("follow_up_event", "deferred_follow_up"):
+                target = str(choice.get(key, ""))
+                if target:
+                    targets.add(target)
+    return targets
+
+
+def is_directed_random(
+    event: dict[str, Any], manifest: dict[str, Any], direct_targets: set[str]
+) -> bool:
+    event_id = str(event.get("id", ""))
+    scope = manifest.get("scope", {})
+    prefixes = tuple(str(value) for value in scope.get("excluded_id_prefixes", []))
     return (
         str(event.get("category", "")) != "story"
         and str(event.get("rarity", "")) != "story"
         and float(event.get("weight", 1.0)) > 0.0
+        and not event_id.startswith(prefixes)
+        and not (scope.get("exclude_follow_up_targets", True) and event_id in direct_targets)
     )
 
 
@@ -77,6 +100,7 @@ def validate_multiplier_map(value: Any, owner: str, errors: list[str]) -> None:
 def validate_manifest(manifest: dict[str, Any], events: list[dict[str, Any]]) -> list[str]:
     errors: list[str] = []
     by_id = {str(event["id"]): event for event in events}
+    direct_targets = follow_up_targets(events)
 
     if manifest.get("schema") != 1:
         errors.append("schema must be 1")
@@ -98,6 +122,14 @@ def validate_manifest(manifest: dict[str, Any], events: list[dict[str, Any]]) ->
             errors.append("latest action echo must remain 2.6x")
         if abs(float(recent.get("prior_week_strength", 0.0)) - 0.55) > 0.0001:
             errors.append("prior-week action strength must remain 0.55")
+        if abs(float(recent.get("prior_week_multiplier", 0.0)) - 1.88) > 0.0001:
+            errors.append("prior-week action echo must remain 1.88x")
+
+    scope = manifest.get("scope", {})
+    if scope.get("excluded_id_prefixes") != ["arc_"]:
+        errors.append("scope must exclude scheduled arc_ ids")
+    if scope.get("exclude_follow_up_targets") is not True:
+        errors.append("scope must exclude direct follow-up and deferred targets")
 
     chapters = manifest.get("chapter_windows", [])
     if not isinstance(chapters, list) or len(chapters) != 5:
@@ -170,7 +202,7 @@ def validate_manifest(manifest: dict[str, Any], events: list[dict[str, Any]]) ->
                 if person_id not in named:
                     errors.append(f"introduction owner {person_id} is not a named cast tag")
                 for event_id in event_ids:
-                    if event_id not in by_id or not is_directed_random(by_id[event_id]):
+                    if event_id not in by_id or not is_directed_random(by_id[event_id], manifest, direct_targets):
                         errors.append(f"cast introduction is not in the directed pool: {event_id}")
                     elif person_id not in by_id[event_id].get("tags", []):
                         errors.append(f"cast introduction {event_id} lacks tag {person_id}")
@@ -180,7 +212,7 @@ def validate_manifest(manifest: dict[str, Any], events: list[dict[str, Any]]) ->
         errors.append("repeatable_events must contain only the three approved everyday events")
     else:
         for event_id, policy in repeatable.items():
-            if event_id not in by_id or not is_directed_random(by_id[event_id]):
+            if event_id not in by_id or not is_directed_random(by_id[event_id], manifest, direct_targets):
                 errors.append(f"repeatable event is not in the directed pool: {event_id}")
                 continue
             if int(policy.get("max_per_run", 0)) != 2:
@@ -189,6 +221,16 @@ def validate_manifest(manifest: dict[str, Any], events: list[dict[str, Any]]) ->
                 errors.append(f"{event_id} cooldown must be at least 24 weeks")
             if abs(float(policy.get("repeat_decay", 0.0)) - 0.35) > 0.0001:
                 errors.append(f"{event_id} repeat_decay must be 0.35")
+    context = manifest.get("context_requirements", {})
+    expected_context = {
+        "delivery_app_temptation": {"has_job": True},
+        "romance_034": {"has_job": True},
+        "romance_045": {"active_romance": True},
+        "health_back_pain": {"housing_in": ["gosiwon"]},
+        "rare_goshiwon_neighbor_success": {"housing_in": ["gosiwon"]},
+    }
+    if context != expected_context:
+        errors.append("explicit job, romance, and goshiwon contradiction gates drifted")
     return errors
 
 
@@ -205,7 +247,10 @@ def main() -> int:
 
     errors = validate_manifest(manifest, events)
     catalog_random = [event for event in events if is_catalog_random(event)]
-    directed_random = [event for event in events if is_directed_random(event)]
+    direct_targets = follow_up_targets(events)
+    directed_random = [
+        event for event in events if is_directed_random(event, manifest, direct_targets)
+    ]
     if len(events) != 1505:
         errors.append(f"registered event count drifted: expected 1505, got {len(events)}")
     if len(catalog_random) != EXPECTED_CATALOG_RANDOM:

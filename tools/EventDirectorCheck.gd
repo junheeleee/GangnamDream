@@ -10,7 +10,7 @@ func _ready() -> void:
 	_check_once_and_repeat_policy()
 	_check_authored_bypass()
 	if _failures.is_empty():
-		print("EVENT_DIRECTOR_CHECK_OK directed=1045 once=1042 repeatable=3 chapters=5 asset_bands=5")
+		print("EVENT_DIRECTOR_CHECK_OK directed=1032 once=1029 repeatable=3 chapters=5 asset_bands=5")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -23,7 +23,7 @@ func _check_catalog_and_ranges() -> void:
 		var event: Dictionary = event_value
 		if EventManager.is_directed_random_event(event):
 			directed_count += 1
-	_expect(directed_count == 1045, "runtime directed pool is %d, expected 1045" % directed_count)
+	_expect(directed_count == 1032, "runtime directed pool is %d, expected 1032" % directed_count)
 	var chapter_ids: Array[String] = []
 	for turn_value in [1, 49, 97, 145, 193]:
 		chapter_ids.append(EventManager.director_chapter_id(turn_value))
@@ -39,6 +39,12 @@ func _check_context_gates() -> void:
 	GameState.turn = 12
 	GameState.housing = "gosiwon"
 	GameState.current_job = {}
+	var delivery: Dictionary = DataRegistry.find_event("delivery_app_temptation")
+	var rainy_night: Dictionary = DataRegistry.find_event("romance_034")
+	_expect(EventManager.director_context_multiplier(delivery) == 0.0,
+		"unemployed player can receive the after-work delivery scene")
+	_expect(EventManager.director_context_multiplier(rainy_night) == 0.0,
+		"unemployed player can receive the after-work Gangnam scene")
 	var commute: Dictionary = DataRegistry.find_event("season_rainy_commute")
 	_expect(not commute.is_empty(), "rainy commute fixture is missing")
 	_expect(EventManager.director_context_multiplier(commute) == 0.0,
@@ -46,6 +52,10 @@ func _check_context_gates() -> void:
 	GameState.current_job = {"id": "job_01", "category": "part_time", "tier": 1}
 	_expect(EventManager.director_context_multiplier(commute) > 0.0,
 		"employed player cannot receive a commute scene")
+	_expect(EventManager.director_context_multiplier(delivery) > 0.0,
+		"employed player cannot receive the after-work delivery scene")
+	_expect(EventManager.director_context_multiplier(rainy_night) > 0.0,
+		"employed player cannot receive the after-work Gangnam scene")
 
 	GameState.current_job = {}
 	var gosiwon: Dictionary = DataRegistry.find_event("gosiwon_neighbor_first_meet")
@@ -55,6 +65,26 @@ func _check_context_gates() -> void:
 	_expect(EventManager.director_context_multiplier(gosiwon) == 0.0,
 		"goshiwon event survives after moving to an apartment")
 	GameState.housing = "gosiwon"
+	var back_pain: Dictionary = DataRegistry.find_event("health_back_pain")
+	var neighbor_success: Dictionary = DataRegistry.find_event("rare_goshiwon_neighbor_success")
+	_expect(EventManager.director_context_multiplier(back_pain) > 0.0,
+		"goshiwon mattress scene is blocked in the goshiwon")
+	_expect(EventManager.director_context_multiplier(neighbor_success) > 0.0,
+		"goshiwon neighbor scene is blocked in the goshiwon")
+	GameState.housing = "apartment"
+	_expect(EventManager.director_context_multiplier(back_pain) == 0.0,
+		"goshiwon mattress scene survives after moving")
+	_expect(EventManager.director_context_multiplier(neighbor_success) == 0.0,
+		"goshiwon neighbor-success scene survives after moving")
+	GameState.housing = "gosiwon"
+
+	var six_month_romance: Dictionary = DataRegistry.find_event("romance_045")
+	_expect(EventManager.director_context_multiplier(six_month_romance) == 0.0,
+		"six-month partner scene can appear before any romance")
+	GameState.flags["daeun_romance_started"] = true
+	_expect(EventManager.director_context_multiplier(six_month_romance) > 0.0,
+		"six-month partner scene stays blocked during an active romance")
+	GameState.flags.erase("daeun_romance_started")
 
 	var introduction: Dictionary = DataRegistry.find_event("sangchul_meet")
 	var callback: Dictionary = DataRegistry.find_event("callback_told_sangchul_truth_echo")
@@ -125,8 +155,14 @@ func _check_once_and_repeat_policy() -> void:
 
 func _check_authored_bypass() -> void:
 	var story: Dictionary = DataRegistry.find_event("story_flashforward")
+	var scheduled_arc: Dictionary = DataRegistry.find_event("arc_paycheck_reality")
+	var direct_follow_up: Dictionary = DataRegistry.find_event("yolo_morning_after")
 	var counts_before := GameState.random_event_counts.duplicate(true)
 	_expect(not EventManager.is_directed_random_event(story), "authored story entered the random director")
+	_expect(not EventManager.is_directed_random_event(scheduled_arc),
+		"scheduled arc entered the random director")
+	_expect(not EventManager.is_directed_random_event(direct_follow_up),
+		"direct follow-up entered the random director")
 	_expect_close(EventManager.director_context_multiplier(story), 1.0,
 		"authored story received contextual weighting")
 	EventManager.register_directed_event(story)

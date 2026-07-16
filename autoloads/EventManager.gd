@@ -8,6 +8,7 @@ var current_event: Dictionary = {}
 var event_cooldowns: Dictionary = {}
 var recent_event_ids: Array = []
 var director_rules: Dictionary = {}
+var _follow_up_target_ids: Dictionary = {}
 
 const EVENT_DIRECTOR_PATH := "res://content/meta/event_director.json"
 
@@ -65,17 +66,40 @@ func _load_director_rules() -> void:
 	var parsed: Variant = JSON.parse_string(file.get_as_text())
 	if parsed is Dictionary:
 		director_rules = parsed
+		_rebuild_follow_up_targets()
 		return
 	push_error("Event director manifest is not a dictionary: %s" % EVENT_DIRECTOR_PATH)
 	director_rules = {}
+	_follow_up_target_ids.clear()
+
+func _rebuild_follow_up_targets() -> void:
+	_follow_up_target_ids.clear()
+	for event in DataRegistry.events:
+		var event_follow_up := str(event.get("follow_up_event", ""))
+		if not event_follow_up.is_empty():
+			_follow_up_target_ids[event_follow_up] = true
+		for choice in event.get("choices", []):
+			for key in ["follow_up_event", "deferred_follow_up"]:
+				var target := str(choice.get(key, ""))
+				if not target.is_empty():
+					_follow_up_target_ids[target] = true
 
 func is_directed_random_event(event: Dictionary) -> bool:
 	var event_id := str(event.get("id", ""))
 	if event_id.is_empty() or DataRegistry.find_event(event_id).is_empty():
 		return false
-	return str(event.get("rarity", "")) != "story" \
-		and str(event.get("category", "")) != "story" \
-		and float(event.get("weight", 1.0)) > 0.0
+	if str(event.get("rarity", "")) == "story" \
+			or str(event.get("category", "")) == "story" \
+			or float(event.get("weight", 1.0)) <= 0.0:
+		return false
+	var scope: Dictionary = director_rules.get("scope", {})
+	for raw_prefix in scope.get("excluded_id_prefixes", []):
+		if event_id.begins_with(str(raw_prefix)):
+			return false
+	if bool(scope.get("exclude_follow_up_targets", true)) \
+			and _follow_up_target_ids.has(event_id):
+		return false
+	return true
 
 func _matching_director_row(rows: Array, value: float) -> Dictionary:
 	for row_value in rows:
@@ -119,8 +143,27 @@ func director_context_multiplier(event: Dictionary) -> float:
 	if not is_directed_random_event(event):
 		return 1.0
 	var tags: Array = event.get("tags", [])
+	var event_id := str(event.get("id", ""))
+	var explicit_requirements: Dictionary = director_rules.get(
+		"context_requirements", {}).get(event_id, {})
 	var employment: Dictionary = director_rules.get("employment", {})
 	var has_job := not GameState.current_job.is_empty()
+	if explicit_requirements.has("has_job") \
+			and has_job != bool(explicit_requirements.get("has_job", false)):
+		return 0.0
+	if bool(explicit_requirements.get("active_romance", false)):
+		var active_romance: bool = (
+			GameState.flags.get("daeun_romance_started", false) \
+			and not GameState.flags.get("daeun_divorced", false)
+		) or (
+			GameState.flags.get("jiyeon_romance_started", false) \
+			and not GameState.flags.get("jiyeon_left", false)
+		)
+		if not active_romance:
+			return 0.0
+	if explicit_requirements.has("housing_in") \
+			and not explicit_requirements.get("housing_in", []).has(GameState.housing):
+		return 0.0
 	var impossible_tags: Array = employment.get(
 		"requires_no_job_tags" if has_job else "requires_job_tags", [])
 	for tag in impossible_tags:
@@ -142,7 +185,7 @@ func director_context_multiplier(event: Dictionary) -> float:
 		if not tags.has(person_id):
 			continue
 		var introduction_ids: Array = introductions.get(person_id, [])
-		if introduction_ids.has(str(event.get("id", ""))):
+		if introduction_ids.has(event_id):
 			continue
 		if not GameState.cast_has_met(person_id):
 			return float(relationship_rules.get("unknown_multiplier", 0.0))
@@ -195,7 +238,7 @@ func process_month_events():
 func select_random_event():
 	var eligible: Array = []
 	for event in DataRegistry.events:
-		if _is_event_eligible(event):
+		if is_directed_random_event(event) and _is_event_eligible(event):
 			eligible.append(event)
 	return _weighted_pick(eligible)
 
@@ -205,6 +248,8 @@ func draw_situations(count: int) -> Array:
 	_tick_cooldowns()
 	var eligible: Array = []
 	for event in DataRegistry.events:
+		if not is_directed_random_event(event):
+			continue
 		if not _is_event_eligible(event):
 			continue
 		if str(event.get("rarity", "")) == "story":
@@ -249,6 +294,7 @@ func action_echo_match(event: Dictionary) -> Dictionary:
 		return {}
 	var recent_action_rules: Dictionary = director_rules.get("recent_action", {})
 	var prior_strength := float(recent_action_rules.get("prior_week_strength", 0.55))
+	var prior_multiplier := float(recent_action_rules.get("prior_week_multiplier", 1.88))
 	var max_multiplier := float(recent_action_rules.get("max_multiplier", 2.6))
 	var recent: Dictionary = GameState.get_recent_action_echoes(prior_strength)
 	var best_family := ""
@@ -260,10 +306,15 @@ func action_echo_match(event: Dictionary) -> Dictionary:
 			best_family = str(family)
 	if best_family.is_empty():
 		return {}
+	var resolved_multiplier := 1.0
+	if best_strength >= 0.99:
+		resolved_multiplier = max_multiplier
+	elif best_strength >= prior_strength - 0.001:
+		resolved_multiplier = prior_multiplier
 	return {
 		"family": best_family,
 		"strength": best_strength,
-		"multiplier": lerpf(1.0, max_multiplier, clampf(best_strength, 0.0, 1.0)),
+		"multiplier": resolved_multiplier,
 	}
 
 func action_echo_multiplier(event: Dictionary) -> float:

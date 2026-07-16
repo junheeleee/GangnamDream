@@ -1,5 +1,11 @@
 {
   "schema": 1,
+  "scope": {
+    "excluded_id_prefixes": [
+      "arc_"
+    ],
+    "exclude_follow_up_targets": true
+  },
   "default_policy": {
     "once_per_run": true,
     "max_per_run": 1,
@@ -8,7 +14,8 @@
   },
   "recent_action": {
     "max_multiplier": 2.6,
-    "prior_week_strength": 0.55
+    "prior_week_strength": 0.55,
+    "prior_week_multiplier": 1.88
   },
   "chapter_windows": [
     {
@@ -206,6 +213,27 @@
       "commute"
     ],
     "requires_no_job_tags": []
+  },
+  "context_requirements": {
+    "delivery_app_temptation": {
+      "has_job": true
+    },
+    "romance_034": {
+      "has_job": true
+    },
+    "romance_045": {
+      "active_romance": true
+    },
+    "health_back_pain": {
+      "housing_in": [
+        "gosiwon"
+      ]
+    },
+    "rare_goshiwon_neighbor_success": {
+      "housing_in": [
+        "gosiwon"
+      ]
+    }
   },
   "housing": {
     "tag_requirements": {
