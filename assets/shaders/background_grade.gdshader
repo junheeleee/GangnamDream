@@ -14,6 +14,7 @@ uniform float edge_burn : hint_range(0.0, 0.35) = 0.08;
 uniform float print_screen : hint_range(0.0, 0.12) = 0.012;
 uniform float tone_quantize : hint_range(0.0, 1.0) = 0.0;
 uniform float screen_scale : hint_range(120.0, 1200.0) = 620.0;
+uniform float blur_px : hint_range(0.0, 2.0) = 0.0;
 uniform float seed = 0.0;
 
 float hash(vec2 p) {
@@ -21,7 +22,22 @@ float hash(vec2 p) {
 }
 
 void fragment() {
-	vec4 tex = texture(TEXTURE, UV) * COLOR;
+	vec4 tex;
+	if (blur_px < 0.01) {
+		tex = texture(TEXTURE, UV);
+	} else {
+		vec2 blur_step = TEXTURE_PIXEL_SIZE * blur_px;
+		tex = texture(TEXTURE, UV) * 0.40;
+		tex += texture(TEXTURE, UV + vec2( blur_step.x, 0.0)) * 0.12;
+		tex += texture(TEXTURE, UV + vec2(-blur_step.x, 0.0)) * 0.12;
+		tex += texture(TEXTURE, UV + vec2(0.0,  blur_step.y)) * 0.12;
+		tex += texture(TEXTURE, UV + vec2(0.0, -blur_step.y)) * 0.12;
+		tex += texture(TEXTURE, UV + vec2( blur_step.x,  blur_step.y)) * 0.03;
+		tex += texture(TEXTURE, UV + vec2(-blur_step.x,  blur_step.y)) * 0.03;
+		tex += texture(TEXTURE, UV + vec2( blur_step.x, -blur_step.y)) * 0.03;
+		tex += texture(TEXTURE, UV + vec2(-blur_step.x, -blur_step.y)) * 0.03;
+	}
+	tex *= COLOR;
 	float lum = dot(tex.rgb, vec3(0.299, 0.587, 0.114));
 	vec3 graded = mix(tex.rgb, vec3(lum), desaturation);
 	graded = (graded - vec3(0.5)) * contrast + vec3(0.5);

@@ -324,7 +324,7 @@ Codex가 오더 없이 `content/meta/story_rules.json`(언어 독립 서사 사�
 7. **"이번 주의 압박" 프레임**(ORDER-22 인박스·시계와 통합): 매주 초점 하나(월세 D-day·다은 무응답·면접 결과일) — AP 행동이 그 압박에 응답하는 수단이 되게. "붕 뜸"의 직접 처방.
 **검증**: CONVERGENCE_REPORT가 아키타입별 실질 발산을 보이는가(자동) + 유저 Round: "1번과 2번을 누를 때 고민이 됐는가 / 다르게 플레이하면 다른 5년이 될 것 같은가"(체감). 둘 다 GO여야 닫힘.
 
-#### [~] ORDER-29 [P0·비주얼/거실] Living Scene — 정지 CG를 살아 있는 서울 장면으로 (유저 직접 지시 2026-07-16)
+#### [x] ORDER-29 [P0·비주얼/거실] Living Scene — 정지 CG를 살아 있는 서울 장면으로 (유저 직접 지시 2026-07-16)
 **StoryMode 수직 슬라이스 착수 (2026-07-16 Codex) — 만지는 파일:** `scenes/ui/LivingSceneLayer.gd`, `scenes/ui/LivingSceneLayer.gd.uid`, `assets/shaders/living_scene_fx.gdshader`, `assets/shaders/background_grade.gdshader`, `scenes/StoryMode.gd`, `tools/LivingSceneCheck.gd`, `tools/LivingSceneCheck.gd.uid`, `tools/LivingSceneCheck.tscn`, `tools/ScreenshotQA.gd`, `tools/audit.sh`, `docs/GANGNAM_INK_ART_DIRECTION.md`, `docs/MASTER_RELEASE_AUDIT.md`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
 > 목표는 레퍼런스의 외형 복제가 아니라 PS5 패드와 큰 TV에서 “정지 사진 위 웹 UI”로 보이지 않는 장면 호흡이다. 기존 Gangnam Ink, Moral Tint, 장소 오디오, 카메라 지시를 보존하면서 화면의 전경·중경·후경이 서로 다른 속도로 살아 있게 한다.
 1. **공통 Living Scene 계층:** StoryMode 배경과 초상/UI 사이에 절차적 날씨·공기 레이어를 둔다. 비, 눈, 안개/기억, 도시 빛, 불꽃을 장소·이벤트 ID·통신 채널에서 결정론적으로 추론하고, 장면 전환 때만 프로필을 바꾼다. 일반 실내는 효과를 억지로 넣지 않는다.
@@ -334,6 +334,7 @@ Codex가 오더 없이 `content/meta/story_rules.json`(언어 독립 서사 사�
 5. **영상 사용 원칙:** 동영상 파일은 오프닝·챕터 보스·핵심 엔딩 6~10개 후보에만 검토한다. 일반 사건은 레이어형 실시간 연출을 사용해 용량·압축·언어·분기 정합을 지킨다. 소유권/라이선스가 불명확한 영상은 금지한다.
 6. **접근성·성능:** Reduce Motion에서는 카메라/초상 호흡을 정지하고 날씨 속도·불꽃을 감쇠한다. 첫 파동은 기존 설정값을 읽는 비노출 안전 폴백만 구현하고, 표시 옵션은 ORDER-16 입력·해상도 매트릭스에서 정식 표면화한다.
 7. **검증:** 비·눈·기억/안개·불꽃·중립 장면 프로필, 명시 카메라 우선, 숨은 Moral 비노출, KO/EN 동일 효과, 결과/선택 UI 비가림을 실행 게이트로 잠근다. 1920×1080 실렌더와 픽셀 샘플로 레이어가 실제 비어 있지 않고 텍스트·얼굴을 덮지 않는지 확인한다. 이 수직 슬라이스 뒤 AP 허브와 챕터 카드 확산을 별도 판정한다.
+**완료 보고 (2026-07-16 Codex):** 배경-초상/UI 사이 공통 계층, 의미 기반 비·눈·기억·도시 빛·폭죽, 0~2px 배경 전용 blur, 명시 카메라 우선과 1~2% 기본 호흡, 대면 초상 0.3% 호흡, Black의 생기 감쇠/잔상과 White의 깊이 회복, Reduce Motion 폴백을 구현했다. 1920×1080 KO/EN 각 5장면에서 레이어 순서·안전 영역을 확인했고, 최종 조정 뒤 독립 비 프레임 960표본 중 EN 19/KO 15개 변화로 실제 운동을 통과했다. 일반 실내는 입자 0이며 영상은 짧고 스킵 가능한 오프닝·보스·핵심 엔딩 후보에만 제한한다.
 
 #### [ ] ORDER-27 [P2·자문] 판매 톤 의견 — "성공의 대가" vs "성공 판타지" (유저 요청: Codex 판단도 듣고 싶다)
 > Claude·유저는 "성공의 대가"(긴장) 쪽으로 기울었으나 미확정. Codex는 게임을 코드/데이터로 만지는 입장에서 **근거 있는 의견**을 낸다 — 최종 결정은 유저.

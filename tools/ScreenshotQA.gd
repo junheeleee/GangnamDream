@@ -18,6 +18,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-presence --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-audio --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-moral --lang=en
+##       godot --rendering-driver opengl3 --resolution 1920x1080 res://tools/ScreenshotQA.tscn -- --qa=living-scene --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=romance-cg
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=romance-portraits
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=namsan --lang=en
@@ -74,6 +75,7 @@ const QA_SCOPE_STORY_EN := "story_en"
 const QA_SCOPE_STORY_PRESENCE := "story_presence"
 const QA_SCOPE_STORY_AUDIO := "story_audio"
 const QA_SCOPE_STORY_MORAL := "story_moral"
+const QA_SCOPE_LIVING_SCENE := "living_scene"
 const QA_SCOPE_MORAL_ANCHORS := "moral_anchors"
 const QA_SCOPE_ROMANCE_CG := "romance_cg"
 const QA_SCOPE_ROMANCE_PORTRAITS := "romance_portraits"
@@ -136,6 +138,13 @@ func _ready() -> void:
 		await _shot_casino_suite(prefix)
 		await _dispose_main_game()
 		print("SCREENSHOT_QA_DONE scope=casino lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_LIVING_SCENE:
+		var lang := _qa_language("en")
+		await _shot_living_scene_surfaces(
+			lang, "living_en_" if lang == "en" else "living_ko_")
+		print("SCREENSHOT_QA_DONE scope=living-scene lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_MORAL:
@@ -488,6 +497,10 @@ func _qa_scope() -> String:
 		args.append(str(raw))
 	for raw in args:
 		var arg := raw.strip_edges().to_lower()
+		if arg in ["living-scene", "living_scene", "living", "--living-scene", "--living_scene",
+				"qa=living-scene", "--qa=living-scene", "qa=living_scene", "--qa=living_scene",
+				"scope=living-scene", "--scope=living-scene"]:
+			return QA_SCOPE_LIVING_SCENE
 		if arg in ["moral", "moral-tint", "moral_tint", "--moral", "--moral-tint", "--moral_tint",
 				"qa=moral", "--qa=moral", "qa=moral-tint", "--qa=moral-tint",
 				"scope=moral", "--scope=moral", "scope=moral-tint", "--scope=moral-tint"]:
@@ -1070,12 +1083,106 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	_assert_commitment_visual_state(story, event_id, select_choice)
 	_assert_breakup_visual_state(story, event_id, select_choice)
 	_assert_transport_visual_state(story, event_id)
+	_assert_living_scene_state(story, event_id)
 	await _save(shot_name)
 	_remove_nodes_by_script("res://scenes/StoryMode.gd")
 	if suppress_cg and had_cg:
 		overridden_event["cg"] = original_cg
 	GameState.pending_story_queue.clear()
 	await _settle(0.3)
+
+func _shot_living_scene_surfaces(lang: String, prefix: String) -> void:
+	await _shot_story_event("kx_monsoon", prefix + "01_rain", lang, 1.5, true)
+	await _shot_story_event("arc_season_snow_daeun", prefix + "02_snow", lang, 1.5, true)
+	await _shot_story_event("callback_proactive_parent_care_echo", prefix + "03_memory", lang, 1.5, true)
+	await _shot_story_event("arc_season_fireworks_daeun", prefix + "04_fireworks", lang, 1.5, true)
+	await _shot_story_event("arc_job_first_rejection", prefix + "05_neutral", lang, 1.5, true)
+	await _verify_living_scene_motion(lang)
+
+func _verify_living_scene_motion(lang: String) -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	_prepare_story_event_fixture("kx_monsoon")
+	GameState.pending_story_queue = ["kx_monsoon"]
+	var packed: PackedScene = load("res://scenes/StoryMode.tscn")
+	var story := packed.instantiate()
+	get_tree().root.add_child.call_deferred(story)
+	await get_tree().process_frame
+	if story.has_method("_set_auto_mode"):
+		story._set_auto_mode(false, false)
+	await _settle(0.45)
+	var probe_bg := story.get("_bg_img") as TextureRect
+	var probe_layer := story.get("_living_scene") as LivingSceneLayer
+	RenderingServer.force_draw()
+	await get_tree().process_frame
+	var position_a := probe_bg.position if is_instance_valid(probe_bg) else Vector2.ZERO
+	var scale_a := probe_bg.scale if is_instance_valid(probe_bg) else Vector2.ONE
+	var first := get_viewport().get_texture().get_image().duplicate() as Image
+	first.save_png("%s/living_motion_a.png" % OUT_DIR)
+	await _settle(0.85)
+	RenderingServer.force_draw()
+	await get_tree().process_frame
+	var position_b := probe_bg.position if is_instance_valid(probe_bg) else Vector2.ZERO
+	var scale_b := probe_bg.scale if is_instance_valid(probe_bg) else Vector2.ONE
+	var second := get_viewport().get_texture().get_image().duplicate() as Image
+	second.save_png("%s/living_motion_b.png" % OUT_DIR)
+	var changed := 0
+	var sampled := 0
+	var max_delta := 0.0
+	var max_x := mini(first.get_width(), 1380)
+	var max_y := mini(first.get_height(), 650)
+	for y in range(90, max_y, 28):
+		for x in range(40, max_x, 28):
+			sampled += 1
+			var a := first.get_pixel(x, y)
+			var b := second.get_pixel(x, y)
+			var delta := absf(a.r - b.r) + absf(a.g - b.g) + absf(a.b - b.b)
+			max_delta = maxf(max_delta, delta)
+			if delta > 0.010:
+				changed += 1
+	print("LIVING_MOTION_STATE effect=%s camera=%s tween=%s pos=%s->%s scale=%s->%s" % [
+		str(probe_layer.current_profile.get("effect", "missing")) if is_instance_valid(probe_layer) else "missing",
+		str(probe_layer.current_profile.get("camera", "missing")) if is_instance_valid(probe_layer) else "missing",
+		str(story.get("_direction_camera_tween") != null), position_a, position_b, scale_a, scale_b])
+	if changed < 8:
+		_fail("Living Scene motion probe is effectively static (%d/%d samples changed, max=%.4f bg=%s/%s scale=%s/%s layer=%s)." % [
+			changed, sampled, max_delta, position_a, position_b, scale_a, scale_b,
+			probe_layer.size if is_instance_valid(probe_layer) else Vector2.ZERO])
+	else:
+		print("LIVING_MOTION_PROBE changed=%d sampled=%d" % [changed, sampled])
+	_remove_nodes_by_script("res://scenes/StoryMode.gd")
+	GameState.pending_story_queue.clear()
+	await _settle(0.25)
+
+func _assert_living_scene_state(story: Node, event_id: String) -> void:
+	var expected := {
+		"kx_monsoon": "rain",
+		"arc_season_snow_daeun": "snow",
+		"callback_proactive_parent_care_echo": "memory",
+		"arc_season_fireworks_daeun": "fireworks",
+		"arc_job_first_rejection": "none",
+	}
+	if not expected.has(event_id):
+		return
+	var profile: Dictionary = story.get("_living_profile")
+	var actual_effect := str(profile.get("effect", "<missing>"))
+	if actual_effect != str(expected[event_id]):
+		_fail("%s living effect expected %s, got %s." % [event_id, expected[event_id], actual_effect])
+		return
+	if float(profile.get("blur_px", 99.0)) > 2.0:
+		_fail("%s living blur exceeded 2px." % event_id)
+		return
+	var layer := story.get("_living_scene") as Control
+	var portrait := story.get("_portrait_frame") as Control
+	var text_panel := story.get("_text_panel") as Control
+	if not is_instance_valid(layer) or not is_instance_valid(portrait) or not is_instance_valid(text_panel):
+		_fail("%s living layer hierarchy is incomplete." % event_id)
+		return
+	if layer.get_index() >= portrait.get_index() or layer.get_index() >= text_panel.get_index():
+		_fail("%s living particles render above portrait or text." % event_id)
+		return
+	if actual_effect != "none" and not layer.visible:
+		_fail("%s living effect is configured but hidden." % event_id)
 
 func _assert_hyunsu_visual_state(story: Node, event_id: String, selected_choice: int) -> void:
 	var expected_portrait_id := ""

@@ -114,6 +114,7 @@ If a feature does not strengthen one of these, improve usability or create delig
 - A relationship hook, financial hook, and moral discomfort are all active.
 - No required text is below the Steam Deck readability floor.
 - The player voluntarily reads at least one result instead of skipping every card.
+- Authored rain, snow, memory, city-light, and fireworks scenes have perceptible depth or air while ordinary interiors do not receive decorative particles.
 
 ### Gate C: Demo End
 
@@ -139,6 +140,7 @@ If a feature does not strengthen one of these, improve usability or create delig
 - Controller-only completion is possible without mouse rescue or focus hunting.
 - 720p, Steam Deck, 1080p, QHD, 4K, and 21:9 preserve the same command hierarchy without stretched art, clipped text, or unsafe-edge controls.
 - Key art, title screen, story mode, AP, minigames, and endings look like one authored product.
+- Story motion remains readable and nonblank at 1080p/4K, preserves faces and text, honors Reduce Motion, and never replaces branch logic with an unskippable video.
 - Asset source, license, and modification records are complete.
 
 ### Gate F: Million-Copy Commercial Candidate

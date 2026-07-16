@@ -171,6 +171,13 @@ Automated audio gates:
 - `BGMContinuityCheck.tscn` must keep the weekly hub and ordinary random events on housing/season ambience without starting music, preserve same-context playback and Moral Tint texture changes, insert the authored-arc silence, and reserve explicit music for punctuation/menu/ending states.
 - `ImmersionLoopCheck.tscn` must prove two-week action memory and serialization, precise no-leak event families, ×2.6/×1.88 echo strength, ×0.42 filler attenuation, deterministic quiet-week bands, localized causal frames, season/housing vignettes, non-mutating arc omens, rent deadlines, and SFX mix trims.
 
+Automated Living Scene gates:
+
+- `LivingSceneCheck.tscn` must route rain, first snow, memory, fireworks, city light, and neutral scenes from stable IDs/backgrounds/tags/channels only; description text cannot create weather.
+- Authored `direction.camera` always wins. Reduce Motion stops camera and portrait breathing and reduces particle motion; remote/memory/CG portraits never breathe like a local body.
+- Moral Black must reduce atmospheric life and motion while increasing only a bounded afterimage; White may restore air but cannot exceed the 2px background blur cap.
+- `ScreenshotQA --qa=living-scene --lang=ko/en` runs at 1920x1080, captures five profiles, checks layer order below portraits/text, and compares two independent rain frames. At least eight of 960 upper-scene samples must change; neutral scenes remain particle-free.
+
 ## Launch
 - Project opens in Godot 4.6.
 - Start screen loads.
@@ -225,4 +232,5 @@ Automated audio gates:
 - Event choices fit on screen.
 - Opening choices folds the dialogue panel away; dialogue and choice surfaces never cover the scene in two stacked layers.
 - Gray and Black StoryMode backgrounds retain readable architecture, eye-lines, and hand actions at 1280×800.
+- Living Scene particles and haze never cover the lower dialogue dock or the normal portrait face zone.
 - Notifications do not block important buttons.

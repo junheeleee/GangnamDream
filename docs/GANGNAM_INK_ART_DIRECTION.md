@@ -97,6 +97,19 @@ The target is **Korean social-reality VN with Japanese scene readability**, not 
 - White transitions: brief clarity lift, quieter edge, cleaner text.
 - Neutral transitions: fast matte crossfade with subtle paper grain.
 
+## Living Scene Motion Grammar
+
+Gangnam Dream should not read as a slideshow, but motion must come from the physical scene rather than a decorative overlay preset.
+
+- **Real-time by default:** rain, first snow, memory haze, restrained city-light change, fireworks residue, 1-2% background push/drift, and 0.2-0.4% in-person portrait breathing are layered in Godot. They stay branch-safe, resolution-independent, and do not restart narrative audio.
+- **Semantic ownership:** weather comes only from event/background/tag contracts, memory haze only from a memory channel or explicit direction, and fireworks only from a festival event. Prose keywords never infer an effect. A generic interior remains still except for restrained camera depth.
+- **Layer order:** grading and optional 0-2px blur affect the background only; atmosphere sits above the background and below every portrait, badge, choice, and dialogue surface. The lower dialogue area and the normal right-side face area are shader safe zones.
+- **Moral behavior:** Black removes living air and slows movement while leaving a faint mechanical afterimage. White restores depth and ordinary air; it does not increase exposure or add a holy glow. The hidden system remains unlabelled.
+- **Accessibility:** `reduce_motion` stops camera and portrait travel and reduces particle speed/intensity. The persistent setting is already consumed by StoryMode; the player-facing control and full input/resolution matrix belong to ORDER-16.
+- **Performance:** the background grade uses one texture sample when blur is zero and a bounded nine-tap kernel only at an authored focus beat. The atmosphere surface is hidden for neutral scenes with no Black afterimage.
+
+Pre-rendered video is reserved for a short, skippable set of opening, chapter-boss punctuation, and flagship ending candidates. It must have a static/reduced-motion fallback, external localized subtitles, owned audio stems, and a recorded license/source. General events, weather, and relationship branches never become MP4 footage merely to look expensive; that would increase size, compression artifacts, and continuity debt while removing Moral Tint responsiveness.
+
 ## Cross-Modal Era Lock
 
 The image and sound must feel made by the same 2026 Seoul production. Gangnam Ink is contemporary illustration, so its default soundtrack cannot use chiptune, 8-bit oscillators, arcade lasers, retro menu bleeps, or exaggerated mobile-game reward sounds.
@@ -131,6 +144,8 @@ For White-route variants add:
 - `assets/shaders/background_grade.gdshader` desaturates all event backgrounds and adds subtle paper grain, ink bleed, pale fade, and edge burn.
 - `assets/shaders/background_grade.gdshader` also adds a restrained print-screen texture and very light tonal stepping. Black makes the printed surface rougher; White clears it back down.
 - `assets/shaders/moral_surface.gdshader` adds Black ink corrosion, screen scarring, and White clarity without brown rust.
+- `scenes/ui/LivingSceneLayer.gd` and `assets/shaders/living_scene_fx.gdshader` add semantic rain, snow, memory, city-light, and fireworks profiles below actors and UI.
+- `assets/shaders/background_grade.gdshader` owns the bounded background-only focus blur; portraits keep `blur_px = 0`.
 - `scenes/MainGame.gd` drives those parameters from `GameState.moral_tint_norm()` so the same background changes with the player.
 
 ## QA Checklist

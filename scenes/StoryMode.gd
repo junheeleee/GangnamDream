@@ -30,6 +30,7 @@ var _pending_after_result: bool = false
 var _pending_follow_up: String = ""
 var _direction: Dictionary = {}
 var _direction_camera_tween: Tween = null
+var _portrait_idle_tween: Tween = null
 var _direction_hold_active: bool = false
 var _direction_hold_consumed: bool = false
 var _direction_hold_remaining: float = 0.0
@@ -47,6 +48,8 @@ var _story_surface_overlay: ColorRect = null
 var _story_surface_material: ShaderMaterial = null
 var _story_bg_material: ShaderMaterial = null
 var _story_portrait_material: ShaderMaterial = null
+var _living_scene: LivingSceneLayer = null
+var _living_profile: Dictionary = {}
 var _portrait: TextureRect
 var _portrait_frame: PanelContainer
 var _name_panel: PanelContainer
@@ -155,6 +158,11 @@ func _on_story_moral_tint_changed(norm: float, stage: int) -> void:
 	_story_moral_norm = clampf(norm, -1.0, 1.0)
 	_story_moral_stage = stage
 	_apply_story_surface_palette(_current_uses_cg)
+	if is_instance_valid(_living_scene) and not _living_profile.is_empty():
+		_living_scene.update_moral(_story_moral_norm)
+		_living_profile = _living_scene.current_profile.duplicate(true)
+		_set_living_background_blur(_showing_choices)
+		_start_portrait_idle_motion()
 	_pulse_story_moral_echo(norm, stage)
 
 func _story_palette() -> Dictionary:
@@ -445,6 +453,7 @@ func _build_ui():
 		_story_bg_material.set_shader_parameter("print_screen", 0.006)
 		_story_bg_material.set_shader_parameter("tone_quantize", 0.008)
 		_story_bg_material.set_shader_parameter("screen_scale", 620.0)
+		_story_bg_material.set_shader_parameter("blur_px", 0.0)
 		_story_bg_material.set_shader_parameter("seed", 0.0)
 		_bg_img.material = _story_bg_material
 	_bg_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -474,7 +483,13 @@ func _build_ui():
 		_story_surface_overlay.material = _story_surface_material
 	add_child(_story_surface_overlay)
 
-	# 4. 클릭 받는 전체 버튼 (타이핑 스킵/다음)
+	# 4. 장면 공기 — 배경 필름 위, 입력·초상·텍스트 아래에서만 움직인다.
+	_living_scene = LivingSceneLayer.new()
+	_living_scene.name = "LivingScene"
+	_living_scene.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_living_scene)
+
+	# 5. 클릭 받는 전체 버튼 (타이핑 스킵/다음)
 	var click_catcher = Button.new()
 	click_catcher.flat = true
 	click_catcher.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -482,7 +497,7 @@ func _build_ui():
 	click_catcher.pressed.connect(_on_advance)
 	add_child(click_catcher)
 
-	# 5. 인물 초상화 — 우측 하단, 배경 위에 직접 표시.
+	# 6. 인물 초상화 — 우측 하단, 배경 위에 직접 표시.
 	_portrait_frame = PanelContainer.new()
 	_portrait_frame.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
 	_portrait_frame.offset_left = PORTRAIT_OFFSET_LEFT
@@ -522,6 +537,7 @@ func _build_ui():
 		_story_portrait_material.set_shader_parameter("print_screen", 0.003)
 		_story_portrait_material.set_shader_parameter("tone_quantize", 0.0)
 		_story_portrait_material.set_shader_parameter("screen_scale", 700.0)
+		_story_portrait_material.set_shader_parameter("blur_px", 0.0)
 		_story_portrait_material.set_shader_parameter("seed", 0.0)
 		_portrait.material = _story_portrait_material
 	_portrait_frame.add_child(_portrait)
@@ -1126,6 +1142,7 @@ func _render_current():
 			if bp != "" and ResourceLoader.exists(bp):
 				_bg_img.texture = load(bp)
 				_event_background_id = bg_id
+	_current_presentation = DataRegistry.get_story_presentation(str(_current.get("id", "")))
 	_apply_story_surface_palette(_current_uses_cg)
 	if str(_current.get("background", "")) == "current_housing" and not _current_uses_cg:
 		BGMPlayer.update_idle_ambience()
@@ -1134,8 +1151,8 @@ func _render_current():
 	BGMPlayer.begin_story_event(_current, _event_cg_id)
 	AudioManager.begin_story_audio_event(str(_current.get("id", "")))
 	AudioManager.play_event_cue(_current)
+	_configure_living_scene()
 	_apply_scene_direction_entry()
-	_current_presentation = DataRegistry.get_story_presentation(str(_current.get("id", "")))
 
 	# 초상화 + 이름표 — bg_focus:true 장면은 배경만(초상화 생략)
 	var pid := _resolved_event_portrait_id()
@@ -1247,6 +1264,7 @@ func _maybe_change_event_background(paragraph_index: int) -> void:
 	_play_story_ink_transition("scene", 0.35)
 	_bg_img.texture = load(path)
 	_apply_story_surface_palette(false)
+	_configure_living_scene()
 
 func _maybe_reveal_event_cg(paragraph_index: int) -> void:
 	if _current_uses_cg or _event_cg_path.is_empty():
@@ -1264,6 +1282,7 @@ func _maybe_reveal_event_cg(paragraph_index: int) -> void:
 	_play_story_ink_transition("scene", 0.65)
 	_bg_img.texture = load(_event_cg_path)
 	_apply_story_surface_palette(true)
+	_configure_living_scene()
 	BGMPlayer.update_event_ambience(_current, _event_cg_id)
 	_show_portrait(_resolved_event_portrait_id(), true)
 	if _hud_panel != null and is_instance_valid(_hud_panel):
@@ -1357,7 +1376,9 @@ func _show_portrait(portrait_id: String, bg_only: bool = false):
 		_portrait_frame.modulate = Color(1, 1, 1, 0)
 		var tw = create_tween()
 		tw.tween_property(_portrait_frame, "modulate", Color(1, 1, 1, _portrait_target_alpha), 0.4)
+		_start_portrait_idle_motion()
 	else:
+		_stop_portrait_idle_motion()
 		_portrait.texture = null
 		_portrait_frame.visible = false
 
@@ -1395,6 +1416,7 @@ func _set_portrait_choice_focus(choices_visible: bool) -> void:
 	tw.tween_property(_portrait_frame, "offset_right", _portrait_base_right() + target_shift, 0.22).set_trans(Tween.TRANS_SINE)
 
 func _set_choice_dock_active(active: bool) -> void:
+	_set_living_background_blur(active)
 	if active:
 		_name_panel_visible_before_choices = is_instance_valid(_name_panel) and _name_panel.visible
 		if is_instance_valid(_text_panel):
@@ -1420,6 +1442,12 @@ func _reset_scene_direction() -> void:
 	if _direction_camera_tween and _direction_camera_tween.is_running():
 		_direction_camera_tween.kill()
 	_direction_camera_tween = null
+	_stop_portrait_idle_motion()
+	_living_profile = {}
+	if is_instance_valid(_living_scene):
+		_living_scene.clear_profile()
+	if _story_bg_material:
+		_story_bg_material.set_shader_parameter("blur_px", 0.0)
 	if is_instance_valid(_bg_img):
 		_bg_img.scale = Vector2.ONE
 		_bg_img.position = Vector2.ZERO
@@ -1450,15 +1478,81 @@ func _apply_scene_direction_entry() -> void:
 	if not camera.is_empty():
 		_start_scene_direction_camera(camera)
 
+func _living_reduced_motion() -> bool:
+	return bool(SaveManager.get_setting(
+		"reduce_motion", SaveManager.get_setting("reduced_motion", false)))
+
+func _configure_living_scene(event_override: Dictionary = {}) -> void:
+	if not is_instance_valid(_living_scene):
+		return
+	var profile_event := event_override if not event_override.is_empty() else _current
+	var background_id := _event_background_id
+	if background_id.is_empty():
+		background_id = str(profile_event.get("background", ""))
+	_living_profile = _living_scene.configure(
+		profile_event,
+		background_id,
+		_event_cg_id,
+		_current_presentation,
+		_story_moral_norm,
+		_current_uses_cg,
+		_living_reduced_motion())
+	_set_living_background_blur(_showing_choices)
+	set_meta("living_scene_profile", _living_profile.duplicate(true))
+	set_meta("living_scene_effect", str(_living_profile.get("effect", "none")))
+	if str(_direction.get("camera", "")).is_empty():
+		_start_scene_direction_camera(str(_living_profile.get("camera", "none")))
+	_start_portrait_idle_motion()
+
+func _set_living_background_blur(choices_visible: bool) -> void:
+	if not _story_bg_material:
+		return
+	var blur_px := float(_living_profile.get("blur_px", 0.0))
+	if choices_visible:
+		blur_px += 0.16 if _current_uses_cg else 0.30
+	_story_bg_material.set_shader_parameter("blur_px", clampf(blur_px, 0.0, 2.0))
+
+func _stop_portrait_idle_motion() -> void:
+	if _portrait_idle_tween and _portrait_idle_tween.is_running():
+		_portrait_idle_tween.kill()
+	_portrait_idle_tween = null
+
+func _start_portrait_idle_motion() -> void:
+	_stop_portrait_idle_motion()
+	if not is_inside_tree() or not is_instance_valid(_portrait_frame) or not _portrait_frame.visible:
+		return
+	var breath := float(_living_profile.get("portrait_breath", 0.0))
+	if breath <= 0.0001:
+		return
+	var black := clampf(-_story_moral_norm, 0.0, 1.0)
+	var white := clampf(_story_moral_norm, 0.0, 1.0)
+	var base_scale := Vector2.ONE * (1.0 - black * 0.030 + white * 0.010)
+	_portrait_frame.pivot_offset = _portrait_frame.size * 0.5
+	_portrait_frame.scale = base_scale
+	_portrait_idle_tween = create_tween()
+	_portrait_idle_tween.bind_node(_portrait_frame)
+	_portrait_idle_tween.set_loops()
+	_portrait_idle_tween.tween_property(
+		_portrait_frame, "scale", base_scale * (1.0 + breath), 3.8
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_portrait_idle_tween.tween_property(
+		_portrait_frame, "scale", base_scale, 4.2
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
 func _start_scene_direction_camera(mode: String) -> void:
 	if not is_instance_valid(_bg_img) or _bg_img.texture == null:
+		return
+	if mode.is_empty() or mode == "none":
 		return
 	if _direction_camera_tween and _direction_camera_tween.is_running():
 		_direction_camera_tween.kill()
 	_bg_img.pivot_offset = _bg_img.size * 0.5
 	_bg_img.position = Vector2.ZERO
 	var text_length: int = str(_current.get("description", "")).length()
+	var living_camera := mode in ["living_push", "living_drift"]
 	var duration: float = clampf(7.0 + float(text_length) * 0.012, 7.0, 16.0)
+	if living_camera:
+		duration = clampf(12.0 + float(text_length) * 0.008, 12.0, 20.0)
 	_direction_camera_tween = create_tween()
 	_direction_camera_tween.set_trans(Tween.TRANS_SINE)
 	_direction_camera_tween.set_ease(Tween.EASE_IN_OUT)
@@ -1469,6 +1563,23 @@ func _start_scene_direction_camera(mode: String) -> void:
 		_bg_img.scale = Vector2(1.04, 1.04)
 		_bg_img.position = Vector2(-12.0, 0.0)
 		_direction_camera_tween.tween_property(_bg_img, "position", Vector2(12.0, 0.0), duration)
+	elif mode == "living_push":
+		var amount: float = clampf(float(_living_profile.get("camera_amount", 0.012)), 0.004, 0.020)
+		_bg_img.scale = Vector2.ONE
+		_direction_camera_tween.tween_property(
+			_bg_img, "scale", Vector2.ONE * (1.0 + amount), duration)
+	elif mode == "living_drift":
+		var amount: float = clampf(float(_living_profile.get("camera_amount", 0.012)), 0.004, 0.020)
+		var travel := clampf(get_viewport_rect().size.x * amount * 0.34, 4.0, 12.0)
+		_bg_img.scale = Vector2.ONE * (1.0 + amount)
+		_bg_img.position = Vector2(-travel, 0.0)
+		_direction_camera_tween.set_loops()
+		_direction_camera_tween.tween_property(
+			_bg_img, "position", Vector2(travel, 0.0), duration
+		).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		_direction_camera_tween.tween_property(
+			_bg_img, "position", Vector2(-travel, 0.0), duration
+		).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 func _direction_type_interval() -> float:
 	return TYPE_SPEED / 0.60 if str(_direction.get("pace", "")) == "slow" else TYPE_SPEED
@@ -2256,6 +2367,7 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 			if not _read_only_replay:
 				MetaProgression.record_cg_unlocked(result_cg_id)
 			_apply_story_surface_palette(true)
+			_configure_living_scene()
 			BGMPlayer.update_event_ambience(_current, result_cg_id)
 			_show_portrait(_resolved_event_portrait_id(), true)
 			if _hud_panel != null and is_instance_valid(_hud_panel):
@@ -2274,9 +2386,10 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 	_event_background_id = result_background_id
 	_current_uses_cg = false
 	_apply_story_surface_palette(false)
-	_show_portrait(_resolved_event_portrait_id(), bool(_current.get("bg_focus", false)))
 	var result_event: Dictionary = _current.duplicate(true)
 	result_event["background"] = result_background_id
+	_configure_living_scene(result_event)
+	_show_portrait(_resolved_event_portrait_id(), bool(_current.get("bg_focus", false)))
 	BGMPlayer.update_event_ambience(result_event)
 	if _hud_panel != null and is_instance_valid(_hud_panel):
 		_hud_panel.visible = not _story_visual_override_active
