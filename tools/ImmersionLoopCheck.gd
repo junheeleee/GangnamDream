@@ -11,6 +11,7 @@ func _ready() -> void:
 	_check_recent_action_echoes()
 	_check_event_causality()
 	_check_week_surface()
+	_check_demo_pressure_choices()
 	_check_arc_preview_read_only()
 	_check_sfx_mix()
 	LocaleManager.language = _original_language
@@ -20,7 +21,7 @@ func _ready() -> void:
 			push_error("IMMERSION_LOOP_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("IMMERSION_LOOP_CHECK_OK memory=2 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=2 vignette=2 omen=1 preview=2 rent=1 sfx=8")
+	print("IMMERSION_LOOP_CHECK_OK memory=2 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=2 vignette=2 omen=1 preview=2 rent=1 pressures=5 cards=3 sfx=8")
 	get_tree().quit(0)
 
 func _check_recent_action_echoes() -> void:
@@ -162,6 +163,85 @@ func _check_arc_preview_read_only() -> void:
 	if live_id != "arc_quit_job" or GameState.flags.has("just_quit_job"):
 		_fail("live quit-job query did not consume its one-shot flag: %s" % live_id)
 	game.free()
+
+func _check_demo_pressure_choices() -> void:
+	GameState.start_new_game()
+	GameState.turn = 1
+	GameState.month = 1
+	GameState.week_of_month = 1
+	GameState.housing = "gosiwon"
+	GameState.current_job = {}
+	GameState.monthly_income = 0.0
+	GameState.money = 500_000.0
+	GameState.health = 65
+	GameState.mental = 60
+	GameState.flags["arc_intro_meal_seen"] = true
+	var game = MainGameScript.new()
+
+	LocaleManager.language = "ko"
+	var state_before: Dictionary = GameState.serialize()
+	var employment: Dictionary = game._demo_week_pressure()
+	_check_pressure_contract(game, employment, "employment", ["apply", "resume", "side_shift"])
+	if GameState.serialize() != state_before:
+		_fail("demo pressure preview mutated GameState")
+
+	GameState.current_job = {"id": "job_03", "name": "사무직", "tier": 2}
+	GameState.monthly_income = 0.0
+	GameState.money = 0.0
+	GameState.week_of_month = 4
+	var rent: Dictionary = game._demo_week_pressure()
+	_check_pressure_contract(game, rent, "rent", ["side_shift", "save", "rest"])
+
+	GameState.health = 40
+	var condition: Dictionary = game._demo_week_pressure()
+	_check_pressure_contract(game, condition, "condition", ["rest", "side_shift", "contact"])
+
+	GameState.health = 65
+	GameState.mental = 65
+	GameState.money = 2_000_000.0
+	GameState.monthly_income = 2_500_000.0
+	GameState.week_of_month = 2
+	GameState.grind_streak_weeks = 3
+	var relationship: Dictionary = game._demo_week_pressure()
+	_check_pressure_contract(game, relationship, "relationship", ["contact", "side_shift", "rest"])
+
+	GameState.grind_streak_weeks = 0
+	GameState.flags["arc_invest_guidance_seen"] = true
+	GameState.flags.erase("investment_first_visited")
+	var capital: Dictionary = game._demo_week_pressure()
+	_check_pressure_contract(game, capital, "capital", ["invest", "save", "contact"])
+
+	LocaleManager.language = "en"
+	var capital_en: Dictionary = game._demo_week_pressure()
+	_check_pressure_contract(game, capital_en, "capital", ["invest", "save", "contact"])
+	var surface := "%s %s %s" % [
+		str(capital_en.get("title", "")), str(capital_en.get("question", "")), str(capital_en.get("detail", ""))]
+	if _contains_hangul(surface):
+		_fail("English demo pressure leaked Hangul: %s" % surface)
+	for hidden_word in ["moral", "route score", "morality score"]:
+		if surface.to_lower().contains(hidden_word):
+			_fail("demo pressure exposed hidden system vocabulary: %s" % hidden_word)
+	game.free()
+
+func _check_pressure_contract(game: Node, pressure: Dictionary, expected_id: String,
+		expected_actions: Array) -> void:
+	if str(pressure.get("id", "")) != expected_id:
+		_fail("demo pressure expected %s, got %s" % [expected_id, pressure])
+		return
+	var actions: Array = pressure.get("action_ids", [])
+	if actions != expected_actions or actions.size() != 3:
+		_fail("demo pressure %s must expose exactly three contextual actions: %s" % [expected_id, actions])
+	for raw_action_id in actions:
+		var action_id := str(raw_action_id)
+		var spec: Dictionary = game._demo_action_spec(action_id, str(pressure.get("person_id", "")))
+		if spec.is_empty() or str(spec.get("fn", "")).is_empty():
+			_fail("demo pressure %s has an unbound action: %s" % [expected_id, action_id])
+			continue
+		var preview := str(game._ap_action_preview(str(spec.get("fn", "")), str(spec.get("icon", "ap"))))
+		if not preview.contains("AP 1") or (not preview.contains("1~3주") and not preview.contains("1–3W")):
+			_fail("demo action %s lacks cost/risk/echo preview: %s" % [action_id, preview])
+		if LocaleManager.is_english() and _contains_hangul(preview):
+			_fail("English demo action preview leaked Hangul: %s" % preview)
 
 func _check_sfx_mix() -> void:
 	var expected := {

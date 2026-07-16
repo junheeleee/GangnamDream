@@ -108,6 +108,8 @@ If a feature does not strengthen one of these, improve usability or create delig
 ### Gate B: First 30 Minutes
 
 - The player can state a short-term plan for the next three weeks.
+- Each playable demo week presents one legible pressure and exactly three contextual responses before exposing the full action catalog.
+- Every primary response shows expectation, cost, a qualitative risk band, and a one-to-three-week echo before commitment without exposing Moral Tint or route scores.
 - At least one AP action contains anticipation, performance, and payoff rather than a single menu click.
 - A relationship hook, financial hook, and moral discomfort are all active.
 - No required text is below the Steam Deck readability floor.
@@ -119,6 +121,7 @@ If a feature does not strengthen one of these, improve usability or create delig
 - The player understands what another run could change.
 - EN and KO players receive the same events, choices, effects, CG timing, and ending teaser.
 - Demo completion, replay intent, and wishlist intent are measured with external testers.
+- Korean and English controller-input runs complete all 24 weeks, exercise both money and human time, and stop on the week-25 CTA with no stale AP overlay.
 
 ### Gate D: Full Run
 

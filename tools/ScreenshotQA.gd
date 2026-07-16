@@ -1397,6 +1397,7 @@ func _run_demo_input_route(lang: String = "en") -> void:
 	var stagnant_steps := 0
 	var completed := false
 	var last_reported_turn := 0
+	var ap_choice_attempts: Dictionary = {}
 	for _step in range(7000):
 		await get_tree().create_timer(0.015).timeout
 		var scene := get_tree().current_scene
@@ -1502,7 +1503,13 @@ func _run_demo_input_route(lang: String = "en") -> void:
 				pass
 			else:
 				var focused := get_viewport().gui_get_focus_owner()
-				if bool(scene.get("_transient_bg_active")):
+				var result_confirm := _find_visible_meta_button(scene, "ap_result_confirm")
+				if result_confirm != null:
+					result_confirm.grab_focus()
+					await get_tree().process_frame
+					await _press_qa_action("ui_accept")
+					input_count += 1
+				elif bool(scene.get("_transient_bg_active")):
 					var choice_surface := scene.get("choice_box") as Control
 					var confirm := _find_first_enabled_button(choice_surface) if is_instance_valid(choice_surface) else null
 					if confirm != null:
@@ -1510,20 +1517,40 @@ func _run_demo_input_route(lang: String = "en") -> void:
 						await get_tree().process_frame
 						await _press_qa_action("ui_accept")
 						input_count += 1
-				elif focused is Button and scene.is_ancestor_of(focused) \
-						and focused != scene.get("next_button") and cards.find(focused) < 0:
-					await _press_qa_action("ui_accept")
-					input_count += 1
-				elif GameState.action_points > 0 and cards.size() >= 4:
-					var rest_candidate: Variant = cards[3]
-					if not is_instance_valid(rest_candidate) or not rest_candidate is Button:
-						continue
-					var rest_card := rest_candidate as Button
-					if rest_card.disabled:
+				elif GameState.action_points > 0 and not cards.is_empty():
+					var playable_cards: Array[Button] = []
+					for candidate in cards:
+						var candidate_fn := str((candidate as Button).get_meta("ap_action_fn", "")) if candidate is Button else ""
+						if candidate is Button and is_instance_valid(candidate) \
+								and not (candidate as Button).is_queued_for_deletion() \
+								and (candidate as Button).is_inside_tree() \
+								and (candidate as Button).visible \
+								and bool((candidate as Button).get_meta("demo_pressure_primary", false)) \
+								and candidate_fn not in ["_ap_side_job", "_ap_write_resume", "_ap_job_hunt", "_ap_invest"] \
+								and not (candidate as Button).disabled:
+							playable_cards.append(candidate as Button)
+					# Rotate through the three visible responses. This exercises the controller-first
+					# decision stage itself instead of opening the legacy full list and always resting.
+					var action_card: Button = null
+					if not playable_cards.is_empty():
+						var used_slots := maxi(0, GameState.max_action_points - GameState.action_points)
+						var attempt_key := "%d:%d" % [GameState.turn, GameState.action_points]
+						var attempt := int(ap_choice_attempts.get(attempt_key, 0))
+						var choice_index := posmod(GameState.turn + used_slots - 1 + attempt, playable_cards.size())
+						ap_choice_attempts[attempt_key] = attempt + 1
+						action_card = playable_cards[choice_index]
+					elif cards.size() >= 4 and cards[3] is Button \
+							and is_instance_valid(cards[3]) \
+							and not (cards[3] as Button).is_queued_for_deletion() \
+							and (cards[3] as Button).is_inside_tree() \
+							and (cards[3] as Button).visible \
+							and not (cards[3] as Button).disabled:
+						action_card = cards[3] as Button
+					if action_card == null:
 						MetaProgression.data = original_meta
-						_fail("Demo input run could not focus the Rest action at week %d." % GameState.turn)
+						_fail("Demo input run found no playable AP response at week %d." % GameState.turn)
 						return
-					rest_card.grab_focus()
+					action_card.grab_focus()
 					await get_tree().process_frame
 					await _press_qa_action("ui_accept")
 					input_count += 1
@@ -1534,6 +1561,11 @@ func _run_demo_input_route(lang: String = "en") -> void:
 						await get_tree().process_frame
 						await _press_qa_action("ui_accept")
 						input_count += 1
+				elif focused is Button and scene.is_ancestor_of(focused) \
+						and focused != scene.get("next_button") and cards.find(focused) < 0 \
+						and focused.is_visible_in_tree() and not focused.disabled:
+					await _press_qa_action("ui_accept")
+					input_count += 1
 
 		if signature == last_signature:
 			stagnant_steps += 1
@@ -1564,9 +1596,14 @@ func _run_demo_input_route(lang: String = "en") -> void:
 		MetaProgression.data = original_meta
 		_fail("Convenience-worker demo route lost its declared starting job.")
 		return
+	if GameState.money_weeks_total <= 0 or GameState.human_weeks_total <= 0:
+		MetaProgression.data = original_meta
+		_fail("Demo input route did not record both sides of the time ledger: money=%d people=%d." % [
+			GameState.money_weeks_total, GameState.human_weeks_total])
+		return
 	MetaProgression.data = original_meta
-	print("DEMO_INPUT_RUN_OK weeks=24 inputs=%d events=%d job=job_01 cutoff=cta" % [
-		input_count, seen_events.size()])
+	print("DEMO_INPUT_RUN_OK weeks=24 inputs=%d events=%d job=job_01 axes=%d/%d cutoff=cta" % [
+		input_count, seen_events.size(), GameState.money_weeks_total, GameState.human_weeks_total])
 	get_tree().quit(0)
 
 func _find_first_enabled_button(root: Node) -> Button:
@@ -1574,6 +1611,21 @@ func _find_first_enabled_button(root: Node) -> Button:
 		return root as Button
 	for child in root.get_children():
 		var found := _find_first_enabled_button(child)
+		if found != null:
+			return found
+	return null
+
+func _find_visible_meta_button(root: Node, meta_key: String) -> Button:
+	if root is Button:
+		var button := root as Button
+		if button.is_visible_in_tree() and not button.disabled \
+				and button.focus_mode != Control.FOCUS_NONE \
+				and bool(button.get_meta(meta_key, false)):
+			return button
+	if root is Control and not (root as Control).is_visible_in_tree():
+		return null
+	for child in root.get_children():
+		var found := _find_visible_meta_button(child, meta_key)
 		if found != null:
 			return found
 	return null
@@ -3206,14 +3258,34 @@ func _shot_ap_act_surfaces(lang: String = "en", prefix: String = "ap_act_en_") -
 		if _mg.has_method("_finish_typing"):
 			_mg.call("_finish_typing")
 		await _settle(0.45)
-		if act == 1 and _mg.find_child("FirstMonthHorizon", true, false) == null:
-			_fail("Act 1 AP surface is missing the first-month horizon.")
-			return
+		if act == 1:
+			if _find_demo_pressure_frame(_mg) == null:
+				_fail("Act 1 AP surface is missing the demo weekly pressure frame.")
+				return
+			var primary_count := _demo_pressure_primary_cards().size()
+			if primary_count != 3 or _find_demo_pressure_toggle(_mg, false) == null:
+				_fail("Act 1 pressure board expected three responses plus Other Actions, got %d." % primary_count)
+				return
+			if not _assert_demo_decision_stage():
+				return
 		if act == 2 and _mg.find_child("SeoulMapStrip", true, false) == null:
 			_fail("Post-onboarding AP surface did not restore Seoul Trace.")
 			return
 		await _save("%s%02d_act%d" % [prefix, act, act])
 		if act == 1:
+			var other_actions := _find_demo_pressure_toggle(_mg, false)
+			other_actions.grab_focus()
+			await _press_qa_action("ui_accept")
+			await _settle(0.35)
+			if _mg.find_child("FirstMonthHorizon", true, false) == null \
+					or _find_demo_pressure_toggle(_mg, true) == null:
+				_fail("Expanded demo action list lost the first-month horizon or return action.")
+				return
+			await _save("%s01a_all_actions_expanded" % prefix)
+			var pressure_back := _find_demo_pressure_toggle(_mg, true)
+			pressure_back.grab_focus()
+			await _press_qa_action("ui_accept")
+			await _settle(0.35)
 			GameState.flags["arc_intro_meal_seen"] = true
 			if _mg.has_method("_render_ap_actions"):
 				_mg.call("_render_ap_actions")
@@ -3245,11 +3317,23 @@ func _assert_ap_result_lifecycle(lang: String, prefix: String) -> void:
 	_mg.call("_finish_typing")
 	await _settle(0.35)
 
-	var cards: Array = _mg.get("_ap_grid_cards")
-	if cards.size() < 2 or not (cards[1] is Button):
-		_fail("AP result lifecycle regression could not find the Survival Money card.")
+	var other_actions := _find_demo_pressure_toggle(_mg, false)
+	if other_actions == null:
+		_fail("AP result lifecycle regression could not find Other Actions.")
 		return
-	var money_card := cards[1] as Button
+	other_actions.grab_focus()
+	await _press_qa_action("ui_accept")
+	await _settle(0.3)
+	var money_card: Button = null
+	var survival_label := _tr("생계", "Survival Money")
+	for candidate in _mg.get("_ap_grid_cards"):
+		if candidate is Button and _collect_control_text(candidate).findn(survival_label) >= 0:
+			money_card = candidate as Button
+			break
+	if money_card == null:
+		_fail("AP result lifecycle regression could not find the expanded Survival Money card.")
+		return
+	var money_grid_index := int(money_card.get_meta("ap_grid_index", -1))
 	money_card.grab_focus()
 	await _press_qa_action("ui_accept")
 	await _settle(0.25)
@@ -3284,10 +3368,61 @@ func _assert_ap_result_lifecycle(lang: String, prefix: String) -> void:
 	await _press_qa_action("ui_accept")
 	await _settle(0.45)
 	var focus_owner := get_viewport().gui_get_focus_owner() as Button
-	if focus_owner == null or int(focus_owner.get_meta("ap_grid_index", -1)) != 1:
+	if focus_owner == null or int(focus_owner.get_meta("ap_grid_index", -1)) != money_grid_index:
 		_fail("AP result confirmation did not return focus to the selected parent card.")
 		return
 	await _save(prefix + "07_saving_focus_returns", 0.05)
+
+func _find_demo_pressure_frame(node: Node) -> Control:
+	if node is Control and bool(node.get_meta("demo_pressure_frame", false)):
+		return node as Control
+	for child in node.get_children():
+		var found := _find_demo_pressure_frame(child)
+		if found != null:
+			return found
+	return null
+
+func _find_demo_pressure_toggle(node: Node, expanded: bool) -> Button:
+	if node is Button and bool(node.get_meta("demo_pressure_fallback", false)) \
+			and bool(node.get_meta("demo_pressure_expanded", false)) == expanded:
+		return node as Button
+	for child in node.get_children():
+		var found := _find_demo_pressure_toggle(child, expanded)
+		if found != null:
+			return found
+	return null
+
+func _demo_pressure_primary_cards() -> Array[Button]:
+	var cards: Array[Button] = []
+	if not is_instance_valid(_mg):
+		return cards
+	for candidate in _mg.get("_ap_grid_cards"):
+		if candidate is Button and bool((candidate as Button).get_meta("demo_pressure_primary", false)):
+			cards.append(candidate as Button)
+	return cards
+
+func _assert_demo_decision_stage() -> bool:
+	var cards := _demo_pressure_primary_cards()
+	if cards.size() != 3:
+		_fail("Demo decision stage does not contain exactly three primary cards.")
+		return false
+	var first_y := cards[0].position.y
+	var previous_x := -INF
+	for card in cards:
+		if not bool(card.get_meta("demo_decision_card", false)):
+			_fail("Demo primary response fell back to the web-list card treatment.")
+			return false
+		if absf(card.position.y - first_y) > 4.0:
+			_fail("Demo responses are not presented on one left/right decision row.")
+			return false
+		if card.position.x <= previous_x:
+			_fail("Demo response order is not spatially left-to-right.")
+			return false
+		if card.size.y < 220.0:
+			_fail("Demo response lost its scene-led card depth (height %.1f)." % card.size.y)
+			return false
+		previous_x = card.position.x
+	return true
 
 func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immersion_en_") -> void:
 	_set_qa_language(lang)
@@ -3322,10 +3457,21 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 		if first_text.findn(str(expected)) < 0:
 			_fail("Immersion AP opening is missing '%s' in %s." % [expected, lang])
 			return
+	var pressure_frame := _find_demo_pressure_frame(_mg)
+	var primary_count := _demo_pressure_primary_cards().size()
+	if pressure_frame == null or str(pressure_frame.get_meta("demo_pressure_id", "")) != "employment" \
+			or primary_count != 3 or _find_demo_pressure_toggle(_mg, false) == null:
+		_fail("Immersion AP opening lost the employment pressure/three-response contract in %s." % lang)
+		return
+	if not _assert_demo_decision_stage():
+		return
 	_assert_ap_cards_inside_viewport()
 	await _save(prefix + "01_week_opening_omen")
 
 	GameState.week_of_month = 4
+	GameState.current_job = {"id": "job_03", "name": _tr("사무직", "Office Worker"), "tier": 2}
+	GameState.monthly_income = 2_240_000.0
+	GameState.money = -2_100_000.0
 	if _mg.has_method("_render_ap_actions"):
 		_mg.call("_render_ap_actions")
 	if _mg.has_method("_finish_typing"):
@@ -3336,6 +3482,11 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 	if due_text.findn(due_marker) < 0:
 		_fail("Immersion AP surface is missing the rent deadline in %s." % lang)
 		return
+	var rent_frame := _find_demo_pressure_frame(_mg)
+	if rent_frame == null or str(rent_frame.get_meta("demo_pressure_id", "")) != "rent":
+		_fail("Immersion AP surface did not turn an uncovered due week into the rent pressure in %s." % lang)
+		return
+	_assert_ap_cards_inside_viewport()
 	await _save(prefix + "02_rent_due")
 	await _dispose_main_game()
 
@@ -4240,8 +4391,11 @@ func _settle(t: float = 0.6) -> void:
 
 func _save(shot_name: String, settle_time: float = 0.3) -> void:
 	await _settle(settle_time)
-	RenderingServer.force_draw()
-	await get_tree().process_frame
+	# The macOS OpenGL readback can expose one partially uploaded atlas frame after
+	# a dense AP rerender. Drain several real draw frames before reading pixels.
+	for _draw_pass in range(3):
+		RenderingServer.force_draw()
+		await get_tree().process_frame
 	var viewport_texture := get_viewport().get_texture()
 	if viewport_texture == null:
 		_fail("Viewport texture is unavailable. Run ScreenshotQA with a real rendering driver.")

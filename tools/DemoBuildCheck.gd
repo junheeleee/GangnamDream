@@ -28,6 +28,7 @@ func _run() -> void:
 	_check_employment_consistency()
 	_check_side_shift_pay()
 	_check_ap_bonus_surface()
+	_check_demo_pressure_contract()
 	_check_demo_cutoff()
 	if not _failures.is_empty():
 		for failure in _failures:
@@ -192,6 +193,34 @@ func _check_ap_bonus_surface() -> void:
 	_expect(not status.contains("3/2"), "Bonus AP surfaced as the invalid-looking fraction 3/2.")
 	_expect(status.contains("+1"), "Bonus AP status did not explain the extra point: %s." % status)
 	_expect(remaining.contains("+1"), "AP rail did not mark the extra point as a bonus: %s." % remaining)
+	main_game.free()
+
+func _check_demo_pressure_contract() -> void:
+	var packed := load("res://scenes/MainGame.tscn") as PackedScene
+	if packed == null:
+		_failures.append("MainGame.tscn failed to load for demo pressure checks.")
+		return
+	GameState.start_new_game("김민준", "지방_상경", "직장형", "백수", "자유런", "현실")
+	GameState.turn = 1
+	GameState.current_job = {}
+	GameState.flags["arc_intro_meal_seen"] = true
+	var main_game := packed.instantiate()
+	var before: Dictionary = GameState.serialize()
+	var pressure: Dictionary = main_game.call("_demo_week_pressure")
+	var actions: Array = pressure.get("action_ids", [])
+	_expect(str(pressure.get("id", "")) == "employment",
+		"Demo week 1 must frame unemployment as the primary pressure: %s." % pressure)
+	_expect(actions.size() == 3,
+		"Demo primary pressure must offer exactly three contextual responses.")
+	_expect(GameState.serialize() == before, "Reading the demo pressure mutated GameState.")
+	GameState.turn = GameState.DEMO_TURN_LIMIT
+	var week_24_pressure: Dictionary = main_game.call("_demo_week_pressure")
+	_expect(not week_24_pressure.is_empty(),
+		"Week 24 lost the contextual pressure surface.")
+	GameState.turn = GameState.DEMO_TURN_LIMIT + 1
+	var week_25_pressure: Dictionary = main_game.call("_demo_week_pressure")
+	_expect(week_25_pressure.is_empty(),
+		"The demo-only pressure surface leaked beyond week 24 before validation.")
 	main_game.free()
 
 func _expect(condition: bool, message: String) -> void:

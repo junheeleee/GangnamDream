@@ -113,6 +113,9 @@ Automated onboarding gates:
 - `ScreenshotQA --qa=demo-blackbox --lang=ko/en --demo-build` is the visual companion gate. `--demo-build` is mandatory because Godot custom export features are unavailable while running from the editor.
 - The demo black-box gate must keep every AP card inside the 1280x800 viewport with normal and bonus AP, and the final record must say week 24 while rejecting any visible week-25 copy.
 - `ScreenshotQA --qa=demo-input --lang=ko/en --demo-build` must complete all 24 playable weeks using actual `ui_accept` input, preserve the authored opening chain, forbid the retired generic first-workday and premature career-specialization scenes, and end at the wishlist CTA without a transient AP overlay or toast.
+- The same route must use the visible three-card demo pressure stage rather than repeatedly opening the fallback catalog, record both money and human weeks, and ignore embedded minigame cards whose own real-input suites are responsible for their internals.
+- `ImmersionLoopCheck` must keep every demo pressure at exactly three live actions, mutation-free previews, no visible Moral/route vocabulary, and zero Korean leakage in English.
+- `ScreenshotQA --qa=ap-act-en --lang=en` must keep the three primary cards in one horizontal row at 1280x800, preserve their scene art and preview copy, and leave the result confirmation unobstructed by the commit toast.
 
 Automated artifact and hidden-feature gates:
 

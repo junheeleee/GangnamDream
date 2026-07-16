@@ -62,8 +62,10 @@ var _ap_rail_slot_counter: int = 0
 var _ap_action_grid: GridContainer = null
 var _ap_feature_row: HBoxContainer = null
 var _ap_grid_cards: Array[Button] = []
+var _ap_grid_columns: int = 2
 var _ap_focus_restore_index: int = 0
 var _ap_focus_restore_turn: int = -1
+var _demo_actions_expanded_turn: int = -1
 var _routine_draft: Array = []   # 몽타주 루틴 모달 편집 중 임시 선택
 var _event_bg_path: String = ""   # 현재 표시 중인 배경 경로 (크로스페이드 중복 방지)
 var _typing_tween: Tween = null   # 타이핑 효과 전용 트윈
@@ -1220,8 +1222,8 @@ func _show_ap_action_commit(title: String, icon_id: String, accent: String,
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel.anchor_left = 0.5
 	panel.anchor_right = 0.5
-	panel.anchor_top = 0.48
-	panel.anchor_bottom = 0.48
+	panel.anchor_top = 0.30
+	panel.anchor_bottom = 0.30
 	panel.offset_left = -235
 	panel.offset_right = 235
 	panel.offset_top = -42
@@ -1316,7 +1318,7 @@ func _show_ap_action_commit(title: String, icon_id: String, accent: String,
 	_ap_commit_tween.tween_property(panel, "modulate:a", 1.0, 0.08).set_trans(Tween.TRANS_SINE)
 	_ap_commit_tween.parallel().tween_property(panel, "scale", Vector2.ONE, 0.12) \
 			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	_ap_commit_tween.tween_interval(0.34)
+	_ap_commit_tween.tween_interval(0.22)
 	_ap_commit_tween.tween_property(panel, "modulate:a", 0.0, 0.18).set_trans(Tween.TRANS_SINE)
 	_ap_commit_tween.parallel().tween_property(panel, "scale", Vector2(1.018, 1.018), 0.18) \
 			.set_trans(Tween.TRANS_SINE)
@@ -3822,6 +3824,7 @@ func _show_result(result_text: String, effects: Dictionary = {}, selected_choice
 		_result_reveal_controls.append(result_card)
 	# 확인 버튼도 타이핑 완료 후 페이드인
 	var confirm_btn = _button(_tr("확인", "Confirm"), "#1f6feb")
+	confirm_btn.set_meta("ap_result_confirm", true)
 	confirm_btn.modulate.a = 0.0
 	confirm_btn.pressed.connect(func(): _finish_typing(); _on_result_confirmed())
 	choice_box.add_child(confirm_btn)
@@ -5327,7 +5330,8 @@ func _ap_focus_restore_button(buttons: Array[Button]) -> Button:
 	return best
 
 func _ap_grid_focus_neighbor(from_idx: int, direction: Vector2i, fallback: Button) -> Button:
-	var from_pos := Vector2i(from_idx % 2, from_idx / 2)
+	var columns := maxi(1, _ap_grid_columns)
+	var from_pos := Vector2i(from_idx % columns, from_idx / columns)
 	var best: Button = fallback
 	var best_score: int = 1_000_000
 	for candidate in _ap_grid_cards:
@@ -5336,7 +5340,7 @@ func _ap_grid_focus_neighbor(from_idx: int, direction: Vector2i, fallback: Butto
 		var candidate_idx: int = int(candidate.get_meta("ap_grid_index", -1))
 		if candidate_idx < 0 or candidate_idx == from_idx:
 			continue
-		var candidate_pos := Vector2i(candidate_idx % 2, candidate_idx / 2)
+		var candidate_pos := Vector2i(candidate_idx % columns, candidate_idx / columns)
 		var delta := candidate_pos - from_pos
 		if direction == Vector2i.UP and delta.y >= 0:
 			continue
@@ -5420,9 +5424,14 @@ func _week_rent_deadline() -> Dictionary:
 func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bool,
 		hint_text: String = "", hint_color: String = "#b9bec7") -> void:
 	var compact_width := get_viewport_rect().size.x <= 1366.0
+	var demo_pressure := _demo_week_pressure()
 	var band := PanelContainer.new()
+	if not demo_pressure.is_empty():
+		band.name = "DemoWeekPressure"
+		band.set_meta("demo_pressure_frame", true)
+		band.set_meta("demo_pressure_id", str(demo_pressure.get("id", "")))
 	band.set_meta("moral_role", "info_card")
-	band.set_meta("moral_accent", "#c5ccd5")
+	band.set_meta("moral_accent", "#d7b8a4" if bool(demo_pressure.get("urgent", false)) else "#c5ccd5")
 	band.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	band.custom_minimum_size = Vector2(0, 88)
 	var style := StyleBoxFlat.new()
@@ -5506,9 +5515,15 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 	box.add_child(bottom)
 
 	var focus_text := _tr("먼저 위험 신호를 줄인다.", "Stabilize the immediate risk first.") if has_warning else _clean_focus_text(_recommend_action())
-	if not hint_text.is_empty():
+	var focus_prefix := _tr("지금  ", "NOW  ")
+	if not demo_pressure.is_empty():
+		focus_prefix = _tr("이번 주  ", "THIS WEEK  ")
+		focus_text = "%s · %s" % [str(demo_pressure.get("title", "")), str(demo_pressure.get("question", ""))]
+	elif not hint_text.is_empty():
 		focus_text = _clean_focus_text(hint_text)
-	var priority := _label(_tr("지금  ", "NOW  ") + focus_text, 12, hint_color if not hint_text.is_empty() else ("#efb3b3" if has_warning else "#d8dee8"))
+	var focus_urgent := bool(demo_pressure.get("urgent", false)) or has_warning
+	var priority := _label(focus_prefix + focus_text, 12,
+		"#efb3b3" if focus_urgent else (hint_color if not hint_text.is_empty() else "#d8dee8"))
 	priority.set_meta("moral_role", "choice_subtitle")
 	priority.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	priority.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
@@ -5517,7 +5532,11 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 	var people := _people_pressure_state()
 	var stakes_text: String
 	var upcoming := _upcoming_arc_foreshadow_line()
-	if not upcoming.is_empty():
+	if not demo_pressure.is_empty() and not upcoming.is_empty():
+		stakes_text = _tr("기척  %s", "IN THE AIR  %s") % upcoming
+	elif not demo_pressure.is_empty():
+		stakes_text = str(demo_pressure.get("detail", ""))
+	elif not upcoming.is_empty():
 		stakes_text = _tr("기척  %s", "IN THE AIR  %s") % upcoming
 	elif not str(people.get("id", "")).is_empty():
 		stakes_text = _tr("곁  {name} · {detail}", "BESIDE YOU  {name} · {detail}").format({
@@ -6355,11 +6374,252 @@ func _ap_act_line() -> String:
 		str(info.get("subtitle", "")),
 	]
 
+func _demo_pressure_enabled() -> bool:
+	return GameState.turn >= 1 and GameState.turn <= GameState.DEMO_TURN_LIMIT
+
+func _demo_week_pressure() -> Dictionary:
+	if not _demo_pressure_enabled():
+		return {}
+	var rent_info := _week_rent_deadline()
+	var person: Dictionary = _closest_person()
+	var person_id := str(person.get("id", ""))
+	var person_name := ""
+	if not person_id.is_empty():
+		person_name = str(ImageRegistry.get_person_info(person_id).get("name", ""))
+	var contact_or_study := "contact" if not person_id.is_empty() else "study"
+
+	if GameState.health <= 45 or GameState.mental <= 45:
+		return {
+			"id": "condition",
+			"title": _tr("몸이 먼저 멈추려 한다", "Your body is asking you to stop"),
+			"question": _tr("이번 주에도 밀어붙일까, 숨을 돌릴까?", "Push through again, or make room to breathe?"),
+			"detail": _tr("건강 {health} · 정신 {mental}", "Health {health} · Mental {mental}").format({
+				"health": GameState.health,
+				"mental": GameState.mental,
+			}),
+			"urgent": true,
+			"person_id": person_id,
+			"action_ids": ["rest", "side_shift", contact_or_study],
+		}
+
+	if GameState.current_job.is_empty():
+		return {
+			"id": "employment",
+			"title": _tr("수입 0원", "Zero income"),
+			"question": _tr("지원, 준비, 당장 현금 중 무엇을 먼저 택할까?", "Apply, prepare, or take cash now?"),
+			"detail": _tr("지원은 미래를, 단기 알바는 이번 주를 바꾼다", "Applications change the future; a shift changes this week"),
+			"urgent": true,
+			"person_id": person_id,
+			"action_ids": ["apply", "resume", "side_shift"],
+		}
+
+	if bool(rent_info.get("urgent", false)) and not bool(rent_info.get("covered", false)):
+		return {
+			"id": "rent",
+			"title": _tr("월세가 잔고보다 가깝다", "Rent is closer than safety"),
+			"question": _tr("현금을 더 만들까, 덜 쓸까, 몸을 지킬까?", "Earn more, spend less, or protect your body?"),
+			"detail": "%s · %s" % [str(rent_info.get("text", "")), GameState.format_money(GameState.money)],
+			"urgent": true,
+			"person_id": person_id,
+			"action_ids": ["side_shift", "save", "rest"],
+		}
+
+	if GameState.grind_streak_weeks >= 2 and not person_id.is_empty():
+		return {
+			"id": "relationship",
+			"title": _tr("연락하지 않은 시간이 쌓였다", "Silence has started to accumulate"),
+			"question": _tr("{name}에게 이번 주를 내줄까, 다시 돈을 좇을까?", "Give this week to {name}, or chase money again?").format({"name": person_name}),
+			"detail": _tr("{weeks}주째 돈 쪽으로만 시간이 흘렀다", "{weeks} weeks have gone only toward money").format({"weeks": GameState.grind_streak_weeks}),
+			"urgent": GameState.grind_streak_weeks >= 4,
+			"person_id": person_id,
+			"action_ids": ["contact", "side_shift", "rest"],
+		}
+
+	var invest_unlocked := bool(GameState.flags.get("arc_invest_guidance_seen", false))
+	var first_invest_visit := bool(GameState.flags.get("investment_first_visited", false))
+	if invest_unlocked and GameState.money >= 100_000.0 \
+			and (not first_invest_visit or GameState.week_of_month == 3):
+		return {
+			"id": "capital",
+			"title": _tr("돈이 처음으로 선택을 요구한다", "Money is asking for a direction"),
+			"question": _tr("불릴까, 지킬까, 사람에게 시간을 남길까?", "Risk it, protect it, or leave time for someone?"),
+			"detail": _tr("거래는 자산별 위험 1~5 · 조회는 무료", "Trades carry asset risk 1–5 · browsing is free"),
+			"urgent": false,
+			"person_id": person_id,
+			"action_ids": ["invest", "save", contact_or_study],
+		}
+
+	match int(GameState.turn) % 3:
+		0:
+			return {
+				"id": "capacity",
+				"title": _tr("버는 속도만큼 사람이 닳는다", "Earning also spends a person"),
+				"question": _tr("현금, 준비, 회복 중 무엇을 먼저 남길까?", "Leave behind cash, preparation, or recovery?"),
+				"detail": _tr("이번 주의 선택은 다음 몇 주의 몸과 사건에 남는다", "This week stays in the body and the weeks ahead"),
+				"urgent": false,
+				"person_id": person_id,
+				"action_ids": ["side_shift", "study", "rest"],
+			}
+		1:
+			return {
+				"id": "balance",
+				"title": _tr("두 번의 시간이 남았다", "Two pieces of the week remain"),
+				"question": _tr("돈을 만들까, 나를 만들까, 누군가를 지킬까?", "Build money, build yourself, or hold on to someone?"),
+				"detail": _tr("간 곳과 만난 사람은 다음 몇 주에 다시 돌아온다", "Places and people return through the weeks ahead"),
+				"urgent": false,
+				"person_id": person_id,
+				"action_ids": ["side_shift", "study", contact_or_study],
+			}
+		_:
+			return {
+				"id": "reserve",
+				"title": _tr("다음 압박을 버틸 여유", "Room for the next pressure"),
+				"question": _tr("잔고, 능력, 마음 중 어디에 여유를 둘까?", "Put that room in cash, skill, or your mind?"),
+				"detail": _tr("정답은 없고, 포기한 쪽도 그대로 남는다", "There is no clean answer; what you leave also remains"),
+				"urgent": false,
+				"person_id": person_id,
+				"action_ids": ["save", "study", "rest"],
+			}
+
+func _side_shift_base_pay() -> int:
+	var pay := 90_000
+	if is_instance_valid(aruba_game) and aruba_game.has_method("get_base_pay"):
+		pay = int(aruba_game.get_base_pay())
+	return pay
+
+func _demo_action_spec(action_id: String, person_id: String = "") -> Dictionary:
+	match action_id:
+		"apply":
+			return {
+				"title": _ap_job_hunt_title(),
+				"subtitle": _tr("조건에 맞는 공고를 골라 직접 지원한다", "Choose a real opening and apply"),
+				"icon": "job", "accent": "#dc6a2a", "fn": "_ap_job_hunt",
+			}
+		"resume":
+			return {
+				"title": _tr("지원서 다듬기", "Refine the Application"),
+				"subtitle": _tr("지원서 평가를 통과해 다음 지원을 준비한다", "Pass an assessment and prepare the next application"),
+				"icon": "job", "accent": "#5a6ea8", "fn": "_ap_write_resume",
+			}
+		"side_shift":
+			return {
+				"title": _side_shift_title(),
+				"subtitle": _tr("이번 주 현금을 위해 몸을 한 번 더 쓴다", "Spend your body once more for cash this week"),
+				"icon": "money", "accent": "#3a8a5a", "fn": "_ap_side_job",
+			}
+		"save":
+			return {
+				"title": _tr("지출을 깎는다", "Cut Back"),
+				"subtitle": _tr("생활비를 줄여 월세 앞의 여유를 만든다", "Trim daily spending to make room before rent"),
+				"icon": "money", "accent": "#3a6ea8", "fn": "_ap_save_money",
+			}
+		"rest":
+			return {
+				"title": _tr("오늘은 멈춘다", "Stop for Today"),
+				"subtitle": _tr("한 번 멈춰 몸과 마음이 따라오게 한다", "Pause once and let body and mind catch up"),
+				"icon": "rest", "accent": "#3a8a9a", "fn": "_ap_free_time",
+			}
+		"study":
+			return {
+				"title": _tr("하나를 쌓는다", "Build One Thing"),
+				"subtitle": _tr("독서·운동·명상·투자공부 중 하나를 고른다", "Choose reading, exercise, meditation, or investing"),
+				"icon": "study", "accent": "#5a6ea8", "fn": "_ap_study",
+			}
+		"contact":
+			var pname := str(ImageRegistry.get_person_info(person_id).get("name", _tr("누군가", "Someone")))
+			return {
+				"title": _tr("{name}에게 연락한다", "Reach Out to {name}").format({"name": pname}),
+				"subtitle": _tr("이번 주의 한 번을 돈이 아닌 사람에게 건넨다", "Give one part of this week to a person, not money"),
+				"icon": "people", "accent": "#8a5a9a", "fn": "_ap_contact_person", "arg": person_id,
+			}
+		"invest":
+			return {
+				"title": _tr("돈을 움직인다", "Put Money in Motion"),
+				"subtitle": _tr("자산별 위험 1~5를 보고 직접 거래한다", "Read asset risk 1–5 and place the trade yourself"),
+				"icon": "invest", "accent": "#3a8a5a", "fn": "_ap_invest",
+			}
+	return {}
+
+func _render_demo_pressure_actions(ap: int) -> void:
+	var pressure := _demo_week_pressure()
+	if pressure.is_empty():
+		return
+	# The demo opens on one controller-friendly decision stage, not a web-style list.
+	# Three scene fragments sit on the same row so left/right is the whole input grammar.
+	_begin_ap_action_board(3)
+	_ap_action_grid.set_meta("demo_decision_stage", true)
+	var pressure_id := str(pressure.get("id", ""))
+	var person_id := str(pressure.get("person_id", ""))
+	for raw_action_id in pressure.get("action_ids", []):
+		var action_id := str(raw_action_id)
+		var spec := _demo_action_spec(action_id, person_id)
+		if spec.is_empty():
+			continue
+		_demo_context_action_btn(spec, pressure_id, action_id, ap <= 0)
+	_add_demo_action_toggle(false)
+
+func _demo_context_action_btn(spec: Dictionary, pressure_id: String, action_id: String,
+		disabled: bool) -> void:
+	var fn_name := str(spec.get("fn", ""))
+	var fn_arg = spec.get("arg", null)
+	var icon_id := str(spec.get("icon", "ap"))
+	var accent := str(spec.get("accent", "#7f8794"))
+	var title := str(spec.get("title", ""))
+	var subtitle := str(spec.get("subtitle", ""))
+	var rail_label := _next_ap_rail_label()
+	var art_thumb := _action_thumb_texture(fn_name, icon_id)
+	var btn := _make_demo_decision_card(
+		title, subtitle, icon_id, accent, disabled, false, "", rail_label,
+		art_thumb, _ap_action_preview(fn_name, icon_id))
+	btn.name = "DemoPressureAction_%s" % action_id
+	btn.set_meta("demo_pressure_primary", true)
+	btn.set_meta("demo_pressure_id", pressure_id)
+	btn.set_meta("demo_action_id", action_id)
+	btn.set_meta("ap_action_fn", fn_name)
+	btn.set_meta("ap_grid_index", _ap_grid_cards.size())
+	if not disabled:
+		btn.pressed.connect(func():
+			_run_ap_action_from_button(btn, title, icon_id, accent, fn_name, fn_arg, false, false, art_thumb)
+		)
+	_ap_grid_cards.append(btn)
+	_ap_action_grid.add_child(btn)
+	_animate_ap_action_card(btn, _ap_grid_cards.size())
+
+func _add_demo_action_toggle(expanded: bool) -> void:
+	if not is_instance_valid(_ap_feature_row):
+		return
+	var label := _tr("이번 주 세 선택으로 돌아가기", "Back to This Week's Three Choices") if expanded \
+		else _tr("다른 행동 보기", "See Other Actions")
+	var btn := _icon_small_button(label, "menu", "#111820")
+	btn.name = "DemoPressureBack" if expanded else "DemoOtherActions"
+	btn.set_meta("moral_role", "button")
+	btn.set_meta("moral_accent", "#7f8794")
+	btn.set_meta("demo_pressure_fallback", true)
+	btn.set_meta("demo_pressure_expanded", expanded)
+	btn.set_meta("ap_grid_index", _ap_grid_cards.size())
+	btn.custom_minimum_size = Vector2(0, 34)
+	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	btn.tooltip_text = _tr("행동 전체를 펼친다", "Open the full action list") if not expanded \
+		else _tr("이번 주의 압박과 세 대응으로 돌아간다", "Return to this week's pressure and three responses")
+	btn.pressed.connect(func(): _set_demo_actions_expanded(not expanded))
+	_ap_grid_cards.append(btn)
+	_ap_feature_row.add_child(btn)
+	_animate_ap_action_card(btn, _ap_grid_cards.size())
+
+func _set_demo_actions_expanded(expanded: bool) -> void:
+	_demo_actions_expanded_turn = GameState.turn if expanded else -1
+	_ap_focus_restore_index = 0
+	AudioManager.play_ui_click(-8.0)
+	_render_ap_actions()
+
 func _render_situation_cards():
 	# 그 달의 '사건'은 풀스크린 VN으로 이미 재생됨(드라마 모드).
 	# 여기선 남은 시간으로 할 '루틴 행동'만 고른다.
 	_ap_rail_slot_counter = 0
 	var ap: int = GameState.action_points
+	if _demo_pressure_enabled() and _demo_actions_expanded_turn != GameState.turn:
+		_render_demo_pressure_actions(ap)
+		return
 	var act_info: Dictionary = _ap_act_info()
 	var act_prefix: String = "%s · %s" % [str(act_info.get("label", "")), str(act_info.get("title", ""))]
 	var first_month_horizon: bool = int(GameState.turn) <= 4
@@ -6390,10 +6650,13 @@ func _render_situation_cards():
 			_add_grind_hint_strip(_tr("이번 주도 전부 돈에 썼다.", "Another week spent entirely on money."), GameState.grind_streak_weeks + 1)
 	_begin_ap_action_board()
 	_render_essential_actions(ap)
+	if _demo_pressure_enabled():
+		_add_demo_action_toggle(true)
 
-func _begin_ap_action_board() -> void:
+func _begin_ap_action_board(columns: int = 2) -> void:
 	_ap_action_grid = GridContainer.new()
-	_ap_action_grid.columns = 2
+	_ap_grid_columns = maxi(1, columns)
+	_ap_action_grid.columns = _ap_grid_columns
 	_ap_action_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_ap_action_grid.add_theme_constant_override("h_separation", 10)
 	_ap_action_grid.add_theme_constant_override("v_separation", 10)
@@ -7036,7 +7299,15 @@ func _animate_ap_action_card(card: Control, index: int) -> void:
 func _ap_action_preview(fn_name: String, icon_id: String) -> String:
 	match fn_name:
 		"_ap_job_hunt":
-			return _tr("결과  면접 · 월수입 가능성", "OUTCOME  Interviews · monthly income")
+			return _tr("중간 위험 · AP 1 · 조건 충족 시 취업 · 1~3주: 첫 월급", "MEDIUM · AP 1 · hired if qualified · 1–3W: first paycheck")
+		"_ap_write_resume":
+			return _tr("낮은 위험 · AP 1 · 지력 0~2/이력서 · 1~3주: 지원 보너스", "LOW · AP 1 · Intelligence 0–2/resume · 1–3W: application bonus")
+		"_ap_interview_prep":
+			return _tr("낮은 위험 · AP 1 · 사회성 0~2/운 0~1 · 1~3주: 면접 보너스", "LOW · AP 1 · Social 0–2/Luck 0–1 · 1–3W: interview bonus")
+		"_ap_side_job":
+			return _tr("중간 위험 · AP 1 · 현금 %s+/건강 기본 -3 · 1~3주: 피로", "MEDIUM · AP 1 · cash %s+/base Health -3 · 1–3W: fatigue") % GameState.format_money(float(_side_shift_base_pay()))
+		"_ap_save_money":
+			return _tr("낮은 위험 · AP 1 · 현금 +3만~10만/스트레스 +2 · 1~3주: 월세 여유", "LOW · AP 1 · cash +30K–100K won/Stress +2 · 1–3W: rent buffer")
 		"_open_cat_work":
 			return _tr("선택  업무 · 이력서 · 면접 준비", "CHOOSE  Work · resume · interview prep")
 		"_open_cat_money":
@@ -7044,15 +7315,23 @@ func _ap_action_preview(fn_name: String, icon_id: String) -> String:
 				return _tr("선택  투자 · 알바 · 절약", "CHOOSE  Invest · gigs · saving")
 			return _tr("선택  알바 · 절약 · 금융", "CHOOSE  Gigs · saving · finance")
 		"_ap_study":
-			return _tr("선택  지력 · 건강 · 마음 · 투자", "CHOOSE  Mind · body · calm · investing")
+			return _tr("낮은 위험 · 선택 후 AP 1 · 능력/회복 · 1~3주: 반복 기록", "LOW · AP 1 after choice · skill/recovery · 1–3W: habit record")
 		"_ap_free_time":
-			return _tr("예상  정신력 회복 · 스트레스 감소", "LIKELY  Mental recovery · less stress")
+			return _tr("낮은 위험 · AP 1 · 정신 +2~11 · 1~3주: 몸과 마음의 여유", "LOW · AP 1 · Mental +2–11 · 1–3W: physical and mental room")
 		"_ap_invest":
-			return _tr("위험  현금이 묶이고 결과는 뒤에 온다", "RISK  Cash now · consequences later")
+			return _tr("자산별 위험 1~5 · 거래 확정 AP 1 · 1~3주: 결산 변동", "ASSET RISK 1–5 · AP 1 per trade · 1–3W: market settlement")
+		"_ap_network":
+			return _tr("중간 위험 · AP 1 · 사회성/평판↑/스트레스 1~4 · 1~3주: 사회 사건", "MEDIUM · AP 1 · Social/Reputation up/Stress 1–4 · 1–3W: social echoes")
+		"_ap_vip_network":
+			return _tr("낮은 위험 · AP 1 · 사회성 +3/평판 +2 · 1~3주: 넓어진 관계", "LOW · AP 1 · Social +3/Reputation +2 · 1–3W: wider connections")
+		"_ap_contact_person":
+			return _tr("낮은 위험 · AP 1 · 정신 +5/스트레스 -3/관계 +4 · 1~3주: 인연", "LOW · AP 1 · Mental +5/Stress -3/Bond +4 · 1–3W: relationship")
 		"_open_cat_people":
 			return _tr("파장  관계와 다음 장면이 달라진다", "ECHO  Bonds and later scenes can change")
 		"_open_cat_gambling":
-			return _tr("위험  현금 · 즉시 결과 · 중독", "RISK  Cash · instant result · addiction")
+			return _tr("높은 위험 · 현금 손실/즉시 결과 · 1~3주: 중독과 통제 비용", "HIGH · cash loss/instant result · 1–3W: addiction and control cost")
+		"_open_racetrack", "_open_holdem", "_open_scalping", "_open_jeongseon_casino":
+			return _tr("높은 위험 · AP 1 · 현금 손실 가능 · 즉시 결과/1~3주 파장", "HIGH · AP 1 · cash loss possible · instant result/1–3W echo")
 		"_open_routine_modal":
 			return _tr("시간  조용한 주를 최대 4주 압축", "TIME  Compress up to four quiet weeks")
 		"_ap_date":
@@ -7236,9 +7515,200 @@ func _make_ap_board_card(title: String, subtitle: String, icon_id: String,
 	_apply_moral_tree_styles(btn, _moral_ui_palette())
 	return btn
 
+func _make_demo_decision_card(title: String, subtitle: String, icon_id: String,
+		accent: String, disabled: bool, free_action: bool, forced_badge: String,
+		rail_label: String, art_thumb: Texture2D, preview: String) -> Button:
+	var compact_width := get_viewport_rect().size.x <= 1366.0
+	var btn := Button.new()
+	btn.set_meta("moral_role", "choice_card")
+	btn.set_meta("moral_accent", accent if not disabled else "#343946")
+	btn.set_meta("demo_decision_card", true)
+	btn.text = ""
+	btn.custom_minimum_size = Vector2(0, 276 if compact_width else 290)
+	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	btn.disabled = disabled
+	btn.focus_mode = Control.FOCUS_ALL
+	btn.clip_contents = true
+
+	var accent_color := _moral_gray_accent(
+		Color(accent if not disabled else "#343946"), _moral_ui_palette(), 0.02)
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = Color("#0a0b0e", 0.96) if not disabled else Color("#07080a", 0.92)
+	normal.border_color = Color("#3c424c", 0.94) if not disabled else Color("#22262d", 0.72)
+	normal.set_border_width_all(1)
+	normal.border_width_bottom = 3
+	normal.set_corner_radius_all(2)
+	normal.content_margin_left = 0
+	normal.content_margin_right = 0
+	normal.content_margin_top = 0
+	normal.content_margin_bottom = 0
+	normal.shadow_color = Color(0, 0, 0, 0.62)
+	normal.shadow_size = 8
+	normal.shadow_offset = Vector2(0, 5)
+	var hover := normal.duplicate()
+	hover.bg_color = Color("#111419", 0.98)
+	hover.border_color = Color(accent_color, 0.88)
+	hover.shadow_size = 14
+	hover.shadow_offset = Vector2(0, 7)
+	var pressed_style := normal.duplicate()
+	pressed_style.bg_color = Color("#050609", 0.99)
+	pressed_style.border_color = Color(accent_color, 0.72)
+	pressed_style.shadow_size = 3
+	pressed_style.shadow_offset = Vector2(0, 2)
+	var focus_style := hover.duplicate()
+	focus_style.border_color = Color(COL_GOLD_BRIGHT, 0.98)
+	focus_style.set_border_width_all(2)
+	focus_style.border_width_bottom = 4
+	var disabled_style := normal.duplicate()
+	disabled_style.bg_color = Color("#07080a", 0.88)
+	disabled_style.border_color = Color("#22262d", 0.66)
+	disabled_style.shadow_size = 4
+	btn.add_theme_stylebox_override("normal", normal)
+	btn.add_theme_stylebox_override("hover", hover)
+	btn.add_theme_stylebox_override("pressed", pressed_style)
+	btn.add_theme_stylebox_override("focus", focus_style)
+	btn.add_theme_stylebox_override("disabled", disabled_style)
+
+	var stack := VBoxContainer.new()
+	stack.set_anchors_preset(Control.PRESET_FULL_RECT)
+	stack.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stack.add_theme_constant_override("separation", 0)
+	btn.add_child(stack)
+
+	var image_frame := PanelContainer.new()
+	image_frame.set_meta("moral_role", "choice_icon")
+	image_frame.set_meta("moral_accent", accent if not disabled else "#343946")
+	image_frame.custom_minimum_size = Vector2(0, 104 if compact_width else 116)
+	image_frame.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	image_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	image_frame.clip_contents = true
+	var image_style := StyleBoxFlat.new()
+	image_style.bg_color = Color("#050608")
+	image_style.border_color = Color(accent_color, 0.34 if not disabled else 0.12)
+	image_style.border_width_bottom = 1
+	image_frame.add_theme_stylebox_override("panel", image_style)
+	stack.add_child(image_frame)
+
+	var visual := TextureRect.new()
+	visual.set_meta("moral_role", "choice_thumbnail")
+	visual.set_meta("moral_accent", accent if not disabled else "#343946")
+	visual.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	visual.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	visual.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	visual.texture = art_thumb if art_thumb != null else _ui_icon_texture(icon_id)
+	visual.modulate = Color(1, 1, 1, 0.98 if not disabled else 0.30)
+	if art_thumb is AtlasTexture and _moral_action_material:
+		visual.material = _moral_action_material
+	image_frame.add_child(visual)
+
+	var preview_parts: PackedStringArray = preview.split(" · ", false)
+	var risk_text := str(preview_parts[0]) if preview_parts.size() > 0 else ""
+	var ap_text := str(preview_parts[1]) if preview_parts.size() > 1 else (_tr("무료", "FREE") if free_action else _tr("AP 1", "AP 1"))
+	if not forced_badge.is_empty():
+		ap_text = forced_badge
+	var effect_text := str(preview_parts[2]) if preview_parts.size() > 2 else ""
+	var echo_text := ""
+	if preview_parts.size() > 3:
+		for i in range(3, preview_parts.size()):
+			if not echo_text.is_empty():
+				echo_text += " · "
+			echo_text += str(preview_parts[i])
+
+	var detail_margin := MarginContainer.new()
+	detail_margin.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	detail_margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	detail_margin.add_theme_constant_override("margin_left", 12)
+	detail_margin.add_theme_constant_override("margin_right", 12)
+	detail_margin.add_theme_constant_override("margin_top", 9)
+	detail_margin.add_theme_constant_override("margin_bottom", 9)
+	stack.add_child(detail_margin)
+	var details := VBoxContainer.new()
+	details.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	details.add_theme_constant_override("separation", 3)
+	detail_margin.add_child(details)
+
+	var meta_row := HBoxContainer.new()
+	meta_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	meta_row.add_theme_constant_override("separation", 6)
+	details.add_child(meta_row)
+	var index_label := _label(rail_label, 11, "#f2f5f8" if not disabled else "#626975")
+	index_label.custom_minimum_size = Vector2(22, 0)
+	index_label.clip_text = false
+	index_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if _font_bold:
+		index_label.add_theme_font_override("font", _font_bold)
+	meta_row.add_child(index_label)
+	var meta_rule := _label("/", 10, "#555d68" if not disabled else "#383d44")
+	meta_rule.custom_minimum_size = Vector2(8, 0)
+	meta_rule.clip_text = false
+	meta_rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	meta_row.add_child(meta_rule)
+	var risk_label := _label(risk_text, 9, "#aeb7c2" if not disabled else "#555b64")
+	risk_label.uppercase = true
+	risk_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	risk_label.clip_text = false
+	meta_row.add_child(risk_label)
+	var meta_spacer := Control.new()
+	meta_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	meta_spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	meta_row.add_child(meta_spacer)
+	var ap_label := _label(ap_text.to_upper(), 10, "#e5eaf0" if not disabled else "#555b64")
+	ap_label.custom_minimum_size = Vector2(42, 0)
+	ap_label.clip_text = false
+	ap_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if _font_bold:
+		ap_label.add_theme_font_override("font", _font_bold)
+	meta_row.add_child(ap_label)
+
+	var title_label := _label(title, 18, "#f0f3f7" if not disabled else "#656b75")
+	title_label.set_meta("moral_role", "choice_title")
+	title_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	title_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	if _font_bold:
+		title_label.add_theme_font_override("font", _font_bold)
+	details.add_child(title_label)
+
+	var subtitle_label := _wrap_label(subtitle, 11, "#b5bdc8" if not disabled else "#505660")
+	subtitle_label.set_meta("moral_role", "choice_subtitle")
+	subtitle_label.custom_minimum_size = Vector2(0, 30)
+	subtitle_label.max_lines_visible = 2
+	subtitle_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	details.add_child(subtitle_label)
+
+	var divider := ColorRect.new()
+	divider.custom_minimum_size = Vector2(0, 1)
+	divider.color = Color(accent_color, 0.30 if not disabled else 0.10)
+	divider.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	details.add_child(divider)
+
+	if not effect_text.is_empty():
+		var effect_label := _label(effect_text, 10, "#c7ced8" if not disabled else "#4c515a")
+		effect_label.set_meta("moral_role", "hint_text")
+		effect_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		effect_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		details.add_child(effect_label)
+	if not echo_text.is_empty():
+		var echo_label := _label(echo_text, 10, "#858e9b" if not disabled else "#41464e")
+		echo_label.set_meta("moral_role", "hint_text")
+		echo_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		echo_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		details.add_child(echo_label)
+
+	var edge := ColorRect.new()
+	edge.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+	edge.offset_top = -3
+	edge.offset_bottom = 0
+	edge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	edge.color = Color(accent_color, 0.70 if not disabled else 0.16)
+	btn.add_child(edge)
+
+	_apply_moral_tree_styles(btn, _moral_ui_palette())
+	return btn
+
 func _make_essential_action_card(title: String, subtitle: String, icon_id: String,
 		accent: String, disabled: bool, free_action: bool, forced_badge: String,
-		rail_label: String = "", art_thumb: Texture2D = null, axis_tag: String = "") -> Button:
+		rail_label: String = "", art_thumb: Texture2D = null, axis_tag: String = "",
+		preview: String = "") -> Button:
 	var btn := Button.new()
 	btn.set_meta("moral_role", "choice_card")
 	btn.set_meta("moral_accent", accent if not disabled else "#343446")
@@ -7386,8 +7856,16 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	var sub_lbl := _label(subtitle, 12, "#a6adba" if not disabled else "#484c5c")
 	sub_lbl.set_meta("moral_role", "choice_subtitle")
 	sub_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	sub_lbl.clip_text = true
 	sub_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	text_col.add_child(sub_lbl)
+	if not preview.is_empty():
+		var preview_lbl := _label(preview, 10, "#7f8998" if not disabled else "#424854")
+		preview_lbl.set_meta("moral_role", "hint_text")
+		preview_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		preview_lbl.clip_text = true
+		preview_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		text_col.add_child(preview_lbl)
 
 	var badge_text := forced_badge
 	if forced_badge == _tr("잠금", "Locked"):
@@ -7985,7 +8463,8 @@ func _cat_modal_button(label: String, accent: String, fn: String, arg = null):
 		"",
 		"",
 		art_thumb,
-		_action_axis_tag_for_card(fn))
+		_action_axis_tag_for_card(fn),
+		_ap_action_preview(fn, icon_id))
 	btn.custom_minimum_size = Vector2(0, 82)
 	var fn_name := fn
 	var fn_arg = arg
@@ -8117,9 +8596,7 @@ func _open_cat_money():
 		modal_body.add_child(_wrap_label(_tr("잠금: 투자는 상철과의 대화 후 가능하다.", "Locked: investing unlocks after talking with Sangchul."), 12, "#5a5a6a"))
 	else:
 		modal_body.add_child(_wrap_label(_tr("잠금: 투자는 첫 월급을 받은 뒤 가능하다.", "Locked: investing unlocks after your first paycheck."), 12, "#5a5a6a"))
-	var shift_pay := 90_000
-	if is_instance_valid(aruba_game) and aruba_game.has_method("get_base_pay"):
-		shift_pay = int(aruba_game.get_base_pay())
+	var shift_pay := _side_shift_base_pay()
 	var side_label := _tr("%s  —  %s+ (건강-3, 정신력 변동)", "%s  —  %s+ (Health -3, Mental varies)") % [
 		_side_shift_title(), GameState.format_money(float(shift_pay))]
 	_cat_modal_button(side_label, "#3a8a5a", "_ap_side_job")
@@ -10358,6 +10835,7 @@ func _show_vignette(title: String, body: String, eff: Dictionary, color: String)
 	choice_box.add_child(btn_row)
 
 	var btn: Button = _button(_tr("확인", "OK"), color)
+	btn.set_meta("ap_result_confirm", true)
 	btn.custom_minimum_size = Vector2(220, 46)
 	btn.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	btn.pressed.connect(func(): _finish_typing(); _on_result_confirmed())
