@@ -318,6 +318,7 @@ Codex가 오더 없이 `content/meta/story_rules.json`(언어 독립 서사 사�
 4. **축의 종결 가치**: human/건강/정신 축이 "돈 버는 효율"로만 수렴하지 않게 — 각 축이 **다른 엔딩·다른 콘텐츠를 여는 목적 그 자체**가 되게(이미 부분 존재: 관계 엔딩·삶의 모양 칭호 — 발산에 실효가 있는지 시뮬로 확인, 부족분 강화). 신규 시스템 아님, 기존 가중치 조정.
 5. **선택 지평 확장**: 이번 주 선택이 3주 뒤 잊히지 않게 — 모멘텀/누적 보상(연차 정체성·스노우볼과 통합, 이미 있는 것 강화).
 **C. 결과 가시화 (즉각+전략 동시 — 데모 우선)**
+**C 데모 압박·결과 가시화 착수 (2026-07-16 Codex) — 만지는 파일:** `scenes/MainGame.gd`, `locale/ui_ja.json`, `tools/ImmersionLoopCheck.gd`, `tools/DemoBuildCheck.gd`, `tools/ScreenshotQA.gd`, `docs/AP_REDESIGN.md`, `docs/GAME_RECOMPOSITION_PLAN.md`, `docs/MASTER_RELEASE_AUDIT.md`, `docs/QA_CHECKLIST.md`, `docs/DEMO_FIXLOG.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 데모 24주에서 기존 주간 초점·AP 카드·최근 행동 메아리를 `이번 주의 압박 하나 → 맥락 대응 세 개 → 다른 행동 접기`로 재편한다. 세 대응은 실제 기존 함수만 호출하며 커밋 전에 즉시 기대·AP/현금/몸 비용·위험 밴드·1~3주 뒤 남는 파장을 표시한다. 정확한 확률·숨은 Moral/route 수치는 노출하지 않고, 프리뷰는 상태를 바꾸지 않는다. 전체 5년의 기존 Act 보드는 보존하며 데모 수직 슬라이스가 실제 입력·KO/EN·1280×800·패드 포커스 게이트를 통과한 뒤에만 확산한다. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
 6. **위험/보상 프리뷰**: 확률·판단이 걸린 AP 행동(투자·도박·구직·인맥)은 커밋 **전에** 예상 범위·리스크를 표시(예측 정보 치트 아님 — 밴드만, 정확한 값 비노출). "안전한 알바 vs 위험한 투자"가 진짜 도박이 되게.
 7. **"이번 주의 압박" 프레임**(ORDER-22 인박스·시계와 통합): 매주 초점 하나(월세 D-day·다은 무응답·면접 결과일) — AP 행동이 그 압박에 응답하는 수단이 되게. "붕 뜸"의 직접 처방.
 **검증**: CONVERGENCE_REPORT가 아키타입별 실질 발산을 보이는가(자동) + 유저 Round: "1번과 2번을 누를 때 고민이 됐는가 / 다르게 플레이하면 다른 5년이 될 것 같은가"(체감). 둘 다 GO여야 닫힘.
