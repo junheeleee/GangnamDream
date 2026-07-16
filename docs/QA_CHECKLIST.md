@@ -186,7 +186,7 @@ Automated input and display gates:
 - Its keyboard tasks must place/start one real round in Blackjack, Baccarat, Slots, Roulette, Big Wheel, Dai Sai, Holdem, and RaceTrack, then launch the selected table from the casino hub. A stake-only toggle is insufficient.
 - Keyboard-only title-to-demo QA must reach the week-25 CTA with `mouse_events=0`; mouse-only QA must reach the same boundary with `key_events=0`. Both routes must begin unemployed and exercise money and human axes.
 - The month summary and demo-ending CTA must fit at 1280x800 without vertical scrolling or an off-screen progression button.
-- `ScreenshotQA --qa=display-matrix --lang=en` must pass independently at 1920x1080, 2560x1440, 3840x2160, and 3440x1440. Every run captures title settings, the demo AP decision, and a Living Scene choice; 1080p additionally captures Xbox, PlayStation, and Nintendo glyph surfaces.
+- `ScreenshotQA --qa=display-matrix --lang=en` must pass independently at 1280x720, 1280x800, 1920x1080, 2560x1440, 3840x2160, and 3440x1440. Every run captures title settings, the demo AP decision, and a Living Scene choice; 1080p additionally captures Xbox, PlayStation, and Nintendo glyph surfaces.
 - Settings and AP decision controls must stay inside the 2.5% TV-safe rectangle. Captured PNG dimensions must equal the requested output dimensions.
 - Xbox/Steam Deck, PlayStation, and Nintendo labels must come from `ControllerHints` physical positions. Game scenes may not hardcode one brand's face-button letters.
 - Reduce Motion and vibration on/off/strength must be reachable from both title and in-run settings without restarting current audio or changing game state.

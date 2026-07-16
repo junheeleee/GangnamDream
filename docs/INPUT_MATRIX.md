@@ -45,7 +45,7 @@ The mouse run exposed a clipped month-summary progression button. The summary is
 
 | Output | Aspect | Automated render | Result | Notes |
 |---|---:|---:|---|---|
-| 1280x720 | 16:9 | Settings option/static contract | Supported | Hardware/UI spot pass still required |
+| 1280x720 | 16:9 | Settings, AP, Living Scene | PASS | Low-height reference; hardware spot pass still required |
 | 1280x800 | 16:10 | Repeated demo and Steam Deck QA | PASS | Primary Deck reference |
 | 1600x900 | 16:9 | Settings option/static contract | Supported | Uses the same 16:9 composition |
 | 1920x1080 | 16:9 | Settings, AP, Living Scene, three glyph families | PASS | TV safe margin enforced |
@@ -82,7 +82,7 @@ direct_scenes=9 direct_routes=18 keyboard_tasks=9 action_sets=4
 
 The nine keyboard tasks do more than toggle a control: Blackjack deals, Baccarat places a Player bet and deals, Slots starts the reels, Roulette stages a bet and spins, Big Wheel selects and spins, Dai Sai selects and rolls, Holdem buys in and deals, RaceTrack selects a horse and starts the race, and the casino hub launches the highlighted table. The English 1080p Blackjack capture also verifies that keyboard hints replace gamepad letters and that the longest stake text fits the central betting spot.
 
-`ScreenshotQA --qa=display-matrix --lang=en` must pass separately at 1920x1080, 2560x1440, 3840x2160, and 3440x1440. The 1080p pass also captures Xbox, PlayStation, and Nintendo title hints.
+`ScreenshotQA --qa=display-matrix --lang=en` must pass separately at 1280x720, 1280x800, 1920x1080, 2560x1440, 3840x2160, and 3440x1440. The 1080p pass also captures Xbox, PlayStation, and Nintendo title hints.
 
 ## Remaining Hardware Gates
 
