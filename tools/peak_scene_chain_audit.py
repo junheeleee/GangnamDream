@@ -58,7 +58,7 @@ MIN_DIALOGUE_TURNS = 2
 MIN_PANELS = 6
 
 # Ratchet updated only after a peak is expanded and its rendered QA passes.
-BASELINE_DEBT = 20
+BASELINE_DEBT = 19
 REQUIRED_PASS = {
     "arc_date_namsan_daeun",
     "arc_date_namsan_jiyeon",
@@ -68,6 +68,7 @@ REQUIRED_PASS = {
     "arc_sangchul_confrontation",
     "father_hospital_wait",
     "arc_father_passing",
+    "arc_father_call_on_ktx",
 }
 
 

@@ -74,7 +74,7 @@ CGs remain authoritative. A split-screen phone CG may hide the standing portrait
 
 The first pass intentionally covers high-risk material instead of pretending all 1,500 events are migrated:
 
-- Ledger events: 58 / 1,505 (3.9%)
+- Ledger events: 61 / 1,507 (4.0%)
 - Typed logic contracts: 21
 - Remote/media presentation contracts: 38
 - Demo transition contracts: 11 / 11
@@ -82,7 +82,7 @@ The first pass intentionally covers high-risk material instead of pretending all
 - Unclassified non-player portraits with phone/message titles: 0
 - Demo father-contact logic targets: 4 / 4
 
-The migrated Father peaks are now explicit as well. The prologue call remains at the rainy bus stop reached by the previous scene; the result boards a bus, and only `Back at the goshiwon / 고시원에 돌아온 뒤` authorizes the notebook background change. Minjun later waits opposite an inpatient examination room on Father's third day in a Changwon hospital; Father appears in a hospital gown only after the door opens, and the return trip is to Seoul. Changwon-home meetings and calls use the worn home cardigan, while the late illness call changes acting without changing clothes. The final call begins in Minjun's actual current housing, then separates the winter Seoul KTX platform or Seoul deal room from the empty Changwon hospital room or next-morning hospital call. Neither buildup link can commit Father's death, money, mental, or moral state before the terminal scene.
+The migrated Father peaks are now explicit as well. The prologue call remains at the rainy bus stop reached by the previous scene; the result boards a bus, and only `Back at the goshiwon / 고시원에 돌아온 뒤` authorizes the notebook background change. Minjun later waits opposite an inpatient examination room on Father's third day in a Changwon hospital; Father appears in a hospital gown only after the door opens, and the return trip is to Seoul. Changwon-home meetings and calls use the worn home cardigan, while the late illness call changes acting without changing clothes. The 23-second artifact scene now establishes a Seoul-bound KTX eleven minutes after it passed Changwon Jungang Station; the old call uses a compact `MEMORY / 기억` inset with Father at his Changwon home, never a body standing inside the train. Its buildup cannot alter state, and only the terminal call/no-call choice applies the legacy effects. The final passing call begins in Minjun's actual current housing, then separates the winter Seoul KTX platform or Seoul deal room from the empty Changwon hospital room or next-morning hospital call. Neither buildup link can commit Father's death, money, mental, or moral state before the terminal scene.
 
 These are ratchets. `minimum_ledger_events` cannot fall, and the unclassified communication count cannot rise above zero.
 

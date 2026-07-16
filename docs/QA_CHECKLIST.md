@@ -37,6 +37,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Prologue motivation imprint: Knee, Last Payment, notebook choices, persistent goal sentence, notebook modal, montage, and month-end ritual | `--qa=motivation-imprint --lang=ko/en` |
 | Tier-1 peak scene chain count, meaningful decision points, StoryMode panels, dialogue exchange, and KO/EN choice parity | `python3 tools/peak_scene_chain_audit.py --strict` |
 | Father peaks and wardrobe: Changwon hospital geography, local Minjun before Father's physical reveal, patient gown in ward scenes, old home clothes in Changwon-home meetings/calls, corrected opaque skin/clothing color, actual current-housing last call, winter Seoul KTX platform, Seoul deal room, empty Changwon ward, next-morning remote call, canonical terminal effects, and KO/EN fit (20 shots per language) | `--qa=father-peaks --lang=ko/en` |
+| Father 23-second KTX chain: Seoul-bound geography after Changwon Jungang, optional artifact-memory link, remote home-clothes memory inset, final call/no-call fit, unchanged terminal effects/flags, and KO/EN fit (8 shots per language) | `--qa=father-ktx --lang=ko/en` |
 | Prepared Japanese/Chinese arbitrary-character wrapping and 1280x800 safe area | `--qa=i18n-layout --lang=ja/zh-CN/zh-TW` |
 | Splash, opening, StartMenu press-any-key, start menu, content notice | `--qa=start-en` |
 | Archive CG silhouettes/fullscreen preview, scene replay paging, hidden-name secrecy, and read-only GameState/MetaProgression invariants | `--qa=gallery --lang=ko/en` |

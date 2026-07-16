@@ -28,6 +28,8 @@
     {"id": "arc_season_sea_daeun", "background": "ktx_window", "portrait": "daeun_sea"},
     {"id": "arc_season_sea_jiyeon", "background": "ktx_window", "portrait": "jiyeon_sea"},
     {"id": "arc_father_call_on_ktx", "background": "ktx_window", "portrait": null},
+    {"id": "arc_father_call_on_ktx_memory", "background": "ktx_window", "portrait": "father_home"},
+    {"id": "arc_father_call_on_ktx_number", "background": "ktx_window", "portrait": null},
     {"id": "arc_father_passing", "background": "current_housing", "portrait": "player_shocked"},
     {"id": "arc_father_passing_platform", "background": "seoul_station_ktx_platform_winter", "portrait": null},
     {"id": "arc_father_passing_deal_room", "background": "meeting", "portrait": "player_suit"},

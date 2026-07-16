@@ -431,16 +431,42 @@
   },
   {
     "id": "arc_father_call_on_ktx",
-    "title": "KTX, Outside the Window",
-    "description": "On the KTX. Outside the window, the scenery slid backward without a sound.\n{name} opened the call log. Father. Twenty-three seconds.\n\nNo matter how far he scrolled up, that was the first and nearly the only record. In five years, the calls between father and son came to just those few. Twenty-three seconds — what could you fit inside that? No — even in those twenty-three seconds, {name} had wanted to hang up quickly.\n\nHis finger stopped over the number. That this train going down might be the last one — he knew it, and was pretending not to.",
+    "title": "Eleven Minutes Ago",
+    "description": "The Seoul-bound KTX had pulled out of Changwon Jungang Station eleven minutes ago.\n{name} was returning from an errand in South Gyeongsang that might, eventually, turn into money. Father's hospital had been a fifteen-minute taxi ride from the station. {name} had paused on the platform, then taken his assigned seat for Seoul.\n\nThe phone on the tray table shifted a little whenever the train curved. On its screen was a call-log screenshot he had saved years ago.\nFather. Twenty-three seconds.\n\n\"You doing all right?\" \"Yeah.\" \"Okay. Hang up, then.\"\nSince moving to Seoul, every call between father and son could be cleared with a few strokes of a thumb. Who had hung up first had blurred. The number had not.\n\nAs the train neared a tunnel, {name}'s reflection deepened in the glass. His finger stopped between the screenshot and Father's contact.",
+    "choices": [
+      {
+        "text": "Open the saved twenty-three-second screenshot",
+        "result_text": "{name} enlarged the screenshot. Beneath the contact name were only the time of the call and the number twenty-three.\n\nRubbing a thumb across the glass brought back none of the words he had failed to say. Instead, the goshiwon ceiling returned, along with Father's breath arriving one beat late through the phone."
+      },
+      {
+        "text": "Close it and find Father's contact",
+        "result_text": "He closed the photo app and opened his contacts. Father was only a few swipes down.\n\nIt had taken eleven minutes to get from Changwon Jungang Station to this seat. It took less than a second to find the name again."
+      }
+    ]
+  },
+  {
+    "id": "arc_father_call_on_ktx_memory",
+    "title": "Twenty-Three Seconds",
+    "description": "The goshiwon ceiling from that night returned. The lights had been off; only the phone had lit his face. Father was at home in Changwon. {name} was in a one-pyeong room in Seoul.\n\n\"You doing all right?\"\n\"Yeah.\"\n\"You eating?\"\n\"I am.\"\n\nA television murmured somewhere behind Father's voice. While Father searched for something more to say, {name} had watched the end-call button. As if having no achievement to report meant having nothing to ask.\n\n\"Okay. Hang up, then.\"\n\nTwenty-three seconds was short. The last silence had been strangely long.",
+    "choices": [
+      {
+        "text": "Leave the memory and face the number now",
+        "result_text": "The train announcement stripped away the goshiwon ceiling. The KTX seat and {name}'s face returned in the window.\n\nFather's contact was still open. So was the call button beneath his name."
+      }
+    ]
+  },
+  {
+    "id": "arc_father_call_on_ktx_number",
+    "title": "Call",
+    "description": "Father's name sat at the center of the contact screen. Beneath it, the green call button trembled with the train.\n\n{name} tried the first words silently. \"Dad, it's me.\" Obvious words, yet no second sentence came. Was he keeping his hospital appointments? Why hadn't {name} gotten off in Changwon? What, exactly, did he believe he had accomplished in Seoul? Starting anywhere felt like avoiding everything else.\n\nThe train entered a tunnel. Hand, face, and call button appeared together in the black window. {name} knew this might be his last chance to call, and pretended he did not.",
     "choices": [
       {
         "text": "Call him",
-        "result_text": "{name} pressed the number.\nIt rang. Once, twice, three times. No answer.\nMaybe, right now, Father was in no state to take a call. The thought turned his fingertips cold.\n{name} set the phone down and looked out the window. The scenery kept fleeing backward — at a speed there was no catching."
+        "result_text": "{name} pressed the number.\n\nIt rang once, twice, three times. Each time the wheels crossed a rail joint, a low vibration entered the space between the tones. The connection dropped before the fourth ring began. No answer.\n\nMaybe Father was no longer in any state to take a call. The thought turned {name}'s fingertips cold.\n\nHe set the phone down and looked outside. When the tunnel ended, dark fields and a handful of lights fled backward at a speed there was no catching."
       },
       {
         "text": "Do not call",
-        "result_text": "{name} couldn't bring himself to call. What to say, what to lead with in twenty-three seconds — he didn't know.\nThe screen went dark on its own. In the black glass, his own face was faintly reflected.\n{name} closed his eyes. With them shut, he listened to the scenery fleeing backward and backward. The train still had a long way left to go."
+        "result_text": "{name} couldn't bring himself to call. What to say, what to lead with in twenty-three seconds — he didn't know. The thought that he would do it after reaching Seoul became convincing one more time.\n\nThe screen went dark on its own. In the black glass, his own face was faintly reflected.\n\n{name} closed his eyes. The wheels crossed the rail joints in a steady rhythm. The train still had a long way left to go."
       }
     ]
   }

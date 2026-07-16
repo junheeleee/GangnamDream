@@ -20,6 +20,8 @@ func _run() -> void:
 		return
 	if not await _check_memory_inset_ko():
 		return
+	if not await _check_father_ktx_memory_ko():
+		return
 	if not await _check_in_person_reset():
 		return
 
@@ -30,7 +32,7 @@ func _run() -> void:
 
 	LocaleManager.language = _original_language
 	DataRegistry.reload()
-	print("STORY_PRESENCE_CHECK_OK phone=remote message=local memory=inset in_person=full en=clean")
+	print("STORY_PRESENCE_CHECK_OK phone=remote message=local memory=inset ktx=memory in_person=full en=clean")
 	get_tree().quit(0)
 
 func _check_remote_phone_ko() -> bool:
@@ -86,6 +88,35 @@ func _check_memory_inset_ko() -> bool:
 		return _fail("remembered Sangchul is not separated from physical presence")
 	if not is_equal_approx(float(_story.get("_portrait_target_alpha")), 0.80):
 		return _fail("memory portrait does not use the quieter opacity")
+	await _remove_story()
+	return true
+
+func _check_father_ktx_memory_ko() -> bool:
+	_story = await _boot_story("arc_father_call_on_ktx_memory")
+	if _story == null:
+		return false
+	var presentation: Dictionary = _story.get("_current_presentation")
+	var badge_label := _story.get("_communication_label") as Label
+	var name_label := _story.get("_name_tag") as Label
+	var background := _story.get("_bg_img") as TextureRect
+	var portrait := _story.get("_portrait") as TextureRect
+	if str(presentation.get("channel", "")) != "memory" \
+			or str(presentation.get("scene_location", "")) != "seoulbound_ktx_after_changwon" \
+			or str(presentation.get("remote_location", "")) != "changwon_home_at_first_call" \
+			or str(presentation.get("remote_actor", "")) != "father":
+		return _fail("Father KTX memory lost its local-train/remote-home contract")
+	if not bool(_story.get("_portrait_remote_inset")) \
+			or not is_instance_valid(badge_label) or badge_label.text != "기억" \
+			or not is_instance_valid(name_label) or "기억" not in name_label.text:
+		return _fail("Father KTX memory reads as physical co-presence")
+	var expected_background := ImageRegistry.get_background("ktx_window")
+	var expected_portrait := ImageRegistry.get_portrait("father_home")
+	if not is_instance_valid(background) or background.texture == null \
+			or background.texture.resource_path != expected_background:
+		return _fail("Father KTX memory left the train interior")
+	if not is_instance_valid(portrait) or portrait.texture == null \
+			or portrait.texture.resource_path != expected_portrait:
+		return _fail("Father KTX memory lost the canonical home-clothes portrait")
 	await _remove_story()
 	return true
 

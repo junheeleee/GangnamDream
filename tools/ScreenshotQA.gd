@@ -32,6 +32,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=commitment --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=breakup --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=sangchul-confrontation --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=father-ktx --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ending-p1 --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=transport --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=first-snow --lang=en
@@ -102,6 +103,7 @@ const QA_SCOPE_COMMITMENT := "commitment"
 const QA_SCOPE_BREAKUP := "breakup"
 const QA_SCOPE_SANGCHUL_CONFRONTATION := "sangchul_confrontation"
 const QA_SCOPE_FATHER_PEAKS := "father_peaks"
+const QA_SCOPE_FATHER_KTX := "father_ktx"
 const QA_SCOPE_FIRST_SNOW := "first_snow"
 const QA_SCOPE_CLIMATE := "climate"
 const QA_SCOPE_EVENT_VISUALS := "event_visuals"
@@ -372,6 +374,16 @@ func _ready() -> void:
 			get_tree().quit(1)
 			return
 		print("SCREENSHOT_QA_DONE scope=father-peaks lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_FATHER_KTX:
+		var lang := _qa_language("en")
+		await _shot_father_ktx_surfaces(
+				lang, "father_ktx_en_" if lang == "en" else "father_ktx_ko_")
+		if _qa_failed:
+			get_tree().quit(1)
+			return
+		print("SCREENSHOT_QA_DONE scope=father-ktx lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_FIRST_SNOW:
@@ -677,6 +689,10 @@ func _qa_scope() -> String:
 				"--father-peaks", "--father_peaks", "qa=father-peaks", "--qa=father-peaks",
 				"qa=father_peaks", "--qa=father_peaks", "scope=father-peaks", "--scope=father-peaks"]:
 			return QA_SCOPE_FATHER_PEAKS
+		if arg in ["father-ktx", "father_ktx", "--father-ktx", "--father_ktx",
+				"qa=father-ktx", "--qa=father-ktx", "qa=father_ktx", "--qa=father_ktx",
+				"scope=father-ktx", "--scope=father-ktx"]:
+			return QA_SCOPE_FATHER_KTX
 		if arg in ["first-snow", "first_snow", "snow-romance", "snow_romance",
 				"--first-snow", "--first_snow", "qa=first-snow", "--qa=first-snow",
 				"qa=first_snow", "--qa=first_snow", "scope=first-snow", "--scope=first-snow"]:
@@ -3740,6 +3756,70 @@ func _assert_father_passing_state(
 			or not GameState.flags.get("father_passed", false) \
 			or not GameState.flags.get(route_flag, false):
 		_fail("Father passing %s did not commit its canonical final route." % label)
+
+func _shot_father_ktx_surfaces(lang: String = "en", prefix: String = "father_ktx_en_") -> void:
+	_set_qa_language(lang)
+
+	_prepare_father_ktx_qa_state()
+	await _shot_story_event("arc_father_call_on_ktx", prefix + "01_station_passed_intro", "", 0.55, true)
+	_prepare_father_ktx_qa_state()
+	await _shot_story_event("arc_father_call_on_ktx", prefix + "02_station_passed_choices", "", 0.45, true, true)
+	_prepare_father_ktx_qa_state()
+	await _shot_story_event("arc_father_call_on_ktx", prefix + "03_open_memory_result", "", 0.45, true, true, 0, 0, false, 1)
+	_assert_father_ktx_uncommitted("open memory")
+
+	_prepare_father_ktx_qa_state()
+	await _shot_story_event("arc_father_call_on_ktx_memory", prefix + "04_remote_memory", "", 0.55, true)
+	_prepare_father_ktx_qa_state()
+	await _shot_story_event("arc_father_call_on_ktx_memory", prefix + "05_memory_exit_result", "", 0.45, true, true, 0, 0, false, 1)
+	_assert_father_ktx_uncommitted("memory exit")
+
+	_prepare_father_ktx_qa_state()
+	await _shot_story_event("arc_father_call_on_ktx_number", prefix + "06_call_decision", "", 0.55, true, true)
+	_prepare_father_ktx_qa_state()
+	await _shot_story_event("arc_father_call_on_ktx_number", prefix + "07_call_result", "", 0.45, true, true, 0, 0, false, 2)
+	_assert_father_ktx_state("call", 55, 15.0, true)
+	_prepare_father_ktx_qa_state()
+	await _shot_story_event("arc_father_call_on_ktx_number", prefix + "08_silence_result", "", 0.45, true, true, 1, 0, false, 2)
+	_assert_father_ktx_state("silence", 50, 3.0, false)
+
+func _prepare_father_ktx_qa_state() -> void:
+	_prepare_main_game_state()
+	GameState.month = 10
+	GameState.money = 100_000_000.0
+	GameState.mental = 60
+	GameState.moral_tint = 0.0
+	for flag in [
+		"father_passed", "arc_father_call_on_ktx_seen", "called_father_on_ktx",
+	]:
+		GameState.flags.erase(flag)
+	GameState.flags["arc_father_03_seen"] = true
+	GameState.flags["arc_father_medication_seen"] = true
+	_set_cast_relation_for_qa("father", 50)
+	GameState.cast["father"]["stage"] = "hospitalized"
+	if not GameState.has_item("artifact_father_call"):
+		GameState.add_item("artifact_father_call", 1)
+
+func _assert_father_ktx_uncommitted(label: String) -> void:
+	if int(GameState.mental) != 60 or not is_equal_approx(GameState.moral_tint, 0.0):
+		_fail("Father KTX %s changed stats before the final decision." % label)
+	if GameState.flags.get("arc_father_call_on_ktx_seen", false) \
+			or GameState.flags.get("called_father_on_ktx", false):
+		_fail("Father KTX %s committed a route before the final decision." % label)
+	if str(GameState.cast["father"].get("stage", "")) != "hospitalized":
+		_fail("Father KTX %s changed Father's canonical stage." % label)
+
+func _assert_father_ktx_state(label: String, mental: int, tint: float, called: bool) -> void:
+	if int(GameState.mental) != mental or not is_equal_approx(GameState.moral_tint, tint):
+		_fail("Father KTX %s totals changed: mental=%s tint=%s." % [
+			label, GameState.mental, GameState.moral_tint,
+		])
+	if not GameState.flags.get("arc_father_call_on_ktx_seen", false) \
+			or bool(GameState.flags.get("called_father_on_ktx", false)) != called:
+		_fail("Father KTX %s did not preserve the canonical route flags." % label)
+	if str(GameState.cast["father"].get("stage", "")) != "hospitalized" \
+			or GameState.flags.get("father_passed", false):
+		_fail("Father KTX %s changed Father before the passing chain." % label)
 
 func _shot_transport_surfaces(lang: String = "en", prefix: String = "transport_en_") -> void:
 	_set_qa_language(lang)

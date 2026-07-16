@@ -51,7 +51,7 @@
     ]
   },
   "coverage_targets": {
-    "minimum_ledger_events": 58,
+    "minimum_ledger_events": 61,
     "max_unclassified_communication_suspects": 0,
     "demo_logic": [
       "arc_intro_02_dad_call",
@@ -80,6 +80,7 @@
       "callback_called_father_first_echo",
       "callback_proactive_parent_care_echo",
       "callback_rushed_to_father_echo",
+      "arc_father_call_on_ktx_memory",
       "arc_father_passing",
       "arc_father_passing_deal_morning",
       "arc_opp_sangchul_realty",
@@ -491,6 +492,54 @@
         "remote_actor": "nurse",
         "portrait_role": "local",
         "expected_portrait": "player_suit"
+      }
+    },
+    "arc_father_call_on_ktx": {
+      "logic": {
+        "requires": [{"fact": "father.life", "is": "hospitalized"}],
+        "legacy": {
+          "requires_flags": ["arc_father_03_seen", "arc_father_medication_seen"],
+          "forbids_flags": ["father_passed", "arc_father_call_on_ktx_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "narration",
+        "scene_location": "seoulbound_ktx_after_changwon",
+        "portrait_role": "none"
+      }
+    },
+    "arc_father_call_on_ktx_memory": {
+      "logic": {
+        "requires": [{"fact": "father.life", "is": "hospitalized"}],
+        "legacy": {
+          "requires_flags": ["arc_father_03_seen", "arc_father_medication_seen"],
+          "forbids_flags": ["father_passed", "arc_father_call_on_ktx_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "memory",
+        "state": "received",
+        "scene_location": "seoulbound_ktx_after_changwon",
+        "remote_location": "changwon_home_at_first_call",
+        "remote_actor": "father",
+        "portrait_role": "remote",
+        "expected_portrait": "father_home"
+      }
+    },
+    "arc_father_call_on_ktx_number": {
+      "logic": {
+        "requires": [{"fact": "father.life", "is": "hospitalized"}],
+        "legacy": {
+          "requires_flags": ["arc_father_03_seen", "arc_father_medication_seen"],
+          "forbids_flags": ["father_passed", "arc_father_call_on_ktx_seen"],
+          "produces_all": ["arc_father_call_on_ktx_seen"],
+          "produces_any": ["called_father_on_ktx"]
+        }
+      },
+      "presentation": {
+        "channel": "narration",
+        "scene_location": "seoulbound_ktx_after_changwon",
+        "portrait_role": "none"
       }
     },
     "arc_father_ng_call": {
