@@ -381,6 +381,7 @@ Codex가 오더 없이 `content/meta/story_rules.json`(언어 독립 서사 사�
 > **포지셔닝 정본(유저 논의 2026-07-13)**: 토탈 컨버전("뉴욕 버전") 역량은 만들되 **스토어는 게임으로만 포지셔닝** — 플랫폼 지위는 커뮤니티가 사후에 명명하게(스카이림 패턴). 이 인프라의 1차 고객은 모더가 아니라 **우리 DLC**(다은의 5년·공식 스핀오프)다.
 #### [~] ORDER-18 [P1] 기술 부채 전수 인벤토리 + 3분류 수리 (유저 원칙 2026-07-13: "길게 봐서 하드코딩 정리" — 시점 분류로 집행)
 **착수 (2026-07-16 Codex) — 만지는 파일:** `tools/tech_debt_inventory.py`, `docs/TECH_DEBT.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 먼저 전 `.gd`의 크기·책임·긴 함수·매직 리터럴·복제 함수·동적 호출·죽은 코드 후보를 읽기 전용으로 재현하는 인벤토리를 만들고 A/B/C를 판정한다. A급 수리 대상이 확정되면 해당 소스와 검증 파일을 이 선언에 추가한 별도 커밋을 먼저 푸시한 뒤에만 수정한다. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
+**A급 수리 범위 추가 (2026-07-16 Codex) — 만지는 파일:** `data/EventData.gd`, `data/EventData.gd.uid`, `data/InvestmentData.gd`, `data/InvestmentData.gd.uid`, `data/ItemData.gd`, `data/ItemData.gd.uid`, `data/JobData.gd`, `data/JobData.gd.uid`, `data/NewsData.gd`, `data/NewsData.gd.uid`, `scenes/StartMenu.gd`, `autoloads/GameState.gd`, `scenes/MainGame.gd`. A-01 참조 0 초기 GDScript 데이터 정본, A-02 호출 0 폐기 타이틀 UI, A-03 명시 legacy no-op·제거된 미니게임 필드만 삭제한다. ORDER-30의 오디오·스토리 파일 범위와 `project.godot`은 건드리지 않는다.
 > 판정 기준: **"로드맵을 막느냐"가 수리 기준** — 하드코딩≠스파게티(finish_run 캐스케이드·_next_arc_id 분기는 의도된 정본). 출시 직전 대수술 금지.
 1. **전수 인벤토리**: 전 .gd에서 ①매직 넘버/문자열 상수 ②중복 패턴(복붙 함수) ③god-object 핫스팟(MainGame.gd 책임 지도) ④데이터여야 할 코드(표면 상수·수치 테이블) ⑤죽은 코드를 카탈로그 → docs/TECH_DEBT.md에 항목별 (위치·위험도·로드맵 연관) 표.
 2. **3분류 집행**:
