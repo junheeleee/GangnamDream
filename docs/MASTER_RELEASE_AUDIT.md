@@ -58,6 +58,8 @@ These are confidence bands, not review scores. Every band must be replaced by pl
 | Motion / game feel | Weak to developing | AP commitment has a clearer board and feedback vocabulary, and chained story scenes no longer flash the AP shell between them; input feel and several navigation transitions still need measured play tests |
 | Moral Tint impact | Promising, partially embodied | Five KO/EN anchor scenes carry one hidden attention grammar from Daeun's cafe through Sangchul, Gangnam, Father, and the final countdown. Band crossings return to one canonical goshiwon/black-crewneck memory frame, identical result cards change attention order, and Gray now stays legibly distinct from both Black collapse and White recovery on naturally dark locations. Portrait distance, surface, lived ambience, and two non-jingle attention cues support the shift; a complete neutral-to-White/Black blind run still has not proven players notice it without explanation |
 | Endings | Developing, wrong reveal order | Thirty-five save-compatible outcomes and eighteen explicit final-CG routes are substantial, but the current Grade/stat report arrives before emotional closure. Final scene, silence, title, and credits must precede records and statistics; the IDs should read as 8-10 finale families with state variants |
+| Stability / save integrity | Good static baseline | Audit, compile, language, balance, asset, and tutorial input-leak checks pass; full branch/save migration and long-session soak remain |
+| Commercial package | Developing | Owned character key art, three Steam capsule sizes, and a localized first-run path exist; no external capsule conversion or wishlist evidence yet |
 
 ## 2026-07-16 Whole-Game Structure Baseline
 
@@ -76,8 +78,12 @@ The reproducible source is `python3 tools/game_structure_audit.py`; the design r
 | Endings / explicit final CG | 35 / 18 | Preserve IDs, group emotional finales, and put scenes before reports |
 
 The accepted target keeps 240 internal weeks and default AP 2 but requires only 40-60 direct decision weeks. The six-month demo is the mandatory vertical slice: 8-10 decisions, two pressure peaks, three to five echoes, no unknown content loss, Korean/English parity, and controller-only completion. Full-game migration is forbidden until that slice is materially better in black-box play.
-| Stability / save integrity | Good static baseline | Audit, compile, language, balance, asset, and tutorial input-leak checks pass; full branch/save migration and long-session soak remain |
-| Commercial package | Developing | Owned character key art, three Steam capsule sizes, and a localized first-run path exist; no external capsule conversion or wishlist evidence yet |
+
+### Strategy convergence baseline
+
+The deterministic 3,000-run comparison now gates five 240-week policies. Safe career, people-first, pure gambling, and founder play have distinct dominant terminal identities; safe career and aggressive investing still converge on `career_climber`. Mean pairwise ending JSD is 0.893, median human-axis use spans 220 weeks, and Moral Tint spans 52 points. No hidden asset catch-up or leader suppression exists in live source.
+
+This is a labeling and dramatic-ownership blocker, not a request to inflate returns. Salary-only play reaches 3B in 0% of modeled runs by design. The aggressive investor reaches median investment skill 100 but is swallowed by the earlier 100M career branch. The live startup acquisition pays 3.2B and sets `startup_exit`, but the generic 3B branch catches it first. Release work must repair those identities while preserving current economy bands. The source and limits are recorded in `docs/CONVERGENCE_REPORT.md`.
 
 ## Three Potential Review-Leading Strengths
 

@@ -14,9 +14,11 @@ balance_sim의 핵심 정책 3개를 줄인 런 수로 돌리고, 결과가 허�
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from balance_sim import run_policy, run_route_policy
+from convergence_sim import run_convergence
 
 RUNS = 1200
 ROUTE_RUNS = 3000
+CONVERGENCE_RUNS = 3000
 failures = []
 
 
@@ -55,3 +57,33 @@ if failures:
     print("   의도된 변경이면 BALANCE.md 기록 후 tools/balance_check.py 밴드를 갱신하세요.")
     sys.exit(1)
 print("\n✓ 밸런스 밴드 전부 통과")
+
+
+print("\n● 전략 발산 회귀 검사 (%d런/아키타입, 240주)" % CONVERGENCE_RUNS)
+convergence = run_convergence(runs=CONVERGENCE_RUNS, verbose=True)
+
+
+def convergence_gate(name, value, lo, hi, suffix=""):
+    ok = lo <= value <= hi
+    mark = "✓" if ok else "✗"
+    print("  %s %s = %.3f%s  (허용 %.3f~%.3f%s)" % (mark, name, value, suffix, lo, hi, suffix))
+    if not ok:
+        failures.append("%s %.3f%s — 허용 %.3f~%.3f%s 이탈" % (name, value, suffix, lo, hi, suffix))
+
+
+summary_by_key = {row["key"]: row for row in convergence["summaries"]}
+convergence_gate("서로 다른 우세 엔딩", float(convergence["dominant_endings"]), 4.0, 5.0)
+convergence_gate("평균 엔딩 JSD", float(convergence["mean_ending_jsd"]), 0.55, 1.0)
+convergence_gate("사람 주차 중앙값 격차", float(convergence["human_week_spread"]), 120.0, 240.0, "주")
+convergence_gate("Moral Tint 중앙값 격차", float(convergence["tint_spread"]), 20.0, 200.0)
+convergence_gate("성실 직장 30억 도달률", float(summary_by_key["safe_career"]["win_rate"]), 0.0, 0.01)
+convergence_gate("사람 중심 친밀관계 도달률", float(summary_by_key["people_first"]["close_rate"]), 0.90, 1.0)
+convergence_gate("도박형 중독 중앙값", float(summary_by_key["gambler"]["addiction_median"]), 50.0, 100.0)
+
+if failures:
+    print("\n✗ 밸런스/수렴 회귀 발견:")
+    for f in failures:
+        print("   - " + f)
+    print("   의도된 변경이면 BALANCE.md와 CONVERGENCE_REPORT.md를 갱신하세요.")
+    sys.exit(1)
+print("\n✓ 밸런스 밴드와 전략 발산 래칫 전부 통과")
