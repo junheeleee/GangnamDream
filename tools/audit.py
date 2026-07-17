@@ -605,7 +605,7 @@ EVENT_ROOT_KEYS = {"id", "title", "description", "category", "rarity", "weight",
                    "description_low_mental", "description_long_gosiwon",
                    "description_if_known", "description_memory_if_known",
                    "description_if_moral", "direction"}
-EVENT_ROOT_KEYS.update({"year_scene_year", "timer_default_choice"})
+EVENT_ROOT_KEYS.update({"year_scene_year", "timer_default_choice", "living_scene"})
 MORAL_PERCEPTION_KEYS = {"deep_black", "black", "gray", "white", "deep_white"}
 DIRECTION_KEYS = {"pace", "amb", "sting", "camera", "hold", "visual"}
 DIRECTION_VALUES = {
@@ -615,6 +615,8 @@ DIRECTION_VALUES = {
     "camera": {"slow_zoom", "drift"},
     "visual": {"black_future"},
 }
+LIVING_SCENE_KEYS = {"effect", "intensity", "blur_px", "memory"}
+LIVING_SCENE_EFFECTS = {"none", "rain", "snow", "memory", "city_light", "fireworks"}
 # apply_choice()가 실제로 처리하는 선택지 키 + 주석용 키
 CHOICE_KEYS = {"text", "text_if_moral", "effects", "flags", "follow_up_event", "result_text",
                "result_cg", "result_cg_reveal_paragraph", "result_background",
@@ -720,6 +722,22 @@ def check_event_keys():
                                 err('%s  [%s] direction.hold는 0.5~2.0초 숫자여야 함' % (rel(p), eid))
                         elif dv not in DIRECTION_VALUES.get(dk, set()):
                             err('%s  [%s] direction.%s 값 "%s"를 렌더러가 처리하지 않음' % (rel(p), eid, dk, dv))
+            living_scene = e.get("living_scene")
+            if living_scene is not None:
+                if not isinstance(living_scene, dict):
+                    err('%s  [%s] living_scene은 object여야 함' % (rel(p), eid))
+                else:
+                    for lk, lv in living_scene.items():
+                        if lk not in LIVING_SCENE_KEYS:
+                            err('%s  [%s] living_scene 미지 필드 "%s"' % (rel(p), eid, lk))
+                        elif lk == "effect" and lv not in LIVING_SCENE_EFFECTS:
+                            err('%s  [%s] living_scene.effect 값 "%s"를 렌더러가 처리하지 않음' % (rel(p), eid, lv))
+                        elif lk == "intensity" and (not isinstance(lv, (int, float)) or isinstance(lv, bool) or not 0.0 <= float(lv) <= 0.65):
+                            err('%s  [%s] living_scene.intensity는 0.0~0.65 숫자여야 함' % (rel(p), eid))
+                        elif lk == "blur_px" and (not isinstance(lv, (int, float)) or isinstance(lv, bool) or not 0.0 <= float(lv) <= 2.0):
+                            err('%s  [%s] living_scene.blur_px는 0.0~2.0 숫자여야 함' % (rel(p), eid))
+                        elif lk == "memory" and not isinstance(lv, bool):
+                            err('%s  [%s] living_scene.memory는 bool이어야 함' % (rel(p), eid))
             if "description_if_moral" in e:
                 _check_moral_text_map(
                     e.get("description_if_moral"),

@@ -183,6 +183,94 @@
       "to_location": "goshiwon_room",
       "arrival_cue_ko": "보름이 지났다",
       "arrival_cue_en": "Two weeks in"
+    },
+    "arc_season_sea_daeun->arc_season_sea_daeun_years": {
+      "mode": "same_location",
+      "from_location": "eastbound_ktx",
+      "to_location": "eastbound_ktx"
+    },
+    "arc_season_sea_daeun->arc_season_sea_daeun_horizon": {
+      "mode": "same_location",
+      "from_location": "eastbound_ktx",
+      "to_location": "eastbound_ktx"
+    },
+    "arc_season_sea_daeun_years->arc_season_sea_daeun_decision": {
+      "mode": "explicit_move",
+      "from_location": "eastbound_ktx",
+      "to_location": "east_sea_beach",
+      "arrival_cue_ko": "역 앞 상가를 지나",
+      "arrival_cue_en": "Past the shops by the station"
+    },
+    "arc_season_sea_daeun_horizon->arc_season_sea_daeun_decision": {
+      "mode": "explicit_move",
+      "from_location": "eastbound_ktx",
+      "to_location": "east_sea_beach",
+      "arrival_cue_ko": "역 앞 상가를 지나",
+      "arrival_cue_en": "Past the shops by the station"
+    },
+    "arc_season_sea_jiyeon->arc_season_sea_jiyeon_voice": {
+      "mode": "same_location",
+      "from_location": "busanbound_ktx",
+      "to_location": "busanbound_ktx"
+    },
+    "arc_season_sea_jiyeon->arc_season_sea_jiyeon_route": {
+      "mode": "same_location",
+      "from_location": "busanbound_ktx",
+      "to_location": "busanbound_ktx"
+    },
+    "arc_season_sea_jiyeon_voice->arc_season_sea_jiyeon_decision": {
+      "mode": "explicit_move",
+      "from_location": "busanbound_ktx",
+      "to_location": "haeundae_beach",
+      "arrival_cue_ko": "부산역을 나와",
+      "arrival_cue_en": "Out of Busan Station"
+    },
+    "arc_season_sea_jiyeon_route->arc_season_sea_jiyeon_decision": {
+      "mode": "explicit_move",
+      "from_location": "busanbound_ktx",
+      "to_location": "haeundae_beach",
+      "arrival_cue_ko": "부산역을 나와",
+      "arrival_cue_en": "Out of Busan Station"
+    },
+    "arc_season_fireworks_daeun->arc_season_fireworks_daeun_dress": {
+      "mode": "same_location",
+      "from_location": "hangang_riverside",
+      "to_location": "hangang_riverside"
+    },
+    "arc_season_fireworks_daeun->arc_season_fireworks_daeun_river": {
+      "mode": "same_location",
+      "from_location": "hangang_riverside",
+      "to_location": "hangang_riverside"
+    },
+    "arc_season_fireworks_daeun_dress->arc_season_fireworks_daeun_decision": {
+      "mode": "same_location",
+      "from_location": "hangang_riverside",
+      "to_location": "hangang_riverside"
+    },
+    "arc_season_fireworks_daeun_river->arc_season_fireworks_daeun_decision": {
+      "mode": "same_location",
+      "from_location": "hangang_riverside",
+      "to_location": "hangang_riverside"
+    },
+    "arc_season_fireworks_jiyeon->arc_season_fireworks_jiyeon_schedule": {
+      "mode": "same_location",
+      "from_location": "hangang_riverside",
+      "to_location": "hangang_riverside"
+    },
+    "arc_season_fireworks_jiyeon->arc_season_fireworks_jiyeon_pace": {
+      "mode": "same_location",
+      "from_location": "hangang_riverside",
+      "to_location": "hangang_riverside"
+    },
+    "arc_season_fireworks_jiyeon_schedule->arc_season_fireworks_jiyeon_decision": {
+      "mode": "same_location",
+      "from_location": "hangang_riverside",
+      "to_location": "hangang_riverside"
+    },
+    "arc_season_fireworks_jiyeon_pace->arc_season_fireworks_jiyeon_decision": {
+      "mode": "same_location",
+      "from_location": "hangang_riverside",
+      "to_location": "hangang_riverside"
     }
   },
   "events": {
@@ -943,6 +1031,134 @@
       "presentation": {
         "channel": "in_person",
         "scene_location": "jiyeon_newlywed_home",
+        "participants": ["player", "jiyeon"],
+        "portrait_role": "present"
+      }
+    },
+    "arc_season_sea_daeun": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "eastbound_ktx",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present"
+      }
+    },
+    "arc_season_sea_daeun_years": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "eastbound_ktx",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present"
+      }
+    },
+    "arc_season_sea_daeun_horizon": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "eastbound_ktx",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present"
+      }
+    },
+    "arc_season_sea_daeun_decision": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "east_sea_beach",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present"
+      }
+    },
+    "arc_season_sea_jiyeon": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "busanbound_ktx",
+        "participants": ["player", "jiyeon"],
+        "portrait_role": "present"
+      }
+    },
+    "arc_season_sea_jiyeon_voice": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "busanbound_ktx",
+        "participants": ["player", "jiyeon"],
+        "portrait_role": "present"
+      }
+    },
+    "arc_season_sea_jiyeon_route": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "busanbound_ktx",
+        "participants": ["player", "jiyeon"],
+        "portrait_role": "present"
+      }
+    },
+    "arc_season_sea_jiyeon_decision": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "haeundae_beach",
+        "participants": ["player", "jiyeon"],
+        "portrait_role": "present"
+      }
+    },
+    "arc_season_fireworks_daeun": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "hangang_riverside",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present"
+      }
+    },
+    "arc_season_fireworks_daeun_dress": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "hangang_riverside",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present"
+      }
+    },
+    "arc_season_fireworks_daeun_river": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "hangang_riverside",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present"
+      }
+    },
+    "arc_season_fireworks_daeun_decision": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "hangang_riverside",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present"
+      }
+    },
+    "arc_season_fireworks_jiyeon": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "hangang_riverside",
+        "participants": ["player", "jiyeon"],
+        "portrait_role": "present"
+      }
+    },
+    "arc_season_fireworks_jiyeon_schedule": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "hangang_riverside",
+        "participants": ["player", "jiyeon"],
+        "portrait_role": "present"
+      }
+    },
+    "arc_season_fireworks_jiyeon_pace": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "hangang_riverside",
+        "participants": ["player", "jiyeon"],
+        "portrait_role": "present"
+      }
+    },
+    "arc_season_fireworks_jiyeon_decision": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "hangang_riverside",
         "participants": ["player", "jiyeon"],
         "portrait_role": "present"
       }

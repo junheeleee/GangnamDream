@@ -58,7 +58,7 @@ MIN_DIALOGUE_TURNS = 2
 MIN_PANELS = 6
 
 # Ratchet updated only after a peak is expanded and its rendered QA passes.
-BASELINE_DEBT = 9
+BASELINE_DEBT = 5
 REQUIRED_PASS = {
     "arc_daeun_wedding_night",
     "arc_jiyeon_wedding_night",
@@ -79,6 +79,10 @@ REQUIRED_PASS = {
     "arc_father_call_on_ktx",
     "arc_jaehyuk_04a_ghost",
     "arc_jaehyuk_mirror",
+    "arc_season_sea_daeun",
+    "arc_season_sea_jiyeon",
+    "arc_season_fireworks_daeun",
+    "arc_season_fireworks_jiyeon",
 }
 
 
@@ -197,6 +201,152 @@ def validate_english_path(
                 f"English peak choice mismatch: {event_id} "
                 f"{len(en_choices)}!={len(ko_choices)}"
             )
+
+
+def validate_season_peak_contracts(events: dict[str, dict[str, Any]]) -> None:
+    """Keep travel/firework preludes state-free and preserve each terminal choice."""
+    contracts = (
+        {
+            "label": "Daeun sea",
+            "root": "arc_season_sea_daeun",
+            "branches": ("arc_season_sea_daeun_years", "arc_season_sea_daeun_horizon"),
+            "final": "arc_season_sea_daeun_decision",
+            "background": "ktx_window",
+            "portrait": "daeun_sea",
+            "cg": "cg_romance_sea_daeun",
+            "actor": "daeun",
+            "texts": ('"내년엔 1박으로 와요."', "말없이 손을 끌고 파도 앞까지 같이 뛴다."),
+            "effects": (
+                {"money": -45_000, "mental": 8, "tint": 2},
+                {"money": -45_000, "mental": 10, "tint": 1},
+            ),
+            "affinity": (8, 5),
+            "flags": (["daeun_sea_5years"], ["daeun_sea_5years"]),
+            "effect": None,
+        },
+        {
+            "label": "Jiyeon sea",
+            "root": "arc_season_sea_jiyeon",
+            "branches": ("arc_season_sea_jiyeon_voice", "arc_season_sea_jiyeon_route"),
+            "final": "arc_season_sea_jiyeon_decision",
+            "background": "ktx_window",
+            "portrait": "jiyeon_sea",
+            "cg": "cg_romance_sea_jiyeon",
+            "actor": "jiyeon",
+            "texts": ("웃는다 — 참으려다 실패한다.", '"그럼 내가 잡고 있을게요. 무릎까지만."'),
+            "effects": (
+                {"money": -60_000, "mental": 6, "tint": 1},
+                {"money": -60_000, "mental": 8, "tint": 2},
+            ),
+            "affinity": (4, 8),
+            "flags": (["jiyeon_cant_swim"], ["jiyeon_cant_swim"]),
+            "effect": None,
+        },
+        {
+            "label": "Daeun fireworks",
+            "root": "arc_season_fireworks_daeun",
+            "branches": (
+                "arc_season_fireworks_daeun_dress",
+                "arc_season_fireworks_daeun_river",
+            ),
+            "final": "arc_season_fireworks_daeun_decision",
+            "background": "hangang_riverside",
+            "portrait": "daeun_fireworks",
+            "cg": "cg_romance_fireworks_daeun",
+            "actor": "daeun",
+            "texts": (
+                '"예뻐요." — 3초를 넘기기 전에.',
+                "불꽃이 터지는 순간, 하늘 대신 옆얼굴을 본다.",
+                "인파에 밀리기 전에 손을 잡는다.",
+            ),
+            "effects": (
+                {"mental": 6, "tint": 2},
+                {"mental": 8, "tint": 2},
+                {"mental": 5, "tint": 1},
+            ),
+            "affinity": (8, 6, 5),
+            "flags": (None, None, None),
+            "effect": "fireworks",
+        },
+        {
+            "label": "Jiyeon fireworks",
+            "root": "arc_season_fireworks_jiyeon",
+            "branches": (
+                "arc_season_fireworks_jiyeon_schedule",
+                "arc_season_fireworks_jiyeon_pace",
+            ),
+            "final": "arc_season_fireworks_jiyeon_decision",
+            "background": "hangang_riverside",
+            "portrait": "jiyeon_fireworks",
+            "cg": "cg_romance_fireworks_jiyeon",
+            "actor": "jiyeon",
+            "texts": (
+                "잡힌 손을 깍지로 고쳐 잡는다.",
+                '"이쪽 모습이 더 좋은데요."',
+                "불꽃이 터지는 순간, 하늘 대신 옆얼굴을 본다.",
+            ),
+            "effects": (
+                {"mental": 6, "tint": 2},
+                {"mental": 5, "tint": 1},
+                {"mental": 8, "tint": 2},
+            ),
+            "affinity": (8, 6, 6),
+            "flags": (None, None, None),
+            "effect": "fireworks",
+        },
+    )
+
+    for contract in contracts:
+        root_id = str(contract["root"])
+        branches = tuple(str(value) for value in contract["branches"])
+        final_id = str(contract["final"])
+        expected_paths = {(root_id, branch_id, final_id) for branch_id in branches}
+        actual_paths = {path.event_ids for path in walk_paths(events, root_id)}
+        if actual_paths != expected_paths:
+            raise ValueError(
+                f"{contract['label']} paths changed: "
+                f"actual={sorted(actual_paths)!r} expected={sorted(expected_paths)!r}"
+            )
+
+        for event_id in (root_id, *branches):
+            event = events[event_id]
+            if event.get("background") != contract["background"] \
+                    or event.get("portrait") != contract["portrait"] \
+                    or event.get("cg"):
+                raise ValueError(f"{contract['label']} buildup visual changed at {event_id}")
+            if contract["effect"] == "fireworks" \
+                    and (event.get("living_scene") or {}).get("effect") != "none":
+                raise ValueError(f"{contract['label']} ignites fireworks before the final link")
+            for choice_index, choice in enumerate(event.get("choices") or []):
+                for forbidden in (
+                    "effects", "flags", "cast_effects", "result_cg", "result_background"
+                ):
+                    if choice.get(forbidden):
+                        raise ValueError(
+                            f"{contract['label']} buildup {event_id}[{choice_index}] "
+                            f"commits {forbidden} before the terminal scene"
+                        )
+
+        final = events[final_id]
+        if final.get("background") != contract["background"] \
+                or final.get("portrait") != contract["portrait"] \
+                or final.get("cg") != contract["cg"]:
+            raise ValueError(f"{contract['label']} final visual changed")
+        if contract["effect"] == "fireworks":
+            if (final.get("living_scene") or {}).get("effect") != "fireworks" \
+                    or final.get("cg_reveal_paragraph") != 2:
+                raise ValueError(f"{contract['label']} final firework timing changed")
+
+        choices = final.get("choices") or []
+        if len(choices) != len(contract["texts"]):
+            raise ValueError(f"{contract['label']} terminal choice count changed")
+        for index, choice in enumerate(choices):
+            expected_cast = {str(contract["actor"]): {"affinity": contract["affinity"][index]}}
+            if choice.get("text") != contract["texts"][index] \
+                    or choice.get("effects") != contract["effects"][index] \
+                    or choice.get("cast_effects") != expected_cast \
+                    or choice.get("flags") != contract["flags"][index]:
+                raise ValueError(f"{contract['label']} final choice {index} changed")
 
 
 def validate_daeun_proposal_contract(events: dict[str, dict[str, Any]]) -> None:
@@ -1388,6 +1538,7 @@ def main() -> int:
 
     ko_events = load_events(EVENTS_KO)
     en_events = load_events(EVENTS_EN)
+    validate_season_peak_contracts(ko_events)
     validate_wedding_night_contracts(ko_events)
     validate_first_kiss_contracts(ko_events)
     validate_home_peak_contracts(ko_events)

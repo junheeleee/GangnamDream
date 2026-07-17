@@ -1,41 +1,57 @@
 {
-  "version": 2,
+  "version": 3,
   "player_outfit": {
     "portrait": "player_romance_casual",
     "description": "Off-duty worn black crewneck and dark trousers. Personal romance scenes never inherit the current job uniform."
   },
   "t0": [
     {
-      "event_id": "arc_season_sea_daeun",
+      "event_id": "arc_season_sea_daeun_decision",
       "cg": "cg_romance_sea_daeun",
       "heroine_portrait": "daeun_sea",
       "heroine_outfit": "Muted coral-rose wrap swim dress with an open pale sky-blue cover-up.",
       "player_visibility": "pov",
-      "eye_line": "Daeun looks just off-axis toward Minjun at camera-left; her head, shoulders, and smile follow the same line."
+      "eye_line": "Daeun looks just off-axis toward Minjun at camera-left; her head, shoulders, and smile follow the same line.",
+      "prelude_event_id": "arc_season_sea_daeun",
+      "branch_event_ids": ["arc_season_sea_daeun_years", "arc_season_sea_daeun_horizon"],
+      "prelude_portrait": "daeun_sea",
+      "prelude_outfit": "The same coral-rose swim dress beneath the pale sky-blue cover-up throughout the train ride and beach arrival."
     },
     {
-      "event_id": "arc_season_sea_jiyeon",
+      "event_id": "arc_season_sea_jiyeon_decision",
       "cg": "cg_romance_sea_jiyeon",
       "heroine_portrait": "jiyeon_sea",
       "heroine_outfit": "Deep emerald asymmetric high-neck swim dress with an open smoke-gray cover-up and restrained silver jewelry.",
       "player_visibility": "cropped_left",
-      "eye_line": "Jiyeon looks down-left directly toward the visible Minjun; Minjun looks up-right at her."
+      "eye_line": "Jiyeon looks down-left directly toward the visible Minjun; Minjun looks up-right at her.",
+      "prelude_event_id": "arc_season_sea_jiyeon",
+      "branch_event_ids": ["arc_season_sea_jiyeon_voice", "arc_season_sea_jiyeon_route"],
+      "prelude_portrait": "jiyeon_sea",
+      "prelude_outfit": "The same emerald swim dress beneath the smoke-gray cover-up, with the same restrained silver jewelry, from KTX to Haeundae."
     },
     {
-      "event_id": "arc_season_fireworks_daeun",
+      "event_id": "arc_season_fireworks_daeun_decision",
       "cg": "cg_romance_fireworks_daeun",
       "heroine_portrait": "daeun_fireworks",
       "heroine_outfit": "Muted blue-gray short-sleeve wrap dress.",
       "player_visibility": "cropped_left",
-      "eye_line": "Daeun watches the fireworks while Minjun watches her."
+      "eye_line": "Daeun watches the fireworks while Minjun watches her.",
+      "prelude_event_id": "arc_season_fireworks_daeun",
+      "branch_event_ids": ["arc_season_fireworks_daeun_dress", "arc_season_fireworks_daeun_river"],
+      "prelude_portrait": "daeun_fireworks",
+      "prelude_outfit": "The same muted blue-gray wrap dress throughout the riverside meeting and first launch."
     },
     {
-      "event_id": "arc_season_fireworks_jiyeon",
+      "event_id": "arc_season_fireworks_jiyeon_decision",
       "cg": "cg_romance_fireworks_jiyeon",
       "heroine_portrait": "jiyeon_fireworks",
       "heroine_outfit": "Unbranded deep-charcoal hooded windbreaker over black.",
       "player_visibility": "cropped_left",
-      "eye_line": "Jiyeon turns back toward Minjun after taking his hand."
+      "eye_line": "Jiyeon turns back toward Minjun after taking his hand.",
+      "prelude_event_id": "arc_season_fireworks_jiyeon",
+      "branch_event_ids": ["arc_season_fireworks_jiyeon_schedule", "arc_season_fireworks_jiyeon_pace"],
+      "prelude_portrait": "jiyeon_fireworks",
+      "prelude_outfit": "The same unbranded deep-charcoal hooded windbreaker over black throughout the riverside meeting and first launch."
     },
     {
       "event_id": "arc_season_cherry_daeun",

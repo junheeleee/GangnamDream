@@ -95,17 +95,29 @@
     "arc_date_namsan_lock_daeun": {"ambience": "street", "music": {"key": "wonder", "start_paragraph": 0}},
     "arc_date_namsan_jiyeon": {"ambience": "street", "music": {"key": "wonder", "start_paragraph": 0}},
     "arc_date_namsan_lock_jiyeon": {"ambience": "street", "music": {"key": "wonder", "start_paragraph": 0}},
-    "arc_season_sea_daeun": {"ambience": "seaside", "music": {"key": "wonder", "start_paragraph": 0}},
-    "arc_season_sea_jiyeon": {"ambience": "seaside", "music": {"key": "wonder", "start_paragraph": 0}},
-    "arc_season_fireworks_daeun": {
+    "arc_season_sea_daeun": {"ambience": "train", "suppress_music": true},
+    "arc_season_sea_daeun_years": {"ambience": "train", "suppress_music": true},
+    "arc_season_sea_daeun_horizon": {"ambience": "train", "suppress_music": true},
+    "arc_season_sea_daeun_decision": {"ambience": "seaside", "music": {"key": "wonder", "start_paragraph": 0}},
+    "arc_season_sea_jiyeon": {"ambience": "train", "suppress_music": true},
+    "arc_season_sea_jiyeon_voice": {"ambience": "train", "suppress_music": true},
+    "arc_season_sea_jiyeon_route": {"ambience": "train", "suppress_music": true},
+    "arc_season_sea_jiyeon_decision": {"ambience": "seaside", "music": {"key": "wonder", "start_paragraph": 0}},
+    "arc_season_fireworks_daeun": {"ambience": "hangang", "suppress_music": true},
+    "arc_season_fireworks_daeun_dress": {"ambience": "hangang", "suppress_music": true},
+    "arc_season_fireworks_daeun_river": {"ambience": "hangang", "suppress_music": true},
+    "arc_season_fireworks_daeun_decision": {
       "ambience": "hangang",
       "music": {"key": "wonder", "start_paragraph": 0},
-      "paragraph_cues": {"0": [{"sfx": "distant_fireworks", "volume_db": -7.0}]}
+      "paragraph_cues": {"2": [{"sfx": "distant_fireworks", "volume_db": -7.0}]}
     },
-    "arc_season_fireworks_jiyeon": {
+    "arc_season_fireworks_jiyeon": {"ambience": "hangang", "suppress_music": true},
+    "arc_season_fireworks_jiyeon_schedule": {"ambience": "hangang", "suppress_music": true},
+    "arc_season_fireworks_jiyeon_pace": {"ambience": "hangang", "suppress_music": true},
+    "arc_season_fireworks_jiyeon_decision": {
       "ambience": "hangang",
       "music": {"key": "wonder", "start_paragraph": 0},
-      "paragraph_cues": {"0": [{"sfx": "distant_fireworks", "volume_db": -7.0}]}
+      "paragraph_cues": {"2": [{"sfx": "distant_fireworks", "volume_db": -7.0}]}
     },
     "arc_daeun_proposal": {"ambience": "cafe", "music": {"key": "intimate", "start_paragraph": 0}},
     "arc_daeun_proposal_last_cup": {"ambience": "cafe", "music": {"key": "intimate", "start_paragraph": 0}},

@@ -52,6 +52,10 @@
 | `arc_daeun_wedding_day` | `{"camera":"slow_zoom","sting":"reveal"}` | 텅 빈/채워진 신랑석이 보이는 줌 |
 | `arc_daeun_final_choice_decision` | `{"pace":"slow","amb":"cut","sting":"loss","hold":1.5}` | 풀스택 ③ — 부엌의 생활음을 지난 뒤 서류 위의 결혼 |
 | `arc_jiyeon_verdict_decision` | `{"pace":"slow","amb":"duck","sting":"cold"}` | 아버지의 목소리와 지연의 두려움을 분리해 들은 뒤 내리는 심판 |
+| `arc_season_sea_daeun_decision` | `{"pace":"slow","amb":"duck","camera":"slow_zoom","hold":1.4}` | KTX 전희를 끝내고 동해에 실제 도착한 뒤에만 다은의 해방을 보여준다 |
+| `arc_season_sea_jiyeon_decision` | `{"pace":"slow","amb":"duck","camera":"slow_zoom","hold":1.4}` | 부산행 KTX 전희 뒤 해운대에서만 지연의 균열을 가까이 본다 |
+| `arc_season_fireworks_daeun_decision` | `{"pace":"slow","amb":"duck","camera":"slow_zoom","hold":1.4}` | 발사 전 한강 정적을 보존하고 첫 폭발과 동시에 표정·빛을 연다 |
+| `arc_season_fireworks_jiyeon_decision` | `{"pace":"slow","amb":"duck","camera":"slow_zoom","hold":1.4}` | 잡은 손을 축적한 뒤 첫 불꽃에서만 지연의 비무장 상태를 드러낸다 |
 | `arc_jiyeon_y5_feelings` | `{"camera":"drift","amb":"duck"}` | 재회의 밤공기 |
 | `arc_37_burn_or_light` | `{"pace":"beat"}` | 마지막 해의 자문 — 박자만 |
 | `age_39_final` | `{"pace":"slow","hold":1.5}` | 5년의 끝, 정적 |
@@ -59,6 +63,7 @@
 
 - 후속 후보(2차): 밴드 전이 moral beat(엔진 레벨 — Codex 재량), chapter_cards(`camera:drift` 일괄). 데모 플래시포워드 풀스택 ④는 2026-07-10 완료.
 - **로맨스 명장면 4종 예약**(ROMANCE_SYSTEM.md 7절 구현 시): 어머니의 밥상 `{"pace":"slow","amb":"duck"}` / 밤 버스 `{"camera":"drift","hold":1.5}` / 좁은 방 `{"amb":"cut","hold":1.5}` / 벚꽃(어둠 변주) `{"pace":"slow","sting":"cold"}`.
+- 여름 바다와 불꽃축제의 전희 링크는 `drift`·`duck`까지만 허용한다. 바다 CG·해변 앰비언스와 불꽃 CG·파티클·폭발음은 각 최종 `..._decision` 이전에 시작하지 않는다.
 - 적용 방법: 위 id의 KR 이벤트에 `direction` 키 추가는 렌더러 구현과 **같은 커밋**에서(키만 먼저 넣으면 audit 미지 키 ERROR).
 
 ## 4. 구현 순서 (Codex)

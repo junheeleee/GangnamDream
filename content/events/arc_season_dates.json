@@ -137,14 +137,18 @@
   },
   {
     "id": "arc_season_sea_daeun",
+    "direction": {
+      "pace": "slow",
+      "amb": "duck",
+      "camera": "drift",
+      "hold": 1.0
+    },
     "title": "바다, 5년 만",
     "category": "story",
     "rarity": "story",
     "weight": 0,
     "hidden": true,
     "background": "ktx_window",
-    "cg": "cg_romance_sea_daeun",
-    "cg_reveal_paragraph": 2,
     "portrait": "daeun_sea",
     "conditions": {
       "min_turn": 9999
@@ -157,7 +161,118 @@
       "romance",
       "season"
     ],
-    "description": "동해행 첫차. 다은은 창가에 앉아, 바다가 나올 방향만 계속 내다봤다. 한 번도 졸지 않았다.\n\n역 앞 상가에서 수영복을 골랐다. 다은이 가격표를 두 번 뒤집어 보고 제일 싼 걸 집었다가, {name}이 색이 고운 다른 걸 내밀자 손이 멈췄다. 잠깐 망설이다, 얼굴이 붉어졌다.\n\"이런 거… 오랜만이라. 어울릴지 모르겠어요.\" 말은 그렇게 하면서도, 탈의실 거울 앞에서 몸을 한 번 돌려 봤다.\n\n모래사장에 서자 짠 바람이 머리카락을 흩뜨렸다. 첫 파도가 발치까지 밀려오는 순간, 다은이 소리 내서 웃었다. {name}이 처음 듣는 크기의 웃음이었다 — 입을 가리는 것도 잊은, 아이 같은 웃음.\n\"민준씨, 나 바다… 5년 만이에요.\"\n그 말 끝에 잠깐, 목이 메는 게 보였다. 서울이 그녀에게서 조용히 가져간 목록에 바다가 있었고 — 지금 그걸 5년 만에 돌려받는 얼굴이었다.",
+    "description": "동해행 첫차. 아직 해가 낮게 걸린 시간이었다. 다은은 창가에 앉아 바다가 나올 방향만 계속 내다봤다. 전날 야간 근무를 마치고 바로 나온 사람인데도 한 번도 졸지 않았다.\n\n무릎 위에는 편의점에서 산 김밥과 노선표가 가지런히 놓여 있었다. 다은은 노선표를 펼쳤다가 접을 때마다 창밖을 확인했다.\n\"아직 멀었죠?\"\n\"조금요. 피곤하면 자도 돼요.\"\n\"싫어요. 처음 보이는 순간 놓치면 아깝잖아요.\"\n\n열차가 긴 터널로 들어갔다. 유리창에 바다 대신 두 사람 얼굴이 비쳤다. 다은의 눈 밑에는 밤샘의 흔적이 남아 있었지만, 시선만은 오래전부터 오늘을 기다린 사람처럼 선명했다.",
+    "choices": [
+      {
+        "text": "\"못 오는 동안, 많이 보고 싶었어요?\"",
+        "follow_up_event": "arc_season_sea_daeun_years",
+        "result_text": "다은은 바로 대답하지 않았다. 터널 벽의 불빛이 얼굴 위를 일정한 간격으로 훑고 지나갔다.\n\n\"보고 싶다고 생각하면 더 멀어질 것 같아서요.\" 한참 뒤에야 말했다. \"그냥, 안 떠올리려고 했어요.\""
+      },
+      {
+        "text": "묻지 않고, 그녀와 같은 방향의 창밖을 본다.",
+        "follow_up_event": "arc_season_sea_daeun_horizon",
+        "result_text": "{name}도 창 쪽으로 몸을 기울였다. 검은 유리 위에서 두 사람의 어깨가 가까워졌다.\n\n\"민준씨도 안 자요?\"\n\"다은씨가 안 자는데 어떻게 자요.\"\n다은이 유리창을 보며 웃었다. 이번에는 비친 얼굴로 먼저 보였다."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_sea_daeun_years",
+    "direction": {
+      "pace": "slow",
+      "amb": "duck",
+      "camera": "slow_zoom",
+      "hold": 1.15
+    },
+    "title": "오지 못한 다섯 해",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "ktx_window",
+    "portrait": "daeun_sea",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "daeun",
+      "romance",
+      "season"
+    ],
+    "description": "터널을 빠져나오자 논과 낮은 지붕들이 다시 흘렀다. 다은은 접어둔 노선표의 모서리를 엄지로 눌렀다.\n\n\"처음엔 다음 달에 가야지 했어요. 그다음엔 여름에.\"\n\"그런데요?\"\n\"쉬는 날이 생기면 밀린 돈부터 생각났어요. 월세, 어머니 병원비, 다음 달 생활비. 바다는 계속 제일 나중이었고요.\"\n\n말은 담담했지만 노선표 모서리는 이미 둥글게 닳아 있었다. 다은에게 다섯 해는 특별한 비극 하나가 아니라, 매번 자기 몫을 뒤로 미룬 작은 계산들의 합이었다.",
+    "choices": [
+      {
+        "text": "\"오늘은 계산하지 말아요. 도착할 때까지만이라도.\"",
+        "follow_up_event": "arc_season_sea_daeun_decision",
+        "result_text": "다은이 무릎 위의 영수증을 한 번 보더니 가방 안에 넣었다. 노선표도 그 위에 포개졌다.\n\n\"네. 오늘은 도착하는 것까지만 생각할게요.\"\n곧 도착 안내 방송이 나왔다. 다은은 대답보다 먼저 창밖을 향해 몸을 돌렸다."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_sea_daeun_horizon",
+    "direction": {
+      "pace": "slow",
+      "amb": "duck",
+      "camera": "slow_zoom",
+      "hold": 1.15
+    },
+    "title": "창밖의 첫 파랑",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "ktx_window",
+    "portrait": "daeun_sea",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "daeun",
+      "romance",
+      "season"
+    ],
+    "description": "산 사이가 잠깐 열리며 멀리 푸른 선이 나타났다. 다은이 창에 거의 이마를 댈 만큼 몸을 숙였다.\n\n\"저거 바다 아니에요?\"\n\"저수지 같은데요.\"\n\"아.\"\n민망해할 줄 알았는데 다은은 웃었다. \"그럼 연습한 걸로 해요. 진짜 바다 보면 덜 놀라게.\"\n\n몇 분 뒤 푸른 선이 다시 나타났다. 이번에는 끝이 보이지 않았다. 다은은 묻지 않았다. 입술만 벌어진 채 창밖을 봤다. {name}도 정답을 말하지 않고 그 얼굴부터 봤다.",
+    "choices": [
+      {
+        "text": "\"이번 건 다은씨가 먼저 발견했어요.\"",
+        "follow_up_event": "arc_season_sea_daeun_decision",
+        "result_text": "다은은 시선을 떼지 않은 채 고개만 끄덕였다.\n\n\"네. 이건 진짜네요.\"\n도착 안내 방송이 겹쳤다. 열차가 속도를 줄이는 동안에도 푸른 선은 창밖에서 한동안 사라지지 않았다."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_sea_daeun_decision",
+    "direction": {
+      "pace": "slow",
+      "amb": "duck",
+      "camera": "slow_zoom",
+      "hold": 1.4
+    },
+    "title": "돌아온 계절",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "ktx_window",
+    "cg": "cg_romance_sea_daeun",
+    "portrait": "daeun_sea",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "daeun",
+      "romance",
+      "season"
+    ],
+    "description": "역 앞 상가를 지나 모래사장에 들어섰다. 다은은 산호빛 수영복 위에 옅은 하늘색 셔츠를 걸치고 있었다. 가게에서는 몇 번이나 가격표를 확인했지만, 바다 앞에 서자 옷자락을 만지던 손도 멈췄다.\n\n짠 바람이 짧은 머리를 흐트러뜨렸다. 다은은 신발을 벗어 한 손에 들고 조심스럽게 물가로 갔다. 첫 파도가 발치까지 밀려오는 순간, 소리 내서 웃었다. {name}이 처음 듣는 크기의 웃음이었다. 입을 가리는 것도 잊은, 아이 같은 웃음.\n\n\"민준씨, 나 바다… 5년 만이에요.\"\n그 말 끝에 잠깐 목이 메는 게 보였다. 서울이 그녀에게서 조용히 가져간 목록에 바다가 있었고, 지금 그걸 5년 만에 돌려받는 얼굴이었다.",
     "choices": [
       {
         "text": "\"내년엔 1박으로 와요.\"",
@@ -197,7 +312,123 @@
   },
   {
     "id": "arc_season_sea_jiyeon",
+    "direction": {
+      "pace": "slow",
+      "amb": "duck",
+      "camera": "drift",
+      "hold": 1.0
+    },
     "title": "해운대",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "ktx_window",
+    "portrait": "jiyeon_sea",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon",
+      "romance",
+      "season"
+    ],
+    "description": "부산행 KTX가 낙동강을 건넜다. 지연은 창밖을 보는 대신 휴대폰 지도에 저장한 핀들을 다시 확인했다. 시장 골목, 물회집, 해변 입구, 파라솔 대여소. 회의 자료처럼 빈틈없는 동선이었다.\n\n\"해운대는 내 구역이야.\"\n말끝에 억양이 살짝 올라갔다. 서울에서는 좀처럼 들을 수 없던 고향 말이었다. 지연은 눈치채지 못한 채 다음 식당 예약 시간을 설명했다.\n\n열차가 부산역에 가까워질수록 억양은 더 또렷해졌다. 정장도 명함도 없이 창가에 앉은 사람은 서울의 한지연보다, 오래전에 이 도시를 떠난 누군가에 조금 더 가까워 보였다.",
+    "choices": [
+      {
+        "text": "\"부산에 오니까 말투부터 달라지네요.\"",
+        "follow_up_event": "arc_season_sea_jiyeon_voice",
+        "result_text": "지연이 설명을 멈췄다. \"내가 뭐가 달라.\"\n\n방금 전과 같은 억양이었다. {name}이 웃자 지연은 창밖으로 고개를 돌렸다. 유리에 비친 귀 끝이 아주 조금 붉었다."
+      },
+      {
+        "text": "\"그래서 첫 번째로 어디 데려갈 건데요?\"",
+        "follow_up_event": "arc_season_sea_jiyeon_route",
+        "result_text": "지연은 기다렸다는 듯 지도를 확대했다. \"시장부터. 거기 물회 먹고, 해변은 사람 빠질 때 들어가. 파라솔은 내가 아는 데가 싸.\"\n\n손가락이 멈춘 마지막 핀만 이름이 없었다. 바다 한가운데가 아니라, 물과 모래가 맞닿는 가장자리였다."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_sea_jiyeon_voice",
+    "direction": {
+      "pace": "slow",
+      "amb": "duck",
+      "camera": "slow_zoom",
+      "hold": 1.15
+    },
+    "title": "고향의 목소리",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "ktx_window",
+    "portrait": "jiyeon_sea",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon",
+      "romance",
+      "season"
+    ],
+    "description": "잠시 뒤 승무원이 지나가자 지연은 표준어로 물을 주문했다. 승무원이 멀어지고 나서야 다시 낮은 부산 억양이 돌아왔다.\n\n\"서울에서는 일부러 고치는 거예요?\"\n\"일부러까지는 아니고. 회의에서 한 번만 억양 나오면 그다음부터 다 고향 얘기만 묻잖아. 일 얘기하는데.\"\n\"나는 물어봐도 돼요?\"\n지연이 유리창에 비친 {name}을 봤다. \"오빠는 이미 여기까지 따라왔잖아.\"\n\n그 말 뒤로 지연은 억양을 감추지 않았다. 도착 안내가 나올 때는 역 이름마저 그녀의 목소리 안에서 조금 다르게 들렸다.",
+    "choices": [
+      {
+        "text": "\"오늘은 그 목소리로 안내해줘요.\"",
+        "follow_up_event": "arc_season_sea_jiyeon_decision",
+        "result_text": "\"비싸게 받을 건데.\" 지연이 웃었다.\n\n열차가 플랫폼에 들어서자 그녀는 누구보다 먼저 자리에서 일어났다. \"따라와. 오늘 길 잃으면 내 책임이니까.\""
+      }
+    ]
+  },
+  {
+    "id": "arc_season_sea_jiyeon_route",
+    "direction": {
+      "pace": "slow",
+      "amb": "duck",
+      "camera": "slow_zoom",
+      "hold": 1.15
+    },
+    "title": "마지막 핀",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "ktx_window",
+    "portrait": "jiyeon_sea",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon",
+      "romance",
+      "season"
+    ],
+    "description": "{name}이 이름 없는 핀을 가리켰다. \"여긴 뭐예요?\"\n\n지연이 화면을 끄려다 멈췄다. \"그냥 물 들어가는 데. 사람 적은 쪽.\"\n\"해수욕장인데 물 들어가는 곳도 따로 정해요?\"\n\"계획 세우는 게 뭐가 나빠.\"\n\n평소라면 바로 다음 말이 나왔을 텐데, 이번에는 없었다. 지연은 휴대폰을 뒤집어 무릎 위에 놓고 창밖을 봤다. 바다는 아직 보이지 않았고, 유리에 비친 손가락만 화면 가장자리를 한 번 두드렸다.",
+    "choices": [
+      {
+        "text": "더 묻지 않고, 그녀가 정한 마지막 핀까지 따라간다.",
+        "follow_up_event": "arc_season_sea_jiyeon_decision",
+        "result_text": "\"겁먹은 거 아니야.\" 묻지도 않은 답이 먼저 나왔다.\n\n{name}은 고개만 끄덕였다. 열차가 속도를 줄이자 지연은 휴대폰을 다시 켰다. 마지막 핀은 그대로 남아 있었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_sea_jiyeon_decision",
+    "direction": {
+      "pace": "slow",
+      "amb": "duck",
+      "camera": "slow_zoom",
+      "hold": 1.4
+    },
+    "title": "물과 모래의 경계",
     "category": "story",
     "rarity": "story",
     "weight": 0,
@@ -216,7 +447,7 @@
       "romance",
       "season"
     ],
-    "description": "\"해운대는 내 구역이야.\" 부산역에 내리는 순간부터, 지연의 말에 억양이 실렸다. 서울에선 눌러두던 고향 말이었다.\n시장 골목, 물회 잘하는 집, 파라솔 흥정까지 — 그녀는 정말로 홈그라운드였다. 상인들과 주고받는 말에 막힘이 없었다.\n\n그런데 물에 들어가자는 말에, 파라솔 밑의 지연이 움직이지 않았다. 무릎을 끌어안고, 바다만 빤히 봤다.\n\"…오빠.\" 선글라스는 벗지 않은 채였다. 그 너머 눈이 어디를 보는지, {name}은 알 수 없었다.\n\"웃지 마.\" 한 박자 뒤에, 목소리가 조금 낮아졌다.\n\"나… 수영 못 해.\"\n제 구역이라던 사람이, 정작 그 바다엔 한 번도 못 들어가 본 얼굴이었다.",
+    "description": "부산역을 나와 시장 골목과 물회집을 지나 해운대에 도착했다. 상인들과 말을 주고받고 파라솔 값까지 깎는 동안, 지연은 정말로 홈그라운드의 사람이었다.\n\n그런데 물에 들어가자는 말에 파라솔 밑의 지연이 움직이지 않았다. 무릎을 끌어안고 바다만 봤다. 선글라스는 벗지 않은 채였다. 그 너머 눈이 어디를 보는지 {name}은 알 수 없었다.\n\n\"…오빠. 웃지 마.\"\n한 박자 뒤에 목소리가 조금 낮아졌다. \"나… 수영 못 해.\"\n제 구역이라던 사람이, 정작 그 바다에는 한 번도 들어가 본 적 없는 얼굴이었다.",
     "choices": [
       {
         "text": "웃는다 — 참으려다 실패한다.",
@@ -256,13 +487,21 @@
   },
   {
     "id": "arc_season_fireworks_daeun",
+    "direction": {
+      "pace": "slow",
+      "amb": "duck",
+      "camera": "drift",
+      "hold": 1.0
+    },
+    "living_scene": {
+      "effect": "none"
+    },
     "title": "불꽃, 옆얼굴",
     "category": "story",
     "rarity": "story",
     "weight": 0,
     "hidden": true,
     "background": "hangang_riverside",
-    "cg": "cg_romance_fireworks_daeun",
     "portrait": "daeun_fireworks",
     "conditions": {
       "min_turn": 9999
@@ -276,7 +515,131 @@
       "season",
       "hangang"
     ],
-    "description": "여의도. 불꽃축제를 보러 나온 인파가 강변을 가득 메웠다.\n약속 장소에서 {name}은 다은을 한 번에 못 알아봤다. 늘 편의점 유니폼이나 수수한 사복이던 사람이, 오늘은 처음 보는 원피스 차림이었다. 머리도 평소와 다르게 매만졌고, 옅은 화장 위로 강바람에 머리카락이 흩날렸다.\n\n\"…유니폼 아닌 거, 처음 보죠.\" 그녀가 먼저 말했다. 시선을 어디 둘지 몰라 손을 옷자락에 가져갔다가, 그래도 숨기지는 않았다.\n{name}이 대답을 고르는, 3초의 정적. 그 3초가 이상하게 길었다.",
+    "description": "여의도. 아직 불꽃은 시작 전인데 강변은 이미 사람들로 가득했다. 돗자리 사이로 배달 오토바이가 빠져나가고, 안내 방송과 아이들 목소리가 강바람에 섞였다.\n\n약속 장소에서 {name}은 다은을 한 번에 못 알아봤다. 늘 편의점 유니폼이나 수수한 사복이던 사람이 오늘은 처음 보는 푸른빛 원피스 차림이었다. 짧은 머리도 평소와 다르게 매만졌고, 옅은 화장 위로 잔머리가 흩날렸다.\n\n\"…유니폼 아닌 거, 처음 보죠.\"\n다은은 시선을 어디 둘지 몰라 옷자락에 손을 가져갔다가, 애써 내리지 않았다. {name}이 대답을 고르는 3초의 정적. 아직 하늘은 어두울 뿐인데 그 3초가 첫 불꽃보다 길었다.",
+    "choices": [
+      {
+        "text": "눈을 피하지 않고, 왜 이 옷을 골랐는지 묻는다.",
+        "follow_up_event": "arc_season_fireworks_daeun_dress",
+        "result_text": "다은은 예상하지 못한 질문을 받은 듯 옷자락을 내려다봤다.\n\n\"그냥… 오늘은 유니폼 말고 다른 걸 입고 싶었어요.\" 잠시 뒤 덧붙였다. \"민준씨가 알아볼 수 있을지는 조금 걱정했고요.\""
+      },
+      {
+        "text": "사람들이 밀려오기 전, 조금 조용한 강변 쪽으로 자리를 옮긴다.",
+        "follow_up_event": "arc_season_fireworks_daeun_river",
+        "result_text": "{name}이 먼저 인파 사이로 길을 냈다. 다은은 한 걸음 뒤에서 따라오다가 사람 어깨가 부딪칠 때마다 옷자락보다 {name}의 등을 먼저 확인했다.\n\n난간 가까운 곳에 겨우 두 사람이 나란히 설 만한 틈이 남아 있었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_fireworks_daeun_dress",
+    "direction": {
+      "pace": "slow",
+      "amb": "duck",
+      "camera": "slow_zoom",
+      "hold": 1.15
+    },
+    "living_scene": {
+      "effect": "none"
+    },
+    "title": "유니폼 밖의 사람",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "hangang_riverside",
+    "portrait": "daeun_fireworks",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "daeun",
+      "romance",
+      "season",
+      "hangang"
+    ],
+    "description": "다은은 출발하기 직전까지 다른 옷으로 갈아입을까 고민했다고 했다. 옷장 앞에서 원피스를 걸었다 내린 횟수까지 말하고 나서야, 너무 많이 말했다는 듯 입을 다물었다.\n\n\"편의점에서는 뭘 입어도 다 똑같잖아요. 이름표만 보면 되고.\"\n\"오늘은요?\"\n\"오늘은… 제가 먼저 보여야 하니까요.\"\n\n강변 조명이 원피스 주름에 엷게 걸렸다. 다은은 더는 옷자락을 만지지 않았다. 멀리서 카운트다운 예고가 나오자 이번에는 {name} 쪽을 먼저 봤다.",
+    "choices": [
+      {
+        "text": "그녀가 숨지 않은 3초를 그대로 바라본다.",
+        "follow_up_event": "arc_season_fireworks_daeun_decision",
+        "result_text": "다은은 시선을 피하려다 멈췄다. 두 사람 사이로 지나가던 군중이 잠깐 끊겼다.\n\n\"이상하면 지금 말해도 돼요.\"\n그 말이 끝나자 강 건너에서 첫 발사를 알리는 낮은 폭음이 울렸다."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_fireworks_daeun_river",
+    "direction": {
+      "pace": "slow",
+      "amb": "duck",
+      "camera": "slow_zoom",
+      "hold": 1.15
+    },
+    "living_scene": {
+      "effect": "none"
+    },
+    "title": "둘이 설 자리",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "hangang_riverside",
+    "portrait": "daeun_fireworks",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "daeun",
+      "romance",
+      "season",
+      "hangang"
+    ],
+    "description": "난간 너머 강물에는 아직 불꽃 대신 아파트 불빛만 길게 흔들렸다. 다은은 어깨가 닿지 않을 만큼만 거리를 두고 섰다. 인파가 움직일 때마다 그 거리가 조금씩 좁아졌다.\n\n\"사람 진짜 많네요.\"\n\"불편해요?\"\n\"아니요.\" 다은이 주변을 둘러보다가 작게 말했다. \"이렇게 많아도, 오늘은 민준씨부터 보여요.\"\n\n말해놓고 본인이 더 놀란 얼굴이었다. 다은은 서둘러 강 쪽으로 고개를 돌렸다. 카운트다운 숫자가 멀리 스피커에서 하나씩 줄어들기 시작했다.",
+    "choices": [
+      {
+        "text": "인파가 다시 밀려와도, 그 자리를 비워두지 않는다.",
+        "follow_up_event": "arc_season_fireworks_daeun_decision",
+        "result_text": "{name}은 한 걸음 옆으로 붙어 사람들의 흐름을 막았다. 다은의 어깨가 팔에 닿았다. 이번에는 떨어지지 않았다.\n\n\"삼, 이, 일.\" 군중의 목소리가 한 덩어리가 됐다. 다은이 하늘을 보기 직전 {name}을 한 번 돌아봤다."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_fireworks_daeun_decision",
+    "direction": {
+      "pace": "slow",
+      "amb": "duck",
+      "camera": "slow_zoom",
+      "hold": 1.4
+    },
+    "living_scene": {
+      "effect": "fireworks"
+    },
+    "title": "첫 불꽃",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "hangang_riverside",
+    "cg": "cg_romance_fireworks_daeun",
+    "cg_reveal_paragraph": 2,
+    "portrait": "daeun_fireworks",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "daeun",
+      "romance",
+      "season",
+      "hangang"
+    ],
+    "description": "카운트다운이 끝나자 강 한가운데서 첫 빛꼬리가 솟았다. 아직 폭음은 닿지 않았다. 군중 전체가 숨을 들이마신 듯 잠깐 조용해졌다.\n\n다은은 하늘을 올려다보다가 옆의 {name}을 돌아봤다. 놀란 눈과 웃음이 같은 얼굴에 있었다. 방금 전까지 길게 늘어졌던 3초가, 그 시선 안에서 다시 시작됐다.\n\n빛꼬리가 밤의 가장 높은 곳에 닿았다. 모두가 하늘을 향한 사이, 두 사람 사이에는 서로를 놓치지 않을 만큼의 거리만 남았다.",
     "choices": [
       {
         "text": "\"예뻐요.\" — 3초를 넘기기 전에.",
@@ -321,13 +684,21 @@
   },
   {
     "id": "arc_season_fireworks_jiyeon",
+    "direction": {
+      "pace": "slow",
+      "amb": "duck",
+      "camera": "drift",
+      "hold": 1.0
+    },
+    "living_scene": {
+      "effect": "none"
+    },
     "title": "반전룩",
     "category": "story",
     "rarity": "story",
     "weight": 0,
     "hidden": true,
     "background": "hangang_riverside",
-    "cg": "cg_romance_fireworks_jiyeon",
     "portrait": "jiyeon_fireworks",
     "conditions": {
       "min_turn": 9999
@@ -341,7 +712,131 @@
       "season",
       "hangang"
     ],
-    "description": "여의도 불꽃축제. 인파 속에서 누가 손을 흔들었다. 후드티에 운동화, 화장기도 옅은 지연이었다.\n정장도, 하이힐도, 명함도 없는 그녀. {name}이 아는 '한지연'과 같은 사람인가 싶은 차림이었다.\n\"회사 사람들이 보면 기절할걸.\" 지연이 후드를 눌러쓰며 픽 웃었다. 남의 눈을 신경 쓰는 게 아니라, 오늘만큼은 그 눈에서 놓여난 사람의 얼굴이었다.\n강변으로 인파가 밀려들자 — 지연이 먼저, {name}의 손을 잡았다. 아무렇지 않은 척, 그러나 분명하게.",
+    "description": "여의도 불꽃축제. 인파 속에서 누가 한 손을 들어 올렸다. 후드 재킷에 운동화, 화장기도 옅은 지연이었다.\n\n정장도, 하이힐도, 명함도 없었다. {name}이 아는 '한지연'과 같은 사람인가 싶은 차림이었다. 지연은 알아보는 데 걸린 시간을 재기라도 한 듯 눈썹을 올렸다.\n\"4초. 생각보다 오래 걸렸네.\"\n\n\"회사 사람들이 보면 기절할걸.\" 지연이 후드를 눌러쓰며 웃었다. 남의 눈을 신경 쓰는 게 아니라, 오늘만큼은 그 눈에서 놓여난 사람의 얼굴이었다. 아직 하늘은 검었고, 강변의 조명만 두 사람 발끝을 따라왔다.",
+    "choices": [
+      {
+        "text": "\"오늘 일정표는요?\" 일부러 묻는다.",
+        "follow_up_event": "arc_season_fireworks_jiyeon_schedule",
+        "result_text": "지연은 기다렸다는 듯 휴대폰을 꺼냈다. 달력 화면에는 오늘 하루가 통째로 비어 있었다.\n\n\"없어. 예약도, 보고도, 알람도.\" 화면을 꺼버리며 덧붙였다. \"그러니까 오빠도 시간 보지 마.\""
+      },
+      {
+        "text": "낯선 차림을 평가하지 않고, 그녀와 보폭을 맞춘다.",
+        "follow_up_event": "arc_season_fireworks_jiyeon_pace",
+        "result_text": "{name}은 아무 말 없이 옆에 섰다. 지연이 먼저 강변 쪽으로 걷기 시작했고, 두 사람의 운동화 소리가 같은 간격으로 이어졌다.\n\n열 걸음쯤 뒤 지연이 물었다. \"왜 아무 말 안 해. 안 어색해?\""
+      }
+    ]
+  },
+  {
+    "id": "arc_season_fireworks_jiyeon_schedule",
+    "direction": {
+      "pace": "slow",
+      "amb": "duck",
+      "camera": "slow_zoom",
+      "hold": 1.15
+    },
+    "living_scene": {
+      "effect": "none"
+    },
+    "title": "빈 달력",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "hangang_riverside",
+    "portrait": "jiyeon_fireworks",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon",
+      "romance",
+      "season",
+      "hangang"
+    ],
+    "description": "지연은 꺼진 휴대폰을 가방 가장 깊은 곳에 넣었다. 평소라면 손에 들고 있었을 물건이 사라지자 두 손이 어색하게 비었다. 한 손은 후드 끈을 만졌고, 다른 손은 주머니를 찾았다.\n\n\"진짜 아무것도 안 해도 돼요?\"\n\"왜. 불안해?\"\n\"지연씨가 불안할까 봐요.\"\n\"나도 하루 정도는 망가져도 돼.\" 지연이 말하고는 스스로 표현을 고쳤다. \"아니, 쉬어도 돼.\"\n\n강변으로 사람들이 한꺼번에 움직이기 시작했다. 지연은 빈손을 한 번 내려다본 뒤, 이번에는 주머니로 숨기지 않았다.",
+    "choices": [
+      {
+        "text": "\"그럼 오늘은 아무것도 증명하지 맙시다.\"",
+        "follow_up_event": "arc_season_fireworks_jiyeon_decision",
+        "result_text": "지연이 대답 대신 {name}의 소매를 잡았다. 사람이 더 몰려오자 손은 소매 끝에서 손목으로, 손목에서 손바닥으로 내려왔다.\n\n\"인파 때문이야.\" 아직 잡기도 전인데 변명이 먼저였다."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_fireworks_jiyeon_pace",
+    "direction": {
+      "pace": "slow",
+      "amb": "duck",
+      "camera": "slow_zoom",
+      "hold": 1.15
+    },
+    "living_scene": {
+      "effect": "none"
+    },
+    "title": "같은 보폭",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "hangang_riverside",
+    "portrait": "jiyeon_fireworks",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon",
+      "romance",
+      "season",
+      "hangang"
+    ],
+    "description": "\"안 어색해요. 쉬는 날 옷까지 보고할 필요는 없잖아요.\"\n\n지연이 반걸음 앞서가던 속도를 줄였다. \"오빠는 가끔 재미없게 정답만 말해.\"\n\"틀렸어요?\"\n\"아니. 그래서 더 재미없어.\"\n말은 그렇게 했지만 입꼬리가 올라가 있었다.\n\n어느새 두 사람 어깨가 나란해졌다. 정장 구두라면 지연이 늘 앞섰을 길을, 오늘은 같은 운동화 속도로 걸었다. 강변 입구에서 군중이 한꺼번에 좁아지자 지연의 손등이 {name}의 손등에 닿았다.",
+    "choices": [
+      {
+        "text": "손등이 닿은 채로, 먼저 속도를 늦춘다.",
+        "follow_up_event": "arc_season_fireworks_jiyeon_decision",
+        "result_text": "지연도 속도를 늦췄다. 뒤에서 밀려온 사람이 둘 사이를 가르려는 순간, 그녀가 먼저 {name}의 손을 잡았다.\n\n아무렇지 않은 척한 얼굴로 고개만 돌렸다. \"놓치면 귀찮으니까.\""
+      }
+    ]
+  },
+  {
+    "id": "arc_season_fireworks_jiyeon_decision",
+    "direction": {
+      "pace": "slow",
+      "amb": "duck",
+      "camera": "slow_zoom",
+      "hold": 1.4
+    },
+    "living_scene": {
+      "effect": "fireworks"
+    },
+    "title": "손을 잡은 쪽",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "hangang_riverside",
+    "cg": "cg_romance_fireworks_jiyeon",
+    "cg_reveal_paragraph": 2,
+    "portrait": "jiyeon_fireworks",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon",
+      "romance",
+      "season",
+      "hangang"
+    ],
+    "description": "강변으로 인파가 밀려들자 지연이 먼저 {name}의 손을 잡았다. 아무렇지 않은 척했지만, 뒤를 돌아 확인하는 시선은 분명했다. 후드 끈이 강바람에 흔들리고 맞잡은 손은 사람들 사이에서 팽팽해졌다.\n\n\"인파 때문이야.\"\n\"아직 아무 말도 안 했는데요.\"\n\"할 것 같아서 미리 말한 거야.\"\n지연은 놓지 않은 채 앞을 봤다. 손바닥에서만 변명과 다른 온도가 전해졌다.\n\n멀리 바지선에서 첫 빛꼬리가 하늘로 올라갔다. 폭음이 닿기 전의 짧은 정적. 지연이 하늘을 보려다 한 번 더 {name}을 돌아봤다.",
     "choices": [
       {
         "text": "잡힌 손을 깍지로 고쳐 잡는다.",

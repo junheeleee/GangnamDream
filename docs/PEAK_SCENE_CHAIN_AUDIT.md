@@ -24,10 +24,10 @@
 | 좁은 방 | `arc_jiyeon_narrow_room_2` | 3 | 2 | 22-23 | 7-10 | **PASS** |
 | 다은 남산 | `arc_date_namsan_daeun` | 2 | 2 | 9 | 4-6 | **PASS** |
 | 지연 남산 | `arc_date_namsan_jiyeon` | 2 | 2 | 9 | 6-8 | **PASS** |
-| 다은 바다 | `arc_season_sea_daeun` | 1 | 1 | 6 | 3-4 | EXPAND |
-| 지연 바다 | `arc_season_sea_jiyeon` | 1 | 1 | 5 | 6 | EXPAND |
-| 다은 불꽃 | `arc_season_fireworks_daeun` | 1 | 1 | 4 | 2-3 | EXPAND |
-| 지연 불꽃 | `arc_season_fireworks_jiyeon` | 1 | 1 | 3 | 2-4 | EXPAND |
+| 다은 바다 | `arc_season_sea_daeun` | 3 | 2 | 18 | 11-13 | **PASS** |
+| 지연 바다 | `arc_season_sea_jiyeon` | 3 | 2 | 18 | 11-12 | **PASS** |
+| 다은 불꽃 | `arc_season_fireworks_daeun` | 3 | 2 | 17 | 7-9 | **PASS** |
+| 지연 불꽃 | `arc_season_fireworks_jiyeon` | 3 | 2 | 17 | 12-16 | **PASS** |
 | 다은 프로포즈 | `arc_daeun_proposal` | 3 | 2 | 25-26 | 9-10 | **PASS** |
 | 다은 결혼식 | `arc_daeun_wedding_day` | 4 | 2 | 33 | 3 | **PASS** |
 | 지연 결혼 격차 | `arc_jiyeon_wedding_gap` | 3 | 3 | 22-23 | 6-9 | **PASS** |
@@ -44,7 +44,7 @@
 | 재혁 ghost | `arc_jaehyuk_04a_ghost` | 3-4 | 2-3 | 18-24 | 4 | **PASS** |
 | 재혁의 진짜 얼굴 | `arc_jaehyuk_mirror` | 3 | 2 | 18 | 4-6 | **PASS** |
 
-**현재 래칫:** 28개 중 PASS 19, 확장 부채 9. `tools/audit.sh`는 부채가 9보다 늘거나 기존 PASS 19개 중 하나라도 퇴행하면 실패한다.
+**현재 래칫:** 28개 중 PASS 23, 확장 부채 5. `tools/audit.sh`는 부채가 5보다 늘거나 기존 PASS 23개 중 하나라도 퇴행하면 실패한다.
 
 ## 집행 순서
 
@@ -60,6 +60,7 @@
 10. ✅ `arc_jaehyuk_04a_ghost`·`arc_jaehyuk_mirror`: 피해자 글/마지막 음성메시지와 보증 요청/아버지 기억을 각각 두 경로로 쌓은 뒤 기존 마지막 선택으로 합류하는 3~4링크·2~3선택점 정점으로 확장했다. 잠적 확인과 보증 요청은 실제 현재 주거에 남고, 서류와 술잔을 사이에 둔 CG는 호텔 라운지 피치에만 배치한다. 원래 효과·배신 단계·유물 후속·제한시간은 마지막 링크에만 남으며, 보증 선택의 `crossed_line`은 런타임에서 Moral Tint 흉터 상한 `-20`을 즉시 집행한다.
 11. ✅ `arc_daeun_hometown_2`·`arc_jiyeon_narrow_room_2`: 민준의 손을 읽는 어머니/다은에게 이어진 돌봄과, 침묵을 지켜주는 태도/넓은 집의 거짓을 묻는 태도를 각각 두 경로로 쌓은 뒤 기존 마지막 선택으로 합류하는 3링크·2선택점 정점으로 확장했다. 앞 링크에는 상태가 없고 기존 정신·Moral Tint·호감도·완료 플래그는 마지막 링크에만 남는다. 밥상의 밤 버스 CG는 결과 문단 1에서만 열리며, 좁은 방은 같은 고시원 CG·복식·공간을 전 링크에서 유지한다.
 12. ✅ `arc_jiyeon_verdict`·`arc_daeun_final_choice`: 빌려온 목소리/멈춤의 두려움과 부엌의 생활음/등기부 이름을 각각 두 전희 경로로 쌓은 뒤 기존 마지막 선택으로 합류하는 3링크·2선택점 정점으로 확장했다. 앞 링크에는 상태가 없고, 유물 게이트·여섯 종결 상태·결별 CG 문단·실제 엔딩 라우팅은 마지막 링크에만 남는다.
-13. **다음:** 여름 바다·불꽃축제 계절 정점 순으로 부채를 낮춘다.
+13. ✅ 다은·지연 여름 바다와 불꽃축제: 각 루트를 3링크·2선택점으로 확장했다. 바다는 인물·복식을 유지한 KTX 전희 뒤 동해/해운대 도착 장면에서만 CG와 최종 효과를 연다. 불꽃은 발사 전 한강 전희에서 파티클·폭발음을 숨기고 마지막 링크의 첫 폭발에서만 CG·Living Scene·원거리 폭발음을 시작한다. 앞 링크에는 상태가 없다.
+14. **다음:** `arc_daeun_first_night` 「그 밤」을 먼저 확장하고, 상철 첫 만남·진실 추론·카지노 유혹과 현수 재회를 순서대로 수리한다.
 
 각 정점은 별도 착수 선언·커밋·KO/EN 렌더를 갖는다. 사용자 Round 2 피드백이 들어오면 즉시 멈추고 ORDER-22/23 재수리를 우선한다.

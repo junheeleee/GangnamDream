@@ -33,7 +33,10 @@ func _check_effect_routing() -> void:
 		{"id": "arc_season_snow_daeun", "background": "convenience_first_snow_exterior"},
 		"convenience_first_snow_exterior", "cg_romance_first_snow_daeun", {}, "snow")
 	_expect_effect(
-		{"id": "arc_season_fireworks_jiyeon", "background": "hangang_riverside"},
+		DataRegistry.find_event("arc_season_fireworks_jiyeon"),
+		"hangang_riverside", "", {}, "none")
+	_expect_effect(
+		DataRegistry.find_event("arc_season_fireworks_jiyeon_decision"),
 		"hangang_riverside", "cg_romance_fireworks_jiyeon", {}, "fireworks")
 	_expect_effect(
 		{"id": "qa_memory", "background": "goshiwon_room"},
@@ -82,7 +85,7 @@ func _check_runtime_layer() -> void:
 	var layer := LivingSceneLayer.new()
 	add_child(layer)
 	var profile := layer.configure(
-		{"id": "arc_season_fireworks_daeun", "background": "hangang_riverside"},
+		DataRegistry.find_event("arc_season_fireworks_daeun_decision"),
 		"hangang_riverside", "cg_romance_fireworks_daeun",
 		{"channel": "in_person", "portrait_role": "present"}, 0.0, true, false)
 	_expect(layer.visible, "active runtime layer is hidden")

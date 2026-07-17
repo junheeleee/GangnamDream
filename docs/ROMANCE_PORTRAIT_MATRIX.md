@@ -1,6 +1,6 @@
 # Romance Portrait And CG Continuity Matrix
 
-Updated: 2026-07-11
+Updated: 2026-07-17
 
 ## Rule
 
@@ -23,7 +23,7 @@ The machine-readable source is `assets/romance_visual_manifest.json`. `CGRuntime
 | Daeun / first kiss | `daeun_smile` | navy work polo + beige cardigan | visible left, black casual | mutual eye contact |
 | Jiyeon / first kiss | `jiyeon_warm` | cream jacket + black inner | visible right, black casual | mutual eye contact |
 
-`arc_season_sea_daeun` is intentionally staged. The upper-body portrait reveals the coral wrap neckline beneath the same pale-blue travel layer during the train and shop paragraphs. The complete swim-dress silhouette appears only when the beach CG reveals at paragraph 2.
+The four summer/fireworks peaks are intentionally staged chains. Sea roots and branches keep the same heroine portrait and travel layer inside the KTX; only `arc_season_sea_daeun_decision` and `arc_season_sea_jiyeon_decision` own the beach CG after an explicit East Sea/Haeundae arrival. Daeun keeps the coral-rose wrap swim dress and pale sky-blue cover-up from train to shore, while Jiyeon keeps the deep-emerald high-neck swim dress, smoke-gray cover-up, and silver jewelry. Fireworks roots and branches keep the same riverside outfit and contain no fireworks particles; only each `..._decision` event owns the first-explosion CG and Living Scene effect.
 
 The two first-snow routes are December, location, and paragraph-reveal contracts. `assets/FIRST_SNOW_VISUAL_BIBLE.md` locks the store exterior/two cans and Jiyeon's recurring left-hand-drive sedan; both CGs reveal only at paragraph 1.
 

@@ -1,6 +1,6 @@
 # Romance T0 CG Production Jobs
 
-Updated: 2026-07-10
+Updated: 2026-07-17
 
 ## Purpose
 
@@ -48,10 +48,10 @@ Every generation prompt must begin in this exact order.
 
 | Job | Event ID | CG key | Final path | Status |
 |---|---|---|---|---|
-| R0-01 | `arc_season_sea_daeun` | `cg_romance_sea_daeun` | `assets/cg/romance/sea_daeun.png` | approved/wired |
-| R0-02 | `arc_season_sea_jiyeon` | `cg_romance_sea_jiyeon` | `assets/cg/romance/sea_jiyeon.png` | approved/wired |
-| R0-03 | `arc_season_fireworks_daeun` | `cg_romance_fireworks_daeun` | `assets/cg/romance/fireworks_daeun.png` | approved/wired |
-| R0-04 | `arc_season_fireworks_jiyeon` | `cg_romance_fireworks_jiyeon` | `assets/cg/romance/fireworks_jiyeon.png` | approved/wired |
+| R0-01 | `arc_season_sea_daeun_decision` | `cg_romance_sea_daeun` | `assets/cg/romance/sea_daeun.png` | approved/wired |
+| R0-02 | `arc_season_sea_jiyeon_decision` | `cg_romance_sea_jiyeon` | `assets/cg/romance/sea_jiyeon.png` | approved/wired |
+| R0-03 | `arc_season_fireworks_daeun_decision` | `cg_romance_fireworks_daeun` | `assets/cg/romance/fireworks_daeun.png` | approved/wired |
+| R0-04 | `arc_season_fireworks_jiyeon_decision` | `cg_romance_fireworks_jiyeon` | `assets/cg/romance/fireworks_jiyeon.png` | approved/wired |
 | R0-05 | `arc_season_cherry_daeun` | `cg_romance_cherry_daeun` | `assets/cg/romance/cherry_daeun.png` | approved/wired |
 | R0-06 | `arc_season_cherry_jiyeon` | `cg_romance_cherry_jiyeon` | `assets/cg/romance/cherry_jiyeon.png` | approved/wired |
 | R0-07 | `arc_daeun_first_kiss` | `cg_romance_first_kiss_daeun` | `assets/cg/romance/first_kiss_daeun.png` | approved/wired |
@@ -67,7 +67,7 @@ Every generation prompt must begin in this exact order.
 
 **Composition:** Medium-wide eye-level shot from Minjun's viewpoint. Daeun is in the upper-right/center third, turned three-quarters toward camera, short hair and cover-up moving in the sea wind. Show wet sand, a physically readable shoreline, and a receding wave. Her face and open laugh are the focal point. Minjun is absent or only a small cropped forearm reaching from the lower side; do not split focus.
 
-**Outfit:** Affordable tasteful muted-navy one-piece swimsuit or swim dress with a light off-white shirt/cover-up. Bare feet. Same short hair and left hair clip. No luxury accessories.
+**Outfit:** Affordable muted coral-rose wrap swim dress with an open pale sky-blue cover-up. Bare feet. Same short hair and left hair clip. No luxury accessories.
 
 **Emotional key:** Childlike release in an unmistakably 33-year-old adult face; joy with a trace of tears in the eyes, not pin-up posing.
 
@@ -83,7 +83,7 @@ Every generation prompt must begin in this exact order.
 
 **Composition:** Medium-wide eye-level shot. Jiyeon sits on a beach mat under a restrained parasol, knees drawn slightly close, sea visible and physically connected to the sand behind her. Sunglasses are lowered or held in one hand so her sharp eyes are visible. She looks toward Minjun just off camera. Keep the face upper-right/center.
 
-**Outfit:** Elegant black or deep-charcoal one-piece swimsuit with a cream linen cover-up, minimal gold earrings, no logos. Long black wavy hair remains her defining silhouette.
+**Outfit:** Deep emerald asymmetric high-neck swim dress with an open smoke-gray cover-up and restrained silver jewelry, no logos. Long black wavy hair remains her defining silhouette.
 
 **Emotional key:** Beautiful and high-status, but privately embarrassed and vulnerable. Never cute-childish and never helpless.
 

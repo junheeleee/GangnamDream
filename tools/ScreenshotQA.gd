@@ -34,6 +34,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=breakup --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=sangchul-confrontation --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=father-ktx --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=season-peaks --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ending-p1 --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=transport --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=first-snow --lang=en
@@ -109,6 +110,7 @@ const QA_SCOPE_SANGCHUL_CONFRONTATION := "sangchul_confrontation"
 const QA_SCOPE_FATHER_PEAKS := "father_peaks"
 const QA_SCOPE_FATHER_KTX := "father_ktx"
 const QA_SCOPE_FIRST_KISS := "first_kiss"
+const QA_SCOPE_SEASON_PEAKS := "season_peaks"
 const QA_SCOPE_JAEHYUK_PEAKS := "jaehyuk_peaks"
 const QA_SCOPE_FIRST_SNOW := "first_snow"
 const QA_SCOPE_CLIMATE := "climate"
@@ -415,6 +417,16 @@ func _ready() -> void:
 			get_tree().quit(1)
 			return
 		print("SCREENSHOT_QA_DONE scope=first-kiss lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_SEASON_PEAKS:
+		var lang := _qa_language("en")
+		await _shot_season_peak_surfaces(
+				lang, "season_peaks_en_" if lang == "en" else "season_peaks_ko_")
+		if _qa_failed:
+			get_tree().quit(1)
+			return
+		print("SCREENSHOT_QA_DONE scope=season-peaks lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_JAEHYUK_PEAKS:
@@ -742,6 +754,10 @@ func _qa_scope() -> String:
 				"--first-kiss", "--first_kiss", "qa=first-kiss", "--qa=first-kiss",
 				"qa=first_kiss", "--qa=first_kiss", "scope=first-kiss", "--scope=first-kiss"]:
 			return QA_SCOPE_FIRST_KISS
+		if arg in ["season-peaks", "season_peaks", "season-romance", "season_romance",
+				"--season-peaks", "--season_peaks", "qa=season-peaks", "--qa=season-peaks",
+				"qa=season_peaks", "--qa=season_peaks", "scope=season-peaks", "--scope=season-peaks"]:
+			return QA_SCOPE_SEASON_PEAKS
 		if arg in ["jaehyuk-peaks", "jaehyuk_peaks", "jaehyuk", "fraud-mirror",
 				"--jaehyuk-peaks", "--jaehyuk_peaks", "qa=jaehyuk-peaks",
 				"--qa=jaehyuk-peaks", "qa=jaehyuk_peaks", "--qa=jaehyuk_peaks",
@@ -1228,6 +1244,10 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 			await _settle(0.25)
 		for _result_paragraph in range(advance_result_paragraphs):
 			if story.has_method("_on_advance"):
+				var result_paragraphs: Array = story.get("_paragraphs")
+				if bool(story.get("_pending_after_result")) \
+						and int(story.get("_para_index")) >= result_paragraphs.size() - 1:
+					break
 				story._on_advance()
 				await _settle(0.16)
 				if bool(story.get("_typing")):
@@ -1246,6 +1266,22 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 		"arc_year3_close": "hangang",
 		"arc_year4_close": "street",
 		"arc_sangchul_03_network": "cafe",
+		"arc_season_sea_daeun": "train",
+		"arc_season_sea_daeun_years": "train",
+		"arc_season_sea_daeun_horizon": "train",
+		"arc_season_sea_daeun_decision": "seaside",
+		"arc_season_sea_jiyeon": "train",
+		"arc_season_sea_jiyeon_voice": "train",
+		"arc_season_sea_jiyeon_route": "train",
+		"arc_season_sea_jiyeon_decision": "seaside",
+		"arc_season_fireworks_daeun": "hangang",
+		"arc_season_fireworks_daeun_dress": "hangang",
+		"arc_season_fireworks_daeun_river": "hangang",
+		"arc_season_fireworks_daeun_decision": "hangang",
+		"arc_season_fireworks_jiyeon": "hangang",
+		"arc_season_fireworks_jiyeon_schedule": "hangang",
+		"arc_season_fireworks_jiyeon_pace": "hangang",
+		"arc_season_fireworks_jiyeon_decision": "hangang",
 	}
 	if expected_event_ambience.has(event_id):
 		var expected_ambience := str(expected_event_ambience[event_id])
@@ -1273,7 +1309,7 @@ func _shot_living_scene_surfaces(lang: String, prefix: String) -> void:
 	await _shot_story_event("kx_monsoon", prefix + "01_rain", lang, 1.5, true)
 	await _shot_story_event("arc_season_snow_daeun", prefix + "02_snow", lang, 1.5, true)
 	await _shot_story_event("callback_proactive_parent_care_echo", prefix + "03_memory", lang, 1.5, true)
-	await _shot_story_event("arc_season_fireworks_daeun", prefix + "04_fireworks", lang, 1.5, true)
+	await _shot_story_event("arc_season_fireworks_daeun_decision", prefix + "04_fireworks", lang, 1.5, true)
 	await _shot_story_event("arc_job_first_rejection", prefix + "05_neutral", lang, 1.5, true)
 	await _verify_living_scene_motion(lang)
 
@@ -1645,7 +1681,10 @@ func _assert_living_scene_state(story: Node, event_id: String) -> void:
 		"kx_monsoon": "rain",
 		"arc_season_snow_daeun": "snow",
 		"callback_proactive_parent_care_echo": "memory",
-		"arc_season_fireworks_daeun": "fireworks",
+		"arc_season_fireworks_daeun": "none",
+		"arc_season_fireworks_jiyeon": "none",
+		"arc_season_fireworks_daeun_decision": "fireworks",
+		"arc_season_fireworks_jiyeon_decision": "fireworks",
 		"arc_job_first_rejection": "none",
 	}
 	if not expected.has(event_id):
@@ -2661,11 +2700,11 @@ func _shot_trailer_surfaces(lang: String = "en") -> void:
 	GameState.flags["daeun_romance_started"] = true
 	GameState.moral_tint = 32.0
 	await _shot_story_event(
-		"arc_season_sea_daeun", "trailer_10_romance_sea", "", 0.35, true, false, -1, 2)
+		"arc_season_sea_daeun_decision", "trailer_10_romance_sea", "", 0.35, true)
 	_prepare_main_game_state()
 	GameState.flags["daeun_romance_started"] = true
 	GameState.moral_tint = 32.0
-	await _shot_story_event("arc_season_fireworks_daeun", "trailer_11_romance_fireworks", "", 0.45, true)
+	await _shot_story_event("arc_season_fireworks_daeun_decision", "trailer_11_romance_fireworks", "", 0.45, true)
 	_prepare_wedding_morning_qa_state("daeun")
 	GameState.moral_tint = 32.0
 	await _shot_story_event(
@@ -2935,10 +2974,10 @@ func _shot_story_surfaces(lang: String = "en", prefix: String = "story_en_") -> 
 	await _shot_story_event("arc_sangchul_confrontation", prefix + "03_direction_confrontation", lang, 1.0, true)
 	await _shot_story_event("arc_daeun_proposal_answer", prefix + "04_direction_proposal", lang, 1.2, true)
 	await _shot_story_event("arc_season_sea_daeun", prefix + "05a_romance_sea_daeun_train", lang, 0.65, true)
-	await _shot_story_event("arc_season_sea_daeun", prefix + "05b_romance_sea_daeun_reveal", lang, 0.45, true, false, -1, 2)
-	await _shot_story_event("arc_season_sea_jiyeon", prefix + "06_romance_sea_jiyeon", lang, 0.65, true)
-	await _shot_story_event("arc_season_fireworks_daeun", prefix + "07_romance_fireworks_daeun", lang, 0.65, true)
-	await _shot_story_event("arc_season_fireworks_jiyeon", prefix + "08_romance_fireworks_jiyeon", lang, 0.65, true)
+	await _shot_story_event("arc_season_sea_daeun_decision", prefix + "05b_romance_sea_daeun_reveal", lang, 0.45, true)
+	await _shot_story_event("arc_season_sea_jiyeon_decision", prefix + "06_romance_sea_jiyeon", lang, 0.65, true)
+	await _shot_story_event("arc_season_fireworks_daeun_decision", prefix + "07_romance_fireworks_daeun", lang, 0.65, true, false, -1, 2)
+	await _shot_story_event("arc_season_fireworks_jiyeon_decision", prefix + "08_romance_fireworks_jiyeon", lang, 0.65, true, false, -1, 2)
 	await _shot_story_event("arc_season_cherry_daeun", prefix + "09_romance_cherry_daeun", lang, 0.65, true)
 	await _shot_story_event("arc_season_cherry_jiyeon", prefix + "10_romance_cherry_jiyeon", lang, 0.65, true)
 	await _shot_story_event("arc_daeun_first_kiss", prefix + "11_romance_first_kiss_daeun", lang, 0.65, true)
@@ -4281,6 +4320,142 @@ func _assert_first_kiss_state(
 		])
 	if not GameState.flags.get(completion_flag, false):
 		_fail("%s first-kiss %s did not commit its completion flag." % [person_id, label])
+
+func _shot_season_peak_surfaces(
+		lang: String = "en", prefix: String = "season_peaks_en_") -> void:
+	_set_qa_language(lang)
+	var routes: Array[Dictionary] = [
+		{
+			"key": "daeun_sea", "person": "daeun",
+			"root": "arc_season_sea_daeun",
+			"branches": ["arc_season_sea_daeun_years", "arc_season_sea_daeun_horizon"],
+			"final": "arc_season_sea_daeun_decision", "flag": "daeun_sea_5years",
+			"outcomes": [
+				{"choice": 0, "money": 955_000.0, "mental": 68, "tint": 2.0, "affinity": 58},
+				{"choice": 1, "money": 955_000.0, "mental": 70, "tint": 1.0, "affinity": 55},
+			],
+		},
+		{
+			"key": "jiyeon_sea", "person": "jiyeon",
+			"root": "arc_season_sea_jiyeon",
+			"branches": ["arc_season_sea_jiyeon_voice", "arc_season_sea_jiyeon_route"],
+			"final": "arc_season_sea_jiyeon_decision", "flag": "jiyeon_cant_swim",
+			"outcomes": [
+				{"choice": 0, "money": 940_000.0, "mental": 66, "tint": 1.0, "affinity": 54},
+				{"choice": 1, "money": 940_000.0, "mental": 68, "tint": 2.0, "affinity": 58},
+			],
+		},
+		{
+			"key": "daeun_fireworks", "person": "daeun",
+			"root": "arc_season_fireworks_daeun",
+			"branches": [
+				"arc_season_fireworks_daeun_dress",
+				"arc_season_fireworks_daeun_river",
+			],
+			"final": "arc_season_fireworks_daeun_decision", "flag": "",
+			"outcomes": [
+				{"choice": 0, "money": 1_000_000.0, "mental": 66, "tint": 2.0, "affinity": 58},
+				{"choice": 1, "money": 1_000_000.0, "mental": 68, "tint": 2.0, "affinity": 56},
+				{"choice": 2, "money": 1_000_000.0, "mental": 65, "tint": 1.0, "affinity": 55},
+			],
+		},
+		{
+			"key": "jiyeon_fireworks", "person": "jiyeon",
+			"root": "arc_season_fireworks_jiyeon",
+			"branches": [
+				"arc_season_fireworks_jiyeon_schedule",
+				"arc_season_fireworks_jiyeon_pace",
+			],
+			"final": "arc_season_fireworks_jiyeon_decision", "flag": "",
+			"outcomes": [
+				{"choice": 0, "money": 1_000_000.0, "mental": 66, "tint": 2.0, "affinity": 58},
+				{"choice": 1, "money": 1_000_000.0, "mental": 65, "tint": 1.0, "affinity": 56},
+				{"choice": 2, "money": 1_000_000.0, "mental": 68, "tint": 2.0, "affinity": 56},
+			],
+		},
+	]
+
+	for route in routes:
+		var key := str(route["key"])
+		var person_id := str(route["person"])
+		var root_id := str(route["root"])
+		var branches: Array = route["branches"]
+		var final_id := str(route["final"])
+
+		_prepare_season_peak_qa_state(person_id)
+		await _shot_story_event(root_id, prefix + key + "_01_prelude", "", 0.45, true)
+		_assert_season_peak_uncommitted(person_id, key + " prelude")
+		_prepare_season_peak_qa_state(person_id)
+		await _shot_story_event(root_id, prefix + key + "_02_opening_choices", "", 0.45, true, true)
+		_assert_season_peak_uncommitted(person_id, key + " opening choices")
+
+		for branch_index in range(branches.size()):
+			_prepare_season_peak_qa_state(person_id)
+			await _shot_story_event(
+					str(branches[branch_index]),
+					prefix + key + "_0%d_branch" % [branch_index + 3], "", 0.45, true, true)
+			_assert_season_peak_uncommitted(person_id, key + " branch %d" % branch_index)
+
+		_prepare_season_peak_qa_state(person_id)
+		await _shot_story_event(final_id, prefix + key + "_05_final_choices", "", 0.55, true, true)
+		_assert_season_peak_uncommitted(person_id, key + " final choices")
+
+		var outcomes: Array = route["outcomes"]
+		for outcome_index in range(outcomes.size()):
+			var outcome: Dictionary = outcomes[outcome_index]
+			_prepare_season_peak_qa_state(person_id)
+			await _shot_story_event(
+					final_id, prefix + key + "_%02d_result" % [outcome_index + 6], "", 0.45,
+					true, true, int(outcome["choice"]), 0, false, 2)
+			_assert_season_peak_state(
+					person_id, key + " outcome %d" % outcome_index,
+					float(outcome["money"]), int(outcome["mental"]), float(outcome["tint"]),
+					int(outcome["affinity"]), str(route["flag"]))
+
+func _prepare_season_peak_qa_state(person_id: String) -> void:
+	_prepare_main_game_state()
+	GameState.age = 35
+	GameState.turn = 120
+	GameState.year = 2028
+	GameState.month = 8
+	GameState.week_of_month = 2
+	GameState.money = 1_000_000.0
+	GameState.mental = 60
+	GameState.moral_tint = 0.0
+	for flag in [
+		"daeun_romance_started", "jiyeon_romance_started",
+		"daeun_sea_5years", "jiyeon_cant_swim",
+	]:
+		GameState.flags.erase(flag)
+	GameState.flags[person_id + "_romance_started"] = true
+	GameState.flags["date_count_" + person_id] = 4
+	_set_cast_relation_for_qa(person_id, 50)
+	GameState.cast[person_id]["stage"] = "lover"
+
+func _assert_season_peak_uncommitted(person_id: String, label: String) -> void:
+	var affinity := int(GameState.cast.get(person_id, {}).get("affinity", -999))
+	if not is_equal_approx(GameState.money, 1_000_000.0) or int(GameState.mental) != 60 \
+			or not is_equal_approx(GameState.moral_tint, 0.0) or affinity != 50:
+		_fail("Season peak %s changed state before the final decision: money=%s mental=%s tint=%s affinity=%s." % [
+			label, GameState.money, GameState.mental, GameState.moral_tint, affinity,
+		])
+	if GameState.flags.get("daeun_sea_5years", false) \
+			or GameState.flags.get("jiyeon_cant_swim", false):
+		_fail("Season peak %s committed its memory flag early." % label)
+
+func _assert_season_peak_state(
+		person_id: String, label: String, money: float, mental: int, tint: float,
+		affinity: int, expected_flag: String) -> void:
+	var actual_affinity := int(GameState.cast.get(person_id, {}).get("affinity", -999))
+	if not is_equal_approx(GameState.money, money) or int(GameState.mental) != mental \
+			or not is_equal_approx(GameState.moral_tint, tint) or actual_affinity != affinity:
+		_fail("Season peak %s totals changed: money=%s mental=%s tint=%s affinity=%s." % [
+			label, GameState.money, GameState.mental, GameState.moral_tint, actual_affinity,
+		])
+	for flag in ["daeun_sea_5years", "jiyeon_cant_swim"]:
+		var should_exist: bool = not expected_flag.is_empty() and flag == expected_flag
+		if bool(GameState.flags.get(flag, false)) != should_exist:
+			_fail("Season peak %s changed flag %s (expected %s)." % [label, flag, should_exist])
 
 func _shot_jaehyuk_peak_surfaces(
 		lang: String = "en", prefix: String = "jaehyuk_en_") -> void:

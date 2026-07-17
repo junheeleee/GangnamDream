@@ -46,7 +46,44 @@
   {
     "id": "arc_season_sea_daeun",
     "title": "The Sea, After Five Years",
-    "description": "First train to the east coast. Daeun sat by the window, watching for the direction the sea would appear. She never once dozed off.\n\nAt a shop by the station they picked out swimsuits. Daeun flipped the price tag over twice and reached for the cheapest one — and when {name} held out a prettier one, her hand stopped. She hesitated, and her face went red.\n\"Something like this... it's been so long. I don't know if it'll suit me.\" She said it that way, and still turned once before the fitting-room mirror.\n\nOn the sand, the salt wind tossed her hair. The moment the first wave reached her feet, Daeun laughed out loud — a laugh bigger than {name} had ever heard from her, childlike, forgetting even to cover her mouth.\n\"Minjun, it's been... five years since I saw the sea.\"\nAt the end of the words, for a second, her throat caught. On the list of things Seoul had quietly taken from her was the sea — and this was the face of getting it back after five years.",
+    "description": "The first train to the east coast. The sun was still low. Daeun sat by the window and kept watching the side where the sea would appear. She had come straight from a night shift, yet never once dozed off.\n\nA convenience-store gimbap roll and the route map sat neatly on her lap. Each time she unfolded the map, she checked the window before folding it again.\n\"Still far?\"\n\"A little. You can sleep if you're tired.\"\n\"No. What if I miss the moment it first appears?\"\n\nThe train entered a long tunnel. Their reflections replaced the view. The night shift still showed beneath Daeun's eyes, but her gaze was bright with the look of someone who had been waiting a very long time for today.",
+    "choices": [
+      {
+        "text": "\"Did you miss it much, all those years you couldn't come?\"",
+        "result_text": "Daeun did not answer right away. Lights along the tunnel wall swept across her face at even intervals.\n\n\"I thought if I let myself miss it, it would feel even farther away.\" The words came much later. \"So I tried not to think about it.\""
+      },
+      {
+        "text": "Don't ask. Watch the same side of the window with her.",
+        "result_text": "{name} leaned toward the glass too. Their shoulders drew closer in the dark reflection.\n\n\"You're not going to sleep either, Minjun?\"\n\"How can I when you won't?\"\nDaeun smiled at the window. He saw it first in the reflection."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_sea_daeun_years",
+    "title": "Five Years of Not Going",
+    "description": "The train left the tunnel, and rice fields and low roofs began sliding past again. Daeun pressed her thumb against the corner of the folded route map.\n\n\"At first I told myself I'd go next month. Then, next summer.\"\n\"And then?\"\n\"Whenever I got a day off, I thought about the money I'd put off. Rent. My mother's hospital bills. Next month's groceries. The sea kept coming last.\"\n\nHer voice was calm, but the corner of the map had already worn round. For Daeun, five years had not been one great tragedy. They were the sum of small calculations that placed her own turn last every time.",
+    "choices": [
+      {
+        "text": "\"No calculations today. At least until we get there.\"",
+        "result_text": "Daeun looked once at the receipts on her lap, then slipped them into her bag. The route map went on top.\n\n\"Okay. Today I'll think only as far as arriving.\"\nThe arrival announcement came moments later. Daeun turned to the window before it had even finished."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_sea_daeun_horizon",
+    "title": "The First Blue Beyond the Glass",
+    "description": "The mountains opened for a moment, revealing a blue line in the distance. Daeun leaned so close her forehead nearly touched the window.\n\n\"Is that the sea?\"\n\"I think that's a reservoir.\"\n\"Oh.\"\nHe expected embarrassment. Instead, she laughed. \"Then call it practice. Now I won't be as startled when the real one comes.\"\n\nA few minutes later the blue line returned. This time it had no visible end. Daeun did not ask. She only stared, lips parted. {name} left the answer unsaid and watched her face first.",
+    "choices": [
+      {
+        "text": "\"You found this one first, Daeun.\"",
+        "result_text": "She nodded without looking away.\n\n\"Yes. This one's real.\"\nThe arrival announcement overlapped her voice. Even as the train slowed, the blue line stayed with them beyond the glass."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_sea_daeun_decision",
+    "title": "A Season Returned",
+    "description": "Past the shops by the station, they stepped onto the sand. Daeun wore a pale sky-blue shirt over a coral swimsuit. She had checked the price tag several times in the shop, but in front of the sea even the hand worrying at her hem went still.\n\nThe salt wind tousled her short hair. Shoes in one hand, Daeun approached the water carefully. The moment the first wave reached her feet, she laughed aloud — a laugh bigger than {name} had ever heard from her, childlike, forgetting even to cover her mouth.\n\n\"Minjun, it's been... five years since I saw the sea.\"\nAt the end of the words, her throat caught. On the list of things Seoul had quietly taken from her was the sea. This was the face of getting it back after five years.",
     "choices": [
       {
         "text": "\"Next year we're staying overnight.\"",
@@ -61,7 +98,44 @@
   {
     "id": "arc_season_sea_jiyeon",
     "title": "Haeundae",
-    "description": "\"Haeundae is my turf.\" From the moment they stepped off at Busan Station, an accent crept into Jiyeon's speech — the hometown tongue she kept pressed down in Seoul.\nThe market alleys, the best mulhoe place, haggling over the parasol — she really was on home ground, not a hitch in the words she traded with the vendors.\n\nBut when he suggested going in the water, Jiyeon didn't move from under the parasol. She hugged her knees and just stared at the sea.\n\"...Oppa.\" The sunglasses stayed on. {name} couldn't tell where the eyes behind them were looking.\n\"Don't laugh.\" A beat later, her voice dropped a little.\n\"I... can't swim.\"\nThe one who'd called it her turf had the face of someone who'd never once been into that sea.",
+    "description": "The KTX to Busan crossed the Nakdong River. Instead of looking outside, Jiyeon checked the pins saved on her phone again: a market alley, a mulhoe restaurant, the beach entrance, the parasol rental. An itinerary with all the gaps sealed, like a meeting deck.\n\n\"Haeundae is my turf.\"\nThe end of the sentence lifted with a trace of Busan. It was the hometown accent she almost never let through in Seoul. Unaware of it, Jiyeon continued explaining their reservation time.\n\nThe closer the train drew to Busan Station, the clearer the accent became. Without the suit or business card, the woman by the window looked a little less like Han Jiyeon of Seoul and a little more like someone who had left this city long ago.",
+    "choices": [
+      {
+        "text": "\"The moment we reach Busan, even your accent changes.\"",
+        "result_text": "Jiyeon stopped mid-explanation. \"Nothing about me changed.\"\n\nThe same accent was in that sentence. When {name} smiled, she turned toward the window. The tips of her ears were faintly red in the reflection."
+      },
+      {
+        "text": "\"So where are you taking me first?\"",
+        "result_text": "Jiyeon zoomed in on the map as if she had been waiting to be asked. \"The market first. Mulhoe after that. We hit the beach when the crowd thins. I know a cheaper parasol place.\"\n\nOnly the last pin beneath her finger had no name. It sat not out at sea, but exactly where water met sand."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_sea_jiyeon_voice",
+    "title": "Her Hometown Voice",
+    "description": "When an attendant passed a moment later, Jiyeon ordered water in precise standard Korean. The low Busan cadence returned only after the attendant had gone.\n\n\"Do you deliberately hide it in Seoul?\"\n\"Not deliberately. Let it slip once in a meeting and people spend the rest of it asking where you're from. While I'm trying to talk business.\"\n\"Am I allowed to ask?\"\nJiyeon looked at {name} in the window reflection. \"Oppa, you already followed me all the way here.\"\n\nAfter that, she stopped containing the accent. By the arrival announcement, even the station's name sounded different inside her voice.",
+    "choices": [
+      {
+        "text": "\"Then guide me in that voice today.\"",
+        "result_text": "\"I'll charge a premium.\" Jiyeon smiled.\n\nAs the train entered the platform, she was the first person on her feet. \"Follow me. If you get lost today, that's on me.\""
+      }
+    ]
+  },
+  {
+    "id": "arc_season_sea_jiyeon_route",
+    "title": "The Last Pin",
+    "description": "{name} pointed to the unnamed pin. \"What's this one?\"\n\nJiyeon nearly turned off the screen, then stopped. \"Just where we go into the water. The quieter end.\"\n\"You plan a separate entry point at a beach?\"\n\"There's nothing wrong with a plan.\"\n\nNormally another answer would have followed at once. This time there was none. Jiyeon placed the phone face down on her lap and looked outside. The sea had not appeared yet. In the reflection, one finger tapped the edge of the screen.",
+    "choices": [
+      {
+        "text": "Don't press. Follow her all the way to the last pin.",
+        "result_text": "\"I'm not scared.\" The answer came before any question.\n\n{name} only nodded. As the train slowed, Jiyeon turned the phone over again. The last pin was still there."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_sea_jiyeon_decision",
+    "title": "Where Water Meets Sand",
+    "description": "Out of Busan Station, through the market and the mulhoe restaurant, they reached Haeundae. Jiyeon traded words with vendors and haggled down the parasol price like someone entirely on home ground.\n\nBut when he suggested going into the water, she did not move from beneath the parasol. Arms around her knees, she stared at the sea. The sunglasses stayed on. {name} could not tell where the eyes behind them were looking.\n\n\"...Oppa. Don't laugh.\"\nA beat later her voice dropped. \"I... can't swim.\"\nThe one who had called it her turf wore the face of someone who had never once stepped into that sea.",
     "choices": [
       {
         "text": "Laugh — try not to, and fail.",
@@ -76,7 +150,44 @@
   {
     "id": "arc_season_fireworks_daeun",
     "title": "Fireworks, a Profile",
-    "description": "Yeouido. The riverside was packed with crowds out for the fireworks festival.\nAt the meeting spot, {name} didn't recognize Daeun at first. The one always in a convenience-store uniform or plain clothes was, tonight, in a dress he'd never seen. Her hair done differently, light makeup, strands lifting in the river wind.\n\n\"...First time seeing me out of uniform, right?\" she said first — not sure where to put her eyes, hands going to the hem of her dress, but not hiding either.\nThree seconds of silence while {name} chose his answer. Those three seconds stretched strangely long.",
+    "description": "Yeouido. The fireworks had not begun, but the riverside was already packed. Delivery scooters threaded between picnic mats, while announcements and children's voices mixed in the wind off the river.\n\nAt the meeting spot, {name} did not recognize Daeun at first. The one he knew in a convenience-store uniform or plain clothes was wearing a blue-grey dress he had never seen. Her short hair was done differently, and the wind lifted loose strands over light makeup.\n\n\"...First time seeing me out of uniform, right?\"\nNot knowing where to look, Daeun touched the hem and then made herself leave her hand there. Three seconds while {name} chose an answer. The sky was still dark, yet those seconds lasted longer than the first firework.",
+    "choices": [
+      {
+        "text": "Hold her gaze and ask why she chose this dress.",
+        "result_text": "Daeun looked down at the hem as though she had expected anything but that question.\n\n\"I just... wanted to wear something other than a uniform today.\" After a pause she added, \"I was a little worried you wouldn't recognize me.\""
+      },
+      {
+        "text": "Before the crowd surges, move with her toward a quieter stretch of river.",
+        "result_text": "{name} opened a path through the crowd. Daeun followed one step behind, and each time a shoulder bumped her, she checked his back before she checked the dress.\n\nNear the railing, they found a gap just wide enough to stand side by side."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_fireworks_daeun_dress",
+    "title": "The Person Outside the Uniform",
+    "description": "Daeun admitted that until the moment she left, she had nearly changed into something else. Only after describing how many times she had lifted the dress from the closet and put it back did she seem to realize how much she had said.\n\n\"At the store, it doesn't matter what I wear. People only need the name tag.\"\n\"And tonight?\"\n\"Tonight... I wanted them to see me first.\"\n\nThe riverside lights caught faintly in the folds of the dress. Daeun stopped worrying at the hem. When a distant announcement warned of the countdown, she looked at {name} first.",
+    "choices": [
+      {
+        "text": "Keep looking through the three seconds she chooses not to hide.",
+        "result_text": "Daeun almost looked away, then stopped herself. For a moment the stream of people between them broke.\n\n\"You can tell me if it looks strange.\"\nAs the words ended, a low report rolled across the river to signal the first launch."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_fireworks_daeun_river",
+    "title": "Room for Two",
+    "description": "Beyond the railing, apartment lights trembled in long lines across the river. No fireworks yet. Daeun left just enough space that their shoulders did not touch. Every shift in the crowd narrowed it.\n\n\"There are so many people.\"\n\"Uncomfortable?\"\n\"No.\" She looked around, then said it quietly. \"Even with all of them here, you're the first person I see tonight, Minjun.\"\n\nShe looked more startled than he did by her own words and turned quickly toward the river. Over the speakers, the countdown began to drop one number at a time.",
+    "choices": [
+      {
+        "text": "When the crowd moves again, keep that space beside her from disappearing.",
+        "result_text": "{name} stepped closer and blocked the flow of people with his shoulder. Daeun's arm touched his and did not move away.\n\n\"Three, two, one.\" The crowd became a single voice. Just before Daeun looked up, she glanced once at {name}."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_fireworks_daeun_decision",
+    "title": "The First Firework",
+    "description": "When the countdown ended, the first trail of light rose from the middle of the river. The report had not reached them yet. For a moment the whole crowd seemed to draw the same breath.\n\nDaeun looked up, then turned toward {name}. Surprise and laughter shared the same face. The three long seconds from before began again inside that look.\n\nThe light reached the highest point of the night. While everyone else faced the sky, only enough space remained between them not to lose each other.",
     "choices": [
       {
         "text": "\"You look beautiful.\" — before the three seconds run out.",
@@ -95,7 +206,44 @@
   {
     "id": "arc_season_fireworks_jiyeon",
     "title": "Off Duty",
-    "description": "The Yeouido fireworks festival. Someone waved from the crowd — Jiyeon, in a hoodie and sneakers, barely any makeup.\nNo suit, no heels, no business cards. Hard to believe it was the same 'Han Jiyeon' {name} knew.\n\"If anyone from the office saw me, they'd faint.\" She pulled the hood lower and smirked. Not minding others' eyes — the face, tonight, of someone let loose from them.\nWhen the crowd surged toward the river, Jiyeon took {name}'s hand first. Playing it casual, and yet unmistakable.",
+    "description": "The Yeouido fireworks festival. A hand rose above the crowd. It was Jiyeon in a hooded jacket and sneakers, wearing barely any makeup.\n\nNo suit, no heels, no business cards. She raised an eyebrow as though timing how long it took {name} to recognize her.\n\"Four seconds. Longer than I expected.\"\n\n\"People at work would faint if they saw me.\" Jiyeon pulled the hood lower and smiled. It was not the face of someone ignoring other people's eyes, but of someone freed from them for one night. The sky was still black; only the riverside lights followed their feet.",
+    "choices": [
+      {
+        "text": "Ask, on purpose, \"Where's tonight's schedule?\"",
+        "result_text": "As if she had been waiting for that question, Jiyeon took out her phone. The whole day was blank on the calendar.\n\n\"Nothing. No reservations, reports, or alarms.\" She turned the screen off. \"So don't you check the time either, oppa.\""
+      },
+      {
+        "text": "Don't judge the unfamiliar clothes. Match her stride.",
+        "result_text": "{name} simply took his place beside her. Jiyeon started toward the river, and their sneakers kept the same interval.\n\nAbout ten steps later she asked, \"Why aren't you saying anything? Isn't it strange?\""
+      }
+    ]
+  },
+  {
+    "id": "arc_season_fireworks_jiyeon_schedule",
+    "title": "An Empty Calendar",
+    "description": "Jiyeon put the dark phone at the very bottom of her bag. With the thing she usually kept in hand gone, both hands looked awkwardly empty. One touched the hood string; the other searched for a pocket.\n\n\"Are you really okay doing nothing?\"\n\"Why. Are you nervous?\"\n\"I thought you might be.\"\n\"I can fall apart for one day.\" Jiyeon corrected herself. \"No. I can rest.\"\n\nThe crowd began moving toward the river all at once. Jiyeon looked down at her empty hand, then chose not to hide it in her pocket.",
+    "choices": [
+      {
+        "text": "\"Then let's prove nothing tonight.\"",
+        "result_text": "Instead of answering, Jiyeon caught {name}'s sleeve. As more people pressed in, her hand slid from the cuff to his wrist, and from his wrist into his palm.\n\n\"It's because of the crowd.\" The excuse came before she had even finished taking his hand."
+      }
+    ]
+  },
+  {
+    "id": "arc_season_fireworks_jiyeon_pace",
+    "title": "The Same Stride",
+    "description": "\"It isn't strange. You don't have to file a report on your day-off clothes.\"\n\nJiyeon slowed the half-step she had been walking ahead. \"Sometimes you give the correct answer in the least interesting way.\"\n\"Was it wrong?\"\n\"No. That's why it's worse.\"\nThe corner of her mouth had already lifted.\n\nTheir shoulders were level now. A path she would always have led in office heels, they crossed at the same sneaker pace. Where the riverside entrance narrowed, the back of her hand touched {name}'s.",
+    "choices": [
+      {
+        "text": "With the backs of their hands still touching, slow down first.",
+        "result_text": "Jiyeon slowed too. When someone pushed from behind and nearly split them apart, she took {name}'s hand first.\n\nShe turned away with a perfectly casual face. \"It would be annoying to lose you.\""
+      }
+    ]
+  },
+  {
+    "id": "arc_season_fireworks_jiyeon_decision",
+    "title": "The One Who Reached First",
+    "description": "As the crowd pressed toward the river, Jiyeon took {name}'s hand first. She tried to make it look casual, but the glance back to check on him was unmistakable. Her hood strings shook in the river wind, and their joined hands drew taut between people.\n\n\"It's because of the crowd.\"\n\"I didn't say anything.\"\n\"You were about to. I'm getting ahead of it.\"\nShe faced forward without letting go. Only the warmth in her palm contradicted the excuse.\n\nFar out on the barge, the first trail of light climbed into the sky. In the short silence before the report arrived, Jiyeon started to look up, then turned once more toward {name}.",
     "choices": [
       {
         "text": "Re-grip her hand — fingers interlaced.",
