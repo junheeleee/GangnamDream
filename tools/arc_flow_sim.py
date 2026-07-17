@@ -163,6 +163,8 @@ SPINE_COMMON = {
     "arc_hyunsu_exam_fail": ["arc_hyunsu_exam_fail_seen"],
     "arc_hyunsu_new_path": ["arc_hyunsu_new_path_seen", "hyunsu_failed"],
     "hyunsu_pivot": ["hyunsu_pivoted"],
+    # The reunion now writes its guard on the in-person terminal link.
+    "hyunsu_reunion_later": ["hyunsu_reconnected"],
     "arc_midpoint_reckoning": ["arc_midpoint_reckoning_seen"],
     "arc_goshiwon_goodbye": ["arc_goshiwon_goodbye_seen"],
     "arc_jaewon_01_meet": ["arc_jaewon_01_seen"],

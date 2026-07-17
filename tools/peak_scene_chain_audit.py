@@ -58,7 +58,7 @@ MIN_DIALOGUE_TURNS = 2
 MIN_PANELS = 6
 
 # Ratchet updated only after a peak is expanded and its rendered QA passes.
-BASELINE_DEBT = 1
+BASELINE_DEBT = 0
 REQUIRED_PASS = {
     "arc_daeun_first_night",
     "arc_daeun_wedding_night",
@@ -81,6 +81,7 @@ REQUIRED_PASS = {
     "father_hospital_wait",
     "arc_father_passing",
     "arc_father_call_on_ktx",
+    "hyunsu_reunion_later",
     "arc_jaehyuk_04a_ghost",
     "arc_jaehyuk_mirror",
     "arc_season_sea_daeun",
@@ -1391,6 +1392,99 @@ def validate_sangchul_casino_contract(events: dict[str, dict[str, Any]]) -> None
         raise ValueError("Sangchul casino arrival lost the canonical baccarat warning")
 
 
+def validate_hyunsu_reunion_contract(events: dict[str, dict[str, Any]]) -> None:
+    """Keep the old choice callback true and hand over the card only in person."""
+    root_id = "hyunsu_reunion_later"
+    photo_id = "hyunsu_reunion_photo"
+    memory_id = "hyunsu_reunion_memory"
+    meet_id = "hyunsu_reunion_meet"
+    expected_paths = {
+        (root_id, photo_id, meet_id),
+        (root_id, memory_id, meet_id),
+    }
+    actual_paths = {path.event_ids for path in walk_paths(events, root_id)}
+    if actual_paths != expected_paths:
+        raise ValueError(
+            "Hyunsu reunion paths changed: "
+            f"actual={sorted(actual_paths)!r} expected={sorted(expected_paths)!r}"
+        )
+
+    visual_contract = {
+        root_id: ("current_housing", "hyunsu_accounting"),
+        photo_id: ("current_housing", "hyunsu_accounting"),
+        memory_id: ("current_housing", "hyunsu_accounting"),
+        meet_id: ("gukbap_restaurant_night", "hyunsu_accounting"),
+    }
+    for event_id, (background, portrait) in visual_contract.items():
+        event = events[event_id]
+        if event.get("background") != background or event.get("portrait") != portrait \
+                or event.get("cg"):
+            raise ValueError(f"Hyunsu reunion visual continuity changed at {event_id}")
+
+    root_choices = events[root_id].get("choices") or []
+    if len(root_choices) != 2 or [choice.get("follow_up_event") for choice in root_choices] != [
+        photo_id,
+        memory_id,
+    ]:
+        raise ValueError("Hyunsu reunion must open into photo and remembered-door routes")
+    buildup_choices = list(root_choices)
+    for branch_id in (photo_id, memory_id):
+        choices = events[branch_id].get("choices") or []
+        if len(choices) != 1 or choices[0].get("follow_up_event") != meet_id:
+            raise ValueError(f"{branch_id} must move to the in-person reunion")
+        buildup_choices.extend(choices)
+    for index, choice in enumerate(buildup_choices):
+        for forbidden in (
+            "effects", "cast_effects", "flags", "clues", "give_items", "opportunity",
+            "tendency", "route",
+        ):
+            if choice.get(forbidden):
+                raise ValueError(f"Hyunsu reunion buildup choice {index} commits {forbidden} early")
+
+    memory = events[memory_id]
+    comforted_copy = str((memory.get("description_if_known") or {}).get("hyunsu_comforted", ""))
+    if "문 두드렸던 거 기억나?" not in comforted_copy or "캔 따는 소리까지요." not in comforted_copy:
+        raise ValueError("Hyunsu reunion lost the comforted door-knock callback")
+    default_memory = str(memory.get("description", ""))
+    if "아무 말도 못 해서 미안했다" not in default_memory \
+            or "안 두드린 것도요" not in default_memory \
+            or "그때는 그게 고마웠어요" not in default_memory:
+        raise ValueError("Hyunsu reunion invented a door knock on the non-comforted route")
+
+    meet = events[meet_id]
+    if not str(meet.get("description", "")).startswith(
+        "토요일 저녁, 예전 고시원 골목의 국밥집에서 현수가 먼저 와 있었다."
+    ):
+        raise ValueError("Hyunsu reunion lost its explicit in-person arrival cue")
+    expected_final = (
+        {
+            "text": "그동안 버틴 걸 제대로 축하한다",
+            "effects": {"mental": 4, "social_skill": 1, "tint": 3},
+            "flags": ["hyunsu_reconnected"],
+            "give_items": ["artifact_hyunsu_card"],
+        },
+        {
+            "text": '"이제 힘들 때는 서로 먼저 연락하자"고 한다',
+            "effects": {"mental": 3, "social_skill": 2, "tint": 4},
+            "flags": ["hyunsu_reconnected"],
+            "give_items": ["artifact_hyunsu_card"],
+        },
+    )
+    final_choices = meet.get("choices") or []
+    if len(final_choices) != len(expected_final):
+        raise ValueError("Hyunsu reunion must retain two in-person responses")
+    for index, contract in enumerate(expected_final):
+        choice = final_choices[index]
+        if choice.get("follow_up_event"):
+            raise ValueError(f"Hyunsu reunion final choice {index} must terminate the chain")
+        for key, value in contract.items():
+            if choice.get(key) != value:
+                raise ValueError(
+                    f"Hyunsu reunion final choice {index} changed {key}: "
+                    f"{choice.get(key)!r}!={value!r}"
+                )
+
+
 def validate_sangchul_confrontation_contract(events: dict[str, dict[str, Any]]) -> None:
     """Keep every t60 response consequential without changing its total outcome."""
     root_id = "arc_sangchul_confrontation"
@@ -1927,6 +2021,7 @@ def main() -> int:
     validate_sangchul_first_meeting_contract(ko_events)
     validate_sangchul_deduction_contract(ko_events)
     validate_sangchul_casino_contract(ko_events)
+    validate_hyunsu_reunion_contract(ko_events)
     validate_sangchul_confrontation_contract(ko_events)
     validate_father_hospital_contract(ko_events)
     validate_father_passing_contract(ko_events)

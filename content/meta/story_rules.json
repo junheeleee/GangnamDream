@@ -89,6 +89,8 @@
       "arc_jaehyuk_hyunsu_warning",
       "arc_hyunsu_lifeline_call",
       "hyunsu_reunion_later",
+      "hyunsu_reunion_photo",
+      "hyunsu_reunion_memory",
       "hyunsu_year5_call",
       "callback_called_hyunsu_scam_echo",
       "arc_jiyeon_year3",
@@ -358,6 +360,30 @@
       "to_location": "jeongseon_casino_exterior",
       "arrival_cue_ko": "정선행 버스가 산길 끝 정류장에 멈췄다.",
       "arrival_cue_en": "The bus to Jeongseon stopped at the end of the mountain road."
+    },
+    "hyunsu_reunion_later->hyunsu_reunion_photo": {
+      "mode": "same_location",
+      "from_location": "current_housing",
+      "to_location": "current_housing"
+    },
+    "hyunsu_reunion_later->hyunsu_reunion_memory": {
+      "mode": "same_location",
+      "from_location": "current_housing",
+      "to_location": "current_housing"
+    },
+    "hyunsu_reunion_photo->hyunsu_reunion_meet": {
+      "mode": "explicit_move",
+      "from_location": "current_housing",
+      "to_location": "gukbap_restaurant_night",
+      "arrival_cue_ko": "토요일 저녁, 예전 고시원 골목의 국밥집에서 현수가 먼저 와 있었다.",
+      "arrival_cue_en": "On Saturday evening, Hyunsu was already waiting at a gukbap place in the alley by their old goshiwon."
+    },
+    "hyunsu_reunion_memory->hyunsu_reunion_meet": {
+      "mode": "explicit_move",
+      "from_location": "current_housing",
+      "to_location": "gukbap_restaurant_night",
+      "arrival_cue_ko": "토요일 저녁, 예전 고시원 골목의 국밥집에서 현수가 먼저 와 있었다.",
+      "arrival_cue_en": "On Saturday evening, Hyunsu was already waiting at a gukbap place in the alley by their old goshiwon."
     }
   },
   "events": {
@@ -1169,10 +1195,38 @@
       "presentation": {
         "channel": "message",
         "state": "received",
-        "scene_location": "current_location",
+        "scene_location": "current_housing",
         "remote_location": "accounting_office",
         "remote_actor": "hyunsu",
         "portrait_role": "remote"
+      }
+    },
+    "hyunsu_reunion_photo": {
+      "presentation": {
+        "channel": "message",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "accounting_office",
+        "remote_actor": "hyunsu",
+        "portrait_role": "remote"
+      }
+    },
+    "hyunsu_reunion_memory": {
+      "presentation": {
+        "channel": "message",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "accounting_office",
+        "remote_actor": "hyunsu",
+        "portrait_role": "remote"
+      }
+    },
+    "hyunsu_reunion_meet": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "gukbap_restaurant_night",
+        "participants": ["player", "hyunsu"],
+        "portrait_role": "present"
       }
     },
     "hyunsu_year5_call": {

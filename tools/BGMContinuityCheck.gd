@@ -359,6 +359,50 @@ func _ready() -> void:
 		_fail("Sangchul casino bus arrival did not switch cleanly to exterior ambience")
 		return
 
+	# 현수의 취업 문자는 현재 집에서 조용히 이어지고, 실제 재회에서만 사람 소리와 음악이 열린다.
+	BGMPlayer.enter_ambient_bed(0.0)
+	var hyunsu_message: Dictionary = DataRegistry.find_event("hyunsu_reunion_later")
+	var hyunsu_photo: Dictionary = DataRegistry.find_event("hyunsu_reunion_photo")
+	var hyunsu_memory: Dictionary = DataRegistry.find_event("hyunsu_reunion_memory")
+	var hyunsu_meet: Dictionary = DataRegistry.find_event("hyunsu_reunion_meet")
+	if hyunsu_message.is_empty() or hyunsu_photo.is_empty() or hyunsu_memory.is_empty() \
+			or hyunsu_meet.is_empty():
+		_fail("Hyunsu reunion audio fixtures are missing")
+		return
+	GameState.housing = "oneroom"
+	BGMPlayer.update_event_ambience(hyunsu_message)
+	BGMPlayer.begin_story_event(hyunsu_message)
+	BGMPlayer.play_scene_paragraph_music(hyunsu_message, "", 0)
+	await get_tree().create_timer(0.18).timeout
+	if BGMPlayer._current_ambience_key != "oneroom" \
+			or BGMPlayer._music_mode != "ambient" or not BGMPlayer._current_key.is_empty() \
+			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("Hyunsu employment message exposed music or the wrong home ambience")
+		return
+	var hyunsu_room_pos := BGMPlayer._ambience_player.get_playback_position()
+	for message_link in [hyunsu_photo, hyunsu_memory]:
+		BGMPlayer.update_event_ambience(message_link)
+		BGMPlayer.begin_story_event(message_link)
+		BGMPlayer.play_scene_paragraph_music(message_link, "", 0)
+		await get_tree().process_frame
+		if BGMPlayer._current_ambience_key != "oneroom" \
+				or BGMPlayer._ambience_player.get_playback_position() + 0.05 < hyunsu_room_pos:
+			_fail("Hyunsu message chain restarted or replaced the home ambience")
+			return
+		if BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+			_fail("Hyunsu message chain started intimate music before the meeting")
+			return
+		hyunsu_room_pos = BGMPlayer._ambience_player.get_playback_position()
+	BGMPlayer.update_event_ambience(hyunsu_meet)
+	BGMPlayer.begin_story_event(hyunsu_meet)
+	BGMPlayer.play_scene_paragraph_music(hyunsu_meet, "", 0)
+	await get_tree().create_timer(0.18).timeout
+	if BGMPlayer._current_ambience_key != "cafe" \
+			or BGMPlayer._current_key != "intimate" \
+			or not (BGMPlayer._player_a.playing or BGMPlayer._player_b.playing):
+		_fail("Hyunsu physical reunion did not open with human ambience and intimate music")
+		return
+
 	# 신부 입장 반응은 장면 진입음이 아니라 해당 문단에서 한 번만 겹친다.
 	AudioManager.begin_story_audio_event("arc_daeun_wedding_walk")
 	AudioManager.play_scene_paragraph_cues(

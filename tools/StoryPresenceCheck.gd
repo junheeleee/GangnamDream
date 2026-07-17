@@ -24,6 +24,10 @@ func _run() -> void:
 		return
 	if not await _check_sangchul_casino_arrival_ko():
 		return
+	if not await _check_hyunsu_reunion_message_ko():
+		return
+	if not await _check_hyunsu_reunion_meet_ko():
+		return
 	if not await _check_memory_inset_ko():
 		return
 	if not await _check_father_ktx_memory_ko():
@@ -38,7 +42,7 @@ func _run() -> void:
 
 	LocaleManager.language = _original_language
 	DataRegistry.reload()
-	print("STORY_PRESENCE_CHECK_OK phone=remote message=local casino_invite=remote casino_reply=internal casino_arrival=full memory=inset ktx=memory in_person=full en=clean")
+	print("STORY_PRESENCE_CHECK_OK phone=remote message=local casino_invite=remote casino_reply=internal casino_arrival=full hyunsu_message=remote hyunsu_meet=full memory=inset ktx=memory in_person=full en=clean")
 	get_tree().quit(0)
 
 func _check_remote_phone_ko() -> bool:
@@ -165,6 +169,73 @@ func _check_sangchul_casino_internal_ko() -> bool:
 	if BGMPlayer._current_ambience_key != "oneroom" \
 			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
 		return _fail("Sangchul casino reply changed the room tone or started directive music")
+	await _remove_story()
+	return true
+
+func _check_hyunsu_reunion_message_ko() -> bool:
+	GameState.housing = "oneroom"
+	_story = await _boot_story("hyunsu_reunion_later")
+	if _story == null:
+		return false
+	var presentation: Dictionary = _story.get("_current_presentation")
+	var badge_label := _story.get("_communication_label") as Label
+	var name_label := _story.get("_name_tag") as Label
+	var background := _story.get("_bg_img") as TextureRect
+	var portrait := _story.get("_portrait") as TextureRect
+	if str(presentation.get("channel", "")) != "message" \
+			or str(presentation.get("scene_location", "")) != "current_housing" \
+			or str(presentation.get("remote_location", "")) != "accounting_office" \
+			or str(presentation.get("remote_actor", "")) != "hyunsu" \
+			or str(presentation.get("portrait_role", "")) != "remote":
+		return _fail("Hyunsu employment message lost its remote current-housing contract")
+	if not bool(_story.get("_portrait_remote_inset")) \
+			or not is_instance_valid(badge_label) or badge_label.text != "메시지" \
+			or not is_instance_valid(name_label) or "메시지" not in name_label.text:
+		return _fail("Hyunsu employment message reads as physical co-presence")
+	var housing_background_id := ImageRegistry.infer_background_id({}, GameState.housing)
+	var expected_background := ImageRegistry.get_background(housing_background_id)
+	var expected_portrait := ImageRegistry.get_portrait("hyunsu_accounting")
+	if not is_instance_valid(background) or background.texture == null \
+			or background.texture.resource_path != expected_background:
+		return _fail("Hyunsu employment message left the player's current home")
+	if not is_instance_valid(portrait) or portrait.texture == null \
+			or portrait.texture.resource_path != expected_portrait:
+		return _fail("Hyunsu employment message lost his accounting-route identity")
+	if BGMPlayer._current_ambience_key != "oneroom" \
+			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		return _fail("Hyunsu employment message exposed the wrong home audio")
+	await _remove_story()
+	return true
+
+func _check_hyunsu_reunion_meet_ko() -> bool:
+	_story = await _boot_story("hyunsu_reunion_meet")
+	if _story == null:
+		return false
+	var presentation: Dictionary = _story.get("_current_presentation")
+	var frame := _story.get("_portrait_frame") as Control
+	var badge := _story.get("_communication_badge") as Control
+	var background := _story.get("_bg_img") as TextureRect
+	var portrait := _story.get("_portrait") as TextureRect
+	if str(presentation.get("channel", "")) != "in_person" \
+			or str(presentation.get("scene_location", "")) != "gukbap_restaurant_night" \
+			or str(presentation.get("portrait_role", "")) != "present":
+		return _fail("Hyunsu restaurant reunion lost its in-person contract")
+	if bool(_story.get("_portrait_remote_inset")):
+		return _fail("Hyunsu restaurant reunion still reads as a remote message")
+	if not is_instance_valid(frame) or not frame.visible:
+		return _fail("Hyunsu restaurant reunion did not restore the full portrait")
+	if is_instance_valid(badge) and badge.visible:
+		return _fail("Hyunsu restaurant reunion retained the message badge")
+	var expected_background := ImageRegistry.get_background("gukbap_restaurant_night")
+	var expected_portrait := ImageRegistry.get_portrait("hyunsu_accounting")
+	if not is_instance_valid(background) or background.texture == null \
+			or background.texture.resource_path != expected_background:
+		return _fail("Hyunsu physical reunion rendered outside the restaurant")
+	if not is_instance_valid(portrait) or portrait.texture == null \
+			or portrait.texture.resource_path != expected_portrait:
+		return _fail("Hyunsu physical reunion lost his accounting-route portrait")
+	if BGMPlayer._current_ambience_key != "cafe" or BGMPlayer._current_key != "intimate":
+		return _fail("Hyunsu physical reunion did not open its human audio bed")
 	await _remove_story()
 	return true
 

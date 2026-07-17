@@ -43,6 +43,7 @@
 | `arc_sangchul_01_meet` → 두 전희 → `arc_sangchul_01_answer` | `{"pace":"slow","camera":"drift"}` → `{"pace":"slow","camera":"slow_zoom","hold":0.8}` | 같은 초봄 사무실에서 관찰과 불편한 호의를 쌓고 세 가지 `왜` 직전에만 가까워진다. 악역 스팅·판결 음악은 금지 |
 | `arc_sangchul_deduction` → 두 증거 경로 → `arc_sangchul_deduction_decision` | `{"pace":"beat"}` → `{"pace":"beat","sting":"reveal"}` | 검색 중에는 현재 주거 룸톤만 유지하고, 사건번호·주소·대표자가 합쳐지는 최종 링크에서만 진실의 현을 연다 |
 | `arc_sangchul_casino_invite` → 두 계산 경로 → `arc_sangchul_casino_decision` → `arc_sangchul_casino_arrival` | `{"pace":"beat"}` → 무스코어 | 현재 주거의 문자·내면 계산·답장은 같은 룸톤으로 이어지고 악역 음악을 쓰지 않는다. 수락 결과의 승차권과 명시적 버스 이동 뒤에만 정선 외관·거리음·대면 전신으로 전환한다 |
+| `hyunsu_reunion_later` → 사진/기억 경로 → `hyunsu_reunion_meet` | 메시지 무스코어 → `intimate` | 현재 주거의 취업 메시지와 두 회상은 작은 원격 초상·룸톤만 유지한다. 토요일 국밥집 도착 뒤에만 전신 현수와 사람 소리·친밀한 음악을 연다 |
 | `arc_father_06_confession` | `{"pace":"slow","amb":"duck"}` | 고백은 느리게, 세상은 반 발 물러나서 |
 | `arc_sangchul_confrontation` | `{"pace":"slow","amb":"cut","sting":"cold","hold":1.5}` | 풀스택 ① — 게임의 척추 대면 |
 | `arc_sangchul_reckoning` | `{"pace":"beat","sting":"reveal"}` | 정산의 박자 |
@@ -67,6 +68,7 @@
 - **로맨스 명장면 4종 예약**(ROMANCE_SYSTEM.md 7절 구현 시): 어머니의 밥상 `{"pace":"slow","amb":"duck"}` / 밤 버스 `{"camera":"drift","hold":1.5}` / 좁은 방 `{"amb":"cut","hold":1.5}` / 벚꽃(어둠 변주) `{"pace":"slow","sting":"cold"}`.
 - 여름 바다와 불꽃축제의 전희 링크는 `drift`·`duck`까지만 허용한다. 바다 CG·해변 앰비언스와 불꽃 CG·파티클·폭발음은 각 최종 `..._decision` 이전에 시작하지 않는다.
 - `arc_daeun_first_night`의 네 링크는 실제 `current_housing`을 유지한다. 창밖은 `city_light`, 소리는 `rain_room`, 실내 비 입자는 0이며 같은 앰비언스·스코어를 링크마다 되감지 않는다.
+- 현수 재회의 세 메시지 링크는 실제 `current_housing`과 무스코어 룸톤을 유지한다. `hyunsu_comforted` 회상 문구는 과거 선택과 일치해야 하며 식당 도착 전에는 대면 전신·카페 앰비언스·실물 명함을 보여주지 않는다.
 - 적용 방법: 위 id의 KR 이벤트에 `direction` 키 추가는 렌더러 구현과 **같은 커밋**에서(키만 먼저 넣으면 audit 미지 키 ERROR).
 
 ## 4. 구현 순서 (Codex)

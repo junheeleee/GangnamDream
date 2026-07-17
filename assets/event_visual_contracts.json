@@ -154,7 +154,10 @@
     {"id": "cafe_bluff_recover", "background": "cafe", "portrait": "cafe_investor"},
 
     {"id": "arc_y2_hyunsu_night_bus", "background": "late_night", "portrait": "hyunsu", "choice_result_backgrounds": {"0": "seoul_bus_terminal_night"}},
-    {"id": "hyunsu_reunion_later", "background": "street", "portrait": "hyunsu_accounting"},
+    {"id": "hyunsu_reunion_later", "background": "current_housing", "portrait": "hyunsu_accounting"},
+    {"id": "hyunsu_reunion_photo", "background": "current_housing", "portrait": "hyunsu_accounting"},
+    {"id": "hyunsu_reunion_memory", "background": "current_housing", "portrait": "hyunsu_accounting"},
+    {"id": "hyunsu_reunion_meet", "background": "gukbap_restaurant_night", "portrait": "hyunsu_accounting"},
     {"id": "hyunsu_year4_echo", "background": "goshiwon_room", "portrait": "hyunsu_accounting", "portrait_if_known": {"hyunsu_passed": "hyunsu_civil_service"}},
     {"id": "hyunsu_year5_call", "background": "goshiwon_room", "portrait": "hyunsu_accounting", "portrait_if_known": {"hyunsu_passed": "hyunsu_civil_service"}},
 

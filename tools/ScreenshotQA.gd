@@ -112,6 +112,7 @@ const QA_SCOPE_BREAKUP := "breakup"
 const QA_SCOPE_SANGCHUL_FIRST_MEET := "sangchul_first_meet"
 const QA_SCOPE_SANGCHUL_DEDUCTION := "sangchul_deduction"
 const QA_SCOPE_SANGCHUL_CASINO := "sangchul_casino"
+const QA_SCOPE_HYUNSU_REUNION := "hyunsu_reunion"
 const QA_SCOPE_SANGCHUL_CONFRONTATION := "sangchul_confrontation"
 const QA_SCOPE_FATHER_PEAKS := "father_peaks"
 const QA_SCOPE_FATHER_KTX := "father_ktx"
@@ -417,6 +418,16 @@ func _ready() -> void:
 			get_tree().quit(1)
 			return
 		print("SCREENSHOT_QA_DONE scope=sangchul-casino lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_HYUNSU_REUNION:
+		var lang := _qa_language("en")
+		await _shot_hyunsu_reunion_surfaces(
+				lang, "hyunsu_reunion_en_" if lang == "en" else "hyunsu_reunion_ko_")
+		if _qa_failed:
+			get_tree().quit(1)
+			return
+		print("SCREENSHOT_QA_DONE scope=hyunsu-reunion lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_SANGCHUL_CONFRONTATION:
@@ -803,6 +814,12 @@ func _qa_scope() -> String:
 				"qa=sangchul_casino", "--qa=sangchul_casino",
 				"scope=sangchul-casino", "--scope=sangchul-casino"]:
 			return QA_SCOPE_SANGCHUL_CASINO
+		if arg in ["hyunsu-reunion", "hyunsu_reunion", "hyunsu",
+				"--hyunsu-reunion", "--hyunsu_reunion",
+				"qa=hyunsu-reunion", "--qa=hyunsu-reunion",
+				"qa=hyunsu_reunion", "--qa=hyunsu_reunion",
+				"scope=hyunsu-reunion", "--scope=hyunsu-reunion"]:
+			return QA_SCOPE_HYUNSU_REUNION
 		if arg in ["sangchul", "sangchul-confrontation", "sangchul_confrontation",
 				"--sangchul-confrontation", "qa=sangchul-confrontation",
 				"--qa=sangchul-confrontation", "scope=sangchul-confrontation"]:
@@ -1800,7 +1817,7 @@ func _assert_hyunsu_visual_state(story: Node, event_id: String, selected_choice:
 	match event_id:
 		"arc_y2_hyunsu_night_bus":
 			expected_portrait_id = "hyunsu"
-		"hyunsu_reunion_later":
+		"hyunsu_reunion_later", "hyunsu_reunion_photo", "hyunsu_reunion_memory", "hyunsu_reunion_meet":
 			expected_portrait_id = "hyunsu_accounting"
 		"hyunsu_year4_echo", "hyunsu_year5_call":
 			expected_portrait_id = "hyunsu_civil_service" if GameState.flags.get("hyunsu_passed", false) else "hyunsu_accounting"
@@ -1812,6 +1829,57 @@ func _assert_hyunsu_visual_state(story: Node, event_id: String, selected_choice:
 		var expected_portrait_path := ImageRegistry.get_portrait(expected_portrait_id)
 		if actual_portrait_path != expected_portrait_path:
 			_fail("%s portrait expected %s, got %s." % [event_id, expected_portrait_path, actual_portrait_path])
+	var reunion_message_ids := [
+		"hyunsu_reunion_later", "hyunsu_reunion_photo", "hyunsu_reunion_memory",
+	]
+	if event_id in reunion_message_ids:
+		var expected_background_id := ImageRegistry.infer_background_id({}, GameState.housing)
+		var actual_background_id := str(story.get("_event_background_id"))
+		if actual_background_id != expected_background_id:
+			_fail("%s expected live housing %s, got %s." % [
+				event_id, expected_background_id, actual_background_id])
+		var presentation: Dictionary = story.get("_current_presentation")
+		var badge := story.get("_communication_badge") as Control
+		var badge_label := story.get("_communication_label") as Label
+		if str(presentation.get("channel", "")) != "message" \
+				or str(presentation.get("scene_location", "")) != "current_housing" \
+				or str(presentation.get("remote_actor", "")) != "hyunsu" \
+				or str(presentation.get("portrait_role", "")) != "remote" \
+				or not bool(story.get("_portrait_remote_inset")):
+			_fail("%s does not read as Hyunsu's remote message." % event_id)
+		var expected_badge := "MESSAGE" if LocaleManager.is_english() else "메시지"
+		if not is_instance_valid(badge) or not badge.visible \
+				or not is_instance_valid(badge_label) or badge_label.text != expected_badge:
+			_fail("%s is missing its localized message badge." % event_id)
+		if _qa_scope() == QA_SCOPE_HYUNSU_REUNION:
+			var expected_ambience := "room"
+			match str(GameState.housing):
+				"gangnam", "apartment":
+					expected_ambience = "apartment"
+				"villa", "oneroom":
+					expected_ambience = "oneroom"
+			if str(BGMPlayer._current_ambience_key) != expected_ambience:
+				_fail("%s expected %s ambience, got %s." % [
+					event_id, expected_ambience, BGMPlayer._current_ambience_key])
+			if BGMPlayer._music_mode != "ambient" or not BGMPlayer._current_key.is_empty() \
+					or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+				_fail("%s started music before the physical reunion." % event_id)
+	elif event_id == "hyunsu_reunion_meet":
+		var presentation: Dictionary = story.get("_current_presentation")
+		var badge := story.get("_communication_badge") as Control
+		if str(story.get("_event_background_id")) != "gukbap_restaurant_night" \
+				or str(presentation.get("channel", "")) != "in_person" \
+				or str(presentation.get("scene_location", "")) != "gukbap_restaurant_night" \
+				or str(presentation.get("portrait_role", "")) != "present" \
+				or bool(story.get("_portrait_remote_inset")):
+			_fail("Hyunsu reunion did not reset to physical restaurant co-presence.")
+		if is_instance_valid(badge) and badge.visible:
+			_fail("Hyunsu reunion restaurant retained the message badge.")
+		if _qa_scope() == QA_SCOPE_HYUNSU_REUNION:
+			if str(BGMPlayer._current_ambience_key) != "cafe" \
+					or str(BGMPlayer._current_key) != "intimate" \
+					or not (BGMPlayer._player_a.playing or BGMPlayer._player_b.playing):
+				_fail("Hyunsu reunion restaurant did not start its human ambience and intimate score.")
 	if event_id == "arc_y2_hyunsu_night_bus" and selected_choice == 0:
 		var actual_background := str(story.get("_event_background_id"))
 		if actual_background != "seoul_bus_terminal_night":
@@ -4688,6 +4756,177 @@ func _verify_sangchul_casino_controller(
 		await _press_qa_action("ui_accept")
 		await _settle(0.18)
 		_assert_sangchul_casino_state("controller arrival", true)
+	_remove_nodes_by_script("res://scenes/StoryMode.gd")
+	GameState.pending_story_queue.clear()
+	await _settle(0.20)
+
+func _shot_hyunsu_reunion_surfaces(
+		lang: String = "en", prefix: String = "hyunsu_reunion_en_") -> void:
+	_set_qa_language(lang)
+
+	_prepare_hyunsu_reunion_qa_state("gosiwon", false)
+	await _shot_story_event(
+			"hyunsu_reunion_later", prefix + "01_gosiwon_message", "", 0.55, true)
+	_prepare_hyunsu_reunion_qa_state("oneroom", false)
+	await _shot_story_event(
+			"hyunsu_reunion_later", prefix + "02_oneroom_opening_choices", "",
+			0.45, true, true)
+	_assert_hyunsu_reunion_uncommitted("opening choices")
+
+	_prepare_hyunsu_reunion_qa_state("oneroom", false)
+	await _shot_story_event(
+			"hyunsu_reunion_later", prefix + "03_photo_opening_result", "",
+			0.45, true, true, 0, 0, false, 1)
+	_assert_hyunsu_reunion_uncommitted("photo opening")
+	_prepare_hyunsu_reunion_qa_state("oneroom", false)
+	await _shot_story_event(
+			"hyunsu_reunion_photo", prefix + "04_photo_branch", "", 0.55, true)
+	_assert_hyunsu_reunion_uncommitted("photo branch")
+	_prepare_hyunsu_reunion_qa_state("oneroom", false)
+	await _shot_story_event(
+			"hyunsu_reunion_photo", prefix + "05_photo_meeting_promise", "",
+			0.45, true, true, 0, 0, false, 1)
+	_assert_hyunsu_reunion_uncommitted("photo promise")
+
+	_prepare_hyunsu_reunion_qa_state("apartment", false)
+	await _shot_story_event(
+			"hyunsu_reunion_memory", prefix + "06_waited_memory", "", 0.55, true)
+	_assert_hyunsu_reunion_uncommitted("waited memory")
+	_prepare_hyunsu_reunion_qa_state("apartment", true)
+	await _shot_story_event(
+			"hyunsu_reunion_memory", prefix + "07_knocked_memory", "", 0.55, true)
+	_assert_hyunsu_reunion_uncommitted("knocked memory")
+	_prepare_hyunsu_reunion_qa_state("apartment", true)
+	await _shot_story_event(
+			"hyunsu_reunion_memory", prefix + "08_memory_meeting_promise", "",
+			0.45, true, true, 0, 0, false, 1)
+	_assert_hyunsu_reunion_uncommitted("memory promise")
+
+	_prepare_hyunsu_reunion_qa_state("oneroom", false)
+	await _shot_story_event(
+			"hyunsu_reunion_meet", prefix + "09_restaurant_arrival", "", 0.55, true)
+	_prepare_hyunsu_reunion_qa_state("oneroom", false)
+	await _shot_story_event(
+			"hyunsu_reunion_meet", prefix + "10_restaurant_choices", "",
+			0.45, true, true)
+	_assert_hyunsu_reunion_uncommitted("restaurant choices")
+	_prepare_hyunsu_reunion_qa_state("oneroom", false)
+	await _shot_story_event(
+			"hyunsu_reunion_meet", prefix + "11_endurance_result", "",
+			0.45, true, true, 0, 0, false, 2)
+	_assert_hyunsu_reunion_state("endurance", 0)
+	_prepare_hyunsu_reunion_qa_state("oneroom", true)
+	await _shot_story_event(
+			"hyunsu_reunion_meet", prefix + "12_call_first_result", "",
+			0.45, true, true, 1, 0, false, 2)
+	_assert_hyunsu_reunion_state("call first", 1)
+
+	await _verify_hyunsu_reunion_controller(0, 0, "gosiwon", false)
+	await _verify_hyunsu_reunion_controller(1, 1, "oneroom", true)
+
+func _prepare_hyunsu_reunion_qa_state(housing_id: String, comforted: bool) -> void:
+	_prepare_main_game_state()
+	GameState.turn = 96
+	GameState.age = 34
+	GameState.year = 2027
+	GameState.month = 12
+	GameState.week_of_month = 4
+	GameState.housing = housing_id
+	GameState.mental = 60
+	GameState.social_skill = 20
+	GameState.moral_tint = 0.0
+	GameState.inventory.clear()
+	GameState.flags["hyunsu_failed"] = true
+	GameState.flags["hyunsu_pivoted"] = true
+	GameState.flags.erase("hyunsu_reconnected")
+	if comforted:
+		GameState.flags["hyunsu_comforted"] = true
+	else:
+		GameState.flags.erase("hyunsu_comforted")
+	_set_cast_relation_for_qa("hyunsu", 28, true)
+	GameState.cast["hyunsu"]["stage"] = "pivoted"
+	GameState.cast["hyunsu"]["flags"] = {}
+
+func _hyunsu_card_count() -> int:
+	var count := 0
+	for owned in GameState.inventory:
+		if owned is Dictionary and str(owned.get("id", "")) == "artifact_hyunsu_card":
+			count += int(owned.get("quantity", 1))
+	return count
+
+func _assert_hyunsu_reunion_uncommitted(label: String) -> void:
+	if int(GameState.mental) != 60 or int(GameState.social_skill) != 20 \
+			or not is_equal_approx(GameState.moral_tint, 0.0):
+		_fail("Hyunsu reunion %s changed stats before the restaurant response." % label)
+	if GameState.flags.get("hyunsu_reconnected", false) or _hyunsu_card_count() != 0:
+		_fail("Hyunsu reunion %s granted reconnection or a physical card early." % label)
+	var hyunsu: Dictionary = GameState.cast.get("hyunsu", {})
+	if int(hyunsu.get("affinity", -999)) != 28 or str(hyunsu.get("stage", "")) != "pivoted":
+		_fail("Hyunsu reunion %s changed the relationship before the final response." % label)
+
+func _assert_hyunsu_reunion_state(label: String, final_choice: int) -> void:
+	var expected_mental := 64 if final_choice == 0 else 63
+	var expected_social := 21 if final_choice == 0 else 22
+	var expected_tint := 3.0 if final_choice == 0 else 4.0
+	if int(GameState.mental) != expected_mental \
+			or int(GameState.social_skill) != expected_social \
+			or not is_equal_approx(GameState.moral_tint, expected_tint):
+		_fail("Hyunsu reunion %s changed its terminal totals: mental=%s social=%s tint=%s." % [
+			label, GameState.mental, GameState.social_skill, GameState.moral_tint])
+	if not GameState.flags.get("hyunsu_reconnected", false) or _hyunsu_card_count() != 1:
+		_fail("Hyunsu reunion %s did not grant one reconnection flag and physical card." % label)
+	var hyunsu: Dictionary = GameState.cast.get("hyunsu", {})
+	if int(hyunsu.get("affinity", -999)) != 28 or str(hyunsu.get("stage", "")) != "pivoted":
+		_fail("Hyunsu reunion %s changed the canonical cast totals." % label)
+
+func _hyunsu_reunion_choices_focused(story: Node, label: String) -> bool:
+	var choice_box := story.get("_choice_box") as Control
+	var focus := get_viewport().gui_get_focus_owner() as Button
+	if not is_instance_valid(focus) or not is_instance_valid(choice_box) \
+			or not choice_box.is_ancestor_of(focus):
+		_fail("Hyunsu reunion %s did not focus a controller-selectable choice." % label)
+		return false
+	return true
+
+func _verify_hyunsu_reunion_controller(
+		root_choice: int, final_choice: int, housing_id: String, comforted: bool) -> void:
+	_prepare_hyunsu_reunion_qa_state(housing_id, comforted)
+	GameState.pending_story_queue = ["hyunsu_reunion_later"]
+	var packed := load("res://scenes/StoryMode.tscn") as PackedScene
+	var story := packed.instantiate()
+	get_tree().root.add_child.call_deferred(story)
+	await get_tree().process_frame
+	if story.has_method("_set_auto_mode"):
+		story._set_auto_mode(false, false)
+	await _settle(0.30)
+	if not await _drive_story_to_event_choices(story, "hyunsu_reunion_later") \
+			or not _hyunsu_reunion_choices_focused(story, "opening"):
+		return
+	if root_choice == 1:
+		await _press_qa_action("ui_down")
+		await _settle(0.08)
+	await _press_qa_action("ui_accept")
+	await _settle(0.18)
+	_assert_hyunsu_reunion_uncommitted("controller opening %d" % root_choice)
+	var branch_id := "hyunsu_reunion_photo" if root_choice == 0 else "hyunsu_reunion_memory"
+	if not await _drive_story_to_event_choices(story, branch_id) \
+			or not _hyunsu_reunion_choices_focused(story, "memory branch"):
+		return
+	_assert_hyunsu_visual_state(story, branch_id, -1)
+	await _press_qa_action("ui_accept")
+	await _settle(0.18)
+	_assert_hyunsu_reunion_uncommitted("controller branch %d" % root_choice)
+	if not await _drive_story_to_event_choices(story, "hyunsu_reunion_meet") \
+			or not _hyunsu_reunion_choices_focused(story, "restaurant response"):
+		return
+	_assert_hyunsu_visual_state(story, "hyunsu_reunion_meet", -1)
+	if final_choice == 1:
+		await _press_qa_action("ui_down")
+		await _settle(0.08)
+	await _press_qa_action("ui_accept")
+	await _settle(0.18)
+	_assert_hyunsu_reunion_state(
+			"controller %d/%d" % [root_choice, final_choice], final_choice)
 	_remove_nodes_by_script("res://scenes/StoryMode.gd")
 	GameState.pending_story_queue.clear()
 	await _settle(0.20)

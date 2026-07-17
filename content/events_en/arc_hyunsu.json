@@ -68,12 +68,56 @@
   },
   {
     "id": "hyunsu_reunion_later",
-    "title": "Running Into Hyunsu Again",
-    "description": "A KakaoTalk message. It was Hyunsu.\n\n\"Hyung, I got hired at an accounting firm.\"\n\nA photo followed. Hyunsu in a suit, holding up a business card. An awkward angle, an awkward smile — clearly a photo someone else had made him take. The card looked stiff and new, not a single crease in it.\n\n{name} looked at the photo for a long while. The face that used to wait for ramyeon to cook in the goshiwon kitchen was still there, above the unfamiliar suit.\n\nFour years of failing, folding, starting over — that was the face that had come all this way.",
+    "title": "A Message from Hyunsu",
+    "description": "That evening, his phone gave a short buzz. Hyunsu.\n\n\"Hyung, I got hired at an accounting firm.\"\n\nA photo followed. Hyunsu in a navy suit, holding a new business card. The awkward angle and smile made it obvious someone else had told him to pose.\n\n{name}'s finger stopped over the reply box. Congratulations was easy. There was something else he wanted to look at first.",
     "choices": [
       {
-        "text": "Send a message of congratulations",
-        "result_text": "\"Wait, for real? That's amazing!!\"\n\nThe reply came right away.\n\"It's thanks to you, hyung. For knocking on my door back then.\"\n\n{name} set the phone down. All he'd done was bring over two drinks — and someone had carried that all this time.\n\nFive years in Seoul. Some days, a message like this arrives. A kind of deposit that never shows up in the account."
+        "text": "Look at Hyunsu's face before the card",
+        "result_text": "He zoomed in. Before the crisp business card, he saw the same awkward smile above it."
+      },
+      {
+        "text": "Remember the days outside his door before the new job",
+        "result_text": "Instead of congratulations, he typed the first line about the day neither of them had forgotten."
+      }
+    ]
+  },
+  {
+    "id": "hyunsu_reunion_photo",
+    "title": "The Face in the Photo",
+    "description": "The print on the card was too small to read. What he could see was the slight lift in Hyunsu's shoulders and the way one cheek rose first when he smiled. The same face that used to wait for ramyeon in the goshiwon kitchen.\n\n{name}: \"Who took that angle?\"\nHyunsu: \"The youngest guy at the office. He took more than ten. Said this was the best one.\"\n\nFour years of failing, folding, and beginning again — and Hyunsu was still Hyunsu. The fact felt unexpectedly good.",
+    "choices": [
+      {
+        "text": "Ask him to eat in the old neighborhood this weekend",
+        "result_text": "The reply arrived the moment the read receipt appeared.\n\"Sounds good. I'll get there first.\""
+      }
+    ]
+  },
+  {
+    "id": "hyunsu_reunion_memory",
+    "title": "At the Door on the Third Day",
+    "description": "{name}: \"I'm sorry I couldn't say anything outside your door back then.\"\n\nA reply came after a pause.\nHyunsu: \"I heard the convenience-store bag rustling outside. And that you didn't knock. Back then, that helped.\"\n\nFor years, whether leaving him alone had been neglect or patience stayed unclear. At least Hyunsu had carried his own answer.",
+    "description_if_known": {
+      "hyunsu_comforted": "{name}: \"Remember when I knocked on your door?\"\n\nThe reply came at once.\nHyunsu: \"Even the sound of the cans opening. That was the loudest thing I heard that day.\"\n\n{name} watched the screen for a while. What had been only two drinks to him had remained, for someone else, as the day he opened the door again."
+    },
+    "choices": [
+      {
+        "text": "Ask him to eat in the old neighborhood this weekend",
+        "result_text": "Hyunsu did not need to ask where.\n\"That gukbap place, right? See you Saturday, hyung.\""
+      }
+    ]
+  },
+  {
+    "id": "hyunsu_reunion_meet",
+    "title": "Hyunsu, Again",
+    "description": "On Saturday evening, Hyunsu was already waiting at a gukbap place in the alley by their old goshiwon. He wore the navy suit from the photo, though he had unbuttoned the jacket.\n\nHyunsu: \"Hyung. It really has been a while.\"\n{name}: \"You look better than the photo.\"\nHyunsu: \"Or was the photo just that bad?\"\n\nThey laughed. Before the food arrived, Hyunsu slid a new business card across the table. The crisp edge stopped against a water glass.\n\nHyunsu: \"I wanted you to have the first one.\"",
+    "choices": [
+      {
+        "text": "Congratulate him for everything he endured",
+        "result_text": "\"You really did it. Starting over and all of it.\"\n\nHyunsu lowered his head, then smiled instead of answering. The same smile from the days they waited for ramyeon water.\n\nIn Seoul, there were evenings like this. Some left a deposit that never appeared in an account, but remained all the same."
+      },
+      {
+        "text": "\"From now on, let's be the first to call when things get hard\"",
+        "result_text": "Hyunsu's eyes widened for a moment.\n\"You're really saying that first, hyung?\"\n\nThey laughed and took out their phones. It took only seconds to confirm numbers already saved. The promise was not the number. It was who could press it first."
       }
     ]
   },

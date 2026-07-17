@@ -75,10 +75,10 @@ CGs remain authoritative. A split-screen phone CG may hide the standing portrait
 
 The first pass intentionally covers high-risk material instead of pretending all 1,500 events are migrated:
 
-- Ledger events: 102 / 1,562 (6.5%)
+- Ledger events: 105 / 1,565 (6.7%)
 - Typed logic contracts: 35
-- Remote/media presentation contracts: 41
-- Authored transition contracts: 44 / 44
+- Remote/media presentation contracts: 43
+- Authored transition contracts: 48 / 48
 - Unauthorized demo location jumps: 0
 - Unclassified non-player portraits with phone/message titles: 0
 - Demo father-contact logic targets: 4 / 4
@@ -94,6 +94,8 @@ Sangchul's first meeting is likewise a same-location contract across its two ope
 Sangchul's deduction is an `internal` same-location chain in Minjun's live housing. The paid-in-full certificate and archived-business routes contain no state changes and converge only after the case number, Mapo address, dates, and registered owner agree. The final 15-second choice alone may establish or defer the truth and grant `clue_father_broker`. `hidden_whole_picture` uses the same live-housing rule instead of inventing a return to the goshiwon.
 
 Sangchul's casino invitation starts as a `message` in Minjun's live housing, moves through two `internal` calculation routes, and reaches the original local reply without changing location or room tone. Only the accepted reply issues a ticket and follows an `explicit_move` contract to the Jeongseon exterior, where Sangchul resets to `in_person`. The declined route cannot show the casino or imply that Sangchul entered Minjun's room.
+
+Hyunsu's employment news is a `message` in Minjun's live housing with Hyunsu shown only as the remote accounting-route sender. The photo and failed-exam memory links remain in that same room and cannot mutate state. `hyunsu_comforted` selects the knocked-door memory; its absence selects the respectful-waiting memory. Both routes require an explicit Saturday move to the old-neighborhood restaurant before Hyunsu becomes `in_person`, the cafe/intimate audio bed begins, or the physical business card can enter inventory.
 
 These are ratchets. `minimum_ledger_events` cannot fall, and the unclassified communication count cannot rise above zero.
 
