@@ -1,0 +1,271 @@
+#!/usr/bin/env python3
+"""Validate the language-independent five-chapter narrative spine."""
+
+from __future__ import annotations
+
+import glob
+import json
+import os
+import sys
+from typing import Any
+
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SPINE_PATH = os.path.join(ROOT, "content", "meta", "narrative_spine.json")
+EVENTS_KO = os.path.join(ROOT, "content", "events")
+EVENTS_EN = os.path.join(ROOT, "content", "events_en")
+PHASES = ("setup", "escalation", "reversal", "boss", "aftermath")
+CORE_CAST = {"father", "sangchul", "jaehyuk", "hyunsu", "daeun", "jiyeon"}
+
+
+def load_json(path: str) -> Any:
+    with open(path, encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+def load_event_ids(directory: str) -> set[str]:
+    event_ids: set[str] = set()
+    for path in sorted(glob.glob(os.path.join(directory, "*.json"))):
+        data = load_json(path)
+        if not isinstance(data, list):
+            continue
+        for event in data:
+            if isinstance(event, dict) and event.get("id"):
+                event_ids.add(str(event["id"]))
+    return event_ids
+
+
+def fail(errors: list[str], message: str) -> None:
+    errors.append(message)
+
+
+def require_event(
+    event_id: str,
+    context: str,
+    ko_ids: set[str],
+    en_ids: set[str],
+    errors: list[str],
+) -> None:
+    if event_id not in ko_ids:
+        fail(errors, f"{context}: missing KO event {event_id}")
+    if event_id not in en_ids:
+        fail(errors, f"{context}: missing EN event {event_id}")
+
+
+def main() -> int:
+    errors: list[str] = []
+    if not os.path.exists(SPINE_PATH):
+        print(f"NARRATIVE_SPINE_AUDIT_ERROR missing {SPINE_PATH}")
+        return 1
+
+    spine = load_json(SPINE_PATH)
+    ko_ids = load_event_ids(EVENTS_KO)
+    en_ids = load_event_ids(EVENTS_EN)
+    if not isinstance(spine, dict):
+        print("NARRATIVE_SPINE_AUDIT_ERROR root must be an object")
+        return 1
+
+    central_question = str(spine.get("central_question", "")).strip()
+    if len(central_question) < 20:
+        fail(errors, "central_question is missing or too shallow")
+    if len(str(spine.get("player_promise", "")).strip()) < 20:
+        fail(errors, "player_promise is missing or too shallow")
+
+    world_laws = spine.get("world_laws", [])
+    if not isinstance(world_laws, list) or len(world_laws) < 5:
+        fail(errors, "world_laws must contain at least five dramatic laws")
+        world_laws = []
+    law_ids: set[str] = set()
+    for law in world_laws:
+        if not isinstance(law, dict):
+            fail(errors, "world_laws entries must be objects")
+            continue
+        law_id = str(law.get("id", ""))
+        if not law_id or law_id in law_ids:
+            fail(errors, f"world law id missing or duplicated: {law_id}")
+        law_ids.add(law_id)
+        proof = law.get("proof", [])
+        if not isinstance(proof, list) or len(proof) < 3:
+            fail(errors, f"world law {law_id} needs at least three event proofs")
+        for event_id in proof if isinstance(proof, list) else []:
+            require_event(str(event_id), f"world law {law_id}", ko_ids, en_ids, errors)
+
+    characters = spine.get("characters", [])
+    character_ids = {
+        str(row.get("id", "")) for row in characters if isinstance(row, dict)
+    }
+    if character_ids != CORE_CAST:
+        fail(errors, f"core cast mismatch: {sorted(character_ids)}")
+    for row in characters if isinstance(characters, list) else []:
+        if not isinstance(row, dict):
+            continue
+        character_id = str(row.get("id", ""))
+        chapters = row.get("chapters", [])
+        anchors = row.get("anchors", [])
+        if len(str(row.get("function", "")).strip()) < 15:
+            fail(errors, f"character {character_id} lacks a dramatic function")
+        if not isinstance(chapters, list) or len(set(chapters)) < 4:
+            fail(errors, f"character {character_id} is not carried across the epic")
+        if not isinstance(anchors, list) or len(anchors) < 3:
+            fail(errors, f"character {character_id} needs at least three anchors")
+        for event_id in anchors if isinstance(anchors, list) else []:
+            require_event(str(event_id), f"character {character_id}", ko_ids, en_ids, errors)
+
+    chapters = spine.get("chapters", [])
+    if not isinstance(chapters, list) or len(chapters) != 5:
+        fail(errors, "exactly five chapters are required")
+        chapters = []
+    expected_start = 1
+    phase_owner: dict[str, int] = {}
+    for expected_number, chapter in enumerate(chapters, start=1):
+        if not isinstance(chapter, dict):
+            fail(errors, f"chapter {expected_number} must be an object")
+            continue
+        number = int(chapter.get("number", 0))
+        if number != expected_number:
+            fail(errors, f"chapter order mismatch: expected {expected_number}, got {number}")
+        weeks = chapter.get("weeks", [])
+        if not isinstance(weeks, list) or len(weeks) != 2:
+            fail(errors, f"chapter {number} has invalid week window")
+        else:
+            start, end = int(weeks[0]), int(weeks[1])
+            if start != expected_start or end - start != 47:
+                fail(errors, f"chapter {number} must own 48 contiguous weeks")
+            expected_start = end + 1
+        for key in ("title_ko", "title_en", "question", "object", "handoff"):
+            minimum = 2 if key == "title_ko" else 4
+            if len(str(chapter.get(key, "")).strip()) < minimum:
+                fail(errors, f"chapter {number} missing {key}")
+        for phase in PHASES:
+            event_ids = chapter.get(phase, [])
+            if not isinstance(event_ids, list) or not event_ids:
+                fail(errors, f"chapter {number} has no {phase}")
+                continue
+            for raw_event_id in event_ids:
+                event_id = str(raw_event_id)
+                require_event(event_id, f"chapter {number} {phase}", ko_ids, en_ids, errors)
+                if event_id in phase_owner:
+                    fail(
+                        errors,
+                        f"event {event_id} belongs to chapters {phase_owner[event_id]} and {number}",
+                    )
+                phase_owner[event_id] = number
+    if expected_start != 241:
+        fail(errors, f"chapter windows must end at week 240, got {expected_start - 1}")
+
+    motifs = spine.get("motifs", [])
+    if not isinstance(motifs, list) or len(motifs) < 5:
+        fail(errors, "at least five recurring motifs are required")
+        motifs = []
+    motif_ids: set[str] = set()
+    chapter_five_readers = 0
+    for motif in motifs:
+        if not isinstance(motif, dict):
+            fail(errors, "motif entries must be objects")
+            continue
+        motif_id = str(motif.get("id", ""))
+        if not motif_id or motif_id in motif_ids:
+            fail(errors, f"motif id missing or duplicated: {motif_id}")
+        motif_ids.add(motif_id)
+        plant = motif.get("plant", {})
+        readers = motif.get("readers", [])
+        if not isinstance(plant, dict) or int(plant.get("chapter", 0)) != 1:
+            fail(errors, f"motif {motif_id} must be planted in chapter 1")
+            plant = {}
+        plant_event = str(plant.get("event", ""))
+        require_event(plant_event, f"motif {motif_id} plant", ko_ids, en_ids, errors)
+        if not isinstance(readers, list) or len(readers) < 2:
+            fail(errors, f"motif {motif_id} needs at least two later readers")
+            readers = []
+        seen_late = False
+        for reader in readers:
+            if not isinstance(reader, dict):
+                fail(errors, f"motif {motif_id} reader must be an object")
+                continue
+            chapter_number = int(reader.get("chapter", 0))
+            if chapter_number <= int(plant.get("chapter", 1)):
+                fail(errors, f"motif {motif_id} reader must occur after its plant")
+            if chapter_number >= 3:
+                seen_late = True
+            if chapter_number == 5:
+                chapter_five_readers += 1
+            require_event(
+                str(reader.get("event", "")),
+                f"motif {motif_id} reader",
+                ko_ids,
+                en_ids,
+                errors,
+            )
+        if not seen_late:
+            fail(errors, f"motif {motif_id} never survives into chapter 3+")
+    if chapter_five_readers < len(motifs):
+        fail(errors, "every chapter-1 motif needs at least one chapter-5 reader")
+
+    demo = spine.get("demo", {})
+    sequences = demo.get("sequences", []) if isinstance(demo, dict) else []
+    if not isinstance(sequences, list) or not 7 <= len(sequences) <= 9:
+        fail(errors, "demo must contain seven to nine novel sequences")
+        sequences = []
+    foreground_roots: set[str] = set()
+    last_end = -1
+    for sequence in sequences:
+        if not isinstance(sequence, dict):
+            fail(errors, "demo sequence must be an object")
+            continue
+        sequence_id = str(sequence.get("id", ""))
+        weeks = sequence.get("weeks", [])
+        roots = sequence.get("foreground_roots", [])
+        if not isinstance(weeks, list) or len(weeks) != 2:
+            fail(errors, f"demo sequence {sequence_id} has invalid weeks")
+        else:
+            start, end = int(weeks[0]), int(weeks[1])
+            if start > end or start <= last_end:
+                fail(errors, f"demo sequence {sequence_id} overlaps or reverses time")
+            last_end = end
+        if not isinstance(roots, list) or len(roots) < 2:
+            fail(errors, f"demo sequence {sequence_id} needs at least two foreground roots")
+            roots = []
+        if len(str(sequence.get("promise", "")).strip()) < 15:
+            fail(errors, f"demo sequence {sequence_id} lacks an end promise")
+        for event_id in roots:
+            event_id = str(event_id)
+            require_event(event_id, f"demo sequence {sequence_id}", ko_ids, en_ids, errors)
+            if event_id in foreground_roots:
+                fail(errors, f"demo foreground root duplicated: {event_id}")
+            foreground_roots.add(event_id)
+    if last_end != 24:
+        fail(errors, f"demo sequence windows must end at week 24, got {last_end}")
+
+    bridge_roots = demo.get("bridge_roots", []) if isinstance(demo, dict) else []
+    if not isinstance(bridge_roots, list) or len(bridge_roots) < 4:
+        fail(errors, "demo needs at least four explicitly demoted bridge roots")
+        bridge_roots = []
+    for bridge in bridge_roots:
+        if not isinstance(bridge, dict):
+            fail(errors, "bridge root must be an object")
+            continue
+        event_id = str(bridge.get("event", ""))
+        require_event(event_id, "demo bridge", ko_ids, en_ids, errors)
+        if event_id in foreground_roots:
+            fail(errors, f"demo bridge is also foreground: {event_id}")
+        if len(str(bridge.get("resolution", "")).strip()) < 10:
+            fail(errors, f"demo bridge {event_id} lacks a resolution contract")
+
+    if errors:
+        for error in errors:
+            print(f"NARRATIVE_SPINE_AUDIT_ERROR {error}")
+        return 1
+
+    print(
+        "NARRATIVE_SPINE_AUDIT_OK "
+        f"chapters={len(chapters)} characters={len(characters)} "
+        f"world_laws={len(world_laws)} motifs={len(motifs)} "
+        f"chapter5_readers={chapter_five_readers} "
+        f"demo_sequences={len(sequences)} foreground={len(foreground_roots)} "
+        f"bridges={len(bridge_roots)}"
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
