@@ -192,6 +192,37 @@ func _ready() -> void:
 			processional_pos, continued_processional_pos])
 		return
 
+	# 실제 주거를 배경으로 쓰는 장면도 매니페스트가 명시한 창밖 비를
+	# 우선한다. 네 링크 사이에서 같은 룸톤과 친밀한 곡을 되감지 않는다.
+	BGMPlayer.enter_ambient_bed(0.0)
+	var first_night_ev: Dictionary = DataRegistry.find_event("arc_daeun_first_night")
+	var first_night_branch: Dictionary = DataRegistry.find_event("arc_daeun_first_night_silence")
+	if first_night_ev.is_empty() or first_night_branch.is_empty():
+		_fail("Daeun first-night scene audio fixtures are missing")
+		return
+	BGMPlayer.update_event_ambience(first_night_ev)
+	BGMPlayer.begin_story_event(first_night_ev)
+	BGMPlayer.play_scene_paragraph_music(first_night_ev, "", 0)
+	await get_tree().create_timer(0.18).timeout
+	if BGMPlayer._current_ambience_key != "rain_room" \
+			or BGMPlayer._current_key != "intimate" or not BGMPlayer._player_a.playing:
+		_fail("Daeun first night did not start the authored rain-room intimate bed")
+		return
+	var rain_room_pos := BGMPlayer._ambience_player.get_playback_position()
+	var intimate_pos := BGMPlayer._player_a.get_playback_position()
+	BGMPlayer.update_event_ambience(first_night_branch)
+	BGMPlayer.begin_story_event(first_night_branch)
+	BGMPlayer.play_scene_paragraph_music(first_night_branch, "", 0)
+	await get_tree().process_frame
+	if BGMPlayer._current_ambience_key != "rain_room" \
+			or BGMPlayer._ambience_player.get_playback_position() + 0.05 < rain_room_pos:
+		_fail("Daeun first-night rain room restarted across the scene chain")
+		return
+	if BGMPlayer._current_key != "intimate" \
+			or BGMPlayer._player_a.get_playback_position() + 0.05 < intimate_pos:
+		_fail("Daeun first-night music restarted across the scene chain")
+		return
+
 	# 신부 입장 반응은 장면 진입음이 아니라 해당 문단에서 한 번만 겹친다.
 	AudioManager.begin_story_audio_event("arc_daeun_wedding_walk")
 	AudioManager.play_scene_paragraph_cues(

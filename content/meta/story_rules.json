@@ -271,6 +271,26 @@
       "mode": "same_location",
       "from_location": "hangang_riverside",
       "to_location": "hangang_riverside"
+    },
+    "arc_daeun_first_night->arc_daeun_first_night_silence": {
+      "mode": "same_location",
+      "from_location": "current_housing",
+      "to_location": "current_housing"
+    },
+    "arc_daeun_first_night->arc_daeun_first_night_truth": {
+      "mode": "same_location",
+      "from_location": "current_housing",
+      "to_location": "current_housing"
+    },
+    "arc_daeun_first_night_silence->arc_daeun_first_night_decision": {
+      "mode": "same_location",
+      "from_location": "current_housing",
+      "to_location": "current_housing"
+    },
+    "arc_daeun_first_night_truth->arc_daeun_first_night_decision": {
+      "mode": "same_location",
+      "from_location": "current_housing",
+      "to_location": "current_housing"
     }
   },
   "events": {
@@ -280,6 +300,55 @@
         "scene_location": "convenience_store",
         "participants": ["player", "daeun"],
         "portrait_role": "present"
+      }
+    },
+    "arc_daeun_first_night": {
+      "logic": {
+        "legacy": {
+          "requires_flags": ["daeun_romance_started"],
+          "forbids_flags": ["arc_daeun_first_night_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "current_housing",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present",
+        "expected_portrait": "daeun_normal"
+      }
+    },
+    "arc_daeun_first_night_silence": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "current_housing",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present",
+        "expected_portrait": "daeun_normal"
+      }
+    },
+    "arc_daeun_first_night_truth": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "current_housing",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present",
+        "expected_portrait": "daeun_sad"
+      }
+    },
+    "arc_daeun_first_night_decision": {
+      "logic": {
+        "legacy": {
+          "requires_flags": ["daeun_romance_started"],
+          "forbids_flags": ["arc_daeun_first_night_seen"],
+          "produces_all": ["arc_daeun_first_night_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "current_housing",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present",
+        "expected_portrait": "daeun_smile"
       }
     },
     "story_prologue_dad": {

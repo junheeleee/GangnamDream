@@ -10,7 +10,7 @@ func _ready() -> void:
 	_check_moral_behavior()
 	_check_runtime_layer()
 	if _failures.is_empty():
-		print("LIVING_SCENE_CHECK_OK profiles=5 blur_cap=2.0 semantic_only=true")
+		print("LIVING_SCENE_CHECK_OK profiles=6 blur_cap=2.0 semantic_only=true")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -38,6 +38,10 @@ func _check_effect_routing() -> void:
 	_expect_effect(
 		DataRegistry.find_event("arc_season_fireworks_jiyeon_decision"),
 		"hangang_riverside", "cg_romance_fireworks_jiyeon", {}, "fireworks")
+	_expect_effect(
+		DataRegistry.find_event("arc_daeun_first_night_decision"),
+		"goshiwon_room", "", {"channel": "in_person", "portrait_role": "present"},
+		"city_light")
 	_expect_effect(
 		{"id": "qa_memory", "background": "goshiwon_room"},
 		"goshiwon_room", "", {"channel": "memory", "portrait_role": "remote"}, "memory")

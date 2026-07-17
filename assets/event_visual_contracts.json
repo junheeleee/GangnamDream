@@ -1,5 +1,5 @@
 {
-  "version": 17,
+  "version": 18,
   "tag_coverage": [
     "climate",
     "season",
@@ -106,6 +106,10 @@
     {"id": "arc_sangchul_stairwell", "background": "street", "portrait": "sangchul_serious"},
     {"id": "arc_sangchul_reckoning", "background": "cafe", "portrait": "sangchul_serious"},
 
+    {"id": "arc_daeun_first_night", "background": "current_housing", "portrait": "daeun_normal", "cg": null},
+    {"id": "arc_daeun_first_night_silence", "background": "current_housing", "portrait": "daeun_normal", "cg": null},
+    {"id": "arc_daeun_first_night_truth", "background": "current_housing", "portrait": "daeun_sad", "cg": null},
+    {"id": "arc_daeun_first_night_decision", "background": "current_housing", "portrait": "daeun_smile", "cg": null},
     {"id": "arc_daeun_proposal", "background": "cafe", "portrait": "daeun_proposal"},
     {"id": "arc_daeun_proposal_last_cup", "background": "cafe", "portrait": "daeun_proposal"},
     {"id": "arc_daeun_proposal_answer", "background": "cafe", "portrait": "daeun_proposal", "choice_result_cgs": {"0": "cg_romance_proposal_daeun"}, "choice_result_cg_reveal_paragraphs": {"0": 1}},

@@ -23,9 +23,9 @@ The sound must belong to the same work as the `Gangnam Ink` visual direction.
 | Class | Count | Runtime owner |
 |---|---:|---|
 | BGM | 14 | `autoloads/BGMPlayer.gd` |
-| Ambience | 45 | `autoloads/BGMPlayer.gd` (36 inert/place + 9 human-presence layers) |
+| Ambience | 46 | `autoloads/BGMPlayer.gd` (37 inert/place + 9 human-presence layers) |
 | SFX | 53 | `autoloads/AudioManager.gd` |
-| **Total** | **112** | one deterministic in-repo source each |
+| **Total** | **113** | one deterministic in-repo source each |
 
 All current audio uses original deterministic synthesis; external samples: 0. The source ledger is enforced by `tools/audio_source_audit.py`.
 
@@ -50,7 +50,7 @@ The seven base tracks cover title, routine, crisis, and endings. Five authored s
 | `grief` | death, separation, aftermath | paragraph-triggered |
 | `wonder` | awe, release, landmark-scale emotional lift | paragraph-triggered |
 
-`assets/scene_audio_manifest.json` maps all 57 active CGs to ambience and all 90 events on the 28 Tier-1 peak paths to explicit scene audio. The mother and groom-side reaction shots keep one wedding-hall room tone; the processional begins on the couple-wide entrance and continues into the close without restarting. Wedding applause and cheer are tied to the authored entrance paragraph, not to a timer from scene load. Mother's Table keeps rural room tone through the first three paragraphs before `intimate` enters on the inherited-care reveal. The Narrow Room likewise holds only the cramped-room bed through the opening truth, then admits the same cue without restarting across either buildup route or the final decision. Jiyeon's verdict and Daeun's final test keep only their apartment/oneroom life through both buildup paths; `reckoning` enters once at the irreversible decision instead of using a breakup cue that would spoil the choice. Both sea dates remain on train ambience with no score through their two buildup paths, then move explicitly to seaside ambience and `wonder` only after the beach arrival. Both fireworks dates retain the Hangang crowd bed with no fireworks cue during buildup; the final decision alone admits `wonder` and the paragraph-2 distant explosion, so the soundtrack cannot announce the first shell before the prose and image do.
+`assets/scene_audio_manifest.json` maps all 57 active CGs to ambience and all 93 events on the 28 Tier-1 peak paths to explicit scene audio. The mother and groom-side reaction shots keep one wedding-hall room tone; the processional begins on the couple-wide entrance and continues into the close without restarting. Wedding applause and cheer are tied to the authored entrance paragraph, not to a timer from scene load. Mother's Table keeps rural room tone through the first three paragraphs before `intimate` enters on the inherited-care reveal. The Narrow Room likewise holds only the cramped-room bed through the opening truth, then admits the same cue without restarting across either buildup route or the final decision. Jiyeon's verdict and Daeun's final test keep only their apartment/oneroom life through both buildup paths; `reckoning` enters once at the irreversible decision instead of using a breakup cue that would spoil the choice. Both sea dates remain on train ambience with no score through their two buildup paths, then move explicitly to seaside ambience and `wonder` only after the beach arrival. Both fireworks dates retain the Hangang crowd bed with no fireworks cue during buildup; the final decision alone admits `wonder` and the paragraph-2 distant explosion, so the soundtrack cannot announce the first shell before the prose and image do. Daeun's first-night chain keeps the actual housing image while the explicit `rain_room` bed carries rain on glass and a restrained indoor appliance/HVAC floor; it contains no outdoor voices, never enables indoor rain particles, and does not restart across the four linked events.
 
 ## Jeongseon Casino Music
 
@@ -130,10 +130,10 @@ python3 tools/generate_launch_audio.py --check
 Latest targeted result:
 
 ```text
-AUDIO_SOURCE_AUDIT_OK assets=112 bgm=14 ambience=45 sfx=53 external_samples=0
-SCENE_AUDIO_CONTRACT_OK cg=57 peak_events=90 ambience_keys=36 music_keys=14
+AUDIO_SOURCE_AUDIT_OK assets=113 bgm=14 ambience=46 sfx=53 external_samples=0
+SCENE_AUDIO_CONTRACT_OK cg=57 peak_events=93 ambience_keys=37 music_keys=14
 GAME_AUDIO_CONTRACT_OK physical=17 stages=19 activities=7 activity_music=1 human_layers=9 direct_pad=9
-AUDIO_ASSET_CHECK_OK bgm=14 ambience=45 sfx=53
+AUDIO_ASSET_CHECK_OK bgm=14 ambience=46 sfx=53
 LAUNCH_AUDIO_OK stereo=2 rate=48000 duration=1.55
 BGM_CONTINUITY_OK mode=menu key=menu ambience=
 GAME_AUDIO_RUNTIME_OK physical=17 ambience_roundtrip=3 varied_playback=1 casino_music=1

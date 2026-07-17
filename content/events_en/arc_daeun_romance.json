@@ -2,15 +2,52 @@
   {
     "id": "arc_daeun_first_night",
     "title": "That Night",
-    "description": "It rained. The sound of it against the window made the small room feel even smaller.\n\nIt had been a hard day for both of them. Daeun brought a bottle of soju and some convenience-store snacks. She hadn't packed an umbrella — the ends of her hair were wet — and when {name} handed her a towel, she smiled.\n\"Thanks. ...For some reason, I didn't want to go straight home tonight.\"\n\nUnder the low light, the soju glasses passed back and forth a couple of times. They laughed, then talked less — and at some point only the rain was left.\n\nDaeun looked at {name} for a long moment. Instead of her usual shyness, tonight she didn't look away. Neither did he.\nBetween two people in their thirties, there was a distance that no longer needed explaining. And little by little, it closed.\n\nHer fingertips touched the back of his hand. He'd expected them cold; they were warm. And trembling, just slightly.\n\"...Minjun.\" Her voice was lower than usual.\n\nAnd on that word, Daeun reached over and turned off the light.",
+    "description": "Rain fell. Beyond the drops gathering on the window, Seoul's lights stretched into long smears.\n\nIt was after eleven when someone knocked. Daeun stood outside in her navy convenience-store polo and beige cardigan, a small plastic bag in one hand. The wet ends of her hair clung to her cheek.\n\n\"Sorry it's so late.\"\nShe started to smile, then stopped. \"For some reason, I didn't want to go straight home tonight.\"\n\n{name} stepped aside and Daeun entered carefully. A bottle of soju and convenience-store snacks tapped together inside the bag. She wiped her wet hair with her cardigan sleeve and looked out the window as if nothing were wrong.",
+    "choices": [
+      {
+        "text": "Hand her a towel, and do not ask why she came.",
+        "result_text": "{name} handed her a towel and sat across from her. He did not ask why she had come or what had happened.\n\nDaeun slowly pressed the towel to her hair. After listening to the rain for a while, she said, \"It's strange. I came here to talk, but right now I wanted you not to ask.\"\n\n\"Then I won't.\"\n\nA little of the tension left her shoulders."
+      },
+      {
+        "text": "\"Did something happen?\" Ask slowly enough that she can decline.",
+        "result_text": "{name} took out the glasses first, making it clear he would not rush her answer. Daeun watched the rain run down the window for a long time.\n\n\"Tonight, I didn't want to say I was fine.\"\n\nIt was a short sentence, but from Daeun it sounded like a long confession. {name} only nodded and waited while she chose her next words."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_first_night_silence",
+    "title": "What He Did Not Ask",
+    "description": "Even after her hair was dry, Daeun kept the towel folded across her knees. The refrigerator motor and rain against the window took turns filling the silence.\n\n\"Minjun, sometimes you wait too long for me.\"\n\"Do you hate it?\"\n\"No. That's why I end up saying more.\"\n\nIn fragments, Daeun told him about the convenience store: the things a drunk customer had knocked over, another shift change, the words she had swallowed with an untroubled face. None of it was a major incident. That was why it had accumulated for so long.\n\nWhen her last sentence ended and {name} was still beside her, Daeun let her hands relax on the folded towel.",
+    "choices": [
+      {
+        "text": "Stay beside her until she is ready to look up.",
+        "result_text": "The level in the soju glasses barely changed. Instead, the words between them grew a little lighter.\n\nAt last Daeun looked up. \"I'm all right now. Not the automatic answer. I mean it.\"\n\nThis time, her eyes stayed on his."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_first_night_truth",
+    "title": "A Place Where She Could Be Not Fine",
+    "description": "\"It was nothing serious.\"\n\nThat was how Daeun began. The words a drunk had thrown at her, the manager changing next week's shifts again, having to smile at home so no one would worry. One by one, the things she called nothing serious came to rest on the table.\n\n\"Maybe I'm allowed to say I'm not fine sometimes. When I'm with you.\"\n\"You don't have to be fine tonight.\"\n\nDaeun pressed her lips together and nodded once. Her eyes were wet, but she did not cry. Light blurred by the rain moved slowly across her face.",
+    "choices": [
+      {
+        "text": "Clear the glasses away and move a little closer instead of answering.",
+        "result_text": "When {name} pushed the empty glasses aside, Daeun turned to face him.\n\n\"Thank you. Not for fixing it. Just for listening.\"\n\nEven after the words ended, neither looked away. Their breathing sounded closer than the rain."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_first_night_decision",
+    "title": "Before the Light Went Out",
+    "description": "Under the low light, the soju glasses went back and forth a couple of times. They laughed, then talked less — until only the rain beyond the window remained.\n\nDaeun looked at {name} for a long moment. She did not put on a smile first or turn her eyes away. Neither did he.\n\nBetween two people past thirty, there was a distance that no longer needed explaining. It closed one handspan at a time.\n\nDaeun's fingertips touched the back of his hand. He had expected them to be cold. They were warm, and trembling just slightly.\n\n\"...Minjun.\"\n\nDaeun rested her hand on the light switch and waited.",
     "choices": [
       {
         "text": "Take that trembling hand in his.",
-        "result_text": "{name} took that trembling hand in his. In the dark, Daeun's breath came closer.\nThe rain filled the room — and the rest of that night belonged to the two of them alone.\n\nMorning. He woke as a grey light came through the window. Two people, in the narrow bed.\nDaeun was still asleep, her head on his arm. A face that hadn't turned once all night.\nHer glasses lay where she'd taken them off, by the pillow. That one small thing said it plainly: this was no longer a room for one.\n\nGangnam, three billion — that morning, at least, they were very far away.\nFor a man whose only possession was this one room — today, that was enough."
+        "result_text": "{name} took that trembling hand in his. In the dark, Daeun's breath came closer.\nThe rain filled the world beyond the window — and the rest of that night belonged to the two of them alone.\n\nMorning. He woke as grey light came through the window. Two people lay on the bed.\nDaeun was still asleep with her head on his arm, her face undisturbed by a single turn in the night. Her glasses lay beside the pillow where she had taken them off. That one small thing said it plainly: this was no longer a place for one.\n\nGangnam and three billion won were very far away that morning.\nFor a man who believed life waited somewhere beyond the target, that morning arrived before the numbers did."
       },
       {
         "text": "\"...Just stay next to me tonight.\" (Falls asleep holding her)",
-        "result_text": "{name} held her hand, but pulled the blanket up over her damp shoulders.\n\"...Let's just stay like this tonight.\"\nDaeun looked startled for a second, then smiled quietly. \"...You really are tender in the strangest places, Minjun.\"\n\nThey lay side by side in the narrow bed and listened to the rain against the window. Daeun's breathing slowed, and before long she was asleep on his shoulder.\nBeing two people who didn't have to hurry — somehow that ran deeper.\n\nLove in your thirties — it held firmer precisely because it wasn't in a rush."
+        "result_text": "{name} held her hand, then pulled the blanket up over her damp shoulders.\n\"...Let's just stay like this tonight.\"\nDaeun looked startled for a second, then smiled quietly. \"...You really are tender in the strangest places, Minjun.\"\n\nThey lay side by side and listened to the rain against the window. Daeun's breathing slowed until she fell asleep against {name}'s shoulder. Somehow, being two people who did not have to hurry felt deeper.\n\nLove in your thirties held firmer precisely because it was not in a rush."
       }
     ]
   },
@@ -55,7 +92,7 @@
       }
     ],
     "description_if_known": {
-      "daeun_first_night": "Daeun sat down again. The sounds of the cafe seemed to take one step back from the table.\n\n{name}'s thumb pressed against the corner of the box in his pocket. He had hesitated for days. The price of a ring could have been seed money — and for the first time, doing that math made him ashamed.\n\nAcross from him sat the person who had endured four years in this cramped city beside him. Whether he reached Gangnam or not, she had stayed.\n\nHe remembered that rainy night: the hand that turned off the light, the narrow bed in the morning. Perhaps he had already known then that she was the one.\n\nDaeun waited. Not rushing him, simply looking at him.\n\nThis was the moment.",
+      "daeun_first_night": "Daeun sat down again. The sounds of the cafe seemed to take one step back from the table.\n\n{name}'s thumb pressed against the corner of the box in his pocket. He had hesitated for days. The price of a ring could have been seed money — and for the first time, doing that math made him ashamed.\n\nAcross from him sat the person who had endured four years in this cramped city beside him. Whether he reached Gangnam or not, she had stayed.\n\nHe remembered that rainy night: her hand before the light went out, the grey light of morning. Perhaps he had already known then that she was the one.\n\nDaeun waited. Not rushing him, simply looking at him.\n\nThis was the moment.",
       "daeun_seen_by_gifts": "Daeun sat down again. The sounds of the cafe seemed to take one step back from the table.\n\n{name}'s thumb pressed against the corner of the box in his pocket. He had hesitated for days. The price of a ring could have been seed money — and for the first time, doing that math made him ashamed.\n\nCanned coffee, socks, a scarf. Things that cost very little, yet Daeun had smiled for so long each time. He had never given her anything expensive. Instead, each time, he had truly seen her.\n\nDaeun waited. Not rushing him, simply looking at him.\n\nThis was the moment."
     }
   }

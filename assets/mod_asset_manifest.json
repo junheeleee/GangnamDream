@@ -1811,6 +1811,13 @@
     },
     {
       "ids": [
+        "rain_room"
+      ],
+      "relative_path": "audio/amb_rain_room.wav",
+      "bytes": 705644
+    },
+    {
+      "ids": [
         "saju"
       ],
       "relative_path": "audio/amb_saju_cafe.wav",

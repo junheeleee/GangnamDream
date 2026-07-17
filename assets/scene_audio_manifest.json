@@ -66,7 +66,10 @@
     "cg_ending_instant_legend": {"ambience": "apartment"}
   },
   "events": {
-    "arc_daeun_first_night": {"ambience": "room", "music": {"key": "intimate", "start_paragraph": 0}},
+    "arc_daeun_first_night": {"ambience": "rain_room", "music": {"key": "intimate", "start_paragraph": 0}},
+    "arc_daeun_first_night_silence": {"ambience": "rain_room", "music": {"key": "intimate", "start_paragraph": 0}},
+    "arc_daeun_first_night_truth": {"ambience": "rain_room", "music": {"key": "intimate", "start_paragraph": 0}},
+    "arc_daeun_first_night_decision": {"ambience": "rain_room", "music": {"key": "intimate", "start_paragraph": 0}},
     "arc_daeun_wedding_night": {"ambience": "oneroom", "music": {"key": "intimate", "start_paragraph": 0}},
     "arc_daeun_wedding_night_tea": {"ambience": "oneroom", "music": {"key": "intimate", "start_paragraph": 0}},
     "arc_daeun_wedding_night_honest": {"ambience": "oneroom", "music": {"key": "intimate", "start_paragraph": 0}},

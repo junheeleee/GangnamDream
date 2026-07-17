@@ -29,6 +29,7 @@ amb_oneroom_room.wav amb_apartment_room.wav amb_summer_night.wav
 amb_winter_wind.wav
 amb_public_office.wav amb_racetrack_crowd.wav amb_saju_cafe.wav
 amb_school_hall.wav amb_seoul_rain.wav amb_seoul_street.wav
+amb_rain_room.wav
 amb_subway_platform.wav sfx_civil_defense_siren.wav
 sfx_ending_stinger_bad.wav sfx_ending_stinger_good.wav
 sfx_ending_stinger_legend.wav sfx_monsoon_rain.wav

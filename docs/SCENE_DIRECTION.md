@@ -48,6 +48,7 @@
 | `arc_father_passing` | `{"pace":"slow","amb":"cut","sting":"loss","camera":"drift","hold":2.0}` | 풀스택 ② — 소리가 먼저 사라진다 |
 | `arc_daeun_02b_dream` | `{"amb":"duck"}` | "강남 못 가도 민준씨는" — 편의점 소음이 가라앉는 순간 |
 | `arc_daeun_04_morning` (고백) | `{"pace":"slow","camera":"drift"}` | 느린 아침 |
+| `arc_daeun_first_night_decision` | `{"pace":"slow","amb":"duck","camera":"slow_zoom"}` | 현재 집에서 두 전희를 지난 뒤에만 가까워진다. 창밖 비는 소리와 도시광으로만 남기고 실내 입자는 쓰지 않는다 |
 | `arc_daeun_proposal_answer` | `{"pace":"slow","camera":"slow_zoom","hold":1.0}` | 반지 — 축적 두 링크를 지난 최종 선택에서만 줌 |
 | `arc_daeun_wedding_day` | `{"camera":"slow_zoom","sting":"reveal"}` | 텅 빈/채워진 신랑석이 보이는 줌 |
 | `arc_daeun_final_choice_decision` | `{"pace":"slow","amb":"cut","sting":"loss","hold":1.5}` | 풀스택 ③ — 부엌의 생활음을 지난 뒤 서류 위의 결혼 |
@@ -64,6 +65,7 @@
 - 후속 후보(2차): 밴드 전이 moral beat(엔진 레벨 — Codex 재량), chapter_cards(`camera:drift` 일괄). 데모 플래시포워드 풀스택 ④는 2026-07-10 완료.
 - **로맨스 명장면 4종 예약**(ROMANCE_SYSTEM.md 7절 구현 시): 어머니의 밥상 `{"pace":"slow","amb":"duck"}` / 밤 버스 `{"camera":"drift","hold":1.5}` / 좁은 방 `{"amb":"cut","hold":1.5}` / 벚꽃(어둠 변주) `{"pace":"slow","sting":"cold"}`.
 - 여름 바다와 불꽃축제의 전희 링크는 `drift`·`duck`까지만 허용한다. 바다 CG·해변 앰비언스와 불꽃 CG·파티클·폭발음은 각 최종 `..._decision` 이전에 시작하지 않는다.
+- `arc_daeun_first_night`의 네 링크는 실제 `current_housing`을 유지한다. 창밖은 `city_light`, 소리는 `rain_room`, 실내 비 입자는 0이며 같은 앰비언스·스코어를 링크마다 되감지 않는다.
 - 적용 방법: 위 id의 KR 이벤트에 `direction` 키 추가는 렌더러 구현과 **같은 커밋**에서(키만 먼저 넣으면 audit 미지 키 ERROR).
 
 ## 4. 구현 순서 (Codex)

@@ -110,6 +110,7 @@ const QA_SCOPE_SANGCHUL_CONFRONTATION := "sangchul_confrontation"
 const QA_SCOPE_FATHER_PEAKS := "father_peaks"
 const QA_SCOPE_FATHER_KTX := "father_ktx"
 const QA_SCOPE_FIRST_KISS := "first_kiss"
+const QA_SCOPE_DAEUN_FIRST_NIGHT := "daeun_first_night"
 const QA_SCOPE_SEASON_PEAKS := "season_peaks"
 const QA_SCOPE_JAEHYUK_PEAKS := "jaehyuk_peaks"
 const QA_SCOPE_FIRST_SNOW := "first_snow"
@@ -417,6 +418,16 @@ func _ready() -> void:
 			get_tree().quit(1)
 			return
 		print("SCREENSHOT_QA_DONE scope=first-kiss lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_DAEUN_FIRST_NIGHT:
+		var lang := _qa_language("en")
+		await _shot_daeun_first_night_surfaces(
+				lang, "daeun_first_night_en_" if lang == "en" else "daeun_first_night_ko_")
+		if _qa_failed:
+			get_tree().quit(1)
+			return
+		print("SCREENSHOT_QA_DONE scope=daeun-first-night lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_SEASON_PEAKS:
@@ -754,6 +765,11 @@ func _qa_scope() -> String:
 				"--first-kiss", "--first_kiss", "qa=first-kiss", "--qa=first-kiss",
 				"qa=first_kiss", "--qa=first_kiss", "scope=first-kiss", "--scope=first-kiss"]:
 			return QA_SCOPE_FIRST_KISS
+		if arg in ["daeun-first-night", "daeun_first_night", "first-night", "first_night",
+				"--daeun-first-night", "--daeun_first_night", "qa=daeun-first-night",
+				"--qa=daeun-first-night", "qa=daeun_first_night", "--qa=daeun_first_night",
+				"scope=daeun-first-night", "--scope=daeun-first-night"]:
+			return QA_SCOPE_DAEUN_FIRST_NIGHT
 		if arg in ["season-peaks", "season_peaks", "season-romance", "season_romance",
 				"--season-peaks", "--season_peaks", "qa=season-peaks", "--qa=season-peaks",
 				"qa=season_peaks", "--qa=season_peaks", "scope=season-peaks", "--scope=season-peaks"]:
@@ -1282,6 +1298,10 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 		"arc_season_fireworks_jiyeon_schedule": "hangang",
 		"arc_season_fireworks_jiyeon_pace": "hangang",
 		"arc_season_fireworks_jiyeon_decision": "hangang",
+		"arc_daeun_first_night": "rain_room",
+		"arc_daeun_first_night_silence": "rain_room",
+		"arc_daeun_first_night_truth": "rain_room",
+		"arc_daeun_first_night_decision": "rain_room",
 	}
 	if expected_event_ambience.has(event_id):
 		var expected_ambience := str(expected_event_ambience[event_id])
@@ -1295,6 +1315,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	_assert_commitment_visual_state(story, event_id, select_choice)
 	_assert_breakup_visual_state(story, event_id, select_choice)
 	_assert_transport_visual_state(story, event_id)
+	_assert_daeun_first_night_visual_state(story, event_id)
 	_assert_living_scene_state(story, event_id)
 	if _qa_scope() == QA_SCOPE_TEXT_MATERIAL:
 		_assert_story_text_material(story)
@@ -1685,6 +1706,10 @@ func _assert_living_scene_state(story: Node, event_id: String) -> void:
 		"arc_season_fireworks_jiyeon": "none",
 		"arc_season_fireworks_daeun_decision": "fireworks",
 		"arc_season_fireworks_jiyeon_decision": "fireworks",
+		"arc_daeun_first_night": "city_light",
+		"arc_daeun_first_night_silence": "city_light",
+		"arc_daeun_first_night_truth": "city_light",
+		"arc_daeun_first_night_decision": "city_light",
 		"arc_job_first_rejection": "none",
 	}
 	if not expected.has(event_id):
@@ -4320,6 +4345,119 @@ func _assert_first_kiss_state(
 		])
 	if not GameState.flags.get(completion_flag, false):
 		_fail("%s first-kiss %s did not commit its completion flag." % [person_id, label])
+
+func _shot_daeun_first_night_surfaces(
+		lang: String = "en", prefix: String = "daeun_first_night_en_") -> void:
+	_set_qa_language(lang)
+
+	_prepare_daeun_first_night_qa_state("gosiwon")
+	await _shot_story_event(
+		"arc_daeun_first_night", prefix + "01_gosiwon_arrival", "", 0.55, true)
+	_assert_daeun_first_night_uncommitted("goshiwon arrival")
+	_prepare_daeun_first_night_qa_state("gosiwon")
+	await _shot_story_event(
+		"arc_daeun_first_night", prefix + "02_gosiwon_opening_choice", "", 0.55, true, true)
+	_assert_daeun_first_night_uncommitted("goshiwon opening choice")
+	_prepare_daeun_first_night_qa_state("gosiwon")
+	await _shot_story_event(
+		"arc_daeun_first_night_silence", prefix + "03_gosiwon_silence", "", 0.55, true, true)
+	_assert_daeun_first_night_uncommitted("goshiwon silence branch")
+	_prepare_daeun_first_night_qa_state("gosiwon")
+	await _shot_story_event(
+		"arc_daeun_first_night_decision", prefix + "04_gosiwon_final_choice", "", 0.55, true, true)
+	_assert_daeun_first_night_uncommitted("goshiwon final choice")
+	_prepare_daeun_first_night_qa_state("gosiwon")
+	await _shot_story_event(
+		"arc_daeun_first_night_decision", prefix + "05_gosiwon_intimacy_result", "", 0.55,
+		true, true, 0, 0, false, 3)
+	_assert_daeun_first_night_state("intimacy", 74, 3.0, 68, true)
+
+	_prepare_daeun_first_night_qa_state("oneroom")
+	await _shot_story_event(
+		"arc_daeun_first_night", prefix + "06_oneroom_arrival", "", 0.55, true)
+	_assert_daeun_first_night_uncommitted("one-room arrival")
+	_prepare_daeun_first_night_qa_state("oneroom")
+	await _shot_story_event(
+		"arc_daeun_first_night_truth", prefix + "07_oneroom_truth", "", 0.55, true, true)
+	_assert_daeun_first_night_uncommitted("one-room truth branch")
+	_prepare_daeun_first_night_qa_state("oneroom")
+	await _shot_story_event(
+		"arc_daeun_first_night_decision", prefix + "08_oneroom_final_choice", "", 0.55, true, true)
+	_assert_daeun_first_night_uncommitted("one-room final choice")
+	_prepare_daeun_first_night_qa_state("oneroom")
+	await _shot_story_event(
+		"arc_daeun_first_night_decision", prefix + "09_oneroom_sleep_result", "", 0.55,
+		true, true, 1, 0, false, 3)
+	_assert_daeun_first_night_state("sleep", 70, 5.0, 64, false)
+
+func _prepare_daeun_first_night_qa_state(housing_id: String) -> void:
+	_prepare_main_game_state()
+	GameState.age = 34
+	GameState.turn = 70
+	GameState.year = 2027
+	GameState.month = 7
+	GameState.week_of_month = 2
+	GameState.housing = housing_id
+	GameState.mental = 60
+	GameState.moral_tint = 0.0
+	for flag in [
+		"daeun_romance_started", "jiyeon_romance_started",
+		"arc_daeun_first_night_seen", "daeun_first_night",
+	]:
+		GameState.flags.erase(flag)
+	GameState.flags["daeun_romance_started"] = true
+	_set_cast_relation_for_qa("daeun", 50)
+	GameState.cast["daeun"]["stage"] = "lover"
+
+func _assert_daeun_first_night_uncommitted(label: String) -> void:
+	var affinity := int(GameState.cast.get("daeun", {}).get("affinity", -999))
+	var stage := str(GameState.cast.get("daeun", {}).get("stage", ""))
+	if int(GameState.mental) != 60 or not is_equal_approx(GameState.moral_tint, 0.0) \
+			or affinity != 50 or stage != "lover":
+		_fail("Daeun first-night %s changed state before the final decision: mental=%s tint=%s affinity=%s stage=%s." % [
+			label, GameState.mental, GameState.moral_tint, affinity, stage,
+		])
+	if GameState.flags.get("arc_daeun_first_night_seen", false) \
+			or GameState.flags.get("daeun_first_night", false):
+		_fail("Daeun first-night %s committed a route before the final decision." % label)
+
+func _assert_daeun_first_night_state(
+		label: String, mental: int, tint: float, affinity: int, intimate: bool) -> void:
+	var actual_affinity := int(GameState.cast.get("daeun", {}).get("affinity", -999))
+	var stage := str(GameState.cast.get("daeun", {}).get("stage", ""))
+	if int(GameState.mental) != mental or not is_equal_approx(GameState.moral_tint, tint) \
+			or actual_affinity != affinity or stage != "lover":
+		_fail("Daeun first-night %s totals changed: mental=%s tint=%s affinity=%s stage=%s." % [
+			label, GameState.mental, GameState.moral_tint, actual_affinity, stage,
+		])
+	if not GameState.flags.get("arc_daeun_first_night_seen", false) \
+			or bool(GameState.flags.get("daeun_first_night", false)) != intimate:
+		_fail("Daeun first-night %s did not preserve the canonical route flags." % label)
+
+func _assert_daeun_first_night_visual_state(story: Node, event_id: String) -> void:
+	var expected_portraits := {
+		"arc_daeun_first_night": "daeun_normal",
+		"arc_daeun_first_night_silence": "daeun_normal",
+		"arc_daeun_first_night_truth": "daeun_sad",
+		"arc_daeun_first_night_decision": "daeun_smile",
+	}
+	if not expected_portraits.has(event_id):
+		return
+	var expected_background := ImageRegistry.infer_background_id({}, GameState.housing)
+	var actual_background := str(story.get("_event_background_id"))
+	if actual_background != expected_background:
+		_fail("%s housing expected %s, got %s." % [
+			event_id, expected_background, actual_background,
+		])
+	var portrait := story.get("_portrait") as TextureRect
+	var actual_portrait_path := ""
+	if is_instance_valid(portrait) and portrait.texture != null:
+		actual_portrait_path = portrait.texture.resource_path
+	var expected_portrait_path := ImageRegistry.get_portrait(str(expected_portraits[event_id]))
+	if actual_portrait_path != expected_portrait_path:
+		_fail("%s portrait expected %s, got %s." % [
+			event_id, expected_portrait_path, actual_portrait_path,
+		])
 
 func _shot_season_peak_surfaces(
 		lang: String = "en", prefix: String = "season_peaks_en_") -> void:

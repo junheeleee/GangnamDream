@@ -346,6 +346,31 @@ def ambience_rain() -> list[list[float]]:
     return buf
 
 
+def ambience_rain_room() -> list[list[float]]:
+    """Closed-room tone with rain on glass, without exterior street presence."""
+    previous_state = RNG.getstate()
+    RNG.seed(2026071701)
+    try:
+        buf = _empty(8.0)
+        # Refrigerator/HVAC bed and a restrained building hum establish that the
+        # listener is indoors. Rain remains wider and brighter, behind glass.
+        _add_noise(buf, 0.018, "dark", -0.08, 0.05)
+        _add_tone(buf, 0.0, 57.0, 8.0, 0.020, -0.05, "sine")
+        _add_tone(buf, 0.0, 114.0, 8.0, 0.009, 0.12, "sine")
+        _add_noise(buf, 0.016, "bright", 0.28, 0.0)
+        _add_noise(buf, 0.010, "dark", 0.38, 0.13)
+        for t in [0.38, 0.82, 1.47, 2.05, 2.84, 3.19, 3.92,
+                  4.36, 4.91, 5.58, 6.14, 6.72, 7.31, 7.67]:
+            _add_noise_burst(
+                buf, t, RNG.uniform(0.018, 0.050), RNG.uniform(0.006, 0.014),
+                RNG.uniform(0.18, 0.72), "bright")
+        for t, pos in [(1.15, 0.58), (3.55, 0.42), (5.95, 0.66)]:
+            _add_sweep(buf, t, 290.0, 185.0, 0.42, 0.010, pos, "sine")
+        return buf
+    finally:
+        RNG.setstate(previous_state)
+
+
 def ambience_hangang() -> list[list[float]]:
     buf = _empty(6.0)
     _add_noise(buf, 0.032, "dark", -0.35, 0.18)
@@ -1198,6 +1223,14 @@ def main() -> None:
         "bgm_casino_floor.ogg": bgm_casino_floor,
         "bgm_casino_table.ogg": bgm_casino_table,
     }
+    rain_room_targets = {
+        "amb_rain_room.wav": ambience_rain_room,
+    }
+    if "--rain-room-only" in sys.argv[1:]:
+        for name, build in rain_room_targets.items():
+            _write(AUDIO_DIR / name, build())
+        print("AUDIO_P1_RAIN_ROOM_GENERATED", len(rain_room_targets))
+        return
     if "--casino-only" in sys.argv[1:]:
         for name, build in casino_music_targets.items():
             _write_ogg(AUDIO_DIR / name, build())
@@ -1212,6 +1245,7 @@ def main() -> None:
     targets = {
         "amb_goshiwon_room.wav": ambience_goshiwon,
         "amb_seoul_rain.wav": ambience_rain,
+        "amb_rain_room.wav": ambience_rain_room,
         "amb_hangang_riverside.wav": ambience_hangang,
         "amb_office_room.wav": ambience_office,
         "amb_casino_floor.wav": ambience_casino,

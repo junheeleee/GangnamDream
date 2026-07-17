@@ -58,8 +58,9 @@ MIN_DIALOGUE_TURNS = 2
 MIN_PANELS = 6
 
 # Ratchet updated only after a peak is expanded and its rendered QA passes.
-BASELINE_DEBT = 5
+BASELINE_DEBT = 4
 REQUIRED_PASS = {
+    "arc_daeun_first_night",
     "arc_daeun_wedding_night",
     "arc_jiyeon_wedding_night",
     "arc_daeun_first_kiss",
@@ -649,6 +650,76 @@ def validate_first_kiss_contracts(events: dict[str, dict[str, Any]]) -> None:
     jiyeon_result = str(events["arc_jiyeon_first_kiss_choice"]["choices"][0].get("result_text", ""))
     if "{name}이 시동" in jiyeon_result or "운전이나 해" in jiyeon_result:
         raise ValueError("Jiyeon first-kiss result put the passenger in the driver role")
+
+
+def validate_daeun_first_night_contract(events: dict[str, dict[str, Any]]) -> None:
+    """Keep the lived housing and outfit stable until the canonical final choice."""
+    root_id = "arc_daeun_first_night"
+    branches = (
+        "arc_daeun_first_night_silence",
+        "arc_daeun_first_night_truth",
+    )
+    final_id = "arc_daeun_first_night_decision"
+    expected_paths = {(root_id, branch_id, final_id) for branch_id in branches}
+    actual_paths = {path.event_ids for path in walk_paths(events, root_id)}
+    if actual_paths != expected_paths:
+        rendered = ", ".join(" -> ".join(path) for path in sorted(actual_paths))
+        raise ValueError(f"Daeun first-night paths changed: {rendered}")
+
+    expected_portraits = {
+        root_id: "daeun_normal",
+        branches[0]: "daeun_normal",
+        branches[1]: "daeun_sad",
+    }
+    for event_id, portrait_id in expected_portraits.items():
+        event = events[event_id]
+        if event.get("background") != "current_housing" \
+                or event.get("portrait") != portrait_id \
+                or event.get("cg"):
+            raise ValueError(f"Daeun first-night buildup visual changed at {event_id}")
+        if (event.get("living_scene") or {}).get("effect") != "city_light":
+            raise ValueError(f"Daeun first-night indoor light profile changed at {event_id}")
+        for choice in event.get("choices") or []:
+            for forbidden in (
+                    "effects", "flags", "cast_effects", "result_cg", "result_background"):
+                if choice.get(forbidden):
+                    raise ValueError(
+                        f"Daeun first-night buildup applies {forbidden} at {event_id}"
+                    )
+
+    final_event = events[final_id]
+    if final_event.get("background") != "current_housing" \
+            or final_event.get("portrait") != "daeun_smile" \
+            or final_event.get("cg") \
+            or (final_event.get("living_scene") or {}).get("effect") != "city_light":
+        raise ValueError("Daeun first-night decision visual changed")
+    expected_choices = (
+        {
+            "text": "떨리는 그 손을 마주 잡는다.",
+            "effects": {"mental": 14, "tint": 3},
+            "flags": ["arc_daeun_first_night_seen", "daeun_first_night"],
+            "cast_effects": {"daeun": {"affinity": 18, "stage": "lover"}},
+        },
+        {
+            "text": '"...오늘은 그냥 옆에 있어요." (다은을 안고 잠든다)',
+            "effects": {"mental": 10, "tint": 5},
+            "flags": ["arc_daeun_first_night_seen"],
+            "cast_effects": {"daeun": {"affinity": 14}},
+        },
+    )
+    final_choices = final_event.get("choices") or []
+    if len(final_choices) != len(expected_choices):
+        raise ValueError("Daeun first-night decision must retain two choices")
+    for choice_index, contract in enumerate(expected_choices):
+        choice = final_choices[choice_index]
+        for key, value in contract.items():
+            if choice.get(key) != value:
+                raise ValueError(
+                    f"Daeun first-night final choice {choice_index} changed {key}"
+                )
+        result = str(choice.get("result_text", ""))
+        if "좁은 침대" in result or "가진 게 이 방 하나뿐" in result:
+            raise ValueError("Daeun first-night result assumes the player still lives in a goshiwon")
 
 
 def validate_wedding_night_contracts(events: dict[str, dict[str, Any]]) -> None:
@@ -1539,6 +1610,7 @@ def main() -> int:
     ko_events = load_events(EVENTS_KO)
     en_events = load_events(EVENTS_EN)
     validate_season_peak_contracts(ko_events)
+    validate_daeun_first_night_contract(ko_events)
     validate_wedding_night_contracts(ko_events)
     validate_first_kiss_contracts(ko_events)
     validate_home_peak_contracts(ko_events)

@@ -1637,7 +1637,11 @@ func _render_current():
 				_event_background_id = bg_id
 	_current_presentation = DataRegistry.get_story_presentation(str(_current.get("id", "")))
 	_apply_story_surface_palette(_current_uses_cg)
-	if str(_current.get("background", "")) == "current_housing" and not _current_uses_cg:
+	var audio_contract: Dictionary = BGMPlayer.scene_audio_contract(
+		str(_current.get("id", "")), _event_cg_id)
+	var has_authored_ambience: bool = not str(audio_contract.get("ambience", "")).is_empty()
+	if str(_current.get("background", "")) == "current_housing" \
+			and not _current_uses_cg and not has_authored_ambience:
 		BGMPlayer.update_idle_ambience()
 	else:
 		BGMPlayer.update_event_ambience(_current, _event_cg_id)

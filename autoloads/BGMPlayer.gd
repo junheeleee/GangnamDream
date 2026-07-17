@@ -37,6 +37,7 @@ const MORAL_THEME_TRACKS = {
 const AMBIENCE_TRACKS = {
 	"room":        "res://assets/audio/amb_goshiwon_room.wav",
 	"rain":        "res://assets/audio/amb_seoul_rain.wav",
+	"rain_room":   "res://assets/audio/amb_rain_room.wav",
 	"hangang":     "res://assets/audio/amb_hangang_riverside.wav",
 	"office":      "res://assets/audio/amb_office_room.wav",
 	"casino":      "res://assets/audio/amb_casino_floor.wav",
@@ -90,6 +91,7 @@ const HUMAN_AMBIENCE_TRACKS = {
 const HUMAN_AMBIENCE_BY_WORLD = {
 	"room": "thin_wall",
 	"rain": "street",
+	"rain_room": "thin_wall",
 	"hangang": "street",
 	"office": "public_interior",
 	"casino": "casino",
@@ -735,7 +737,7 @@ func _calendar_season_key() -> String:
 	return ""
 
 func _event_season_key(ambience_key: String) -> String:
-	if ambience_key in ["rain", "heatwave", "fine_dust", "casino", "office", "cafe", \
+	if ambience_key in ["rain", "rain_room", "heatwave", "fine_dust", "casino", "office", "cafe", \
 			"pc_bang", "gym", "convenience", "library", "school", "public_office", \
 			"jjimjilbang", "open_chat", "room", "oneroom", "apartment", "wedding_hall", \
 			"hospital", "seaside", "amusement", "car", "night_bus", "train"]:
