@@ -522,6 +522,7 @@ Codex가 오더 없이 `content/meta/story_rules.json`(언어 독립 서사 사�
 ## [~] P1-E. 정식 출시 결산 CG 확장 (2026-07-17: 7/9, 사용자 Round 2 대기 중 재개)
 
 **[~] P1-E-8 `orthodox_pinnacle` 착수 (2026-07-17 Codex) — 만지는 파일:** `assets/cg/ending_orthodox_pinnacle_v1.png`, `assets/cg/ending_orthodox_pinnacle_v1.png.import`, `assets/ENDING_P1_VISUAL_BIBLE.md`, `assets/IMAGE_PROMPTS.md`, `assets/cg_acting_manifest.json`, `autoloads/ImageRegistry.gd`, `content/endings.json`, `docs/ENDING_ART.md`, `docs/NEW_ASSET_REQUESTS.md`, `docs/QA_CHECKLIST.md`, `tools/CGRuntimeCheck.gd`, `tools/ScreenshotQA.gd`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 38세 정장 민준과 말을 건 후배가 실제 한국 회사 회식 테이블에서 한 프레임을 공유한다. 후배의 부러움은 B급 얼굴·민준을 향한 시선으로 읽히고, 민준은 답하기 직전 물잔 아래로 시선을 내려 착실함과 두려움의 차이를 모르는 결을 보인다. 두 인물·결정적 손·회식 공간은 중앙 950x430 엔딩 프리뷰에 남기며, 가짜 한글·브랜드·과장된 술자리·승리 포즈·렌즈 시선·회사 로비·조건부 인물은 금지한다. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
+**P1-E-8 장면 배우 범위 확장 (2026-07-17 Codex) — 추가로 만지는 파일:** `assets/cast_detail_manifest.json`. 대사를 하고 민준을 바라보는 후배는 익명 군중으로 숨길 수 없으므로 `office_junior`를 B급 1회성 장면 배우로 등록하고, 배경 회식 인원만 C급 저대비 군중으로 유지한다.
 
 **[x] P1-E-7 `instant_legend` 완료:** 시작 초상과 동일한 33세 민준이 첫해에 거의 빈 강남 거실에 도착해 등기 폴더를 내려다보는 전용 1280x800 CG를 연결했다. 한 상자·낡은 가방 외에는 비워 “삶보다 목표가 먼저 도착한” 히든 엔딩을 분리했고, 첫 후보에서 하단에 걸린 오른손을 폴더 쪽으로 올려 두 손·얼굴·등기·빈 공간이 950x430 안에 함께 남도록 보정했다. 코드 조건은 첫해인데 본문이 3개월이라던 한영 모순과 `KRW 3B` 표기 부채도 첫해/`3 billion won`으로 교정했다. 활성 CG 50장/배우 계약 86개, KO/EN `ending-p1` 각 15컷 통과. 유저 지시대로 다음은 신규 CG가 아니라 `ORDER-01`부터 순차 실행한다.
 
