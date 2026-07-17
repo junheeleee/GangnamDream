@@ -244,6 +244,7 @@ Claude 컨테이너가 Godot 바이너리를 잃어(2026-07-13) 최근 Claude �
 **D. 검증**: 자동 게이트(기존) + **유저 데모 재플레이** — A~C 후 유저가 다시 완주하고 체감 보고. 불합격 항목은 이 오더 안에서 재수리(오더를 닫는 건 유저 GO뿐).
 
 #### [~] ORDER-28 [P0·전범위/데모 우선] 전체 게임 재구성 — "240주의 시간을 50개의 결정으로" (유저 전권 위임 2026-07-16)
+**24주 데모 실제 패드 블랙박스 재검수 [~] 착수 (2026-07-17 Codex) — 만지는 파일:** `tools/ScreenshotQA.gd`, `docs/QA_CHECKLIST.md`, `docs/DEMO_FIXLOG.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 최신 시작 흐름의 `시작 메뉴 → 오프닝 시네마틱 → 본편`을 실제 입력으로 통과하지 못하는 데모 드라이버를 수리하고, 키보드 대용이 아닌 PlayStation/Xbox South 버튼으로 한영 24주를 완주한다. 기술 완주 뒤에는 주차별 화면 리듬·입력 수·압박 세 카드의 정보 밀도와 월말 개입을 블랙박스로 판정하며, 발견된 실제 반복 결함만 별도 범위 선언 후 표적 수리한다. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
 **측정·설계 착수 (2026-07-16 Codex) — 만지는 파일:** `tools/game_structure_audit.py`, `docs/GAME_RECOMPOSITION_PLAN.md`, `docs/AP_REDESIGN.md`, `docs/MASTER_RELEASE_AUDIT.md`, `docs/DECISIONS.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 이 선언 커밋 뒤에만 측정·설계 파일을 편집한다. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
 > 유저가 이 오더에 한해 콘텐츠 동결을 직접 해제하고, 난개발된 전체를 한 달 안에 작품성과 상품성 기준으로 재판정하도록 위임했다. 부분 기능 추가가 아니라 **주간 루프·챕터·모달·엔딩·오디오를 하나의 플레이 리듬으로 다시 편집**한다.
 1. **측정 우선:** 1,505개 이벤트의 연차/주차/경로 밀도, 240주 중 직접 조작 주차, 메뉴·모달 깊이, 전략별 자산·엔딩·tint 발산, 5개 챕터의 setup→escalation→reversal→boss→aftermath를 기계 장부로 만든다. ORDER-26의 5아키타입 수렴 진단을 이 단계에 흡수한다.
