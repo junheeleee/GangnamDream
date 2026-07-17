@@ -12,6 +12,7 @@ func _ready() -> void:
 	_check_event_causality()
 	_check_week_surface()
 	_check_demo_pressure_choices()
+	_check_demo_pacing()
 	_check_arc_preview_read_only()
 	_check_sfx_mix()
 	LocaleManager.language = _original_language
@@ -21,7 +22,7 @@ func _ready() -> void:
 			push_error("IMMERSION_LOOP_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("IMMERSION_LOOP_CHECK_OK memory=2 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=2 vignette=2 omen=1 preview=2 rent=1 pressures=5 cards=3 sfx=8")
+	print("IMMERSION_LOOP_CHECK_OK memory=2 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=2 vignette=2 omen=1 preview=2 rent=1 pressures=5 cards=3 pacing=9/2/4 sfx=8")
 	get_tree().quit(0)
 
 func _check_recent_action_echoes() -> void:
@@ -253,6 +254,55 @@ func _check_demo_pressure_choices() -> void:
 	for hidden_word in ["moral", "route score", "morality score"]:
 		if surface.to_lower().contains(hidden_word):
 			_fail("demo pressure exposed hidden system vocabulary: %s" % hidden_word)
+	game.free()
+
+func _check_demo_pacing() -> void:
+	GameState.start_new_game()
+	GameState.turn = 2
+	GameState.month = 1
+	GameState.week_of_month = 2
+	GameState.money = 500_000.0
+	GameState.monthly_income = 2_000_000.0
+	GameState.health = 65
+	GameState.mental = 60
+	var game = MainGameScript.new()
+	if str(game.call("_demo_director_week_kind")) != "quiet":
+		_fail("scheduled quiet week did not enter quiet flow")
+	GameState.health = 35
+	if str(game.call("_demo_director_week_kind")) != "decision":
+		_fail("health crisis did not promote a quiet week to decision")
+	GameState.health = 65
+	GameState.monthly_income = 0.0
+	if str(game.call("_demo_director_week_kind")) != "decision":
+		_fail("unfunded rent did not promote a quiet week to decision")
+	GameState.monthly_income = 2_000_000.0
+	GameState.flags["demo_director_crisis_turn"] = GameState.turn
+	if str(game.call("_demo_director_week_kind")) != "decision":
+		_fail("monthly crisis did not promote a quiet week to decision")
+	GameState.flags.erase("demo_director_crisis_turn")
+	GameState.action_axis_this_week = {"money": 1, "human": 1}
+	GameState.action_places_this_week = {
+		"city": {"count": 1, "money": 1, "human": 0},
+		"home": {"count": 1, "money": 0, "human": 1},
+	}
+	game.call("_demo_director_capture_routine")
+	if GameState.week_routine != ["network", "rest"]:
+		_fail("mixed decision did not become a network/rest quiet routine: %s" % GameState.week_routine)
+	GameState.action_points = 3
+	GameState.action_axis_this_week = {"money": 0, "human": 0}
+	var used: Dictionary = game.call("_montage_apply_routine")
+	if GameState.action_points != 0:
+		_fail("quiet routine discarded bonus AP: %d remained" % GameState.action_points)
+	if not bool(used.get("money", false)) or not bool(used.get("human", false)):
+		_fail("quiet routine did not preserve the last mixed decision across bonus AP: %s" % used)
+	var counts := {"decision": 0, "boss": 0, "echo": 0, "quiet": 0}
+	for week in range(1, GameState.DEMO_TURN_LIMIT + 1):
+		var kind := EventManager.demo_week_kind(week)
+		counts[kind] = int(counts.get(kind, 0)) + 1
+	if int(counts.get("decision", 0)) + int(counts.get("boss", 0)) != 9 \
+			or int(counts.get("boss", 0)) != 2 \
+			or int(counts.get("echo", 0)) != 4:
+		_fail("demo pacing counts drifted: %s" % counts)
 	game.free()
 
 func _check_pressure_contract(game: Node, pressure: Dictionary, expected_id: String,

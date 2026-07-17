@@ -2212,6 +2212,10 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 	var pressure_family_sequence: Array[String] = []
 	var pressure_counts: Dictionary = {}
 	var pressure_month_counts: Dictionary = {}
+	var week_kind_sequence: Array[String] = []
+	var week_kind_counts: Dictionary = {}
+	var observed_auto_beats: Dictionary = {}
+	var captured_auto_kinds: Dictionary = {}
 	var action_counts: Dictionary = {}
 	var ap_action_week_counts: Dictionary = {}
 	var modal_counts: Dictionary = {}
@@ -2272,9 +2276,21 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 					input_count += 1
 					_record_demo_route_input(route_input_counts, route_week_inputs, "story:%s" % event_id)
 		elif script_path == "res://scenes/MainGame.gd":
-			if GameState.turn <= GameState.DEMO_TURN_LIMIT:
+			var director_kind := str(scene.call("_demo_director_week_kind"))
+			var director_requires_input := bool(scene.call("_demo_director_requires_player_input"))
+			if GameState.turn <= GameState.DEMO_TURN_LIMIT and director_requires_input:
 				ap_peak_by_week[GameState.turn] = maxi(
 					int(ap_peak_by_week.get(GameState.turn, 0)), GameState.action_points)
+			var auto_beat := _find_demo_director_beat(scene, GameState.turn)
+			if is_instance_valid(auto_beat):
+				var beat_turn := int(auto_beat.get_meta("demo_turn", GameState.turn))
+				var beat_kind := str(auto_beat.get_meta("demo_week_kind", ""))
+				observed_auto_beats[beat_turn] = beat_kind
+				signature += ":auto=%d:%s" % [beat_turn, beat_kind]
+				if beat_kind in ["quiet", "echo"] and not captured_auto_kinds.has(beat_kind):
+					captured_auto_kinds[beat_kind] = beat_turn
+					await _save("demo_%s_%s_%s_week_%02d" % [
+						lang, input_mode, beat_kind, beat_turn], 0.0)
 			if GameState.turn != last_reported_turn:
 				last_reported_turn = GameState.turn
 				var pressure: Dictionary = scene.call("_demo_week_pressure")
@@ -2284,14 +2300,17 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 				for raw_action_id in pressure.get("action_ids", []):
 					pressure_actions.append(str(raw_action_id))
 				if GameState.turn <= GameState.DEMO_TURN_LIMIT:
+					week_kind_sequence.append(director_kind)
+					week_kind_counts[director_kind] = int(week_kind_counts.get(director_kind, 0)) + 1
+				if GameState.turn <= GameState.DEMO_TURN_LIMIT and director_requires_input:
 					pressure_sequence.append(pressure_id)
 					pressure_family_sequence.append(pressure_family)
 					pressure_counts[pressure_id] = int(pressure_counts.get(pressure_id, 0)) + 1
 					if pressure_id == "capital":
 						var capital_month := "%04d-%02d" % [GameState.year, GameState.month]
 						pressure_month_counts[capital_month] = int(pressure_month_counts.get(capital_month, 0)) + 1
-				print("DEMO_INPUT_PROGRESS week=%d ap=%d events=%d pressure=%s actions=%s" % [
-					GameState.turn, GameState.action_points, seen_events.size(), pressure_id,
+				print("DEMO_INPUT_PROGRESS week=%d kind=%s ap=%d events=%d pressure=%s actions=%s" % [
+					GameState.turn, director_kind, GameState.action_points, seen_events.size(), pressure_id,
 					",".join(pressure_actions)])
 			var modal := scene.get("modal_layer") as Control
 			var modal_visible := is_instance_valid(modal) and modal.visible
@@ -2305,7 +2324,7 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 				cards.size(),
 				str(scene.get("pending_result_text")),
 			]
-			if pressure_capture_turns.has(GameState.turn) \
+			if pressure_capture_turns.has(GameState.turn) and director_requires_input \
 					and not captured_pressure_weeks.has(GameState.turn) \
 					and not modal_visible \
 					and not _qa_scene_transition_active() \
@@ -2317,10 +2336,11 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 			if _qa_scene_transition_active():
 				pass
 			elif modal_visible:
-				var modal_key := "%d:%s" % [GameState.turn, modal_kind]
+				var counted_modal_kind := "month_summary" if bool(scene.get("_pending_month_summary")) else modal_kind
+				var modal_key := "%d:%s" % [GameState.turn, counted_modal_kind]
 				if not counted_modal_keys.has(modal_key):
 					counted_modal_keys[modal_key] = true
-					modal_counts[modal_kind] = int(modal_counts.get(modal_kind, 0)) + 1
+					modal_counts[counted_modal_kind] = int(modal_counts.get(counted_modal_kind, 0)) + 1
 				var modal_text := _collect_control_text(modal)
 				var wishlist_copy := "Add to Steam Wishlist" if lang == "en" else "Steam 위시리스트에 추가"
 				if modal_kind == "demo_ending":
@@ -2492,11 +2512,39 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 		_fail("Gamepad-only route emitted keyboard=%d mouse=%d events." % [
 			_route_keyboard_events, _route_mouse_events])
 		return
-	if pressure_sequence.size() != GameState.DEMO_TURN_LIMIT:
+	if week_kind_sequence.size() != GameState.DEMO_TURN_LIMIT:
 		MetaProgression.data = original_meta
-		_fail("Demo route sampled %d pressure weeks instead of %d." % [
-			pressure_sequence.size(), GameState.DEMO_TURN_LIMIT])
+		_fail("Demo route sampled %d paced weeks instead of %d." % [
+			week_kind_sequence.size(), GameState.DEMO_TURN_LIMIT])
 		return
+	var direct_decision_weeks := int(week_kind_counts.get("decision", 0)) \
+			+ int(week_kind_counts.get("boss", 0))
+	if direct_decision_weeks < 8 or direct_decision_weeks > 10:
+		MetaProgression.data = original_meta
+		_fail("Demo route exposed %d direct decision weeks instead of 8..10." % direct_decision_weeks)
+		return
+	if int(week_kind_counts.get("boss", 0)) != 2:
+		MetaProgression.data = original_meta
+		_fail("Demo route exposed %d boss weeks instead of two." % int(week_kind_counts.get("boss", 0)))
+		return
+	if int(week_kind_counts.get("echo", 0)) < 3 or int(week_kind_counts.get("echo", 0)) > 5:
+		MetaProgression.data = original_meta
+		_fail("Demo route exposed an invalid echo count: %s." % week_kind_counts)
+		return
+	if pressure_sequence.size() != direct_decision_weeks:
+		MetaProgression.data = original_meta
+		_fail("Demo route sampled %d pressure frames for %d direct decision weeks." % [
+			pressure_sequence.size(), direct_decision_weeks])
+		return
+	for paced_week in range(1, GameState.DEMO_TURN_LIMIT + 1):
+		var observed_kind := str(week_kind_sequence[paced_week - 1])
+		if observed_kind not in ["quiet", "echo"]:
+			continue
+		if str(observed_auto_beats.get(paced_week, "")) != observed_kind:
+			MetaProgression.data = original_meta
+			_fail("Demo auto-flow did not render %s at week %d: %s." % [
+				observed_kind, paced_week, observed_auto_beats])
+			return
 	if GameState.current_job.is_empty() or int(action_counts.get("apply", 0)) < 1:
 		MetaProgression.data = original_meta
 		_fail("Demo route never exercised the primary Job Hunt response and finished unemployed.")
@@ -2516,6 +2564,24 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 		_fail("Demo route used %d primary AP responses from an available budget of %d." % [
 			ap_action_inputs, available_ap_budget])
 		return
+	for action_week_value in ap_action_week_counts.keys():
+		var action_week := int(action_week_value)
+		var runtime_kind := str(week_kind_sequence[action_week - 1]) \
+				if action_week >= 1 and action_week <= week_kind_sequence.size() else ""
+		if runtime_kind not in ["decision", "boss"]:
+			MetaProgression.data = original_meta
+			_fail("Demo route emitted AP input during %s week %d." % [runtime_kind, action_week])
+			return
+	if int(modal_counts.get("month_summary", 0)) != 3:
+		MetaProgression.data = original_meta
+		_fail("Demo route showed %d full month summaries instead of three: %s." % [
+			int(modal_counts.get("month_summary", 0)), modal_counts])
+		return
+	if GameState.turn != GameState.DEMO_TURN_LIMIT + 1 or GameState.month != 7:
+		MetaProgression.data = original_meta
+		_fail("Demo route did not process all six monthly economies: turn=%d month=%d." % [
+			GameState.turn, GameState.month])
+		return
 	var pressure_streak := _max_consecutive_strings(pressure_sequence)
 	if int(pressure_streak.get("count", 0)) > 4:
 		MetaProgression.data = original_meta
@@ -2533,7 +2599,8 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 		_fail("Demo route never exposed the monthly capital decision window.")
 		return
 	var family_streak := _max_consecutive_strings(pressure_family_sequence)
-	print("DEMO_INPUT_RHYTHM pressure_sequence=%s pressure_counts=%s pressure_months=%s max_frame=%s:%d max_family=%s:%d action_counts=%s modal_counts=%s ap_action_inputs=%d/%d inputs_per_week=%.1f" % [
+	print("DEMO_INPUT_RHYTHM week_kinds=%s kind_counts=%s auto_beats=%s pressure_sequence=%s pressure_counts=%s pressure_months=%s max_frame=%s:%d max_family=%s:%d action_counts=%s modal_counts=%s ap_action_inputs=%d/%d inputs_per_week=%.1f" % [
+		">".join(week_kind_sequence), str(week_kind_counts), str(observed_auto_beats),
 		">".join(pressure_sequence), str(pressure_counts), str(pressure_month_counts),
 		str(pressure_streak.get("value", "none")), int(pressure_streak.get("count", 0)),
 		str(family_streak.get("value", "none")), int(family_streak.get("count", 0)),
@@ -6280,6 +6347,17 @@ func _find_demo_pressure_frame(node: Node) -> Control:
 		return node as Control
 	for child in node.get_children():
 		var found := _find_demo_pressure_frame(child)
+		if found != null:
+			return found
+	return null
+
+func _find_demo_director_beat(node: Node, expected_turn: int = -1) -> Control:
+	if node is Control and not node.is_queued_for_deletion() \
+			and node.has_meta("demo_week_kind") and node.has_meta("demo_turn") \
+			and (expected_turn < 0 or int(node.get_meta("demo_turn", -1)) == expected_turn):
+		return node as Control
+	for child in node.get_children():
+		var found := _find_demo_director_beat(child, expected_turn)
 		if found != null:
 			return found
 	return null

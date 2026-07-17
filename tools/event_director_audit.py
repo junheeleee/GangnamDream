@@ -20,6 +20,10 @@ EXPECTED_REPEATABLE = {
     "delivery_app_temptation",
     "health_insomnia",
 }
+EXPECTED_DEMO_DECISIONS = [1, 4, 8, 10, 13, 16, 20, 23, 24]
+EXPECTED_DEMO_BOSSES = [4, 24]
+EXPECTED_DEMO_ECHOES = [6, 9, 17, 21]
+EXPECTED_DEMO_SUMMARIES = [4, 12, 24]
 
 
 def fail(message: str) -> None:
@@ -124,6 +128,38 @@ def validate_manifest(manifest: dict[str, Any], events: list[dict[str, Any]]) ->
             errors.append("prior-week action strength must remain 0.55")
         if abs(float(recent.get("prior_week_multiplier", 0.0)) - 1.88) > 0.0001:
             errors.append("prior-week action echo must remain 1.88x")
+
+    pacing = manifest.get("demo_pacing", {})
+    if not isinstance(pacing, dict):
+        errors.append("demo_pacing must be an object")
+    else:
+        if int(pacing.get("min_turn", 0)) != 1 or int(pacing.get("max_turn", 0)) != 24:
+            errors.append("demo_pacing must cover turns 1..24 exactly")
+        expected_lists = {
+            "decision_weeks": EXPECTED_DEMO_DECISIONS,
+            "boss_weeks": EXPECTED_DEMO_BOSSES,
+            "echo_weeks": EXPECTED_DEMO_ECHOES,
+            "full_summary_weeks": EXPECTED_DEMO_SUMMARIES,
+        }
+        for key, expected in expected_lists.items():
+            actual = pacing.get(key, [])
+            if actual != expected:
+                errors.append(f"demo_pacing.{key} drifted: expected {expected}, got {actual}")
+            if not isinstance(actual, list) or any(
+                not isinstance(turn, int) or turn < 1 or turn > 24 for turn in actual
+            ):
+                errors.append(f"demo_pacing.{key} must contain only turns 1..24")
+        decisions = set(pacing.get("decision_weeks", []))
+        bosses = set(pacing.get("boss_weeks", []))
+        echoes = set(pacing.get("echo_weeks", []))
+        if not 8 <= len(decisions) <= 10:
+            errors.append("demo pacing must expose 8..10 direct decision weeks")
+        if len(bosses) != 2 or not bosses.issubset(decisions):
+            errors.append("demo pacing must expose two bosses inside decision weeks")
+        if not 3 <= len(echoes) <= 5 or decisions & echoes:
+            errors.append("demo pacing must expose 3..5 echoes outside decision weeks")
+        if any(turn % 4 != 0 for turn in pacing.get("full_summary_weeks", [])):
+            errors.append("full demo summaries must land on month-end turns")
 
     scope = manifest.get("scope", {})
     if scope.get("excluded_id_prefixes") != ["arc_"]:

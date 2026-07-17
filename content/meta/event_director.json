@@ -17,6 +17,36 @@
     "prior_week_strength": 0.55,
     "prior_week_multiplier": 1.88
   },
+  "demo_pacing": {
+    "min_turn": 1,
+    "max_turn": 24,
+    "decision_weeks": [
+      1,
+      4,
+      8,
+      10,
+      13,
+      16,
+      20,
+      23,
+      24
+    ],
+    "boss_weeks": [
+      4,
+      24
+    ],
+    "echo_weeks": [
+      6,
+      9,
+      17,
+      21
+    ],
+    "full_summary_weeks": [
+      4,
+      12,
+      24
+    ]
+  },
   "chapter_windows": [
     {
       "id": "survival",

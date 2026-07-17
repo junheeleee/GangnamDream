@@ -66,6 +66,8 @@ var _ap_grid_columns: int = 2
 var _ap_focus_restore_index: int = 0
 var _ap_focus_restore_turn: int = -1
 var _demo_actions_expanded_turn: int = -1
+var _demo_director_advancing: bool = false
+var _demo_director_resume_after_modal: String = ""
 var _routine_draft: Array = []   # 몽타주 루틴 모달 편집 중 임시 선택
 var _event_bg_path: String = ""   # 현재 표시 중인 배경 경로 (크로스페이드 중복 방지)
 var _typing_tween: Tween = null   # 타이핑 효과 전용 트윈
@@ -382,8 +384,9 @@ func _continue_after_story():
 	# 더 없으면 바로 루틴 행동 화면
 	SceneTransition.fade_in()
 	current_event = {}
-	TutorialOverlay.maybe_show("main_game", self)
-	_render_event()
+	if _demo_director_requires_player_input():
+		TutorialOverlay.maybe_show("main_game", self)
+	_demo_director_route_week()
 
 func _init_systems():
 	investment_system = load("res://systems/InvestmentSystem.gd").new()
@@ -2224,6 +2227,10 @@ func _run_week_start_economy() -> void:
 	if GameState.turn > 4:  # 튜토리얼 1달(4주) 이후부터 크라이시스
 		var crisis = _roll_monthly_crisis()
 		if not crisis.is_empty():
+			var crisis_type := str(crisis.get("type", ""))
+			if _demo_pressure_enabled() and crisis_type in [
+					"emergency_expense", "ap_penalty", "market_shock", "health_crisis"]:
+				GameState.flags["demo_director_crisis_turn"] = GameState.turn
 			_apply_monthly_event(crisis)
 	if GameState.news_log.is_empty() or GameState.turn > 1:
 		var news = NewsManager.generate_monthly_news()
@@ -2267,6 +2274,12 @@ func _begin_month_story_and_render():
 	var ms_id = _next_milestone_id()
 	if ms_id != "":
 		_go_story_mode([ms_id])
+		return
+	# 데모 편성기는 보장 아크와 마일스톤을 모두 확인한 뒤에만 저위험 주를 흘린다.
+	# Quiet/Echo에서는 랜덤 선택지를 하나 더 끼우지 않고 기존 루틴과 경제를 정상 계산한다.
+	if _demo_pressure_enabled() and not _demo_director_requires_player_input():
+		current_event = {}
+		_demo_director_route_week()
 		return
 	# 드라마 모드 — 이번 달의 핵심 사건을 풀스크린 VN으로 재생.
 	# (재생했으면 거기서 돌아온 뒤 루틴 행동 화면으로 이어진다)
@@ -3567,7 +3580,10 @@ func _next_milestone_id() -> String:
 	if GameState.money >= 3_000_000 and not f.get("story_first_savings_seen", false):
 		return "story_first_savings_milestone"
 	# 5년 = 60개월 = 240턴(주). 마일스톤은 달력(me) 기준.
-	if me == 6 and not f.get("story_six_months_seen", false):
+	# 데모의 6개월 회고는 여섯째 달 입구(t21)가 아니라 실제 24주를 산 뒤의
+	# 마지막 결정 주에 둔다. 전체판도 같은 첫 24주 리듬을 공유한다.
+	if me == 6 and not f.get("story_six_months_seen", false) \
+			and (not _demo_pressure_enabled() or GameState.turn >= GameState.DEMO_TURN_LIMIT):
 		return "story_six_months"
 	if me == 12 and not f.get("story_one_year_seen", false):
 		return "story_one_year"
@@ -3702,6 +3718,9 @@ func _on_tendency_awakened(kind: String):
 func _present_tendency_realization(kind: String):
 	if GameState.is_game_over:
 		return
+	if _demo_director_advancing:
+		_pending_tendency_kind = kind
+		return
 	# 월말 결산이나 다른 선택 모달을 덮으면 진행 버튼이 사라진다. 먼저 열린 흐름을 끝낸 뒤 표시한다.
 	if _pending_month_summary or (is_instance_valid(modal_layer) and modal_layer.visible):
 		_pending_tendency_kind = kind
@@ -3738,7 +3757,7 @@ func _present_tendency_realization(kind: String):
 
 ## 월말 처리 파이프라인 — 정상 "다음 주"(월말)와 몽타주가 공유한다.
 ## 경제/월처리 + 월말 결산 모달까지. 동작은 기존 _on_next_month 월말 분기와 동일.
-func _run_month_end_transition() -> void:
+func _run_month_end_transition(show_summary: bool = true) -> void:
 	job_system.process_monthly_job()
 	relationship_system.process_monthly_relationships()
 	inventory_system.process_monthly_items()
@@ -3778,7 +3797,15 @@ func _run_month_end_transition() -> void:
 		return
 	SaveManager.autosave()
 	_check_title_unlocks()
-	_show_month_summary(snap)
+	if show_summary:
+		_show_month_summary(snap)
+	else:
+		var compact_net := float(snap.get("monthly_income", 0.0)) \
+				- float(snap.get("fixed_expense", 0.0))
+		GameState.add_log(_tr(
+			"%s 결산 기록 — 현금흐름 %s",
+			"%s ledger recorded — cash flow %s"
+		) % [str(snap.get("date", "")), GameState.format_money(compact_net)], "money")
 
 func _on_next_month():
 	if not current_event.is_empty():
@@ -3788,11 +3815,15 @@ func _on_next_month():
 		return
 	if GameState.tutorial_step > 0:
 		GameState.tutorial_step -= 1
+	_demo_director_capture_routine()
 
 	var is_month_end := (GameState.week_of_month == 4)
 
 	if is_month_end:
-		_run_month_end_transition()
+		var show_summary := _demo_director_should_show_full_summary()
+		_run_month_end_transition(show_summary)
+		if not show_summary and not GameState.is_game_over:
+			_begin_month()
 	else:
 		# ── 주 전환 (월말 아님) ───────────────────────────────
 		GameState.advance_calendar()
@@ -4070,7 +4101,7 @@ func _render_event():
 		next_button.disabled = false
 		_clear_category_tint()
 		BGMPlayer.update_idle_ambience()
-		_render_ap_actions()
+		_demo_director_route_week()
 		return
 	_transient_bg_active = false
 	_play_ink_transition("event", 0.80)
@@ -6430,6 +6461,196 @@ func _ap_act_line() -> String:
 
 func _demo_pressure_enabled() -> bool:
 	return GameState.turn >= 1 and GameState.turn <= GameState.DEMO_TURN_LIMIT
+
+func _demo_director_has_crisis() -> bool:
+	var projected_cash: float = GameState.money + maxf(GameState.monthly_income, 0.0)
+	return GameState.is_game_over or GameState.health <= 35 or GameState.mental <= 25 \
+			or projected_cash < GameState.get_housing_expense() \
+			or int(GameState.flags.get("demo_director_crisis_turn", -1)) == GameState.turn
+
+func _demo_director_week_kind() -> String:
+	if not _demo_pressure_enabled():
+		return "decision"
+	var scheduled := EventManager.demo_week_kind(GameState.turn)
+	if scheduled not in ["decision", "boss"] and _demo_director_has_crisis():
+		return "decision"
+	return scheduled
+
+func _demo_director_requires_player_input() -> bool:
+	return _demo_director_week_kind() in ["decision", "boss"]
+
+func _demo_director_should_show_full_summary() -> bool:
+	return not _demo_pressure_enabled() or EventManager.demo_should_show_full_summary(GameState.turn)
+
+func _demo_director_money_routine_kind() -> String:
+	var city_visit: Dictionary = GameState.action_places_this_week.get("city", {})
+	if int(city_visit.get("money", 0)) > 0:
+		return "network"
+	return "save"
+
+func _demo_director_capture_routine() -> void:
+	if not _demo_pressure_enabled():
+		return
+	var money_count := int(GameState.action_axis_this_week.get("money", 0))
+	var human_count := int(GameState.action_axis_this_week.get("human", 0))
+	if money_count <= 0 and human_count <= 0:
+		return
+	var money_kind := _demo_director_money_routine_kind()
+	if money_count > 0 and human_count > 0:
+		GameState.week_routine = [money_kind, "rest"]
+	elif money_count > 0:
+		GameState.week_routine = [money_kind, money_kind]
+	else:
+		GameState.week_routine = ["study", "rest"]
+
+func _demo_director_route_week() -> void:
+	if not _demo_pressure_enabled() or _demo_director_requires_player_input():
+		_render_ap_actions()
+		return
+	if _demo_director_advancing:
+		return
+	next_button.disabled = true
+	call_deferred("_demo_director_auto_week", _demo_director_week_kind())
+
+func _demo_director_axis_line(used: Dictionary) -> String:
+	var used_money := bool(used.get("money", false))
+	var used_human := bool(used.get("human", false))
+	if used_money and used_human:
+		return _tr("돈과 사람 쪽에 각각 시간이 남았다.", "The week left traces in both money and people.")
+	if used_money:
+		return _tr("이번 주의 시간은 돈 쪽으로 흘렀다.", "This week's time flowed toward money.")
+	if used_human:
+		return _tr("이번 주의 시간은 몸과 사람 쪽에 남았다.", "This week's time stayed with body and people.")
+	return _tr("이번 주는 뚜렷한 흔적 없이 지나갔다.", "The week passed without a clear trace.")
+
+func _demo_director_beat_line(kind: String, used: Dictionary) -> String:
+	if kind == "echo":
+		if GameState.week_of_month == 1 \
+				and (GameState.last_month_money_weeks > 0 or GameState.last_month_human_weeks > 0):
+			return _tr(
+				"지난달 장부에는 돈의 흔적 {money}주, 사람의 흔적 {human}주가 따로 남았다.",
+				"Last month's ledger kept {money} weeks marked by money and {human} marked by people."
+			).format({
+				"money": GameState.last_month_money_weeks,
+				"human": GameState.last_month_human_weeks,
+			})
+		return _tr(
+			"지난번에 고른 것이 이번 주에도 너를 대신해 움직였다. {trace}",
+			"What you chose last time kept moving in your place. {trace}"
+		).format({"trace": _demo_director_axis_line(used)})
+	return _tr(
+		"출근, 귀가, 다음 알람. 정해 둔 생활이 달력 한 칸을 밀어냈다.",
+		"Work, home, the next alarm. The routine pushed one square off the calendar."
+	)
+
+func _demo_director_routine_line() -> String:
+	var labels: Array[String] = []
+	var routine: Array = GameState.week_routine if not GameState.week_routine.is_empty() \
+			else ["study", "rest"]
+	for raw_kind in routine:
+		match str(raw_kind):
+			"save": labels.append(_tr("저축", "SAVE"))
+			"network": labels.append(_tr("인맥", "NETWORK"))
+			"study": labels.append(_tr("배움", "STUDY"))
+			_: labels.append(_tr("휴식", "REST"))
+	return _tr("이어진 루틴 · %s", "CARRIED ROUTINE · %s") % " / ".join(labels)
+
+func _render_demo_director_beat(kind: String, used: Dictionary) -> void:
+	_play_ink_transition("ap", 0.28)
+	_transient_bg_active = false
+	_clear_category_tint(true)
+	_clear_feedback_flash()
+	_update_vignette()
+	_update_event_bg()
+	for child in choice_box.get_children():
+		child.queue_free()
+	_ap_action_grid = null
+	_ap_feature_row = null
+	_ap_grid_cards.clear()
+	event_title.text = _tr("%d년 %d월 %d주차", "%d-%02d W%d") % [
+		GameState.year, GameState.month, GameState.week_of_month]
+	if _typing_tween:
+		_typing_tween.kill()
+		_typing_tween = null
+	event_body.text = _demo_director_beat_line(kind, used)
+	event_body.visible_ratio = 1.0
+	next_button.disabled = true
+
+	var is_echo := kind == "echo"
+	var card := _info_card("#99a4b0" if is_echo else "#697480", "#0a0d12")
+	card.name = "DemoDirectorBeat"
+	card.set_meta("demo_week_kind", kind)
+	card.set_meta("demo_turn", GameState.turn)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 8)
+	card.add_child(box)
+	var overline := _label(_tr("메아리", "ECHO") if is_echo else _tr("흐르는 시간", "TIME PASSES"), 10, "#99a4b0")
+	box.add_child(overline)
+	var title_text := _tr("지난 선택이 계속 움직였다", "The last choice kept moving") \
+			if is_echo else _tr("루틴이 이번 주를 운반했다", "The routine carried this week")
+	var title := _label(title_text, 18, "#edf1f5")
+	if _font_bold:
+		title.add_theme_font_override("font", _font_bold)
+	box.add_child(title)
+	box.add_child(_wrap_label(_demo_director_routine_line(), 11, "#99a4b0"))
+	box.add_child(_wrap_label(_demo_director_axis_line(used), 12, "#c1c8d1"))
+	var progress := ProgressBar.new()
+	progress.name = "DemoDirectorProgress"
+	progress.min_value = 0.0
+	progress.max_value = 1.0
+	progress.value = 0.0
+	progress.show_percentage = false
+	progress.custom_minimum_size = Vector2(0, 4)
+	box.add_child(progress)
+	choice_box.add_child(card)
+	var tween := create_tween()
+	tween.tween_property(progress, "value", 1.0, 1.05 if kind == "echo" else 0.62) \
+			.set_trans(Tween.TRANS_LINEAR)
+	_apply_moral_ui_palette()
+
+func _demo_director_auto_week(kind: String) -> void:
+	if _demo_director_advancing or _demo_director_requires_player_input():
+		return
+	_demo_director_advancing = true
+	var expected_turn: int = GameState.turn
+	var used := _montage_apply_routine()
+	_render_demo_director_beat(kind, used)
+	# 무거운 배경/CG가 처음 import되는 프레임에도 카드가 실제 화면에 한 번은
+	# 제출된 뒤 수명 타이머가 시작되어야 한다.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	await get_tree().create_timer(1.35 if kind == "echo" else 0.90).timeout
+	if not is_inside_tree() or GameState.turn != expected_turn:
+		return
+	if not _pending_tendency_kind.is_empty():
+		var tendency_kind := _pending_tendency_kind
+		_demo_director_advancing = false
+		_demo_director_resume_after_modal = "advance"
+		_present_tendency_realization(tendency_kind)
+		return
+	_demo_director_finish_auto_week()
+
+func _demo_director_finish_auto_week() -> void:
+	_demo_director_advancing = true
+	if GameState.week_of_month == 4:
+		var show_summary := _demo_director_should_show_full_summary()
+		_run_month_end_transition(show_summary)
+		_demo_director_advancing = false
+		if GameState.is_game_over or show_summary:
+			return
+		if not _pending_tendency_kind.is_empty():
+			_demo_director_resume_after_modal = "begin"
+			_present_tendency_realization(_pending_tendency_kind)
+			return
+		_begin_month()
+		return
+	GameState.advance_calendar()
+	_refresh_all()
+	_demo_director_advancing = false
+	if GameState.is_game_over:
+		return
+	SaveManager.autosave()
+	_begin_month()
 
 func _demo_employment_pressure(person_id: String) -> Dictionary:
 	var phase := posmod(int(GameState.turn) - 1, 3)
@@ -9918,21 +10139,25 @@ func _montage_apply_slot(kind: String) -> String:
 	GameState.register_action_axis(axis, place_id)
 	return axis
 
-## 이번 주의 루틴 2슬롯을 적용. 반환: {"money":bool, "human":bool} — 이 주에 쓴 축들.
+## 이번 주의 2슬롯 루틴을 AP 예산만큼 반복 적용한다.
+## 월초 보너스로 AP가 3이 된 주도 남는 AP 없이 정산한다.
+## 반환: {"money":bool, "human":bool} — 이 주에 쓴 축들.
 func _montage_apply_routine() -> Dictionary:
 	var used_money: bool = false
 	var used_human: bool = false
 	var routine: Array = GameState.week_routine
 	if routine.is_empty():
 		routine = ["study", "rest"]
-	for slot in routine:
-		if GameState.action_points <= 0:
-			break
-		var axis := _montage_apply_slot(str(slot))
+	var slot_index := 0
+	while GameState.action_points > 0:
+		var axis := _montage_apply_slot(str(routine[slot_index % routine.size()]))
 		if axis == "money":
 			used_money = true
 		elif axis == "human":
 			used_human = true
+		else:
+			break
+		slot_index += 1
 	return {"money": used_money, "human": used_human}
 
 ## 몽타주 루프 — 무사건 주간을 루틴대로 연차별 상한까지 압축한다.
@@ -13284,8 +13509,19 @@ func _close_modal():
 		_begin_month()
 		_refresh_all()
 		return
+	if not _demo_director_resume_after_modal.is_empty():
+		var resume_mode := _demo_director_resume_after_modal
+		_demo_director_resume_after_modal = ""
+		if resume_mode == "advance":
+			call_deferred("_demo_director_finish_auto_week")
+		else:
+			_begin_month()
+			_refresh_all()
+		return
 	if current_event.is_empty() and not GameState.is_game_over:
-		_render_ap_actions()
+		# 설정·정보·성향 모달이 자동 주차 중 닫혀도 레거시 AP 화면으로
+		# 빠지지 않는다. 현재 주의 편성 계약으로 다시 합류한다.
+		_demo_director_route_week()
 	if not _pending_tendency_kind.is_empty():
 		var tendency_kind := _pending_tendency_kind
 		_pending_tendency_kind = ""
@@ -13296,8 +13532,9 @@ func _show_demo_ending():
 	_hide_ap_action_commit()
 	_clear_feedback_flash()
 	if is_instance_valid(_toast_container):
-		for toast in _toast_container.get_children():
-			toast.queue_free()
+		_toast_container.visible = false
+		for toast in _toast_container.get_children().duplicate():
+			toast.free()
 	BGMPlayer.on_ending("stable_success")
 	AudioManager.play_ending_stinger("stable_success")
 	var f: Dictionary = GameState.flags

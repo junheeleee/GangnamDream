@@ -9,8 +9,9 @@ func _ready() -> void:
 	_check_context_gates()
 	_check_once_and_repeat_policy()
 	_check_authored_bypass()
+	_check_demo_pacing()
 	if _failures.is_empty():
-		print("EVENT_DIRECTOR_CHECK_OK directed=1032 once=1029 repeatable=3 chapters=5 asset_bands=5")
+		print("EVENT_DIRECTOR_CHECK_OK directed=1032 once=1029 repeatable=3 chapters=5 asset_bands=5 demo=9/2/4/3")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -168,6 +169,32 @@ func _check_authored_bypass() -> void:
 	EventManager.register_directed_event(story)
 	_expect(GameState.random_event_counts == counts_before,
 		"authored story changed random-event history")
+
+func _check_demo_pacing() -> void:
+	var kinds: Array[String] = []
+	var decisions: Array[int] = []
+	var bosses: Array[int] = []
+	var echoes: Array[int] = []
+	var summaries: Array[int] = []
+	for turn_value in range(1, 25):
+		var kind := EventManager.demo_week_kind(turn_value)
+		kinds.append(kind)
+		if kind in ["decision", "boss"]:
+			decisions.append(turn_value)
+		if kind == "boss":
+			bosses.append(turn_value)
+		elif kind == "echo":
+			echoes.append(turn_value)
+		if EventManager.demo_should_show_full_summary(turn_value):
+			summaries.append(turn_value)
+	_expect(decisions == [1, 4, 8, 10, 13, 16, 20, 23, 24],
+		"demo decision schedule drifted: %s" % [decisions])
+	_expect(bosses == [4, 24], "demo boss schedule drifted: %s" % [bosses])
+	_expect(echoes == [6, 9, 17, 21], "demo echo schedule drifted: %s" % [echoes])
+	_expect(summaries == [4, 12, 24], "demo summary schedule drifted: %s" % [summaries])
+	_expect(EventManager.demo_week_kind(25) == "decision",
+		"director leaked demo auto-flow beyond the cutoff")
+	_expect(kinds.count("quiet") == 11, "demo must retain eleven quiet weeks")
 
 func _expect(condition: bool, message: String) -> void:
 	if not condition:

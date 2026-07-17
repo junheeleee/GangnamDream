@@ -29,6 +29,7 @@ func _run() -> void:
 	_check_side_shift_pay()
 	_check_ap_bonus_surface()
 	_check_demo_pressure_contract()
+	_check_demo_pacing_contract()
 	_check_demo_cutoff()
 	if not _failures.is_empty():
 		for failure in _failures:
@@ -121,6 +122,43 @@ func _check_demo_cutoff() -> void:
 	_expect(not GameState.has_reached_demo_limit(), "Demo ended before week 24 was completed.")
 	GameState.turn = GameState.DEMO_TURN_LIMIT + 1
 	_expect(GameState.has_reached_demo_limit(), "Demo did not stop before week 25.")
+
+func _check_demo_pacing_contract() -> void:
+	var decision_count := 0
+	var boss_count := 0
+	var echo_count := 0
+	var summary_count := 0
+	for week in range(1, GameState.DEMO_TURN_LIMIT + 1):
+		var kind := EventManager.demo_week_kind(week)
+		if kind in ["decision", "boss"]:
+			decision_count += 1
+		if kind == "boss":
+			boss_count += 1
+		elif kind == "echo":
+			echo_count += 1
+		if EventManager.demo_should_show_full_summary(week):
+			summary_count += 1
+	_expect(decision_count >= 8 and decision_count <= 10,
+		"Demo must expose 8..10 AP decision weeks, got %d." % decision_count)
+	_expect(boss_count == 2, "Demo must expose two boss weeks, got %d." % boss_count)
+	_expect(echo_count >= 3 and echo_count <= 5,
+		"Demo must expose 3..5 echo weeks, got %d." % echo_count)
+	_expect(summary_count == 3,
+		"Demo must show only first-month, quarter, and final summaries, got %d." % summary_count)
+
+	var packed := load("res://scenes/MainGame.tscn") as PackedScene
+	var main_game := packed.instantiate()
+	GameState.start_new_game()
+	GameState.turn = 21
+	GameState.month = 6
+	GameState.week_of_month = 1
+	_expect(str(main_game.call("_next_milestone_id")).is_empty(),
+		"Six-month reflection fired at the entrance to month six instead of the demo finale.")
+	GameState.turn = GameState.DEMO_TURN_LIMIT
+	GameState.week_of_month = 4
+	_expect(str(main_game.call("_next_milestone_id")) == "story_six_months",
+		"Six-month reflection did not anchor the week-24 finale.")
+	main_game.queue_free()
 
 func _check_employment_consistency() -> void:
 	GameState.start_new_game("김민준", "지방_상경", "직장형", "백수", "자유런", "현실")
