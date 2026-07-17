@@ -680,6 +680,14 @@
     {
       "kind": "cg",
       "ids": [
+        "cg_ending_burnout"
+      ],
+      "relative_path": "cg/ending_burnout_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
         "cg_ending_crypto_ghost"
       ],
       "relative_path": "cg/ending_crypto_ghost.png",

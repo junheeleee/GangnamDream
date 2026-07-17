@@ -79,9 +79,9 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Full demo input route: real confirm inputs through StoryMode, choices, AP, results, month summaries, and the week-24 CTA | `--qa=demo-input --lang=ko/en --demo-build` |
 | Demo month summary, demo ending CTA, 6-month Time Ledger card | `--qa=demo-end-en` |
 | P0 final-life endings: eight exact CG owners, 950x430 crop, Jiyeon reflection-only mirror with exactly two non-duplicated actors and coherent gaze, 1B Second Love across-river home, Jiyeon-mediated Gangnam framing, White/Deep Black readability, and KO/EN first viewport | `--qa=ending-p0 --lang=ko/en` |
-| P1 final-life endings: exact CG owner/crop, Late Call memory, Rich and Alone base/divorce/no-leak, One More Circle base/Father-memory calendar action, distinct Bankruptcy/Debt Spiral calculation states, Startup Exit base/first-user memory, 33-year-old first-year Myth arrival, and Orthodox Pinnacle base/salary-memory company-dinner pause | `--qa=ending-p1 --lang=ko/en` |
+| P1 final-life endings: exact CG owner/crop, Late Call memory, Rich and Alone base/divorce/no-leak, One More Circle base/Father-memory calendar action, distinct Bankruptcy/Debt Spiral calculation states, Startup Exit base/first-user memory, 33-year-old first-year Myth arrival, Orthodox Pinnacle base/salary-memory company-dinner pause, Burnout first-person emergency-bed hand/IV/phone composition, and Mental Collapse no-leak | `--qa=ending-p1 --lang=ko/en` |
 | Train semantics: summer/date and Father-call scenes remain inside the train, while the holiday decision remains on the provincial platform | `--qa=transport --lang=ko/en` |
-| Representative ending modals, graded CG/card surface, exact dedicated symbols for Ordinary Life/Burnout/Mental Collapse/Stable Success, fallback mood cards, and final Time Ledger card | `--qa=endings-en --lang=ko/en` |
+| Representative ending modals, graded CG/card surface, Burnout's exact emergency-bed CG, dedicated symbols for Ordinary Life/Mental Collapse/Stable Success, fallback mood cards, and final Time Ledger card | `--qa=endings-en --lang=ko/en` |
 | Title collection and meta-title reward surface | `--qa=title-en` |
 | Tutorial overlay surface and onboarding copy | `--qa=tutorial-en` |
 | Job hunt/career modal tier pages and resume/interview minigame surface | `--qa=job-en` |

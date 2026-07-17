@@ -100,7 +100,7 @@ Floor-to-ceiling window of a Gangnam high-rise penthouse at night. The full Seou
 A hospital patient room, single bed. An IV drip bag hanging, white curtain partitioning, pale daylight through a small window showing a grey Seoul sky. Nobody else in the room. Personal belongings on the side table — phone face-down, a water cup. The feeling of everything having stopped. Cold white and pale grey palette. Lo-fi realism, no anime style.
 ```
 
-**용도**: `burnout`, `mental_break` 엔딩 배경
+**용도**: 일반 병원 장면과 `burnout`의 저우선 배경 폴백. `mental_break`는 정신건강의학과 진료실이므로 공유 금지
 
 ---
 
@@ -449,6 +449,26 @@ Preserve the physically coherent Korean company-dinner composition: one table, o
 ```
 
 Post-processing: center crop 1536x1024 to 1536x960, then resample to 1280x800, followed by RGB gamma 0.78, contrast 0.95, and brightness 1.03. This preserves both faces, Minjun's hand, and the water glass under the neutral runtime grade without changing geometry. KO/EN `--qa=ending-p1` owns the base and salary-memory variant; `CGRuntimeCheck`, `cg_acting_contract_check.py`, and `cast_detail_contract_check.py` own its exact path and A/B/C actor hierarchy.
+
+---
+
+## 2026-07-17 P1 ending CG — Burnout
+
+The image was produced with Codex built-in ImageGen using `burnout_hospital_room.png` for the Korean hospital language and `ending_debt_spiral_v1.png` for the restrained failure-ending treatment. The prompt began with the required aggregate style description before the Master Style Guide.
+
+- `assets/cg/ending_burnout_v1.png` — accepted repo final SHA-256 `cc9cfdcbf19b3bfede47f9cd89e1417a8891cf79b1af978d611ca282757317aa`; generated source `exec-e31c9a25-7db4-44ba-8d32-268b887a9680.png`. The 1672x941 source was center-cropped to 1506x941 and resampled to 1280x800. The accepted frame keeps one coherent hand, taped cannula, connected IV line, face-down phone, fluorescent ceiling, and observation-bay curtain in the centered ending crop without inventing a visible caregiver.
+
+Final prompt lock:
+
+```text
+Serious full-anime Korean manhwa visual-novel illustration with clean controlled linework, softly painterly cel rendering, restrained facial modeling, matte rather than glossy surfaces, and high environmental detail. The palette is predominantly desaturated charcoal, concrete gray, muted navy, weathered beige, and cold Seoul blue, with warm practical light used only as a localized emotional accent. Lighting is cinematic but grounded: soft window or street light, reflected city light, rain or atmospheric haze when story-appropriate, readable silhouettes, and no photographic depth-of-field gimmicks. The atmosphere is adult, socially realistic, intimate, and slightly weary rather than cute, heroic, or fashion-editorial.
+
+Gangnam Ink visual language: desaturated Korean visual novel/manhwa realism, concrete gray and charcoal palette, matte paper grain, subtle ink-wash contrast, restrained cinematic lighting, no glossy mobile-game colors, no photoreal DSLR look, no text, no logos, no UI, quiet Seoul social-reality mood.
+
+Create a first-person supine POV from Minjun's eyes on a Korean emergency observation bed before dawn. Center one fluorescent ceiling fixture; place one hanging IV bag screen-left and show one continuous line physically connected to a taped cannula on exactly one relaxed left hand with five coherent fingers above the blanket. Place exactly one unbranded matte-black phone face-down just beyond his fingertips. Keep the bed rail, white privacy curtain, ceiling tracks, and distant gray Seoul window physically coherent. The offscreen nurse has just asked whether there is anyone to call, but no nurse, doctor, family member, heroine, or face appears. Keep the fluorescent light, full hand/cannula, phone, and enough IV connection inside the centered 950x430 ending preview. Cold pre-dawn blue-gray, pale hospital white, muted skin, quiet physical exhaustion. No psychiatric office, self-harm implication, blood, ECG spectacle, extra limbs, duplicate bags or phones, detached tubing, readable chart or label, logo, brand, watermark, warm sepia, glossy medical ad, DSLR photo, or 3D render.
+```
+
+KO/EN `--qa=ending-p1` owns the exact texture and centered crop. `CGRuntimeCheck` locks the dedicated ending owner and explicitly forbids `mental_break` from reusing it; acting and scene-audio manifests lock the first-person body grammar and hospital-only room tone.
 
 ---
 

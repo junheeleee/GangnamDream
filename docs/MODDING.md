@@ -234,6 +234,7 @@ python3 tools/generate_mod_manifest.py --check
 | cg | `cg_demo_father_first_call` | `cg/demo/father_first_call_v1.png` | 1280x800 |
 | cg | `cg_demo_first_interview` | `cg/demo/first_interview_v1.png` | 1280x800 |
 | cg | `cg_ending_bankruptcy` | `cg/ending_bankruptcy_v1.png` | 1280x800 |
+| cg | `cg_ending_burnout` | `cg/ending_burnout_v1.png` | 1280x800 |
 | cg | `cg_ending_crypto_ghost` | `cg/ending_crypto_ghost.png` | 1280x800 |
 | cg | `cg_ending_debt_spiral` | `cg/ending_debt_spiral_v1.png` | 1280x800 |
 | cg | `cg_ending_empty_house` | `cg/ending_empty_house.png` | 1280x800 |

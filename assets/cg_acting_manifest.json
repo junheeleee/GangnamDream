@@ -503,6 +503,14 @@
         {"id": "minjun", "gaze_target": "The plain water glass beside his resting hand", "pose_support": "His late-30s face, lowered eyes, guarded shoulders, and clear resting hand hold the uncertain pause without celebration or lens contact."},
         {"id": "office_junior", "gaze_target": "Minjun's face", "pose_support": "His distinct glasses, softer round face, forward head, and open seated torso carry sincere admiration toward Minjun rather than the camera."}
       ]
+    },
+    "cg_ending_burnout": {
+      "path": "assets/cg/ending_burnout_v1.png",
+      "camera_role": "player_pov_emergency_observation_bed",
+      "story_action": "After his body gives out, Minjun lies under an emergency-room fluorescent light while an offscreen nurse asks whether there is anyone to call.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The fluorescent ceiling light above his hospital bed", "pose_support": "The first-person view shows one relaxed left hand with five coherent fingers, one taped cannula connected by a single tube to the IV bag, and one untouched face-down phone beyond his reach."}
+      ]
     }
   }
 }

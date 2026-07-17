@@ -7130,7 +7130,7 @@ func _shot_ending_suite(lang: String = "en", prefix: String = "ending_en_") -> v
 	await _shot_ending("empty_house", prefix + "13a_ending_empty_house")
 	await _shot_ending("bankruptcy", prefix + "14_ending_bankruptcy")
 	await _shot_ending_symbol("ordinary_life", prefix + "15a_ending_ordinary_life")
-	await _shot_ending_symbol("burnout", prefix + "15b_ending_burnout")
+	await _shot_exact_ending_cg("burnout", "cg_ending_burnout", prefix + "15b_ending_burnout")
 	await _shot_ending_symbol("mental_break", prefix + "15c_ending_mental_break")
 	await _shot_ending_symbol("stable_success", prefix + "15d_ending_stable_success")
 	await _shot_ending("crypto_ghost", prefix + "16_ending_crypto_ghost")
@@ -7200,6 +7200,10 @@ func _shot_ending_p1_surfaces(lang: String, prefix: String) -> void:
 	await _shot_exact_ending_cg(
 			"orthodox_pinnacle", "cg_ending_orthodox_pinnacle", prefix + "17_orthodox_salary_memory",
 			["salary_raised"])
+	await _shot_exact_ending_cg(
+			"burnout", "cg_ending_burnout", prefix + "18_burnout")
+	await _shot_ending_without_cg(
+			"mental_break", "cg_ending_burnout", prefix + "19_mental_break_no_burnout_cg")
 
 func _shot_surface_en() -> void:
 	var prefix := "surface_en_"

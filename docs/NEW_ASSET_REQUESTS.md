@@ -89,7 +89,7 @@
 | `cg_ending_gambling_recovery` | `gambling_recovery` | 고시원 책상 달력의 동그라미. 카지노가 아니라 회복의 일상 |
 | `cg_ending_bankruptcy` | `bankruptcy` | **완료.** 계산을 반복하다 멈춘 첫 파산 임계 |
 | `cg_ending_debt_spiral` | `debt_spiral` | **완료.** 뒤집은 계산기와 놓아 버린 손의 더 깊은 부채 단계 |
-| `cg_ending_burnout` | `burnout` | 병원 형광등/천장/링거. 현실적인 신체 소진. 정신과 `mental_break`와 공유 금지 |
+| `cg_ending_burnout` | `burnout` | **완료.** 응급 관찰 침상 1인칭 시점, 형광등·연결된 링거·닿지 않은 뒤집힌 휴대폰. 정신과 `mental_break`와 공유 금지 |
 
 ---
 

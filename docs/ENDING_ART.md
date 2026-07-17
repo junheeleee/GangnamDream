@@ -73,7 +73,7 @@ Updated: 2026-07-17
 | `late_call` | B | `cg_ending_late_call` | `ktx_window` | P1 완료. 모든 기억 변주의 공통 물리인 KTX·전화·비만 고정 |
 | `stable_success` | B | 없음 | `rooftop_day` | P2. 전용 안정 배경이 있으면 좋음 |
 | `ordinary_life` | C | 없음 | 없음 | 공통 모노톤 실패/일상 카드 |
-| `burnout` | F | 없음 | 없음 | P1 공통 실패 CG 후보 |
+| `burnout` | F | `cg_ending_burnout` | 없음 | P1 완료. 응급 관찰 침상 1인칭 시점, 형광등·연결된 링거·닿지 않은 휴대폰 |
 | `mental_break` | F | 없음 | 없음 | 정신건강의학과 진료실 장면. 응급실 `burnout` CG 공유 금지 |
 | `bankruptcy` | F | `cg_ending_bankruptcy` | 없음 | P1 완료. 계산을 반복하다 손을 멈춘 첫 파산 임계 |
 | `crypto_ghost` | F | `cg_ending_crypto_ghost` | `trading_room` | 유지 |
@@ -130,9 +130,9 @@ Updated: 2026-07-17
 | `cg_ending_gambling_recovery` | `gambling_recovery` | **완료.** 정본 고시원, 오늘의 동그라미를 닫는 펜 손, 뒤집은 폰. 카지노가 아니라 회복의 일상 |
 | `cg_ending_bankruptcy` | `bankruptcy` | **완료.** 정본 고시원, 작동 중인 계산기에서 멈춘 손, 받지 않은 전화. 정확한 원금·월급은 표시하지 않음 |
 | `cg_ending_debt_spiral` | `debt_spiral` | **완료.** 같은 방·같은 축에서 뒤집은 계산기와 놓아 버린 손. 하단 소품을 위한 엔딩별 프리뷰 초점 적용 |
-| `cg_ending_burnout` | `burnout` | 응급실 형광등/천장/링거와 보호자 연락 질문. 정신건강의학과 `mental_break`와 공유 금지 |
+| `cg_ending_burnout` | `burnout` | **완료.** 응급 관찰 침상 1인칭 시점, 형광등·한 손의 캐뉼라와 연결된 링거·닿지 않은 뒤집힌 휴대폰. 보호자 연락 질문은 화면 밖 음성이고 `mental_break`와 공유하지 않음 |
 
-`late_call`, `lonely_rich`, `gambling_recovery`, `bankruptcy`, `debt_spiral`, `startup_exit`, `instant_legend`, `orthodox_pinnacle`은 완료했다. 다음 실제 제작은 `burnout`이다. `mental_break`는 전용 진료실 컷을 만들기 전까지 정합한 엔딩 카드로 남긴다.
+`late_call`, `lonely_rich`, `gambling_recovery`, `bankruptcy`, `debt_spiral`, `startup_exit`, `instant_legend`, `orthodox_pinnacle`, `burnout`까지 P1 9종을 완료했다. `mental_break`는 전용 진료실 컷을 만들기 전까지 정합한 엔딩 카드로 남긴다.
 
 ### P2 — 있으면 고급스러운 엔딩
 
@@ -180,6 +180,6 @@ Updated: 2026-07-17
 - [x] `gangnam_dream_white`의 일반 강남 CG 임시 공유 제거
 - [x] `gangnam_dream_white` 전용 White CG 제작 후 연결
 - [x] P0 신규 CG 8종 제작/보정/연결
-- [ ] P1 신규 CG 9종 제작/보정/연결 — 8/9 (`late_call`, `lonely_rich`, `gambling_recovery`, `bankruptcy`, `debt_spiral`, `startup_exit`, `instant_legend`, `orthodox_pinnacle`)
+- [x] P1 신규 CG 9종 제작/보정/연결 — 9/9 (`late_call`, `lonely_rich`, `gambling_recovery`, `bankruptcy`, `debt_spiral`, `startup_exit`, `instant_legend`, `orthodox_pinnacle`, `burnout`)
 - [ ] P2 엔딩은 CG보다 엔딩 카드/스팅/배경 정합성 먼저 보강
 - [ ] 엔딩 스팅 5종 제작 및 `AudioManager`/`BGMPlayer` 연결

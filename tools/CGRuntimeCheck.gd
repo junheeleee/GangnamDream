@@ -728,6 +728,12 @@ func _check_ending_cg() -> void:
 	_check_ending_cg_path(main, "orthodox_pinnacle", "cg_ending_orthodox_pinnacle")
 	if ImageRegistry.get_cg("cg_ending_orthodox_pinnacle") != "res://assets/cg/ending_orthodox_pinnacle_v1.png":
 		_failures.append("orthodox_pinnacle must use its dedicated company-dinner hesitation CG")
+	_check_ending_cg_path(main, "burnout", "cg_ending_burnout")
+	if ImageRegistry.get_cg("cg_ending_burnout") != "res://assets/cg/ending_burnout_v1.png":
+		_failures.append("burnout must use its dedicated emergency-bed POV CG")
+	var mental_break: Dictionary = EndingSystem.get_ending("mental_break")
+	if str(mental_break.get("cg", "")) == "cg_ending_burnout":
+		_failures.append("mental_break must not reuse the physical-collapse burnout CG")
 	_check_all_ending_cg_contracts(main)
 
 	var preview_parent := VBoxContainer.new()

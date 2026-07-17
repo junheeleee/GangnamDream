@@ -13,7 +13,7 @@
 
 ## 감사 결과
 
-- 활성 인벤토리: **194장** (`CG 58 / Portrait 57 / Background 79`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
+- 활성 인벤토리: **195장** (`CG 59 / Portrait 57 / Background 79`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
 - 전수 방법: 종류별 콘택트시트 24장으로 얼굴·실루엣·그레이딩·공간을 1차 비교하고, 손·반사·차량·카운터·정류장처럼 오독 위험이 있는 컷과 키 비주얼 10장은 원본 해상도로 다시 열었다.
 - 런타임 수리: 배경이 구워진 `main_character_50s.png`를 본편의 `player_hollow` 슬롯에서 제외하고 같은 민준의 투명 피로 초상으로 통합했다. 현재 이벤트가 없는 박재원의 죽은 초상 등록도 제거했다.
 - 이미지 수리: `ending_crypto_ghost.png`의 비현실적인 6면 모니터 벽을 정본 고시원 안의 휴대폰 1대·낡은 노트북 1대로 교체했다. 방 크기, 작은 불투명창, 침대/책상 방향, 민준 신원, 다섯 손가락, 무문자 차트를 원본에서 재검수했다.
@@ -75,6 +75,7 @@
 | CG | `assets/cg/demo/father_first_call_v1.png` | `cg_demo_father_first_call` | 1280x800 | no | `974db28ea9ac` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/demo/first_interview_v1.png` | `cg_demo_first_interview` | 1280x800 | no | `47f49936c3b9` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/ending_bankruptcy_v1.png` | `cg_ending_bankruptcy` | 1280x800 | no | `8931fa42b953` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
+| CG | `assets/cg/ending_burnout_v1.png` | `cg_ending_burnout` | 1280x800 | no | `cc9cfdcbf19b` | PASS-A | 1인칭 침상 시점, 한 손·다섯 손가락, 테이프 고정 캐뉼라와 연결된 링거, 닿지 않은 뒤집힌 휴대폰, 형광등·커튼·침상 축, 가짜 문자·인물 부재와 중앙 950x430 크롭을 원본 해상도로 확인. `mental_break`와 공유하지 않는다. |
 | CG | `assets/cg/ending_crypto_ghost.png` | `cg_ending_crypto_ghost` | 1280x800 | no | `31e42005c154` | REPAIRED-A | 모니터 벽 제거. 정본 고시원·휴대폰 1대·노트북 1대·민준 손/시선 확인. |
 | CG | `assets/cg/ending_debt_spiral_v1.png` | `cg_ending_debt_spiral` | 1280x800 | no | `df7eb173aeb6` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/ending_empty_house.png` | `cg_ending_empty_house` | 1280x800 | no | `d21de2b8eb78` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |

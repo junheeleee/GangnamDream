@@ -64,7 +64,8 @@
     "cg_ending_debt_spiral": {"ambience": "room"},
     "cg_ending_startup_exit": {"ambience": "office"},
     "cg_ending_instant_legend": {"ambience": "apartment"},
-    "cg_ending_orthodox_pinnacle": {"ambience": "cafe"}
+    "cg_ending_orthodox_pinnacle": {"ambience": "cafe"},
+    "cg_ending_burnout": {"ambience": "hospital"}
   },
   "events": {
     "arc_daeun_first_night": {"ambience": "rain_room", "music": {"key": "intimate", "start_paragraph": 0}},

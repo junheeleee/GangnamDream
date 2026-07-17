@@ -98,10 +98,21 @@ This document owns the release-tier P1 ending CGs added after the eight-image P0
 - Color lock: neutral concrete gray, blue-charcoal cloth, cool stainless steel, muted natural skin, and faint rainy blue-gray window air. A narrow practical warmth may touch the two faces, but the image may not become brown, orange, sepia, monochrome, victory gold, or deep-Black despair.
 - Avoid: matching faces or hair silhouettes between Minjun and the junior, lens gaze, grin, handshake, raised glass, cheering, drunkenness, luxury watch, phone, money, duplicated hands or cups, fused fingers, floating dishes, extra grill, misaligned hood, glossy mobile art, photoreal restaurant advertising, or cloned black crowd cutouts.
 
+## `cg_ending_burnout`
+
+- File: `assets/cg/ending_burnout_v1.png`; owner: `burnout` only. It is physical collapse at health zero, never the psychiatric consultation in `mental_break`, the survived five-year exhaustion of `career_burnout`, or a generic hospital visit.
+- Shared moment: Minjun is already on an emergency observation bed. An offscreen nurse has asked whether there is anyone to call; no relative, nurse, doctor, or route-specific partner is guaranteed to be physically present.
+- Camera: first-person supine patient POV. The ceiling and one fluorescent fixture establish the fixed gaze, one IV bag stands screen-left, and the bed rail, curtain track, and observation-bay depth remain physically coherent.
+- Acting and anatomy: exactly one relaxed left hand lies above the blanket with five coherent fingers. One taped cannula and one continuous IV line assembly visibly connect the hand to the hanging bag. The face is intentionally absent so the player occupies Minjun's body rather than watching a recast face perform collapse.
+- Prop lock: exactly one unbranded matte-black phone lies face-down beyond the fingertips. It is untouched and silent, with no readable notification, emergency number, chart, monitor, medicine label, blood, restraint, or self-harm object.
+- Preview lock: the centered 950x430 cover crop retains part of the fluorescent light, the full hand and cannula, the face-down phone, enough IV line to read the connection, and enough curtain/rail geometry to remain an emergency observation bay.
+- Color lock: cold pre-dawn blue-gray, pale hospital white, muted skin, and matte charcoal. Runtime Moral Tint may drain or stain the surface, but the source must not be sepia, horror green, death black, glossy medical advertising, or psychiatric-room beige.
+- Avoid: visible family or staff, a heroic recovery pose, an ECG spectacle, duplicated bags or phones, detached tubing, extra limbs, malformed fingers, lens-facing face, gore, suicide implication, readable text, logo, brand, watermark, or any reuse for `mental_break`.
+
 ## Acceptance Gate
 
 - `ImageRegistry`, Korean ending data, `cg_acting_manifest.json`, and `CGRuntimeCheck` agree on the owner and path.
 - The English ending remains a text-only overlay and inherits the Korean CG key.
-- `ScreenshotQA --qa=ending-p1 --lang=ko/en` proves each exact texture and 430px crop, including `late_call`'s `jaehyuk_trusted_fully` variant, `lonely_rich`'s divorce variant, and `gambling_recovery`'s base/father-memory pair.
+- `ScreenshotQA --qa=ending-p1 --lang=ko/en` proves each exact texture and 430px crop, including `late_call`'s `jaehyuk_trusted_fully` variant, `lonely_rich`'s divorce variant, `gambling_recovery`'s base/father-memory pair, and the first-person `burnout` observation bed.
 - Event visual contracts prove that `ktx_window` resolves to an actual train interior, while the holiday decision retains the separate provincial station platform.
 - `CGRuntimeCheck` proves the recovery chain is deferred at 1+3+1 weeks, the relapse choice schedules no clean payoff, and the ending owns the exact recovery CG.
