@@ -115,7 +115,7 @@ Five years, 500,000 won, and relationships that will not wait for success. Chase
 
 강남 입성, 조용한 성공, 고독한 부자, 사랑, 이혼, 회복, 번아웃과 파산까지. 같은 자산으로 끝나도 누구와 어떤 사람으로 도착했는지가 결말을 바꾼다.
 
-마지막에는 돈만 세지 않는다. 돈과 사람에게 쓴 시간, 마지막 연락, 간직한 물건, 그리고 각 해에 당신이 직접 고른 다섯 장면이 한 장의 기록으로 돌아온다.
+마지막에는 돈만 세지 않는다. 돈을 택한 주와 사람을 택한 주(때로는 같은 주), 마지막 연락, 간직한 물건, 그리고 각 해에 당신이 직접 고른 다섯 장면이 한 장의 기록으로 돌아온다.
 
 1,400개가 넘는 사건 가운데 한 번의 5년에서 볼 수 있는 것은 일부다. 게임은 당신이 무엇을 했는지만이 아니라, 무엇을 알아버렸는지도 기억한다.
 
@@ -156,7 +156,7 @@ Discovering the truth can also rewrite scenes you thought you understood. A seco
 
 Reach Gangnam, build a quieter life, become rich and alone, fall in love, lose a marriage, recover, burn out, or go bankrupt. The same net worth can lead somewhere different depending on who arrived and who was left behind.
 
-The finale counts more than money. It returns the weeks spent on ambition and people, the last person you called, the keepsakes you carried, and five scenes you chose to remember from your five years.
+The finale counts more than money. It returns the weeks when you chose ambition and the weeks when you chose people, sometimes both, the last person you called, the keepsakes you carried, and five scenes you chose to remember from your five years.
 
 Across more than 1,400 events, a single life can reveal only part of the story. The game remembers not only what you did, but what you learned.
 

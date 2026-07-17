@@ -6431,6 +6431,53 @@ func _ap_act_line() -> String:
 func _demo_pressure_enabled() -> bool:
 	return GameState.turn >= 1 and GameState.turn <= GameState.DEMO_TURN_LIMIT
 
+func _demo_employment_pressure(person_id: String) -> Dictionary:
+	var phase := posmod(int(GameState.turn) - 1, 3)
+	var resume_ready := bool(GameState.flags.get("resume_polished", false))
+	if phase == 1:
+		if resume_ready:
+			return {
+				"id": "employment_followup",
+				"family": "employment",
+				"title": _tr("준비만으로는 월급이 생기지 않는다", "Preparation alone does not become a paycheck"),
+				"question": _tr("다시 지원할까, 더 쌓을까, 당장 벌까?", "Apply again, build more, or earn cash now?"),
+				"detail": _tr("이력서는 준비됐다 · 이제 공고와 시간을 고른다", "The resume is ready · now choose an opening and the time it costs"),
+				"urgent": true,
+				"person_id": person_id,
+				"action_ids": ["apply", "study", "side_shift"],
+			}
+		return {
+			"id": "employment_readiness",
+			"family": "employment",
+			"title": _tr("지원서는 아직 나를 설명하지 못한다", "The application still fails to explain you"),
+			"question": _tr("먼저 다듬을까, 실력을 쌓을까, 그래도 지원할까?", "Refine it, build skill, or apply anyway?"),
+			"detail": _tr("준비는 합격 가능성을 바꾸지만 이번 주 수입은 만들지 않는다", "Preparation changes the next application, but not this week's income"),
+			"urgent": true,
+			"person_id": person_id,
+			"action_ids": ["resume", "study", "apply"],
+		}
+	if phase == 2:
+		return {
+			"id": "employment_survival",
+			"family": "employment",
+			"title": _tr("합격을 기다리는 동안에도 돈은 나간다", "Money keeps leaving while you wait for an offer"),
+			"question": _tr("단기 알바로 버틸까, 지출을 줄일까, 다시 지원할까?", "Take a shift, cut spending, or send another application?"),
+			"detail": _tr("생계 대응은 시간을 벌지만 취업 자체를 대신하지 않는다", "Survival buys time; it does not replace getting hired"),
+			"urgent": true,
+			"person_id": person_id,
+			"action_ids": ["side_shift", "save", "apply"],
+		}
+	return {
+		"id": "employment",
+		"family": "employment",
+		"title": _tr("수입 0원", "Zero income"),
+		"question": _tr("지원, 준비, 당장 현금 중 무엇을 먼저 택할까?", "Apply, prepare, or take cash now?"),
+		"detail": _tr("지원은 미래를, 단기 알바는 이번 주를 바꾼다", "Applications change the future; a shift changes this week"),
+		"urgent": true,
+		"person_id": person_id,
+		"action_ids": ["apply", "resume", "side_shift"],
+	}
+
 func _demo_week_pressure() -> Dictionary:
 	if not _demo_pressure_enabled():
 		return {}
@@ -6457,15 +6504,7 @@ func _demo_week_pressure() -> Dictionary:
 		}
 
 	if GameState.current_job.is_empty():
-		return {
-			"id": "employment",
-			"title": _tr("수입 0원", "Zero income"),
-			"question": _tr("지원, 준비, 당장 현금 중 무엇을 먼저 택할까?", "Apply, prepare, or take cash now?"),
-			"detail": _tr("지원은 미래를, 단기 알바는 이번 주를 바꾼다", "Applications change the future; a shift changes this week"),
-			"urgent": true,
-			"person_id": person_id,
-			"action_ids": ["apply", "resume", "side_shift"],
-		}
+		return _demo_employment_pressure(person_id)
 
 	if bool(rent_info.get("urgent", false)) and not bool(rent_info.get("covered", false)):
 		return {
@@ -6492,10 +6531,11 @@ func _demo_week_pressure() -> Dictionary:
 	var invest_unlocked := bool(GameState.flags.get("arc_invest_guidance_seen", false))
 	var first_invest_visit := bool(GameState.flags.get("investment_first_visited", false))
 	if invest_unlocked and GameState.money >= 100_000.0 \
-			and (not first_invest_visit or GameState.week_of_month == 3):
+			and GameState.week_of_month == 3:
 		return {
 			"id": "capital",
-			"title": _tr("돈이 처음으로 선택을 요구한다", "Money is asking for a direction"),
+			"title": _tr("돈이 처음으로 선택을 요구한다", "Money is asking for a direction") if not first_invest_visit \
+				else _tr("이번 달 돈의 방향을 정할 때다", "It is time to set this month's direction for money"),
 			"question": _tr("불릴까, 지킬까, 사람에게 시간을 남길까?", "Risk it, protect it, or leave time for someone?"),
 			"detail": _tr("거래는 자산별 위험 1~5 · 조회는 무료", "Trades carry asset risk 1–5 · browsing is free"),
 			"urgent": false,
@@ -7359,15 +7399,15 @@ func _animate_ap_action_card(card: Control, index: int) -> void:
 func _ap_action_preview(fn_name: String, icon_id: String) -> String:
 	match fn_name:
 		"_ap_job_hunt":
-			return _tr("중간 위험 · AP 1 · 조건 충족 시 취업 · 1~3주: 첫 월급", "MEDIUM · AP 1 · hired if qualified · 1–3W: first paycheck")
+			return _tr("중간 위험 · AP 1 · 조건 충족 시 취업 · 1~3주: 첫 월급", "MEDIUM · AP 1 · Hire if qualified · 1–3W: first paycheck")
 		"_ap_write_resume":
-			return _tr("낮은 위험 · AP 1 · 지력 0~2/이력서 · 1~3주: 지원 보너스", "LOW · AP 1 · Intelligence 0–2/resume · 1–3W: application bonus")
+			return _tr("낮은 위험 · AP 1 · 지력 0~2 · 이력서 완성 · 1~3주: 지원 보너스", "LOW · AP 1 · Intelligence 0–2 · Resume progress · 1–3W: application bonus")
 		"_ap_interview_prep":
-			return _tr("낮은 위험 · AP 1 · 사회성 0~2/운 0~1 · 1~3주: 면접 보너스", "LOW · AP 1 · Social 0–2/Luck 0–1 · 1–3W: interview bonus")
+			return _tr("낮은 위험 · AP 1 · 사회성 0~2 · 운 0~1 · 1~3주: 면접 보너스", "LOW · AP 1 · Social 0–2 · Luck 0–1 · 1–3W: interview bonus")
 		"_ap_side_job":
-			return _tr("중간 위험 · AP 1 · 현금 %s+/건강 기본 -3 · 1~3주: 피로", "MEDIUM · AP 1 · cash %s+/base Health -3 · 1–3W: fatigue") % GameState.format_money(float(_side_shift_base_pay()))
+			return _tr("중간 위험 · AP 1 · 현금 %s+ · 건강 기본 -3 · 1~3주: 피로", "MEDIUM · AP 1 · Cash %s+ · Base Health -3 · 1–3W: fatigue") % GameState.format_money(float(_side_shift_base_pay()))
 		"_ap_save_money":
-			return _tr("낮은 위험 · AP 1 · 현금 +3만~10만/스트레스 +2 · 1~3주: 월세 여유", "LOW · AP 1 · cash +30K–100K won/Stress +2 · 1–3W: rent buffer")
+			return _tr("낮은 위험 · AP 1 · 현금 +3만~10만 · 스트레스 +2 · 1~3주: 월세 여유", "LOW · AP 1 · Cash +KRW 30K–100K · Stress +2 · 1–3W: rent buffer")
 		"_open_cat_work":
 			return _tr("선택  업무 · 이력서 · 면접 준비", "CHOOSE  Work · resume · interview prep")
 		"_open_cat_money":
@@ -7375,23 +7415,23 @@ func _ap_action_preview(fn_name: String, icon_id: String) -> String:
 				return _tr("선택  투자 · 알바 · 절약", "CHOOSE  Invest · gigs · saving")
 			return _tr("선택  알바 · 절약 · 금융", "CHOOSE  Gigs · saving · finance")
 		"_ap_study":
-			return _tr("낮은 위험 · 선택 후 AP 1 · 능력/회복 · 1~3주: 반복 기록", "LOW · AP 1 after choice · skill/recovery · 1–3W: habit record")
+			return _tr("낮은 위험 · 선택 후 AP 1 · 능력 또는 회복 · 1~3주: 반복 기록", "LOW · AP 1 after choice · Skill or recovery · 1–3W: habit record")
 		"_ap_free_time":
 			return _tr("낮은 위험 · AP 1 · 정신 +2~11 · 1~3주: 몸과 마음의 여유", "LOW · AP 1 · Mental +2–11 · 1–3W: physical and mental room")
 		"_ap_invest":
 			return _tr("자산별 위험 1~5 · 거래 확정 AP 1 · 1~3주: 결산 변동", "ASSET RISK 1–5 · AP 1 per trade · 1–3W: market settlement")
 		"_ap_network":
-			return _tr("중간 위험 · AP 1 · 사회성/평판↑/스트레스 1~4 · 1~3주: 사회 사건", "MEDIUM · AP 1 · Social/Reputation up/Stress 1–4 · 1–3W: social echoes")
+			return _tr("중간 위험 · AP 1 · 사회성·평판 상승 · 스트레스 1~4 · 1~3주: 사회 사건", "MEDIUM · AP 1 · Social and Reputation up · Stress 1–4 · 1–3W: social echoes")
 		"_ap_vip_network":
-			return _tr("낮은 위험 · AP 1 · 사회성 +3/평판 +2 · 1~3주: 넓어진 관계", "LOW · AP 1 · Social +3/Reputation +2 · 1–3W: wider connections")
+			return _tr("낮은 위험 · AP 1 · 사회성 +3 · 평판 +2 · 1~3주: 넓어진 관계", "LOW · AP 1 · Social +3 · Reputation +2 · 1–3W: wider connections")
 		"_ap_contact_person":
-			return _tr("낮은 위험 · AP 1 · 정신 +5/스트레스 -3/관계 +4 · 1~3주: 인연", "LOW · AP 1 · Mental +5/Stress -3/Bond +4 · 1–3W: relationship")
+			return _tr("낮은 위험 · AP 1 · 정신 +5 · 스트레스 -3 · 관계 +4 · 1~3주: 인연", "LOW · AP 1 · Mental +5 · Stress -3 · Bond +4 · 1–3W: relationship")
 		"_open_cat_people":
 			return _tr("파장  관계와 다음 장면이 달라진다", "ECHO  Bonds and later scenes can change")
 		"_open_cat_gambling":
-			return _tr("높은 위험 · 현금 손실/즉시 결과 · 1~3주: 중독과 통제 비용", "HIGH · cash loss/instant result · 1–3W: addiction and control cost")
+			return _tr("높은 위험 · 현금 손실 · 즉시 결과 · 1~3주: 중독과 통제 비용", "HIGH · Cash loss · Instant result · 1–3W: addiction and control cost")
 		"_open_racetrack", "_open_holdem", "_open_scalping", "_open_jeongseon_casino":
-			return _tr("높은 위험 · AP 1 · 현금 손실 가능 · 즉시 결과/1~3주 파장", "HIGH · AP 1 · cash loss possible · instant result/1–3W echo")
+			return _tr("높은 위험 · AP 1 · 현금 손실 가능 · 즉시 결과 · 1~3주 파장", "HIGH · AP 1 · Cash loss possible · Instant result · 1–3W echo")
 		"_open_routine_modal":
 			return _tr("시간  조용한 주를 최대 4주 압축", "TIME  Compress up to four quiet weeks")
 		"_ap_date":
@@ -13320,7 +13360,7 @@ func _show_demo_ending():
 	metrics.add_child(_demo_record_metric(_tr("남은 거리", "Distance"), GameState.format_money(maxf(0.0, 3_000_000_000.0 - total_assets)), _tr("강남까지", "To Gangnam"), "#aeb8c8"))
 
 	var progress_pct := clampf(total_assets / 3_000_000_000.0 * 100.0, 0.0, 100.0)
-	modal_body.add_child(_make_progress_row(_tr("강남드림 (30억)", "Gangnam Dream (KRW 3B)"), progress_pct / 100.0, asset_color, _tr("%.3f%% 달성", "%.3f%% reached") % progress_pct))
+	modal_body.add_child(_make_progress_row(_tr("강남드림 (30억)", "Gangnam Dream (3 billion won)"), progress_pct / 100.0, asset_color, _tr("%.3f%% 달성", "%.3f%% reached") % progress_pct))
 
 	var echo := PanelContainer.new()
 	echo.set_meta("moral_role", "info_card")
@@ -14088,6 +14128,7 @@ func _build_time_ledger_card(record_title: String, grade: String, is_demo: bool)
 	var people_color: Color = _moral_gray_accent(Color("#dce5ee"), palette, 0.04)
 	var money_weeks: int = GameState.money_weeks_total
 	var human_weeks: int = GameState.human_weeks_total
+	var record_turn: int = mini(int(GameState.turn), GameState.DEMO_TURN_LIMIT) if is_demo else int(GameState.turn)
 
 	var card := PanelContainer.new()
 	card.set_meta("qa_surface", "time_ledger")
@@ -14158,24 +14199,27 @@ func _build_time_ledger_card(record_title: String, grade: String, is_demo: bool)
 	var time_col := VBoxContainer.new()
 	time_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	time_col.size_flags_stretch_ratio = 1.25
-	time_col.add_theme_constant_override("separation", 7)
+	time_col.add_theme_constant_override("separation", 4)
 	body.add_child(time_col)
-	time_col.add_child(_label(_tr("시간 배분", "TIME ALLOCATION"), 10, "#707987"))
+	time_col.add_child(_label(_tr("선택의 흔적", "CHOICE PATTERN"), 10, "#707987"))
 	var time_metrics := HBoxContainer.new()
 	time_metrics.add_theme_constant_override("separation", 22)
 	time_col.add_child(time_metrics)
 	time_metrics.add_child(_time_ledger_metric(
-		_tr("돈에 쓴 시간", "Weeks on money"), str(money_weeks), _tr("주", "weeks"), money_color))
+		_tr("돈을 택한 주", "Weeks choosing money"), str(money_weeks), _tr("주", "weeks"), money_color))
 	time_metrics.add_child(_time_ledger_metric(
-		_tr("사람에게 쓴 시간", "Weeks on people"), str(human_weeks), _tr("주", "weeks"), people_color))
-	time_col.add_child(_time_ledger_split_bar(money_weeks, human_weeks, money_color, people_color))
+		_tr("사람을 택한 주", "Weeks choosing people"), str(human_weeks), _tr("주", "weeks"), people_color))
+	time_col.add_child(_time_ledger_dual_bars(
+		money_weeks, human_weeks, record_turn, money_color, people_color))
+	time_col.add_child(_label(
+		_tr("같은 주에 두 흔적이 함께 남을 수 있다.", "A week can leave both marks."),
+		9, "#68717e"))
 
 	var divider := VSeparator.new()
 	divider.add_theme_color_override("color", Color(accent.r, accent.g, accent.b, 0.20))
 	divider.custom_minimum_size = Vector2(1, 0)
 	body.add_child(divider)
 
-	var record_turn: int = mini(int(GameState.turn), GameState.DEMO_TURN_LIMIT) if is_demo else int(GameState.turn)
 	var record_date: String = _demo_completion_date_string() if is_demo else GameState.get_date_string()
 	var contact: Dictionary = _time_ledger_contact_record(record_turn)
 	var contact_col := VBoxContainer.new()
@@ -14233,28 +14277,32 @@ func _time_ledger_metric(title: String, value: String, unit: String, accent: Col
 	box.add_child(value_lbl)
 	return box
 
-func _time_ledger_split_bar(money_weeks: int, human_weeks: int, money_color: Color, people_color: Color) -> HBoxContainer:
-	var bar := HBoxContainer.new()
-	bar.add_theme_constant_override("separation", 3)
-	bar.custom_minimum_size = Vector2(0, 8)
-	var total: int = money_weeks + human_weeks
-	var money_ratio: float = 0.5 if total <= 0 else float(money_weeks) / float(total)
-	var people_ratio: float = 0.5 if total <= 0 else float(human_weeks) / float(total)
-	var money_fill := ColorRect.new()
-	money_fill.color = money_color
-	money_fill.custom_minimum_size = Vector2(3, 8)
-	money_fill.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	money_fill.size_flags_stretch_ratio = maxf(0.025, money_ratio)
-	money_fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	bar.add_child(money_fill)
-	var people_fill := ColorRect.new()
-	people_fill.color = people_color
-	people_fill.custom_minimum_size = Vector2(3, 8)
-	people_fill.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	people_fill.size_flags_stretch_ratio = maxf(0.025, people_ratio)
-	people_fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	bar.add_child(people_fill)
-	return bar
+func _time_ledger_dual_bars(money_weeks: int, human_weeks: int, reference_weeks: int,
+		money_color: Color, people_color: Color) -> HBoxContainer:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 22)
+	row.custom_minimum_size = Vector2(0, 7)
+	var maximum := maxi(1, reference_weeks)
+	for entry in [[money_weeks, money_color], [human_weeks, people_color]]:
+		var track := ProgressBar.new()
+		track.min_value = 0.0
+		track.max_value = float(maximum)
+		track.value = float(clampi(int(entry[0]), 0, maximum))
+		track.step = 1.0
+		track.show_percentage = false
+		track.custom_minimum_size = Vector2(3, 7)
+		track.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		track.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var background := StyleBoxFlat.new()
+		background.bg_color = Color("#1a1d23")
+		background.set_corner_radius_all(2)
+		track.add_theme_stylebox_override("background", background)
+		var fill := StyleBoxFlat.new()
+		fill.bg_color = entry[1]
+		fill.set_corner_radius_all(2)
+		track.add_theme_stylebox_override("fill", fill)
+		row.add_child(track)
+	return row
 
 func _time_ledger_contact_record(reference_turn: int = -1) -> Dictionary:
 	if reference_turn < 0:
@@ -14283,6 +14331,8 @@ func _time_ledger_contact_record(reference_turn: int = -1) -> Dictionary:
 		var weeks_ago: int = maxi(0, reference_turn - last_turn)
 		if weeks_ago == 0:
 			last_text = _tr("이번 주", "This week")
+		elif weeks_ago == 1:
+			last_text = _tr("1주 전", "1 week ago")
 		else:
 			last_text = _tr("{n}주 전", "{n} weeks ago").format({"n": weeks_ago})
 	return {
@@ -14850,7 +14900,7 @@ func _show_month_summary(snap: Dictionary):
 	var base_bar := Color("#00c896" if pct >= 0.5 else ("#f0b429" if pct >= 0.2 else "#c9a227"))
 	var bar_color = _moral_hex(_moral_gray_accent(base_bar, _moral_ui_palette(), 0.04))
 	modal_body.add_child(_make_progress_row(
-		_tr("강남드림 (30억)", "Gangnam Dream (KRW 3B)"), pct, bar_color,
+		_tr("강남드림 (30억)", "Gangnam Dream (3 billion won)"), pct, bar_color,
 		"%s  (%s)" % [GameState.format_money(assets_now), pct_disp]))
 
 	# ── 행동 요약 ─────────────────────────────────

@@ -64,6 +64,7 @@ extends Node
 ## 전환 레이어만 빠르게 확인:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=transition
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-input --lang=en --demo-build
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-gamepad --lang=en --pad=xbox --demo-build
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-keyboard --lang=en --demo-build
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-mouse --lang=en --demo-build
 ## 헤드리스 더미 렌더러는 빈 텍스처를 주므로 x11+opengl3(xvfb) 필요.
@@ -82,6 +83,7 @@ const QA_SCOPE_MORAL := "moral"
 const QA_SCOPE_DEMO_FLOW := "demo_flow"
 const QA_SCOPE_DEMO_BLACKBOX := "demo_blackbox"
 const QA_SCOPE_DEMO_INPUT := "demo_input"
+const QA_SCOPE_DEMO_GAMEPAD := "demo_gamepad"
 const QA_SCOPE_DEMO_KEYBOARD := "demo_keyboard"
 const QA_SCOPE_DEMO_MOUSE := "demo_mouse"
 const QA_SCOPE_START_EN := "start_en"
@@ -153,6 +155,7 @@ var _mg: Node = null
 var _qa_failed := false
 var _route_keyboard_events := 0
 var _route_mouse_events := 0
+var _route_gamepad_events := 0
 
 func _tr(ko: String, en: String) -> String:
 	return LocaleManager.ui(ko, en)
@@ -162,7 +165,8 @@ func _ready() -> void:
 	_clear_output_dir()
 	var scope: String = _qa_scope()
 	if scope in [QA_SCOPE_DEMO_FLOW, QA_SCOPE_DEMO_BLACKBOX, QA_SCOPE_DEMO_INPUT,
-			QA_SCOPE_DEMO_KEYBOARD, QA_SCOPE_DEMO_MOUSE] and not GameState.is_demo_build():
+			QA_SCOPE_DEMO_GAMEPAD, QA_SCOPE_DEMO_KEYBOARD, QA_SCOPE_DEMO_MOUSE] \
+			and not GameState.is_demo_build():
 		_fail("Demo QA requires the explicit --demo-build test flag.")
 		return
 	if scope in [QA_SCOPE_CASINO, QA_SCOPE_CASINO_EN]:
@@ -234,6 +238,13 @@ func _ready() -> void:
 	if scope == QA_SCOPE_DEMO_INPUT:
 		var lang := _qa_language("en")
 		await _run_demo_input_route(lang)
+		return
+	if scope == QA_SCOPE_DEMO_GAMEPAD:
+		var lang := _qa_language("en")
+		var pad_options := _apply_first_30_qa_options()
+		if str(pad_options.get("pad", "keyboard")) == "keyboard":
+			ControllerHints.force_brand_for_qa(ControllerHints.Brand.XBOX)
+		await _run_demo_input_route(lang, "gamepad")
 		return
 	if scope == QA_SCOPE_DEMO_KEYBOARD:
 		var lang := _qa_language("en")
@@ -711,6 +722,9 @@ func _qa_scope() -> String:
 				"qa=demo-input", "--qa=demo-input", "qa=demo_input", "--qa=demo_input",
 				"scope=demo-input", "--scope=demo-input", "scope=demo_input", "--scope=demo_input"]:
 			return QA_SCOPE_DEMO_INPUT
+		if arg in ["demo-gamepad", "demo_gamepad", "--demo-gamepad", "--demo_gamepad",
+				"qa=demo-gamepad", "--qa=demo-gamepad", "scope=demo-gamepad", "--scope=demo-gamepad"]:
+			return QA_SCOPE_DEMO_GAMEPAD
 		if arg in ["demo-keyboard", "demo_keyboard", "--demo-keyboard", "--demo_keyboard",
 				"qa=demo-keyboard", "--qa=demo-keyboard", "scope=demo-keyboard", "--scope=demo-keyboard"]:
 			return QA_SCOPE_DEMO_KEYBOARD
@@ -2164,8 +2178,8 @@ func _shot_demo_blackbox(lang: String = "en") -> void:
 	await _shot_demo_loop_surfaces(lang, prefix)
 
 func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard") -> void:
-	if input_mode not in ["keyboard", "mouse"]:
-		_fail("Demo input route requires keyboard or mouse, got %s." % input_mode)
+	if input_mode not in ["keyboard", "mouse", "gamepad"]:
+		_fail("Demo input route requires keyboard, mouse, or gamepad; got %s." % input_mode)
 		return
 	_set_qa_language(lang)
 	seed(20260713)
@@ -2173,6 +2187,7 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 	MetaProgression.data["content_warning_seen"] = true
 	_route_keyboard_events = 0
 	_route_mouse_events = 0
+	_route_gamepad_events = 0
 	_suppress_tutorial_overlays()
 	if not await _boot_demo_from_title(input_mode):
 		MetaProgression.data = original_meta
@@ -2188,6 +2203,20 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 	var completed := false
 	var last_reported_turn := 0
 	var ap_choice_attempts: Dictionary = {}
+	var route_input_counts: Dictionary = {}
+	var route_week_inputs: Dictionary = {}
+	var ap_peak_by_week: Dictionary = {}
+	var captured_pressure_weeks: Dictionary = {}
+	var pressure_capture_turns := [1, 4, 8, 12, 16, 20, 24]
+	var pressure_sequence: Array[String] = []
+	var pressure_family_sequence: Array[String] = []
+	var pressure_counts: Dictionary = {}
+	var pressure_month_counts: Dictionary = {}
+	var action_counts: Dictionary = {}
+	var ap_action_week_counts: Dictionary = {}
+	var modal_counts: Dictionary = {}
+	var counted_modal_keys: Dictionary = {}
+	var ap_action_inputs := 0
 	for _step in range(7000):
 		await get_tree().create_timer(0.015).timeout
 		var scene := get_tree().current_scene
@@ -2202,14 +2231,17 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 			var event_id := str(current.get("id", ""))
 			if not event_id.is_empty() and not seen_events.has(event_id):
 				seen_events.append(event_id)
-			signature += ":%s:%d:%s:%s:%s" % [
+			signature += ":%s:%d:%s:%s:%s:%s:%s" % [
 				event_id,
 				int(scene.get("_para_index")),
 				str(scene.get("_typing")),
 				str(scene.get("_showing_choices")),
 				str(scene.get("_pending_after_result")),
+				str(scene.get("_direction_hold_active")),
+				str(scene.get("_direction_beat_waiting")),
 			]
-			if bool(scene.get("_transitioning")) or event_id.is_empty():
+			if bool(scene.get("_transitioning")) or bool(scene.get("_direction_hold_active")) \
+					or event_id.is_empty():
 				pass
 			else:
 				var tutorial_popup := scene.get("_tutorial_popup") as Control
@@ -2220,6 +2252,7 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 					else:
 						await _advance_route_story(scene, input_mode)
 					input_count += 1
+					_record_demo_route_input(route_input_counts, route_week_inputs, "story:%s" % event_id)
 				elif bool(scene.get("_showing_choices")):
 					var focused := get_viewport().gui_get_focus_owner()
 					if focused == null or not scene.is_ancestor_of(focused):
@@ -2233,14 +2266,33 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 					else:
 						await _advance_route_story(scene, input_mode)
 					input_count += 1
+					_record_demo_route_input(route_input_counts, route_week_inputs, "story:%s" % event_id)
 				else:
 					await _advance_route_story(scene, input_mode)
 					input_count += 1
+					_record_demo_route_input(route_input_counts, route_week_inputs, "story:%s" % event_id)
 		elif script_path == "res://scenes/MainGame.gd":
+			if GameState.turn <= GameState.DEMO_TURN_LIMIT:
+				ap_peak_by_week[GameState.turn] = maxi(
+					int(ap_peak_by_week.get(GameState.turn, 0)), GameState.action_points)
 			if GameState.turn != last_reported_turn:
 				last_reported_turn = GameState.turn
-				print("DEMO_INPUT_PROGRESS week=%d ap=%d events=%d" % [
-					GameState.turn, GameState.action_points, seen_events.size()])
+				var pressure: Dictionary = scene.call("_demo_week_pressure")
+				var pressure_id := str(pressure.get("id", "none"))
+				var pressure_family := str(pressure.get("family", pressure_id))
+				var pressure_actions: Array[String] = []
+				for raw_action_id in pressure.get("action_ids", []):
+					pressure_actions.append(str(raw_action_id))
+				if GameState.turn <= GameState.DEMO_TURN_LIMIT:
+					pressure_sequence.append(pressure_id)
+					pressure_family_sequence.append(pressure_family)
+					pressure_counts[pressure_id] = int(pressure_counts.get(pressure_id, 0)) + 1
+					if pressure_id == "capital":
+						var capital_month := "%04d-%02d" % [GameState.year, GameState.month]
+						pressure_month_counts[capital_month] = int(pressure_month_counts.get(capital_month, 0)) + 1
+				print("DEMO_INPUT_PROGRESS week=%d ap=%d events=%d pressure=%s actions=%s" % [
+					GameState.turn, GameState.action_points, seen_events.size(), pressure_id,
+					",".join(pressure_actions)])
 			var modal := scene.get("modal_layer") as Control
 			var modal_visible := is_instance_valid(modal) and modal.visible
 			var modal_kind := str(scene.get("_modal_kind"))
@@ -2253,9 +2305,22 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 				cards.size(),
 				str(scene.get("pending_result_text")),
 			]
+			if pressure_capture_turns.has(GameState.turn) \
+					and not captured_pressure_weeks.has(GameState.turn) \
+					and not modal_visible \
+					and not _qa_scene_transition_active() \
+					and GameState.action_points > 0 \
+					and not cards.is_empty() \
+					and str(scene.get("pending_result_text")).is_empty():
+				await _save("demo_%s_%s_week_%02d_pressure" % [lang, input_mode, GameState.turn], 0.0)
+				captured_pressure_weeks[GameState.turn] = true
 			if _qa_scene_transition_active():
 				pass
 			elif modal_visible:
+				var modal_key := "%d:%s" % [GameState.turn, modal_kind]
+				if not counted_modal_keys.has(modal_key):
+					counted_modal_keys[modal_key] = true
+					modal_counts[modal_kind] = int(modal_counts.get(modal_kind, 0)) + 1
 				var modal_text := _collect_control_text(modal)
 				var wishlist_copy := "Add to Steam Wishlist" if lang == "en" else "Steam 위시리스트에 추가"
 				if modal_kind == "demo_ending":
@@ -2297,8 +2362,11 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 					signature += ":focus=%s" % modal_button.text
 					modal_button.grab_focus()
 					await get_tree().process_frame
-					await _activate_route_control(modal_button, input_mode)
-					input_count += 1
+					if is_instance_valid(modal_button) and modal_button.is_inside_tree():
+						await _activate_route_control(modal_button, input_mode)
+						input_count += 1
+						_record_demo_route_input(route_input_counts, route_week_inputs,
+							"main:modal:%s" % modal_kind)
 			elif GameState.has_reached_demo_limit():
 				pass
 			else:
@@ -2307,16 +2375,20 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 				if result_confirm != null:
 					result_confirm.grab_focus()
 					await get_tree().process_frame
-					await _activate_route_control(result_confirm, input_mode)
-					input_count += 1
+					if is_instance_valid(result_confirm) and result_confirm.is_inside_tree():
+						await _activate_route_control(result_confirm, input_mode)
+						input_count += 1
+						_record_demo_route_input(route_input_counts, route_week_inputs, "main:result")
 				elif bool(scene.get("_transient_bg_active")):
 					var choice_surface := scene.get("choice_box") as Control
 					var confirm := _find_first_enabled_button(choice_surface) if is_instance_valid(choice_surface) else null
 					if confirm != null:
 						confirm.grab_focus()
 						await get_tree().process_frame
-						await _activate_route_control(confirm, input_mode)
-						input_count += 1
+						if is_instance_valid(confirm) and confirm.is_inside_tree():
+							await _activate_route_control(confirm, input_mode)
+							input_count += 1
+							_record_demo_route_input(route_input_counts, route_week_inputs, "main:transient")
 				elif GameState.action_points > 0 and not cards.is_empty():
 					var playable_cards: Array[Button] = []
 					for candidate in cards:
@@ -2326,7 +2398,7 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 								and (candidate as Button).is_inside_tree() \
 								and (candidate as Button).visible \
 								and bool((candidate as Button).get_meta("demo_pressure_primary", false)) \
-							and candidate_fn not in ["_ap_side_job", "_ap_write_resume", "_ap_job_hunt", "_ap_invest"] \
+							and candidate_fn not in ["_ap_side_job", "_ap_write_resume", "_ap_invest"] \
 								and not (candidate as Button).disabled:
 							playable_cards.append(candidate as Button)
 					# Rotate through the three visible responses. This exercises the controller-first
@@ -2339,33 +2411,38 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 						var choice_index := posmod(GameState.turn + used_slots - 1 + attempt, playable_cards.size())
 						ap_choice_attempts[attempt_key] = attempt + 1
 						action_card = playable_cards[choice_index]
-					elif cards.size() >= 4 and cards[3] is Button \
-							and is_instance_valid(cards[3]) \
-							and not (cards[3] as Button).is_queued_for_deletion() \
-							and (cards[3] as Button).is_inside_tree() \
-							and (cards[3] as Button).visible \
-							and not (cards[3] as Button).disabled:
-						action_card = cards[3] as Button
 					if action_card == null:
 						MetaProgression.data = original_meta
-						_fail("Demo input run found no playable AP response at week %d." % GameState.turn)
+						_fail("Demo input run found no safe primary AP response at week %d; fallback is forbidden." % GameState.turn)
 						return
 					action_card.grab_focus()
 					await get_tree().process_frame
-					await _activate_route_control(action_card, input_mode)
-					input_count += 1
+					if is_instance_valid(action_card) and action_card.is_inside_tree():
+						var selected_action_id := str(action_card.get_meta("demo_action_id", "fallback"))
+						action_counts[selected_action_id] = int(action_counts.get(selected_action_id, 0)) + 1
+						ap_action_week_counts[GameState.turn] = int(ap_action_week_counts.get(GameState.turn, 0)) + 1
+						print("DEMO_AP_ACTION week=%d ap_before=%d action=%s fn=%s" % [
+							GameState.turn, GameState.action_points, selected_action_id,
+							str(action_card.get_meta("ap_action_fn", ""))])
+						await _activate_route_control(action_card, input_mode)
+						input_count += 1
+						_record_demo_route_input(route_input_counts, route_week_inputs, "main:ap")
+						ap_action_inputs += 1
 				elif GameState.action_points <= 0:
 					var next_week := scene.get("next_button") as Button
 					if is_instance_valid(next_week) and not next_week.disabled:
 						next_week.grab_focus()
 						await get_tree().process_frame
-						await _activate_route_control(next_week, input_mode)
-						input_count += 1
+						if is_instance_valid(next_week) and next_week.is_inside_tree():
+							await _activate_route_control(next_week, input_mode)
+							input_count += 1
+							_record_demo_route_input(route_input_counts, route_week_inputs, "main:next_week")
 				elif focused is Button and scene.is_ancestor_of(focused) \
 						and focused != scene.get("next_button") and cards.find(focused) < 0 \
 						and focused.is_visible_in_tree() and not focused.disabled:
 					await _activate_route_control(focused as Control, input_mode)
 					input_count += 1
+					_record_demo_route_input(route_input_counts, route_week_inputs, "main:focused")
 
 		if signature == last_signature:
 			stagnant_steps += 1
@@ -2410,12 +2487,97 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 		MetaProgression.data = original_meta
 		_fail("Mouse-only route emitted %d keyboard events." % _route_keyboard_events)
 		return
+	if input_mode == "gamepad" and (_route_keyboard_events != 0 or _route_mouse_events != 0):
+		MetaProgression.data = original_meta
+		_fail("Gamepad-only route emitted keyboard=%d mouse=%d events." % [
+			_route_keyboard_events, _route_mouse_events])
+		return
+	if pressure_sequence.size() != GameState.DEMO_TURN_LIMIT:
+		MetaProgression.data = original_meta
+		_fail("Demo route sampled %d pressure weeks instead of %d." % [
+			pressure_sequence.size(), GameState.DEMO_TURN_LIMIT])
+		return
+	if GameState.current_job.is_empty() or int(action_counts.get("apply", 0)) < 1:
+		MetaProgression.data = original_meta
+		_fail("Demo route never exercised the primary Job Hunt response and finished unemployed.")
+		return
+	if int(action_counts.get("fallback", 0)) != 0:
+		MetaProgression.data = original_meta
+		_fail("Demo route escaped to See Other Actions instead of choosing the pressure cards.")
+		return
+	for week in range(1, GameState.DEMO_TURN_LIMIT + 1):
+		print("DEMO_AP_ACTION_PROFILE week=%d primary=%d" % [
+			week, int(ap_action_week_counts.get(week, 0))])
+	var available_ap_budget := 0
+	for week in range(1, GameState.DEMO_TURN_LIMIT + 1):
+		available_ap_budget += int(ap_peak_by_week.get(week, 0))
+	if ap_action_inputs != available_ap_budget:
+		MetaProgression.data = original_meta
+		_fail("Demo route used %d primary AP responses from an available budget of %d." % [
+			ap_action_inputs, available_ap_budget])
+		return
+	var pressure_streak := _max_consecutive_strings(pressure_sequence)
+	if int(pressure_streak.get("count", 0)) > 4:
+		MetaProgression.data = original_meta
+		_fail("Demo pressure frame %s repeated %d consecutive weeks." % [
+			str(pressure_streak.get("value", "none")), int(pressure_streak.get("count", 0))])
+		return
+	for capital_month in pressure_month_counts:
+		if int(pressure_month_counts[capital_month]) > 1:
+			MetaProgression.data = original_meta
+			_fail("Capital pressure repeated %d times in %s." % [
+				int(pressure_month_counts[capital_month]), str(capital_month)])
+			return
+	if int(pressure_counts.get("capital", 0)) < 1:
+		MetaProgression.data = original_meta
+		_fail("Demo route never exposed the monthly capital decision window.")
+		return
+	var family_streak := _max_consecutive_strings(pressure_family_sequence)
+	print("DEMO_INPUT_RHYTHM pressure_sequence=%s pressure_counts=%s pressure_months=%s max_frame=%s:%d max_family=%s:%d action_counts=%s modal_counts=%s ap_action_inputs=%d/%d inputs_per_week=%.1f" % [
+		">".join(pressure_sequence), str(pressure_counts), str(pressure_month_counts),
+		str(pressure_streak.get("value", "none")), int(pressure_streak.get("count", 0)),
+		str(family_streak.get("value", "none")), int(family_streak.get("count", 0)),
+		str(action_counts), str(modal_counts), ap_action_inputs, available_ap_budget,
+		float(input_count) / float(GameState.DEMO_TURN_LIMIT)])
 	MetaProgression.data = original_meta
-	print("DEMO_INPUT_RUN_OK device=%s weeks=24 inputs=%d events=%d start_job=unemployed end_job=%s axes=%d/%d key_events=%d mouse_events=%d cutoff=cta" % [
+	_print_demo_route_input_profile(route_input_counts, route_week_inputs)
+	print("DEMO_INPUT_RUN_OK device=%s weeks=24 inputs=%d events=%d start_job=unemployed end_job=%s axes=%d/%d key_events=%d mouse_events=%d gamepad_events=%d cutoff=cta" % [
 		input_mode, input_count, seen_events.size(), str(GameState.current_job.get("id", "unemployed")),
 		GameState.money_weeks_total, GameState.human_weeks_total,
-		_route_keyboard_events, _route_mouse_events])
+		_route_keyboard_events, _route_mouse_events, _route_gamepad_events])
 	get_tree().quit(0)
+
+func _record_demo_route_input(counts: Dictionary, week_counts: Dictionary, key: String) -> void:
+	counts[key] = int(counts.get(key, 0)) + 1
+	var week := clampi(GameState.turn, 1, GameState.DEMO_TURN_LIMIT)
+	week_counts[week] = int(week_counts.get(week, 0)) + 1
+
+func _print_demo_route_input_profile(counts: Dictionary, week_counts: Dictionary) -> void:
+	var ranked: Array = counts.keys()
+	ranked.sort_custom(func(a, b): return int(counts[a]) > int(counts[b]))
+	for index in range(mini(12, ranked.size())):
+		var key: String = str(ranked[index])
+		print("DEMO_INPUT_PROFILE_TOP rank=%d inputs=%d key=%s" % [
+			index + 1, int(counts[key]), key])
+	for week in range(1, GameState.DEMO_TURN_LIMIT + 1):
+		print("DEMO_INPUT_PROFILE_WEEK week=%d inputs=%d" % [
+			week, int(week_counts.get(week, 0))])
+
+func _max_consecutive_strings(values: Array[String]) -> Dictionary:
+	var best_value := ""
+	var best_count := 0
+	var current_value := ""
+	var current_count := 0
+	for value in values:
+		if value == current_value:
+			current_count += 1
+		else:
+			current_value = value
+			current_count = 1
+		if current_count > best_count:
+			best_value = current_value
+			best_count = current_count
+	return {"value": best_value, "count": best_count}
 
 func _boot_demo_from_title(input_mode: String) -> bool:
 	var packed := load("res://scenes/StartMenu.tscn") as PackedScene
@@ -2427,26 +2589,44 @@ func _boot_demo_from_title(input_mode: String) -> bool:
 	await get_tree().process_frame
 	get_tree().current_scene = menu
 	await _settle(0.25)
-	if input_mode == "keyboard":
-		await _send_route_key(KEY_ENTER)
+	if input_mode == "gamepad":
+		await _send_route_raw_gamepad_button(JOY_BUTTON_A)
 	else:
-		await _send_route_mouse_click(get_viewport().get_visible_rect().size * 0.5)
+		await _send_route_input(input_mode)
 	await _settle(0.45)
+	if not is_instance_valid(menu):
+		_fail("%s title route consumed the splash and New Story with one input." % input_mode)
+		return false
 	var new_story := _find_button_with_any_text(menu, ["New Story", "새 이야기"])
 	if new_story == null:
 		_fail("%s title route could not reach New Story." % input_mode)
 		return false
 	await _activate_route_control(new_story, input_mode)
-	for _frame in range(360):
+	var opening_skip_sent := false
+	var last_boot_path := ""
+	for _frame in range(900):
 		await get_tree().create_timer(0.02).timeout
 		var current := get_tree().current_scene
 		if is_instance_valid(current) and current != menu:
 			var script := current.get_script() as Script
 			var path := script.resource_path if script != null else ""
+			if path != last_boot_path:
+				last_boot_path = path
+				print("DEMO_INPUT_BOOT_STAGE device=%s scene=%s" % [input_mode, path])
 			if path in ["res://scenes/MainGame.gd", "res://scenes/StoryMode.gd"]:
 				print("DEMO_INPUT_TITLE_OK device=%s next=%s" % [input_mode, path])
 				return true
-	_fail("%s title route did not hand off to the playable demo." % input_mode)
+			if path == "res://scenes/OpeningCinematic.gd" and not opening_skip_sent \
+					and not bool(current.get("_transitioning")):
+				await get_tree().create_timer(0.28).timeout
+				if input_mode == "gamepad":
+					await _send_route_raw_gamepad_button(JOY_BUTTON_A)
+				else:
+					await _send_route_input(input_mode)
+				opening_skip_sent = true
+	await _save("demo_boot_%s_stall" % input_mode, 0.0)
+	_fail("%s title route did not hand off to the playable demo; last scene=%s." % [
+		input_mode, last_boot_path])
 	return false
 
 func _find_button_with_any_text(root: Node, candidates: Array[String]) -> Button:
@@ -2473,13 +2653,24 @@ func _activate_route_control(control: Control, input_mode: String) -> void:
 		return
 	control.grab_focus()
 	await get_tree().process_frame
-	await _send_route_key(KEY_ENTER)
+	await _send_route_input(input_mode)
 
 func _advance_route_story(_story: Node, input_mode: String) -> void:
 	if input_mode == "mouse":
 		await _send_route_mouse_click(get_viewport().get_visible_rect().size * Vector2(0.5, 0.42))
-	else:
+	elif input_mode == "keyboard":
 		await _send_route_key(KEY_ENTER)
+	else:
+		await _send_route_gamepad_button(JOY_BUTTON_A)
+
+func _send_route_input(input_mode: String) -> void:
+	match input_mode:
+		"mouse":
+			await _send_route_mouse_click(get_viewport().get_visible_rect().size * 0.5)
+		"gamepad":
+			await _send_route_gamepad_button(JOY_BUTTON_A)
+		_:
+			await _send_route_key(KEY_ENTER)
 
 func _send_route_key(keycode: Key) -> void:
 	var pressed := InputEventKey.new()
@@ -2493,6 +2684,40 @@ func _send_route_key(keycode: Key) -> void:
 	released.pressed = false
 	Input.parse_input_event(released)
 	_route_keyboard_events += 1
+	await get_tree().process_frame
+
+func _send_route_gamepad_button(button_index: JoyButton) -> void:
+	if button_index != JOY_BUTTON_A:
+		_fail("Demo gamepad route only supports the South/accept button, got %d." % button_index)
+		return
+	var pressed := InputEventAction.new()
+	pressed.action = "ui_accept"
+	pressed.pressed = true
+	pressed.strength = 1.0
+	Input.parse_input_event(pressed)
+	_route_gamepad_events += 1
+	await get_tree().process_frame
+	var released := pressed.duplicate() as InputEventAction
+	released.pressed = false
+	released.strength = 0.0
+	Input.parse_input_event(released)
+	_route_gamepad_events += 1
+	await get_tree().process_frame
+
+func _send_route_raw_gamepad_button(button_index: JoyButton) -> void:
+	var pressed := InputEventJoypadButton.new()
+	pressed.device = 0
+	pressed.button_index = button_index
+	pressed.pressed = true
+	pressed.pressure = 1.0
+	Input.parse_input_event(pressed)
+	_route_gamepad_events += 1
+	await get_tree().process_frame
+	var released := pressed.duplicate() as InputEventJoypadButton
+	released.pressed = false
+	released.pressure = 0.0
+	Input.parse_input_event(released)
+	_route_gamepad_events += 1
 	await get_tree().process_frame
 
 func _send_route_mouse_click(position: Vector2) -> void:

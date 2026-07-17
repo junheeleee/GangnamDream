@@ -18,7 +18,7 @@
 | 1 | `01_cold_open.png` | `story_flashforward` 첫 문단 | 2031년 강남의 정체불명 남자로 시작하는 플래시포워드 | 2031년 새벽. 누가 이곳에 도착했는지는 아직 모른다. | Dawn, 2031. You do not yet know who survived the climb. |
 | 2 | `02_money_mule_timer.png` | `arc_temptation_01` 실제 12초 선택지 | 돈의 절박함과 되돌리기 어려운 첫 선 | 12초. 200만원. 한 번 넘으면 돌아오기 어려운 선. | Twelve seconds. Two million won. One line that is hard to uncross. |
 | 3 | `03_montage_card.png` | Y4 3주 몽타주 결과 | 240주 반복을 그대로 클릭시키지 않는 시간 압축 | 조용한 주는 접혀 지나가지만, 그 대가는 남는다. | Quiet weeks fold forward. Their cost remains. |
-| 4 | `04_time_ledger.png` | `stable_success` 최종 시간 원장 | 돈과 사람에게 쓴 시간, 마지막 연락을 함께 결산 | 돈, 건강, 인연, 간직한 것. 게임은 5년을 기록한다. | Money, health, relationships, keepsakes. The game records all five years. |
+| 4 | `04_time_ledger.png` | `stable_success` 최종 시간 원장 | 돈과 사람을 택한 주의 겹치는 흔적, 마지막 연락을 함께 결산 | 돈, 건강, 인연, 간직한 것. 게임은 5년을 기록한다. | Money, health, relationships, keepsakes. The game records all five years. |
 | 5 | `05_moral_bright.png` | `arc_y2_worn_face`, tint +80 | 다은의 걱정을 먼저 알아보는 같은 카페 장면 | 같은 장면, 아직 사람을 먼저 보는 시선. | The same scene, while he can still see the person first. |
 | 6 | `06_moral_dark.png` | `arc_y2_worn_face`, tint -80 | 영수증과 잔액을 먼저 세는 같은 카페 장면 | 같은 장면, 이제 숫자를 먼저 세는 시선. | The same scene, after the numbers have learned to come first. |
 | 7 | `07_season_date_cg.png` | `arc_season_cherry_daeun` CG + 3선택지 | 계절 데이트, 히로인 매력, 선택 가능한 로맨스 | 사랑은 계절을 따라 자라고, 선택에 따라 사라질 수도 있다. | Love grows across seasons, and your choices can still cost it. |
@@ -33,7 +33,7 @@
 | 1번 | 인물 정체를 스포일러하지 않으며 강남 야경과 고독한 실루엣이 읽힌다 |
 | 2번 | 두 선택지와 `TIME LEFT 12`가 16:9 크롭 안에 모두 남는다 |
 | 3번 | `3 weeks passed`, 돈/건강/정신 변화가 한 화면에 보인다 |
-| 4번 | `TIME ALLOCATION`과 `CONTACT LEDGER`가 동시에 보인다 |
+| 4번 | `CHOICE PATTERN`과 `CONTACT LEDGER`가 동시에 보이고 두 막대가 총 기록 주를 독립 기준으로 삼는다 |
 | 5-6번 | 배경, 인물, 선택지 수와 카메라는 같고 색·질감·문장만 달라진다 |
 | 7번 | 다은의 얼굴, 벚꽃길, 한강, 세 선택지가 서로 가리지 않는다 |
 | 8번 | `FIVE YEARS, FIVE SCENES`와 Year 1-5가 첫 화면에 가로로 들어온다 |

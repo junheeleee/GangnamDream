@@ -184,6 +184,18 @@ func _check_demo_pressure_choices() -> void:
 	_check_pressure_contract(game, employment, "employment", ["apply", "resume", "side_shift"])
 	if GameState.serialize() != state_before:
 		_fail("demo pressure preview mutated GameState")
+	GameState.turn = 2
+	GameState.week_of_month = 2
+	var readiness: Dictionary = game._demo_week_pressure()
+	_check_pressure_contract(game, readiness, "employment_readiness", ["resume", "study", "apply"])
+	GameState.flags["resume_polished"] = true
+	var followup: Dictionary = game._demo_week_pressure()
+	_check_pressure_contract(game, followup, "employment_followup", ["apply", "study", "side_shift"])
+	GameState.flags.erase("resume_polished")
+	GameState.turn = 3
+	GameState.week_of_month = 3
+	var survival: Dictionary = game._demo_week_pressure()
+	_check_pressure_contract(game, survival, "employment_survival", ["side_shift", "save", "apply"])
 
 	GameState.current_job = {"id": "job_03", "name": "사무직", "tier": 2}
 	GameState.monthly_income = 0.0
@@ -208,10 +220,30 @@ func _check_demo_pressure_choices() -> void:
 	GameState.grind_streak_weeks = 0
 	GameState.flags["arc_invest_guidance_seen"] = true
 	GameState.flags.erase("investment_first_visited")
+	GameState.turn = 3
+	GameState.week_of_month = 3
 	var capital: Dictionary = game._demo_week_pressure()
 	_check_pressure_contract(game, capital, "capital", ["invest", "save", "contact"])
+	var capital_windows := 0
+	var capital_per_month: Dictionary = {}
+	for week in range(1, GameState.DEMO_TURN_LIMIT + 1):
+		GameState.turn = week
+		GameState.week_of_month = posmod(week - 1, 4) + 1
+		var pressure: Dictionary = game._demo_week_pressure()
+		if str(pressure.get("id", "")) != "capital":
+			continue
+		capital_windows += 1
+		var month_index := int((week - 1) / 4)
+		capital_per_month[month_index] = int(capital_per_month.get(month_index, 0)) + 1
+	if capital_windows != 6:
+		_fail("demo capital pressure must appear once per four-week month, got %d" % capital_windows)
+	for month_index in capital_per_month:
+		if int(capital_per_month[month_index]) > 1:
+			_fail("demo capital pressure repeated within month %s" % month_index)
 
 	LocaleManager.language = "en"
+	GameState.turn = 3
+	GameState.week_of_month = 3
 	var capital_en: Dictionary = game._demo_week_pressure()
 	_check_pressure_contract(game, capital_en, "capital", ["invest", "save", "contact"])
 	var surface := "%s %s %s" % [
