@@ -253,6 +253,62 @@ func _ready() -> void:
 		_fail("Sangchul first-meeting branch started directive music")
 		return
 
+	# 상철의 정체는 조사 도중 음악으로 먼저 폭로하지 않는다. 실제 현재
+	# 주거의 룸톤이 이어지다가, 두 기록이 합쳐지는 마지막 판단에서만
+	# reckoning이 시작된다.
+	BGMPlayer.enter_ambient_bed(0.0)
+	var sangchul_deduction: Dictionary = DataRegistry.find_event("arc_sangchul_deduction")
+	var sangchul_case: Dictionary = DataRegistry.find_event("arc_sangchul_deduction_case")
+	var sangchul_decision: Dictionary = DataRegistry.find_event("arc_sangchul_deduction_decision")
+	var whole_picture: Dictionary = DataRegistry.find_event("hidden_whole_picture")
+	if sangchul_deduction.is_empty() or sangchul_case.is_empty() \
+			or sangchul_decision.is_empty() or whole_picture.is_empty():
+		_fail("Sangchul deduction scene audio fixtures are missing")
+		return
+	GameState.housing = "gosiwon"
+	BGMPlayer.update_event_ambience(sangchul_deduction)
+	if BGMPlayer._current_ambience_key != "room":
+		_fail("Sangchul deduction did not resolve goshiwon room tone")
+		return
+	GameState.housing = "oneroom"
+	BGMPlayer.update_event_ambience(sangchul_deduction)
+	BGMPlayer.begin_story_event(sangchul_deduction)
+	BGMPlayer.play_scene_paragraph_music(sangchul_deduction, "", 0)
+	await get_tree().create_timer(0.18).timeout
+	if BGMPlayer._current_ambience_key != "oneroom" \
+			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("Sangchul deduction prelude exposed music or the wrong home ambience")
+		return
+	var deduction_room_pos := BGMPlayer._ambience_player.get_playback_position()
+	BGMPlayer.update_event_ambience(sangchul_case)
+	BGMPlayer.begin_story_event(sangchul_case)
+	BGMPlayer.play_scene_paragraph_music(sangchul_case, "", 0)
+	await get_tree().process_frame
+	if BGMPlayer._current_ambience_key != "oneroom" \
+			or BGMPlayer._ambience_player.get_playback_position() + 0.05 < deduction_room_pos:
+		_fail("Sangchul deduction home ambience restarted across the evidence chain")
+		return
+	if BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("Sangchul evidence branch started reckoning before the final decision")
+		return
+	var evidence_room_pos := BGMPlayer._ambience_player.get_playback_position()
+	BGMPlayer.update_event_ambience(sangchul_decision)
+	BGMPlayer.begin_story_event(sangchul_decision)
+	BGMPlayer.play_scene_paragraph_music(sangchul_decision, "", 0)
+	await get_tree().create_timer(0.18).timeout
+	if BGMPlayer._current_key != "reckoning" or not BGMPlayer._player_a.playing:
+		_fail("Sangchul final deduction did not punctuate the joined evidence")
+		return
+	if BGMPlayer._current_ambience_key != "oneroom" \
+			or BGMPlayer._ambience_player.get_playback_position() + 0.05 < evidence_room_pos:
+		_fail("Sangchul final deduction restarted or replaced the home ambience")
+		return
+	GameState.housing = "apartment"
+	BGMPlayer.update_event_ambience(whole_picture)
+	if BGMPlayer._current_ambience_key != "apartment":
+		_fail("whole-picture epilogue did not resolve the current apartment ambience")
+		return
+
 	# 신부 입장 반응은 장면 진입음이 아니라 해당 문단에서 한 번만 겹친다.
 	AudioManager.begin_story_audio_event("arc_daeun_wedding_walk")
 	AudioManager.play_scene_paragraph_cues(

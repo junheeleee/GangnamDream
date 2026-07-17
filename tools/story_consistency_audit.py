@@ -23,6 +23,7 @@ RULES_PATH = ROOT / "content" / "meta" / "story_rules.json"
 
 ALLOWED_CHANNELS = {
     "in_person",
+    "internal",
     "phone",
     "video_call",
     "message",
@@ -382,6 +383,14 @@ def main() -> int:
                         errors.append(f"{owner}.presentation: in_person needs at least two participants")
                     if "remote_actor" in presentation or "remote_location" in presentation:
                         errors.append(f"{owner}.presentation: in_person cannot declare a remote actor")
+                elif channel == "internal":
+                    participants = presentation.get("participants", [])
+                    if not isinstance(participants, list) or len(participants) != 1:
+                        errors.append(f"{owner}.presentation: internal needs exactly one participant")
+                    if portrait_role != "local":
+                        errors.append(f"{owner}.presentation: internal portrait must be local")
+                    if "remote_actor" in presentation or "remote_location" in presentation:
+                        errors.append(f"{owner}.presentation: internal cannot declare a remote actor")
                 elif channel == "narration" and portrait_role != "none":
                     errors.append(f"{owner}.presentation: narration must use portrait_role none")
 

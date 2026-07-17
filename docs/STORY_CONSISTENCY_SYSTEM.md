@@ -39,14 +39,14 @@ The audit compares producer contracts with the actual event choices. This catche
 
 Every high-risk remote scene declares:
 
-- `channel`: `in_person`, `phone`, `video_call`, `message`, `memory`, or `narration`
+- `channel`: `in_person`, `internal`, `phone`, `video_call`, `message`, `memory`, or `narration`
 - `scene_location`: where Minjun and the camera physically are
 - `remote_location`: where the off-screen participant is
 - `remote_actor`: who is on the other end
 - `portrait_role`: `present`, `remote`, `local`, or `none`
 - `expected_portrait`: the exact wardrobe/expression asset required by the location contract
 
-For remote media, identical local and remote locations are invalid. A remote portrait must resolve to the declared remote actor.
+For remote media, identical local and remote locations are invalid. A remote portrait must resolve to the declared remote actor. `internal` is reserved for one physically present participant thinking or investigating alone; it requires one local portrait and cannot declare a remote actor or location.
 
 ### Scene transitions
 
@@ -62,6 +62,7 @@ Every contract owns `from_location` and `to_location`. Non-local cuts also own e
 ## Runtime Visual Grammar
 
 - `in_person`: full standing portrait over the physical location, no media badge.
+- `internal`: one local reaction portrait over the physical location, with no invented second participant or media badge.
 - `phone`: compact right-side inset, `VOICE CALL / 통화 중`, and a remote suffix in the name tag.
 - `video_call`: the same spatial separation with a video-call label.
 - `message`: media badge; a remote sender may use the inset, while a local reaction portrait stays full size.
@@ -74,10 +75,10 @@ CGs remain authoritative. A split-screen phone CG may hide the standing portrait
 
 The first pass intentionally covers high-risk material instead of pretending all 1,500 events are migrated:
 
-- Ledger events: 92 / 1,555 (5.9%)
-- Typed logic contracts: 31
+- Ledger events: 97 / 1,558 (6.2%)
+- Typed logic contracts: 33
 - Remote/media presentation contracts: 39
-- Authored transition contracts: 35 / 35
+- Authored transition contracts: 39 / 39
 - Unauthorized demo location jumps: 0
 - Unclassified non-player portraits with phone/message titles: 0
 - Demo father-contact logic targets: 4 / 4
@@ -89,6 +90,8 @@ Seasonal romance now uses the same movement grammar. Both sea routes remain phys
 Daeun's first-night peak is a same-location contract across four events. `current_housing` resolves once from the live save and remains the physical room through both buildup routes and the final decision, whether Minjun currently rents a goshiwon, one-room, villa, or apartment. Daeun remains in the same navy convenience-store polo and beige cardigan; only her acting progresses from normal to sad to a restrained smile. The scene uses city light and indoor rain-on-glass audio, never rain particles inside the room. Buildup choices cannot alter state, and only the terminal choice owns the legacy relationship, affinity, mental, Moral Tint, and completion outcomes.
 
 Sangchul's first meeting is likewise a same-location contract across its two opening routes and final answer. All four events remain in the early-spring Sinchon real-estate office with Sangchul physically present in the same clothes; only his expression moves from measured warmth to seriousness. The measure/coffee buildup cannot change stats, flags, cast stage, or artifact ownership. Only the three final answers may advance Sangchul, preserve the Changwon pause seed, and grant exactly one business card.
+
+Sangchul's deduction is an `internal` same-location chain in Minjun's live housing. The paid-in-full certificate and archived-business routes contain no state changes and converge only after the case number, Mapo address, dates, and registered owner agree. The final 15-second choice alone may establish or defer the truth and grant `clue_father_broker`. `hidden_whole_picture` uses the same live-housing rule instead of inventing a return to the goshiwon.
 
 These are ratchets. `minimum_ledger_events` cannot fall, and the unclassified communication count cannot rise above zero.
 

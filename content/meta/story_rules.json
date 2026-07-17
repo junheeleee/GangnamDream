@@ -311,6 +311,26 @@
       "mode": "same_location",
       "from_location": "realestate_office",
       "to_location": "realestate_office"
+    },
+    "arc_sangchul_deduction->arc_sangchul_deduction_case": {
+      "mode": "same_location",
+      "from_location": "current_housing",
+      "to_location": "current_housing"
+    },
+    "arc_sangchul_deduction->arc_sangchul_deduction_career": {
+      "mode": "same_location",
+      "from_location": "current_housing",
+      "to_location": "current_housing"
+    },
+    "arc_sangchul_deduction_case->arc_sangchul_deduction_decision": {
+      "mode": "same_location",
+      "from_location": "current_housing",
+      "to_location": "current_housing"
+    },
+    "arc_sangchul_deduction_career->arc_sangchul_deduction_decision": {
+      "mode": "same_location",
+      "from_location": "current_housing",
+      "to_location": "current_housing"
     }
   },
   "events": {
@@ -416,6 +436,79 @@
         "participants": ["player", "sangchul"],
         "portrait_role": "present",
         "expected_portrait": "sangchul_serious"
+      }
+    },
+    "hidden_whole_picture": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_portrait": "player_normal"
+      }
+    },
+    "arc_sangchul_deduction": {
+      "logic": {
+        "legacy": {
+          "requires_flags": ["arc_sangchul_03_seen"],
+          "forbids_flags": [
+            "arc_sangchul_deduction_seen",
+            "sangchul_truth_known"
+          ]
+        }
+      },
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_portrait": "player_tired"
+      }
+    },
+    "arc_sangchul_deduction_case": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_portrait": "player_tired"
+      }
+    },
+    "arc_sangchul_deduction_career": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_portrait": "player_tired"
+      }
+    },
+    "arc_sangchul_deduction_decision": {
+      "logic": {
+        "requires": [{"fact": "sangchul.truth_resolution", "is": "hidden"}],
+        "legacy": {
+          "requires_flags": ["arc_sangchul_03_seen"],
+          "forbids_flags": [
+            "arc_sangchul_deduction_seen",
+            "sangchul_truth_known"
+          ],
+          "produces_all": ["arc_sangchul_deduction_seen"],
+          "produces_any": [
+            "sangchul_truth_known",
+            "deduced_sangchul_truth",
+            "sangchul_clue_noted"
+          ]
+        },
+        "choice_produces": {
+          "0": [{"fact": "sangchul.truth_resolution", "set": "known"}]
+        }
+      },
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_portrait": "player_shocked"
       }
     },
     "story_prologue_dad": {

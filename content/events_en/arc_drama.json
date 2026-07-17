@@ -10,7 +10,7 @@
       },
       {
         "text": "See the man again — one day I'll ask him directly",
-        "result_text": "Minjun looked at the Gangnam lights for a long time.\n\nHe wanted to ask. Why did you do it. Knowing, why did you let me in.\n\nNot yet. But the question was inside him now, clear and waiting."
+        "result_text": "Minjun looked for a long time at his own face in the dark window.\n\nHe wanted to ask. Why did you do it. Knowing, why did you let me in.\n\nNot yet. But the question was inside him now, clear and waiting."
       },
       {
         "text": "Swallow it — Gangnam comes first for now",
@@ -21,11 +21,48 @@
   {
     "id": "arc_sangchul_deduction",
     "title": "A Name That Stayed",
-    "description": "There was a name Sangchul had quietly steered away from at the network dinner. \"Han PD Construction.\"\nMinjun filed it away in the back of his mind. Weeks passed.\n\nTonight, he couldn't sleep. He searched the name.\nAn old article. A real estate guarantee scam. A broker who made the introductions. The name was redacted — but the timing, the district, the pattern — it all mirrored what happened to his father.\n\nAnd at the bottom of the article, in the list of related entities: Han PD Construction.\nThe same name Sangchul's face hadn't changed at all while he deflected.",
+    "description": "At the networking dinner, Sangchul had steered the conversation away from one name: \"Han PD Construction.\"\nMinjun filed it away. Weeks passed.\n\nSomeone had asked, \"What about Han PD Construction?\"\nInstead of answering, Sangchul had pointed to another table. \"Don't mix with that crowd.\"\n\n1:47 a.m. Sleep would not come, so Minjun searched the name. An old local-news PDF remained online. A guarantee scam from more than a decade ago. Park Sang-jin. And an unnamed real-estate broker, identified only as Mr. Im, who had connected the victims to him.\n\nThe name was redacted. Only a case number remained at the bottom.\n\nMinjun knew the shape of those digits. The paid-in-full certificate he had received after six years of payments carried a number in the same format.\n\nToo specific to dismiss as coincidence. Still one link short of naming a man.",
+    "choices": [
+      {
+        "text": "Pull Father's paid-in-full certificate from the drawer",
+        "result_text": "When he unfolded it, he saw the last payment date and the red PAID stamp first.\n\nBelow them: the case number. The first six digits, year, and court code matched the article. The rest had been redacted.\n\nFather's debt and Han PD Construction belonged to the same case. What remained was the identity of Mr. Im."
+      },
+      {
+        "text": "Retrace the road Sangchul said he took",
+        "result_text": "He searched for Sangchul's first Seoul brokerage, not the present office in Sinchon.\n\nA closed-business listing held only an address: the second floor of an old building in Mapo. It opened two months before the case in the article.\n\nSangchul's story of poverty and night school was true. That made the next record harder to look at, not easier."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_deduction_case",
+    "title": "The Case Number",
+    "description": "Minjun placed the article and the paid-in-full certificate side by side.\n\nThe case number in the article. The case number on the certificate.\nThe same year, court, and opening digits.\n\nThe article said Park Sang-jin had bundled several people's guarantees and diverted the money. A real-estate broker identified as Mr. Im had introduced him to the victims as someone they could trust.\n\nFather had never told Minjun that part. But the certificate Minjun had spent six years earning pointed to the rest of the story.\n\nMr. Im's full name was still hidden. The article did reveal the old brokerage address.",
+    "choices": [
+      {
+        "text": "Match the brokerage address against old registrations",
+        "result_text": "An archived business registration surfaced.\n\nThe same Mapo address. Registered owner: Im Sangchul. Opened two months before the case.\n\nMinjun left both windows open and pulled them together at the center of the screen."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_deduction_career",
+    "title": "The Road Up",
+    "description": "The old business record preserved Sangchul's full name. Second floor of an aging building in Mapo. Smaller than the office he had now, and closed in the year the Han PD case broke.\n\nSangchul had told Minjun the story on their first day: Chungcheong, manual labor, security work, then learning real estate.\n\nThat part was true. The birth year and opening date matched too.\n\nMinjun returned to the article. The address beside 'Mr. Im, real-estate broker' was partly redacted. What remained said Mapo, the same neighborhood.\n\nOne more match would turn suspicion into a name. Father's paid-in-full certificate carried the case number.",
+    "choices": [
+      {
+        "text": "Match it against the case number on Father's certificate",
+        "result_text": "The article and the certificate matched on the same year, court, and opening digits.\n\nPark Sang-jin. Han PD Construction. A Mapo brokerage. Registered owner: Im Sangchul.\n\nMinjun placed all four lines on one screen. The only choice left was whether to keep searching or stop here."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_deduction_decision",
+    "title": "The Same Man",
+    "description": "The two records glowed side by side.\n\nThe case number matching Father's paid-in-full certificate.\nThe brokerage address matching the office of the unnamed Mr. Im.\nThe registered owner of that office: Im Sangchul.\n\nIt might not be enough to convict anyone in court. It was enough for a son to know who had been sitting across from him.\n\nThe man who taught him charts at the same café table. The man who had known whose son Minjun was when he offered that first cup of coffee.\n\n3:26 a.m. His finger hovered between the next page and the close button.",
     "choices": [
       {
         "text": "Dig deeper — trace Sangchul's old transactions",
-        "result_text": "Registry records. Old articles. Corporate histories. He dug through all of it until dawn.\n\nThe pieces aligned. Same window. Same neighborhood. Same referral structure.\n\nLim. Sang. Chul.\n\nMinjun's father never spoke the name. Minjun had found it himself.\nThe man who'd been teaching him to read charts — the same man who years ago walked his father into financial ruin.\n\nNo one told him. He figured it out alone.\nThat weight was heavier."
+        "result_text": "Registry records. Old articles. Corporate histories. He dug through all of it until dawn.\n\nThe pieces aligned. Same period. Same neighborhood. Same referral structure.\n\nIm. Sang. Chul.\n\nMinjun's father never spoke the name. Minjun had found it himself.\nThe man who'd been teaching him to read charts — the same man who years ago walked his father into financial ruin.\n\nNo one told him. He figured it out alone.\nThat weight was heavier."
       },
       {
         "text": "Leave it alone — he can't be sure",

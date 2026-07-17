@@ -14,6 +14,7 @@ import peak_scene_chain_audit as peaks
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "assets" / "scene_audio_manifest.json"
 ACTING_PATH = ROOT / "assets" / "cg_acting_manifest.json"
+DYNAMIC_AMBIENCE_KEYS = {"current_housing"}
 
 
 def load_json(path: Path):
@@ -102,7 +103,7 @@ def main() -> int:
             errors.append(f"{owner}: audio contract must be an object")
             continue
         ambience = str(contract.get("ambience", ""))
-        if not ambience or ambience not in ambience_keys:
+        if not ambience or ambience not in ambience_keys | DYNAMIC_AMBIENCE_KEYS:
             errors.append(f"{owner}: unknown or empty ambience key {ambience!r}")
         music = contract.get("music")
         if music is not None:

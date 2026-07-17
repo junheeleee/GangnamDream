@@ -67,7 +67,7 @@ The reproducible source is `python3 tools/game_structure_audit.py`; the design r
 
 | Measured surface | Baseline | Release implication |
 |---|---:|---|
-| Events / authored / random pool | 1,555 / 378 / 1,177 | Stop adding volume; curate priority and causality |
+| Events / authored / random pool | 1,558 / 381 / 1,177 | Stop adding volume; curate priority and causality |
 | Representative authored path | 117-120 beats | Enough material for one run; pacing and selection are the work |
 | Manual AP ceiling | 480 commits | Cannot ship as the default dramatic rhythm |
 | Estimated montage stopping weeks | 141-142 | Current compression is insufficient |

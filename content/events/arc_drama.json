@@ -2,7 +2,7 @@
   {
     "id": "hidden_whole_picture",
     "title": "혼자 세운 그림",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "player_normal",
     "category": "story",
     "rarity": "story",
@@ -41,7 +41,7 @@
           "social_skill": 1,
           "tint": 4
         },
-        "result_text": "민준은 창밖 강남 불빛을 오래 봤다.\n\n묻고 싶었다. 왜 그랬느냐고. 알면서 왜 나를 받아줬느냐고.\n\n아직은 아니다. 하지만 그 질문은 이제, 민준 안에 분명히 있었다."
+        "result_text": "민준은 검은 창유리에 비친 자기 얼굴을 오래 봤다.\n\n묻고 싶었다. 왜 그랬느냐고. 알면서 왜 나를 받아줬느냐고.\n\n아직은 아니다. 하지만 그 질문은 이제, 민준 안에 분명히 있었다."
       },
       {
         "text": "불을 껐다. 지금은 강남이 먼저다",
@@ -56,10 +56,105 @@
   },
   {
     "id": "arc_sangchul_deduction",
-    "direction": {"pace": "beat", "sting": "reveal"},
+    "direction": {"pace": "beat"},
     "title": "걸어둔 이름",
-    "background": "goshiwon_room",
-    "portrait": "player_normal",
+    "background": "current_housing",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul",
+      "revelation",
+      "discovery"
+    ],
+    "cooldown": 9999,
+    "description": "강남 모임에서 임상철이 화제를 돌렸던 이름. '한PD건설.'\n마음 어딘가에 걸어둔 채 몇 주가 지났다.\n\n그날 누군가 물었다. \"한PD건설 그쪽은요?\"\n상철은 대답 대신 다른 테이블을 가리켰다. \"저쪽은 섞이지 마.\"\n\n새벽 1시 47분. 잠이 오지 않아 그 이름을 검색했다. 오래된 지역 기사 PDF 하나가 남아 있었다. 십수 년 전 보증 사기, 박상진, 그리고 중간에서 사람을 연결한 '임 모 부동산 중개업자.'\n\n이름은 가려져 있었다. 기사 아래에는 사건번호만 작게 남아 있었다.\n\n민준은 그 숫자를 알고 있었다. 아버지 대신 6년을 갚고 마지막 도장을 받은 상환확인서 구석에도, 같은 형식의 번호가 있었다.\n\n우연이라고 닫기에는 너무 구체적이고, 한 사람이라고 쓰기에는 아직 한 칸이 비어 있었다.",
+    "choices": [
+      {
+        "text": "서랍에서 아버지의 상환확인서를 꺼낸다",
+        "result_text": "접힌 종이를 펴자 마지막 납부일과 붉은 완납 도장이 먼저 보였다.\n\n그 아래 사건번호. 앞 여섯 자리와 연도, 지방법원 코드가 기사 속 번호와 같았다. 뒷자리는 기사에서 가려져 있었다.\n\n아버지의 빚과 한PD건설은 같은 사건 안에 있었다. 이제 남은 건 '임 모'가 누구였는지였다.",
+        "follow_up_event": "arc_sangchul_deduction_case"
+      },
+      {
+        "text": "임상철이 지나온 길부터 다시 찾는다",
+        "result_text": "지금의 신촌 사무실이 아니라, 그가 서울에서 처음 냈다는 중개업소를 찾았다.\n\n폐업한 업체 정보에는 주소만 남아 있었다. 마포의 오래된 상가 2층. 개업 시점은 기사 속 사건보다 두 달 빨랐다.\n\n상철이 들려준 가난과 야간대 이야기는 맞았다. 맞기 때문에, 그 다음 기록이 더 불편했다.",
+        "follow_up_event": "arc_sangchul_deduction_career"
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_deduction_case",
+    "direction": {"pace": "beat"},
+    "title": "사건번호",
+    "background": "current_housing",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul",
+      "revelation",
+      "discovery"
+    ],
+    "cooldown": 9999,
+    "description": "민준은 기사와 상환확인서를 나란히 놓았다.\n\n기사의 사건번호. 상환확인서의 사건번호.\n같은 연도, 같은 법원, 같은 앞자리.\n\n기사에는 박상진이 여러 사람의 보증을 묶어 돈을 빼돌렸고, '임 모 중개업자'가 피해자들에게 그를 믿을 만한 사람이라고 소개했다고 적혀 있었다.\n\n아버지가 말해주지 않은 문장이었다. 그런데 민준이 6년 동안 대신 갚은 종이가, 그 문장의 나머지를 가리키고 있었다.\n\n'임 모'의 이름은 여전히 가려져 있었다. 기사에 적힌 옛 중개업소 주소만 복사할 수 있었다.",
+    "choices": [
+      {
+        "text": "기사 속 중개업소 주소를 옛 등록부와 맞춘다",
+        "result_text": "폐업 사업자 등록 이력 한 줄이 검색됐다.\n\n같은 마포 주소. 대표자 임상철. 기사보다 두 달 앞선 개업일.\n\n민준은 두 창을 닫지 못한 채 화면 가운데로 붙여 놓았다.",
+        "follow_up_event": "arc_sangchul_deduction_decision"
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_deduction_career",
+    "direction": {"pace": "beat"},
+    "title": "올라온 길",
+    "background": "current_housing",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul",
+      "revelation",
+      "discovery"
+    ],
+    "cooldown": 9999,
+    "description": "옛 사업자 이력에는 임상철의 이름이 그대로 남아 있었다. 마포의 오래된 상가 2층. 지금의 부동산보다 작고, 한PD건설 사건이 터진 해에 문을 닫은 중개업소.\n\n상철은 처음 만난 날 말했다. 충청도에서 올라와 막노동과 경비를 했고, 부동산 일을 배우며 버텼다고.\n\n그 말은 거짓이 아니었다. 등록부의 생년과 개업 시점도 맞았다.\n\n민준은 기사 PDF로 돌아갔다. '임 모 중개업자' 옆에 적힌 사무실 주소는 뒷부분이 가려져 있었다. 앞부분은 마포, 같은 동이었다.\n\n한 칸만 더 맞추면 의심은 이름이 된다. 서랍 속 상환확인서에는 사건번호가 있었다.",
+    "choices": [
+      {
+        "text": "아버지의 상환확인서와 사건번호를 맞춘다",
+        "result_text": "기사와 상환확인서의 사건번호가 같은 연도와 법원, 같은 앞자리에서 겹쳤다.\n\n박상진. 한PD건설. 마포의 중개업소. 대표자 임상철.\n\n민준은 네 줄을 한 화면에 놓았다. 이제 남은 선택은 더 찾을지, 여기서 멈출지였다.",
+        "follow_up_event": "arc_sangchul_deduction_decision"
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_deduction_decision",
+    "direction": {"pace": "beat", "sting": "reveal"},
+    "title": "같은 사람",
+    "background": "current_housing",
+    "portrait": "player_shocked",
     "category": "story",
     "rarity": "story",
     "weight": 0,
@@ -77,7 +172,7 @@
     "cooldown": 9999,
     "timed": true,
     "timer_seconds": 15,
-    "description": "강남 모임에서 임상철이 화제를 돌렸던 그 이름. '한PD건설.'\n마음 어딘가에 걸어둔 채로 몇 주가 지났다.\n\n오늘 새벽, 잠이 안 와 그 이름을 검색했다.\n오래된 기사 하나. 십수 년 전 보증 사기 사건. 중간에 사람을 소개한 부동산 브로커가 있었다.\n\n이름은 가려져 있었다. 그런데 지역도, 수법도, 시기도 — 아버지 일과 너무 닮아 있었다.\n\n그리고 기사 맨 아래, 관련 업체 목록에 '한PD건설'이 있었다.\n임상철이 표정 하나 바꾸지 않고 돌렸던 그 이름이.",
+    "description": "두 기록이 화면에서 나란히 빛났다.\n\n아버지의 상환확인서와 같은 사건번호.\n기사 속 '임 모 중개업자'의 사무실과 같은 주소.\n그 주소의 대표자, 임상철.\n\n법정에서 누군가를 유죄로 만들 증거는 아닐지 모른다. 하지만 아버지의 아들이 누구를 마주 앉아 있었는지 알기에는 충분했다.\n\n같은 카페, 같은 자리에서 차트를 가르쳐주던 사람. 처음부터 민준이 누구의 아들인지 알고 커피를 권했던 사람.\n\n새벽 3시 26분. 화면을 더 넘길지, 닫을지 손가락이 멈췄다.",
     "choices": [
       {
         "text": "새벽 내내 뒤졌다. 등기, 옛 기사, 법인 이력",

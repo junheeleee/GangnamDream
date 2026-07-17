@@ -33,6 +33,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=commitment --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=breakup --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=sangchul-first-meet --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=sangchul-deduction --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=sangchul-confrontation --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=father-ktx --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=season-peaks --lang=en
@@ -108,6 +109,7 @@ const QA_SCOPE_WEDDING_MORNING := "wedding_morning"
 const QA_SCOPE_COMMITMENT := "commitment"
 const QA_SCOPE_BREAKUP := "breakup"
 const QA_SCOPE_SANGCHUL_FIRST_MEET := "sangchul_first_meet"
+const QA_SCOPE_SANGCHUL_DEDUCTION := "sangchul_deduction"
 const QA_SCOPE_SANGCHUL_CONFRONTATION := "sangchul_confrontation"
 const QA_SCOPE_FATHER_PEAKS := "father_peaks"
 const QA_SCOPE_FATHER_KTX := "father_ktx"
@@ -393,6 +395,16 @@ func _ready() -> void:
 			get_tree().quit(1)
 			return
 		print("SCREENSHOT_QA_DONE scope=sangchul-first-meet lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_SANGCHUL_DEDUCTION:
+		var lang := _qa_language("en")
+		await _shot_sangchul_deduction_surfaces(
+				lang, "sangchul_deduction_en_" if lang == "en" else "sangchul_deduction_ko_")
+		if _qa_failed:
+			get_tree().quit(1)
+			return
+		print("SCREENSHOT_QA_DONE scope=sangchul-deduction lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_SANGCHUL_CONFRONTATION:
@@ -767,6 +779,12 @@ func _qa_scope() -> String:
 				"qa=sangchul_first_meet", "--qa=sangchul_first_meet",
 				"scope=sangchul-first-meet", "--scope=sangchul-first-meet"]:
 			return QA_SCOPE_SANGCHUL_FIRST_MEET
+		if arg in ["sangchul-deduction", "sangchul_deduction", "sangchul-truth",
+				"--sangchul-deduction", "--sangchul_deduction",
+				"qa=sangchul-deduction", "--qa=sangchul-deduction",
+				"qa=sangchul_deduction", "--qa=sangchul_deduction",
+				"scope=sangchul-deduction", "--scope=sangchul-deduction"]:
+			return QA_SCOPE_SANGCHUL_DEDUCTION
 		if arg in ["sangchul", "sangchul-confrontation", "sangchul_confrontation",
 				"--sangchul-confrontation", "qa=sangchul-confrontation",
 				"--qa=sangchul-confrontation", "scope=sangchul-confrontation"]:
@@ -1339,6 +1357,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	_assert_transport_visual_state(story, event_id)
 	_assert_daeun_first_night_visual_state(story, event_id)
 	_assert_sangchul_first_meeting_visual_state(story, event_id)
+	_assert_sangchul_deduction_visual_state(story, event_id)
 	_assert_living_scene_state(story, event_id)
 	if _qa_scope() == QA_SCOPE_TEXT_MATERIAL:
 		_assert_story_text_material(story)
@@ -4159,6 +4178,233 @@ func _assert_sangchul_first_meeting_state(
 			or bool(cast_flags.get("knows_dad_reason", false)) != knows_dad:
 		_fail("Sangchul first meeting %s changed cast state: affinity=%s stage=%s flags=%s." % [
 			label, sangchul.get("affinity"), sangchul.get("stage"), cast_flags])
+
+func _assert_sangchul_deduction_visual_state(story: Node, event_id: String) -> void:
+	var expected_portraits := {
+		"hidden_whole_picture": "player_normal",
+		"arc_sangchul_deduction": "player_tired",
+		"arc_sangchul_deduction_case": "player_tired",
+		"arc_sangchul_deduction_career": "player_tired",
+		"arc_sangchul_deduction_decision": "player_shocked",
+	}
+	if not expected_portraits.has(event_id):
+		return
+	var expected_background := ImageRegistry.infer_background_id({}, GameState.housing)
+	var actual_background := str(story.get("_event_background_id"))
+	if actual_background != expected_background:
+		_fail("%s housing expected %s, got %s." % [
+			event_id, expected_background, actual_background])
+	if bool(story.get("_current_uses_cg")):
+		_fail("Sangchul deduction unexpectedly used a baked CG at %s." % event_id)
+	var portrait := story.get("_portrait") as TextureRect
+	var actual_path := portrait.texture.resource_path \
+			if is_instance_valid(portrait) and portrait.texture != null else ""
+	var expected_path := ImageRegistry.get_portrait(str(expected_portraits[event_id]))
+	if actual_path != expected_path:
+		_fail("%s portrait expected %s, got %s." % [event_id, expected_path, actual_path])
+	if _qa_scope() != QA_SCOPE_SANGCHUL_DEDUCTION:
+		return
+	var expected_ambience := "room"
+	match str(GameState.housing):
+		"gangnam", "apartment":
+			expected_ambience = "apartment"
+		"villa", "oneroom":
+			expected_ambience = "oneroom"
+	if str(BGMPlayer._current_ambience_key) != expected_ambience:
+		_fail("%s expected %s ambience, got %s." % [
+			event_id, expected_ambience, BGMPlayer._current_ambience_key])
+	var scored := event_id in ["hidden_whole_picture", "arc_sangchul_deduction_decision"]
+	if scored:
+		if BGMPlayer._current_key != "reckoning" \
+				or not (BGMPlayer._player_a.playing or BGMPlayer._player_b.playing):
+			_fail("%s did not start the authored reckoning punctuation." % event_id)
+	elif BGMPlayer._player_a.playing or BGMPlayer._player_b.playing \
+			or not BGMPlayer._current_key.is_empty():
+		_fail("%s exposed reckoning before the evidence converged." % event_id)
+	if event_id == "arc_sangchul_deduction_decision" \
+			and bool(story.get("_showing_choices")):
+		var timer_row := story.find_child("StoryChoiceCountdown", true, false)
+		if timer_row == null or not timer_row.visible:
+			_fail("Sangchul deduction final choice did not expose its 15-second countdown.")
+
+func _shot_sangchul_deduction_surfaces(
+		lang: String = "en", prefix: String = "sangchul_deduction_en_") -> void:
+	_set_qa_language(lang)
+
+	_prepare_sangchul_deduction_qa_state("gosiwon")
+	await _shot_story_event(
+			"arc_sangchul_deduction", prefix + "01_gosiwon_search", "", 0.55, true)
+	_prepare_sangchul_deduction_qa_state("oneroom")
+	await _shot_story_event(
+			"arc_sangchul_deduction", prefix + "02_oneroom_opening_choices", "",
+			0.45, true, true)
+	_assert_sangchul_deduction_uncommitted("opening choices")
+	_prepare_sangchul_deduction_qa_state("oneroom")
+	await _shot_story_event(
+			"arc_sangchul_deduction", prefix + "03_case_opening_result", "",
+			0.45, true, true, 0, 0, false, 2)
+	_assert_sangchul_deduction_uncommitted("case opening")
+	_prepare_sangchul_deduction_qa_state("oneroom")
+	await _shot_story_event(
+			"arc_sangchul_deduction_case", prefix + "04_case_branch", "",
+			0.45, true, true)
+	_assert_sangchul_deduction_uncommitted("case branch")
+	_prepare_sangchul_deduction_qa_state("oneroom")
+	await _shot_story_event(
+			"arc_sangchul_deduction_case", prefix + "05_case_rejoin_result", "",
+			0.45, true, true, 0, 0, false, 2)
+	_assert_sangchul_deduction_uncommitted("case rejoin")
+
+	_prepare_sangchul_deduction_qa_state("oneroom")
+	await _shot_story_event(
+			"arc_sangchul_deduction", prefix + "06_career_opening_result", "",
+			0.45, true, true, 1, 0, false, 2)
+	_assert_sangchul_deduction_uncommitted("career opening")
+	_prepare_sangchul_deduction_qa_state("oneroom")
+	await _shot_story_event(
+			"arc_sangchul_deduction_career", prefix + "07_career_branch", "",
+			0.45, true, true)
+	_assert_sangchul_deduction_uncommitted("career branch")
+
+	_prepare_sangchul_deduction_qa_state("oneroom")
+	await _shot_story_event(
+			"arc_sangchul_deduction_decision", prefix + "08_joined_evidence", "",
+			0.55, true)
+	_prepare_sangchul_deduction_qa_state("oneroom")
+	await _shot_story_event(
+			"arc_sangchul_deduction_decision", prefix + "09_timed_choices", "",
+			0.45, true, true)
+	_assert_sangchul_deduction_uncommitted("timed choices")
+	_prepare_sangchul_deduction_qa_state("oneroom")
+	await _shot_story_event(
+			"arc_sangchul_deduction_decision", prefix + "10_confirm_result", "",
+			0.45, true, true, 0, 0, false, 3)
+	_assert_sangchul_deduction_state("confirm", true)
+	_prepare_sangchul_deduction_qa_state("oneroom")
+	await _shot_story_event(
+			"arc_sangchul_deduction_decision", prefix + "11_defer_result", "",
+			0.45, true, true, 1, 0, false, 2)
+	_assert_sangchul_deduction_state("defer", false)
+	_prepare_sangchul_deduction_qa_state("apartment")
+	GameState.flags["arc_sangchul_deduction_seen"] = true
+	GameState.flags["sangchul_truth_known"] = true
+	await _shot_story_event(
+			"hidden_whole_picture", prefix + "12_apartment_whole_picture", "",
+			0.55, true, true)
+
+	await _verify_sangchul_deduction_controller(0, 0, "gosiwon")
+	await _verify_sangchul_deduction_controller(1, 1, "oneroom")
+
+func _prepare_sangchul_deduction_qa_state(housing_id: String) -> void:
+	_prepare_main_game_state()
+	GameState.turn = 30
+	GameState.month = 8
+	GameState.week_of_month = 2
+	GameState.housing = housing_id
+	GameState.mental = 60
+	GameState.intelligence = 55
+	GameState.investment_skill = 20
+	GameState.moral_tint = 0.0
+	for flag in [
+		"arc_sangchul_deduction_seen", "sangchul_truth_known",
+		"deduced_sangchul_truth", "sangchul_clue_noted",
+	]:
+		GameState.flags.erase(flag)
+	GameState.flags["arc_sangchul_03_seen"] = true
+	GameState.clues.erase("clue_father_broker")
+
+func _assert_sangchul_deduction_uncommitted(label: String) -> void:
+	if int(GameState.mental) != 60 or int(GameState.intelligence) != 55 \
+			or int(GameState.investment_skill) != 20 \
+			or not is_equal_approx(GameState.moral_tint, 0.0):
+		_fail("Sangchul deduction %s changed stats before the final decision." % label)
+	for flag in [
+		"arc_sangchul_deduction_seen", "sangchul_truth_known",
+		"deduced_sangchul_truth", "sangchul_clue_noted",
+	]:
+		if GameState.flags.get(flag, false):
+			_fail("Sangchul deduction %s committed %s early." % [label, flag])
+	if GameState.has_clue("clue_father_broker"):
+		_fail("Sangchul deduction %s granted the broker clue early." % label)
+
+func _assert_sangchul_deduction_state(label: String, confirmed: bool) -> void:
+	var expected_mental := 48 if confirmed else 56
+	var expected_intelligence := 57 if confirmed else 55
+	var expected_skill := 21 if confirmed else 20
+	var expected_tint := 3.0 if confirmed else 2.0
+	if int(GameState.mental) != expected_mental \
+			or int(GameState.intelligence) != expected_intelligence \
+			or int(GameState.investment_skill) != expected_skill \
+			or not is_equal_approx(GameState.moral_tint, expected_tint):
+		_fail("Sangchul deduction %s totals changed: mental=%s intelligence=%s skill=%s tint=%s." % [
+			label, GameState.mental, GameState.intelligence,
+			GameState.investment_skill, GameState.moral_tint])
+	if not GameState.flags.get("arc_sangchul_deduction_seen", false) \
+			or not GameState.has_clue("clue_father_broker"):
+		_fail("Sangchul deduction %s lost its completion flag or broker clue." % label)
+	if bool(GameState.flags.get("sangchul_truth_known", false)) != confirmed \
+			or bool(GameState.flags.get("deduced_sangchul_truth", false)) != confirmed \
+			or bool(GameState.flags.get("sangchul_clue_noted", false)) == confirmed:
+		_fail("Sangchul deduction %s changed its truth/defer flags." % label)
+
+func _verify_sangchul_deduction_controller(
+		root_choice: int, final_choice: int, housing_id: String) -> void:
+	_prepare_sangchul_deduction_qa_state(housing_id)
+	GameState.pending_story_queue = ["arc_sangchul_deduction"]
+	var packed := load("res://scenes/StoryMode.tscn") as PackedScene
+	var story := packed.instantiate()
+	get_tree().root.add_child.call_deferred(story)
+	await get_tree().process_frame
+	if story.has_method("_set_auto_mode"):
+		story._set_auto_mode(false, false)
+	await _settle(0.30)
+	if not await _drive_story_to_event_choices(story, "arc_sangchul_deduction"):
+		return
+	if root_choice == 1:
+		await _press_qa_action("ui_down")
+		await _settle(0.08)
+	await _press_qa_action("ui_accept")
+	await _settle(0.18)
+	_assert_sangchul_deduction_uncommitted("controller opening %d" % root_choice)
+	var branch_id := "arc_sangchul_deduction_case" \
+			if root_choice == 0 else "arc_sangchul_deduction_career"
+	if not await _drive_story_to_event_choices(story, branch_id):
+		return
+	await _press_qa_action("ui_accept")
+	await _settle(0.18)
+	_assert_sangchul_deduction_uncommitted("controller branch %d" % root_choice)
+	if not await _drive_story_to_event_choices(story, "arc_sangchul_deduction_decision"):
+		return
+	var timer_row := story.find_child("StoryChoiceCountdown", true, false)
+	var choice_box := story.get("_choice_box") as Control
+	var focus := get_viewport().gui_get_focus_owner() as Button
+	if timer_row == null or not timer_row.visible \
+			or not is_instance_valid(focus) or not is_instance_valid(choice_box) \
+			or not choice_box.is_ancestor_of(focus):
+		_fail("Sangchul deduction controller route lost its timer or focused final choice.")
+		return
+	if final_choice == 1:
+		await _press_qa_action("ui_down")
+		await _settle(0.08)
+	await _press_qa_action("ui_accept")
+	await _settle(0.18)
+	_assert_sangchul_deduction_state(
+			"controller %d/%d" % [root_choice, final_choice], final_choice == 0)
+	_remove_nodes_by_script("res://scenes/StoryMode.gd")
+	GameState.pending_story_queue.clear()
+	await _settle(0.20)
+
+func _drive_story_to_event_choices(story: Node, event_id: String) -> bool:
+	for _step in range(140):
+		var current: Dictionary = story.get("_current")
+		if str(current.get("id", "")) == event_id and bool(story.get("_showing_choices")):
+			return true
+		await _press_qa_action("ui_accept")
+		await _settle(0.07)
+	var current: Dictionary = story.get("_current")
+	_fail("Controller route could not reach %s choices; stopped at %s." % [
+		event_id, str(current.get("id", ""))])
+	return false
 
 func _shot_sangchul_confrontation_surfaces(lang: String = "en", prefix: String = "sangchul_en_") -> void:
 	_set_qa_language(lang)

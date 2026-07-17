@@ -12,8 +12,6 @@ func _run() -> void:
 	GameState.flags["prologue_done"] = true
 	BGMPlayer.start()
 	await get_tree().create_timer(0.20).timeout
-	var bgm_key_before: String = BGMPlayer._current_key
-	var bgm_pos_before: float = BGMPlayer._player_a.get_playback_position()
 
 	_story = await _boot_story("arc_sangchul_confrontation")
 	if _story == null:
@@ -31,12 +29,9 @@ func _run() -> void:
 	if AudioManager._last_direction_sting_token != "arc_sangchul_confrontation:cold":
 		_fail("cold direction sting did not fire once")
 		return
-	if BGMPlayer._current_key != bgm_key_before:
-		_fail("direction sting replaced the BGM track")
-		return
-	var bgm_pos_after: float = BGMPlayer._player_a.get_playback_position()
-	if bgm_pos_after + 0.05 < bgm_pos_before:
-		_fail("direction scene restarted BGM playback")
+	if BGMPlayer._current_key != "reckoning" \
+			or not (BGMPlayer._player_a.playing or BGMPlayer._player_b.playing):
+		_fail("confrontation did not preserve its authored reckoning track")
 		return
 
 	var paragraphs: Array = _story.get("_paragraphs")
@@ -74,6 +69,7 @@ func _run() -> void:
 		return
 	await _remove_story()
 
+	var sting_token_before_deduction: String = AudioManager._last_direction_sting_token
 	_story = await _boot_story("arc_sangchul_deduction")
 	if _story == null:
 		return
@@ -81,8 +77,8 @@ func _run() -> void:
 	if str(beat_direction.get("pace", "")) != "beat":
 		_fail("deduction beat direction did not reach StoryMode")
 		return
-	if AudioManager._last_direction_sting_token != "arc_sangchul_deduction:reveal":
-		_fail("reveal direction sting did not fire once")
+	if AudioManager._last_direction_sting_token != sting_token_before_deduction:
+		_fail("deduction prelude fired the reveal sting before the evidence converged")
 		return
 	_story.call("_on_advance")
 	_story.call("_on_advance")
@@ -92,6 +88,18 @@ func _run() -> void:
 	_story.call("_on_advance")
 	if bool(_story.get("_direction_beat_waiting")) or not bool(_story.get("_typing")):
 		_fail("advance input did not resolve the beat into the next paragraph")
+		return
+	await _remove_story()
+
+	_story = await _boot_story("arc_sangchul_deduction_decision")
+	if _story == null:
+		return
+	var decision_direction: Dictionary = _story.get("_direction")
+	if str(decision_direction.get("pace", "")) != "beat":
+		_fail("deduction decision beat direction did not reach StoryMode")
+		return
+	if AudioManager._last_direction_sting_token != "arc_sangchul_deduction_decision:reveal":
+		_fail("deduction reveal sting did not wait for the final decision")
 		return
 	await _remove_story()
 

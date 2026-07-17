@@ -58,7 +58,7 @@ MIN_DIALOGUE_TURNS = 2
 MIN_PANELS = 6
 
 # Ratchet updated only after a peak is expanded and its rendered QA passes.
-BASELINE_DEBT = 3
+BASELINE_DEBT = 2
 REQUIRED_PASS = {
     "arc_daeun_first_night",
     "arc_daeun_wedding_night",
@@ -75,6 +75,7 @@ REQUIRED_PASS = {
     "arc_jiyeon_verdict",
     "arc_daeun_final_choice",
     "arc_sangchul_01_meet",
+    "arc_sangchul_deduction",
     "arc_sangchul_confrontation",
     "father_hospital_wait",
     "arc_father_passing",
@@ -1189,6 +1190,103 @@ def validate_sangchul_first_meeting_contract(events: dict[str, dict[str, Any]]) 
         raise ValueError("Sangchul first meeting lost the Changwon recognition seed")
 
 
+def validate_sangchul_deduction_contract(events: dict[str, dict[str, Any]]) -> None:
+    """Make two evidence routes converge before the canonical timed judgment."""
+    root_id = "arc_sangchul_deduction"
+    case_id = "arc_sangchul_deduction_case"
+    career_id = "arc_sangchul_deduction_career"
+    final_id = "arc_sangchul_deduction_decision"
+    expected_paths = {
+        (root_id, case_id, final_id),
+        (root_id, career_id, final_id),
+    }
+    actual_paths = {path.event_ids for path in walk_paths(events, root_id)}
+    if actual_paths != expected_paths:
+        raise ValueError(
+            "Sangchul deduction paths changed: "
+            f"actual={sorted(actual_paths)!r} expected={sorted(expected_paths)!r}"
+        )
+
+    expected_portraits = {
+        root_id: "player_tired",
+        case_id: "player_tired",
+        career_id: "player_tired",
+        final_id: "player_shocked",
+    }
+    for event_id, portrait in expected_portraits.items():
+        event = events[event_id]
+        if event.get("background") != "current_housing" \
+                or event.get("portrait") != portrait or event.get("cg"):
+            raise ValueError(f"Sangchul deduction visual continuity changed at {event_id}")
+
+    root_choices = events[root_id].get("choices") or []
+    if len(root_choices) != 2 or [choice.get("follow_up_event") for choice in root_choices] != [
+        case_id,
+        career_id,
+    ]:
+        raise ValueError("Sangchul deduction must open into the case and career evidence routes")
+    buildup_choices = list(root_choices)
+    for branch_id in (case_id, career_id):
+        choices = events[branch_id].get("choices") or []
+        if len(choices) != 1 or choices[0].get("follow_up_event") != final_id:
+            raise ValueError(f"{branch_id} must rejoin the final deduction decision")
+        buildup_choices.extend(choices)
+    for index, choice in enumerate(buildup_choices):
+        for forbidden in (
+            "effects", "cast_effects", "flags", "clues", "give_items", "opportunity",
+            "tendency", "route",
+        ):
+            if choice.get(forbidden):
+                raise ValueError(
+                    f"Sangchul deduction buildup choice {index} commits {forbidden} early"
+                )
+
+    final = events[final_id]
+    if final.get("timed") is not True or final.get("timer_seconds") != 15:
+        raise ValueError("Sangchul deduction judgment must retain its 15-second timer")
+    expected_final = (
+        {
+            "text": "새벽 내내 뒤졌다. 등기, 옛 기사, 법인 이력",
+            "effects": {
+                "mental": -12,
+                "intelligence": 2,
+                "investment_skill": 1,
+                "tint": 3,
+            },
+            "flags": [
+                "arc_sangchul_deduction_seen",
+                "sangchul_truth_known",
+                "deduced_sangchul_truth",
+            ],
+            "clues": ["clue_father_broker"],
+        },
+        {
+            "text": "노트북을 닫았다. 기사 하나로 사람을 단정할 순 없다",
+            "effects": {"mental": -4, "tint": 2},
+            "flags": ["arc_sangchul_deduction_seen", "sangchul_clue_noted"],
+            "clues": ["clue_father_broker"],
+        },
+    )
+    final_choices = final.get("choices") or []
+    if len(final_choices) != len(expected_final):
+        raise ValueError("Sangchul deduction final must retain exactly two judgments")
+    for index, contract in enumerate(expected_final):
+        choice = final_choices[index]
+        if choice.get("follow_up_event"):
+            raise ValueError(f"Sangchul deduction final choice {index} must terminate the chain")
+        for key, value in contract.items():
+            if choice.get(key) != value:
+                raise ValueError(
+                    f"Sangchul deduction final choice {index} changed {key}: "
+                    f"{choice.get(key)!r}!={value!r}"
+                )
+
+    hidden = events["hidden_whole_picture"]
+    if hidden.get("background") != "current_housing" \
+            or hidden.get("portrait") != "player_normal":
+        raise ValueError("Sangchul whole-picture epilogue returned to a fixed goshiwon")
+
+
 def validate_sangchul_confrontation_contract(events: dict[str, dict[str, Any]]) -> None:
     """Keep every t60 response consequential without changing its total outcome."""
     root_id = "arc_sangchul_confrontation"
@@ -1723,6 +1821,7 @@ def main() -> int:
     validate_daeun_wedding_contract(ko_events)
     validate_jiyeon_wedding_gap_contract(ko_events)
     validate_sangchul_first_meeting_contract(ko_events)
+    validate_sangchul_deduction_contract(ko_events)
     validate_sangchul_confrontation_contract(ko_events)
     validate_father_hospital_contract(ko_events)
     validate_father_passing_contract(ko_events)

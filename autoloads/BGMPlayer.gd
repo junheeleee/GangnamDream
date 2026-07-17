@@ -541,7 +541,7 @@ func update_event_ambience(ev: Dictionary, cg_id: String = "") -> void:
 		clear_ambience()
 		return
 	var contract: Dictionary = scene_audio_contract(str(ev.get("id", "")), cg_id)
-	var ambience_key: String = str(contract.get("ambience", ""))
+	var ambience_key: String = _resolve_dynamic_ambience_key(str(contract.get("ambience", "")))
 	if ambience_key.is_empty():
 		ambience_key = _pick_ambience(ev)
 	set_ambience(ambience_key)
@@ -561,11 +561,22 @@ func play_scene_paragraph_music(ev: Dictionary, cg_id: String, paragraph_index: 
 
 func apply_ending_cg_ambience(cg_id: String) -> void:
 	var contract: Dictionary = scene_audio_contract("", cg_id)
-	var ambience_key: String = str(contract.get("ambience", ""))
+	var ambience_key: String = _resolve_dynamic_ambience_key(str(contract.get("ambience", "")))
 	if ambience_key.is_empty():
 		return
 	set_ambience(ambience_key)
 	set_season_ambience("")
+
+func _resolve_dynamic_ambience_key(key: String) -> String:
+	if key != "current_housing":
+		return key
+	match str(GameState.housing):
+		"gangnam", "apartment":
+			return "apartment"
+		"villa", "oneroom":
+			return "oneroom"
+		_:
+			return "room"
 
 func scene_audio_contract(event_id: String = "", cg_id: String = "") -> Dictionary:
 	var merged: Dictionary = {}
