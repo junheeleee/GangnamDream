@@ -157,6 +157,7 @@ const BACKGROUNDS = {
 	"convenience_night": "res://assets/backgrounds/convenience_store_night_v2.png",
 	"convenience_first_snow_exterior": "res://assets/backgrounds/convenience_store_exterior_first_snow.png",
 	"cafe":              "res://assets/backgrounds/cafe_seoul.png",
+	"gukbap_restaurant_night": "res://assets/backgrounds/gukbap_restaurant_night.png",
 	"street_day":        "res://assets/backgrounds/street_seoul_day.png",
 	"subway":            "res://assets/backgrounds/seoul_subway.png",
 	"seoul_bus_terminal_night": "res://assets/backgrounds/seoul_bus_terminal_night.png",

@@ -13,7 +13,7 @@
 
 ## 감사 결과
 
-- 활성 인벤토리: **192장** (`CG 57 / Portrait 57 / Background 78`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
+- 활성 인벤토리: **193장** (`CG 57 / Portrait 57 / Background 79`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
 - 전수 방법: 종류별 콘택트시트 22장으로 얼굴·실루엣·그레이딩·공간을 1차 비교하고, 손·반사·차량·카운터·정류장처럼 오독 위험이 있는 컷과 키 비주얼 10장은 원본 해상도로 다시 열었다.
 - 런타임 수리: 배경이 구워진 `main_character_50s.png`를 본편의 `player_hollow` 슬롯에서 제외하고 같은 민준의 투명 피로 초상으로 통합했다. 현재 이벤트가 없는 박재원의 죽은 초상 등록도 제거했다.
 - 이미지 수리: `ending_crypto_ghost.png`의 비현실적인 6면 모니터 벽을 정본 고시원 안의 휴대폰 1대·낡은 노트북 1대로 교체했다. 방 크기, 작은 불투명창, 침대/책상 방향, 민준 신원, 다섯 손가락, 무문자 차트를 원본에서 재검수했다.
@@ -42,6 +42,13 @@
 - 모드: OpenAI 내장 ImageGen 편집. 정본 `first_kiss_jiyeon.png`의 두 인물만 제거하고 차체 시점과 실내 구조를 보존했다.
 - 출시 경로: `assets/backgrounds/jiyeon_sedan_night_interior.png` (1280x800).
 - 검수: 왼쪽 운전대·검은 가죽·수평 대시보드·동일 차급, 인물/반사/상표/문자 부재, CG 전후 KO/EN 게임 크롭을 확인했다.
+
+### 현수 재회 전용 국밥집 배경
+
+- 모드: OpenAI 내장 ImageGen 편집. 기존 `restaurant_korean.png`는 화풍과 실내 밀도만 참조하고 고깃집 구조는 계승하지 않았다.
+- 생성 원본: `$HOME/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-d9718f8d-5cc7-4b24-b31d-8da461d7cb04.png`.
+- 출시 경로: `assets/backgrounds/gukbap_restaurant_night.png` (1280x800).
+- 검수: 전경 빈 두 사람 식탁·금속 물컵 2개·수저통, 열린 탕 주방, 젖은 옛 고시원 골목, 무그릴·무고기·무음식·무상표·무문자·무주연 대역을 원본 해상도에서 확인했다. 배경 손님은 저대비 익명 인물로만 남는다.
 
 ## 키 비주얼 상위 10컷
 
@@ -237,6 +244,7 @@
 | Background | `assets/backgrounds/racetrack_track_view.png` | `racetrack_track` | 1280x800 | no | `c227e7e5b95d` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/realestate_office.png` | `realestate_office` | 1280x800 | no | `6812946f1d84` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/regional_train_window_summer.png` | `ktx_window`, `regional_train_window` | 1280x800 | no | `72b77ff89bdb` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
+| Background | `assets/backgrounds/gukbap_restaurant_night.png` | `gukbap_restaurant_night` | 1280x800 | no | `b11e247d4bb9` | PASS-B | 빈 두 사람 식탁·물컵 2개·수저통, 열린 탕 주방, 옛 고시원 골목, 무그릴·무고기·무음식·무문자·무주연 대역 확인. |
 | Background | `assets/backgrounds/restaurant_korean.png` | `restaurant` | 1280x800 | no | `6bfbb44882d4` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/rooftop_daytime.png` | `rooftop_day` | 1280x800 | no | `dae74239d78c` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/rooftop_night.png` | `rooftop_night` | 1280x800 | no | `4afecc8f14ce` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
@@ -257,4 +265,4 @@
 | Background | `assets/backgrounds/year3_hangang_winter_night.png` | `year3_hangang_winter_night` | 1280x800 | no | `b8387ccb4707` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/year4_winter_rooftop.png` | `year4_winter_rooftop` | 1280x800 | no | `46803837d191` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 
-Inventory: 57 CG / 57 portraits / 77 backgrounds / 191 total.
+Inventory: 57 CG / 57 portraits / 79 backgrounds / 193 total.

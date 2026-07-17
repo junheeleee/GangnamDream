@@ -154,6 +154,29 @@ if GameState.flags.get("just_critical_event", false):
 
 ---
 
+## 2026-07-17 현수 재회 전용 국밥집 배경
+
+- **최종 경로**: `assets/backgrounds/gukbap_restaurant_night.png`
+- **생성 방식**: OpenAI 내장 ImageGen 편집
+- **화풍 참조**: `assets/backgrounds/restaurant_korean.png`
+- **생성 원본**: `/Users/junheelee/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-d9718f8d-5cc7-4b24-b31d-8da461d7cb04.png`
+- **최종 SHA-256**: `b11e247d4bb91730e42f2c10858886d9d107c535fde017c6b0c959756ae5d`
+- **용도**: `hyunsu_reunion_meet`. 현재 주거에서 이어진 메시지 장면이 실제 대면으로 전환됐음을 공간 자체로 증명한다.
+- **프롬프트 잠금**:
+
+```text
+Serious full-anime Korean manhwa visual-novel illustration with believable adult proportions, controlled clean linework, painterly cel shading, matte paper grain, desaturated charcoal and concrete-gray palette, restrained warm practical light, subtle cool-blue Seoul-night reflections, quiet social-reality atmosphere, high environmental detail without photoreal DSLR rendering.
+
+Gangnam Ink visual language: desaturated Korean visual novel/manhwa realism, concrete gray and charcoal palette, matte paper grain, subtle ink-wash contrast, controlled linework with painterly cel shading, restrained cinematic lighting, no glossy mobile-game colors, no photoreal DSLR look, no text, no logos, no UI, quiet Seoul social-reality mood.
+
+Edit the reference into a modest independent gukbap soup restaurant at night in an old Seoul goshiwon alley. Preserve the grounded mature illustration language, but remove every built-in charcoal grill, meat dish, barbecue hood, and upscale restaurant cue. Show a physically coherent open stainless soup kitchen, worn walls, simple square tables and chairs, and a wet narrow alley visible through the entrance. Reserve the foreground as an empty two-person table before the meal arrives: exactly two plain metal water cups, one utensil caddy, and an optional tissue box only. Do not place soup, food, menu cards, receipts, phones, bags, or personal belongings on that table. Keep screen-right usable for Hyunsu's portrait and the lower third safe for dialogue. Distant patrons may appear only as low-contrast anonymous back-view or profile silhouettes with no readable faces. No Minjun, Hyunsu, named-character proxy, waiter in the foreground, readable Korean or English text, brand, logo, watermark, camera-facing person, deformed furniture, grill, meat, or already-served gukbap. 16:10 composition for a final 1280x800 background.
+```
+
+- **후처리**: 생성 원본 1586x992를 `sips -z 800 1280`으로 1280x800 정규화했다.
+- **합격 기준**: 전경 식탁에 음식이 아직 없고, 내장 그릴·고기·판독 문자·상표·주연 대역이 없다. 현수 초상과 하단 대화창을 합성한 KO/EN 실제 게임 화면에서 주방·골목·빈 두 자리의 공간 동사가 유지돼야 한다.
+
+---
+
 ## 2026-07-12 카페 인물 분리 초상
 
 두 초상은 Codex 내장 ImageGen으로 각각 생성한 뒤, 단색 `#00ff00` 배경을 알파로 제거하고 512x768로 축소했다. 외부 사진이나 실존 인물 레퍼런스는 사용하지 않았다.

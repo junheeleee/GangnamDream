@@ -24,6 +24,7 @@ Updated on 2026-07-12 for eight final-life P0 ending CGs, physically correct Jiy
 Updated on 2026-07-13 for the `late_call` P1 ending CG, final Jiyeon mirror-pose correction, and separate KTX-interior/station semantic IDs.
 Updated on 2026-07-13 for the `lonely_rich` P1 dining-table CG and its strict separation from `empty_house`.
 Updated on 2026-07-16 for Father wardrobe separation and the Father-passing Seoul KTX platform/empty Changwon hospital room backgrounds.
+Updated on 2026-07-17 for Hyunsu's dedicated old-goshiwon-alley gukbap reunion background.
 
 ## Use These Assets
 
@@ -379,6 +380,11 @@ Updated on 2026-07-16 for Father wardrobe separation and the Father-passing Seou
 - `assets/backgrounds/restaurant_korean.png`
   - Modest Korean restaurant interior for family meals, awkward meetings, and relationship conversation scenes.
   - Status: P2 regenerated with distant faceless diner ambience only.
+
+- `assets/backgrounds/gukbap_restaurant_night.png`
+  - Modest independent soup restaurant in the old goshiwon alley for Hyunsu's accounting-route reunion.
+  - Foreground two-person table is empty except for water cups and a utensil caddy because the meal has not arrived yet; no built-in grills, meat, readable menu, brand, or named-character proxy.
+  - Status: approved 1280x800 Gangnam Ink background with low-contrast anonymous diners only.
 
 - `assets/backgrounds/company_dinner_restaurant.png`
   - Korean samgyeopsal company-dinner background for hoesik/workplace loyalty-pressure scenes.
