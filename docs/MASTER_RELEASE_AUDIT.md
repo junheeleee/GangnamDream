@@ -19,9 +19,9 @@ Adjacent and top-selling execution references are assigned by surface in `docs/S
 
 | Surface | Current baseline | What the number does not prove |
 |---|---:|---|
-| KO events | 1,552 | Consistent prose, reachability, pacing, or relevance |
-| EN event overlays | 1,552 | Native English voice or cultural clarity |
-| Choices per language | 3,429 | Meaningful tradeoffs or delayed consequence |
+| KO events | 1,555 | Consistent prose, reachability, pacing, or relevance |
+| EN event overlays | 1,555 | Native English voice or cultural clarity |
+| Choices per language | 3,433 | Meaningful tradeoffs or delayed consequence |
 | Endings | 35 | Distinct emotional payoff or bespoke presentation |
 | Explicit event/result CG links | 32 | Enough climax imagery for a commercial VN |
 | Background PNG assets | 79 | Canon continuity, physical logic, or correct event mapping |
@@ -67,7 +67,7 @@ The reproducible source is `python3 tools/game_structure_audit.py`; the design r
 
 | Measured surface | Baseline | Release implication |
 |---|---:|---|
-| Events / authored / random pool | 1,552 / 375 / 1,177 | Stop adding volume; curate priority and causality |
+| Events / authored / random pool | 1,555 / 378 / 1,177 | Stop adding volume; curate priority and causality |
 | Representative authored path | 117-120 beats | Enough material for one run; pacing and selection are the work |
 | Manual AP ceiling | 480 commits | Cannot ship as the default dramatic rhythm |
 | Estimated montage stopping weeks | 141-142 | Current compression is insufficient |

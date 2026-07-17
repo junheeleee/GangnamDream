@@ -29,6 +29,7 @@ func _ready() -> void:
 	_original_time_scale = Engine.time_scale
 
 	_check_artifact_choice_visibility()
+	_check_choice_item_grants()
 	_check_jaehyuk_follow_up()
 	_check_jiyeon_third_path()
 	_check_daeun_post_it_route()
@@ -45,7 +46,7 @@ func _ready() -> void:
 			push_error("HIDDEN_FEATURE_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("HIDDEN_FEATURE_CHECK_OK artifact_choices=3 follow_up=1 jiyeon_dik=1 daeun_route=1 dawn=5 drawer=1 keepsakes=6")
+	print("HIDDEN_FEATURE_CHECK_OK artifact_choices=3 choice_grants=3 follow_up=1 jiyeon_dik=1 daeun_route=1 dawn=5 drawer=1 keepsakes=6")
 	get_tree().quit(0)
 
 func _check_artifact_choice_visibility() -> void:
@@ -78,6 +79,25 @@ func _check_artifact_choice_visibility() -> void:
 				_fail("%s third choice is not gated by %s" % [event_id, item_id])
 	print("HIDDEN_FEATURE_EVIDENCE artifact_choices KO_EN=3x2 hidden_without_item=1 visible_with_item=1")
 	story.free()
+
+func _check_choice_item_grants() -> void:
+	LocaleManager.language = "ko"
+	DataRegistry.reload()
+	var event: Dictionary = DataRegistry.find_event("arc_sangchul_01_answer")
+	var choices: Array = event.get("choices", []) as Array
+	if choices.size() != 3:
+		_fail("Sangchul first-meeting grant fixture must have three answers")
+		return
+	for index in range(choices.size()):
+		_reset_run()
+		GameState.apply_choice(event, choices[index] as Dictionary)
+		var quantity := 0
+		for owned in GameState.inventory:
+			if str(owned.get("id", "")) == "artifact_sangchul_card":
+				quantity = int(owned.get("quantity", 0))
+		if quantity != 1:
+			_fail("Sangchul answer %d granted card quantity %d instead of 1" % [index, quantity])
+	print("HIDDEN_FEATURE_EVIDENCE choice_grants sangchul_card=3x1")
 
 func _check_jaehyuk_follow_up() -> void:
 	LocaleManager.language = "ko"

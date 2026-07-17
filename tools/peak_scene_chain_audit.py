@@ -58,7 +58,7 @@ MIN_DIALOGUE_TURNS = 2
 MIN_PANELS = 6
 
 # Ratchet updated only after a peak is expanded and its rendered QA passes.
-BASELINE_DEBT = 4
+BASELINE_DEBT = 3
 REQUIRED_PASS = {
     "arc_daeun_first_night",
     "arc_daeun_wedding_night",
@@ -74,6 +74,7 @@ REQUIRED_PASS = {
     "arc_jiyeon_wedding_gap",
     "arc_jiyeon_verdict",
     "arc_daeun_final_choice",
+    "arc_sangchul_01_meet",
     "arc_sangchul_confrontation",
     "father_hospital_wait",
     "arc_father_passing",
@@ -1085,6 +1086,109 @@ def validate_jiyeon_wedding_gap_contract(events: dict[str, dict[str, Any]]) -> N
                 )
 
 
+def validate_sangchul_first_meeting_contract(events: dict[str, dict[str, Any]]) -> None:
+    """Preserve the original three answers after a state-free first encounter."""
+    root_id = "arc_sangchul_01_meet"
+    measure_id = "arc_sangchul_01_measure"
+    coffee_id = "arc_sangchul_01_coffee"
+    final_id = "arc_sangchul_01_answer"
+    expected_paths = {
+        (root_id, measure_id, final_id),
+        (root_id, coffee_id, final_id),
+    }
+    actual_paths = {path.event_ids for path in walk_paths(events, root_id)}
+    if actual_paths != expected_paths:
+        rendered = ", ".join(" -> ".join(path) for path in sorted(actual_paths))
+        raise ValueError(f"Sangchul first-meeting paths changed: {rendered}")
+
+    visual_contract = {
+        root_id: ("realestate_office", "sangchul_normal"),
+        measure_id: ("realestate_office", "sangchul_serious"),
+        coffee_id: ("realestate_office", "sangchul_normal"),
+        final_id: ("realestate_office", "sangchul_serious"),
+    }
+    for event_id, (background, portrait) in visual_contract.items():
+        event = events[event_id]
+        if event.get("background") != background or event.get("portrait") != portrait:
+            raise ValueError(
+                f"Sangchul first-meeting visual continuity changed at {event_id}"
+            )
+
+    root_choices = events[root_id].get("choices") or []
+    if len(root_choices) != 2:
+        raise ValueError("Sangchul first meeting must offer exactly two opening attitudes")
+    expected_followups = [measure_id, coffee_id]
+    buildup_choices = list(root_choices)
+    for index, choice in enumerate(root_choices):
+        if choice.get("follow_up_event") != expected_followups[index]:
+            raise ValueError(f"Sangchul first-meeting opening choice {index} changed branch")
+    for branch_id in (measure_id, coffee_id):
+        choices = events[branch_id].get("choices") or []
+        if len(choices) != 1 or choices[0].get("follow_up_event") != final_id:
+            raise ValueError(f"{branch_id} must rejoin the final why question")
+        buildup_choices.extend(choices)
+    for index, choice in enumerate(buildup_choices):
+        for forbidden in (
+            "effects", "cast_effects", "flags", "give_items", "opportunity",
+            "tendency", "route",
+        ):
+            if choice.get(forbidden):
+                raise ValueError(
+                    f"Sangchul first-meeting buildup choice {index} commits {forbidden} early"
+                )
+
+    final_choices = events[final_id].get("choices") or []
+    expected_final = (
+        {
+            "text": '"아버지한테... 한 번은 보여드리고 싶어서요."',
+            "effects": {"mental": 6, "intelligence": 3, "tint": 5},
+            "cast_effects": {
+                "sangchul": {
+                    "met": True,
+                    "affinity": 15,
+                    "stage": "interested",
+                    "flags": ["knows_dad_reason"],
+                }
+            },
+            "flags": ["arc_sangchul_met_seen"],
+            "give_items": ["artifact_sangchul_card"],
+        },
+        {
+            "text": '"돈 있으면 다 강남 가고 싶지 않나요?"',
+            "effects": {"intelligence": 4, "mental": -2},
+            "cast_effects": {
+                "sangchul": {"met": True, "affinity": 6, "stage": "watching"}
+            },
+            "flags": ["arc_sangchul_met_seen"],
+            "give_items": ["artifact_sangchul_card"],
+        },
+        {
+            "text": '"지는 게 싫어서요. 이 도시한테." (솔직하게 꺼냈다)',
+            "effects": {"mental": 7, "intelligence": 2, "tint": 3},
+            "cast_effects": {
+                "sangchul": {"met": True, "affinity": 12, "stage": "interested"}
+            },
+            "flags": ["arc_sangchul_met_seen", "pride_motive"],
+            "give_items": ["artifact_sangchul_card"],
+        },
+    )
+    if len(final_choices) != len(expected_final):
+        raise ValueError("Sangchul final why question must retain exactly three answers")
+    for index, contract in enumerate(expected_final):
+        choice = final_choices[index]
+        if choice.get("follow_up_event"):
+            raise ValueError(f"Sangchul final answer {index} must terminate the chain")
+        for key, value in contract.items():
+            if choice.get(key) != value:
+                raise ValueError(
+                    f"Sangchul final answer {index} changed {key}: "
+                    f"{choice.get(key)!r}!={value!r}"
+                )
+    father_result = str(final_choices[0].get("result_text", ""))
+    if "창원요." not in father_result or "반 박자 멈췄다" not in father_result:
+        raise ValueError("Sangchul first meeting lost the Changwon recognition seed")
+
+
 def validate_sangchul_confrontation_contract(events: dict[str, dict[str, Any]]) -> None:
     """Keep every t60 response consequential without changing its total outcome."""
     root_id = "arc_sangchul_confrontation"
@@ -1618,6 +1722,7 @@ def main() -> int:
     validate_daeun_proposal_contract(ko_events)
     validate_daeun_wedding_contract(ko_events)
     validate_jiyeon_wedding_gap_contract(ko_events)
+    validate_sangchul_first_meeting_contract(ko_events)
     validate_sangchul_confrontation_contract(ko_events)
     validate_father_hospital_contract(ko_events)
     validate_father_passing_contract(ko_events)

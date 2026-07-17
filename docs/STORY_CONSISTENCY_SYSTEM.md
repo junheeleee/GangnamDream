@@ -74,10 +74,10 @@ CGs remain authoritative. A split-screen phone CG may hide the standing portrait
 
 The first pass intentionally covers high-risk material instead of pretending all 1,500 events are migrated:
 
-- Ledger events: 88 / 1,552 (5.7%)
-- Typed logic contracts: 29
+- Ledger events: 92 / 1,555 (5.9%)
+- Typed logic contracts: 31
 - Remote/media presentation contracts: 39
-- Authored transition contracts: 31 / 31
+- Authored transition contracts: 35 / 35
 - Unauthorized demo location jumps: 0
 - Unclassified non-player portraits with phone/message titles: 0
 - Demo father-contact logic targets: 4 / 4
@@ -87,6 +87,8 @@ The migrated Father peaks are now explicit as well. The prologue call remains at
 Seasonal romance now uses the same movement grammar. Both sea routes remain physically inside their KTX through the root and either dialogue branch, then use an explicit arrival cue before the final East Sea or Haeundae decision owns the beach CG and state. Both fireworks routes remain at the same Hangang riverside before launch; their buildup has no particles, explosion cue, or state change, and the final decision alone owns the first visible and audible shell.
 
 Daeun's first-night peak is a same-location contract across four events. `current_housing` resolves once from the live save and remains the physical room through both buildup routes and the final decision, whether Minjun currently rents a goshiwon, one-room, villa, or apartment. Daeun remains in the same navy convenience-store polo and beige cardigan; only her acting progresses from normal to sad to a restrained smile. The scene uses city light and indoor rain-on-glass audio, never rain particles inside the room. Buildup choices cannot alter state, and only the terminal choice owns the legacy relationship, affinity, mental, Moral Tint, and completion outcomes.
+
+Sangchul's first meeting is likewise a same-location contract across its two opening routes and final answer. All four events remain in the early-spring Sinchon real-estate office with Sangchul physically present in the same clothes; only his expression moves from measured warmth to seriousness. The measure/coffee buildup cannot change stats, flags, cast stage, or artifact ownership. Only the three final answers may advance Sangchul, preserve the Changwon pause seed, and grant exactly one business card.
 
 These are ratchets. `minimum_ledger_events` cannot fall, and the unclassified communication count cannot rise above zero.
 

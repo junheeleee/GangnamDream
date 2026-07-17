@@ -291,6 +291,26 @@
       "mode": "same_location",
       "from_location": "current_housing",
       "to_location": "current_housing"
+    },
+    "arc_sangchul_01_meet->arc_sangchul_01_measure": {
+      "mode": "same_location",
+      "from_location": "realestate_office",
+      "to_location": "realestate_office"
+    },
+    "arc_sangchul_01_meet->arc_sangchul_01_coffee": {
+      "mode": "same_location",
+      "from_location": "realestate_office",
+      "to_location": "realestate_office"
+    },
+    "arc_sangchul_01_measure->arc_sangchul_01_answer": {
+      "mode": "same_location",
+      "from_location": "realestate_office",
+      "to_location": "realestate_office"
+    },
+    "arc_sangchul_01_coffee->arc_sangchul_01_answer": {
+      "mode": "same_location",
+      "from_location": "realestate_office",
+      "to_location": "realestate_office"
     }
   },
   "events": {
@@ -349,6 +369,53 @@
         "participants": ["player", "daeun"],
         "portrait_role": "present",
         "expected_portrait": "daeun_smile"
+      }
+    },
+    "arc_sangchul_01_meet": {
+      "logic": {
+        "legacy": {
+          "forbids_flags": ["arc_sangchul_met_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "realestate_office",
+        "participants": ["player", "sangchul"],
+        "portrait_role": "present",
+        "expected_portrait": "sangchul_normal"
+      }
+    },
+    "arc_sangchul_01_measure": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "realestate_office",
+        "participants": ["player", "sangchul"],
+        "portrait_role": "present",
+        "expected_portrait": "sangchul_serious"
+      }
+    },
+    "arc_sangchul_01_coffee": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "realestate_office",
+        "participants": ["player", "sangchul"],
+        "portrait_role": "present",
+        "expected_portrait": "sangchul_normal"
+      }
+    },
+    "arc_sangchul_01_answer": {
+      "logic": {
+        "legacy": {
+          "forbids_flags": ["arc_sangchul_met_seen"],
+          "produces_all": ["arc_sangchul_met_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "realestate_office",
+        "participants": ["player", "sangchul"],
+        "portrait_role": "present",
+        "expected_portrait": "sangchul_serious"
       }
     },
     "story_prologue_dad": {

@@ -1,5 +1,5 @@
 {
-  "version": 18,
+  "version": 19,
   "tag_coverage": [
     "climate",
     "season",
@@ -99,6 +99,10 @@
 
     {"id": "arc_father_medication", "background": "goshiwon_room", "portrait": "player_tired"},
     {"id": "callback_called_about_medication_echo", "background": "goshiwon_room", "portrait": "father_home"},
+    {"id": "arc_sangchul_01_meet", "background": "realestate_office", "portrait": "sangchul_normal", "cg": null},
+    {"id": "arc_sangchul_01_measure", "background": "realestate_office", "portrait": "sangchul_serious", "cg": null},
+    {"id": "arc_sangchul_01_coffee", "background": "realestate_office", "portrait": "sangchul_normal", "cg": null},
+    {"id": "arc_sangchul_01_answer", "background": "realestate_office", "portrait": "sangchul_serious", "cg": null},
     {"id": "arc_sangchul_03_network", "background": "sangchul_private_dining", "portrait": "sangchul_normal"},
     {"id": "arc_daeun_the_test", "background": "cafe", "portrait": "sangchul_normal"},
     {"id": "arc_sangchul_confrontation", "background": "cafe", "portrait": "sangchul_serious"},

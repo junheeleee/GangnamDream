@@ -99,7 +99,46 @@
   {
     "id": "arc_sangchul_01_meet",
     "title": "Why Gangnam?",
-    "description": "A small real estate office in the Sinchon alleys.\nWalked in to check studio apartment prices.\n\nA man in his fifties looked at {name} over his glasses.\n'A studio? With your budget, the deposit's going to be tight.'\n\nTrue — nothing to say to that. About to leave when he called.\n'Have a coffee before you go. No customers anyway.'\n\nHe made instant coffee, then asked:\n'Where do you want to live?'\n'...Gangnam.'\nHe didn't smile or sneer. Just looked.\n'Why?'",
+    "description": "Late March, just after the rain. A real estate office in a Sinchon alley displayed rows of studio floor plans behind its glass door.\n\n{name} had come to see whether leaving the goshiwon was even possible.\n\"Ten million won down. 550,000 a month. Utilities extra.\"\nThe numbers on the calculator were far ahead of the money in the bank.\n\nThe man across the desk looked from {name}'s empty hands to the worn sneakers. Early fifties, with a restrained Chungcheong cadence.\n\"With your situation right now, this will be difficult.\"\n\n{name} pushed back the chair. Without looking up from the paperwork, the man spoke again.\n\"Wait. No reason to throw the person out just because the room is out of reach.\"\n\nHe took out two paper cups.\n\"I can offer you hot coffee. The rain just stopped.\"\n\nOnly the wall clock and tires pushing through wet pavement filled the office.",
+    "choices": [
+      {
+        "text": "\"How did you know my situation?\"",
+        "result_text": "The man finally looked up from the papers.\n\n\"Was I wrong?\"\n\n{name} said nothing. The man nodded toward the empty chair. His gaze felt less like kindness now and more like confirmation."
+      },
+      {
+        "text": "\"I'll just have the coffee, then.\"",
+        "result_text": "The paper cup was hot enough to sting, and the instant coffee was far too sweet.\n\nWhen {name} sat again, the man pulled out the opposite chair. Why he would spend time on someone who could not afford a room remained unclear."
+      }
+    ],
+    "description_orthodox": "Late March, just after the rain. A real estate office in a Sinchon alley displayed rows of studio floor plans behind its glass door.\n\nTen million won down, 550,000 a month, plus utilities. The numbers still refused to work with the current income.\n\nThe man across the desk watched the order of {name}'s calculations.\n\"With your situation right now, this will be difficult.\"\n\nWhat had given it away? Or did everyone who came looking for a room wear the same face?\n\nWhen {name} stood, the man took out two paper cups.\n\"I can offer you hot coffee. The rain just stopped.\"\n\nFirst, determine whether this was someone to learn from or someone to guard against.",
+    "description_unorthodox": "Late March, just after the rain. Rows of studio floor plans hung behind wet glass in a Sinchon alley.\n\nTen million won down. 550,000 a month. Still too far.\n\n\"With your situation right now, this will be difficult.\" The man across the desk had read {name} before reading the calculator.\n\nEyes that priced people. In front of eyes like that, it was hard to tell whether standing first meant losing or staying seated did.\n\nThe man took out two paper cups.\n\"I can offer you hot coffee. The rain just stopped.\"\n\n{name} looked once more at the eyes, not the cup."
+  },
+  {
+    "id": "arc_sangchul_01_measure",
+    "title": "The Measure of a Person",
+    "description": "The man turned the calculator toward {name}. The nameplate on the desk read Im Sangchul.\n\n\"You asked about the deposit first. You checked the utilities twice. You looked at the rent before the windows.\"\n\n\"And that tells you everything?\"\n\n\"People with money ask which way to go. People trying to survive ask where the exits are.\"\nSangchul tapped the cold numbers once with his fingertip.\n\n{name} drew the worn toes of the sneakers beneath the chair.\n\"Do you measure everyone like that?\"\n\n\"No. That's why I offered coffee.\"\n\nIt was an odd amount of certainty from a stranger. Sangchul did not press for an answer. He waited until the steam above the paper cup had nearly disappeared.",
+    "choices": [
+      {
+        "text": "\"Then how far do you think I can go?\"",
+        "result_text": "Sangchul's faint smile vanished.\n\n\"That isn't mine to decide.\"\n\nHe slid a blank memo sheet to the center. This time his eyes were not measuring. They were waiting."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_01_coffee",
+    "title": "One Paper Cup",
+    "description": "Sangchul moved the stack of contracts aside. Somehow the desk looked wider when he served coffee than when he showed rooms.\n\n\"Everyone who comes to Seoul looking for a room starts with numbers. How much to move in. How much to earn to survive.\"\n\n\"Those aren't the wrong questions.\"\n\n\"No. But people who enter with nothing but numbers are usually the first to leave because of them.\"\n\nA car split the wet road beyond the glass. Sangchul waited until the sound passed before continuing.\n\n\"You ask everyone looking for a room why they want to endure Seoul?\"\n\n\"I do. If all I do is unlock doors, I'm just the man with the keys.\"\n\nIt was impossible to tell whether this was kindness or a sales pitch. But Sangchul had not brought out a single listing. He was waiting for {name}'s answer instead.",
+    "choices": [
+      {
+        "text": "\"That question, I can answer.\"",
+        "result_text": "Sangchul slid a blank memo sheet to the center. No price. No address.\n\n\"Good. Then we can talk about rooms afterward.\"\n\nFor the first time, the broker's cadence left his voice."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_01_answer",
+    "title": "The Question",
+    "description": "Sangchul balanced a pen on the blank memo sheet.\n\n\"Where do you want to live?\"\n\n\"...Gangnam.\"\n\nNo laugh. No admiration. Only the long hiss of tires over wet pavement beyond the glass.\n\n\"Gangnam isn't one neighborhood. An apartment? An address? Something to show people?\"\n\n{name} opened his mouth, then closed it. Every answer that came to mind sounded borrowed from someone else.\n\nSangchul set down the pen.\n\"That's why I'm asking. Why?\"",
     "choices": [
       {
         "text": "'I... want to show my father. Just once.'",
@@ -113,9 +152,7 @@
         "text": "Honest — 'Because I refuse to lose. To this city.'",
         "result_text": "Im Sangchul set down his coffee.\n'...I said the same thing thirty years ago. Coming up from South Chungcheong Province.'\n'That stubbornness got me this far. Two buildings. But I also lost a lot.'\n'You — don't lose anything. If you're going, go without losing.'\nThere was a weight in that."
       }
-    ],
-    "description_orthodox": "A small real estate office in the Sinchon alleys.\n\nDeposit-to-rent ratio. Still doesn't add up.\n\nThe man behind the desk seemed to read {name}'s math.\n\"With your situation right now, it'll be tough.\"\n\nHow did he know? Or maybe everyone walks in wearing this same look.\n\n\"Have a cup of coffee before you go.\" {name} sat down.\nSomething told him there was something to learn from this man.",
-    "description_unorthodox": "A small real estate office in the Sinchon alleys.\n\nAsked the going rate for a studio. Still a long way off.\n\n\"With your situation right now, it'll be tough.\" A man in his fifties. Blunt way of talking.\n\n{name} looked at him a moment. This guy knows something — just a feeling.\nThirty years in Seoul teaches you a few things. Some of them are worth more than money.\nHe took the coffee."
+    ]
   },
   {
     "id": "arc_jiyeon_01_crash",

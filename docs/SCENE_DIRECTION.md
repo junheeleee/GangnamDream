@@ -40,7 +40,7 @@
 | 이벤트 id | direction | 의도 |
 |---|---|---|
 | `arc_temptation_01` | `{"sting":"cold"}` | 12초 타이머가 이미 연출의 본체 — 봉투가 열리는 순간의 서늘함 한 음만 |
-| `arc_sangchul_01_meet` | `{"camera":"drift"}` | 첫 만남은 가볍게 — 관찰의 카메라 |
+| `arc_sangchul_01_meet` → 두 전희 → `arc_sangchul_01_answer` | `{"pace":"slow","camera":"drift"}` → `{"pace":"slow","camera":"slow_zoom","hold":0.8}` | 같은 초봄 사무실에서 관찰과 불편한 호의를 쌓고 세 가지 `왜` 직전에만 가까워진다. 악역 스팅·판결 음악은 금지 |
 | `arc_sangchul_deduction` | `{"pace":"beat","sting":"reveal"}` | 단서가 맞물리는 박자, 진실의 현 |
 | `arc_father_06_confession` | `{"pace":"slow","amb":"duck"}` | 고백은 느리게, 세상은 반 발 물러나서 |
 | `arc_sangchul_confrontation` | `{"pace":"slow","amb":"cut","sting":"cold","hold":1.5}` | 풀스택 ① — 게임의 척추 대면 |

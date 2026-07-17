@@ -223,6 +223,36 @@ func _ready() -> void:
 		_fail("Daeun first-night music restarted across the scene chain")
 		return
 
+	# 상철의 첫 호의는 정체를 미리 규정하지 않는다. 같은 사무실 룸톤만
+	# 세 링크에 이어지고, 훗날 대면 장면의 reckoning 곡은 아직 나오지 않는다.
+	BGMPlayer.enter_ambient_bed(0.0)
+	var sangchul_meet: Dictionary = DataRegistry.find_event("arc_sangchul_01_meet")
+	var sangchul_measure: Dictionary = DataRegistry.find_event("arc_sangchul_01_measure")
+	if sangchul_meet.is_empty() or sangchul_measure.is_empty():
+		_fail("Sangchul first-meeting scene audio fixtures are missing")
+		return
+	BGMPlayer.update_event_ambience(sangchul_meet)
+	BGMPlayer.begin_story_event(sangchul_meet)
+	BGMPlayer.play_scene_paragraph_music(sangchul_meet, "", 0)
+	await get_tree().create_timer(0.18).timeout
+	if BGMPlayer._current_ambience_key != "office" \
+			or BGMPlayer._music_mode != "ambient" or not BGMPlayer._current_key.is_empty() \
+			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("Sangchul first meeting telegraphed a score instead of office room tone")
+		return
+	var sangchul_office_pos := BGMPlayer._ambience_player.get_playback_position()
+	BGMPlayer.update_event_ambience(sangchul_measure)
+	BGMPlayer.begin_story_event(sangchul_measure)
+	BGMPlayer.play_scene_paragraph_music(sangchul_measure, "", 0)
+	await get_tree().process_frame
+	if BGMPlayer._current_ambience_key != "office" \
+			or BGMPlayer._ambience_player.get_playback_position() + 0.05 < sangchul_office_pos:
+		_fail("Sangchul first-meeting office ambience restarted across the chain")
+		return
+	if BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("Sangchul first-meeting branch started directive music")
+		return
+
 	# 신부 입장 반응은 장면 진입음이 아니라 해당 문단에서 한 번만 겹친다.
 	AudioManager.begin_story_audio_event("arc_daeun_wedding_walk")
 	AudioManager.play_scene_paragraph_cues(

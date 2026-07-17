@@ -32,6 +32,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=wedding-morning --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=commitment --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=breakup --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=sangchul-first-meet --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=sangchul-confrontation --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=father-ktx --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=season-peaks --lang=en
@@ -106,6 +107,7 @@ const QA_SCOPE_HOME_PEAKS := "home_peaks"
 const QA_SCOPE_WEDDING_MORNING := "wedding_morning"
 const QA_SCOPE_COMMITMENT := "commitment"
 const QA_SCOPE_BREAKUP := "breakup"
+const QA_SCOPE_SANGCHUL_FIRST_MEET := "sangchul_first_meet"
 const QA_SCOPE_SANGCHUL_CONFRONTATION := "sangchul_confrontation"
 const QA_SCOPE_FATHER_PEAKS := "father_peaks"
 const QA_SCOPE_FATHER_KTX := "father_ktx"
@@ -381,6 +383,16 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_breakup_surfaces(lang, "breakup_en_" if lang == "en" else "breakup_ko_")
 		print("SCREENSHOT_QA_DONE scope=breakup lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_SANGCHUL_FIRST_MEET:
+		var lang := _qa_language("en")
+		await _shot_sangchul_first_meeting_surfaces(
+				lang, "sangchul_meet_en_" if lang == "en" else "sangchul_meet_ko_")
+		if _qa_failed:
+			get_tree().quit(1)
+			return
+		print("SCREENSHOT_QA_DONE scope=sangchul-first-meet lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_SANGCHUL_CONFRONTATION:
@@ -749,6 +761,12 @@ func _qa_scope() -> String:
 		if arg in ["breakup", "break-up", "romance-breakup", "romance_breakup", "--breakup",
 				"qa=breakup", "--qa=breakup", "scope=breakup", "--scope=breakup"]:
 			return QA_SCOPE_BREAKUP
+		if arg in ["sangchul-first-meet", "sangchul_first_meet", "sangchul-meet",
+				"--sangchul-first-meet", "--sangchul_first_meet",
+				"qa=sangchul-first-meet", "--qa=sangchul-first-meet",
+				"qa=sangchul_first_meet", "--qa=sangchul_first_meet",
+				"scope=sangchul-first-meet", "--scope=sangchul-first-meet"]:
+			return QA_SCOPE_SANGCHUL_FIRST_MEET
 		if arg in ["sangchul", "sangchul-confrontation", "sangchul_confrontation",
 				"--sangchul-confrontation", "qa=sangchul-confrontation",
 				"--qa=sangchul-confrontation", "scope=sangchul-confrontation"]:
@@ -1302,6 +1320,10 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 		"arc_daeun_first_night_silence": "rain_room",
 		"arc_daeun_first_night_truth": "rain_room",
 		"arc_daeun_first_night_decision": "rain_room",
+		"arc_sangchul_01_meet": "office",
+		"arc_sangchul_01_measure": "office",
+		"arc_sangchul_01_coffee": "office",
+		"arc_sangchul_01_answer": "office",
 	}
 	if expected_event_ambience.has(event_id):
 		var expected_ambience := str(expected_event_ambience[event_id])
@@ -1316,6 +1338,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	_assert_breakup_visual_state(story, event_id, select_choice)
 	_assert_transport_visual_state(story, event_id)
 	_assert_daeun_first_night_visual_state(story, event_id)
+	_assert_sangchul_first_meeting_visual_state(story, event_id)
 	_assert_living_scene_state(story, event_id)
 	if _qa_scope() == QA_SCOPE_TEXT_MATERIAL:
 		_assert_story_text_material(story)
@@ -3979,6 +4002,163 @@ func _assert_breakup_state(
 	for flag_id in forbidden_flags:
 		if GameState.flags.get(str(flag_id), false):
 			_fail("%s breakup %s incorrectly set %s." % [route, label, str(flag_id)])
+
+func _assert_sangchul_first_meeting_visual_state(story: Node, event_id: String) -> void:
+	var expected_portraits := {
+		"arc_sangchul_01_meet": "sangchul_normal",
+		"arc_sangchul_01_measure": "sangchul_serious",
+		"arc_sangchul_01_coffee": "sangchul_normal",
+		"arc_sangchul_01_answer": "sangchul_serious",
+	}
+	if not expected_portraits.has(event_id):
+		return
+	if str(story.get("_event_background_id")) != "realestate_office":
+		_fail("Sangchul first meeting left the real-estate office at %s." % event_id)
+		return
+	if bool(story.get("_current_uses_cg")):
+		_fail("Sangchul first meeting unexpectedly replaced the reusable room with a CG at %s." % event_id)
+		return
+	var portrait := story.get("_portrait") as TextureRect
+	var actual_path := portrait.texture.resource_path \
+			if is_instance_valid(portrait) and portrait.texture != null else ""
+	var expected_path := ImageRegistry.get_portrait(str(expected_portraits[event_id]))
+	if actual_path != expected_path:
+		_fail("Sangchul first-meeting portrait expected %s, got %s at %s." % [
+			expected_path, actual_path, event_id])
+	if _qa_scope() == QA_SCOPE_SANGCHUL_FIRST_MEET:
+		if BGMPlayer._music_mode != "ambient" or not BGMPlayer._current_key.is_empty() \
+				or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+			_fail("Sangchul first meeting telegraphed directive music at %s." % event_id)
+
+func _shot_sangchul_first_meeting_surfaces(
+		lang: String = "en", prefix: String = "sangchul_meet_en_") -> void:
+	_set_qa_language(lang)
+
+	_prepare_sangchul_first_meeting_qa_state()
+	await _shot_story_event("arc_sangchul_01_meet", prefix + "01_office_intro", "", 0.55, true)
+	_prepare_sangchul_first_meeting_qa_state()
+	await _shot_story_event("arc_sangchul_01_meet", prefix + "02_opening_choices", "", 0.45, true, true)
+	_prepare_sangchul_first_meeting_qa_state()
+	await _shot_story_event(
+			"arc_sangchul_01_meet", prefix + "03_measure_opening_result", "", 0.45,
+			true, true, 0, 0, false, 2)
+	_assert_sangchul_first_meeting_uncommitted("measure opening")
+
+	_prepare_sangchul_first_meeting_qa_state()
+	await _shot_story_event("arc_sangchul_01_measure", prefix + "04_measure_branch", "", 0.55, true, true)
+	_prepare_sangchul_first_meeting_qa_state()
+	await _shot_story_event(
+			"arc_sangchul_01_measure", prefix + "05_measure_rejoin_result", "", 0.45,
+			true, true, 0, 0, false, 2)
+	_assert_sangchul_first_meeting_uncommitted("measure rejoin")
+
+	_prepare_sangchul_first_meeting_qa_state()
+	await _shot_story_event(
+			"arc_sangchul_01_meet", prefix + "06_coffee_opening_result", "", 0.45,
+			true, true, 1, 0, false, 1)
+	_assert_sangchul_first_meeting_uncommitted("coffee opening")
+	_prepare_sangchul_first_meeting_qa_state()
+	await _shot_story_event("arc_sangchul_01_coffee", prefix + "07_coffee_branch", "", 0.55, true, true)
+	_assert_sangchul_first_meeting_uncommitted("coffee branch")
+
+	_prepare_sangchul_first_meeting_qa_state()
+	await _shot_story_event("arc_sangchul_01_answer", prefix + "08_final_question", "", 0.55, true)
+	_prepare_sangchul_first_meeting_qa_state()
+	await _shot_story_event("arc_sangchul_01_answer", prefix + "09_final_choices", "", 0.45, true, true)
+	for outcome in [
+		[0, "10_father_result", 66, 43, 5.0, 15, "interested", true, false],
+		[1, "11_money_result", 58, 44, 0.0, 6, "watching", false, false],
+		[2, "12_pride_result", 67, 42, 3.0, 12, "interested", false, true],
+	]:
+		_prepare_sangchul_first_meeting_qa_state()
+		await _shot_story_event(
+				"arc_sangchul_01_answer", prefix + str(outcome[1]), "", 0.45,
+				true, true, int(outcome[0]), 0, false, 4)
+		_assert_sangchul_first_meeting_state(
+				str(outcome[1]), int(outcome[2]), int(outcome[3]), float(outcome[4]),
+				int(outcome[5]), str(outcome[6]), bool(outcome[7]), bool(outcome[8]))
+	await _verify_sangchul_first_meeting_controller()
+
+func _verify_sangchul_first_meeting_controller() -> void:
+	_prepare_sangchul_first_meeting_qa_state()
+	GameState.pending_story_queue = ["arc_sangchul_01_meet"]
+	var packed := load("res://scenes/StoryMode.tscn") as PackedScene
+	var story := packed.instantiate()
+	get_tree().root.add_child.call_deferred(story)
+	await get_tree().process_frame
+	if story.has_method("_set_auto_mode"):
+		story._set_auto_mode(false, false)
+	await _settle(0.35)
+	for _step in range(30):
+		if bool(story.get("_showing_choices")):
+			break
+		await _press_qa_action("ui_accept")
+		await _settle(0.10)
+	if not bool(story.get("_showing_choices")):
+		_fail("Sangchul first meeting could not reach its opening choices by controller input.")
+	else:
+		var choice_box := story.get("_choice_box") as Control
+		var focus := get_viewport().gui_get_focus_owner() as Button
+		if not is_instance_valid(focus) or not is_instance_valid(choice_box) \
+				or not choice_box.is_ancestor_of(focus):
+			_fail("Sangchul first meeting did not focus a controller-selectable opening choice.")
+		else:
+			await _press_qa_action("ui_accept")
+			await _settle(0.25)
+			if bool(story.get("_showing_choices")):
+				_fail("Sangchul first-meeting controller accept did not select the focused choice.")
+			_assert_sangchul_first_meeting_uncommitted("controller opening")
+	_remove_nodes_by_script("res://scenes/StoryMode.gd")
+	GameState.pending_story_queue.clear()
+	await _settle(0.25)
+
+func _prepare_sangchul_first_meeting_qa_state() -> void:
+	_prepare_main_game_state()
+	GameState.turn = 10
+	GameState.month = 3
+	GameState.mental = 60
+	GameState.intelligence = 40
+	GameState.moral_tint = 0.0
+	for flag in ["arc_sangchul_met_seen", "pride_motive"]:
+		GameState.flags.erase(flag)
+	if GameState.has_item("artifact_sangchul_card"):
+		GameState.remove_item("artifact_sangchul_card", 99)
+	_set_cast_relation_for_qa("sangchul", 0, false)
+	GameState.cast["sangchul"]["stage"] = "unknown"
+	GameState.cast["sangchul"]["flags"] = {}
+
+func _assert_sangchul_first_meeting_uncommitted(label: String) -> void:
+	var sangchul: Dictionary = GameState.cast.get("sangchul", {})
+	if int(GameState.mental) != 60 or int(GameState.intelligence) != 40 \
+			or not is_equal_approx(GameState.moral_tint, 0.0):
+		_fail("Sangchul first meeting %s changed stats before the final why." % label)
+	if GameState.flags.get("arc_sangchul_met_seen", false) \
+			or GameState.flags.get("pride_motive", false) \
+			or GameState.has_item("artifact_sangchul_card"):
+		_fail("Sangchul first meeting %s committed a terminal flag or card early." % label)
+	if bool(sangchul.get("met", true)) or int(sangchul.get("affinity", -999)) != 0 \
+			or str(sangchul.get("stage", "")) != "unknown" \
+			or not (sangchul.get("flags", {}) as Dictionary).is_empty():
+		_fail("Sangchul first meeting %s changed the relationship before the final why." % label)
+
+func _assert_sangchul_first_meeting_state(
+		label: String, mental: int, intelligence: int, tint: float, affinity: int,
+		stage: String, knows_dad: bool, pride: bool) -> void:
+	var sangchul: Dictionary = GameState.cast.get("sangchul", {})
+	var cast_flags: Dictionary = sangchul.get("flags", {}) as Dictionary
+	if int(GameState.mental) != mental or int(GameState.intelligence) != intelligence \
+			or not is_equal_approx(GameState.moral_tint, tint):
+		_fail("Sangchul first meeting %s totals changed: mental=%s intelligence=%s tint=%s." % [
+			label, GameState.mental, GameState.intelligence, GameState.moral_tint])
+	if not GameState.flags.get("arc_sangchul_met_seen", false) \
+			or bool(GameState.flags.get("pride_motive", false)) != pride \
+			or not GameState.has_item("artifact_sangchul_card"):
+		_fail("Sangchul first meeting %s lost its completion, pride, or card contract." % label)
+	if not bool(sangchul.get("met", false)) or int(sangchul.get("affinity", -999)) != affinity \
+			or str(sangchul.get("stage", "")) != stage \
+			or bool(cast_flags.get("knows_dad_reason", false)) != knows_dad:
+		_fail("Sangchul first meeting %s changed cast state: affinity=%s stage=%s flags=%s." % [
+			label, sangchul.get("affinity"), sangchul.get("stage"), cast_flags])
 
 func _shot_sangchul_confrontation_surfaces(lang: String = "en", prefix: String = "sangchul_en_") -> void:
 	_set_qa_language(lang)

@@ -918,7 +918,16 @@ func apply_choice(event, choice):
 	if not event.is_empty() and event.has("id"):
 		events_seen += 1
 		EventManager.register_directed_event(event)
-	apply_effects(choice.get("effects", {}))
+	var effect_payload: Dictionary = choice.get("effects", {}) as Dictionary
+	apply_effects(effect_payload)
+	# Choice JSON historically owns item grants at the choice root. Keep support
+	# for the older effects.give_items form without granting a duplicate when a
+	# migrated choice happens to declare the same item in both places.
+	var effect_grants: Array = effect_payload.get("give_items", []) as Array
+	for raw_item_id in choice.get("give_items", []):
+		var item_id := str(raw_item_id)
+		if not effect_grants.has(raw_item_id) and not effect_grants.has(item_id):
+			add_item(item_id, 1)
 	for rel_effect in choice.get("relationship_effects", []):
 		apply_relationship_effect(rel_effect)
 	for investment_effect in choice.get("investment_effects", []):
