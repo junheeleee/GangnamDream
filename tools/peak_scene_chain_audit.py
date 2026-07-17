@@ -58,7 +58,7 @@ MIN_DIALOGUE_TURNS = 2
 MIN_PANELS = 6
 
 # Ratchet updated only after a peak is expanded and its rendered QA passes.
-BASELINE_DEBT = 2
+BASELINE_DEBT = 1
 REQUIRED_PASS = {
     "arc_daeun_first_night",
     "arc_daeun_wedding_night",
@@ -77,6 +77,7 @@ REQUIRED_PASS = {
     "arc_sangchul_01_meet",
     "arc_sangchul_deduction",
     "arc_sangchul_confrontation",
+    "arc_sangchul_casino_invite",
     "father_hospital_wait",
     "arc_father_passing",
     "arc_father_call_on_ktx",
@@ -1287,6 +1288,109 @@ def validate_sangchul_deduction_contract(events: dict[str, dict[str, Any]]) -> N
         raise ValueError("Sangchul whole-picture epilogue returned to a fixed goshiwon")
 
 
+def validate_sangchul_casino_contract(events: dict[str, dict[str, Any]]) -> None:
+    """Keep the invitation remote, state-free until the reply, and physically earned."""
+    root_id = "arc_sangchul_casino_invite"
+    people_id = "arc_sangchul_casino_people"
+    cost_id = "arc_sangchul_casino_cost"
+    final_id = "arc_sangchul_casino_decision"
+    arrival_id = "arc_sangchul_casino_arrival"
+    expected_paths = {
+        (root_id, people_id, final_id, arrival_id),
+        (root_id, people_id, final_id),
+        (root_id, cost_id, final_id, arrival_id),
+        (root_id, cost_id, final_id),
+    }
+    actual_paths = {path.event_ids for path in walk_paths(events, root_id)}
+    if actual_paths != expected_paths:
+        raise ValueError(
+            "Sangchul casino invitation paths changed: "
+            f"actual={sorted(actual_paths)!r} expected={sorted(expected_paths)!r}"
+        )
+
+    visual_contract = {
+        root_id: ("current_housing", "sangchul_serious"),
+        people_id: ("current_housing", "sangchul_serious"),
+        cost_id: ("current_housing", "player_tired"),
+        final_id: ("current_housing", "player_tired"),
+        arrival_id: ("jeongseon_casino_exterior", "sangchul_normal"),
+    }
+    for event_id, (background, portrait) in visual_contract.items():
+        event = events[event_id]
+        if event.get("background") != background or event.get("portrait") != portrait \
+                or event.get("cg"):
+            raise ValueError(f"Sangchul casino visual continuity changed at {event_id}")
+
+    root_choices = events[root_id].get("choices") or []
+    if len(root_choices) != 2 or [choice.get("follow_up_event") for choice in root_choices] != [
+        people_id,
+        cost_id,
+    ]:
+        raise ValueError("Sangchul casino invitation must open into people and cost routes")
+    buildup_choices = list(root_choices)
+    for branch_id in (people_id, cost_id):
+        choices = events[branch_id].get("choices") or []
+        if len(choices) != 1 or choices[0].get("follow_up_event") != final_id:
+            raise ValueError(f"{branch_id} must rejoin the final casino reply")
+        buildup_choices.extend(choices)
+    arrival_choices = events[arrival_id].get("choices") or []
+    if len(arrival_choices) != 1 or arrival_choices[0].get("follow_up_event"):
+        raise ValueError("Sangchul casino arrival must close after one state-free threshold beat")
+    buildup_choices.extend(arrival_choices)
+    for index, choice in enumerate(buildup_choices):
+        for forbidden in (
+            "effects", "cast_effects", "flags", "clues", "give_items", "opportunity",
+            "tendency", "route",
+        ):
+            if choice.get(forbidden):
+                raise ValueError(
+                    f"Sangchul casino buildup choice {index} commits {forbidden} early"
+                )
+
+    expected_final = (
+        {
+            "text": '"같이 가겠습니다." (따라가기로 했다)',
+            "effects": {"social_skill": 1, "mental": -2},
+            "cast_effects": {"sangchul": {"affinity": 8}},
+            "flags": ["arc_sangchul_casino_seen", "casino_club_introduced"],
+            "follow_up_event": arrival_id,
+            "result_text": (
+                "답장을 보내자 1분도 지나지 않아 승차권 QR과 좌석 번호가 도착했다.\n\n"
+                '"내일 오전 6시 40분. 늦지 마요."\n\n'
+                "방 안은 그대로였지만, 내일 아침의 방향만 정선 쪽으로 바뀌었다."
+            ),
+        },
+        {
+            "text": '"지금은 아닌 것 같아요." (정중히 사양했다)',
+            "effects": {"mental": 1},
+            "flags": ["arc_sangchul_casino_seen"],
+            "follow_up_event": "",
+            "result_text": (
+                '상철 씨가 "언제든 준비되면"이라고 했다.\n'
+                "제안은 열려있다는 말처럼 들렸다."
+            ),
+        },
+    )
+    final_choices = events[final_id].get("choices") or []
+    if len(final_choices) != len(expected_final):
+        raise ValueError("Sangchul casino reply must retain exactly two terminal decisions")
+    for index, contract in enumerate(expected_final):
+        choice = final_choices[index]
+        for key, value in contract.items():
+            if choice.get(key, "" if key == "follow_up_event" else None) != value:
+                raise ValueError(
+                    f"Sangchul casino final choice {index} changed {key}: "
+                    f"{choice.get(key)!r}!={value!r}"
+                )
+
+    arrival_description = str(events[arrival_id].get("description", ""))
+    if not arrival_description.startswith("정선행 버스가 산길 끝 정류장에 멈췄다."):
+        raise ValueError("Sangchul casino arrival lost its explicit bus-arrival cue")
+    if '"이기는 게 목표가 아니야. 얼마나 잃지 않느냐가 전략이에요."' \
+            not in arrival_description:
+        raise ValueError("Sangchul casino arrival lost the canonical baccarat warning")
+
+
 def validate_sangchul_confrontation_contract(events: dict[str, dict[str, Any]]) -> None:
     """Keep every t60 response consequential without changing its total outcome."""
     root_id = "arc_sangchul_confrontation"
@@ -1822,6 +1926,7 @@ def main() -> int:
     validate_jiyeon_wedding_gap_contract(ko_events)
     validate_sangchul_first_meeting_contract(ko_events)
     validate_sangchul_deduction_contract(ko_events)
+    validate_sangchul_casino_contract(ko_events)
     validate_sangchul_confrontation_contract(ko_events)
     validate_father_hospital_contract(ko_events)
     validate_father_passing_contract(ko_events)

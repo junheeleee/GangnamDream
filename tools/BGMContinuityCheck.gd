@@ -309,6 +309,56 @@ func _ready() -> void:
 		_fail("whole-picture epilogue did not resolve the current apartment ambience")
 		return
 
+	# 카지노 초대는 상철이 방 안에 들어온 대면 장면이 아니라 문자다.
+	# 실제 주거 룸톤만 이어지고, 수락 뒤 버스가 도착한 다음에야 거리로 바뀐다.
+	BGMPlayer.enter_ambient_bed(0.0)
+	var casino_invite: Dictionary = DataRegistry.find_event("arc_sangchul_casino_invite")
+	var casino_people: Dictionary = DataRegistry.find_event("arc_sangchul_casino_people")
+	var casino_cost: Dictionary = DataRegistry.find_event("arc_sangchul_casino_cost")
+	var casino_reply: Dictionary = DataRegistry.find_event("arc_sangchul_casino_decision")
+	var casino_arrival: Dictionary = DataRegistry.find_event("arc_sangchul_casino_arrival")
+	if casino_invite.is_empty() or casino_people.is_empty() or casino_cost.is_empty() \
+			or casino_reply.is_empty() or casino_arrival.is_empty():
+		_fail("Sangchul casino invitation audio fixtures are missing")
+		return
+	GameState.housing = "gosiwon"
+	BGMPlayer.update_event_ambience(casino_invite)
+	if BGMPlayer._current_ambience_key != "room":
+		_fail("Sangchul casino invitation did not resolve goshiwon room tone")
+		return
+	GameState.housing = "oneroom"
+	BGMPlayer.update_event_ambience(casino_invite)
+	BGMPlayer.begin_story_event(casino_invite)
+	BGMPlayer.play_scene_paragraph_music(casino_invite, "", 0)
+	await get_tree().create_timer(0.18).timeout
+	if BGMPlayer._current_ambience_key != "oneroom" \
+			or BGMPlayer._music_mode != "ambient" or not BGMPlayer._current_key.is_empty() \
+			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("Sangchul casino text exposed directive music or the wrong home ambience")
+		return
+	var invite_room_pos := BGMPlayer._ambience_player.get_playback_position()
+	for invitation_link in [casino_people, casino_cost, casino_reply]:
+		BGMPlayer.update_event_ambience(invitation_link)
+		BGMPlayer.begin_story_event(invitation_link)
+		BGMPlayer.play_scene_paragraph_music(invitation_link, "", 0)
+		await get_tree().process_frame
+		if BGMPlayer._current_ambience_key != "oneroom" \
+				or BGMPlayer._ambience_player.get_playback_position() + 0.05 < invite_room_pos:
+			_fail("Sangchul casino home ambience restarted across the invitation chain")
+			return
+		if BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+			_fail("Sangchul casino invitation started reckoning before arrival")
+			return
+		invite_room_pos = BGMPlayer._ambience_player.get_playback_position()
+	BGMPlayer.update_event_ambience(casino_arrival)
+	BGMPlayer.begin_story_event(casino_arrival)
+	BGMPlayer.play_scene_paragraph_music(casino_arrival, "", 0)
+	await get_tree().process_frame
+	if BGMPlayer._current_ambience_key != "street" \
+			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("Sangchul casino bus arrival did not switch cleanly to exterior ambience")
+		return
+
 	# 신부 입장 반응은 장면 진입음이 아니라 해당 문단에서 한 번만 겹친다.
 	AudioManager.begin_story_audio_event("arc_daeun_wedding_walk")
 	AudioManager.play_scene_paragraph_cues(

@@ -75,10 +75,10 @@ CGs remain authoritative. A split-screen phone CG may hide the standing portrait
 
 The first pass intentionally covers high-risk material instead of pretending all 1,500 events are migrated:
 
-- Ledger events: 97 / 1,558 (6.2%)
-- Typed logic contracts: 33
-- Remote/media presentation contracts: 39
-- Authored transition contracts: 39 / 39
+- Ledger events: 102 / 1,562 (6.5%)
+- Typed logic contracts: 35
+- Remote/media presentation contracts: 41
+- Authored transition contracts: 44 / 44
 - Unauthorized demo location jumps: 0
 - Unclassified non-player portraits with phone/message titles: 0
 - Demo father-contact logic targets: 4 / 4
@@ -92,6 +92,8 @@ Daeun's first-night peak is a same-location contract across four events. `curren
 Sangchul's first meeting is likewise a same-location contract across its two opening routes and final answer. All four events remain in the early-spring Sinchon real-estate office with Sangchul physically present in the same clothes; only his expression moves from measured warmth to seriousness. The measure/coffee buildup cannot change stats, flags, cast stage, or artifact ownership. Only the three final answers may advance Sangchul, preserve the Changwon pause seed, and grant exactly one business card.
 
 Sangchul's deduction is an `internal` same-location chain in Minjun's live housing. The paid-in-full certificate and archived-business routes contain no state changes and converge only after the case number, Mapo address, dates, and registered owner agree. The final 15-second choice alone may establish or defer the truth and grant `clue_father_broker`. `hidden_whole_picture` uses the same live-housing rule instead of inventing a return to the goshiwon.
+
+Sangchul's casino invitation starts as a `message` in Minjun's live housing, moves through two `internal` calculation routes, and reaches the original local reply without changing location or room tone. Only the accepted reply issues a ticket and follows an `explicit_move` contract to the Jeongseon exterior, where Sangchul resets to `in_person`. The declined route cannot show the casino or imply that Sangchul entered Minjun's room.
 
 These are ratchets. `minimum_ledger_events` cannot fall, and the unclassified communication count cannot rise above zero.
 

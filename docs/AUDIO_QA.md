@@ -131,7 +131,7 @@ Latest targeted result:
 
 ```text
 AUDIO_SOURCE_AUDIT_OK assets=113 bgm=14 ambience=46 sfx=53 external_samples=0
-SCENE_AUDIO_CONTRACT_OK cg=57 peak_events=99 ambience_keys=37 music_keys=14
+SCENE_AUDIO_CONTRACT_OK cg=57 peak_events=103 ambience_keys=37 music_keys=14
 GAME_AUDIO_CONTRACT_OK physical=17 stages=19 activities=7 activity_music=1 human_layers=9 direct_pad=9
 AUDIO_ASSET_CHECK_OK bgm=14 ambience=46 sfx=53
 LAUNCH_AUDIO_OK stereo=2 rate=48000 duration=1.55
@@ -140,6 +140,8 @@ GAME_AUDIO_RUNTIME_OK physical=17 ambience_roundtrip=3 varied_playback=1 casino_
 MORAL_AMBIENCE_CHECK_OK profiles=9
 STORY_AUDIO_SETTINGS_CHECK_OK text=3 locale=ko/en timer_pause=11996 result_replay=0
 ```
+
+Sangchul's casino invitation remains on the live housing room tone through the message, both thought routes, and the final reply without restarting or introducing villain music. Only an accepted reply, ticket confirmation, and explicit bus arrival may switch the camera to `jeongseon_casino_exterior` and the street bed.
 
 ## Human Listening Gate
 

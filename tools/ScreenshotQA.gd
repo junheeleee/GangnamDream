@@ -34,6 +34,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=breakup --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=sangchul-first-meet --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=sangchul-deduction --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=sangchul-casino --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=sangchul-confrontation --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=father-ktx --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=season-peaks --lang=en
@@ -110,6 +111,7 @@ const QA_SCOPE_COMMITMENT := "commitment"
 const QA_SCOPE_BREAKUP := "breakup"
 const QA_SCOPE_SANGCHUL_FIRST_MEET := "sangchul_first_meet"
 const QA_SCOPE_SANGCHUL_DEDUCTION := "sangchul_deduction"
+const QA_SCOPE_SANGCHUL_CASINO := "sangchul_casino"
 const QA_SCOPE_SANGCHUL_CONFRONTATION := "sangchul_confrontation"
 const QA_SCOPE_FATHER_PEAKS := "father_peaks"
 const QA_SCOPE_FATHER_KTX := "father_ktx"
@@ -405,6 +407,16 @@ func _ready() -> void:
 			get_tree().quit(1)
 			return
 		print("SCREENSHOT_QA_DONE scope=sangchul-deduction lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_SANGCHUL_CASINO:
+		var lang := _qa_language("en")
+		await _shot_sangchul_casino_surfaces(
+				lang, "sangchul_casino_en_" if lang == "en" else "sangchul_casino_ko_")
+		if _qa_failed:
+			get_tree().quit(1)
+			return
+		print("SCREENSHOT_QA_DONE scope=sangchul-casino lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_SANGCHUL_CONFRONTATION:
@@ -785,6 +797,12 @@ func _qa_scope() -> String:
 				"qa=sangchul_deduction", "--qa=sangchul_deduction",
 				"scope=sangchul-deduction", "--scope=sangchul-deduction"]:
 			return QA_SCOPE_SANGCHUL_DEDUCTION
+		if arg in ["sangchul-casino", "sangchul_casino", "sangchul-invite",
+				"--sangchul-casino", "--sangchul_casino",
+				"qa=sangchul-casino", "--qa=sangchul-casino",
+				"qa=sangchul_casino", "--qa=sangchul_casino",
+				"scope=sangchul-casino", "--scope=sangchul-casino"]:
+			return QA_SCOPE_SANGCHUL_CASINO
 		if arg in ["sangchul", "sangchul-confrontation", "sangchul_confrontation",
 				"--sangchul-confrontation", "qa=sangchul-confrontation",
 				"--qa=sangchul-confrontation", "scope=sangchul-confrontation"]:
@@ -1358,6 +1376,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	_assert_daeun_first_night_visual_state(story, event_id)
 	_assert_sangchul_first_meeting_visual_state(story, event_id)
 	_assert_sangchul_deduction_visual_state(story, event_id)
+	_assert_sangchul_casino_visual_state(story, event_id)
 	_assert_living_scene_state(story, event_id)
 	if _qa_scope() == QA_SCOPE_TEXT_MATERIAL:
 		_assert_story_text_material(story)
@@ -4405,6 +4424,273 @@ func _drive_story_to_event_choices(story: Node, event_id: String) -> bool:
 	_fail("Controller route could not reach %s choices; stopped at %s." % [
 		event_id, str(current.get("id", ""))])
 	return false
+
+func _assert_sangchul_casino_visual_state(story: Node, event_id: String) -> void:
+	var expected_portraits := {
+		"arc_sangchul_casino_invite": "sangchul_serious",
+		"arc_sangchul_casino_people": "sangchul_serious",
+		"arc_sangchul_casino_cost": "player_tired",
+		"arc_sangchul_casino_decision": "player_tired",
+		"arc_sangchul_casino_arrival": "sangchul_normal",
+	}
+	if not expected_portraits.has(event_id):
+		return
+	var expected_background := "jeongseon_casino_exterior" \
+			if event_id == "arc_sangchul_casino_arrival" \
+			else ImageRegistry.infer_background_id({}, GameState.housing)
+	var actual_background := str(story.get("_event_background_id"))
+	if actual_background != expected_background:
+		_fail("%s background expected %s, got %s." % [
+			event_id, expected_background, actual_background])
+	if bool(story.get("_current_uses_cg")):
+		_fail("Sangchul casino invitation unexpectedly used a baked CG at %s." % event_id)
+	var portrait := story.get("_portrait") as TextureRect
+	var actual_path := portrait.texture.resource_path \
+			if is_instance_valid(portrait) and portrait.texture != null else ""
+	var expected_path := ImageRegistry.get_portrait(str(expected_portraits[event_id]))
+	if actual_path != expected_path:
+		_fail("%s portrait expected %s, got %s." % [event_id, expected_path, actual_path])
+
+	var presentation: Dictionary = story.get("_current_presentation")
+	var badge := story.get("_communication_badge") as Control
+	var badge_label := story.get("_communication_label") as Label
+	if event_id in ["arc_sangchul_casino_invite", "arc_sangchul_casino_people"]:
+		if str(presentation.get("channel", "")) != "message" \
+				or str(presentation.get("scene_location", "")) != "current_housing" \
+				or str(presentation.get("remote_actor", "")) != "sangchul" \
+				or str(presentation.get("portrait_role", "")) != "remote" \
+				or not bool(story.get("_portrait_remote_inset")):
+			_fail("%s does not read as Sangchul's remote text message." % event_id)
+		var expected_badge := "MESSAGE" if LocaleManager.is_english() else "메시지"
+		if not is_instance_valid(badge) or not badge.visible \
+				or not is_instance_valid(badge_label) or badge_label.text != expected_badge:
+			_fail("%s is missing its localized message badge." % event_id)
+	elif event_id in ["arc_sangchul_casino_cost", "arc_sangchul_casino_decision"]:
+		if str(presentation.get("channel", "")) != "internal" \
+				or str(presentation.get("scene_location", "")) != "current_housing" \
+				or str(presentation.get("portrait_role", "")) != "local" \
+				or bool(story.get("_portrait_remote_inset")):
+			_fail("%s does not read as Minjun's local internal calculation." % event_id)
+		if is_instance_valid(badge) and badge.visible:
+			_fail("%s incorrectly retained a communication badge." % event_id)
+	else:
+		if str(presentation.get("channel", "")) != "in_person" \
+				or str(presentation.get("scene_location", "")) != "jeongseon_casino_exterior" \
+				or str(presentation.get("portrait_role", "")) != "present" \
+				or bool(story.get("_portrait_remote_inset")):
+			_fail("Sangchul casino arrival does not read as physical co-presence.")
+		if is_instance_valid(badge) and badge.visible:
+			_fail("Sangchul casino arrival retained the earlier message badge.")
+
+	if _qa_scope() != QA_SCOPE_SANGCHUL_CASINO:
+		return
+	var expected_ambience := "street"
+	if event_id != "arc_sangchul_casino_arrival":
+		expected_ambience = "room"
+		match str(GameState.housing):
+			"gangnam", "apartment":
+				expected_ambience = "apartment"
+			"villa", "oneroom":
+				expected_ambience = "oneroom"
+	if str(BGMPlayer._current_ambience_key) != expected_ambience:
+		_fail("%s expected %s ambience, got %s." % [
+			event_id, expected_ambience, BGMPlayer._current_ambience_key])
+	if BGMPlayer._music_mode != "ambient" or not BGMPlayer._current_key.is_empty() \
+			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("%s started directive music during the casino invitation." % event_id)
+
+func _shot_sangchul_casino_surfaces(
+		lang: String = "en", prefix: String = "sangchul_casino_en_") -> void:
+	_set_qa_language(lang)
+
+	_prepare_sangchul_casino_qa_state("gosiwon")
+	await _shot_story_event(
+			"arc_sangchul_casino_invite", prefix + "01_gosiwon_message", "", 0.55, true)
+	_prepare_sangchul_casino_qa_state("oneroom")
+	await _shot_story_event(
+			"arc_sangchul_casino_invite", prefix + "02_oneroom_opening_choices", "",
+			0.45, true, true)
+	_assert_sangchul_casino_uncommitted("opening choices")
+	_prepare_sangchul_casino_qa_state("apartment")
+	GameState.flags["sangchul_truth_known"] = true
+	await _shot_story_event(
+			"arc_sangchul_casino_invite", prefix + "02b_known_apartment_message", "",
+			0.55, true, false, -1, 4)
+	_assert_sangchul_casino_uncommitted("known-truth message")
+
+	_prepare_sangchul_casino_qa_state("oneroom")
+	await _shot_story_event(
+			"arc_sangchul_casino_invite", prefix + "03_people_opening_result", "",
+			0.45, true, true, 0, 0, false, 2)
+	_assert_sangchul_casino_uncommitted("people opening")
+	_prepare_sangchul_casino_qa_state("oneroom")
+	await _shot_story_event(
+			"arc_sangchul_casino_people", prefix + "04_people_branch", "",
+			0.45, true, true)
+	_assert_sangchul_casino_uncommitted("people branch")
+	_prepare_sangchul_casino_qa_state("oneroom")
+	await _shot_story_event(
+			"arc_sangchul_casino_people", prefix + "05_people_rejoin_result", "",
+			0.45, true, true, 0, 0, false, 2)
+	_assert_sangchul_casino_uncommitted("people rejoin")
+
+	_prepare_sangchul_casino_qa_state("oneroom")
+	await _shot_story_event(
+			"arc_sangchul_casino_invite", prefix + "06_cost_opening_result", "",
+			0.45, true, true, 1, 0, false, 2)
+	_assert_sangchul_casino_uncommitted("cost opening")
+	_prepare_sangchul_casino_qa_state("oneroom")
+	await _shot_story_event(
+			"arc_sangchul_casino_cost", prefix + "07_cost_branch", "",
+			0.45, true, true)
+	_assert_sangchul_casino_uncommitted("cost branch")
+
+	_prepare_sangchul_casino_qa_state("oneroom")
+	await _shot_story_event(
+			"arc_sangchul_casino_decision", prefix + "08_reply_intro", "", 0.55, true)
+	_prepare_sangchul_casino_qa_state("oneroom")
+	await _shot_story_event(
+			"arc_sangchul_casino_decision", prefix + "09_reply_choices", "",
+			0.45, true, true)
+	_assert_sangchul_casino_uncommitted("reply choices")
+	_prepare_sangchul_casino_qa_state("oneroom")
+	await _shot_story_event(
+			"arc_sangchul_casino_decision", prefix + "10_accept_ticket_result", "",
+			0.45, true, true, 0, 0, false, 3)
+	_assert_sangchul_casino_state("accept", true)
+
+	_prepare_sangchul_casino_accepted_qa_state("oneroom")
+	await _shot_story_event(
+			"arc_sangchul_casino_arrival", prefix + "11_exterior_arrival_cue", "", 0.55, true)
+	_assert_sangchul_casino_state("arrival", true)
+	_prepare_sangchul_casino_accepted_qa_state("oneroom")
+	await _shot_story_event(
+			"arc_sangchul_casino_arrival", prefix + "12_exterior_baccarat_rule", "",
+			0.55, true, false, -1, 1)
+	_assert_sangchul_casino_state("arrival strategy", true)
+
+	_prepare_sangchul_casino_qa_state("oneroom")
+	await _shot_story_event(
+			"arc_sangchul_casino_decision", prefix + "13_decline_result", "",
+			0.45, true, true, 1, 0, false, 1)
+	_assert_sangchul_casino_state("decline", false)
+
+	await _verify_sangchul_casino_controller(0, 0, "gosiwon")
+	await _verify_sangchul_casino_controller(1, 1, "oneroom")
+
+func _prepare_sangchul_casino_qa_state(housing_id: String) -> void:
+	_prepare_main_game_state()
+	GameState.turn = 23
+	GameState.month = 6
+	GameState.week_of_month = 3
+	GameState.housing = housing_id
+	GameState.money = 3_500_000.0
+	GameState.mental = 60
+	GameState.social_skill = 20
+	GameState.moral_tint = 0.0
+	GameState.flags["arc_sangchul_02_seen"] = true
+	GameState.flags.erase("arc_sangchul_casino_seen")
+	GameState.flags.erase("casino_club_introduced")
+	_set_cast_relation_for_qa("sangchul", 30, true)
+	GameState.cast["sangchul"]["stage"] = "mentoring"
+	GameState.cast["sangchul"]["flags"] = {}
+
+func _prepare_sangchul_casino_accepted_qa_state(housing_id: String) -> void:
+	_prepare_sangchul_casino_qa_state(housing_id)
+	GameState.social_skill = 21
+	GameState.mental = 58
+	GameState.flags["arc_sangchul_casino_seen"] = true
+	GameState.flags["casino_club_introduced"] = true
+	GameState.cast["sangchul"]["affinity"] = 38
+
+func _assert_sangchul_casino_uncommitted(label: String) -> void:
+	var sangchul: Dictionary = GameState.cast.get("sangchul", {})
+	if not is_equal_approx(GameState.money, 3_500_000.0) \
+			or int(GameState.mental) != 60 or int(GameState.social_skill) != 20 \
+			or not is_equal_approx(GameState.moral_tint, 0.0):
+		_fail("Sangchul casino %s changed stats before the final reply." % label)
+	if GameState.flags.get("arc_sangchul_casino_seen", false) \
+			or GameState.flags.get("casino_club_introduced", false):
+		_fail("Sangchul casino %s committed a terminal flag early." % label)
+	if int(sangchul.get("affinity", -999)) != 30 \
+			or str(sangchul.get("stage", "")) != "mentoring":
+		_fail("Sangchul casino %s changed the relationship before the final reply." % label)
+
+func _assert_sangchul_casino_state(label: String, accepted: bool) -> void:
+	var expected_mental := 58 if accepted else 61
+	var expected_social := 21 if accepted else 20
+	var expected_affinity := 38 if accepted else 30
+	var sangchul: Dictionary = GameState.cast.get("sangchul", {})
+	if not is_equal_approx(GameState.money, 3_500_000.0) \
+			or int(GameState.mental) != expected_mental \
+			or int(GameState.social_skill) != expected_social \
+			or int(sangchul.get("affinity", -999)) != expected_affinity \
+			or str(sangchul.get("stage", "")) != "mentoring":
+		_fail("Sangchul casino %s changed its terminal totals: money=%s mental=%s social=%s affinity=%s stage=%s." % [
+			label, GameState.money, GameState.mental, GameState.social_skill,
+			sangchul.get("affinity"), sangchul.get("stage")])
+	if not GameState.flags.get("arc_sangchul_casino_seen", false) \
+			or bool(GameState.flags.get("casino_club_introduced", false)) != accepted:
+		_fail("Sangchul casino %s changed its completion or introduction flags." % label)
+
+func _sangchul_casino_choices_focused(story: Node, label: String) -> bool:
+	var choice_box := story.get("_choice_box") as Control
+	var focus := get_viewport().gui_get_focus_owner() as Button
+	if not is_instance_valid(focus) or not is_instance_valid(choice_box) \
+			or not choice_box.is_ancestor_of(focus):
+		_fail("Sangchul casino %s did not focus a controller-selectable choice." % label)
+		return false
+	return true
+
+func _verify_sangchul_casino_controller(
+		root_choice: int, final_choice: int, housing_id: String) -> void:
+	_prepare_sangchul_casino_qa_state(housing_id)
+	GameState.pending_story_queue = ["arc_sangchul_casino_invite"]
+	var packed := load("res://scenes/StoryMode.tscn") as PackedScene
+	var story := packed.instantiate()
+	get_tree().root.add_child.call_deferred(story)
+	await get_tree().process_frame
+	if story.has_method("_set_auto_mode"):
+		story._set_auto_mode(false, false)
+	await _settle(0.30)
+	if not await _drive_story_to_event_choices(story, "arc_sangchul_casino_invite") \
+			or not _sangchul_casino_choices_focused(story, "opening"):
+		return
+	if root_choice == 1:
+		await _press_qa_action("ui_down")
+		await _settle(0.08)
+	await _press_qa_action("ui_accept")
+	await _settle(0.18)
+	_assert_sangchul_casino_uncommitted("controller opening %d" % root_choice)
+	var branch_id := "arc_sangchul_casino_people" \
+			if root_choice == 0 else "arc_sangchul_casino_cost"
+	if not await _drive_story_to_event_choices(story, branch_id) \
+			or not _sangchul_casino_choices_focused(story, "branch"):
+		return
+	await _press_qa_action("ui_accept")
+	await _settle(0.18)
+	_assert_sangchul_casino_uncommitted("controller branch %d" % root_choice)
+	if not await _drive_story_to_event_choices(story, "arc_sangchul_casino_decision") \
+			or not _sangchul_casino_choices_focused(story, "final reply"):
+		return
+	if final_choice == 1:
+		await _press_qa_action("ui_down")
+		await _settle(0.08)
+	await _press_qa_action("ui_accept")
+	await _settle(0.18)
+	_assert_sangchul_casino_state(
+			"controller %d/%d" % [root_choice, final_choice], final_choice == 0)
+	if final_choice == 0:
+		if not await _drive_story_to_event_choices(story, "arc_sangchul_casino_arrival") \
+				or not _sangchul_casino_choices_focused(story, "arrival threshold"):
+			return
+		_assert_sangchul_casino_visual_state(story, "arc_sangchul_casino_arrival")
+		await _press_qa_action("ui_accept")
+		await _settle(0.18)
+		_assert_sangchul_casino_state("controller arrival", true)
+	_remove_nodes_by_script("res://scenes/StoryMode.gd")
+	GameState.pending_story_queue.clear()
+	await _settle(0.20)
 
 func _shot_sangchul_confrontation_surfaces(lang: String = "en", prefix: String = "sangchul_en_") -> void:
 	_set_qa_language(lang)

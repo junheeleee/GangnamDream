@@ -514,18 +514,78 @@
   {
     "id": "arc_sangchul_casino_invite",
     "title": "The Casino Invitation",
-    "description": "A text came from Sangchul's number.\n\n\"What about this weekend? A few of us are heading to Jeongseon Casino.\nI've booked a table room, so come on by, take it easy.\"\n\nJeongseon Casino. A place businesspeople go now and then.\nDress code. Chips. Strategy at the table.\nLess like gambling than an admission ticket to a certain world.\n\n{name} checked his account balance.",
+    "description": "It was a text, not a call. Two short messages sat beneath Sangchul's name.\n\n\"How does this weekend sound? A few of us are going to Jeongseon Casino.\"\n\"I'll arrange the ride. I've found us seats near the tables, so just come and take it easy.\"\n\nThe room sounded exactly as it had a moment ago, but the words on the screen seemed to carry a different temperature. Jeongseon. Chips. Businesspeople. It smelled like the kind of door Sangchul had promised to open.\n\nMoney he could bring and money he could afford to lose were not the same sum. Who put him at the table might matter as much as what he put on it.\n\nWithout answering, {name} checked his balance.",
     "description_if_known": {
-      "sangchul_truth_known": "A text came from Sangchul's number.\n\n\"What about this weekend? A few of us are heading to Jeongseon Casino.\nI've booked a table room, so come on by, take it easy.\"\n\nNow that {name} knew the truth, that phrase — \"take it easy\" — caught.\nYears ago, Dad had probably been told the same thing by someone's introduction.\nCome on in. No pressure. Take it easy.\n\nCasino. Money. Network. The world Sangchul lived in.\n{name} stared at the message for a long time."
+      "sangchul_truth_known": "It was a text, not a call. Two short messages sat beneath Sangchul's name.\n\n\"How does this weekend sound? A few of us are going to Jeongseon Casino.\"\n\"I'll arrange the ride. I've found us seats near the tables, so just come and take it easy.\"\n\nNow that {name} knew the truth, that phrase - take it easy - caught in his mind. What broke Dad had also begun with someone arranging the room and introducing a man worth trusting.\n\nCasino. Money. Network. Sangchul's world. This time the question was whether to enter it as his guest while knowing how it worked.\n\nWithout answering, {name} checked his balance."
+    },
+    "choices": [
+      {
+        "text": "\"Who else is going?\" - ask about the people first",
+        "result_text": "As soon as he sent the question, the read marker vanished. Sangchul replied as though he had been waiting, listing professions before names.\n\nTwo people in development, one small-business owner, and someone {name} had only glimpsed at the last gathering.\n\nThe final line was short. \"I've known all of them a long time.\""
+      },
+      {
+        "text": "Work out what the trip will really cost",
+        "result_text": "He looked up the route and the last ride home, then listed what he would wear and what he would carry as separate expenses.\n\nEven if Sangchul covered the ride, sitting at a table empty-handed felt impossible. Being invited did not turn money he could not afford into money he could.\n\nThe calculation left one question: not whether he could go, but how much he could lose and still come home."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_casino_people",
+    "title": "Someone's Guest",
+    "description": "{name} sent one more line.\n\n\"I've never met any of them.\"\n\nSangchul answered almost at once.\n\"I'll be there. No one is asking you to bet the moment you sit down.\"\n\"Then what am I supposed to watch?\"\n\"Faces before money. Watch who can lose and still smile.\"\n\nIt read like reassurance and a test at the same time. In Jeongseon, {name} would be Sangchul's guest before he was the casino's.\n\nAn invitation saved a seat, but it also showed everyone who had seated him there.",
+    "description_if_known": {
+      "sangchul_truth_known": "{name} sent one more line.\n\n\"I've never met any of them.\"\n\nSangchul answered almost at once.\n\"I'll be there. No one is asking you to bet the moment you sit down.\"\n\"Then what am I supposed to watch?\"\n\"Faces before money. Watch who can lose and still smile.\"\n\nNow {name} knew what Sangchul's introductions could set in motion. I'll be there no longer sounded like protection. It sounded like a guarantee.\n\nThis time he would not be led in blind. The question was whether to enter as Sangchul's guest with his eyes open."
+    },
+    "choices": [
+      {
+        "text": "Check the balance once more before replying",
+        "result_text": "Sangchul's last line remained on the screen: watch who can lose and still smile.\n\n{name} held it beside his balance. Even if the point was to study people, the money he lost would still be his."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_casino_cost",
+    "title": "Money He Could Bring",
+    "description": "{name} wrote two lines in a note.\n\nMoney he could bring.\nMoney he could afford to lose.\n\nHis balance went on the first line. The second resisted a number. After rent, next month's living costs, and every problem that had not happened yet, what could honestly be called a stake was much smaller.\n\nMaybe the real price of entering a casino was not admission, but a number at which he would stop - and the ability to keep that number hidden from everyone else.\n\nSangchul's take it easy was still lit on the phone.",
+    "description_if_known": {
+      "sangchul_truth_known": "{name} wrote two lines in a note.\n\nMoney he could bring.\nMoney he could afford to lose.\n\nHis balance went on the first line. A name came before any number on the second. Dad had lost more than principal. He had spent years repaying the feeling that anyone could be trusted.\n\nMaybe the real price of entering a casino was a number at which he would stop. This time {name} would also have to remember the name of the man who brought him there.\n\nSangchul's take it easy was still lit on the phone."
+    },
+    "choices": [
+      {
+        "text": "Write down a separate amount he can afford to lose",
+        "result_text": "He wrote a number, erased it, then wrote a smaller one and erased that too.\n\nWhat remained was less an amount than a boundary. If he could not hold it, being invited would offer no protection at all.\n\n{name} opened the reply box."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_casino_decision",
+    "title": "The Reply",
+    "description": "The cursor blinked in the reply box.\n\nHis balance sat on one side. On the other was the seat Sangchul had saved. It would take only seconds to say yes. Behind that answer waited a mountain road, a table, and the eyes of strangers.\n\nDeclining would not close the door. Accepting would not tell him what he would see before he came back through it.\n\n{name} read the message once without the words take it easy. What remained was the invitation.",
+    "description_if_known": {
+      "sangchul_truth_known": "The cursor blinked in the reply box.\n\nHis balance sat on one side. On the other was the seat Sangchul had saved. Now {name} knew what kinds of doors this man had opened before. Accepting would not mean being tricked inside. It would mean entering under Sangchul's name with his eyes open.\n\nDeclining would not erase what he knew. Accepting would not protect his boundary for him.\n\n{name} read the message once without the words take it easy. What remained was the choice."
     },
     "choices": [
       {
         "text": "\"I'll come along\" — follow him",
-        "result_text": "On the bus to Jeongseon, Sangchul explained the basic rules of baccarat.\nBanker and player. Martingale and the commission.\n\"Winning isn't the goal. The strategy is how little you lose.\"\nTo {name}, that sounded like it was about more than the game."
+        "result_text": "Within a minute of sending the reply, a ticket QR code and seat number arrived.\n\n\"Tomorrow, 6:40 a.m. Don't be late.\"\n\nThe room had not changed. Only the direction of tomorrow morning had shifted toward Jeongseon."
       },
       {
         "text": "\"I don't think now's the time\" — decline politely",
         "result_text": "Sangchul said, \"Whenever you're ready.\"\nIt sounded like the offer stayed open."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_casino_arrival",
+    "title": "Lights Below the Mountain",
+    "description": "The bus to Jeongseon stopped at the end of the mountain road.\n\nAll the way there, Sangchul had explained the basic rules of baccarat. Banker and player. Martingale and commission. He finished with one line.\n\"Winning isn't the goal. The strategy is how little you lose.\"\n\nWhen the door opened, cold air and the smell of wet asphalt came inside. Every window in the building against the mountain was lit. The lights were farther from Seoul, but the way money gathered here looked more explicit.\n\nSangchul stepped down first and pointed toward the entrance.\n\"For your first time, watch the people before the game. Not who wins. Who can lose and still smile.\"\n\nHe did not ask how much {name} had brought. Whether not asking was kindness or the first part of the test, {name} could not tell. Maybe the strategy outside the game was also how little you lost.",
+    "description_if_known": {
+      "sangchul_truth_known": "The bus to Jeongseon stopped at the end of the mountain road.\n\nAll the way there, Sangchul had explained the basic rules of baccarat. Banker and player. Martingale and commission. He finished with one line.\n\"Winning isn't the goal. The strategy is how little you lose.\"\n\nWhen the door opened, cold air and the smell of wet asphalt came inside. Every window in the building against the mountain was lit. This time {name} stepped down knowing who had arranged the seat and what an introduction could demand.\n\nSangchul stepped down first and pointed toward the entrance.\n\"For your first time, watch the people before the game. Not who wins. Who can lose and still smile.\"\n\n{name} stood half a step behind him rather than at his side. They could enter through the same door without becoming the same kind of man."
+    },
+    "choices": [
+      {
+        "text": "Follow Sangchul toward the lights",
+        "result_text": "When the automatic doors opened, distant slot tones and the murmur of the crowd rushed closer.\n\nSangchul went in first. At the threshold, {name} opened one hand, then closed it again.\n\nThe first hand had not been dealt yet."
       }
     ]
   },

@@ -331,6 +331,33 @@
       "mode": "same_location",
       "from_location": "current_housing",
       "to_location": "current_housing"
+    },
+    "arc_sangchul_casino_invite->arc_sangchul_casino_people": {
+      "mode": "same_location",
+      "from_location": "current_housing",
+      "to_location": "current_housing"
+    },
+    "arc_sangchul_casino_invite->arc_sangchul_casino_cost": {
+      "mode": "same_location",
+      "from_location": "current_housing",
+      "to_location": "current_housing"
+    },
+    "arc_sangchul_casino_people->arc_sangchul_casino_decision": {
+      "mode": "same_location",
+      "from_location": "current_housing",
+      "to_location": "current_housing"
+    },
+    "arc_sangchul_casino_cost->arc_sangchul_casino_decision": {
+      "mode": "same_location",
+      "from_location": "current_housing",
+      "to_location": "current_housing"
+    },
+    "arc_sangchul_casino_decision->arc_sangchul_casino_arrival": {
+      "mode": "explicit_move",
+      "from_location": "current_housing",
+      "to_location": "jeongseon_casino_exterior",
+      "arrival_cue_ko": "정선행 버스가 산길 끝 정류장에 멈췄다.",
+      "arrival_cue_en": "The bus to Jeongseon stopped at the end of the mountain road."
     }
   },
   "events": {
@@ -509,6 +536,67 @@
         "participants": ["player"],
         "portrait_role": "local",
         "expected_portrait": "player_shocked"
+      }
+    },
+    "arc_sangchul_casino_invite": {
+      "logic": {
+        "legacy": {
+          "requires_flags": ["arc_sangchul_02_seen"],
+          "forbids_flags": ["arc_sangchul_casino_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "message",
+        "scene_location": "current_housing",
+        "remote_location": "realestate_office",
+        "remote_actor": "sangchul",
+        "portrait_role": "remote",
+        "expected_portrait": "sangchul_serious"
+      }
+    },
+    "arc_sangchul_casino_people": {
+      "presentation": {
+        "channel": "message",
+        "scene_location": "current_housing",
+        "remote_location": "realestate_office",
+        "remote_actor": "sangchul",
+        "portrait_role": "remote",
+        "expected_portrait": "sangchul_serious"
+      }
+    },
+    "arc_sangchul_casino_cost": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_portrait": "player_tired"
+      }
+    },
+    "arc_sangchul_casino_decision": {
+      "logic": {
+        "legacy": {
+          "requires_flags": ["arc_sangchul_02_seen"],
+          "forbids_flags": ["arc_sangchul_casino_seen"],
+          "produces_all": ["arc_sangchul_casino_seen"],
+          "produces_any": ["casino_club_introduced"]
+        }
+      },
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_portrait": "player_tired"
+      }
+    },
+    "arc_sangchul_casino_arrival": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "jeongseon_casino_exterior",
+        "participants": ["player", "sangchul"],
+        "portrait_role": "present",
+        "expected_portrait": "sangchul_normal"
       }
     },
     "story_prologue_dad": {
