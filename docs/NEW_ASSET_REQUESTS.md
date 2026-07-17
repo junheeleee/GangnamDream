@@ -85,7 +85,7 @@
 | `cg_ending_instant_legend` | `instant_legend` | **완료.** 첫해 33세 민준, 등기 폴더, 한 상자와 낡은 가방만 놓인 비현실적으로 빈 강남 거실 |
 | `cg_ending_startup_exit` | `startup_exit` | **완료.** 작은 창업 회의실, 서명 직후 놓은 펜, 민준 방향의 계약서·휴대폰 |
 | `cg_ending_lonely_rich` | `lonely_rich` | 고급 거실에서 혼자 배달앱을 닫는 장면 |
-| `cg_ending_orthodox_pinnacle` | `orthodox_pinnacle` | 회식 자리/회사 로비. 후배의 부러움과 본인의 공허함 |
+| `cg_ending_orthodox_pinnacle` | `orthodox_pinnacle` | **완료.** 실제 한국 회식 테이블, 후배의 부러움과 물잔으로 내린 민준의 불확신 |
 | `cg_ending_gambling_recovery` | `gambling_recovery` | 고시원 책상 달력의 동그라미. 카지노가 아니라 회복의 일상 |
 | `cg_ending_bankruptcy` | `bankruptcy` | **완료.** 계산을 반복하다 멈춘 첫 파산 임계 |
 | `cg_ending_debt_spiral` | `debt_spiral` | **완료.** 뒤집은 계산기와 놓아 버린 손의 더 깊은 부채 단계 |

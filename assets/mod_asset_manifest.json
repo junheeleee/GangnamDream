@@ -792,6 +792,14 @@
     {
       "kind": "cg",
       "ids": [
+        "cg_ending_orthodox_pinnacle"
+      ],
+      "relative_path": "cg/ending_orthodox_pinnacle_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
         "cg_ending_sangchul_reckoning"
       ],
       "relative_path": "cg/ending_sangchul_reckoning_v1.png",

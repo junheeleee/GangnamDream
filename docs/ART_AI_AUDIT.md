@@ -13,8 +13,8 @@
 
 ## 감사 결과
 
-- 활성 인벤토리: **193장** (`CG 57 / Portrait 57 / Background 79`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
-- 전수 방법: 종류별 콘택트시트 22장으로 얼굴·실루엣·그레이딩·공간을 1차 비교하고, 손·반사·차량·카운터·정류장처럼 오독 위험이 있는 컷과 키 비주얼 10장은 원본 해상도로 다시 열었다.
+- 활성 인벤토리: **194장** (`CG 58 / Portrait 57 / Background 79`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
+- 전수 방법: 종류별 콘택트시트 24장으로 얼굴·실루엣·그레이딩·공간을 1차 비교하고, 손·반사·차량·카운터·정류장처럼 오독 위험이 있는 컷과 키 비주얼 10장은 원본 해상도로 다시 열었다.
 - 런타임 수리: 배경이 구워진 `main_character_50s.png`를 본편의 `player_hollow` 슬롯에서 제외하고 같은 민준의 투명 피로 초상으로 통합했다. 현재 이벤트가 없는 박재원의 죽은 초상 등록도 제거했다.
 - 이미지 수리: `ending_crypto_ghost.png`의 비현실적인 6면 모니터 벽을 정본 고시원 안의 휴대폰 1대·낡은 노트북 1대로 교체했다. 방 크기, 작은 불투명창, 침대/책상 방향, 민준 신원, 다섯 손가락, 무문자 차트를 원본에서 재검수했다.
 - 아버지 의상 정합: 작업복 하나를 집·병원·통화에 돌려 쓰지 않는다. 같은 얼굴을 작업/외출, 세대감 있는 집 생활복, 쇠약 생활복, 입원 환자복으로 분리하고 피부색·투명 가장자리·의상 장소 계약을 원본 해상도에서 재검수했다.
@@ -89,6 +89,7 @@
 | CG | `assets/cg/ending_jiyeon_man_v2.png` | `cg_ending_jiyeon_man` | 1280x800 | no | `62a7f17d4aec` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/ending_late_call_v1.png` | `cg_ending_late_call` | 1280x800 | no | `662ff3e36b30` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/ending_lonely_rich_v1.png` | `cg_ending_lonely_rich` | 1280x800 | no | `91932fd75d7d` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
+| CG | `assets/cg/ending_orthodox_pinnacle_v1.png` | `cg_ending_orthodox_pinnacle` | 1280x800 | no | `e7b4396db619` | PASS-A | 민준과 후배의 얼굴·헤어·복식이 1초 안에 구분되고 시선은 후배→민준·민준→물잔으로 맞는다. 민준의 한 손과 물잔, 단일 불판·정렬된 후드·좌석 축, 가짜 문자 부재, 중앙 950x430 크롭을 원본 해상도로 확인. |
 | CG | `assets/cg/ending_sangchul_reckoning_v1.png` | `cg_ending_sangchul_reckoning` | 1280x800 | no | `f25fbb0f1004` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/ending_second_love_v1.png` | `cg_ending_second_love` | 1280x800 | no | `2b554360182d` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/ending_startup_exit_v1.png` | `cg_ending_startup_exit` | 1280x800 | no | `be7c29d8d495` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |

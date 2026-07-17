@@ -436,6 +436,22 @@ Post-processing: center crop 1586x992 to 1584x990, then resample to 1280x800. KO
 
 ---
 
+## 2026-07-17 P1 ending CG — Pinnacle of the Orthodox
+
+The image was produced with Codex built-in ImageGen using `main_character_corporate.png` for Minjun identity, `ending_startup_exit_v1.png` for late-30s ending treatment, and `company_dinner_restaurant.png` for Korean restaurant architecture. Its scene, actor hierarchy, color, and crop contract lives in `assets/ENDING_P1_VISUAL_BIBLE.md`.
+
+- `assets/cg/ending_orthodox_pinnacle_v1.png` — accepted repo final SHA-256 `e7b4396db619f324e1614a30bfbd000eb1d204982c7fe88420506b5df24c8a79`. The first source `exec-e5bd9698-0cfb-4720-a7f8-47cb0c1a03b1.png` was rejected because Minjun and the junior shared nearly the same hair/face silhouette and the whole restaurant leaned brown-sepia. `exec-aa385e5e-ec3f-4313-beaa-b62d66e334ce.png` established the glasses/cardigan distinction; later passes restored a visibly younger face and the accepted repo final keeps the junior's glasses/cardigan silhouette, Minjun's lowered gaze, and his resting hand beside one water glass.
+
+Final prompt lock:
+
+```text
+Preserve the physically coherent Korean company-dinner composition: one table, one built-in grill, one aligned exhaust hood, and canonical 38-year-old Minjun screen-right in a charcoal suit. Minjun lowers his eyes to exactly one plain water glass beside one clear resting hand, caught before answering how he lived so diligently. Screen-left, make the speaking junior unmistakably different: late 20s, softer round Korean face, tidy side-parted hair, thin rectangular glasses, pale desaturated blue open-collar shirt, and charcoal cardigan; his head and eyes point only toward Minjun with sincere admiration. Anonymous diners remain varied low-contrast C-tier figures. Use Gangnam Ink Korean adult manhwa/VN realism with neutral concrete gray, blue-charcoal cloth, cool steel, muted natural skin, and faint rainy blue-gray air. Keep both faces, eye-lines, Minjun's hand/water glass, and one grill edge inside the centered 950x430 cover crop. No lens gaze, smiles, toast, celebration, phone, money, fake text, logo, cloned faces, extra people or props, malformed hands, warm sepia, orange-brown wash, DSLR photo, glossy 3D, or watermark.
+```
+
+Post-processing: center crop 1536x1024 to 1536x960, then resample to 1280x800, followed by RGB gamma 0.78, contrast 0.95, and brightness 1.03. This preserves both faces, Minjun's hand, and the water glass under the neutral runtime grade without changing geometry. KO/EN `--qa=ending-p1` owns the base and salary-memory variant; `CGRuntimeCheck`, `cg_acting_contract_check.py`, and `cast_detail_contract_check.py` own its exact path and A/B/C actor hierarchy.
+
+---
+
 ## 2026-07-12 T2 romance rupture result CGs
 
 Both images were produced with Codex built-in ImageGen and normalized to 1280x800. Their exact scene, wardrobe, architecture, acting, and reveal contracts live in `assets/BREAKUP_VISUAL_BIBLE.md`.

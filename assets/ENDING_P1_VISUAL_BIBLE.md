@@ -87,6 +87,17 @@ This document owns the release-tier P1 ending CGs added after the eight-image P0
 - Glass and prop lock: the window contains no human reflection, ghost body, mirrored Minjun, or duplicate limb. No phone, keys, money, chart, casino object, champagne, readable deed text, logo, or route-specific person appears.
 - Preview lock: the default centered 950x430 crop keeps Minjun's face, both hands, deed folder, carton, duffel, and the disproportionate empty room readable together.
 
+## `cg_ending_orthodox_pinnacle`
+
+- File: `assets/cg/ending_orthodox_pinnacle_v1.png`; owner: `orthodox_pinnacle` only. It is the ambiguous summit of a corporate route, never a promotion celebration, startup exit, generic restaurant background, or Black-route collapse.
+- Shared moment: at a Korean team dinner, a younger colleague has just asked how Minjun managed to live so diligently. Minjun pauses before answering because he cannot tell diligence from fear of leaving the prescribed road. Salary negotiation, stolen credit, golf, frugality, and job-switch variants remain remembered prose rather than extra objects or people.
+- Space: one physically coherent Korean barbecue table with one built-in circular grill, one aligned exhaust hood, ordinary metal bowls, and one plain water glass beside Minjun's hand. Varied anonymous diners remain low-contrast C-tier depth figures. No company lobby, luxury private room, stage, banner, fake Korean menu, brand, logo, stock display, or celebratory toast.
+- Identity and wardrobe: canonical 38-year-old Minjun keeps the lean narrow Korean face, short slightly messy black hair, tired narrow eyes, subtle hollow cheeks, charcoal corporate suit, budget white shirt, and dark tie. He is only five years older than the starting portrait, not a middle-aged executive or polished heir.
+- Acting: Minjun sits screen-right, upright but guarded. His eyes lower only to the clear water glass beside one anatomically clear resting hand; his mouth is closed and shoulders stay contained. The screen-left `office_junior` is a B-tier late-20s Korean scene actor with a softer round face, tidy side-part hair, thin rectangular glasses, pale blue open-collar shirt, and charcoal cardigan. His head and eyes point only toward Minjun with sincere admiration.
+- Preview lock: the centered 950x430 cover crop retains both readable faces and eye-lines, Minjun's resting hand and water glass, one edge of the grill, and enough diners/steel table to read as a company dinner. No meaningful acting sits beneath the dialogue-safe lower edge.
+- Color lock: neutral concrete gray, blue-charcoal cloth, cool stainless steel, muted natural skin, and faint rainy blue-gray window air. A narrow practical warmth may touch the two faces, but the image may not become brown, orange, sepia, monochrome, victory gold, or deep-Black despair.
+- Avoid: matching faces or hair silhouettes between Minjun and the junior, lens gaze, grin, handshake, raised glass, cheering, drunkenness, luxury watch, phone, money, duplicated hands or cups, fused fingers, floating dishes, extra grill, misaligned hood, glossy mobile art, photoreal restaurant advertising, or cloned black crowd cutouts.
+
 ## Acceptance Gate
 
 - `ImageRegistry`, Korean ending data, `cg_acting_manifest.json`, and `CGRuntimeCheck` agree on the owner and path.

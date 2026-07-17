@@ -282,6 +282,7 @@
     "title": "정석의 정점",
     "grade": "A",
     "condition": "route_orthodox >= 25 and job_tenure >= 24 and total_asset >= 200000000",
+    "cg": "cg_ending_orthodox_pinnacle",
     "description": "착실하게 살았다.\n\n남들이 코인으로 벼락부자 될 때 묵묵히 일했다.\n야근도 마다하지 않았고, 회식도 빠지지 않았고, 상사 말에 토 달지 않았다.\n\n10억. 강남은 아니었다.\n그래도 이제 누군가의 부러움이 됐다.\n\n팀 회식 자리에서 후배가 물었다.\n\"선배님은 어떻게 이렇게 착실하게 사셨어요?\"\n\n{name}은 잠깐 생각했다.\n\n착실하게 살았냐고.\n아니면 — 다른 길이 무서워서, 이 길에서 벗어나지 못했냐고.\n\n\"그냥.\" 그렇게 답했다.\n\n둘의 차이를 {name}도 아직 모른다.\n어쩌면 그게 이 길의 답인지도 모른다.",
     "background": "restaurant",
     "description_if_known": {

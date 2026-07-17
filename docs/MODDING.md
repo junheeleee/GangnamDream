@@ -248,6 +248,7 @@ python3 tools/generate_mod_manifest.py --check
 | cg | `cg_ending_jiyeon_man` | `cg/ending_jiyeon_man_v2.png` | 1280x800 |
 | cg | `cg_ending_late_call` | `cg/ending_late_call_v1.png` | 1280x800 |
 | cg | `cg_ending_lonely_rich` | `cg/ending_lonely_rich_v1.png` | 1280x800 |
+| cg | `cg_ending_orthodox_pinnacle` | `cg/ending_orthodox_pinnacle_v1.png` | 1280x800 |
 | cg | `cg_ending_sangchul_reckoning` | `cg/ending_sangchul_reckoning_v1.png` | 1280x800 |
 | cg | `cg_ending_second_love` | `cg/ending_second_love_v1.png` | 1280x800 |
 | cg | `cg_ending_startup_exit` | `cg/ending_startup_exit_v1.png` | 1280x800 |

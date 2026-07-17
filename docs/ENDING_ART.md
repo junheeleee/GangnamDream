@@ -1,6 +1,6 @@
 # 엔딩 아트 점검 & 컷신 우선순위
 
-Updated: 2026-07-13
+Updated: 2026-07-17
 
 ## 목적
 
@@ -84,7 +84,7 @@ Updated: 2026-07-13
 | `reputation_legend` | A | 없음 | 없음 | P2. 텍스트로도 버틸 수 있음 |
 | `healthy_retirement` | B | 없음 | 없음 | P3. 한강 산책 배경과 연결 가능 |
 | `debt_spiral` | F | `cg_ending_debt_spiral` | 없음 | P1 완료. 같은 방에서 계산기를 뒤집고 손을 놓은 더 깊은 부채 단계 |
-| `orthodox_pinnacle` | A | 없음 | `restaurant` | P1 신규 CG 후보 |
+| `orthodox_pinnacle` | A | `cg_ending_orthodox_pinnacle` | `restaurant` | P1 완료. 회식 질문 뒤 물잔으로 시선을 내린 민준과 구분되는 후배 |
 | `orthodox_hollow` | C | 없음 | 없음 | 공통 모노톤 성공-공허 카드 |
 | `balanced_life` | B | 없음 | 없음 | P3. 텍스트/배경 중심 |
 | `unorthodox_legend` | A | 없음 | 없음 | P2 신규 CG 후보 |
@@ -126,13 +126,13 @@ Updated: 2026-07-13
 | `cg_ending_instant_legend` | `instant_legend` | **완료.** 33세 민준이 등기 폴더를 내려다보는 첫해의 강남 도착. 한 상자·낡은 가방 외에는 비어 있는 거실 |
 | `cg_ending_startup_exit` | `startup_exit` | **완료.** 작은 창업 회의실, 서명 직후 놓은 펜과 열린 손. 계약서·휴대폰은 민준 방향, 유리에는 인물 반사 없음 |
 | `cg_ending_lonely_rich` | `lonely_rich` | **완료.** 강남 네 자리 식탁에 도착한 1인분, 세 빈 의자, 뒤집은 폰. 이혼/비혼/10억 경고 변주가 같은 최종 물리를 공유 |
-| `cg_ending_orthodox_pinnacle` | `orthodox_pinnacle` | 회식 자리/회사 로비. 정장 차림 민준, 후배의 부러움, 본인은 확신 없음 |
+| `cg_ending_orthodox_pinnacle` | `orthodox_pinnacle` | **완료.** 실제 한국 회식 테이블, 정장 민준의 물잔으로 내린 시선, 구분되는 후배의 부러움 |
 | `cg_ending_gambling_recovery` | `gambling_recovery` | **완료.** 정본 고시원, 오늘의 동그라미를 닫는 펜 손, 뒤집은 폰. 카지노가 아니라 회복의 일상 |
 | `cg_ending_bankruptcy` | `bankruptcy` | **완료.** 정본 고시원, 작동 중인 계산기에서 멈춘 손, 받지 않은 전화. 정확한 원금·월급은 표시하지 않음 |
 | `cg_ending_debt_spiral` | `debt_spiral` | **완료.** 같은 방·같은 축에서 뒤집은 계산기와 놓아 버린 손. 하단 소품을 위한 엔딩별 프리뷰 초점 적용 |
 | `cg_ending_burnout` | `burnout` | 응급실 형광등/천장/링거와 보호자 연락 질문. 정신건강의학과 `mental_break`와 공유 금지 |
 
-`late_call`, `lonely_rich`, `gambling_recovery`, `bankruptcy`, `debt_spiral`, `startup_exit`, `instant_legend`는 완료했다. 다음 실제 제작 순서는 `orthodox_pinnacle`, `burnout`이며 노출·감정 회수 순으로 판단한다. `mental_break`는 전용 진료실 컷을 만들기 전까지 정합한 엔딩 카드로 남긴다.
+`late_call`, `lonely_rich`, `gambling_recovery`, `bankruptcy`, `debt_spiral`, `startup_exit`, `instant_legend`, `orthodox_pinnacle`은 완료했다. 다음 실제 제작은 `burnout`이다. `mental_break`는 전용 진료실 컷을 만들기 전까지 정합한 엔딩 카드로 남긴다.
 
 ### P2 — 있으면 고급스러운 엔딩
 
@@ -180,6 +180,6 @@ Updated: 2026-07-13
 - [x] `gangnam_dream_white`의 일반 강남 CG 임시 공유 제거
 - [x] `gangnam_dream_white` 전용 White CG 제작 후 연결
 - [x] P0 신규 CG 8종 제작/보정/연결
-- [ ] P1 신규 CG 9종 제작/보정/연결 — 7/9 (`late_call`, `lonely_rich`, `gambling_recovery`, `bankruptcy`, `debt_spiral`, `startup_exit`, `instant_legend`)
+- [ ] P1 신규 CG 9종 제작/보정/연결 — 8/9 (`late_call`, `lonely_rich`, `gambling_recovery`, `bankruptcy`, `debt_spiral`, `startup_exit`, `instant_legend`, `orthodox_pinnacle`)
 - [ ] P2 엔딩은 CG보다 엔딩 카드/스팅/배경 정합성 먼저 보강
 - [ ] 엔딩 스팅 5종 제작 및 `AudioManager`/`BGMPlayer` 연결

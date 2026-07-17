@@ -7195,6 +7195,11 @@ func _shot_ending_p1_surfaces(lang: String, prefix: String) -> void:
 			["first_user_connected"])
 	await _shot_exact_ending_cg(
 			"instant_legend", "cg_ending_instant_legend", prefix + "15_instant_legend")
+	await _shot_exact_ending_cg(
+			"orthodox_pinnacle", "cg_ending_orthodox_pinnacle", prefix + "16_orthodox_pinnacle")
+	await _shot_exact_ending_cg(
+			"orthodox_pinnacle", "cg_ending_orthodox_pinnacle", prefix + "17_orthodox_salary_memory",
+			["salary_raised"])
 
 func _shot_surface_en() -> void:
 	var prefix := "surface_en_"

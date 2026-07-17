@@ -494,6 +494,15 @@
       "actors": [
         {"id": "minjun", "gaze_target": "The blank deed folder held at mid-torso", "pose_support": "His young face and slim shoulders remain upright but stalled; the left hand holds the folder's left edge while the right loosely supports its lower-right edge, without a victory pose or lens contact."}
       ]
+    },
+    "cg_ending_orthodox_pinnacle": {
+      "path": "assets/cg/ending_orthodox_pinnacle_v1.png",
+      "camera_role": "table_side_company_dinner_three_quarter",
+      "story_action": "At the team dinner, a junior asks how Minjun lived so diligently; Minjun lowers his eyes to the water glass before giving the answer he cannot explain.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The plain water glass beside his resting hand", "pose_support": "His late-30s face, lowered eyes, guarded shoulders, and clear resting hand hold the uncertain pause without celebration or lens contact."},
+        {"id": "office_junior", "gaze_target": "Minjun's face", "pose_support": "His distinct glasses, softer round face, forward head, and open seated torso carry sincere admiration toward Minjun rather than the camera."}
+      ]
     }
   }
 }
