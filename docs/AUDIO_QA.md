@@ -88,6 +88,8 @@ Repeated deal, tick, dice, and hoof sounds use bounded pitch variation and per-k
 - Part-time work selects `convenience`, `street`, or `office` from its actual mode.
 - Closing an activity restores housing and season ambience. A stale child overlay cannot clear the current owner.
 - Opening settings changes gain only; it does not restart BGM or ambience.
+- A choice-owned `result_background` may declare KO-only `result_ambience`. The ambience changes in the same frame as the revealed result location without restarting punctuation music; `current_housing` resolves to the live room/one-room/apartment bed.
+- Chapter 2 locks four result moves: Jiyeon refusal=`street`, coffee acceptance=`cafe`, hiding the room from the parents=`hoesik`, and showing the room=`current_housing`. `--qa=chapter2-peaks --lang=ko/en` asserts both the rendered location and active ambience key.
 
 ## Moral Ambience
 

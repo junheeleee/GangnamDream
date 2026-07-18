@@ -97,7 +97,7 @@
   {
     "id": "arc_34_money_attracts_money",
     "title": "That Saying About Money",
-    "description": "Year two. What {name} didn't get a year ago was starting to come into focus.\n\nThat saying — money attracts money. At first it sounded like a comfort the rich made up. But putting it to work himself — it was real. With 1 million won versus 10 million won, the same rate of return came back at a completely different weight.\n\nAnd he saw the reverse too. Those with nothing just pay interest until it's over. When the starting lines differ, running at the same speed only widens the gap.\n\n{name} realized both on the same day. Hope and anger had the same shape.",
+    "description": "Even after closing the notebook that held one year of figures, {name} could not sleep. A structure he had not understood a year ago was beginning to show itself across the ledger.\n\nThat saying — money attracts money. At first it sounded like a comfort the rich made up. But putting it to work himself, it was real. With 1 million won versus 10 million won, the same rate of return came back at a completely different weight.\n\nAnd he saw the reverse too. Those with nothing just pay interest until it is over. When the starting lines differ, running at the same speed only widens the gap.\n\nThat night, {name} learned that hope and anger could begin with the same number.",
     "choices": [
       {
         "text": "Understand the system and ride it",
@@ -116,7 +116,7 @@
   {
     "id": "arc_34_doors_open",
     "title": "Doors Are Opened by People",
-    "description": "Year two. There was one more thing {name} had learned.\n\nOpportunity doesn't come through job postings. Real opportunity comes through people. Someone introduces someone, you get called to a certain table, some piece of information slips out over drinks.\n\nA year ago, {name} knew no one. So he thought there were no opportunities. The truth was — there'd just been no people standing at the doors.\n\nNow a few doors were coming into view. And there was always someone standing in front of each one.",
+    "description": "The business cards from the room Sangchul had opened were stacked across {name}'s desk. Each held a person's name, a company, and numbers he could never have reached alone.\n\nOpportunity did not come only through job postings. Someone introduced someone, you were called to a certain table, a piece of information slipped out over drinks.\n\nA year ago, {name} knew no one, so he thought there were no opportunities. The truth was that no one had been standing at the doors.\n\nNow a few doors were coming into view. And there was always someone standing in front of each one.",
     "choices": [
       {
         "text": "Went out to meet people, actively",

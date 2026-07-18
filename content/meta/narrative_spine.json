@@ -142,13 +142,13 @@
       "title_en": "The Price of Entry",
       "weeks": [49, 96],
       "question": "기회가 사람의 얼굴로 올 때 민준은 호의와 거래를 구분할 수 있는가?",
-      "object": "상철의 명함과 재혁의 수익 화면",
-      "setup": ["arc_jaehyuk_01b_real_face", "arc_daeun_02_regular"],
-      "escalation": ["arc_jaehyuk_02_bond", "arc_sangchul_casino_invite", "arc_jiyeon_03_offer"],
-      "reversal": ["arc_jaehyuk_02b_favor", "arc_sangchul_human"],
-      "boss": ["arc_year2_close"],
-      "aftermath": ["chapter_card_35"],
-      "handoff": "호의마다 가격이 있었다는 사실과 아버지의 사건번호가 같은 방향을 가리킨다."
+      "object": "1년 장부, 쌓인 명함, 창원 병실 번호",
+      "setup": ["arc_year_one_mark", "arc_34_money_attracts_money", "arc_sangchul_03_network"],
+      "escalation": ["arc_daeun_03_fork", "arc_father_medication", "arc_jiyeon_03_offer"],
+      "reversal": ["arc_34_doors_open", "arc_34_parents_visit", "arc_father_03_hospital"],
+      "boss": ["arc_sangchul_mirror", "arc_career_ceiling", "arc_father_04_visit"],
+      "aftermath": ["arc_34_two_years_in", "arc_year2_close", "arc_year_two_pressure", "chapter_card_35"],
+      "handoff": "상철이 닮았다고 부른 얼굴, 월급의 천장, 열지 못할 수도 있는 병실 문이 3장의 진실을 같은 질문으로 넘긴다."
     },
     {
       "number": 3,

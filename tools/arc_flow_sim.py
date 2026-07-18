@@ -207,6 +207,10 @@ SPINE_COMMON = {
 PATH_A = dict(SPINE_COMMON, **{  # 정석/다은 보냄/사기당함/진실모름
     # 방문하지 못한 경로를 고정해 23초 KTX 전처리와 임종 체인을 검증한다.
     "arc_father_04_visit": ["father_visit_deferred"],
+    # The Chapter 2 mirror root now immediately reaches the hospital-door
+    # choice. Model the same deferred branch here so the scheduler does not
+    # count the terminal event a second time at t90.
+    "arc_sangchul_mirror": ["arc_sangchul_mirror_seen", "father_visit_deferred"],
     "arc_daeun_03_fork": ["arc_daeun_fork_seen", "daeun_let_her_go"],
     "arc_daeun_ghost": ["arc_daeun_ghost_seen"],
     "arc_daeun_year3_apart": ["arc_daeun_year3_apart_seen"],
@@ -219,6 +223,9 @@ PATH_A = dict(SPINE_COMMON, **{  # 정석/다은 보냄/사기당함/진실모�
     "arc_36_trust_crack": ["arc_36_trust_crack_seen", "crack_distanced"],
 })
 PATH_B = dict(SPINE_COMMON, **{  # 비정석/진실/다은 함께/재혁 역공
+    # Path B enters the room when the Chapter 2 mirror chain reaches its
+    # terminal hospital-door choice.
+    "arc_sangchul_mirror": ["arc_sangchul_mirror_seen", "visited_father"],
     "arc_sangchul_deduction": ["arc_sangchul_deduction_seen", "sangchul_truth_known", "deduced_sangchul_truth"],
     "arc_sangchul_known_offer": ["arc_sangchul_known_offer_seen", "used_sangchul_knowingly"],
     "arc_sangchul_known_reflex": ["arc_sangchul_known_reflex_seen"],
@@ -315,18 +322,29 @@ PATHS = [("A 정석/다은보냄/사기", PATH_A, traj_A, hookA),
 # 경로별 완결돼야 하는 대표 체인
 CHAINS = {
     "A 정석/다은보냄/사기": [
+        "arc_year_one_mark", "arc_daeun_03_fork", "arc_34_doors_open",
+        "arc_sangchul_mirror",
         "arc_daeun_ghost", "arc_jaehyuk_04c_stand_up", "arc_36_trust_crack",
         "arc_father_call_on_ktx", "arc_father_passing", "arc_father_legacy",
         "arc_final_countdown",
     ],
     "B 비정석/진실/committed": [
+        "arc_year_one_mark", "arc_daeun_03_fork", "arc_34_doors_open",
+        "arc_sangchul_mirror",
         "arc_sangchul_confrontation", "arc_jaehyuk_mirror", "arc_daeun_proposal",
         "arc_daeun_wedding_day", "arc_daeun_final_choice", "arc_36_trust_crack",
         "arc_father_passing", "arc_father_legacy", "arc_final_countdown",
     ],
 }
 REQUIRED_FLAGS = {
-    name: ["arc_36_unexpected_hand_seen", "arc_final_week_seen"] for name in CHAINS
+    "A 정석/다은보냄/사기": [
+        "arc_sangchul_03_seen", "arc_jiyeon_offer_seen", "arc_father_03_seen",
+        "father_visit_deferred", "arc_36_unexpected_hand_seen", "arc_final_week_seen",
+    ],
+    "B 비정석/진실/committed": [
+        "arc_sangchul_03_seen", "arc_jiyeon_offer_seen", "arc_father_03_seen",
+        "visited_father", "arc_36_unexpected_hand_seen", "arc_final_week_seen",
+    ],
 }
 
 fail = 0

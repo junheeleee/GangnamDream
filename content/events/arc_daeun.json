@@ -212,7 +212,7 @@
       "daeun"
     ],
     "cooldown": 9999,
-    "description": "다은에게 고향에서 연락이 왔다. 엄마가 편찮으시고, 고향 마트에 안정된 자리가 났다고.\n\"...서울 정리하고 내려갈까 봐요. 여긴 너무 버거워요.\"\n그녀가 {name}을 본다. 묻지 않은 질문이 눈에 담겨 있다.\n\n서울에 붙잡아둘 이유가 없다면 — 가는 게 맞다.\n그런데 그 질문에 답하기가, 쉽지 않았다.",
+    "description": "새벽 편의점. 다은에게 고향에서 연락이 왔다. 어머니가 편찮으시고, 고향 마트에 안정된 자리가 났다고 했다.\n\n\"...서울 정리하고 내려갈까 봐요. 여긴 너무 버거워요.\"\n\n그녀가 {name}을 봤다. 서울에 남을 이유가 되어 달라는 말도, 보내 달라는 말도 하지 않았다. 묻지 않은 질문만 눈에 남았다.\n\n{name}은 이번 주에 답해야 할 이름이 다은 하나뿐이라고 생각했다. 아직은.",
     "choices": [
       {
         "text": "\"가지 마요. 같이 버텨봐요. 여기서\" — 붙잡는다",
@@ -221,6 +221,7 @@
           "daeun_chose_her",
           "arc_daeun_fork_seen"
         ],
+        "follow_up_event": "arc_father_medication",
         "effects": {
           "mental": 15,
           "tint": 9
@@ -239,6 +240,7 @@
           "daeun_let_her_go",
           "arc_daeun_fork_seen"
         ],
+        "follow_up_event": "arc_father_medication",
         "effects": {
           "mental": -12,
           "tint": -7

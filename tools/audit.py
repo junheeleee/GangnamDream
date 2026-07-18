@@ -49,6 +49,7 @@ def dict_keys_from_const(text, const_name):
 
 img_path = os.path.join(ROOT, "autoloads", "ImageRegistry.gd")
 VALID_PORTRAITS = VALID_BACKGROUNDS = VALID_CG = set()
+VALID_AMBIENCE = {"current_housing"}
 CAST_IDS = set()
 if os.path.exists(img_path):
     itext = open(img_path, encoding="utf-8").read()
@@ -56,6 +57,11 @@ if os.path.exists(img_path):
     VALID_BACKGROUNDS = dict_keys_from_const(itext, "BACKGROUNDS")
     VALID_CG         = dict_keys_from_const(itext, "CG")
     CAST_IDS         = dict_keys_from_const(itext, "PERSON_INFO")  # 인물 id 집합
+
+audio_path = os.path.join(ROOT, "autoloads", "BGMPlayer.gd")
+if os.path.exists(audio_path):
+    atext = open(audio_path, encoding="utf-8").read()
+    VALID_AMBIENCE |= dict_keys_from_const(atext, "AMBIENCE_TRACKS")
 
 # ══════════════════════════════════════════════════════════════
 # 1) GDScript dangling 동적 호출
@@ -288,6 +294,7 @@ def check_events():
             for ci, ch in enumerate(e.get("choices", [])):
                 result_cg = ch.get("result_cg")
                 result_bg = ch.get("result_background")
+                result_ambience = ch.get("result_ambience")
                 result_reveal = ch.get("result_cg_reveal_paragraph")
                 if result_cg and VALID_CG and result_cg not in VALID_CG:
                     err('%s  [%s] 선택지%d 모르는 result_cg id → "%s"'
@@ -298,6 +305,13 @@ def check_events():
                 if result_cg and result_bg:
                     err('%s  [%s] 선택지%d result_cg와 result_background를 동시에 지정할 수 없음'
                         % (rel(p), eid, ci))
+                if result_ambience is not None:
+                    if not isinstance(result_ambience, str) or result_ambience not in VALID_AMBIENCE:
+                        err('%s  [%s] 선택지%d 모르는 result_ambience id → "%s"'
+                            % (rel(p), eid, ci, result_ambience))
+                    if not result_bg:
+                        err('%s  [%s] 선택지%d result_ambience에는 result_background가 필요함'
+                            % (rel(p), eid, ci))
                 if result_reveal is not None:
                     if not result_cg:
                         err('%s  [%s] 선택지%d result_cg_reveal_paragraph에는 result_cg가 필요함'
@@ -619,7 +633,7 @@ LIVING_SCENE_KEYS = {"effect", "intensity", "blur_px", "memory"}
 LIVING_SCENE_EFFECTS = {"none", "rain", "snow", "memory", "city_light", "fireworks"}
 # apply_choice()가 실제로 처리하는 선택지 키 + 주석용 키
 CHOICE_KEYS = {"text", "text_if_moral", "effects", "flags", "follow_up_event", "result_text",
-               "result_cg", "result_cg_reveal_paragraph", "result_background",
+               "result_cg", "result_cg_reveal_paragraph", "result_background", "result_ambience",
                "opportunity", "cast_effects", "relationship_effects",
                "investment_effects", "tendency", "route", "grant_job",
                "conditions_note", "deferred_follow_up", "deferred_delay",

@@ -3,9 +3,9 @@
 
 This audit turns the live KO event catalog and representative arc-flow paths
 into a stable ledger of scene length, decision count, chain depth, chapter
-density, and isolated micro-scenes. Integrity errors always fail. Chapters 4
-and 5 also carry strict minimum chain/peak and maximum isolation ratchets so
-the late-game novel cannot silently collapse back into disconnected cards.
+density, and isolated micro-scenes. Integrity errors always fail. Re-composed
+chapters carry strict minimum chain/peak and maximum isolation ratchets so the
+novel cannot silently collapse back into disconnected cards.
 """
 
 from __future__ import annotations
@@ -25,7 +25,8 @@ ROOT = Path(__file__).resolve().parents[1]
 EVENT_DIR = ROOT / "content" / "events"
 WEEKS_PER_CHAPTER = 48
 TOTAL_CHAPTERS = 5
-LATE_CHAPTER_RATCHETS = {
+CHAPTER_RATCHETS = {
+    2: {"chained_min": 4, "peak_roots_min": 2, "isolated_micro_max": 2},
     4: {"chained_min": 3, "peak_roots_min": 2, "isolated_micro_max": 5},
     5: {"chained_min": 2, "peak_roots_min": 1, "isolated_micro_max": 1},
 }
@@ -347,7 +348,7 @@ def build_report() -> dict[str, Any]:
     ratchet_errors: list[str] = []
     for path in path_reports:
         rows = {int(row["chapter"]): row for row in path["chapters"]}
-        for chapter, contract in LATE_CHAPTER_RATCHETS.items():
+        for chapter, contract in CHAPTER_RATCHETS.items():
             row = rows[chapter]
             if int(row["chained"]) < contract["chained_min"]:
                 ratchet_errors.append(
@@ -365,7 +366,7 @@ def build_report() -> dict[str, Any]:
                     f"{row['isolated_micro']}>{contract['isolated_micro_max']}"
                 )
     if ratchet_errors:
-        raise ValueError("late chapter pacing ratchet: " + "; ".join(ratchet_errors))
+        raise ValueError("chapter pacing ratchet: " + "; ".join(ratchet_errors))
 
     return {
         "catalog": {

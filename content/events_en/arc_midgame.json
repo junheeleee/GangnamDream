@@ -138,7 +138,7 @@
   {
     "id": "arc_career_ceiling",
     "title": "The Salary Ceiling",
-    "description": "Six months in, {name} knew where every desk drawer stuck and could identify his manager by his footsteps. After another late night, he spread out his payslip in the empty office and calculated how long this salary would take to become 3 billion won.\n\nHe subtracted rent and living costs from his take-home pay, then added optimistic promotions and raises. The answer did not change. This line could not reach the target.\n\nHis father had drawn a salary all his life. Fluorescent lights hummed behind the figures. Unable to switch off the calculator, {name} saw with precision that diligence, too, could have a ceiling.",
+    "description": "The day after Sangchul said they were alike, {name} stayed alone in an office familiar enough that he knew which drawers stuck and could identify his manager by his footsteps.\n\nHe spread out his payslip and opened the calculator. He subtracted rent and living costs from his take-home pay, then added optimistic promotions and raises. How long would this salary take to become 3 billion won? The answer did not change. This line could not reach the target.\n\nHis father had drawn a salary all his life. Sangchul had said {name} knew what to discard in order to move fast. Fluorescent lights hummed behind the figures. Unable to switch off the calculator, {name} saw with precision that diligence, too, could have a ceiling.",
     "choices": [
       {
         "text": "Turned off the stock app's alerts.",
@@ -369,7 +369,7 @@
   {
     "id": "arc_father_medication",
     "title": "The Name of the Medication",
-    "description": "His phone gave a short buzz during the meeting. It was his mother.\n\n\"Your father started taking medication. He says it's nothing serious. Don't worry.\"\n\n{name} read it twice. What medication? Since when? What had the doctor said? His father always removed the important details first when telling people not to worry, and his mother seemed to have copied the habit word for word.\n\nThe reply cursor blinked while papers turned to the next agenda item. When a family says \"nothing serious\" before anyone has asked, it usually means someone is already afraid.",
+    "description": "Three days after answering Daeun, {name}'s phone gave a short buzz during a meeting. It was his mother.\n\n\"Your father started taking medication. He says it's nothing serious. Don't worry.\"\n\n{name} read it twice. What medication? Since when? What had the doctor said? His father always removed the important details first when telling people not to worry, and his mother seemed to have copied the habit word for word.\n\nDays ago, someone standing in front of him had asked whether to leave Seoul. Now someone in Changwon asked nothing from inside a screen. The reply cursor blinked. When a family says \"nothing serious\" before anyone has asked, it usually means someone is already afraid.",
     "choices": [
       {
         "text": "Called his father directly.",
@@ -731,7 +731,7 @@
   {
     "id": "arc_year_one_mark",
     "title": "One Year",
-    "description": "Exactly one year since the plan was set.\n\nSame alley visible from the goshiwon window. People still rushing past. The only thing that seems to have changed is the number in the account. But — if the number in the account has changed, that means something about him is changing too.",
+    "description": "Exactly one year since the plan was set.\n\n{name} sat beside the window of his current room and looked back over twelve months. People still hurried past, and Seoul moved as if nothing had happened. The only thing that seemed to have changed was the number in the account.\n\nBut if that number had changed, then the person who spent a year chasing it had changed a little too.",
     "choices": [
       {
         "text": "Compile a year's worth of records. Verify in numbers how far I've come.",
@@ -1117,16 +1117,16 @@
   {
     "id": "arc_34_parents_visit",
     "title": "Mom and Dad Come to Seoul",
-    "description": "Dad said he was coming to Seoul. With Mom.\n\nIt had been a while.\n\n{name} looked around the goshiwon room. Four and a half square meters. A desk, a bed, a tiny TV he never used.",
-    "description_low_mental": "Dad was coming to Seoul. With Mom.\n\n{name} stared at the goshiwon room.\n\nFour and a half square meters. He used to think he could manage anything. Right now he wasn't sure he could manage this.",
+    "description": "The week after deciding that people were the ones who opened doors, Dad said he was coming to Seoul. With Mom.\n\nIt had been a long time. {name} looked around the room he lived in now. Everything he had wanted to hide and everything he wanted them to see seemed to have accumulated here together.\n\nWhat would they say when they saw it? Probably nothing. Sometimes nothing weighed more.",
+    "description_low_mental": "The week after deciding that people were the ones who opened doors, Dad said he was coming to Seoul. With Mom.\n\n{name} put down the phone and looked around the room he lived in now. If he said he was holding up, Dad would try to believe him. Mom would pretend to.\n\nHe could not tell them not to come. He did not know whether he could open the door.",
     "choices": [
       {
-        "text": "Show them where you really live",
-        "result_text": "Mom stood in the doorway and didn't say anything for a moment.\n\nThen: \"It's small, but it's tidy.\"\n\nDad looked at the desk, the notebooks, the marked-up printouts. Didn't say anything.\n\nOn the way out, he quietly slipped {name} some money. {name} gave it back. They went back and forth twice.\n\n{name} kept it."
+        "text": "Buy them dinner near the room — do not show it",
+        "result_text": "At a restaurant near the room, Mom and Dad ate more than usual. Neither of them brought up where {name} lived.\n\nAfter seeing them off at the station, {name} returned and stood outside his door for a long time. They did not need to know. Not yet."
       },
       {
-        "text": "Meet them at a cafe near the station — easier that way",
-        "result_text": "Mom ordered an Americano. Dad ordered sikhye.\n\nThey sat at a window seat. Mom kept checking {name}'s face. Dad pretended to watch the street.\n\n\"You eating properly?\"\n\"Yeah.\"\n\"Working hard?\"\n\"Yeah.\"\n\nThree hours. The bill came to 42,000 won. Dad insisted on paying.\n\n{name} let him."
+        "text": "Show them the room — there is nothing to hide",
+        "result_text": "Mom stopped just inside the doorway. Without saying anything, she began wiping whatever her hands could reach.\n\nDad slowly looked over the window, the desk, and the life {name} had carried this far.\n\"...Is this neighborhood all right?\"\n\n{name} said it was. Dad nodded as if he believed him."
       }
     ]
   },

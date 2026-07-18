@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "updated": "2026-07-17",
+  "updated": "2026-07-18",
   "policy": {
     "diegetic_spoken_language": "ko",
     "localize_diegetic_speech": false,
@@ -68,6 +68,18 @@
     "cg_ending_burnout": {"ambience": "hospital"}
   },
   "events": {
+    "arc_year_one_mark": {"ambience": "current_housing", "suppress_music": true},
+    "arc_34_money_attracts_money": {"ambience": "current_housing", "suppress_music": true},
+    "arc_sangchul_03_network": {"ambience": "cafe", "suppress_music": true},
+    "arc_daeun_03_fork": {"ambience": "convenience", "suppress_music": true},
+    "arc_father_medication": {"ambience": "office", "suppress_music": true},
+    "arc_jiyeon_03_offer": {"ambience": "convenience", "suppress_music": true},
+    "arc_34_doors_open": {"ambience": "office", "suppress_music": true},
+    "arc_34_parents_visit": {"ambience": "current_housing", "suppress_music": true},
+    "arc_father_03_hospital": {"ambience": "current_housing", "suppress_music": true},
+    "arc_sangchul_mirror": {"ambience": "street", "music": {"key": "reckoning", "start_paragraph": 3}},
+    "arc_career_ceiling": {"ambience": "office", "music": {"key": "reckoning", "start_paragraph": 0}},
+    "arc_father_04_visit": {"ambience": "hospital", "music": {"key": "grief", "start_paragraph": 3}},
     "arc_36_trust_crack": {"ambience": "street", "suppress_music": true},
     "arc_36_unexpected_hand": {"ambience": "cafe", "music": {"key": "intimate", "start_paragraph": 0}},
     "arc_final_countdown": {"ambience": "street", "music": {"key": "reckoning", "start_paragraph": 4}},

@@ -1,5 +1,5 @@
 {
-  "version": 21,
+  "version": 22,
   "tag_coverage": [
     "climate",
     "season",
@@ -66,6 +66,15 @@
     {"id": "arc_father_call_on_ktx", "background": "ktx_window", "portrait": null},
     {"id": "arc_father_call_on_ktx_memory", "background": "ktx_window", "portrait": "father_home"},
     {"id": "arc_father_call_on_ktx_number", "background": "ktx_window", "portrait": null},
+    {"id": "arc_year_one_mark", "background": "current_housing", "portrait": "player_tired"},
+    {"id": "arc_34_money_attracts_money", "background": "investment_phone", "portrait": "player_normal"},
+    {"id": "arc_daeun_03_fork", "background": "convenience_night", "portrait": "daeun_sad"},
+    {"id": "arc_jiyeon_03_offer", "background": "convenience_night", "portrait": "jiyeon_warm", "choice_result_backgrounds": {"0": "street", "1": "cafe"}},
+    {"id": "arc_34_doors_open", "background": "meeting", "portrait": "player_normal"},
+    {"id": "arc_34_parents_visit", "background": "current_housing", "portrait": "player_tired", "choice_result_backgrounds": {"0": "restaurant", "1": "current_housing"}},
+    {"id": "arc_father_03_hospital", "background": "current_housing", "portrait": "player_shocked"},
+    {"id": "arc_sangchul_mirror", "background": "pojangmacha", "portrait": "sangchul_serious"},
+    {"id": "arc_career_ceiling", "background": "office", "portrait": "player_tired"},
     {"id": "arc_father_passing", "background": "current_housing", "portrait": "player_shocked"},
     {"id": "arc_father_passing_platform", "background": "seoul_station_ktx_platform_winter", "portrait": null},
     {"id": "arc_father_passing_deal_room", "background": "meeting", "portrait": "player_suit"},
@@ -97,7 +106,7 @@
     {"id": "arc_year3_close", "months": [12], "background": "year3_hangang_winter_night", "portrait": "player_cold_snap"},
     {"id": "arc_year4_close", "months": [12], "background": "year4_winter_rooftop", "portrait": "player_cold_snap"},
 
-    {"id": "arc_father_medication", "background": "goshiwon_room", "portrait": "player_tired"},
+    {"id": "arc_father_medication", "background": "office", "portrait": "player_tired"},
     {"id": "callback_called_about_medication_echo", "background": "goshiwon_room", "portrait": "father_home"},
     {"id": "arc_sangchul_01_meet", "background": "realestate_office", "portrait": "sangchul_normal", "cg": null},
     {"id": "arc_sangchul_01_measure", "background": "realestate_office", "portrait": "sangchul_serious", "cg": null},

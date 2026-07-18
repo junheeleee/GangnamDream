@@ -707,6 +707,22 @@
         "portrait_role": "local"
       }
     },
+    "arc_34_parents_visit": {
+      "logic": {
+        "requires": [{"fact": "father.life", "is": "concern"}],
+        "legacy": {
+          "forbids_flags": ["arc_34_parents_visit_seen", "father_passed"],
+          "produces_all": ["arc_34_parents_visit_seen", "arc_34_parents_visited"]
+        }
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "current_housing",
+        "participants": ["player", "father", "mother"],
+        "portrait_role": "local",
+        "expected_portrait": "player_tired"
+      }
+    },
     "arc_father_03_hospital": {
       "logic": {
         "requires": [{"fact": "father.life", "is": "concern"}],
@@ -720,7 +736,7 @@
       "presentation": {
         "channel": "phone",
         "state": "connected",
-        "scene_location": "current_location",
+        "scene_location": "current_housing",
         "remote_location": "changwon_hospital",
         "remote_actor": "mother",
         "portrait_role": "local"
@@ -731,7 +747,7 @@
         "channel": "message",
         "state": "received",
         "scene_location": "office",
-        "remote_location": "changwon",
+        "remote_location": "changwon_home",
         "remote_actor": "mother",
         "portrait_role": "local"
       }

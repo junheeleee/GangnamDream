@@ -118,6 +118,7 @@ const QA_SCOPE_HYUNSU_REUNION := "hyunsu_reunion"
 const QA_SCOPE_SANGCHUL_CONFRONTATION := "sangchul_confrontation"
 const QA_SCOPE_FATHER_PEAKS := "father_peaks"
 const QA_SCOPE_FATHER_KTX := "father_ktx"
+const QA_SCOPE_CHAPTER2_PEAKS := "chapter2_peaks"
 const QA_SCOPE_FIRST_KISS := "first_kiss"
 const QA_SCOPE_DAEUN_FIRST_NIGHT := "daeun_first_night"
 const QA_SCOPE_SEASON_PEAKS := "season_peaks"
@@ -466,6 +467,16 @@ func _ready() -> void:
 			get_tree().quit(1)
 			return
 		print("SCREENSHOT_QA_DONE scope=father-ktx lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_CHAPTER2_PEAKS:
+		var lang := _qa_language("en")
+		await _shot_chapter2_peak_surfaces(
+				lang, "chapter2_peaks_en_" if lang == "en" else "chapter2_peaks_ko_")
+		if _qa_failed:
+			get_tree().quit(1)
+			return
+		print("SCREENSHOT_QA_DONE scope=chapter2-peaks lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_FIRST_KISS:
@@ -846,6 +857,11 @@ func _qa_scope() -> String:
 				"qa=father-ktx", "--qa=father-ktx", "qa=father_ktx", "--qa=father_ktx",
 				"scope=father-ktx", "--scope=father-ktx"]:
 			return QA_SCOPE_FATHER_KTX
+		if arg in ["chapter2-peaks", "chapter2_peaks", "chapter-two-peaks",
+				"--chapter2-peaks", "--chapter2_peaks", "qa=chapter2-peaks",
+				"--qa=chapter2-peaks", "qa=chapter2_peaks", "--qa=chapter2_peaks",
+				"scope=chapter2-peaks", "--scope=chapter2-peaks"]:
+			return QA_SCOPE_CHAPTER2_PEAKS
 		if arg in ["first-kiss", "first_kiss", "romance-kiss", "romance_kiss",
 				"--first-kiss", "--first_kiss", "qa=first-kiss", "--qa=first-kiss",
 				"qa=first_kiss", "--qa=first_kiss", "scope=first-kiss", "--scope=first-kiss"]:
@@ -1367,6 +1383,12 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 		"arc_year3_close": "hangang",
 		"arc_year4_close": "street",
 		"arc_sangchul_03_network": "cafe",
+		"arc_daeun_03_fork": "convenience",
+		"arc_father_medication": "office",
+		"arc_34_doors_open": "office",
+		"arc_sangchul_mirror": "street",
+		"arc_career_ceiling": "office",
+		"arc_father_04_visit": "hospital",
 		"arc_season_sea_daeun": "train",
 		"arc_season_sea_daeun_years": "train",
 		"arc_season_sea_daeun_horizon": "train",
@@ -1409,6 +1431,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	_assert_sangchul_deduction_visual_state(story, event_id)
 	_assert_sangchul_casino_visual_state(story, event_id)
 	_assert_living_scene_state(story, event_id)
+	_assert_chapter2_visual_state(story, event_id, select_choice)
 	if _qa_scope() == QA_SCOPE_TEXT_MATERIAL:
 		_assert_story_text_material(story)
 	await _save(shot_name)
@@ -5341,6 +5364,144 @@ func _assert_sangchul_confrontation_state(
 	if bool(GameState.flags.get("arc_sangchul_reckoning_seen", false)) != reckoned \
 			or bool(GameState.flags.get("sangchul_confronted", false)) != reckoned:
 		_fail("Sangchul %s changed the confrontation/reckoning route state." % label)
+
+func _shot_chapter2_peak_surfaces(
+		lang: String = "en", prefix: String = "chapter2_peaks_en_") -> void:
+	_set_qa_language(lang)
+
+	for event_case in [
+		["arc_year_one_mark", "01_year_ledger_choices"],
+		["arc_34_money_attracts_money", "02_capital_structure_choices"],
+		["arc_sangchul_03_network", "03_network_choices"],
+		["arc_daeun_03_fork", "04_daeun_claim_choices"],
+		["arc_father_medication", "05_medication_message_choices"],
+		["arc_jiyeon_03_offer", "06_jiyeon_claim_choices"],
+		["arc_34_doors_open", "09_people_open_doors_choices"],
+		["arc_34_parents_visit", "10_parents_visit_choices"],
+		["arc_father_03_hospital", "13_hospital_call_choices"],
+		["arc_sangchul_mirror", "14_mirror_choices"],
+		["arc_career_ceiling", "15_salary_ceiling_choices"],
+		["arc_father_04_visit", "16_hospital_door_choices"],
+	]:
+		_prepare_chapter2_peak_qa_state()
+		await _shot_story_event(str(event_case[0]), prefix + str(event_case[1]), "", 0.45, true, true)
+
+	_prepare_chapter2_peak_qa_state()
+	await _shot_story_event(
+			"arc_jiyeon_03_offer", prefix + "07_jiyeon_decline_street", "", 0.45, true, true, 0)
+	if not GameState.flags.get("jiyeon_refused_coffee", false):
+		_fail("Chapter 2 Jiyeon decline lost its canonical route flag.")
+	_prepare_chapter2_peak_qa_state()
+	await _shot_story_event(
+			"arc_jiyeon_03_offer", prefix + "08_jiyeon_accept_cafe", "", 0.45, true, true, 1)
+	if not GameState.flags.get("jiyeon_had_coffee", false):
+		_fail("Chapter 2 Jiyeon coffee route lost its canonical route flag.")
+
+	_prepare_chapter2_peak_qa_state()
+	await _shot_story_event(
+			"arc_34_parents_visit", prefix + "11_parents_hidden_restaurant", "", 0.45, true, true, 0)
+	if not GameState.flags.get("hid_room_from_parents", false) \
+			or GameState.flags.get("showed_room_to_parents", false):
+		_fail("Chapter 2 hidden-room choice no longer matches its result or flag.")
+	_prepare_chapter2_peak_qa_state()
+	await _shot_story_event(
+			"arc_34_parents_visit", prefix + "12_parents_shown_current_home", "", 0.45, true, true, 1)
+	if not GameState.flags.get("showed_room_to_parents", false) \
+			or GameState.flags.get("hid_room_from_parents", false):
+		_fail("Chapter 2 shown-room choice no longer matches its result or flag.")
+
+	_prepare_chapter2_peak_qa_state()
+	await _shot_story_event(
+			"arc_father_04_visit", prefix + "17_hospital_door_deferred", "", 0.45, true, true, 3)
+	_assert_father_visit_deferred_state()
+	_prepare_chapter2_peak_qa_state()
+	await _shot_story_event(
+			"arc_father_04_visit", prefix + "18_hospital_door_entered", "", 0.45, true, true, 0)
+	_assert_father_visit_entered_state()
+
+func _prepare_chapter2_peak_qa_state() -> void:
+	_prepare_main_game_state()
+	GameState.turn = 88
+	GameState.month = 10
+	GameState.housing = "oneroom"
+	GameState.mental = 60
+	GameState.moral_tint = 0.0
+	for flag in [
+		"arc_year_one_mark_seen", "arc_34_money_attracts_seen", "arc_sangchul_03_seen",
+		"arc_daeun_fork_seen", "daeun_chose_her", "daeun_let_her_go",
+		"arc_father_medication_seen", "called_about_medication", "ignored_medication_signal",
+		"visited_for_medication", "arc_jiyeon_offer_seen", "jiyeon_refused_coffee",
+		"jiyeon_had_coffee", "jiyeon_honest", "arc_34_doors_open_seen",
+		"arc_34_parents_visit_seen", "arc_34_parents_visited", "hid_room_from_parents",
+		"showed_room_to_parents", "arc_father_03_seen", "rushed_to_father",
+		"sent_money_instead", "sangchul_helped_with_father", "arc_sangchul_mirror_seen",
+		"sangchul_called_you_his_mirror", "arc_career_ceiling_seen", "visited_father",
+		"father_visit_deferred",
+	]:
+		GameState.flags.erase(flag)
+	GameState.flags["arc_father_02_done"] = true
+	_set_cast_relation_for_qa("daeun", 30)
+	_set_cast_relation_for_qa("jiyeon", 30)
+	_set_cast_relation_for_qa("sangchul", 65)
+	_set_cast_relation_for_qa("father", 50)
+	GameState.cast["father"]["stage"] = "normal"
+
+func _assert_chapter2_visual_state(story: Node, event_id: String, selected_choice: int) -> void:
+	if _qa_scope() != QA_SCOPE_CHAPTER2_PEAKS:
+		return
+	if event_id == "arc_father_04_visit" and selected_choice == 0:
+		_assert_story_cg(story, "cg_ending_father", event_id, true)
+		return
+	var expected_backgrounds := {
+		"arc_year_one_mark": "apartment",
+		"arc_34_money_attracts_money": "investment_phone",
+		"arc_sangchul_03_network": "sangchul_private_dining",
+		"arc_daeun_03_fork": "convenience_night",
+		"arc_father_medication": "office",
+		"arc_jiyeon_03_offer": "convenience_night",
+		"arc_34_doors_open": "meeting",
+		"arc_34_parents_visit": "apartment",
+		"arc_father_03_hospital": "apartment",
+		"arc_sangchul_mirror": "pojangmacha",
+		"arc_career_ceiling": "office",
+		"arc_father_04_visit": "hospital",
+	}
+	var result_backgrounds := {
+		"arc_jiyeon_03_offer:0": "street",
+		"arc_jiyeon_03_offer:1": "cafe",
+		"arc_34_parents_visit:0": "restaurant",
+		"arc_34_parents_visit:1": "apartment",
+	}
+	var result_ambiences := {
+		"arc_jiyeon_03_offer:0": "street",
+		"arc_jiyeon_03_offer:1": "cafe",
+		"arc_34_parents_visit:0": "hoesik",
+		"arc_34_parents_visit:1": "oneroom",
+	}
+	var result_key := "%s:%d" % [event_id, selected_choice]
+	var expected_background := str(result_backgrounds.get(
+			result_key, expected_backgrounds.get(event_id, "")))
+	if expected_background.is_empty():
+		return
+	var actual_background := str(story.get("_event_background_id"))
+	if actual_background != expected_background:
+		_fail("%s background expected %s at choice=%d, got %s." % [
+			event_id, expected_background, selected_choice, actual_background,
+		])
+		return
+	var bg_img := story.get("_bg_img") as TextureRect
+	var actual_path := bg_img.texture.resource_path \
+			if is_instance_valid(bg_img) and bg_img.texture != null else ""
+	var expected_path := ImageRegistry.get_background(expected_background)
+	if actual_path != expected_path:
+		_fail("%s background texture expected %s, got %s." % [event_id, expected_path, actual_path])
+	if result_ambiences.has(result_key):
+		var expected_ambience := str(result_ambiences[result_key])
+		var actual_ambience := str(BGMPlayer.get("_current_ambience_key"))
+		if actual_ambience != expected_ambience:
+			_fail("%s result ambience expected %s at choice=%d, got %s." % [
+				event_id, expected_ambience, selected_choice, actual_ambience,
+			])
 
 func _shot_father_peak_surfaces(lang: String = "en", prefix: String = "father_peaks_en_") -> void:
 	_set_qa_language(lang)

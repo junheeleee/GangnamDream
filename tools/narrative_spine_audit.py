@@ -16,7 +16,14 @@ EVENTS_KO = os.path.join(ROOT, "content", "events")
 EVENTS_EN = os.path.join(ROOT, "content", "events_en")
 PHASES = ("setup", "escalation", "reversal", "boss", "aftermath")
 CORE_CAST = {"father", "sangchul", "jaehyuk", "hyunsu", "daeun", "jiyeon"}
-LATE_PHASE_REQUIRED = {
+CHAPTER_PHASE_REQUIRED = {
+    2: {
+        "setup": {"arc_year_one_mark", "arc_34_money_attracts_money", "arc_sangchul_03_network"},
+        "escalation": {"arc_daeun_03_fork", "arc_father_medication", "arc_jiyeon_03_offer"},
+        "reversal": {"arc_34_doors_open", "arc_34_parents_visit", "arc_father_03_hospital"},
+        "boss": {"arc_sangchul_mirror", "arc_career_ceiling", "arc_father_04_visit"},
+        "aftermath": {"arc_year2_close"},
+    },
     4: {
         "setup": {"arc_36_reality_check", "arc_year_three_crossroads"},
         "escalation": {"arc_36_trust_crack", "arc_36_unexpected_hand"},
@@ -165,7 +172,7 @@ def main() -> int:
                         f"event {event_id} belongs to chapters {phase_owner[event_id]} and {number}",
                     )
                 phase_owner[event_id] = number
-        for phase, required_ids in LATE_PHASE_REQUIRED.get(number, {}).items():
+        for phase, required_ids in CHAPTER_PHASE_REQUIRED.get(number, {}).items():
             actual_ids = {str(value) for value in chapter.get(phase, [])}
             missing_ids = sorted(required_ids - actual_ids)
             if missing_ids:

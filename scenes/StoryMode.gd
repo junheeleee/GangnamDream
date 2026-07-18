@@ -2830,6 +2830,7 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 			_bg_img.texture = ImageRegistry.load_texture(result_cg_path)
 			_current_uses_cg = true
 			_event_cg_id = result_cg_id
+			_event_cg_path = result_cg_path
 			if not _read_only_replay:
 				MetaProgression.record_cg_unlocked(result_cg_id)
 			_apply_story_surface_palette(true)
@@ -2856,7 +2857,14 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 	result_event["background"] = result_background_id
 	_configure_living_scene(result_event)
 	_show_portrait(_resolved_event_portrait_id(), bool(_current.get("bg_focus", false)))
-	BGMPlayer.update_event_ambience(result_event)
+	var result_ambience := str(choice.get("result_ambience", "")).strip_edges()
+	if result_ambience == "current_housing":
+		BGMPlayer.update_idle_ambience()
+	elif not result_ambience.is_empty():
+		BGMPlayer.set_ambience(result_ambience)
+		BGMPlayer.set_season_ambience("")
+	else:
+		BGMPlayer.update_event_ambience(result_event)
 	if _hud_panel != null and is_instance_valid(_hud_panel):
 		_hud_panel.visible = not _story_visual_override_active
 

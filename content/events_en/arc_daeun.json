@@ -51,7 +51,7 @@
   {
     "id": "arc_daeun_03_fork",
     "title": "Fork in the Road",
-    "description": "Daeun got a call from home. Her mother is unwell, and a stable position opened up at the local market back in her hometown.\n\"...I think I'm going to pack up here and go back. Seoul is just too much.\"\nShe looks at {name}. An unasked question lives in her eyes.\n\nThere's no reason to keep her in Seoul.\nBut answering that question — wasn't easy.",
+    "description": "At the convenience store before dawn, Daeun got a call from home. Her mother was unwell, and a stable position had opened at the local market in her hometown.\n\n\"...I think I may pack up here and go back. Seoul is just too much.\"\n\nShe looked at {name}. She did not ask him to become her reason to stay, or to let her go. Only the unasked question remained in her eyes.\n\n{name} thought Daeun would be the only name he had to answer that week. For now.",
     "choices": [
       {
         "text": "\"Don't go. Let's hold on here together\" — reach for her",

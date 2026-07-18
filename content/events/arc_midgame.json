@@ -455,7 +455,7 @@
       "job"
     ],
     "cooldown": 9999,
-    "description": "재직 반년. 책상 서랍의 위치와 팀장 발소리를 구분할 만큼 회사에 익숙해졌다. 야근 뒤 빈 사무실에서 월급명세서를 펴고 계산기를 두드렸다. 이 월급으로 30억을 모으려면 몇 년이 필요한가.\n\n세후 수입에서 월세와 생활비를 빼고, 승진과 인상률까지 낙관적으로 넣었다. 결과는 달라지지 않았다. 이 선을 따라서는 수학적으로 닿지 못한다.\n\n아버지도 평생 월급을 받았다. 숫자 뒤에서 형광등이 낮게 울렸다. {name}은 계산기를 끄지 못한 채, 성실함에도 천장이 있다는 사실을 처음으로 정확히 봤다.",
+    "description": "임상철에게서 자신과 닮았다는 말을 들은 다음 날. 책상 서랍의 위치와 팀장 발소리를 구분할 만큼 익숙해진 사무실에 혼자 남았다.\n\n{name}은 월급명세서를 펴고 계산기를 두드렸다. 세후 수입에서 월세와 생활비를 빼고, 승진과 인상률까지 낙관적으로 넣었다. 이 월급으로 30억을 모으려면 몇 년이 필요한가. 결과는 달라지지 않았다. 이 선을 따라서는 수학적으로 닿지 못한다.\n\n아버지도 평생 월급을 받았다. 상철은 무엇을 버려야 빠르게 갈 수 있는지 안다고 했다. 숫자 뒤에서 형광등이 낮게 울렸다. {name}은 계산기를 끄지 못한 채, 성실함에도 천장이 있다는 사실을 처음으로 정확히 봤다.",
     "choices": [
       {
         "text": "주식 앱 알림을 껐다",
@@ -467,6 +467,7 @@
           "arc_career_ceiling_seen",
           "kept_job_as_base"
         ],
+        "follow_up_event": "arc_father_04_visit",
         "result_text": "주식 앱 알림을 끄고 폰을 엎어두었다. 근무 시간에는 월급을 지키고, 퇴근 뒤에 다른 가능성을 키우기로 했다. 회사는 목표가 아니라 자본을 공급하는 기반이었다.\n\n다음 날 {name}은 평소보다 일찍 출근해 맡은 일을 끝냈다. 아무도 그가 밤마다 다른 장부를 연다는 걸 몰랐다.\n\n두 삶을 동시에 붙드는 선택이었다. 어느 쪽 손이 먼저 풀릴지는 아직 몰랐다."
       },
       {
@@ -480,6 +481,7 @@
           "arc_career_ceiling_seen",
           "career_pivot_intent"
         ],
+        "follow_up_event": "arc_father_04_visit",
         "result_text": "퇴근길 지하철에서 이직 사이트를 열었다. 연봉 필터를 올릴수록 공고 수가 줄고, 요구 경력은 길어졌다. 그래도 지금 월급으로는 안 된다는 계산만큼은 분명했다.\n\n{name}은 관심 공고 세 개를 저장했다. 어느 판으로 옮길지, 그 판이 정말 다른지 아직 몰랐다.\n\n열차 문에 비친 사원증이 흔들렸다. 떠나기로 한 사람보다, 떠날 곳을 찾기 시작한 사람의 얼굴이었다."
       },
       {
@@ -491,6 +493,7 @@
         "flags": [
           "arc_career_ceiling_seen"
         ],
+        "follow_up_event": "arc_father_04_visit",
         "result_text": "계산기를 뒤집어 놓았다. 처음부터 월급만으로 갈 생각은 없었다. 이 숫자는 실패 통보가 아니라 역할을 확인한 것뿐이라고 스스로에게 말했다.\n\n월급은 생활을 버티게 하고, 남은 시간은 다른 것을 키운다. {name}은 다시 업무 화면을 켰다.\n\n모니터가 밝아지자 방금 본 천장이 사라졌다. 사라진 것과 없어진 것은 다르다는 걸 알면서도."
       }
     ]
@@ -1153,7 +1156,7 @@
   {
     "id": "arc_father_medication",
     "title": "약 이름",
-    "background": "goshiwon_room",
+    "background": "office",
     "portrait": "player_tired",
     "category": "story",
     "rarity": "story",
@@ -1168,7 +1171,7 @@
       "family"
     ],
     "cooldown": 9999,
-    "description": "회의 중 휴대폰이 짧게 울렸다. 어머니였다.\n\n'아버지 요즘 약 드시기 시작했어. 대수롭지 않대. 걱정하지 마라.'\n\n{name}은 문장을 두 번 읽었다. 무슨 약인지, 언제부터인지, 병원에서는 뭐라고 했는지 아무것도 없었다. 아버지는 걱정하지 말라고 할 때 늘 중요한 설명부터 줄였다. 어머니도 그 말투를 그대로 옮겨 적은 것 같았다.\n\n답장 칸에 커서가 깜빡였다. 회의실에서는 다음 안건을 넘기는 종이 소리가 났다. 대수롭지 않다는 말을 가족이 먼저 꺼낼 때는, 대개 누군가 이미 걱정하고 있다는 뜻이었다.",
+    "description": "다은에게 답한 지 사흘 뒤, 회의 중 휴대폰이 짧게 울렸다. 어머니였다.\n\n'아버지 요즘 약 드시기 시작했어. 대수롭지 않대. 걱정하지 마라.'\n\n{name}은 문장을 두 번 읽었다. 무슨 약인지, 언제부터인지, 병원에서는 뭐라고 했는지 아무것도 없었다. 아버지는 걱정하지 말라고 할 때 늘 중요한 설명부터 줄였다. 어머니도 그 말투를 그대로 옮겨 적은 것 같았다.\n\n며칠 전에는 서울을 떠날지 묻는 사람이 눈앞에 있었다. 이제는 창원에서 아무것도 묻지 않는 사람이 화면 안에 있었다. 답장 칸의 커서가 깜빡였다. 대수롭지 않다는 말을 가족이 먼저 꺼낼 때는, 대개 누군가 이미 걱정하고 있다는 뜻이었다.",
     "choices": [
       {
         "text": "아버지한테 직접 전화했다",
@@ -1180,6 +1183,7 @@
           "arc_father_medication_seen",
           "called_about_medication"
         ],
+        "follow_up_event": "arc_jiyeon_03_offer",
         "cast_effects": {
           "father": {
             "affinity": 3
@@ -1196,6 +1200,7 @@
           "arc_father_medication_seen",
           "ignored_medication_signal"
         ],
+        "follow_up_event": "arc_jiyeon_03_offer",
         "result_text": "'알겠어요. 잘 챙겨드세요.'라고 답하고 화면을 닫았다. 지금은 회의도, 마감도, 계산할 것도 남아 있었다. 아버지 약까지 붙들 여유는 없다고 생각했다.\n\n자리로 돌아오자 누군가 방금 말한 안건을 물었다. {name}은 잠깐 아무것도 듣지 못한 사람처럼 멈췄다가 대답했다.\n\n일은 다시 이어졌다. 주머니 속 폰은 더 울리지 않았는데, 닫은 문장이 하루 종일 손바닥에 무겁게 남았다."
       },
       {
@@ -1209,6 +1214,7 @@
           "arc_father_medication_seen",
           "visited_for_medication"
         ],
+        "follow_up_event": "arc_jiyeon_03_offer",
         "cast_effects": {
           "father": {
             "affinity": 4
@@ -2272,7 +2278,7 @@
   {
     "id": "arc_year_one_mark",
     "title": "1년",
-    "description": "계획을 세운 지 꼭 1년이 지났다.\n\n고시원 창문 너머로 같은 골목이 보인다. 사람들은 여전히 바쁘게 지나간다. 달라진 건 통장 숫자뿐인 것 같다. 그런데 — 통장 숫자가 달라졌다는 건, 내가 달라지고 있다는 뜻이기도 하다.",
+    "description": "계획을 세운 지 꼭 1년이 지났다.\n\n{name}은 지금 사는 방의 창가에 앉아 지난 열두 달을 돌아봤다. 사람들은 여전히 바쁘게 지나가고, 서울은 아무 일도 없었다는 듯 움직였다. 달라진 건 통장 숫자뿐인 것 같았다.\n\n그런데 통장 숫자가 달라졌다는 건, 그 숫자를 좇아온 사람도 조금은 달라졌다는 뜻이었다.",
     "category": "social",
     "rarity": "uncommon",
     "weight": 1.0,
@@ -2294,6 +2300,7 @@
           "arc_year_one_mark_seen",
           "keeps_records"
         ],
+        "follow_up_event": "arc_34_money_attracts_money",
         "result_text": "공책에 적어 내려갔다. 수입, 지출, 투자, 실패. 숫자는 거짓말을 하지 않는다. 나는 분명히 앞으로 나아가고 있었다."
       },
       {
@@ -2304,6 +2311,7 @@
         "flags": [
           "arc_year_one_mark_seen"
         ],
+        "follow_up_event": "arc_34_money_attracts_money",
         "result_text": "그냥 자정을 넘겼다. 아무 것도 하지 않았다. 그것도 선택이다."
       },
       {
@@ -2317,10 +2325,11 @@
           "arc_year_one_mark_seen",
           "grind_mentality"
         ],
+        "follow_up_event": "arc_34_money_attracts_money",
         "result_text": "핸드폰을 들었다. 공부할 것, 알아볼 것, 움직여야 할 것. 목록이 길어졌다. 좋은 신호다."
       }
     ],
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "player_tired"
   },
   {
@@ -3342,15 +3351,17 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "portrait": "father_weak",
-    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "background": "current_housing",
     "conditions": {},
     "cooldown": 9999,
-    "description": "아버지가 서울에 온다고 했다. 어머니랑 같이.\n\n오랜만이었다. {name}은 고시원 방을 한 번 둘러봤다.\n6평. 침대. 책상. 옷걸이. 창문은 벽이 보인다.\n\n부모님이 이 방을 보면 뭐라고 할까.\n{name}은 생각했다 — 아무 말도 안 할 것 같다.\n아무 말도 안 하는 게 더 무거울 수 있다.",
-    "description_low_mental": "아버지가 서울에 온다고 했다. 어머니랑 같이.\n\n{name}은 폰을 내려놨다.\n\n이 방을 보여줘야 한다. 6평. 벽이 보이는 창문.\n괜찮다고 말하면 아버지는 믿겠지만 어머니 얼굴이 떠올랐다.\n\n오지 말라고 할 수는 없었다.",
+    "description": "사람이 문을 연다는 생각을 한 다음 주, 아버지가 서울에 온다고 했다. 어머니랑 같이.\n\n오랜만이었다. {name}은 지금 사는 방을 한 번 둘러봤다. 이곳까지 오는 동안 숨기고 싶었던 것과 보여주고 싶었던 것이 함께 쌓여 있었다.\n\n부모님이 이 방을 보면 뭐라고 할까. {name}은 생각했다. 아마 아무 말도 하지 않을 것이다.\n\n아무 말도 하지 않는 게 더 무거울 수 있었다.",
+    "description_low_mental": "사람이 문을 연다는 생각을 한 다음 주, 아버지가 서울에 온다고 했다. 어머니랑 같이.\n\n{name}은 폰을 내려놓고 지금 사는 방을 둘러봤다. 잘 버티고 있다고 말하면 아버지는 믿으려 할 것이다. 어머니는 믿는 척할 것이다.\n\n오지 말라고 할 수는 없었다. 문을 열어 보여줄 수 있을지는 알 수 없었다.",
     "choices": [
       {
         "text": "방 근처 식당에서 밥을 산다 — 방은 안 보여준다",
+        "result_background": "restaurant",
+        "result_ambience": "hoesik",
         "effects": {
           "money": -80000,
           "mental": 4,
@@ -3361,10 +3372,13 @@
           "hid_room_from_parents",
           "arc_34_parents_visit_seen"
         ],
-        "result_text": "삼겹살집. 부모님은 많이 드셨다.\n아버지는 방 얘기를 꺼내지 않았다. 어머니도.\n\n방으로 돌아와서 {name}은 창문을 열었다. 벽이 보였다.\n부모님은 몰라도 된다. 아직은."
+        "follow_up_event": "arc_father_03_hospital",
+        "result_text": "방 근처 식당에서 부모님은 평소보다 많이 드셨다. 아버지는 방 얘기를 꺼내지 않았다. 어머니도.\n\n두 사람을 역까지 배웅하고 돌아온 {name}은 문 앞에 한참 서 있었다. 부모님은 몰라도 된다. 아직은."
       },
       {
         "text": "방을 보여준다 — 숨길 게 없다",
+        "result_background": "current_housing",
+        "result_ambience": "current_housing",
         "effects": {
           "mental": 2,
           "reputation": 2
@@ -3374,7 +3388,8 @@
           "showed_room_to_parents",
           "arc_34_parents_visit_seen"
         ],
-        "result_text": "방에 들어선 어머니가 잠깐 멈췄다.\n아무 말도 안 했다. 뭔가 닦기 시작했다.\n\n아버지는 창문을 봤다.\n\"...이 동네 괜찮냐.\"\n\n괜찮다고 했다.\n아버지는 고개를 끄덕였다. 믿는 것 같았다."
+        "follow_up_event": "arc_father_03_hospital",
+        "result_text": "방에 들어선 어머니가 잠깐 멈췄다. 아무 말도 하지 않고 손 닿는 곳을 닦기 시작했다.\n\n아버지는 창가와 책상, {name}이 여기까지 가져온 살림을 천천히 봤다.\n\"...이 동네 괜찮냐.\"\n\n괜찮다고 했다. 아버지는 고개를 끄덕였다. 믿는 것 같았다."
       }
     ]
   },
