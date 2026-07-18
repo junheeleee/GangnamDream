@@ -2318,6 +2318,8 @@ func _run_demo_input_route(
 			else [1, 4, 8, 12, 16, 20, 24]
 	var pressure_sequence: Array[String] = []
 	var pressure_family_sequence: Array[String] = []
+	var pressure_family_counts: Dictionary = {}
+	var pressure_families_by_chapter: Array[Dictionary] = [{}, {}, {}, {}, {}]
 	var pressure_counts: Dictionary = {}
 	var pressure_month_counts: Dictionary = {}
 	var week_kind_sequence: Array[String] = []
@@ -2426,8 +2428,19 @@ func _run_demo_input_route(
 							return
 						crisis_promotion_weeks.append(GameState.turn)
 				if GameState.turn <= _route_week_limit and director_requires_input:
+					var unique_pressure_actions: Dictionary = {}
+					for action_id in pressure_actions:
+						unique_pressure_actions[action_id] = true
+					if pressure_actions.size() != 3 or unique_pressure_actions.size() != 3:
+						MetaProgression.data = original_meta
+						_fail("Pressure %s at week %d exposed %d actions (%d distinct): %s." % [
+							pressure_id, GameState.turn, pressure_actions.size(),
+							unique_pressure_actions.size(), pressure_actions])
+						return
 					pressure_sequence.append(pressure_id)
 					pressure_family_sequence.append(pressure_family)
+					pressure_family_counts[pressure_family] = int(pressure_family_counts.get(pressure_family, 0)) + 1
+					pressure_families_by_chapter[mini(4, floori(float(GameState.turn - 1) / 48.0))][pressure_family] = true
 					pressure_counts[pressure_id] = int(pressure_counts.get(pressure_id, 0)) + 1
 					if pressure_id == "capital":
 						var capital_month := "%04d-%02d" % [GameState.year, GameState.month]
@@ -2455,6 +2468,12 @@ func _run_demo_input_route(
 					and GameState.action_points > 0 \
 					and not cards.is_empty() \
 					and str(scene.get("pending_result_text")).is_empty():
+				_assert_ap_cards_inside_viewport(scene)
+				var pressure_frame := _find_demo_pressure_frame(scene)
+				_assert_control_in_tv_safe_area(pressure_frame, "full-run AP pressure week %d" % GameState.turn)
+				if _qa_failed:
+					MetaProgression.data = original_meta
+					return
 				await _save("%s_%s_%s_week_%03d_pressure" % [
 					route_label.to_lower(), lang, input_mode, GameState.turn], 0.0)
 				captured_pressure_weeks[GameState.turn] = true
@@ -2773,6 +2792,36 @@ func _run_demo_input_route(
 			_fail("Full route sampled %d pressure frames for %d direct weeks." % [
 				pressure_sequence.size(), full_direct_weeks])
 			return
+		if pressure_family_counts.size() < 6:
+			MetaProgression.data = original_meta
+			_fail("Full route exposed only %d pressure families: %s." % [
+				pressure_family_counts.size(), pressure_family_counts])
+			return
+		for chapter_index in range(pressure_families_by_chapter.size()):
+			if pressure_families_by_chapter[chapter_index].size() < 3:
+				MetaProgression.data = original_meta
+				_fail("Full route chapter %d exposed only %d pressure families: %s." % [
+					chapter_index + 1,
+					pressure_families_by_chapter[chapter_index].size(),
+					pressure_families_by_chapter[chapter_index].keys(),
+				])
+				return
+		var full_family_streak := _max_consecutive_strings(pressure_family_sequence)
+		if int(full_family_streak.get("count", 0)) > 5:
+			MetaProgression.data = original_meta
+			_fail("Full route pressure family %s repeated %d consecutive decisions." % [
+				str(full_family_streak.get("value", "none")),
+				int(full_family_streak.get("count", 0)),
+			])
+			return
+		var dominant_family_count := 0
+		for family_count_value in pressure_family_counts.values():
+			dominant_family_count = maxi(dominant_family_count, int(family_count_value))
+		if dominant_family_count > ceili(float(full_direct_weeks) * 0.65):
+			MetaProgression.data = original_meta
+			_fail("One full-route pressure family dominates %d/%d decisions: %s." % [
+				dominant_family_count, full_direct_weeks, pressure_family_counts])
+			return
 		for paced_week in range(1, GameState.RUN_TURN_LIMIT + 1):
 			var observed_kind := str(week_kind_sequence[paced_week - 1])
 			if observed_kind in ["quiet", "echo"] \
@@ -2804,6 +2853,11 @@ func _run_demo_input_route(
 			return
 		var peak_week_input := _max_route_week_inputs(route_week_inputs)
 		_print_demo_route_input_profile(route_input_counts, route_week_inputs)
+		print("FULL_PRESSURE_RHYTHM families=%s chapters=%s max_family=%s:%d frames=%s" % [
+			str(pressure_family_counts), str(pressure_families_by_chapter),
+			str(full_family_streak.get("value", "none")), int(full_family_streak.get("count", 0)),
+			str(pressure_counts),
+		])
 		if int(peak_week_input.get("inputs", 0)) > 180 or input_count > 20000:
 			MetaProgression.data = original_meta
 			_fail("Full route input density exceeded its safety band: total=%d peak=%s." % [
@@ -8443,12 +8497,12 @@ func _assert_demo_ending_boundary_copy() -> void:
 	if forbidden in surface_text:
 		_fail("Demo ending leaks blocked week 25 copy: %s." % forbidden)
 
-func _assert_ap_cards_inside_viewport() -> void:
-	if not is_instance_valid(_mg):
+func _assert_ap_cards_inside_viewport(game: Node = _mg) -> void:
+	if not is_instance_valid(game):
 		_fail("AP viewport assertion has no MainGame instance.")
 		return
 	var viewport_size := get_viewport().get_visible_rect().size
-	for card_variant in _mg.get("_ap_grid_cards"):
+	for card_variant in game.get("_ap_grid_cards"):
 		var card := card_variant as Control
 		if not is_instance_valid(card) or not card.visible:
 			continue

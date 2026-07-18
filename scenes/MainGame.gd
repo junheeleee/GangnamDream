@@ -5709,6 +5709,7 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 	var act_subtitle: Label = _label(str(act_info.get("subtitle", "")), 13, "#aeb6c2")
 	act_subtitle.set_meta("moral_role", "choice_subtitle")
 	act_subtitle.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	act_subtitle.clip_text = true
 	act_subtitle.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	top.add_child(act_subtitle)
 
@@ -5764,6 +5765,7 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 		"#efb3b3" if focus_urgent else (hint_color if not hint_text.is_empty() else "#d8dee8"))
 	priority.set_meta("moral_role", "choice_subtitle")
 	priority.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	priority.clip_text = true
 	priority.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	bottom.add_child(priority)
 
@@ -6919,6 +6921,156 @@ func _demo_employment_pressure(person_id: String) -> Dictionary:
 		"action_ids": ["apply", "resume", "side_shift"],
 	}
 
+func _contextual_pressure_family(person_id: String) -> String:
+	var act := _ap_act_index()
+	var families: Array[String]
+	match act:
+		1:
+			families = ["career", "housing", "body", "human"]
+		2:
+			families = ["market", "career", "housing", "human"]
+		3:
+			families = ["career", "market", "human", "body"]
+		4:
+			families = ["human", "body", "housing", "career"]
+		_:
+			families = ["reckoning", "human", "market", "body"]
+
+	var invest_unlocked := bool(GameState.flags.get("arc_invest_guidance_seen", false))
+	var housing_order: Array[String] = ["gosiwon", "oneroom", "villa", "apartment", "gangnam"]
+	var housing_rank := maxi(0, housing_order.find(GameState.housing))
+	var job_tier := int(GameState.current_job.get("tier", 1))
+	var chapter_month := floori(float(maxi(0, GameState.turn - ((act - 1) * 48) - 1)) / 4.0)
+	var state_offset := job_tier + housing_rank + GameState.last_month_money_weeks * 2 \
+			+ GameState.last_month_human_weeks * 3 + GameState.portfolio.size()
+	var family := families[posmod(chapter_month + state_offset, families.size())]
+
+	# These substitutions keep every card truthful to the current run. They do not
+	# store a hidden score, so repeated previews remain deterministic and read-only.
+	if family == "human" and person_id.is_empty():
+		family = "body"
+	if family == "market" and not invest_unlocked:
+		family = "housing" if GameState.housing != "apartment" else "career"
+	var promotion_threshold := int(GameState.current_job.get("promotion_threshold", 12))
+	var promotion_count := int(GameState.current_job.get("promotion_count", 0))
+	var max_promotions := int(GameState.current_job.get("max_promotions", 3))
+	var review_near := promotion_count < max_promotions \
+			and promotion_threshold - GameState.job_tenure <= 2
+	if review_near and posmod(chapter_month, 3) == 0:
+		family = "career"
+	elif mini(GameState.health, GameState.mental) <= 55 and posmod(chapter_month, 2) == 0:
+		family = "body"
+	elif GameState.last_month_money_weeks >= GameState.last_month_human_weeks + 2 \
+			and not person_id.is_empty() and posmod(chapter_month, 3) == 1:
+		family = "human"
+	elif GameState.can_upgrade_housing() and posmod(chapter_month, 3) == 2:
+		family = "housing"
+	if act == 5 and GameState.RUN_TURN_LIMIT - GameState.turn + 1 <= 12:
+		family = "reckoning"
+	return family
+
+func _contextual_week_pressure(person_id: String, person_name: String) -> Dictionary:
+	var family := _contextual_pressure_family(person_id)
+	var contact_or_study := "contact" if not person_id.is_empty() else "study"
+	var contact_or_rest := "contact" if not person_id.is_empty() else "rest"
+	var job_name := GameState.get_job_display_name()
+	var housing_name := GameState.get_housing_name()
+	var weeks_left := maxi(1, GameState.RUN_TURN_LIMIT - GameState.turn + 1)
+	var total_assets := float(GameState.get_total_asset_value())
+	var goal_gap := maxf(0.0, GameState.GANGNAM_TARGET - total_assets)
+	match family:
+		"career":
+			var threshold := int(GameState.current_job.get("promotion_threshold", 12))
+			var review_left := maxi(0, threshold - GameState.job_tenure)
+			var promo_count := int(GameState.current_job.get("promotion_count", 0))
+			var max_promo := int(GameState.current_job.get("max_promotions", 3))
+			return {
+				"id": "career_ceiling",
+				"family": "career",
+				"title": _tr("{job}에서 시간이 쌓였다", "Time has accumulated at {job}").format({"job": job_name}),
+				"question": _tr("이 자리를 키울까, 다음 문을 볼까, 사람에게 시간을 남길까?", "Grow here, look for another door, or leave time for someone?"),
+				"detail": _tr("근속 {months}개월 · {review}", "{months} months here · {review}").format({
+					"months": GameState.job_tenure,
+					"review": _tr("현재 단계의 승진을 모두 마쳤다", "all promotions at this level complete") \
+							if promo_count >= max_promo else _tr("다음 심사까지 {months}개월", "{months} months to the next review").format({"months": review_left}),
+				}),
+				"urgent": false,
+				"person_id": person_id,
+				"action_ids": ["study", "apply", contact_or_rest],
+			}
+		"housing":
+			return {
+				"id": "home_margin",
+				"family": "housing",
+				"title": _tr("{home}이 이번 달의 크기를 정한다", "The {home} sets the size of this month").format({"home": housing_name}),
+				"question": _tr("지출을 줄일까, 한 번 더 벌까, 방 안에서 숨을 돌릴까?", "Cut spending, earn once more, or breathe at home?"),
+				"detail": _tr("월 고정비 {rent} · 현금 {cash}", "Monthly cost {rent} · cash {cash}").format({
+					"rent": GameState.format_money(GameState.get_housing_expense()),
+					"cash": GameState.format_money(GameState.money),
+				}),
+				"urgent": false,
+				"person_id": person_id,
+				"action_ids": ["save", "side_shift", "rest"],
+			}
+		"human":
+			return {
+				"id": "human_debt",
+				"family": "human",
+				"title": _tr("{name}에게 가지 않은 시간이 남았다", "Time not given to {name} is still here").format({"name": person_name}),
+				"question": _tr("연락할까, 내 몸부터 돌볼까, 이번 주도 돈으로 바꿀까?", "Reach out, care for yourself, or turn this week into money again?"),
+				"detail": _tr("지난달 돈 {money}주 · 사람 {human}주", "Last month: money {money}W · people {human}W").format({
+					"money": GameState.last_month_money_weeks,
+					"human": GameState.last_month_human_weeks,
+				}),
+				"urgent": false,
+				"person_id": person_id,
+				"action_ids": ["contact", "rest", "side_shift"],
+			}
+		"market":
+			return {
+				"id": "market_position",
+				"family": "market",
+				"title": _tr("통장 밖의 돈도 시간을 먹는다", "Money outside the bank also consumes time"),
+				"question": _tr("움직일까, 현금으로 남길까, 판단부터 가다듬을까?", "Move it, keep cash, or sharpen your judgment first?"),
+				"detail": _tr("총자산 {assets} · 강남까지 {gap}", "Assets {assets} · {gap} to Gangnam").format({
+					"assets": GameState.format_money(total_assets),
+					"gap": GameState.format_money(goal_gap),
+				}),
+				"urgent": false,
+				"person_id": person_id,
+				"action_ids": ["invest", "save", "study"],
+			}
+		"reckoning":
+			var first_action: String = "invest" if bool(GameState.flags.get("arc_invest_guidance_seen", false)) else "side_shift"
+			return {
+				"id": "final_reckoning",
+				"family": "reckoning",
+				"title": _tr("남은 {weeks}주는 다시 오지 않는다", "The remaining {weeks} weeks will not return").format({"weeks": weeks_left}),
+				"question": _tr("돈을 움직일까, 사람을 붙잡을까, 현금을 지킬까?", "Move money, hold on to someone, or protect cash?"),
+				"detail": _tr("강남까지 {gap} · 곁에는 {name}", "{gap} to Gangnam · beside you: {name}").format({
+					"gap": GameState.format_money(goal_gap),
+					"name": person_name if not person_name.is_empty() else _tr("아무도 없다", "no one"),
+				}),
+				"urgent": weeks_left <= 12,
+				"person_id": person_id,
+				"action_ids": [first_action, contact_or_study, "save"],
+			}
+		_:
+			return {
+				"id": "body_capacity",
+				"family": "body",
+				"title": _tr("달력보다 몸이 먼저 기억한다", "The body remembers before the calendar does"),
+				"question": _tr("멈출까, 체력을 쌓을까, 현금을 더 만들까?", "Stop, rebuild yourself, or make more cash?"),
+				"detail": _tr("건강 {health} · 정신 {mental} · 남은 {weeks}주", "Health {health} · Mental {mental} · {weeks} weeks left").format({
+					"health": GameState.health,
+					"mental": GameState.mental,
+					"weeks": weeks_left,
+				}),
+				"urgent": false,
+				"person_id": person_id,
+				"action_ids": ["rest", "study", "side_shift"],
+			}
+
 func _demo_week_pressure() -> Dictionary:
 	if not _demo_pressure_enabled():
 		return {}
@@ -6933,6 +7085,7 @@ func _demo_week_pressure() -> Dictionary:
 	if GameState.health <= 45 or GameState.mental <= 45:
 		return {
 			"id": "condition",
+			"family": "body",
 			"title": _tr("몸이 먼저 멈추려 한다", "Your body is asking you to stop"),
 			"question": _tr("이번 주에도 밀어붙일까, 숨을 돌릴까?", "Push through again, or make room to breathe?"),
 			"detail": _tr("건강 {health} · 정신 {mental}", "Health {health} · Mental {mental}").format({
@@ -6950,6 +7103,7 @@ func _demo_week_pressure() -> Dictionary:
 	if bool(rent_info.get("urgent", false)) and not bool(rent_info.get("covered", false)):
 		return {
 			"id": "rent",
+			"family": "housing",
 			"title": _tr("월세가 잔고보다 가깝다", "Rent is closer than safety"),
 			"question": _tr("현금을 더 만들까, 덜 쓸까, 몸을 지킬까?", "Earn more, spend less, or protect your body?"),
 			"detail": "%s · %s" % [str(rent_info.get("text", "")), GameState.format_money(GameState.money)],
@@ -6961,6 +7115,7 @@ func _demo_week_pressure() -> Dictionary:
 	if GameState.grind_streak_weeks >= 2 and not person_id.is_empty():
 		return {
 			"id": "relationship",
+			"family": "human",
 			"title": _tr("연락하지 않은 시간이 쌓였다", "Silence has started to accumulate"),
 			"question": _tr("{name}에게 이번 주를 내줄까, 다시 돈을 좇을까?", "Give this week to {name}, or chase money again?").format({"name": person_name}),
 			"detail": _tr("{weeks}주째 돈 쪽으로만 시간이 흘렀다", "{weeks} weeks have gone only toward money").format({"weeks": GameState.grind_streak_weeks}),
@@ -6975,6 +7130,7 @@ func _demo_week_pressure() -> Dictionary:
 			and GameState.week_of_month == 3:
 		return {
 			"id": "capital",
+			"family": "market",
 			"title": _tr("돈이 처음으로 선택을 요구한다", "Money is asking for a direction") if not first_invest_visit \
 				else _tr("이번 달 돈의 방향을 정할 때다", "It is time to set this month's direction for money"),
 			"question": _tr("불릴까, 지킬까, 사람에게 시간을 남길까?", "Risk it, protect it, or leave time for someone?"),
@@ -6984,37 +7140,7 @@ func _demo_week_pressure() -> Dictionary:
 			"action_ids": ["invest", "save", contact_or_study],
 		}
 
-	match int(GameState.turn) % 3:
-		0:
-			return {
-				"id": "capacity",
-				"title": _tr("버는 속도만큼 사람이 닳는다", "Earning also spends a person"),
-				"question": _tr("현금, 준비, 회복 중 무엇을 먼저 남길까?", "Leave behind cash, preparation, or recovery?"),
-				"detail": _tr("이번 주의 선택은 다음 몇 주의 몸과 사건에 남는다", "This week stays in the body and the weeks ahead"),
-				"urgent": false,
-				"person_id": person_id,
-				"action_ids": ["side_shift", "study", "rest"],
-			}
-		1:
-			return {
-				"id": "balance",
-				"title": _tr("두 번의 시간이 남았다", "Two pieces of the week remain"),
-				"question": _tr("돈을 만들까, 나를 만들까, 누군가를 지킬까?", "Build money, build yourself, or hold on to someone?"),
-				"detail": _tr("간 곳과 만난 사람은 다음 몇 주에 다시 돌아온다", "Places and people return through the weeks ahead"),
-				"urgent": false,
-				"person_id": person_id,
-				"action_ids": ["side_shift", "study", contact_or_study],
-			}
-		_:
-			return {
-				"id": "reserve",
-				"title": _tr("다음 압박을 버틸 여유", "Room for the next pressure"),
-				"question": _tr("잔고, 능력, 마음 중 어디에 여유를 둘까?", "Put that room in cash, skill, or your mind?"),
-				"detail": _tr("정답은 없고, 포기한 쪽도 그대로 남는다", "There is no clean answer; what you leave also remains"),
-				"urgent": false,
-				"person_id": person_id,
-				"action_ids": ["save", "study", "rest"],
-			}
+	return _contextual_week_pressure(person_id, person_name)
 
 func _side_shift_base_pay() -> int:
 	var pay := 90_000

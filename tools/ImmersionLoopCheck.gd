@@ -12,6 +12,7 @@ func _ready() -> void:
 	_check_event_causality()
 	_check_week_surface()
 	_check_demo_pressure_choices()
+	_check_full_run_pressure_diversity()
 	_check_demo_pacing()
 	_check_arc_preview_read_only()
 	_check_sfx_mix()
@@ -22,7 +23,7 @@ func _ready() -> void:
 			push_error("IMMERSION_LOOP_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("IMMERSION_LOOP_CHECK_OK memory=2 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=2 vignette=2 omen=1 preview=2 rent=1 pressures=5 cards=3 pacing=9/2/4 sfx=8")
+	print("IMMERSION_LOOP_CHECK_OK memory=2 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=2 vignette=2 omen=1 preview=2 rent=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8")
 	get_tree().quit(0)
 
 func _check_recent_action_echoes() -> void:
@@ -256,6 +257,117 @@ func _check_demo_pressure_choices() -> void:
 			_fail("demo pressure exposed hidden system vocabulary: %s" % hidden_word)
 	game.free()
 
+func _check_full_run_pressure_diversity() -> void:
+	var language_before := LocaleManager.language
+	var fixtures: Array[Dictionary] = [
+		{"turn": 29, "week": 1, "job": "job_03", "housing": "gosiwon", "person": true},
+		{"turn": 37, "week": 2, "job": "job_03", "housing": "oneroom", "person": true, "money_weeks": 4},
+		{"turn": 45, "week": 4, "job": "job_03", "housing": "gosiwon", "person": true, "human_weeks": 3},
+		{"turn": 61, "week": 1, "job": "job_06", "housing": "oneroom", "person": true, "invest": true, "portfolio": 1},
+		{"turn": 69, "week": 2, "job": "job_03", "housing": "gosiwon", "person": true, "invest": true},
+		{"turn": 77, "week": 4, "job": "job_06", "housing": "oneroom", "person": true, "invest": true, "portfolio": 2},
+		{"turn": 109, "week": 1, "job": "job_10", "housing": "villa", "person": true, "invest": true, "portfolio": 1},
+		{"turn": 121, "week": 2, "job": "job_10", "housing": "oneroom", "person": true},
+		{"turn": 137, "week": 4, "job": "job_10", "housing": "villa", "person": true, "mental": 54},
+		{"turn": 157, "week": 1, "job": "job_10", "housing": "villa", "person": true},
+		{"turn": 173, "week": 2, "job": "job_03", "housing": "oneroom", "person": true, "health": 54},
+		{"turn": 189, "week": 4, "job": "job_13", "housing": "apartment", "person": true},
+		{"turn": 205, "week": 1, "job": "job_13", "housing": "apartment", "person": true, "invest": true, "portfolio": 1},
+		{"turn": 213, "week": 4, "job": "job_13", "housing": "apartment", "person": true, "invest": true, "portfolio": 1},
+		{"turn": 221, "week": 2, "job": "job_13", "housing": "apartment", "person": true, "invest": true, "portfolio": 2},
+		{"turn": 229, "week": 4, "job": "job_13", "housing": "apartment", "person": true, "invest": true, "portfolio": 1},
+		{"turn": 237, "week": 1, "job": "job_13", "housing": "apartment", "person": true, "invest": true, "portfolio": 1},
+	]
+	var ids_by_language: Dictionary = {}
+	var ko_families: Dictionary = {}
+	var ko_chapter_families: Array[Dictionary] = [{}, {}, {}, {}, {}]
+	var game = MainGameScript.new()
+	for language in ["ko", "en"]:
+		LocaleManager.language = language
+		DataRegistry.reload()
+		var ids: Array[String] = []
+		for fixture in fixtures:
+			_configure_pressure_fixture(fixture)
+			var state_before: Dictionary = GameState.serialize()
+			var pressure: Dictionary = game._demo_week_pressure()
+			var pressure_id := str(pressure.get("id", ""))
+			var family := str(pressure.get("family", ""))
+			ids.append(pressure_id)
+			if GameState.serialize() != state_before:
+				_fail("full-run pressure preview mutated GameState at turn %d" % GameState.turn)
+			var actions: Array = pressure.get("action_ids", [])
+			var unique_actions: Dictionary = {}
+			for action_value in actions:
+				var action_id := str(action_value)
+				unique_actions[action_id] = true
+				var spec: Dictionary = game._demo_action_spec(action_id, str(pressure.get("person_id", "")))
+				if spec.is_empty() or str(spec.get("fn", "")).is_empty():
+					_fail("full-run pressure %s has an unbound action: %s" % [pressure_id, action_id])
+			if actions.size() != 3 or unique_actions.size() != 3:
+				_fail("full-run pressure %s must expose three distinct actions: %s" % [pressure_id, actions])
+			if family.is_empty():
+				_fail("full-run pressure %s has no family" % pressure_id)
+			if language == "ko":
+				ko_families[family] = true
+				ko_chapter_families[mini(4, floori(float(GameState.turn - 1) / 48.0))][family] = true
+			else:
+				var surface := "%s %s %s" % [
+					str(pressure.get("title", "")),
+					str(pressure.get("question", "")),
+					str(pressure.get("detail", "")),
+				]
+				if _contains_hangul(surface):
+					_fail("English full-run pressure leaked Hangul at turn %d: %s" % [GameState.turn, surface])
+				for hidden_word in ["moral", "route score", "morality score", "ending route"]:
+					if surface.to_lower().contains(hidden_word):
+						_fail("full-run pressure exposed hidden system vocabulary: %s" % hidden_word)
+		ids_by_language[language] = ids
+	if ids_by_language.get("ko", []) != ids_by_language.get("en", []):
+		_fail("full-run pressure selection changed with locale: %s" % ids_by_language)
+	if ko_families.size() < 6:
+		_fail("full-run pressure snapshots exposed only %d families: %s" % [ko_families.size(), ko_families.keys()])
+	for chapter_index in range(ko_chapter_families.size()):
+		if ko_chapter_families[chapter_index].size() < 3:
+			_fail("chapter %d snapshots exposed only %d pressure families: %s" % [
+				chapter_index + 1,
+				ko_chapter_families[chapter_index].size(),
+				ko_chapter_families[chapter_index].keys(),
+			])
+	game.free()
+	LocaleManager.language = language_before
+	DataRegistry.reload()
+
+func _configure_pressure_fixture(fixture: Dictionary) -> void:
+	GameState.start_new_game()
+	GameState.turn = int(fixture.get("turn", 1))
+	GameState.week_of_month = int(fixture.get("week", 1))
+	GameState.housing = str(fixture.get("housing", "gosiwon"))
+	GameState.health = int(fixture.get("health", 70))
+	GameState.mental = int(fixture.get("mental", 70))
+	GameState.grind_streak_weeks = 0
+	GameState.last_month_money_weeks = int(fixture.get("money_weeks", 0))
+	GameState.last_month_human_weeks = int(fixture.get("human_weeks", 0))
+	var housing_cash := {
+		"gosiwon": 5_000_000.0,
+		"oneroom": 20_000_000.0,
+		"villa": 80_000_000.0,
+		"apartment": 200_000_000.0,
+	}
+	GameState.money = float(housing_cash.get(GameState.housing, 5_000_000.0))
+	var job_id := str(fixture.get("job", "job_03"))
+	GameState.current_job = DataRegistry.get_job(job_id).duplicate(true)
+	GameState.monthly_income = float(GameState.current_job.get("base_salary", 2_500_000.0))
+	GameState.job_tenure = 1
+	GameState.work_performance = 55
+	if bool(fixture.get("person", false)):
+		GameState.flags["daeun_romance_started"] = true
+	if bool(fixture.get("invest", false)):
+		GameState.flags["arc_invest_guidance_seen"] = true
+	GameState.portfolio = {}
+	for index in range(int(fixture.get("portfolio", 0))):
+		var asset_id := "fixture_asset_%d" % index
+		GameState.portfolio[asset_id] = {"quantity": 1.0, "avg_price": 1_000_000.0}
+
 func _check_demo_pacing() -> void:
 	GameState.start_new_game()
 	GameState.turn = 2
@@ -336,6 +448,8 @@ func _check_pressure_contract(game: Node, pressure: Dictionary, expected_id: Str
 		_fail("demo pressure expected %s, got %s" % [expected_id, pressure])
 		return
 	var actions: Array = pressure.get("action_ids", [])
+	if str(pressure.get("family", "")).is_empty():
+		_fail("demo pressure %s has no family" % expected_id)
 	if actions != expected_actions or actions.size() != 3:
 		_fail("demo pressure %s must expose exactly three contextual actions: %s" % [expected_id, actions])
 	for raw_action_id in actions:
