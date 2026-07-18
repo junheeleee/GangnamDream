@@ -37,6 +37,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=sangchul-casino --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=sangchul-confrontation --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=father-ktx --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=chapter3-spine --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=season-peaks --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ending-p1 --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=transport --lang=en
@@ -119,6 +120,7 @@ const QA_SCOPE_SANGCHUL_CONFRONTATION := "sangchul_confrontation"
 const QA_SCOPE_FATHER_PEAKS := "father_peaks"
 const QA_SCOPE_FATHER_KTX := "father_ktx"
 const QA_SCOPE_CHAPTER2_PEAKS := "chapter2_peaks"
+const QA_SCOPE_CHAPTER3_SPINE := "chapter3_spine"
 const QA_SCOPE_FIRST_KISS := "first_kiss"
 const QA_SCOPE_DAEUN_FIRST_NIGHT := "daeun_first_night"
 const QA_SCOPE_SEASON_PEAKS := "season_peaks"
@@ -477,6 +479,16 @@ func _ready() -> void:
 			get_tree().quit(1)
 			return
 		print("SCREENSHOT_QA_DONE scope=chapter2-peaks lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_CHAPTER3_SPINE:
+		var lang := _qa_language("en")
+		await _shot_chapter3_spine_surfaces(
+				lang, "chapter3_spine_en_" if lang == "en" else "chapter3_spine_ko_")
+		if _qa_failed:
+			get_tree().quit(1)
+			return
+		print("SCREENSHOT_QA_DONE scope=chapter3-spine lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_FIRST_KISS:
@@ -862,6 +874,11 @@ func _qa_scope() -> String:
 				"--qa=chapter2-peaks", "qa=chapter2_peaks", "--qa=chapter2_peaks",
 				"scope=chapter2-peaks", "--scope=chapter2-peaks"]:
 			return QA_SCOPE_CHAPTER2_PEAKS
+		if arg in ["chapter3-spine", "chapter3_spine", "chapter-three-spine",
+				"--chapter3-spine", "--chapter3_spine", "qa=chapter3-spine",
+				"--qa=chapter3-spine", "qa=chapter3_spine", "--qa=chapter3_spine",
+				"scope=chapter3-spine", "--scope=chapter3-spine"]:
+			return QA_SCOPE_CHAPTER3_SPINE
 		if arg in ["first-kiss", "first_kiss", "romance-kiss", "romance_kiss",
 				"--first-kiss", "--first_kiss", "qa=first-kiss", "--qa=first-kiss",
 				"qa=first_kiss", "--qa=first_kiss", "scope=first-kiss", "--scope=first-kiss"]:
@@ -1432,6 +1449,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	_assert_sangchul_casino_visual_state(story, event_id)
 	_assert_living_scene_state(story, event_id)
 	_assert_chapter2_visual_state(story, event_id, select_choice)
+	_assert_chapter3_spine_state(story, event_id)
 	if _qa_scope() == QA_SCOPE_TEXT_MATERIAL:
 		_assert_story_text_material(story)
 	await _save(shot_name)
@@ -5502,6 +5520,196 @@ func _assert_chapter2_visual_state(story: Node, event_id: String, selected_choic
 			_fail("%s result ambience expected %s at choice=%d, got %s." % [
 				event_id, expected_ambience, selected_choice, actual_ambience,
 			])
+
+func _shot_chapter3_spine_surfaces(
+		lang: String = "en", prefix: String = "chapter3_spine_en_") -> void:
+	_set_qa_language(lang)
+	_assert_chapter3_deferred_queue()
+	var event_cases: Array = [
+		["arc_35_orthodox_weight", "01_path_weight"],
+		["arc_why_gangnam_real", "02_why_gangnam"],
+		["arc_midpoint_reckoning", "03_midpoint"],
+		["arc_year_two_half", "04_midpoint_morning"],
+		["arc_goal_vertigo", "05_goal_vertigo"],
+		["arc_35_path_cost", "06_path_cost"],
+		["arc_35_habit_check", "07_habit_check"],
+		["arc_jiyeon_year3", "08_jiyeon_message"],
+		["arc_y3_jiyeon_departure", "09_jiyeon_departure"],
+		["arc_jaehyuk_wait", "10_jaehyuk_wait"],
+		["arc_jaehyuk_hyunsu_warning", "11_hyunsu_warning"],
+		["arc_jaehyuk_04b_counter", "12_jaehyuk_counter"],
+		["arc_jaehyuk_aftermath", "13_jaehyuk_aftermath"],
+		["arc_father_05_after_visit", "14_father_after_visit"],
+		["arc_father_06_confession", "15_father_confession"],
+		["arc_sangchul_known_offer", "16_sangchul_offer"],
+		["arc_sangchul_known_reflex", "17_sangchul_reflex"],
+		["arc_jaehyuk_sangchul_echo", "18_two_mirrors"],
+		["arc_jiyeon_father_records", "19_father_records"],
+		["arc_y3_sangchul_deeper_room", "20_deeper_room"],
+		["arc_sangchul_year3", "21_sangchul_article"],
+		["arc_year3_close", "22_year3_close"],
+	]
+	for event_case in event_cases:
+		_prepare_chapter3_spine_qa_state()
+		var event_id := str(event_case[0])
+		if event_id == "arc_father_06_confession":
+			GameState.flags["deduced_sangchul_truth"] = true
+		if event_id in ["arc_jiyeon_father_records", "arc_y3_sangchul_deeper_room"]:
+			GameState.flags["sangchul_truth_known"] = true
+		await _shot_story_event(
+				event_id, prefix + str(event_case[1]), "", 0.45, true, true)
+
+func _prepare_chapter3_spine_qa_state() -> void:
+	_prepare_main_game_state()
+	GameState.turn = 120
+	GameState.age = 35
+	GameState.year = 2028
+	GameState.month = 7
+	GameState.week_of_month = 4
+	GameState.housing = "oneroom"
+	GameState.money = 180_000_000.0
+	GameState.mental = 54
+	GameState.moral_tint = 0.0
+	GameState.flags["arc_jaehyuk_03_seen"] = true
+	GameState.flags["arc_father_05_seen"] = true
+	GameState.flags["arc_midpoint_reckoning_seen"] = true
+	GameState.flags["jiyeon_reconnected"] = true
+	_set_cast_relation_for_qa("father", 60)
+	_set_cast_relation_for_qa("jiyeon", 45)
+	_set_cast_relation_for_qa("hyunsu", 45)
+	_set_cast_relation_for_qa("jaehyuk", 45)
+	_set_cast_relation_for_qa("sangchul", 70)
+
+func _assert_chapter3_deferred_queue() -> void:
+	_prepare_chapter3_spine_qa_state()
+	GameState.turn = 100
+	GameState.deferred_events.clear()
+	GameState.add_deferred_event("qa_chapter3_later", 8)
+	GameState.add_deferred_event("qa_chapter3_later", 3)
+	GameState.add_deferred_event("qa_chapter3_later", 6)
+	if GameState.deferred_events.size() != 1 \
+			or int(GameState.deferred_events[0].get("trigger_turn", -1)) != 103:
+		_fail("Chapter 3 deferred queue did not deduplicate to the earliest due week.")
+		return
+	GameState.add_deferred_event("qa_chapter3_same_a", 0)
+	GameState.add_deferred_event("qa_chapter3_same_b", 0)
+	var first_ready: Array = GameState.pop_ready_deferred_events()
+	if first_ready != ["qa_chapter3_same_a"] \
+			or not GameState.has_deferred_event("qa_chapter3_same_b"):
+		_fail("Chapter 3 deferred queue discarded or reordered the first same-week event.")
+		return
+	var second_ready: Array = GameState.pop_ready_deferred_events()
+	if second_ready != ["qa_chapter3_same_b"] \
+			or not GameState.has_deferred_event("qa_chapter3_later"):
+		_fail("Chapter 3 deferred queue discarded the second same-week event.")
+		return
+	GameState.turn = 103
+	if GameState.pop_ready_deferred_events() != ["qa_chapter3_later"] \
+			or not GameState.deferred_events.is_empty():
+		_fail("Chapter 3 deferred queue did not preserve the later event after same-week pops.")
+
+func _assert_chapter3_spine_state(story: Node, event_id: String) -> void:
+	if _qa_scope() != QA_SCOPE_CHAPTER3_SPINE:
+		return
+	var current_housing_events := [
+		"arc_midpoint_reckoning", "arc_year_two_half", "arc_goal_vertigo",
+		"arc_jiyeon_year3", "arc_y3_jiyeon_departure", "arc_jaehyuk_wait",
+		"arc_jaehyuk_hyunsu_warning", "arc_jaehyuk_aftermath",
+		"arc_father_05_after_visit", "arc_father_06_confession",
+	]
+	var expected_backgrounds := {
+		"arc_35_orthodox_weight": "office",
+		"arc_why_gangnam_real": "gangnam_night",
+		"arc_35_path_cost": "late_night",
+		"arc_35_habit_check": "late_night",
+		"arc_jaehyuk_04b_counter": "meeting",
+		"arc_sangchul_known_offer": "realestate_office",
+		"arc_sangchul_known_reflex": "cafe",
+		"arc_jaehyuk_sangchul_echo": "cafe",
+		"arc_jiyeon_father_records": "cafe",
+		"arc_y3_sangchul_deeper_room": "meeting",
+		"arc_sangchul_year3": "street",
+		"arc_year3_close": "year3_hangang_winter_night",
+	}
+	if event_id in current_housing_events:
+		expected_backgrounds[event_id] = ImageRegistry.infer_background_id({}, GameState.housing)
+	if not expected_backgrounds.has(event_id):
+		return
+	var expected_background := str(expected_backgrounds[event_id])
+	var actual_background := str(story.get("_event_background_id"))
+	if actual_background != expected_background:
+		_fail("%s background expected %s, got %s." % [
+			event_id, expected_background, actual_background])
+		return
+	var bg_img := story.get("_bg_img") as TextureRect
+	var actual_path := bg_img.texture.resource_path \
+			if is_instance_valid(bg_img) and bg_img.texture != null else ""
+	var expected_path := ImageRegistry.get_background(expected_background)
+	if actual_path != expected_path:
+		_fail("%s background texture expected %s, got %s." % [
+			event_id, expected_path, actual_path])
+
+	var expected_ambiences := {
+		"arc_35_orthodox_weight": "office", "arc_why_gangnam_real": "street",
+		"arc_midpoint_reckoning": "oneroom", "arc_year_two_half": "oneroom",
+		"arc_goal_vertigo": "oneroom", "arc_35_path_cost": "room",
+		"arc_35_habit_check": "room", "arc_jiyeon_year3": "oneroom",
+		"arc_y3_jiyeon_departure": "oneroom", "arc_jaehyuk_wait": "oneroom",
+		"arc_jaehyuk_hyunsu_warning": "oneroom", "arc_jaehyuk_04b_counter": "cafe",
+		"arc_jaehyuk_aftermath": "oneroom", "arc_father_05_after_visit": "oneroom",
+		"arc_father_06_confession": "oneroom", "arc_sangchul_known_offer": "office",
+		"arc_sangchul_known_reflex": "cafe", "arc_jaehyuk_sangchul_echo": "cafe",
+		"arc_jiyeon_father_records": "cafe", "arc_y3_sangchul_deeper_room": "office",
+		"arc_sangchul_year3": "street", "arc_year3_close": "hangang",
+	}
+	var expected_ambience := str(expected_ambiences[event_id])
+	if str(BGMPlayer._current_ambience_key) != expected_ambience:
+		_fail("%s ambience expected %s, got %s." % [
+			event_id, expected_ambience, BGMPlayer._current_ambience_key])
+
+	var expected_music := {
+		"arc_35_orthodox_weight": "reckoning", "arc_why_gangnam_real": "wonder",
+		"arc_midpoint_reckoning": "reckoning", "arc_goal_vertigo": "reckoning",
+		"arc_35_path_cost": "reckoning", "arc_jiyeon_year3": "intimate",
+		"arc_y3_jiyeon_departure": "wonder", "arc_jaehyuk_wait": "reckoning",
+		"arc_jaehyuk_hyunsu_warning": "reckoning", "arc_jaehyuk_04b_counter": "reckoning",
+		"arc_jaehyuk_aftermath": "reckoning", "arc_father_05_after_visit": "intimate",
+		"arc_father_06_confession": "grief", "arc_sangchul_known_offer": "reckoning",
+		"arc_jaehyuk_sangchul_echo": "reckoning", "arc_jiyeon_father_records": "reckoning",
+		"arc_y3_sangchul_deeper_room": "reckoning", "arc_year3_close": "reckoning",
+	}
+	var suppressed_music := ["arc_year_two_half", "arc_35_habit_check",
+		"arc_sangchul_known_reflex", "arc_sangchul_year3"]
+	if expected_music.has(event_id):
+		var expected_key := str(expected_music[event_id])
+		if BGMPlayer._current_key != expected_key \
+				or not (BGMPlayer._player_a.playing or BGMPlayer._player_b.playing):
+			_fail("%s score expected %s at the choice beat, got %s." % [
+				event_id, expected_key, BGMPlayer._current_key])
+	elif event_id in suppressed_music:
+		if BGMPlayer._music_mode != "ambient" or not BGMPlayer._current_key.is_empty() \
+				or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+			_fail("%s should reach its choice beat on ambience alone." % event_id)
+
+	var communication_cases := {
+		"arc_jiyeon_year3": ["message", "jiyeon", true, "MESSAGE", "메시지"],
+		"arc_y3_jiyeon_departure": ["message", "jiyeon", true, "MESSAGE", "메시지"],
+		"arc_jaehyuk_hyunsu_warning": ["message", "hyunsu", true, "MESSAGE", "메시지"],
+		"arc_father_06_confession": ["phone", "father", false, "VOICE CALL", "통화 중"],
+	}
+	if communication_cases.has(event_id):
+		var expected: Array = communication_cases[event_id]
+		var presentation: Dictionary = story.get("_current_presentation")
+		var badge := story.get("_communication_badge") as Control
+		var badge_label := story.get("_communication_label") as Label
+		var expected_badge := str(expected[3] if LocaleManager.is_english() else expected[4])
+		if str(presentation.get("channel", "")) != str(expected[0]) \
+				or str(presentation.get("scene_location", "")) != "current_housing" \
+				or str(presentation.get("remote_actor", "")) != str(expected[1]) \
+				or bool(story.get("_portrait_remote_inset")) != bool(expected[2]) \
+				or not is_instance_valid(badge) or not badge.visible \
+				or not is_instance_valid(badge_label) or badge_label.text != expected_badge:
+			_fail("%s lost its remote/local communication presentation contract." % event_id)
 
 func _shot_father_peak_surfaces(lang: String = "en", prefix: String = "father_peaks_en_") -> void:
 	_set_qa_language(lang)

@@ -31,7 +31,9 @@
           "arc_35_orthodox_weight_seen",
           "stayed_my_path"
         ],
-        "result_text": "한 방을 노리는 사람은 한 방에 잃기도 한다. {name}은 그걸 봤었다. 느린 게 지는 건 아니다. 다시 같은 액수를 옮겨 담았다."
+        "result_text": "한 방을 노리는 사람은 한 방에 잃기도 한다. {name}은 그걸 봤었다. 느린 게 지는 건 아니다. 다시 같은 액수를 옮겨 담았다.",
+        "deferred_follow_up": "arc_why_gangnam_real",
+        "deferred_delay": 6
       },
       {
         "text": "한 번쯤은, 하고 위험한 쪽을 들여다봤다",
@@ -44,7 +46,9 @@
           "arc_35_orthodox_weight_seen",
           "adjusted_my_path"
         ],
-        "result_text": "딱 한 번. 그렇게 시작하는 거라는 걸 알면서도 차트를 열었다. 심장이 조금 빨라졌다. 지루함보다는 나았다. 그게 무서운 점이었다."
+        "result_text": "딱 한 번. 그렇게 시작하는 거라는 걸 알면서도 차트를 열었다. 심장이 조금 빨라졌다. 지루함보다는 나았다. 그게 무서운 점이었다.",
+        "deferred_follow_up": "arc_why_gangnam_real",
+        "deferred_delay": 6
       },
       {
         "text": "무게를 인정하고, 오늘은 일찍 잤다",
@@ -55,7 +59,9 @@
         "flags": [
           "arc_35_orthodox_weight_seen"
         ],
-        "result_text": "조급함은 보통 새벽에 가장 크다. {name}은 불을 껐다. 내일도 같은 속도로 모을 거다. 그래도 괜찮다고, 자기 전에 한 번 더 생각했다."
+        "result_text": "조급함은 보통 새벽에 가장 크다. {name}은 불을 껐다. 내일도 같은 속도로 모을 거다. 그래도 괜찮다고, 자기 전에 한 번 더 생각했다.",
+        "deferred_follow_up": "arc_why_gangnam_real",
+        "deferred_delay": 6
       }
     ]
   },
@@ -91,7 +97,9 @@
           "arc_35_unorthodox_weight_seen",
           "stayed_my_path"
         ],
-        "result_text": "여기까지 온 건 멈추지 않았기 때문이다. {name}은 그렇게 믿기로 했다. 차트를 다시 봤다. 손이 떨리는 건 카페인 때문이라고 생각하기로 했다."
+        "result_text": "여기까지 온 건 멈추지 않았기 때문이다. {name}은 그렇게 믿기로 했다. 차트를 다시 봤다. 손이 떨리는 건 카페인 때문이라고 생각하기로 했다.",
+        "deferred_follow_up": "arc_why_gangnam_real",
+        "deferred_delay": 7
       },
       {
         "text": "안전장치를 만들기로 했다. 전부를 걸지는 않는다",
@@ -105,7 +113,9 @@
           "arc_35_unorthodox_weight_seen",
           "adjusted_my_path"
         ],
-        "result_text": "전부를 거는 사람은 전부를 잃는다. {name}은 일부를 안전한 자리로 옮겼다. 수익률은 줄겠지만 — 오늘 처음으로 새벽에 깨지 않고 잤다."
+        "result_text": "전부를 거는 사람은 전부를 잃는다. {name}은 일부를 안전한 자리로 옮겼다. 수익률은 줄겠지만 — 오늘 처음으로 새벽에 깨지 않고 잤다.",
+        "deferred_follow_up": "arc_why_gangnam_real",
+        "deferred_delay": 7
       },
       {
         "text": "무게를 인정하고, 핸드폰을 다른 방에 뒀다",
@@ -116,7 +126,9 @@
         "flags": [
           "arc_35_unorthodox_weight_seen"
         ],
-        "result_text": "차트는 도망가지 않는다. {name}은 핸드폰을 거실에 두고 방문을 닫았다. 손이 허전했다. 그래도 오랜만에 천장을 보다 잠들었다."
+        "result_text": "차트는 도망가지 않는다. {name}은 핸드폰을 거실에 두고 방문을 닫았다. 손이 허전했다. 그래도 오랜만에 천장을 보다 잠들었다.",
+        "deferred_follow_up": "arc_why_gangnam_real",
+        "deferred_delay": 7
       }
     ]
   },
@@ -152,7 +164,9 @@
           "arc_35_path_cost_seen",
           "embraced_cost"
         ],
-        "result_text": "공짜는 없다. {name}은 그걸 알고 시작했다. 청구서를 접었다. 여기서 멈추면 지금까지 낸 값이 전부 매몰비용이 된다."
+        "result_text": "공짜는 없다. {name}은 그걸 알고 시작했다. 청구서를 접었다. 여기서 멈추면 지금까지 낸 값이 전부 매몰비용이 된다.",
+        "deferred_follow_up": "arc_35_habit_check",
+        "deferred_delay": 3
       },
       {
         "text": "잃은 것 중 하나는 되찾기로 했다",
@@ -165,7 +179,9 @@
           "arc_35_path_cost_seen",
           "reclaimed_cost"
         ],
-        "result_text": "전부를 되돌릴 순 없어도, 하나는 가능했다. {name}은 미뤘던 전화 한 통을 걸었다. 혹은 검진을 예약했다. 작은 거였다. 그런데 숨이 조금 트였다."
+        "result_text": "전부를 되돌릴 순 없어도, 하나는 가능했다. {name}은 미뤘던 전화 한 통을 걸었다. 혹은 검진을 예약했다. 작은 거였다. 그런데 숨이 조금 트였다.",
+        "deferred_follow_up": "arc_35_habit_check",
+        "deferred_delay": 3
       },
       {
         "text": "청구서를 한참 들여다봤다. 답은 안 나왔다",
@@ -176,7 +192,9 @@
         "flags": [
           "arc_35_path_cost_seen"
         ],
-        "result_text": "맞는지 틀린지 알 수 없었다. 다만 더 이상 모르는 척은 못 하게 됐다. 자각은 보통 그렇게 시작된다. 불편하게."
+        "result_text": "맞는지 틀린지 알 수 없었다. 다만 더 이상 모르는 척은 못 하게 됐다. 자각은 보통 그렇게 시작된다. 불편하게.",
+        "deferred_follow_up": "arc_35_habit_check",
+        "deferred_delay": 3
       }
     ]
   },

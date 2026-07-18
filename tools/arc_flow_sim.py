@@ -94,6 +94,7 @@ class State:
         s.route_orthodox = 0; s.route_unorthodox = 0; s.intelligence = 50
         s.money = 500000; s.investment_skill = 0; s.job_tenure = 0
         s.housing = "gosiwon"; s.current_job = Job(); s.nav = 500000
+        s.deferred_events = []
         s.cast = {k: {"aff": 0, "stage": "none"} for k in
                   ["sangchul", "daeun", "jiyeon", "jaehyuk", "father"]}
 
@@ -102,7 +103,28 @@ class State:
     def get_cast_stage(s, n): return s.cast.get(n, {}).get("stage", "none")
     def cast_has_flag(s, n, fl): return fl in s.cast.get(n, {}).get("flags", set())
     def has_item(s, item_id): return item_id in s.items
-    def pop_ready_deferred_events(s): return []
+    def add_deferred_event(s, event_id, delay):
+        trigger_turn = s.t + max(int(delay), 0)
+        for entry in s.deferred_events:
+            if entry[1] == event_id:
+                entry[0] = min(entry[0], trigger_turn)
+                return
+        s.deferred_events.append([trigger_turn, event_id])
+
+    def has_deferred_event(s, event_id):
+        return any(entry[1] == event_id for entry in s.deferred_events)
+
+    def pop_ready_deferred_event(s):
+        ready = [entry for entry in s.deferred_events if entry[0] <= s.t]
+        if not ready:
+            return ""
+        selected = min(ready, key=lambda entry: (entry[0], s.deferred_events.index(entry)))
+        s.deferred_events.remove(selected)
+        return selected[1]
+
+    def pop_ready_deferred_events(s):
+        event_id = s.pop_ready_deferred_event()
+        return [event_id] if event_id else []
 
 
 def evalconds(conds, S):
@@ -152,6 +174,27 @@ def guaranteed_path_flags(eid, stack=()):
 def own_seen_flags(eid):
     return [fl for fl in guaranteed_path_flags(eid)
             if fl.endswith(("_seen", "_done", "_closed"))]
+
+
+def canonical_deferred_links(eid, choice_indices, stack=()):
+    """Follow one representative immediate branch and collect its timed echoes."""
+    if eid in stack or eid not in events:
+        return []
+    choices = events[eid].get("choices", [])
+    if not choices:
+        return []
+    index = int(choice_indices.get(eid, 0))
+    if index < 0 or index >= len(choices):
+        index = 0
+    choice = choices[index]
+    links = []
+    deferred_id = str(choice.get("deferred_follow_up", "")).strip()
+    if deferred_id:
+        links.append((deferred_id, int(choice.get("deferred_delay", 6))))
+    follow_up = str(choice.get("follow_up_event", "")).strip()
+    if follow_up:
+        links.extend(canonical_deferred_links(follow_up, choice_indices, stack + (eid,)))
+    return links
 
 
 # ── 경로 정의: 각 아크 발동 시 세팅할 스파인 진행 플래그 ──────────────────
@@ -289,20 +332,23 @@ def traj_B(S):
     if t == 42: S.flags["jaehyuk_suspected"] = True
 
 
-def run(spine, traj, cast_flag_hook):
+def run(spine, traj, cast_flag_hook, choice_indices):
     S = State(); fired = {}; firelog = {}; repeats = {}
     for t in range(1, 241):
         S.t = t; traj(S); cast_flag_hook(S)
-        chosen = None
-        for eid, conds in triggers:
-            if evalconds(conds, S):
-                chosen = eid; break
+        chosen = S.pop_ready_deferred_event()
+        if not chosen:
+            for eid, conds in triggers:
+                if evalconds(conds, S):
+                    chosen = eid; break
         if chosen:
             if chosen in fired:
                 repeats[chosen] = repeats.get(chosen, 1) + 1
             fired[chosen] = t; firelog[t] = chosen
             for fl in own_seen_flags(chosen): S.flags[fl] = True
             for fl in spine.get(chosen, []): S.flags[fl] = True
+            for deferred_id, delay in canonical_deferred_links(chosen, choice_indices):
+                S.add_deferred_event(deferred_id, delay)
     return fired, firelog, repeats, S
 
 
@@ -317,8 +363,14 @@ def hookB(S):
 
 
 YEARS = {1: (1, 48), 2: (49, 96), 3: (97, 144), 4: (145, 192), 5: (193, 240)}
-PATHS = [("A 정석/다은보냄/사기", PATH_A, traj_A, hookA),
-         ("B 비정석/진실/committed", PATH_B, traj_B, hookB)]
+PATHS = [
+    ("A 정석/다은보냄/사기", PATH_A, traj_A, hookA, {
+        "arc_jaehyuk_03_pitch": 0,
+    }),
+    ("B 비정석/진실/committed", PATH_B, traj_B, hookB, {
+        "arc_jaehyuk_03_pitch": 2,
+    }),
+]
 # 경로별 완결돼야 하는 대표 체인
 CHAINS = {
     "A 정석/다은보냄/사기": [
@@ -346,10 +398,56 @@ REQUIRED_FLAGS = {
         "visited_father", "arc_36_unexpected_hand_seen", "arc_final_week_seen",
     ],
 }
+EXPECTED_CHAPTER3 = {
+    "A 정석/다은보냄/사기": {
+        101: "arc_35_birthday",
+        102: "arc_jiyeon_year3",
+        104: "arc_jaehyuk_03_pitch",
+        106: "arc_jaehyuk_wait",
+        108: "arc_jaehyuk_hyunsu_warning",
+        109: "arc_35_orthodox_weight",
+        110: "arc_y3_jiyeon_departure",
+        115: "arc_why_gangnam_real",
+        116: "arc_jaehyuk_04a_ghost",
+        117: "arc_jaehyuk_aftermath",
+        118: "arc_jaehyuk_mirror",
+        121: "arc_midpoint_reckoning",
+        122: "arc_year_two_half",
+        126: "arc_goal_vertigo",
+        135: "arc_35_path_cost",
+        138: "arc_35_habit_check",
+        140: "arc_year3_close",
+    },
+    "B 비정석/진실/committed": {
+        100: "arc_father_05_after_visit",
+        102: "arc_jiyeon_year3",
+        105: "arc_jaehyuk_03_pitch",
+        108: "arc_35_unorthodox_weight",
+        110: "arc_y3_jiyeon_departure",
+        112: "arc_father_06_confession",
+        113: "arc_sangchul_known_offer",
+        115: "arc_why_gangnam_real",
+        117: "arc_jaehyuk_04b_counter",
+        118: "arc_jaehyuk_aftermath",
+        119: "arc_jaehyuk_mirror",
+        120: "arc_sangchul_known_reflex",
+        121: "arc_midpoint_reckoning",
+        122: "arc_year_two_half",
+        124: "arc_jaehyuk_sangchul_echo",
+        126: "arc_goal_vertigo",
+        127: "arc_jiyeon_father_records",
+        128: "arc_y3_sangchul_deeper_room",
+        132: "arc_sangchul_confrontation",
+        133: "arc_sangchul_year3",
+        135: "arc_35_path_cost",
+        138: "arc_35_habit_check",
+        140: "arc_year3_close",
+    },
+}
 
 fail = 0
-for name, spine, traj, hook in PATHS:
-    fired, firelog, repeats, S = run(spine, traj, hook)
+for name, spine, traj, hook, choice_indices in PATHS:
+    fired, firelog, repeats, S = run(spine, traj, hook, choice_indices)
     counts = {y: sum(1 for t in range(a, b + 1) if t in firelog) for y, (a, b) in YEARS.items()}
     print(f"\n=== Path {name} ===")
     print("  연차 authored 비트:", "  ".join(f"Y{y}={counts[y]}" for y in range(1, 6)))
@@ -370,6 +468,16 @@ for name, spine, traj, hook in PATHS:
         print("  ✗ 후속 체인 플래그 누락:", missing_flags)
     else:
         print("  ✓ 즉시 후속 체인 플래그 완결")
+    chapter3_mismatch = [
+        f"t{turn}:{firelog.get(turn, 'missing')}!={event_id}"
+        for turn, event_id in EXPECTED_CHAPTER3[name].items()
+        if firelog.get(turn) != event_id
+    ]
+    if chapter3_mismatch:
+        fail += 1
+        print("  ✗ 3장 시간축 회귀:", ", ".join(chapter3_mismatch))
+    else:
+        print(f"  ✓ 3장 시간축 {len(EXPECTED_CHAPTER3[name])}앵커 고정")
     if VERBOSE:
         for t in range(1, 241):
             if t in firelog: print(f"     t{t:3d} {firelog[t]}")

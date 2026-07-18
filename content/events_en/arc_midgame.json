@@ -21,7 +21,7 @@
   {
     "id": "arc_midpoint_reckoning",
     "title": "The Halfway Mark",
-    "description": "Started at 33. Several months have already passed.\n\nHe pulled out his phone calculator. Target: 3 billion. Time remaining. Calculated how much he'd need to grow per month.\n\nThe number came out. {name} stared at the screen for a moment.\n\nIt wasn't an impossible number. But at this rate — something had to change.\nOutside, Hyunsu came back from his convenience store shift.",
+    "description": "Two and a half years since arriving in Seoul. Half of the 240 weeks had passed.\n\nA few days ago, beneath Gangnam's lights, {name} had asked why this road mattered. Tonight, the actual balance and the remaining 120 weeks went beside that answer.\n\nThe target and current assets went into the phone calculator. It returned the amount that had to be earned and grown each week.\n\nAt the beginning, three billion won had been too abstract to feel heavy. After half the run, it contained people left behind, calls answered, and nights without sleep.\n\nIt was not mathematically impossible. But at the present speed, the second half would demand a different price than the first.",
     "choices": [
       {
         "text": "Closed the calculator, opened another tab.",
@@ -293,7 +293,7 @@
   {
     "id": "arc_goal_vertigo",
     "title": "The Number: 3 Billion Won",
-    "description": "It was past midnight. Once the goshiwon light was off, the spreadsheet became the only glow in the room. The laptop fan whispered; the cursor blinked in the same total-assets cell.\n\n{name} stopped midway through typing 3 billion won into the target column. When he first wrote it down, the number had been so large it felt weightless. Now it held every month's rent, every return, every night he had surrendered to it.\n\nStill, it did not feel real. The longer he stared, the more meaning drained away until only commas and zeroes remained. Was the goal getting closer, or was he disappearing inside the number?",
+    "description": "It was past midnight. When the room light went out, only the spreadsheet remained. The laptop fan turned softly; the cursor blinked in the same total-assets cell.\n\n{name} stopped midway through typing three billion won into the target column. At the beginning, the number had been so large it felt weightless. Now it held every month's housing cost, every return, and every night surrendered to it.\n\nStill, it did not feel real. The longer {name} stared, the more meaning drained away until only commas and zeroes remained. Was the goal getting closer, or was {name} disappearing inside the number?",
     "choices": [
       {
         "text": "Reopened the plan — go back to the numbers",
@@ -301,7 +301,7 @@
       },
       {
         "text": "Just lay down to sleep.",
-        "result_text": "{name} closed the laptop and lay down. In the dark he said \"three billion won\" aloud, twice. The words had all the meaning of a stranger's password.\n\nAn alarm rang once in the next room and stopped. Water moved through the pipes. Those sounds were real in a way the goal was not.\n\nHe closed his eyes. Even if he could not feel the destination, his body would rise at the same time tomorrow. Lately, that was how he kept moving."
+        "result_text": "{name} closed the laptop and lay down. In the dark, he said \"three billion won\" aloud twice. The words had all the meaning of a stranger's password.\n\nThe refrigerator motor stopped, and a car passed somewhere in the distance. Those sounds were real in a way the goal was not.\n\nHe closed his eyes. Even if he could not feel the destination, his body would rise at the same time tomorrow. Lately, that was how he kept moving."
       },
       {
         "text": "Went out for some air. Walked all the way to the Han River.",
@@ -836,14 +836,14 @@
   {
     "id": "arc_year_two_half",
     "title": "Two and a Half Years",
-    "description": "Two and a half years since coming to Seoul.\n\nSometimes news from home surfaces — something about an event in Changwon. Minjun scrolls past.\n\nTwo and a half years is a long time. What has changed in that time — today, he tried to be honestly honest with himself.",
+    "description": "The morning after the midpoint calculation, yesterday's figures were still on the screen.\n\nTwo and a half years in Seoul. Calling it halfway made the time sound smaller, but it contained deleted contacts, new passwords, and the familiar sounds of the room.\n\nWhenever news from Changwon appeared, {name} usually scrolled past. Today, the finger stopped. Before calculating the second half, it seemed necessary to read who the first half had made.",
     "choices": [
       {
-        "text": "Something has changed. The number is slow, but the direction is right.",
+        "text": "What would Minjun from two and a half years ago say if he saw this?",
         "result_text": "The Minjun from two and a half years ago — looking at this room, this account, these numbers now — would probably say it's enough. That's all that's needed."
       },
       {
-        "text": "Honestly, I'm worn out. Not sure if this is right anymore.",
+        "text": "Admitted the exhaustion. It was time to stop for a moment.",
         "result_text": "Told himself that admitting exhaustion is also honesty. Decisions made while exhausted tend to go wrong. Need to rest a little."
       }
     ]

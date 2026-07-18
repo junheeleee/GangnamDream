@@ -27,6 +27,12 @@ WEEKS_PER_CHAPTER = 48
 TOTAL_CHAPTERS = 5
 CHAPTER_RATCHETS = {
     2: {"chained_min": 4, "peak_roots_min": 2, "isolated_micro_max": 2},
+    3: {
+        "chained_min": 2,
+        "peak_roots_min": 2,
+        "temporal_roots_min": 9,
+        "isolated_micro_max": 2,
+    },
     4: {"chained_min": 3, "peak_roots_min": 2, "isolated_micro_max": 5},
     5: {"chained_min": 2, "peak_roots_min": 1, "isolated_micro_max": 1},
 }
@@ -75,6 +81,7 @@ def dialogue_count(value: Any) -> int:
 
 
 def followups(event: dict[str, Any]) -> list[str]:
+    """Return same-scene links only; these determine panel and decision depth."""
     result: list[str] = []
     for choice in event.get("choices", []):
         if not isinstance(choice, dict):
@@ -82,6 +89,24 @@ def followups(event: dict[str, Any]) -> list[str]:
         target = str(choice.get("follow_up_event", "")).strip()
         if target:
             result.append(target)
+    return result
+
+
+def deferred_followups(event: dict[str, Any]) -> list[tuple[str, int]]:
+    """Return week-spaced causal links without pretending they are one scene."""
+    result: list[tuple[str, int]] = []
+    for choice in event.get("choices", []):
+        if not isinstance(choice, dict):
+            continue
+        target = str(choice.get("deferred_follow_up", "")).strip()
+        if target:
+            result.append((target, int(choice.get("deferred_delay", 6))))
+    return result
+
+
+def causal_followups(event: dict[str, Any]) -> list[str]:
+    result = followups(event)
+    result.extend(target for target, _ in deferred_followups(event))
     return result
 
 
@@ -251,21 +276,38 @@ def build_report() -> dict[str, Any]:
         scene_metric(event_id, events, memo)
 
     incoming: Counter[str] = Counter()
-    edge_count = 0
+    immediate_edge_count = 0
+    temporal_edge_count = 0
     for event in events.values():
         for target in followups(event):
             if target not in events:
                 raise ValueError(f"dangling follow-up: {event['id']} -> {target}")
             incoming[target] += 1
-            edge_count += 1
+            immediate_edge_count += 1
+        for target, delay in deferred_followups(event):
+            if target not in events:
+                raise ValueError(f"dangling deferred follow-up: {event['id']} -> {target}")
+            if delay < 1:
+                raise ValueError(f"non-temporal deferred follow-up: {event['id']} -> {target} delay={delay}")
+            incoming[target] += 1
+            temporal_edge_count += 1
 
     peaks = peak_members(events)
     authored = {event_id for event_id, event in events.items() if is_authored(event)}
     chain_members = {
         event_id
         for event_id, event in events.items()
-        if incoming[event_id] > 0 or bool(followups(event))
+        if incoming[event_id] > 0 or bool(causal_followups(event))
     }
+    temporal_sources = {
+        event_id for event_id, event in events.items() if deferred_followups(event)
+    }
+    temporal_targets = {
+        target
+        for event in events.values()
+        for target, _ in deferred_followups(event)
+    }
+    temporal_members = temporal_sources | temporal_targets
     standalone = set(events) - chain_members
     short_standalone = {event_id for event_id in standalone if is_short_standalone(memo[event_id])}
 
@@ -284,6 +326,8 @@ def build_report() -> dict[str, Any]:
             single_link = 0
             chained = 0
             peak_roots = 0
+            temporal_roots = 0
+            temporal_chained = 0
             short = 0
             isolated = 0
             panels_min = 0
@@ -307,7 +351,9 @@ def build_report() -> dict[str, Any]:
                 single_link += int(metric.max_links == 1)
                 chained += int(metric.max_links > 1)
                 peak_roots += int(event_id in peaks)
-                short_here = is_short_standalone(metric)
+                temporal_roots += int(bool(deferred_followups(events[event_id])))
+                temporal_chained += int(event_id in temporal_members)
+                short_here = event_id in standalone and is_short_standalone(metric)
                 short += int(short_here)
                 if previous_thread and thread != previous_thread:
                     switches += 1
@@ -328,6 +374,8 @@ def build_report() -> dict[str, Any]:
                 "single_link": single_link,
                 "chained": chained,
                 "peak_roots": peak_roots,
+                "temporal_roots": temporal_roots,
+                "temporal_chained": temporal_chained,
                 "short_standalone": short,
                 "isolated_micro": isolated,
                 "panels_min": panels_min,
@@ -360,6 +408,12 @@ def build_report() -> dict[str, Any]:
                     f"{path['name']} chapter {chapter} peaks "
                     f"{row['peak_roots']}<{contract['peak_roots_min']}"
                 )
+            temporal_roots_min = int(contract.get("temporal_roots_min", 0))
+            if int(row["temporal_roots"]) < temporal_roots_min:
+                ratchet_errors.append(
+                    f"{path['name']} chapter {chapter} temporal roots "
+                    f"{row['temporal_roots']}<{temporal_roots_min}"
+                )
             if int(row["isolated_micro"]) > contract["isolated_micro_max"]:
                 ratchet_errors.append(
                     f"{path['name']} chapter {chapter} isolated "
@@ -373,8 +427,10 @@ def build_report() -> dict[str, Any]:
             "events": len(events),
             "authored": len(authored),
             "random_pool": len(events) - len(authored),
-            "followup_edges": edge_count,
+            "followup_edges": immediate_edge_count,
+            "temporal_edges": temporal_edge_count,
             "chain_members": len(chain_members),
+            "temporal_members": len(temporal_members),
             "peak_members": len(peaks),
             "standalone": len(standalone),
             "short_standalone": len(short_standalone),
@@ -394,7 +450,8 @@ def print_text(report: dict[str, Any]) -> None:
         for row in path["chapters"]:
             print(
                 "  CHAPTER {chapter} weeks={weeks} stops={stops} single={single_link} "
-                "chains={chained} peaks={peak_roots} short={short_standalone} "
+                "chains={chained} temporal={temporal_chained}/{temporal_roots} "
+                "peaks={peak_roots} short={short_standalone} "
                 "isolated={isolated_micro} panels={panels_min}-{panels_max} "
                 "links={links_min}-{links_max} decisions={decisions_min}-{decisions_max} "
                 "switches={thread_switches}".format(**row)

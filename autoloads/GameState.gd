@@ -2175,19 +2175,37 @@ func load_from_dict(data):
 
 ## 그림자 이벤트 — N턴 후 자동 발동 예약
 func add_deferred_event(event_id: String, delay: int) -> void:
-	deferred_events.append({"event_id": event_id, "trigger_turn": turn + delay})
-
-## 현재 턴에 발동할 그림자 이벤트 목록 반환 (소비 처리 포함)
-func pop_ready_deferred_events() -> Array:
-	var ready: Array = []
-	var remaining: Array = []
+	if event_id.is_empty():
+		return
+	var trigger_turn: int = turn + maxi(delay, 0)
 	for entry in deferred_events:
-		if int(entry.get("trigger_turn", 9999)) <= turn:
-			ready.append(str(entry.get("event_id", "")))
-		else:
-			remaining.append(entry)
-	deferred_events = remaining
-	return ready
+		if str(entry.get("event_id", "")) == event_id:
+			entry["trigger_turn"] = mini(int(entry.get("trigger_turn", trigger_turn)), trigger_turn)
+			return
+	deferred_events.append({"event_id": event_id, "trigger_turn": trigger_turn})
+
+func has_deferred_event(event_id: String) -> bool:
+	for entry in deferred_events:
+		if str(entry.get("event_id", "")) == event_id:
+			return true
+	return false
+
+## 현재 턴에 발동할 가장 이른 그림자 이벤트 하나를 반환한다.
+## 한 주에 여러 예약이 겹쳐도 나머지는 큐에 남겨 다음 호출에서 이어 간다.
+func pop_ready_deferred_events() -> Array:
+	var selected_index := -1
+	var selected_turn := 2147483647
+	for index in range(deferred_events.size()):
+		var entry: Dictionary = deferred_events[index]
+		var trigger_turn := int(entry.get("trigger_turn", 9999))
+		if trigger_turn <= turn and trigger_turn < selected_turn:
+			selected_index = index
+			selected_turn = trigger_turn
+	if selected_index < 0:
+		return []
+	var event_id := str(deferred_events[selected_index].get("event_id", ""))
+	deferred_events.remove_at(selected_index)
+	return [event_id] if not event_id.is_empty() else []
 
 # ── 발견 레이어: 단서/생각정리 엔진 (추리·분석의 재미) ──────────────
 ## 단서 획득 (이미 있으면 무시). 신규면 true.

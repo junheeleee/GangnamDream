@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "title": "Gangnam Dream",
   "central_question": "민준은 자신과 아버지를 무너뜨린 세계에 들어가면서 그 세계와 같은 사람이 되는가?",
   "player_promise": "1장에서 남긴 선택과 관계가 5장의 마지막 서명까지 형태를 바꾸며 돌아온다.",
@@ -156,12 +156,34 @@
       "title_en": "The Same Hands",
       "weeks": [97, 144],
       "question": "상처의 진실을 알게 된 민준은 가해자를 심판하는가, 이용하는가, 닮아 가는가?",
-      "object": "사건번호가 적힌 보증 PDF",
-      "setup": ["arc_jaehyuk_03_pitch", "arc_sangchul_deduction"],
-      "escalation": ["arc_jaehyuk_04a_ghost", "arc_sangchul_known_offer"],
-      "reversal": ["arc_jaehyuk_sangchul_echo", "arc_sangchul_confrontation"],
-      "boss": ["arc_jaehyuk_mirror"],
-      "aftermath": ["arc_year3_close", "chapter_card_36"],
+      "object": "사건번호가 적힌 보증 PDF, 편도표, 목표액이 적힌 계산기",
+      "setup": ["arc_35_birthday", "arc_jiyeon_year3", "arc_jaehyuk_03_pitch", "arc_father_05_after_visit", "arc_35_orthodox_weight", "arc_35_unorthodox_weight"],
+      "escalation": ["arc_jaehyuk_wait", "arc_jaehyuk_hyunsu_warning", "arc_jaehyuk_04b_counter", "arc_father_06_confession", "arc_sangchul_known_offer", "arc_why_gangnam_real"],
+      "reversal": ["arc_jaehyuk_04a_ghost", "arc_jaehyuk_aftermath", "arc_y3_jiyeon_departure", "arc_sangchul_known_reflex", "arc_jaehyuk_sangchul_echo", "arc_midpoint_reckoning"],
+      "boss": ["arc_jaehyuk_mirror", "arc_sangchul_confrontation", "arc_goal_vertigo"],
+      "aftermath": ["arc_35_path_cost", "arc_35_habit_check", "arc_sangchul_year3", "arc_year3_close", "chapter_card_36"],
+      "temporal_spines": [
+        {
+          "id": "jiyeon_chooses_direction",
+          "events": ["arc_35_birthday", "arc_jiyeon_year3", "arc_y3_jiyeon_departure"],
+          "payoff": "나이를 먹는 것과 자기 방향을 고르는 것이 같은 일이 아님을 편도표로 보여준다."
+        },
+        {
+          "id": "jaehyuk_debt_mirror",
+          "events": ["arc_jaehyuk_03_pitch", "arc_jaehyuk_wait", "arc_jaehyuk_hyunsu_warning", "arc_jaehyuk_04a_ghost", "arc_jaehyuk_04b_counter", "arc_jaehyuk_aftermath", "arc_jaehyuk_mirror"],
+          "payoff": "친구에게 맡긴 돈이 아버지의 보증 서명과 같은 질문으로 돌아온다."
+        },
+        {
+          "id": "father_and_sangchul_same_hands",
+          "events": ["arc_father_05_after_visit", "arc_father_06_confession", "arc_sangchul_known_offer", "arc_sangchul_known_reflex", "arc_jaehyuk_sangchul_echo", "arc_sangchul_confrontation", "arc_sangchul_year3"],
+          "payoff": "가해자를 안 뒤에도 그의 문을 쓰는 민준이 사람을 계산하는 같은 손을 발견한다."
+        },
+        {
+          "id": "three_billion_vertigo",
+          "events": ["arc_35_orthodox_weight", "arc_35_unorthodox_weight", "arc_why_gangnam_real", "arc_midpoint_reckoning", "arc_year_two_half", "arc_goal_vertigo", "arc_35_path_cost", "arc_35_habit_check"],
+          "payoff": "목표의 이유, 남은 시간, 숫자의 현기증, 몸에 남은 습관을 한 장부로 묶는다."
+        }
+      ],
       "handoff": "진실은 밝혀졌지만 관계와 몸과 가족이 그 선택의 청구서를 받기 시작한다."
     },
     {

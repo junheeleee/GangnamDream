@@ -47,6 +47,10 @@ def description_variants(event: dict) -> list[str]:
     for key, value in event.items():
         if not str(key).startswith("description_"):
             continue
+        # Memory lines are appended to the resolved description; they are not
+        # standalone prose variants and therefore do not own paragraph cues.
+        if key == "description_memory_if_known":
+            continue
         if isinstance(value, str):
             variants.append(value)
         elif isinstance(value, dict):

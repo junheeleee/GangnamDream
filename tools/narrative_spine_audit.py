@@ -24,6 +24,13 @@ CHAPTER_PHASE_REQUIRED = {
         "boss": {"arc_sangchul_mirror", "arc_career_ceiling", "arc_father_04_visit"},
         "aftermath": {"arc_year2_close"},
     },
+    3: {
+        "setup": {"arc_35_birthday", "arc_jiyeon_year3", "arc_jaehyuk_03_pitch"},
+        "escalation": {"arc_father_06_confession", "arc_sangchul_known_offer", "arc_why_gangnam_real"},
+        "reversal": {"arc_jaehyuk_aftermath", "arc_y3_jiyeon_departure", "arc_midpoint_reckoning"},
+        "boss": {"arc_jaehyuk_mirror", "arc_sangchul_confrontation", "arc_goal_vertigo"},
+        "aftermath": {"arc_35_path_cost", "arc_35_habit_check", "arc_year3_close"},
+    },
     4: {
         "setup": {"arc_36_reality_check", "arc_year_three_crossroads"},
         "escalation": {"arc_36_trust_crack", "arc_36_unexpected_hand"},
@@ -180,6 +187,45 @@ def main() -> int:
                     errors,
                     f"chapter {number} {phase} lost required anchors: {missing_ids}",
                 )
+        if number == 3:
+            temporal_spines = chapter.get("temporal_spines", [])
+            if not isinstance(temporal_spines, list) or len(temporal_spines) != 4:
+                fail(errors, "chapter 3 must contain exactly four temporal spines")
+                temporal_spines = []
+            temporal_ids: set[str] = set()
+            temporal_events: set[str] = set()
+            for temporal_spine in temporal_spines:
+                if not isinstance(temporal_spine, dict):
+                    fail(errors, "chapter 3 temporal spine entries must be objects")
+                    continue
+                temporal_id = str(temporal_spine.get("id", ""))
+                if not temporal_id or temporal_id in temporal_ids:
+                    fail(errors, f"chapter 3 temporal spine id missing or duplicated: {temporal_id}")
+                temporal_ids.add(temporal_id)
+                temporal_event_ids = temporal_spine.get("events", [])
+                if not isinstance(temporal_event_ids, list) or len(temporal_event_ids) < 3:
+                    fail(errors, f"chapter 3 temporal spine {temporal_id} needs at least three events")
+                    temporal_event_ids = []
+                if len(str(temporal_spine.get("payoff", "")).strip()) < 15:
+                    fail(errors, f"chapter 3 temporal spine {temporal_id} lacks a payoff")
+                for temporal_event_id in temporal_event_ids:
+                    event_id = str(temporal_event_id)
+                    require_event(event_id, f"chapter 3 temporal spine {temporal_id}", ko_ids, en_ids, errors)
+                    temporal_events.add(event_id)
+            required_temporal_events = {
+                "arc_jiyeon_year3",
+                "arc_y3_jiyeon_departure",
+                "arc_jaehyuk_03_pitch",
+                "arc_jaehyuk_mirror",
+                "arc_father_06_confession",
+                "arc_sangchul_confrontation",
+                "arc_why_gangnam_real",
+                "arc_goal_vertigo",
+                "arc_35_habit_check",
+            }
+            missing_temporal_events = sorted(required_temporal_events - temporal_events)
+            if missing_temporal_events:
+                fail(errors, f"chapter 3 temporal spines lost anchors: {missing_temporal_events}")
     if expected_start != 241:
         fail(errors, f"chapter windows must end at week 240, got {expected_start - 1}")
 

@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "updated": "2026-07-18",
   "policy": {
     "diegetic_spoken_language": "ko",
@@ -209,6 +209,30 @@
     "arc_jaehyuk_mirror": {"ambience": "room", "music": {"key": "reckoning", "start_paragraph": 2}},
     "arc_jaehyuk_mirror_reply": {"ambience": "room", "music": {"key": "reckoning", "start_paragraph": 0}},
     "arc_jaehyuk_mirror_father": {"ambience": "room", "music": {"key": "grief", "start_paragraph": 0}},
-    "arc_jaehyuk_mirror_decision": {"ambience": "room", "music": {"key": "reckoning", "start_paragraph": 0}}
+    "arc_jaehyuk_mirror_decision": {"ambience": "room", "music": {"key": "reckoning", "start_paragraph": 0}},
+    "arc_35_orthodox_weight": {"ambience": "office", "music": {"key": "reckoning", "start_paragraph": 2}},
+    "arc_35_unorthodox_weight": {"ambience": "room", "music": {"key": "reckoning", "start_paragraph": 2}},
+    "arc_why_gangnam_real": {"ambience": "street", "music": {"key": "wonder", "start_paragraph": 2}},
+    "arc_midpoint_reckoning": {"ambience": "current_housing", "music": {"key": "reckoning", "start_paragraph": 2}},
+    "arc_year_two_half": {"ambience": "current_housing", "suppress_music": true},
+    "arc_goal_vertigo": {"ambience": "current_housing", "music": {"key": "reckoning", "start_paragraph": 1}},
+    "arc_35_path_cost": {"ambience": "room", "music": {"key": "reckoning", "start_paragraph": 1}},
+    "arc_35_habit_check": {"ambience": "room", "suppress_music": true},
+    "arc_jiyeon_year3": {"ambience": "current_housing", "music": {"key": "intimate", "start_paragraph": 2}},
+    "arc_y3_jiyeon_departure": {"ambience": "current_housing", "music": {"key": "wonder", "start_paragraph": 2}},
+    "arc_jaehyuk_wait": {"ambience": "current_housing", "music": {"key": "reckoning", "start_paragraph": 2}},
+    "arc_jaehyuk_hyunsu_warning": {"ambience": "current_housing", "music": {"key": "reckoning", "start_paragraph": 3}},
+    "arc_jaehyuk_04b_counter": {"ambience": "cafe", "music": {"key": "reckoning", "start_paragraph": 2}},
+    "arc_jaehyuk_aftermath": {"ambience": "current_housing", "music": {"key": "reckoning", "start_paragraph": 2}},
+    "arc_father_05_after_visit": {"ambience": "current_housing", "music": {"key": "intimate", "start_paragraph": 2}},
+    "arc_father_06_confession": {"ambience": "current_housing", "music": {"key": "grief", "start_paragraph": 3}},
+    "arc_sangchul_known_offer": {"ambience": "office", "music": {"key": "reckoning", "start_paragraph": 2}},
+    "arc_sangchul_known_reflex": {"ambience": "cafe", "suppress_music": true},
+    "arc_jaehyuk_sangchul_echo": {"ambience": "cafe", "music": {"key": "reckoning", "start_paragraph": 2}},
+    "arc_sangchul_jiyeon_reveal": {"ambience": "office", "music": {"key": "reckoning", "start_paragraph": 3}},
+    "arc_jiyeon_father_records": {"ambience": "cafe", "music": {"key": "reckoning", "start_paragraph": 2}},
+    "arc_y3_sangchul_deeper_room": {"ambience": "office", "music": {"key": "reckoning", "start_paragraph": 2}},
+    "arc_sangchul_year3": {"ambience": "street", "suppress_music": true},
+    "arc_year3_close": {"ambience": "hangang", "music": {"key": "reckoning", "start_paragraph": 3}}
   }
 }

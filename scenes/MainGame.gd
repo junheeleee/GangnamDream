@@ -2781,6 +2781,7 @@ func _next_arc_id(
 	if t >= 112 and f.get("visited_father", false) \
 			and f.get("arc_father_05_seen", false) \
 			and f.get("arc_sangchul_02_seen", false) \
+			and not GameState.has_deferred_event("arc_father_06_confession") \
 			and not f.get("arc_father_06_seen", false):
 		return "arc_father_06_confession"
 
@@ -2832,6 +2833,7 @@ func _next_arc_id(
 	if t >= 120 and t <= 132 and f.get("sangchul_truth_known", false) \
 			and f.get("arc_sangchul_known_offer_seen", false) \
 			and not f.get("arc_sangchul_confrontation_seen", false) \
+			and not GameState.has_deferred_event("arc_sangchul_known_reflex") \
 			and not f.get("arc_sangchul_known_reflex_seen", false):
 		return "arc_sangchul_known_reflex"
 
@@ -2935,8 +2937,10 @@ func _next_arc_id(
 			and not f.get("arc_first_real_win_seen", false):
 		return "arc_first_real_win"
 
-	# ── 반환점 — 5년의 절반 (턴 120) ──
-	if t >= 120 and not f.get("arc_midpoint_reckoning_seen", false):
+	# ── 반환점 — 35세의 길을 고른 뒤 도착하는 시간축 정산 ──
+	if t >= 121 \
+			and not GameState.has_deferred_event("arc_midpoint_reckoning") \
+			and not f.get("arc_midpoint_reckoning_seen", false):
 		return "arc_midpoint_reckoning"
 
 	# ── 동창 조우 — 2년 차, 잘 나가는 동창과 다시 비교한다 ──
@@ -2971,9 +2975,11 @@ func _next_arc_id(
 			and not f.get("arc_night_routine_seen", false):
 		return "arc_night_routine"
 
-	# ── 30억이라는 숫자 — 실제 반환점 이후 목표의 무게 ──
-	if t >= 124 and t <= 144 \
+	# ── 30억이라는 숫자 — 반환점과 2년 반 장부를 읽은 뒤의 현기증 ──
+	if t >= 126 and t <= 144 \
 			and f.get("arc_midpoint_reckoning_seen", false) \
+			and f.get("arc_year_two_half_seen", false) \
+			and not GameState.has_deferred_event("arc_goal_vertigo") \
 			and not f.get("arc_goal_vertigo_seen", false):
 		return "arc_goal_vertigo"
 
@@ -3047,6 +3053,7 @@ func _next_arc_id(
 	if t >= 106 and t <= 114 \
 			and f.get("arc_jaehyuk_pitch_seen", false) \
 			and (f.get("jaehyuk_trusted_fully", false) or f.get("jaehyuk_partial", false)) \
+			and not GameState.has_deferred_event("arc_jaehyuk_wait") \
 			and not f.get("arc_jaehyuk_wait_seen", false):
 		return "arc_jaehyuk_wait"
 
@@ -3054,11 +3061,16 @@ func _next_arc_id(
 	if t >= 108 and f.get("arc_jaehyuk_pitch_seen", false) \
 			and not f.get("arc_jaehyuk_ghost_seen", false) \
 			and not f.get("arc_jaehyuk_hyunsu_warning_seen", false) \
+			and not GameState.has_deferred_event("arc_jaehyuk_hyunsu_warning") \
 			and (f.get("jaehyuk_trusted_fully", false) or f.get("jaehyuk_partial", false)):
 		return "arc_jaehyuk_hyunsu_warning"
-	if GameState.cast_has_flag("jaehyuk", "invested") and not f.get("arc_jaehyuk_ghost_seen", false) and t >= 116:
+	if GameState.cast_has_flag("jaehyuk", "invested") \
+			and not GameState.has_deferred_event("arc_jaehyuk_04a_ghost") \
+			and not f.get("arc_jaehyuk_ghost_seen", false) and t >= 116:
 		return "arc_jaehyuk_04a_ghost"
-	if GameState.cast_has_flag("jaehyuk", "suspected") and not f.get("arc_jaehyuk_counter_seen", false) and t >= 116:
+	if GameState.cast_has_flag("jaehyuk", "suspected") \
+			and not GameState.has_deferred_event("arc_jaehyuk_04b_counter") \
+			and not f.get("arc_jaehyuk_counter_seen", false) and t >= 116:
 		return "arc_jaehyuk_04b_counter"
 	# ── 사기 당한 후 재기 — ghost 이후, 사후처리 전 ──
 	# [유물 해금] 포장마차 셀카를 가진 채 ghost 발각 직후 — 그날 밤의 진실
@@ -3174,6 +3186,7 @@ func _next_arc_id(
 
 	# ══ 7구간: 아크 에필로그 — 선택의 긴 그림자 (턴 50+) ══
 	if t >= 50 and (f.get("arc_jaehyuk_ghost_seen", false) or f.get("arc_jaehyuk_counter_seen", false)) \
+			and not GameState.has_deferred_event("arc_jaehyuk_aftermath") \
 			and not f.get("arc_jaehyuk_aftermath_seen", false):
 		return "arc_jaehyuk_aftermath"
 	# ── 재혁 거울 — 보증 요청, 아버지 실수의 반복 (aftermath 이후) ──
@@ -3181,6 +3194,7 @@ func _next_arc_id(
 			and not f.get("refused_jaehyuk_guarantee", false) \
 			and not f.get("vouched_jaehyuk_guarantee", false) \
 			and not f.get("blocked_jaehyuk_guarantee", false) \
+			and not GameState.has_deferred_event("arc_jaehyuk_mirror") \
 			and not f.get("arc_jaehyuk_mirror_seen", false):
 		return "arc_jaehyuk_mirror"
 	if t >= 55 and (f.get("arc_daeun_04_seen", false) or f.get("arc_daeun_ghost_seen", false)) \
@@ -3233,14 +3247,19 @@ func _next_arc_id(
 	# ── 35세 생일 (t100-112) ──
 	if t >= 100 and t <= 112 and not f.get("arc_35_birthday_seen", false):
 		return "arc_35_birthday"
-	# ── 2년 반 마커 — t120-140 공백 구간 앵커 (무조건) ──
-	if t >= 120 and t <= 140 and not f.get("arc_year_two_half_seen", false):
+	# ── 2년 반 마커 — 반환점 다음 주에 남는 시간 장부 ──
+	if t >= 122 and t <= 140 \
+			and f.get("arc_midpoint_reckoning_seen", false) \
+			and not GameState.has_deferred_event("arc_year_two_half") \
+			and not f.get("arc_year_two_half_seen", false):
 		return "arc_year_two_half"
 	# ── 35세 고독 (t116-128) ──
 	if t >= 116 and t <= 128 and not f.get("arc_35_alone_seen", false):
 		return "arc_35_alone"
 	# ── 왜 강남인가 — 테마 결정화 (Y3 중반, t115~140) ──
-	if t >= 115 and t <= 140 and not f.get("arc_why_gangnam_real_seen", false):
+	if t >= 115 and t <= 140 \
+			and not GameState.has_deferred_event("arc_why_gangnam_real") \
+			and not f.get("arc_why_gangnam_real_seen", false):
 		return "arc_why_gangnam_real"
 	# ── 챕터3 "무게" — 선택한 길의 대가 (route 반응형, t108~138) ──
 	if t >= 108 and t <= 138 \
@@ -3251,11 +3270,16 @@ func _next_arc_id(
 			return "arc_35_orthodox_weight"
 		else:
 			return "arc_35_unorthodox_weight"
-	# ── 챕터3 "무게" — 3년치 잃은 것의 영수증 (무조건, t124~144) ──
-	if t >= 124 and t <= 144 and not f.get("arc_35_path_cost_seen", false):
+	# ── 챕터3 "무게" — 현기증을 몇 주 들고 산 뒤 읽는 3년치 영수증 ──
+	if t >= 135 and t <= 144 \
+			and f.get("arc_goal_vertigo_seen", false) \
+			and not GameState.has_deferred_event("arc_35_path_cost") \
+			and not f.get("arc_35_path_cost_seen", false):
 		return "arc_35_path_cost"
 	# ── 35세 루틴 점검 (t138-148) ──
-	if t >= 138 and t <= 148 and not f.get("arc_35_habit_check_seen", false):
+	if t >= 138 and t <= 148 \
+			and not GameState.has_deferred_event("arc_35_habit_check") \
+			and not f.get("arc_35_habit_check_seen", false):
 		return "arc_35_habit_check"
 	# ── 36세 현실 점검 (t145-158) ──
 	if t >= 145 and t <= 158 and not f.get("arc_36_reality_check_seen", false):
@@ -3306,6 +3330,7 @@ func _next_arc_id(
 	# ══ 9구간: Year 3-5 인물 재등장 ══════════════════════════════
 	# 임상철 Year 3 — 신문 기사 (대면 이후)
 	if t >= 100 and f.get("arc_sangchul_confrontation_seen", false) \
+			and not GameState.has_deferred_event("arc_sangchul_year3") \
 			and not f.get("arc_sangchul_year3_seen", false):
 		return "arc_sangchul_year3"
 	# 한지연 Year 3 — 재연락 (에필로그 이후)
@@ -3320,6 +3345,7 @@ func _next_arc_id(
 	# 한지연 각자의 방향 — 부산 독립 (진짜 이유 이후, Y3)
 	if t >= 110 and t <= 135 \
 			and f.get("arc_jiyeon_real_reason_seen", false) \
+			and not GameState.has_deferred_event("arc_y3_jiyeon_departure") \
 			and not f.get("arc_y3_jiyeon_departure_seen", false):
 		return "arc_y3_jiyeon_departure"
 	# 먼저 거는 전화 — 민준의 첫 능동적 연락 (Y3후반~Y4초)
@@ -3515,6 +3541,7 @@ func _next_arc_id(
 			return "arc_y3_ledger_kept"
 		# B2 — 상철이 더 안쪽 방으로 (중반: t128~)
 		if t >= 128 and (f.get("used_sangchul_knowingly", false) or f.get("sangchul_truth_known", false)) \
+				and not GameState.has_deferred_event("arc_y3_sangchul_deeper_room") \
 				and not f.get("arc_y3_sangchul_deeper_room_seen", false):
 			return "arc_y3_sangchul_deeper_room"
 		# B3 — 현수의 공시 결과 (꼬리: t133~ — 준보편 비트를 최장 스파인 갭 t131-137에)

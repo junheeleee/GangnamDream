@@ -1075,7 +1075,9 @@
           "jaehyuk_trusted_fully"
         ],
         "result_text": "통장을 털어 보냈다. 가진 거의 전부.\n재혁이 어깨를 두드린다. \"잘 생각했어. 곧 웃게 될 거야.\"\n\n그날 밤, {name}은 잠을 설쳤다.\n기대 때문인지, 불안 때문인지 알 수 없었다.",
-        "route": "unorthodox"
+        "route": "unorthodox",
+        "deferred_follow_up": "arc_jaehyuk_wait",
+        "deferred_delay": 2
       },
       {
         "text": "\"재혁아, 난 이만큼만. 더는 무리야.\" (일부만 넣었다)",
@@ -1098,7 +1100,9 @@
           "arc_jaehyuk_pitch_seen",
           "jaehyuk_partial"
         ],
-        "result_text": "\"재혁아, 난 이만큼만. 더는 무리야.\"\n재혁이 살짝 아쉬운 표정을 짓는다. \"뭐... 그래도 어디야. 고맙다.\"\n전부를 걸지 않은 건, 본능적인 방어였다.\n그 본능이 나중에 {name}을 살릴지도 몰랐다."
+        "result_text": "\"재혁아, 난 이만큼만. 더는 무리야.\"\n재혁이 살짝 아쉬운 표정을 짓는다. \"뭐... 그래도 어디야. 고맙다.\"\n전부를 걸지 않은 건, 본능적인 방어였다.\n그 본능이 나중에 {name}을 살릴지도 몰랐다.",
+        "deferred_follow_up": "arc_jaehyuk_wait",
+        "deferred_delay": 2
       },
       {
         "text": "\"생각 좀 해볼게.\" (자리를 떠나 검색을 시작했다)",
@@ -1120,7 +1124,9 @@
           "jaehyuk_refused"
         ],
         "result_text": "\"생각 좀 해볼게.\" {name}은 자리를 떴다.\n그리고 집에 와서 검색을 시작했다.\n재혁이 말한 투자 상품, 그 회사 이름, 비슷한 피해 사례.\n\n검색 결과가 하나둘 뜨기 시작했다.\n등골이 서늘해졌다.",
-        "route": "orthodox"
+        "route": "orthodox",
+        "deferred_follow_up": "arc_jaehyuk_04b_counter",
+        "deferred_delay": 12
       }
     ],
     "description_orthodox": "호텔 라운지. 재혁이 정색했다.\n\n원금의 세 배. 이번 주까지.\n\n{name}은 그 두 문장의 구조를 분석했다.\n'세 배'가 미끼라면, '이번 주까지'는 생각할 시간을 없애는 장치다.\n교과서 같은 패턴.\n\n재혁이 말한다. \"같이 죽고 같이 산 사이잖아.\"\n\n그 말이 사실이기 때문에 — 더 조심해야 한다는 걸 알면서도,\n{name}은 잠깐 흔들렸다.",
@@ -1263,7 +1269,9 @@
           "jaehyuk_scammed",
           "hit_rock_bottom"
         ],
-        "result_text": "며칠을 방에 누워만 있었다.\n천장만 봤다. 통장은 비었고, 강남은 멀어졌다.\n\n근데 이상하게, 바닥까지 떨어지니 더 떨어질 데가 없었다.\n다시 일어서는 것 말곤 할 게 없었다.\n언젠가, 반드시, 이 돈을 되찾는다."
+        "result_text": "며칠을 방에 누워만 있었다.\n천장만 봤다. 통장은 비었고, 강남은 멀어졌다.\n\n근데 이상하게, 바닥까지 떨어지니 더 떨어질 데가 없었다.\n다시 일어서는 것 말곤 할 게 없었다.\n언젠가, 반드시, 이 돈을 되찾는다.",
+        "deferred_follow_up": "arc_jaehyuk_aftermath",
+        "deferred_delay": 1
       },
       {
         "text": "카페에 가입하고 글을 남겼다. '저도 당했습니다.'",
@@ -1283,7 +1291,9 @@
           "jaehyuk_scammed",
           "joined_victims"
         ],
-        "result_text": "카페에 가입하고 글을 남겼다.\n'저도 당했습니다. 군대 동기였어요.'\n\n댓글이 달렸다. '저도요.' '저도 동창이었어요.'\n그는 늘 가까운 사람을 노렸다. 신뢰를 무기로.\n\n피해자들이 모이기 시작했다. {name}은 그 중심에 섰다.\n잃은 걸 되찾는 방법이 아예 없는 건 아니었다."
+        "result_text": "카페에 가입하고 글을 남겼다.\n'저도 당했습니다. 군대 동기였어요.'\n\n댓글이 달렸다. '저도요.' '저도 동창이었어요.'\n그는 늘 가까운 사람을 노렸다. 신뢰를 무기로.\n\n피해자들이 모이기 시작했다. {name}은 그 중심에 섰다.\n잃은 걸 되찾는 방법이 아예 없는 건 아니었다.",
+        "deferred_follow_up": "arc_jaehyuk_aftermath",
+        "deferred_delay": 1
       },
       {
         "text": "(주머니 속… 그날의 사진이 생각났다)",
@@ -1304,7 +1314,9 @@
           "presented_artifact_correct"
         ],
         "follow_up_event": "arc_jaehyuk_photo_in_dark",
-        "result_text": "{name}은 폰 갤러리를 열었다. 포장마차 앞에서 둘이 찍은 사진 한 장이, 아직 거기 있었다.\n지우지 않고 남겨둔 그 한 장을, {name}은 한참 들여다봤다."
+        "result_text": "{name}은 폰 갤러리를 열었다. 포장마차 앞에서 둘이 찍은 사진 한 장이, 아직 거기 있었다.\n지우지 않고 남겨둔 그 한 장을, {name}은 한참 들여다봤다.",
+        "deferred_follow_up": "arc_jaehyuk_aftermath",
+        "deferred_delay": 1
       }
     ]
   },
@@ -1347,7 +1359,9 @@
           "took_high_road"
         ],
         "result_text": "증거를 경찰에 넘겼다. 피해자들의 진술과 함께.\n재혁은 구속됐다. {name}은 돈을 돌려받진 못했지만\n적어도 더 이상의 피해자는 막았다.\n\n임상철이 말했다. \"잘했어. 돈보다 중요한 걸 지켰네.\"\n{name}은 빈손이었지만, 거울 보기가 부끄럽지 않았다.",
-        "route": "orthodox"
+        "route": "orthodox",
+        "deferred_follow_up": "arc_jaehyuk_aftermath",
+        "deferred_delay": 1
       },
       {
         "text": "\"신고 안 할게. 대신 내 돈 세 배로 돌려줘.\"",
@@ -1368,7 +1382,9 @@
           "crossed_line"
         ],
         "result_text": "\"신고 안 할게. 대신 내 돈 세 배로 돌려줘. 일주일 안에.\"\n재혁은 떨면서 고개를 끄덕였다. 돈이 들어왔다.\n\n강남에 한 발 가까워졌다. 근데 {name}은 그날 밤,\n자기가 재혁과 뭐가 다른지 한참을 생각했다.\n답을 찾지 못했다.",
-        "route": "unorthodox"
+        "route": "unorthodox",
+        "deferred_follow_up": "arc_jaehyuk_aftermath",
+        "deferred_delay": 1
       },
       {
         "text": "\"신고 대신, 같이 하자. 이번엔 제대로.\"",
@@ -1390,7 +1406,9 @@
           "fell_to_darkness"
         ],
         "result_text": "\"신고 대신, 같이 하자. 대신 이번엔 제대로.\"\n재혁의 눈에 안도와 두려움이 섞였다.\n\n{name}은 선을 넘었다. 강남은 가까워질 것이다.\n빠르게. 더럽게.\n아버지한테 보여줄 그 집이, 이런 돈으로 사는 집이어도 되는 걸까.\n그 질문을, {name}은 묻지 않기로 했다. 지금은.",
-        "route": "unorthodox"
+        "route": "unorthodox",
+        "deferred_follow_up": "arc_jaehyuk_aftermath",
+        "deferred_delay": 1
       }
     ]
   },
@@ -2096,7 +2114,7 @@
   {
     "id": "arc_jaehyuk_hyunsu_warning",
     "title": "너무 늦은 연락",
-    "background": "convenience_night",
+    "background": "current_housing",
     "portrait": "hyunsu",
     "category": "story",
     "rarity": "story",
@@ -2133,7 +2151,9 @@
           "tried_to_withdraw",
           "hyunsu_warned"
         ],
-        "result_text": "전화를 걸었다. 재혁이 받았다 — 아직은 연락이 됐다.\n\"야, 나 돈 좀 빼야 할 것 같아. 급한 일이 생겼어.\"\n재혁이 잠깐 말이 없더니, 웃으며 말했다.\n\"야 무슨 소리야. 지금 빼면 손해야. 조금만 더 있으면...\"\n\n어렵게 어렵게, 일부만 겨우 건져냈다.\n나머지는 이미 어디에 있는지 알 수 없었다.\n\n현수가 말했다. \"형, 제가 더 일찍 말했어야 했는데. 죄송해요.\"\n그 말이 더 아팠다. 현수 잘못이 아니니까."
+        "result_text": "전화를 걸었다. 재혁이 받았다 — 아직은 연락이 됐다.\n\"야, 나 돈 좀 빼야 할 것 같아. 급한 일이 생겼어.\"\n재혁이 잠깐 말이 없더니, 웃으며 말했다.\n\"야 무슨 소리야. 지금 빼면 손해야. 조금만 더 있으면...\"\n\n어렵게 어렵게, 일부만 겨우 건져냈다.\n나머지는 이미 어디에 있는지 알 수 없었다.\n\n현수가 말했다. \"형, 제가 더 일찍 말했어야 했는데. 죄송해요.\"\n그 말이 더 아팠다. 현수 잘못이 아니니까.",
+        "deferred_follow_up": "arc_jaehyuk_04a_ghost",
+        "deferred_delay": 8
       },
       {
         "text": "\"...재혁이는 아닐 거야\" — 군대 친구를 믿기로 한다",
@@ -2149,7 +2169,9 @@
           "arc_jaehyuk_hyunsu_warning_seen",
           "ignored_hyunsu_warning"
         ],
-        "result_text": "\"현수야, 그 카페 글이 다 사실은 아닐 수 있어.\n재혁이 진짜 내 친구야. 군대에서 같이 죽고 살았어.\"\n현수가 잠시 말이 없더니, \"...네, 제가 괜히 걱정했나봐요\" 라고 했다.\n\n{name}은 폰을 내려놓았다.\n심장이 조금 빨리 뛰었다.\n믿고 싶어서였는지, 이미 알고 있어서였는지 — 구분이 안 됐다."
+        "result_text": "\"현수야, 그 카페 글이 다 사실은 아닐 수 있어.\n재혁이 진짜 내 친구야. 군대에서 같이 죽고 살았어.\"\n현수가 잠시 말이 없더니, \"...네, 제가 괜히 걱정했나봐요\" 라고 했다.\n\n{name}은 폰을 내려놓았다.\n심장이 조금 빨리 뛰었다.\n믿고 싶어서였는지, 이미 알고 있어서였는지 — 구분이 안 됐다.",
+        "deferred_follow_up": "arc_jaehyuk_04a_ghost",
+        "deferred_delay": 8
       },
       {
         "text": "\"나도 이상하다 싶었어. 같이 알아보자\"",
@@ -2170,7 +2192,9 @@
           "hyunsu_warned",
           "started_investigating"
         ],
-        "result_text": "\"현수야, 그 카페 링크 좀 보내줘.\n나도 좀 찾아보고 있었거든.\"\n\"형도 의심했어요?\" \"응. 근데 확신이 없었어.\"\n\n두 사람이 정보를 모으기 시작했다.\n재혁이 만든 인간관계의 패턴, 자금의 흐름.\n점점 그림이 선명해졌다.\n그리고 선명해질수록, 구역질이 났다."
+        "result_text": "\"현수야, 그 카페 링크 좀 보내줘.\n나도 좀 찾아보고 있었거든.\"\n\"형도 의심했어요?\" \"응. 근데 확신이 없었어.\"\n\n두 사람이 정보를 모으기 시작했다.\n재혁이 만든 인간관계의 패턴, 자금의 흐름.\n점점 그림이 선명해졌다.\n그리고 선명해질수록, 구역질이 났다.",
+        "deferred_follow_up": "arc_jaehyuk_04a_ghost",
+        "deferred_delay": 8
       }
     ]
   },
@@ -2467,7 +2491,9 @@
         "flags": [
           "arc_jaehyuk_aftermath_seen"
         ],
-        "result_text": "{name}이 제출한 증거가 이 결과에 기여했다.\n돈을 못 돌려받은 건 여전했다.\n하지만 23억의 추가 피해는 막혔다.\n강남은 아직 멀다. 그래도 거울 보기가 부끄럽지 않았다."
+        "result_text": "{name}이 제출한 증거가 이 결과에 기여했다.\n돈을 못 돌려받은 건 여전했다.\n하지만 23억의 추가 피해는 막혔다.\n강남은 아직 멀다. 그래도 거울 보기가 부끄럽지 않았다.",
+        "deferred_follow_up": "arc_jaehyuk_mirror",
+        "deferred_delay": 1
       },
       {
         "text": "그때 나는 나만 살았다 — 그게 강남으로 가는 방식이었는지 모른다  [crossed_line 경로]",
@@ -2479,7 +2505,9 @@
         "flags": [
           "arc_jaehyuk_aftermath_seen"
         ],
-        "result_text": "기사를 닫았다.\n{name}이 한 일이 그 23억 중 일부를 막았는지, 늘렸는지 알 수 없었다.\n강남으로 가는 길에서 내가 어떤 사람이 됐는지 —\n그 질문을 더 이상 피할 수 없는 날이 오고 있었다."
+        "result_text": "기사를 닫았다.\n{name}이 한 일이 그 23억 중 일부를 막았는지, 늘렸는지 알 수 없었다.\n강남으로 가는 길에서 내가 어떤 사람이 됐는지 —\n그 질문을 더 이상 피할 수 없는 날이 오고 있었다.",
+        "deferred_follow_up": "arc_jaehyuk_mirror",
+        "deferred_delay": 1
       },
       {
         "text": "피해자로서 읽는다 — 그래도 결국 잡혔구나  [jaehyuk_scammed 경로]",
@@ -2491,7 +2519,9 @@
         "flags": [
           "arc_jaehyuk_aftermath_seen"
         ],
-        "result_text": "23억. {name}의 돈도 그 안에 있을 것이다.\n전부 돌려받진 못하겠지. 재판이 끝나봐야 알겠지.\n근데 이상하게, 기사를 닫고 나니 숨이 좀 쉬어졌다.\n그 새끼 결국 잡혔다. 그거면 됐다. 일단은."
+        "result_text": "23억. {name}의 돈도 그 안에 있을 것이다.\n전부 돌려받진 못하겠지. 재판이 끝나봐야 알겠지.\n근데 이상하게, 기사를 닫고 나니 숨이 좀 쉬어졌다.\n그 새끼 결국 잡혔다. 그거면 됐다. 일단은.",
+        "deferred_follow_up": "arc_jaehyuk_mirror",
+        "deferred_delay": 1
       }
     ]
   },
@@ -3125,7 +3155,7 @@
   {
     "id": "arc_father_05_after_visit",
     "title": "그 뒤로",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "player_normal",
     "category": "story",
     "rarity": "story",
@@ -3159,7 +3189,9 @@
           "arc_father_05_seen",
           "father_reconciled"
         ],
-        "result_text": "15분 동안 날씨 얘기, 동네 얘기, 아무것도 아닌 얘기를 했다.\n\n전화를 끊고 나서 {name}은 웃고 있었다.\n\n강남 얘기는 한 마디도 안 했다.\n그래도 그게 오늘은 더 좋았다. 아버지가 먼저 전화를 했으니까."
+        "result_text": "15분 동안 날씨 얘기, 동네 얘기, 아무것도 아닌 얘기를 했다.\n\n전화를 끊고 나서 {name}은 웃고 있었다.\n\n강남 얘기는 한 마디도 안 했다.\n그래도 그게 오늘은 더 좋았다. 아버지가 먼저 전화를 했으니까.",
+        "deferred_follow_up": "arc_father_06_confession",
+        "deferred_delay": 12
       },
       {
         "text": "\"저 요즘 잘 하고 있어요. 걱정하지 마세요.\"",
@@ -3177,7 +3209,9 @@
           "arc_father_05_seen",
           "father_reconciled"
         ],
-        "result_text": "아버지 목소리가 기분 좋게 들렸다.\n\n\"아버지도 잘 지내고 계세요. 걱정 마요.\"\n잠깐 침묵.\n\"...그래, 나도. 너도.\"\n\n그게 다였다. 그래도 오늘은 통화 후에 기분이 달랐다."
+        "result_text": "아버지 목소리가 기분 좋게 들렸다.\n\n\"아버지도 잘 지내고 계세요. 걱정 마요.\"\n잠깐 침묵.\n\"...그래, 나도. 너도.\"\n\n그게 다였다. 그래도 오늘은 통화 후에 기분이 달랐다.",
+        "deferred_follow_up": "arc_father_06_confession",
+        "deferred_delay": 12
       }
     ]
   },
