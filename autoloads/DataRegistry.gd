@@ -144,7 +144,7 @@ const EXTERNAL_EVENT_TEXT_FIELDS := [
 const EXTERNAL_EVENT_DICT_FIELDS := [
 	"description_if_known", "description_memory_if_known", "description_if_moral",
 ]
-const EXTERNAL_CHOICE_TEXT_FIELDS := ["text", "result_text", "tooltip"]
+const EXTERNAL_CHOICE_TEXT_FIELDS := ["text", "result_text", "tooltip", "bridge_summary"]
 const EXTERNAL_CHOICE_DICT_FIELDS := ["text_if_moral"]
 const EXTERNAL_ENDING_TEXT_FIELDS := [
 	"title", "subtitle", "description", "detailed_description", "epilogue", "condition",

@@ -170,10 +170,10 @@
       "weeks": [145, 192],
       "question": "사람과 몸이 성공의 비용으로 청구될 때 민준은 무엇을 먼저 지불하는가?",
       "object": "아버지의 약봉지와 비어 있는 의자",
-      "setup": ["father_hospital_wait", "arc_father_medication"],
-      "escalation": ["arc_father_06_confession", "arc_daeun_proposal"],
-      "reversal": ["arc_father_passing"],
-      "boss": ["arc_daeun_wedding_day", "arc_jiyeon_wedding_gap"],
+      "setup": ["arc_36_reality_check", "arc_father_call_on_ktx"],
+      "escalation": ["arc_father_passing", "arc_daeun_proposal"],
+      "reversal": ["arc_daeun_wedding_prep", "arc_36_trust_crack"],
+      "boss": ["arc_36_night_doubt"],
       "aftermath": ["arc_year4_close", "chapter_card_37"],
       "handoff": "남은 것은 목표액과 민준의 이름, 그리고 그 이름을 아직 불러 주는 사람뿐이다."
     },
@@ -210,13 +210,13 @@
       {
         "id": "first_line",
         "weeks": [4, 8],
-        "foreground_roots": ["arc_temptation_01", "arc_intro_03_sns", "arc_chapter1_close"],
+        "foreground_roots": ["arc_temptation_01", "arc_intro_03_sns", "cafe_00"],
         "promise": "첫 불법 제안의 선택이 남의 삶과 자기 얼굴을 보는 방식으로 돌아온다."
       },
       {
         "id": "people_in_the_same_city",
         "weeks": [9, 13],
-        "foreground_roots": ["arc_intro_04_hyunsu", "arc_sangchul_01_meet", "arc_daeun_01_meet"],
+        "foreground_roots": ["arc_intro_04_hyunsu", "arc_chapter1_close", "arc_sangchul_01_meet", "arc_daeun_01_meet"],
         "promise": "같은 서울에서 버티는 세 사람이 서로 다른 출구를 보여 준다."
       },
       {
@@ -234,7 +234,7 @@
       {
         "id": "four_year_promise",
         "weeks": [22, 24],
-        "foreground_roots": ["arc_job_vs_invest", "arc_daeun_03_fork", "arc_gangnam_visit_alone"],
+        "foreground_roots": ["arc_job_vs_invest", "arc_gangnam_visit_alone", "arc_four_months_in"],
         "promise": "직업, 사람, 강남 가운데 무엇을 먼저 보는지가 다음 네 해의 주어가 된다."
       }
     ],
@@ -252,8 +252,8 @@
         "resolution": "상철 첫 만남 뒤 AP 투자 문맥 튜토리얼로 흡수"
       },
       {
-        "event": "arc_four_months_in",
-        "resolution": "24주 피날레의 시간 경과 문단으로 흡수"
+        "event": "arc_paycheck_reality",
+        "resolution": "첫 월급의 사용 태도를 해당 주의 시간 다리로 흡수"
       }
     ]
   }

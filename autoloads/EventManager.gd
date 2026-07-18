@@ -7,6 +7,7 @@ var pending_events: Array = []
 var current_event: Dictionary = {}
 var event_cooldowns: Dictionary = {}
 var recent_event_ids: Array = []
+var narrative_bridge_results: Array = []
 var director_rules: Dictionary = {}
 var _follow_up_target_ids: Dictionary = {}
 
@@ -55,6 +56,7 @@ func _on_run_started():
 	event_cooldowns.clear()
 	recent_event_ids.clear()
 	pending_events.clear()
+	narrative_bridge_results.clear()
 	current_event = {}
 
 func _load_director_rules() -> void:
@@ -489,6 +491,38 @@ func trigger_event_by_id(event_id):
 	var event = DataRegistry.find_event(event_id)
 	if not event.is_empty():
 		queue_event(event)
+
+## Low-signal authored events keep their original effects and history without
+## interrupting the novel with another standalone choice screen. The caller
+## chooses from the event's existing options based on decisions already made.
+func resolve_narrative_bridge(event_id: String, choice_index: int) -> bool:
+	var event: Dictionary = DataRegistry.find_event(event_id)
+	if event.is_empty():
+		push_error("Narrative bridge event missing: %s" % event_id)
+		return false
+	var choices: Array = event.get("choices", [])
+	if choice_index < 0 or choice_index >= choices.size():
+		push_error("Narrative bridge choice out of range: %s[%d]" % [event_id, choice_index])
+		return false
+	var choice: Dictionary = choices[choice_index]
+	GameState.apply_choice(event, choice)
+	var cooldown := cooldown_for_event(event)
+	if cooldown > 0:
+		event_cooldowns[event_id] = maxi(int(event_cooldowns.get(event_id, 0)), cooldown)
+	_remember_recent(event_id)
+	narrative_bridge_results.append({
+		"turn": GameState.turn,
+		"event_id": event_id,
+		"title": str(event.get("title", "")),
+		"summary": str(choice.get("bridge_summary", choice.get("result_text", choice.get("text", "")))),
+	})
+	event_resolved.emit(event, choice)
+	return true
+
+func consume_narrative_bridge_results() -> Array:
+	var results := narrative_bridge_results.duplicate(true)
+	narrative_bridge_results.clear()
+	return results
 
 func _tick_cooldowns():
 	for event_id in event_cooldowns.keys():

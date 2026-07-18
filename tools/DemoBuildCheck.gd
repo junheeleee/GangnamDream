@@ -1,15 +1,12 @@
 extends Node
 
-const EXPECTED_CHAIN := {
-	1: "chapter_card_33",
-	2: "arc_intro_01_meal",
-	3: "arc_intro_02_dad_call",
-	4: "arc_temptation_01",
-	5: "arc_intro_03_sns",
-	6: "cafe_00",
-	7: "arc_intro_04_hyunsu",
-	8: "arc_chapter1_close",
-}
+const EXPECTED_ROOTS := [
+	{"week": 1, "event": "chapter_card_33"},
+	{"week": 2, "event": "arc_intro_01_meal"},
+	{"week": 4, "event": "arc_temptation_01"},
+	{"week": 6, "event": "cafe_00"},
+	{"week": 9, "event": "arc_intro_04_hyunsu"},
+]
 const CHOICE_OVERRIDES := {
 	"cafe_listen_01": 2,
 }
@@ -24,7 +21,8 @@ func _ready() -> void:
 func _run() -> void:
 	_check_build_flavor()
 	_check_export_presets()
-	_check_first_eight_weeks()
+	_check_opening_sequences()
+	_check_narrative_bridge_contract()
 	_check_employment_consistency()
 	_check_side_shift_pay()
 	_check_ap_bonus_surface()
@@ -39,7 +37,7 @@ func _run() -> void:
 	print("DEMO_BUILD_CHECK_OK feature=%s cutoff=%d chain=%d presets=%d" % [
 		GameState.DEMO_FEATURE,
 		GameState.DEMO_TURN_LIMIT,
-		EXPECTED_CHAIN.size(),
+		EXPECTED_ROOTS.size(),
 		REQUIRED_FULL_PRESETS.size() + REQUIRED_DEMO_PRESETS.size(),
 	])
 	get_tree().quit(0)
@@ -74,7 +72,7 @@ func _check_export_presets() -> void:
 		if flavors.has(preset_name):
 			_expect(flavors[preset_name].has(GameState.DEMO_FEATURE), "Demo preset %s lacks %s." % [preset_name, GameState.DEMO_FEATURE])
 
-func _check_first_eight_weeks() -> void:
+func _check_opening_sequences() -> void:
 	GameState.start_new_game("김민준", "지방_상경", "직장형", "백수", "자유런", "현실")
 	GameState.flags["prologue_done"] = true
 	GameState.flags["story_flashforward_seen"] = true
@@ -83,16 +81,42 @@ func _check_first_eight_weeks() -> void:
 		_failures.append("MainGame.tscn failed to load.")
 		return
 	var main_game := packed.instantiate()
-	for week in range(1, EXPECTED_CHAIN.size() + 1):
-		GameState.turn = int(week)
-		var expected_id := str(EXPECTED_CHAIN[week])
+	for row in EXPECTED_ROOTS:
+		var week := int(row.get("week", 0))
+		GameState.turn = week
+		var expected_id := str(row.get("event", ""))
 		var actual_id := str(main_game.call("_next_arc_id"))
 		_expect(actual_id == expected_id, "Week %d expected %s, got %s." % [week, expected_id, actual_id])
 		if actual_id != expected_id:
 			break
 		_resolve_story_chain(actual_id)
 	main_game.free()
-	_expect(bool(GameState.flags.get("chapter1_closed", false)), "The week-8 chapter close was not resolved.")
+	_expect(bool(GameState.flags.get("arc_intro_dad_seen", false)),
+		"The interview did not continue into the 125-year calculation.")
+	_expect(bool(GameState.flags.get("arc_temptation_clean_seen", false)),
+		"The first temptation did not continue into its immediate consequence.")
+	_expect(bool(GameState.flags.get("arc_intro_sns_seen", false)),
+		"The temptation consequence did not continue into the 2 AM mirror scene.")
+	_expect(bool(GameState.flags.get("chapter1_closed", false)),
+		"Hyunsu's first conversation did not continue into the opening chapter close.")
+
+func _check_narrative_bridge_contract() -> void:
+	GameState.start_new_game("김민준", "지방_상경", "직장형", "백수", "자유런", "현실")
+	var before_events: int = GameState.events_seen
+	var before_intelligence: int = GameState.intelligence
+	var resolved: bool = EventManager.resolve_narrative_bridge("arc_money_check_low", 0)
+	_expect(resolved, "The authored bridge event could not be resolved.")
+	_expect(bool(GameState.flags.get("arc_money_check_seen", false)),
+		"The bridge dropped the original choice flag.")
+	_expect(GameState.intelligence == before_intelligence + 1,
+		"The bridge dropped the original choice effects.")
+	_expect(GameState.events_seen == before_events + 1,
+		"The bridge did not enter authored-event history.")
+	var results: Array = EventManager.consume_narrative_bridge_results()
+	_expect(results.size() == 1, "The bridge did not leave exactly one narrative trace.")
+	if results.size() == 1:
+		_expect(not str(results[0].get("summary", "")).is_empty(),
+			"The bridge trace lost its localized summary.")
 
 func _resolve_story_chain(event_id: String) -> void:
 	var next_id := event_id

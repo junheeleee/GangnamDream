@@ -623,7 +623,7 @@ CHOICE_KEYS = {"text", "text_if_moral", "effects", "flags", "follow_up_event", "
                "opportunity", "cast_effects", "relationship_effects",
                "investment_effects", "tendency", "route", "grant_job",
                "conditions_note", "deferred_follow_up", "deferred_delay",
-               "foreshadow", "clues", "give_items", "requires_item", "housing_keepsake",
+               "foreshadow", "bridge_summary", "clues", "give_items", "requires_item", "housing_keepsake",
                "year_scene"}
 
 def _match_arm_keys(src, func_pattern):

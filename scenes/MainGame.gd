@@ -373,7 +373,7 @@ func _run_theme_display(theme_id: String) -> String:
 ## 앰비언트 이벤트(_maybe_play_month_situation)는 여기서 부르지 않는다.
 ## 아크/마일스톤/프롤로그가 이미 재생된 달에 랜덤 이벤트가 추가로 뜨는 것을 방지.
 func _continue_after_story():
-	var arc_id = _next_arc_id()
+	var arc_id = _next_arc_id(-1, false, true)
 	if arc_id != "":
 		_go_story_mode([arc_id], true)
 		return
@@ -2266,7 +2266,7 @@ func _begin_month_story_and_render():
 			_go_story_mode(["story_arrival"])
 		return
 	# 아크 이벤트 (인물 스토리) — 마일스톤보다 우선
-	var arc_id = _next_arc_id()
+	var arc_id = _next_arc_id(-1, false, true)
 	if arc_id != "":
 		_go_story_mode([arc_id])
 		return
@@ -2367,7 +2367,55 @@ func _first_job_week_arc_id(f: Dictionary, at_turn: int = -1) -> String:
 		_:
 			return "arc_first_job_week"
 
-func _next_arc_id(at_turn: int = -1, preview_only: bool = false) -> String:
+func _demo_narrative_bridge_choice(event_id: String) -> int:
+	var f := GameState.flags
+	match event_id:
+		"arc_money_check_low":
+			if f.get("mindset_founder", false):
+				return 2
+			return 0 if f.get("mindset_saver", false) or f.get("mindset_investor", false) else 1
+		"arc_money_check_mid":
+			if f.get("mindset_investor", false):
+				return 0
+			if f.get("mindset_saver", false) or f.get("mindset_founder", false):
+				return 1
+			return 2
+		"arc_money_check_high":
+			if f.get("lent_account", false) or GameState.route_unorthodox > GameState.route_orthodox:
+				return 1
+			return 0 if GameState.moral_stage() >= 0 else 2
+		"arc_gosiwon_wall":
+			if GameState.moral_stage() < 0:
+				return 0
+			return 1 if f.get("kept_clean_hands", false) else 2
+		"arc_invest_guidance":
+			if f.get("mindset_investor", false):
+				return 0
+			if f.get("mindset_saver", false):
+				return 1
+			return 2
+		"arc_paycheck_reality":
+			if f.get("mindset_investor", false):
+				return 1
+			if f.get("mindset_founder", false):
+				return 2
+			return 0
+	return 0
+
+func _resolve_demo_narrative_bridge(
+		event_id: String, at_turn: int, preview_only: bool, resolve_bridges: bool) -> bool:
+	if at_turn < 1 or at_turn > GameState.DEMO_TURN_LIMIT:
+		return false
+	# Preview callers need the next foreground scene, but must never mutate state.
+	if preview_only:
+		return true
+	if not resolve_bridges:
+		return false
+	return EventManager.resolve_narrative_bridge(
+		event_id, _demo_narrative_bridge_choice(event_id))
+
+func _next_arc_id(
+		at_turn: int = -1, preview_only: bool = false, resolve_bridges: bool = false) -> String:
 	var t = GameState.turn if at_turn < 0 else at_turn
 	var f = GameState.flags
 
@@ -2451,10 +2499,10 @@ func _next_arc_id(at_turn: int = -1, preview_only: bool = false) -> String:
 	# ★ 깊은 분기 시나리오 데모 — '강남 카페' (꼬리에 꼬리를 무는 선택)
 	if t >= 6 and not f.get("cafe_scenario_seen", false):
 		return "cafe_00"
-	if t >= 7 and not f.get("arc_intro_hyunsu_seen", false):
+	if t >= 9 and not f.get("arc_intro_hyunsu_seen", false):
 		return "arc_intro_04_hyunsu"
-	# ★ 챕터1 클로즈 (턴 8) — 첫 주의 모든 씬이 끝난 뒤 잠깐의 반성. 데모 종료 포인트.
-	if t >= 8 and f.get("arc_intro_hyunsu_seen", false) \
+	# 현수 첫 대화의 follow-up이 결산을 잇는다. 옛 저장은 이 가드로 복구한다.
+	if t >= 9 and f.get("arc_intro_hyunsu_seen", false) \
 			and not f.get("chapter1_closed", false):
 		return "arc_chapter1_close"
 	# ★ 카페의 장기 파장 (턴 13) — 턴 6 선택이 되돌아온다. 위쳐3식 장기 결과.
@@ -2498,17 +2546,23 @@ func _next_arc_id(at_turn: int = -1, preview_only: bool = false) -> String:
 	# ── 첫 정산 (턴 9) — 자산 구간이 장면을 고른다. 선택/AP의 결과가 화면으로. ──
 	if t >= 9 and not f.get("arc_money_check_seen", false):
 		var nav: float = GameState.get_total_asset_value()
+		var money_check_id := "arc_money_check_low"
 		if nav < 1_000_000.0:
-			return "arc_money_check_low"      # 마이너스~빠듯: 통장 충격
+			money_check_id = "arc_money_check_low"      # 마이너스~빠듯: 통장 충격
 		elif nav < 30_000_000.0:
-			return "arc_money_check_mid"       # 쌓이는 중: 첫 결실
+			money_check_id = "arc_money_check_mid"       # 쌓이는 중: 첫 결실
 		else:
-			return "arc_money_check_high"      # 3천만+: 이게 되네 (자신감/경고)
+			money_check_id = "arc_money_check_high"      # 3천만+: 이게 되네 (자신감/경고)
+		if not _resolve_demo_narrative_bridge(
+				money_check_id, t, preview_only, resolve_bridges):
+			return money_check_id
 
 	# ── 얇은 벽 — 고시원 새벽 3시 (턴 11, 고시원 거주 중에만) ──
 	if t >= 11 and GameState.housing == "gosiwon" \
 			and not f.get("arc_gosiwon_wall_seen", false):
-		return "arc_gosiwon_wall"
+		if not _resolve_demo_narrative_bridge(
+				"arc_gosiwon_wall", t, preview_only, resolve_bridges):
+			return "arc_gosiwon_wall"
 
 	# ★ 신규 유저 안전망 (턴 10+) — 아직 무직이면 고시원 주인이 일자리를 소개한다.
 	#   거절 가능. 창업/크리에이터 의도가 있으면 안 뜸.
@@ -2583,44 +2637,46 @@ func _next_arc_id(at_turn: int = -1, preview_only: bool = false) -> String:
 	# ── 임상철 투자 길잡이 — 첫 만남 2주 후 (30억 경로 안내) ──
 	if t >= 12 and f.get("arc_sangchul_met_seen", false) \
 			and not f.get("arc_invest_guidance_seen", false):
-		return "arc_invest_guidance"
+		if not _resolve_demo_narrative_bridge(
+				"arc_invest_guidance", t, preview_only, resolve_bridges):
+			return "arc_invest_guidance"
 
 	# ── 김다은 아크 — 편의점 단골, 사랑 vs 야망 (슬로우번) ──
-	if t >= 9 and not f.get("arc_daeun_met", false):
+	if t >= 12 and not f.get("arc_daeun_met", false):
 		return "arc_daeun_01_meet"
-	if t >= 15 and f.get("arc_daeun_met", false) \
+	if t >= 34 and f.get("arc_daeun_met", false) \
 			and GameState.get_cast_affinity("daeun") >= 8 \
 			and not f.get("arc_daeun_regular_seen", false):
 		return "arc_daeun_02_regular"
-	if t >= 23 and f.get("arc_daeun_regular_seen", false) \
+	if t >= 58 and f.get("arc_daeun_regular_seen", false) \
 			and GameState.get_cast_affinity("daeun") >= 12 \
 			and not f.get("arc_daeun_fork_seen", false):
 		return "arc_daeun_03_fork"
 	# ── 다은 결말 — 붙잡은 경우 ──
-	if t >= 28 and f.get("daeun_chose_her", false) \
+	if t >= 68 and f.get("daeun_chose_her", false) \
 			and not f.get("arc_daeun_03b_seen", false) \
 			and not f.get("arc_daeun_04_seen", false):
 		return "arc_daeun_03b_date"
-	if t >= 33 and f.get("daeun_chose_her", false) \
+	if t >= 76 and f.get("daeun_chose_her", false) \
 			and not f.get("arc_daeun_04_seen", false):
 		return "arc_daeun_04_morning"
-	if t >= 42 and f.get("daeun_together_path", false) \
+	if t >= 86 and f.get("daeun_together_path", false) \
 			and not f.get("arc_daeun_04b_seen", false):
 		return "arc_daeun_04b_future"
 	# ── 다은 에필로그 — 보낸 경우 ──
-	if t >= 40 and f.get("daeun_let_her_go", false) \
+	if t >= 72 and f.get("daeun_let_her_go", false) \
 			and not f.get("arc_daeun_ghost_seen", false):
 		return "arc_daeun_ghost"
-	if t >= 47 and f.get("daeun_let_her_go", false) \
+	if t >= 84 and f.get("daeun_let_her_go", false) \
 			and f.get("arc_daeun_ghost_seen", false) \
 			and not f.get("arc_daeun_regret_seen", false):
 		return "arc_daeun_regret_draft"
 	# ── 다은 05 — 함께 가는 경로 (committed 이후 일상) ──
-	if t >= 50 and f.get("daeun_close_bond", false) \
+	if t >= 96 and f.get("daeun_close_bond", false) \
 			and not f.get("arc_daeun_05_together_seen", false):
 		return "arc_daeun_05_together"
 	# ── 조기 연인 특별씬 '그 밤' — 사귄 뒤 관계가 무르익은 시점 (성숙 페이드아웃) ──
-	if t >= 70 and f.get("daeun_romance_started", false) \
+	if t >= 116 and f.get("daeun_romance_started", false) \
 			and GameState.get_cast_affinity("daeun") >= 45 \
 			and not f.get("arc_daeun_first_night_seen", false):
 		return "arc_daeun_first_night"
@@ -2669,52 +2725,57 @@ func _next_arc_id(at_turn: int = -1, preview_only: bool = false) -> String:
 			and GameState.get_total_asset_value() < 3_000_000_000.0:
 		return "arc_daeun_final_choice"
 	# ── 다은 05 — 기다려달라 한 뒤 이별 ──
-	if t >= 50 and f.get("daeun_deferred", false) \
+	if t >= 92 and f.get("daeun_deferred", false) \
 			and not f.get("arc_daeun_05_breaking_seen", false):
 		return "arc_daeun_05_breaking"
 	# ── 다은 05 — 모르겠다 한 뒤 자연 소멸 ──
-	if t >= 50 and f.get("daeun_uncertain", false) \
+	if t >= 92 and f.get("daeun_uncertain", false) \
 			and not f.get("arc_daeun_05_uncertain_seen", false):
 		return "arc_daeun_05_uncertain"
 
 	# ── 아버지 아크 — 병환과 화해 (런 전체에 걸쳐 진행) ──
-	if t >= 11 and not f.get("arc_father_01_seen", false):
+	if t >= 14 and not f.get("arc_father_01_seen", false):
 		return "arc_father_01_call"
 	# ── 아버지 평범한 통화 — 두 이벤트 사이 고요한 장면 ──
-	if t >= 15 and t <= 19 \
+	if t >= 16 and t <= 19 \
 			and f.get("arc_father_01_seen", false) \
 			and not f.get("arc_father_quiet_call_seen", false):
 		return "arc_father_quiet_call"
 	if t >= 21 and f.get("arc_father_01_seen", false) \
 			and not f.get("arc_father_02_done", false):
 		return "arc_father_02_signal"
-	if t >= 35 and f.get("arc_father_02_done", false) \
+	# 1장의 짧은 이상 신호가 2장의 약봉지와 병원으로 커진다.
+	if t >= 58 and f.get("arc_father_02_done", false) \
+			and not f.get("arc_father_medication_seen", false):
+		return "arc_father_medication"
+	if t >= 82 and f.get("arc_father_02_done", false) \
+			and f.get("arc_father_medication_seen", false) \
 			and not f.get("arc_father_03_seen", false):
 		return "arc_father_03_hospital"
-	# ── 아버지 별세 — 병원 알고도 미방문 (t100 이후, medication 목격 후 타임아웃) ──
+	# ── 아버지 별세 — 병원 알고도 미방문 (4장 진입 뒤 타임아웃) ──
 	# [유물 해금] 통화시간 23초를 가진 채 KTX를 타는 순간 — 별세 직전 전처리
-	if t >= 100 and f.get("arc_father_03_seen", false) \
+	if t >= 148 and f.get("arc_father_03_seen", false) \
 			and f.get("arc_father_medication_seen", false) \
 			and not f.get("visited_father", false) \
 			and not f.get("father_passed", false) \
 			and GameState.has_item("artifact_father_call") \
 			and not f.get("arc_father_call_on_ktx_seen", false):
 		return "arc_father_call_on_ktx"
-	if t >= 100 and f.get("arc_father_03_seen", false) \
+	if t >= 150 and f.get("arc_father_03_seen", false) \
 			and f.get("arc_father_medication_seen", false) \
 			and not f.get("visited_father", false) \
 			and not f.get("father_passed", false):
 		return "arc_father_passing"
-	if t >= 43 and f.get("arc_father_03_seen", false) \
+	if t >= 90 and f.get("arc_father_03_seen", false) \
 			and not f.get("visited_father", false) \
 			and not f.get("father_passed", false):
 		return "arc_father_04_visit"
-	if t >= 52 and f.get("visited_father", false) \
+	if t >= 100 and f.get("visited_father", false) \
 			and not f.get("arc_father_05_seen", false):
 		return "arc_father_05_after_visit"
 	# ── 아버지 고백 — 빚의 소개인 임상철 (방문 + 상철 커피 이후면 충분)
 	# arc_sangchul_02_seen: 커피 1회로 임상철 이름 인식 가능 (03 네트워크 불요)
-	if t >= 56 and f.get("visited_father", false) \
+	if t >= 112 and f.get("visited_father", false) \
 			and f.get("arc_father_05_seen", false) \
 			and f.get("arc_sangchul_02_seen", false) \
 			and not f.get("arc_father_06_seen", false):
@@ -2723,51 +2784,49 @@ func _next_arc_id(at_turn: int = -1, preview_only: bool = false) -> String:
 	# ══ 3구간: 여주인공 (턴 17+) ═══════════════════════
 	if t >= 17 and not f.get("arc_jiyeon_crash_seen", false):
 		return "arc_jiyeon_01_crash"
-	if f.get("arc_jiyeon_crash_seen", false) and not f.get("arc_jiyeon_store_seen", false) and t >= 26:
+	if f.get("arc_jiyeon_crash_seen", false) and not f.get("arc_jiyeon_store_seen", false) and t >= 34:
 		return "arc_jiyeon_02_store"
-	if f.get("arc_jiyeon_store_seen", false) and not f.get("arc_jiyeon_offer_seen", false) and t >= 36:
+	if f.get("arc_jiyeon_store_seen", false) and not f.get("arc_jiyeon_offer_seen", false) and t >= 58:
 		return "arc_jiyeon_03_offer"
-	if t >= 40 and f.get("arc_jiyeon_offer_seen", false) \
+	if t >= 70 and f.get("arc_jiyeon_offer_seen", false) \
 			and not f.get("arc_jiyeon_03b_seen", false) \
 			and not f.get("arc_sangchul_jiyeon_reveal_seen", false):
 		return "arc_jiyeon_03b_lunch"
 
 	# ── 추론 발견 경로 — 한PD건설 단서로 스스로 진실에 닿는 씬 (지력55+ 또는 비정통 경향) ──
-	if t >= 26 and t <= 50 and f.get("arc_sangchul_03_seen", false) \
+	if t >= 104 and t <= 124 and f.get("arc_sangchul_03_seen", false) \
 			and (GameState.intelligence >= 55 or GameState.route_unorthodox > 20) \
 			and not f.get("sangchul_truth_known", false) \
 			and not f.get("arc_sangchul_deduction_seen", false):
 		return "arc_sangchul_deduction"
 
 	# ── 임상철 인간적 면 — 아들 전화 이후 빈틈 (네트워크 이벤트 이후) ──
-	if t >= 26 and f.get("arc_sangchul_03_seen", false) \
+	if t >= 65 and f.get("arc_sangchul_03_seen", false) \
 			and not f.get("arc_sangchul_offguard_seen", false):
 		return "arc_sangchul_offguard"
 
-	# ── 임상철의 이름 — 밥 한 번 먹고 처음 사람으로 보인 날 (턴 30~52) ──
-	# 상한 52: 네트워크(03) 합류가 늦은(자산<100만 장기) 플레이어도 offguard→human을
-	# 완주해 known_offer(t38~55)에 닿을 수 있도록 윈도우 확장. 일반 케이스는 t30에 발동.
-	if t >= 30 and t <= 52 \
+	# ── 임상철의 이름 — 2장에서 처음 사람으로 보인 날 ──
+	if t >= 72 and t <= 96 \
 			and f.get("arc_sangchul_offguard_seen", false) \
 			and not f.get("arc_sangchul_human_seen", false):
 		return "arc_sangchul_human"
 	# ── 임상철 거울 씬 — "당신은 나랑 비슷해요" (진실 발견 전, 관계 깊어진 후) ──
-	if t >= 50 and t <= 90 \
+	if t >= 88 and t <= 108 \
 			and GameState.get_cast_affinity("sangchul") >= 65 \
 			and f.get("arc_sangchul_human_seen", false) \
 			and not f.get("sangchul_truth_known", false) \
 			and not f.get("arc_sangchul_mirror_seen", false):
 		return "arc_sangchul_mirror"
 
-	# ── 알면서도 — 진실을 안 채 상철을 계속 이용하는 구간 (대면 전 t38~55) ──
+	# ── 알면서도 — 3장에서 진실을 안 채 상철을 계속 이용하는 구간 ──
 	# 사람이 도구가 되는 순간: 알고도 멈추지 않는다.
-	if t >= 38 and t <= 55 and f.get("sangchul_truth_known", false) \
+	if t >= 112 and t <= 128 and f.get("sangchul_truth_known", false) \
 			and f.get("arc_sangchul_human_seen", false) \
 			and not f.get("arc_sangchul_confrontation_seen", false) \
 			and not f.get("arc_sangchul_known_offer_seen", false):
 		return "arc_sangchul_known_offer"
-	# ── 버릇 — 자기가 상철처럼 사람을 계산하는 걸 발견하는 거울 씬 (t50~59) ──
-	if t >= 50 and t <= 59 and f.get("sangchul_truth_known", false) \
+	# ── 버릇 — 자기가 상철처럼 사람을 계산하는 걸 발견하는 거울 씬 ──
+	if t >= 120 and t <= 132 and f.get("sangchul_truth_known", false) \
 			and f.get("arc_sangchul_known_offer_seen", false) \
 			and not f.get("arc_sangchul_confrontation_seen", false) \
 			and not f.get("arc_sangchul_known_reflex_seen", false):
@@ -2776,7 +2835,7 @@ func _next_arc_id(at_turn: int = -1, preview_only: bool = false) -> String:
 	# ── 인물망 크로스빔: 재혁 ↔ 상철 — 두 포식자가 한 종(種)임을 화면에서 ──
 	# 재혁의 '피해자→운영자' 고백(01b)과 상철의 humanizing 씬을 둘 다 본 뒤,
 	# 상철이 재혁에게서 자기 젊은 날을 알아본다. 거울이 플레이어 쪽으로도 돈다.
-	if t >= 45 and f.get("arc_jaehyuk_01b_seen", false) \
+	if t >= 124 and f.get("arc_jaehyuk_01b_seen", false) \
 			and f.get("arc_sangchul_human_seen", false) \
 			and not f.get("arc_sangchul_confrontation_seen", false) \
 			and not f.get("arc_jaehyuk_sangchul_echo_seen", false):
@@ -2784,7 +2843,7 @@ func _next_arc_id(at_turn: int = -1, preview_only: bool = false) -> String:
 
 	# ── 임상철 대면 — 진실을 알게 된 후, 결정의 순간 ──
 	# [유물 해금] 임상철 명함을 가진 채 대면 전날 밤 — 명함과 함께 서는 씬
-	if t >= 60 and f.get("sangchul_truth_known", false) \
+	if t >= 132 and f.get("sangchul_truth_known", false) \
 			and not f.get("sangchul_confronted", false) \
 			and not f.get("sangchul_truth_buried", false) \
 			and not f.get("sangchul_quietly_distanced", false) \
@@ -2792,7 +2851,7 @@ func _next_arc_id(at_turn: int = -1, preview_only: bool = false) -> String:
 			and GameState.has_item("artifact_sangchul_card") \
 			and not f.get("arc_sangchul_card_at_confrontation_seen", false):
 		return "arc_sangchul_card_at_confrontation"
-	if t >= 60 and f.get("sangchul_truth_known", false) \
+	if t >= 132 and f.get("sangchul_truth_known", false) \
 			and not f.get("sangchul_confronted", false) \
 			and not f.get("sangchul_truth_buried", false) \
 			and not f.get("sangchul_quietly_distanced", false) \
@@ -2800,18 +2859,19 @@ func _next_arc_id(at_turn: int = -1, preview_only: bool = false) -> String:
 		return "arc_sangchul_confrontation"
 
 	# ── 알면서 사는 값 — 대면/청산 이후 상철 망 사용 결정 (Y2 후반~Y3 초) ──
-	if t >= 65 and t <= 90 \
+	if t >= 137 and t <= 160 \
 			and f.get("arc_sangchul_reckoning_seen", false) \
 			and not f.get("arc_y3_cost_of_knowing_seen", false):
 		return "arc_y3_cost_of_knowing"
 
 	# ── 임상철 관계 심화 ──
-	if t >= 14 and f.get("arc_sangchul_met_seen", false) \
+	if t >= 28 and f.get("arc_sangchul_met_seen", false) \
 			and not f.get("arc_sangchul_02_seen", false):
 		return "arc_sangchul_02_coffee"
 	# 첫 만남 후 500만원 이상 모이면 VIP 투자 모임 초대 (데모 달성 가능 수준)
-	# ★ 4개월째 한강 씬 — 데모 t=15, 상철 이후 정체감 구간 채움
-	if t >= 15 and not f.get("arc_four_months_seen", false):
+	# 강남 방문 선택이 즉시 이어 주는 데모 피날레. 옛 저장은 여기서 복구한다.
+	if t >= 22 and f.get("arc_gangnam_visit_alone_seen", false) \
+			and not f.get("arc_four_months_seen", false):
 		return "arc_four_months_in"
 
 	# ── t=14~19 공백 채우기 씬 3종 ──────────────────────────────────
@@ -2820,7 +2880,9 @@ func _next_arc_id(at_turn: int = -1, preview_only: bool = false) -> String:
 			and not GameState.current_job.is_empty() \
 			and f.get("has_received_paycheck", false) \
 			and not f.get("arc_paycheck_reality_seen", false):
-		return "arc_paycheck_reality"
+		if not _resolve_demo_narrative_bridge(
+				"arc_paycheck_reality", t, preview_only, resolve_bridges):
+			return "arc_paycheck_reality"
 	# 첫 투자 손실 — 상철 투자 안내 받고 투자감각이 생긴 플레이어 (t14~18)
 	if t >= 14 and t <= 18 \
 			and f.get("arc_invest_guidance_seen", false) \
@@ -2835,17 +2897,17 @@ func _next_arc_id(at_turn: int = -1, preview_only: bool = false) -> String:
 		return "arc_office_routine"
 	# ─────────────────────────────────────────────────────────────────
 
-	if t >= 20 and f.get("arc_sangchul_02_seen", false) \
+	if t >= 55 and f.get("arc_sangchul_02_seen", false) \
 			and not f.get("arc_sangchul_03_seen", false) \
 			and GameState.get_total_asset_value() >= 1_000_000:
 		return "arc_sangchul_03_network"
 	# ── 임상철 정선 카지노 초대 — 커피(02) 이후, 자금 300만 이상이면 초대 가능 ──
-	if t >= 23 and f.get("arc_sangchul_02_seen", false) \
+	if t >= 76 and f.get("arc_sangchul_02_seen", false) \
 			and GameState.money >= 3_000_000 \
 			and not f.get("arc_sangchul_casino_seen", false):
 		return "arc_sangchul_casino_invite"
 	# ── 임상철×지연 교차점 — 두 세계의 충돌 ──
-	if t >= 48 and f.get("arc_jiyeon_offer_seen", false) \
+	if t >= 124 and f.get("arc_jiyeon_offer_seen", false) \
 			and f.get("arc_sangchul_03_seen", false) \
 			and not f.get("arc_sangchul_jiyeon_reveal_seen", false):
 		return "arc_sangchul_jiyeon_reveal"
@@ -2857,8 +2919,8 @@ func _next_arc_id(at_turn: int = -1, preview_only: bool = false) -> String:
 			and not f.get("arc_job_invest_clash_seen", false):
 		return "arc_job_vs_invest"
 
-	# ── 월급의 한계 — 반년 이상 재직 중반 (턴 28~38) ──
-	if t >= 28 and t <= 38 \
+	# ── 월급의 한계 — 2년 차, 반년 이상 재직한 뒤 ──
+	if t >= 88 and t <= 108 \
 			and not GameState.current_job.is_empty() \
 			and GameState.job_tenure >= 6 \
 			and not f.get("arc_career_ceiling_seen", false):
@@ -2870,12 +2932,12 @@ func _next_arc_id(at_turn: int = -1, preview_only: bool = false) -> String:
 			and not f.get("arc_first_real_win_seen", false):
 		return "arc_first_real_win"
 
-	# ── 반환점 — 5년의 절반 (턴 30) ──
-	if t >= 30 and not f.get("arc_midpoint_reckoning_seen", false):
+	# ── 반환점 — 5년의 절반 (턴 120) ──
+	if t >= 120 and not f.get("arc_midpoint_reckoning_seen", false):
 		return "arc_midpoint_reckoning"
 
-	# ── 동창 조우 — 잘 나가는 동창, 나는? (턴 28~35) ──
-	if t >= 28 and t <= 35 \
+	# ── 동창 조우 — 2년 차, 잘 나가는 동창과 다시 비교한다 ──
+	if t >= 92 and t <= 112 \
 			and not f.get("arc_social_comparison_seen", false):
 		return "arc_social_comparison"
 
@@ -2906,8 +2968,8 @@ func _next_arc_id(at_turn: int = -1, preview_only: bool = false) -> String:
 			and not f.get("arc_night_routine_seen", false):
 		return "arc_night_routine"
 
-	# ── 30억이라는 숫자 — 반환점 이후 목표의 무게 (턴 32~42) ──
-	if t >= 32 and t <= 42 \
+	# ── 30억이라는 숫자 — 실제 반환점 이후 목표의 무게 ──
+	if t >= 124 and t <= 144 \
 			and f.get("arc_midpoint_reckoning_seen", false) \
 			and not f.get("arc_goal_vertigo_seen", false):
 		return "arc_goal_vertigo"
@@ -2963,51 +3025,51 @@ func _next_arc_id(at_turn: int = -1, preview_only: bool = false) -> String:
 
 	if t >= 19 and not f.get("arc_jaehyuk_reunion_seen", false):
 		return "arc_jaehyuk_01_reunion"
-	if t >= 29 and f.get("arc_jaehyuk_reunion_seen", false) \
+	if t >= 56 and f.get("arc_jaehyuk_reunion_seen", false) \
 			and not f.get("arc_jaehyuk_01b_seen", false) \
 			and not f.get("arc_jaehyuk_bond_seen", false):
 		return "arc_jaehyuk_01b_real_face"
 	# 사기 씨앗(01b '피해자였다가 운영자가 됐다')을 반드시 유대 전에 심는다 —
 	# 빠른 런에서 씨앗이 스킵되면 나중 투자 사기 폭로가 뜬금없어진다.
 	if f.get("arc_jaehyuk_reunion_seen", false) and f.get("arc_jaehyuk_01b_seen", false) \
-			and not f.get("arc_jaehyuk_bond_seen", false) and t >= 32:
+			and not f.get("arc_jaehyuk_bond_seen", false) and t >= 68:
 		return "arc_jaehyuk_02_bond"
-	if t >= 34 and f.get("arc_jaehyuk_bond_seen", false) \
+	if t >= 80 and f.get("arc_jaehyuk_bond_seen", false) \
 			and not f.get("arc_jaehyuk_02b_seen", false) \
 			and not f.get("arc_jaehyuk_pitch_seen", false):
 		return "arc_jaehyuk_02b_favor"
-	if f.get("arc_jaehyuk_bond_seen", false) and not f.get("arc_jaehyuk_pitch_seen", false) and t >= 37:
+	if f.get("arc_jaehyuk_bond_seen", false) and not f.get("arc_jaehyuk_pitch_seen", false) and t >= 104:
 		return "arc_jaehyuk_03_pitch"
 	# ── 재혁 수익 정산 대기 — 투자 후 불안의 일주일 ──
-	if t >= 38 and t <= 41 \
+	if t >= 106 and t <= 114 \
 			and f.get("arc_jaehyuk_pitch_seen", false) \
 			and (f.get("jaehyuk_trusted_fully", false) or f.get("jaehyuk_partial", false)) \
 			and not f.get("arc_jaehyuk_wait_seen", false):
 		return "arc_jaehyuk_wait"
 
 	# ── 현수의 경고 — 피치 이후, 아직 도주 전 ──
-	if t >= 39 and f.get("arc_jaehyuk_pitch_seen", false) \
+	if t >= 108 and f.get("arc_jaehyuk_pitch_seen", false) \
 			and not f.get("arc_jaehyuk_ghost_seen", false) \
 			and not f.get("arc_jaehyuk_hyunsu_warning_seen", false) \
 			and (f.get("jaehyuk_trusted_fully", false) or f.get("jaehyuk_partial", false)):
 		return "arc_jaehyuk_hyunsu_warning"
-	if GameState.cast_has_flag("jaehyuk", "invested") and not f.get("arc_jaehyuk_ghost_seen", false) and t >= 42:
+	if GameState.cast_has_flag("jaehyuk", "invested") and not f.get("arc_jaehyuk_ghost_seen", false) and t >= 116:
 		return "arc_jaehyuk_04a_ghost"
-	if GameState.cast_has_flag("jaehyuk", "suspected") and not f.get("arc_jaehyuk_counter_seen", false) and t >= 42:
+	if GameState.cast_has_flag("jaehyuk", "suspected") and not f.get("arc_jaehyuk_counter_seen", false) and t >= 116:
 		return "arc_jaehyuk_04b_counter"
 	# ── 사기 당한 후 재기 — ghost 이후, 사후처리 전 ──
 	# [유물 해금] 포장마차 셀카를 가진 채 ghost 발각 직후 — 그날 밤의 진실
-	if t >= 42 and f.get("arc_jaehyuk_ghost_seen", false) \
+	if t >= 116 and f.get("arc_jaehyuk_ghost_seen", false) \
 			and GameState.has_item("artifact_jaehyuk_photo") \
 			and not f.get("arc_jaehyuk_photo_in_dark_seen", false):
 		return "arc_jaehyuk_photo_in_dark"
-	if t >= 44 and f.get("arc_jaehyuk_ghost_seen", false) \
+	if t >= 124 and f.get("arc_jaehyuk_ghost_seen", false) \
 			and f.get("jaehyuk_scammed", false) \
 			and not f.get("arc_jaehyuk_standup_seen", false):
 		return "arc_jaehyuk_04c_stand_up"
 
 	# ── 사기 당한 다음 날 — 재기 이벤트 직전 내적 독백 ──
-	if t >= 40 and f.get("arc_jaehyuk_ghost_seen", false) \
+	if t >= 120 and f.get("arc_jaehyuk_ghost_seen", false) \
 			and f.get("jaehyuk_scammed", false) \
 			and not f.get("arc_after_scam_seen", false):
 		return "arc_after_scam"
@@ -3025,15 +3087,8 @@ func _next_arc_id(at_turn: int = -1, preview_only: bool = false) -> String:
 			GameState.flags.erase("just_quit_job")
 		return "arc_quit_job"
 
-	# ── 아버지 약 이야기 — 병원 방문 전 중간 신호 (아버지 01 이후, 02 이전) ──
-	if t >= 22 and t <= 32 \
-			and f.get("arc_father_01_seen", false) \
-			and not f.get("arc_father_medication_seen", false) \
-			and not f.get("arc_father_02_done", false):
-		return "arc_father_medication"
-
-	# ── 막판 한 방 — 1년 남은 시점의 내적 정산 ──
-	if t >= 45 \
+	# ── 막판 한 방 — 마지막 해의 내적 정산 ──
+	if t >= 193 \
 			and GameState.get_total_asset_value() < 2_800_000_000.0 \
 			and not f.get("arc_late_game_push_seen", false):
 		return "arc_late_game_push"
@@ -5249,6 +5304,7 @@ func _render_ap_actions():
 	_update_event_bg()
 	for child in choice_box.get_children():
 		child.queue_free()
+	var narrative_bridge_results := EventManager.consume_narrative_bridge_results()
 	_ap_action_grid = null
 	_ap_feature_row = null
 	_ap_grid_cards.clear()
@@ -5296,6 +5352,7 @@ func _render_ap_actions():
 		body_text = body_text.replace("[i]", "[i][wave amp=2.5 freq=1.8]") \
 							 .replace("[/i]", "[/wave][/i]")
 	_type_text(body_text, 60.0)
+	_render_narrative_bridge_results(narrative_bridge_results)
 
 	var disabled = (ap <= 0)
 	var has_paycheck: bool = GameState.flags.get("has_received_paycheck", false)
@@ -6469,12 +6526,21 @@ func _demo_director_has_crisis() -> bool:
 			or int(GameState.flags.get("demo_director_crisis_turn", -1)) == GameState.turn
 
 func _demo_director_week_kind() -> String:
+	var locked_turn := int(GameState.flags.get("demo_director_kind_turn", -1))
+	var locked_kind := str(GameState.flags.get("demo_director_locked_kind", ""))
+	if locked_turn == GameState.turn and not locked_kind.is_empty():
+		return locked_kind
+	var resolved_kind := "decision"
 	if not _demo_pressure_enabled():
-		return "decision"
-	var scheduled := EventManager.demo_week_kind(GameState.turn)
-	if scheduled not in ["decision", "boss"] and _demo_director_has_crisis():
-		return "decision"
-	return scheduled
+		resolved_kind = "decision"
+	else:
+		var scheduled := EventManager.demo_week_kind(GameState.turn)
+		resolved_kind = "decision" \
+				if scheduled not in ["decision", "boss"] and _demo_director_has_crisis() \
+				else scheduled
+	GameState.flags["demo_director_kind_turn"] = GameState.turn
+	GameState.flags["demo_director_locked_kind"] = resolved_kind
+	return resolved_kind
 
 func _demo_director_requires_player_input() -> bool:
 	return _demo_director_week_kind() in ["decision", "boss"]
@@ -6504,11 +6570,25 @@ func _demo_director_capture_routine() -> void:
 		GameState.week_routine = ["study", "rest"]
 
 func _demo_director_route_week() -> void:
+	# ScreenshotQA owns time while composing a static surface. Letting an Echo or
+	# Quiet week auto-advance here can replace this instance halfway through capture.
+	if bool(get_meta("_screenshot_qa_static_surface", false)):
+		_render_ap_actions()
+		return
 	if not _demo_pressure_enabled() or _demo_director_requires_player_input():
 		_render_ap_actions()
 		return
 	if _demo_director_advancing:
 		return
+	# A new auto week can begin while the previous decision board is still alive for
+	# one deferred frame. Seal it now so confirm mashing cannot spend AP on stale cards.
+	for card_value in _ap_grid_cards:
+		var stale_card := card_value as Button
+		if is_instance_valid(stale_card):
+			stale_card.disabled = true
+			stale_card.focus_mode = Control.FOCUS_NONE
+	_ap_grid_cards.clear()
+	get_viewport().gui_release_focus()
 	next_button.disabled = true
 	call_deferred("_demo_director_auto_week", _demo_director_week_kind())
 
@@ -6555,7 +6635,36 @@ func _demo_director_routine_line() -> String:
 			_: labels.append(_tr("휴식", "REST"))
 	return _tr("이어진 루틴 · %s", "CARRIED ROUTINE · %s") % " / ".join(labels)
 
-func _render_demo_director_beat(kind: String, used: Dictionary) -> void:
+func _narrative_bridge_summary(result: Dictionary) -> String:
+	var summary: String = GameState.format_event_text(str(result.get("summary", ""))).strip_edges()
+	while summary.contains("\n\n"):
+		summary = summary.replace("\n\n", " ")
+	return summary.replace("\n", " ").strip_edges()
+
+func _render_narrative_bridge_results(results: Array) -> void:
+	if results.is_empty():
+		return
+	var card := _info_card("#a3abb5", "#0a0d12")
+	card.name = "NarrativeBridgeCard"
+	card.set_meta("bridge_count", results.size())
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 7)
+	card.add_child(box)
+	box.add_child(_label(_tr("이번 주에 남은 문장", "WHAT STAYED THIS WEEK"), 10, "#99a4b0"))
+	for value in results:
+		if not value is Dictionary:
+			continue
+		var result: Dictionary = value
+		var title: String = GameState.format_event_text(str(result.get("title", ""))).strip_edges()
+		if not title.is_empty():
+			box.add_child(_label(title, 14, "#e8edf2"))
+		var summary: String = _narrative_bridge_summary(result)
+		if not summary.is_empty():
+			box.add_child(_wrap_label(summary, 12, "#b8c0ca"))
+	choice_box.add_child(card)
+
+func _render_demo_director_beat(
+		kind: String, used: Dictionary, narrative_bridge_results: Array = []) -> void:
 	_play_ink_transition("ap", 0.28)
 	_transient_bg_active = false
 	_clear_category_tint(true)
@@ -6572,7 +6681,9 @@ func _render_demo_director_beat(kind: String, used: Dictionary) -> void:
 	if _typing_tween:
 		_typing_tween.kill()
 		_typing_tween = null
-	event_body.text = _demo_director_beat_line(kind, used)
+	event_body.text = _narrative_bridge_summary(narrative_bridge_results[0]) \
+			if not narrative_bridge_results.is_empty() \
+			else _demo_director_beat_line(kind, used)
 	event_body.visible_ratio = 1.0
 	next_button.disabled = true
 
@@ -6594,6 +6705,17 @@ func _render_demo_director_beat(kind: String, used: Dictionary) -> void:
 	box.add_child(title)
 	box.add_child(_wrap_label(_demo_director_routine_line(), 11, "#99a4b0"))
 	box.add_child(_wrap_label(_demo_director_axis_line(used), 12, "#c1c8d1"))
+	if not narrative_bridge_results.is_empty():
+		for value in narrative_bridge_results:
+			if not value is Dictionary:
+				continue
+			var result: Dictionary = value
+			var bridge_title: String = GameState.format_event_text(str(result.get("title", ""))).strip_edges()
+			var bridge_summary: String = _narrative_bridge_summary(result)
+			if not bridge_title.is_empty():
+				box.add_child(_label(bridge_title, 13, "#edf1f5"))
+			if not bridge_summary.is_empty():
+				box.add_child(_wrap_label(bridge_summary, 12, "#b8c0ca"))
 	var progress := ProgressBar.new()
 	progress.name = "DemoDirectorProgress"
 	progress.min_value = 0.0
@@ -6614,7 +6736,8 @@ func _demo_director_auto_week(kind: String) -> void:
 	_demo_director_advancing = true
 	var expected_turn: int = GameState.turn
 	var used := _montage_apply_routine()
-	_render_demo_director_beat(kind, used)
+	var narrative_bridge_results := EventManager.consume_narrative_bridge_results()
+	_render_demo_director_beat(kind, used, narrative_bridge_results)
 	# 무거운 배경/CG가 처음 import되는 프레임에도 카드가 실제 화면에 한 번은
 	# 제출된 뒤 수명 타이머가 시작되어야 한다.
 	await get_tree().process_frame

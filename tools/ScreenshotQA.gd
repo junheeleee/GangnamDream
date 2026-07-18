@@ -2147,7 +2147,10 @@ func _shot_demo_flow(lang: String = "en") -> void:
 	for event_id in [
 		"arc_intro_01_meal",
 		"arc_intro_02_dad_call",
+		"arc_temptation_01",
+		"arc_temptation_clean",
 		"arc_intro_03_sns",
+		"cafe_00",
 		"arc_intro_04_hyunsu",
 		"arc_chapter1_close",
 	]:
@@ -2163,7 +2166,10 @@ func _shot_demo_blackbox(lang: String = "en") -> void:
 	for event_id in [
 		"arc_intro_01_meal",
 		"arc_intro_02_dad_call",
+		"arc_temptation_01",
+		"arc_temptation_clean",
 		"arc_intro_03_sns",
+		"cafe_00",
 		"arc_intro_04_hyunsu",
 		"arc_chapter1_close",
 	]:
@@ -2276,6 +2282,7 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 					input_count += 1
 					_record_demo_route_input(route_input_counts, route_week_inputs, "story:%s" % event_id)
 		elif script_path == "res://scenes/MainGame.gd":
+			var sampled_turn: int = GameState.turn
 			var director_kind := str(scene.call("_demo_director_week_kind"))
 			var director_requires_input := bool(scene.call("_demo_director_requires_player_input"))
 			if GameState.turn <= GameState.DEMO_TURN_LIMIT and director_requires_input:
@@ -2333,6 +2340,11 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 					and str(scene.get("pending_result_text")).is_empty():
 				await _save("demo_%s_%s_week_%02d_pressure" % [lang, input_mode, GameState.turn], 0.0)
 				captured_pressure_weeks[GameState.turn] = true
+			# Screenshot settling and focus frames are real runtime frames. If a
+			# deferred transition advanced the week, resample its director contract
+			# before sending any input rather than carrying the old week's mode over.
+			if GameState.turn != sampled_turn:
+				continue
 			if _qa_scene_transition_active():
 				pass
 			elif modal_visible:
@@ -2409,7 +2421,7 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 							await _activate_route_control(confirm, input_mode)
 							input_count += 1
 							_record_demo_route_input(route_input_counts, route_week_inputs, "main:transient")
-				elif GameState.action_points > 0 and not cards.is_empty():
+				elif director_requires_input and GameState.action_points > 0 and not cards.is_empty():
 					var playable_cards: Array[Button] = []
 					for candidate in cards:
 						var candidate_fn := str((candidate as Button).get_meta("ap_action_fn", "")) if candidate is Button else ""
@@ -2435,9 +2447,16 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 						MetaProgression.data = original_meta
 						_fail("Demo input run found no safe primary AP response at week %d; fallback is forbidden." % GameState.turn)
 						return
+					var action_turn: int = GameState.turn
 					action_card.grab_focus()
 					await get_tree().process_frame
-					if is_instance_valid(action_card) and action_card.is_inside_tree():
+					# A result/tendency transition may replace the decision week during the
+					# focus frame. Never attribute or send that stale confirm to the new week.
+					if GameState.turn != action_turn \
+							or not bool(scene.call("_demo_director_requires_player_input")):
+						continue
+					if is_instance_valid(action_card) and action_card.is_inside_tree() \
+							and not action_card.disabled:
 						var selected_action_id := str(action_card.get_meta("demo_action_id", "fallback"))
 						action_counts[selected_action_id] = int(action_counts.get(selected_action_id, 0)) + 1
 						ap_action_week_counts[GameState.turn] = int(ap_action_week_counts.get(GameState.turn, 0)) + 1
@@ -2448,7 +2467,7 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 						input_count += 1
 						_record_demo_route_input(route_input_counts, route_week_inputs, "main:ap")
 						ap_action_inputs += 1
-				elif GameState.action_points <= 0:
+				elif director_requires_input and GameState.action_points <= 0:
 					var next_week := scene.get("next_button") as Button
 					if is_instance_valid(next_week) and not next_week.disabled:
 						next_week.grab_focus()
@@ -7399,7 +7418,9 @@ func _suppress_tutorial_overlays() -> void:
 
 func _kill_transition() -> void:
 	var st = get_tree().root.get_node_or_null("SceneTransition")
-	if st and st.has_method("fade_in"):
+	if st and st.has_method("_set_transition_alpha"):
+		st.call("_set_transition_alpha", 0.0)
+	elif st and st.has_method("fade_in"):
 		st.fade_in()
 
 func _settle(t: float = 0.6) -> void:

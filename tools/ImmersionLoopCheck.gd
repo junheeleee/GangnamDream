@@ -269,16 +269,24 @@ func _check_demo_pacing() -> void:
 	if str(game.call("_demo_director_week_kind")) != "quiet":
 		_fail("scheduled quiet week did not enter quiet flow")
 	GameState.health = 35
+	if str(game.call("_demo_director_week_kind")) != "quiet":
+		_fail("a locked quiet week changed kind after its routine altered crisis state")
+	GameState.flags.erase("demo_director_kind_turn")
+	GameState.flags.erase("demo_director_locked_kind")
 	if str(game.call("_demo_director_week_kind")) != "decision":
-		_fail("health crisis did not promote a quiet week to decision")
+		_fail("health crisis present at week entry did not promote quiet to decision")
 	GameState.health = 65
 	GameState.monthly_income = 0.0
+	GameState.flags.erase("demo_director_kind_turn")
+	GameState.flags.erase("demo_director_locked_kind")
 	if str(game.call("_demo_director_week_kind")) != "decision":
-		_fail("unfunded rent did not promote a quiet week to decision")
+		_fail("unfunded rent present at week entry did not promote quiet to decision")
 	GameState.monthly_income = 2_000_000.0
 	GameState.flags["demo_director_crisis_turn"] = GameState.turn
+	GameState.flags.erase("demo_director_kind_turn")
+	GameState.flags.erase("demo_director_locked_kind")
 	if str(game.call("_demo_director_week_kind")) != "decision":
-		_fail("monthly crisis did not promote a quiet week to decision")
+		_fail("monthly crisis present at week entry did not promote quiet to decision")
 	GameState.flags.erase("demo_director_crisis_turn")
 	GameState.action_axis_this_week = {"money": 1, "human": 1}
 	GameState.action_places_this_week = {

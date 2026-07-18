@@ -651,8 +651,8 @@
   },
   {
     "id": "arc_four_months_in",
-    "title": "Four Months In",
-    "description": "On the commute home, at the Han River bridge.\n\nFour months have passed.\n\nIn the account: {money}. Still nearly 3 billion won away from the goal.\n\nIf five years go by at this rate, the math doesn't add up. It can't.\n\nThe river flowed below the bridge. Even at night, Seoul was bright.\n\n{name} leaned on the railing and thought.\nHow far is it to Gangnam?",
+    "title": "The Six-Month Threshold",
+    "description": "On the way back from Gangnam, at the Han River bridge.\n\nHe was nearing six months in Seoul.\n\nIn the account: {money}. Still nearly 3 billion won away from the goal.\n\nIf five years go by at this rate, the math doesn't add up. It can't.\n\nThe river flowed below the bridge. Even at night, Seoul was bright.\n\nThe lights he had just seen in Gangnam shook across the water. {name} leaned on the railing and thought.\nWhat will I stop seeing while I try to get inside?",
     "choices": [
       {
         "text": "\"Going anyway.\" — starts walking again",
@@ -675,15 +675,18 @@
     "choices": [
       {
         "text": "Celebrate today. Even small things deserve to be marked.",
-        "result_text": "Bought a can of beer at the convenience store. 3,800 won. Shelved the 87-year calculation for the night. For now — it's just a first paycheck."
+        "result_text": "Bought a can of beer at the convenience store. 3,800 won. Shelved the 87-year calculation for the night. For now — it's just a first paycheck.",
+        "bridge_summary": "For one first-payday night, he shut off the 87-year calculation and bought a 3,800-won beer."
       },
       {
         "text": "Open the investment app now. Can't let this money just sit in the account.",
-        "result_text": "Stared at a list of stocks for an hour. No idea what to put it in. Maybe this is what Sangchul meant by \"read the market first.\""
+        "result_text": "Stared at a list of stocks for an hour. No idea what to put it in. Maybe this is what Sangchul meant by \"read the market first.\"",
+        "bridge_summary": "On his first payday night, he opened the investment app before he celebrated."
       },
       {
         "text": "Pull up the compound interest calculator. There has to be a faster path.",
-        "result_text": "8% compound interest over 21 years. Still far, but having a calculation is different. That's the gap between knowing and not knowing."
+        "result_text": "8% compound interest over 21 years. Still far, but having a calculation is different. That's the gap between knowing and not knowing.",
+        "bridge_summary": "Even at 8% compounding, it was twenty-one years. At least impossibility now had a measurable distance."
       }
     ]
   },

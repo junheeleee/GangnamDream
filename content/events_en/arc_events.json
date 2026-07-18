@@ -405,15 +405,18 @@
     "choices": [
       {
         "text": "\"How should I start?\" — ask in earnest",
-        "result_text": "Sangchul thought for a long while before speaking.\n\"Start small at first. With money you can afford to lose and still learn from.\nYou lose some, and the market starts coming into focus.\"\n\nAfter hanging up, {name} opened the investment tab for the first time."
+        "result_text": "Sangchul thought for a long while before speaking.\n\"Start small at first. With money you can afford to lose and still learn from.\nYou lose some, and the market starts coming into focus.\"\n\nAfter hanging up, {name} opened the investment tab for the first time.",
+        "bridge_summary": "He followed Sangchul's advice: enter the market only with enough to lose and learn from."
       },
       {
         "text": "\"Shouldn't saving come first?\"",
-        "result_text": "\"Saving's the foundation, sure. But saving alone will never get you there.\"\nSangchul said it with a smile.\n\"Anyway, give it some thought. There's no rush.\"\nThe call ended. Something sat heavy in a corner of his chest."
+        "result_text": "\"Saving's the foundation, sure. But saving alone will never get you there.\"\nSangchul said it with a smile.\n\"Anyway, give it some thought. There's no rush.\"\nThe call ended. Something sat heavy in a corner of his chest.",
+        "bridge_summary": "Sangchul's warning that saving alone would never be enough stayed behind every calculation that week."
       },
       {
         "text": "\"I have my own way of doing things.\"",
-        "result_text": "\"Sure. You've got to figure it out for yourself in the end.\"\nSangchul laughed, unbothered.\n{name} hung up and stared at the ceiling for a while.\nWhat his own way actually was — he still wasn't sure."
+        "result_text": "\"Sure. You've got to figure it out for yourself in the end.\"\nSangchul laughed, unbothered.\n{name} hung up and stared at the ceiling for a while.\nWhat his own way actually was — he still wasn't sure.",
+        "bridge_summary": "He rejected Sangchul's method, but still could not write down a method of his own."
       }
     ],
     "description_orthodox": "Im Sangchul held out a cup of tea.\n\n\"You thinking about investing?\"\n\nBefore answering, {name} ran the math — why is this man asking? What does he want?\nThere's no kindness without an angle. Or almost none.\n\n\"I am — but I don't know yet.\"\n\n\"That's the most honest answer there is.\" Im Sangchul smiled.\n{name} studied that smile. It looked genuine — for the first time.",
@@ -949,15 +952,18 @@
     "choices": [
       {
         "text": "Put in earplugs — not my business",
-        "result_text": "{name} pushed the earplugs in. The crying did not vanish; it moved outside with the hum of the fridge. Soon he could hear only his own muffled heartbeat.\n\nTelling himself it was none of his business might let him sleep. He pulled up the blanket without deciding whether this was self-protection or practice at erasing someone else's pain."
+        "result_text": "{name} pushed the earplugs in. The crying did not vanish; it moved outside with the hum of the fridge. Soon he could hear only his own muffled heartbeat.\n\nTelling himself it was none of his business might let him sleep. He pulled up the blanket without deciding whether this was self-protection or practice at erasing someone else's pain.",
+        "bridge_summary": "With the earplugs in, the next room vanished and only his own heartbeat remained."
       },
       {
         "text": "Knock once on the wall — asking if they're okay",
-        "result_text": "{name} tapped twice with his knuckle. The crying stopped. He asked, \"Are you all right?\" After a long pause, a very small \"Yes\" came back.\n\nBoth of them probably knew it was not true. He asked nothing more. Between two people who knew neither face nor name, the thin wall felt for once less like a barrier than a connection."
+        "result_text": "{name} tapped twice with his knuckle. The crying stopped. He asked, \"Are you all right?\" After a long pause, a very small \"Yes\" came back.\n\nBoth of them probably knew it was not true. He asked nothing more. Between two people who knew neither face nor name, the thin wall felt for once less like a barrier than a connection.",
+        "bridge_summary": "Two knocks brought back a tiny 'Yes.' For a moment, the thin wall felt like a connection."
       },
       {
         "text": "Stare at the ceiling too — get through the night together",
-        "result_text": "{name} stared at the ceiling without speaking. The sobs weakened, then returned. Unable to sleep, he crossed the same hour beside them.\n\nHow many people in this building slept easily? The thought was sad, yet carried a strange warmth. They could not save one another, but at least no one was crossing this night entirely alone."
+        "result_text": "{name} stared at the ceiling without speaking. The sobs weakened, then returned. Unable to sleep, he crossed the same hour beside them.\n\nHow many people in this building slept easily? The thought was sad, yet carried a strange warmth. They could not save one another, but at least no one was crossing this night entirely alone.",
+        "bridge_summary": "He said nothing, but neither person crossed the sleepless hour entirely alone."
       }
     ]
   },
@@ -1047,15 +1053,18 @@
     "choices": [
       {
         "text": "Listed out expenses — where can I cut?",
-        "result_text": "{name} divided the charges into food, transport, and fixed costs. Only meals could really shrink. A 2,800-won lunch box, twice a day, came to roughly 160,000 won a month.\n\nOnce the table was complete, the shapeless fear fit inside cells. It felt absurd to budget even his future hunger. Still, what he would have to endure was clearer than before."
+        "result_text": "{name} divided the charges into food, transport, and fixed costs. Only meals could really shrink. A 2,800-won lunch box, twice a day, came to roughly 160,000 won a month.\n\nOnce the table was complete, the shapeless fear fit inside cells. It felt absurd to budget even his future hunger. Still, what he would have to endure was clearer than before.",
+        "bridge_summary": "Once the month-end ledger was split apart, food was the only thing left to cut."
       },
       {
         "text": "Closed the app — check it later",
-        "result_text": "{name} swiped the app away. If he did not look, he could live briefly as if the problem did not exist. He knew that was a lie.\n\nHis face appeared when the screen went black. The balance vanished, but the rent date kept approaching. He put the phone face down and left his hand on it, waiting for an alert that had never sounded."
+        "result_text": "{name} swiped the app away. If he did not look, he could live briefly as if the problem did not exist. He knew that was a lie.\n\nHis face appeared when the screen went black. The balance vanished, but the rent date kept approaching. He put the phone face down and left his hand on it, waiting for an alert that had never sounded.",
+        "bridge_summary": "He closed the balance screen. The rent date did not disappear with it."
       },
       {
         "text": "Looked for part-time work right away",
-        "result_text": "Instead of the bank, {name} opened a job app. Convenience-store nights, warehouse loading, gas station. The listed 10,320 won an hour looked more real than his balance.\n\nEight hours times a month of shifts came to about 2.1 million won. Beside the money he could earn sat the time he would lose. He saved three listings. Tomorrow, he would decide whether to press Apply."
+        "result_text": "Instead of the bank, {name} opened a job app. Convenience-store nights, warehouse loading, gas station. The listed 10,320 won an hour looked more real than his balance.\n\nEight hours times a month of shifts came to about 2.1 million won. Beside the money he could earn sat the time he would lose. He saved three listings. Tomorrow, he would decide whether to press Apply.",
+        "bridge_summary": "He opened a job app instead. Beside every amount he could earn sat the time he would lose."
       }
     ]
   },
@@ -1066,15 +1075,18 @@
     "choices": [
       {
         "text": "Took a screenshot — keeping a record",
-        "result_text": "{name} took a screenshot. In his photo library, the small balance settled between receipts and a copy of his ID.\n\nHe planned to look again when the amount had grown enough to seem laughable. Even if that day never came, the image proved that today he had not moved backward. The timestamp itself looked worth preserving."
+        "result_text": "{name} took a screenshot. In his photo library, the small balance settled between receipts and a copy of his ID.\n\nHe planned to look again when the amount had grown enough to seem laughable. Even if that day never came, the image proved that today he had not moved backward. The timestamp itself looked worth preserving.",
+        "bridge_summary": "He saved a screenshot of a balance that had not shrunk. Small, but proof of a beginning."
       },
       {
         "text": "Wrote down next month's goal",
-        "result_text": "{name} opened his notes and wrote a target balance for next month. It was slightly higher than this month's, reachable if he stretched. Below it, he listed the shifts needed and expenses to cut.\n\nFor the first time, the vague future contained a box he could check. One line that could be crossed out. He pinned the note to the top. The next month had not arrived, but its number already had a place."
+        "result_text": "{name} opened his notes and wrote a target balance for next month. It was slightly higher than this month's, reachable if he stretched. Below it, he listed the shifts needed and expenses to cut.\n\nFor the first time, the vague future contained a box he could check. One line that could be crossed out. He pinned the note to the top. The next month had not arrived, but its number already had a place.",
+        "bridge_summary": "One target line gave the vague future its first box that could be checked off."
       },
       {
         "text": "Thought: this is nothing — still so far",
-        "result_text": "{name} calculated the percentage of his goal: zero point zero-something. The pleasure of growth became tiny below the decimal. He told himself this was no place to relax.\n\nWhen he closed the app, the brief curve of his mouth disappeared too. Delaying satisfaction seemed like a way to travel farther. No one was in the room to celebrate, and he left himself nothing to say."
+        "result_text": "{name} calculated the percentage of his goal: zero point zero-something. The pleasure of growth became tiny below the decimal. He told himself this was no place to relax.\n\nWhen he closed the app, the brief curve of his mouth disappeared too. Delaying satisfaction seemed like a way to travel farther. No one was in the room to celebrate, and he left himself nothing to say.",
+        "bridge_summary": "Measured against the goal, the growing balance became tiny below the decimal again."
       }
     ]
   },
@@ -1085,15 +1097,18 @@
     "choices": [
       {
         "text": "This is luck — don't get carried away",
-        "result_text": "After one look at the balance, {name} covered the screen. He knew the next order grew dangerous the moment one lucky break became proof of skill.\n\nHe wrote down each source of profit and labeled what he could not reproduce as luck. Dividing it into words calmed him. The money had not changed, but the hand choosing his next move became slower."
+        "result_text": "After one look at the balance, {name} covered the screen. He knew the next order grew dangerous the moment one lucky break became proof of skill.\n\nHe wrote down each source of profit and labeled what he could not reproduce as luck. Dividing it into words calmed him. The money had not changed, but the hand choosing his next move became slower.",
+        "bridge_summary": "He labeled the part he could not reproduce as luck. His hand slowed before the next order."
       },
       {
         "text": "Have to go bigger — this is the moment",
-        "result_text": "If he missed this momentum, the same chance might never return. {name} checked his limit and entered an order larger than usual.\n\nHe had not pressed Confirm, yet his heart beat like it already knew the result. Bigger. Just once more. He erased the amount and typed it again. The sentence remained brighter in his mind than the screen."
+        "result_text": "If he missed this momentum, the same chance might never return. {name} checked his limit and entered an order larger than usual.\n\nHe had not pressed Confirm, yet his heart beat like it already knew the result. Bigger. Just once more. He erased the amount and typed it again. The sentence remained brighter in his mind than the screen.",
+        "bridge_summary": "Bigger. Just once more. The sentence lit up before the Confirm button did."
       },
       {
         "text": "Decided not to tell anyone",
-        "result_text": "{name} decided to tell no one. If his family knew, the number would become an expectation. If friends knew, it would require an explanation. For now, he wanted the money alone on his side.\n\nHe placed the phone face down. Only he knew the balance in this room. The secret was smaller than the money but somehow heavier. An achievement no one had congratulated cooled on the goshiwon desk."
+        "result_text": "{name} decided to tell no one. If his family knew, the number would become an expectation. If friends knew, it would require an explanation. For now, he wanted the money alone on his side.\n\nHe placed the phone face down. Only he knew the balance in this room. The secret was smaller than the money but somehow heavier. An achievement no one had congratulated cooled on the goshiwon desk.",
+        "bridge_summary": "Only he knew the balance. An achievement no one had congratulated cooled on the desk."
       }
     ]
   },

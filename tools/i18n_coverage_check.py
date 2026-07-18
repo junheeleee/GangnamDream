@@ -40,7 +40,7 @@ TEXT_EVENT_KEYS = {
     "description_long_gosiwon",
     "choices",
 }
-TEXT_CHOICE_KEYS = {"text", "result_text", "text_if_moral"}
+TEXT_CHOICE_KEYS = {"text", "result_text", "text_if_moral", "bridge_summary"}
 TEXT_ENDING_KEYS = {
     "id",
     "title",
@@ -171,6 +171,10 @@ def validate_event(
             )
         if not key_parity(base_choice.get("text_if_moral"), choice.get("text_if_moral")):
             errors.append(f"{lang}:{event_id}: choice {index} moral key mismatch")
+        if isinstance(base_choice.get("bridge_summary"), str) and not isinstance(
+            choice.get("bridge_summary"), str
+        ):
+            errors.append(f"{lang}:{event_id}: choice {index} missing bridge_summary")
         if lang != "en":
             for field in ("text", "result_text"):
                 if isinstance(base_choice.get(field), str) and not isinstance(choice.get(field), str):

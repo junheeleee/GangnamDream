@@ -125,8 +125,8 @@ func _check_notebook_recall() -> void:
 
 func _check_demo_father_contacts() -> void:
 	var fixtures := [
-		{"turn": 11, "unset": "arc_father_01_seen", "expected": "arc_father_01_call"},
-		{"turn": 15, "unset": "arc_father_quiet_call_seen", "expected": "arc_father_quiet_call"},
+		{"turn": 14, "unset": "arc_father_01_seen", "expected": "arc_father_01_call"},
+		{"turn": 16, "unset": "arc_father_quiet_call_seen", "expected": "arc_father_quiet_call"},
 		{"turn": 21, "unset": "arc_father_02_done", "expected": "arc_father_02_signal"},
 	]
 	var game = MainGameScript.new()
