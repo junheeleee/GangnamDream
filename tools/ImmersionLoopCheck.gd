@@ -311,6 +311,23 @@ func _check_demo_pacing() -> void:
 			or int(counts.get("boss", 0)) != 2 \
 			or int(counts.get("echo", 0)) != 4:
 		_fail("demo pacing counts drifted: %s" % counts)
+
+	GameState.start_new_game()
+	GameState.turn = 151
+	GameState.month = 2
+	GameState.week_of_month = 3
+	GameState.monthly_income = 2_000_000.0
+	GameState.health = 65
+	GameState.mental = 60
+	if str(game.call("_demo_director_week_kind")) != "echo":
+		_fail("chapter-four echo did not enter the carried-routine flow")
+	GameState.turn = 152
+	GameState.week_of_month = 4
+	GameState.health = 35
+	GameState.flags.erase("demo_director_kind_turn")
+	GameState.flags.erase("demo_director_locked_kind")
+	if str(game.call("_demo_director_week_kind")) != "decision":
+		_fail("full-run health crisis did not interrupt a quiet week")
 	game.free()
 
 func _check_pressure_contract(game: Node, pressure: Dictionary, expected_id: String,

@@ -6237,6 +6237,11 @@ func _shot_ap_act_surfaces(lang: String = "en", prefix: String = "ap_act_en_") -
 	await _boot_main_game()
 	for act in range(1, 6):
 		_seed_ap_act_state(act, lang)
+		var week_kind := EventManager.narrative_week_kind(GameState.turn)
+		if week_kind not in ["decision", "boss"]:
+			_fail("Act %d visual fixture is not a direct narrative week: t%d=%s." % [
+				act, GameState.turn, week_kind])
+			return
 		_mg.current_event = {}
 		_mg.set("pending_result_text", "")
 		if _mg.has_method("_render_ap_actions"):
@@ -6587,6 +6592,8 @@ func _shot_motivation_imprint_surfaces(lang: String = "en", prefix: String = "mo
 	await _dispose_main_game()
 
 func _seed_ap_act_state(act: int, lang: String = "en") -> void:
+	GameState.flags.erase("demo_director_kind_turn")
+	GameState.flags.erase("demo_director_locked_kind")
 	GameState.action_points = GameState.max_action_points
 	GameState.action_axis_this_week = {"money": 0, "human": 0}
 	GameState.action_places_this_week = {}
@@ -6635,9 +6642,9 @@ func _seed_ap_act_state(act: int, lang: String = "en") -> void:
 			GameState.loans = {"bank": 0.0, "second": 0.0}
 		2:
 			GameState.year = 2027
-			GameState.month = 3
-			GameState.week_of_month = 2
-			GameState.turn = 60
+			GameState.month = 4
+			GameState.week_of_month = 1
+			GameState.turn = 61
 			GameState.money = 8_600_000.0
 			GameState.investment_skill = 42
 			GameState.action_axis_this_week = {"money": 1, "human": 0}
@@ -6645,9 +6652,9 @@ func _seed_ap_act_state(act: int, lang: String = "en") -> void:
 			GameState.recent_action_places = ["home", "store", "work"]
 		3:
 			GameState.year = 2028
-			GameState.month = 6
-			GameState.week_of_month = 3
-			GameState.turn = 112
+			GameState.month = 5
+			GameState.week_of_month = 2
+			GameState.turn = 114
 			GameState.money = 42_000_000.0
 			GameState.investment_skill = 58
 			GameState.mental = 49
@@ -6656,9 +6663,9 @@ func _seed_ap_act_state(act: int, lang: String = "en") -> void:
 			GameState.recent_action_places = ["home", "work", "city", "underground"]
 		4:
 			GameState.year = 2029
-			GameState.month = 8
-			GameState.week_of_month = 2
-			GameState.turn = 162
+			GameState.month = 5
+			GameState.week_of_month = 1
+			GameState.turn = 161
 			GameState.money = 96_000_000.0
 			GameState.investment_skill = 63
 			GameState.mental = 44
@@ -6672,9 +6679,9 @@ func _seed_ap_act_state(act: int, lang: String = "en") -> void:
 			_set_cast_relation_for_qa("jaehyuk", 41)
 		_:
 			GameState.year = 2030
-			GameState.month = 11
-			GameState.week_of_month = 4
-			GameState.turn = 220
+			GameState.month = 7
+			GameState.week_of_month = 1
+			GameState.turn = 217
 			GameState.current_job = {"name":("Major Corporation Manager" if lang == "en" else "대기업 관리자"), "base_salary":7_200_000.0, "tier":4}
 			GameState.monthly_income = 7_200_000.0
 			GameState.money = 360_000_000.0

@@ -138,7 +138,11 @@ func demo_pacing_rules() -> Dictionary:
 	var pacing: Variant = director_rules.get("demo_pacing", {})
 	return (pacing as Dictionary).duplicate(true) if pacing is Dictionary else {}
 
-func _demo_turn_list_has(values: Variant, turn_value: int) -> bool:
+func full_run_pacing_rules() -> Dictionary:
+	var pacing: Variant = director_rules.get("full_run_pacing", {})
+	return (pacing as Dictionary).duplicate(true) if pacing is Dictionary else {}
+
+func _pacing_turn_list_has(values: Variant, turn_value: int) -> bool:
 	if not values is Array:
 		return false
 	for raw_turn in values:
@@ -146,20 +150,28 @@ func _demo_turn_list_has(values: Variant, turn_value: int) -> bool:
 			return true
 	return false
 
-func demo_week_kind(turn_value: int = -1) -> String:
-	var resolved_turn: int = GameState.turn if turn_value < 0 else turn_value
-	var pacing := demo_pacing_rules()
+func _week_kind_for_pacing(pacing: Dictionary, turn_value: int) -> String:
 	if pacing.is_empty() \
-			or resolved_turn < int(pacing.get("min_turn", 1)) \
-			or resolved_turn > int(pacing.get("max_turn", 0)):
+			or turn_value < int(pacing.get("min_turn", 1)) \
+			or turn_value > int(pacing.get("max_turn", 0)):
 		return "decision"
-	if _demo_turn_list_has(pacing.get("boss_weeks", []), resolved_turn):
+	if _pacing_turn_list_has(pacing.get("boss_weeks", []), turn_value):
 		return "boss"
-	if _demo_turn_list_has(pacing.get("decision_weeks", []), resolved_turn):
+	if _pacing_turn_list_has(pacing.get("decision_weeks", []), turn_value):
 		return "decision"
-	if _demo_turn_list_has(pacing.get("echo_weeks", []), resolved_turn):
+	if _pacing_turn_list_has(pacing.get("echo_weeks", []), turn_value):
 		return "echo"
 	return "quiet"
+
+func demo_week_kind(turn_value: int = -1) -> String:
+	var resolved_turn: int = GameState.turn if turn_value < 0 else turn_value
+	return _week_kind_for_pacing(demo_pacing_rules(), resolved_turn)
+
+func narrative_week_kind(turn_value: int = -1) -> String:
+	var resolved_turn: int = GameState.turn if turn_value < 0 else turn_value
+	var pacing := demo_pacing_rules() if resolved_turn <= GameState.DEMO_TURN_LIMIT \
+			else full_run_pacing_rules()
+	return _week_kind_for_pacing(pacing, resolved_turn)
 
 func demo_should_show_full_summary(turn_value: int = -1) -> bool:
 	var resolved_turn: int = GameState.turn if turn_value < 0 else turn_value
@@ -168,7 +180,17 @@ func demo_should_show_full_summary(turn_value: int = -1) -> bool:
 			or resolved_turn < int(pacing.get("min_turn", 1)) \
 			or resolved_turn > int(pacing.get("max_turn", 0)):
 		return true
-	return _demo_turn_list_has(pacing.get("full_summary_weeks", []), resolved_turn)
+	return _pacing_turn_list_has(pacing.get("full_summary_weeks", []), resolved_turn)
+
+func narrative_should_show_full_summary(turn_value: int = -1) -> bool:
+	var resolved_turn: int = GameState.turn if turn_value < 0 else turn_value
+	var pacing := demo_pacing_rules() if resolved_turn <= GameState.DEMO_TURN_LIMIT \
+			else full_run_pacing_rules()
+	if pacing.is_empty() \
+			or resolved_turn < int(pacing.get("min_turn", 1)) \
+			or resolved_turn > int(pacing.get("max_turn", 0)):
+		return true
+	return _pacing_turn_list_has(pacing.get("full_summary_weeks", []), resolved_turn)
 
 func _director_category_multiplier(row: Dictionary, event: Dictionary) -> float:
 	if row.is_empty():

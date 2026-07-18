@@ -10,8 +10,10 @@ func _ready() -> void:
 	_check_once_and_repeat_policy()
 	_check_authored_bypass()
 	_check_demo_pacing()
+	_check_full_run_pacing()
+	_check_rhythm_save_migration()
 	if _failures.is_empty():
-		print("EVENT_DIRECTOR_CHECK_OK directed=1032 once=1029 repeatable=3 chapters=5 asset_bands=5 demo=9/2/4/3")
+		print("EVENT_DIRECTOR_CHECK_OK directed=1032 once=1029 repeatable=3 chapters=5 asset_bands=5 demo=9/2/4/3 full=52/5/20/21 save=legacy+demo")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -195,6 +197,59 @@ func _check_demo_pacing() -> void:
 	_expect(EventManager.demo_week_kind(25) == "decision",
 		"director leaked demo auto-flow beyond the cutoff")
 	_expect(kinds.count("quiet") == 11, "demo must retain eleven quiet weeks")
+
+func _check_full_run_pacing() -> void:
+	var direct_by_chapter := [0, 0, 0, 0, 0]
+	var bosses: Array[int] = []
+	var echoes: Array[int] = []
+	var summaries: Array[int] = []
+	for turn_value in range(1, GameState.RUN_TURN_LIMIT + 1):
+		var kind := EventManager.narrative_week_kind(turn_value)
+		if kind in ["decision", "boss"]:
+			direct_by_chapter[int((turn_value - 1) / 48)] += 1
+		if kind == "boss":
+			bosses.append(turn_value)
+		elif kind == "echo":
+			echoes.append(turn_value)
+		if EventManager.narrative_should_show_full_summary(turn_value):
+			summaries.append(turn_value)
+	_expect(direct_by_chapter == [12, 10, 10, 10, 10],
+		"full-run chapter decision cadence drifted: %s" % [direct_by_chapter])
+	_expect(bosses == [4, 24, 44, 92, 140, 176, 237],
+		"full-run boss cadence drifted: %s" % [bosses])
+	_expect(echoes.size() == 20, "full run must expose twenty echo weeks")
+	_expect(summaries.size() == 21 and summaries.back() == 240,
+		"full run must expose twenty-one gated summaries through week 240")
+	_expect(EventManager.narrative_week_kind(241) == "decision",
+		"narrative cadence leaked automatic time beyond the five-year run")
+
+func _check_rhythm_save_migration() -> void:
+	GameState.start_new_game()
+	GameState.turn = 151
+	GameState.money = 12_345_678.0
+	GameState.flags["father_reconciled"] = true
+	GameState.flags["demo_director_kind_turn"] = 151
+	GameState.flags["demo_director_locked_kind"] = "quiet"
+	var old_state: Dictionary = GameState.serialize()
+	var migrated: Dictionary = SaveManager.migrate_narrative_rhythm_state(old_state, 0)
+	var migrated_flags: Dictionary = migrated.get("flags", {})
+	_expect(not migrated_flags.has("demo_director_kind_turn") \
+			and not migrated_flags.has("demo_director_locked_kind"),
+		"legacy save retained a stale week-kind lock")
+	_expect(bool(migrated_flags.get("father_reconciled", false)) \
+			and is_equal_approx(float(migrated.get("money", 0.0)), 12_345_678.0),
+		"legacy rhythm migration changed authored or economy state")
+
+	var demo_state: Dictionary = old_state.duplicate(true)
+	demo_state["turn"] = GameState.DEMO_TURN_LIMIT + 1
+	demo_state["money"] = 7_654_321.0
+	var carried: Dictionary = SaveManager.migrate_narrative_rhythm_state(
+			demo_state, SaveManager.NARRATIVE_RHYTHM_VERSION)
+	_expect(int(carried.get("turn", 0)) == 25 \
+			and is_equal_approx(float(carried.get("money", 0.0)), 7_654_321.0),
+		"current demo state cannot carry into the full build")
+	_expect(str(carried.get("flags", {}).get("demo_director_locked_kind", "")) == "quiet",
+		"current-version save lost its in-progress week classification")
 
 func _expect(condition: bool, message: String) -> void:
 	if not condition:

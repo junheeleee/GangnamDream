@@ -4,6 +4,7 @@ signal save_completed(success: bool, slot: int)
 signal load_completed(success: bool, slot: int)
 
 const SAVE_VERSION = 3
+const NARRATIVE_RHYTHM_VERSION = 1
 const SLOT_COUNT = 3
 const AUTOSAVE_SLOT = 0
 const SETTINGS_PATH = "user://gangnam_dream_settings.json"
@@ -48,6 +49,8 @@ func save_game(slot):
 	state["event_log"]  = state["event_log"].slice(max(0, state["event_log"].size() - 100))
 	var payload = {
 		"version": SAVE_VERSION,
+		"narrative_rhythm_version": NARRATIVE_RHYTHM_VERSION,
+		"build_flavor": "demo" if GameState.is_demo_build() else "full",
 		"slot": slot,
 		"saved_at": Time.get_datetime_string_from_system(),
 		"mod_active": ModLoader.is_active(LocaleManager.language),
@@ -77,10 +80,28 @@ func load_game(slot):
 	var file_version = int(parsed.get("version", 1))
 	if file_version < SAVE_VERSION:
 		push_warning("SaveManager: save file version %d < current %d (slot %d). Loading anyway." % [file_version, SAVE_VERSION, slot])
-	GameState.load_from_dict(parsed.get("state", parsed))
+	var state_value: Variant = parsed.get("state", parsed)
+	if not state_value is Dictionary:
+		load_completed.emit(false, slot)
+		return false
+	var state := migrate_narrative_rhythm_state(
+			state_value, int(parsed.get("narrative_rhythm_version", 0)))
+	GameState.load_from_dict(state)
 	LocaleManager.sync_player_name_for_current_language()
 	load_completed.emit(true, slot)
 	return true
+
+func migrate_narrative_rhythm_state(state: Dictionary, source_version: int) -> Dictionary:
+	var migrated := state.duplicate(true)
+	if source_version >= NARRATIVE_RHYTHM_VERSION:
+		return migrated
+	# Old saves never classified the current week under the 52-decision cadence.
+	# Preserve every authored/economy flag, but let the loaded week classify once.
+	var state_flags: Dictionary = migrated.get("flags", {}).duplicate(true)
+	state_flags.erase("demo_director_kind_turn")
+	state_flags.erase("demo_director_locked_kind")
+	migrated["flags"] = state_flags
+	return migrated
 
 func has_save(slot):
 	return FileAccess.file_exists(_slot_path(slot))

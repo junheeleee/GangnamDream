@@ -19,6 +19,7 @@ var unlocked_stat_thresholds: Dictionary = {}
 const DEMO_FEATURE := "gangnam_demo"
 const DEMO_TEST_ARG := "--demo-build"
 const DEMO_TURN_LIMIT: int = 24   # 6개월 × 4주
+const RUN_TURN_LIMIT: int = 240   # 5년 × 12개월 × 4주
 
 func is_demo_build() -> bool:
 	# Export preset feature가 정본이다. 명시적 인자는 에디터/CI 게이트에서만 사용한다.

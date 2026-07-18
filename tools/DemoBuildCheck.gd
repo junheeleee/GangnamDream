@@ -279,10 +279,14 @@ func _check_demo_pressure_contract() -> void:
 	var week_24_pressure: Dictionary = main_game.call("_demo_week_pressure")
 	_expect(not week_24_pressure.is_empty(),
 		"Week 24 lost the contextual pressure surface.")
-	GameState.turn = GameState.DEMO_TURN_LIMIT + 1
-	var week_25_pressure: Dictionary = main_game.call("_demo_week_pressure")
-	_expect(week_25_pressure.is_empty(),
-		"The demo-only pressure surface leaked beyond week 24 before validation.")
+	GameState.turn = 29
+	var full_run_pressure: Dictionary = main_game.call("_demo_week_pressure")
+	_expect(not full_run_pressure.is_empty(),
+		"The contextual decision surface did not carry into the full run.")
+	GameState.turn = GameState.RUN_TURN_LIMIT + 1
+	var post_run_pressure: Dictionary = main_game.call("_demo_week_pressure")
+	_expect(post_run_pressure.is_empty(),
+		"The contextual pressure surface leaked beyond the five-year run.")
 	main_game.free()
 
 func _expect(condition: bool, message: String) -> void:

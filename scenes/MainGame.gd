@@ -5603,7 +5603,7 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 	var act_info := _ap_act_info()
 	var act_tag: Label = _label("%s  /  %s" % [str(act_info.get("label", "")), str(act_info.get("title", ""))], 12, "#dce3eb")
 	act_tag.set_meta("moral_role", "choice_title")
-	act_tag.custom_minimum_size = Vector2(112 if compact_width else 142, 0)
+	act_tag.custom_minimum_size = Vector2(150 if compact_width else 170, 0)
 	act_tag.clip_text = true
 	act_tag.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	if _font_bold:
@@ -6489,22 +6489,22 @@ func _ap_act_info() -> Dictionary:
 		3:
 			return {
 				"label": _tr("ACT 3", "ACT 3"),
-				"title": _tr("무게", "Weight"),
-				"subtitle": _tr("빠른 길은 늘 대가를 요구한다", "Shortcuts start asking for a price"),
+				"title": _tr("진실", "Truth"),
+				"subtitle": _tr("성공과 빚의 출처가 드러난다", "The source of success and debt comes into view"),
 				"accent": "#9a8f86",
 			}
 		4:
 			return {
 				"label": _tr("ACT 4", "ACT 4"),
-				"title": _tr("균열", "Fracture"),
-				"subtitle": _tr("관계를 방치하면 틈이 벌어진다", "Neglected bonds begin to split"),
+				"title": _tr("무게", "Weight"),
+				"subtitle": _tr("관계와 가족과 몸이 청구서를 내민다", "Relationships, family, and the body present their bill"),
 				"accent": "#bfc7d4",
 			}
 		_:
 			return {
 				"label": _tr("ACT 5", "ACT 5"),
-				"title": _tr("엔드게임", "Endgame"),
-				"subtitle": _tr("한 번의 선택이 결말의 색을 바꾼다", "Each choice can color the ending"),
+				"title": _tr("결산", "Reckoning"),
+				"subtitle": _tr("마지막 숫자와 마지막 사람이 답을 요구한다", "The final number and the last person demand an answer"),
 				"accent": "#dce5ee",
 			}
 
@@ -6517,7 +6517,7 @@ func _ap_act_line() -> String:
 	]
 
 func _demo_pressure_enabled() -> bool:
-	return GameState.turn >= 1 and GameState.turn <= GameState.DEMO_TURN_LIMIT
+	return GameState.turn >= 1 and GameState.turn <= GameState.RUN_TURN_LIMIT
 
 func _demo_director_has_crisis() -> bool:
 	var projected_cash: float = GameState.money + maxf(GameState.monthly_income, 0.0)
@@ -6534,7 +6534,7 @@ func _demo_director_week_kind() -> String:
 	if not _demo_pressure_enabled():
 		resolved_kind = "decision"
 	else:
-		var scheduled := EventManager.demo_week_kind(GameState.turn)
+		var scheduled := EventManager.narrative_week_kind(GameState.turn)
 		resolved_kind = "decision" \
 				if scheduled not in ["decision", "boss"] and _demo_director_has_crisis() \
 				else scheduled
@@ -6546,7 +6546,8 @@ func _demo_director_requires_player_input() -> bool:
 	return _demo_director_week_kind() in ["decision", "boss"]
 
 func _demo_director_should_show_full_summary() -> bool:
-	return not _demo_pressure_enabled() or EventManager.demo_should_show_full_summary(GameState.turn)
+	return not _demo_pressure_enabled() \
+			or EventManager.narrative_should_show_full_summary(GameState.turn)
 
 func _demo_director_money_routine_kind() -> String:
 	var city_visit: Dictionary = GameState.action_places_this_week.get("city", {})
@@ -6994,6 +6995,12 @@ func _render_demo_pressure_actions(ap: int) -> void:
 		if spec.is_empty():
 			continue
 		_demo_context_action_btn(spec, pressure_id, action_id, ap <= 0)
+	# After the first month, direct decisions still belong to the same Seoul journey.
+	# Keep the trace beside the fallback action instead of hiding it behind another view.
+	if GameState.turn > 4 and is_instance_valid(_ap_feature_row):
+		var seoul_trace := _build_seoul_map_strip()
+		seoul_trace.custom_minimum_size = Vector2(420, 34)
+		_ap_feature_row.add_child(seoul_trace)
 	_add_demo_action_toggle(false)
 
 func _demo_context_action_btn(spec: Dictionary, pressure_id: String, action_id: String,
