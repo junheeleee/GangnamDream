@@ -373,14 +373,15 @@ func _run_theme_display(theme_id: String) -> String:
 ## 앰비언트 이벤트(_maybe_play_month_situation)는 여기서 부르지 않는다.
 ## 아크/마일스톤/프롤로그가 이미 재생된 달에 랜덤 이벤트가 추가로 뜨는 것을 방지.
 func _continue_after_story():
-	var arc_id = _next_arc_id(-1, false, true)
-	if arc_id != "":
-		_go_story_mode([arc_id], true)
-		return
-	var ms_id = _next_milestone_id()
-	if ms_id != "":
-		_go_story_mode([ms_id], true)
-		return
+	if not _foreground_story_consumed_this_week():
+		var arc_id = _next_arc_id(-1, false, true)
+		if arc_id != "":
+			_go_story_mode([arc_id], true)
+			return
+		var ms_id = _next_milestone_id()
+		if ms_id != "":
+			_go_story_mode([ms_id], true)
+			return
 	# 더 없으면 바로 루틴 행동 화면
 	SceneTransition.fade_in()
 	current_event = {}
@@ -2265,16 +2266,18 @@ func _begin_month_story_and_render():
 		else:
 			_go_story_mode(["story_arrival"])
 		return
-	# 아크 이벤트 (인물 스토리) — 마일스톤보다 우선
-	var arc_id = _next_arc_id(-1, false, true)
-	if arc_id != "":
-		_go_story_mode([arc_id])
-		return
-	# 마일스톤 이벤트 (스토리) → StoryMode
-	var ms_id = _next_milestone_id()
-	if ms_id != "":
-		_go_story_mode([ms_id])
-		return
+	# 아크 이벤트 (인물 스토리) — 마일스톤보다 우선. 정식 구간에서는
+	# 한 주에 서로 다른 루트 장면을 하나만 열어 시간 인과를 보존한다.
+	if not _foreground_story_consumed_this_week():
+		var arc_id = _next_arc_id(-1, false, true)
+		if arc_id != "":
+			_go_story_mode([arc_id])
+			return
+		# 마일스톤 이벤트 (스토리) → StoryMode
+		var ms_id = _next_milestone_id()
+		if ms_id != "":
+			_go_story_mode([ms_id])
+			return
 	# 데모 편성기는 보장 아크와 마일스톤을 모두 확인한 뒤에만 저위험 주를 흘린다.
 	# Quiet/Echo에서는 랜덤 선택지를 하나 더 끼우지 않고 기존 루틴과 경제를 정상 계산한다.
 	if _demo_pressure_enabled() and not _demo_director_requires_player_input():
@@ -2314,12 +2317,18 @@ func _maybe_play_month_situation() -> bool:
 
 ## 스토리/아크 이벤트들을 StoryMode 화면으로 보낸다.
 func _go_story_mode(event_ids: Array, keep_cover: bool = false):
+	if GameState.turn > GameState.DEMO_TURN_LIMIT and not event_ids.is_empty():
+		GameState.flags["foreground_story_turn"] = GameState.turn
 	GameState.pending_story_queue = event_ids
 	GameState.story_return_scene = "res://scenes/MainGame.tscn"
 	if keep_cover:
 		SceneTransition.go_covered("res://scenes/StoryMode.tscn")
 	else:
 		SceneTransition.go("res://scenes/StoryMode.tscn")
+
+func _foreground_story_consumed_this_week() -> bool:
+	return GameState.turn > GameState.DEMO_TURN_LIMIT \
+			and int(GameState.flags.get("foreground_story_turn", -1)) == GameState.turn
 
 ## 아크 이벤트 트리거 — 조건 맞으면 이벤트 ID를 반환 (없으면 "").
 ## 우선순위: 위에서부터. 한 턴에 하나만 발동. StoryMode로 재생됨.
@@ -3914,6 +3923,9 @@ func _run_month_end_transition(show_summary: bool = true) -> void:
 	var had_paycheck_before: bool = GameState.flags.get("has_received_paycheck", false)
 	GameState.apply_monthly_pressure()
 	GameState.advance_calendar()
+	# Monthly pressure checks the pre-rollover age. Re-evaluate after the
+	# calendar crosses into age 38 so week 240 resolves into an ending.
+	GameState.check_game_over()
 	_refresh_all()
 	if not had_paycheck_before and GameState.flags.get("has_received_paycheck", false):
 		var paycheck_toast := _tr("첫 월급 수령! 현금 흐름이 시작됩니다", "First paycheck received! Your cash flow has begun")

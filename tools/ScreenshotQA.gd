@@ -69,6 +69,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-gamepad --lang=en --pad=xbox --demo-build
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-keyboard --lang=en --demo-build
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-mouse --lang=en --demo-build
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=full-gamepad --lang=en --pad=xbox
 ## 헤드리스 더미 렌더러는 빈 텍스처를 주므로 x11+opengl3(xvfb) 필요.
 ## .tscn 으로 부팅해야 autoload(GameState 등)가 로드된다.
 
@@ -88,6 +89,7 @@ const QA_SCOPE_DEMO_INPUT := "demo_input"
 const QA_SCOPE_DEMO_GAMEPAD := "demo_gamepad"
 const QA_SCOPE_DEMO_KEYBOARD := "demo_keyboard"
 const QA_SCOPE_DEMO_MOUSE := "demo_mouse"
+const QA_SCOPE_FULL_GAMEPAD := "full_gamepad"
 const QA_SCOPE_START_EN := "start_en"
 const QA_SCOPE_FIRST_30 := "first_30"
 const QA_SCOPE_GALLERY := "gallery"
@@ -162,6 +164,8 @@ var _qa_failed := false
 var _route_keyboard_events := 0
 var _route_mouse_events := 0
 var _route_gamepad_events := 0
+var _route_week_limit := GameState.DEMO_TURN_LIMIT
+var _route_persistent_backups: Dictionary = {}
 
 func _tr(ko: String, en: String) -> String:
 	return LocaleManager.ui(ko, en)
@@ -259,6 +263,13 @@ func _ready() -> void:
 	if scope == QA_SCOPE_DEMO_MOUSE:
 		var lang := _qa_language("en")
 		await _run_demo_input_route(lang, "mouse")
+		return
+	if scope == QA_SCOPE_FULL_GAMEPAD:
+		var lang := _qa_language("en")
+		var pad_options := _apply_first_30_qa_options()
+		if str(pad_options.get("pad", "keyboard")) == "keyboard":
+			ControllerHints.force_brand_for_qa(ControllerHints.Brand.XBOX)
+		await _run_demo_input_route(lang, "gamepad", true)
 		return
 	if scope == QA_SCOPE_START_EN:
 		var lang := _qa_language("en")
@@ -777,6 +788,10 @@ func _qa_scope() -> String:
 		if arg in ["demo-mouse", "demo_mouse", "--demo-mouse", "--demo_mouse",
 				"qa=demo-mouse", "--qa=demo-mouse", "scope=demo-mouse", "--scope=demo-mouse"]:
 			return QA_SCOPE_DEMO_MOUSE
+		if arg in ["full-gamepad", "full_gamepad", "full-run", "full_run",
+				"--full-gamepad", "--full_gamepad", "qa=full-gamepad", "--qa=full-gamepad",
+				"scope=full-gamepad", "--scope=full-gamepad"]:
+			return QA_SCOPE_FULL_GAMEPAD
 		if arg in ["start-en", "start_en", "start", "--start-en", "--start_en",
 				"qa=start-en", "--qa=start-en", "qa=start_en", "--qa=start_en",
 				"scope=start-en", "--scope=start-en", "scope=start_en", "--scope=start_en"]:
@@ -2259,12 +2274,19 @@ func _shot_demo_blackbox(lang: String = "en") -> void:
 		await _shot_story_event(regression_event_id, prefix + "regression_" + regression_event_id, lang, 0.45, true)
 	await _shot_demo_loop_surfaces(lang, prefix)
 
-func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard") -> void:
+func _run_demo_input_route(
+		lang: String = "en", input_mode: String = "keyboard", full_run: bool = false) -> void:
 	if input_mode not in ["keyboard", "mouse", "gamepad"]:
-		_fail("Demo input route requires keyboard, mouse, or gamepad; got %s." % input_mode)
+		_fail("Input route requires keyboard, mouse, or gamepad; got %s." % input_mode)
 		return
+	if full_run and GameState.is_demo_build():
+		_fail("Full-run input QA cannot run with the demo-build feature enabled.")
+		return
+	_capture_route_persistent_files()
 	_set_qa_language(lang)
-	seed(20260713)
+	seed(20260718 if full_run else 20260713)
+	_route_week_limit = GameState.RUN_TURN_LIMIT if full_run else GameState.DEMO_TURN_LIMIT
+	var route_label := "FULL" if full_run else "DEMO"
 	var original_meta := MetaProgression.data.duplicate(true)
 	MetaProgression.data["content_warning_seen"] = true
 	_route_keyboard_events = 0
@@ -2283,19 +2305,22 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 	var last_signature := ""
 	var stagnant_steps := 0
 	var completed := false
+	var full_ending_id := ""
 	var last_reported_turn := 0
 	var ap_choice_attempts: Dictionary = {}
 	var route_input_counts: Dictionary = {}
 	var route_week_inputs: Dictionary = {}
 	var ap_peak_by_week: Dictionary = {}
 	var captured_pressure_weeks: Dictionary = {}
-	var pressure_capture_turns := [1, 4, 8, 12, 16, 20, 24]
+	var pressure_capture_turns := [1, 61, 114, 161, 217] if full_run \
+			else [1, 4, 8, 12, 16, 20, 24]
 	var pressure_sequence: Array[String] = []
 	var pressure_family_sequence: Array[String] = []
 	var pressure_counts: Dictionary = {}
 	var pressure_month_counts: Dictionary = {}
 	var week_kind_sequence: Array[String] = []
 	var week_kind_counts: Dictionary = {}
+	var crisis_promotion_weeks: Array[int] = []
 	var observed_auto_beats: Dictionary = {}
 	var captured_auto_kinds: Dictionary = {}
 	var action_counts: Dictionary = {}
@@ -2303,7 +2328,7 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 	var modal_counts: Dictionary = {}
 	var counted_modal_keys: Dictionary = {}
 	var ap_action_inputs := 0
-	for _step in range(7000):
+	for _step in range(70000 if full_run else 7000):
 		await get_tree().create_timer(0.015).timeout
 		var scene := get_tree().current_scene
 		if not is_instance_valid(scene):
@@ -2317,6 +2342,12 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 			var event_id := str(current.get("id", ""))
 			if not event_id.is_empty() and not seen_events.has(event_id):
 				seen_events.append(event_id)
+				if full_run:
+					print("FULL_STORY_EVENT week=%d id=%s" % [GameState.turn, event_id])
+				if full_run and lang == "en" and _contains_hangul(_collect_control_text(scene)):
+					MetaProgression.data = original_meta
+					_fail("Full-run English StoryMode leaked Hangul in %s." % event_id)
+					return
 			signature += ":%s:%d:%s:%s:%s:%s:%s" % [
 				event_id,
 				int(scene.get("_para_index")),
@@ -2361,7 +2392,7 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 			var sampled_turn: int = GameState.turn
 			var director_kind := str(scene.call("_demo_director_week_kind"))
 			var director_requires_input := bool(scene.call("_demo_director_requires_player_input"))
-			if GameState.turn <= GameState.DEMO_TURN_LIMIT and director_requires_input:
+			if GameState.turn <= _route_week_limit and director_requires_input:
 				ap_peak_by_week[GameState.turn] = maxi(
 					int(ap_peak_by_week.get(GameState.turn, 0)), GameState.action_points)
 			var auto_beat := _find_demo_director_beat(scene, GameState.turn)
@@ -2382,17 +2413,25 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 				var pressure_actions: Array[String] = []
 				for raw_action_id in pressure.get("action_ids", []):
 					pressure_actions.append(str(raw_action_id))
-				if GameState.turn <= GameState.DEMO_TURN_LIMIT:
+				if GameState.turn <= _route_week_limit:
 					week_kind_sequence.append(director_kind)
 					week_kind_counts[director_kind] = int(week_kind_counts.get(director_kind, 0)) + 1
-				if GameState.turn <= GameState.DEMO_TURN_LIMIT and director_requires_input:
+					var scheduled_kind := EventManager.narrative_week_kind(GameState.turn)
+					if director_kind == "decision" and scheduled_kind not in ["decision", "boss"]:
+						if not bool(scene.call("_demo_director_has_crisis")):
+							MetaProgression.data = original_meta
+							_fail("Full route promoted week %d without a live crisis." % GameState.turn)
+							return
+						crisis_promotion_weeks.append(GameState.turn)
+				if GameState.turn <= _route_week_limit and director_requires_input:
 					pressure_sequence.append(pressure_id)
 					pressure_family_sequence.append(pressure_family)
 					pressure_counts[pressure_id] = int(pressure_counts.get(pressure_id, 0)) + 1
 					if pressure_id == "capital":
 						var capital_month := "%04d-%02d" % [GameState.year, GameState.month]
 						pressure_month_counts[capital_month] = int(pressure_month_counts.get(capital_month, 0)) + 1
-				print("DEMO_INPUT_PROGRESS week=%d kind=%s ap=%d events=%d pressure=%s actions=%s" % [
+				print("%s_INPUT_PROGRESS week=%d kind=%s ap=%d events=%d pressure=%s actions=%s" % [
+					route_label,
 					GameState.turn, director_kind, GameState.action_points, seen_events.size(), pressure_id,
 					",".join(pressure_actions)])
 			var modal := scene.get("modal_layer") as Control
@@ -2414,7 +2453,8 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 					and GameState.action_points > 0 \
 					and not cards.is_empty() \
 					and str(scene.get("pending_result_text")).is_empty():
-				await _save("demo_%s_%s_week_%02d_pressure" % [lang, input_mode, GameState.turn], 0.0)
+				await _save("%s_%s_%s_week_%03d_pressure" % [
+					route_label.to_lower(), lang, input_mode, GameState.turn], 0.0)
 				captured_pressure_weeks[GameState.turn] = true
 			# Screenshot settling and focus frames are real runtime frames. If a
 			# deferred transition advanced the week, resample its director contract
@@ -2431,6 +2471,22 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 					modal_counts[counted_modal_kind] = int(modal_counts.get(counted_modal_kind, 0)) + 1
 				var modal_text := _collect_control_text(modal)
 				var wishlist_copy := "Add to Steam Wishlist" if lang == "en" else "Steam 위시리스트에 추가"
+				if full_run and GameState.is_game_over:
+					var run_history: Array = MetaProgression.data.get("run_history", [])
+					if not run_history.is_empty() and run_history[-1] is Dictionary:
+						full_ending_id = str((run_history[-1] as Dictionary).get("ending_id", ""))
+					if full_ending_id.is_empty():
+						MetaProgression.data = original_meta
+						_fail("Full-run ending modal opened without a recorded ending ID.")
+						return
+					if lang == "en" and _contains_hangul(modal_text):
+						MetaProgression.data = original_meta
+						_fail("Full-run English ending modal leaked Hangul: %s." % full_ending_id)
+						return
+					await _save("full_%s_%s_input_run_final_%s" % [
+						lang, input_mode, full_ending_id], 0.0)
+					completed = true
+					break
 				if modal_kind == "demo_ending":
 					if GameState.turn != GameState.DEMO_TURN_LIMIT + 1:
 						MetaProgression.data = original_meta
@@ -2475,6 +2531,11 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 						input_count += 1
 						_record_demo_route_input(route_input_counts, route_week_inputs,
 							"main:modal:%s" % modal_kind)
+			elif full_run and GameState.turn > _route_week_limit:
+				# Week 241 is a short handoff from the final AP commit into ending
+				# resolution. It has no AP cards by design, so let the deferred ending
+				# surface open instead of treating it as another decision week.
+				pass
 			elif GameState.has_reached_demo_limit():
 				pass
 			else:
@@ -2536,7 +2597,8 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 						var selected_action_id := str(action_card.get_meta("demo_action_id", "fallback"))
 						action_counts[selected_action_id] = int(action_counts.get(selected_action_id, 0)) + 1
 						ap_action_week_counts[GameState.turn] = int(ap_action_week_counts.get(GameState.turn, 0)) + 1
-						print("DEMO_AP_ACTION week=%d ap_before=%d action=%s fn=%s" % [
+						print("%s_AP_ACTION week=%d ap_before=%d action=%s fn=%s" % [
+							route_label,
 							GameState.turn, GameState.action_points, selected_action_id,
 							str(action_card.get_meta("ap_action_fn", ""))])
 						await _activate_route_control(action_card, input_mode)
@@ -2565,15 +2627,159 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 			last_signature = signature
 			stagnant_steps = 0
 		if stagnant_steps > 550:
-			await _save("demo_%s_%s_stall" % [lang, input_mode], 0.0)
+			await _save("%s_%s_%s_stall" % [route_label.to_lower(), lang, input_mode], 0.0)
 			MetaProgression.data = original_meta
-			_fail("Demo input run stalled at %s." % signature)
+			_fail("%s input run stalled at %s." % [route_label, signature])
 			return
 
 	if not completed:
 		MetaProgression.data = original_meta
-		_fail("Demo input run did not reach the week-24 CTA within the safety limit: %s inputs=%d events=%d." % [
-			last_signature, input_count, seen_events.size()])
+		_fail("%s input run did not reach its final surface within the safety limit: %s inputs=%d events=%d." % [
+			route_label, last_signature, input_count, seen_events.size()])
+		return
+	if full_run:
+		for required_id in [
+				"story_flashforward", "story_arrival", "chapter_card_33", "chapter_card_34",
+				"chapter_card_35", "chapter_card_36", "chapter_card_37"]:
+			if not seen_events.has(required_id):
+				MetaProgression.data = original_meta
+				_fail("Full input run never reached required story event %s." % required_id)
+				return
+		if not starting_job_id.is_empty():
+			MetaProgression.data = original_meta
+			_fail("Title-started full route did not begin unemployed: %s." % starting_job_id)
+			return
+		if not GameState.is_game_over or full_ending_id.is_empty():
+			MetaProgression.data = original_meta
+			_fail("Full input route completed without a final ending.")
+			return
+		if GameState.turn < GameState.RUN_TURN_LIMIT:
+			MetaProgression.data = original_meta
+			_fail("Full input route ended early at week %d with %s." % [GameState.turn, full_ending_id])
+			return
+		if full_ending_id in ["burnout", "mental_break", "bankruptcy", "debt_spiral", "crypto_ghost"]:
+			MetaProgression.data = original_meta
+			_fail("Safe full input route fell into unintended failure ending %s." % full_ending_id)
+			return
+		if GameState.current_job.is_empty() or int(action_counts.get("apply", 0)) < 1:
+			MetaProgression.data = original_meta
+			_fail("Full input route never completed the primary job-hunt path.")
+			return
+		if GameState.money_weeks_total <= 0 or GameState.human_weeks_total <= 0:
+			MetaProgression.data = original_meta
+			_fail("Full input route did not record both time-ledger axes: money=%d people=%d." % [
+				GameState.money_weeks_total, GameState.human_weeks_total])
+			return
+		if _route_keyboard_events != 0 or _route_mouse_events != 0:
+			MetaProgression.data = original_meta
+			_fail("Full gamepad route emitted keyboard=%d mouse=%d events." % [
+				_route_keyboard_events, _route_mouse_events])
+			return
+		if week_kind_sequence.size() != GameState.RUN_TURN_LIMIT:
+			MetaProgression.data = original_meta
+			_fail("Full route sampled %d paced weeks instead of %d." % [
+				week_kind_sequence.size(), GameState.RUN_TURN_LIMIT])
+			return
+		var scheduled_kind_counts: Dictionary = {}
+		var scheduled_direct_by_chapter := [0, 0, 0, 0, 0]
+		var scheduled_echo_promotions := 0
+		var scheduled_summary_count := 0
+		for paced_week in range(1, GameState.RUN_TURN_LIMIT + 1):
+			var scheduled_kind := EventManager.narrative_week_kind(paced_week)
+			scheduled_kind_counts[scheduled_kind] = int(scheduled_kind_counts.get(scheduled_kind, 0)) + 1
+			if EventManager.narrative_should_show_full_summary(paced_week):
+				scheduled_summary_count += 1
+			if scheduled_kind in ["decision", "boss"]:
+				scheduled_direct_by_chapter[mini(4, floori(float(paced_week - 1) / 48.0))] += 1
+			elif scheduled_kind == "echo" and crisis_promotion_weeks.has(paced_week):
+				scheduled_echo_promotions += 1
+		var scheduled_direct_weeks := int(scheduled_kind_counts.get("decision", 0)) \
+				+ int(scheduled_kind_counts.get("boss", 0))
+		if scheduled_direct_weeks != 52 \
+				or int(scheduled_kind_counts.get("boss", 0)) != 7 \
+				or scheduled_direct_by_chapter != [12, 10, 10, 10, 10]:
+			MetaProgression.data = original_meta
+			_fail("Full route base cadence drifted: kinds=%s chapters=%s." % [
+				scheduled_kind_counts, scheduled_direct_by_chapter])
+			return
+		var full_direct_weeks := int(week_kind_counts.get("decision", 0)) \
+				+ int(week_kind_counts.get("boss", 0))
+		if full_direct_weeks != scheduled_direct_weeks + crisis_promotion_weeks.size() \
+				or int(week_kind_counts.get("boss", 0)) != int(scheduled_kind_counts.get("boss", 0)):
+			MetaProgression.data = original_meta
+			_fail("Full route crisis cadence drifted: base=%s resolved=%s promotions=%s." % [
+				scheduled_kind_counts, week_kind_counts, crisis_promotion_weeks])
+			return
+		var direct_by_chapter := [0, 0, 0, 0, 0]
+		for week_index in range(week_kind_sequence.size()):
+			if str(week_kind_sequence[week_index]) in ["decision", "boss"]:
+				direct_by_chapter[mini(4, floori(float(week_index) / 48.0))] += 1
+		var resolved_direct_by_chapter: Array = scheduled_direct_by_chapter.duplicate()
+		for promoted_week in crisis_promotion_weeks:
+			resolved_direct_by_chapter[mini(4, floori(float(promoted_week - 1) / 48.0))] += 1
+		if direct_by_chapter != resolved_direct_by_chapter:
+			MetaProgression.data = original_meta
+			_fail("Full route chapter decision cadence drifted: expected=%s got=%s." % [
+				resolved_direct_by_chapter, direct_by_chapter])
+			return
+		var expected_resolved_echoes := int(scheduled_kind_counts.get("echo", 0)) \
+				- scheduled_echo_promotions
+		if int(week_kind_counts.get("echo", 0)) != expected_resolved_echoes:
+			MetaProgression.data = original_meta
+			_fail("Full route exposed %d Echo weeks instead of %d after crisis promotions." % [
+				int(week_kind_counts.get("echo", 0)), expected_resolved_echoes])
+			return
+		if pressure_sequence.size() != full_direct_weeks:
+			MetaProgression.data = original_meta
+			_fail("Full route sampled %d pressure frames for %d direct weeks." % [
+				pressure_sequence.size(), full_direct_weeks])
+			return
+		for paced_week in range(1, GameState.RUN_TURN_LIMIT + 1):
+			var observed_kind := str(week_kind_sequence[paced_week - 1])
+			if observed_kind in ["quiet", "echo"] \
+					and str(observed_auto_beats.get(paced_week, "")) != observed_kind:
+				MetaProgression.data = original_meta
+				_fail("Full auto-flow did not render %s at week %d." % [observed_kind, paced_week])
+				return
+		if int(action_counts.get("fallback", 0)) != 0:
+			MetaProgression.data = original_meta
+			_fail("Full route escaped to the legacy action list.")
+			return
+		var available_ap_budget := 0
+		for week in range(1, GameState.RUN_TURN_LIMIT + 1):
+			available_ap_budget += int(ap_peak_by_week.get(week, 0))
+		if ap_action_inputs != available_ap_budget:
+			MetaProgression.data = original_meta
+			_fail("Full route used %d primary responses from an available budget of %d." % [
+				ap_action_inputs, available_ap_budget])
+			return
+		# Week 240's scheduled ledger is absorbed by the ending time ledger; a
+		# separate blocking summary immediately before the ending would duplicate it.
+		var expected_blocking_summaries := scheduled_summary_count - 1
+		if scheduled_summary_count != 21 \
+				or int(modal_counts.get("month_summary", 0)) != expected_blocking_summaries:
+			MetaProgression.data = original_meta
+			_fail("Full route showed %d blocking month summaries instead of %d (scheduled=%d): %s." % [
+				int(modal_counts.get("month_summary", 0)), expected_blocking_summaries,
+				scheduled_summary_count, modal_counts])
+			return
+		var peak_week_input := _max_route_week_inputs(route_week_inputs)
+		_print_demo_route_input_profile(route_input_counts, route_week_inputs)
+		if int(peak_week_input.get("inputs", 0)) > 180 or input_count > 20000:
+			MetaProgression.data = original_meta
+			_fail("Full route input density exceeded its safety band: total=%d peak=%s." % [
+				input_count, peak_week_input])
+			return
+		var final_job := str(GameState.current_job.get("id", "unemployed"))
+		var money_weeks := GameState.money_weeks_total
+		var human_weeks := GameState.human_weeks_total
+		MetaProgression.data = original_meta
+		print("FULL_INPUT_RUN_OK device=%s weeks=%d inputs=%d events=%d ending=%s end_job=%s axes=%d/%d kinds=%s chapters=%s crisis_promotions=%s summaries=%d peak_week=%s key_events=%d mouse_events=%d gamepad_events=%d" % [
+			input_mode, GameState.RUN_TURN_LIMIT, input_count, seen_events.size(), full_ending_id,
+			final_job, money_weeks, human_weeks, str(week_kind_counts), str(direct_by_chapter),
+			str(crisis_promotion_weeks), int(modal_counts.get("month_summary", 0)), str(peak_week_input),
+			_route_keyboard_events, _route_mouse_events, _route_gamepad_events])
+		get_tree().quit(0)
 		return
 	for required_id in ["story_flashforward", "story_arrival", "chapter_card_33", "arc_chapter1_close"]:
 		if not seen_events.has(required_id):
@@ -2711,7 +2917,7 @@ func _run_demo_input_route(lang: String = "en", input_mode: String = "keyboard")
 
 func _record_demo_route_input(counts: Dictionary, week_counts: Dictionary, key: String) -> void:
 	counts[key] = int(counts.get(key, 0)) + 1
-	var week := clampi(GameState.turn, 1, GameState.DEMO_TURN_LIMIT)
+	var week := clampi(GameState.turn, 1, _route_week_limit)
 	week_counts[week] = int(week_counts.get(week, 0)) + 1
 
 func _print_demo_route_input_profile(counts: Dictionary, week_counts: Dictionary) -> void:
@@ -2721,9 +2927,61 @@ func _print_demo_route_input_profile(counts: Dictionary, week_counts: Dictionary
 		var key: String = str(ranked[index])
 		print("DEMO_INPUT_PROFILE_TOP rank=%d inputs=%d key=%s" % [
 			index + 1, int(counts[key]), key])
-	for week in range(1, GameState.DEMO_TURN_LIMIT + 1):
-		print("DEMO_INPUT_PROFILE_WEEK week=%d inputs=%d" % [
-			week, int(week_counts.get(week, 0))])
+	if _route_week_limit <= GameState.DEMO_TURN_LIMIT:
+		for week in range(1, _route_week_limit + 1):
+			print("DEMO_INPUT_PROFILE_WEEK week=%d inputs=%d" % [
+				week, int(week_counts.get(week, 0))])
+		return
+	var ranked_weeks: Array = week_counts.keys()
+	ranked_weeks.sort_custom(func(a, b): return int(week_counts[a]) > int(week_counts[b]))
+	for index in range(mini(12, ranked_weeks.size())):
+		var week := int(ranked_weeks[index])
+		print("FULL_INPUT_PROFILE_WEEK rank=%d week=%d inputs=%d" % [
+			index + 1, week, int(week_counts.get(week, 0))])
+	for chapter_index in range(5):
+		var chapter_total := 0
+		for week in range(chapter_index * 48 + 1, chapter_index * 48 + 49):
+			chapter_total += int(week_counts.get(week, 0))
+		print("FULL_INPUT_PROFILE_CHAPTER chapter=%d inputs=%d average=%.1f" % [
+			chapter_index + 1, chapter_total, float(chapter_total) / 48.0])
+
+func _max_route_week_inputs(week_counts: Dictionary) -> Dictionary:
+	var best_week := 0
+	var best_inputs := 0
+	for week_value in week_counts.keys():
+		var inputs := int(week_counts[week_value])
+		if inputs > best_inputs:
+			best_week = int(week_value)
+			best_inputs = inputs
+	return {"week": best_week, "inputs": best_inputs}
+
+func _capture_route_persistent_files() -> void:
+	if not _route_persistent_backups.is_empty():
+		return
+	for path in [
+			"user://gangnam_dream_autosave.json",
+			"user://gangnam_dream_meta.json",
+			"user://gangnam_dream_settings.json"]:
+		_route_persistent_backups[path] = {
+			"existed": FileAccess.file_exists(path),
+			"bytes": FileAccess.get_file_as_bytes(path) if FileAccess.file_exists(path) else PackedByteArray(),
+		}
+
+func _restore_route_persistent_files() -> void:
+	for path_value in _route_persistent_backups.keys():
+		var path := str(path_value)
+		var backup: Dictionary = _route_persistent_backups[path]
+		if bool(backup.get("existed", false)):
+			var file := FileAccess.open(path, FileAccess.WRITE)
+			if file != null:
+				file.store_buffer(backup.get("bytes", PackedByteArray()))
+				file.close()
+		elif FileAccess.file_exists(path):
+			DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+	_route_persistent_backups.clear()
+
+func _exit_tree() -> void:
+	_restore_route_persistent_files()
 
 func _max_consecutive_strings(values: Array[String]) -> Dictionary:
 	var best_value := ""
