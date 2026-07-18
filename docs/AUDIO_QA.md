@@ -93,6 +93,7 @@ Repeated deal, tick, dice, and hoof sounds use bounded pitch variation and per-k
 - A choice-owned `result_background` may declare KO-only `result_ambience`. The ambience changes in the same frame as the revealed result location without restarting punctuation music; `current_housing` resolves to the live room/one-room/apartment bed.
 - Chapter 2 locks four result moves: Jiyeon refusal=`street`, coffee acceptance=`cafe`, hiding the room from the parents=`hoesik`, and showing the room=`current_housing`. `--qa=chapter2-peaks --lang=ko/en` asserts both the rendered location and active ambience key.
 - Chapter 3 keeps Jiyeon and Hyunsu messages plus Father's call inside the live housing bed, marks their presence as remote instead of placing them in Minjun's room, and permits score only on authored paragraphs where a revelation actually lands. The midpoint, habit, reflex, and article beats remain ambience-only so the score cannot manufacture importance. `--qa=chapter3-spine --lang=ko/en` asserts all 22 surfaces per language.
+- Chapters 2, 4, and 5 keep seventeen private milestones on `current_housing` instead of returning to a static goshiwon or invented late-night room. The body warning owns `subway`, the Hangang threshold owns `hangang`, the year-four close owns `winter`, and Father's real call alone uses the remote-call presentation. `--qa=late-chapter-spines --lang=ko/en` asserts 28 surfaces per language, including authored silence, ambience continuity, and the 2-billion-before-2.5-billion order.
 
 ## Moral Ambience
 

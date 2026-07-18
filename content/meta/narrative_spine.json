@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "title": "Gangnam Dream",
   "central_question": "민준은 자신과 아버지를 무너뜨린 세계에 들어가면서 그 세계와 같은 사람이 되는가?",
   "player_promise": "1장에서 남긴 선택과 관계가 5장의 마지막 서명까지 형태를 바꾸며 돌아온다.",
@@ -160,6 +160,13 @@
       "reversal": ["arc_34_doors_open", "arc_34_parents_visit", "arc_father_03_hospital"],
       "boss": ["arc_sangchul_mirror", "arc_career_ceiling", "arc_father_04_visit"],
       "aftermath": ["arc_34_two_years_in", "arc_year2_close", "arc_year_two_pressure", "chapter_card_35"],
+      "temporal_spines": [
+        {
+          "id": "second_year_becomes_home",
+          "events": ["arc_year_one_mark", "arc_year_one_half", "arc_34_two_years_in"],
+          "payoff": "서울에서 버틴 시간을 숫자로 세다가, 어느 방에 살든 몸에 밴 도시의 습관이 두 번째 해의 집이 되었음을 깨닫는다."
+        }
+      ],
       "handoff": "상철이 닮았다고 부른 얼굴, 월급의 천장, 열지 못할 수도 있는 병실 문이 3장의 진실을 같은 질문으로 넘긴다."
     },
     {
@@ -210,6 +217,23 @@
       "reversal": ["arc_36_father_comes_to_seoul", "arc_father_call_on_ktx"],
       "boss": ["arc_father_passing"],
       "aftermath": ["arc_36_night_doubt", "arc_year4_close", "chapter_card_37"],
+      "temporal_spines": [
+        {
+          "id": "wealth_without_witness",
+          "events": ["arc_almost_there", "arc_1b_isolation", "arc_final_stretch"],
+          "payoff": "10억 돌파의 흥분이 함께 말할 사람 없는 고독으로 식고, 20억 앞에서도 숫자만 커졌는지 묻게 한다."
+        },
+        {
+          "id": "body_keeps_the_ledger",
+          "events": ["arc_36_body_signal", "arc_year_three_half", "arc_36_night_doubt"],
+          "payoff": "지하철에서 먼저 울린 몸의 경고가 6주 뒤 계획표에, 다시 8주 뒤 목표 자체를 의심하는 새벽에 돌아온다."
+        },
+        {
+          "id": "the_last_year_has_a_price",
+          "events": ["arc_year4_close", "arc_37_reckoning", "arc_final_year_start"],
+          "payoff": "36세의 마지막 밤에 본 자기 모습을 5주 뒤 장부로 정산한 뒤에야 마지막 1년의 패를 고르게 한다."
+        }
+      ],
       "handoff": "청구서를 대신 받아 줄 사람은 없었다. 남은 1년, 민준은 자기 이름으로 무엇을 담보 잡을지 결정해야 한다."
     },
     {

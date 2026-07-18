@@ -34,15 +34,25 @@ CHAPTER_RATCHETS = {
         "stops_max": 29,
         "thread_switches_max": 25,
     },
-    2: {"chained_min": 4, "peak_roots_min": 2, "isolated_micro_max": 2},
+    2: {
+        "chained_min": 4,
+        "peak_roots_min": 2,
+        "temporal_roots_min": 1,
+        "isolated_micro_max": 0,
+    },
     3: {
         "chained_min": 2,
         "peak_roots_min": 2,
         "temporal_roots_min": 9,
         "isolated_micro_max": 2,
     },
-    4: {"chained_min": 3, "peak_roots_min": 2, "isolated_micro_max": 5},
-    5: {"chained_min": 2, "peak_roots_min": 1, "isolated_micro_max": 1},
+    4: {
+        "chained_min": 3,
+        "peak_roots_min": 2,
+        "temporal_roots_min": 3,
+        "isolated_micro_max": 0,
+    },
+    5: {"chained_min": 2, "peak_roots_min": 1, "isolated_micro_max": 0},
 }
 
 

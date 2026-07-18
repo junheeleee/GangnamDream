@@ -123,6 +123,7 @@ const QA_SCOPE_FATHER_KTX := "father_ktx"
 const QA_SCOPE_CHAPTER1_SPINE := "chapter1_spine"
 const QA_SCOPE_CHAPTER2_PEAKS := "chapter2_peaks"
 const QA_SCOPE_CHAPTER3_SPINE := "chapter3_spine"
+const QA_SCOPE_LATE_CHAPTER_SPINES := "late_chapter_spines"
 const QA_SCOPE_FIRST_KISS := "first_kiss"
 const QA_SCOPE_DAEUN_FIRST_NIGHT := "daeun_first_night"
 const QA_SCOPE_SEASON_PEAKS := "season_peaks"
@@ -501,6 +502,16 @@ func _ready() -> void:
 			get_tree().quit(1)
 			return
 		print("SCREENSHOT_QA_DONE scope=chapter3-spine lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_LATE_CHAPTER_SPINES:
+		var lang := _qa_language("en")
+		await _shot_late_chapter_spine_surfaces(
+				lang, "late_spines_en_" if lang == "en" else "late_spines_ko_")
+		if _qa_failed:
+			get_tree().quit(1)
+			return
+		print("SCREENSHOT_QA_DONE scope=late-chapter-spines lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_FIRST_KISS:
@@ -896,6 +907,11 @@ func _qa_scope() -> String:
 				"--qa=chapter3-spine", "qa=chapter3_spine", "--qa=chapter3_spine",
 				"scope=chapter3-spine", "--scope=chapter3-spine"]:
 			return QA_SCOPE_CHAPTER3_SPINE
+		if arg in ["late-chapter-spines", "late_chapter_spines", "late-spines",
+				"--late-chapter-spines", "--late_chapter_spines", "qa=late-chapter-spines",
+				"--qa=late-chapter-spines", "qa=late_chapter_spines", "--qa=late_chapter_spines",
+				"scope=late-chapter-spines", "--scope=late-chapter-spines"]:
+			return QA_SCOPE_LATE_CHAPTER_SPINES
 		if arg in ["first-kiss", "first_kiss", "romance-kiss", "romance_kiss",
 				"--first-kiss", "--first_kiss", "qa=first-kiss", "--qa=first-kiss",
 				"qa=first_kiss", "--qa=first_kiss", "scope=first-kiss", "--scope=first-kiss"]:
@@ -1415,7 +1431,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 		"kx_seollal_sebae": "room",
 		"arc_year2_close": "street",
 		"arc_year3_close": "hangang",
-		"arc_year4_close": "street",
+		"arc_year4_close": "winter",
 		"arc_sangchul_03_network": "cafe",
 		"arc_daeun_03_fork": "convenience",
 		"arc_father_medication": "office",
@@ -1468,6 +1484,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	_assert_chapter1_spine_state(story, event_id)
 	_assert_chapter2_visual_state(story, event_id, select_choice)
 	_assert_chapter3_spine_state(story, event_id)
+	_assert_late_chapter_spine_state(story, event_id, select_choice)
 	if _qa_scope() == QA_SCOPE_TEXT_MATERIAL:
 		_assert_story_text_material(story)
 	await _save(shot_name)
@@ -5867,6 +5884,232 @@ func _assert_chapter3_spine_state(story: Node, event_id: String) -> void:
 				or not is_instance_valid(badge) or not badge.visible \
 				or not is_instance_valid(badge_label) or badge_label.text != expected_badge:
 			_fail("%s lost its remote/local communication presentation contract." % event_id)
+
+func _shot_late_chapter_spine_surfaces(
+		lang: String = "en", prefix: String = "late_spines_en_") -> void:
+	_set_qa_language(lang)
+	var event_cases: Array = [
+		["arc_year_one_half", "01_year_one_half", -1, 0],
+		["arc_34_two_years_in", "02_second_year_end", -1, 0],
+		["arc_almost_there", "03_ten_billion", -1, 0],
+		["arc_1b_isolation", "04_isolation", -1, 0],
+		["arc_1b_isolation", "05_father_memory_result", 1, 1],
+		["arc_36_body_signal", "06_body_signal", -1, 0],
+		["arc_year_three_half", "07_year_three_half", -1, 0],
+		["arc_36_night_doubt", "08_night_doubt", -1, 0],
+		["arc_year4_close", "09_year_four_close", -1, 0],
+		["arc_37_reckoning", "10_reckoning", -1, 0],
+		["arc_final_year_start", "11_final_year", -1, 0],
+		["arc_final_stretch", "12_twenty_billion", -1, 0],
+		["arc_gangnam_real_estate", "13_twenty_five_billion", -1, 0],
+		["arc_gangnam_real_estate", "14_home_shape_result", 2, 2],
+		["arc_first_real_win", "15_first_real_win", -1, 0],
+		["arc_father_quiet_call", "16_father_phone", -1, 0],
+		["arc_money_loneliness", "17_money_loneliness", -1, 0],
+		["arc_after_scam", "18_after_scam", -1, 0],
+		["arc_four_months_in", "19_hangang_threshold", -1, 0],
+		["arc_year_two_pressure", "20_year_two_pressure", -1, 0],
+		["arc_34_routine_trap", "21_routine_trap", -1, 0],
+		["arc_35_birthday", "22_birthday", -1, 0],
+		["arc_35_habit_check", "23_habit_check", -1, 0],
+		["arc_36_reality_check", "24_reality_check", -1, 0],
+		["arc_37_burn_or_light", "25_burn_or_light", -1, 0],
+		["arc_endgame_sixmonths", "26_final_six_months", -1, 0],
+		["arc_year1_close", "27_year_one_close", -1, 0],
+		["arc_late_game_push", "29_late_game_push", -1, 0],
+	]
+	for event_case in event_cases:
+		_prepare_late_chapter_spine_qa_state()
+		if str(event_case[0]) == "arc_1b_isolation" and int(event_case[2]) == 1:
+			GameState.flags["father_passed"] = true
+		await _shot_story_event(
+				str(event_case[0]), prefix + str(event_case[1]), "", 0.45,
+				true, true, int(event_case[2]), 0, false, int(event_case[3]))
+
+func _prepare_late_chapter_spine_qa_state() -> void:
+	_prepare_main_game_state()
+	GameState.turn = 193
+	GameState.age = 37
+	GameState.year = 2030
+	GameState.month = 1
+	GameState.week_of_month = 2
+	GameState.housing = "oneroom"
+	GameState.money = 2_500_000_000.0
+	GameState.mental = 52
+	GameState.moral_tint = 0.0
+	GameState.flags.erase("father_passed")
+
+func _assert_late_chapter_spine_state(
+		story: Node, event_id: String, selected_choice: int) -> void:
+	if _qa_scope() != QA_SCOPE_LATE_CHAPTER_SPINES:
+		return
+	var current_housing_events := [
+		"arc_34_two_years_in", "arc_almost_there", "arc_1b_isolation",
+		"arc_year_three_half", "arc_36_night_doubt", "arc_37_reckoning",
+		"arc_final_year_start", "arc_first_real_win", "arc_father_quiet_call",
+		"arc_money_loneliness", "arc_after_scam", "arc_year_two_pressure",
+		"arc_34_routine_trap", "arc_35_birthday", "arc_35_habit_check",
+		"arc_36_reality_check", "arc_37_burn_or_light", "arc_endgame_sixmonths",
+		"arc_year1_close", "arc_year1_scene", "arc_late_game_push",
+	]
+	var expected_backgrounds := {
+		"arc_year_one_half": "convenience_night",
+		"arc_36_body_signal": "subway",
+		"arc_year4_close": "year4_winter_rooftop",
+		"arc_final_stretch": "gangnam_night",
+		"arc_gangnam_real_estate": "investment_phone",
+		"arc_four_months_in": "hangang_riverside",
+	}
+	if event_id in current_housing_events:
+		expected_backgrounds[event_id] = ImageRegistry.infer_background_id({}, GameState.housing)
+	if not expected_backgrounds.has(event_id):
+		return
+	var expected_background := str(expected_backgrounds[event_id])
+	var actual_background := str(story.get("_event_background_id"))
+	if actual_background != expected_background:
+		_fail("%s background expected %s, got %s." % [
+			event_id, expected_background, actual_background])
+		return
+	var bg_img := story.get("_bg_img") as TextureRect
+	var actual_path := bg_img.texture.resource_path \
+			if is_instance_valid(bg_img) and bg_img.texture != null else ""
+	var expected_path := ImageRegistry.get_background(expected_background)
+	if actual_path != expected_path:
+		_fail("%s background texture expected %s, got %s." % [
+			event_id, expected_path, actual_path])
+
+	var expected_ambiences := {
+		"arc_year_one_half": "convenience",
+		"arc_34_two_years_in": "oneroom",
+		"arc_almost_there": "oneroom",
+		"arc_1b_isolation": "oneroom",
+		"arc_36_body_signal": "subway",
+		"arc_year_three_half": "oneroom",
+		"arc_36_night_doubt": "oneroom",
+		"arc_year4_close": "winter",
+		"arc_37_reckoning": "oneroom",
+		"arc_final_year_start": "oneroom",
+		"arc_final_stretch": "street",
+		"arc_gangnam_real_estate": "oneroom",
+		"arc_first_real_win": "oneroom",
+		"arc_father_quiet_call": "oneroom",
+		"arc_money_loneliness": "oneroom",
+		"arc_after_scam": "oneroom",
+		"arc_four_months_in": "hangang",
+		"arc_year_two_pressure": "oneroom",
+		"arc_34_routine_trap": "oneroom",
+		"arc_35_birthday": "oneroom",
+		"arc_35_habit_check": "oneroom",
+		"arc_36_reality_check": "oneroom",
+		"arc_37_burn_or_light": "oneroom",
+		"arc_endgame_sixmonths": "oneroom",
+		"arc_year1_close": "oneroom",
+		"arc_year1_scene": "oneroom",
+		"arc_late_game_push": "oneroom",
+	}
+	var expected_ambience := str(expected_ambiences[event_id])
+	if str(BGMPlayer._current_ambience_key) != expected_ambience:
+		_fail("%s ambience expected %s, got %s." % [
+			event_id, expected_ambience, BGMPlayer._current_ambience_key])
+
+	var expected_music := {
+		"arc_almost_there": "reckoning",
+		"arc_1b_isolation": "reckoning",
+		"arc_year_three_half": "reckoning",
+		"arc_36_night_doubt": "reckoning",
+		"arc_year4_close": "reckoning",
+		"arc_37_reckoning": "reckoning",
+		"arc_final_year_start": "reckoning",
+		"arc_final_stretch": "wonder",
+		"arc_gangnam_real_estate": "reckoning",
+	}
+	var suppressed_music := [
+		"arc_year_one_half", "arc_34_two_years_in", "arc_36_body_signal",
+		"arc_first_real_win", "arc_father_quiet_call", "arc_money_loneliness",
+		"arc_after_scam", "arc_four_months_in", "arc_year_two_pressure",
+		"arc_34_routine_trap", "arc_35_birthday", "arc_35_habit_check",
+		"arc_36_reality_check", "arc_37_burn_or_light", "arc_endgame_sixmonths",
+		"arc_year1_close", "arc_year1_scene", "arc_late_game_push",
+	]
+	if expected_music.has(event_id):
+		var expected_key := str(expected_music[event_id])
+		if BGMPlayer._current_key != expected_key \
+				or not (BGMPlayer._player_a.playing or BGMPlayer._player_b.playing):
+			_fail("%s score expected %s at the choice beat, got %s." % [
+				event_id, expected_key, BGMPlayer._current_key])
+	elif event_id in suppressed_music:
+		if BGMPlayer._music_mode != "ambient" or not BGMPlayer._current_key.is_empty() \
+				or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+			_fail("%s should reach its choice beat on ambience alone." % event_id)
+
+	var expected_portraits := {
+		"arc_year_one_half": "player_tired",
+		"arc_34_two_years_in": "player_tired",
+		"arc_almost_there": "player_normal",
+		"arc_1b_isolation": "player_normal",
+		"arc_36_body_signal": "player_tired",
+		"arc_year_three_half": "player_determined",
+		"arc_36_night_doubt": "player_tired",
+		"arc_year4_close": "player_cold_snap",
+		"arc_37_reckoning": "player_determined",
+		"arc_final_year_start": "player_determined",
+		"arc_final_stretch": "player_normal",
+		"arc_gangnam_real_estate": "player_normal",
+		"arc_first_real_win": "player_happy",
+		"arc_father_quiet_call": "father_home",
+		"arc_money_loneliness": "player_normal",
+		"arc_after_scam": "player_tired",
+		"arc_four_months_in": "player_tired",
+		"arc_year_two_pressure": "player_normal",
+		"arc_34_routine_trap": "player_normal",
+		"arc_35_birthday": "player_tired",
+		"arc_35_habit_check": "player_normal",
+		"arc_36_reality_check": "player_tired",
+		"arc_37_burn_or_light": "player_tired",
+		"arc_endgame_sixmonths": "player_determined",
+		"arc_year1_close": "player_offduty_neutral",
+		"arc_year1_scene": "player_offduty_neutral",
+		"arc_late_game_push": "player_tired",
+	}
+	var portrait := story.get("_portrait") as TextureRect
+	var actual_portrait_path := ""
+	if is_instance_valid(portrait) and portrait.texture != null:
+		actual_portrait_path = portrait.texture.resource_path
+	var expected_portrait_path := ImageRegistry.get_portrait(str(expected_portraits[event_id]))
+	if actual_portrait_path != expected_portrait_path:
+		_fail("%s portrait expected %s, got %s." % [
+			event_id, expected_portrait_path, actual_portrait_path])
+
+	var badge := story.get("_communication_badge") as Control
+	if event_id == "arc_father_quiet_call":
+		var presentation: Dictionary = story.get("_current_presentation")
+		var badge_label := story.get("_communication_label") as Label
+		var expected_badge := "VOICE CALL" if LocaleManager.is_english() else "통화 중"
+		if str(presentation.get("channel", "")) != "phone" \
+				or str(presentation.get("scene_location", "")) != "current_housing" \
+				or str(presentation.get("remote_actor", "")) != "father" \
+				or not bool(story.get("_portrait_remote_inset")) \
+				or not is_instance_valid(badge) or not badge.visible \
+				or not is_instance_valid(badge_label) or badge_label.text != expected_badge:
+			_fail("Father's quiet call lost its remote phone presentation contract.")
+	elif is_instance_valid(badge) and badge.visible:
+		_fail("%s incorrectly presented an internal scene as a live call or message." % event_id)
+	if event_id == "arc_1b_isolation" and selected_choice == 1:
+		var result_text := ""
+		for paragraph in story.get("_paragraphs"):
+			result_text += str(paragraph) + "\n"
+		var required_memory_word := "photograph" if LocaleManager.is_english() else "사진"
+		if required_memory_word not in result_text:
+			_fail("Isolation father memory did not remain valid after Father's death.")
+	if event_id == "arc_gangnam_real_estate" and selected_choice == 2:
+		var result_text := ""
+		for paragraph in story.get("_paragraphs"):
+			result_text += str(paragraph) + "\n"
+		var required_home_word := "home" if LocaleManager.is_english() else "집"
+		if required_home_word not in result_text or story.get("_paragraphs").size() < 3:
+			_fail("Gangnam real-estate result did not expand the number into a lived home.")
+	if LocaleManager.is_english() and _contains_hangul(_collect_control_text(story)):
+		_fail("%s leaked Hangul in the English late-chapter spine." % event_id)
 
 func _shot_father_peak_surfaces(lang: String = "en", prefix: String = "father_peaks_en_") -> void:
 	_set_qa_language(lang)

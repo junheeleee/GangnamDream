@@ -51,7 +51,7 @@
     ]
   },
   "coverage_targets": {
-    "minimum_ledger_events": 62,
+    "minimum_ledger_events": 114,
     "max_unclassified_communication_suspects": 0,
     "demo_logic": [
       "arc_intro_02_dad_call",
@@ -395,6 +395,11 @@
       "to_location": "current_housing",
       "arrival_cue_ko": "마지막 상자를 열었다",
       "arrival_cue_en": "The last box came open"
+    },
+    "arc_37_reckoning->arc_final_year_start": {
+      "mode": "same_location",
+      "from_location": "current_housing",
+      "to_location": "current_housing"
     }
   },
   "events": {

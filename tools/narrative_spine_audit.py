@@ -66,6 +66,11 @@ CHAPTER_TEMPORAL_REQUIRED = {
         "arc_hyunsu_drift",
         "arc_hyunsu_new_path",
     },
+    2: {
+        "arc_year_one_mark",
+        "arc_year_one_half",
+        "arc_34_two_years_in",
+    },
     3: {
         "arc_jiyeon_year3",
         "arc_y3_jiyeon_departure",
@@ -77,9 +82,30 @@ CHAPTER_TEMPORAL_REQUIRED = {
         "arc_goal_vertigo",
         "arc_35_habit_check",
     },
+    4: {
+        "arc_almost_there",
+        "arc_1b_isolation",
+        "arc_final_stretch",
+        "arc_36_body_signal",
+        "arc_year_three_half",
+        "arc_36_night_doubt",
+        "arc_year4_close",
+        "arc_37_reckoning",
+        "arc_final_year_start",
+    },
 }
 
-CHAPTER_TEMPORAL_COUNTS = {1: 2, 3: 4}
+CHAPTER_TEMPORAL_COUNTS = {1: 2, 2: 1, 3: 4, 4: 3}
+REQUIRED_DEFERRED_EDGES = {
+    ("arc_year_one_half", "arc_34_two_years_in"): 18,
+    ("arc_almost_there", "arc_1b_isolation"): 4,
+    ("arc_36_body_signal", "arc_year_three_half"): 6,
+    ("arc_year_three_half", "arc_36_night_doubt"): 8,
+    ("arc_year4_close", "arc_37_reckoning"): 5,
+}
+REQUIRED_IMMEDIATE_EDGES = {
+    ("arc_37_reckoning", "arc_final_year_start"),
+}
 
 
 def load_json(path: str) -> Any:
@@ -97,6 +123,18 @@ def load_event_ids(directory: str) -> set[str]:
             if isinstance(event, dict) and event.get("id"):
                 event_ids.add(str(event["id"]))
     return event_ids
+
+
+def load_event_map(directory: str) -> dict[str, dict[str, Any]]:
+    events: dict[str, dict[str, Any]] = {}
+    for path in sorted(glob.glob(os.path.join(directory, "*.json"))):
+        data = load_json(path)
+        if not isinstance(data, list):
+            continue
+        for event in data:
+            if isinstance(event, dict) and event.get("id"):
+                events[str(event["id"])] = event
+    return events
 
 
 def fail(errors: list[str], message: str) -> None:
@@ -125,6 +163,7 @@ def main() -> int:
     spine = load_json(SPINE_PATH)
     ko_ids = load_event_ids(EVENTS_KO)
     en_ids = load_event_ids(EVENTS_EN)
+    ko_events = load_event_map(EVENTS_KO)
     if not isinstance(spine, dict):
         print("NARRATIVE_SPINE_AUDIT_ERROR root must be an object")
         return 1
@@ -275,6 +314,24 @@ def main() -> int:
                 )
     if expected_start != 241:
         fail(errors, f"chapter windows must end at week 240, got {expected_start - 1}")
+
+    for (source, target), delay in REQUIRED_DEFERRED_EDGES.items():
+        choices = ko_events.get(source, {}).get("choices", [])
+        if not choices or any(
+            str(choice.get("deferred_follow_up", "")) != target
+            or int(choice.get("deferred_delay", 0)) != delay
+            for choice in choices
+            if isinstance(choice, dict)
+        ):
+            fail(errors, f"temporal edge drift: {source} -{delay}w-> {target}")
+    for source, target in REQUIRED_IMMEDIATE_EDGES:
+        choices = ko_events.get(source, {}).get("choices", [])
+        if not choices or any(
+            str(choice.get("follow_up_event", "")) != target
+            for choice in choices
+            if isinstance(choice, dict)
+        ):
+            fail(errors, f"immediate edge drift: {source} -> {target}")
 
     motifs = spine.get("motifs", [])
     if not isinstance(motifs, list) or len(motifs) < 5:

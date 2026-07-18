@@ -313,7 +313,7 @@
   {
     "id": "arc_first_real_win",
     "title": "오천만원",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "player_happy",
     "category": "story",
     "rarity": "story",
@@ -576,7 +576,7 @@
   {
     "id": "arc_father_quiet_call",
     "title": "일요일 저녁",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "father_home",
     "category": "story",
     "rarity": "story",
@@ -642,7 +642,7 @@
   {
     "id": "arc_late_game_push",
     "title": "남은 시간",
-    "background": "late_night",
+    "background": "current_housing",
     "portrait": "player_tired",
     "category": "story",
     "rarity": "story",
@@ -1070,7 +1070,7 @@
   {
     "id": "arc_money_loneliness",
     "title": "공유할 수 없는 숫자",
-    "background": "late_night",
+    "background": "current_housing",
     "portrait": "player_normal",
     "category": "story",
     "rarity": "story",
@@ -1263,7 +1263,7 @@
   {
     "id": "arc_almost_there",
     "title": "10억을 넘긴 날",
-    "background": "late_night",
+    "background": "current_housing",
     "portrait": "player_normal",
     "category": "story",
     "rarity": "story",
@@ -1290,7 +1290,9 @@
           "arc_almost_there_seen",
           "double_down_at_10b"
         ],
-        "result_text": "잠을 못 잤다. 계획표를 다시 짰다. 가속이 필요하다. 돈이 돈을 만드는 구간. 이걸 놓치면 안 된다."
+        "result_text": "잠을 못 잤다. 계획표를 다시 짰다. 가속이 필요하다. 돈이 돈을 만드는 구간. 이걸 놓치면 안 된다.",
+        "deferred_follow_up": "arc_1b_isolation",
+        "deferred_delay": 4
       },
       {
         "text": "오늘은 쉬기로 했다",
@@ -1301,7 +1303,9 @@
         "flags": [
           "arc_almost_there_seen"
         ],
-        "result_text": "노트북을 닫았다. 오늘 하루는 그냥 10억짜리 사람으로 살기로 했다. 내일부터 다시 30억을 향해 달리면 된다."
+        "result_text": "노트북을 닫았다. 오늘 하루는 그냥 10억짜리 사람으로 살기로 했다. 내일부터 다시 30억을 향해 달리면 된다.",
+        "deferred_follow_up": "arc_1b_isolation",
+        "deferred_delay": 4
       },
       {
         "text": "30억이 더 멀어 보였다",
@@ -1312,7 +1316,9 @@
           "arc_almost_there_seen",
           "ten_b_anxiety"
         ],
-        "result_text": "10억을 넘기면 더 자유로울 줄 알았다. 근데 30억이 더 선명하게 느껴졌다. 그만큼만 더. 그 \"만큼\"이 산이었다."
+        "result_text": "10억을 넘기면 더 자유로울 줄 알았다. 근데 30억이 더 선명하게 느껴졌다. 그만큼만 더. 그 \"만큼\"이 산이었다.",
+        "deferred_follow_up": "arc_1b_isolation",
+        "deferred_delay": 4
       }
     ],
     "description_if_known": {
@@ -1741,7 +1747,7 @@
   {
     "id": "arc_after_scam",
     "title": "사기 당한 다음 날",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "player_tired",
     "category": "story",
     "rarity": "story",
@@ -2061,7 +2067,7 @@
       "internal"
     ],
     "cooldown": 9999,
-    "description": "부동산 앱을 켰다.\n\n강남구 아파트. 가장 싼 것이 17억. 그 위로는 20억, 25억, 35억.\n\n총자산이 25억이다. 저기서 가장 싼 것은 살 수 있다는 뜻이다. 강남에 입성한다는 게 저 숫자 중에 하나를 누르는 것인지.\n\n그게 맞는 건지 한 번도 제대로 생각해본 적이 없었다.",
+    "description": "부동산 앱을 켰다.\n\n강남구 아파트. 가장 싼 것이 17억. 그 위로는 20억, 25억, 35억.\n\n총자산이 20억을 넘긴 날에는 거리에서 창문만 올려다봤다. 이제 25억이다. 가장 싼 매물은 살 수 있다는 뜻이었다. 강남에 입성한다는 게 저 숫자 중 하나를 누르는 일인지.\n\n매물 사진 아래에는 취득세와 중개보수, 관리비가 작은 글씨로 붙어 있었다. 자산 25억과 집을 사는 사람의 25억은 같은 숫자가 아니었다.\n\n그 차이를 한 번도 제대로 생각해본 적이 없었다.",
     "choices": [
       {
         "text": "17억짜리를 찜했다 — 이게 목표다",
@@ -2072,7 +2078,7 @@
           "arc_gangnam_real_estate_seen",
           "picked_gangnam_target"
         ],
-        "result_text": "지도에서 위치를 찍었다. 2호선역에서 도보 8분. 남향. 33평. 이게 되면 됐다. 목표가 생겼다."
+        "result_text": "지도에서 위치를 찍었다. 2호선역에서 도보 8분. 남향. 33평.\n\n사진 속 거실에는 아무도 없었다. 지금 가진 자산을 현금으로 바꾸고 세금을 내고 나면, 그 빈 거실에 무엇을 놓을 수 있을지 처음 계산했다.\n\n찜 목록에 매물이 하나 남았다. 막연한 강남이 처음으로 주소가 됐다."
       },
       {
         "text": "앱을 닫았다 — 아직 현실이 아니다",
@@ -2082,7 +2088,7 @@
         "flags": [
           "arc_gangnam_real_estate_seen"
         ],
-        "result_text": "너무 구체적으로 보면 무서워진다. 일단 30억을 만들자. 그다음 생각하자. 앱을 껐다."
+        "result_text": "너무 구체적으로 보면 무서워진다. 일단 30억을 만들자. 그다음 생각하자. 앱을 껐다.\n\n검게 변한 화면에 자기 얼굴이 비쳤다. 5년 가까이 숫자를 좇았는데, 그 숫자로 살 하루는 아직 한 번도 그려보지 않았다.\n\n폰을 뒤집어 놓았다. 닫힌 앱 안에서도 매물의 주소는 머릿속에 남았다."
       },
       {
         "text": "25억짜리를 봤다 — 한 번 제대로 가려면",
@@ -2094,14 +2100,14 @@
           "arc_gangnam_real_estate_seen",
           "aimed_higher"
         ],
-        "result_text": "어차피 한 번 가는 거. 제대로 가자. 30억. 그 숫자를 다시 종이에 적었다. 막연한 목표가 손에 잡히는 선이 되는 기분이었다."
+        "result_text": "어차피 한 번 가는 거. 제대로 가자. 25억짜리 매물의 평면도를 확대했다.\n\n방 하나는 아버지가 올라오면 쓸 수 있고, 다른 방은 비워 둘 수도 있었다. 숫자를 세던 손이 처음으로 그 안에서 살 사람을 배치했다.\n\n30억. 종이에 다시 적은 목표액 아래 처음으로 집의 모양이 생겼다."
       }
     ]
   },
   {
     "id": "arc_four_months_in",
     "title": "반년의 문턱",
-    "background": "late_night",
+    "background": "hangang_riverside",
     "portrait": "player_tired",
     "category": "story",
     "rarity": "story",
@@ -2116,7 +2122,7 @@
       "introspection"
     ],
     "cooldown": 9999,
-    "description": "강남에서 돌아오는 길, 한강 다리 위.\n\n서울에 온 지도 반년의 문턱이었다.\n\n통장에 {money}. 목표까지 아직 30억 가까이.\n\n이대로 5년이 지나면 계산이 나오지 않는다. 나오면 안 된다.\n\n다리 아래 강이 흘렀다. 서울은 밤이 되어도 환했다.\n\n조금 전 강남에서 본 빛이 강물 위에서 흔들렸다. {name}은 난간에 기대서 생각했다.\n저 안으로 들어가려는 동안, 나는 무엇을 지나치게 될까.",
+    "description": "강남에서 돌아오는 길, 한강변.\n\n서울에 온 지도 반년의 문턱이었다.\n\n통장에 {money}. 목표까지 아직 30억 가까이.\n\n이대로 5년이 지나면 계산이 나오지 않는다. 나오면 안 된다.\n\n난간 너머로 강이 흘렀다. 서울은 밤이 되어도 환했다.\n\n조금 전 강남에서 본 빛이 강물 위에서 흔들렸다. {name}은 난간에 기대서 생각했다.\n저 안으로 들어가려는 동안, 나는 무엇을 지나치게 될까.",
     "choices": [
       {
         "text": "\"그래도 간다\" — 다시 걷기 시작한다",
@@ -2432,7 +2438,7 @@
         "result_text": "앱을 삭제했다. 처음 며칠은 손이 갔다. 2주가 지나자 집중하는 시간이 길어졌다. 세상이 더 단순해진 느낌."
       }
     ],
-    "background": "late_night",
+    "background": "current_housing",
     "portrait": "player_normal"
   },
   {
@@ -2555,7 +2561,7 @@
         "result_text": "서두르지 않았다. 1년은 길다. 기회는 오는 법이다 — 아직은 그렇게 믿고 싶다."
       }
     ],
-    "background": "gangnam_night",
+    "background": "current_housing",
     "portrait": "player_determined"
   },
   {
@@ -2614,7 +2620,7 @@
         "result_text": "폰을 끄고 창문을 열었다. 서울의 밤바람이 방 안의 데운 공기를 밀어냈다. 멀리 자동차 불빛이 흐르고, 아래 골목에서는 누군가 웃으며 지나갔다.\n\n5년 전 고시원 작은 창으로 보던 벽보다 지금 시야는 넓었다. 강남까지 닿았는지는 아직 모르지만, 같은 높이에 서 있는 사람은 아니었다.\n\n{name}은 한동안 아무것도 계산하지 않았다. 마지막 반년의 첫 순간만큼은 숫자 밖에서 시작됐다."
       }
     ],
-    "background": "gangnam_night",
+    "background": "current_housing",
     "portrait": "player_determined",
     "description_if_known": {
       "final_year_all_in": "남은 시간은 24주. {name}은 강남의 밤을 보며 총자산과 매물 가격을 번갈아 봤다. 부족한 금액은 이제 정확히 알고 있었다.\n\n1년 전, 두렵다고 말하면서도 가진 것을 크게 올렸다. 그 선택의 결과가 지금 잔고의 굴곡으로 남아 있었다. 한번 전부를 걸어본 사람은 안다. 물러나는 일도, 더 미는 일도 똑같이 손을 떨리게 한다.\n\n화면을 끄자 유리에 자기 얼굴이 비쳤다. 마지막 24주는 다시 베팅할 용기보다, 어느 떨림을 따를지 정하는 시간이 됐다.",
@@ -2674,7 +2680,7 @@
   {
     "id": "arc_year_three_half",
     "title": "3년 반",
-    "background": "gangnam_night",
+    "background": "current_housing",
     "portrait": "player_determined",
     "category": "story",
     "rarity": "story",
@@ -2702,7 +2708,9 @@
         "flags": [
           "arc_year_three_half_seen"
         ],
-        "result_text": "마지막 스퍼트다. 여기서 멈추면 안 된다. 민준은 계획을 다시 짰다."
+        "result_text": "마지막 스퍼트다. 여기서 멈추면 안 된다. 민준은 계획을 다시 짰다.",
+        "deferred_follow_up": "arc_36_night_doubt",
+        "deferred_delay": 8
       },
       {
         "text": "강남은 집이 아니라 자세의 문제일지도 모른다",
@@ -2713,7 +2721,9 @@
         "flags": [
           "arc_year_three_half_seen"
         ],
-        "result_text": "강남은 집이 아니라 자세의 문제일지도 모른다는 생각이 처음으로 들었다. 도달하든 못하든 — 이 선택들은 민준의 것이었다."
+        "result_text": "강남은 집이 아니라 자세의 문제일지도 모른다는 생각이 처음으로 들었다. 도달하든 못하든 — 이 선택들은 민준의 것이었다.",
+        "deferred_follow_up": "arc_36_night_doubt",
+        "deferred_delay": 8
       }
     ],
     "description_if_known": {
@@ -2740,7 +2750,7 @@
       "milestone"
     ],
     "cooldown": 9999,
-    "description": "민준이 서울에 온 지 1년 반이 지났다.\n\n33세에 통장 50만원으로 시작했다. 지금은 34세다.\n\n편의점에서 캔커피를 뽑다가 문득 — 아직도 여기 있네, 생각했다. 강남은 아직 멀었다. 근데 고시원에서 나온 건 맞다. 그것만큼은 맞다.\n\n1년 반이라는 숫자가 이상하게 무겁게 느껴졌다.",
+    "description": "민준이 서울에 온 지 1년 반이 지났다.\n\n33세에 통장 50만원으로 시작했다. 지금은 34세다.\n\n편의점에서 캔커피를 뽑다가 문득 — 아직도 서울에 있네, 생각했다. 강남은 아직 멀었다. 사는 방이 달라졌든 그대로든, 첫날과는 다른 생활의 감각이 몸에 남아 있었다.\n\n1년 반이라는 숫자가 이상하게 무겁게 느껴졌다.",
     "choices": [
       {
         "text": "캔커피를 들고 계단에 앉았다. 방향은 보였다",
@@ -2751,7 +2761,9 @@
         "flags": [
           "arc_year_one_half_seen"
         ],
-        "result_text": "고시원보다 나은 방. 첫 달보다 나은 통장. 1년 반 전의 민준이 지금을 봤다면 — 절반은 안도했을 것이다."
+        "result_text": "처음보다 익숙해진 방. 첫 달보다 나은 통장. 1년 반 전의 민준이 지금을 봤다면 — 절반은 안도했을 것이다.",
+        "deferred_follow_up": "arc_34_two_years_in",
+        "deferred_delay": 18
       },
       {
         "text": "캔커피를 한 모금 마셨다. 페이스를 바꿔야 한다",
@@ -2762,7 +2774,9 @@
         "flags": [
           "arc_year_one_half_seen"
         ],
-        "result_text": "냉정했다. 지금 페이스로는 안 된다는 걸 안다. 뭔가 한 번은 크게 틀어야 한다. 방식을 바꿔야 한다. 지금 당장은 몰라도."
+        "result_text": "냉정했다. 지금 페이스로는 안 된다는 걸 안다. 뭔가 한 번은 크게 틀어야 한다. 방식을 바꿔야 한다. 지금 당장은 몰라도.",
+        "deferred_follow_up": "arc_34_two_years_in",
+        "deferred_delay": 18
       },
       {
         "text": "그냥 캔커피를 마셨다. 생각하기 싫은 날이었다",
@@ -2772,14 +2786,16 @@
         "flags": [
           "arc_year_one_half_seen"
         ],
-        "result_text": "차갑고 달았다. 편의점 불빛이 밝았다. 그걸로 충분한 날이었다."
+        "result_text": "차갑고 달았다. 편의점 불빛이 밝았다. 그걸로 충분한 날이었다.",
+        "deferred_follow_up": "arc_34_two_years_in",
+        "deferred_delay": 18
       }
     ]
   },
   {
     "id": "arc_35_birthday",
     "title": "서른다섯",
-    "background": "late_night",
+    "background": "current_housing",
     "portrait": "player_tired",
     "category": "story",
     "rarity": "story",
@@ -2898,7 +2914,7 @@
   {
     "id": "arc_35_habit_check",
     "title": "이게 내 루틴이다",
-    "background": "late_night",
+    "background": "current_housing",
     "portrait": "player_normal",
     "category": "story",
     "rarity": "story",
@@ -2962,7 +2978,7 @@
   {
     "id": "arc_36_reality_check",
     "title": "3년의 계산",
-    "background": "late_night",
+    "background": "current_housing",
     "portrait": "player_tired",
     "category": "story",
     "rarity": "story",
@@ -3024,7 +3040,7 @@
   {
     "id": "arc_36_body_signal",
     "title": "몸이 말한다",
-    "background": "goshiwon_hallway",
+    "background": "subway",
     "portrait": "player_tired",
     "category": "story",
     "rarity": "story",
@@ -3039,7 +3055,7 @@
       "health"
     ],
     "cooldown": 9999,
-    "description": "계단을 오르다 숨이 찼다.\n\n전에는 없던 일이다. 3층도 아니고 2층이었다.\n\n돌이켜보면 — 식사는 편의점. 수면은 새벽 2시. 운동은 2년 전에 멈췄다. 36세라는 나이가 그렇게 만든 건지, 아니면 3년의 이 생활이 만든 건지.\n\n몸이 말을 하고 있었다. 처음으로 들리는 것 같았다.",
+    "description": "퇴근길 지하철 문이 닫힌 뒤에도 숨이 가라앉지 않았다.\n\n환승 계단을 올라온 지 두 정거장이 지났는데, 손잡이를 쥔 손바닥은 아직 젖어 있었다. 전에는 없던 일이다.\n\n돌이켜보면 — 식사는 편의점. 수면은 새벽 2시. 운동은 2년 전에 멈췄다. 36세라는 나이가 그렇게 만든 건지, 아니면 3년의 이 생활이 만든 건지.\n\n검은 창에 비친 얼굴이 숨을 고르고 있었다. 몸이 말을 하고 있었다. 처음으로 들리는 것 같았다.",
     "choices": [
       {
         "text": "병원에 갔다. 뭔가 알아야 한다",
@@ -3052,7 +3068,9 @@
           "arc_36_body_signal_seen",
           "went_to_hospital"
         ],
-        "result_text": "건강검진 결과가 나왔다. 특별한 이상은 없었다. 의사가 \"운동 좀 하세요\"라고 했다. 그 말이 이상하게 무거웠다."
+        "result_text": "건강검진 결과가 나왔다. 특별한 이상은 없었다. 의사가 \"운동 좀 하세요\"라고 했다. 그 말이 이상하게 무거웠다.",
+        "deferred_follow_up": "arc_year_three_half",
+        "deferred_delay": 6
       },
       {
         "text": "일단 밥부터 제대로 먹기로 했다",
@@ -3065,7 +3083,9 @@
           "arc_36_body_signal_seen",
           "improved_diet"
         ],
-        "result_text": "편의점 삼각김밥 대신 백반집에 갔다. 따뜻한 국이 있었다. 이게 뭐라고 — 눈이 좀 뜨거워졌다. 이런 걸 한동안 못 먹었다."
+        "result_text": "편의점 삼각김밥 대신 백반집에 갔다. 따뜻한 국이 있었다. 이게 뭐라고 — 눈이 좀 뜨거워졌다. 이런 걸 한동안 못 먹었다.",
+        "deferred_follow_up": "arc_year_three_half",
+        "deferred_delay": 6
       },
       {
         "text": "지금은 멈출 수 없다. 나중에 쉬면 된다",
@@ -3077,19 +3097,21 @@
           "arc_36_body_signal_seen",
           "ignored_body"
         ],
-        "result_text": "커피를 한 잔 더 마셨다. 몸이 뭔가 말하는 것 같았지만 — 지금 할 게 있었다. 나중에 쉬면 된다고, 한 번 더 생각했다."
+        "result_text": "커피를 한 잔 더 마셨다. 몸이 뭔가 말하는 것 같았지만 — 지금 할 게 있었다. 나중에 쉬면 된다고, 한 번 더 생각했다.",
+        "deferred_follow_up": "arc_year_three_half",
+        "deferred_delay": 6
       }
     ],
     "description_if_known": {
-      "changed_routine": "계단을 오르다 숨이 찼다.\n\n전에는 없던 일이다. 3층도 아니고 2층이었다.\n\n돌이켜보면 — 식사는 편의점. 수면은 새벽 2시. 운동은 2년 전에 멈췄다. 36세라는 나이가 그렇게 만든 건지, 아니면 3년의 이 생활이 만든 건지.\n\n몸이 말을 하고 있었다. 처음으로 들리는 것 같았다.\n\n작년에 루틴을 바꿨었다. 몸이 그 변화를 기억하고 있다.\n지금 몸이 보내는 신호는 — 그 다음 장을 요구하는 신호다.",
-      "maintained_routine": "계단을 오르다 숨이 찼다.\n\n전에는 없던 일이다. 3층도 아니고 2층이었다.\n\n돌이켜보면 — 식사는 편의점. 수면은 새벽 2시. 운동은 2년 전에 멈췄다. 36세라는 나이가 그렇게 만든 건지, 아니면 3년의 이 생활이 만든 건지.\n\n몸이 말을 하고 있었다. 처음으로 들리는 것 같았다.\n\n작년에도 루틴을 유지했었다. 몸은 정직하게 그 시간을 쌓았다.\n그런데도 신호가 온다. 유지만으로 안 되는 구간이 있다는 뜻이다.",
-      "restarted_exercise": "계단을 오르다 숨이 찼다.\n\n전에는 없던 일이다. 3층도 아니고 2층이었다.\n\n돌이켜보면 — 식사는 편의점. 수면은 새벽 2시. 운동은 2년 전에 멈췄다. 36세라는 나이가 그렇게 만든 건지, 아니면 3년의 이 생활이 만든 건지.\n\n몸이 말을 하고 있었다. 처음으로 들리는 것 같았다.\n\n작년에 운동을 다시 시작했었다.\n그 결정이 아니었으면 이 신호는 더 일찍, 더 크게 왔을 것이다. 몸은 빚을 기억하지만 — 갚은 것도 기억한다."
+      "changed_routine": "퇴근길 지하철 문이 닫힌 뒤에도 숨이 가라앉지 않았다.\n\n환승 계단을 올라온 지 두 정거장이 지났는데, 손잡이를 쥔 손바닥은 아직 젖어 있었다. 전에는 없던 일이다.\n\n돌이켜보면 — 식사는 편의점. 수면은 새벽 2시. 운동은 2년 전에 멈췄다. 36세라는 나이가 그렇게 만든 건지, 아니면 3년의 이 생활이 만든 건지.\n\n검은 창에 비친 얼굴이 숨을 고르고 있었다. 몸이 말을 하고 있었다.\n\n작년에 루틴을 바꿨었다. 몸이 그 변화를 기억하고 있다. 지금 몸이 보내는 신호는 — 그 다음 장을 요구하는 신호다.",
+      "maintained_routine": "퇴근길 지하철 문이 닫힌 뒤에도 숨이 가라앉지 않았다.\n\n환승 계단을 올라온 지 두 정거장이 지났는데, 손잡이를 쥔 손바닥은 아직 젖어 있었다. 전에는 없던 일이다.\n\n돌이켜보면 — 식사는 편의점. 수면은 새벽 2시. 운동은 2년 전에 멈췄다. 36세라는 나이가 그렇게 만든 건지, 아니면 3년의 이 생활이 만든 건지.\n\n검은 창에 비친 얼굴이 숨을 고르고 있었다. 몸이 말을 하고 있었다.\n\n작년에도 루틴을 유지했었다. 그런데도 신호가 온다. 유지만으로 안 되는 구간이 있다는 뜻이다.",
+      "restarted_exercise": "퇴근길 지하철 문이 닫힌 뒤에도 숨이 가라앉지 않았다.\n\n환승 계단을 올라온 지 두 정거장이 지났는데, 손잡이를 쥔 손바닥은 아직 젖어 있었다. 전에는 없던 일이다.\n\n돌이켜보면 — 식사는 편의점. 수면은 새벽 2시. 운동은 2년 전에 멈췄다. 36세라는 나이가 그렇게 만든 건지, 아니면 3년의 이 생활이 만든 건지.\n\n검은 창에 비친 얼굴이 숨을 고르고 있었다. 몸이 말을 하고 있었다.\n\n작년에 운동을 다시 시작했었다. 그 결정이 아니었으면 이 신호는 더 일찍, 더 크게 왔을 것이다. 몸은 빚을 기억하지만 — 갚은 것도 기억한다."
     }
   },
   {
     "id": "arc_36_night_doubt",
     "title": "새벽 3시",
-    "background": "late_night",
+    "background": "current_housing",
     "portrait": "player_tired",
     "category": "story",
     "rarity": "story",
@@ -3149,7 +3171,7 @@
   {
     "id": "arc_37_reckoning",
     "title": "마지막 정산",
-    "background": "late_night",
+    "background": "current_housing",
     "portrait": "player_determined",
     "category": "story",
     "rarity": "story",
@@ -3218,7 +3240,7 @@
     "id": "arc_37_burn_or_light",
     "direction": {"pace": "beat"},
     "title": "불씨냐 재냐",
-    "background": "late_night",
+    "background": "current_housing",
     "portrait": "player_tired",
     "category": "story",
     "rarity": "story",
@@ -3358,18 +3380,18 @@
   },
   {
     "id": "arc_34_two_years_in",
-    "title": "2년째",
+    "title": "두 번째 해의 끝",
     "category": "story",
     "rarity": "story",
     "weight": 0,
     "hidden": true,
     "portrait": "player_tired",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "conditions": {},
     "cooldown": 9999,
-    "description": "서울에 온 지 2년이 됐다.\n\n지하철 노선을 외웠다. 어느 편의점이 싸고 어느 국밥집이 국물을 많이 주는지 안다.\n고시원 원장 아줌마가 생일에 미역국을 줬다. 받았다. 먹었다.\n\n{name}은 생각했다 — 이제 서울 사람인가.\n\n아닌 것 같기도 했다. 서울은 아직 낯선 도시였다.\n근데 고향도 이제 낯설다.\n그 사이 어딘가에 있는 기분이었다.",
-    "description_orthodox": "서울에 온 지 2년이 됐다.\n\n{name}은 체크리스트를 떠올렸다 — 이 2년 동안 뭘 했나.\n직장. 저축액. 투자 경험. 인맥. 스펙.\n\n부족하다. 아직 부족하다.\n하지만 2년 전의 {name}보다는 나은 위치에 있다. 그건 확실하다.",
-    "description_unorthodox": "서울에 온 지 2년이 됐다.\n\n{name}은 생각했다 — 처음 왔을 때와 지금, 뭐가 달라졌나.\n\n겁이 좀 줄었다. 서울이 그냥 큰 도시라는 걸 알았다.\n큰 도시에는 큰 기회도 있고 큰 함정도 있다.\n아직 큰 기회를 못 잡았지만, 큰 함정도 안 빠졌다.\n지금으로선 그게 성과였다.",
+    "description": "서울에서 두 번째 해가 끝나 가고 있었다.\n\n현관 앞에서 주머니 속 열쇠를 만졌다. 사는 방은 그 사이 달라졌을 수도, 그대로일 수도 있었다. 지하철 노선과 늦게까지 문을 여는 국밥집, 어느 편의점이 싼지는 이제 몸이 먼저 알았다.\n\n1년 반을 세던 밤부터 계절 하나가 더 지났다. {name}은 생각했다 — 이제 서울 사람인가.\n\n아닌 것 같기도 했다. 서울은 여전히 낯설고, 고향도 전처럼 익숙하지 않았다. 그 사이 어딘가가 지금 사는 곳이었다.",
+    "description_orthodox": "서울에서 두 번째 해가 끝나 가고 있었다.\n\n{name}은 체크리스트를 떠올렸다 — 이 시간 동안 뭘 했나. 직장. 저축액. 투자 경험. 인맥. 스펙.\n\n부족하다. 아직 부족하다. 하지만 처음 서울에 왔을 때보다 나은 위치에 있다. 그건 확실했다.",
+    "description_unorthodox": "서울에서 두 번째 해가 끝나 가고 있었다.\n\n{name}은 생각했다 — 처음 왔을 때와 지금, 뭐가 달라졌나.\n\n겁이 좀 줄었다. 서울이 그냥 큰 도시라는 걸 알았다. 큰 도시에는 큰 기회도 있고 큰 함정도 있다. 아직 큰 기회를 못 잡았지만, 큰 함정에도 빠지지 않았다. 지금으로선 그게 성과였다.",
     "choices": [
       {
         "text": "어쨌든 버텼다. 그게 지금은 전부다",
@@ -3453,7 +3475,7 @@
     "weight": 0,
     "hidden": true,
     "portrait": "player_normal",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "conditions": {},
     "cooldown": 9999,
     "description": "어느 날 {name}은 자신이 매일 같은 걸 하고 있다는 걸 깨달았다.\n\n같은 시간에 일어났다. 같은 편의점에서 같은 삼각김밥을 샀다.\n같은 지하철 칸. 같은 자리.\n\n루틴이 생긴 것이었다.\n\n루틴은 좋은 것이다 — 사람들이 말한다.\n근데 {name}은 생각했다 — 이 루틴이 목적지로 가는 루틴인가, 아니면 제자리를 도는 루틴인가.",

@@ -3152,17 +3152,18 @@ func _next_arc_id(
 			and not f.get("arc_daeun_trace_seen", false):
 		return "arc_daeun_trace"
 
-	# ── 강남 집값 — 자산 25억 돌파, 목표가 손에 잡힌다 (턴 50+) ──
-	if t >= 50 \
-			and GameState.get_total_asset_value() >= 2_500_000_000.0 \
-			and not f.get("arc_gangnam_real_estate_seen", false):
-		return "arc_gangnam_real_estate"
-
 	# ── 끝이 보인다 — 자산 20억, 마지막 스퍼트 (턴 47+) ──
 	if t >= 47 \
 			and GameState.get_total_asset_value() >= 2_000_000_000.0 \
 			and not f.get("arc_final_stretch_seen", false):
 		return "arc_final_stretch"
+
+	# ── 강남 집값 — 20억 이정표를 읽은 뒤 25억에서 목표가 구체화된다. ──
+	if t >= 50 \
+			and f.get("arc_final_stretch_seen", false) \
+			and GameState.get_total_asset_value() >= 2_500_000_000.0 \
+			and not f.get("arc_gangnam_real_estate_seen", false):
+		return "arc_gangnam_real_estate"
 
 	# ══ 5구간: 인물 = 결정적 기회 (턴 40+, 30억 경로) ══════
 	if GameState.get_cast_stage("sangchul") == "interested" \
@@ -3266,7 +3267,9 @@ func _next_arc_id(
 	if t >= 77 and t <= 88 and not f.get("arc_34_parents_visit_seen", false):
 		return "arc_34_parents_visit"
 	# ── 34세 서울 2년째 자각 (t89-96) ──
-	if t >= 89 and t <= 100 and not f.get("arc_34_two_years_in_seen", false):
+	if t >= 89 and t <= 100 \
+			and not GameState.has_deferred_event("arc_34_two_years_in") \
+			and not f.get("arc_34_two_years_in_seen", false):
 		return "arc_34_two_years_in"
 
 	if t >= 96 and t <= 115 and not f.get("arc_year_two_pressure_seen", false):
@@ -3322,6 +3325,7 @@ func _next_arc_id(
 	# ── 10억 고독 — 자산 10억 돌파 직후 (Y4 전반) ──
 	if t >= 145 and t <= 185 \
 			and GameState.get_total_asset_value() >= 1_000_000_000.0 \
+			and not GameState.has_deferred_event("arc_1b_isolation") \
 			and not f.get("arc_1b_isolation_seen", false):
 		return "arc_1b_isolation"
 	# ── 36세 몸 신호 (t163-172) ──
@@ -3335,15 +3339,25 @@ func _next_arc_id(
 			and not f.get("arc_36_unexpected_hand_seen", false):
 		return "arc_36_unexpected_hand"
 	# ── 3년 반 마커 — t168-188 공백 구간 앵커 (무조건) ──
-	if t >= 168 and t <= 188 and not f.get("arc_year_three_half_seen", false):
+	if t >= 168 and t <= 188 \
+			and not GameState.has_deferred_event("arc_year_three_half") \
+			and not f.get("arc_year_three_half_seen", false):
 		return "arc_year_three_half"
 	# ── 36세 새벽 의심 (t176-190) ──
-	if t >= 176 and t <= 190 and not f.get("arc_36_night_doubt_seen", false):
+	if t >= 176 and t <= 190 \
+			and not GameState.has_deferred_event("arc_36_night_doubt") \
+			and not f.get("arc_36_night_doubt_seen", false):
 		return "arc_36_night_doubt"
 	# ── 37세 마지막 정산 (t193-208) ──
-	if t >= 193 and t <= 208 and not f.get("arc_37_reckoning_seen", false):
+	if t >= 193 and t <= 208 \
+			and not GameState.has_deferred_event("arc_37_reckoning") \
+			and not f.get("arc_37_reckoning_seen", false):
 		return "arc_37_reckoning"
-	if t >= 192 and t <= 215 and not f.get("arc_final_year_start_seen", false):
+	# 신규 런은 arc_37_reckoning의 즉시 후속이 담당한다. 구세이브에서도
+	# 정산을 읽기 전에 마지막 해 선언이 먼저 나오지 않게 선행조건을 지킨다.
+	if t >= 192 and t <= 215 \
+			and f.get("arc_37_reckoning_seen", false) \
+			and not f.get("arc_final_year_start_seen", false):
 		return "arc_final_year_start"
 	# ── 37세 번아웃 vs 불꽃 (t210-220) ──
 	if t >= 210 and t <= 220 and not f.get("arc_37_burn_or_light_seen", false):

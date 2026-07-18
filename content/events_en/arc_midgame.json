@@ -636,26 +636,26 @@
   {
     "id": "arc_gangnam_real_estate",
     "title": "Gangnam Property Prices",
-    "description": "Opened the real estate app.\n\nGangnam-gu apartments. The cheapest one at 1.7 billion. Then 2 billion, 2.5 billion, 3.5 billion.\n\nTotal assets are 2.5 billion. That means the cheapest one is within reach. Is \"entering Gangnam\" just a matter of tapping one of those numbers?\n\nNever actually thought it through properly until now.",
+    "description": "Opened the real estate app.\n\nGangnam-gu apartments. The cheapest one at 1.7 billion. Then 2 billion, 2.5 billion, 3.5 billion.\n\nThe day his assets passed 2 billion, he had only looked up at lit windows from the street. Now the number was 2.5 billion. The cheapest listing was technically within reach. Was entering Gangnam just a matter of tapping one of those prices?\n\nAcquisition tax, brokerage fees, and monthly maintenance sat below the photographs in smaller type. Having 2.5 billion in assets was not the same as being able to spend 2.5 billion on a home.\n\nHe had never properly considered the difference.",
     "choices": [
       {
         "text": "Bookmarked the 1.7 billion one — this is the target.",
-        "result_text": "Pinned its location on the map. 8-minute walk from Line 2. South-facing. 109 square meters. This will do. Got a target."
+        "result_text": "Pinned it on the map. Eight minutes from Line 2. South-facing. 109 square meters.\n\nNo one stood in the photographed living room. For the first time, he calculated what could go inside it after liquidating assets and paying the taxes.\n\nOne listing remained in his saved folder. Vague Gangnam had become an address."
       },
       {
         "text": "Closed the app — not reality yet.",
-        "result_text": "Looking too closely makes it frightening. Get to 3 billion first. Think then. Closed the app."
+        "result_text": "Looking too closely made it frightening. Reach 3 billion first. Think afterward. He closed the app.\n\nHis face appeared in the black screen. He had spent almost five years chasing the number without once picturing a day lived with it.\n\nHe set the phone face down. The listing's address remained in his head."
       },
       {
         "text": "Looked at the 2.5 billion one — if going once, go right.",
-        "result_text": "If it's going to happen once, do it properly. Three billion won. He wrote the number down again. The vague goal turned into a line he could almost touch."
+        "result_text": "If it was going to happen once, do it properly. He enlarged the floor plan of the 2.5-billion listing.\n\nOne room could be Father's when he came to Seoul. Another could stay empty. The hand that had counted money finally placed people inside the number.\n\nThree billion won. Beneath the target written once more, the shape of a home appeared for the first time."
       }
     ]
   },
   {
     "id": "arc_four_months_in",
     "title": "The Six-Month Threshold",
-    "description": "On the way back from Gangnam, at the Han River bridge.\n\nHe was nearing six months in Seoul.\n\nIn the account: {money}. Still nearly 3 billion won away from the goal.\n\nIf five years go by at this rate, the math doesn't add up. It can't.\n\nThe river flowed below the bridge. Even at night, Seoul was bright.\n\nThe lights he had just seen in Gangnam shook across the water. {name} leaned on the railing and thought.\nWhat will I stop seeing while I try to get inside?",
+    "description": "On the way back from Gangnam, along the Han River.\n\nHe was nearing six months in Seoul.\n\nIn the account: {money}. Still nearly 3 billion won away from the goal.\n\nIf five years go by at this rate, the math doesn't add up. It can't.\n\nThe river moved beyond the railing. Even at night, Seoul was bright.\n\nThe lights he had just seen in Gangnam shook across the water. {name} leaned on the railing and thought.\nWhat will I stop seeing while I try to get inside?",
     "choices": [
       {
         "text": "\"Going anyway.\" — starts walking again",
@@ -877,19 +877,19 @@
   {
     "id": "arc_year_one_half",
     "title": "One and a Half Years",
-    "description": "A year and a half since Minjun came to Seoul.\n\nStarted at 33 with 500,000 won in the account. Now 34.\n\nReaching for a canned coffee at the convenience store, a passing thought — still here, huh. Gangnam is still far. But he'd moved out of the goshiwon. That much was true.\n\nThe number \"a year and a half\" felt strangely heavy.",
+    "description": "A year and a half since Minjun came to Seoul.\n\nHe had started at thirty-three with 500,000 won in the bank. Now he was thirty-four.\n\nReaching for a canned coffee at the convenience store, a thought passed through him: still in Seoul. Gangnam was still far. Whether the room he lived in had changed or not, the city had left a different set of instincts in his body than on the first day.\n\nThe phrase \"a year and a half\" felt strangely heavy.",
     "choices": [
       {
-        "text": "Got his thoughts together. Still far, but the direction is visible.",
-        "result_text": "A better room than the goshiwon. A better account than the first month. If the Minjun from a year and a half ago could see this now — he'd probably feel half-relieved."
+        "text": "Sat on the steps with the coffee. The direction was visible.",
+        "result_text": "A room more familiar than the first one. An account better than the first month. If Minjun from a year and a half ago could see this, half of him would have felt relieved."
       },
       {
-        "text": "Looked at the numbers honestly. At this pace, 3 billion isn't happening.",
-        "result_text": "Was cold about it. Knows that the current pace won't get there. Something has to shift once, big. Need to change the approach. Not necessarily today."
+        "text": "Took a sip. The pace had to change.",
+        "result_text": "He was cold about it. At the current pace, it would not happen. Something would have to shift in a major way. The method had to change, even if not tonight."
       },
       {
         "text": "Just drank the canned coffee. Didn't want to think.",
-        "result_text": "Cold and sweet. The convenience store lights were bright. That was enough for today."
+        "result_text": "Cold and sweet. The convenience store lights were bright. That was enough for one night."
       }
     ]
   },
@@ -977,7 +977,7 @@
   {
     "id": "arc_36_body_signal",
     "title": "The Body Speaks",
-    "description": "Lost breath climbing the stairs.\n\nThat hadn't happened before. And it was only the second floor.\n\nLooking back — meals from convenience stores. Sleep at 2 AM. Exercise stopped two years ago. Is this what thirty-six does, or is it what three years of this life does?\n\nThe body was saying something. For the first time, it was audible.",
+    "description": "His breathing had not settled even after the subway doors closed.\n\nTwo stops had passed since the transfer stairs, and the palm gripping the strap was still wet. That had never happened before.\n\nLooking back: meals from convenience stores. Sleep at 2 a.m. Exercise abandoned two years ago. Was this what thirty-six did, or what three years of this life had done?\n\nIn the dark window, his reflection kept trying to catch its breath. The body was saying something. For the first time, he could hear it.",
     "choices": [
       {
         "text": "Went to the doctor. Need to know.",
@@ -993,9 +993,9 @@
       }
     ],
     "description_if_known": {
-      "changed_routine": "Lost breath climbing the stairs.\n\nThat hadn't happened before. And it was only the second floor.\n\nLooking back — meals from convenience stores. Sleep at 2 AM. Exercise stopped two years ago. Is this what thirty-six does, or is it what three years of this life does?\n\nThe body was saying something. For the first time, it was audible.\n\nHe'd changed the routine last year. The body remembers the change.\nThe signal it sends now is a demand for the next chapter.",
-      "maintained_routine": "Lost breath climbing the stairs.\n\nThat hadn't happened before. And it was only the second floor.\n\nLooking back — meals from convenience stores. Sleep at 2 AM. Exercise stopped two years ago. Is this what thirty-six does, or is it what three years of this life does?\n\nThe body was saying something. For the first time, it was audible.\n\nHe'd maintained the routine last year too. The body banked those hours honestly.\nAnd still the signal comes. Some stretches can't be survived on maintenance alone.",
-      "restarted_exercise": "Lost breath climbing the stairs.\n\nThat hadn't happened before. And it was only the second floor.\n\nLooking back — meals from convenience stores. Sleep at 2 AM. Exercise stopped two years ago. Is this what thirty-six does, or is it what three years of this life does?\n\nThe body was saying something. For the first time, it was audible.\n\nHe'd restarted exercise last year.\nWithout that decision this signal would have come sooner, and louder. The body remembers debts — but it remembers payments too."
+      "changed_routine": "His breathing had not settled even after the subway doors closed.\n\nTwo stops had passed since the transfer stairs, and the palm gripping the strap was still wet. That had never happened before.\n\nLooking back: meals from convenience stores. Sleep at 2 a.m. Exercise abandoned two years ago. Was this what thirty-six did, or what three years of this life had done?\n\nHis reflection kept trying to catch its breath. The body was saying something.\n\nHe had changed the routine last year, and the body remembered. The signal now was asking for the next change.",
+      "maintained_routine": "His breathing had not settled even after the subway doors closed.\n\nTwo stops had passed since the transfer stairs, and the palm gripping the strap was still wet. That had never happened before.\n\nLooking back: meals from convenience stores. Sleep at 2 a.m. Exercise abandoned two years ago. Was this what thirty-six did, or what three years of this life had done?\n\nHis reflection kept trying to catch its breath. The body was saying something.\n\nHe had maintained the routine last year too. And still the signal came. Some stretches could not be survived on maintenance alone.",
+      "restarted_exercise": "His breathing had not settled even after the subway doors closed.\n\nTwo stops had passed since the transfer stairs, and the palm gripping the strap was still wet. That had never happened before.\n\nLooking back: meals from convenience stores. Sleep at 2 a.m. Exercise abandoned two years ago. Was this what thirty-six did, or what three years of this life had done?\n\nHis reflection kept trying to catch its breath. The body was saying something.\n\nHe had restarted exercise last year. Without that decision, this signal would have come sooner and louder. The body remembered debts, but it remembered payments too."
     }
   },
   {
@@ -1138,10 +1138,10 @@
   },
   {
     "id": "arc_34_two_years_in",
-    "title": "Two Years In",
-    "description": "Two years in Seoul.\n\nHe knew the subway lines by heart. Which convenience stores were cheaper. Which gukbap shops stayed open past midnight.\n\nHe'd learned things. But was he closer to the goal?",
-    "description_orthodox": "Two years.\n\nThe track record was real — consistent work, money accumulating. But the gap between where he was and where he needed to be was still enormous.\n\n{name} recalculated. Quietly, without telling anyone.",
-    "description_unorthodox": "Two years.\n\nHe'd taken angles others wouldn't. Some had paid off. Some hadn't.\n\nThe city was starting to feel familiar. Not conquered — familiar.\n\n{name} wasn't sure if that was progress or just adaptation.",
+    "title": "The End of the Second Year",
+    "description": "His second year in Seoul was drawing to a close.\n\nAt the door, he felt for the key in his pocket. The room might have changed since the beginning, or it might not have. His body now knew the subway lines, the cheaper convenience stores, and the gukbap places that stayed open late.\n\nAnother season had passed since the night he counted a year and a half. Was he a Seoulite now?\n\nNot quite. Seoul was still strange, and home was no longer familiar in the old way. Somewhere between them was where he lived.",
+    "description_orthodox": "The second year in Seoul was drawing to a close.\n\nThe record was real: consistent work, money accumulating. But the gap between where he stood and where he needed to be was still enormous.\n\n{name} recalculated, quietly, without telling anyone.",
+    "description_unorthodox": "The second year in Seoul was drawing to a close.\n\nHe had taken angles others would not. Some paid off. Some did not.\n\nThe city was becoming familiar, not conquered.\n\n{name} could not tell whether that was progress or adaptation.",
     "choices": [
       {
         "text": "Double down — the next three years have to count more",

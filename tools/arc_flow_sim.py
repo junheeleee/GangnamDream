@@ -446,11 +446,41 @@ REQUIRED_FLAGS = {
     "A 정석/다은보냄/사기": [
         "arc_sangchul_03_seen", "arc_jiyeon_offer_seen", "arc_father_03_seen",
         "father_visit_deferred", "arc_36_unexpected_hand_seen", "arc_final_week_seen",
+        "arc_final_year_start_seen",
     ],
     "B 비정석/진실/committed": [
         "arc_sangchul_03_seen", "arc_jiyeon_offer_seen", "arc_father_03_seen",
         "visited_father", "arc_36_unexpected_hand_seen", "arc_final_week_seen",
+        "arc_final_year_start_seen",
     ],
+}
+EXPECTED_LATE_TEMPORAL = {
+    "A 정석/다은보냄/사기": {
+        69: "arc_year_one_half",
+        87: "arc_34_two_years_in",
+        151: "arc_almost_there",
+        155: "arc_1b_isolation",
+        163: "arc_36_body_signal",
+        169: "arc_year_three_half",
+        177: "arc_36_night_doubt",
+        188: "arc_year4_close",
+        190: "arc_final_stretch",
+        193: "arc_37_reckoning",
+        210: "arc_gangnam_real_estate",
+    },
+    "B 비정석/진실/committed": {
+        78: "arc_year_one_half",
+        96: "arc_34_two_years_in",
+        152: "arc_almost_there",
+        156: "arc_1b_isolation",
+        163: "arc_36_body_signal",
+        169: "arc_year_three_half",
+        177: "arc_36_night_doubt",
+        188: "arc_year4_close",
+        190: "arc_final_stretch",
+        193: "arc_37_reckoning",
+        215: "arc_gangnam_real_estate",
+    },
 }
 EXPECTED_CHAPTER3 = {
     "A 정석/다은보냄/사기": {
@@ -649,6 +679,21 @@ for name, spine, traj, hook, choice_indices in PATHS:
         print("  ✗ 3장 시간축 회귀:", ", ".join(chapter3_mismatch))
     else:
         print(f"  ✓ 3장 시간축 {len(EXPECTED_CHAPTER3[name])}앵커 고정")
+    late_temporal_mismatch = [
+        f"t{turn}:{firelog.get(turn, 'missing')}!={event_id}"
+        for turn, event_id in EXPECTED_LATE_TEMPORAL[name].items()
+        if firelog.get(turn) != event_id
+    ]
+    if late_temporal_mismatch:
+        fail += 1
+        print("  ✗ 2·4·5장 시간축 회귀:", ", ".join(late_temporal_mismatch))
+    elif fired["arc_final_stretch"] >= fired["arc_gangnam_real_estate"]:
+        fail += 1
+        print("  ✗ 자산 이정표 역순: 20억 장면이 25억 장면보다 늦음")
+    else:
+        print(
+            "  ✓ 2·4장 예약 간격·연말→정산·20억→25억 이정표 순서 고정"
+        )
     if VERBOSE:
         for t, bridge_ids in sorted(bridge_log.items()):
             for bridge_id in bridge_ids:
