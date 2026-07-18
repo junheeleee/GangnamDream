@@ -781,8 +781,8 @@
         "channel": "in_person",
         "scene_location": "changwon_hospital",
         "participants": ["player", "father"],
-        "portrait_role": "present",
-        "expected_portrait": "father_hospitalized"
+        "portrait_role": "local",
+        "expected_portrait": "player_shocked"
       }
     },
     "callback_medication_visited_echo": {

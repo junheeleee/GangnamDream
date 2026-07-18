@@ -16,6 +16,21 @@ EVENTS_KO = os.path.join(ROOT, "content", "events")
 EVENTS_EN = os.path.join(ROOT, "content", "events_en")
 PHASES = ("setup", "escalation", "reversal", "boss", "aftermath")
 CORE_CAST = {"father", "sangchul", "jaehyuk", "hyunsu", "daeun", "jiyeon"}
+LATE_PHASE_REQUIRED = {
+    4: {
+        "setup": {"arc_36_reality_check", "arc_year_three_crossroads"},
+        "escalation": {"arc_36_trust_crack", "arc_36_unexpected_hand"},
+        "reversal": {"arc_father_call_on_ktx"},
+        "boss": {"arc_father_passing"},
+        "aftermath": {"arc_36_night_doubt", "arc_year4_close"},
+    },
+    5: {
+        "setup": {"arc_37_reckoning", "arc_final_year_start"},
+        "reversal": {"arc_father_legacy"},
+        "boss": {"arc_final_countdown"},
+        "aftermath": {"arc_final_week"},
+    },
+}
 
 
 def load_json(path: str) -> Any:
@@ -150,6 +165,14 @@ def main() -> int:
                         f"event {event_id} belongs to chapters {phase_owner[event_id]} and {number}",
                     )
                 phase_owner[event_id] = number
+        for phase, required_ids in LATE_PHASE_REQUIRED.get(number, {}).items():
+            actual_ids = {str(value) for value in chapter.get(phase, [])}
+            missing_ids = sorted(required_ids - actual_ids)
+            if missing_ids:
+                fail(
+                    errors,
+                    f"chapter {number} {phase} lost required anchors: {missing_ids}",
+                )
     if expected_start != 241:
         fail(errors, f"chapter windows must end at week 240, got {expected_start - 1}")
 
@@ -198,6 +221,14 @@ def main() -> int:
             )
         if not seen_late:
             fail(errors, f"motif {motif_id} never survives into chapter 3+")
+        if motif_id == "signature":
+            signature_readers = {
+                (int(reader.get("chapter", 0)), str(reader.get("event", "")))
+                for reader in readers
+                if isinstance(reader, dict)
+            }
+            if (5, "arc_final_countdown") not in signature_readers:
+                fail(errors, "signature motif must resolve through arc_final_countdown")
     if chapter_five_readers < len(motifs):
         fail(errors, "every chapter-1 motif needs at least one chapter-5 reader")
 

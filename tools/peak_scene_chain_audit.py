@@ -48,6 +48,8 @@ PEAK_ROOTS = (
     ("Hyunsu Reunion", "hyunsu_reunion_later"),
     ("Jaehyuk Ghost", "arc_jaehyuk_04a_ghost"),
     ("Jaehyuk's True Face", "arc_jaehyuk_mirror"),
+    ("The Relationship Bill", "arc_36_trust_crack"),
+    ("The Last Signature", "arc_final_countdown"),
 )
 
 MIN_LINKS = 2
@@ -84,6 +86,8 @@ REQUIRED_PASS = {
     "hyunsu_reunion_later",
     "arc_jaehyuk_04a_ghost",
     "arc_jaehyuk_mirror",
+    "arc_36_trust_crack",
+    "arc_final_countdown",
     "arc_season_sea_daeun",
     "arc_season_sea_jiyeon",
     "arc_season_fireworks_daeun",

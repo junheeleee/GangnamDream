@@ -865,7 +865,7 @@
   {
     "id": "arc_father_04_visit",
     "title": "Changwon",
-    "description": "Changwon Sungsim Hospital. Room 301.\n\nThe hallway smelled of disinfectant. Different air from Seoul.\nAsked the nurse for Dad's room number.\n\nOpened the door.\nDad was sitting up in bed, looking out the window.\nChangwon sky. Low buildings. Factory smokestacks.\n\nThin hands. Hands that had gripped factory floors his whole life.\nShoulders more hunched. Hair more white.\n\n{name} paused at the doorway.\nDad turned around without a sound. Eyes met.\n\nA long silence passed.\n\nDad spoke. \"...Minjun.\"\nThen another pause.\n\"I'm sorry.\"",
+    "description": "Third floor of Changwon Sungsim Hospital.\n\nThe hallway smelled of disinfectant. Different air from Seoul.\nThe nurse said Room 301.\n\nThrough the narrow window beside the door, Father was visible on the bed, looking out at the Changwon sky, low buildings, and factory smokestacks.\n\nThin hands. Hands that had gripped factory floors his whole life.\nShoulders more hunched. Hair more white.\n\n{name} put a hand on the door handle. The phone in his pocket buzzed. Messages from Seoul stacked up: a contract waiting, numbers that needed an answer today.\n\nIt had taken two hours to get here.\nOpening one door would take a second.\n\nFather had not turned around yet.",
     "choices": [
       {
         "text": "\"It's not your fault, Dad.\" — first time saying those words",
@@ -878,6 +878,10 @@
       {
         "text": "Can't say anything — just sit beside him",
         "result_text": "There was so much to say, and none of it came out.\nJust sat down beside him. Dad didn't speak either.\n\nTwo hours like that.\nLater, {name} would understand that was the best way."
+      },
+      {
+        "text": "Grip the phone and turn away — fail to open the door again",
+        "result_text": "{name} let go of the door handle.\n\nJust before the elevator closed, a message arrived from Mother: 'Did you get there?'\n{name} typed, 'Something came up at work,' then deleted it. No reply was sent.\n\nA ticket back to Seoul was booked. Father never knew his son had made it as far as the other side of the door.\nOnly {name} knew. That was why it stayed."
       }
     ]
   },

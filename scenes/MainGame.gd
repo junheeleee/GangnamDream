@@ -2752,22 +2752,25 @@ func _next_arc_id(
 			and f.get("arc_father_medication_seen", false) \
 			and not f.get("arc_father_03_seen", false):
 		return "arc_father_03_hospital"
-	# ── 아버지 별세 — 병원 알고도 미방문 (4장 진입 뒤 타임아웃) ──
+	# ── 아버지 별세 — 4장 후반의 보편 정점. 몸·관계의 청구서가 먼저 쌓인 뒤 온다. ──
 	# [유물 해금] 통화시간 23초를 가진 채 KTX를 타는 순간 — 별세 직전 전처리
-	if t >= 148 and f.get("arc_father_03_seen", false) \
+	if t >= 174 and f.get("arc_father_03_seen", false) \
 			and f.get("arc_father_medication_seen", false) \
+			and f.get("father_visit_deferred", false) \
 			and not f.get("visited_father", false) \
 			and not f.get("father_passed", false) \
 			and GameState.has_item("artifact_father_call") \
 			and not f.get("arc_father_call_on_ktx_seen", false):
 		return "arc_father_call_on_ktx"
-	if t >= 150 and f.get("arc_father_03_seen", false) \
+	if t >= 176 and f.get("arc_father_03_seen", false) \
 			and f.get("arc_father_medication_seen", false) \
+			and f.get("father_visit_deferred", false) \
 			and not f.get("visited_father", false) \
 			and not f.get("father_passed", false):
 		return "arc_father_passing"
 	if t >= 90 and f.get("arc_father_03_seen", false) \
 			and not f.get("visited_father", false) \
+			and not f.get("father_visit_deferred", false) \
 			and not f.get("father_passed", false):
 		return "arc_father_04_visit"
 	if t >= 100 and f.get("visited_father", false) \
@@ -3087,8 +3090,9 @@ func _next_arc_id(
 			GameState.flags.erase("just_quit_job")
 		return "arc_quit_job"
 
-	# ── 막판 한 방 — 마지막 해의 내적 정산 ──
-	if t >= 193 \
+	# ── 막판 한 방 — 마지막 정산과 마지막 해 선언을 본 뒤에만 온다. ──
+	if t >= 197 \
+			and f.get("arc_37_reckoning_seen", false) \
 			and GameState.get_total_asset_value() < 2_800_000_000.0 \
 			and not f.get("arc_late_game_push_seen", false):
 		return "arc_late_game_push"
@@ -3395,12 +3399,12 @@ func _next_arc_id(
 	if t >= 145 and f.get("arc_daeun_year3_together_seen", false) \
 			and not f.get("arc_daeun_year4_together_seen", false):
 		return "arc_daeun_year4_together"
-	# 아버지 기일
-	if t >= 150 and f.get("father_passed", false) \
+	# 아버지 기일 — 별세 정점으로부터 48주 뒤, 마지막 해의 회수.
+	if t >= 224 and f.get("father_passed", false) \
 			and not f.get("arc_father_legacy_seen", false):
 		return "arc_father_legacy"
 	# 아버지 임종 — 약 복용 이후, 고백 들은 이후
-	if t >= 150 and f.get("arc_father_medication_seen", false) \
+	if t >= 176 and f.get("arc_father_medication_seen", false) \
 			and f.get("father_confession_heard", false) \
 			and not f.get("arc_father_passing_seen", false) \
 			and not f.get("father_passed", false):
@@ -3472,9 +3476,9 @@ func _next_arc_id(
 				and not f.get("arc_pre_ending_father_call_seen", false):
 			return "arc_pre_ending_father_call"
 
-	# ── 마지막 주 — 38세 7일 전, 궤적 무관 (t237-240) ──
-	# 마지막 두 달 — ending_peace(t≤236)와 final_week(t237+) 사이 authored 데드존(t223~233)을 닫는 카운트다운 비트
-	if t >= 228 and t <= 236 and not f.get("arc_final_countdown_seen", false):
+	# ── 마지막 서명 — 38세 7일 전, 궤적 무관 보편 정점 (t237-240) ──
+	# 선택 결과가 follow-up으로 마지막 주를 즉시 열어 다섯 해의 마지막 두 결정을 한 장면으로 묶는다.
+	if t >= 237 and not f.get("arc_final_countdown_seen", false):
 		return "arc_final_countdown"
 	if t >= 237 and not f.get("arc_final_week_seen", false):
 		return "arc_final_week"

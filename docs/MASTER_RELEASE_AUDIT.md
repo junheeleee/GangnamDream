@@ -1,6 +1,6 @@
 # Gangnam Dream Master Release Audit
 
-Updated: 2026-07-17
+Updated: 2026-07-18
 
 ## Mission
 
@@ -43,8 +43,8 @@ These are confidence bands, not review scores. Every band must be replaced by pl
 | First impression / IP | Developing to strong | One identity-locked Minjun/Daeun/Jiyeon key art now owns splash, StartMenu, and Steam capsules; external character recall and conversion remain unverified |
 | Flagship character appeal | Developing | Portrait/CG outfit pairs, gaze contracts, scene-specific Minjun expressions, first-snow winter pairs, season-gated dates, and heroine-specific first-morning scenes now protect key heroine moments; general-cast seasonal coverage, leitmotifs, merchandise recall, and remaining T1/T2 work are incomplete |
 | Core weekly loop | Structural cadence implemented, fun unproven | The 240-week calendar now exposes 52 direct Decision/Boss weeks, distributed 12/10/10/10/10 across the five chapters, plus 20 Echoes and 21 blocking summaries. Quiet/Echo preserve routine and monthly economy, crisis promotion, and save continuity. The user still judged the demo's short-event experience NO-GO, so this is infrastructure rather than a fun pass |
-| Story architecture | Round 2 NO-GO, recomposition active | The large authored spine reads as weekly event cards rather than one novel. Chapter 1 has 43-44 single-link scenes among 46 authored stops and 42-43 thread switches. Foreground scenes must become causal 2-4-link sequences; short events move into AP outcomes, bridges, and echoes |
-| Chapter pacing | Front-loaded | Representative authored paths distribute 46/29/14/16/12 and 46/27/16/19/12 beats across Years 1-5. The accepted target is roughly 26-28/22-24/22-24/22-24/22-24 with setup, escalation, reversal, pressure boss, and aftermath in every chapter |
+| Story architecture | Structural recomposition passed, Round 2 fun unproven | Seven demo sequences and a five-chapter causal spine now replace the original event-card schedule. Chapters 4-5 explicitly connect the guarantee bill, Hyunsu, Father visit/defer/KTX/passing/legacy, romance verdicts, and last signature; 30 Tier-1 chains pass. Only a fresh human playthrough can overturn the user's narrative NO-GO |
+| Chapter pacing | Front load reduced, late paths still lean | Representative stops now distribute `30/32/26/16/12` and `32/32/31/23/14`. Both late chapters pass setup, escalation, reversal, boss, aftermath, chain, peak, and isolated-scene ratchets, but Path A and Chapter 5 remain numerically lean; add no filler until recall and emotional carry are tested |
 | Choice consequence | Developing | Callback architecture is a real strength; immediate cost and player comprehension vary by event |
 | Strategy /攻略 readability | Weak | The player cannot yet explain a viable 3B plan, risk bands, or why one run failed without external knowledge |
 | Balance | Technically stable | Fixed policy simulations pass current bands; human fun, exploitability, and difficulty perception remain unverified |

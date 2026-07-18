@@ -36,7 +36,7 @@
   {
     "id": "arc_father_legacy",
     "title": "An Empty Chair",
-    "description": "Father's death anniversary.\n\nNo memorial table. In a Seoul goshiwon room — one photo of his father.\n\nStill far from 3 billion won. What would he say if he knew?\n\n\"You worked so hard for this?\" he might say. Or maybe \"How did things turn out like this?\"\n\n{name} looked at the photo for a moment.",
+    "description": "Forty-eight weeks had passed since Father died. The calendar marked the same place with one small dot.\n\nThere was no memorial table. In whatever room {name} now called home in Seoul, he stood Father's photograph beside the folded medicine packet. The room had changed; the work clothes and braced shoulders in the photograph had not.\n\nHe knew the distance to three billion won without opening a calculator. Today the harder figure was how he would explain that distance to Father.\n\n\"Did you have to suffer this much?\" Father might have asked. Or perhaps, \"What did you get for it?\"\n\n{name} placed an empty chair across from the photograph and sat for a long time.",
     "choices": [
       {
         "text": "\"I'll get there, Father.\" — said it inwardly",

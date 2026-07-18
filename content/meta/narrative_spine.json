@@ -27,7 +27,7 @@
     {
       "id": "memory_is_the_moral_ui",
       "statement": "도덕은 점수가 아니라 같은 문장과 사물과 얼굴을 다르게 보게 되는 기억이다.",
-      "proof": ["story_last_payment_exit", "arc_father_call_on_ktx", "arc_year5_scene"]
+      "proof": ["story_last_payment_exit", "arc_father_call_on_ktx", "arc_final_countdown"]
     }
   ],
   "characters": [
@@ -35,7 +35,7 @@
       "id": "father",
       "function": "상처의 기원과 민준이 끝내 답해야 할 첫 번째 채권자",
       "chapters": [1, 2, 3, 4, 5],
-      "anchors": ["story_knee_witness", "arc_father_01_call", "arc_father_06_confession", "arc_father_passing", "arc_pre_ending_father_call"]
+      "anchors": ["story_knee_witness", "arc_father_01_call", "arc_father_06_confession", "arc_father_passing", "arc_father_legacy", "arc_pre_ending_father_call"]
     },
     {
       "id": "sangchul",
@@ -76,7 +76,7 @@
       "readers": [
         {"chapter": 3, "event": "arc_sangchul_deduction"},
         {"chapter": 3, "event": "arc_jaehyuk_mirror"},
-        {"chapter": 5, "event": "arc_sangchul_reckoning"}
+        {"chapter": 5, "event": "arc_final_countdown"}
       ]
     },
     {
@@ -85,7 +85,8 @@
       "plant": {"chapter": 1, "event": "arc_father_01_call"},
       "readers": [
         {"chapter": 4, "event": "arc_father_passing"},
-        {"chapter": 5, "event": "arc_father_call_on_ktx"},
+        {"chapter": 4, "event": "arc_father_call_on_ktx"},
+        {"chapter": 5, "event": "arc_father_legacy"},
         {"chapter": 5, "event": "arc_pre_ending_father_call"}
       ]
     },
@@ -170,12 +171,12 @@
       "weeks": [145, 192],
       "question": "사람과 몸이 성공의 비용으로 청구될 때 민준은 무엇을 먼저 지불하는가?",
       "object": "아버지의 약봉지와 비어 있는 의자",
-      "setup": ["arc_36_reality_check", "arc_father_call_on_ktx"],
-      "escalation": ["arc_father_passing", "arc_daeun_proposal"],
-      "reversal": ["arc_daeun_wedding_prep", "arc_36_trust_crack"],
-      "boss": ["arc_36_night_doubt"],
-      "aftermath": ["arc_year4_close", "chapter_card_37"],
-      "handoff": "남은 것은 목표액과 민준의 이름, 그리고 그 이름을 아직 불러 주는 사람뿐이다."
+      "setup": ["arc_36_reality_check", "arc_year_three_crossroads"],
+      "escalation": ["arc_36_trust_crack", "arc_36_unexpected_hand", "arc_36_body_signal"],
+      "reversal": ["arc_36_father_comes_to_seoul", "arc_father_call_on_ktx"],
+      "boss": ["arc_father_passing"],
+      "aftermath": ["arc_36_night_doubt", "arc_year4_close", "chapter_card_37"],
+      "handoff": "청구서를 대신 받아 줄 사람은 없었다. 남은 1년, 민준은 자기 이름으로 무엇을 담보 잡을지 결정해야 한다."
     },
     {
       "number": 5,
@@ -184,12 +185,12 @@
       "weeks": [193, 240],
       "question": "마지막 숫자 앞에서 민준은 누구의 이름과 시간을 담보로 서명하는가?",
       "object": "등기 서류 또는 빈 수첩의 마지막 줄",
-      "setup": ["arc_37_reckoning", "arc_pre_ending_winter"],
-      "escalation": ["arc_daeun_final_choice", "arc_jiyeon_verdict", "arc_sangchul_reckoning"],
-      "reversal": ["arc_pre_ending_father_call", "arc_pre_ending_summit"],
-      "boss": ["arc_year5_scene"],
-      "aftermath": ["arc_37_ending_peace"],
-      "handoff": "엔딩은 30억의 성패가 아니라 1장의 문턱에 섰던 사람과 같은 사람인지 답한다."
+      "setup": ["arc_37_reckoning", "arc_final_year_start"],
+      "escalation": ["arc_late_game_push", "arc_endgame_sixmonths"],
+      "reversal": ["arc_father_legacy", "arc_pre_ending_summit"],
+      "boss": ["arc_daeun_final_choice", "arc_jiyeon_verdict", "arc_final_countdown"],
+      "aftermath": ["arc_final_week", "arc_year5_scene", "arc_37_ending_peace"],
+      "handoff": "엔딩은 30억의 성패와 함께, 1장의 문턱에 섰던 사람과 같은 이름으로 끝나는지 답한다."
     }
   ],
   "demo": {

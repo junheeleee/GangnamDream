@@ -58,39 +58,39 @@
   },
   {
     "id": "arc_36_trust_crack",
-    "title": "From the Side You Trusted",
-    "description": "By year four, {name} figured the eye for people had sharpened.\n\nThen someone trusted shook that. Not a big scam. Borrowed money and kept stalling, or quietly walked back what they'd said, or stopped picking up when things got hard.\n\nThe kind of thing you can't prove. That made it hurt more. A big betrayal you can at least get angry at — a small crack just makes you wonder if you're being too sensitive.\n\n{name} recounted the time spent with that person. Trying to find where the crack first ran.",
+    "title": "The Bill from Someone You Trusted",
+    "description": "By year four, {name} thought he had learned to read people. The man across from him at the pojangmacha was someone he had moved money with more than once, someone whose circumstances he believed he understood.\n\nThe man pushed over a thin envelope. The papers asked {name} to cover his share for just one month.\n\n\"Just bridge it under your name, hyung.\"\n{name}: \"Why does it need my name?\"\n\"Don't you trust me?\"\n\nThe signature box brought back the blurred name on Father's guarantee PDF. This was no grand fraud and no amount that would ruin him overnight. That made it hurt more. A large betrayal lets you get angry; a hairline crack first makes you doubt your own judgment.\n\n{name} looked from the envelope to the man's face. When a relationship sends a bill, it usually arrives with trust written across the top.",
     "choices": [
       {
         "text": "Cut them off. A crack never seals back.",
-        "result_text": "{name} cleared the number. Not decisive — just tired. Each person cut off made the world a little smaller. Couldn't be helped, though."
+        "result_text": "{name} pushed the envelope back and deleted the number. It was not resolve so much as fatigue. Every person he cut off made the world smaller. This time, at least, he had not put his name in someone else's blank."
       },
       {
         "text": "Tried to understand. They must've had reasons.",
-        "result_text": "People don't usually turn bad on purpose. {name} chose to believe that. Maybe a sucker for it. Still better than living with hatred."
+        "result_text": "He did not sign, but he listened to how the man had reached this point. People rarely set out to become bad. It might have been foolish to keep believing that. Still, understanding someone and guaranteeing them were different acts, and {name} kept that line."
       },
       {
         "text": "Neither hated nor trusted — just kept distance",
-        "result_text": "Didn't cut them off or hold on. Exactly that much distance. {name} caught himself sorting people into tiers. Couldn't tell if it was growing up or wearing down."
+        "result_text": "He neither cut the man off nor held him close. The envelope went back; the contact stayed. Exactly that much distance. {name} caught himself sorting people by trust rating. He could not tell whether that was adulthood or erosion."
       }
     ]
   },
   {
     "id": "arc_36_unexpected_hand",
-    "title": "From the Side You Didn't Expect",
-    "description": "It was right around when things were shaking.\n\nSomeone {name} never expected reached out. Maybe someone long out of touch, maybe someone he'd never thought much of.\n\nIt wasn't some grand help. One meal. A casual check-in. A \"you've looked rough lately.\" One piece of information. One introduction.\n\nBut it caught the exact moment {name} was about to collapse. That's when he understood — help usually doesn't come from the people you've marked down for it.",
+    "title": "The Hand He Did Not Expect",
+    "description": "Two days later, Hyunsu's name lit the phone.\n\n\"Hyung, have you eaten?\"\n\nAt the gukbap place in their old goshiwon alley, Hyunsu brought out neither an envelope nor an introduction. When the two stone bowls arrived, he only pushed the kimchi toward {name}.\n\n{name}: \"Why call me now?\"\nHyunsu: \"I can tell from your replies. Your sentences got shorter.\"\n{name}: \"You're not here to borrow money, are you?\"\nHyunsu: \"I called so we wouldn't talk about money. Eat first.\"\n\nThe person he had trusted wanted to borrow his name. The person he had not expected asked for neither name nor reason before offering a hot meal. Help often returned not from the place you had budgeted for it, but from a place you had once held open without noticing.",
     "choices": [
       {
         "text": "Said thank you properly. With his whole heart.",
-        "result_text": "Saying \"thank you\" and meaning it is harder than it sounds, and {name} knew that. This time he did it right. The person smiled, a little awkward. That smile stayed for days."
+        "result_text": "\"Thank you, Hyunsu. I mean it.\"\n\nHyunsu paused with his spoon raised, then smiled awkwardly. \"It's one meal. Eat before it gets cold.\"\n\n{name} swallowed a spoonful of broth. As the heat moved down his throat, something in his breathing finally loosened."
       },
       {
         "text": "Vowed to repay it. Hates owing.",
-        "result_text": "Some people can't stand only receiving. {name} was one. Said he'd pay it back someday. The person said, \"Don't pay me back — do it for someone else.\" {name} remembered that for a long time."
+        "result_text": "{name} promised he would repay him. Receiving without returning still felt like debt.\n\nHyunsu shook his head. \"Don't pay me back. When you see someone wearing your face someday, buy him dinner.\"\n\nPerhaps a favor that could not be priced closed its ledger only by moving to someone else."
       },
       {
         "text": "Asked why they were helping",
-        "result_text": "\"You did the same for me once.\" {name} couldn't remember it. Something he'd done without thinking had been a steadying hand for someone. And it came back, four years later."
+        "result_text": "\"Why are you helping me?\"\n\nHyunsu thought for a long moment. \"When I couldn't answer you back then, you didn't rush me. You just stayed.\"\n\n{name} could not place the exact scene. A silence he had kept without thinking had been a steadying hand for someone. In the fourth year, that hand had come back."
       }
     ]
   },

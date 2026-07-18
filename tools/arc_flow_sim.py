@@ -23,7 +23,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 VERBOSE = "--verbose" in sys.argv
 
-# ── ground truth: event -> 설정 가능한 플래그 ─────────────────────────────
+# ── ground truth: event -> 본문/설정 가능한 플래그 ────────────────────────
+events = {}
 event_sets = {}
 for fp in glob.glob("content/events/*.json"):
     try:
@@ -32,6 +33,7 @@ for fp in glob.glob("content/events/*.json"):
         continue
     for ev in (data if isinstance(data, list) else list(data.values())):
         if isinstance(ev, dict) and ev.get("id"):
+            events[ev["id"]] = ev
             event_sets[ev["id"]] = set(
                 fl for ch in ev.get("choices", []) for fl in ch.get("flags", []))
 
@@ -88,6 +90,7 @@ class Job(dict):
 class State:
     def __init__(s):
         s.t = 0; s.age = 33; s.flags = {}
+        s.items = set()
         s.route_orthodox = 0; s.route_unorthodox = 0; s.intelligence = 50
         s.money = 500000; s.investment_skill = 0; s.job_tenure = 0
         s.housing = "gosiwon"; s.current_job = Job(); s.nav = 500000
@@ -98,6 +101,7 @@ class State:
     def get_cast_affinity(s, n): return s.cast.get(n, {}).get("aff", 0)
     def get_cast_stage(s, n): return s.cast.get(n, {}).get("stage", "none")
     def cast_has_flag(s, n, fl): return fl in s.cast.get(n, {}).get("flags", set())
+    def has_item(s, item_id): return item_id in s.items
     def pop_ready_deferred_events(s): return []
 
 
@@ -121,8 +125,32 @@ def evalconds(conds, S):
     return True
 
 
+_guaranteed_flag_memo = {}
+
+
+def guaranteed_path_flags(eid, stack=()):
+    """Return flags written on every possible immediate StoryMode path."""
+    if eid in _guaranteed_flag_memo:
+        return _guaranteed_flag_memo[eid]
+    if eid in stack or eid not in events:
+        return set()
+    choices = events[eid].get("choices", [])
+    if not choices:
+        return set()
+    branches = []
+    for choice in choices:
+        branch = set(choice.get("flags", []))
+        follow_up = str(choice.get("follow_up_event", "")).strip()
+        if follow_up:
+            branch |= guaranteed_path_flags(follow_up, stack + (eid,))
+        branches.append(branch)
+    guaranteed = set.intersection(*branches) if branches else set()
+    _guaranteed_flag_memo[eid] = guaranteed
+    return guaranteed
+
+
 def own_seen_flags(eid):
-    return [fl for fl in event_sets.get(eid, set())
+    return [fl for fl in guaranteed_path_flags(eid)
             if fl.endswith(("_seen", "_done", "_closed"))]
 
 
@@ -177,6 +205,8 @@ SPINE_COMMON = {
     "arc_36_unexpected_hand": ["arc_36_unexpected_hand_seen", "accepted_grace"],
 }
 PATH_A = dict(SPINE_COMMON, **{  # 정석/다은 보냄/사기당함/진실모름
+    # 방문하지 못한 경로를 고정해 23초 KTX 전처리와 임종 체인을 검증한다.
+    "arc_father_04_visit": ["father_visit_deferred"],
     "arc_daeun_03_fork": ["arc_daeun_fork_seen", "daeun_let_her_go"],
     "arc_daeun_ghost": ["arc_daeun_ghost_seen"],
     "arc_daeun_year3_apart": ["arc_daeun_year3_apart_seen"],
@@ -197,7 +227,9 @@ PATH_B = dict(SPINE_COMMON, **{  # 비정석/진실/다은 함께/재혁 역공
     "arc_daeun_03_fork": ["arc_daeun_fork_seen", "daeun_chose_her", "daeun_together_path"],
     "arc_daeun_03b_date": ["arc_daeun_03b_seen"],
     "arc_daeun_04_morning": ["arc_daeun_04_seen"],
-    "arc_daeun_04b_future": ["arc_daeun_04b_seen", "daeun_committed"],
+    "arc_daeun_04b_future": ["arc_daeun_04b_seen", "daeun_committed", "daeun_romance_started"],
+    "arc_daeun_proposal": ["arc_daeun_proposal_seen", "daeun_married"],
+    "arc_daeun_the_test": ["arc_daeun_test_seen", "used_daeun_as_means"],
     "arc_daeun_year3_together": ["arc_daeun_year3_together_seen"],
     "arc_daeun_year4_together": ["arc_daeun_year4_together_seen"],
     "arc_sangchul_jiyeon_reveal": ["arc_sangchul_jiyeon_reveal_seen", "warned_about_jiyeon"],
@@ -211,6 +243,7 @@ PATH_B = dict(SPINE_COMMON, **{  # 비정석/진실/다은 함께/재혁 역공
 
 def traj_A(S):
     t = S.t; S.age = 33 + (t - 1) // 48 if t > 0 else 33
+    if t == 1: S.items.add("artifact_father_call")
     if t in (2, 5, 8, 12, 20, 30, 45, 60): S.route_orthodox += 1
     if t in (4, 25, 55): S.route_unorthodox += 1
     if t == 6: S.current_job = Job(title="staff")
@@ -244,7 +277,7 @@ def traj_B(S):
     if t >= 10:
         S.cast["sangchul"]["aff"] = min(80, (t - 10) * 2)
         if S.cast["sangchul"]["aff"] >= 20: S.cast["sangchul"]["stage"] = "interested"
-    if t >= 9: S.cast["daeun"]["aff"] = min(40, t - 9)
+    if t >= 9: S.cast["daeun"]["aff"] = min(70, t - 9)
     if t >= 17: S.cast["jiyeon"]["aff"] = min(40, t - 17)
     if t == 42: S.flags["jaehyuk_suspected"] = True
 
@@ -281,8 +314,19 @@ PATHS = [("A 정석/다은보냄/사기", PATH_A, traj_A, hookA),
          ("B 비정석/진실/committed", PATH_B, traj_B, hookB)]
 # 경로별 완결돼야 하는 대표 체인
 CHAINS = {
-    "A 정석/다은보냄/사기": ["arc_daeun_ghost", "arc_jaehyuk_04c_stand_up", "arc_father_06_confession"],
-    "B 비정석/진실/committed": ["arc_sangchul_confrontation", "arc_daeun_year4_together", "arc_jaehyuk_mirror"],
+    "A 정석/다은보냄/사기": [
+        "arc_daeun_ghost", "arc_jaehyuk_04c_stand_up", "arc_36_trust_crack",
+        "arc_father_call_on_ktx", "arc_father_passing", "arc_father_legacy",
+        "arc_final_countdown",
+    ],
+    "B 비정석/진실/committed": [
+        "arc_sangchul_confrontation", "arc_jaehyuk_mirror", "arc_daeun_proposal",
+        "arc_daeun_wedding_day", "arc_daeun_final_choice", "arc_36_trust_crack",
+        "arc_father_passing", "arc_father_legacy", "arc_final_countdown",
+    ],
+}
+REQUIRED_FLAGS = {
+    name: ["arc_36_unexpected_hand_seen", "arc_final_week_seen"] for name in CHAINS
 }
 
 fail = 0
@@ -302,6 +346,12 @@ for name, spine, traj, hook in PATHS:
         print("  ✗ 미완결 체인:", miss)
     else:
         print("  ✓ 대표 체인 완결")
+    missing_flags = [flag for flag in REQUIRED_FLAGS[name] if not S.flags.get(flag)]
+    if missing_flags:
+        fail += 1
+        print("  ✗ 후속 체인 플래그 누락:", missing_flags)
+    else:
+        print("  ✓ 즉시 후속 체인 플래그 완결")
     if VERBOSE:
         for t in range(1, 241):
             if t in firelog: print(f"     t{t:3d} {firelog[t]}")

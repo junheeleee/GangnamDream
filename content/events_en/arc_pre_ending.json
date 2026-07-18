@@ -7,8 +7,8 @@
     "description_unorthodox": "A real estate office in Gangnam. Evening.\n\nThe agent glanced at {name} while organizing papers. So young — how.\n\n{name} knew that look.\nHe'd come the way others wouldn't. Some of it was luck. Some was nerve.\nHe knew the orthodox path wouldn't have gotten him here.\n\nWhether that was something to be proud of or something precarious — he still wasn't sure.\n\nStepping out, the lights of Gangnam-daero poured down.",
     "choices": [
       {
-        "text": "Call your father",
-        "result_text": "Two rings, and Father picked up.\n\"Minjun.\"\n\"Dad. I... I bought a place. In Gangnam.\"\n\nA pause.\n\nThrough the receiver, just the sound of breathing.\nThen, low, very low — \"...I see.\"\n\nThat was all. But {name} heard everything packed into that one word.\n\nWhat was left: one registration paper next week. And bringing his father into that living room."
+        "text": "Open Father's name in his contacts",
+        "result_text": "The four Korean characters for Father filled the phone screen. A contact name keeps the same shape whether the person can still answer or has already gone.\n\n{name} held a finger over the call button and spoke.\n\"Father. I... I bought a place. In Gangnam.\"\n\nIf someone could answer, the line might ring twice. If no one could, only the screen and the night air would hear him. Either way, the sentence he had postponed for five years finally left his mouth.\n\nWhat remained was one registration paper next week, and saying that name again inside the new living room."
       },
       {
         "text": "Walk Gangnam-daero alone, slowly",
@@ -49,36 +49,36 @@
   },
   {
     "id": "arc_final_countdown",
-    "title": "The Last Two Months",
-    "description": "He turned the calendar. Two pages remained.\n\nThe five-year clock was now measured in weeks.\nThe gap between the balance and the goal — whatever it was — had little room left to move.\n\nThe strange part was how quiet his mind felt.\nNot anxiety — a kind of clarity.\n\nWhat could still be done in eight weeks, what was already over, and what had never been possible —\nfor the first time, they settled into three separate drawers.",
+    "title": "The Last Signature",
+    "description": "Seven days remained until his thirty-eighth birthday. {name} opened the notebook from four years ago.\n\nThe first page held 500,000 won and 3 billion won. Beneath them, Father's case number, a number copied from Sangchul's card, the money sent to Jaehyuk, and the price of a meal with Hyunsu overlapped in different handwriting.\n\nEvery page turned in a voice calling his name. \"Minjun-ah.\" \"Minjun.\" \"Mr. Kim.\" \"Hyung.\" The name stayed the same; each voice made it a different person.\n\nOnly one line remained blank on the last page. He had once thought it was a sentence to write after reaching the goal. Now he saw a signature line.\n\nWhose name would he put beneath all the names and time he had borrowed over five years?\n\n{name} lifted the pen. There would be no next week left for an excuse after this choice.",
     "description_if_moral": {
-      "black": "He turned the calendar. Two pages remained. Two paychecks, two interest payments, and the remaining market days came first in the calculation.\n\nThe five-year clock was now measured in weeks.\nThe gap between the balance and the goal — whatever it was — had little room left to move.\n\nThe strange part was how quiet his mind felt.\nWhat remained arranged itself by expected return. A few promises with names beside them slipped outside the calculation.\n\nWhat could still be done in eight weeks, what was already over, and what had never been possible —\nfor the first time, they settled into three separate drawers.",
-      "white": "He turned the calendar. Two pages remained. Beside the dates were postponed promises and names he still owed an answer.\n\nThe five-year clock was now measured in weeks.\nThe gap between the balance and the goal — whatever it was — had little room left to move.\n\nThe strange part was how quiet his mind felt.\nNot anxiety — a kind of clarity.\n\nWhat could still be done in eight weeks, the faces he needed to see now, and what could no longer be undone —\nfor the first time, they settled into three separate drawers."
+      "black": "Seven days remained until his thirty-eighth birthday. The asset figure flashed gold on the screen as {name} opened the notebook from four years ago beside it.\n\nBetween 500,000 won and 3 billion won, rates of return and loss filled the page. Father, Sangchul, Jaehyuk, and Hyunsu appeared in the same columns as counterparties.\n\nEvery page turned in a voice. \"Minjun-ah.\" \"Minjun.\" \"Mr. Kim.\" \"Hyung.\" Yet as the number on the screen brightened, the voices receded into footnotes.\n\nOnly one line remained blank on the last page. It looked like the signature line for the owner of the result.\n\nThe ledger already showed whose names and time had become leverage. All that remained was to name who owned the outcome.\n\n{name} lifted the pen. There was no one left to pass the cost to after this choice.",
+      "white": "Seven days remained until his thirty-eighth birthday. {name} opened the notebook from four years ago. The paper was worn, its corners layered with other people's handwriting and stains.\n\nBetween 500,000 won and 3 billion won lay Father's case number, Sangchul's card, the money sent to Jaehyuk, and the price of a meal with Hyunsu. Faces filled the spaces between figures.\n\nEvery page turned in a voice. \"Minjun-ah.\" \"Minjun.\" \"Mr. Kim.\" \"Hyung.\" The name stayed the same, but he had never walked alone.\n\nOnly one line remained blank on the last page. He had once thought it was a sentence to write after reaching the goal. Now he saw a signature line.\n\nWhere would he place responsibility for his choices without erasing the names that had kept him human?\n\n{name} lifted the pen. The last signature could not be a lie that he had come alone. It had to be a promise not to evade his share."
     },
     "choices": [
       {
-        "text": "Open only the drawer of what can still be done. Stay precise to the end.",
+        "text": "Sign only his own name, including responsibility for every choice.",
         "text_if_moral": {
-          "black": "Keep only what can still be done. Zero margin for error.",
-          "white": "Keep what can still be done and the promises that must be kept."
+          "black": "Leave only his name. An outcome has one owner.",
+          "white": "Write his name without erasing the time he borrowed."
         },
-        "result_text": "He sat at the desk and reduced the eight-week plan to a single page.\nWith the impossible cleared out, the plan felt light for the first time.\nPrecision is a skill you learn at the end."
+        "result_text": "{name} wrote his three-syllable name on the blank line. The strokes shook less than he expected.\n\nHe did not erase the names on the earlier pages. This did not mean they had never helped; it meant the choices made with their help were still his responsibility.\n\nWhen he set down the pen, the notebook closed for the first time. Whatever the result, the owner of the last signature was clear."
       },
       {
-        "text": "Shake the numbers one more time. There are still two months.",
+        "text": "Price even the names he borrowed. Push once more for the goal.",
         "text_if_moral": {
-          "black": "The numbers can still be forced. Two months is enough to turn this around.",
-          "white": "Take one more swing at the numbers. Accept the cost as well."
+          "black": "Names are capital too. Use every remaining value.",
+          "white": "Write down the cost of what he borrowed, then push once more."
         },
-        "result_text": "He ran scenarios late into the night. Leverage, concentrated bets, one last rotation.\nNumbers look like they move when you shake them.\nWhether that's an illusion or an opening — eight weeks will answer."
+        "result_text": "{name} wrote what he had gained and lost beside the names of Father, Sangchul, Jaehyuk, Daeun, and Jiyeon. Every arrow pointed toward 3 billion won.\n\nAs names moved into columns of return and cost, the ledger became more exact and the notebook looked strangely empty. The pen pressed a groove into the paper.\n\nHe signed his own name large on the last line. It was the signature of someone choosing to push once more."
       },
       {
-        "text": "Make a list of people. Faces to see before this ends.",
+        "text": "Write the names of the people who called him back to himself.",
         "text_if_moral": {
-          "black": "List the people to contact, ordered by what remains to settle.",
-          "white": "Write down the names of the people he needs to see before this ends."
+          "black": "List the remaining contacts in the order they must be settled.",
+          "white": "Write the names that kept calling him back as a person."
         },
-        "result_text": "He wrote names in a notebook. There weren't many.\nThat short list — felt like the real balance sheet of five years.\nMoney can be counted even in the last week. People have to be seen now."
+        "result_text": "{name} wrote the names of the people who had called him above the last line. There were not many, which made every character clear.\n\nHe signed his own name beneath them. It was not a claim that he had finished alone, but a promise not to turn these people into figures.\n\nMoney could be counted on the final day. A name had to be spoken while someone could still answer."
       }
     ]
   }

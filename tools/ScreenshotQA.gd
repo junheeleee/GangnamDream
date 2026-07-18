@@ -3619,7 +3619,8 @@ func _shot_moral_anchor_surfaces(lang: String = "en", prefix: String = "moral_an
 		["arc_sangchul_mirror", "01_sangchul_mirror", 0],
 		["arc_why_gangnam_real", "02_why_gangnam", 1],
 		["arc_father_passing", "03_father_passing", 0],
-		["arc_final_countdown", "04_final_countdown", 0],
+		["arc_36_trust_crack", "04_relationship_bill", 0],
+		["arc_final_countdown", "05_final_countdown", 0],
 	]
 	var moral_cases := [
 		[-80.0, "black"],
@@ -3660,14 +3661,19 @@ func _seed_moral_anchor_context(event_id: String) -> void:
 			GameState.month = 7
 			GameState.money = 320_000_000.0
 		"arc_father_passing":
-			GameState.turn = 150
+			GameState.turn = 176
 			GameState.age = 36
-			GameState.month = 2
+			GameState.month = 9
 			GameState.money = 800_000_000.0
+		"arc_36_trust_crack":
+			GameState.turn = 152
+			GameState.age = 36
+			GameState.month = 3
+			GameState.money = 1_050_000_000.0
 		"arc_final_countdown":
-			GameState.turn = 232
+			GameState.turn = 237
 			GameState.age = 37
-			GameState.month = 11
+			GameState.month = 12
 			GameState.money = 2_100_000_000.0
 
 func _shot_romance_portrait_surfaces(lang: String = "en", prefix: String = "romance_portrait_en_") -> void:
@@ -5391,16 +5397,49 @@ func _shot_father_peak_surfaces(lang: String = "en", prefix: String = "father_pe
 	await _shot_story_event("arc_father_passing_deal_morning", prefix + "20_passing_deal_result", "", 0.45, true, true, 0)
 	_assert_father_passing_state("deal", 35, 105_000_000.0, -8.0, "chose_money_over_father")
 
+	_prepare_father_peak_qa_state()
+	await _shot_story_event("arc_father_04_visit", prefix + "21_visit_door_intro", "", 0.55, true)
+	_prepare_father_peak_qa_state()
+	await _shot_story_event("arc_father_04_visit", prefix + "22_visit_door_choices", "", 0.45, true, true)
+	_prepare_father_peak_qa_state()
+	await _shot_story_event("arc_father_04_visit", prefix + "23_visit_deferred_result", "", 0.45, true, true, 3)
+	_assert_father_visit_deferred_state()
+	_prepare_father_peak_qa_state()
+	await _shot_story_event("arc_father_04_visit", prefix + "24_visit_entered_result", "", 0.45, true, true, 0)
+	_assert_father_visit_entered_state()
+
 func _prepare_father_peak_qa_state() -> void:
 	_prepare_main_game_state()
 	GameState.mental = 60
 	GameState.intelligence = 40
 	GameState.moral_tint = 0.0
-	for flag in ["saw_father_medical", "father_passed"]:
+	for flag in [
+		"saw_father_medical", "father_passed", "visited_father", "father_visit_deferred",
+	]:
 		GameState.flags.erase(flag)
 	GameState.flags["father_visited"] = true
 	_set_cast_relation_for_qa("father", 50)
 	GameState.cast["father"]["stage"] = "normal"
+
+func _assert_father_visit_deferred_state() -> void:
+	var father: Dictionary = GameState.cast.get("father", {})
+	if int(GameState.mental) != 42 or not is_equal_approx(GameState.moral_tint, -12.0):
+		_fail("Deferred father visit did not preserve its mental/tint consequence.")
+	if int(father.get("affinity", 0)) != 35 or str(father.get("stage", "")) != "distant":
+		_fail("Deferred father visit did not preserve its relationship consequence.")
+	if not GameState.flags.get("father_visit_deferred", false) \
+			or GameState.flags.get("visited_father", false):
+		_fail("Deferred father visit did not remain on the unvisited KTX route.")
+
+func _assert_father_visit_entered_state() -> void:
+	var father: Dictionary = GameState.cast.get("father", {})
+	if int(GameState.mental) != 83 or not is_equal_approx(GameState.moral_tint, 9.0):
+		_fail("Entered father visit did not preserve its mental/tint consequence.")
+	if int(father.get("affinity", 0)) != 75 or str(father.get("stage", "")) != "reconciled":
+		_fail("Entered father visit did not preserve its relationship consequence.")
+	if not GameState.flags.get("visited_father", false) \
+			or GameState.flags.get("father_visit_deferred", false):
+		_fail("Entered father visit did not leave the KTX deferral route.")
 
 func _assert_father_hospital_uncommitted(label: String) -> void:
 	if int(GameState.mental) != 60 or int(GameState.intelligence) != 40:

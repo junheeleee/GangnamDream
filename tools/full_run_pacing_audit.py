@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Audit the 240-week novel cadence before Chapters 4-5 are redistributed.
+"""Audit the 240-week novel cadence after the five-chapter redistribution.
 
 The estimate is a structural comparison model, not a substitute for a human
 playtest. It combines authored text, deliberation, direct AP weeks, random-event
@@ -27,6 +27,9 @@ SUMMARY_SECONDS = 15.0
 QUIET_SECONDS = 0.90
 ECHO_SECONDS = 1.35
 PROLOGUE_MINUTES = 12.0
+MIN_RANDOM_OPPORTUNITIES = 24
+MAX_RANDOM_OPPORTUNITIES = 36
+MIN_RANDOM_PER_CHAPTER = 1
 
 
 def lists(manifest: dict[str, Any], key: str) -> set[int]:
@@ -120,11 +123,13 @@ def main() -> int:
     checkpoints: list[int] = []
     totals: list[float] = []
     random_windows: list[int] = []
+    random_chapter_windows: list[list[int]] = []
 
     for path_name, firelog in paths.items():
         elapsed = PROLOGUE_MINUTES
         refund_week = 0
         opportunities = 0
+        opportunities_by_chapter = [0, 0, 0, 0, 0]
         chapter_minutes: list[float] = []
         for turn in range(1, 241):
             if turn in firelog:
@@ -132,6 +137,7 @@ def main() -> int:
             elif turn > 24 and turn in direct:
                 elapsed += median_random_minutes
                 opportunities += 1
+                opportunities_by_chapter[min(4, (turn - 1) // 48)] += 1
             elapsed += (DIRECT_WEEK_SECONDS / 60.0) if turn in direct else (
                 ECHO_SECONDS / 60.0 if turn in echoes else QUIET_SECONDS / 60.0
             )
@@ -143,8 +149,20 @@ def main() -> int:
                 chapter_minutes.append(elapsed)
 
         exposure = opportunities / max(1, len(random_events))
-        if not 30 <= opportunities <= 36:
-            errors.append(f"{path_name}: random opportunities outside 30..36: {opportunities}")
+        if not MIN_RANDOM_OPPORTUNITIES <= opportunities <= MAX_RANDOM_OPPORTUNITIES:
+            errors.append(
+                f"{path_name}: random opportunities outside "
+                f"{MIN_RANDOM_OPPORTUNITIES}..{MAX_RANDOM_OPPORTUNITIES}: {opportunities}"
+            )
+        sparse_chapters = [
+            chapter + 1
+            for chapter, count in enumerate(opportunities_by_chapter)
+            if count < MIN_RANDOM_PER_CHAPTER
+        ]
+        if sparse_chapters:
+            errors.append(
+                f"{path_name}: chapters without a random foreground window: {sparse_chapters}"
+            )
         if not 97 <= refund_week <= 144:
             errors.append(f"{path_name}: estimated two-hour point left Chapter 3: week {refund_week}")
         if not 180.0 <= elapsed <= 300.0:
@@ -152,12 +170,14 @@ def main() -> int:
         checkpoints.append(refund_week)
         totals.append(elapsed)
         random_windows.append(opportunities)
+        random_chapter_windows.append(opportunities_by_chapter)
         print(
             "FULL_RUN_PATH "
             f"name={path_name.replace(' ', '_')} direct={len(direct)} "
             f"chapters={','.join(str(value) for value in chapter_direct)} "
             f"boss={len(bosses)} echo={len(echoes)} summaries={len(summaries)} "
             f"random_windows={opportunities}/{len(random_events)}({exposure * 100:.2f}%) "
+            f"random_by_chapter={','.join(str(value) for value in opportunities_by_chapter)} "
             f"refund_week={refund_week} estimated_minutes={elapsed:.1f} "
             f"chapter_cumulative={','.join(f'{value:.1f}' for value in chapter_minutes)}"
         )
@@ -170,6 +190,7 @@ def main() -> int:
         "FULL_RUN_PACING_AUDIT_OK "
         f"direct={len(direct)} chapter_decisions={chapter_direct} "
         f"random_windows={min(random_windows)}-{max(random_windows)} "
+        f"random_chapter_min={min(min(values) for values in random_chapter_windows)} "
         f"refund_week={min(checkpoints)}-{max(checkpoints)} "
         f"estimated_minutes={min(totals):.1f}-{max(totals):.1f}"
     )

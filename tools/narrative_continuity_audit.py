@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Measure whether authored stops read as one novel instead of event cards.
 
-This audit is intentionally descriptive during the recomposition pass. It
-turns the live KO event catalog and representative arc-flow paths into a
-stable ledger of scene length, decision count, chain depth, chapter density,
-and isolated micro-scenes. Integrity errors fail the command; pacing numbers
-become strict ratchets only after the new narrative spine is implemented.
+This audit turns the live KO event catalog and representative arc-flow paths
+into a stable ledger of scene length, decision count, chain depth, chapter
+density, and isolated micro-scenes. Integrity errors always fail. Chapters 4
+and 5 also carry strict minimum chain/peak and maximum isolation ratchets so
+the late-game novel cannot silently collapse back into disconnected cards.
 """
 
 from __future__ import annotations
@@ -25,6 +25,10 @@ ROOT = Path(__file__).resolve().parents[1]
 EVENT_DIR = ROOT / "content" / "events"
 WEEKS_PER_CHAPTER = 48
 TOTAL_CHAPTERS = 5
+LATE_CHAPTER_RATCHETS = {
+    4: {"chained_min": 3, "peak_roots_min": 2, "isolated_micro_max": 5},
+    5: {"chained_min": 2, "peak_roots_min": 1, "isolated_micro_max": 1},
+}
 
 
 @dataclass(frozen=True)
@@ -283,6 +287,8 @@ def build_report() -> dict[str, Any]:
             isolated = 0
             panels_min = 0
             panels_max = 0
+            links_min = 0
+            links_max = 0
             decisions_min = 0
             decisions_max = 0
             switches = 0
@@ -293,6 +299,8 @@ def build_report() -> dict[str, Any]:
                 thread = story_thread(events[event_id])
                 panels_min += metric.min_panels
                 panels_max += metric.max_panels
+                links_min += metric.min_links
+                links_max += metric.max_links
                 decisions_min += metric.min_decisions
                 decisions_max += metric.max_decisions
                 single_link += int(metric.max_links == 1)
@@ -323,6 +331,8 @@ def build_report() -> dict[str, Any]:
                 "isolated_micro": isolated,
                 "panels_min": panels_min,
                 "panels_max": panels_max,
+                "links_min": links_min,
+                "links_max": links_max,
                 "decisions_min": decisions_min,
                 "decisions_max": decisions_max,
                 "thread_switches": switches,
@@ -333,6 +343,29 @@ def build_report() -> dict[str, Any]:
             "chapters": chapter_rows,
             "isolated_micro_scenes": path_micro,
         })
+
+    ratchet_errors: list[str] = []
+    for path in path_reports:
+        rows = {int(row["chapter"]): row for row in path["chapters"]}
+        for chapter, contract in LATE_CHAPTER_RATCHETS.items():
+            row = rows[chapter]
+            if int(row["chained"]) < contract["chained_min"]:
+                ratchet_errors.append(
+                    f"{path['name']} chapter {chapter} chains "
+                    f"{row['chained']}<{contract['chained_min']}"
+                )
+            if int(row["peak_roots"]) < contract["peak_roots_min"]:
+                ratchet_errors.append(
+                    f"{path['name']} chapter {chapter} peaks "
+                    f"{row['peak_roots']}<{contract['peak_roots_min']}"
+                )
+            if int(row["isolated_micro"]) > contract["isolated_micro_max"]:
+                ratchet_errors.append(
+                    f"{path['name']} chapter {chapter} isolated "
+                    f"{row['isolated_micro']}>{contract['isolated_micro_max']}"
+                )
+    if ratchet_errors:
+        raise ValueError("late chapter pacing ratchet: " + "; ".join(ratchet_errors))
 
     return {
         "catalog": {
@@ -362,7 +395,8 @@ def print_text(report: dict[str, Any]) -> None:
                 "  CHAPTER {chapter} weeks={weeks} stops={stops} single={single_link} "
                 "chains={chained} peaks={peak_roots} short={short_standalone} "
                 "isolated={isolated_micro} panels={panels_min}-{panels_max} "
-                "decisions={decisions_min}-{decisions_max} switches={thread_switches}".format(**row)
+                "links={links_min}-{links_max} decisions={decisions_min}-{decisions_max} "
+                "switches={thread_switches}".format(**row)
             )
         micro = path["isolated_micro_scenes"]
         preview = ",".join(f"t{item['week']}:{item['event']}" for item in micro[:16])
