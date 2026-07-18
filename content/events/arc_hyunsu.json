@@ -52,8 +52,8 @@
       "min_turn": 20
     },
     "cooldown": 9999,
-    "portrait": "hyunsu",
-    "background": "goshiwon_room",
+    "portrait": "player_offduty_neutral",
+    "background": "goshiwon_hallway",
     "description": "새벽 다섯 시, 문 닫히는 소리에 {name}은 잠깐 깼다.\n\n복도 끝에서 발소리가 멀어졌다. 현수였다. 오늘이 시험 날이었다. 9급 행정직 — 4년치가 하루에 채점되는 날.\n\n다시 눈을 감았다가, 감기지 않아서 천장을 봤다. 공용 주방에 나가 보니 현수 자리에 컵이 하나 엎어져 있었다. 씻어서 엎어 놓고 간 컵. 시험 보러 가는 새벽에도 컵을 씻는 사람.\n\n돌아오는 저녁이 그에게 어떤 저녁일지, 아직 아무도 몰랐다.",
     "choices": [
       {
@@ -121,8 +121,8 @@
       "no_flag": "hyunsu_passed"
     },
     "cooldown": 9999,
-    "portrait": "hyunsu",
-    "background": "goshiwon_room",
+    "portrait": "player_offduty_neutral",
+    "background": "goshiwon_hallway",
     "description": "현수가 사흘째 방에서 나오지 않았다.\n\n공용 주방에서 라면 물 끓는 소리가 사라진 지도 사흘째였다. 문 밑으로 불빛만 새어 나왔다. 켜져 있다는 것 — 그게 그나마 확인할 수 있는 전부였다.\n\n{name}은 편의점 봉지를 든 채 그 문 앞에 섰다. 벽 하나 너머에서 4년이 끝나 있었다.\n\n두드려야 하나. 손을 올렸다가, 내렸다가, 다시 올렸다.",
     "choices": [
       {
@@ -136,7 +136,9 @@
           "hyunsu_failed",
           "hyunsu_comforted"
         ],
-        "result_text": "한참 후에 문이 열렸다.\n\n현수의 눈이 부어 있었다. 방바닥엔 문제집이 그대로 펼쳐져 있었다 — 덮을 힘도 없었던 것처럼.\n\n말을 많이 하지 않았다. {name}은 봉지에서 음료 두 개를 꺼내 하나를 내밀었다. 현수가 받았다. 캔 따는 소리가 좁은 방에서 유난히 크게 울렸다.\n\n그걸로 충분했다. 때로는 그게 전부다."
+        "result_text": "한참 후에 문이 열렸다.\n\n현수의 눈이 부어 있었다. 방바닥엔 문제집이 그대로 펼쳐져 있었다 — 덮을 힘도 없었던 것처럼.\n\n말을 많이 하지 않았다. {name}은 봉지에서 음료 두 개를 꺼내 하나를 내밀었다. 현수가 받았다. 캔 따는 소리가 좁은 방에서 유난히 크게 울렸다.\n\n그걸로 충분했다. 때로는 그게 전부다.",
+        "deferred_follow_up": "arc_hyunsu_exam_fail",
+        "deferred_delay": 4
       },
       {
         "text": "건드리지 않는다 — 혼자 있고 싶을 것 같다",
@@ -147,7 +149,9 @@
         "flags": [
           "hyunsu_failed"
         ],
-        "result_text": "나흘째 되던 날, 현수가 나왔다.\n\n아무 말 없이 세면대에서 오래 세수를 했다. 물소리가 멎고, 거울 앞에 잠깐 서 있는 기척이 있었다.\n\n복도에서 {name}과 눈이 마주쳤다. 현수가 작게 고개를 끄덕였다.\n\n괜찮다는 건지, 아직 모르겠다는 건지. {name}은 묻지 않는 쪽을 택했다. 그것도 곁에 있는 방법 중 하나라고 믿으면서."
+        "result_text": "나흘째 되던 날, 현수가 나왔다.\n\n아무 말 없이 세면대에서 오래 세수를 했다. 물소리가 멎고, 거울 앞에 잠깐 서 있는 기척이 있었다.\n\n복도에서 {name}과 눈이 마주쳤다. 현수가 작게 고개를 끄덕였다.\n\n괜찮다는 건지, 아직 모르겠다는 건지. {name}은 묻지 않는 쪽을 택했다. 그것도 곁에 있는 방법 중 하나라고 믿으면서.",
+        "deferred_follow_up": "arc_hyunsu_exam_fail",
+        "deferred_delay": 4
       }
     ]
   },

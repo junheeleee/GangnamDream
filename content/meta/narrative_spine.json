@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "title": "Gangnam Dream",
   "central_question": "민준은 자신과 아버지를 무너뜨린 세계에 들어가면서 그 세계와 같은 사람이 되는가?",
   "player_promise": "1장에서 남긴 선택과 관계가 5장의 마지막 서명까지 형태를 바꾸며 돌아온다.",
@@ -134,6 +134,18 @@
       "reversal": ["arc_jiyeon_01_crash", "arc_jaehyuk_01_reunion"],
       "boss": ["arc_year1_close"],
       "aftermath": ["chapter_card_34"],
+      "temporal_spines": [
+        {
+          "id": "room_becomes_home",
+          "events": ["arc_gosiwon_wall", "arc_goshiwon_goodbye", "arc_housing_new_life"],
+          "payoff": "얇은 벽을 견디던 방에서 자기 문을 닫는 첫날까지, 주거 상승이 면적뿐 아니라 고독의 감각도 바꾸는 일임을 보여준다."
+        },
+        {
+          "id": "hyunsu_after_the_exam",
+          "events": ["arc_intro_04_hyunsu", "arc_hyunsu_night_talk", "hyunsu_exam_day", "hyunsu_result_fail", "arc_hyunsu_exam_fail", "arc_hyunsu_drift", "arc_hyunsu_new_path"],
+          "payoff": "시험의 성공 여부보다 결과 뒤의 빈 시간과 자기 손으로 고른 다음 길을 현수의 1장 변화로 남긴다."
+        }
+      ],
       "handoff": "민준을 알아본 상철과 너무 성공해 보이는 재혁이 동시에 다음 해의 문을 연다."
     },
     {
@@ -277,6 +289,14 @@
       {
         "event": "arc_paycheck_reality",
         "resolution": "첫 월급의 사용 태도를 해당 주의 시간 다리로 흡수"
+      },
+      {
+        "event": "arc_office_routine",
+        "resolution": "생존직을 제외한 첫 사무직 야근을 해당 주의 경력 기록으로 흡수"
+      },
+      {
+        "event": "arc_night_routine",
+        "resolution": "현수와 나란히 보낸 심야 선택을 해당 주의 생활 기록으로 흡수"
       }
     ]
   }

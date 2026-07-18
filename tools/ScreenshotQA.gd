@@ -37,6 +37,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=sangchul-casino --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=sangchul-confrontation --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=father-ktx --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=chapter1-spine --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=chapter3-spine --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=season-peaks --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ending-p1 --lang=en
@@ -119,6 +120,7 @@ const QA_SCOPE_HYUNSU_REUNION := "hyunsu_reunion"
 const QA_SCOPE_SANGCHUL_CONFRONTATION := "sangchul_confrontation"
 const QA_SCOPE_FATHER_PEAKS := "father_peaks"
 const QA_SCOPE_FATHER_KTX := "father_ktx"
+const QA_SCOPE_CHAPTER1_SPINE := "chapter1_spine"
 const QA_SCOPE_CHAPTER2_PEAKS := "chapter2_peaks"
 const QA_SCOPE_CHAPTER3_SPINE := "chapter3_spine"
 const QA_SCOPE_FIRST_KISS := "first_kiss"
@@ -469,6 +471,16 @@ func _ready() -> void:
 			get_tree().quit(1)
 			return
 		print("SCREENSHOT_QA_DONE scope=father-ktx lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_CHAPTER1_SPINE:
+		var lang := _qa_language("en")
+		await _shot_chapter1_spine_surfaces(
+				lang, "chapter1_spine_en_" if lang == "en" else "chapter1_spine_ko_")
+		if _qa_failed:
+			get_tree().quit(1)
+			return
+		print("SCREENSHOT_QA_DONE scope=chapter1-spine lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_CHAPTER2_PEAKS:
@@ -869,6 +881,11 @@ func _qa_scope() -> String:
 				"qa=father-ktx", "--qa=father-ktx", "qa=father_ktx", "--qa=father_ktx",
 				"scope=father-ktx", "--scope=father-ktx"]:
 			return QA_SCOPE_FATHER_KTX
+		if arg in ["chapter1-spine", "chapter1_spine", "chapter-one-spine",
+				"--chapter1-spine", "--chapter1_spine", "qa=chapter1-spine",
+				"--qa=chapter1-spine", "qa=chapter1_spine", "--qa=chapter1_spine",
+				"scope=chapter1-spine", "--scope=chapter1-spine"]:
+			return QA_SCOPE_CHAPTER1_SPINE
 		if arg in ["chapter2-peaks", "chapter2_peaks", "chapter-two-peaks",
 				"--chapter2-peaks", "--chapter2_peaks", "qa=chapter2-peaks",
 				"--qa=chapter2-peaks", "qa=chapter2_peaks", "--qa=chapter2_peaks",
@@ -1448,6 +1465,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	_assert_sangchul_deduction_visual_state(story, event_id)
 	_assert_sangchul_casino_visual_state(story, event_id)
 	_assert_living_scene_state(story, event_id)
+	_assert_chapter1_spine_state(story, event_id)
 	_assert_chapter2_visual_state(story, event_id, select_choice)
 	_assert_chapter3_spine_state(story, event_id)
 	if _qa_scope() == QA_SCOPE_TEXT_MATERIAL:
@@ -5520,6 +5538,145 @@ func _assert_chapter2_visual_state(story: Node, event_id: String, selected_choic
 			_fail("%s result ambience expected %s at choice=%d, got %s." % [
 				event_id, expected_ambience, selected_choice, actual_ambience,
 			])
+
+func _shot_chapter1_spine_surfaces(
+		lang: String = "en", prefix: String = "chapter1_spine_en_") -> void:
+	_set_qa_language(lang)
+	var event_cases: Array = [
+		["arc_hyunsu_night_talk", "01_night_talk"],
+		["hyunsu_exam_day", "02_exam_day"],
+		["hyunsu_result_fail", "03_formal_result"],
+		["arc_hyunsu_exam_fail", "04_aftermath_message"],
+		["arc_hyunsu_drift", "05_drift_message"],
+		["arc_hyunsu_new_path", "06_new_path_call"],
+		["arc_goshiwon_goodbye", "07_goshiwon_goodbye"],
+		["arc_housing_new_life", "08_first_night_home"],
+	]
+	for event_case in event_cases:
+		_prepare_chapter1_spine_qa_state()
+		await _shot_story_event(
+				str(event_case[0]), prefix + str(event_case[1]), "", 0.45, true, true)
+
+func _prepare_chapter1_spine_qa_state() -> void:
+	_prepare_main_game_state()
+	GameState.turn = 29
+	GameState.age = 33
+	GameState.year = 2026
+	GameState.month = 8
+	GameState.week_of_month = 1
+	GameState.housing = "oneroom"
+	GameState.money = 5_000_000.0
+	GameState.mental = 58
+	GameState.moral_tint = 0.0
+	GameState.flags["arc_intro_hyunsu_seen"] = true
+	GameState.flags["arc_hyunsu_night_seen"] = true
+	GameState.flags["hyunsu_exam_day_seen"] = true
+	GameState.flags["hyunsu_failed"] = true
+	GameState.flags["arc_hyunsu_exam_fail_seen"] = true
+	GameState.flags["arc_hyunsu_drift_seen"] = true
+	GameState.flags["arc_goshiwon_goodbye_seen"] = true
+	_set_cast_relation_for_qa("hyunsu", 18)
+
+func _assert_chapter1_spine_state(story: Node, event_id: String) -> void:
+	if _qa_scope() != QA_SCOPE_CHAPTER1_SPINE:
+		return
+	var current_housing_events := [
+		"arc_hyunsu_exam_fail", "arc_hyunsu_drift", "arc_hyunsu_new_path",
+		"arc_housing_new_life",
+	]
+	var expected_backgrounds := {
+		"arc_hyunsu_night_talk": "goshiwon_hallway",
+		"hyunsu_exam_day": "goshiwon_hallway",
+		"hyunsu_result_fail": "goshiwon_hallway",
+		"arc_goshiwon_goodbye": "goshiwon_hallway",
+	}
+	if event_id in current_housing_events:
+		expected_backgrounds[event_id] = ImageRegistry.infer_background_id({}, GameState.housing)
+	if not expected_backgrounds.has(event_id):
+		return
+	var expected_background := str(expected_backgrounds[event_id])
+	var actual_background := str(story.get("_event_background_id"))
+	if actual_background != expected_background:
+		_fail("%s background expected %s, got %s." % [
+			event_id, expected_background, actual_background])
+		return
+	var bg_img := story.get("_bg_img") as TextureRect
+	var actual_path := bg_img.texture.resource_path \
+			if is_instance_valid(bg_img) and bg_img.texture != null else ""
+	var expected_path := ImageRegistry.get_background(expected_background)
+	if actual_path != expected_path:
+		_fail("%s background texture expected %s, got %s." % [
+			event_id, expected_path, actual_path])
+
+	var expected_ambiences := {
+		"arc_hyunsu_night_talk": "room",
+		"hyunsu_exam_day": "room",
+		"hyunsu_result_fail": "room",
+		"arc_hyunsu_exam_fail": "oneroom",
+		"arc_hyunsu_drift": "oneroom",
+		"arc_hyunsu_new_path": "oneroom",
+		"arc_goshiwon_goodbye": "room",
+		"arc_housing_new_life": "oneroom",
+	}
+	var expected_ambience := str(expected_ambiences[event_id])
+	if str(BGMPlayer._current_ambience_key) != expected_ambience:
+		_fail("%s ambience expected %s, got %s." % [
+			event_id, expected_ambience, BGMPlayer._current_ambience_key])
+	if BGMPlayer._music_mode != "ambient" or not BGMPlayer._current_key.is_empty() \
+			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("%s should reach its choice beat on ambience alone." % event_id)
+
+	var expected_portraits := {
+		"arc_hyunsu_night_talk": "hyunsu",
+		"hyunsu_exam_day": "player_offduty_neutral",
+		"hyunsu_result_fail": "player_offduty_neutral",
+		"arc_hyunsu_exam_fail": "hyunsu",
+		"arc_hyunsu_drift": "hyunsu",
+		"arc_hyunsu_new_path": "hyunsu",
+		"arc_goshiwon_goodbye": "player_offduty_neutral",
+		"arc_housing_new_life": "player_offduty_neutral",
+	}
+	var portrait := story.get("_portrait") as TextureRect
+	var actual_portrait_path := ""
+	if is_instance_valid(portrait) and portrait.texture != null:
+		actual_portrait_path = portrait.texture.resource_path
+	var expected_portrait_path := ImageRegistry.get_portrait(str(expected_portraits[event_id]))
+	if actual_portrait_path != expected_portrait_path:
+		_fail("%s portrait expected %s, got %s." % [
+			event_id, expected_portrait_path, actual_portrait_path])
+
+	var communication_cases := {
+		"arc_hyunsu_exam_fail": ["message", true, "MESSAGE", "메시지"],
+		"arc_hyunsu_drift": ["message", true, "MESSAGE", "메시지"],
+		"arc_hyunsu_new_path": ["phone", true, "VOICE CALL", "통화 중"],
+	}
+	var presentation: Dictionary = story.get("_current_presentation")
+	var badge := story.get("_communication_badge") as Control
+	if communication_cases.has(event_id):
+		var expected: Array = communication_cases[event_id]
+		var badge_label := story.get("_communication_label") as Label
+		var expected_badge := str(expected[2] if LocaleManager.is_english() else expected[3])
+		if str(presentation.get("channel", "")) != str(expected[0]) \
+				or str(presentation.get("scene_location", "")) != "current_housing" \
+				or str(presentation.get("remote_actor", "")) != "hyunsu" \
+				or bool(story.get("_portrait_remote_inset")) != bool(expected[1]) \
+				or not is_instance_valid(badge) or not badge.visible \
+				or not is_instance_valid(badge_label) or badge_label.text != expected_badge:
+			_fail(("%s lost its remote Hyunsu presentation contract " \
+					+ "(channel=%s location=%s actor=%s inset=%s badge=%s text=%s expected=%s).") % [
+				event_id,
+				str(presentation.get("channel", "")),
+				str(presentation.get("scene_location", "")),
+				str(presentation.get("remote_actor", "")),
+				str(story.get("_portrait_remote_inset")),
+				str(is_instance_valid(badge) and badge.visible),
+				badge_label.text if is_instance_valid(badge_label) else "missing",
+				expected_badge,
+			])
+	elif is_instance_valid(badge) and badge.visible:
+		_fail("%s incorrectly retained a remote communication badge." % event_id)
+	if LocaleManager.is_english() and _contains_hangul(_collect_control_text(story)):
+		_fail("%s leaked Hangul in the English Chapter 1 spine." % event_id)
 
 func _shot_chapter3_spine_surfaces(
 		lang: String = "en", prefix: String = "chapter3_spine_en_") -> void:

@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 5,
   "updated": "2026-07-18",
   "policy": {
     "diegetic_spoken_language": "ko",
@@ -196,6 +196,15 @@
     "arc_father_call_on_ktx": {"ambience": "train", "music": {"key": "grief", "start_paragraph": 2}},
     "arc_father_call_on_ktx_memory": {"ambience": "train", "music": {"key": "grief", "start_paragraph": 0}},
     "arc_father_call_on_ktx_number": {"ambience": "train", "music": {"key": "grief", "start_paragraph": 0}},
+    "arc_hyunsu_night_talk": {"ambience": "room", "suppress_music": true},
+    "hyunsu_exam_day": {"ambience": "room", "suppress_music": true},
+    "hyunsu_result_fail": {"ambience": "room", "suppress_music": true},
+    "hyunsu_result_pass": {"ambience": "room", "suppress_music": true},
+    "arc_hyunsu_exam_fail": {"ambience": "current_housing", "suppress_music": true},
+    "arc_hyunsu_drift": {"ambience": "current_housing", "suppress_music": true},
+    "arc_hyunsu_new_path": {"ambience": "current_housing", "suppress_music": true},
+    "arc_goshiwon_goodbye": {"ambience": "room", "suppress_music": true},
+    "arc_housing_new_life": {"ambience": "current_housing", "suppress_music": true},
     "hyunsu_reunion_later": {"ambience": "current_housing", "suppress_music": true},
     "hyunsu_reunion_photo": {"ambience": "current_housing", "suppress_music": true},
     "hyunsu_reunion_memory": {"ambience": "current_housing", "suppress_music": true},

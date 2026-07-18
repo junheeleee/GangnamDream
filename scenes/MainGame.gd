@@ -2367,6 +2367,14 @@ func _first_job_week_arc_id(f: Dictionary, at_turn: int = -1) -> String:
 		_:
 			return "arc_first_job_week"
 
+func _office_routine_available(f: Dictionary, at_turn: int = -1) -> bool:
+	var query_turn: int = GameState.turn if at_turn < 0 else at_turn
+	return query_turn >= 16 and query_turn <= 19 \
+			and not GameState.current_job.is_empty() \
+			and str(GameState.current_job.get("category", "")) != "survival" \
+			and GameState.job_tenure >= 3 \
+			and not f.get("arc_office_routine_seen", false)
+
 func _demo_narrative_bridge_choice(event_id: String) -> int:
 	var f := GameState.flags
 	match event_id:
@@ -2400,6 +2408,19 @@ func _demo_narrative_bridge_choice(event_id: String) -> int:
 			if f.get("mindset_founder", false):
 				return 2
 			return 0
+		"arc_office_routine":
+			if f.get("mindset_founder", false):
+				return 1
+			if f.get("route_career", false) or f.get("mindset_saver", false):
+				return 2
+			return 0
+		"arc_night_routine":
+			if f.get("mindset_investor", false) or f.get("route_invest", false):
+				return 0
+			if f.get("hyunsu_encouraged", false) \
+					or GameState.get_cast_affinity("hyunsu") >= 3:
+				return 1
+			return 2
 	return 0
 
 func _resolve_demo_narrative_bridge(
@@ -2894,12 +2915,11 @@ func _next_arc_id(
 			and GameState.investment_skill >= 5 \
 			and not f.get("arc_invest_first_loss_seen", false):
 		return "arc_invest_first_loss"
-	# 야근 편의점 — 직장 3주 이상, 지연 등장 전 (t16~19)
-	if t >= 16 and t <= 19 \
-			and not GameState.current_job.is_empty() \
-			and GameState.job_tenure >= 3 \
-			and not f.get("arc_office_routine_seen", false):
-		return "arc_office_routine"
+	# 야근 편의점 — 사무직 3주 이상, 지연 등장 전 (t16~19)
+	if _office_routine_available(f, t):
+		if not _resolve_demo_narrative_bridge(
+				"arc_office_routine", t, preview_only, resolve_bridges):
+			return "arc_office_routine"
 	# ─────────────────────────────────────────────────────────────────
 
 	if t >= 55 and f.get("arc_sangchul_02_seen", false) \
@@ -2949,22 +2969,25 @@ func _next_arc_id(
 		return "arc_social_comparison"
 
 	# ══ 4구간: 최재혁 — 군대 동기 사기 아크 (데모에서 t>=19으로 단축) ══
-	# ── 현수 — 시험 불합격 (새벽 라면 이후) ──
-	if t >= 25 and t <= 35 \
-			and f.get("arc_hyunsu_night_seen", false) \
+	# ── 현수 — 정식 불합격 결과 몇 주 뒤의 후유증 (구세이브 복구용 fallback) ──
+	if t >= 25 and t <= 45 \
+			and f.get("hyunsu_failed", false) \
+			and not GameState.has_deferred_event("arc_hyunsu_exam_fail") \
 			and not f.get("arc_hyunsu_exam_fail_seen", false):
 		return "arc_hyunsu_exam_fail"
 
-	# ── 현수의 방황 — 불합격 후 떠남 직전 (턴 36~41) ──
-	if t >= 36 and t <= 41 \
+	# ── 현수의 방황 — 후유증 이후의 거리감 (구세이브 복구용 fallback) ──
+	if t >= 30 and t <= 50 \
 			and f.get("arc_hyunsu_exam_fail_seen", false) \
+			and not GameState.has_deferred_event("arc_hyunsu_drift") \
 			and not f.get("arc_hyunsu_drift_seen", false) \
 			and not f.get("arc_hyunsu_new_path_seen", false):
 		return "arc_hyunsu_drift"
 
-	# ── 현수의 새 길 — 불합격 이후 떠남 (턴 42~50) ──
-	if t >= 42 and t <= 50 \
-			and f.get("arc_hyunsu_exam_fail_seen", false) \
+	# ── 현수의 새 길 — 방황 뒤의 첫 구체적 선택 (구세이브 복구용 fallback) ──
+	if t >= 36 and t <= 56 \
+			and f.get("arc_hyunsu_drift_seen", false) \
+			and not GameState.has_deferred_event("arc_hyunsu_new_path") \
 			and not f.get("arc_hyunsu_new_path_seen", false):
 		return "arc_hyunsu_new_path"
 
@@ -2973,7 +2996,9 @@ func _next_arc_id(
 			and GameState.housing == "gosiwon" \
 			and f.get("arc_intro_hyunsu_seen", false) \
 			and not f.get("arc_night_routine_seen", false):
-		return "arc_night_routine"
+		if not _resolve_demo_narrative_bridge(
+				"arc_night_routine", t, preview_only, resolve_bridges):
+			return "arc_night_routine"
 
 	# ── 30억이라는 숫자 — 반환점과 2년 반 장부를 읽은 뒤의 현기증 ──
 	if t >= 126 and t <= 144 \
@@ -2983,10 +3008,9 @@ func _next_arc_id(
 			and not f.get("arc_goal_vertigo_seen", false):
 		return "arc_goal_vertigo"
 
-	# ── 새 집 첫날 밤 — 고시원 탈출 직후 (고시원 탈출 후 3턴 이내) ──
+	# ── 새 집 첫날 밤 — 신규 런은 퇴실 선택의 즉시 후속, 구세이브는 여기서 복구 ──
 	if f.get("arc_goshiwon_goodbye_seen", false) \
-			and not f.get("arc_housing_new_life_seen", false) \
-			and t <= 35:
+			and not f.get("arc_housing_new_life_seen", false):
 		return "arc_housing_new_life"
 
 	# ── 처음 혼자 간 강남 (턴 22~28, 누구나) ──
@@ -3202,8 +3226,11 @@ func _next_arc_id(
 		return "arc_daeun_later_echo"
 
 	# ── 현수 — 새 길 (턴 35~50, 불합격 이후) ──
+	# 신규 런은 arc_hyunsu_* 시간축이 담당한다. 이 장면은 구세이브 fallback이다.
 	if t >= 35 and t <= 50 \
 			and f.get("hyunsu_failed", false) \
+			and not f.get("arc_hyunsu_exam_fail_seen", false) \
+			and not GameState.has_deferred_event("arc_hyunsu_exam_fail") \
 			and not f.get("hyunsu_pivoted", false):
 		return "hyunsu_pivot"
 	# ── 현수 — 나중에 다시 만난 날 (턴 70+, 피벗 이후) ──

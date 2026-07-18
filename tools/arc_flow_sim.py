@@ -22,6 +22,16 @@ import re, json, glob, sys, os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 VERBOSE = "--verbose" in sys.argv
+BRIDGE_EVENTS = {
+    "arc_money_check_low",
+    "arc_money_check_mid",
+    "arc_money_check_high",
+    "arc_gosiwon_wall",
+    "arc_invest_guidance",
+    "arc_paycheck_reality",
+    "arc_office_routine",
+    "arc_night_routine",
+}
 
 # ── ground truth: event -> 본문/설정 가능한 플래그 ────────────────────────
 events = {}
@@ -69,12 +79,14 @@ for ind, tx in merged:
         stack.pop()
     m_if = re.match(r'(if|elif)\s+(.*):$', tx)
     m_else = re.match(r'else\s*:$', tx)
-    m_ret = re.search(r'return "(arc_[a-z0-9_]+)"', tx)
+    m_ret = re.search(r'return "((?:arc_|hyunsu_)[a-z0-9_]+)"', tx)
     if m_ret:
         conds = [c for _, c in stack]
         inl = re.match(r'if\s+(.*):\s*return', tx)
         if inl:
             conds = conds + [inl.group(1)]
+        if m_ret.group(1) in BRIDGE_EVENTS:
+            conds = [c for c in conds if "_resolve_demo_narrative_bridge" not in c]
         triggers.append((m_ret.group(1), conds))
     if m_if and not re.search(r':\s*return', tx):
         stack.append((ind, m_if.group(2)))
@@ -96,7 +108,7 @@ class State:
         s.housing = "gosiwon"; s.current_job = Job(); s.nav = 500000
         s.deferred_events = []
         s.cast = {k: {"aff": 0, "stage": "none"} for k in
-                  ["sangchul", "daeun", "jiyeon", "jaehyuk", "father"]}
+                  ["sangchul", "daeun", "jiyeon", "jaehyuk", "father", "hyunsu"]}
 
     def get_total_asset_value(s): return s.nav
     def get_cast_affinity(s, n): return s.cast.get(n, {}).get("aff", 0)
@@ -229,15 +241,20 @@ SPINE_COMMON = {
     # not on the scheduled root event. Model one canonical terminal outcome so
     # both representative paths match StoryMode's immediate follow-up chain.
     "arc_jaehyuk_mirror": ["arc_jaehyuk_mirror_seen", "refused_jaehyuk_guarantee"],
+    "hyunsu_study_together": ["hyunsu_study_together_seen"],
     "arc_hyunsu_night_talk": ["arc_hyunsu_night_seen"],
     "hyunsu_exam_day": ["hyunsu_exam_day_seen"],
+    "hyunsu_result_fail": ["hyunsu_failed"],
+    "hyunsu_result_pass": ["hyunsu_passed"],
     "arc_hyunsu_exam_fail": ["arc_hyunsu_exam_fail_seen"],
-    "arc_hyunsu_new_path": ["arc_hyunsu_new_path_seen", "hyunsu_failed"],
+    "arc_hyunsu_drift": ["arc_hyunsu_drift_seen"],
+    "arc_hyunsu_new_path": ["arc_hyunsu_new_path_seen", "hyunsu_pivoted"],
     "hyunsu_pivot": ["hyunsu_pivoted"],
     # The reunion now writes its guard on the in-person terminal link.
     "hyunsu_reunion_later": ["hyunsu_reconnected"],
     "arc_midpoint_reckoning": ["arc_midpoint_reckoning_seen"],
     "arc_goshiwon_goodbye": ["arc_goshiwon_goodbye_seen"],
+    "arc_housing_new_life": ["arc_housing_new_life_seen"],
     "arc_jaewon_01_meet": ["arc_jaewon_01_seen"],
     "arc_jaewon_02_advice": ["arc_jaewon_02_seen"],
     "arc_jaewon_03_farewell": ["arc_jaewon_03_seen"],
@@ -296,7 +313,7 @@ def traj_A(S):
     if t == 1: S.items.add("artifact_father_call")
     if t in (2, 5, 8, 12, 20, 30, 45, 60): S.route_orthodox += 1
     if t in (4, 25, 55): S.route_unorthodox += 1
-    if t == 6: S.current_job = Job(title="staff")
+    if t == 6: S.current_job = Job(id="job_01", title="staff", category="survival")
     if t >= 6: S.job_tenure = t - 5
     if t == 10: S.flags["has_received_paycheck"] = True
     if t == 30: S.housing = "oneroom"
@@ -316,7 +333,7 @@ def traj_B(S):
     if t in (4, 8, 12, 18, 25, 33, 44, 55): S.route_unorthodox += 1
     if t in (20, 40): S.route_orthodox += 1
     S.intelligence = min(80, 50 + max(0, (t - 10)) // 4)
-    if t == 6: S.current_job = Job(title="staff")
+    if t == 6: S.current_job = Job(id="job_01", title="staff", category="survival")
     if t >= 6: S.job_tenure = t - 5
     if t == 10: S.flags["has_received_paycheck"] = True
     if t == 28: S.housing = "oneroom"
@@ -332,14 +349,43 @@ def traj_B(S):
     if t == 42: S.flags["jaehyuk_suspected"] = True
 
 
+def apply_bridge_choice(S, event_id, choice_indices):
+    """Apply the representative existing choice without creating a foreground stop."""
+    event = events[event_id]
+    choices = event.get("choices", [])
+    index = int(choice_indices.get(event_id, 0))
+    if index < 0 or index >= len(choices):
+        index = 0
+    choice = choices[index]
+    for flag in choice.get("flags", []):
+        S.flags[str(flag)] = True
+    effects = choice.get("effects", {})
+    S.money += float(effects.get("money", 0))
+    S.investment_skill += int(effects.get("investment_skill", 0))
+    S.intelligence += int(effects.get("intelligence", 0))
+    if str(choice.get("route", "")) == "orthodox":
+        S.route_orthodox += 1
+    elif str(choice.get("route", "")) == "unorthodox":
+        S.route_unorthodox += 1
+    for cast_id, cast_effect in choice.get("cast_effects", {}).items():
+        S.cast.setdefault(str(cast_id), {"aff": 0, "stage": "none"})
+        S.cast[str(cast_id)]["aff"] += int(cast_effect.get("affinity", 0))
+    for deferred_id, delay in canonical_deferred_links(event_id, choice_indices):
+        S.add_deferred_event(deferred_id, delay)
+
+
 def run(spine, traj, cast_flag_hook, choice_indices):
-    S = State(); fired = {}; firelog = {}; repeats = {}
+    S = State(); fired = {}; firelog = {}; repeats = {}; bridge_log = {}
     for t in range(1, 241):
         S.t = t; traj(S); cast_flag_hook(S)
         chosen = S.pop_ready_deferred_event()
         if not chosen:
             for eid, conds in triggers:
                 if evalconds(conds, S):
+                    if eid in BRIDGE_EVENTS:
+                        apply_bridge_choice(S, eid, choice_indices)
+                        bridge_log.setdefault(t, []).append(eid)
+                        continue
                     chosen = eid; break
         if chosen:
             if chosen in fired:
@@ -349,7 +395,7 @@ def run(spine, traj, cast_flag_hook, choice_indices):
             for fl in spine.get(chosen, []): S.flags[fl] = True
             for deferred_id, delay in canonical_deferred_links(chosen, choice_indices):
                 S.add_deferred_event(deferred_id, delay)
-    return fired, firelog, repeats, S
+    return fired, firelog, repeats, S, bridge_log
 
 
 def hookA(S):
@@ -366,9 +412,17 @@ YEARS = {1: (1, 48), 2: (49, 96), 3: (97, 144), 4: (145, 192), 5: (193, 240)}
 PATHS = [
     ("A 정석/다은보냄/사기", PATH_A, traj_A, hookA, {
         "arc_jaehyuk_03_pitch": 0,
+        "hyunsu_study_together": 1,
+        "hyunsu_result_fail": 0,
+        "arc_hyunsu_exam_fail": 0,
+        "arc_hyunsu_drift": 1,
     }),
     ("B 비정석/진실/committed", PATH_B, traj_B, hookB, {
         "arc_jaehyuk_03_pitch": 2,
+        "hyunsu_study_together": 1,
+        "hyunsu_result_fail": 0,
+        "arc_hyunsu_exam_fail": 2,
+        "arc_hyunsu_drift": 2,
     }),
 ]
 # 경로별 완결돼야 하는 대표 체인
@@ -445,9 +499,90 @@ EXPECTED_CHAPTER3 = {
     },
 }
 
+EXPECTED_CHAPTER1 = {
+    "A 정석/다은보냄/사기": {
+        2: "arc_intro_01_meal",
+        4: "arc_temptation_01",
+        9: "arc_intro_04_hyunsu",
+        10: "arc_sangchul_01_meet",
+        12: "arc_daeun_01_meet",
+        13: "hyunsu_study_together",
+        14: "arc_father_01_call",
+        15: "arc_invest_first_loss",
+        16: "arc_father_quiet_call",
+        17: "arc_jiyeon_01_crash",
+        19: "arc_jaehyuk_01_reunion",
+        20: "arc_job_vs_invest",
+        21: "arc_father_02_signal",
+        22: "arc_gangnam_visit_alone",
+        23: "arc_hyunsu_night_talk",
+        24: "hyunsu_exam_day",
+        25: "hyunsu_result_fail",
+        28: "arc_sangchul_02_coffee",
+        29: "arc_hyunsu_exam_fail",
+        30: "arc_goshiwon_goodbye",
+        31: "arc_first_real_win",
+        34: "arc_hyunsu_drift",
+        35: "arc_daeun_02_regular",
+        36: "arc_jiyeon_02_store",
+        40: "arc_hyunsu_new_path",
+        41: "arc_opp_sangchul_realty",
+        44: "arc_year1_close",
+    },
+    "B 비정석/진실/committed": {
+        2: "arc_intro_01_meal",
+        4: "arc_temptation_01",
+        9: "arc_intro_04_hyunsu",
+        10: "arc_sangchul_01_meet",
+        12: "arc_daeun_01_meet",
+        13: "hyunsu_study_together",
+        14: "arc_father_01_call",
+        15: "arc_invest_first_loss",
+        16: "arc_father_quiet_call",
+        17: "arc_jiyeon_01_crash",
+        19: "arc_jaehyuk_01_reunion",
+        20: "arc_job_vs_invest",
+        21: "arc_father_02_signal",
+        22: "arc_gangnam_visit_alone",
+        23: "arc_hyunsu_night_talk",
+        24: "hyunsu_exam_day",
+        25: "hyunsu_result_fail",
+        28: "arc_goshiwon_goodbye",
+        29: "arc_hyunsu_exam_fail",
+        30: "arc_sangchul_02_coffee",
+        31: "arc_first_real_win",
+        34: "arc_hyunsu_drift",
+        35: "arc_daeun_02_regular",
+        36: "arc_jiyeon_02_store",
+        40: "arc_hyunsu_new_path",
+        41: "arc_opp_sangchul_realty",
+        44: "arc_year1_close",
+        45: "arc_money_loneliness",
+        46: "arc_opp_jiyeon_bunyang",
+    },
+}
+
+EXPECTED_CHAPTER1_BRIDGES = {
+    11: ["arc_gosiwon_wall"],
+    12: ["arc_invest_guidance"],
+    13: ["arc_night_routine"],
+    15: ["arc_paycheck_reality"],
+}
+
+HYUNSU_CHAPTER1_SEQUENCE = [
+    "arc_intro_04_hyunsu",
+    "hyunsu_study_together",
+    "arc_hyunsu_night_talk",
+    "hyunsu_exam_day",
+    "hyunsu_result_fail",
+    "arc_hyunsu_exam_fail",
+    "arc_hyunsu_drift",
+    "arc_hyunsu_new_path",
+]
+
 fail = 0
 for name, spine, traj, hook, choice_indices in PATHS:
-    fired, firelog, repeats, S = run(spine, traj, hook, choice_indices)
+    fired, firelog, repeats, S, bridge_log = run(spine, traj, hook, choice_indices)
     counts = {y: sum(1 for t in range(a, b + 1) if t in firelog) for y, (a, b) in YEARS.items()}
     print(f"\n=== Path {name} ===")
     print("  연차 authored 비트:", "  ".join(f"Y{y}={counts[y]}" for y in range(1, 6)))
@@ -468,6 +603,42 @@ for name, spine, traj, hook, choice_indices in PATHS:
         print("  ✗ 후속 체인 플래그 누락:", missing_flags)
     else:
         print("  ✓ 즉시 후속 체인 플래그 완결")
+    chapter1_log = {turn: event_id for turn, event_id in firelog.items() if turn <= 48}
+    if chapter1_log != EXPECTED_CHAPTER1[name]:
+        fail += 1
+        missing = [
+            f"t{turn}:{chapter1_log.get(turn, 'missing')}!={event_id}"
+            for turn, event_id in EXPECTED_CHAPTER1[name].items()
+            if chapter1_log.get(turn) != event_id
+        ]
+        extras = [
+            f"t{turn}:{event_id}"
+            for turn, event_id in chapter1_log.items()
+            if EXPECTED_CHAPTER1[name].get(turn) != event_id
+        ]
+        print("  ✗ 1장 전경 회귀:", ", ".join(missing + extras))
+    else:
+        print(f"  ✓ 1장 전경 {len(EXPECTED_CHAPTER1[name])}앵커 고정")
+    chapter1_bridges = {
+        turn: bridge_ids for turn, bridge_ids in bridge_log.items() if turn <= 48
+    }
+    if chapter1_bridges != EXPECTED_CHAPTER1_BRIDGES:
+        fail += 1
+        print("  ✗ 1장 비차단 다리 회귀:", chapter1_bridges)
+    else:
+        print("  ✓ 1장 비차단 다리 4개 고정·생존직 사무실 장면 0")
+    hyunsu_sequence = [
+        event_id for _, event_id in sorted(chapter1_log.items())
+        if event_id in HYUNSU_CHAPTER1_SEQUENCE
+    ]
+    if hyunsu_sequence != HYUNSU_CHAPTER1_SEQUENCE or "hyunsu_pivot" in fired:
+        fail += 1
+        print("  ✗ 현수 1장 시간축 회귀:", hyunsu_sequence)
+    elif not S.flags.get("arc_housing_new_life_seen"):
+        fail += 1
+        print("  ✗ 고시원 퇴실 뒤 현재 주거 첫날 플래그 누락")
+    else:
+        print("  ✓ 현수 8단계 시간축·이사 첫날 즉시 연결 고정")
     chapter3_mismatch = [
         f"t{turn}:{firelog.get(turn, 'missing')}!={event_id}"
         for turn, event_id in EXPECTED_CHAPTER3[name].items()
@@ -479,6 +650,9 @@ for name, spine, traj, hook, choice_indices in PATHS:
     else:
         print(f"  ✓ 3장 시간축 {len(EXPECTED_CHAPTER3[name])}앵커 고정")
     if VERBOSE:
+        for t, bridge_ids in sorted(bridge_log.items()):
+            for bridge_id in bridge_ids:
+                print(f"     b{t:3d} {bridge_id}")
         for t in range(1, 241):
             if t in firelog: print(f"     t{t:3d} {firelog[t]}")
 

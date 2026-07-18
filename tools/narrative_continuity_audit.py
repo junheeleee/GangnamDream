@@ -26,6 +26,14 @@ EVENT_DIR = ROOT / "content" / "events"
 WEEKS_PER_CHAPTER = 48
 TOTAL_CHAPTERS = 5
 CHAPTER_RATCHETS = {
+    1: {
+        "chained_min": 7,
+        "peak_roots_min": 1,
+        "temporal_roots_min": 3,
+        "isolated_micro_max": 0,
+        "stops_max": 29,
+        "thread_switches_max": 25,
+    },
     2: {"chained_min": 4, "peak_roots_min": 2, "isolated_micro_max": 2},
     3: {
         "chained_min": 2,
@@ -418,6 +426,18 @@ def build_report() -> dict[str, Any]:
                 ratchet_errors.append(
                     f"{path['name']} chapter {chapter} isolated "
                     f"{row['isolated_micro']}>{contract['isolated_micro_max']}"
+                )
+            stops_max = int(contract.get("stops_max", sys.maxsize))
+            if int(row["stops"]) > stops_max:
+                ratchet_errors.append(
+                    f"{path['name']} chapter {chapter} stops "
+                    f"{row['stops']}>{stops_max}"
+                )
+            switches_max = int(contract.get("thread_switches_max", sys.maxsize))
+            if int(row["thread_switches"]) > switches_max:
+                ratchet_errors.append(
+                    f"{path['name']} chapter {chapter} thread switches "
+                    f"{row['thread_switches']}>{switches_max}"
                 )
     if ratchet_errors:
         raise ValueError("chapter pacing ratchet: " + "; ".join(ratchet_errors))

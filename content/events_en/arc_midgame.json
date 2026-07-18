@@ -118,20 +118,20 @@
   },
   {
     "id": "arc_hyunsu_new_path",
-    "title": "Hyunsu Moves Out",
-    "description": "There were boxes in the hallway.\n\nHyunsu's door was open. His stuff was down to half.\n\n\"Hyung, I'm leaving.\" Hyunsu said. \"Since you moved out, I've been thinking a lot.\"\n\nFour years. Four years of the Grade 9 civil service exams.\n\n\"So what are you going to do?\" {name} asked.\n\"I still don't know.\" Hyunsu smiled. \"But this — this isn't it.\"",
+    "title": "Hyunsu's New Path",
+    "description": "After eleven that night, Hyunsu called.\n\n\"Hyung, I'm leaving the goshiwon.\"\n\nHe had boxed up his exam books. By day he would attend cooking school; at night he would start with dishes in a small restaurant kitchen. Plates knocked together beyond the phone.\n\nThe timetable that had ruled four years of his life was gone. For the first time, though, tomorrow had entered his voice.\n\n\"I don't know if I'll be good at it. But this time, I chose it.\"",
     "choices": [
       {
-        "text": "\"Good for you. Take care.\" — sincere encouragement",
-        "result_text": "Hyunsu gave a small bow. Smiled without awkwardness.\n\n{name} watched him carry his boxes down the stairs. Two people who'd passed through this goshiwon — each going a different direction."
+      "text": "\"Good. If you chose it, give it a real try.\" — encourage him",
+      "result_text": "Hyunsu let out a short breath on the other end, almost a laugh.\n\n\"You take care too, hyung. Not only when things go well.\"\n\nAfter the call, {name} held the dark screen a while. Two people who had passed through the same goshiwon now had different tomorrows."
       },
       {
         "text": "\"Do you have anything in mind?\" — curious",
-        "result_text": "\"I want to learn cooking. Weird, right?\" Hyunsu said.\n\nIt wasn't weird at all. For the first time, his eyes were pointing at something."
+      "result_text": "\"Cooking. Weird, right?\" Hyunsu said. \"I liked seeing someone eat something I made. Something besides ramyeon.\"\n\nIt was not strange. It was the first time Hyunsu had spoken about himself in the future tense. {name} listened longer to the sounds of the kitchen."
       },
       {
-        "text": "Say nothing. Shake his hand.",
-        "result_text": "Hyunsu looked briefly surprised, then shook it.\n\nSome things don't need words."
+      "text": "Offer no advice. Listen to the end.",
+      "result_text": "Hyunsu slowly described the school and restaurant he had found. {name} did not interrupt with an answer.\n\nBefore hanging up, Hyunsu said, \"Saying it out loud makes it feel real.\"\n\nSometimes listening was more exact than pushing someone forward."
       }
     ]
   },
@@ -160,7 +160,7 @@
     "description": "There was no need for a moving truck. Clothes, a laptop, and a few books filled two boxes. Carrying them one at a time, {name} made a final trip down the goshiwon hallway.\n\nPeeling wallpaper. The shared refrigerator's motor. Detergent mingled with instant ramyeon. Light still spilled from beneath Hyunsu's door. Even on the day he left, the corridor looked exactly as it always had.\n\nThe manager took his key at the foot of the stairs. A small piece of metal vanished from his palm.\n\n\"Live well.\" Behind those words, the door that had been his closed quietly.",
     "choices": [
       {
-        "text": "\"Thank you for everything.\" — a brief farewell and out the door",
+        "text": "\"Thank you for everything.\" Keep it brief, and leave.",
         "result_text": "\"Thank you for everything.\"\n\n{name} carried the boxes downstairs, their corners pressing into his forearms as the fluorescent light broke and returned at every landing.\n\nWhen the entrance shut behind him, the air seemed to open wide. It did not smell good: exhaust and wet asphalt. Still, there was no ceiling over it.\n\nHe shifted the boxes and walked on. He never looked back, but heard the automatic door close all the way to the end of the block."
       },
       {
@@ -216,20 +216,20 @@
   },
   {
     "id": "arc_hyunsu_exam_fail",
-    "title": "Hyunsu's Result",
-    "description": "Four days in a row, no sound from Hyunsu's room. Didn't seem like he'd been eating.\n\nNo lecture audio. The light that normally went out quickly had stayed on.\n\nCrossed paths in the hallway. One look at his face said it all.\n\n\"...Hyung.\" Hyunsu spoke first. \"I failed.\"\n\nThe fifth exam.",
+    "title": "After the Result",
+    "description": "About a month after the result, a message arrived from Hyunsu.\n\n\"Hyung. Everyone says I can just try again. That's the part that scares me most.\"\n\nA photo of his desk followed. The worn administrative law book leaned shut against the wall. The space where it had lived was an empty square.\n\n{name} wrote a reply, then erased it. Comfort felt too light. Advice came too soon.",
     "choices": [
       {
-        "text": "\"Those five years you put in aren't going anywhere.\" — offer comfort",
-        "result_text": "Hyunsu didn't say anything. Gave a small nod and went back to his room. The door closed quietly.\n\nNot sure if that helped. But by the next morning, the lecture audio was back."
+      "text": "\"Failing the exam doesn't erase the years you gave it.\" — reply",
+      "result_text": "The read mark appeared. Much later came a reply. \"I still don't know what those years are worth.\"\n\n{name} could not tell whether it helped. But for the first time, Hyunsu was speaking about what came after the result."
       },
       {
         "text": "\"What are you going to do next?\" — ask realistically",
-        "result_text": "\"...I don't know.\" Hyunsu said. \"For the first time, I genuinely don't know.\"\n\n{name} didn't have much to say either. They stood in the hallway for a while. Felt like sharing the experience of not knowing what comes next."
+      "result_text": "\"I don't know. For the first time, I really don't know.\"\n\n{name} did not press further. Their silence remained in the message window, without demanding that either of them turn it into an answer."
       },
       {
-        "text": "Say nothing — leave a can of convenience store coffee outside his door.",
-        "result_text": "Thirty minutes later, the can was gone. No thank-you message, nothing.\n\nJust gone. That was enough."
+      "text": "Send a convenience store coffee voucher instead of words.",
+      "result_text": "Thirty minutes later, a notification said the voucher had been used. No thanks. No other message.\n\nIt only meant Hyunsu had left his room that day. For now, that was enough."
       }
     ]
   },
@@ -273,20 +273,20 @@
   },
   {
     "id": "arc_hyunsu_drift",
-    "title": "Hyunsu Has Changed",
-    "description": "At some point, Hyunsu stopped studying.\n\nComing in late at night, heading out in the day, music instead of lectures in his earphones. A half-bottle of whiskey appeared in the communal kitchen, then disappeared.\n\nCrossed paths in the hallway. Hyunsu looked away first.",
+    "title": "The Missing Timetable",
+    "description": "After that, Hyunsu's messages arrived only at dawn. Instead of sentences came photos of convenience store lights or empty buses.\n\nThe exam books vanished from his profile. So did the status message that had counted study hours. What he had quit was visible; what he had begun was not.\n\nTonight, one short line arrived.\n\n\"Hyung, what do people do when the timetable disappears?\"",
     "choices": [
       {
-        "text": "Just walked past.",
-        "result_text": "Nothing to say. Or maybe there was. Each just went to their own room. The hallway was quiet."
+      "text": "Write a reply, then erase it.",
+      "result_text": "There was nothing to say. Or perhaps too much. {name} wrote several lines, erased them all, and turned off the screen.\n\nOne unread message remained in the notification panel until morning."
       },
       {
-        "text": "\"What have you been up to?\" — asked him",
-        "result_text": "Hyunsu stopped for a moment. \"Just... taking a break.\" That was all. Almost asked more but let it go. Some words can't be taken back once said."
+      "text": "\"Where have you been? What are you doing?\" — ask",
+      "result_text": "Much later came a reply. \"I sleep in the day. At night I wash dishes at a restaurant run by someone I know. Just trying to keep my hands moving.\"\n\nA knife emoji ended the sentence. Small as it was, it looked like the first mark on an empty timetable."
       },
       {
-        "text": "Made a cup of ramyeon and left it outside Hyunsu's door.",
-        "result_text": "Didn't say anything. Made an instant ramyeon and left it at his door without a word. Passed by later — it was gone. That was enough."
+      "text": "Send a ramyeon voucher and, \"Eat. Then sleep.\"",
+      "result_text": "After three in the morning, Hyunsu replied, \"You too, hyung.\" The same words they had traded in the shared kitchen.\n\n{name} looked at them for a long time. The place had changed, but something between them had not broken."
       }
     ]
   },
@@ -312,19 +312,19 @@
   {
     "id": "arc_housing_new_life",
     "title": "First Night",
-    "description": "Finished unpacking.\n\nThree times bigger than the goshiwon. The bathroom is inside. Through the window, a narrow alley. This space is mine.\n\nBut it's quiet. In the goshiwon there was always hallway noise. Hyunsu's lecture audio, someone opening the fridge late at night.\n\nNow there's nothing.",
+    "description": "The last box came open. Once clothes, books, and the laptop found their places, the unfamiliar room began to resemble a life.\n\nClosing the door no longer brought footsteps to a stop inches away. No shared refrigerator. No sound of Hyunsu's lectures. A better home and being alone occupied the same silence.\n\n{name} looked up at a ceiling that was not familiar yet. Starting tonight, this was home.",
     "choices": [
       {
-        "text": "Opened the window — at least some sound from outside.",
-        "result_text": "A stray cat from the alley. A car passing. Not bad. This is my noise now."
+      "text": "Open the window — listen to this neighborhood.",
+      "result_text": "A car passed in the distance. Somewhere, an entrance door shut. Other people's lives entered like a thin current of air.\n\nIt was not bad. These were the sounds {name} had chosen."
       },
       {
-        "text": "Thought about the goshiwon — a strange feeling.",
-        "result_text": "Was it really missing that cramped room? {name} paused on that thought. It was hard, that time. But maybe it's the people who were there that are missed."
+        "text": "Think of the goshiwon — a strange feeling.",
+      "result_text": "Could that cramped room truly be missed? It had been hard, yet the signs of other people had vanished with it.\n\n{name} remembered the last words shared with Hyunsu. Perhaps what he missed was not the room, but the time left there."
       },
       {
         "text": "Set up the desk first — let's get to work.",
-        "result_text": "New space. New routine. Opened the laptop on the desk. This room would be a room for working. Decided that on the first night."
+      "result_text": "He unfolded the desk and connected the laptop. Its light cast his first shadow on the empty wall.\n\nNew space. New routine. From the first night, {name} decided to fill this room's hours with work."
       }
     ]
   },
@@ -617,16 +617,19 @@
     "description": "It was 1 AM.\n\nHyunsu was listening to a lecture; {name} was studying charts. In the same space at the same time, running hard toward completely different things.\n\nWhich direction is the right one — still don't know. Then again, maybe neither of us knows.",
     "choices": [
       {
-        "text": "Studied until 2 AM.",
-        "result_text": "Eyes were dry and tired. But there was one thing learned today. Felt like it could be put to use tomorrow."
+      "text": "Studied until 2 AM.",
+      "result_text": "Eyes were dry and tired. But there was one thing learned today. Felt like it could be put to use tomorrow.",
+      "bridge_summary": "Beside the sound of Hyunsu's lecture, he held on to charts and study until two in the morning."
       },
       {
-        "text": "Said \"get some sleep\" to Hyunsu, then went to bed.",
-        "result_text": "Hyunsu smiled and said \"You too, hyung.\" Asleep by midnight. Morning came fast."
+      "text": "Said \"get some sleep\" to Hyunsu, then went to bed.",
+      "result_text": "Hyunsu smiled and said \"You too, hyung.\" Asleep by midnight. Morning came fast.",
+      "bridge_summary": "He told Hyunsu to sleep and, for once, turned off his own light before midnight."
       },
       {
-        "text": "Opened a can of beer instead of the charts.",
-        "result_text": "Sometimes this is allowed. Not every night has to be productive. {name} finished the can and closed his eyes."
+      "text": "Opened a can of beer instead of the charts.",
+      "result_text": "Sometimes this is allowed. Not every night has to be productive. {name} finished the can and closed his eyes.",
+      "bridge_summary": "He opened a beer instead of the charts. Not every night would be converted into output."
       }
     ]
   },
@@ -671,7 +674,7 @@
   {
     "id": "arc_paycheck_reality",
     "title": "First Payday Night",
-    "description": "A KakaoBank notification buzzed.\n\nYour monthly salary from {job} has been deposited.\n\nMinjun stared at the number for a long time. Until 3 billion — if he saved this amount without spending a single won, how many years would it take? He opened the calculator. Then closed it.",
+    "description": "A KakaoBank notification buzzed.\n\nYour monthly salary from {job} has been deposited.\n\n{name} stared at the number for a long time. Until 3 billion — if he saved this amount without spending a single won, how many years would it take? He opened the calculator. Then closed it.",
     "choices": [
       {
         "text": "Celebrate today. Even small things deserve to be marked.",
@@ -696,16 +699,19 @@
     "description": "11 PM. Leaving the office with heavy footsteps.\n\nThe team lead from next section was still at his desk. How many years had that person been doing this.\n\nThe convenience store lights are visible. Planning to make instant ramyeon and eat alone. Two of today's three meals have been convenience store food.",
     "choices": [
       {
-        "text": "This routine is my reality right now. Something will change if I keep going.",
-        "result_text": "Finished the ramyeon and walked home. 20 minutes until the last subway. How many more years will I be walking this path?"
+      "text": "This routine is my reality right now. Something will change if I keep going.",
+      "result_text": "Finished the ramyeon and walked home. 20 minutes until the last subway. How many more years will I be walking this path?",
+      "bridge_summary": "After overtime, he ate ramyeon and walked for the last train. For now, this routine was his reality."
       },
       {
-        "text": "If overtime keeps up like this, this job isn't my answer. Find another direction.",
-        "result_text": "Took out the phone and searched job sites. Even if not changing right now, collecting options is different from not collecting them."
+      "text": "If overtime keeps up like this, this job isn't my answer. Find another direction.",
+      "result_text": "Took out the phone and searched job sites. Even if not changing right now, collecting options is different from not collecting them.",
+      "bridge_summary": "Waiting for the last train, he saved job listings and began collecting ways out of the same overtime."
       },
       {
-        "text": "Overtime builds career. This time isn't wasted.",
-        "result_text": "Folded the ramyeon lid and organized what was learned today. Numbers usable in salary negotiations. Overtime is also strategy."
+      "text": "Overtime builds career. This time isn't wasted.",
+      "result_text": "Folded the ramyeon lid and organized what was learned today. Numbers usable in salary negotiations. Overtime is also strategy.",
+      "bridge_summary": "He turned what he learned in overtime into career numbers, saving the hours for his next negotiation."
       }
     ]
   },

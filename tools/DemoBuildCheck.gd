@@ -23,6 +23,7 @@ func _run() -> void:
 	_check_export_presets()
 	_check_opening_sequences()
 	_check_narrative_bridge_contract()
+	_check_chapter_one_temporal_contract()
 	_check_employment_consistency()
 	_check_side_shift_pay()
 	_check_ap_bonus_surface()
@@ -118,6 +119,65 @@ func _check_narrative_bridge_contract() -> void:
 		_expect(not str(results[0].get("summary", "")).is_empty(),
 			"The bridge trace lost its localized summary.")
 
+func _check_chapter_one_temporal_contract() -> void:
+	GameState.start_new_game("김민준", "지방_상경", "직장형", "백수", "자유런", "현실")
+	GameState.turn = 25
+	var result_fail: Dictionary = DataRegistry.find_event("hyunsu_result_fail")
+	_expect(not result_fail.is_empty(), "Hyunsu's formal failure result is missing.")
+	if result_fail.is_empty():
+		return
+	var result_choices: Array = result_fail.get("choices", [])
+	_expect(result_choices.size() == 2, "Hyunsu's formal failure result lost a choice.")
+	if result_choices.is_empty():
+		return
+	GameState.apply_choice(result_fail, result_choices[0])
+	_expect(GameState.has_deferred_event("arc_hyunsu_exam_fail"),
+		"StoryMode choice application dropped Hyunsu's four-week aftermath.")
+	GameState.turn = 28
+	_expect(GameState.pop_ready_deferred_events().is_empty(),
+		"Hyunsu's aftermath arrived before four weeks passed.")
+	GameState.turn = 29
+	_expect(GameState.pop_ready_deferred_events() == ["arc_hyunsu_exam_fail"],
+		"Hyunsu's aftermath did not arrive exactly four weeks after the result.")
+
+	var aftermath: Dictionary = DataRegistry.find_event("arc_hyunsu_exam_fail")
+	var aftermath_choices: Array = aftermath.get("choices", [])
+	_expect(aftermath_choices.size() == 3, "Hyunsu's aftermath choice contract changed.")
+	if not aftermath_choices.is_empty():
+		GameState.apply_choice(aftermath, aftermath_choices[0])
+	GameState.turn = 34
+	_expect(GameState.pop_ready_deferred_events() == ["arc_hyunsu_drift"],
+		"Hyunsu's drift did not arrive five weeks after the aftermath.")
+
+	var drift: Dictionary = DataRegistry.find_event("arc_hyunsu_drift")
+	var drift_choices: Array = drift.get("choices", [])
+	_expect(drift_choices.size() == 3, "Hyunsu's drift choice contract changed.")
+	if not drift_choices.is_empty():
+		GameState.apply_choice(drift, drift_choices[0])
+	GameState.turn = 40
+	_expect(GameState.pop_ready_deferred_events() == ["arc_hyunsu_new_path"],
+		"Hyunsu's new path did not arrive six weeks after the drift.")
+	_expect(not GameState.has_deferred_event("hyunsu_pivot"),
+		"The obsolete duplicate Hyunsu pivot was scheduled.")
+
+	var goodbye: Dictionary = DataRegistry.find_event("arc_goshiwon_goodbye")
+	var goodbye_choices: Array = goodbye.get("choices", [])
+	_expect(goodbye_choices.size() == 3, "Goshiwon goodbye choice contract changed.")
+	for choice in goodbye_choices:
+		_expect(str(choice.get("follow_up_event", "")) == "arc_housing_new_life",
+			"A goshiwon goodbye branch no longer reaches the first night at home.")
+	var first_night: Dictionary = DataRegistry.find_event("arc_housing_new_life")
+	_expect(str(first_night.get("background", "")) == "current_housing",
+		"The first night after moving is pinned to a fixed or obsolete room.")
+
+	var paycheck: Dictionary = DataRegistry.find_event("arc_paycheck_reality")
+	var paycheck_choices: Array = paycheck.get("choices", [])
+	_expect(not paycheck_choices.is_empty(), "The first-paycheck scene has no choices.")
+	if not paycheck_choices.is_empty():
+		var beer_effects: Dictionary = paycheck_choices[0].get("effects", {})
+		_expect(int(beer_effects.get("money", 0)) == -3800,
+			"One convenience-store beer must cost 3,800 won, not a meal-sized charge.")
+
 func _resolve_story_chain(event_id: String) -> void:
 	var next_id := event_id
 	var guard := 0
@@ -207,9 +267,18 @@ func _check_employment_consistency() -> void:
 	GameState.current_job = DataRegistry.get_job("job_01").duplicate(true)
 	_expect(not bool(main_game.call("_career_specialization_ready", GameState.flags)),
 		"Office specialization appeared during convenience-store survival work.")
+	GameState.turn = 16
+	GameState.job_tenure = 3
+	GameState.flags.erase("arc_office_routine_seen")
+	_expect(not bool(main_game.call("_office_routine_available", GameState.flags, 16)),
+		"A convenience-store survival job exposed the office overtime scene.")
+	GameState.current_job = DataRegistry.get_job("job_03").duplicate(true)
+	_expect(bool(main_game.call("_office_routine_available", GameState.flags, 16)),
+		"A three-week office job could not expose the office overtime scene.")
 
 	GameState.flags.erase("pending_spec_career")
 	GameState.flags.erase("arc_first_job_week_seen")
+	GameState.current_job = DataRegistry.get_job("job_01").duplicate(true)
 	GameState.turn = 10
 	GameState.job_tenure = 0
 	GameState.flags["job_started_turn"] = 10

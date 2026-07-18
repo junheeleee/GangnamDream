@@ -88,6 +88,9 @@
       "callback_sangchul_personal_echo",
       "arc_jaehyuk_hyunsu_warning",
       "arc_hyunsu_lifeline_call",
+      "arc_hyunsu_exam_fail",
+      "arc_hyunsu_drift",
+      "arc_hyunsu_new_path",
       "hyunsu_reunion_later",
       "hyunsu_reunion_photo",
       "hyunsu_reunion_memory",
@@ -385,6 +388,13 @@
       "to_location": "gukbap_restaurant_night",
       "arrival_cue_ko": "토요일 저녁, 예전 고시원 골목의 국밥집에서 현수가 먼저 와 있었다.",
       "arrival_cue_en": "On Saturday evening, Hyunsu was already waiting at a gukbap place in the alley by their old goshiwon."
+    },
+    "arc_goshiwon_goodbye->arc_housing_new_life": {
+      "mode": "explicit_move",
+      "from_location": "goshiwon_hallway",
+      "to_location": "current_housing",
+      "arrival_cue_ko": "마지막 상자를 열었다",
+      "arrival_cue_en": "The last box came open"
     }
   },
   "events": {
@@ -1185,6 +1195,114 @@
         "scene_location": "current_housing",
         "remote_location": "remembered_place",
         "remote_actor": "sangchul",
+        "portrait_role": "remote"
+      }
+    },
+    "arc_goshiwon_goodbye": {
+      "logic": {
+        "legacy": {
+          "forbids_flags": ["arc_goshiwon_goodbye_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "goshiwon_hallway",
+        "participants": ["player", "goshiwon_manager"],
+        "portrait_role": "present",
+        "expected_portrait": "player_offduty_neutral"
+      }
+    },
+    "arc_housing_new_life": {
+      "logic": {
+        "legacy": {
+          "requires_flags": ["arc_goshiwon_goodbye_seen"],
+          "forbids_flags": ["arc_housing_new_life_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_portrait": "player_offduty_neutral"
+      }
+    },
+    "hyunsu_exam_day": {
+      "logic": {
+        "legacy": {
+          "requires_flags": ["arc_hyunsu_night_seen"],
+          "forbids_flags": ["hyunsu_exam_day_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "goshiwon_hallway",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_portrait": "player_offduty_neutral"
+      }
+    },
+    "hyunsu_result_fail": {
+      "logic": {
+        "legacy": {
+          "requires_flags": ["hyunsu_exam_day_seen"],
+          "forbids_flags": ["hyunsu_passed", "hyunsu_failed"]
+        }
+      },
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "goshiwon_hallway",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_portrait": "player_offduty_neutral"
+      }
+    },
+    "arc_hyunsu_exam_fail": {
+      "logic": {
+        "legacy": {
+          "requires_flags": ["hyunsu_failed"],
+          "forbids_flags": ["arc_hyunsu_exam_fail_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "message",
+        "state": "received",
+        "scene_location": "current_housing",
+        "remote_location": "goshiwon_room",
+        "remote_actor": "hyunsu",
+        "portrait_role": "remote"
+      }
+    },
+    "arc_hyunsu_drift": {
+      "logic": {
+        "legacy": {
+          "requires_flags": ["arc_hyunsu_exam_fail_seen"],
+          "forbids_flags": ["arc_hyunsu_drift_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "message",
+        "state": "received",
+        "scene_location": "current_housing",
+        "remote_location": "off_scene",
+        "remote_actor": "hyunsu",
+        "portrait_role": "remote"
+      }
+    },
+    "arc_hyunsu_new_path": {
+      "logic": {
+        "legacy": {
+          "requires_flags": ["arc_hyunsu_drift_seen"],
+          "forbids_flags": ["arc_hyunsu_new_path_seen"],
+          "produces_all": ["arc_hyunsu_new_path_seen", "hyunsu_pivoted"]
+        }
+      },
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "restaurant_kitchen",
+        "remote_actor": "hyunsu",
         "portrait_role": "remote"
       }
     },
