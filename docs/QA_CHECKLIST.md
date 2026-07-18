@@ -277,6 +277,12 @@ Automated input and display gates:
 - `CGRuntimeCheck.tscn` also passes all story CG paths, exact 1280×800 romance dimensions, paragraph reveal timing, paragraph-specific background order, hidden portraits, and hidden HUD. Story CGs keep unique ownership except the explicit same-ballroom continuity allowlist for Jiyeon's three-link wedding-gap chain.
 - First-snow runtime checks also prove December-only routing and correct person-free prelude background/portrait before each delayed CG.
 - An ending without a dedicated CG uses its moral mood card; it never borrows another ending's image.
+- The ending owns an opaque fullscreen surface and never reveals the AP shell or a scroll container behind it.
+- Page order is fixed to final scene beats, credits, cast aftermath, Time Ledger, run record, and unlocks/next run. South advances every page; Back is offered only after emotional closure.
+- The first scene contains no grade, final-assets total, turn count, or unlock report. Full authored ending prose is split into readable beats rather than deleted or collapsed into one summary.
+- The Jiyeon drawer truth cut fires once immediately after credits when its hidden conditions are met, then resumes the aftermath page without replaying.
+- Run `ScreenshotQA --qa=ending-p0 --lang=ko/en` and `--qa=ending-p1 --lang=en`; representative six-page captures must fit at 1280×800 without wheel input, clipped labels, or Korean leakage in English.
+- A title-to-ending Xbox-position EN run and PlayStation-position KO run must traverse all six pages with zero keyboard/mouse input.
 
 ## News And Market
 - Monthly news generates.

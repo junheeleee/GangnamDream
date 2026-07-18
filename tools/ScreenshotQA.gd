@@ -2306,6 +2306,8 @@ func _run_demo_input_route(
 	var stagnant_steps := 0
 	var completed := false
 	var full_ending_id := ""
+	var ending_pages_seen: Array[int] = []
+	var ending_finale_captured := false
 	var last_reported_turn := 0
 	var ap_choice_attempts: Dictionary = {}
 	var route_input_counts: Dictionary = {}
@@ -2483,10 +2485,39 @@ func _run_demo_input_route(
 						MetaProgression.data = original_meta
 						_fail("Full-run English ending modal leaked Hangul: %s." % full_ending_id)
 						return
-					await _save("full_%s_%s_input_run_final_%s" % [
-						lang, input_mode, full_ending_id], 0.0)
-					completed = true
-					break
+					var ending_page := int(scene.get("_ending_page_index"))
+					var ending_page_count := int(modal.get_meta("ending_page_count", 0))
+					if ending_page_count != 6:
+						MetaProgression.data = original_meta
+						_fail("Full-run ending exposed %d pages instead of six." % ending_page_count)
+						return
+					if not ending_pages_seen.has(ending_page):
+						ending_pages_seen.append(ending_page)
+					if ending_page == 0 and not ending_finale_captured:
+						_assert_ending_finale_contract(full_ending_id, scene)
+						if _qa_failed:
+							MetaProgression.data = original_meta
+							return
+						await _save("full_%s_%s_input_run_final_%s" % [
+							lang, input_mode, full_ending_id], 0.0)
+						ending_finale_captured = true
+					if ending_page >= ending_page_count - 1:
+						await _save("full_%s_%s_input_run_record_%s" % [
+							lang, input_mode, full_ending_id], 0.0)
+						completed = true
+						break
+					var ending_next := _find_visible_meta_button(modal, "ending_nav")
+					if ending_next == null:
+						MetaProgression.data = original_meta
+						_fail("Full-run ending page %d has no controller-native next command." % ending_page)
+						return
+					ending_next.grab_focus()
+					await get_tree().process_frame
+					await _activate_route_control(ending_next, input_mode)
+					input_count += 1
+					_record_demo_route_input(route_input_counts, route_week_inputs,
+						"main:ending_page_%d" % ending_page)
+					continue
 				if modal_kind == "demo_ending":
 					if GameState.turn != GameState.DEMO_TURN_LIMIT + 1:
 						MetaProgression.data = original_meta
@@ -2621,7 +2652,11 @@ func _run_demo_input_route(
 					input_count += 1
 					_record_demo_route_input(route_input_counts, route_week_inputs, "main:focused")
 
-		if signature == last_signature:
+		var drawer_cut_active := full_run and is_instance_valid(scene) \
+				and scene.get("_drawer_truth_tween") != null
+		if drawer_cut_active:
+			stagnant_steps = 0
+		elif signature == last_signature:
 			stagnant_steps += 1
 		else:
 			last_signature = signature
@@ -2652,6 +2687,10 @@ func _run_demo_input_route(
 		if not GameState.is_game_over or full_ending_id.is_empty():
 			MetaProgression.data = original_meta
 			_fail("Full input route completed without a final ending.")
+			return
+		if ending_pages_seen != [0, 1, 2, 3, 4, 5]:
+			MetaProgression.data = original_meta
+			_fail("Full input route did not traverse the six-stage ending sequence: %s." % ending_pages_seen)
 			return
 		if GameState.turn < GameState.RUN_TURN_LIMIT:
 			MetaProgression.data = original_meta
@@ -8245,6 +8284,7 @@ func _shot_ending_p0_surfaces(lang: String, prefix: String) -> void:
 	]
 	for target in targets:
 		await _shot_exact_ending_cg(str(target[0]), str(target[1]), prefix + str(target[2]))
+	await _shot_representative_ending_sequence(prefix + "09_sequence_")
 
 func _shot_ending_p1_surfaces(lang: String, prefix: String) -> void:
 	_set_qa_language(lang)
@@ -9100,6 +9140,7 @@ func _shot_ending(ending_id: String, shot_name: String) -> void:
 		_seed_ending_state(ending_id)
 		_mg._show_ending(ending_id)
 		await _settle(1.0)
+		_assert_ending_finale_contract(ending_id)
 		await _save(shot_name)
 		if await _focus_modal_qa_surface("time_ledger"):
 			await _save(shot_name + "_time_ledger")
@@ -9112,6 +9153,7 @@ func _shot_ending_symbol(ending_id: String, shot_name: String) -> void:
 	_seed_ending_state(ending_id)
 	_mg._show_ending(ending_id)
 	await _settle(1.0)
+	_assert_ending_finale_contract(ending_id)
 	var symbol := _find_ending_symbol(_mg, ending_id)
 	var expected_path := "res://assets/ui/ending_symbols/%s.svg" % ending_id
 	if symbol == null or symbol.texture == null:
@@ -9137,6 +9179,7 @@ func _shot_exact_ending_cg(
 		GameState.flags[str(flag)] = true
 	_mg._show_ending(ending_id)
 	await _settle(1.0)
+	_assert_ending_finale_contract(ending_id)
 	var expected_path := ImageRegistry.get_cg(cg_id)
 	var preview := _find_ending_art_preview(_mg)
 	if expected_path.is_empty():
@@ -9172,6 +9215,7 @@ func _shot_ending_without_cg(
 		GameState.flags[str(flag)] = true
 	_mg._show_ending(ending_id)
 	await _settle(1.0)
+	_assert_ending_finale_contract(ending_id)
 	var preview := _find_ending_art_preview(_mg)
 	var forbidden_path := ImageRegistry.get_cg(forbidden_cg_id)
 	if preview != null and preview.texture != null and preview.texture.resource_path == forbidden_path:
@@ -9179,6 +9223,81 @@ func _shot_ending_without_cg(
 		return
 	await _save(shot_name)
 	await _settle(0.3)
+
+func _shot_representative_ending_sequence(prefix: String) -> void:
+	_seed_ending_state("with_daeun")
+	_mg.call("_show_ending", "with_daeun")
+	await _settle(0.8)
+	var page_names := ["finale", "credits", "people", "ledger", "record", "collection"]
+	for page_index in range(6):
+		if page_index > 0:
+			_mg.call("_ending_show_page", page_index)
+			await _settle(0.45)
+		_assert_ending_page_contract(page_index)
+		await _save(prefix + str(page_names[page_index]))
+
+func _assert_ending_finale_contract(ending_id: String, game: Node = null) -> void:
+	var root := game if is_instance_valid(game) else _mg
+	_assert_ending_page_contract(0, root)
+	if not is_instance_valid(root):
+		return
+	var finale := _find_qa_surface(root, "ending_finale")
+	if finale == null:
+		_fail("Ending %s has no scene-first finale surface." % ending_id)
+		return
+	var finale_text := _collect_control_text(finale)
+	for forbidden in ["Final Assets", "최종 자산", "Total Turns", "총 턴", "GRADE ", "등급 "]:
+		if finale_text.contains(forbidden):
+			_fail("Ending %s leaked record data onto its final-scene page: %s." % [
+					ending_id, forbidden])
+			return
+	var beats: Array = root.get("_ending_finale_beats")
+	if beats.is_empty():
+		_fail("Ending %s has no finale narrative beats." % ending_id)
+		return
+	var nav := _find_visible_meta_button(finale, "ending_nav")
+	if nav == null:
+		_fail("Ending %s final scene has no controller-native continue command." % ending_id)
+
+func _assert_ending_page_contract(page_index: int, game: Node = null) -> void:
+	var root := game if is_instance_valid(game) else _mg
+	if not is_instance_valid(root):
+		_fail("Ending page %d rendered without MainGame." % page_index)
+		return
+	var modal := root.get("modal_layer") as Control
+	var scroll := root.get("modal_scroll") as ScrollContainer
+	var panel := root.get("modal_panel") as Control
+	var header := root.get("modal_header") as Control
+	if not is_instance_valid(modal) or not modal.visible:
+		_fail("Ending page %d has no visible full-screen modal." % page_index)
+		return
+	if int(modal.get_meta("ending_page", -1)) != page_index \
+			or int(modal.get_meta("ending_page_count", 0)) != 6:
+		_fail("Ending page metadata drifted at page %d." % page_index)
+		return
+	if not is_instance_valid(scroll) \
+			or scroll.vertical_scroll_mode != ScrollContainer.SCROLL_MODE_DISABLED:
+		_fail("Ending page %d restored a scrolling report." % page_index)
+		return
+	if is_instance_valid(header) and header.visible:
+		_fail("Ending page %d exposed the legacy modal header." % page_index)
+		return
+	var viewport_size := get_viewport().get_visible_rect().size
+	if not is_instance_valid(panel) or panel.size.x < viewport_size.x * 0.95 \
+			or panel.size.y < viewport_size.y * 0.90:
+		_fail("Ending page %d is not a full-screen surface: panel=%s viewport=%s." % [
+				page_index, panel.size if is_instance_valid(panel) else Vector2.ZERO, viewport_size])
+		return
+	var surfaces := [
+		"ending_finale", "ending_credits", "ending_people", "ending_ledger",
+		"ending_record", "ending_collection"]
+	var surface := _find_qa_surface(root, str(surfaces[page_index]))
+	if surface == null:
+		_fail("Ending page %d is missing its QA surface." % page_index)
+		return
+	if surface.size.y > scroll.size.y + 2.0:
+		_fail("Ending page %d exceeds its no-scroll viewport: page=%.1f viewport=%.1f." % [
+				page_index, surface.size.y, scroll.size.y])
 
 func _find_ending_art_preview(node: Node) -> TextureRect:
 	if node is TextureRect and node.has_meta("ending_art_preview"):
@@ -9202,10 +9321,16 @@ func _focus_modal_qa_surface(surface_id: String) -> bool:
 	if not is_instance_valid(_mg):
 		return false
 	var target: Control = _find_qa_surface(_mg, surface_id)
+	if target == null and surface_id == "time_ledger" and _mg.has_method("_ending_show_page"):
+		_mg.call("_ending_show_page", 3)
+		await get_tree().process_frame
+		await _settle(0.35)
+		target = _find_qa_surface(_mg, surface_id)
 	var scroll: ScrollContainer = _mg.get("modal_scroll") as ScrollContainer
 	if target == null or not is_instance_valid(scroll):
 		return false
-	scroll.ensure_control_visible(target)
+	if scroll.vertical_scroll_mode != ScrollContainer.SCROLL_MODE_DISABLED:
+		scroll.ensure_control_visible(target)
 	await get_tree().process_frame
 	await _settle(0.35)
 	return true

@@ -27,8 +27,10 @@ var modal_layer: ColorRect
 var modal_scroll: ScrollContainer
 var modal_panel: PanelContainer
 var modal_body: VBoxContainer
+var modal_header: HBoxContainer
 var modal_title_label: Label
 var modal_pad_hint_label: Label
+var modal_close_button: Button
 var next_button: Button
 var _modal_cancelable: bool = false
 var _modal_kind: String = ""
@@ -108,6 +110,15 @@ var player_name_label: Label
 var title_label: Label
 var _ui_icon_cache: Dictionary = {}
 var _art_thumb_cache: Dictionary = {}
+var _ending_id: String = ""
+var _ending_data: Dictionary = {}
+var _ending_cg_path: String = ""
+var _ending_page_index: int = 0
+var _ending_finale_beat_index: int = 0
+var _ending_finale_beats: Array[String] = []
+var _ending_new_achievements: Array = []
+var _ending_new_titles: Array = []
+const ENDING_PAGE_COUNT := 6
 
 # ── MORAL MONOCHROME 팔레트 ─────────────────────────────────────
 # 이 게임의 중심 상태는 회색/진회색/검정/연회색/흰색이다.
@@ -2148,21 +2159,21 @@ func _build_modal():
 	panel.add_child(outer)
 
 	# Header row with title + close button
-	var header = HBoxContainer.new()
-	outer.add_child(header)
+	modal_header = HBoxContainer.new()
+	outer.add_child(modal_header)
 	modal_title_label = _label("", 24, "#e8eaf0")
 	modal_title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	header.add_child(modal_title_label)
+	modal_header.add_child(modal_title_label)
 	modal_pad_hint_label = _label("", 12, "#7f8794")
 	modal_pad_hint_label.visible = false
 	modal_pad_hint_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	modal_pad_hint_label.size_flags_horizontal = Control.SIZE_SHRINK_END
-	header.add_child(modal_pad_hint_label)
-	var close_x = _small_button("✕", "#242433")
-	close_x.custom_minimum_size = Vector2(44, 42)
-	close_x.size_flags_horizontal = Control.SIZE_SHRINK_END
-	close_x.pressed.connect(_close_modal)
-	header.add_child(close_x)
+	modal_header.add_child(modal_pad_hint_label)
+	modal_close_button = _small_button("✕", "#242433")
+	modal_close_button.custom_minimum_size = Vector2(44, 42)
+	modal_close_button.size_flags_horizontal = Control.SIZE_SHRINK_END
+	modal_close_button.pressed.connect(_close_modal)
+	modal_header.add_child(modal_close_button)
 
 	# Scrollable content area
 	modal_scroll = ScrollContainer.new()
@@ -2172,6 +2183,7 @@ func _build_modal():
 
 	modal_body = VBoxContainer.new()
 	modal_body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	modal_body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	modal_body.add_theme_constant_override("separation", 10)
 	modal_scroll.add_child(modal_body)
 
@@ -13641,6 +13653,7 @@ func _go_to_menu():
 
 func _open_modal(title, cancelable: bool = false, kind: String = ""):
 	_clear_box(modal_body)
+	modal_body.add_theme_constant_override("separation", 10)
 	modal_title_label.text = title
 	_modal_cancelable = cancelable
 	_modal_kind = kind
@@ -13650,6 +13663,10 @@ func _open_modal(title, cancelable: bool = false, kind: String = ""):
 	if is_instance_valid(modal_pad_hint_label):
 		modal_pad_hint_label.visible = cancelable and ControllerHints.is_pad_active()
 		modal_pad_hint_label.text = _tr("[%s] 뒤로", "[%s] Back") % ControllerHints.east()
+	if is_instance_valid(modal_header):
+		modal_header.visible = true
+	if is_instance_valid(modal_close_button):
+		modal_close_button.visible = true
 	modal_layer.visible = true
 	modal_layer.color = Color(0, 0, 0, 0.70)
 	modal_layer.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -13660,6 +13677,10 @@ func _open_modal(title, cancelable: bool = false, kind: String = ""):
 		modal_scroll.custom_minimum_size = Vector2(0, 468)
 		modal_scroll.scroll_vertical = 0
 	if modal_panel:
+		modal_panel.anchor_left = 0.5
+		modal_panel.anchor_right = 0.5
+		modal_panel.anchor_top = 0.5
+		modal_panel.anchor_bottom = 0.5
 		modal_panel.add_theme_stylebox_override("panel", _modal_style("#13131a", "#252535", 6, 12, 10))
 		modal_panel.custom_minimum_size = Vector2(760, 610)
 		modal_panel.offset_left   = -380
@@ -13692,7 +13713,7 @@ func _focus_first_in_modal_body():
 			child.grab_focus()
 			return
 
-func _close_modal():
+func _close_modal(play_sound: bool = true):
 	modal_layer.visible = false
 	modal_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_modal_cancelable = false
@@ -13702,7 +13723,8 @@ func _close_modal():
 	_people_pad_hint_label = null
 	if is_instance_valid(modal_pad_hint_label):
 		modal_pad_hint_label.visible = false
-	AudioManager.play_ui_close()
+	if play_sound:
+		AudioManager.play_ui_close()
 	if _pending_month_summary:
 		_pending_month_summary = false
 		if GameState.has_reached_demo_limit():
@@ -13909,126 +13931,459 @@ func _demo_record_metric(title: String, value: String, hint: String, accent: Str
 	box.add_child(_label(hint, 11, "#596274"))
 	return card
 
-func _show_ending(ending_id):
-	var ending: Dictionary = EndingSystem.get_ending(ending_id)
-	var ending_cg_id := str(ending.get("cg", ""))
-	BGMPlayer.on_ending(ending_id, ending_cg_id)  # BGM과 CG 장소음을 함께 전환
+func _show_ending(ending_id: String) -> void:
+	_ending_id = ending_id
+	_ending_data = EndingSystem.get_ending(ending_id)
+	var ending_cg_id := str(_ending_data.get("cg", ""))
+	BGMPlayer.on_ending(ending_id, ending_cg_id)
 	AudioManager.play_ending_stinger(ending_id)
-	var ending_cg_path := _get_ending_cg_path(ending)
-	if ending_cg_path != "" and ImageRegistry.has_texture(ending_cg_path):
+	_ending_cg_path = _get_ending_cg_path(_ending_data)
+	_ending_finale_beat_index = 0
+	_ending_finale_beats = _ending_description_beats(
+			_fmt(_resolved_ending_description(_ending_data)))
+	if not _ending_cg_path.is_empty() and ImageRegistry.has_texture(_ending_cg_path):
 		MetaProgression.record_cg_unlocked(ending_cg_id)
-	var bg_path := ending_cg_path
+	_ending_new_achievements = Array(MetaProgression.get_new_unlocks().get("achievements", [])).duplicate()
+	_ending_new_titles = MetaProgression.check_and_unlock_titles().duplicate(true)
+	_hide_ap_action_commit()
+	_clear_feedback_flash()
+	if is_instance_valid(_toast_container):
+		_toast_container.visible = false
+		for toast in _toast_container.get_children().duplicate():
+			toast.free()
 	if event_bg:
-		var tex = ImageRegistry.load_texture(bg_path) if bg_path != "" and ImageRegistry.has_texture(bg_path) else null
-		if tex:
-			var tw_end := create_tween()
-			tw_end.tween_property(event_bg, "modulate:a", 0.0, 0.3)
-			tw_end.tween_callback(func():
-				event_bg.texture = tex
-				var tw2 := create_tween()
-				tw2.tween_property(event_bg, "modulate:a", 0.50, 0.5)
-			)
-		else:
-			var tw_clear := create_tween()
-			tw_clear.tween_property(event_bg, "modulate:a", 0.0, 0.3)
-			tw_clear.tween_callback(func():
-				event_bg.texture = null
-			)
+		var tex = ImageRegistry.load_texture(_ending_cg_path) \
+				if not _ending_cg_path.is_empty() and ImageRegistry.has_texture(_ending_cg_path) else null
+		var tw_end := create_tween()
+		tw_end.tween_property(event_bg, "modulate:a", 0.0, 0.3)
+		tw_end.tween_callback(func():
+			event_bg.texture = tex
+			if tex:
+				create_tween().tween_property(event_bg, "modulate:a", 0.50, 0.5)
+		)
+	_open_modal("", false, "ending")
+	_ending_show_page(0)
 
-	_open_modal(_tr("최종 기록", "Finale"))
+func _ending_show_page(page_index: int) -> void:
+	if _ending_data.is_empty():
+		return
+	_ending_page_index = clampi(page_index, 0, ENDING_PAGE_COUNT - 1)
+	_clear_box(modal_body)
+	modal_body.add_theme_constant_override("separation", 8)
+	_modal_cancelable = false
+	_modal_kind = "ending"
+	modal_layer.visible = true
+	modal_layer.mouse_filter = Control.MOUSE_FILTER_STOP
+	modal_layer.set_meta("ending_page", _ending_page_index)
+	modal_layer.set_meta("ending_page_count", ENDING_PAGE_COUNT)
 	_apply_ending_modal_layout()
 	_apply_ending_moral_palette()
-	var grade = ending.get("grade", "?")
-	var grade_colors = {"S+": "#f8fbff", "S": "#e7edf5", "A+": "#dce5ee", "A": "#cbd5df", "B": "#aeb7c2", "C": "#8892a4", "F": "#ff4444", "?": "#aab3c5"}
-	var grade_color = grade_colors.get(grade, "#ffffff")
-	# 등급 헤더 행
-	var ending_row = HBoxContainer.new()
-	ending_row.add_theme_constant_override("separation", 14)
-	modal_body.add_child(ending_row)
-	var ending_text_col = VBoxContainer.new()
-	ending_text_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	ending_row.add_child(ending_text_col)
-	ending_text_col.add_child(_label(_fmt(str(ending.get("title", _tr("엔딩", "Ending")))), 24, _moral_hex(_moral_text_accent(Color("#f0b429"), 0.08))))
-	ending_text_col.add_child(_label(_tr("등급  %s", "Grade  %s") % grade, 16, grade_color))
-	var ending_sep = HSeparator.new()
-	ending_sep.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(ending_sep)
-	if ending_cg_path != "" and ImageRegistry.has_texture(ending_cg_path):
-		_add_ending_art_preview(
-				modal_body, ending_cg_path, true,
-				float(ending.get("cg_preview_focus_y", 0.5)))
+	match _ending_page_index:
+		0: _ending_build_finale_page()
+		1: _ending_build_credits_page()
+		2: _ending_build_people_page()
+		3: _ending_build_ledger_page()
+		4: _ending_build_record_page()
+		_: _ending_build_collection_page()
+	call_deferred("_focus_first_in_modal_body")
+
+func _ending_page_root(surface_id: String) -> VBoxContainer:
+	var page := VBoxContainer.new()
+	page.set_meta("qa_surface", surface_id)
+	page.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	page.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	page.add_theme_constant_override("separation", 8)
+	modal_body.add_child(page)
+	return page
+
+func _ending_page_spacer() -> Control:
+	var spacer := Control.new()
+	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	return spacer
+
+func _ending_add_page_heading(parent: VBoxContainer, kicker: String, title: String, subtitle: String = "") -> void:
+	parent.add_child(_label(kicker, 10, "#707987"))
+	var title_label := _label(title, 26, _moral_hex(_moral_text_accent(Color("#eef3f8"), 0.05)))
+	if _font_bold:
+		title_label.add_theme_font_override("font", _font_bold)
+	parent.add_child(title_label)
+	if not subtitle.is_empty():
+		parent.add_child(_wrap_label(subtitle, 12, "#87909d"))
+
+func _ending_add_navigation(
+		parent: VBoxContainer, next_text: String, next_action: Callable,
+		allow_back: bool = false, progress_text: String = "",
+		add_spacer: bool = true) -> void:
+	if add_spacer:
+		parent.add_child(_ending_page_spacer())
+	var row := HBoxContainer.new()
+	row.custom_minimum_size = Vector2(0, 48)
+	row.add_theme_constant_override("separation", 10)
+	parent.add_child(row)
+	if allow_back:
+		var back_btn := _button(_tr("이전", "Back"), "#11131a")
+		back_btn.custom_minimum_size = Vector2(150, 46)
+		back_btn.pressed.connect(_ending_show_page.bind(_ending_page_index - 1))
+		row.add_child(back_btn)
+	var index_label := _label(
+			progress_text if not progress_text.is_empty() \
+			else "%d / %d" % [_ending_page_index + 1, ENDING_PAGE_COUNT],
+			11, "#697386")
+	index_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	index_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	index_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	row.add_child(index_label)
+	var next_btn := _button(next_text, "#17222b")
+	next_btn.custom_minimum_size = Vector2(210, 46)
+	next_btn.set_meta("ending_nav", true)
+	next_btn.pressed.connect(next_action)
+	row.add_child(next_btn)
+	next_btn.call_deferred("grab_focus")
+
+func _ending_build_finale_page() -> void:
+	var page := _ending_page_root("ending_finale")
+	page.add_child(_label(_tr("마지막 장면", "FINAL SCENE"), 10, "#707987"))
+	_ending_add_finale_stage(page)
+	var beat_count := maxi(1, _ending_finale_beats.size())
+	var is_last_beat := _ending_finale_beat_index >= beat_count - 1
+	_ending_add_navigation(
+			page,
+			_tr("크레딧으로", "Continue to Credits") if is_last_beat \
+			else _tr("장면 계속", "Continue Scene"),
+			_ending_advance_finale,
+			false,
+			_tr("장면 %d / %d", "SCENE %d / %d") % [
+				_ending_finale_beat_index + 1, beat_count],
+			false)
+
+func _ending_description_beats(description: String) -> Array[String]:
+	var beats: Array[String] = []
+	var current := PackedStringArray()
+	var current_length := 0
+	for raw_paragraph in description.split("\n\n", false):
+		var paragraph := str(raw_paragraph).strip_edges()
+		if paragraph.is_empty():
+			continue
+		var would_overflow := not current.is_empty() and (
+				current.size() >= 3 or current_length + paragraph.length() > 520)
+		if would_overflow:
+			beats.append("\n\n".join(current))
+			current.clear()
+			current_length = 0
+		current.append(paragraph)
+		current_length += paragraph.length()
+	if not current.is_empty():
+		beats.append("\n\n".join(current))
+	if beats.is_empty():
+		beats.append(_ending_card_signal_line(_ending_id))
+	return beats
+
+func _ending_advance_finale() -> void:
+	if _ending_finale_beat_index + 1 < _ending_finale_beats.size():
+		_ending_finale_beat_index += 1
+		_ending_show_page(0)
+		return
+	_ending_show_page(1)
+
+func _ending_add_finale_stage(parent: VBoxContainer) -> void:
+	var palette := _moral_ui_palette()
+	var accent := _moral_gray_accent(Color("#d6dde8"), palette, 0.05)
+	var frame := PanelContainer.new()
+	frame.custom_minimum_size = Vector2(0, 520)
+	frame.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	frame.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var frame_style := StyleBoxFlat.new()
+	frame_style.bg_color = Color("#050608")
+	frame_style.border_color = Color(accent.r, accent.g, accent.b, 0.56)
+	frame_style.set_border_width_all(1)
+	frame_style.set_corner_radius_all(6)
+	frame.add_theme_stylebox_override("panel", frame_style)
+	parent.add_child(frame)
+
+	var canvas := Control.new()
+	canvas.clip_contents = true
+	canvas.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	frame.add_child(canvas)
+	if not _ending_cg_path.is_empty() and ImageRegistry.has_texture(_ending_cg_path):
+		_ending_add_finale_cg(canvas)
 	else:
-		_add_ending_mood_card(modal_body, ending, ending_id)
-	# ── 드라마틱 한 줄 요약 ──
-	modal_body.add_child(_wrap_label(_quote_ui(_ending_run_summary(ending_id)), 15, _moral_hex(_moral_text_accent(Color("#c8a060"), 0.04))))
-	# ── 엔딩 설명 ── (지식 반응형: 같은 결말도 어떻게 거기 닿았는지 알면 다르게 읽힌다)
-	var ending_desc := _resolved_ending_description(ending)
-	modal_body.add_child(_wrap_label(_fmt(ending_desc), 13, _moral_hex(_moral_text_accent(Color("#6a7486")))))
-	# ── 인연 에필로그 — 같은 결말이라도 곁에 누가 있었는지가 다르다 ──
-	_ending_cast_epilogue(modal_body, ending_id)
-	# ── 시간의 기록 — 평가 없이 사실만 (설교 방지 4원칙: 기록>지시) ──
-	_ending_time_ledger(modal_body, ending_id, ending)
-	# ── 스탯 그리드 ──
-	var stats_sep = HSeparator.new()
-	stats_sep.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(stats_sep)
-	_ending_stat_grid(modal_body)
-	modal_body.add_child(_wrap_label(_ending_percentile_line(), 13, _moral_hex(_moral_text_accent(Color("#c9a227"), 0.04))))
-	_ending_route_bar(modal_body)
-	_ending_milestones(modal_body)
-	_ending_playstyle(modal_body)
-	# ── 이번 런 새 해금 표시 ──────────────────────────
-	var new_unlocks = MetaProgression.get_new_unlocks()
-	var new_ach: Array    = new_unlocks.get("achievements", [])
-	if not new_ach.is_empty():
-		var unlock_sep = HSeparator.new()
-		unlock_sep.add_theme_color_override("color", Color("#252535"))
-		modal_body.add_child(unlock_sep)
-		modal_body.add_child(_label(_tr("이번 런 해금", "Unlocked This Run"), 15, "#f0b429"))
-		for a in new_ach:
-			var ach_name := _achievement_display_name(str(a))
-			modal_body.add_child(_wrap_label(_tr("업적 달성: %s", "Achievement: %s") % ach_name, 13, "#fbbf24"))
+		_ending_add_finale_symbol_scene(canvas, accent, palette)
 
-	# 이번 런 새 칭호 해금
-	var newly_titles: Array = MetaProgression.check_and_unlock_titles()
-	if not newly_titles.is_empty():
-		if new_ach.is_empty():
-			var title_sep := HSeparator.new()
-			title_sep.add_theme_color_override("color", Color("#252535"))
-			modal_body.add_child(title_sep)
-			modal_body.add_child(_label(_tr("이번 런 해금", "Unlocked This Run"), 15, "#f0b429"))
-		var rare_colors := {"common": "#8892a4", "uncommon": "#c9a227", "rare": "#f0b429", "legendary": "#f97316"}
-		for t in newly_titles:
-			var col: String = rare_colors.get(str(t.get("rare", "common")), "#8892a4")
-			modal_body.add_child(_wrap_label(_tr("칭호: 「%s」  %s", "Title: \"%s\"  %s") % [str(t.get("name","")), str(t.get("desc",""))], 12, col))
+	var shade := ColorRect.new()
+	shade.anchor_left = 0.0
+	shade.anchor_top = 0.47
+	shade.anchor_right = 1.0
+	shade.anchor_bottom = 1.0
+	shade.color = Color(0.015, 0.018, 0.022, 0.91)
+	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	canvas.add_child(shade)
 
-	# 런 테마 요약
-	var theme_id: String = GameState.run_theme
-	if theme_id != _tr("자유런", "자유런"):
-		modal_body.add_child(_wrap_label(_tr("이번 런 테마: %s", "Run Theme: %s") % _run_theme_display(theme_id), 11, "#5a8a7a"))
-	if GameState.difficulty != _tr("현실", "현실"):
-		modal_body.add_child(_wrap_label(_tr("난이도: %s %s", "Difficulty: %s %s") % [
-			str(GameState.get_difficulty_data().get("icon", "")),
-			str(GameState.get_difficulty_data().get("name", ""))], 11, "#8a6a3a"))
+	var caption := MarginContainer.new()
+	caption.anchor_left = 0.0
+	caption.anchor_top = 0.47
+	caption.anchor_right = 1.0
+	caption.anchor_bottom = 1.0
+	caption.add_theme_constant_override("margin_left", 22)
+	caption.add_theme_constant_override("margin_right", 22)
+	caption.add_theme_constant_override("margin_top", 16)
+	caption.add_theme_constant_override("margin_bottom", 16)
+	canvas.add_child(caption)
+	var text_box := VBoxContainer.new()
+	text_box.add_theme_constant_override("separation", 7)
+	caption.add_child(text_box)
+	var title_label := _label(
+			_fmt(str(_ending_data.get("title", _tr("엔딩", "Ending")))), 28,
+			_moral_hex(_moral_text_accent(Color("#eef3f8"), 0.06)))
+	if _font_bold:
+		title_label.add_theme_font_override("font", _font_bold)
+	text_box.add_child(title_label)
+	text_box.add_child(_wrap_label(
+			_quote_ui(_ending_run_summary(_ending_id)), 14,
+			_moral_hex(_moral_text_accent(Color("#c8d0d8"), 0.04))))
+	var beat_text := _ending_finale_beats[_ending_finale_beat_index] \
+			if not _ending_finale_beats.is_empty() else ""
+	text_box.add_child(_wrap_label(
+			beat_text, 13,
+			_moral_hex(_moral_text_accent(Color("#a5aeb9"), 0.01))))
 
-	# 마스터리 요약
-	var mg_summary: Array = []
-	for gid in ["holdem", "racetrack", "scalping", "aruba"]:
-		var g: int = MetaProgression.get_mastery(gid)
-		if g >= 1:
-			mg_summary.append("%s %s" % [gid, MetaProgression.get_mastery_label(gid)])
-	if not mg_summary.is_empty():
-		modal_body.add_child(_wrap_label(_tr("미니게임 마스터리: ", "Minigame Mastery: ") + ", ".join(mg_summary), 11, "#4a7a6a"))
+func _ending_add_finale_cg(canvas: Control) -> void:
+	var crop_host := Control.new()
+	crop_host.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	crop_host.clip_contents = true
+	crop_host.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	canvas.add_child(crop_host)
+	var img := TextureRect.new()
+	img.custom_minimum_size = Vector2(0, 430)
+	img.texture = ImageRegistry.load_texture(_ending_cg_path)
+	img.stretch_mode = TextureRect.STRETCH_SCALE
+	img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	img.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	img.set_meta("ending_art_preview", true)
+	var focus_y: float = clampf(float(_ending_data.get("cg_preview_focus_y", 0.5)), 0.0, 1.0)
+	img.set_meta("ending_preview_focus_y", focus_y)
+	img.material = _ending_finale_preview_material()
+	crop_host.add_child(img)
+	var source_size := img.texture.get_size() if img.texture != null else Vector2(1280, 800)
+	crop_host.resized.connect(_layout_ending_cg_preview.bind(crop_host, img, source_size, focus_y))
+	call_deferred("_layout_ending_cg_preview", crop_host, img, source_size, focus_y)
 
-	_ending_next_run_hints(modal_body)
-	_ending_share_section(modal_body, ending_id)
+func _ending_finale_preview_material() -> ShaderMaterial:
+	if not _moral_bg_material:
+		return null
+	var preview_material := _moral_bg_material.duplicate(true) as ShaderMaterial
+	var black := clampf(-_moral_norm, 0.0, 1.0)
+	var white := clampf(_moral_norm, 0.0, 1.0)
+	preview_material.set_shader_parameter(
+			"brightness", clampf(1.08 + black * 0.10 + white * 0.04, 1.02, 1.18))
+	preview_material.set_shader_parameter(
+			"mid_gamma", clampf(0.82 - black * 0.10 - white * 0.06, 0.68, 0.90))
+	var edge_burn_param = preview_material.get_shader_parameter("edge_burn")
+	if typeof(edge_burn_param) in [TYPE_FLOAT, TYPE_INT]:
+		preview_material.set_shader_parameter("edge_burn", float(edge_burn_param) * 0.55)
+	var tint_amount_param = preview_material.get_shader_parameter("tint_amount")
+	if typeof(tint_amount_param) in [TYPE_FLOAT, TYPE_INT]:
+		preview_material.set_shader_parameter("tint_amount", float(tint_amount_param) * 0.60)
+	return preview_material
 
-	var restart_btn = _button(_tr("새 런 시작  ▶", "New Run  ▶"), "#0e3a2a")
+func _ending_add_finale_symbol_scene(canvas: Control, accent: Color, palette: Dictionary) -> void:
+	var backdrop := ColorRect.new()
+	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	backdrop.color = Color("#050608")
+	canvas.add_child(backdrop)
+	var child_before := canvas.get_child_count()
+	_add_ending_card_scene(
+			canvas, _ending_id, accent,
+			float(palette.get("black", 0.0)), float(palette.get("white", 0.0)))
+	var scene := canvas.get_child(child_before) as Control
+	if is_instance_valid(scene):
+		scene.custom_minimum_size = Vector2.ZERO
+		scene.anchor_left = 0.07
+		scene.anchor_top = 0.06
+		scene.anchor_right = 0.93
+		scene.anchor_bottom = 0.54
+		scene.offset_left = 0
+		scene.offset_top = 0
+		scene.offset_right = 0
+		scene.offset_bottom = 0
+
+func _add_ending_finale_mood(parent: VBoxContainer) -> void:
+	var palette := _moral_ui_palette()
+	var accent := _moral_gray_accent(Color("#d6dde8"), palette, 0.05)
+	var frame := PanelContainer.new()
+	frame.custom_minimum_size = Vector2(0, 430)
+	frame.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("#07090c")
+	style.border_color = Color(accent.r, accent.g, accent.b, 0.54)
+	style.set_border_width_all(1)
+	style.content_margin_left = 26
+	style.content_margin_right = 26
+	style.content_margin_top = 24
+	style.content_margin_bottom = 24
+	frame.add_theme_stylebox_override("panel", style)
+	parent.add_child(frame)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 18)
+	frame.add_child(box)
+	_add_ending_card_scene(
+		box, _ending_id, accent,
+		float(palette.get("black", 0.0)), float(palette.get("white", 0.0)))
+	var scene := box.get_child(box.get_child_count() - 1) as Control
+	if is_instance_valid(scene):
+		scene.custom_minimum_size.y = 300
+	var mood_line := _wrap_label(
+		_ending_card_signal_line(_ending_id, str(_ending_data.get("grade", "?"))),
+		14, _moral_hex(_moral_text_accent(Color("#aeb7c2"), 0.03)))
+	mood_line.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(mood_line)
+
+func _ending_build_credits_page() -> void:
+	var page := _ending_page_root("ending_credits")
+	page.alignment = BoxContainer.ALIGNMENT_CENTER
+	page.add_child(_ending_page_spacer())
+	var wordmark := _label("GANGNAM DREAM", 12, "#7f8896")
+	wordmark.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	page.add_child(wordmark)
+	var title: Label = _label(_fmt(str(_ending_data.get("title", _ending_id))), 30, "#eef3f8")
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	if _font_bold:
+		title.add_theme_font_override("font", _font_bold)
+	page.add_child(title)
+	var divider := HSeparator.new()
+	divider.custom_minimum_size = Vector2(0, 28)
+	divider.add_theme_color_override("color", Color("#39414b", 0.72))
+	page.add_child(divider)
+	for line in [
+		_tr("제작", "CREATED BY"),
+		"JUNPAC GAMES",
+		_tr("Godot Engine으로 제작", "MADE WITH GODOT ENGINE"),
+	]:
+		var credit := _label(str(line), 13 if str(line) != "JUNPAC GAMES" else 20, "#aab3bf")
+		credit.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		page.add_child(credit)
+	var thanks := _wrap_label(
+		_tr("그리고 이 5년을 살아 준 당신에게.", "And to you, who lived these five years."),
+		15, "#d5dbe2")
+	thanks.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	page.add_child(thanks)
+	page.add_child(_ending_page_spacer())
+	_ending_add_navigation(page, _tr("크레딧 뒤로", "After the Credits"), _ending_leave_credits)
+
+func _ending_leave_credits() -> void:
+	if _should_show_drawer_truth():
+		_drawer_truth_shown = true
+		_play_drawer_truth_cut(_ending_resume_after_credits)
+		return
+	_ending_show_page(2)
+
+func _ending_resume_after_credits() -> void:
+	_ending_show_page(2)
+
+func _ending_build_people_page() -> void:
+	var page := _ending_page_root("ending_people")
+	_ending_add_page_heading(
+		page, _tr("후일담", "AFTERMATH"),
+		_tr("그 사람들은", "As for Them"),
+		_tr("같은 결말도 곁에 누가 남았는지에 따라 다른 표정을 갖는다.",
+			"The same ending wears a different face depending on who remained."))
+	_ending_cast_epilogue(page, _ending_id, true)
+	_ending_add_navigation(page, _tr("시간의 기록", "The Time Ledger"), _ending_show_page.bind(3), true)
+
+func _ending_build_ledger_page() -> void:
+	var page := _ending_page_root("ending_ledger")
+	_ending_add_page_heading(
+		page, _tr("기록 I", "RECORD I"),
+		_tr("시간의 기록", "The Time Ledger"),
+		_tr("평가 대신, 이 5년이 어디에 남았는지만 적는다.",
+			"No verdict. Only where these five years left their marks."))
+	_ending_time_ledger(page, _ending_id, _ending_data)
+	_ending_add_navigation(page, _tr("런 기록", "Run Record"), _ending_show_page.bind(4), true)
+
+func _ending_build_record_page() -> void:
+	var page := _ending_page_root("ending_record")
+	var grade := str(_ending_data.get("grade", "?"))
+	_ending_add_page_heading(
+		page, _tr("기록 II · 등급 %s", "RECORD II · GRADE %s") % grade,
+		_fmt(str(_ending_data.get("title", _ending_id))),
+		_ending_percentile_line())
+	_ending_stat_grid(page)
+	_ending_route_bar(page)
+	_ending_milestones(page)
+	_ending_playstyle(page)
+	_ending_add_navigation(page, _tr("마지막 기록", "Final Record"), _ending_show_page.bind(5), true)
+
+func _ending_build_collection_page() -> void:
+	var page := _ending_page_root("ending_collection")
+	_ending_add_page_heading(
+		page, _tr("기록 III", "RECORD III"),
+		_tr("남은 것과 다음 삶", "What Remains, What Comes Next"))
+	var columns := HBoxContainer.new()
+	columns.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	columns.add_theme_constant_override("separation", 24)
+	page.add_child(columns)
+	var left := VBoxContainer.new()
+	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	left.add_theme_constant_override("separation", 7)
+	columns.add_child(left)
+	var right := VBoxContainer.new()
+	right.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	right.add_theme_constant_override("separation", 7)
+	columns.add_child(right)
+	_ending_add_unlocks(left)
+	_ending_next_run_hints(right)
+	_ending_share_section(right, _ending_id)
+	var actions := HBoxContainer.new()
+	actions.custom_minimum_size = Vector2(0, 48)
+	actions.add_theme_constant_override("separation", 10)
+	page.add_child(actions)
+	var back_btn := _button(_tr("이전", "Back"), "#11131a")
+	back_btn.custom_minimum_size = Vector2(150, 46)
+	back_btn.pressed.connect(_ending_show_page.bind(4))
+	actions.add_child(back_btn)
+	var restart_btn := _button(_tr("새 런 시작", "New Run"), "#172a22")
+	restart_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	restart_btn.pressed.connect(func(): _after_ending_exit(_restart_run))
-	modal_body.add_child(restart_btn)
-	var menu_btn = _button(_tr("메인 메뉴로", "Main Menu"), "#1a1a28")
+	actions.add_child(restart_btn)
+	var menu_btn := _button(_tr("메인 메뉴", "Main Menu"), "#17191e")
+	menu_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	menu_btn.pressed.connect(func(): _after_ending_exit(_go_to_menu))
-	modal_body.add_child(menu_btn)
+	actions.add_child(menu_btn)
+	restart_btn.call_deferred("grab_focus")
+
+func _ending_add_unlocks(parent: VBoxContainer) -> void:
+	parent.add_child(_label(_tr("이번 런 해금", "UNLOCKED THIS RUN"), 12, "#aab3bf"))
+	if _ending_new_achievements.is_empty() and _ending_new_titles.is_empty():
+		parent.add_child(_wrap_label(_tr("새 해금 없음", "No new unlocks"), 12, "#697386"))
+	for achievement_id in _ending_new_achievements:
+		parent.add_child(_wrap_label(
+			_tr("업적: %s", "Achievement: %s") % _achievement_display_name(str(achievement_id)),
+			12, "#d8dde4"))
+	var rare_colors := {"common": "#8892a4", "uncommon": "#c9a227", "rare": "#f0b429", "legendary": "#f97316"}
+	for title_data in _ending_new_titles:
+		var col: String = rare_colors.get(str(title_data.get("rare", "common")), "#8892a4")
+		parent.add_child(_wrap_label(
+			_tr("칭호: 「%s」  %s", "Title: \"%s\"  %s") % [
+				str(title_data.get("name", "")), str(title_data.get("desc", ""))],
+			12, col))
+	var details := VBoxContainer.new()
+	details.add_theme_constant_override("separation", 4)
+	parent.add_child(details)
+	var theme_id := str(GameState.run_theme)
+	if theme_id != _tr("자유런", "자유런"):
+		details.add_child(_wrap_label(
+			_tr("런 테마: %s", "Run Theme: %s") % _run_theme_display(theme_id), 11, "#7d9a90"))
+	if str(GameState.difficulty) != _tr("현실", "현실"):
+		details.add_child(_wrap_label(_tr("난이도: %s", "Difficulty: %s") %
+			str(GameState.get_difficulty_data().get("name", GameState.difficulty)), 11, "#9a8f7d"))
+	var mastery: Array[String] = []
+	for game_id in ["holdem", "racetrack", "scalping", "aruba"]:
+		var grade := MetaProgression.get_mastery(game_id)
+		if grade >= 1:
+			mastery.append("%s %s" % [game_id, MetaProgression.get_mastery_label(game_id)])
+	if not mastery.is_empty():
+		details.add_child(_wrap_label(
+			_tr("미니게임 마스터리: ", "Minigame Mastery: ") + ", ".join(mastery),
+			11, "#718f86"))
 
 ## ── 크레딧 후 히든 「그녀는 알고 있었다」 (ROMANCE_SYSTEM 7-H ②) ──
 ## 조건: 지연과 결혼 + 그녀가 떠나지 않음 + 아버지 기록의 진실을 끝내 말하지 않음.
@@ -14064,7 +14419,7 @@ func _achievement_display_name(achievement_id: String) -> String:
 	return str(achievement.get("name", achievement_id))
 
 func _play_drawer_truth_cut(next_action: Callable) -> void:
-	_close_modal()
+	_close_modal(false)
 	BGMPlayer.stop()   # 완전 무음 — amb cut의 극단
 	var layer := CanvasLayer.new()
 	layer.layer = 99
@@ -14104,40 +14459,49 @@ func _add_ending_cg_preview(parent: Control, cg_path: String) -> void:
 
 func _apply_ending_modal_layout() -> void:
 	if modal_layer:
-		modal_layer.color = Color(0, 0, 0, 0.82)
+		modal_layer.color = Color("#050608")
+	if is_instance_valid(modal_header):
+		modal_header.visible = false
+	if is_instance_valid(modal_close_button):
+		modal_close_button.visible = false
 	if modal_panel:
-		modal_panel.add_theme_stylebox_override("panel", _modal_style("#090a0d", "#5e6670", 8, 14, 12))
-		modal_panel.custom_minimum_size = Vector2(980, 720)
-		modal_panel.offset_left = -490
-		modal_panel.offset_right = 490
-		modal_panel.offset_top = -360
-		modal_panel.offset_bottom = 360
+		modal_panel.anchor_left = 0.0
+		modal_panel.anchor_right = 1.0
+		modal_panel.anchor_top = 0.0
+		modal_panel.anchor_bottom = 1.0
+		modal_panel.offset_left = 14
+		modal_panel.offset_right = -14
+		modal_panel.offset_top = 14
+		modal_panel.offset_bottom = -14
+		modal_panel.custom_minimum_size = Vector2.ZERO
+		modal_panel.add_theme_stylebox_override("panel", _modal_style("#08090b", "#343b43", 0, 22, 16))
 	if modal_scroll:
-		modal_scroll.custom_minimum_size = Vector2(0, 570)
+		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+		modal_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+		modal_scroll.custom_minimum_size = Vector2.ZERO
+		modal_scroll.scroll_vertical = 0
 
 func _apply_ending_moral_palette() -> void:
-	var norm := GameState.moral_tint_norm()
 	var stage := GameState.moral_stage()
 	if stage <= -2:
-		modal_layer.color = Color(0.0, 0.0, 0.0, 0.88)
-		modal_panel.add_theme_stylebox_override("panel", _modal_style("#020303", "#59615d", 8, 14, 12))
+		modal_layer.color = Color("#000000")
+		modal_panel.add_theme_stylebox_override("panel", _modal_style("#020303", "#59615d", 0, 22, 16))
 		modal_title_label.add_theme_color_override("font_color", Color("#9aa39e"))
 	elif stage == -1:
-		modal_layer.color = Color(0.0, 0.015, 0.02, 0.78)
-		modal_panel.add_theme_stylebox_override("panel", _modal_style("#070a0c", "#4b5654", 8, 14, 12))
+		modal_layer.color = Color("#000405")
+		modal_panel.add_theme_stylebox_override("panel", _modal_style("#070a0c", "#4b5654", 0, 22, 16))
 		modal_title_label.add_theme_color_override("font_color", Color("#aab4b0"))
 	elif stage >= 2:
-		modal_layer.color = Color(0.010, 0.016, 0.020, 0.60)
-		modal_panel.add_theme_stylebox_override("panel", _modal_style("#0f1418", "#d8f4ff", 8, 14, 12))
+		modal_layer.color = Color("#030608")
+		modal_panel.add_theme_stylebox_override("panel", _modal_style("#0f1418", "#d8f4ff", 0, 22, 16))
 		modal_title_label.add_theme_color_override("font_color", Color("#f4fbff"))
 	elif stage == 1:
-		modal_layer.color = Color(0.012, 0.018, 0.022, 0.64)
-		modal_panel.add_theme_stylebox_override("panel", _modal_style("#10161a", "#a9d8ea", 8, 14, 12))
+		modal_layer.color = Color("#030608")
+		modal_panel.add_theme_stylebox_override("panel", _modal_style("#10161a", "#a9d8ea", 0, 22, 16))
 		modal_title_label.add_theme_color_override("font_color", Color("#e3f5ff"))
 	else:
-		var alpha := 0.70 + minf(absf(norm) * 0.08, 0.08)
-		modal_layer.color = Color(0, 0, 0, alpha)
-		modal_panel.add_theme_stylebox_override("panel", _modal_style("#090a0d", "#5e6670", 8, 14, 12))
+		modal_layer.color = Color("#030405")
+		modal_panel.add_theme_stylebox_override("panel", _modal_style("#090a0d", "#5e6670", 0, 22, 16))
 		modal_title_label.add_theme_color_override("font_color", Color("#e8eaf0"))
 
 func _add_ending_art_preview(
@@ -14525,8 +14889,7 @@ func _ending_time_ledger(parent: Control, ending_id: String, ending: Dictionary)
 	sep.add_theme_color_override("color", Color("#252535"))
 	parent.add_child(sep)
 	var title: String = _fmt(str(ending.get("title", ending_id)))
-	var grade: String = str(ending.get("grade", "?"))
-	parent.add_child(_build_time_ledger_card(title, grade, false))
+	parent.add_child(_build_time_ledger_card(title, "", false))
 
 func _kept_artifact_names() -> PackedStringArray:
 	var kept_names := PackedStringArray()
@@ -14622,6 +14985,8 @@ func _build_time_ledger_card(record_title: String, grade: String, is_demo: bool)
 	var stamp_text: String
 	if is_demo:
 		stamp_text = _tr("6개월 기록", "6-MONTH RECORD")
+	elif grade.is_empty():
+		stamp_text = _tr("5년의 기록", "FIVE-YEAR RECORD")
 	else:
 		stamp_text = _tr("최종 기록 · 등급 %s", "FINAL RECORD · GRADE %s") % grade
 	var stamp := _label(stamp_text, 11, _moral_hex(accent))
@@ -14890,7 +15255,7 @@ func _ending_run_summary(ending_id: String) -> String:
 ## ── 인연 에필로그 ──────────────────────────────────────────────
 ## 엔딩 티어는 숫자(자산·스탯)가 정하고, 엔딩의 표정은 관계가 정한다.
 ## 각 인물의 최종 stage에 따라 결말 직후의 한 장면을 보여준다.
-func _ending_cast_epilogue(parent: Control, ending_id: String):
+func _ending_cast_epilogue(parent: Control, ending_id: String, compact: bool = false):
 	var good := ending_id in [
 		"gangnam_dream", "gangnam_dream_white", "stable_success", "investment_master",
 		"startup_exit", "political_fix", "reputation_legend", "healthy_retirement",
@@ -15017,12 +15382,40 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 		else:
 			lines.append(_tr("현수는 회계법인에 자리를 잡았다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.", "Hyunsu landed a job at an accounting firm. We're both doing all right. No more, no less."))
 
+	if compact:
+		var grid := GridContainer.new()
+		grid.columns = 2
+		grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		grid.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+		grid.add_theme_constant_override("h_separation", 10)
+		grid.add_theme_constant_override("v_separation", 10)
+		parent.add_child(grid)
+		for line in lines:
+			grid.add_child(_ending_epilogue_card(_ending_plain_text(str(line))))
+		return
 	var sep := HSeparator.new()
 	sep.add_theme_color_override("color", Color("#252535"))
 	parent.add_child(sep)
 	parent.add_child(_label(_tr("그 사람들은", "As for Them"), 15, _moral_hex(_moral_text_accent(Color("#c8a060"), 0.04))))
-	for l in lines:
-		parent.add_child(_wrap_label(_ending_plain_text(str(l)), 12, "#8a93a6"))
+	for line in lines:
+		parent.add_child(_wrap_label(_ending_plain_text(str(line)), 12, "#8a93a6"))
+
+func _ending_epilogue_card(text: String) -> Control:
+	var card := PanelContainer.new()
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.custom_minimum_size = Vector2(0, 72)
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(1, 1, 1, 0.025)
+	style.border_color = Color("#343b45", 0.82)
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(5)
+	style.content_margin_left = 13
+	style.content_margin_right = 13
+	style.content_margin_top = 10
+	style.content_margin_bottom = 10
+	card.add_theme_stylebox_override("panel", style)
+	card.add_child(_wrap_label(text, 12, "#929ca9"))
+	return card
 
 ## ── 런 요약 카드 텍스트 (클립보드 공유용) ──────────────────────────
 func _run_card_text(ending_id: String) -> String:
@@ -15121,7 +15514,9 @@ func _ending_next_run_hints(parent: Control):
 	var sep = HSeparator.new()
 	sep.add_theme_color_override("color", Color("#252535"))
 	parent.add_child(sep)
-	parent.add_child(_label(_tr("다음 런에서", "Next Run"), 13, "#c9a227"))
+	parent.add_child(_label(
+			_tr("다음 런에서", "Next Run"), 13,
+			_moral_hex(_moral_text_accent(Color("#b8c1cc"), 0.03))))
 	for i in range(mini(3, hints.size())):
 		parent.add_child(_wrap_label(str(hints[i]), 12, "#5a7090"))
 
@@ -15196,9 +15591,21 @@ func _ending_route_bar(parent: Control):
 	var id_lbl = _label(_ending_card_route_label(), 13, _moral_hex(_moral_text_accent(Color("#c8a060"), 0.04)))
 	id_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	info_row.add_child(id_lbl)
-	info_row.add_child(_label(_tr("정석 %d", "Orthodox %d") % o, 11, _moral_hex(_moral_text_accent(Color("#c9a227"), 0.03))))
-	info_row.add_child(_label(" / ", 11, "#3a3a5a"))
-	info_row.add_child(_label(_tr("비정석 %d", "Unorthodox %d") % u, 11, _moral_hex(_moral_text_accent(Color("#f97316")))))
+	var orthodox_label := _label(
+			_tr("정석 %d", "Orthodox %d") % o, 11,
+			_moral_hex(_moral_text_accent(Color("#c3cbd5"), 0.03)))
+	orthodox_label.custom_minimum_size = Vector2(104, 0)
+	orthodox_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	orthodox_label.clip_text = false
+	info_row.add_child(orthodox_label)
+	info_row.add_child(_label(" / ", 11, "#727b88"))
+	var unorthodox_label := _label(
+			_tr("비정석 %d", "Unorthodox %d") % u, 11,
+			_moral_hex(_moral_text_accent(Color("#aeb7c2"), 0.02)))
+	unorthodox_label.custom_minimum_size = Vector2(118, 0)
+	unorthodox_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	unorthodox_label.clip_text = false
+	info_row.add_child(unorthodox_label)
 	var bar_bg = PanelContainer.new()
 	bar_bg.custom_minimum_size = Vector2(0, 10)
 	bar_bg.size_flags_horizontal = Control.SIZE_EXPAND_FILL
