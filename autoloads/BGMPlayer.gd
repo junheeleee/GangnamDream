@@ -536,14 +536,15 @@ func leave_casino_music() -> void:
 		return
 	enter_ambient_bed(0.8)
 
-func update_event_ambience(ev: Dictionary, cg_id: String = "") -> void:
+func update_event_ambience(
+		ev: Dictionary, cg_id: String = "", resolved_background_id: String = "") -> void:
 	if _is_ending:
 		clear_ambience()
 		return
 	var contract: Dictionary = scene_audio_contract(str(ev.get("id", "")), cg_id)
 	var ambience_key: String = _resolve_dynamic_ambience_key(str(contract.get("ambience", "")))
 	if ambience_key.is_empty():
-		ambience_key = _pick_ambience(ev)
+		ambience_key = _pick_ambience(ev, resolved_background_id)
 	set_ambience(ambience_key)
 	set_season_ambience(_event_season_key(ambience_key))
 
@@ -755,12 +756,19 @@ func _event_season_key(ambience_key: String) -> String:
 		return ""
 	return _calendar_season_key()
 
-func _pick_ambience(ev: Dictionary) -> String:
-	var tags: Array = ev.get("tags", [])
-	var bg_id := _event_background_id(ev)
-	var category := str(ev.get("category", "")).to_lower()
+func _pick_ambience(ev: Dictionary, resolved_background_id: String = "") -> String:
+	var bg_id := resolved_background_id.strip_edges().to_lower()
+	var has_resolved_background := not bg_id.is_empty()
+	if not has_resolved_background:
+		bg_id = _event_background_id(ev)
+	# 실제 렌더된 장소가 있으면 번역 본문과 장르 태그가 그 장소를
+	# 덮어쓰지 못한다. 두 값은 배경 ID조차 없는 레거시 사건의 폴백이다.
+	var tags: Array = [] if has_resolved_background else ev.get("tags", [])
+	var category: String = "" if has_resolved_background else \
+		str(ev.get("category", "")).to_lower()
 	var event_id := str(ev.get("id", ""))
-	var hay: String = (str(ev.get("title", "")) + " " + str(ev.get("description", ""))).to_lower()
+	var hay := "" if has_resolved_background else \
+		(str(ev.get("title", "")) + " " + str(ev.get("description", ""))).to_lower()
 	var padded_hay := " " + hay.replace("\n", " ") + " "
 	var rain_in_text := " rain " in padded_hay or " rainy " in padded_hay \
 			or " raining " in padded_hay or " rainfall " in padded_hay \
@@ -836,10 +844,27 @@ func _pick_ambience(ev: Dictionary) -> String:
 		return "hangang"
 	if "meeting" in bg_id or "세미나" in hay or "seminar" in hay:
 		return "office"
+	if "hospital" in bg_id:
+		return "hospital"
+	if "wedding" in bg_id:
+		return "wedding_hall"
+	if "seaside" in bg_id or "beach" in bg_id:
+		return "seaside"
+	if "amusement" in bg_id:
+		return "amusement"
+	if "car_" in bg_id or bg_id.begins_with("car"):
+		return "car"
+	if "ktx" in bg_id or "train" in bg_id:
+		return "train"
+	if "oneroom" in bg_id:
+		return "oneroom"
+	if "apartment" in bg_id:
+		return "apartment"
 	if "office" in tags or "work" in tags or "jobs" in tags or category == "jobs" \
 			or "office" in bg_id or "회사" in hay or "사무실" in hay:
 		return "office"
-	if "street" in tags or "street" in bg_id or "gangnam_station" in bg_id \
+	if "street" in tags or "street" in bg_id \
+			or bg_id in ["gangnam_day", "gangnam_night", "gangnam_station"] \
 			or "거리" in hay or "street" in hay:
 		return "street"
 	if "rooftop" in tags or "rooftop" in bg_id:

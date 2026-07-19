@@ -1679,7 +1679,7 @@ func _render_current():
 			and not _current_uses_cg and not has_authored_ambience:
 		BGMPlayer.update_idle_ambience()
 	else:
-		BGMPlayer.update_event_ambience(_current, _event_cg_id)
+		BGMPlayer.update_event_ambience(_current, _event_cg_id, _event_background_id)
 	BGMPlayer.begin_story_event(_current, _event_cg_id)
 	AudioManager.begin_story_audio_event(str(_current.get("id", "")))
 	AudioManager.play_event_cue(_current)
@@ -2960,7 +2960,7 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 		BGMPlayer.set_ambience(result_ambience)
 		BGMPlayer.set_season_ambience("")
 	else:
-		BGMPlayer.update_event_ambience(result_event)
+		BGMPlayer.update_event_ambience(result_event, "", result_background_id)
 	if _hud_panel != null and is_instance_valid(_hud_panel):
 		_hud_panel.visible = not _story_visual_override_active
 

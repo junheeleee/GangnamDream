@@ -72,6 +72,7 @@ var _demo_director_advancing: bool = false
 var _demo_director_resume_after_modal: String = ""
 var _routine_draft: Array = []   # 몽타주 루틴 모달 편집 중 임시 선택
 var _event_bg_path: String = ""   # 현재 표시 중인 배경 경로 (크로스페이드 중복 방지)
+var _event_bg_id: String = ""     # 화면에 실제 선택된 배경 ID (오디오 장소 정합)
 var _typing_tween: Tween = null   # 타이핑 효과 전용 트윈
 var _choice_reveal_pending: bool = false  # 타이핑 완료 후 선택지 표시 대기
 var _result_reveal_controls: Array[Control] = []
@@ -4273,7 +4274,7 @@ func _render_event():
 	_apply_category_tint(str(current_event.get("category", "")))
 	event_title.text = _fmt(current_event.get("title", _tr("이벤트", "Event")))
 	_update_event_bg()
-	BGMPlayer.update_event_ambience(current_event)
+	BGMPlayer.update_event_ambience(current_event, "", _event_bg_id)
 	AudioManager.play_event_cue(current_event)
 	_update_portrait()
 	# 이벤트 패널 페이드인
@@ -16953,16 +16954,23 @@ func _update_event_bg():
 		return
 	# 1순위: 이벤트가 명시한 background ID (ImageRegistry 경유)
 	var new_path := ""
+	var new_id := ""
 	var explicit_id = str(current_event.get("background", ""))
 	if explicit_id != "":
 		var reg_path = ImageRegistry.get_background(explicit_id)
 		if reg_path != "" and ImageRegistry.has_texture(reg_path):
 			new_path = reg_path
+			new_id = explicit_id
 	# 2순위: 태그/카테고리 기반 자동 매핑
 	if new_path == "":
-		var bg_path = _get_bg_for_event(current_event)
-		if bg_path != "" and ImageRegistry.has_texture(bg_path):
-			new_path = bg_path
+		var inferred_id := ImageRegistry.infer_background_id(current_event, GameState.housing)
+		var inferred_path := ImageRegistry.get_background(inferred_id)
+		if inferred_path != "" and ImageRegistry.has_texture(inferred_path):
+			new_path = inferred_path
+			new_id = inferred_id
+	if new_path == "":
+		new_path = BG_PATHS.get(GameState.housing, BG_DEFAULT)
+	_event_bg_id = new_id
 	_apply_event_bg_path(new_path)
 
 func _apply_event_bg_path(new_path: String):

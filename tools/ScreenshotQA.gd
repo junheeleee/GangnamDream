@@ -3401,6 +3401,8 @@ func _sample_demo_experience_story(
 		profile["_pending_flow_keys"] = pending_flow_keys
 		return
 	var record: Dictionary = events[record_index]
+	if not _demo_experience_story_surface_ready(event, story):
+		return
 	_sample_demo_experience_surfaces(record, event, story)
 
 	var phase := "result" if bool(story.get("_pending_after_result")) else "prose"
@@ -3428,6 +3430,12 @@ func _sample_demo_experience_story(
 	events[record_index] = record
 	profile["events"] = events
 
+func _demo_experience_story_surface_ready(event: Dictionary, story: Node) -> bool:
+	if str(event.get("id", "")).begins_with("chapter_card_"):
+		return is_instance_valid(story.get("_chapter_overlay") as Control)
+	return bool(story.get("_current_uses_cg")) \
+		or not str(story.get("_event_background_id")).is_empty()
+
 func _sample_demo_experience_surfaces(
 		record: Dictionary, event: Dictionary, story: Node) -> void:
 	var backgrounds: Array = record.get("backgrounds", [])
@@ -3445,14 +3453,16 @@ func _sample_demo_experience_surfaces(
 		_append_unique_experience_value(portraits, portrait_tex.texture.resource_path)
 		record["portraits"] = portraits
 
-	var ambience_key := str(BGMPlayer.get("_current_ambience_key"))
-	record["ambience_keys"] = [] if ambience_key.is_empty() else [ambience_key]
-	var season_ambience_key := str(BGMPlayer.get("_current_season_key"))
-	record["season_ambience_keys"] = [] if season_ambience_key.is_empty() \
-		else [season_ambience_key]
-	var human_ambience_key := str(BGMPlayer.get("_current_human_ambience_key"))
-	record["human_ambience_keys"] = [] if human_ambience_key.is_empty() \
-		else [human_ambience_key]
+	if not bool(record.get("_ambience_sampled", false)):
+		var ambience_key := str(BGMPlayer.get("_current_ambience_key"))
+		record["ambience_keys"] = [] if ambience_key.is_empty() else [ambience_key]
+		var season_ambience_key := str(BGMPlayer.get("_current_season_key"))
+		record["season_ambience_keys"] = [] if season_ambience_key.is_empty() \
+			else [season_ambience_key]
+		var human_ambience_key := str(BGMPlayer.get("_current_human_ambience_key"))
+		record["human_ambience_keys"] = [] if human_ambience_key.is_empty() \
+			else [human_ambience_key]
+		record["_ambience_sampled"] = true
 	var music_keys: Array = record.get("music_keys", [])
 	_append_unique_experience_value(music_keys, str(BGMPlayer.get("_current_key")))
 	record["music_keys"] = music_keys
@@ -3484,6 +3494,7 @@ func _finalize_demo_experience_profile(profile: Dictionary, runtime: Dictionary)
 		var flow_record: Dictionary = scene_flow[index]
 		for key in ["boundary", "mode", "follow_up", "same_week", "location"]:
 			event_record[key] = flow_record.get(key)
+		event_record.erase("_ambience_sampled")
 		events[index] = event_record
 	profile["events"] = events
 

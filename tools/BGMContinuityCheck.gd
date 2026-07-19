@@ -651,6 +651,53 @@ func _ready() -> void:
 			_fail("inferred ambience mismatch: expected %s got %s" % [case[1], actual])
 			return
 
+	# 번역 본문은 장소 계약이 아니다. 화면 렌더러가 고른 동일 배경 ID가
+	# 주어지면 한국어/영어 문구가 달라도 같은 공간음이어야 한다.
+	var localized_background_cases := [
+		[{
+			"id": "qa_localized_meal_ko",
+			"title": "첫 끼니",
+			"description": "비 오는 밤, 편의점에 들어갔다.",
+			"tags": ["night"],
+		}, "convenience_night", "convenience"],
+		[{
+			"id": "qa_localized_meal_en",
+			"title": "First Meal",
+			"description": "He steps into the store after midnight.",
+			"tags": ["night"],
+		}, "convenience_night", "convenience"],
+		[{
+			"id": "qa_localized_call_ko",
+			"title": "카페에서 걸려온 전화",
+			"description": "그날의 카페를 떠올리며 전화를 받았다.",
+			"tags": [],
+		}, "goshiwon_room", "room"],
+		[{
+			"id": "qa_localized_call_en",
+			"title": "An Incoming Call",
+			"description": "The unknown number lights the phone.",
+			"tags": [],
+		}, "goshiwon_room", "room"],
+		[{
+			"id": "qa_localized_gangnam_ko",
+			"title": "처음 혼자 간 강남",
+			"description": "지하철에서 내려 건물 사이를 걸었다.",
+			"tags": [],
+		}, "gangnam_day", "street"],
+		[{
+			"id": "qa_localized_gangnam_en",
+			"title": "First Time in Gangnam Alone",
+			"description": "He walks between the towers.",
+			"tags": [],
+		}, "gangnam_day", "street"],
+	]
+	for case in localized_background_cases:
+		var actual := BGMPlayer._pick_ambience(case[0], str(case[1]))
+		if actual != str(case[2]):
+			_fail("rendered-background ambience mismatch: %s expected %s got %s" % [
+				case[0].get("id", ""), case[2], actual])
+			return
+
 	print("BGM_CONTINUITY_OK mode=%s key=%s ambience=%s" % [
 		BGMPlayer._music_mode, BGMPlayer._current_key, BGMPlayer._current_ambience_key])
 	get_tree().quit(0)
