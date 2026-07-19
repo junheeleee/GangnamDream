@@ -67,6 +67,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=transition
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-input --lang=en --demo-build
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-gamepad --lang=en --pad=xbox --demo-build
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-experience --lang=en --pad=xbox --demo-build
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-keyboard --lang=en --demo-build
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-mouse --lang=en --demo-build
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=full-gamepad --lang=en --pad=xbox
@@ -87,6 +88,7 @@ const QA_SCOPE_DEMO_FLOW := "demo_flow"
 const QA_SCOPE_DEMO_BLACKBOX := "demo_blackbox"
 const QA_SCOPE_DEMO_INPUT := "demo_input"
 const QA_SCOPE_DEMO_GAMEPAD := "demo_gamepad"
+const QA_SCOPE_DEMO_EXPERIENCE := "demo_experience"
 const QA_SCOPE_DEMO_KEYBOARD := "demo_keyboard"
 const QA_SCOPE_DEMO_MOUSE := "demo_mouse"
 const QA_SCOPE_FULL_GAMEPAD := "full_gamepad"
@@ -175,7 +177,8 @@ func _ready() -> void:
 	_clear_output_dir()
 	var scope: String = _qa_scope()
 	if scope in [QA_SCOPE_DEMO_FLOW, QA_SCOPE_DEMO_BLACKBOX, QA_SCOPE_DEMO_INPUT,
-			QA_SCOPE_DEMO_GAMEPAD, QA_SCOPE_DEMO_KEYBOARD, QA_SCOPE_DEMO_MOUSE] \
+			QA_SCOPE_DEMO_GAMEPAD, QA_SCOPE_DEMO_EXPERIENCE,
+			QA_SCOPE_DEMO_KEYBOARD, QA_SCOPE_DEMO_MOUSE] \
 			and not GameState.is_demo_build():
 		_fail("Demo QA requires the explicit --demo-build test flag.")
 		return
@@ -255,6 +258,13 @@ func _ready() -> void:
 		if str(pad_options.get("pad", "keyboard")) == "keyboard":
 			ControllerHints.force_brand_for_qa(ControllerHints.Brand.XBOX)
 		await _run_demo_input_route(lang, "gamepad")
+		return
+	if scope == QA_SCOPE_DEMO_EXPERIENCE:
+		var lang := _qa_language("en")
+		var pad_options := _apply_first_30_qa_options()
+		if str(pad_options.get("pad", "keyboard")) == "keyboard":
+			ControllerHints.force_brand_for_qa(ControllerHints.Brand.XBOX)
+		await _run_demo_input_route(lang, "gamepad", false, true)
 		return
 	if scope == QA_SCOPE_DEMO_KEYBOARD:
 		var lang := _qa_language("en")
@@ -782,6 +792,10 @@ func _qa_scope() -> String:
 		if arg in ["demo-gamepad", "demo_gamepad", "--demo-gamepad", "--demo_gamepad",
 				"qa=demo-gamepad", "--qa=demo-gamepad", "scope=demo-gamepad", "--scope=demo-gamepad"]:
 			return QA_SCOPE_DEMO_GAMEPAD
+		if arg in ["demo-experience", "demo_experience", "--demo-experience", "--demo_experience",
+				"qa=demo-experience", "--qa=demo-experience",
+				"scope=demo-experience", "--scope=demo-experience"]:
+			return QA_SCOPE_DEMO_EXPERIENCE
 		if arg in ["demo-keyboard", "demo_keyboard", "--demo-keyboard", "--demo_keyboard",
 				"qa=demo-keyboard", "--qa=demo-keyboard", "scope=demo-keyboard", "--scope=demo-keyboard"]:
 			return QA_SCOPE_DEMO_KEYBOARD
@@ -2285,7 +2299,8 @@ func _shot_demo_blackbox(lang: String = "en") -> void:
 	await _shot_demo_loop_surfaces(lang, prefix)
 
 func _run_demo_input_route(
-		lang: String = "en", input_mode: String = "keyboard", full_run: bool = false) -> void:
+		lang: String = "en", input_mode: String = "keyboard", full_run: bool = false,
+		capture_experience: bool = false) -> void:
 	if input_mode not in ["keyboard", "mouse", "gamepad"]:
 		_fail("Input route requires keyboard, mouse, or gamepad; got %s." % input_mode)
 		return
@@ -2316,6 +2331,8 @@ func _run_demo_input_route(
 	var seen_events: Array[String] = []
 	var story_event_weeks: Dictionary = {}
 	var demo_scene_flow: Array[Dictionary] = []
+	var experience_profile: Dictionary = _new_demo_experience_profile(lang, input_mode) \
+			if capture_experience else {}
 	var last_story_flow_key := ""
 	var input_count := 0
 	var last_signature := ""
@@ -2369,6 +2386,10 @@ func _run_demo_input_route(
 				var flow_record := _demo_scene_flow_record(current, scene, GameState.turn, previous_flow)
 				demo_scene_flow.append(flow_record)
 				_print_demo_scene_flow_record(demo_scene_flow.size(), flow_record)
+			if capture_experience and not event_id.is_empty() \
+					and GameState.turn <= GameState.DEMO_TURN_LIMIT:
+				_sample_demo_experience_story(
+					experience_profile, current, scene, GameState.turn, story_flow_key)
 			if not event_id.is_empty() and not seen_events.has(event_id):
 				seen_events.append(event_id)
 				story_event_weeks[event_id] = GameState.turn
@@ -3059,6 +3080,22 @@ func _run_demo_input_route(
 		str(family_streak.get("value", "none")), int(family_streak.get("count", 0)),
 		str(action_counts), str(modal_counts), ap_action_inputs, available_ap_budget,
 		float(input_count) / float(GameState.DEMO_TURN_LIMIT)])
+	if capture_experience:
+		_finalize_demo_experience_profile(experience_profile, {
+			"input_count": input_count,
+			"scene_flow": demo_scene_flow,
+			"scene_flow_summary": demo_flow_summary,
+			"week_inputs": route_week_inputs,
+			"week_kinds": week_kind_sequence,
+			"week_kind_counts": week_kind_counts,
+			"pressure_sequence": pressure_sequence,
+			"pressure_family_sequence": pressure_family_sequence,
+			"pressure_counts": pressure_counts,
+			"action_counts": action_counts,
+			"modal_counts": modal_counts,
+			"ap_action_inputs": ap_action_inputs,
+			"available_ap_budget": available_ap_budget,
+		})
 	MetaProgression.data = original_meta
 	_print_demo_route_input_profile(route_input_counts, route_week_inputs)
 	print("DEMO_INPUT_RUN_OK device=%s weeks=24 inputs=%d events=%d start_job=unemployed end_job=%s axes=%d/%d exact_echo=%d key_events=%d mouse_events=%d gamepad_events=%d cutoff=cta" % [
@@ -3277,6 +3314,216 @@ func _demo_scene_flow_error(
 			return "%s expected at %s, got %s." % [
 				event_id, str(expected_locations[event_id]), actual_location]
 	return ""
+
+func _new_demo_experience_profile(lang: String, input_mode: String) -> Dictionary:
+	return {
+		"schema_version": 1,
+		"language": lang,
+		"device": input_mode,
+		"resolution": {
+			"width": int(get_viewport().get_visible_rect().size.x),
+			"height": int(get_viewport().get_visible_rect().size.y),
+		},
+		"events": [],
+		"_event_indices": {},
+		"_paragraph_keys": {},
+		"_pending_flow_keys": {},
+	}
+
+func _sample_demo_experience_story(
+		profile: Dictionary, event: Dictionary, story: Node, week: int,
+		flow_key: String) -> void:
+	var event_id := str(event.get("id", ""))
+	if event_id.is_empty():
+		return
+	var events: Array = profile.get("events", [])
+	var event_indices: Dictionary = profile.get("_event_indices", {})
+	if not event_indices.has(flow_key):
+		var visible_choice_values: Variant = story.call("_visible_choice_indices", event)
+		var visible_choices: Array = visible_choice_values if visible_choice_values is Array else []
+		var choices: Array = event.get("choices", [])
+		var choice_chars := 0
+		var choice_words := 0
+		for raw_choice_index in visible_choices:
+			var choice_index := int(raw_choice_index)
+			if choice_index < 0 or choice_index >= choices.size():
+				continue
+			var choice: Dictionary = choices[choice_index]
+			var choice_text := str(choice.get("text", "")).strip_edges()
+			choice_chars += choice_text.length()
+			choice_words += _experience_word_count(choice_text)
+		var presentation := DataRegistry.get_story_presentation(event_id)
+		var record := {
+			"order": events.size() + 1,
+			"week": week,
+			"id": event_id,
+			"title": str(event.get("title", "")),
+			"thread": _demo_scene_flow_thread(event),
+			"channel": str(presentation.get("channel", "in_person")),
+			"timed": bool(event.get("timed", false)),
+			"choice_count": visible_choices.size(),
+			"meaningful_choice": visible_choices.size() >= 2,
+			"direct_action": visible_choices.size() == 1 \
+					and not event_id.begins_with("chapter_card_") \
+					and not bool(event.get("timed", false)),
+			"choice_chars": choice_chars,
+			"choice_words": choice_words,
+			"prose_paragraphs": 0,
+			"result_paragraphs": 0,
+			"prose_chars": 0,
+			"result_chars": 0,
+			"prose_words": 0,
+			"result_words": 0,
+			"text_chars": 0,
+			"text_words": 0,
+			"backgrounds": [],
+			"portraits": [],
+			"cgs": [],
+			"ambience_keys": [],
+			"season_ambience_keys": [],
+			"human_ambience_keys": [],
+			"music_keys": [],
+			"authored_music_keys": [],
+		}
+		events.append(record)
+		event_indices[flow_key] = events.size() - 1
+		profile["events"] = events
+		profile["_event_indices"] = event_indices
+		var pending_flow_keys: Dictionary = profile.get("_pending_flow_keys", {})
+		pending_flow_keys[flow_key] = true
+		profile["_pending_flow_keys"] = pending_flow_keys
+	var record_index := int(event_indices.get(flow_key, -1))
+	if record_index < 0 or record_index >= events.size():
+		return
+	var pending_flow_keys: Dictionary = profile.get("_pending_flow_keys", {})
+	if pending_flow_keys.has(flow_key):
+		pending_flow_keys.erase(flow_key)
+		profile["_pending_flow_keys"] = pending_flow_keys
+		return
+	var record: Dictionary = events[record_index]
+	_sample_demo_experience_surfaces(record, event, story)
+
+	var phase := "result" if bool(story.get("_pending_after_result")) else "prose"
+	var paragraph_index := int(story.get("_para_index"))
+	var paragraph_text := str(story.get("_type_full")).strip_edges()
+	if paragraph_text.is_empty():
+		var paragraphs: Array = story.get("_paragraphs")
+		if paragraph_index >= 0 and paragraph_index < paragraphs.size():
+			paragraph_text = str(paragraphs[paragraph_index]).strip_edges()
+	if not paragraph_text.is_empty():
+		var paragraph_keys: Dictionary = profile.get("_paragraph_keys", {})
+		var paragraph_key := "%s:%s:%d:%s" % [
+			flow_key, phase, paragraph_index, paragraph_text.md5_text()]
+		if not paragraph_keys.has(paragraph_key):
+			paragraph_keys[paragraph_key] = true
+			record["%s_paragraphs" % phase] = int(record.get("%s_paragraphs" % phase, 0)) + 1
+			record["%s_chars" % phase] = int(record.get("%s_chars" % phase, 0)) \
+					+ paragraph_text.length()
+			record["%s_words" % phase] = int(record.get("%s_words" % phase, 0)) \
+					+ _experience_word_count(paragraph_text)
+			record["text_chars"] = int(record.get("text_chars", 0)) + paragraph_text.length()
+			record["text_words"] = int(record.get("text_words", 0)) \
+					+ _experience_word_count(paragraph_text)
+			profile["_paragraph_keys"] = paragraph_keys
+	events[record_index] = record
+	profile["events"] = events
+
+func _sample_demo_experience_surfaces(
+		record: Dictionary, event: Dictionary, story: Node) -> void:
+	var backgrounds: Array = record.get("backgrounds", [])
+	_append_unique_experience_value(backgrounds, str(story.get("_event_background_id")))
+	record["backgrounds"] = backgrounds
+
+	if bool(story.get("_current_uses_cg")):
+		var cgs: Array = record.get("cgs", [])
+		_append_unique_experience_value(cgs, str(story.get("_event_cg_id")))
+		record["cgs"] = cgs
+
+	var portrait_tex := story.get("_portrait") as TextureRect
+	if is_instance_valid(portrait_tex) and portrait_tex.visible and portrait_tex.texture != null:
+		var portraits: Array = record.get("portraits", [])
+		_append_unique_experience_value(portraits, portrait_tex.texture.resource_path)
+		record["portraits"] = portraits
+
+	var ambience_key := str(BGMPlayer.get("_current_ambience_key"))
+	record["ambience_keys"] = [] if ambience_key.is_empty() else [ambience_key]
+	var season_ambience_key := str(BGMPlayer.get("_current_season_key"))
+	record["season_ambience_keys"] = [] if season_ambience_key.is_empty() \
+		else [season_ambience_key]
+	var human_ambience_key := str(BGMPlayer.get("_current_human_ambience_key"))
+	record["human_ambience_keys"] = [] if human_ambience_key.is_empty() \
+		else [human_ambience_key]
+	var music_keys: Array = record.get("music_keys", [])
+	_append_unique_experience_value(music_keys, str(BGMPlayer.get("_current_key")))
+	record["music_keys"] = music_keys
+
+	var contract := BGMPlayer.scene_audio_contract(
+		str(event.get("id", "")), str(story.get("_event_cg_id")))
+	var authored_music: Variant = contract.get("music", null)
+	if authored_music is Dictionary:
+		var authored_music_keys: Array = record.get("authored_music_keys", [])
+		_append_unique_experience_value(
+			authored_music_keys, str(authored_music.get("key", "")))
+		record["authored_music_keys"] = authored_music_keys
+
+func _append_unique_experience_value(values: Array, value: String) -> void:
+	if not value.is_empty() and not values.has(value):
+		values.append(value)
+
+func _experience_word_count(text: String) -> int:
+	var normalized := text.replace("\n", " ").replace("\t", " ").strip_edges()
+	while normalized.contains("  "):
+		normalized = normalized.replace("  ", " ")
+	return normalized.split(" ", false).size() if not normalized.is_empty() else 0
+
+func _finalize_demo_experience_profile(profile: Dictionary, runtime: Dictionary) -> void:
+	var events: Array = profile.get("events", [])
+	var scene_flow: Array = runtime.get("scene_flow", [])
+	for index in range(mini(events.size(), scene_flow.size())):
+		var event_record: Dictionary = events[index]
+		var flow_record: Dictionary = scene_flow[index]
+		for key in ["boundary", "mode", "follow_up", "same_week", "location"]:
+			event_record[key] = flow_record.get(key)
+		events[index] = event_record
+	profile["events"] = events
+
+	var week_input_rows: Array[Dictionary] = []
+	var week_inputs: Dictionary = runtime.get("week_inputs", {})
+	for week in range(1, GameState.DEMO_TURN_LIMIT + 1):
+		week_input_rows.append({
+			"week": week,
+			"inputs": int(week_inputs.get(week, 0)),
+		})
+	profile["runtime"] = {
+		"weeks": GameState.DEMO_TURN_LIMIT,
+		"input_count_fast_path": int(runtime.get("input_count", 0)),
+		"week_inputs_fast_path": week_input_rows,
+		"week_kinds": runtime.get("week_kinds", []),
+		"week_kind_counts": runtime.get("week_kind_counts", {}),
+		"pressure_sequence": runtime.get("pressure_sequence", []),
+		"pressure_family_sequence": runtime.get("pressure_family_sequence", []),
+		"pressure_counts": runtime.get("pressure_counts", {}),
+		"action_counts": runtime.get("action_counts", {}),
+		"modal_counts": runtime.get("modal_counts", {}),
+		"ap_action_inputs": int(runtime.get("ap_action_inputs", 0)),
+		"available_ap_budget": int(runtime.get("available_ap_budget", 0)),
+		"scene_flow_summary": runtime.get("scene_flow_summary", {}),
+	}
+	profile["method_note"] = "Fast-path inputs verify reachability only; reading time is derived from exposed text and choice surfaces."
+	profile.erase("_event_indices")
+	profile.erase("_paragraph_keys")
+	profile.erase("_pending_flow_keys")
+
+	var safe_lang := str(profile.get("language", "unknown")).replace("-", "_")
+	var safe_device := str(profile.get("device", "unknown")).replace("-", "_")
+	var path := "%s/demo_experience_%s_%s.json" % [OUT_DIR, safe_lang, safe_device]
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		_fail("Could not write demo experience report: %s." % path)
+		return
+	file.store_string(JSON.stringify(profile, "\t"))
+	file.close()
+	print("DEMO_EXPERIENCE_REPORT path=%s events=%d" % [path, events.size()])
 
 func _max_route_week_inputs(week_counts: Dictionary) -> Dictionary:
 	var best_week := 0
