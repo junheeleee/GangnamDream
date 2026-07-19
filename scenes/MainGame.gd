@@ -103,8 +103,14 @@ var _moral_beat_surface_active: bool = false
 var _moral_beat_bg_tween: Tween = null
 var _main_ui_root: Control = null
 var _minigame_overlay_active: bool = false
+var _dark_overlay: ColorRect = null
+var _portrait_panel: Control = null
+var _scene_first_surface_active: bool = false
+var _scene_surface_tween: Tween = null
+var _event_bg_fade_tween: Tween = null
 var character_portrait: TextureRect
 var _story_container: Control
+var _story_layout: Control
 var info_panel: Control
 var info_tabs: TabContainer
 var _info_pad_hint_label: Label
@@ -997,11 +1003,11 @@ func _build_ui():
 	add_child(event_bg)
 
 	# ── 3. 어두운 오버레이 ──
-	var dark_overlay = ColorRect.new()
-	dark_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
-	dark_overlay.color = Color(0.022, 0.024, 0.028, 0.74)
-	dark_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(dark_overlay)
+	_dark_overlay = ColorRect.new()
+	_dark_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_dark_overlay.color = Color(0.022, 0.024, 0.028, 0.74)
+	_dark_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_dark_overlay)
 
 	# 시간대 앰비언트 틴트 (event_bg와 dark_overlay 사이)
 	_ambient_overlay = ColorRect.new()
@@ -1443,6 +1449,7 @@ func _build_top_bar(parent):
 	ap_lbl.clip_text = true
 	ap_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	top_labels["ap"] = ap_lbl
+	top_labels["ap_chip"] = ap_lbl.get_parent().get_parent()
 
 	# ── 바이탈 HUD: 건강 / 정신 ──────────────────
 	var vitals_row = HBoxContainer.new()
@@ -1496,6 +1503,7 @@ func _build_top_bar(parent):
 func _build_portrait_panel(parent):
 	# 왼쪽 고정 초상화 패널
 	var panel = _panel("#0d0d14", "#1a1a28")
+	_portrait_panel = panel
 	panel.custom_minimum_size = Vector2(224, 0)
 	panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	parent.add_child(panel)
@@ -1578,6 +1586,7 @@ func _build_story_panel(parent):
 	container.add_child(margin)
 
 	var layout = VBoxContainer.new()
+	_story_layout = layout
 	layout.add_theme_constant_override("separation", 16)
 	margin.add_child(layout)
 
@@ -1604,6 +1613,112 @@ func _build_story_panel(parent):
 	choice_box.add_theme_constant_override("separation", 10)
 	choice_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	choice_scroll.add_child(choice_box)
+
+func _scene_first_week_enabled() -> bool:
+	return current_event.is_empty() and _demo_pressure_enabled() \
+			and _demo_director_requires_player_input()
+
+func _event_bg_target_alpha() -> float:
+	return 0.60 if _scene_first_surface_active else 0.25
+
+func _fade_event_bg_to_target(duration: float = 0.22) -> void:
+	if not is_instance_valid(event_bg) or event_bg.texture == null:
+		return
+	if _event_bg_fade_tween and _event_bg_fade_tween.is_running():
+		_event_bg_fade_tween.kill()
+	_event_bg_fade_tween = create_tween()
+	_event_bg_fade_tween.tween_property(
+		event_bg, "modulate:a", _event_bg_target_alpha(), duration
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	_event_bg_fade_tween.tween_callback(func(): _event_bg_fade_tween = null)
+
+func _set_scene_first_surface(active: bool) -> void:
+	_scene_first_surface_active = active
+	if is_instance_valid(_portrait_panel):
+		_portrait_panel.visible = not active
+	var ap_chip = top_labels.get("ap_chip", null)
+	if ap_chip is Control:
+		(ap_chip as Control).visible = not active
+	if is_instance_valid(next_button):
+		next_button.visible = not active
+	if is_instance_valid(_story_layout) and not active:
+		_story_layout.remove_meta("scene_decision_stage")
+		_story_layout.remove_meta("demo_pressure_id")
+	if is_instance_valid(event_title):
+		event_title.add_theme_font_size_override("font_size", 36 if active else 30)
+	if is_instance_valid(event_body):
+		event_body.add_theme_font_size_override("normal_font_size", 19 if active else 18)
+	if is_instance_valid(_dark_overlay):
+		if _scene_surface_tween and _scene_surface_tween.is_running():
+			_scene_surface_tween.kill()
+		_scene_surface_tween = create_tween()
+		_scene_surface_tween.tween_property(
+			_dark_overlay, "color:a", 0.48 if active else 0.74, 0.24
+		).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		_scene_surface_tween.tween_callback(func(): _scene_surface_tween = null)
+	_fade_event_bg_to_target(0.24)
+
+func _action_scene_background_path(fn_name: String, icon_id: String = "") -> String:
+	if fn_name == "_ap_contact_person":
+		return str(BG_PATHS.get(GameState.housing, BG_DEFAULT))
+	var illustration_key := _action_illustration_key(fn_name, icon_id)
+	if illustration_key.is_empty() or not ACTION_ILLUSTRATION_DATA.has(illustration_key):
+		return ""
+	var data: Array = ACTION_ILLUSTRATION_DATA[illustration_key]
+	return str(data[0]) if not data.is_empty() else ""
+
+func _scene_background_for_commitment(record: Dictionary) -> String:
+	var action_id := str(record.get("choice_id", ""))
+	var person_id := str(record.get("person_id", ""))
+	var spec := _demo_action_spec(action_id, person_id)
+	return _action_scene_background_path(str(spec.get("fn", "")), str(spec.get("icon", "")))
+
+func _background_id_for_path(path: String) -> String:
+	for raw_id in ImageRegistry.BACKGROUNDS.keys():
+		var background_id := str(raw_id)
+		if ImageRegistry.get_background(background_id) == path:
+			return background_id
+	return ""
+
+func _set_scene_ambience_for_background(path: String, title: String = "",
+		body: String = "") -> void:
+	if path.is_empty():
+		return
+	var background_id := _background_id_for_path(path)
+	var ambience_event := {
+		"title": title,
+		"description": body,
+		"category": "routine",
+		"tags": [],
+	}
+	BGMPlayer.update_event_ambience(ambience_event, "", background_id)
+
+func _bind_scene_choice_motion(button: Button, visual: TextureRect) -> void:
+	if not is_instance_valid(button) or not is_instance_valid(visual):
+		return
+	button.focus_entered.connect(func():
+		_animate_scene_choice_visual(visual, true)
+		if not _scene_first_surface_active:
+			return
+		var scene_path := str(button.get_meta("scene_bg_path", ""))
+		if not scene_path.is_empty():
+			_apply_event_bg_path(scene_path)
+	)
+	button.focus_exited.connect(func(): _animate_scene_choice_visual(visual, false))
+
+func _animate_scene_choice_visual(visual: TextureRect, focused: bool) -> void:
+	if not is_instance_valid(visual) or not is_inside_tree():
+		return
+	var previous = visual.get_meta("scene_choice_tween") \
+			if visual.has_meta("scene_choice_tween") else null
+	if previous is Tween:
+		(previous as Tween).kill()
+	visual.pivot_offset = visual.size * 0.5
+	var tween := create_tween()
+	visual.set_meta("scene_choice_tween", tween)
+	tween.tween_property(
+		visual, "scale", Vector2(1.035, 1.035) if focused else Vector2.ONE, 0.20
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 func _build_info_panel():
 	# ── 우측 슬라이드 통합 정보 패널 ──
@@ -4166,10 +4281,19 @@ func _on_result_confirmed():
 		GameState.pending_tint_vignette = {}
 		_show_moral_beat(int(v.get("from", 0)), int(v.get("to", 0)))
 		return
+	if current_event.is_empty() and _demo_pressure_enabled() \
+			and _demo_director_requires_player_input() \
+			and GameState.has_weekly_commitment_for_turn(GameState.turn):
+		if bool(get_meta("_screenshot_qa_static_surface", false)):
+			set_meta("_qa_scene_first_advance_requested", GameState.turn)
+			return
+		_on_next_month()
+		return
 	_render_event()
 
 # 밴드를 넘을 때 터지는 짧은 자각 — 숫자·스탯 표시 없이 본문만. (docs/MORAL_TINT.md §6)
 func _show_moral_beat(from_band: int, to_band: int):
+	_set_scene_first_surface(false)
 	_play_ink_transition("moral", 1.15)
 	for child in choice_box.get_children():
 		child.queue_free()
@@ -4213,6 +4337,7 @@ func _stage_moral_beat_surface(to_band: int) -> void:
 
 # 흉터 비네트 — 삶의 선을 처음 넘은 날 밤, 한 장면. 숫자 없음. (docs/MORAL_TINT.md §7)
 func _show_scar_beat(scar_flag: String) -> void:
+	_set_scene_first_surface(false)
 	_play_ink_transition("moral", 1.25)
 	for child in choice_box.get_children():
 		child.queue_free()
@@ -4303,6 +4428,7 @@ func _render_event():
 		BGMPlayer.update_idle_ambience()
 		_demo_director_route_week()
 		return
+	_set_scene_first_surface(false)
 	_transient_bg_active = false
 	_play_ink_transition("event", 0.80)
 	next_button.disabled = true
@@ -5452,7 +5578,6 @@ func _render_log():
 	log_box.text = "\n".join(lines)
 
 func _render_ap_actions():
-	_play_ink_transition("ap", 0.55)
 	if _ap_focus_restore_turn != GameState.turn:
 		_ap_focus_restore_turn = GameState.turn
 		_ap_focus_restore_index = 0
@@ -5461,6 +5586,8 @@ func _render_ap_actions():
 	_clear_category_tint(true)
 	_clear_feedback_flash()
 	_update_vignette()
+	var scene_first := _scene_first_week_enabled()
+	_set_scene_first_surface(scene_first)
 	_update_event_bg()
 	for child in choice_box.get_children():
 		child.queue_free()
@@ -5472,6 +5599,13 @@ func _render_ap_actions():
 	if top_labels.has("ap"):
 		top_labels["ap"].text = _ap_status_text()
 	event_title.text = _tr("%d년 %d월 %d주차", "%d-%02d W%d") % [GameState.year, GameState.month, GameState.week_of_month]
+	if scene_first:
+		var commitment := GameState.get_weekly_commitment_for_turn(GameState.turn)
+		if commitment.is_empty():
+			_render_scene_first_decision(narrative_bridge_results, ap)
+		else:
+			_render_scene_commitment_result(commitment)
+		return
 	_maybe_show_tutorial()
 
 	# ── 상황판 ────────────────────────────────────────────────────
@@ -5580,6 +5714,107 @@ func _render_ap_actions():
 	_apply_ap_focus_routes(disabled)
 
 	_apply_moral_ui_palette()
+
+func _render_scene_first_decision(narrative_bridge_results: Array, ap: int) -> void:
+	var pressure := _demo_week_pressure()
+	if pressure.is_empty():
+		_set_scene_first_surface(false)
+		return
+	if is_instance_valid(_story_layout):
+		_story_layout.set_meta("scene_decision_stage", true)
+		_story_layout.set_meta("demo_pressure_id", str(pressure.get("id", "")))
+	event_title.text = str(pressure.get("title", ""))
+	var date_line := _tr("%d년 %d월 %d주차", "%d-%02d W%d") % [
+		GameState.year, GameState.month, GameState.week_of_month]
+	var body_lines: PackedStringArray = PackedStringArray([
+		"[color=#929ba7]%s · %s[/color]" % [date_line, _ap_act_line()],
+		"[i]%s[/i]" % _week_opening_line(),
+		"[b]%s[/b]" % str(pressure.get("question", "")),
+		str(pressure.get("detail", "")),
+	])
+	var omen := _upcoming_arc_foreshadow_line()
+	if not omen.is_empty():
+		body_lines.append("[color=#9aa3ad]%s[/color]" % omen)
+	var rent_state := _week_rent_deadline()
+	if str(pressure.get("id", "")) != "rent":
+		body_lines.append("[color=#818a96]%s[/color]" % str(rent_state.get("text", "")))
+	if not narrative_bridge_results.is_empty():
+		var bridge_line := _narrative_bridge_summary(narrative_bridge_results[0])
+		if not bridge_line.is_empty():
+			body_lines.append("[color=#aeb6c1]%s[/color]" % bridge_line)
+	_type_text("\n".join(body_lines), 72.0)
+	_ap_rail_slot_counter = 0
+	_render_demo_pressure_actions(ap)
+	if not _ap_grid_cards.is_empty():
+		var first_card := _ap_grid_cards[0]
+		var first_scene := str(first_card.get_meta("scene_bg_path", ""))
+		if not first_scene.is_empty():
+			_apply_event_bg_path(first_scene)
+	var hint_text := _tr("하나를 택하면 다른 두 길은 이번 주에 닫힌다.", "Choose one. The other two paths close for this week.")
+	if ControllerHints.is_pad_active():
+		hint_text += "  ·  %s %s" % [ControllerHints.south(), _tr("선택", "Choose")]
+	var hint := _label(hint_text, 12, "#8e97a3")
+	hint.set_meta("moral_role", "hint_text")
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	choice_box.add_child(hint)
+	next_button.disabled = true
+	_apply_ap_focus_routes(false)
+	_apply_moral_ui_palette()
+
+func _render_scene_commitment_result(record: Dictionary) -> void:
+	_set_scene_first_surface(true)
+	for child in choice_box.get_children():
+		child.queue_free()
+	var action_id := str(record.get("choice_id", ""))
+	var person_id := str(record.get("person_id", ""))
+	var spec := _demo_action_spec(action_id, person_id)
+	var title := str(spec.get("title", _weekly_commitment_action_label(action_id, person_id)))
+	event_title.text = title
+	var scene_path := _scene_background_for_commitment(record)
+	if not scene_path.is_empty():
+		_apply_event_bg_path(scene_path)
+		_set_scene_ambience_for_background(scene_path, title)
+	_type_text(_tr(
+		"결정은 끝났다. 이번 주는 그 선택의 모양으로 닫혔다.",
+		"The decision is made. The week closes in the shape of that choice."
+	), 60.0)
+	_append_scene_commitment_ledger(record)
+	var button_row := HBoxContainer.new()
+	button_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	button_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	choice_box.add_child(button_row)
+	var continue_btn: Button = _button(_tr("다음 주로", "Continue"), str(spec.get("accent", "#7f8794")))
+	continue_btn.set_meta("ap_result_confirm", true)
+	continue_btn.custom_minimum_size = Vector2(300, 52)
+	continue_btn.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	continue_btn.pressed.connect(func(): _finish_typing(); _on_result_confirmed())
+	button_row.add_child(continue_btn)
+	continue_btn.call_deferred("grab_focus")
+	next_button.disabled = true
+	_apply_moral_ui_palette()
+
+func _append_scene_commitment_ledger(record: Dictionary) -> void:
+	if record.is_empty():
+		return
+	var person_id := str(record.get("person_id", ""))
+	var choice_id := str(record.get("choice_id", ""))
+	var preview := _weekly_commitment_preview(choice_id, person_id)
+	var divider := ColorRect.new()
+	divider.custom_minimum_size = Vector2(0, 1)
+	divider.color = Color("#9ca5b0", 0.34)
+	divider.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	choice_box.add_child(divider)
+	for detail in [
+		[_tr("실제 결과", "ACTUAL RESULT"), _weekly_commitment_outcome_text(record), "#e4e9ef"],
+		[_tr("닫힌 길", "CLOSED PATHS"), _weekly_commitment_forgone_labels(record), "#b7bec7"],
+		[_tr("남은 파장", "REMAINING ECHO"), str(preview.get("later", "")), "#929ba7"],
+	]:
+		var value := str(detail[1]).strip_edges()
+		if value.is_empty():
+			continue
+		var label := _wrap_label("%s  ·  %s" % [str(detail[0]), value], 13, str(detail[2]))
+		label.set_meta("moral_role", "hint_text")
+		choice_box.add_child(label)
 
 func _ap_recent_action_line() -> String:
 	if turn_action_log.is_empty():
@@ -6790,8 +7025,7 @@ func _demo_director_route_week() -> void:
 		return
 	# A new auto week can begin while the previous decision board is still alive for
 	# one deferred frame. Seal it now so confirm mashing cannot spend AP on stale cards.
-	for card_value in _ap_grid_cards:
-		var stale_card := card_value as Button
+	for stale_card in _ap_grid_cards:
 		if is_instance_valid(stale_card):
 			stale_card.disabled = true
 			stale_card.focus_mode = Control.FOCUS_NONE
@@ -7063,12 +7297,21 @@ func _render_narrative_bridge_results(results: Array) -> void:
 func _render_demo_director_beat(
 		kind: String, used: Dictionary, narrative_bridge_results: Array = [],
 		commitment_echoes: Array = []) -> void:
-	_play_ink_transition("ap", 0.28)
+	_set_scene_first_surface(true)
 	_transient_bg_active = false
 	_clear_category_tint(true)
 	_clear_feedback_flash()
 	_update_vignette()
 	_update_event_bg()
+	var beat_bg := ""
+	if kind == "echo" and not commitment_echoes.is_empty() \
+			and commitment_echoes.back() is Dictionary:
+		beat_bg = _scene_background_for_commitment(commitment_echoes.back())
+	if beat_bg.is_empty():
+		beat_bg = _action_scene_background_path("_open_routine_modal", "routine")
+	if not beat_bg.is_empty():
+		_apply_event_bg_path(beat_bg)
+		_set_scene_ambience_for_background(beat_bg, event_title.text)
 	for child in choice_box.get_children():
 		child.queue_free()
 	_ap_action_grid = null
@@ -7608,12 +7851,6 @@ func _render_demo_pressure_actions(ap: int) -> void:
 		if spec.is_empty():
 			continue
 		_demo_context_action_btn(spec, pressure, action_id, ap <= 0)
-	# After the first month, direct decisions still belong to the same Seoul journey.
-	# Keep the trace beside the fallback action instead of hiding it behind another view.
-	if GameState.turn > 4 and is_instance_valid(_ap_feature_row):
-		var seoul_trace := _build_seoul_map_strip()
-		seoul_trace.custom_minimum_size = Vector2(420, 34)
-		_ap_feature_row.add_child(seoul_trace)
 	# 이 무대의 의미는 다른 두 길을 포기하는 데 있다. 전체 행동 목록으로 빠지는
 	# 출구를 두면 다시 AP 메뉴가 되므로 직접 결정 주간에는 세 장만 남긴다.
 
@@ -7638,6 +7875,7 @@ func _demo_context_action_btn(spec: Dictionary, pressure: Dictionary, action_id:
 	btn.set_meta("demo_action_id", action_id)
 	btn.set_meta("ap_action_fn", fn_name)
 	btn.set_meta("ap_grid_index", _ap_grid_cards.size())
+	btn.set_meta("scene_bg_path", _action_scene_background_path(fn_name, icon_id))
 	_bind_ap_hover_focus(btn)
 	if not disabled:
 		var commitment := _weekly_commitment_payload(pressure, action_id)
@@ -8350,12 +8588,16 @@ func _on_weekly_commitment_finalized(record: Dictionary) -> void:
 	var spec := _demo_action_spec(action_id, person_id)
 	if spec.is_empty():
 		return
+	_last_weekly_commitment_overlay_turn = GameState.turn
+	# 장면 중심 주간에서는 결과 텍스트 자체가 확정 연출이다.
+	# 중앙 토스트를 덧씌우면 배경과 인물을 다시 UI로 가리게 된다.
+	if _scene_first_week_enabled() or _scene_first_surface_active:
+		return
 	var preview := _weekly_commitment_preview(action_id, person_id)
 	var presentation := record.duplicate(true)
 	presentation["outcome_text"] = _weekly_commitment_outcome_text(record)
 	presentation["later"] = str(preview.get("later", ""))
 	presentation["forgone_labels"] = _weekly_commitment_forgone_labels(record)
-	_last_weekly_commitment_overlay_turn = GameState.turn
 	_show_ap_action_commit(
 		str(spec.get("title", action_id)),
 		str(spec.get("icon", "calendar")),
@@ -8821,6 +9063,7 @@ func _make_demo_decision_card(title: String, subtitle: String, icon_id: String,
 
 	_apply_moral_tree_styles(btn, _moral_ui_palette())
 	_bind_ap_hover_focus(btn)
+	_bind_scene_choice_motion(btn, visual)
 	return btn
 
 func _make_essential_action_card(title: String, subtitle: String, icon_id: String,
@@ -9289,6 +9532,8 @@ func _action_thumb_path(fn: String, icon_id: String = "") -> String:
 			return "res://assets/ui/action_tiles/action_ap.svg"
 
 func _action_thumb_texture(fn: String, icon_id: String = "") -> Texture2D:
+	if fn == "_ap_contact_person":
+		return _load_art_thumb(str(BG_PATHS.get(GameState.housing, BG_DEFAULT)))
 	var illustration_key := _action_illustration_key(fn, icon_id)
 	if not illustration_key.is_empty():
 		var illustration := _action_illustration_texture(illustration_key)
@@ -11950,20 +12195,27 @@ func _show_vignette(title: String, body: String, eff: Dictionary, color: String)
 	_transient_bg_active = true
 	_clear_category_tint(true)
 	_clear_feedback_flash()
-	_apply_event_bg_path(_get_bg_for_vignette(title, body, eff))
+	var vignette_bg := _get_bg_for_vignette(title, body, eff)
+	_apply_event_bg_path(vignette_bg)
+	_set_scene_ambience_for_background(vignette_bg, title, body)
 	event_title.text = title
 	var disp: Dictionary = _ap_result_display_effects(eff)
 	_type_text(_fmt(body), 50.0)
 
-	var result_card: Control = _ap_result_feedback_card(disp, color)
-	if result_card:
-		result_card.modulate.a = 0.0
-		result_card.scale = Vector2(0.992, 0.992)
-		choice_box.add_child(result_card)
-		var card_tw := create_tween()
-		card_tw.tween_interval(0.10)
-		card_tw.tween_property(result_card, "modulate:a", 1.0, 0.18).set_trans(Tween.TRANS_SINE)
-		card_tw.parallel().tween_property(result_card, "scale", Vector2.ONE, 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	var commitment := GameState.get_weekly_commitment_for_turn(GameState.turn)
+	var scene_result := _scene_first_surface_active and not commitment.is_empty()
+	if scene_result:
+		_append_scene_commitment_ledger(commitment)
+	else:
+		var result_card: Control = _ap_result_feedback_card(disp, color)
+		if result_card:
+			result_card.modulate.a = 0.0
+			result_card.scale = Vector2(0.992, 0.992)
+			choice_box.add_child(result_card)
+			var card_tw := create_tween()
+			card_tw.tween_interval(0.10)
+			card_tw.tween_property(result_card, "modulate:a", 1.0, 0.18).set_trans(Tween.TRANS_SINE)
+			card_tw.parallel().tween_property(result_card, "scale", Vector2.ONE, 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 	var btn_row := HBoxContainer.new()
 	btn_row.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -11971,7 +12223,8 @@ func _show_vignette(title: String, body: String, eff: Dictionary, color: String)
 	btn_row.add_theme_constant_override("separation", 0)
 	choice_box.add_child(btn_row)
 
-	var btn: Button = _button(_tr("확인", "OK"), color)
+	var btn: Button = _button(
+		_tr("다음 주로", "Continue") if scene_result else _tr("확인", "OK"), color)
 	btn.set_meta("ap_result_confirm", true)
 	btn.custom_minimum_size = Vector2(220, 46)
 	btn.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
@@ -16597,11 +16850,17 @@ func _show_contact_reaction(pname: String, flavor: String, accent: Color):
 		child.queue_free()
 	pending_result_text = flavor
 	_transient_bg_active = true
+	var contact_bg := str(BG_PATHS.get(GameState.housing, BG_DEFAULT))
+	_apply_event_bg_path(contact_bg)
+	_set_scene_ambience_for_background(contact_bg, pname, flavor)
 	event_title.text = pname
 	event_title.add_theme_color_override("font_color", accent)
 	_pulse_node(event_title, 1.04, 0.28)
 	_type_text(flavor)
+	if _scene_first_surface_active:
+		_append_scene_commitment_ledger(GameState.get_weekly_commitment_for_turn(GameState.turn))
 	var confirm_btn2 = _button(_tr("확인", "OK"), "#1f6feb")
+	confirm_btn2.set_meta("ap_result_confirm", true)
 	confirm_btn2.pressed.connect(func():
 		_finish_typing()
 		event_title.remove_theme_color_override("font_color")
@@ -17389,27 +17648,45 @@ func _update_event_bg():
 func _apply_event_bg_path(new_path: String):
 	if not event_bg:
 		return
-	if new_path == "" or new_path == _event_bg_path:
+	if new_path == "":
 		return
-	_event_bg_path = new_path
+	if new_path == _event_bg_path:
+		_fade_event_bg_to_target(0.18)
+		return
 	var new_tex: Texture2D = ImageRegistry.load_texture(new_path)
 	if new_tex == null:
 		return
+	_event_bg_path = new_path
+	if _event_bg_fade_tween and _event_bg_fade_tween.is_running():
+		_event_bg_fade_tween.kill()
 	# 처음 로드는 페이드인만, 이후는 크로스페이드
 	if event_bg.texture == null:
 		event_bg.texture = new_tex
 		event_bg.modulate = Color(1, 1, 1, 0.0)
-		var tw := create_tween()
-		tw.tween_property(event_bg, "modulate:a", 0.25, 0.3)
-		tw.tween_callback(_start_event_bg_motion)
+		_event_bg_fade_tween = create_tween()
+		_event_bg_fade_tween.tween_property(
+			event_bg, "modulate:a", _event_bg_target_alpha(), 0.30
+		).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		_event_bg_fade_tween.tween_callback(func():
+			_start_event_bg_motion()
+			_event_bg_fade_tween = null
+		)
 	else:
-		var tw := create_tween()
-		tw.tween_property(event_bg, "modulate:a", 0.0, 0.15)
-		tw.tween_callback(func():
+		var expected_path := new_path
+		_event_bg_fade_tween = create_tween()
+		_event_bg_fade_tween.tween_property(event_bg, "modulate:a", 0.0, 0.12) \
+				.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+		_event_bg_fade_tween.tween_callback(func():
+			if _event_bg_path != expected_path:
+				return
 			event_bg.texture = new_tex
 			_start_event_bg_motion()
-			var tw2 := create_tween()
-			tw2.tween_property(event_bg, "modulate:a", 0.25, 0.25)
+		)
+		_event_bg_fade_tween.tween_property(
+			event_bg, "modulate:a", _event_bg_target_alpha(), 0.22
+		).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		_event_bg_fade_tween.tween_callback(func():
+			_event_bg_fade_tween = null
 		)
 
 func _start_event_bg_motion() -> void:

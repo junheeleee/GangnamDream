@@ -2745,13 +2745,10 @@ func _run_demo_input_route(
 						ap_action_inputs += 1
 				elif director_requires_input and GameState.action_points <= 0:
 					var next_week := scene.get("next_button") as Button
-					if is_instance_valid(next_week) and not next_week.disabled:
-						next_week.grab_focus()
-						await get_tree().process_frame
-						if is_instance_valid(next_week) and next_week.is_inside_tree():
-							await _activate_route_control(next_week, input_mode)
-							input_count += 1
-							_record_demo_route_input(route_input_counts, route_week_inputs, "main:next_week")
+					if is_instance_valid(next_week) and next_week.visible:
+						MetaProgression.data = original_meta
+						_fail("Scene-first week exposed Next Week after its commitment at week %d." % GameState.turn)
+						return
 				elif focused is Button and scene.is_ancestor_of(focused) \
 						and focused != scene.get("next_button") and cards.find(focused) < 0 \
 						and focused.is_visible_in_tree() and not focused.disabled:
@@ -7991,8 +7988,8 @@ func _shot_ap_act_surfaces(lang: String = "en", prefix: String = "ap_act_en_") -
 				return
 			if not _assert_demo_decision_stage():
 				return
-		if act == 2 and _mg.find_child("SeoulMapStrip", true, false) == null:
-			_fail("Post-onboarding AP surface did not restore Seoul Trace.")
+		if not bool(_mg.get("_scene_first_surface_active")):
+			_fail("Act %d direct week fell back to the AP dashboard." % act)
 			return
 		await _save("%s%02d_act%d" % [prefix, act, act])
 		if act == 1:
@@ -8009,7 +8006,7 @@ func _shot_ap_act_surfaces(lang: String = "en", prefix: String = "ap_act_en_") -
 				commitment["actual_action_id"] = "apply"
 				commitment["outcome"] = {"job_id": "job_01", "monthly_income": 2_450_000.0}
 				commitment["details"] = {"job_id": "job_01"}
-				_mg.call("_on_weekly_commitment_finalized", commitment)
+				_mg.call("_render_scene_commitment_result", commitment)
 				await _settle(0.14)
 				await _save("%s01b_week_commitment" % prefix)
 				if _mg.has_method("_hide_ap_action_commit"):
@@ -8097,16 +8094,14 @@ func _assert_ap_result_lifecycle(lang: String, prefix: String) -> void:
 		_fail("Saving result did not preserve its actual cash outcome: %s." % outcome)
 		return
 	var commit_layer := _mg.get("_ap_commit_layer") as Control
-	var outcome_panel: PanelContainer = _find_first_panel_container(commit_layer) \
-			if is_instance_valid(commit_layer) else null
-	var outcome_text := str(outcome_panel.get_meta("commitment_outcome", "")) \
-			if is_instance_valid(outcome_panel) else ""
-	if outcome_text.findn(_tr("현금", "CASH")) < 0:
-		_fail("Weekly result overlay did not display the actual cash delta: %s." % outcome_text)
+	var result_surface_text := _collect_control_text(_mg.get("choice_box") as Control)
+	if result_surface_text.findn(_tr("현금", "CASH")) < 0 \
+			or result_surface_text.findn(_tr("닫힌 길", "CLOSED PATHS")) < 0:
+		_fail("Scene-first result did not display actual cash and closed paths: %s." % result_surface_text)
 		return
 	var choice_root := _mg.get("choice_box") as Control
 	var confirm_btn := _find_first_enabled_button(choice_root) if choice_root != null else null
-	if confirm_btn == null or confirm_btn.text != _tr("확인", "OK"):
+	if confirm_btn == null or confirm_btn.text != _tr("다음 주로", "Continue"):
 		_fail("Saving action result is missing its confirmation button in %s." % lang)
 		return
 	await _save(prefix + "06_saving_result_persists", 0.05)
@@ -8115,10 +8110,12 @@ func _assert_ap_result_lifecycle(lang: String, prefix: String) -> void:
 	confirm_btn.grab_focus()
 	await _press_qa_action("ui_accept")
 	await _settle(0.45)
-	var focus_owner := get_viewport().gui_get_focus_owner() as Button
 	var next_week := _mg.get("next_button") as Button
-	if focus_owner == null or focus_owner != next_week or next_week.disabled:
-		_fail("Weekly commitment result did not hand controller focus to Next Week.")
+	if is_instance_valid(next_week) and next_week.visible:
+		_fail("Weekly commitment result returned to a visible Next Week dashboard button.")
+		return
+	if int(_mg.get_meta("_qa_scene_first_advance_requested", -1)) != GameState.turn:
+		_fail("Weekly commitment confirmation did not request direct time advancement.")
 		return
 	if is_instance_valid(commit_layer) and commit_layer.visible:
 		_fail("Weekly commitment overlay remained over the closed-week surface.")
@@ -8126,7 +8123,8 @@ func _assert_ap_result_lifecycle(lang: String, prefix: String) -> void:
 	await _save(prefix + "07_week_closed_focus", 0.05)
 
 func _find_demo_pressure_frame(node: Node) -> Control:
-	if node is Control and bool(node.get_meta("demo_pressure_frame", false)):
+	if node is Control and (bool(node.get_meta("demo_pressure_frame", false)) \
+			or bool(node.get_meta("scene_decision_stage", false))):
 		return node as Control
 	for child in node.get_children():
 		var found := _find_demo_pressure_frame(child)
@@ -8170,8 +8168,21 @@ func _assert_demo_decision_stage() -> bool:
 		_fail("Demo decision stage does not contain exactly three primary cards.")
 		return false
 	var next_week := _mg.get("next_button") as Button
-	if not is_instance_valid(next_week) or not next_week.disabled:
-		_fail("Demo decision stage can skip the week before choosing a commitment.")
+	if not is_instance_valid(next_week) or next_week.visible or not next_week.disabled:
+		_fail("Scene-first decision still exposes the dashboard's Next Week control.")
+		return false
+	var ap_chip = (_mg.get("top_labels") as Dictionary).get("ap_chip", null)
+	if ap_chip is Control and (ap_chip as Control).visible:
+		_fail("Scene-first decision still exposes the AP counter chip.")
+		return false
+	var portrait_panel := _mg.get("_portrait_panel") as Control
+	if not is_instance_valid(portrait_panel) or portrait_panel.visible:
+		_fail("Scene-first decision did not release the portrait rail for the scene.")
+		return false
+	var event_bg := _mg.get("event_bg") as TextureRect
+	if not bool(_mg.get("_scene_first_surface_active")) or not is_instance_valid(event_bg) \
+			or event_bg.modulate.a < 0.45:
+		_fail("Scene-first decision background is not visibly carrying the stage.")
 		return false
 	var first_y := cards[0].position.y
 	var previous_x := -INF
@@ -8200,11 +8211,17 @@ func _assert_demo_decision_stage() -> bool:
 		if card_text.contains("AP 1"):
 			_fail("Demo response still presents the weekly commitment as an AP price.")
 			return false
+		if str(card.get_meta("scene_bg_path", "")).is_empty():
+			_fail("Demo response has no full-scene focus preview.")
+			return false
 		previous_x = card.position.x
 	var hover_target := cards[1]
 	hover_target.mouse_entered.emit()
 	if get_viewport().gui_get_focus_owner() != hover_target:
 		_fail("Mouse hover did not move keyboard focus to the AP decision card.")
+		return false
+	if str(_mg.get("_event_bg_path")) != str(hover_target.get_meta("scene_bg_path", "")):
+		_fail("Focused decision did not preview its full scene in the background.")
 		return false
 	return true
 

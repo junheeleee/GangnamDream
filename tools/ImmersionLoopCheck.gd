@@ -11,6 +11,7 @@ func _ready() -> void:
 	_check_recent_action_echoes()
 	_check_action_consequence_echoes()
 	_check_weekly_commitment_contract()
+	_check_scene_first_week_contract()
 	_check_event_causality()
 	_check_week_surface()
 	_check_demo_pressure_choices()
@@ -25,7 +26,7 @@ func _ready() -> void:
 			push_error("IMMERSION_LOOP_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("IMMERSION_LOOP_CHECK_OK memory=2 action_ids=8 commitments=1x3 outcomes=2 completion_boundary=1 consequence_paths=4 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=4 vignette=2 omen=1 preview=2 rent=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8")
+	print("IMMERSION_LOOP_CHECK_OK memory=2 action_ids=8 commitments=1x3 scene_first=1 no_ap_surface=1 auto_advance=1 outcomes=2 completion_boundary=1 consequence_paths=4 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=4 vignette=2 omen=1 preview=2 rent=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8")
 	get_tree().quit(0)
 
 func _check_recent_action_echoes() -> void:
@@ -197,6 +198,38 @@ func _check_weekly_commitment_contract() -> void:
 	if GameState.consume_weekly_commitment_echoes(2).size() != 1 \
 			or not GameState.consume_weekly_commitment_echoes(2).is_empty():
 		_fail("weekly commitment echo was not consumed exactly once")
+	game.free()
+
+func _check_scene_first_week_contract() -> void:
+	GameState.start_new_game()
+	GameState.turn = 1
+	GameState.month = 1
+	GameState.week_of_month = 1
+	GameState.current_job = {}
+	GameState.flags["arc_intro_meal_seen"] = true
+	var game = MainGameScript.new()
+	game.current_event = {}
+	if not bool(game.call("_scene_first_week_enabled")):
+		_fail("direct week did not opt into the scene-first surface")
+	var pressure: Dictionary = game.call("_demo_week_pressure")
+	var scene_paths: Array[String] = []
+	for raw_action_id in pressure.get("action_ids", []):
+		var spec: Dictionary = game.call(
+			"_demo_action_spec", str(raw_action_id), str(pressure.get("person_id", "")))
+		var scene_path := str(game.call(
+			"_action_scene_background_path", str(spec.get("fn", "")), str(spec.get("icon", ""))))
+		if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
+			_fail("scene-first choice has no valid full-scene background: %s" % raw_action_id)
+		else:
+			scene_paths.append(scene_path)
+	if scene_paths.size() != 3:
+		_fail("scene-first week does not expose exactly three scene-backed choices")
+	var contact_spec: Dictionary = game.call("_demo_action_spec", "contact", "daeun")
+	var contact_scene := str(game.call(
+		"_action_scene_background_path", str(contact_spec.get("fn", "")),
+		str(contact_spec.get("icon", ""))))
+	if contact_scene.findn("goshiwon_room") < 0 or contact_scene.findn("cafe") >= 0:
+		_fail("remote contact preview is not anchored to the current housing: %s" % contact_scene)
 	game.free()
 
 func _check_event_causality() -> void:
