@@ -1,0 +1,3430 @@
+{
+  "schema_version": 1,
+  "targets": {
+    "1080p": {
+      "CG": [
+        1920,
+        1080
+      ],
+      "Background": [
+        1920,
+        1080
+      ],
+      "Portrait": [
+        512,
+        768
+      ]
+    },
+    "4k": {
+      "CG": [
+        3840,
+        2160
+      ],
+      "Background": [
+        3840,
+        2160
+      ],
+      "Portrait": [
+        1024,
+        1536
+      ]
+    }
+  },
+  "band_limits": {
+    "native": 1.0001,
+    "light": 1.5,
+    "medium": 2.0,
+    "heavy": 3.0,
+    "severe": null
+  },
+  "inventory_count": 195,
+  "counts": {
+    "1080p": {
+      "CG": {
+        "native": 0,
+        "light": 59,
+        "medium": 0,
+        "heavy": 0,
+        "severe": 0
+      },
+      "Portrait": {
+        "native": 57,
+        "light": 0,
+        "medium": 0,
+        "heavy": 0,
+        "severe": 0
+      },
+      "Background": {
+        "native": 0,
+        "light": 79,
+        "medium": 0,
+        "heavy": 0,
+        "severe": 0
+      }
+    },
+    "4k": {
+      "CG": {
+        "native": 0,
+        "light": 0,
+        "medium": 0,
+        "heavy": 59,
+        "severe": 0
+      },
+      "Portrait": {
+        "native": 0,
+        "light": 0,
+        "medium": 57,
+        "heavy": 0,
+        "severe": 0
+      },
+      "Background": {
+        "native": 0,
+        "light": 0,
+        "medium": 0,
+        "heavy": 79,
+        "severe": 0
+      }
+    }
+  },
+  "assets": {
+    "assets/backgrounds/amusement_park_parade_day.png": {
+      "kind": "Background",
+      "ids": [
+        "amusement_park_parade"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/amusement_photo_booth_evening.png": {
+      "kind": "Background",
+      "ids": [
+        "amusement_photo_booth"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/amusement_roller_coaster_day.png": {
+      "kind": "Background",
+      "ids": [
+        "amusement_roller_coaster"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/aruba_delivery_street.png": {
+      "kind": "Background",
+      "ids": [
+        "aruba_delivery"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/burnout_hospital_room.png": {
+      "kind": "Background",
+      "ids": [
+        "burnout"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/cafe_seoul.png": {
+      "kind": "Background",
+      "ids": [
+        "cafe"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/casino_interior.png": {
+      "kind": "Background",
+      "ids": [
+        "casino"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/changwon_hospital_room_empty.png": {
+      "kind": "Background",
+      "ids": [
+        "changwon_hospital_room_empty"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/cherry_blossom_path.png": {
+      "kind": "Background",
+      "ids": [
+        "cherry_blossom_path"
+      ],
+      "width": 1672,
+      "height": 941,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.1483,
+        "4k": 2.2967
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/chuseok_highway.png": {
+      "kind": "Background",
+      "ids": [
+        "chuseok_highway"
+      ],
+      "width": 1672,
+      "height": 941,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.1483,
+        "4k": 2.2967
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/community_center.png": {
+      "kind": "Background",
+      "ids": [
+        "community_center"
+      ],
+      "width": 1672,
+      "height": 941,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.1483,
+        "4k": 2.2967
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/company_dinner_restaurant.png": {
+      "kind": "Background",
+      "ids": [
+        "company_dinner_restaurant"
+      ],
+      "width": 1672,
+      "height": 941,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.1483,
+        "4k": 2.2967
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/convenience_store_exterior_first_snow.png": {
+      "kind": "Background",
+      "ids": [
+        "convenience_first_snow_exterior"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/convenience_store_night_v2.png": {
+      "kind": "Background",
+      "ids": [
+        "convenience_night",
+        "convenience_store"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/daeun_mother_home_dining_summer.png": {
+      "kind": "Background",
+      "ids": [
+        "daeun_mother_home_dining"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/daeun_newlywed_home_night.png": {
+      "kind": "Background",
+      "ids": [
+        "daeun_newlywed_home"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/family_living_room.png": {
+      "kind": "Background",
+      "ids": [
+        "dad_house"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/fine_dust_sky.png": {
+      "kind": "Background",
+      "ids": [
+        "fine_dust_sky"
+      ],
+      "width": 1672,
+      "height": 941,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.1483,
+        "4k": 2.2967
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/gangnam_apartment.png": {
+      "kind": "Background",
+      "ids": [
+        "gangnam_apartment"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/gangnam_day.png": {
+      "kind": "Background",
+      "ids": [
+        "gangnam_day"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/gangnam_night_street.png": {
+      "kind": "Background",
+      "ids": [
+        "gangnam_night"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/gangnam_station_exit.png": {
+      "kind": "Background",
+      "ids": [
+        "gangnam_station"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/goshiwon_hallway.png": {
+      "kind": "Background",
+      "ids": [
+        "goshiwon_hallway"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/goshiwon_room.png": {
+      "kind": "Background",
+      "ids": [
+        "current_housing",
+        "goshiwon",
+        "goshiwon_room"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/gukbap_restaurant_night.png": {
+      "kind": "Background",
+      "ids": [
+        "gukbap_restaurant_night"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/gym_interior.png": {
+      "kind": "Background",
+      "ids": [
+        "exercise",
+        "gym"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/hagwon_street.png": {
+      "kind": "Background",
+      "ids": [
+        "hagwon_street"
+      ],
+      "width": 1672,
+      "height": 941,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.1483,
+        "4k": 2.2967
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/hangang_riverside_walk.png": {
+      "kind": "Background",
+      "ids": [
+        "hangang_riverside"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/heatwave_city.png": {
+      "kind": "Background",
+      "ids": [
+        "heatwave_city"
+      ],
+      "width": 1672,
+      "height": 941,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.1483,
+        "4k": 2.2967
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/holdem_club_interior.png": {
+      "kind": "Background",
+      "ids": [
+        "holdem_club"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/hometown_train_station.png": {
+      "kind": "Background",
+      "ids": [
+        "hometown_train_station"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/hospital_clinic.png": {
+      "kind": "Background",
+      "ids": [
+        "hospital_clinic"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/hospital_corridor.png": {
+      "kind": "Background",
+      "ids": [
+        "hospital"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/investment_meeting.png": {
+      "kind": "Background",
+      "ids": [
+        "meeting"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/investment_phone.png": {
+      "kind": "Background",
+      "ids": [
+        "investment",
+        "investment_phone",
+        "trading"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/jeongseon_casino_entrance.png": {
+      "kind": "Background",
+      "ids": [
+        "jeongseon_casino_entrance"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/jeongseon_casino_exterior.png": {
+      "kind": "Background",
+      "ids": [
+        "jeongseon_casino_exterior"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/jiyeon_newlywed_home_night.png": {
+      "kind": "Background",
+      "ids": [
+        "jiyeon_newlywed_home"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/jiyeon_sedan_first_snow_interior.png": {
+      "kind": "Background",
+      "ids": [
+        "jiyeon_sedan_first_snow"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/jiyeon_sedan_night_interior.png": {
+      "kind": "Background",
+      "ids": [
+        "jiyeon_sedan_night"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/jjimjilbang.png": {
+      "kind": "Background",
+      "ids": [
+        "jjimjilbang"
+      ],
+      "width": 1672,
+      "height": 941,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.1483,
+        "4k": 2.2967
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/late_night_room.png": {
+      "kind": "Background",
+      "ids": [
+        "late_night"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/library.png": {
+      "kind": "Background",
+      "ids": [
+        "library"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/military_base_gate.png": {
+      "kind": "Background",
+      "ids": [
+        "military_base_gate"
+      ],
+      "width": 1672,
+      "height": 941,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.1483,
+        "4k": 2.2967
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/military_training_ground.png": {
+      "kind": "Background",
+      "ids": [
+        "military"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/namsan_cable_car_night.png": {
+      "kind": "Background",
+      "ids": [
+        "namsan_cable_car"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/namsan_observation_deck_night.png": {
+      "kind": "Background",
+      "ids": [
+        "namsan_observation_deck"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/namsan_tonkatsu_restaurant_night.png": {
+      "kind": "Background",
+      "ids": [
+        "namsan_tonkatsu_restaurant"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/namsan_tower_view.png": {
+      "kind": "Background",
+      "ids": [
+        "namsan_tower"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/office_desk.png": {
+      "kind": "Background",
+      "ids": [
+        "current_workplace",
+        "office"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/office_interview_day.png": {
+      "kind": "Background",
+      "ids": [
+        "office_interview_day"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/oneroom_apartment.png": {
+      "kind": "Background",
+      "ids": [
+        "apartment",
+        "apartment_balcony"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/open_chat_screen.png": {
+      "kind": "Background",
+      "ids": [
+        "open_chat_screen"
+      ],
+      "width": 1672,
+      "height": 941,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.1483,
+        "4k": 2.2967
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/pc_bang_interior.png": {
+      "kind": "Background",
+      "ids": [
+        "pc_bang"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/penthouse_view.png": {
+      "kind": "Background",
+      "ids": [
+        "gangnam_penthouse",
+        "penthouse"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/pojangmacha.png": {
+      "kind": "Background",
+      "ids": [
+        "pojangmacha"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/racetrack_betting_hall.png": {
+      "kind": "Background",
+      "ids": [
+        "racetrack_betting"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/racetrack_track_view.png": {
+      "kind": "Background",
+      "ids": [
+        "racetrack_track"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/realestate_office.png": {
+      "kind": "Background",
+      "ids": [
+        "realestate_office"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/regional_train_window_summer.png": {
+      "kind": "Background",
+      "ids": [
+        "ktx_window",
+        "regional_train_window"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/restaurant_korean.png": {
+      "kind": "Background",
+      "ids": [
+        "restaurant"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/rooftop_daytime.png": {
+      "kind": "Background",
+      "ids": [
+        "rooftop_day"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/rooftop_night.png": {
+      "kind": "Background",
+      "ids": [
+        "rooftop_night"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/saju_cafe.png": {
+      "kind": "Background",
+      "ids": [
+        "saju_cafe"
+      ],
+      "width": 1672,
+      "height": 941,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.1483,
+        "4k": 2.2967
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/sangchul_private_dining.png": {
+      "kind": "Background",
+      "ids": [
+        "sangchul_private_dining"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/scalping_trading_room.png": {
+      "kind": "Background",
+      "ids": [
+        "scalping_room"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/seoul_bus_stop_wallet.png": {
+      "kind": "Background",
+      "ids": [
+        "street_rainy_bus_stop_wallet"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/seoul_bus_terminal_night.png": {
+      "kind": "Background",
+      "ids": [
+        "seoul_bus_terminal_night"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/seoul_cold_snap_street.png": {
+      "kind": "Background",
+      "ids": [
+        "cold_snap_street"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/seoul_rainy_street.png": {
+      "kind": "Background",
+      "ids": [
+        "street_rainy"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/seoul_station_ktx_platform_winter.png": {
+      "kind": "Background",
+      "ids": [
+        "seoul_station_ktx_platform_winter"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/seoul_subway.png": {
+      "kind": "Background",
+      "ids": [
+        "subway"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/street_seoul_day.png": {
+      "kind": "Background",
+      "ids": [
+        "street",
+        "street_day"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/suneung_test_hall.png": {
+      "kind": "Background",
+      "ids": [
+        "suneung_test_hall"
+      ],
+      "width": 1672,
+      "height": 941,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.1483,
+        "4k": 2.2967
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/trading_screen_night.png": {
+      "kind": "Background",
+      "ids": [
+        "trading_room"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/winter_bungeoppang_stall.png": {
+      "kind": "Background",
+      "ids": [
+        "winter_street_bungeoppang"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/year2_winter_last_night.png": {
+      "kind": "Background",
+      "ids": [
+        "year2_winter_street_night"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/year3_hangang_winter_night.png": {
+      "kind": "Background",
+      "ids": [
+        "year3_hangang_winter_night"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/year4_winter_rooftop.png": {
+      "kind": "Background",
+      "ids": [
+        "year4_winter_rooftop"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/demo/daeun_first_kindness_v2.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_demo_daeun_first_kindness"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/demo/father_first_call_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_demo_father_first_call"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/demo/first_interview_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_demo_first_interview"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_bankruptcy_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_bankruptcy"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_burnout_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_burnout"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_crypto_ghost.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_crypto_ghost"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_debt_spiral_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_debt_spiral"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_empty_house.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_empty_house"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_father.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_father"
+      ],
+      "width": 1280,
+      "height": 720,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_full_circle_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_full_circle"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_gambling_recovery_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_gambling_recovery"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_gangnam_dream.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_gangnam_dream"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_gangnam_dream_white_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_gangnam_dream_white"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_guardian_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_guardian"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_instant_legend_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_instant_legend"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_jaehyuk_way_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_jaehyuk_way"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_jiyeon_man_v2.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_jiyeon_man"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_late_call_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_late_call"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_lonely_rich_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_lonely_rich"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_orthodox_pinnacle_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_orthodox_pinnacle"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_sangchul_reckoning_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_sangchul_reckoning"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_second_love_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_second_love"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_startup_exit_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_startup_exit"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_with_daeun_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_with_daeun"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/jaehyuk_reveal.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_jaehyuk_reveal"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/jiyeon_crash_day_v3.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_jiyeon_crash"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/amusement_lost_child_daeun_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_amusement_lost_child_daeun"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/amusement_photo_strip_jiyeon_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_amusement_photo_strip_jiyeon"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/breakup_daeun_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_breakup_daeun"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/breakup_jiyeon_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_breakup_jiyeon"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/cherry_daeun.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_cherry_daeun"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/cherry_jiyeon.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_cherry_jiyeon"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/fireworks_daeun.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_fireworks_daeun"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/fireworks_jiyeon.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_fireworks_jiyeon"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/first_kiss_daeun.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_first_kiss_daeun"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/first_kiss_jiyeon.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_first_kiss_jiyeon"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/first_snow_daeun_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_first_snow_daeun"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/first_snow_jiyeon_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_first_snow_jiyeon"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/hometown_night_bus_daeun_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_hometown_night_bus_daeun"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/namsan_lock_daeun_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_namsan_lock_daeun"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/namsan_lock_jiyeon_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_namsan_lock_jiyeon"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/narrow_room_jiyeon_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_narrow_room_jiyeon"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/proposal_daeun_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_proposal_daeun"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/sea_daeun_v3.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_sea_daeun"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/sea_jiyeon_v2.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_sea_jiyeon"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/wedding_daeun_father_reaction_hyunsu_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_wedding_daeun_father_reaction_hyunsu"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/wedding_daeun_father_reaction_passed_hyunsu_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_wedding_daeun_father_reaction_passed_hyunsu"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/wedding_daeun_father_reaction_passed_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_wedding_daeun_father_reaction_passed"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/wedding_daeun_father_reaction_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_wedding_daeun_father_reaction"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/wedding_daeun_full_close_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_wedding_daeun_full_close"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/wedding_daeun_full_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_wedding_daeun_full"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/wedding_daeun_mother_reaction_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_wedding_daeun_mother_reaction"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/wedding_daeun_small_close_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_wedding_daeun_small_close"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/wedding_daeun_small_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_wedding_daeun_small"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/wedding_gap_jiyeon_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_wedding_gap_jiyeon"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/wedding_morning_daeun_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_wedding_morning_daeun"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/romance/wedding_morning_jiyeon_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_romance_wedding_morning_jiyeon"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/seollal_sebae_family_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_seollal_sebae_family"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/start.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_start"
+      ],
+      "width": 1280,
+      "height": 720,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/characters/main_character_cold_snap.png": {
+      "kind": "Portrait",
+      "ids": [
+        "player_cold_snap"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/main_character_corporate.png": {
+      "kind": "Portrait",
+      "ids": [
+        "player_corporate",
+        "player_suit"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/main_character_determined.png": {
+      "kind": "Portrait",
+      "ids": [
+        "player_determined",
+        "player_moral_black"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/main_character_happy.png": {
+      "kind": "Portrait",
+      "ids": [
+        "player_happy",
+        "player_moral_white"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/main_character_heatwave.png": {
+      "kind": "Portrait",
+      "ids": [
+        "player_heatwave"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/main_character_monsoon.png": {
+      "kind": "Portrait",
+      "ids": [
+        "player_monsoon"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/main_character_neutral_goshiwon.png": {
+      "kind": "Portrait",
+      "ids": [
+        "player_moral_gray",
+        "player_normal",
+        "player_offduty_neutral"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/main_character_office.png": {
+      "kind": "Portrait",
+      "ids": [
+        "player_office"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/main_character_part_time.png": {
+      "kind": "Portrait",
+      "ids": [
+        "player_part_time"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/main_character_shocked.png": {
+      "kind": "Portrait",
+      "ids": [
+        "player_shocked"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/main_character_tired.png": {
+      "kind": "Portrait",
+      "ids": [
+        "player_hollow",
+        "player_sad",
+        "player_tired"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/main_character_unemployed.png": {
+      "kind": "Portrait",
+      "ids": [
+        "player_romance_casual",
+        "player_unemployed"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_boss.png": {
+      "kind": "Portrait",
+      "ids": [
+        "sangchul_normal"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_cafe_broker_kim.png": {
+      "kind": "Portrait",
+      "ids": [
+        "cafe_broker_kim"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_cafe_investor.png": {
+      "kind": "Portrait",
+      "ids": [
+        "cafe_investor"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_close_friend.png": {
+      "kind": "Portrait",
+      "ids": [
+        "hyunsu",
+        "hyunsu_normal"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_daeun_amusement.png": {
+      "kind": "Portrait",
+      "ids": [
+        "daeun_amusement"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_daeun_cherry.png": {
+      "kind": "Portrait",
+      "ids": [
+        "daeun_cherry"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_daeun_fireworks.png": {
+      "kind": "Portrait",
+      "ids": [
+        "daeun_fireworks"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_daeun_first_snow.png": {
+      "kind": "Portrait",
+      "ids": [
+        "daeun_first_snow"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_daeun_hometown_warm.png": {
+      "kind": "Portrait",
+      "ids": [
+        "daeun_hometown_warm"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_daeun_hometown_worried.png": {
+      "kind": "Portrait",
+      "ids": [
+        "daeun_hometown_worried"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_daeun_namsan.png": {
+      "kind": "Portrait",
+      "ids": [
+        "daeun_namsan"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_daeun_proposal.png": {
+      "kind": "Portrait",
+      "ids": [
+        "daeun_proposal"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_daeun_sad.png": {
+      "kind": "Portrait",
+      "ids": [
+        "daeun_sad"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_daeun_sea_v2.png": {
+      "kind": "Portrait",
+      "ids": [
+        "daeun_sea"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_daeun_smile.png": {
+      "kind": "Portrait",
+      "ids": [
+        "daeun_smile"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_daeun_wedding_night.png": {
+      "kind": "Portrait",
+      "ids": [
+        "daeun_wedding_night"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_father.png": {
+      "kind": "Portrait",
+      "ids": [
+        "father_normal",
+        "father_proud"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_father_home.png": {
+      "kind": "Portrait",
+      "ids": [
+        "father_home"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_father_home_weak.png": {
+      "kind": "Portrait",
+      "ids": [
+        "father_home_weak"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_father_hospitalized.png": {
+      "kind": "Portrait",
+      "ids": [
+        "father_hospitalized"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_father_weak.png": {
+      "kind": "Portrait",
+      "ids": [
+        "father_weak"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_goshiwon_owner.png": {
+      "kind": "Portrait",
+      "ids": [
+        "goshiwon_owner"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_hyunsu_accounting.png": {
+      "kind": "Portrait",
+      "ids": [
+        "hyunsu_accounting"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_hyunsu_civil_service.png": {
+      "kind": "Portrait",
+      "ids": [
+        "hyunsu_civil_service"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_jaehyuk.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jaehyuk_charisma",
+        "jaehyuk_cornered",
+        "jaehyuk_friendly"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_jaehyuk_shadow.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jaehyuk_shadow"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_jiyeon_amusement.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jiyeon_amusement"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_jiyeon_cherry.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jiyeon_cherry"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_jiyeon_cold.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jiyeon_cold"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_jiyeon_fireworks.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jiyeon_fireworks"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_jiyeon_first_snow.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jiyeon_first_snow"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_jiyeon_namsan.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jiyeon_namsan"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_jiyeon_narrow_door.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jiyeon_narrow_door"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_jiyeon_narrow_room.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jiyeon_narrow_room"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_jiyeon_sea_v2.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jiyeon_sea"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_jiyeon_warm.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jiyeon_warm"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_jiyeon_wedding_night.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jiyeon_wedding_night"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_mentor.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jiyeon_normal"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_minseo.png": {
+      "kind": "Portrait",
+      "ids": [
+        "minseo",
+        "minseo_normal"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_mother.png": {
+      "kind": "Portrait",
+      "ids": [
+        "mother"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_romantic_interest.png": {
+      "kind": "Portrait",
+      "ids": [
+        "daeun_normal"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_sangchul_serious.png": {
+      "kind": "Portrait",
+      "ids": [
+        "sangchul_serious"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_seongjun.png": {
+      "kind": "Portrait",
+      "ids": [
+        "seongjun"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_team_lead.png": {
+      "kind": "Portrait",
+      "ids": [
+        "boss"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_tip_seller.png": {
+      "kind": "Portrait",
+      "ids": [
+        "tip_seller"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    }
+  }
+}
