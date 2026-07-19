@@ -47,7 +47,7 @@ func _run() -> void:
 	_restore_settings()
 	ControllerHints.clear_qa_override()
 	if _failures.is_empty():
-		print("INPUT_MATRIX_CHECK_OK modes=3 resolutions=6 brands=3 direct_scenes=9 direct_routes=18 keyboard_tasks=9 action_sets=4")
+		print("INPUT_MATRIX_CHECK_OK modes=3 resolutions=8 brands=3 direct_scenes=9 direct_routes=18 keyboard_tasks=9 action_sets=4")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -58,8 +58,9 @@ func _check_display_contract() -> void:
 	_expect(DisplayManager.WINDOW_MODES == ["windowed", "borderless", "fullscreen"],
 		"display modes are not windowed/borderless/fullscreen")
 	var expected: Array[Vector2i] = [
-		Vector2i(1280, 720), Vector2i(1280, 800), Vector2i(1600, 900), Vector2i(1920, 1080),
-		Vector2i(2560, 1440), Vector2i(3840, 2160),
+		Vector2i(960, 600), Vector2i(1280, 720), Vector2i(1280, 800),
+		Vector2i(1600, 900), Vector2i(1920, 1080), Vector2i(2560, 1440),
+		Vector2i(3440, 1440), Vector2i(3840, 2160),
 	]
 	_expect(DisplayManager.WINDOW_RESOLUTIONS.size() == expected.size(), "window resolution count changed")
 	for index in range(expected.size()):
@@ -165,6 +166,16 @@ func _check_settings_surface() -> void:
 			var matches: Array[Control] = []
 			_collect_meta_controls(overlay, key, matches)
 			_expect(matches.size() == 1, "settings expected one %s, found %d" % [key, matches.size()])
+		var resolution_controls: Array[Control] = []
+		_collect_meta_controls(overlay, "resolution_control", resolution_controls)
+		if resolution_controls.size() == 1 and resolution_controls[0] is OptionButton:
+			var resolution_selector := resolution_controls[0] as OptionButton
+			_expect(resolution_selector.item_count == DisplayManager.WINDOW_RESOLUTIONS.size(),
+				"settings resolution selector is out of sync with DisplayManager")
+			_expect(resolution_selector.get_item_text(0).contains("960 × 600"),
+				"settings resolution selector does not expose the minimum window size")
+			_expect(resolution_selector.get_item_text(resolution_selector.item_count - 2).contains("3440 × 1440"),
+				"settings resolution selector does not expose ultrawide")
 		var panel := _find_first_panel(overlay)
 		_expect(panel != null, "settings panel is missing")
 		if panel != null:

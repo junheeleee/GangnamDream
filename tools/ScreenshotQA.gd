@@ -1514,6 +1514,8 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	_assert_chapter2_visual_state(story, event_id, select_choice)
 	_assert_chapter3_spine_state(story, event_id)
 	_assert_late_chapter_spine_state(story, event_id, select_choice)
+	if _qa_scope() == QA_SCOPE_DISPLAY_MATRIX:
+		_assert_story_display_contract(story, event_id)
 	if _qa_scope() == QA_SCOPE_TEXT_MATERIAL:
 		_assert_story_text_material(story)
 	await _save(shot_name)
@@ -1645,12 +1647,12 @@ func _shot_display_matrix_surfaces(lang: String) -> void:
 	var viewport_size := get_viewport().get_visible_rect().size
 	var resolution := get_window().size
 	var supported := [
-		Vector2i(1280, 720), Vector2i(1280, 800),
-		Vector2i(1920, 1080), Vector2i(2560, 1440),
-		Vector2i(3840, 2160), Vector2i(3440, 1440),
+		Vector2i(960, 600), Vector2i(1280, 720), Vector2i(1280, 800),
+		Vector2i(1600, 900), Vector2i(1920, 1080), Vector2i(2560, 1440),
+		Vector2i(3440, 1440), Vector2i(3840, 2160),
 	]
 	if not supported.has(resolution):
-		_fail("Display matrix requires 1280x720, 1280x800, 1920x1080, 2560x1440, 3840x2160, or 3440x1440; got %s." % resolution)
+		_fail("Display matrix requires one of the eight release resolutions; got %s." % resolution)
 		return
 	var tag := "%dx%d_%s" % [resolution.x, resolution.y, lang]
 	await _shot_display_settings_surface(lang, tag + "_01_settings")
@@ -1676,6 +1678,15 @@ func _shot_display_matrix_surfaces(lang: String) -> void:
 		_fail("Display matrix could not find the demo AP decision frame at %s." % resolution)
 		return
 	_assert_control_in_tv_safe_area(pressure, "AP decision frame %s" % resolution)
+	var ap_focus := get_viewport().gui_get_focus_owner()
+	var focus_in_ap_cards := false
+	for card_variant in _mg.get("_ap_grid_cards"):
+		var card := card_variant as Control
+		if is_instance_valid(card) and (card == ap_focus or card.is_ancestor_of(ap_focus)):
+			focus_in_ap_cards = true
+			break
+	if ap_focus == null or not focus_in_ap_cards:
+		_fail("AP decision frame has no keyboard/controller focus owner at %s." % resolution)
 	if _qa_failed:
 		return
 	await _save(tag + "_02_ap_decision")
@@ -1688,7 +1699,7 @@ func _shot_display_matrix_surfaces(lang: String) -> void:
 	if resolution == Vector2i(1920, 1080):
 		await _shot_controller_brand_titles(lang, tag)
 	ControllerHints.clear_qa_override()
-	print("DISPLAY_MATRIX_OK resolution=%dx%d canvas=%dx%d safe_margin=2.5%% surfaces=3" % [
+	print("DISPLAY_MATRIX_OK resolution=%dx%d canvas=%dx%d safe_margin=2.5%% surfaces=3 focus=3 cover=1" % [
 		resolution.x, resolution.y, roundi(viewport_size.x), roundi(viewport_size.y)])
 
 func _shot_display_settings_surface(lang: String, shot_name: String) -> void:
@@ -1781,6 +1792,24 @@ func _assert_control_in_tv_safe_area(control: Control, context: String) -> void:
 	var rect := control.get_global_rect()
 	if not safe.encloses(rect):
 		_fail("%s exceeds TV safe area: control=%s safe=%s." % [context, rect, safe])
+
+func _assert_story_display_contract(story: Node, event_id: String) -> void:
+	var choice_box := story.get("_choice_box") as Control
+	if not is_instance_valid(choice_box) or not choice_box.is_visible_in_tree():
+		_fail("Display matrix story fixture did not expose choices for %s." % event_id)
+		return
+	_assert_control_in_tv_safe_area(choice_box, "Story choice dock %s" % get_window().size)
+	var focus_owner := get_viewport().gui_get_focus_owner()
+	if focus_owner == null or not choice_box.is_ancestor_of(focus_owner):
+		_fail("Story choice dock has no keyboard/controller focus owner at %s." % get_window().size)
+		return
+	var background := story.get("_bg_img") as TextureRect
+	if not is_instance_valid(background) or background.texture == null:
+		_fail("Story background is missing at %s." % get_window().size)
+		return
+	if background.stretch_mode != TextureRect.STRETCH_KEEP_ASPECT_COVERED \
+			or background.expand_mode != TextureRect.EXPAND_IGNORE_SIZE:
+		_fail("Story background is not using distortion-free cover framing at %s." % get_window().size)
 
 func _verify_living_scene_motion(lang: String) -> void:
 	_set_qa_language(lang)

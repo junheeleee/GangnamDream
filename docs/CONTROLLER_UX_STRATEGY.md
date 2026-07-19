@@ -305,6 +305,6 @@ All on controller only.
 
 `InputMatrixCheck.tscn` executes the shared West/North secondary routes for the casino hub, Blackjack, Baccarat, Slots, Roulette, Big Wheel, Dai Sai, Holdem, and RaceTrack in both keyboard and gamepad modes. It also drives nine keyboard core tasks through real input dispatch, from stake selection to starting the actual hand, spin, roll, race, or selected casino table. This prevents a keyboard-only command from being documented but unreachable, and prevents gamepad labels from drifting away from their physical action.
 
-The title-to-demo route has completed all 24 weeks with actual keyboard events and zero mouse events, then with actual mouse events and zero keyboard events. The four display-matrix renders and three gamepad-brand title captures are recorded in `docs/INPUT_MATRIX.md`.
+The title-to-demo route has completed all 24 weeks with actual keyboard events and zero mouse events, then with actual mouse events and zero keyboard events. Sixteen Korean/English display-matrix renders cover eight release resolutions, and each language has Xbox, PlayStation, and Nintendo title-glyph evidence at 1080p. The exact contract and remaining physical-device gates are recorded in `docs/INPUT_MATRIX.md`.
 
 These automated passes prove routing and presentation, not hand feel. Full Controller Support remains blocked on physical Steam Deck, DualSense, and Switch Pro blind passes, including reconnect, suspend/resume, Steam overlay, and accidental-input review.

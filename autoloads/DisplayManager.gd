@@ -9,11 +9,13 @@ const SETTINGS_PATH = "user://gangnam_dream_display.json"
 const MIN_WINDOW_SIZE = Vector2i(960, 600)
 const WINDOW_MODES: Array[String] = ["windowed", "borderless", "fullscreen"]
 const WINDOW_RESOLUTIONS: Array[Vector2i] = [
+	Vector2i(960, 600),
 	Vector2i(1280, 720),
 	Vector2i(1280, 800),
 	Vector2i(1600, 900),
 	Vector2i(1920, 1080),
 	Vector2i(2560, 1440),
+	Vector2i(3440, 1440),
 	Vector2i(3840, 2160),
 ]
 
@@ -88,8 +90,13 @@ func settings_snapshot() -> Dictionary:
 
 func resolution_label(index: int) -> String:
 	var size: Vector2i = WINDOW_RESOLUTIONS[clampi(index, 0, WINDOW_RESOLUTIONS.size() - 1)]
+	var aspect_label := ""
+	if size in [Vector2i(960, 600), Vector2i(1280, 800)]:
+		aspect_label = " (16:10)"
+	elif size == Vector2i(3440, 1440):
+		aspect_label = " (21:9)"
 	return "%d × %d%s" % [
-		size.x, size.y, " (16:10)" if size == Vector2i(1280, 800) else ""]
+		size.x, size.y, aspect_label]
 
 func tv_safe_rect(viewport_size: Vector2, margin_ratio: float = 0.025) -> Rect2:
 	var margin := Vector2(

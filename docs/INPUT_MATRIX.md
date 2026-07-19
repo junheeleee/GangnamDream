@@ -1,6 +1,6 @@
 # Input and Display Matrix
 
-Updated: 2026-07-17
+Updated: 2026-07-19
 
 ## Release Position
 
@@ -45,20 +45,21 @@ The mouse run exposed a clipped month-summary progression button. The summary is
 
 | Output | Aspect | Automated render | Result | Notes |
 |---|---:|---:|---|---|
+| 960x600 | 16:10 | Settings, AP, Living Scene | PASS | Minimum free-window contract; functional layout, not a handheld readability target |
 | 1280x720 | 16:9 | Settings, AP, Living Scene | PASS | Low-height reference; hardware spot pass still required |
 | 1280x800 | 16:10 | Repeated demo and Steam Deck QA | PASS | Primary Deck reference |
-| 1600x900 | 16:9 | Settings option/static contract | Supported | Uses the same 16:9 composition |
+| 1600x900 | 16:9 | Settings, AP, Living Scene | PASS | Common desktop window size |
 | 1920x1080 | 16:9 | Settings, AP, Living Scene, three glyph families | PASS | TV safe margin enforced |
 | 2560x1440 | 16:9 | Settings, AP, Living Scene | PASS | Same command hierarchy |
-| 3840x2160 | 16:9 | Settings, AP, Living Scene | PASS | Faces/text remain sharp; no UI blur |
 | 3440x1440 | 21:9 | Settings, AP, Living Scene | PASS | Background view expands; decisions remain in safe composition |
+| 3840x2160 | 16:9 | Settings, AP, Living Scene | PASS | UI/text geometry is sharp; raster-master enlargement is tracked separately |
 
 The project uses an 800-pixel logical-height canvas and expands horizontally. UI scales with output resolution, while background art uses cover framing. Story text, portraits, and controls must remain inside a 2.5% TV-safe rectangle. Ultrawide may reveal additional environment but must never reveal hidden UI, offstage actors, or branch-dependent art.
 
 Window settings expose:
 
 - Windowed, borderless window, and fullscreen modes.
-- 1280x720, 1280x800, 1600x900, 1920x1080, 2560x1440, and 3840x2160 window sizes.
+- 960x600, 1280x720, 1280x800, 1600x900, 1920x1080, 2560x1440, 3440x1440, and 3840x2160 window sizes.
 - Reduce Motion.
 - Vibration on/off and strength.
 - Music and SFX levels plus language selection.
@@ -78,20 +79,22 @@ Vibration is limited to meaningful commits and pressure beats. Ambient navigatio
 `InputMatrixCheck.tscn` currently requires:
 
 ```text
-INPUT_MATRIX_CHECK_OK modes=3 resolutions=6 brands=3
+INPUT_MATRIX_CHECK_OK modes=3 resolutions=8 brands=3
 direct_scenes=9 direct_routes=18 keyboard_tasks=9 action_sets=4
 ```
 
 The nine keyboard tasks do more than toggle a control: Blackjack deals, Baccarat places a Player bet and deals, Slots starts the reels, Roulette stages a bet and spins, Big Wheel selects and spins, Dai Sai selects and rolls, Holdem buys in and deals, RaceTrack selects a horse and starts the race, and the casino hub launches the highlighted table. The English 1080p Blackjack capture also verifies that keyboard hints replace gamepad letters and that the longest stake text fits the central betting spot.
 
-`ScreenshotQA --qa=display-matrix --lang=en` must pass separately at 1280x720, 1280x800, 1920x1080, 2560x1440, 3840x2160, and 3440x1440. The 1080p pass also captures Xbox, PlayStation, and Nintendo title hints.
+`ScreenshotQA --qa=display-matrix` passes in both Korean and English at 960x600, 1280x720, 1280x800, 1600x900, 1920x1080, 2560x1440, 3440x1440, and 3840x2160. Each of the sixteen runs captures title settings, the demo AP decision, and a StoryMode choice, and verifies exact PNG dimensions, TV-safe controls, active keyboard/controller focus, and distortion-free background cover. The 1080p passes also capture Xbox, PlayStation, and Nintendo title hints in both languages.
+
+This is a layout and routing result. The active AP stills, the sampled romance CG, and many world backgrounds are 1280x800 raster masters, so QHD and 4K currently use filtered enlargement rather than native high-resolution art. Native-master review remains a separate image-production gate and must not be inferred from a successful 4K screenshot.
 
 ## Remaining Hardware Gates
 
 - Steam Deck LCD/OLED: cold boot, 30-minute controller-only demo, suspend/resume, overlay, on-screen keyboard, and battery/performance sample.
 - DualSense over USB and Bluetooth: glyph detection, confirm/cancel, vibration intensity, reconnect, and no duplicate input.
 - Switch Pro through Steam Input: Nintendo face labels, confirm/cancel orientation, reconnect, and rules/secondary actions.
-- Mouse at arbitrary resizable-window sizes down to 960x600.
+- Mouse drag-resize at arbitrary in-between window sizes, including repeated resize while a modal is open.
 - 4K television overscan/readability from normal sofa distance.
 
 Until these passes are signed, store copy may say "controller-friendly design in progress" internally, but the Steam full-controller badge remains held.

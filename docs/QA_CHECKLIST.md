@@ -242,12 +242,13 @@ Automated text-material gates:
 
 Automated input and display gates:
 
-- `InputMatrixCheck.tscn` must print `INPUT_MATRIX_CHECK_OK modes=3 resolutions=6 brands=3 direct_scenes=9 direct_routes=18 keyboard_tasks=9 action_sets=4`.
+- `InputMatrixCheck.tscn` must print `INPUT_MATRIX_CHECK_OK modes=3 resolutions=8 brands=3 direct_scenes=9 direct_routes=18 keyboard_tasks=9 action_sets=4`.
 - Its keyboard tasks must place/start one real round in Blackjack, Baccarat, Slots, Roulette, Big Wheel, Dai Sai, Holdem, and RaceTrack, then launch the selected table from the casino hub. A stake-only toggle is insufficient.
 - Keyboard-only title-to-demo QA must reach the week-25 CTA with `mouse_events=0`; mouse-only QA must reach the same boundary with `key_events=0`. Both routes must begin unemployed and exercise money and human axes.
 - The month summary and demo-ending CTA must fit at 1280x800 without vertical scrolling or an off-screen progression button.
-- `ScreenshotQA --qa=display-matrix --lang=en` must pass independently at 1280x720, 1280x800, 1920x1080, 2560x1440, 3840x2160, and 3440x1440. Every run captures title settings, the demo AP decision, and a Living Scene choice; 1080p additionally captures Xbox, PlayStation, and Nintendo glyph surfaces.
-- Settings and AP decision controls must stay inside the 2.5% TV-safe rectangle. Captured PNG dimensions must equal the requested output dimensions.
+- `ScreenshotQA --qa=display-matrix --lang=ko/en` must pass independently at 960x600, 1280x720, 1280x800, 1600x900, 1920x1080, 2560x1440, 3440x1440, and 3840x2160. Every run captures title settings, the demo AP decision, and a Living Scene choice; 1080p additionally captures Xbox, PlayStation, and Nintendo glyph surfaces.
+- Settings, AP pressure, and Story choice controls must stay inside the 2.5% TV-safe rectangle and own valid keyboard/controller focus. Story backgrounds must use covered aspect preservation rather than stretching. Captured PNG dimensions must equal the requested output dimensions.
+- A passing QHD/4K layout does not certify native art sharpness. Record the source dimensions of each sampled background, portrait, and CG; a 1280x800 source shown at 3840x2160 remains raster-master debt even when the frame is geometrically correct.
 - Xbox/Steam Deck, PlayStation, and Nintendo labels must come from `ControllerHints` physical positions. Game scenes may not hardcode one brand's face-button letters.
 - Reduce Motion and vibration on/off/strength must be reachable from both title and in-run settings without restarting current audio or changing game state.
 - The Steam Full Controller Support claim remains blocked until physical Steam Deck, DualSense, and Switch Pro blind passes cover reconnect, suspend/resume, overlay, and accidental input.
