@@ -1278,7 +1278,6 @@ func register_action_axis(axis: String, place_id: String = "", action_id: String
 			return
 	_register_action_place(place_id, axis)
 	_register_action_record(action_id, axis, place_id, subject_id)
-	_finalize_pending_weekly_commitment(action_id, subject_id)
 	stats_changed.emit()
 
 const WEEKLY_COMMITMENT_ACTION_MATCHES := {
@@ -1291,6 +1290,63 @@ const WEEKLY_COMMITMENT_ACTION_MATCHES := {
 	"contact": ["contact"],
 	"invest": ["invest_buy", "invest_sell", "invest_leverage"],
 }
+
+const WEEKLY_COMMITMENT_OUTCOME_KEYS := [
+	"money", "portfolio", "total_assets", "monthly_income",
+	"health", "mental", "intelligence", "social_skill", "appearance",
+	"investment_skill", "luck", "reputation", "work_performance", "affinity",
+]
+
+func _weekly_commitment_portfolio_value() -> float:
+	var total := 0.0
+	for asset_id in portfolio:
+		var holding: Dictionary = portfolio[asset_id]
+		total += float(holding.get("quantity", 0.0)) * float(
+			market_prices.get(asset_id, holding.get("avg_price", 0.0)))
+	return total
+
+func _weekly_commitment_public_snapshot(person_id: String = "") -> Dictionary:
+	var affinity := 0
+	if not person_id.is_empty() and cast.has(person_id):
+		var person: Dictionary = cast[person_id]
+		affinity = int(person.get("affinity", 0))
+	return {
+		"money": money,
+		"portfolio": _weekly_commitment_portfolio_value(),
+		"total_assets": get_total_asset_value(),
+		"monthly_income": monthly_income,
+		"health": health,
+		"mental": mental,
+		"intelligence": intelligence,
+		"social_skill": social_skill,
+		"appearance": appearance,
+		"investment_skill": investment_skill,
+		"luck": luck,
+		"reputation": reputation,
+		"work_performance": work_performance,
+		"affinity": affinity,
+		"job_id": str(current_job.get("id", "")),
+		"resume_polished": bool(flags.get("resume_polished", false)),
+		"interview_practiced": bool(flags.get("interview_practiced", false)),
+	}
+
+func _weekly_commitment_outcome(before: Dictionary, after: Dictionary) -> Dictionary:
+	var outcome: Dictionary = {}
+	for key in WEEKLY_COMMITMENT_OUTCOME_KEYS:
+		var delta := float(after.get(key, 0.0)) - float(before.get(key, 0.0))
+		if absf(delta) >= 0.001:
+			outcome[key] = delta
+	var old_job_id := str(before.get("job_id", ""))
+	var new_job_id := str(after.get("job_id", ""))
+	if old_job_id != new_job_id:
+		outcome["job_id"] = new_job_id
+	if not bool(before.get("resume_polished", false)) \
+			and bool(after.get("resume_polished", false)):
+		outcome["resume_polished"] = true
+	if not bool(before.get("interview_practiced", false)) \
+			and bool(after.get("interview_practiced", false)):
+		outcome["interview_practiced"] = true
+	return outcome
 
 func arm_weekly_commitment(commitment: Dictionary) -> bool:
 	var choice_id := str(commitment.get("choice_id", "")).strip_edges().to_lower()
@@ -1305,13 +1361,15 @@ func arm_weekly_commitment(commitment: Dictionary) -> bool:
 		if not alternative_id.is_empty() and alternative_id != choice_id \
 				and not alternatives.has(alternative_id):
 			alternatives.append(alternative_id)
+	var person_id := str(commitment.get("person_id", ""))
 	pending_weekly_commitment = {
 		"turn": turn,
 		"pressure_id": str(commitment.get("pressure_id", "")),
 		"pressure_family": str(commitment.get("pressure_family", "")),
 		"choice_id": choice_id,
-		"person_id": str(commitment.get("person_id", "")),
+		"person_id": person_id,
 		"forgone_ids": alternatives,
+		"baseline": _weekly_commitment_public_snapshot(person_id),
 	}
 	return true
 
@@ -1326,25 +1384,39 @@ func _weekly_commitment_action_matches(choice_id: String, action_id: String) -> 
 	var accepted: Array = WEEKLY_COMMITMENT_ACTION_MATCHES.get(choice_id, [choice_id])
 	return accepted.has(action_id)
 
-func _finalize_pending_weekly_commitment(action_id: String, subject_id: String) -> void:
+func has_pending_weekly_commitment(commitment_turn: int = -1) -> bool:
 	if pending_weekly_commitment.is_empty():
-		return
+		return false
+	return commitment_turn < 0 \
+		or int(pending_weekly_commitment.get("turn", -1)) == commitment_turn
+
+func finalize_weekly_commitment(action_id: String, subject_id: String = "",
+		details: Dictionary = {}) -> bool:
+	if pending_weekly_commitment.is_empty():
+		return false
 	if int(pending_weekly_commitment.get("turn", -1)) != turn:
 		pending_weekly_commitment = {}
-		return
+		return false
 	var normalized_action := action_id.strip_edges().to_lower()
 	var choice_id := str(pending_weekly_commitment.get("choice_id", ""))
 	if normalized_action.is_empty() \
 			or not _weekly_commitment_action_matches(choice_id, normalized_action):
-		return
+		return false
 	if has_weekly_commitment_for_turn(turn):
 		pending_weekly_commitment = {}
 		action_points = 0
-		return
+		stats_changed.emit()
+		return false
 	var record := pending_weekly_commitment.duplicate(true)
 	record["actual_action_id"] = normalized_action
 	if str(record.get("person_id", "")).is_empty():
 		record["person_id"] = subject_id.strip_edges().to_lower()
+	var baseline: Dictionary = record.get("baseline", {})
+	record.erase("baseline")
+	record["outcome"] = _weekly_commitment_outcome(
+		baseline, _weekly_commitment_public_snapshot(str(record.get("person_id", ""))))
+	if not details.is_empty():
+		record["details"] = details.duplicate(true)
 	record["echoed_turn"] = -1
 	weekly_commitments.append(record)
 	while weekly_commitments.size() > 16:
@@ -1353,7 +1425,9 @@ func _finalize_pending_weekly_commitment(action_id: String, subject_id: String) 
 	# 직접 결정 주간의 대가는 다른 두 길을 이번 주에 실행하지 못하는 것이다.
 	# Quiet/Echo 루틴은 별도 경로라 이 닫힘의 영향을 받지 않는다.
 	action_points = 0
+	stats_changed.emit()
 	weekly_commitment_finalized.emit(record.duplicate(true))
+	return true
 
 func has_weekly_commitment_for_turn(commitment_turn: int) -> bool:
 	for index in range(weekly_commitments.size() - 1, -1, -1):

@@ -1294,6 +1294,8 @@ func _show_ap_action_commit(title: String, icon_id: String, accent: String,
 	panel.offset_top = -76 if is_weekly_commitment else -42
 	panel.offset_bottom = 76 if is_weekly_commitment else 42
 	panel.pivot_offset = Vector2(350, 76) if is_weekly_commitment else Vector2(235, 42)
+	if is_weekly_commitment:
+		panel.set_meta("commitment_outcome", str(commitment.get("outcome_text", "")))
 	panel.modulate.a = 0.0
 	panel.scale = Vector2(0.965, 0.965)
 	var style := StyleBoxFlat.new()
@@ -1362,11 +1364,11 @@ func _show_ap_action_commit(title: String, icon_id: String, accent: String,
 	UIStyle.apply_ink_text_depth(title_lbl, "state")
 	text_col.add_child(title_lbl)
 	if is_weekly_commitment:
-		var now_text := str(commitment.get("now", ""))
+		var outcome_text := str(commitment.get("outcome_text", ""))
 		var forgone_text := str(commitment.get("forgone_labels", ""))
 		var later_text := str(commitment.get("later", ""))
 		for detail_text in [
-			_tr("지금 · {value}", "NOW · {value}").format({"value": now_text}),
+			_tr("실제 결과 · {value}", "ACTUAL RESULT · {value}").format({"value": outcome_text}),
 			_tr("닫힌 길 · {value}", "CLOSED PATHS · {value}").format({"value": forgone_text}),
 			_tr("후속 · {value}", "LATER · {value}").format({"value": later_text}),
 		]:
@@ -5633,6 +5635,20 @@ func _ap_focus_restore_button(buttons: Array[Button]) -> Button:
 			best_distance = distance
 	return best
 
+func _bind_ap_hover_focus(button: Button) -> void:
+	if not is_instance_valid(button) or button.has_meta("_ap_hover_focus_bound"):
+		return
+	button.set_meta("_ap_hover_focus_bound", true)
+	button.mouse_entered.connect(func():
+		if button.disabled or not button.visible or button.focus_mode == Control.FOCUS_NONE:
+			return
+		button.grab_focus()
+		var grid_index := int(button.get_meta("ap_grid_index", -1))
+		if grid_index >= 0:
+			_ap_focus_restore_turn = GameState.turn
+			_ap_focus_restore_index = grid_index
+	)
+
 func _ap_grid_focus_neighbor(from_idx: int, direction: Vector2i, fallback: Button) -> Button:
 	var columns := maxi(1, _ap_grid_columns)
 	var from_pos := Vector2i(from_idx % columns, from_idx / columns)
@@ -6828,6 +6844,71 @@ func _action_echo_label(record: Dictionary) -> String:
 		"gamble_casino": return _tr("정선 카지노", "Jeongseon casino")
 	return ""
 
+func _weekly_commitment_signed_money(value: float) -> String:
+	var prefix := "+" if value > 0.0 else "-"
+	return prefix + GameState.format_money(absf(value))
+
+func _weekly_commitment_signed_number(value: float) -> String:
+	return "%+d" % roundi(value)
+
+func _weekly_commitment_outcome_text(record: Dictionary) -> String:
+	var outcome: Dictionary = record.get("outcome", {})
+	var details: Dictionary = record.get("details", {})
+	var labels: Array[String] = []
+	var job_id := str(outcome.get("job_id", details.get("job_id", "")))
+	if not job_id.is_empty():
+		var job: Dictionary = DataRegistry.get_job(job_id)
+		labels.append(_tr("취업 · {job}", "HIRED · {job}").format({
+			"job": GameState.get_job_display_name(job),
+		}))
+	var actual_action_id := str(record.get("actual_action_id", ""))
+	if actual_action_id in ["resume", "interview"] and details.has("quality"):
+		var quality: int = clampi(int(details.get("quality", 0)), 0, 3)
+		var grade: String = str(["D", "C", "B", "A"][quality])
+		labels.append(_tr("평가 {grade}", "GRADE {grade}").format({"grade": grade}))
+	if bool(outcome.get("resume_polished", false)):
+		labels.append(_tr("지원서 완성", "RESUME READY"))
+	if bool(outcome.get("interview_practiced", false)):
+		labels.append(_tr("면접 준비 완료", "INTERVIEW READY"))
+
+	var ordered_stats := [
+		["money", _tr("현금", "CASH"), true],
+		["portfolio", _tr("투자자산", "INVESTED"), true],
+		["monthly_income", _tr("월수입", "MONTHLY INCOME"), true],
+		["health", _tr("건강", "HEALTH"), false],
+		["mental", _tr("정신", "MENTAL"), false],
+		["intelligence", _tr("지력", "INTELLIGENCE"), false],
+		["social_skill", _tr("사회성", "SOCIAL"), false],
+		["appearance", _tr("외모", "APPEARANCE"), false],
+		["investment_skill", _tr("투자감각", "INVESTING"), false],
+		["luck", _tr("운", "LUCK"), false],
+		["reputation", _tr("평판", "REPUTATION"), false],
+		["work_performance", _tr("업무성과", "PERFORMANCE"), false],
+	]
+	for stat_info in ordered_stats:
+		if labels.size() >= 3:
+			break
+		var key := str(stat_info[0])
+		var delta := float(outcome.get(key, 0.0))
+		if absf(delta) < 0.001:
+			continue
+		var formatted := _weekly_commitment_signed_money(delta) \
+			if bool(stat_info[2]) else _weekly_commitment_signed_number(delta)
+		labels.append("%s %s" % [str(stat_info[1]), formatted])
+	if labels.size() < 3:
+		var affinity_delta := float(outcome.get("affinity", 0.0))
+		if absf(affinity_delta) >= 0.001:
+			var person_id := str(record.get("person_id", ""))
+			var person_name := str(ImageRegistry.get_person_info(person_id).get(
+				"name", _tr("인연", "BOND")))
+			labels.append(_tr("{name} 호감 {delta}", "{name} AFFINITY {delta}").format({
+				"name": person_name,
+				"delta": _weekly_commitment_signed_number(affinity_delta),
+			}))
+	if labels.is_empty():
+		return _tr("선택한 행동을 끝냈다", "The chosen action was completed")
+	return " · ".join(labels)
+
 func _weekly_commitment_echo_record(record: Dictionary) -> String:
 	var person_id := str(record.get("person_id", ""))
 	var choice_id := str(record.get("choice_id", ""))
@@ -6835,10 +6916,11 @@ func _weekly_commitment_echo_record(record: Dictionary) -> String:
 	var forgone := _weekly_commitment_forgone_labels(record)
 	var later := str(_weekly_commitment_preview(choice_id, person_id).get("later", ""))
 	return _tr(
-		"택한 것 · {chosen}\n닫힌 길 · {forgone}\n남은 파장 · {later}",
-		"CHOSEN · {chosen}\nCLOSED PATHS · {forgone}\nREMAINING ECHO · {later}"
+		"택한 것 · {chosen}\n실제 결과 · {outcome}\n닫힌 길 · {forgone}\n남은 파장 · {later}",
+		"CHOSEN · {chosen}\nACTUAL RESULT · {outcome}\nCLOSED PATHS · {forgone}\nREMAINING ECHO · {later}"
 	).format({
 		"chosen": chosen,
+		"outcome": _weekly_commitment_outcome_text(record),
 		"forgone": forgone,
 		"later": later,
 	})
@@ -6850,10 +6932,11 @@ func _weekly_commitment_echo_sentence(records: Array) -> String:
 	var person_id := str(record.get("person_id", ""))
 	var choice_id := str(record.get("choice_id", ""))
 	return _tr(
-		"지난 선택 · {chosen}. 닫힌 길 · {forgone}. {later}",
-		"LAST CHOICE · {chosen}. CLOSED PATHS · {forgone}. {later}"
+		"지난 선택 · {chosen}. 실제 결과 · {outcome}. 닫힌 길 · {forgone}. {later}",
+		"LAST CHOICE · {chosen}. ACTUAL RESULT · {outcome}. CLOSED PATHS · {forgone}. {later}"
 	).format({
 		"chosen": _weekly_commitment_action_label(choice_id, person_id),
+		"outcome": _weekly_commitment_outcome_text(record),
 		"forgone": _weekly_commitment_forgone_labels(record),
 		"later": str(_weekly_commitment_preview(choice_id, person_id).get("later", "")),
 	})
@@ -6908,6 +6991,14 @@ func _demo_director_recent_action_record(commitment_echoes: Array = []) -> Strin
 func _demo_director_beat_line(kind: String, used: Dictionary,
 		commitment_echoes: Array = []) -> String:
 	if kind == "echo":
+		var resolved_commitments := commitment_echoes
+		if resolved_commitments.is_empty():
+			resolved_commitments = GameState.get_unresolved_weekly_commitments(2)
+		if not resolved_commitments.is_empty():
+			return _tr(
+				"지난주의 선택은 끝났지만, 그 결과가 이번 주의 출발점이 되었다.",
+				"Last week's choice ended, but its result became this week's starting point."
+			)
 		var exact_action_line := _demo_director_recent_action_line(commitment_echoes)
 		if not exact_action_line.is_empty():
 			return exact_action_line
@@ -7547,6 +7638,7 @@ func _demo_context_action_btn(spec: Dictionary, pressure: Dictionary, action_id:
 	btn.set_meta("demo_action_id", action_id)
 	btn.set_meta("ap_action_fn", fn_name)
 	btn.set_meta("ap_grid_index", _ap_grid_cards.size())
+	_bind_ap_hover_focus(btn)
 	if not disabled:
 		var commitment := _weekly_commitment_payload(pressure, action_id)
 		btn.pressed.connect(func():
@@ -7569,6 +7661,7 @@ func _add_demo_action_toggle(expanded: bool) -> void:
 	btn.set_meta("demo_pressure_fallback", true)
 	btn.set_meta("demo_pressure_expanded", expanded)
 	btn.set_meta("ap_grid_index", _ap_grid_cards.size())
+	_bind_ap_hover_focus(btn)
 	btn.custom_minimum_size = Vector2(0, 34)
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn.tooltip_text = _tr("행동 전체를 펼친다", "Open the full action list") if not expanded \
@@ -8259,7 +8352,7 @@ func _on_weekly_commitment_finalized(record: Dictionary) -> void:
 		return
 	var preview := _weekly_commitment_preview(action_id, person_id)
 	var presentation := record.duplicate(true)
-	presentation["now"] = str(preview.get("now", ""))
+	presentation["outcome_text"] = _weekly_commitment_outcome_text(record)
 	presentation["later"] = str(preview.get("later", ""))
 	presentation["forgone_labels"] = _weekly_commitment_forgone_labels(record)
 	_last_weekly_commitment_overlay_turn = GameState.turn
@@ -8534,6 +8627,7 @@ func _make_ap_board_card(title: String, subtitle: String, icon_id: String,
 	arrow.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	side.add_child(arrow)
 	_apply_moral_tree_styles(btn, _moral_ui_palette())
+	_bind_ap_hover_focus(btn)
 	return btn
 
 func _make_demo_decision_card(title: String, subtitle: String, icon_id: String,
@@ -8726,6 +8820,7 @@ func _make_demo_decision_card(title: String, subtitle: String, icon_id: String,
 	btn.add_child(edge)
 
 	_apply_moral_tree_styles(btn, _moral_ui_palette())
+	_bind_ap_hover_focus(btn)
 	return btn
 
 func _make_essential_action_card(title: String, subtitle: String, icon_id: String,
@@ -8983,6 +9078,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	arrow_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.add_child(arrow_lbl)
 	_apply_moral_tree_styles(btn, _moral_ui_palette())
+	_bind_ap_hover_focus(btn)
 	return btn
 
 func _hud_chip(parent: Control, icon_id: String, accent: String,
@@ -10240,7 +10336,6 @@ func _ap_study_commit(study_type: int) -> void:
 	var pool: Array = [STUDY_READ_VIGNETTES, STUDY_EXERCISE_VIGNETTES, STUDY_MEDITATE_VIGNETTES, STUDY_INVEST_VIGNETTES][study_type]
 	var study_axis := "human" if (study_type == 1 or study_type == 2) else "money"
 	var study_action_id: String = ["study_read", "study_exercise", "study_meditation", "study_invest"][study_type]
-	GameState.register_action_axis(study_axis, "river" if study_type == 1 else "home", study_action_id)
 	var n: int = _bump_study_count(study_type)
 	var v: Dictionary = pool[randi() % pool.size()]
 	var eff: Dictionary = v.get("e", {}).duplicate()
@@ -10257,6 +10352,9 @@ func _ap_study_commit(study_type: int) -> void:
 	# 투자공부(type 3)는 invest 성향, 그 외(독서/운동/명상)는 career 성향으로 집계.
 	# (기존엔 전부 career로 보내 invest 성향이 AP 행동에서 한 번도 안 쌓이던 버그)
 	GameState.add_tendency("invest" if study_type == 3 else "career", 1)
+	GameState.register_action_axis(
+		study_axis, "river" if study_type == 1 else "home", study_action_id)
+	GameState.finalize_weekly_commitment(study_action_id, "", {"study_type": study_type})
 	var _st_key := "et" if LocaleManager.is_english() else "t"
 	var flavor: String = str(v.get(_st_key, v.get("t", "")))
 	var special: String = _study_threshold_special(study_type, n)
@@ -10275,21 +10373,21 @@ func _ap_invest():
 	_open_investments()
 
 func _ap_job_hunt():
-	if not GameState.spend_ap():
+	if GameState.action_points <= 0:
 		return
-	GameState.register_action_axis("money", "work", "apply")
-	turn_action_log.append(_tr("지원 계속 — 다음 지원처 열람", "Keep Applying — browse the next leads") if _opening_interview_seen() else _tr("구직활동 — 직업 목록 열람", "Job Hunt — browse job list"))
 	_open_jobs()
 
 func _ap_side_job():
-	if not GameState.spend_ap():
+	if GameState.action_points <= 0:
 		return
-	GameState.register_action_axis("money", "work", "side_shift")
 	_enter_minigame_overlay(aruba_game)
 	aruba_game.open()
 
 func _on_aruba_closed(earned: int, stress_delta: int, health_delta: int) -> void:
 	_exit_minigame_overlay()
+	if not GameState.spend_ap():
+		GameState.cancel_pending_weekly_commitment(GameState.turn)
+		return
 	var health_before: int = GameState.health
 	GameState.add_money(float(earned))
 	GameState.modify_hidden_stat("stress", stress_delta)
@@ -10303,6 +10401,12 @@ func _on_aruba_closed(earned: int, stress_delta: int, health_delta: int) -> void
 	var _sj_v: Dictionary = vignette_pool[randi() % vignette_pool.size()]
 	var mood: String = str(_sj_v.get("et" if LocaleManager.is_english() else "t", _sj_v.get("t", "")))
 	turn_action_log.append("✓ 💼 %s — %s" % [shift_title, mood.substr(0, 22)])
+	GameState.register_action_axis("money", "work", "side_shift")
+	GameState.finalize_weekly_commitment("side_shift", "", {
+		"earned": earned,
+		"health_delta": total_health_delta,
+		"mental_delta": -stress_delta,
+	})
 	AudioManager.play("money_gain")
 	_show_effects_float({"money": earned, "health": total_health_delta, "mental": -stress_delta})
 	_show_vignette(shift_title, mood, {"money": earned, "health": total_health_delta, "mental": -stress_delta}, "#dc6a2a")
@@ -10319,7 +10423,6 @@ const _SAVE_SCENES = [
 func _ap_save_money():
 	if not GameState.spend_ap():
 		return
-	GameState.register_action_axis("money", "store", "save")
 	var saved: int = 30000 + randi() % 70000
 	GameState.add_money(float(saved))
 	GameState.modify_hidden_stat("stress", 2)
@@ -10327,6 +10430,8 @@ func _ap_save_money():
 	var _sv: Dictionary = _SAVE_SCENES[randi() % _SAVE_SCENES.size()]
 	var scene: String = str(_sv.get("et" if LocaleManager.is_english() else "t", _sv.get("t", "")))
 	GameState.add_log(_tr("💰 절약 — %s", "💰 Saving — %s") % scene, "event")
+	GameState.register_action_axis("money", "store", "save")
+	GameState.finalize_weekly_commitment("save", "", {"saved": saved})
 	_show_vignette(_tr("절약", "Saving"), scene + (_tr("\n\n%s 절약했다.", "\n\nSaved %s.") % GameState.format_money(saved)),
 		{"money": saved, "stress": 2}, "#4a7a5a")
 	turn_action_log.append(_tr("✓ 💰 절약 — %s", "✓ 💰 Saving — %s") % GameState.format_money(saved))
@@ -11292,7 +11397,6 @@ func _daeun_dawn_line() -> String:
 func _ap_contact_person(person_id: String):
 	if not GameState.spend_ap():
 		return
-	GameState.register_action_axis("human", "store" if person_id == "daeun" else ("home" if person_id == "father" else "city"), "contact", person_id)   # 사람에게 쓴 시간
 	GameState.note_contact(person_id)          # 리캡 원장 — 누구에게 몇 번, 마지막이 언제였는지
 	var info: Dictionary = ImageRegistry.PERSON_INFO.get(person_id, {})
 	var pname: String = str(ImageRegistry.get_person_info(person_id).get("name", info.get("name", _tr("인연", "Connection"))))
@@ -11309,6 +11413,10 @@ func _ap_contact_person(person_id: String):
 	var msg = _tr("%s — 정신 %d→%d, 호감도 %d", "%s — Mental %d→%d, Affinity %d") % [pname, mental_before, GameState.mental, aff]
 	GameState.add_log(msg + " / " + flavor, "relationship")
 	turn_action_log.append("✓ " + msg)
+	GameState.register_action_axis(
+		"human", "store" if person_id == "daeun" else ("home" if person_id == "father" else "city"),
+		"contact", person_id)
+	GameState.finalize_weekly_commitment("contact", person_id)
 	GameState.stats_changed.emit()
 	_refresh_all()
 	# A-1: 모달 닫고 스토리 영역에 인물 리액션 표시
@@ -11815,7 +11923,6 @@ func _ap_vignette(title: String, pool: Array, color: String, place_id: String = 
 		action_id: String = ""):
 	if not GameState.spend_ap():
 		return
-	GameState.register_action_axis("human", place_id, action_id)   # 자기계발·휴식 = 자기 돌봄
 	var v: Dictionary = pool[randi() % pool.size()]
 	var eff: Dictionary = v.get("e", {})
 	for k in eff:
@@ -11832,6 +11939,8 @@ func _ap_vignette(title: String, pool: Array, color: String, place_id: String = 
 	var flavor: String = str(v.get(t_key, v.get("t", "")))
 	turn_action_log.append("✓ " + title + " — " + flavor.substr(0, 22))
 	GameState.add_log(title + " — " + flavor, "event")
+	GameState.register_action_axis("human", place_id, action_id)   # 자기계발·휴식 = 자기 돌봄
+	GameState.finalize_weekly_commitment(action_id)
 	GameState.stats_changed.emit()
 	_show_vignette(title, flavor, eff, color)
 
@@ -12221,23 +12330,24 @@ func _ap_create_content():
 	_refresh_all()
 
 func _ap_write_resume():
-	if not GameState.spend_ap():
+	if GameState.action_points <= 0:
 		return
-	GameState.register_action_axis("money", "work", "resume")
 	turn_action_log.append(_tr("Resume writing — assessment started", "Resume Writing — assessment started"))
 	_enter_minigame_overlay(job_hunt_game)
 	job_hunt_game.open(0)  # Mode.RESUME = 0
 
 func _ap_interview_prep():
-	if not GameState.spend_ap():
+	if GameState.action_points <= 0:
 		return
-	GameState.register_action_axis("money", "work", "interview")
 	turn_action_log.append(_tr("Mock interview — assessment started", "Mock Interview — assessment started"))
 	_enter_minigame_overlay(job_hunt_game)
 	job_hunt_game.open(1)  # Mode.INTERVIEW = 1
 
 func _on_job_hunt_closed(stress_delta: int, quality: int) -> void:
 	_exit_minigame_overlay()
+	if not GameState.spend_ap():
+		GameState.cancel_pending_weekly_commitment(GameState.turn)
+		return
 	# quality: 0=재작성필요, 1=무난, 2=양호, 3=우수
 	var is_resume: bool = job_hunt_game.current_mode == 0  # Mode.RESUME
 	GameState.modify_hidden_stat("stress", stress_delta)
@@ -12274,6 +12384,9 @@ func _on_job_hunt_closed(stress_delta: int, quality: int) -> void:
 			0:
 				GameState.modify_hidden_stat("stress", 1)
 				GameState.add_log(_tr("모의 면접 실패 (평가 D) — 정신력 -1", "Mock interview failed (Grade D) — Mental -1"), "event")
+	var action_id := "resume" if is_resume else "interview"
+	GameState.register_action_axis("money", "work", action_id)
+	GameState.finalize_weekly_commitment(action_id, "", {"quality": quality})
 	GameState.stats_changed.emit()
 	_refresh_all()
 
@@ -12384,11 +12497,10 @@ func _on_leverage_buy(asset_id: String, amount: float):
 		_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))
 		_close_modal()
 		return
-	GameState.register_action_axis("money", "", "invest_leverage")
-	AudioManager.play("money_gain")
-	var result = investment_system.buy_asset_leveraged(asset_id, amount)
+	var was_weekly := GameState.has_pending_weekly_commitment(GameState.turn)
+	var result: Dictionary = investment_system.buy_asset_leveraged(asset_id, amount)
 	if result.get("success", false):
-		_show_ap_action_commit(_tr("레버리지 매수", "Leverage Buy"), "leverage", "#ef4444", false, _action_thumb_texture("_ap_invest", "invest"))
+		AudioManager.play("money_gain")
 		var asset_name = asset_id
 		for data in DataRegistry.assets:
 			if data.get("id", "") == asset_id:
@@ -12396,9 +12508,17 @@ func _on_leverage_buy(asset_id: String, amount: float):
 				break
 		turn_action_log.append(_tr("✓ 레버리지 → %s ×2배  %s", "✓ Leverage → %s ×2  %s") % [asset_name, GameState.format_money(amount)])
 		_close_modal()
+		GameState.register_action_axis("money", "", "invest_leverage")
+		GameState.finalize_weekly_commitment("invest_leverage", "", {
+			"asset_id": asset_id, "trade": "leverage_buy", "amount": amount,
+		})
+		if not was_weekly:
+			_show_ap_action_commit(_tr("레버리지 매수", "Leverage Buy"), "leverage", "#ef4444", false, _action_thumb_texture("_ap_invest", "invest"))
 		_refresh_all()
 		_show_toast(_tr("레버리지 매수 — %s ×2배 포지션 확보", "Leverage buy — secured %s ×2 position") % GameState.format_money(amount * 2.0), Color("#ef4444"))
 	else:
+		GameState.action_points += 1
+		GameState.stats_changed.emit()
 		_show_toast(result.get("message", _tr("오류", "Error")), Color("#ff4444"))
 
 func _ap_vip_network():
@@ -13781,20 +13901,36 @@ func _on_save_pressed():
 	_show_toast(_tr("저장 완료", "Saved"), Color("#00c896"))
 
 func _on_job_selected(job_id):
+	var selected_job: Dictionary = {}
+	for row in _job_rows_for_current_tier():
+		if str(row.get("id", "")) == str(job_id):
+			selected_job = row
+			break
+	if selected_job.is_empty() or not _job_can_apply(selected_job):
+		_show_toast(_tr("지원 조건을 다시 확인하세요", "Check the application requirements"), Color("#ff7070"))
+		return
+	if not GameState.spend_ap():
+		_show_toast(_tr("행동력이 없습니다", "No Action Points"), Color("#ff7070"))
+		return
 	var had_resume = GameState.flags.get("resume_polished", false)
 	var had_interview = GameState.flags.get("interview_practiced", false)
 	var is_first_job = GameState.current_job.is_empty()
-	job_system.apply_for_job(job_id)
+	var apply_result: Dictionary = job_system.apply_for_job(job_id)
+	if not bool(apply_result.get("success", false)):
+		GameState.action_points += 1
+		GameState.stats_changed.emit()
+		_show_toast(str(apply_result.get("message", _tr("지원할 수 없습니다", "Cannot apply"))), Color("#ff7070"))
+		return
 	var job_name = GameState.get_job_display_name()
 	var salary = GameState.format_money(GameState.monthly_income)
 	var prep_bonus = (10 if had_resume else 0) + (7 if had_interview else 0)
 	var prep_note = (_tr("  (준비 보너스 +%d 업무능력)", "  (prep bonus +%d work skill)") % prep_bonus) if prep_bonus > 0 else ""
-	# 구직 로그 항목 갱신
-	for i in range(turn_action_log.size() - 1, -1, -1):
-		var entry := str(turn_action_log[i])
-		if entry.begins_with(_tr("구직활동", "Job Hunt")) or entry.begins_with("✓ 💼"):
-			turn_action_log[i] = _tr("구직활동 → %s 취업%s", "Job Hunt → hired at %s%s") % [job_name, prep_note]
-			break
+	turn_action_log.append(
+		_tr("구직활동 → %s 취업%s", "Job Hunt → hired at %s%s") % [job_name, prep_note])
+	GameState.register_action_axis("money", "work", "apply")
+	GameState.finalize_weekly_commitment("apply", "", {"job_id": str(job_id)})
+	# Close only after the commitment is finalized. Closing first rebuilds the AP
+	# board against the still-pending choice and leaves stale, unusable cards.
 	_close_modal()
 	_refresh_all()
 	if is_first_job:
@@ -13808,10 +13944,14 @@ func _on_buy_asset(asset_id, amount):
 		_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))
 		_close_modal()
 		return
-	GameState.register_action_axis("money", "", "invest_buy")
-	_show_ap_action_commit(_tr("투자 매수", "Buy Asset"), "invest", "#3a8a5a", false, _action_thumb_texture("_ap_invest", "invest"))
+	var was_weekly := GameState.has_pending_weekly_commitment(GameState.turn)
+	var result: Dictionary = investment_system.buy_asset(asset_id, float(amount))
+	if not bool(result.get("success", false)):
+		GameState.action_points += 1
+		GameState.stats_changed.emit()
+		_show_toast(str(result.get("message", _tr("매수할 수 없습니다", "Cannot buy"))), Color("#ff4444"))
+		return
 	AudioManager.play("money_gain")
-	investment_system.buy_asset(asset_id, float(amount))
 	GameState.add_tendency("invest", 1)   # 자산 매수 = 투자형
 	var asset_name = asset_id
 	for data in DataRegistry.assets:
@@ -13820,6 +13960,12 @@ func _on_buy_asset(asset_id, amount):
 			break
 	turn_action_log.append(_tr("✓ 투자 → %s 매수 %s", "✓ Invest → bought %s %s") % [asset_name, GameState.format_money(amount)])
 	_close_modal()
+	GameState.register_action_axis("money", "", "invest_buy")
+	GameState.finalize_weekly_commitment("invest_buy", "", {
+		"asset_id": str(asset_id), "trade": "buy", "amount": float(amount),
+	})
+	if not was_weekly:
+		_show_ap_action_commit(_tr("투자 매수", "Buy Asset"), "invest", "#3a8a5a", false, _action_thumb_texture("_ap_invest", "invest"))
 	_refresh_all()
 	_show_toast(_tr("매수 완료 %s", "Bought %s") % GameState.format_money(amount), Color("#00c896"))
 
@@ -13828,10 +13974,14 @@ func _on_sell_asset(asset_id, ratio):
 		_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))
 		_close_modal()
 		return
-	GameState.register_action_axis("money", "", "invest_sell")
-	_show_ap_action_commit(_tr("투자 매도", "Sell Asset"), "invest", "#d73a49", false, _action_thumb_texture("_ap_invest", "invest"))
+	var was_weekly := GameState.has_pending_weekly_commitment(GameState.turn)
+	var result: Dictionary = investment_system.sell_asset(asset_id, float(ratio))
+	if not bool(result.get("success", false)):
+		GameState.action_points += 1
+		GameState.stats_changed.emit()
+		_show_toast(str(result.get("message", _tr("매도할 수 없습니다", "Cannot sell"))), Color("#ff4444"))
+		return
 	AudioManager.play("money_loss")
-	investment_system.sell_asset(asset_id, float(ratio))
 	var asset_name = asset_id
 	for data in DataRegistry.assets:
 		if data.get("id", "") == asset_id:
@@ -13839,6 +13989,12 @@ func _on_sell_asset(asset_id, ratio):
 			break
 	turn_action_log.append(_tr("✓ 투자 → %s 매도", "✓ Invest → sold %s") % asset_name)
 	_close_modal()
+	GameState.register_action_axis("money", "", "invest_sell")
+	GameState.finalize_weekly_commitment("invest_sell", "", {
+		"asset_id": str(asset_id), "trade": "sell", "ratio": float(ratio),
+	})
+	if not was_weekly:
+		_show_ap_action_commit(_tr("투자 매도", "Sell Asset"), "invest", "#d73a49", false, _action_thumb_texture("_ap_invest", "invest"))
 	_refresh_all()
 	_show_toast(_tr("매도 완료", "Sold"), Color("#ff4444"))
 

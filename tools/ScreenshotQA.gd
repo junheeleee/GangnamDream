@@ -8006,6 +8006,9 @@ func _shot_ap_act_surfaces(lang: String = "en", prefix: String = "ap_act_en_") -
 			if _mg.has_method("_on_weekly_commitment_finalized"):
 				var pressure: Dictionary = _mg.call("_demo_week_pressure")
 				var commitment: Dictionary = _mg.call("_weekly_commitment_payload", pressure, "apply")
+				commitment["actual_action_id"] = "apply"
+				commitment["outcome"] = {"job_id": "job_01", "monthly_income": 2_450_000.0}
+				commitment["details"] = {"job_id": "job_01"}
 				_mg.call("_on_weekly_commitment_finalized", commitment)
 				await _settle(0.14)
 				await _save("%s01b_week_commitment" % prefix)
@@ -8035,6 +8038,40 @@ func _assert_ap_result_lifecycle(lang: String, prefix: String) -> void:
 	_mg.call("_finish_typing")
 	await _settle(0.35)
 
+	var cancel_payload := {
+		"turn": GameState.turn,
+		"pressure_id": "qa_cancel_application",
+		"pressure_family": "employment",
+		"choice_id": "apply",
+		"person_id": "",
+		"forgone_ids": ["resume", "side_shift"],
+	}
+	var ap_before_cancel: int = GameState.action_points
+	if not GameState.arm_weekly_commitment(cancel_payload):
+		_fail("Cancelable application commitment could not be armed.")
+		return
+	_mg.call("_ap_job_hunt")
+	await _settle(0.2)
+	var modal_layer := _mg.get("modal_layer") as Control
+	if not is_instance_valid(modal_layer) or not modal_layer.visible:
+		_fail("Application commitment did not open its cancelable job modal.")
+		return
+	_mg.call("_cancel_modal")
+	await _settle(0.25)
+	if GameState.has_pending_weekly_commitment(GameState.turn) \
+			or GameState.action_points != ap_before_cancel \
+			or not GameState.get_weekly_commitment_for_turn(GameState.turn).is_empty():
+		_fail("Canceling a job modal spent or locked the week: AP=%d pending=%s record=%s." % [
+			GameState.action_points,
+			GameState.pending_weekly_commitment,
+			GameState.get_weekly_commitment_for_turn(GameState.turn),
+		])
+		return
+	_mg.current_event = {}
+	_mg.call("_render_ap_actions")
+	_mg.call("_finish_typing")
+	await _settle(0.2)
+
 	var saving_card: Button = null
 	for candidate in _demo_pressure_primary_cards():
 		if str(candidate.get_meta("demo_action_id", "")) == "save":
@@ -8055,6 +8092,18 @@ func _assert_ap_result_lifecycle(lang: String, prefix: String) -> void:
 		_fail("Saving did not close the week and preserve two forgone paths: AP=%d record=%s." % [
 			GameState.action_points, commitment])
 		return
+	var outcome: Dictionary = commitment.get("outcome", {})
+	if float(outcome.get("money", 0.0)) < 30_000.0:
+		_fail("Saving result did not preserve its actual cash outcome: %s." % outcome)
+		return
+	var commit_layer := _mg.get("_ap_commit_layer") as Control
+	var outcome_panel: PanelContainer = _find_first_panel_container(commit_layer) \
+			if is_instance_valid(commit_layer) else null
+	var outcome_text := str(outcome_panel.get_meta("commitment_outcome", "")) \
+			if is_instance_valid(outcome_panel) else ""
+	if outcome_text.findn(_tr("현금", "CASH")) < 0:
+		_fail("Weekly result overlay did not display the actual cash delta: %s." % outcome_text)
+		return
 	var choice_root := _mg.get("choice_box") as Control
 	var confirm_btn := _find_first_enabled_button(choice_root) if choice_root != null else null
 	if confirm_btn == null or confirm_btn.text != _tr("확인", "OK"):
@@ -8071,7 +8120,6 @@ func _assert_ap_result_lifecycle(lang: String, prefix: String) -> void:
 	if focus_owner == null or focus_owner != next_week or next_week.disabled:
 		_fail("Weekly commitment result did not hand controller focus to Next Week.")
 		return
-	var commit_layer := _mg.get("_ap_commit_layer") as Control
 	if is_instance_valid(commit_layer) and commit_layer.visible:
 		_fail("Weekly commitment overlay remained over the closed-week surface.")
 		return
@@ -8153,6 +8201,11 @@ func _assert_demo_decision_stage() -> bool:
 			_fail("Demo response still presents the weekly commitment as an AP price.")
 			return false
 		previous_x = card.position.x
+	var hover_target := cards[1]
+	hover_target.mouse_entered.emit()
+	if get_viewport().gui_get_focus_owner() != hover_target:
+		_fail("Mouse hover did not move keyboard focus to the AP decision card.")
+		return false
 	return true
 
 func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immersion_en_") -> void:
@@ -8247,6 +8300,8 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 		"person_id": "",
 		"forgone_ids": ["resume", "side_shift"],
 		"actual_action_id": "apply",
+		"outcome": {"job_id": "job_01", "monthly_income": 2_450_000.0},
+		"details": {"job_id": "job_01"},
 		"echoed_turn": -1,
 	}
 	GameState.weekly_commitments = [application_commitment]
@@ -8260,6 +8315,8 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 	var expected_closed := _tr("지원서 다듬기", "Refine the Application")
 	if application_echo_text.findn(expected_application) < 0 \
 			or application_echo_text.findn(expected_closed) < 0 \
+			or application_echo_text.findn(_tr("실제 결과", "ACTUAL RESULT")) < 0 \
+			or application_echo_text.findn(_tr("취업", "HIRED")) < 0 \
 			or application_echo_text.findn(unexpected_rest) >= 0:
 		_fail("Application echo surface did not preserve its exact cause in %s." % lang)
 		return
@@ -8285,6 +8342,7 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 		"person_id": "daeun",
 		"forgone_ids": ["side_shift", "contact"],
 		"actual_action_id": "rest",
+		"outcome": {"health": 3.0, "mental": 8.0},
 		"echoed_turn": -1,
 	}
 	GameState.weekly_commitments = [rest_commitment]
@@ -8293,6 +8351,7 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 	await _settle(0.35)
 	var rest_echo_text := _collect_control_text(_mg)
 	if rest_echo_text.findn(unexpected_rest) < 0 \
+			or rest_echo_text.findn(_tr("정신", "MENTAL")) < 0 \
 			or rest_echo_text.findn(expected_application) >= 0:
 		_fail("Rest echo surface collapsed into the application path in %s." % lang)
 		return

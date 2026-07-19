@@ -25,7 +25,7 @@ func _ready() -> void:
 			push_error("IMMERSION_LOOP_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("IMMERSION_LOOP_CHECK_OK memory=2 action_ids=8 commitments=1x3 consequence_paths=4 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=4 vignette=2 omen=1 preview=2 rent=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8")
+	print("IMMERSION_LOOP_CHECK_OK memory=2 action_ids=8 commitments=1x3 outcomes=2 completion_boundary=1 consequence_paths=4 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=4 vignette=2 omen=1 preview=2 rent=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8")
 	get_tree().quit(0)
 
 func _check_recent_action_echoes() -> void:
@@ -152,6 +152,15 @@ func _check_weekly_commitment_contract() -> void:
 	if not GameState.arm_weekly_commitment(invest_payload):
 		_fail("investment commitment could not be re-armed after cancel")
 	GameState.register_action_axis("money", "city", "invest_buy")
+	if GameState.action_points != 2 or not GameState.weekly_commitments.is_empty() \
+			or not GameState.has_pending_weekly_commitment(GameState.turn):
+		_fail("opening/recording a sub-action finalized the commitment before its outcome")
+	GameState.add_money(-100_000.0)
+	GameState.modify_stat("investment_skill", 1)
+	if not GameState.finalize_weekly_commitment("invest_buy", "", {
+		"asset_id": "asset_01", "trade": "buy", "amount": 100_000.0,
+	}):
+		_fail("actual trade could not finalize the armed commitment")
 	if GameState.action_points != 0 or GameState.weekly_commitments.size() != 1:
 		_fail("actual trade did not close the week exactly once: AP=%d records=%d" % [
 			GameState.action_points, GameState.weekly_commitments.size()])
@@ -160,6 +169,10 @@ func _check_weekly_commitment_contract() -> void:
 			or str(record.get("actual_action_id", "")) != "invest_buy" \
 			or (record.get("forgone_ids", []) as Array).size() != 2:
 		_fail("weekly commitment lost its choice, actual action, or forgone paths: %s" % record)
+	var outcome: Dictionary = record.get("outcome", {})
+	if not is_equal_approx(float(outcome.get("money", 0.0)), -100_000.0) \
+			or int(outcome.get("investment_skill", 0)) != 1:
+		_fail("weekly commitment lost its actual public outcome: %s" % outcome)
 	if GameState.arm_weekly_commitment(game.call("_weekly_commitment_payload", pressure, "study")):
 		_fail("a second commitment was accepted in the same week")
 
@@ -175,8 +188,9 @@ func _check_weekly_commitment_contract() -> void:
 	LocaleManager.language = "en"
 	var echo_record := str(game.call("_demo_director_recent_action_record", unresolved))
 	if echo_record.findn("chosen") < 0 or echo_record.findn("closed paths") < 0 \
+			or echo_record.findn("actual result") < 0 or echo_record.findn("cash") < 0 \
 			or echo_record.findn("market") < 0 or _contains_hangul(echo_record):
-		_fail("weekly commitment echo did not name the choice and closed paths: %s" % echo_record)
+		_fail("weekly commitment echo did not name the choice, outcome, and closed paths: %s" % echo_record)
 	var forbidden := echo_record.to_lower()
 	if forbidden.contains("moral") or forbidden.contains("route"):
 		_fail("weekly commitment echo exposed a hidden system: %s" % echo_record)
