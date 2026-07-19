@@ -97,6 +97,9 @@ var _auto_button: Button = null
 var _auto_mode: bool = false
 var _auto_wait: float = -1.0
 var _auto_button_signature: String = ""
+var _advance_hold_active: bool = false
+var _advance_hold_wait: float = 0.0
+var _advance_hold_event_id: String = ""
 var _audio_settings_button: Button = null
 var _audio_settings_popup: Control = null
 var _audio_settings_previous_focus: Control = null
@@ -122,6 +125,8 @@ var _font: FontFile
 var _font_bold: FontFile
 
 const TYPE_SPEED := 0.018   # 글자당 초
+const ADVANCE_HOLD_INITIAL_DELAY := 0.34
+const ADVANCE_HOLD_REPEAT_DELAY := 0.14
 const JOY_BUTTON_NORTH := 3
 const PORTRAIT_OFFSET_LEFT := -430
 const PORTRAIT_OFFSET_RIGHT := -28
@@ -1452,6 +1457,7 @@ func _refresh_continue_hint_text() -> void:
 
 # ── 이벤트 로딩 ───────────────────────────────────────────────
 func _load_next_event():
+	_reset_advance_hold()
 	_stop_story_choice_countdown()
 	if _queue.is_empty():
 		_finish_all()
@@ -1562,6 +1568,7 @@ func _split_story_paragraphs(text: String) -> Array:
 	return paragraphs
 
 func _render_current():
+	_reset_advance_hold()
 	_reset_scene_direction()
 	_prepare_scene_direction()
 	_current_presentation = {}
@@ -2061,6 +2068,10 @@ func _complete_typing() -> void:
 	_refresh_continue_hint_text()
 	_continue_hint.visible = true
 	_arm_auto_advance(_type_full)
+	# 길게 읽기는 현재 사건의 마지막 문장에서 멈춘다. 같은 물리 입력이
+	# 선택지를 열거나 결과 뒤의 다음 사건까지 넘기지 않게 하는 경계다.
+	if _advance_hold_active and _para_index >= _paragraphs.size() - 1:
+		_reset_advance_hold()
 
 # ── 타이핑 효과 ───────────────────────────────────────────────
 var _type_accum: float = 0.0
@@ -2092,6 +2103,7 @@ func _process(delta):
 		if _direction_beat_remaining <= 0.0:
 			_finish_direction_beat()
 		return
+	_process_advance_hold(delta)
 	if not _typing:
 		if _can_auto_advance():
 			_auto_wait -= delta
@@ -2108,6 +2120,43 @@ func _process(delta):
 		_complete_typing()
 	else:
 		_body_lbl.text = _type_full.substr(0, _type_pos)
+
+func _begin_advance_hold() -> void:
+	if _showing_choices or _is_chapter_card or _auto_mode \
+			or _direction_hold_active or _direction_beat_waiting \
+			or is_instance_valid(_audio_settings_popup):
+		return
+	_advance_hold_active = true
+	_advance_hold_wait = ADVANCE_HOLD_INITIAL_DELAY
+	_advance_hold_event_id = str(_current.get("id", ""))
+
+func _reset_advance_hold() -> void:
+	_advance_hold_active = false
+	_advance_hold_wait = 0.0
+	_advance_hold_event_id = ""
+
+func _process_advance_hold(delta: float) -> void:
+	if not _advance_hold_active:
+		return
+	if _transitioning or _showing_choices or _is_chapter_card \
+			or _direction_hold_active or _direction_beat_waiting \
+			or is_instance_valid(_audio_settings_popup) \
+			or str(_current.get("id", "")) != _advance_hold_event_id:
+		_reset_advance_hold()
+		return
+	_advance_hold_wait -= delta
+	if _advance_hold_wait > 0.0:
+		return
+	# 마지막 문단은 타이핑만 완성하고 정지한다. 선택 확정과 장면 이동은
+	# 언제나 새로 누른 한 번의 입력을 요구한다.
+	if _para_index >= _paragraphs.size() - 1:
+		if _typing:
+			_complete_typing()
+		else:
+			_reset_advance_hold()
+		return
+	_on_advance()
+	_advance_hold_wait = ADVANCE_HOLD_REPEAT_DELAY
 
 # ── 입력: 클릭하여 진행 ───────────────────────────────────────
 func _on_advance():
@@ -2149,6 +2198,8 @@ func _on_advance():
 
 # ── 컨트롤러 입력 ─────────────────────────────────────────────
 func _unhandled_input(event: InputEvent):
+	if event.is_action_released("ui_accept"):
+		_reset_advance_hold()
 	if _transitioning:
 		return
 	if is_instance_valid(_audio_settings_popup):
@@ -2167,6 +2218,10 @@ func _unhandled_input(event: InputEvent):
 	if event.is_action_pressed("ui_accept"):
 		if _showing_choices:
 			return  # 포커스된 선택지 버튼이 직접 처리
+		if event is InputEventKey and (event as InputEventKey).echo:
+			get_viewport().set_input_as_handled()
+			return
+		_begin_advance_hold()
 		_on_advance()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("ui_cancel"):
@@ -2602,6 +2657,7 @@ func _choice_effect_preview(choice: Dictionary) -> String:
 	return "  ".join(parts)
 
 func _show_choices():
+	_reset_advance_hold()
 	_stop_story_choice_countdown()
 	_clear_result_record_card()
 	var choices: Array = _current.get("choices", [])

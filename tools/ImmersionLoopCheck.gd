@@ -284,6 +284,7 @@ func _check_demo_pressure_choices() -> void:
 	GameState.flags["arc_invest_guidance_seen"] = true
 	GameState.flags.erase("investment_first_visited")
 	GameState.turn = 3
+	GameState.month = 3
 	GameState.week_of_month = 3
 	var capital: Dictionary = game._demo_week_pressure()
 	_check_pressure_contract(game, capital, "capital", ["invest", "save", "contact"])
@@ -291,6 +292,7 @@ func _check_demo_pressure_choices() -> void:
 	var capital_per_month: Dictionary = {}
 	for week in range(1, GameState.DEMO_TURN_LIMIT + 1):
 		GameState.turn = week
+		GameState.month = int((week - 1) / 4) + 1
 		GameState.week_of_month = posmod(week - 1, 4) + 1
 		var pressure: Dictionary = game._demo_week_pressure()
 		if str(pressure.get("id", "")) != "capital":
@@ -298,14 +300,15 @@ func _check_demo_pressure_choices() -> void:
 		capital_windows += 1
 		var month_index := int((week - 1) / 4)
 		capital_per_month[month_index] = int(capital_per_month.get(month_index, 0)) + 1
-	if capital_windows != 6:
-		_fail("demo capital pressure must appear once per four-week month, got %d" % capital_windows)
+	if capital_windows != 2:
+		_fail("demo capital pressure must appear once per quarter, got %d" % capital_windows)
 	for month_index in capital_per_month:
 		if int(capital_per_month[month_index]) > 1:
 			_fail("demo capital pressure repeated within month %s" % month_index)
 
 	LocaleManager.language = "en"
-	GameState.turn = 3
+	GameState.turn = 23
+	GameState.month = 6
 	GameState.week_of_month = 3
 	var capital_en: Dictionary = game._demo_week_pressure()
 	_check_pressure_contract(game, capital_en, "capital", ["invest", "save", "contact"])

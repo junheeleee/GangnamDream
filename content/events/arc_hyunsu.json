@@ -49,7 +49,7 @@
     "hidden": true,
     "conditions": {
       "flag": "arc_intro_hyunsu_seen",
-      "min_turn": 20
+      "min_turn": 23
     },
     "cooldown": 9999,
     "portrait": "player_offduty_neutral",
@@ -87,7 +87,8 @@
     "weight": 0,
     "hidden": true,
     "conditions": {
-      "flag": "hyunsu_exam_day_seen"
+      "flag": "hyunsu_exam_day_seen",
+      "min_turn": 25
     },
     "cooldown": 9999,
     "portrait": "hyunsu",
@@ -118,7 +119,8 @@
     "hidden": true,
     "conditions": {
       "flag": "hyunsu_exam_day_seen",
-      "no_flag": "hyunsu_passed"
+      "no_flag": "hyunsu_passed",
+      "min_turn": 25
     },
     "cooldown": 9999,
     "portrait": "player_offduty_neutral",

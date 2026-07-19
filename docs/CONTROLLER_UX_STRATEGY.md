@@ -1,6 +1,6 @@
 # Controller UX Strategy
 
-Updated: 2026-07-16
+Updated: 2026-07-19
 
 ## Why This Exists
 
@@ -95,6 +95,8 @@ Use a numbered vertical or short stacked choice rail.
 - A: confirm.
 - B: skip/close only when safe; never auto-choose.
 - The portrait shift on choice reveal is good and should remain because it clarifies the active decision layer.
+- Holding South/A advances prose paragraphs only inside the current event. It must stop on the event's final paragraph and may never open or commit a choice, cross a chapter/result boundary, or enter the next event.
+- A fresh South/A press is required after every protected boundary. Short press, AUTO, mouse, and the focused-choice button keep their existing meanings.
 
 ### Investment Modal
 

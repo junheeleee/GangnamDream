@@ -2311,6 +2311,7 @@ func _run_demo_input_route(
 	GameState.returning_from_story = false
 
 	var seen_events: Array[String] = []
+	var story_event_weeks: Dictionary = {}
 	var input_count := 0
 	var last_signature := ""
 	var stagnant_steps := 0
@@ -2357,6 +2358,7 @@ func _run_demo_input_route(
 			var event_id := str(current.get("id", ""))
 			if not event_id.is_empty() and not seen_events.has(event_id):
 				seen_events.append(event_id)
+				story_event_weeks[event_id] = GameState.turn
 				if full_run:
 					print("FULL_STORY_EVENT week=%d id=%s" % [GameState.turn, event_id])
 				if full_run and lang == "en" and _contains_hangul(_collect_control_text(scene)):
@@ -2710,6 +2712,12 @@ func _run_demo_input_route(
 		MetaProgression.data = original_meta
 		_fail("%s input run did not reach its final surface within the safety limit: %s inputs=%d events=%d." % [
 			route_label, last_signature, input_count, seen_events.size()])
+		return
+	var spacing_error := _chapter_one_story_spacing_error(
+		story_event_weeks, route_week_inputs, full_run)
+	if not spacing_error.is_empty():
+		MetaProgression.data = original_meta
+		_fail(spacing_error)
 		return
 	if full_run:
 		for required_id in [
@@ -3077,6 +3085,36 @@ func _max_route_week_inputs(week_counts: Dictionary) -> Dictionary:
 			best_week = int(week_value)
 			best_inputs = inputs
 	return {"week": best_week, "inputs": best_inputs}
+
+func _chapter_one_story_spacing_error(
+		event_weeks: Dictionary, week_inputs: Dictionary, full_run: bool) -> String:
+	for event_id in ["arc_gangnam_visit_alone", "arc_four_months_in", "hyunsu_exam_day"]:
+		if not event_weeks.has(event_id):
+			return "Input route never reached chapter-one spacing anchor %s." % event_id
+	if int(event_weeks["arc_gangnam_visit_alone"]) != 22 \
+			or int(event_weeks["arc_four_months_in"]) != 22:
+		return "Gangnam demo finale drifted away from week 22: visit=%s threshold=%s." % [
+			event_weeks["arc_gangnam_visit_alone"], event_weeks["arc_four_months_in"]]
+	if int(event_weeks["hyunsu_exam_day"]) != 23:
+		return "Hyunsu's exam must begin in week 23 after the Gangnam finale, got week %s." % \
+			event_weeks["hyunsu_exam_day"]
+	if int(week_inputs.get(22, 0)) > 55:
+		return "Week 22 still requires %d inputs after separating the unrelated Hyunsu root." % \
+			int(week_inputs.get(22, 0))
+	var result_ids := ["hyunsu_result_pass", "hyunsu_result_fail"]
+	var observed_results: Array[String] = []
+	for result_id in result_ids:
+		if event_weeks.has(result_id):
+			observed_results.append(result_id)
+	if full_run:
+		if observed_results.size() != 1:
+			return "Full route must reach exactly one Hyunsu result, got %s." % observed_results
+		var result_week := int(event_weeks[observed_results[0]])
+		if result_week != 25:
+			return "Hyunsu's formal result must wait until week 25, got week %d." % result_week
+	elif not observed_results.is_empty():
+		return "The 24-week demo revealed Hyunsu's formal result before its week-25 hook."
+	return ""
 
 func _capture_route_persistent_files() -> void:
 	if not _route_persistent_backups.is_empty():

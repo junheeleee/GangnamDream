@@ -3050,14 +3050,17 @@ func _next_arc_id(
 			and not f.get("arc_hyunsu_night_seen", false):
 		return "arc_hyunsu_night_talk"
 
-	# ── 현수 — 시험 날 (턴 22~28, 밤 대화 이후) ──
-	if t >= 22 and t <= 28 \
+	# ── 현수 — 시험 날 (턴 23~28, 밤 대화 이후) ──
+	# 주 22의 강남 방문→반년 문턱과 같은 주에 다른 인물의 시험·결과가
+	# 겹치지 않도록 다음 주부터 연다.
+	if t >= 23 and t <= 28 \
 			and f.get("arc_hyunsu_night_seen", false) \
 			and not f.get("hyunsu_exam_day_seen", false):
 		return "hyunsu_exam_day"
 
 	# ── 현수 — 시험 결과 (불합격이 기본 스토리, 합격은 hyunsu_encouraged 선택 시) ──
-	if f.get("hyunsu_exam_day_seen", false) \
+	# 시험 당일 즉시 합격/불합격이 나오던 회귀를 막고 최소 주 25까지 기다린다.
+	if t >= 25 and f.get("hyunsu_exam_day_seen", false) \
 			and not f.get("hyunsu_passed", false) \
 			and not f.get("hyunsu_failed", false):
 		if f.get("hyunsu_encouraged", false):
@@ -7198,7 +7201,7 @@ func _demo_week_pressure() -> Dictionary:
 	var invest_unlocked := bool(GameState.flags.get("arc_invest_guidance_seen", false))
 	var first_invest_visit := bool(GameState.flags.get("investment_first_visited", false))
 	if invest_unlocked and GameState.money >= 100_000.0 \
-			and GameState.week_of_month == 3:
+			and GameState.week_of_month == 3 and posmod(GameState.month, 3) == 0:
 		return {
 			"id": "capital",
 			"family": "market",

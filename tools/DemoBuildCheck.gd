@@ -121,8 +121,16 @@ func _check_narrative_bridge_contract() -> void:
 
 func _check_chapter_one_temporal_contract() -> void:
 	GameState.start_new_game("김민준", "지방_상경", "직장형", "백수", "자유런", "현실")
-	GameState.turn = 25
+	var exam_day: Dictionary = DataRegistry.find_event("hyunsu_exam_day")
+	var result_pass: Dictionary = DataRegistry.find_event("hyunsu_result_pass")
 	var result_fail: Dictionary = DataRegistry.find_event("hyunsu_result_fail")
+	_expect(int((exam_day.get("conditions", {}) as Dictionary).get("min_turn", 0)) == 23,
+		"Hyunsu's exam data gate must open in week 23, after the Gangnam finale.")
+	_expect(int((result_pass.get("conditions", {}) as Dictionary).get("min_turn", 0)) == 25,
+		"Hyunsu's passing result must wait until week 25.")
+	_expect(int((result_fail.get("conditions", {}) as Dictionary).get("min_turn", 0)) == 25,
+		"Hyunsu's failing result must wait until week 25.")
+	GameState.turn = 25
 	_expect(not result_fail.is_empty(), "Hyunsu's formal failure result is missing.")
 	if result_fail.is_empty():
 		return

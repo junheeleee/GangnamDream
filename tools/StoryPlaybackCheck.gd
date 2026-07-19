@@ -3,14 +3,11 @@ extends Node
 var _story: Control
 
 func _ready() -> void:
-	GameState.pending_story_queue = ["story_arrival"]
-	GameState.story_return_scene = "res://scenes/MainGame.tscn"
-	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
-	add_child(_story)
+	if not await _check_accept_hold_boundary():
+		return
+	_story.queue_free()
 	await get_tree().process_frame
-	await get_tree().process_frame
-	if str((_story.get("_current") as Dictionary).get("id", "")) != "story_arrival":
-		_fail("story fixture did not load")
+	if not await _spawn_story_fixture():
 		return
 
 	_story.call("_set_auto_mode", true, false)
@@ -43,8 +40,63 @@ func _ready() -> void:
 	if not _check_covered_story_handoff():
 		return
 
-	print("STORY_PLAYBACK_CHECK_OK")
+	print("STORY_PLAYBACK_CHECK_OK hold=prose_only choice_commit=0")
 	get_tree().quit(0)
+
+func _spawn_story_fixture() -> bool:
+	GameState.pending_story_queue = ["story_arrival"]
+	GameState.story_return_scene = "res://scenes/MainGame.tscn"
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if str((_story.get("_current") as Dictionary).get("id", "")) != "story_arrival":
+		_fail("story fixture did not load")
+		return false
+	_story.call("_set_auto_mode", false, false)
+	return true
+
+func _check_accept_hold_boundary() -> bool:
+	if not await _spawn_story_fixture():
+		return false
+	var paragraphs: Array = _story.get("_paragraphs")
+	if paragraphs.size() < 3:
+		_fail("story fixture needs at least three prose paragraphs")
+		return false
+	_story.call("_complete_typing")
+	var event_id := str((_story.get("_current") as Dictionary).get("id", ""))
+	await _send_accept_action(true)
+	for _step in range(16):
+		_story.call("_process", 0.20)
+		if not bool(_story.get("_advance_hold_active")):
+			break
+	var final_index := paragraphs.size() - 1
+	if int(_story.get("_para_index")) != final_index or bool(_story.get("_typing")):
+		_fail("one held accept did not flow to the final prose paragraph")
+		return false
+	if bool(_story.get("_showing_choices")) \
+			or str((_story.get("_current") as Dictionary).get("id", "")) != event_id:
+		_fail("held accept crossed the prose boundary")
+		return false
+	await _send_accept_action(false)
+	await _send_accept_action(true)
+	if not bool(_story.get("_showing_choices")):
+		_fail("a fresh accept did not open the choice after held prose")
+		return false
+	_story.call("_process", 1.0)
+	if not bool(_story.get("_showing_choices")) \
+			or str((_story.get("_current") as Dictionary).get("id", "")) != event_id:
+		_fail("held prose input selected a choice or crossed events")
+		return false
+	await _send_accept_action(false)
+	return true
+
+func _send_accept_action(pressed: bool) -> void:
+	var action := InputEventAction.new()
+	action.action = "ui_accept"
+	action.pressed = pressed
+	Input.parse_input_event(action)
+	await get_tree().process_frame
 
 func _check_covered_story_handoff() -> bool:
 	GameState.turn = 3

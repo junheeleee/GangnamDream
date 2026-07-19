@@ -610,7 +610,28 @@ HYUNSU_CHAPTER1_SEQUENCE = [
     "arc_hyunsu_new_path",
 ]
 
+HYUNSU_TEMPORAL_GATES = {
+    "hyunsu_exam_day": 23,
+    "hyunsu_result_pass": 25,
+    "hyunsu_result_fail": 25,
+}
+
 fail = 0
+for event_id, minimum_week in HYUNSU_TEMPORAL_GATES.items():
+    event_conditions = [
+        " ".join(conditions)
+        for trigger_id, conditions in triggers
+        if trigger_id == event_id
+    ]
+    gate_pattern = re.compile(rf"\bt\s*>=\s*{minimum_week}\b")
+    if not event_conditions or not any(gate_pattern.search(row) for row in event_conditions):
+        fail += 1
+        print(
+            f"  ✗ 현수 시간 간격 회귀: {event_id}에 t>={minimum_week} 게이트가 없음"
+        )
+    else:
+        print(f"  ✓ 현수 시간 게이트 {event_id}=t>={minimum_week}")
+
 for name, spine, traj, hook, choice_indices in PATHS:
     fired, firelog, repeats, S, bridge_log = run(spine, traj, hook, choice_indices)
     counts = {y: sum(1 for t in range(a, b + 1) if t in firelog) for y, (a, b) in YEARS.items()}
