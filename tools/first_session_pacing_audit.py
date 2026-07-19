@@ -26,7 +26,8 @@ EXPECTED_EVENT_SEQUENCE = (
     "story_pressure",
 )
 MAX_PARAGRAPHS = 84
-MAX_FAST_INPUTS = 180
+MAX_FAST_INPUTS = 165
+EXPECTED_DIRECT_CONTINUES = 7
 
 
 @dataclass(frozen=True)
@@ -35,6 +36,7 @@ class PathMetrics:
     paragraphs: int = 0
     fast_inputs: int = 0
     manual_confirms_with_auto: int = 0
+    direct_continues: int = 0
     meaningful_choices: int = 0
     first_meaningful_event: int = 999
 
@@ -59,6 +61,16 @@ def is_placeholder(text: str) -> bool:
     return not text.strip().strip(PLACEHOLDER_CHARS).strip()
 
 
+def is_direct_continue(event: dict) -> bool:
+    choices = event.get("choices") or []
+    return (
+        len(choices) == 1
+        and not event.get("timed", False)
+        and not str(event.get("id", "")).startswith("chapter_card_")
+        and not choices[0].get("requires_item")
+    )
+
+
 def walk_paths(
     events: dict[str, dict],
     event_id: str,
@@ -74,12 +86,14 @@ def walk_paths(
     choices = event.get("choices") or []
     description_paragraphs = paragraph_count(str(event.get("description", "")))
     meaningful = len(choices) > 1
+    direct_continue = is_direct_continue(event)
     event_number = len(metrics.event_ids) + 1
     base = PathMetrics(
         event_ids=metrics.event_ids + (event_id,),
         paragraphs=metrics.paragraphs + description_paragraphs,
         fast_inputs=metrics.fast_inputs + description_paragraphs * 2,
         manual_confirms_with_auto=metrics.manual_confirms_with_auto,
+        direct_continues=metrics.direct_continues + int(direct_continue),
         meaningful_choices=metrics.meaningful_choices + int(meaningful),
         first_meaningful_event=(
             min(metrics.first_meaningful_event, event_number)
@@ -99,8 +113,9 @@ def walk_paths(
         selected = PathMetrics(
             event_ids=base.event_ids,
             paragraphs=base.paragraphs + result_paragraphs,
-            fast_inputs=base.fast_inputs + result_paragraphs * 2 + 1,
+            fast_inputs=base.fast_inputs + result_paragraphs * 2 + int(not direct_continue),
             manual_confirms_with_auto=base.manual_confirms_with_auto + 1,
+            direct_continues=base.direct_continues,
             meaningful_choices=base.meaningful_choices,
             first_meaningful_event=base.first_meaningful_event,
         )
@@ -151,6 +166,7 @@ def main() -> int:
     min_events = min(len(path.event_ids) for path in paths)
     max_events = max(len(path.event_ids) for path in paths)
     max_auto_confirms = max(path.manual_confirms_with_auto for path in paths)
+    direct_continues = {path.direct_continues for path in paths}
     max_fast_inputs = max(path.fast_inputs for path in paths)
     max_paragraphs = max(path.paragraphs for path in paths)
     first_meaningful = min(path.first_meaningful_event for path in paths)
@@ -168,6 +184,11 @@ def main() -> int:
             f"prologue needs too many confirms even with auto playback: "
             f"{max_auto_confirms}>{len(EXPECTED_EVENT_SEQUENCE)}"
         )
+    if direct_continues != {EXPECTED_DIRECT_CONTINUES}:
+        raise ValueError(
+            f"prologue direct-continue count drifted: "
+            f"{sorted(direct_continues)}!={[EXPECTED_DIRECT_CONTINUES]}"
+        )
     if max_fast_inputs > MAX_FAST_INPUTS:
         raise ValueError(f"prologue fast-forward input budget exceeded: {max_fast_inputs}>{MAX_FAST_INPUTS}")
     if first_meaningful > 5:
@@ -177,7 +198,7 @@ def main() -> int:
         "FIRST_SESSION_PACING_OK "
         f"paths={len(paths)} events={min_events}-{max_events} "
         f"paragraphs<={max_paragraphs} auto_confirms<={max_auto_confirms} "
-        f"fast_inputs<={max_fast_inputs} "
+        f"direct={EXPECTED_DIRECT_CONTINUES} fast_inputs<={max_fast_inputs} "
         f"first_meaningful={first_meaningful}"
     )
     return 0

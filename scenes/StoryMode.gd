@@ -36,6 +36,8 @@ var _transitioning: bool = false
 var _pending_after_result: bool = false
 var _pending_result_choice_index: int = -1
 var _pending_follow_up: String = ""
+var _next_transition_mode: String = ""
+var _current_transition_mode: String = ""
 var _direction: Dictionary = {}
 var _direction_camera_tween: Tween = null
 var _portrait_idle_tween: Tween = null
@@ -691,7 +693,7 @@ func _build_ui():
 	# 계속 힌트 — 박스 우하단 고정
 	_continue_hint = Label.new()
 	_continue_hint.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
-	_continue_hint.offset_left = -240
+	_continue_hint.offset_left = -620
 	_continue_hint.offset_top = -28
 	_continue_hint.offset_right = -16
 	_continue_hint.offset_bottom = -8
@@ -1452,13 +1454,39 @@ func _refresh_story_speaker_language() -> void:
 func _refresh_continue_hint_text() -> void:
 	if not is_instance_valid(_continue_hint):
 		return
+	var direct_action := _direct_continue_action_text()
 	if ControllerHints.is_pad_active():
 		var has_more_prose := _para_index >= 0 and _para_index < _paragraphs.size() - 1
-		_continue_hint.text = _tr("[%s] 진행 · 길게 읽기", "[%s] Advance · Hold to read") \
-				% ControllerHints.south() if has_more_prose \
-				else _tr("[%s] 진행", "[%s] Advance") % ControllerHints.south()
+		if has_more_prose:
+			_continue_hint.text = _tr("[%s] 진행 · 길게 읽기", "[%s] Advance · Hold to read") \
+					% ControllerHints.south()
+		elif not direct_action.is_empty():
+			_continue_hint.text = "[%s] %s" % [ControllerHints.south(), direct_action]
+		else:
+			_continue_hint.text = _tr("[%s] 진행", "[%s] Advance") % ControllerHints.south()
+	elif not direct_action.is_empty():
+		_continue_hint.text = _tr(
+				"Enter/클릭 · {action}", "Enter/click · {action}").format({"action": direct_action})
 	else:
 		_continue_hint.text = _tr("▼  Enter 또는 클릭", "▼  Enter or click")
+
+func _direct_continue_choice_index() -> int:
+	if _pending_after_result or _showing_choices or _is_chapter_card \
+			or bool(_current.get("timed", false)):
+		return -1
+	var choices: Array = _current.get("choices", [])
+	if choices.size() != 1 or not _choice_visible(choices[0] as Dictionary):
+		return -1
+	return 0
+
+func _direct_continue_action_text() -> String:
+	var choice_index := _direct_continue_choice_index()
+	if choice_index < 0:
+		return ""
+	var choices: Array = _current.get("choices", [])
+	var choice: Dictionary = choices[choice_index]
+	var base_text := str(choice.get("text", _tr("계속", "Continue")))
+	return _fmt(_moral_perception_text(choice.get("text_if_moral", {}), base_text))
 
 # ── 이벤트 로딩 ───────────────────────────────────────────────
 func _load_next_event():
@@ -1470,8 +1498,11 @@ func _load_next_event():
 	var event_id = str(_queue.pop_front())
 	_current = DataRegistry.find_event(event_id)
 	if _current.is_empty():
+		_next_transition_mode = ""
 		_load_next_event()
 		return
+	_current_transition_mode = _next_transition_mode
+	_next_transition_mode = ""
 	if not _read_only_replay:
 		MetaProgression.record_scene_seen(event_id)
 		GameState.record_run_scene_seen(event_id)
@@ -1580,7 +1611,9 @@ func _render_current():
 	_portrait_remote_inset = false
 	if is_instance_valid(_communication_badge):
 		_communication_badge.visible = false
-	_play_story_ink_transition("scene", 0.80)
+	var continues_same_location := _current_transition_mode == "same_location"
+	if not continues_same_location:
+		_play_story_ink_transition("scene", 0.80)
 	_showing_choices = false
 	_clear_result_record_card()
 	_current_uses_cg = false
@@ -1676,7 +1709,10 @@ func _render_current():
 
 	# 제목
 	_title_lbl.text = "— %s —" % _fmt(str(_current.get("title", "")))
-	_animate_story_text_panel()
+	if continues_same_location:
+		_text_panel.modulate = Color.WHITE
+	else:
+		_animate_story_text_panel()
 
 	# 본문 문단 분할. 언어 즉시 전환도 같은 해석 함수를 사용해 현재 장면만 다시 바인딩한다.
 	_paragraphs = _split_story_paragraphs(_resolved_story_description(_current))
@@ -2101,7 +2137,12 @@ func _process(delta):
 		if _direction_hold_remaining <= 0.0:
 			_direction_hold_active = false
 			_direction_hold_remaining = 0.0
-			_show_choices()
+			if _direct_continue_choice_index() >= 0:
+				_refresh_continue_hint_text()
+				_continue_hint.visible = true
+				_auto_wait = -1.0
+			else:
+				_show_choices()
 		return
 	if _direction_beat_waiting:
 		_direction_beat_remaining -= delta
@@ -2198,8 +2239,13 @@ func _on_advance():
 		# 결과 텍스트를 다 읽음 → 다음 이벤트로
 		_after_result()
 	else:
-		# 본문 끝 → 선택지
-		_show_choices()
+		# 선택지가 하나뿐인 사건은 별도 선택 레일을 열지 않는다. 마지막 문단에
+		# 이미 보인 행동을 새 입력으로 바로 확정해 가짜 결정과 확인 한 번을 없앤다.
+		var direct_choice_index := _direct_continue_choice_index()
+		if direct_choice_index >= 0:
+			_on_choice(direct_choice_index)
+		else:
+			_show_choices()
 
 # ── 컨트롤러 입력 ─────────────────────────────────────────────
 func _unhandled_input(event: InputEvent):
@@ -2271,6 +2317,8 @@ func _can_auto_advance() -> bool:
 			and not _direction_hold_active \
 			and not _direction_beat_waiting \
 			and not is_instance_valid(_audio_settings_popup) \
+			and not (_para_index >= _paragraphs.size() - 1 \
+					and _direct_continue_choice_index() >= 0) \
 			and is_instance_valid(_continue_hint) \
 			and _continue_hint.visible
 
@@ -2991,8 +3039,13 @@ func _after_result():
 	_pending_after_result = false
 	_pending_result_choice_index = -1
 	_clear_result_record_card()
-	# 선택의 follow_up_event가 있으면 큐 맨 앞에 끼워 이어서 재생
+	_next_transition_mode = ""
+	# 선택의 follow_up_event가 있으면 큐 맨 앞에 끼워 이어서 재생한다. 정본
+	# 전환 원장이 same_location으로 묶은 직접 후속만 새 장면 페이드를 생략한다.
 	if _pending_follow_up != "" and not DataRegistry.find_event(_pending_follow_up).is_empty():
+		var transition := DataRegistry.get_story_transition(
+				str(_current.get("id", "")), _pending_follow_up)
+		_next_transition_mode = str(transition.get("mode", ""))
 		_queue.push_front(_pending_follow_up)
 	_pending_follow_up = ""
 	# EventManager가 중복으로 쌓아둔 follow_up은 비워준다 (apply_choice 경유 안 함)

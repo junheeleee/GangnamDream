@@ -17,7 +17,7 @@ func _run() -> void:
 
 	LocaleManager.set_language("ko")
 	# This gate validates presentation order, not the audio mix. Keeping one-shot
-	# SFX silent avoids quitting while the forced choice sting is still decoding.
+	# SFX silent avoids quitting while the direct-action sting is still decoding.
 	AudioManager.sfx_enabled = false
 	GameState.start_new_game()
 	GameState.pending_story_queue = ["story_knee_witness"]
@@ -31,27 +31,36 @@ func _run() -> void:
 
 	_expect(str(story.get("_current").get("id", "")) == "story_knee_witness",
 		"prologue fixture did not open")
-	await _advance_until_choices(story)
-	_expect(bool(story.get("_showing_choices")),
-		"forced prologue advance did not reach its button (%s)" % _story_state(story))
+	await _advance_until_direct_action(story)
+	_expect(int(story.call("_direct_continue_choice_index")) == 0,
+		"prologue did not reach its direct authored action (%s)" % _story_state(story))
+	_expect(not bool(story.get("_showing_choices")),
+		"single authored action reopened the obsolete choice rail")
 	var choice_box: VBoxContainer = story.get("_choice_box")
-	_expect(choice_box != null and choice_box.get_child_count() == 1,
-		"prologue fixture is no longer a single forced advance")
+	_expect(choice_box != null and not choice_box.visible and choice_box.get_child_count() == 0,
+		"single authored action left choice controls on screen")
+	var continue_hint: Label = story.get("_continue_hint")
+	var direct_action := str(story.call("_direct_continue_action_text"))
+	_expect(direct_action == "아버지가 다시 입을 여는 걸 본다",
+		"direct action lost its authored Korean copy")
+	_expect(continue_hint != null and continue_hint.visible \
+		and continue_hint.text.contains(direct_action),
+		"direct action was not visible before commitment")
 
 	var mental_before: int = GameState.mental
-	story.call("_on_choice", 0)
+	story.call("_on_advance")
 	await get_tree().process_frame
 	await get_tree().process_frame
-	_expect(GameState.mental == mental_before - 2, "forced result did not apply its mental cost")
-	_expect(bool(story.get("_pending_after_result")), "forced result text did not begin")
+	_expect(GameState.mental == mental_before - 2, "direct action did not apply its mental cost once")
+	_expect(bool(story.get("_pending_after_result")), "direct-action result text did not begin")
 	_expect(str(story.get("_type_full")).contains("아버지의 손바닥"),
-		"forced result paragraph was hidden or replaced")
+		"direct-action result paragraph was hidden or replaced")
 	_expect(not _tree_contains_text(story, "능력치와 자원"),
 		"stats tutorial interrupted the prologue result")
 
 	await _advance_until_event(story, "story_knee_choice")
 	_expect(str(story.get("_current").get("id", "")) == "story_knee_choice",
-		"forced result did not continue to its authored follow-up")
+		"direct-action result did not continue to its authored follow-up")
 	_expect(not _tree_contains_text(story, "능력치와 자원"),
 		"stats tutorial survived into the follow-up scene")
 
@@ -76,7 +85,7 @@ func _run() -> void:
 	BGMPlayer.stop()
 	await get_tree().process_frame
 	if _failures.is_empty():
-		print("STORY_TUTORIAL_PLACEMENT_CHECK_OK forced_choice=1 result_visible=1 popup=0 follow_up=1 ap_tutorial=1")
+		print("STORY_TUTORIAL_PLACEMENT_CHECK_OK direct_action=1 rail=0 result_visible=1 popup=0 follow_up=1 ap_tutorial=1")
 		call_deferred("_quit", 0)
 		return
 	for failure in _failures:
@@ -87,21 +96,36 @@ func _quit(exit_code: int) -> void:
 	await get_tree().process_frame
 	get_tree().quit(exit_code)
 
-func _advance_until_choices(story: Control) -> void:
-	# The authored 1.2-second silence before the button is part of this fixture.
-	for _step in range(240):
-		if bool(story.get("_showing_choices")):
+func _advance_until_direct_action(story: Control) -> void:
+	# The authored 1.2-second silence remains part of the scene, but it now yields
+	# to visible action copy instead of manufacturing a one-option choice rail.
+	for _step in range(48):
+		if int(story.call("_direct_continue_choice_index")) >= 0 \
+				and not bool(story.get("_typing")) \
+				and not bool(story.get("_direction_hold_active")) \
+				and not bool(story.get("_transitioning")) \
+				and int(story.get("_para_index")) == (story.get("_paragraphs") as Array).size() - 1:
 			return
-		if bool(story.get("_typing")):
+		if bool(story.get("_transitioning")):
+			await get_tree().create_timer(0.1).timeout
+			continue
+		if bool(story.get("_direction_hold_active")):
+			story.call("_process", 2.1)
+		elif bool(story.get("_typing")):
 			story.call("_complete_typing")
+		elif bool(story.get("_direction_beat_waiting")):
+			story.call("_finish_direction_beat")
 		else:
 			story.call("_on_advance")
 		await get_tree().process_frame
 
 func _advance_until_event(story: Control, event_id: String) -> void:
-	for _step in range(32):
+	for _step in range(48):
 		if str(story.get("_current").get("id", "")) == event_id:
 			return
+		if bool(story.get("_transitioning")):
+			await get_tree().create_timer(0.1).timeout
+			continue
 		if bool(story.get("_typing")):
 			story.call("_complete_typing")
 		elif not bool(story.get("_showing_choices")):

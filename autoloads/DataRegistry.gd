@@ -383,6 +383,13 @@ func get_story_presentation(event_id: String) -> Dictionary:
 	var presentation: Variant = find_story_rule(event_id).get("presentation", {})
 	return presentation if presentation is Dictionary else {}
 
+func get_story_transition(from_event_id: String, to_event_id: String) -> Dictionary:
+	var contracts: Variant = story_rules.get("transition_contracts", {})
+	if not contracts is Dictionary:
+		return {}
+	var contract: Variant = contracts.get("%s->%s" % [from_event_id, to_event_id], {})
+	return contract if contract is Dictionary else {}
+
 func get_all_events():
 	return events
 

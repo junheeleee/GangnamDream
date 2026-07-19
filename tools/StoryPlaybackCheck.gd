@@ -1,12 +1,27 @@
 extends Node
 
+const DIRECT_CONTINUE_EVENTS := [
+	"story_flashforward",
+	"story_arrival",
+	"story_knee_door",
+	"story_knee_witness",
+	"story_last_payment_wait",
+	"story_last_payment_exit",
+	"story_pressure",
+]
+const DEMO_SAME_LOCATION_EDGES := [
+	["story_knee_door", "story_knee_witness"],
+	["story_knee_witness", "story_knee_choice"],
+	["story_last_payment_wait", "story_last_payment_word"],
+	["story_last_payment_exit", "story_prologue_dad"],
+]
+
 var _story: Control
 
 func _ready() -> void:
 	if not await _check_accept_hold_boundary():
 		return
-	_story.queue_free()
-	await get_tree().process_frame
+	await _free_story_fixture()
 	if not await _spawn_story_fixture():
 		return
 
@@ -37,24 +52,42 @@ func _ready() -> void:
 	if bool(_story.get("_auto_mode")):
 		_fail("keyboard auto toggle did not turn playback off")
 		return
+	await _free_story_fixture()
+	if not await _check_direct_continue_contract():
+		return
+	await _free_story_fixture()
+	if not await _check_same_location_handoff():
+		return
+	await _free_story_fixture()
 	if not _check_covered_story_handoff():
 		return
 
-	print("STORY_PLAYBACK_CHECK_OK hold=prose_only hints=ko_en_xbox_ps_nintendo choice_commit=0")
+	print(
+		"STORY_PLAYBACK_CHECK_OK hold=prose_only direct=%d same_location=%d " % [
+			DIRECT_CONTINUE_EVENTS.size(), DEMO_SAME_LOCATION_EDGES.size()
+		]
+		+ "hints=ko_en_xbox_ps_nintendo choice_commit=0"
+	)
 	get_tree().quit(0)
 
-func _spawn_story_fixture() -> bool:
-	GameState.pending_story_queue = ["story_arrival"]
+func _spawn_story_fixture(event_id: String = "story_prologue_dad") -> bool:
+	GameState.pending_story_queue = [event_id]
 	GameState.story_return_scene = "res://scenes/MainGame.tscn"
 	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
 	add_child(_story)
 	await get_tree().process_frame
 	await get_tree().process_frame
-	if str((_story.get("_current") as Dictionary).get("id", "")) != "story_arrival":
-		_fail("story fixture did not load")
+	if str((_story.get("_current") as Dictionary).get("id", "")) != event_id:
+		_fail("story fixture did not load %s" % event_id)
 		return false
 	_story.call("_set_auto_mode", false, false)
 	return true
+
+func _free_story_fixture() -> void:
+	if is_instance_valid(_story):
+		_story.queue_free()
+		await get_tree().process_frame
+	_story = null
 
 func _check_accept_hold_boundary() -> bool:
 	var original_language := LocaleManager.language
@@ -128,6 +161,128 @@ func _check_accept_hold_boundary() -> bool:
 	await _send_accept_action(false)
 	ControllerHints.clear_qa_override()
 	LocaleManager.set_language(original_language)
+	return true
+
+func _check_direct_continue_contract() -> bool:
+	var original_language := LocaleManager.language
+	var original_intelligence: int = int(GameState.intelligence)
+	var had_unlock_flag := GameState.flags.has("story_job_unlocked")
+	var unlock_flag_value: Variant = GameState.flags.get("story_job_unlocked", null)
+	LocaleManager.set_language("en")
+	ControllerHints.force_brand_for_qa(ControllerHints.Brand.XBOX)
+	if not await _spawn_story_fixture("story_pressure"):
+		return false
+
+	var continue_hint := _story.get("_continue_hint") as Label
+	for language in ["ko", "en"]:
+		LocaleManager.set_language(language)
+		for event_id in DIRECT_CONTINUE_EVENTS:
+			var localized: Dictionary = DataRegistry.find_event(event_id)
+			if localized.is_empty():
+				_fail("direct-continue event is missing: %s" % event_id)
+				return false
+			_set_direct_fixture_state(localized)
+			for hint_fixture in [
+				[ControllerHints.Brand.XBOX, "A"],
+				[ControllerHints.Brand.PLAYSTATION, "✕"],
+				[ControllerHints.Brand.NINTENDO, "B"],
+			]:
+				ControllerHints.force_brand_for_qa(hint_fixture[0])
+				_story.call("_refresh_continue_hint_text")
+				var action_text := str(_story.call("_direct_continue_action_text"))
+				var expected := "[%s] %s" % [hint_fixture[1], action_text]
+				if continue_hint.text != expected:
+					_fail("direct action hint drifted for %s/%s" % [language, event_id])
+					return false
+				if not _hint_fits(continue_hint):
+					_fail("direct action hint overflows for %s/%s" % [language, event_id])
+					return false
+
+	LocaleManager.set_language("en")
+	ControllerHints.force_brand_for_qa(ControllerHints.Brand.XBOX)
+	_set_direct_fixture_state(DataRegistry.find_event("story_pressure"))
+	_story.call("_refresh_continue_hint_text")
+	if continue_hint.text != "[A] Open a job app. Survival comes first.":
+		_fail("English direct action does not state the committed action")
+		return false
+
+	await _send_accept_action(true)
+	await _send_accept_action(false)
+	if bool(_story.get("_showing_choices")) or not bool(_story.get("_pending_after_result")):
+		_fail("direct action opened a fake choice rail or skipped its result")
+		return false
+	if GameState.intelligence != original_intelligence + 2 \
+			or not bool(GameState.flags.get("story_job_unlocked", false)):
+		_fail("direct action did not apply its effects and flag exactly once")
+		return false
+	for _step in range(4):
+		_story.call("_process", 0.40)
+	if GameState.intelligence != original_intelligence + 2:
+		_fail("held direct action applied its effect more than once")
+		return false
+
+	GameState.intelligence = original_intelligence
+	if had_unlock_flag:
+		GameState.flags["story_job_unlocked"] = unlock_flag_value
+	else:
+		GameState.flags.erase("story_job_unlocked")
+	ControllerHints.clear_qa_override()
+	LocaleManager.set_language(original_language)
+	return true
+
+func _set_direct_fixture_state(event: Dictionary) -> void:
+	_story.set("_current", event)
+	_story.set("_paragraphs", ["final"])
+	_story.set("_para_index", 0)
+	_story.set("_type_full", "final")
+	_story.set("_type_pos", 5)
+	_story.set("_typing", false)
+	_story.set("_pending_after_result", false)
+	_story.set("_showing_choices", false)
+	_story.set("_is_chapter_card", false)
+	_story.set("_direction_hold_active", false)
+
+func _check_same_location_handoff() -> bool:
+	for edge in DEMO_SAME_LOCATION_EDGES:
+		var contract := DataRegistry.get_story_transition(str(edge[0]), str(edge[1]))
+		if str(contract.get("mode", "")) != "same_location":
+			_fail("same-location transition contract is missing: %s->%s" % edge)
+			return false
+
+	if not await _spawn_story_fixture("story_knee_door"):
+		return false
+	var paragraphs: Array = _story.get("_paragraphs")
+	_story.set("_para_index", paragraphs.size() - 1)
+	_story.call("_start_typing", str(paragraphs[-1]))
+	_story.call("_complete_typing")
+	_story.call("_on_advance")
+	if not bool(_story.get("_pending_after_result")):
+		_fail("same-location source did not expose its result before handoff")
+		return false
+	var result_paragraphs: Array = _story.get("_paragraphs")
+	_story.set("_para_index", result_paragraphs.size() - 1)
+	_story.call("_start_typing", str(result_paragraphs[-1]))
+	_story.call("_complete_typing")
+	var ink_tween := _story.get("_story_ink_transition_tween") as Tween
+	if ink_tween != null:
+		ink_tween.kill()
+	_story.set("_story_ink_transition_tween", null)
+	var ink_layer := _story.get("_story_ink_transition_layer") as Control
+	ink_layer.visible = false
+	_story.call("_on_advance")
+	if str((_story.get("_current") as Dictionary).get("id", "")) != "story_knee_witness":
+		_fail("same-location follow-up did not load")
+		return false
+	if str(_story.get("_current_transition_mode")) != "same_location":
+		_fail("same-location mode was not consumed by the follow-up")
+		return false
+	if _story.get("_story_ink_transition_tween") != null or ink_layer.visible:
+		_fail("same-location follow-up replayed the full scene ink transition")
+		return false
+	var text_panel := _story.get("_text_panel") as Control
+	if not is_equal_approx(text_panel.modulate.a, 1.0):
+		_fail("same-location follow-up replayed the text-panel fade")
+		return false
 	return true
 
 func _hint_fits(hint: Label) -> bool:

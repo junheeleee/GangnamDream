@@ -98,6 +98,9 @@ Use a numbered vertical or short stacked choice rail.
 - Holding South/A advances prose paragraphs only inside the current event. It must stop on the event's final paragraph and may never open or commit a choice, cross a chapter/result boundary, or enter the next event.
 - While a gamepad is active, the continue hint advertises localized `Hold to read` only when another prose paragraph remains. It uses the physical South label for the active brand (`A`, `✕`, or `B`) and returns to plain `Advance` on the final paragraph so the UI never promises a protected-boundary crossing.
 - A fresh South/A press is required after every protected boundary. Short press, AUTO, mouse, and the focused-choice button keep their existing meanings.
+- A non-timed, non-chapter event with exactly one authored choice, when that choice is visible, is an action rather than a decision. Its actual localized action text replaces generic `Advance` on the final paragraph; one fresh South/Enter/click commits it without opening a one-item rail or shifting the portrait. AUTO and an accept held from earlier prose must stop before that commit.
+- A real multi-choice event still opens the numbered rail and portrait shift. Do not collapse choices merely because one branch is recommended or safe.
+- A direct follow-up marked `same_location` in `story_rules.json` retains the current visual breath: update title, portrait, direction, and audio ownership, but do not replay the full scene ink wipe or text-panel fade as if the player had entered a new room.
 
 ### Investment Modal
 
