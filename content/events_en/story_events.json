@@ -234,7 +234,7 @@
   {
     "id": "story_first_paycheck_feel",
     "title": "First Paycheck",
-    "description": "Just before lunch, a short vibration announced a bank deposit.\n\n[DEPOSIT] SALARY\n\n{name} looked at the amount, opened the app, and checked it again. After tax, transit, and rent, the money would not remain for long. But it was not an allowance or something borrowed. The early alarms, crowded trains, and hours spent holding his tongue among strangers had become a number beneath his own name.\n\nWhen he turned off the screen, the vibration seemed to remain in his palm. The first paycheck registered as weight before it registered as money.",
+    "description": "Near the end of the shift, a short vibration announced a bank deposit.\n\n[DEPOSIT] SALARY\n\n{name} looked at the amount, opened the app, and checked it again. After tax, rent, and food, the money would not remain for long. But it was not an allowance or something borrowed. The hours spent showing up on time and holding himself together among strangers had become a number beneath his own name.\n\nWhen he turned off the screen, the vibration seemed to remain in his palm. The first paycheck registered as weight before it registered as money.",
     "choices": [
       {
         "text": "Buy my parents something with my first paycheck",

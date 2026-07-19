@@ -16,6 +16,7 @@ var _last_direction_sting_token: String = ""
 var _last_direction_sting_ms: int = 0
 var _story_audio_generation: int = 0
 var _story_audio_seen: Dictionary = {}
+var _pitch_rng := RandomNumberGenerator.new()
 
 const _SFX_COOLDOWN_MS = {
 	"click": 45,
@@ -162,6 +163,9 @@ const _ENDING_AUDIO_HOPEFUL = [
 ]
 
 func _ready():
+	# Pitch variation is presentation-only. Keep it off the global stream used by
+	# jobs, events, and the economy so input frequency cannot change a run.
+	_pitch_rng.randomize()
 	load_settings()
 	for i in range(_POOL_SIZE):
 		var p = AudioStreamPlayer.new()
@@ -308,7 +312,7 @@ func play_varied(sound_id: String, volume_mod: float = 0.0,
 		return
 	var low := minf(pitch_min, pitch_max)
 	var high := maxf(pitch_min, pitch_max)
-	_play_from_pool(sound_id, volume_mod, randf_range(low, high))
+	_play_from_pool(sound_id, volume_mod, _pitch_rng.randf_range(low, high))
 
 func _play_from_pool(sound_id: String, volume_mod: float, pitch: float) -> void:
 	volume_mod += sfx_mix_trim_db(sound_id)

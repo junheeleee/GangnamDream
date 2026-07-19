@@ -535,8 +535,8 @@ EXPECTED_CHAPTER1 = {
         4: "arc_temptation_01",
         9: "arc_intro_04_hyunsu",
         10: "arc_sangchul_01_meet",
+        11: "hyunsu_study_together",
         12: "arc_daeun_01_meet",
-        13: "hyunsu_study_together",
         14: "arc_father_01_call",
         15: "arc_invest_first_loss",
         16: "arc_father_quiet_call",
@@ -545,8 +545,7 @@ EXPECTED_CHAPTER1 = {
         20: "arc_job_vs_invest",
         21: "arc_father_02_signal",
         22: "arc_gangnam_visit_alone",
-        23: "arc_hyunsu_night_talk",
-        24: "hyunsu_exam_day",
+        23: "hyunsu_exam_day",
         25: "hyunsu_result_fail",
         28: "arc_sangchul_02_coffee",
         29: "arc_hyunsu_exam_fail",
@@ -564,8 +563,8 @@ EXPECTED_CHAPTER1 = {
         4: "arc_temptation_01",
         9: "arc_intro_04_hyunsu",
         10: "arc_sangchul_01_meet",
+        11: "hyunsu_study_together",
         12: "arc_daeun_01_meet",
-        13: "hyunsu_study_together",
         14: "arc_father_01_call",
         15: "arc_invest_first_loss",
         16: "arc_father_quiet_call",
@@ -574,8 +573,7 @@ EXPECTED_CHAPTER1 = {
         20: "arc_job_vs_invest",
         21: "arc_father_02_signal",
         22: "arc_gangnam_visit_alone",
-        23: "arc_hyunsu_night_talk",
-        24: "hyunsu_exam_day",
+        23: "hyunsu_exam_day",
         25: "hyunsu_result_fail",
         28: "arc_goshiwon_goodbye",
         29: "arc_hyunsu_exam_fail",
@@ -602,7 +600,6 @@ EXPECTED_CHAPTER1_BRIDGES = {
 HYUNSU_CHAPTER1_SEQUENCE = [
     "arc_intro_04_hyunsu",
     "hyunsu_study_together",
-    "arc_hyunsu_night_talk",
     "hyunsu_exam_day",
     "hyunsu_result_fail",
     "arc_hyunsu_exam_fail",
@@ -617,6 +614,15 @@ HYUNSU_TEMPORAL_GATES = {
 }
 
 fail = 0
+job_invest_followups = {
+    str(choice.get("follow_up_event", ""))
+    for choice in events["arc_job_vs_invest"].get("choices", [])
+}
+if job_invest_followups != {"arc_hyunsu_night_talk"}:
+    fail += 1
+    print("  ✗ 현수 야간 거울이 직장-투자 선택 전부의 직접 후속이 아님")
+else:
+    print("  ✓ 현수 야간 거울=20주 직장-투자 선택의 직접 후속")
 for event_id, minimum_week in HYUNSU_TEMPORAL_GATES.items():
     event_conditions = [
         " ".join(conditions)
@@ -682,14 +688,16 @@ for name, spine, traj, hook, choice_indices in PATHS:
         event_id for _, event_id in sorted(chapter1_log.items())
         if event_id in HYUNSU_CHAPTER1_SEQUENCE
     ]
-    if hyunsu_sequence != HYUNSU_CHAPTER1_SEQUENCE or "hyunsu_pivot" in fired:
+    if hyunsu_sequence != HYUNSU_CHAPTER1_SEQUENCE \
+            or not S.flags.get("arc_hyunsu_night_seen") \
+            or "hyunsu_pivot" in fired:
         fail += 1
         print("  ✗ 현수 1장 시간축 회귀:", hyunsu_sequence)
     elif not S.flags.get("arc_housing_new_life_seen"):
         fail += 1
         print("  ✗ 고시원 퇴실 뒤 현재 주거 첫날 플래그 누락")
     else:
-        print("  ✓ 현수 8단계 시간축·이사 첫날 즉시 연결 고정")
+        print("  ✓ 현수 7뿌리+20주 직접 야간 거울·이사 첫날 연결 고정")
     chapter3_mismatch = [
         f"t{turn}:{firelog.get(turn, 'missing')}!={event_id}"
         for turn, event_id in EXPECTED_CHAPTER3[name].items()

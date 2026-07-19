@@ -148,8 +148,9 @@ const PERSON_NAMES_EN = {
 # ── 배경 이미지 ────────────────────────────────────────────────
 const BACKGROUNDS = {
 	# 고시원/생활권
-	# Runtime sentinel. get_background() resolves this to the player's actual home.
+	# Runtime sentinels. get_background() resolves these from the live run state.
 	"current_housing":   "res://assets/backgrounds/goshiwon_room.png",
+	"current_workplace": "res://assets/backgrounds/office_desk.png",
 	"goshiwon":          "res://assets/backgrounds/goshiwon_room.png",
 	"goshiwon_room":     "res://assets/backgrounds/goshiwon_room.png",
 	"goshiwon_hallway":  "res://assets/backgrounds/goshiwon_hallway.png",
@@ -411,15 +412,24 @@ func _get_dynamic_player_portrait(id: String) -> String:
 
 ## 배경 경로 반환. 파일 없으면 기본 배경으로 폴백
 func get_background(id: String) -> String:
-	var resolved_id := id
-	if resolved_id == "current_housing":
-		resolved_id = _housing_background_id(str(GameState.housing))
+	var resolved_id := resolve_contextual_background_id(id)
 	var path = str(BACKGROUNDS.get(resolved_id, ""))
 	if path != "" and has_texture(path):
 		return path
 	if has_texture(FALLBACK_BG):
 		return FALLBACK_BG
 	return ""
+
+func resolve_contextual_background_id(id: String) -> String:
+	match id:
+		"current_housing":
+			return _housing_background_id(str(GameState.housing))
+		"current_workplace":
+			match str(GameState.current_job.get("id", "")):
+				"job_01": return "convenience_night"
+				"job_02": return "aruba_delivery"
+				_: return "office"
+	return id
 
 func get_item_art(id: String) -> String:
 	var path: String = str(ITEM_ART.get(id, ""))

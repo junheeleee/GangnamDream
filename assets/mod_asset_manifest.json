@@ -404,6 +404,7 @@
     {
       "kind": "background",
       "ids": [
+        "current_workplace",
         "office"
       ],
       "relative_path": "backgrounds/office_desk.png",

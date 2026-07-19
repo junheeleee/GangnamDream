@@ -1732,10 +1732,7 @@ func _event_background_id_for_paragraph(paragraph_index: int) -> String:
 	return _resolve_story_background_id(str(_event_paragraph_backgrounds[index]))
 
 func _resolve_story_background_id(background_id: String) -> String:
-	var resolved_id := background_id.strip_edges()
-	if resolved_id == "current_housing":
-		return ImageRegistry.infer_background_id({}, GameState.housing)
-	return resolved_id
+	return ImageRegistry.resolve_contextual_background_id(background_id.strip_edges())
 
 func _maybe_change_event_background(paragraph_index: int) -> void:
 	if _current_uses_cg or _pending_after_result:

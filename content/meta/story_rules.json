@@ -190,6 +190,112 @@
       "arrival_cue_ko": "보름이 지났다",
       "arrival_cue_en": "Two weeks in"
     },
+    "arc_intro_01_meal->arc_intro_02_dad_call": {
+      "mode": "time_cut",
+      "from_location": "office_interview_day",
+      "to_location": "goshiwon_room",
+      "arrival_cue_ko": "고시원. 새벽 세 시.",
+      "arrival_cue_en": "Goshiwon room. 3 AM."
+    },
+    "arc_temptation_01->arc_temptation_clean": {
+      "mode": "time_cut",
+      "from_location": "goshiwon_room",
+      "to_location": "goshiwon_room",
+      "arrival_cue_ko": "며칠 뒤, 같은 방",
+      "arrival_cue_en": "Days later, in the same room"
+    },
+    "arc_temptation_01->arc_temptation_fallout": {
+      "mode": "time_cut",
+      "from_location": "goshiwon_room",
+      "to_location": "street_rainy",
+      "arrival_cue_ko": "며칠 뒤, 빗속에서 전화가 왔다.",
+      "arrival_cue_en": "Days later, out in the rain, the phone rang."
+    },
+    "arc_temptation_clean->arc_intro_03_sns": {
+      "mode": "same_location",
+      "from_location": "goshiwon_room",
+      "to_location": "goshiwon_room"
+    },
+    "arc_temptation_fallout->arc_intro_03_sns": {
+      "mode": "explicit_move",
+      "from_location": "street_rainy",
+      "to_location": "goshiwon_room",
+      "arrival_cue_ko": "새벽 두 시. 고시원 방.",
+      "arrival_cue_en": "2 AM. The goshiwon room."
+    },
+    "arc_intro_04_hyunsu->arc_chapter1_close": {
+      "mode": "explicit_move",
+      "from_location": "goshiwon_hallway",
+      "to_location": "goshiwon_room",
+      "arrival_cue_ko": "현수가 들어간 뒤",
+      "arrival_cue_en": "After Hyunsu went back inside"
+    },
+    "cafe_00->cafe_listen_01": {
+      "mode": "same_location",
+      "from_location": "cafe",
+      "to_location": "cafe"
+    },
+    "cafe_00->cafe_mind_01": {
+      "mode": "same_location",
+      "from_location": "cafe",
+      "to_location": "cafe"
+    },
+    "cafe_listen_01->cafe_peek_01": {
+      "mode": "same_location",
+      "from_location": "cafe",
+      "to_location": "cafe"
+    },
+    "cafe_listen_01->cafe_talk_01": {
+      "mode": "same_location",
+      "from_location": "cafe",
+      "to_location": "cafe"
+    },
+    "cafe_peek_01->cafe_caught_honest": {
+      "mode": "same_location",
+      "from_location": "cafe",
+      "to_location": "cafe"
+    },
+    "cafe_talk_01->cafe_humble": {
+      "mode": "same_location",
+      "from_location": "cafe",
+      "to_location": "cafe"
+    },
+    "cafe_talk_01->cafe_bluff_01": {
+      "mode": "same_location",
+      "from_location": "cafe",
+      "to_location": "cafe"
+    },
+    "cafe_bluff_01->cafe_bluff_caught": {
+      "mode": "same_location",
+      "from_location": "cafe",
+      "to_location": "cafe"
+    },
+    "cafe_bluff_01->cafe_bluff_recover": {
+      "mode": "same_location",
+      "from_location": "cafe",
+      "to_location": "cafe"
+    },
+    "cafe_cb_honest_00->cafe_cb_honest_in": {
+      "mode": "explicit_move",
+      "from_location": "goshiwon_room",
+      "to_location": "cafe",
+      "arrival_cue_ko": "약속한 날, 다시 그 카페",
+      "arrival_cue_en": "On the appointed day, back at the cafe"
+    },
+    "arc_gangnam_visit_alone->arc_four_months_in": {
+      "mode": "explicit_move",
+      "from_location": "gangnam_day",
+      "to_location": "hangang_riverside",
+      "arrival_cue_ko": "강남에서 돌아오는 길, 한강변",
+      "arrival_cue_en": "On the way back from Gangnam, along the Han River"
+    },
+    "arc_job_vs_invest->arc_hyunsu_night_talk": {
+      "mode": "explicit_move",
+      "from_location": "office",
+      "to_location": "goshiwon_hallway",
+      "arrival_cue_ko": "고시원 공용 부엌. 새벽 2시.",
+      "arrival_cue_en": "The communal kitchen of the goshiwon. 2 AM."
+    },
     "arc_season_sea_daeun->arc_season_sea_daeun_years": {
       "mode": "same_location",
       "from_location": "eastbound_ktx",

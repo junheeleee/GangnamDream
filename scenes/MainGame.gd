@@ -118,6 +118,7 @@ var _ending_finale_beat_index: int = 0
 var _ending_finale_beats: Array[String] = []
 var _ending_new_achievements: Array = []
 var _ending_new_titles: Array = []
+var _presentation_rng := RandomNumberGenerator.new()
 const ENDING_PAGE_COUNT := 6
 
 # ── MORAL MONOCHROME 팔레트 ─────────────────────────────────────
@@ -278,6 +279,8 @@ func _load_fonts():
 		FontKit.attach_emoji_fallback(_font_bold)
 
 func _ready():
+	# Camera drift and feedback particles must never consume gameplay randomness.
+	_presentation_rng.randomize()
 	_load_fonts()
 	_init_systems()
 	_build_ui()
@@ -1548,7 +1551,7 @@ func _build_story_panel(parent):
 	margin.add_theme_constant_override("margin_left", tv_safe_x)
 	# Keep the scroll content itself inside the TV-safe edge. ScrollContainer's
 	# internal bar/gutter can otherwise reclaim a few pixels on narrow 16:10 views.
-	margin.add_theme_constant_override("margin_right", tv_safe_x + 16)
+	margin.add_theme_constant_override("margin_right", tv_safe_x + 24)
 	margin.add_theme_constant_override("margin_top", 24)
 	margin.add_theme_constant_override("margin_bottom", 20)
 	container.add_child(margin)
@@ -2375,6 +2378,11 @@ func _first_job_week_arc_id(f: Dictionary, at_turn: int = -1) -> String:
 	var query_turn: int = GameState.turn if at_turn < 0 else at_turn
 	if GameState.current_job.is_empty() or f.get("arc_first_job_week_seen", false):
 		return ""
+	# The week-two interview/calculation chain owns that story beat. Even when the
+	# player found survival work during week one, let one full week pass before
+	# showing the first-shift scene instead of appending a second conflict.
+	if query_turn <= 2:
+		return ""
 	if GameState.job_tenure > 1:
 		return ""
 	# StoryMode에서 취업한 바로 그 주에는 AP 화면으로 돌아간다. 첫 근무 장면은 다음 주부터다.
@@ -2930,8 +2938,8 @@ func _next_arc_id(
 		if not _resolve_demo_narrative_bridge(
 				"arc_paycheck_reality", t, preview_only, resolve_bridges):
 			return "arc_paycheck_reality"
-	# 첫 투자 손실 — 상철 투자 안내 받고 투자감각이 생긴 플레이어 (t14~18)
-	if t >= 14 and t <= 18 \
+	# 첫 투자 손실 — 아버지의 14주 전화와 분리해 다음 주부터 연다.
+	if t >= 15 and t <= 18 \
 			and f.get("arc_invest_guidance_seen", false) \
 			and GameState.investment_skill >= 5 \
 			and not f.get("arc_invest_first_loss_seen", false):
@@ -3039,8 +3047,9 @@ func _next_arc_id(
 			and not f.get("arc_gangnam_visit_alone_seen", false):
 		return "arc_gangnam_visit_alone"
 
-	# ── 현수 — 같이 공부하는 사람 (턴 12~18, 첫 만남 이후) ──
-	if t >= 12 and t <= 18 \
+	# ── 현수 — 같이 공부하는 사람 (턴 11~18, 첫 만남 이후) ──
+	# 다은의 12주 첫 만남과 겹치지 않도록 비어 있는 11주부터 연다.
+	if t >= 11 and t <= 18 \
 			and f.get("arc_intro_hyunsu_seen", false) \
 			and not f.get("hyunsu_study_together_seen", false):
 		return "hyunsu_study_together"
@@ -3728,7 +3737,17 @@ func _next_milestone_id() -> String:
 	if f.get("has_received_paycheck", false) and not f.get("story_first_paycheck_seen", false):
 		return "story_first_paycheck_feel"
 	# 첫 저축 마일스톤 — 통장 300만원 돌파
-	if GameState.money >= 3_000_000 and not f.get("story_first_savings_seen", false):
+	# 17주의 지연 사고와 같은 주에 재정 결산이 붙지 않도록 첫 300만원은
+	# 최소 18주까지 숙성시킨다. 처음 넘긴 사실은 잠가 두어 그 사이 AP 지출로
+	# 잔액이 다시 내려가도 이미 이룬 이정표가 사라지지 않게 한다.
+	if f.get("story_first_savings_seen", false):
+		f.erase("story_first_savings_pending")
+	elif GameState.money >= 3_000_000:
+		# Keep the write on the canonical owner so the flag cross-reference audit
+		# can prove that this pending milestone has a producer.
+		GameState.flags["story_first_savings_pending"] = true
+	if GameState.turn >= 18 and f.get("story_first_savings_pending", false) \
+			and not f.get("story_first_savings_seen", false):
 		return "story_first_savings_milestone"
 	# 5년 = 60개월 = 240턴(주). 마일스톤은 달력(me) 기준.
 	# 데모의 6개월 회고는 여섯째 달 입구(t21)가 아니라 실제 24주를 산 뒤의
@@ -4636,7 +4655,9 @@ func _full_screen_shake(amount: float = 10.0, duration: float = 0.45):
 	var steps := 8
 	var cur_amt := amount
 	for _i in range(steps):
-		var offset := Vector2(randf_range(-cur_amt, cur_amt), randf_range(-cur_amt * 0.4, cur_amt * 0.4))
+		var offset := Vector2(
+			_presentation_rng.randf_range(-cur_amt, cur_amt),
+			_presentation_rng.randf_range(-cur_amt * 0.4, cur_amt * 0.4))
 		tw.tween_property(ctrl, "position", base + offset, duration / float(steps))
 		cur_amt *= 0.82  # 감쇠
 	tw.tween_property(ctrl, "position", base, 0.06)
@@ -4649,7 +4670,9 @@ func _shake_node(node: Node, amount: float = 6.0, duration: float = 0.25):
 	var tw := create_tween()
 	var steps := 6
 	for _i in range(steps):
-		var offset := Vector2(randf_range(-amount, amount), randf_range(-amount * 0.45, amount * 0.45))
+		var offset := Vector2(
+			_presentation_rng.randf_range(-amount, amount),
+			_presentation_rng.randf_range(-amount * 0.45, amount * 0.45))
 		tw.tween_property(ctrl, "position", base + offset, duration / float(steps))
 	tw.tween_property(ctrl, "position", base, 0.04)
 
@@ -4713,23 +4736,26 @@ func _spawn_coin_burst():
 	var palette: Array[Color] = [Color("#f0b429"), Color("#e8e2d5"), Color("#8a6d2f")]
 	for i in range(12):
 		var shard := ColorRect.new()
-		shard.color = palette[randi() % palette.size()]
-		shard.size = Vector2(randf_range(8.0, 18.0), randf_range(2.0, 5.0))
+		shard.color = palette[_presentation_rng.randi() % palette.size()]
+		shard.size = Vector2(
+			_presentation_rng.randf_range(8.0, 18.0),
+			_presentation_rng.randf_range(2.0, 5.0))
 		shard.pivot_offset = shard.size * 0.5
-		var bx := vp.x * randf_range(0.35, 0.75)
-		var by := vp.y * randf_range(0.35, 0.65)
+		var bx := vp.x * _presentation_rng.randf_range(0.35, 0.75)
+		var by := vp.y * _presentation_rng.randf_range(0.35, 0.65)
 		shard.position = Vector2(bx, by)
-		shard.rotation = randf_range(-0.8, 0.8)
+		shard.rotation = _presentation_rng.randf_range(-0.8, 0.8)
 		shard.z_index = 200
 		shard.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		shard.modulate.a = randf_range(0.72, 0.95)
+		shard.modulate.a = _presentation_rng.randf_range(0.72, 0.95)
 		add_child(shard)
 		var tw := create_tween()
-		var rise := randf_range(-120.0, -60.0)
-		var drift := randf_range(-40.0, 40.0)
+		var rise := _presentation_rng.randf_range(-120.0, -60.0)
+		var drift := _presentation_rng.randf_range(-40.0, 40.0)
 		tw.tween_property(shard, "position", Vector2(bx + drift, by + rise), 0.9) \
 			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-		tw.parallel().tween_property(shard, "rotation", shard.rotation + randf_range(-1.6, 1.6), 0.9) \
+		tw.parallel().tween_property(
+			shard, "rotation", shard.rotation + _presentation_rng.randf_range(-1.6, 1.6), 0.9) \
 			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 		tw.parallel().tween_property(shard, "modulate:a", 0.0, 0.9) \
 			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
@@ -4742,7 +4768,7 @@ func _spawn_float(text: String, color: Color, index: int):
 	lbl.add_theme_color_override("font_color", color)
 	# 화면 중앙 우측 — 이벤트/행동 패널 위
 	var vp = get_viewport_rect().size
-	var base_x = vp.x * 0.58 + randf_range(-30.0, 30.0)
+	var base_x = vp.x * 0.58 + _presentation_rng.randf_range(-30.0, 30.0)
 	var base_y = vp.y * 0.48 - index * 26.0
 	lbl.position = Vector2(base_x, base_y)
 	lbl.z_index = 200
@@ -5702,7 +5728,7 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 	var act_info := _ap_act_info()
 	var act_tag: Label = _label("%s  /  %s" % [str(act_info.get("label", "")), str(act_info.get("title", ""))], 12, "#dce3eb")
 	act_tag.set_meta("moral_role", "choice_title")
-	act_tag.custom_minimum_size = Vector2(150 if compact_width else 170, 0)
+	act_tag.custom_minimum_size = Vector2(140 if compact_width else 170, 0)
 	act_tag.clip_text = true
 	act_tag.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	if _font_bold:
@@ -5722,7 +5748,7 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 		rent_color = "#aeb7c3"
 	var rent_lbl: Label = _label(str(rent_info.get("text", "")), 11, rent_color)
 	rent_lbl.set_meta("moral_role", "hint_text")
-	rent_lbl.custom_minimum_size = Vector2(176 if compact_width else 196, 0)
+	rent_lbl.custom_minimum_size = Vector2(168 if compact_width else 196, 0)
 	rent_lbl.clip_text = true
 	rent_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	rent_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
@@ -5736,14 +5762,14 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 
 	var slots_box := HBoxContainer.new()
 	slots_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	slots_box.custom_minimum_size = Vector2(62 if compact_width else 72, 0)
+	slots_box.custom_minimum_size = Vector2(56 if compact_width else 72, 0)
 	slots_box.add_theme_constant_override("separation", 6)
 	top.add_child(slots_box)
 	_add_week_ap_slots(slots_box, ap)
 
 	var ap_text := _ap_remaining_text()
 	var ap_lbl := _label(ap_text, 11, "#f4f7fb" if ap > 0 else "#707887")
-	ap_lbl.custom_minimum_size = Vector2(88 if compact_width else (112 if _ap_bonus_amount() > 0 else 86), 0)
+	ap_lbl.custom_minimum_size = Vector2(76 if compact_width else (112 if _ap_bonus_amount() > 0 else 86), 0)
 	ap_lbl.clip_text = true
 	ap_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	ap_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
@@ -5796,7 +5822,7 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 		})
 	var stakes := _label(stakes_text, 11, "#8f98a8")
 	stakes.set_meta("moral_role", "hint_text")
-	stakes.custom_minimum_size = Vector2(250 if compact_width else 360, 0)
+	stakes.custom_minimum_size = Vector2(220 if compact_width else 360, 0)
 	stakes.clip_text = true
 	stakes.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	stakes.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
@@ -7186,20 +7212,12 @@ func _demo_week_pressure() -> Dictionary:
 			"action_ids": ["side_shift", "save", "rest"],
 		}
 
-	if GameState.grind_streak_weeks >= 2 and not person_id.is_empty():
-		return {
-			"id": "relationship",
-			"family": "human",
-			"title": _tr("연락하지 않은 시간이 쌓였다", "Silence has started to accumulate"),
-			"question": _tr("{name}에게 이번 주를 내줄까, 다시 돈을 좇을까?", "Give this week to {name}, or chase money again?").format({"name": person_name}),
-			"detail": _tr("{weeks}주째 돈 쪽으로만 시간이 흘렀다", "{weeks} weeks have gone only toward money").format({"weeks": GameState.grind_streak_weeks}),
-			"urgent": GameState.grind_streak_weeks >= 4,
-			"person_id": person_id,
-			"action_ids": ["contact", "side_shift", "rest"],
-		}
-
 	var invest_unlocked := bool(GameState.flags.get("arc_invest_guidance_seen", false))
 	var first_invest_visit := bool(GameState.flags.get("investment_first_visited", false))
+	# Quarter-end capital is a fixed decision window, not a contextual suggestion.
+	# Keep it ahead of accumulated-silence pressure so the six-month demo always
+	# reaches its two promised money-direction decisions; relationship pressure
+	# remains available on every other direct week.
 	if invest_unlocked and GameState.money >= 100_000.0 \
 			and GameState.week_of_month == 3 and posmod(GameState.month, 3) == 0:
 		return {
@@ -7212,6 +7230,18 @@ func _demo_week_pressure() -> Dictionary:
 			"urgent": false,
 			"person_id": person_id,
 			"action_ids": ["invest", "save", contact_or_study],
+		}
+
+	if GameState.grind_streak_weeks >= 2 and not person_id.is_empty():
+		return {
+			"id": "relationship",
+			"family": "human",
+			"title": _tr("연락하지 않은 시간이 쌓였다", "Silence has started to accumulate"),
+			"question": _tr("{name}에게 이번 주를 내줄까, 다시 돈을 좇을까?", "Give this week to {name}, or chase money again?").format({"name": person_name}),
+			"detail": _tr("{weeks}주째 돈 쪽으로만 시간이 흘렀다", "{weeks} weeks have gone only toward money").format({"weeks": GameState.grind_streak_weeks}),
+			"urgent": GameState.grind_streak_weeks >= 4,
+			"person_id": person_id,
+			"action_ids": ["contact", "side_shift", "rest"],
 		}
 
 	return _contextual_week_pressure(person_id, person_name)
@@ -8390,7 +8420,8 @@ func _make_demo_decision_card(title: String, subtitle: String, icon_id: String,
 	var risk_label := _label(risk_text, 9, "#aeb7c2" if not disabled else "#555b64")
 	risk_label.uppercase = true
 	risk_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	risk_label.clip_text = false
+	risk_label.clip_text = true
+	risk_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	meta_row.add_child(risk_label)
 	var meta_spacer := Control.new()
 	meta_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -8408,6 +8439,7 @@ func _make_demo_decision_card(title: String, subtitle: String, icon_id: String,
 	var title_label := _label(title, 18, "#f0f3f7" if not disabled else "#656b75")
 	title_label.set_meta("moral_role", "choice_title")
 	title_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	title_label.clip_text = true
 	title_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	if _font_bold:
 		title_label.add_theme_font_override("font", _font_bold)
@@ -8430,12 +8462,14 @@ func _make_demo_decision_card(title: String, subtitle: String, icon_id: String,
 		var effect_label := _label(effect_text, 10, "#c7ced8" if not disabled else "#4c515a")
 		effect_label.set_meta("moral_role", "hint_text")
 		effect_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		effect_label.clip_text = true
 		effect_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		details.add_child(effect_label)
 	if not echo_text.is_empty():
 		var echo_label := _label(echo_text, 10, "#858e9b" if not disabled else "#41464e")
 		echo_label.set_meta("moral_role", "hint_text")
 		echo_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		echo_label.clip_text = true
 		echo_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		details.add_child(echo_label)
 
@@ -16976,7 +17010,9 @@ func _start_event_bg_motion() -> void:
 	event_bg.pivot_offset = vp * 0.5
 	event_bg.scale = Vector2(1.012, 1.012)
 	event_bg.position = Vector2.ZERO
-	var dir := Vector2(randf_range(-1.0, 1.0), randf_range(-0.35, 0.35)).normalized()
+	var dir := Vector2(
+		_presentation_rng.randf_range(-1.0, 1.0),
+		_presentation_rng.randf_range(-0.35, 0.35)).normalized()
 	if dir.length() < 0.1:
 		dir = Vector2(1.0, 0.0)
 	_event_bg_motion_tween = create_tween()

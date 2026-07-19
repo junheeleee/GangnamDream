@@ -200,7 +200,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `namsan_observation_deck` | `backgrounds/namsan_observation_deck_night.png` | 1280x800 |
 | background | `namsan_tonkatsu_restaurant` | `backgrounds/namsan_tonkatsu_restaurant_night.png` | 1280x800 |
 | background | `namsan_tower` | `backgrounds/namsan_tower_view.png` | 1280x800 |
-| background | `office` | `backgrounds/office_desk.png` | 1280x800 |
+| background | `current_workplace`, `office` | `backgrounds/office_desk.png` | 1280x800 |
 | background | `office_interview_day` | `backgrounds/office_interview_day.png` | 1280x800 |
 | background | `apartment`, `apartment_balcony` | `backgrounds/oneroom_apartment.png` | 1280x800 |
 | background | `open_chat_screen` | `backgrounds/open_chat_screen.png` | 1672x941 |

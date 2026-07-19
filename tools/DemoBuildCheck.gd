@@ -287,6 +287,14 @@ func _check_employment_consistency() -> void:
 	GameState.flags.erase("pending_spec_career")
 	GameState.flags.erase("arc_first_job_week_seen")
 	GameState.current_job = DataRegistry.get_job("job_01").duplicate(true)
+	GameState.turn = 2
+	GameState.job_tenure = 0
+	GameState.flags["job_started_turn"] = 1
+	_expect(str(main_game.call("_first_job_week_arc_id", GameState.flags)).is_empty(),
+		"Week-two interview chain was followed by a second first-shift conflict.")
+	GameState.turn = 3
+	_expect(str(main_game.call("_first_job_week_arc_id", GameState.flags)) == "arc_first_job_week_convenience",
+		"The deferred convenience first-shift scene did not reopen in week three.")
 	GameState.turn = 10
 	GameState.job_tenure = 0
 	GameState.flags["job_started_turn"] = 10
@@ -307,6 +315,57 @@ func _check_employment_consistency() -> void:
 		"Convenience first-week scene has the wrong background.")
 	_expect(str(DataRegistry.find_event("arc_first_job_week_delivery").get("background", "")) == "aruba_delivery",
 		"Delivery first-week scene has the wrong background.")
+	var first_paycheck: Dictionary = DataRegistry.find_event("story_first_paycheck_feel")
+	_expect(str(first_paycheck.get("background", "")) == "current_workplace",
+		"First paycheck is no longer bound to the player's live workplace.")
+	GameState.current_job = DataRegistry.get_job("job_01").duplicate(true)
+	_expect(ImageRegistry.resolve_contextual_background_id("current_workplace") == "convenience_night",
+		"Convenience paycheck did not resolve to the convenience store.")
+	GameState.current_job = DataRegistry.get_job("job_02").duplicate(true)
+	_expect(ImageRegistry.resolve_contextual_background_id("current_workplace") == "aruba_delivery",
+		"Delivery paycheck did not resolve to the delivery route.")
+	GameState.current_job = DataRegistry.get_job("job_03").duplicate(true)
+	_expect(ImageRegistry.resolve_contextual_background_id("current_workplace") == "office",
+		"Corporate paycheck did not resolve to the office.")
+	_expect(str(DataRegistry.find_event("story_first_savings_milestone").get("background", "")) == "current_housing",
+		"First savings milestone is no longer grounded in the player's live home.")
+	_expect(str(DataRegistry.find_event("arc_temptation_clean").get("background", "")) == "goshiwon_room",
+		"Clean temptation aftermath moved out of the room described by its prose.")
+	var job_invest: Dictionary = DataRegistry.find_event("arc_job_vs_invest")
+	for choice_value in job_invest.get("choices", []):
+		var choice: Dictionary = choice_value
+		_expect(str(choice.get("follow_up_event", "")) == "arc_hyunsu_night_talk",
+			"Job-investment conflict no longer resolves into Hyunsu's night mirror.")
+	var required_transitions := {
+		"arc_intro_01_meal->arc_intro_02_dad_call": "time_cut",
+		"arc_temptation_01->arc_temptation_clean": "time_cut",
+		"arc_temptation_clean->arc_intro_03_sns": "same_location",
+		"arc_intro_04_hyunsu->arc_chapter1_close": "explicit_move",
+		"cafe_00->cafe_listen_01": "same_location",
+		"cafe_listen_01->cafe_peek_01": "same_location",
+		"cafe_peek_01->cafe_caught_honest": "same_location",
+		"cafe_cb_honest_00->cafe_cb_honest_in": "explicit_move",
+		"arc_gangnam_visit_alone->arc_four_months_in": "explicit_move",
+		"arc_job_vs_invest->arc_hyunsu_night_talk": "explicit_move",
+	}
+	for transition_key in required_transitions:
+		var transition_ids := str(transition_key).split("->", false, 1)
+		var contract := DataRegistry.get_story_transition(transition_ids[0], transition_ids[1])
+		_expect(str(contract.get("mode", "")) == str(required_transitions[transition_key]),
+			"Demo transition contract drifted: %s." % transition_key)
+	GameState.flags["story_first_paycheck_seen"] = true
+	GameState.flags.erase("story_first_savings_seen")
+	GameState.flags.erase("story_first_savings_pending")
+	GameState.turn = 17
+	GameState.money = 3_000_000.0
+	_expect(str(main_game.call("_next_milestone_id")).is_empty(),
+		"First savings milestone interrupted Jiyeon's week-seventeen scene.")
+	_expect(GameState.flags.get("story_first_savings_pending", false),
+		"Crossing three million won was not latched for the next quiet week.")
+	GameState.turn = 18
+	GameState.money = 2_900_000.0
+	_expect(str(main_game.call("_next_milestone_id")) == "story_first_savings_milestone",
+		"A latched savings milestone vanished after later AP spending.")
 	main_game.free()
 
 func _check_side_shift_pay() -> void:

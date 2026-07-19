@@ -2306,12 +2306,17 @@ func _run_demo_input_route(
 	if not await _boot_demo_from_title(input_mode):
 		MetaProgression.data = original_meta
 		return
+	# GameState starts a fresh run with randomize(); restore the route seed after
+	# boot so scene-flow and economy regressions are reproducible across launches.
+	seed(20260718 if full_run else 20260713)
 	var starting_job_id := str(GameState.current_job.get("id", ""))
 	GameState.story_return_scene = "res://scenes/MainGame.tscn"
 	GameState.returning_from_story = false
 
 	var seen_events: Array[String] = []
 	var story_event_weeks: Dictionary = {}
+	var demo_scene_flow: Array[Dictionary] = []
+	var last_story_flow_key := ""
 	var input_count := 0
 	var last_signature := ""
 	var stagnant_steps := 0
@@ -2356,6 +2361,14 @@ func _run_demo_input_route(
 		if script_path == "res://scenes/StoryMode.gd":
 			var current: Dictionary = scene.get("_current")
 			var event_id := str(current.get("id", ""))
+			var story_flow_key := "%d:%s" % [scene.get_instance_id(), event_id]
+			if not event_id.is_empty() and GameState.turn <= GameState.DEMO_TURN_LIMIT \
+					and story_flow_key != last_story_flow_key:
+				last_story_flow_key = story_flow_key
+				var previous_flow: Dictionary = demo_scene_flow[-1] if not demo_scene_flow.is_empty() else {}
+				var flow_record := _demo_scene_flow_record(current, scene, GameState.turn, previous_flow)
+				demo_scene_flow.append(flow_record)
+				_print_demo_scene_flow_record(demo_scene_flow.size(), flow_record)
 			if not event_id.is_empty() and not seen_events.has(event_id):
 				seen_events.append(event_id)
 				story_event_weeks[event_id] = GameState.turn
@@ -2467,9 +2480,10 @@ func _run_demo_input_route(
 					if pressure_id == "capital":
 						var capital_month := "%04d-%02d" % [GameState.year, GameState.month]
 						pressure_month_counts[capital_month] = int(pressure_month_counts.get(capital_month, 0)) + 1
-				print("%s_INPUT_PROGRESS week=%d kind=%s ap=%d events=%d pressure=%s actions=%s" % [
+				print("%s_INPUT_PROGRESS week=%d kind=%s ap=%d events=%d cash=%d pressure=%s actions=%s" % [
 					route_label,
-					GameState.turn, director_kind, GameState.action_points, seen_events.size(), pressure_id,
+					GameState.turn, director_kind, GameState.action_points, seen_events.size(),
+					roundi(GameState.money), pressure_id,
 					",".join(pressure_actions)])
 			var modal := scene.get("modal_layer") as Control
 			var modal_visible := is_instance_valid(modal) and modal.visible
@@ -2713,6 +2727,13 @@ func _run_demo_input_route(
 		_fail("%s input run did not reach its final surface within the safety limit: %s inputs=%d events=%d." % [
 			route_label, last_signature, input_count, seen_events.size()])
 		return
+	var demo_flow_summary := _summarize_demo_scene_flow(demo_scene_flow)
+	_print_demo_scene_flow_summary(demo_flow_summary)
+	if not full_run:
+		var demo_flow_error := _demo_scene_flow_error(
+				demo_flow_summary, demo_scene_flow, story_event_weeks)
+		if not demo_flow_error.is_empty():
+			_fail(demo_flow_error)
 	var spacing_error := _chapter_one_story_spacing_error(
 		story_event_weeks, route_week_inputs, full_run)
 	if not spacing_error.is_empty():
@@ -3075,6 +3096,187 @@ func _print_demo_route_input_profile(counts: Dictionary, week_counts: Dictionary
 			chapter_total += int(week_counts.get(week, 0))
 		print("FULL_INPUT_PROFILE_CHAPTER chapter=%d inputs=%d average=%.1f" % [
 			chapter_index + 1, chapter_total, float(chapter_total) / 48.0])
+
+func _demo_scene_flow_record(
+		event: Dictionary, story: Node, week: int, previous: Dictionary) -> Dictionary:
+	var event_id := str(event.get("id", ""))
+	var location := str(story.get("_event_background_id"))
+	if location.is_empty():
+		var presentation := DataRegistry.get_story_presentation(event_id)
+		location = str(presentation.get("scene_location", event.get("background", "unknown")))
+	var thread := _demo_scene_flow_thread(event)
+	var previous_id := str(previous.get("id", ""))
+	var previous_location := str(previous.get("location", ""))
+	var previous_thread := str(previous.get("thread", ""))
+	var same_week := not previous.is_empty() and int(previous.get("week", -1)) == week
+	var follow_up := not previous_id.is_empty() and _demo_event_follows(previous_id, event_id)
+	var transition := DataRegistry.get_story_transition(previous_id, event_id) if follow_up else {}
+	var mode := str(transition.get("mode", ""))
+	var same_location := not previous_location.is_empty() and previous_location == location
+	var boundary := "start"
+	if follow_up:
+		if mode == "same_location":
+			boundary = "continuous"
+		elif mode.is_empty() and same_location:
+			boundary = "followup_recut"
+		elif mode.is_empty():
+			boundary = "followup_uncontracted"
+		else:
+			boundary = mode
+	elif same_week:
+		if thread == "chapter" or previous_thread == "chapter":
+			boundary = "chapter_handoff"
+		elif thread != previous_thread:
+			boundary = "same_week_conflict_switch"
+		else:
+			boundary = "same_week_root"
+	else:
+		boundary = "new_week"
+	return {
+		"week": week,
+		"id": event_id,
+		"thread": thread,
+		"location": location,
+		"previous_id": previous_id,
+		"same_week": same_week,
+		"follow_up": follow_up,
+		"mode": mode,
+		"same_location": same_location,
+		"boundary": boundary,
+	}
+
+func _demo_scene_flow_thread(event: Dictionary) -> String:
+	var event_id := str(event.get("id", ""))
+	if event_id.begins_with("chapter_card_"):
+		return "chapter"
+	if event_id == "story_first_paycheck_feel":
+		return "survival"
+	if event_id == "story_first_savings_milestone":
+		return "ambition"
+	if event_id == "arc_intro_02_dad_call" or event_id == "arc_chapter1_close":
+		return "origin_debt"
+	if event_id.begins_with("story_"):
+		return "origin_debt"
+	for cast_id in ["father", "hyunsu", "sangchul", "daeun", "jiyeon", "jaehyuk"]:
+		if event_id.contains(cast_id):
+			return cast_id
+	if event_id.begins_with("cafe_"):
+		return "cafe_test"
+	if event_id.contains("temptation"):
+		return "temptation"
+	if event_id.contains("gangnam") or event_id.contains("four_months") \
+			or event_id.contains("money_check"):
+		return "ambition"
+	if event_id.contains("job") or event_id.contains("paycheck") \
+			or event_id.contains("routine") or event_id == "arc_intro_01_meal":
+		return "survival"
+	if event_id.contains("sns") or event_id.contains("comparison"):
+		return "comparison"
+	if event_id.contains("invest"):
+		return "investment"
+	var tags: Array = event.get("tags", [])
+	for cast_id in ["father", "hyunsu", "sangchul", "daeun", "jiyeon", "jaehyuk"]:
+		if tags.has(cast_id):
+			return cast_id
+	return "minjun"
+
+func _demo_event_follows(previous_id: String, event_id: String) -> bool:
+	var previous: Dictionary = DataRegistry.find_event(previous_id)
+	for choice_value in previous.get("choices", []):
+		var choice: Dictionary = choice_value
+		if str(choice.get("follow_up_event", "")) == event_id:
+			return true
+	return false
+
+func _summarize_demo_scene_flow(records: Array[Dictionary]) -> Dictionary:
+	var counts := {
+		"events": records.size(),
+		"roots": 0,
+		"followups": 0,
+		"continuous": 0,
+		"followup_recuts": 0,
+		"uncontracted_moves": 0,
+		"same_week_conflict_switches": 0,
+	}
+	for record in records:
+		if bool(record.get("follow_up", false)):
+			counts["followups"] = int(counts["followups"]) + 1
+		else:
+			counts["roots"] = int(counts["roots"]) + 1
+		match str(record.get("boundary", "")):
+			"continuous":
+				counts["continuous"] = int(counts["continuous"]) + 1
+			"followup_recut":
+				counts["followup_recuts"] = int(counts["followup_recuts"]) + 1
+			"followup_uncontracted":
+				counts["uncontracted_moves"] = int(counts["uncontracted_moves"]) + 1
+			"same_week_conflict_switch":
+				counts["same_week_conflict_switches"] = \
+						int(counts["same_week_conflict_switches"]) + 1
+	return counts
+
+func _print_demo_scene_flow_record(index: int, record: Dictionary) -> void:
+	print("DEMO_SCENE_FLOW index=%d week=%d id=%s thread=%s location=%s previous=%s boundary=%s mode=%s" % [
+		index,
+		int(record.get("week", 0)),
+		str(record.get("id", "")),
+		str(record.get("thread", "")),
+		str(record.get("location", "")),
+		str(record.get("previous_id", "none")),
+		str(record.get("boundary", "")),
+		str(record.get("mode", "none")),
+	])
+
+func _print_demo_scene_flow_summary(summary: Dictionary) -> void:
+	print("DEMO_SCENE_FLOW_SUMMARY events=%d roots=%d followups=%d continuous=%d followup_recuts=%d uncontracted_moves=%d same_week_conflict_switches=%d" % [
+		int(summary.get("events", 0)),
+		int(summary.get("roots", 0)),
+		int(summary.get("followups", 0)),
+		int(summary.get("continuous", 0)),
+		int(summary.get("followup_recuts", 0)),
+		int(summary.get("uncontracted_moves", 0)),
+		int(summary.get("same_week_conflict_switches", 0)),
+	])
+
+func _demo_scene_flow_error(
+		summary: Dictionary, records: Array[Dictionary], event_weeks: Dictionary) -> String:
+	var defect_fields := {
+		"followup_recuts": "same-location follow-up recuts",
+		"uncontracted_moves": "uncontracted follow-up moves",
+		"same_week_conflict_switches": "same-week conflict switches",
+	}
+	for field in defect_fields:
+		var count := int(summary.get(field, 0))
+		if count > 0:
+			return "Demo scene flow retained %d %s." % [count, str(defect_fields[field])]
+	var expected_weeks := {
+		"arc_first_job_week_convenience": 3,
+		"hyunsu_study_together": 11,
+		"arc_invest_first_loss": 15,
+		"arc_job_vs_invest": 20,
+		"arc_hyunsu_night_talk": 20,
+	}
+	for event_id in expected_weeks:
+		var actual_week := int(event_weeks.get(event_id, -1))
+		if actual_week != int(expected_weeks[event_id]):
+			return "%s expected in demo week %d, got %d." % [
+				event_id, int(expected_weeks[event_id]), actual_week]
+	if event_weeks.has("story_first_savings_milestone") \
+			and int(event_weeks["story_first_savings_milestone"]) < 18:
+		return "First savings milestone was not deferred beyond Jiyeon's week-seventeen scene."
+	var expected_locations := {
+		"story_first_paycheck_feel": "convenience_night",
+		"story_first_savings_milestone": "goshiwon_room",
+	}
+	for record in records:
+		var event_id := str(record.get("id", ""))
+		if not expected_locations.has(event_id):
+			continue
+		var actual_location := str(record.get("location", ""))
+		if actual_location != str(expected_locations[event_id]):
+			return "%s expected at %s, got %s." % [
+				event_id, str(expected_locations[event_id]), actual_location]
+	return ""
 
 func _max_route_week_inputs(week_counts: Dictionary) -> Dictionary:
 	var best_week := 0

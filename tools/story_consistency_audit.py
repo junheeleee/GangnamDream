@@ -489,7 +489,9 @@ def main() -> int:
             if from_location != to_location:
                 errors.append(f"{owner}: same_location endpoints differ")
         else:
-            if from_location == to_location:
+            # A time cut may return to the same physical room. The localized
+            # arrival cue below is then the machine-readable time-frame change.
+            if from_location == to_location and mode != "time_cut":
                 errors.append(f"{owner}: {mode} must change location or time frame")
             cue_ko = str(contract.get("arrival_cue_ko", ""))
             cue_en = str(contract.get("arrival_cue_en", ""))
