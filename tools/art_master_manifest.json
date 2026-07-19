@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "policy": "Only clean, anatomy-free environments may be promoted from deterministic super-resolution after 100% human A/B review.",
+  "engine": {
+    "name": "Real-ESRGAN ncnn Vulkan",
+    "release": "v0.2.5.0",
+    "repository_url": "https://github.com/xinntao/Real-ESRGAN/",
+    "release_url": "https://github.com/xinntao/Real-ESRGAN/releases/tag/v0.2.5.0",
+    "archive_url": "https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-macos.zip",
+    "license": "BSD-3-Clause",
+    "license_url": "https://raw.githubusercontent.com/xinntao/Real-ESRGAN/master/LICENSE",
+    "archive_sha256": "e0ad05580abfeb25f8d8fb55aaf7bedf552c375b5b4d9bd3c8d59764d2cc333a",
+    "binary_sha256": "c1c35d92079085de96b9d547fd7e4464bc8a2e9ccf28d7b8c712d72ade91b7cc",
+    "models": {
+      "realesrgan-x4plus": {
+        "bin_sha256": "713ee713b0353afaa27976f0563a64a5043bd70b9bd8936c2e26e25ebcdbcddf",
+        "param_sha256": "35330ececcea33b6c397a72548e788d5d53becee4734c50b7fada36e89f10a86"
+      }
+    }
+  },
+  "assets": [
+    {
+      "asset_id": "goshiwon_hallway",
+      "path": "assets/backgrounds/goshiwon_hallway.png",
+      "kind": "Background",
+      "priority": "P0",
+      "risk_class": "clean_environment",
+      "source_ref": "7530c4a",
+      "source_sha256": "76961efc39084b59fd6aa29ebba6a9eb1fd646ae48c9297a8831e8e0feddf130",
+      "source_dimensions": [1280, 800],
+      "model": "realesrgan-x4plus",
+      "scale": 3,
+      "tile_policy": "full_frame",
+      "tile_size": 1280,
+      "output_dimensions": [3840, 2400],
+      "output_sha256": "bc2192e633c4df9328327ce86390d8340da88affdb86c6eb38d9973e06fbfa70",
+      "status": "promoted",
+      "review": {
+        "verdict": "PASS",
+        "reviewer": "Codex visual QA",
+        "criteria": [
+          "architecture",
+          "props",
+          "perspective",
+          "lettering",
+          "crop",
+          "tile_seams"
+        ],
+        "summary": "The full-frame result preserves corridor geometry, door and window perspective, utility fixtures, floor reflection, and shoe racks while removing 3x blur. No readable text, foreground anatomy, logo, or tile seam is present.",
+        "crops": [
+          {
+            "name": "left_fixture",
+            "source_box": [0, 40, 420, 500],
+            "verdict": "PASS"
+          },
+          {
+            "name": "center_depth",
+            "source_box": [420, 100, 900, 620],
+            "verdict": "PASS"
+          },
+          {
+            "name": "right_shoes",
+            "source_box": [820, 300, 1280, 800],
+            "verdict": "PASS"
+          }
+        ]
+      },
+      "rejected_trials": [
+        {
+          "model": "realesrgan-x4plus",
+          "tile_size": 256,
+          "output_sha256": "f8519af09440174ce0255ce5a2f72d65e418034983edc97c284cc498b178d9f1",
+          "reason": "Rejected: visible rectangular exposure seams at every tile boundary."
+        },
+        {
+          "model": "realesrgan-x4plus",
+          "tile_size": 0,
+          "output_sha256": "b73e3504d61155534be20e16cdf0f09d566b6e96a6897eece6023497dd29288c",
+          "reason": "Rejected: automatic tiling produced larger but still visible exposure seams."
+        },
+        {
+          "model": "realesrgan-x4plus-anime",
+          "tile_size": 256,
+          "output_sha256": "f4691634d653e65731b1d686c7f5bed1092f5333c91cd3922b08ca2f38c143d4",
+          "reason": "Rejected: visible tile seams and excessive texture simplification."
+        }
+      ]
+    }
+  ]
+}

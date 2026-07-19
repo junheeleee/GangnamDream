@@ -276,7 +276,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `gangnam_day` | `backgrounds/gangnam_day.png` | 1280x800 |
 | background | `gangnam_night` | `backgrounds/gangnam_night_street.png` | 1280x800 |
 | background | `gangnam_station` | `backgrounds/gangnam_station_exit.png` | 1280x800 |
-| background | `goshiwon_hallway` | `backgrounds/goshiwon_hallway.png` | 1280x800 |
+| background | `goshiwon_hallway` | `backgrounds/goshiwon_hallway.png` | 3840x2400 |
 | background | `current_housing`, `goshiwon`, `goshiwon_room` | `backgrounds/goshiwon_room.png` | 1280x800 |
 | background | `gukbap_restaurant_night` | `backgrounds/gukbap_restaurant_night.png` | 1280x800 |
 | background | `exercise`, `gym` | `backgrounds/gym_interior.png` | 1280x800 |

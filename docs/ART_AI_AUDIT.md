@@ -209,7 +209,7 @@
 | Background | `assets/backgrounds/gangnam_day.png` | `gangnam_day` | 1280x800 | no | `602f13f63566` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/gangnam_night_street.png` | `gangnam_night` | 1280x800 | no | `1aa140c6abe8` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/gangnam_station_exit.png` | `gangnam_station` | 1280x800 | no | `76b8b9f30054` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
-| Background | `assets/backgrounds/goshiwon_hallway.png` | `goshiwon_hallway` | 1280x800 | no | `76961efc3908` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
+| Background | `assets/backgrounds/goshiwon_hallway.png` | `goshiwon_hallway` | 3840x2400 | no | `bc2192e633c4` | REPAIRED-A | 전체 프레임 3x 마스터. 배전함·문틀·중앙 원근·바닥 반사·신발 선반 100% A/B와 타일 이음새 없음 확인. |
 | Background | `assets/backgrounds/goshiwon_room.png` | `goshiwon`, `goshiwon_room` | 1280x800 | no | `10caf8f946cd` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/gym_interior.png` | `exercise`, `gym` | 1280x800 | no | `0a35a04d00b8` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/hagwon_street.png` | `hagwon_street` | 1672x941 | no | `e3700c446b37` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |

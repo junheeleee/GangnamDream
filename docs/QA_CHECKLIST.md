@@ -52,6 +52,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Steam store sequence: cold-open, money-mule timer, montage, time ledger, identical bright/dark scene pair, seasonal date CG, and five-scene ending recap | `--qa=store --lang=en` then `StoreScreenshotExport.tscn` |
 | Active raster inventory and completed human verdict ledger for every CG, portrait, and background | `python3 tools/art_ai_audit.py` |
 | Active raster dimensions, 1080p/4K cover enlargement bands, exact path baseline, and low-resolution regression ratchet | `python3 tools/art_resolution_audit.py` |
+| Promoted high-resolution master provenance, official tool/model hashes, full-frame tile policy, three-or-more 100% crop verdicts, and exact runtime hash | `python3 tools/art_master_audit.py` |
 | A/B/C narrative detail hierarchy: authored actors remain readable, anonymous extras alone become low-detail silhouettes, and wedding focus stays Minjun/Daeun/conditional Hyunsu | `python3 tools/cast_detail_contract_check.py` |
 | Store trailer sources: 22 actual Godot surfaces covering goal, timer, tint, romance, rupture, time records, investment, and minigames | `--qa=trailer --lang=ko/en` at 1920x1080 |
 | StoryMode/VN flashforward Black→arrival Gray reset, intro events, 1~4-choice lower dock, readable backgrounds, chapter card, scene direction framing | `--qa=story-en` |
@@ -189,8 +190,9 @@ Automated art-quality gate:
 
 - `tools/art_ai_audit.py` derives the active CG, portrait, and background paths from `ImageRegistry`; no hand-maintained inventory may silently omit a runtime asset.
 - `tools/art_resolution_audit.py` measures those same active paths against 1080p and 4K cover targets and compares them with `tools/art_resolution_baseline.json`. A new/stale path, changed target contract, changed kind, or lower width/height fails `tools/audit.sh`; a larger replacement is allowed.
-- The current baseline is 195 active rasters: 59 CGs, 57 portraits, and 79 backgrounds. Fifty-seven portraits are native at the authored 1080p portrait target; no active raster is native at the 4K target, and 138 full-screen CG/background files require 3x enlargement.
+- The current baseline is 195 active rasters: 59 CGs, 57 portraits, and 79 backgrounds. Fifty-seven portraits plus the promoted goshiwon hallway are native at their authored 1080p targets; the hallway is the first native 4K active raster, and 137 remaining full-screen CG/background files still require 3x enlargement.
 - `docs/ART_RESOLUTION_READINESS.md` prioritizes 52 P0 assets from the real KO/EN 24-week demo profile, the executable Steam store capture contract, and A-or-higher endings. This priority report guides production; it does not turn dimensions into a human quality verdict.
+- `tools/art_master_audit.py` gates only promoted masters listed in `tools/art_master_manifest.json`. The current pilot is `goshiwon_hallway`: full-frame Real-ESRGAN, three approved 100% crops, and exact source/output/tool/model hashes. It does not approve blind upscaling for actors, hands, lettering, mirrors, or recurring props.
 - Every active path must have exactly one row and its reviewed file hash in `docs/ART_AI_AUDIT.md`; duplicate rows, changed hashes, and `FAIL` or `PENDING` verdicts fail `tools/audit.sh`.
 - Active portraits require alpha. Missing files, stale ledger rows, or unreviewed new registry paths fail immediately.
 - `cast_detail_contract_check.py` requires every CG gaze/action actor to be A/B-tier, keeps relationship cast tiered, and forbids atmospheric C-tier extras from becoming acting focus. Reusable backgrounds may embed only C-tier extras.

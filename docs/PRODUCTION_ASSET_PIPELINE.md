@@ -152,6 +152,15 @@ Codex는 외부 툴을 직접 호출하지 못하는 상황에서도 이 문서�
 - 투명 포트레이트는 알파 인지 2x 공정을 사용하고 머리카락 경계, 눈 정체성, 손, 의상 실루엣을 기존 인물 계약과 대조한다.
 - Lanczos/bicubic 보간은 레이아웃 미리보기용일 뿐 출시 마스터 제작 공정이 아니다.
 
+#### 결정론적 초해상도 실행 계약
+
+- 승인된 첫 파일과 정확한 설정·해시·100% 크롭은 `tools/art_master_manifest.json`과 `docs/ART_MASTER_PRODUCTION.md`가 정본이다.
+- 공식 Real-ESRGAN NCNN Vulkan v0.2.5.0의 로컬 바이너리와 `realesrgan-x4plus` 모델은 `tools/art_master_pipeline.py`가 배포·모델 SHA-256을 먼저 대조한다. 바이너리와 모델 자체는 저장소에 넣지 않는다.
+- 후보는 Godot 프로젝트 밖 시스템 임시 폴더에만 생성한다. 프로젝트의 `build/`도 Godot 파일 스캐너 대상이 될 수 있으므로 A/B 시트를 두지 않는다.
+- 1280x800 소스는 타일 크기 1280의 단일 전체 프레임으로 처리한다. 256px와 auto 타일은 실제 복도 파일에서 사각 명암 이음새가 발생했으므로 승격 금지다.
+- `--promote`는 매니페스트에 완료된 사람 `PASS`, 출력 SHA-256, 세 곳 이상의 100% 크롭이 있고 명시적 `--human-review-pass`가 있을 때만 허용한다.
+- `python3 tools/art_master_audit.py`는 라이선스·공식 URL·도구/모델/입출력 해시·전체 프레임 타일·크롭 판정·런타임 파일을 검사하며 전체 `audit.sh`에 포함된다.
+
 예:
 
 ```text

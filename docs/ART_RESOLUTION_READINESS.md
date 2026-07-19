@@ -8,7 +8,7 @@
 |---|---:|---:|---:|---:|---:|---:|
 | CG | 59 | 1280x800 | 0/59 | 0/59 | 3.00x | 3.00x |
 | Portrait | 57 | 512x768 | 57/57 | 0/57 | 2.00x | 2.00x |
-| Background | 79 | 1280x800 | 0/79 | 0/79 | 3.00x | 3.00x |
+| Background | 79 | 1280x800 | 1/79 | 1/79 | 3.00x | 3.00x |
 
 Scale bands: native <=1.00x, light <=1.50x, medium <=2.00x, heavy <=3.00x, severe >3.00x.
 
@@ -26,7 +26,6 @@ The 1080p/4K CG and background targets model full-screen `KEEP_ASPECT_COVERED`. 
 | P0 | Background | `assets/backgrounds/cafe_seoul.png` | 10 | 1.50x light | 3.00x heavy | demo x10, Steam store surface, AP/runtime, ending |
 | P0 | Background | `assets/backgrounds/convenience_store_night_v2.png` | 6 | 1.50x light | 3.00x heavy | demo x6, grade A ending, AP/runtime, ending |
 | P0 | Background | `assets/backgrounds/family_living_room.png` | 6 | 1.50x light | 3.00x heavy | demo x6, AP/runtime |
-| P0 | Background | `assets/backgrounds/goshiwon_hallway.png` | 6 | 1.50x light | 3.00x heavy | demo x6 |
 | P0 | Background | `assets/backgrounds/realestate_office.png` | 6 | 1.50x light | 3.00x heavy | demo x6 |
 | P0 | Background | `assets/backgrounds/seoul_bus_stop_wallet.png` | 4 | 1.50x light | 3.00x heavy | demo x4 |
 | P0 | Background | `assets/backgrounds/gangnam_day.png` | 2 | 1.50x light | 3.00x heavy | demo x2, grade A ending, ending |
@@ -74,6 +73,7 @@ The 1080p/4K CG and background targets model full-screen `KEEP_ASPECT_COVERED`. 
 | P0 | Portrait | `assets/characters/main_character_corporate.png` | 0 | 1.00x native | 2.00x medium | Steam store surface |
 | P0 | Portrait | `assets/characters/npc_daeun_cherry.png` | 0 | 1.00x native | 2.00x medium | Steam store surface |
 | P0 | Portrait | `assets/characters/npc_romantic_interest.png` | 0 | 1.00x native | 2.00x medium | Steam store surface |
+| P0 | Background | `assets/backgrounds/goshiwon_hallway.png` | 6 | 0.50x native | 1.00x native | demo x6 |
 | P1 | Background | `assets/backgrounds/aruba_delivery_street.png` | 0 | 1.50x light | 3.00x heavy | AP/runtime |
 | P1 | Background | `assets/backgrounds/burnout_hospital_room.png` | 0 | 1.50x light | 3.00x heavy | AP/runtime |
 | P1 | Background | `assets/backgrounds/casino_interior.png` | 0 | 1.50x light | 3.00x heavy | AP/runtime |

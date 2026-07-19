@@ -42,6 +42,12 @@ LEDGER_VERDICTS = {"PASS-A", "PASS-B", "PASS-S", "REPAIRED-A", "REPAIRED-S", "FA
 COVER_SAFE_DIMENSIONS = {(1280, 720), (1672, 941)}
 
 
+def _is_fullscreen_master_size(width: int, height: int) -> bool:
+    if (width, height) in COVER_SAFE_DIMENSIONS:
+        return True
+    return width >= 1280 and height >= 800 and width * 800 == height * 1280
+
+
 def _registry_group(source: str, name: str, kind: str) -> list[dict]:
     match = re.search(BLOCK_RE.format(name=re.escape(name)), source, re.DOTALL)
     if not match:
@@ -288,10 +294,12 @@ def main() -> int:
         row["alpha"] = alpha
         if (
             row["kind"] in ("CG", "Background")
-            and (width, height) != (1280, 800)
-            and (width, height) not in COVER_SAFE_DIMENSIONS
+            and not _is_fullscreen_master_size(width, height)
         ):
-            warnings.append("%s is %dx%d, expected 1280x800" % (row["path"], width, height))
+            warnings.append(
+                "%s is %dx%d, expected a 16:10 master >=1280x800 or an approved cover-safe size"
+                % (row["path"], width, height)
+            )
         if row["kind"] == "Portrait" and not alpha:
             errors.append("portrait lacks alpha: %s" % row["path"])
         digest = hashlib.sha256(full_path.read_bytes()).hexdigest()
