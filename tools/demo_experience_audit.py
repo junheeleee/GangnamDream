@@ -18,6 +18,8 @@ from pathlib import Path
 from typing import Any, Iterable
 
 
+ROOT = Path(__file__).resolve().parents[1]
+SCENE_AUDIO_MANIFEST = ROOT / "assets" / "scene_audio_manifest.json"
 SCHEMA_VERSION = 1
 KO_CHARS_PER_MINUTE = 390.0
 EN_WORDS_PER_MINUTE = 190.0
@@ -43,6 +45,16 @@ MAX_IDENTICAL_ROOT_SURFACE_RUN = 3
 MAX_SAME_BACKGROUND_ROOT_RUN = 4
 MAX_SAME_AMBIENCE_ROOT_RUN = 5
 MAX_UNSCORED_ROOT_RUN = 8
+DEMO_SCORE_ANCHORS = {
+    "story_last_payment_word": "grief",
+    "arc_temptation_01": "crisis",
+    "arc_chapter1_close": "reckoning",
+    "arc_daeun_01_meet": "intimate",
+    "arc_jiyeon_01_crash": "crisis",
+    "arc_job_vs_invest": "reckoning",
+    "arc_four_months_in": "wonder",
+    "story_six_months": "reckoning",
+}
 
 
 @dataclass(frozen=True)
@@ -443,6 +455,28 @@ def _synthetic_report(language: str) -> dict[str, Any]:
     }
 
 
+def repository_demo_music_errors() -> list[str]:
+    try:
+        manifest = json.loads(SCENE_AUDIO_MANIFEST.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        return [f"cannot read scene audio manifest: {exc}"]
+    contracts = _as_dict(_as_dict(manifest).get("events"))
+    errors: list[str] = []
+    for event_id, expected_key in DEMO_SCORE_ANCHORS.items():
+        contract = _as_dict(contracts.get(event_id))
+        music = _as_dict(contract.get("music"))
+        if str(music.get("key", "")) != expected_key:
+            errors.append(
+                f"{event_id} demo score must use {expected_key}, got {music.get('key')!r}"
+            )
+        if not str(contract.get("ambience", "")):
+            errors.append(f"{event_id} demo score lacks its place ambience")
+        start = music.get("start_paragraph")
+        if not isinstance(start, int) or isinstance(start, bool) or start < 1:
+            errors.append(f"{event_id} demo score must enter after ambience establishes")
+    return errors
+
+
 def run_self_test() -> int:
     ko = _synthetic_report("ko")
     en = _synthetic_report("en")
@@ -468,6 +502,13 @@ def run_self_test() -> int:
     broken_parity["events"][5]["id"] = "wrong_event"
     if not parity_errors(ko, broken_parity):
         print("DEMO_EXPERIENCE_SELF_TEST_FAIL parity regression escaped", file=sys.stderr)
+        return 1
+    repository_music_errors = repository_demo_music_errors()
+    if repository_music_errors:
+        print(
+            f"DEMO_EXPERIENCE_SELF_TEST_FAIL repository music: {repository_music_errors}",
+            file=sys.stderr,
+        )
         return 1
     print("DEMO_EXPERIENCE_SELF_TEST_OK")
     return 0
