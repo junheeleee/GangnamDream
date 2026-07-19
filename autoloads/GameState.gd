@@ -161,6 +161,7 @@ var housing_months: Dictionary = {}
 var action_axis_this_week: Dictionary = {"money": 0, "human": 0}
 # 서울 지도 M1 — 이번 주 실제로 시간을 쓴 장소와 최근 동선. 수치 평가는 노출하지 않는다.
 var action_places_this_week: Dictionary = {}
+var action_records_this_week: Array = []
 var recent_action_places: Array = []
 # 사건 에코용 최근 2주 스냅샷. UI에는 수치로 노출하지 않고 EventManager가
 # "내가 보낸 시간이 다음 사건을 불렀다"는 인과를 만드는 데만 쓴다.
@@ -452,6 +453,7 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	housing_months = {}
 	action_axis_this_week = {"money": 0, "human": 0}
 	action_places_this_week = {}
+	action_records_this_week = []
 	recent_action_places = []
 	recent_action_weeks = []
 	contact_counts = {}
@@ -1257,7 +1259,8 @@ func spend_ap(amount: int = 1) -> bool:
 
 # AP 축 기록 — 각 행동이 돈축("money")인지 사람·자기축("human")인지 알린다.
 # docs/AP_REDESIGN.md Phase 1. 숫자는 도덕 점수가 아니라 시간의 모양 — UI는 칩/서술로만 보여준다.
-func register_action_axis(axis: String, place_id: String = "") -> void:
+func register_action_axis(axis: String, place_id: String = "", action_id: String = "",
+		subject_id: String = "") -> void:
 	match axis:
 		"money":
 			action_axis_this_week["money"] = int(action_axis_this_week.get("money", 0)) + 1
@@ -1266,6 +1269,7 @@ func register_action_axis(axis: String, place_id: String = "") -> void:
 		_:
 			return
 	_register_action_place(place_id, axis)
+	_register_action_record(action_id, axis, place_id, subject_id)
 	stats_changed.emit()
 
 func _register_action_place(place_id: String, axis: String) -> void:
@@ -1298,12 +1302,66 @@ const ACTION_PLACE_ECHO_FAMILIES := {
 	"human:city": ["relationship", "romance", "social", "network"],
 }
 
+const ACTION_ID_ECHO_FAMILIES := {
+	"apply": ["jobs", "job", "career", "work", "workplace"],
+	"resume": ["jobs", "job", "career", "work", "spec"],
+	"interview": ["jobs", "job", "career", "work", "spec", "social"],
+	"side_shift": ["jobs", "work", "side_job", "money", "daily_life"],
+	"save": ["finance", "money", "daily_life", "daily"],
+	"rest": ["health", "rest", "mental", "daily_life"],
+	"study": ["self_development", "study", "spec"],
+	"study_read": ["self_development", "study", "spec"],
+	"study_exercise": ["health", "rest", "self_development", "study"],
+	"study_meditation": ["health", "rest", "mental", "self_development"],
+	"study_invest": ["investment", "finance", "self_development", "study"],
+	"contact": ["relationship", "romance", "social", "family"],
+	"date": ["relationship", "romance", "social"],
+	"gift": ["relationship", "romance", "social"],
+	"network": ["social", "network", "career"],
+	"vip_network": ["social", "network", "career"],
+	"invest_buy": ["investment", "finance", "money", "risk"],
+	"invest_sell": ["investment", "finance", "money", "risk"],
+	"invest_leverage": ["investment", "finance", "money", "risk"],
+	"startup": ["career", "work", "workplace", "side_job"],
+	"create": ["career", "creative", "side_job"],
+	"gamble_racetrack": ["gambling", "racetrack", "risk"],
+	"gamble_holdem": ["gambling", "holdem", "risk"],
+	"gamble_scalping": ["investment", "gambling", "risk"],
+	"gamble_casino": ["gambling", "casino", "risk"],
+}
+
+func _register_action_record(action_id: String, axis: String, place_id: String,
+		subject_id: String) -> void:
+	var normalized_id := action_id.strip_edges().to_lower()
+	if normalized_id.is_empty():
+		return
+	var families: Array[String] = []
+	for raw_family in ACTION_ID_ECHO_FAMILIES.get(normalized_id, []):
+		var family := str(raw_family)
+		if not family.is_empty() and not families.has(family):
+			families.append(family)
+	for raw_family in ACTION_PLACE_ECHO_FAMILIES.get("%s:%s" % [axis, place_id], []):
+		var family := str(raw_family)
+		if not family.is_empty() and not families.has(family):
+			families.append(family)
+	var normalized_subject := subject_id.strip_edges().to_lower()
+	if not normalized_subject.is_empty() and not families.has(normalized_subject):
+		families.append(normalized_subject)
+	action_records_this_week.append({
+		"id": normalized_id,
+		"axis": axis,
+		"place": place_id,
+		"subject": normalized_subject,
+		"families": families,
+	})
+
 func _remember_action_week(money_count: int, human_count: int) -> void:
 	recent_action_weeks.append({
 		"turn": turn,
 		"money": money_count,
 		"human": human_count,
 		"places": action_places_this_week.duplicate(true),
+		"actions": action_records_this_week.duplicate(true),
 	})
 	while recent_action_weeks.size() > 2:
 		recent_action_weeks.pop_front()
@@ -1350,6 +1408,64 @@ func get_recent_action_echoes(prior_week_strength: float = 0.55) -> Dictionary:
 			_merge_action_echo(echoes, "relationship", strength)
 	return echoes
 
+func get_recent_action_records(prior_week_strength: float = 0.55) -> Array:
+	var records: Array = []
+	var total_weeks := recent_action_weeks.size()
+	for offset in range(total_weeks):
+		var week_index := total_weeks - 1 - offset
+		var week: Dictionary = recent_action_weeks[week_index]
+		var actions = week.get("actions", [])
+		if not actions is Array:
+			continue
+		var strength := 1.0 if offset == 0 else prior_week_strength
+		for action_index in range(actions.size() - 1, -1, -1):
+			if not actions[action_index] is Dictionary:
+				continue
+			var record: Dictionary = actions[action_index].duplicate(true)
+			record["strength"] = strength
+			record["week_turn"] = int(week.get("turn", 0))
+			record["slot"] = action_index
+			records.append(record)
+	return records
+
+func get_recent_action_record_for_families(families: Array,
+		prior_week_strength: float = 0.55) -> Dictionary:
+	var wanted: Dictionary = {}
+	for raw_family in families:
+		var family := str(raw_family).to_lower()
+		if not family.is_empty():
+			wanted[family] = true
+	for raw_record in get_recent_action_records(prior_week_strength):
+		var record: Dictionary = raw_record
+		for raw_family in record.get("families", []):
+			var family := str(raw_family).to_lower()
+			if wanted.has(family):
+				var matched := record.duplicate(true)
+				matched["matched_family"] = family
+				return matched
+	return {}
+
+func get_latest_action_records(max_count: int = 2) -> Array:
+	if recent_action_weeks.is_empty() or max_count <= 0:
+		return []
+	var latest = recent_action_weeks[-1].get("actions", [])
+	if not latest is Array:
+		return []
+	var records: Array = []
+	var seen: Dictionary = {}
+	for action_index in range(latest.size() - 1, -1, -1):
+		if not latest[action_index] is Dictionary:
+			continue
+		var record: Dictionary = latest[action_index]
+		var identity: String = "%s:%s" % [str(record.get("id", "")), str(record.get("subject", ""))]
+		if identity == ":" or seen.has(identity):
+			continue
+		seen[identity] = true
+		records.push_front(record.duplicate(true))
+		if records.size() >= max_count:
+			break
+	return records
+
 # 주가 끝날 때(advance_calendar) 한 번 호출 — 그 주를 무엇에 썼는지 정산한다.
 # 사람축을 한 번이라도 챙긴 주는 마모를 리셋. 돈에만 갈아넣은 주가 쌓이면 서서히 마모.
 func finalize_action_axis_week() -> void:
@@ -1377,6 +1493,7 @@ func finalize_action_axis_week() -> void:
 			), "system")
 	action_axis_this_week = {"money": 0, "human": 0}
 	action_places_this_week = {}
+	action_records_this_week = []
 
 func restore_ap():
 	action_points = max_action_points
@@ -2056,6 +2173,7 @@ func serialize():
 		"moral_band_last": moral_band_last,
 		"action_axis_this_week": action_axis_this_week,
 		"action_places_this_week": action_places_this_week,
+		"action_records_this_week": action_records_this_week,
 		"recent_action_places": recent_action_places,
 		"recent_action_weeks": recent_action_weeks,
 		"contact_counts": contact_counts,
@@ -2132,6 +2250,8 @@ func load_from_dict(data):
 		action_axis_this_week = {"money": 0, "human": 0}
 	if not data.has("action_places_this_week") or typeof(action_places_this_week) != TYPE_DICTIONARY:
 		action_places_this_week = {}
+	if not data.has("action_records_this_week") or typeof(action_records_this_week) != TYPE_ARRAY:
+		action_records_this_week = []
 	if not data.has("recent_action_places") or typeof(recent_action_places) != TYPE_ARRAY:
 		recent_action_places = []
 	if not data.has("recent_action_weeks") or typeof(recent_action_weeks) != TYPE_ARRAY:

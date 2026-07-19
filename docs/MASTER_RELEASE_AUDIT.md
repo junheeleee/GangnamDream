@@ -130,6 +130,7 @@ If a feature does not strengthen one of these, improve usability or create delig
 - The player can state a short-term plan for the next three weeks.
 - Each playable demo week presents one legible pressure and exactly three contextual responses before exposing the full action catalog.
 - Every primary response shows expectation, cost, a qualitative risk band, and a one-to-three-week echo before commitment without exposing Moral Tint or route scores.
+- Every scheduled Echo names at least one exact committed action from the recent-action ledger; two different actions from the same money/human axis must not collapse into the same visible echo.
 - At least one AP action contains anticipation, performance, and payoff rather than a single menu click.
 - A relationship hook, financial hook, and moral discomfort are all active.
 - No required text is below the Steam Deck readability floor.
@@ -153,6 +154,7 @@ If a feature does not strengthen one of these, improve usability or create delig
 - Every ending resolves money, Minjun's humanity, the father spine, and the player's strongest relationship.
 - White, Gray, and Black routes have distinct visual, audio, prose, and interaction aftermath.
 - A losing run is interpretable; a winning run is not reducible to one forced exploit.
+- A random event that claims to follow from the player's recent behavior cites an exact compatible action when one exists, survives save/load, and falls back safely for legacy saves without exposing hidden Moral or route values.
 
 ### Gate E: Metacritic 90 Candidate
 

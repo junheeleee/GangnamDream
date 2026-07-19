@@ -9,6 +9,7 @@ var _original_language := "ko"
 func _ready() -> void:
 	_original_language = LocaleManager.language
 	_check_recent_action_echoes()
+	_check_action_consequence_echoes()
 	_check_event_causality()
 	_check_week_surface()
 	_check_demo_pressure_choices()
@@ -23,7 +24,7 @@ func _ready() -> void:
 			push_error("IMMERSION_LOOP_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("IMMERSION_LOOP_CHECK_OK memory=2 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=2 vignette=2 omen=1 preview=2 rent=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8")
+	print("IMMERSION_LOOP_CHECK_OK memory=2 action_ids=8 consequence_paths=4 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=4 vignette=2 omen=1 preview=2 rent=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8")
 	get_tree().quit(0)
 
 func _check_recent_action_echoes() -> void:
@@ -55,6 +56,66 @@ func _check_recent_action_echoes() -> void:
 		"place-less asset trade did not create an investment echo")
 	if GameState.get_recent_action_echoes().has("jobs"):
 		_fail("third week did not evict the oldest action echo")
+
+func _check_action_consequence_echoes() -> void:
+	GameState.start_new_game()
+	GameState.register_action_axis("money", "work", "apply")
+	GameState.finalize_action_axis_week()
+	var application_records := GameState.get_latest_action_records()
+	if application_records.size() != 1 or str(application_records[0].get("id", "")) != "apply":
+		_fail("application action identity was not finalized: %s" % application_records)
+	var saved: Dictionary = GameState.serialize()
+	GameState.start_new_game()
+	GameState.load_from_dict(saved)
+	var restored_records := GameState.get_latest_action_records()
+	if restored_records.size() != 1 or str(restored_records[0].get("id", "")) != "apply":
+		_fail("application action identity did not survive save/load: %s" % restored_records)
+
+	var job_event := _event("qa_exact_job_echo", "jobs", ["work"], {"min_turn": 1})
+	LocaleManager.language = "ko"
+	var application_frame_ko := EventManager.causal_frame_for(job_event)
+	if not (application_frame_ko.contains("지원서") or application_frame_ko.contains("메일함")):
+		_fail("application event lost its exact Korean cause: %s" % application_frame_ko)
+	LocaleManager.language = "en"
+	var application_frame_en := EventManager.causal_frame_for(job_event)
+	if application_frame_en.findn("application") < 0 or _contains_hangul(application_frame_en):
+		_fail("application event lost its exact English cause: %s" % application_frame_en)
+
+	GameState.start_new_game()
+	GameState.register_action_axis("human", "home", "rest")
+	GameState.finalize_action_axis_week()
+	var health_event := _event("qa_exact_health_echo", "health", ["rest"], {"min_turn": 1})
+	LocaleManager.language = "ko"
+	var rest_frame_ko := EventManager.causal_frame_for(health_event)
+	LocaleManager.language = "en"
+	var rest_frame_en := EventManager.causal_frame_for(health_event)
+	if not (rest_frame_ko.contains("멈춘") or rest_frame_ko.contains("비워 둔")):
+		_fail("rest event lost its exact Korean cause: %s" % rest_frame_ko)
+	if rest_frame_en.findn("application") >= 0 or _contains_hangul(rest_frame_en):
+		_fail("rest event inherited the application cause: %s" % rest_frame_en)
+	if application_frame_en == rest_frame_en:
+		_fail("different AP choices collapsed into the same event cause")
+
+	var game = MainGameScript.new()
+	LocaleManager.language = "en"
+	var state_before_preview: Dictionary = GameState.serialize()
+	var rest_echo := str(game.call("_demo_director_recent_action_line"))
+	if rest_echo.findn("rest") < 0 or rest_echo.findn("application") >= 0:
+		_fail("rest path did not create a distinct weekly echo: %s" % rest_echo)
+	if GameState.serialize() != state_before_preview:
+		_fail("weekly action echo preview mutated game state")
+	GameState.start_new_game()
+	GameState.register_action_axis("human", "store", "contact", "daeun")
+	GameState.register_action_axis("money", "store", "save")
+	GameState.finalize_action_axis_week()
+	var contact_save_echo := str(game.call("_demo_director_recent_action_line"))
+	if contact_save_echo.findn("Daeun") < 0 or contact_save_echo.findn("cutting back") < 0:
+		_fail("weekly echo did not preserve both distinct choices: %s" % contact_save_echo)
+	var forbidden_surface := contact_save_echo.to_lower()
+	if forbidden_surface.contains("moral") or forbidden_surface.contains("route") \
+			or contact_save_echo.contains("도덕"):
+		_fail("weekly action echo exposed a hidden system: %s" % contact_save_echo)
+	game.free()
 
 func _check_event_causality() -> void:
 	GameState.start_new_game()

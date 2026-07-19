@@ -309,3 +309,9 @@ Automated input and display gates:
 - Gray and Black StoryMode backgrounds retain readable architecture, eye-lines, and hand actions at 1280×800.
 - Living Scene particles and haze never cover the lower dialogue dock or the normal portrait face zone.
 - Notifications do not block important buttons.
+
+## AP Consequence Echoes
+- `ImmersionLoopCheck.tscn` must preserve distinct `apply`, `rest`, `contact`, and `save` action records through weekly finalization and save/load, keep previews read-only, and produce different KO/EN Echo and event-cause lines without hidden Moral/route terms.
+- `ScreenshotQA --qa=immersion-loop --lang=ko/en` must capture application and rest Echoes plus a matched event causal frame at 1280x800; exact action copy, dialogue dock, and controls remain inside the TV-safe area.
+- `ScreenshotQA --qa=demo-gamepad --lang=en --pad=xbox` must observe an exact recent action in all four scheduled Echo weeks. `--qa=full-gamepad` must do the same for all twenty Echo weeks while using zero fallback catalog, keyboard, or mouse input.
+- Legacy saves without action records keep the generic money/human causal frame and must not fail deserialization.

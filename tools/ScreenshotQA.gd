@@ -1749,6 +1749,16 @@ func _find_first_panel_container(root: Node) -> PanelContainer:
 			return found
 	return null
 
+func _find_visible_meta_control(root: Node, meta_key: String, expected_value) -> Control:
+	if root is Control and (root as Control).is_visible_in_tree() \
+			and root.has_meta(meta_key) and root.get_meta(meta_key) == expected_value:
+		return root as Control
+	for child in root.get_children():
+		var found := _find_visible_meta_control(child, meta_key, expected_value)
+		if found != null:
+			return found
+	return null
+
 func _assert_control_in_tv_safe_area(control: Control, context: String) -> void:
 	if not is_instance_valid(control) or not control.is_visible_in_tree():
 		_fail("%s is absent or hidden." % context)
@@ -2327,6 +2337,7 @@ func _run_demo_input_route(
 	var crisis_promotion_weeks: Array[int] = []
 	var observed_auto_beats: Dictionary = {}
 	var captured_auto_kinds: Dictionary = {}
+	var exact_echo_beats := 0
 	var action_counts: Dictionary = {}
 	var ap_action_week_counts: Dictionary = {}
 	var modal_counts: Dictionary = {}
@@ -2403,8 +2414,17 @@ func _run_demo_input_route(
 			if is_instance_valid(auto_beat):
 				var beat_turn := int(auto_beat.get_meta("demo_turn", GameState.turn))
 				var beat_kind := str(auto_beat.get_meta("demo_week_kind", ""))
+				var first_beat_observation := not observed_auto_beats.has(beat_turn)
 				observed_auto_beats[beat_turn] = beat_kind
 				signature += ":auto=%d:%s" % [beat_turn, beat_kind]
+				if first_beat_observation and beat_kind == "echo":
+					var exact_record := str(scene.call("_demo_director_recent_action_record"))
+					if exact_record.is_empty() or _collect_control_text(auto_beat).findn(exact_record) < 0:
+						MetaProgression.data = original_meta
+						_fail("Echo week %d did not name the exact carried action: %s." % [
+							beat_turn, exact_record])
+						return
+					exact_echo_beats += 1
 				if beat_kind in ["quiet", "echo"] and not captured_auto_kinds.has(beat_kind):
 					captured_auto_kinds[beat_kind] = beat_turn
 					await _save("demo_%s_%s_%s_week_%02d" % [
@@ -2829,6 +2849,11 @@ func _run_demo_input_route(
 				MetaProgression.data = original_meta
 				_fail("Full auto-flow did not render %s at week %d." % [observed_kind, paced_week])
 				return
+		if exact_echo_beats != int(week_kind_counts.get("echo", 0)):
+			MetaProgression.data = original_meta
+			_fail("Full route named exact actions in %d/%d echo weeks." % [
+				exact_echo_beats, int(week_kind_counts.get("echo", 0))])
+			return
 		if int(action_counts.get("fallback", 0)) != 0:
 			MetaProgression.data = original_meta
 			_fail("Full route escaped to the legacy action list.")
@@ -2867,9 +2892,9 @@ func _run_demo_input_route(
 		var money_weeks := GameState.money_weeks_total
 		var human_weeks := GameState.human_weeks_total
 		MetaProgression.data = original_meta
-		print("FULL_INPUT_RUN_OK device=%s weeks=%d inputs=%d events=%d ending=%s end_job=%s axes=%d/%d kinds=%s chapters=%s crisis_promotions=%s summaries=%d peak_week=%s key_events=%d mouse_events=%d gamepad_events=%d" % [
+		print("FULL_INPUT_RUN_OK device=%s weeks=%d inputs=%d events=%d ending=%s end_job=%s axes=%d/%d kinds=%s exact_echo=%d chapters=%s crisis_promotions=%s summaries=%d peak_week=%s key_events=%d mouse_events=%d gamepad_events=%d" % [
 			input_mode, GameState.RUN_TURN_LIMIT, input_count, seen_events.size(), full_ending_id,
-			final_job, money_weeks, human_weeks, str(week_kind_counts), str(direct_by_chapter),
+			final_job, money_weeks, human_weeks, str(week_kind_counts), exact_echo_beats, str(direct_by_chapter),
 			str(crisis_promotion_weeks), int(modal_counts.get("month_summary", 0)), str(peak_week_input),
 			_route_keyboard_events, _route_mouse_events, _route_gamepad_events])
 		get_tree().quit(0)
@@ -2924,6 +2949,11 @@ func _run_demo_input_route(
 	if int(week_kind_counts.get("echo", 0)) < 3 or int(week_kind_counts.get("echo", 0)) > 5:
 		MetaProgression.data = original_meta
 		_fail("Demo route exposed an invalid echo count: %s." % week_kind_counts)
+		return
+	if exact_echo_beats != int(week_kind_counts.get("echo", 0)):
+		MetaProgression.data = original_meta
+		_fail("Demo route named exact actions in %d/%d echo weeks." % [
+			exact_echo_beats, int(week_kind_counts.get("echo", 0))])
 		return
 	if pressure_sequence.size() != direct_decision_weeks:
 		MetaProgression.data = original_meta
@@ -3002,9 +3032,9 @@ func _run_demo_input_route(
 		float(input_count) / float(GameState.DEMO_TURN_LIMIT)])
 	MetaProgression.data = original_meta
 	_print_demo_route_input_profile(route_input_counts, route_week_inputs)
-	print("DEMO_INPUT_RUN_OK device=%s weeks=24 inputs=%d events=%d start_job=unemployed end_job=%s axes=%d/%d key_events=%d mouse_events=%d gamepad_events=%d cutoff=cta" % [
+	print("DEMO_INPUT_RUN_OK device=%s weeks=24 inputs=%d events=%d start_job=unemployed end_job=%s axes=%d/%d exact_echo=%d key_events=%d mouse_events=%d gamepad_events=%d cutoff=cta" % [
 		input_mode, input_count, seen_events.size(), str(GameState.current_job.get("id", "unemployed")),
-		GameState.money_weeks_total, GameState.human_weeks_total,
+		GameState.money_weeks_total, GameState.human_weeks_total, exact_echo_beats,
 		_route_keyboard_events, _route_mouse_events, _route_gamepad_events])
 	get_tree().quit(0)
 
@@ -7604,6 +7634,10 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 		"money": 1,
 		"human": 0,
 		"places": {"work": {"count": 1, "money": 1, "human": 0}},
+		"actions": [{
+			"id": "apply", "axis": "money", "place": "work", "subject": "",
+			"families": ["jobs", "job", "career", "work", "workplace"],
+		}],
 	}]
 	await _boot_main_game()
 	_mg.current_event = {}
@@ -7654,6 +7688,56 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 	await _dispose_main_game()
 
 	_prepare_main_game_state()
+	GameState.turn = 2
+	GameState.month = 1
+	GameState.week_of_month = 2
+	GameState.recent_action_weeks = [{
+		"turn": 1,
+		"money": 1,
+		"human": 0,
+		"places": {"work": {"count": 1, "money": 1, "human": 0}},
+		"actions": [{
+			"id": "apply", "axis": "money", "place": "work", "subject": "",
+			"families": ["jobs", "job", "career", "work", "workplace"],
+		}],
+	}]
+	await _boot_main_game()
+	_mg.call("_render_demo_director_beat", "echo", {"money": true, "human": false}, [])
+	await _settle(0.35)
+	var application_echo_text := _collect_control_text(_mg)
+	var expected_application := _tr("지원", "Application")
+	var unexpected_rest := _tr("멈춰 쉬기", "Taking a rest")
+	if application_echo_text.findn(expected_application) < 0 \
+			or application_echo_text.findn(unexpected_rest) >= 0:
+		_fail("Application echo surface did not preserve its exact cause in %s." % lang)
+		return
+	var application_beat := _find_visible_meta_control(_mg, "demo_week_kind", "echo")
+	_assert_control_in_tv_safe_area(application_beat, "application echo beat")
+	await _save(prefix + "03_application_echo")
+
+	GameState.recent_action_weeks = [{
+		"turn": 1,
+		"money": 0,
+		"human": 1,
+		"places": {"home": {"count": 1, "money": 0, "human": 1}},
+		"actions": [{
+			"id": "rest", "axis": "human", "place": "home", "subject": "",
+			"families": ["health", "rest", "mental", "daily_life"],
+		}],
+	}]
+	_mg.call("_render_demo_director_beat", "echo", {"money": false, "human": true}, [])
+	await _settle(0.35)
+	var rest_echo_text := _collect_control_text(_mg)
+	if rest_echo_text.findn(unexpected_rest) < 0 \
+			or rest_echo_text.findn(expected_application) >= 0:
+		_fail("Rest echo surface collapsed into the application path in %s." % lang)
+		return
+	var rest_beat := _find_visible_meta_control(_mg, "demo_week_kind", "echo")
+	_assert_control_in_tv_safe_area(rest_beat, "rest echo beat")
+	await _save(prefix + "04_rest_echo")
+	await _dispose_main_game()
+
+	_prepare_main_game_state()
 	GameState.current_job = {}
 	GameState.monthly_income = 0.0
 	GameState.recent_action_weeks = [{
@@ -7661,8 +7745,12 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 		"money": 1,
 		"human": 0,
 		"places": {"work": {"count": 1, "money": 1, "human": 0}},
+		"actions": [{
+			"id": "apply", "axis": "money", "place": "work", "subject": "",
+			"families": ["jobs", "job", "career", "work", "workplace"],
+		}],
 	}]
-	await _shot_story_event("rare_rejection_then_call", prefix + "03_action_causal_frame", "", 0.55, true)
+	await _shot_story_event("rare_rejection_then_call", prefix + "05_action_causal_frame", "", 0.55, true)
 
 func _shot_motivation_imprint_surfaces(lang: String = "en", prefix: String = "motivation_en_") -> void:
 	_set_qa_language(lang)

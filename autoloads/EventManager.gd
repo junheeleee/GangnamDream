@@ -357,9 +357,12 @@ func action_echo_match(event: Dictionary) -> Dictionary:
 	var prior_multiplier := float(recent_action_rules.get("prior_week_multiplier", 1.88))
 	var max_multiplier := float(recent_action_rules.get("max_multiplier", 2.6))
 	var recent: Dictionary = GameState.get_recent_action_echoes(prior_strength)
+	var event_families := _event_echo_families(event)
+	var action_record: Dictionary = GameState.get_recent_action_record_for_families(
+		event_families, prior_strength)
 	var best_family := ""
 	var best_strength := 0.0
-	for family in _event_echo_families(event):
+	for family in event_families:
 		var strength := float(recent.get(str(family), 0.0))
 		if strength > best_strength:
 			best_strength = strength
@@ -371,11 +374,17 @@ func action_echo_match(event: Dictionary) -> Dictionary:
 		resolved_multiplier = max_multiplier
 	elif best_strength >= prior_strength - 0.001:
 		resolved_multiplier = prior_multiplier
-	return {
+	var result := {
 		"family": best_family,
 		"strength": best_strength,
 		"multiplier": resolved_multiplier,
 	}
+	if not action_record.is_empty():
+		result["action_id"] = str(action_record.get("id", ""))
+		result["subject_id"] = str(action_record.get("subject", ""))
+		result["action_strength"] = float(action_record.get("strength", 0.0))
+		result["action_turn"] = int(action_record.get("week_turn", 0))
+	return result
 
 func action_echo_multiplier(event: Dictionary) -> float:
 	var match_data := action_echo_match(event)
@@ -387,10 +396,57 @@ func _causal_variant(event: Dictionary, lines: Array) -> String:
 	var index: int = posmod(hash(str(event.get("id", ""))) + GameState.turn * 31, lines.size())
 	return str(lines[index])
 
+func _action_causal_frame(event: Dictionary, match_data: Dictionary) -> String:
+	match str(match_data.get("action_id", "")):
+		"apply":
+			return _causal_variant(event, [
+				LocaleManager.ui("지원서를 보낸 뒤, 메일함을 새로고침하던 며칠이었다.", "It came after he sent an application and spent days refreshing his inbox."),
+				LocaleManager.ui("답이 오지 않은 지원서가 이번 주까지 따라왔다.", "An unanswered application followed him into this week."),
+			])
+		"resume":
+			return _causal_variant(event, [
+				LocaleManager.ui("지원서의 문장을 고쳐 쓴 뒤라, 일에 관한 말이 다르게 들렸다.", "After rewriting his application, every word about work sounded different."),
+				LocaleManager.ui("밤새 다듬은 지원서가 아직 노트북 화면에 열려 있었다.", "The application he polished overnight was still open on his laptop."),
+			])
+		"side_shift":
+			return _causal_variant(event, [
+				LocaleManager.ui("추가 근무를 마친 피로와 입금 알림이 함께 남은 주였다.", "The fatigue of an extra shift and its deposit alert lingered together."),
+				LocaleManager.ui("한 번 더 일한 대가가 통장과 몸에 따로 찍혀 있었다.", "The price of one more shift had registered separately in his bank account and his body."),
+			])
+		"save":
+			return _causal_variant(event, [
+				LocaleManager.ui("지출을 하나씩 지운 뒤라, 작은 가격표도 오래 눈에 남았다.", "After cutting expenses one by one, even small price tags stayed in his sight."),
+				LocaleManager.ui("쓰지 않은 돈을 지키느라 이번 주의 생활이 조금 좁아졌다.", "Protecting the money he did not spend had made this week's life a little narrower."),
+			])
+		"rest":
+			return _causal_variant(event, [
+				LocaleManager.ui("하루를 멈춘 뒤라, 미뤄 둔 몸의 신호가 더 선명했다.", "After stopping for a day, the signals his body had postponed felt sharper."),
+				LocaleManager.ui("억지로 비워 둔 시간이 이번 주의 속도를 늦추고 있었다.", "The time he had forced himself to leave empty was slowing this week down."),
+			])
+		"study", "study_read", "study_exercise", "study_meditation", "study_invest":
+			return _causal_variant(event, [
+				LocaleManager.ui("지난주에 쌓은 한 가지가 아직 생각과 몸의 습관에 남아 있었다.", "The one thing he practiced last week still lingered in thought and habit."),
+				LocaleManager.ui("한 번의 연습은 작았지만, 이번 주의 판단을 조금 바꾸고 있었다.", "One practice session was small, but it was already changing this week's judgment."),
+			])
+		"contact":
+			return _causal_variant(event, [
+				LocaleManager.ui("먼저 보낸 연락의 답장이 아직 대화창 위에 남아 있었다.", "The reply to the message he sent first was still sitting at the top of the chat."),
+				LocaleManager.ui("누군가에게 시간을 내어 준 뒤라, 이번 주는 완전히 혼자가 아니었다.", "After making time for someone, he was not entirely alone this week."),
+			])
+		"invest_buy", "invest_sell", "invest_leverage":
+			return _causal_variant(event, [
+				LocaleManager.ui("직접 거래를 확정한 뒤라, 시세의 작은 움직임도 내 일이 됐다.", "After confirming a trade himself, even a small market move had become personal."),
+				LocaleManager.ui("매수와 매도의 숫자가 이번 주의 다른 판단에도 달라붙었다.", "The numbers from the trade clung to every other judgment this week."),
+			])
+	return ""
+
 func causal_frame_for(event: Dictionary) -> String:
 	var match_data := action_echo_match(event)
 	if float(match_data.get("strength", 0.0)) < 0.5:
 		return ""
+	var action_frame := _action_causal_frame(event, match_data)
+	if not action_frame.is_empty():
+		return action_frame
 	match str(match_data.get("family", "")):
 		"jobs", "job", "career", "work", "workplace", "spec", "side_job":
 			return _causal_variant(event, [
