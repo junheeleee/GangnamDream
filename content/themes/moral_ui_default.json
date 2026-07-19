@@ -1,0 +1,84 @@
+{
+	"id": "default",
+	"name_ko": "기본",
+	"name_en": "Default",
+	"version": "1",
+	"surfaces": {
+		"main": {
+			"black": {
+				"panel_bg": "#0b0c11ff",
+				"panel_border": "#181b24ff",
+				"chip_bg": "#0d0f14ff",
+				"choice_bg": "#0e0e14ff",
+				"choice_hover": "#14161eff",
+				"disabled_bg": "#09090dff",
+				"text": "#b8c1cbff",
+				"dim": "#8c96a4ff",
+				"brand": "#bbc2c8ff",
+				"focus": "#d4d9daff"
+			},
+			"gray": {
+				"panel_bg": "#0d0d14ff",
+				"panel_border": "#1a1a28ff",
+				"chip_bg": "#0f1018ff",
+				"choice_bg": "#101018ff",
+				"choice_hover": "#171723ff",
+				"disabled_bg": "#0a0a0fff",
+				"text": "#c8d0dfff",
+				"dim": "#9aa4b8ff",
+				"brand": "#c5ccd5ff",
+				"focus": "#f4f7fbff"
+			},
+			"white": {
+				"panel_bg": "#0e0f16ff",
+				"panel_border": "#262c3aff",
+				"chip_bg": "#0f121aff",
+				"choice_bg": "#10121aff",
+				"choice_hover": "#171a25ff",
+				"disabled_bg": "#0a0b10ff",
+				"text": "#cfd7e5ff",
+				"dim": "#9fabbdff",
+				"brand": "#ced4ddff",
+				"focus": "#f5f8fcff"
+			}
+		},
+		"story": {
+			"black": {
+				"panel_bg": "#0b0c0eec",
+				"panel_border": "#2c3135ec",
+				"hud_bg": "#090b0dde",
+				"choice_bg": "#0e1012f6",
+				"choice_hover": "#15181bfb",
+				"text": "#dde0e2ff",
+				"dim": "#939ba0ff",
+				"dead": "#5b6166ff",
+				"focus": "#ccd1d6ff",
+				"line": "#2b3034c0"
+			},
+			"gray": {
+				"panel_bg": "#0d0d10eb",
+				"panel_border": "#30343aeb",
+				"hud_bg": "#0b0c10db",
+				"choice_bg": "#111216f5",
+				"choice_hover": "#181a20fa",
+				"text": "#e6e8ecff",
+				"dim": "#9aa1a8ff",
+				"dead": "#5f656bff",
+				"focus": "#d7dbe2ff",
+				"line": "#30343ab8"
+			},
+			"white": {
+				"panel_bg": "#0e0f13ea",
+				"panel_border": "#394047ec",
+				"hud_bg": "#0c0e13da",
+				"choice_bg": "#111419f4",
+				"choice_hover": "#181d24f9",
+				"text": "#e8eaeeff",
+				"dim": "#9ea6adff",
+				"dead": "#62696fff",
+				"focus": "#dbdfe6ff",
+				"line": "#3b4148b8"
+			}
+		}
+	}
+}

@@ -1930,6 +1930,8 @@ func _open_settings_popup():
 
 	_build_volume_sliders_menu(vbox)
 	_build_language_toggle(vbox)
+	_build_moral_palette_selector(vbox)
+	_build_mod_settings_entry(vbox)
 
 	var close_btn = _button(_tr("닫기", "Close"), "#1e2a3a")
 	close_btn.pressed.connect(_close_settings_popup)
@@ -2044,6 +2046,194 @@ func _add_mod_status_label(parent: Control) -> void:
 	status.mouse_filter = Control.MOUSE_FILTER_PASS
 	status.set_meta("mod_status", true)
 	parent.add_child(status)
+
+func _build_moral_palette_selector(parent: Control) -> void:
+	var row := HBoxContainer.new()
+	row.custom_minimum_size = Vector2(0, 42)
+	row.add_theme_constant_override("separation", 10)
+	parent.add_child(row)
+	var label := Label.new()
+	label.text = _tr("색각 접근성", "Color Accessibility")
+	label.add_theme_font_size_override("font_size", 13)
+	label.add_theme_color_override("font_color", Color("#8892a4"))
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(label)
+	var selector := OptionButton.new()
+	selector.custom_minimum_size = Vector2(190, 38)
+	selector.focus_mode = Control.FOCUS_ALL
+	selector.set_meta("moral_palette_control", true)
+	var selected_id := ModLoader.selected_theme_id()
+	var selected_index := 0
+	for info in ModLoader.available_theme_infos():
+		var theme_id := str(info.get("theme_id", "default"))
+		var index := selector.item_count
+		selector.add_item(ModLoader.theme_display_name(theme_id, LocaleManager.language))
+		selector.set_item_metadata(index, theme_id)
+		if theme_id == selected_id:
+			selected_index = index
+	selector.select(selected_index)
+	selector.item_selected.connect(func(index: int):
+		SaveManager.set_setting("moral_palette", str(selector.get_item_metadata(index)))
+		ModLoader.notify_settings_changed())
+	row.add_child(selector)
+
+func _build_mod_settings_entry(parent: Control) -> void:
+	var mods := ModLoader.discover_data_mods()
+	if mods.is_empty():
+		return
+	var button := _button(_tr("모드 관리", "Manage Mods"), "#1b2430")
+	button.set_meta("mod_manager_control", true)
+	button.tooltip_text = _tr(
+		"데이터 모드의 활성화와 로드 순서를 변경합니다.",
+		"Change data mod activation and load order.")
+	button.pressed.connect(_open_mod_manager)
+	parent.add_child(button)
+
+func _open_mod_manager() -> void:
+	if is_instance_valid(_settings_overlay):
+		_settings_overlay.queue_free()
+	_settings_overlay = ColorRect.new()
+	_settings_overlay.color = Color(0, 0, 0, 0.76)
+	_settings_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_settings_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(_settings_overlay)
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_settings_overlay.add_child(center)
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(760, 640)
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("#11151c")
+	style.border_color = Color("#35404d")
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(8)
+	style.content_margin_left = 28
+	style.content_margin_right = 28
+	style.content_margin_top = 24
+	style.content_margin_bottom = 22
+	panel.add_theme_stylebox_override("panel", style)
+	center.add_child(panel)
+
+	var body := VBoxContainer.new()
+	body.add_theme_constant_override("separation", 12)
+	panel.add_child(body)
+	var title := Label.new()
+	title.text = _tr("모드 관리", "Manage Mods")
+	title.add_theme_font_size_override("font_size", 22)
+	title.add_theme_color_override("font_color", Color("#eef2f6"))
+	body.add_child(title)
+	var note := Label.new()
+	note.text = _tr(
+		"변경은 다음 실행부터 적용됩니다. 위에 있는 모드가 먼저 로드됩니다.",
+		"Changes apply on the next launch. Mods higher in the list load first.")
+	note.add_theme_font_size_override("font_size", 12)
+	note.add_theme_color_override("font_color", Color("#8d98a6"))
+	body.add_child(note)
+	var divider := HSeparator.new()
+	divider.add_theme_color_override("color", Color("#303946"))
+	body.add_child(divider)
+
+	var scroll := ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	body.add_child(scroll)
+	var list := VBoxContainer.new()
+	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	list.add_theme_constant_override("separation", 7)
+	scroll.add_child(list)
+	var mods := ModLoader.discover_data_mods()
+	for index in range(mods.size()):
+		list.add_child(_mod_manager_row(mods[index], index, mods.size()))
+
+	var close_button := _button(_tr("닫기", "Close"), "#1e2a3a")
+	close_button.pressed.connect(_close_settings_popup)
+	body.add_child(close_button)
+	call_deferred("_focus_first_settings_control")
+
+func _mod_manager_row(info: Dictionary, index: int, count: int) -> Control:
+	var row := HBoxContainer.new()
+	row.custom_minimum_size = Vector2(0, 58)
+	row.add_theme_constant_override("separation", 10)
+	row.set_meta("mod_id", str(info.get("id", "")))
+	var toggle := CheckButton.new()
+	toggle.custom_minimum_size = Vector2(54, 44)
+	toggle.button_pressed = ModLoader.is_mod_enabled(str(info.get("id", "")))
+	toggle.focus_mode = Control.FOCUS_ALL
+	toggle.set_meta("mod_toggle", true)
+	toggle.toggled.connect(func(enabled: bool):
+		_set_mod_enabled(str(info.get("id", "")), enabled))
+	row.add_child(toggle)
+
+	var copy := VBoxContainer.new()
+	copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	copy.add_theme_constant_override("separation", 2)
+	row.add_child(copy)
+	var name_label := Label.new()
+	name_label.text = str(info.get("name", info.get("id", "")))
+	name_label.add_theme_font_size_override("font_size", 14)
+	name_label.add_theme_color_override("font_color", Color("#e1e7ed"))
+	copy.add_child(name_label)
+	var kind_label := Label.new()
+	kind_label.text = _mod_kind_label(str(info.get("kind", "")))
+	var version := str(info.get("version", ""))
+	if not version.is_empty():
+		kind_label.text += "  v%s" % version
+	kind_label.add_theme_font_size_override("font_size", 11)
+	kind_label.add_theme_color_override("font_color", Color("#768291"))
+	copy.add_child(kind_label)
+
+	var up := _button("↑", "#18212c")
+	up.custom_minimum_size = Vector2(44, 42)
+	up.disabled = index <= 0
+	up.tooltip_text = _tr("먼저 로드", "Load earlier")
+	up.pressed.connect(func(): _move_mod_entry(str(info.get("id", "")), -1))
+	row.add_child(up)
+	var down := _button("↓", "#18212c")
+	down.custom_minimum_size = Vector2(44, 42)
+	down.disabled = index >= count - 1
+	down.tooltip_text = _tr("나중에 로드", "Load later")
+	down.pressed.connect(func(): _move_mod_entry(str(info.get("id", "")), 1))
+	row.add_child(down)
+	return row
+
+func _mod_kind_label(kind: String) -> String:
+	match kind:
+		"assets":
+			return _tr("이미지·오디오 교체", "Image / audio override")
+		"events":
+			return _tr("커스텀 이벤트", "Custom events")
+		"preset":
+			return _tr("밸런스 프리셋", "Balance preset")
+		"theme":
+			return _tr("색 테마", "Color theme")
+		_:
+			return kind
+
+func _set_mod_enabled(mod_id: String, enabled: bool) -> void:
+	var values: Dictionary = SaveManager.get_setting("mod_enabled", {}).duplicate(true)
+	values[mod_id] = enabled
+	SaveManager.set_setting("mod_enabled", values)
+	ModLoader.notify_settings_changed()
+
+func _move_mod_entry(mod_id: String, delta: int) -> void:
+	var mods := ModLoader.discover_data_mods()
+	var order: Array = []
+	for info in mods:
+		order.append(str(info.get("id", "")))
+	var from := order.find(mod_id)
+	var target := clampi(from + delta, 0, order.size() - 1)
+	if from < 0 or from == target:
+		return
+	var swap_value: Variant = order[target]
+	order[target] = order[from]
+	order[from] = swap_value
+	SaveManager.set_setting("mod_load_order", order)
+	ModLoader.notify_settings_changed()
+	if is_instance_valid(_settings_overlay):
+		_settings_overlay.queue_free()
+	call_deferred("_open_mod_manager")
 
 func _build_display_settings_menu(parent: Control) -> void:
 	if not OS.has_feature("web"):

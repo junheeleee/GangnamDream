@@ -156,6 +156,31 @@ const ACHIEVEMENTS_PATH = "res://content/meta/achievements.json"
 const CLUES_PATH = "res://content/meta/clues.json"
 const THOUGHTS_PATH = "res://content/meta/thoughts.json"
 const STORY_RULES_PATH = "res://content/meta/story_rules.json"
+const MOD_EVENT_ROOT_KEYS := [
+	"id", "title", "description", "category", "rarity", "weight", "hidden",
+	"conditions", "tags", "cooldown", "choices", "portrait", "portrait_if_known",
+	"portrait_reveal_paragraph", "background", "paragraph_backgrounds", "cg",
+	"cg_if_known", "cg_reveal_paragraph", "speaker", "one_time", "result_cg",
+	"result_cg_reveal_paragraph", "result_background", "timed", "timer_seconds",
+	"timer_default_choice", "description_orthodox", "description_unorthodox",
+	"description_low_mental", "description_long_gosiwon", "description_if_known",
+	"description_memory_if_known", "description_if_moral", "direction", "living_scene",
+	"year_scene_year", "override",
+]
+const MOD_CHOICE_KEYS := [
+	"text", "text_if_moral", "effects", "flags", "follow_up_event", "result_text",
+	"result_cg", "result_cg_reveal_paragraph", "result_background", "result_ambience",
+	"opportunity", "cast_effects", "relationship_effects", "investment_effects",
+	"tendency", "route", "grant_job", "conditions_note", "deferred_follow_up",
+	"deferred_delay", "foreshadow", "bridge_summary", "clues", "give_items",
+	"requires_item", "housing_keepsake", "year_scene",
+]
+const MOD_EVENT_SCHEDULE_KEYS := [
+	"id", "category", "rarity", "weight", "hidden", "conditions", "tags",
+	"cooldown", "one_time", "timed", "timer_seconds", "timer_default_choice",
+	"year_scene_year",
+]
+const MOD_CHOICE_SCHEDULE_KEYS := ["follow_up_event", "deferred_follow_up", "deferred_delay"]
 
 const JOB_TEXT_EN := {
 	"job_01": {"name": "Convenience Store Night Shift", "description": "Hold the counter late at night: rude customers, parcels, cleaning, all alone. Minimum wage, but right now it is everything."},
@@ -326,21 +351,27 @@ func reload():
 		_apply_event_overlay("en")
 		if lang != "en":
 			_apply_event_overlay(lang)
+	# Data mods are applied after localization so an explicit story rewrite is
+	# never silently replaced by the built-in language overlay.
+	_apply_event_mods()
 
 	assets = _load_array(ASSETS_PATH)
 	if lang != "ko":
 		_apply_catalog_en_overlay(assets, ASSET_TEXT_EN)
 		_apply_catalog_locale_overlay(assets, target_catalog, "assets")
+	_apply_catalog_presets(assets, "assets")
 	assets_by_id = _index_by_id(assets)
 	jobs = _load_array(JOBS_PATH)
 	if lang != "ko":
 		_apply_catalog_en_overlay(jobs, JOB_TEXT_EN)
 		_apply_catalog_locale_overlay(jobs, target_catalog, "jobs")
+	_apply_catalog_presets(jobs, "jobs")
 	jobs_by_id = _index_by_id(jobs)
 	items = _load_array(ITEMS_PATH)
 	if lang != "ko":
 		_apply_catalog_en_overlay(items, ITEM_TEXT_EN)
 		_apply_catalog_locale_overlay(items, target_catalog, "items")
+	_apply_catalog_presets(items, "items")
 	items_by_id = _index_by_id(items)
 	endings = _load_array(ENDINGS_PATH)
 	endings_by_id = _index_by_id(endings)
@@ -352,6 +383,7 @@ func reload():
 	if lang != "ko":
 		_apply_news_en_overlay()
 		_apply_catalog_locale_overlay(news_templates, target_catalog, "news")
+	_apply_catalog_presets(news_templates, "news_templates")
 	default_meta = _load_dict(META_PATH)
 	achievements = _load_array(ACHIEVEMENTS_PATH)
 	if lang != "ko":
@@ -401,6 +433,316 @@ func get_events(category):
 		if event.get("category", "") == category:
 			filtered.append(event)
 	return filtered
+
+func _apply_event_mods() -> void:
+	for path in ModLoader.enabled_event_pack_paths():
+		var parsed: Variant = _parse_json(path)
+		var raw_events: Variant = parsed.get("events", []) if parsed is Dictionary else parsed
+		if not raw_events is Array:
+			push_warning("Skipping event mod without an events array: %s" % path)
+			continue
+		var pack_ids: Dictionary = {}
+		for raw_event in raw_events:
+			if raw_event is Dictionary:
+				pack_ids[str((raw_event as Dictionary).get("id", ""))] = true
+		for raw_event in raw_events:
+			if not raw_event is Dictionary:
+				push_warning("Skipping non-object event in mod: %s" % path)
+				continue
+			var source := raw_event as Dictionary
+			var event_id := str(source.get("id", ""))
+			if event_id.is_empty() or not _is_safe_mod_event_id(event_id):
+				push_warning("Skipping event mod with unsafe id '%s': %s" % [event_id, path])
+				continue
+			if events_by_id.has(event_id):
+				if not bool(source.get("override", false)):
+					push_warning("Built-in event id wins; add override=true to rewrite it: %s" % event_id)
+					continue
+				var base: Dictionary = events_by_id[event_id]
+				var merged := _merge_mod_event_override(base, source, path)
+				if merged.is_empty():
+					continue
+				var index := events.find(base)
+				if index >= 0:
+					events[index] = merged
+				events_by_id[event_id] = merged
+				continue
+			var clean := _sanitize_new_mod_event(source, pack_ids, path)
+			if clean.is_empty():
+				continue
+			events.append(clean)
+			events_by_id[event_id] = clean
+
+func _sanitize_new_mod_event(source: Dictionary, pack_ids: Dictionary, path: String) -> Dictionary:
+	if not _mod_event_root_keys_valid(source, path):
+		return {}
+	if str(source.get("title", "")).strip_edges().is_empty() \
+			or str(source.get("description", "")).strip_edges().is_empty():
+		push_warning("Skipping event mod with empty title/description: %s" % path)
+		return {}
+	if str(source.get("category", "")) == "story" \
+			or str(source.get("rarity", "common")) == "story" \
+			or float(source.get("weight", 1.0)) <= 0.0 \
+			or bool(source.get("hidden", false)):
+		push_warning("Skipping non-random event mod '%s'; custom events must join the random pool" % source.get("id", ""))
+		return {}
+	if not source.get("conditions", {}) is Dictionary or not source.get("tags", []) is Array:
+		push_warning("Skipping event mod with invalid conditions/tags: %s" % source.get("id", ""))
+		return {}
+	var raw_choices: Variant = source.get("choices", [])
+	if not raw_choices is Array or (raw_choices as Array).is_empty():
+		push_warning("Skipping event mod without choices: %s" % source.get("id", ""))
+		return {}
+	var clean_choices: Array = []
+	for raw_choice in raw_choices:
+		if not raw_choice is Dictionary:
+			push_warning("Skipping event mod with a non-object choice: %s" % source.get("id", ""))
+			return {}
+		var choice := (raw_choice as Dictionary).duplicate(true)
+		if not _mod_choice_valid(choice, {}, pack_ids, path):
+			return {}
+		clean_choices.append(choice)
+	var clean := source.duplicate(true)
+	clean.erase("override")
+	clean["hidden"] = false
+	clean["rarity"] = str(clean.get("rarity", "common"))
+	clean["weight"] = maxf(0.01, float(clean.get("weight", 1.0)))
+	clean["cooldown"] = maxi(3, int(clean.get("cooldown", 3)))
+	var tags: Array = clean.get("tags", []).duplicate()
+	if not tags.has("modded"):
+		tags.append("modded")
+	clean["tags"] = tags
+	clean["choices"] = clean_choices
+	return clean
+
+func _merge_mod_event_override(
+		base: Dictionary,
+		source: Dictionary,
+		path: String) -> Dictionary:
+	if not _mod_event_root_keys_valid(source, path):
+		return {}
+	var base_choices: Variant = base.get("choices", [])
+	var source_choices: Variant = source.get("choices", [])
+	if not base_choices is Array or not source_choices is Array \
+			or (base_choices as Array).size() != (source_choices as Array).size():
+		push_warning("Skipping event override with changed choice count: %s" % base.get("id", ""))
+		return {}
+	var merged := base.duplicate(true)
+	for key in source.keys():
+		var key_name := str(key)
+		if key_name == "override" or key_name == "choices" or key_name in MOD_EVENT_SCHEDULE_KEYS:
+			continue
+		merged[key_name] = source[key]
+	var merged_choices: Array = []
+	for index in range((source_choices as Array).size()):
+		var base_choice: Dictionary = (base_choices as Array)[index]
+		if not (source_choices as Array)[index] is Dictionary:
+			push_warning("Skipping event override with a non-object choice: %s" % base.get("id", ""))
+			return {}
+		var choice := ((source_choices as Array)[index] as Dictionary).duplicate(true)
+		var allowed_core := _choice_produced_flags(base_choice)
+		if not _mod_choice_valid(choice, allowed_core, {}, path):
+			return {}
+		for schedule_key in MOD_CHOICE_SCHEDULE_KEYS:
+			if base_choice.has(schedule_key):
+				choice[schedule_key] = base_choice[schedule_key]
+			else:
+				choice.erase(schedule_key)
+		choice["flags"] = _merged_choice_flags(base_choice, choice)
+		_preserve_nested_choice_flags(base_choice, choice)
+		merged_choices.append(choice)
+	merged["choices"] = merged_choices
+	return merged
+
+func _mod_event_root_keys_valid(source: Dictionary, path: String) -> bool:
+	for key in source.keys():
+		if not str(key) in MOD_EVENT_ROOT_KEYS:
+			push_warning("Skipping event mod with unsupported root key '%s': %s" % [key, path])
+			return false
+	return true
+
+func _mod_choice_valid(
+		choice: Dictionary,
+		allowed_core_flags: Dictionary,
+		pack_ids: Dictionary,
+		path: String) -> bool:
+	for key in choice.keys():
+		if not str(key) in MOD_CHOICE_KEYS:
+			push_warning("Skipping event mod with unsupported choice key '%s': %s" % [key, path])
+			return false
+	if str(choice.get("text", "")).strip_edges().is_empty() \
+			or str(choice.get("result_text", "")).strip_edges().is_empty():
+		push_warning("Skipping event mod with empty choice text/result: %s" % path)
+		return false
+	for flag in _choice_produced_flags(choice).keys():
+		if not str(flag).begins_with("mod_") and not allowed_core_flags.has(flag):
+			push_warning("Skipping event mod with unnamespaced flag '%s': %s" % [flag, path])
+			return false
+	for follow_key in ["follow_up_event", "deferred_follow_up"]:
+		var target := str(choice.get(follow_key, ""))
+		if not target.is_empty() and not pack_ids.is_empty() and not pack_ids.has(target):
+			push_warning("Skipping event mod with cross-pack follow-up '%s': %s" % [target, path])
+			return false
+	return true
+
+func _choice_produced_flags(choice: Dictionary) -> Dictionary:
+	var result: Dictionary = {}
+	for flag in choice.get("flags", []):
+		if not str(flag).is_empty():
+			result[str(flag)] = true
+	var opportunity: Variant = choice.get("opportunity", {})
+	if opportunity is Dictionary:
+		for key in ["win_flag", "lose_flag"]:
+			var flag := str((opportunity as Dictionary).get(key, ""))
+			if not flag.is_empty():
+				result[flag] = true
+	var cast_effects: Variant = choice.get("cast_effects", {})
+	if cast_effects is Dictionary:
+		for cast_value in (cast_effects as Dictionary).values():
+			if cast_value is Dictionary:
+				for flag in (cast_value as Dictionary).get("flags", []):
+					if not str(flag).is_empty():
+						result[str(flag)] = true
+	return result
+
+func _merged_choice_flags(base_choice: Dictionary, mod_choice: Dictionary) -> Array:
+	var result: Array = []
+	for flag in base_choice.get("flags", []):
+		if not result.has(flag):
+			result.append(flag)
+	for flag in mod_choice.get("flags", []):
+		if str(flag).begins_with("mod_") and not result.has(flag):
+			result.append(flag)
+	return result
+
+func _preserve_nested_choice_flags(base_choice: Dictionary, mod_choice: Dictionary) -> void:
+	var base_opportunity: Variant = base_choice.get("opportunity", {})
+	if base_opportunity is Dictionary:
+		var opportunity: Dictionary = mod_choice.get("opportunity", {}).duplicate(true) \
+				if mod_choice.get("opportunity", {}) is Dictionary else {}
+		for key in ["win_flag", "lose_flag"]:
+			if (base_opportunity as Dictionary).has(key):
+				opportunity[key] = (base_opportunity as Dictionary)[key]
+		if not opportunity.is_empty():
+			mod_choice["opportunity"] = opportunity
+	var base_cast: Variant = base_choice.get("cast_effects", {})
+	if not base_cast is Dictionary:
+		return
+	var mod_cast: Dictionary = mod_choice.get("cast_effects", {}).duplicate(true) \
+			if mod_choice.get("cast_effects", {}) is Dictionary else {}
+	for cast_id in (base_cast as Dictionary).keys():
+		var base_row: Variant = (base_cast as Dictionary)[cast_id]
+		if not base_row is Dictionary or not (base_row as Dictionary).has("flags"):
+			continue
+		var mod_row: Dictionary = mod_cast.get(cast_id, {}).duplicate(true) \
+				if mod_cast.get(cast_id, {}) is Dictionary else {}
+		var flags: Array = (base_row as Dictionary).get("flags", []).duplicate()
+		for flag in mod_row.get("flags", []):
+			if str(flag).begins_with("mod_") and not flags.has(flag):
+				flags.append(flag)
+		mod_row["flags"] = flags
+		mod_cast[cast_id] = mod_row
+	if not mod_cast.is_empty():
+		mod_choice["cast_effects"] = mod_cast
+
+func _is_safe_mod_event_id(event_id: String) -> bool:
+	if event_id.is_empty() or event_id.length() > 96:
+		return false
+	for i in range(event_id.length()):
+		var cp := event_id.unicode_at(i)
+		if not ((cp >= 97 and cp <= 122) or (cp >= 48 and cp <= 57) or cp == 95):
+			return false
+	return true
+
+func _apply_catalog_presets(rows: Array, section: String) -> void:
+	var index: Dictionary = _index_by_id(rows)
+	for path in ModLoader.enabled_preset_paths():
+		var parsed: Variant = _parse_json(path)
+		if not parsed is Dictionary:
+			push_warning("Skipping non-object balance preset: %s" % path)
+			continue
+		var patches: Variant = (parsed as Dictionary).get(section, [])
+		if not patches is Array:
+			push_warning("Skipping invalid preset section '%s': %s" % [section, path])
+			continue
+		for raw_patch in patches:
+			if not raw_patch is Dictionary:
+				continue
+			var patch := raw_patch as Dictionary
+			var row_id := str(patch.get("id", ""))
+			if row_id.is_empty() or not index.has(row_id):
+				push_warning("Preset cannot add unknown %s id '%s': %s" % [section, row_id, path])
+				continue
+			var base: Dictionary = index[row_id]
+			var merged := _merge_existing_catalog_row(base, patch, path)
+			var row_index := rows.find(base)
+			if row_index >= 0:
+				rows[row_index] = merged
+			index[row_id] = merged
+
+func _merge_existing_catalog_row(base: Dictionary, patch: Dictionary, path: String) -> Dictionary:
+	var merged := base.duplicate(true)
+	for key in patch.keys():
+		var key_name := str(key)
+		if key_name == "id":
+			continue
+		if not base.has(key_name):
+			push_warning("Ignoring unknown preset field '%s' for %s in %s" % [key_name, base.get("id", ""), path])
+			continue
+		if patch[key] is Dictionary and base[key_name] is Dictionary:
+			merged[key_name] = _merge_existing_catalog_dictionary(
+				base[key_name] as Dictionary,
+				patch[key] as Dictionary,
+				path,
+				"%s.%s" % [base.get("id", ""), key_name])
+		elif not _catalog_values_compatible(base[key_name], patch[key]):
+			push_warning("Ignoring preset type mismatch for '%s.%s' in %s" % [base.get("id", ""), key_name, path])
+		else:
+			merged[key_name] = patch[key]
+	return merged
+
+func _merge_existing_catalog_dictionary(
+		base: Dictionary,
+		patch: Dictionary,
+		path: String,
+		field_path: String) -> Dictionary:
+	var merged := base.duplicate(true)
+	for key in patch.keys():
+		var key_name := str(key)
+		if not base.has(key_name):
+			push_warning("Ignoring unknown preset field '%s.%s' in %s" % [field_path, key_name, path])
+			continue
+		if patch[key] is Dictionary and base[key_name] is Dictionary:
+			merged[key_name] = _merge_existing_catalog_dictionary(
+				base[key_name] as Dictionary,
+				patch[key] as Dictionary,
+				path,
+				"%s.%s" % [field_path, key_name])
+		elif not _catalog_values_compatible(base[key_name], patch[key]):
+			push_warning("Ignoring preset type mismatch for '%s.%s' in %s" % [field_path, key_name, path])
+		else:
+			merged[key_name] = patch[key]
+	return merged
+
+func _catalog_values_compatible(base_value: Variant, patch_value: Variant) -> bool:
+	var base_type := typeof(base_value)
+	var patch_type := typeof(patch_value)
+	if base_type in [TYPE_INT, TYPE_FLOAT] and patch_type in [TYPE_INT, TYPE_FLOAT]:
+		return true
+	if base_type != patch_type:
+		return false
+	if base_type != TYPE_ARRAY:
+		return true
+	var base_array := base_value as Array
+	var patch_array := patch_value as Array
+	if patch_array.is_empty():
+		return true
+	if base_array.is_empty():
+		return false
+	for value in patch_array:
+		if not _catalog_values_compatible(base_array[0], value):
+			return false
+	return true
 
 func _apply_event_overlay(lang: String) -> void:
 	_apply_event_overlay_dir(EVENT_LOCALE_DIR % lang, false)

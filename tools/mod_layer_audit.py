@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Audit Gangnam Dream's data-only community translation and asset layer."""
+"""Audit Gangnam Dream's complete data-only community layer."""
 
 from __future__ import annotations
 
@@ -121,12 +121,41 @@ def validate_repository() -> list[str]:
         errors.append("audio extension allowlist changed or missing")
     if re.search(r'(load|preload)\([^\n]*user://', loader):
         errors.append("direct user:// script/resource loading detected")
+    for marker in (
+        'return mod_root().path_join("events")',
+        'return mod_root().path_join("presets")',
+        'return mod_root().path_join("themes")',
+        'or has_any_data_mods()',
+        'not is_mod_enabled("assets")',
+    ):
+        if marker not in loader:
+            errors.append(f"data mod loader contract missing: {marker}")
+    registry = (ROOT / "autoloads" / "DataRegistry.gd").read_text(encoding="utf-8")
+    for marker in (
+        "_apply_event_mods()",
+        "_apply_catalog_presets(assets, \"assets\")",
+        "_apply_catalog_presets(jobs, \"jobs\")",
+        "_apply_catalog_presets(items, \"items\")",
+        "_apply_catalog_presets(news_templates, \"news_templates\")",
+        'begins_with("mod_")',
+        "MOD_EVENT_SCHEDULE_KEYS",
+        "empty title/description",
+        "_catalog_values_compatible",
+    ):
+        if marker not in registry:
+            errors.append(f"data registry mod safety contract missing: {marker}")
     docs = (ROOT / "docs" / "MODDING.md").read_text(encoding="utf-8")
     for phrase in (
         "user://lang/<code>/",
         "user://mods/assets/",
+        "user://mods/events/",
+        "user://mods/presets/",
+        "user://mods/themes/",
+        "mod_pack_validator.py",
+        "override",
+        "mod_",
         "스크립트 모딩은 지원하지 않습니다",
-        "Community translations and asset mods supported.",
+        "Community translations and data-only mods supported.",
     ):
         if phrase not in docs:
             errors.append(f"MODDING.md missing: {phrase}")
@@ -136,6 +165,14 @@ def validate_repository() -> list[str]:
     )
     if result.returncode:
         errors.append(result.stdout.strip() or result.stderr.strip() or "manifest check failed")
+    validator = subprocess.run(
+        [sys.executable, str(ROOT / "tools" / "mod_pack_validator.py"), "--self-test"],
+        cwd=ROOT, capture_output=True, text=True,
+    )
+    if validator.returncode:
+        errors.append(
+            validator.stdout.strip() or validator.stderr.strip() or "mod pack validator self-test failed"
+        )
     return errors
 
 
@@ -152,7 +189,10 @@ def main() -> int:
             print("MOD_LAYER_AUDIT_ERROR", error)
         return 1
     scope = f"pack={args.pack}" if args.pack else "repository"
-    print(f"MOD_LAYER_AUDIT_OK {scope} scripts=0 text_only=1 exact_paths=1")
+    print(
+        f"MOD_LAYER_AUDIT_OK {scope} scripts=0 text_only=1 exact_paths=1 "
+        "random_events=1 schedule_locked=1 mod_flags=1 presets=1 schema_guard=1 themes=3"
+    )
     return 0
 
 

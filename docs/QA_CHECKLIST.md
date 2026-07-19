@@ -115,7 +115,7 @@ Automated onboarding gates:
 - `I18nInfrastructureCheck.tscn` must keep `ja`, `zh-CN`, and `zh-TW` hidden from shipping selection while proving alias normalization, unique UI-miss logging, complete English event/ending/catalog fallback, non-Korean date/housing/money surfaces, and actual bundled-font glyph coverage reporting.
 - `i18n_coverage_check.py` keeps English strict and prepared locales in empty-skeleton mode. After a language translation wave, `--lang <code> --strict` must pass before that code is added to `SHIPPING_LANGUAGES`.
 - `multilingual_surface_audit.py` rejects malformed locale/catalog files and Korean text leaked into target values. Korean source strings are allowed only as keys in `ui_<code>.json`.
-- `ja_translation_audit.py --scope ui` must cover all 2,091 extracted `_tr`/`LocaleManager.ui` keys with exact placeholders and line breaks, zero Hangul/yen leakage, canonical names, valid casino terminology, and correct lock/unlock polarity. Japanese prose scopes remain held until explicit demo GO.
+- `ja_translation_audit.py --scope ui` must cover all 2,194 extracted `_tr`/`LocaleManager.ui` keys with exact placeholders and line breaks, zero Hangul/yen leakage, canonical names, valid casino terminology, and correct lock/unlock polarity. Japanese prose scopes remain held until explicit demo GO.
 - `ScreenshotQA --qa=i18n-layout --lang=ja/zh-CN/zh-TW` must wrap the QA-only CJK paragraph without clipping or covering the footer at 1280x800. An OS-provided glyph fallback is not sufficient for release; the font must be bundled through `FontKit`.
 - Japanese remains a hidden beta even after the UI/font checks pass. The 15-scene Japanese story capture set, strict event/ending parity, and native-speaker spot check are required after the prose hold is lifted and before `ja` can enter `SHIPPING_LANGUAGES`.
 - `TutorialInputCheck.tscn` must advance exactly one tutorial slide per accept input, never activate an underlying AP action, dismiss cleanly, and restore the previous focus. It runs inside `tools/audit.sh`.
@@ -152,6 +152,15 @@ Automated onboarding gates:
 - `ImmersionLoopCheck` must keep every pressure at exactly three live actions, mutation-free previews, no visible Moral/route vocabulary, zero Korean leakage in English, at least six contextual families globally, and at least three families in each chapter's deterministic fixture set. Capital pressure appears only in months 3, 6, 9, and 12 at week three; the six-month fixture must therefore expose exactly two capital windows.
 - `StoryPlaybackCheck.tscn` must prove one held `ui_accept` can traverse multiple prose paragraphs but stops on the current event's final paragraph. It must not expose or commit a choice or cross events. A fresh accept opens a real multi-choice rail; for each of the seven first-session one-choice actions it instead commits the visible localized action exactly once without a rail or portrait-choice shift. AUTO stops before both contracts. Korean/English hints must fit with Xbox `A`, PlayStation `✕`, and Nintendo `B`, and all four demo `same_location` edges must skip the full scene ink/text fade while preserving the follow-up.
 - `ScreenshotQA --qa=ap-act-en --lang=en` must keep the three primary cards in one horizontal row at 1280x800, preserve their scene art and preview copy, and leave the result confirmation unobstructed by the commit toast.
+
+Automated data-only mod gates:
+
+- `python3 tools/mod_pack_validator.py --self-test` must validate the three bundled Moral palettes plus a valid random-event pack and balance preset without launching Godot.
+- `python3 tools/mod_layer_audit.py` must print `MOD_LAYER_AUDIT_OK repository scripts=0 text_only=1 exact_paths=1 random_events=1 schedule_locked=1 mod_flags=1 presets=1 schema_guard=1 themes=3`.
+- `ModLayerCheck.tscn` must discover translation, asset, event, preset, and theme layers; preserve built-in IDs unless `override=true`; reject blank event copy and non-`mod_` flags; preserve schedule keys and choice counts; reject catalog type/schema changes; reverse the winning preset when load order is reversed; and fall back when every layer is disabled.
+- The settings surface must expose the three official Moral palettes at 1280x720 and 1280x800 inside the 2.5% TV-safe rectangle with a keyboard/controller focus owner. The mod manager is a conventional short list: enable toggles plus earlier/later ordering, with changes applied on the next launch.
+- External themes may change only fixed color values under `main/story` and `black/gray/white`. They cannot add a Moral band, rename a surface, or expose the hidden Moral score.
+- Script, scene, package, and native-library files under the mod root are unsupported and must never be loaded.
 
 Automated artifact and hidden-feature gates:
 

@@ -576,22 +576,12 @@ func _moral_ui_palette() -> Dictionary:
 	var white := clampf(_moral_norm, 0.0, 1.0)
 	var ui_black := black * 0.24
 	var ui_white := white * 0.18
-	return {
-		"panel_bg": Color("#0d0d14").lerp(Color("#050807"), ui_black).lerp(Color("#11191f"), ui_white),
-		"panel_border": Color("#1a1a28").lerp(Color("#132018"), ui_black).lerp(Color("#5f7c8b"), ui_white),
-		"chip_bg": Color("#0f1018").lerp(Color("#050a08"), ui_black).lerp(Color("#101a21"), ui_white),
-		"choice_bg": Color("#101018").lerp(Color("#060907"), ui_black).lerp(Color("#111b22"), ui_white),
-		"choice_hover": Color("#171723").lerp(Color("#0a110d"), ui_black).lerp(Color("#172630"), ui_white),
-		"disabled_bg": Color("#0a0a0f").lerp(Color("#040605"), ui_black).lerp(Color("#0b1115"), ui_white),
-		"text": Color("#c8d0df").lerp(Color("#87918b"), ui_black).lerp(Color("#edf7ff"), ui_white),
-		"dim": Color("#9aa4b8").lerp(Color("#5f6a63"), ui_black).lerp(Color("#b7cbd6"), ui_white),
-		"brand": Color(COL_GOLD).lerp(Color("#9aa29d"), ui_black).lerp(Color("#f8fbff"), ui_white),
-		"focus": Color(COL_GOLD_BRIGHT).lerp(Color("#6f7a73"), ui_black).lerp(Color("#f8fbff"), ui_white),
-		"black": ui_black,
-		"white": ui_white,
-		"moral_black": black,
-		"moral_white": white,
-	}
+	var palette := ModLoader.moral_palette("main", black, white)
+	palette["black"] = ui_black
+	palette["white"] = ui_white
+	palette["moral_black"] = black
+	palette["moral_white"] = white
+	return palette
 
 func _apply_moral_ui_palette() -> void:
 	_apply_moral_tree_styles(self, _moral_ui_palette())

@@ -196,22 +196,12 @@ func _story_palette() -> Dictionary:
 	var white := clampf(_story_moral_norm, 0.0, 1.0)
 	var ui_black := black * 0.24
 	var ui_white := white * 0.18
-	return {
-		"panel_bg": Color("#0d0d10", 0.92).lerp(Color("#050706", 0.95), ui_black).lerp(Color("#111820", 0.90), ui_white),
-		"panel_border": Color("#30343a", 0.92).lerp(Color("#202824", 0.95), ui_black).lerp(Color("#637483", 0.96), ui_white),
-		"hud_bg": Color("#0b0c10", 0.86).lerp(Color("#040605", 0.91), ui_black).lerp(Color("#111820", 0.84), ui_white),
-		"choice_bg": Color("#111216", 0.96).lerp(Color("#060807", 0.98), ui_black).lerp(Color("#131d24", 0.95), ui_white),
-		"choice_hover": Color("#181a20", 0.98).lerp(Color("#0a100d", 0.99), ui_black).lerp(Color("#1a2a34", 0.97), ui_white),
-		"text": Color("#e6e8ec").lerp(Color("#a0aaa4"), ui_black * 0.55).lerp(Color("#f3f7ff"), ui_white * 0.65),
-		"dim": Color("#9aa1a8").lerp(Color("#66706a"), ui_black * 0.55).lerp(Color("#c1ced8"), ui_white * 0.58),
-		"dead": Color("#5f656b").lerp(Color("#3f4742"), ui_black * 0.5).lerp(Color("#87949d"), ui_white * 0.45),
-		"focus": Color("#d7dbe2").lerp(Color("#89938d"), ui_black * 0.60).lerp(Color("#f8fbff"), ui_white * 0.75),
-		"line": Color("#30343a", 0.72).lerp(Color("#1d2521", 0.85), ui_black).lerp(Color("#6b7c89", 0.72), ui_white),
-		"black": ui_black,
-		"white": ui_white,
-		"moral_black": black,
-		"moral_white": white,
-	}
+	var palette := ModLoader.moral_palette("story", black, white)
+	palette["black"] = ui_black
+	palette["white"] = ui_white
+	palette["moral_black"] = black
+	palette["moral_white"] = white
+	return palette
 
 ## 같은 사건도 민준이 무엇을 먼저 보는지에 따라 다르게 읽힌다.
 ## 장면 강제 필터(black_future)가 아니라 실제 플레이 상태만 사용한다.

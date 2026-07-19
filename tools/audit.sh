@@ -160,7 +160,7 @@ else
 fi
 
 echo "──────────────────────────────────────────"
-echo "● 커뮤니티 언어팩·에셋 오버라이드 안전성 검사"
+echo "● 커뮤니티 번역·에셋·데이터 모드 안전성 검사"
 python3 tools/mod_layer_audit.py
 MOD_LAYER_AUDIT_EXIT=$?
 if [ -x "$GODOT" ]; then

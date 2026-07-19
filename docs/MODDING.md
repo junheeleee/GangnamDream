@@ -1,16 +1,20 @@
 # 강남드림 커뮤니티 모딩 가이드
 
-강남드림은 **데이터 기반 커뮤니티 번역**과 **이미지·오디오 교체**를 지원한다. 게임 실행 파일이나 GDScript를 불러오는 방식은 제공하지 않는다. 스크립트 모딩은 지원하지 않습니다.
+강남드림은 **데이터 기반 커뮤니티 번역**, **이미지·오디오 교체**, **커스텀 랜덤 이벤트**, **밸런스 프리셋**, **색 테마**를 지원한다. 게임 실행 파일이나 GDScript를 불러오는 방식은 제공하지 않는다. 스크립트 모딩은 지원하지 않습니다.
 
-> Community translations and asset mods supported.
+> Community translations and data-only mods supported.
 
 ## 원칙
 
 - 모드는 게임 설치 폴더가 아니라 Godot 사용자 데이터 폴더의 `user://` 아래에 둔다.
 - 번역팩은 표시 텍스트만 바꾼다. 조건, 수치, 효과, 배경, 후속 이벤트 등 게임플레이 데이터는 바꿀 수 없다.
 - 에셋은 내장 파일과 **완전히 같은 상대경로**에 둔 파일만 교체한다.
+- 새 이벤트가 만드는 상태 플래그는 반드시 `mod_`로 시작한다.
+- 밸런스 프리셋은 존재하는 내장 ID의 값만 병합한다. 새 직업·자산·아이템을 추가하지 않는다.
+- 색 테마는 어둡/회색/밝음 세 밴드의 구조를 유지하고 정해진 색값만 바꾼다.
 - 파일이 없거나 읽을 수 없으면 게임은 내장 데이터와 에셋으로 자동 복귀한다.
 - 감지된 모드가 있으면 타이틀에 작은 `MODDED` 표기가 나타나고, 세이브에도 `mod_active` 정보가 기록된다.
+- 타이틀의 `설정 > 모드 관리`에서 개별 활성화와 로드 순서를 바꾼다. 변경은 다음 실행부터 적용된다.
 
 ## 사용자 데이터 폴더
 
@@ -112,6 +116,105 @@ user://lang/ja/
 ```bash
 python3 tools/mod_layer_audit.py --pack "/path/to/user/lang/ja"
 ```
+
+## 데이터 모드
+
+데이터 모드 루트는 `user://mods/`다.
+
+```text
+user://mods/
+├── assets/       # 이미지·오디오 교체
+├── events/       # 커스텀 랜덤 이벤트 팩
+├── presets/      # 밸런스·시나리오 프리셋
+└── themes/       # Moral UI 색 테마
+```
+
+로드 순서는 위에서 아래다. 같은 catalog 값을 여러 프리셋이 바꾸면 나중에 로드된 값이 남는다. 모드 파일은 JSON만 읽힌다. `.gd`, `.tscn`, `.pck`, 네이티브 라이브러리는 발견해도 로드하지 않는다.
+
+### 커스텀 이벤트 팩
+
+`user://mods/events/*.json`은 배열 또는 `events` 배열을 가진 팩 객체다.
+
+```json
+{
+  "id": "night_shift_stories",
+  "name": "Night Shift Stories",
+  "version": "1.0",
+  "events": [
+    {
+      "id": "mod_night_shift_regular",
+      "title": "매일 오는 손님",
+      "description": "오늘도 같은 시간에 문이 열렸다.",
+      "category": "daily_life",
+      "rarity": "common",
+      "weight": 1.0,
+      "hidden": false,
+      "conditions": {"job": "job_01"},
+      "tags": ["daily", "work"],
+      "cooldown": 8,
+      "choices": [
+        {
+          "text": "먼저 인사한다",
+          "effects": {"mental": 1},
+          "flags": ["mod_night_shift_greeted"],
+          "result_text": "손님이 처음으로 이름을 말했다."
+        }
+      ]
+    }
+  ]
+}
+```
+
+- 신규 ID는 비어 있지 않은 `title/description`, 양수 `weight`, `story`가 아닌 `category/rarity`, 하나 이상의 선택지를 갖춰야 한다. 로더가 이를 랜덤 풀로만 보내므로 정본 `_next_arc_id` 스케줄에 개입할 수 없다.
+- 새로 쓰는 `flags`, `opportunity.win_flag/lose_flag`, `cast_effects.*.flags`는 모두 `mod_`로 시작한다.
+- 후속 사건은 같은 파일의 이벤트 ID만 가리킨다. 다른 팩이나 내장 아크로 새는 우회를 막는다.
+- 내장 ID와 충돌하면 내장 사건이 이긴다.
+
+내장 사건을 개작하려면 `"override": true`를 명시한다. 원본과 선택지 수가 같아야 하며, 이벤트 조건·가중치·쿨다운·타이머와 선택지의 `follow_up_event/deferred_follow_up/deferred_delay`는 원본으로 고정된다. 대사·선택 문구·표현 에셋·효과는 개작할 수 있지만, 원본 후속을 여는 기존 플래그는 제거되지 않는다.
+
+### 밸런스·시나리오 프리셋
+
+`user://mods/presets/*.json`은 `jobs`, `assets`, `items`, `news_templates` 배열을 가진다. 각 행은 내장 `id`를 지정하고 바꿀 필드만 쓴다.
+
+```json
+{
+  "id": "hard_times",
+  "name": "Hard Times",
+  "version": "1.0",
+  "jobs": [
+    {"id": "job_01", "base_salary": 1180000}
+  ],
+  "assets": [
+    {"id": "bitcoin", "volatility": 0.42}
+  ],
+  "news_templates": [
+    {"id": "news_001", "misleading_chance": 0.3}
+  ]
+}
+```
+
+알 수 없는 ID, 내장 행에 없는 필드, 기존 값과 자료형이 다른 값은 무시된다. 중첩 객체와 배열도 내장 스키마를 유지해야 한다. 이 계층은 데이터 밸런스를 바꾸지만, `finish_run`·아크 스케줄·저장 스키마는 바꾸지 못한다.
+
+### Moral UI 색 테마
+
+`user://mods/themes/*.json`은 `content/themes/moral_ui_default.json`과 같은 스키마를 쓴다. `main/story` 표면, `black/gray/white` 밴드, 고정된 색 키를 하나도 늘리거나 줄일 수 없다. 값은 `#RRGGBB` 또는 `#RRGGBBAA`다. 테마를 켜고 `설정 > 색각 접근성`에서 선택한다.
+
+게임에는 다음 공식 테마가 포함된다.
+
+- `default`: 기본 Gangnam Ink 팔레트
+- `colorblind`: 파랑·황색 구분과 명도 차를 키운 색각 보정
+- `high_contrast`: 텍스트·경계·포커스 명도 차를 최대화한 고대비
+
+### 배포 전 검증
+
+전체 모드 루트나 JSON 파일 하나를 검사할 수 있다.
+
+```bash
+python3 tools/mod_pack_validator.py "/path/to/user/mods"
+python3 tools/mod_pack_validator.py "/path/to/user/mods/events/my_pack.json"
+```
+
+검증기는 JSON 스키마, 내장 ID 충돌, `override` 선택지 수, `mod_` 플래그, 후속 사건 범위, catalog ID, 테마 색 키, 실행 가능 파일 포함 여부를 검사한다.
 
 ## 이미지·오디오 교체
 

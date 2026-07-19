@@ -181,6 +181,15 @@ If a feature does not strengthen one of these, improve usability or create delig
 - Wishlist growth, demo completion, replay intent, refund reasons, creator coverage, and regional response justify scaling spend.
 - Korean specificity remains legible abroad without flattening the work into a generic office-life simulator.
 
+### Data-Only Mod Safety (P3, Non-Blocking)
+
+- Community events enter only the random pool. Built-in story rewrites require explicit `override=true` while preserving conditions, timing, follow-ups, and choice count.
+- New mod-owned state uses the `mod_` namespace. Invalid flags, blank display copy, unsafe IDs, and cross-pack follow-ups fail closed.
+- Balance presets merge only existing job, asset, item, and news IDs and cannot change field types or nested catalog schemas. Declared load order is deterministic and later values win.
+- Moral themes retain the hidden `black/gray/white` structure and may alter fixed color values only. Default, color-vision, and high-contrast presets remain selectable without exposing a morality score.
+- The in-game list controls enable state and order for data layers, while saves record active mod IDs for reproducible bug reports. Script and native-code loading remain unsupported.
+- This is a community and DLC authoring surface, not a release-quality substitute. It cannot waive any story, balance, save, accessibility, or black-box gate above.
+
 ## Audit Tracks
 
 | Track | Black-box evidence | Source/data evidence | Output |

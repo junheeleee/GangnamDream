@@ -3,7 +3,9 @@ extends Node
 const TEST_CODE := "qx-Test"
 const TEST_ROOT := "user://mod_layer_check"
 const LANG_ROOT := TEST_ROOT + "/lang"
-const ASSET_ROOT := TEST_ROOT + "/mods/assets"
+const MOD_ROOT := TEST_ROOT + "/mods"
+const ASSET_ROOT := MOD_ROOT + "/assets"
+const SETTINGS_PATH := TEST_ROOT + "/settings.json"
 
 var _failures: Array[String] = []
 
@@ -14,24 +16,41 @@ func _run() -> void:
 	_prepare_directories()
 	LocaleManager.set_language("en")
 	DataRegistry.reload()
-	var event_before := _first_event_with_choices()
+	var event_samples := _events_with_choices(3)
+	var event_before: Dictionary = event_samples[0]
+	var override_before: Dictionary = event_samples[1]
+	var collision_before: Dictionary = event_samples[2]
 	var ending_before: Dictionary = DataRegistry.endings[0].duplicate(true)
+	var job_before: Dictionary = DataRegistry.get_job("job_01").duplicate(true)
+	var job_salary_before := int(job_before.get("base_salary", 0))
+	var job_tier_before := int(job_before.get("tier", 0))
+	var job_social_before := int((job_before.get("stat_gains", {}) as Dictionary).get("social_skill", 0))
+	var asset_volatility_before := float(DataRegistry.get_asset("samsung").get("volatility", 0.0))
 	_write_language_pack(event_before, ending_before)
 	_write_asset_overrides()
+	_write_data_mods(override_before, collision_before, job_salary_before, asset_volatility_before)
 
-	ModLoader.configure_test_roots(LANG_ROOT, ASSET_ROOT)
+	ModLoader.configure_test_roots(LANG_ROOT, ASSET_ROOT, MOD_ROOT, SETTINGS_PATH)
 	LocaleManager.refresh_community_packs()
 	_check_discovery()
 	_check_language_overlay(event_before, ending_before)
 	_check_asset_override()
+	_check_data_mods(
+		override_before,
+		collision_before,
+		job_salary_before,
+		job_tier_before,
+		job_social_before,
+		asset_volatility_before)
 	_check_save_marker()
+	_check_data_mod_toggle(job_salary_before)
 
 	if not _failures.is_empty():
 		for failure in _failures:
 			push_error("MOD_LAYER_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("MOD_LAYER_CHECK_OK languages=1 event_text_only=1 ending_text_only=1 image=1 audio=1 fallback=1 save_marker=1 scripts=0")
+	print("MOD_LAYER_CHECK_OK languages=1 event_text_only=1 ending_text_only=1 image=1 audio=1 fallback=1 custom_event=1 override=1 invalid_flag=1 blank_copy=1 presets=2 schema_guard=1 load_order=1 load_order_flip=1 themes=4 toggles=1 save_marker=1 scripts=0")
 	get_tree().quit(0)
 
 func _prepare_directories() -> void:
@@ -39,17 +58,23 @@ func _prepare_directories() -> void:
 		LANG_ROOT.path_join(TEST_CODE).path_join("events_%s" % TEST_CODE),
 		ASSET_ROOT.path_join("characters"),
 		ASSET_ROOT.path_join("audio"),
+		MOD_ROOT.path_join("events"),
+		MOD_ROOT.path_join("presets"),
+		MOD_ROOT.path_join("themes"),
 	]:
 		var error := DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(path))
 		if error != OK and error != ERR_ALREADY_EXISTS:
 			_fail("could not create test directory: %s (%d)" % [path, error])
 
-func _first_event_with_choices() -> Dictionary:
+func _events_with_choices(count: int) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
 	for raw_event in DataRegistry.events:
 		if raw_event is Dictionary and not (raw_event as Dictionary).get("choices", []).is_empty():
-			return (raw_event as Dictionary).duplicate(true)
-	_fail("no event with choices was available")
-	return {}
+			result.append((raw_event as Dictionary).duplicate(true))
+			if result.size() >= count:
+				return result
+	_fail("not enough events with choices were available")
+	return result
 
 func _write_language_pack(event_before: Dictionary, ending_before: Dictionary) -> void:
 	var root := LANG_ROOT.path_join(TEST_CODE)
@@ -105,6 +130,136 @@ func _write_asset_overrides() -> void:
 		script_file.store_string("extends Node\n")
 		script_file.close()
 
+func _write_data_mods(
+		override_before: Dictionary,
+		collision_before: Dictionary,
+		job_salary_before: int,
+		asset_volatility_before: float) -> void:
+	var rewritten_choices: Array = []
+	var base_choices: Array = override_before.get("choices", [])
+	for index in range(base_choices.size()):
+		var choice: Dictionary = (base_choices[index] as Dictionary).duplicate(true)
+		choice["text"] = "QA OVERRIDE CHOICE %d" % index
+		choice["result_text"] = "QA OVERRIDE RESULT %d" % index
+		choice["effects"] = {"mental": index + 1}
+		var flags: Array = choice.get("flags", []).duplicate()
+		flags.append("mod_qa_override_%d" % index)
+		choice["flags"] = flags
+		rewritten_choices.append(choice)
+	_write_json(MOD_ROOT.path_join("events/qa_events.json"), {
+		"id": "qa_events",
+		"name": "QA Events",
+		"version": "1",
+		"events": [
+			{
+				"id": "mod_qa_random",
+				"title": "QA RANDOM EVENT",
+				"description": "A random event supplied by a data mod.",
+				"category": "daily_life",
+				"rarity": "common",
+				"weight": 1.0,
+				"hidden": false,
+				"conditions": {},
+				"tags": ["daily"],
+				"cooldown": 3,
+				"choices": [{
+					"text": "Keep going",
+					"effects": {"mental": 1},
+					"flags": ["mod_qa_seen"],
+					"result_text": "The custom event resolved.",
+				}],
+			},
+			{
+				"id": "mod_qa_bad_flag",
+				"title": "QA BAD FLAG",
+				"description": "This event must be rejected.",
+				"category": "daily_life",
+				"rarity": "common",
+				"weight": 1.0,
+				"hidden": false,
+				"conditions": {},
+				"tags": ["daily"],
+				"cooldown": 3,
+				"choices": [{
+					"text": "Break canon",
+					"effects": {"mental": 1},
+					"flags": ["story_intro_completed"],
+					"result_text": "This should never load.",
+				}],
+			},
+			{
+				"id": "mod_qa_blank_title",
+				"title": "",
+				"description": "This event must also be rejected.",
+				"category": "daily_life",
+				"rarity": "common",
+				"weight": 1.0,
+				"hidden": false,
+				"conditions": {},
+				"tags": ["daily"],
+				"cooldown": 3,
+				"choices": [{
+					"text": "Continue",
+					"effects": {"mental": 1},
+					"flags": ["mod_qa_blank_seen"],
+					"result_text": "This should never load.",
+				}],
+			},
+			{
+				"id": str(collision_before.get("id", "")),
+				"title": "QA COLLISION WITHOUT OVERRIDE",
+			},
+			{
+				"id": str(override_before.get("id", "")),
+				"override": true,
+				"title": "QA STORY REWRITE",
+				"description": "The prose and effects changed; the schedule did not.",
+				"choices": rewritten_choices,
+			},
+		],
+	})
+	_write_json(MOD_ROOT.path_join("presets/qa_first.json"), {
+		"id": "qa_first",
+		"name": "QA First Preset",
+		"version": "1",
+		"jobs": [{"id": "job_01", "base_salary": job_salary_before + 1}],
+		"assets": [{"id": "samsung", "volatility": asset_volatility_before + 0.001}],
+	})
+	_write_json(MOD_ROOT.path_join("presets/qa_second.json"), {
+		"id": "qa_second",
+		"name": "QA Second Preset",
+		"version": "1",
+		"jobs": [{
+			"id": "job_01",
+			"base_salary": job_salary_before + 2,
+			"tier": "broken",
+			"stat_gains": {"social_skill": "broken", "mod_new": 99},
+		}],
+	})
+	var theme: Variant = JSON.parse_string(FileAccess.get_file_as_string(
+		"res://content/themes/moral_ui_default.json"))
+	if theme is Dictionary:
+		theme["id"] = "mod_qa"
+		theme["name_ko"] = "QA 테마"
+		theme["name_en"] = "QA Theme"
+		(theme["surfaces"]["main"]["gray"] as Dictionary)["focus"] = "#00ff00ff"
+		_write_json(MOD_ROOT.path_join("themes/qa_theme.json"), theme)
+	else:
+		_fail("could not clone the default moral palette")
+	_write_json(SETTINGS_PATH, {
+		"moral_palette": "mod_qa",
+		"mod_enabled": {
+			"assets": true,
+			"events:qa_events": true,
+			"preset:qa_first": true,
+			"preset:qa_second": true,
+			"theme:mod_qa": true,
+		},
+		"mod_load_order": [
+			"events:qa_events", "preset:qa_first", "preset:qa_second", "theme:mod_qa", "assets",
+		],
+	})
+
 func _check_discovery() -> void:
 	_expect(TEST_CODE in ModLoader.discover_language_codes(), "community language was not discovered")
 	_expect(TEST_CODE in LocaleManager.get_selectable_languages(), "community language was not selectable")
@@ -112,6 +267,11 @@ func _check_discovery() -> void:
 	_expect(
 		ModLoader.resolve_asset_override("res://assets/evil.gd") == "res://assets/evil.gd",
 		"script file was treated as an asset override")
+	var mod_ids: Array[String] = []
+	for info in ModLoader.discover_data_mods():
+		mod_ids.append(str(info.get("id", "")))
+	for expected in ["assets", "events:qa_events", "preset:qa_first", "preset:qa_second", "theme:mod_qa"]:
+		_expect(expected in mod_ids, "data mod was not discovered: %s" % expected)
 
 func _check_language_overlay(event_before: Dictionary, ending_before: Dictionary) -> void:
 	LocaleManager.set_language(TEST_CODE)
@@ -154,6 +314,70 @@ func _check_asset_override() -> void:
 	_expect(fallback != null and (fallback.get_width() != 3 or fallback.get_height() != 2),
 		"missing image override did not fall back to built-in")
 
+func _check_data_mods(
+			override_before: Dictionary,
+			collision_before: Dictionary,
+			job_salary_before: int,
+			job_tier_before: int,
+			job_social_before: int,
+			asset_volatility_before: float) -> void:
+	var custom: Dictionary = DataRegistry.find_event("mod_qa_random")
+	_expect(not custom.is_empty(), "valid custom random event was not loaded")
+	_expect(str(custom.get("rarity", "")) != "story" and float(custom.get("weight", 0.0)) > 0.0,
+		"custom event entered a non-random lane")
+	_expect(DataRegistry.find_event("mod_qa_bad_flag").is_empty(),
+		"event with an unnamespaced flag was loaded")
+	_expect(DataRegistry.find_event("mod_qa_blank_title").is_empty(),
+		"event with blank display copy was loaded")
+	var collision: Dictionary = DataRegistry.find_event(str(collision_before.get("id", "")))
+	_expect(str(collision.get("title", "")) == str(collision_before.get("title", "")),
+		"built-in event collision replaced canon without override=true")
+	var rewritten: Dictionary = DataRegistry.find_event(str(override_before.get("id", "")))
+	_expect(str(rewritten.get("title", "")) == "QA STORY REWRITE", "explicit story rewrite did not load")
+	_expect(rewritten.get("conditions", {}) == override_before.get("conditions", {}),
+		"story rewrite changed the schedule conditions")
+	_expect(rewritten.get("choices", []).size() == override_before.get("choices", []).size(),
+		"story rewrite changed the choice count")
+	for index in range(rewritten.get("choices", []).size()):
+		var before_choice: Dictionary = override_before.get("choices", [])[index]
+		var after_choice: Dictionary = rewritten.get("choices", [])[index]
+		for key in ["follow_up_event", "deferred_follow_up", "deferred_delay"]:
+			_expect(after_choice.get(key) == before_choice.get(key),
+				"story rewrite changed schedule key %s" % key)
+	_expect(int(DataRegistry.get_job("job_01").get("base_salary", 0)) == job_salary_before + 2,
+		"preset load order did not use the later value")
+	var modded_job: Dictionary = DataRegistry.get_job("job_01")
+	_expect(int(modded_job.get("tier", 0)) == job_tier_before,
+		"preset type mismatch changed a catalog field")
+	var stat_gains: Dictionary = modded_job.get("stat_gains", {})
+	_expect(int(stat_gains.get("social_skill", 0)) == job_social_before and not stat_gains.has("mod_new"),
+		"preset changed the nested catalog schema")
+	_expect(is_equal_approx(
+		float(DataRegistry.get_asset("samsung").get("volatility", 0.0)),
+		asset_volatility_before + 0.001), "asset preset did not merge by id")
+	_expect(ModLoader.available_theme_infos().size() == 4, "official and external themes were not listed")
+	_expect(ModLoader.selected_theme_id() == "mod_qa", "external theme selection did not persist")
+	var palette := ModLoader.moral_palette("main", 0.0, 0.0)
+	_expect((palette.get("focus", Color.BLACK) as Color).is_equal_approx(Color("#00ff00ff")),
+		"external theme color did not load")
+	_write_json(SETTINGS_PATH, {
+		"moral_palette": "mod_qa",
+		"mod_enabled": {
+			"assets": true,
+			"events:qa_events": true,
+			"preset:qa_first": true,
+			"preset:qa_second": true,
+			"theme:mod_qa": true,
+		},
+		"mod_load_order": [
+			"events:qa_events", "preset:qa_second", "preset:qa_first", "theme:mod_qa", "assets",
+		],
+	})
+	ModLoader.notify_settings_changed()
+	DataRegistry.reload()
+	_expect(int(DataRegistry.get_job("job_01").get("base_salary", 0)) == job_salary_before + 1,
+		"reversing preset load order did not reverse the winning value")
+
 func _check_save_marker() -> void:
 	_expect(ModLoader.is_active(LocaleManager.language), "active mod state was false")
 	_expect(SaveManager.save_game(3), "modded save could not be written")
@@ -164,6 +388,28 @@ func _check_save_marker() -> void:
 		_expect(bool((parsed as Dictionary).get("mod_active", false)), "save omitted mod_active")
 		var active: Array = (parsed as Dictionary).get("active_mods", [])
 		_expect("lang:%s" % TEST_CODE in active and "assets" in active, "save omitted active mod labels")
+		_expect("events:qa_events" in active and "preset:qa_second" in active and "theme:mod_qa" in active,
+			"save omitted active data mod labels")
+
+func _check_data_mod_toggle(job_salary_before: int) -> void:
+	_write_json(SETTINGS_PATH, {
+		"moral_palette": "default",
+		"mod_enabled": {
+			"assets": false,
+			"events:qa_events": false,
+			"preset:qa_first": false,
+			"preset:qa_second": false,
+			"theme:mod_qa": false,
+		},
+		"mod_load_order": ["preset:qa_second", "preset:qa_first"],
+	})
+	ModLoader.notify_settings_changed()
+	DataRegistry.reload()
+	_expect(DataRegistry.find_event("mod_qa_random").is_empty(), "disabled event mod still loaded")
+	_expect(int(DataRegistry.get_job("job_01").get("base_salary", 0)) == job_salary_before,
+		"disabled preset still changed the catalog")
+	_expect(ModLoader.selected_theme_id() == "default", "disabled external theme did not fall back")
+	_expect(not ModLoader.has_any_asset_overrides(), "disabled asset layer stayed active")
 
 func _write_json(path: String, value: Variant) -> void:
 	var file := FileAccess.open(path, FileAccess.WRITE)
