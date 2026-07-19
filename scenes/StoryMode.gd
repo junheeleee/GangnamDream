@@ -1452,8 +1452,13 @@ func _refresh_story_speaker_language() -> void:
 func _refresh_continue_hint_text() -> void:
 	if not is_instance_valid(_continue_hint):
 		return
-	_continue_hint.text = _tr("[%s] 또는 클릭", "[%s] or click") % ControllerHints.south() \
-			if ControllerHints.is_pad_active() else _tr("▼  Enter 또는 클릭", "▼  Enter or click")
+	if ControllerHints.is_pad_active():
+		var has_more_prose := _para_index >= 0 and _para_index < _paragraphs.size() - 1
+		_continue_hint.text = _tr("[%s] 진행 · 길게 읽기", "[%s] Advance · Hold to read") \
+				% ControllerHints.south() if has_more_prose \
+				else _tr("[%s] 진행", "[%s] Advance") % ControllerHints.south()
+	else:
+		_continue_hint.text = _tr("▼  Enter 또는 클릭", "▼  Enter or click")
 
 # ── 이벤트 로딩 ───────────────────────────────────────────────
 func _load_next_event():

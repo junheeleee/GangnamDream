@@ -96,6 +96,7 @@ Use a numbered vertical or short stacked choice rail.
 - B: skip/close only when safe; never auto-choose.
 - The portrait shift on choice reveal is good and should remain because it clarifies the active decision layer.
 - Holding South/A advances prose paragraphs only inside the current event. It must stop on the event's final paragraph and may never open or commit a choice, cross a chapter/result boundary, or enter the next event.
+- While a gamepad is active, the continue hint advertises localized `Hold to read` only when another prose paragraph remains. It uses the physical South label for the active brand (`A`, `✕`, or `B`) and returns to plain `Advance` on the final paragraph so the UI never promises a protected-boundary crossing.
 - A fresh South/A press is required after every protected boundary. Short press, AUTO, mouse, and the focused-choice button keep their existing meanings.
 
 ### Investment Modal

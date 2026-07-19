@@ -40,7 +40,7 @@ func _ready() -> void:
 	if not _check_covered_story_handoff():
 		return
 
-	print("STORY_PLAYBACK_CHECK_OK hold=prose_only choice_commit=0")
+	print("STORY_PLAYBACK_CHECK_OK hold=prose_only hints=ko_en_xbox_ps_nintendo choice_commit=0")
 	get_tree().quit(0)
 
 func _spawn_story_fixture() -> bool:
@@ -57,6 +57,9 @@ func _spawn_story_fixture() -> bool:
 	return true
 
 func _check_accept_hold_boundary() -> bool:
+	var original_language := LocaleManager.language
+	LocaleManager.set_language("en")
+	ControllerHints.force_brand_for_qa(ControllerHints.Brand.XBOX)
 	if not await _spawn_story_fixture():
 		return false
 	var paragraphs: Array = _story.get("_paragraphs")
@@ -64,6 +67,36 @@ func _check_accept_hold_boundary() -> bool:
 		_fail("story fixture needs at least three prose paragraphs")
 		return false
 	_story.call("_complete_typing")
+	var continue_hint := _story.get("_continue_hint") as Label
+	if not is_instance_valid(continue_hint):
+		_fail("story continue hint is missing")
+		return false
+	for hint_fixture in [
+			[ControllerHints.Brand.XBOX, "A"],
+			[ControllerHints.Brand.PLAYSTATION, "✕"],
+			[ControllerHints.Brand.NINTENDO, "B"],
+	]:
+		ControllerHints.force_brand_for_qa(hint_fixture[0])
+		var south_label := str(hint_fixture[1])
+		LocaleManager.set_language("en")
+		_story.call("_refresh_continue_hint_text")
+		if continue_hint.text != "[%s] Advance · Hold to read" % south_label:
+			_fail("English gamepad hold hint is missing or mislabeled for %s" % south_label)
+			return false
+		if not _hint_fits(continue_hint):
+			_fail("English gamepad hold hint overflows for %s" % south_label)
+			return false
+		LocaleManager.set_language("ko")
+		_story.call("_refresh_continue_hint_text")
+		if continue_hint.text != "[%s] 진행 · 길게 읽기" % south_label:
+			_fail("Korean gamepad hold hint is missing or mislabeled for %s" % south_label)
+			return false
+		if not _hint_fits(continue_hint):
+			_fail("Korean gamepad hold hint overflows for %s" % south_label)
+			return false
+	ControllerHints.force_brand_for_qa(ControllerHints.Brand.XBOX)
+	LocaleManager.set_language("en")
+	_story.call("_refresh_continue_hint_text")
 	var event_id := str((_story.get("_current") as Dictionary).get("id", ""))
 	await _send_accept_action(true)
 	for _step in range(16):
@@ -78,6 +111,10 @@ func _check_accept_hold_boundary() -> bool:
 			or str((_story.get("_current") as Dictionary).get("id", "")) != event_id:
 		_fail("held accept crossed the prose boundary")
 		return false
+	_story.call("_refresh_continue_hint_text")
+	if continue_hint.text != "[A] Advance":
+		_fail("final paragraph still advertises a hold that cannot cross the boundary")
+		return false
 	await _send_accept_action(false)
 	await _send_accept_action(true)
 	if not bool(_story.get("_showing_choices")):
@@ -89,7 +126,16 @@ func _check_accept_hold_boundary() -> bool:
 		_fail("held prose input selected a choice or crossed events")
 		return false
 	await _send_accept_action(false)
+	ControllerHints.clear_qa_override()
+	LocaleManager.set_language(original_language)
 	return true
+
+func _hint_fits(hint: Label) -> bool:
+	var font := hint.get_theme_font("font")
+	var font_size := hint.get_theme_font_size("font_size")
+	var text_width := font.get_string_size(
+		hint.text, HORIZONTAL_ALIGNMENT_LEFT, -1.0, font_size).x
+	return text_width <= hint.size.x
 
 func _send_accept_action(pressed: bool) -> void:
 	var action := InputEventAction.new()
