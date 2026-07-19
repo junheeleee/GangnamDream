@@ -10,6 +10,7 @@ func _ready() -> void:
 	_original_language = LocaleManager.language
 	_check_recent_action_echoes()
 	_check_action_consequence_echoes()
+	_check_weekly_commitment_contract()
 	_check_event_causality()
 	_check_week_surface()
 	_check_demo_pressure_choices()
@@ -24,7 +25,7 @@ func _ready() -> void:
 			push_error("IMMERSION_LOOP_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("IMMERSION_LOOP_CHECK_OK memory=2 action_ids=8 consequence_paths=4 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=4 vignette=2 omen=1 preview=2 rent=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8")
+	print("IMMERSION_LOOP_CHECK_OK memory=2 action_ids=8 commitments=1x3 consequence_paths=4 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=4 vignette=2 omen=1 preview=2 rent=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8")
 	get_tree().quit(0)
 
 func _check_recent_action_echoes() -> void:
@@ -115,6 +116,73 @@ func _check_action_consequence_echoes() -> void:
 	if forbidden_surface.contains("moral") or forbidden_surface.contains("route") \
 			or contact_save_echo.contains("도덕"):
 		_fail("weekly action echo exposed a hidden system: %s" % contact_save_echo)
+	game.free()
+
+func _check_weekly_commitment_contract() -> void:
+	GameState.start_new_game()
+	GameState.turn = 1
+	GameState.action_points = 2
+	var game = MainGameScript.new()
+	var pressure := {
+		"id": "qa_commitment",
+		"family": "employment",
+		"person_id": "daeun",
+		"action_ids": ["invest", "study", "contact"],
+	}
+	for language in ["ko", "en"]:
+		LocaleManager.language = language
+		for action_id in pressure.get("action_ids", []):
+			var preview: Dictionary = game.call("_weekly_commitment_preview", action_id, "daeun")
+			for key in ["risk", "now", "cost", "later"]:
+				if str(preview.get(key, "")).strip_edges().is_empty():
+					_fail("weekly commitment %s has no %s preview" % [action_id, key])
+			if language == "en" and _contains_hangul(" ".join(preview.values())):
+				_fail("English weekly commitment preview leaked Hangul: %s" % preview)
+
+	LocaleManager.language = "ko"
+	var invest_payload: Dictionary = game.call("_weekly_commitment_payload", pressure, "invest")
+	if not GameState.arm_weekly_commitment(invest_payload):
+		_fail("investment commitment could not be armed")
+	if GameState.action_points != 2 or not GameState.weekly_commitments.is_empty():
+		_fail("opening a cancelable commitment spent the week before a real action")
+	GameState.cancel_pending_weekly_commitment(GameState.turn)
+	if not GameState.pending_weekly_commitment.is_empty():
+		_fail("canceling a commitment left a pending lock")
+
+	if not GameState.arm_weekly_commitment(invest_payload):
+		_fail("investment commitment could not be re-armed after cancel")
+	GameState.register_action_axis("money", "city", "invest_buy")
+	if GameState.action_points != 0 or GameState.weekly_commitments.size() != 1:
+		_fail("actual trade did not close the week exactly once: AP=%d records=%d" % [
+			GameState.action_points, GameState.weekly_commitments.size()])
+	var record: Dictionary = GameState.weekly_commitments[0]
+	if str(record.get("choice_id", "")) != "invest" \
+			or str(record.get("actual_action_id", "")) != "invest_buy" \
+			or (record.get("forgone_ids", []) as Array).size() != 2:
+		_fail("weekly commitment lost its choice, actual action, or forgone paths: %s" % record)
+	if GameState.arm_weekly_commitment(game.call("_weekly_commitment_payload", pressure, "study")):
+		_fail("a second commitment was accepted in the same week")
+
+	var saved: Dictionary = GameState.serialize()
+	GameState.start_new_game()
+	GameState.load_from_dict(saved)
+	if GameState.weekly_commitments.size() != 1:
+		_fail("weekly commitment did not survive save/load")
+	GameState.turn = 2
+	var unresolved := GameState.get_unresolved_weekly_commitments(2)
+	if unresolved.size() != 1:
+		_fail("next week could not see the unresolved commitment: %s" % unresolved)
+	LocaleManager.language = "en"
+	var echo_record := str(game.call("_demo_director_recent_action_record", unresolved))
+	if echo_record.findn("chosen") < 0 or echo_record.findn("closed paths") < 0 \
+			or echo_record.findn("market") < 0 or _contains_hangul(echo_record):
+		_fail("weekly commitment echo did not name the choice and closed paths: %s" % echo_record)
+	var forbidden := echo_record.to_lower()
+	if forbidden.contains("moral") or forbidden.contains("route"):
+		_fail("weekly commitment echo exposed a hidden system: %s" % echo_record)
+	if GameState.consume_weekly_commitment_echoes(2).size() != 1 \
+			or not GameState.consume_weekly_commitment_echoes(2).is_empty():
+		_fail("weekly commitment echo was not consumed exactly once")
 	game.free()
 
 func _check_event_causality() -> void:
@@ -522,10 +590,12 @@ func _check_pressure_contract(game: Node, pressure: Dictionary, expected_id: Str
 		if spec.is_empty() or str(spec.get("fn", "")).is_empty():
 			_fail("demo pressure %s has an unbound action: %s" % [expected_id, action_id])
 			continue
-		var preview := str(game._ap_action_preview(str(spec.get("fn", "")), str(spec.get("icon", "ap"))))
-		if not preview.contains("AP 1") or (not preview.contains("1~3주") and not preview.contains("1–3W")):
-			_fail("demo action %s lacks cost/risk/echo preview: %s" % [action_id, preview])
-		if LocaleManager.is_english() and _contains_hangul(preview):
+		var preview: Dictionary = game._weekly_commitment_preview(
+			action_id, str(pressure.get("person_id", "")))
+		for key in ["risk", "now", "cost", "later"]:
+			if str(preview.get(key, "")).strip_edges().is_empty():
+				_fail("demo action %s lacks %s preview: %s" % [action_id, key, preview])
+		if LocaleManager.is_english() and _contains_hangul(" ".join(preview.values())):
 			_fail("English demo action preview leaked Hangul: %s" % preview)
 
 func _check_sfx_mix() -> void:

@@ -2483,11 +2483,13 @@ func _run_demo_input_route(
 				observed_auto_beats[beat_turn] = beat_kind
 				signature += ":auto=%d:%s" % [beat_turn, beat_kind]
 				if first_beat_observation and beat_kind == "echo":
-					var exact_record := str(scene.call("_demo_director_recent_action_record"))
-					if exact_record.is_empty() or _collect_control_text(auto_beat).findn(exact_record) < 0:
+					var exact_record := str(auto_beat.get_meta("commitment_echo_record", ""))
+					var echo_count := int(auto_beat.get_meta("commitment_echo_count", 0))
+					if echo_count <= 0 or exact_record.is_empty() \
+							or _collect_control_text(auto_beat).findn(exact_record) < 0:
 						MetaProgression.data = original_meta
-						_fail("Echo week %d did not name the exact carried action: %s." % [
-							beat_turn, exact_record])
+						_fail("Echo week %d did not name the chosen and closed paths: count=%d record=%s." % [
+							beat_turn, echo_count, exact_record])
 						return
 					exact_echo_beats += 1
 				if beat_kind in ["quiet", "echo"] and not captured_auto_kinds.has(beat_kind):
@@ -2937,14 +2939,24 @@ func _run_demo_input_route(
 			MetaProgression.data = original_meta
 			_fail("Full route escaped to the legacy action list.")
 			return
-		var available_ap_budget := 0
-		for week in range(1, GameState.RUN_TURN_LIMIT + 1):
-			available_ap_budget += int(ap_peak_by_week.get(week, 0))
-		if ap_action_inputs != available_ap_budget:
+		var available_ap_budget := full_direct_weeks
+		if ap_action_inputs != full_direct_weeks:
 			MetaProgression.data = original_meta
-			_fail("Full route used %d primary responses from an available budget of %d." % [
-				ap_action_inputs, available_ap_budget])
+			_fail("Full route made %d weekly commitments across %d direct weeks." % [
+				ap_action_inputs, full_direct_weeks])
 			return
+		for week in range(1, GameState.RUN_TURN_LIMIT + 1):
+			var observed_kind := str(week_kind_sequence[week - 1])
+			var action_count := int(ap_action_week_counts.get(week, 0))
+			if observed_kind in ["decision", "boss"] and action_count != 1:
+				MetaProgression.data = original_meta
+				_fail("Full route week %d (%s) made %d commitments instead of one." % [
+					week, observed_kind, action_count])
+				return
+			if observed_kind in ["quiet", "echo"] and action_count != 0:
+				MetaProgression.data = original_meta
+				_fail("Full route emitted a commitment during %s week %d." % [observed_kind, week])
+				return
 		# Week 240's scheduled ledger is absorbed by the ending time ledger; a
 		# separate blocking summary immediately before the ending would duplicate it.
 		var expected_blocking_summaries := scheduled_summary_count - 1
@@ -3059,21 +3071,23 @@ func _run_demo_input_route(
 	for week in range(1, GameState.DEMO_TURN_LIMIT + 1):
 		print("DEMO_AP_ACTION_PROFILE week=%d primary=%d" % [
 			week, int(ap_action_week_counts.get(week, 0))])
-	var available_ap_budget := 0
-	for week in range(1, GameState.DEMO_TURN_LIMIT + 1):
-		available_ap_budget += int(ap_peak_by_week.get(week, 0))
-	if ap_action_inputs != available_ap_budget:
+	var available_ap_budget := direct_decision_weeks
+	if ap_action_inputs != direct_decision_weeks:
 		MetaProgression.data = original_meta
-		_fail("Demo route used %d primary AP responses from an available budget of %d." % [
-			ap_action_inputs, available_ap_budget])
+		_fail("Demo route made %d weekly commitments across %d direct weeks." % [
+			ap_action_inputs, direct_decision_weeks])
 		return
-	for action_week_value in ap_action_week_counts.keys():
-		var action_week := int(action_week_value)
-		var runtime_kind := str(week_kind_sequence[action_week - 1]) \
-				if action_week >= 1 and action_week <= week_kind_sequence.size() else ""
-		if runtime_kind not in ["decision", "boss"]:
+	for action_week in range(1, GameState.DEMO_TURN_LIMIT + 1):
+		var runtime_kind := str(week_kind_sequence[action_week - 1])
+		var action_count := int(ap_action_week_counts.get(action_week, 0))
+		if runtime_kind in ["decision", "boss"] and action_count != 1:
 			MetaProgression.data = original_meta
-			_fail("Demo route emitted AP input during %s week %d." % [runtime_kind, action_week])
+			_fail("Demo route week %d (%s) made %d commitments instead of one." % [
+				action_week, runtime_kind, action_count])
+			return
+		if runtime_kind in ["quiet", "echo"] and action_count != 0:
+			MetaProgression.data = original_meta
+			_fail("Demo route emitted a commitment during %s week %d." % [runtime_kind, action_week])
 			return
 	if int(modal_counts.get("month_summary", 0)) != 3:
 		MetaProgression.data = original_meta
@@ -7972,8 +7986,8 @@ func _shot_ap_act_surfaces(lang: String = "en", prefix: String = "ap_act_en_") -
 				_fail("Act 1 AP surface is missing the demo weekly pressure frame.")
 				return
 			var primary_count := _demo_pressure_primary_cards().size()
-			if primary_count != 3 or _find_demo_pressure_toggle(_mg, false) == null:
-				_fail("Act 1 pressure board expected three responses plus Other Actions, got %d." % primary_count)
+			if primary_count != 3 or _find_demo_pressure_toggle(_mg, false) != null:
+				_fail("Act 1 pressure board expected only three exclusive responses, got %d plus a fallback." % primary_count)
 				return
 			if not _assert_demo_decision_stage():
 				return
@@ -7982,30 +7996,19 @@ func _shot_ap_act_surfaces(lang: String = "en", prefix: String = "ap_act_en_") -
 			return
 		await _save("%s%02d_act%d" % [prefix, act, act])
 		if act == 1:
-			var other_actions := _find_demo_pressure_toggle(_mg, false)
-			other_actions.grab_focus()
-			await _press_qa_action("ui_accept")
-			await _settle(0.35)
-			if _mg.find_child("FirstMonthHorizon", true, false) == null \
-					or _find_demo_pressure_toggle(_mg, true) == null:
-				_fail("Expanded demo action list lost the first-month horizon or return action.")
-				return
-			await _save("%s01a_all_actions_expanded" % prefix)
-			var pressure_back := _find_demo_pressure_toggle(_mg, true)
-			pressure_back.grab_focus()
-			await _press_qa_action("ui_accept")
-			await _settle(0.35)
 			GameState.flags["arc_intro_meal_seen"] = true
 			if _mg.has_method("_render_ap_actions"):
 				_mg.call("_render_ap_actions")
 			if _mg.has_method("_finish_typing"):
 				_mg.call("_finish_typing")
 			await _settle(0.35)
-			await _save("%s01b_after_first_interview" % prefix)
-			if _mg.has_method("_show_ap_action_commit"):
-				_mg.call("_show_ap_action_commit", _tr("지원 계속", "Keep Applying"), "job", "#dc6a2a", false, null)
+			await _save("%s01a_after_first_interview" % prefix)
+			if _mg.has_method("_on_weekly_commitment_finalized"):
+				var pressure: Dictionary = _mg.call("_demo_week_pressure")
+				var commitment: Dictionary = _mg.call("_weekly_commitment_payload", pressure, "apply")
+				_mg.call("_on_weekly_commitment_finalized", commitment)
 				await _settle(0.14)
-				await _save("%s01c_action_commit" % prefix)
+				await _save("%s01b_week_commitment" % prefix)
 				if _mg.has_method("_hide_ap_action_commit"):
 					_mg.call("_hide_ap_action_commit")
 			GameState.flags.erase("arc_intro_meal_seen")
@@ -8020,50 +8023,37 @@ func _shot_ap_act_surfaces(lang: String = "en", prefix: String = "ap_act_en_") -
 func _assert_ap_result_lifecycle(lang: String, prefix: String) -> void:
 	_seed_ap_act_state(1, lang)
 	GameState.flags["arc_intro_meal_seen"] = true
+	GameState.week_of_month = 4
+	GameState.current_job = {"id": "job_03", "name": _tr("사무직", "Office Worker"), "tier": 2}
+	GameState.monthly_income = 0.0
+	GameState.money = 0.0
+	GameState.health = 65
+	GameState.mental = 65
 	_mg.current_event = {}
 	_mg.set("pending_result_text", "")
 	_mg.call("_render_ap_actions")
 	_mg.call("_finish_typing")
 	await _settle(0.35)
 
-	var other_actions := _find_demo_pressure_toggle(_mg, false)
-	if other_actions == null:
-		_fail("AP result lifecycle regression could not find Other Actions.")
-		return
-	other_actions.grab_focus()
-	await _press_qa_action("ui_accept")
-	await _settle(0.3)
-	var money_card: Button = null
-	var survival_label := _tr("생계", "Survival Money")
-	for candidate in _mg.get("_ap_grid_cards"):
-		if candidate is Button and _collect_control_text(candidate).findn(survival_label) >= 0:
-			money_card = candidate as Button
+	var saving_card: Button = null
+	for candidate in _demo_pressure_primary_cards():
+		if str(candidate.get_meta("demo_action_id", "")) == "save":
+			saving_card = candidate
 			break
-	if money_card == null:
-		_fail("AP result lifecycle regression could not find the expanded Survival Money card.")
+	if saving_card == null:
+		_fail("AP result lifecycle regression could not find the direct Saving commitment.")
 		return
-	var money_grid_index := int(money_card.get_meta("ap_grid_index", -1))
-	money_card.grab_focus()
-	await _press_qa_action("ui_accept")
-	await _settle(0.25)
-	var modal_root := _mg.get("modal_body") as Control
-	var saving_btn: Button = null
-	if modal_root != null:
-		var saving_label := _tr("저축/절약", "Save/cut back")
-		for candidate in modal_root.find_children("*", "Button", true, false):
-			var candidate_btn := candidate as Button
-			if candidate_btn != null and not candidate_btn.disabled \
-					and _collect_control_text(candidate_btn).findn(saving_label) >= 0:
-				saving_btn = candidate_btn
-				break
-	if saving_btn == null:
-		_fail("AP result lifecycle regression could not find the Saving action.")
-		return
-	saving_btn.grab_focus()
+	saving_card.grab_focus()
 	await _press_qa_action("ui_accept")
 	await _settle(0.35)
 	if not bool(_mg.get("_transient_bg_active")):
 		_fail("Saving action discarded its result surface before player confirmation.")
+		return
+	var commitment := GameState.get_weekly_commitment_for_turn(GameState.turn)
+	if GameState.action_points != 0 or commitment.is_empty() \
+			or (commitment.get("forgone_ids", []) as Array).size() != 2:
+		_fail("Saving did not close the week and preserve two forgone paths: AP=%d record=%s." % [
+			GameState.action_points, commitment])
 		return
 	var choice_root := _mg.get("choice_box") as Control
 	var confirm_btn := _find_first_enabled_button(choice_root) if choice_root != null else null
@@ -8077,10 +8067,15 @@ func _assert_ap_result_lifecycle(lang: String, prefix: String) -> void:
 	await _press_qa_action("ui_accept")
 	await _settle(0.45)
 	var focus_owner := get_viewport().gui_get_focus_owner() as Button
-	if focus_owner == null or int(focus_owner.get_meta("ap_grid_index", -1)) != money_grid_index:
-		_fail("AP result confirmation did not return focus to the selected parent card.")
+	var next_week := _mg.get("next_button") as Button
+	if focus_owner == null or focus_owner != next_week or next_week.disabled:
+		_fail("Weekly commitment result did not hand controller focus to Next Week.")
 		return
-	await _save(prefix + "07_saving_focus_returns", 0.05)
+	var commit_layer := _mg.get("_ap_commit_layer") as Control
+	if is_instance_valid(commit_layer) and commit_layer.visible:
+		_fail("Weekly commitment overlay remained over the closed-week surface.")
+		return
+	await _save(prefix + "07_week_closed_focus", 0.05)
 
 func _find_demo_pressure_frame(node: Node) -> Control:
 	if node is Control and bool(node.get_meta("demo_pressure_frame", false)):
@@ -8126,6 +8121,10 @@ func _assert_demo_decision_stage() -> bool:
 	if cards.size() != 3:
 		_fail("Demo decision stage does not contain exactly three primary cards.")
 		return false
+	var next_week := _mg.get("next_button") as Button
+	if not is_instance_valid(next_week) or not next_week.disabled:
+		_fail("Demo decision stage can skip the week before choosing a commitment.")
+		return false
 	var first_y := cards[0].position.y
 	var previous_x := -INF
 	for card in cards:
@@ -8140,6 +8139,18 @@ func _assert_demo_decision_stage() -> bool:
 			return false
 		if card.size.y < 220.0:
 			_fail("Demo response lost its scene-led card depth (height %.1f)." % card.size.y)
+			return false
+		for meta_key in ["commitment_now", "commitment_cost", "commitment_later"]:
+			if str(card.get_meta(meta_key, "")).strip_edges().is_empty():
+				_fail("Demo response is missing its %s consequence preview." % meta_key)
+				return false
+		var card_text := _collect_control_text(card)
+		for marker in [_tr("지금", "NOW"), _tr("대가", "COST"), _tr("후속", "LATER")]:
+			if card_text.findn(str(marker)) < 0:
+				_fail("Demo response does not visibly state %s." % marker)
+				return false
+		if card_text.contains("AP 1"):
+			_fail("Demo response still presents the weekly commitment as an AP price.")
 			return false
 		previous_x = card.position.x
 	return true
@@ -8184,7 +8195,7 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 	var pressure_frame := _find_demo_pressure_frame(_mg)
 	var primary_count := _demo_pressure_primary_cards().size()
 	if pressure_frame == null or str(pressure_frame.get_meta("demo_pressure_id", "")) != "employment" \
-			or primary_count != 3 or _find_demo_pressure_toggle(_mg, false) == null:
+			or primary_count != 3 or _find_demo_pressure_toggle(_mg, false) != null:
 		_fail("Immersion AP opening lost the employment pressure/three-response contract in %s." % lang)
 		return
 	if not _assert_demo_decision_stage():
@@ -8228,13 +8239,27 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 			"families": ["jobs", "job", "career", "work", "workplace"],
 		}],
 	}]
+	var application_commitment := {
+		"turn": 1,
+		"pressure_id": "employment",
+		"pressure_family": "employment",
+		"choice_id": "apply",
+		"person_id": "",
+		"forgone_ids": ["resume", "side_shift"],
+		"actual_action_id": "apply",
+		"echoed_turn": -1,
+	}
+	GameState.weekly_commitments = [application_commitment]
 	await _boot_main_game()
-	_mg.call("_render_demo_director_beat", "echo", {"money": true, "human": false}, [])
+	_mg.call("_render_demo_director_beat", "echo", {"money": true, "human": false}, [],
+		[application_commitment])
 	await _settle(0.35)
 	var application_echo_text := _collect_control_text(_mg)
 	var expected_application := _tr("지원", "Application")
-	var unexpected_rest := _tr("멈춰 쉬기", "Taking a rest")
+	var unexpected_rest := _tr("오늘은 멈춘다", "Stop for Today")
+	var expected_closed := _tr("지원서 다듬기", "Refine the Application")
 	if application_echo_text.findn(expected_application) < 0 \
+			or application_echo_text.findn(expected_closed) < 0 \
 			or application_echo_text.findn(unexpected_rest) >= 0:
 		_fail("Application echo surface did not preserve its exact cause in %s." % lang)
 		return
@@ -8252,7 +8277,19 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 			"families": ["health", "rest", "mental", "daily_life"],
 		}],
 	}]
-	_mg.call("_render_demo_director_beat", "echo", {"money": false, "human": true}, [])
+	var rest_commitment := {
+		"turn": 1,
+		"pressure_id": "condition",
+		"pressure_family": "health",
+		"choice_id": "rest",
+		"person_id": "daeun",
+		"forgone_ids": ["side_shift", "contact"],
+		"actual_action_id": "rest",
+		"echoed_turn": -1,
+	}
+	GameState.weekly_commitments = [rest_commitment]
+	_mg.call("_render_demo_director_beat", "echo", {"money": false, "human": true}, [],
+		[rest_commitment])
 	await _settle(0.35)
 	var rest_echo_text := _collect_control_text(_mg)
 	if rest_echo_text.findn(unexpected_rest) < 0 \
@@ -8260,6 +8297,10 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 		_fail("Rest echo surface collapsed into the application path in %s." % lang)
 		return
 	var rest_beat := _find_visible_meta_control(_mg, "demo_week_kind", "echo")
+	if int(rest_beat.get_meta("commitment_echo_count", 0)) != 1 \
+			or str(rest_beat.get_meta("commitment_echo_record", "")).is_empty():
+		_fail("Rest Echo card lost its weekly commitment metadata in %s." % lang)
+		return
 	_assert_control_in_tv_safe_area(rest_beat, "rest echo beat")
 	await _save(prefix + "04_rest_echo")
 	await _dispose_main_game()

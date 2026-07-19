@@ -10,6 +10,7 @@ signal stat_threshold_crossed(stat_name: String, threshold: int)
 signal tendency_awakened(kind: String)
 signal clue_added(clue_id: String)
 signal thought_completed(thought_id: String)
+signal weekly_commitment_finalized(commitment: Dictionary)
 # Codex 테마색 구독용 — norm(-1~+1) 부드러운 보간, stage(-2~+2) 이산 효과
 signal moral_tint_changed(norm: float, stage: int)
 
@@ -166,6 +167,11 @@ var recent_action_places: Array = []
 # 사건 에코용 최근 2주 스냅샷. UI에는 수치로 노출하지 않고 EventManager가
 # "내가 보낸 시간이 다음 사건을 불렀다"는 인과를 만드는 데만 쓴다.
 var recent_action_weeks: Array = []
+# 직접 결정 주간은 AP를 두 번 찍는 메뉴가 아니라 세 길 중 하나를 택하는 약속이다.
+# pending은 취소 가능한 하위 화면에서 실제 행동이 확정될 때까지 기다리고,
+# weekly_commitments는 다음 Echo가 선택과 포기한 길을 정확히 회수하는 저장 원장이다.
+var pending_weekly_commitment: Dictionary = {}
+var weekly_commitments: Array = []
 # 인물별 연락 기록 — 리캡 카드의 "잔인한 통계"용 원장 (person_id → 횟수 / 마지막 턴)
 var contact_counts: Dictionary = {}
 var last_contact_turn: Dictionary = {}
@@ -456,6 +462,8 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	action_records_this_week = []
 	recent_action_places = []
 	recent_action_weeks = []
+	pending_weekly_commitment = {}
+	weekly_commitments = []
 	contact_counts = {}
 	last_contact_turn = {}
 	run_seen_scenes_by_year = {}
@@ -1270,7 +1278,131 @@ func register_action_axis(axis: String, place_id: String = "", action_id: String
 			return
 	_register_action_place(place_id, axis)
 	_register_action_record(action_id, axis, place_id, subject_id)
+	_finalize_pending_weekly_commitment(action_id, subject_id)
 	stats_changed.emit()
+
+const WEEKLY_COMMITMENT_ACTION_MATCHES := {
+	"apply": ["apply"],
+	"resume": ["resume"],
+	"side_shift": ["side_shift"],
+	"save": ["save"],
+	"rest": ["rest"],
+	"study": ["study", "study_read", "study_exercise", "study_meditation", "study_invest"],
+	"contact": ["contact"],
+	"invest": ["invest_buy", "invest_sell", "invest_leverage"],
+}
+
+func arm_weekly_commitment(commitment: Dictionary) -> bool:
+	var choice_id := str(commitment.get("choice_id", "")).strip_edges().to_lower()
+	if choice_id.is_empty() or action_points <= 0 or has_weekly_commitment_for_turn(turn):
+		return false
+	var commitment_turn := int(commitment.get("turn", turn))
+	if commitment_turn != turn:
+		return false
+	var alternatives: Array = []
+	for raw_id in commitment.get("forgone_ids", []):
+		var alternative_id := str(raw_id).strip_edges().to_lower()
+		if not alternative_id.is_empty() and alternative_id != choice_id \
+				and not alternatives.has(alternative_id):
+			alternatives.append(alternative_id)
+	pending_weekly_commitment = {
+		"turn": turn,
+		"pressure_id": str(commitment.get("pressure_id", "")),
+		"pressure_family": str(commitment.get("pressure_family", "")),
+		"choice_id": choice_id,
+		"person_id": str(commitment.get("person_id", "")),
+		"forgone_ids": alternatives,
+	}
+	return true
+
+func cancel_pending_weekly_commitment(expected_turn: int = -1) -> void:
+	if pending_weekly_commitment.is_empty():
+		return
+	if expected_turn >= 0 and int(pending_weekly_commitment.get("turn", -1)) != expected_turn:
+		return
+	pending_weekly_commitment = {}
+
+func _weekly_commitment_action_matches(choice_id: String, action_id: String) -> bool:
+	var accepted: Array = WEEKLY_COMMITMENT_ACTION_MATCHES.get(choice_id, [choice_id])
+	return accepted.has(action_id)
+
+func _finalize_pending_weekly_commitment(action_id: String, subject_id: String) -> void:
+	if pending_weekly_commitment.is_empty():
+		return
+	if int(pending_weekly_commitment.get("turn", -1)) != turn:
+		pending_weekly_commitment = {}
+		return
+	var normalized_action := action_id.strip_edges().to_lower()
+	var choice_id := str(pending_weekly_commitment.get("choice_id", ""))
+	if normalized_action.is_empty() \
+			or not _weekly_commitment_action_matches(choice_id, normalized_action):
+		return
+	if has_weekly_commitment_for_turn(turn):
+		pending_weekly_commitment = {}
+		action_points = 0
+		return
+	var record := pending_weekly_commitment.duplicate(true)
+	record["actual_action_id"] = normalized_action
+	if str(record.get("person_id", "")).is_empty():
+		record["person_id"] = subject_id.strip_edges().to_lower()
+	record["echoed_turn"] = -1
+	weekly_commitments.append(record)
+	while weekly_commitments.size() > 16:
+		weekly_commitments.pop_front()
+	pending_weekly_commitment = {}
+	# 직접 결정 주간의 대가는 다른 두 길을 이번 주에 실행하지 못하는 것이다.
+	# Quiet/Echo 루틴은 별도 경로라 이 닫힘의 영향을 받지 않는다.
+	action_points = 0
+	weekly_commitment_finalized.emit(record.duplicate(true))
+
+func has_weekly_commitment_for_turn(commitment_turn: int) -> bool:
+	for index in range(weekly_commitments.size() - 1, -1, -1):
+		var value = weekly_commitments[index]
+		if value is Dictionary and int(value.get("turn", -1)) == commitment_turn:
+			return true
+	return false
+
+func get_weekly_commitment_for_turn(commitment_turn: int) -> Dictionary:
+	for index in range(weekly_commitments.size() - 1, -1, -1):
+		var value = weekly_commitments[index]
+		if value is Dictionary and int(value.get("turn", -1)) == commitment_turn:
+			return (value as Dictionary).duplicate(true)
+	return {}
+
+func get_unresolved_weekly_commitments(max_count: int = 2) -> Array:
+	var unresolved: Array = []
+	if max_count <= 0:
+		return unresolved
+	for value in weekly_commitments:
+		if not value is Dictionary:
+			continue
+		var record: Dictionary = value
+		if int(record.get("turn", turn)) >= turn or int(record.get("echoed_turn", -1)) >= 0:
+			continue
+		unresolved.append(record.duplicate(true))
+	while unresolved.size() > max_count:
+		unresolved.pop_front()
+	return unresolved
+
+func consume_weekly_commitment_echoes(max_count: int = 2) -> Array:
+	var unresolved_indices: Array[int] = []
+	for index in range(weekly_commitments.size()):
+		var value = weekly_commitments[index]
+		if not value is Dictionary:
+			continue
+		var record: Dictionary = value
+		if int(record.get("turn", turn)) < turn and int(record.get("echoed_turn", -1)) < 0:
+			unresolved_indices.append(index)
+	var returned: Array = []
+	var first_returned := maxi(0, unresolved_indices.size() - maxi(0, max_count))
+	for position in range(unresolved_indices.size()):
+		var record_index := unresolved_indices[position]
+		var updated: Dictionary = weekly_commitments[record_index]
+		updated["echoed_turn"] = turn
+		weekly_commitments[record_index] = updated
+		if position >= first_returned:
+			returned.append(updated.duplicate(true))
+	return returned
 
 func _register_action_place(place_id: String, axis: String) -> void:
 	if not place_id in ["home", "store", "work", "river", "city", "underground", "expedition"]:
@@ -2176,6 +2308,8 @@ func serialize():
 		"action_records_this_week": action_records_this_week,
 		"recent_action_places": recent_action_places,
 		"recent_action_weeks": recent_action_weeks,
+		"pending_weekly_commitment": pending_weekly_commitment,
+		"weekly_commitments": weekly_commitments,
 		"contact_counts": contact_counts,
 		"last_contact_turn": last_contact_turn,
 		"run_seen_scenes_by_year": run_seen_scenes_by_year,
@@ -2258,6 +2392,21 @@ func load_from_dict(data):
 		recent_action_weeks = []
 	while recent_action_weeks.size() > 2:
 		recent_action_weeks.pop_front()
+	if not data.has("pending_weekly_commitment") \
+			or typeof(pending_weekly_commitment) != TYPE_DICTIONARY:
+		pending_weekly_commitment = {}
+	if not pending_weekly_commitment.is_empty() \
+			and int(pending_weekly_commitment.get("turn", -1)) != turn:
+		pending_weekly_commitment = {}
+	if not data.has("weekly_commitments") or typeof(weekly_commitments) != TYPE_ARRAY:
+		weekly_commitments = []
+	var valid_commitments: Array = []
+	for value in weekly_commitments:
+		if value is Dictionary and not str(value.get("choice_id", "")).is_empty():
+			valid_commitments.append((value as Dictionary).duplicate(true))
+	weekly_commitments = valid_commitments
+	while weekly_commitments.size() > 16:
+		weekly_commitments.pop_front()
 	if not data.has("run_seen_scenes_by_year") or typeof(run_seen_scenes_by_year) != TYPE_DICTIONARY:
 		run_seen_scenes_by_year = {}
 	if not data.has("year_scenes") or typeof(year_scenes) != TYPE_DICTIONARY:

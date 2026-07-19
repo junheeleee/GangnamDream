@@ -60,6 +60,7 @@ var _feedback_flash: ColorRect
 var _feedback_flash_tween: Tween = null
 var _ap_commit_layer: Control = null
 var _ap_commit_tween: Tween = null
+var _last_weekly_commitment_overlay_turn: int = -1
 var _ap_rail_slot_counter: int = 0
 var _ap_action_grid: GridContainer = null
 var _ap_feature_row: HBoxContainer = null
@@ -340,6 +341,9 @@ func _ready():
 	BGMPlayer.start()
 	if not LocaleManager.language_changed.is_connected(_on_language_changed):
 		LocaleManager.language_changed.connect(_on_language_changed)
+	var commitment_callback := Callable(self, "_on_weekly_commitment_finalized")
+	if not GameState.weekly_commitment_finalized.is_connected(commitment_callback):
+		GameState.weekly_commitment_finalized.connect(commitment_callback)
 	_refresh_all()
 	_apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
 	# ScreenshotQA는 메인 표면을 고정한 채 모달/필터를 캡처한다.
@@ -1265,11 +1269,17 @@ func _finish_ap_action_commit() -> void:
 	_ap_commit_layer.visible = false
 
 func _show_ap_action_commit(title: String, icon_id: String, accent: String,
-		free_action: bool = false, art_thumb: Texture2D = null) -> void:
+		free_action: bool = false, art_thumb: Texture2D = null,
+		commitment: Dictionary = {}) -> void:
 	if not is_instance_valid(_ap_commit_layer):
+		return
+	if commitment.is_empty() \
+			and _last_weekly_commitment_overlay_turn == GameState.turn \
+			and GameState.has_weekly_commitment_for_turn(GameState.turn):
 		return
 	_hide_ap_action_commit()
 	_ap_commit_layer.visible = true
+	var is_weekly_commitment := not commitment.is_empty()
 
 	var panel := PanelContainer.new()
 	panel.set_meta("moral_role", "choice_card")
@@ -1277,13 +1287,13 @@ func _show_ap_action_commit(title: String, icon_id: String, accent: String,
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel.anchor_left = 0.5
 	panel.anchor_right = 0.5
-	panel.anchor_top = 0.30
-	panel.anchor_bottom = 0.30
-	panel.offset_left = -235
-	panel.offset_right = 235
-	panel.offset_top = -42
-	panel.offset_bottom = 42
-	panel.pivot_offset = Vector2(235, 42)
+	panel.anchor_top = 0.31
+	panel.anchor_bottom = 0.31
+	panel.offset_left = -350 if is_weekly_commitment else -235
+	panel.offset_right = 350 if is_weekly_commitment else 235
+	panel.offset_top = -76 if is_weekly_commitment else -42
+	panel.offset_bottom = 76 if is_weekly_commitment else 42
+	panel.pivot_offset = Vector2(350, 76) if is_weekly_commitment else Vector2(235, 42)
 	panel.modulate.a = 0.0
 	panel.scale = Vector2(0.965, 0.965)
 	var style := StyleBoxFlat.new()
@@ -1336,7 +1346,9 @@ func _show_ap_action_commit(title: String, icon_id: String, accent: String,
 	text_col.add_theme_constant_override("separation", 3)
 	row.add_child(text_col)
 
-	var overline := _label(_tr("행동 확정", "ACTION LOCKED"), 10, "#7d8796")
+	var overline := _label(
+		_tr("이번 주 확정", "WEEK COMMITTED") if is_weekly_commitment \
+		else _tr("행동 확정", "ACTION LOCKED"), 10, "#7d8796")
 	overline.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	overline.uppercase = true
 	UIStyle.clear_ink_text_depth(overline)
@@ -1349,10 +1361,24 @@ func _show_ap_action_commit(title: String, icon_id: String, accent: String,
 		title_lbl.add_theme_font_override("font", _font_bold)
 	UIStyle.apply_ink_text_depth(title_lbl, "state")
 	text_col.add_child(title_lbl)
+	if is_weekly_commitment:
+		var now_text := str(commitment.get("now", ""))
+		var forgone_text := str(commitment.get("forgone_labels", ""))
+		var later_text := str(commitment.get("later", ""))
+		for detail_text in [
+			_tr("지금 · {value}", "NOW · {value}").format({"value": now_text}),
+			_tr("닫힌 길 · {value}", "CLOSED PATHS · {value}").format({"value": forgone_text}),
+			_tr("후속 · {value}", "LATER · {value}").format({"value": later_text}),
+		]:
+			var detail := _label(str(detail_text), 10, "#aeb7c2")
+			detail.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			detail.clip_text = true
+			detail.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+			text_col.add_child(detail)
 
 	var badge := PanelContainer.new()
 	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	badge.custom_minimum_size = Vector2(76, 30)
+	badge.custom_minimum_size = Vector2(116 if is_weekly_commitment else 76, 30)
 	badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	var badge_style := StyleBoxFlat.new()
 	badge_style.bg_color = Color("#101116", 0.94)
@@ -1367,7 +1393,9 @@ func _show_ap_action_commit(title: String, icon_id: String, accent: String,
 	badge.add_theme_stylebox_override("panel", badge_style)
 	row.add_child(badge)
 
-	var badge_lbl := _label(_tr("무료", "FREE") if free_action else _tr("AP 1", "AP 1"), 11, "#cbd5e1")
+	var badge_text := _tr("주 종료", "WEEK CLOSED") if is_weekly_commitment \
+			else (_tr("무료", "FREE") if free_action else _tr("AP 1", "AP 1"))
+	var badge_lbl := _label(badge_text, 11, "#cbd5e1")
 	badge_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	badge_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	badge_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -1378,7 +1406,7 @@ func _show_ap_action_commit(title: String, icon_id: String, accent: String,
 	_ap_commit_tween.tween_property(panel, "modulate:a", 1.0, 0.08).set_trans(Tween.TRANS_SINE)
 	_ap_commit_tween.parallel().tween_property(panel, "scale", Vector2.ONE, 0.12) \
 			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	_ap_commit_tween.tween_interval(0.22)
+	_ap_commit_tween.tween_interval(0.82 if is_weekly_commitment else 0.22)
 	_ap_commit_tween.tween_property(panel, "modulate:a", 0.0, 0.18).set_trans(Tween.TRANS_SINE)
 	_ap_commit_tween.parallel().tween_property(panel, "scale", Vector2(1.018, 1.018), 0.18) \
 			.set_trans(Tween.TRANS_SINE)
@@ -2166,7 +2194,7 @@ func _build_modal():
 	modal_close_button = _small_button("✕", "#242433")
 	modal_close_button.custom_minimum_size = Vector2(44, 42)
 	modal_close_button.size_flags_horizontal = Control.SIZE_SHRINK_END
-	modal_close_button.pressed.connect(_close_modal)
+	modal_close_button.pressed.connect(_cancel_modal)
 	modal_header.add_child(modal_close_button)
 
 	# Scrollable content area
@@ -2323,7 +2351,13 @@ func _maybe_play_month_situation() -> bool:
 
 ## 스토리/아크 이벤트들을 StoryMode 화면으로 보낸다.
 func _go_story_mode(event_ids: Array, keep_cover: bool = false):
-	if GameState.turn > GameState.DEMO_TURN_LIMIT and not event_ids.is_empty():
+	var first_event_id := str(event_ids[0]) if not event_ids.is_empty() else ""
+	# 콜드오픈은 같은 첫 주의 챕터 카드까지 이어져야 한다. 그 한 번을 제외하면
+	# 데모도 정식 구간과 똑같이 한 주에 하나의 독립 서사 뿌리만 허용한다.
+	# follow_up_event 체인은 StoryMode 내부 큐에서 계속 재생되므로 잘리지 않는다.
+	var opening_prologue := GameState.turn == 1 \
+			and first_event_id in ["story_flashforward", "story_arrival"]
+	if not first_event_id.is_empty() and not opening_prologue:
 		GameState.flags["foreground_story_turn"] = GameState.turn
 	GameState.pending_story_queue = event_ids
 	GameState.story_return_scene = "res://scenes/MainGame.tscn"
@@ -2333,8 +2367,7 @@ func _go_story_mode(event_ids: Array, keep_cover: bool = false):
 		SceneTransition.go("res://scenes/StoryMode.tscn")
 
 func _foreground_story_consumed_this_week() -> bool:
-	return GameState.turn > GameState.DEMO_TURN_LIMIT \
-			and int(GameState.flags.get("foreground_story_turn", -1)) == GameState.turn
+	return int(GameState.flags.get("foreground_story_turn", -1)) == GameState.turn
 
 ## 아크 이벤트 트리거 — 조건 맞으면 이벤트 ID를 반환 (없으면 "").
 ## 우선순위: 위에서부터. 한 턴에 하나만 발동. StoryMode로 재생됨.
@@ -4109,6 +4142,7 @@ func _reveal_result_controls(animated: bool) -> void:
 	_result_focus_button = null
 
 func _on_result_confirmed():
+	_hide_ap_action_commit()
 	pending_result_text = ""
 	_transient_bg_active = false
 	if _moral_beat_surface_active:
@@ -4422,12 +4456,20 @@ func _ap_bonus_amount() -> int:
 	return maxi(0, GameState.action_points - GameState.max_action_points)
 
 func _ap_status_text() -> String:
+	if _demo_pressure_enabled() and _demo_director_requires_player_input():
+		return _tr("확정", "SET") \
+				if GameState.has_weekly_commitment_for_turn(GameState.turn) \
+				else _tr("1회 선택", "1 CHOICE")
 	var bonus := _ap_bonus_amount()
 	if bonus > 0:
 		return "%d AP (+%d)" % [GameState.action_points, bonus]
 	return "%d/%d AP" % [GameState.action_points, GameState.max_action_points]
 
 func _ap_remaining_text() -> String:
+	if _demo_pressure_enabled() and _demo_director_requires_player_input():
+		return _tr("이번 주 확정", "WEEK SET") \
+				if GameState.has_weekly_commitment_for_turn(GameState.turn) \
+				else _tr("한 번만 선택", "CHOOSE ONCE")
 	if GameState.action_points <= 0:
 		return _tr("주 종료", "WEEK SPENT")
 	var bonus := _ap_bonus_amount()
@@ -5525,6 +5567,10 @@ func _render_ap_actions():
 	# 상황 카드 — 매 턴 '이번 달 상황'에 반응. (추상 메뉴 대체)
 	# ══════════════════════════════════════════════════════
 	_render_situation_cards()
+	var commitment_required := _demo_pressure_enabled() \
+			and _demo_director_requires_player_input()
+	if commitment_required and not GameState.has_weekly_commitment_for_turn(GameState.turn):
+		next_button.disabled = true
 
 	# ── 패드 힌트 (컨트롤러 연결 시에만 표시) ───────────────
 	if ControllerHints.is_pad_active():
@@ -5756,7 +5802,10 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 	slots_box.custom_minimum_size = Vector2(56 if compact_width else 72, 0)
 	slots_box.add_theme_constant_override("separation", 6)
 	top.add_child(slots_box)
-	_add_week_ap_slots(slots_box, ap)
+	if _demo_pressure_enabled() and _demo_director_requires_player_input():
+		_add_week_commitment_slot(slots_box)
+	else:
+		_add_week_ap_slots(slots_box, ap)
 
 	var ap_text := _ap_remaining_text()
 	var ap_lbl := _label(ap_text, 11, "#f4f7fb" if ap > 0 else "#707887")
@@ -6218,6 +6267,30 @@ func _add_week_ap_slots(parent: Control, ap: int) -> void:
 		st.set_corner_radius_all(2)
 		slot.add_theme_stylebox_override("panel", st)
 		slots.add_child(slot)
+
+func _add_week_commitment_slot(parent: Control) -> void:
+	var committed := GameState.has_weekly_commitment_for_turn(GameState.turn)
+	var slot := PanelContainer.new()
+	slot.custom_minimum_size = Vector2(68, 18)
+	slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#dce4ee", 0.90) if committed else Color("#11151b", 0.90)
+	st.border_color = Color("#f5f7fa", 0.78) if committed else Color("#59616d", 0.94)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(2)
+	st.content_margin_left = 6
+	st.content_margin_right = 6
+	st.content_margin_top = 2
+	st.content_margin_bottom = 2
+	slot.add_theme_stylebox_override("panel", st)
+	parent.add_child(slot)
+	var label := _label(_tr("확정", "SET") if committed else _tr("1회", "ONE"), 9,
+		"#11151b" if committed else "#cbd3de")
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	if _font_bold:
+		label.add_theme_font_override("font", _font_bold)
+	slot.add_child(label)
 
 func _clean_focus_text(text: String) -> String:
 	var out := text
@@ -6755,7 +6828,43 @@ func _action_echo_label(record: Dictionary) -> String:
 		"gamble_casino": return _tr("정선 카지노", "Jeongseon casino")
 	return ""
 
-func _demo_director_recent_action_line() -> String:
+func _weekly_commitment_echo_record(record: Dictionary) -> String:
+	var person_id := str(record.get("person_id", ""))
+	var choice_id := str(record.get("choice_id", ""))
+	var chosen := _weekly_commitment_action_label(choice_id, person_id)
+	var forgone := _weekly_commitment_forgone_labels(record)
+	var later := str(_weekly_commitment_preview(choice_id, person_id).get("later", ""))
+	return _tr(
+		"택한 것 · {chosen}\n닫힌 길 · {forgone}\n남은 파장 · {later}",
+		"CHOSEN · {chosen}\nCLOSED PATHS · {forgone}\nREMAINING ECHO · {later}"
+	).format({
+		"chosen": chosen,
+		"forgone": forgone,
+		"later": later,
+	})
+
+func _weekly_commitment_echo_sentence(records: Array) -> String:
+	if records.is_empty() or not records.back() is Dictionary:
+		return ""
+	var record: Dictionary = records.back()
+	var person_id := str(record.get("person_id", ""))
+	var choice_id := str(record.get("choice_id", ""))
+	return _tr(
+		"지난 선택 · {chosen}. 닫힌 길 · {forgone}. {later}",
+		"LAST CHOICE · {chosen}. CLOSED PATHS · {forgone}. {later}"
+	).format({
+		"chosen": _weekly_commitment_action_label(choice_id, person_id),
+		"forgone": _weekly_commitment_forgone_labels(record),
+		"later": str(_weekly_commitment_preview(choice_id, person_id).get("later", "")),
+	})
+
+func _demo_director_recent_action_line(commitment_echoes: Array = []) -> String:
+	var resolved_commitments := commitment_echoes
+	if resolved_commitments.is_empty():
+		resolved_commitments = GameState.get_unresolved_weekly_commitments(2)
+	var commitment_line := _weekly_commitment_echo_sentence(resolved_commitments)
+	if not commitment_line.is_empty():
+		return commitment_line
 	var labels: Array[String] = []
 	for raw_record in GameState.get_latest_action_records(2):
 		var label := _action_echo_label(raw_record)
@@ -6773,7 +6882,16 @@ func _demo_director_recent_action_line() -> String:
 		"Last choices — {choices}. Their traces kept moving through this week."
 	).format({"choices": " / ".join(labels)})
 
-func _demo_director_recent_action_record() -> String:
+func _demo_director_recent_action_record(commitment_echoes: Array = []) -> String:
+	var resolved_commitments := commitment_echoes
+	if resolved_commitments.is_empty():
+		resolved_commitments = GameState.get_unresolved_weekly_commitments(2)
+	var commitment_lines: Array[String] = []
+	for raw_commitment in resolved_commitments:
+		if raw_commitment is Dictionary:
+			commitment_lines.append(_weekly_commitment_echo_record(raw_commitment))
+	if not commitment_lines.is_empty():
+		return "\n\n".join(commitment_lines)
 	var labels: Array[String] = []
 	for raw_record in GameState.get_latest_action_records(2):
 		var label := _action_echo_label(raw_record)
@@ -6787,9 +6905,10 @@ func _demo_director_recent_action_record() -> String:
 		"choices": " / ".join(labels),
 	})
 
-func _demo_director_beat_line(kind: String, used: Dictionary) -> String:
+func _demo_director_beat_line(kind: String, used: Dictionary,
+		commitment_echoes: Array = []) -> String:
 	if kind == "echo":
-		var exact_action_line := _demo_director_recent_action_line()
+		var exact_action_line := _demo_director_recent_action_line(commitment_echoes)
 		if not exact_action_line.is_empty():
 			return exact_action_line
 		if GameState.week_of_month == 1 \
@@ -6851,7 +6970,8 @@ func _render_narrative_bridge_results(results: Array) -> void:
 	choice_box.add_child(card)
 
 func _render_demo_director_beat(
-		kind: String, used: Dictionary, narrative_bridge_results: Array = []) -> void:
+		kind: String, used: Dictionary, narrative_bridge_results: Array = [],
+		commitment_echoes: Array = []) -> void:
 	_play_ink_transition("ap", 0.28)
 	_transient_bg_active = false
 	_clear_category_tint(true)
@@ -6870,7 +6990,7 @@ func _render_demo_director_beat(
 		_typing_tween = null
 	event_body.text = _narrative_bridge_summary(narrative_bridge_results[0]) \
 			if not narrative_bridge_results.is_empty() \
-			else _demo_director_beat_line(kind, used)
+			else _demo_director_beat_line(kind, used, commitment_echoes)
 	event_body.visible_ratio = 1.0
 	next_button.disabled = true
 
@@ -6879,6 +6999,7 @@ func _render_demo_director_beat(
 	card.name = "DemoDirectorBeat"
 	card.set_meta("demo_week_kind", kind)
 	card.set_meta("demo_turn", GameState.turn)
+	card.set_meta("commitment_echo_count", commitment_echoes.size())
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 8)
 	card.add_child(box)
@@ -6890,7 +7011,8 @@ func _render_demo_director_beat(
 	if _font_bold:
 		title.add_theme_font_override("font", _font_bold)
 	box.add_child(title)
-	var exact_action_record := _demo_director_recent_action_record() if is_echo else ""
+	var exact_action_record := _demo_director_recent_action_record(commitment_echoes) if is_echo else ""
+	card.set_meta("commitment_echo_record", exact_action_record)
 	box.add_child(_wrap_label(
 		exact_action_record if not exact_action_record.is_empty() else _demo_director_routine_line(),
 		11, "#99a4b0"))
@@ -6927,7 +7049,9 @@ func _demo_director_auto_week(kind: String) -> void:
 	var expected_turn: int = GameState.turn
 	var used := _montage_apply_routine()
 	var narrative_bridge_results := EventManager.consume_narrative_bridge_results()
-	_render_demo_director_beat(kind, used, narrative_bridge_results)
+	var commitment_echoes := GameState.consume_weekly_commitment_echoes(2) \
+			if kind == "echo" else []
+	_render_demo_director_beat(kind, used, narrative_bridge_results, commitment_echoes)
 	# 무거운 배경/CG가 처음 import되는 프레임에도 카드가 실제 화면에 한 번은
 	# 제출된 뒤 수명 타이머가 시작되어야 한다.
 	await get_tree().process_frame
@@ -7296,6 +7420,87 @@ func _demo_action_spec(action_id: String, person_id: String = "") -> Dictionary:
 			}
 	return {}
 
+func _weekly_commitment_preview(action_id: String, person_id: String = "") -> Dictionary:
+	match action_id:
+		"apply":
+			return {
+				"risk": _tr("중간 위험", "MEDIUM RISK"),
+				"now": _tr("조건에 맞는 공고 하나에 지원한다", "Apply to one opening that fits"),
+				"cost": _tr("이번 주 현금과 준비 시간은 포기", "Give up cash and preparation this week"),
+				"later": _tr("1~3주 · 합격 여부와 첫 월급", "1–3W · decision and first paycheck"),
+			}
+		"resume":
+			return {
+				"risk": _tr("낮은 위험", "LOW RISK"),
+				"now": _tr("평가를 거쳐 지원서를 다시 쓴다", "Rewrite the application through an assessment"),
+				"cost": _tr("이번 주 수입과 실제 지원은 포기", "Give up income and a real application this week"),
+				"later": _tr("1~3주 · 다음 지원의 준비 보너스", "1–3W · an edge on the next application"),
+			}
+		"side_shift":
+			return {
+				"risk": _tr("중간 위험", "MEDIUM RISK"),
+				"now": _tr("현금 %s 이상을 번다", "Earn at least %s") % GameState.format_money(float(_side_shift_base_pay())),
+				"cost": _tr("건강 기본 -3 · 지원과 휴식은 포기", "Base Health -3 · give up applying and rest"),
+				"later": _tr("1~3주 · 피로와 생계의 여유", "1–3W · fatigue and survival cash"),
+			}
+		"save":
+			return {
+				"risk": _tr("낮은 위험", "LOW RISK"),
+				"now": _tr("지출 3만~10만원을 막는다", "Prevent KRW 30K–100K of spending"),
+				"cost": _tr("정신 -2 · 더 벌 기회는 포기", "Mental -2 · give up a chance to earn more"),
+				"later": _tr("1~3주 · 월세 앞의 현금 여유", "1–3W · more room before rent"),
+			}
+		"rest":
+			return {
+				"risk": _tr("낮은 위험", "LOW RISK"),
+				"now": _tr("정신을 회복하고 몸을 멈춘다", "Recover mentally and let the body stop"),
+				"cost": _tr("현금과 경력은 이번 주 그대로", "Cash and career do not move this week"),
+				"later": _tr("1~3주 · 회복의 흔적과 사람 쪽 루틴", "1–3W · recovery and a people-first routine"),
+			}
+		"study":
+			return {
+				"risk": _tr("낮은 위험", "LOW RISK"),
+				"now": _tr("독서·운동·명상·투자공부 중 하나", "Choose reading, exercise, meditation, or markets"),
+				"cost": _tr("이번 주 현금과 실제 지원은 포기", "Give up cash and a real application this week"),
+				"later": _tr("1~3주 · 반복 기록과 다음 자격", "1–3W · a habit record and later qualification"),
+			}
+		"contact":
+			var pname := str(ImageRegistry.get_person_info(person_id).get("name", _tr("누군가", "Someone")))
+			return {
+				"risk": _tr("낮은 위험", "LOW RISK"),
+				"now": _tr("{name}에게 이번 주의 시간을 건넨다", "Give this week's time to {name}").format({"name": pname}),
+				"cost": _tr("수입과 준비는 다음 주로 미룬다", "Delay income and preparation until next week"),
+				"later": _tr("1~3주 · 관계 장면과 사람 쪽 루틴", "1–3W · a relationship scene and people-first routine"),
+			}
+		"invest":
+			return {
+				"risk": _tr("자산별 위험 1~5", "ASSET RISK 1–5"),
+				"now": _tr("자산 하나를 골라 실제 거래한다", "Choose one asset and place a real trade"),
+				"cost": _tr("원금 손실 가능 · 거래 전엔 취소 가능", "Principal at risk · cancel before the trade"),
+				"later": _tr("1~3주 · 시장 결산과 돈 쪽 루틴", "1–3W · market settlement and a money-first routine"),
+			}
+	return {
+		"risk": _tr("결과 미정", "UNCERTAIN"),
+		"now": _tr("이번 주의 방향을 하나 정한다", "Set one direction for this week"),
+		"cost": _tr("다른 두 길은 이번 주에 닫힌다", "The other two paths close for this week"),
+		"later": _tr("1~3주 · 선택의 흔적이 돌아온다", "1–3W · the choice leaves an echo"),
+	}
+
+func _weekly_commitment_payload(pressure: Dictionary, action_id: String) -> Dictionary:
+	var forgone_ids: Array = []
+	for raw_id in pressure.get("action_ids", []):
+		var alternative_id := str(raw_id)
+		if alternative_id != action_id and not forgone_ids.has(alternative_id):
+			forgone_ids.append(alternative_id)
+	return {
+		"turn": GameState.turn,
+		"pressure_id": str(pressure.get("id", "")),
+		"pressure_family": str(pressure.get("family", "")),
+		"choice_id": action_id,
+		"person_id": str(pressure.get("person_id", "")),
+		"forgone_ids": forgone_ids,
+	}
+
 func _render_demo_pressure_actions(ap: int) -> void:
 	var pressure := _demo_week_pressure()
 	if pressure.is_empty():
@@ -7311,16 +7516,17 @@ func _render_demo_pressure_actions(ap: int) -> void:
 		var spec := _demo_action_spec(action_id, person_id)
 		if spec.is_empty():
 			continue
-		_demo_context_action_btn(spec, pressure_id, action_id, ap <= 0)
+		_demo_context_action_btn(spec, pressure, action_id, ap <= 0)
 	# After the first month, direct decisions still belong to the same Seoul journey.
 	# Keep the trace beside the fallback action instead of hiding it behind another view.
 	if GameState.turn > 4 and is_instance_valid(_ap_feature_row):
 		var seoul_trace := _build_seoul_map_strip()
 		seoul_trace.custom_minimum_size = Vector2(420, 34)
 		_ap_feature_row.add_child(seoul_trace)
-	_add_demo_action_toggle(false)
+	# 이 무대의 의미는 다른 두 길을 포기하는 데 있다. 전체 행동 목록으로 빠지는
+	# 출구를 두면 다시 AP 메뉴가 되므로 직접 결정 주간에는 세 장만 남긴다.
 
-func _demo_context_action_btn(spec: Dictionary, pressure_id: String, action_id: String,
+func _demo_context_action_btn(spec: Dictionary, pressure: Dictionary, action_id: String,
 		disabled: bool) -> void:
 	var fn_name := str(spec.get("fn", ""))
 	var fn_arg = spec.get("arg", null)
@@ -7330,18 +7536,22 @@ func _demo_context_action_btn(spec: Dictionary, pressure_id: String, action_id: 
 	var subtitle := str(spec.get("subtitle", ""))
 	var rail_label := _next_ap_rail_label()
 	var art_thumb := _action_thumb_texture(fn_name, icon_id)
+	var preview: Dictionary = _weekly_commitment_preview(
+		action_id, str(pressure.get("person_id", "")))
 	var btn := _make_demo_decision_card(
 		title, subtitle, icon_id, accent, disabled, false, "", rail_label,
-		art_thumb, _ap_action_preview(fn_name, icon_id))
+		art_thumb, preview)
 	btn.name = "DemoPressureAction_%s" % action_id
 	btn.set_meta("demo_pressure_primary", true)
-	btn.set_meta("demo_pressure_id", pressure_id)
+	btn.set_meta("demo_pressure_id", str(pressure.get("id", "")))
 	btn.set_meta("demo_action_id", action_id)
 	btn.set_meta("ap_action_fn", fn_name)
 	btn.set_meta("ap_grid_index", _ap_grid_cards.size())
 	if not disabled:
+		var commitment := _weekly_commitment_payload(pressure, action_id)
 		btn.pressed.connect(func():
-			_run_ap_action_from_button(btn, title, icon_id, accent, fn_name, fn_arg, false, false, art_thumb)
+			_run_ap_action_from_button(btn, title, icon_id, accent, fn_name, fn_arg,
+				false, false, art_thumb, commitment)
 		)
 	_ap_grid_cards.append(btn)
 	_ap_action_grid.add_child(btn)
@@ -7379,7 +7589,7 @@ func _render_situation_cards():
 	# 여기선 남은 시간으로 할 '루틴 행동'만 고른다.
 	_ap_rail_slot_counter = 0
 	var ap: int = GameState.action_points
-	if _demo_pressure_enabled() and _demo_actions_expanded_turn != GameState.turn:
+	if _demo_pressure_enabled():
 		_render_demo_pressure_actions(ap)
 		return
 	var act_info: Dictionary = _ap_act_info()
@@ -7412,8 +7622,6 @@ func _render_situation_cards():
 			_add_grind_hint_strip(_tr("이번 주도 전부 돈에 썼다.", "Another week spent entirely on money."), GameState.grind_streak_weeks + 1)
 	_begin_ap_action_board()
 	_render_essential_actions(ap)
-	if _demo_pressure_enabled():
-		_add_demo_action_toggle(true)
 
 func _begin_ap_action_board(columns: int = 2) -> void:
 	_ap_action_grid = GridContainer.new()
@@ -7995,8 +8203,13 @@ func _axis_color(axis: String) -> String:
 
 func _run_ap_action_from_button(card: Control, title: String, icon_id: String, accent: String,
 		fn_name: String, fn_arg = null, close_modal_first: bool = false,
-		free_action: bool = false, art_thumb: Texture2D = null) -> void:
+		free_action: bool = false, art_thumb: Texture2D = null,
+		weekly_commitment: Dictionary = {}) -> void:
 	if fn_name.is_empty():
+		return
+	if not weekly_commitment.is_empty() \
+			and not GameState.arm_weekly_commitment(weekly_commitment):
+		AudioManager.play_ui_close(-12.0)
 		return
 	if card is Button:
 		var grid_btn := card as Button
@@ -8006,7 +8219,8 @@ func _run_ap_action_from_button(card: Control, title: String, icon_id: String, a
 			_ap_focus_restore_index = int(grid_btn.get_meta("ap_grid_index", grid_index))
 	if _is_ap_commit_function(fn_name):
 		_pulse_ap_action_card(card)
-		_show_ap_action_commit(title, icon_id, accent, free_action, art_thumb)
+		if weekly_commitment.is_empty():
+			_show_ap_action_commit(title, icon_id, accent, free_action, art_thumb)
 		_play_ap_commit_feedback()
 	else:
 		AudioManager.play_ui_click(-8.0)
@@ -8017,6 +8231,45 @@ func _run_ap_action_from_button(card: Control, title: String, icon_id: String, a
 		self.call(fn_name)
 	else:
 		self.call(fn_name, fn_arg)
+
+func _weekly_commitment_action_label(action_id: String, person_id: String = "") -> String:
+	var spec := _demo_action_spec(action_id, person_id)
+	var title := str(spec.get("title", "")).strip_edges()
+	if not title.is_empty():
+		return title
+	return _action_echo_label({
+		"id": action_id,
+		"subject": person_id,
+	})
+
+func _weekly_commitment_forgone_labels(record: Dictionary) -> String:
+	var labels: Array[String] = []
+	var person_id := str(record.get("person_id", ""))
+	for raw_id in record.get("forgone_ids", []):
+		var label := _weekly_commitment_action_label(str(raw_id), person_id)
+		if not label.is_empty() and not labels.has(label):
+			labels.append(label)
+	return " / ".join(labels)
+
+func _on_weekly_commitment_finalized(record: Dictionary) -> void:
+	var action_id := str(record.get("choice_id", ""))
+	var person_id := str(record.get("person_id", ""))
+	var spec := _demo_action_spec(action_id, person_id)
+	if spec.is_empty():
+		return
+	var preview := _weekly_commitment_preview(action_id, person_id)
+	var presentation := record.duplicate(true)
+	presentation["now"] = str(preview.get("now", ""))
+	presentation["later"] = str(preview.get("later", ""))
+	presentation["forgone_labels"] = _weekly_commitment_forgone_labels(record)
+	_last_weekly_commitment_overlay_turn = GameState.turn
+	_show_ap_action_commit(
+		str(spec.get("title", action_id)),
+		str(spec.get("icon", "calendar")),
+		str(spec.get("accent", "#aeb7c2")),
+		false,
+		_action_thumb_texture(str(spec.get("fn", "")), str(spec.get("icon", "calendar"))),
+		presentation)
 
 func _essential_btn(title: String, subtitle: String, icon_id: String, accent: String,
 		fn: String, disabled: bool, free_action: bool = false, forced_badge: String = "",
@@ -8285,14 +8538,14 @@ func _make_ap_board_card(title: String, subtitle: String, icon_id: String,
 
 func _make_demo_decision_card(title: String, subtitle: String, icon_id: String,
 		accent: String, disabled: bool, free_action: bool, forced_badge: String,
-		rail_label: String, art_thumb: Texture2D, preview: String) -> Button:
+		rail_label: String, art_thumb: Texture2D, preview: Dictionary) -> Button:
 	var compact_width := get_viewport_rect().size.x <= 1366.0
 	var btn := Button.new()
 	btn.set_meta("moral_role", "choice_card")
 	btn.set_meta("moral_accent", accent if not disabled else "#343946")
 	btn.set_meta("demo_decision_card", true)
 	btn.text = ""
-	btn.custom_minimum_size = Vector2(0, 276 if compact_width else 290)
+	btn.custom_minimum_size = Vector2(0, 292 if compact_width else 306)
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn.disabled = disabled
 	btn.focus_mode = Control.FOCUS_ALL
@@ -8366,18 +8619,14 @@ func _make_demo_decision_card(title: String, subtitle: String, icon_id: String,
 		visual.material = _moral_action_material
 	image_frame.add_child(visual)
 
-	var preview_parts: PackedStringArray = preview.split(" · ", false)
-	var risk_text := str(preview_parts[0]) if preview_parts.size() > 0 else ""
-	var ap_text := str(preview_parts[1]) if preview_parts.size() > 1 else (_tr("무료", "FREE") if free_action else _tr("AP 1", "AP 1"))
-	if not forced_badge.is_empty():
-		ap_text = forced_badge
-	var effect_text := str(preview_parts[2]) if preview_parts.size() > 2 else ""
-	var echo_text := ""
-	if preview_parts.size() > 3:
-		for i in range(3, preview_parts.size()):
-			if not echo_text.is_empty():
-				echo_text += " · "
-			echo_text += str(preview_parts[i])
+	var risk_text := str(preview.get("risk", ""))
+	var now_text := str(preview.get("now", ""))
+	var cost_text := str(preview.get("cost", ""))
+	var later_text := str(preview.get("later", ""))
+	var choice_badge := forced_badge if not forced_badge.is_empty() else _tr("1회", "ONE")
+	btn.set_meta("commitment_now", now_text)
+	btn.set_meta("commitment_cost", cost_text)
+	btn.set_meta("commitment_later", later_text)
 
 	var detail_margin := MarginContainer.new()
 	detail_margin.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -8418,7 +8667,7 @@ func _make_demo_decision_card(title: String, subtitle: String, icon_id: String,
 	meta_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	meta_spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	meta_row.add_child(meta_spacer)
-	var ap_label := _label(ap_text.to_upper(), 10, "#e5eaf0" if not disabled else "#555b64")
+	var ap_label := _label(choice_badge.to_upper(), 10, "#e5eaf0" if not disabled else "#555b64")
 	ap_label.set_meta("moral_role", "choice_badge_text")
 	ap_label.custom_minimum_size = Vector2(42, 0)
 	ap_label.clip_text = false
@@ -8449,20 +8698,24 @@ func _make_demo_decision_card(title: String, subtitle: String, icon_id: String,
 	divider.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	details.add_child(divider)
 
-	if not effect_text.is_empty():
-		var effect_label := _label(effect_text, 10, "#c7ced8" if not disabled else "#4c515a")
-		effect_label.set_meta("moral_role", "hint_text")
-		effect_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		effect_label.clip_text = true
-		effect_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		details.add_child(effect_label)
-	if not echo_text.is_empty():
-		var echo_label := _label(echo_text, 10, "#858e9b" if not disabled else "#41464e")
-		echo_label.set_meta("moral_role", "hint_text")
-		echo_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		echo_label.clip_text = true
-		echo_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		details.add_child(echo_label)
+	for detail_spec in [
+		[_tr("지금", "NOW"), now_text, "#c7ced8"],
+		[_tr("대가", "COST"), cost_text, "#aeb6c1"],
+		[_tr("후속", "LATER"), later_text, "#858e9b"],
+	]:
+		var detail_key := str(detail_spec[0])
+		var detail_value := str(detail_spec[1])
+		if detail_value.is_empty():
+			continue
+		var detail_label := _label(
+			"%s · %s" % [detail_key, detail_value], 9,
+			str(detail_spec[2]) if not disabled else "#41464e")
+		detail_label.set_meta("moral_role", "hint_text")
+		detail_label.set_meta("commitment_detail", detail_key.to_lower())
+		detail_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		detail_label.clip_text = true
+		detail_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		details.add_child(detail_label)
 
 	var edge := ColorRect.new()
 	edge.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
@@ -13864,7 +14117,7 @@ func _unhandled_input(event):
 	if modal_layer and modal_layer.visible:
 		# 메뉴형 모달만 ESC/B로 닫는다. 이벤트/결산/엔딩은 흐름 보호를 위해 명시 버튼으로만 닫는다.
 		if _modal_cancelable:
-			_close_modal()
+			_cancel_modal()
 			get_viewport().set_input_as_handled()
 		return
 	if is_instance_valid(info_panel) and info_panel.visible:
@@ -13989,6 +14242,10 @@ func _close_modal(play_sound: bool = true):
 		var tendency_kind := _pending_tendency_kind
 		_pending_tendency_kind = ""
 		call_deferred("_present_tendency_realization", tendency_kind)
+
+func _cancel_modal() -> void:
+	GameState.cancel_pending_weekly_commitment(GameState.turn)
+	_close_modal()
 
 func _show_demo_ending():
 	# 결산 화면은 한 막의 마침표다. 직전 AP 확정 카드와 승진 토스트를 위에 남기지 않는다.
