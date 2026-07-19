@@ -225,11 +225,62 @@ func _check_scene_first_week_contract() -> void:
 	if scene_paths.size() != 3:
 		_fail("scene-first week does not expose exactly three scene-backed choices")
 	var contact_spec: Dictionary = game.call("_demo_action_spec", "contact", "daeun")
-	var contact_scene := str(game.call(
-		"_action_scene_background_path", str(contact_spec.get("fn", "")),
-		str(contact_spec.get("icon", ""))))
-	if contact_scene.findn("goshiwon_room") < 0 or contact_scene.findn("cafe") >= 0:
-		_fail("remote contact preview is not anchored to the current housing: %s" % contact_scene)
+	var contact_scenarios := [
+		{"turn": 1, "job": {}},
+		{"turn": 2, "job": {"id": "job_03"}},
+		{"turn": 3, "job": {"id": "job_01"}},
+		{"turn": 4, "job": {"id": "job_03"}},
+	]
+	var contact_paths := {}
+	for scenario in contact_scenarios:
+		GameState.turn = int(scenario.get("turn", 1))
+		GameState.current_job = (scenario.get("job", {}) as Dictionary).duplicate(true)
+		var contact_scene := str(game.call(
+			"_action_scene_background_path", str(contact_spec.get("fn", "")),
+			str(contact_spec.get("icon", ""))))
+		if contact_scene.is_empty() or not ResourceLoader.exists(contact_scene) \
+				or contact_scene.findn("cafe") >= 0:
+			_fail("remote contact preview has an invalid or face-to-face location: %s" % contact_scene)
+		else:
+			contact_paths[contact_scene] = true
+	if contact_paths.size() < 4:
+		_fail("remote calls still collapse into one location instead of home/transit/work/outdoors: %s" % contact_paths.keys())
+
+	GameState.turn = 3
+	GameState.action_points = 2
+	GameState.current_job = {"id": "job_01"}
+	var contact_pressure := {
+		"id": "qa_contact_location",
+		"family": "relationship",
+		"person_id": "daeun",
+		"action_ids": ["contact", "study", "save"],
+	}
+	var contact_payload: Dictionary = game.call(
+		"_weekly_commitment_payload", contact_pressure, "contact")
+	var original_background_id := str(contact_payload.get("scene_background_id", ""))
+	if original_background_id != "convenience_night" \
+			or not GameState.arm_weekly_commitment(contact_payload):
+		_fail("contact commitment did not capture its original workplace: %s" % contact_payload)
+	elif str(GameState.pending_weekly_commitment.get("scene_background_id", "")) \
+			!= original_background_id:
+		_fail("arming a contact commitment discarded its original location")
+	elif not GameState.finalize_weekly_commitment("contact", "daeun"):
+		_fail("contact commitment could not finalize for location persistence")
+	else:
+		var original_record := GameState.get_weekly_commitment_for_turn(3)
+		var original_scene := str(game.call("_scene_background_for_commitment", original_record))
+		var saved: Dictionary = GameState.serialize()
+		GameState.start_new_game()
+		GameState.load_from_dict(saved)
+		GameState.turn = 90
+		GameState.current_job = {"id": "job_03"}
+		GameState.housing = "apartment"
+		var restored_record := GameState.get_weekly_commitment_for_turn(3)
+		var restored_scene := str(game.call("_scene_background_for_commitment", restored_record))
+		if original_scene.is_empty() or restored_scene != original_scene \
+				or restored_scene.findn("convenience_store_night") < 0:
+			_fail("contact location changed after save/load or later life changes: %s -> %s" % [
+				original_scene, restored_scene])
 	game.free()
 
 func _check_event_causality() -> void:

@@ -1362,7 +1362,7 @@ func arm_weekly_commitment(commitment: Dictionary) -> bool:
 				and not alternatives.has(alternative_id):
 			alternatives.append(alternative_id)
 	var person_id := str(commitment.get("person_id", ""))
-	pending_weekly_commitment = {
+	var armed_commitment := {
 		"turn": turn,
 		"pressure_id": str(commitment.get("pressure_id", "")),
 		"pressure_family": str(commitment.get("pressure_family", "")),
@@ -1371,6 +1371,10 @@ func arm_weekly_commitment(commitment: Dictionary) -> bool:
 		"forgone_ids": alternatives,
 		"baseline": _weekly_commitment_public_snapshot(person_id),
 	}
+	var scene_background_id := str(commitment.get("scene_background_id", "")).strip_edges()
+	if not scene_background_id.is_empty():
+		armed_commitment["scene_background_id"] = scene_background_id
+	pending_weekly_commitment = armed_commitment
 	return true
 
 func cancel_pending_weekly_commitment(expected_turn: int = -1) -> void:

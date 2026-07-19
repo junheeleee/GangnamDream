@@ -1660,17 +1660,48 @@ func _set_scene_first_surface(active: bool) -> void:
 
 func _action_scene_background_path(fn_name: String, icon_id: String = "") -> String:
 	if fn_name == "_ap_contact_person":
-		return str(BG_PATHS.get(GameState.housing, BG_DEFAULT))
+		return _contact_scene_background_path(GameState.turn)
 	var illustration_key := _action_illustration_key(fn_name, icon_id)
 	if illustration_key.is_empty() or not ACTION_ILLUSTRATION_DATA.has(illustration_key):
 		return ""
 	var data: Array = ACTION_ILLUSTRATION_DATA[illustration_key]
 	return str(data[0]) if not data.is_empty() else ""
 
+func _contact_scene_background_id(contact_turn: int = -1) -> String:
+	var resolved_turn := maxi(1, GameState.turn if contact_turn <= 0 else contact_turn)
+	var cycle_slot := posmod(resolved_turn - 1, 4)
+	var employed := not GameState.current_job.is_empty()
+	if not employed:
+		match cycle_slot:
+			0:
+				return ImageRegistry.resolve_contextual_background_id("current_housing")
+			1, 3:
+				return "street_day"
+			_:
+				return "hangang_riverside"
+	match cycle_slot:
+		0:
+			return ImageRegistry.resolve_contextual_background_id("current_housing")
+		1:
+			return "subway"
+		2:
+			return ImageRegistry.resolve_contextual_background_id("current_workplace")
+		_:
+			var cycle_index := int((resolved_turn - 1) / 4.0)
+			return "hangang_riverside" if posmod(cycle_index, 2) == 0 else "street_day"
+
+func _contact_scene_background_path(contact_turn: int = -1) -> String:
+	return ImageRegistry.get_background(_contact_scene_background_id(contact_turn))
+
 func _scene_background_for_commitment(record: Dictionary) -> String:
+	var recorded_background_id := str(record.get("scene_background_id", "")).strip_edges()
+	if not recorded_background_id.is_empty():
+		return ImageRegistry.get_background(recorded_background_id)
 	var action_id := str(record.get("choice_id", ""))
 	var person_id := str(record.get("person_id", ""))
 	var spec := _demo_action_spec(action_id, person_id)
+	if str(spec.get("fn", "")) == "_ap_contact_person":
+		return _contact_scene_background_path(int(record.get("turn", GameState.turn)))
 	return _action_scene_background_path(str(spec.get("fn", "")), str(spec.get("icon", "")))
 
 func _background_id_for_path(path: String) -> String:
@@ -7826,7 +7857,7 @@ func _weekly_commitment_payload(pressure: Dictionary, action_id: String) -> Dict
 		var alternative_id := str(raw_id)
 		if alternative_id != action_id and not forgone_ids.has(alternative_id):
 			forgone_ids.append(alternative_id)
-	return {
+	var payload := {
 		"turn": GameState.turn,
 		"pressure_id": str(pressure.get("id", "")),
 		"pressure_family": str(pressure.get("family", "")),
@@ -7834,6 +7865,9 @@ func _weekly_commitment_payload(pressure: Dictionary, action_id: String) -> Dict
 		"person_id": str(pressure.get("person_id", "")),
 		"forgone_ids": forgone_ids,
 	}
+	if action_id == "contact":
+		payload["scene_background_id"] = _contact_scene_background_id(GameState.turn)
+	return payload
 
 func _render_demo_pressure_actions(ap: int) -> void:
 	var pressure := _demo_week_pressure()
@@ -9533,7 +9567,7 @@ func _action_thumb_path(fn: String, icon_id: String = "") -> String:
 
 func _action_thumb_texture(fn: String, icon_id: String = "") -> Texture2D:
 	if fn == "_ap_contact_person":
-		return _load_art_thumb(str(BG_PATHS.get(GameState.housing, BG_DEFAULT)))
+		return _load_art_thumb(_contact_scene_background_path(GameState.turn))
 	var illustration_key := _action_illustration_key(fn, icon_id)
 	if not illustration_key.is_empty():
 		var illustration := _action_illustration_texture(illustration_key)
@@ -16850,7 +16884,9 @@ func _show_contact_reaction(pname: String, flavor: String, accent: Color):
 		child.queue_free()
 	pending_result_text = flavor
 	_transient_bg_active = true
-	var contact_bg := str(BG_PATHS.get(GameState.housing, BG_DEFAULT))
+	var commitment := GameState.get_weekly_commitment_for_turn(GameState.turn)
+	var contact_bg := _scene_background_for_commitment(commitment) \
+			if not commitment.is_empty() else _contact_scene_background_path(GameState.turn)
 	_apply_event_bg_path(contact_bg)
 	_set_scene_ambience_for_background(contact_bg, pname, flavor)
 	event_title.text = pname

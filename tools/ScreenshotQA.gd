@@ -8018,7 +8018,61 @@ func _shot_ap_act_surfaces(lang: String = "en", prefix: String = "ap_act_en_") -
 			await _save("%s%02da_act%d_people_modal" % [prefix, act, act])
 			_close_modal()
 			await _settle(0.2)
+	await _assert_contextual_contact_location(prefix)
+	if _qa_failed:
+		return
 	await _assert_ap_result_lifecycle(lang, prefix)
+
+func _assert_contextual_contact_location(prefix: String) -> void:
+	GameState.turn = 3
+	GameState.year = 2026
+	GameState.month = 1
+	GameState.week_of_month = 3
+	GameState.action_points = GameState.max_action_points
+	GameState.current_job = {
+		"id": "job_01",
+		"name": _tr("편의점 야간 알바", "Convenience Store Night Shift"),
+		"base_salary": 2_450_000.0,
+		"tier": 1,
+	}
+	GameState.monthly_income = 2_450_000.0
+	GameState.pending_weekly_commitment = {}
+	GameState.weekly_commitments = []
+	_mg.current_event = {}
+	_mg.set("pending_result_text", "")
+	var pressure := {
+		"id": "qa_contact_location",
+		"family": "relationship",
+		"person_id": "daeun",
+		"action_ids": ["contact", "study", "save"],
+	}
+	var payload: Dictionary = _mg.call("_weekly_commitment_payload", pressure, "contact")
+	var background_id := str(payload.get("scene_background_id", ""))
+	var expected_path := ImageRegistry.get_background(background_id)
+	if background_id != "convenience_night" or expected_path.findn("cafe") >= 0:
+		_fail("Workplace call fixture resolved to the wrong scene: %s / %s." % [
+			background_id, expected_path])
+		return
+	if not GameState.arm_weekly_commitment(payload):
+		_fail("Workplace call fixture could not arm its weekly commitment.")
+		return
+	_mg.call("_ap_contact_person", "daeun")
+	await _settle(0.45)
+	if _mg.has_method("_finish_typing"):
+		_mg.call("_finish_typing")
+	var record := GameState.get_weekly_commitment_for_turn(3)
+	if record.is_empty() or str(_mg.get("_event_bg_path")) != expected_path:
+		_fail("Contact result did not keep the workplace shown on its choice card: %s / %s." % [
+			record, _mg.get("_event_bg_path")])
+		return
+	await _save(prefix + "05b_contact_from_work")
+	GameState.turn = 51
+	GameState.current_job = {"id": "job_03"}
+	GameState.housing = "apartment"
+	var echo_path := str(_mg.call("_scene_background_for_commitment", record))
+	if echo_path != expected_path:
+		_fail("Contact Echo recalculated a later home or workplace instead of the original scene: %s -> %s." % [
+			expected_path, echo_path])
 
 func _assert_ap_result_lifecycle(lang: String, prefix: String) -> void:
 	_seed_ap_act_state(1, lang)
