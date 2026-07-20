@@ -74,7 +74,7 @@
 
 **완료 보고 (2026-07-20 Codex):** 4·10·13·16·20·23·24주의 작성형 선택이 데이터 계약으로 해당 주를 직접 소유한다. 돈/사람 축과 관계 대상, 즉시/지연 결과를 함께 기록하고, 같은 주의 두 번째 작성형 후보와 범용 AP는 원장에서 거부한다. 1·8주만 범용 AP로 남아 데모 직접 결정은 정확히 `generic=2 + authored=7`, 중복은 0이며 4주 결과만 8주까지 지연된다. 구 `story_boss` 저장과 신규 원장 저장 왕복도 통과했다. KO PlayStation/EN Xbox는 각각 628/632입력으로 같은 24주·46사건·25루트·21후속·35의미선택·Echo 4·CTA를 완주했고 정상 독해 추정은 62.0/53.6분이다. EN Xbox 전체는 240주·3,064입력·218사건·일반 45+작성형 7·Echo 20으로 `job_01`·`with_daeun`까지 키보드/마우스 0회 완주했다. 전체 `audit.sh`는 정적 ERROR/WARNING 0, 사건 1,565·서사 원장 114·일본어 UI 2,269키·오디오 113개·GDScript 55개 컴파일로 통과했다. 자동 구조는 PASS지만 인간 재미는 계속 NO-GO이며, 다음 P0는 단문 사건 다이어트·확인 노동 압축·외부 정상 독해 재플레이다.
 
-#### [~] ORDER-38 [P0·입력 압축] 시네마틱 독해 계약 — 산문은 흐르고, 결정만 멈춘다
+#### [x] ORDER-38 [P0·입력 압축] 시네마틱 독해 계약 — 산문은 흐르고, 결정만 멈춘다
 **[~] 착수 (2026-07-20 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `scenes/StoryMode.gd`, `tools/StoryPlaybackCheck.gd`, `tools/first_session_pacing_audit.py`, `tools/demo_experience_audit.py`, `docs/QA_CHECKLIST.md`, `docs/GAME_RECOMPOSITION_PLAN.md`, `docs/DEMO_FIXLOG.md`, `docs/DECISIONS.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 진단 스냅샷 `docs/FUN_AUDIT_2026-07-20.md`와 기존 사용자 변경 `project.godot`은 건드리지 않는다.
 
 **진단 근거:** 실제 KO/EN 데모 경로는 24주·46사건 중 의미 선택 35개와 작성형 후속 21개를 이미 보유하지만, 도달 검증은 628/632회 입력을 사용한다. `StoryMode` 자동 재생은 기본 OFF이고 단일 경로 행동 10개 앞에서도 의도적으로 멈춰, 소설을 읽는 시간보다 반사적 확인 누르기를 코어 조작으로 만든다.
@@ -82,6 +82,8 @@
 **구현 범위:** 정상 StoryMode는 AUTO ON으로 시작하고 산문·결과·선택지가 하나뿐인 불가피 전환을 독해 시간 후 자동으로 이어간다. 다중 선택·타이머·챕터 경계에서는 반드시 멈추고 플레이어 대신 결정하지 않는다. 회상/갤러리는 수동 시작하며 이 예외가 정상 세션의 AUTO 취향을 덮어쓰지 않는다. 키보드 A·패드 North 토글과 수동 빨리 읽기는 그대로 유지한다. 자동 대기 시간은 KO/EN 정상 독해 속도에 맞춰 짧은 문단과 긴 문단의 호흡을 다르게 둔다.
 
 **수용 기준:** 정상 재생 기본 AUTO ON, 회상 기본 OFF, 회상 종료 후 세션 취향 보존, 단일 행동 자동 확정 정확히 1회, 의미 선택 자동 확정 0회. 12사건 프롤로그의 필수 수동 Story 정지는 12회에서 의미 선택 5회로 줄고, 데모 보고서는 빠른 도달 입력과 실제 필수 Story 정지를 분리해 표시한다. 사건/산문/결과/경제/엔딩 수치는 불변, KO/EN 런타임·전체 `audit.sh` ERROR 0/WARNING 0. 이 자동 증거는 인간 재미 GO를 대신하지 않는다.
+
+**완료 보고 (2026-07-20 Codex):** 본편 StoryMode는 AUTO ON, 회상/갤러리는 세션 취향을 변경하지 않는 수동 시작으로 고정했다. KO/JA는 글자 수, EN은 단어 수에서 이미 보이는 타이핑 시간을 빼고 호흡을 더한 대기를 쓴다. 산문·결과·단일 행동은 흐르지만 다중 선택·타이머·챕터 경계는 자동 확정하지 않는다. 108개 프롤로그 경로는 12사건·최대 79문단·7단일 행동을 보존하면서 필수 Story 정지가 12→5회로 줄었다. 기존 KO/EN 데모 프로필은 46사건·35의미선택·10단일 행동, 필수 Story 정지 36회를 표시하고 628/632는 빠른 도달성 입력으로 분리한다. `StoryPlaybackCheck` 실행 결과는 `auto=story_default replay=manual direct_commit=1 choice_commit=0`; 전체 `audit.sh`는 정적 ERROR/WARNING 0, 사건 1,565·오디오 113·GDScript 55개 컴파일까지 통과했다. 사람 재미는 계속 NO-GO다.
 
 #### [x] USER-P0 [P0·정합 인프라] 서사 규칙 원장 + 원격 대화 공간 연출
 **착수 (2026-07-16 Codex) — 만지는 파일:** `content/meta/story_rules.json`, `locale/ui_ja.json`, `autoloads/DataRegistry.gd`, `scenes/StoryMode.gd`, `tools/story_consistency_audit.py`, `tools/StoryPresenceCheck.gd`, `tools/StoryPresenceCheck.gd.uid`, `tools/StoryPresenceCheck.tscn`, `tools/ScreenshotQA.gd`, `tools/audit.sh`, `docs/STORY_CONSISTENCY_SYSTEM.md`, `docs/ASSET_CONTINUITY_CHECKLIST.md`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 느슨한 불린 플래그를 즉시 런타임에서 교체하지 않고, 언어 독립 원장에 `requires/forbids/produces`·타입 상태·장소·대화 채널을 먼저 등록한다. 데모 아버지 연락은 `in_person/phone/video_call/message/memory/narration` 계약을 StoryMode가 소비하게 해, 고시원 배경에 아버지 전신이 현장 등장한 것처럼 보이는 오해를 없앤다. 정적 감사·런타임 검사·KO/EN 1280×800 비교 캡처로 대면 초상 회귀와 영어 누출까지 같이 잠근다. 전체 감사가 새 채널 표면의 일본어 사전 누락을 잡으면 같은 계약 범위에서 보완한다.

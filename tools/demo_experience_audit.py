@@ -65,6 +65,7 @@ class ExperienceMetrics:
     roots: int
     meaningful_choices: int
     direct_actions: int
+    manual_story_stops: int
     estimated_minutes: float
     first_meaningful_minute: float
     max_meaningful_gap_minutes: float
@@ -227,6 +228,11 @@ def analyze_report(report: dict[str, Any]) -> tuple[ExperienceMetrics, list[str]
     roots = int(flow_summary.get("roots", len(sequences)))
     meaningful = sum(bool(event.get("meaningful_choice", False)) for event in events)
     direct = sum(bool(event.get("direct_action", False)) for event in events)
+    # Cinematic playback carries prose, results, and one-way actions. Player input is
+    # reserved for authored decisions and explicit chapter handoffs.
+    manual_story_stops = meaningful + sum(
+        str(event.get("boundary", "")) == "chapter_handoff" for event in events
+    )
     first_choice, max_gap, gap_ids, story_elapsed = _meaningful_timeline(
         events, runtime, language
     )
@@ -270,6 +276,7 @@ def analyze_report(report: dict[str, Any]) -> tuple[ExperienceMetrics, list[str]
         roots=roots,
         meaningful_choices=meaningful,
         direct_actions=direct,
+        manual_story_stops=manual_story_stops,
         estimated_minutes=total_seconds / 60.0,
         first_meaningful_minute=first_choice,
         max_meaningful_gap_minutes=max_gap,
@@ -555,6 +562,7 @@ def _format_metrics(metrics: ExperienceMetrics) -> str:
         f"lang={metrics.language} device={metrics.device} "
         f"events={metrics.events} roots={metrics.roots} "
         f"choices={metrics.meaningful_choices} direct={metrics.direct_actions} "
+        f"story_stops={metrics.manual_story_stops} "
         f"estimated={metrics.estimated_minutes:.1f}m "
         f"first_choice={metrics.first_meaningful_minute:.1f}m "
         f"max_choice_gap={metrics.max_meaningful_gap_minutes:.1f}m({gap}) "

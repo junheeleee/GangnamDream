@@ -127,6 +127,11 @@ var _font: FontFile
 var _font_bold: FontFile
 
 const TYPE_SPEED := 0.018   # 글자당 초
+const AUTO_CJK_CHARS_PER_MINUTE := 390.0
+const AUTO_EN_WORDS_PER_MINUTE := 190.0
+const AUTO_BREATH_SECONDS := 0.75
+const AUTO_MIN_WAIT_SECONDS := 1.20
+const AUTO_MAX_WAIT_SECONDS := 22.0
 const ADVANCE_HOLD_INITIAL_DELAY := 0.34
 const ADVANCE_HOLD_REPEAT_DELAY := 0.14
 const JOY_BUTTON_NORTH := 3
@@ -150,7 +155,7 @@ const RESULT_HUMAN_KEYS: Array[String] = [
 ]
 const RESULT_OTHER_KEYS: Array[String] = ["intelligence", "appearance", "luck"]
 
-static var _auto_enabled_session: bool = false
+static var _auto_enabled_session: bool = true
 
 func _ready():
 	_read_only_replay = GameState.story_replay_mode
@@ -159,7 +164,9 @@ func _ready():
 	_load_fonts()
 	_build_ui()
 	_apply_story_text_size()
-	_set_auto_mode(_auto_enabled_session, false)
+	# 본편은 소설처럼 흐르되, 회상은 감상자의 속도를 존중한다.
+	# 회상의 일시 OFF가 본편 세션 취향을 덮어쓰지 않도록 영속하지 않는다.
+	_set_auto_mode(_auto_enabled_session and not _read_only_replay, false, false)
 	_refresh_hud()
 	GameState.stats_changed.connect(_refresh_hud)
 	if not GameState.moral_tint_changed.is_connected(_on_story_moral_tint_changed):
@@ -2127,7 +2134,7 @@ func _process(delta):
 			if _direct_continue_choice_index() >= 0:
 				_refresh_continue_hint_text()
 				_continue_hint.visible = true
-				_auto_wait = -1.0
+				_arm_auto_advance(_type_full)
 			else:
 				_show_choices()
 		return
@@ -2276,9 +2283,11 @@ func _is_auto_toggle_event(event: InputEvent) -> bool:
 		return joy.pressed and int(joy.button_index) == JOY_BUTTON_NORTH
 	return false
 
-func _set_auto_mode(enabled: bool, announce: bool = true) -> void:
+func _set_auto_mode(
+		enabled: bool, announce: bool = true, persist_session: bool = true) -> void:
 	_auto_mode = enabled
-	_auto_enabled_session = enabled
+	if persist_session:
+		_auto_enabled_session = enabled
 	if enabled and not _typing and not _showing_choices:
 		_arm_auto_advance(_type_full)
 	else:
@@ -2291,8 +2300,25 @@ func _arm_auto_advance(text: String) -> void:
 	if not _auto_mode:
 		_auto_wait = -1.0
 		return
-	# 타이핑 중에도 읽는다는 전제에서 짧은 여운만 더한다. 긴 문단은 최대 3.3초.
-	_auto_wait = 0.85 + clampf(float(text.length()) * 0.012, 0.35, 2.45)
+	_auto_wait = _auto_reading_delay(text)
+
+func _auto_reading_delay(text: String) -> float:
+	var normalized := text.strip_edges()
+	if normalized.is_empty():
+		return AUTO_MIN_WAIT_SECONDS
+	var reading_seconds: float
+	if LocaleManager.language in ["ko", "ja"]:
+		reading_seconds = float(normalized.length()) / AUTO_CJK_CHARS_PER_MINUTE * 60.0
+	else:
+		var words := normalized.replace("\n", " ").split(" ", false).size()
+		reading_seconds = float(maxi(words, 1)) / AUTO_EN_WORDS_PER_MINUTE * 60.0
+	# 자동 타이핑 중 읽은 시간을 빼고 호흡을 더해, 짧은 문장과 긴 문단이
+	# 같은 속도로 휠럭이지 않게 한다. 수동 입력은 언제든 이 대기를 넘길 수 있다.
+	var typing_seconds := float(normalized.length()) * _direction_type_interval()
+	return clampf(
+			reading_seconds - typing_seconds + AUTO_BREATH_SECONDS,
+			AUTO_MIN_WAIT_SECONDS,
+			AUTO_MAX_WAIT_SECONDS)
 
 func _can_auto_advance() -> bool:
 	return _auto_mode \
@@ -2304,8 +2330,6 @@ func _can_auto_advance() -> bool:
 			and not _direction_hold_active \
 			and not _direction_beat_waiting \
 			and not is_instance_valid(_audio_settings_popup) \
-			and not (_para_index >= _paragraphs.size() - 1 \
-					and _direct_continue_choice_index() >= 0) \
 			and is_instance_valid(_continue_hint) \
 			and _continue_hint.visible
 

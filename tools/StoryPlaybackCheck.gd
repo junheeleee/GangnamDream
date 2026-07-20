@@ -19,6 +19,9 @@ const DEMO_SAME_LOCATION_EDGES := [
 var _story: Control
 
 func _ready() -> void:
+	if not await _check_default_auto_contract():
+		return
+	await _free_story_fixture()
 	if not await _check_accept_hold_boundary():
 		return
 	await _free_story_fixture()
@@ -63,14 +66,18 @@ func _ready() -> void:
 		return
 
 	print(
-		"STORY_PLAYBACK_CHECK_OK hold=prose_only direct=%d same_location=%d " % [
+		"STORY_PLAYBACK_CHECK_OK auto=story_default replay=manual direct=%d same_location=%d " % [
 			DIRECT_CONTINUE_EVENTS.size(), DEMO_SAME_LOCATION_EDGES.size()
 		]
-		+ "hints=ko_en_xbox_ps_nintendo choice_commit=0"
+		+ "direct_commit=1 hints=ko_en_xbox_ps_nintendo choice_commit=0"
 	)
 	get_tree().quit(0)
 
-func _spawn_story_fixture(event_id: String = "story_prologue_dad") -> bool:
+func _spawn_story_fixture(
+		event_id: String = "story_prologue_dad",
+		disable_auto: bool = true,
+		replay_mode: bool = false) -> bool:
+	GameState.story_replay_mode = replay_mode
 	GameState.pending_story_queue = [event_id]
 	GameState.story_return_scene = "res://scenes/MainGame.tscn"
 	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
@@ -80,7 +87,8 @@ func _spawn_story_fixture(event_id: String = "story_prologue_dad") -> bool:
 	if str((_story.get("_current") as Dictionary).get("id", "")) != event_id:
 		_fail("story fixture did not load %s" % event_id)
 		return false
-	_story.call("_set_auto_mode", false, false)
+	if disable_auto:
+		_story.call("_set_auto_mode", false, false, false)
 	return true
 
 func _free_story_fixture() -> void:
@@ -88,6 +96,30 @@ func _free_story_fixture() -> void:
 		_story.queue_free()
 		await get_tree().process_frame
 	_story = null
+
+func _check_default_auto_contract() -> bool:
+	var original_replay_mode := GameState.story_replay_mode
+	if not await _spawn_story_fixture("story_prologue_dad", false, false):
+		return false
+	if not bool(_story.get("_auto_mode")):
+		_fail("normal story playback did not default to auto")
+		return false
+	await _free_story_fixture()
+
+	if not await _spawn_story_fixture("story_prologue_dad", false, true):
+		return false
+	if bool(_story.get("_auto_mode")):
+		_fail("read-only replay did not default to manual playback")
+		return false
+	await _free_story_fixture()
+
+	if not await _spawn_story_fixture("story_prologue_dad", false, false):
+		return false
+	if not bool(_story.get("_auto_mode")):
+		_fail("read-only replay overwrote the normal-session auto preference")
+		return false
+	GameState.story_replay_mode = original_replay_mode
+	return true
 
 func _check_accept_hold_boundary() -> bool:
 	var original_language := LocaleManager.language
@@ -200,20 +232,33 @@ func _check_direct_continue_contract() -> bool:
 
 	LocaleManager.set_language("en")
 	ControllerHints.force_brand_for_qa(ControllerHints.Brand.XBOX)
+	_set_direct_fixture_state(DataRegistry.find_event("story_flashforward"))
+	_story.call("_set_auto_mode", true, false, false)
+	_story.call("_complete_typing")
+	if not bool(_story.get("_direction_hold_active")):
+		_fail("cinematic direct action did not begin its authored hold")
+		return false
+	_story.call("_process", 2.1)
+	if float(_story.get("_auto_wait")) < 0.0:
+		_fail("cinematic hold did not return a direct action to auto playback")
+		return false
+
 	_set_direct_fixture_state(DataRegistry.find_event("story_pressure"))
+	_story.call("_set_auto_mode", true, false, false)
 	_story.call("_refresh_continue_hint_text")
 	if continue_hint.text != "[A] Open a job app. Survival comes first.":
 		_fail("English direct action does not state the committed action")
 		return false
 
-	await _send_accept_action(true)
-	await _send_accept_action(false)
+	_story.call("_arm_auto_advance", "final")
+	_story.set("_auto_wait", 0.0)
+	_story.call("_process", 0.01)
 	if bool(_story.get("_showing_choices")) or not bool(_story.get("_pending_after_result")):
-		_fail("direct action opened a fake choice rail or skipped its result")
+		_fail("auto direct action opened a fake choice rail or skipped its result")
 		return false
 	if GameState.intelligence != original_intelligence + 2 \
 			or not bool(GameState.flags.get("story_job_unlocked", false)):
-		_fail("direct action did not apply its effects and flag exactly once")
+		_fail("auto direct action did not apply its effects and flag exactly once")
 		return false
 	for _step in range(4):
 		_story.call("_process", 0.40)
@@ -241,6 +286,9 @@ func _set_direct_fixture_state(event: Dictionary) -> void:
 	_story.set("_showing_choices", false)
 	_story.set("_is_chapter_card", false)
 	_story.set("_direction_hold_active", false)
+	_story.set("_direction_hold_consumed", false)
+	_story.set("_direction_hold_remaining", 0.0)
+	_story.set("_direction", event.get("direction", {}))
 
 func _check_same_location_handoff() -> bool:
 	for edge in DEMO_SAME_LOCATION_EDGES:

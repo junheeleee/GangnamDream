@@ -28,6 +28,7 @@ EXPECTED_EVENT_SEQUENCE = (
 MAX_PARAGRAPHS = 84
 MAX_FAST_INPUTS = 165
 EXPECTED_DIRECT_CONTINUES = 7
+EXPECTED_MANUAL_STORY_STOPS = 5
 
 
 @dataclass(frozen=True)
@@ -35,7 +36,7 @@ class PathMetrics:
     event_ids: tuple[str, ...] = ()
     paragraphs: int = 0
     fast_inputs: int = 0
-    manual_confirms_with_auto: int = 0
+    manual_story_stops: int = 0
     direct_continues: int = 0
     meaningful_choices: int = 0
     first_meaningful_event: int = 999
@@ -92,7 +93,7 @@ def walk_paths(
         event_ids=metrics.event_ids + (event_id,),
         paragraphs=metrics.paragraphs + description_paragraphs,
         fast_inputs=metrics.fast_inputs + description_paragraphs * 2,
-        manual_confirms_with_auto=metrics.manual_confirms_with_auto,
+        manual_story_stops=metrics.manual_story_stops,
         direct_continues=metrics.direct_continues + int(direct_continue),
         meaningful_choices=metrics.meaningful_choices + int(meaningful),
         first_meaningful_event=(
@@ -114,7 +115,7 @@ def walk_paths(
             event_ids=base.event_ids,
             paragraphs=base.paragraphs + result_paragraphs,
             fast_inputs=base.fast_inputs + result_paragraphs * 2 + int(not direct_continue),
-            manual_confirms_with_auto=base.manual_confirms_with_auto + 1,
+            manual_story_stops=base.manual_story_stops + int(not direct_continue),
             direct_continues=base.direct_continues,
             meaningful_choices=base.meaningful_choices,
             first_meaningful_event=base.first_meaningful_event,
@@ -165,7 +166,7 @@ def main() -> int:
 
     min_events = min(len(path.event_ids) for path in paths)
     max_events = max(len(path.event_ids) for path in paths)
-    max_auto_confirms = max(path.manual_confirms_with_auto for path in paths)
+    manual_story_stops = {path.manual_story_stops for path in paths}
     direct_continues = {path.direct_continues for path in paths}
     max_fast_inputs = max(path.fast_inputs for path in paths)
     max_paragraphs = max(path.paragraphs for path in paths)
@@ -179,10 +180,10 @@ def main() -> int:
         )
     if max_paragraphs > MAX_PARAGRAPHS:
         raise ValueError(f"prologue prose exceeded the 5-7 minute budget: {max_paragraphs}>{MAX_PARAGRAPHS}")
-    if max_auto_confirms > len(EXPECTED_EVENT_SEQUENCE):
+    if manual_story_stops != {EXPECTED_MANUAL_STORY_STOPS}:
         raise ValueError(
-            f"prologue needs too many confirms even with auto playback: "
-            f"{max_auto_confirms}>{len(EXPECTED_EVENT_SEQUENCE)}"
+            "prologue manual story-stop count drifted under cinematic playback: "
+            f"{sorted(manual_story_stops)}!={[EXPECTED_MANUAL_STORY_STOPS]}"
         )
     if direct_continues != {EXPECTED_DIRECT_CONTINUES}:
         raise ValueError(
@@ -197,7 +198,7 @@ def main() -> int:
     print(
         "FIRST_SESSION_PACING_OK "
         f"paths={len(paths)} events={min_events}-{max_events} "
-        f"paragraphs<={max_paragraphs} auto_confirms<={max_auto_confirms} "
+        f"paragraphs<={max_paragraphs} manual_stops={EXPECTED_MANUAL_STORY_STOPS} "
         f"direct={EXPECTED_DIRECT_CONTINUES} fast_inputs<={max_fast_inputs} "
         f"first_meaningful={first_meaningful}"
     )
