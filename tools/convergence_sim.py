@@ -656,10 +656,13 @@ def _monthly_pressure(state: SimState, policy: Policy, rng: random.Random) -> No
         state.mental -= 2.0
     elif state.addiction >= 50.0:
         state.mental -= 1.0
+    monthly_bills = 650_000.0
     if state.money < 0.0:
         state.mental -= 4.0
-    elif state.money < 300_000.0:
+    elif state.money < monthly_bills:
         state.mental -= 2.0
+    elif state.money < monthly_bills * 3.0:
+        state.mental -= 1.0
     state.job_tenure_months += 1 if state.job_id else 0
     state.clamp()
 
@@ -848,7 +851,7 @@ def render_markdown(result: dict) -> str:
         "",
         "## Scope and fidelity",
         "",
-        "The model runs five stable policies through 240 internal weeks and 60 monthly pressure cycles. It reads live job salaries and all authored ambient event choices, applies the current AP-axis grind wear, contact affinity, moral effects, opportunity math, route points, and ending-priority shape. It compresses low-signal weekly filler to one representative authored choice per month and does not model manual minigame skill, portfolio asset-by-asset prices, every guaranteed story arc, metaprogression, or player mistakes. Its purpose is to expose convergence, not certify exact economy odds.",
+        "The model runs five stable policies through 240 internal weeks and 60 monthly pressure cycles. It reads live job salaries and all authored ambient event choices, applies the current AP-axis grind wear, contact affinity, moral effects, opportunity math, route points, ending-priority shape, and the baseline one-month/three-month cash-reserve pressure bands. It compresses low-signal weekly filler to one representative authored choice per month and does not model manual minigame skill, portfolio asset-by-asset prices, variable housing, loan interest, every guaranteed story arc, metaprogression, or player mistakes. Its purpose is to expose convergence, not certify exact economy odds.",
         "",
         "## Results",
         "",
@@ -888,12 +891,14 @@ def render_markdown(result: dict) -> str:
         "",
         "A diligent salary path is intentionally not a 3-billion-won route. Its quality gate is survival, legible career growth, and a satisfying non-Gangnam conclusion. Diligence may qualify Minjun for a rare equity, partnership, or founder opportunity, but the opportunity remains a visible risk and salary itself is never inflated to solve the premise.",
         "",
+        "Employment no longer grants safety by itself in the pressure model. Cash below one month of baseline bills carries acute pressure, cash below three months remains a thin reserve, and only an actual three-month buffer is treated as safe. The live game derives those thresholds from current housing plus loan interest and presents a reachable next financial rung; this comparison model keeps the 650,000-won goshiwon baseline and therefore tests the long-run bands conservatively rather than reproducing every housing state.",
+        "",
         "## Next implementation gate",
         "",
         "1. Keep the existing economy bands and ending-identity routing locked; no hidden catch-up system exists to remove.",
-        "2. In the 24-week demo, present one pressure and three contextual responses with immediate expectation, cost, and promised echo.",
-        "3. Track Decision/Quiet/Echo/Boss pacing in the invisible director; do not expose Moral Tint or a new route meter.",
-        "4. Make expertise, health, relationships, and addiction legible before commitment without revealing exact outcomes.",
+        "2. Keep the live HUD, weekly pressure, and month-end summary on the same bills -> three-month reserve -> wealth-rung contract without replacing the ultimate KRW 3B premise.",
+        "3. Make the missed path create a real later cost; do not expose Moral Tint or a new route meter.",
+        "4. Demote short random cards to bridges, results, or Echoes and spend foreground time on causal authored scenes.",
         "5. Re-run this report and the existing economy bands after every numerical or routing change.",
         "",
     ])

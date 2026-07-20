@@ -2021,7 +2021,7 @@ func _refresh_info_panel_hint() -> void:
 	) % [ControllerHints.shoulder_l(), ControllerHints.shoulder_r(), ControllerHints.east()]
 
 # ══════════════════════════════════════════════════════════════
-# 목표 진행바 — 상단 바 아래, 30억 달성률 시각화
+# 금융 진행바 — 이번 달 청구서에서 30억까지, 현재의 다음 단
 # ══════════════════════════════════════════════════════════════
 func _build_goal_bar(parent: Control) -> void:
 	var row_panel = PanelContainer.new()
@@ -2041,8 +2041,8 @@ func _build_goal_bar(parent: Control) -> void:
 	row.custom_minimum_size = Vector2(0, 18)
 	row_panel.add_child(row)
 
-	_goal_money_lbl = _label(_tr("자산 50만", "Assets KRW 500K"), 11, "#9aa4b8")
-	_goal_money_lbl.custom_minimum_size = Vector2(225, 0)
+	_goal_money_lbl = _label(_tr("현금 50만", "Cash KRW 500K"), 11, "#9aa4b8")
+	_goal_money_lbl.custom_minimum_size = Vector2(270, 0)
 	row.add_child(_goal_money_lbl)
 
 	var bar_wrap = PanelContainer.new()
@@ -2074,7 +2074,7 @@ func _build_goal_bar(parent: Control) -> void:
 	_goal_bar.add_theme_stylebox_override("fill", pb_fill)
 	bar_wrap.add_child(_goal_bar)
 
-	_goal_pct_label = _label("0.00%", 11, "#5a6075")
+	_goal_pct_label = _label("0%", 11, "#5a6075")
 	_goal_pct_label.custom_minimum_size = Vector2(56, 0)
 	_goal_pct_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	row.add_child(_goal_pct_label)
@@ -2094,9 +2094,11 @@ func _build_goal_bar(parent: Control) -> void:
 func _refresh_goal_bar() -> void:
 	if _goal_bar == null or _goal_pct_label == null:
 		return
-	const GOAL: float = 3_000_000_000.0
-	var total: float = float(GameState.get_total_asset_value())
-	var pct: float = clampf(total / GOAL * 100.0, 0.0, 100.0)
+	var rung: Dictionary = GameState.get_financial_rung()
+	var progress: float = clampf(float(rung.get("progress", 0.0)), 0.0, 1.0)
+	var pct: float = progress * 100.0
+	_goal_bar.set_meta("financial_rung_kind", str(rung.get("kind", "")))
+	_goal_bar.tooltip_text = _financial_rung_tooltip(rung)
 	if _goal_bar.value == 0.0:
 		_goal_bar.value = pct  # 게임 시작 시 즉시
 	else:
@@ -2104,13 +2106,15 @@ func _refresh_goal_bar() -> void:
 		_gb_tw.tween_property(_goal_bar, "value", pct, 0.7) \
 			.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
-	# 진행률도 무채색 축으로만 변화한다. 색은 위급/도덕성 연출에 양보한다.
+	# 막대는 무채색 축을 유지하고, 실제 미납 위기만 저채도 경고로 보인다.
 	var fill_color: Color
-	if pct < 5.0:
-		fill_color = Color("#42474f")
+	if str(rung.get("kind", "")) == "bills":
+		fill_color = Color("#8d5f5f")
 	elif pct < 20.0:
+		fill_color = Color("#42474f")
+	elif pct < 50.0:
 		fill_color = Color("#646b73")
-	elif pct < 60.0:
+	elif pct < 80.0:
 		fill_color = Color("#8b929b")
 	else:
 		fill_color = Color("#c5ccd5")
@@ -2119,16 +2123,10 @@ func _refresh_goal_bar() -> void:
 	fill_st.set_corner_radius_all(5)
 	_goal_bar.add_theme_stylebox_override("fill", fill_st)
 
-	# 퍼센트 레이블
-	var pct_str: String
-	if pct < 0.01:
-		pct_str = "%.4f%%" % pct
-	elif pct < 1.0:
-		pct_str = "%.2f%%" % pct
-	elif pct < 10.0:
+	# 현재 단계 퍼센트. 최종 목표의 소수점 네 자리를 더 이상 노출하지 않는다.
+	var pct_str := "%.0f%%" % pct
+	if pct < 10.0 and pct > 0.0:
 		pct_str = "%.1f%%" % pct
-	else:
-		pct_str = "%.0f%%" % pct
 	_goal_pct_label.text = pct_str
 	var years_left: int = max(0, 38 - int(GameState.age))
 	if years_left == 0:
@@ -2138,10 +2136,16 @@ func _refresh_goal_bar() -> void:
 	else:
 		_goal_pct_label.remove_theme_color_override("font_color")
 
-	# 자산 레이블은 최종 목표 대비로 고정한다.
-	# 다음 마일스톤은 아래 주간 판단 카드에서 따로 보여줘야 첫 화면이 덜 산만하다.
+	# 왼쪽은 다음 단을, 오른쪽은 플레이어가 직접 쓴 이유를 보존한다.
 	if _goal_money_lbl:
-		_goal_money_lbl.text = "%s / %s" % [GameState.format_money(total), GameState.format_money(3_000_000_000.0)]
+		if str(rung.get("kind", "")) == "achieved":
+			_goal_money_lbl.text = str(rung.get("label", ""))
+		else:
+			_goal_money_lbl.text = _tr("{label} · {remaining} 남음", "{label} · {remaining} LEFT").format({
+				"label": str(rung.get("label", "")),
+				"remaining": GameState.format_money_compact(float(rung.get("remaining", 0.0))),
+			})
+		_goal_money_lbl.tooltip_text = _financial_rung_tooltip(rung)
 	if _goal_motive_lbl:
 		var motive := _notebook_motive_sentence()
 		_goal_motive_lbl.text = _tr("수첩 · {sentence}", "NOTEBOOK · {sentence}").format({"sentence": motive})
@@ -2152,6 +2156,25 @@ func _refresh_goal_bar() -> void:
 		var time_display := _goal_time_display()
 		_goal_time_lbl.text = str(time_display.get("text", ""))
 		_goal_time_lbl.add_theme_color_override("font_color", Color(str(time_display.get("color", "#5a6a7a"))))
+
+func _financial_rung_tooltip(rung: Dictionary) -> String:
+	var detail := _tr(
+		"현재 단계: {label}\n{current} / {target}\n최종 목표: 자산 30억\n수첩: {motive}",
+		"Current rung: {label}\n{current} / {target}\nFinal horizon: KRW 3B in assets\nNotebook: {motive}").format({
+			"label": str(rung.get("label", "")),
+			"current": GameState.format_money(float(rung.get("current", 0.0))),
+			"target": GameState.format_money(float(rung.get("target", 0.0))),
+			"motive": _notebook_motive_sentence(),
+		})
+	if str(rung.get("kind", "")) in ["bills", "reserve"]:
+		detail += _tr(
+			"\n월 고정비 {bills} · 주거 {housing} · 대출이자 {interest}",
+			"\nMonthly bills {bills} · Housing {housing} · Loan interest {interest}").format({
+				"bills": GameState.format_money(GameState.get_monthly_required_cash()),
+				"housing": GameState.format_money(GameState.get_housing_expense()),
+				"interest": GameState.format_money(GameState.get_monthly_loan_interest()),
+			})
+	return detail
 
 func _goal_time_display() -> Dictionary:
 	if GameState.turn >= 193:
@@ -4117,7 +4140,7 @@ func _run_month_end_transition(show_summary: bool = true) -> void:
 		"date": GameState.get_date_string(),
 		"money_before": GameState.money,
 		"monthly_income": GameState.monthly_income,
-		"fixed_expense": GameState.get_housing_expense(),
+		"fixed_expense": GameState.get_monthly_required_cash(),
 		"assets_before": GameState.get_total_asset_value(),
 		"health_before": GameState.health,
 		"mental_before": GameState.mental,
@@ -5640,7 +5663,7 @@ func _render_ap_actions():
 	_maybe_show_tutorial()
 
 	# ── 상황판 ────────────────────────────────────────────────────
-	var net = GameState.monthly_income - GameState.get_housing_expense()
+	var net = GameState.monthly_income - GameState.get_monthly_required_cash()
 	var total = GameState.get_total_asset_value()
 	var lines: PackedStringArray = PackedStringArray()
 	# 분위기 내레이션 한 줄 (비주얼노벨 톤)
@@ -5986,17 +6009,28 @@ func _add_ap_controller_hint_strip(ap_empty: bool) -> void:
 
 func _week_rent_deadline() -> Dictionary:
 	var weeks_left := maxi(0, 4 - GameState.week_of_month)
-	var rent := GameState.get_housing_expense()
-	var covered: bool = GameState.money + maxf(0.0, GameState.monthly_income) >= rent
+	var bills: float = GameState.get_monthly_required_cash()
+	var available: float = float(GameState.money) + maxf(0.0, float(GameState.monthly_income))
+	var covered: bool = available >= bills
+	var shortfall: float = maxf(0.0, bills - available)
+	var runway: float = maxf(0.0, float(GameState.money)) / maxf(1.0, bills)
 	var label_text: String
-	if weeks_left == 0:
-		label_text = _tr("월세 이번 주 · %s", "RENT DUE · %s") % GameState.format_money_compact(rent)
+	if not covered and weeks_left == 0:
+		label_text = _tr("고정비 이번 주 · %s 부족", "BILLS DUE · %s SHORT") % GameState.format_money_compact(shortfall)
+	elif not covered:
+		label_text = _tr("고정비 D-%d주 · %s 부족", "BILLS D-%dW · %s SHORT") % [weeks_left, GameState.format_money_compact(shortfall)]
+	elif runway < 3.0:
+		label_text = _tr("비상금 %.1f개월 / 3", "RESERVE %.1f / 3 MO") % runway
 	else:
-		label_text = _tr("월세 D-%d주 · %s", "RENT D-%dW · %s") % [weeks_left, GameState.format_money_compact(rent)]
+		label_text = _tr("비상금 %.1f개월", "RESERVE %.1f MO") % runway
 	return {
 		"text": label_text,
 		"covered": covered,
-		"urgent": weeks_left <= 1 or not covered,
+		"urgent": not covered,
+		"due": bills,
+		"interest": GameState.get_monthly_loan_interest(),
+		"shortfall": shortfall,
+		"runway": runway,
 	}
 
 func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bool,
@@ -6064,9 +6098,13 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 	rent_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	rent_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	rent_lbl.tooltip_text = _tr(
-		"월말 자동 납부 · 현재 현금 %s",
-		"Paid automatically at month-end · Cash %s"
-	) % GameState.format_money(GameState.money)
+		"월말 자동 납부 · 고정비 {bills} · 현재 현금 {cash} · 비상금 {runway}개월",
+		"Paid automatically at month-end · Bills {bills} · Cash {cash} · Reserve {runway} months"
+	).format({
+		"bills": GameState.format_money(float(rent_info.get("due", 0.0))),
+		"cash": GameState.format_money(GameState.money),
+		"runway": "%.1f" % float(rent_info.get("runway", 0.0)),
+	})
 	if _font_bold:
 		rent_lbl.add_theme_font_override("font", _font_bold)
 	top.add_child(rent_lbl)
@@ -6127,10 +6165,11 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 			"detail": str(people.get("detail", "")),
 		})
 	else:
-		var gap := maxf(0.0, 3_000_000_000.0 - total)
+		var rung: Dictionary = GameState.get_financial_rung()
 		var sign := "+" if net >= 0.0 else ""
-		stakes_text = _tr("강남까지 {gap} · 월 {sign}{flow}", "TO GANGNAM {gap} · {sign}{flow}/mo").format({
-			"gap": GameState.format_money(gap),
+		stakes_text = _tr("다음 {label}까지 {gap} · 월 {sign}{flow}", "NEXT {label} · {gap} LEFT · {sign}{flow}/mo").format({
+			"label": str(rung.get("label", "")),
+			"gap": GameState.format_money(float(rung.get("remaining", 0.0))),
 			"sign": sign,
 			"flow": GameState.format_money(net),
 		})
@@ -6189,7 +6228,7 @@ func _render_week_pressure_row(parent: Control, net: float, total: float, has_wa
 
 	var net_sign := "+" if net >= 0.0 else ""
 	var cash_text := _tr("%s%s / 월", "%s%s / mo") % [net_sign, GameState.format_money(net)]
-	var goal_gap := maxf(0.0, 3_000_000_000.0 - total)
+	var rung: Dictionary = GameState.get_financial_rung()
 	var condition := _tr("불안정", "Unstable") if has_warning else _tr("버티는 중", "Holding")
 	if not has_warning and mini(GameState.health, GameState.mental) >= 65:
 		condition = _tr("안정", "Steady")
@@ -6197,7 +6236,9 @@ func _render_week_pressure_row(parent: Control, net: float, total: float, has_wa
 		condition = _tr("피로 누적", "Strained")
 
 	_add_week_pressure_cell(row, _tr("현금흐름", "CASHFLOW"), cash_text, net >= 0.0)
-	_add_week_pressure_cell(row, _tr("강남까지", "TO GANGNAM"), GameState.format_money(goal_gap), goal_gap <= 1_000_000_000.0)
+	_add_week_pressure_cell(row, _tr("다음 단계", "NEXT RUNG"),
+		"%s · %s" % [str(rung.get("label", "")), GameState.format_money(float(rung.get("remaining", 0.0)))],
+		str(rung.get("kind", "")) != "bills")
 	_add_week_pressure_cell(row, _tr("몸과 마음", "CONDITION"), condition, not has_warning)
 	# 네 번째 긴장: 강남까지 ↔ 곁의 사람. 돈에만 갈아넣으면 이 칸이 식는다 (AP_REDESIGN 1b)
 	var people := _people_pressure_state()
@@ -6987,7 +7028,7 @@ func _demo_pressure_enabled() -> bool:
 func _demo_director_has_crisis() -> bool:
 	var projected_cash: float = GameState.money + maxf(GameState.monthly_income, 0.0)
 	return GameState.is_game_over or GameState.health <= 35 or GameState.mental <= 25 \
-			or projected_cash < GameState.get_housing_expense() \
+			or projected_cash < GameState.get_monthly_required_cash() \
 			or int(GameState.flags.get("demo_director_crisis_turn", -1)) == GameState.turn
 
 func _demo_director_week_kind() -> String:
@@ -7603,8 +7644,8 @@ func _contextual_week_pressure(person_id: String, person_name: String) -> Dictio
 				"family": "housing",
 				"title": _tr("{home}이 이번 달의 크기를 정한다", "The {home} sets the size of this month").format({"home": housing_name}),
 				"question": _tr("지출을 줄일까, 한 번 더 벌까, 방 안에서 숨을 돌릴까?", "Cut spending, earn once more, or breathe at home?"),
-				"detail": _tr("월 고정비 {rent} · 현금 {cash}", "Monthly cost {rent} · cash {cash}").format({
-					"rent": GameState.format_money(GameState.get_housing_expense()),
+				"detail": _tr("월 고정비 {rent} · 현금 {cash}", "Monthly bills {rent} · cash {cash}").format({
+					"rent": GameState.format_money(GameState.get_monthly_required_cash()),
 					"cash": GameState.format_money(GameState.money),
 				}),
 				"urgent": false,
@@ -7705,7 +7746,7 @@ func _demo_week_pressure() -> Dictionary:
 		return {
 			"id": "rent",
 			"family": "housing",
-			"title": _tr("월세가 잔고보다 가깝다", "Rent is closer than safety"),
+			"title": _tr("이번 달 고정비가 잔고보다 크다", "This month's bills exceed the available cash"),
 			"question": _tr("현금을 더 만들까, 덜 쓸까, 몸을 지킬까?", "Earn more, spend less, or protect your body?"),
 			"detail": "%s · %s" % [str(rent_info.get("text", "")), GameState.format_money(GameState.money)],
 			"urgent": true,
@@ -7807,7 +7848,7 @@ func _demo_action_spec(action_id: String, person_id: String = "") -> Dictionary:
 		"save":
 			return {
 				"title": _tr("지출을 깎는다", "Cut Back"),
-				"subtitle": _tr("생활비를 줄여 월세 앞의 여유를 만든다", "Trim daily spending to make room before rent"),
+				"subtitle": _tr("생활비를 줄여 다음 고정비 앞의 여유를 만든다", "Trim daily spending to make room before the next bills"),
 				"icon": "money", "accent": "#3a6ea8", "fn": "_ap_save_money",
 			}
 		"rest":
@@ -7865,7 +7906,7 @@ func _weekly_commitment_preview(action_id: String, person_id: String = "") -> Di
 				"risk": _tr("낮은 위험", "LOW RISK"),
 				"now": _tr("지출 3만~10만원을 막는다", "Prevent KRW 30K–100K of spending"),
 				"cost": _tr("정신 -2 · 더 벌 기회는 포기", "Mental -2 · give up a chance to earn more"),
-				"later": _tr("1~3주 · 월세 앞의 현금 여유", "1–3W · more room before rent"),
+				"later": _tr("1~3주 · 다음 고정비 앞의 현금 여유", "1–3W · more room before the next bills"),
 			}
 		"rest":
 			return {
@@ -16734,13 +16775,12 @@ func _show_month_summary(snap: Dictionary):
 	var asset_delta: float = assets_now - float(snap["assets_before"])
 	var asset_color = "#00c896" if asset_delta >= 0 else "#ff4444"
 	var asset_sign  = "+" if asset_delta >= 0 else ""
-	var goal: float = 3_000_000_000.0
-	var pct: float = clampf(assets_now / goal, 0.0, 1.0)
-	var pct_disp: String = "%.1f%%" % (pct * 100.0)
+	var rung: Dictionary = GameState.get_financial_rung()
+	var rung_progress: float = clampf(float(rung.get("progress", 0.0)), 0.0, 1.0)
 
 	# ── 이달 판정 / 재정 결과 — 월말 리듬의 첫 인상 ─────────────
 	var grade = _calc_month_grade(snap)
-	modal_body.add_child(_month_summary_result_card(grade, net, net_color, assets_now, pct_disp))
+	modal_body.add_child(_month_summary_result_card(grade, net, net_color, rung))
 
 	var metric_grid := GridContainer.new()
 	metric_grid.columns = 4
@@ -16756,7 +16796,7 @@ func _show_month_summary(snap: Dictionary):
 	metric_grid.add_child(_month_summary_metric_card(
 		_tr("지출", "Expense"),
 		"-%s" % GameState.format_money(expense),
-		_tr("고정 생활비", "Fixed living cost"),
+		_tr("주거비와 대출이자", "Housing and loan interest"),
 		"#ff6b6b"))
 	metric_grid.add_child(_month_summary_metric_card(
 		_tr("자산 변화", "Asset Change"),
@@ -16773,11 +16813,12 @@ func _show_month_summary(snap: Dictionary):
 			_tr("정착 지원금 +30만원이 이번 달 생존을 잠시 밀어줬다.", "The KRW 300K settlement subsidy quietly kept this month afloat."),
 			11, "#7f8798"))
 
-	var base_bar := Color("#00c896" if pct >= 0.5 else ("#f0b429" if pct >= 0.2 else "#c9a227"))
+	var base_bar := Color("#00c896" if rung_progress >= 0.5 else ("#f0b429" if rung_progress >= 0.2 else "#c9a227"))
 	var bar_color = _moral_hex(_moral_gray_accent(base_bar, _moral_ui_palette(), 0.04))
 	modal_body.add_child(_make_progress_row(
-		_tr("강남드림 (30억)", "Gangnam Dream (3 billion won)"), pct, bar_color,
-		"%s  (%s)" % [GameState.format_money(assets_now), pct_disp]))
+		str(rung.get("label", "")), rung_progress, bar_color,
+		_tr("%s 남음", "%s left") % GameState.format_money(float(rung.get("remaining", 0.0)))))
+	modal_body.add_child(_wrap_label(_notebook_ritual_line(), 11, "#7f8798"))
 
 	# ── 행동 요약 ─────────────────────────────────
 	if not snap["actions"].is_empty():
@@ -16861,7 +16902,7 @@ func _show_month_summary(snap: Dictionary):
 		modal_body.add_child(confirm_btn)
 		# 월 결산 닫기 후 _begin_month 호출은 _pending_month_summary 플래그로 처리됨
 
-func _month_summary_result_card(grade: Dictionary, net: float, net_color: String, assets_now: float, pct_disp: String) -> Control:
+func _month_summary_result_card(grade: Dictionary, net: float, net_color: String, rung: Dictionary) -> Control:
 	var grade_color: String = str(grade.get("color", "#8892a4"))
 	var grade_badge_text: String = str(grade.get("badge", "LOG"))
 	var grade_title_text: String = str(grade.get("title", ""))
@@ -16923,12 +16964,18 @@ func _month_summary_result_card(grade: Dictionary, net: float, net_color: String
 		net_value.add_theme_font_override("font", _font_bold)
 	UIStyle.apply_ink_text_depth(net_value, "money")
 	result_col.add_child(net_value)
-	var asset_hint := _label(_tr("%s / 30억", "%s / KRW 3B") % GameState.format_money(assets_now), 11, "#7f8798")
-	asset_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	result_col.add_child(asset_hint)
-	var pct_hint := _label(pct_disp, 10, "#5f6878")
-	pct_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	result_col.add_child(pct_hint)
+	var rung_hint: Label = _label(_tr("다음 · %s", "Next · %s") % str(rung.get("label", "")), 11, "#7f8798")
+	rung_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	rung_hint.clip_text = true
+	rung_hint.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	rung_hint.tooltip_text = _financial_rung_tooltip(rung)
+	result_col.add_child(rung_hint)
+	var remaining_hint := _label(
+		_tr("%s 남음", "%s left") % GameState.format_money(float(rung.get("remaining", 0.0))),
+		10, "#5f6878")
+	remaining_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	remaining_hint.tooltip_text = _financial_rung_tooltip(rung)
+	result_col.add_child(remaining_hint)
 	return card
 
 func _month_summary_metric_card(title: String, value: String, hint: String, accent: String) -> Control:
@@ -17667,35 +17714,22 @@ func _random_topic(news):
 
 # ── 다음 마일스톤 힌트 ────────────────────────────────
 func _next_milestone_hint(total: float) -> String:
-	# [target, label, strategy_hint]
-	var milestones: Array = [
-		[8_000_000.0,     _tr("원룸 이사 구간", "One-room move range"),        _tr("→ 주거 AP에서 이사 가능. 정신력 보너스", "→ Move via Housing AP. Mental bonus")],
-		[20_000_000.0,    _tr("종잣돈 2천만", "KRW 20M seed money"),              _tr("→ 투자 계좌 개설 & 주식·코인 시작 가능", "→ Open an investment account & start stocks/crypto")],
-		[40_000_000.0,    _tr("빌라 전세 구간", "Villa jeonse range"),        _tr("→ 주거 AP에서 빌라 전세 선택 가능", "→ Choose villa jeonse via Housing AP")],
-		[100_000_000.0,   _tr("자산 1억", "KRW 100M assets"),                 _tr("→ 레버리지 투자 & 고급 이벤트 해금", "→ Unlock leverage investing & advanced events")],
-		[130_000_000.0,   _tr("아파트 전세 구간", "Apartment jeonse range"),      _tr("→ 아파트 입주 시 평판·투자감각 보너스", "→ Reputation & Investing bonus on moving in")],
-		[500_000_000.0,   _tr("자산 5억", "KRW 500M assets"),                 _tr("→ 고수익 투자 루트 본격 가동 구간", "→ Time to run high-yield investment routes in earnest")],
-		[1_000_000_000.0, _tr("자산 10억", "KRW 1B assets"),                "→ " + _tr("강남 오픈하우스 이벤트 + 엘리트 인맥", "Gangnam open-house event + elite connections")],
-		[2_000_000_000.0, _tr("자산 20억", "KRW 2B assets"),                _tr("→ 마지막 10억 — 레버리지 or 집중 투자", "→ The last KRW 1B — leverage or concentrated investing")],
-		[3_000_000_000.0, _tr("자산 30억 = 강남드림!", "KRW 3B assets = Gangnam Dream!"), ""],
+	# `total` is retained for call compatibility; the canonical rung also knows
+	# whether cash has fallen back below this month's bills or the reserve floor.
+	var rung: Dictionary = GameState.get_financial_rung()
+	if str(rung.get("kind", "")) == "achieved":
+		return ""
+	return _tr("%s까지 %s 남음", "%s · %s to go") % [
+		str(rung.get("label", "")),
+		GameState.format_money(float(rung.get("remaining", 0.0))),
 	]
-	for m in milestones:
-		var target: float = float(m[0])
-		if total < target:
-			var needed = target - total
-			var pct: int = int(total / target * 100.0)
-			var hint: String = str(m[2])
-			if hint.is_empty():
-				return _tr("%s  까지  %s 남음  [%d%%]", "%s  —  %s to go  [%d%%]") % [str(m[1]), GameState.format_money(needed), pct]
-			return _tr("%s  까지  %s  [%d%%]  [color=#7a9ab0]%s[/color]", "%s  —  %s  [%d%%]  [color=#7a9ab0]%s[/color]") % [str(m[1]), GameState.format_money(needed), pct, hint]
-	return ""
 
 func _months_to_goal_estimate() -> String:
 	const GOAL: float = 3_000_000_000.0
 	var total: float = float(GameState.get_total_asset_value())
 	if total >= GOAL:
 		return ""
-	var net: float = float(GameState.monthly_income) - float(GameState.get_housing_expense())
+	var net: float = float(GameState.monthly_income) - GameState.get_monthly_required_cash()
 	var remaining = GOAL - total
 	if net <= 0.0:
 		return _tr("[color=#ff7070]투자 없이는 달성 불가 — 자산을 굴려야 합니다[/color]", "[color=#ff7070]Impossible without investing — you need your assets to work[/color]")

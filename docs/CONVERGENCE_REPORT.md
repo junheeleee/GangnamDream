@@ -5,17 +5,17 @@
 
 ## Scope and fidelity
 
-The model runs five stable policies through 240 internal weeks and 60 monthly pressure cycles. It reads live job salaries and all authored ambient event choices, applies the current AP-axis grind wear, contact affinity, moral effects, opportunity math, route points, and ending-priority shape. It compresses low-signal weekly filler to one representative authored choice per month and does not model manual minigame skill, portfolio asset-by-asset prices, every guaranteed story arc, metaprogression, or player mistakes. Its purpose is to expose convergence, not certify exact economy odds.
+The model runs five stable policies through 240 internal weeks and 60 monthly pressure cycles. It reads live job salaries and all authored ambient event choices, applies the current AP-axis grind wear, contact affinity, moral effects, opportunity math, route points, ending-priority shape, and the baseline one-month/three-month cash-reserve pressure bands. It compresses low-signal weekly filler to one representative authored choice per month and does not model manual minigame skill, portfolio asset-by-asset prices, variable housing, loan interest, every guaranteed story arc, metaprogression, or player mistakes. Its purpose is to expose convergence, not certify exact economy odds.
 
 ## Results
 
 | Archetype | Assets p10 / median / p90 | 3B | Fail | Health / mental | Tint | Money / human weeks | Close relation | Addiction / invest skill | Dominant projected endings |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | Safe career | KRW 242.8M / **KRW 244.0M** / KRW 246.2M | 0.0% | 0.0% | 61 / 34 | 49 | 240 / 95 | 100.0% | 0 / 23 | `career_climber` 99.5%, `reputation_legend` 0.5% |
-| Aggressive investor | KRW 137.4M / **KRW 188.6M** / KRW 251.1M | 0.0% | 6.6% | 64 / 28 | 7 | 238 / 46 | 14.1% | 0 / 100 | `investment_master` 93.4%, `mental_break` 6.6%, `ordinary_life` 0.1% |
+| Aggressive investor | KRW 137.6M / **KRW 188.6M** / KRW 252.5M | 0.0% | 6.4% | 64 / 28 | 7 | 238 / 46 | 14.9% | 0 / 100 | `investment_master` 93.5%, `mental_break` 6.4%, `ordinary_life` 0.1% |
 | People first | KRW 82.1M / **KRW 87.0M** / KRW 88.1M | 0.0% | 0.0% | 95 / 97 | 54 | 40 / 240 | 100.0% | 0 / 30 | `with_daeun` 100.0% |
-| Gambler | KRW 4.2M / **KRW 7.1M** / KRW 14.0M | 0.0% | 100.0% | 35 / 65 | 2 | 36 / 20 | 0.0% | 90 / 15 | `crypto_ghost` 99.2%, `mental_break` 0.8% |
-| Skill / founder | KRW 232.1M / **KRW 236.0M** / KRW 249.0M | 1.1% | 3.8% | 98 / 24 | 36 | 232 / 136 | 17.9% | 0 / 51 | `reputation_legend` 95.1%, `mental_break` 3.8%, `startup_exit` 1.0% |
+| Gambler | KRW 4.1M / **KRW 7.1M** / KRW 14.0M | 0.0% | 100.0% | 35 / 65 | 2 | 36 / 20 | 0.0% | 90 / 15 | `crypto_ghost` 99.1%, `mental_break` 0.9% |
+| Skill / founder | KRW 232.1M / **KRW 236.0M** / KRW 249.0M | 1.1% | 3.8% | 98 / 24 | 36 | 232 / 136 | 17.9% | 0 / 51 | `reputation_legend` 95.0%, `mental_break` 3.8%, `startup_exit` 1.0% |
 
 ## Divergence gates
 
@@ -40,10 +40,12 @@ The current weekly moral wear also has a narrow vocabulary: every money-only pol
 
 A diligent salary path is intentionally not a 3-billion-won route. Its quality gate is survival, legible career growth, and a satisfying non-Gangnam conclusion. Diligence may qualify Minjun for a rare equity, partnership, or founder opportunity, but the opportunity remains a visible risk and salary itself is never inflated to solve the premise.
 
+Employment no longer grants safety by itself in the pressure model. Cash below one month of baseline bills carries acute pressure, cash below three months remains a thin reserve, and only an actual three-month buffer is treated as safe. The live game derives those thresholds from current housing plus loan interest and presents a reachable next financial rung; this comparison model keeps the 650,000-won goshiwon baseline and therefore tests the long-run bands conservatively rather than reproducing every housing state.
+
 ## Next implementation gate
 
 1. Keep the existing economy bands and ending-identity routing locked; no hidden catch-up system exists to remove.
-2. In the 24-week demo, present one pressure and three contextual responses with immediate expectation, cost, and promised echo.
-3. Track Decision/Quiet/Echo/Boss pacing in the invisible director; do not expose Moral Tint or a new route meter.
-4. Make expertise, health, relationships, and addiction legible before commitment without revealing exact outcomes.
+2. Keep the live HUD, weekly pressure, and month-end summary on the same bills -> three-month reserve -> wealth-rung contract without replacing the ultimate KRW 3B premise.
+3. Make the missed path create a real later cost; do not expose Moral Tint or a new route meter.
+4. Demote short random cards to bridges, results, or Echoes and spend foreground time on causal authored scenes.
 5. Re-run this report and the existing economy bands after every numerical or routing change.

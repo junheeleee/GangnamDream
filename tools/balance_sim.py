@@ -176,13 +176,15 @@ class Run:
             self.mental -= 2
         elif self.stress >= 40:
             self.mental -= 1
-        # 현금 위기 (2026-06-11 수정: 마이너스 우선 검사)
+        # 현금 위기: 취업 여부가 아니라 실제 고시원 고정비 1/3개월치로 판정.
         if self.money < 0:
             self.stress += 12
             self.mental -= 5
-        elif self.money < 300_000:
+        elif self.money < expense:
             self.stress += 8
             self.mental -= 4
+        elif self.money < expense * 3.0:
+            self.mental -= 1
         self.clamp()
         self.check_over()
 

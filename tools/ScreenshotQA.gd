@@ -8363,6 +8363,21 @@ func _assert_demo_decision_stage() -> bool:
 		return false
 	return true
 
+func _assert_goal_rung_label_fits(context: String) -> bool:
+	var label := _mg.get("_goal_money_lbl") as Label
+	if not is_instance_valid(label):
+		_fail("Financial rung has no visible goal label in %s." % context)
+		return false
+	var font := label.get_theme_font("font")
+	var font_size := label.get_theme_font_size("font_size")
+	var text_width := font.get_string_size(
+		label.text, HORIZONTAL_ALIGNMENT_LEFT, -1.0, font_size).x
+	if text_width > label.size.x:
+		_fail("Financial rung clips in %s: %.1fpx > %.1fpx (%s)." % [
+			context, text_width, label.size.x, label.text])
+		return false
+	return true
+
 func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immersion_en_") -> void:
 	_set_qa_language(lang)
 	_prepare_main_game_state()
@@ -8393,44 +8408,68 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 		_mg.call("_finish_typing")
 	await _settle(0.55)
 	var first_text := _collect_control_text(_mg)
-	var expected_season := _tr("겨울", "winter")
-	var expected_omen := _tr("창원", "Changwon")
-	var expected_rent := _tr("월세 D-3주", "RENT D-3W")
-	for expected in [expected_season, expected_omen, expected_rent]:
-		if first_text.findn(str(expected)) < 0:
-			_fail("Immersion AP opening is missing '%s' in %s." % [expected, lang])
-			return
+	var expected_bills := _tr("이번 달 고정비", "This month's bills")
+	if first_text.findn(expected_bills) < 0:
+		_fail("Immersion opening is missing the reachable bill rung in %s." % lang)
+		return
+	if not _assert_goal_rung_label_fits("starting bills"):
+		return
 	var pressure_frame := _find_demo_pressure_frame(_mg)
 	var primary_count := _demo_pressure_primary_cards().size()
-	if pressure_frame == null or str(pressure_frame.get_meta("demo_pressure_id", "")) != "employment" \
+	if pressure_frame == null or str(pressure_frame.get_meta("demo_pressure_id", "")) != "chapter1_intent" \
 			or primary_count != 3 or _find_demo_pressure_toggle(_mg, false) != null:
-		_fail("Immersion AP opening lost the employment pressure/three-response contract in %s." % lang)
+		_fail("Immersion AP opening lost the chapter-intent/three-response contract in %s." % lang)
 		return
 	if not _assert_demo_decision_stage():
 		return
 	_assert_ap_cards_inside_viewport()
 	await _save(prefix + "01_week_opening_omen")
 
-	GameState.week_of_month = 4
 	GameState.current_job = {"id": "job_03", "name": _tr("사무직", "Office Worker"), "tier": 2}
+	GameState.monthly_income = 2_240_000.0
+	GameState.money = 500_000.0
+	GameState.week_of_month = 2
+	if _mg.has_method("_render_ap_actions"):
+		_mg.call("_render_ap_actions")
+	if _mg.has_method("_refresh_all"):
+		_mg.call("_refresh_all")
+	if _mg.has_method("_finish_typing"):
+		_mg.call("_finish_typing")
+	await _settle(0.4)
+	var reserve_text := _collect_control_text(_mg)
+	var reserve_marker := _tr("3개월 비상금", "Three-month reserve")
+	if reserve_text.findn(reserve_marker) < 0:
+		_fail("Employment erased the visible three-month reserve rung in %s." % lang)
+		return
+	if not _assert_goal_rung_label_fits("employed reserve"):
+		return
+	_assert_ap_cards_inside_viewport()
+	await _save(prefix + "01b_employed_cash_reserve")
+
+	GameState.flags["chapter_intent_id"] = "secure_work"
+	GameState.week_of_month = 4
 	GameState.monthly_income = 2_240_000.0
 	GameState.money = -2_100_000.0
 	if _mg.has_method("_render_ap_actions"):
 		_mg.call("_render_ap_actions")
+	if _mg.has_method("_refresh_all"):
+		_mg.call("_refresh_all")
 	if _mg.has_method("_finish_typing"):
 		_mg.call("_finish_typing")
 	await _settle(0.4)
 	var due_text := _collect_control_text(_mg)
-	var due_marker := _tr("월세 이번 주", "RENT DUE")
+	var due_marker := _tr("이번 달 고정비가 잔고보다 크다", "This month's bills exceed the available cash")
 	if due_text.findn(due_marker) < 0:
-		_fail("Immersion AP surface is missing the rent deadline in %s." % lang)
+		_fail("Immersion AP surface is missing the bill deadline in %s." % lang)
+		return
+	if not _assert_goal_rung_label_fits("uncovered bills"):
 		return
 	var rent_frame := _find_demo_pressure_frame(_mg)
 	if rent_frame == null or str(rent_frame.get_meta("demo_pressure_id", "")) != "rent":
-		_fail("Immersion AP surface did not turn an uncovered due week into the rent pressure in %s." % lang)
+		_fail("Immersion AP surface did not turn an uncovered due week into the bill pressure in %s." % lang)
 		return
 	_assert_ap_cards_inside_viewport()
-	await _save(prefix + "02_rent_due")
+	await _save(prefix + "02_bills_due")
 	await _dispose_main_game()
 
 	_prepare_main_game_state()
@@ -8563,6 +8602,8 @@ func _shot_motivation_imprint_surfaces(lang: String = "en", prefix: String = "mo
 	if expected_motive not in ap_text:
 		_fail("Motivation goal bar lost the chosen sentence in %s." % lang)
 		return
+	if not _assert_goal_rung_label_fits("one-room milestone"):
+		return
 	_assert_ap_cards_inside_viewport()
 	await _save(prefix + "04_ap_goal_sentence")
 
@@ -8601,7 +8642,7 @@ func _shot_motivation_imprint_surfaces(lang: String = "en", prefix: String = "mo
 	var snap := {
 		"date": "2026. 4.",
 		"monthly_income": GameState.monthly_income,
-		"fixed_expense": GameState.get_housing_expense(),
+		"fixed_expense": GameState.get_monthly_required_cash(),
 		"assets_before": GameState.get_total_asset_value() - 350_000.0,
 		"actions": [],
 		"health_before": GameState.health,
@@ -9330,7 +9371,7 @@ func _shot_demo_loop_surfaces(lang: String, prefix: String) -> void:
 		"date": GameState.get_date_string(),
 		"money_before": GameState.money,
 		"monthly_income": GameState.monthly_income,
-		"fixed_expense": GameState.get_housing_expense(),
+		"fixed_expense": GameState.get_monthly_required_cash(),
 		"assets_before": GameState.get_total_asset_value(),
 		"health_before": GameState.health,
 		"mental_before": GameState.mental,

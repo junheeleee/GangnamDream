@@ -85,7 +85,7 @@
 
 **완료 보고 (2026-07-20 Codex):** 본편 StoryMode는 AUTO ON, 회상/갤러리는 세션 취향을 변경하지 않는 수동 시작으로 고정했다. KO/JA는 글자 수, EN은 단어 수에서 이미 보이는 타이핑 시간을 빼고 호흡을 더한 대기를 쓴다. 산문·결과·단일 행동은 흐르지만 다중 선택·타이머·챕터 경계는 자동 확정하지 않는다. 108개 프롤로그 경로는 12사건·최대 79문단·7단일 행동을 보존하면서 필수 Story 정지가 12→5회로 줄었다. 기존 KO/EN 데모 프로필은 46사건·35의미선택·10단일 행동, 필수 Story 정지 36회를 표시하고 628/632는 빠른 도달성 입력으로 분리한다. `StoryPlaybackCheck` 실행 결과는 `auto=story_default replay=manual direct_commit=1 choice_commit=0`; 전체 `audit.sh`는 정적 ERROR/WARNING 0, 사건 1,565·오디오 113·GDScript 55개 컴파일까지 통과했다. 사람 재미는 계속 NO-GO다.
 
-#### [~] ORDER-39 [P1·진행/결핍 엔진] 취업이 아니라 안전을 벌고, 30억이 아니라 다음 단을 올라간다
+#### [x] ORDER-39 [P1·진행/결핍 엔진] 취업이 아니라 안전을 벌고, 30억이 아니라 다음 단을 올라간다
 **[~] 착수 (2026-07-20 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `autoloads/GameState.gd`, `scenes/MainGame.gd`, `tools/ImmersionLoopCheck.gd`, `tools/ScreenshotQA.gd`, `tools/balance_sim.py`, `tools/convergence_sim.py`, `locale/ui_ja.json`, `docs/AP_REDESIGN.md`, `docs/BALANCE.md`, `docs/CONVERGENCE_REPORT.md`, `docs/QA_CHECKLIST.md`, `docs/GAME_RECOMPOSITION_PLAN.md`, `docs/DEMO_FIXLOG.md`, `docs/DECISIONS.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 진단 스냅샷 `docs/FUN_AUDIT_2026-07-20.md`와 기존 사용자 변경 `project.godot`은 건드리지 않는다.
 
 **진단 근거:** 안전 직장 경로의 중앙값은 2.44억으로 30억의 10%에도 닿지 않고, 상단 `%.4f%%` 막대는 거의 5년 내내 정지한다. 또한 현재 월말 압박은 취업 즉시 소멸하여 `취업=안전` 플래그가 된다. 30억 종극 목표·월급·월세·엔딩 임계는 보존하되, 주간 표면은 `이번 달 고정비 → 3개월 비상금 → 주거/종잣돈/자산 이정표 → 30억`의 다음 단을 읽어야 한다. 안전은 직업 보유가 아니라 실제 현금 완충으로 획득한다.
@@ -93,6 +93,8 @@
 **구현 범위:** `GameState`가 월 고정비·대출이자·3개월 비상금·다음 금융 단계를 하나의 독출 없는 계약으로 계산한다. 상단 HUD·주간 압박·월말 결산이 그 같은 계약을 읽고, 고정 30만원 현금 경고는 현재 월 고정비의 1·3개월 배수로 바꾼다. 새 소비 항목·파산선·엔딩 라우팅은 추가하지 않는다.
 
 **수용 기준:** 무직 50만원은 이번 달 고정비 단계, 첫 취업 후에도 현금 3개월치 미만은 비상금 단계, 완충 후에는 실제 자산 이정표를 보여준다. 단계 사이 증가분이 막대에 보이고 현금 부족은 취업 플래그가 아니라 실제 잔고로 판정된다. KO/EN/JA 표면, 런타임 저장 불변, 5전략 밸런스 밴드, 1280×800 잘림, 전체 `audit.sh` ERROR 0/WARNING 0을 통과한다. 자동 증거는 사람 재미 GO를 대신하지 않는다.
+
+**완료 보고 (2026-07-20 Codex):** `GameState` 하나가 현재 주거비+대출 월이자, 3개월 현금 완충, 다음 자산 단계를 계산하고 HUD·주간 압박·월말 결산이 공유한다. 시작 50만원은 청구서 65만원의 77%, 첫 취업+현금 50만원은 비상금 195만원의 26%, 현금 350만원은 원룸 800만원 단계의 10%로 보이며 수첩 동기를 대체하지 않는다. 월말 현금 압박은 `음수 -4 / 1개월 미만 -2 / 3개월 미만 -1 / 이상 0` 정신력으로 실제 잔고를 읽는다. KO/EN 1280×800 `immersion-loop` 6컷씩·`motivation-imprint` 7컷씩, 영어 누출 0, JA UI 2,273키, 5전략 밴드·3,000런 발산을 통과했다. 최종 `audit.sh`는 정적 ERROR/WARNING 0, 사건 1,565·오디오 113·GDScript 55개 컴파일로 `✅ 감사 통과`했다. 자동 계약은 완료지만 사람 재미는 계속 NO-GO다.
 
 #### [x] USER-P0 [P0·정합 인프라] 서사 규칙 원장 + 원격 대화 공간 연출
 **착수 (2026-07-16 Codex) — 만지는 파일:** `content/meta/story_rules.json`, `locale/ui_ja.json`, `autoloads/DataRegistry.gd`, `scenes/StoryMode.gd`, `tools/story_consistency_audit.py`, `tools/StoryPresenceCheck.gd`, `tools/StoryPresenceCheck.gd.uid`, `tools/StoryPresenceCheck.tscn`, `tools/ScreenshotQA.gd`, `tools/audit.sh`, `docs/STORY_CONSISTENCY_SYSTEM.md`, `docs/ASSET_CONTINUITY_CHECKLIST.md`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 느슨한 불린 플래그를 즉시 런타임에서 교체하지 않고, 언어 독립 원장에 `requires/forbids/produces`·타입 상태·장소·대화 채널을 먼저 등록한다. 데모 아버지 연락은 `in_person/phone/video_call/message/memory/narration` 계약을 StoryMode가 소비하게 해, 고시원 배경에 아버지 전신이 현장 등장한 것처럼 보이는 오해를 없앤다. 정적 감사·런타임 검사·KO/EN 1280×800 비교 캡처로 대면 초상 회귀와 영어 누출까지 같이 잠근다. 전체 감사가 새 채널 표면의 일본어 사전 누락을 잡으면 같은 계약 범위에서 보완한다.

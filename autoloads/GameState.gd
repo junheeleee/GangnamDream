@@ -736,6 +736,79 @@ func advance_calendar() -> bool:
 func get_housing_expense() -> float:
 	return float(HOUSING_DATA.get(housing, HOUSING_DATA["gosiwon"]).get("expense", 800_000.0))
 
+## The monthly bill shared by HUD pressure, month-end settlement, and the actual
+## deduction. Keep housing and variable-rate debt in one read-only contract so
+## each surface cannot quietly invent a different safety threshold.
+func get_monthly_loan_interest() -> float:
+	var total := 0.0
+	for product in loans:
+		total += float(loans[product]) * get_loan_rate(str(product))
+	return maxf(0.0, total)
+
+func get_monthly_required_cash() -> float:
+	return get_housing_expense() + get_monthly_loan_interest()
+
+func get_cash_reserve_target() -> float:
+	return get_monthly_required_cash() * 3.0
+
+## The 3B-won horizon remains the ending condition, but weekly progress is read
+## against the next reachable rung. Cash-poor runs return to bills/reserve even
+## when their portfolio is large: invested money cannot pay this month's bill.
+func get_financial_rung() -> Dictionary:
+	var required_cash: float = maxf(1.0, get_monthly_required_cash())
+	var projected_cash: float = float(money) + maxf(0.0, float(monthly_income))
+	if projected_cash < required_cash:
+		return _make_financial_rung(
+			"bills", LocaleManager.ui("이번 달 고정비", "This month's bills"),
+			LocaleManager.ui("가용 현금", "Available cash"), projected_cash, 0.0, required_cash)
+
+	var reserve_target: float = get_cash_reserve_target()
+	if money < reserve_target:
+		return _make_financial_rung(
+			"reserve", LocaleManager.ui("3개월 비상금", "Three-month reserve"),
+			LocaleManager.ui("현금", "Cash"), money, 0.0, reserve_target)
+
+	var milestones: Array = [
+		[3_000_000.0, LocaleManager.ui("첫 저축 300만", "First KRW 3M saved")],
+		[8_000_000.0, LocaleManager.ui("원룸 이사 구간", "One-room move range")],
+		[20_000_000.0, LocaleManager.ui("종잣돈 2천만", "KRW 20M seed money")],
+		[40_000_000.0, LocaleManager.ui("빌라 전세 구간", "Villa jeonse range")],
+		[100_000_000.0, LocaleManager.ui("자산 1억", "KRW 100M assets")],
+		[130_000_000.0, LocaleManager.ui("아파트 전세 구간", "Apartment jeonse range")],
+		[500_000_000.0, LocaleManager.ui("자산 5억", "KRW 500M assets")],
+		[1_000_000_000.0, LocaleManager.ui("자산 10억", "KRW 1B assets")],
+		[2_000_000_000.0, LocaleManager.ui("자산 20억", "KRW 2B assets")],
+		[3_000_000_000.0, LocaleManager.ui("자산 30억 = 강남드림!", "KRW 3B assets = Gangnam Dream!")],
+	]
+	var total_assets: float = float(get_total_asset_value())
+	var previous_target: float = reserve_target
+	for milestone in milestones:
+		var target := float(milestone[0])
+		if total_assets < target:
+			return _make_financial_rung(
+				"wealth", str(milestone[1]), LocaleManager.ui("자산", "Assets"),
+				total_assets, minf(previous_target, target), target)
+		previous_target = maxf(previous_target, target)
+	return _make_financial_rung(
+		"achieved", LocaleManager.ui("자산 30억 = 강남드림!", "KRW 3B assets = Gangnam Dream!"),
+		LocaleManager.ui("자산", "Assets"), total_assets, 0.0, GANGNAM_TARGET)
+
+func _make_financial_rung(kind: String, label: String, basis_label: String,
+		current: float, origin: float, target: float) -> Dictionary:
+	var safe_current := maxf(0.0, current)
+	var span := maxf(1.0, target - origin)
+	return {
+		"kind": kind,
+		"label": label,
+		"basis_label": basis_label,
+		"current": safe_current,
+		"origin": origin,
+		"target": target,
+		"remaining": maxf(0.0, target - safe_current),
+		"progress": clampf((safe_current - origin) / span, 0.0, 1.0),
+		"ultimate_progress": clampf(get_total_asset_value() / GANGNAM_TARGET, 0.0, 1.0),
+	}
+
 func get_housing_info() -> Dictionary:
 	return HOUSING_DATA.get(housing, HOUSING_DATA["gosiwon"])
 
@@ -828,6 +901,9 @@ func upgrade_housing() -> Dictionary:
 
 func apply_monthly_pressure():
 	fixed_expense = get_housing_expense()
+	var loan_interest: float = get_monthly_loan_interest()
+	var required_cash: float = float(fixed_expense) + loan_interest
+	var reserve_target: float = required_cash * 3.0
 	add_money(monthly_income - fixed_expense)
 	# 첫 월급 수령 플래그 — 투자 기능 잠금 해제 트리거
 	if monthly_income > 0 and not flags.get("has_received_paycheck", false):
@@ -835,9 +911,6 @@ func apply_monthly_pressure():
 		add_log(LocaleManager.ui("💳 첫 월급이 통장에 들어왔다. 이제 투자를 시작할 수 있다.", "💳 Your first paycheck hit the account. Investing is now available."), "job")
 
 	# ── 대출 이자 — 빚은 숨만 쉬어도 매달 나간다 (변동금리: 현재 등급 기준) ──
-	var loan_interest := 0.0
-	for p in loans:
-		loan_interest += float(loans[p]) * get_loan_rate(p)
 	if loan_interest > 0.0:
 		add_money(-loan_interest)
 		modify_stat("mental", -1)
@@ -915,13 +988,33 @@ func apply_monthly_pressure():
 	if flags.get("spec_social_entrepreneur", false) and turn % 4 == 0:
 		modify_stat("reputation", 1)
 
-	# 현금 위기 — 마이너스가 더 심각하므로 먼저 검사 (역순이면 도달 불가)
+	# 현금 위기 — 취업 여부가 아니라 실제 청구서 완충으로 안전을 판정한다.
+	# 한 달치도 없으면 위기, 세 달치 미만은 작은 정신 마모를 남긴다.
+	var reserve_band := "safe"
 	if money < 0:
+		reserve_band = "negative"
 		modify_stat("mental", -4)
 		add_log(LocaleManager.ui("🆘 잔고가 마이너스다. 이러다 진짜 쫓겨난다.", "🆘 Your balance is negative. At this rate, you could really get pushed out."), "money")
-	elif money < 300_000:
+	elif money < required_cash:
+		reserve_band = "uncovered"
 		modify_stat("mental", -2)
-		add_log(LocaleManager.ui("😰 통장 잔고가 30만원 아래다. 이번 달을 버틸 수 있을까.", "😰 Your balance is under KRW 300K. Can you survive this month?"), "money")
+		add_log(LocaleManager.ui(
+			"😰 잔고가 다음 달 고정비 %s보다 적다.",
+			"😰 Your balance is below next month's fixed bills of %s.") % format_money(required_cash), "money")
+	elif money < reserve_target:
+		reserve_band = "thin"
+		modify_stat("mental", -1)
+	var previous_reserve_band := str(flags.get("cash_reserve_band", ""))
+	flags["cash_reserve_band"] = reserve_band
+	if reserve_band != previous_reserve_band:
+		if reserve_band == "thin":
+			add_log(LocaleManager.ui(
+				"비상금이 아직 고정비 3개월치에 닿지 않았다.",
+				"The cash reserve still falls short of three months of fixed bills."), "money")
+		elif reserve_band == "safe" and not previous_reserve_band.is_empty():
+			add_log(LocaleManager.ui(
+				"고정비 3개월치가 현금으로 남았다. 이제야 한 달을 잃어도 즉시 무너지지 않는다.",
+				"Three months of fixed bills now remain in cash. Losing one month no longer means immediate collapse."), "money")
 
 	check_game_over()
 

@@ -12,6 +12,7 @@ func _ready() -> void:
 	_check_action_consequence_echoes()
 	_check_weekly_commitment_contract()
 	_check_scene_first_week_contract()
+	_check_financial_progress_contract()
 	_check_event_causality()
 	_check_week_surface()
 	_check_demo_pressure_choices()
@@ -26,7 +27,7 @@ func _ready() -> void:
 			push_error("IMMERSION_LOOP_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("IMMERSION_LOOP_CHECK_OK memory=2 action_ids=8 commitments=1x3 scene_first=1 no_ap_surface=1 auto_advance=1 outcomes=2 completion_boundary=1 consequence_paths=4 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=4 vignette=2 omen=1 preview=2 rent=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8")
+	print("IMMERSION_LOOP_CHECK_OK memory=2 action_ids=8 commitments=1x3 scene_first=1 no_ap_surface=1 auto_advance=1 outcomes=2 completion_boundary=1 consequence_paths=4 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=4 vignette=2 omen=1 preview=2 bills=1 rungs=4 reserve=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8")
 	get_tree().quit(0)
 
 func _check_recent_action_echoes() -> void:
@@ -283,6 +284,67 @@ func _check_scene_first_week_contract() -> void:
 				original_scene, restored_scene])
 	game.free()
 
+func _check_financial_progress_contract() -> void:
+	LocaleManager.language = "ko"
+	GameState.start_new_game()
+	var bills_rung: Dictionary = GameState.get_financial_rung()
+	if str(bills_rung.get("kind", "")) != "bills":
+		_fail("starting KRW 500K did not show this month's bills: %s" % bills_rung)
+	_expect_close(float(bills_rung.get("target", 0.0)), 650_000.0,
+		"starting bill target drifted from the goshiwon cost")
+
+	GameState.current_job = {"id": "qa_job"}
+	GameState.monthly_income = 1_320_000.0
+	var reserve_rung: Dictionary = GameState.get_financial_rung()
+	if str(reserve_rung.get("kind", "")) != "reserve":
+		_fail("first employment erased reserve pressure: %s" % reserve_rung)
+	_expect_close(float(reserve_rung.get("target", 0.0)), 1_950_000.0,
+		"three-month reserve did not follow actual monthly bills")
+
+	GameState.money = 2_500_000.0
+	var first_savings_rung: Dictionary = GameState.get_financial_rung()
+	if str(first_savings_rung.get("kind", "")) != "wealth":
+		_fail("cash above reserve did not enter a wealth rung: %s" % first_savings_rung)
+	_expect_close(float(first_savings_rung.get("target", 0.0)), 3_000_000.0,
+		"first wealth rung is not KRW 3M")
+
+	GameState.money = 5_000_000.0
+	var one_room_rung: Dictionary = GameState.get_financial_rung()
+	_expect_close(float(one_room_rung.get("target", 0.0)), 8_000_000.0,
+		"KRW 5M did not point to the one-room rung")
+	_expect_close(float(one_room_rung.get("progress", 0.0)), 0.4,
+		"wealth rung did not show progress between KRW 3M and KRW 8M")
+
+	LocaleManager.language = "en"
+	var english_rung: Dictionary = GameState.get_financial_rung()
+	if _contains_hangul(str(english_rung)):
+		_fail("English financial rung leaked Hangul: %s" % english_rung)
+
+	LocaleManager.language = "ko"
+	GameState.start_new_game()
+	GameState.current_job = {"id": "qa_job"}
+	GameState.monthly_income = 650_000.0
+	GameState.money = 800_000.0
+	GameState.health = 70
+	GameState.mental = 70
+	GameState.apply_monthly_pressure()
+	_expect_close(float(GameState.mental), 64.0,
+		"employed run below three months of cash lost its reserve pressure")
+	if str(GameState.flags.get("cash_reserve_band", "")) != "thin":
+		_fail("employed thin reserve was not classified from cash: %s" % GameState.flags)
+
+	GameState.start_new_game()
+	GameState.current_job = {"id": "qa_job"}
+	GameState.monthly_income = 650_000.0
+	GameState.money = 3_000_000.0
+	GameState.health = 70
+	GameState.mental = 70
+	GameState.apply_monthly_pressure()
+	_expect_close(float(GameState.mental), 65.0,
+		"three-month cash buffer did not remove only the reserve penalty")
+	if str(GameState.flags.get("cash_reserve_band", "")) != "safe":
+		_fail("safe reserve was not classified from actual cash: %s" % GameState.flags)
+
 func _check_event_causality() -> void:
 	GameState.start_new_game()
 	GameState.run_theme_categories = []
@@ -359,8 +421,8 @@ func _check_week_surface() -> void:
 	GameState.monthly_income = 0.0
 	var rent := game._week_rent_deadline()
 	if not bool(rent.get("urgent", false)) or bool(rent.get("covered", true)) \
-			or not str(rent.get("text", "")).contains("RENT DUE"):
-		_fail("rent due week is not presented as an uncovered threat: %s" % rent)
+			or not str(rent.get("text", "")).contains("BILLS DUE"):
+		_fail("bill due week is not presented as an uncovered threat: %s" % rent)
 	game.free()
 
 func _check_arc_preview_read_only() -> void:
