@@ -83,7 +83,7 @@ class ExperienceMetrics:
     fast_inputs: int
     ap_actions: int
     ap_budget: int
-    story_boss_commitments: int
+    story_commitments: int
     weekly_commitments: int
     commitment_budget: int
 
@@ -232,12 +232,14 @@ def analyze_report(report: dict[str, Any]) -> tuple[ExperienceMetrics, list[str]
     )
     ap_actions = int(runtime.get("ap_action_inputs", 0))
     ap_budget = int(runtime.get("available_ap_budget", 0))
-    story_boss_commitments = int(runtime.get("story_boss_commitments", 0))
+    story_commitments = int(
+        runtime.get("story_commitments", runtime.get("story_boss_commitments", 0))
+    )
     weekly_commitments = int(
-        runtime.get("weekly_commitments", ap_actions + story_boss_commitments)
+        runtime.get("weekly_commitments", ap_actions + story_commitments)
     )
     commitment_budget = int(
-        runtime.get("available_commitment_budget", ap_budget + story_boss_commitments)
+        runtime.get("available_commitment_budget", ap_budget + story_commitments)
     )
     modal_count = sum(int(value) for value in _as_dict(runtime.get("modal_counts")).values())
     total_seconds = (
@@ -286,7 +288,7 @@ def analyze_report(report: dict[str, Any]) -> tuple[ExperienceMetrics, list[str]
         fast_inputs=int(runtime.get("input_count_fast_path", 0)),
         ap_actions=ap_actions,
         ap_budget=ap_budget,
-        story_boss_commitments=story_boss_commitments,
+        story_commitments=story_commitments,
         weekly_commitments=weekly_commitments,
         commitment_budget=commitment_budget,
     )
@@ -317,7 +319,7 @@ def analyze_report(report: dict[str, Any]) -> tuple[ExperienceMetrics, list[str]
             f"{MAX_MEANINGFUL_GAP_MINUTES:.1f}m between "
             f"{metrics.max_meaningful_gap_ids[0]} and {metrics.max_meaningful_gap_ids[1]}"
         )
-    if metrics.ap_actions != metrics.ap_budget or not 7 <= metrics.ap_actions <= 9:
+    if metrics.ap_actions != metrics.ap_budget or metrics.ap_actions != 2:
         errors.append(
             f"AP intervention mismatch: used={metrics.ap_actions} budget={metrics.ap_budget}"
         )
@@ -328,13 +330,13 @@ def analyze_report(report: dict[str, Any]) -> tuple[ExperienceMetrics, list[str]
     if not 8 <= decision_weeks <= 10:
         errors.append(f"direct decision weeks outside 8..10: {decision_weeks}")
     if (
-        metrics.story_boss_commitments != 1
+        metrics.story_commitments != 7
         or metrics.weekly_commitments != metrics.commitment_budget
         or metrics.weekly_commitments != decision_weeks
     ):
         errors.append(
             "weekly commitment mismatch: "
-            f"ap={metrics.ap_actions} story_boss={metrics.story_boss_commitments} "
+            f"ap={metrics.ap_actions} story={metrics.story_commitments} "
             f"used={metrics.weekly_commitments} budget={metrics.commitment_budget} "
             f"direct_weeks={decision_weeks}"
         )
@@ -416,7 +418,8 @@ def parity_errors(left: dict[str, Any], right: dict[str, Any]) -> list[str]:
         "action_counts",
         "ap_action_inputs",
         "available_ap_budget",
-        "story_boss_commitments",
+        "story_commitments",
+        "story_commitment_axes",
         "weekly_commitments",
         "available_commitment_budget",
         "scene_flow_summary",
@@ -474,9 +477,10 @@ def _synthetic_report(language: str) -> dict[str, Any]:
             "pressure_sequence": ["employment", "human"],
             "pressure_family_sequence": ["employment", "human"],
             "action_counts": {"study": 8},
-            "ap_action_inputs": 8,
-            "available_ap_budget": 8,
-            "story_boss_commitments": 1,
+            "ap_action_inputs": 2,
+            "available_ap_budget": 2,
+            "story_commitments": 7,
+            "story_commitment_axes": {"money": 5, "human": 2},
             "weekly_commitments": 9,
             "available_commitment_budget": 9,
             "modal_counts": {"month_summary": 6},
@@ -563,7 +567,7 @@ def _format_metrics(metrics: ExperienceMetrics) -> str:
         f"amb{metrics.longest_same_ambience_run}/"
         f"unscored{metrics.longest_unscored_run} "
         f"ap={metrics.ap_actions}/{metrics.ap_budget} "
-        f"boss={metrics.story_boss_commitments} "
+        f"story={metrics.story_commitments} "
         f"commitments={metrics.weekly_commitments}/{metrics.commitment_budget} "
         f"fast_inputs={metrics.fast_inputs}"
     )

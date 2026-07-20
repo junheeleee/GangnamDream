@@ -1443,30 +1443,41 @@ func finalize_weekly_commitment(action_id: String, subject_id: String = "",
 	weekly_commitment_finalized.emit(record.duplicate(true))
 	return true
 
-## Authored boss choices replace the generic AP decision for that week. The
-## record stores data keys, never localized prose, so saves remain language-safe.
-func record_story_boss_commitment(event_id: String, choice_index: int,
-		baseline: Dictionary, forgone_choice_indexes: Array[int]) -> bool:
+## Authored foreground choices can replace the generic AP decision for a direct
+## week. The record stores data keys, never localized prose, so saves remain
+## language-safe and can be rendered again after a locale change.
+func record_story_weekly_commitment(event_id: String, choice_index: int,
+		baseline: Dictionary, forgone_choice_indexes: Array[int],
+		contract: Dictionary = {}) -> bool:
 	var normalized_event_id := event_id.strip_edges()
 	if normalized_event_id.is_empty() or choice_index < 0 \
 			or has_weekly_commitment_for_turn(turn):
 		return false
+	var axis := str(contract.get("axis", "")).strip_edges().to_lower()
+	if axis not in ["money", "human"]:
+		axis = ""
+	var person_id := str(contract.get("person_id", "")).strip_edges()
 	var record := {
 		"turn": turn,
-		"source": "story_boss",
-		"pressure_id": "boss:%s" % normalized_event_id,
+		"source": "story_event",
+		"pressure_id": "story:%s" % normalized_event_id,
 		"pressure_family": "story",
 		"choice_id": "story:%s:%d" % [normalized_event_id, choice_index],
 		"actual_action_id": "story_choice",
-		"person_id": "",
+		"person_id": person_id,
 		"forgone_ids": [],
 		"story_event_id": normalized_event_id,
 		"story_choice_index": choice_index,
 		"forgone_choice_indexes": forgone_choice_indexes.duplicate(),
+		"week_kind": str(contract.get("week_kind", "decision")),
+		"axis": axis,
+		"consequence_timing": str(contract.get("consequence_timing", "immediate")),
 		"outcome": _weekly_commitment_outcome(
-			baseline, _weekly_commitment_public_snapshot()),
+			baseline, _weekly_commitment_public_snapshot(person_id)),
 		"echoed_turn": -1,
 	}
+	if not axis.is_empty():
+		register_action_axis(axis, "", "story:%s" % normalized_event_id, person_id)
 	pending_weekly_commitment = {}
 	weekly_commitments.append(record)
 	while weekly_commitments.size() > 16:
@@ -1477,10 +1488,26 @@ func record_story_boss_commitment(event_id: String, choice_index: int,
 	weekly_commitment_finalized.emit(record.duplicate(true))
 	return true
 
+## Compatibility for pre-ORDER-37 callers and old checks.
+func record_story_boss_commitment(event_id: String, choice_index: int,
+		baseline: Dictionary, forgone_choice_indexes: Array[int]) -> bool:
+	return record_story_weekly_commitment(event_id, choice_index, baseline,
+		forgone_choice_indexes, {"week_kind": "boss"})
+
+func is_story_weekly_commitment_record(record: Dictionary) -> bool:
+	return str(record.get("source", "")) in ["story_event", "story_boss"]
+
+func has_story_weekly_commitment(commitment_turn: int = -1) -> bool:
+	var resolved_turn: int = turn if commitment_turn < 0 else commitment_turn
+	return is_story_weekly_commitment_record(get_weekly_commitment_for_turn(resolved_turn))
+
 func has_story_boss_commitment(commitment_turn: int = -1) -> bool:
 	var resolved_turn: int = turn if commitment_turn < 0 else commitment_turn
 	var record: Dictionary = get_weekly_commitment_for_turn(resolved_turn)
-	return str(record.get("source", "")) == "story_boss"
+	if str(record.get("source", "")) == "story_boss":
+		return true
+	return str(record.get("source", "")) == "story_event" \
+			and str(record.get("week_kind", "")) == "boss"
 
 func has_weekly_commitment_for_turn(commitment_turn: int) -> bool:
 	for index in range(weekly_commitments.size() - 1, -1, -1):

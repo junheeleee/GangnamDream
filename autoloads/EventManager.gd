@@ -173,26 +173,71 @@ func narrative_week_kind(turn_value: int = -1) -> String:
 			else full_run_pacing_rules()
 	return _week_kind_for_pacing(pacing, resolved_turn)
 
-## A boss week is only consumed by the authored scene that owns it. Unowned boss
-## weeks keep the normal decision board until their scene contract is authored.
-func narrative_boss_event_ids(turn_value: int = -1) -> Array[String]:
+## A direct week can be consumed by an authored foreground choice instead of
+## opening a second generic AP board. Ownership is explicit and data-driven so a
+## short random card can never accidentally spend the whole week.
+func narrative_commitment_contract(event_id: String, turn_value: int = -1) -> Dictionary:
+	var resolved_turn: int = GameState.turn if turn_value < 0 else turn_value
+	var week_kind := narrative_week_kind(resolved_turn)
+	if week_kind not in ["decision", "boss"]:
+		return {}
+	var pacing := demo_pacing_rules() if resolved_turn <= GameState.DEMO_TURN_LIMIT \
+			else full_run_pacing_rules()
+	var owners: Variant = pacing.get("commitment_event_owners", {})
+	if not owners is Dictionary:
+		return {}
+	var raw_contracts: Variant = (owners as Dictionary).get(str(resolved_turn), [])
+	if not raw_contracts is Array:
+		return {}
+	var wanted_id := event_id.strip_edges()
+	for raw_contract in raw_contracts:
+		var contract: Dictionary = {}
+		if raw_contract is Dictionary:
+			contract = (raw_contract as Dictionary).duplicate(true)
+		else:
+			contract = {"id": str(raw_contract)}
+		var owner_id := str(contract.get("id", "")).strip_edges()
+		if owner_id.is_empty() or owner_id != wanted_id:
+			continue
+		contract["id"] = owner_id
+		contract["week_kind"] = week_kind
+		return contract
+	return {}
+
+func narrative_commitment_event_ids(turn_value: int = -1) -> Array[String]:
 	var resolved_turn: int = GameState.turn if turn_value < 0 else turn_value
 	var pacing := demo_pacing_rules() if resolved_turn <= GameState.DEMO_TURN_LIMIT \
 			else full_run_pacing_rules()
-	var owners: Variant = pacing.get("boss_event_owners", {})
+	var owners: Variant = pacing.get("commitment_event_owners", {})
 	var result: Array[String] = []
 	if not owners is Dictionary:
 		return result
-	for raw_id in (owners as Dictionary).get(str(resolved_turn), []):
-		var event_id := str(raw_id).strip_edges()
+	var raw_contracts: Variant = (owners as Dictionary).get(str(resolved_turn), [])
+	if not raw_contracts is Array:
+		return result
+	for raw_contract in raw_contracts:
+		var event_id := str(raw_contract.get("id", "")) \
+				if raw_contract is Dictionary else str(raw_contract)
+		event_id = event_id.strip_edges()
 		if not event_id.is_empty() and not result.has(event_id):
 			result.append(event_id)
 	return result
 
+func narrative_event_owns_commitment(event_id: String, turn_value: int = -1) -> bool:
+	return not narrative_commitment_contract(event_id, turn_value).is_empty()
+
+## Compatibility wrappers for checks and old callers that specifically inspect
+## boss weeks. New runtime code should use the general commitment contract.
+func narrative_boss_event_ids(turn_value: int = -1) -> Array[String]:
+	var resolved_turn: int = GameState.turn if turn_value < 0 else turn_value
+	if narrative_week_kind(resolved_turn) != "boss":
+		return []
+	return narrative_commitment_event_ids(resolved_turn)
+
 func narrative_event_owns_boss(event_id: String, turn_value: int = -1) -> bool:
 	var resolved_turn: int = GameState.turn if turn_value < 0 else turn_value
 	return narrative_week_kind(resolved_turn) == "boss" \
-			and narrative_boss_event_ids(resolved_turn).has(event_id.strip_edges())
+			and narrative_event_owns_commitment(event_id, resolved_turn)
 
 func demo_should_show_full_summary(turn_value: int = -1) -> bool:
 	var resolved_turn: int = GameState.turn if turn_value < 0 else turn_value

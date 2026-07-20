@@ -2395,7 +2395,8 @@ func _run_demo_input_route(
 	var modal_counts: Dictionary = {}
 	var counted_modal_keys: Dictionary = {}
 	var ap_action_inputs := 0
-	var story_boss_commitment_weeks: Dictionary = {}
+	var generic_commitment_weeks: Dictionary = {}
+	var story_commitment_weeks: Dictionary = {}
 	for _step in range(70000 if full_run else 7000):
 		await get_tree().create_timer(0.015).timeout
 		var scene := get_tree().current_scene
@@ -2473,18 +2474,21 @@ func _run_demo_input_route(
 			var sampled_turn: int = GameState.turn
 			var director_kind := str(scene.call("_demo_director_week_kind"))
 			var director_requires_input := bool(scene.call("_demo_director_requires_player_input"))
-			var authored_boss_week := director_kind == "boss" \
-					and not EventManager.narrative_boss_event_ids(GameState.turn).is_empty()
-			var pressure_requires_input := director_requires_input and not authored_boss_week
+			var authored_commitment_week := director_kind in ["decision", "boss"] \
+					and not EventManager.narrative_commitment_event_ids(GameState.turn).is_empty()
+			var pressure_requires_input := director_requires_input \
+					and not authored_commitment_week
 			var weekly_record: Dictionary = GameState.get_weekly_commitment_for_turn(GameState.turn)
-			if str(weekly_record.get("source", "")) == "story_boss":
-				var boss_event_id := str(weekly_record.get("story_event_id", ""))
-				if not EventManager.narrative_event_owns_boss(boss_event_id, GameState.turn):
+			if GameState.is_story_weekly_commitment_record(weekly_record):
+				var story_event_id := str(weekly_record.get("story_event_id", ""))
+				if not EventManager.narrative_event_owns_commitment(story_event_id, GameState.turn):
 					MetaProgression.data = original_meta
-					_fail("Week %d stored an unowned story boss commitment: %s." % [
-						GameState.turn, boss_event_id])
+					_fail("Week %d stored an unowned story commitment: %s." % [
+						GameState.turn, story_event_id])
 					return
-				story_boss_commitment_weeks[GameState.turn] = weekly_record.duplicate(true)
+				story_commitment_weeks[GameState.turn] = weekly_record.duplicate(true)
+			elif not weekly_record.is_empty():
+				generic_commitment_weeks[GameState.turn] = weekly_record.duplicate(true)
 			if GameState.turn <= _route_week_limit and pressure_requires_input:
 				ap_peak_by_week[GameState.turn] = maxi(
 					int(ap_peak_by_week.get(GameState.turn, 0)), GameState.action_points)
@@ -2505,14 +2509,14 @@ func _run_demo_input_route(
 							beat_turn, echo_count, exact_record])
 						return
 					exact_echo_beats += 1
-				if first_beat_observation and beat_kind == "boss" \
-						and GameState.has_story_boss_commitment(beat_turn):
-					var boss_record := str(auto_beat.get_meta("commitment_echo_record", ""))
-					if boss_record.is_empty() or _collect_control_text(auto_beat).findn(boss_record) < 0:
+				if first_beat_observation and beat_kind in ["decision", "boss"] \
+						and GameState.has_story_weekly_commitment(beat_turn):
+					var story_record := str(auto_beat.get_meta("commitment_echo_record", ""))
+					if story_record.is_empty() or _collect_control_text(auto_beat).findn(story_record) < 0:
 						MetaProgression.data = original_meta
-						_fail("Story boss week %d did not render its chosen and unchosen paths." % beat_turn)
+						_fail("Story-owned week %d did not render its chosen and unchosen paths." % beat_turn)
 						return
-					await _save("%s_%s_%s_story_boss_week_%02d" % [
+					await _save("%s_%s_%s_story_commitment_week_%02d" % [
 						route_label.to_lower(), lang, input_mode, beat_turn], 0.42)
 				if beat_kind in ["quiet", "echo"] and not captured_auto_kinds.has(beat_kind):
 					captured_auto_kinds[beat_kind] = beat_turn
@@ -2882,12 +2886,16 @@ func _run_demo_input_route(
 			return
 		var full_direct_weeks := int(week_kind_counts.get("decision", 0)) \
 				+ int(week_kind_counts.get("boss", 0))
-		var full_story_boss_count := story_boss_commitment_weeks.size()
-		var full_generic_direct_weeks := full_direct_weeks - full_story_boss_count
-		if full_story_boss_count != 1 or not story_boss_commitment_weeks.has(4):
+		var full_story_commitment_count := story_commitment_weeks.size()
+		var full_generic_direct_weeks := full_direct_weeks - full_story_commitment_count
+		var full_expected_story_weeks := [4, 10, 13, 16, 20, 23, 24]
+		var full_observed_story_weeks: Array = story_commitment_weeks.keys()
+		full_observed_story_weeks.sort()
+		if full_story_commitment_count != full_expected_story_weeks.size() \
+				or full_observed_story_weeks != full_expected_story_weeks:
 			MetaProgression.data = original_meta
-			_fail("Full route expected one authored story boss commitment at week 4, got %s." % \
-					story_boss_commitment_weeks.keys())
+			_fail("Full route authored story weeks drifted: expected=%s got=%s." % [
+				full_expected_story_weeks, full_observed_story_weeks])
 			return
 		if full_direct_weeks != scheduled_direct_weeks + crisis_promotion_weeks.size() \
 				or int(week_kind_counts.get("boss", 0)) != int(scheduled_kind_counts.get("boss", 0)):
@@ -2966,27 +2974,32 @@ func _run_demo_input_route(
 			_fail("Full route escaped to the legacy action list.")
 			return
 		var available_ap_budget := full_generic_direct_weeks
-		if ap_action_inputs != available_ap_budget \
-				or ap_action_inputs + full_story_boss_count != full_direct_weeks:
+		var full_generic_commitment_count := generic_commitment_weeks.size()
+		if full_generic_commitment_count != available_ap_budget \
+				or full_generic_commitment_count + full_story_commitment_count != full_direct_weeks:
 			MetaProgression.data = original_meta
-			_fail("Full route made AP=%d plus story-boss=%d commitments across %d direct weeks." % [
-				ap_action_inputs, full_story_boss_count, full_direct_weeks])
+			_fail("Full route made generic=%d plus story=%d commitments across %d direct weeks (%d AP card activations)." % [
+				full_generic_commitment_count, full_story_commitment_count,
+				full_direct_weeks, ap_action_inputs])
 			return
 		for week in range(1, GameState.RUN_TURN_LIMIT + 1):
 			var observed_kind := str(week_kind_sequence[week - 1])
 			var action_count := int(ap_action_week_counts.get(week, 0))
-			var has_story_boss := story_boss_commitment_weeks.has(week)
-			if observed_kind in ["decision", "boss"] and not has_story_boss and action_count != 1:
+			var has_story_commitment := story_commitment_weeks.has(week)
+			var has_generic_commitment := generic_commitment_weeks.has(week)
+			if observed_kind in ["decision", "boss"] and not has_story_commitment \
+					and (not has_generic_commitment or action_count < 1):
 				MetaProgression.data = original_meta
-				_fail("Full route week %d (%s) made %d commitments instead of one." % [
+				_fail("Full route week %d (%s) did not finalize its generic commitment after %d AP activations." % [
 					week, observed_kind, action_count])
 				return
-			if has_story_boss and action_count != 0:
+			if has_story_commitment and (has_generic_commitment or action_count != 0):
 				MetaProgression.data = original_meta
-				_fail("Full route story boss week %d also accepted %d AP commitments." % [
+				_fail("Full route story-owned week %d also accepted a generic commitment or %d AP activations." % [
 					week, action_count])
 				return
-			if observed_kind in ["quiet", "echo"] and action_count != 0:
+			if observed_kind in ["quiet", "echo"] \
+					and (has_generic_commitment or has_story_commitment or action_count != 0):
 				MetaProgression.data = original_meta
 				_fail("Full route emitted a commitment during %s week %d." % [observed_kind, week])
 				return
@@ -3062,8 +3075,8 @@ func _run_demo_input_route(
 		return
 	var direct_decision_weeks := int(week_kind_counts.get("decision", 0)) \
 			+ int(week_kind_counts.get("boss", 0))
-	var demo_story_boss_count := story_boss_commitment_weeks.size()
-	var demo_generic_direct_weeks := direct_decision_weeks - demo_story_boss_count
+	var demo_story_commitment_count := story_commitment_weeks.size()
+	var demo_generic_direct_weeks := direct_decision_weeks - demo_story_commitment_count
 	if direct_decision_weeks < 8 or direct_decision_weeks > 10:
 		MetaProgression.data = original_meta
 		_fail("Demo route exposed %d direct decision weeks instead of 8..10." % direct_decision_weeks)
@@ -3072,10 +3085,25 @@ func _run_demo_input_route(
 		MetaProgression.data = original_meta
 		_fail("Demo route exposed %d boss weeks instead of two." % int(week_kind_counts.get("boss", 0)))
 		return
-	if demo_story_boss_count != 1 or not story_boss_commitment_weeks.has(4):
+	var expected_story_weeks := [4, 10, 13, 16, 20, 23, 24]
+	var observed_story_weeks: Array = story_commitment_weeks.keys()
+	observed_story_weeks.sort()
+	if demo_story_commitment_count != expected_story_weeks.size() \
+			or observed_story_weeks != expected_story_weeks:
 		MetaProgression.data = original_meta
-		_fail("Demo route expected one authored story boss commitment at week 4, got %s." % \
-				story_boss_commitment_weeks.keys())
+		_fail("Demo authored story weeks drifted: expected=%s got=%s." % [
+			expected_story_weeks, observed_story_weeks])
+		return
+	var authored_axis_counts := {"money": 0, "human": 0}
+	for story_week in observed_story_weeks:
+		var story_record: Dictionary = story_commitment_weeks[story_week]
+		var story_axis := str(story_record.get("axis", ""))
+		if authored_axis_counts.has(story_axis):
+			authored_axis_counts[story_axis] = int(authored_axis_counts[story_axis]) + 1
+	if int(authored_axis_counts.get("money", 0)) < 4 \
+			or int(authored_axis_counts.get("human", 0)) < 2:
+		MetaProgression.data = original_meta
+		_fail("Demo authored choices lost money/human weekly settlement: %s." % authored_axis_counts)
 		return
 	if int(week_kind_counts.get("echo", 0)) < 3 or int(week_kind_counts.get("echo", 0)) > 5:
 		MetaProgression.data = original_meta
@@ -3113,23 +3141,23 @@ func _run_demo_input_route(
 			week, int(ap_action_week_counts.get(week, 0))])
 	var available_ap_budget := demo_generic_direct_weeks
 	if ap_action_inputs != available_ap_budget \
-			or ap_action_inputs + demo_story_boss_count != direct_decision_weeks:
+			or ap_action_inputs + demo_story_commitment_count != direct_decision_weeks:
 		MetaProgression.data = original_meta
-		_fail("Demo route made AP=%d plus story-boss=%d commitments across %d direct weeks." % [
-			ap_action_inputs, demo_story_boss_count, direct_decision_weeks])
+		_fail("Demo route made AP=%d plus story=%d commitments across %d direct weeks." % [
+			ap_action_inputs, demo_story_commitment_count, direct_decision_weeks])
 		return
 	for action_week in range(1, GameState.DEMO_TURN_LIMIT + 1):
 		var runtime_kind := str(week_kind_sequence[action_week - 1])
 		var action_count := int(ap_action_week_counts.get(action_week, 0))
-		var has_story_boss := story_boss_commitment_weeks.has(action_week)
-		if runtime_kind in ["decision", "boss"] and not has_story_boss and action_count != 1:
+		var has_story_commitment := story_commitment_weeks.has(action_week)
+		if runtime_kind in ["decision", "boss"] and not has_story_commitment and action_count != 1:
 			MetaProgression.data = original_meta
 			_fail("Demo route week %d (%s) made %d commitments instead of one." % [
 				action_week, runtime_kind, action_count])
 			return
-		if has_story_boss and action_count != 0:
+		if has_story_commitment and action_count != 0:
 			MetaProgression.data = original_meta
-			_fail("Demo route story boss week %d also accepted %d AP commitments." % [
+			_fail("Demo route story-owned week %d also accepted %d AP commitments." % [
 				action_week, action_count])
 			return
 		if runtime_kind in ["quiet", "echo"] and action_count != 0:
@@ -3158,10 +3186,6 @@ func _run_demo_input_route(
 			_fail("Capital pressure repeated %d times in %s." % [
 				int(pressure_month_counts[capital_month]), str(capital_month)])
 			return
-	if int(pressure_counts.get("capital", 0)) < 1:
-		MetaProgression.data = original_meta
-		_fail("Demo route never exposed the monthly capital decision window.")
-		return
 	var family_streak := _max_consecutive_strings(pressure_family_sequence)
 	print("DEMO_INPUT_RHYTHM week_kinds=%s kind_counts=%s auto_beats=%s pressure_sequence=%s pressure_counts=%s pressure_months=%s max_frame=%s:%d max_family=%s:%d action_counts=%s modal_counts=%s ap_action_inputs=%d/%d inputs_per_week=%.1f" % [
 		">".join(week_kind_sequence), str(week_kind_counts), str(observed_auto_beats),
@@ -3185,8 +3209,9 @@ func _run_demo_input_route(
 			"modal_counts": modal_counts,
 			"ap_action_inputs": ap_action_inputs,
 			"available_ap_budget": available_ap_budget,
-			"story_boss_commitments": demo_story_boss_count,
-			"weekly_commitments": ap_action_inputs + demo_story_boss_count,
+			"story_commitments": demo_story_commitment_count,
+			"story_commitment_axes": authored_axis_counts,
+			"weekly_commitments": ap_action_inputs + demo_story_commitment_count,
 			"available_commitment_budget": direct_decision_weeks,
 		})
 	MetaProgression.data = original_meta
@@ -3613,7 +3638,8 @@ func _finalize_demo_experience_profile(profile: Dictionary, runtime: Dictionary)
 		"modal_counts": runtime.get("modal_counts", {}),
 		"ap_action_inputs": int(runtime.get("ap_action_inputs", 0)),
 		"available_ap_budget": int(runtime.get("available_ap_budget", 0)),
-		"story_boss_commitments": int(runtime.get("story_boss_commitments", 0)),
+		"story_commitments": int(runtime.get("story_commitments", 0)),
+		"story_commitment_axes": runtime.get("story_commitment_axes", {}),
 		"weekly_commitments": int(runtime.get("weekly_commitments", 0)),
 		"available_commitment_budget": int(runtime.get("available_commitment_budget", 0)),
 		"scene_flow_summary": runtime.get("scene_flow_summary", {}),

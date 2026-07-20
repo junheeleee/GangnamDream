@@ -1,5 +1,6 @@
 extends Node
-## ORDER-36: first-eight-week plan -> interruption -> delayed consequence contract.
+## ORDER-36/37: player plan, delayed consequence, and one authored decision per
+## foreground week without a duplicate generic AP board.
 
 var _failures: Array[String] = []
 
@@ -7,8 +8,9 @@ func _ready() -> void:
 	_check_opening_intent()
 	_check_boss_choice(0, "arc_temptation_clean")
 	_check_boss_choice(1, "arc_temptation_fallout")
+	_check_foreground_commitment_weeks()
 	if _failures.is_empty():
-		print("CORE_CHOICE_SLICE_CHECK_OK intent=1 boss=t4 ap_duplicate=0 delayed=t8 branches=2 save=roundtrip")
+		print("CORE_CHOICE_SLICE_CHECK_OK intent=1 authored=7 generic=2 ap_duplicate=0 delayed=t8 branches=2 axes=money/human save=roundtrip")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -55,22 +57,25 @@ func _check_boss_choice(choice_index: int, expected_follow_up: String) -> void:
 	var choice: Dictionary = choices[choice_index]
 	_expect(str(choice.get("follow_up_event", "")).is_empty(),
 		"burner-account consequence still plays immediately for branch %d" % choice_index)
+	var contract := EventManager.narrative_commitment_contract("arc_temptation_01", 4)
 	var baseline := GameState.weekly_commitment_snapshot()
 	GameState.apply_choice(event, choice)
 	var forgone: Array[int] = [1 - choice_index]
-	_expect(GameState.record_story_boss_commitment(
-		"arc_temptation_01", choice_index, baseline, forgone),
+	_expect(GameState.record_story_weekly_commitment(
+		"arc_temptation_01", choice_index, baseline, forgone, contract),
 		"story boss did not write its weekly transaction for branch %d" % choice_index)
 	_expect(GameState.action_points == 0,
 		"story boss left AP available for a duplicate decision")
 	_expect(GameState.weekly_commitments.size() == 1,
 		"story boss wrote a duplicate weekly record")
-	_expect(not GameState.record_story_boss_commitment(
-		"arc_temptation_01", choice_index, baseline, forgone),
+	_expect(not GameState.record_story_weekly_commitment(
+		"arc_temptation_01", choice_index, baseline, forgone, contract),
 		"story boss accepted a second record in the same week")
 	var record := GameState.get_weekly_commitment_for_turn(4)
-	_expect(str(record.get("source", "")) == "story_boss",
+	_expect(str(record.get("source", "")) == "story_event",
 		"week-four ledger does not identify its authored source")
+	_expect(str(record.get("consequence_timing", "")) == "delayed",
+		"week-four ledger lost its delayed-consequence contract")
 	_expect(int(record.get("story_choice_index", -1)) == choice_index,
 		"week-four ledger stored the wrong story choice")
 	var game = _new_main_game()
@@ -80,7 +85,8 @@ func _check_boss_choice(choice_index: int, expected_follow_up: String) -> void:
 	var saved: Dictionary = GameState.serialize()
 	GameState.start_new_game()
 	GameState.load_from_dict(saved)
-	_expect(GameState.has_story_boss_commitment(4),
+	_expect(GameState.has_story_boss_commitment(4) \
+			and GameState.has_story_weekly_commitment(4),
 		"story boss commitment did not survive save/load")
 
 	GameState.turn = 8
@@ -95,6 +101,63 @@ func _check_boss_choice(choice_index: int, expected_follow_up: String) -> void:
 		"branch %d returned '%s' at week eight instead of '%s'" % [
 			choice_index, routed, expected_follow_up])
 	game.free()
+
+func _check_foreground_commitment_weeks() -> void:
+	var representatives := {
+		10: "arc_ch1_career_first_spec",
+		13: "cafe_cb_honest_00",
+		16: "arc_father_quiet_call",
+		20: "arc_job_vs_invest",
+		23: "hyunsu_exam_day",
+		24: "story_first_savings_milestone",
+	}
+	for raw_week in representatives:
+		var week := int(raw_week)
+		var event_id := str(representatives[raw_week])
+		GameState.start_new_game()
+		GameState.turn = week
+		GameState.action_points = GameState.max_action_points
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		var choices: Array = event.get("choices", [])
+		_expect(choices.size() >= 2,
+			"%s is not a meaningful authored decision" % event_id)
+		if choices.size() < 2:
+			continue
+		var contract := EventManager.narrative_commitment_contract(event_id, week)
+		_expect(not contract.is_empty(),
+			"week %d has no ownership contract for %s" % [week, event_id])
+		if contract.is_empty():
+			continue
+		var axis := str(contract.get("axis", ""))
+		var person_id := str(contract.get("person_id", ""))
+		var baseline := GameState.weekly_commitment_snapshot(person_id)
+		GameState.apply_choice(event, choices[0])
+		var forgone: Array[int] = []
+		for choice_index in range(1, choices.size()):
+			forgone.append(choice_index)
+		_expect(GameState.record_story_weekly_commitment(
+			event_id, 0, baseline, forgone, contract),
+			"week %d could not record %s" % [week, event_id])
+		var record := GameState.get_weekly_commitment_for_turn(week)
+		_expect(GameState.is_story_weekly_commitment_record(record),
+			"week %d did not store an authored source" % week)
+		_expect(str(record.get("axis", "")) == axis,
+			"week %d lost its %s axis" % [week, axis])
+		_expect(int(GameState.action_axis_this_week.get(axis, 0)) == 1,
+			"week %d did not settle its authored choice on the %s axis" % [week, axis])
+		_expect(GameState.action_points == 0,
+			"week %d left AP for a duplicate generic decision" % week)
+		var game = _new_main_game()
+		_expect(not game._demo_director_requires_player_input(),
+			"week %d still requests a generic AP board" % week)
+		game.free()
+		var saved: Dictionary = GameState.serialize()
+		GameState.start_new_game()
+		GameState.load_from_dict(saved)
+		_expect(GameState.has_story_weekly_commitment(week),
+			"week %d authored commitment did not survive save/load" % week)
+	_expect(EventManager.narrative_commitment_event_ids(8).is_empty(),
+		"week eight should remain a separate generic decision")
 
 func _expect(condition: bool, message: String) -> void:
 	if not condition:

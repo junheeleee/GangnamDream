@@ -7009,7 +7009,8 @@ func _demo_director_week_kind() -> String:
 
 func _demo_director_requires_player_input() -> bool:
 	var kind := _demo_director_week_kind()
-	if kind == "boss" and GameState.has_story_boss_commitment(GameState.turn):
+	if kind in ["decision", "boss"] \
+			and GameState.has_story_weekly_commitment(GameState.turn):
 		return false
 	return kind in ["decision", "boss"]
 
@@ -7248,7 +7249,14 @@ func _demo_director_recent_action_record(commitment_echoes: Array = []) -> Strin
 
 func _demo_director_beat_line(kind: String, used: Dictionary,
 		commitment_echoes: Array = []) -> String:
-	if kind == "boss" and GameState.has_story_boss_commitment(GameState.turn):
+	if kind in ["decision", "boss"] \
+			and GameState.has_story_weekly_commitment(GameState.turn):
+		var story_record := GameState.get_weekly_commitment_for_turn(GameState.turn)
+		if str(story_record.get("consequence_timing", "immediate")) != "delayed":
+			return _tr(
+				"이번 주는 그 선택으로 끝났다. 방향은 이미 달라졌다.",
+				"That choice ended the week. Its course has already changed."
+			)
 		return _tr(
 			"이번 주는 그 선택으로 끝났다. 결과는 아직 다 오지 않았다.",
 			"That choice ended the week. Not all of its consequences have arrived yet."
@@ -7358,8 +7366,9 @@ func _render_demo_director_beat(
 	next_button.disabled = true
 
 	var is_echo := kind == "echo"
-	var is_story_boss := kind == "boss" and GameState.has_story_boss_commitment(GameState.turn)
-	var card := _info_card("#c0a46b" if is_story_boss else ("#99a4b0" if is_echo else "#697480"), "#0a0d12")
+	var is_story_commitment := kind in ["decision", "boss"] \
+			and GameState.has_story_weekly_commitment(GameState.turn)
+	var card := _info_card("#c0a46b" if is_story_commitment else ("#99a4b0" if is_echo else "#697480"), "#0a0d12")
 	card.name = "DemoDirectorBeat"
 	card.set_meta("demo_week_kind", kind)
 	card.set_meta("demo_turn", GameState.turn)
@@ -7367,26 +7376,26 @@ func _render_demo_director_beat(
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 8)
 	card.add_child(box)
-	var overline_text := _tr("결정", "DECISION") if is_story_boss \
+	var overline_text := _tr("결정", "DECISION") if is_story_commitment \
 			else (_tr("메아리", "ECHO") if is_echo else _tr("흐르는 시간", "TIME PASSES"))
-	var overline := _label(overline_text, 11, "#d3b979" if is_story_boss else "#99a4b0")
+	var overline := _label(overline_text, 11, "#d3b979" if is_story_commitment else "#99a4b0")
 	box.add_child(overline)
 	var title_text := _tr("이번 주는 그 선택으로 끝났다", "That choice ended the week") \
-			if is_story_boss else (_tr("지난 선택이 계속 움직였다", "The last choice kept moving") \
+			if is_story_commitment else (_tr("지난 선택이 계속 움직였다", "The last choice kept moving") \
 			if is_echo else _tr("루틴이 이번 주를 운반했다", "The routine carried this week"))
-	if not is_story_boss:
+	if not is_story_commitment:
 		var title := _label(title_text, 18, "#edf1f5")
 		if _font_bold:
 			title.add_theme_font_override("font", _font_bold)
 		box.add_child(title)
 	var exact_action_record := _weekly_commitment_echo_record(
-		GameState.get_weekly_commitment_for_turn(GameState.turn)) if is_story_boss \
+		GameState.get_weekly_commitment_for_turn(GameState.turn)) if is_story_commitment \
 		else (_demo_director_recent_action_record(commitment_echoes) if is_echo else "")
 	card.set_meta("commitment_echo_record", exact_action_record)
 	box.add_child(_wrap_label(
 		exact_action_record if not exact_action_record.is_empty() else _demo_director_routine_line(),
-		14 if is_story_boss else 11, "#d6dde6" if is_story_boss else "#99a4b0"))
-	if not is_story_boss:
+		14 if is_story_commitment else 11, "#d6dde6" if is_story_commitment else "#99a4b0"))
+	if not is_story_commitment:
 		box.add_child(_wrap_label(_demo_director_axis_line(used), 12, "#c1c8d1"))
 	if not narrative_bridge_results.is_empty():
 		for value in narrative_bridge_results:
@@ -7409,7 +7418,7 @@ func _render_demo_director_beat(
 	box.add_child(progress)
 	choice_box.add_child(card)
 	var tween := create_tween()
-	var progress_seconds := 2.05 if is_story_boss else (1.05 if kind == "echo" else 0.62)
+	var progress_seconds := 2.05 if is_story_commitment else (1.05 if kind == "echo" else 0.62)
 	tween.tween_property(progress, "value", 1.0, progress_seconds) \
 			.set_trans(Tween.TRANS_LINEAR)
 	_apply_moral_ui_palette()
@@ -7419,8 +7428,9 @@ func _demo_director_auto_week(kind: String) -> void:
 		return
 	_demo_director_advancing = true
 	var expected_turn: int = GameState.turn
-	var story_boss := kind == "boss" and GameState.has_story_boss_commitment(GameState.turn)
-	var used := {} if story_boss else _montage_apply_routine()
+	var story_commitment := kind in ["decision", "boss"] \
+			and GameState.has_story_weekly_commitment(GameState.turn)
+	var used := {} if story_commitment else _montage_apply_routine()
 	var narrative_bridge_results := EventManager.consume_narrative_bridge_results()
 	var commitment_echoes := GameState.consume_weekly_commitment_echoes(2) \
 			if kind == "echo" else []
@@ -7429,7 +7439,7 @@ func _demo_director_auto_week(kind: String) -> void:
 	# 제출된 뒤 수명 타이머가 시작되어야 한다.
 	await get_tree().process_frame
 	await get_tree().process_frame
-	var hold_seconds := 2.20 if story_boss else (1.35 if kind == "echo" else 0.90)
+	var hold_seconds := 2.20 if story_commitment else (1.35 if kind == "echo" else 0.90)
 	await get_tree().create_timer(hold_seconds).timeout
 	if not is_inside_tree() or GameState.turn != expected_turn:
 		return
@@ -8661,7 +8671,7 @@ func _weekly_commitment_action_label(action_id: String, person_id: String = "") 
 	})
 
 func _weekly_commitment_chosen_label(record: Dictionary) -> String:
-	if str(record.get("source", "")) == "story_boss":
+	if GameState.is_story_weekly_commitment_record(record):
 		var event: Dictionary = DataRegistry.find_event(str(record.get("story_event_id", "")))
 		var choices: Array = event.get("choices", [])
 		var choice_index := int(record.get("story_choice_index", -1))
@@ -8671,14 +8681,16 @@ func _weekly_commitment_chosen_label(record: Dictionary) -> String:
 		str(record.get("choice_id", "")), str(record.get("person_id", "")))
 
 func _weekly_commitment_later_text(record: Dictionary) -> String:
-	if str(record.get("source", "")) == "story_boss":
-		return _tr("아직 도착하지 않았다", "It has not arrived yet")
+	if GameState.is_story_weekly_commitment_record(record):
+		if str(record.get("consequence_timing", "immediate")) == "delayed":
+			return _tr("아직 도착하지 않았다", "It has not arrived yet")
+		return _tr("이미 그 주의 방향을 바꿨다", "It already changed the course of that week")
 	return str(_weekly_commitment_preview(
 		str(record.get("choice_id", "")), str(record.get("person_id", ""))).get("later", ""))
 
 func _weekly_commitment_forgone_labels(record: Dictionary) -> String:
 	var labels: Array[String] = []
-	if str(record.get("source", "")) == "story_boss":
+	if GameState.is_story_weekly_commitment_record(record):
 		var event: Dictionary = DataRegistry.find_event(str(record.get("story_event_id", "")))
 		var choices: Array = event.get("choices", [])
 		for raw_index in record.get("forgone_choice_indexes", []):

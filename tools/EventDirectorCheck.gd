@@ -13,7 +13,7 @@ func _ready() -> void:
 	_check_full_run_pacing()
 	_check_rhythm_save_migration()
 	if _failures.is_empty():
-		print("EVENT_DIRECTOR_CHECK_OK directed=1032 once=1029 repeatable=3 chapters=5 asset_bands=5 demo=9/2/4/3 boss_owner=t4 full=52/5/20/21 save=legacy+demo")
+		print("EVENT_DIRECTOR_CHECK_OK directed=1032 once=1029 repeatable=3 chapters=5 asset_bands=5 demo=9/2/4/3 authored=7 generic=2 full=52/5/20/21 save=legacy+demo")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -198,8 +198,38 @@ func _check_demo_pacing() -> void:
 		"the burner-account scene does not own the week-four boss")
 	_expect(not EventManager.narrative_event_owns_boss("arc_intro_02_dad_call", 4),
 		"an unrelated scene can consume the week-four boss")
-	_expect(EventManager.narrative_boss_event_ids(24).is_empty(),
-		"week 24 claims an authored owner before its contract exists")
+	_expect(EventManager.narrative_commitment_event_ids(8).is_empty(),
+		"week eight must retain its separate generic decision")
+	_expect(EventManager.narrative_commitment_event_ids(10).has("arc_ch1_career_first_spec"),
+		"week ten route scene cannot own its weekly decision")
+	_expect(EventManager.narrative_commitment_event_ids(13).has("cafe_cb_honest_00"),
+		"week thirteen cafe callback cannot own its weekly decision")
+	_expect(EventManager.narrative_commitment_event_ids(16) == ["arc_father_quiet_call"],
+		"week sixteen father call owner drifted")
+	_expect(EventManager.narrative_commitment_event_ids(20).has("arc_job_vs_invest"),
+		"week twenty work-investment conflict cannot own its weekly decision")
+	_expect(EventManager.narrative_commitment_event_ids(23).has("hyunsu_exam_day"),
+		"week twenty-three Hyunsu scene cannot own its weekly decision")
+	_expect(EventManager.narrative_boss_event_ids(24).has("story_first_savings_milestone"),
+		"week twenty-four milestone cannot own the closing boss week")
+	var father_contract := EventManager.narrative_commitment_contract(
+		"arc_father_quiet_call", 16)
+	_expect(str(father_contract.get("axis", "")) == "human" \
+			and str(father_contract.get("person_id", "")) == "father",
+		"father commitment lost its human-axis relationship contract")
+	_expect(not EventManager.narrative_event_owns_commitment("arc_father_quiet_call", 15),
+		"authored ownership leaked into a quiet week")
+	for owner_week in [4, 10, 13, 16, 20, 23, 24]:
+		for owner_id in EventManager.narrative_commitment_event_ids(owner_week):
+			var owner_event: Dictionary = DataRegistry.find_event(owner_id)
+			_expect(not owner_event.is_empty(),
+				"week %d owner does not exist: %s" % [owner_week, owner_id])
+			_expect((owner_event.get("choices", []) as Array).size() >= 2,
+				"week %d owner is not a real choice: %s" % [owner_week, owner_id])
+			var owner_contract := EventManager.narrative_commitment_contract(
+				owner_id, owner_week)
+			_expect(str(owner_contract.get("axis", "")) in ["money", "human"],
+				"week %d owner has no valid axis: %s" % [owner_week, owner_id])
 	_expect(echoes == [6, 9, 17, 21], "demo echo schedule drifted: %s" % [echoes])
 	_expect(summaries == [4, 12, 24], "demo summary schedule drifted: %s" % [summaries])
 	_expect(EventManager.demo_week_kind(25) == "decision",

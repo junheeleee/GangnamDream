@@ -35,9 +35,42 @@
       4,
       24
     ],
-    "boss_event_owners": {
+    "commitment_event_owners": {
       "4": [
-        "arc_temptation_01"
+        {
+          "id": "arc_temptation_01",
+          "axis": "money",
+          "consequence_timing": "delayed"
+        }
+      ],
+      "10": [
+        { "id": "arc_ch1_invest_first_chart", "axis": "money" },
+        { "id": "arc_ch1_career_first_spec", "axis": "money" },
+        { "id": "arc_ch1_startup_first_idea", "axis": "money" },
+        { "id": "arc_ch1_theme_network_first", "axis": "money" },
+        { "id": "arc_ch1_theme_invest_deep", "axis": "money" }
+      ],
+      "13": [
+        { "id": "cafe_cb_stole_00", "axis": "money" },
+        { "id": "cafe_cb_honest_00", "axis": "money" },
+        { "id": "cafe_cb_humiliated_00", "axis": "money" }
+      ],
+      "16": [
+        { "id": "arc_father_quiet_call", "axis": "human", "person_id": "father" }
+      ],
+      "20": [
+        { "id": "arc_job_vs_invest", "axis": "money" },
+        { "id": "arc_hyunsu_night_talk", "axis": "human", "person_id": "hyunsu" }
+      ],
+      "23": [
+        { "id": "hyunsu_exam_day", "axis": "human", "person_id": "hyunsu" },
+        { "id": "arc_gangnam_visit_alone", "axis": "money" }
+      ],
+      "24": [
+        { "id": "story_first_savings_milestone", "axis": "money" },
+        { "id": "story_six_months", "axis": "human" },
+        { "id": "hyunsu_exam_day", "axis": "human", "person_id": "hyunsu" },
+        { "id": "arc_gangnam_visit_alone", "axis": "money" }
       ]
     },
     "echo_weeks": [
