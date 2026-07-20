@@ -120,6 +120,13 @@ func _check_narrative_bridge_contract() -> void:
 	if results.size() == 1:
 		_expect(not str(results[0].get("summary", "")).is_empty(),
 			"The bridge trace lost its localized summary.")
+	GameState.start_new_game("김민준", "지방_상경", "직장형", "백수", "자유런", "현실")
+	GameState.turn = GameState.DEMO_TURN_LIMIT + 1
+	GameState.flags["formal_complaint_filed"] = true
+	EventManager.event_cooldowns.clear()
+	EventManager.recent_event_ids.clear()
+	_expect(EventManager.draw_narrative_bridge_event().is_empty(),
+		"A post-demo random bridge leaked through the demo build's CTA boundary.")
 
 func _check_chapter_one_temporal_contract() -> void:
 	GameState.start_new_game("김민준", "지방_상경", "직장형", "백수", "자유런", "현실")

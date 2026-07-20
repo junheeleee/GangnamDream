@@ -154,6 +154,11 @@ const QA_SCOPE_RACETRACK_EN := "racetrack_en"
 const QA_SCOPE_TENDENCY_EN := "tendency_en"
 const QA_SCOPE_SURFACE_EN := "surface_en"
 const QA_SCOPE_TRANSITION := "transition"
+const FULL_ROUTE_STORY_CHOICE_OVERRIDES := {
+	"anxiety_pension_crisis": 1,
+}
+const FULL_ROUTE_EXPECTED_PRODUCER_FLAG := "pension_anxiety_awakened"
+const FULL_ROUTE_EXPECTED_RANDOM_BRIDGE := "callback_pension_self_fund"
 const YEAR_IDENTITY_SCENE_SAMPLE: Array[String] = [
 	"arc_temptation_01",
 	"cafe_listen_01",
@@ -2390,6 +2395,8 @@ func _run_demo_input_route(
 	var observed_auto_beats: Dictionary = {}
 	var captured_auto_kinds: Dictionary = {}
 	var exact_echo_beats := 0
+	var narrative_bridge_count := 0
+	var narrative_bridge_ids: Array[String] = []
 	var action_counts: Dictionary = {}
 	var ap_action_week_counts: Dictionary = {}
 	var modal_counts: Dictionary = {}
@@ -2397,6 +2404,7 @@ func _run_demo_input_route(
 	var ap_action_inputs := 0
 	var generic_commitment_weeks: Dictionary = {}
 	var story_commitment_weeks: Dictionary = {}
+	var story_choice_overrides_used: Dictionary = {}
 	for _step in range(70000 if full_run else 7000):
 		await get_tree().create_timer(0.015).timeout
 		var scene := get_tree().current_scene
@@ -2453,15 +2461,37 @@ func _run_demo_input_route(
 					input_count += 1
 					_record_demo_route_input(route_input_counts, route_week_inputs, "story:%s" % event_id)
 				elif bool(scene.get("_showing_choices")):
-					var focused := get_viewport().gui_get_focus_owner()
-					if focused == null or not scene.is_ancestor_of(focused):
-						var first_choice := _find_first_enabled_button(scene)
-						if first_choice != null:
-							first_choice.grab_focus()
-							await get_tree().process_frame
-					var route_choice := get_viewport().gui_get_focus_owner() as Control
+					var route_choice: Control = null
+					if full_run and FULL_ROUTE_STORY_CHOICE_OVERRIDES.has(event_id):
+						var choice_index := int(FULL_ROUTE_STORY_CHOICE_OVERRIDES[event_id])
+						var choice_box := scene.get("_choice_box") as Control
+						var override_choice := _find_choice_button(choice_box, choice_index)
+						if override_choice == null:
+							MetaProgression.data = original_meta
+							_fail("Full route could not focus choice %d for %s." % [
+								choice_index, event_id])
+							return
+						override_choice.grab_focus()
+						await get_tree().process_frame
+						route_choice = override_choice
+						story_choice_overrides_used[event_id] = choice_index
+					else:
+						var focused := get_viewport().gui_get_focus_owner()
+						if focused == null or not scene.is_ancestor_of(focused):
+							var first_choice := _find_first_enabled_button(scene)
+							if first_choice != null:
+								first_choice.grab_focus()
+								await get_tree().process_frame
+						route_choice = get_viewport().gui_get_focus_owner() as Control
 					if route_choice != null:
 						await _activate_route_control(route_choice, input_mode)
+						if full_run and FULL_ROUTE_STORY_CHOICE_OVERRIDES.has(event_id) \
+								and not bool(GameState.flags.get(
+									FULL_ROUTE_EXPECTED_PRODUCER_FLAG, false)):
+							MetaProgression.data = original_meta
+							_fail("Full route choice %s did not set %s." % [
+								event_id, FULL_ROUTE_EXPECTED_PRODUCER_FLAG])
+							return
 					else:
 						await _advance_route_story(scene, input_mode)
 					input_count += 1
@@ -2499,6 +2529,27 @@ func _run_demo_input_route(
 				var first_beat_observation := not observed_auto_beats.has(beat_turn)
 				observed_auto_beats[beat_turn] = beat_kind
 				signature += ":auto=%d:%s" % [beat_turn, beat_kind]
+				if first_beat_observation:
+					var beat_bridge_count := int(auto_beat.get_meta("narrative_bridge_count", 0))
+					var beat_bridge_ids: Array = auto_beat.get_meta("narrative_bridge_ids", [])
+					if beat_bridge_count != beat_bridge_ids.size():
+						MetaProgression.data = original_meta
+						_fail("Week %d random bridge metadata count drifted: %d != %s." % [
+							beat_turn, beat_bridge_count, beat_bridge_ids])
+						return
+					if beat_bridge_count > 0 and beat_kind not in ["quiet", "echo"]:
+						MetaProgression.data = original_meta
+						_fail("Direct week %d rendered an automatic random narrative bridge." % beat_turn)
+						return
+					for raw_bridge_id in beat_bridge_ids:
+						var bridge_id := str(raw_bridge_id)
+						if bridge_id.is_empty() or narrative_bridge_ids.has(bridge_id):
+							MetaProgression.data = original_meta
+							_fail("Random narrative bridge was empty or repeated at week %d: %s." % [
+								beat_turn, bridge_id])
+							return
+						narrative_bridge_ids.append(bridge_id)
+					narrative_bridge_count += beat_bridge_count
 				if first_beat_observation and beat_kind == "echo":
 					var exact_record := str(auto_beat.get_meta("commitment_echo_record", ""))
 					var echo_count := int(auto_beat.get_meta("commitment_echo_count", 0))
@@ -2973,6 +3024,20 @@ func _run_demo_input_route(
 			MetaProgression.data = original_meta
 			_fail("Full route escaped to the legacy action list.")
 			return
+		if narrative_bridge_count < 1 or narrative_bridge_count != narrative_bridge_ids.size():
+			MetaProgression.data = original_meta
+			_fail("Full route did not recover a unique causal bridge: count=%d ids=%s." % [
+				narrative_bridge_count, narrative_bridge_ids])
+			return
+		if int(story_choice_overrides_used.get("anxiety_pension_crisis", -1)) != 1 \
+				or not narrative_bridge_ids.has(FULL_ROUTE_EXPECTED_RANDOM_BRIDGE):
+			MetaProgression.data = original_meta
+			_fail("Full route did not recover the pension choice through %s: choices=%s bridges=%s." % [
+				FULL_ROUTE_EXPECTED_RANDOM_BRIDGE,
+				story_choice_overrides_used,
+				narrative_bridge_ids,
+			])
+			return
 		var available_ap_budget := full_generic_direct_weeks
 		var full_generic_commitment_count := generic_commitment_weeks.size()
 		if full_generic_commitment_count != available_ap_budget \
@@ -3029,9 +3094,10 @@ func _run_demo_input_route(
 		var money_weeks := GameState.money_weeks_total
 		var human_weeks := GameState.human_weeks_total
 		MetaProgression.data = original_meta
-		print("FULL_INPUT_RUN_OK device=%s weeks=%d inputs=%d events=%d ending=%s end_job=%s axes=%d/%d kinds=%s exact_echo=%d chapters=%s crisis_promotions=%s summaries=%d peak_week=%s key_events=%d mouse_events=%d gamepad_events=%d" % [
+		print("FULL_INPUT_RUN_OK device=%s weeks=%d inputs=%d events=%d ending=%s end_job=%s axes=%d/%d kinds=%s exact_echo=%d bridges=%d chapters=%s crisis_promotions=%s summaries=%d peak_week=%s key_events=%d mouse_events=%d gamepad_events=%d" % [
 			input_mode, GameState.RUN_TURN_LIMIT, input_count, seen_events.size(), full_ending_id,
-			final_job, money_weeks, human_weeks, str(week_kind_counts), exact_echo_beats, str(direct_by_chapter),
+			final_job, money_weeks, human_weeks, str(week_kind_counts), exact_echo_beats,
+			narrative_bridge_count, str(direct_by_chapter),
 			str(crisis_promotion_weeks), int(modal_counts.get("month_summary", 0)), str(peak_week_input),
 			_route_keyboard_events, _route_mouse_events, _route_gamepad_events])
 		get_tree().quit(0)
@@ -3108,6 +3174,11 @@ func _run_demo_input_route(
 	if int(week_kind_counts.get("echo", 0)) < 3 or int(week_kind_counts.get("echo", 0)) > 5:
 		MetaProgression.data = original_meta
 		_fail("Demo route exposed an invalid echo count: %s." % week_kind_counts)
+		return
+	if narrative_bridge_count != 0 or not narrative_bridge_ids.is_empty():
+		MetaProgression.data = original_meta
+		_fail("Demo route exposed post-demo random narrative bridges: %s." % [
+			narrative_bridge_ids])
 		return
 	if exact_echo_beats != int(week_kind_counts.get("echo", 0)):
 		MetaProgression.data = original_meta
@@ -3213,12 +3284,15 @@ func _run_demo_input_route(
 			"story_commitment_axes": authored_axis_counts,
 			"weekly_commitments": ap_action_inputs + demo_story_commitment_count,
 			"available_commitment_budget": direct_decision_weeks,
+			"narrative_bridge_count": narrative_bridge_count,
+			"narrative_bridge_ids": narrative_bridge_ids,
 		})
 	MetaProgression.data = original_meta
 	_print_demo_route_input_profile(route_input_counts, route_week_inputs)
-	print("DEMO_INPUT_RUN_OK device=%s weeks=24 inputs=%d events=%d start_job=unemployed end_job=%s axes=%d/%d exact_echo=%d key_events=%d mouse_events=%d gamepad_events=%d cutoff=cta" % [
+	print("DEMO_INPUT_RUN_OK device=%s weeks=24 inputs=%d events=%d start_job=unemployed end_job=%s axes=%d/%d exact_echo=%d bridges=%d key_events=%d mouse_events=%d gamepad_events=%d cutoff=cta" % [
 		input_mode, input_count, seen_events.size(), str(GameState.current_job.get("id", "unemployed")),
 		GameState.money_weeks_total, GameState.human_weeks_total, exact_echo_beats,
+		narrative_bridge_count,
 		_route_keyboard_events, _route_mouse_events, _route_gamepad_events])
 	get_tree().quit(0)
 
@@ -3917,6 +3991,23 @@ func _find_first_enabled_button(root: Node) -> Button:
 		return root as Button
 	for child in root.get_children():
 		var found := _find_first_enabled_button(child)
+		if found != null:
+			return found
+	return null
+
+func _find_choice_button(root: Node, choice_index: int) -> Button:
+	if root == null:
+		return null
+	if root is Button:
+		var button := root as Button
+		if button.is_visible_in_tree() and not button.disabled \
+				and button.focus_mode != Control.FOCUS_NONE \
+				and int(button.get_meta("choice_index", -1)) == choice_index:
+			return button
+	if root is Control and not (root as Control).is_visible_in_tree():
+		return null
+	for child in root.get_children():
+		var found := _find_choice_button(child, choice_index)
 		if found != null:
 			return found
 	return null

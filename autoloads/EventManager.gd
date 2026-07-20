@@ -142,6 +142,72 @@ func full_run_pacing_rules() -> Dictionary:
 	var pacing: Variant = director_rules.get("full_run_pacing", {})
 	return (pacing as Dictionary).duplicate(true) if pacing is Dictionary else {}
 
+func content_diet_rules() -> Dictionary:
+	var rules: Variant = director_rules.get("content_diet", {})
+	return (rules as Dictionary).duplicate(true) if rules is Dictionary else {}
+
+func _event_has_stateful_condition(event: Dictionary) -> bool:
+	var conditions: Variant = event.get("conditions", {})
+	if not conditions is Dictionary:
+		return false
+	for raw_key in (conditions as Dictionary).keys():
+		var key := str(raw_key)
+		if key not in ["min_turn", "max_turn"]:
+			return true
+	return false
+
+func _event_passes_content_exclusions(event: Dictionary, rules: Dictionary) -> bool:
+	if rules.get("excluded_categories", []).has(str(event.get("category", ""))):
+		return false
+	var event_id := str(event.get("id", ""))
+	for raw_prefix in rules.get("excluded_id_prefixes", []):
+		if event_id.begins_with(str(raw_prefix)):
+			return false
+	return true
+
+func is_foreground_random_event(event: Dictionary) -> bool:
+	if not is_directed_random_event(event):
+		return false
+	var rules := content_diet_rules()
+	if rules.is_empty() or not _event_passes_content_exclusions(event, rules):
+		return false
+	# Text is localized before runtime. Use the KO-source audited allowlist so EN,
+	# JA, and future overlays never produce a different playable event pool.
+	return rules.get("foreground_event_ids", []).has(str(event.get("id", "")))
+
+func is_narrative_bridge_event(event: Dictionary) -> bool:
+	if not is_directed_random_event(event):
+		return false
+	var rules := content_diet_rules()
+	if rules.is_empty() or not _event_passes_content_exclusions(event, rules):
+		return false
+	if not rules.get("bridge_event_ids", []).has(str(event.get("id", ""))):
+		return false
+	var choices: Array = event.get("choices", [])
+	if bool(rules.get("bridge_single_choice_only", true)) and choices.size() != 1:
+		return false
+	if _event_has_follow_up(event):
+		return false
+	if bool(rules.get("bridge_requires_stateful_condition", true)) \
+			and not _event_has_stateful_condition(event):
+		return false
+	if choices.is_empty() or not choices[0] is Dictionary:
+		return false
+	return not str((choices[0] as Dictionary).get("result_text", "")).is_empty()
+
+func _event_has_causal_context(event: Dictionary) -> bool:
+	var rules := content_diet_rules()
+	if not bool(rules.get("foreground_requires_causal_context", true)):
+		return true
+	if action_echo_multiplier(event) > 1.0 or _event_has_follow_up(event) \
+			or _event_has_stateful_condition(event):
+		return true
+	var tags: Array = event.get("tags", [])
+	for tag in ["callback", "chain", "crisis", "milestone"]:
+		if tags.has(tag):
+			return true
+	return false
+
 func _pacing_turn_list_has(values: Variant, turn_value: int) -> bool:
 	if not values is Array:
 		return false
@@ -364,7 +430,8 @@ func process_month_events():
 func select_random_event():
 	var eligible: Array = []
 	for event in DataRegistry.events:
-		if is_directed_random_event(event) and _is_event_eligible(event):
+		if is_foreground_random_event(event) and _is_event_eligible(event) \
+				and _event_has_causal_context(event):
 			eligible.append(event)
 	return _weighted_pick(eligible)
 
@@ -374,9 +441,11 @@ func draw_situations(count: int) -> Array:
 	_tick_cooldowns()
 	var eligible: Array = []
 	for event in DataRegistry.events:
-		if not is_directed_random_event(event):
+		if not is_foreground_random_event(event):
 			continue
 		if not _is_event_eligible(event):
+			continue
+		if not _event_has_causal_context(event):
 			continue
 		if str(event.get("rarity", "")) == "story":
 			continue
@@ -397,6 +466,26 @@ func draw_situations(count: int) -> Array:
 		picked.append(e)
 		eligible.erase(e)
 	return picked
+
+## Quiet/Echo can carry a deterministic one-choice consequence without opening
+## another StoryMode stop. Multi-choice cards are never eligible here.
+func draw_narrative_bridge_event() -> Dictionary:
+	var rules := content_diet_rules()
+	if GameState.is_demo_build() \
+			or GameState.turn < int(rules.get("bridge_min_turn", 25)):
+		return {}
+	_tick_cooldowns()
+	var eligible: Array = []
+	for event in DataRegistry.events:
+		if not is_narrative_bridge_event(event):
+			continue
+		# The curated bridge itself is the delayed consequence. Once its exact
+		# state condition is true, do not put it behind the generic hidden-event
+		# discovery roll as well.
+		if not _is_event_eligible(event, true) or not _event_has_causal_context(event):
+			continue
+		eligible.append(event)
+	return _weighted_pick(eligible)
 
 func _event_echo_families(event: Dictionary) -> Array:
 	var families: Array = []
@@ -679,7 +768,7 @@ func _remember_recent(event_id):
 	if recent_event_ids.size() > 25:
 		recent_event_ids.pop_front()
 
-func _is_event_eligible(event):
+func _is_event_eligible(event, deterministic_hidden: bool = false):
 	var event_id = str(event.get("id", ""))
 	if event_id.is_empty():
 		return false
@@ -699,7 +788,8 @@ func _is_event_eligible(event):
 			var last_turn := int(GameState.random_event_last_turns.get(event_id, -9999))
 			if GameState.turn - last_turn < int(policy.get("cooldown", 6)):
 				return false
-	if bool(event.get("hidden", false)) and not MetaProgression.is_hidden_event_unlocked(event_id):
+	if bool(event.get("hidden", false)) and not deterministic_hidden \
+			and not MetaProgression.is_hidden_event_unlocked(event_id):
 		return _check_hidden_chance(event)
 	return _check_conditions(event.get("conditions", {}))
 

@@ -14,6 +14,7 @@ func _ready() -> void:
 	_check_scene_first_week_contract()
 	_check_financial_progress_contract()
 	_check_event_causality()
+	_check_random_narrative_bridge_flow()
 	_check_week_surface()
 	_check_demo_pressure_choices()
 	_check_full_run_pressure_diversity()
@@ -27,7 +28,7 @@ func _ready() -> void:
 			push_error("IMMERSION_LOOP_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("IMMERSION_LOOP_CHECK_OK memory=2 action_ids=8 commitments=1x3 scene_first=1 no_ap_surface=1 auto_advance=1 outcomes=2 completion_boundary=1 consequence_paths=4 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=4 vignette=2 omen=1 preview=2 bills=1 rungs=4 reserve=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8")
+	print("IMMERSION_LOOP_CHECK_OK memory=2 action_ids=8 commitments=1x3 scene_first=1 no_ap_surface=1 auto_advance=1 outcomes=2 completion_boundary=1 consequence_paths=4 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=4 bridges=ko/en vignette=2 omen=1 preview=2 bills=1 rungs=4 reserve=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8")
 	get_tree().quit(0)
 
 func _check_recent_action_echoes() -> void:
@@ -119,6 +120,78 @@ func _check_action_consequence_echoes() -> void:
 			or contact_save_echo.contains("도덕"):
 		_fail("weekly action echo exposed a hidden system: %s" % contact_save_echo)
 	game.free()
+
+func _check_random_narrative_bridge_flow() -> void:
+	var language_before := LocaleManager.language
+	for language in ["ko", "en"]:
+		LocaleManager.language = language
+		DataRegistry.reload()
+		EventManager.event_cooldowns.clear()
+		EventManager.recent_event_ids.clear()
+		EventManager.narrative_bridge_results.clear()
+
+		GameState.start_new_game()
+		GameState.turn = GameState.DEMO_TURN_LIMIT
+		GameState.flags["formal_complaint_filed"] = true
+		var game = MainGameScript.new()
+		var seen_before_demo := GameState.events_seen
+		game.call("_maybe_resolve_random_narrative_bridge", "quiet")
+		if GameState.events_seen != seen_before_demo \
+				or not EventManager.consume_narrative_bridge_results().is_empty():
+			_fail("%s random narrative bridge leaked into the 24-week demo" % language)
+		game.free()
+
+		GameState.start_new_game()
+		GameState.turn = GameState.DEMO_TURN_LIMIT + 1
+		GameState.flags["formal_complaint_filed"] = true
+		EventManager.event_cooldowns.clear()
+		EventManager.recent_event_ids.clear()
+		EventManager.narrative_bridge_results.clear()
+		game = MainGameScript.new()
+		var seen_before_full := GameState.events_seen
+		game.call("_maybe_resolve_random_narrative_bridge", "decision")
+		if GameState.flags.has("month_event_turn") \
+				or not EventManager.narrative_bridge_results.is_empty():
+			_fail("%s direct week auto-resolved a narrative bridge" % language)
+		game.call("_maybe_resolve_random_narrative_bridge", "quiet")
+		var results: Array = EventManager.consume_narrative_bridge_results()
+		if results.size() != 1 \
+				or str((results[0] as Dictionary).get("event_id", "")) \
+				!= "callback_formal_complaint_filed_echo":
+			_fail("%s quiet week did not resolve the one causal bridge: %s" % [
+				language, results])
+		elif language == "en" and _contains_hangul(str((results[0] as Dictionary).get(
+				"summary", ""))):
+			_fail("English narrative bridge leaked Hangul: %s" % results[0])
+		if GameState.events_seen != seen_before_full + 1 \
+				or int(GameState.flags.get("month_event_turn", -1)) != GameState.turn:
+			_fail("%s narrative bridge did not retain history or its once-per-week latch" % language)
+		game.call("_maybe_resolve_random_narrative_bridge", "echo")
+		if not EventManager.consume_narrative_bridge_results().is_empty() \
+				or GameState.events_seen != seen_before_full + 1:
+			_fail("%s narrative bridge resolved twice in one week" % language)
+		game.free()
+
+		GameState.start_new_game()
+		GameState.turn = 61
+		GameState.flags["pension_anxiety_awakened"] = true
+		EventManager.event_cooldowns.clear()
+		EventManager.recent_event_ids.clear()
+		EventManager.narrative_bridge_results.clear()
+		game = MainGameScript.new()
+		var seen_before_hidden_bridge := GameState.events_seen
+		game.call("_maybe_resolve_random_narrative_bridge", "quiet")
+		results = EventManager.consume_narrative_bridge_results()
+		if results.size() != 1 \
+				or str((results[0] as Dictionary).get("event_id", "")) \
+				!= "callback_pension_self_fund" \
+				or not bool(GameState.flags.get("pension_self_saving", false)) \
+				or GameState.events_seen != seen_before_hidden_bridge + 1:
+			_fail("%s hidden causal bridge did not resolve deterministically: %s" % [
+				language, results])
+		game.free()
+	LocaleManager.language = language_before
+	DataRegistry.reload()
 
 func _check_weekly_commitment_contract() -> void:
 	GameState.start_new_game()

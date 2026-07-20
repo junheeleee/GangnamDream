@@ -6,6 +6,7 @@ var _failures: Array[String] = []
 func _ready() -> void:
 	GameState.start_new_game()
 	_check_catalog_and_ranges()
+	_check_content_diet()
 	_check_context_gates()
 	_check_once_and_repeat_policy()
 	_check_authored_bypass()
@@ -13,7 +14,7 @@ func _ready() -> void:
 	_check_full_run_pacing()
 	_check_rhythm_save_migration()
 	if _failures.is_empty():
-		print("EVENT_DIRECTOR_CHECK_OK directed=1032 once=1029 repeatable=3 chapters=5 asset_bands=5 demo=9/2/4/3 authored=7 generic=2 full=52/5/20/21 save=legacy+demo")
+		print("EVENT_DIRECTOR_CHECK_OK directed=1032 foreground=61 bridge=18 bridge_roots=7 auto_multi=0 once=1029 repeatable=3 chapters=5 asset_bands=5 demo=9/2/4/3 authored=7 generic=2 full=52/5/20/21 save=legacy+demo")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -37,6 +38,73 @@ func _check_catalog_and_ranges() -> void:
 		asset_ids.append(EventManager.director_asset_band_id(asset_value))
 	_expect(asset_ids == ["negative", "survival", "foothold", "capital", "affluent"],
 		"asset bands overlap or leave a gap")
+
+func _check_content_diet() -> void:
+	var foreground_count := 0
+	var bridge_count := 0
+	for event_value in DataRegistry.events:
+		var event: Dictionary = event_value
+		if EventManager.is_foreground_random_event(event):
+			foreground_count += 1
+		if EventManager.is_narrative_bridge_event(event):
+			bridge_count += 1
+			_expect((event.get("choices", []) as Array).size() == 1,
+				"multi-choice event entered the automatic bridge pool: %s" \
+				% str(event.get("id", "")))
+	_expect(foreground_count == 61,
+		"curated foreground pool is %d, expected 61" % foreground_count)
+	_expect(bridge_count == 18,
+		"safe one-choice bridge pool is %d, expected 18" % bridge_count)
+
+	var everyday: Dictionary = DataRegistry.find_event("convenience_store_meal")
+	var substantial: Dictionary = DataRegistry.find_event("father_old_photo")
+	var chained: Dictionary = DataRegistry.find_event("butterfly_mystery_info_offer")
+	var comedy: Dictionary = DataRegistry.find_event("comedy_autocorrect")
+	var implicit_chain_root: Dictionary = DataRegistry.find_event("amb_idea_stolen_00")
+	var korea_explainer: Dictionary = DataRegistry.find_event("kx_tax_refund")
+	var one_choice: Dictionary = DataRegistry.find_event("callback_formal_complaint_filed_echo")
+	_expect(not EventManager.is_foreground_random_event(everyday),
+		"short everyday card still owns a standalone StoryMode stop")
+	_expect(EventManager.is_foreground_random_event(substantial),
+		"substantial material-choice scene was removed from the foreground pool")
+	_expect(EventManager.is_foreground_random_event(chained),
+		"an existing causal chain lost its foreground entry point")
+	_expect(not EventManager.is_foreground_random_event(comedy),
+		"comedy filler still owns the novel foreground")
+	_expect(EventManager.is_foreground_random_event(implicit_chain_root),
+		"a material choice that creates a later bridge lost its chain entry point")
+	_expect(not EventManager.is_foreground_random_event(korea_explainer),
+		"a Korean explainer card entered the foreground through the bridge-root exception")
+	_expect(EventManager.is_narrative_bridge_event(one_choice),
+		"single-choice state callback did not enter the safe bridge pool")
+	_expect(not EventManager.is_narrative_bridge_event(substantial),
+		"multi-choice scene can be auto-resolved as a bridge")
+
+	GameState.start_new_game()
+	GameState.turn = 24
+	GameState.flags["formal_complaint_filed"] = true
+	_expect(EventManager.draw_narrative_bridge_event().is_empty(),
+		"random bridge leaked into the curated 24-week demo")
+	GameState.turn = 25
+	var bridge_fixture: Dictionary = DataRegistry.find_event("callback_formal_complaint_filed_echo")
+	_expect(EventManager._is_event_eligible(bridge_fixture, true),
+		"eligible causal bridge fixture failed its deterministic state conditions")
+	_expect(EventManager._event_has_causal_context(bridge_fixture),
+		"eligible causal bridge fixture lost its state context")
+	var bridge := EventManager.draw_narrative_bridge_event()
+	_expect(str(bridge.get("id", "")) == "callback_formal_complaint_filed_echo",
+		"eligible causal bridge was not selected after the demo: %s" \
+		% str(bridge.get("id", "<empty>")))
+	var seen_before := GameState.events_seen
+	_expect(EventManager.resolve_narrative_bridge("callback_formal_complaint_filed_echo", 0),
+		"safe bridge could not resolve through the original choice path")
+	_expect(GameState.events_seen == seen_before + 1,
+		"safe bridge did not retain the original event history")
+	var bridge_results := EventManager.consume_narrative_bridge_results()
+	_expect(bridge_results.size() == 1 \
+			and str((bridge_results[0] as Dictionary).get("event_id", "")) \
+			== "callback_formal_complaint_filed_echo",
+		"safe bridge did not produce exactly one nonblocking result")
 
 func _check_context_gates() -> void:
 	GameState.turn = 12

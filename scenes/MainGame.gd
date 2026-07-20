@@ -7414,6 +7414,15 @@ func _render_demo_director_beat(
 	card.set_meta("demo_week_kind", kind)
 	card.set_meta("demo_turn", GameState.turn)
 	card.set_meta("commitment_echo_count", commitment_echoes.size())
+	var narrative_bridge_ids: Array[String] = []
+	for value in narrative_bridge_results:
+		if value is Dictionary:
+			var bridge_event_id := str((value as Dictionary).get("event_id", ""))
+			var bridge_event: Dictionary = DataRegistry.find_event(bridge_event_id)
+			if EventManager.is_narrative_bridge_event(bridge_event):
+				narrative_bridge_ids.append(bridge_event_id)
+	card.set_meta("narrative_bridge_count", narrative_bridge_ids.size())
+	card.set_meta("narrative_bridge_ids", narrative_bridge_ids)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 8)
 	card.add_child(box)
@@ -7471,6 +7480,7 @@ func _demo_director_auto_week(kind: String) -> void:
 	var expected_turn: int = GameState.turn
 	var story_commitment := kind in ["decision", "boss"] \
 			and GameState.has_story_weekly_commitment(GameState.turn)
+	_maybe_resolve_random_narrative_bridge(kind)
 	var used := {} if story_commitment else _montage_apply_routine()
 	var narrative_bridge_results := EventManager.consume_narrative_bridge_results()
 	var commitment_echoes := GameState.consume_weekly_commitment_echoes(2) \
@@ -7491,6 +7501,26 @@ func _demo_director_auto_week(kind: String) -> void:
 		_present_tendency_realization(tendency_kind)
 		return
 	_demo_director_finish_auto_week()
+
+func _maybe_resolve_random_narrative_bridge(kind: String) -> void:
+	if kind not in ["quiet", "echo"]:
+		return
+	if int(GameState.flags.get("month_event_turn", -1)) == GameState.turn:
+		return
+	# An authored bridge already owns this beat; never stack a random footnote on it.
+	if not EventManager.narrative_bridge_results.is_empty():
+		GameState.flags["month_event_turn"] = GameState.turn
+		return
+	GameState.flags["month_event_turn"] = GameState.turn
+	var bridge := EventManager.draw_narrative_bridge_event()
+	if bridge.is_empty():
+		return
+	var choices: Array = bridge.get("choices", [])
+	if choices.size() != 1:
+		push_error("Narrative bridge attempted to auto-resolve a multi-choice event: %s" \
+				% str(bridge.get("id", "")))
+		return
+	EventManager.resolve_narrative_bridge(str(bridge.get("id", "")), 0)
 
 func _demo_director_finish_auto_week() -> void:
 	_demo_director_advancing = true

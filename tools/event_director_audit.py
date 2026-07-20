@@ -15,6 +15,42 @@ REGISTRY = ROOT / "autoloads" / "DataRegistry.gd"
 MANIFEST = ROOT / "content" / "meta" / "event_director.json"
 EXPECTED_CATALOG_RANDOM = 1177
 EXPECTED_DIRECTED_RANDOM = 1032
+EXPECTED_FOREGROUND_RANDOM = 61
+EXPECTED_BRIDGE_RANDOM = 18
+EXPECTED_IMPLICIT_BRIDGE_ROOTS = {
+    "amb_idea_stolen_00",
+    "anxiety_child_cost_calc",
+    "anxiety_pension_crisis",
+    "butterfly_mystery_info_result_scam",
+    "butterfly_resume_lie_caught",
+    "callback_jaehyuk_reported_witness",
+    "callback_lied_interview_surfaces",
+}
+EXPECTED_CONTENT_DIET = {
+    "foreground_min_description_chars": 160,
+    "foreground_min_result_chars": 80,
+    "material_money_abs": 50000,
+    "material_tint_abs": 4,
+    "material_stat_abs": 7,
+    "material_stats": [
+        "mental",
+        "health",
+        "reputation",
+        "social_skill",
+        "intelligence",
+        "investment_skill",
+        "luck",
+        "appearance",
+    ],
+    "excluded_categories": ["comedy"],
+    "excluded_id_prefixes": ["korea_"],
+    "bridge_min_turn": 25,
+    "bridge_single_choice_only": True,
+    "bridge_requires_stateful_condition": True,
+    "foreground_include_bridge_producers": True,
+    "implicit_bridge_root_excluded_tags": ["korea"],
+    "foreground_requires_causal_context": True,
+}
 EXPECTED_REPEATABLE = {
     "convenience_store_meal",
     "delivery_app_temptation",
@@ -106,6 +142,191 @@ def is_directed_random(
     )
 
 
+def event_has_follow_up(event: dict[str, Any]) -> bool:
+    if str(event.get("follow_up_event", "")):
+        return True
+    return any(
+        str(choice.get("follow_up_event", ""))
+        or str(choice.get("deferred_follow_up", ""))
+        for choice in event.get("choices", [])
+        if isinstance(choice, dict)
+    )
+
+
+def event_has_stateful_condition(event: dict[str, Any]) -> bool:
+    conditions = event.get("conditions", {})
+    return isinstance(conditions, dict) and any(
+        str(key) not in {"min_turn", "max_turn"} for key in conditions
+    )
+
+
+def event_produced_flags(event: dict[str, Any]) -> set[str]:
+    return {
+        str(flag)
+        for choice in event.get("choices", [])
+        if isinstance(choice, dict)
+        for flag in choice.get("flags", [])
+        if str(flag)
+    }
+
+
+def bridge_condition_flags(event: dict[str, Any]) -> set[str]:
+    conditions = event.get("conditions", {})
+    if not isinstance(conditions, dict):
+        return set()
+    result: set[str] = set()
+    if str(conditions.get("flag", "")):
+        result.add(str(conditions["flag"]))
+    for key in ("flags_all", "flags_any"):
+        result.update(str(flag) for flag in conditions.get(key, []) if str(flag))
+    return result
+
+
+def choice_material_signature(choice: dict[str, Any]) -> str:
+    payload = {
+        "effects": choice.get("effects", {}),
+        "flags": choice.get("flags", []),
+        "follow_up_event": choice.get("follow_up_event", ""),
+        "deferred_follow_up": choice.get("deferred_follow_up", ""),
+        "route": choice.get("route", ""),
+        "tendency": choice.get("tendency", {}),
+        "give_items": choice.get("give_items", []),
+        "clues": choice.get("clues", []),
+        "relationship_effects": choice.get("relationship_effects", []),
+        "investment_effects": choice.get("investment_effects", []),
+    }
+    return json.dumps(payload, ensure_ascii=False, sort_keys=True)
+
+
+def choice_has_material_stake(
+    choice: dict[str, Any], rules: dict[str, Any]
+) -> bool:
+    effects = choice.get("effects", {})
+    if not isinstance(effects, dict):
+        effects = {}
+    if abs(float(effects.get("money", 0.0))) >= float(rules["material_money_abs"]):
+        return True
+    if abs(float(effects.get("tint", 0.0))) >= float(rules["material_tint_abs"]):
+        return True
+    threshold = float(rules["material_stat_abs"])
+    if any(
+        abs(float(effects.get(str(stat), 0.0))) >= threshold
+        for stat in rules["material_stats"]
+    ):
+        return True
+    for key in (
+        "flags",
+        "route",
+        "tendency",
+        "give_items",
+        "clues",
+        "relationship_effects",
+        "investment_effects",
+    ):
+        if choice.get(key):
+            return True
+    return False
+
+
+def event_has_material_choice_contrast(
+    event: dict[str, Any], rules: dict[str, Any]
+) -> bool:
+    choices = [choice for choice in event.get("choices", []) if isinstance(choice, dict)]
+    if len(choices) < 2 or len(choices) != len(event.get("choices", [])):
+        return False
+    signatures = {choice_material_signature(choice) for choice in choices}
+    return len(signatures) >= 2 and any(
+        choice_has_material_stake(choice, rules) for choice in choices
+    )
+
+
+def event_passes_content_exclusions(
+    event: dict[str, Any], rules: dict[str, Any]
+) -> bool:
+    if str(event.get("category", "")) in rules["excluded_categories"]:
+        return False
+    event_id = str(event.get("id", ""))
+    return not any(
+        event_id.startswith(str(prefix)) for prefix in rules["excluded_id_prefixes"]
+    )
+
+
+def meets_foreground_source_contract(
+    event: dict[str, Any], manifest: dict[str, Any], direct_targets: set[str],
+    bridge_trigger_flags: set[str],
+) -> bool:
+    if not is_directed_random(event, manifest, direct_targets):
+        return False
+    rules = manifest.get("content_diet", {})
+    if not isinstance(rules, dict) or not event_passes_content_exclusions(event, rules):
+        return False
+    if event_has_follow_up(event):
+        return True
+    if bool(rules.get("foreground_include_bridge_producers", True)):
+        excluded_tags = {
+            str(tag) for tag in rules.get("implicit_bridge_root_excluded_tags", [])
+        }
+        event_tags = {str(tag) for tag in event.get("tags", [])}
+        if not (event_tags & excluded_tags) \
+                and event_produced_flags(event) & bridge_trigger_flags \
+                and event_has_material_choice_contrast(event, rules):
+            return True
+    choices = event.get("choices", [])
+    if not isinstance(choices, list) or len(choices) < 2:
+        return False
+    if len(str(event.get("description", ""))) < int(
+        rules["foreground_min_description_chars"]
+    ):
+        return False
+    if any(
+        not isinstance(choice, dict)
+        or len(str(choice.get("result_text", "")))
+        < int(rules["foreground_min_result_chars"])
+        for choice in choices
+    ):
+        return False
+    return event_has_material_choice_contrast(event, rules)
+
+
+def meets_bridge_source_contract(
+    event: dict[str, Any], manifest: dict[str, Any], direct_targets: set[str]
+) -> bool:
+    if not is_directed_random(event, manifest, direct_targets):
+        return False
+    rules = manifest.get("content_diet", {})
+    if not isinstance(rules, dict) or not event_passes_content_exclusions(event, rules):
+        return False
+    choices = event.get("choices", [])
+    if not isinstance(choices, list) or len(choices) != 1:
+        return False
+    if event_has_follow_up(event) or not event_has_stateful_condition(event):
+        return False
+    choice = choices[0]
+    return isinstance(choice, dict) and bool(str(choice.get("result_text", "")))
+
+
+def is_foreground_random(
+    event: dict[str, Any], manifest: dict[str, Any], direct_targets: set[str]
+) -> bool:
+    if not is_directed_random(event, manifest, direct_targets):
+        return False
+    rules = manifest.get("content_diet", {})
+    return isinstance(rules, dict) and str(event.get("id", "")) in rules.get(
+        "foreground_event_ids", []
+    )
+
+
+def is_bridge_random(
+    event: dict[str, Any], manifest: dict[str, Any], direct_targets: set[str]
+) -> bool:
+    if not is_directed_random(event, manifest, direct_targets):
+        return False
+    rules = manifest.get("content_diet", {})
+    return isinstance(rules, dict) and str(event.get("id", "")) in rules.get(
+        "bridge_event_ids", []
+    )
+
+
 def validate_multiplier_map(value: Any, owner: str, errors: list[str]) -> None:
     if not isinstance(value, dict):
         errors.append(f"{owner} category_multipliers must be an object")
@@ -144,6 +365,50 @@ def validate_manifest(manifest: dict[str, Any], events: list[dict[str, Any]]) ->
             errors.append("prior-week action strength must remain 0.55")
         if abs(float(recent.get("prior_week_multiplier", 0.0)) - 1.88) > 0.0001:
             errors.append("prior-week action echo must remain 1.88x")
+
+    content_diet = manifest.get("content_diet", {})
+    if not isinstance(content_diet, dict):
+        errors.append("content_diet must be an object")
+    else:
+        for key, expected in EXPECTED_CONTENT_DIET.items():
+            if content_diet.get(key) != expected:
+                errors.append(f"content_diet.{key} drifted")
+        expected_bridge_ids = sorted(
+            str(event["id"])
+            for event in events
+            if meets_bridge_source_contract(event, manifest, direct_targets)
+        )
+        bridge_trigger_flags = {
+            flag
+            for event_id in expected_bridge_ids
+            for flag in bridge_condition_flags(by_id[event_id])
+        }
+        expected_foreground_ids = sorted(
+            str(event["id"])
+            for event in events
+            if meets_foreground_source_contract(
+                event, manifest, direct_targets, bridge_trigger_flags
+            )
+        )
+        implicit_bridge_roots = {
+            str(event["id"])
+            for event in events
+            if str(event["id"]) in expected_foreground_ids
+            and event_produced_flags(event) & bridge_trigger_flags
+            and not event_has_follow_up(event)
+        }
+        if implicit_bridge_roots != EXPECTED_IMPLICIT_BRIDGE_ROOTS:
+            errors.append(
+                "implicit bridge roots drifted: "
+                f"expected {sorted(EXPECTED_IMPLICIT_BRIDGE_ROOTS)}, "
+                f"got {sorted(implicit_bridge_roots)}"
+            )
+        actual_foreground_ids = content_diet.get("foreground_event_ids", [])
+        actual_bridge_ids = content_diet.get("bridge_event_ids", [])
+        if actual_foreground_ids != expected_foreground_ids:
+            errors.append("foreground_event_ids no longer match the KO source quality audit")
+        if actual_bridge_ids != expected_bridge_ids:
+            errors.append("bridge_event_ids no longer match the safe one-choice audit")
 
     pacing = manifest.get("demo_pacing", {})
     if not isinstance(pacing, dict):
@@ -343,6 +608,12 @@ def main() -> int:
     directed_random = [
         event for event in events if is_directed_random(event, manifest, direct_targets)
     ]
+    foreground_random = [
+        event for event in events if is_foreground_random(event, manifest, direct_targets)
+    ]
+    bridge_random = [
+        event for event in events if is_bridge_random(event, manifest, direct_targets)
+    ]
     if len(events) != 1565:
         errors.append(f"registered event count drifted: expected 1565, got {len(events)}")
     if len(catalog_random) != EXPECTED_CATALOG_RANDOM:
@@ -353,6 +624,20 @@ def main() -> int:
         errors.append(
             f"runtime directed count drifted: expected {EXPECTED_DIRECTED_RANDOM}, got {len(directed_random)}"
         )
+    if len(foreground_random) != EXPECTED_FOREGROUND_RANDOM:
+        errors.append(
+            "foreground random count drifted: "
+            f"expected {EXPECTED_FOREGROUND_RANDOM}, got {len(foreground_random)}"
+        )
+    if len(bridge_random) != EXPECTED_BRIDGE_RANDOM:
+        errors.append(
+            f"bridge random count drifted: expected {EXPECTED_BRIDGE_RANDOM}, got {len(bridge_random)}"
+        )
+    overlap = {
+        str(event["id"]) for event in foreground_random
+    } & {str(event["id"]) for event in bridge_random}
+    if overlap:
+        errors.append(f"foreground and bridge pools overlap: {sorted(overlap)}")
 
     if errors:
         for message in errors:
@@ -362,6 +647,8 @@ def main() -> int:
         "EVENT_DIRECTOR_AUDIT_OK "
         f"events={len(events)} catalog_random={len(catalog_random)} "
         f"directed_random={len(directed_random)} once={len(directed_random) - len(EXPECTED_REPEATABLE)} "
+        f"foreground={len(foreground_random)} bridge={len(bridge_random)} "
+        f"bridge_roots={len(EXPECTED_IMPLICIT_BRIDGE_ROOTS)} "
         f"repeatable={len(EXPECTED_REPEATABLE)} chapters=5 asset_bands=5"
     )
     return 0

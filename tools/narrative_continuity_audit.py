@@ -23,6 +23,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 EVENT_DIR = ROOT / "content" / "events"
+EVENT_DIRECTOR = ROOT / "content" / "meta" / "event_director.json"
 WEEKS_PER_CHAPTER = 48
 TOTAL_CHAPTERS = 5
 CHAPTER_RATCHETS = {
@@ -329,6 +330,34 @@ def build_report() -> dict[str, Any]:
     standalone = set(events) - chain_members
     short_standalone = {event_id for event_id in standalone if is_short_standalone(memo[event_id])}
 
+    from event_director_audit import (
+        EXPECTED_BRIDGE_RANDOM,
+        EXPECTED_FOREGROUND_RANDOM,
+        EXPECTED_IMPLICIT_BRIDGE_ROOTS,
+        follow_up_targets,
+        is_bridge_random,
+        is_foreground_random,
+    )
+
+    director_manifest = json.loads(EVENT_DIRECTOR.read_text(encoding="utf-8"))
+    direct_targets = follow_up_targets(list(events.values()))
+    foreground_ids = {
+        event_id
+        for event_id, event in events.items()
+        if is_foreground_random(event, director_manifest, direct_targets)
+    }
+    bridge_ids = {
+        event_id
+        for event_id, event in events.items()
+        if is_bridge_random(event, director_manifest, direct_targets)
+    }
+    if len(foreground_ids) != EXPECTED_FOREGROUND_RANDOM \
+            or len(bridge_ids) != EXPECTED_BRIDGE_RANDOM:
+        raise ValueError(
+            "content diet drifted: "
+            f"foreground={len(foreground_ids)} bridge={len(bridge_ids)}"
+        )
+
     paths = run_arc_paths()
     path_reports: list[dict[str, Any]] = []
     for path_name, firelog in paths.items():
@@ -466,6 +495,17 @@ def build_report() -> dict[str, Any]:
             "short_standalone": len(short_standalone),
             "authored_short_standalone": len(short_standalone & authored),
             "random_short_standalone": len(short_standalone - authored),
+            "director_foreground": len(foreground_ids),
+            "director_bridge": len(bridge_ids),
+            "foreground_implicit_bridge_roots": len(
+                foreground_ids & EXPECTED_IMPLICIT_BRIDGE_ROOTS
+            ),
+            "foreground_short_standalone": len(
+                (foreground_ids & short_standalone) - EXPECTED_IMPLICIT_BRIDGE_ROOTS
+            ),
+            "foreground_chain_members": len(
+                foreground_ids & (chain_members | EXPECTED_IMPLICIT_BRIDGE_ROOTS)
+            ),
         },
         "paths": path_reports,
     }

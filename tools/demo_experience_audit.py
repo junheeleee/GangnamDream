@@ -429,6 +429,8 @@ def parity_errors(left: dict[str, Any], right: dict[str, Any]) -> list[str]:
         "story_commitment_axes",
         "weekly_commitments",
         "available_commitment_budget",
+        "narrative_bridge_count",
+        "narrative_bridge_ids",
         "scene_flow_summary",
     ):
         left_value = _as_dict(left.get("runtime")).get(key)
@@ -490,6 +492,8 @@ def _synthetic_report(language: str) -> dict[str, Any]:
             "story_commitment_axes": {"money": 5, "human": 2},
             "weekly_commitments": 9,
             "available_commitment_budget": 9,
+            "narrative_bridge_count": 0,
+            "narrative_bridge_ids": [],
             "modal_counts": {"month_summary": 6},
             "scene_flow_summary": {"events": 50, "roots": 25, "followups": 25},
         },

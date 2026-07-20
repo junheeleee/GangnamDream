@@ -15,7 +15,12 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from narrative_continuity_audit import is_authored, load_events, run_arc_paths
+from event_director_audit import (
+    EXPECTED_FOREGROUND_RANDOM,
+    follow_up_targets,
+    is_foreground_random,
+)
+from narrative_continuity_audit import load_events, run_arc_paths
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -113,7 +118,14 @@ def main() -> int:
         errors.append("direct and echo weeks overlap")
 
     memo: dict[str, tuple[float, float]] = {}
-    random_events = [event for event in events.values() if not is_authored(event)]
+    direct_targets = follow_up_targets(list(events.values()))
+    random_events = [
+        event
+        for event in events.values()
+        if is_foreground_random(event, manifest, direct_targets)
+    ]
+    if len(random_events) != EXPECTED_FOREGROUND_RANDOM:
+        errors.append(f"curated foreground pool drifted: {len(random_events)}")
     random_costs = [
         scene_minutes(expected_scene_cost(str(event["id"]), events, memo))
         + CHOICE_DELIBERATION_SECONDS / 60.0
