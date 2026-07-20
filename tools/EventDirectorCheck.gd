@@ -13,7 +13,7 @@ func _ready() -> void:
 	_check_full_run_pacing()
 	_check_rhythm_save_migration()
 	if _failures.is_empty():
-		print("EVENT_DIRECTOR_CHECK_OK directed=1032 once=1029 repeatable=3 chapters=5 asset_bands=5 demo=9/2/4/3 full=52/5/20/21 save=legacy+demo")
+		print("EVENT_DIRECTOR_CHECK_OK directed=1032 once=1029 repeatable=3 chapters=5 asset_bands=5 demo=9/2/4/3 boss_owner=t4 full=52/5/20/21 save=legacy+demo")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -192,6 +192,14 @@ func _check_demo_pacing() -> void:
 	_expect(decisions == [1, 4, 8, 10, 13, 16, 20, 23, 24],
 		"demo decision schedule drifted: %s" % [decisions])
 	_expect(bosses == [4, 24], "demo boss schedule drifted: %s" % [bosses])
+	_expect(EventManager.narrative_boss_event_ids(4) == ["arc_temptation_01"],
+		"week-four boss owner drifted")
+	_expect(EventManager.narrative_event_owns_boss("arc_temptation_01", 4),
+		"the burner-account scene does not own the week-four boss")
+	_expect(not EventManager.narrative_event_owns_boss("arc_intro_02_dad_call", 4),
+		"an unrelated scene can consume the week-four boss")
+	_expect(EventManager.narrative_boss_event_ids(24).is_empty(),
+		"week 24 claims an authored owner before its contract exists")
 	_expect(echoes == [6, 9, 17, 21], "demo echo schedule drifted: %s" % [echoes])
 	_expect(summaries == [4, 12, 24], "demo summary schedule drifted: %s" % [summaries])
 	_expect(EventManager.demo_week_kind(25) == "decision",

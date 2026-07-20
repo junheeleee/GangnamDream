@@ -2972,6 +2972,11 @@ func _on_choice(idx: int):
 		return
 	_stop_story_choice_countdown()
 	var choice: Dictionary = choices[idx]
+	var current_event_id := str(_current.get("id", ""))
+	var owns_weekly_boss := not _read_only_replay \
+			and EventManager.narrative_event_owns_boss(current_event_id, GameState.turn)
+	var boss_baseline: Dictionary = GameState.weekly_commitment_snapshot() \
+			if owns_weekly_boss else {}
 	_pending_result_choice_index = idx
 	AudioManager.play("choice_made")
 	AudioManager.pulse_gamepad(0.035, 0.070, 0.055)
@@ -2991,6 +2996,13 @@ func _on_choice(idx: int):
 		cast_before[str(pid)] = GameState.get_cast_affinity(str(pid))
 	if not _read_only_replay:
 		GameState.apply_choice(_current, choice)
+		if owns_weekly_boss:
+			var forgone_choice_indexes: Array[int] = []
+			for alternative_index in _visible_choice_indices(_current):
+				if alternative_index != idx:
+					forgone_choice_indexes.append(alternative_index)
+			GameState.record_story_boss_commitment(
+				current_event_id, idx, boss_baseline, forgone_choice_indexes)
 		# 서사 결과를 범용 튜토리얼로 가리지 않는다. 자원·AP 설명은 첫 AP 화면이 맡는다.
 		# 결과 기록판이 있는 선택은 같은 변화를 우측 토스트로 반복 노출하지 않는다.
 		if not has_result_record:

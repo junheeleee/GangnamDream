@@ -5755,20 +5755,12 @@ func _render_scene_first_decision(narrative_bridge_results: Array, ap: int) -> v
 		_story_layout.set_meta("scene_decision_stage", true)
 		_story_layout.set_meta("demo_pressure_id", str(pressure.get("id", "")))
 	event_title.text = str(pressure.get("title", ""))
-	var date_line := _tr("%d년 %d월 %d주차", "%d-%02d W%d") % [
-		GameState.year, GameState.month, GameState.week_of_month]
+	# The scene-first layout has one readable body line at Steam Deck height.
+	# Put the decision question there; date, act, cost, and omen already have
+	# dedicated surfaces and previously produced a visibly clipped sentence.
 	var body_lines: PackedStringArray = PackedStringArray([
-		"[color=#929ba7]%s · %s[/color]" % [date_line, _ap_act_line()],
-		"[i]%s[/i]" % _week_opening_line(),
 		"[b]%s[/b]" % str(pressure.get("question", "")),
-		str(pressure.get("detail", "")),
 	])
-	var omen := _upcoming_arc_foreshadow_line()
-	if not omen.is_empty():
-		body_lines.append("[color=#9aa3ad]%s[/color]" % omen)
-	var rent_state := _week_rent_deadline()
-	if str(pressure.get("id", "")) != "rent":
-		body_lines.append("[color=#818a96]%s[/color]" % str(rent_state.get("text", "")))
 	if not narrative_bridge_results.is_empty():
 		var bridge_line := _narrative_bridge_summary(narrative_bridge_results[0])
 		if not bridge_line.is_empty():
@@ -5837,7 +5829,7 @@ func _append_scene_commitment_ledger(record: Dictionary) -> void:
 	choice_box.add_child(divider)
 	for detail in [
 		[_tr("실제 결과", "ACTUAL RESULT"), _weekly_commitment_outcome_text(record), "#e4e9ef"],
-		[_tr("닫힌 길", "CLOSED PATHS"), _weekly_commitment_forgone_labels(record), "#b7bec7"],
+		[_tr("그 주에 놓친 길", "NOT CHOSEN THAT WEEK"), _weekly_commitment_forgone_labels(record), "#b7bec7"],
 		[_tr("남은 파장", "REMAINING ECHO"), str(preview.get("later", "")), "#929ba7"],
 	]:
 		var value := str(detail[1]).strip_edges()
@@ -7016,7 +7008,10 @@ func _demo_director_week_kind() -> String:
 	return resolved_kind
 
 func _demo_director_requires_player_input() -> bool:
-	return _demo_director_week_kind() in ["decision", "boss"]
+	var kind := _demo_director_week_kind()
+	if kind == "boss" and GameState.has_story_boss_commitment(GameState.turn):
+		return false
+	return kind in ["decision", "boss"]
 
 func _demo_director_should_show_full_summary() -> bool:
 	return not _demo_pressure_enabled() \
@@ -7177,12 +7172,12 @@ func _weekly_commitment_outcome_text(record: Dictionary) -> String:
 func _weekly_commitment_echo_record(record: Dictionary) -> String:
 	var person_id := str(record.get("person_id", ""))
 	var choice_id := str(record.get("choice_id", ""))
-	var chosen := _weekly_commitment_action_label(choice_id, person_id)
+	var chosen := _weekly_commitment_chosen_label(record)
 	var forgone := _weekly_commitment_forgone_labels(record)
-	var later := str(_weekly_commitment_preview(choice_id, person_id).get("later", ""))
+	var later := _weekly_commitment_later_text(record)
 	return _tr(
-		"택한 것 · {chosen}\n실제 결과 · {outcome}\n닫힌 길 · {forgone}\n남은 파장 · {later}",
-		"CHOSEN · {chosen}\nACTUAL RESULT · {outcome}\nCLOSED PATHS · {forgone}\nREMAINING ECHO · {later}"
+		"택한 것 · {chosen}\n실제 결과 · {outcome}\n그 주에 놓친 길 · {forgone}\n남은 파장 · {later}",
+		"CHOSEN · {chosen}\nACTUAL RESULT · {outcome}\nNOT CHOSEN THAT WEEK · {forgone}\nREMAINING ECHO · {later}"
 	).format({
 		"chosen": chosen,
 		"outcome": _weekly_commitment_outcome_text(record),
@@ -7194,16 +7189,14 @@ func _weekly_commitment_echo_sentence(records: Array) -> String:
 	if records.is_empty() or not records.back() is Dictionary:
 		return ""
 	var record: Dictionary = records.back()
-	var person_id := str(record.get("person_id", ""))
-	var choice_id := str(record.get("choice_id", ""))
 	return _tr(
-		"지난 선택 · {chosen}. 실제 결과 · {outcome}. 닫힌 길 · {forgone}. {later}",
-		"LAST CHOICE · {chosen}. ACTUAL RESULT · {outcome}. CLOSED PATHS · {forgone}. {later}"
+		"지난 선택 · {chosen}. 실제 결과 · {outcome}. 그 주에 놓친 길 · {forgone}. {later}",
+		"LAST CHOICE · {chosen}. ACTUAL RESULT · {outcome}. NOT CHOSEN THAT WEEK · {forgone}. {later}"
 	).format({
-		"chosen": _weekly_commitment_action_label(choice_id, person_id),
+		"chosen": _weekly_commitment_chosen_label(record),
 		"outcome": _weekly_commitment_outcome_text(record),
 		"forgone": _weekly_commitment_forgone_labels(record),
-		"later": str(_weekly_commitment_preview(choice_id, person_id).get("later", "")),
+		"later": _weekly_commitment_later_text(record),
 	})
 
 func _demo_director_recent_action_line(commitment_echoes: Array = []) -> String:
@@ -7255,6 +7248,11 @@ func _demo_director_recent_action_record(commitment_echoes: Array = []) -> Strin
 
 func _demo_director_beat_line(kind: String, used: Dictionary,
 		commitment_echoes: Array = []) -> String:
+	if kind == "boss" and GameState.has_story_boss_commitment(GameState.turn):
+		return _tr(
+			"이번 주는 그 선택으로 끝났다. 결과는 아직 다 오지 않았다.",
+			"That choice ended the week. Not all of its consequences have arrived yet."
+		)
 	if kind == "echo":
 		var resolved_commitments := commitment_echoes
 		if resolved_commitments.is_empty():
@@ -7360,7 +7358,8 @@ func _render_demo_director_beat(
 	next_button.disabled = true
 
 	var is_echo := kind == "echo"
-	var card := _info_card("#99a4b0" if is_echo else "#697480", "#0a0d12")
+	var is_story_boss := kind == "boss" and GameState.has_story_boss_commitment(GameState.turn)
+	var card := _info_card("#c0a46b" if is_story_boss else ("#99a4b0" if is_echo else "#697480"), "#0a0d12")
 	card.name = "DemoDirectorBeat"
 	card.set_meta("demo_week_kind", kind)
 	card.set_meta("demo_turn", GameState.turn)
@@ -7368,20 +7367,27 @@ func _render_demo_director_beat(
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 8)
 	card.add_child(box)
-	var overline := _label(_tr("메아리", "ECHO") if is_echo else _tr("흐르는 시간", "TIME PASSES"), 10, "#99a4b0")
+	var overline_text := _tr("결정", "DECISION") if is_story_boss \
+			else (_tr("메아리", "ECHO") if is_echo else _tr("흐르는 시간", "TIME PASSES"))
+	var overline := _label(overline_text, 11, "#d3b979" if is_story_boss else "#99a4b0")
 	box.add_child(overline)
-	var title_text := _tr("지난 선택이 계속 움직였다", "The last choice kept moving") \
-			if is_echo else _tr("루틴이 이번 주를 운반했다", "The routine carried this week")
-	var title := _label(title_text, 18, "#edf1f5")
-	if _font_bold:
-		title.add_theme_font_override("font", _font_bold)
-	box.add_child(title)
-	var exact_action_record := _demo_director_recent_action_record(commitment_echoes) if is_echo else ""
+	var title_text := _tr("이번 주는 그 선택으로 끝났다", "That choice ended the week") \
+			if is_story_boss else (_tr("지난 선택이 계속 움직였다", "The last choice kept moving") \
+			if is_echo else _tr("루틴이 이번 주를 운반했다", "The routine carried this week"))
+	if not is_story_boss:
+		var title := _label(title_text, 18, "#edf1f5")
+		if _font_bold:
+			title.add_theme_font_override("font", _font_bold)
+		box.add_child(title)
+	var exact_action_record := _weekly_commitment_echo_record(
+		GameState.get_weekly_commitment_for_turn(GameState.turn)) if is_story_boss \
+		else (_demo_director_recent_action_record(commitment_echoes) if is_echo else "")
 	card.set_meta("commitment_echo_record", exact_action_record)
 	box.add_child(_wrap_label(
 		exact_action_record if not exact_action_record.is_empty() else _demo_director_routine_line(),
-		11, "#99a4b0"))
-	box.add_child(_wrap_label(_demo_director_axis_line(used), 12, "#c1c8d1"))
+		14 if is_story_boss else 11, "#d6dde6" if is_story_boss else "#99a4b0"))
+	if not is_story_boss:
+		box.add_child(_wrap_label(_demo_director_axis_line(used), 12, "#c1c8d1"))
 	if not narrative_bridge_results.is_empty():
 		for value in narrative_bridge_results:
 			if not value is Dictionary:
@@ -7403,7 +7409,8 @@ func _render_demo_director_beat(
 	box.add_child(progress)
 	choice_box.add_child(card)
 	var tween := create_tween()
-	tween.tween_property(progress, "value", 1.0, 1.05 if kind == "echo" else 0.62) \
+	var progress_seconds := 2.05 if is_story_boss else (1.05 if kind == "echo" else 0.62)
+	tween.tween_property(progress, "value", 1.0, progress_seconds) \
 			.set_trans(Tween.TRANS_LINEAR)
 	_apply_moral_ui_palette()
 
@@ -7412,7 +7419,8 @@ func _demo_director_auto_week(kind: String) -> void:
 		return
 	_demo_director_advancing = true
 	var expected_turn: int = GameState.turn
-	var used := _montage_apply_routine()
+	var story_boss := kind == "boss" and GameState.has_story_boss_commitment(GameState.turn)
+	var used := {} if story_boss else _montage_apply_routine()
 	var narrative_bridge_results := EventManager.consume_narrative_bridge_results()
 	var commitment_echoes := GameState.consume_weekly_commitment_echoes(2) \
 			if kind == "echo" else []
@@ -7421,7 +7429,8 @@ func _demo_director_auto_week(kind: String) -> void:
 	# 제출된 뒤 수명 타이머가 시작되어야 한다.
 	await get_tree().process_frame
 	await get_tree().process_frame
-	await get_tree().create_timer(1.35 if kind == "echo" else 0.90).timeout
+	var hold_seconds := 2.20 if story_boss else (1.35 if kind == "echo" else 0.90)
+	await get_tree().create_timer(hold_seconds).timeout
 	if not is_inside_tree() or GameState.turn != expected_turn:
 		return
 	if not _pending_tendency_kind.is_empty():
@@ -7654,6 +7663,8 @@ func _contextual_week_pressure(person_id: String, person_name: String) -> Dictio
 func _demo_week_pressure() -> Dictionary:
 	if not _demo_pressure_enabled():
 		return {}
+	if GameState.turn == 1 and not GameState.flags.has("chapter_intent_id"):
+		return _opening_chapter_intent_pressure()
 	var rent_info := _week_rent_deadline()
 	var person: Dictionary = _closest_person()
 	var person_id := str(person.get("id", ""))
@@ -7725,6 +7736,37 @@ func _demo_week_pressure() -> Dictionary:
 		}
 
 	return _contextual_week_pressure(person_id, person_name)
+
+func _opening_chapter_intent_pressure() -> Dictionary:
+	return {
+		"id": "chapter1_intent",
+		"family": "intent",
+		"title": _tr("첫 두 달의 방향", "Your First Two Months"),
+		"question": _tr("서울에서 무엇부터 지킬까?", "What comes first in Seoul?"),
+		"detail": _tr("하나를 고르면 다른 두 가지는 이번 주에 하지 못한다", "Choose one; the other two will not happen this week"),
+		"urgent": true,
+		"person_id": "",
+		"action_ids": ["apply", "side_shift", "study"],
+		"intent_ids": {
+			"apply": "secure_work",
+			"side_shift": "protect_cash",
+			"study": "build_capacity",
+		},
+		"action_copy": {
+			"apply": {
+				"title": _tr("일자리부터 잡는다", "Secure Work First"),
+				"subtitle": _tr("이번 주는 하나의 공고에 나를 건다", "Put this week into one real opening"),
+			},
+			"side_shift": {
+				"title": _tr("현금부터 지킨다", "Protect Cash First"),
+				"subtitle": _tr("오늘 버티기 위해 몸을 한 번 더 쓴다", "Spend your body once more to survive today"),
+			},
+			"study": {
+				"title": _tr("다음 기회를 준비한다", "Prepare the Next Chance"),
+				"subtitle": _tr("수입 대신 다음 문을 열 하나를 쌓는다", "Build one thing that can open the next door"),
+			},
+		},
+	}
 
 func _side_shift_base_pay() -> int:
 	var pay := 90_000
@@ -7867,6 +7909,11 @@ func _weekly_commitment_payload(pressure: Dictionary, action_id: String) -> Dict
 	}
 	if action_id == "contact":
 		payload["scene_background_id"] = _contact_scene_background_id(GameState.turn)
+	var intent_ids: Variant = pressure.get("intent_ids", {})
+	if intent_ids is Dictionary:
+		var intent_id := str((intent_ids as Dictionary).get(action_id, "")).strip_edges()
+		if not intent_id.is_empty():
+			payload["chapter_intent_id"] = intent_id
 	return payload
 
 func _render_demo_pressure_actions(ap: int) -> void:
@@ -7896,6 +7943,12 @@ func _demo_context_action_btn(spec: Dictionary, pressure: Dictionary, action_id:
 	var accent := str(spec.get("accent", "#7f8794"))
 	var title := str(spec.get("title", ""))
 	var subtitle := str(spec.get("subtitle", ""))
+	var action_copy: Variant = pressure.get("action_copy", {})
+	if action_copy is Dictionary:
+		var copy_value: Variant = (action_copy as Dictionary).get(action_id, {})
+		if copy_value is Dictionary:
+			title = str((copy_value as Dictionary).get("title", title))
+			subtitle = str((copy_value as Dictionary).get("subtitle", subtitle))
 	var rail_label := _next_ap_rail_label()
 	var art_thumb := _action_thumb_texture(fn_name, icon_id)
 	var preview: Dictionary = _weekly_commitment_preview(
@@ -8607,8 +8660,34 @@ func _weekly_commitment_action_label(action_id: String, person_id: String = "") 
 		"subject": person_id,
 	})
 
+func _weekly_commitment_chosen_label(record: Dictionary) -> String:
+	if str(record.get("source", "")) == "story_boss":
+		var event: Dictionary = DataRegistry.find_event(str(record.get("story_event_id", "")))
+		var choices: Array = event.get("choices", [])
+		var choice_index := int(record.get("story_choice_index", -1))
+		if choice_index >= 0 and choice_index < choices.size():
+			return GameState.format_event_text(str(choices[choice_index].get("text", "")))
+	return _weekly_commitment_action_label(
+		str(record.get("choice_id", "")), str(record.get("person_id", "")))
+
+func _weekly_commitment_later_text(record: Dictionary) -> String:
+	if str(record.get("source", "")) == "story_boss":
+		return _tr("아직 도착하지 않았다", "It has not arrived yet")
+	return str(_weekly_commitment_preview(
+		str(record.get("choice_id", "")), str(record.get("person_id", ""))).get("later", ""))
+
 func _weekly_commitment_forgone_labels(record: Dictionary) -> String:
 	var labels: Array[String] = []
+	if str(record.get("source", "")) == "story_boss":
+		var event: Dictionary = DataRegistry.find_event(str(record.get("story_event_id", "")))
+		var choices: Array = event.get("choices", [])
+		for raw_index in record.get("forgone_choice_indexes", []):
+			var choice_index := int(raw_index)
+			if choice_index >= 0 and choice_index < choices.size():
+				var text: String = GameState.format_event_text(str(choices[choice_index].get("text", "")))
+				if not text.is_empty() and not labels.has(text):
+					labels.append(text)
+		return " / ".join(labels)
 	var person_id := str(record.get("person_id", ""))
 	for raw_id in record.get("forgone_ids", []):
 		var label := _weekly_commitment_action_label(str(raw_id), person_id)

@@ -35,6 +35,11 @@
       4,
       24
     ],
+    "boss_event_owners": {
+      "4": [
+        "arc_temptation_01"
+      ]
+    },
     "echo_weeks": [
       6,
       9,

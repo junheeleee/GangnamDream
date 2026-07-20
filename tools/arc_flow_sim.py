@@ -265,6 +265,7 @@ SPINE_COMMON = {
     "arc_36_unexpected_hand": ["arc_36_unexpected_hand_seen", "accepted_grace"],
 }
 PATH_A = dict(SPINE_COMMON, **{  # 정석/다은 보냄/사기당함/진실모름
+    "arc_temptation_01": ["arc_temptation_seen", "kept_clean_hands"],
     # 방문하지 못한 경로를 고정해 23초 KTX 전처리와 임종 체인을 검증한다.
     "arc_father_04_visit": ["father_visit_deferred"],
     # The Chapter 2 mirror root now immediately reaches the hospital-door
@@ -283,6 +284,7 @@ PATH_A = dict(SPINE_COMMON, **{  # 정석/다은 보냄/사기당함/진실모�
     "arc_36_trust_crack": ["arc_36_trust_crack_seen", "crack_distanced"],
 })
 PATH_B = dict(SPINE_COMMON, **{  # 비정석/진실/다은 함께/재혁 역공
+    "arc_temptation_01": ["arc_temptation_seen", "lent_account"],
     # Path B enters the room when the Chapter 2 mirror chain reaches its
     # terminal hospital-door choice.
     "arc_sangchul_mirror": ["arc_sangchul_mirror_seen", "visited_father"],
@@ -533,6 +535,8 @@ EXPECTED_CHAPTER1 = {
     "A 정석/다은보냄/사기": {
         2: "arc_intro_01_meal",
         4: "arc_temptation_01",
+        5: "arc_intro_03_sns",
+        8: "arc_temptation_clean",
         9: "arc_intro_04_hyunsu",
         10: "arc_sangchul_01_meet",
         11: "hyunsu_study_together",
@@ -561,6 +565,8 @@ EXPECTED_CHAPTER1 = {
     "B 비정석/진실/committed": {
         2: "arc_intro_01_meal",
         4: "arc_temptation_01",
+        5: "arc_intro_03_sns",
+        8: "arc_temptation_fallout",
         9: "arc_intro_04_hyunsu",
         10: "arc_sangchul_01_meet",
         11: "hyunsu_study_together",

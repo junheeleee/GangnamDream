@@ -197,32 +197,6 @@
       "arrival_cue_ko": "고시원. 새벽 세 시.",
       "arrival_cue_en": "Goshiwon room. 3 AM."
     },
-    "arc_temptation_01->arc_temptation_clean": {
-      "mode": "time_cut",
-      "from_location": "goshiwon_room",
-      "to_location": "goshiwon_room",
-      "arrival_cue_ko": "며칠 뒤, 같은 방",
-      "arrival_cue_en": "Days later, in the same room"
-    },
-    "arc_temptation_01->arc_temptation_fallout": {
-      "mode": "time_cut",
-      "from_location": "goshiwon_room",
-      "to_location": "street_rainy",
-      "arrival_cue_ko": "며칠 뒤, 빗속에서 전화가 왔다.",
-      "arrival_cue_en": "Days later, out in the rain, the phone rang."
-    },
-    "arc_temptation_clean->arc_intro_03_sns": {
-      "mode": "same_location",
-      "from_location": "goshiwon_room",
-      "to_location": "goshiwon_room"
-    },
-    "arc_temptation_fallout->arc_intro_03_sns": {
-      "mode": "explicit_move",
-      "from_location": "street_rainy",
-      "to_location": "goshiwon_room",
-      "arrival_cue_ko": "새벽 두 시. 고시원 방.",
-      "arrival_cue_en": "2 AM. The goshiwon room."
-    },
     "arc_intro_04_hyunsu->arc_chapter1_close": {
       "mode": "explicit_move",
       "from_location": "goshiwon_hallway",

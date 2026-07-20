@@ -31,7 +31,7 @@ CHAPTER_RATCHETS = {
         "peak_roots_min": 1,
         "temporal_roots_min": 3,
         "isolated_micro_max": 0,
-        "stops_max": 29,
+        "stops_max": 30,
         "thread_switches_max": 25,
     },
     2: {

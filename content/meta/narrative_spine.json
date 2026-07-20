@@ -269,8 +269,8 @@
       {
         "id": "first_line",
         "weeks": [4, 8],
-        "foreground_roots": ["arc_temptation_01", "arc_intro_03_sns", "cafe_00"],
-        "promise": "첫 불법 제안의 선택이 남의 삶과 자기 얼굴을 보는 방식으로 돌아온다."
+        "foreground_roots": ["arc_temptation_01", "arc_intro_03_sns", "cafe_00", "arc_temptation_clean", "arc_temptation_fallout"],
+        "promise": "첫 불법 제안의 선택을 즉시 해설하지 않고, 한 달 뒤 남의 삶과 자기 얼굴을 보는 방식으로 돌려준다."
       },
       {
         "id": "people_in_the_same_city",

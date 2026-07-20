@@ -173,6 +173,27 @@ func narrative_week_kind(turn_value: int = -1) -> String:
 			else full_run_pacing_rules()
 	return _week_kind_for_pacing(pacing, resolved_turn)
 
+## A boss week is only consumed by the authored scene that owns it. Unowned boss
+## weeks keep the normal decision board until their scene contract is authored.
+func narrative_boss_event_ids(turn_value: int = -1) -> Array[String]:
+	var resolved_turn: int = GameState.turn if turn_value < 0 else turn_value
+	var pacing := demo_pacing_rules() if resolved_turn <= GameState.DEMO_TURN_LIMIT \
+			else full_run_pacing_rules()
+	var owners: Variant = pacing.get("boss_event_owners", {})
+	var result: Array[String] = []
+	if not owners is Dictionary:
+		return result
+	for raw_id in (owners as Dictionary).get(str(resolved_turn), []):
+		var event_id := str(raw_id).strip_edges()
+		if not event_id.is_empty() and not result.has(event_id):
+			result.append(event_id)
+	return result
+
+func narrative_event_owns_boss(event_id: String, turn_value: int = -1) -> bool:
+	var resolved_turn: int = GameState.turn if turn_value < 0 else turn_value
+	return narrative_week_kind(resolved_turn) == "boss" \
+			and narrative_boss_event_ids(resolved_turn).has(event_id.strip_edges())
+
 func demo_should_show_full_summary(turn_value: int = -1) -> bool:
 	var resolved_turn: int = GameState.turn if turn_value < 0 else turn_value
 	var pacing := demo_pacing_rules()

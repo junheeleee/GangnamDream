@@ -461,12 +461,12 @@
         "result_text": "{name} let out a long breath.\n\nSlow as it is, the honest road gets you furthest in the end.\nEven if it's hard right now — he chose to believe that.\n\nThe rent was still unpaid. But his hands were clean."
       }
     ],
-    "description": "Days later, in the same room, he was watching the news when a chyron scrolled past.\n\n'Burner-account recruitment ring arrested — dozens of account holders charged. Up to 3 years in prison.'\n\nThat night, he deleted the text promising a two-million-won deposit.\nHe blocked the number.\n\nHe lay there a long while with the screen gone dark.\nIf he'd sent it back then — by now he'd be inside that very news chyron.\n\nHe'd have been dreaming of Gangnam with a criminal record."
+    "description": "A month later, in the same room, he was watching the news when a chyron scrolled past.\n\n'Burner-account recruitment ring arrested — dozens of account holders charged. Up to 3 years in prison.'\n\nThat night, he deleted the text promising a two-million-won deposit.\nHe blocked the number.\n\nHe lay there a long while with the screen gone dark.\nIf he'd sent it back then — by now he'd be inside that very news chyron.\n\nHe'd have been dreaming of Gangnam with a criminal record."
   },
   {
     "id": "arc_temptation_fallout",
     "title": "The Price of the Account",
-    "description": "Days later, out in the rain, the phone rang. A woman he didn't know was crying.\n\"I made a deposit from my account... they said it was a scam. They said it went to your account...\nIt's thirty million won. Please, please give it back...\"\n\nIt was the account {name} had lent out.\nSomeone's entire savings had passed through it.\n\nAnd the next day, another number.\n\"Hyungnim, you ran that clean. Get me a few more accounts and\nI'll throw in another million per. You've already got your foot in anyway.\"",
+    "description": "A month later, out in the rain, the phone rang. A woman he didn't know was crying.\n\"I made a deposit from my account... they said it was a scam. They said it went to your account...\nIt's thirty million won. Please, please give it back...\"\n\nIt was the account {name} had lent out.\nSomeone's entire savings had passed through it.\n\nAnd the next day, another number.\n\"Hyungnim, you ran that clean. Get me a few more accounts and\nI'll throw in another million per. You've already got your foot in anyway.\"",
     "choices": [
       {
         "text": "Pull out right here — whatever it takes",

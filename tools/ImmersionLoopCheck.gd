@@ -188,10 +188,10 @@ func _check_weekly_commitment_contract() -> void:
 		_fail("next week could not see the unresolved commitment: %s" % unresolved)
 	LocaleManager.language = "en"
 	var echo_record := str(game.call("_demo_director_recent_action_record", unresolved))
-	if echo_record.findn("chosen") < 0 or echo_record.findn("closed paths") < 0 \
+	if echo_record.findn("chosen") < 0 or echo_record.findn("not chosen that week") < 0 \
 			or echo_record.findn("actual result") < 0 or echo_record.findn("cash") < 0 \
 			or echo_record.findn("market") < 0 or _contains_hangul(echo_record):
-		_fail("weekly commitment echo did not name the choice, outcome, and closed paths: %s" % echo_record)
+		_fail("weekly commitment echo did not name the choice, outcome, and paths not chosen that week: %s" % echo_record)
 	var forbidden := echo_record.to_lower()
 	if forbidden.contains("moral") or forbidden.contains("route"):
 		_fail("weekly commitment echo exposed a hidden system: %s" % echo_record)
@@ -409,10 +409,12 @@ func _check_demo_pressure_choices() -> void:
 
 	LocaleManager.language = "ko"
 	var state_before: Dictionary = GameState.serialize()
-	var employment: Dictionary = game._demo_week_pressure()
-	_check_pressure_contract(game, employment, "employment", ["apply", "resume", "side_shift"])
+	var intent: Dictionary = game._demo_week_pressure()
+	_check_pressure_contract(game, intent, "chapter1_intent", ["apply", "side_shift", "study"])
 	if GameState.serialize() != state_before:
 		_fail("demo pressure preview mutated GameState")
+	GameState.flags["chapter_intent_id"] = "secure_work"
+	GameState.flags["chapter_intent_turn"] = 1
 	GameState.turn = 2
 	GameState.week_of_month = 2
 	var readiness: Dictionary = game._demo_week_pressure()

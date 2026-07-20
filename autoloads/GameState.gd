@@ -1330,6 +1330,9 @@ func _weekly_commitment_public_snapshot(person_id: String = "") -> Dictionary:
 		"interview_practiced": bool(flags.get("interview_practiced", false)),
 	}
 
+func weekly_commitment_snapshot(person_id: String = "") -> Dictionary:
+	return _weekly_commitment_public_snapshot(person_id).duplicate(true)
+
 func _weekly_commitment_outcome(before: Dictionary, after: Dictionary) -> Dictionary:
 	var outcome: Dictionary = {}
 	for key in WEEKLY_COMMITMENT_OUTCOME_KEYS:
@@ -1374,6 +1377,9 @@ func arm_weekly_commitment(commitment: Dictionary) -> bool:
 	var scene_background_id := str(commitment.get("scene_background_id", "")).strip_edges()
 	if not scene_background_id.is_empty():
 		armed_commitment["scene_background_id"] = scene_background_id
+	var chapter_intent_id := str(commitment.get("chapter_intent_id", "")).strip_edges()
+	if not chapter_intent_id.is_empty():
+		armed_commitment["chapter_intent_id"] = chapter_intent_id
 	pending_weekly_commitment = armed_commitment
 	return true
 
@@ -1421,6 +1427,10 @@ func finalize_weekly_commitment(action_id: String, subject_id: String = "",
 		baseline, _weekly_commitment_public_snapshot(str(record.get("person_id", ""))))
 	if not details.is_empty():
 		record["details"] = details.duplicate(true)
+	var chapter_intent_id := str(record.get("chapter_intent_id", "")).strip_edges()
+	if not chapter_intent_id.is_empty() and not flags.has("chapter_intent_id"):
+		flags["chapter_intent_id"] = chapter_intent_id
+		flags["chapter_intent_turn"] = turn
 	record["echoed_turn"] = -1
 	weekly_commitments.append(record)
 	while weekly_commitments.size() > 16:
@@ -1432,6 +1442,45 @@ func finalize_weekly_commitment(action_id: String, subject_id: String = "",
 	stats_changed.emit()
 	weekly_commitment_finalized.emit(record.duplicate(true))
 	return true
+
+## Authored boss choices replace the generic AP decision for that week. The
+## record stores data keys, never localized prose, so saves remain language-safe.
+func record_story_boss_commitment(event_id: String, choice_index: int,
+		baseline: Dictionary, forgone_choice_indexes: Array[int]) -> bool:
+	var normalized_event_id := event_id.strip_edges()
+	if normalized_event_id.is_empty() or choice_index < 0 \
+			or has_weekly_commitment_for_turn(turn):
+		return false
+	var record := {
+		"turn": turn,
+		"source": "story_boss",
+		"pressure_id": "boss:%s" % normalized_event_id,
+		"pressure_family": "story",
+		"choice_id": "story:%s:%d" % [normalized_event_id, choice_index],
+		"actual_action_id": "story_choice",
+		"person_id": "",
+		"forgone_ids": [],
+		"story_event_id": normalized_event_id,
+		"story_choice_index": choice_index,
+		"forgone_choice_indexes": forgone_choice_indexes.duplicate(),
+		"outcome": _weekly_commitment_outcome(
+			baseline, _weekly_commitment_public_snapshot()),
+		"echoed_turn": -1,
+	}
+	pending_weekly_commitment = {}
+	weekly_commitments.append(record)
+	while weekly_commitments.size() > 16:
+		weekly_commitments.pop_front()
+	# The authored choice is the whole week's action. No second AP settlement.
+	action_points = 0
+	stats_changed.emit()
+	weekly_commitment_finalized.emit(record.duplicate(true))
+	return true
+
+func has_story_boss_commitment(commitment_turn: int = -1) -> bool:
+	var resolved_turn: int = turn if commitment_turn < 0 else commitment_turn
+	var record: Dictionary = get_weekly_commitment_for_turn(resolved_turn)
+	return str(record.get("source", "")) == "story_boss"
 
 func has_weekly_commitment_for_turn(commitment_turn: int) -> bool:
 	for index in range(weekly_commitments.size() - 1, -1, -1):

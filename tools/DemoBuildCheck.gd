@@ -4,7 +4,9 @@ const EXPECTED_ROOTS := [
 	{"week": 1, "event": "chapter_card_33"},
 	{"week": 2, "event": "arc_intro_01_meal"},
 	{"week": 4, "event": "arc_temptation_01"},
+	{"week": 5, "event": "arc_intro_03_sns"},
 	{"week": 6, "event": "cafe_00"},
+	{"week": 8, "event": "arc_temptation_clean"},
 	{"week": 9, "event": "arc_intro_04_hyunsu"},
 ]
 const CHOICE_OVERRIDES := {
@@ -95,9 +97,9 @@ func _check_opening_sequences() -> void:
 	_expect(bool(GameState.flags.get("arc_intro_dad_seen", false)),
 		"The interview did not continue into the 125-year calculation.")
 	_expect(bool(GameState.flags.get("arc_temptation_clean_seen", false)),
-		"The first temptation did not continue into its immediate consequence.")
+		"The first temptation did not return as a delayed week-eight consequence.")
 	_expect(bool(GameState.flags.get("arc_intro_sns_seen", false)),
-		"The temptation consequence did not continue into the 2 AM mirror scene.")
+		"The independent week-five mirror scene disappeared from the opening flow.")
 	_expect(bool(GameState.flags.get("chapter1_closed", false)),
 		"Hyunsu's first conversation did not continue into the opening chapter close.")
 
@@ -338,8 +340,6 @@ func _check_employment_consistency() -> void:
 			"Job-investment conflict no longer resolves into Hyunsu's night mirror.")
 	var required_transitions := {
 		"arc_intro_01_meal->arc_intro_02_dad_call": "time_cut",
-		"arc_temptation_01->arc_temptation_clean": "time_cut",
-		"arc_temptation_clean->arc_intro_03_sns": "same_location",
 		"arc_intro_04_hyunsu->arc_chapter1_close": "explicit_move",
 		"cafe_00->cafe_listen_01": "same_location",
 		"cafe_listen_01->cafe_peek_01": "same_location",
@@ -406,8 +406,8 @@ func _check_demo_pressure_contract() -> void:
 	var before: Dictionary = GameState.serialize()
 	var pressure: Dictionary = main_game.call("_demo_week_pressure")
 	var actions: Array = pressure.get("action_ids", [])
-	_expect(str(pressure.get("id", "")) == "employment",
-		"Demo week 1 must frame unemployment as the primary pressure: %s." % pressure)
+	_expect(str(pressure.get("id", "")) == "chapter1_intent",
+		"Demo week 1 must ask the player to own Minjun's opening plan: %s." % pressure)
 	_expect(actions.size() == 3,
 		"Demo primary pressure must offer exactly three contextual responses.")
 	_expect(GameState.serialize() == before, "Reading the demo pressure mutated GameState.")

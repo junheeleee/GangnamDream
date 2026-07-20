@@ -83,6 +83,9 @@ class ExperienceMetrics:
     fast_inputs: int
     ap_actions: int
     ap_budget: int
+    story_boss_commitments: int
+    weekly_commitments: int
+    commitment_budget: int
 
 
 def _as_dict(value: Any) -> dict[str, Any]:
@@ -229,6 +232,13 @@ def analyze_report(report: dict[str, Any]) -> tuple[ExperienceMetrics, list[str]
     )
     ap_actions = int(runtime.get("ap_action_inputs", 0))
     ap_budget = int(runtime.get("available_ap_budget", 0))
+    story_boss_commitments = int(runtime.get("story_boss_commitments", 0))
+    weekly_commitments = int(
+        runtime.get("weekly_commitments", ap_actions + story_boss_commitments)
+    )
+    commitment_budget = int(
+        runtime.get("available_commitment_budget", ap_budget + story_boss_commitments)
+    )
     modal_count = sum(int(value) for value in _as_dict(runtime.get("modal_counts")).values())
     total_seconds = (
         story_elapsed
@@ -276,14 +286,17 @@ def analyze_report(report: dict[str, Any]) -> tuple[ExperienceMetrics, list[str]
         fast_inputs=int(runtime.get("input_count_fast_path", 0)),
         ap_actions=ap_actions,
         ap_budget=ap_budget,
+        story_boss_commitments=story_boss_commitments,
+        weekly_commitments=weekly_commitments,
+        commitment_budget=commitment_budget,
     )
 
     if int(runtime.get("weeks", 0)) != 24:
         errors.append(f"demo weeks {runtime.get('weeks')} != 24")
     if not 40 <= metrics.events <= 60:
         errors.append(f"event count outside 40..60: {metrics.events}")
-    if metrics.roots != 24 or len(sequences) != 24:
-        errors.append(f"root sequence count must be 24: runtime={metrics.roots} actual={len(sequences)}")
+    if metrics.roots != 25 or len(sequences) != 25:
+        errors.append(f"root sequence count must be 25: runtime={metrics.roots} actual={len(sequences)}")
     if metrics.meaningful_choices < MIN_MEANINGFUL_CHOICES:
         errors.append(
             f"meaningful choices {metrics.meaningful_choices} < {MIN_MEANINGFUL_CHOICES}"
@@ -304,7 +317,7 @@ def analyze_report(report: dict[str, Any]) -> tuple[ExperienceMetrics, list[str]
             f"{MAX_MEANINGFUL_GAP_MINUTES:.1f}m between "
             f"{metrics.max_meaningful_gap_ids[0]} and {metrics.max_meaningful_gap_ids[1]}"
         )
-    if metrics.ap_actions != metrics.ap_budget or not 16 <= metrics.ap_actions <= 24:
+    if metrics.ap_actions != metrics.ap_budget or not 7 <= metrics.ap_actions <= 9:
         errors.append(
             f"AP intervention mismatch: used={metrics.ap_actions} budget={metrics.ap_budget}"
         )
@@ -314,6 +327,17 @@ def analyze_report(report: dict[str, Any]) -> tuple[ExperienceMetrics, list[str]
     )
     if not 8 <= decision_weeks <= 10:
         errors.append(f"direct decision weeks outside 8..10: {decision_weeks}")
+    if (
+        metrics.story_boss_commitments != 1
+        or metrics.weekly_commitments != metrics.commitment_budget
+        or metrics.weekly_commitments != decision_weeks
+    ):
+        errors.append(
+            "weekly commitment mismatch: "
+            f"ap={metrics.ap_actions} story_boss={metrics.story_boss_commitments} "
+            f"used={metrics.weekly_commitments} budget={metrics.commitment_budget} "
+            f"direct_weeks={decision_weeks}"
+        )
     surface_minimums = {
         "backgrounds": (metrics.unique_backgrounds, MIN_BACKGROUNDS),
         "portraits": (metrics.unique_portraits, MIN_PORTRAITS),
@@ -392,6 +416,9 @@ def parity_errors(left: dict[str, Any], right: dict[str, Any]) -> list[str]:
         "action_counts",
         "ap_action_inputs",
         "available_ap_budget",
+        "story_boss_commitments",
+        "weekly_commitments",
+        "available_commitment_budget",
         "scene_flow_summary",
     ):
         left_value = _as_dict(left.get("runtime")).get(key)
@@ -403,12 +430,12 @@ def parity_errors(left: dict[str, Any], right: dict[str, Any]) -> list[str]:
 
 def _synthetic_report(language: str) -> dict[str, Any]:
     events: list[dict[str, Any]] = []
-    for index in range(48):
+    for index in range(50):
         root_index = index // 2
         meaningful = index % 2 == 0
         event = {
             "order": index + 1,
-            "week": root_index + 1,
+            "week": min(root_index + 1, 24),
             "id": f"synthetic_{index + 1:02d}",
             "boundary": "new_week" if meaningful else "same_location",
             "mode": "" if meaningful else "same_location",
@@ -443,14 +470,17 @@ def _synthetic_report(language: str) -> dict[str, Any]:
             "weeks": 24,
             "input_count_fast_path": 600,
             "week_kinds": ["decision" if index % 3 == 0 else "quiet" for index in range(24)],
-            "week_kind_counts": {"decision": 8, "quiet": 16, "boss": 0, "echo": 0},
+            "week_kind_counts": {"decision": 7, "quiet": 11, "boss": 2, "echo": 4},
             "pressure_sequence": ["employment", "human"],
             "pressure_family_sequence": ["employment", "human"],
-            "action_counts": {"study": 18},
-            "ap_action_inputs": 18,
-            "available_ap_budget": 18,
+            "action_counts": {"study": 8},
+            "ap_action_inputs": 8,
+            "available_ap_budget": 8,
+            "story_boss_commitments": 1,
+            "weekly_commitments": 9,
+            "available_commitment_budget": 9,
             "modal_counts": {"month_summary": 6},
-            "scene_flow_summary": {"events": 24, "roots": 24, "followups": 0},
+            "scene_flow_summary": {"events": 50, "roots": 25, "followups": 25},
         },
     }
 
@@ -532,7 +562,10 @@ def _format_metrics(metrics: ExperienceMetrics) -> str:
         f"bg{metrics.longest_same_background_run}/"
         f"amb{metrics.longest_same_ambience_run}/"
         f"unscored{metrics.longest_unscored_run} "
-        f"ap={metrics.ap_actions}/{metrics.ap_budget} fast_inputs={metrics.fast_inputs}"
+        f"ap={metrics.ap_actions}/{metrics.ap_budget} "
+        f"boss={metrics.story_boss_commitments} "
+        f"commitments={metrics.weekly_commitments}/{metrics.commitment_budget} "
+        f"fast_inputs={metrics.fast_inputs}"
     )
 
 
