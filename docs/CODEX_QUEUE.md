@@ -61,6 +61,15 @@
 
 **완료 보고 (2026-07-20 Codex):** 첫 주에 `구직 / 당장 수입 / 준비` 중 첫 두 달의 우선순위를 실제 행동과 함께 저장한다. 4주 `arc_temptation_01` 선택은 StoryMode가 언어 독립 이벤트 ID·선택 인덱스·선택 전후 공개 상태로 주간 약속을 원자 기록하고 AP를 닫아, 같은 주 일반 AP 3택과 자동 루틴을 모두 차단한다. 결과는 즉시 follow-up이 아니라 8주에 수락/거절 각 장면으로 돌아오며 선택 시점에는 `아직 도착하지 않았다`만 보인다. 영구 폐쇄가 아닌 대안은 `그 주에 놓친 길 / NOT CHOSEN THAT WEEK`로 교정했다. `CoreChoiceSliceCheck`는 `intent=1 boss=t4 ap_duplicate=0 delayed=t8 branches=2 save=roundtrip`; KO PlayStation/EN Xbox는 각각 642/646확인, 24주·46사건·25루트·21후속, 일반 AP 8+서사 보스 1, Echo 4, 키보드·마우스 0으로 동일 상태와 CTA에 도달했다. 정상 독해 프로필은 63.1/54.8분·의미 선택 35개로 패리티를 통과했다. 전체 `audit.sh`는 정적 ERROR 0/WARNING 0, 서사 직접 간선 64, 일본어 UI 2,267키, 밸런스 5정책, 오디오 113개, 35엔딩, Godot 55스크립트 컴파일까지 통과했다. 투자·9개 돈 미니게임의 실제 자산 연동은 통과했지만 구체 거래·세션 손익의 서사 회수는 후속 부채다. 자동 구조는 PASS이며 인간 재미 판정은 계속 NO-GO다.
 
+#### [~] ORDER-37 [P0·콘텐츠 다이어트] 전경 결정 소유권 — 한 주에 한 번만 고른다
+**[~] 착수 (2026-07-20 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `content/meta/event_director.json`, `autoloads/EventManager.gd`, `autoloads/GameState.gd`, `scenes/StoryMode.gd`, `scenes/MainGame.gd`, `tools/CoreChoiceSliceCheck.gd`, `tools/EventDirectorCheck.gd`, `tools/ScreenshotQA.gd`, `tools/demo_experience_audit.py`, `docs/AP_REDESIGN.md`, `docs/QA_CHECKLIST.md`, `docs/FUN_AUDIT_2026-07-20.md`, `docs/GAME_RECOMPOSITION_PLAN.md`, `docs/DEMO_FIXLOG.md`, `docs/DECISIONS.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
+
+**진단 근거:** 현재 24주 경로는 10·13·16·20·23·24주에 이미 의미 있는 작성형 선택을 끝낸 직후 범용 AP 3택을 다시 요구한다. 좋은 장면을 읽고도 같은 주의 주된 결정을 다시 고르게 해, 인터랙티브 소설을 관리 화면이 덮고 입력을 노동으로 바꾼다.
+
+**구현 범위:** `event_director.json`에 주차별 작성형 약속 소유자와 돈/사람 축·관계 대상을 선언한다. 4주 대포통장, 10주 루트 반응, 13주 카페 회수, 16주 아버지 통화, 20주 직장-투자 충돌, 23주 현수 시험, 24주 첫 저축 장면이 그 주의 약속을 원자적으로 기록하고 AP를 닫는다. 1주 계획과 8주 별도 행동만 범용 AP로 남긴다. 선택 결과가 즉시 끝난 장면을 `아직 도착하지 않았다`고 거짓 예고하지 않으며, 구 저장의 `story_boss` 원장은 계속 읽는다.
+
+**수용 기준:** 데모 직접 결정 9주=범용 AP 2+작성형 약속 7, 같은 주 중복 0, Quiet/Echo 약속 0, 분기별 소유 계약 유효, 돈/사람 축 정산, 저장 왕복, KO/EN 동일 24주·동일 CTA, 패드 전용 입력, 전체 `audit.sh` ERROR 0/WARNING 0. 자동 구조는 인간 재미 GO를 대신하지 않는다.
+
 #### [x] USER-P0 [P0·정합 인프라] 서사 규칙 원장 + 원격 대화 공간 연출
 **착수 (2026-07-16 Codex) — 만지는 파일:** `content/meta/story_rules.json`, `locale/ui_ja.json`, `autoloads/DataRegistry.gd`, `scenes/StoryMode.gd`, `tools/story_consistency_audit.py`, `tools/StoryPresenceCheck.gd`, `tools/StoryPresenceCheck.gd.uid`, `tools/StoryPresenceCheck.tscn`, `tools/ScreenshotQA.gd`, `tools/audit.sh`, `docs/STORY_CONSISTENCY_SYSTEM.md`, `docs/ASSET_CONTINUITY_CHECKLIST.md`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 느슨한 불린 플래그를 즉시 런타임에서 교체하지 않고, 언어 독립 원장에 `requires/forbids/produces`·타입 상태·장소·대화 채널을 먼저 등록한다. 데모 아버지 연락은 `in_person/phone/video_call/message/memory/narration` 계약을 StoryMode가 소비하게 해, 고시원 배경에 아버지 전신이 현장 등장한 것처럼 보이는 오해를 없앤다. 정적 감사·런타임 검사·KO/EN 1280×800 비교 캡처로 대면 초상 회귀와 영어 누출까지 같이 잠근다. 전체 감사가 새 채널 표면의 일본어 사전 누락을 잡으면 같은 계약 범위에서 보완한다.
 
