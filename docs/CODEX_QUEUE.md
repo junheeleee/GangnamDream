@@ -45,6 +45,20 @@
 > **빈 손 금지 사다리 (2026-07-15 유저 지시 — "노는 토큰 없게")**: 현재 오더가 대기/차단되면 즉시 다음 순서로: **24(정점 체인) → 16(입력×해상도) → 18(부채 인벤토리) → P1-4 유물 오브젝트 아트 6종 → P1-E 잔여 결산 CG(orthodox_pinnacle→burnout→무드 심벌 잔여 8종→「그녀는 알고 있었다」 1컷) → 15(모드 2층) → 17(데이터 모딩)**. 유저 Round 판정 도착 시 모든 것에 우선해 데모 재수리.
 > **🔁 데모 집중 체제 (2026-07-14)**: 모든 오더에 데모 우선 필터 — ORDER-22는 **데모 범위(t≤24)에 먼저 적용·빌드**하고 유저 라운드에 태운다(전 범위 확산은 그 다음). 유저 데모 GO 전까지 21(번역 본문)·11(트레일러 최종컷) 동결 유지. 라운드 원장 = `docs/DEMO_FIXLOG.md`.
 
+#### [~] ORDER-36 [P0·코어 재설계] 선택의 내용물 수술 — "내 계획 → 방해 → 대가" 8주 수직 단면
+**[~] 착수 (2026-07-20 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `docs/FUN_AUDIT_2026-07-20.md`, `docs/DECISIONS.md`, `docs/GAME_RECOMPOSITION_PLAN.md`, `docs/DEMO_FIXLOG.md`, `autoloads/GameState.gd`, `autoloads/EventManager.gd`, `scenes/MainGame.gd`, `scenes/StoryMode.gd`, `content/meta/event_director.json`, `content/events/arc_events.json`, `tools/CoreChoiceSliceCheck.gd`, `tools/CoreChoiceSliceCheck.gd.uid`, `tools/CoreChoiceSliceCheck.tscn`, `tools/EventDirectorCheck.gd`, `tools/ScreenshotQA.gd`, `tools/audit.sh`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
+
+**진단 근거:** 유저 NO-GO "버튼만 계속 누른다", "내가 선택하는 것도 없다", "짤막한 이벤트는 감흥이 없다"에 1:1로 대응한다. 독립 전수 계측은 다중 선택 이벤트의 44.8%가 모든 선택지에 명시적 즉시 비용이 없고, 63.9%가 선택지 간 플래그 구성이 같으며, 랜덤 풀 1,177개의 follow-up 연결은 24개(2.0%)뿐임을 재현했다. `forgone_ids`는 표시만 되고 `LATER`는 이미 본 문장을 재방송하며 Boss 주간은 코드상 Decision과 같이 처리된다.
+
+**1차 구현 범위(8주 수직 단면):**
+1. 1주에 플레이어가 첫 두 달의 구체적 우선순위를 먼저 선택하고 런 원장에 남긴다. 편성기가 압박과 세 카드를 먼저 배급하는 구조를 반전시킨다.
+2. 4주 `arc_temptation_01`의 대포통장 선택을 그 주의 Boss 결정 자체로 인정해, 같은 주에 일반 AP 3택을 다시 보이지 않는다.
+3. 대포통장 결과 장면을 즉시 follow-up에서 분리해 8주에 실제로 돌아오게 한다. 선택 시점의 `LATER`는 결과를 미리 설명하지 않는다.
+4. StoryMode Boss 선택을 주간 원장에 원자적으로 기록하고 AP를 이중 정산하지 않는다. 일반 주간 원장의 표시 전용 `CLOSED PATHS`는 실제 범위에 맞는 `그 주에 놓친 길` 문법으로 교정한다.
+5. 1차 단면에서는 이벤트·엔딩 수, 경제 밴드, Moral Tint 노출 규칙을 변경하지 않는다. 투자·카지노 시스템 렌즈는 실제 자산 연동은 통과, 서사가 종목·거래액·게임·세션 손익을 읽지 못하는 후속 부채로 기록한다.
+
+**수용 기준:** t1 계획 1건, t4 Boss 서사 결정 1건, t4 일반 AP 중복 0, t8 분기별 결과 1건, 주간 원장 중복 0, KO/EN 결과 동일, 1280×800 패드 포커스·TV 안전 영역, 전체 `audit.sh` ERROR 0/WARNING 0. 이는 코어 문법의 구조 검증이며 인간 재미 GO를 대체하지 않는다.
+
 #### [x] USER-P0 [P0·정합 인프라] 서사 규칙 원장 + 원격 대화 공간 연출
 **착수 (2026-07-16 Codex) — 만지는 파일:** `content/meta/story_rules.json`, `locale/ui_ja.json`, `autoloads/DataRegistry.gd`, `scenes/StoryMode.gd`, `tools/story_consistency_audit.py`, `tools/StoryPresenceCheck.gd`, `tools/StoryPresenceCheck.gd.uid`, `tools/StoryPresenceCheck.tscn`, `tools/ScreenshotQA.gd`, `tools/audit.sh`, `docs/STORY_CONSISTENCY_SYSTEM.md`, `docs/ASSET_CONTINUITY_CHECKLIST.md`, `docs/QA_CHECKLIST.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 느슨한 불린 플래그를 즉시 런타임에서 교체하지 않고, 언어 독립 원장에 `requires/forbids/produces`·타입 상태·장소·대화 채널을 먼저 등록한다. 데모 아버지 연락은 `in_person/phone/video_call/message/memory/narration` 계약을 StoryMode가 소비하게 해, 고시원 배경에 아버지 전신이 현장 등장한 것처럼 보이는 오해를 없앤다. 정적 감사·런타임 검사·KO/EN 1280×800 비교 캡처로 대면 초상 회귀와 영어 누출까지 같이 잠근다. 전체 감사가 새 채널 표면의 일본어 사전 누락을 잡으면 같은 계약 범위에서 보완한다.
 
