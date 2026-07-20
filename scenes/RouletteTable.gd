@@ -142,10 +142,18 @@ func open() -> void:
 	_refresh()
 
 func _on_exit() -> void:
-	MetaProgression.record_minigame_play("roulette")
+	if _rounds > 0:
+		MetaProgression.record_minigame_play("roulette")
 	set_process(false)
 	visible = false
 	closed.emit()
+
+func get_session_summary() -> Dictionary:
+	return {
+		"game_id": "roulette",
+		"rounds": _rounds,
+		"net": _net,
+	}
 
 # ── 스핀 애니메이션 (단계별 감속) ──────────────────────────────
 func _process(delta: float) -> void:

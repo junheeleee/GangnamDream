@@ -55,7 +55,15 @@ func buy_asset(asset_id, amount_krw):
 	GameState.add_log(LocaleManager.ui("%s 매수: %s", "Bought %s: %s") % [asset.get("name", asset_id), GameState.format_money(amount_krw)], "trade")
 	trade_executed.emit(asset_id, "buy", quantity, current_price)
 	portfolio_updated.emit()
-	return {"success": true, "message": LocaleManager.ui("매수 완료", "Purchase complete"), "quantity": quantity}
+	return {
+		"success": true,
+		"message": LocaleManager.ui("매수 완료", "Purchase complete"),
+		"quantity": quantity,
+		"price": current_price,
+		"fee": fee,
+		"cash_committed": float(amount_krw),
+		"net_invested": maxf(0.0, float(amount_krw) - fee),
+	}
 
 func sell_asset(asset_id, sell_ratio):
 	if not GameState.portfolio.has(asset_id):
@@ -77,7 +85,16 @@ func sell_asset(asset_id, sell_ratio):
 	GameState.add_log(LocaleManager.ui("%s 매도: %s / 손익 %s", "Sold %s: %s / P/L %s") % [asset.get("name", asset_id), GameState.format_money(net), GameState.format_money(profit)], "trade")
 	trade_executed.emit(asset_id, "sell", sell_quantity, current_price)
 	portfolio_updated.emit()
-	return {"success": true, "message": LocaleManager.ui("매도 완료", "Sale complete"), "profit": profit}
+	return {
+		"success": true,
+		"message": LocaleManager.ui("매도 완료", "Sale complete"),
+		"quantity": sell_quantity,
+		"price": current_price,
+		"gross": gross,
+		"proceeds": net,
+		"profit": profit,
+		"ratio": clampf(float(sell_ratio), 0.0, 1.0),
+	}
 
 func get_asset_rows():
 	var rows: Array = []
@@ -196,7 +213,14 @@ func buy_asset_leveraged(asset_id: String, amount_krw: float) -> Dictionary:
 	GameState.add_log(LocaleManager.ui("⚡ 레버리지 매수: %s ×2배 포지션 (%s)", "⚡ Leveraged buy: %s x2 position (%s)") % [asset.get("name", asset_id), GameState.format_money(amount_krw * 2.0)], "trade")
 	trade_executed.emit(asset_id, "leverage_buy", quantity, current_price)
 	portfolio_updated.emit()
-	return {"success": true}
+	return {
+		"success": true,
+		"quantity": quantity,
+		"price": current_price,
+		"fee": fee,
+		"cash_committed": amount_krw,
+		"exposure": amount_krw * 2.0,
+	}
 
 func _check_margin_calls():
 	var to_erase: Array = []

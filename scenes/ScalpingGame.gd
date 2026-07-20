@@ -29,6 +29,9 @@ var _stake: int = 500_000
 var _realized: float = 0.0      # 확정 수익
 var _trades: int = 0
 var _trade_history: Array = []   # [{tick, price, type: "buy"/"sell", pnl}]
+var _runs_completed: int = 0
+var _session_trades: int = 0
+var _entry_balance: float = 0.0
 var _rng := RandomNumberGenerator.new()
 var _skill_level: int = 0       # GameState.investment_skill 캐시
 
@@ -67,6 +70,9 @@ func _f(n: Control, bold := false) -> void:
 # ── 진입 ──────────────────────────────────────────────────────────
 func open() -> void:
 	BGMPlayer.enter_activity_ambience("office")
+	_runs_completed = 0
+	_session_trades = 0
+	_entry_balance = GameState.money
 	_skill_level = GameState.investment_skill
 	# 마스터리 등급에 따라 힌트 해금 임계치 하향
 	var mastery: int = MetaProgression.get_mastery("scalping")
@@ -579,6 +585,8 @@ func _on_sell() -> void:
 
 # ── 결과 적용 ─────────────────────────────────────────────────────
 func _apply_result() -> void:
+	_runs_completed += 1
+	_session_trades += _trades
 	GameState.add_money(_realized)
 	if _realized > 0:
 		GameState.add_log(_tr("스캘핑으로 %s 벌었다. (%d회 거래)", "Earned %s from scalping. (%d trades)") % [_fmt(_realized), _trades], "money")
@@ -607,6 +615,14 @@ func _on_close_pressed() -> void:
 	visible = false
 	AudioManager.play("click")
 	closed.emit()
+
+func get_session_summary() -> Dictionary:
+	return {
+		"game_id": "scalping",
+		"rounds": _runs_completed,
+		"trades": _session_trades,
+		"net": GameState.money - _entry_balance,
+	}
 
 # ── 헬퍼 ─────────────────────────────────────────────────────────
 func _btn(text: String, cb: Callable, bg: String) -> Button:

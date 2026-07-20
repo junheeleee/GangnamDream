@@ -5844,7 +5844,6 @@ func _append_scene_commitment_ledger(record: Dictionary) -> void:
 		return
 	var person_id := str(record.get("person_id", ""))
 	var choice_id := str(record.get("choice_id", ""))
-	var preview := _weekly_commitment_preview(choice_id, person_id)
 	var divider := ColorRect.new()
 	divider.custom_minimum_size = Vector2(0, 1)
 	divider.color = Color("#9ca5b0", 0.34)
@@ -5853,7 +5852,7 @@ func _append_scene_commitment_ledger(record: Dictionary) -> void:
 	for detail in [
 		[_tr("실제 결과", "ACTUAL RESULT"), _weekly_commitment_outcome_text(record), "#e4e9ef"],
 		[_tr("그 주에 놓친 길", "NOT CHOSEN THAT WEEK"), _weekly_commitment_forgone_labels(record), "#b7bec7"],
-		[_tr("남은 파장", "REMAINING ECHO"), str(preview.get("later", "")), "#929ba7"],
+		[_tr("남은 파장", "REMAINING ECHO"), _weekly_commitment_later_text(record), "#929ba7"],
 	]:
 		var value := str(detail[1]).strip_edges()
 		if value.is_empty():
@@ -7147,16 +7146,109 @@ func _action_echo_label(record: Dictionary) -> String:
 	return ""
 
 func _weekly_commitment_signed_money(value: float) -> String:
-	var prefix := "+" if value > 0.0 else "-"
+	var prefix := "+" if value > 0.0 else ("-" if value < 0.0 else "±")
 	return prefix + GameState.format_money(absf(value))
 
 func _weekly_commitment_signed_number(value: float) -> String:
 	return "%+d" % roundi(value)
 
+func _weekly_commitment_asset_name(asset_id: String) -> String:
+	var asset: Dictionary = DataRegistry.get_asset(asset_id)
+	return str(asset.get("name", asset_id))
+
+func _weekly_commitment_game_label(game_id: String) -> String:
+	match game_id:
+		"racetrack": return _tr("경마장", "Racetrack")
+		"holdem": return _tr("지하 홀덤", "Underground Hold'em")
+		"scalping": return _tr("스캘핑", "Scalping")
+		"casino": return _tr("정선 카지노", "Jeongseon Casino")
+		"baccarat": return _tr("바카라", "Baccarat")
+		"blackjack": return _tr("블랙잭", "Blackjack")
+		"slot": return _tr("슬롯머신", "Slot Machine")
+		"roulette": return _tr("룰렛", "Roulette")
+		"bigwheel": return _tr("빅휠", "Big Wheel")
+		"daisai": return _tr("다이사이", "Dai Sai")
+	return game_id
+
+func _weekly_commitment_session_count(details: Dictionary) -> String:
+	var game_id := str(details.get("game_id", ""))
+	var rounds: int = maxi(0, int(details.get("rounds", 0)))
+	if game_id == "holdem":
+		return _tr("{count}핸드", "{count} hands").format({"count": rounds})
+	if game_id == "scalping":
+		var trades: int = maxi(0, int(details.get("trades", 0)))
+		return _tr("{count}세션 · {trades}거래", "{count} session · {trades} trades").format({
+			"count": rounds,
+			"trades": trades,
+		})
+	return _tr("{count}판", "{count} rounds").format({"count": rounds})
+
+func _weekly_commitment_settlement_label(record: Dictionary) -> String:
+	var details: Dictionary = record.get("details", {})
+	var trade := str(details.get("trade", ""))
+	var asset_id := str(details.get("asset_id", ""))
+	if not trade.is_empty() and not asset_id.is_empty():
+		var asset_name := _weekly_commitment_asset_name(asset_id)
+		var price := float(details.get("price", 0.0))
+		match trade:
+			"buy":
+				return _tr(
+					"{asset} 매수 {amount} · 체결가 {price}",
+					"{asset} BUY {amount} · fill {price}"
+				).format({
+					"asset": asset_name,
+					"amount": GameState.format_money(float(details.get("amount", 0.0))),
+					"price": GameState.format_money(price),
+				})
+			"sell":
+				return _tr(
+					"{asset} {ratio}% 매도 · 대금 {proceeds} · 손익 {profit}",
+					"{asset} SELL {ratio}% · proceeds {proceeds} · P/L {profit}"
+				).format({
+					"asset": asset_name,
+					"ratio": roundi(float(details.get("ratio", 0.0)) * 100.0),
+					"proceeds": GameState.format_money(float(details.get("proceeds", 0.0))),
+					"profit": _weekly_commitment_signed_money(float(details.get("profit", 0.0))),
+				})
+			"leverage_buy":
+				return _tr(
+					"{asset} 2배 매수 · 원금 {amount} · 노출 {exposure}",
+					"{asset} 2X BUY · cash {amount} · exposure {exposure}"
+				).format({
+					"asset": asset_name,
+					"amount": GameState.format_money(float(details.get("amount", 0.0))),
+					"exposure": GameState.format_money(float(details.get("exposure", 0.0))),
+				})
+
+	var game_id := str(details.get("game_id", ""))
+	if not game_id.is_empty() and int(details.get("rounds", 0)) > 0:
+		var venue := _weekly_commitment_game_label(game_id)
+		var played_games: Array = details.get("games", [])
+		if game_id == "casino" and not played_games.is_empty():
+			var game_names: Array[String] = []
+			for raw_game_id in played_games:
+				var game_name := _weekly_commitment_game_label(str(raw_game_id))
+				if not game_name.is_empty() and not game_names.has(game_name):
+					game_names.append(game_name)
+			if not game_names.is_empty():
+				venue += " · " + "·".join(game_names)
+		return _tr(
+			"{venue} · {count} · 순손익 {net}",
+			"{venue} · {count} · NET {net}"
+		).format({
+			"venue": venue,
+			"count": _weekly_commitment_session_count(details),
+			"net": _weekly_commitment_signed_money(float(details.get("session_net", 0.0))),
+		})
+	return ""
+
 func _weekly_commitment_outcome_text(record: Dictionary) -> String:
 	var outcome: Dictionary = record.get("outcome", {})
 	var details: Dictionary = record.get("details", {})
 	var labels: Array[String] = []
+	var settlement_label := _weekly_commitment_settlement_label(record)
+	if not settlement_label.is_empty():
+		labels.append(settlement_label)
 	var job_id := str(outcome.get("job_id", details.get("job_id", "")))
 	if not job_id.is_empty():
 		var job: Dictionary = DataRegistry.get_job(job_id)
@@ -7643,6 +7735,8 @@ func _contextual_week_pressure(person_id: String, person_name: String) -> Dictio
 	var family := _contextual_pressure_family(person_id)
 	var contact_or_study := "contact" if not person_id.is_empty() else "study"
 	var contact_or_rest := "contact" if not person_id.is_empty() else "rest"
+	var market_actions: Array = ["invest", "gamble", "save"] \
+		if _gambling_option_available() else ["invest", "save", "study"]
 	var job_name := GameState.get_job_display_name()
 	var housing_name := GameState.get_housing_name()
 	var weeks_left := maxi(1, GameState.RUN_TURN_LIMIT - GameState.turn + 1)
@@ -7701,14 +7795,15 @@ func _contextual_week_pressure(person_id: String, person_name: String) -> Dictio
 				"id": "market_position",
 				"family": "market",
 				"title": _tr("통장 밖의 돈도 시간을 먹는다", "Money outside the bank also consumes time"),
-				"question": _tr("움직일까, 현금으로 남길까, 판단부터 가다듬을까?", "Move it, keep cash, or sharpen your judgment first?"),
+				"question": _tr("투자할까, 승부를 걸까, 현금을 지킬까?", "Invest, gamble, or protect the cash?") \
+					if market_actions.has("gamble") else _tr("움직일까, 현금으로 남길까, 판단부터 가다듬을까?", "Move it, keep cash, or sharpen your judgment first?"),
 				"detail": _tr("총자산 {assets} · 강남까지 {gap}", "Assets {assets} · {gap} to Gangnam").format({
 					"assets": GameState.format_money(total_assets),
 					"gap": GameState.format_money(goal_gap),
 				}),
 				"urgent": false,
 				"person_id": person_id,
-				"action_ids": ["invest", "save", "study"],
+				"action_ids": market_actions,
 			}
 		"reckoning":
 			var first_action: String = "invest" if bool(GameState.flags.get("arc_invest_guidance_seen", false)) else "side_shift"
@@ -7753,6 +7848,8 @@ func _demo_week_pressure() -> Dictionary:
 	if not person_id.is_empty():
 		person_name = str(ImageRegistry.get_person_info(person_id).get("name", ""))
 	var contact_or_study := "contact" if not person_id.is_empty() else "study"
+	var capital_actions: Array = ["invest", "gamble", "save"] \
+		if _gambling_option_available() else ["invest", "save", contact_or_study]
 
 	if GameState.health <= 45 or GameState.mental <= 45:
 		return {
@@ -7797,11 +7894,12 @@ func _demo_week_pressure() -> Dictionary:
 			"family": "market",
 			"title": _tr("돈이 처음으로 선택을 요구한다", "Money is asking for a direction") if not first_invest_visit \
 				else _tr("이번 달 돈의 방향을 정할 때다", "It is time to set this month's direction for money"),
-			"question": _tr("불릴까, 지킬까, 사람에게 시간을 남길까?", "Risk it, protect it, or leave time for someone?"),
+			"question": _tr("투자할까, 승부를 걸까, 현금을 지킬까?", "Invest, gamble, or protect the cash?") \
+				if capital_actions.has("gamble") else _tr("불릴까, 지킬까, 사람에게 시간을 남길까?", "Risk it, protect it, or leave time for someone?"),
 			"detail": _tr("거래는 자산별 위험 1~5 · 조회는 무료", "Trades carry asset risk 1–5 · browsing is free"),
 			"urgent": false,
 			"person_id": person_id,
-			"action_ids": ["invest", "save", contact_or_study],
+			"action_ids": capital_actions,
 		}
 
 	if GameState.grind_streak_weeks >= 2 and not person_id.is_empty():
@@ -7906,6 +8004,12 @@ func _demo_action_spec(action_id: String, person_id: String = "") -> Dictionary:
 				"subtitle": _tr("자산별 위험 1~5를 보고 직접 거래한다", "Read asset risk 1–5 and place the trade yourself"),
 				"icon": "invest", "accent": "#3a8a5a", "fn": "_ap_invest",
 			}
+		"gamble":
+			return {
+				"title": _tr("승부를 건다", "Stake It"),
+				"subtitle": _tr("열린 장소 하나에서 실제 세션을 끝낸다", "Finish a real session at one unlocked venue"),
+				"icon": "casino", "accent": "#8a4f66", "fn": "_open_cat_gambling",
+			}
 	return {}
 
 func _weekly_commitment_preview(action_id: String, person_id: String = "") -> Dictionary:
@@ -7966,6 +8070,13 @@ func _weekly_commitment_preview(action_id: String, person_id: String = "") -> Di
 				"now": _tr("자산 하나를 골라 실제 거래한다", "Choose one asset and place a real trade"),
 				"cost": _tr("원금 손실 가능 · 거래 전엔 취소 가능", "Principal at risk · cancel before the trade"),
 				"later": _tr("1~3주 · 시장 결산과 돈 쪽 루틴", "1–3W · market settlement and a money-first routine"),
+			}
+		"gamble":
+			return {
+				"risk": _tr("높은 위험", "HIGH RISK"),
+				"now": _tr("경마·홀덤·스캘핑·카지노 중 한 세션", "One racetrack, hold'em, scalping, or casino session"),
+				"cost": _tr("원금 손실 가능 · 플레이 전엔 취소 가능", "Cash at risk · cancel before you play"),
+				"later": _tr("1~3주 · 세션 손익과 통제의 여파", "1–3W · session P/L and the cost of control"),
 			}
 	return {
 		"risk": _tr("결과 미정", "UNCERTAIN"),
@@ -8634,6 +8745,8 @@ func _is_ap_commit_function(fn_name: String) -> bool:
 			return true
 		"_ap_startup_work", "_ap_create_content", "_ap_write_resume", "_ap_interview_prep", "_ap_deep_study":
 			return true
+		"_open_cat_gambling":
+			return true
 		"_open_racetrack", "_open_holdem", "_open_scalping", "_open_jeongseon_casino":
 			return true
 	return false
@@ -8666,6 +8779,8 @@ func _action_axis_for_function(fn_name: String) -> String:
 		"_ap_job_hunt", "_ap_side_job", "_ap_save_money", "_ap_write_resume", "_ap_interview_prep":
 			return "money"
 		"_ap_startup_work", "_ap_create_content", "_ap_deep_study":
+			return "money"
+		"_open_cat_gambling":
 			return "money"
 		"_open_racetrack", "_open_holdem", "_open_scalping", "_open_jeongseon_casino":
 			return "money"
@@ -8718,7 +8833,8 @@ func _run_ap_action_from_button(card: Control, title: String, icon_id: String, a
 			_ap_focus_restore_index = int(grid_btn.get_meta("ap_grid_index", grid_index))
 	if _is_ap_commit_function(fn_name):
 		_pulse_ap_action_card(card)
-		if weekly_commitment.is_empty():
+		if weekly_commitment.is_empty() \
+				and not GameState.has_pending_weekly_commitment(GameState.turn):
 			_show_ap_action_commit(title, icon_id, accent, free_action, art_thumb)
 		_play_ap_commit_feedback()
 	else:
@@ -8756,6 +8872,36 @@ func _weekly_commitment_later_text(record: Dictionary) -> String:
 		if str(record.get("consequence_timing", "immediate")) == "delayed":
 			return _tr("아직 도착하지 않았다", "It has not arrived yet")
 		return _tr("이미 그 주의 방향을 바꿨다", "It already changed the course of that week")
+	var details: Dictionary = record.get("details", {})
+	var trade := str(details.get("trade", ""))
+	var asset_id := str(details.get("asset_id", ""))
+	if not trade.is_empty() and not asset_id.is_empty():
+		var asset_name := _weekly_commitment_asset_name(asset_id)
+		match trade:
+			"buy":
+				return _tr(
+					"다음 시장 결산부터 {asset} 가격이 내 자산을 움직인다",
+					"From the next market close, {asset} moves with my assets"
+				).format({"asset": asset_name})
+			"sell":
+				return _tr(
+					"실현손익 {profit}이 현금으로 남았다",
+					"Realized P/L {profit} remains in cash"
+				).format({
+					"profit": _weekly_commitment_signed_money(float(details.get("profit", 0.0))),
+				})
+			"leverage_buy":
+				return _tr(
+					"다음 결산에도 2배 노출과 강제청산 위험이 남는다",
+					"Double exposure and liquidation risk remain at the next close"
+				)
+	if int(details.get("rounds", 0)) > 0 and details.has("session_net"):
+		return _tr(
+			"세션 순손익 {net}과 그곳에 쓴 시간이 다음 주에 남는다",
+			"Session net {net}, and the time spent there, remain next week"
+		).format({
+			"net": _weekly_commitment_signed_money(float(details.get("session_net", 0.0))),
+		})
 	return str(_weekly_commitment_preview(
 		str(record.get("choice_id", "")), str(record.get("person_id", ""))).get("later", ""))
 
@@ -8789,10 +8935,9 @@ func _on_weekly_commitment_finalized(record: Dictionary) -> void:
 	# 중앙 토스트를 덧씌우면 배경과 인물을 다시 UI로 가리게 된다.
 	if _scene_first_week_enabled() or _scene_first_surface_active:
 		return
-	var preview := _weekly_commitment_preview(action_id, person_id)
 	var presentation := record.duplicate(true)
 	presentation["outcome_text"] = _weekly_commitment_outcome_text(record)
-	presentation["later"] = str(preview.get("later", ""))
+	presentation["later"] = _weekly_commitment_later_text(record)
 	presentation["forgone_labels"] = _weekly_commitment_forgone_labels(record)
 	_show_ap_action_commit(
 		str(spec.get("title", action_id)),
@@ -10068,6 +10213,14 @@ func _cat_modal_icon(fn: String) -> String:
 			return "rest"
 		"_ap_move_housing":
 			return "life"
+		"_open_cat_gambling", "_open_jeongseon_casino":
+			return "casino"
+		"_open_racetrack":
+			return "racetrack"
+		"_open_holdem":
+			return "holdem"
+		"_open_scalping":
+			return "scalping"
 		_:
 			return "ap"
 
@@ -10632,6 +10785,22 @@ func _on_buy_gift(gid: String) -> void:
 		_refresh_all()
 	else:
 		_show_toast(str(res.get("message", _tr("구매 실패", "Purchase failed"))), Color("#ff7070"))
+
+func _gambling_option_available() -> bool:
+	var in_recovery := bool(GameState.flags.get("in_recovery_started", false)) \
+		or bool(GameState.flags.get("recovery_holding", false)) \
+		or bool(GameState.flags.get("beat_addiction", false))
+	if in_recovery and not bool(GameState.flags.get("relapsed", false)):
+		return false
+	if bool(GameState.flags.get("racetrack_guide_met", false)) \
+			or bool(GameState.flags.get("racetrack_visited", false)):
+		return true
+	if bool(GameState.flags.get("entered_network", false)) and GameState.money >= 50_000.0:
+		return true
+	if bool(GameState.flags.get("scalping_introduced", false)) \
+			and GameState.investment_skill >= 15:
+		return true
+	return bool(GameState.flags.get("casino_club_introduced", false))
 
 func _open_cat_gambling():
 	var _in_recovery: bool = GameState.flags.get("in_recovery_started", false) \
@@ -12261,65 +12430,112 @@ func _bank_repay(product: String, amount: float):
 		_open_bank()
 	_refresh_all()
 
-## 경마장 — 시각 미니게임 오버레이를 연다 (방문 = 시간 1 소비)
-func _open_racetrack():
+## 도박 미니게임은 실제 한 판을 끝낸 뒤에만 주간 시간을 소비한다.
+func _pending_weekly_gamble() -> bool:
+	return GameState.has_pending_weekly_commitment(GameState.turn) \
+		and str(GameState.pending_weekly_commitment.get("choice_id", "")) == "gamble"
+
+func _can_open_gamble_session() -> bool:
+	if GameState.action_points <= 0:
+		return false
+	return not GameState.has_pending_weekly_commitment(GameState.turn) \
+		or _pending_weekly_gamble()
+
+func _gamble_session_details(game_id: String, game: Node) -> Dictionary:
+	var summary: Dictionary = {}
+	if is_instance_valid(game) and game.has_method("get_session_summary"):
+		summary = game.call("get_session_summary")
+	var details := {
+		"game_id": game_id,
+		"rounds": maxi(0, int(summary.get("rounds", 0))),
+		"session_net": float(summary.get("net", 0.0)),
+	}
+	if summary.has("trades"):
+		details["trades"] = maxi(0, int(summary.get("trades", 0)))
+	if summary.get("games", []) is Array:
+		var games: Array = summary.get("games", [])
+		if not games.is_empty():
+			details["games"] = games.duplicate()
+	return details
+
+func _settle_gamble_session(action_id: String, game_id: String, place_id: String,
+		game: Node) -> Dictionary:
+	var details := _gamble_session_details(game_id, game)
+	if int(details.get("rounds", 0)) <= 0:
+		if _pending_weekly_gamble():
+			GameState.cancel_pending_weekly_commitment(GameState.turn)
+		return details
 	if not GameState.spend_ap():
+		if _pending_weekly_gamble():
+			GameState.cancel_pending_weekly_commitment(GameState.turn)
+		details["rounds"] = 0
+		return details
+	GameState.register_action_axis("money", place_id, action_id)
+	if _pending_weekly_gamble():
+		GameState.finalize_weekly_commitment(action_id, "", details)
+	return details
+
+func _record_gamble_session_result(details: Dictionary) -> bool:
+	if int(details.get("rounds", 0)) <= 0:
+		return false
+	var label := _weekly_commitment_settlement_label({"details": details})
+	if label.is_empty():
+		return false
+	turn_action_log.append("✓ " + label)
+	GameState.add_log(label, "event")
+	_check_addiction_warnings()
+	return true
+
+func _open_racetrack():
+	if not _can_open_gamble_session():
 		return
-	GameState.register_action_axis("money", "expedition", "gamble_racetrack")
 	_enter_minigame_overlay(racetrack)
 	racetrack.open()
 
 func _on_racetrack_closed():
 	_exit_minigame_overlay()
-	turn_action_log.append(_tr("✓ 🏇 경마장", "✓ 🏇 Racetrack"))
-	GameState.add_log(_tr("🏇 경마장에 다녀왔다.", "🏇 Went to the racetrack."), "event")
-	_check_addiction_warnings()
+	_record_gamble_session_result(_settle_gamble_session(
+		"gamble_racetrack", "racetrack", "expedition", racetrack))
 	_refresh_all()
 	_render_ap_actions()
 
 func _open_holdem():
-	if not GameState.spend_ap():
+	if not _can_open_gamble_session():
 		return
-	GameState.register_action_axis("money", "underground", "gamble_holdem")
 	_enter_minigame_overlay(holdem_club)
 	holdem_club.open()
 
 func _on_holdem_closed():
 	_exit_minigame_overlay()
-	turn_action_log.append(_tr("✓ 🃏 홀덤 클럽", "✓ 🃏 Hold'em Club"))
-	GameState.add_log(_tr("🃏 지하 홀덤 클럽을 나왔다.", "🃏 Left the underground hold'em club."), "event")
-	_check_addiction_warnings()
+	_record_gamble_session_result(_settle_gamble_session(
+		"gamble_holdem", "holdem", "underground", holdem_club))
 	_refresh_all()
 	_render_ap_actions()
 
 
 func _open_scalping():
-	if not GameState.spend_ap():
+	if not _can_open_gamble_session():
 		return
-	GameState.register_action_axis("money", "underground", "gamble_scalping")
 	_enter_minigame_overlay(scalping_game)
 	scalping_game.open()
 
 func _on_scalping_closed():
 	_exit_minigame_overlay()
-	turn_action_log.append(_tr("✓ 스캘핑 트레이딩", "✓ Scalping Trading"))
-	GameState.add_log(_tr("스캘핑 트레이딩 세션을 마쳤다.", "Finished a scalping trading session."), "event")
-	_check_addiction_warnings()
+	_record_gamble_session_result(_settle_gamble_session(
+		"gamble_scalping", "scalping", "underground", scalping_game))
 	_refresh_all()
 	_render_ap_actions()
 
 func _open_jeongseon_casino():
-	if not GameState.spend_ap():
+	if not _can_open_gamble_session():
 		return
-	GameState.register_action_axis("money", "expedition", "gamble_casino")
 	_enter_minigame_overlay(jeongseon_casino)
 	jeongseon_casino.open()
 
 func _on_jeongseon_casino_closed():
 	_exit_minigame_overlay()
-	turn_action_log.append(_tr("✓ 🎰 정선 카지노", "✓ 🎰 Jeongseon Casino"))
-	GameState.add_log(_tr("🎰 정선 카지노를 나왔다.", "🎰 Left the Jeongseon Casino."), "event")
-	_check_addiction_warnings()
+	_record_gamble_session_result(_settle_gamble_session(
+		"gamble_casino", "casino", "expedition", jeongseon_casino))
 	_refresh_all()
 	_render_ap_actions()
 
@@ -12956,11 +13172,17 @@ func _on_leverage_buy(asset_id: String, amount: float):
 				asset_name = data.get("name", asset_id)
 				break
 		turn_action_log.append(_tr("✓ 레버리지 → %s ×2배  %s", "✓ Leverage → %s ×2  %s") % [asset_name, GameState.format_money(amount)])
-		_close_modal()
 		GameState.register_action_axis("money", "", "invest_leverage")
 		GameState.finalize_weekly_commitment("invest_leverage", "", {
-			"asset_id": asset_id, "trade": "leverage_buy", "amount": amount,
+			"asset_id": asset_id,
+			"trade": "leverage_buy",
+			"amount": amount,
+			"price": float(result.get("price", 0.0)),
+			"quantity": float(result.get("quantity", 0.0)),
+			"fee": float(result.get("fee", 0.0)),
+			"exposure": float(result.get("exposure", amount * 2.0)),
 		})
+		_close_modal()
 		if not was_weekly:
 			_show_ap_action_commit(_tr("레버리지 매수", "Leverage Buy"), "leverage", "#ef4444", false, _action_thumb_texture("_ap_invest", "invest"))
 		_refresh_all()
@@ -14408,11 +14630,17 @@ func _on_buy_asset(asset_id, amount):
 			asset_name = data.get("name", asset_id)
 			break
 	turn_action_log.append(_tr("✓ 투자 → %s 매수 %s", "✓ Invest → bought %s %s") % [asset_name, GameState.format_money(amount)])
-	_close_modal()
 	GameState.register_action_axis("money", "", "invest_buy")
 	GameState.finalize_weekly_commitment("invest_buy", "", {
-		"asset_id": str(asset_id), "trade": "buy", "amount": float(amount),
+		"asset_id": str(asset_id),
+		"trade": "buy",
+		"amount": float(amount),
+		"price": float(result.get("price", 0.0)),
+		"quantity": float(result.get("quantity", 0.0)),
+		"fee": float(result.get("fee", 0.0)),
+		"net_invested": float(result.get("net_invested", amount)),
 	})
+	_close_modal()
 	if not was_weekly:
 		_show_ap_action_commit(_tr("투자 매수", "Buy Asset"), "invest", "#3a8a5a", false, _action_thumb_texture("_ap_invest", "invest"))
 	_refresh_all()
@@ -14437,11 +14665,17 @@ func _on_sell_asset(asset_id, ratio):
 			asset_name = data.get("name", asset_id)
 			break
 	turn_action_log.append(_tr("✓ 투자 → %s 매도", "✓ Invest → sold %s") % asset_name)
-	_close_modal()
 	GameState.register_action_axis("money", "", "invest_sell")
 	GameState.finalize_weekly_commitment("invest_sell", "", {
-		"asset_id": str(asset_id), "trade": "sell", "ratio": float(ratio),
+		"asset_id": str(asset_id),
+		"trade": "sell",
+		"ratio": float(result.get("ratio", ratio)),
+		"price": float(result.get("price", 0.0)),
+		"quantity": float(result.get("quantity", 0.0)),
+		"proceeds": float(result.get("proceeds", 0.0)),
+		"profit": float(result.get("profit", 0.0)),
 	})
+	_close_modal()
 	if not was_weekly:
 		_show_ap_action_commit(_tr("투자 매도", "Sell Asset"), "invest", "#d73a49", false, _action_thumb_texture("_ap_invest", "invest"))
 	_refresh_all()

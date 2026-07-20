@@ -10,6 +10,7 @@ func _ready() -> void:
 	_original_language = LocaleManager.language
 	_check_recent_action_echoes()
 	_check_action_consequence_echoes()
+	_check_market_transaction_contract()
 	_check_weekly_commitment_contract()
 	_check_scene_first_week_contract()
 	_check_financial_progress_contract()
@@ -121,6 +122,36 @@ func _check_action_consequence_echoes() -> void:
 		_fail("weekly action echo exposed a hidden system: %s" % contact_save_echo)
 	game.free()
 
+func _check_market_transaction_contract() -> void:
+	GameState.start_new_game()
+	GameState.market_prices["samsung"] = 70_000.0
+	var market = load("res://systems/InvestmentSystem.gd").new()
+	var buy: Dictionary = market.buy_asset("samsung", 100_000.0)
+	if not bool(buy.get("success", false)) \
+			or not is_equal_approx(float(buy.get("price", 0.0)), 70_000.0) \
+			or not is_equal_approx(float(buy.get("cash_committed", 0.0)), 100_000.0) \
+			or float(buy.get("quantity", 0.0)) <= 0.0 \
+			or float(buy.get("fee", 0.0)) <= 0.0:
+		_fail("buy transaction did not return its concrete fill: %s" % buy)
+	var sell: Dictionary = market.sell_asset("samsung", 1.0)
+	if not bool(sell.get("success", false)) \
+			or not is_equal_approx(float(sell.get("price", 0.0)), 70_000.0) \
+			or not is_equal_approx(float(sell.get("ratio", 0.0)), 1.0) \
+			or float(sell.get("quantity", 0.0)) <= 0.0 \
+			or float(sell.get("proceeds", 0.0)) <= 0.0 \
+			or not sell.has("profit"):
+		_fail("sell transaction did not return its concrete settlement: %s" % sell)
+	GameState.start_new_game()
+	GameState.market_prices["samsung"] = 70_000.0
+	var leverage: Dictionary = market.buy_asset_leveraged("samsung", 200_000.0)
+	if not bool(leverage.get("success", false)) \
+			or not is_equal_approx(float(leverage.get("price", 0.0)), 70_000.0) \
+			or not is_equal_approx(float(leverage.get("cash_committed", 0.0)), 200_000.0) \
+			or not is_equal_approx(float(leverage.get("exposure", 0.0)), 400_000.0) \
+			or float(leverage.get("quantity", 0.0)) <= 0.0:
+		_fail("leverage transaction did not return its concrete exposure: %s" % leverage)
+	market.free()
+
 func _check_random_narrative_bridge_flow() -> void:
 	var language_before := LocaleManager.language
 	for language in ["ko", "en"]:
@@ -206,7 +237,9 @@ func _check_weekly_commitment_contract() -> void:
 	}
 	for language in ["ko", "en"]:
 		LocaleManager.language = language
-		for action_id in pressure.get("action_ids", []):
+		var preview_actions: Array = pressure.get("action_ids", []).duplicate()
+		preview_actions.append("gamble")
+		for action_id in preview_actions:
 			var preview: Dictionary = game.call("_weekly_commitment_preview", action_id, "daeun")
 			for key in ["risk", "now", "cost", "later"]:
 				if str(preview.get(key, "")).strip_edges().is_empty():
@@ -215,6 +248,7 @@ func _check_weekly_commitment_contract() -> void:
 				_fail("English weekly commitment preview leaked Hangul: %s" % preview)
 
 	LocaleManager.language = "ko"
+	DataRegistry.reload()
 	var invest_payload: Dictionary = game.call("_weekly_commitment_payload", pressure, "invest")
 	if not GameState.arm_weekly_commitment(invest_payload):
 		_fail("investment commitment could not be armed")
@@ -233,7 +267,13 @@ func _check_weekly_commitment_contract() -> void:
 	GameState.add_money(-100_000.0)
 	GameState.modify_stat("investment_skill", 1)
 	if not GameState.finalize_weekly_commitment("invest_buy", "", {
-		"asset_id": "asset_01", "trade": "buy", "amount": 100_000.0,
+		"asset_id": "samsung",
+		"trade": "buy",
+		"amount": 100_000.0,
+		"price": 70_000.0,
+		"quantity": 1.42,
+		"fee": 300.0,
+		"net_invested": 99_700.0,
 	}):
 		_fail("actual trade could not finalize the armed commitment")
 	if GameState.action_points != 0 or GameState.weekly_commitments.size() != 1:
@@ -248,6 +288,10 @@ func _check_weekly_commitment_contract() -> void:
 	if not is_equal_approx(float(outcome.get("money", 0.0)), -100_000.0) \
 			or int(outcome.get("investment_skill", 0)) != 1:
 		_fail("weekly commitment lost its actual public outcome: %s" % outcome)
+	var invest_surface := str(game.call("_weekly_commitment_outcome_text", record))
+	if not invest_surface.contains("한성전자") or not invest_surface.contains("체결가") \
+			or not invest_surface.contains("10만원"):
+		_fail("investment settlement did not name the exact asset, fill, and amount: %s" % invest_surface)
 	if GameState.arm_weekly_commitment(game.call("_weekly_commitment_payload", pressure, "study")):
 		_fail("a second commitment was accepted in the same week")
 
@@ -261,10 +305,12 @@ func _check_weekly_commitment_contract() -> void:
 	if unresolved.size() != 1:
 		_fail("next week could not see the unresolved commitment: %s" % unresolved)
 	LocaleManager.language = "en"
+	DataRegistry.reload()
 	var echo_record := str(game.call("_demo_director_recent_action_record", unresolved))
 	if echo_record.findn("chosen") < 0 or echo_record.findn("not chosen that week") < 0 \
 			or echo_record.findn("actual result") < 0 or echo_record.findn("cash") < 0 \
-			or echo_record.findn("market") < 0 or _contains_hangul(echo_record):
+			or echo_record.findn("market") < 0 or echo_record.findn("hanseong") < 0 \
+			or echo_record.findn("buy") < 0 or _contains_hangul(echo_record):
 		_fail("weekly commitment echo did not name the choice, outcome, and paths not chosen that week: %s" % echo_record)
 	var forbidden := echo_record.to_lower()
 	if forbidden.contains("moral") or forbidden.contains("route"):
@@ -272,6 +318,67 @@ func _check_weekly_commitment_contract() -> void:
 	if GameState.consume_weekly_commitment_echoes(2).size() != 1 \
 			or not GameState.consume_weekly_commitment_echoes(2).is_empty():
 		_fail("weekly commitment echo was not consumed exactly once")
+
+	# A venue browser is not a weekly action. Only a completed session may spend AP
+	# and enter the same saved commitment ledger as an investment trade.
+	GameState.start_new_game()
+	GameState.turn = 80
+	GameState.action_points = 2
+	GameState.money = 1_000_000.0
+	var gamble_pressure := {
+		"id": "qa_gamble_commitment",
+		"family": "market",
+		"person_id": "",
+		"action_ids": ["invest", "gamble", "save"],
+	}
+	var gamble_payload: Dictionary = game.call(
+		"_weekly_commitment_payload", gamble_pressure, "gamble")
+	var scalping = load("res://scenes/ScalpingGame.gd").new()
+	scalping.set("_entry_balance", GameState.money)
+	scalping.set("_runs_completed", 0)
+	scalping.set("_session_trades", 0)
+	var before_cancel: Dictionary = GameState.serialize()
+	if not GameState.arm_weekly_commitment(gamble_payload):
+		_fail("gambling commitment could not be armed")
+	var canceled: Dictionary = game.call(
+		"_settle_gamble_session", "gamble_scalping", "scalping", "underground", scalping)
+	if int(canceled.get("rounds", -1)) != 0 or GameState.serialize() != before_cancel:
+		_fail("a no-play gambling exit changed AP, state, or commitment: %s" % canceled)
+
+	if not GameState.arm_weekly_commitment(gamble_payload):
+		_fail("gambling commitment could not be re-armed after a no-play exit")
+	scalping.set("_entry_balance", GameState.money)
+	scalping.set("_runs_completed", 1)
+	scalping.set("_session_trades", 4)
+	GameState.add_money(-250_000.0)
+	var settled: Dictionary = game.call(
+		"_settle_gamble_session", "gamble_scalping", "scalping", "underground", scalping)
+	if int(settled.get("rounds", 0)) != 1 or int(settled.get("trades", 0)) != 4 \
+			or not is_equal_approx(float(settled.get("session_net", 0.0)), -250_000.0):
+		_fail("completed gambling session lost its concrete settlement: %s" % settled)
+	if GameState.action_points != 0 or GameState.weekly_commitments.size() != 1:
+		_fail("completed gambling session did not close the week exactly once")
+	var gamble_record: Dictionary = GameState.weekly_commitments[0]
+	var gamble_outcome: Dictionary = gamble_record.get("outcome", {})
+	if str(gamble_record.get("actual_action_id", "")) != "gamble_scalping" \
+			or not is_equal_approx(float(gamble_outcome.get("money", 0.0)), -250_000.0):
+		_fail("gambling commitment lost the actual action or cash result: %s" % gamble_record)
+	LocaleManager.language = "en"
+	var gamble_surface := str(game.call("_weekly_commitment_outcome_text", gamble_record))
+	if gamble_surface.findn("scalping") < 0 or gamble_surface.findn("1 session") < 0 \
+			or gamble_surface.findn("4 trades") < 0 or gamble_surface.findn("net") < 0 \
+			or _contains_hangul(gamble_surface):
+		_fail("English gambling settlement is not concrete or language-clean: %s" % gamble_surface)
+	var gamble_saved: Dictionary = GameState.serialize()
+	GameState.start_new_game()
+	GameState.load_from_dict(gamble_saved)
+	GameState.turn = 81
+	var gamble_echo := str(game.call(
+		"_weekly_commitment_echo_record", GameState.get_unresolved_weekly_commitments(1)[0]))
+	if gamble_echo.findn("scalping") < 0 or gamble_echo.findn("4 trades") < 0 \
+			or gamble_echo.findn("-250") < 0 or _contains_hangul(gamble_echo):
+		_fail("saved gambling settlement was not recalled exactly in Echo: %s" % gamble_echo)
+	scalping.free()
 	game.free()
 
 func _check_scene_first_week_contract() -> void:
@@ -591,6 +698,10 @@ func _check_demo_pressure_choices() -> void:
 	GameState.week_of_month = 3
 	var capital: Dictionary = game._demo_week_pressure()
 	_check_pressure_contract(game, capital, "capital", ["invest", "save", "contact"])
+	GameState.flags["casino_club_introduced"] = true
+	var capital_with_venue: Dictionary = game._demo_week_pressure()
+	_check_pressure_contract(game, capital_with_venue, "capital", ["invest", "gamble", "save"])
+	GameState.flags.erase("casino_club_introduced")
 	var capital_windows := 0
 	var capital_per_month: Dictionary = {}
 	for week in range(1, GameState.DEMO_TURN_LIMIT + 1):

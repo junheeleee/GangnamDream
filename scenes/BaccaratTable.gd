@@ -118,10 +118,18 @@ func _on_exit() -> void:
 	if _commission > 0.0:
 		GameState.add_money(-_commission)
 		GameState.add_log(_tr("바카라 커미션 정산 -%s", "Baccarat commission paid -%s") % GameState.format_money(_commission), "money")
-	MetaProgression.record_minigame_play("baccarat")
+	if _rounds > 0:
+		MetaProgression.record_minigame_play("baccarat")
 	set_process(false)
 	visible = false
 	closed.emit()
+
+func get_session_summary() -> Dictionary:
+	return {
+		"game_id": "baccarat",
+		"rounds": _rounds,
+		"net": _net - _commission,
+	}
 
 func _reset_bets() -> void:
 	_bet_p = 0; _bet_b = 0; _bet_t = 0; _bet_pp = 0; _bet_bp = 0

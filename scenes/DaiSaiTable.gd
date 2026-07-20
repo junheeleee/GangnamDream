@@ -122,10 +122,18 @@ func open() -> void:
 	_refresh()
 
 func _on_exit() -> void:
-	MetaProgression.record_minigame_play("daisai")
+	if _rounds > 0:
+		MetaProgression.record_minigame_play("daisai")
 	set_process(false)
 	visible = false
 	closed.emit()
+
+func get_session_summary() -> Dictionary:
+	return {
+		"game_id": "daisai",
+		"rounds": _rounds,
+		"net": _net,
+	}
 
 func _process(delta: float) -> void:
 	if _phase != Phase.ROLLING:

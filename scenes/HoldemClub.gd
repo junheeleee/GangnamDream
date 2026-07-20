@@ -33,6 +33,7 @@ var _player_folded: bool = false
 var _buy_in: int = 100_000
 var _net_session: int = 0         # 이번 방문 누적 수익
 var _hands_played: int = 0
+var _entry_balance: float = 0.0
 var _turn_order: Array = [0, 1, 2]  # 0=플레이어, 1,2=AI
 var _action_idx: int = 0          # turn_order 내 현재 차례
 var _rng := RandomNumberGenerator.new()
@@ -107,6 +108,7 @@ func open() -> void:
 	BGMPlayer.enter_activity_ambience("casino")
 	_net_session = 0
 	_hands_played = 0
+	_entry_balance = GameState.money
 	_pad_navigation_active = false
 	_pad_action_idx = 0
 	_pad_action_signature = ""
@@ -1338,6 +1340,13 @@ func _leave() -> void:
 	visible = false
 	AudioManager.play("click")
 	closed.emit()
+
+func get_session_summary() -> Dictionary:
+	return {
+		"game_id": "holdem",
+		"rounds": _hands_played,
+		"net": GameState.money - _entry_balance,
+	}
 
 # ── UI 헬퍼 ───────────────────────────────────────────────────────
 var _content_root: Control

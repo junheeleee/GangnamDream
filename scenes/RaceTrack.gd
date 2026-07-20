@@ -33,6 +33,8 @@ var _hoof_sfx_t: float = 0.0
 var _final_stretch_sfx_played: bool = false
 var _last_lost: bool = false     # 직전 베팅 패배(추격 베팅 감지)
 var _races_today: int = 0
+var _completed_races: int = 0
+var _entry_balance: float = 0.0
 var _world: Dictionary = {}      # 영속 로스터(GameState.flags["horse_world"] 참조)
 var _tip: Dictionary = {}        # 이번 경주 정보상 팁
 var _tip_seen: bool = false      # 이번 경주 팁을 샀는가
@@ -182,6 +184,8 @@ func open() -> void:
 	BGMPlayer.enter_activity_ambience("racetrack")
 	TutorialOverlay.maybe_show("racetrack", self)
 	_races_today = 0
+	_completed_races = 0
+	_entry_balance = GameState.money
 	_last_lost = false
 	_pad_navigation_active = false
 	_pad_horse_idx = 0
@@ -311,11 +315,19 @@ func _new_race() -> void:
 	_render()
 
 func _on_exit() -> void:
-	MetaProgression.record_minigame_play("racetrack")
+	if _completed_races > 0:
+		MetaProgression.record_minigame_play("racetrack")
 	set_process(false)
 	BGMPlayer.leave_activity_ambience("racetrack")
 	visible = false
 	closed.emit()
+
+func get_session_summary() -> Dictionary:
+	return {
+		"game_id": "racetrack",
+		"rounds": _completed_races,
+		"net": GameState.money - _entry_balance,
+	}
 
 # ── 렌더 ──────────────────────────────────────────────────────
 func _clear() -> void:
@@ -920,6 +932,7 @@ func _draw_jockey(dst: Rect2, lane_color: Color, index: int) -> void:
 
 func _finish_race() -> void:
 	_phase = Phase.RESULT
+	_completed_races += 1
 	AudioManager.play("race_finish")
 	if is_instance_valid(_msg):
 		_msg.visible = false

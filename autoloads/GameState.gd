@@ -1382,6 +1382,7 @@ const WEEKLY_COMMITMENT_ACTION_MATCHES := {
 	"study": ["study", "study_read", "study_exercise", "study_meditation", "study_invest"],
 	"contact": ["contact"],
 	"invest": ["invest_buy", "invest_sell", "invest_leverage"],
+	"gamble": ["gamble_racetrack", "gamble_holdem", "gamble_scalping", "gamble_casino"],
 }
 
 const WEEKLY_COMMITMENT_OUTCOME_KEYS := [

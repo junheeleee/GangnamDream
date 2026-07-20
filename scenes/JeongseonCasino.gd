@@ -25,7 +25,11 @@ var _font_bold: FontFile
 var _balance_lbl: Label
 var _session_lbl: Label
 var _msg_lbl: Label
-var _entry_balance: int = 0
+var _entry_balance: float = 0.0
+var _session_rounds: int = 0
+var _session_games: Array[String] = []
+var _active_game_id: String = ""
+var _active_game: Node
 var _pad_navigation_active: bool = false
 var _pad_game_idx: int = 0
 var _game_cards: Array = []
@@ -71,12 +75,12 @@ func open() -> void:
 	tw.tween_property(self, "modulate:a", 1.0, 0.25).set_trans(Tween.TRANS_SINE)
 	AudioManager.play("open_modal")
 	_entry_balance = GameState.money
-	# 이번 세션 임시 플래그 초기화 (새 방문 시 리셋)
-	GameState.flags["jeongseon_session_loss"] = false
-	GameState.flags["jeongseon_session_win"]  = false
-	# 첫 방문 플래그 설정 + 환영 메시지
+	_session_rounds = 0
+	_session_games = []
+	_active_game_id = ""
+	_active_game = null
+	# 환영 메시지는 보여 주되, 첫 방문은 실제 한 판 이후에만 기록한다.
 	if not GameState.flags.get("jeongseon_first_visit", false):
-		GameState.flags["jeongseon_first_visit"] = true
 		if _msg_lbl:
 			_msg_lbl.text = _tr(
 				"처음 왔군요.\n화려한 조명과 기계음이 섞인 공간 — 이곳이 정선 카지노입니다.",
@@ -165,14 +169,14 @@ func _pad_show_selected_rules() -> bool:
 	return true
 
 func _close() -> void:
-	# 세션 손익 기록 → 후속 이벤트 플래그
-	var delta: int = GameState.money - _entry_balance
-	if delta <= -500000:
-		GameState.flags["jeongseon_session_loss"] = true
-	elif delta >= 1000000:
-		GameState.flags["jeongseon_session_win"]  = true
-	# 방문 자체가 중독 성향을 조금씩 높인다
-	GameState.modify_hidden_stat("addiction_tendency", 3)
+	# 규칙만 보고 나온 경우는 런 상태를 바꾸지 않는다.
+	if _session_rounds > 0:
+		var delta: float = GameState.money - _entry_balance
+		if delta <= -500000:
+			GameState.flags["jeongseon_session_loss"] = true
+		elif delta >= 1000000:
+			GameState.flags["jeongseon_session_win"] = true
+		GameState.modify_hidden_stat("addiction_tendency", 3)
 	BGMPlayer.leave_casino_music()
 	BGMPlayer.leave_activity_ambience("casino")
 	visible = false
@@ -687,6 +691,8 @@ func _launch_baccarat() -> void:
 		_msg_lbl.text = _tr("바카라 테이블을 불러올 수 없습니다.", "Baccarat table is unavailable.")
 		return
 	visible = false
+	_active_game_id = "baccarat"
+	_active_game = baccarat_table
 	BGMPlayer.enter_casino_music("table")
 	baccarat_table.open()
 	if not baccarat_table.closed.is_connected(_on_sub_game_closed):
@@ -697,6 +703,8 @@ func _launch_blackjack() -> void:
 		_msg_lbl.text = _tr("블랙잭 테이블을 불러올 수 없습니다.", "Blackjack table is unavailable.")
 		return
 	visible = false
+	_active_game_id = "blackjack"
+	_active_game = blackjack_table
 	BGMPlayer.enter_casino_music("table")
 	blackjack_table.open()
 	if not blackjack_table.closed.is_connected(_on_sub_game_closed):
@@ -707,6 +715,8 @@ func _launch_slot() -> void:
 		_msg_lbl.text = _tr("슬롯머신을 불러올 수 없습니다.", "Slot machine is unavailable.")
 		return
 	visible = false
+	_active_game_id = "slot"
+	_active_game = slot_machine_game
 	BGMPlayer.enter_casino_music("table")
 	slot_machine_game.open()
 	if not slot_machine_game.closed.is_connected(_on_sub_game_closed):
@@ -717,6 +727,8 @@ func _launch_roulette() -> void:
 		_msg_lbl.text = _tr("룰렛 테이블을 불러올 수 없습니다.", "Roulette table is unavailable.")
 		return
 	visible = false
+	_active_game_id = "roulette"
+	_active_game = roulette_table
 	BGMPlayer.enter_casino_music("table")
 	roulette_table.open()
 	if not roulette_table.closed.is_connected(_on_sub_game_closed):
@@ -727,6 +739,8 @@ func _launch_bigwheel() -> void:
 		_msg_lbl.text = _tr("빅휠을 불러올 수 없습니다.", "Big Wheel is unavailable.")
 		return
 	visible = false
+	_active_game_id = "bigwheel"
+	_active_game = big_wheel_game
 	BGMPlayer.enter_casino_music("table")
 	big_wheel_game.open()
 	if not big_wheel_game.closed.is_connected(_on_sub_game_closed):
@@ -737,16 +751,40 @@ func _launch_daisai() -> void:
 		_msg_lbl.text = _tr("다이사이 테이블을 불러올 수 없습니다.", "Dai Sai table is unavailable.")
 		return
 	visible = false
+	_active_game_id = "daisai"
+	_active_game = dai_sai_table
 	BGMPlayer.enter_casino_music("table")
 	dai_sai_table.open()
 	if not dai_sai_table.closed.is_connected(_on_sub_game_closed):
 		dai_sai_table.closed.connect(_on_sub_game_closed)
 
 func _on_sub_game_closed() -> void:
+	var summary: Dictionary = {}
+	if is_instance_valid(_active_game) and _active_game.has_method("get_session_summary"):
+		summary = _active_game.call("get_session_summary")
+	var rounds: int = maxi(0, int(summary.get("rounds", 0)))
+	if rounds > 0:
+		if _session_rounds == 0:
+			GameState.flags["jeongseon_session_loss"] = false
+			GameState.flags["jeongseon_session_win"] = false
+			GameState.flags["jeongseon_first_visit"] = true
+		_session_rounds += rounds
+		if not _active_game_id.is_empty() and not _session_games.has(_active_game_id):
+			_session_games.append(_active_game_id)
+	_active_game_id = ""
+	_active_game = null
 	# 하위 게임이 닫히면 허브로 복귀
 	visible = true
 	BGMPlayer.enter_casino_music("floor")
 	_refresh_balance()
+
+func get_session_summary() -> Dictionary:
+	return {
+		"game_id": "casino",
+		"rounds": _session_rounds,
+		"net": float(GameState.money - _entry_balance),
+		"games": _session_games.duplicate(),
+	}
 
 # ── 헬퍼 ──────────────────────────────────────────────────────
 func _make_panel(col: Color) -> PanelContainer:

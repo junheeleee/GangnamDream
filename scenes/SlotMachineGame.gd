@@ -139,6 +139,13 @@ func _on_exit() -> void:
 	visible = false
 	closed.emit()
 
+func get_session_summary() -> Dictionary:
+	return {
+		"game_id": "slot",
+		"rounds": _rounds,
+		"net": _net,
+	}
+
 func _unhandled_input(event: InputEvent) -> void:
 	if not visible:
 		return

@@ -96,9 +96,17 @@ func open() -> void:
 	AudioManager.play("card_shuffle")
 
 func _on_exit() -> void:
-	MetaProgression.record_minigame_play("blackjack")
+	if _rounds > 0:
+		MetaProgression.record_minigame_play("blackjack")
 	visible = false
 	closed.emit()
+
+func get_session_summary() -> Dictionary:
+	return {
+		"game_id": "blackjack",
+		"rounds": _rounds,
+		"net": _net,
+	}
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not visible:

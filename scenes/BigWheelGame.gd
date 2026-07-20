@@ -134,10 +134,18 @@ func open() -> void:
 	_refresh()
 
 func _on_exit() -> void:
-	MetaProgression.record_minigame_play("bigwheel")
+	if _rounds > 0:
+		MetaProgression.record_minigame_play("bigwheel")
 	set_process(false)
 	visible = false
 	closed.emit()
+
+func get_session_summary() -> Dictionary:
+	return {
+		"game_id": "bigwheel",
+		"rounds": _rounds,
+		"net": _net,
+	}
 
 # ── 프로세스 (회전 애니메이션) ────────────────────────────────
 func _process(delta: float) -> void:
