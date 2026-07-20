@@ -12,6 +12,7 @@ func _ready() -> void:
 	_check_action_consequence_echoes()
 	_check_market_transaction_contract()
 	_check_weekly_commitment_contract()
+	_check_forgone_path_contract()
 	_check_scene_first_week_contract()
 	_check_financial_progress_contract()
 	_check_event_causality()
@@ -29,7 +30,7 @@ func _ready() -> void:
 			push_error("IMMERSION_LOOP_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("IMMERSION_LOOP_CHECK_OK memory=2 action_ids=8 commitments=1x3 scene_first=1 no_ap_surface=1 auto_advance=1 outcomes=2 completion_boundary=1 consequence_paths=4 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=4 bridges=ko/en vignette=2 omen=1 preview=2 bills=1 rungs=4 reserve=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8")
+	print("IMMERSION_LOOP_CHECK_OK memory=2 action_ids=8 commitments=1x3 forgone=relationship/body/career/market scene_first=1 no_ap_surface=1 auto_advance=1 outcomes=2 completion_boundary=1 consequence_paths=4 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=4 bridges=ko/en vignette=2 omen=1 preview=2 bills=1 rungs=4 reserve=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8")
 	get_tree().quit(0)
 
 func _check_recent_action_echoes() -> void:
@@ -379,6 +380,205 @@ func _check_weekly_commitment_contract() -> void:
 			or gamble_echo.findn("-250") < 0 or _contains_hangul(gamble_echo):
 		_fail("saved gambling settlement was not recalled exactly in Echo: %s" % gamble_echo)
 	scalping.free()
+	game.free()
+
+func _check_forgone_path_contract() -> void:
+	var language_before := LocaleManager.language
+	var game = MainGameScript.new()
+
+	# A person does not wait in stasis. Canceling the reopened card is still free;
+	# completing it later pays a bounded relationship cost exactly once.
+	GameState.start_new_game()
+	GameState.turn = 1
+	GameState.action_points = 2
+	var relationship_pressure := {
+		"id": "qa_forgone_relationship",
+		"family": "human",
+		"person_id": "daeun",
+		"action_ids": ["side_shift", "rest", "contact"],
+	}
+	var shift_payload: Dictionary = game.call(
+		"_weekly_commitment_payload", relationship_pressure, "side_shift")
+	if not GameState.arm_weekly_commitment(shift_payload) \
+			or not GameState.finalize_weekly_commitment("side_shift"):
+		_fail("forgone relationship seed could not close its first week")
+	if GameState.get_forgone_path_debt("rest").is_empty() \
+			or GameState.get_forgone_path_debt("contact", "daeun").is_empty():
+		_fail("weekly alternatives did not become body/person path debts")
+	var relationship_saved: Dictionary = GameState.serialize()
+	GameState.start_new_game()
+	GameState.load_from_dict(relationship_saved)
+	GameState.turn = 9
+	GameState.action_points = 2
+	LocaleManager.language = "en"
+	DataRegistry.reload()
+	var contact_preview_en: Dictionary = game.call(
+		"_weekly_commitment_preview", "contact", "daeun")
+	var contact_cost_en := str(contact_preview_en.get("cost", ""))
+	if contact_cost_en.findn("delayed cost") < 0 \
+			or contact_cost_en.findn("8w") < 0 or _contains_hangul(contact_cost_en):
+		_fail("English reopened relationship card hid or mistranslated its cost: %s" % contact_cost_en)
+	LocaleManager.language = "ko"
+	DataRegistry.reload()
+	var contact_pressure := {
+		"id": "qa_return_relationship",
+		"family": "human",
+		"person_id": "daeun",
+		"action_ids": ["contact", "study", "save"],
+	}
+	var contact_payload: Dictionary = game.call(
+		"_weekly_commitment_payload", contact_pressure, "contact")
+	var debt_before_cancel: Dictionary = GameState.forgone_path_debts.duplicate(true)
+	if not GameState.arm_weekly_commitment(contact_payload):
+		_fail("reopened relationship commitment could not be armed")
+	GameState.cancel_pending_weekly_commitment(GameState.turn)
+	if GameState.forgone_path_debts != debt_before_cancel:
+		_fail("canceling a reopened path consumed or changed its debt")
+	if not GameState.arm_weekly_commitment(contact_payload):
+		_fail("reopened relationship commitment could not be re-armed")
+	GameState.modify_stat("mental", 5)
+	GameState.apply_cast_effect("daeun", {"affinity": 4})
+	if not GameState.finalize_weekly_commitment("contact", "daeun"):
+		_fail("reopened relationship could not settle")
+	var contact_record: Dictionary = GameState.get_weekly_commitment_for_turn(9)
+	var contact_return: Dictionary = contact_record.get("return_cost", {})
+	var contact_outcome: Dictionary = contact_record.get("outcome", {})
+	if str(contact_return.get("kind", "")) != "relationship_cooling" \
+			or int(contact_return.get("affinity", 0)) != -1 \
+			or int(contact_outcome.get("affinity", 0)) != 3 \
+			or GameState.get_cast_affinity("daeun") != 3:
+		_fail("late contact did not reduce the real affinity gain exactly once: %s" % contact_record)
+	if not GameState.get_forgone_path_return("contact", "daeun").is_empty():
+		_fail("resolved relationship debt remained active")
+	var contact_echo := str(game.call("_weekly_commitment_echo_record", contact_record))
+	if contact_echo.findn("미뤄 둔 대가") < 0 or contact_echo.findn("다은") < 0:
+		_fail("relationship Echo did not recall the delayed cost: %s" % contact_echo)
+
+	# One recovery week cannot erase every week that was repeatedly deferred, and
+	# a late application starts the next job with measurable catch-up work.
+	GameState.start_new_game()
+	GameState.turn = 1
+	GameState.action_points = 2
+	var body_pressure := {
+		"id": "qa_forgone_body",
+		"family": "body",
+		"person_id": "",
+		"action_ids": ["side_shift", "rest", "apply"],
+	}
+	if not GameState.arm_weekly_commitment(game.call(
+			"_weekly_commitment_payload", body_pressure, "side_shift")) \
+			or not GameState.finalize_weekly_commitment("side_shift"):
+		_fail("forgone body/career seed could not close")
+	GameState.turn = 9
+	GameState.action_points = 2
+	GameState.health = 40
+	GameState.mental = 40
+	var rest_pressure := {
+		"id": "qa_return_body",
+		"family": "body",
+		"person_id": "",
+		"action_ids": ["rest", "side_shift", "apply"],
+	}
+	if not GameState.arm_weekly_commitment(game.call(
+			"_weekly_commitment_payload", rest_pressure, "rest")):
+		_fail("reopened rest commitment could not be armed")
+	GameState.modify_stat("health", 6)
+	GameState.modify_stat("mental", 6)
+	if not GameState.finalize_weekly_commitment("rest"):
+		_fail("reopened rest commitment could not settle")
+	var rest_record: Dictionary = GameState.get_weekly_commitment_for_turn(9)
+	var rest_return: Dictionary = rest_record.get("return_cost", {})
+	if str(rest_return.get("kind", "")) != "accumulated_fatigue" \
+			or GameState.health != 45 or GameState.mental != 45:
+		_fail("deferred rest did not leave bounded fatigue after recovery: %s" % rest_record)
+
+	GameState.turn = 13
+	GameState.action_points = 2
+	GameState.current_job = {"id": "old_job"}
+	GameState.work_performance = 50
+	var apply_pressure := {
+		"id": "qa_return_application",
+		"family": "career",
+		"person_id": "",
+		"action_ids": ["apply", "rest", "save"],
+	}
+	var apply_preview: Dictionary = game.call("_weekly_commitment_preview", "apply", "")
+	if str(apply_preview.get("cost", "")).findn("놓친 지원 2회") < 0:
+		_fail("repeatedly deferred application did not disclose its accumulated cost: %s" % apply_preview)
+	if not GameState.arm_weekly_commitment(game.call(
+			"_weekly_commitment_payload", apply_pressure, "apply")):
+		_fail("reopened application commitment could not be armed")
+	GameState.current_job = {"id": "new_job"}
+	GameState.work_performance = 50
+	if not GameState.finalize_weekly_commitment("apply", "", {"job_id": "new_job"}):
+		_fail("reopened application commitment could not settle")
+	var apply_record: Dictionary = GameState.get_weekly_commitment_for_turn(13)
+	var apply_return: Dictionary = apply_record.get("return_cost", {})
+	if str(apply_return.get("kind", "")) != "application_delay" \
+			or int(apply_return.get("missed_count", 0)) != 2 \
+			or GameState.work_performance != 46:
+		_fail("late application did not lower starting performance by its bounded cost: %s" % apply_record)
+
+	# Market opportunity cost is the real price movement since the skipped window,
+	# not a fabricated cash deduction. Declining gambling never creates a debt.
+	GameState.start_new_game()
+	GameState.turn = 1
+	GameState.action_points = 2
+	GameState.market_prices = {"samsung": 100.0}
+	var market_pressure := {
+		"id": "qa_forgone_market",
+		"family": "market",
+		"person_id": "",
+		"action_ids": ["save", "invest", "gamble"],
+	}
+	if not GameState.arm_weekly_commitment(game.call(
+			"_weekly_commitment_payload", market_pressure, "save")) \
+			or not GameState.finalize_weekly_commitment("save"):
+		_fail("forgone market seed could not close")
+	if GameState.get_forgone_path_debt("invest").is_empty() \
+			or not GameState.get_forgone_path_debt("gamble").is_empty() \
+			or GameState.forgone_path_debts.size() != 1:
+		_fail("market debt was not tracked exactly, or declining gambling was punished: %s" \
+			% GameState.forgone_path_debts)
+	var market_saved: Dictionary = GameState.serialize()
+	GameState.start_new_game()
+	GameState.load_from_dict(market_saved)
+	GameState.turn = 13
+	GameState.action_points = 2
+	GameState.market_prices["samsung"] = 125.0
+	var invest_preview: Dictionary = game.call("_weekly_commitment_preview", "invest", "")
+	var invest_cost := str(invest_preview.get("cost", ""))
+	if invest_cost.findn("한성전자") < 0 or invest_cost.findn("+25.0%") < 0:
+		_fail("reopened market card did not name its actual price movement: %s" % invest_cost)
+	var cash_before_trade: float = float(GameState.money)
+	if not GameState.arm_weekly_commitment(game.call(
+			"_weekly_commitment_payload", {
+				"id": "qa_return_market", "family": "market", "person_id": "",
+				"action_ids": ["invest", "save", "gamble"],
+			}, "invest")):
+		_fail("reopened market commitment could not be armed")
+	GameState.add_money(-100_000.0)
+	if not GameState.finalize_weekly_commitment("invest_buy", "", {
+		"asset_id": "samsung", "trade": "buy", "amount": 100_000.0,
+		"price": 125.0, "quantity": 800.0, "fee": 0.0, "net_invested": 100_000.0,
+	}):
+		_fail("reopened market commitment could not settle")
+	var market_record: Dictionary = GameState.get_weekly_commitment_for_turn(13)
+	var market_return: Dictionary = market_record.get("return_cost", {})
+	if str(market_return.get("kind", "")) != "market_moved" \
+			or str(market_return.get("market_asset_id", "")) != "samsung" \
+			or not is_equal_approx(float(market_return.get("market_change_ratio", 0.0)), 0.25) \
+			or not is_equal_approx(GameState.money, cash_before_trade - 100_000.0):
+		_fail("market return fabricated a penalty or lost its actual movement: %s" % market_record)
+	LocaleManager.language = "en"
+	DataRegistry.reload()
+	var market_echo_en := str(game.call("_weekly_commitment_echo_record", market_record))
+	if market_echo_en.findn("delayed cost") < 0 or market_echo_en.findn("25.0%") < 0 \
+			or _contains_hangul(market_echo_en):
+		_fail("English market Echo lost or mistranslated the actual missed window: %s" % market_echo_en)
+
+	LocaleManager.language = language_before
+	DataRegistry.reload()
 	game.free()
 
 func _check_scene_first_week_contract() -> void:

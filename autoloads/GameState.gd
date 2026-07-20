@@ -172,6 +172,9 @@ var recent_action_weeks: Array = []
 # weekly_commitments는 다음 Echo가 선택과 포기한 길을 정확히 회수하는 저장 원장이다.
 var pending_weekly_commitment: Dictionary = {}
 var weekly_commitments: Array = []
+# 범용 결정에서 지나친 길은 다음에 같은 길을 택할 때까지 남는다.
+# localized prose가 아닌 action/person/turn/count와 당시 시장가격만 저장한다.
+var forgone_path_debts: Dictionary = {}
 # 인물별 연락 기록 — 리캡 카드의 "잔인한 통계"용 원장 (person_id → 횟수 / 마지막 턴)
 var contact_counts: Dictionary = {}
 var last_contact_turn: Dictionary = {}
@@ -464,6 +467,7 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	recent_action_weeks = []
 	pending_weekly_commitment = {}
 	weekly_commitments = []
+	forgone_path_debts = {}
 	contact_counts = {}
 	last_contact_turn = {}
 	run_seen_scenes_by_year = {}
@@ -1391,6 +1395,145 @@ const WEEKLY_COMMITMENT_OUTCOME_KEYS := [
 	"investment_skill", "luck", "reputation", "work_performance", "affinity",
 ]
 
+const FORGONE_PATH_TRACKED_ACTIONS := [
+	"apply", "resume", "side_shift", "save", "rest", "study", "contact", "invest",
+]
+
+func _forgone_path_key(action_id: String, person_id: String = "") -> String:
+	var normalized_action := action_id.strip_edges().to_lower()
+	if normalized_action not in FORGONE_PATH_TRACKED_ACTIONS:
+		return ""
+	if normalized_action == "contact":
+		var normalized_person := person_id.strip_edges().to_lower()
+		return "contact:%s" % normalized_person if not normalized_person.is_empty() else ""
+	return normalized_action
+
+func _forgone_market_snapshot() -> Dictionary:
+	var snapshot: Dictionary = {}
+	for raw_asset_id in market_prices:
+		var price := float(market_prices.get(raw_asset_id, 0.0))
+		if price > 0.0:
+			snapshot[str(raw_asset_id)] = price
+	return snapshot
+
+func _register_forgone_path_debts(record: Dictionary) -> Array:
+	var updates: Array = []
+	var person_id := str(record.get("person_id", "")).strip_edges().to_lower()
+	for raw_id in record.get("forgone_ids", []):
+		var action_id := str(raw_id).strip_edges().to_lower()
+		var debt_key := _forgone_path_key(action_id, person_id)
+		if debt_key.is_empty():
+			continue
+		var debt: Dictionary = (forgone_path_debts.get(debt_key, {}) as Dictionary).duplicate(true)
+		if debt.is_empty():
+			debt = {
+				"action_id": action_id,
+				"person_id": person_id if action_id == "contact" else "",
+				"first_turn": turn,
+				"count": 0,
+			}
+			if action_id == "invest":
+				debt["market_snapshot"] = _forgone_market_snapshot()
+		debt["last_turn"] = turn
+		debt["count"] = mini(12, int(debt.get("count", 0)) + 1)
+		debt["pressure_family"] = str(record.get("pressure_family", ""))
+		forgone_path_debts[debt_key] = debt
+		updates.append({
+			"action_id": action_id,
+			"person_id": str(debt.get("person_id", "")),
+			"count": int(debt.get("count", 1)),
+			"first_turn": int(debt.get("first_turn", turn)),
+			"last_turn": turn,
+		})
+	return updates
+
+func get_forgone_path_debt(action_id: String, person_id: String = "") -> Dictionary:
+	var debt_key := _forgone_path_key(action_id, person_id)
+	if debt_key.is_empty() or not forgone_path_debts.has(debt_key):
+		return {}
+	var value: Variant = forgone_path_debts.get(debt_key, {})
+	return (value as Dictionary).duplicate(true) if value is Dictionary else {}
+
+## Read-only preview of the cost waiting behind a path. The cost is consumed only
+## after the matching action actually succeeds; opening or canceling a modal is free.
+func get_forgone_path_return(action_id: String, person_id: String = "") -> Dictionary:
+	var normalized_action := action_id.strip_edges().to_lower()
+	var debt := get_forgone_path_debt(normalized_action, person_id)
+	if debt.is_empty():
+		return {}
+	var missed_count: int = maxi(1, int(debt.get("count", 1)))
+	var first_turn := int(debt.get("first_turn", turn - 1))
+	var weeks_elapsed := maxi(1, turn - first_turn)
+	var result := {
+		"action_id": normalized_action,
+		"person_id": str(debt.get("person_id", "")),
+		"missed_count": missed_count,
+		"weeks_elapsed": weeks_elapsed,
+	}
+	match normalized_action:
+		"contact":
+			result["kind"] = "relationship_cooling"
+			result["affinity"] = -mini(4, missed_count + floori(float(weeks_elapsed) / 12.0))
+		"rest":
+			result["kind"] = "accumulated_fatigue"
+			result["health"] = -mini(3, missed_count)
+			result["mental"] = -mini(3, maxi(1, ceili(float(missed_count) / 2.0)))
+		"apply":
+			result["kind"] = "application_delay"
+			result["work_performance"] = -mini(6, missed_count * 2)
+		"resume", "study":
+			result["kind"] = "restart_friction"
+			result["mental"] = -mini(3, missed_count)
+		"invest":
+			result["kind"] = "market_moved"
+			var market_snapshot: Dictionary = debt.get("market_snapshot", {})
+			var largest_asset_id := ""
+			var largest_move := 0.0
+			for raw_asset_id in market_snapshot:
+				var old_price := float(market_snapshot.get(raw_asset_id, 0.0))
+				var new_price := float(market_prices.get(raw_asset_id, 0.0))
+				if old_price <= 0.0 or new_price <= 0.0:
+					continue
+				var price_move := (new_price - old_price) / old_price
+				if absf(price_move) > absf(largest_move):
+					largest_move = price_move
+					largest_asset_id = str(raw_asset_id)
+			if not largest_asset_id.is_empty():
+				result["market_asset_id"] = largest_asset_id
+				result["market_change_ratio"] = largest_move
+		"side_shift":
+			result["kind"] = "missed_shifts"
+		"save":
+			result["kind"] = "missed_savings"
+		_:
+			return {}
+	return result
+
+func _consume_forgone_path_return(action_id: String, person_id: String = "") -> Dictionary:
+	var debt_key := _forgone_path_key(action_id, person_id)
+	var result := get_forgone_path_return(action_id, person_id)
+	if debt_key.is_empty() or result.is_empty():
+		return {}
+	match str(result.get("kind", "")):
+		"relationship_cooling":
+			var resolved_person := str(result.get("person_id", ""))
+			if not resolved_person.is_empty():
+				apply_cast_effect(resolved_person, {
+					"affinity": int(result.get("affinity", 0)),
+				})
+		"accumulated_fatigue":
+			modify_stat("health", int(result.get("health", 0)))
+			modify_stat("mental", int(result.get("mental", 0)))
+		"application_delay":
+			if not current_job.is_empty():
+				work_performance = clampi(
+					work_performance + int(result.get("work_performance", 0)), 0, 100)
+		"restart_friction":
+			modify_stat("mental", int(result.get("mental", 0)))
+	forgone_path_debts.erase(debt_key)
+	result["resolved_turn"] = turn
+	return result
+
 func _weekly_commitment_portfolio_value() -> float:
 	var total := 0.0
 	for asset_id in portfolio:
@@ -1515,12 +1658,19 @@ func finalize_weekly_commitment(action_id: String, subject_id: String = "",
 	record["actual_action_id"] = normalized_action
 	if str(record.get("person_id", "")).is_empty():
 		record["person_id"] = subject_id.strip_edges().to_lower()
+	var return_cost := _consume_forgone_path_return(
+		choice_id, str(record.get("person_id", "")))
+	if not return_cost.is_empty():
+		record["return_cost"] = return_cost
 	var baseline: Dictionary = record.get("baseline", {})
 	record.erase("baseline")
 	record["outcome"] = _weekly_commitment_outcome(
 		baseline, _weekly_commitment_public_snapshot(str(record.get("person_id", ""))))
 	if not details.is_empty():
 		record["details"] = details.duplicate(true)
+	var forgone_updates := _register_forgone_path_debts(record)
+	if not forgone_updates.is_empty():
+		record["forgone_debts"] = forgone_updates
 	var chapter_intent_id := str(record.get("chapter_intent_id", "")).strip_edges()
 	if not chapter_intent_id.is_empty() and not flags.has("chapter_intent_id"):
 		flags["chapter_intent_id"] = chapter_intent_id
@@ -2558,6 +2708,7 @@ func serialize():
 		"recent_action_weeks": recent_action_weeks,
 		"pending_weekly_commitment": pending_weekly_commitment,
 		"weekly_commitments": weekly_commitments,
+		"forgone_path_debts": forgone_path_debts,
 		"contact_counts": contact_counts,
 		"last_contact_turn": last_contact_turn,
 		"run_seen_scenes_by_year": run_seen_scenes_by_year,
@@ -2655,6 +2806,25 @@ func load_from_dict(data):
 	weekly_commitments = valid_commitments
 	while weekly_commitments.size() > 16:
 		weekly_commitments.pop_front()
+	if not data.has("forgone_path_debts") or typeof(forgone_path_debts) != TYPE_DICTIONARY:
+		forgone_path_debts = {}
+	var valid_forgone_debts: Dictionary = {}
+	for raw_key in forgone_path_debts:
+		var raw_value: Variant = forgone_path_debts.get(raw_key, {})
+		if not raw_value is Dictionary:
+			continue
+		var debt: Dictionary = (raw_value as Dictionary).duplicate(true)
+		var action_id := str(debt.get("action_id", "")).strip_edges().to_lower()
+		var person_id := str(debt.get("person_id", "")).strip_edges().to_lower()
+		var expected_key := _forgone_path_key(action_id, person_id)
+		if expected_key.is_empty() or expected_key != str(raw_key):
+			continue
+		debt["count"] = clampi(int(debt.get("count", 1)), 1, 12)
+		debt["first_turn"] = maxi(1, int(debt.get("first_turn", 1)))
+		debt["last_turn"] = maxi(
+			int(debt.get("first_turn", 1)), int(debt.get("last_turn", debt.get("first_turn", 1))))
+		valid_forgone_debts[expected_key] = debt
+	forgone_path_debts = valid_forgone_debts
 	if not data.has("run_seen_scenes_by_year") or typeof(run_seen_scenes_by_year) != TYPE_DICTIONARY:
 		run_seen_scenes_by_year = {}
 	if not data.has("year_scenes") or typeof(year_scenes) != TYPE_DICTIONARY:

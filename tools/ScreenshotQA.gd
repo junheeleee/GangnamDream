@@ -614,7 +614,7 @@ func _ready() -> void:
 		return
 	if scope == QA_SCOPE_IMMERSION_LOOP:
 		var lang := _qa_language("en")
-		await _shot_immersion_loop_surfaces(lang, "immersion_en_" if lang == "en" else "immersion_ko_")
+		await _shot_immersion_loop_surfaces(lang, "immersion_%s_" % lang)
 		if _qa_failed:
 			get_tree().quit(1)
 			return
@@ -8541,6 +8541,16 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 	GameState.week_of_month = 4
 	GameState.monthly_income = 2_240_000.0
 	GameState.money = -2_100_000.0
+	GameState.forgone_path_debts = {
+		"rest": {
+			"action_id": "rest",
+			"person_id": "",
+			"first_turn": GameState.turn - 8,
+			"last_turn": GameState.turn - 4,
+			"count": 2,
+			"pressure_family": "body",
+		},
+	}
 	if _mg.has_method("_render_ap_actions"):
 		_mg.call("_render_ap_actions")
 	if _mg.has_method("_refresh_all"):
@@ -8552,6 +8562,12 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 	var due_marker := _tr("이번 달 고정비가 잔고보다 크다", "This month's bills exceed the available cash")
 	if due_text.findn(due_marker) < 0:
 		_fail("Immersion AP surface is missing the bill deadline in %s." % lang)
+		return
+	var delayed_cost_marker := _tr(
+		"미뤄 둔 대가 · {cost}", "DELAYED COST · {cost}"
+	).format({"cost": ""})
+	if due_text.findn(delayed_cost_marker) < 0:
+		_fail("Reopened rest card hid its delayed cost in %s: %s." % [lang, due_text])
 		return
 	if not _assert_goal_rung_label_fits("uncovered bills"):
 		return
@@ -8598,10 +8614,11 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 	var expected_application := _tr("지원", "Application")
 	var unexpected_rest := _tr("오늘은 멈춘다", "Stop for Today")
 	var expected_closed := _tr("지원서 다듬기", "Refine the Application")
+	var expected_hired := _tr("취업 · {job}", "HIRED · {job}").format({"job": ""})
 	if application_echo_text.findn(expected_application) < 0 \
 			or application_echo_text.findn(expected_closed) < 0 \
 			or application_echo_text.findn(_tr("실제 결과", "ACTUAL RESULT")) < 0 \
-			or application_echo_text.findn(_tr("취업", "HIRED")) < 0 \
+			or application_echo_text.findn(expected_hired) < 0 \
 			or application_echo_text.findn(unexpected_rest) >= 0:
 		_fail("Application echo surface did not preserve its exact cause in %s." % lang)
 		return

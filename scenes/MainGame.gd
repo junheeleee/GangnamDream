@@ -7249,6 +7249,13 @@ func _weekly_commitment_outcome_text(record: Dictionary) -> String:
 	var settlement_label := _weekly_commitment_settlement_label(record)
 	if not settlement_label.is_empty():
 		labels.append(settlement_label)
+	var return_cost_text := _weekly_commitment_return_cost_text(
+		record.get("return_cost", {}) as Dictionary)
+	if not return_cost_text.is_empty():
+		labels.append(_tr(
+			"미뤄 둔 대가 · {cost}",
+			"DELAYED COST · {cost}"
+		).format({"cost": return_cost_text}))
 	var job_id := str(outcome.get("job_id", details.get("job_id", "")))
 	if not job_id.is_empty():
 		var job: Dictionary = DataRegistry.get_job(job_id)
@@ -8012,7 +8019,91 @@ func _demo_action_spec(action_id: String, person_id: String = "") -> Dictionary:
 			}
 	return {}
 
+func _weekly_commitment_return_cost_text(cost: Dictionary) -> String:
+	if cost.is_empty():
+		return ""
+	var missed_count: int = maxi(1, int(cost.get("missed_count", 1)))
+	var weeks_elapsed: int = maxi(1, int(cost.get("weeks_elapsed", 1)))
+	match str(cost.get("kind", "")):
+		"relationship_cooling":
+			var person_id := str(cost.get("person_id", ""))
+			var person_name := str(ImageRegistry.get_person_info(person_id).get(
+				"name", _tr("인연", "the relationship")))
+			return _tr(
+				"{weeks}주 늦은 연락 · {name} 호감 {delta}",
+				"Contact delayed {weeks}W · {name} affinity {delta}"
+			).format({
+				"weeks": weeks_elapsed,
+				"name": person_name,
+				"delta": _weekly_commitment_signed_number(float(cost.get("affinity", 0))),
+			})
+		"accumulated_fatigue":
+			return _tr(
+				"휴식 미룸 {count}회 · 회복 후 건강 {health} / 정신 {mental}",
+				"{count} missed rests · recovery Health {health} / Mental {mental}"
+			).format({
+				"count": missed_count,
+				"health": _weekly_commitment_signed_number(float(cost.get("health", 0))),
+				"mental": _weekly_commitment_signed_number(float(cost.get("mental", 0))),
+			})
+		"application_delay":
+			return _tr(
+				"놓친 지원 {count}회 · 새 직장 업무성과 {delta}",
+				"Applications deferred {count}x · starting performance {delta}"
+			).format({
+				"count": missed_count,
+				"delta": _weekly_commitment_signed_number(float(cost.get("work_performance", 0))),
+			})
+		"restart_friction":
+			return _tr(
+				"{weeks}주 만의 재시동 · 정신 {delta}",
+				"Restarting after {weeks}W · Mental {delta}"
+			).format({
+				"weeks": weeks_elapsed,
+				"delta": _weekly_commitment_signed_number(float(cost.get("mental", 0))),
+			})
+		"market_moved":
+			var asset_id := str(cost.get("market_asset_id", ""))
+			if not asset_id.is_empty():
+				return _tr(
+					"기다린 {weeks}주 · {asset} 가격 {change}",
+					"Waited {weeks}W · {asset} moved {change}"
+				).format({
+					"weeks": weeks_elapsed,
+					"asset": _weekly_commitment_asset_name(asset_id),
+					"change": "%+.1f%%" % (float(cost.get("market_change_ratio", 0.0)) * 100.0),
+				})
+			return _tr(
+				"기다린 {weeks}주 · 그 시장 창은 이미 지나갔다",
+				"Waited {weeks}W · that market window has already passed"
+			).format({"weeks": weeks_elapsed})
+		"missed_shifts":
+			return _tr(
+				"지나간 알바 {count}회분의 현금은 돌아오지 않는다",
+				"Cash from {count} missed shifts does not come back"
+			).format({"count": missed_count})
+		"missed_savings":
+			return _tr(
+				"줄이지 못한 지출 {count}회분은 이미 빠져나갔다",
+				"Spending left uncut {count}x has already gone out"
+			).format({"count": missed_count})
+	return ""
+
 func _weekly_commitment_preview(action_id: String, person_id: String = "") -> Dictionary:
+	var preview := _weekly_commitment_base_preview(action_id, person_id)
+	var return_cost := GameState.get_forgone_path_return(action_id, person_id)
+	var return_text := _weekly_commitment_return_cost_text(return_cost)
+	if not return_text.is_empty():
+		preview["cost"] = _tr(
+			"{base}\n미뤄 둔 대가 · {cost}",
+			"{base}\nDELAYED COST · {cost}"
+		).format({
+			"base": str(preview.get("cost", "")),
+			"cost": return_text,
+		})
+	return preview
+
+func _weekly_commitment_base_preview(action_id: String, person_id: String = "") -> Dictionary:
 	match action_id:
 		"apply":
 			return {
@@ -9384,14 +9475,20 @@ func _make_demo_decision_card(title: String, subtitle: String, icon_id: String,
 		var detail_value := str(detail_spec[1])
 		if detail_value.is_empty():
 			continue
-		var detail_label := _label(
-			"%s · %s" % [detail_key, detail_value], 9,
-			str(detail_spec[2]) if not disabled else "#41464e")
+		var detail_text := "%s · %s" % [detail_key, detail_value]
+		var detail_color := str(detail_spec[2]) if not disabled else "#41464e"
+		var detail_label: Label
+		if detail_value.contains("\n"):
+			detail_label = _wrap_label(detail_text, 9, detail_color)
+			detail_label.custom_minimum_size = Vector2(0, 25)
+			detail_label.max_lines_visible = 2
+		else:
+			detail_label = _label(detail_text, 9, detail_color)
+			detail_label.clip_text = true
+			detail_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		detail_label.set_meta("moral_role", "hint_text")
 		detail_label.set_meta("commitment_detail", detail_key.to_lower())
 		detail_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		detail_label.clip_text = true
-		detail_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		details.add_child(detail_label)
 
 	var edge := ColorRect.new()
