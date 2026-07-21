@@ -57,6 +57,28 @@ require_clean_playtest_source() {
   fi
 }
 
+prepare_playtest_imports() {
+  echo ""
+  echo "📦 clean checkout 리소스·전역 클래스 import 준비..."
+  local output
+  local exit_code=0
+  if output=$("$GODOT" --headless --path "$PROJECT_DIR" --import 2>&1); then
+    exit_code=0
+  else
+    exit_code=$?
+  fi
+
+  local import_errors
+  import_errors=$(echo "$output" | grep -E \
+    "SCRIPT ERROR|Parse Error|Compile Error|Failed to load script|Failed loading resource" || true)
+  if [[ "$exit_code" -ne 0 || -n "$import_errors" ]]; then
+    echo "❌ clean checkout import 실패 (exit=$exit_code)"
+    echo "$output"
+    exit 1
+  fi
+  echo "✅ clean checkout import 완료"
+}
+
 # 템플릿 확인 (macOS / Linux 경로 모두 지원)
 TEMPLATES_DIR="$HOME/Library/Application Support/Godot/export_templates"
 if [[ ! -d "$TEMPLATES_DIR" ]]; then
@@ -141,11 +163,17 @@ run_demo_contract() {
   echo ""
   echo "🧪 데모 flavor·1~8주·24주 차단 계약 검사..."
   local output
-  output=$("$GODOT" --headless --path "$PROJECT_DIR" --quit-after 3600 \
-    res://tools/DemoBuildCheck.tscn -- --demo-build 2>&1)
+  local exit_code=0
+  if output=$("$GODOT" --headless --path "$PROJECT_DIR" --quit-after 3600 \
+      res://tools/DemoBuildCheck.tscn -- --demo-build 2>&1); then
+    exit_code=0
+  else
+    exit_code=$?
+  fi
   echo "$output" | grep -E "DEMO_BUILD_(CHECK_OK|CHECK_FAIL)|SCRIPT ERROR|Parse Error|Compile Error" || true
-  if ! echo "$output" | grep -q "DEMO_BUILD_CHECK_OK"; then
-    echo "❌ 데모 계약 검사 실패"
+  if [[ "$exit_code" -ne 0 ]] || ! echo "$output" | grep -q "DEMO_BUILD_CHECK_OK"; then
+    echo "❌ 데모 계약 검사 실패 (exit=$exit_code)"
+    echo "$output"
     exit 1
   fi
 }
@@ -216,6 +244,8 @@ write_demo_manifest() {
 }
 
 build_playtest() {
+  require_clean_playtest_source
+  prepare_playtest_imports
   require_clean_playtest_source
   run_demo_contract
   build_windows_demo

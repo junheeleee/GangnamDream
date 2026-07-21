@@ -11,6 +11,7 @@
 ### 오래된 데모를 실수로 배포하지 않게 했다
 
 - 기존 `build/demo` manifest는 현재 소스보다 오래된 `449522c`였다. `playtest` 타겟은 이제 tracked·untracked 변경을 빌드 전·후에 거부하고, manifest에 전체 commit/tree 해시와 `source_status=clean`을 기록한다.
+- 첫 clean checkout은 `.godot/imported` 폰트와 전역 클래스 캐시가 없어 계약 검사 전에 중단됐다. 기존 작업트리 캐시가 숨겼던 빌드 결함을 재현했고, clean 확인 → Godot `--import` → clean 재확인 → 계약/export 순서로 수리했다. fresh checkout에서 import 오류 0·`DEMO_BUILD_CHECK_OK`를 확인했다.
 - 완료 커밋은 별도 clean worktree에서 Windows/macOS/Linux·Steam Deck 데모 3종으로 재생성해 사용자의 `project.godot` 변경을 만지지 않는다.
 - 전체 감사는 사건 1,565·정점 32·엔딩 35·오디오 113·JA UI 2,294·GDScript 55개 컴파일까지 통과했다. 외부 표본은 아직 0명이므로 사용자 NO-GO를 그대로 유지한다.
 

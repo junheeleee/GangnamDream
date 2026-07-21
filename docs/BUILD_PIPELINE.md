@@ -44,11 +44,13 @@ GODOT=/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot \
 
 이 명령은 순서대로 다음을 수행한다.
 
-1. 데모 flavor, t=1~8 정본 아크, t=24 허용/t=25 차단 계약 검사
-2. Windows 데모 export
-3. macOS 데모 export
-4. Linux/Steam Deck 데모 export
-5. `build/demo/MANIFEST.sha256` 생성
+1. tracked·untracked 변경 0인 clean Git 소스 확인
+2. Godot `--import`로 fresh checkout의 리소스·`class_name` 캐시 생성
+3. 소스 재확인 후 데모 flavor, t=1~8 정본 아크, t=24 허용/t=25 차단 계약 검사
+4. Windows 데모 export
+5. macOS 데모 export
+6. Linux/Steam Deck 데모 export
+7. 소스 재확인 후 `build/demo/MANIFEST.sha256` 생성
 
 개별 빌드는 `windows-demo`, `macos-demo`, `linux-demo` 타깃을 사용한다. 정식판은 기존 `windows`, `macos`, `linux`, `all` 타깃을 사용한다. 개별 개발 export는 RC가 아니며 clean-tree 게이트를 통과했다고 간주하지 않는다.
 
@@ -120,6 +122,7 @@ Windows와 Linux/Deck의 `run` 칸은 아직 미검증이다. macOS 실주행 �
 | 대상 | 결과 | 범위 |
 |---|---|---|
 | Dirty source rejection | PASS | tracked·untracked 변경이 있는 `playtest` 즉시 중단 |
+| Fresh checkout import | PASS | `.godot` 캐시 0에서 `--import` 완료 후 `DEMO_BUILD_CHECK_OK` |
 | Provenance manifest | PASS | 전체 commit/tree·`source_status=clean`·Godot 버전·생성 UTC·3종 SHA-256 |
 | Session schema | PASS | 중복·혼합 빌드·플랫폼 해시 이탈·필드/점수 오류 거부 |
 | Aggregator fixtures | PASS | 8건: 준비/미달/NO-GO/P0/중복/혼합/점수/enum |
