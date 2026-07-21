@@ -45,6 +45,13 @@
 > **빈 손 금지 사다리 (2026-07-15 유저 지시 — "노는 토큰 없게")**: 현재 오더가 대기/차단되면 즉시 다음 순서로: **24(정점 체인) → 16(입력×해상도) → 18(부채 인벤토리) → P1-4 유물 오브젝트 아트 6종 → P1-E 잔여 결산 CG(orthodox_pinnacle→burnout→무드 심벌 잔여 8종→「그녀는 알고 있었다」 1컷) → 15(모드 2층) → 17(데이터 모딩)**. 유저 Round 판정 도착 시 모든 것에 우선해 데모 재수리.
 > **🔁 데모 집중 체제 (2026-07-14)**: 모든 오더에 데모 우선 필터 — ORDER-22는 **데모 범위(t≤24)에 먼저 적용·빌드**하고 유저 라운드에 태운다(전 범위 확산은 그 다음). 유저 데모 GO 전까지 21(번역 본문)·11(트레일러 최종컷) 동결 유지. 라운드 원장 = `docs/DEMO_FIXLOG.md`.
 
+#### [~] ORDER-40 [P0·인과 수리] 지원하지 않은 첫 면접 연락 차단
+**착수 (2026-07-21 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `scenes/MainGame.gd`, `content/events/arc_events.json`, `content/events_en/arc_events.json`, `locale/ui_ja.json`, `tools/CoreChoiceSliceCheck.gd`, `tools/DemoBuildCheck.gd`, `tools/arc_flow_sim.py`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
+
+**진단 근거:** 첫 주 `일자리부터 잡는다 / 현금부터 지킨다 / 다음 기회를 준비한다` 중 무엇을 골라도 `_next_arc_id()`가 2주차에 `arc_intro_01_meal`을 무조건 반환한다. 프롤로그는 구인 앱을 열고 지원 버튼에 손을 올렸다고만 썼으며 실제 지원은 하지 않았으므로, 현금·준비 경로에도 업체 연락과 면접이 생기는 인과 오류다.
+
+**수리 범위·수용 기준:** 첫 구직 행동은 즉시 취업시키지 않고 공고 1건에 실제 지원서를 보내는 주간 거래가 된다. 지원 주차를 저장하고 그 다음 주부터만 첫 면접을 허용하며, 지원하지 않은 경로·지원한 당일·이미 취업한 구 저장에는 면접을 발생시키지 않는다. 첫 면접 이후에는 기존 `지원 계속`과 직업 선택 흐름을 보존한다. KO/EN 카피, 저장 플래그, 대표 job-first 아크, 비구직 분기, 전체 `audit.sh`를 검증한다.
+
 #### [x] ORDER-36 [P0·코어 재설계] 선택의 내용물 수술 — "내 계획 → 방해 → 대가" 8주 수직 단면
 **[~] 착수 (2026-07-20 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `docs/FUN_AUDIT_2026-07-20.md`, `docs/DECISIONS.md`, `docs/GAME_RECOMPOSITION_PLAN.md`, `docs/DEMO_FIXLOG.md`, `autoloads/GameState.gd`, `autoloads/EventManager.gd`, `scenes/MainGame.gd`, `scenes/StoryMode.gd`, `content/meta/event_director.json`, `content/meta/narrative_spine.json`, `content/meta/story_rules.json`, `content/events/arc_events.json`, `content/events_en/arc_events.json`, `locale/ui_ja.json`, `tools/CoreChoiceSliceCheck.gd`, `tools/CoreChoiceSliceCheck.gd.uid`, `tools/CoreChoiceSliceCheck.tscn`, `tools/DemoBuildCheck.gd`, `tools/EventDirectorCheck.gd`, `tools/ImmersionLoopCheck.gd`, `tools/arc_flow_sim.py`, `tools/demo_experience_audit.py`, `tools/narrative_continuity_audit.py`, `tools/ScreenshotQA.gd`, `tools/audit.sh`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
 
