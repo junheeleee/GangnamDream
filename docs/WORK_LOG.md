@@ -1,5 +1,19 @@
 # Gangnam Dream Work Log
 
+## 2026-07-21 (Codex — 외부 정상 독해 RC·결과 집계 게이트)
+
+### 자동 통과를 사람의 재미 판정으로 위장하지 않게 했다
+
+- 30분 무설명 세션을 개인정보 없는 엄격한 JSON으로 받고, 중복 ID·혼합 빌드·잘못된 해시·누락 필드·점수 범위 이탈을 집계 전에 거부하는 `tools/playtest_report.py`를 추가했다.
+- 최소 10명, EN 3명, 서사 경험/비경험 각 4명, 구체적 3주 계획 70%, P0 0건을 구조 게이트로 잠그되 결과는 `INCOMPLETE_SAMPLE`, `NO_GO_REPAIR_REQUIRED`, `READY_FOR_HUMAN_VERDICT`로만 표현한다.
+- 정상 준비·표본 미달·계획 실패·P0·중복·혼합 revision·필드 오류 8건의 자체 검사를 `audit.sh`에 추가했다.
+
+### 오래된 데모를 실수로 배포하지 않게 했다
+
+- 기존 `build/demo` manifest는 현재 소스보다 오래된 `449522c`였다. `playtest` 타겟은 이제 tracked·untracked 변경을 빌드 전·후에 거부하고, manifest에 전체 commit/tree 해시와 `source_status=clean`을 기록한다.
+- 완료 커밋은 별도 clean worktree에서 Windows/macOS/Linux·Steam Deck 데모 3종으로 재생성해 사용자의 `project.godot` 변경을 만지지 않는다.
+- 전체 감사는 사건 1,565·정점 32·엔딩 35·오디오 113·JA UI 2,294·GDScript 55개 컴파일까지 통과했다. 외부 표본은 아직 0명이므로 사용자 NO-GO를 그대로 유지한다.
+
 ## 2026-07-21 (Codex — ORDER-28 놓친 길의 장기 비용)
 
 ### 포기가 같은 길의 다음 선택을 바꾸게 했다

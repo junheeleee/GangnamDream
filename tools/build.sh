@@ -40,6 +40,23 @@ echo "📂 프로젝트: $PROJECT_DIR"
 echo "🔧 Godot:    $GODOT ($("$GODOT" --version 2>&1 | head -1))"
 TARGET="${1:-web}"
 
+require_clean_playtest_source() {
+  if ! command -v git >/dev/null 2>&1 || \
+      ! git -C "$PROJECT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "❌ 공개 플레이테스트 빌드는 Git 커밋에서만 만들 수 있습니다."
+    exit 1
+  fi
+
+  local source_status
+  source_status=$(git -C "$PROJECT_DIR" status --porcelain --untracked-files=all)
+  if [[ -n "$source_status" ]]; then
+    echo "❌ 플레이테스트 RC 빌드 거부: 작업트리가 깨끗하지 않습니다."
+    echo "$source_status" | sed 's/^/   /'
+    echo "   변경을 커밋하거나 별도 clean worktree에서 다시 실행하세요."
+    exit 1
+  fi
+}
+
 # 템플릿 확인 (macOS / Linux 경로 모두 지원)
 TEMPLATES_DIR="$HOME/Library/Application Support/Godot/export_templates"
 if [[ ! -d "$TEMPLATES_DIR" ]]; then
@@ -176,12 +193,16 @@ build_linux_demo() {
 write_demo_manifest() {
   local manifest="$PROJECT_DIR/build/demo/MANIFEST.sha256"
   local revision="unknown"
+  local tree="unknown"
   if command -v git >/dev/null 2>&1; then
-    revision=$(git -C "$PROJECT_DIR" rev-parse --short HEAD 2>/dev/null || printf 'unknown')
+    revision=$(git -C "$PROJECT_DIR" rev-parse HEAD 2>/dev/null || printf 'unknown')
+    tree=$(git -C "$PROJECT_DIR" rev-parse 'HEAD^{tree}' 2>/dev/null || printf 'unknown')
   fi
   {
     echo "# Gangnam Dream demo playtest build"
     echo "# revision=$revision"
+    echo "# tree=$tree"
+    echo "# source_status=clean"
     echo "# godot=$($GODOT --version 2>&1 | head -1)"
     echo "# generated_utc=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
     for artifact in \
@@ -195,10 +216,12 @@ write_demo_manifest() {
 }
 
 build_playtest() {
+  require_clean_playtest_source
   run_demo_contract
   build_windows_demo
   build_macos_demo
   build_linux_demo
+  require_clean_playtest_source
   write_demo_manifest
 }
 

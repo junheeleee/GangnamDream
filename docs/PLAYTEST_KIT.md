@@ -4,7 +4,7 @@
 
 ## 1. 모집 표본
 
-- 총 5~10명. 첫 판정은 10명을 권장한다.
+- 초기 5명은 진행 절차와 P0 오류를 찾는 파읿이며, 최종 구조 판정은 **동일 RC 10명**을 채운 뒤에만 낸다.
 - 절반은 비주얼노벨/서사 게임 경험자, 절반은 거의 하지 않는 사람으로 맞춘다.
 - 국제 출시 판단에는 영어 원어민 또는 자연스러운 영어 사용자 3명 이상을 포함한다.
 - 개발 과정, 공략, 정답 선택지, 30억 달성법을 아는 사람은 제외한다.
@@ -27,6 +27,22 @@ English:
 - 테스터가 선택한 언어, 해상도, 입력 장치를 기록한다.
 - 화면과 게임 오디오를 기록한다. 얼굴·실명·음성은 동의가 있을 때만 기록한다.
 - 타이머는 언어 선택 화면을 본 순간부터 30분이다.
+
+### RC 식별과 세션 JSON
+
+`playtest` 빌드는 더러운 작업트리를 거부한다. 진행자는 `MANIFEST.sha256`의 전체 commit/tree 해시와 `source_status=clean`을 확인하고, manifest 파일 자체와 배포한 플랫폼 산출물의 SHA-256을 세션에 기록한다.
+
+```bash
+sed -n '1,8p' build/demo/MANIFEST.sha256
+shasum -a 256 build/demo/MANIFEST.sha256
+shasum -a 256 build/demo/windows/GangnamDreamDemo.exe
+```
+
+- 기록 정본: `docs/playtest_session_template.json`
+- 세션당 JSON 파일 하나를 사용하고 `session_id`를 중복하지 않는다.
+- 실명·연락처·음성·자유 전사문 같은 개인정보는 JSON에 넣지 않는다.
+- `build_revision`, `manifest_sha256`, `artifact_sha256`은 직접 입력한다. 하나의 집계에 서로 다른 revision/manifest가 섞이면 전체를 거부한다.
+- `plan_score`는 진행자가 설문 직후 0~2로 채점하고, 나머지 1~5점은 테스터 응답을 그대로 기록한다.
 
 진행자가 읽을 문장은 이것뿐이다.
 
@@ -137,5 +153,20 @@ English:
 3. 기억 선택이 반복해서 같은 한 장면에만 몰리면 나머지 데모 장면의 하중을 재검토한다.
 4. 계속 의향이 낮은 이유는 `텍스트/루프/조작/톤/아트/기술`로 분류하되 원문을 함께 남긴다.
 5. 같은 장면이 아트 이탈로 2회 이상 지목되면 `docs/ART_AI_AUDIT.md` P0 후보로 올린다.
+
+세션 JSON을 정형 검증하고 집계한다.
+
+```bash
+python3 tools/playtest_report.py /path/to/sessions/*.json > /path/to/playtest-report.md
+python3 tools/playtest_report.py --format json /path/to/sessions/*.json
+```
+
+집계기는 중복 ID, 혼합 revision/manifest, 같은 플랫폼의 서로 다른 바이너리, 누락·알 수 없는 필드, 점수 범위 이탈을 거부한다. 결과 상태는 세 가지다.
+
+| 상태 | 의미 |
+|---|---|
+| `INCOMPLETE_SAMPLE` | 10명, EN 3명, 서사 경험/비경험 각 4명 이상 중 하나가 부족하다. 수리 결정 전에 같은 RC 표본을 채운다. |
+| `NO_GO_REPAIR_REQUIRED` | P0 오류가 하나라도 있거나, 완성 표본의 구체적 3주 계획이 70% 미만이다. |
+| `READY_FOR_HUMAN_VERDICT` | 표본 계약·P0·계획 임계를 통과했다. 지금도 재미·출시 GO는 아니며 원문, 중단 이유, 기억 선택, 아트 이탈을 사람이 검토한다. |
 
 내부 QA 통과는 외부 플레이테스트 통과를 대신하지 않는다. 이 키트의 첫 10명 결과가 데모 구조 변경 여부를 결정한다.
