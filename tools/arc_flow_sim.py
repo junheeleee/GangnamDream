@@ -554,7 +554,7 @@ EXPECTED_CHAPTER1 = {
         20: "arc_job_vs_invest",
         21: "arc_father_02_signal",
         22: "arc_gangnam_visit_alone",
-        23: "hyunsu_exam_day",
+        24: "hyunsu_exam_day",
         25: "hyunsu_result_fail",
         28: "arc_sangchul_02_coffee",
         29: "arc_hyunsu_exam_fail",
@@ -584,7 +584,7 @@ EXPECTED_CHAPTER1 = {
         20: "arc_job_vs_invest",
         21: "arc_father_02_signal",
         22: "arc_gangnam_visit_alone",
-        23: "hyunsu_exam_day",
+        24: "hyunsu_exam_day",
         25: "hyunsu_result_fail",
         28: "arc_goshiwon_goodbye",
         29: "arc_hyunsu_exam_fail",
@@ -619,7 +619,7 @@ HYUNSU_CHAPTER1_SEQUENCE = [
 ]
 
 HYUNSU_TEMPORAL_GATES = {
-    "hyunsu_exam_day": 23,
+    "hyunsu_exam_day": 24,
     "hyunsu_result_pass": 25,
     "hyunsu_result_fail": 25,
 }

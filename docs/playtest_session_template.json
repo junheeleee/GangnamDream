@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "session_id": "P01",
   "build_revision": "replace0",
   "manifest_sha256": "replace_with_sha256_of_build_demo_manifest_file",
@@ -17,6 +17,9 @@
   "remembered_choice": false,
   "remembered_choice_text": "",
   "remembered_choice_scene": "",
+  "hesitated_choice": false,
+  "hesitated_choice_text": "",
+  "hesitated_choice_scene": "",
   "goal_clarity": 1,
   "weekly_decision_clarity": 1,
   "consequence_feel": 1,

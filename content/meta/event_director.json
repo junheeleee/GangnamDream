@@ -177,13 +177,11 @@
         { "id": "arc_hyunsu_night_talk", "axis": "human", "person_id": "hyunsu" }
       ],
       "23": [
-        { "id": "hyunsu_exam_day", "axis": "human", "person_id": "hyunsu" },
-        { "id": "arc_gangnam_visit_alone", "axis": "money" }
+        { "id": "story_first_savings_milestone", "axis": "money" }
       ],
       "24": [
-        { "id": "story_first_savings_milestone", "axis": "money" },
-        { "id": "story_six_months", "axis": "human" },
         { "id": "hyunsu_exam_day", "axis": "human", "person_id": "hyunsu" },
+        { "id": "story_six_months", "axis": "human" },
         { "id": "arc_gangnam_visit_alone", "axis": "money" }
       ]
     },

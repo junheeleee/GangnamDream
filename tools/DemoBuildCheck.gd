@@ -162,8 +162,8 @@ func _check_chapter_one_temporal_contract() -> void:
 	var exam_day: Dictionary = DataRegistry.find_event("hyunsu_exam_day")
 	var result_pass: Dictionary = DataRegistry.find_event("hyunsu_result_pass")
 	var result_fail: Dictionary = DataRegistry.find_event("hyunsu_result_fail")
-	_expect(int((exam_day.get("conditions", {}) as Dictionary).get("min_turn", 0)) == 23,
-		"Hyunsu's exam data gate must open in week 23, after the Gangnam finale.")
+	_expect(int((exam_day.get("conditions", {}) as Dictionary).get("min_turn", 0)) == 24,
+		"Hyunsu's exam data gate must open in week 24, at the demo exit.")
 	_expect(int((result_pass.get("conditions", {}) as Dictionary).get("min_turn", 0)) == 25,
 		"Hyunsu's passing result must wait until week 25.")
 	_expect(int((result_fail.get("conditions", {}) as Dictionary).get("min_turn", 0)) == 25,
@@ -392,13 +392,13 @@ func _check_employment_consistency() -> void:
 	GameState.flags["story_first_paycheck_seen"] = true
 	GameState.flags.erase("story_first_savings_seen")
 	GameState.flags.erase("story_first_savings_pending")
-	GameState.turn = 17
+	GameState.turn = 22
 	GameState.money = 3_000_000.0
 	_expect(str(main_game.call("_next_milestone_id")).is_empty(),
-		"First savings milestone interrupted Jiyeon's week-seventeen scene.")
+		"First savings milestone surfaced before its week-twenty-three slot.")
 	_expect(GameState.flags.get("story_first_savings_pending", false),
-		"Crossing three million won was not latched for the next quiet week.")
-	GameState.turn = 18
+		"Crossing three million won was not latched for week twenty-three.")
+	GameState.turn = 23
 	GameState.money = 2_900_000.0
 	_expect(str(main_game.call("_next_milestone_id")) == "story_first_savings_milestone",
 		"A latched savings milestone vanished after later AP spending.")
@@ -419,6 +419,11 @@ func _check_ap_bonus_surface() -> void:
 	if packed == null:
 		_failures.append("MainGame.tscn failed to load for AP checks.")
 		return
+	# Earlier temporal checks intentionally leave the state on an authored week.
+	# Reset so this assertion measures the generic AP rail, not story ownership.
+	GameState.start_new_game("김민준", "지방_상경", "직장형", "백수", "자유런", "현실")
+	GameState.turn = 3
+	GameState.money = 10_000_000.0
 	var main_game := packed.instantiate()
 	GameState.max_action_points = 2
 	GameState.action_points = 3

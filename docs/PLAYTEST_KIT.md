@@ -91,15 +91,16 @@ English:
 4. 글자, 버튼, 정보 배치가 읽고 조작하기 편했다. / Text, buttons, and information were easy to read and use.
 5. 그림이 게임의 분위기와 어울렸다. / The art fit the game's atmosphere.
 
-### 정성 3문항
+### 정성 4문항
 
 1. 앞으로 세 주 동안 무엇을 할 계획이었나요? / What were you planning to do over the next three weeks?
 2. 가장 기억에 남는 선택 하나와 그 이유는 무엇인가요? / What single choice do you remember most, and why?
-3. 계속하고 싶은 이유 또는 멈추고 싶은 가장 큰 이유는 무엇인가요? / What is the main reason you would continue or stop?
+3. 실제로 고르기를 망설였던 선택이 있었나요? 있었다면 어떤 선택이었고 왜였나요? / Was there a choice you actually hesitated over? Which one, and why?
+4. 계속하고 싶은 이유 또는 멈추고 싶은 가장 큰 이유는 무엇인가요? / What is the main reason you would continue or stop?
 
 ### 아트 추가 스팟체크
 
-정량 5번과 짝을 이루는 필수 후속 질문이다. 핵심 정성 3문항 수에는 포함하지 않는다.
+정량 5번과 짝을 이루는 필수 후속 질문이다. 핵심 정성 4문항 수에는 포함하지 않는다.
 
 - 거슬리거나 게임에서 튄 그림이 있었다면 장면 하나를 적어 주세요. / Name one scene whose art bothered you or felt out of place, if any.
 - 답변에는 가능하면 장면 제목 또는 당시 장소를 적는다. 진행자는 “AI 같았나요?”처럼 원인을 유도하지 않는다. / Ask for a scene title or location when possible. Do not lead the player by asking whether it looked AI-generated.
@@ -133,6 +134,7 @@ English:
 |---|---|
 | 돈 50만원·목표 30억·5년을 처음 이해한 순간 |  |
 | 첫 의미 있는 선택 |  |
+| 선택지 앞에서 5초 이상 멈춘 장면(주차·선택 원문) |  |
 | AP 화면에서 첫 행동 결정까지 걸린 시간 |  |
 | 첫 잘못 누름/포커스 이탈 |  |
 | 텍스트를 연속으로 빠르게 넘긴 구간 |  |
@@ -142,17 +144,18 @@ English:
 
 ## 7. 결과 집계
 
-| Session | 경험 | 언어 | 3주 계획 0~2 | 기억 선택 있음 | 계속 의향 1~5 | UI 1~5 | Art 1~5 | 자발 중단 | P0 오류 |
-|---|---|---|---:|---|---:|---:|---:|---|---|
-| P01 |  |  |  |  |  |  |  |  |  |
+| Session | 경험 | 언어 | 3주 계획 0~2 | 기억 선택 | 망설인 선택 | 계속 의향 1~5 | UI 1~5 | Art 1~5 | 자발 중단 | P0 오류 |
+|---|---|---|---:|---|---|---:|---:|---:|---|---|
+| P01 |  |  |  |  |  |  |  |  |  |  |
 
 판정 순서:
 
 1. 크래시, 진행 불가, 저장 손상은 즉시 P0 수정이다.
 2. 3주 계획 구체 답변이 7/10 미만이면 콘텐츠를 더 넣지 말고 AP 정보 구조와 선택 결과 피드백을 먼저 고친다.
 3. 기억 선택이 반복해서 같은 한 장면에만 몰리면 나머지 데모 장면의 하중을 재검토한다.
-4. 계속 의향이 낮은 이유는 `텍스트/루프/조작/톤/아트/기술`로 분류하되 원문을 함께 남긴다.
-5. 같은 장면이 아트 이탈로 2회 이상 지목되면 `docs/ART_AI_AUDIT.md` P0 후보로 올린다.
+4. 실제 망설임이 10명 중 0~1명이라면 자동 판정을 바꾸지 않고, 선택 판돈 수술의 근거로 장면·선택 원문과 함께 보고한다.
+5. 계속 의향이 낮은 이유는 `텍스트/루프/조작/톤/아트/기술`로 분류하되 원문을 함께 남긴다.
+6. 같은 장면이 아트 이탈로 2회 이상 지목되면 `docs/ART_AI_AUDIT.md` P0 후보로 올린다.
 
 세션 JSON을 정형 검증하고 집계한다.
 

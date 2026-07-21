@@ -2855,11 +2855,20 @@ func _run_demo_input_route(
 		return
 	var demo_flow_summary := _summarize_demo_scene_flow(demo_scene_flow)
 	_print_demo_scene_flow_summary(demo_flow_summary)
+	var last_demo_story_id := ""
+	if not demo_scene_flow.is_empty():
+		var last_demo_flow: Dictionary = demo_scene_flow[-1]
+		last_demo_story_id = str(last_demo_flow.get("id", ""))
 	if not full_run:
 		var demo_flow_error := _demo_scene_flow_error(
 				demo_flow_summary, demo_scene_flow, story_event_weeks)
 		if not demo_flow_error.is_empty():
 			_fail(demo_flow_error)
+			return
+		if last_demo_story_id != "hyunsu_exam_day":
+			MetaProgression.data = original_meta
+			_fail("Demo exit must end on hyunsu_exam_day, got %s." % last_demo_story_id)
+			return
 	var spacing_error := _chapter_one_story_spacing_error(
 		story_event_weeks, route_week_inputs, full_run)
 	if not spacing_error.is_empty():
@@ -3286,6 +3295,7 @@ func _run_demo_input_route(
 			"available_commitment_budget": direct_decision_weeks,
 			"narrative_bridge_count": narrative_bridge_count,
 			"narrative_bridge_ids": narrative_bridge_ids,
+			"last_story_event_id": last_demo_story_id,
 		})
 	MetaProgression.data = original_meta
 	_print_demo_route_input_profile(route_input_counts, route_week_inputs)
@@ -3492,9 +3502,9 @@ func _demo_scene_flow_error(
 		if actual_week != int(expected_weeks[event_id]):
 			return "%s expected in demo week %d, got %d." % [
 				event_id, int(expected_weeks[event_id]), actual_week]
-	if event_weeks.has("story_first_savings_milestone") \
-			and int(event_weeks["story_first_savings_milestone"]) < 18:
-		return "First savings milestone was not deferred beyond Jiyeon's week-seventeen scene."
+	if int(event_weeks.get("story_first_savings_milestone", -1)) != 23:
+		return "First savings milestone must occupy demo week 23, got week %s." % \
+			event_weeks.get("story_first_savings_milestone", "missing")
 	var expected_locations := {
 		"story_first_paycheck_feel": "convenience_night",
 		"story_first_savings_milestone": "goshiwon_room",
@@ -3716,6 +3726,7 @@ func _finalize_demo_experience_profile(profile: Dictionary, runtime: Dictionary)
 		"story_commitment_axes": runtime.get("story_commitment_axes", {}),
 		"weekly_commitments": int(runtime.get("weekly_commitments", 0)),
 		"available_commitment_budget": int(runtime.get("available_commitment_budget", 0)),
+		"last_story_event_id": str(runtime.get("last_story_event_id", "")),
 		"scene_flow_summary": runtime.get("scene_flow_summary", {}),
 	}
 	profile["method_note"] = "Fast-path inputs verify reachability only; reading time is derived from exposed text and choice surfaces."
@@ -3746,15 +3757,20 @@ func _max_route_week_inputs(week_counts: Dictionary) -> Dictionary:
 
 func _chapter_one_story_spacing_error(
 		event_weeks: Dictionary, week_inputs: Dictionary, full_run: bool) -> String:
-	for event_id in ["arc_gangnam_visit_alone", "arc_four_months_in", "hyunsu_exam_day"]:
+	for event_id in [
+			"arc_gangnam_visit_alone", "arc_four_months_in",
+			"story_first_savings_milestone", "hyunsu_exam_day"]:
 		if not event_weeks.has(event_id):
 			return "Input route never reached chapter-one spacing anchor %s." % event_id
 	if int(event_weeks["arc_gangnam_visit_alone"]) != 22 \
 			or int(event_weeks["arc_four_months_in"]) != 22:
 		return "Gangnam demo finale drifted away from week 22: visit=%s threshold=%s." % [
 			event_weeks["arc_gangnam_visit_alone"], event_weeks["arc_four_months_in"]]
-	if int(event_weeks["hyunsu_exam_day"]) != 23:
-		return "Hyunsu's exam must begin in week 23 after the Gangnam finale, got week %s." % \
+	if int(event_weeks["story_first_savings_milestone"]) != 23:
+		return "First savings milestone must occupy week 23, got week %s." % \
+			event_weeks["story_first_savings_milestone"]
+	if int(event_weeks["hyunsu_exam_day"]) != 24:
+		return "Hyunsu's exam must close the demo in week 24, got week %s." % \
 			event_weeks["hyunsu_exam_day"]
 	if int(week_inputs.get(22, 0)) > 55:
 		return "Week 22 still requires %d inputs after separating the unrelated Hyunsu root." % \

@@ -21,6 +21,7 @@ from typing import Any, Iterable
 ROOT = Path(__file__).resolve().parents[1]
 SCENE_AUDIO_MANIFEST = ROOT / "assets" / "scene_audio_manifest.json"
 SCHEMA_VERSION = 1
+EXPECTED_LAST_STORY_EVENT_ID = "hyunsu_exam_day"
 KO_CHARS_PER_MINUTE = 390.0
 EN_WORDS_PER_MINUTE = 190.0
 PARAGRAPH_BREATH_SECONDS = 1.10
@@ -302,6 +303,17 @@ def analyze_report(report: dict[str, Any]) -> tuple[ExperienceMetrics, list[str]
 
     if int(runtime.get("weeks", 0)) != 24:
         errors.append(f"demo weeks {runtime.get('weeks')} != 24")
+    last_story_event_id = str(runtime.get("last_story_event_id", ""))
+    if last_story_event_id != EXPECTED_LAST_STORY_EVENT_ID:
+        errors.append(
+            f"last story event {last_story_event_id!r} != "
+            f"{EXPECTED_LAST_STORY_EVENT_ID!r}"
+        )
+    if not events or str(events[-1].get("id", "")) != EXPECTED_LAST_STORY_EVENT_ID:
+        errors.append(
+            "captured event order does not end on "
+            f"{EXPECTED_LAST_STORY_EVENT_ID}"
+        )
     if not 40 <= metrics.events <= 60:
         errors.append(f"event count outside 40..60: {metrics.events}")
     if metrics.roots != 25 or len(sequences) != 25:
@@ -326,7 +338,9 @@ def analyze_report(report: dict[str, Any]) -> tuple[ExperienceMetrics, list[str]
             f"{MAX_MEANINGFUL_GAP_MINUTES:.1f}m between "
             f"{metrics.max_meaningful_gap_ids[0]} and {metrics.max_meaningful_gap_ids[1]}"
         )
-    if metrics.ap_actions != metrics.ap_budget or metrics.ap_actions != 2:
+    # The base director owns two generic AP weeks. A causal first-job route can
+    # add one live cash-crisis intervention after the opening interview.
+    if metrics.ap_actions != metrics.ap_budget or not 2 <= metrics.ap_actions <= 3:
         errors.append(
             f"AP intervention mismatch: used={metrics.ap_actions} budget={metrics.ap_budget}"
         )
@@ -431,6 +445,7 @@ def parity_errors(left: dict[str, Any], right: dict[str, Any]) -> list[str]:
         "available_commitment_budget",
         "narrative_bridge_count",
         "narrative_bridge_ids",
+        "last_story_event_id",
         "scene_flow_summary",
     ):
         left_value = _as_dict(left.get("runtime")).get(key)
@@ -473,6 +488,7 @@ def _synthetic_report(language: str) -> dict[str, Any]:
             "authored_music_keys": [f"music_{index % 3}"] if index % 4 == 0 else [],
         }
         events.append(event)
+    events[-1]["id"] = EXPECTED_LAST_STORY_EVENT_ID
     return {
         "schema_version": SCHEMA_VERSION,
         "language": language,
@@ -494,6 +510,7 @@ def _synthetic_report(language: str) -> dict[str, Any]:
             "available_commitment_budget": 9,
             "narrative_bridge_count": 0,
             "narrative_bridge_ids": [],
+            "last_story_event_id": EXPECTED_LAST_STORY_EVENT_ID,
             "modal_counts": {"month_summary": 6},
             "scene_flow_summary": {"events": 50, "roots": 25, "followups": 25},
         },

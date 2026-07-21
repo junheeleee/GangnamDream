@@ -163,8 +163,8 @@ func _check_foreground_commitment_weeks() -> void:
 		13: "cafe_cb_honest_00",
 		16: "arc_father_quiet_call",
 		20: "arc_job_vs_invest",
-		23: "hyunsu_exam_day",
-		24: "story_first_savings_milestone",
+		23: "story_first_savings_milestone",
+		24: "hyunsu_exam_day",
 	}
 	for raw_week in representatives:
 		var week := int(raw_week)

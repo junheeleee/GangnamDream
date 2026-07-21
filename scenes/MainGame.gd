@@ -3258,10 +3258,10 @@ func _next_arc_id(
 			and not f.get("arc_hyunsu_night_seen", false):
 		return "arc_hyunsu_night_talk"
 
-	# ── 현수 — 시험 날 (턴 23~28, 밤 대화 이후) ──
-	# 주 22의 강남 방문→반년 문턱과 같은 주에 다른 인물의 시험·결과가
-	# 겹치지 않도록 다음 주부터 연다.
-	if t >= 23 and t <= 28 \
+	# ── 현수 — 시험 날 (턴 24~28, 밤 대화 이후) ──
+	# 주 22의 강남 방문→반년 문턱, 주 23의 첫 저축 이정표를 지나
+	# 데모 마지막 밤에 결과를 기다리는 감정으로 닫는다.
+	if t >= 24 and t <= 28 \
 			and f.get("arc_hyunsu_night_seen", false) \
 			and not f.get("hyunsu_exam_day_seen", false):
 		return "hyunsu_exam_day"
@@ -3936,8 +3936,8 @@ func _next_milestone_id() -> String:
 	if f.get("has_received_paycheck", false) and not f.get("story_first_paycheck_seen", false):
 		return "story_first_paycheck_feel"
 	# 첫 저축 마일스톤 — 통장 300만원 돌파
-	# 17주의 지연 사고와 같은 주에 재정 결산이 붙지 않도록 첫 300만원은
-	# 최소 18주까지 숙성시킨다. 처음 넘긴 사실은 잠가 두어 그 사이 AP 지출로
+	# 17주의 지연 사고와 후반부 인물 장면을 덮지 않도록 첫 300만원은
+	# 최소 23주까지 숙성시킨다. 처음 넘긴 사실은 잠가 두어 그 사이 AP 지출로
 	# 잔액이 다시 내려가도 이미 이룬 이정표가 사라지지 않게 한다.
 	if f.get("story_first_savings_seen", false):
 		f.erase("story_first_savings_pending")
@@ -3945,7 +3945,7 @@ func _next_milestone_id() -> String:
 		# Keep the write on the canonical owner so the flag cross-reference audit
 		# can prove that this pending milestone has a producer.
 		GameState.flags["story_first_savings_pending"] = true
-	if GameState.turn >= 18 and f.get("story_first_savings_pending", false) \
+	if GameState.turn >= 23 and f.get("story_first_savings_pending", false) \
 			and not f.get("story_first_savings_seen", false):
 		return "story_first_savings_milestone"
 	# 5년 = 60개월 = 240턴(주). 마일스톤은 달력(me) 기준.

@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 STATUS_READY = "READY_FOR_HUMAN_VERDICT"
 STATUS_INCOMPLETE = "INCOMPLETE_SAMPLE"
 STATUS_NO_GO = "NO_GO_REPAIR_REQUIRED"
@@ -43,6 +43,9 @@ REQUIRED_FIELDS = {
     "remembered_choice",
     "remembered_choice_text",
     "remembered_choice_scene",
+    "hesitated_choice",
+    "hesitated_choice_text",
+    "hesitated_choice_scene",
     "goal_clarity",
     "weekly_decision_clarity",
     "consequence_feel",
@@ -84,6 +87,8 @@ TEXT_FIELDS = {
     "plan_answer",
     "remembered_choice_text",
     "remembered_choice_scene",
+    "hesitated_choice_text",
+    "hesitated_choice_scene",
     "continue_or_stop_reason",
     "art_outlier_scene",
     "observer_notes",
@@ -165,7 +170,12 @@ def validate_session(raw: Any, source: str = "<memory>") -> dict[str, Any]:
     elif not 0 < float(duration) <= 120:
         errors.append(f"{source}: duration_minutes must be within (0, 120]")
 
-    for field in ("completed_full_session", "voluntary_stop", "remembered_choice"):
+    for field in (
+        "completed_full_session",
+        "voluntary_stop",
+        "remembered_choice",
+        "hesitated_choice",
+    ):
         if not isinstance(session[field], bool):
             errors.append(f"{source}: {field} must be boolean")
 
@@ -197,6 +207,10 @@ def validate_session(raw: Any, source: str = "<memory>") -> dict[str, Any]:
     if session.get("remembered_choice") and not session.get("remembered_choice_text"):
         errors.append(
             f"{source}: remembered_choice_text is required when remembered_choice is true"
+        )
+    if session.get("hesitated_choice") and not session.get("hesitated_choice_text"):
+        errors.append(
+            f"{source}: hesitated_choice_text is required when hesitated_choice is true"
         )
     if session.get("completed_full_session") and session.get("voluntary_stop"):
         errors.append(
@@ -313,7 +327,9 @@ def aggregate(sessions: list[dict[str, Any]]) -> dict[str, Any]:
         status = STATUS_READY
 
     remembered_scenes = _nonempty_counts(sessions, "remembered_choice_scene")
+    hesitated_scenes = _nonempty_counts(sessions, "hesitated_choice_scene")
     art_outliers = _nonempty_counts(sessions, "art_outlier_scene")
+    hesitated_choice_count = sum(session["hesitated_choice"] for session in sessions)
     return {
         "schema_version": SCHEMA_VERSION,
         "status": status,
@@ -329,6 +345,8 @@ def aggregate(sessions: list[dict[str, Any]]) -> dict[str, Any]:
         "concrete_plan_count": concrete_plans,
         "concrete_plan_required": required_concrete,
         "remembered_choice_count": sum(session["remembered_choice"] for session in sessions),
+        "hesitated_choice_count": hesitated_choice_count,
+        "hesitation_stake_review_recommended": total >= 10 and hesitated_choice_count <= 1,
         "voluntary_stop_count": voluntary_stops,
         "p0_session_count": p0_session_count,
         "medians": {
@@ -337,6 +355,7 @@ def aggregate(sessions: list[dict[str, Any]]) -> dict[str, Any]:
         },
         "primary_reason_counts": dict(sorted(reason_counts.items())),
         "remembered_scene_counts": dict(remembered_scenes.most_common()),
+        "hesitated_scene_counts": dict(hesitated_scenes.most_common()),
         "art_outlier_counts": dict(art_outliers.most_common()),
     }
 
@@ -366,6 +385,10 @@ def render_markdown(report: dict[str, Any]) -> str:
         f"(required {report['concrete_plan_required']})",
         f"- P0 sessions: **{report['p0_session_count']}**",
         f"- Voluntary stops: **{report['voluntary_stop_count']}**",
+        f"- Hesitated choices: **{report['hesitated_choice_count']}/{report['session_count']}**",
+        "- Choice-stakes follow-up evidence: **{}** (report only; does not change status)".format(
+            "REVIEW" if report["hesitation_stake_review_recommended"] else "not triggered"
+        ),
         "",
         "## Response Medians",
         "",
@@ -383,6 +406,7 @@ def render_markdown(report: dict[str, Any]) -> str:
             f"- Plan scores: `{json.dumps(report['plan_score_counts'], sort_keys=True)}`",
             f"- Primary reasons: `{json.dumps(report['primary_reason_counts'], ensure_ascii=False, sort_keys=True)}`",
             f"- Remembered scenes: `{json.dumps(report['remembered_scene_counts'], ensure_ascii=False)}`",
+            f"- Hesitated scenes: `{json.dumps(report['hesitated_scene_counts'], ensure_ascii=False)}`",
             f"- Art outliers: `{json.dumps(report['art_outlier_counts'], ensure_ascii=False)}`",
             "",
             "This report verifies sample integrity and threshold evidence only. "
@@ -396,7 +420,7 @@ def _fixture(index: int, plan_score: int = 2) -> dict[str, Any]:
     platform = "windows" if index % 2 else "macos"
     artifact = hashlib.sha256(platform.encode("ascii")).hexdigest()
     return {
-        "schema_version": 1,
+        "schema_version": SCHEMA_VERSION,
         "session_id": f"P{index:02d}",
         "build_revision": "abcdef0",
         "manifest_sha256": "a" * 64,
@@ -414,6 +438,9 @@ def _fixture(index: int, plan_score: int = 2) -> dict[str, Any]:
         "remembered_choice": True,
         "remembered_choice_text": "The burner account offer.",
         "remembered_choice_scene": "arc_temptation_01",
+        "hesitated_choice": index <= 3,
+        "hesitated_choice_text": "The burner account offer." if index <= 3 else "",
+        "hesitated_choice_scene": "week 4 / arc_temptation_01" if index <= 3 else "",
         "goal_clarity": 4,
         "weekly_decision_clarity": 4,
         "consequence_feel": 4,
@@ -431,6 +458,18 @@ def self_test() -> None:
     ready = [validate_session(_fixture(i, 2 if i <= 7 else 1)) for i in range(1, 11)]
     assert aggregate(ready)["status"] == STATUS_READY
     assert aggregate(ready[:5])["status"] == STATUS_INCOMPLETE
+
+    low_hesitation = [dict(session) for session in ready]
+    for session in low_hesitation:
+        session["hesitated_choice"] = False
+        session["hesitated_choice_text"] = ""
+        session["hesitated_choice_scene"] = ""
+    low_hesitation[0]["hesitated_choice"] = True
+    low_hesitation[0]["hesitated_choice_text"] = "The burner account offer."
+    low_hesitation[0]["hesitated_choice_scene"] = "week 4 / arc_temptation_01"
+    low_hesitation_report = aggregate(low_hesitation)
+    assert low_hesitation_report["status"] == STATUS_READY
+    assert low_hesitation_report["hesitation_stake_review_recommended"] is True
 
     weak = [validate_session(_fixture(i, 2 if i <= 6 else 1)) for i in range(1, 11)]
     assert aggregate(weak)["status"] == STATUS_NO_GO
@@ -471,7 +510,16 @@ def self_test() -> None:
     except ValidationFailure:
         pass
 
-    print("PLAYTEST_REPORT_SELF_TEST_OK cases=8")
+    missing_hesitation_text = _fixture(1)
+    missing_hesitation_text["hesitated_choice"] = True
+    missing_hesitation_text["hesitated_choice_text"] = ""
+    try:
+        validate_session(missing_hesitation_text)
+        raise AssertionError("hesitation without choice text was accepted")
+    except ValidationFailure:
+        pass
+
+    print("PLAYTEST_REPORT_SELF_TEST_OK cases=10")
 
 
 def parse_args() -> argparse.Namespace:

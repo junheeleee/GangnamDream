@@ -276,10 +276,10 @@ func _check_demo_pacing() -> void:
 		"week sixteen father call owner drifted")
 	_expect(EventManager.narrative_commitment_event_ids(20).has("arc_job_vs_invest"),
 		"week twenty work-investment conflict cannot own its weekly decision")
-	_expect(EventManager.narrative_commitment_event_ids(23).has("hyunsu_exam_day"),
-		"week twenty-three Hyunsu scene cannot own its weekly decision")
-	_expect(EventManager.narrative_boss_event_ids(24).has("story_first_savings_milestone"),
-		"week twenty-four milestone cannot own the closing boss week")
+	_expect(EventManager.narrative_commitment_event_ids(23) == ["story_first_savings_milestone"],
+		"week twenty-three savings milestone cannot own its weekly decision")
+	_expect(EventManager.narrative_boss_event_ids(24).has("hyunsu_exam_day"),
+		"week twenty-four Hyunsu scene cannot own the closing boss week")
 	var father_contract := EventManager.narrative_commitment_contract(
 		"arc_father_quiet_call", 16)
 	_expect(str(father_contract.get("axis", "")) == "human" \

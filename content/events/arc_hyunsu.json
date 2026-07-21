@@ -49,7 +49,7 @@
     "hidden": true,
     "conditions": {
       "flag": "arc_intro_hyunsu_seen",
-      "min_turn": 23
+      "min_turn": 24
     },
     "cooldown": 9999,
     "portrait": "player_offduty_neutral",

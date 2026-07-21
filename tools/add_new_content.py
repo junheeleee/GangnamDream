@@ -810,7 +810,7 @@ hyunsu_events = [
     "rarity": "uncommon",
     "weight": 0,
     "hidden": True,
-    "conditions": { "flag": "met_hyunsu", "min_turn": 20 },
+    "conditions": { "flag": "met_hyunsu", "min_turn": 24 },
     "cooldown": 9999,
     "portrait": "hyunsu",
     "background": "goshiwon_room",

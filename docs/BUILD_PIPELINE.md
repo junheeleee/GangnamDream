@@ -124,8 +124,8 @@ Windows와 Linux/Deck의 `run` 칸은 아직 미검증이다. macOS 실주행 �
 | Dirty source rejection | PASS | tracked·untracked 변경이 있는 `playtest` 즉시 중단 |
 | Fresh checkout import | PASS | `.godot` 캐시 0에서 `--import` 완료 후 `DEMO_BUILD_CHECK_OK` |
 | Provenance manifest | PASS | 전체 commit/tree·`source_status=clean`·Godot 버전·생성 UTC·3종 SHA-256 |
-| Session schema | PASS | 중복·혼합 빌드·플랫폼 해시 이탈·필드/점수 오류 거부 |
-| Aggregator fixtures | PASS | 8건: 준비/미달/NO-GO/P0/중복/혼합/점수/enum |
+| Session schema v2 | PASS | 중복·혼합 빌드·플랫폼 해시 이탈·필드/점수 오류 및 망설임 bool/장면/원문 계약 거부 |
+| Aggregator fixtures | PASS | 10건: 준비/미달/NO-GO/P0/중복/혼합/점수/enum/망설임 저표본·필수 원문 |
 | Human evidence | OPEN | 같은 RC 10명, EN 3명, 경험 양 군, 구체 계획 70% 필요 |
 
 자동 게이트는 표본이 `READY_FOR_HUMAN_VERDICT`인지만 판정하며 재미·출시 GO를 선언하지 않는다. Windows와 Linux/Deck의 물리 기기 실행 스모크도 계속 OPEN이다.
