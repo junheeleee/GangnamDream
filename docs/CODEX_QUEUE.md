@@ -45,12 +45,36 @@
 > **빈 손 금지 사다리 (2026-07-15 유저 지시 — "노는 토큰 없게")**: 현재 오더가 대기/차단되면 즉시 다음 순서로: **24(정점 체인) → 16(입력×해상도) → 18(부채 인벤토리) → P1-4 유물 오브젝트 아트 6종 → P1-E 잔여 결산 CG(orthodox_pinnacle→burnout→무드 심벌 잔여 8종→「그녀는 알고 있었다」 1컷) → 15(모드 2층) → 17(데이터 모딩)**. 유저 Round 판정 도착 시 모든 것에 우선해 데모 재수리.
 > **🔁 데모 집중 체제 (2026-07-14)**: 모든 오더에 데모 우선 필터 — ORDER-22는 **데모 범위(t≤24)에 먼저 적용·빌드**하고 유저 라운드에 태운다(전 범위 확산은 그 다음). 유저 데모 GO 전까지 21(번역 본문)·11(트레일러 최종컷) 동결 유지. 라운드 원장 = `docs/DEMO_FIXLOG.md`.
 
-#### [~] ORDER-40 [P0·인과 수리] 지원하지 않은 첫 면접 연락 차단
+#### [x] ORDER-40 [P0·인과 수리] 지원하지 않은 첫 면접 연락 차단
 **착수 (2026-07-21 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `scenes/MainGame.gd`, `content/events/arc_events.json`, `content/events_en/arc_events.json`, `locale/ui_ja.json`, `tools/CoreChoiceSliceCheck.gd`, `tools/DemoBuildCheck.gd`, `tools/arc_flow_sim.py`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
 
 **진단 근거:** 첫 주 `일자리부터 잡는다 / 현금부터 지킨다 / 다음 기회를 준비한다` 중 무엇을 골라도 `_next_arc_id()`가 2주차에 `arc_intro_01_meal`을 무조건 반환한다. 프롤로그는 구인 앱을 열고 지원 버튼에 손을 올렸다고만 썼으며 실제 지원은 하지 않았으므로, 현금·준비 경로에도 업체 연락과 면접이 생기는 인과 오류다.
 
 **수리 범위·수용 기준:** 첫 구직 행동은 즉시 취업시키지 않고 공고 1건에 실제 지원서를 보내는 주간 거래가 된다. 지원 주차를 저장하고 그 다음 주부터만 첫 면접을 허용하며, 지원하지 않은 경로·지원한 당일·이미 취업한 구 저장에는 면접을 발생시키지 않는다. 첫 면접 이후에는 기존 `지원 계속`과 직업 선택 흐름을 보존한다. KO/EN 카피, 저장 플래그, 대표 job-first 아크, 비구직 분기, 전체 `audit.sh`를 검증한다.
+
+**완료 보고 (2026-07-21 Codex):** 첫 `구직활동`은 미래산업기술 공고 한 건의 지원서 제출을 AP·주간 약속 원장으로 정확히 한 번 기록한다. `현금부터 지킨다`와 `다음 기회를 준비한다`는 지원 플래그를 만들지 않아 2주차 면접이 없고, 구직 경로도 지원 당일에는 면접이 없으며 다음 주 이후 아직 무직일 때만 `arc_intro_01_meal`을 연다. 이미 취업한 저장과 첫 면접 이후의 기존 `지원 계속` 흐름은 보존했다. 한영 도입은 실제 지원을 원인으로 명시하고 일본어 UI 준비 사전도 맞췄다. `CoreChoiceSliceCheck`는 `interview=causal`, `DemoBuildCheck`는 `cutoff=24 chain=7 presets=6`, 대표 A/B 아크는 잼 0을 통과했다. 최종 `audit.sh`는 사건 1,565·엔딩 35·오디오 113·입력 3모드/8해상도/3브랜드·GDScript 55개 컴파일까지 `✅ 감사 통과`했다.
+
+#### [ ] ORDER-41 [P0·데모 편성/정합] 데모 출구 재배치 — 조용한 저축이 아니라 기다리는 밤으로 끝낸다
+> **발행 근거 (Claude 정독 스크리닝 2026-07-21, 유저 승인):** 실제 데모 빌드를 KO 패드 자동 루트로 24주 완주시켜(46사건·628입력) 노출 산문 전문을 정상 독해로 판정했다. 전반부(주1~14)·상철 3연작·현수 스레드는 GO 수준이나, **마지막 스토리 비트가 '300만원 저축 이정표'(`story_first_savings_milestone`)라 데모 출구 감정이 잔잔한 만족으로 끝난다.** 가장 강한 전방 훅(주21 아버지 병원 신호, 주23 현수 시험)이 CTA 앞에서 소비·완화된다. 의미 선택 36개 중 실질 망설임이 5~6개뿐인 태도 선택 문제는 **외부 표본의 "어느 선택에서 멈췄는가" 데이터 확인 후 별도 오더** — 이 오더 범위 밖. 스크리닝 상세: `docs/DEMO_FIXLOG.md`.
+**착수 조건:** ORDER-40 완료·커밋 후 착수 (`arc_events.json`·`DemoBuildCheck.gd` 등 파일 겹침). 기존 사용자 변경 `project.godot`은 건드리지 않는다.
+
+**A. 주23↔주24 스토리 비트 교환 (신규 콘텐츠 0, 재배치만):**
+- 목표 편성: 주22 강남+반년의 문턱 → **주23 `story_first_savings_milestone`(통장을 열었다) → 주24 `hyunsu_exam_day`(시험 날)** → 데모 엔딩·CTA. 출구 감정 = 4년을 건 옆방의 결과를 기다리는 밤 + 아버지 병원 미결 + 반년 문턱의 질문.
+- 불변 조건: ①사건 ID·본문·선택지·효과·플래그 불변 ②ORDER-37 작성형 소유 계약은 주차만 따라 이동(직접 결정 `generic 2 + authored 7` 유지) ③강남 피날레 주22 유지 — 주22 입력 충돌 재발 금지 ④현수 정식 결과는 데모 컷 밖(주25+) 유지, 시험→결과 간격은 기존 스케줄러 제약 안에서 조정 ⑤구 저장의 예약 큐 호환(같은 ID 최이른-주 보존 규칙) ⑥저축 이정표의 '300만원을 넘긴 숫자' 서술이 주23 대표 KO/EN 경로 실현금과 정합해야 한다 — 미달 시 본문 수치를 임의 수정하지 말고 보고 후 판정 대기.
+
+**B. 주8 `arc_temptation_clean` 재차단 중복 수리 (text-only):**
+- 주4 `arc_temptation_01` 거절 결과가 이미 "번호를 차단하고 휴대폰을 엎어놨다"인데, 주8 본문이 "그 번호를 차단했다"를 다시 수행한다. 주4에 확정된 사실을 재수행하지 않고 회수만 하도록 KR 본문 수리 + EN 오버레이 동시 패리티. 효과·플래그·ID·조건 불변.
+- 같은 부류 전수 점검: 수락 분기의 주8 결과 장면도 주4 확정 사실 재수행 여부를 확인하고, 있으면 함께 수리.
+
+**C. 플레이테스트 측정 도구 보강 — 망설임 문항 (게이트-도구 정합):**
+- 공백: CLAUDE.md 다음 작업과 `DEMO_EXPERIENCE_AUDIT.md` 열린 인간 게이트가 "실제 망설임"을 판정 조건으로 명시하는데, `PLAYTEST_KIT.md` 설문·관찰 기록지·세션 JSON·`playtest_report.py` 어디에도 망설임 측정이 없다.
+- 설문 정성 문항 추가(KR/EN): "실제로 고르기를 망설였던 선택이 있었나요? 있었다면 어떤 선택이었고 왜였나요? / Was there a choice you actually hesitated over? Which one, and why?"
+- 관찰 기록지 필수 관찰점 추가: "선택지 앞에서 5초 이상 멈춘 장면(주차·선택 원문)".
+- 세션 JSON에 `hesitated_choice`(bool)·`hesitated_choice_scene`·`hesitated_choice_text` 필드를 `remembered_choice` 3종과 같은 문법으로 추가하고, `playtest_report.py` 검증·집계·자체 검사를 갱신한다.
+- **새 GO/NO-GO 임계는 만들지 않는다** — 수집 데이터일 뿐이며, 망설임 보고가 10명 중 0~1명이면 태도 선택 판돈 수술(별도 오더)의 근거로 보고한다. 판정은 유저.
+
+**검증:** 전체 `audit.sh`(✅ 감사 통과 — playtest_report 자체 검사 포함), `en_coverage_check.py`, `arc_flow_sim.py`, KO/EN `--qa=demo-input --demo-build` 재완주, `--qa=demo-experience` 재기록에서 마지막 스토리 비트=`hyunsu_exam_day` 확인, `DEMO_FIXLOG.md` 기록.
+**RC 규율:** 이 오더 반영 빌드로 외부 RC를 재발급하고 파일럿 5명·본표본 10명을 그 RC로 통일한다. 수리 전 RC로 표본을 시작하지 않는다.
 
 #### [x] ORDER-36 [P0·코어 재설계] 선택의 내용물 수술 — "내 계획 → 방해 → 대가" 8주 수직 단면
 **[~] 착수 (2026-07-20 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `docs/FUN_AUDIT_2026-07-20.md`, `docs/DECISIONS.md`, `docs/GAME_RECOMPOSITION_PLAN.md`, `docs/DEMO_FIXLOG.md`, `autoloads/GameState.gd`, `autoloads/EventManager.gd`, `scenes/MainGame.gd`, `scenes/StoryMode.gd`, `content/meta/event_director.json`, `content/meta/narrative_spine.json`, `content/meta/story_rules.json`, `content/events/arc_events.json`, `content/events_en/arc_events.json`, `locale/ui_ja.json`, `tools/CoreChoiceSliceCheck.gd`, `tools/CoreChoiceSliceCheck.gd.uid`, `tools/CoreChoiceSliceCheck.tscn`, `tools/DemoBuildCheck.gd`, `tools/EventDirectorCheck.gd`, `tools/ImmersionLoopCheck.gd`, `tools/arc_flow_sim.py`, `tools/demo_experience_audit.py`, `tools/narrative_continuity_audit.py`, `tools/ScreenshotQA.gd`, `tools/audit.sh`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.

@@ -101,7 +101,12 @@ class Job(dict):
 
 class State:
     def __init__(s):
-        s.t = 0; s.age = 33; s.flags = {}
+        s.t = 0; s.age = 33; s.flags = {
+            # Representative A/B traces take the week-one Secure Work route.
+            # Non-application causality is locked by the Godot runtime checks.
+            "opening_interview_application_sent": True,
+            "opening_interview_application_turn": 1,
+        }
         s.items = set()
         s.route_orthodox = 0; s.route_unorthodox = 0; s.intelligence = 50
         s.money = 500000; s.investment_skill = 0; s.job_tenure = 0

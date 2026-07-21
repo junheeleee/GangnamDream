@@ -2732,9 +2732,13 @@ func _next_arc_id(
 
 
 	# ══ 1구간: 주인공 몰입 (턴 1-8, 인물 없음) ══════════
-	if t >= 2 and not f.get("arc_intro_meal_seen", false):
+	if t >= 2 and not f.get("arc_intro_meal_seen", false) \
+			and f.get("opening_interview_application_sent", false) \
+			and t > int(f.get("opening_interview_application_turn", -1)) \
+			and GameState.current_job.is_empty():
 		return "arc_intro_01_meal"
-	if t >= 3 and not f.get("arc_intro_dad_seen", false):
+	if t >= 3 and f.get("arc_intro_meal_seen", false) \
+			and not f.get("arc_intro_dad_seen", false):
 		return "arc_intro_02_dad_call"
 	# ★ 첫 유혹 (턴 4) — 정석 vs 위험한 지름길. 결말까지 갈리는 큰 분기.
 	if t >= 4 and not f.get("arc_temptation_seen", false):
@@ -8654,6 +8658,13 @@ func _relationship_warmth_label(affinity: int) -> String:
 func _opening_interview_seen() -> bool:
 	return bool(GameState.flags.get("arc_intro_meal_seen", false))
 
+func _opening_interview_application_sent() -> bool:
+	return bool(GameState.flags.get("opening_interview_application_sent", false))
+
+func _mark_opening_interview_application_sent() -> void:
+	GameState.flags["opening_interview_application_sent"] = true
+	GameState.flags["opening_interview_application_turn"] = GameState.turn
+
 func _ap_job_hunt_title() -> String:
 	if _opening_interview_seen():
 		return _tr("지원 계속", "Keep Applying")
@@ -11082,7 +11093,52 @@ func _ap_invest():
 func _ap_job_hunt():
 	if GameState.action_points <= 0:
 		return
+	if GameState.current_job.is_empty() and not _opening_interview_seen():
+		if _opening_interview_application_sent():
+			GameState.cancel_pending_weekly_commitment(GameState.turn)
+			_show_toast(
+				_tr("이미 지원서를 보냈다. 연락을 기다리는 중이다.",
+					"The application is already in. Now comes the wait."),
+				Color("#9aa4b8"))
+			return
+		_submit_opening_interview_application()
+		return
 	_open_jobs()
+
+func _submit_opening_interview_application() -> void:
+	if not _commit_opening_interview_application():
+		return
+	var title := _tr("지원서를 보냈다", "Application Sent")
+	var body := _tr(
+		"마포구의 작은 사무실 공고 하나를 골랐다.\n회사 이름은 '(주)미래산업기술'. 검색 결과는 거의 없었다.\n\n이력서를 첨부하고 지원을 눌렀다.\n답이 올지는 모른다.",
+		"One opening stood out: a small office in Mapo-gu called 'Mirae Industrial Tech.' Almost nothing came up in search.\n\nThe resume went in with the application.\nThere was no guarantee anyone would answer.")
+	GameState.add_log(title + " — " + body.replace("\n", " "), "job")
+	turn_action_log.append(title)
+	_show_vignette(title, body, {}, "#dc6a2a")
+	_refresh_all()
+
+func _commit_opening_interview_application() -> bool:
+	var armed_here := false
+	if not GameState.has_pending_weekly_commitment(GameState.turn):
+		armed_here = GameState.arm_weekly_commitment({
+			"turn": GameState.turn,
+			"pressure_id": "opening_application",
+			"pressure_family": "employment",
+			"choice_id": "apply",
+			"forgone_ids": [],
+		})
+		if not armed_here:
+			return false
+	if not GameState.spend_ap():
+		if armed_here:
+			GameState.cancel_pending_weekly_commitment(GameState.turn)
+		return false
+	_mark_opening_interview_application_sent()
+	GameState.register_action_axis("money", "work", "apply")
+	return GameState.finalize_weekly_commitment("apply", "", {
+		"application_id": "mirae_industrial_tech",
+		"status": "submitted",
+	})
 
 func _ap_side_job():
 	if GameState.action_points <= 0:

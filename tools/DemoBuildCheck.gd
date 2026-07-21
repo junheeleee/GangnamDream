@@ -23,6 +23,7 @@ func _ready() -> void:
 func _run() -> void:
 	_check_build_flavor()
 	_check_export_presets()
+	_check_opening_interview_causality()
 	_check_opening_sequences()
 	_check_narrative_bridge_contract()
 	_check_chapter_one_temporal_contract()
@@ -84,6 +85,10 @@ func _check_opening_sequences() -> void:
 		_failures.append("MainGame.tscn failed to load.")
 		return
 	var main_game := packed.instantiate()
+	# This representative opening path chose Secure Work in week one. Other
+	# intents are covered separately and must not receive this interview.
+	GameState.flags["opening_interview_application_sent"] = true
+	GameState.flags["opening_interview_application_turn"] = 1
 	for row in EXPECTED_ROOTS:
 		var week := int(row.get("week", 0))
 		GameState.turn = week
@@ -102,6 +107,30 @@ func _check_opening_sequences() -> void:
 		"The independent week-five mirror scene disappeared from the opening flow.")
 	_expect(bool(GameState.flags.get("chapter1_closed", false)),
 		"Hyunsu's first conversation did not continue into the opening chapter close.")
+
+func _check_opening_interview_causality() -> void:
+	GameState.start_new_game("김민준", "지방_상경", "직장형", "백수", "자유런", "현실")
+	GameState.flags["prologue_done"] = true
+	GameState.flags["chapter_33_seen"] = true
+	var packed := load("res://scenes/MainGame.tscn") as PackedScene
+	if packed == null:
+		_failures.append("MainGame.tscn failed to load for interview causality.")
+		return
+	var main_game := packed.instantiate()
+	GameState.turn = 2
+	_expect(str(main_game.call("_next_arc_id", 2, true, false)) != "arc_intro_01_meal",
+		"The Mapo interview fired without an application.")
+	GameState.flags["opening_interview_application_sent"] = true
+	GameState.flags["opening_interview_application_turn"] = 2
+	_expect(str(main_game.call("_next_arc_id", 2, true, false)) != "arc_intro_01_meal",
+		"The Mapo interview fired in the application week.")
+	GameState.turn = 3
+	_expect(str(main_game.call("_next_arc_id", 3, true, false)) == "arc_intro_01_meal",
+		"The Mapo interview did not unlock after an application.")
+	GameState.current_job = DataRegistry.get_job("job_01").duplicate(true)
+	_expect(str(main_game.call("_next_arc_id", 3, true, false)) != "arc_intro_01_meal",
+		"The Mapo interview fired for an already-employed save.")
+	main_game.free()
 
 func _check_narrative_bridge_contract() -> void:
 	GameState.start_new_game("김민준", "지방_상경", "직장형", "백수", "자유런", "현실")

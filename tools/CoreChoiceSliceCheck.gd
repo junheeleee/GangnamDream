@@ -6,11 +6,12 @@ var _failures: Array[String] = []
 
 func _ready() -> void:
 	_check_opening_intent()
+	_check_opening_interview_causality()
 	_check_boss_choice(0, "arc_temptation_clean")
 	_check_boss_choice(1, "arc_temptation_fallout")
 	_check_foreground_commitment_weeks()
 	if _failures.is_empty():
-		print("CORE_CHOICE_SLICE_CHECK_OK intent=1 authored=7 generic=2 ap_duplicate=0 delayed=t8 branches=2 axes=money/human save=roundtrip")
+		print("CORE_CHOICE_SLICE_CHECK_OK intent=1 interview=causal authored=7 generic=2 ap_duplicate=0 delayed=t8 branches=2 axes=money/human save=roundtrip")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -43,6 +44,60 @@ func _check_opening_intent() -> void:
 		"week-one intent persisted with the wrong turn")
 	_expect(GameState.weekly_commitments.size() == 1,
 		"week-one intent wrote more than one weekly record")
+	game.free()
+
+func _check_opening_interview_causality() -> void:
+	var game = _new_main_game()
+
+	var non_application_routes: Array[Dictionary] = [
+		{"action_id": "side_shift", "intent_id": "protect_cash"},
+		{"action_id": "study", "intent_id": "build_capacity"},
+	]
+	for route in non_application_routes:
+		GameState.start_new_game()
+		GameState.turn = 1
+		GameState.action_points = GameState.max_action_points
+		GameState.flags["prologue_done"] = true
+		GameState.flags["chapter_33_seen"] = true
+		var pressure: Dictionary = game._demo_week_pressure()
+		var action_id := str(route.get("action_id", ""))
+		var commitment: Dictionary = game._weekly_commitment_payload(pressure, action_id)
+		_expect(GameState.arm_weekly_commitment(commitment),
+			"%s intent could not arm its transaction" % action_id)
+		_expect(GameState.finalize_weekly_commitment(action_id),
+			"%s intent could not finalize" % action_id)
+		_expect(str(GameState.flags.get("chapter_intent_id", "")) == str(route.get("intent_id", "")),
+			"%s intent did not persist" % action_id)
+		_expect(not bool(GameState.flags.get("opening_interview_application_sent", false)),
+			"%s intent silently submitted an application" % action_id)
+		GameState.turn = 2
+		_expect(game._next_arc_id(2, true, false) != "arc_intro_01_meal",
+			"the first interview fired after the %s intent" % action_id)
+
+	GameState.start_new_game()
+	GameState.turn = 1
+	GameState.action_points = GameState.max_action_points
+	GameState.flags["prologue_done"] = true
+	GameState.flags["chapter_33_seen"] = true
+	var job_pressure: Dictionary = game._demo_week_pressure()
+	var job_commitment: Dictionary = game._weekly_commitment_payload(job_pressure, "apply")
+	_expect(GameState.arm_weekly_commitment(job_commitment),
+		"job-first intent could not arm its transaction")
+	_expect(game._commit_opening_interview_application(),
+		"opening application could not finalize")
+	_expect(bool(GameState.flags.get("opening_interview_application_sent", false)) \
+			and int(GameState.flags.get("opening_interview_application_turn", -1)) == 1,
+		"opening application did not persist its submission week")
+	_expect(GameState.action_points == 0 and GameState.weekly_commitments.size() == 1,
+		"opening application did not close the week with one transaction")
+	_expect(game._next_arc_id(1, true, false) != "arc_intro_01_meal",
+		"the first interview fired in the same week as the application")
+	GameState.turn = 2
+	_expect(game._next_arc_id(2, true, false) == "arc_intro_01_meal",
+		"the first interview did not unlock one week after the application")
+	GameState.current_job = DataRegistry.get_job("job_01").duplicate(true)
+	_expect(game._next_arc_id(2, true, false) != "arc_intro_01_meal",
+		"the opening interview fired for an already-employed save")
 	game.free()
 
 func _check_boss_choice(choice_index: int, expected_follow_up: String) -> void:

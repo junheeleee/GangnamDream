@@ -2,7 +2,7 @@
   {
     "id": "arc_intro_01_meal",
     "title": "First Interview",
-    "description": "A job posting led to this.\n\nA small office in Mapo-gu. Third floor. No elevator.\nThe sign reads 'Mirae Industrial Tech' — nothing comes up when you search for them.\n\nThe interviewer was a woman in her early forties. She picked up the résumé, adjusted her glasses, and read slowly.\nThe AC hummed loudly. A motorcycle passed outside.\n\n'There's a six-year gap here.'\n\nShe set the résumé down and looked at {name}.\n'What were you doing?'\n\nCan't say 'paying off debt.' Six years, from twenty-seven to thirty-three, covering for a father who co-signed the wrong loan.\nHow do you put six years into one sentence.\n\n{name}'s palms were sweating.",
+    "description": "The company from the application replied.\n\nA small office in Mapo-gu. Third floor. No elevator.\nThe sign reads 'Mirae Industrial Tech' — nothing comes up when you search for them.\n\nThe interviewer was a woman in her early forties. She picked up the résumé, adjusted her glasses, and read slowly.\nThe AC hummed loudly. A motorcycle passed outside.\n\n'There's a six-year gap here.'\n\nShe set the résumé down and looked at {name}.\n'What were you doing?'\n\nCan't say 'paying off debt.' Six years, from twenty-seven to thirty-three, covering for a father who co-signed the wrong loan.\nHow do you put six years into one sentence.\n\n{name}'s palms were sweating.",
     "choices": [
       {
         "text": "Tell the truth — 'There were family circumstances.'",
@@ -13,8 +13,8 @@
         "result_text": "Packaged it plausibly. The interviewer nodded — but wrote something long in her notes.\nLike someone writing 'needs verification.'\n\nWalking down the stairs, {name} thought:\nOne lie calls for another.\nAnd that weight tends to arrive sooner than expected."
       }
     ],
-    "description_orthodox": "A message from a job app. Mapo-gu. Third floor. No elevator.\n\nCounted the stairs on the way up. 29. {name} counts things like this — turning it into numbers makes it lighter.\n\nThe interviewer picked up the résumé. Her eyes stopped at the six-year gap.\n\n{name} knew this question was coming. He'd prepared.\nPreparing doesn't make it hurt less.",
-    "description_unorthodox": "A message from a job app. Mapo-gu. Third floor. No elevator.\n\n'Mirae Industrial Tech.' Funny. If this is the future, the future's pretty narrow.\nDoesn't matter. He needs money now, and this whole thing is temporary anyway.\n\nThe interviewer flagged the six-year gap. {name} knew that look — 'an odd one.'\nFine. So what if I'm odd."
+    "description_orthodox": "The company from the application replied. Mapo-gu. Third floor. No elevator.\n\nCounted the stairs on the way up. 29. {name} counts things like this — turning it into numbers makes it lighter.\n\nThe interviewer picked up the résumé. Her eyes stopped at the six-year gap.\n\n{name} knew this question was coming. He'd prepared.\nPreparing doesn't make it hurt less.",
+    "description_unorthodox": "The company from the application replied. Mapo-gu. Third floor. No elevator.\n\n'Mirae Industrial Tech.' Funny. If this is the future, the future's pretty narrow.\nDoesn't matter. He needs money now, and this whole thing is temporary anyway.\n\nThe interviewer flagged the six-year gap. {name} knew that look — 'an odd one.'\nFine. So what if I'm odd."
   },
   {
     "id": "arc_intro_02_dad_call",
