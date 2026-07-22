@@ -54,6 +54,8 @@
 
 **범위 확장 (2026-07-23 Codex) — 추가로 만지는 파일:** `tools/generate_audio_assets.py`, `tools/generate_gangnam_ui_sfx.py`, `tools/generate_launch_audio.py`. 네 합성 생성기는 출시 에셋을 쓸 수 없도록 퇴역시키고, `autoloads/BGMPlayer.gd`의 `_bake_procedural` 및 `autoloads/AudioManager.gd`의 `_tone/_chord` 누락 폴백도 제거한다. 파일 누락은 전자음 대체가 아니라 명시적 오류·무음으로 실패하며 감사에서 차단한다.
 
+**RC 원장 범위 확장 (2026-07-23 Codex) — 추가로 만지는 파일:** `docs/BUILD_PIPELINE.md`. ORDER-43 구현 커밋의 별도 clean worktree에서 만든 Windows/macOS/Linux·Steam Deck 데모 revision·tree·매니페스트·산출물 SHA-256과 macOS 패키지 부팅 결과를 외부 표본 정본으로 교체한다.
+
 **실행 순서:** ①신규 합성 모티프·폴리·룸톤을 즉시 격리해 잘못된 전자음이 재생되지 않게 한다 ②상업 이용 가능한 실제 녹음 SFX 라이브러리와 샘플 연주 음악을 확보한다 ③프롤로그 10분을 우선 재구성해 청취 기준점을 만든다 ④승인된 팔레트만 데모 24주와 본편에 확산한다 ⑤합성 자산 재유입 금지 감사와 clean 3플랫폼 RC를 통과한다. 자동 게이트 완료 뒤에도 사용자 청취 GO 전에는 닫지 않는다.
 
 **진행 보고 (2026-07-23 Codex):** BGM 20·앰비언스 47·SFX 67, 총 134개를 실제 현장/사물 녹음과 녹음된 Yamaha C5 샘플 기반으로 교체했다. Sonniss·Owlish·Kenney·Horse Gallop·Salamander Piano·Keyboard Soundpack·Storm & Siren·Crash Collision 8개 라이브러리의 URL·저작자·라이선스·원본 파일명·원본/출력 SHA-256·편집 이력을 파일별 매니페스트에 고정했다. 네 합성 생성기와 런타임 합성 폴백을 퇴역시켰고 출처 감사는 `recordings_or_samples=134 procedural=0`을 통과했다. Godot 134개 재임포트, 장면/게임 계약, KO PlayStation·EN Xbox 24주 각 630/634입력과 전체 55스크립트 감사도 통과했다. 신규 clean RC와 사용자 청취는 OPEN이므로 `[~]`를 유지한다.
