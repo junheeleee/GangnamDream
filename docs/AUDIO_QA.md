@@ -1,6 +1,6 @@
 # Gangnam Dream Audio QA
 
-Updated: 2026-07-22
+Updated: 2026-07-23
 
 Production gate: an audio file existing and loading is not the same as launch approval. Every asset must also satisfy `docs/PRODUCTION_ASSET_PIPELINE.md`: commercial provenance, clean head/tail, mix balance, semantic runtime mapping, image-paired listening, and 30-minute fatigue QA.
 
@@ -16,7 +16,7 @@ The sound must belong to the same work as the `Gangnam Ink` visual direction.
 - **Language:** Korea remains Korea. Diegetic voices and room calls stay Korean under every text locale; meaningful speech receives localized subtitles.
 - **Era lock:** the illustration is contemporary, so the default sound language is contemporary. Chiptune, 8-bit oscillators, retro menu bleeps, and arcade reward tones are prohibited unless a visible diegetic machine is producing them.
 
-`assets/game_audio_manifest.json` is the machine-readable identity and stage contract. Procedural masters are project-owned, timing-safe originals. If any one sounds synthetic beside the final illustration, replace the file behind the same semantic key; do not weaken the stage contract to preserve a placeholder.
+`assets/game_audio_manifest.json` is the machine-readable identity and stage contract. Every shipping master uses field/object recordings or recorded real-instrument samples. Keep the semantic key and stage contract stable when replacing a take; never preserve an unsuitable sound merely because it already loads.
 
 ## Current Inventory
 
@@ -25,16 +25,16 @@ The sound must belong to the same work as the `Gangnam Ink` visual direction.
 | BGM | 20 | `autoloads/BGMPlayer.gd` |
 | Ambience | 47 | `autoloads/BGMPlayer.gd` (38 inert/place + 9 human-presence layers) |
 | SFX | 67 | `autoloads/AudioManager.gd` |
-| **Total** | **134** | one deterministic in-repo source each |
+| **Total** | **134** | one provenance-tracked recording/sample master each |
 
-All current audio uses original deterministic synthesis; external samples: 0. The source ledger is enforced by `tools/audio_source_audit.py`.
+All 134 current assets are recording/sample-backed: 20 real-piano scores, 47 field-recorded ambience beds, and 67 recorded physical/UI/gameplay effects. `assets/audio/AUDIO_SOURCE_MANIFEST.json` records the exact source and transform for every file, and `tools/audio_source_audit.py` rejects synthesized provenance or code.
 
 ## Launch Identity
 
-- `publisher_sting` is a project-owned 1.55-second stereo 48 kHz mark, generated deterministically by `tools/generate_launch_audio.py`.
+- `publisher_sting` is a project-owned 1.55-second stereo 44.1 kHz cue rendered from recorded Yamaha C5 samples.
 - It plays exactly once with the transparent JUNPAC mark, at a restrained -4 dB mix trim. It is neither menu music nor a reusable reward sound.
 - Skipping the publisher pre-roll cannot stack or replay the sting. The title and new-story opening then use their existing music/ambience owners without carrying the sting forward.
-- `First30SecondsCheck.tscn` locks one sting, one mandatory title input gate, and a maximum three-beat opening. `generate_launch_audio.py --check` locks the file format and duration.
+- `First30SecondsCheck.tscn` locks one sting, one mandatory title input gate, and a maximum three-beat opening. `generate_launch_audio.py --check` is now a read-only provenance/format gate and cannot generate audio.
 
 ## Scene Music
 
@@ -77,7 +77,7 @@ Jeongseon is the only current activity that owns continuous music. `casino_floor
 - Entering any of the six tables inherits the floor playback position. Returning to the hub inherits it back. Re-entering the same layer never rewinds.
 - Leaving Jeongseon fades the score out once, then restores housing and seasonal ambience. The AP hub cannot remain audible under the casino.
 
-The two generated masters establish timing and identity, not final human approval. They still require headphones, laptop speakers, and living-room TV listening beside ten consecutive rounds of each game.
+The two recorded-piano-sample masters establish timing and identity, not final human approval. They still require headphones, laptop speakers, and living-room TV listening beside ten consecutive rounds of each game.
 
 ## Physical Gameplay SFX
 
@@ -119,7 +119,7 @@ The world is split by meaning rather than by a global dark filter:
 - White restores human detail and air. No morality UI, threshold sting, or good/evil jingle announces the transition.
 - The transition lasts 3.8 seconds and does not restart the room loop. The intended realization is delayed recognition: the player notices that Seoul has become populated by machines before being told anything.
 
-These generated layers contain no intelligible language and no musical pitch pattern. They are replaceable semantic masters; launch approval still requires image-paired listening against professional contemporary field recordings.
+These field-recording layers are filtered to keep speech indistinct and contain no designed musical pattern. Launch approval still requires image-paired listening to ensure that foreign-language walla is not intelligible and that each room reads as contemporary Korea.
 
 ## Controller Rule
 
@@ -137,6 +137,7 @@ Focus traversal is a last resort. Gameplay scenes use direct state machines and 
 
 ```bash
 python3 tools/audio_source_audit.py
+python3 tools/build_sample_audio_assets.py --validate-only
 python3 tools/scene_audio_contract_check.py
 python3 tools/game_audio_contract_check.py
 python3 tools/generate_launch_audio.py --check
@@ -150,15 +151,16 @@ python3 tools/generate_launch_audio.py --check
 Latest targeted result:
 
 ```text
-AUDIO_SOURCE_AUDIT_OK assets=134 bgm=20 ambience=47 sfx=67 external_samples=0
+AUDIO_SOURCE_AUDIT_OK assets=134 bgm=20 ambience=47 sfx=67 source_libraries=8 recordings_or_samples=134 procedural=0
 SCENE_AUDIO_CONTRACT_OK cg=59 peak_events=116 ambience_keys=38 music_keys=20 demo_contracts=45 demo_foley_events=43
 GAME_AUDIO_CONTRACT_OK physical=31 stages=19 activities=7 activity_music=1 human_layers=9 direct_pad=9
 AUDIO_ASSET_CHECK_OK bgm=20 ambience=47 sfx=67
-LAUNCH_AUDIO_OK stereo=2 rate=48000 duration=1.55
+LAUNCH_AUDIO_OK stereo=2 rate=44100 duration=1.55
 BGM_CONTINUITY_OK mode=menu key=menu ambience=
 GAME_AUDIO_RUNTIME_OK physical=31 ambience_roundtrip=3 varied_playback=1 casino_music=1
 MORAL_AMBIENCE_CHECK_OK profiles=9 neutral=-8.04 dark=-22.04 deep=-54.04
 STORY_AUDIO_SETTINGS_CHECK_OK text=3 locale=ko/en timer_pause=11996 result_replay=0
+DEMO_EXPERIENCE_AUDIT_OK reports=2 parity=ko/en music=10 authored_music=41
 ```
 
 Sangchul's casino invitation remains on the live housing room tone through the message, both thought routes, and the final reply without restarting or introducing villain music. Only an accepted reply, ticket confirmation, and explicit bus arrival may switch the camera to `jeongseon_casino_exterior` and the street bed.
@@ -174,6 +176,6 @@ Before demo lock, listen at the real 1280x800/Steam Deck presentation and on hea
 3. Compare each physical sound with the visible material. Paper, felt, ceramic, metal, glass, and asphalt must not share one transient.
 4. Enter and leave every activity. In Jeongseon, move floor→table→floor repeatedly; the motif must intensify and relax without restarting, while room tone and physical sounds remain legible. No abrupt cut or AP-hub bleed is allowed.
 5. Play the wedding chain without skipping. Processional continuity, paragraph applause, voice-free room tone, and decision silence must feel like one scene.
-6. A/B every procedural physical asset against a professional foley candidate. Promote only the version that sounds native to the modern illustration while preserving license evidence.
+6. A/B alternate recorded takes for any weak physical cue. Promote only the take that sounds native to the modern illustration while preserving source hashes and license evidence.
 7. Compare the same cafe, street, casino, and wedding screen at Gray, Light Black, Deep Black, and White. Only human presence should radically recede; the place and interaction timing must remain believable.
 8. Cold-boot three times on all three output classes. The publisher sting must read as one restrained brand gesture, never as a mobile reward chirp, and must not replay at the title or New Story transition.

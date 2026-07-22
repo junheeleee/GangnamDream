@@ -1,32 +1,64 @@
 # Audio Source Ledger
 
-This ledger records source and redistribution status for production audio. `tools/audio_source_audit.py` is the machine-readable per-file owner map and fails when any WAV/OGG is missing, stale, or assigned twice.
+Updated: 2026-07-23
 
-| Asset | Source | External samples | Commercial status | Reproduction |
-|---|---|---|---|---|
-| `sfx_choice_made.wav` | Deterministic in-repo synthesis | None | Project-owned | `python3 tools/generate_gangnam_ui_sfx.py` |
-| `sfx_open_modal.wav` | Deterministic in-repo synthesis | None | Project-owned | `python3 tools/generate_gangnam_ui_sfx.py` |
-| `sfx_close.wav` | Deterministic in-repo synthesis | None | Project-owned | `python3 tools/generate_gangnam_ui_sfx.py` |
-| `sfx_tab_open.wav` | Deterministic in-repo synthesis | None | Project-owned | `python3 tools/generate_gangnam_ui_sfx.py` |
-| `sfx_result_ledger.wav` | Deterministic dry register contact | None | Project-owned | `python3 tools/generate_gangnam_ui_sfx.py` |
-| `sfx_result_human.wav` | Deterministic cloth-and-breath swell | None | Project-owned | `python3 tools/generate_gangnam_ui_sfx.py` |
+## Release Rule
 
-| Asset group | Source | External samples | Commercial status | Reproduction |
-|---|---|---|---|---|
-| 7 base `bgm_*.ogg` files | Deterministic in-repo synthesis | None | Project-owned | `tools/generate_audio_assets.py` |
-| 21 general/casino SFX | Deterministic in-repo synthesis | None | Project-owned | `tools/generate_audio_assets.py` |
-| 13 scene/casino `bgm_*.ogg` files | Deterministic in-repo synthesis | None | Project-owned | `tools/generate_audio_p1_assets.py` |
-| 47 `amb_*.wav` files | Deterministic in-repo synthesis | None | Project-owned | `tools/generate_audio_p1_assets.py` |
-| 39 scene/casino SFX | Deterministic in-repo synthesis | None | Project-owned | `tools/generate_audio_p1_assets.py` |
-| 6 Gangnam Ink UI SFX | Deterministic in-repo synthesis | None | Project-owned | `tools/generate_gangnam_ui_sfx.py` |
-| 1 publisher sting | Deterministic in-repo synthesis | None | Project-owned | `tools/generate_launch_audio.py` |
+Every shipping sound must originate from an actual field/object recording or a
+recorded real-instrument sample. Editing, layering, looping, resampling, pitch
+shifting, EQ, compression, reverb, and loudness normalization are allowed.
+Oscillators, generated noise, code-built waveforms, and runtime synthesized
+fallbacks are prohibited.
 
-The current release inventory is 134 files: 20 BGM, 47 ambience, and 67 SFX. The demo-facing long beds, human-presence beds, and story foley also pass duration, RMS, and clipping envelopes in `tools/audio_source_audit.py`. `python3 tools/generate_audio_p1_assets.py --demo-audio-only` reproduces the 39 files remastered or added for the six-month vertical slice without rewriting unrelated audio.
+The per-file source of truth is
+`assets/audio/AUDIO_SOURCE_MANIFEST.json`. It records all 134 output paths,
+source pack and original filename, source SHA-256, output SHA-256, license, and
+edit history. Raw third-party libraries remain outside the repository.
 
-## Release Gate
+## Inventory
 
-- Every BGM, ambience, and SFX file must be assigned exactly once in `audio_source_audit.py` before release candidate status.
-- Generated audio must name its deterministic source script or generation job.
-- Purchased audio must include vendor, pack, license type, purchase proof location, and modification notes.
-- AI-generated audio must record the service, account ownership, generation date, prompt/job reference, and the service terms snapshot used at generation time.
-- Files with unknown provenance may remain during development but may not ship.
+| Class | Count | Source palette |
+|---|---:|---|
+| BGM | 20 | Original scores rendered from recorded Yamaha C5 samples |
+| Ambience | 47 | Field-recorded rooms, weather, transport, city, water, crowds, and machinery |
+| SFX | 67 | Recorded paper, cloth, doors, controls, phone, keyboard, cards, chips, dice, vehicles, crowds, and piano stingers |
+| **Total** | **134** | **134 recording/sample-backed assets; 0 synthesized assets** |
+
+## Libraries
+
+| Library | Provider/author | License | Primary use |
+|---|---|---|---|
+| GDC 2026 Game Audio Bundle | Sonniss and participating recordists | Sonniss GDC Bundle License | Modern ambience, transport, weather, mechanisms, crowd, paper, casino, fireworks |
+| Owlish Media Sound Effects | OwlishMedia | CC0 1.0 | Clock, cloth, footsteps, paper, phone, water, small impacts |
+| Casino Audio 1.1 | Kenney Vleugels | CC0 1.0 | Cards, chips, dice |
+| Horse Gallop on Different Surfaces | congusbongus and source recordists | CC BY 4.0/per-file credits | Racetrack hoof cycle |
+| Salamander Grand Piano V3 | Alexander Holm | CC BY 3.0 | All score and piano stingers |
+| Keyboard Soundpack #1 | unicaegames | CC0 1.0 | Human typing and key presses |
+| Storm & Siren | TinyWorlds | CC0 1.0 | Civil-defense/storm siren |
+| Crash Collision | qubodup | CC0 1.0 | Bicycle collision impact layer |
+
+Required and voluntary credits are in
+`assets/audio/AUDIO_THIRD_PARTY_NOTICES.md`.
+
+## Build And Audit
+
+```bash
+python3 tools/build_sample_audio_assets.py --validate-only
+python3 tools/build_sample_audio_assets.py
+python3 tools/audio_source_audit.py
+```
+
+The canonical builder never generates a source waveform. The four former
+generators are retired compatibility gates and cannot write release assets.
+`BGMPlayer` and `AudioManager` report a missing asset as an error and leave that
+cue silent; they never synthesize a substitute.
+
+Expected audit result:
+
+```text
+AUDIO_SOURCE_AUDIT_OK assets=134 bgm=20 ambience=47 sfx=67 source_libraries=8 recordings_or_samples=134 procedural=0
+```
+
+This proves provenance, inventory, hashes, basic duration/loudness, and absence
+of known synthesis code. It does not approve musical taste, scene fit, fatigue,
+or mix quality. Those remain human listening gates.

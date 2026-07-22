@@ -1,5 +1,15 @@
 # Gangnam Dream Work Log
 
+## 2026-07-23 (Codex — ORDER-43 실제 녹음·샘플 팔레트 전환)
+
+### 자동 PASS였던 합성음을 출시 파이프라인에서 제거했다
+- 사용자 청취 NO-GO를 정본으로 받아들여 BGM 20·앰비언스 47·SFX 67, 총 134개를 실제 현장/사물 녹음과 녹음된 Yamaha C5 실악기 샘플 기반으로 전면 교체했다. semantic key와 장면 배선은 유지해 저장·이벤트 계약을 흔들지 않았다.
+- 소스는 Sonniss GDC 2026, Owlish Media, Kenney Casino Audio, Horse Gallop, Salamander Grand Piano, Keyboard Soundpack, Storm & Siren, Crash Collision의 8개 라이브러리다. 필요한 CC BY 고지와 자발적 크레딧을 추가하고, 파일별 공급자·URL·라이선스·원본 파일명·원본/출력 SHA-256·편집 이력을 `AUDIO_SOURCE_MANIFEST.json`에 기록했다.
+- `build_sample_audio_assets.py`는 녹음의 디코드·컷·레이어·루프·필터·정규화와 실피아노 샘플 시퀀싱만 수행한다. 기존 네 합성 생성기는 파일을 쓸 수 없는 감사 호환기로 퇴역시켰다. `BGMPlayer`와 `AudioManager`의 누락 파일용 파형 합성도 삭제해 오류·무음으로 실패시킨다.
+- 카지노 두 편곡은 같은 92 BPM·16마디·동일 진행/모티프·동일 길이로 다시 렌더했고, 말발굽은 실제 녹음 2.29초를 확보했다. 결혼식 박수·환호의 잘못된 원본 오프셋을 수정하고 퍼블리셔 스팅어는 1.55초 stereo 실피아노 샘플 큐로 교체했다.
+- 출처 감사 결과는 `assets=134 bgm=20 ambience=47 sfx=67 source_libraries=8 recordings_or_samples=134 procedural=0`이다. Godot가 134개를 재임포트했고 20곡·47환경음·67효과음 로드, 장면 116개·데모 45개 계약, 물리음 31단계, 카지노 위상, Moral 사람층과 이벤트 설정 연속성이 통과했다.
+- KO PlayStation/EN Xbox 실제 24주는 각각 630/634입력으로 같은 46사건·25뿌리와 배경 15·환경음 10·사람층 4·음악 10·명시 음악 41사건을 완주했다. 전체 `audit.sh`는 모드 매니페스트 137오디오 경로와 55개 GDScript 컴파일까지 `✅ 감사 통과`했다. 신규 clean RC와 헤드폰/노트북/TV 인간 청취는 OPEN이다.
+
 ## 2026-07-22 (Codex — ORDER-42 데모 오디오 드라마투르기)
 
 ### 첫 장면부터 공간과 인물의 소리가 서사를 맡게 했다

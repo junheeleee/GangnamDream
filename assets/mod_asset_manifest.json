@@ -1594,119 +1594,119 @@
         "amusement"
       ],
       "relative_path": "audio/amb_amusement_park.wav",
-      "bytes": 793844
+      "bytes": 1997772
     },
     {
       "ids": [
         "apartment"
       ],
       "relative_path": "audio/amb_apartment_room.wav",
-      "bytes": 529244
+      "bytes": 1997772
     },
     {
       "ids": [
         "cafe"
       ],
       "relative_path": "audio/amb_cafe_room.wav",
-      "bytes": 1997780
+      "bytes": 1997772
     },
     {
       "ids": [
         "car"
       ],
       "relative_path": "audio/amb_car_interior.wav",
-      "bytes": 705644
+      "bytes": 1997772
     },
     {
       "ids": [
         "casino"
       ],
       "relative_path": "audio/amb_casino_floor.wav",
-      "bytes": 529244
+      "bytes": 1997772
     },
     {
       "ids": [
         "cherry"
       ],
       "relative_path": "audio/amb_cherry_blossom.wav",
-      "bytes": 529244
+      "bytes": 1997772
     },
     {
       "ids": [
         "hoesik"
       ],
       "relative_path": "audio/amb_company_dinner.wav",
-      "bytes": 529244
+      "bytes": 1997772
     },
     {
       "ids": [
         "convenience"
       ],
       "relative_path": "audio/amb_convenience_store.wav",
-      "bytes": 1997780
+      "bytes": 1997772
     },
     {
       "ids": [
         "family_home"
       ],
       "relative_path": "audio/amb_family_home.wav",
-      "bytes": 1997780
+      "bytes": 1997772
     },
     {
       "ids": [
         "fine_dust"
       ],
       "relative_path": "audio/amb_fine_dust_city.wav",
-      "bytes": 529244
+      "bytes": 1997772
     },
     {
       "ids": [
         "room"
       ],
       "relative_path": "audio/amb_goshiwon_room.wav",
-      "bytes": 1997780
+      "bytes": 1997772
     },
     {
       "ids": [
         "gym"
       ],
       "relative_path": "audio/amb_gym_room.wav",
-      "bytes": 529244
+      "bytes": 1997772
     },
     {
       "ids": [
         "hagwon"
       ],
       "relative_path": "audio/amb_hagwon_street.wav",
-      "bytes": 529244
+      "bytes": 1997772
     },
     {
       "ids": [
         "hangang"
       ],
       "relative_path": "audio/amb_hangang_riverside.wav",
-      "bytes": 1997780
+      "bytes": 1997772
     },
     {
       "ids": [
         "heatwave"
       ],
       "relative_path": "audio/amb_heatwave_city.wav",
-      "bytes": 529244
+      "bytes": 1997772
     },
     {
       "ids": [
         "highway"
       ],
       "relative_path": "audio/amb_highway_traffic.wav",
-      "bytes": 529244
+      "bytes": 1997772
     },
     {
       "ids": [
         "hospital"
       ],
       "relative_path": "audio/amb_hospital_room.wav",
-      "bytes": 705644
+      "bytes": 1997772
     },
     {
       "ids": [
@@ -1776,266 +1776,266 @@
         "jjimjilbang"
       ],
       "relative_path": "audio/amb_jjimjilbang.wav",
-      "bytes": 529244
+      "bytes": 1997772
     },
     {
       "ids": [
         "library"
       ],
       "relative_path": "audio/amb_library_room.wav",
-      "bytes": 529244
+      "bytes": 1997772
     },
     {
       "ids": [
         "military_gate"
       ],
       "relative_path": "audio/amb_military_gate.wav",
-      "bytes": 529244
+      "bytes": 1997772
     },
     {
       "ids": [
         "night_bus"
       ],
       "relative_path": "audio/amb_night_bus.wav",
-      "bytes": 705644
+      "bytes": 1997772
     },
     {
       "ids": [
         "office"
       ],
       "relative_path": "audio/amb_office_room.wav",
-      "bytes": 1997780
+      "bytes": 1997772
     },
     {
       "ids": [
         "oneroom"
       ],
       "relative_path": "audio/amb_oneroom_room.wav",
-      "bytes": 529244
+      "bytes": 1997772
     },
     {
       "ids": [
         "open_chat"
       ],
       "relative_path": "audio/amb_open_chat_room.wav",
-      "bytes": 529244
+      "bytes": 1997772
     },
     {
       "ids": [
         "pc_bang"
       ],
       "relative_path": "audio/amb_pc_bang.wav",
-      "bytes": 529244
+      "bytes": 1997772
     },
     {
       "ids": [
         "public_office"
       ],
       "relative_path": "audio/amb_public_office.wav",
-      "bytes": 1997780
+      "bytes": 1997772
     },
     {
       "ids": [
         "racetrack"
       ],
       "relative_path": "audio/amb_racetrack_crowd.wav",
-      "bytes": 529244
+      "bytes": 1997772
     },
     {
       "ids": [
         "rain_room"
       ],
       "relative_path": "audio/amb_rain_room.wav",
-      "bytes": 705644
+      "bytes": 1997772
     },
     {
       "ids": [
         "saju"
       ],
       "relative_path": "audio/amb_saju_cafe.wav",
-      "bytes": 529244
+      "bytes": 1997772
     },
     {
       "ids": [
         "school"
       ],
       "relative_path": "audio/amb_school_hall.wav",
-      "bytes": 529244
+      "bytes": 1997772
     },
     {
       "ids": [
         "seaside"
       ],
       "relative_path": "audio/amb_seaside.wav",
-      "bytes": 882044
+      "bytes": 1997772
     },
     {
       "ids": [
         "rain"
       ],
       "relative_path": "audio/amb_seoul_rain.wav",
-      "bytes": 1997780
+      "bytes": 1997772
     },
     {
       "ids": [
         "street"
       ],
       "relative_path": "audio/amb_seoul_street.wav",
-      "bytes": 1997780
+      "bytes": 1997772
     },
     {
       "ids": [
         "subway"
       ],
       "relative_path": "audio/amb_subway_platform.wav",
-      "bytes": 529244
+      "bytes": 1997772
     },
     {
       "ids": [
         "summer"
       ],
       "relative_path": "audio/amb_summer_night.wav",
-      "bytes": 529244
+      "bytes": 1997772
     },
     {
       "ids": [
         "train"
       ],
       "relative_path": "audio/amb_train_interior.wav",
-      "bytes": 705644
+      "bytes": 1997772
     },
     {
       "ids": [
         "wedding_hall"
       ],
       "relative_path": "audio/amb_wedding_hall.wav",
-      "bytes": 882044
+      "bytes": 1997772
     },
     {
       "ids": [
         "winter"
       ],
       "relative_path": "audio/amb_winter_wind.wav",
-      "bytes": 1997780
+      "bytes": 1997772
     },
     {
       "ids": [
         "ambition"
       ],
       "relative_path": "audio/bgm_ambition.ogg",
-      "bytes": 231375
+      "bytes": 966903
     },
     {
       "ids": [
         "late_tense"
       ],
       "relative_path": "audio/bgm_apartment.ogg",
-      "bytes": 525890
+      "bytes": 890239
     },
     {
       "ids": [
         "casino_floor"
       ],
       "relative_path": "audio/bgm_casino_floor.ogg",
-      "bytes": 297255
+      "bytes": 702393
     },
     {
       "ids": [
         "casino_table"
       ],
       "relative_path": "audio/bgm_casino_table.ogg",
-      "bytes": 316880
+      "bytes": 704520
     },
     {
       "ids": [
         "crisis"
       ],
       "relative_path": "audio/bgm_crisis.ogg",
-      "bytes": 726091
+      "bytes": 1092485
     },
     {
       "ids": [
         "daeun"
       ],
       "relative_path": "audio/bgm_daeun.ogg",
-      "bytes": 320581
+      "bytes": 1171823
     },
     {
       "ids": [
         "ending_bad"
       ],
       "relative_path": "audio/bgm_ending.ogg",
-      "bytes": 745355
+      "bytes": 1080765
     },
     {
       "ids": [
         "family"
       ],
       "relative_path": "audio/bgm_family.ogg",
-      "bytes": 357773
+      "bytes": 1207667
     },
     {
       "ids": [
         "early"
       ],
       "relative_path": "audio/bgm_gosiwon.ogg",
-      "bytes": 614753
+      "bytes": 1056877
     },
     {
       "ids": [
         "grief"
       ],
       "relative_path": "audio/bgm_grief.ogg",
-      "bytes": 247854
+      "bytes": 1242119
     },
     {
       "ids": [
         "hyunsu"
       ],
       "relative_path": "audio/bgm_hyunsu.ogg",
-      "bytes": 325689
+      "bytes": 1103061
     },
     {
       "ids": [
         "intimate"
       ],
       "relative_path": "audio/bgm_intimate.ogg",
-      "bytes": 212973
+      "bytes": 1174531
     },
     {
       "ids": [
         "jiyeon"
       ],
       "relative_path": "audio/bgm_jiyeon.ogg",
-      "bytes": 277110
+      "bytes": 1121506
     },
     {
       "ids": [
         "hustle"
       ],
       "relative_path": "audio/bgm_main.ogg",
-      "bytes": 569407
+      "bytes": 833925
     },
     {
       "ids": [
         "menu"
       ],
       "relative_path": "audio/bgm_menu.ogg",
-      "bytes": 642097
+      "bytes": 1014696
     },
     {
       "ids": [
         "reckoning"
       ],
       "relative_path": "audio/bgm_reckoning.ogg",
-      "bytes": 237345
+      "bytes": 1036589
     },
     {
       "ids": [
         "survival"
       ],
       "relative_path": "audio/bgm_survival.ogg",
-      "bytes": 278845
+      "bytes": 1000893
     },
     {
       "ids": [
@@ -2063,490 +2063,490 @@
         "ending_good"
       ],
       "relative_path": "audio/bgm_victory.ogg",
-      "bytes": 52612
+      "bytes": 1048699
     },
     {
       "ids": [
         "wedding_processional"
       ],
       "relative_path": "audio/bgm_wedding_processional.ogg",
-      "bytes": 288502
+      "bytes": 1021858
     },
     {
       "ids": [
         "wonder"
       ],
       "relative_path": "audio/bgm_wonder.ogg",
-      "bytes": 166581
+      "bytes": 1067635
     },
     {
       "ids": [
         "bicycle_impact"
       ],
       "relative_path": "audio/sfx_bicycle_impact.wav",
-      "bytes": 112940
+      "bytes": 84018
     },
     {
       "ids": [
         "big_wheel_tick"
       ],
       "relative_path": "audio/sfx_big_wheel_tick.wav",
-      "bytes": 8864
+      "bytes": 14942
     },
     {
       "ids": [
         "bus_arrival"
       ],
       "relative_path": "audio/sfx_bus_arrival.wav",
-      "bytes": 251412
+      "bytes": 244564
     },
     {
       "ids": [
         "buy"
       ],
       "relative_path": "audio/sfx_buy.wav",
-      "bytes": 14156
+      "bytes": 17234
     },
     {
       "ids": [
         "card_deal"
       ],
       "relative_path": "audio/sfx_card_deal.wav",
-      "bytes": 30032
+      "bytes": 26480
     },
     {
       "ids": [
         "card_flip"
       ],
       "relative_path": "audio/sfx_card_flip.wav",
-      "bytes": 33560
+      "bytes": 37088
     },
     {
       "ids": [
         "card_shuffle"
       ],
       "relative_path": "audio/sfx_card_shuffle.wav",
-      "bytes": 119112
+      "bytes": 110294
     },
     {
       "ids": [
         "casino_bet"
       ],
       "relative_path": "audio/sfx_casino_bet.wav",
-      "bytes": 8864
+      "bytes": 17234
     },
     {
       "ids": [
         "casino_card"
       ],
       "relative_path": "audio/sfx_casino_card.wav",
-      "bytes": 7540
+      "bytes": 21226
     },
     {
       "ids": [
         "casino_coin"
       ],
       "relative_path": "audio/sfx_casino_coin.wav",
-      "bytes": 11510
+      "bytes": 31796
     },
     {
       "ids": [
         "casino_jackpot"
       ],
       "relative_path": "audio/sfx_casino_jackpot.wav",
-      "bytes": 79424
+      "bytes": 19218
     },
     {
       "ids": [
         "casino_lose"
       ],
       "relative_path": "audio/sfx_casino_lose.wav",
-      "bytes": 31796
+      "bytes": 19018
     },
     {
       "ids": [
         "casino_reel"
       ],
       "relative_path": "audio/sfx_casino_reel.wav",
-      "bytes": 4894
+      "bytes": 23904
     },
     {
       "ids": [
         "casino_spin"
       ],
       "relative_path": "audio/sfx_casino_spin.wav",
-      "bytes": 37088
+      "bytes": 60944
     },
     {
       "ids": [
         "casino_win"
       ],
       "relative_path": "audio/sfx_casino_win.wav",
-      "bytes": 37088
+      "bytes": 16144
     },
     {
       "ids": [
         "chip_collect"
       ],
       "relative_path": "audio/sfx_chip_collect.wav",
-      "bytes": 72368
+      "bytes": 20074
     },
     {
       "ids": [
         "chip_place"
       ],
       "relative_path": "audio/sfx_chip_place.wav",
-      "bytes": 21212
+      "bytes": 17234
     },
     {
       "ids": [
         "choice_made"
       ],
       "relative_path": "audio/sfx_choice_made.wav",
-      "bytes": 9304
+      "bytes": 15920
     },
     {
       "ids": [
         "civil_defense_siren"
       ],
       "relative_path": "audio/sfx_civil_defense_siren.wav",
-      "bytes": 247000
+      "bytes": 264644
     },
     {
       "ids": [
         "click"
       ],
       "relative_path": "audio/sfx_click.wav",
-      "bytes": 3394
+      "bytes": 13288
     },
     {
       "ids": [
         "close"
       ],
       "relative_path": "audio/sfx_close.wav",
-      "bytes": 13716
+      "bytes": 16016
     },
     {
       "ids": [
         "cup_set"
       ],
       "relative_path": "audio/sfx_cup_set.wav",
-      "bytes": 63548
+      "bytes": 16300
     },
     {
       "ids": [
         "dice_cup_shake"
       ],
       "relative_path": "audio/sfx_dice_cup_shake.wav",
-      "bytes": 95300
+      "bytes": 94532
     },
     {
       "ids": [
         "dice_roll"
       ],
       "relative_path": "audio/sfx_dice_roll.wav",
-      "bytes": 17684
+      "bytes": 32142
     },
     {
       "ids": [
         "distant_fireworks"
       ],
       "relative_path": "audio/sfx_distant_fireworks.wav",
-      "bytes": 546884
+      "bytes": 345930
     },
     {
       "ids": [
         "document_stamp"
       ],
       "relative_path": "audio/sfx_document_stamp.wav",
-      "bytes": 51200
+      "bytes": 19618
     },
     {
       "ids": [
         "door_latch"
       ],
       "relative_path": "audio/sfx_door_latch.wav",
-      "bytes": 63548
+      "bytes": 90960
     },
     {
       "ids": [
         "ending_stinger_bad"
       ],
       "relative_path": "audio/sfx_ending_stinger_bad.wav",
-      "bytes": 141164
+      "bytes": 238184
     },
     {
       "ids": [
         "ending_stinger_good"
       ],
       "relative_path": "audio/sfx_ending_stinger_good.wav",
-      "bytes": 123520
+      "bytes": 211724
     },
     {
       "ids": [
         "ending_stinger_legend"
       ],
       "relative_path": "audio/sfx_ending_stinger_legend.wav",
-      "bytes": 176444
+      "bytes": 264644
     },
     {
       "ids": [
         "event_new"
       ],
       "relative_path": "audio/sfx_event_new.wav",
-      "bytes": 28268
+      "bytes": 40616
     },
     {
       "ids": [
         "footsteps_hall"
       ],
       "relative_path": "audio/sfx_footsteps_hall.wav",
-      "bytes": 207312
+      "bytes": 27420
     },
     {
       "ids": [
         "game_over"
       ],
       "relative_path": "audio/sfx_game_over.wav",
-      "bytes": 83834
+      "bytes": 78870
     },
     {
       "ids": [
         "horse_gallop"
       ],
       "relative_path": "audio/sfx_horse_gallop.wav",
-      "bytes": 16800
+      "bytes": 201572
     },
     {
       "ids": [
         "housing_up"
       ],
       "relative_path": "audio/sfx_housing_up.wav",
-      "bytes": 48554
+      "bytes": 95370
     },
     {
       "ids": [
         "kettle_pour"
       ],
       "relative_path": "audio/sfx_kettle_pour.wav",
-      "bytes": 216132
+      "bytes": 156420
     },
     {
       "ids": [
         "keyboard_short"
       ],
       "relative_path": "audio/sfx_keyboard_short.wav",
-      "bytes": 118232
+      "bytes": 101472
     },
     {
       "ids": [
         "money_big"
       ],
       "relative_path": "audio/sfx_money_big.wav",
-      "bytes": 57374
+      "bytes": 16144
     },
     {
       "ids": [
         "money_gain"
       ],
       "relative_path": "audio/sfx_money_gain.wav",
-      "bytes": 24740
+      "bytes": 43536
     },
     {
       "ids": [
         "money_loss"
       ],
       "relative_path": "audio/sfx_money_loss.wav",
-      "bytes": 30032
+      "bytes": 19018
     },
     {
       "ids": [
         "monsoon_rain"
       ],
       "relative_path": "audio/sfx_monsoon_rain.wav",
-      "bytes": 247000
+      "bytes": 264644
     },
     {
       "ids": [
         "month"
       ],
       "relative_path": "audio/sfx_month.wav",
-      "bytes": 30912
+      "bytes": 28718
     },
     {
       "ids": [
         "open_modal"
       ],
       "relative_path": "audio/sfx_open_modal.wav",
-      "bytes": 13716
+      "bytes": 30032
     },
     {
       "ids": [
         "paper_handle"
       ],
       "relative_path": "audio/sfx_paper_handle.wav",
-      "bytes": 81188
+      "bytes": 68990
     },
     {
       "ids": [
         "phone_notification"
       ],
       "relative_path": "audio/sfx_phone_notification.wav",
-      "bytes": 63548
+      "bytes": 41524
     },
     {
       "ids": [
         "phone_vibrate"
       ],
       "relative_path": "audio/sfx_phone_vibrate.wav",
-      "bytes": 68840
+      "bytes": 95368
     },
     {
       "ids": [
         "publisher_sting"
       ],
       "relative_path": "audio/sfx_publisher_sting.wav",
-      "bytes": 297644
+      "bytes": 273464
     },
     {
       "ids": [
         "queue_chime"
       ],
       "relative_path": "audio/sfx_queue_chime.wav",
-      "bytes": 104120
+      "bytes": 19576
     },
     {
       "ids": [
         "race_crowd_rise"
       ],
       "relative_path": "audio/sfx_race_crowd_rise.wav",
-      "bytes": 247000
+      "bytes": 247002
     },
     {
       "ids": [
         "race_finish"
       ],
       "relative_path": "audio/sfx_race_finish.wav",
-      "bytes": 101472
+      "bytes": 264644
     },
     {
       "ids": [
         "race_gate"
       ],
       "relative_path": "audio/sfx_race_gate.wav",
-      "bytes": 92652
+      "bytes": 62370
     },
     {
       "ids": [
         "register_scan"
       ],
       "relative_path": "audio/sfx_register_scan.wav",
-      "bytes": 38852
+      "bytes": 19576
     },
     {
       "ids": [
         "result_human"
       ],
       "relative_path": "audio/sfx_result_human.wav",
-      "bytes": 22976
+      "bytes": 30882
     },
     {
       "ids": [
         "result_ledger"
       ],
       "relative_path": "audio/sfx_result_ledger.wav",
-      "bytes": 12832
+      "bytes": 23904
     },
     {
       "ids": [
         "roulette_ball"
       ],
       "relative_path": "audio/sfx_roulette_ball.wav",
-      "bytes": 10184
+      "bytes": 26194
     },
     {
       "ids": [
         "roulette_land"
       ],
       "relative_path": "audio/sfx_roulette_land.wav",
-      "bytes": 42380
+      "bytes": 17234
     },
     {
       "ids": [
         "roulette_wheel"
       ],
       "relative_path": "audio/sfx_roulette_wheel.wav",
-      "bytes": 273464
+      "bytes": 87292
     },
     {
       "ids": [
         "sell"
       ],
       "relative_path": "audio/sfx_sell.wav",
-      "bytes": 14156
+      "bytes": 28268
     },
     {
       "ids": [
         "slot_reel_stop"
       ],
       "relative_path": "audio/sfx_slot_reel_stop.wav",
-      "bytes": 25620
+      "bytes": 16016
     },
     {
       "ids": [
         "slot_start"
       ],
       "relative_path": "audio/sfx_slot_start.wav",
-      "bytes": 54728
+      "bytes": 65026
     },
     {
       "ids": [
         "stat_down"
       ],
       "relative_path": "audio/sfx_stat_down.wav",
-      "bytes": 19448
+      "bytes": 28604
     },
     {
       "ids": [
         "stat_up"
       ],
       "relative_path": "audio/sfx_stat_up.wav",
-      "bytes": 15920
+      "bytes": 23700
     },
     {
       "ids": [
         "success"
       ],
       "relative_path": "audio/sfx_success.wav",
-      "bytes": 72368
+      "bytes": 20074
     },
     {
       "ids": [
         "tab_open"
       ],
       "relative_path": "audio/sfx_tab_open.wav",
-      "bytes": 6660
+      "bytes": 19448
     },
     {
       "ids": [
         "traffic_pass"
       ],
       "relative_path": "audio/sfx_traffic_pass.wav",
-      "bytes": 198492
+      "bytes": 229364
     },
     {
       "ids": [
         "wedding_applause"
       ],
       "relative_path": "audio/sfx_wedding_applause.wav",
-      "bytes": 564524
+      "bytes": 264644
     },
     {
       "ids": [
         "wedding_cheer"
       ],
       "relative_path": "audio/sfx_wedding_cheer.wav",
-      "bytes": 370484
+      "bytes": 264644
     }
   ]
 }

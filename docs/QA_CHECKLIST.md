@@ -220,8 +220,8 @@ Automated store-trailer gate:
 
 Automated audio gates:
 
-- `audio_source_audit.py` must assign every shippable WAV/OGG to exactly one reproducible source script; no missing, stale, duplicate, or undocumented audio may ship.
-- `generate_gangnam_ui_sfx.py --check` must reproduce the six tactile UI WAV files byte-for-byte without external samples.
+- `audio_source_audit.py` must assign every shippable WAV/OGG to licensed recording/sample provenance; no missing, stale, duplicate, undocumented, or synthesized audio may ship.
+- `build_sample_audio_assets.py --validate-only` must resolve every external source and hash without generating a waveform. The retired `generate_*audio*.py --check` commands are read-only compatibility gates and may not write release files.
 - `scene_audio_contract_check.py` must give every active CG an ambience and every event on all 30 Tier-1 peak paths an authored scene-audio contract. Diegetic spoken language remains Korean under every text locale.
 - `game_audio_contract_check.py` must preserve 17 physical SFX keys, 19 stage call sites, seven activity ambience owners, nine direct-controller minigames, and nine separate human-presence layers. It rejects a regression from semantic controls to `grab_focus()` traversal.
 - `GameAudioContractCheck.tscn` must load every physical stream, prove bounded playback variation, keep same-activity ambience continuous, reject stale-owner clearing, and restore housing ambience on exit. Jeongseon floor/table masters must have the same substantial loop length; same-layer calls cannot rewind, and both floor→table and table→floor crossfades must inherit playback phase before the score closes on exit.

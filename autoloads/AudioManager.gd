@@ -219,64 +219,18 @@ func _ready():
 	_connect_signals()
 
 func _load_sounds():
-	# 실제 wav 파일 우선 로드, 없으면 프로시저럴 폴백
+	# 출시 오디오는 녹음/실악기 샘플 파일만 사용한다. 누락 시 합성하지 않는다.
+	_sounds.clear()
 	for key in _SFX_FILES:
 		var path: String = str(_SFX_FILES[key])
-		if ModLoader.audio_exists(path):
-			var stream := ModLoader.load_audio(path)
-			_sounds[key] = stream if stream != null else _make_fallback(key)
-		else:
-			_sounds[key] = _make_fallback(key)
-
-func _make_fallback(key: String) -> AudioStreamWAV:
-	# 파일 없을 때 간단한 비프로 대체
-	match key:
-		"click":      return _tone(880, 0.05, [1.0, 0.0])
-		"close":      return _tone(440, 0.10, [0.8, 0.0])
-		"open_modal": return _tone(660, 0.12, [0.3, 1.0, 0.0])
-		"tab_open":   return _chord([494, 659], 0.14, [0.0, 1.0, 0.0])
-		"month":      return _chord([523, 659, 784], 0.25, [0.0, 0.8, 1.0, 0.0])
-		"money_gain": return _chord([659, 784, 988], 0.20, [0.0, 0.8, 1.0, 0.0])
-		"money_loss": return _tone(220, 0.28, [0.4, 1.0, 0.0])
-		"money_big":  return _chord([523, 659, 784, 1047], 0.40, [0.0, 0.5, 1.0, 0.5, 0.0])
-		"buy":        return _chord([440, 523], 0.14, [0.0, 1.0, 0.0])
-		"sell":       return _chord([523, 440], 0.14, [0.0, 1.0, 0.0])
-		"stat_up":    return _chord([523, 659], 0.16, [0.0, 1.0, 0.0])
-		"stat_down":  return _tone(330, 0.20, [0.5, 1.0, 0.0])
-		"event_new":  return _chord([440, 550], 0.14, [0.0, 1.0, 0.5, 0.0])
-		"choice_made":return _tone(600, 0.09, [0.5, 1.0, 0.0])
-		"result_ledger": return _tone(110, 0.12, [0.7, 1.0, 0.0])
-		"result_human": return _tone(76, 0.22, [0.0, 0.35, 0.6, 0.35, 0.0])
-		"housing_up": return _chord([523, 659, 784, 1047], 0.30, [0.0, 0.4, 1.0, 0.6, 0.0])
-		"game_over":    return _tone(110, 0.70, [0.0, 0.5, 1.0, 0.8, 0.5, 0.0])
-		"success":      return _chord([523, 659, 784, 1047], 0.55, [0.0, 0.3, 1.0, 0.8, 0.4, 0.0])
-		"casino_win":   return _chord([659, 784, 988, 1319], 0.35, [0.0, 0.6, 1.0, 0.6, 0.0])
-		"casino_lose":  return _tone(196, 0.32, [0.3, 1.0, 0.6, 0.0])
-		"casino_bet":   return _tone(740, 0.07, [0.8, 1.0, 0.0])
-		"casino_coin":  return _tone(1047, 0.06, [1.0, 0.8, 0.0])
-		"casino_spin":  return _tone(330, 0.10, [0.5, 1.0, 0.0])
-		"casino_card":  return _tone(880, 0.06, [1.0, 0.6, 0.0])
-		"casino_jackpot": return _chord([523, 659, 784, 1047, 1319], 0.80, [0.0, 0.3, 0.8, 1.0, 0.8, 0.4, 0.0])
-		"casino_reel":  return _tone(494, 0.04, [1.0, 0.0])
-		"card_shuffle", "card_deal", "card_flip": return _tone(720, 0.10, [1.0, 0.25, 0.0])
-		"chip_place", "chip_collect": return _tone(1480, 0.08, [1.0, 0.35, 0.0])
-		"dice_cup_shake", "dice_roll": return _tone(310, 0.12, [1.0, 0.45, 0.0])
-		"roulette_wheel", "roulette_ball", "roulette_land": return _tone(540, 0.10, [1.0, 0.25, 0.0])
-		"slot_start", "slot_reel_stop", "big_wheel_tick": return _tone(420, 0.10, [1.0, 0.25, 0.0])
-		"race_gate", "horse_gallop", "race_crowd_rise", "race_finish": return _tone(180, 0.16, [1.0, 0.45, 0.0])
-		"phone_vibrate": return _tone(108, 0.62, [0.0, 1.0, 0.15, 1.0, 0.0])
-		"phone_notification", "queue_chime": return _chord([659, 988], 0.48, [0.0, 0.8, 0.35, 0.0])
-		"paper_handle", "keyboard_short": return _tone(760, 0.32, [0.8, 0.45, 0.0])
-		"document_stamp", "door_latch", "footsteps_hall": return _tone(128, 0.42, [1.0, 0.55, 0.0])
-		"register_scan", "cup_set": return _tone(720, 0.28, [0.0, 1.0, 0.0])
-		"bicycle_impact", "traffic_pass", "bus_arrival": return _tone(92, 0.72, [0.0, 0.8, 1.0, 0.0])
-		"kettle_pour": return _tone(420, 0.82, [0.0, 0.7, 0.5, 0.0])
-		"civil_defense_siren": return _chord([740, 988], 0.75, [0.0, 0.8, 1.0, 0.8, 0.0])
-		"monsoon_rain": return _tone(180, 0.80, [0.0, 0.7, 1.0, 0.8, 0.0])
-		"ending_stinger_good": return _chord([523, 659, 784, 1047], 1.10, [0.0, 0.4, 1.0, 0.6, 0.0])
-		"ending_stinger_bad": return _tone(92, 1.25, [0.0, 0.7, 1.0, 0.4, 0.0])
-		"ending_stinger_legend": return _chord([523, 659, 784, 1047, 1319], 1.55, [0.0, 0.3, 1.0, 0.8, 0.45, 0.0])
-	return _tone(440, 0.1, [1.0, 0.0])
+		if not ModLoader.audio_exists(path):
+			push_error("Missing recorded/sample-based SFX '%s': %s" % [key, path])
+			continue
+		var stream := ModLoader.load_audio(path)
+		if stream == null:
+			push_error("Failed to load recorded/sample-based SFX '%s': %s" % [key, path])
+			continue
+		_sounds[key] = stream
 
 func load_settings():
 	master_volume = clampf(float(SaveManager.get_setting("sfx_volume", 0.8)), 0.0, 1.0)
@@ -572,34 +526,3 @@ func _is_sfx_throttled(sound_id: String) -> bool:
 		return true
 	_last_sfx_ms[sound_id] = now
 	return false
-
-# ── 프로시저럴 폴백용 합성 ────────────────────────────────────
-const _SAMPLE_RATE = 22050
-
-func _tone(freq: float, duration: float, envelope: Array) -> AudioStreamWAV:
-	return _chord([freq], duration, envelope)
-
-func _chord(freqs: Array, duration: float, envelope: Array) -> AudioStreamWAV:
-	var samples = int(_SAMPLE_RATE * duration)
-	var data    = PackedByteArray()
-	data.resize(samples * 2)
-	var env_count = envelope.size()
-	for i in range(samples):
-		var t     = float(i) / float(samples)
-		var seg   = t * (env_count - 1)
-		var seg_i = int(seg)
-		var seg_f = seg - float(seg_i)
-		var amp   = lerp(float(envelope[seg_i]), float(envelope[min(seg_i + 1, env_count - 1)]), seg_f)
-		var s     = 0.0
-		for freq in freqs:
-			s += sin(2.0 * PI * float(freq) * float(i) / float(_SAMPLE_RATE))
-		s /= float(freqs.size())
-		s = s / (1.0 + abs(s) * 0.4)
-		data[i * 2]     = clamp(int(s * amp * 26000), -32768, 32767) & 0xFF
-		data[i * 2 + 1] = (clamp(int(s * amp * 26000), -32768, 32767) >> 8) & 0xFF
-	var wav = AudioStreamWAV.new()
-	wav.format   = AudioStreamWAV.FORMAT_16_BITS
-	wav.mix_rate = _SAMPLE_RATE
-	wav.stereo   = false
-	wav.data     = data
-	return wav
