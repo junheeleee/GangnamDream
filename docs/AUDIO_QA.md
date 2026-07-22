@@ -169,6 +169,8 @@ Hyunsu's reunion remains scoreless on the live housing room tone through the emp
 
 ## Human Listening Gate
 
+Current candidate: clean revision `cf9208533449a99a11e24f0844fc09398bf670f0`, tree `13743beba3084893e397d96fd2d374952ff9c9d5`, manifest SHA-256 `1bf5033935811a8e86867c25ef5b173090ffa3dda85c214690de00e373c00d46`. Windows/macOS/Linux-Steam Deck exports and an isolated macOS package boot pass. This is a technical candidate, not a listening approval.
+
 Before demo lock, listen at the real 1280x800/Steam Deck presentation and on headphones, laptop speakers, and a living-room TV:
 
 1. Play the complete Knee memory without skipping. The player must hear a modest family home before seeing the room, recognize one unbroken family motif, and feel the door/paper beats without hearing a tragedy jingle.

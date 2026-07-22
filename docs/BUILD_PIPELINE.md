@@ -128,7 +128,7 @@ Windows와 Linux/Deck의 `run` 칸은 아직 미검증이다. macOS 실주행 �
 | Aggregator fixtures | PASS | 10건: 준비/미달/NO-GO/P0/중복/혼합/점수/enum/망설임 저표본·필수 원문 |
 | Human evidence | OPEN | 같은 RC 10명, EN 3명, 경험 양 군, 구체 계획 70% 필요 |
 
-현재 외부 표본 정본은 ORDER-42 오디오 드라마투르기 clean RC다. 소스 revision은 `8f55b2c2e5c9f34dd8d71a4fc2e5fba2af77e40d`, tree는 `506605b7e226259c258b792891f8742073a77bc7`, 매니페스트 파일 SHA-256은 `ec8f02db7e87da2b0cb53c201a1c30614ae3f88bd856b60d844afe5d6f6e637e`다. 산출물 SHA-256은 Windows `36d868520c9e1607e00f62e268032f8fa9cacbc850d92b9a5e0a08395442040d`, macOS `5b1fb4e071b36b1c6fa0f37352cccbd78cd747ba772843d273b324c676151c8c`, Linux·Steam Deck `dbe245651425db81d139d8980198692982cffec133631d6c0d3d4e8f4b5b5582`다. 로컬 산출물과 매니페스트는 `build/demo/`에 있으며 세 파일 모두 재검산 PASS다. 이후의 큐 완료·RC 원장 커밋은 문서 전용이므로 게임플레이 revision을 바꾸지 않는다. 파일럿 5명과 본표본 10명은 이 매니페스트가 아닌 빌드를 섞지 않는다.
+현재 외부 표본 정본은 ORDER-43 실제 녹음·샘플 팔레트 clean RC다. 소스 revision은 `cf9208533449a99a11e24f0844fc09398bf670f0`, tree는 `13743beba3084893e397d96fd2d374952ff9c9d5`, 매니페스트 파일 SHA-256은 `1bf5033935811a8e86867c25ef5b173090ffa3dda85c214690de00e373c00d46`다. 산출물 SHA-256은 Windows `894330e9652f42d895375777c21445ed0ba9931e93dbc3387a3cac429fb0b883`, macOS `ecbfdd0ad3a979bdf9f59a9b24905a5d69196428868be0a655593d232233c1bf`, Linux·Steam Deck `ac2a3a4d00c2c6548339c527419a73240d410f9a910f13fc468a60cf5f873ab5`다. 별도 clean worktree의 fresh import와 `DEMO_BUILD_CHECK_OK`, 세 export, 로컬 복사 뒤 3종 재검산, 격리 HOME의 macOS 패키지 부팅을 통과했다. 이후의 큐·RC 원장 커밋은 문서 전용이므로 게임플레이 revision을 바꾸지 않는다. 파일럿 5명과 본표본 10명은 이 매니페스트가 아닌 빌드를 섞지 않는다.
 
 자동 게이트는 표본이 `READY_FOR_HUMAN_VERDICT`인지만 판정하며 재미·출시 GO를 선언하지 않는다. Windows와 Linux/Deck의 물리 기기 실행 스모크도 계속 OPEN이다.
 
