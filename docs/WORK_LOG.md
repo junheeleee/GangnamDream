@@ -8,6 +8,7 @@
 - 룸톤·계절·사람층 기본 트림을 가청 범위로 올렸다. Gray에서는 사람이 들리고 Light/Deep Black에서는 사람층만 `-22.04/-54.04 dB`로 멀어지는 동안 장소 기계음과 날씨는 남는다. 같은 장면/모티프 재진입은 재생 위치를 보존한다.
 - KO PlayStation/EN Xbox 실제 24주 프로필은 각각 630/634 빠른 입력, 동일 46사건·25뿌리, 장소음 10·사람층 4·음악 키 10·명시 음악 사건 41·최장 무음악 뿌리 1로 통과했다. 45개 데모 사건에 계약이 있고 43개가 의미 문단 폴리를 가진다.
 - `audio_source_audit`, `scene_audio_contract_check`, `AudioAssetCheck`, `BGMContinuityCheck`, `GameAudioContractCheck`, 한영 데모 경험 감사와 전체 `audit.sh`를 통과했다. 현재 인벤토리는 BGM 20·앰비언스 47·SFX 67, 총 134개이며 외부 샘플은 0이다. 자동 검사는 배선·길이·RMS·연속성을 증명할 뿐 실제 음색과 피로도 승인은 사람 청취로 남긴다.
+- clean revision `8f55b2c2e5c9f34dd8d71a4fc2e5fba2af77e40d`, tree `506605b7e226259c258b792891f8742073a77bc7`에서 Windows/macOS/Linux·Steam Deck RC를 재생성해 로컬 `build/demo/`에 교체했다. 매니페스트 SHA-256은 `ec8f02db7e87da2b0cb53c201a1c30614ae3f88bd856b60d844afe5d6f6e637e`, 산출물 해시는 Windows `36d86852…`, macOS `5b1fb4e0…`, Linux `dbe24565…`이며 모두 재검산 PASS다.
 
 ## 2026-07-22 (Claude — ORDER-40·41 diff 판정: PASS)
 

@@ -128,7 +128,7 @@ Windows와 Linux/Deck의 `run` 칸은 아직 미검증이다. macOS 실주행 �
 | Aggregator fixtures | PASS | 10건: 준비/미달/NO-GO/P0/중복/혼합/점수/enum/망설임 저표본·필수 원문 |
 | Human evidence | OPEN | 같은 RC 10명, EN 3명, 경험 양 군, 구체 계획 70% 필요 |
 
-현재 외부 표본 정본은 ORDER-41 clean RC다. 소스 revision은 `e74c69b617cca9292328e459659a26db2c5645b8`, tree는 `76069f026a4e4ae88275f67253cb4b639ed58ff0`, 매니페스트 파일 SHA-256은 `4850b08987b80b39a9d14a760f188519b3413ac60c17da658f6a812fa64d6062`다. 로컬 산출물과 매니페스트는 `build/demo/`에 있으며 Windows/macOS/Linux·Steam Deck 세 파일 모두 재검산 PASS다. 파일럿 5명과 본표본 10명은 이 매니페스트가 아닌 빌드를 섞지 않는다.
+현재 외부 표본 정본은 ORDER-42 오디오 드라마투르기 clean RC다. 소스 revision은 `8f55b2c2e5c9f34dd8d71a4fc2e5fba2af77e40d`, tree는 `506605b7e226259c258b792891f8742073a77bc7`, 매니페스트 파일 SHA-256은 `ec8f02db7e87da2b0cb53c201a1c30614ae3f88bd856b60d844afe5d6f6e637e`다. 산출물 SHA-256은 Windows `36d868520c9e1607e00f62e268032f8fa9cacbc850d92b9a5e0a08395442040d`, macOS `5b1fb4e071b36b1c6fa0f37352cccbd78cd747ba772843d273b324c676151c8c`, Linux·Steam Deck `dbe245651425db81d139d8980198692982cffec133631d6c0d3d4e8f4b5b5582`다. 로컬 산출물과 매니페스트는 `build/demo/`에 있으며 세 파일 모두 재검산 PASS다. 이후의 큐 완료·RC 원장 커밋은 문서 전용이므로 게임플레이 revision을 바꾸지 않는다. 파일럿 5명과 본표본 10명은 이 매니페스트가 아닌 빌드를 섞지 않는다.
 
 자동 게이트는 표본이 `READY_FOR_HUMAN_VERDICT`인지만 판정하며 재미·출시 GO를 선언하지 않는다. Windows와 Linux/Deck의 물리 기기 실행 스모크도 계속 OPEN이다.
 
