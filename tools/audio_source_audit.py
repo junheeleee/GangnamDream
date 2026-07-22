@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
-"""Verify that every shippable audio file has one reproducible project-owned source."""
+"""Verify audio provenance and the release-facing WAV loudness envelope."""
 
+import array
+import math
+import wave
 from pathlib import Path
 
 
@@ -21,7 +24,7 @@ sfx_stat_up.wav sfx_success.wav
     "tools/generate_audio_p1_assets.py": set("""
 amb_cafe_room.wav amb_casino_floor.wav amb_cherry_blossom.wav
 amb_company_dinner.wav amb_convenience_store.wav amb_fine_dust_city.wav
-amb_goshiwon_room.wav amb_gym_room.wav amb_hagwon_street.wav
+amb_family_home.wav amb_goshiwon_room.wav amb_gym_room.wav amb_hagwon_street.wav
 amb_hangang_riverside.wav amb_heatwave_city.wav amb_highway_traffic.wav
 amb_jjimjilbang.wav amb_library_room.wav amb_military_gate.wav
 amb_office_room.wav amb_open_chat_room.wav amb_pc_bang.wav
@@ -49,6 +52,13 @@ amb_human_thin_wall.wav amb_human_street.wav
 amb_human_public_interior.wav amb_human_cafe.wav
 amb_human_casino.wav amb_human_racetrack.wav amb_human_wedding.wav
 amb_human_transit.wav amb_human_leisure.wav
+bgm_family.ogg bgm_survival.ogg bgm_hyunsu.ogg bgm_ambition.ogg
+bgm_daeun.ogg bgm_jiyeon.ogg
+sfx_phone_vibrate.wav sfx_phone_notification.wav sfx_paper_handle.wav
+sfx_document_stamp.wav sfx_door_latch.wav sfx_footsteps_hall.wav
+sfx_register_scan.wav sfx_keyboard_short.wav sfx_cup_set.wav
+sfx_bicycle_impact.wav sfx_traffic_pass.wav sfx_kettle_pour.wav
+sfx_bus_arrival.wav sfx_queue_chime.wav
 """.split()),
     "tools/generate_gangnam_ui_sfx.py": {
         "sfx_choice_made.wav",
@@ -62,6 +72,79 @@ amb_human_transit.wav amb_human_leisure.wav
         "sfx_publisher_sting.wav",
     },
 }
+
+DEMO_LONG_BEDS = set("""
+amb_goshiwon_room.wav amb_family_home.wav amb_seoul_rain.wav
+amb_hangang_riverside.wav amb_office_room.wav amb_seoul_street.wav
+amb_cafe_room.wav amb_convenience_store.wav amb_public_office.wav
+amb_winter_wind.wav
+""".split())
+
+HUMAN_BEDS = set("""
+amb_human_thin_wall.wav amb_human_street.wav amb_human_public_interior.wav
+amb_human_cafe.wav amb_human_casino.wav amb_human_racetrack.wav
+amb_human_wedding.wav amb_human_transit.wav amb_human_leisure.wav
+""".split())
+
+STORY_FOLEY = set("""
+sfx_phone_vibrate.wav sfx_phone_notification.wav sfx_paper_handle.wav
+sfx_document_stamp.wav sfx_door_latch.wav sfx_footsteps_hall.wav
+sfx_register_scan.wav sfx_keyboard_short.wav sfx_cup_set.wav
+sfx_bicycle_impact.wav sfx_traffic_pass.wav sfx_kettle_pour.wav
+sfx_bus_arrival.wav sfx_queue_chime.wav
+""".split())
+
+
+def wav_metrics(path: Path) -> tuple[float, float, float]:
+    with wave.open(str(path), "rb") as handle:
+        channels = handle.getnchannels()
+        sample_width = handle.getsampwidth()
+        frame_rate = handle.getframerate()
+        frames = handle.getnframes()
+        payload = handle.readframes(frames)
+    if channels not in {1, 2} or sample_width != 2 or frame_rate <= 0 or frames <= 0:
+        raise ValueError(
+            f"unsupported WAV format channels={channels} width={sample_width} "
+            f"rate={frame_rate} frames={frames}"
+        )
+    samples = array.array("h")
+    samples.frombytes(payload)
+    if not samples:
+        raise ValueError("empty WAV payload")
+    energy = sum(float(sample) * float(sample) for sample in samples) / len(samples)
+    rms = math.sqrt(energy) / 32768.0
+    peak = max(abs(sample) for sample in samples) / 32768.0
+    rms_db = 20.0 * math.log10(max(rms, 1.0e-12))
+    return frames / frame_rate, rms_db, peak
+
+
+def check_release_wavs(errors: list[str]) -> None:
+    for name in sorted(DEMO_LONG_BEDS | HUMAN_BEDS | STORY_FOLEY):
+        path = AUDIO / name
+        if not path.is_file():
+            continue
+        try:
+            duration, rms_db, peak = wav_metrics(path)
+        except (ValueError, wave.Error) as exc:
+            errors.append(f"{name}: cannot inspect WAV: {exc}")
+            continue
+        if name in DEMO_LONG_BEDS:
+            if duration < 18.0:
+                errors.append(f"{name}: demo ambience {duration:.2f}s < 18.0s")
+            if not -40.0 <= rms_db <= -24.0:
+                errors.append(f"{name}: demo ambience RMS {rms_db:.1f}dB outside -40..-24")
+        elif name in HUMAN_BEDS:
+            if duration < 16.0:
+                errors.append(f"{name}: human ambience {duration:.2f}s < 16.0s")
+            if not -43.0 <= rms_db <= -29.0:
+                errors.append(f"{name}: human ambience RMS {rms_db:.1f}dB outside -43..-29")
+        else:
+            if not 0.18 <= duration <= 3.2:
+                errors.append(f"{name}: story foley duration {duration:.2f}s outside 0.18..3.2s")
+            if not -34.0 <= rms_db <= -14.0:
+                errors.append(f"{name}: story foley RMS {rms_db:.1f}dB outside -34..-14")
+        if peak >= 0.999:
+            errors.append(f"{name}: clipped peak {peak:.4f}")
 
 
 def main() -> int:
@@ -82,6 +165,7 @@ def main() -> int:
         errors.append("source ledger references missing audio: " + ", ".join(stale))
     if duplicate:
         errors.append("audio has multiple source owners: " + ", ".join(duplicate))
+    check_release_wavs(errors)
     if errors:
         for error in errors:
             print("AUDIO_SOURCE_AUDIT_FAIL", error)

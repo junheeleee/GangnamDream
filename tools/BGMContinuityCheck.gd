@@ -28,6 +28,14 @@ func _ready() -> void:
 	if not BGMPlayer._ambience_player.playing or not BGMPlayer._season_player.playing:
 		_fail("weekly ambience layers are not playing")
 		return
+	var neutral_room_db := BGMPlayer._ambience_target_db()
+	var neutral_human_db := BGMPlayer._human_ambience_target_db()
+	if neutral_room_db < -12.0 or neutral_room_db > -8.0:
+		_fail("default room-tone gain is outside the audible mix window: %.2f dB" % neutral_room_db)
+		return
+	if neutral_human_db < -10.0 or neutral_human_db > -6.0:
+		_fail("default human-presence gain is outside the audible mix window: %.2f dB" % neutral_human_db)
+		return
 	var ambience_pos := BGMPlayer._ambience_player.get_playback_position()
 	BGMPlayer.start()
 	await get_tree().process_frame
@@ -51,6 +59,9 @@ func _ready() -> void:
 		return
 	if BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
 		_fail("moral shift started music during ambient mode")
+		return
+	if BGMPlayer._human_ambience_target_db() > neutral_human_db - 12.0:
+		_fail("dark moral band did not remove enough human presence")
 		return
 	var same_band_count: int = BGMPlayer._moral_transition_count
 	GameState.shift_moral_tint(-5.0)
@@ -152,6 +163,59 @@ func _ready() -> void:
 	if BGMPlayer._music_mode != "ambient" or not BGMPlayer._current_key.is_empty() \
 			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
 		_fail("unscored arc inferred generic lo-fi from its story category")
+		return
+
+	# 프롤로그의 감정 원점은 창원 집 룸톤 위에서 가족 모티프가 문 뒤의
+	# 목소리와 함께 늦게 들어온다. 세 링크 사이에서는 재생 위치를 보존한다.
+	var knee_door: Dictionary = DataRegistry.find_event("story_knee_door")
+	var knee_witness: Dictionary = DataRegistry.find_event("story_knee_witness")
+	var knee_choice: Dictionary = DataRegistry.find_event("story_knee_choice")
+	if knee_door.is_empty() or knee_witness.is_empty() or knee_choice.is_empty():
+		_fail("prologue knee scene audio fixtures are missing")
+		return
+	BGMPlayer.update_event_ambience(knee_door)
+	BGMPlayer.begin_story_event(knee_door)
+	BGMPlayer.play_scene_paragraph_music(knee_door, "", 0)
+	await get_tree().process_frame
+	if BGMPlayer._current_ambience_key != "family_home" \
+			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("prologue knee scene did not establish family-home silence first")
+		return
+	BGMPlayer.play_scene_paragraph_music(knee_door, "", 2)
+	await get_tree().create_timer(0.18).timeout
+	if BGMPlayer._current_key != "family" or not BGMPlayer._player_a.playing:
+		_fail("family motif did not enter behind the prologue doorway")
+		return
+	var family_pos := BGMPlayer._player_a.get_playback_position()
+	for knee_link in [knee_witness, knee_choice]:
+		BGMPlayer.update_event_ambience(knee_link)
+		BGMPlayer.begin_story_event(knee_link)
+		BGMPlayer.play_scene_paragraph_music(knee_link, "", 1)
+		await get_tree().process_frame
+		if BGMPlayer._current_key != "family" \
+				or BGMPlayer._player_a.get_playback_position() + 0.05 < family_pos:
+			_fail("family motif restarted across the prologue memory chain")
+			return
+		family_pos = BGMPlayer._player_a.get_playback_position()
+
+	# 데모의 마지막 현수 시험 장면은 무음으로 버려두지 않는다. 문과 발소리
+	# 뒤에 현수 모티프가 들어오며 다음 결과를 기다리게 해야 한다.
+	BGMPlayer.enter_ambient_bed(0.0)
+	var exam_day: Dictionary = DataRegistry.find_event("hyunsu_exam_day")
+	if exam_day.is_empty():
+		_fail("Hyunsu exam-day audio fixture is missing")
+		return
+	BGMPlayer.update_event_ambience(exam_day)
+	BGMPlayer.begin_story_event(exam_day)
+	BGMPlayer.play_scene_paragraph_music(exam_day, "", 0)
+	await get_tree().process_frame
+	if BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("Hyunsu motif started before the corridor established")
+		return
+	BGMPlayer.play_scene_paragraph_music(exam_day, "", 1)
+	await get_tree().create_timer(0.18).timeout
+	if BGMPlayer._current_key != "hyunsu" or not BGMPlayer._player_a.playing:
+		_fail("Hyunsu exam-day hook remained unscored")
 		return
 
 	# 저작된 정점 음악은 지정 문단까지 기다리고, 체인 경계에서 재시작하지 않는다.

@@ -16,6 +16,12 @@ const TRACKS = {
 	"reckoning":   "res://assets/audio/bgm_reckoning.ogg",
 	"grief":       "res://assets/audio/bgm_grief.ogg",
 	"wonder":      "res://assets/audio/bgm_wonder.ogg",
+	"family":      "res://assets/audio/bgm_family.ogg",
+	"survival":    "res://assets/audio/bgm_survival.ogg",
+	"hyunsu":      "res://assets/audio/bgm_hyunsu.ogg",
+	"ambition":    "res://assets/audio/bgm_ambition.ogg",
+	"daeun":       "res://assets/audio/bgm_daeun.ogg",
+	"jiyeon":      "res://assets/audio/bgm_jiyeon.ogg",
 	"casino_floor": "res://assets/audio/bgm_casino_floor.ogg",
 	"casino_table": "res://assets/audio/bgm_casino_table.ogg",
 }
@@ -36,6 +42,7 @@ const MORAL_THEME_TRACKS = {
 
 const AMBIENCE_TRACKS = {
 	"room":        "res://assets/audio/amb_goshiwon_room.wav",
+	"family_home": "res://assets/audio/amb_family_home.wav",
 	"rain":        "res://assets/audio/amb_seoul_rain.wav",
 	"rain_room":   "res://assets/audio/amb_rain_room.wav",
 	"hangang":     "res://assets/audio/amb_hangang_riverside.wav",
@@ -90,6 +97,7 @@ const HUMAN_AMBIENCE_TRACKS = {
 
 const HUMAN_AMBIENCE_BY_WORLD = {
 	"room": "thin_wall",
+	"family_home": "thin_wall",
 	"rain": "street",
 	"rain_room": "thin_wall",
 	"hangang": "street",
@@ -164,9 +172,12 @@ var _scene_audio_cg: Dictionary = {}
 var _scene_audio_events: Dictionary = {}
 
 const _FADE_TIME = 2.5  # 크로스페이드 초
-const _AMBIENCE_VOLUME = 0.18
-const _SEASON_VOLUME = 0.085
-const _HUMAN_AMBIENCE_VOLUME = 0.20
+const _AMBIENCE_VOLUME = 1.0
+const _SEASON_VOLUME = 0.85
+const _HUMAN_AMBIENCE_VOLUME = 1.0
+const _AMBIENCE_TRIM_DB = 2.0
+const _SEASON_TRIM_DB = 2.0
+const _HUMAN_AMBIENCE_TRIM_DB = 6.0
 const _BGM_BUS_NAME = "GangnamDreamBGM"
 const _HUMAN_BUS_NAME = "GangnamDreamHumanAmbience"
 const _MORAL_FILTER_TIME = 2.4
@@ -733,13 +744,16 @@ func restore_ambience(duration: float = 0.35) -> void:
 			_human_ambience_player, "volume_db", _human_ambience_target_db(), maxf(0.05, duration))
 
 func _ambience_target_db() -> float:
-	return _db(volume * _AMBIENCE_VOLUME) + _ambience_duck_db + _moral_ambience_gain_db
+	return _db(volume * _AMBIENCE_VOLUME) + _AMBIENCE_TRIM_DB \
+			+ _ambience_duck_db + _moral_ambience_gain_db
 
 func _season_target_db() -> float:
-	return _db(volume * _SEASON_VOLUME) + _ambience_duck_db + _moral_ambience_gain_db
+	return _db(volume * _SEASON_VOLUME) + _SEASON_TRIM_DB \
+			+ _ambience_duck_db + _moral_ambience_gain_db
 
 func _human_ambience_target_db() -> float:
-	return _db(volume * _HUMAN_AMBIENCE_VOLUME) + _ambience_duck_db + _moral_human_gain_db
+	return _db(volume * _HUMAN_AMBIENCE_VOLUME) + _HUMAN_AMBIENCE_TRIM_DB \
+			+ _ambience_duck_db + _moral_human_gain_db
 
 func _calendar_season_key() -> String:
 	if GameState.month in [6, 7, 8]:
@@ -778,6 +792,8 @@ func _pick_ambience(ev: Dictionary, resolved_background_id: String = "") -> Stri
 		return "office"
 	if event_id in ["arc_36_body_signal", "arc_gangnam_real_estate"]:
 		return "room"
+	if event_id in ["story_knee_door", "story_knee_witness", "story_knee_choice"]:
+		return "family_home"
 	if "casino" in tags or "jeongseon" in tags or "jeongseon_casino" in tags \
 			or "casino" in bg_id or "카지노" in hay or "바카라" in hay or "블랙잭" in hay:
 		return "casino"

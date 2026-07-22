@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Generate small audio P1 ambience loops and ending stingers.
+"""Generate project-owned ambience, story foley, and cinematic music.
 
 The main BGM generator intentionally rewrites every BGM/SFX file. This script is
-scoped to the ambience/stinger assets added during the player-facing polish pass.
+scoped to the player-facing audio added during the presentation polish passes.
 """
 
 from __future__ import annotations
@@ -213,7 +213,7 @@ def _add_indistinct_phrase(buf: list[list[float]], start: float, seconds: float,
 
 def _human_layer(profile: str) -> list[list[float]]:
     """Low-level diegetic human presence separated from mechanical room tone."""
-    duration = 10.0
+    duration = 18.0
     buf = _empty(duration)
     profiles = {
         "thin_wall": (9, (0.30, 0.75), (95.0, 155.0), 0.0065),
@@ -227,6 +227,7 @@ def _human_layer(profile: str) -> list[list[float]]:
         "leisure": (22, (0.20, 0.70), (120.0, 235.0), 0.0060),
     }
     count, length_range, pitch_band, amp = profiles[profile]
+    count = round(count * duration / 10.0)
     _add_noise(buf, amp * 0.18, "dark", 0.0, 0.025)
     for _ in range(count):
         phrase_seconds = RNG.uniform(*length_range)
@@ -234,19 +235,63 @@ def _human_layer(profile: str) -> list[list[float]]:
         pos = RNG.uniform(-0.88, 0.88)
         _add_indistinct_phrase(buf, start, phrase_seconds,
                                amp * RNG.uniform(0.65, 1.15), pos, pitch_band)
-    step_count = 5 if profile in {"thin_wall", "transit", "public_interior"} else 9
+    step_count = 9 if profile in {"thin_wall", "transit", "public_interior"} else 15
     for _ in range(step_count):
         start = RNG.uniform(0.2, duration - 0.25)
         pos = RNG.uniform(-0.85, 0.85)
         _add_sweep(buf, start, RNG.uniform(105.0, 155.0), RNG.uniform(58.0, 92.0),
                    RNG.uniform(0.10, 0.18), amp * 1.25, pos, "sine")
     if profile == "racetrack":
-        for start in (2.1, 5.4, 8.2):
+        for start in (2.1, 5.4, 8.2, 11.7, 15.3):
             for voice in range(8):
                 pos = RNG.uniform(-0.9, 0.9)
                 _add_sweep(buf, start + RNG.uniform(0.0, 0.18), RNG.uniform(140.0, 220.0),
                            RNG.uniform(210.0, 330.0), RNG.uniform(0.35, 0.75),
                            amp * 0.85, pos, "sine")
+    _normalize_rms(buf, -36.0)
+    return buf
+
+
+def _normalize_rms(buf: list[list[float]], target_db: float) -> None:
+    """Normalize a generated bed before the writer's transparent soft limiter."""
+    if not buf:
+        return
+    energy = sum(left * left + right * right for left, right in buf)
+    rms = math.sqrt(energy / (len(buf) * 2.0))
+    if rms <= 1.0e-9:
+        return
+    target = 10.0 ** (target_db / 20.0)
+    gain = min(16.0, target / rms)
+    for frame in buf:
+        frame[0] *= gain
+        frame[1] *= gain
+
+
+def _stitch_variations(build, copies: int = 4, crossfade_seconds: float = 0.45) -> list[list[float]]:
+    """Turn a short deterministic room design into a longer, non-identical loop."""
+    output: list[list[float]] = []
+    overlap = max(1, int(crossfade_seconds * SR))
+    for _ in range(copies):
+        segment = build()
+        if not output:
+            output = segment
+            continue
+        blend = min(overlap, len(output), len(segment))
+        for index in range(blend):
+            mix = index / max(1, blend - 1)
+            output[-blend + index][0] = (
+                output[-blend + index][0] * (1.0 - mix) + segment[index][0] * mix
+            )
+            output[-blend + index][1] = (
+                output[-blend + index][1] * (1.0 - mix) + segment[index][1] * mix
+            )
+        output.extend(segment[blend:])
+    return output
+
+
+def _demo_ambience(build, target_db: float = -32.0) -> list[list[float]]:
+    buf = _stitch_variations(build)
+    _normalize_rms(buf, target_db)
     return buf
 
 
@@ -333,6 +378,21 @@ def ambience_goshiwon() -> list[list[float]]:
         _add_sweep(buf, t, 105.0, 68.0, 0.18, 0.026, pos, "sine")
     _add_sweep(buf, 3.05, 210.0, 112.0, 0.20, 0.018, 0.68, "tri")
     _add_sweep(buf, 3.31, 185.0, 98.0, 0.16, 0.014, 0.68, "tri")
+    return buf
+
+
+def ambience_family_home() -> list[list[float]]:
+    """A modest Changwon home: refrigerator, wall clock, and distant television."""
+    buf = _empty(6.0)
+    _add_noise(buf, 0.018, "dark", 0.06, 0.035)
+    _add_tone(buf, 0.0, 49.0, 6.0, 0.026, -0.18, "sine")
+    _add_tone(buf, 0.0, 98.0, 6.0, 0.009, -0.08, "sine")
+    # A television in another room remains texture, never intelligible dialogue.
+    for start, end, pos in [(0.45, 0.92, 0.55), (2.18, 2.74, 0.48), (4.20, 4.82, 0.62)]:
+        _add_sweep(buf, start, 142.0, 118.0, end - start, 0.010, pos, "sine")
+        _add_noise_burst(buf, start, end - start, 0.007, pos, "dark")
+    for tick in (0.82, 1.82, 2.82, 3.82, 4.82, 5.82):
+        _add_tick(buf, tick, 0.018, -0.52)
     return buf
 
 
@@ -1046,6 +1106,176 @@ def sfx_race_finish() -> list[list[float]]:
     return buf
 
 
+def sfx_phone_vibrate() -> list[list[float]]:
+    """A phone vibrating against a thin wooden surface, not a UI notification."""
+    buf = _empty(0.78)
+    for start in (0.03, 0.38):
+        _add_sweep(buf, start, 118.0, 92.0, 0.25, 0.13, -0.08, "square")
+        _add_noise_burst(buf, start, 0.25, 0.055, 0.05, "dark")
+        _add_tone(buf, start + 0.02, 59.0, 0.28, 0.085, 0.0, "sine")
+    _normalize_rms(buf, -20.0)
+    return buf
+
+
+def sfx_phone_notification() -> list[list[float]]:
+    """Two restrained glassy notes suitable for a modern Korean phone."""
+    buf = _empty(0.72)
+    for start, note, pos, amp in [(0.02, "E5", -0.08, 0.085), (0.19, "B5", 0.08, 0.060)]:
+        _add_instrument_note(buf, start, note, 0.42, amp, pos, "bell")
+    _normalize_rms(buf, -23.0)
+    return buf
+
+
+def sfx_paper_handle() -> list[list[float]]:
+    """A document lifted, straightened, and returned to a desk."""
+    buf = _empty(0.92)
+    for start, length, amp, pos in [
+        (0.02, 0.28, 0.085, -0.28),
+        (0.26, 0.34, 0.070, 0.18),
+        (0.62, 0.18, 0.095, 0.02),
+    ]:
+        _add_noise_burst(buf, start, length, amp, pos, "bright")
+        _add_sweep(buf, start, 1900.0, 620.0, length, amp * 0.19, pos, "tri")
+    _normalize_rms(buf, -24.0)
+    return buf
+
+
+def sfx_document_stamp() -> list[list[float]]:
+    """A rubber stamp compressing onto paper with a dry desk resonance."""
+    buf = _empty(0.58)
+    _add_noise_burst(buf, 0.01, 0.08, 0.15, -0.06, "dark")
+    _add_sweep(buf, 0.01, 210.0, 72.0, 0.22, 0.15, 0.0, "tri")
+    _add_noise_burst(buf, 0.24, 0.16, 0.055, 0.10, "bright")
+    _add_tone(buf, 0.24, 112.0, 0.19, 0.055, 0.02, "sine")
+    _normalize_rms(buf, -19.0)
+    return buf
+
+
+def sfx_door_latch() -> list[list[float]]:
+    """A close interior latch and a door settling into its frame."""
+    buf = _empty(0.72)
+    _add_noise_burst(buf, 0.02, 0.07, 0.12, -0.16, "bright")
+    _add_tone(buf, 0.02, 820.0, 0.11, 0.075, -0.12, "tri")
+    _add_sweep(buf, 0.16, 148.0, 61.0, 0.32, 0.13, 0.02, "tri")
+    _add_noise_burst(buf, 0.18, 0.20, 0.075, 0.05, "dark")
+    _normalize_rms(buf, -21.0)
+    return buf
+
+
+def sfx_footsteps_hall() -> list[list[float]]:
+    """Four receding shoes in a narrow corridor."""
+    buf = _empty(2.35)
+    for index, start in enumerate((0.08, 0.54, 1.04, 1.60)):
+        pos = -0.18 + index * 0.14
+        amp = 0.13 - index * 0.017
+        _add_noise_burst(buf, start, 0.10, amp * 0.75, pos, "dark")
+        _add_sweep(buf, start, 118.0, 58.0, 0.24, amp, pos, "tri")
+        _add_sweep(buf, start + 0.12, 88.0, 46.0, 0.28, amp * 0.22, -pos, "sine")
+    _normalize_rms(buf, -24.0)
+    return buf
+
+
+def sfx_register_scan() -> list[list[float]]:
+    """A barcode scanner and the small plastic key press beneath it."""
+    buf = _empty(0.44)
+    _add_noise_burst(buf, 0.01, 0.045, 0.085, -0.16, "dark")
+    _add_tone(buf, 0.07, 1035.0, 0.17, 0.070, 0.08, "sine")
+    _add_tone(buf, 0.07, 2070.0, 0.12, 0.025, 0.08, "sine")
+    _normalize_rms(buf, -23.0)
+    return buf
+
+
+def sfx_keyboard_short() -> list[list[float]]:
+    """A brief uneven laptop typing phrase."""
+    buf = _empty(1.34)
+    for index, start in enumerate((0.03, 0.14, 0.24, 0.41, 0.50, 0.69, 0.84, 1.04, 1.12)):
+        pos = -0.42 + (index % 5) * 0.19
+        _add_noise_burst(buf, start, 0.034, 0.075, pos, "bright")
+        _add_tone(buf, start, 330.0 + (index % 3) * 46.0, 0.045, 0.035, pos, "tri")
+    _normalize_rms(buf, -25.0)
+    return buf
+
+
+def sfx_cup_set() -> list[list[float]]:
+    """Ceramic touching a wooden table with one soft ring."""
+    buf = _empty(0.72)
+    _add_noise_burst(buf, 0.02, 0.055, 0.12, -0.04, "dark")
+    _add_tone(buf, 0.03, 615.0, 0.34, 0.070, 0.02, "sine")
+    _add_tone(buf, 0.03, 1227.0, 0.22, 0.030, 0.08, "sine")
+    _add_noise_burst(buf, 0.31, 0.07, 0.035, 0.12, "bright")
+    _normalize_rms(buf, -23.0)
+    return buf
+
+
+def sfx_bicycle_impact() -> list[list[float]]:
+    """A low-speed bicycle wheel strike and metal frame settling on asphalt."""
+    buf = _empty(1.28)
+    _add_noise_burst(buf, 0.01, 0.12, 0.17, -0.20, "dark")
+    _add_sweep(buf, 0.02, 520.0, 128.0, 0.28, 0.13, -0.12, "tri")
+    for start, freq, pos, amp in [
+        (0.19, 1360.0, 0.18, 0.085),
+        (0.37, 920.0, -0.06, 0.064),
+        (0.62, 680.0, 0.26, 0.048),
+    ]:
+        _add_noise_burst(buf, start, 0.075, amp, pos, "bright")
+        _add_tone(buf, start, freq, 0.21, amp * 0.72, pos, "tri")
+    _normalize_rms(buf, -19.0)
+    return buf
+
+
+def sfx_traffic_pass() -> list[list[float]]:
+    """One car crosses the stereo field on wet asphalt."""
+    buf = _empty(2.25)
+    total = len(buf)
+    low = 0.0
+    for index in range(total):
+        x = index / max(1, total - 1)
+        raw = RNG.uniform(-1.0, 1.0)
+        low = low * 0.96 + raw * 0.04
+        envelope = math.sin(math.pi * x) ** 1.6
+        pos = -0.92 + 1.84 * x
+        sample = (raw * 0.26 + low * 0.74) * 0.105 * envelope
+        left, right = _pan(sample, pos)
+        buf[index][0] += left
+        buf[index][1] += right
+    _add_sweep(buf, 0.28, 122.0, 72.0, 1.55, 0.065, 0.0, "sine")
+    _normalize_rms(buf, -25.0)
+    return buf
+
+
+def sfx_kettle_pour() -> list[list[float]]:
+    """Hot water poured into a cup, with a small kettle set-down."""
+    buf = _empty(2.45)
+    for start, length, pos in [(0.08, 1.65, -0.12), (0.42, 1.30, 0.10)]:
+        _add_noise_burst(buf, start, length, 0.072, pos, "bright")
+    _add_sweep(buf, 0.12, 920.0, 510.0, 1.60, 0.028, 0.02, "sine")
+    _add_noise_burst(buf, 1.92, 0.11, 0.11, 0.18, "dark")
+    _add_tone(buf, 1.94, 490.0, 0.24, 0.045, 0.18, "sine")
+    _normalize_rms(buf, -25.0)
+    return buf
+
+
+def sfx_bus_arrival() -> list[list[float]]:
+    """A city bus decelerating, air brakes releasing, and doors opening."""
+    buf = _empty(2.85)
+    _add_sweep(buf, 0.00, 96.0, 48.0, 2.10, 0.10, -0.12, "sine")
+    _add_noise_burst(buf, 0.20, 1.85, 0.070, -0.18, "dark")
+    _add_noise_burst(buf, 1.62, 0.40, 0.105, 0.10, "bright")
+    _add_sweep(buf, 1.72, 580.0, 168.0, 0.48, 0.065, 0.18, "tri")
+    _add_sweep(buf, 2.18, 128.0, 74.0, 0.40, 0.080, 0.28, "tri")
+    _normalize_rms(buf, -22.0)
+    return buf
+
+
+def sfx_queue_chime() -> list[list[float]]:
+    """A distant two-note public-service counter call."""
+    buf = _empty(1.18)
+    for start, note, pos, amp in [(0.05, "G5", -0.10, 0.065), (0.31, "C6", 0.10, 0.052)]:
+        _add_instrument_note(buf, start, note, 0.62, amp, pos, "bell")
+    _normalize_rms(buf, -25.0)
+    return buf
+
+
 def _scene_music(bpm: float, meter: int, bars: int, progression: list[list[str]],
                  melody: list[list[str]], voice: str, bass_voice: str = "cello") -> list[list[float]]:
     beat = 60.0 / bpm
@@ -1128,6 +1358,97 @@ def bgm_wonder() -> list[list[float]]:
         ["A4", "C5", "E5", "C5"], ["B4", "D5", "G5", "-"],
     ]
     return _scene_music(74.0, 4, 8, progression, melody, "bell")
+
+
+def _finish_story_music(buf: list[list[float]], target_db: float = -21.0) -> list[list[float]]:
+    _normalize_rms(buf, target_db)
+    return buf
+
+
+def bgm_family() -> list[list[float]]:
+    progression = [
+        ["A2", "E3", "A3", "C4"], ["F2", "C3", "F3", "A3"],
+        ["C3", "G3", "C4", "E4"], ["G2", "D3", "G3", "B3"],
+    ]
+    melody = [
+        ["E4", "-", "C4"], ["A3", "-", "C4"],
+        ["G3", "E4", "-"], ["D4", "-", "B3"],
+    ]
+    buf = _scene_music(64.0, 3, 16, progression, melody, "piano")
+    return _finish_story_music(buf, -22.0)
+
+
+def bgm_survival() -> list[list[float]]:
+    progression = [
+        ["D2", "A2", "D3", "F3"], ["Bb2", "F3", "Bb3", "D4"],
+        ["G2", "D3", "G3", "Bb3"], ["A2", "E3", "A3", "C4"],
+    ]
+    melody = [
+        ["D4", "A4", "-", "F4"], ["D4", "F4", "-", "A4"],
+        ["G4", "-", "D4", "Bb3"], ["C4", "E4", "A4", "-"],
+    ]
+    buf = _scene_music(82.0, 4, 12, progression, melody, "organ")
+    beat = 60.0 / 82.0
+    for pulse in range(48):
+        start = pulse * beat
+        if start >= len(buf) / SR:
+            break
+        _add_sweep(buf, start, 74.0, 48.0, beat * 0.30, 0.018, -0.08, "sine")
+    return _finish_story_music(buf, -21.0)
+
+
+def bgm_hyunsu() -> list[list[float]]:
+    progression = [
+        ["E2", "B2", "E3", "G3"], ["C3", "G3", "B3", "E4"],
+        ["A2", "E3", "A3", "C4"], ["B2", "F#3", "B3", "D4"],
+    ]
+    melody = [
+        ["B3", "-", "E4"], ["G3", "B3", "-"],
+        ["E4", "C4", "-"], ["F#4", "-", "D4"],
+    ]
+    buf = _scene_music(61.0, 3, 14, progression, melody, "piano")
+    return _finish_story_music(buf, -23.0)
+
+
+def bgm_ambition() -> list[list[float]]:
+    progression = [
+        ["C3", "G3", "B3", "E4"], ["E3", "B3", "D4", "G4"],
+        ["A2", "E3", "G3", "C4"], ["F#2", "C#3", "A3", "C4"],
+    ]
+    melody = [
+        ["G4", "B4", "E5", "-"], ["G4", "D5", "B4", "-"],
+        ["E4", "G4", "C5", "B4"], ["F#4", "A4", "C5", "-"],
+    ]
+    buf = _scene_music(86.0, 4, 12, progression, melody, "bell")
+    return _finish_story_music(buf, -22.0)
+
+
+def bgm_daeun() -> list[list[float]]:
+    progression = [
+        ["C3", "G3", "C4", "E4"], ["A2", "E3", "A3", "C4"],
+        ["F2", "C3", "F3", "A3"], ["G2", "D3", "G3", "B3"],
+    ]
+    melody = [
+        ["E4", "G4", "-"], ["C4", "E4", "A4"],
+        ["A4", "G4", "F4"], ["D4", "G4", "-"],
+    ]
+    buf = _scene_music(72.0, 3, 16, progression, melody, "piano")
+    return _finish_story_music(buf, -22.0)
+
+
+def bgm_jiyeon() -> list[list[float]]:
+    progression = [
+        ["D2", "A2", "C3", "F3"], ["Bb2", "F3", "A3", "D4"],
+        ["E2", "B2", "D3", "G3"], ["A2", "E3", "G3", "C#4"],
+    ]
+    melody = [
+        ["A4", "C5", "D5", "-"], ["F4", "A4", "D5", "C5"],
+        ["B4", "G4", "E4", "-"], ["C#5", "A4", "G4", "-"],
+    ]
+    buf = _scene_music(78.0, 4, 12, progression, melody, "organ")
+    for start in (4.6, 13.8, 23.0, 32.2):
+        _add_instrument_note(buf, start, "A5", 1.05, 0.020, 0.46, "bell")
+    return _finish_story_music(buf, -21.5)
 
 
 def _casino_music(table_energy: bool) -> list[list[float]]:
@@ -1223,6 +1544,42 @@ def main() -> None:
         "bgm_casino_floor.ogg": bgm_casino_floor,
         "bgm_casino_table.ogg": bgm_casino_table,
     }
+    demo_ambience_targets = {
+        "amb_goshiwon_room.wav": lambda: _demo_ambience(ambience_goshiwon, -32.0),
+        "amb_family_home.wav": lambda: _demo_ambience(ambience_family_home, -33.0),
+        "amb_seoul_rain.wav": lambda: _demo_ambience(ambience_rain, -30.5),
+        "amb_hangang_riverside.wav": lambda: _demo_ambience(ambience_hangang, -33.0),
+        "amb_office_room.wav": lambda: _demo_ambience(ambience_office, -33.0),
+        "amb_seoul_street.wav": lambda: _demo_ambience(ambience_seoul_street, -32.0),
+        "amb_cafe_room.wav": lambda: _demo_ambience(ambience_cafe, -33.0),
+        "amb_convenience_store.wav": lambda: _demo_ambience(ambience_convenience, -31.5),
+        "amb_public_office.wav": lambda: _demo_ambience(ambience_public_office, -33.0),
+        "amb_winter_wind.wav": lambda: _demo_ambience(ambience_winter_wind, -36.0),
+    }
+    story_foley_targets = {
+        "sfx_phone_vibrate.wav": sfx_phone_vibrate,
+        "sfx_phone_notification.wav": sfx_phone_notification,
+        "sfx_paper_handle.wav": sfx_paper_handle,
+        "sfx_document_stamp.wav": sfx_document_stamp,
+        "sfx_door_latch.wav": sfx_door_latch,
+        "sfx_footsteps_hall.wav": sfx_footsteps_hall,
+        "sfx_register_scan.wav": sfx_register_scan,
+        "sfx_keyboard_short.wav": sfx_keyboard_short,
+        "sfx_cup_set.wav": sfx_cup_set,
+        "sfx_bicycle_impact.wav": sfx_bicycle_impact,
+        "sfx_traffic_pass.wav": sfx_traffic_pass,
+        "sfx_kettle_pour.wav": sfx_kettle_pour,
+        "sfx_bus_arrival.wav": sfx_bus_arrival,
+        "sfx_queue_chime.wav": sfx_queue_chime,
+    }
+    story_music_targets = {
+        "bgm_family.ogg": bgm_family,
+        "bgm_survival.ogg": bgm_survival,
+        "bgm_hyunsu.ogg": bgm_hyunsu,
+        "bgm_ambition.ogg": bgm_ambition,
+        "bgm_daeun.ogg": bgm_daeun,
+        "bgm_jiyeon.ogg": bgm_jiyeon,
+    }
     rain_room_targets = {
         "amb_rain_room.wav": ambience_rain_room,
     }
@@ -1241,31 +1598,39 @@ def main() -> None:
             _write(AUDIO_DIR / name, build())
         print("AUDIO_P1_HUMAN_LAYERS_GENERATED", len(human_layer_targets))
         return
+    if "--demo-audio-only" in sys.argv[1:]:
+        for name, build in demo_ambience_targets.items():
+            _write(AUDIO_DIR / name, build())
+        for name, build in human_layer_targets.items():
+            _write(AUDIO_DIR / name, build())
+        for name, build in story_foley_targets.items():
+            _write(AUDIO_DIR / name, build(), fade_edges=False)
+        for name, build in story_music_targets.items():
+            _write_ogg(AUDIO_DIR / name, build())
+        print(
+            "AUDIO_P1_DEMO_PACKAGE_GENERATED",
+            len(demo_ambience_targets) + len(human_layer_targets)
+            + len(story_foley_targets) + len(story_music_targets),
+        )
+        return
 
     targets = {
-        "amb_goshiwon_room.wav": ambience_goshiwon,
-        "amb_seoul_rain.wav": ambience_rain,
+        **demo_ambience_targets,
         "amb_rain_room.wav": ambience_rain_room,
-        "amb_hangang_riverside.wav": ambience_hangang,
-        "amb_office_room.wav": ambience_office,
         "amb_casino_floor.wav": ambience_casino,
         "sfx_ending_stinger_good.wav": stinger_good,
         "sfx_ending_stinger_bad.wav": stinger_bad,
         "sfx_ending_stinger_legend.wav": stinger_legend,
         "amb_subway_platform.wav": ambience_subway,
         "amb_racetrack_crowd.wav": ambience_racetrack,
-        "amb_cafe_room.wav": ambience_cafe,
         "amb_pc_bang.wav": ambience_pc_bang,
         "amb_gym_room.wav": ambience_gym,
-        "amb_convenience_store.wav": ambience_convenience,
         "amb_hagwon_street.wav": ambience_hagwon_street,
         "amb_school_hall.wav": ambience_school_hall,
-        "amb_public_office.wav": ambience_public_office,
         "amb_jjimjilbang.wav": ambience_jjimjilbang,
         "amb_cherry_blossom.wav": ambience_cherry_blossom,
         "amb_saju_cafe.wav": ambience_saju_cafe,
         "amb_military_gate.wav": ambience_military_gate,
-        "amb_seoul_street.wav": ambience_seoul_street,
         "amb_company_dinner.wav": ambience_company_dinner,
         "amb_heatwave_city.wav": ambience_heatwave_city,
         "amb_fine_dust_city.wav": ambience_fine_dust_city,
@@ -1277,7 +1642,6 @@ def main() -> None:
         "amb_oneroom_room.wav": ambience_oneroom_room,
         "amb_apartment_room.wav": ambience_apartment_room,
         "amb_summer_night.wav": ambience_summer_night,
-        "amb_winter_wind.wav": ambience_winter_wind,
         "amb_wedding_hall.wav": ambience_wedding_hall,
         "amb_hospital_room.wav": ambience_hospital_room,
         "amb_seaside.wav": ambience_seaside,
@@ -1309,6 +1673,7 @@ def main() -> None:
         "sfx_horse_gallop.wav": sfx_horse_gallop,
         "sfx_race_crowd_rise.wav": sfx_race_crowd_rise,
         "sfx_race_finish.wav": sfx_race_finish,
+        **story_foley_targets,
     }
     for name, build in physical_sfx_targets.items():
         _write(AUDIO_DIR / name, build(), fade_edges=False)
@@ -1318,6 +1683,7 @@ def main() -> None:
         "bgm_reckoning.ogg": bgm_reckoning,
         "bgm_grief.ogg": bgm_grief,
         "bgm_wonder.ogg": bgm_wonder,
+        **story_music_targets,
     }
     for name, build in music_targets.items():
         _write_ogg(AUDIO_DIR / name, build())

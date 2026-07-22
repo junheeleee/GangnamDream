@@ -48,6 +48,20 @@ const _SFX_COOLDOWN_MS = {
 	"wedding_applause": 5000,
 	"wedding_cheer": 5000,
 	"distant_fireworks": 4500,
+	"phone_vibrate": 650,
+	"phone_notification": 650,
+	"paper_handle": 350,
+	"document_stamp": 700,
+	"door_latch": 500,
+	"footsteps_hall": 1200,
+	"register_scan": 350,
+	"keyboard_short": 650,
+	"cup_set": 450,
+	"bicycle_impact": 1200,
+	"traffic_pass": 1200,
+	"kettle_pour": 1800,
+	"bus_arrival": 1800,
+	"queue_chime": 1200,
 }
 
 # 파일별 체감 라우드니스가 다른 큰 소리만 보정한다. 공용 UI음은 각 래퍼의
@@ -82,6 +96,20 @@ const _SFX_MIX_TRIM_DB = {
 	"horse_gallop": -4.0,
 	"race_crowd_rise": -2.0,
 	"race_finish": -2.0,
+	"phone_vibrate": -2.0,
+	"phone_notification": -3.0,
+	"paper_handle": -1.0,
+	"document_stamp": -3.0,
+	"door_latch": -2.0,
+	"footsteps_hall": -2.0,
+	"register_scan": -4.0,
+	"keyboard_short": -2.0,
+	"cup_set": -3.0,
+	"bicycle_impact": -4.0,
+	"traffic_pass": -2.0,
+	"kettle_pour": -2.0,
+	"bus_arrival": -4.0,
+	"queue_chime": -4.0,
 }
 
 # wav 파일 → AudioManager key 매핑
@@ -141,6 +169,21 @@ const _SFX_FILES = {
 	"horse_gallop": "res://assets/audio/sfx_horse_gallop.wav",
 	"race_crowd_rise": "res://assets/audio/sfx_race_crowd_rise.wav",
 	"race_finish": "res://assets/audio/sfx_race_finish.wav",
+	# 장면 물리음. 텍스트의 의미 문단에만 매니페스트로 배치한다.
+	"phone_vibrate": "res://assets/audio/sfx_phone_vibrate.wav",
+	"phone_notification": "res://assets/audio/sfx_phone_notification.wav",
+	"paper_handle": "res://assets/audio/sfx_paper_handle.wav",
+	"document_stamp": "res://assets/audio/sfx_document_stamp.wav",
+	"door_latch": "res://assets/audio/sfx_door_latch.wav",
+	"footsteps_hall": "res://assets/audio/sfx_footsteps_hall.wav",
+	"register_scan": "res://assets/audio/sfx_register_scan.wav",
+	"keyboard_short": "res://assets/audio/sfx_keyboard_short.wav",
+	"cup_set": "res://assets/audio/sfx_cup_set.wav",
+	"bicycle_impact": "res://assets/audio/sfx_bicycle_impact.wav",
+	"traffic_pass": "res://assets/audio/sfx_traffic_pass.wav",
+	"kettle_pour": "res://assets/audio/sfx_kettle_pour.wav",
+	"bus_arrival": "res://assets/audio/sfx_bus_arrival.wav",
+	"queue_chime": "res://assets/audio/sfx_queue_chime.wav",
 }
 
 const _ENDING_AUDIO_LEGEND = [
@@ -221,6 +264,13 @@ func _make_fallback(key: String) -> AudioStreamWAV:
 		"roulette_wheel", "roulette_ball", "roulette_land": return _tone(540, 0.10, [1.0, 0.25, 0.0])
 		"slot_start", "slot_reel_stop", "big_wheel_tick": return _tone(420, 0.10, [1.0, 0.25, 0.0])
 		"race_gate", "horse_gallop", "race_crowd_rise", "race_finish": return _tone(180, 0.16, [1.0, 0.45, 0.0])
+		"phone_vibrate": return _tone(108, 0.62, [0.0, 1.0, 0.15, 1.0, 0.0])
+		"phone_notification", "queue_chime": return _chord([659, 988], 0.48, [0.0, 0.8, 0.35, 0.0])
+		"paper_handle", "keyboard_short": return _tone(760, 0.32, [0.8, 0.45, 0.0])
+		"document_stamp", "door_latch", "footsteps_hall": return _tone(128, 0.42, [1.0, 0.55, 0.0])
+		"register_scan", "cup_set": return _tone(720, 0.28, [0.0, 1.0, 0.0])
+		"bicycle_impact", "traffic_pass", "bus_arrival": return _tone(92, 0.72, [0.0, 0.8, 1.0, 0.0])
+		"kettle_pour": return _tone(420, 0.82, [0.0, 0.7, 0.5, 0.0])
 		"civil_defense_siren": return _chord([740, 988], 0.75, [0.0, 0.8, 1.0, 0.8, 0.0])
 		"monsoon_rain": return _tone(180, 0.80, [0.0, 0.7, 1.0, 0.8, 0.0])
 		"ending_stinger_good": return _chord([523, 659, 784, 1047], 1.10, [0.0, 0.4, 1.0, 0.6, 0.0])

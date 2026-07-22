@@ -15,6 +15,37 @@ ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "assets" / "scene_audio_manifest.json"
 ACTING_PATH = ROOT / "assets" / "cg_acting_manifest.json"
 DYNAMIC_AMBIENCE_KEYS = {"current_housing"}
+DEMO_EVENT_IDS = set("""
+story_flashforward story_arrival story_knee_door story_knee_witness
+story_knee_choice story_last_payment_wait story_last_payment_word
+story_last_payment_exit story_prologue_dad story_prologue_goal
+story_prologue_meal story_pressure arc_intro_01_meal arc_intro_02_dad_call
+arc_first_job_week_convenience arc_temptation_01 arc_intro_03_sns cafe_00
+cafe_listen_01 cafe_peek_01 cafe_caught_honest story_first_paycheck_feel
+arc_temptation_clean arc_intro_04_hyunsu arc_chapter1_close
+arc_ch1_career_first_spec arc_sangchul_01_meet arc_sangchul_01_measure
+arc_sangchul_01_answer arc_daeun_01_meet cafe_cb_honest_00
+cafe_cb_honest_in arc_father_01_call arc_invest_first_loss
+arc_father_quiet_call arc_jiyeon_01_crash hyunsu_study_together
+arc_jaehyuk_01_reunion arc_job_vs_invest arc_hyunsu_night_talk
+arc_father_02_signal arc_gangnam_visit_alone arc_four_months_in
+story_first_savings_milestone hyunsu_exam_day
+""".split())
+DEMO_MOTIF_KEYS = {"family", "survival", "hyunsu", "ambition", "daeun", "jiyeon"}
+DEMO_SCORE_ANCHORS = {
+    "story_knee_door": "family",
+    "story_last_payment_wait": "grief",
+    "story_pressure": "survival",
+    "arc_temptation_01": "crisis",
+    "arc_intro_03_sns": "ambition",
+    "arc_intro_04_hyunsu": "hyunsu",
+    "arc_daeun_01_meet": "daeun",
+    "arc_jiyeon_01_crash": "jiyeon",
+    "arc_job_vs_invest": "reckoning",
+    "arc_four_months_in": "wonder",
+    "hyunsu_exam_day": "hyunsu",
+}
+MIN_DEMO_FOLEY_EVENTS = 24
 
 
 def load_json(path: Path):
@@ -110,6 +141,8 @@ def main() -> int:
         if not ambience or ambience not in ambience_keys | DYNAMIC_AMBIENCE_KEYS:
             errors.append(f"{owner}: unknown or empty ambience key {ambience!r}")
         music = contract.get("music")
+        if bool(contract.get("suppress_music", False)) and music is not None:
+            errors.append(f"{owner}: suppress_music and music cannot coexist")
         if music is not None:
             if not isinstance(music, dict):
                 errors.append(f"{owner}: music must be an object")
@@ -160,6 +193,43 @@ def main() -> int:
                 if not isinstance(volume, (int, float)) or isinstance(volume, bool) or not -30.0 <= volume <= 6.0:
                     errors.append(f"{event_id}: invalid cue volume {volume!r}")
 
+    demo_contracts = {
+        event_id: event_contracts.get(event_id, {})
+        for event_id in DEMO_EVENT_IDS
+        if isinstance(event_contracts.get(event_id), dict)
+    }
+    missing_demo_contracts = sorted(DEMO_EVENT_IDS - demo_contracts.keys())
+    if missing_demo_contracts:
+        errors.append("demo events lack audio contract: " + ", ".join(missing_demo_contracts))
+    demo_music_keys = {
+        str(contract.get("music", {}).get("key", ""))
+        for contract in demo_contracts.values()
+        if isinstance(contract.get("music"), dict)
+    }
+    missing_motifs = sorted(DEMO_MOTIF_KEYS - demo_music_keys)
+    if missing_motifs:
+        errors.append("demo lacks authored motif keys: " + ", ".join(missing_motifs))
+    for event_id, expected_key in DEMO_SCORE_ANCHORS.items():
+        contract = demo_contracts.get(event_id, {})
+        actual_key = str(contract.get("music", {}).get("key", ""))
+        if actual_key != expected_key:
+            errors.append(
+                f"{event_id}: expected demo score {expected_key!r}, got {actual_key!r}"
+            )
+    foley_events = sum(
+        bool(contract.get("paragraph_cues")) for contract in demo_contracts.values()
+    )
+    if foley_events < MIN_DEMO_FOLEY_EVENTS:
+        errors.append(
+            f"demo physical-sound events {foley_events} < {MIN_DEMO_FOLEY_EVENTS}"
+        )
+    for event_id in ("story_knee_door", "story_knee_witness", "story_knee_choice"):
+        contract = demo_contracts.get(event_id, {})
+        if contract.get("ambience") != "family_home":
+            errors.append(f"{event_id}: prologue memory must use family_home ambience")
+        if str(contract.get("music", {}).get("key", "")) != "family":
+            errors.append(f"{event_id}: prologue memory must preserve family motif")
+
     if errors:
         for error in errors:
             print("SCENE_AUDIO_CONTRACT_FAIL", error)
@@ -167,7 +237,8 @@ def main() -> int:
     print(
         "SCENE_AUDIO_CONTRACT_OK "
         f"cg={len(active_cgs)} peak_events={len(peak_event_ids)} "
-        f"ambience_keys={len(ambience_keys)} music_keys={len(music_keys)}"
+        f"ambience_keys={len(ambience_keys)} music_keys={len(music_keys)} "
+        f"demo_contracts={len(demo_contracts)} demo_foley_events={foley_events}"
     )
     return 0
 

@@ -6,6 +6,12 @@ extends Node
 
 var _failures: Array[String] = []
 
+const STORY_MOTIF_KEYS = ["family", "survival", "hyunsu", "ambition", "daeun", "jiyeon"]
+const DEMO_LONG_AMBIENCE_KEYS = [
+	"room", "family_home", "rain", "hangang", "office", "street", "cafe",
+	"convenience", "public_office", "winter",
+]
+
 func _ready() -> void:
 	_check_bgm()
 	_check_optional_moral_theme_pack()
@@ -28,6 +34,11 @@ func _ready() -> void:
 func _check_bgm() -> void:
 	for key in BGMPlayer.TRACKS:
 		_check_audio_stream("BGM:%s" % key, str(BGMPlayer.TRACKS[key]))
+	for key in STORY_MOTIF_KEYS:
+		if not BGMPlayer.TRACKS.has(key):
+			_failures.append("Story motif key is missing: %s" % key)
+			continue
+		_check_min_duration("BGM:%s" % key, str(BGMPlayer.TRACKS[key]), 30.0)
 
 func _check_optional_moral_theme_pack() -> void:
 	var present: Array[String] = []
@@ -49,11 +60,18 @@ func _check_optional_moral_theme_pack() -> void:
 func _check_ambience() -> void:
 	for key in BGMPlayer.AMBIENCE_TRACKS:
 		_check_audio_stream("AMBIENCE:%s" % key, str(BGMPlayer.AMBIENCE_TRACKS[key]))
+	for key in DEMO_LONG_AMBIENCE_KEYS:
+		if BGMPlayer.AMBIENCE_TRACKS.has(key):
+			_check_min_duration(
+				"AMBIENCE:%s" % key, str(BGMPlayer.AMBIENCE_TRACKS[key]), 18.0)
 
 func _check_human_ambience() -> void:
 	for key in BGMPlayer.HUMAN_AMBIENCE_TRACKS:
 		_check_audio_stream(
 			"HUMAN_AMBIENCE:%s" % key, str(BGMPlayer.HUMAN_AMBIENCE_TRACKS[key]))
+		_check_min_duration(
+			"HUMAN_AMBIENCE:%s" % key,
+			str(BGMPlayer.HUMAN_AMBIENCE_TRACKS[key]), 16.0)
 	for world_key in BGMPlayer.HUMAN_AMBIENCE_BY_WORLD:
 		var human_key := str(BGMPlayer.HUMAN_AMBIENCE_BY_WORLD[world_key])
 		if not BGMPlayer.AMBIENCE_TRACKS.has(world_key):
@@ -147,3 +165,10 @@ func _check_audio_stream(label: String, path: String) -> void:
 	var stream := load(path)
 	if stream == null or not (stream is AudioStream):
 		_failures.append("%s is not an AudioStream: %s" % [label, path])
+
+func _check_min_duration(label: String, path: String, minimum: float) -> void:
+	if not ResourceLoader.exists(path):
+		return
+	var stream := load(path)
+	if stream is AudioStream and stream.get_length() + 0.01 < minimum:
+		_failures.append("%s duration %.2fs < %.2fs" % [label, stream.get_length(), minimum])

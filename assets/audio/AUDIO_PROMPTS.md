@@ -1,6 +1,6 @@
-# 강남드림 — 오디오 에셋 가이드 (v11)
+# 강남드림 — 오디오 에셋 가이드 (v12)
 
-Updated: 2026-07-10 — MORAL_TINT BGM bus + optional three-variant theme pack spec.
+Updated: 2026-07-22 — six-month demo dramaturgy, audible room tone, and story foley pass.
 
 ## 파일 구조
 
@@ -17,11 +17,18 @@ assets/audio/
 │   ├── bgm_crisis.ogg      ← 위기 BGM (건강/정신 30 이하)
 │   ├── bgm_victory.ogg     ← 마일스톤 달성 BGM (8초, 자동 복귀)
 │   ├── bgm_ending.ogg      ← 엔딩 BGM
+│   ├── bgm_family.ogg      ← 아버지·가족·빚의 기억 모티프
+│   ├── bgm_survival.ogg    ← 구직·생계·첫 월급 모티프
+│   ├── bgm_hyunsu.ogg      ← 현수와 고시원 동료애 모티프
+│   ├── bgm_ambition.ogg    ← 강남·비교·상승 욕망 모티프
+│   ├── bgm_daeun.ogg       ← 다은의 생활 온기 모티프
+│   ├── bgm_jiyeon.ogg      ← 지연의 위험한 끌림 모티프
 │   ├── bgm_theme_neutral.ogg ← 선택적 출시용 대표 테마 중립 변주
 │   ├── bgm_theme_dark.ogg    ← 선택적 출시용 대표 테마 어둠 변주
 │   └── bgm_theme_white.ogg   ← 선택적 출시용 대표 테마 밝음 변주
 ├── Ambience (BGM 아래 낮게 깔리는 장소 레이어)
 │   ├── amb_goshiwon_room.wav      ← 고시원/원룸 방 공기, 형광등/도시 저음
+│   ├── amb_family_home.wav         ← 창원 가족집, 냉장고·벽시계·희미한 TV 생활감
 │   ├── amb_seoul_rain.wav         ← 비 오는 서울 거리/강남 야경
 │   ├── amb_hangang_riverside.wav  ← 한강 산책/바람/수면감
 │   ├── amb_office_room.wav        ← 사무실/회사 장면
@@ -60,6 +67,11 @@ assets/audio/
     ├── sfx_stat_up.wav     ← 스탯 상승
     ├── sfx_stat_down.wav   ← 스탯 하락
     ├── sfx_event_new.wav   ← 이벤트 등장
+    ├── sfx_door_latch.wav / sfx_paper_handle.wav / sfx_document_stamp.wav ← 프롤로그 물리 행동
+    ├── sfx_phone_vibrate.wav / sfx_phone_notification.wav ← 전화·메시지
+    ├── sfx_footsteps_hall.wav / sfx_keyboard_short.wav / sfx_register_scan.wav ← 구직·생계
+    ├── sfx_cup_set.wav / sfx_kettle_pour.wav / sfx_bus_arrival.wav ← 대화·이동
+    ├── sfx_bicycle_impact.wav / sfx_traffic_pass.wav / sfx_queue_chime.wav ← 사고·거리·민원실
     ├── sfx_choice_made.wav ← 선택지 결정
     ├── sfx_result_ledger.wav ← Black 결과에서 돈/성과에 먼저 닿는 마른 장부 접점음
     ├── sfx_result_human.wav  ← White 결과에서 사람/몸/마음에 먼저 닿는 천·호흡음
@@ -71,6 +83,21 @@ assets/audio/
     ├── sfx_ending_stinger_good.wav   ← 일반 성공/긍정 엔딩
     ├── sfx_ending_stinger_bad.wav    ← 실패/파산/번아웃 엔딩
     └── sfx_ending_stinger_legend.wav ← S/S+/전설급 엔딩
+```
+
+## 6개월 데모 드라마투르기
+
+- `story_knee_door` → `story_knee_witness` → `story_knee_choice`는 `family_home`과 `family`를 공유한다. 링크 사이에 룸톤이나 음악을 다시 시작하지 않는다.
+- 무릎 장면은 현관 래치와 서류 마찰만 물리적으로 강조한다. 울음, 충격음, 비극 스팅, 심박, 알아들을 수 있는 TV 대사는 금지한다.
+- 가족·생존·현수·야망·다은·지연은 인물/주제 모티프다. 장소를 설명하는 앰비언스와 역할을 섞지 않는다.
+- 의미 있는 물체가 실제로 움직이는 문단에만 폴리를 둔다. 모든 문단에 알림음을 붙이는 방식은 금지한다.
+- 핵심 장소음 10종은 18초 이상, 사람 기척 9종은 16초 이상을 유지한다. 중립 상태에서는 들려야 하며 Black 경로에서 사람층만 단계적으로 멀어진다.
+- 현재 파일은 타이밍과 소유권을 고정하는 프로젝트 원본이다. 출시 승인 전에는 헤드폰·노트북·TV에서 이미지와 함께 청취하고, 합성 질감이 드러나는 파일만 같은 semantic key 뒤에서 전문 폴리/작곡 마스터로 교체한다.
+
+재생성:
+
+```bash
+python3 tools/generate_audio_p1_assets.py --demo-audio-only
 ```
 
 ## BGM 자동 전환 로직

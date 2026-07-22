@@ -10,7 +10,7 @@ func _ready() -> void:
 	await _check_activity_ambience()
 	await _check_casino_music()
 	if _failures.is_empty():
-		print("GAME_AUDIO_RUNTIME_OK physical=17 ambience_roundtrip=3 varied_playback=1 casino_music=1")
+		print("GAME_AUDIO_RUNTIME_OK physical=31 ambience_roundtrip=3 varied_playback=1 casino_music=1")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -24,8 +24,8 @@ func _check_manifest_assets() -> void:
 		_failures.append("cannot parse game_audio_manifest.json")
 		return
 	var physical: Variant = parsed.get("physical_sfx", {})
-	if not (physical is Dictionary) or physical.size() != 17:
-		_failures.append("physical SFX manifest must contain 17 semantic keys")
+	if not (physical is Dictionary) or physical.size() != 31:
+		_failures.append("physical SFX manifest must contain 31 semantic keys")
 		return
 	for raw_key in physical.keys():
 		var key := str(raw_key)

@@ -44,6 +44,22 @@
       "no intelligible generated dialogue in ambience"
     ]
   },
+  "story_mix": {
+    "default_slider": 0.25,
+    "room_tone_trim_db": 2.0,
+    "season_trim_db": 2.0,
+    "human_presence_trim_db": 6.0,
+    "principle": "music names the dramatic thread; ambience proves the place; foley lands only on a physical action",
+    "silence_policy": "silence is authored for withheld information, never the accidental result of an inaudible mix"
+  },
+  "story_motifs": {
+    "family": "res://assets/audio/bgm_family.ogg",
+    "survival": "res://assets/audio/bgm_survival.ogg",
+    "hyunsu": "res://assets/audio/bgm_hyunsu.ogg",
+    "ambition": "res://assets/audio/bgm_ambition.ogg",
+    "daeun": "res://assets/audio/bgm_daeun.ogg",
+    "jiyeon": "res://assets/audio/bgm_jiyeon.ogg"
+  },
   "controller": {
     "gameplay_navigation": "direct_action_mapping",
     "focus_policy": "settings_and_short_linear_menus_only",
@@ -77,7 +93,21 @@
     "race_gate": "res://assets/audio/sfx_race_gate.wav",
     "horse_gallop": "res://assets/audio/sfx_horse_gallop.wav",
     "race_crowd_rise": "res://assets/audio/sfx_race_crowd_rise.wav",
-    "race_finish": "res://assets/audio/sfx_race_finish.wav"
+    "race_finish": "res://assets/audio/sfx_race_finish.wav",
+    "phone_vibrate": "res://assets/audio/sfx_phone_vibrate.wav",
+    "phone_notification": "res://assets/audio/sfx_phone_notification.wav",
+    "paper_handle": "res://assets/audio/sfx_paper_handle.wav",
+    "document_stamp": "res://assets/audio/sfx_document_stamp.wav",
+    "door_latch": "res://assets/audio/sfx_door_latch.wav",
+    "footsteps_hall": "res://assets/audio/sfx_footsteps_hall.wav",
+    "register_scan": "res://assets/audio/sfx_register_scan.wav",
+    "keyboard_short": "res://assets/audio/sfx_keyboard_short.wav",
+    "cup_set": "res://assets/audio/sfx_cup_set.wav",
+    "bicycle_impact": "res://assets/audio/sfx_bicycle_impact.wav",
+    "traffic_pass": "res://assets/audio/sfx_traffic_pass.wav",
+    "kettle_pour": "res://assets/audio/sfx_kettle_pour.wav",
+    "bus_arrival": "res://assets/audio/sfx_bus_arrival.wav",
+    "queue_chime": "res://assets/audio/sfx_queue_chime.wav"
   },
   "activity_ambience": {
     "casino_hub": {"file": "scenes/JeongseonCasino.gd", "key": "casino"},

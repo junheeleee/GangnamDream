@@ -1,6 +1,6 @@
 # Gangnam Dream Audio QA
 
-Updated: 2026-07-18
+Updated: 2026-07-22
 
 Production gate: an audio file existing and loading is not the same as launch approval. Every asset must also satisfy `docs/PRODUCTION_ASSET_PIPELINE.md`: commercial provenance, clean head/tail, mix balance, semantic runtime mapping, image-paired listening, and 30-minute fatigue QA.
 
@@ -22,10 +22,10 @@ The sound must belong to the same work as the `Gangnam Ink` visual direction.
 
 | Class | Count | Runtime owner |
 |---|---:|---|
-| BGM | 14 | `autoloads/BGMPlayer.gd` |
-| Ambience | 46 | `autoloads/BGMPlayer.gd` (37 inert/place + 9 human-presence layers) |
-| SFX | 53 | `autoloads/AudioManager.gd` |
-| **Total** | **113** | one deterministic in-repo source each |
+| BGM | 20 | `autoloads/BGMPlayer.gd` |
+| Ambience | 47 | `autoloads/BGMPlayer.gd` (38 inert/place + 9 human-presence layers) |
+| SFX | 67 | `autoloads/AudioManager.gd` |
+| **Total** | **134** | one deterministic in-repo source each |
 
 All current audio uses original deterministic synthesis; external samples: 0. The source ledger is enforced by `tools/audio_source_audit.py`.
 
@@ -40,7 +40,7 @@ All current audio uses original deterministic synthesis; external samples: 0. Th
 
 `menu`, `early`, `hustle`, and `late_tense` are lobby-only masters. StoryMode, the weekly hub, month transitions, ordinary events, and unscored arcs may not infer them from age, rarity, category, or an `arc_` prefix. Those surfaces retain only authored place, season, and human ambience. Cinematic story music enters solely through an explicit `scene_audio_manifest` paragraph contract or a menu/ending owner; continuous activity music requires its own `game_audio_manifest` contract.
 
-The seven base tracks cover title, routine, crisis, and endings. Five authored scene tracks cover emotional peaks:
+The seven base tracks cover title, routine, crisis, and endings. Five authored peak tracks and six demo character/theme motifs cover explicit story roles:
 
 | Key | Role | Loop rule |
 |---|---|---|
@@ -49,6 +49,20 @@ The seven base tracks cover title, routine, crisis, and endings. Five authored s
 | `reckoning` | confrontation and irreversible truth | silence before entry |
 | `grief` | death, separation, aftermath | paragraph-triggered |
 | `wonder` | awe, release, landmark-scale emotional lift | paragraph-triggered |
+| `family` | Father's debt, home, and inherited duty | continuous through the three-scene Knee memory |
+| `survival` | applications, shifts, and first earned stability | paragraph-triggered; never a victory cue |
+| `hyunsu` | cramped-room solidarity and deferred hope | continuous inside authored Hyunsu chains |
+| `ambition` | comparison, Gangnam, and upward appetite | paragraph-triggered |
+| `daeun` | ordinary warmth and mutual attention | paragraph-triggered |
+| `jiyeon` | danger, speed, and magnetic distance | paragraph-triggered |
+
+### Six-Month Demo Mix
+
+- All 45 contracted demo events have explicit audio intent; 43 use paragraph-owned physical foley and 41 use authored music. The remaining silence is deliberate, not a missing fallback.
+- The Knee memory uses a dedicated `family_home` bed: modest refrigerator motor, wall clock, and distant unintelligible television texture. It must never sound like Minjun's goshiwon.
+- `story_knee_door`, `story_knee_witness`, and `story_knee_choice` share one uninterrupted `family` playback position. Door latch and paper movement land on physical prose beats; there is no melodramatic sting.
+- Demo room/season trims place the source beds in an audible default window. Human presence is clear at Gray, attenuated at Light Black, and nearly absent at Deep Black while machinery and weather remain.
+- Korean PlayStation and English Xbox 24-week profiles expose the same 46 events, ten music keys, 41 authored-music events, and a maximum unscored root run of one.
 
 `assets/scene_audio_manifest.json` maps all 59 active CGs to ambience and all 116 events on the 30 Tier-1 peak paths to explicit scene audio. The mother and groom-side reaction shots keep one wedding-hall room tone; the processional begins on the couple-wide entrance and continues into the close without restarting. Wedding applause and cheer are tied to the authored entrance paragraph, not to a timer from scene load. Mother's Table keeps rural room tone through the first three paragraphs before `intimate` enters on the inherited-care reveal. The Narrow Room likewise holds only the cramped-room bed through the opening truth, then admits the same cue without restarting across either buildup route or the final decision. Jiyeon's verdict and Daeun's final test keep only their apartment/oneroom life through both buildup paths; `reckoning` enters once at the irreversible decision instead of using a breakup cue that would spoil the choice. The guarantee bill holds street/pojangmacha ambience without score before Hyunsu's intimate meal, while the last signature keeps the city bed until `reckoning` enters at the authored paragraph. Father's 48-week legacy uses the live housing ambience before `grief`. Both sea dates remain on train ambience with no score through their two buildup paths, then move explicitly to seaside ambience and `wonder` only after the beach arrival. Both fireworks dates retain the Hangang crowd bed with no fireworks cue during buildup; the final decision alone admits `wonder` and the paragraph-2 distant explosion, so the soundtrack cannot announce the first shell before the prose and image do. Daeun's first-night chain keeps the actual housing image while the explicit `rain_room` bed carries rain on glass and a restrained indoor appliance/HVAC floor; it contains no outdoor voices, never enables indoor rain particles, and does not restart across the four linked events. Sangchul's first meeting keeps only the same real-estate-office room tone through all four linked events: no `reckoning` or reveal cue may label him a villain before Minjun knows why he paused at the word Changwon. His deduction then resolves `current_housing` into the live goshiwon, one-room, villa, or apartment room tone; both evidence routes stay unscored, and `reckoning` starts only when the records converge at the final choice. `orthodox_pinnacle` keeps the ordinary restaurant bed under the team-dinner pause instead of borrowing a victory cue. `burnout` keeps only the existing hospital room tone under the first-person observation-bed image; no score, alarm, heartbeat, or melodramatic monitor announces how the player should read the silence.
 
@@ -136,14 +150,14 @@ python3 tools/generate_launch_audio.py --check
 Latest targeted result:
 
 ```text
-AUDIO_SOURCE_AUDIT_OK assets=113 bgm=14 ambience=46 sfx=53 external_samples=0
-SCENE_AUDIO_CONTRACT_OK cg=59 peak_events=116 ambience_keys=37 music_keys=14
-GAME_AUDIO_CONTRACT_OK physical=17 stages=19 activities=7 activity_music=1 human_layers=9 direct_pad=9
-AUDIO_ASSET_CHECK_OK bgm=14 ambience=46 sfx=53
+AUDIO_SOURCE_AUDIT_OK assets=134 bgm=20 ambience=47 sfx=67 external_samples=0
+SCENE_AUDIO_CONTRACT_OK cg=59 peak_events=116 ambience_keys=38 music_keys=20 demo_contracts=45 demo_foley_events=43
+GAME_AUDIO_CONTRACT_OK physical=31 stages=19 activities=7 activity_music=1 human_layers=9 direct_pad=9
+AUDIO_ASSET_CHECK_OK bgm=20 ambience=47 sfx=67
 LAUNCH_AUDIO_OK stereo=2 rate=48000 duration=1.55
 BGM_CONTINUITY_OK mode=menu key=menu ambience=
-GAME_AUDIO_RUNTIME_OK physical=17 ambience_roundtrip=3 varied_playback=1 casino_music=1
-MORAL_AMBIENCE_CHECK_OK profiles=9
+GAME_AUDIO_RUNTIME_OK physical=31 ambience_roundtrip=3 varied_playback=1 casino_music=1
+MORAL_AMBIENCE_CHECK_OK profiles=9 neutral=-8.04 dark=-22.04 deep=-54.04
 STORY_AUDIO_SETTINGS_CHECK_OK text=3 locale=ko/en timer_pause=11996 result_replay=0
 ```
 
@@ -153,12 +167,13 @@ Hyunsu's reunion remains scoreless on the live housing room tone through the emp
 
 ## Human Listening Gate
 
-Before demo lock, listen at the real 1280x800/Steam Deck presentation and on both headphones and laptop speakers:
+Before demo lock, listen at the real 1280x800/Steam Deck presentation and on headphones, laptop speakers, and a living-room TV:
 
-1. Play ten consecutive rounds of each casino game. Repeated ticks must not become a metronome.
-2. Compare each physical sound with the visible material. Paper, felt, ceramic, metal, glass, and asphalt must not share one transient.
-3. Enter and leave every activity. In Jeongseon, move floor→table→floor repeatedly; the motif must intensify and relax without restarting, while room tone and physical sounds remain legible. No abrupt cut or AP-hub bleed is allowed.
-4. Play the wedding chain without skipping. Processional continuity, paragraph applause, voice-free room tone, and decision silence must feel like one scene.
-5. A/B every procedural physical asset against a professional foley candidate. Promote only the version that sounds native to the modern illustration while preserving license evidence.
-6. Compare the same cafe, street, casino, and wedding screen at Gray, Light Black, Deep Black, and White. Only human presence should radically recede; the place and interaction timing must remain believable.
-7. Cold-boot three times on headphones, laptop speakers, and a living-room TV. The publisher sting must read as one restrained brand gesture, never as a mobile reward chirp, and must not replay at the title or New Story transition.
+1. Play the complete Knee memory without skipping. The player must hear a modest family home before seeing the room, recognize one unbroken family motif, and feel the door/paper beats without hearing a tragedy jingle.
+2. Play ten consecutive rounds of each casino game. Repeated ticks must not become a metronome.
+3. Compare each physical sound with the visible material. Paper, felt, ceramic, metal, glass, and asphalt must not share one transient.
+4. Enter and leave every activity. In Jeongseon, move floor→table→floor repeatedly; the motif must intensify and relax without restarting, while room tone and physical sounds remain legible. No abrupt cut or AP-hub bleed is allowed.
+5. Play the wedding chain without skipping. Processional continuity, paragraph applause, voice-free room tone, and decision silence must feel like one scene.
+6. A/B every procedural physical asset against a professional foley candidate. Promote only the version that sounds native to the modern illustration while preserving license evidence.
+7. Compare the same cafe, street, casino, and wedding screen at Gray, Light Black, Deep Black, and White. Only human presence should radically recede; the place and interaction timing must remain believable.
+8. Cold-boot three times on all three output classes. The publisher sting must read as one restrained brand gesture, never as a mobile reward chirp, and must not replay at the title or New Story transition.

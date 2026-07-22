@@ -33,6 +33,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 
 | Change area | Fast QA command |
 |---|---|
+| Six-month audio dramaturgy: Knee family-home identity, uninterrupted family motif, paragraph foley, audible default room/human mix, ten demo music keys, maximum one unscored root, KO/EN parity | `AudioAssetCheck.tscn`, `BGMContinuityCheck.tscn`, `GameAudioContractCheck.tscn`, then `--qa=demo-experience --lang=ko/en --demo-build` and `python3 tools/demo_experience_audit.py <ko.json> <en.json>` |
 | Opening job causality: cash-first and preparation-first submit no application and receive no week-two interview; job-first records exactly one application, never interviews in the same week, unlocks the Mapo interview only later while unemployed, and preserves post-interview `Keep Applying` | `CoreChoiceSliceCheck.tscn` plus `DemoBuildCheck.tscn -- --demo-build` |
 | First-run language gate, KO default names, localized portrait name tags | `--qa=locale-gate` |
 | Prologue motivation imprint: Knee, Last Payment, notebook choices, persistent goal sentence, notebook modal, montage, and month-end ritual | `--qa=motivation-imprint --lang=ko/en` |

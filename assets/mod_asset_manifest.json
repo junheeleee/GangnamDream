@@ -1608,7 +1608,7 @@
         "cafe"
       ],
       "relative_path": "audio/amb_cafe_room.wav",
-      "bytes": 529244
+      "bytes": 1997780
     },
     {
       "ids": [
@@ -1643,7 +1643,14 @@
         "convenience"
       ],
       "relative_path": "audio/amb_convenience_store.wav",
-      "bytes": 529244
+      "bytes": 1997780
+    },
+    {
+      "ids": [
+        "family_home"
+      ],
+      "relative_path": "audio/amb_family_home.wav",
+      "bytes": 1997780
     },
     {
       "ids": [
@@ -1657,7 +1664,7 @@
         "room"
       ],
       "relative_path": "audio/amb_goshiwon_room.wav",
-      "bytes": 529244
+      "bytes": 1997780
     },
     {
       "ids": [
@@ -1678,7 +1685,7 @@
         "hangang"
       ],
       "relative_path": "audio/amb_hangang_riverside.wav",
-      "bytes": 529244
+      "bytes": 1997780
     },
     {
       "ids": [
@@ -1706,63 +1713,63 @@
         "cafe"
       ],
       "relative_path": "audio/amb_human_cafe.wav",
-      "bytes": 882044
+      "bytes": 1587644
     },
     {
       "ids": [
         "casino"
       ],
       "relative_path": "audio/amb_human_casino.wav",
-      "bytes": 882044
+      "bytes": 1587644
     },
     {
       "ids": [
         "leisure"
       ],
       "relative_path": "audio/amb_human_leisure.wav",
-      "bytes": 882044
+      "bytes": 1587644
     },
     {
       "ids": [
         "public_interior"
       ],
       "relative_path": "audio/amb_human_public_interior.wav",
-      "bytes": 882044
+      "bytes": 1587644
     },
     {
       "ids": [
         "racetrack"
       ],
       "relative_path": "audio/amb_human_racetrack.wav",
-      "bytes": 882044
+      "bytes": 1587644
     },
     {
       "ids": [
         "street"
       ],
       "relative_path": "audio/amb_human_street.wav",
-      "bytes": 882044
+      "bytes": 1587644
     },
     {
       "ids": [
         "thin_wall"
       ],
       "relative_path": "audio/amb_human_thin_wall.wav",
-      "bytes": 882044
+      "bytes": 1587644
     },
     {
       "ids": [
         "transit"
       ],
       "relative_path": "audio/amb_human_transit.wav",
-      "bytes": 882044
+      "bytes": 1587644
     },
     {
       "ids": [
         "wedding"
       ],
       "relative_path": "audio/amb_human_wedding.wav",
-      "bytes": 882044
+      "bytes": 1587644
     },
     {
       "ids": [
@@ -1797,7 +1804,7 @@
         "office"
       ],
       "relative_path": "audio/amb_office_room.wav",
-      "bytes": 529244
+      "bytes": 1997780
     },
     {
       "ids": [
@@ -1825,7 +1832,7 @@
         "public_office"
       ],
       "relative_path": "audio/amb_public_office.wav",
-      "bytes": 529244
+      "bytes": 1997780
     },
     {
       "ids": [
@@ -1867,14 +1874,14 @@
         "rain"
       ],
       "relative_path": "audio/amb_seoul_rain.wav",
-      "bytes": 529244
+      "bytes": 1997780
     },
     {
       "ids": [
         "street"
       ],
       "relative_path": "audio/amb_seoul_street.wav",
-      "bytes": 529244
+      "bytes": 1997780
     },
     {
       "ids": [
@@ -1909,7 +1916,14 @@
         "winter"
       ],
       "relative_path": "audio/amb_winter_wind.wav",
-      "bytes": 529244
+      "bytes": 1997780
+    },
+    {
+      "ids": [
+        "ambition"
+      ],
+      "relative_path": "audio/bgm_ambition.ogg",
+      "bytes": 231375
     },
     {
       "ids": [
@@ -1941,10 +1955,24 @@
     },
     {
       "ids": [
+        "daeun"
+      ],
+      "relative_path": "audio/bgm_daeun.ogg",
+      "bytes": 320581
+    },
+    {
+      "ids": [
         "ending_bad"
       ],
       "relative_path": "audio/bgm_ending.ogg",
       "bytes": 745355
+    },
+    {
+      "ids": [
+        "family"
+      ],
+      "relative_path": "audio/bgm_family.ogg",
+      "bytes": 357773
     },
     {
       "ids": [
@@ -1962,10 +1990,24 @@
     },
     {
       "ids": [
+        "hyunsu"
+      ],
+      "relative_path": "audio/bgm_hyunsu.ogg",
+      "bytes": 325689
+    },
+    {
+      "ids": [
         "intimate"
       ],
       "relative_path": "audio/bgm_intimate.ogg",
       "bytes": 212973
+    },
+    {
+      "ids": [
+        "jiyeon"
+      ],
+      "relative_path": "audio/bgm_jiyeon.ogg",
+      "bytes": 277110
     },
     {
       "ids": [
@@ -1987,6 +2029,13 @@
       ],
       "relative_path": "audio/bgm_reckoning.ogg",
       "bytes": 237345
+    },
+    {
+      "ids": [
+        "survival"
+      ],
+      "relative_path": "audio/bgm_survival.ogg",
+      "bytes": 278845
     },
     {
       "ids": [
@@ -2032,10 +2081,24 @@
     },
     {
       "ids": [
+        "bicycle_impact"
+      ],
+      "relative_path": "audio/sfx_bicycle_impact.wav",
+      "bytes": 112940
+    },
+    {
+      "ids": [
         "big_wheel_tick"
       ],
       "relative_path": "audio/sfx_big_wheel_tick.wav",
       "bytes": 8864
+    },
+    {
+      "ids": [
+        "bus_arrival"
+      ],
+      "relative_path": "audio/sfx_bus_arrival.wav",
+      "bytes": 251412
     },
     {
       "ids": [
@@ -2165,6 +2228,13 @@
     },
     {
       "ids": [
+        "cup_set"
+      ],
+      "relative_path": "audio/sfx_cup_set.wav",
+      "bytes": 63548
+    },
+    {
+      "ids": [
         "dice_cup_shake"
       ],
       "relative_path": "audio/sfx_dice_cup_shake.wav",
@@ -2183,6 +2253,20 @@
       ],
       "relative_path": "audio/sfx_distant_fireworks.wav",
       "bytes": 546884
+    },
+    {
+      "ids": [
+        "document_stamp"
+      ],
+      "relative_path": "audio/sfx_document_stamp.wav",
+      "bytes": 51200
+    },
+    {
+      "ids": [
+        "door_latch"
+      ],
+      "relative_path": "audio/sfx_door_latch.wav",
+      "bytes": 63548
     },
     {
       "ids": [
@@ -2214,6 +2298,13 @@
     },
     {
       "ids": [
+        "footsteps_hall"
+      ],
+      "relative_path": "audio/sfx_footsteps_hall.wav",
+      "bytes": 207312
+    },
+    {
+      "ids": [
         "game_over"
       ],
       "relative_path": "audio/sfx_game_over.wav",
@@ -2232,6 +2323,20 @@
       ],
       "relative_path": "audio/sfx_housing_up.wav",
       "bytes": 48554
+    },
+    {
+      "ids": [
+        "kettle_pour"
+      ],
+      "relative_path": "audio/sfx_kettle_pour.wav",
+      "bytes": 216132
+    },
+    {
+      "ids": [
+        "keyboard_short"
+      ],
+      "relative_path": "audio/sfx_keyboard_short.wav",
+      "bytes": 118232
     },
     {
       "ids": [
@@ -2277,10 +2382,38 @@
     },
     {
       "ids": [
+        "paper_handle"
+      ],
+      "relative_path": "audio/sfx_paper_handle.wav",
+      "bytes": 81188
+    },
+    {
+      "ids": [
+        "phone_notification"
+      ],
+      "relative_path": "audio/sfx_phone_notification.wav",
+      "bytes": 63548
+    },
+    {
+      "ids": [
+        "phone_vibrate"
+      ],
+      "relative_path": "audio/sfx_phone_vibrate.wav",
+      "bytes": 68840
+    },
+    {
+      "ids": [
         "publisher_sting"
       ],
       "relative_path": "audio/sfx_publisher_sting.wav",
       "bytes": 297644
+    },
+    {
+      "ids": [
+        "queue_chime"
+      ],
+      "relative_path": "audio/sfx_queue_chime.wav",
+      "bytes": 104120
     },
     {
       "ids": [
@@ -2302,6 +2435,13 @@
       ],
       "relative_path": "audio/sfx_race_gate.wav",
       "bytes": 92652
+    },
+    {
+      "ids": [
+        "register_scan"
+      ],
+      "relative_path": "audio/sfx_register_scan.wav",
+      "bytes": 38852
     },
     {
       "ids": [
@@ -2386,6 +2526,13 @@
       ],
       "relative_path": "audio/sfx_tab_open.wav",
       "bytes": 6660
+    },
+    {
+      "ids": [
+        "traffic_pass"
+      ],
+      "relative_path": "audio/sfx_traffic_pass.wav",
+      "bytes": 198492
     },
     {
       "ids": [

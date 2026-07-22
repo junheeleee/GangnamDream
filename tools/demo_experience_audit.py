@@ -40,20 +40,26 @@ MIN_BACKGROUNDS = 12
 MIN_PORTRAITS = 5
 MIN_CGS = 4
 MIN_AMBIENCES = 7
-MIN_MUSIC_KEYS = 3
-MIN_AUTHORED_MUSIC_EVENTS = 4
+MIN_MUSIC_KEYS = 9
+MIN_AUTHORED_MUSIC_EVENTS = 30
 MAX_IDENTICAL_ROOT_SURFACE_RUN = 3
 MAX_SAME_BACKGROUND_ROOT_RUN = 4
 MAX_SAME_AMBIENCE_ROOT_RUN = 5
-MAX_UNSCORED_ROOT_RUN = 8
+MAX_UNSCORED_ROOT_RUN = 2
 DEMO_SCORE_ANCHORS = {
+    "story_knee_door": "family",
+    "story_last_payment_wait": "grief",
     "story_last_payment_word": "grief",
+    "story_pressure": "survival",
     "arc_temptation_01": "crisis",
+    "arc_intro_03_sns": "ambition",
     "arc_chapter1_close": "reckoning",
-    "arc_daeun_01_meet": "intimate",
-    "arc_jiyeon_01_crash": "crisis",
+    "arc_intro_04_hyunsu": "hyunsu",
+    "arc_daeun_01_meet": "daeun",
+    "arc_jiyeon_01_crash": "jiyeon",
     "arc_job_vs_invest": "reckoning",
     "arc_four_months_in": "wonder",
+    "hyunsu_exam_day": "hyunsu",
     "story_six_months": "reckoning",
 }
 
@@ -460,6 +466,7 @@ def _synthetic_report(language: str) -> dict[str, Any]:
     for index in range(50):
         root_index = index // 2
         meaningful = index % 2 == 0
+        scored = index % 9 != 1
         event = {
             "order": index + 1,
             "week": min(root_index + 1, 24),
@@ -484,8 +491,8 @@ def _synthetic_report(language: str) -> dict[str, Any]:
             "ambience_keys": [f"ambience_{root_index % 7}"],
             "season_ambience_keys": ["winter"] if root_index < 8 else [],
             "human_ambience_keys": [f"human_{root_index % 4}"],
-            "music_keys": [f"music_{index % 3}"] if index % 4 == 0 else [],
-            "authored_music_keys": [f"music_{index % 3}"] if index % 4 == 0 else [],
+            "music_keys": [f"music_{index % 10}"] if scored else [],
+            "authored_music_keys": [f"music_{index % 10}"] if scored else [],
         }
         events.append(event)
     events[-1]["id"] = EXPECTED_LAST_STORY_EVENT_ID
