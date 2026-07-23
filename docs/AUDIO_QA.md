@@ -172,10 +172,15 @@ Hyunsu's reunion remains scoreless on the live housing room tone through the emp
 
 ## Human Listening Gate
 
-The previous `cf92085` candidate is superseded by the scene-specific demo
-recording pass. A new clean three-platform RC must be issued from the
-implementation commit before outside listening. Automated routing and
-Korean/English rendering pass; this is not a listening approval.
+The previous `cf92085` candidate is superseded by clean revision
+`eceeb6e78799d9b3c775f03bdf2475fbcbb4a78d` (tree
+`da84bb080e42d8888f85e9b211b3f19d8662c2d3`). Its three-platform manifest
+SHA-256 is `b383f4eda8e2a01a54ef1137d2f686a62e45a64c2861f65ec905a64813e2a94e`.
+All three artifacts re-verify against that manifest, and the extracted macOS
+package boots under an isolated HOME while loading the new audio resources
+without an error. Automated routing, Korean/English rendering, complete
+24-week parity, export, and package boot pass; this is not a listening
+approval.
 
 Before demo lock, listen at the real 1280x800/Steam Deck presentation and on headphones, laptop speakers, and a living-room TV:
 
