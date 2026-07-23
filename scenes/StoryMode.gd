@@ -95,6 +95,13 @@ var _story_ink_transition_layer: Control = null
 var _story_ink_transition_tween: Tween = null
 var _story_ink_transition_progress: float = 0.0
 var _story_ink_transition_kind: String = "scene"
+var _story_transition_snapshot: TextureRect = null
+var _story_transition_portrait_snapshot: TextureRect = null
+var _story_transition_snapshot_base_scale := Vector2.ONE
+var _story_transition_portrait_base_scale := Vector2.ONE
+var _story_scene_transition_active: bool = false
+var _story_scene_transition_duration: float = 0.0
+var _story_text_panel_tween: Tween = null
 var _auto_button: Button = null
 var _auto_mode: bool = false
 var _auto_wait: float = -1.0
@@ -392,9 +399,17 @@ func _animate_story_text_panel() -> void:
 		return
 	if not is_inside_tree():
 		return
+	if _story_text_panel_tween and _story_text_panel_tween.is_running():
+		_story_text_panel_tween.kill()
 	_text_panel.modulate = Color(1, 1, 1, 0.0)
-	var tw := create_tween()
-	tw.tween_property(_text_panel, "modulate:a", 1.0, 0.22).set_trans(Tween.TRANS_SINE)
+	_story_text_panel_tween = create_tween()
+	if _story_scene_transition_active:
+		_story_text_panel_tween.tween_interval(_story_scene_transition_duration * 0.72)
+	_story_text_panel_tween.tween_property(
+		_text_panel, "modulate:a", 1.0,
+		0.28 if _story_scene_transition_active else 0.22
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	_story_text_panel_tween.tween_callback(func(): _story_text_panel_tween = null)
 
 func _pulse_story_moral_echo(_norm: float, _stage: int) -> void:
 	if not is_inside_tree() or not is_instance_valid(_text_panel):
@@ -519,6 +534,7 @@ func _build_ui():
 	_living_scene.name = "LivingScene"
 	_living_scene.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_living_scene)
+	_build_story_scene_transition_snapshots()
 
 	# 5. 클릭 받는 전체 버튼 (타이핑 스킵/다음)
 	var click_catcher = Button.new()
@@ -1176,9 +1192,126 @@ func _build_story_ink_transition_layer() -> void:
 	_story_ink_transition_layer.draw.connect(_draw_story_ink_transition)
 	add_child(_story_ink_transition_layer)
 
+func _build_story_scene_transition_snapshots() -> void:
+	_story_transition_snapshot = TextureRect.new()
+	_story_transition_snapshot.name = "StoryTransitionBackground"
+	_story_transition_snapshot.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_story_transition_snapshot.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	_story_transition_snapshot.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_story_transition_snapshot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_story_transition_snapshot.visible = false
+	add_child(_story_transition_snapshot)
+
+	_story_transition_portrait_snapshot = TextureRect.new()
+	_story_transition_portrait_snapshot.name = "StoryTransitionPortrait"
+	_story_transition_portrait_snapshot.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	_story_transition_portrait_snapshot.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	_story_transition_portrait_snapshot.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_story_transition_portrait_snapshot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_story_transition_portrait_snapshot.visible = false
+	add_child(_story_transition_portrait_snapshot)
+
+func _normalized_story_scene_transition(mode: String) -> String:
+	if mode in ["memory_cut", "time_cut", "explicit_move"]:
+		return mode
+	return "explicit_move"
+
+func _story_scene_transition_seconds(mode: String) -> float:
+	if _living_reduced_motion():
+		return 0.24
+	match mode:
+		"memory_cut":
+			return 0.78
+		"time_cut":
+			return 0.86
+		_:
+			return 0.54
+
+func _capture_story_transition_snapshot() -> bool:
+	if not is_instance_valid(_story_transition_snapshot) \
+			or not is_instance_valid(_bg_img) or _bg_img.texture == null:
+		return false
+	_story_transition_snapshot.texture = _bg_img.texture
+	_story_transition_snapshot.material = (
+		_bg_img.material.duplicate(true) if _bg_img.material != null else null)
+	_story_transition_snapshot.position = _bg_img.position
+	_story_transition_snapshot.pivot_offset = _bg_img.pivot_offset
+	_story_transition_snapshot.scale = _bg_img.scale
+	_story_transition_snapshot_base_scale = _bg_img.scale
+	_story_transition_snapshot.modulate = Color.WHITE
+	_story_transition_snapshot.visible = true
+
+	_story_transition_portrait_snapshot.visible = false
+	_story_transition_portrait_snapshot.texture = null
+	_story_transition_portrait_snapshot.material = null
+	if is_instance_valid(_portrait_frame) and _portrait_frame.visible \
+			and is_instance_valid(_portrait) and _portrait.texture != null:
+		_story_transition_portrait_snapshot.texture = _portrait.texture
+		_story_transition_portrait_snapshot.material = (
+			_portrait.material.duplicate(true) if _portrait.material != null else null)
+		_story_transition_portrait_snapshot.offset_left = _portrait_frame.offset_left
+		_story_transition_portrait_snapshot.offset_right = _portrait_frame.offset_right
+		_story_transition_portrait_snapshot.offset_top = _portrait_frame.offset_top
+		_story_transition_portrait_snapshot.offset_bottom = _portrait_frame.offset_bottom
+		_story_transition_portrait_snapshot.pivot_offset = _portrait_frame.pivot_offset
+		_story_transition_portrait_snapshot.scale = _portrait_frame.scale
+		_story_transition_portrait_base_scale = _portrait_frame.scale
+		_story_transition_portrait_snapshot.modulate = Color(
+			1.0, 1.0, 1.0, _portrait_frame.modulate.a)
+		_story_transition_portrait_snapshot.visible = true
+	return true
+
+func _begin_story_scene_transition(mode: String) -> void:
+	if not is_inside_tree() or not _capture_story_transition_snapshot():
+		_story_scene_transition_active = false
+		return
+	if _story_ink_transition_tween and _story_ink_transition_tween.is_running():
+		_story_ink_transition_tween.kill()
+	var normalized := _normalized_story_scene_transition(mode)
+	_story_scene_transition_active = true
+	_story_scene_transition_duration = _story_scene_transition_seconds(normalized)
+	_story_ink_transition_kind = normalized
+	_story_ink_transition_progress = 0.0
+	_story_ink_transition_layer.visible = true
+	_story_ink_transition_layer.queue_redraw()
+	set_meta("story_transition_mode", normalized)
+	set_meta("story_transition_duration", _story_scene_transition_duration)
+	set_meta("story_transition_reduced_motion", _living_reduced_motion())
+	_story_ink_transition_tween = create_tween()
+	_story_ink_transition_tween.tween_method(
+		_set_story_ink_transition_progress, 0.0, 1.0,
+		_story_scene_transition_duration
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_story_ink_transition_tween.tween_callback(_finish_story_scene_transition.bind(false))
+
+func _finish_story_scene_transition(kill_tween: bool = true) -> void:
+	if kill_tween and _story_ink_transition_tween and _story_ink_transition_tween.is_running():
+		_story_ink_transition_tween.kill()
+	_story_ink_transition_tween = null
+	_story_scene_transition_active = false
+	_story_scene_transition_duration = 0.0
+	_story_ink_transition_progress = 0.0
+	if is_instance_valid(_story_transition_snapshot):
+		_story_transition_snapshot.visible = false
+		_story_transition_snapshot.texture = null
+		_story_transition_snapshot.material = null
+		_story_transition_snapshot.scale = Vector2.ONE
+		_story_transition_snapshot.modulate = Color.WHITE
+	if is_instance_valid(_story_transition_portrait_snapshot):
+		_story_transition_portrait_snapshot.visible = false
+		_story_transition_portrait_snapshot.texture = null
+		_story_transition_portrait_snapshot.material = null
+		_story_transition_portrait_snapshot.scale = Vector2.ONE
+		_story_transition_portrait_snapshot.modulate = Color.WHITE
+	if is_instance_valid(_story_ink_transition_layer):
+		_story_ink_transition_layer.visible = false
+		_story_ink_transition_layer.queue_redraw()
+
 func _play_story_ink_transition(kind: String = "scene", strength: float = 1.0) -> void:
 	if not is_instance_valid(_story_ink_transition_layer) or not is_inside_tree():
 		return
+	if _story_scene_transition_active:
+		_finish_story_scene_transition()
 	if _story_ink_transition_tween and _story_ink_transition_tween.is_running():
 		_story_ink_transition_tween.kill()
 	_story_ink_transition_kind = kind
@@ -1199,8 +1332,35 @@ func _play_story_ink_transition(kind: String = "scene", strength: float = 1.0) -
 
 func _set_story_ink_transition_progress(value: float) -> void:
 	_story_ink_transition_progress = clampf(value, 0.0, 1.0)
+	if _story_scene_transition_active and is_instance_valid(_story_transition_snapshot):
+		var old_alpha := 1.0
+		match _story_ink_transition_kind:
+			"memory_cut":
+				old_alpha = 1.0 - _story_transition_smooth(0.10, 0.92, _story_ink_transition_progress)
+			"time_cut":
+				old_alpha = 1.0 - _story_transition_smooth(0.43, 0.67, _story_ink_transition_progress)
+			_:
+				old_alpha = 1.0 - _story_transition_smooth(0.04, 0.88, _story_ink_transition_progress)
+		_story_transition_snapshot.modulate.a = old_alpha
+		if is_instance_valid(_story_transition_portrait_snapshot):
+			_story_transition_portrait_snapshot.modulate.a = old_alpha
+		if _living_reduced_motion():
+			_story_transition_snapshot.scale = _story_transition_snapshot_base_scale
+			_story_transition_portrait_snapshot.scale = _story_transition_portrait_base_scale
+		elif _story_ink_transition_kind == "memory_cut":
+			var memory_breath := 1.0 + 0.012 * _story_transition_smooth(
+				0.0, 1.0, _story_ink_transition_progress)
+			_story_transition_snapshot.scale = _story_transition_snapshot_base_scale * memory_breath
+			_story_transition_portrait_snapshot.scale = (
+				_story_transition_portrait_base_scale * memory_breath)
 	if is_instance_valid(_story_ink_transition_layer):
 		_story_ink_transition_layer.queue_redraw()
+
+func _story_transition_smooth(from_value: float, to_value: float, value: float) -> float:
+	if is_equal_approx(from_value, to_value):
+		return 1.0 if value >= to_value else 0.0
+	var t := clampf((value - from_value) / (to_value - from_value), 0.0, 1.0)
+	return t * t * (3.0 - 2.0 * t)
 
 func _draw_story_ink_transition() -> void:
 	if not is_instance_valid(_story_ink_transition_layer) or _story_ink_transition_progress <= 0.01:
@@ -1212,15 +1372,30 @@ func _draw_story_ink_transition() -> void:
 	var black := clampf(-_story_moral_norm, 0.0, 1.0)
 	var white := clampf(_story_moral_norm, 0.0, 1.0)
 	var base := Color("#08090c").lerp(Color("#020303"), black * 0.60).lerp(Color("#eef6ff"), white * 0.32)
-	if _story_ink_transition_kind == "choice":
-		base = base.lerp(Color("#111216"), 0.25)
-	_story_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, size), Color(base.r, base.g, base.b, pulse * (0.075 + black * 0.070 + white * 0.035)), true)
+	var overlay_alpha := pulse * (0.075 + black * 0.070 + white * 0.035)
+	match _story_ink_transition_kind:
+		"choice":
+			base = base.lerp(Color("#111216"), 0.25)
+		"memory_cut":
+			base = Color("#c6c8c3").lerp(Color("#8f9290"), black * 0.32)
+			overlay_alpha = pulse * 0.30
+		"time_cut":
+			base = Color("#050608").lerp(Color("#010202"), black * 0.50)
+			overlay_alpha = pow(pulse, 0.48) * 0.94
+		"explicit_move":
+			base = Color("#090b0e").lerp(Color("#020303"), black * 0.42)
+			overlay_alpha = pulse * 0.24
+	_story_ink_transition_layer.draw_rect(
+		Rect2(Vector2.ZERO, size),
+		Color(base.r, base.g, base.b, overlay_alpha), true)
 
-	if black > 0.01:
+	var is_scene_handoff := _story_ink_transition_kind in [
+		"memory_cut", "time_cut", "explicit_move"]
+	if black > 0.01 and not is_scene_handoff:
 		var burn := Color("#000000", pulse * (0.065 + black * 0.11))
 		_story_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, Vector2(size.x, 18.0 + black * 16.0)), burn, true)
 		_story_ink_transition_layer.draw_rect(Rect2(Vector2(0.0, size.y - 18.0 - black * 16.0), Vector2(size.x, 18.0 + black * 16.0)), burn, true)
-	if white > 0.01:
+	if white > 0.01 and not is_scene_handoff:
 		_story_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, size), Color("#ffffff", pulse * white * 0.026), true)
 
 func _refresh_hud():
@@ -1602,15 +1777,17 @@ func _split_story_paragraphs(text: String) -> Array:
 
 func _render_current():
 	_reset_advance_hold()
+	var continues_same_location := _current_transition_mode == "same_location"
+	if not continues_same_location:
+		# 이전 배경을 실제로 붙잡아 둔 뒤에 새 장면을 아래에서 교체한다.
+		# 장면을 먼저 갈고 펄스를 덮는 방식은 하드컷을 숨기지 못한다.
+		_begin_story_scene_transition(_current_transition_mode)
 	_reset_scene_direction()
 	_prepare_scene_direction()
 	_current_presentation = {}
 	_portrait_remote_inset = false
 	if is_instance_valid(_communication_badge):
 		_communication_badge.visible = false
-	var continues_same_location := _current_transition_mode == "same_location"
-	if not continues_same_location:
-		_play_story_ink_transition("scene", 0.80)
 	_showing_choices = false
 	_clear_result_record_card()
 	_current_uses_cg = false
@@ -1707,6 +1884,9 @@ func _render_current():
 	# 제목
 	_title_lbl.text = "— %s —" % _fmt(str(_current.get("title", "")))
 	if continues_same_location:
+		if _story_text_panel_tween and _story_text_panel_tween.is_running():
+			_story_text_panel_tween.kill()
+		_story_text_panel_tween = null
 		_text_panel.modulate = Color.WHITE
 	else:
 		_animate_story_text_panel()
@@ -1855,6 +2035,8 @@ func _show_portrait(portrait_id: String, bg_only: bool = false):
 		_portrait_frame.visible = true
 		_portrait_frame.modulate = Color(1, 1, 1, 0)
 		var tw = create_tween()
+		if _story_scene_transition_active:
+			tw.tween_interval(_story_scene_transition_duration * 0.50)
 		tw.tween_property(_portrait_frame, "modulate", Color(1, 1, 1, _portrait_target_alpha), 0.4)
 		_start_portrait_idle_motion()
 	else:
@@ -1872,6 +2054,24 @@ func _show_portrait(portrait_id: String, bg_only: bool = false):
 	else:
 		if _name_panel:
 			_name_panel.visible = false
+	if is_instance_valid(_name_panel):
+		if _story_scene_transition_active and _name_panel.visible:
+			_name_panel.modulate = Color(1, 1, 1, 0)
+			var name_tw := create_tween()
+			name_tw.tween_interval(_story_scene_transition_duration * 0.62)
+			name_tw.tween_property(_name_panel, "modulate:a", 1.0, 0.22) \
+				.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		else:
+			_name_panel.modulate = Color.WHITE
+	if is_instance_valid(_communication_badge):
+		if _story_scene_transition_active and _communication_badge.visible:
+			_communication_badge.modulate = Color(1, 1, 1, 0)
+			var badge_tw := create_tween()
+			badge_tw.tween_interval(_story_scene_transition_duration * 0.62)
+			badge_tw.tween_property(_communication_badge, "modulate:a", 1.0, 0.22) \
+				.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		else:
+			_communication_badge.modulate = Color.WHITE
 	if _story_visual_override_active:
 		_portrait.modulate = Color(0.08, 0.085, 0.09, 0.70)
 		if _name_panel:
@@ -2126,6 +2326,9 @@ func _process(delta):
 	# 모달 뒤에서 진행되면 언어/글자 크기를 확인할 시간이 사라진다.
 	if is_instance_valid(_audio_settings_popup):
 		return
+	# 새 장소가 완전히 드러나기 전에는 첫 문장과 AUTO를 진행하지 않는다.
+	if _story_scene_transition_active:
+		return
 	if _direction_hold_active:
 		_direction_hold_remaining -= delta
 		if _direction_hold_remaining <= 0.0:
@@ -2163,6 +2366,7 @@ func _process(delta):
 
 func _begin_advance_hold() -> void:
 	if _showing_choices or _is_chapter_card or _auto_mode \
+			or _story_scene_transition_active \
 			or _direction_hold_active or _direction_beat_waiting \
 			or is_instance_valid(_audio_settings_popup):
 		return
@@ -2179,6 +2383,7 @@ func _process_advance_hold(delta: float) -> void:
 	if not _advance_hold_active:
 		return
 	if _transitioning or _showing_choices or _is_chapter_card \
+			or _story_scene_transition_active \
 			or _direction_hold_active or _direction_beat_waiting \
 			or is_instance_valid(_audio_settings_popup) \
 			or str(_current.get("id", "")) != _advance_hold_event_id:
@@ -2200,7 +2405,8 @@ func _process_advance_hold(delta: float) -> void:
 
 # ── 입력: 클릭하여 진행 ───────────────────────────────────────
 func _on_advance():
-	if _transitioning or _showing_choices or is_instance_valid(_audio_settings_popup):
+	if _transitioning or _story_scene_transition_active \
+			or _showing_choices or is_instance_valid(_audio_settings_popup):
 		return
 	if _direction_hold_active:
 		return
@@ -2245,7 +2451,7 @@ func _on_advance():
 func _unhandled_input(event: InputEvent):
 	if event.is_action_released("ui_accept"):
 		_reset_advance_hold()
-	if _transitioning:
+	if _transitioning or _story_scene_transition_active:
 		return
 	if is_instance_valid(_audio_settings_popup):
 		if event.is_action_pressed("gd_menu") or event.is_action_pressed("ui_cancel"):
@@ -2989,7 +3195,7 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 		_hud_panel.visible = not _story_visual_override_active
 
 func _on_choice(idx: int):
-	if _transitioning:
+	if _transitioning or _story_scene_transition_active:
 		return
 	var choices: Array = _current.get("choices", [])
 	if idx < 0 or idx >= choices.size():

@@ -45,12 +45,14 @@
 > **빈 손 금지 사다리 (2026-07-15 유저 지시 — "노는 토큰 없게")**: 현재 오더가 대기/차단되면 즉시 다음 순서로: **24(정점 체인) → 16(입력×해상도) → 18(부채 인벤토리) → P1-4 유물 오브젝트 아트 6종 → P1-E 잔여 결산 CG(orthodox_pinnacle→burnout→무드 심벌 잔여 8종→「그녀는 알고 있었다」 1컷) → 15(모드 2층) → 17(데이터 모딩)**. 유저 Round 판정 도착 시 모든 것에 우선해 데모 재수리.
 > **🔁 데모 집중 체제 (2026-07-14)**: 모든 오더에 데모 우선 필터 — ORDER-22는 **데모 범위(t≤24)에 먼저 적용·빌드**하고 유저 라운드에 태운다(전 범위 확산은 그 다음). 유저 데모 GO 전까지 21(번역 본문)·11(트레일러 최종컷) 동결 유지. 라운드 원장 = `docs/DEMO_FIXLOG.md`.
 
-#### [~] USER-P0C [P0·데모 연출 수리] 기억·시간·이동의 장면 전환 문법
+#### [x] USER-P0C [P0·데모 연출 수리] 기억·시간·이동의 장면 전환 문법
 **[~] 착수 (2026-07-23 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `scenes/StoryMode.gd`, `tools/StoryPlaybackCheck.gd`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
 
 **사용자 실플레이 진단:** "고시원에서 과거회상, 과거회상에서 은행? 동사무소? 등으로 넘어갈 때 너무 뚝뚝 넘어간다." 현재 StoryMode는 새 배경을 같은 프레임에 먼저 교체한 뒤 불투명도 10% 안팎의 잉크 펄스를 덮어, 실제 체감이 `하드컷 후 장식`이다. 모든 장소 변화에도 같은 펄스를 사용해 회상 진입·여섯 해 시간 점프·현재 공간 이동의 의미가 구분되지 않는다.
 
 **수리 범위·수용 기준:** 기존 `story_rules.json`의 `memory_cut/time_cut/explicit_move/same_location` 계약은 바꾸지 않고 StoryMode가 이를 실제 화면 문법으로 소비한다. 이전 장면을 스냅샷으로 붙잡은 상태에서 `memory_cut`은 저채도 감각 디졸브, `time_cut`은 짧은 무광 암전, `explicit_move`는 중립 크로스페이드로 새 배경을 드러낸다. 가로선·세로선·스윕·과한 왜곡은 금지하고 같은 장소 연속 장면은 무전환을 유지한다. 전환 중 본문 타이핑·AUTO·입력은 잠시 멈추며 Reduce Motion은 이동/확대 없이 짧은 불투명도 전환만 쓴다. 런타임 검사는 고시원→아버지 집 `memory_cut`, 아버지 집→6년 뒤 공공 창구 `time_cut`, 명시 이동, 같은 장소 무전환을 각각 실행하고 KO/EN·패드 계약과 전체 `audit.sh`를 통과한다.
+
+**완료 보고 (2026-07-23 Codex):** StoryMode가 이전 배경과 초상을 실제 스냅샷으로 보존한 뒤 새 장면을 아래에서 드러낸다. 고시원→창원 집은 0.78초 저채도 기억 디졸브, 창원 집→여섯 해 뒤 공공 창구는 0.86초 무광 암전, 명시 이동은 0.54초 중립 크로스페이드이며 같은 장소 네 연결은 효과가 없다. 새 본문·AUTO·입력은 전환이 끝날 때까지 멈추고 텍스트·이름표·새 초상은 배경 뒤에 들어온다. Reduce Motion은 0.24초 불투명도만 쓴다. 실제 세 후속 경로, 전환 중 문장 정지, 이전 프레임 보존, 같은 장소 무전환을 `StoryPlaybackCheck`가 실행한다. 한국어 1280×800 시작·중간·도착 7프레임과 영어 StoryMode 31프레임을 육안 확인했으며 서사 원장 64전환, KO/EN, 사건 내 설정, 입력 행렬, 55개 GDScript 컴파일을 포함한 전체 `audit.sh`가 `✅ 감사 통과`했다. 장면 감각의 최종 GO는 다음 사용자 실플레이가 판단한다.
 
 #### [~] ORDER-43 [P0·오디오 REWORK] 파형 합성 전면 퇴출 — 실제 녹음·샘플 기반 팔레트
 **[~] 착수 (2026-07-23 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `CLAUDE.md`, `docs/DECISIONS.md`, `docs/AUDIO_QA.md`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `assets/audio/AUDIO_SOURCE_LEDGER.md`, `assets/audio/AUDIO_PROMPTS.md`, 신규 오디오 출처·크레딧 원장, `assets/scene_audio_manifest.json`, `assets/game_audio_manifest.json`, `assets/mod_asset_manifest.json`, `autoloads/BGMPlayer.gd`, `autoloads/AudioManager.gd`, `tools/generate_audio_p1_assets.py`, `tools/audio_source_audit.py`, `tools/scene_audio_contract_check.py`, `tools/AudioAssetCheck.gd`, `tools/BGMContinuityCheck.gd`, `tools/GameAudioContractCheck.gd`, 신규 샘플 임포트 도구, 교체 대상 `assets/audio/*.wav`, `assets/audio/*.ogg`와 각 `.import`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.

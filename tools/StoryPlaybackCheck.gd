@@ -15,6 +15,11 @@ const DEMO_SAME_LOCATION_EDGES := [
 	["story_last_payment_wait", "story_last_payment_word"],
 	["story_last_payment_exit", "story_prologue_dad"],
 ]
+const DEMO_CLASSIFIED_TRANSITION_EDGES := {
+	"memory_cut": ["story_arrival", "story_knee_door"],
+	"time_cut": ["story_knee_choice", "story_last_payment_wait"],
+	"explicit_move": ["story_prologue_dad", "story_prologue_goal"],
+}
 
 var _story: Control
 
@@ -59,6 +64,9 @@ func _ready() -> void:
 	if not await _check_direct_continue_contract():
 		return
 	await _free_story_fixture()
+	if not await _check_classified_scene_transitions():
+		return
+	await _free_story_fixture()
 	if not await _check_same_location_handoff():
 		return
 	await _free_story_fixture()
@@ -66,8 +74,9 @@ func _ready() -> void:
 		return
 
 	print(
-		"STORY_PLAYBACK_CHECK_OK auto=story_default replay=manual direct=%d same_location=%d " % [
-			DIRECT_CONTINUE_EVENTS.size(), DEMO_SAME_LOCATION_EDGES.size()
+		"STORY_PLAYBACK_CHECK_OK auto=story_default replay=manual direct=%d classified=%d same_location=%d " % [
+			DIRECT_CONTINUE_EVENTS.size(), DEMO_CLASSIFIED_TRANSITION_EDGES.size(),
+			DEMO_SAME_LOCATION_EDGES.size()
 		]
 		+ "direct_commit=1 hints=ko_en_xbox_ps_nintendo choice_commit=0"
 	)
@@ -327,10 +336,119 @@ func _check_same_location_handoff() -> bool:
 	if _story.get("_story_ink_transition_tween") != null or ink_layer.visible:
 		_fail("same-location follow-up replayed the full scene ink transition")
 		return false
+	var background_snapshot := _story.get("_story_transition_snapshot") as TextureRect
+	if bool(_story.get("_story_scene_transition_active")) \
+			or (is_instance_valid(background_snapshot) and background_snapshot.visible):
+		_fail("same-location follow-up captured a redundant scene snapshot")
+		return false
 	var text_panel := _story.get("_text_panel") as Control
 	if not is_equal_approx(text_panel.modulate.a, 1.0):
 		_fail("same-location follow-up replayed the text-panel fade")
 		return false
+	return true
+
+func _check_classified_scene_transitions() -> bool:
+	for mode in DEMO_CLASSIFIED_TRANSITION_EDGES:
+		var edge: Array = DEMO_CLASSIFIED_TRANSITION_EDGES[mode]
+		var contract := DataRegistry.get_story_transition(str(edge[0]), str(edge[1]))
+		if str(contract.get("mode", "")) != mode:
+			_fail("classified transition contract drifted: %s->%s" % edge)
+			return false
+		if not await _check_runtime_transition_handoff(
+				str(edge[0]), str(edge[1]), str(mode)):
+			return false
+
+	if not await _spawn_story_fixture("story_arrival"):
+		return false
+	var original_reduce_motion := bool(SaveManager.get_setting("reduce_motion", false))
+	SaveManager.set_setting("reduce_motion", false)
+	var failure := ""
+	var expected_seconds := {
+		"memory_cut": 0.78,
+		"time_cut": 0.86,
+		"explicit_move": 0.54,
+	}
+	for mode in ["memory_cut", "time_cut", "explicit_move"]:
+		var type_pos_before := int(_story.get("_type_pos"))
+		_story.call("_begin_story_scene_transition", mode)
+		var snapshot := _story.get("_story_transition_snapshot") as TextureRect
+		var portrait_snapshot := _story.get("_story_transition_portrait_snapshot") as TextureRect
+		if not bool(_story.get("_story_scene_transition_active")) \
+				or not is_instance_valid(snapshot) or not snapshot.visible \
+				or snapshot.texture == null:
+			failure = "%s did not preserve the outgoing scene" % mode
+			break
+		if str(_story.get_meta("story_transition_mode", "")) != mode:
+			failure = "%s did not reach the runtime transition grammar" % mode
+			break
+		var duration := float(_story.get_meta("story_transition_duration", 0.0))
+		if not is_equal_approx(duration, float(expected_seconds[mode])):
+			failure = "%s transition duration drifted" % mode
+			break
+		_story.call("_process", 0.50)
+		if int(_story.get("_type_pos")) != type_pos_before:
+			failure = "%s advanced prose behind the scene transition" % mode
+			break
+		_story.call("_set_story_ink_transition_progress", 0.50)
+		if snapshot.modulate.a >= 1.0 or snapshot.modulate.a <= 0.0:
+			failure = "%s did not cross-dissolve the outgoing background" % mode
+			break
+		if is_instance_valid(portrait_snapshot) and portrait_snapshot.visible \
+				and portrait_snapshot.modulate.a != snapshot.modulate.a:
+			failure = "%s desynchronized the outgoing portrait and background" % mode
+			break
+		_story.call("_finish_story_scene_transition")
+
+	if failure.is_empty():
+		SaveManager.set_setting("reduce_motion", true)
+		_story.call("_begin_story_scene_transition", "memory_cut")
+		var reduced_snapshot := _story.get("_story_transition_snapshot") as TextureRect
+		var reduced_scale := reduced_snapshot.scale
+		_story.call("_set_story_ink_transition_progress", 0.50)
+		if float(_story.get_meta("story_transition_duration", 1.0)) > 0.25:
+			failure = "Reduce Motion did not shorten the scene transition"
+		elif reduced_snapshot.scale != reduced_scale:
+			failure = "Reduce Motion left camera scaling in the scene transition"
+		_story.call("_finish_story_scene_transition")
+
+	SaveManager.set_setting("reduce_motion", original_reduce_motion)
+	if not failure.is_empty():
+		_fail(failure)
+		return false
+	return true
+
+func _check_runtime_transition_handoff(
+		source_id: String, target_id: String, expected_mode: String) -> bool:
+	await _free_story_fixture()
+	if not await _spawn_story_fixture(source_id, true, true):
+		return false
+	var choices: Array = (_story.get("_current") as Dictionary).get("choices", [])
+	if choices.is_empty():
+		_fail("classified transition source has no authored continuation: %s" % source_id)
+		return false
+	_story.call("_on_choice", 0)
+	if bool(_story.get("_pending_after_result")):
+		var result_paragraphs: Array = _story.get("_paragraphs")
+		_story.set("_para_index", result_paragraphs.size() - 1)
+		_story.call("_start_typing", str(result_paragraphs[-1]))
+		_story.call("_complete_typing")
+		_story.call("_on_advance")
+	var current_id := str((_story.get("_current") as Dictionary).get("id", ""))
+	if current_id != target_id:
+		_fail("classified transition did not load %s from %s" % [target_id, source_id])
+		return false
+	if str(_story.get("_current_transition_mode")) != expected_mode \
+			or str(_story.get_meta("story_transition_mode", "")) != expected_mode:
+		_fail("classified transition mode was not consumed: %s->%s" % [source_id, target_id])
+		return false
+	var snapshot := _story.get("_story_transition_snapshot") as TextureRect
+	if not bool(_story.get("_story_scene_transition_active")) \
+			or not is_instance_valid(snapshot) or not snapshot.visible \
+			or snapshot.texture == null:
+		_fail("classified handoff hard-cut without an outgoing snapshot: %s" % expected_mode)
+		return false
+	_story.call("_finish_story_scene_transition")
+	await _free_story_fixture()
 	return true
 
 func _hint_fits(hint: Label) -> bool:
