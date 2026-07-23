@@ -18,7 +18,7 @@ AUDIO = ROOT / "assets" / "audio"
 MANIFEST = AUDIO / "AUDIO_SOURCE_MANIFEST.json"
 NOTICES = AUDIO / "AUDIO_THIRD_PARTY_NOTICES.md"
 
-EXPECTED_COUNTS = {"bgm": 20, "ambience": 47, "sfx": 67}
+EXPECTED_COUNTS = {"bgm": 20, "ambience": 49, "sfx": 70}
 ALLOWED_PROVENANCE = {
     "field_recording",
     "object_recording",
@@ -68,7 +68,7 @@ DEMO_LONG_BEDS = set(
 amb_goshiwon_room.wav amb_family_home.wav amb_seoul_rain.wav
 amb_hangang_riverside.wav amb_office_room.wav amb_seoul_street.wav
 amb_cafe_room.wav amb_convenience_store.wav amb_public_office.wav
-amb_winter_wind.wav
+amb_winter_wind.wav amb_goshiwon_hallway.wav
 """.split()
 )
 
@@ -77,6 +77,7 @@ HUMAN_BEDS = set(
 amb_human_thin_wall.wav amb_human_street.wav amb_human_public_interior.wav
 amb_human_cafe.wav amb_human_casino.wav amb_human_racetrack.wav
 amb_human_wedding.wav amb_human_transit.wav amb_human_leisure.wav
+amb_human_convenience.wav
 """.split()
 )
 
@@ -86,7 +87,8 @@ sfx_phone_vibrate.wav sfx_phone_notification.wav sfx_paper_handle.wav
 sfx_document_stamp.wav sfx_door_latch.wav sfx_footsteps_hall.wav
 sfx_register_scan.wav sfx_keyboard_short.wav sfx_cup_set.wav
 sfx_bicycle_impact.wav sfx_traffic_pass.wav sfx_kettle_pour.wav
-sfx_bus_arrival.wav sfx_queue_chime.wav
+sfx_bus_arrival.wav sfx_queue_chime.wav sfx_pen_write.wav
+sfx_cloth_shift.wav sfx_page_turn.wav
 """.split()
 )
 
@@ -108,6 +110,18 @@ def sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def stable_ogg_serial(name: str) -> int:
+    serial = int.from_bytes(hashlib.sha256(name.encode("utf-8")).digest()[:4], "little")
+    return serial or 1
+
+
+def ogg_serial(path: Path) -> int:
+    header = path.read_bytes()[:18]
+    if len(header) < 18 or header[:4] != b"OggS":
+        raise ValueError(f"invalid Ogg header: {path.name}")
+    return int.from_bytes(header[14:18], "little")
 
 
 def wav_metrics(path: Path) -> tuple[float, float, float]:
@@ -229,6 +243,73 @@ def check_assets(
             errors.append(f"{name}: output hash drift")
 
 
+def check_source_semantics(payload: dict[str, Any], errors: list[str]) -> None:
+    assets = payload.get("assets", {})
+    if not isinstance(assets, dict):
+        return
+
+    def source_haystack(name: str) -> str:
+        entry = assets.get(name, {})
+        if not isinstance(entry, dict):
+            return ""
+        values: list[str] = []
+        for source in entry.get("sources", []):
+            if not isinstance(source, dict):
+                continue
+            values.append(str(source.get("pack", "")))
+            values.append(str(source.get("original_file", "")))
+        return " ".join(values).lower()
+
+    required_any = {
+        "amb_goshiwon_room.wav": ("apartment", "room"),
+        "amb_family_home.wav": ("apartment", "room"),
+        "amb_office_room.wav": ("office",),
+        "amb_public_office.wav": ("office",),
+        "amb_casino_floor.wav": ("casino",),
+        "amb_human_casino.wav": ("casino",),
+        "amb_wedding_hall.wav": ("wedding",),
+        "amb_human_wedding.wav": ("wedding",),
+        "amb_hospital_room.wav": ("hospital",),
+        "amb_gym_room.wav": ("gym",),
+        "amb_human_convenience.wav": ("convenience",),
+        "sfx_register_scan.wav": ("barcode",),
+        "sfx_bus_arrival.wav": ("bus",),
+        "sfx_wedding_applause.wav": ("wedding",),
+        "sfx_wedding_cheer.wav": ("wedding",),
+        "sfx_casino_spin.wav": ("spin_sound", "roulette"),
+        "sfx_roulette_wheel.wav": ("spin_sound", "roulette"),
+        "sfx_casino_reel.wav": ("slot",),
+        "sfx_slot_start.wav": ("slot",),
+    }
+    for name, tokens in required_any.items():
+        haystack = source_haystack(name)
+        if not any(token in haystack for token in tokens):
+            errors.append(
+                f"{name}: source semantics need one of {', '.join(tokens)}"
+            )
+
+    forbidden = {
+        "amb_human_thin_wall.wav": ("metro", "station", "crowd", "traffic", "street"),
+        "amb_human_public_interior.wav": ("metro", "station"),
+        "sfx_register_scan.wav": ("thermometer",),
+        "sfx_bus_arrival.wav": ("truck",),
+        "sfx_wedding_applause.wav": ("sports", "volleyball"),
+        "sfx_wedding_cheer.wav": ("sports", "volleyball"),
+        "sfx_casino_spin.wav": ("radio",),
+        "sfx_roulette_wheel.wav": ("radio",),
+        "sfx_casino_reel.wav": ("counting machine",),
+        "sfx_slot_start.wav": ("tape measure",),
+        "sfx_race_gate.wav": ("car door",),
+    }
+    for name, tokens in forbidden.items():
+        haystack = source_haystack(name)
+        hits = [token for token in tokens if token in haystack]
+        if hits:
+            errors.append(
+                f"{name}: semantically incompatible source tokens {', '.join(hits)}"
+            )
+
+
 def check_release_wavs(errors: list[str]) -> None:
     for path in sorted(AUDIO.glob("*.wav")):
         try:
@@ -270,6 +351,25 @@ def check_release_wavs(errors: list[str]) -> None:
                 errors.append(
                     f"{path.name}: story foley RMS {rms_db:.1f}dB outside -34..-14"
                 )
+
+
+def check_release_oggs(errors: list[str]) -> None:
+    serials: dict[int, str] = {}
+    for path in sorted(AUDIO.glob("*.ogg")):
+        try:
+            actual = ogg_serial(path)
+        except ValueError as exc:
+            errors.append(str(exc))
+            continue
+        expected = stable_ogg_serial(path.name)
+        if actual != expected:
+            errors.append(
+                f"{path.name}: nondeterministic Ogg serial {actual}, expected {expected}"
+            )
+        previous = serials.get(actual)
+        if previous:
+            errors.append(f"{path.name}: Ogg serial collides with {previous}")
+        serials[actual] = path.name
 
 
 def check_no_synthesis_code(errors: list[str]) -> None:
@@ -318,13 +418,18 @@ def main() -> int:
                 f"{kind} inventory {counts[kind]} does not match expected {expected}"
             )
     if len(actual) != sum(EXPECTED_COUNTS.values()):
-        errors.append(f"release audio inventory must be 134, got {len(actual)}")
+        errors.append(
+            "release audio inventory must be "
+            f"{sum(EXPECTED_COUNTS.values())}, got {len(actual)}"
+        )
 
     payload = load_manifest(errors)
     libraries = check_libraries(payload, errors) if payload else {}
     if payload:
         check_assets(payload, libraries, actual, errors)
+        check_source_semantics(payload, errors)
     check_release_wavs(errors)
+    check_release_oggs(errors)
     check_no_synthesis_code(errors)
     if libraries:
         check_notices(libraries, errors)

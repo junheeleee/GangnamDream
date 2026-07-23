@@ -1,6 +1,6 @@
 {
-  "version": 6,
-  "updated": "2026-07-18",
+  "version": 7,
+  "updated": "2026-07-23",
   "policy": {
     "diegetic_spoken_language": "ko",
     "localize_diegetic_speech": false,
@@ -97,7 +97,10 @@
     "story_arrival": {
       "ambience": "room",
       "suppress_music": true,
-      "paragraph_cues": {"3": [{"sfx": "phone_notification", "volume_db": -5.0}]}
+      "paragraph_cues": {
+        "0": [{"sfx": "cloth_shift", "volume_db": -7.0}],
+        "3": [{"sfx": "phone_notification", "volume_db": -5.0}]
+      }
     },
     "story_knee_door": {
       "ambience": "family_home",
@@ -107,7 +110,10 @@
     "story_knee_witness": {
       "ambience": "family_home",
       "music": {"key": "family", "start_paragraph": 1},
-      "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -4.0}]}
+      "paragraph_cues": {
+        "0": [{"sfx": "paper_handle", "volume_db": -4.0}],
+        "1": [{"sfx": "cloth_shift", "volume_db": -10.0}]
+      }
     },
     "story_knee_choice": {
       "ambience": "family_home",
@@ -145,12 +151,15 @@
     "story_prologue_goal": {
       "ambience": "room",
       "music": {"key": "family", "start_paragraph": 1},
-      "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -6.0}]}
+      "paragraph_cues": {
+        "0": [{"sfx": "page_turn", "volume_db": -6.0}],
+        "4": [{"sfx": "pen_write", "volume_db": -5.0}]
+      }
     },
     "story_prologue_meal": {
       "ambience": "convenience",
       "music": {"key": "survival", "start_paragraph": 1},
-      "paragraph_cues": {"0": [{"sfx": "register_scan", "volume_db": -5.0}]}
+      "paragraph_cues": {"2": [{"sfx": "register_scan", "volume_db": -5.0}]}
     },
     "story_pressure": {
       "ambience": "room",
@@ -160,17 +169,20 @@
     "arc_intro_01_meal": {
       "ambience": "office",
       "music": {"key": "survival", "start_paragraph": 1},
-      "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -6.0}]}
+      "paragraph_cues": {"2": [{"sfx": "paper_handle", "volume_db": -6.0}]}
     },
     "arc_intro_02_dad_call": {
       "ambience": "room",
       "music": {"key": "family", "start_paragraph": 1},
-      "paragraph_cues": {"1": [{"sfx": "keyboard_short", "volume_db": -7.0}]}
+      "paragraph_cues": {
+        "1": [{"sfx": "keyboard_short", "volume_db": -7.0}],
+        "4": [{"sfx": "phone_vibrate", "volume_db": -5.0}]
+      }
     },
     "arc_first_job_week_convenience": {
       "ambience": "convenience",
       "music": {"key": "survival", "start_paragraph": 1},
-      "paragraph_cues": {"0": [{"sfx": "register_scan", "volume_db": -6.0}]}
+      "paragraph_cues": {}
     },
     "arc_temptation_01": {
       "ambience": "room",
@@ -212,14 +224,17 @@
       "paragraph_cues": {"1": [{"sfx": "phone_notification", "volume_db": -7.0}]}
     },
     "arc_intro_04_hyunsu": {
-      "ambience": "room",
+      "ambience": "goshiwon_hallway",
       "music": {"key": "hyunsu", "start_paragraph": 1},
       "paragraph_cues": {"1": [{"sfx": "door_latch", "volume_db": -7.0}]}
     },
     "arc_chapter1_close": {
       "ambience": "room",
       "music": {"key": "reckoning", "start_paragraph": 4},
-      "paragraph_cues": {"1": [{"sfx": "cup_set", "volume_db": -7.0}]}
+      "paragraph_cues": {
+        "1": [{"sfx": "cup_set", "volume_db": -7.0}],
+        "3": [{"sfx": "page_turn", "volume_db": -7.0}]
+      }
     },
     "arc_ch1_career_first_spec": {
       "ambience": "room",
@@ -260,7 +275,7 @@
       }
     },
     "hyunsu_study_together": {
-      "ambience": "room",
+      "ambience": "goshiwon_hallway",
       "music": {"key": "hyunsu", "start_paragraph": 1},
       "paragraph_cues": {
         "0": [
@@ -287,7 +302,10 @@
     "arc_gangnam_visit_alone": {
       "ambience": "cafe",
       "music": {"key": "ambition", "start_paragraph": 1},
-      "paragraph_cues": {"0": [{"sfx": "traffic_pass", "volume_db": -8.0}]}
+      "paragraph_cues": {
+        "0": [{"sfx": "traffic_pass", "volume_db": -8.0}],
+        "4": [{"sfx": "cup_set", "volume_db": -8.0}]
+      }
     },
     "arc_four_months_in": {
       "ambience": "hangang",
@@ -454,12 +472,12 @@
     "arc_father_call_on_ktx_memory": {"ambience": "train", "music": {"key": "grief", "start_paragraph": 0}},
     "arc_father_call_on_ktx_number": {"ambience": "train", "music": {"key": "grief", "start_paragraph": 0}},
     "arc_hyunsu_night_talk": {
-      "ambience": "room",
+      "ambience": "goshiwon_hallway",
       "music": {"key": "hyunsu", "start_paragraph": 1},
       "paragraph_cues": {"2": [{"sfx": "kettle_pour", "volume_db": -5.0}]}
     },
     "hyunsu_exam_day": {
-      "ambience": "room",
+      "ambience": "goshiwon_hallway",
       "music": {"key": "hyunsu", "start_paragraph": 1},
       "paragraph_cues": {
         "0": [{"sfx": "door_latch", "volume_db": -6.0}],

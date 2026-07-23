@@ -40,6 +40,30 @@ hash, output hash, license, and edit summary is recorded in
   https://lpc.opengameart.org/content/storm-siren
 - qubodup, Crash Collision, CC0 1.0:
   https://opengameart.org/content/crash-collision
+- Eirikr, `barcode-reader.wav`, Freesound 185888, CC0 1.0:
+  https://freesound.org/s/185888/
+- unreadpages, `Bus sound.wav`, Freesound 338212, CC0 1.0:
+  https://freesound.org/s/338212/
+- giovannapaludetto, `Wedding Applause Cheerfully.aif`, Freesound 414292,
+  CC0 1.0: https://freesound.org/s/414292/
+- DylanTheFish, `Casino Ambiance.wav`, Freesound 443455, CC0 1.0:
+  https://freesound.org/s/443455/
+- aghirlandaio, `slot machine reels sound.m4a`, Freesound 415074, CC0 1.0:
+  https://freesound.org/s/415074/
+- takecoins, `spin_sound.wav`, Freesound 588351, CC0 1.0:
+  https://freesound.org/s/588351/
+- cMilan, `Apartment Room Tone.wav`, Freesound 426767, CC0 1.0:
+  https://freesound.org/s/426767/
+- ecfike, `Crowd at Wedding Reception Ambience.wav`, Freesound 133819,
+  CC0 1.0: https://freesound.org/s/133819/
+- mzui, `Room Tone Office Quiet Distant Traffic.wav`, Freesound 135097,
+  CC0 1.0: https://freesound.org/s/135097/
+- JohnsonBrandEditing, `Convenience Store Interior Ambiance`, Freesound
+  244309, CC0 1.0: https://freesound.org/s/244309/
+- Pfannkuchn, `Fitness studio / Gym ambience. Weights and equipment.`,
+  Freesound 360629, CC0 1.0: https://freesound.org/s/360629/
+- Kinoton, `Room Tone, Empty Hospital`, Freesound 670070, CC0 1.0:
+  https://freesound.org/s/670070/
 
 No source in this palette permits its raw files to be redistributed as a
 standalone library. The game's mod manifest exposes only the edited shipping

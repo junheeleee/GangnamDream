@@ -11,7 +11,7 @@ Oscillators, generated noise, code-built waveforms, and runtime synthesized
 fallbacks are prohibited.
 
 The per-file source of truth is
-`assets/audio/AUDIO_SOURCE_MANIFEST.json`. It records all 134 output paths,
+`assets/audio/AUDIO_SOURCE_MANIFEST.json`. It records all 139 output paths,
 source pack and original filename, source SHA-256, output SHA-256, license, and
 edit history. Raw third-party libraries remain outside the repository.
 
@@ -20,9 +20,9 @@ edit history. Raw third-party libraries remain outside the repository.
 | Class | Count | Source palette |
 |---|---:|---|
 | BGM | 20 | Original scores rendered from recorded Yamaha C5 samples |
-| Ambience | 47 | Field-recorded rooms, weather, transport, city, water, crowds, and machinery |
-| SFX | 67 | Recorded paper, cloth, doors, controls, phone, keyboard, cards, chips, dice, vehicles, crowds, and piano stingers |
-| **Total** | **134** | **134 recording/sample-backed assets; 0 synthesized assets** |
+| Ambience | 49 | Field-recorded rooms, weather, transport, city, water, crowds, and machinery |
+| SFX | 70 | Recorded paper, cloth, doors, controls, phone, keyboard, cards, chips, dice, vehicles, crowds, and piano stingers |
+| **Total** | **139** | **139 recording/sample-backed assets; 0 synthesized assets** |
 
 ## Libraries
 
@@ -36,6 +36,11 @@ edit history. Raw third-party libraries remain outside the repository.
 | Keyboard Soundpack #1 | unicaegames | CC0 1.0 | Human typing and key presses |
 | Storm & Siren | TinyWorlds | CC0 1.0 | Civil-defense/storm siren |
 | Crash Collision | qubodup | CC0 1.0 | Bicycle collision impact layer |
+| Twelve scene-specific Freesound recordings | Eirikr, unreadpages, giovannapaludetto, DylanTheFish, aghirlandaio, takecoins, cMilan, ecfike, mzui, JohnsonBrandEditing, Pfannkuchn, Kinoton | CC0 1.0 | Barcode scanner, bus, wedding, casino, slot, roulette, apartment, office, convenience store, gym, and hospital |
+
+The audit reports 20 source records: the eight libraries above plus twelve
+individually pinned Freesound takes. Each take has its own author, sound page,
+source hash, and edit history in the machine-readable manifest.
 
 Required and voluntary credits are in
 `assets/audio/AUDIO_THIRD_PARTY_NOTICES.md`.
@@ -56,9 +61,18 @@ cue silent; they never synthesize a substitute.
 Expected audit result:
 
 ```text
-AUDIO_SOURCE_AUDIT_OK assets=134 bgm=20 ambience=47 sfx=67 source_libraries=8 recordings_or_samples=134 procedural=0
+AUDIO_SOURCE_AUDIT_OK assets=139 bgm=20 ambience=49 sfx=70 source_libraries=20 recordings_or_samples=139 procedural=0
 ```
 
-This proves provenance, inventory, hashes, basic duration/loudness, and absence
-of known synthesis code. It does not approve musical taste, scene fit, fatigue,
-or mix quality. Those remain human listening gates.
+The builder normalizes every Ogg page to a filename-derived stream serial and
+recomputed checksum. Two consecutive complete builds must therefore produce
+identical hashes for all 139 masters rather than changing RC provenance through
+random container metadata.
+
+The audit also rejects known semantic substitutions such as metro halls behind
+goshiwon walls, food courts in convenience stores or casinos, thermometer
+beeps as barcode scanners, truck passes as buses, and radio controls as roulette
+wheels. This proves provenance, inventory, hashes, basic duration/loudness,
+semantic source identity, and absence of known synthesis code. It does not
+approve musical taste, fatigue, or final mix quality. Those remain human
+listening gates.

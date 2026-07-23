@@ -42,6 +42,7 @@ const MORAL_THEME_TRACKS = {
 
 const AMBIENCE_TRACKS = {
 	"room":        "res://assets/audio/amb_goshiwon_room.wav",
+	"goshiwon_hallway": "res://assets/audio/amb_goshiwon_hallway.wav",
 	"family_home": "res://assets/audio/amb_family_home.wav",
 	"rain":        "res://assets/audio/amb_seoul_rain.wav",
 	"rain_room":   "res://assets/audio/amb_rain_room.wav",
@@ -93,11 +94,12 @@ const HUMAN_AMBIENCE_TRACKS = {
 	"wedding":        "res://assets/audio/amb_human_wedding.wav",
 	"transit":        "res://assets/audio/amb_human_transit.wav",
 	"leisure":        "res://assets/audio/amb_human_leisure.wav",
+	"convenience":    "res://assets/audio/amb_human_convenience.wav",
 }
 
 const HUMAN_AMBIENCE_BY_WORLD = {
 	"room": "thin_wall",
-	"family_home": "thin_wall",
+	"goshiwon_hallway": "thin_wall",
 	"rain": "street",
 	"rain_room": "thin_wall",
 	"hangang": "street",
@@ -107,17 +109,16 @@ const HUMAN_AMBIENCE_BY_WORLD = {
 	"subway": "transit",
 	"racetrack": "racetrack",
 	"cafe": "cafe",
-	"pc_bang": "leisure",
-	"gym": "leisure",
-	"convenience": "public_interior",
+	"pc_bang": "public_interior",
+	"convenience": "convenience",
 	"hagwon": "street",
 	"school": "public_interior",
 	"public_office": "public_interior",
-	"jjimjilbang": "leisure",
+	"jjimjilbang": "public_interior",
 	"cherry": "street",
 	"saju": "cafe",
 	"military_gate": "street",
-	"hoesik": "leisure",
+	"hoesik": "cafe",
 	"heatwave": "street",
 	"fine_dust": "street",
 	"highway": "transit",
@@ -763,7 +764,7 @@ func _calendar_season_key() -> String:
 func _event_season_key(ambience_key: String) -> String:
 	if ambience_key in ["rain", "rain_room", "heatwave", "fine_dust", "casino", "office", "cafe", \
 			"pc_bang", "gym", "convenience", "library", "school", "public_office", \
-			"jjimjilbang", "open_chat", "room", "oneroom", "apartment", "wedding_hall", \
+			"jjimjilbang", "open_chat", "room", "goshiwon_hallway", "oneroom", "apartment", "wedding_hall", \
 			"hospital", "seaside", "amusement", "car", "night_bus", "train"]:
 		return ""
 	return _calendar_season_key()
@@ -827,6 +828,8 @@ func _pick_ambience(ev: Dictionary, resolved_background_id: String = "") -> Stri
 	if "library" in bg_id or "도서관" in hay or "열람실" in hay \
 			or "public library" in hay or "reading room" in hay:
 		return "library"
+	if "goshiwon_hallway" in bg_id:
+		return "goshiwon_hallway"
 	if "rain" in tags or "street_rainy" in bg_id or rain_in_text:
 		return "rain"
 	if "hagwon" in tags or "hagwon" in bg_id \
@@ -883,8 +886,6 @@ func _pick_ambience(ev: Dictionary, resolved_background_id: String = "") -> Stri
 		return "street"
 	if "rooftop" in tags or "rooftop" in bg_id:
 		return "street"
-	if "night" in tags:
-		return "rain"
 	return "room"
 
 func _event_background_id(ev: Dictionary) -> String:

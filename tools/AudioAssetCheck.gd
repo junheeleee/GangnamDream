@@ -8,7 +8,7 @@ var _failures: Array[String] = []
 
 const STORY_MOTIF_KEYS = ["family", "survival", "hyunsu", "ambition", "daeun", "jiyeon"]
 const DEMO_LONG_AMBIENCE_KEYS = [
-	"room", "family_home", "rain", "hangang", "office", "street", "cafe",
+	"room", "goshiwon_hallway", "family_home", "rain", "hangang", "office", "street", "cafe",
 	"convenience", "public_office", "winter",
 ]
 

@@ -46,6 +46,24 @@ FFMPEG_CANDIDATES = (
 )
 
 
+def _freesound_pack(
+    provider: str,
+    title: str,
+    sound_id: int,
+    source_type: str,
+) -> dict[str, Any]:
+    return {
+        "root": "freesound/extracted",
+        "provider": provider,
+        "title": title,
+        "source_type": source_type,
+        "license": "CC0 1.0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source_url": f"https://freesound.org/s/{sound_id}/",
+        "attribution_required": False,
+    }
+
+
 PACKS: dict[str, dict[str, Any]] = {
     "sonniss_gdc_2026": {
         "root": "sonniss-2026/extracted",
@@ -127,6 +145,57 @@ PACKS: dict[str, dict[str, Any]] = {
         "source_url": "https://opengameart.org/content/crash-collision",
         "attribution_required": False,
     },
+    "freesound_barcode_cc0": _freesound_pack(
+        "Eirikr", "barcode-reader.wav", 185888, "object_recording"
+    ),
+    "freesound_bus_cc0": _freesound_pack(
+        "unreadpages", "Bus sound.wav", 338212, "field_recording"
+    ),
+    "freesound_wedding_applause_cc0": _freesound_pack(
+        "giovannapaludetto",
+        "Wedding Applause Cheerfully.aif",
+        414292,
+        "field_recording",
+    ),
+    "freesound_casino_cc0": _freesound_pack(
+        "DylanTheFish", "Casino Ambiance.wav", 443455, "field_recording"
+    ),
+    "freesound_slot_cc0": _freesound_pack(
+        "aghirlandaio", "slot machine reels sound.m4a", 415074, "object_recording"
+    ),
+    "freesound_roulette_cc0": _freesound_pack(
+        "takecoins", "spin_sound.wav", 588351, "object_recording"
+    ),
+    "freesound_apartment_cc0": _freesound_pack(
+        "cMilan", "Apartment Room Tone.wav", 426767, "field_recording"
+    ),
+    "freesound_wedding_room_cc0": _freesound_pack(
+        "ecfike",
+        "Crowd at Wedding Reception Ambience.wav",
+        133819,
+        "field_recording",
+    ),
+    "freesound_office_cc0": _freesound_pack(
+        "mzui",
+        "Room Tone Office Quiet Distant Traffic.wav",
+        135097,
+        "field_recording",
+    ),
+    "freesound_convenience_cc0": _freesound_pack(
+        "JohnsonBrandEditing",
+        "Convenience Store Interior Ambiance",
+        244309,
+        "field_recording",
+    ),
+    "freesound_gym_cc0": _freesound_pack(
+        "Pfannkuchn",
+        "Fitness studio / Gym ambience. Weights and equipment.",
+        360629,
+        "field_recording",
+    ),
+    "freesound_hospital_cc0": _freesound_pack(
+        "Kinoton", "Room Tone, Empty Hospital", 670070, "field_recording"
+    ),
 }
 
 
@@ -139,20 +208,26 @@ SOURCES: dict[str, tuple[str, str]] = {
     "crickets": ("owlish_cc0", "Ambience/night-crickets-ambience-on-rural-property.wav"),
     "blanket_1": ("owlish_cc0", "Cloth, Rustle/320137__owlstorm__blanket-movement-1.wav"),
     "blanket_2": ("owlish_cc0", "Cloth, Rustle/320138__owlstorm__blanket-movement-2.wav"),
+    "blanket_3": ("owlish_cc0", "Cloth, Rustle/320141__owlstorm__blanket-movement-3.wav"),
+    "blanket_4": ("owlish_cc0", "Cloth, Rustle/320142__owlstorm__blanket-movement-4.wav"),
     "foot_hard_1": ("owlish_cc0", "Footsteps/hard-footstep1.wav"),
     "foot_hard_2": ("owlish_cc0", "Footsteps/hard-footstep2.wav"),
     "foot_hard_3": ("owlish_cc0", "Footsteps/hard-footstep3.wav"),
     "foot_hard_4": ("owlish_cc0", "Footsteps/hard-footstep4.wav"),
     "foot_women_1": ("owlish_cc0", "Footsteps/Womens_shoes_1.wav"),
+    "foot_reverb": ("owlish_cc0", "Footsteps/reverb_step_1.wav"),
+    "cough_2": ("owlish_cc0", "Human/cough2.wav"),
     "impact_tap": ("owlish_cc0", "Impacts/tap.wav"),
     "impact_clamour": ("owlish_cc0", "Impacts/clamour3.wav"),
     "paper_page": ("owlish_cc0", "Paper/pageturn1.wav"),
+    "paper_page_2": ("owlish_cc0", "Paper/pageturn2.wav"),
     "paper_crumple": ("owlish_cc0", "Paper/crumples1.wav"),
     "pencil": ("owlish_cc0", "Paper/pencil-scratch-1.wav"),
     "phone_vibrate": ("owlish_cc0", "Technology/Phone_vibrate.wav"),
     "phone_ring": ("owlish_cc0", "Technology/Phonering-otherend.wav"),
     "mouse_clicks": ("owlish_cc0", "Technology/mouse-clicks-scrolls.wav"),
     "water_pour": ("owlish_cc0", "Water/tap-water-1.wav"),
+    "tap_water_2": ("owlish_cc0", "Water/tap-water-2.wav"),
     "kettle": ("owlish_cc0", "Water/kettle-boil.wav"),
     "solo_clap": ("owlish_cc0", "Human/solo-clap.wav"),
     "typing": ("unicae_keyboard_cc0", "Human Typing/human_vel-004.wav"),
@@ -358,6 +433,54 @@ SOURCES: dict[str, tuple[str, str]] = {
         "344 Audio - Casino Cards Vol. 1",
         "GAMECas_Pick Up Multiple Cards At Once 5_344 Audio_Casino Cards Vol 1.wav",
     ),
+    "barcode_reader": (
+        "freesound_barcode_cc0",
+        "185888_barcode_reader_hq.mp3",
+    ),
+    "bus_arrival": (
+        "freesound_bus_cc0",
+        "338212_bus_arrival_hq.mp3",
+    ),
+    "wedding_applause": (
+        "freesound_wedding_applause_cc0",
+        "414292_wedding_applause_hq.mp3",
+    ),
+    "casino_room": (
+        "freesound_casino_cc0",
+        "443455_casino_ambience_hq.mp3",
+    ),
+    "slot_reels": (
+        "freesound_slot_cc0",
+        "415074_slot_reels_hq.mp3",
+    ),
+    "roulette_spin": (
+        "freesound_roulette_cc0",
+        "588351_roulette_spin_hq.mp3",
+    ),
+    "apartment_room": (
+        "freesound_apartment_cc0",
+        "426767_apartment_room_tone_hq.mp3",
+    ),
+    "wedding_room": (
+        "freesound_wedding_room_cc0",
+        "133819_wedding_reception_hq.mp3",
+    ),
+    "office_room": (
+        "freesound_office_cc0",
+        "135097_office_room_tone_hq.mp3",
+    ),
+    "convenience_room": (
+        "freesound_convenience_cc0",
+        "244309_convenience_store_hq.mp3",
+    ),
+    "gym_room": (
+        "freesound_gym_cc0",
+        "360629_gym_ambience_hq.mp3",
+    ),
+    "hospital_room": (
+        "freesound_hospital_cc0",
+        "670070_hospital_room_hq.mp3",
+    ),
 }
 
 
@@ -370,29 +493,58 @@ class Layer:
     lowpass: int = 10500
 
 
+@dataclass(frozen=True)
+class TimedLayer:
+    source: str
+    at: float
+    duration: float
+    gain_db: float = 0.0
+    start: float = 0.0
+    highpass: int = 35
+    lowpass: int = 10500
+
+
 def L(source: str, gain: float = 0.0, start: float = 0.0,
       highpass: int = 35, lowpass: int = 10500) -> Layer:
     return Layer(source, gain, start, highpass, lowpass)
 
 
+def T(source: str, at: float, duration: float, gain: float = 0.0,
+      start: float = 0.0, highpass: int = 35,
+      lowpass: int = 10500) -> TimedLayer:
+    return TimedLayer(source, at, duration, gain, start, highpass, lowpass)
+
+
 AMBIENCE_RECIPES: dict[str, list[Layer]] = {
-    "amb_goshiwon_room.wav": [L("fridge_hum", -3, 8, 35, 6500), L("clock", -18, 2, 80, 7000)],
-    "amb_family_home.wav": [L("electric_hum", -7, 1, 35, 6500), L("clock", -16, 7, 90, 6500)],
+    "amb_goshiwon_room.wav": [
+        L("apartment_room", -9, 1, 45, 5200),
+        L("fridge_hum", -8, 8, 35, 5200),
+        L("clock", -22, 2, 90, 6000),
+    ],
+    "amb_goshiwon_hallway.wav": [
+        L("apartment_room", -8, 3, 55, 4800),
+        L("electric_hum", -12, 8, 40, 4300),
+        L("fridge_hum", -15, 10, 50, 3800),
+    ],
+    "amb_family_home.wav": [
+        L("apartment_room", -4, 0, 40, 7000),
+        L("clock", -20, 7, 90, 6500),
+    ],
     "amb_rain_room.wav": [L("rain_window", -2, 12, 60, 10000), L("fridge_hum", -15, 22, 35, 5000)],
     "amb_seoul_rain.wav": [L("rain_city", 0, 26, 45, 11000), L("traffic", -12, 4, 70, 6500)],
     "amb_hangang_riverside.wav": [L("waves_soft", -2, 20, 45, 9500), L("city_park", -12, 41, 80, 6500)],
-    "amb_office_room.wav": [L("electric_hum", -7, 8, 40, 6500), L("typing", -18, 0, 130, 7500)],
-    "amb_casino_floor.wav": [L("food_court", -4, 177, 90, 6000), L("casino_shuffler", -18, 0, 100, 8000)],
+    "amb_office_room.wav": [L("office_room", -2, 7, 45, 7600), L("typing", -21, 0, 150, 7000)],
+    "amb_casino_floor.wav": [L("casino_room", -2, 84, 80, 7200), L("casino_shuffler", -19, 0, 120, 7500)],
     "amb_seoul_street.wav": [L("city_night", -2, 68, 55, 6500), L("traffic", -10, 16, 80, 7000)],
     "amb_subway_platform.wav": [L("metro_hall", -1, 24, 60, 7500), L("train_pass", -10, 8, 45, 7500)],
     "amb_racetrack_crowd.wav": [L("sports_crowd", -2, 112, 70, 7000), L("horse_ground", -18, 0, 90, 6500)],
     "amb_cafe_room.wav": [L("bar_walla", -3, 94, 100, 5200)],
     "amb_pc_bang.wav": [L("electric_hum", -7, 13, 45, 6500), L("typing", -14, 0, 150, 7800)],
-    "amb_gym_room.wav": [L("sports_crowd_2", -7, 82, 90, 5200), L("foot_hard_2", -18, 0, 90, 7000)],
-    "amb_convenience_store.wav": [L("fridge_rhythm", -2, 15, 40, 6500), L("food_court", -18, 244, 180, 4200)],
+    "amb_gym_room.wav": [L("gym_room", -2, 41, 65, 7600)],
+    "amb_convenience_store.wav": [L("fridge_rhythm", -2, 15, 40, 6500)],
     "amb_hagwon_street.wav": [L("city_day", -3, 73, 60, 7000), L("traffic", -13, 30, 90, 6500)],
-    "amb_school_hall.wav": [L("metro_hall", -8, 42, 100, 5200), L("foot_women_1", -18, 0, 100, 7000)],
-    "amb_public_office.wav": [L("metro_hall", -7, 9, 100, 5200), L("electric_hum", -15, 17, 40, 5500)],
+    "amb_school_hall.wav": [L("office_room", -7, 21, 80, 5200), L("foot_women_1", -20, 0, 110, 6500)],
+    "amb_public_office.wav": [L("office_room", -3, 33, 55, 6200), L("electric_hum", -18, 17, 40, 4800)],
     "amb_jjimjilbang.wav": [L("pool_crowd", -9, 123, 120, 5000), L("water_pour", -20, 0, 180, 6500)],
     "amb_cherry_blossom.wav": [L("city_park", -2, 23, 65, 8500), L("city_day", -14, 91, 100, 6000)],
     "amb_saju_cafe.wav": [L("restaurant_walla", -8, 24, 140, 4200), L("clock", -19, 3, 100, 6500)],
@@ -403,26 +555,43 @@ AMBIENCE_RECIPES: dict[str, list[Layer]] = {
     "amb_highway_traffic.wav": [L("traffic", -2, 5, 55, 9000), L("car_interior_2", -10, 7, 40, 6500)],
     "amb_open_chat_room.wav": [L("electric_hum", -4, 3, 35, 5600), L("keypress", -24, 0, 150, 7500)],
     "amb_library_room.wav": [L("electric_hum", -10, 16, 35, 4800), L("paper_book", -22, 0, 140, 7000)],
-    "amb_oneroom_room.wav": [L("fridge_rhythm", -5, 33, 35, 5800), L("city_night", -20, 102, 100, 4200)],
-    "amb_apartment_room.wav": [L("electric_hum", -9, 19, 35, 5200), L("city_day", -21, 47, 120, 4200)],
+    "amb_oneroom_room.wav": [L("apartment_room", -5, 2, 45, 6200), L("fridge_rhythm", -11, 33, 35, 5000)],
+    "amb_apartment_room.wav": [L("apartment_room", -2, 0, 40, 7200)],
     "amb_summer_night.wav": [L("crickets", -1, 12, 100, 9000), L("city_night", -17, 81, 100, 5000)],
     "amb_winter_wind.wav": [L("chimney_wind", -1, 6, 55, 8500), L("city_night", -20, 31, 120, 4200)],
-    "amb_wedding_hall.wav": [L("sports_crowd", -8, 184, 100, 4800), L("bar_walla", -12, 321, 150, 4200)],
-    "amb_hospital_room.wav": [L("electric_hum", -8, 27, 35, 5000), L("fridge_hum", -13, 41, 35, 4200)],
+    "amb_wedding_hall.wav": [L("wedding_room", -2, 8, 90, 6400)],
+    "amb_hospital_room.wav": [L("hospital_room", -2, 34, 40, 6500)],
     "amb_seaside.wav": [L("waves_medium", -1, 16, 40, 10000), L("meadow", -18, 64, 130, 6500)],
     "amb_amusement_park.wav": [L("public_crowd", -4, 72, 100, 6200), L("city_park", -13, 39, 100, 6500)],
     "amb_car_interior.wav": [L("car_interior_1", -1, 9, 35, 8500)],
     "amb_night_bus.wav": [L("car_interior_2", -2, 19, 35, 7200), L("city_night", -20, 126, 160, 4000)],
     "amb_train_interior.wav": [L("train_interior_1", -1, 8, 35, 8500), L("train_interior_2", -11, 18, 80, 5500)],
-    "amb_human_thin_wall.wav": [L("metro_hall", -4, 53, 180, 2600)],
     "amb_human_street.wav": [L("city_day", -3, 127, 160, 3600)],
-    "amb_human_public_interior.wav": [L("metro_hall", -2, 31, 170, 3400)],
     "amb_human_cafe.wav": [L("restaurant_walla", -2, 46, 180, 3200)],
-    "amb_human_casino.wav": [L("food_court", -2, 391, 170, 3400)],
+    "amb_human_casino.wav": [L("casino_room", -2, 154, 150, 4200)],
     "amb_human_racetrack.wav": [L("sports_crowd_2", -2, 148, 120, 4200)],
-    "amb_human_wedding.wav": [L("sports_crowd", -3, 214, 140, 3800)],
+    "amb_human_wedding.wav": [L("wedding_room", -2, 22, 140, 4200)],
     "amb_human_transit.wav": [L("train_interior_2", -2, 22, 110, 3800)],
     "amb_human_leisure.wav": [L("public_crowd", -3, 98, 140, 3900)],
+    "amb_human_convenience.wav": [L("convenience_room", -2, 8, 130, 4300)],
+}
+
+
+SPARSE_AMBIENCE_RECIPES: dict[str, list[TimedLayer]] = {
+    # A goshiwon is not a public concourse. This bed is mostly silence, with
+    # short, low-passed traces that can plausibly cross a thin wall.
+    "amb_human_thin_wall.wav": [
+        T("blanket_3", 2.6, 1.35, -10, 0.15, 90, 1450),
+        T("cough_2", 7.8, 1.10, -16, 0.00, 120, 1050),
+        T("tap_water_2", 11.2, 2.40, -13, 0.20, 100, 1250),
+        T("foot_reverb", 15.0, 1.10, -14, 0.00, 110, 1300),
+    ],
+    "amb_human_public_interior.wav": [
+        T("paper_page_2", 2.2, 1.10, -13, 0.00, 120, 3600),
+        T("foot_reverb", 6.9, 1.20, -10, 0.00, 100, 3300),
+        T("blanket_4", 11.3, 1.15, -15, 0.10, 130, 3000),
+        T("cough_2", 14.7, 1.00, -16, 0.00, 140, 2600),
+    ],
 }
 
 
@@ -450,14 +619,14 @@ SFX_RECIPES: dict[str, dict[str, Any]] = {
     "sfx_casino_lose.wav": {"layers": [L("board_piece")], "max": 0.62, "db": -21},
     "sfx_casino_bet.wav": {"layers": [L("casino_chip_lay")], "max": 0.32, "db": -21},
     "sfx_casino_coin.wav": {"layers": [L("coin_flip")], "max": 0.36, "db": -22},
-    "sfx_casino_spin.wav": {"layers": [L("radio_wheel")], "max": 0.75, "db": -21},
+    "sfx_casino_spin.wav": {"layers": [L("roulette_spin")], "max": 0.75, "db": -21},
     "sfx_casino_card.wav": {"layers": [L("casino_card_place")], "max": 0.27, "db": -22},
     "sfx_casino_jackpot.wav": {"layers": [L("casino_chips_collide"), L("casino_chips", -5)], "max": 1.10, "db": -18},
-    "sfx_casino_reel.wav": {"layers": [L("counting_machine")], "max": 0.38, "db": -22},
+    "sfx_casino_reel.wav": {"layers": [L("slot_reels")], "max": 0.38, "db": -22},
     "sfx_civil_defense_siren.wav": {"layers": [L("civil_siren", 0, 22)], "max": 3.0, "db": -20},
     "sfx_monsoon_rain.wav": {"layers": [L("rain_city", 0, 44)], "max": 3.0, "db": -25},
-    "sfx_wedding_applause.wav": {"layers": [L("sports_crowd", 0, 18)], "max": 3.0, "min": 2.4, "db": -22},
-    "sfx_wedding_cheer.wav": {"layers": [L("sports_crowd_2", 0, 186)], "max": 3.0, "min": 2.4, "db": -22},
+    "sfx_wedding_applause.wav": {"layers": [L("wedding_applause", 0, 0)], "max": 3.0, "min": 2.4, "db": -22},
+    "sfx_wedding_cheer.wav": {"layers": [L("wedding_applause", -2, 6)], "max": 3.0, "min": 2.4, "db": -23},
     "sfx_distant_fireworks.wav": {"layers": [L("fireworks_distant", 0, 14)], "max": 4.0, "db": -24},
     "sfx_card_shuffle.wav": {"layers": [L("casino_card_shuffle")], "max": 1.25, "db": -20},
     "sfx_card_deal.wav": {"layers": [L("casino_deal")], "max": 0.46, "db": -21},
@@ -466,13 +635,13 @@ SFX_RECIPES: dict[str, dict[str, Any]] = {
     "sfx_chip_collect.wav": {"layers": [L("casino_chips")], "max": 0.85, "db": -20},
     "sfx_dice_cup_shake.wav": {"layers": [L("casino_dice_shake")], "max": 1.15, "db": -20},
     "sfx_dice_roll.wav": {"layers": [L("casino_dice_throw")], "max": 0.72, "db": -20},
-    "sfx_roulette_wheel.wav": {"layers": [L("radio_wheel")], "max": 1.15, "db": -23},
+    "sfx_roulette_wheel.wav": {"layers": [L("roulette_spin")], "max": 1.15, "db": -23},
     "sfx_roulette_ball.wav": {"layers": [L("casino_dice_throw")], "max": 0.30, "db": -23},
     "sfx_roulette_land.wav": {"layers": [L("casino_chip_lay")], "max": 0.30, "db": -21},
-    "sfx_slot_start.wav": {"layers": [L("tape_measure")], "max": 0.75, "db": -22},
+    "sfx_slot_start.wav": {"layers": [L("slot_reels")], "max": 0.75, "db": -22},
     "sfx_slot_reel_stop.wav": {"layers": [L("latch")], "max": 0.28, "db": -21},
     "sfx_big_wheel_tick.wav": {"layers": [L("light_switch")], "max": 0.22, "db": -22},
-    "sfx_race_gate.wav": {"layers": [L("car_door")], "max": 0.72, "db": -19},
+    "sfx_race_gate.wav": {"layers": [L("board_reset")], "max": 0.72, "db": -21},
     "sfx_horse_gallop.wav": {"layers": [L("horse_ground")], "max": 2.4, "min": 2.2, "loop": True, "db": -20},
     "sfx_race_crowd_rise.wav": {"layers": [L("sports_crowd", 0, 132)], "max": 2.8, "db": -23},
     "sfx_race_finish.wav": {"layers": [L("sports_crowd_2", 0, 184)], "max": 3.0, "db": -21},
@@ -482,13 +651,16 @@ SFX_RECIPES: dict[str, dict[str, Any]] = {
     "sfx_document_stamp.wav": {"layers": [L("impact_tap")], "max": 0.42, "db": -21},
     "sfx_door_latch.wav": {"layers": [L("door")], "max": 1.10, "db": -22},
     "sfx_footsteps_hall.wav": {"layers": [L("foot_hard_1"), L("foot_hard_3", -3)], "max": 1.45, "db": -23},
-    "sfx_register_scan.wav": {"layers": [L("thermometer_beep")], "max": 0.44, "db": -26},
+    "sfx_register_scan.wav": {"layers": [L("barcode_reader")], "max": 0.44, "db": -25},
     "sfx_keyboard_short.wav": {"layers": [L("typing")], "max": 1.15, "db": -24},
     "sfx_cup_set.wav": {"layers": [L("impact_tap")], "max": 0.36, "db": -24},
+    "sfx_pen_write.wav": {"layers": [L("pencil")], "max": 0.82, "db": -25},
+    "sfx_cloth_shift.wav": {"layers": [L("blanket_3")], "max": 0.78, "db": -27},
+    "sfx_page_turn.wav": {"layers": [L("paper_page_2")], "max": 0.86, "db": -25},
     "sfx_bicycle_impact.wav": {"layers": [L("bicycle_crash"), L("blanket_2", -8)], "max": 1.45, "db": -19},
     "sfx_traffic_pass.wav": {"layers": [L("traffic", 0, 7)], "max": 2.6, "db": -24},
     "sfx_kettle_pour.wav": {"layers": [L("water_pour")], "max": 2.5, "db": -24},
-    "sfx_bus_arrival.wav": {"layers": [L("truck_pass")], "max": 2.8, "db": -23},
+    "sfx_bus_arrival.wav": {"layers": [L("bus_arrival", 0, 2.5)], "max": 2.8, "db": -23},
     "sfx_queue_chime.wav": {"layers": [L("thermometer_beep")], "max": 0.45, "db": -28},
 }
 
@@ -548,6 +720,54 @@ def sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def stable_ogg_serial(name: str) -> int:
+    serial = int.from_bytes(hashlib.sha256(name.encode("utf-8")).digest()[:4], "little")
+    return serial or 1
+
+
+def _ogg_crc_table() -> tuple[int, ...]:
+    values: list[int] = []
+    for index in range(256):
+        value = index << 24
+        for _bit in range(8):
+            if value & 0x80000000:
+                value = ((value << 1) ^ 0x04C11DB7) & 0xFFFFFFFF
+            else:
+                value = (value << 1) & 0xFFFFFFFF
+        values.append(value)
+    return tuple(values)
+
+
+OGG_CRC_TABLE = _ogg_crc_table()
+
+
+def normalize_ogg_pages(path: Path, serial: int) -> None:
+    data = bytearray(path.read_bytes())
+    offset = 0
+    while offset < len(data):
+        if data[offset:offset + 4] != b"OggS" or offset + 27 > len(data):
+            raise ValueError(f"invalid Ogg page in {path.name} at byte {offset}")
+        segment_count = data[offset + 26]
+        header_size = 27 + segment_count
+        if offset + header_size > len(data):
+            raise ValueError(f"truncated Ogg header in {path.name}")
+        body_size = sum(data[offset + 27:offset + header_size])
+        page_size = header_size + body_size
+        if offset + page_size > len(data):
+            raise ValueError(f"truncated Ogg body in {path.name}")
+        data[offset + 14:offset + 18] = serial.to_bytes(4, "little")
+        data[offset + 22:offset + 26] = b"\x00\x00\x00\x00"
+        checksum = 0
+        for value in data[offset:offset + page_size]:
+            checksum = (
+                ((checksum << 8) & 0xFFFFFFFF)
+                ^ OGG_CRC_TABLE[((checksum >> 24) & 0xFF) ^ value]
+            )
+        data[offset + 22:offset + 26] = checksum.to_bytes(4, "little")
+        offset += page_size
+    path.write_bytes(data)
 
 
 def find_ffmpeg() -> Path:
@@ -645,6 +865,52 @@ class Builder:
         self.record_asset(name, "sample_derived_mix", layers,
                           f"recording mix; {duration:.2f}s seamless crossfade; 22.05kHz stereo; "
                           f"RMS {'-35' if human else '-29'} dBFS")
+
+    def write_sparse_ambience(self, name: str, layers: list[TimedLayer]) -> None:
+        duration = 18.0
+        rate = 22050
+        frames = int(duration * rate)
+        mix = np.zeros((frames, 2), dtype=np.float32)
+        provenance_layers: list[Layer] = []
+        for timed in layers:
+            source_layer = L(
+                timed.source,
+                timed.gain_db,
+                timed.start,
+                timed.highpass,
+                timed.lowpass,
+            )
+            decoded = self.decode(
+                source_layer,
+                timed.duration,
+                rate,
+                2,
+                loop=False,
+            )
+            decoded = apply_fades(
+                decoded,
+                rate,
+                min(0.08, timed.duration * 0.12),
+                min(0.18, timed.duration * 0.20),
+            )
+            start_frame = int(timed.at * rate)
+            end_frame = min(frames, start_frame + len(decoded))
+            if start_frame < frames:
+                mix[start_frame:end_frame] += decoded[:end_frame - start_frame]
+            provenance_layers.append(source_layer)
+        if float(np.max(np.abs(mix))) < 1.0e-5:
+            raise ValueError(f"{name}: sparse ambience is silent")
+        body = normalize_rms(mix, -36.5, -6.0)
+        path = self.output_root / name
+        write_wav(path, body, rate)
+        self.record_asset(
+            name,
+            "sample_derived_mix",
+            provenance_layers,
+            "sparse recorded-presence bed; authored silent intervals; "
+            "wall/room filtering; 18.00s seamless silent boundary; "
+            "22.05kHz stereo; RMS -36.5 dBFS",
+        )
 
     def write_sfx(self, name: str, recipe: dict[str, Any]) -> None:
         layers: list[Layer] = recipe["layers"]
@@ -782,6 +1048,7 @@ class Builder:
                 str(self.ffmpeg), "-y", "-loglevel", "error", "-i", str(wav_path),
                 "-c:a", "libvorbis", "-q:a", "5", str(output),
             ], check=True)
+            normalize_ogg_pages(output, stable_ogg_serial(name))
         finally:
             wav_path.unlink(missing_ok=True)
         sources = [self.piano_source_entry(path) for path in sorted(used)]
@@ -791,7 +1058,8 @@ class Builder:
             "transform": (
                 f"original score rendered only from recorded Yamaha C5 samples; {bpm:.0f} BPM; "
                 f"{bars} bars; {'seamless loop' if looped else 'one-shot'}; "
-                "humanized timing and dynamics; Ogg Vorbis q5"
+                "humanized timing and dynamics; Ogg Vorbis q5; "
+                "filename-derived deterministic stream serial and page CRC"
             ),
             "output_sha256": sha256(self.output_root / name),
         }
@@ -971,12 +1239,13 @@ def main(argv: list[str] | None = None) -> int:
     validate_sources(source_root)
     expected_count = (
         len(AMBIENCE_RECIPES)
+        + len(SPARSE_AMBIENCE_RECIPES)
         + len(SFX_RECIPES)
         + len(TRACK_SPECS)
         + len(PIANO_STINGERS)
     )
-    if expected_count != 134:
-        raise RuntimeError(f"release audio inventory must remain 134 assets, got {expected_count}")
+    if expected_count != 139:
+        raise RuntimeError(f"release audio inventory must remain 139 assets, got {expected_count}")
     if args.validate_only:
         print(
             "SAMPLE_AUDIO_SOURCES_OK "
@@ -988,6 +1257,9 @@ def main(argv: list[str] | None = None) -> int:
         for name, layers in sorted(AMBIENCE_RECIPES.items()):
             print("AMBIENCE", name)
             builder.write_ambience(name, layers)
+        for name, layers in sorted(SPARSE_AMBIENCE_RECIPES.items()):
+            print("SPARSE_AMBIENCE", name)
+            builder.write_sparse_ambience(name, layers)
         for name, recipe in sorted(SFX_RECIPES.items()):
             print("SFX", name)
             builder.write_sfx(name, recipe)

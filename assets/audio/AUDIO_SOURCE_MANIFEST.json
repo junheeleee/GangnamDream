@@ -73,6 +73,114 @@
       "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
       "source_url": "https://opengameart.org/content/crash-collision",
       "attribution_required": false
+    },
+    "freesound_barcode_cc0": {
+      "provider": "Eirikr",
+      "title": "barcode-reader.wav",
+      "source_type": "object_recording",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_url": "https://freesound.org/s/185888/",
+      "attribution_required": false
+    },
+    "freesound_bus_cc0": {
+      "provider": "unreadpages",
+      "title": "Bus sound.wav",
+      "source_type": "field_recording",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_url": "https://freesound.org/s/338212/",
+      "attribution_required": false
+    },
+    "freesound_wedding_applause_cc0": {
+      "provider": "giovannapaludetto",
+      "title": "Wedding Applause Cheerfully.aif",
+      "source_type": "field_recording",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_url": "https://freesound.org/s/414292/",
+      "attribution_required": false
+    },
+    "freesound_casino_cc0": {
+      "provider": "DylanTheFish",
+      "title": "Casino Ambiance.wav",
+      "source_type": "field_recording",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_url": "https://freesound.org/s/443455/",
+      "attribution_required": false
+    },
+    "freesound_slot_cc0": {
+      "provider": "aghirlandaio",
+      "title": "slot machine reels sound.m4a",
+      "source_type": "object_recording",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_url": "https://freesound.org/s/415074/",
+      "attribution_required": false
+    },
+    "freesound_roulette_cc0": {
+      "provider": "takecoins",
+      "title": "spin_sound.wav",
+      "source_type": "object_recording",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_url": "https://freesound.org/s/588351/",
+      "attribution_required": false
+    },
+    "freesound_apartment_cc0": {
+      "provider": "cMilan",
+      "title": "Apartment Room Tone.wav",
+      "source_type": "field_recording",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_url": "https://freesound.org/s/426767/",
+      "attribution_required": false
+    },
+    "freesound_wedding_room_cc0": {
+      "provider": "ecfike",
+      "title": "Crowd at Wedding Reception Ambience.wav",
+      "source_type": "field_recording",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_url": "https://freesound.org/s/133819/",
+      "attribution_required": false
+    },
+    "freesound_office_cc0": {
+      "provider": "mzui",
+      "title": "Room Tone Office Quiet Distant Traffic.wav",
+      "source_type": "field_recording",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_url": "https://freesound.org/s/135097/",
+      "attribution_required": false
+    },
+    "freesound_convenience_cc0": {
+      "provider": "JohnsonBrandEditing",
+      "title": "Convenience Store Interior Ambiance",
+      "source_type": "field_recording",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_url": "https://freesound.org/s/244309/",
+      "attribution_required": false
+    },
+    "freesound_gym_cc0": {
+      "provider": "Pfannkuchn",
+      "title": "Fitness studio / Gym ambience. Weights and equipment.",
+      "source_type": "field_recording",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_url": "https://freesound.org/s/360629/",
+      "attribution_required": false
+    },
+    "freesound_hospital_cc0": {
+      "provider": "Kinoton",
+      "title": "Room Tone, Empty Hospital",
+      "source_type": "field_recording",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_url": "https://freesound.org/s/670070/",
+      "attribution_required": false
     }
   },
   "assets": {
@@ -99,20 +207,14 @@
       "provenance": "sample_derived_mix",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "344 Audio - East Coast America Vol. 1/AMBSubn_Electricity Hum, Lightbulb,  Coil Pickup 01_344 Audio_East Coast America.wav",
-          "sha256": "cdbf8b50b7fec17ce3239e6880e8b2e20995e51d7500f24e104b4f8e4b1ea72c",
-          "source_type": "field_recording"
-        },
-        {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "Epic Stock Media - Public Spaces - Urban Life Exteriors/AMBTown_City Courtyard Calm Street Distant Traffic Children Playing 03_ESM_CPS.wav",
-          "sha256": "26a8ca171e37f3cfc7e5cbcb07e8e0dda7aa8a4379be738c4ce834dfd0d8689f",
+          "pack": "freesound_apartment_cc0",
+          "original_file": "426767_apartment_room_tone_hq.mp3",
+          "sha256": "51cc232b83b832011e5accaedc638a97e021ec8a320c2d5b3fe96310362d38d2",
           "source_type": "field_recording"
         }
       ],
       "transform": "recording mix; 22.65s seamless crossfade; 22.05kHz stereo; RMS -29 dBFS",
-      "output_sha256": "406d37e5f4b5a17f48e16fe866c721294c28b46647d567155be353c0853fe10b"
+      "output_sha256": "0a1619c8a0c65268fd5303b34e2bfab41f890de87f4ef56471acae7e0eeac513"
     },
     "amb_cafe_room.wav": {
       "provenance": "sample_derived_mix",
@@ -144,9 +246,9 @@
       "provenance": "sample_derived_mix",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "Sonic Bat - Bars & Restaurants Ambience/SBbra_Shopping Mall Food Court B 001.wav",
-          "sha256": "db92a0f715e3f353f5d95ede477b50ad9fbac0038e06444c626b4f85385c638c",
+          "pack": "freesound_casino_cc0",
+          "original_file": "443455_casino_ambience_hq.mp3",
+          "sha256": "11d510ba7defd46461aa6305cee17b21f6e047259b50c80d87eb4bee38b60e4e",
           "source_type": "field_recording"
         },
         {
@@ -157,7 +259,7 @@
         }
       ],
       "transform": "recording mix; 22.65s seamless crossfade; 22.05kHz stereo; RMS -29 dBFS",
-      "output_sha256": "144cab38107afdfff561f218bd643b6223a43656a2853c862402276a2dcc4c1d"
+      "output_sha256": "a80e0a0a9ad384ad95f6f64dd5aa0e6a9356f7a052f2e15906b32e1373cd3f97"
     },
     "amb_cherry_blossom.wav": {
       "provenance": "sample_derived_mix",
@@ -199,24 +301,18 @@
           "original_file": "Jake Fielding - Fridge Hums Vol.2/MACHAppl_Rhythmic Electric Fridge Hum, Buzz, Static,_Jake Fielding_Fridge Hums Pt2.wav",
           "sha256": "9c493e55f14ab06d5ce9850cce090afd6b4226a7c28cb386ef79d5a5fd6688f8",
           "source_type": "field_recording"
-        },
-        {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "Sonic Bat - Bars & Restaurants Ambience/SBbra_Shopping Mall Food Court B 001.wav",
-          "sha256": "db92a0f715e3f353f5d95ede477b50ad9fbac0038e06444c626b4f85385c638c",
-          "source_type": "field_recording"
         }
       ],
       "transform": "recording mix; 22.65s seamless crossfade; 22.05kHz stereo; RMS -29 dBFS",
-      "output_sha256": "89316fd347428fa73d3d15601b9d2b72ce8ec8c6178f5605693da43b09382b97"
+      "output_sha256": "8094dbfa2ec11f9cbbf8c4e848403827d2b4dde34946fae1c667c7707a4808d6"
     },
     "amb_family_home.wav": {
       "provenance": "sample_derived_mix",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "344 Audio - East Coast America Vol. 1/AMBSubn_Electricity Hum, Lightbulb,  Coil Pickup 01_344 Audio_East Coast America.wav",
-          "sha256": "cdbf8b50b7fec17ce3239e6880e8b2e20995e51d7500f24e104b4f8e4b1ea72c",
+          "pack": "freesound_apartment_cc0",
+          "original_file": "426767_apartment_room_tone_hq.mp3",
+          "sha256": "51cc232b83b832011e5accaedc638a97e021ec8a320c2d5b3fe96310362d38d2",
           "source_type": "field_recording"
         },
         {
@@ -227,7 +323,7 @@
         }
       ],
       "transform": "recording mix; 22.65s seamless crossfade; 22.05kHz stereo; RMS -29 dBFS",
-      "output_sha256": "018ef85168429f37822d67e24209567c6d7db89949bfd7721896348e57ca2ca5"
+      "output_sha256": "523ce530cb4f0a072aa903961fd175273a30ca7df00f60ff75498fde240c05ad"
     },
     "amb_fine_dust_city.wav": {
       "provenance": "sample_derived_mix",
@@ -248,9 +344,40 @@
       "transform": "recording mix; 22.65s seamless crossfade; 22.05kHz stereo; RMS -29 dBFS",
       "output_sha256": "97afa7ba75ff70c1e13f8595dac1f94129562890ee61057410202435d6a30821"
     },
+    "amb_goshiwon_hallway.wav": {
+      "provenance": "sample_derived_mix",
+      "sources": [
+        {
+          "pack": "freesound_apartment_cc0",
+          "original_file": "426767_apartment_room_tone_hq.mp3",
+          "sha256": "51cc232b83b832011e5accaedc638a97e021ec8a320c2d5b3fe96310362d38d2",
+          "source_type": "field_recording"
+        },
+        {
+          "pack": "sonniss_gdc_2026",
+          "original_file": "344 Audio - East Coast America Vol. 1/AMBSubn_Electricity Hum, Lightbulb,  Coil Pickup 01_344 Audio_East Coast America.wav",
+          "sha256": "cdbf8b50b7fec17ce3239e6880e8b2e20995e51d7500f24e104b4f8e4b1ea72c",
+          "source_type": "field_recording"
+        },
+        {
+          "pack": "sonniss_gdc_2026",
+          "original_file": "Jake Fielding - Fridge Hums Vol.2/MACHAppl_Deep Fridge Hum, Buzz, Electric Tone, Deep_Jake Fielding_Fridge Hums Pt2.wav",
+          "sha256": "d5c4cbb90d2bb6856077c55161f9e4522ae34116c67b8078d80cb5cad663daa8",
+          "source_type": "field_recording"
+        }
+      ],
+      "transform": "recording mix; 22.65s seamless crossfade; 22.05kHz stereo; RMS -29 dBFS",
+      "output_sha256": "97868d6d834185a84e2e9de96e20cc5aca58264b6bd2a76d2946fe6f5eedc4fc"
+    },
     "amb_goshiwon_room.wav": {
       "provenance": "sample_derived_mix",
       "sources": [
+        {
+          "pack": "freesound_apartment_cc0",
+          "original_file": "426767_apartment_room_tone_hq.mp3",
+          "sha256": "51cc232b83b832011e5accaedc638a97e021ec8a320c2d5b3fe96310362d38d2",
+          "source_type": "field_recording"
+        },
         {
           "pack": "sonniss_gdc_2026",
           "original_file": "Jake Fielding - Fridge Hums Vol.2/MACHAppl_Deep Fridge Hum, Buzz, Electric Tone, Deep_Jake Fielding_Fridge Hums Pt2.wav",
@@ -265,26 +392,20 @@
         }
       ],
       "transform": "recording mix; 22.65s seamless crossfade; 22.05kHz stereo; RMS -29 dBFS",
-      "output_sha256": "88f3a897b112e1f935e6d38f931c0c2d0ac281177cfd9cf552f4fcbbbe965057"
+      "output_sha256": "b13714d8f7929c9fa2fb5c81216b7fb4ce4bb803b11d5dd08609d085b478dd6a"
     },
     "amb_gym_room.wav": {
       "provenance": "sample_derived_mix",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "Sonic Bat - Volleyball Match Ambience/SBvma_Masculine Regional Match 005.wav",
-          "sha256": "f45415205d71fe06288243218e2eb6307d335469bfbb202c00e7ad821cbefb45",
-          "source_type": "field_recording"
-        },
-        {
-          "pack": "owlish_cc0",
-          "original_file": "Footsteps/hard-footstep2.wav",
-          "sha256": "678a613ca81bb6c527c30073b79f0ca69775864f1f508069b9a2e233b4213246",
+          "pack": "freesound_gym_cc0",
+          "original_file": "360629_gym_ambience_hq.mp3",
+          "sha256": "25f70827d7a999aa8fa484fad22485b7d659fa89a731064c89b7d5aebd749695",
           "source_type": "field_recording"
         }
       ],
       "transform": "recording mix; 22.65s seamless crossfade; 22.05kHz stereo; RMS -29 dBFS",
-      "output_sha256": "1d4ca659a6716d858f9948455ae1e5c5db25c3c92568d316be4e51a36147bb6e"
+      "output_sha256": "62feebfe5f99d48b95321163556c75c787ddd0673c5cdca1bbfa242ef3b26824"
     },
     "amb_hagwon_street.wav": {
       "provenance": "sample_derived_mix",
@@ -366,20 +487,14 @@
       "provenance": "sample_derived_mix",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "344 Audio - East Coast America Vol. 1/AMBSubn_Electricity Hum, Lightbulb,  Coil Pickup 01_344 Audio_East Coast America.wav",
-          "sha256": "cdbf8b50b7fec17ce3239e6880e8b2e20995e51d7500f24e104b4f8e4b1ea72c",
-          "source_type": "field_recording"
-        },
-        {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "Jake Fielding - Fridge Hums Vol.2/MACHAppl_Deep Fridge Hum, Buzz, Electric Tone, Deep_Jake Fielding_Fridge Hums Pt2.wav",
-          "sha256": "d5c4cbb90d2bb6856077c55161f9e4522ae34116c67b8078d80cb5cad663daa8",
+          "pack": "freesound_hospital_cc0",
+          "original_file": "670070_hospital_room_hq.mp3",
+          "sha256": "8dd0ab79c31007014428d40815a2fbca98659cfad0d4db58d6ff7ed3feb1fa59",
           "source_type": "field_recording"
         }
       ],
       "transform": "recording mix; 22.65s seamless crossfade; 22.05kHz stereo; RMS -29 dBFS",
-      "output_sha256": "4bf263a89dab3dc2f703ac67a4f383fc5d0f946ea0277cc558ec10b8b314766a"
+      "output_sha256": "5d3f8c11dd27ddb00170c13152d082ab05b415a3f0df51e919748baab99671ae"
     },
     "amb_human_cafe.wav": {
       "provenance": "sample_derived_mix",
@@ -398,14 +513,27 @@
       "provenance": "sample_derived_mix",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "Sonic Bat - Bars & Restaurants Ambience/SBbra_Shopping Mall Food Court B 001.wav",
-          "sha256": "db92a0f715e3f353f5d95ede477b50ad9fbac0038e06444c626b4f85385c638c",
+          "pack": "freesound_casino_cc0",
+          "original_file": "443455_casino_ambience_hq.mp3",
+          "sha256": "11d510ba7defd46461aa6305cee17b21f6e047259b50c80d87eb4bee38b60e4e",
           "source_type": "field_recording"
         }
       ],
       "transform": "recording mix; 18.00s seamless crossfade; 22.05kHz stereo; RMS -35 dBFS",
-      "output_sha256": "bfee555be160f38f06efa2afe88d8fa36839f1ba89a76e4f3f9e774fdd3256d1"
+      "output_sha256": "823446c84e1ae7fa1808baf3b9b1062a829e78c2af7396f14f29730a63b97ae6"
+    },
+    "amb_human_convenience.wav": {
+      "provenance": "sample_derived_mix",
+      "sources": [
+        {
+          "pack": "freesound_convenience_cc0",
+          "original_file": "244309_convenience_store_hq.mp3",
+          "sha256": "d10058f333e19bf44c3e7caf8c274c04541c002c1e1ab840ce34e0036b90d77d",
+          "source_type": "field_recording"
+        }
+      ],
+      "transform": "recording mix; 18.00s seamless crossfade; 22.05kHz stereo; RMS -35 dBFS",
+      "output_sha256": "db886482cd50d3b906e7e970ee853cc8fa06d7671d5dd922c404822e08aed9a3"
     },
     "amb_human_leisure.wav": {
       "provenance": "sample_derived_mix",
@@ -424,14 +552,32 @@
       "provenance": "sample_derived_mix",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "Epic Stock Media - Public Spaces - Crowds Walla and Everyday Ambiences/AMBPubl_Metro Station Entrance Hall Dings Walla Footsteps 01 Women Shopping_ESM_CPS.wav",
-          "sha256": "ae34b93281e39d4f90d23b4ea8ac8d0d2100e51ff0a44c0acc44eb978bcfbab5",
+          "pack": "owlish_cc0",
+          "original_file": "Paper/pageturn2.wav",
+          "sha256": "0a1d9047a54158b43df61a20effa262f44b1639be62a419081f31f14cfca7a1f",
+          "source_type": "field_recording"
+        },
+        {
+          "pack": "owlish_cc0",
+          "original_file": "Footsteps/reverb_step_1.wav",
+          "sha256": "b9048d5ee48a5266e36315675a1aec2c9d8fe85e74735b9c3c8ff18416f347d9",
+          "source_type": "field_recording"
+        },
+        {
+          "pack": "owlish_cc0",
+          "original_file": "Cloth, Rustle/320142__owlstorm__blanket-movement-4.wav",
+          "sha256": "9b3c97b7ada8ee6ba2c05df379e4d89a6f4ba715cc90cdf11d4849f3aa0e05b0",
+          "source_type": "field_recording"
+        },
+        {
+          "pack": "owlish_cc0",
+          "original_file": "Human/cough2.wav",
+          "sha256": "9723c26191529e4e75f67ccb804e517862c73e480223f73a5dde58147b0db723",
           "source_type": "field_recording"
         }
       ],
-      "transform": "recording mix; 18.00s seamless crossfade; 22.05kHz stereo; RMS -35 dBFS",
-      "output_sha256": "929a1a2d5fb7b70611e64a4fbf3294ea8304d5e82c966f40a39ea83b1666a311"
+      "transform": "sparse recorded-presence bed; authored silent intervals; wall/room filtering; 18.00s seamless silent boundary; 22.05kHz stereo; RMS -36.5 dBFS",
+      "output_sha256": "5e9d29d5b6e720c0d7f15b95d0c02d4d69f31551eeb18a3e4692bb73dbcdff70"
     },
     "amb_human_racetrack.wav": {
       "provenance": "sample_derived_mix",
@@ -463,14 +609,32 @@
       "provenance": "sample_derived_mix",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "Epic Stock Media - Public Spaces - Crowds Walla and Everyday Ambiences/AMBPubl_Metro Station Entrance Hall Dings Walla Footsteps 01 Women Shopping_ESM_CPS.wav",
-          "sha256": "ae34b93281e39d4f90d23b4ea8ac8d0d2100e51ff0a44c0acc44eb978bcfbab5",
+          "pack": "owlish_cc0",
+          "original_file": "Cloth, Rustle/320141__owlstorm__blanket-movement-3.wav",
+          "sha256": "0efaa7a0397061cd1aa38a66bfed01fd7d8cee31c2f07d572a08d4143d5bfcab",
+          "source_type": "field_recording"
+        },
+        {
+          "pack": "owlish_cc0",
+          "original_file": "Human/cough2.wav",
+          "sha256": "9723c26191529e4e75f67ccb804e517862c73e480223f73a5dde58147b0db723",
+          "source_type": "field_recording"
+        },
+        {
+          "pack": "owlish_cc0",
+          "original_file": "Water/tap-water-2.wav",
+          "sha256": "4d3a1276a52092ce2658b55177e9fea63c8b5cf061e4c6145806a06821caf0a2",
+          "source_type": "field_recording"
+        },
+        {
+          "pack": "owlish_cc0",
+          "original_file": "Footsteps/reverb_step_1.wav",
+          "sha256": "b9048d5ee48a5266e36315675a1aec2c9d8fe85e74735b9c3c8ff18416f347d9",
           "source_type": "field_recording"
         }
       ],
-      "transform": "recording mix; 18.00s seamless crossfade; 22.05kHz stereo; RMS -35 dBFS",
-      "output_sha256": "e5826469339d3705f812f8703ea9c371292b107a583dab47bf5ccf1ac4394e36"
+      "transform": "sparse recorded-presence bed; authored silent intervals; wall/room filtering; 18.00s seamless silent boundary; 22.05kHz stereo; RMS -36.5 dBFS",
+      "output_sha256": "88d554e21b4bf96b6b5ede2aff0f7362774931b8169f58be17406b182c48dc59"
     },
     "amb_human_transit.wav": {
       "provenance": "sample_derived_mix",
@@ -489,14 +653,14 @@
       "provenance": "sample_derived_mix",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "Sonic Bat - Volleyball Match Ambience/SBvma_Feminine League Match 017.wav",
-          "sha256": "dd5127b7d13ab6878bad561bbd8e7a8c3889289a9525f362ff9e27fccb2db471",
+          "pack": "freesound_wedding_room_cc0",
+          "original_file": "133819_wedding_reception_hq.mp3",
+          "sha256": "91b57b62462b506ce03a8a9fd0aea12020d94aa55568596ff4a20c7ac8c32be8",
           "source_type": "field_recording"
         }
       ],
       "transform": "recording mix; 18.00s seamless crossfade; 22.05kHz stereo; RMS -35 dBFS",
-      "output_sha256": "636ed91d432520a4f515263a875683af755dc97021f1d77885cb6840766d9e1b"
+      "output_sha256": "5fefd35d3738b770ca308e5cd5303ae279f253cf1368733c01561ab5997fb063"
     },
     "amb_jjimjilbang.wav": {
       "provenance": "sample_derived_mix",
@@ -578,9 +742,9 @@
       "provenance": "sample_derived_mix",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "344 Audio - East Coast America Vol. 1/AMBSubn_Electricity Hum, Lightbulb,  Coil Pickup 01_344 Audio_East Coast America.wav",
-          "sha256": "cdbf8b50b7fec17ce3239e6880e8b2e20995e51d7500f24e104b4f8e4b1ea72c",
+          "pack": "freesound_office_cc0",
+          "original_file": "135097_office_room_tone_hq.mp3",
+          "sha256": "7e8060be99b6afb0049e1a5aab9cb41054c3bfc6d835ea16f37a2f2de4425d97",
           "source_type": "field_recording"
         },
         {
@@ -591,26 +755,26 @@
         }
       ],
       "transform": "recording mix; 22.65s seamless crossfade; 22.05kHz stereo; RMS -29 dBFS",
-      "output_sha256": "ac723ebe5180c0782d49b8376c8ce8fb482abb8eb7e58f2292b8556d935fec25"
+      "output_sha256": "22221176905b8ccc3c4256698d34958b73d29fa74e88b1085fe958ae76518564"
     },
     "amb_oneroom_room.wav": {
       "provenance": "sample_derived_mix",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "Jake Fielding - Fridge Hums Vol.2/MACHAppl_Rhythmic Electric Fridge Hum, Buzz, Static,_Jake Fielding_Fridge Hums Pt2.wav",
-          "sha256": "9c493e55f14ab06d5ce9850cce090afd6b4226a7c28cb386ef79d5a5fd6688f8",
+          "pack": "freesound_apartment_cc0",
+          "original_file": "426767_apartment_room_tone_hq.mp3",
+          "sha256": "51cc232b83b832011e5accaedc638a97e021ec8a320c2d5b3fe96310362d38d2",
           "source_type": "field_recording"
         },
         {
           "pack": "sonniss_gdc_2026",
-          "original_file": "Epic Stock Media - Public Spaces - Urban Life Exteriors/AMBUrbn_City Nightlife Ext Street In Reutersplatz German Walla Traffic 01_ESM_CPS.wav",
-          "sha256": "dd35ff00e9a59c6e38cae5461941de6602f2ba694ba3ce24b8401920ead2dc71",
+          "original_file": "Jake Fielding - Fridge Hums Vol.2/MACHAppl_Rhythmic Electric Fridge Hum, Buzz, Static,_Jake Fielding_Fridge Hums Pt2.wav",
+          "sha256": "9c493e55f14ab06d5ce9850cce090afd6b4226a7c28cb386ef79d5a5fd6688f8",
           "source_type": "field_recording"
         }
       ],
       "transform": "recording mix; 22.65s seamless crossfade; 22.05kHz stereo; RMS -29 dBFS",
-      "output_sha256": "c4dc3e0cd7b888f16a2184da779fb9e32347334f8973cafe412f9b4f2a46cd6d"
+      "output_sha256": "1fee38fdda10b398eae6182db17bef193e8cdccabccf0b28b149d003b694ef67"
     },
     "amb_open_chat_room.wav": {
       "provenance": "sample_derived_mix",
@@ -654,9 +818,9 @@
       "provenance": "sample_derived_mix",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "Epic Stock Media - Public Spaces - Crowds Walla and Everyday Ambiences/AMBPubl_Metro Station Entrance Hall Dings Walla Footsteps 01 Women Shopping_ESM_CPS.wav",
-          "sha256": "ae34b93281e39d4f90d23b4ea8ac8d0d2100e51ff0a44c0acc44eb978bcfbab5",
+          "pack": "freesound_office_cc0",
+          "original_file": "135097_office_room_tone_hq.mp3",
+          "sha256": "7e8060be99b6afb0049e1a5aab9cb41054c3bfc6d835ea16f37a2f2de4425d97",
           "source_type": "field_recording"
         },
         {
@@ -667,7 +831,7 @@
         }
       ],
       "transform": "recording mix; 22.65s seamless crossfade; 22.05kHz stereo; RMS -29 dBFS",
-      "output_sha256": "243bfc7b5b4d947ce22cf68367d3fbb3c726317b6db5800d1e9122660167a4a7"
+      "output_sha256": "52c30ba79179aa832c8ff4e188d532e0187162939a5956dc5852be994d26d69c"
     },
     "amb_racetrack_crowd.wav": {
       "provenance": "sample_derived_mix",
@@ -730,9 +894,9 @@
       "provenance": "sample_derived_mix",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "Epic Stock Media - Public Spaces - Crowds Walla and Everyday Ambiences/AMBPubl_Metro Station Entrance Hall Dings Walla Footsteps 01 Women Shopping_ESM_CPS.wav",
-          "sha256": "ae34b93281e39d4f90d23b4ea8ac8d0d2100e51ff0a44c0acc44eb978bcfbab5",
+          "pack": "freesound_office_cc0",
+          "original_file": "135097_office_room_tone_hq.mp3",
+          "sha256": "7e8060be99b6afb0049e1a5aab9cb41054c3bfc6d835ea16f37a2f2de4425d97",
           "source_type": "field_recording"
         },
         {
@@ -743,7 +907,7 @@
         }
       ],
       "transform": "recording mix; 22.65s seamless crossfade; 22.05kHz stereo; RMS -29 dBFS",
-      "output_sha256": "a31a1744af5217376d3e61e45d7322cfa1949db0e356a586b94dc7db815f54b1"
+      "output_sha256": "caa867b61afba34377e69d43352e8476895e6339954cf7bbb53a78333f313ca2"
     },
     "amb_seaside.wav": {
       "provenance": "sample_derived_mix",
@@ -863,20 +1027,14 @@
       "provenance": "sample_derived_mix",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "Sonic Bat - Volleyball Match Ambience/SBvma_Feminine League Match 017.wav",
-          "sha256": "dd5127b7d13ab6878bad561bbd8e7a8c3889289a9525f362ff9e27fccb2db471",
-          "source_type": "field_recording"
-        },
-        {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "Sonic Bat - Bars & Restaurants Ambience/SBbra_Bar E 001.wav",
-          "sha256": "2407b4a3f083d28175ab25f2015e35e4d3a8ccee15563977fb062560f9cfe1f5",
+          "pack": "freesound_wedding_room_cc0",
+          "original_file": "133819_wedding_reception_hq.mp3",
+          "sha256": "91b57b62462b506ce03a8a9fd0aea12020d94aa55568596ff4a20c7ac8c32be8",
           "source_type": "field_recording"
         }
       ],
       "transform": "recording mix; 22.65s seamless crossfade; 22.05kHz stereo; RMS -29 dBFS",
-      "output_sha256": "0e819c93b7b7ee771c3ef17b7504e1d39ac02a19870fb9f28fef478773d0fbb5"
+      "output_sha256": "8eb559ba323211fc7a8077739df56b863d0d536b698a036ecb98f0bd4890de2a"
     },
     "amb_winter_wind.wav": {
       "provenance": "sample_derived_mix",
@@ -991,8 +1149,8 @@
           "source_type": "real_instrument_sample"
         }
       ],
-      "transform": "original score rendered only from recorded Yamaha C5 samples; 74 BPM; 16 bars; one-shot; humanized timing and dynamics; Ogg Vorbis q5",
-      "output_sha256": "3138d6fe377cd6f499a8f2b7b3c7921ac43c4f62cf49cbaefc589ef4ea526607"
+      "transform": "original score rendered only from recorded Yamaha C5 samples; 74 BPM; 16 bars; one-shot; humanized timing and dynamics; Ogg Vorbis q5; filename-derived deterministic stream serial and page CRC",
+      "output_sha256": "2e679667309cf419319374755c7117dbf0f11ad2c339a6312ae5f92ab969f18c"
     },
     "bgm_apartment.ogg": {
       "provenance": "real_instrument_sample",
@@ -1082,8 +1240,8 @@
           "source_type": "real_instrument_sample"
         }
       ],
-      "transform": "original score rendered only from recorded Yamaha C5 samples; 72 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5",
-      "output_sha256": "9739d4a7f3faf0cc5dd444d90965b4a9baeb5886b23f4a628e3aa02a3f4e258e"
+      "transform": "original score rendered only from recorded Yamaha C5 samples; 72 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5; filename-derived deterministic stream serial and page CRC",
+      "output_sha256": "49ae0a363dbd3475e67c2e7098fb3f3e13f3b13b657a4826f171e266411da1a1"
     },
     "bgm_casino_floor.ogg": {
       "provenance": "real_instrument_sample",
@@ -1179,8 +1337,8 @@
           "source_type": "real_instrument_sample"
         }
       ],
-      "transform": "original score rendered only from recorded Yamaha C5 samples; 92 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5",
-      "output_sha256": "86d9b605017a8b11ac248afeb9b13c9fbbeb215b5e6435a3da790b6903bd969f"
+      "transform": "original score rendered only from recorded Yamaha C5 samples; 92 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5; filename-derived deterministic stream serial and page CRC",
+      "output_sha256": "6fc29e15b8d79f107ed59e4aa241e0335c0288a307cd4560fe8649fd75ad399e"
     },
     "bgm_casino_table.ogg": {
       "provenance": "real_instrument_sample",
@@ -1282,8 +1440,8 @@
           "source_type": "real_instrument_sample"
         }
       ],
-      "transform": "original score rendered only from recorded Yamaha C5 samples; 92 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5",
-      "output_sha256": "9f8858c8a3cec63800bf28ccc82a168eabf6b286a0c2dd60412382d60adfe4a3"
+      "transform": "original score rendered only from recorded Yamaha C5 samples; 92 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5; filename-derived deterministic stream serial and page CRC",
+      "output_sha256": "b532af4e51d0468faf515bfe5e42212dd80df0300446e665f630292192ce0eeb"
     },
     "bgm_crisis.ogg": {
       "provenance": "real_instrument_sample",
@@ -1361,8 +1519,8 @@
           "source_type": "real_instrument_sample"
         }
       ],
-      "transform": "original score rendered only from recorded Yamaha C5 samples; 58 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5",
-      "output_sha256": "2e5561977a54fbf51e2bad155497f982f1e71d2b8486e523fe8b7ba51a4bd759"
+      "transform": "original score rendered only from recorded Yamaha C5 samples; 58 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5; filename-derived deterministic stream serial and page CRC",
+      "output_sha256": "02b2630591bf1b50ecf5fdc0033842e158db34a81c5e6fc6e8d5530253f11807"
     },
     "bgm_daeun.ogg": {
       "provenance": "real_instrument_sample",
@@ -1464,8 +1622,8 @@
           "source_type": "real_instrument_sample"
         }
       ],
-      "transform": "original score rendered only from recorded Yamaha C5 samples; 60 BPM; 16 bars; one-shot; humanized timing and dynamics; Ogg Vorbis q5",
-      "output_sha256": "03924af12a026630827533a82714df98828429ff5b5305e2caa312d4069198db"
+      "transform": "original score rendered only from recorded Yamaha C5 samples; 60 BPM; 16 bars; one-shot; humanized timing and dynamics; Ogg Vorbis q5; filename-derived deterministic stream serial and page CRC",
+      "output_sha256": "f1fae0d40f09eacb80a2e241e8063b58c1759f762841b22d192a35693c23e35e"
     },
     "bgm_ending.ogg": {
       "provenance": "real_instrument_sample",
@@ -1543,8 +1701,8 @@
           "source_type": "real_instrument_sample"
         }
       ],
-      "transform": "original score rendered only from recorded Yamaha C5 samples; 60 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5",
-      "output_sha256": "8c094b5de239b49f590a8b6fca910703d1ec5815f004845fd1b8f0392ed5c905"
+      "transform": "original score rendered only from recorded Yamaha C5 samples; 60 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5; filename-derived deterministic stream serial and page CRC",
+      "output_sha256": "2ffcd35c1f0d310ea0509280517d53220317d2cbe8c8f7526bca20749dcbac27"
     },
     "bgm_family.ogg": {
       "provenance": "real_instrument_sample",
@@ -1616,8 +1774,8 @@
           "source_type": "real_instrument_sample"
         }
       ],
-      "transform": "original score rendered only from recorded Yamaha C5 samples; 58 BPM; 16 bars; one-shot; humanized timing and dynamics; Ogg Vorbis q5",
-      "output_sha256": "6fab0192237f9d9c727fdc63a22095099cc7bf49c1f6ea9803a33acbeccca396"
+      "transform": "original score rendered only from recorded Yamaha C5 samples; 58 BPM; 16 bars; one-shot; humanized timing and dynamics; Ogg Vorbis q5; filename-derived deterministic stream serial and page CRC",
+      "output_sha256": "a464c8d84b752360547064a7e37de738c67c9e4ac273e79e75660c340f3aa241"
     },
     "bgm_gosiwon.ogg": {
       "provenance": "real_instrument_sample",
@@ -1689,8 +1847,8 @@
           "source_type": "real_instrument_sample"
         }
       ],
-      "transform": "original score rendered only from recorded Yamaha C5 samples; 62 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5",
-      "output_sha256": "06f0c75c50b3a6a2bdafbadd86500677bc498c1e069b66526ac1fb23c35cd7af"
+      "transform": "original score rendered only from recorded Yamaha C5 samples; 62 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5; filename-derived deterministic stream serial and page CRC",
+      "output_sha256": "b109da5481cc552cd54d9bf7272c53a95b5b42644285ec7d2682559790980283"
     },
     "bgm_grief.ogg": {
       "provenance": "real_instrument_sample",
@@ -1780,8 +1938,8 @@
           "source_type": "real_instrument_sample"
         }
       ],
-      "transform": "original score rendered only from recorded Yamaha C5 samples; 52 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5",
-      "output_sha256": "6ecf50715975031bed632df1aff4009326b7442f2cbbff63deb40ba3e423546d"
+      "transform": "original score rendered only from recorded Yamaha C5 samples; 52 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5; filename-derived deterministic stream serial and page CRC",
+      "output_sha256": "6dc44713eb86e9bc6adbd58bd0a90354516e88d8b13c63fcf4c7c0e26a18b78b"
     },
     "bgm_hyunsu.ogg": {
       "provenance": "real_instrument_sample",
@@ -1877,8 +2035,8 @@
           "source_type": "real_instrument_sample"
         }
       ],
-      "transform": "original score rendered only from recorded Yamaha C5 samples; 64 BPM; 16 bars; one-shot; humanized timing and dynamics; Ogg Vorbis q5",
-      "output_sha256": "60c181a9514ef190ebab78f99ed58986edacbb0b137a3835557ca746d2f4b5c5"
+      "transform": "original score rendered only from recorded Yamaha C5 samples; 64 BPM; 16 bars; one-shot; humanized timing and dynamics; Ogg Vorbis q5; filename-derived deterministic stream serial and page CRC",
+      "output_sha256": "de735c1b22d7f0645d0b739fc77d9e196de94be0862e7399e35b8af2302d60b1"
     },
     "bgm_intimate.ogg": {
       "provenance": "real_instrument_sample",
@@ -1962,8 +2120,8 @@
           "source_type": "real_instrument_sample"
         }
       ],
-      "transform": "original score rendered only from recorded Yamaha C5 samples; 56 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5",
-      "output_sha256": "699cefde0a301d569e2ad9702ac05ef505b77849a7e843527bba52189b3f493e"
+      "transform": "original score rendered only from recorded Yamaha C5 samples; 56 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5; filename-derived deterministic stream serial and page CRC",
+      "output_sha256": "d32573f1a7cd4c041334114a8d0c8d99be617e740a5cc7254094fff663e29c49"
     },
     "bgm_jiyeon.ogg": {
       "provenance": "real_instrument_sample",
@@ -2053,8 +2211,8 @@
           "source_type": "real_instrument_sample"
         }
       ],
-      "transform": "original score rendered only from recorded Yamaha C5 samples; 63 BPM; 16 bars; one-shot; humanized timing and dynamics; Ogg Vorbis q5",
-      "output_sha256": "a903bbcca7a4a88075f9d5f7f1326c4fefa8cf7d015177494346eabcc4872eb6"
+      "transform": "original score rendered only from recorded Yamaha C5 samples; 63 BPM; 16 bars; one-shot; humanized timing and dynamics; Ogg Vorbis q5; filename-derived deterministic stream serial and page CRC",
+      "output_sha256": "204ddc5ac671233953fc6b9c3a70a90dff17b62e7a365b28de959bf5fdd25b97"
     },
     "bgm_main.ogg": {
       "provenance": "real_instrument_sample",
@@ -2138,8 +2296,8 @@
           "source_type": "real_instrument_sample"
         }
       ],
-      "transform": "original score rendered only from recorded Yamaha C5 samples; 76 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5",
-      "output_sha256": "aff2bc6c5ff9cf0b15ce0da9b19f3e6d92d931ad2c424cc44e22171201ccf01d"
+      "transform": "original score rendered only from recorded Yamaha C5 samples; 76 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5; filename-derived deterministic stream serial and page CRC",
+      "output_sha256": "3329efd70f6d330b59c9474914237a3a18d05b92375d164172cae47835a11db4"
     },
     "bgm_menu.ogg": {
       "provenance": "real_instrument_sample",
@@ -2235,8 +2393,8 @@
           "source_type": "real_instrument_sample"
         }
       ],
-      "transform": "original score rendered only from recorded Yamaha C5 samples; 66 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5",
-      "output_sha256": "83613875067c35eaba38660f4644fa062874ebe253f1023ec7ca46363335e241"
+      "transform": "original score rendered only from recorded Yamaha C5 samples; 66 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5; filename-derived deterministic stream serial and page CRC",
+      "output_sha256": "85b327dd1b1fb165276702760db69ccd7a8def0062d1aaf1383abf791ac5a378"
     },
     "bgm_reckoning.ogg": {
       "provenance": "real_instrument_sample",
@@ -2314,8 +2472,8 @@
           "source_type": "real_instrument_sample"
         }
       ],
-      "transform": "original score rendered only from recorded Yamaha C5 samples; 60 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5",
-      "output_sha256": "4b780b4e906f6d14790cc44747ba72ef004cdbb2104d3c7c1251be52caee17d0"
+      "transform": "original score rendered only from recorded Yamaha C5 samples; 60 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5; filename-derived deterministic stream serial and page CRC",
+      "output_sha256": "ca03f553d5952fbbbb02eb5d1074f1199d1ebc83bb6825940a0cd40687d121ca"
     },
     "bgm_survival.ogg": {
       "provenance": "real_instrument_sample",
@@ -2393,8 +2551,8 @@
           "source_type": "real_instrument_sample"
         }
       ],
-      "transform": "original score rendered only from recorded Yamaha C5 samples; 70 BPM; 16 bars; one-shot; humanized timing and dynamics; Ogg Vorbis q5",
-      "output_sha256": "acddbdf5b3e4179c8140a1ff45a59c8544859ab80b1ebc7f641c92d4b7f39256"
+      "transform": "original score rendered only from recorded Yamaha C5 samples; 70 BPM; 16 bars; one-shot; humanized timing and dynamics; Ogg Vorbis q5; filename-derived deterministic stream serial and page CRC",
+      "output_sha256": "8a85794cf4abd58ebd0b8c39a430319719e2c945de15c03436109bf48977b2b6"
     },
     "bgm_victory.ogg": {
       "provenance": "real_instrument_sample",
@@ -2484,8 +2642,8 @@
           "source_type": "real_instrument_sample"
         }
       ],
-      "transform": "original score rendered only from recorded Yamaha C5 samples; 68 BPM; 16 bars; one-shot; humanized timing and dynamics; Ogg Vorbis q5",
-      "output_sha256": "6e6d3f582ab3d9ef04f1bc496a7658be78b0878fbb65586e90108e6936c5078a"
+      "transform": "original score rendered only from recorded Yamaha C5 samples; 68 BPM; 16 bars; one-shot; humanized timing and dynamics; Ogg Vorbis q5; filename-derived deterministic stream serial and page CRC",
+      "output_sha256": "935e22d54a0f4405f648cc02ec5d07ae2542c08d7a40e5146b60bc4b13313171"
     },
     "bgm_wedding_processional.ogg": {
       "provenance": "real_instrument_sample",
@@ -2581,8 +2739,8 @@
           "source_type": "real_instrument_sample"
         }
       ],
-      "transform": "original score rendered only from recorded Yamaha C5 samples; 64 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5",
-      "output_sha256": "1a08be857a9190940a920903e897a54e099f503285a0fa312d328fb30dd79b01"
+      "transform": "original score rendered only from recorded Yamaha C5 samples; 64 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5; filename-derived deterministic stream serial and page CRC",
+      "output_sha256": "5079cb05bcacb7ab207c516975aaf3862bad46ec32b8011988f8b1d37a0f7cd1"
     },
     "bgm_wonder.ogg": {
       "provenance": "real_instrument_sample",
@@ -2678,8 +2836,8 @@
           "source_type": "real_instrument_sample"
         }
       ],
-      "transform": "original score rendered only from recorded Yamaha C5 samples; 62 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5",
-      "output_sha256": "32218b3586e6b1f6c7230e2802115d8c6ad7cc12aae85604672d9f627f90e0ea"
+      "transform": "original score rendered only from recorded Yamaha C5 samples; 62 BPM; 16 bars; seamless loop; humanized timing and dynamics; Ogg Vorbis q5; filename-derived deterministic stream serial and page CRC",
+      "output_sha256": "97ac122487e9f4adb7f1ae43266d3ec69763eade9efe8b346857435a19ccc6ef"
     },
     "sfx_bicycle_impact.wav": {
       "provenance": "sample_derived_mix",
@@ -2717,14 +2875,14 @@
       "provenance": "field_recording",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "SoundBits - Pass-By - Trains, Trucks & Cars 2/VEHFrght_Freight Truck Pass By 22_SNDBTS_PB-TTC2.wav",
-          "sha256": "faf8a6ab6cc58e3093698174219bc56427dbaebbd850c71d423a1889ae395183",
+          "pack": "freesound_bus_cc0",
+          "original_file": "338212_bus_arrival_hq.mp3",
+          "sha256": "b034f2e2024fd83137d9de608335db743f5e6246d5be6b6742d11dfc7194b430",
           "source_type": "field_recording"
         }
       ],
       "transform": "recorded one-shot edit; mono 44.1kHz; max 2.80s; RMS -23.0 dBFS",
-      "output_sha256": "a9b18ed2bd7a766a59a2211ecdba2fb29b5d93c7bc4afa7931369705afc70a3e"
+      "output_sha256": "69eeed2500086e30943d95fa1cefd2a0f0432d79920fa9cb21d94dd6a6872d44"
     },
     "sfx_buy.wav": {
       "provenance": "object_recording",
@@ -2850,30 +3008,30 @@
       "output_sha256": "2fa702c39533e877c1d0300ebb5ac037367673fbf9106b460aea5219af156b16"
     },
     "sfx_casino_reel.wav": {
-      "provenance": "field_recording",
+      "provenance": "object_recording",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "Epic Stock Media - HD Lock And Mechanism Sound Design Kit/MACHMech_Mechanism Counting Machine Interact Loose Container Short 01_ESM_HDLM.wav",
-          "sha256": "22a02e08af147649519a9081ac77e13e711387944a13bb8688ae5997c6efd968",
-          "source_type": "field_recording"
+          "pack": "freesound_slot_cc0",
+          "original_file": "415074_slot_reels_hq.mp3",
+          "sha256": "e5377f11f4f5b1ff38d96667083b73ab5b080ef68fb587132bdea898097d8c16",
+          "source_type": "object_recording"
         }
       ],
       "transform": "recorded one-shot edit; mono 44.1kHz; max 0.38s; RMS -22.0 dBFS",
-      "output_sha256": "621141d07218866f869b857efc87d338fa733f4a96c37f05d923aa2472cd5e5d"
+      "output_sha256": "c422d926aa915724d2aadf50af93e5a4e7645614559becc25301ddb618eb1e64"
     },
     "sfx_casino_spin.wav": {
-      "provenance": "field_recording",
+      "provenance": "object_recording",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "Sonic Bat - Vintage Radio/SBvr_Mode Select Wheel 006.wav",
-          "sha256": "93d9dac69dc063d3b8e243f8d7dd8b100fba17567f67958840b318163af0a83b",
-          "source_type": "field_recording"
+          "pack": "freesound_roulette_cc0",
+          "original_file": "588351_roulette_spin_hq.mp3",
+          "sha256": "923ee9995b22788fd869576f7ef3016afeb92f21954dac33cba3b2a9a8a4d0e2",
+          "source_type": "object_recording"
         }
       ],
       "transform": "recorded one-shot edit; mono 44.1kHz; max 0.75s; RMS -21.0 dBFS",
-      "output_sha256": "c942440d20df06e00df76056146de6bdf232da5f4741b768d4b0cb888535948e"
+      "output_sha256": "fb806d8fc2645167d9c2e06995fd1b149ebee85ecf768f063faa8a0747555a94"
     },
     "sfx_casino_win.wav": {
       "provenance": "object_recording",
@@ -2965,6 +3123,19 @@
       ],
       "transform": "recorded one-shot edit; mono 44.1kHz; max 0.28s; RMS -21.0 dBFS",
       "output_sha256": "d1e1aa952699749cfd66a79a6a4a7906577633cd500d3b6bb998955ce21660f2"
+    },
+    "sfx_cloth_shift.wav": {
+      "provenance": "field_recording",
+      "sources": [
+        {
+          "pack": "owlish_cc0",
+          "original_file": "Cloth, Rustle/320141__owlstorm__blanket-movement-3.wav",
+          "sha256": "0efaa7a0397061cd1aa38a66bfed01fd7d8cee31c2f07d572a08d4143d5bfcab",
+          "source_type": "field_recording"
+        }
+      ],
+      "transform": "recorded one-shot edit; mono 44.1kHz; max 0.78s; RMS -27.0 dBFS",
+      "output_sha256": "efaee29601fd89eecbd460e6487a725d3085a82770c9c3fb5b3b1fa96ddad994"
     },
     "sfx_cup_set.wav": {
       "provenance": "field_recording",
@@ -3300,6 +3471,19 @@
       "transform": "recorded one-shot edit; mono 44.1kHz; max 0.34s; RMS -24.0 dBFS",
       "output_sha256": "971413e7d4bda9fe18ef90183cf23bcedb488110ff88a6a65fd1c759faf1e2ee"
     },
+    "sfx_page_turn.wav": {
+      "provenance": "field_recording",
+      "sources": [
+        {
+          "pack": "owlish_cc0",
+          "original_file": "Paper/pageturn2.wav",
+          "sha256": "0a1d9047a54158b43df61a20effa262f44b1639be62a419081f31f14cfca7a1f",
+          "source_type": "field_recording"
+        }
+      ],
+      "transform": "recorded one-shot edit; mono 44.1kHz; max 0.86s; RMS -25.0 dBFS",
+      "output_sha256": "cb524d4626a8699d8f4afd317f752034e8a6c44a7c2c9d08daa6d79a2f57c81d"
+    },
     "sfx_paper_handle.wav": {
       "provenance": "field_recording",
       "sources": [
@@ -3312,6 +3496,19 @@
       ],
       "transform": "recorded one-shot edit; mono 44.1kHz; max 0.82s; RMS -23.0 dBFS",
       "output_sha256": "f52ca59977b20bc159a346922304e72c8f0338bd8a84268068f8aeba70094024"
+    },
+    "sfx_pen_write.wav": {
+      "provenance": "field_recording",
+      "sources": [
+        {
+          "pack": "owlish_cc0",
+          "original_file": "Paper/pencil-scratch-1.wav",
+          "sha256": "391d6c6bd63d4b0de754278993eca2bf0b2ece366c10d22cdcb22480b2ea2ad4",
+          "source_type": "field_recording"
+        }
+      ],
+      "transform": "recorded one-shot edit; mono 44.1kHz; max 0.82s; RMS -25.0 dBFS",
+      "output_sha256": "38fec358706e186036de1fa2b81826d96c6ada047d79bb334c99cd1b74d33061"
     },
     "sfx_phone_notification.wav": {
       "provenance": "field_recording",
@@ -3408,26 +3605,26 @@
       "sources": [
         {
           "pack": "sonniss_gdc_2026",
-          "original_file": "SoundBits - Cars - Mad Mustang Mercury/VEHDoor_Car Foley Car Door Open and Close Exterior 04 Perspective A_SNDBTS_CRS-MMM.wav",
-          "sha256": "e1fa457aad41930050a8b5723fd468f8c1a33ce46ea5944031c3585a9b2bd8d8",
+          "original_file": "Epic Stock Media - Board Game - Sound Set Kit for Tabletop and Digital Games/GAMEBoard_Event Board Reset Organic Multiple Pieces Wood Small 02_ESM_BG.wav",
+          "sha256": "8ee324529ccf157cc0f3f64c6965706f4dc320a4ecd300f9a45309ab24cfb197",
           "source_type": "field_recording"
         }
       ],
-      "transform": "recorded one-shot edit; mono 44.1kHz; max 0.72s; RMS -19.0 dBFS",
-      "output_sha256": "e6c9c04d0b70f8e65b0be8dffc9baeed0d7f625f8099569fed35141649df54e6"
+      "transform": "recorded one-shot edit; mono 44.1kHz; max 0.72s; RMS -21.0 dBFS",
+      "output_sha256": "d49974495ba741c79d035410dcd107f51d8794abd07bc14e7d095e5e03796832"
     },
     "sfx_register_scan.wav": {
-      "provenance": "field_recording",
+      "provenance": "object_recording",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "InMotionAudio - Medical Thermometer/BEEPMed_Thermometer_Beep11_InMotionAudio_MedicalThermometer.wav",
-          "sha256": "a7763b1ade61facc164d0cc548f2468c2b03c83555bdca7e98c91c3a63b308e8",
-          "source_type": "field_recording"
+          "pack": "freesound_barcode_cc0",
+          "original_file": "185888_barcode_reader_hq.mp3",
+          "sha256": "94d15af1fb766921ae48abf3e58c20aa72ad9cdf190b496fcfacf848dead7087",
+          "source_type": "object_recording"
         }
       ],
-      "transform": "recorded one-shot edit; mono 44.1kHz; max 0.44s; RMS -26.0 dBFS",
-      "output_sha256": "4317f0f84bf6f8b6bcf6f6e2dcc87e177d59f0640871e4ec303755bd824cb336"
+      "transform": "recorded one-shot edit; mono 44.1kHz; max 0.44s; RMS -25.0 dBFS",
+      "output_sha256": "8027c2b74047f19d38d3a2e135355ad59861cdf4d3074e255552dcc405419e0b"
     },
     "sfx_result_human.wav": {
       "provenance": "field_recording",
@@ -3482,17 +3679,17 @@
       "output_sha256": "3c55c941fe27111233e9d8596e7fd3cee8842d52c5351800f609dc4fa566810b"
     },
     "sfx_roulette_wheel.wav": {
-      "provenance": "field_recording",
+      "provenance": "object_recording",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "Sonic Bat - Vintage Radio/SBvr_Mode Select Wheel 006.wav",
-          "sha256": "93d9dac69dc063d3b8e243f8d7dd8b100fba17567f67958840b318163af0a83b",
-          "source_type": "field_recording"
+          "pack": "freesound_roulette_cc0",
+          "original_file": "588351_roulette_spin_hq.mp3",
+          "sha256": "923ee9995b22788fd869576f7ef3016afeb92f21954dac33cba3b2a9a8a4d0e2",
+          "source_type": "object_recording"
         }
       ],
       "transform": "recorded one-shot edit; mono 44.1kHz; max 1.15s; RMS -23.0 dBFS",
-      "output_sha256": "664b1e37b082f43dcdbe11647c2fa52e4269bdbf9ff79a92f01d403e866c5107"
+      "output_sha256": "8a903dde52973fdaee1556a0cb02bcc8362ab2c6672c11c1efce6da7e57e2f20"
     },
     "sfx_sell.wav": {
       "provenance": "object_recording",
@@ -3521,17 +3718,17 @@
       "output_sha256": "d1e1aa952699749cfd66a79a6a4a7906577633cd500d3b6bb998955ce21660f2"
     },
     "sfx_slot_start.wav": {
-      "provenance": "field_recording",
+      "provenance": "object_recording",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "Epic Stock Media - HD Lock And Mechanism Sound Design Kit/MECHMisc_Tool Tape Measure Pull Retract Spring Slide Spin Long 07_ESM_HDLM.wav",
-          "sha256": "98ca9a8955b69cbe6844614bb0de2973014f9845314d17aa5f02a8f44cdfbfff",
-          "source_type": "field_recording"
+          "pack": "freesound_slot_cc0",
+          "original_file": "415074_slot_reels_hq.mp3",
+          "sha256": "e5377f11f4f5b1ff38d96667083b73ab5b080ef68fb587132bdea898097d8c16",
+          "source_type": "object_recording"
         }
       ],
       "transform": "recorded one-shot edit; mono 44.1kHz; max 0.75s; RMS -22.0 dBFS",
-      "output_sha256": "d8e6a7d4e8743b20f0d96032bfca67df8d0e851cd7d035ba19d13e5e6ecf7c96"
+      "output_sha256": "78702744a48188e2bf050ba96b5ac0c16a98ebd8716fdee0ce1d73879bd5d585"
     },
     "sfx_stat_down.wav": {
       "provenance": "field_recording",
@@ -3602,27 +3799,27 @@
       "provenance": "field_recording",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "Sonic Bat - Volleyball Match Ambience/SBvma_Feminine League Match 017.wav",
-          "sha256": "dd5127b7d13ab6878bad561bbd8e7a8c3889289a9525f362ff9e27fccb2db471",
+          "pack": "freesound_wedding_applause_cc0",
+          "original_file": "414292_wedding_applause_hq.mp3",
+          "sha256": "3b562fac51ed9ba136f33557d903652e1094aced294b144f64e1cc24345577f4",
           "source_type": "field_recording"
         }
       ],
       "transform": "recorded one-shot edit; mono 44.1kHz; max 3.00s; RMS -22.0 dBFS",
-      "output_sha256": "18de5013e7de4abeff69eafebfddcd3ce41d907a55140923679adfede2553e79"
+      "output_sha256": "2c95e96b7ddf986da4eb8d2225bff6b5e3887fdb11f950fa0a75f0bde90e296e"
     },
     "sfx_wedding_cheer.wav": {
       "provenance": "field_recording",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "Sonic Bat - Volleyball Match Ambience/SBvma_Masculine Regional Match 005.wav",
-          "sha256": "f45415205d71fe06288243218e2eb6307d335469bfbb202c00e7ad821cbefb45",
+          "pack": "freesound_wedding_applause_cc0",
+          "original_file": "414292_wedding_applause_hq.mp3",
+          "sha256": "3b562fac51ed9ba136f33557d903652e1094aced294b144f64e1cc24345577f4",
           "source_type": "field_recording"
         }
       ],
-      "transform": "recorded one-shot edit; mono 44.1kHz; max 3.00s; RMS -22.0 dBFS",
-      "output_sha256": "de15576b4ee1c2fb008d680fe3deaa49774d7caedb4720af9da47ea2cd9574c8"
+      "transform": "recorded one-shot edit; mono 44.1kHz; max 3.00s; RMS -23.0 dBFS",
+      "output_sha256": "3adc31c3d1bbbaebd95f136c6a9a015cd8c31c93d51b4bf100039d284fd70121"
     }
   }
 }

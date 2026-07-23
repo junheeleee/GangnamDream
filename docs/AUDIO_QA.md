@@ -23,11 +23,11 @@ The sound must belong to the same work as the `Gangnam Ink` visual direction.
 | Class | Count | Runtime owner |
 |---|---:|---|
 | BGM | 20 | `autoloads/BGMPlayer.gd` |
-| Ambience | 47 | `autoloads/BGMPlayer.gd` (38 inert/place + 9 human-presence layers) |
-| SFX | 67 | `autoloads/AudioManager.gd` |
-| **Total** | **134** | one provenance-tracked recording/sample master each |
+| Ambience | 49 | `autoloads/BGMPlayer.gd` (39 inert/place + 10 human-presence layers) |
+| SFX | 70 | `autoloads/AudioManager.gd` |
+| **Total** | **139** | one provenance-tracked recording/sample master each |
 
-All 134 current assets are recording/sample-backed: 20 real-piano scores, 47 field-recorded ambience beds, and 67 recorded physical/UI/gameplay effects. `assets/audio/AUDIO_SOURCE_MANIFEST.json` records the exact source and transform for every file, and `tools/audio_source_audit.py` rejects synthesized provenance or code.
+All 139 current assets are recording/sample-backed: 20 real-piano scores, 49 field-recorded ambience beds, and 70 recorded physical/UI/gameplay effects. `assets/audio/AUDIO_SOURCE_MANIFEST.json` records the exact source and transform for every file, and `tools/audio_source_audit.py` rejects synthesized provenance, code, and known source-to-scene substitutions.
 
 ## Launch Identity
 
@@ -58,9 +58,12 @@ The seven base tracks cover title, routine, crisis, and endings. Five authored p
 
 ### Six-Month Demo Mix
 
-- All 45 contracted demo events have explicit audio intent; 43 use paragraph-owned physical foley and 41 use authored music. The remaining silence is deliberate, not a missing fallback.
-- The Knee memory uses a dedicated `family_home` bed: modest refrigerator motor, wall clock, and distant unintelligible television texture. It must never sound like Minjun's goshiwon.
+- All 45 contracted demo events have explicit audio intent; 42 use paragraph-owned physical foley and 41 use authored music. The remaining silence is deliberate, not a missing fallback.
+- The Knee memory uses a dedicated `family_home` bed: restrained apartment room tone, modest refrigerator motor, and wall clock. It has no invented television and must never sound like Minjun's goshiwon.
 - `story_knee_door`, `story_knee_witness`, and `story_knee_choice` share one uninterrupted `family` playback position. Door latch and paper movement land on physical prose beats; there is no melodramatic sting.
+- Minjun's room uses refrigerator/clock machinery plus a separate sparse thin-wall layer made from distant cloth, cough, tap water, and corridor footfall recordings. Metro halls, food courts, streets, and continuous crowd walla are forbidden in both `goshiwon_room` and `goshiwon_hallway`.
+- The convenience-store shift uses its refrigerator floor plus a real convenience-store human layer. Interviews and offices use office room tone; hospital and gym scenes use their own recorded rooms. A generic `night` tag no longer invents rain.
+- Entrance or prop sounds land when prose names the physical action: the first meal scans at the checkout paragraph, the interview handles paper when the resume moves, Father's call vibrates only when the phone actually rings, and the prologue notebook turns a page before the pen writes.
 - Demo room/season trims place the source beds in an audible default window. Human presence is clear at Gray, attenuated at Light Black, and nearly absent at Deep Black while machinery and weather remain.
 - Korean PlayStation and English Xbox 24-week profiles expose the same 46 events, ten music keys, 41 authored-music events, and a maximum unscored root run of one.
 
@@ -151,14 +154,14 @@ python3 tools/generate_launch_audio.py --check
 Latest targeted result:
 
 ```text
-AUDIO_SOURCE_AUDIT_OK assets=134 bgm=20 ambience=47 sfx=67 source_libraries=8 recordings_or_samples=134 procedural=0
-SCENE_AUDIO_CONTRACT_OK cg=59 peak_events=116 ambience_keys=38 music_keys=20 demo_contracts=45 demo_foley_events=43
-GAME_AUDIO_CONTRACT_OK physical=31 stages=19 activities=7 activity_music=1 human_layers=9 direct_pad=9
-AUDIO_ASSET_CHECK_OK bgm=20 ambience=47 sfx=67
+AUDIO_SOURCE_AUDIT_OK assets=139 bgm=20 ambience=49 sfx=70 source_libraries=20 recordings_or_samples=139 procedural=0
+SCENE_AUDIO_CONTRACT_OK cg=59 peak_events=116 ambience_keys=39 music_keys=20 demo_contracts=45 demo_foley_events=42
+GAME_AUDIO_CONTRACT_OK physical=31 stages=19 activities=7 activity_music=1 human_layers=10 direct_pad=9
+AUDIO_ASSET_CHECK_OK bgm=20 ambience=49 sfx=70
 LAUNCH_AUDIO_OK stereo=2 rate=44100 duration=1.55
 BGM_CONTINUITY_OK mode=menu key=menu ambience=
 GAME_AUDIO_RUNTIME_OK physical=31 ambience_roundtrip=3 varied_playback=1 casino_music=1
-MORAL_AMBIENCE_CHECK_OK profiles=9 neutral=-8.04 dark=-22.04 deep=-54.04
+MORAL_AMBIENCE_CHECK_OK profiles=10 neutral=-8.04 dark=-22.04 deep=-54.04
 STORY_AUDIO_SETTINGS_CHECK_OK text=3 locale=ko/en timer_pause=11996 result_replay=0
 DEMO_EXPERIENCE_AUDIT_OK reports=2 parity=ko/en music=10 authored_music=41
 ```
@@ -169,15 +172,20 @@ Hyunsu's reunion remains scoreless on the live housing room tone through the emp
 
 ## Human Listening Gate
 
-Current candidate: clean revision `cf9208533449a99a11e24f0844fc09398bf670f0`, tree `13743beba3084893e397d96fd2d374952ff9c9d5`, manifest SHA-256 `1bf5033935811a8e86867c25ef5b173090ffa3dda85c214690de00e373c00d46`. Windows/macOS/Linux-Steam Deck exports and an isolated macOS package boot pass. This is a technical candidate, not a listening approval.
+The previous `cf92085` candidate is superseded by the scene-specific demo
+recording pass. A new clean three-platform RC must be issued from the
+implementation commit before outside listening. Automated routing and
+Korean/English rendering pass; this is not a listening approval.
 
 Before demo lock, listen at the real 1280x800/Steam Deck presentation and on headphones, laptop speakers, and a living-room TV:
 
 1. Play the complete Knee memory without skipping. The player must hear a modest family home before seeing the room, recognize one unbroken family motif, and feel the door/paper beats without hearing a tragedy jingle.
-2. Play ten consecutive rounds of each casino game. Repeated ticks must not become a metronome.
-3. Compare each physical sound with the visible material. Paper, felt, ceramic, metal, glass, and asphalt must not share one transient.
-4. Enter and leave every activity. In Jeongseon, move floor→table→floor repeatedly; the motif must intensify and relax without restarting, while room tone and physical sounds remain legible. No abrupt cut or AP-hub bleed is allowed.
-5. Play the wedding chain without skipping. Processional continuity, paragraph applause, voice-free room tone, and decision silence must feel like one scene.
-6. A/B alternate recorded takes for any weak physical cue. Promote only the take that sounds native to the modern illustration while preserving source hashes and license evidence.
-7. Compare the same cafe, street, casino, and wedding screen at Gray, Light Black, Deep Black, and White. Only human presence should radically recede; the place and interaction timing must remain believable.
-8. Cold-boot three times on all three output classes. The publisher sting must read as one restrained brand gesture, never as a mobile reward chirp, and must not replay at the title or New Story transition.
+2. Play the goshiwon arrival, Father's call, Hyunsu corridor scenes, and one quiet weekly return in sequence. The room may contain refrigerator, clock, cloth, plumbing, a distant cough, or corridor footfall; it must never resemble a station, food court, street, or outdoor crowd.
+3. Play the first convenience-store meal, interview, first shift, gym, and hospital scenes. Each place must be identifiable with the image hidden; scanner, paper, phone, and room cues must occur only when the prose reaches the action.
+4. Play ten consecutive rounds of each casino game. Repeated ticks must not become a metronome.
+5. Compare each physical sound with the visible material. Paper, felt, ceramic, metal, glass, and asphalt must not share one transient.
+6. Enter and leave every activity. In Jeongseon, move floor→table→floor repeatedly; the motif must intensify and relax without restarting, while room tone and physical sounds remain legible. No abrupt cut or AP-hub bleed is allowed.
+7. Play the wedding chain without skipping. Processional continuity, paragraph applause, voice-free room tone, and decision silence must feel like one scene.
+8. A/B alternate recorded takes for any weak physical cue. Promote only the take that sounds native to the modern illustration while preserving source hashes and license evidence.
+9. Compare the same cafe, street, casino, and wedding screen at Gray, Light Black, Deep Black, and White. Only human presence should radically recede; the place and interaction timing must remain believable.
+10. Cold-boot three times on all three output classes. The publisher sting must read as one restrained brand gesture, never as a mobile reward chirp, and must not replay at the title or New Story transition.

@@ -1661,6 +1661,13 @@
     },
     {
       "ids": [
+        "goshiwon_hallway"
+      ],
+      "relative_path": "audio/amb_goshiwon_hallway.wav",
+      "bytes": 1997772
+    },
+    {
+      "ids": [
         "room"
       ],
       "relative_path": "audio/amb_goshiwon_room.wav",
@@ -1720,6 +1727,13 @@
         "casino"
       ],
       "relative_path": "audio/amb_human_casino.wav",
+      "bytes": 1587644
+    },
+    {
+      "ids": [
+        "convenience"
+      ],
+      "relative_path": "audio/amb_human_convenience.wav",
       "bytes": 1587644
     },
     {
@@ -2098,7 +2112,7 @@
         "bus_arrival"
       ],
       "relative_path": "audio/sfx_bus_arrival.wav",
-      "bytes": 244564
+      "bytes": 130352
     },
     {
       "ids": [
@@ -2168,14 +2182,14 @@
         "casino_reel"
       ],
       "relative_path": "audio/sfx_casino_reel.wav",
-      "bytes": 23904
+      "bytes": 33560
     },
     {
       "ids": [
         "casino_spin"
       ],
       "relative_path": "audio/sfx_casino_spin.wav",
-      "bytes": 60944
+      "bytes": 66194
     },
     {
       "ids": [
@@ -2225,6 +2239,13 @@
       ],
       "relative_path": "audio/sfx_close.wav",
       "bytes": 16016
+    },
+    {
+      "ids": [
+        "cloth_shift"
+      ],
+      "relative_path": "audio/sfx_cloth_shift.wav",
+      "bytes": 56498
     },
     {
       "ids": [
@@ -2382,10 +2403,24 @@
     },
     {
       "ids": [
+        "page_turn"
+      ],
+      "relative_path": "audio/sfx_page_turn.wav",
+      "bytes": 72252
+    },
+    {
+      "ids": [
         "paper_handle"
       ],
       "relative_path": "audio/sfx_paper_handle.wav",
       "bytes": 68990
+    },
+    {
+      "ids": [
+        "pen_write"
+      ],
+      "relative_path": "audio/sfx_pen_write.wav",
+      "bytes": 72368
     },
     {
       "ids": [
@@ -2434,14 +2469,14 @@
         "race_gate"
       ],
       "relative_path": "audio/sfx_race_gate.wav",
-      "bytes": 62370
+      "bytes": 63548
     },
     {
       "ids": [
         "register_scan"
       ],
       "relative_path": "audio/sfx_register_scan.wav",
-      "bytes": 19576
+      "bytes": 38852
     },
     {
       "ids": [
@@ -2476,7 +2511,7 @@
         "roulette_wheel"
       ],
       "relative_path": "audio/sfx_roulette_wheel.wav",
-      "bytes": 87292
+      "bytes": 101472
     },
     {
       "ids": [
@@ -2497,7 +2532,7 @@
         "slot_start"
       ],
       "relative_path": "audio/sfx_slot_start.wav",
-      "bytes": 65026
+      "bytes": 65104
     },
     {
       "ids": [
