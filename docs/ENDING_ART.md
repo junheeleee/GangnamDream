@@ -71,7 +71,7 @@ Updated: 2026-07-17
 | `jiyeon_man` | A | `cg_ending_jiyeon_man` | `gangnam_day` | P0 완료. 중복 신체 없는 반사 전용 두 사람·시선 잠금 |
 | `jaehyuk_way` | B | `cg_ending_jaehyuk_way` | `gangnam_night` | P0 완료. 핵심 moral collapse 엔딩 |
 | `late_call` | B | `cg_ending_late_call` | `ktx_window` | P1 완료. 모든 기억 변주의 공통 물리인 KTX·전화·비만 고정 |
-| `stable_success` | B | 없음 | `rooftop_day` | P2. 전용 안정 배경이 있으면 좋음 |
+| `stable_success` | B | `cg_ending_stable_success` | `rooftop_day` | P1 완료. 소형 서울 집에서 금융 앱을 닫고 처음 안도하는 38세 민준 |
 | `ordinary_life` | C | 없음 | 없음 | 공통 모노톤 실패/일상 카드 |
 | `burnout` | F | `cg_ending_burnout` | 없음 | P1 완료. 응급 관찰 침상 1인칭 시점, 형광등·연결된 링거·닿지 않은 휴대폰 |
 | `mental_break` | F | 없음 | 없음 | 정신건강의학과 진료실 장면. 응급실 `burnout` CG 공유 금지 |

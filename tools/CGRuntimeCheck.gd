@@ -516,9 +516,13 @@ func _check_all_story_cg_contracts() -> void:
 			var owner := str(ref["owner"])
 			var cg_id := str(ref["cg"])
 			if owners.has(cg_id):
+				var previous_owner := str(owners[cg_id])
+				var same_event := previous_owner.get_slice("#", 0) == owner.get_slice("#", 0)
 				var continuity_owners: Array = ALLOWED_STORY_CG_CONTINUITY.get(cg_id, [])
-				if str(owners[cg_id]) not in continuity_owners or owner not in continuity_owners:
-					_failures.append("story cg %s is shared by %s and %s" % [cg_id, str(owners[cg_id]), owner])
+				if not same_event \
+						and (previous_owner not in continuity_owners or owner not in continuity_owners):
+					_failures.append("story cg %s is shared by %s and %s" % [
+						cg_id, previous_owner, owner])
 			else:
 				owners[cg_id] = owner
 			var path := ImageRegistry.get_cg(cg_id)
@@ -731,6 +735,12 @@ func _check_ending_cg() -> void:
 	_check_ending_cg_path(main, "burnout", "cg_ending_burnout")
 	if ImageRegistry.get_cg("cg_ending_burnout") != "res://assets/cg/ending_burnout_v1.png":
 		_failures.append("burnout must use its dedicated emergency-bed POV CG")
+	_check_ending_cg_path(main, "stable_success", "cg_ending_stable_success")
+	if ImageRegistry.get_cg("cg_ending_stable_success") != "res://assets/cg/ending_stable_success_v1.png":
+		_failures.append("stable_success must use its dedicated modest-studio relief CG")
+	var stable_success: Dictionary = EndingSystem.get_ending("stable_success")
+	if not is_equal_approx(float(stable_success.get("cg_preview_focus_y", 0.5)), 0.38):
+		_failures.append("stable_success must keep its face-first ending preview focus")
 	var mental_break: Dictionary = EndingSystem.get_ending("mental_break")
 	if str(mental_break.get("cg", "")) == "cg_ending_burnout":
 		_failures.append("mental_break must not reuse the physical-collapse burnout CG")

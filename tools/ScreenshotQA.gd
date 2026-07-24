@@ -174,6 +174,15 @@ const YEAR_IDENTITY_SCENE_SAMPLE: Array[String] = [
 	"arc_sangchul_01_meet",
 	"arc_job_first_rejection",
 ]
+const CAST_TIME_SCENE_SAMPLE: Array[Dictionary] = [
+	{"event": "cafe_listen_01", "cast": "minjun", "suppress_cg": false},
+	{"event": "arc_daeun_01_meet", "cast": "daeun", "suppress_cg": true},
+	{"event": "arc_jiyeon_02_store", "cast": "jiyeon", "suppress_cg": false},
+	{"event": "arc_intro_04_hyunsu", "cast": "hyunsu", "suppress_cg": false},
+	{"event": "arc_jaehyuk_01_reunion", "cast": "jaehyuk", "suppress_cg": false},
+	{"event": "arc_sangchul_01_meet", "cast": "sangchul", "suppress_cg": false},
+	{"event": "callback_showed_room_parents_echo", "cast": "father", "suppress_cg": false},
+]
 var _mg: Node = null
 var _qa_failed := false
 var _route_keyboard_events := 0
@@ -1565,6 +1574,8 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	_assert_chapter2_visual_state(story, event_id, select_choice)
 	_assert_chapter3_spine_state(story, event_id)
 	_assert_late_chapter_spine_state(story, event_id, select_choice)
+	if _qa_scope() == QA_SCOPE_YEAR_IDENTITY:
+		_assert_temporal_portrait_state(story, event_id)
 	if _qa_scope() == QA_SCOPE_DISPLAY_MATRIX:
 		_assert_story_display_contract(story, event_id)
 	if _qa_scope() == QA_SCOPE_TEXT_MATERIAL:
@@ -1575,6 +1586,27 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 		overridden_event["cg"] = original_cg
 	GameState.pending_story_queue.clear()
 	await _settle(0.3)
+
+func _assert_temporal_portrait_state(story: Node, event_id: String) -> void:
+	var event: Dictionary = DataRegistry.find_event(event_id)
+	var portrait_id := str(event.get("portrait", ""))
+	if portrait_id.is_empty():
+		return
+	var expected_path := ImageRegistry.get_portrait_for_turn(portrait_id, GameState.turn)
+	var portrait := story.get("_portrait") as TextureRect
+	var actual_path := ""
+	if is_instance_valid(portrait) and portrait.texture != null:
+		actual_path = portrait.texture.resource_path
+	if expected_path.is_empty() or actual_path != expected_path:
+		_fail("%s turn %d temporal portrait expected %s, got %s." % [
+			event_id, GameState.turn, expected_path, actual_path])
+		return
+	var viewport_size := get_viewport().get_visible_rect().size
+	var visible_rect := portrait.get_global_rect().intersection(Rect2(Vector2.ZERO, viewport_size))
+	if visible_rect.size.x < viewport_size.x * 0.14 \
+			or visible_rect.size.y < viewport_size.y * 0.42:
+		_fail("%s turn %d temporal portrait is too small or clipped: %s in %s." % [
+			event_id, GameState.turn, visible_rect, viewport_size])
 
 func _shot_living_scene_surfaces(lang: String, prefix: String) -> void:
 	await _shot_story_event("kx_monsoon", prefix + "01_rain", lang, 1.5, true)
@@ -4357,16 +4389,45 @@ func _shot_year_identity_surfaces(lang: String = "en", prefix: String = "year_en
 			"%s%02d_chapter_year_%d" % [prefix, year_index, year_index],
 			"", 2.7)
 
+	var cast_shot_index := 6
+	for stage in [
+			{"id": "y1", "turn": 48, "age": 33},
+			{"id": "y3", "turn": 97, "age": 35},
+			{"id": "y5", "turn": 193, "age": 37},
+	]:
+		for sample in CAST_TIME_SCENE_SAMPLE:
+			_prepare_main_game_state()
+			GameState.turn = int(stage.get("turn", 1))
+			GameState.age = int(stage.get("age", 33))
+			await _shot_story_event(
+				str(sample.get("event", "")),
+				"%s%02d_cast_%s_%s" % [
+					prefix,
+					cast_shot_index,
+					str(sample.get("cast", "unknown")),
+					str(stage.get("id", "y1")),
+				],
+				"",
+				0.45,
+				true,
+				false,
+				-1,
+				0,
+				bool(sample.get("suppress_cg", false)))
+			cast_shot_index += 1
+
 	_prepare_main_game_state()
 	_seed_year_scene_history(false)
 	GameState.turn = 47
 	await _shot_story_event(
-		"arc_year1_scene", prefix + "06_year_scene_choices", "", 0.45, true, true)
+		"arc_year1_scene", prefix + "%02d_year_scene_choices" % cast_shot_index, "", 0.45, true, true)
+	cast_shot_index += 1
 
 	_prepare_main_game_state()
 	GameState.turn = 12
 	await _shot_story_event(
-		"cafe_listen_01", prefix + "07_timed_choice", "", 0.45, true, true)
+		"cafe_listen_01", prefix + "%02d_timed_choice" % cast_shot_index, "", 0.45, true, true)
+	cast_shot_index += 1
 
 	_prepare_main_game_state()
 	GameState.turn = 145
@@ -4383,7 +4444,8 @@ func _shot_year_identity_surfaces(lang: String = "en", prefix: String = "year_en
 	if expected_montage not in montage_text:
 		_fail("Y4 montage result did not show its localized three-week cap")
 		return
-	await _save(prefix + "08_y4_three_week_montage")
+	await _save(prefix + "%02d_y4_three_week_montage" % cast_shot_index)
+	cast_shot_index += 1
 	await _dispose_main_game()
 
 	_prepare_main_game_state()
@@ -4401,13 +4463,14 @@ func _shot_year_identity_surfaces(lang: String = "en", prefix: String = "year_en
 		_fail("Y5 HUD expected '%s', got '%s'" % [
 			expected_countdown, goal_time.text if is_instance_valid(goal_time) else "<missing>"])
 		return
-	await _save(prefix + "09_y5_week_countdown")
+	await _save(prefix + "%02d_y5_week_countdown" % cast_shot_index)
+	cast_shot_index += 1
 	await _dispose_main_game()
 
 	_prepare_main_game_state()
 	_seed_year_scene_history(true)
 	await _boot_main_game()
-	await _shot_ending("stable_success", prefix + "10_ending_recap")
+	await _shot_ending("stable_success", prefix + "%02d_ending_recap" % cast_shot_index)
 	var recap := _find_qa_surface(_mg, "year_scene_recap")
 	var expected_heading := "FIVE YEARS, FIVE SCENES" if lang == "en" else "5년, 다섯 장면"
 	if recap == null:
@@ -9572,7 +9635,9 @@ func _shot_ending_suite(lang: String = "en", prefix: String = "ending_en_") -> v
 	await _shot_ending_symbol("ordinary_life", prefix + "15a_ending_ordinary_life")
 	await _shot_exact_ending_cg("burnout", "cg_ending_burnout", prefix + "15b_ending_burnout")
 	await _shot_ending_symbol("mental_break", prefix + "15c_ending_mental_break")
-	await _shot_ending_symbol("stable_success", prefix + "15d_ending_stable_success")
+	await _shot_exact_ending_cg(
+			"stable_success", "cg_ending_stable_success",
+			prefix + "15d_ending_stable_success")
 	await _shot_ending("crypto_ghost", prefix + "16_ending_crypto_ghost")
 	await _shot_ending("orthodox_pinnacle", prefix + "17_ending_orthodox_pinnacle")
 
@@ -9645,6 +9710,8 @@ func _shot_ending_p1_surfaces(lang: String, prefix: String) -> void:
 			"burnout", "cg_ending_burnout", prefix + "18_burnout")
 	await _shot_ending_without_cg(
 			"mental_break", "cg_ending_burnout", prefix + "19_mental_break_no_burnout_cg")
+	await _shot_exact_ending_cg(
+			"stable_success", "cg_ending_stable_success", prefix + "20_stable_success")
 
 func _shot_surface_en() -> void:
 	var prefix := "surface_en_"

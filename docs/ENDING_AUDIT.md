@@ -1,13 +1,13 @@
 # Ending Distinctness Audit
 
-Date: 2026-07-16
+Date: 2026-07-24
 Scope: `content/endings.json` 35종, `content/endings_en.json`, `GameState.check_game_over()` 실제 우선순위  
 Rule: 이 문서의 라우팅 열이 정본이다. JSON의 `condition`은 여러 항목이 55세·옛 임계값을 아직 적고 있어 판정 근거로 쓰지 않았다.
 
 ## 결론
 
 - 35종 모두 제목과 기본 본문이 있고, 기본 본문 간 68% 이상 기계적 중복은 0쌍이다.
-- 전용 CG 19종은 사건 원인과 마지막 행동이 구분된다. 최초 감사에서 범용 무드 카드에 수렴하던 12종 중 `ordinary_life`, `burnout`, `mental_break`에 전용 심벌을 넣었고, 장소 배경 카드였던 `stable_success`도 전용 심벌로 격상했다. 이후 `burnout`은 신체 붕괴를 직접 체험하는 1인칭 응급 침상 CG로 교체했고, 기존 심벌은 하위 호환 표면으로만 남겼다. 현재 실제 범용 카드 잔여는 9종이다.
+- 전용 CG 20종은 사건 원인과 마지막 행동이 구분된다. 최초 감사에서 범용 무드 카드에 수렴하던 12종 중 `ordinary_life`, `burnout`, `mental_break`에 전용 심벌을 넣었다. 이후 `burnout`은 1인칭 응급 침상 CG로, `stable_success`는 소형 서울 집에서 휴대폰을 내려놓는 안도 CG로 승격했다. 이전 심벌은 하위 호환 표면으로만 남겼다. 현재 실제 범용 카드 잔여는 9종이다.
 - 즉시 실패, 38세 결산, 30억 성공, NG+ 결말의 네 층은 구조적으로 구분된다. 다만 정석 성공군 3종은 플레이어 기억에서 합쳐질 위험이 있다.
 - 엔딩 ID와 저장·업적·갤러리 계약은 유지했다. 2026-07-16 수렴 감사에서 실제 플레이 정체성을 삼키던 두 우선순위만 표적 수리해 창업 인수와 고숙련 투자 경로를 전용 결산으로 돌려보냈다.
 
@@ -21,7 +21,7 @@ Rule: 이 문서의 라우팅 열이 정본이다. JSON의 `condition`은 여러
 | `jiyeon_man` | **한지연의 남자 (A)**. 거울 앞에서 지연의 세계에 들어온 자아를 묻는다. 자기 힘의 30억 성공이 아니라 `한지연의 강남`에 사는 결말로 본문과 DIK를 정렬했다. | 전용 `cg_ending_jiyeon_man` | 38세 종료, 지연 연애 유지, 지연이 떠나지 않음, 순자산 30억 미만 |
 | `jaehyuk_way` | **최재혁의 방식 (B)**. 타인을 밟고 빠르게 오른 뒤 아버지 앞에서 웃지 못함. Deep Black 성공으로 명확. | 전용 `cg_ending_jaehyuk_way` | 순자산 30억+, `fell_to_darkness` 또는 `crossed_line`, 배우자 분기 미해당 |
 | `late_call` | **늦은 전화 (B)**. 강남 실패 뒤 창원행 KTX에서 아버지에게 전화. 관계 결산으로 명확. | 전용 `cg_ending_late_call` | 38세 종료, 아버지 화해, 모든 상위 결산 분기 미해당 |
-| `stable_success` | **안정적인 성공 (B)**. 10억과 공포 없는 생활을 얻고 다음 삶을 묻는다. 정석 성공군과 체감 중복 위험을 줄이도록 안정된 토대 전용 심벌을 사용한다. | 전용 `stable_success` 결산 심벌 | 38세 종료, 순자산 10억+, 정석 정점 등 상위 자산 분기 미해당 |
+| `stable_success` | **안정적인 성공 (B)**. 10억과 공포 없는 생활을 얻고 다음 삶을 묻는다. 강남·과시 대신 소형 서울 집에서 금융 앱을 닫고 휴대폰을 내려놓는 안도로 정석 성공군과 분리한다. | 전용 `cg_ending_stable_success` | 38세 종료, 순자산 10억+, 정석 정점 등 상위 자산 분기 미해당 |
 | `ordinary_life` | **그냥 사람 (C)**. 외곽 월세와 평범한 출퇴근을 실패가 아닌 생존으로 본다. 결별 DIK가 많아 기본 결산 역할이 분명함. | 전용 `ordinary_life` 결산 심벌 | 38세 종료 기본값, 또는 지연 이탈·강남 미달 이혼 변주 |
 | `burnout` | **과로로 쓰러지다 (F)**. 현재 주거와 무관한 계단 붕괴와 응급실의 즉시 실패. `career_burnout`과 시점·강도가 다름. | 전용 `cg_ending_burnout` 1인칭 응급 침상 CG | 건강 0 이하 즉시 종료 |
 | `mental_break` | **정신 붕괴 (F)**. 진료실에서 강남이 실제 문제인지 말하지 못하는 즉시 실패. 신체 번아웃과 분리됨. | 전용 `mental_break` 결산 심벌 | 정신력 0 이하 즉시 종료 |
@@ -56,7 +56,7 @@ Rule: 이 문서의 라우팅 열이 정본이다. JSON의 `condition`은 여러
 <!-- reviewed-pair: stable_success|orthodox_pinnacle -->
 ### 병합 제안 1: `stable_success` + `orthodox_pinnacle`
 
-둘 다 38세·10억 이상·정석 생활의 결산이고 전용 CG가 없다. 현재 차이는 `orthodox_pinnacle`이 정석 우세 15점을 요구하며 조직 순응의 대가를 묻는다는 점이다. 외부 플레이테스트에서 두 엔딩을 받은 사람이 차이를 설명하지 못하면, `stable_success`를 기본 본문으로 두고 정석 우세를 DIK 변주로 흡수하는 병합을 제안한다. **이번 오더에서는 실행하지 않는다.**
+둘 다 38세·10억 이상·정석 생활의 결산이다. 현재 `stable_success`는 생존 공포가 사라진 소형 집의 밤, `orthodox_pinnacle`은 조직 순응의 대가를 묻는 회식 자리로 비주얼과 질문이 갈린다. 외부 플레이테스트에서 두 엔딩을 받은 사람이 차이를 설명하지 못하면, `stable_success`를 기본 본문으로 두고 정석 우세를 DIK 변주로 흡수하는 병합을 제안한다. **이번 오더에서는 실행하지 않는다.**
 
 <!-- reviewed-pair: investment_master|unorthodox_legend -->
 ### 유지 제안: `investment_master` / `unorthodox_legend`
@@ -92,7 +92,7 @@ Rule: 이 문서의 라우팅 열이 정본이다. JSON의 `condition`은 여러
 3. `startup_exit` — **당시 완료.** 라우팅은 유지하고 `gangnam_dream`에 한영 `startup_exit` DIK를 추가했다. 이 동결은 위 2026-07-16 결정으로 대체됐다.
 4. `healthy_retirement`/`early_retirement` — **완료.** 38세 현재와 쉰 전 퇴직 가능성을 분리했다.
 5. `orthodox_pinnacle` — **완료.** 본문을 실제 조건인 10억원/one billion won으로 정렬했다.
-6. 결산 카드 — **1차 완료.** `ordinary_life`, `burnout`, `mental_break`, `stable_success`에 서로 다른 전용 심벌을 연결했다. 범용 카드 잔여 9종은 후속 P1-E 대상이다.
+6. 결산 카드 — **2차 완료.** `ordinary_life`, `burnout`, `mental_break`에 서로 다른 전용 심벌을 연결했고, `burnout`과 `stable_success`는 다시 전용 CG로 승격했다. 범용 카드 잔여 9종은 후속 P1-E 대상이다.
 - 병합 제안 1(stable_success+orthodox_pinnacle) — **조건부 보류 확정**: 외부 플레이테스트에서 두 엔딩 수령자가 차이를 설명 못 하면 병합, 지금은 #5 수정으로 차별 강화.
 
 ## 최초 감사의 판정 요청 (원 기록 보존 · 현재 전부 해결)
@@ -108,4 +108,4 @@ Rule: 이 문서의 라우팅 열이 정본이다. JSON의 `condition`은 여러
 
 `python3 tools/ending_distinctness_audit.py`
 
-이 검사는 KO/EN 35개 ID 패리티, 제목·본문 존재, 실제 라우팅 미러 35개, 문서 표의 누락, 고유 CG/배경 공유군, 높은 본문 유사도에 더해 위 여섯 사실 계약, 투자 성향 DIK의 한영 우선순위·금액 정합, 상위 4 전용 심벌 배선, 범용 카드 잔여 9종의 정확한 집합을 검사한다. 실제 분기 순서는 `EndingRouteIdentityCheck`가 별도로 실행한다.
+이 검사는 KO/EN 35개 ID 패리티, 제목·본문 존재, 실제 라우팅 미러 35개, 문서 표의 누락, 고유 CG/배경 공유군, 높은 본문 유사도에 더해 위 여섯 사실 계약, 투자 성향 DIK의 한영 우선순위·금액 정합, 3개 전용 심벌 및 `stable_success` 전용 CG 배선, 범용 카드 잔여 9종의 정확한 집합을 검사한다. 실제 분기 순서는 `EndingRouteIdentityCheck`가 별도로 실행한다.

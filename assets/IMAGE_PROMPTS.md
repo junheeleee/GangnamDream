@@ -14,6 +14,63 @@ GPT(DALL-E / GPT-4o)에 아래 프롬프트를 순서대로 전달해서 이미�
 
 ---
 
+## 2026-07-24 정본 보충 — 1·3·5년 인물 외형
+
+아래 보충은 이 문서의 초기 `no anime style` 메모보다 우선한다. 현재
+출시 정본은 `assets/CHARACTER_VISUAL_BIBLE.md`와
+`assets/CAST_TIME_VISUAL_BIBLE.md`의 절제된 반실사 한국 만화/VN 화풍이다.
+
+### 공통 제작 프롬프트
+
+```text
+Create a transparent 1024x1536 recurring-character portrait for Gangnam Dream.
+Preserve the supplied y1 identity exactly: facial proportions, eye shape, nose,
+mouth, hairline, body type, signature silhouette, and social-class signal.
+Match the current restrained semi-realistic Korean manhwa / premium visual-novel
+painting: controlled linework, visible soft brush texture, natural anatomy,
+muted neutral color, no glossy mobile-game finish.
+
+This is the same person at the requested y3 or y5 anchor, only two or four years
+later. Show time through grooming, posture, eye clarity or fatigue, clothing
+maintenance, and practiced confidence. Do not use dramatic wrinkles, sudden gray
+hair, weight loss, beauty surgery, a new hairstyle, a different face, or a
+twenty-year age jump. Preserve the requested relationship expression.
+
+Full transparent-background portrait, head through hips, generous hair and
+shoulder padding, no room, prop, cast shadow, text, logo, or watermark.
+```
+
+### 배리에이션 계약
+
+- 민준: 무직/생존 알바/일반 사무직/대기업 정장 각각 `y3`, `y5`.
+- 다은: normal/smile/sad 각각 `y3`, `y5`; 짧은 머리와 왼쪽 핀 고정.
+- 지연: normal/warm/cold 각각 `y3`, `y5`; 긴 흑발 웨이브와 고급 재단 고정.
+- 현수: normal `y3`, `y5`; 둥근 안경·통통한 체형·올리브/버건디 고정.
+- 재혁: normal/shadow `y3`, `y5`; 상철과 닮지 않는 날카로운 실루엣.
+- 상철: normal/serious `y3`, `y5`; 과장된 노인화 금지.
+- 아버지: home `y3`, `y5`; 작업복·환자복·2020년 회상은 자동 교체 금지.
+
+### `ending_stable_success_v1.png`
+
+```text
+Dedicated 1280x800 visual-novel ending CG. At age 38, the canonical year-five
+Kim Minjun sits on the edge of a low bed in a believable modest Seoul studio at
+night. He has just closed the finance app and released exactly one unbranded
+phone face-down onto a compact bedside table. His other hand rests naturally,
+shoulders ease, and his gaze lifts away from the balance for the first time.
+Quiet relief, no grin or victory pose.
+
+The home is clearly safer than a goshiwon but ordinary and outside Gangnam:
+plain curtains, compact shelf, modest furniture, dense everyday apartment lights
+outside. Restrained hand-painted semi-realistic Gangnam Dream CG style, cool
+blue-gray and charcoal with neutral skin and one practical lamp. No penthouse,
+marble, panoramic luxury glazing, landmark, cash, chart, trophy, champagne,
+readable balance, extra person, reflection, duplicate phone, malformed hand,
+warm sepia, logo, or watermark.
+```
+
+---
+
 ## 배경 이미지 (Backgrounds)
 
 ### convenience_store_night.png

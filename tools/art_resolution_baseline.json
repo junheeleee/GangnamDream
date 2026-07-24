@@ -37,18 +37,18 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 196,
+  "inventory_count": 229,
   "counts": {
     "1080p": {
       "CG": {
         "native": 0,
-        "light": 59,
+        "light": 60,
         "medium": 0,
         "heavy": 0,
         "severe": 0
       },
       "Portrait": {
-        "native": 58,
+        "native": 90,
         "light": 0,
         "medium": 0,
         "heavy": 0,
@@ -67,11 +67,11 @@
         "native": 0,
         "light": 0,
         "medium": 0,
-        "heavy": 59,
+        "heavy": 60,
         "severe": 0
       },
       "Portrait": {
-        "native": 0,
+        "native": 32,
         "light": 0,
         "medium": 58,
         "heavy": 0,
@@ -1815,6 +1815,23 @@
         "4k": "heavy"
       }
     },
+    "assets/cg/ending_stable_success_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_stable_success"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
     "assets/cg/ending_startup_exit_v1.png": {
       "kind": "CG",
       "ids": [
@@ -2479,6 +2496,40 @@
         "4k": "medium"
       }
     },
+    "assets/characters/main_character_corporate_y3.png": {
+      "kind": "Portrait",
+      "ids": [
+        "player_corporate_y3"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
+    "assets/characters/main_character_corporate_y5.png": {
+      "kind": "Portrait",
+      "ids": [
+        "player_corporate_y5"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
     "assets/characters/main_character_determined.png": {
       "kind": "Portrait",
       "ids": [
@@ -2585,6 +2636,40 @@
         "4k": "medium"
       }
     },
+    "assets/characters/main_character_office_y3.png": {
+      "kind": "Portrait",
+      "ids": [
+        "player_office_y3"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
+    "assets/characters/main_character_office_y5.png": {
+      "kind": "Portrait",
+      "ids": [
+        "player_office_y5"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
     "assets/characters/main_character_part_time.png": {
       "kind": "Portrait",
       "ids": [
@@ -2600,6 +2685,40 @@
       "band": {
         "1080p": "native",
         "4k": "medium"
+      }
+    },
+    "assets/characters/main_character_part_time_y3.png": {
+      "kind": "Portrait",
+      "ids": [
+        "player_part_time_y3"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
+    "assets/characters/main_character_part_time_y5.png": {
+      "kind": "Portrait",
+      "ids": [
+        "player_part_time_y5"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
       }
     },
     "assets/characters/main_character_shocked.png": {
@@ -2654,6 +2773,40 @@
       "band": {
         "1080p": "native",
         "4k": "medium"
+      }
+    },
+    "assets/characters/main_character_unemployed_y3.png": {
+      "kind": "Portrait",
+      "ids": [
+        "player_unemployed_y3"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
+    "assets/characters/main_character_unemployed_y5.png": {
+      "kind": "Portrait",
+      "ids": [
+        "player_unemployed_y5"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
       }
     },
     "assets/characters/npc_boss.png": {
@@ -2844,6 +2997,40 @@
         "4k": "medium"
       }
     },
+    "assets/characters/npc_daeun_normal_y3.png": {
+      "kind": "Portrait",
+      "ids": [
+        "daeun_normal_y3"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
+    "assets/characters/npc_daeun_normal_y5.png": {
+      "kind": "Portrait",
+      "ids": [
+        "daeun_normal_y5"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
     "assets/characters/npc_daeun_proposal.png": {
       "kind": "Portrait",
       "ids": [
@@ -2878,6 +3065,40 @@
         "4k": "medium"
       }
     },
+    "assets/characters/npc_daeun_sad_y3.png": {
+      "kind": "Portrait",
+      "ids": [
+        "daeun_sad_y3"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
+    "assets/characters/npc_daeun_sad_y5.png": {
+      "kind": "Portrait",
+      "ids": [
+        "daeun_sad_y5"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
     "assets/characters/npc_daeun_sea_v2.png": {
       "kind": "Portrait",
       "ids": [
@@ -2910,6 +3131,40 @@
       "band": {
         "1080p": "native",
         "4k": "medium"
+      }
+    },
+    "assets/characters/npc_daeun_smile_y3.png": {
+      "kind": "Portrait",
+      "ids": [
+        "daeun_smile_y3"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
+    "assets/characters/npc_daeun_smile_y5.png": {
+      "kind": "Portrait",
+      "ids": [
+        "daeun_smile_y5"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
       }
     },
     "assets/characters/npc_daeun_wedding_night.png": {
@@ -2979,6 +3234,40 @@
       "band": {
         "1080p": "native",
         "4k": "medium"
+      }
+    },
+    "assets/characters/npc_father_home_y3.png": {
+      "kind": "Portrait",
+      "ids": [
+        "father_home_y3"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
+    "assets/characters/npc_father_home_y5.png": {
+      "kind": "Portrait",
+      "ids": [
+        "father_home_y5"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
       }
     },
     "assets/characters/npc_father_hospitalized.png": {
@@ -3083,6 +3372,40 @@
         "4k": "medium"
       }
     },
+    "assets/characters/npc_hyunsu_normal_y3.png": {
+      "kind": "Portrait",
+      "ids": [
+        "hyunsu_normal_y3"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
+    "assets/characters/npc_hyunsu_normal_y5.png": {
+      "kind": "Portrait",
+      "ids": [
+        "hyunsu_normal_y5"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
     "assets/characters/npc_jaehyuk.png": {
       "kind": "Portrait",
       "ids": [
@@ -3102,6 +3425,40 @@
         "4k": "medium"
       }
     },
+    "assets/characters/npc_jaehyuk_normal_y3.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jaehyuk_normal_y3"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
+    "assets/characters/npc_jaehyuk_normal_y5.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jaehyuk_normal_y5"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
     "assets/characters/npc_jaehyuk_shadow.png": {
       "kind": "Portrait",
       "ids": [
@@ -3117,6 +3474,40 @@
       "band": {
         "1080p": "native",
         "4k": "medium"
+      }
+    },
+    "assets/characters/npc_jaehyuk_shadow_y3.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jaehyuk_shadow_y3"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
+    "assets/characters/npc_jaehyuk_shadow_y5.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jaehyuk_shadow_y5"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
       }
     },
     "assets/characters/npc_jiyeon_amusement.png": {
@@ -3168,6 +3559,40 @@
       "band": {
         "1080p": "native",
         "4k": "medium"
+      }
+    },
+    "assets/characters/npc_jiyeon_cold_y3.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jiyeon_cold_y3"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
+    "assets/characters/npc_jiyeon_cold_y5.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jiyeon_cold_y5"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
       }
     },
     "assets/characters/npc_jiyeon_fireworks.png": {
@@ -3255,6 +3680,40 @@
         "4k": "medium"
       }
     },
+    "assets/characters/npc_jiyeon_normal_y3.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jiyeon_normal_y3"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
+    "assets/characters/npc_jiyeon_normal_y5.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jiyeon_normal_y5"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
     "assets/characters/npc_jiyeon_sea_v2.png": {
       "kind": "Portrait",
       "ids": [
@@ -3287,6 +3746,40 @@
       "band": {
         "1080p": "native",
         "4k": "medium"
+      }
+    },
+    "assets/characters/npc_jiyeon_warm_y3.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jiyeon_warm_y3"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
+    "assets/characters/npc_jiyeon_warm_y5.png": {
+      "kind": "Portrait",
+      "ids": [
+        "jiyeon_warm_y5"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
       }
     },
     "assets/characters/npc_jiyeon_wedding_night.png": {
@@ -3375,6 +3868,40 @@
         "4k": "medium"
       }
     },
+    "assets/characters/npc_sangchul_normal_y3.png": {
+      "kind": "Portrait",
+      "ids": [
+        "sangchul_normal_y3"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
+    "assets/characters/npc_sangchul_normal_y5.png": {
+      "kind": "Portrait",
+      "ids": [
+        "sangchul_normal_y5"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
     "assets/characters/npc_sangchul_serious.png": {
       "kind": "Portrait",
       "ids": [
@@ -3390,6 +3917,40 @@
       "band": {
         "1080p": "native",
         "4k": "medium"
+      }
+    },
+    "assets/characters/npc_sangchul_serious_y3.png": {
+      "kind": "Portrait",
+      "ids": [
+        "sangchul_serious_y3"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
+      }
+    },
+    "assets/characters/npc_sangchul_serious_y5.png": {
+      "kind": "Portrait",
+      "ids": [
+        "sangchul_serious_y5"
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alpha": true,
+      "scale": {
+        "1080p": 0.5,
+        "4k": 1.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "native"
       }
     },
     "assets/characters/npc_seongjun.png": {

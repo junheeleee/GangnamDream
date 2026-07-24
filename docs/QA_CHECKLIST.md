@@ -56,6 +56,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Splash, opening, StartMenu press-any-key, start menu, content notice | `--qa=start-en` |
 | Archive CG silhouettes/fullscreen preview, scene replay paging, hidden-name secrecy, and read-only GameState/MetaProgression invariants | `--qa=gallery --lang=ko/en` |
 | Five year identities, year-scene curation, Y1 timed choice, Y5 week countdown, and ending five-scene recap | `--qa=year-identity --lang=ko/en` |
+| Cast 1/3/5-year visual axis: turn windows 1-96/97-192/193-240, seven core identities, four Minjun job variants, relationship-stage independence, fixed hospital/wedding/season/romance/2020 portraits, missing-file fallback, and 21 face-safe anchors at 960x600 English and 1280x800 Korean | `CastVisualTimeCheck.tscn`, then `--qa=year-identity --lang=ko/en` |
 | Steam store sequence: cold-open, money-mule timer, montage, time ledger, identical bright/dark scene pair, seasonal date CG, and five-scene ending recap | `--qa=store --lang=en` then `StoreScreenshotExport.tscn` |
 | Active raster inventory and completed human verdict ledger for every CG, portrait, and background | `python3 tools/art_ai_audit.py` |
 | Active raster dimensions, 1080p/4K cover enlargement bands, exact path baseline, and low-resolution regression ratchet | `python3 tools/art_resolution_audit.py` |
@@ -95,9 +96,9 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Full 240-week controller black box: title, opening, five chapters, all scheduled week kinds, monthly summaries, authored roots, one pad-selected causal producer and its exact later bridge, AP, and the actual ending with zero keyboard/mouse input | `--qa=full-gamepad --lang=ko --pad=playstation`, then `--qa=full-gamepad --lang=en --pad=xbox` |
 | Demo month summary, demo ending CTA, 6-month Time Ledger card | `--qa=demo-end-en` |
 | P0 final-life endings: eight exact CG owners, 950x430 crop, Jiyeon reflection-only mirror with exactly two non-duplicated actors and coherent gaze, 1B Second Love across-river home, Jiyeon-mediated Gangnam framing, White/Deep Black readability, and KO/EN first viewport | `--qa=ending-p0 --lang=ko/en` |
-| P1 final-life endings: exact CG owner/crop, Late Call memory, Rich and Alone base/divorce/no-leak, One More Circle base/Father-memory calendar action, distinct Bankruptcy/Debt Spiral calculation states, Startup Exit base/first-user memory, 33-year-old first-year Myth arrival, Orthodox Pinnacle base/salary-memory company-dinner pause, Burnout first-person emergency-bed hand/IV/phone composition, and Mental Collapse no-leak | `--qa=ending-p1 --lang=ko/en` |
+| P1 final-life endings: exact CG owner/crop, Late Call memory, Rich and Alone base/divorce/no-leak, One More Circle base/Father-memory calendar action, distinct Bankruptcy/Debt Spiral calculation states, Startup Exit base/first-user memory, 33-year-old first-year Myth arrival, Orthodox Pinnacle base/salary-memory company-dinner pause, Burnout first-person emergency-bed hand/IV/phone composition, Stable Success's modest Seoul-room relief CG, and Mental Collapse no-leak | `--qa=ending-p1 --lang=ko/en` |
 | Train semantics: summer/date and Father-call scenes remain inside the train, while the holiday decision remains on the provincial platform | `--qa=transport --lang=ko/en` |
-| Representative ending modals, graded CG/card surface, Burnout's exact emergency-bed CG, dedicated symbols for Ordinary Life/Mental Collapse/Stable Success, fallback mood cards, and final Time Ledger card | `--qa=endings-en --lang=ko/en` |
+| Representative ending modals, graded CG/card surface, exact Burnout/Stable Success CGs, dedicated symbols for Ordinary Life/Mental Collapse, fallback mood cards, and final Time Ledger card | `--qa=endings-en --lang=ko/en` |
 | Title collection and meta-title reward surface | `--qa=title-en` |
 | Tutorial overlay surface and onboarding copy | `--qa=tutorial-en` |
 | Job hunt/career modal: four resume questions with best answers distributed across left/center/right, top-only route below Grade A, three equal-width left-to-right 14px cards, hover/focus sync, keyboard/pad movement and confirm, post-result AP focus restore, dedicated uncropped 1881×210 resume/interview strips, KO/EN 960×600 fit | `InputMatrixCheck.tscn`, then `--qa=job-en --lang=ko/en` at 960×600 |
@@ -214,8 +215,8 @@ Automated art-quality gate:
 Automated ending-fact gate:
 
 - `ending_distinctness_audit.py` must keep all 35 KO/EN endings aligned while rejecting self-funded 3B language in `jiyeon_man`, a Gangnam apartment in the 1B `second_love`, age-55/current-retirement claims, the stale 200M orthodox amount, or a missing `startup_exit` reread in `gangnam_dream`.
-- The same gate requires four byte-distinct dedicated symbols wired to `ordinary_life`, `burnout`, `mental_break`, and `stable_success`, and locks the remaining generic mood-card backlog to the documented nine IDs.
-- `ScreenshotQA --qa=ending-p0 --lang=ko/en` and `--qa=endings-en --lang=ko/en` are the visual companions; they must use factual seed money/housing and exact symbol resource paths.
+- The same gate requires three byte-distinct fallback symbols wired to `ordinary_life`, `burnout`, and `mental_break`, an exact dedicated `cg_ending_stable_success` owner/path, and the documented nine-ID generic mood-card backlog.
+- `ScreenshotQA --qa=ending-p0 --lang=ko/en`, `--qa=ending-p1 --lang=ko/en`, and `--qa=endings-en --lang=ko/en` are the visual companions; they must use factual seed money/housing and exact symbol/CG resource paths.
 
 Automated store-trailer gate:
 

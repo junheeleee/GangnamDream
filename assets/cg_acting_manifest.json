@@ -1,6 +1,6 @@
 {
-  "version": 4,
-  "updated": "2026-07-17",
+  "version": 5,
+  "updated": "2026-07-24",
   "rule": "Every active CG owns an explicit camera role and every visible named actor owns a gaze target plus a supporting body action. Lens gaze is legal only for player_pov.",
   "cg": {
     "cg_start": {
@@ -510,6 +510,14 @@
       "story_action": "After his body gives out, Minjun lies under an emergency-room fluorescent light while an offscreen nurse asks whether there is anyone to call.",
       "actors": [
         {"id": "minjun", "gaze_target": "The fluorescent ceiling light above his hospital bed", "pose_support": "The first-person view shows one relaxed left hand with five coherent fingers, one taped cannula connected by a single tube to the IV bag, and one untouched face-down phone beyond his reach."}
+      ]
+    },
+    "cg_ending_stable_success": {
+      "path": "assets/cg/ending_stable_success_v1.png",
+      "camera_role": "doorway_side_modest_studio_three_quarter",
+      "story_action": "After reaching one billion won, Minjun closes the finance app, releases one phone face-down, and realizes that ordinary bills no longer frighten him.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The quiet room above and beyond the phone", "pose_support": "His year-five face lifts away from the balance; one hand has released the face-down phone, the other rests naturally, and his shoulders ease without a grin, victory pose, or lens contact."}
       ]
     }
   }

@@ -1,0 +1,209 @@
+{
+  "version": 1,
+  "contract_id": "CAST_VISUAL_TIME_V1",
+  "_comment": "Relationship stages live in cast_stages.json. This file owns only visible time progression. Years 2 and 4 keep the preceding odd-year anchor so the project needs three identity anchors instead of five near-duplicates.",
+  "stage_windows": [
+    {
+      "id": "y1",
+      "min_turn": 1,
+      "max_turn": 96,
+      "chapters": [1, 2],
+      "meaning": "starting identity and first survival year"
+    },
+    {
+      "id": "y3",
+      "min_turn": 97,
+      "max_turn": 192,
+      "chapters": [3, 4],
+      "meaning": "adaptation, accumulated fatigue, and a life beginning to take shape"
+    },
+    {
+      "id": "y5",
+      "min_turn": 193,
+      "max_turn": 240,
+      "chapters": [5],
+      "meaning": "the visible consequence of the route, work, health, and relationships"
+    }
+  ],
+  "tier_policy": {
+    "A_story_anchor": "y1, y3, and y5 identity anchors. Repeated neutral/emotional portraits may swap only when explicitly listed below.",
+    "B_scene_actor": "y1 and y5 when the same named actor spans the full run; otherwise the authored first-appearance age is fixed.",
+    "C_atmospheric_extra": "No time variants. Anonymous figures remain low-contrast scene-correct silhouettes."
+  },
+  "characters": {
+    "minjun": {
+      "tier": "A_story_anchor",
+      "start_age": 33,
+      "anchor_ages": {"y1": 33, "y3": 35, "y5": 37},
+      "progression": "Not cosmetic wrinkles: posture, grooming, work clothes, moral fatigue, and recovered or hardened eye contact carry the five years.",
+      "portrait_overrides": {
+        "player_unemployed": {"y3": "player_unemployed_y3", "y5": "player_unemployed_y5"},
+        "player_part_time": {"y3": "player_part_time_y3", "y5": "player_part_time_y5"},
+        "player_office": {"y3": "player_office_y3", "y5": "player_office_y5"},
+        "player_corporate": {"y3": "player_corporate_y3", "y5": "player_corporate_y5"},
+        "player_romance_casual": {"y3": "player_unemployed_y3", "y5": "player_unemployed_y5"},
+        "player_offduty_neutral": {"y3": "player_unemployed_y3", "y5": "player_unemployed_y5"}
+      },
+      "fixed_portraits": [
+        "player_heatwave",
+        "player_monsoon",
+        "player_cold_snap",
+        "player_moral_gray",
+        "player_moral_black",
+        "player_moral_white",
+        "player_tired",
+        "player_happy",
+        "player_shocked",
+        "player_hollow"
+      ]
+    },
+    "daeun": {
+      "tier": "A_story_anchor",
+      "start_age": 33,
+      "anchor_ages": {"y1": 33, "y3": 35, "y5": 37},
+      "progression": "The same short hair, left-temple clip, adult facial structure, and ordinary warmth remain. Later anchors gain steadier posture and the route's lived confidence or fatigue, never influencer glamour.",
+      "portrait_overrides": {
+        "daeun_normal": {"y3": "daeun_normal_y3", "y5": "daeun_normal_y5"},
+        "daeun_smile": {"y3": "daeun_smile_y3", "y5": "daeun_smile_y5"},
+        "daeun_sad": {"y3": "daeun_sad_y3", "y5": "daeun_sad_y5"}
+      },
+      "fixed_portraits": [
+        "daeun_proposal",
+        "daeun_sea",
+        "daeun_fireworks",
+        "daeun_cherry",
+        "daeun_namsan",
+        "daeun_amusement",
+        "daeun_hometown_worried",
+        "daeun_hometown_warm",
+        "daeun_wedding_night",
+        "daeun_first_snow"
+      ]
+    },
+    "jiyeon": {
+      "tier": "A_story_anchor",
+      "start_age": 31,
+      "anchor_ages": {"y1": 31, "y3": 33, "y5": 35},
+      "progression": "Her long black waves, sharp eyes, old-money tailoring, and dangerous composure stay recognizable. Later anchors become more deliberate and less ornamental, not middle-aged.",
+      "portrait_overrides": {
+        "jiyeon_normal": {"y3": "jiyeon_normal_y3", "y5": "jiyeon_normal_y5"},
+        "jiyeon_warm": {"y3": "jiyeon_warm_y3", "y5": "jiyeon_warm_y5"},
+        "jiyeon_cold": {"y3": "jiyeon_cold_y3", "y5": "jiyeon_cold_y5"}
+      },
+      "fixed_portraits": [
+        "jiyeon_sea",
+        "jiyeon_fireworks",
+        "jiyeon_cherry",
+        "jiyeon_namsan",
+        "jiyeon_amusement",
+        "jiyeon_narrow_door",
+        "jiyeon_narrow_room",
+        "jiyeon_wedding_night",
+        "jiyeon_first_snow"
+      ]
+    },
+    "hyunsu": {
+      "tier": "A_story_anchor",
+      "start_age": 27,
+      "anchor_ages": {"y1": 27, "y3": 29, "y5": 31},
+      "progression": "Keep the broad soft face, round glasses, and warm awkwardness. Later anchors show an adult routine and better self-possession without making him thin, generic, or middle-aged.",
+      "portrait_overrides": {
+        "hyunsu": {"y3": "hyunsu_normal_y3", "y5": "hyunsu_normal_y5"},
+        "hyunsu_normal": {"y3": "hyunsu_normal_y3", "y5": "hyunsu_normal_y5"}
+      },
+      "fixed_portraits": [
+        "hyunsu_accounting",
+        "hyunsu_civil_service"
+      ]
+    },
+    "jaehyuk": {
+      "tier": "A_story_anchor",
+      "start_age": 34,
+      "anchor_ages": {"y1": 34, "y3": 36, "y5": 38},
+      "progression": "The polished charm remains, but later years tighten the smile and add controlled exhaustion. Do not turn him into Sangchul or an older gangster.",
+      "portrait_overrides": {
+        "jaehyuk_charisma": {"y3": "jaehyuk_normal_y3", "y5": "jaehyuk_normal_y5"},
+        "jaehyuk_friendly": {"y3": "jaehyuk_normal_y3", "y5": "jaehyuk_normal_y5"},
+        "jaehyuk_cornered": {"y3": "jaehyuk_normal_y3", "y5": "jaehyuk_normal_y5"},
+        "jaehyuk_shadow": {"y3": "jaehyuk_shadow_y3", "y5": "jaehyuk_shadow_y5"}
+      },
+      "fixed_portraits": []
+    },
+    "sangchul": {
+      "tier": "A_story_anchor",
+      "start_age": 52,
+      "anchor_ages": {"y1": 52, "y3": 54, "y5": 56},
+      "progression": "Salt-and-pepper hair and working-class polish remain. Later anchors carry the cost of being exposed in his eyes and shoulders, never a sudden frail-old-man transformation.",
+      "portrait_overrides": {
+        "sangchul_normal": {"y3": "sangchul_normal_y3", "y5": "sangchul_normal_y5"},
+        "sangchul_serious": {"y3": "sangchul_serious_y3", "y5": "sangchul_serious_y5"}
+      },
+      "fixed_portraits": []
+    },
+    "father": {
+      "tier": "A_story_anchor",
+      "start_age": 63,
+      "anchor_ages": {"y1": 63, "y3": 65, "y5": 67},
+      "progression": "The same lean face, hairline, and working-life shoulders remain. Ordinary home anchors age gradually; illness, hospitalization, death, and the 2020 flashback keep their authored context instead of being auto-swapped.",
+      "portrait_overrides": {
+        "father_home": {"y3": "father_home_y3", "y5": "father_home_y5"}
+      },
+      "fixed_portraits": [
+        "father_past",
+        "father_normal",
+        "father_proud",
+        "father_weak",
+        "father_home_weak",
+        "father_hospitalized"
+      ]
+    },
+    "mother": {
+      "tier": "B_scene_actor",
+      "start_age": 61,
+      "policy": "fixed_first_appearance",
+      "fixed_portraits": ["mother"]
+    },
+    "goshiwon_owner": {
+      "tier": "B_scene_actor",
+      "start_age": 58,
+      "policy": "fixed_first_appearance",
+      "fixed_portraits": ["goshiwon_owner"]
+    },
+    "team_lead": {
+      "tier": "B_scene_actor",
+      "start_age": 47,
+      "policy": "fixed_first_appearance",
+      "fixed_portraits": ["boss"]
+    },
+    "seongjun": {
+      "tier": "B_scene_actor",
+      "start_age": 34,
+      "policy": "fixed_first_appearance",
+      "fixed_portraits": ["seongjun"]
+    },
+    "cafe_investor": {
+      "tier": "B_scene_actor",
+      "start_age": 39,
+      "policy": "fixed_first_appearance",
+      "fixed_portraits": ["cafe_investor"]
+    },
+    "cafe_broker_kim": {
+      "tier": "B_scene_actor",
+      "start_age": 45,
+      "policy": "fixed_first_appearance",
+      "fixed_portraits": ["cafe_broker_kim"]
+    },
+    "minseo": {
+      "tier": "B_scene_actor",
+      "start_age": 38,
+      "policy": "authored_late_entry",
+      "fixed_portraits": ["minseo", "minseo_normal"]
+    },
+    "tip_seller": {
+      "tier": "B_scene_actor",
+      "start_age": 48,
+      "policy": "fixed_first_appearance",
+      "fixed_portraits": ["tip_seller"]
+    }
+  }
+}

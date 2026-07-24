@@ -825,6 +825,14 @@
     {
       "kind": "cg",
       "ids": [
+        "cg_ending_stable_success"
+      ],
+      "relative_path": "cg/ending_stable_success_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
         "cg_ending_startup_exit"
       ],
       "relative_path": "cg/ending_startup_exit_v1.png",
@@ -1138,6 +1146,22 @@
     {
       "kind": "portrait",
       "ids": [
+        "player_corporate_y3"
+      ],
+      "relative_path": "characters/main_character_corporate_y3.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "player_corporate_y5"
+      ],
+      "relative_path": "characters/main_character_corporate_y5.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
         "player_determined",
         "player_moral_black"
       ],
@@ -1190,10 +1214,42 @@
     {
       "kind": "portrait",
       "ids": [
+        "player_office_y3"
+      ],
+      "relative_path": "characters/main_character_office_y3.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "player_office_y5"
+      ],
+      "relative_path": "characters/main_character_office_y5.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
         "player_part_time"
       ],
       "relative_path": "characters/main_character_part_time.png",
       "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "player_part_time_y3"
+      ],
+      "relative_path": "characters/main_character_part_time_y3.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "player_part_time_y5"
+      ],
+      "relative_path": "characters/main_character_part_time_y5.png",
+      "resolution": "1024x1536"
     },
     {
       "kind": "portrait",
@@ -1221,6 +1277,22 @@
       ],
       "relative_path": "characters/main_character_unemployed.png",
       "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "player_unemployed_y3"
+      ],
+      "relative_path": "characters/main_character_unemployed_y3.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "player_unemployed_y5"
+      ],
+      "relative_path": "characters/main_character_unemployed_y5.png",
+      "resolution": "1024x1536"
     },
     {
       "kind": "portrait",
@@ -1314,6 +1386,22 @@
     {
       "kind": "portrait",
       "ids": [
+        "daeun_normal_y3"
+      ],
+      "relative_path": "characters/npc_daeun_normal_y3.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "daeun_normal_y5"
+      ],
+      "relative_path": "characters/npc_daeun_normal_y5.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
         "daeun_proposal"
       ],
       "relative_path": "characters/npc_daeun_proposal.png",
@@ -1330,6 +1418,22 @@
     {
       "kind": "portrait",
       "ids": [
+        "daeun_sad_y3"
+      ],
+      "relative_path": "characters/npc_daeun_sad_y3.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "daeun_sad_y5"
+      ],
+      "relative_path": "characters/npc_daeun_sad_y5.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
         "daeun_sea"
       ],
       "relative_path": "characters/npc_daeun_sea_v2.png",
@@ -1342,6 +1446,22 @@
       ],
       "relative_path": "characters/npc_daeun_smile.png",
       "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "daeun_smile_y3"
+      ],
+      "relative_path": "characters/npc_daeun_smile_y3.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "daeun_smile_y5"
+      ],
+      "relative_path": "characters/npc_daeun_smile_y5.png",
+      "resolution": "1024x1536"
     },
     {
       "kind": "portrait",
@@ -1375,6 +1495,22 @@
       ],
       "relative_path": "characters/npc_father_home_weak.png",
       "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "father_home_y3"
+      ],
+      "relative_path": "characters/npc_father_home_y3.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "father_home_y5"
+      ],
+      "relative_path": "characters/npc_father_home_y5.png",
+      "resolution": "1024x1536"
     },
     {
       "kind": "portrait",
@@ -1427,6 +1563,22 @@
     {
       "kind": "portrait",
       "ids": [
+        "hyunsu_normal_y3"
+      ],
+      "relative_path": "characters/npc_hyunsu_normal_y3.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "hyunsu_normal_y5"
+      ],
+      "relative_path": "characters/npc_hyunsu_normal_y5.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
         "jaehyuk_charisma",
         "jaehyuk_cornered",
         "jaehyuk_friendly"
@@ -1437,10 +1589,42 @@
     {
       "kind": "portrait",
       "ids": [
+        "jaehyuk_normal_y3"
+      ],
+      "relative_path": "characters/npc_jaehyuk_normal_y3.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jaehyuk_normal_y5"
+      ],
+      "relative_path": "characters/npc_jaehyuk_normal_y5.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
         "jaehyuk_shadow"
       ],
       "relative_path": "characters/npc_jaehyuk_shadow.png",
       "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jaehyuk_shadow_y3"
+      ],
+      "relative_path": "characters/npc_jaehyuk_shadow_y3.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jaehyuk_shadow_y5"
+      ],
+      "relative_path": "characters/npc_jaehyuk_shadow_y5.png",
+      "resolution": "1024x1536"
     },
     {
       "kind": "portrait",
@@ -1465,6 +1649,22 @@
       ],
       "relative_path": "characters/npc_jiyeon_cold.png",
       "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jiyeon_cold_y3"
+      ],
+      "relative_path": "characters/npc_jiyeon_cold_y3.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jiyeon_cold_y5"
+      ],
+      "relative_path": "characters/npc_jiyeon_cold_y5.png",
+      "resolution": "1024x1536"
     },
     {
       "kind": "portrait",
@@ -1509,6 +1709,22 @@
     {
       "kind": "portrait",
       "ids": [
+        "jiyeon_normal_y3"
+      ],
+      "relative_path": "characters/npc_jiyeon_normal_y3.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jiyeon_normal_y5"
+      ],
+      "relative_path": "characters/npc_jiyeon_normal_y5.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
         "jiyeon_sea"
       ],
       "relative_path": "characters/npc_jiyeon_sea_v2.png",
@@ -1521,6 +1737,22 @@
       ],
       "relative_path": "characters/npc_jiyeon_warm.png",
       "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jiyeon_warm_y3"
+      ],
+      "relative_path": "characters/npc_jiyeon_warm_y3.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "jiyeon_warm_y5"
+      ],
+      "relative_path": "characters/npc_jiyeon_warm_y5.png",
+      "resolution": "1024x1536"
     },
     {
       "kind": "portrait",
@@ -1566,10 +1798,42 @@
     {
       "kind": "portrait",
       "ids": [
+        "sangchul_normal_y3"
+      ],
+      "relative_path": "characters/npc_sangchul_normal_y3.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "sangchul_normal_y5"
+      ],
+      "relative_path": "characters/npc_sangchul_normal_y5.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
         "sangchul_serious"
       ],
       "relative_path": "characters/npc_sangchul_serious.png",
       "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "sangchul_serious_y3"
+      ],
+      "relative_path": "characters/npc_sangchul_serious_y3.png",
+      "resolution": "1024x1536"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "sangchul_serious_y5"
+      ],
+      "relative_path": "characters/npc_sangchul_serious_y5.png",
+      "resolution": "1024x1536"
     },
     {
       "kind": "portrait",

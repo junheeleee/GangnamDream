@@ -98,6 +98,17 @@ This document owns the release-tier P1 ending CGs added after the eight-image P0
 - Color lock: neutral concrete gray, blue-charcoal cloth, cool stainless steel, muted natural skin, and faint rainy blue-gray window air. A narrow practical warmth may touch the two faces, but the image may not become brown, orange, sepia, monochrome, victory gold, or deep-Black despair.
 - Avoid: matching faces or hair silhouettes between Minjun and the junior, lens gaze, grin, handshake, raised glass, cheering, drunkenness, luxury watch, phone, money, duplicated hands or cups, fused fingers, floating dishes, extra grill, misaligned hood, glossy mobile art, photoreal restaurant advertising, or cloned black crowd cutouts.
 
+## `cg_ending_stable_success`
+
+- File: `assets/cg/ending_stable_success_v1.png`; owner: `stable_success` only. It replaces the abstract settlement symbol on every Korean and English ending surface.
+- Shared moment: after reaching one billion won without qualifying for a higher ending, 38-year-old Minjun closes the finance app, sets one phone face-down, and notices that rent, medical bills, and payday no longer frighten him. This is relief after survival, not a Gangnam arrival or wealth spectacle.
+- Space: one believable small Seoul studio at night, clearly more secure than the goshiwon but ordinary and outside Gangnam. A low bed, compact shelf, plain curtains, modest bedside table, and dense everyday apartment lights establish stability without marble, panoramic luxury glazing, hotel styling, or a landmark skyline.
+- Identity and wardrobe: canonical year-five Minjun retains the lean Korean face, narrow tired eyes, slightly hollow cheeks, uneven short black fringe, slim build, worn black crewneck, and dark trousers. He is 38, never a middle-aged executive or polished heir.
+- Acting: Minjun sits on the bed edge after releasing exactly one unbranded phone face-down onto the table. His free hand rests naturally; his shoulders have lowered and his gaze lifts away from the balance for the first time. Closed mouth, no grin, tears, victory gesture, defeat, or lens gaze.
+- Preview lock: `cg_preview_focus_y: 0.38` preserves the complete face, both relaxed hands, bed, and enough ordinary Seoul window context in the 950x430 finale crop. The phone remains fully readable in the full-frame CG and may sit at the lower preview edge rather than displacing the acting.
+- Color lock: cool blue-gray Seoul night, charcoal cloth, muted natural skin, restrained white city lights, and one neutral practical lamp. No gold, brown, orange, sepia, celebratory saturation, or baked-in moral route.
+- Avoid: abstract symbol, graph, progress bar, coin, cash pile, bank UI, readable balance, trophy, champagne, suit, luxury watch, penthouse, Gangnam landmark, empty-chair loneliness composition, extra person, reflection, duplicate phone, malformed hand, fake text, logo, watermark, glossy mobile-game rendering, or photoreal advertising.
+
 ## `cg_ending_burnout`
 
 - File: `assets/cg/ending_burnout_v1.png`; owner: `burnout` only. It is physical collapse at health zero, never the psychiatric consultation in `mental_break`, the survived five-year exhaustion of `career_burnout`, or a generic hospital visit.

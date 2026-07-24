@@ -239,6 +239,7 @@ user://mods/assets/
 - 권장 해상도는 아래 표의 원본 해상도와 같다. 다른 비율은 잘리거나 늘어날 수 있다.
 - 오디오 루프 여부는 게임의 원래 사용 방식이 유지된다.
 - 잘못된 파일은 무시되고 내장 에셋이 표시되거나 재생된다.
+- `content/meta/cast_visual_years.json`은 1·3·5년 초상 선택을 결정하는 코어 계약이므로 데이터 모드로 바꿀 수 없다. 대신 아래 매니페스트의 y3/y5 초상 상대경로를 그대로 재현하면 해당 연차 원화만 안전하게 교체할 수 있다.
 
 전체 오디오 경로와 기계 판독용 정보는 `assets/mod_asset_manifest.json`에 함께 생성된다. 레지스트리를 바꾼 개발자는 다음 명령으로 표와 JSON을 갱신한다.
 
@@ -355,6 +356,7 @@ python3 tools/generate_mod_manifest.py --check
 | cg | `cg_ending_orthodox_pinnacle` | `cg/ending_orthodox_pinnacle_v1.png` | 1280x800 |
 | cg | `cg_ending_sangchul_reckoning` | `cg/ending_sangchul_reckoning_v1.png` | 1280x800 |
 | cg | `cg_ending_second_love` | `cg/ending_second_love_v1.png` | 1280x800 |
+| cg | `cg_ending_stable_success` | `cg/ending_stable_success_v1.png` | 1280x800 |
 | cg | `cg_ending_startup_exit` | `cg/ending_startup_exit_v1.png` | 1280x800 |
 | cg | `cg_ending_with_daeun` | `cg/ending_with_daeun_v1.png` | 1280x800 |
 | cg | `cg_jaehyuk_reveal` | `cg/jaehyuk_reveal.png` | 1280x800 |
@@ -394,16 +396,24 @@ python3 tools/generate_mod_manifest.py --check
 | cg | `cg_start` | `cg/start.png` | 1280x720 |
 | portrait | `player_cold_snap` | `characters/main_character_cold_snap.png` | 512x768 |
 | portrait | `player_corporate`, `player_suit` | `characters/main_character_corporate.png` | 512x768 |
+| portrait | `player_corporate_y3` | `characters/main_character_corporate_y3.png` | 1024x1536 |
+| portrait | `player_corporate_y5` | `characters/main_character_corporate_y5.png` | 1024x1536 |
 | portrait | `player_determined`, `player_moral_black` | `characters/main_character_determined.png` | 512x768 |
 | portrait | `player_happy`, `player_moral_white` | `characters/main_character_happy.png` | 512x768 |
 | portrait | `player_heatwave` | `characters/main_character_heatwave.png` | 512x768 |
 | portrait | `player_monsoon` | `characters/main_character_monsoon.png` | 512x768 |
 | portrait | `player_moral_gray`, `player_normal`, `player_offduty_neutral` | `characters/main_character_neutral_goshiwon.png` | 512x768 |
 | portrait | `player_office` | `characters/main_character_office.png` | 512x768 |
+| portrait | `player_office_y3` | `characters/main_character_office_y3.png` | 1024x1536 |
+| portrait | `player_office_y5` | `characters/main_character_office_y5.png` | 1024x1536 |
 | portrait | `player_part_time` | `characters/main_character_part_time.png` | 512x768 |
+| portrait | `player_part_time_y3` | `characters/main_character_part_time_y3.png` | 1024x1536 |
+| portrait | `player_part_time_y5` | `characters/main_character_part_time_y5.png` | 1024x1536 |
 | portrait | `player_shocked` | `characters/main_character_shocked.png` | 512x768 |
 | portrait | `player_hollow`, `player_sad`, `player_tired` | `characters/main_character_tired.png` | 512x768 |
 | portrait | `player_romance_casual`, `player_unemployed` | `characters/main_character_unemployed.png` | 512x768 |
+| portrait | `player_unemployed_y3` | `characters/main_character_unemployed_y3.png` | 1024x1536 |
+| portrait | `player_unemployed_y5` | `characters/main_character_unemployed_y5.png` | 1024x1536 |
 | portrait | `sangchul_normal` | `characters/npc_boss.png` | 512x768 |
 | portrait | `cafe_broker_kim` | `characters/npc_cafe_broker_kim.png` | 512x768 |
 | portrait | `cafe_investor` | `characters/npc_cafe_investor.png` | 512x768 |
@@ -415,38 +425,62 @@ python3 tools/generate_mod_manifest.py --check
 | portrait | `daeun_hometown_warm` | `characters/npc_daeun_hometown_warm.png` | 512x768 |
 | portrait | `daeun_hometown_worried` | `characters/npc_daeun_hometown_worried.png` | 512x768 |
 | portrait | `daeun_namsan` | `characters/npc_daeun_namsan.png` | 512x768 |
+| portrait | `daeun_normal_y3` | `characters/npc_daeun_normal_y3.png` | 1024x1536 |
+| portrait | `daeun_normal_y5` | `characters/npc_daeun_normal_y5.png` | 1024x1536 |
 | portrait | `daeun_proposal` | `characters/npc_daeun_proposal.png` | 512x768 |
 | portrait | `daeun_sad` | `characters/npc_daeun_sad.png` | 512x768 |
+| portrait | `daeun_sad_y3` | `characters/npc_daeun_sad_y3.png` | 1024x1536 |
+| portrait | `daeun_sad_y5` | `characters/npc_daeun_sad_y5.png` | 1024x1536 |
 | portrait | `daeun_sea` | `characters/npc_daeun_sea_v2.png` | 512x768 |
 | portrait | `daeun_smile` | `characters/npc_daeun_smile.png` | 512x768 |
+| portrait | `daeun_smile_y3` | `characters/npc_daeun_smile_y3.png` | 1024x1536 |
+| portrait | `daeun_smile_y5` | `characters/npc_daeun_smile_y5.png` | 1024x1536 |
 | portrait | `daeun_wedding_night` | `characters/npc_daeun_wedding_night.png` | 512x768 |
 | portrait | `father_normal`, `father_proud` | `characters/npc_father.png` | 512x768 |
 | portrait | `father_home` | `characters/npc_father_home.png` | 512x768 |
 | portrait | `father_home_weak` | `characters/npc_father_home_weak.png` | 512x768 |
+| portrait | `father_home_y3` | `characters/npc_father_home_y3.png` | 1024x1536 |
+| portrait | `father_home_y5` | `characters/npc_father_home_y5.png` | 1024x1536 |
 | portrait | `father_hospitalized` | `characters/npc_father_hospitalized.png` | 512x768 |
 | portrait | `father_past` | `characters/npc_father_past.png` | 512x768 |
 | portrait | `father_weak` | `characters/npc_father_weak.png` | 512x768 |
 | portrait | `goshiwon_owner` | `characters/npc_goshiwon_owner.png` | 512x768 |
 | portrait | `hyunsu_accounting` | `characters/npc_hyunsu_accounting.png` | 512x768 |
 | portrait | `hyunsu_civil_service` | `characters/npc_hyunsu_civil_service.png` | 512x768 |
+| portrait | `hyunsu_normal_y3` | `characters/npc_hyunsu_normal_y3.png` | 1024x1536 |
+| portrait | `hyunsu_normal_y5` | `characters/npc_hyunsu_normal_y5.png` | 1024x1536 |
 | portrait | `jaehyuk_charisma`, `jaehyuk_cornered`, `jaehyuk_friendly` | `characters/npc_jaehyuk.png` | 512x768 |
+| portrait | `jaehyuk_normal_y3` | `characters/npc_jaehyuk_normal_y3.png` | 1024x1536 |
+| portrait | `jaehyuk_normal_y5` | `characters/npc_jaehyuk_normal_y5.png` | 1024x1536 |
 | portrait | `jaehyuk_shadow` | `characters/npc_jaehyuk_shadow.png` | 512x768 |
+| portrait | `jaehyuk_shadow_y3` | `characters/npc_jaehyuk_shadow_y3.png` | 1024x1536 |
+| portrait | `jaehyuk_shadow_y5` | `characters/npc_jaehyuk_shadow_y5.png` | 1024x1536 |
 | portrait | `jiyeon_amusement` | `characters/npc_jiyeon_amusement.png` | 512x768 |
 | portrait | `jiyeon_cherry` | `characters/npc_jiyeon_cherry.png` | 512x768 |
 | portrait | `jiyeon_cold` | `characters/npc_jiyeon_cold.png` | 512x768 |
+| portrait | `jiyeon_cold_y3` | `characters/npc_jiyeon_cold_y3.png` | 1024x1536 |
+| portrait | `jiyeon_cold_y5` | `characters/npc_jiyeon_cold_y5.png` | 1024x1536 |
 | portrait | `jiyeon_fireworks` | `characters/npc_jiyeon_fireworks.png` | 512x768 |
 | portrait | `jiyeon_first_snow` | `characters/npc_jiyeon_first_snow.png` | 512x768 |
 | portrait | `jiyeon_namsan` | `characters/npc_jiyeon_namsan.png` | 512x768 |
 | portrait | `jiyeon_narrow_door` | `characters/npc_jiyeon_narrow_door.png` | 512x768 |
 | portrait | `jiyeon_narrow_room` | `characters/npc_jiyeon_narrow_room.png` | 512x768 |
+| portrait | `jiyeon_normal_y3` | `characters/npc_jiyeon_normal_y3.png` | 1024x1536 |
+| portrait | `jiyeon_normal_y5` | `characters/npc_jiyeon_normal_y5.png` | 1024x1536 |
 | portrait | `jiyeon_sea` | `characters/npc_jiyeon_sea_v2.png` | 512x768 |
 | portrait | `jiyeon_warm` | `characters/npc_jiyeon_warm.png` | 512x768 |
+| portrait | `jiyeon_warm_y3` | `characters/npc_jiyeon_warm_y3.png` | 1024x1536 |
+| portrait | `jiyeon_warm_y5` | `characters/npc_jiyeon_warm_y5.png` | 1024x1536 |
 | portrait | `jiyeon_wedding_night` | `characters/npc_jiyeon_wedding_night.png` | 512x768 |
 | portrait | `jiyeon_normal` | `characters/npc_mentor.png` | 512x768 |
 | portrait | `minseo`, `minseo_normal` | `characters/npc_minseo.png` | 512x768 |
 | portrait | `mother` | `characters/npc_mother.png` | 512x768 |
 | portrait | `daeun_normal` | `characters/npc_romantic_interest.png` | 512x768 |
+| portrait | `sangchul_normal_y3` | `characters/npc_sangchul_normal_y3.png` | 1024x1536 |
+| portrait | `sangchul_normal_y5` | `characters/npc_sangchul_normal_y5.png` | 1024x1536 |
 | portrait | `sangchul_serious` | `characters/npc_sangchul_serious.png` | 512x768 |
+| portrait | `sangchul_serious_y3` | `characters/npc_sangchul_serious_y3.png` | 1024x1536 |
+| portrait | `sangchul_serious_y5` | `characters/npc_sangchul_serious_y5.png` | 1024x1536 |
 | portrait | `seongjun` | `characters/npc_seongjun.png` | 512x768 |
 | portrait | `boss` | `characters/npc_team_lead.png` | 512x768 |
 | portrait | `tip_seller` | `characters/npc_tip_seller.png` | 512x768 |

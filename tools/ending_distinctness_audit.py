@@ -21,7 +21,13 @@ ENDINGS_PATH = ROOT / "content" / "endings.json"
 ENDINGS_EN_PATH = ROOT / "content" / "endings_en.json"
 AUDIT_PATH = ROOT / "docs" / "ENDING_AUDIT.md"
 SYMBOL_DIR = ROOT / "assets" / "ui" / "ending_symbols"
-SYMBOL_IDS = ("ordinary_life", "burnout", "mental_break", "stable_success")
+SYMBOL_IDS = ("ordinary_life", "burnout", "mental_break")
+DEDICATED_CG_IDS = {
+    "stable_success": (
+        "cg_ending_stable_success",
+        ROOT / "assets" / "cg" / "ending_stable_success_v1.png",
+    ),
+}
 EXPECTED_GENERIC_IDS = {
     "political_fix",
     "investment_master",
@@ -196,6 +202,15 @@ def main() -> int:
             errors.append("%s: symbol is not wired into MainGame" % ending_id)
     if len(symbol_hashes) != len(SYMBOL_IDS):
         errors.append("dedicated ending symbols are not visually unique files")
+    image_registry_source = (ROOT / "autoloads" / "ImageRegistry.gd").read_text(encoding="utf-8")
+    for ending_id, (cg_id, cg_path) in DEDICATED_CG_IDS.items():
+        if str(by_id.get(ending_id, {}).get("cg", "")) != cg_id:
+            errors.append("%s: dedicated ending CG id is not owned by the ending" % ending_id)
+        if not cg_path.exists():
+            errors.append("%s: dedicated ending CG file missing" % ending_id)
+        expected_ref = '"%s": "res://%s"' % (cg_id, cg_path.relative_to(ROOT).as_posix())
+        if expected_ref not in image_registry_source:
+            errors.append("%s: dedicated ending CG is not wired into ImageRegistry" % ending_id)
 
     if not AUDIT_PATH.exists():
         errors.append("docs/ENDING_AUDIT.md missing")
@@ -232,8 +247,15 @@ def main() -> int:
         )
 
     print(
-        "ENDING_DISTINCTNESS_AUDIT count=%d high_similarity=%d shared_visual_groups=%d symbols=%d generic=%d"
-        % (len(rows), len(similarity_pairs), len(shared_visuals), len(SYMBOL_IDS), len(generic_ids))
+        "ENDING_DISTINCTNESS_AUDIT count=%d high_similarity=%d shared_visual_groups=%d symbols=%d dedicated_cg=%d generic=%d"
+        % (
+            len(rows),
+            len(similarity_pairs),
+            len(shared_visuals),
+            len(SYMBOL_IDS),
+            len(DEDICATED_CG_IDS),
+            len(generic_ids),
+        )
     )
     for score, pair in sorted(similarity_pairs, reverse=True):
         print("  text %.3f %s | %s" % (score, pair[0], pair[1]))

@@ -5,6 +5,12 @@ extends Node
 ## 실제 파일이 없으면 빈 문자열을 반환 → UI에서 플레이스홀더(색상 박스 + 이름)로 대체.
 ## 이렇게 하면 이미지가 한 장도 없어도 게임이 정상 동작한다.
 
+const CAST_VISUAL_YEARS_PATH := "res://content/meta/cast_visual_years.json"
+
+var _cast_visual_years: Dictionary = {}
+var _portrait_time_overrides: Dictionary = {}
+var _fixed_time_portraits: Dictionary = {}
+
 # ── 인물 초상화 ────────────────────────────────────────────────
 # 경로 규칙: assets/characters/ 플랫 구조 (Codex 생성 파일과 일치)
 const PORTRAITS = {
@@ -28,12 +34,31 @@ const PORTRAITS = {
 	"player_moral_gray":  "res://assets/characters/main_character_neutral_goshiwon.png",
 	"player_moral_black": "res://assets/characters/main_character_determined.png",
 	"player_moral_white": "res://assets/characters/main_character_happy.png",
+	# 직업/생활 맥락을 보존하는 1·3·5년 시간 앵커. y1은 기존 원화다.
+	"player_unemployed":     "res://assets/characters/main_character_unemployed.png",
+	"player_unemployed_y3":  "res://assets/characters/main_character_unemployed_y3.png",
+	"player_unemployed_y5":  "res://assets/characters/main_character_unemployed_y5.png",
+	"player_part_time":      "res://assets/characters/main_character_part_time.png",
+	"player_part_time_y3":   "res://assets/characters/main_character_part_time_y3.png",
+	"player_part_time_y5":   "res://assets/characters/main_character_part_time_y5.png",
+	"player_office":         "res://assets/characters/main_character_office.png",
+	"player_office_y3":      "res://assets/characters/main_character_office_y3.png",
+	"player_office_y5":      "res://assets/characters/main_character_office_y5.png",
+	"player_corporate":      "res://assets/characters/main_character_corporate.png",
+	"player_corporate_y3":   "res://assets/characters/main_character_corporate_y3.png",
+	"player_corporate_y5":   "res://assets/characters/main_character_corporate_y5.png",
 
 	# 김다은 (연인)
 	"daeun_normal":       "res://assets/characters/npc_romantic_interest.png",
+	"daeun_normal_y3":    "res://assets/characters/npc_daeun_normal_y3.png",
+	"daeun_normal_y5":    "res://assets/characters/npc_daeun_normal_y5.png",
 	"daeun_smile":        "res://assets/characters/npc_daeun_smile.png",
+	"daeun_smile_y3":     "res://assets/characters/npc_daeun_smile_y3.png",
+	"daeun_smile_y5":     "res://assets/characters/npc_daeun_smile_y5.png",
 	"daeun_proposal":     "res://assets/characters/npc_daeun_proposal.png",
 	"daeun_sad":          "res://assets/characters/npc_daeun_sad.png",
+	"daeun_sad_y3":       "res://assets/characters/npc_daeun_sad_y3.png",
+	"daeun_sad_y5":       "res://assets/characters/npc_daeun_sad_y5.png",
 	"daeun_sea":          "res://assets/characters/npc_daeun_sea_v2.png",
 	"daeun_fireworks":    "res://assets/characters/npc_daeun_fireworks.png",
 	"daeun_cherry":       "res://assets/characters/npc_daeun_cherry.png",
@@ -46,7 +71,11 @@ const PORTRAITS = {
 
 	# 임상철 (인맥 브로커)
 	"sangchul_normal":    "res://assets/characters/npc_boss.png",
+	"sangchul_normal_y3": "res://assets/characters/npc_sangchul_normal_y3.png",
+	"sangchul_normal_y5": "res://assets/characters/npc_sangchul_normal_y5.png",
 	"sangchul_serious":   "res://assets/characters/npc_sangchul_serious.png",
+	"sangchul_serious_y3": "res://assets/characters/npc_sangchul_serious_y3.png",
+	"sangchul_serious_y5": "res://assets/characters/npc_sangchul_serious_y5.png",
 
 	# 강남 카페 시나리오 — 폴더 주인과 폴더 속 김 부장은 별개 인물
 	"cafe_investor":      "res://assets/characters/npc_cafe_investor.png",
@@ -55,13 +84,21 @@ const PORTRAITS = {
 	# 강현수 (고시원 옆방 공시생 후배)
 	"hyunsu":             "res://assets/characters/npc_close_friend.png",
 	"hyunsu_normal":      "res://assets/characters/npc_close_friend.png",
+	"hyunsu_normal_y3":   "res://assets/characters/npc_hyunsu_normal_y3.png",
+	"hyunsu_normal_y5":   "res://assets/characters/npc_hyunsu_normal_y5.png",
 	"hyunsu_accounting":  "res://assets/characters/npc_hyunsu_accounting.png",
 	"hyunsu_civil_service": "res://assets/characters/npc_hyunsu_civil_service.png",
 
 	# 한지연 (투자·로맨스) — legacy file names, regenerate as transparent portraits
 	"jiyeon_normal":      "res://assets/characters/npc_mentor.png",
+	"jiyeon_normal_y3":   "res://assets/characters/npc_jiyeon_normal_y3.png",
+	"jiyeon_normal_y5":   "res://assets/characters/npc_jiyeon_normal_y5.png",
 	"jiyeon_warm":        "res://assets/characters/npc_jiyeon_warm.png",
+	"jiyeon_warm_y3":     "res://assets/characters/npc_jiyeon_warm_y3.png",
+	"jiyeon_warm_y5":     "res://assets/characters/npc_jiyeon_warm_y5.png",
 	"jiyeon_cold":        "res://assets/characters/npc_jiyeon_cold.png",
+	"jiyeon_cold_y3":     "res://assets/characters/npc_jiyeon_cold_y3.png",
+	"jiyeon_cold_y5":     "res://assets/characters/npc_jiyeon_cold_y5.png",
 	"jiyeon_sea":         "res://assets/characters/npc_jiyeon_sea_v2.png",
 	"jiyeon_fireworks":   "res://assets/characters/npc_jiyeon_fireworks.png",
 	"jiyeon_cherry":      "res://assets/characters/npc_jiyeon_cherry.png",
@@ -81,11 +118,17 @@ const PORTRAITS = {
 	"father_past":        "res://assets/characters/npc_father_past.png",
 	"father_weak":        "res://assets/characters/npc_father_weak.png",
 	"father_home":        "res://assets/characters/npc_father_home.png",
+	"father_home_y3":     "res://assets/characters/npc_father_home_y3.png",
+	"father_home_y5":     "res://assets/characters/npc_father_home_y5.png",
 	"father_home_weak":   "res://assets/characters/npc_father_home_weak.png",
 	"father_hospitalized": "res://assets/characters/npc_father_hospitalized.png",
 	"jaehyuk_charisma":   "res://assets/characters/npc_jaehyuk.png",
 	"jaehyuk_friendly":   "res://assets/characters/npc_jaehyuk.png",
+	"jaehyuk_normal_y3":  "res://assets/characters/npc_jaehyuk_normal_y3.png",
+	"jaehyuk_normal_y5":  "res://assets/characters/npc_jaehyuk_normal_y5.png",
 	"jaehyuk_shadow":     "res://assets/characters/npc_jaehyuk_shadow.png",
+	"jaehyuk_shadow_y3":  "res://assets/characters/npc_jaehyuk_shadow_y3.png",
+	"jaehyuk_shadow_y5":  "res://assets/characters/npc_jaehyuk_shadow_y5.png",
 	"jaehyuk_cornered":   "res://assets/characters/npc_jaehyuk.png",
 	"seongjun":           "res://assets/characters/npc_seongjun.png",
 
@@ -284,6 +327,7 @@ const CG = {
 	"cg_ending_instant_legend": "res://assets/cg/ending_instant_legend_v1.png",
 	"cg_ending_orthodox_pinnacle": "res://assets/cg/ending_orthodox_pinnacle_v1.png",
 	"cg_ending_burnout": "res://assets/cg/ending_burnout_v1.png",
+	"cg_ending_stable_success": "res://assets/cg/ending_stable_success_v1.png",
 	"cg_romance_sea_daeun":    "res://assets/cg/romance/sea_daeun_v3.png",
 	"cg_romance_sea_jiyeon":   "res://assets/cg/romance/sea_jiyeon_v2.png",
 	"cg_romance_fireworks_daeun": "res://assets/cg/romance/fireworks_daeun.png",
@@ -331,51 +375,59 @@ const ITEM_ART = {
 
 ## 초상화 경로 반환. 파일 없으면 "" (UI가 플레이스홀더 처리)
 func get_portrait(id: String) -> String:
-	var dynamic_path = _get_dynamic_player_portrait(id)
-	if dynamic_path != "":
-		if has_texture(dynamic_path):
-			return dynamic_path
-		return ""
-	var path = str(PORTRAITS.get(id, ""))
-	if path != "" and has_texture(path):
-		return path
+	return get_portrait_for_turn(id, GameState.turn)
+
+## 저장 데이터에 별도 연차 상태를 넣지 않는다. 같은 저장이라도 현재 turn에서
+## 1·3·5년 앵커를 결정하므로 구버전 저장과 언어별 경로가 같은 초상을 본다.
+func get_portrait_for_turn(id: String, turn_override: int) -> String:
+	var canonical_id := _get_dynamic_player_portrait_id(id)
+	var resolved_id := resolve_temporal_portrait_id(canonical_id, turn_override)
+	for candidate_id in [resolved_id, canonical_id, id]:
+		var path := str(PORTRAITS.get(str(candidate_id), ""))
+		if path != "" and has_texture(path):
+			return path
 	return ""
 
 func get_player_portrait_for_state(state: String = "normal") -> String:
+	var portrait_id := "player_normal"
 	match state:
 		"shocked":
-			return PLAYER_SHOCKED
+			portrait_id = "player_shocked"
 		"happy":
-			return PLAYER_HAPPY
+			portrait_id = "player_happy"
 		"tired", "sad":
-			return PLAYER_TIRED
+			portrait_id = "player_tired"
 		"hollow":
-			return PLAYER_HOLLOW
+			portrait_id = "player_hollow"
 		"normal", "determined", "suit":
-			return get_player_context_portrait()
+			portrait_id = "player_normal"
 		_:
-			return get_player_context_portrait()
+			portrait_id = "player_normal"
+	return get_portrait(portrait_id)
 
 func get_player_context_portrait() -> String:
+	return get_portrait_for_turn(get_player_context_portrait_id(), GameState.turn)
+
+func get_player_context_portrait_id() -> String:
 	if GameState.age >= 50:
-		return PLAYER_HOLLOW
+		return "player_hollow"
 
 	var job: Dictionary = GameState.current_job
 	var total_asset := float(GameState.get_total_asset_value())
 	if job.is_empty():
 		if GameState.housing in ["apartment", "gangnam"] or total_asset >= 100_000_000.0:
-			return PLAYER_CORPORATE
-		return PLAYER_UNEMPLOYED
+			return "player_corporate"
+		return "player_unemployed"
 
 	var job_id := str(job.get("id", ""))
 	var category := str(job.get("category", ""))
 	var tier := int(job.get("tier", 1))
 
 	if category == "survival" or job_id in ["job_01", "job_02"]:
-		return PLAYER_PART_TIME
+		return "player_part_time"
 	if job_id == "job_08" or category in ["finance", "sales"] or tier >= 3:
-		return PLAYER_CORPORATE
-	return PLAYER_OFFICE
+		return "player_corporate"
+	return "player_office"
 
 ## 밴드 경계 비네트는 직업 복장이 아니라 시작 당시의 검은 크루넥으로 돌아간다.
 ## 같은 기억 프레임에서 표정과 시선만 바뀌어야 전후 비교가 성립한다.
@@ -392,24 +444,85 @@ func get_player_moral_portrait(stage: int) -> String:
 		_:
 			return PLAYER_MORAL_GRAY
 
-func _get_dynamic_player_portrait(id: String) -> String:
+func _get_dynamic_player_portrait_id(id: String) -> String:
 	match id:
 		"player_normal":
-			return get_player_portrait_for_state("normal")
+			return get_player_context_portrait_id()
 		"player_determined":
-			return get_player_portrait_for_state("determined")
+			return get_player_context_portrait_id()
 		"player_suit":
-			return get_player_portrait_for_state("suit")
+			return get_player_context_portrait_id()
 		"player_tired", "player_sad":
-			return get_player_portrait_for_state("tired")
+			return "player_tired"
 		"player_happy":
-			return get_player_portrait_for_state("happy")
+			return "player_happy"
 		"player_shocked":
-			return get_player_portrait_for_state("shocked")
+			return "player_shocked"
 		"player_hollow":
-			return get_player_portrait_for_state("hollow")
+			return "player_hollow"
 		_:
-			return ""
+			return id
+
+func reload_cast_visual_years() -> void:
+	_cast_visual_years.clear()
+	_portrait_time_overrides.clear()
+	_fixed_time_portraits.clear()
+	_ensure_cast_visual_years()
+
+func get_visual_time_stage(turn_override: int = -1) -> String:
+	_ensure_cast_visual_years()
+	var current_turn := maxi(turn_override if turn_override >= 0 else GameState.turn, 1)
+	var windows: Array = _cast_visual_years.get("stage_windows", [])
+	for row_variant in windows:
+		if not row_variant is Dictionary:
+			continue
+		var row: Dictionary = row_variant
+		if current_turn >= int(row.get("min_turn", 1)) and current_turn <= int(row.get("max_turn", 240)):
+			return str(row.get("id", "y1"))
+	return "y5" if current_turn > 192 else "y1"
+
+func resolve_temporal_portrait_id(id: String, turn_override: int = -1) -> String:
+	_ensure_cast_visual_years()
+	if bool(_fixed_time_portraits.get(id, false)):
+		return id
+	var stage := get_visual_time_stage(turn_override)
+	if stage == "y1":
+		return id
+	var variants: Dictionary = _portrait_time_overrides.get(id, {})
+	return str(variants.get(stage, id))
+
+func is_portrait_time_locked(id: String) -> bool:
+	_ensure_cast_visual_years()
+	return bool(_fixed_time_portraits.get(id, false))
+
+func get_cast_visual_years_contract() -> Dictionary:
+	_ensure_cast_visual_years()
+	return _cast_visual_years.duplicate(true)
+
+func _ensure_cast_visual_years() -> void:
+	if not _cast_visual_years.is_empty():
+		return
+	if not FileAccess.file_exists(CAST_VISUAL_YEARS_PATH):
+		return
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(CAST_VISUAL_YEARS_PATH))
+	if not parsed is Dictionary:
+		push_error("CAST_VISUAL_TIME_LOAD_FAIL invalid JSON root")
+		return
+	_cast_visual_years = parsed
+	var characters: Dictionary = _cast_visual_years.get("characters", {})
+	for character_variant in characters.values():
+		if not character_variant is Dictionary:
+			continue
+		var character: Dictionary = character_variant
+		var overrides: Dictionary = character.get("portrait_overrides", {})
+		for portrait_id_variant in overrides:
+			var portrait_id := str(portrait_id_variant)
+			var variants_variant: Variant = overrides.get(portrait_id_variant, {})
+			if variants_variant is Dictionary:
+				_portrait_time_overrides[portrait_id] = variants_variant
+		var fixed_portraits: Array = character.get("fixed_portraits", [])
+		for portrait_id_variant in fixed_portraits:
+			_fixed_time_portraits[str(portrait_id_variant)] = true
 
 ## 배경 경로 반환. 파일 없으면 기본 배경으로 폴백
 func get_background(id: String) -> String:

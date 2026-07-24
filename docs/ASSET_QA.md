@@ -1,6 +1,6 @@
 # Gangnam Dream Asset QA
 
-Updated: 2026-06-13
+Updated: 2026-07-24
 
 Production gate: new and regenerated visual assets must also satisfy `docs/PRODUCTION_ASSET_PIPELINE.md` before they are treated as Steam-demo-ready assets. This QA file records current asset status; the production pipeline defines the acceptance process.
 
@@ -48,6 +48,10 @@ In-game crop QA was added as `tools/VisualCropQA.gd` / `tools/VisualCropQA.tscn`
 
 CG runtime display QA was added as `tools/CGRuntimeCheck.gd` / `tools/CGRuntimeCheck.tscn`. It verifies that StoryMode event `cg` keys resolve to the full-screen CG texture and suppress the separate portrait frame, and that MainGame ending `cg` keys resolve to the ending CG preview path.
 
+The cast now has an explicit time axis separate from relationship state. `content/meta/cast_visual_years.json` maps chapters 1-2 to `y1`, chapters 3-4 to `y3`, and chapter 5 to `y5`; 32 transparent y3/y5 portraits cover Minjun, Daeun, Jiyeon, Hyunsu, Jaehyuk, Sangchul, and Father. Hospital, wedding, seasonal, romance-climax, and 2020 `father_past` portraits remain scene-owned and cannot be replaced by the time resolver.
+
+`Stable Success` no longer falls back to an abstract geometric ending symbol. It owns `ending_stable_success_v1.png`, a 1280x800 CG of 38-year-old Minjun finding quiet relief in a modest Seoul studio, with no luxury/Gangnam victory language.
+
 P2 key art/store material pass is complete. `gangnam_dream_keyart_rooftop.png` is now a textless 1920x1080 rooftop-to-Gangnam master key art, and Steam capsule/header assets are derived from it with deterministic local-font title overlays instead of generated text.
 
 P3 audio pass is complete and recorded in `docs/AUDIO_QA.md`: 7 BGM tracks and 17 SFX files resolve through runtime audio managers, including the newly mapped `buy`, `sell`, and `tab_open` SFX keys.
@@ -87,6 +91,11 @@ Live-screen semantic routing QA found and fixed a separate class of issue: valid
   - StoryMode uses event `cg` as the first-priority full-screen image and hides the separate portrait frame for CG scenes.
   - MainGame ending screen uses ending `cg` as the background image and adds a wide CG preview inside the ending modal.
   - `tools/CGRuntimeCheck.tscn` passes.
+- Cast time progression passes its first production QA:
+  - `CastVisualTimeCheck.tscn` validates all three windows, seven core identities, relationship-stage independence, fixed-context protection, missing-file fallback, and four Minjun job variants.
+  - 1280x800 Korean and 960x600 English `year-identity` renders keep all 21 neutral anchors inside the portrait safe area.
+  - Local review sheets: `/tmp/cast_visual_years_neutral.jpg`, `/tmp/cast_visual_years_expression.jpg`, and `/tmp/cast_time_runtime_1280_contact.jpg`.
+- `Stable Success` exact-CG ownership passes `CGRuntimeCheck`, ending distinctness audit, and the real Korean 1280x800 modal capture at `/tmp/gangnamdream_stable_success_20260724_2/ending_ko_15d_ending_stable_success.png`.
 - P1 in-game crop QA passes first review for 15 MainGame/StoryMode/CG compositions:
   - StoryMode: goshiwon + Minjun, late-night goshiwon + tired Minjun, convenience + Daeun, Gangnam station + Jiyeon, family home + father, office + team lead, library + Hyunsu.
   - MainGame dashboard: goshiwon + unemployed Minjun, Gangnam day + corporate Minjun, Gangnam night + Jiyeon, late-night goshiwon + tired Minjun.

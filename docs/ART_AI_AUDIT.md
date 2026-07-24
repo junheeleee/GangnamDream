@@ -13,11 +13,13 @@
 
 ## 감사 결과
 
-- 활성 인벤토리: **195장** (`CG 59 / Portrait 57 / Background 79`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
+- 활성 인벤토리: **229장** (`CG 60 / Portrait 90 / Background 79`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
 - 전수 방법: 종류별 콘택트시트 24장으로 얼굴·실루엣·그레이딩·공간을 1차 비교하고, 손·반사·차량·카운터·정류장처럼 오독 위험이 있는 컷과 키 비주얼 10장은 원본 해상도로 다시 열었다.
 - 런타임 수리: 배경이 구워진 `main_character_50s.png`를 본편의 `player_hollow` 슬롯에서 제외하고 같은 민준의 투명 피로 초상으로 통합했다. 현재 이벤트가 없는 박재원의 죽은 초상 등록도 제거했다.
 - 이미지 수리: `ending_crypto_ghost.png`의 비현실적인 6면 모니터 벽을 정본 고시원 안의 휴대폰 1대·낡은 노트북 1대로 교체했다. 방 크기, 작은 불투명창, 침대/책상 방향, 민준 신원, 다섯 손가락, 무문자 차트를 원본에서 재검수했다.
 - 아버지 의상 정합: 작업복 하나를 집·병원·통화에 돌려 쓰지 않는다. 같은 얼굴을 작업/외출, 세대감 있는 집 생활복, 쇠약 생활복, 입원 환자복으로 분리하고 피부색·투명 가장자리·의상 장소 계약을 원본 해상도에서 재검수했다.
+- 1·3·5년 외형 정합: 민준·다은·지연·현수·재혁·상철·아버지의 32개 `y3`/`y5` 초상을 중립/표정 콘택트시트와 1280x800 한국어·960x600 영어 실제 StoryMode 프레임으로 비교했다. 얼굴·헤어·체형·대표 복식은 같은 사람으로 유지되고, 시간 차이는 자세·눈의 피로·정돈 정도로만 읽힌다. 병원·결혼·계절·2020년 아버지 회상 초상은 자동 교체되지 않는다.
+- 안정적인 성공 엔딩: `ending_stable_success_v1.png`를 원본과 1280x800 실제 엔딩 모달에서 재검수했다. 38세 민준, 소형 서울 집, 뒤집힌 휴대폰 한 대, 안도하는 비렌즈 시선, 비강남·비럭셔리 공간, 손·창·침대 원근과 중앙 크롭을 확인했다.
 - 특별 정합: 사고 컷은 검은 장축 세단·한국식 왼쪽 운전석·운전석 문·자전거 두 바퀴를 유지한다. 정류장은 카메라가 벤치 등받이 뒤를 보며 좌석이 도로를 향한다. 편의점 CG는 다은이 카운터 안, 민준이 출입문 쪽에 있다. 다은 결혼식 9종은 한 프레임에 가족 상태를 과적하지 않고 `다은 어머니 반응 1 → 신랑석 상태 4 → 커플 와이드 2 → 커플 근접 2`로 분리한다. 어머니는 혼주 한복과 딸을 향한 시선, 아버지는 혼주 정장과 통로를 향한 시선, 별세 경로는 완전히 빈 예약석, 현수 재회 경로는 배우자·아이 없는 현수 단독을 지킨다. 커플 컷의 식별 인물은 민준·다은뿐이며 민준 선입장/다은 후입장·소형/풀 의상·상호 시선을 유지한다.
 - 글자 게이트: 전경 핵심 소품에는 판독을 요구하는 AI 글자가 없다. 투자 차트·포장지·책등의 작은 표식은 언어처럼 읽히지 않는 비서사 질감이며, 실제 UI 카피를 대신하지 않는다.
 - 최종 판정: **FAIL 0 / PENDING 0**. 비활성 원화는 향후 다시 등록할 때 새 감사 대상이 된다.
@@ -66,6 +68,7 @@
 | Full Circle 엔딩 | `assets/cg/ending_full_circle_v1.png` | PASS-A | 전화 손, 이삿짐 1개, 아버지 비등장, 맑은 오전 크롭 통과. |
 | 지연 엔딩 | `assets/cg/ending_jiyeon_man_v2.png` | PASS-A | 두 인물 모두 거울 안에만 한 번 등장하며 중복 몸·역반사 없음. |
 | 다은 엔딩 | `assets/cg/ending_with_daeun_v1.png` | PASS-A | 라면/물 정확히 2인분, 상호 시선, 가까운 손, 작은 집의 존엄 통과. |
+| 안정적인 성공 엔딩 | `assets/cg/ending_stable_success_v1.png` | PASS-A | 38세 민준·소형 서울 집·뒤집힌 휴대폰 1대·조용한 안도·비럭셔리 공간과 실제 엔딩 크롭 통과. |
 
 ## 전수 판정표
 
@@ -76,6 +79,7 @@
 | CG | `assets/cg/demo/first_interview_v1.png` | `cg_demo_first_interview` | 1280x800 | no | `47f49936c3b9` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/ending_bankruptcy_v1.png` | `cg_ending_bankruptcy` | 1280x800 | no | `8931fa42b953` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/ending_burnout_v1.png` | `cg_ending_burnout` | 1280x800 | no | `cc9cfdcbf19b` | PASS-A | 1인칭 침상 시점, 한 손·다섯 손가락, 테이프 고정 캐뉼라와 연결된 링거, 닿지 않은 뒤집힌 휴대폰, 형광등·커튼·침상 축, 가짜 문자·인물 부재와 중앙 950x430 크롭을 원본 해상도로 확인. `mental_break`와 공유하지 않는다. |
+| CG | `assets/cg/ending_stable_success_v1.png` | `cg_ending_stable_success` | 1280x800 | no | `40c622e0e9e5` | PASS-A | 38세 민준의 얼굴·양손·비렌즈 시선, 뒤집힌 휴대폰 1대, 비강남 소형 서울 집, 창·침대·협탁 원근과 1280x800 엔딩 크롭을 확인. |
 | CG | `assets/cg/ending_crypto_ghost.png` | `cg_ending_crypto_ghost` | 1280x800 | no | `31e42005c154` | REPAIRED-A | 모니터 벽 제거. 정본 고시원·휴대폰 1대·노트북 1대·민준 손/시선 확인. |
 | CG | `assets/cg/ending_debt_spiral_v1.png` | `cg_ending_debt_spiral` | 1280x800 | no | `df7eb173aeb6` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/ending_empty_house.png` | `cg_ending_empty_house` | 1280x800 | no | `d21de2b8eb78` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
@@ -188,6 +192,38 @@
 | Portrait | `assets/characters/npc_seongjun.png` | `seongjun` | 512x768 | yes | `2cab47234ec6` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
 | Portrait | `assets/characters/npc_team_lead.png` | `boss` | 512x768 | yes | `2abc6ffd61c2` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
 | Portrait | `assets/characters/npc_tip_seller.png` | `tip_seller` | 512x768 | yes | `761d08cf8b2a` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
+| Portrait | `assets/characters/main_character_corporate_y3.png` | `player_corporate_y3` | 1024x1536 | yes | `de8f79f4892f` | PASS-B | 투명 분리·민준 정체성·중간 연차 정장/자세와 게임 크롭 확인. |
+| Portrait | `assets/characters/main_character_corporate_y5.png` | `player_corporate_y5` | 1024x1536 | yes | `75828e903919` | PASS-B | 투명 분리·민준 정체성·최종 연차 정장/자세와 게임 크롭 확인. |
+| Portrait | `assets/characters/main_character_office_y3.png` | `player_office_y3` | 1024x1536 | yes | `72c139076b44` | PASS-B | 투명 분리·민준 정체성·중간 연차 사무복과 게임 크롭 확인. |
+| Portrait | `assets/characters/main_character_office_y5.png` | `player_office_y5` | 1024x1536 | yes | `bb06a64fcecb` | PASS-B | 투명 분리·민준 정체성·최종 연차 사무복과 게임 크롭 확인. |
+| Portrait | `assets/characters/main_character_part_time_y3.png` | `player_part_time_y3` | 1024x1536 | yes | `a48fc4e8032d` | PASS-B | 투명 분리·민준 정체성·중간 연차 생존복과 게임 크롭 확인. |
+| Portrait | `assets/characters/main_character_part_time_y5.png` | `player_part_time_y5` | 1024x1536 | yes | `d0ee67bc3cfc` | PASS-B | 투명 분리·민준 정체성·최종 연차 생존복과 게임 크롭 확인. |
+| Portrait | `assets/characters/main_character_unemployed_y3.png` | `player_unemployed_y3` | 1024x1536 | yes | `9d9e6189a969` | PASS-B | 투명 분리·민준 정체성·중간 연차 피로/자세와 게임 크롭 확인. |
+| Portrait | `assets/characters/main_character_unemployed_y5.png` | `player_unemployed_y5` | 1024x1536 | yes | `148e2d8d2712` | PASS-B | 투명 분리·민준 정체성·최종 연차 피로/자세와 게임 크롭 확인. |
+| Portrait | `assets/characters/npc_daeun_normal_y3.png` | `daeun_normal_y3` | 1024x1536 | yes | `40b5a42168ca` | PASS-B | 다은 얼굴·단발·왼쪽 핀·중간 연차 자세와 투명 가장자리 확인. |
+| Portrait | `assets/characters/npc_daeun_normal_y5.png` | `daeun_normal_y5` | 1024x1536 | yes | `16d810da57ea` | PASS-B | 다은 얼굴·단발·왼쪽 핀·최종 연차 자세와 투명 가장자리 확인. |
+| Portrait | `assets/characters/npc_daeun_sad_y3.png` | `daeun_sad_y3` | 1024x1536 | yes | `0a3425fcc131` | PASS-B | 다은 정체성·억제된 슬픔·중간 연차 표정과 게임 크롭 확인. |
+| Portrait | `assets/characters/npc_daeun_sad_y5.png` | `daeun_sad_y5` | 1024x1536 | yes | `f084fcb64342` | PASS-B | 다은 정체성·억제된 슬픔·최종 연차 표정과 게임 크롭 확인. |
+| Portrait | `assets/characters/npc_daeun_smile_y3.png` | `daeun_smile_y3` | 1024x1536 | yes | `5b4189348834` | PASS-B | 다은 정체성·자연스러운 미소·중간 연차 표정과 게임 크롭 확인. |
+| Portrait | `assets/characters/npc_daeun_smile_y5.png` | `daeun_smile_y5` | 1024x1536 | yes | `6a3b2efdec45` | PASS-B | 다은 정체성·자연스러운 미소·최종 연차 표정과 게임 크롭 확인. |
+| Portrait | `assets/characters/npc_father_home_y3.png` | `father_home_y3` | 1024x1536 | yes | `88192f37088c` | PASS-B | 아버지 얼굴·세대감 있는 생활복·중간 연차 노화와 투명 가장자리 확인. |
+| Portrait | `assets/characters/npc_father_home_y5.png` | `father_home_y5` | 1024x1536 | yes | `5c1d65242400` | PASS-B | 아버지 얼굴·세대감 있는 생활복·최종 연차 노화와 투명 가장자리 확인. |
+| Portrait | `assets/characters/npc_hyunsu_normal_y3.png` | `hyunsu_normal_y3` | 1024x1536 | yes | `26afe50c8c60` | PASS-B | 현수 둥근 안경·통통한 체형·올리브/버건디 실루엣과 중간 연차 확인. |
+| Portrait | `assets/characters/npc_hyunsu_normal_y5.png` | `hyunsu_normal_y5` | 1024x1536 | yes | `25eb07f7209d` | PASS-B | 현수 둥근 안경·통통한 체형·올리브/버건디 실루엣과 최종 연차 확인. |
+| Portrait | `assets/characters/npc_jaehyuk_normal_y3.png` | `jaehyuk_normal_y3` | 1024x1536 | yes | `23b8268d444d` | PASS-B | 재혁 날카로운 얼굴·정장·중간 연차 절제와 상철 비유사성 확인. |
+| Portrait | `assets/characters/npc_jaehyuk_normal_y5.png` | `jaehyuk_normal_y5` | 1024x1536 | yes | `3e32baf8cd39` | PASS-B | 재혁 날카로운 얼굴·정장·최종 연차 절제와 상철 비유사성 확인. |
+| Portrait | `assets/characters/npc_jaehyuk_shadow_y3.png` | `jaehyuk_shadow_y3` | 1024x1536 | yes | `3f186a2c641a` | PASS-B | 재혁 정체성·압박 표정·중간 연차와 투명 가장자리 확인. |
+| Portrait | `assets/characters/npc_jaehyuk_shadow_y5.png` | `jaehyuk_shadow_y5` | 1024x1536 | yes | `b832e7ee21ca` | PASS-B | 재혁 정체성·압박 표정·최종 연차와 투명 가장자리 확인. |
+| Portrait | `assets/characters/npc_jiyeon_cold_y3.png` | `jiyeon_cold_y3` | 1024x1536 | yes | `3cc09f6e047b` | PASS-B | 지연 긴 흑발·고급 재단·차가운 표정의 중간 연차와 게임 크롭 확인. |
+| Portrait | `assets/characters/npc_jiyeon_cold_y5.png` | `jiyeon_cold_y5` | 1024x1536 | yes | `3726690585c6` | PASS-B | 지연 긴 흑발·고급 재단·차가운 표정의 최종 연차와 게임 크롭 확인. |
+| Portrait | `assets/characters/npc_jiyeon_normal_y3.png` | `jiyeon_normal_y3` | 1024x1536 | yes | `21233649eba4` | PASS-B | 지연 얼굴·긴 웨이브·중간 연차의 위험한 침착과 투명 가장자리 확인. |
+| Portrait | `assets/characters/npc_jiyeon_normal_y5.png` | `jiyeon_normal_y5` | 1024x1536 | yes | `a3ba834aa091` | PASS-B | 지연 얼굴·긴 웨이브·최종 연차의 위험한 침착과 투명 가장자리 확인. |
+| Portrait | `assets/characters/npc_jiyeon_warm_y3.png` | `jiyeon_warm_y3` | 1024x1536 | yes | `d1fef67da360` | PASS-B | 지연 정체성·절제된 온기·중간 연차 표정과 게임 크롭 확인. |
+| Portrait | `assets/characters/npc_jiyeon_warm_y5.png` | `jiyeon_warm_y5` | 1024x1536 | yes | `d2c0789ba714` | PASS-B | 지연 정체성·절제된 온기·최종 연차 표정과 게임 크롭 확인. |
+| Portrait | `assets/characters/npc_sangchul_normal_y3.png` | `sangchul_normal_y3` | 1024x1536 | yes | `d9f1ef735095` | PASS-B | 상철 백발 섞인 머리·중년 체형·중간 연차 자세와 재혁 비유사성 확인. |
+| Portrait | `assets/characters/npc_sangchul_normal_y5.png` | `sangchul_normal_y5` | 1024x1536 | yes | `2cb1362297c9` | PASS-B | 상철 백발 섞인 머리·중년 체형·최종 연차 자세와 재혁 비유사성 확인. |
+| Portrait | `assets/characters/npc_sangchul_serious_y3.png` | `sangchul_serious_y3` | 1024x1536 | yes | `8b4ab6c5c733` | PASS-B | 상철 정체성·무거운 표정·중간 연차와 게임 크롭 확인. |
+| Portrait | `assets/characters/npc_sangchul_serious_y5.png` | `sangchul_serious_y5` | 1024x1536 | yes | `9b64b5dc1a69` | PASS-B | 상철 정체성·무거운 표정·최종 연차와 게임 크롭 확인. |
 | Background | `assets/backgrounds/amusement_park_parade_day.png` | `amusement_park_parade` | 1280x800 | no | `d7077312283e` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/amusement_photo_booth_evening.png` | `amusement_photo_booth` | 1280x800 | no | `b343c106c888` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/amusement_roller_coaster_day.png` | `amusement_roller_coaster` | 1280x800 | no | `9629d6993f4b` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |

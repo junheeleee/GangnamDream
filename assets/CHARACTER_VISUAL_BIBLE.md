@@ -1,6 +1,6 @@
 # Gangnam Dream Character Visual Bible
 
-Updated: 2026-07-16
+Updated: 2026-07-24
 
 This file is the visual canon for recurring characters. It overrides older one-off prompt notes when there is a conflict. Recurring character portraits must be generated as transparent-background PNGs and then composited over location backgrounds in Godot.
 
@@ -16,6 +16,14 @@ This file is the visual canon for recurring characters. It overrides older one-o
 - B-tier scene actors retain a distinct silhouette, age/class signal, and simplified readable face. They are not interchangeable gray bodies.
 - Only C-tier atmospheric extras may be rendered without facial features. Use two or three low-contrast value planes, varied scene-correct posture, and depth separation; never use a pure-black cardboard silhouette or cloned crowd.
 - A named speaker, a person whose gaze carries the scene, or anyone affected by a player choice cannot be demoted to C-tier to hide generation defects.
+- `assets/CAST_TIME_VISUAL_BIBLE.md` and `content/meta/cast_visual_years.json`
+  own the independent `y1`/`y3`/`y5` time axis. Relationship expression,
+  event-specific clothing, and Moral Tint remain separate axes.
+- Chapters 1-2 use `y1`, chapters 3-4 use `y3`, and chapter 5 uses `y5`.
+  A missing later portrait must fall back to the canonical source rather than
+  blanking the actor or inventing a context change.
+- Five years must read through grooming, posture, fatigue, confidence, and
+  wardrobe maintenance, not exaggerated wrinkles or sudden middle age.
 
 ## Cast Readability Locks
 
@@ -46,7 +54,7 @@ This file is the visual canon for recurring characters. It overrides older one-o
 
 No luxury watch, no designer styling, no polished Gangnam success look in early/core expressions.
 
-**Current Asset Status:** `main_character_neutral_goshiwon.png`, `main_character_tired.png`, `main_character_determined.png`, `main_character_happy.png`, and `main_character_shocked.png` were regenerated on 2026-06-12 as transparent portraits. `main_character_unemployed.png`, `main_character_part_time.png`, `main_character_office.png`, and `main_character_corporate.png` were added on 2026-06-12 for runtime outfit switching. The `neutral_goshiwon` filename is legacy for the transparent file only; do not bake a room into that portrait. Moral-threshold vignettes compose the separate canonical goshiwon background behind it at runtime.
+**Current Asset Status:** `main_character_neutral_goshiwon.png`, `main_character_tired.png`, `main_character_determined.png`, `main_character_happy.png`, and `main_character_shocked.png` were regenerated on 2026-06-12 as transparent portraits. `main_character_unemployed.png`, `main_character_part_time.png`, `main_character_office.png`, and `main_character_corporate.png` were added on 2026-06-12 for runtime outfit switching. Each job family now owns explicit `_y3` and `_y5` transparent anchors; the `y1` source remains the canonical base. The `neutral_goshiwon` filename is legacy for the transparent file only; do not bake a room into that portrait. Moral-threshold vignettes compose the separate canonical goshiwon background behind it at runtime.
 
 **Runtime Outfit Rules:** `ImageRegistry.get_player_context_portrait()` is the source of truth. Survival jobs (`job_01`, `job_02`) use part-time workwear; ordinary low/mid-tier office/education/tech jobs use office wear; `job_08`, finance, sales, and tier 3+ jobs use corporate suit. Stress/critical/milestone states still override with tired/shocked/happy emotional portraits.
 

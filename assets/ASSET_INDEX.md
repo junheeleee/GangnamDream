@@ -25,8 +25,35 @@ Updated on 2026-07-13 for the `late_call` P1 ending CG, final Jiyeon mirror-pose
 Updated on 2026-07-13 for the `lonely_rich` P1 dining-table CG and its strict separation from `empty_house`.
 Updated on 2026-07-16 for Father wardrobe separation and the Father-passing Seoul KTX platform/empty Changwon hospital room backgrounds.
 Updated on 2026-07-17 for Hyunsu's dedicated old-goshiwon-alley gukbap reunion background.
+Updated on 2026-07-24 for the seven-person `y1`/`y3`/`y5` cast-time axis and the dedicated Stable Success ending CG.
 
 ## Use These Assets
+
+### Cast Time Anchors
+
+The runtime source of truth is `content/meta/cast_visual_years.json`; visual
+generation and review rules are in `assets/CAST_TIME_VISUAL_BIBLE.md`.
+
+- Kim Minjun: `main_character_{unemployed,part_time,office,corporate}_{y3,y5}.png`
+- Kim Daeun: `npc_daeun_{normal,smile,sad}_{y3,y5}.png`
+- Han Jiyeon: `npc_jiyeon_{normal,warm,cold}_{y3,y5}.png`
+- Kang Hyunsu: `npc_hyunsu_normal_{y3,y5}.png`
+- Choi Jaehyuk: `npc_jaehyuk_{normal,shadow}_{y3,y5}.png`
+- Im Sangchul: `npc_sangchul_{normal,serious}_{y3,y5}.png`
+- Father: `npc_father_home_{y3,y5}.png`
+
+All 32 later anchors are transparent 1024x1536 RGBA portraits. Existing
+canonical portraits are the `y1` anchors. Event-owned hospital, wedding,
+weather, romance, and historical portraits remain fixed.
+
+### Stable Success Ending
+
+- `assets/cg/ending_stable_success_v1.png`
+  - Dedicated 1280x800 `stable_success` finale.
+  - Shows year-five Minjun in a modest Seoul studio after closing the finance
+    app and setting one phone face-down.
+  - Replaces the abstract symbol on Korean and English ending surfaces; it is
+    quiet financial safety, not a Gangnam or luxury claim.
 
 ## Production Asset Architecture
 

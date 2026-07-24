@@ -904,6 +904,118 @@ def check_cast_stages():
                     check(pid, s, "%s:%d" % (rel(f), ln_no))
 
 # ══════════════════════════════════════════════════════════════
+# 8) 인물 시간 외형 — 관계 stage와 분리된 1·3·5년 앵커 계약.
+#    런타임은 이 파일에 명시된 반복 초상만 교체하며, 상황복/회상은 고정한다.
+# ══════════════════════════════════════════════════════════════
+def check_cast_visual_years():
+    path = os.path.join(ROOT, "content", "meta", "cast_visual_years.json")
+    if not os.path.exists(path):
+        err("content/meta/cast_visual_years.json 없음 — 1·3·5년 외형 계약 소실")
+        return
+    try:
+        data = json.load(open(path, encoding="utf-8"))
+    except Exception as exc:
+        err("content/meta/cast_visual_years.json 파싱 실패: %s" % exc)
+        return
+
+    expected_windows = [
+        ("y1", 1, 96, [1, 2]),
+        ("y3", 97, 192, [3, 4]),
+        ("y5", 193, 240, [5]),
+    ]
+    windows = data.get("stage_windows", [])
+    actual_windows = []
+    if isinstance(windows, list):
+        for row in windows:
+            if isinstance(row, dict):
+                actual_windows.append((
+                    row.get("id"),
+                    row.get("min_turn"),
+                    row.get("max_turn"),
+                    row.get("chapters"),
+                ))
+    if actual_windows != expected_windows:
+        err("cast_visual_years stage_windows가 1·2장=y1, 3·4장=y3, 5장=y5 정본과 다름: %s"
+            % actual_windows)
+
+    characters = data.get("characters", {})
+    if not isinstance(characters, dict):
+        err("cast_visual_years characters가 Dictionary가 아님")
+        return
+    required_a = {"minjun", "daeun", "jiyeon", "hyunsu", "jaehyuk", "sangchul", "father"}
+    declared_a = {
+        cid for cid, row in characters.items()
+        if isinstance(row, dict) and row.get("tier") == "A_story_anchor"
+    }
+    if declared_a != required_a:
+        err("cast_visual_years A급 핵심 인물 집합 불일치 expected=%s actual=%s"
+            % (sorted(required_a), sorted(declared_a)))
+
+    owners = {}
+    for character_id, row in characters.items():
+        where = "content/meta/cast_visual_years.json [%s]" % character_id
+        if not isinstance(row, dict):
+            err("%s 인물 계약이 Dictionary가 아님" % where)
+            continue
+        tier = row.get("tier")
+        if tier not in {"A_story_anchor", "B_scene_actor"}:
+            err("%s 지원하지 않는 tier=%s" % (where, tier))
+        if tier == "A_story_anchor":
+            start_age = row.get("start_age")
+            ages = row.get("anchor_ages", {})
+            expected_ages = {
+                "y1": start_age,
+                "y3": start_age + 2 if isinstance(start_age, int) else None,
+                "y5": start_age + 4 if isinstance(start_age, int) else None,
+            }
+            if not isinstance(start_age, int) or ages != expected_ages:
+                err("%s anchor_ages는 시작 나이,+2,+4여야 함 expected=%s actual=%s"
+                    % (where, expected_ages, ages))
+
+        fixed = row.get("fixed_portraits", [])
+        if not isinstance(fixed, list):
+            err("%s fixed_portraits가 Array가 아님" % where)
+            fixed = []
+        for portrait_id in fixed:
+            if portrait_id not in VALID_PORTRAITS:
+                err('%s 고정 portrait "%s"가 ImageRegistry에 없음' % (where, portrait_id))
+
+        overrides = row.get("portrait_overrides", {})
+        if not isinstance(overrides, dict):
+            err("%s portrait_overrides가 Dictionary가 아님" % where)
+            continue
+        if tier == "A_story_anchor" and not overrides:
+            err("%s A급 인물인데 런타임 반복 초상 앵커가 없음" % where)
+        for base_id, variants in overrides.items():
+            if base_id in owners and owners[base_id] != character_id:
+                err('%s portrait "%s"가 %s와 중복 소유됨'
+                    % (where, base_id, owners[base_id]))
+            owners[base_id] = character_id
+            if base_id not in VALID_PORTRAITS:
+                err('%s 기준 portrait "%s"가 ImageRegistry에 없음' % (where, base_id))
+            if base_id in fixed:
+                err('%s portrait "%s"가 교체와 고정에 동시에 선언됨' % (where, base_id))
+            if not isinstance(variants, dict) or set(variants) != {"y3", "y5"}:
+                err('%s portrait "%s"는 y3·y5 두 변형을 모두 가져야 함: %s'
+                    % (where, base_id, variants))
+                continue
+            for stage_id in ("y3", "y5"):
+                target_id = variants.get(stage_id)
+                if target_id not in VALID_PORTRAITS:
+                    err('%s %s target portrait "%s"가 ImageRegistry에 없음'
+                        % (where, stage_id, target_id))
+                if target_id == base_id:
+                    err('%s %s target이 기준 portrait와 같아 시간 변화가 무효: %s'
+                        % (where, stage_id, base_id))
+
+    father = characters.get("father", {})
+    if isinstance(father, dict):
+        father_overrides = father.get("portrait_overrides", {})
+        father_fixed = father.get("fixed_portraits", [])
+        if "father_past" in father_overrides or "father_past" not in father_fixed:
+            err("father_past는 2020년 고정 회상이며 시간 외형 교체 대상이 될 수 없음")
+
+# ══════════════════════════════════════════════════════════════
 # 9) 죽은 아크 이벤트 — 트리거 전용(min_turn>=9999)인데 코드/follow_up
 #    어디서도 호출 안 되는 이벤트. 작성됐지만 영원히 안 뜨는 죽은 콘텐츠.
 #    (← 난개발로 구버전 아크가 신버전으로 교체되며 안 지워진 잔재)
@@ -1322,6 +1434,7 @@ def main():
     check_event_registry_coverage()
     check_event_keys()
     check_cast_stages()
+    check_cast_visual_years()
     check_dead_arc_events()
     check_dead_cast_branches()
     check_structural_debt()
