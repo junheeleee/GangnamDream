@@ -101,6 +101,8 @@
 
 **현장 번역 범위 확장 (2026-07-24 Codex):** 일본어 Echo 픽셀 QA에서 결과 카드의 직업명이 영어 안전 폴백으로 남고, 프롤로그 수첩 선택은 UI 사전과 별개인 사건 오버레이가 없어 영어로 표시되는 것을 확인했다. 준비 언어라도 동일 카드 안에서 일본어와 영어가 섞이지 않도록 일본어 카탈로그의 15개 직업 이름을 채우고, 수첩 장면의 제목·본문·세 선택·결과를 일본어 사건 오버레이로 연결한다. 픽셀 QA는 해당 결과 카드의 영어 직업명과 수첩 장면의 영어 선택지가 남지 않는지 검사한다.
 
+**감사 범위 확장 (2026-07-24 Codex) — 추가로 만지는 파일:** `tools/I18nInfrastructureCheck.gd`. 일본어 직업 15종을 채운 뒤 기존 인프라 검사가 모든 준비 언어 카탈로그를 빈 영어 상속 스켈레톤으로 가정해 실패했다. 일본어는 번역된 대표 직업을 실제 일본어 값으로 검증하고, 아직 비어 있는 중국어 스켈레톤만 영어 안전 폴백을 검증한다. 함께 퇴역한 주간 문구의 고아 일본어 UI 키를 제거해 원문 키와 번역 키의 정확한 일치를 복구한다.
+
 #### [~] ORDER-43 [P0·오디오 REWORK] 파형 합성 전면 퇴출 — 실제 녹음·샘플 기반 팔레트
 **[~] 착수 (2026-07-23 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `CLAUDE.md`, `docs/DECISIONS.md`, `docs/AUDIO_QA.md`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `assets/audio/AUDIO_SOURCE_LEDGER.md`, `assets/audio/AUDIO_PROMPTS.md`, 신규 오디오 출처·크레딧 원장, `assets/scene_audio_manifest.json`, `assets/game_audio_manifest.json`, `assets/mod_asset_manifest.json`, `autoloads/BGMPlayer.gd`, `autoloads/AudioManager.gd`, `tools/generate_audio_p1_assets.py`, `tools/audio_source_audit.py`, `tools/scene_audio_contract_check.py`, `tools/AudioAssetCheck.gd`, `tools/BGMContinuityCheck.gd`, `tools/GameAudioContractCheck.gd`, 신규 샘플 임포트 도구, 교체 대상 `assets/audio/*.wav`, `assets/audio/*.ogg`와 각 `.import`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
 
