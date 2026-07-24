@@ -12,7 +12,8 @@
 `autoloads/ImageRegistry.gd`, `scenes/MainGame.gd`, `assets/cg/ending_*.png`,
 `assets/cg_acting_manifest.json`, `docs/ART_AI_AUDIT.md`,
 `docs/ART_RESOLUTION_READINESS.md`, `tools/art_resolution_baseline.json`,
-`assets/mod_asset_manifest.json`, `tools/ending_distinctness_audit.py`,
+`assets/mod_asset_manifest.json`, `docs/MODDING.md`,
+`tools/ending_distinctness_audit.py`,
 `tools/CGRuntimeCheck.gd`, `tools/ScreenshotQA.gd`, `docs/WORK_LOG.md`.
 기존 사용자 변경 `project.godot`은 건드리지 않는다.
 
