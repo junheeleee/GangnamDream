@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cfl7altcpcbuj"
-path="res://.godot/imported/ordinary_life.svg-b77bd211a35f9bdeadf677adc051380e.ctex"
+uid="uid://dtaho6k88hdt6"
+path="res://.godot/imported/ending_gambling_recovery_v2.png-80656b665a25ef713407f52ef35af68b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/ending_symbols/ordinary_life.svg"
-dest_files=["res://.godot/imported/ordinary_life.svg-b77bd211a35f9bdeadf677adc051380e.ctex"]
+source_file="res://assets/cg/ending_gambling_recovery_v2.png"
+dest_files=["res://.godot/imported/ending_gambling_recovery_v2.png-80656b665a25ef713407f52ef35af68b.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

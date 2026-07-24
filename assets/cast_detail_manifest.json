@@ -34,7 +34,9 @@
         "partner",
         "paternal_aunt",
         "paternal_uncle",
-        "office_junior"
+        "office_junior",
+        "psychiatrist",
+        "industry_peer"
       ],
       "render": "distinct silhouette and age/class signal, visible but simplified face, limited Gangnam Ink palette, no generic stock-photo polish"
     },

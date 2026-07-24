@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dk3jyrlxvl3lu"
-path="res://.godot/imported/stable_success.svg-91efd1f2f85c63043c8905d8de997ca4.ctex"
+uid="uid://b4fmy036p7mgs"
+path="res://.godot/imported/ending_political_fix_v1.png-455f7cb20d5e8ac53b05745c05622ec4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/ending_symbols/stable_success.svg"
-dest_files=["res://.godot/imported/stable_success.svg-91efd1f2f85c63043c8905d8de997ca4.ctex"]
+source_file="res://assets/cg/ending_political_fix_v1.png"
+dest_files=["res://.godot/imported/ending_political_fix_v1.png-455f7cb20d5e8ac53b05745c05622ec4.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

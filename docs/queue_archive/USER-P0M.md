@@ -1,9 +1,9 @@
-# Active Queue Spec: USER-P0M
+# Completed Queue Spec: USER-P0M
 
 > Canonical status is indexed in `docs/CODEX_QUEUE.md`. This file preserves the
 > full active specification so sessions only load the order they are executing.
 
-#### [~] USER-P0M [P0·아트] 엔딩 35종 전용 16:10 아트 전수 교체
+#### [x] USER-P0M [P0·아트] 엔딩 35종 전용 16:10 아트 전수 교체
 
 **[~] 착수 (2026-07-24 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`,
 `docs/queue_active/USER-P0M.md`, `CLAUDE.md`, `docs/ENDING_ART.md`,
@@ -62,3 +62,17 @@
 - `GODOT=<실제 경로> ./tools/audit.sh` 통과
 - KO/EN 엔딩 전수 캡처에서 텍스트·인물·핵심 소품 잘림 0
 - `project.godot` 미포함 확인 후 완료 커밋을 `main`에 푸시
+
+## 완료 보고 (2026-07-24 Codex)
+
+- 엔딩 35종은 고유 `cg` 키, 고유 파일 경로, 고유 SHA-256, 정확한
+  1280x800 전용 PNG를 각각 소유한다.
+- 비전용 14종을 신규 제작하고 기존 불합격 4종과 55세·거실 정합이 틀린
+  `orthodox_hollow`를 교체했다.
+- 코드 도형, 공용 무드 카드, 다른 사건 CG 폴백, 엔딩 심벌 SVG 4종을 런타임과
+  저장소에서 제거했다.
+- 카메라·시선·손·의상 계약 35종과 활성 CG 74종의 조연 디테일·장면 환경음
+  계약을 모두 닫았다.
+- KO/EN `ending-all` 35장씩 총 70장, 종횡비 오차 검사, 영어 한글 누출 0,
+  35종 구분성, 전체 GDScript 55개 컴파일과 전체 `audit.sh`를 통과했다.
+- 사용자 변경 `project.godot`은 완료 커밋에서 제외한다.

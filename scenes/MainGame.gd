@@ -146,12 +146,7 @@ const UI_MIN_BUTTON_HEIGHT := 46
 const UI_MIN_SMALL_BUTTON_HEIGHT := 38
 const UI_FOCUS_BORDER := 3
 const UI_INFO_PANEL_WIDTH := 440
-const ENDING_CARD_SYMBOL_PATHS := {
-	"ordinary_life": "res://assets/ui/ending_symbols/ordinary_life.svg",
-	"burnout": "res://assets/ui/ending_symbols/burnout.svg",
-	"mental_break": "res://assets/ui/ending_symbols/mental_break.svg",
-	"stable_success": "res://assets/ui/ending_symbols/stable_success.svg",
-}
+const ENDING_CAPTION_SCRIM_SHADER := preload("res://assets/shaders/ending_caption_scrim.gdshader")
 const ACTION_ILLUSTRATION_DATA := {
 	# AP choices use stills from the world they open. Object-only tile art read as
 	# oversized pictograms and visually detached the weekly loop from the VN.
@@ -15554,7 +15549,7 @@ func _ending_description_beats(description: String) -> Array[String]:
 		if paragraph.is_empty():
 			continue
 		var would_overflow := not current.is_empty() and (
-				current.size() >= 3 or current_length + paragraph.length() > 520)
+				current.size() >= 2 or current_length + paragraph.length() > 360)
 		if would_overflow:
 			beats.append("\n\n".join(current))
 			current.clear()
@@ -15578,7 +15573,7 @@ func _ending_add_finale_stage(parent: VBoxContainer) -> void:
 	var palette := _moral_ui_palette()
 	var accent := _moral_gray_accent(Color("#d6dde8"), palette, 0.05)
 	var frame := PanelContainer.new()
-	frame.custom_minimum_size = Vector2(0, 520)
+	frame.custom_minimum_size = Vector2(0, 600)
 	frame.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	frame.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var frame_style := StyleBoxFlat.new()
@@ -15596,21 +15591,23 @@ func _ending_add_finale_stage(parent: VBoxContainer) -> void:
 	if not _ending_cg_path.is_empty() and ImageRegistry.has_texture(_ending_cg_path):
 		_ending_add_finale_cg(canvas)
 	else:
-		_ending_add_finale_symbol_scene(canvas, accent, palette)
+		var missing_backdrop := ColorRect.new()
+		missing_backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		missing_backdrop.color = Color("#050608")
+		missing_backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		canvas.add_child(missing_backdrop)
 
 	var shade := ColorRect.new()
-	shade.anchor_left = 0.0
-	shade.anchor_top = 0.47
-	shade.anchor_right = 1.0
-	shade.anchor_bottom = 1.0
-	shade.color = Color(0.015, 0.018, 0.022, 0.91)
+	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	shade.color = Color.WHITE
+	shade.material = _ending_caption_scrim_material()
 	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	canvas.add_child(shade)
 
 	var caption := MarginContainer.new()
-	caption.anchor_left = 0.0
-	caption.anchor_top = 0.47
-	caption.anchor_right = 1.0
+	caption.anchor_left = 0.06
+	caption.anchor_top = 0.56
+	caption.anchor_right = 0.61
 	caption.anchor_bottom = 1.0
 	caption.add_theme_constant_override("margin_left", 22)
 	caption.add_theme_constant_override("margin_right", 22)
@@ -15634,6 +15631,11 @@ func _ending_add_finale_stage(parent: VBoxContainer) -> void:
 	text_box.add_child(_wrap_label(
 			beat_text, 13,
 			_moral_hex(_moral_text_accent(Color("#a5aeb9"), 0.01))))
+
+func _ending_caption_scrim_material() -> ShaderMaterial:
+	var material := ShaderMaterial.new()
+	material.shader = ENDING_CAPTION_SCRIM_SHADER
+	return material
 
 func _ending_add_finale_cg(canvas: Control) -> void:
 	var crop_host := Control.new()
@@ -15673,27 +15675,6 @@ func _ending_finale_preview_material() -> ShaderMaterial:
 	if typeof(tint_amount_param) in [TYPE_FLOAT, TYPE_INT]:
 		preview_material.set_shader_parameter("tint_amount", float(tint_amount_param) * 0.60)
 	return preview_material
-
-func _ending_add_finale_symbol_scene(canvas: Control, accent: Color, palette: Dictionary) -> void:
-	var backdrop := ColorRect.new()
-	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	backdrop.color = Color("#050608")
-	canvas.add_child(backdrop)
-	var child_before := canvas.get_child_count()
-	_add_ending_card_scene(
-			canvas, _ending_id, accent,
-			float(palette.get("black", 0.0)), float(palette.get("white", 0.0)))
-	var scene := canvas.get_child(child_before) as Control
-	if is_instance_valid(scene):
-		scene.custom_minimum_size = Vector2.ZERO
-		scene.anchor_left = 0.07
-		scene.anchor_top = 0.06
-		scene.anchor_right = 0.93
-		scene.anchor_bottom = 0.54
-		scene.offset_left = 0
-		scene.offset_top = 0
-		scene.offset_right = 0
-		scene.offset_bottom = 0
 
 func _add_ending_finale_mood(parent: VBoxContainer) -> void:
 	var palette := _moral_ui_palette()
@@ -16063,11 +16044,18 @@ func _layout_ending_cg_preview(
 	if not is_instance_valid(crop_host) or not is_instance_valid(img):
 		return
 	var width := maxf(crop_host.size.x, 1.0)
+	var height := maxf(crop_host.size.y, 1.0)
 	var aspect := source_size.x / maxf(source_size.y, 1.0)
-	var rendered_height := maxf(width / aspect, crop_host.size.y)
-	var overflow := maxf(rendered_height - crop_host.size.y, 0.0)
-	img.position = Vector2(0.0, -overflow * clampf(preview_focus_y, 0.0, 1.0))
-	img.size = Vector2(width, rendered_height)
+	var rendered_width := width
+	var rendered_height := width / aspect
+	if rendered_height > height:
+		rendered_height = height
+		rendered_width = height * aspect
+	var free_space := Vector2(width - rendered_width, height - rendered_height)
+	img.position = Vector2(
+			free_space.x * 0.5,
+			free_space.y * clampf(preview_focus_y, 0.0, 1.0))
+	img.size = Vector2(rendered_width, rendered_height)
 
 func _add_ending_mood_card(parent: Control, ending: Dictionary, ending_id: String) -> void:
 	var palette := _moral_ui_palette()
@@ -16168,11 +16156,6 @@ func _add_ending_card_scene(parent: Control, ending_id: String, accent: Color, b
 	_ending_scene_rect(scene, 0.04, 0.18, 0.96, 0.19, line_col)
 	_ending_scene_rect(scene, 0.04, 0.76, 0.96, 0.77, Color("#ffffff", 0.045))
 	_ending_scene_rect(scene, 0.08, 0.83, 0.92, 0.88, Color("#000000", 0.30))
-	var symbol_path := str(ENDING_CARD_SYMBOL_PATHS.get(ending_id, ""))
-	if symbol_path != "" and ResourceLoader.exists(symbol_path):
-		_add_ending_card_symbol(scene, ending_id, symbol_path, accent)
-		return
-
 	match _ending_card_scene_kind(ending_id):
 		"debt":
 			_ending_scene_rect(scene, 0.10, 0.30, 0.34, 0.68, Color("#d7d0bd", 0.055))

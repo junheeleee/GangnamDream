@@ -673,9 +673,17 @@
     {
       "kind": "cg",
       "ids": [
+        "cg_ending_balanced_life"
+      ],
+      "relative_path": "cg/ending_balanced_life_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
         "cg_ending_bankruptcy"
       ],
-      "relative_path": "cg/ending_bankruptcy_v1.png",
+      "relative_path": "cg/ending_bankruptcy_v2.png",
       "resolution": "1280x800"
     },
     {
@@ -684,6 +692,30 @@
         "cg_ending_burnout"
       ],
       "relative_path": "cg/ending_burnout_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_career_burnout"
+      ],
+      "relative_path": "cg/ending_career_burnout_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_career_climber"
+      ],
+      "relative_path": "cg/ending_career_climber_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_creator_success"
+      ],
+      "relative_path": "cg/ending_creator_success_v1.png",
       "resolution": "1280x800"
     },
     {
@@ -699,7 +731,15 @@
       "ids": [
         "cg_ending_debt_spiral"
       ],
-      "relative_path": "cg/ending_debt_spiral_v1.png",
+      "relative_path": "cg/ending_debt_spiral_v2.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_early_retirement"
+      ],
+      "relative_path": "cg/ending_early_retirement_v1.png",
       "resolution": "1280x800"
     },
     {
@@ -731,7 +771,7 @@
       "ids": [
         "cg_ending_gambling_recovery"
       ],
-      "relative_path": "cg/ending_gambling_recovery_v1.png",
+      "relative_path": "cg/ending_gambling_recovery_v2.png",
       "resolution": "1280x800"
     },
     {
@@ -747,7 +787,7 @@
       "ids": [
         "cg_ending_gangnam_dream_white"
       ],
-      "relative_path": "cg/ending_gangnam_dream_white_v1.png",
+      "relative_path": "cg/ending_gangnam_dream_white_v2.png",
       "resolution": "1280x800"
     },
     {
@@ -761,9 +801,25 @@
     {
       "kind": "cg",
       "ids": [
+        "cg_ending_healthy_retirement"
+      ],
+      "relative_path": "cg/ending_healthy_retirement_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
         "cg_ending_instant_legend"
       ],
       "relative_path": "cg/ending_instant_legend_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_investment_master"
+      ],
+      "relative_path": "cg/ending_investment_master_v1.png",
       "resolution": "1280x800"
     },
     {
@@ -801,9 +857,49 @@
     {
       "kind": "cg",
       "ids": [
+        "cg_ending_mental_break"
+      ],
+      "relative_path": "cg/ending_mental_break_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_ordinary_life"
+      ],
+      "relative_path": "cg/ending_ordinary_life_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_orthodox_hollow"
+      ],
+      "relative_path": "cg/ending_orthodox_hollow_v2.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
         "cg_ending_orthodox_pinnacle"
       ],
       "relative_path": "cg/ending_orthodox_pinnacle_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_political_fix"
+      ],
+      "relative_path": "cg/ending_political_fix_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_reputation_legend"
+      ],
+      "relative_path": "cg/ending_reputation_legend_v1.png",
       "resolution": "1280x800"
     },
     {
@@ -841,9 +937,25 @@
     {
       "kind": "cg",
       "ids": [
+        "cg_ending_unorthodox_legend"
+      ],
+      "relative_path": "cg/ending_unorthodox_legend_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
         "cg_ending_with_daeun"
       ],
       "relative_path": "cg/ending_with_daeun_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_ending_writer"
+      ],
+      "relative_path": "cg/ending_writer_v1.png",
       "resolution": "1280x800"
     },
     {

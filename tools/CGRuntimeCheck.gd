@@ -696,54 +696,56 @@ func _check_ending_cg() -> void:
 	if actual_path != synthetic_path:
 		_failures.append("MainGame synthetic ending cg path mismatch: expected %s, got %s" % [synthetic_path, actual_path])
 
-	_check_ending_cg_path(main, "gangnam_dream", "cg_ending_gangnam_dream")
-	_check_ending_cg_path(main, "empty_house", "cg_ending_empty_house")
-	_check_ending_cg_path(main, "crypto_ghost", "cg_ending_crypto_ghost")
-	_check_ending_cg_path(main, "full_circle", "cg_ending_full_circle")
-	_check_ending_cg_path(main, "gangnam_dream_white", "cg_ending_gangnam_dream_white")
-	_check_ending_cg_path(main, "with_daeun", "cg_ending_with_daeun")
-	_check_ending_cg_path(main, "second_love", "cg_ending_second_love")
-	_check_ending_cg_path(main, "jiyeon_man", "cg_ending_jiyeon_man")
-	if ImageRegistry.get_cg("cg_ending_jiyeon_man") != "res://assets/cg/ending_jiyeon_man_v2.png":
-		_failures.append("jiyeon_man must use the reflection-only v2 CG")
-	_check_ending_cg_path(main, "guardian", "cg_ending_guardian")
-	_check_ending_cg_path(main, "jaehyuk_way", "cg_ending_jaehyuk_way")
-	_check_ending_cg_path(main, "sangchul_reckoning", "cg_ending_sangchul_reckoning")
-	_check_ending_cg_path(main, "late_call", "cg_ending_late_call")
-	_check_ending_cg_path(main, "lonely_rich", "cg_ending_lonely_rich")
-	_check_ending_cg_path(main, "gambling_recovery", "cg_ending_gambling_recovery")
-	if ImageRegistry.get_cg("cg_ending_gambling_recovery") != "res://assets/cg/ending_gambling_recovery_v1.png":
-		_failures.append("gambling_recovery must use its dedicated calendar CG")
-	_check_ending_cg_path(main, "bankruptcy", "cg_ending_bankruptcy")
-	if ImageRegistry.get_cg("cg_ending_bankruptcy") != "res://assets/cg/ending_bankruptcy_v1.png":
-		_failures.append("bankruptcy must use its dedicated stopped-calculation CG")
-	_check_ending_cg_path(main, "debt_spiral", "cg_ending_debt_spiral")
-	if ImageRegistry.get_cg("cg_ending_debt_spiral") != "res://assets/cg/ending_debt_spiral_v1.png":
-		_failures.append("debt_spiral must use its dedicated released-calculator CG")
-	var debt_spiral: Dictionary = EndingSystem.get_ending("debt_spiral")
-	if not is_equal_approx(float(debt_spiral.get("cg_preview_focus_y", 0.5)), 0.9):
-		_failures.append("debt_spiral must keep its lower-table ending preview focus")
-	_check_ending_cg_path(main, "startup_exit", "cg_ending_startup_exit")
-	if ImageRegistry.get_cg("cg_ending_startup_exit") != "res://assets/cg/ending_startup_exit_v1.png":
-		_failures.append("startup_exit must use its dedicated signed-acquisition CG")
-	_check_ending_cg_path(main, "instant_legend", "cg_ending_instant_legend")
-	if ImageRegistry.get_cg("cg_ending_instant_legend") != "res://assets/cg/ending_instant_legend_v1.png":
-		_failures.append("instant_legend must use its dedicated first-year empty-apartment CG")
-	_check_ending_cg_path(main, "orthodox_pinnacle", "cg_ending_orthodox_pinnacle")
-	if ImageRegistry.get_cg("cg_ending_orthodox_pinnacle") != "res://assets/cg/ending_orthodox_pinnacle_v1.png":
-		_failures.append("orthodox_pinnacle must use its dedicated company-dinner hesitation CG")
-	_check_ending_cg_path(main, "burnout", "cg_ending_burnout")
-	if ImageRegistry.get_cg("cg_ending_burnout") != "res://assets/cg/ending_burnout_v1.png":
-		_failures.append("burnout must use its dedicated emergency-bed POV CG")
-	_check_ending_cg_path(main, "stable_success", "cg_ending_stable_success")
-	if ImageRegistry.get_cg("cg_ending_stable_success") != "res://assets/cg/ending_stable_success_v1.png":
-		_failures.append("stable_success must use its dedicated modest-studio relief CG")
-	var stable_success: Dictionary = EndingSystem.get_ending("stable_success")
-	if not is_equal_approx(float(stable_success.get("cg_preview_focus_y", 0.5)), 0.38):
-		_failures.append("stable_success must keep its face-first ending preview focus")
-	var mental_break: Dictionary = EndingSystem.get_ending("mental_break")
-	if str(mental_break.get("cg", "")) == "cg_ending_burnout":
-		_failures.append("mental_break must not reuse the physical-collapse burnout CG")
+	var expected_cgs := {
+		"gangnam_dream": "cg_ending_gangnam_dream",
+		"empty_house": "cg_ending_empty_house",
+		"with_daeun": "cg_ending_with_daeun",
+		"jiyeon_man": "cg_ending_jiyeon_man",
+		"jaehyuk_way": "cg_ending_jaehyuk_way",
+		"late_call": "cg_ending_late_call",
+		"stable_success": "cg_ending_stable_success",
+		"ordinary_life": "cg_ending_ordinary_life",
+		"burnout": "cg_ending_burnout",
+		"mental_break": "cg_ending_mental_break",
+		"bankruptcy": "cg_ending_bankruptcy",
+		"crypto_ghost": "cg_ending_crypto_ghost",
+		"startup_exit": "cg_ending_startup_exit",
+		"political_fix": "cg_ending_political_fix",
+		"lonely_rich": "cg_ending_lonely_rich",
+		"investment_master": "cg_ending_investment_master",
+		"reputation_legend": "cg_ending_reputation_legend",
+		"healthy_retirement": "cg_ending_healthy_retirement",
+		"debt_spiral": "cg_ending_debt_spiral",
+		"orthodox_pinnacle": "cg_ending_orthodox_pinnacle",
+		"orthodox_hollow": "cg_ending_orthodox_hollow",
+		"balanced_life": "cg_ending_balanced_life",
+		"unorthodox_legend": "cg_ending_unorthodox_legend",
+		"early_retirement": "cg_ending_early_retirement",
+		"creator_success": "cg_ending_creator_success",
+		"instant_legend": "cg_ending_instant_legend",
+		"full_circle": "cg_ending_full_circle",
+		"gangnam_dream_white": "cg_ending_gangnam_dream_white",
+		"second_love": "cg_ending_second_love",
+		"guardian": "cg_ending_guardian",
+		"gambling_recovery": "cg_ending_gambling_recovery",
+		"career_climber": "cg_ending_career_climber",
+		"career_burnout": "cg_ending_career_burnout",
+		"sangchul_reckoning": "cg_ending_sangchul_reckoning",
+		"writer": "cg_ending_writer",
+	}
+	for ending_id in expected_cgs:
+		_check_ending_cg_path(main, str(ending_id), str(expected_cgs[ending_id]))
+	var expected_versions := {
+		"cg_ending_jiyeon_man": "res://assets/cg/ending_jiyeon_man_v2.png",
+		"cg_ending_gangnam_dream_white": "res://assets/cg/ending_gangnam_dream_white_v2.png",
+		"cg_ending_gambling_recovery": "res://assets/cg/ending_gambling_recovery_v2.png",
+		"cg_ending_bankruptcy": "res://assets/cg/ending_bankruptcy_v2.png",
+		"cg_ending_debt_spiral": "res://assets/cg/ending_debt_spiral_v2.png",
+		"cg_ending_orthodox_hollow": "res://assets/cg/ending_orthodox_hollow_v2.png",
+	}
+	for cg_id in expected_versions:
+		if ImageRegistry.get_cg(str(cg_id)) != str(expected_versions[cg_id]):
+			_failures.append("%s must use %s" % [str(cg_id), str(expected_versions[cg_id])])
 	_check_all_ending_cg_contracts(main)
 
 	var preview_parent := VBoxContainer.new()
@@ -790,6 +792,7 @@ func _check_all_ending_cg_contracts(main: Node) -> void:
 		var ending_id: String = str(ending.get("id", ""))
 		var cg_id: String = str(ending.get("cg", ""))
 		if cg_id.is_empty():
+			_failures.append("%s must own a dedicated ending cg" % ending_id)
 			continue
 		if owners.has(cg_id):
 			_failures.append("ending cg %s is shared by %s and %s" % [cg_id, str(owners[cg_id]), ending_id])
@@ -800,8 +803,8 @@ func _check_all_ending_cg_contracts(main: Node) -> void:
 			_failures.append("%s references missing ending cg %s" % [ending_id, cg_id])
 			continue
 		var texture := load(path) as Texture2D
-		if texture == null or texture.get_width() < 1280 or texture.get_height() < 720:
-			_failures.append("%s ending cg must be at least 1280x720: %s" % [ending_id, path])
+		if texture == null or texture.get_width() != 1280 or texture.get_height() != 800:
+			_failures.append("%s ending cg must be exactly 1280x800: %s" % [ending_id, path])
 	var white_ending: Dictionary = EndingSystem.get_ending("gangnam_dream_white")
 	if str(white_ending.get("cg", "")) != "cg_ending_gangnam_dream_white":
 		_failures.append("gangnam_dream_white must own cg_ending_gangnam_dream_white")

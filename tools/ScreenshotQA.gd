@@ -41,6 +41,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=chapter3-spine --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=season-peaks --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ending-p1 --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ending-all --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=transport --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=first-snow --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=climate --lang=en
@@ -143,6 +144,7 @@ const QA_SCOPE_MOTIVATION_IMPRINT := "motivation_imprint"
 const QA_SCOPE_ENDINGS_EN := "endings_en"
 const QA_SCOPE_ENDING_P0 := "ending_p0"
 const QA_SCOPE_ENDING_P1 := "ending_p1"
+const QA_SCOPE_ENDING_ALL := "ending_all"
 const QA_SCOPE_TRANSPORT := "transport"
 const QA_SCOPE_DEMO_END_EN := "demo_end_en"
 const QA_SCOPE_TITLE_EN := "title_en"
@@ -665,6 +667,15 @@ func _ready() -> void:
 		print("SCREENSHOT_QA_DONE scope=ending-p1 lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
+	if scope == QA_SCOPE_ENDING_ALL:
+		var lang := _qa_language("en")
+		await _shot_all_ending_surfaces(lang, "ending_all_en_" if lang == "en" else "ending_all_ko_")
+		if _qa_failed:
+			get_tree().quit(1)
+			return
+		print("SCREENSHOT_QA_DONE scope=ending-all lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
 	if scope == QA_SCOPE_TRANSPORT:
 		var lang := _qa_language("en")
 		await _shot_transport_surfaces(lang, "transport_en_" if lang == "en" else "transport_ko_")
@@ -1022,6 +1033,10 @@ func _qa_scope() -> String:
 				"qa=ending-p1", "--qa=ending-p1", "qa=ending_p1", "--qa=ending_p1",
 				"scope=ending-p1", "--scope=ending-p1", "scope=ending_p1", "--scope=ending_p1"]:
 			return QA_SCOPE_ENDING_P1
+		if arg in ["ending-all", "ending_all", "endings-all", "endings_all", "--ending-all", "--ending_all",
+				"qa=ending-all", "--qa=ending-all", "qa=ending_all", "--qa=ending_all",
+				"scope=ending-all", "--scope=ending-all", "scope=ending_all", "--scope=ending_all"]:
+			return QA_SCOPE_ENDING_ALL
 		if arg in ["transport", "rail", "train", "--transport", "qa=transport", "--qa=transport",
 				"scope=transport", "--scope=transport"]:
 			return QA_SCOPE_TRANSPORT
@@ -9632,9 +9647,13 @@ func _shot_ending_suite(lang: String = "en", prefix: String = "ending_en_") -> v
 	await _shot_ending("gangnam_dream_white", prefix + "13b_ending_gangnam_white")
 	await _shot_ending("empty_house", prefix + "13a_ending_empty_house")
 	await _shot_ending("bankruptcy", prefix + "14_ending_bankruptcy")
-	await _shot_ending_symbol("ordinary_life", prefix + "15a_ending_ordinary_life")
+	await _shot_exact_ending_cg(
+			"ordinary_life", "cg_ending_ordinary_life",
+			prefix + "15a_ending_ordinary_life")
 	await _shot_exact_ending_cg("burnout", "cg_ending_burnout", prefix + "15b_ending_burnout")
-	await _shot_ending_symbol("mental_break", prefix + "15c_ending_mental_break")
+	await _shot_exact_ending_cg(
+			"mental_break", "cg_ending_mental_break",
+			prefix + "15c_ending_mental_break")
 	await _shot_exact_ending_cg(
 			"stable_success", "cg_ending_stable_success",
 			prefix + "15d_ending_stable_success")
@@ -9673,8 +9692,8 @@ func _shot_ending_p1_surfaces(lang: String, prefix: String) -> void:
 	await _shot_exact_ending_cg(
 			"lonely_rich", "cg_ending_lonely_rich", prefix + "04_lonely_rich_divorce",
 			["daeun_divorced"])
-	await _shot_ending_without_cg(
-			"ordinary_life", "cg_ending_lonely_rich", prefix + "05_divorce_shortfall",
+	await _shot_exact_ending_cg(
+			"ordinary_life", "cg_ending_ordinary_life", prefix + "05_divorce_shortfall",
 			["daeun_divorced"])
 	await _shot_exact_ending_cg(
 			"gambling_recovery", "cg_ending_gambling_recovery", prefix + "06_gambling_recovery")
@@ -9708,10 +9727,27 @@ func _shot_ending_p1_surfaces(lang: String, prefix: String) -> void:
 			["salary_raised"])
 	await _shot_exact_ending_cg(
 			"burnout", "cg_ending_burnout", prefix + "18_burnout")
-	await _shot_ending_without_cg(
-			"mental_break", "cg_ending_burnout", prefix + "19_mental_break_no_burnout_cg")
+	await _shot_exact_ending_cg(
+			"mental_break", "cg_ending_mental_break", prefix + "19_mental_break")
 	await _shot_exact_ending_cg(
 			"stable_success", "cg_ending_stable_success", prefix + "20_stable_success")
+
+func _shot_all_ending_surfaces(lang: String, prefix: String) -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	_seed_portfolio()
+	await _boot_main_game()
+	var index := 0
+	for raw_ending in DataRegistry.endings:
+		var ending: Dictionary = raw_ending
+		var ending_id := str(ending.get("id", ""))
+		var cg_id := str(ending.get("cg", ""))
+		if ending_id.is_empty() or cg_id.is_empty():
+			_fail("Every ending must own a dedicated CG: id=%s cg=%s" % [ending_id, cg_id])
+			continue
+		index += 1
+		await _shot_exact_ending_cg(
+				ending_id, cg_id, "%s%02d_%s" % [prefix, index, ending_id])
 
 func _shot_surface_en() -> void:
 	var prefix := "surface_en_"
@@ -10522,29 +10558,6 @@ func _shot_ending(ending_id: String, shot_name: String) -> void:
 			await _save(shot_name + "_time_ledger")
 		await _settle(0.3)
 
-func _shot_ending_symbol(ending_id: String, shot_name: String) -> void:
-	if not _mg.has_method("_show_ending"):
-		_fail("MainGame cannot show ending symbol %s" % ending_id)
-		return
-	_seed_ending_state(ending_id)
-	_mg._show_ending(ending_id)
-	await _settle(1.0)
-	_assert_ending_finale_contract(ending_id)
-	var symbol := _find_ending_symbol(_mg, ending_id)
-	var expected_path := "res://assets/ui/ending_symbols/%s.svg" % ending_id
-	if symbol == null or symbol.texture == null:
-		_fail("Ending %s has no dedicated ending symbol" % ending_id)
-		return
-	if symbol.texture.resource_path != expected_path:
-		_fail("Ending %s symbol mismatch: expected %s, got %s" % [
-				ending_id, expected_path, symbol.texture.resource_path])
-		return
-	if str(symbol.get_meta("ending_symbol_path", "")) != expected_path:
-		_fail("Ending %s symbol metadata is stale" % ending_id)
-		return
-	await _save(shot_name)
-	await _settle(0.3)
-
 func _shot_exact_ending_cg(
 		ending_id: String, cg_id: String, shot_name: String, extra_flags: Array = []) -> void:
 	if not _mg.has_method("_show_ending"):
@@ -10571,31 +10584,19 @@ func _shot_exact_ending_cg(
 	if preview.custom_minimum_size.y < 430.0:
 		_fail("Ending %s preview crop contract fell below 430px" % ending_id)
 		return
+	var source_size := preview.texture.get_size()
+	var source_aspect := source_size.x / maxf(source_size.y, 1.0)
+	var rendered_aspect := preview.size.x / maxf(preview.size.y, 1.0)
+	if absf(rendered_aspect - source_aspect) > 0.02:
+		_fail("Ending %s preview distorted or cropped: source %.3f, rendered %.3f" % [
+				ending_id, source_aspect, rendered_aspect])
+		return
 	var ending: Dictionary = EndingSystem.get_ending(ending_id)
 	var expected_focus := float(ending.get("cg_preview_focus_y", 0.5))
 	var actual_focus := float(preview.get_meta("ending_preview_focus_y", 0.5))
 	if not is_equal_approx(actual_focus, expected_focus):
 		_fail("Ending %s preview focus expected %.2f, got %.2f" % [
 				ending_id, expected_focus, actual_focus])
-		return
-	await _save(shot_name)
-	await _settle(0.3)
-
-func _shot_ending_without_cg(
-		ending_id: String, forbidden_cg_id: String, shot_name: String, extra_flags: Array = []) -> void:
-	if not _mg.has_method("_show_ending"):
-		_fail("MainGame cannot show ending %s" % ending_id)
-		return
-	_seed_ending_state(ending_id)
-	for flag in extra_flags:
-		GameState.flags[str(flag)] = true
-	_mg._show_ending(ending_id)
-	await _settle(1.0)
-	_assert_ending_finale_contract(ending_id)
-	var preview := _find_ending_art_preview(_mg)
-	var forbidden_path := ImageRegistry.get_cg(forbidden_cg_id)
-	if preview != null and preview.texture != null and preview.texture.resource_path == forbidden_path:
-		_fail("Ending %s leaked forbidden CG %s" % [ending_id, forbidden_cg_id])
 		return
 	await _save(shot_name)
 	await _settle(0.3)
@@ -10680,15 +10681,6 @@ func _find_ending_art_preview(node: Node) -> TextureRect:
 		return node as TextureRect
 	for child in node.get_children():
 		var found := _find_ending_art_preview(child)
-		if found != null:
-			return found
-	return null
-
-func _find_ending_symbol(node: Node, ending_id: String) -> TextureRect:
-	if node is TextureRect and str(node.get_meta("ending_symbol_id", "")) == ending_id:
-		return node as TextureRect
-	for child in node.get_children():
-		var found := _find_ending_symbol(child, ending_id)
 		if found != null:
 			return found
 	return null

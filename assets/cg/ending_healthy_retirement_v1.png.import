@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cccsalbg7mcg"
-path="res://.godot/imported/burnout.svg-be5c63c5b7bc2e2aff17bb3ca5d0e01a.ctex"
+uid="uid://ca083ylfimfd0"
+path="res://.godot/imported/ending_healthy_retirement_v1.png-cb07cc01fe998a944a1feda0aaf73b45.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/ending_symbols/burnout.svg"
-dest_files=["res://.godot/imported/burnout.svg-be5c63c5b7bc2e2aff17bb3ca5d0e01a.ctex"]
+source_file="res://assets/cg/ending_healthy_retirement_v1.png"
+dest_files=["res://.godot/imported/ending_healthy_retirement_v1.png-cb07cc01fe998a944a1feda0aaf73b45.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

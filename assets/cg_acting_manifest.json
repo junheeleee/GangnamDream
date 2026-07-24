@@ -1,5 +1,5 @@
 {
-  "version": 5,
+  "version": 6,
   "updated": "2026-07-24",
   "rule": "Every active CG owns an explicit camera role and every visible named actor owns a gaze target plus a supporting body action. Lens gaze is legal only for player_pov.",
   "cg": {
@@ -380,11 +380,11 @@
       ]
     },
     "cg_ending_gangnam_dream_white": {
-      "path": "assets/cg/ending_gangnam_dream_white_v1.png",
+      "path": "assets/cg/ending_gangnam_dream_white_v2.png",
       "camera_role": "observational_window_wide",
-      "story_action": "Minjun holds the blank deed folder in clear morning light and recognizes the person who reached Gangnam without crossing the line.",
+      "story_action": "Minjun holds the blank deed folder in clear morning light and lets the city remain an arrival rather than a reflection test.",
       "actors": [
-        {"id": "minjun", "gaze_target": "His own faint window reflection", "pose_support": "His body remains open to the city while the cream folder rests at his side and his turned face meets the reflection rather than the camera."}
+        {"id": "minjun", "gaze_target": "The bright city beyond the window", "pose_support": "His body remains open to the city while the cream folder rests at his side; his turned profile stays clear of the lens, and the glass contains no duplicate figure."}
       ]
     },
     "cg_ending_with_daeun": {
@@ -456,27 +456,27 @@
       ]
     },
     "cg_ending_gambling_recovery": {
-      "path": "assets/cg/ending_gambling_recovery_v1.png",
+      "path": "assets/cg/ending_gambling_recovery_v2.png",
       "camera_role": "doorway_side_goshiwon_three_quarter",
       "story_action": "At the five-year close, Minjun adds today's circle to the wall calendar in the same small room where recovery began.",
       "actors": [
-        {"id": "minjun", "gaze_target": "The circle closing beneath his pen", "pose_support": "His clear right hand holds one pen against the calendar while his open left hand rests beside one face-down phone; released shoulders and a quiet profile avoid both triumph and lens contact."}
+        {"id": "minjun", "gaze_target": "The circle closing beneath his marker", "pose_support": "His clear right hand closes one calendar circle while his lowered left arm rests naturally; the phone has been put away inside the open table box, and his quiet profile avoids both triumph and lens contact."}
       ]
     },
     "cg_ending_bankruptcy": {
-      "path": "assets/cg/ending_bankruptcy_v1.png",
+      "path": "assets/cg/ending_bankruptcy_v2.png",
       "camera_role": "doorway_side_goshiwon_calculation_three_quarter",
-      "story_action": "At the first bankruptcy threshold, Minjun stops re-entering the same impossible calculation while the collection phone falls silent beside him.",
+      "story_action": "At the first bankruptcy threshold, Minjun stops the impossible calculation and declines the collection call beside the stacked notices.",
       "actors": [
-        {"id": "minjun", "gaze_target": "The calculator beneath his stopped right hand", "pose_support": "He remains upright but drained; his right fingers stop beside one calculator while his left hand rests near the face-down phone, holding shock inward without collapsing or facing the lens."}
+        {"id": "minjun", "gaze_target": "The lit phone under his right index finger", "pose_support": "He remains upright but drained; his right index finger ends the call while the left hand rests beside one calculator, holding shock inward without collapsing or facing the lens."}
       ]
     },
     "cg_ending_debt_spiral": {
-      "path": "assets/cg/ending_debt_spiral_v1.png",
-      "camera_role": "doorway_side_goshiwon_released_three_quarter",
-      "story_action": "Below the deeper debt threshold, Minjun turns the calculator face-down, releases it, and leaves the collection phone unanswered.",
+      "path": "assets/cg/ending_debt_spiral_v2.png",
+      "camera_role": "high_corner_goshiwon_observational_wide",
+      "story_action": "Below the deeper debt threshold, Minjun has left the table and sits on the floor while stacked notices and the silenced devices remain beyond reach.",
       "actors": [
-        {"id": "minjun", "gaze_target": "The face-down calculator beyond his released right hand", "pose_support": "He sits lower but remains upright; his open right hand has stopped short of the calculator while his left hand hangs beside one knee, carrying hollow stillness without self-harm staging or lens contact."}
+        {"id": "minjun", "gaze_target": "The dark table beyond his knees", "pose_support": "He sits low but upright with both hands loosely joined around one raised knee; the phone and closed calculator remain on the table, carrying hollow stillness without self-harm staging or lens contact."}
       ]
     },
     "cg_ending_startup_exit": {
@@ -518,6 +518,120 @@
       "story_action": "After reaching one billion won, Minjun closes the finance app, releases one phone face-down, and realizes that ordinary bills no longer frighten him.",
       "actors": [
         {"id": "minjun", "gaze_target": "The quiet room above and beyond the phone", "pose_support": "His year-five face lifts away from the balance; one hand has released the face-down phone, the other rests naturally, and his shoulders ease without a grin, victory pose, or lens contact."}
+      ]
+    },
+    "cg_ending_ordinary_life": {
+      "path": "assets/cg/ending_ordinary_life_v1.png",
+      "camera_role": "table_side_outer_seoul_room_three_quarter",
+      "story_action": "On a rainy night in his own small room, Minjun stops searching and lets a warm bowl of ramyeon be enough for the evening.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The phone he is about to put down", "pose_support": "His right hand holds one phone low above the table while his left forearm rests beside one steaming bowl; his tired face stays on the screen rather than the lens."}
+      ]
+    },
+    "cg_ending_mental_break": {
+      "path": "assets/cg/ending_mental_break_v1.png",
+      "camera_role": "therapist_side_consultation_two_shot",
+      "story_action": "After three weeks of isolation, Minjun finally tells a psychiatrist that everything has become too heavy.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "His interlocked hands between his knees", "pose_support": "His torso leans forward and both anatomically coherent hands lock together, containing exhaustion without theatrical collapse or lens contact."},
+        {"id": "psychiatrist", "gaze_target": "Minjun across the consultation space", "pose_support": "Only the clinician's neutral shoulder, writing hand, and blank notepad are visible, preserving Minjun's privacy and the direction of listening."}
+      ]
+    },
+    "cg_ending_political_fix": {
+      "path": "assets/cg/ending_political_fix_v1.png",
+      "camera_role": "assembly_office_doorway_three_quarter",
+      "story_action": "On his first day in the assembly office, Minjun pauses between the corridor of public work and the Seoul skyline he once treated as the only destination.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The staff corridor outside his office", "pose_support": "One hand carries a closed document folio while the other hangs released; his suited torso remains in the doorway and his eyes follow the departing staff rather than the lens."}
+      ]
+    },
+    "cg_ending_investment_master": {
+      "path": "assets/cg/ending_investment_master_v1.png",
+      "camera_role": "desk_side_home_analysis_three_quarter",
+      "story_action": "After the market closes, Minjun lowers the laptop screen and keeps the worn notebook that taught him when to admit he was wrong.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The closing laptop and notebook beneath it", "pose_support": "His right hand rests on the laptop lid while his left hand releases beside the open handwritten notebook; his lowered eyes carry concentration rather than celebration."}
+      ]
+    },
+    "cg_ending_reputation_legend": {
+      "path": "assets/cg/ending_reputation_legend_v1.png",
+      "camera_role": "industry_event_conversation_three_quarter",
+      "story_action": "At an industry event, a stranger recognizes Minjun first and offers a card before Minjun has introduced himself.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The stranger offering the blank card", "pose_support": "His shoulders pause mid-step and his open attention turns toward the speaker, without reaching for the card too early or looking at the lens."},
+        {"id": "industry_peer", "gaze_target": "Minjun's face", "pose_support": "The peer's side profile faces Minjun while one coherent hand offers a blank business card along their shared axis."}
+      ]
+    },
+    "cg_ending_healthy_retirement": {
+      "path": "assets/cg/ending_healthy_retirement_v1.png",
+      "camera_role": "riverside_observational_wide",
+      "story_action": "At thirty-eight, Minjun pauses his morning run beside the Han River and recognizes that the body able to continue is the asset he protected.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The morning river to his left", "pose_support": "One hand rests at his waist while the other holds a small towel; his balanced runner's stance and steady breath read as recovery, not a victory pose or lens address."}
+      ]
+    },
+    "cg_ending_orthodox_hollow": {
+      "path": "assets/cg/ending_orthodox_hollow_v2.png",
+      "camera_role": "living_room_side_future_three_quarter",
+      "story_action": "At fifty-five, Minjun closes the account folder in a financially secure but under-lived apartment and cannot answer who remains in the room.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The night city beyond the living-room window", "pose_support": "His age-fifty-five profile turns away from the closed folder and face-down phone; one hand rests beside the folder and the other lies loose on his knee, with no lens contact or triumph."}
+      ]
+    },
+    "cg_ending_balanced_life": {
+      "path": "assets/cg/ending_balanced_life_v1.png",
+      "camera_role": "home_table_observational_three_quarter",
+      "story_action": "After work, Minjun gives the evening a place in his own notebook before eating the ordinary dinner he chose to keep.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The blank weekly grid beneath his pen", "pose_support": "His right hand writes in one open notebook while the left rests flat beside it; work bag, closed laptop, packed box, and dinner remain distinct parts of one life."}
+      ]
+    },
+    "cg_ending_unorthodox_legend": {
+      "path": "assets/cg/ending_unorthodox_legend_v1.png",
+      "camera_role": "street_side_crosswalk_three_quarter",
+      "story_action": "Against the office-bound crowd, Minjun crosses Seoul carrying the worn notebook and bag that belong to the route nobody prescribed.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "His path across the opposing pedestrian flow", "pose_support": "His shoulders and forward step cut across the suited crowd while both hands secure the notebook and messenger bag; his eyes track the path rather than the lens."}
+      ]
+    },
+    "cg_ending_early_retirement": {
+      "path": "assets/cg/ending_early_retirement_v1.png",
+      "camera_role": "kitchen_table_morning_three_quarter",
+      "story_action": "On the first alarm-free morning, Minjun pours coffee slowly while the folded work shirt and silent phone remain on the table.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The pour-over stream entering the filter", "pose_support": "His right hand controls the kettle and his left steadies the dripper; the quiet face and unhurried stance keep the scene provisional rather than celebratory."}
+      ]
+    },
+    "cg_ending_creator_success": {
+      "path": "assets/cg/ending_creator_success_v1.png",
+      "camera_role": "player_pov_diegetic_video_camera",
+      "story_action": "After recording for the audience that grew from forty-three views to a million, Minjun reaches forward to stop his own camera.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The recording camera lens he is switching off", "pose_support": "His right index finger reaches the camera control while his seated torso stays relaxed; direct gaze is diegetic to the recording lens, not an unexplained viewer pose."}
+      ]
+    },
+    "cg_ending_career_climber": {
+      "path": "assets/cg/ending_career_climber_v1.png",
+      "camera_role": "player_pov_lobby_glass_reflection",
+      "story_action": "In the lobby of the latest company, Minjun catches his own reflection while putting away the next offer he can afford to consider slowly.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "His own face in the lobby glass at the camera plane", "pose_support": "One hand holds the silent phone while the other lowers the blank offer card into its envelope; the near-lens gaze is motivated by the glass reflection."}
+      ]
+    },
+    "cg_ending_career_burnout": {
+      "path": "assets/cg/ending_career_burnout_v1.png",
+      "camera_role": "bus_exit_observational_low_three_quarter",
+      "story_action": "When the last bus reaches the terminal, Minjun rises and walks toward another workday he can neither call tragedy nor relief.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The open bus exit and wet terminal beyond", "pose_support": "His left hand braces once on the seat rail while his right holds a single phone; the forward lean belongs to standing up, not collapse or lens contact."}
+      ]
+    },
+    "cg_ending_writer": {
+      "path": "assets/cg/ending_writer_v1.png",
+      "camera_role": "goshiwon_desk_observational_wide",
+      "story_action": "Still in the goshiwon at thirty-eight, Minjun pauses above the manuscript that has turned five years of ordinary losses into a book.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The small window above the desk", "pose_support": "One hand rests flat on the manuscript pages while the other remains below the table edge; his lifted profile carries the pause without addressing the lens."}
       ]
     }
   }

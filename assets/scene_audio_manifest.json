@@ -1,5 +1,5 @@
 {
-  "version": 8,
+  "version": 9,
   "updated": "2026-07-24",
   "policy": {
     "diegetic_spoken_language": "ko",
@@ -66,7 +66,21 @@
     "cg_ending_instant_legend": {"ambience": "apartment"},
     "cg_ending_orthodox_pinnacle": {"ambience": "cafe"},
     "cg_ending_burnout": {"ambience": "hospital"},
-    "cg_ending_stable_success": {"ambience": "oneroom"}
+    "cg_ending_stable_success": {"ambience": "oneroom"},
+    "cg_ending_ordinary_life": {"ambience": "oneroom"},
+    "cg_ending_mental_break": {"ambience": "hospital"},
+    "cg_ending_political_fix": {"ambience": "office"},
+    "cg_ending_investment_master": {"ambience": "oneroom"},
+    "cg_ending_reputation_legend": {"ambience": "cafe"},
+    "cg_ending_healthy_retirement": {"ambience": "hangang"},
+    "cg_ending_orthodox_hollow": {"ambience": "apartment"},
+    "cg_ending_balanced_life": {"ambience": "oneroom"},
+    "cg_ending_unorthodox_legend": {"ambience": "street"},
+    "cg_ending_early_retirement": {"ambience": "oneroom"},
+    "cg_ending_creator_success": {"ambience": "office"},
+    "cg_ending_career_climber": {"ambience": "office"},
+    "cg_ending_career_burnout": {"ambience": "night_bus"},
+    "cg_ending_writer": {"ambience": "room"}
   },
   "events": {
     "arc_year_one_mark": {"ambience": "current_housing", "suppress_music": true},

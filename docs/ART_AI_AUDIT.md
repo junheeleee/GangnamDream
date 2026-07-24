@@ -64,7 +64,7 @@
 | 지연 첫 사고 | `assets/cg/jiyeon_crash_day_v3.png` | PASS-A | 왼쪽 운전석 문, 검은 세단, 자전거 두 바퀴, 상호 시선 통과. |
 | 지연 불꽃놀이 | `assets/cg/romance/fireworks_jiyeon.png` | PASS-A | 맞잡은 두 손의 구조, 지연 정체성, 렌즈 아닌 민준 시선 통과. |
 | 다은 바다 | `assets/cg/romance/sea_daeun_v3.png` | PASS-A | 머리/신체 비율, 산호색 휴양복, 자연스러운 보행 손 통과. |
-| White 엔딩 | `assets/cg/ending_gangnam_dream_white_v1.png` | PASS-A | 창의 희미한 상은 의도된 자기 인식이며 민준이 실제 반사를 응시하는 단일 배우 계약과 일치. |
+| White 엔딩 | `assets/cg/ending_gangnam_dream_white_v2.png` | REPAIRED-A | 불가능한 유리 반사를 제거했다. 맑은 오전, 38세 민준, 등기 폴더, 도시를 향한 비렌즈 시선과 단일 신체를 확인했다. |
 | Full Circle 엔딩 | `assets/cg/ending_full_circle_v1.png` | PASS-A | 전화 손, 이삿짐 1개, 아버지 비등장, 맑은 오전 크롭 통과. |
 | 지연 엔딩 | `assets/cg/ending_jiyeon_man_v2.png` | PASS-A | 두 인물 모두 거울 안에만 한 번 등장하며 중복 몸·역반사 없음. |
 | 다은 엔딩 | `assets/cg/ending_with_daeun_v1.png` | PASS-A | 라면/물 정확히 2인분, 상호 시선, 가까운 손, 작은 집의 존엄 통과. |
@@ -77,28 +77,42 @@
 | CG | `assets/cg/demo/daeun_first_kindness_v2.png` | `cg_demo_daeun_first_kindness` | 1280x800 | no | `f3e0f629c069` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/demo/father_first_call_v1.png` | `cg_demo_father_first_call` | 1280x800 | no | `974db28ea9ac` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/demo/first_interview_v1.png` | `cg_demo_first_interview` | 1280x800 | no | `47f49936c3b9` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
-| CG | `assets/cg/ending_bankruptcy_v1.png` | `cg_ending_bankruptcy` | 1280x800 | no | `8931fa42b953` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
-| CG | `assets/cg/ending_burnout_v1.png` | `cg_ending_burnout` | 1280x800 | no | `cc9cfdcbf19b` | PASS-A | 1인칭 침상 시점, 한 손·다섯 손가락, 테이프 고정 캐뉼라와 연결된 링거, 닿지 않은 뒤집힌 휴대폰, 형광등·커튼·침상 축, 가짜 문자·인물 부재와 중앙 950x430 크롭을 원본 해상도로 확인. `mental_break`와 공유하지 않는다. |
-| CG | `assets/cg/ending_stable_success_v1.png` | `cg_ending_stable_success` | 1280x800 | no | `40c622e0e9e5` | PASS-A | 38세 민준의 얼굴·양손·비렌즈 시선, 뒤집힌 휴대폰 1대, 비강남 소형 서울 집, 창·침대·협탁 원근과 1280x800 엔딩 크롭을 확인. |
+| CG | `assets/cg/ending_balanced_life_v1.png` | `cg_ending_balanced_life` | 1280x800 | no | `3bdee2ac4c5d` | PASS-A | 집 식탁의 주간 수첩·닫힌 노트북·퇴근 가방·한 끼가 서로 겹치지 않고, 펜 손과 비렌즈 시선을 확인했다. |
+| CG | `assets/cg/ending_bankruptcy_v2.png` | `cg_ending_bankruptcy` | 1280x800 | no | `ed941d84cb69` | REPAIRED-A | 계산기와 추심 전화 거절 동작을 분리하고, 정본 고시원 구조·양손·통화 화면 무문자·하단 안전 크롭을 확인했다. |
+| CG | `assets/cg/ending_burnout_v1.png` | `cg_ending_burnout` | 1280x800 | no | `cc9cfdcbf19b` | PASS-A | 1인칭 침상 시점, 한 손·다섯 손가락, 테이프 고정 캐뉼라와 연결된 링거, 닿지 않은 뒤집힌 휴대폰, 형광등·커튼·침상 축을 확인했다. |
+| CG | `assets/cg/ending_career_burnout_v1.png` | `cg_ending_career_burnout` | 1280x800 | no | `5ecf981c5271` | PASS-A | 종점 버스 출구, 일어서는 자세, 좌석 지지 손·휴대폰 손, 젖은 터미널 동선과 비렌즈 시선을 확인했다. |
+| CG | `assets/cg/ending_career_climber_v1.png` | `cg_ending_career_climber` | 1280x800 | no | `ea4ee81ecc56` | PASS-A | 기업 로비, 전화와 제안 봉투 손, 유리면 자기 시선이라는 카메라 근거, 타인 실루엣·개찰 동선을 확인했다. |
+| CG | `assets/cg/ending_creator_success_v1.png` | `cg_ending_creator_success` | 1280x800 | no | `988720cbdcfe` | PASS-A | 촬영 카메라 전원 손, 실재 카메라 렌즈를 향한 동기 있는 시선, 편집 화면·방음재·택배 소품의 무문자 상태를 확인했다. |
 | CG | `assets/cg/ending_crypto_ghost.png` | `cg_ending_crypto_ghost` | 1280x800 | no | `31e42005c154` | REPAIRED-A | 모니터 벽 제거. 정본 고시원·휴대폰 1대·노트북 1대·민준 손/시선 확인. |
-| CG | `assets/cg/ending_debt_spiral_v1.png` | `cg_ending_debt_spiral` | 1280x800 | no | `df7eb173aeb6` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
+| CG | `assets/cg/ending_debt_spiral_v2.png` | `cg_ending_debt_spiral` | 1280x800 | no | `21ed7e971945` | REPAIRED-A | 정본 고시원 바닥에 주저앉은 자세, 무릎을 감싼 두 손, 테이블 위 추심 서류·닫힌 기기와 자해 없는 연출을 확인했다. |
+| CG | `assets/cg/ending_early_retirement_v1.png` | `cg_ending_early_retirement` | 1280x800 | no | `3c027e77dc83` | PASS-A | 알람 없는 아침, 물줄기·드리퍼·서버가 연결된 양손 동작, 접은 출근 셔츠와 잠든 휴대폰을 확인했다. |
 | CG | `assets/cg/ending_empty_house.png` | `cg_ending_empty_house` | 1280x800 | no | `d21de2b8eb78` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
-| CG | `assets/cg/ending_father.png` | `cg_ending_father` | 1280x720 | no | `1987aa893662` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
-| CG | `assets/cg/ending_full_circle_v1.png` | `cg_ending_full_circle` | 1280x800 | no | `58bc9c644542` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
-| CG | `assets/cg/ending_gambling_recovery_v1.png` | `cg_ending_gambling_recovery` | 1280x800 | no | `2bdea7f0532a` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
+| CG | `assets/cg/ending_father.png` | `cg_ending_father` | 1280x720 | no | `1987aa893662` | PASS-A | 병실 방문 사건용 CG이며 엔딩 35종에는 재사용하지 않는다. |
+| CG | `assets/cg/ending_full_circle_v1.png` | `cg_ending_full_circle` | 1280x800 | no | `58bc9c644542` | PASS-A | 전화 손, 이삿짐 1개, 아버지 비등장, 맑은 오전 크롭 통과. |
+| CG | `assets/cg/ending_gambling_recovery_v2.png` | `cg_ending_gambling_recovery` | 1280x800 | no | `3a8814ddf87c` | REPAIRED-A | 정본 고시원, 달력 동그라미를 닫는 마커 손, 상자 안에 치운 휴대폰, 식사와 비렌즈 옆얼굴을 확인했다. |
 | CG | `assets/cg/ending_gangnam_dream.png` | `cg_ending_gangnam_dream` | 1280x800 | no | `ade2697c386b` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
-| CG | `assets/cg/ending_gangnam_dream_white_v1.png` | `cg_ending_gangnam_dream_white` | 1280x800 | no | `501b97acf34a` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
+| CG | `assets/cg/ending_gangnam_dream_white_v2.png` | `cg_ending_gangnam_dream_white` | 1280x800 | no | `bcdea4c07678` | REPAIRED-A | 불가능한 반사를 제거하고, 맑은 오전·등기 폴더·단일 신체·도시를 향한 시선과 열린 이삿짐 상자를 확인했다. |
 | CG | `assets/cg/ending_guardian_v1.png` | `cg_ending_guardian` | 1280x800 | no | `738f36f22848` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
+| CG | `assets/cg/ending_healthy_retirement_v1.png` | `cg_ending_healthy_retirement` | 1280x800 | no | `b3dd747f4325` | PASS-A | 한강 보행·자전거 동선, 운동복, 허리 손·수건 손, 숨을 고르며 강을 보는 비렌즈 시선을 확인했다. |
 | CG | `assets/cg/ending_instant_legend_v1.png` | `cg_ending_instant_legend` | 1280x800 | no | `5519859a8a46` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
+| CG | `assets/cg/ending_investment_master_v1.png` | `cg_ending_investment_master` | 1280x800 | no | `21963858daeb` | PASS-A | 노트와 노트북을 분리하고, 화면을 닫는 오른손·쉬는 왼손·기기를 보는 시선과 생활형 작업실을 확인했다. |
 | CG | `assets/cg/ending_jaehyuk_way_v1.png` | `cg_ending_jaehyuk_way` | 1280x800 | no | `dd0b29858a63` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
-| CG | `assets/cg/ending_jiyeon_man_v2.png` | `cg_ending_jiyeon_man` | 1280x800 | no | `62a7f17d4aec` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
+| CG | `assets/cg/ending_jiyeon_man_v2.png` | `cg_ending_jiyeon_man` | 1280x800 | no | `62a7f17d4aec` | PASS-A | 두 인물 모두 거울 안에만 한 번 등장하며 중복 몸·역반사 없음. |
 | CG | `assets/cg/ending_late_call_v1.png` | `cg_ending_late_call` | 1280x800 | no | `662ff3e36b30` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/ending_lonely_rich_v1.png` | `cg_ending_lonely_rich` | 1280x800 | no | `91932fd75d7d` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
-| CG | `assets/cg/ending_orthodox_pinnacle_v1.png` | `cg_ending_orthodox_pinnacle` | 1280x800 | no | `e7b4396db619` | PASS-A | 민준과 후배의 얼굴·헤어·복식이 1초 안에 구분되고 시선은 후배→민준·민준→물잔으로 맞는다. 민준의 한 손과 물잔, 단일 불판·정렬된 후드·좌석 축, 가짜 문자 부재, 중앙 950x430 크롭을 원본 해상도로 확인. |
+| CG | `assets/cg/ending_mental_break_v1.png` | `cg_ending_mental_break` | 1280x800 | no | `5c19a097cb32` | PASS-A | 상담실 낮빛, 깍지 낀 두 손, 아래로 떨어진 민준 시선, 기록 중인 상담자 손과 빈 메모지를 확인했다. |
+| CG | `assets/cg/ending_ordinary_life_v1.png` | `cg_ending_ordinary_life` | 1280x800 | no | `85e8b626c905` | PASS-A | 비 오는 외곽 방, 한 그릇 라면, 내려놓기 전 휴대폰 손, 자기 방의 침대·창·조명 축을 확인했다. |
+| CG | `assets/cg/ending_orthodox_hollow_v2.png` | `cg_ending_orthodox_hollow` | 1280x800 | no | `708587d8832d` | REPAIRED-A | 잘못된 38세 사무실 장면을 55세 플래시포워드 거실로 교체하고, 흰머리·닫힌 계좌 폴더·뒤집힌 휴대폰·도시 시선을 확인했다. |
+| CG | `assets/cg/ending_orthodox_pinnacle_v1.png` | `cg_ending_orthodox_pinnacle` | 1280x800 | no | `e7b4396db619` | PASS-A | 민준과 후배의 얼굴·헤어·복식이 1초 안에 구분되고 시선은 후배→민준·민준→물잔으로 맞는다. |
+| CG | `assets/cg/ending_political_fix_v1.png` | `cg_ending_political_fix` | 1280x800 | no | `53cb98f05b4f` | PASS-A | 의원 사무실 문턱, 닫힌 서류철 손, 복도 인물과 한강·여의도 방향, 비렌즈 시선을 확인했다. |
+| CG | `assets/cg/ending_reputation_legend_v1.png` | `cg_ending_reputation_legend` | 1280x800 | no | `bde290c5272c` | PASS-A | 업계 행사에서 상대가 먼저 건네는 빈 명함, 상대→민준·민준→상대 시선과 구분되는 배경 인물을 확인했다. |
 | CG | `assets/cg/ending_sangchul_reckoning_v1.png` | `cg_ending_sangchul_reckoning` | 1280x800 | no | `f25fbb0f1004` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/ending_second_love_v1.png` | `cg_ending_second_love` | 1280x800 | no | `2b554360182d` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
+| CG | `assets/cg/ending_stable_success_v1.png` | `cg_ending_stable_success` | 1280x800 | no | `40c622e0e9e5` | PASS-A | 38세 민준의 얼굴·양손·비렌즈 시선, 뒤집힌 휴대폰 1대, 비강남 소형 서울 집을 확인했다. |
 | CG | `assets/cg/ending_startup_exit_v1.png` | `cg_ending_startup_exit` | 1280x800 | no | `be7c29d8d495` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
-| CG | `assets/cg/ending_with_daeun_v1.png` | `cg_ending_with_daeun` | 1280x800 | no | `9c4af6de306d` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
+| CG | `assets/cg/ending_unorthodox_legend_v1.png` | `cg_ending_unorthodox_legend` | 1280x800 | no | `a3d8d5cce51b` | PASS-A | 출근 인파와 교차하는 진행축, 수첩을 잡은 손·메신저백 손, 젖은 횡단보도와 비렌즈 시선을 확인했다. |
+| CG | `assets/cg/ending_with_daeun_v1.png` | `cg_ending_with_daeun` | 1280x800 | no | `9c4af6de306d` | PASS-A | 라면/물 정확히 2인분, 상호 시선, 가까운 손, 작은 집의 존엄 통과. |
+| CG | `assets/cg/ending_writer_v1.png` | `cg_ending_writer` | 1280x800 | no | `b8f6de4cadbc` | PASS-A | 정본 고시원 구조, 원고 위 손, 작은 창을 보는 38세 민준, 책·봉투·휴대폰의 무문자 상태를 확인했다. |
 | CG | `assets/cg/jaehyuk_reveal.png` | `cg_jaehyuk_reveal` | 1280x800 | no | `18243d73b73f` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/jiyeon_crash_day_v3.png` | `cg_jiyeon_crash` | 1280x800 | no | `a714c2c2bc7e` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/romance/amusement_lost_child_daeun_v1.png` | `cg_romance_amusement_lost_child_daeun` | 1280x800 | no | `6651c8b0569e` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |

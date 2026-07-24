@@ -37,12 +37,12 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 229,
+  "inventory_count": 243,
   "counts": {
     "1080p": {
       "CG": {
         "native": 0,
-        "light": 60,
+        "light": 74,
         "medium": 0,
         "heavy": 0,
         "severe": 0
@@ -67,7 +67,7 @@
         "native": 0,
         "light": 0,
         "medium": 0,
-        "heavy": 60,
+        "heavy": 74,
         "severe": 0
       },
       "Portrait": {
@@ -1492,7 +1492,24 @@
         "4k": "heavy"
       }
     },
-    "assets/cg/ending_bankruptcy_v1.png": {
+    "assets/cg/ending_balanced_life_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_balanced_life"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_bankruptcy_v2.png": {
       "kind": "CG",
       "ids": [
         "cg_ending_bankruptcy"
@@ -1526,6 +1543,57 @@
         "4k": "heavy"
       }
     },
+    "assets/cg/ending_career_burnout_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_career_burnout"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_career_climber_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_career_climber"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_creator_success_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_creator_success"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
     "assets/cg/ending_crypto_ghost.png": {
       "kind": "CG",
       "ids": [
@@ -1543,10 +1611,27 @@
         "4k": "heavy"
       }
     },
-    "assets/cg/ending_debt_spiral_v1.png": {
+    "assets/cg/ending_debt_spiral_v2.png": {
       "kind": "CG",
       "ids": [
         "cg_ending_debt_spiral"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_early_retirement_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_early_retirement"
       ],
       "width": 1280,
       "height": 800,
@@ -1611,7 +1696,7 @@
         "4k": "heavy"
       }
     },
-    "assets/cg/ending_gambling_recovery_v1.png": {
+    "assets/cg/ending_gambling_recovery_v2.png": {
       "kind": "CG",
       "ids": [
         "cg_ending_gambling_recovery"
@@ -1645,7 +1730,7 @@
         "4k": "heavy"
       }
     },
-    "assets/cg/ending_gangnam_dream_white_v1.png": {
+    "assets/cg/ending_gangnam_dream_white_v2.png": {
       "kind": "CG",
       "ids": [
         "cg_ending_gangnam_dream_white"
@@ -1679,10 +1764,44 @@
         "4k": "heavy"
       }
     },
+    "assets/cg/ending_healthy_retirement_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_healthy_retirement"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
     "assets/cg/ending_instant_legend_v1.png": {
       "kind": "CG",
       "ids": [
         "cg_ending_instant_legend"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_investment_master_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_investment_master"
       ],
       "width": 1280,
       "height": 800,
@@ -1764,10 +1883,95 @@
         "4k": "heavy"
       }
     },
+    "assets/cg/ending_mental_break_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_mental_break"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_ordinary_life_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_ordinary_life"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_orthodox_hollow_v2.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_orthodox_hollow"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
     "assets/cg/ending_orthodox_pinnacle_v1.png": {
       "kind": "CG",
       "ids": [
         "cg_ending_orthodox_pinnacle"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_political_fix_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_political_fix"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_reputation_legend_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_reputation_legend"
       ],
       "width": 1280,
       "height": 800,
@@ -1849,10 +2053,44 @@
         "4k": "heavy"
       }
     },
+    "assets/cg/ending_unorthodox_legend_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_unorthodox_legend"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
     "assets/cg/ending_with_daeun_v1.png": {
       "kind": "CG",
       "ids": [
         "cg_ending_with_daeun"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/ending_writer_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_ending_writer"
       ],
       "width": 1280,
       "height": 800,

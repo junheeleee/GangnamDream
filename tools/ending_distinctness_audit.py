@@ -9,7 +9,9 @@ GameState.check_game_over(), written for human review rather than execution.
 from __future__ import annotations
 
 import json
+import hashlib
 import re
+import struct
 import sys
 from difflib import SequenceMatcher
 from itertools import combinations
@@ -20,25 +22,9 @@ ROOT = Path(__file__).resolve().parents[1]
 ENDINGS_PATH = ROOT / "content" / "endings.json"
 ENDINGS_EN_PATH = ROOT / "content" / "endings_en.json"
 AUDIT_PATH = ROOT / "docs" / "ENDING_AUDIT.md"
-SYMBOL_DIR = ROOT / "assets" / "ui" / "ending_symbols"
-SYMBOL_IDS = ("ordinary_life", "burnout", "mental_break")
-DEDICATED_CG_IDS = {
-    "stable_success": (
-        "cg_ending_stable_success",
-        ROOT / "assets" / "cg" / "ending_stable_success_v1.png",
-    ),
-}
-EXPECTED_GENERIC_IDS = {
-    "political_fix",
-    "investment_master",
-    "reputation_legend",
-    "healthy_retirement",
-    "orthodox_hollow",
-    "balanced_life",
-    "unorthodox_legend",
-    "early_retirement",
-    "creator_success",
-}
+VISUAL_BIBLE_PATH = ROOT / "assets" / "ENDING_COMPLETE_VISUAL_BIBLE.md"
+IMAGE_REGISTRY_PATH = ROOT / "autoloads" / "ImageRegistry.gd"
+REGISTRY_ENTRY = re.compile(r'"([^"]+)":\s*"(res://[^"]+)"')
 
 ROUTES = {
     "gangnam_dream": "순자산 30억+; 선행 NG+/신화/배우자 상실/Deep Black/고립/White 분기 미해당",
@@ -101,12 +87,16 @@ def _normalized(text: str) -> str:
 def _visual_owner(row: dict) -> str:
     if row.get("cg"):
         return "cg:" + str(row["cg"])
-    symbol = SYMBOL_DIR / (str(row.get("id", "")) + ".svg")
-    if symbol.exists():
-        return "symbol:" + symbol.name
     if row.get("background"):
         return "background:" + str(row["background"])
     return "mood-card:generic"
+
+
+def _png_size(path: Path) -> tuple[int, int] | None:
+    header = path.read_bytes()[:24]
+    if len(header) != 24 or header[:8] != b"\x89PNG\r\n\x1a\n":
+        return None
+    return struct.unpack(">II", header[16:24])
 
 
 def _all_text(row: dict) -> str:
@@ -189,38 +179,60 @@ def main() -> int:
     if "5억" in committed_ko or "five hundred million" in committed_en.lower():
         errors.append("investment_master: committed investor branch falsely claims the legacy 500M total")
 
-    symbol_hashes = set()
     main_game_source = (ROOT / "scenes" / "MainGame.gd").read_text(encoding="utf-8")
-    for ending_id in SYMBOL_IDS:
-        symbol = SYMBOL_DIR / (ending_id + ".svg")
-        if not symbol.exists():
-            errors.append("%s: dedicated ending symbol missing" % ending_id)
+    if "ENDING_CARD_SYMBOL_PATHS" in main_game_source:
+        errors.append("MainGame still exposes geometric ending-symbol fallbacks")
+    image_registry_source = IMAGE_REGISTRY_PATH.read_text(encoding="utf-8")
+    registry = dict(REGISTRY_ENTRY.findall(image_registry_source))
+    cg_owners: dict[str, list[str]] = {}
+    path_owners: dict[str, list[str]] = {}
+    digest_owners: dict[str, list[str]] = {}
+    for ending_id, row in by_id.items():
+        cg_id = str(row.get("cg", "")).strip()
+        if not cg_id:
+            errors.append("%s: missing dedicated ending CG id" % ending_id)
             continue
-        symbol_hashes.add(symbol.read_bytes())
-        expected_ref = '"%s": "res://assets/ui/ending_symbols/%s.svg"' % (ending_id, ending_id)
-        if expected_ref not in main_game_source:
-            errors.append("%s: symbol is not wired into MainGame" % ending_id)
-    if len(symbol_hashes) != len(SYMBOL_IDS):
-        errors.append("dedicated ending symbols are not visually unique files")
-    image_registry_source = (ROOT / "autoloads" / "ImageRegistry.gd").read_text(encoding="utf-8")
-    for ending_id, (cg_id, cg_path) in DEDICATED_CG_IDS.items():
-        if str(by_id.get(ending_id, {}).get("cg", "")) != cg_id:
-            errors.append("%s: dedicated ending CG id is not owned by the ending" % ending_id)
+        cg_owners.setdefault(cg_id, []).append(ending_id)
+        resource_path = registry.get(cg_id, "")
+        if not resource_path:
+            errors.append("%s: %s is not wired into ImageRegistry" % (ending_id, cg_id))
+            continue
+        if not resource_path.startswith("res://"):
+            errors.append("%s: non-resource ending CG path %s" % (ending_id, resource_path))
+            continue
+        path_owners.setdefault(resource_path, []).append(ending_id)
+        cg_path = ROOT / resource_path.removeprefix("res://")
         if not cg_path.exists():
-            errors.append("%s: dedicated ending CG file missing" % ending_id)
-        expected_ref = '"%s": "res://%s"' % (cg_id, cg_path.relative_to(ROOT).as_posix())
-        if expected_ref not in image_registry_source:
-            errors.append("%s: dedicated ending CG is not wired into ImageRegistry" % ending_id)
+            errors.append("%s: dedicated ending CG file missing: %s" % (ending_id, cg_path))
+            continue
+        size = _png_size(cg_path)
+        if size != (1280, 800):
+            errors.append("%s: ending CG must be 1280x800 PNG, got %s" % (ending_id, size))
+        digest = hashlib.sha256(cg_path.read_bytes()).hexdigest()
+        digest_owners.setdefault(digest, []).append(ending_id)
+    for cg_id, owners in cg_owners.items():
+        if len(owners) > 1:
+            errors.append("shared ending CG id %s -> %s" % (cg_id, owners))
+    for resource_path, owners in path_owners.items():
+        if len(owners) > 1:
+            errors.append("shared ending CG path %s -> %s" % (resource_path, owners))
+    for digest, owners in digest_owners.items():
+        if len(owners) > 1:
+            errors.append("pixel-identical ending CGs %s -> %s" % (digest[:12], owners))
 
     if not AUDIT_PATH.exists():
         errors.append("docs/ENDING_AUDIT.md missing")
         audit_text = ""
     else:
         audit_text = AUDIT_PATH.read_text(encoding="utf-8")
-        documented = set(TABLE_ID.findall(audit_text))
+    if not VISUAL_BIBLE_PATH.exists():
+        errors.append("assets/ENDING_COMPLETE_VISUAL_BIBLE.md missing")
+    else:
+        visual_bible_text = VISUAL_BIBLE_PATH.read_text(encoding="utf-8")
+        documented = set(TABLE_ID.findall(visual_bible_text))
         if documented != set(by_id):
             errors.append(
-                "ending audit table mismatch missing=%s extra=%s"
+                "ending visual bible table mismatch missing=%s extra=%s"
                 % (sorted(set(by_id) - documented), sorted(documented - set(by_id)))
             )
 
@@ -240,11 +252,8 @@ def main() -> int:
         visual_groups.setdefault(_visual_owner(row), []).append(ending_id)
     shared_visuals = {owner: ids for owner, ids in visual_groups.items() if len(ids) > 1}
     generic_ids = set(visual_groups.get("mood-card:generic", []))
-    if generic_ids != EXPECTED_GENERIC_IDS:
-        errors.append(
-            "generic mood-card backlog drifted: expected=%s actual=%s"
-            % (sorted(EXPECTED_GENERIC_IDS), sorted(generic_ids))
-        )
+    if generic_ids:
+        errors.append("generic mood-card backlog must be empty: %s" % sorted(generic_ids))
 
     print(
         "ENDING_DISTINCTNESS_AUDIT count=%d high_similarity=%d shared_visual_groups=%d symbols=%d dedicated_cg=%d generic=%d"
@@ -252,8 +261,8 @@ def main() -> int:
             len(rows),
             len(similarity_pairs),
             len(shared_visuals),
-            len(SYMBOL_IDS),
-            len(DEDICATED_CG_IDS),
+            0,
+            len(cg_owners),
             len(generic_ids),
         )
     )

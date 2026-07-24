@@ -1,111 +1,82 @@
-# Ending Distinctness Audit
+# 엔딩 35종 감사
 
-Date: 2026-07-24
-Scope: `content/endings.json` 35종, `content/endings_en.json`, `GameState.check_game_over()` 실제 우선순위  
-Rule: 이 문서의 라우팅 열이 정본이다. JSON의 `condition`은 여러 항목이 55세·옛 임계값을 아직 적고 있어 판정 근거로 쓰지 않았다.
+Updated: 2026-07-24
+Scope: `content/endings.json`, `content/endings_en.json`, 35개 전용 CG,
+`ImageRegistry`, 실제 엔딩 UI, KO/EN 1280x800
 
-## 결론
+## 현재 판정
 
-- 35종 모두 제목과 기본 본문이 있고, 기본 본문 간 68% 이상 기계적 중복은 0쌍이다.
-- 전용 CG 20종은 사건 원인과 마지막 행동이 구분된다. 최초 감사에서 범용 무드 카드에 수렴하던 12종 중 `ordinary_life`, `burnout`, `mental_break`에 전용 심벌을 넣었다. 이후 `burnout`은 1인칭 응급 침상 CG로, `stable_success`는 소형 서울 집에서 휴대폰을 내려놓는 안도 CG로 승격했다. 이전 심벌은 하위 호환 표면으로만 남겼다. 현재 실제 범용 카드 잔여는 9종이다.
-- 즉시 실패, 38세 결산, 30억 성공, NG+ 결말의 네 층은 구조적으로 구분된다. 다만 정석 성공군 3종은 플레이어 기억에서 합쳐질 위험이 있다.
-- 엔딩 ID와 저장·업적·갤러리 계약은 유지했다. 2026-07-16 수렴 감사에서 실제 플레이 정체성을 삼키던 두 우선순위만 표적 수리해 창업 인수와 고숙련 투자 경로를 전용 결산으로 돌려보냈다.
+구현 감사 결과 35개 엔딩 모두 고유한 `cg` 키와 전용 16:10 이미지를 소유한다.
+공용 무드 카드, 코드 도형 심벌, 다른 사건 CG 폴백은 엔딩 런타임에서 제거했다.
 
-## 35종 전수표
+| Gate | Result |
+|---|---:|
+| 엔딩 수 | 35 |
+| 고유 CG 키 | 35 |
+| 고유 파일 경로 | 35 |
+| 고유 SHA-256 | 35 |
+| 정확한 1280x800 PNG | 35 |
+| 코드 도형·엔딩 심벌 폴백 | 0 |
+| 공용 배경 카드 | 0 |
+| 명시적 카메라·시선·손 계약 | 35 |
+| KO/EN 전수 런타임 캡처 | PASS (35+35) |
 
-| ID | 제목·본문 정체성 및 판정 | CG·표면 | 실제 라우팅 조건 |
-|---|---|---|---|
-| `gangnam_dream` | **강남드림 (S)**. 아버지와 강남 거실에 서는 기본 목적지. 배우자·상철·과거 선택 DIK가 강함. 구분 명확. | 전용 `cg_ending_gangnam_dream` | 순자산 30억+, 선행 NG+/신화/배우자 상실/Deep Black/고립/White 분기 미해당 |
-| `empty_house` | **빈 집 (A)**. 아버지에게 보여줄 목적을 잃은 뒤 혼자 남은 거실. `lonely_rich`와 원인이 다르고 CG도 다름. | 전용 `cg_ending_empty_house` | 순자산 30억+, 가까운 관계 없음, 아버지 미화해 또는 별세 |
-| `with_daeun` | **다은과 함께 (A)**. 강남 대신 외곽 집·라면·놓지 않은 손. 다은 결혼 변주 포함. 구분 명확. | 전용 `cg_ending_with_daeun` | 38세 종료, 다은 연애 시작, 이혼 아님, 선행 특수 엔딩 미해당 |
-| `jiyeon_man` | **한지연의 남자 (A)**. 거울 앞에서 지연의 세계에 들어온 자아를 묻는다. 자기 힘의 30억 성공이 아니라 `한지연의 강남`에 사는 결말로 본문과 DIK를 정렬했다. | 전용 `cg_ending_jiyeon_man` | 38세 종료, 지연 연애 유지, 지연이 떠나지 않음, 순자산 30억 미만 |
-| `jaehyuk_way` | **최재혁의 방식 (B)**. 타인을 밟고 빠르게 오른 뒤 아버지 앞에서 웃지 못함. Deep Black 성공으로 명확. | 전용 `cg_ending_jaehyuk_way` | 순자산 30억+, `fell_to_darkness` 또는 `crossed_line`, 배우자 분기 미해당 |
-| `late_call` | **늦은 전화 (B)**. 강남 실패 뒤 창원행 KTX에서 아버지에게 전화. 관계 결산으로 명확. | 전용 `cg_ending_late_call` | 38세 종료, 아버지 화해, 모든 상위 결산 분기 미해당 |
-| `stable_success` | **안정적인 성공 (B)**. 10억과 공포 없는 생활을 얻고 다음 삶을 묻는다. 강남·과시 대신 소형 서울 집에서 금융 앱을 닫고 휴대폰을 내려놓는 안도로 정석 성공군과 분리한다. | 전용 `cg_ending_stable_success` | 38세 종료, 순자산 10억+, 정석 정점 등 상위 자산 분기 미해당 |
-| `ordinary_life` | **그냥 사람 (C)**. 외곽 월세와 평범한 출퇴근을 실패가 아닌 생존으로 본다. 결별 DIK가 많아 기본 결산 역할이 분명함. | 전용 `ordinary_life` 결산 심벌 | 38세 종료 기본값, 또는 지연 이탈·강남 미달 이혼 변주 |
-| `burnout` | **과로로 쓰러지다 (F)**. 현재 주거와 무관한 계단 붕괴와 응급실의 즉시 실패. `career_burnout`과 시점·강도가 다름. | 전용 `cg_ending_burnout` 1인칭 응급 침상 CG | 건강 0 이하 즉시 종료 |
-| `mental_break` | **정신 붕괴 (F)**. 진료실에서 강남이 실제 문제인지 말하지 못하는 즉시 실패. 신체 번아웃과 분리됨. | 전용 `mental_break` 결산 심벌 | 정신력 0 이하 즉시 종료 |
-| `bankruptcy` | **부채 나락 (F)**. 계산을 멈춘 -1억 단계. `debt_spiral`보다 앞선 추락으로 CG가 분리됨. | 전용 `cg_ending_bankruptcy` | 순자산 -2억 이상 -1억 미만 즉시 종료 |
-| `crypto_ghost` | **코인 망령 (F)**. 거래소 앱이 현실을 대체한 중독 실패. 자산 손실보다 행동 중독을 결산해 명확. | 전용 `cg_ending_crypto_ghost` | 중독 성향 90+ 즉시 종료, 파산 분기 뒤 |
-| `startup_exit` | **스타트업 엑싯 (A)**. 서명 뒤 손을 씻고 팀에 마지막 공지를 보내는 대안 성공. 인수대금이 30억을 넘더라도 아파트 매매가 아닌 회사의 마지막 날을 전용 장면으로 결산한다. | 전용 `cg_ending_startup_exit` | `startup_exit` 플래그, NG+ 특수 결말 뒤·일반 30억 분기보다 우선 |
-| `political_fix` | **여의도行 (B)**. 강남 대신 권력의 중심에 도착. 대안 성공군 안에서도 목적지가 달라 명확. | 범용 무드 카드 | `political_winner`, 창업·크리에이터 성공 미해당 |
-| `lonely_rich` | **외로운 부자 (A)**. 네 자리 식탁의 1인분과 끊긴 연락처. `empty_house`의 부친 상실과 달리 스스로 관계를 비운 결말. | 전용 `cg_ending_lonely_rich` | 순자산 30억+ 이혼, 또는 가까운 관계 없이 아버지만 화해·생존 |
-| `investment_master` | **재테크 달인 (A)**. 공포와 탐욕의 반대편에서 반복해 판단한 투자자. 1억대 고숙련 경로는 정확한 금액을 꾸미지 않는 전용 한영 DIK로 결산한다. | 범용 무드 카드 | 38세 종료, (순자산 5억+·투자감각 55+) 또는 (1억+·투자감각 85+·투자 성향 자각·비정석 우세 15+), 상위 결산 미해당 |
-| `reputation_legend` | **서울의 전설 (A)**. 돈보다 이름과 신뢰가 먼저 도착한 업계 인물. 조건 데이터의 3억 요구와 달리 실제 코드는 자산 하한 없음. | 범용 무드 카드 | 38세 종료, 평판 80+, 회복·상철 청산 등 선행 분기 미해당 |
-| `healthy_retirement` | **건강한 은퇴 (B)**. 38세의 한강 조깅과 온전한 몸을 성공으로 보고, 쉰 전 퇴직 가능성을 미래 전망으로 남긴다. | 범용 무드 카드 | 38세 종료, 건강·정신 70+, 가까운 관계 있음, 상위 결산 미해당 |
-| `debt_spiral` | **빚의 소용돌이 (F)**. 계산기를 뒤집은 -2억 이하 구조 붕괴. `bankruptcy`보다 회복 불능 단계가 명확. | 전용 `cg_ending_debt_spiral` | 순자산 -2억 미만 즉시 종료 |
-| `orthodox_pinnacle` | **정석의 정점 (A)**. 조직의 규칙을 따른 10억 성공과 잃은 것의 질문. 실제 조건과 본문 숫자를 정렬했다. | `restaurant` 배경 카드 | 38세 종료, 순자산 10억+, 정석-비정석 15+ |
-| `orthodox_hollow` | **공허한 성공 (C)**. 사회가 원한 대로 살았지만 자기 욕망을 묻지 않은 정석 실패. 정석 정점의 어두운 대칭으로 명확. | 범용 무드 카드 | 38세 종료, 정석 20+, 순자산 3억 미만, 상위 결산 미해당 |
-| `balanced_life` | **나만의 균형 (B)**. 직장·투자·부업 사이를 오간 혼합형 결산. 범용 카드 때문에 스크린샷 구분성은 약함. | 범용 무드 카드 | 38세 종료, 순자산 1억+, 양 루트 8+, 격차 5 이하 |
-| `unorthodox_legend` | **아웃사이더의 승리 (A)**. 정석 밖의 위험을 견딘 5억. 투자 달인과 인접하지만 행동 철학이 다름. | 범용 무드 카드 | 38세 종료, 순자산 5억+, 비정석-정석 15+ |
-| `early_retirement` | **조기 은퇴 (A)**. 38세의 휴식과 알람 없는 아침을 보여 주되, 지금을 완결된 은퇴라 단정하지 않고 쉰 전 퇴직 가능성을 남긴다. | 범용 무드 카드 | 38세 종료, 순자산 5억+, 현재 무직, 상위 결산 미해당 |
-| `creator_success` | **크리에이터의 시대 (A)**. 조회수 43에서 구독자 100만까지 온 대안 성공. 목적·행동·표면이 명확하나 전용 비주얼 부재. | 범용 무드 카드 | `creator_viral`, 순자산 3억+, 30억 미만 |
-| `instant_legend` | **신화 (?)**. 첫해 50만원이 30억이 된 재현 불가 속도런. 연령·빈집 CG로 일반 성공과 구분 명확. | 전용 `cg_ending_instant_legend` | 33세 안에 순자산 30억+ |
-| `full_circle` | **아버지의 이름으로 (S+)**. 상철에게서 아버지 빚을 받아내고 30억까지 오른 NG+ 청산. 목적·행동·CG가 명확. | 전용 `cg_ending_full_circle` | NG+ 상철 진실 기억, 30억+, 아버지 화해·생존, 빚 청산 |
-| `gangnam_dream_white` | **사람으로 강남에 (S+)**. 아무도 밟지 않고 도착한 White 진엔딩. 전용 색·CG·조건으로 명확. | 전용 `cg_ending_gangnam_dream_white` | 순자산 30억+, White stage(+2), 배우자/고립/Deep Black 분기 미해당 |
-| `second_love` | **같이 간 강남 (A+)**. 강 건너 집에서 다은과 강남 불빛을 바라보는 NG+ 재선택. 10억 하한과 30억 강남 정본을 함께 지킨다. | 전용 `cg_ending_second_love` | NG+ 다은 엔딩 기억, 다은 재선택·04b 완료, 순자산 10억+ |
-| `guardian` | **지킨 것들 (A+)**. 아버지를 다시 잃지 않고 병원에서 짐을 드는 NG+ 결말. 돈과 무관한 우선순위라 명확. | 전용 `cg_ending_guardian` | NG+ 아버지 별세 기억, 아버지 우선, 화해·생존 |
-| `gambling_recovery` | **오늘의 동그라미 (B)**. 30억 대신 도박 없는 날을 달력에 쌓는 회복 결산. 독립 정체성이 강함. | 전용 `cg_ending_gambling_recovery` | 38세 종료, 도박 회복 아크 완료, 연애 결산 미해당 |
-| `career_climber` | **갈아탄 사다리 (A)**. 명함 세 장과 이직으로 증명한 시장 가치. 정석 성공군과 인접하지만 경력 이동이 중심. | `office` 배경 카드 | 38세 종료, 재직, 순자산 1억+, 이직 성공 또는 최고 티어 4+, 전략·자산 정체성 분기 미해당 |
-| `career_burnout` | **버텨온 것들 (B)**. 1억 미만 직장인이 종점에서 내일도 출근함. 즉시 `burnout`과 달리 생존한 결산. | `ktx_window` 배경 카드 | 38세 종료, 재직, 번아웃 인지 또는 이직 시동, 상위 결산 미해당 |
-| `sangchul_reckoning` | **청산 (B)**. 강남 사다리를 치우고 아버지의 6년 빚을 끝냄. `full_circle`의 비강남 도덕적 대칭. | 전용 `cg_ending_sangchul_reckoning` | 38세 종료, 상철 신고 또는 아버지 빚 청산, 아버지 생존 |
-| `writer` | **기록자 (A)**. 강남 실패 수기가 타인의 위로와 책상이 됨. 고시원·사건 수·지력 조합으로 명확. | `library` 배경 카드 | 38세 종료, 사건 90+, 지력 65+, 고시원, 순자산 3억 미만, 상위 결산 미해당 |
+시각 정본과 파일 전수표는
+[`assets/ENDING_COMPLETE_VISUAL_BIBLE.md`](../assets/ENDING_COMPLETE_VISUAL_BIBLE.md)가
+소유한다. 이 문서는 결과와 실패 이력만 기록한다.
 
-## 중복군 판정
+## 이번 전수 수리
 
-<!-- reviewed-pair: stable_success|orthodox_pinnacle -->
-### 병합 제안 1: `stable_success` + `orthodox_pinnacle`
+- 전용 이미지가 없던 14종을 신규 제작했다:
+  `ordinary_life`, `mental_break`, `political_fix`, `investment_master`,
+  `reputation_legend`, `healthy_retirement`, `orthodox_hollow`,
+  `balanced_life`, `unorthodox_legend`, `early_retirement`,
+  `creator_success`, `career_climber`, `career_burnout`, `writer`.
+- 불합격 기존 CG 4종을 교체했다:
+  `gangnam_dream_white`의 불가능한 반사,
+  `bankruptcy`의 모호한 파산 행동,
+  `debt_spiral`의 단계 구분 부족,
+  `gambling_recovery`의 회복 행동 가림.
+- 재대조 중 `orthodox_hollow`가 본문상 55세 거실인데 38세 사무실로 제작된 것을
+  발견해 `ending_orthodox_hollow_v2.png`로 다시 교체했다.
+- 모든 프레임을 캡션 아래로 aspect-cover 하지 않고 전체 비율로 보이게 했다.
+- 왼쪽 아래 캡션만 어둡게 하는 2차원 스크림으로 오른쪽 행동 소품을 살렸다.
+- 엔딩 전용 SVG 심벌 4개와 런타임 심벌 경로를 제거했다.
 
-둘 다 38세·10억 이상·정석 생활의 결산이다. 현재 `stable_success`는 생존 공포가 사라진 소형 집의 밤, `orthodox_pinnacle`은 조직 순응의 대가를 묻는 회식 자리로 비주얼과 질문이 갈린다. 외부 플레이테스트에서 두 엔딩을 받은 사람이 차이를 설명하지 못하면, `stable_success`를 기본 본문으로 두고 정석 우세를 DIK 변주로 흡수하는 병합을 제안한다. **이번 오더에서는 실행하지 않는다.**
+## 의미 중복 방지
 
-<!-- reviewed-pair: investment_master|unorthodox_legend -->
-### 유지 제안: `investment_master` / `unorthodox_legend`
+| 비교군 | 구분 기준 |
+|---|---|
+| `bankruptcy` / `debt_spiral` | 첫 파산의 전화 거절 / 회복 불능 단계의 바닥 정지 |
+| `burnout` / `mental_break` / `career_burnout` | 응급 신체 실패 / 도움 요청 / 계속 일하는 소진 |
+| `gangnam_dream` / `empty_house` / `lonely_rich` / `gangnam_dream_white` | 함께 도착 / 부친 상실 / 스스로 비운 관계 / 선을 넘지 않은 도착 |
+| `stable_success` / `orthodox_pinnacle` / `orthodox_hollow` | 생활 안도 / 조직의 질문 / 55세의 무감각 |
+| `with_daeun` / `second_love` | 외곽의 함께 사는 일상 / NG+ 뒤 강남에서 다시 택한 관계 |
+| `full_circle` / `sangchul_reckoning` | 30억과 부친의 이름 회복 / 강남보다 빚 청산을 택한 결말 |
 
-5억에서는 두 문이 겹치지만 전자는 반복 가능한 시장 해석 능력, 후자는 정석 밖의 생존 철학이다. 1억대에서도 투자 성향·감각 85·비정석 우세를 모두 쌓은 경우에만 전자가 열린다. 한쪽은 기술, 다른 쪽은 경로이므로 본문은 구분된다. 다만 둘 다 범용 무드 카드라 향후 결산 CG 또는 전용 카드 심벌이 필요하다.
+## 런타임 판정
 
-<!-- reviewed-pair: empty_house|lonely_rich -->
-### 유지 확정: `empty_house` / `lonely_rich`
+KO와 EN의 35장을 각각 실제 엔딩 표면으로 렌더했다. 전용
+`ScreenshotQA --qa=ending-all`은 원본과 표시 영역의 종횡비 오차를 `0.02`
+이하로 고정하며, 70장 모두 텍스트·버튼·이미지 경계를 통과했다. EN 35장
+연속 접촉면을 추가로 눈으로 대조해 얼굴, 손, 시선 목표, 결말 소품의 가림과
+잘못된 크롭이 없음을 확인했다.
 
-둘 다 혼자 남은 강남이지만 `empty_house`는 아버지의 죽음, `lonely_rich`는 관계를 돌보지 않은 선택이 원인이다. 전용 CG도 빈 소파와 네 자리 식탁으로 분리돼 있다.
+- 35개 결말의 장소와 핵심 행동이 첫 프레임에서 서로 구분된다.
+- 캡션은 왼쪽 아래만 어둡게 하며 얼굴·손·핵심 소품을 피한다.
+- 영어 장문에서도 다음 버튼과 이미지가 충돌하지 않는다.
+- `orthodox_hollow`는 본문에 맞춰 55세 민준과 거실로 재제작했다.
+- 실패 엔딩은 자해·공포 이미지로 과장하지 않고 실제 행동으로 구분한다.
+- 가짜 숫자, 읽히는 기업 로고, 코드 도형은 활성 엔딩에 없다.
 
-<!-- reviewed-pair: burnout|career_burnout -->
-### 유지 확정: `burnout` / `career_burnout`
+## 검증 명령
 
-이름은 겹치지만 하나는 건강 0의 즉시 실패, 다른 하나는 5년을 버틴 저자산 직장인 결산이다. 명칭 혼동은 있을 수 있으나 감정과 라우팅은 다르다.
+```bash
+python3 tools/ending_distinctness_audit.py
+python3 tools/art_ai_audit.py
+python3 tools/cg_acting_contract_check.py
+GODOT=/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot ./tools/audit.sh
+```
 
-<!-- reviewed-pair: bankruptcy|debt_spiral -->
-### 유지 확정: `bankruptcy` / `debt_spiral`
-
--1억과 -2억의 다른 단계이며, 계산을 멈춘 방과 계산기를 뒤집은 방으로 CG도 분리됐다.
-
-## ORDER-26 종결 정체성 수리 (2026-07-16)
-
-1. `startup_exit` — **라우팅 완료.** NG+ 특수 결말 뒤, 일반 30억보다 먼저 판정한다. 32억 인수도 전용 계약 CG와 엔딩 ID를 소유한다.
-2. `investment_master` — **라우팅 완료.** 기존 5억·감각 55 문을 보존하고, 투자 성향 자각·감각 85·비정석 우세 15를 모두 갖춘 1억 이상 경로를 추가했다. 새 DIK가 금액을 거짓 단정하지 않는다.
-3. 정석·비정석·은퇴·안정·균형 — **우선순위 완료.** 일반 `career_climber`보다 먼저 판정해 직장 보유가 실제 전략을 덮지 않는다.
-4. `EndingRouteIdentityCheck`가 실제 `check_game_over()` 9경로를 실행하고, 5정책×3,000런이 우세 엔딩 5/5와 JSD 0.989를 잠근다.
-
-## Claude 판정 집행 결과 (2026-07-13 — 전 항목 라우팅 불변)
-
-1. `jiyeon_man` — **완료.** 기본·DIK의 성공 단정을 제거하고 `강남에 살고 있다. 한지연의 강남에.` 결로 정렬했다.
-2. `second_love` — **완료.** 강남 아파트 소유를 강 건너에서 강남 불빛이 보이는 집으로 교체했다.
-3. `startup_exit` — **당시 완료.** 라우팅은 유지하고 `gangnam_dream`에 한영 `startup_exit` DIK를 추가했다. 이 동결은 위 2026-07-16 결정으로 대체됐다.
-4. `healthy_retirement`/`early_retirement` — **완료.** 38세 현재와 쉰 전 퇴직 가능성을 분리했다.
-5. `orthodox_pinnacle` — **완료.** 본문을 실제 조건인 10억원/one billion won으로 정렬했다.
-6. 결산 카드 — **2차 완료.** `ordinary_life`, `burnout`, `mental_break`에 서로 다른 전용 심벌을 연결했고, `burnout`과 `stable_success`는 다시 전용 CG로 승격했다. 범용 카드 잔여 9종은 후속 P1-E 대상이다.
-- 병합 제안 1(stable_success+orthodox_pinnacle) — **조건부 보류 확정**: 외부 플레이테스트에서 두 엔딩 수령자가 차이를 설명 못 하면 병합, 지금은 #5 수정으로 차별 강화.
-
-## 최초 감사의 판정 요청 (원 기록 보존 · 현재 전부 해결)
-
-1. `jiyeon_man`: 실제로는 30억 미달 결산인데 기본/일부 DIK가 강남 입성을 단정한다. 본문을 미달 관계 결산으로 고치거나 라우팅을 바꿔야 한다.
-2. `second_love`: 10억에서 강남 아파트 베란다를 소유한다. 30억 정본과 충돌한다.
-3. `startup_exit`: 새 32억 공동창업 엑싯은 30억 분기가 먼저 잡아 `gangnam_dream`으로 간다. **2026-07-16 해결:** 창업 전용 엔딩을 일반 30억 분기보다 먼저 판정한다.
-4. `healthy_retirement`, `early_retirement`: 실제 종료는 38세인데 본문은 55세·50세 이전을 말한다.
-5. `orthodox_pinnacle`: 실제 10억 조건과 본문의 2억이 다르다.
-6. 12개 범용 무드 카드 엔딩은 텍스트를 읽기 전 공유 스크린샷이 구분되지 않는다. 병합보다 전용 결산 카드 심벌을 먼저 검토한다.
-
-## 자동 게이트
-
-`python3 tools/ending_distinctness_audit.py`
-
-이 검사는 KO/EN 35개 ID 패리티, 제목·본문 존재, 실제 라우팅 미러 35개, 문서 표의 누락, 고유 CG/배경 공유군, 높은 본문 유사도에 더해 위 여섯 사실 계약, 투자 성향 DIK의 한영 우선순위·금액 정합, 3개 전용 심벌 및 `stable_success` 전용 CG 배선, 범용 카드 잔여 9종의 정확한 집합을 검사한다. 실제 분기 순서는 `EndingRouteIdentityCheck`가 별도로 실행한다.
+최종 전체 감사는 사건 1,565개, 엔딩 35개, 영어 한글 누출 0, 활성 CG 74개,
+GDScript 55개 컴파일을 포함해 `✅ 감사 통과`로 종료됐다.
