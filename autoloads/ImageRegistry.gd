@@ -78,6 +78,7 @@ const PORTRAITS = {
 	"mother":             "res://assets/characters/npc_mother.png",
 	"father_normal":      "res://assets/characters/npc_father.png",
 	"father_proud":       "res://assets/characters/npc_father.png",
+	"father_past":        "res://assets/characters/npc_father_past.png",
 	"father_weak":        "res://assets/characters/npc_father_weak.png",
 	"father_home":        "res://assets/characters/npc_father_home.png",
 	"father_home_weak":   "res://assets/characters/npc_father_home_weak.png",

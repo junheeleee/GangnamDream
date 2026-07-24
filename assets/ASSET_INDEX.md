@@ -217,6 +217,10 @@ Updated on 2026-07-17 for Hyunsu's dedicated old-goshiwon-alley gukbap reunion b
 - `assets/characters/npc_father.png`
   - Kim Minjun's father work/outdoor transparent portrait, 63-year-old Changwon factory-worker dignity and guilt.
 
+- `assets/characters/npc_father_past.png`
+  - Same canonical father at age 57 for the 2020 guarantor-debt flashback only.
+  - Darker hair, shallower age lines, identical work clothes, and a downcast gaze preserve both six-year age continuity and scene-specific humiliation.
+
 - `assets/characters/npc_father_weak.png`
   - Kim Minjun's father weakened work/outdoor variant for non-home, non-ward crisis contexts.
 

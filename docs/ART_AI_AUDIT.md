@@ -159,6 +159,7 @@
 | Portrait | `assets/characters/npc_daeun_smile.png` | `daeun_smile` | 512x768 | yes | `4b2a7a626482` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
 | Portrait | `assets/characters/npc_daeun_wedding_night.png` | `daeun_wedding_night` | 512x768 | yes | `311a9a02444a` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
 | Portrait | `assets/characters/npc_father.png` | `father_normal`, `father_proud` | 512x768 | yes | `a7c592cba2c8` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
+| Portrait | `assets/characters/npc_father_past.png` | `father_past` | 512x768 | yes | `07f2ea3cd19e` | PASS-B | 2020년 57세 상태. 현재 63세 정본과 얼굴·작업복을 유지하고 흰머리·깊은 주름만 줄였으며, 채무 굴욕 장면의 하향 시선과 투명 가장자리를 원본 및 실제 화면에서 확인. |
 | Portrait | `assets/characters/npc_father_home.png` | `father_home` | 512x768 | yes | `4293759b1355` | PASS-B | 정본 얼굴·세대감 있는 생활복·정상 피부색·불투명 내부와 투명 가장자리 확인. |
 | Portrait | `assets/characters/npc_father_home_weak.png` | `father_home_weak` | 512x768 | yes | `acb090dd4689` | PASS-B | 동일 생활복·쇠약 연기·정상 피부색·녹색 가장자리 제거 확인. |
 | Portrait | `assets/characters/npc_father_hospitalized.png` | `father_hospitalized` | 512x768 | yes | `558cfd71b022` | PASS-B | 정본 얼굴·청회색 환자복·병동 전용 의상·투명 분리 확인. |

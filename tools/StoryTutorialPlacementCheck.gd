@@ -31,6 +31,15 @@ func _run() -> void:
 
 	_expect(str(story.get("_current").get("id", "")) == "story_knee_witness",
 		"prologue fixture did not open")
+	_expect(str(story.get("_current").get("portrait", "")) == "father_past",
+		"the six-years-earlier scene did not select the younger father")
+	var father_portrait := story.get("_portrait") as TextureRect
+	_expect(father_portrait != null and father_portrait.visible and father_portrait.texture != null,
+		"the kneeling-father scene did not render the younger canonical father")
+	var expected_past_portrait := ImageRegistry.get_portrait("father_past")
+	_expect(father_portrait.texture != null \
+		and father_portrait.texture.resource_path == expected_past_portrait,
+		"the six-years-earlier scene rendered the wrong father texture")
 	await _advance_until_direct_action(story)
 	_expect(int(story.call("_direct_continue_choice_index")) == 0,
 		"prologue did not reach its direct authored action (%s)" % _story_state(story))
@@ -61,6 +70,8 @@ func _run() -> void:
 	await _advance_until_event(story, "story_knee_choice")
 	_expect(str(story.get("_current").get("id", "")) == "story_knee_choice",
 		"direct-action result did not continue to its authored follow-up")
+	_expect(str(story.get("_current").get("portrait", "")) == "father_past",
+		"the younger father disappeared before the prologue's defining choice")
 	_expect(not _tree_contains_text(story, "능력치와 자원"),
 		"stats tutorial survived into the follow-up scene")
 
@@ -74,6 +85,15 @@ func _run() -> void:
 	_expect(dashboard_copy.contains("자산") and dashboard_copy.contains("건강") \
 		and dashboard_copy.contains("정신력"),
 		"first AP tutorial no longer explains the three visible resources")
+	var weekly_copy := ""
+	for slide_value in slides:
+		var slide: Dictionary = slide_value
+		if str(slide.get("title", "")) == "한 주의 흐름":
+			weekly_copy = str(slide.get("body", ""))
+	_expect(weekly_copy.contains("세 가지 길") and weekly_copy.contains("하나를 확정"),
+		"first AP tutorial does not teach the current one-commitment week")
+	_expect(not weekly_copy.contains("AP가 남아도") and not weekly_copy.contains("행동 포인트(AP)를 써서"),
+		"first AP tutorial still teaches the retired multi-spend AP loop")
 
 	story.free()
 	await get_tree().process_frame

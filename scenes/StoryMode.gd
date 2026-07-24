@@ -174,7 +174,7 @@ const RESULT_HUMAN_KEYS: Array[String] = [
 ]
 const RESULT_OTHER_KEYS: Array[String] = ["intelligence", "appearance", "luck"]
 
-static var _auto_enabled_session: bool = true
+static var _auto_enabled_session: bool = false
 
 func _ready():
 	_read_only_replay = GameState.story_replay_mode

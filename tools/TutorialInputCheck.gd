@@ -28,20 +28,34 @@ func _ready() -> void:
 		_fail("tutorial did not trap focus")
 		return
 
-	_send_accept()
+	_send_keyboard_accept()
 	await get_tree().process_frame
 	await get_tree().process_frame
 	if _underlying_pressed:
 		_fail("accept leaked to the underlying action")
 		return
 	if int(overlay.get("_slide_idx")) != 1:
-		_fail("accept did not advance exactly one tutorial slide")
+		_fail("physical Enter did not advance exactly one tutorial slide")
 		return
 
-	for _i in range(3):
-		_send_accept()
-		await get_tree().process_frame
-		await get_tree().process_frame
+	_send_pad_accept()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if int(overlay.get("_slide_idx")) != 2:
+		_fail("pad South did not advance exactly one tutorial slide")
+		return
+
+	var next_button := overlay.get("_next_btn") as Button
+	next_button.emit_signal("pressed")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if int(overlay.get("_slide_idx")) != 3:
+		_fail("tutorial button click did not advance exactly one slide")
+		return
+
+	_send_keyboard_accept()
+	await get_tree().process_frame
+	await get_tree().process_frame
 	if _underlying_pressed:
 		_fail("tutorial dismissal activated the underlying action")
 		return
@@ -61,11 +75,26 @@ func _find_overlay() -> TutorialOverlay:
 			return child as TutorialOverlay
 	return null
 
-func _send_accept() -> void:
-	var event := InputEventAction.new()
-	event.action = "ui_accept"
-	event.pressed = true
-	Input.parse_input_event(event)
+func _send_keyboard_accept() -> void:
+	var press := InputEventKey.new()
+	press.keycode = KEY_ENTER
+	press.physical_keycode = KEY_ENTER
+	press.pressed = true
+	Input.parse_input_event(press)
+	var release := press.duplicate() as InputEventKey
+	release.pressed = false
+	Input.parse_input_event(release)
+
+func _send_pad_accept() -> void:
+	# Headless CI has no physical joypad device, so feed the mapped South action.
+	# Raw brand/button mapping is covered by InputMatrixCheck.
+	var press := InputEventAction.new()
+	press.action = "ui_accept"
+	press.pressed = true
+	Input.parse_input_event(press)
+	var release := press.duplicate() as InputEventAction
+	release.pressed = false
+	Input.parse_input_event(release)
 
 func _fail(message: String) -> void:
 	push_error("TUTORIAL_INPUT_CHECK_FAIL: %s" % message)

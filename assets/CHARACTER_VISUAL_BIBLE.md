@@ -70,6 +70,7 @@ No luxury watch, no designer styling, no polished Gangnam success look in early/
 
 **Context Wardrobe Locks:**
 - `father_normal` / `father_proud`: worn navy factory/work jacket over a dark checked work shirt. Use only for work, outdoor arrival, or explicitly work-linked memories.
+- `father_past`: the same face and work clothes at age 57, six years before the 2026 present. Hair is darker, forehead and eye wrinkles are shallower, and his gaze is lowered by the debt humiliation. Use only for the 2020 guarantor-debt flashback; never substitute it for the present-day 63-year-old Father.
 - `father_home`: faded muted burgundy polo under an old warm gray-brown zip-front knit cardigan, loose fit, stretched ribbing, and mild pilling. Use for Changwon-home meetings, memories, and ordinary calls whose remote portrait shows him at home.
 - `father_home_weak`: the exact same home clothes and identity with lowered gaze, heavier eyelids, and illness fatigue. Use for the late pre-ending call from Changwon home; illness changes acting, not clothes.
 - `father_hospitalized`: faded pale blue-gray Korean hospital wrap gown. Use whenever Father is physically present as an admitted patient or emerges from inpatient testing.
@@ -77,7 +78,7 @@ No luxury watch, no designer styling, no polished Gangnam success look in early/
 
 **Location Contract:** A `changwon_home` scene may never show the work jacket when Father's remote or present portrait is visible. A `changwon_hospital` inpatient scene may never show workwear or homewear. Phone scenes keep the local room as the full background and place Father in the remote inset; the portrait does not imply he is standing inside Minjun's room.
 
-**Negative Prompt / Prohibited:** fashionable minimalist cardigan, luxury knitwear, permanent work uniform inside the family home, work jacket over a hospital gown, patient gown outside hospital, generic 75+ grandfather, face drift between health states, broad commercial smile, baked room or ward background.
+**Negative Prompt / Prohibited:** fashionable minimalist cardigan, luxury knitwear, permanent work uniform inside the family home, work jacket over a hospital gown, patient gown outside hospital, generic 75+ grandfather, current 63-year-old face reused in the six-years-earlier debt flashback, face drift between age or health states, broad commercial smile, baked room or ward background.
 
 ## Kang Hyunsu
 

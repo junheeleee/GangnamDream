@@ -74,7 +74,7 @@ func _ready() -> void:
 		return
 
 	print(
-		"STORY_PLAYBACK_CHECK_OK auto=story_default replay=manual direct=%d classified=%d same_location=%d " % [
+		"STORY_PLAYBACK_CHECK_OK auto=manual_default/session_opt_in replay=manual direct=%d classified=%d same_location=%d " % [
 			DIRECT_CONTINUE_EVENTS.size(), DEMO_CLASSIFIED_TRANSITION_EDGES.size(),
 			DEMO_SAME_LOCATION_EDGES.size()
 		]
@@ -110,8 +110,12 @@ func _check_default_auto_contract() -> bool:
 	var original_replay_mode := GameState.story_replay_mode
 	if not await _spawn_story_fixture("story_prologue_dad", false, false):
 		return false
+	if bool(_story.get("_auto_mode")):
+		_fail("fresh story playback enabled auto before player consent")
+		return false
+	_story.call("_set_auto_mode", true, false, true)
 	if not bool(_story.get("_auto_mode")):
-		_fail("normal story playback did not default to auto")
+		_fail("player could not enable auto for the current app session")
 		return false
 	await _free_story_fixture()
 
@@ -125,7 +129,7 @@ func _check_default_auto_contract() -> bool:
 	if not await _spawn_story_fixture("story_prologue_dad", false, false):
 		return false
 	if not bool(_story.get("_auto_mode")):
-		_fail("read-only replay overwrote the normal-session auto preference")
+		_fail("read-only replay overwrote the player-enabled session preference")
 		return false
 	GameState.story_replay_mode = original_replay_mode
 	return true

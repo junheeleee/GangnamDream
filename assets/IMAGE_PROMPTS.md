@@ -236,6 +236,24 @@ sips -z 768 512
 
 ---
 
+## 2026-07-24 아버지 6년 전 연령 정합
+
+### npc_father_past.png
+
+- **최종 경로**: `assets/characters/npc_father_past.png`
+- **입력 레퍼런스**: `assets/characters/npc_father.png`
+- **생성 원본**: `/Users/junheelee/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/call_7UxWTa8rJogncumdbvLhPfbE.png`
+- **최종 프롬프트 요약**:
+
+```text
+Using the supplied canonical 63-year-old Father portrait as a strict identity and wardrobe reference, create the same Korean man six years earlier at age 57 for the 2020 guarantor-debt flashback. Preserve his long narrow face, hairline, deep-set eyes, restrained mouth, lean working-life shoulders, worn navy work jacket, and dark checked shirt. Make only believable six-year age changes: darker salt-and-pepper hair, fewer deep forehead and eye wrinkles, and slightly firmer skin. His eyes and head angle turn down toward screen-left with quiet humiliation; no smile or lens contact. Match the desaturated Korean visual-novel/manhwa realism, matte texture, controlled linework, painterly cel shading, and restrained lighting of the reference. Upper-body transparent portrait composition, no props, room, text, logo, extra person, or wardrobe change. Use a flat chroma-green background for clean extraction.
+```
+
+- **후처리**: border auto-key·soft matte·despill로 투명 분리한 뒤 중앙 크롭하여 512x768 PNG로 정규화했다.
+- **합격 기준**: 현재 63세 아버지와 동일 인물·동일 작업복으로 읽히되 57세의 어두운 머리와 완화된 노화 흔적이 보이고, 2020년 회상 외 장면에는 사용하지 않는다.
+
+---
+
 ## 2026-07-17 지연 첫 키스 무인 세단 배경
 
 - **출시 경로**: `assets/backgrounds/jiyeon_sedan_night_interior.png`

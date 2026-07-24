@@ -1387,6 +1387,14 @@
     {
       "kind": "portrait",
       "ids": [
+        "father_past"
+      ],
+      "relative_path": "characters/npc_father_past.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
         "father_weak"
       ],
       "relative_path": "characters/npc_father_weak.png",

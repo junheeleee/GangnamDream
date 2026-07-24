@@ -4821,11 +4821,13 @@ func _shot_story_surfaces(lang: String = "en", prefix: String = "story_en_") -> 
 func _shot_story_presence_surfaces(lang: String = "en", prefix: String = "presence_en_") -> void:
 	_set_qa_language(lang)
 	_prepare_main_game_state()
-	await _shot_story_event("story_prologue_dad", prefix + "01_father_remote_phone", "", 0.55, true)
-	await _shot_story_event("arc_father_quiet_call", prefix + "02_father_remote_callback", "", 0.55, true)
-	await _shot_story_event("arc_father_02_signal", prefix + "03_local_message", "", 0.55, true)
-	await _shot_story_event("callback_sangchul_personal_echo", prefix + "04_memory_inset", "", 0.55, true)
-	await _shot_story_event("arc_sangchul_confrontation", prefix + "05_in_person_full_portrait", "", 0.55, true)
+	await _shot_story_event("story_knee_witness", prefix + "01_father_kneeling_witness", "", 0.55, true)
+	await _shot_story_event("story_knee_choice", prefix + "02_father_kneeling_choice", "", 0.55, true, true)
+	await _shot_story_event("story_prologue_dad", prefix + "03_father_remote_phone", "", 0.55, true)
+	await _shot_story_event("arc_father_quiet_call", prefix + "04_father_remote_callback", "", 0.55, true)
+	await _shot_story_event("arc_father_02_signal", prefix + "05_local_message", "", 0.55, true)
+	await _shot_story_event("callback_sangchul_personal_echo", prefix + "06_memory_inset", "", 0.55, true)
+	await _shot_story_event("arc_sangchul_confrontation", prefix + "07_in_person_full_portrait", "", 0.55, true)
 
 func _shot_story_audio_settings(lang: String = "en", prefix: String = "story_audio_en_") -> void:
 	_set_qa_language(lang)

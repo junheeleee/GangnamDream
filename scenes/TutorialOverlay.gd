@@ -423,8 +423,8 @@ static func _get_slides(game_id: String) -> Array:
 						+ "통장에 [b]50만원[/b]이 전부예요.\n\n"
 						+ "목표는 딱 하나 —\n"
 						+ "[color=#f0c040][b]5년 안에 자산 30억을 모아\n강남에 입성하는 것![/b][/color]\n\n"
-						+ "매주(= 1턴)마다 [b]행동 포인트(AP)[/b]를 써서\n"
-						+ "취업·투자·도박·인간관계 등을 선택하세요.\n\n"
+						+ "매주(= 1턴) 세 가지 길 중 [b]하나[/b]를 고릅니다.\n"
+						+ "그 선택에 한 주를 맡기면 나머지 두 길은 닫힙니다.\n\n"
 						+ "[color=#aaffaa]💡 38세(240턴)가 되면 게임이 끝나요.\n"
 						+ "   1달 = 4주 = 4턴. 5년 = 60달 = 240턴.[/color]"
 					),
@@ -433,7 +433,8 @@ static func _get_slides(game_id: String) -> Array:
 							+ "Your bank account holds [b]KRW 500,000[/b]. That's it.\n\n"
 							+ "One goal —\n"
 							+ "[color=#f0c040][b]Build KRW 3 billion in assets\nwithin 5 years and reach Gangnam.[/b][/color]\n\n"
-						+ "Every week (= 1 turn), spend [b]Action Points (AP)[/b]\nto work, invest, gamble, build relationships.\n\n"
+						+ "Every week (= 1 turn), choose [b]one[/b] of three paths.\n"
+						+ "That commitment takes the week; the other two paths close.\n\n"
 						+ "[color=#aaffaa]💡 The game ends when you turn 38 (240 turns).\n"
 						+ "   1 month = 4 weeks = 4 turns. 5 years = 240 turns.[/color]"
 					)
@@ -445,7 +446,7 @@ static func _get_slides(game_id: String) -> Array:
 					(
 						"[b]상단 스탯 바[/b]를 항상 확인하세요:\n\n"
 						+ "  💰 [b]자산[/b] — 현금 + 포트폴리오 총합\n"
-						+ "  ❤ [b]건강[/b] — 0이 되면 입원 or 사망\n"
+						+ "  ❤ [b]건강[/b] — 0이 되면 몸이 무너져 이번 삶이 끝남\n"
 						+ "  🧠 [b]정신력[/b] — 0이 되면 번아웃·멘탈 붕괴\n\n"
 						+ "건강·정신력은 매달 자동으로 줄어요.\n"
 						+ "무직이면 더 빨리 떨어지니 주의!\n\n"
@@ -455,7 +456,7 @@ static func _get_slides(game_id: String) -> Array:
 					(
 						"Watch the [b]stat bar at the top[/b] at all times:\n\n"
 						+ "  💰 [b]Assets[/b] — cash + portfolio total\n"
-						+ "  ❤ [b]Health[/b] — hits 0: hospitalization or worse\n"
+						+ "  ❤ [b]Health[/b] — hits 0: physical collapse ends this life\n"
 						+ "  🧠 [b]Mental[/b] — hits 0: burnout, breakdown\n\n"
 						+ "Both drain automatically each month.\nUnemployed? They drain faster.\n\n"
 						+ "[color=#aaffaa]💡 Your first week: use [b]Job Search[/b]\n"
@@ -468,25 +469,23 @@ static func _get_slides(game_id: String) -> Array:
 					"The Weekly Loop",
 					(
 						"매주 이렇게 진행돼요:\n\n"
-						+ "1️⃣  [b]이번 주 상황[/b] — 뉴스·이벤트 확인\n"
-						+ "2️⃣  [b]선택[/b] — 행동 포인트(AP)를 써서 반응\n"
-						+ "3️⃣  [b]다음 주 ▶[/b] — 한 주가 흘러 다음 주로\n\n"
-						+ "[b]AP를 쓸 수 있는 행동들:[/b]\n"
-						+ "  💼 구직활동  📈 투자  🎰 정선 카지노\n"
-						+ "  🃏 홀덤  🏇 경마  👥 인맥 관리  등\n\n"
-						+ "[color=#aaffaa]💡 AP가 남아도 다음 주로 넘어갈 수 있어요.\n"
-						+ "   하지만 낭비하면 목표 달성이 어려워요![/color]"
+						+ "1️⃣  [b]이번 주 상황[/b] — 지금 벌어진 일을 확인\n"
+						+ "2️⃣  [b]세 가지 길[/b] — 이번 주에 가능한 선택을 비교\n"
+						+ "3️⃣  [b]하나를 확정[/b] — 한 주가 흐르고 결과를 감당\n\n"
+						+ "구직·수입·준비·휴식·관계·투자는\n"
+						+ "그 주의 형편에 따라 서로 다른 카드로 나타납니다.\n\n"
+						+ "[color=#aaffaa]💡 선택하지 않은 두 길은 그 주에 닫힙니다.\n"
+						+ "   다음 주에는 상황과 선택지가 달라질 수 있어요.[/color]"
 					),
 					(
 						"Each week goes like this:\n\n"
-						+ "1️⃣  [b]This Week[/b] — read the news and events\n"
-						+ "2️⃣  [b]Choose[/b] — spend AP to respond\n"
-						+ "3️⃣  [b]Next Week ▶[/b] — advance to the next week\n\n"
-						+ "[b]Ways to spend AP:[/b]\n"
-						+ "  💼 Job Hunt  📈 Invest  🎰 Casino\n"
-						+ "  🃏 Hold'em  🏇 Races  👥 Network  and more\n\n"
-						+ "[color=#aaffaa]💡 Unused AP carries over — but\n"
-						+ "   wasting turns makes the goal much harder.[/color]"
+						+ "1️⃣  [b]This Week[/b] — see what is happening now\n"
+						+ "2️⃣  [b]Three Paths[/b] — compare the choices this week allows\n"
+						+ "3️⃣  [b]Commit to One[/b] — let the week pass and face the result\n\n"
+						+ "Work, income, preparation, rest, relationships, and investing\n"
+						+ "appear as different cards when your circumstances allow them.\n\n"
+						+ "[color=#aaffaa]💡 The two paths you leave close for that week.\n"
+						+ "   Next week may bring a different situation and different choices.[/color]"
 					)
 				),
 				_localized_slide(
@@ -494,7 +493,7 @@ static func _get_slides(game_id: String) -> Array:
 					"선택이 쌓이면 삶이 된다",
 					"Choices Become a Life",
 					(
-						"매주 어떤 행동을 반복하느냐가\n"
+						"어떤 길을 거듭 선택하느냐가\n"
 						+ "당신이 [b]어떤 사람인지[/b]를 결정합니다.\n\n"
 						+ "[color=#a78bfa]💼 안정을 쌓으면[/color]\n"
 						+ "  취업·승진·저축·자기계발이 길이 됩니다.\n"
@@ -506,7 +505,7 @@ static func _get_slides(game_id: String) -> Array:
 						+ "쌓인 선택에 따라 [b]다른 이벤트와 다른 엔딩[/b]이 열립니다."
 					),
 					(
-						"What you do week after week\ndetermines [b]who you become[/b].\n\n"
+						"The paths you choose again and again\ndetermine [b]who you become[/b].\n\n"
 						+ "[color=#a78bfa]💼 Build stability[/color]\n"
 						+ "  Jobs, promotions, savings, self-improvement.\n"
 						+ "  Slow — but you don't collapse.\n\n"
@@ -534,6 +533,7 @@ var _icon_tex: TextureRect
 var _title_lbl: Label
 var _ui_icon_cache: Dictionary = {}
 var _previous_focus: Control = null
+var _last_advance_frame: int = -1
 
 func _ready() -> void:
 	_font      = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
@@ -663,6 +663,9 @@ func _build_ui() -> void:
 	_next_btn = Button.new()
 	_next_btn.custom_minimum_size = Vector2(180, 44)
 	_next_btn.add_theme_font_size_override("font_size", 16)
+	# Keyboard/pad activation and pointer clicks commit on the same press edge.
+	# _on_next guards that edge when BaseButton and _unhandled_input both see it.
+	_next_btn.action_mode = BaseButton.ACTION_MODE_BUTTON_PRESS
 	var btn_sb := StyleBoxFlat.new()
 	btn_sb.bg_color = Color("#151a20")
 	btn_sb.border_color = Color("#788390")
@@ -753,6 +756,10 @@ func _ui_icon_texture(icon_id: String) -> Texture2D:
 	return tex
 
 func _on_next() -> void:
+	var frame := Engine.get_process_frames()
+	if frame == _last_advance_frame:
+		return
+	_last_advance_frame = frame
 	_slide_idx += 1
 	if _slide_idx >= _slides.size():
 		_dismiss()

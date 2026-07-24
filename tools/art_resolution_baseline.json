@@ -37,7 +37,7 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 195,
+  "inventory_count": 196,
   "counts": {
     "1080p": {
       "CG": {
@@ -48,7 +48,7 @@
         "severe": 0
       },
       "Portrait": {
-        "native": 57,
+        "native": 58,
         "light": 0,
         "medium": 0,
         "heavy": 0,
@@ -73,7 +73,7 @@
       "Portrait": {
         "native": 0,
         "light": 0,
-        "medium": 57,
+        "medium": 58,
         "heavy": 0,
         "severe": 0
       },
@@ -2985,6 +2985,23 @@
       "kind": "Portrait",
       "ids": [
         "father_hospitalized"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/npc_father_past.png": {
+      "kind": "Portrait",
+      "ids": [
+        "father_past"
       ],
       "width": 512,
       "height": 768,
