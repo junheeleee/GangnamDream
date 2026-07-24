@@ -62,7 +62,9 @@
 **수리 범위·수용 기준:** 실제 공공 안내 시스템에서 녹음된 상업 이용 가능 샘플로 번호표 호출음을 교체하고 출처·라이선스·원본/출력 해시를 원장에 고정한다. `story_last_payment_wait`는 고시원 룸톤이 아닌 `public_office`를 실제 재생해야 하며, 호출음은 선택 결과의 "전광판이 짧게 울렸다"가 시작될 때 한 번만 난다. 설명 문단·언어 전환·재렌더에서는 중복 재생하지 않는다. 결과 문단 큐를 데이터 계약으로 추가하고 런타임·정적 감사가 장소 키, 실재 스트림, 정확한 결과 문단, 1회 재생을 검증한다.
 
 #### [~] USER-P0E [P0·입력/게임성 수리] 지원서 정답 고정·AP 복귀 포커스
-**[~] 착수 (2026-07-24 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `scenes/JobHuntMiniGame.gd`, `scenes/MainGame.gd`, `tools/InputMatrixCheck.gd`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
+**[~] 착수 (2026-07-24 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `scenes/JobHuntMiniGame.gd`, `scenes/MainGame.gd`, `tools/InputMatrixCheck.gd`, 신규 `assets/ui/job_hunt/resume_writing_strip.png`, 신규 `assets/ui/job_hunt/mock_interview_strip.png`와 Godot `.import`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
+
+**범위 확장 (2026-07-24 사용자 UI 피드백):** 기존의 모호한 회색 책상 블록과 일반 배경 중앙 크롭을 폐기한다. 지원서 작성과 모의면접은 각각 실제 슬롯과 같은 약 9:1 원본을 별도 생성해, 고시원 지원서 책상과 지원자 시점 면접 테이블이 잘림 없이 즉시 읽혀야 한다. 두 이미지는 Gangnam Ink, 물리적 공간 정합, 무문자·무로고, 주요 인물 비혼동 규칙을 지키며 960×600 KO/EN 실렌더에서 선택 카드보다 앞서 시선을 빼앗지 않는다.
 
 **사용자 실플레이 진단:** "지원서 다듬기 맨 위 것만 누르면 A가 나오고, 끝난 뒤 AP 행동 화면에서 키가 안 먹는다." 실제로 모든 지원서 문항의 3점 답이 원본 배열 0번에 고정돼 있고, 구직 미니게임 종료 핸들러만 AP 행동 보드 재렌더·포커스 복구를 호출하지 않는다.
 
