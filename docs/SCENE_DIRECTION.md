@@ -3,6 +3,9 @@
 > 정본 결정(2026-07-07, 유저 승인): **애니메이션 제작 없이, Godot 네이티브 기능만으로 연출을 완성한다.**
 > 연출 = 타이밍·소리·정적·정지화면의 카메라. 준거: Disco Elysium/Kentucky Route Zero. 반례: 감정 강요 QTE("Press F").
 > 분담: 스키마·연출 대본(이 문서)=Claude / StoryMode 렌더러 구현·사운드 소스 선택=Codex (`docs/CODEX_QUEUE.md` 5.5).
+> 이 문서는 연출 언어의 정본이지 전 구간 적용 완료 증거가 아니다. 데모에서 검증한
+> 문법의 240주 확산과 A/V 동기화는
+> [`USER-P0N`](queue_active/USER-P0N.md)이 소유한다.
 
 ---
 
