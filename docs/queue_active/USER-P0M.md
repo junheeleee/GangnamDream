@@ -8,6 +8,7 @@
 **[~] 착수 (2026-07-24 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`,
 `docs/queue_active/USER-P0M.md`, `CLAUDE.md`, `docs/ENDING_ART.md`,
 `docs/ENDING_AUDIT.md`, 신규 엔딩 전수 비주얼 바이블, `content/endings.json`,
+`content/endings_en.json`,
 `autoloads/ImageRegistry.gd`, `scenes/MainGame.gd`, `assets/cg/ending_*.png`,
 `assets/cg_acting_manifest.json`, `docs/ART_AI_AUDIT.md`,
 `docs/ART_RESOLUTION_READINESS.md`, `tools/art_resolution_baseline.json`,
