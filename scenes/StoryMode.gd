@@ -121,6 +121,9 @@ var _story_language_buttons: Dictionary = {}
 var _settings_countdown_remaining_msec: int = -1
 var _settings_countdown_total_msec: int = -1
 var _settings_focus_key: String = ""
+var _story_save_page: int = 0
+var _story_save_notice: String = ""
+var _pending_restore_context: Dictionary = {}
 var _name_panel_visible_before_choices: bool = false
 var _choice_countdown_timer: Timer = null
 var _choice_countdown_row: HBoxContainer = null
@@ -179,8 +182,20 @@ func _ready():
 	if not GameState.moral_tint_changed.is_connected(_on_story_moral_tint_changed):
 		GameState.moral_tint_changed.connect(_on_story_moral_tint_changed)
 	SceneTransition.fade_in()
-	# 큐 가져오기
-	_queue = GameState.pending_story_queue.duplicate()
+	var resume_context := SaveManager.consume_loaded_resume_context()
+	if str(resume_context.get("kind", "")) == "story":
+		_pending_restore_context = resume_context.duplicate(true)
+		_queue = resume_context.get("queue", []).duplicate(true)
+		var resume_event_id := str(resume_context.get("event_id", ""))
+		if not resume_event_id.is_empty():
+			_queue.push_front(resume_event_id)
+		GameState.story_return_scene = str(resume_context.get(
+			"return_scene", "res://scenes/MainGame.tscn"))
+		GameState.story_replay_mode = false
+		_read_only_replay = false
+	else:
+		# 일반 진입은 GameState에 예약된 사건 큐를 가져온다.
+		_queue = GameState.pending_story_queue.duplicate()
 	GameState.pending_story_queue.clear()
 	if _queue.is_empty():
 		_finish_all()
@@ -855,8 +870,8 @@ func _create_story_settings_popup(focus_key: String, play_open_sound: bool) -> v
 	panel.anchor_bottom = 0.5
 	panel.offset_left = -330
 	panel.offset_right = 330
-	panel.offset_top = -240
-	panel.offset_bottom = 240
+	panel.offset_top = -285
+	panel.offset_bottom = 285
 	panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	var palette := _story_palette()
 	panel.add_theme_stylebox_override("panel", _story_panel_style(
@@ -864,7 +879,7 @@ func _create_story_settings_popup(focus_key: String, play_open_sound: bool) -> v
 	overlay.add_child(panel)
 
 	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 12)
+	column.add_theme_constant_override("separation", 10)
 	panel.add_child(column)
 	var title := Label.new()
 	title.text = _tr("장면 설정", "Scene Settings")
@@ -908,6 +923,26 @@ func _create_story_settings_popup(focus_key: String, play_open_sound: bool) -> v
 			SaveManager.set_setting("reduce_motion", on)
 			_configure_living_scene())
 
+	var save_load_button := Button.new()
+	save_load_button.text = _tr("저장 / 불러오기  ›", "Save / Load  ›")
+	save_load_button.custom_minimum_size = Vector2(0, 42)
+	save_load_button.focus_mode = Control.FOCUS_ALL
+	save_load_button.add_theme_font_size_override("font_size", 16)
+	if _font_bold:
+		save_load_button.add_theme_font_override("font", _font_bold)
+	var save_normal := _story_panel_style(
+		palette["choice_bg"], palette["panel_border"], 5, 16, 8)
+	var save_focus := save_normal.duplicate()
+	save_focus.bg_color = palette["choice_hover"]
+	save_focus.border_color = palette["focus"]
+	save_focus.set_border_width_all(2)
+	save_load_button.add_theme_stylebox_override("normal", save_normal)
+	save_load_button.add_theme_stylebox_override("hover", save_focus)
+	save_load_button.add_theme_stylebox_override("focus", save_focus)
+	save_load_button.add_theme_stylebox_override("pressed", save_focus)
+	save_load_button.pressed.connect(_open_story_save_load)
+	column.add_child(save_load_button)
+
 	var close_button := Button.new()
 	close_button.text = _tr("닫기", "Close")
 	close_button.custom_minimum_size = Vector2(0, 42)
@@ -927,7 +962,7 @@ func _create_story_settings_popup(focus_key: String, play_open_sound: bool) -> v
 	close_button.pressed.connect(_close_audio_settings)
 	column.add_child(close_button)
 
-	_wire_story_settings_focus(close_button, focus_key)
+	_wire_story_settings_focus(save_load_button, close_button, focus_key)
 	if play_open_sound:
 		AudioManager.play_ui_open(-12.0)
 
@@ -999,7 +1034,8 @@ func _add_story_segmented_row(
 		buttons[key] = button
 	return buttons
 
-func _wire_story_settings_focus(close_button: Button, focus_key: String) -> void:
+func _wire_story_settings_focus(
+		save_load_button: Button, close_button: Button, focus_key: String) -> void:
 	var text_buttons: Array[Button] = []
 	for level in STORY_TEXT_SIZE_LEVELS:
 		var text_button: Button = _story_text_size_buttons.get(level) as Button
@@ -1027,14 +1063,18 @@ func _wire_story_settings_focus(close_button: Button, focus_key: String) -> void
 	_audio_sfx_slider.focus_neighbor_top = _audio_bgm_slider.get_path()
 	_audio_sfx_slider.focus_neighbor_bottom = _audio_reduce_motion_toggle.get_path()
 	_audio_reduce_motion_toggle.focus_neighbor_top = _audio_sfx_slider.get_path()
-	_audio_reduce_motion_toggle.focus_neighbor_bottom = close_button.get_path()
-	close_button.focus_neighbor_top = _audio_reduce_motion_toggle.get_path()
+	_audio_reduce_motion_toggle.focus_neighbor_bottom = save_load_button.get_path()
+	save_load_button.focus_neighbor_top = _audio_reduce_motion_toggle.get_path()
+	save_load_button.focus_neighbor_bottom = close_button.get_path()
+	close_button.focus_neighbor_top = save_load_button.get_path()
 	close_button.focus_neighbor_bottom = text_buttons[0].get_path()
-	var focus_control := _story_settings_focus_control(focus_key, close_button)
+	var focus_control := _story_settings_focus_control(
+		focus_key, save_load_button, close_button)
 	if is_instance_valid(focus_control):
 		focus_control.call_deferred("grab_focus")
 
-func _story_settings_focus_control(focus_key: String, close_button: Button) -> Control:
+func _story_settings_focus_control(
+		focus_key: String, save_load_button: Button, close_button: Button) -> Control:
 	if focus_key.begins_with("text:"):
 		return _story_text_size_buttons.get(focus_key.trim_prefix("text:")) as Control
 	if focus_key.begins_with("language:"):
@@ -1043,6 +1083,7 @@ func _story_settings_focus_control(focus_key: String, close_button: Button) -> C
 		"bgm": return _audio_bgm_slider
 		"sfx": return _audio_sfx_slider
 		"motion": return _audio_reduce_motion_toggle
+		"save": return save_load_button
 		"close": return close_button
 	return _story_text_size_buttons.get(_story_text_size) as Control
 
@@ -1163,6 +1204,327 @@ func _rebuild_story_settings_popup(focus_key: String) -> void:
 	old_popup.queue_free()
 	_create_story_settings_popup(focus_key, false)
 
+func _open_story_save_load() -> void:
+	if not is_instance_valid(_audio_settings_popup):
+		return
+	_story_save_page = 0
+	_story_save_notice = ""
+	_replace_story_popup_with_save_page()
+
+func _replace_story_popup_with_save_page() -> void:
+	if is_instance_valid(_audio_settings_popup):
+		var old_popup := _audio_settings_popup
+		_audio_settings_popup = null
+		_audio_bgm_slider = null
+		_audio_sfx_slider = null
+		_audio_reduce_motion_toggle = null
+		_story_text_size_buttons.clear()
+		_story_language_buttons.clear()
+		old_popup.queue_free()
+	_create_story_save_popup()
+
+func _create_story_save_popup() -> void:
+	var overlay := ColorRect.new()
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.color = Color(0, 0, 0, 0.72)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	overlay.z_index = 120
+	add_child(overlay)
+	_audio_settings_popup = overlay
+	overlay.tree_exited.connect(func():
+		if _audio_settings_popup == overlay:
+			_audio_settings_popup = null)
+
+	var panel := PanelContainer.new()
+	panel.anchor_left = 0.5
+	panel.anchor_right = 0.5
+	panel.anchor_top = 0.5
+	panel.anchor_bottom = 0.5
+	panel.offset_left = -445
+	panel.offset_right = 445
+	panel.offset_top = -280
+	panel.offset_bottom = 280
+	panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	var palette := _story_palette()
+	panel.add_theme_stylebox_override("panel", _story_panel_style(
+		palette["panel_bg"], palette["panel_border"], 7, 26, 20, 3))
+	overlay.add_child(panel)
+
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 9)
+	panel.add_child(column)
+	var header := HBoxContainer.new()
+	header.custom_minimum_size = Vector2(0, 42)
+	header.add_theme_constant_override("separation", 12)
+	column.add_child(header)
+	var titles := VBoxContainer.new()
+	titles.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(titles)
+	var title := Label.new()
+	title.text = _tr("이야기 기록", "Story Records")
+	title.add_theme_font_size_override("font_size", 22)
+	title.add_theme_color_override("font_color", palette["focus"])
+	if _font_bold:
+		title.add_theme_font_override("font", _font_bold)
+	titles.add_child(title)
+	var note := Label.new()
+	note.text = _tr(
+		"현재 문단과 선택 대기 상태까지 기록됩니다.",
+		"Saves the current paragraph and pending choice.")
+	note.add_theme_font_size_override("font_size", 13)
+	note.add_theme_color_override("font_color", palette["dim"])
+	if _font:
+		note.add_theme_font_override("font", _font)
+	titles.add_child(note)
+	var page_label := Label.new()
+	page_label.text = "%d–%d / %d" % [
+		_story_save_page * 5 + 1,
+		mini(SaveManager.SLOT_COUNT, _story_save_page * 5 + 5),
+		SaveManager.SLOT_COUNT,
+	]
+	page_label.custom_minimum_size = Vector2(116, 0)
+	page_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	page_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	page_label.add_theme_font_size_override("font_size", 14)
+	page_label.add_theme_color_override("font_color", palette["dim"])
+	if _font_bold:
+		page_label.add_theme_font_override("font", _font_bold)
+	header.add_child(page_label)
+
+	var pager := HBoxContainer.new()
+	pager.add_theme_constant_override("separation", 8)
+	column.add_child(pager)
+	for page in range(2):
+		var page_button := Button.new()
+		page_button.text = _tr(
+			"슬롯 %d–%d" % [page * 5 + 1, page * 5 + 5],
+			"Slots %d–%d" % [page * 5 + 1, page * 5 + 5])
+		page_button.toggle_mode = true
+		page_button.button_pressed = page == _story_save_page
+		page_button.disabled = page == _story_save_page
+		page_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		page_button.custom_minimum_size = Vector2(0, 34)
+		page_button.focus_mode = Control.FOCUS_ALL
+		page_button.add_theme_font_size_override("font_size", 14)
+		var page_normal := _story_panel_style(
+			palette["choice_bg"], palette["panel_border"], 4, 10, 5)
+		var page_focus := page_normal.duplicate()
+		page_focus.bg_color = palette["choice_hover"]
+		page_focus.border_color = palette["focus"]
+		page_button.add_theme_stylebox_override("normal", page_normal)
+		page_button.add_theme_stylebox_override("hover", page_focus)
+		page_button.add_theme_stylebox_override("focus", page_focus)
+		page_button.add_theme_stylebox_override("pressed", page_focus)
+		page_button.pressed.connect(_set_story_save_page.bind(page))
+		pager.add_child(page_button)
+
+	var list := VBoxContainer.new()
+	list.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	list.add_theme_constant_override("separation", 7)
+	column.add_child(list)
+	var first_slot := _story_save_page * 5 + 1
+	for slot in range(first_slot, mini(SaveManager.SLOT_COUNT + 1, first_slot + 5)):
+		_add_story_save_slot_row(list, slot, palette)
+
+	var notice := Label.new()
+	notice.text = _story_save_notice
+	notice.custom_minimum_size = Vector2(0, 20)
+	notice.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	notice.add_theme_font_size_override("font_size", 13)
+	notice.add_theme_color_override("font_color", palette["focus"])
+	if _font:
+		notice.add_theme_font_override("font", _font)
+	column.add_child(notice)
+
+	var bottom := HBoxContainer.new()
+	bottom.add_theme_constant_override("separation", 10)
+	column.add_child(bottom)
+	var settings_button := Button.new()
+	settings_button.text = _tr("‹ 장면 설정", "‹ Scene Settings")
+	settings_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	settings_button.custom_minimum_size = Vector2(0, 40)
+	settings_button.focus_mode = Control.FOCUS_ALL
+	settings_button.pressed.connect(_return_to_story_settings)
+	bottom.add_child(settings_button)
+	var close_button := Button.new()
+	close_button.text = _tr("닫기", "Close")
+	close_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	close_button.custom_minimum_size = Vector2(0, 40)
+	close_button.focus_mode = Control.FOCUS_ALL
+	close_button.pressed.connect(_close_audio_settings)
+	bottom.add_child(close_button)
+	for button in [settings_button, close_button]:
+		button.add_theme_font_size_override("font_size", 15)
+		if _font_bold:
+			button.add_theme_font_override("font", _font_bold)
+		var normal := _story_panel_style(
+			palette["choice_bg"], palette["panel_border"], 5, 14, 7)
+		var focus := normal.duplicate()
+		focus.bg_color = palette["choice_hover"]
+		focus.border_color = palette["focus"]
+		focus.set_border_width_all(2)
+		button.add_theme_stylebox_override("normal", normal)
+		button.add_theme_stylebox_override("hover", focus)
+		button.add_theme_stylebox_override("focus", focus)
+		button.add_theme_stylebox_override("pressed", focus)
+
+	overlay.gui_input.connect(func(event: InputEvent):
+		if event is InputEventMouseButton and event.pressed:
+			_close_audio_settings())
+	call_deferred("_focus_first_story_save_control")
+
+func _add_story_save_slot_row(
+		parent: Control, slot: int, palette: Dictionary) -> void:
+	var info := SaveManager.get_save_info(slot)
+	var row := HBoxContainer.new()
+	row.custom_minimum_size = Vector2(0, 58)
+	row.add_theme_constant_override("separation", 8)
+	parent.add_child(row)
+	var record := PanelContainer.new()
+	record.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	record.add_theme_stylebox_override("panel", _story_panel_style(
+		palette["choice_bg"], palette["panel_border"], 4, 14, 7, 3))
+	row.add_child(record)
+	var record_row := HBoxContainer.new()
+	record_row.add_theme_constant_override("separation", 12)
+	record.add_child(record_row)
+	var slot_label := Label.new()
+	slot_label.text = "%02d" % slot
+	slot_label.custom_minimum_size = Vector2(38, 0)
+	slot_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	slot_label.add_theme_font_size_override("font_size", 17)
+	slot_label.add_theme_color_override("font_color", palette["focus"])
+	if _font_bold:
+		slot_label.add_theme_font_override("font", _font_bold)
+	record_row.add_child(slot_label)
+	var copy := VBoxContainer.new()
+	copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	copy.alignment = BoxContainer.ALIGNMENT_CENTER
+	copy.add_theme_constant_override("separation", 2)
+	record_row.add_child(copy)
+	var primary := Label.new()
+	var secondary := Label.new()
+	if bool(info.get("empty", true)):
+		primary.text = _tr("빈 기록", "Empty record")
+		secondary.text = _tr("현재 장면을 저장할 수 있습니다.", "Save the current scene here.")
+	else:
+		var label := str(info.get("label", "")).strip_edges()
+		primary.text = label if not label.is_empty() else _tr(
+			"챕터 %d · %d주차" % [int(info.get("chapter", 1)), int(info.get("turn", 1))],
+			"Chapter %d · Week %d" % [int(info.get("chapter", 1)), int(info.get("turn", 1))])
+		secondary.text = _tr(
+			"%d년 %d월 · 자산 %s" % [
+				int(info.get("year", 2026)), int(info.get("month", 1)),
+				_story_money(float(info.get("total_assets", 0.0)))],
+			"%d / %02d · Assets %s" % [
+				int(info.get("year", 2026)), int(info.get("month", 1)),
+				_story_money(float(info.get("total_assets", 0.0)))])
+		if bool(info.get("qa_fixture", false)):
+			secondary.text += _tr(" · 테스트 기록", " · QA record")
+	primary.add_theme_font_size_override("font_size", 14)
+	primary.add_theme_color_override("font_color", palette["text"])
+	primary.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	secondary.add_theme_font_size_override("font_size", 12)
+	secondary.add_theme_color_override("font_color", palette["dim"])
+	secondary.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	if _font:
+		primary.add_theme_font_override("font", _font)
+		secondary.add_theme_font_override("font", _font)
+	copy.add_child(primary)
+	copy.add_child(secondary)
+
+	var save_button := Button.new()
+	save_button.text = _tr("저장", "Save")
+	save_button.custom_minimum_size = Vector2(78, 58)
+	save_button.focus_mode = Control.FOCUS_ALL
+	save_button.disabled = not can_manual_save_story()
+	save_button.set_meta("story_save_control", true)
+	save_button.pressed.connect(_save_story_to_slot.bind(slot))
+	row.add_child(save_button)
+	var load_button := Button.new()
+	load_button.text = _tr("불러오기", "Load")
+	load_button.custom_minimum_size = Vector2(92, 58)
+	load_button.focus_mode = Control.FOCUS_ALL
+	load_button.disabled = bool(info.get("empty", true))
+	load_button.set_meta("story_load_control", true)
+	load_button.pressed.connect(_load_story_from_slot.bind(slot))
+	row.add_child(load_button)
+	for button in [save_button, load_button]:
+		button.add_theme_font_size_override("font_size", 14)
+		if _font_bold:
+			button.add_theme_font_override("font", _font_bold)
+		var normal := _story_panel_style(
+			palette["choice_bg"], palette["panel_border"], 4, 10, 7)
+		var focus := normal.duplicate()
+		focus.bg_color = palette["choice_hover"]
+		focus.border_color = palette["focus"]
+		focus.set_border_width_all(2)
+		var disabled := normal.duplicate()
+		disabled.bg_color = palette["choice_bg"].darkened(0.18)
+		disabled.border_color = palette["panel_border"].darkened(0.20)
+		button.add_theme_stylebox_override("normal", normal)
+		button.add_theme_stylebox_override("hover", focus)
+		button.add_theme_stylebox_override("focus", focus)
+		button.add_theme_stylebox_override("pressed", focus)
+		button.add_theme_stylebox_override("disabled", disabled)
+
+func _set_story_save_page(page: int) -> void:
+	var clamped := clampi(page, 0, maxi(0, ceili(float(SaveManager.SLOT_COUNT) / 5.0) - 1))
+	if clamped == _story_save_page:
+		return
+	_story_save_page = clamped
+	_story_save_notice = ""
+	AudioManager.play("click")
+	_replace_story_popup_with_save_page()
+
+func _save_story_to_slot(slot: int) -> void:
+	var context := build_save_resume_context()
+	if context.is_empty():
+		_story_save_notice = _tr(
+			"장면 전환 중이거나 회상 중에는 저장할 수 없습니다.",
+			"Saving is unavailable during transitions or replay.")
+		_replace_story_popup_with_save_page()
+		return
+	var event_title: String = _fmt(str(_current.get("title", ""))).strip_edges()
+	var chapter := mini(5, floori(float(maxi(1, GameState.turn) - 1) / 48.0) + 1)
+	var label := _tr(
+		"챕터 %d · %s" % [chapter, event_title],
+		"Chapter %d · %s" % [chapter, event_title])
+	if SaveManager.save_game(slot, context, {"label": label, "qa_fixture": false}):
+		_story_save_notice = _tr(
+			"슬롯 %d에 현재 장면을 저장했습니다." % slot,
+			"Current scene saved to slot %d." % slot)
+		AudioManager.play("choice_made")
+	else:
+		_story_save_notice = _tr("저장에 실패했습니다.", "Save failed.")
+	_replace_story_popup_with_save_page()
+
+func _load_story_from_slot(slot: int) -> void:
+	if not SaveManager.load_game(slot):
+		_story_save_notice = _tr("불러오기에 실패했습니다.", "Load failed.")
+		_replace_story_popup_with_save_page()
+		return
+	_transitioning = true
+	_stop_story_choice_countdown()
+	GameState.story_replay_mode = false
+	SceneTransition.go(SaveManager.loaded_scene_path())
+
+func _return_to_story_settings() -> void:
+	if is_instance_valid(_audio_settings_popup):
+		var old_popup := _audio_settings_popup
+		_audio_settings_popup = null
+		old_popup.queue_free()
+	_create_story_settings_popup("save", false)
+
+func _focus_first_story_save_control() -> void:
+	if not is_instance_valid(_audio_settings_popup):
+		return
+	for node in _audio_settings_popup.find_children("*", "Button", true, false):
+		if node is Button and bool((node as Button).get_meta("story_save_control", false)) \
+				and not (node as Button).disabled:
+			(node as Button).grab_focus()
+			return
+
 func _pause_story_countdown_for_settings() -> void:
 	_settings_countdown_remaining_msec = -1
 	_settings_countdown_total_msec = -1
@@ -1182,6 +1544,135 @@ func _resume_story_countdown_after_settings() -> void:
 	if remaining <= 0 or not _showing_choices or not bool(_current.get("timed", false)):
 		return
 	_start_story_choice_countdown_msec(remaining, _choice_countdown_default_index, total)
+
+func can_manual_save_story() -> bool:
+	return not _read_only_replay \
+			and not _transitioning \
+			and not _story_scene_transition_active \
+			and not _current.is_empty()
+
+func build_save_resume_context() -> Dictionary:
+	if not can_manual_save_story():
+		return {}
+	var timer_remaining := -1
+	var timer_total := -1
+	if _settings_countdown_remaining_msec > 0:
+		timer_remaining = _settings_countdown_remaining_msec
+		timer_total = _settings_countdown_total_msec
+	elif _choice_countdown_deadline_msec > 0:
+		timer_remaining = maxi(1, _choice_countdown_deadline_msec - Time.get_ticks_msec())
+		timer_total = maxi(timer_remaining, _choice_countdown_total_msec)
+	return {
+		"kind": "story",
+		"scene": "res://scenes/StoryMode.tscn",
+		"return_scene": GameState.story_return_scene if not GameState.story_return_scene.is_empty() \
+				else "res://scenes/MainGame.tscn",
+		"event_id": str(_current.get("id", "")),
+		"queue": _queue.duplicate(true),
+		"phase": _story_resume_phase(),
+		"paragraph_index": _para_index,
+		"paragraph_was_typing": _typing,
+		"type_pos": _type_pos,
+		"pending_result_choice_index": _pending_result_choice_index,
+		"pending_follow_up": _pending_follow_up,
+		"next_transition_mode": _next_transition_mode,
+		"current_transition_mode": _current_transition_mode,
+		"timer_remaining_msec": timer_remaining,
+		"timer_total_msec": timer_total,
+		"timer_default_choice": _choice_countdown_default_index,
+	}
+
+func _story_resume_phase() -> String:
+	if _is_chapter_card:
+		return "chapter"
+	if _pending_after_result:
+		return "result"
+	if _showing_choices:
+		return "choices"
+	return "prose"
+
+func _apply_story_resume_context(context: Dictionary) -> void:
+	if str(context.get("event_id", "")) != str(_current.get("id", "")):
+		push_warning("StoryMode: resume event no longer matches the loaded event.")
+		return
+	_next_transition_mode = str(context.get("next_transition_mode", ""))
+	_current_transition_mode = str(context.get("current_transition_mode", ""))
+	var phase := str(context.get("phase", "prose"))
+	if phase == "chapter" or _is_chapter_card:
+		return
+	match phase:
+		"choices":
+			_restore_story_paragraph(context, false)
+			_show_choices()
+			if bool(_current.get("timed", false)) and not _read_only_replay:
+				var remaining := int(context.get("timer_remaining_msec", -1))
+				if remaining > 0:
+					var total: int = maxi(remaining, int(context.get(
+						"timer_total_msec", remaining)))
+					_stop_story_choice_countdown()
+					_start_story_choice_countdown_msec(
+						remaining,
+						int(context.get("timer_default_choice", 0)),
+						total)
+		"result":
+			_restore_story_result(context)
+		_:
+			_restore_story_paragraph(context, false)
+
+func _restore_story_result(context: Dictionary) -> void:
+	var choices: Array = _current.get("choices", [])
+	var choice_index := int(context.get("pending_result_choice_index", -1))
+	if choice_index < 0 or choice_index >= choices.size():
+		push_warning("StoryMode: result resume choice is no longer valid.")
+		_pending_follow_up = ""
+		_load_next_event()
+		return
+	var choice: Dictionary = choices[choice_index]
+	_pending_result_choice_index = choice_index
+	_pending_follow_up = str(context.get(
+		"pending_follow_up", _choice_follow_up_id(choice)))
+	_pending_after_result = true
+	_showing_choices = false
+	_choice_box.visible = false
+	_set_choice_dock_active(false)
+	_set_portrait_choice_focus(false)
+	_apply_choice_result_visual(choice)
+	if _story_choice_has_visible_result(choice):
+		_show_story_result_record(choice, false)
+	var result: String = _fmt(str(choice.get("result_text", "")))
+	_paragraphs = _split_story_paragraphs(result)
+	_restore_story_paragraph(context, true)
+
+func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
+	if _paragraphs.is_empty():
+		return
+	_para_index = clampi(int(context.get("paragraph_index", 0)), 0, _paragraphs.size() - 1)
+	_maybe_change_event_background(_para_index)
+	_maybe_reveal_event_portrait(_para_index)
+	_maybe_reveal_event_cg(_para_index)
+	if result_phase:
+		AudioManager.play_scene_result_paragraph_cues(
+			str(_current.get("id", "")), _event_cg_id,
+			_pending_result_choice_index, _para_index)
+	else:
+		_play_current_paragraph_audio(_para_index)
+	var paragraph := str(_paragraphs[_para_index])
+	var was_typing := bool(context.get("paragraph_was_typing", false))
+	var saved_type_pos: int = clampi(int(context.get("type_pos", paragraph.length())),
+		0, paragraph.length())
+	_type_full = paragraph
+	_auto_wait = -1.0
+	if was_typing and saved_type_pos < paragraph.length():
+		_start_typing(paragraph)
+		_type_pos = saved_type_pos
+		_body_lbl.text = paragraph.substr(0, saved_type_pos)
+		return
+	_type_pos = paragraph.length()
+	_typing = false
+	_body_lbl.text = paragraph
+	_refresh_continue_hint_text()
+	_continue_hint.visible = true
+	_arm_auto_advance(paragraph)
 
 func _build_story_ink_transition_layer() -> void:
 	_story_ink_transition_layer = Control.new()
@@ -1688,6 +2179,10 @@ func _load_next_event():
 		_current["choices"] = curation_choices
 	EventManager.current_event = _current
 	_render_current()
+	if not _pending_restore_context.is_empty():
+		var restore_context := _pending_restore_context.duplicate(true)
+		_pending_restore_context.clear()
+		_apply_story_resume_context(restore_context)
 
 func _resolved_event_portrait_id() -> String:
 	var portrait_id := str(_current.get("portrait", ""))

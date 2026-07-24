@@ -22,6 +22,10 @@ var _archive_next_button: Button
 var _archive_tab_buttons: Array[Button] = []
 var _archive_origin_focus: Control = null
 var _settings_origin_focus: Control = null
+var _load_slot_page: int = 0
+var _load_page_label: Label = null
+var _load_prev_button: Button = null
+var _load_next_button: Button = null
 var _archive_tab: int = 0
 var _archive_page: int = 0
 var _title_command_buttons: Array[Button] = []
@@ -586,6 +590,8 @@ func _latest_save_slot() -> int:
 func _open_load_overlay() -> void:
 	if is_instance_valid(_load_overlay):
 		_load_overlay.queue_free()
+	_load_slot_page = 0
+	_delete_confirm_slot = -1
 
 	_load_overlay = ColorRect.new()
 	_load_overlay.color = Color(0.015, 0.018, 0.024, 0.90)
@@ -598,7 +604,7 @@ func _open_load_overlay() -> void:
 	_load_overlay.add_child(center)
 
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(590, 0)
+	panel.custom_minimum_size = Vector2(720, 0)
 	var panel_style := StyleBoxFlat.new()
 	panel_style.bg_color = Color("#0d1016", 0.98)
 	panel_style.border_color = Color("#5d6773", 0.72)
@@ -646,12 +652,37 @@ func _open_load_overlay() -> void:
 	rule.add_theme_color_override("color", Color("#343b45"))
 	body.add_child(rule)
 
+	var pager := HBoxContainer.new()
+	pager.custom_minimum_size = Vector2(0, 36)
+	pager.add_theme_constant_override("separation", 8)
+	body.add_child(pager)
+	_load_prev_button = _title_command_button(_tr("‹  슬롯 1–5", "‹  Slots 1–5"), true)
+	_title_command_buttons.erase(_load_prev_button)
+	_load_prev_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_load_prev_button.custom_minimum_size = Vector2(0, 36)
+	_load_prev_button.pressed.connect(_set_load_slot_page.bind(0))
+	pager.add_child(_load_prev_button)
+	_load_page_label = Label.new()
+	_load_page_label.custom_minimum_size = Vector2(92, 0)
+	_load_page_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_load_page_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_load_page_label.add_theme_font_size_override("font_size", 12)
+	_load_page_label.add_theme_color_override("font_color", Color(MENU_TEXT_DIM))
+	pager.add_child(_load_page_label)
+	_load_next_button = _title_command_button(_tr("슬롯 6–10  ›", "Slots 6–10  ›"), true)
+	_title_command_buttons.erase(_load_next_button)
+	_load_next_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_load_next_button.custom_minimum_size = Vector2(0, 36)
+	_load_next_button.pressed.connect(_set_load_slot_page.bind(1))
+	pager.add_child(_load_next_button)
+
 	slot_container = VBoxContainer.new()
-	slot_container.add_theme_constant_override("separation", 8)
+	slot_container.add_theme_constant_override("separation", 6)
 	body.add_child(slot_container)
 	_rebuild_slots()
 
 	var back := _title_command_button(_tr("뒤로", "Back"), true)
+	_title_command_buttons.erase(back)
 	back.custom_minimum_size = Vector2(0, 46)
 	back.pressed.connect(_close_load_overlay)
 	body.add_child(back)
@@ -669,6 +700,9 @@ func _close_load_overlay() -> void:
 	if is_instance_valid(_load_overlay):
 		_load_overlay.queue_free()
 	_load_overlay = null
+	_load_page_label = null
+	_load_prev_button = null
+	_load_next_button = null
 	for button in _title_command_buttons:
 		if is_instance_valid(button) and not button.disabled:
 			button.call_deferred("grab_focus")
@@ -1339,7 +1373,7 @@ func _rebuild_slots():
 	for child in slot_container.get_children():
 		child.queue_free()
 
-	for slot in range(0, 4):
+	for slot in _visible_load_slots():
 		var info = SaveManager.get_save_info(slot)
 		var top_line = _slot_title(slot)
 		var sub_line = ""
@@ -1347,14 +1381,17 @@ func _rebuild_slots():
 			sub_line = _tr("비어 있음", "Empty")
 		else:
 			sub_line = _tr(
-				"%d년 %d월  ·  %s" % [
-					info.get("year", 2026), info.get("month", 1),
+				"챕터 %d · %d주차  ·  %s" % [
+					info.get("chapter", 1), info.get("turn", 1),
 					_format_money(info.get("total_assets", 0))
 				],
-				"%d / %02d  ·  %s" % [
-					info.get("year", 2026), info.get("month", 1),
+				"Chapter %d · Week %d  ·  %s" % [
+					info.get("chapter", 1), info.get("turn", 1),
 					_format_start_money(float(info.get("total_assets", 0)))
 				])
+			var label := str(info.get("label", "")).strip_edges()
+			if not label.is_empty():
+				top_line += "  ·  " + label
 		var enabled = not info.get("empty", true)
 
 		# 슬롯 행: [슬롯 버튼] + [삭제 버튼]
@@ -1374,6 +1411,7 @@ func _rebuild_slots():
 			var del_btn := _delete_slot_button(false)
 			del_btn.pressed.connect(func(): _confirm_delete(slot))
 			row.add_child(del_btn)
+	_refresh_load_slot_pager()
 
 var _delete_confirm_slot: int = -1
 
@@ -1393,7 +1431,7 @@ func _rebuild_slots_with_confirm(confirm_slot: int):
 	for child in slot_container.get_children():
 		child.queue_free()
 
-	for slot in range(0, 4):
+	for slot in _visible_load_slots():
 		var info = SaveManager.get_save_info(slot)
 		var top_line = _slot_title(slot)
 		var sub_line = ""
@@ -1401,14 +1439,17 @@ func _rebuild_slots_with_confirm(confirm_slot: int):
 			sub_line = _tr("비어 있음", "Empty")
 		else:
 			sub_line = _tr(
-				"%d년 %d월  ·  %s" % [
-					info.get("year", 2026), info.get("month", 1),
+				"챕터 %d · %d주차  ·  %s" % [
+					info.get("chapter", 1), info.get("turn", 1),
 					_format_money(info.get("total_assets", 0))
 				],
-				"%d / %02d  ·  %s" % [
-					info.get("year", 2026), info.get("month", 1),
+				"Chapter %d · Week %d  ·  %s" % [
+					info.get("chapter", 1), info.get("turn", 1),
 					_format_start_money(float(info.get("total_assets", 0)))
 				])
+			var label := str(info.get("label", "")).strip_edges()
+			if not label.is_empty():
+				top_line += "  ·  " + label
 		var enabled = not info.get("empty", true)
 
 		var row = HBoxContainer.new()
@@ -1432,7 +1473,7 @@ func _rebuild_slots_with_confirm(confirm_slot: int):
 			if is_confirm:
 				var cancel_btn = Button.new()
 				cancel_btn.text = _tr("취소", "Cancel")
-				cancel_btn.custom_minimum_size = Vector2(44, 56)
+				cancel_btn.custom_minimum_size = Vector2(44, 48)
 				var cancel_st = StyleBoxFlat.new()
 				cancel_st.bg_color = Color("#1a1a28")
 				cancel_st.border_color = Color("#3a3a50")
@@ -1446,12 +1487,40 @@ func _rebuild_slots_with_confirm(confirm_slot: int):
 					_rebuild_slots()
 				)
 				row.add_child(cancel_btn)
+	_refresh_load_slot_pager()
+
+func _visible_load_slots() -> Array[int]:
+	var slots: Array[int] = []
+	if _load_slot_page == 0:
+		slots.append(SaveManager.AUTOSAVE_SLOT)
+		for slot in range(1, 6):
+			slots.append(slot)
+	else:
+		for slot in range(6, SaveManager.SLOT_COUNT + 1):
+			slots.append(slot)
+	return slots
+
+func _set_load_slot_page(page: int) -> void:
+	_load_slot_page = clampi(page, 0, 1)
+	_delete_confirm_slot = -1
+	_rebuild_slots()
+	call_deferred("_focus_first_load_button")
+
+func _refresh_load_slot_pager() -> void:
+	if is_instance_valid(_load_page_label):
+		_load_page_label.text = _tr(
+			"페이지 %d / 2" % (_load_slot_page + 1),
+			"Page %d / 2" % (_load_slot_page + 1))
+	if is_instance_valid(_load_prev_button):
+		_load_prev_button.disabled = _load_slot_page == 0
+	if is_instance_valid(_load_next_button):
+		_load_next_button.disabled = _load_slot_page == 1
 
 func _delete_slot_button(is_confirm: bool) -> Button:
 	var del_btn := Button.new()
 	del_btn.text = _tr("삭제 확인", "Delete?") if is_confirm else "X"
 	del_btn.tooltip_text = _tr("저장 삭제", "Delete save")
-	del_btn.custom_minimum_size = Vector2(58, 56) if is_confirm else Vector2(36, 56)
+	del_btn.custom_minimum_size = Vector2(58, 48) if is_confirm else Vector2(36, 48)
 	del_btn.flat = false
 
 	var normal := StyleBoxFlat.new()
@@ -1756,12 +1825,13 @@ func _show_content_warning():
 func _do_start_run():
 	# 이름·루트 선택 없이 고정 시작 (드라마 모드)
 	# 성향은 플레이 중 선택으로 자연스럽게 결정됨
+	SaveManager.clear_loaded_resume_context()
 	GameState.start_new_game(_tr("김민준", "Kim Minjun"), "지방_상경", "none", "백수", "자유런", "현실")
 	SceneTransition.go(NEW_STORY_SCENE)
 
 func _load_slot(slot):
 	if SaveManager.load_game(slot):
-		SceneTransition.go("res://scenes/MainGame.tscn")
+		SceneTransition.go(SaveManager.loaded_scene_path())
 
 # ── UI 헬퍼 ────────────────────────────────────────────────────
 func _label(text, size, color, align) -> Label:
@@ -1832,7 +1902,7 @@ func _ui_icon_texture(icon_id: String) -> Texture2D:
 
 func _slot_button(top_line: String, sub_line: String, enabled: bool, on_press: Callable = Callable()) -> Control:
 	var outer = PanelContainer.new()
-	outer.custom_minimum_size = Vector2(0, 56)
+	outer.custom_minimum_size = Vector2(0, 48)
 	outer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var st = StyleBoxFlat.new()
 	st.bg_color = Color("#1a1a26") if enabled else Color("#111118")

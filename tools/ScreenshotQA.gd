@@ -71,6 +71,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-keyboard --lang=en --demo-build
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-mouse --lang=en --demo-build
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=full-gamepad --lang=en --pad=xbox
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=full-gamepad --lang=ko --pad=playstation --write-chapter-saves
 ## 헤드리스 더미 렌더러는 빈 텍스처를 주므로 x11+opengl3(xvfb) 필요.
 ## .tscn 으로 부팅해야 autoload(GameState 등)가 로드된다.
 
@@ -159,6 +160,13 @@ const FULL_ROUTE_STORY_CHOICE_OVERRIDES := {
 }
 const FULL_ROUTE_EXPECTED_PRODUCER_FLAG := "pension_anxiety_awakened"
 const FULL_ROUTE_EXPECTED_RANDOM_BRIDGE := "callback_pension_self_fund"
+const CHAPTER_SAVE_EVENTS := {
+	"chapter_card_33": {"slot": 6, "chapter": 1, "turn": 1},
+	"chapter_card_34": {"slot": 7, "chapter": 2, "turn": 49},
+	"chapter_card_35": {"slot": 8, "chapter": 3, "turn": 97},
+	"chapter_card_36": {"slot": 9, "chapter": 4, "turn": 145},
+	"chapter_card_37": {"slot": 10, "chapter": 5, "turn": 193},
+}
 const YEAR_IDENTITY_SCENE_SAMPLE: Array[String] = [
 	"arc_temptation_01",
 	"cafe_listen_01",
@@ -1077,6 +1085,44 @@ func _qa_language(default_lang: String = "ko") -> String:
 		if arg in ["zh-tw", "--zh-tw", "lang=zh-tw", "--lang=zh-tw", "language=zh-tw", "--language=zh-tw"]:
 			return "zh-TW"
 	return default_lang
+
+func _write_chapter_saves_requested() -> bool:
+	var args: Array[String] = []
+	for raw in OS.get_cmdline_user_args():
+		args.append(str(raw).strip_edges().to_lower())
+	for raw in OS.get_cmdline_args():
+		args.append(str(raw).strip_edges().to_lower())
+	for arg in args:
+		if arg in [
+			"--write-chapter-saves", "write-chapter-saves",
+			"--write_chapter_saves", "write_chapter_saves",
+		]:
+			return true
+	return false
+
+func _chapter_save_validation_error(written: Dictionary) -> String:
+	if written.size() != CHAPTER_SAVE_EVENTS.size():
+		return "Chapter QA save run wrote %d/%d records: %s." % [
+			written.size(), CHAPTER_SAVE_EVENTS.size(), written]
+	for event_id_value in CHAPTER_SAVE_EVENTS:
+		var event_id := str(event_id_value)
+		var contract: Dictionary = CHAPTER_SAVE_EVENTS[event_id]
+		var slot := int(contract.get("slot", 0))
+		var info := SaveManager.get_save_info(slot)
+		if bool(info.get("empty", true)):
+			return "Chapter QA slot %d is empty after the full route." % slot
+		if int(info.get("turn", 0)) != int(contract.get("turn", 0)) \
+				or int(info.get("chapter", 0)) != int(contract.get("chapter", 0)):
+			return "Chapter QA slot %d has week/chapter %s/%s instead of %s/%s." % [
+				slot, info.get("turn", 0), info.get("chapter", 0),
+				contract.get("turn", 0), contract.get("chapter", 0)]
+		if str(info.get("event_id", "")) != event_id \
+				or str(info.get("phase", "")) != "chapter":
+			return "Chapter QA slot %d resumes %s/%s instead of %s/chapter." % [
+				slot, info.get("event_id", ""), info.get("phase", ""), event_id]
+		if not bool(info.get("qa_fixture", false)):
+			return "Chapter QA slot %d lost its fixture marker." % slot
+	return ""
 
 func _apply_first_30_qa_options() -> Dictionary:
 	var pad := "keyboard"
@@ -2405,6 +2451,8 @@ func _run_demo_input_route(
 	var generic_commitment_weeks: Dictionary = {}
 	var story_commitment_weeks: Dictionary = {}
 	var story_choice_overrides_used: Dictionary = {}
+	var write_chapter_saves := full_run and _write_chapter_saves_requested()
+	var written_chapter_saves: Dictionary = {}
 	for _step in range(70000 if full_run else 7000):
 		await get_tree().create_timer(0.015).timeout
 		var scene := get_tree().current_scene
@@ -2438,6 +2486,35 @@ func _run_demo_input_route(
 					MetaProgression.data = original_meta
 					_fail("Full-run English StoryMode leaked Hangul in %s." % event_id)
 					return
+			if write_chapter_saves and CHAPTER_SAVE_EVENTS.has(event_id) \
+					and not written_chapter_saves.has(event_id) \
+					and not bool(scene.get("_story_scene_transition_active")):
+				var chapter_contract: Dictionary = CHAPTER_SAVE_EVENTS[event_id]
+				var expected_turn := int(chapter_contract.get("turn", 0))
+				if GameState.turn != expected_turn:
+					MetaProgression.data = original_meta
+					_fail("Chapter save %s appeared at week %d instead of %d." % [
+						event_id, GameState.turn, expected_turn])
+					return
+				var resume_context: Dictionary = scene.call("build_save_resume_context")
+				var chapter_number := int(chapter_contract.get("chapter", 0))
+				var slot := int(chapter_contract.get("slot", 0))
+				var label := "테스트 · 챕터 %d 시작" % chapter_number if lang == "ko" \
+						else "QA · Chapter %d Start" % chapter_number
+				if resume_context.is_empty() or not SaveManager.save_game(slot, resume_context, {
+					"label": label,
+					"qa_fixture": true,
+					"chapter": chapter_number,
+					"route_seed": 20260718,
+				}):
+					MetaProgression.data = original_meta
+					_fail("Could not write chapter %d QA save to slot %d." % [
+						chapter_number, slot])
+					return
+				written_chapter_saves[event_id] = slot
+				print("CHAPTER_SAVE_WRITTEN chapter=%d week=%d slot=%d event=%s path=%s" % [
+					chapter_number, GameState.turn, slot, event_id,
+					ProjectSettings.globalize_path(SaveManager.slot_path(slot))])
 			signature += ":%s:%d:%s:%s:%s:%s:%s" % [
 				event_id,
 				int(scene.get("_para_index")),
@@ -2782,7 +2859,10 @@ func _run_demo_input_route(
 								and (candidate as Button).is_inside_tree() \
 								and (candidate as Button).visible \
 								and bool((candidate as Button).get_meta("demo_pressure_primary", false)) \
-							and candidate_fn not in ["_ap_side_job", "_ap_write_resume", "_ap_invest"] \
+							and candidate_fn not in [
+								"_ap_side_job", "_ap_write_resume", "_ap_invest",
+								"_open_cat_gambling",
+							] \
 								and not (candidate as Button).disabled:
 							playable_cards.append(candidate as Button)
 					# Rotate through the three visible responses. This exercises the controller-first
@@ -2907,6 +2987,12 @@ func _run_demo_input_route(
 			MetaProgression.data = original_meta
 			_fail("Full input route never completed the primary job-hunt path.")
 			return
+		if write_chapter_saves:
+			var chapter_save_error := _chapter_save_validation_error(written_chapter_saves)
+			if not chapter_save_error.is_empty():
+				MetaProgression.data = original_meta
+				_fail(chapter_save_error)
+				return
 		if GameState.money_weeks_total <= 0 or GameState.human_weeks_total <= 0:
 			MetaProgression.data = original_meta
 			_fail("Full input route did not record both time-ledger axes: money=%d people=%d." % [
@@ -3094,6 +3180,16 @@ func _run_demo_input_route(
 			str(full_family_streak.get("value", "none")), int(full_family_streak.get("count", 0)),
 			str(pressure_counts),
 		])
+		# Fixture generation has its own explicit success contract. Keep the
+		# ordinary full-route density gate independent so creating chapter saves
+		# cannot weaken or be blocked by that separate experience-quality check.
+		if write_chapter_saves:
+			MetaProgression.data = original_meta
+			print("CHAPTER_SAVE_RUN_OK weeks=%d records=%d slots=6-10 events=%s" % [
+				GameState.RUN_TURN_LIMIT, written_chapter_saves.size(),
+				str(written_chapter_saves.keys())])
+			get_tree().quit(0)
+			return
 		if int(peak_week_input.get("inputs", 0)) > 180 or input_count > 20000:
 			MetaProgression.data = original_meta
 			_fail("Full route input density exceeded its safety band: total=%d peak=%s." % [
@@ -3908,6 +4004,11 @@ func _activate_route_control(control: Control, input_mode: String) -> void:
 		return
 	control.grab_focus()
 	await get_tree().process_frame
+	# A visible desktop cursor can move hover focus during the settling frame.
+	# Reassert the intended pad target immediately before the South-button event.
+	if input_mode == "gamepad" and is_instance_valid(control) \
+			and control.is_inside_tree() and not control.has_focus():
+		control.grab_focus()
 	await _send_route_input(input_mode)
 
 func _advance_route_story(_story: Node, input_mode: String) -> void:

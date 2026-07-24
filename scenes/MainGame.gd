@@ -15016,9 +15016,53 @@ func _build_save_load_section(parent: Control):
 	var sep = HSeparator.new()
 	sep.modulate = Color("#2a2a3a")
 	parent.add_child(sep)
+	var header_row := HBoxContainer.new()
+	header_row.add_theme_constant_override("separation", 8)
+	parent.add_child(header_row)
 	var header = _label(_tr("저장 / 불러오기", "Save / Load"), 12, "#5a6075")
-	parent.add_child(header)
-	for slot in range(1, 4):
+	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header_row.add_child(header)
+	var page_label := _label(_tr("슬롯 1–5", "Slots 1–5"), 11, "#7a8496")
+	page_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	page_label.custom_minimum_size = Vector2(88, 0)
+	header_row.add_child(page_label)
+
+	var pager := HBoxContainer.new()
+	pager.add_theme_constant_override("separation", 6)
+	parent.add_child(pager)
+	var first_page_button := _small_button(_tr("1–5", "1–5"), "#2a3442")
+	first_page_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	first_page_button.custom_minimum_size = Vector2(0, 32)
+	pager.add_child(first_page_button)
+	var second_page_button := _small_button(_tr("6–10", "6–10"), "#2a3442")
+	second_page_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	second_page_button.custom_minimum_size = Vector2(0, 32)
+	pager.add_child(second_page_button)
+
+	var slot_list := VBoxContainer.new()
+	slot_list.add_theme_constant_override("separation", 5)
+	parent.add_child(slot_list)
+	first_page_button.pressed.connect(_populate_save_load_page.bind(
+		slot_list, 0, first_page_button, second_page_button, page_label))
+	second_page_button.pressed.connect(_populate_save_load_page.bind(
+		slot_list, 1, first_page_button, second_page_button, page_label))
+	_populate_save_load_page(
+		slot_list, 0, first_page_button, second_page_button, page_label)
+
+func _populate_save_load_page(
+		parent: Control,
+		page: int,
+		first_page_button: Button,
+		second_page_button: Button,
+		page_label: Label) -> void:
+	for child in parent.get_children():
+		child.queue_free()
+	first_page_button.disabled = page == 0
+	second_page_button.disabled = page == 1
+	page_label.text = _tr(
+		"슬롯 %d–%d" % [page * 5 + 1, page * 5 + 5],
+		"Slots %d–%d" % [page * 5 + 1, page * 5 + 5])
+	for slot in range(page * 5 + 1, mini(SaveManager.SLOT_COUNT + 1, page * 5 + 6)):
 		var info = SaveManager.get_save_info(slot)
 		var row = HBoxContainer.new()
 		row.add_theme_constant_override("separation", 6)
@@ -15035,9 +15079,12 @@ func _build_save_load_section(parent: Control):
 			info_lbl.text = _tr("빈 슬롯", "Empty slot")
 			info_lbl.add_theme_color_override("font_color", Color("#3a3a5a"))
 		else:
-			info_lbl.text = _tr("%d년 %d월  %s", "Year %d Month %d  %s") % [
-				info.get("year", 0), info.get("month", 0),
-				GameState.format_money(float(info.get("total_assets", 0)))]
+			var label := str(info.get("label", "")).strip_edges()
+			info_lbl.text = label if not label.is_empty() else _tr(
+				"챕터 %d · %d주차 · %s",
+				"Chapter %d · Week %d · %s") % [
+					info.get("chapter", 1), info.get("turn", 1),
+					GameState.format_money(float(info.get("total_assets", 0)))]
 			info_lbl.add_theme_color_override("font_color", Color("#7a8496"))
 		row.add_child(info_lbl)
 		var save_btn = _small_button(_tr("저장", "Save"), "#3a5a8a")
@@ -15058,8 +15105,8 @@ func _save_to_slot(slot: int):
 	_show_toast(_tr("슬롯 %d에 저장했습니다", "Saved to slot %d") % slot, Color("#c9a227"))
 
 func _load_from_slot(slot: int):
-	SaveManager.load_game(slot)
-	SceneTransition.go("res://scenes/MainGame.tscn")
+	if SaveManager.load_game(slot):
+		SceneTransition.go(SaveManager.loaded_scene_path())
 
 func _unhandled_input(event):
 	if GameState.is_game_over:
