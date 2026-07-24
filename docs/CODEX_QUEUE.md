@@ -52,6 +52,8 @@
 
 **수용 기준:** `CODEX_QUEUE.md`에는 운영 프로토콜, 정본 함정, 현재 `[~]` 항목과 아직 닫히지 않은 항목, 공통 검증만 남긴다. 완료 `[x]` 원문과 보고는 월별 아카이브로 손실 없이 이동하고 정본 큐에서 링크한다. 활성 항목의 본문·순서·상태는 바꾸지 않으며 `rg '^#### \[(~| )\]'` 결과가 분리 전과 같아야 한다. 아카이브는 사람이 읽을 수 있는 Markdown이고 Git 이력과 함께 과거 판정 근거를 보존한다.
 
+**범위 확장 (2026-07-24 Codex) — 추가로 만지는 파일:** 신규 `docs/queue_active/ORDER-21.md`, `ORDER-22.md`, `ORDER-23.md`, `ORDER-26.md`, `ORDER-28.md`, `ORDER-43.md`. 장문 활성 사양도 ID별 파일로 무손실 이동하고 메인 큐는 상태·우선순위·링크만 가진다. 현재 항목 하나만 읽는 세션 경로를 만들어 월별 아카이브와 장문 활성 오더를 기본 컨텍스트에서 모두 제외한다.
+
 #### [x] USER-P0C [P0·데모 연출 수리] 기억·시간·이동의 장면 전환 문법
 **[~] 착수 (2026-07-23 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `scenes/StoryMode.gd`, `tools/StoryPlaybackCheck.gd`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
 
