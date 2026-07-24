@@ -74,6 +74,13 @@
 
 **완료 보고 (2026-07-24 Codex):** 문항별 답을 섞고 첫 세 최고점 위치를 좌·중·우에 한 번씩 배치했다. 선택지는 14px 동일 폭 가로 카드 세 장이며 좌우 방향 이동, 마우스 호버 포커스, 키보드/패드 South 확인을 공유한다. 결과 확인 뒤 갱신된 AP 보드를 다시 렌더해 입력을 복구한다. 회색 추상 장식과 일반 배경 크롭은 정본 고시원 책상 및 지원자 시점 면접 테이블을 위해 새로 구성한 `1881×210` 전용 Gangnam Ink 이미지 두 장으로 교체했다. `InputMatrixCheck`가 최고점 3분산·첫 카드 연타 A 미달·키보드/패드·실제 AP 복귀를 실행했고, 960×600 KO/EN `job-en` 각 11컷에서 이미지·최장 문장·포커스·줄바꿈을 육안 확인했다. 일본어 UI 키와 모드 매니페스트를 갱신했으며 전체 `audit.sh`가 `✅ 감사 통과`했다. 문항 재미는 사용자 재플레이 OPEN이다.
 
+#### [~] USER-P0F [P0·저장/QA] StoryMode 10슬롯 수동 저장과 챕터 시작 테스트 기록
+**[~] 착수 (2026-07-24 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `autoloads/SaveManager.gd`, `scenes/StoryMode.gd`, `scenes/MainGame.gd`, `scenes/StartMenu.gd`, `tools/ManualSaveCheck.gd`, `tools/ManualSaveCheck.gd.uid`, `tools/ManualSaveCheck.tscn`, `tools/ScreenshotQA.gd`, `tools/audit.sh`, `locale/ui_ja.json`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 실제 대표 경로로 생성하는 `user://gangnam_dream_slot_6.json`~`10.json`은 로컬 QA 기록이며 저장소에는 넣지 않는다. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
+
+**사용자 요청:** 이야기 진행 중에도 수동 저장·불러오기를 열고 슬롯은 10개까지 사용한다. 테스트를 위해 챕터 1~5의 정확한 시작부분에서 바로 이어갈 수 있는 세이브 파일도 미리 만든다.
+
+**수리 범위·수용 기준:** 기존 자동저장과 1~3번 슬롯 호환을 유지한 채 수동 슬롯을 1~10으로 확장한다. StoryMode 저장은 상태 수치뿐 아니라 현재 사건·남은 큐·본문/결과 문단·선택지 대기·follow-up·타이머 잔여시간을 직렬화해, 불러온 뒤 선택 효과를 중복 적용하거나 장면을 건너뛰지 않는다. 제목 화면·AP 시스템 메뉴·StoryMode는 같은 슬롯 메타데이터와 동적 재개 씬을 사용하고 960×600에서 스크롤 의존 없이 패드로 저장·불러오기·닫기를 수행한다. 회상 모드·전환 중에는 저장을 막는다. `ManualSaveCheck`는 10슬롯 범위, 구버전 호환, 산문/선택/결과/타이머 재개와 효과 1회성을 실제 실행한다. 별도 `--write-chapter-saves` QA 실행은 240주 대표 패드 경로에서 `chapter_card_33`~`37`을 만날 때 슬롯 6~10을 생성하고 각 파일의 주차·챕터·resume event를 재검증한다.
+
 #### [~] ORDER-43 [P0·오디오 REWORK] 파형 합성 전면 퇴출 — 실제 녹음·샘플 기반 팔레트
 **[~] 착수 (2026-07-23 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `CLAUDE.md`, `docs/DECISIONS.md`, `docs/AUDIO_QA.md`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `assets/audio/AUDIO_SOURCE_LEDGER.md`, `assets/audio/AUDIO_PROMPTS.md`, 신규 오디오 출처·크레딧 원장, `assets/scene_audio_manifest.json`, `assets/game_audio_manifest.json`, `assets/mod_asset_manifest.json`, `autoloads/BGMPlayer.gd`, `autoloads/AudioManager.gd`, `tools/generate_audio_p1_assets.py`, `tools/audio_source_audit.py`, `tools/scene_audio_contract_check.py`, `tools/AudioAssetCheck.gd`, `tools/BGMContinuityCheck.gd`, `tools/GameAudioContractCheck.gd`, 신규 샘플 임포트 도구, 교체 대상 `assets/audio/*.wav`, `assets/audio/*.ogg`와 각 `.import`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
 
