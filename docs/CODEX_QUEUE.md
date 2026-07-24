@@ -83,12 +83,14 @@
 
 **완료 보고 (2026-07-24 Codex):** 수동 슬롯을 10개로 확장하고 자동저장·기존 v3 슬롯은 그대로 읽는다. StoryMode 설정에서 5개씩 두 페이지의 저장/불러오기를 열며 현재 사건, 남은 큐, 본문 위치와 타이핑 글자, 선택 대기, 결과 문단, follow-up, 제한시간 잔여량을 복원한다. 결과 화면 저장은 이미 적용된 선택 효과를 다시 실행하지 않는다. 제목 화면과 AP 시스템 메뉴도 같은 10슬롯 메타데이터를 읽고 StoryMode 저장이면 해당 장면으로 직접 돌아간다. `ManualSaveCheck`가 v3 호환·본문/선택/결과/타이머·효과 1회·960×600 2페이지를 통과했고 일본어 UI 2,312키가 깨끗하다. 실제 한국어 PlayStation 240주 대표 경로에서 슬롯 6~10을 각각 1·49·97·145·193주차 `chapter_card_33`~`37`에 생성해 저장 버전 4, `phase=chapter`, 테스트 표식과 재개 사건을 재검증했다. 파일은 로컬 `user://`에만 있으며 저장소에는 넣지 않는다.
 
-#### [~] USER-P0G [P0·접근성] StoryMode 텍스트 출력 속도 3단계
+#### [x] USER-P0G [P0·접근성] StoryMode 텍스트 출력 속도 3단계
 **[~] 착수 (2026-07-24 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `scenes/StoryMode.gd`, `tools/StoryAudioSettingsCheck.gd`, `locale/ui_ja.json`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
 
 **사용자 요청:** StoryMode의 기존 글자 크기 조절에 더해 텍스트 출력 속도를 `느리게 / 보통 / 빠르게`로 선택할 수 있게 한다.
 
 **수리 범위·수용 기준:** 장면 설정에 패드 친화적인 3분할 속도 행을 추가하고 선택은 전역 설정으로 즉시·영구 반영한다. 기본값은 현행 체감인 `보통`이며 느리게는 글자를 분명히 따라 읽을 수 있게, 빠르게는 문장 형태를 잃지 않는 범위에서 약 두 배 빠르게 표시한다. 사건 연출 데이터의 `pace=slow`는 사용자 선택을 무시하는 절대속도가 아니라 각 단계 위의 상대적 느린 호흡으로 유지한다. AUTO는 전체 목표 독해시간에서 실제 타이핑 시간을 빼므로 속도를 바꿔도 같은 문단을 두 번 기다리거나 선택지를 자동 확정하지 않는다. 설정 모달은 960×600 한 화면에 맞고 텍스트 크기→속도→언어의 상하 포커스와 좌우 3단계 이동이 일치한다. 런타임 검사는 세 단계 간격 순서·설정 재진입 영속·느린 연출 배율·AUTO 대기 보정·KO/EN/JA 문구와 패드 포커스를 실행한다.
+
+**완료 보고 (2026-07-24 Codex):** 장면 설정에 `느리게 / 보통 / 빠르게` 3분할 행을 추가했다. 기본 `보통`은 기존 0.018초/자 체감을 보존하고, 느리게는 1.65배 간격, 빠르게는 0.5배 간격으로 현재 타이핑부터 즉시 반영되며 전역 설정으로 저장된다. 사건의 `pace=slow`는 선택 단계 위에 1.67배 호흡을 더하는 상대 연출로 유지된다. AUTO는 실제 타이핑 시간을 목표 독해시간에서 빼 세 속도의 총 독해시간이 중복되지 않는다. 포커스는 글자 크기→출력 속도→언어 순서이며 960×600 물리 창에서 무스크롤 패널 경계와 세그먼트 이동을 실행했다. `StoryAudioSettingsCheck`가 속도 비율·새 StoryMode 영속·AUTO 보정·한영 현장 언어 전환·결과 효과 1회·타이머 정지·오디오 연속성을 통과했고 일본어 UI 2,315키도 오류 0이다.
 
 #### [~] ORDER-43 [P0·오디오 REWORK] 파형 합성 전면 퇴출 — 실제 녹음·샘플 기반 팔레트
 **[~] 착수 (2026-07-23 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `CLAUDE.md`, `docs/DECISIONS.md`, `docs/AUDIO_QA.md`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `assets/audio/AUDIO_SOURCE_LEDGER.md`, `assets/audio/AUDIO_PROMPTS.md`, 신규 오디오 출처·크레딧 원장, `assets/scene_audio_manifest.json`, `assets/game_audio_manifest.json`, `assets/mod_asset_manifest.json`, `autoloads/BGMPlayer.gd`, `autoloads/AudioManager.gd`, `tools/generate_audio_p1_assets.py`, `tools/audio_source_audit.py`, `tools/scene_audio_contract_check.py`, `tools/AudioAssetCheck.gd`, `tools/BGMContinuityCheck.gd`, `tools/GameAudioContractCheck.gd`, 신규 샘플 임포트 도구, 교체 대상 `assets/audio/*.wav`, `assets/audio/*.ogg`와 각 `.import`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.

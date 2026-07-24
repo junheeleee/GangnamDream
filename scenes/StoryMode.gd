@@ -22,6 +22,13 @@ const STORY_TEXT_SCALES := {
 	"standard": 1.00,
 	"large": 1.15,
 }
+const STORY_TEXT_SPEED_DEFAULT := "standard"
+const STORY_TEXT_SPEED_LEVELS: Array[String] = ["slow", "standard", "fast"]
+const STORY_TEXT_SPEED_INTERVAL_SCALES := {
+	"slow": 1.65,
+	"standard": 1.00,
+	"fast": 0.50,
+}
 
 # ── 상태 ──────────────────────────────────────────────────────
 var _queue: Array = []          # 재생할 이벤트 ID 목록
@@ -117,6 +124,8 @@ var _audio_sfx_slider: HSlider = null
 var _audio_reduce_motion_toggle: CheckButton = null
 var _story_text_size: String = STORY_TEXT_SIZE_DEFAULT
 var _story_text_size_buttons: Dictionary = {}
+var _story_text_speed: String = STORY_TEXT_SPEED_DEFAULT
+var _story_text_speed_buttons: Dictionary = {}
 var _story_language_buttons: Dictionary = {}
 var _settings_countdown_remaining_msec: int = -1
 var _settings_countdown_total_msec: int = -1
@@ -171,6 +180,8 @@ func _ready():
 	_read_only_replay = GameState.story_replay_mode
 	_story_text_size = _normalized_story_text_size(str(
 		SaveManager.get_setting("story_text_size", STORY_TEXT_SIZE_DEFAULT)))
+	_story_text_speed = _normalized_story_text_speed(str(
+		SaveManager.get_setting("story_text_speed", STORY_TEXT_SPEED_DEFAULT)))
 	_load_fonts()
 	_build_ui()
 	_apply_story_text_size()
@@ -902,6 +913,16 @@ func _create_story_settings_popup(focus_key: String, play_open_sound: bool) -> v
 		],
 		_story_text_size,
 		func(level: String): _set_story_text_size(level))
+	_story_text_speed_buttons = _add_story_segmented_row(
+		column,
+		_tr("출력 속도", "Text Speed"),
+		[
+			{"key": "slow", "label": _tr("느리게", "Slow")},
+			{"key": "standard", "label": _tr("보통", "Normal")},
+			{"key": "fast", "label": _tr("빠르게", "Fast")},
+		],
+		_story_text_speed,
+		func(level: String): _set_story_text_speed(level))
 	_story_language_buttons = _add_story_segmented_row(
 		column,
 		_tr("언어", "Language"),
@@ -1041,6 +1062,11 @@ func _wire_story_settings_focus(
 		var text_button: Button = _story_text_size_buttons.get(level) as Button
 		if is_instance_valid(text_button):
 			text_buttons.append(text_button)
+	var speed_buttons: Array[Button] = []
+	for level in STORY_TEXT_SPEED_LEVELS:
+		var speed_button: Button = _story_text_speed_buttons.get(level) as Button
+		if is_instance_valid(speed_button):
+			speed_buttons.append(speed_button)
 	var language_buttons: Array[Button] = []
 	for lang in LocaleManager.get_selectable_languages():
 		var language_button: Button = _story_language_buttons.get(lang) as Button
@@ -1051,12 +1077,18 @@ func _wire_story_settings_focus(
 		button.focus_neighbor_left = text_buttons[maxi(0, index - 1)].get_path()
 		button.focus_neighbor_right = text_buttons[mini(text_buttons.size() - 1, index + 1)].get_path()
 		button.focus_neighbor_top = close_button.get_path()
+		button.focus_neighbor_bottom = speed_buttons[mini(speed_buttons.size() - 1, index)].get_path()
+	for index in range(speed_buttons.size()):
+		var button := speed_buttons[index]
+		button.focus_neighbor_left = speed_buttons[maxi(0, index - 1)].get_path()
+		button.focus_neighbor_right = speed_buttons[mini(speed_buttons.size() - 1, index + 1)].get_path()
+		button.focus_neighbor_top = text_buttons[mini(text_buttons.size() - 1, index)].get_path()
 		button.focus_neighbor_bottom = language_buttons[mini(language_buttons.size() - 1, index)].get_path()
 	for index in range(language_buttons.size()):
 		var button := language_buttons[index]
 		button.focus_neighbor_left = language_buttons[maxi(0, index - 1)].get_path()
 		button.focus_neighbor_right = language_buttons[mini(language_buttons.size() - 1, index + 1)].get_path()
-		button.focus_neighbor_top = text_buttons[mini(text_buttons.size() - 1, index + 1)].get_path()
+		button.focus_neighbor_top = speed_buttons[mini(speed_buttons.size() - 1, index)].get_path()
 		button.focus_neighbor_bottom = _audio_bgm_slider.get_path()
 	_audio_bgm_slider.focus_neighbor_top = language_buttons[0].get_path()
 	_audio_bgm_slider.focus_neighbor_bottom = _audio_sfx_slider.get_path()
@@ -1077,6 +1109,8 @@ func _story_settings_focus_control(
 		focus_key: String, save_load_button: Button, close_button: Button) -> Control:
 	if focus_key.begins_with("text:"):
 		return _story_text_size_buttons.get(focus_key.trim_prefix("text:")) as Control
+	if focus_key.begins_with("speed:"):
+		return _story_text_speed_buttons.get(focus_key.trim_prefix("speed:")) as Control
 	if focus_key.begins_with("language:"):
 		return _story_language_buttons.get(focus_key.trim_prefix("language:")) as Control
 	match focus_key:
@@ -1182,6 +1216,7 @@ func _close_audio_settings() -> void:
 	_audio_sfx_slider = null
 	_audio_reduce_motion_toggle = null
 	_story_text_size_buttons.clear()
+	_story_text_speed_buttons.clear()
 	_story_language_buttons.clear()
 	popup.queue_free()
 	_resume_story_countdown_after_settings()
@@ -1200,6 +1235,7 @@ func _rebuild_story_settings_popup(focus_key: String) -> void:
 	_audio_sfx_slider = null
 	_audio_reduce_motion_toggle = null
 	_story_text_size_buttons.clear()
+	_story_text_speed_buttons.clear()
 	_story_language_buttons.clear()
 	old_popup.queue_free()
 	_create_story_settings_popup(focus_key, false)
@@ -1219,6 +1255,7 @@ func _replace_story_popup_with_save_page() -> void:
 		_audio_sfx_slider = null
 		_audio_reduce_motion_toggle = null
 		_story_text_size_buttons.clear()
+		_story_text_speed_buttons.clear()
 		_story_language_buttons.clear()
 		old_popup.queue_free()
 	_create_story_save_popup()
@@ -1965,6 +2002,20 @@ func _set_story_text_size(level: String) -> void:
 	_story_text_size = normalized
 	SaveManager.set_setting("story_text_size", normalized)
 	_apply_story_text_size()
+
+func _normalized_story_text_speed(raw_level: String) -> String:
+	return raw_level if raw_level in STORY_TEXT_SPEED_LEVELS else STORY_TEXT_SPEED_DEFAULT
+
+func _set_story_text_speed(level: String) -> void:
+	var normalized := _normalized_story_text_speed(level)
+	if normalized == _story_text_speed:
+		return
+	_story_text_speed = normalized
+	SaveManager.set_setting("story_text_speed", normalized)
+	for speed_level in _story_text_speed_buttons:
+		var button := _story_text_speed_buttons[speed_level] as Button
+		if is_instance_valid(button):
+			button.button_pressed = str(speed_level) == _story_text_speed
 
 func _story_language_options() -> Array:
 	var options: Array = []
@@ -2757,7 +2808,11 @@ func _start_scene_direction_camera(mode: String) -> void:
 		).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 func _direction_type_interval() -> float:
-	return TYPE_SPEED / 0.60 if str(_direction.get("pace", "")) == "slow" else TYPE_SPEED
+	var user_scale: float = float(STORY_TEXT_SPEED_INTERVAL_SCALES.get(
+		_story_text_speed, STORY_TEXT_SPEED_INTERVAL_SCALES[STORY_TEXT_SPEED_DEFAULT]))
+	var authored_scale: float = (
+		1.0 / 0.60 if str(_direction.get("pace", "")) == "slow" else 1.0)
+	return TYPE_SPEED * user_scale * authored_scale
 
 func _begin_direction_beat(text: String) -> void:
 	_direction_beat_waiting = true

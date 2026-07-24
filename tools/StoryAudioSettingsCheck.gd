@@ -6,6 +6,7 @@ var _original_bgm: float
 var _original_sfx: float
 var _original_reduce_motion: bool
 var _original_text_size: String
+var _original_text_speed: String
 var _original_language: String
 
 func _ready() -> void:
@@ -13,9 +14,11 @@ func _ready() -> void:
 	_original_sfx = AudioManager.master_volume
 	_original_reduce_motion = bool(SaveManager.get_setting("reduce_motion", false))
 	_original_text_size = str(SaveManager.get_setting("story_text_size", "standard"))
+	_original_text_speed = str(SaveManager.get_setting("story_text_speed", "standard"))
 	_original_language = LocaleManager.language
 	LocaleManager.set_language("en")
 	SaveManager.set_setting("story_text_size", "standard")
+	SaveManager.set_setting("story_text_speed", "standard")
 	GameState.start_new_game()
 	GameState.pending_story_queue = ["arc_daeun_wedding_walk"]
 	GameState.story_return_scene = "res://scenes/MainGame.tscn"
@@ -59,18 +62,87 @@ func _ready() -> void:
 	var sfx_slider := _story.get("_audio_sfx_slider") as HSlider
 	var motion_toggle := _story.get("_audio_reduce_motion_toggle") as CheckButton
 	var text_buttons: Dictionary = _story.get("_story_text_size_buttons")
+	var speed_buttons: Dictionary = _story.get("_story_text_speed_buttons")
 	var language_buttons: Dictionary = _story.get("_story_language_buttons")
 	var standard_button := text_buttons.get("standard") as Button
 	var large_button := text_buttons.get("large") as Button
+	var slow_speed_button := speed_buttons.get("slow") as Button
+	var standard_speed_button := speed_buttons.get("standard") as Button
+	var fast_speed_button := speed_buttons.get("fast") as Button
 	var korean_button := language_buttons.get("ko") as Button
 	if not is_instance_valid(bgm_slider) or not is_instance_valid(sfx_slider) \
 			or not is_instance_valid(motion_toggle) or not is_instance_valid(standard_button) \
-			or not is_instance_valid(large_button) or not is_instance_valid(korean_button):
+			or not is_instance_valid(large_button) or not is_instance_valid(slow_speed_button) \
+			or not is_instance_valid(standard_speed_button) \
+			or not is_instance_valid(fast_speed_button) \
+			or not is_instance_valid(korean_button):
 		_fail("scene settings controls are incomplete")
 		return
 	if get_viewport().gui_get_focus_owner() != standard_button:
 		_fail("scene settings did not focus the active text-size segment")
 		return
+	if standard_button.focus_neighbor_bottom != standard_speed_button.get_path() \
+			or standard_speed_button.focus_neighbor_top != standard_button.get_path():
+		_fail("text-size and text-speed controller rows are not connected")
+		return
+	var settings_panel := (_story.get("_audio_settings_popup") as Control).get_child(0) as Control
+	var panel_rect := settings_panel.get_global_rect()
+	# StoryMode uses a fixed 1280x800 design canvas that Godot scales into the
+	# physical window, so global control coordinates must be checked in that
+	# canvas rather than against the post-stretch window pixel count.
+	var layout_size := _story.size
+	if panel_rect.position.x < -0.5 or panel_rect.position.y < -0.5 \
+			or panel_rect.end.x > layout_size.x + 0.5 \
+			or panel_rect.end.y > layout_size.y + 0.5:
+		_fail("scene settings rect %s overflowed layout %s" % [
+			str(panel_rect), str(layout_size)])
+		return
+	var settings_column := settings_panel.get_child(0) as Control
+	if settings_column.get_combined_minimum_size().y > settings_column.size.y + 0.5:
+		_fail("scene settings content overflowed its 960x600-scaled panel")
+		return
+
+	var direction_before: Dictionary = (_story.get("_direction") as Dictionary).duplicate(true)
+	_story.set("_direction", {})
+	var normal_interval := float(_story.call("_direction_type_interval"))
+	slow_speed_button.button_pressed = true
+	slow_speed_button.emit_signal("pressed")
+	await get_tree().process_frame
+	var slow_interval := float(_story.call("_direction_type_interval"))
+	if str(SaveManager.get_setting("story_text_speed", "")) != "slow" \
+			or absf((slow_interval / normal_interval) - 1.65) > 0.02:
+		_fail("slow text speed did not save or apply immediately")
+		return
+	fast_speed_button.button_pressed = true
+	fast_speed_button.emit_signal("pressed")
+	await get_tree().process_frame
+	var fast_interval := float(_story.call("_direction_type_interval"))
+	if str(SaveManager.get_setting("story_text_speed", "")) != "fast" \
+			or absf((fast_interval / normal_interval) - 0.50) > 0.02:
+		_fail("fast text speed did not save or apply immediately")
+		return
+	_story.set("_direction", {"pace": "slow"})
+	var authored_slow_interval := float(_story.call("_direction_type_interval"))
+	if absf((authored_slow_interval / fast_interval) - (1.0 / 0.60)) > 0.02:
+		_fail("authored slow pacing did not remain relative to user speed")
+		return
+	_story.set("_direction", {})
+	var auto_sample := (
+		"one two three four five six seven eight nine ten ").repeat(3)
+	_story.call("_set_story_text_speed", "standard")
+	normal_interval = float(_story.call("_direction_type_interval"))
+	var normal_auto_total := (
+		float(auto_sample.length()) * normal_interval
+		+ float(_story.call("_auto_reading_delay", auto_sample)))
+	_story.call("_set_story_text_speed", "fast")
+	fast_interval = float(_story.call("_direction_type_interval"))
+	var fast_auto_total := (
+		float(auto_sample.length()) * fast_interval
+		+ float(_story.call("_auto_reading_delay", auto_sample)))
+	if absf(normal_auto_total - fast_auto_total) > 0.08:
+		_fail("AUTO reading duration double-counted the text-speed setting")
+		return
+	_story.set("_direction", direction_before)
 
 	bgm_slider.value = 0.40
 	sfx_slider.value = 0.55
@@ -122,11 +194,15 @@ func _ready() -> void:
 		_fail("language change did not preserve typing progress")
 		return
 	var rebuilt_language_buttons: Dictionary = _story.get("_story_language_buttons")
+	var rebuilt_speed_buttons: Dictionary = _story.get("_story_text_speed_buttons")
 	var english_button := rebuilt_language_buttons.get("en") as Button
 	var rebuilt_korean_button := rebuilt_language_buttons.get("ko") as Button
+	var rebuilt_fast_speed_button := rebuilt_speed_buttons.get("fast") as Button
 	if not is_instance_valid(english_button) or not is_instance_valid(rebuilt_korean_button) \
+			or not is_instance_valid(rebuilt_fast_speed_button) \
+			or not rebuilt_fast_speed_button.button_pressed \
 			or get_viewport().gui_get_focus_owner() != rebuilt_korean_button:
-		_fail("language rebuild did not preserve controller focus")
+		_fail("language rebuild did not preserve controller focus or text speed")
 		return
 	english_button.button_pressed = true
 	english_button.emit_signal("pressed")
@@ -244,6 +320,9 @@ func _ready() -> void:
 	if str(current.get("id", "")) != "cafe_listen_01":
 		_fail("timed result fixture did not load")
 		return
+	if str(_story.get("_story_text_speed")) != "fast":
+		_fail("text-speed setting did not persist into a new StoryMode scene")
+		return
 	_story.call("_complete_typing")
 	_story.call("_show_choices")
 	await get_tree().process_frame
@@ -292,7 +371,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 
 	_restore_settings()
-	print("STORY_AUDIO_SETTINGS_CHECK_OK text=3 locale=ko/en timer_pause=%d result_replay=0 music_pos=%.3f ambience_pos=%.3f" % [
+	print("STORY_AUDIO_SETTINGS_CHECK_OK text=3 speed=3 locale=ko/en timer_pause=%d result_replay=0 music_pos=%.3f ambience_pos=%.3f" % [
 		paused_remaining, music_pos, ambience_pos])
 	get_tree().quit(0)
 
@@ -342,6 +421,7 @@ func _restore_settings() -> void:
 	AudioManager.set_sfx_volume(_original_sfx)
 	SaveManager.set_setting("reduce_motion", _original_reduce_motion)
 	SaveManager.set_setting("story_text_size", _original_text_size)
+	SaveManager.set_setting("story_text_speed", _original_text_speed)
 	LocaleManager.set_language(_original_language)
 
 func _fail(message: String) -> void:
