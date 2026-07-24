@@ -11,6 +11,7 @@
 `content/endings_en.json`,
 `autoloads/ImageRegistry.gd`, `scenes/MainGame.gd`, `assets/cg/ending_*.png`,
 `assets/cg_acting_manifest.json`, `docs/ART_AI_AUDIT.md`,
+`assets/cast_detail_manifest.json`, `assets/scene_audio_manifest.json`,
 `docs/ART_RESOLUTION_READINESS.md`, `tools/art_resolution_baseline.json`,
 `assets/mod_asset_manifest.json`, `docs/MODDING.md`,
 `tools/ending_distinctness_audit.py`,
