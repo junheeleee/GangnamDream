@@ -47,7 +47,7 @@ func _run() -> void:
 	_restore_settings()
 	ControllerHints.clear_qa_override()
 	if _failures.is_empty():
-		print("INPUT_MATRIX_CHECK_OK modes=3 resolutions=8 brands=3 direct_scenes=9 direct_routes=18 keyboard_tasks=9 action_sets=4")
+		print("INPUT_MATRIX_CHECK_OK modes=3 resolutions=8 brands=3 direct_scenes=9 direct_routes=18 keyboard_tasks=10 action_sets=4")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -295,6 +295,8 @@ func _check_minigame_keyboard_tasks() -> void:
 	await _check_holdem_keyboard()
 	await _check_racetrack_keyboard()
 	await _check_casino_hub_keyboard()
+	await _check_job_hunt_keyboard()
+	await _check_job_hunt_ap_return()
 
 	GameState.load_from_dict(game_state_snapshot)
 	TutorialOverlay._seen.clear()
@@ -450,6 +452,146 @@ func _check_casino_hub_keyboard() -> void:
 	for child in children:
 		await _dispose_keyboard_surface(child)
 
+func _check_job_hunt_keyboard() -> void:
+	var game := await _make_keyboard_surface("res://scenes/JobHuntMiniGame.gd")
+	if game == null:
+		return
+
+	game.call("open", 0)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var layouts: Array = game.get("_choice_layouts")
+	_expect(layouts.size() == 4, "resume session did not prepare four choice layouts")
+	var best_slots := {}
+	var top_score := 0
+	for layout_variant in layouts:
+		var layout: Array = layout_variant
+		if layout.is_empty():
+			continue
+		var best_slot := 0
+		var best_score := -1
+		for choice_index in range(layout.size()):
+			var score := int((layout[choice_index] as Dictionary).get("score", 0))
+			if score > best_score:
+				best_score = score
+				best_slot = choice_index
+		top_score += int((layout[0] as Dictionary).get("score", 0))
+		best_slots[best_slot] = true
+	_expect(best_slots.size() == 3,
+		"resume best answers were not distributed across all three positions: %s" \
+			% [best_slots.keys()])
+	_expect(top_score < layouts.size() * 3 * 0.85,
+		"pressing only the top resume answer can still earn Grade A")
+
+	var first_focus := get_viewport().gui_get_focus_owner()
+	_expect(is_instance_valid(first_focus) and game.is_ancestor_of(first_focus),
+		"resume question did not assign keyboard/controller focus")
+	await _press_key(KEY_RIGHT)
+	var second_focus := get_viewport().gui_get_focus_owner()
+	_expect(is_instance_valid(second_focus) and second_focus != first_focus \
+			and game.is_ancestor_of(second_focus),
+		"resume Right did not move to the next answer card")
+	await _press_key(KEY_ENTER)
+	_expect(bool(game.get("_waiting")), "resume Enter did not select the focused answer")
+
+	game.call("open", 0)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var result := {"quality": -1}
+	game.connect("closed", func(_stress_delta: int, quality: int) -> void:
+		result["quality"] = quality
+	, CONNECT_ONE_SHOT)
+	var question_count := int((game.get("_active_questions") as Array).size())
+	for question_index in range(question_count):
+		game.set("_q_idx", question_index)
+		game.set("_waiting", false)
+		game.call("_on_choose", 0)
+	game.set("_waiting", false)
+	game.call("_show_result")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var confirm_focus := get_viewport().gui_get_focus_owner()
+	_expect(is_instance_valid(confirm_focus) and game.is_ancestor_of(confirm_focus),
+		"resume result did not focus Confirm")
+	await _press_key(KEY_ENTER)
+	_expect(int(result.get("quality", -1)) < 3,
+		"top-only resume answers still produced Grade A")
+
+	game.call("open", 0)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var pad_first_focus := get_viewport().gui_get_focus_owner()
+	await _press_joy(JOY_BUTTON_DPAD_RIGHT)
+	var pad_second_focus := get_viewport().gui_get_focus_owner()
+	_expect(is_instance_valid(pad_second_focus) and pad_second_focus != pad_first_focus \
+			and game.is_ancestor_of(pad_second_focus),
+		"resume gamepad Right did not move to the next answer card")
+	await _press_joy(JOY_BUTTON_A)
+	_expect(bool(game.get("_waiting")), "resume gamepad South did not select the focused answer")
+	await _dispose_keyboard_surface(game)
+
+func _check_job_hunt_ap_return() -> void:
+	var packed := load("res://scenes/MainGame.tscn") as PackedScene
+	_expect(packed != null, "MainGame could not load for resume return focus")
+	if packed == null:
+		return
+	GameState.start_new_game("김민준", "지방_상경", "직장형", "백수", "자유런", "현실")
+	GameState.turn = 2
+	GameState.action_points = 2
+	GameState.current_job = {}
+	GameState.flags["prologue_done"] = true
+	GameState.flags["tutorial_shown"] = true
+	GameState.add_log("InputMatrix resume fixture", "system")
+	TutorialOverlay._seen["main_game"] = true
+	var main_game := packed.instantiate()
+	main_game.set_meta("_screenshot_qa_static_surface", true)
+	add_child(main_game)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	main_game.call("_render_ap_actions")
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	var resume_card: Button = null
+	for card_variant in main_game.get("_ap_grid_cards"):
+		var card := card_variant as Button
+		if card != null and str(card.get_meta("ap_action_fn", "")) == "_ap_write_resume":
+			resume_card = card
+			break
+	_expect(is_instance_valid(resume_card), "week-two AP board did not expose Resume Writing")
+	if not is_instance_valid(resume_card):
+		main_game.queue_free()
+		await get_tree().process_frame
+		return
+	resume_card.pressed.emit()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var game = main_game.get("job_hunt_game")
+	_expect(is_instance_valid(game) and game.visible,
+		"resume AP card did not open the job hunt assessment")
+	if not is_instance_valid(game):
+		main_game.queue_free()
+		await get_tree().process_frame
+		return
+	game.call("_on_finish", 2)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var focus_owner := get_viewport().gui_get_focus_owner()
+	var main_root := main_game.get("_main_ui_root") as Control
+	_expect(is_instance_valid(main_root) and main_root.visible,
+		"AP surface stayed hidden after resume completion")
+	_expect(is_instance_valid(focus_owner) and is_instance_valid(main_root) \
+			and main_root.is_ancestor_of(focus_owner),
+		"resume completion did not return focus to the AP surface")
+	var completed_turn: int = int(GameState.turn)
+	await _press_key(KEY_ENTER)
+	_expect(int(main_game.get_meta("_qa_scene_first_advance_requested", -1)) == completed_turn,
+		"AP surface ignored keyboard Confirm after resume completion")
+	main_game.queue_free()
+	await get_tree().process_frame
+	await get_tree().process_frame
+
 func _open_keyboard_surface(path: String, call_open: bool = true) -> Control:
 	GameState.money = 100_000_000.0
 	var surface := await _make_keyboard_surface(path)
@@ -492,6 +634,18 @@ func _press_key(keycode: Key) -> void:
 	var release := InputEventKey.new()
 	release.keycode = keycode
 	release.physical_keycode = keycode
+	release.pressed = false
+	Input.parse_input_event(release)
+	await get_tree().process_frame
+
+func _press_joy(button_index: JoyButton) -> void:
+	var press := InputEventJoypadButton.new()
+	press.button_index = button_index
+	press.pressed = true
+	Input.parse_input_event(press)
+	await get_tree().process_frame
+	var release := InputEventJoypadButton.new()
+	release.button_index = button_index
 	release.pressed = false
 	Input.parse_input_event(release)
 	await get_tree().process_frame

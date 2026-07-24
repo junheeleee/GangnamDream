@@ -222,6 +222,7 @@ const INTERVIEW_QUESTIONS_PER_SESSION: int = 5
 var current_mode: Mode = Mode.RESUME  # MainGame이 closed 핸들러에서 읽음
 var _mode: Mode = Mode.RESUME
 var _active_questions: Array = []  # 이번 세션에 사용할 랜덤 문항
+var _choice_layouts: Array = []  # 문항별 표시 순서. 최고점 답의 위치를 세션 안에서 분산한다.
 var _q_idx: int = 0
 var _total_score: int = 0
 var _stress_delta: int = 0
@@ -238,7 +239,7 @@ var _progress_lbl: Label
 var _content_vb: VBoxContainer
 var _q_lbl: Label
 var _hint_lbl: Label
-var _choice_vb: VBoxContainer
+var _choice_vb: BoxContainer
 var _feedback_lbl: Label
 var _timer_bar: ProgressBar
 
@@ -304,6 +305,7 @@ func open(mode: Mode) -> void:
 		var picked_normal: Array = normals.slice(0, INTERVIEW_QUESTIONS_PER_SESSION - 1)
 		_active_questions = picked_normal + picked_surprise
 		_active_questions.shuffle()
+	_build_choice_layouts()
 
 	_clear_content()
 	visible = true
@@ -318,6 +320,37 @@ func open(mode: Mode) -> void:
 
 func _get_questions() -> Array:
 	return _active_questions
+
+func _build_choice_layouts() -> void:
+	_choice_layouts.clear()
+	if _active_questions.is_empty():
+		return
+	var best_slot_offset := randi_range(0, 2)
+	for question_index in range(_active_questions.size()):
+		var question: Dictionary = _active_questions[question_index]
+		var choices: Array = question.get("choices", []).duplicate(true)
+		choices.shuffle()
+		if choices.size() >= 3:
+			var best_index := 0
+			var best_score := -1
+			for choice_index in range(choices.size()):
+				var score := int((choices[choice_index] as Dictionary).get("score", 0))
+				if score > best_score:
+					best_score = score
+					best_index = choice_index
+			var target_slot := (question_index + best_slot_offset) % 3
+			if best_index != target_slot:
+				var displaced = choices[target_slot]
+				choices[target_slot] = choices[best_index]
+				choices[best_index] = displaced
+		_choice_layouts.append(choices)
+
+func _choices_for_question(question_index: int) -> Array:
+	if question_index >= 0 and question_index < _choice_layouts.size():
+		return _choice_layouts[question_index]
+	if question_index >= 0 and question_index < _active_questions.size():
+		return (_active_questions[question_index] as Dictionary).get("choices", [])
+	return []
 
 func _clear_content() -> void:
 	for ch in _content_vb.get_children():
@@ -432,8 +465,8 @@ func _start_common() -> void:
 	_content_vb.add_child(_feedback_lbl)
 
 	# 선택지
-	_choice_vb = VBoxContainer.new()
-	_choice_vb.add_theme_constant_override("separation", 7)
+	_choice_vb = HBoxContainer.new()
+	_choice_vb.add_theme_constant_override("separation", 10)
 	_content_vb.add_child(_choice_vb)
 
 	set_process(true)
@@ -453,12 +486,23 @@ func _show_question() -> void:
 	for ch in _choice_vb.get_children():
 		ch.queue_free()
 
-	var choices: Array = q["choices"]
+	var choices: Array = _choices_for_question(_q_idx)
+	var choice_buttons: Array[Button] = []
 	for ci in range(choices.size()):
 		var c: Dictionary = choices[ci]
-		var btn := _make_btn(_loc(c, "text"), COL_PANEL_SOFT, 13)
+		var btn := _make_btn("%02d\n%s" % [ci + 1, _loc(c, "text")], COL_PANEL_SOFT, 14)
+		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		btn.custom_minimum_size = Vector2(0, 132)
+		btn.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		btn.size_flags_stretch_ratio = 1.0
 		btn.pressed.connect(func(): _on_choose(ci))
+		btn.mouse_entered.connect(func():
+			if btn.visible and not btn.disabled:
+				btn.grab_focus()
+		)
 		_choice_vb.add_child(btn)
+		choice_buttons.append(btn)
+	_configure_horizontal_focus(choice_buttons)
 
 	# 면접 타이머 설정
 	if _mode == Mode.INTERVIEW:
@@ -485,8 +529,10 @@ func _on_choose(choice_idx: int) -> void:
 	_timer_active = false
 
 	var questions := _get_questions()
-	var q: Dictionary = questions[_q_idx]
-	var choice: Dictionary = q["choices"][choice_idx]
+	var choices := _choices_for_question(_q_idx)
+	if choice_idx < 0 or choice_idx >= choices.size():
+		return
+	var choice: Dictionary = choices[choice_idx]
 	var score: int = int(choice.get("score", 0))
 	_total_score += score
 
@@ -627,13 +673,42 @@ func _show_result() -> void:
 	ok_btn.custom_minimum_size = Vector2(0, 46)
 	ok_btn.pressed.connect(func(): _on_finish(quality))
 	_content_vb.add_child(ok_btn)
+	ok_btn.call_deferred("grab_focus")
 
 func _on_finish(quality: int) -> void:
 	BGMPlayer.leave_activity_ambience("office")
+	get_viewport().gui_release_focus()
 	visible = false
 	closed.emit(_stress_delta, quality)
 
 # ── 헬퍼 ─────────────────────────────────────────────────────────
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible or _waiting:
+		return
+	var joy_south := event is InputEventJoypadButton \
+			and (event as InputEventJoypadButton).pressed \
+			and int((event as InputEventJoypadButton).button_index) == JOY_BUTTON_A
+	if not event.is_action_pressed("ui_accept") and not joy_south:
+		return
+	var focused := get_viewport().gui_get_focus_owner() as Button
+	if focused == null or not is_ancestor_of(focused) or focused.disabled:
+		return
+	focused.pressed.emit()
+	get_viewport().set_input_as_handled()
+
+func _configure_horizontal_focus(buttons: Array[Button]) -> void:
+	if buttons.is_empty():
+		return
+	for index in range(buttons.size()):
+		var button := buttons[index]
+		var previous := buttons[maxi(0, index - 1)]
+		var following := buttons[mini(buttons.size() - 1, index + 1)]
+		button.focus_neighbor_left = button.get_path_to(previous)
+		button.focus_neighbor_right = button.get_path_to(following)
+		button.focus_previous = button.get_path_to(previous)
+		button.focus_next = button.get_path_to(following)
+	buttons[0].call_deferred("grab_focus")
+
 func _make_btn(text: String, bg_hex: String, font_size: int) -> Button:
 	var btn := Button.new()
 	btn.text = text
@@ -692,9 +767,10 @@ func _add_room_surface() -> void:
 
 func _make_scene_strip() -> Panel:
 	var strip := Panel.new()
-	strip.custom_minimum_size = Vector2(0, 86)
+	strip.custom_minimum_size = Vector2(0, 104)
 	strip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	strip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	strip.clip_contents = true
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color("#0b0b0d")
 	st.border_color = Color("#232329")
@@ -702,22 +778,24 @@ func _make_scene_strip() -> Panel:
 	st.set_corner_radius_all(3)
 	strip.add_theme_stylebox_override("panel", st)
 
-	_add_surface_rect(strip, Vector2(0.05, 0.16), Vector2(0.95, 0.17), Color("#2d2c28", 0.55))
-	_add_surface_rect(strip, Vector2(0.06, 0.74), Vector2(0.94, 0.80), Color("#1f1b16", 0.72))
-	_add_surface_rect(strip, Vector2(0.08, 0.82), Vector2(0.92, 0.86), Color("#11100e", 0.85))
+	var background_path := "res://assets/ui/job_hunt/mock_interview_strip.png" \
+			if _mode == Mode.INTERVIEW \
+			else "res://assets/ui/job_hunt/resume_writing_strip.png"
+	if ResourceLoader.exists(background_path):
+		var scene_image := TextureRect.new()
+		scene_image.set_anchors_preset(Control.PRESET_FULL_RECT)
+		scene_image.texture = load(background_path)
+		scene_image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		scene_image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		scene_image.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		scene_image.modulate = Color(0.92, 0.92, 0.90, 1.0)
+		strip.add_child(scene_image)
 
-	if _mode == Mode.INTERVIEW:
-		for x in [0.32, 0.50, 0.68]:
-			_add_surface_rect(strip, Vector2(x - 0.018, 0.31), Vector2(x + 0.018, 0.42), Color("#1a1b1f", 0.82))
-			_add_surface_rect(strip, Vector2(x - 0.052, 0.45), Vector2(x + 0.052, 0.67), Color("#15161a", 0.78))
-			_add_surface_rect(strip, Vector2(x - 0.066, 0.67), Vector2(x + 0.066, 0.70), Color("#24211b", 0.56))
-		_add_surface_rect(strip, Vector2(0.20, 0.24), Vector2(0.80, 0.25), Color("#c8c2ad", 0.08))
-	else:
-		for x in [0.25, 0.39, 0.53]:
-			_add_surface_rect(strip, Vector2(x, 0.27), Vector2(x + 0.10, 0.66), Color("#c8c2ad", 0.07))
-			_add_surface_rect(strip, Vector2(x + 0.018, 0.36), Vector2(x + 0.082, 0.37), Color("#c8c2ad", 0.12))
-			_add_surface_rect(strip, Vector2(x + 0.018, 0.47), Vector2(x + 0.072, 0.48), Color("#c8c2ad", 0.10))
-			_add_surface_rect(strip, Vector2(x + 0.018, 0.58), Vector2(x + 0.088, 0.59), Color("#c8c2ad", 0.08))
+	var shade := ColorRect.new()
+	shade.set_anchors_preset(Control.PRESET_FULL_RECT)
+	shade.color = Color("#050506", 0.18 if _mode == Mode.RESUME else 0.24)
+	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	strip.add_child(shade)
 	return strip
 
 func _add_surface_rect(parent: Control, start_anchor: Vector2, end_anchor: Vector2, color: Color, offsets: Vector2 = Vector2.ZERO) -> void:

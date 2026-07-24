@@ -34,6 +34,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Change area | Fast QA command |
 |---|---|
 | Six-month audio dramaturgy: Knee family-home identity, uninterrupted family motif, paragraph foley, audible default room/human mix, exact goshiwon/convenience/office/hospital source identity, ten demo music keys, maximum one unscored root, KO/EN parity | `audio_source_audit.py`, `AudioAssetCheck.tscn`, `BGMContinuityCheck.tscn`, `GameAudioContractCheck.tscn`, then `--qa=demo-experience --lang=ko/en --demo-build` and `python3 tools/demo_experience_audit.py <ko.json> <en.json>` |
+| Last-payment public office: `public_office` room tone, recorded queue ding-dong only after choice 0 result paragraph 0 begins, no waiting-description/locale-switch/result-rerender replay, provenance and stream present | `python3 tools/audio_source_audit.py`, `python3 tools/scene_audio_contract_check.py`, then `BGMContinuityCheck.tscn` |
 | Opening job causality: cash-first and preparation-first submit no application and receive no week-two interview; job-first records exactly one application, never interviews in the same week, unlocks the Mapo interview only later while unemployed, and preserves post-interview `Keep Applying` | `CoreChoiceSliceCheck.tscn` plus `DemoBuildCheck.tscn -- --demo-build` |
 | First-run language gate, KO default names, localized portrait name tags | `--qa=locale-gate` |
 | Prologue motivation imprint: Knee, Last Payment, notebook choices, persistent goal sentence, notebook modal, montage, and month-end ritual | `--qa=motivation-imprint --lang=ko/en` |
@@ -95,7 +96,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Representative ending modals, graded CG/card surface, Burnout's exact emergency-bed CG, dedicated symbols for Ordinary Life/Mental Collapse/Stable Success, fallback mood cards, and final Time Ledger card | `--qa=endings-en --lang=ko/en` |
 | Title collection and meta-title reward surface | `--qa=title-en` |
 | Tutorial overlay surface and onboarding copy | `--qa=tutorial-en` |
-| Job hunt/career modal tier pages and resume/interview minigame surface | `--qa=job-en` |
+| Job hunt/career modal: four resume questions with best answers distributed across left/center/right, top-only route below Grade A, three equal-width left-to-right 14px cards, hover/focus sync, keyboard/pad movement and confirm, post-result AP focus restore, dedicated uncropped 1881×210 resume/interview strips, KO/EN 960×600 fit | `InputMatrixCheck.tscn`, then `--qa=job-en --lang=ko/en` at 960×600 |
 | Part-time shifts: cards, convenience customer→response→next-customer controller focus loop, no focus theft on another-customer timeout, delivery route, mode-specific background/ambience, KO/EN crop | `--qa=aruba-en --lang=ko/en` |
 | Event-scene text size + language + Music/Ambience + SFX + Reduce Motion, dedicated Menu input, timed-choice pause/focus restore, result no-replay, and no stream restart | `StoryAudioSettingsCheck.tscn` plus `--qa=story-audio --lang=ko/en` at 1280x720 and 1280x800 |
 | Casino/minigame UI, direct controller cursors, physical stages, activity ambience, and phase-locked Jeongseon floor/table motif | `game_audio_contract_check.py`, `GameAudioContractCheck.tscn`, `BGMContinuityCheck.tscn`, then `--qa=casino-en` |

@@ -64,6 +64,8 @@ hash, output hash, license, and edit summary is recorded in
   Freesound 360629, CC0 1.0: https://freesound.org/s/360629/
 - Kinoton, `Room Tone, Empty Hospital`, Freesound 670070, CC0 1.0:
   https://freesound.org/s/670070/
+- LG, `20231229 - Duisburg station announcement ding dong`, Freesound 718032,
+  CC0 1.0: https://freesound.org/s/718032/
 
 No source in this palette permits its raw files to be redistributed as a
 standalone library. The game's mod manifest exposes only the edited shipping

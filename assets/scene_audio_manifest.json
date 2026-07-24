@@ -123,7 +123,11 @@
     "story_last_payment_wait": {
       "ambience": "public_office",
       "music": {"key": "grief", "start_paragraph": 1},
-      "paragraph_cues": {"1": [{"sfx": "queue_chime", "volume_db": -5.0}]}
+      "result_paragraph_cues": {
+        "0": {
+          "0": [{"sfx": "queue_chime", "delay": 0.22, "volume_db": -1.0}]
+        }
+      }
     },
     "story_last_payment_word": {
       "ambience": "public_office",

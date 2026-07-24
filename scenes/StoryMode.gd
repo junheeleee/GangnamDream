@@ -2427,7 +2427,11 @@ func _on_advance():
 		_maybe_change_event_background(_para_index)
 		_maybe_reveal_event_portrait(_para_index)
 		_maybe_reveal_event_cg(_para_index)
-		if not _pending_after_result:
+		if _pending_after_result:
+			AudioManager.play_scene_result_paragraph_cues(
+				str(_current.get("id", "")), _event_cg_id,
+				_pending_result_choice_index, _para_index)
+		else:
 			_play_current_paragraph_audio(_para_index)
 		if str(_direction.get("pace", "")) == "beat":
 			_begin_direction_beat(str(_paragraphs[_para_index]))
@@ -3264,6 +3268,8 @@ func _on_choice(idx: int):
 			_paragraphs = [result]
 		_para_index = 0
 		_pending_after_result = true
+		AudioManager.play_scene_result_paragraph_cues(
+			current_event_id, _event_cg_id, idx, _para_index)
 		_start_typing(_paragraphs[0])
 	else:
 		_after_result()

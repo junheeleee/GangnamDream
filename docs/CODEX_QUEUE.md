@@ -54,14 +54,16 @@
 
 **완료 보고 (2026-07-23 Codex):** StoryMode가 이전 배경과 초상을 실제 스냅샷으로 보존한 뒤 새 장면을 아래에서 드러낸다. 고시원→창원 집은 0.78초 저채도 기억 디졸브, 창원 집→여섯 해 뒤 공공 창구는 0.86초 무광 암전, 명시 이동은 0.54초 중립 크로스페이드이며 같은 장소 네 연결은 효과가 없다. 새 본문·AUTO·입력은 전환이 끝날 때까지 멈추고 텍스트·이름표·새 초상은 배경 뒤에 들어온다. Reduce Motion은 0.24초 불투명도만 쓴다. 실제 세 후속 경로, 전환 중 문장 정지, 이전 프레임 보존, 같은 장소 무전환을 `StoryPlaybackCheck`가 실행한다. 한국어 1280×800 시작·중간·도착 7프레임과 영어 StoryMode 31프레임을 육안 확인했으며 서사 원장 64전환, KO/EN, 사건 내 설정, 입력 행렬, 55개 GDScript 컴파일을 포함한 전체 `audit.sh`가 `✅ 감사 통과`했다. 장면 감각의 최종 GO는 다음 사용자 실플레이가 판단한다.
 
-#### [~] USER-P0D [P0·데모 오디오 수리] 마지막 상환 번호표 호출음
+#### [x] USER-P0D [P0·데모 오디오 수리] 마지막 상환 번호표 호출음
 **[~] 착수 (2026-07-24 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `tools/build_sample_audio_assets.py`, `tools/audio_source_audit.py`, `assets/audio/sfx_queue_chime.wav`, `assets/audio/AUDIO_SOURCE_MANIFEST.json`, `assets/audio/AUDIO_SOURCE_LEDGER.md`, `assets/audio/AUDIO_THIRD_PARTY_NOTICES.md`, `assets/scene_audio_manifest.json`, `assets/mod_asset_manifest.json`, `docs/MODDING.md`, `autoloads/AudioManager.gd`, `scenes/StoryMode.gd`, `tools/scene_audio_contract_check.py`, `tools/BGMContinuityCheck.gd`, `docs/AUDIO_QA.md`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 필요하면 Godot가 동일 경로의 `.import` 메타만 갱신한다. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
 
 **사용자 실플레이 진단:** "`번호표 147` 공공 창구에서도 고시원과 같은 소리가 난다. 여기서는 띵동 하면서 번호표 소리가 나야 한다." 현재 장소 계약은 `public_office`지만 `sfx_queue_chime.wav`의 실제 원본이 의료용 체온계 단음이며, 호출 전 설명 문단에 배치되어 장면 의미와 음색·타이밍이 모두 맞지 않는다.
 
 **수리 범위·수용 기준:** 실제 공공 안내 시스템에서 녹음된 상업 이용 가능 샘플로 번호표 호출음을 교체하고 출처·라이선스·원본/출력 해시를 원장에 고정한다. `story_last_payment_wait`는 고시원 룸톤이 아닌 `public_office`를 실제 재생해야 하며, 호출음은 선택 결과의 "전광판이 짧게 울렸다"가 시작될 때 한 번만 난다. 설명 문단·언어 전환·재렌더에서는 중복 재생하지 않는다. 결과 문단 큐를 데이터 계약으로 추가하고 런타임·정적 감사가 장소 키, 실재 스트림, 정확한 결과 문단, 1회 재생을 검증한다.
 
-#### [~] USER-P0E [P0·입력/게임성 수리] 지원서 정답 고정·AP 복귀 포커스
+**완료 보고 (2026-07-24 Codex):** `sfx_queue_chime.wav`를 LG의 CC0 Freesound 718032 실제 안내 띵동으로 교체하고 URL·라이선스·원본/출력 SHA-256·편집 이력을 원장에 고정했다. `story_last_payment_wait`는 `public_office`를 유지하며 호출음은 선택 0 결과 문단 0의 0.22초 지점에 한 번만 난다. 설명·언어 전환·동일 결과 재렌더에서는 반복하지 않는다. 출처 감사는 139개 전부 녹음/샘플·합성 0, 장면 계약은 데모 45건·폴리 42건, BGM 런타임은 결과 문단 1회 재생을 통과했고 전체 `audit.sh`가 55개 스크립트 컴파일까지 `✅ 감사 통과`했다. 실제 음량·공간감은 사용자 청취 OPEN이다.
+
+#### [x] USER-P0E [P0·입력/게임성 수리] 지원서 정답 고정·AP 복귀 포커스
 **[~] 착수 (2026-07-24 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `scenes/JobHuntMiniGame.gd`, `scenes/MainGame.gd`, `tools/InputMatrixCheck.gd`, `locale/ui_ja.json`, 신규 `assets/ui/job_hunt/resume_writing_strip.png`, 신규 `assets/ui/job_hunt/mock_interview_strip.png`와 Godot `.import`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
 
 **범위 확장 (2026-07-24 사용자 UI 피드백):** 기존의 모호한 회색 책상 블록과 일반 배경 중앙 크롭을 폐기한다. 지원서 작성과 모의면접은 각각 실제 슬롯과 같은 약 9:1 원본을 별도 생성해, 고시원 지원서 책상과 지원자 시점 면접 테이블이 잘림 없이 즉시 읽혀야 한다. 두 이미지는 Gangnam Ink, 물리적 공간 정합, 무문자·무로고, 주요 인물 비혼동 규칙을 지키며 960×600 KO/EN 실렌더에서 선택 카드보다 앞서 시선을 빼앗지 않는다.
@@ -69,6 +71,8 @@
 **사용자 실플레이 진단:** "지원서 다듬기 맨 위 것만 누르면 A가 나오고, 끝난 뒤 AP 행동 화면에서 키가 안 먹는다." 실제로 모든 지원서 문항의 3점 답이 원본 배열 0번에 고정돼 있고, 구직 미니게임 종료 핸들러만 AP 행동 보드 재렌더·포커스 복구를 호출하지 않는다.
 
 **수리 범위·수용 기준:** 한 세션의 정답 위치를 문항마다 섞되 첫 세 문항에서 최고점 위치 0·1·2가 한 번씩 나오도록 분산해 맨 위 연타로 A를 받을 수 없게 한다. 질문·다음 문항·결과 확인은 마우스 호버와 키보드/패드 포커스를 동기화하고, 결과 확인 뒤에는 실제 갱신된 AP 보드를 다시 렌더해 이전 카드 위치 또는 유효한 첫 카드로 포커스를 복원한다. 런타임 검사는 맨 위 답만 네 번 선택했을 때 A 미달, 키보드·패드 문항 이동/확인, 종료 뒤 AP 카드 포커스와 방향키 이동을 실행한다.
+
+**완료 보고 (2026-07-24 Codex):** 문항별 답을 섞고 첫 세 최고점 위치를 좌·중·우에 한 번씩 배치했다. 선택지는 14px 동일 폭 가로 카드 세 장이며 좌우 방향 이동, 마우스 호버 포커스, 키보드/패드 South 확인을 공유한다. 결과 확인 뒤 갱신된 AP 보드를 다시 렌더해 입력을 복구한다. 회색 추상 장식과 일반 배경 크롭은 정본 고시원 책상 및 지원자 시점 면접 테이블을 위해 새로 구성한 `1881×210` 전용 Gangnam Ink 이미지 두 장으로 교체했다. `InputMatrixCheck`가 최고점 3분산·첫 카드 연타 A 미달·키보드/패드·실제 AP 복귀를 실행했고, 960×600 KO/EN `job-en` 각 11컷에서 이미지·최장 문장·포커스·줄바꿈을 육안 확인했다. 일본어 UI 키와 모드 매니페스트를 갱신했으며 전체 `audit.sh`가 `✅ 감사 통과`했다. 문항 재미는 사용자 재플레이 OPEN이다.
 
 #### [~] ORDER-43 [P0·오디오 REWORK] 파형 합성 전면 퇴출 — 실제 녹음·샘플 기반 팔레트
 **[~] 착수 (2026-07-23 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `CLAUDE.md`, `docs/DECISIONS.md`, `docs/AUDIO_QA.md`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `assets/audio/AUDIO_SOURCE_LEDGER.md`, `assets/audio/AUDIO_PROMPTS.md`, 신규 오디오 출처·크레딧 원장, `assets/scene_audio_manifest.json`, `assets/game_audio_manifest.json`, `assets/mod_asset_manifest.json`, `autoloads/BGMPlayer.gd`, `autoloads/AudioManager.gd`, `tools/generate_audio_p1_assets.py`, `tools/audio_source_audit.py`, `tools/scene_audio_contract_check.py`, `tools/AudioAssetCheck.gd`, `tools/BGMContinuityCheck.gd`, `tools/GameAudioContractCheck.gd`, 신규 샘플 임포트 도구, 교체 대상 `assets/audio/*.wav`, `assets/audio/*.ogg`와 각 `.import`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.

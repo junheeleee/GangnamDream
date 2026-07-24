@@ -36,9 +36,9 @@ edit history. Raw third-party libraries remain outside the repository.
 | Keyboard Soundpack #1 | unicaegames | CC0 1.0 | Human typing and key presses |
 | Storm & Siren | TinyWorlds | CC0 1.0 | Civil-defense/storm siren |
 | Crash Collision | qubodup | CC0 1.0 | Bicycle collision impact layer |
-| Twelve scene-specific Freesound recordings | Eirikr, unreadpages, giovannapaludetto, DylanTheFish, aghirlandaio, takecoins, cMilan, ecfike, mzui, JohnsonBrandEditing, Pfannkuchn, Kinoton | CC0 1.0 | Barcode scanner, bus, wedding, casino, slot, roulette, apartment, office, convenience store, gym, and hospital |
+| Thirteen scene-specific Freesound recordings | Eirikr, unreadpages, giovannapaludetto, DylanTheFish, aghirlandaio, takecoins, cMilan, ecfike, mzui, JohnsonBrandEditing, Pfannkuchn, Kinoton, LG | CC0 1.0 | Barcode scanner, bus, wedding, casino, slot, roulette, apartment, office, convenience store, gym, hospital, and public announcement chime |
 
-The audit reports 20 source records: the eight libraries above plus twelve
+The audit reports 21 source records: the eight libraries above plus thirteen
 individually pinned Freesound takes. Each take has its own author, sound page,
 source hash, and edit history in the machine-readable manifest.
 
@@ -61,7 +61,7 @@ cue silent; they never synthesize a substitute.
 Expected audit result:
 
 ```text
-AUDIO_SOURCE_AUDIT_OK assets=139 bgm=20 ambience=49 sfx=70 source_libraries=20 recordings_or_samples=139 procedural=0
+AUDIO_SOURCE_AUDIT_OK assets=139 bgm=20 ambience=49 sfx=70 source_libraries=21 recordings_or_samples=139 procedural=0
 ```
 
 The builder normalizes every Ogg page to a filename-derived stream serial and
@@ -71,7 +71,7 @@ random container metadata.
 
 The audit also rejects known semantic substitutions such as metro halls behind
 goshiwon walls, food courts in convenience stores or casinos, thermometer
-beeps as barcode scanners, truck passes as buses, and radio controls as roulette
+beeps as barcode scanners or queue calls, truck passes as buses, and radio controls as roulette
 wheels. This proves provenance, inventory, hashes, basic duration/loudness,
 semantic source identity, and absence of known synthesis code. It does not
 approve musical taste, fatigue, or final mix quality. Those remain human

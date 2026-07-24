@@ -13150,7 +13150,7 @@ func _ap_create_content():
 func _ap_write_resume():
 	if GameState.action_points <= 0:
 		return
-	turn_action_log.append(_tr("Resume writing — assessment started", "Resume Writing — assessment started"))
+	turn_action_log.append(_tr("지원서 다듬기 — 평가 시작", "Resume Writing — assessment started"))
 	_enter_minigame_overlay(job_hunt_game)
 	job_hunt_game.open(0)  # Mode.RESUME = 0
 
@@ -13207,6 +13207,7 @@ func _on_job_hunt_closed(stress_delta: int, quality: int) -> void:
 	GameState.finalize_weekly_commitment(action_id, "", {"quality": quality})
 	GameState.stats_changed.emit()
 	_refresh_all()
+	_render_ap_actions()
 
 func _ap_move_housing():
 	# AP 소비 없음 — 이사는 자금으로 하는 결정

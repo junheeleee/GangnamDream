@@ -280,6 +280,7 @@ def check_source_semantics(payload: dict[str, Any], errors: list[str]) -> None:
         "sfx_roulette_wheel.wav": ("spin_sound", "roulette"),
         "sfx_casino_reel.wav": ("slot",),
         "sfx_slot_start.wav": ("slot",),
+        "sfx_queue_chime.wav": ("announcement", "ding_dong", "queue_chime"),
     }
     for name, tokens in required_any.items():
         haystack = source_haystack(name)
@@ -300,6 +301,7 @@ def check_source_semantics(payload: dict[str, Any], errors: list[str]) -> None:
         "sfx_casino_reel.wav": ("counting machine",),
         "sfx_slot_start.wav": ("tape measure",),
         "sfx_race_gate.wav": ("car door",),
+        "sfx_queue_chime.wav": ("thermometer",),
     }
     for name, tokens in forbidden.items():
         haystack = source_haystack(name)

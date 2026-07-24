@@ -181,6 +181,15 @@
       "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
       "source_url": "https://freesound.org/s/670070/",
       "attribution_required": false
+    },
+    "freesound_queue_chime_cc0": {
+      "provider": "LG",
+      "title": "20231229 - Duisburg station announcement ding dong",
+      "source_type": "field_recording",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_url": "https://freesound.org/s/718032/",
+      "attribution_required": false
     }
   },
   "assets": {
@@ -3565,14 +3574,14 @@
       "provenance": "field_recording",
       "sources": [
         {
-          "pack": "sonniss_gdc_2026",
-          "original_file": "InMotionAudio - Medical Thermometer/BEEPMed_Thermometer_Beep11_InMotionAudio_MedicalThermometer.wav",
-          "sha256": "a7763b1ade61facc164d0cc548f2468c2b03c83555bdca7e98c91c3a63b308e8",
+          "pack": "freesound_queue_chime_cc0",
+          "original_file": "718032_announcement_ding_dong_hq.mp3",
+          "sha256": "21704e0fe80ba20f962b1bcf9739431ab6c86ae134441c6dfe2ad33b21d42c85",
           "source_type": "field_recording"
         }
       ],
-      "transform": "recorded one-shot edit; mono 44.1kHz; max 0.45s; RMS -28.0 dBFS",
-      "output_sha256": "1e0b54b4ea120a04675616a042f46837f2fbb9a81d9420eef29278be57ab8c89"
+      "transform": "recorded one-shot edit; mono 44.1kHz; max 2.35s; RMS -22.0 dBFS",
+      "output_sha256": "27cf8462a4fdb2978692242667b7f896447bd07737fef31616610e0d49535d7d"
     },
     "sfx_race_crowd_rise.wav": {
       "provenance": "field_recording",

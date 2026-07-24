@@ -467,6 +467,41 @@ func _ready() -> void:
 		_fail("Hyunsu physical reunion did not open with human ambience and intimate music")
 		return
 
+	# 마지막 상환은 고시원 베드를 끌고 오지 않고 공공 창구로 바뀐다.
+	# 호출음은 대기 설명이 아니라 147번이 실제로 불리는 결과 문단에서 한 번만 난다.
+	var last_payment_wait: Dictionary = DataRegistry.find_event("story_last_payment_wait")
+	if last_payment_wait.is_empty():
+		_fail("last-payment queue audio fixture is missing")
+		return
+	BGMPlayer.set_ambience("room")
+	await get_tree().create_timer(0.08).timeout
+	var goshiwon_stream: AudioStream = BGMPlayer._ambience_player.stream
+	BGMPlayer.update_event_ambience(last_payment_wait)
+	await get_tree().create_timer(0.18).timeout
+	if BGMPlayer._current_ambience_key != "public_office" \
+			or not BGMPlayer._ambience_player.playing \
+			or BGMPlayer._ambience_player.stream == goshiwon_stream:
+		_fail("last-payment queue retained the goshiwon ambience")
+		return
+	AudioManager.begin_story_audio_event("story_last_payment_wait")
+	AudioManager.play_scene_paragraph_cues("story_last_payment_wait", "", 1)
+	await get_tree().process_frame
+	if _sfx_stream_count("queue_chime") != 0:
+		_fail("queue chime played before number 147 was called")
+		return
+	AudioManager.play_scene_result_paragraph_cues(
+		"story_last_payment_wait", "", 0, 0)
+	await get_tree().create_timer(0.30).timeout
+	if _sfx_stream_count("queue_chime") != 1:
+		_fail("number 147 result did not play exactly one queue chime")
+		return
+	AudioManager.play_scene_result_paragraph_cues(
+		"story_last_payment_wait", "", 0, 0)
+	await get_tree().process_frame
+	if _sfx_stream_count("queue_chime") != 1:
+		_fail("number 147 result replayed its queue chime")
+		return
+
 	# 신부 입장 반응은 장면 진입음이 아니라 해당 문단에서 한 번만 겹친다.
 	AudioManager.begin_story_audio_event("arc_daeun_wedding_walk")
 	AudioManager.play_scene_paragraph_cues(
@@ -778,3 +813,13 @@ func _sfx_stream_playing(sound_id: String) -> bool:
 		if player.playing and player.stream == expected:
 			return true
 	return false
+
+func _sfx_stream_count(sound_id: String) -> int:
+	var expected: AudioStream = AudioManager._sounds.get(sound_id)
+	if expected == null:
+		return 0
+	var count := 0
+	for player: AudioStreamPlayer in AudioManager._pool:
+		if player.playing and player.stream == expected:
+			count += 1
+	return count

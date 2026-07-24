@@ -196,6 +196,12 @@ PACKS: dict[str, dict[str, Any]] = {
     "freesound_hospital_cc0": _freesound_pack(
         "Kinoton", "Room Tone, Empty Hospital", 670070, "field_recording"
     ),
+    "freesound_queue_chime_cc0": _freesound_pack(
+        "LG",
+        "20231229 - Duisburg station announcement ding dong",
+        718032,
+        "field_recording",
+    ),
 }
 
 
@@ -469,6 +475,10 @@ SOURCES: dict[str, tuple[str, str]] = {
         "freesound_office_cc0",
         "135097_office_room_tone_hq.mp3",
     ),
+    "queue_ding_dong": (
+        "freesound_queue_chime_cc0",
+        "718032_announcement_ding_dong_hq.mp3",
+    ),
     "convenience_room": (
         "freesound_convenience_cc0",
         "244309_convenience_store_hq.mp3",
@@ -661,7 +671,12 @@ SFX_RECIPES: dict[str, dict[str, Any]] = {
     "sfx_traffic_pass.wav": {"layers": [L("traffic", 0, 7)], "max": 2.6, "db": -24},
     "sfx_kettle_pour.wav": {"layers": [L("water_pour")], "max": 2.5, "db": -24},
     "sfx_bus_arrival.wav": {"layers": [L("bus_arrival", 0, 2.5)], "max": 2.8, "db": -23},
-    "sfx_queue_chime.wav": {"layers": [L("thermometer_beep")], "max": 0.45, "db": -28},
+    "sfx_queue_chime.wav": {
+        "layers": [L("queue_ding_dong", 0, 0.12)],
+        "min": 1.35,
+        "max": 2.35,
+        "db": -22,
+    },
 }
 
 

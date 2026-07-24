@@ -115,7 +115,7 @@ const _SFX_MIX_TRIM_DB = {
 	"traffic_pass": -2.0,
 	"kettle_pour": -2.0,
 	"bus_arrival": -4.0,
-	"queue_chime": -4.0,
+	"queue_chime": 0.0,
 }
 
 # wav 파일 → AudioManager key 매핑
@@ -397,6 +397,30 @@ func play_scene_paragraph_cues(event_id: String, cg_id: String, paragraph_index:
 	if not (paragraph_cues is Dictionary):
 		return
 	var raw_cues: Variant = paragraph_cues.get(str(paragraph_index), null)
+	_play_story_cue_list(
+		event_id, cg_id, "description:%d" % paragraph_index, raw_cues)
+
+func play_scene_result_paragraph_cues(
+		event_id: String,
+		cg_id: String,
+		choice_index: int,
+		paragraph_index: int) -> void:
+	var contract := BGMPlayer.scene_audio_contract(event_id, cg_id)
+	var result_cues: Variant = contract.get("result_paragraph_cues", null)
+	if not (result_cues is Dictionary):
+		return
+	var choice_cues: Variant = result_cues.get(str(choice_index), null)
+	if not (choice_cues is Dictionary):
+		return
+	var raw_cues: Variant = choice_cues.get(str(paragraph_index), null)
+	_play_story_cue_list(
+		event_id, cg_id, "result:%d:%d" % [choice_index, paragraph_index], raw_cues)
+
+func _play_story_cue_list(
+		event_id: String,
+		cg_id: String,
+		scope: String,
+		raw_cues: Variant) -> void:
 	if not (raw_cues is Array):
 		return
 	for cue_index in range(raw_cues.size()):
@@ -406,7 +430,8 @@ func play_scene_paragraph_cues(event_id: String, cg_id: String, paragraph_index:
 		var sound_id := str(raw_cue.get("sfx", ""))
 		if sound_id.is_empty() or not _sounds.has(sound_id):
 			continue
-		var cue_token := "%s:%s:%d:%d:%s" % [event_id, cg_id, paragraph_index, cue_index, sound_id]
+		var cue_token := "%s:%s:%s:%d:%s" % [
+			event_id, cg_id, scope, cue_index, sound_id]
 		if _story_audio_seen.has(cue_token):
 			continue
 		_story_audio_seen[cue_token] = true

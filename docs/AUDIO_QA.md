@@ -1,6 +1,6 @@
 # Gangnam Dream Audio QA
 
-Updated: 2026-07-23
+Updated: 2026-07-24
 
 Production gate: an audio file existing and loading is not the same as launch approval. Every asset must also satisfy `docs/PRODUCTION_ASSET_PIPELINE.md`: commercial provenance, clean head/tail, mix balance, semantic runtime mapping, image-paired listening, and 30-minute fatigue QA.
 
@@ -28,6 +28,13 @@ The sound must belong to the same work as the `Gangnam Ink` visual direction.
 | **Total** | **139** | one provenance-tracked recording/sample master each |
 
 All 139 current assets are recording/sample-backed: 20 real-piano scores, 49 field-recorded ambience beds, and 70 recorded physical/UI/gameplay effects. `assets/audio/AUDIO_SOURCE_MANIFEST.json` records the exact source and transform for every file, and `tools/audio_source_audit.py` rejects synthesized provenance, code, and known source-to-scene substitutions.
+
+## Public Office Queue Cue
+
+- `story_last_payment_wait` keeps `public_office` room ambience. A queue call is a result-owned physical cue, not a substitute ambience.
+- `queue_chime` uses LG's CC0 field recording `20231229 - Duisburg station announcement ding dong` from Freesound recording 718032. The source and output SHA-256 values, trim, gain, and license are fixed in `assets/audio/AUDIO_SOURCE_MANIFEST.json`.
+- The cue belongs only to choice `0`, result paragraph `0`, with a 0.22-second delay. It does not play in the waiting description, on locale changes, or when the same result paragraph is rendered again.
+- `scene_audio_contract_check.py` rejects a missing stream, wrong result paragraph, missing `public_office`, or a return to a medical/device substitute. `BGMContinuityCheck.tscn` executes the one-shot and locale-switch contract.
 
 ## Launch Identity
 

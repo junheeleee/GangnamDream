@@ -193,6 +193,84 @@ def main() -> int:
                 if not isinstance(volume, (int, float)) or isinstance(volume, bool) or not -30.0 <= volume <= 6.0:
                     errors.append(f"{event_id}: invalid cue volume {volume!r}")
 
+        result_paragraph_cues = contract.get("result_paragraph_cues", {})
+        if not isinstance(result_paragraph_cues, dict):
+            errors.append(f"{event_id}: result_paragraph_cues must be an object")
+            continue
+        choices = event.get("choices", [])
+        if not isinstance(choices, list):
+            choices = []
+        for raw_choice_index, paragraph_map in result_paragraph_cues.items():
+            try:
+                choice_index = int(raw_choice_index)
+            except (TypeError, ValueError):
+                errors.append(
+                    f"{event_id}: invalid result cue choice {raw_choice_index!r}"
+                )
+                continue
+            if choice_index < 0 or choice_index >= len(choices):
+                errors.append(
+                    f"{event_id}: result cue choice {choice_index} is absent"
+                )
+                continue
+            if not isinstance(paragraph_map, dict):
+                errors.append(
+                    f"{event_id}: result cue choice {choice_index} must be an object"
+                )
+                continue
+            result_text = str(choices[choice_index].get("result_text", ""))
+            result_count = paragraph_count(result_text)
+            for raw_index, cues in paragraph_map.items():
+                try:
+                    cue_index = int(raw_index)
+                except (TypeError, ValueError):
+                    errors.append(
+                        f"{event_id}: invalid result cue paragraph {raw_index!r}"
+                    )
+                    continue
+                if cue_index < 0 or cue_index >= result_count:
+                    errors.append(
+                        f"{event_id}: result cue paragraph {cue_index} is absent "
+                        f"from choice {choice_index}"
+                    )
+                if not isinstance(cues, list) or not cues:
+                    errors.append(
+                        f"{event_id}: result choice {choice_index} paragraph "
+                        f"{cue_index} needs a nonempty cue list"
+                    )
+                    continue
+                for cue in cues:
+                    if not isinstance(cue, dict):
+                        errors.append(
+                            f"{event_id}: result choice {choice_index} paragraph "
+                            f"{cue_index} cue must be an object"
+                        )
+                        continue
+                    sfx = str(cue.get("sfx", ""))
+                    if sfx not in sfx_keys:
+                        errors.append(
+                            f"{event_id}: result choice {choice_index} paragraph "
+                            f"{cue_index} uses unknown SFX {sfx!r}"
+                        )
+                    delay = cue.get("delay", 0.0)
+                    volume = cue.get("volume_db", 0.0)
+                    if (
+                        not isinstance(delay, (int, float))
+                        or isinstance(delay, bool)
+                        or delay < 0.0
+                    ):
+                        errors.append(
+                            f"{event_id}: invalid result cue delay {delay!r}"
+                        )
+                    if (
+                        not isinstance(volume, (int, float))
+                        or isinstance(volume, bool)
+                        or not -30.0 <= volume <= 6.0
+                    ):
+                        errors.append(
+                            f"{event_id}: invalid result cue volume {volume!r}"
+                        )
+
     demo_contracts = {
         event_id: event_contracts.get(event_id, {})
         for event_id in DEMO_EVENT_IDS
@@ -217,7 +295,9 @@ def main() -> int:
                 f"{event_id}: expected demo score {expected_key!r}, got {actual_key!r}"
             )
     foley_events = sum(
-        bool(contract.get("paragraph_cues")) for contract in demo_contracts.values()
+        bool(contract.get("paragraph_cues"))
+        or bool(contract.get("result_paragraph_cues"))
+        for contract in demo_contracts.values()
     )
     if foley_events < MIN_DEMO_FOLEY_EVENTS:
         errors.append(
@@ -229,6 +309,35 @@ def main() -> int:
             errors.append(f"{event_id}: prologue memory must use family_home ambience")
         if str(contract.get("music", {}).get("key", "")) != "family":
             errors.append(f"{event_id}: prologue memory must preserve family motif")
+
+    queue_contract = demo_contracts.get("story_last_payment_wait", {})
+    if queue_contract.get("ambience") != "public_office":
+        errors.append("story_last_payment_wait: queue scene must use public_office ambience")
+    description_queue_cues = [
+        cue
+        for cues in queue_contract.get("paragraph_cues", {}).values()
+        if isinstance(cues, list)
+        for cue in cues
+        if isinstance(cue, dict) and cue.get("sfx") == "queue_chime"
+    ]
+    if description_queue_cues:
+        errors.append(
+            "story_last_payment_wait: queue chime must not play before the number call"
+        )
+    result_queue_cues = (
+        queue_contract.get("result_paragraph_cues", {})
+        .get("0", {})
+        .get("0", [])
+    )
+    queue_chime_count = sum(
+        isinstance(cue, dict) and cue.get("sfx") == "queue_chime"
+        for cue in result_queue_cues
+    )
+    if queue_chime_count != 1:
+        errors.append(
+            "story_last_payment_wait: choice 0 result paragraph 0 must own "
+            "exactly one queue_chime"
+        )
 
     if errors:
         for error in errors:
