@@ -61,6 +61,13 @@
 
 **수리 범위·수용 기준:** 실제 공공 안내 시스템에서 녹음된 상업 이용 가능 샘플로 번호표 호출음을 교체하고 출처·라이선스·원본/출력 해시를 원장에 고정한다. `story_last_payment_wait`는 고시원 룸톤이 아닌 `public_office`를 실제 재생해야 하며, 호출음은 선택 결과의 "전광판이 짧게 울렸다"가 시작될 때 한 번만 난다. 설명 문단·언어 전환·재렌더에서는 중복 재생하지 않는다. 결과 문단 큐를 데이터 계약으로 추가하고 런타임·정적 감사가 장소 키, 실재 스트림, 정확한 결과 문단, 1회 재생을 검증한다.
 
+#### [~] USER-P0E [P0·입력/게임성 수리] 지원서 정답 고정·AP 복귀 포커스
+**[~] 착수 (2026-07-24 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `scenes/JobHuntMiniGame.gd`, `scenes/MainGame.gd`, `tools/InputMatrixCheck.gd`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
+
+**사용자 실플레이 진단:** "지원서 다듬기 맨 위 것만 누르면 A가 나오고, 끝난 뒤 AP 행동 화면에서 키가 안 먹는다." 실제로 모든 지원서 문항의 3점 답이 원본 배열 0번에 고정돼 있고, 구직 미니게임 종료 핸들러만 AP 행동 보드 재렌더·포커스 복구를 호출하지 않는다.
+
+**수리 범위·수용 기준:** 한 세션의 정답 위치를 문항마다 섞되 첫 세 문항에서 최고점 위치 0·1·2가 한 번씩 나오도록 분산해 맨 위 연타로 A를 받을 수 없게 한다. 질문·다음 문항·결과 확인은 마우스 호버와 키보드/패드 포커스를 동기화하고, 결과 확인 뒤에는 실제 갱신된 AP 보드를 다시 렌더해 이전 카드 위치 또는 유효한 첫 카드로 포커스를 복원한다. 런타임 검사는 맨 위 답만 네 번 선택했을 때 A 미달, 키보드·패드 문항 이동/확인, 종료 뒤 AP 카드 포커스와 방향키 이동을 실행한다.
+
 #### [~] ORDER-43 [P0·오디오 REWORK] 파형 합성 전면 퇴출 — 실제 녹음·샘플 기반 팔레트
 **[~] 착수 (2026-07-23 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `CLAUDE.md`, `docs/DECISIONS.md`, `docs/AUDIO_QA.md`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `assets/audio/AUDIO_SOURCE_LEDGER.md`, `assets/audio/AUDIO_PROMPTS.md`, 신규 오디오 출처·크레딧 원장, `assets/scene_audio_manifest.json`, `assets/game_audio_manifest.json`, `assets/mod_asset_manifest.json`, `autoloads/BGMPlayer.gd`, `autoloads/AudioManager.gd`, `tools/generate_audio_p1_assets.py`, `tools/audio_source_audit.py`, `tools/scene_audio_contract_check.py`, `tools/AudioAssetCheck.gd`, `tools/BGMContinuityCheck.gd`, `tools/GameAudioContractCheck.gd`, 신규 샘플 임포트 도구, 교체 대상 `assets/audio/*.wav`, `assets/audio/*.ogg`와 각 `.import`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
 
