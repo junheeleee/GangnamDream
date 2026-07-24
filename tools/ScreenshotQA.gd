@@ -2425,6 +2425,8 @@ func _run_demo_input_route(
 	var ap_choice_attempts: Dictionary = {}
 	var route_input_counts: Dictionary = {}
 	var route_week_inputs: Dictionary = {}
+	var required_input_counts: Dictionary = {}
+	var required_week_inputs: Dictionary = {}
 	var ap_peak_by_week: Dictionary = {}
 	var captured_pressure_weeks: Dictionary = {}
 	var pressure_capture_turns := [1, 61, 114, 161, 217] if full_run \
@@ -2439,6 +2441,7 @@ func _run_demo_input_route(
 	var week_kind_counts: Dictionary = {}
 	var crisis_promotion_weeks: Array[int] = []
 	var observed_auto_beats: Dictionary = {}
+	var meaningful_quiet_beat_weeks: Dictionary = {}
 	var captured_auto_kinds: Dictionary = {}
 	var exact_echo_beats := 0
 	var narrative_bridge_count := 0
@@ -2537,6 +2540,8 @@ func _run_demo_input_route(
 						await _advance_route_story(scene, input_mode)
 					input_count += 1
 					_record_demo_route_input(route_input_counts, route_week_inputs, "story:%s" % event_id)
+					_record_demo_route_input(
+						required_input_counts, required_week_inputs, "story:tutorial")
 				elif bool(scene.get("_showing_choices")):
 					var route_choice: Control = null
 					if full_run and FULL_ROUTE_STORY_CHOICE_OVERRIDES.has(event_id):
@@ -2573,10 +2578,16 @@ func _run_demo_input_route(
 						await _advance_route_story(scene, input_mode)
 					input_count += 1
 					_record_demo_route_input(route_input_counts, route_week_inputs, "story:%s" % event_id)
+					_record_demo_route_input(
+						required_input_counts, required_week_inputs, "story:choice")
 				else:
+					var chapter_card_requires_input := bool(scene.get("_is_chapter_card"))
 					await _advance_route_story(scene, input_mode)
 					input_count += 1
 					_record_demo_route_input(route_input_counts, route_week_inputs, "story:%s" % event_id)
+					if chapter_card_requires_input:
+						_record_demo_route_input(
+							required_input_counts, required_week_inputs, "story:chapter")
 		elif script_path == "res://scenes/MainGame.gd":
 			var sampled_turn: int = GameState.turn
 			var director_kind := str(scene.call("_demo_director_week_kind"))
@@ -2607,12 +2618,18 @@ func _run_demo_input_route(
 				observed_auto_beats[beat_turn] = beat_kind
 				signature += ":auto=%d:%s" % [beat_turn, beat_kind]
 				if first_beat_observation:
+					var beat_result_count := int(auto_beat.get_meta("narrative_result_count", 0))
 					var beat_bridge_count := int(auto_beat.get_meta("narrative_bridge_count", 0))
 					var beat_bridge_ids: Array = auto_beat.get_meta("narrative_bridge_ids", [])
 					if beat_bridge_count != beat_bridge_ids.size():
 						MetaProgression.data = original_meta
 						_fail("Week %d random bridge metadata count drifted: %d != %s." % [
 							beat_turn, beat_bridge_count, beat_bridge_ids])
+						return
+					if beat_result_count < beat_bridge_count:
+						MetaProgression.data = original_meta
+						_fail("Week %d reports fewer narrative results than bridge IDs: %d < %d." % [
+							beat_turn, beat_result_count, beat_bridge_count])
 						return
 					if beat_bridge_count > 0 and beat_kind not in ["quiet", "echo"]:
 						MetaProgression.data = original_meta
@@ -2627,6 +2644,13 @@ func _run_demo_input_route(
 							return
 						narrative_bridge_ids.append(bridge_id)
 					narrative_bridge_count += beat_bridge_count
+					if beat_kind == "quiet":
+						if beat_result_count <= 0 \
+								and int(auto_beat.get_meta("commitment_echo_count", 0)) <= 0:
+							MetaProgression.data = original_meta
+							_fail("No-information Quiet week %d rendered a blocking card." % beat_turn)
+							return
+						meaningful_quiet_beat_weeks[beat_turn] = true
 				if first_beat_observation and beat_kind == "echo":
 					var exact_record := str(auto_beat.get_meta("commitment_echo_record", ""))
 					var echo_count := int(auto_beat.get_meta("commitment_echo_count", 0))
@@ -2778,6 +2802,8 @@ func _run_demo_input_route(
 					input_count += 1
 					_record_demo_route_input(route_input_counts, route_week_inputs,
 						"main:ending_page_%d" % ending_page)
+					_record_demo_route_input(required_input_counts, required_week_inputs,
+						"main:ending_page")
 					continue
 				if modal_kind == "demo_ending":
 					if GameState.turn != GameState.DEMO_TURN_LIMIT + 1:
@@ -2823,6 +2849,8 @@ func _run_demo_input_route(
 						input_count += 1
 						_record_demo_route_input(route_input_counts, route_week_inputs,
 							"main:modal:%s" % modal_kind)
+						_record_demo_route_input(required_input_counts, required_week_inputs,
+							"main:modal:%s" % modal_kind)
 			elif full_run and GameState.turn > _route_week_limit:
 				# Week 241 is a short handoff from the final AP commit into ending
 				# resolution. It has no AP cards by design, so let the deferred ending
@@ -2840,6 +2868,8 @@ func _run_demo_input_route(
 						await _activate_route_control(result_confirm, input_mode)
 						input_count += 1
 						_record_demo_route_input(route_input_counts, route_week_inputs, "main:result")
+						_record_demo_route_input(
+							required_input_counts, required_week_inputs, "main:result")
 				elif bool(scene.get("_transient_bg_active")):
 					var choice_surface := scene.get("choice_box") as Control
 					var confirm := _find_first_enabled_button(choice_surface) if is_instance_valid(choice_surface) else null
@@ -2850,6 +2880,8 @@ func _run_demo_input_route(
 							await _activate_route_control(confirm, input_mode)
 							input_count += 1
 							_record_demo_route_input(route_input_counts, route_week_inputs, "main:transient")
+							_record_demo_route_input(
+								required_input_counts, required_week_inputs, "main:transient")
 				elif director_requires_input and GameState.action_points > 0 and not cards.is_empty():
 					var playable_cards: Array[Button] = []
 					for candidate in cards:
@@ -2899,6 +2931,8 @@ func _run_demo_input_route(
 						await _activate_route_control(action_card, input_mode)
 						input_count += 1
 						_record_demo_route_input(route_input_counts, route_week_inputs, "main:ap")
+						_record_demo_route_input(
+							required_input_counts, required_week_inputs, "main:ap")
 						ap_action_inputs += 1
 				elif director_requires_input and GameState.action_points <= 0:
 					var next_week := scene.get("next_button") as Button
@@ -2912,6 +2946,8 @@ func _run_demo_input_route(
 					await _activate_route_control(focused as Control, input_mode)
 					input_count += 1
 					_record_demo_route_input(route_input_counts, route_week_inputs, "main:focused")
+					_record_demo_route_input(
+						required_input_counts, required_week_inputs, "main:focused")
 
 		var drawer_cut_active := full_run and is_instance_valid(scene) \
 				and scene.get("_drawer_truth_tween") != null
@@ -2955,6 +2991,7 @@ func _run_demo_input_route(
 		MetaProgression.data = original_meta
 		_fail(spacing_error)
 		return
+	var required_input_count := _route_input_total(required_input_counts)
 	if full_run:
 		for required_id in [
 				"story_flashforward", "story_arrival", "chapter_card_33", "chapter_card_34",
@@ -3105,10 +3142,15 @@ func _run_demo_input_route(
 			return
 		for paced_week in range(1, GameState.RUN_TURN_LIMIT + 1):
 			var observed_kind := str(week_kind_sequence[paced_week - 1])
-			if observed_kind in ["quiet", "echo"] \
+			if observed_kind == "echo" \
 					and str(observed_auto_beats.get(paced_week, "")) != observed_kind:
 				MetaProgression.data = original_meta
-				_fail("Full auto-flow did not render %s at week %d." % [observed_kind, paced_week])
+				_fail("Full auto-flow did not render meaningful Echo at week %d." % paced_week)
+				return
+			if observed_kind == "quiet" and observed_auto_beats.has(paced_week) \
+					and not meaningful_quiet_beat_weeks.has(paced_week):
+				MetaProgression.data = original_meta
+				_fail("Full auto-flow rendered an empty Quiet card at week %d." % paced_week)
 				return
 		if exact_echo_beats != int(week_kind_counts.get("echo", 0)):
 			MetaProgression.data = original_meta
@@ -3173,8 +3215,9 @@ func _run_demo_input_route(
 				int(modal_counts.get("month_summary", 0)), expected_blocking_summaries,
 				scheduled_summary_count, modal_counts])
 			return
-		var peak_week_input := _max_route_week_inputs(route_week_inputs)
+		var peak_week_input := _max_route_week_inputs(required_week_inputs)
 		_print_demo_route_input_profile(route_input_counts, route_week_inputs)
+		_print_required_route_input_profile(required_input_counts, required_week_inputs)
 		print("FULL_PRESSURE_RHYTHM families=%s chapters=%s max_family=%s:%d frames=%s" % [
 			str(pressure_family_counts), str(pressure_families_by_chapter),
 			str(full_family_streak.get("value", "none")), int(full_family_streak.get("count", 0)),
@@ -3190,17 +3233,21 @@ func _run_demo_input_route(
 				str(written_chapter_saves.keys())])
 			get_tree().quit(0)
 			return
-		if int(peak_week_input.get("inputs", 0)) > 180 or input_count > 20000:
+		if int(peak_week_input.get("inputs", 0)) > 40 \
+				or required_input_count > 5000 or input_count > 20000:
 			MetaProgression.data = original_meta
-			_fail("Full route input density exceeded its safety band: total=%d peak=%s." % [
-				input_count, peak_week_input])
+			_fail(
+				"Full route required-input density exceeded its safety band: "
+				+ "required=%d fast_path=%d peak=%s." % [
+					required_input_count, input_count, peak_week_input])
 			return
 		var final_job := str(GameState.current_job.get("id", "unemployed"))
 		var money_weeks := GameState.money_weeks_total
 		var human_weeks := GameState.human_weeks_total
 		MetaProgression.data = original_meta
-		print("FULL_INPUT_RUN_OK device=%s weeks=%d inputs=%d events=%d ending=%s end_job=%s axes=%d/%d kinds=%s exact_echo=%d bridges=%d chapters=%s crisis_promotions=%s summaries=%d peak_week=%s key_events=%d mouse_events=%d gamepad_events=%d" % [
-			input_mode, GameState.RUN_TURN_LIMIT, input_count, seen_events.size(), full_ending_id,
+		print("FULL_INPUT_RUN_OK device=%s weeks=%d fast_inputs=%d required_inputs=%d events=%d ending=%s end_job=%s axes=%d/%d kinds=%s exact_echo=%d bridges=%d chapters=%s crisis_promotions=%s summaries=%d peak_required_week=%s key_events=%d mouse_events=%d gamepad_events=%d" % [
+			input_mode, GameState.RUN_TURN_LIMIT, input_count, required_input_count,
+			seen_events.size(), full_ending_id,
 			final_job, money_weeks, human_weeks, str(week_kind_counts), exact_echo_beats,
 			narrative_bridge_count, str(direct_by_chapter),
 			str(crisis_promotion_weeks), int(modal_counts.get("month_summary", 0)), str(peak_week_input),
@@ -3299,10 +3346,17 @@ func _run_demo_input_route(
 		var observed_kind := str(week_kind_sequence[paced_week - 1])
 		if observed_kind not in ["quiet", "echo"]:
 			continue
-		if str(observed_auto_beats.get(paced_week, "")) != observed_kind:
+		if observed_kind == "echo" \
+				and str(observed_auto_beats.get(paced_week, "")) != observed_kind:
 			MetaProgression.data = original_meta
-			_fail("Demo auto-flow did not render %s at week %d: %s." % [
-				observed_kind, paced_week, observed_auto_beats])
+			_fail("Demo auto-flow did not render meaningful Echo at week %d: %s." % [
+				paced_week, observed_auto_beats])
+			return
+		if observed_kind == "quiet" and observed_auto_beats.has(paced_week) \
+				and not meaningful_quiet_beat_weeks.has(paced_week):
+			MetaProgression.data = original_meta
+			_fail("Demo auto-flow rendered a no-information Quiet card at week %d: %s." % [
+				paced_week, observed_auto_beats])
 			return
 	if GameState.current_job.is_empty() or int(action_counts.get("apply", 0)) < 1:
 		MetaProgression.data = original_meta
@@ -3373,6 +3427,7 @@ func _run_demo_input_route(
 	if capture_experience:
 		_finalize_demo_experience_profile(experience_profile, {
 			"input_count": input_count,
+			"required_input_count": required_input_count,
 			"scene_flow": demo_scene_flow,
 			"scene_flow_summary": demo_flow_summary,
 			"week_inputs": route_week_inputs,
@@ -3395,8 +3450,10 @@ func _run_demo_input_route(
 		})
 	MetaProgression.data = original_meta
 	_print_demo_route_input_profile(route_input_counts, route_week_inputs)
-	print("DEMO_INPUT_RUN_OK device=%s weeks=24 inputs=%d events=%d start_job=unemployed end_job=%s axes=%d/%d exact_echo=%d bridges=%d key_events=%d mouse_events=%d gamepad_events=%d cutoff=cta" % [
-		input_mode, input_count, seen_events.size(), str(GameState.current_job.get("id", "unemployed")),
+	_print_required_route_input_profile(required_input_counts, required_week_inputs)
+	print("DEMO_INPUT_RUN_OK device=%s weeks=24 fast_inputs=%d required_inputs=%d events=%d start_job=unemployed end_job=%s axes=%d/%d exact_echo=%d bridges=%d key_events=%d mouse_events=%d gamepad_events=%d cutoff=cta" % [
+		input_mode, input_count, required_input_count, seen_events.size(),
+		str(GameState.current_job.get("id", "unemployed")),
 		GameState.money_weeks_total, GameState.human_weeks_total, exact_echo_beats,
 		narrative_bridge_count,
 		_route_keyboard_events, _route_mouse_events, _route_gamepad_events])
@@ -3406,6 +3463,28 @@ func _record_demo_route_input(counts: Dictionary, week_counts: Dictionary, key: 
 	counts[key] = int(counts.get(key, 0)) + 1
 	var week := clampi(GameState.turn, 1, _route_week_limit)
 	week_counts[week] = int(week_counts.get(week, 0)) + 1
+
+func _route_input_total(counts: Dictionary) -> int:
+	var total := 0
+	for value in counts.values():
+		total += int(value)
+	return total
+
+func _print_required_route_input_profile(
+		counts: Dictionary, week_counts: Dictionary) -> void:
+	var ranked: Array = counts.keys()
+	ranked.sort_custom(func(a, b): return int(counts[a]) > int(counts[b]))
+	for index in range(mini(12, ranked.size())):
+		var key := str(ranked[index])
+		print("REQUIRED_INPUT_PROFILE_TOP rank=%d inputs=%d key=%s" % [
+			index + 1, int(counts[key]), key])
+	var ranked_weeks: Array = week_counts.keys()
+	ranked_weeks.sort_custom(
+		func(a, b): return int(week_counts[a]) > int(week_counts[b]))
+	for index in range(mini(12, ranked_weeks.size())):
+		var week := int(ranked_weeks[index])
+		print("REQUIRED_INPUT_PROFILE_WEEK rank=%d week=%d inputs=%d" % [
+			index + 1, week, int(week_counts[week])])
 
 func _print_demo_route_input_profile(counts: Dictionary, week_counts: Dictionary) -> void:
 	var ranked: Array = counts.keys()
@@ -8732,14 +8811,36 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 	var unexpected_rest := _tr("오늘은 멈춘다", "Stop for Today")
 	var expected_closed := _tr("지원서 다듬기", "Refine the Application")
 	var expected_hired := _tr("취업 · {job}", "HIRED · {job}").format({"job": ""})
+	var expected_wave := _tr("남은 파장", "REMAINING WAVE")
+	var expected_continue := "%s  ›" % _tr("다음 주로", "Continue")
 	if application_echo_text.findn(expected_application) < 0 \
 			or application_echo_text.findn(expected_closed) < 0 \
 			or application_echo_text.findn(_tr("실제 결과", "ACTUAL RESULT")) < 0 \
 			or application_echo_text.findn(expected_hired) < 0 \
+			or application_echo_text.findn(expected_wave) < 0 \
+			or application_echo_text.findn(expected_continue) < 0 \
 			or application_echo_text.findn(unexpected_rest) >= 0:
 		_fail("Application echo surface did not preserve its exact cause in %s." % lang)
 		return
+	if lang == "ja" and application_echo_text.findn("Convenience Store Night Shift") >= 0:
+		_fail("Japanese application Echo retained the English job-name fallback.")
+		return
+	for forbidden_copy in [
+		"루틴이 이번 주를 운반했다",
+		"이번 주의 시간은 몸과 사람 쪽에 남았다",
+		"people-first routine",
+		"remaining echo",
+	]:
+		if application_echo_text.findn(forbidden_copy) >= 0:
+			_fail("Application echo exposed retired internal copy in %s: %s" % [
+				lang, forbidden_copy])
+			return
 	var application_beat := _find_visible_meta_control(_mg, "demo_week_kind", "echo")
+	var application_confirm := _find_visible_meta_control(
+		_mg, "demo_beat_confirm", true)
+	if not is_instance_valid(application_confirm):
+		_fail("Application Echo has no focused manual confirmation in %s." % lang)
+		return
 	_assert_control_in_tv_safe_area(application_beat, "application echo beat")
 	await _save(prefix + "03_application_echo")
 
@@ -8771,6 +8872,9 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 	var rest_echo_text := _collect_control_text(_mg)
 	if rest_echo_text.findn(unexpected_rest) < 0 \
 			or rest_echo_text.findn(_tr("정신", "MENTAL")) < 0 \
+			or rest_echo_text.findn(_tr(
+				"1~3주 · 회복 효과가 이어지고 일정의 무리가 줄어든다",
+				"1–3W · recovery carries over and the schedule eases")) < 0 \
 			or rest_echo_text.findn(expected_application) >= 0:
 		_fail("Rest echo surface collapsed into the application path in %s." % lang)
 		return
@@ -8800,6 +8904,19 @@ func _shot_immersion_loop_surfaces(lang: String = "en", prefix: String = "immers
 
 func _shot_motivation_imprint_surfaces(lang: String = "en", prefix: String = "motivation_en_") -> void:
 	_set_qa_language(lang)
+	if lang == "ja":
+		var notebook_event: Dictionary = DataRegistry.find_event("story_prologue_goal")
+		var notebook_choices: Array = notebook_event.get("choices", [])
+		var notebook_lines: Array[String] = []
+		for raw_choice in notebook_choices:
+			if raw_choice is Dictionary:
+				notebook_lines.append(str((raw_choice as Dictionary).get("text", "")))
+		var notebook_text := "\n".join(notebook_lines)
+		if notebook_event.get("title", "") != "手帳" \
+				or notebook_text.findn("父にもう一度、帰る家を用意する") < 0 \
+				or notebook_text.findn("I will give my father a home again") >= 0:
+			_fail("Japanese notebook motive did not load its event overlay.")
+			return
 	await _shot_story_event(
 		"story_knee_choice", prefix + "01_knee_identity_choice", "", 0.45, true, true)
 	await _shot_story_event(

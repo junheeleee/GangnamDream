@@ -20,7 +20,7 @@ const IDENTITY_FLAGS := {
 	"story_prologue_goal": ["notebook_motive_family", "notebook_motive_proof", "notebook_motive_survival"],
 }
 const MOTIVE_SENTENCES_KO := {
-	"notebook_motive_family": "아버지가 그 거실에 서는 걸 본다",
+	"notebook_motive_family": "아버지에게 다시 집을 마련해 드린다",
 	"notebook_motive_proof": "우리를 무너뜨린 세계에 내 이름으로 선다",
 	"notebook_motive_survival": "다시는 돈 앞에 무릎 꿇지 않는다",
 }
@@ -121,6 +121,14 @@ func _check_notebook_recall() -> void:
 			"English notebook sentence is missing or leaked Hangul: %s" % sentence_en)
 		_expect(ritual_en.contains(sentence_en) and ritual_en.contains("Month 3"),
 			"English notebook ritual lost sentence or month: %s" % ritual_en)
+
+		LocaleManager.language = "ja"
+		var sentence_ja := str(game._notebook_motive_sentence())
+		var ritual_ja := str(game._notebook_ritual_line())
+		_expect(not sentence_ja.is_empty() and not _contains_hangul(sentence_ja),
+			"Japanese notebook sentence is missing or leaked Hangul: %s" % sentence_ja)
+		_expect(ritual_ja.contains(sentence_ja) and ritual_ja.contains("3か月目"),
+			"Japanese notebook ritual lost sentence or month: %s" % ritual_ja)
 	game.free()
 
 func _check_demo_father_contacts() -> void:

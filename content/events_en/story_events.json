@@ -124,8 +124,8 @@
     "description": "Back at the goshiwon, {name} hangs up his wet coat and opens a worn notebook.\n\nThe Gangnam apartment his father spent a lifetime saving for. The one the fraud took. Dad has never spoken of it since.\n\nThe doctor said not to overwork, but gave no number for the time left. So {name} sets the deadline himself.\n\nFive years. Three billion won.\n\nThe pen stops before the numbers. What this money is for — that sentence has to be his.",
     "choices": [
       {
-        "text": "I will see my father standing in that living room.",
-        "result_text": "{name} writes the first line.\n\nI will see my father standing in that living room.\n\nUnder it: three billion won, five years. There is no plan yet. But the person who belongs in that room is now written down."
+        "text": "I will give my father a home again.",
+        "result_text": "{name} writes the first line.\n\nI will give my father a home again.\n\nUnder it: three billion won, five years. There is no plan yet. But the reason for earning it is finally clear."
       },
       {
         "text": "I will stand in my own name inside the world that broke us.",

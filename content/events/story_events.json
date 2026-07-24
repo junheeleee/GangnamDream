@@ -290,11 +290,11 @@
     "cooldown": 9999,
     "choices": [
       {
-        "text": "아버지가 그 거실에 서는 걸 본다",
+        "text": "아버지에게 다시 집을 마련해 드린다",
         "effects": {"mental": 5},
         "flags": ["notebook_motive_family"],
         "follow_up_event": "story_prologue_meal",
-        "result_text": "{name}은 첫 줄에 적었다.\n\n아버지가 그 거실에 서는 걸 본다.\n\n그 아래에 30억, 그리고 5년. 방법은 아직 없었다. 다만 누구를 그 집에 세울지는 적혀 있었다."
+        "result_text": "{name}은 첫 줄에 적었다.\n\n아버지에게 다시 집을 마련해 드린다.\n\n그 아래에 30억, 그리고 5년. 방법은 아직 없었다. 다만 그 돈을 벌려는 이유만큼은 분명해졌다."
       },
       {
         "text": "우리를 무너뜨린 세계에 내 이름으로 선다",

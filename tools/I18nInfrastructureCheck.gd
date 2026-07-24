@@ -3,6 +3,7 @@ extends Node
 const TARGET_LANGUAGES: Array[String] = ["ja", "zh-CN", "zh-TW"]
 const REPRESENTATIVE_EVENT := "arc_intro_01_meal"
 const REPRESENTATIVE_ENDING := "gangnam_dream"
+const REPRESENTATIVE_JA_JOB := "コンビニ夜勤スタッフ"
 const FONT_PATH := "res://assets/fonts/Pretendard-Regular.ttf"
 
 var _failures: Array[String] = []
@@ -50,8 +51,15 @@ func _check_target_language(lang: String, english_event: String, english_ending:
 		"%s event skeleton did not inherit the English overlay." % lang)
 	_expect(_localized_ending_text(lang, REPRESENTATIVE_ENDING) == english_ending,
 		"%s ending skeleton did not inherit the English overlay." % lang)
-	_expect(_localized_job_name(lang, "job_01") == english_job,
-		"%s catalog skeleton did not inherit the English catalog." % lang)
+	var localized_job := _localized_job_name(lang, "job_01")
+	if lang == "ja":
+		_expect(localized_job == REPRESENTATIVE_JA_JOB,
+			"Japanese catalog did not load the translated representative job.")
+		_expect(localized_job != english_job and not _contains_hangul(localized_job),
+			"Japanese catalog representative job fell back to English or Korean.")
+	else:
+		_expect(localized_job == english_job,
+			"%s catalog skeleton did not inherit the English catalog." % lang)
 	_expect(not _contains_hangul(GameState.get_date_string()), "%s date fell back to Korean." % lang)
 	_expect(not _contains_hangul(GameState.get_housing_display_name("gosiwon")), "%s housing label fell back to Korean." % lang)
 	var money: String = str(GameState.format_money(123_450_000.0))

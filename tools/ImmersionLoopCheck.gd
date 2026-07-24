@@ -7,6 +7,9 @@ var _failures: Array[String] = []
 var _original_language := "ko"
 
 func _ready() -> void:
+	call_deferred("_run")
+
+func _run() -> void:
 	_original_language = LocaleManager.language
 	_check_recent_action_echoes()
 	_check_action_consequence_echoes()
@@ -23,6 +26,7 @@ func _ready() -> void:
 	_check_demo_pacing()
 	_check_arc_preview_read_only()
 	_check_sfx_mix()
+	await _check_quiet_week_reading_contract()
 	LocaleManager.language = _original_language
 	DataRegistry.reload()
 	if not _failures.is_empty():
@@ -30,7 +34,7 @@ func _ready() -> void:
 			push_error("IMMERSION_LOOP_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("IMMERSION_LOOP_CHECK_OK memory=2 action_ids=8 commitments=1x3 forgone=relationship/body/career/market scene_first=1 no_ap_surface=1 auto_advance=1 outcomes=2 completion_boundary=1 consequence_paths=4 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=4 bridges=ko/en vignette=2 omen=1 preview=2 bills=1 rungs=4 reserve=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8")
+	print("IMMERSION_LOOP_CHECK_OK memory=2 action_ids=8 commitments=1x3 forgone=relationship/body/career/market scene_first=1 no_ap_surface=1 quiet_compressed=1 meaningful_confirm=1 month_manual=1 outcomes=2 completion_boundary=1 consequence_paths=4 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=4 bridges=ko/en vignette=2 omen=1 preview=2 bills=1 rungs=4 reserve=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8")
 	get_tree().quit(0)
 
 func _check_recent_action_echoes() -> void:
@@ -311,7 +315,8 @@ func _check_weekly_commitment_contract() -> void:
 	if echo_record.findn("chosen") < 0 or echo_record.findn("not chosen that week") < 0 \
 			or echo_record.findn("actual result") < 0 or echo_record.findn("cash") < 0 \
 			or echo_record.findn("market") < 0 or echo_record.findn("hanseong") < 0 \
-			or echo_record.findn("buy") < 0 or _contains_hangul(echo_record):
+			or echo_record.findn("buy") < 0 or echo_record.findn("remaining wave") < 0 \
+			or echo_record.findn("remaining echo") >= 0 or _contains_hangul(echo_record):
 		_fail("weekly commitment echo did not name the choice, outcome, and paths not chosen that week: %s" % echo_record)
 	var forbidden := echo_record.to_lower()
 	if forbidden.contains("moral") or forbidden.contains("route"):
@@ -1143,6 +1148,191 @@ func _check_pressure_contract(game: Node, pressure: Dictionary, expected_id: Str
 				_fail("demo action %s lacks %s preview: %s" % [action_id, key, preview])
 		if LocaleManager.is_english() and _contains_hangul(" ".join(preview.values())):
 			_fail("English demo action preview leaked Hangul: %s" % preview)
+
+func _check_quiet_week_reading_contract() -> void:
+	var language_before := LocaleManager.language
+	LocaleManager.language = "ko"
+	DataRegistry.reload()
+	ControllerHints.force_brand_for_qa(ControllerHints.Brand.PLAYSTATION)
+
+	_prepare_week_runtime_fixture(12)
+	var quiet_game := await _boot_week_runtime()
+	if not is_instance_valid(quiet_game):
+		ControllerHints.clear_qa_override()
+		LocaleManager.language = language_before
+		DataRegistry.reload()
+		return
+	quiet_game.call("_demo_director_auto_week", "quiet")
+	var compression_frames := 0
+	while compression_frames < 12 \
+			and not bool(quiet_game.get("_pending_month_summary")):
+		compression_frames += 1
+		await get_tree().process_frame
+	if not bool(quiet_game.get("_pending_month_summary")):
+		_fail("information-free quiet week did not reach its month summary within 12 frames")
+	if GameState.turn != 13:
+		_fail("compressed quiet week advanced to turn %d instead of 13" % GameState.turn)
+	if GameState.last_month_money_weeks <= 0 or GameState.last_month_human_weeks <= 0:
+		_fail("compressed quiet week lost its routine economy/axis settlement")
+	var quiet_choice_box := quiet_game.get("choice_box") as Control
+	if _has_visible_named_node(quiet_choice_box, "DemoDirectorBeat"):
+		_fail("information-free quiet week still rendered a reading card")
+	var quiet_title := quiet_game.get("event_title") as Label
+	var quiet_body = quiet_game.get("event_body")
+	if (is_instance_valid(quiet_title) and not quiet_title.text.is_empty()) \
+			or (is_instance_valid(quiet_body) and not str(quiet_body.text).is_empty()):
+		_fail("month summary left stale weekly title/body visible underneath")
+	var summary_confirm := _find_control_with_meta(
+		quiet_game.get("modal_body") as Node, "month_summary_confirm")
+	if not is_instance_valid(summary_confirm):
+		_fail("month summary has no explicit confirmation control")
+	var summary_turn: int = GameState.turn
+	await get_tree().create_timer(3.05).timeout
+	if GameState.turn != summary_turn or not bool(quiet_game.get("_pending_month_summary")):
+		_fail("month summary advanced automatically before confirmation")
+	await _dispose_week_runtime(quiet_game)
+
+	_prepare_week_runtime_fixture(6)
+	GameState.weekly_commitments = [{
+		"turn": 5,
+		"pressure_id": "qa_echo",
+		"pressure_family": "body",
+		"choice_id": "rest",
+		"actual_action_id": "rest",
+		"person_id": "",
+		"forgone_ids": ["save", "study"],
+		"outcome": {"health": 4.0, "mental": 2.0},
+		"echoed_turn": -1,
+	}]
+	# After confirmation, keep the fixture in MainGame instead of launching an arc.
+	GameState.flags["foreground_story_turn"] = 7
+	var echo_game := await _boot_week_runtime()
+	if not is_instance_valid(echo_game):
+		ControllerHints.clear_qa_override()
+		LocaleManager.language = language_before
+		DataRegistry.reload()
+		return
+	echo_game.call("_demo_director_auto_week", "echo")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var echo_card := _find_control_with_meta(
+		echo_game.get("choice_box") as Node, "requires_confirmation")
+	var echo_confirm := _find_control_with_meta(
+		echo_game.get("choice_box") as Node, "demo_beat_confirm")
+	if not is_instance_valid(echo_card) or not bool(echo_card.get_meta(
+			"requires_confirmation", false)):
+		_fail("meaningful Echo did not render a blocking result card")
+	if not is_instance_valid(echo_confirm):
+		_fail("meaningful Echo has no explicit confirmation control")
+	var echo_turn: int = GameState.turn
+	await get_tree().create_timer(3.05).timeout
+	if GameState.turn != echo_turn:
+		_fail("meaningful Echo advanced automatically before confirmation")
+	if is_instance_valid(echo_confirm) \
+			and get_viewport().gui_get_focus_owner() != echo_confirm:
+		_fail("meaningful Echo did not focus its controller confirmation")
+	await _press_joy_south()
+	if GameState.turn != echo_turn + 1:
+		_fail("PlayStation south-button confirmation did not advance the Echo "
+			+ "turn=%d disabled=%s advancing=%s focus=%s" % [
+				GameState.turn,
+				str(echo_confirm.disabled if is_instance_valid(echo_confirm) else "freed"),
+				str(echo_game.get("_demo_director_advancing")),
+				str(get_viewport().gui_get_focus_owner()),
+			])
+	await _dispose_week_runtime(echo_game)
+
+	ControllerHints.clear_qa_override()
+	LocaleManager.language = language_before
+	DataRegistry.reload()
+
+func _prepare_week_runtime_fixture(turn_value: int) -> void:
+	GameState.start_new_game("김민준", "지방_상경", "직장형", "백수", "자유런", "현실")
+	var zero_based := maxi(0, turn_value - 1)
+	GameState.turn = turn_value
+	GameState.year = 2026 + floori(float(zero_based) / 48.0)
+	GameState.month = posmod(floori(float(zero_based) / 4.0), 12) + 1
+	GameState.week_of_month = posmod(zero_based, 4) + 1
+	GameState.money = 8_000_000.0
+	GameState.monthly_income = 2_400_000.0
+	GameState.current_job = {
+		"id": "job_03",
+		"name": "사무 보조",
+		"category": "office",
+		"base_salary": 2_400_000.0,
+		"tier": 2,
+	}
+	GameState.health = 82
+	GameState.mental = 84
+	GameState.action_points = 2
+	GameState.max_action_points = 2
+	GameState.week_routine = ["save", "rest"]
+	GameState.flags["prologue_done"] = true
+	GameState.flags["story_flashforward_seen"] = true
+	GameState.flags["tutorial_shown"] = true
+	GameState.flags.erase("demo_director_kind_turn")
+	GameState.flags.erase("demo_director_locked_kind")
+	GameState.flags.erase("month_event_turn")
+	GameState.add_log("ImmersionLoop quiet-week runtime fixture", "system")
+	GameState.returning_from_story = false
+	EventManager.event_cooldowns.clear()
+	EventManager.recent_event_ids.clear()
+	EventManager.narrative_bridge_results.clear()
+	TutorialOverlay._seen["main_game"] = true
+
+func _boot_week_runtime() -> Node:
+	var packed := load("res://scenes/MainGame.tscn") as PackedScene
+	if packed == null:
+		_fail("MainGame.tscn failed to load for quiet-week runtime")
+		return null
+	var game := packed.instantiate()
+	game.set_meta("_screenshot_qa_static_surface", true)
+	add_child(game)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	await get_tree().process_frame
+	return game
+
+func _dispose_week_runtime(game: Node) -> void:
+	if is_instance_valid(game):
+		game.queue_free()
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+func _find_control_with_meta(root: Node, meta_key: String) -> Control:
+	if not is_instance_valid(root):
+		return null
+	if root is Control and root.has_meta(meta_key):
+		return root as Control
+	for child in root.get_children():
+		var found := _find_control_with_meta(child, meta_key)
+		if is_instance_valid(found):
+			return found
+	return null
+
+func _has_visible_named_node(root: Node, node_name: String) -> bool:
+	if not is_instance_valid(root):
+		return false
+	if root.name == node_name and (not (root is CanvasItem) or (root as CanvasItem).visible):
+		return true
+	for child in root.get_children():
+		if _has_visible_named_node(child, node_name):
+			return true
+	return false
+
+func _press_joy_south() -> void:
+	# ControllerHints is forced to PlayStation above; feed the semantic confirm
+	# action that Steam Input maps from the physical south (Cross) button.
+	var press := InputEventAction.new()
+	press.action = "ui_accept"
+	press.pressed = true
+	Input.parse_input_event(press)
+	await get_tree().process_frame
+	var release := InputEventAction.new()
+	release.action = "ui_accept"
+	release.pressed = false
+	Input.parse_input_event(release)
+	await get_tree().process_frame
 
 func _check_sfx_mix() -> void:
 	var expected := {

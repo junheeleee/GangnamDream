@@ -2194,7 +2194,7 @@ func _goal_time_display() -> Dictionary:
 func _notebook_motive_sentence() -> String:
 	var f: Dictionary = GameState.flags
 	if bool(f.get("notebook_motive_family", false)):
-		return _tr("아버지가 그 거실에 서는 걸 본다", "I will see my father standing in that living room.")
+		return _tr("아버지에게 다시 집을 마련해 드린다", "I will give my father a home again.")
 	if bool(f.get("notebook_motive_proof", false)):
 		return _tr("우리를 무너뜨린 세계에 내 이름으로 선다", "I will stand in my own name inside the world that broke us.")
 	if bool(f.get("notebook_motive_survival", false)):
@@ -5856,7 +5856,7 @@ func _append_scene_commitment_ledger(record: Dictionary) -> void:
 	for detail in [
 		[_tr("실제 결과", "ACTUAL RESULT"), _weekly_commitment_outcome_text(record), "#e4e9ef"],
 		[_tr("그 주에 놓친 길", "NOT CHOSEN THAT WEEK"), _weekly_commitment_forgone_labels(record), "#b7bec7"],
-		[_tr("남은 파장", "REMAINING ECHO"), _weekly_commitment_later_text(record), "#929ba7"],
+		[_tr("남은 파장", "REMAINING WAVE"), _weekly_commitment_later_text(record), "#929ba7"],
 	]:
 		var value := str(detail[1]).strip_edges()
 		if value.is_empty():
@@ -7105,17 +7105,6 @@ func _demo_director_route_week() -> void:
 	next_button.disabled = true
 	call_deferred("_demo_director_auto_week", _demo_director_week_kind())
 
-func _demo_director_axis_line(used: Dictionary) -> String:
-	var used_money := bool(used.get("money", false))
-	var used_human := bool(used.get("human", false))
-	if used_money and used_human:
-		return _tr("돈과 사람 쪽에 각각 시간이 남았다.", "The week left traces in both money and people.")
-	if used_money:
-		return _tr("이번 주의 시간은 돈 쪽으로 흘렀다.", "This week's time flowed toward money.")
-	if used_human:
-		return _tr("이번 주의 시간은 몸과 사람 쪽에 남았다.", "This week's time stayed with body and people.")
-	return _tr("이번 주는 뚜렷한 흔적 없이 지나갔다.", "The week passed without a clear trace.")
-
 func _action_echo_label(record: Dictionary) -> String:
 	var action_id := str(record.get("id", ""))
 	match action_id:
@@ -7322,7 +7311,7 @@ func _weekly_commitment_echo_record(record: Dictionary) -> String:
 	var later := _weekly_commitment_later_text(record)
 	return _tr(
 		"택한 것 · {chosen}\n실제 결과 · {outcome}\n그 주에 놓친 길 · {forgone}\n남은 파장 · {later}",
-		"CHOSEN · {chosen}\nACTUAL RESULT · {outcome}\nNOT CHOSEN THAT WEEK · {forgone}\nREMAINING ECHO · {later}"
+		"CHOSEN · {chosen}\nACTUAL RESULT · {outcome}\nNOT CHOSEN THAT WEEK · {forgone}\nREMAINING WAVE · {later}"
 	).format({
 		"chosen": chosen,
 		"outcome": _weekly_commitment_outcome_text(record),
@@ -7391,62 +7380,6 @@ func _demo_director_recent_action_record(commitment_echoes: Array = []) -> Strin
 		"choices": " / ".join(labels),
 	})
 
-func _demo_director_beat_line(kind: String, used: Dictionary,
-		commitment_echoes: Array = []) -> String:
-	if kind in ["decision", "boss"] \
-			and GameState.has_story_weekly_commitment(GameState.turn):
-		var story_record := GameState.get_weekly_commitment_for_turn(GameState.turn)
-		if str(story_record.get("consequence_timing", "immediate")) != "delayed":
-			return _tr(
-				"이번 주는 그 선택으로 끝났다. 방향은 이미 달라졌다.",
-				"That choice ended the week. Its course has already changed."
-			)
-		return _tr(
-			"이번 주는 그 선택으로 끝났다. 결과는 아직 다 오지 않았다.",
-			"That choice ended the week. Not all of its consequences have arrived yet."
-		)
-	if kind == "echo":
-		var resolved_commitments := commitment_echoes
-		if resolved_commitments.is_empty():
-			resolved_commitments = GameState.get_unresolved_weekly_commitments(2)
-		if not resolved_commitments.is_empty():
-			return _tr(
-				"지난주의 선택은 끝났지만, 그 결과가 이번 주의 출발점이 되었다.",
-				"Last week's choice ended, but its result became this week's starting point."
-			)
-		var exact_action_line := _demo_director_recent_action_line(commitment_echoes)
-		if not exact_action_line.is_empty():
-			return exact_action_line
-		if GameState.week_of_month == 1 \
-				and (GameState.last_month_money_weeks > 0 or GameState.last_month_human_weeks > 0):
-			return _tr(
-				"지난달 장부에는 돈의 흔적 {money}주, 사람의 흔적 {human}주가 따로 남았다.",
-				"Last month's ledger kept {money} weeks marked by money and {human} marked by people."
-			).format({
-				"money": GameState.last_month_money_weeks,
-				"human": GameState.last_month_human_weeks,
-			})
-		return _tr(
-			"지난번에 고른 것이 이번 주에도 너를 대신해 움직였다. {trace}",
-			"What you chose last time kept moving in your place. {trace}"
-		).format({"trace": _demo_director_axis_line(used)})
-	return _tr(
-		"출근, 귀가, 다음 알람. 정해 둔 생활이 달력 한 칸을 밀어냈다.",
-		"Work, home, the next alarm. The routine pushed one square off the calendar."
-	)
-
-func _demo_director_routine_line() -> String:
-	var labels: Array[String] = []
-	var routine: Array = GameState.week_routine if not GameState.week_routine.is_empty() \
-			else ["study", "rest"]
-	for raw_kind in routine:
-		match str(raw_kind):
-			"save": labels.append(_tr("저축", "SAVE"))
-			"network": labels.append(_tr("인맥", "NETWORK"))
-			"study": labels.append(_tr("배움", "STUDY"))
-			_: labels.append(_tr("휴식", "REST"))
-	return _tr("이어진 루틴 · %s", "CARRIED ROUTINE · %s") % " / ".join(labels)
-
 func _narrative_bridge_summary(result: Dictionary) -> String:
 	var summary: String = GameState.format_event_text(str(result.get("summary", ""))).strip_edges()
 	while summary.contains("\n\n"):
@@ -7475,8 +7408,34 @@ func _render_narrative_bridge_results(results: Array) -> void:
 			box.add_child(_wrap_label(summary, 12, "#b8c0ca"))
 	choice_box.add_child(card)
 
+func _demo_director_beat_requires_confirmation(
+		kind: String, narrative_bridge_results: Array,
+		commitment_echoes: Array) -> bool:
+	if not narrative_bridge_results.is_empty():
+		return true
+	if kind in ["decision", "boss"] \
+			and GameState.has_story_weekly_commitment(GameState.turn):
+		return true
+	return kind == "echo" and not commitment_echoes.is_empty()
+
+func _clear_week_reading_surface() -> void:
+	for child in choice_box.get_children():
+		if child is CanvasItem:
+			(child as CanvasItem).visible = false
+		child.queue_free()
+	_ap_action_grid = null
+	_ap_feature_row = null
+	_ap_grid_cards.clear()
+	event_title.text = ""
+	if _typing_tween:
+		_typing_tween.kill()
+		_typing_tween = null
+	event_body.text = ""
+	event_body.visible_ratio = 1.0
+	next_button.disabled = true
+
 func _render_demo_director_beat(
-		kind: String, used: Dictionary, narrative_bridge_results: Array = [],
+		kind: String, _used: Dictionary, narrative_bridge_results: Array = [],
 		commitment_echoes: Array = []) -> void:
 	_set_scene_first_surface(true)
 	_transient_bg_active = false
@@ -7493,23 +7452,15 @@ func _render_demo_director_beat(
 	if not beat_bg.is_empty():
 		_apply_event_bg_path(beat_bg)
 		_set_scene_ambience_for_background(beat_bg, event_title.text)
-	for child in choice_box.get_children():
-		child.queue_free()
-	_ap_action_grid = null
-	_ap_feature_row = null
-	_ap_grid_cards.clear()
+	_clear_week_reading_surface()
 	event_title.text = _tr("%d년 %d월 %d주차", "%d-%02d W%d") % [
 		GameState.year, GameState.month, GameState.week_of_month]
-	if _typing_tween:
-		_typing_tween.kill()
-		_typing_tween = null
-	event_body.text = _narrative_bridge_summary(narrative_bridge_results[0]) \
-			if not narrative_bridge_results.is_empty() \
-			else _demo_director_beat_line(kind, used, commitment_echoes)
+	event_body.text = ""
 	event_body.visible_ratio = 1.0
 	next_button.disabled = true
 
 	var is_echo := kind == "echo"
+	var has_bridge := not narrative_bridge_results.is_empty()
 	var is_story_commitment := kind in ["decision", "boss"] \
 			and GameState.has_story_weekly_commitment(GameState.turn)
 	var card := _info_card("#c0a46b" if is_story_commitment else ("#99a4b0" if is_echo else "#697480"), "#0a0d12")
@@ -7517,6 +7468,7 @@ func _render_demo_director_beat(
 	card.set_meta("demo_week_kind", kind)
 	card.set_meta("demo_turn", GameState.turn)
 	card.set_meta("commitment_echo_count", commitment_echoes.size())
+	card.set_meta("narrative_result_count", narrative_bridge_results.size())
 	var narrative_bridge_ids: Array[String] = []
 	for value in narrative_bridge_results:
 		if value is Dictionary:
@@ -7529,28 +7481,28 @@ func _render_demo_director_beat(
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 8)
 	card.add_child(box)
-	var overline_text := _tr("결정", "DECISION") if is_story_commitment \
-			else (_tr("메아리", "ECHO") if is_echo else _tr("흐르는 시간", "TIME PASSES"))
+	var overline_text := _tr("선택 결과", "CHOICE RESULT") if is_story_commitment \
+			else (_tr("메아리", "ECHO") if is_echo and not commitment_echoes.is_empty() \
+			else _tr("이어진 결과", "CONSEQUENCE"))
 	var overline := _label(overline_text, 11, "#d3b979" if is_story_commitment else "#99a4b0")
 	box.add_child(overline)
-	var title_text := _tr("이번 주는 그 선택으로 끝났다", "That choice ended the week") \
-			if is_story_commitment else (_tr("지난 선택이 계속 움직였다", "The last choice kept moving") \
-			if is_echo else _tr("루틴이 이번 주를 운반했다", "The routine carried this week"))
-	if not is_story_commitment:
-		var title := _label(title_text, 18, "#edf1f5")
-		if _font_bold:
-			title.add_theme_font_override("font", _font_bold)
-		box.add_child(title)
+	var title_text := _tr("이번 주에 고른 일의 결과", "Result of This Week's Choice") \
+			if is_story_commitment else (_tr("지난 선택의 결과가 돌아왔다", "A Past Choice Has Returned") \
+			if is_echo and not commitment_echoes.is_empty() \
+			else _tr("이전 선택이 다음 장면으로 이어졌다", "An Earlier Choice Reached the Next Scene"))
+	var title := _label(title_text, 18, "#edf1f5")
+	if _font_bold:
+		title.add_theme_font_override("font", _font_bold)
+	box.add_child(title)
 	var exact_action_record := _weekly_commitment_echo_record(
 		GameState.get_weekly_commitment_for_turn(GameState.turn)) if is_story_commitment \
 		else (_demo_director_recent_action_record(commitment_echoes) if is_echo else "")
 	card.set_meta("commitment_echo_record", exact_action_record)
-	box.add_child(_wrap_label(
-		exact_action_record if not exact_action_record.is_empty() else _demo_director_routine_line(),
-		14 if is_story_commitment else 11, "#d6dde6" if is_story_commitment else "#99a4b0"))
-	if not is_story_commitment:
-		box.add_child(_wrap_label(_demo_director_axis_line(used), 12, "#c1c8d1"))
-	if not narrative_bridge_results.is_empty():
+	if not exact_action_record.is_empty():
+		box.add_child(_wrap_label(
+			exact_action_record, 14 if is_story_commitment else 12,
+			"#d6dde6" if is_story_commitment else "#c1c8d1"))
+	if has_bridge:
 		for value in narrative_bridge_results:
 			if not value is Dictionary:
 				continue
@@ -7561,20 +7513,39 @@ func _render_demo_director_beat(
 				box.add_child(_label(bridge_title, 13, "#edf1f5"))
 			if not bridge_summary.is_empty():
 				box.add_child(_wrap_label(bridge_summary, 12, "#b8c0ca"))
-	var progress := ProgressBar.new()
-	progress.name = "DemoDirectorProgress"
-	progress.min_value = 0.0
-	progress.max_value = 1.0
-	progress.value = 0.0
-	progress.show_percentage = false
-	progress.custom_minimum_size = Vector2(0, 4)
-	box.add_child(progress)
+	var requires_confirmation := _demo_director_beat_requires_confirmation(
+		kind, narrative_bridge_results, commitment_echoes)
+	card.set_meta("requires_confirmation", requires_confirmation)
+	if requires_confirmation:
+		var confirm_btn := _primary_cta_button(
+			"%s  ›" % _tr("다음 주로", "Continue"))
+		confirm_btn.name = "DemoBeatConfirm"
+		confirm_btn.set_meta("demo_beat_confirm", true)
+		confirm_btn.pressed.connect(
+			_confirm_demo_director_beat.bind(GameState.turn, confirm_btn))
+		box.add_child(confirm_btn)
+		confirm_btn.call_deferred("grab_focus")
 	choice_box.add_child(card)
-	var tween := create_tween()
-	var progress_seconds := 2.05 if is_story_commitment else (1.05 if kind == "echo" else 0.62)
-	tween.tween_property(progress, "value", 1.0, progress_seconds) \
-			.set_trans(Tween.TRANS_LINEAR)
 	_apply_moral_ui_palette()
+
+func _confirm_demo_director_beat(expected_turn: int, confirm_btn: Button) -> void:
+	if not is_instance_valid(confirm_btn) or confirm_btn.disabled:
+		return
+	confirm_btn.disabled = true
+	confirm_btn.focus_mode = Control.FOCUS_NONE
+	get_viewport().gui_release_focus()
+	_demo_director_continue_after_beat(expected_turn)
+
+func _demo_director_continue_after_beat(expected_turn: int) -> void:
+	if not is_inside_tree() or GameState.turn != expected_turn:
+		return
+	if not _pending_tendency_kind.is_empty():
+		var tendency_kind := _pending_tendency_kind
+		_demo_director_advancing = false
+		_demo_director_resume_after_modal = "advance"
+		_present_tendency_realization(tendency_kind)
+		return
+	_demo_director_finish_auto_week()
 
 func _demo_director_auto_week(kind: String) -> void:
 	if _demo_director_advancing or _demo_director_requires_player_input():
@@ -7588,22 +7559,16 @@ func _demo_director_auto_week(kind: String) -> void:
 	var narrative_bridge_results := EventManager.consume_narrative_bridge_results()
 	var commitment_echoes := GameState.consume_weekly_commitment_echoes(2) \
 			if kind == "echo" else []
-	_render_demo_director_beat(kind, used, narrative_bridge_results, commitment_echoes)
-	# 무거운 배경/CG가 처음 import되는 프레임에도 카드가 실제 화면에 한 번은
-	# 제출된 뒤 수명 타이머가 시작되어야 한다.
+	var requires_confirmation := _demo_director_beat_requires_confirmation(
+		kind, narrative_bridge_results, commitment_echoes)
+	if requires_confirmation:
+		_render_demo_director_beat(kind, used, narrative_bridge_results, commitment_echoes)
+		return
+	# 새 정보가 없는 Quiet/Echo는 루틴과 경제 계산만 남기고 읽기 화면을 만들지 않는다.
+	_clear_week_reading_surface()
 	await get_tree().process_frame
 	await get_tree().process_frame
-	var hold_seconds := 2.20 if story_commitment else (1.35 if kind == "echo" else 0.90)
-	await get_tree().create_timer(hold_seconds).timeout
-	if not is_inside_tree() or GameState.turn != expected_turn:
-		return
-	if not _pending_tendency_kind.is_empty():
-		var tendency_kind := _pending_tendency_kind
-		_demo_director_advancing = false
-		_demo_director_resume_after_modal = "advance"
-		_present_tendency_realization(tendency_kind)
-		return
-	_demo_director_finish_auto_week()
+	_demo_director_continue_after_beat(expected_turn)
 
 func _maybe_resolve_random_narrative_bridge(kind: String) -> void:
 	if kind not in ["quiet", "echo"]:
@@ -8142,7 +8107,7 @@ func _weekly_commitment_base_preview(action_id: String, person_id: String = "") 
 				"risk": _tr("낮은 위험", "LOW RISK"),
 				"now": _tr("정신을 회복하고 몸을 멈춘다", "Recover mentally and let the body stop"),
 				"cost": _tr("현금과 경력은 이번 주 그대로", "Cash and career do not move this week"),
-				"later": _tr("1~3주 · 회복의 흔적과 사람 쪽 루틴", "1–3W · recovery and a people-first routine"),
+				"later": _tr("1~3주 · 회복 효과가 이어지고 일정의 무리가 줄어든다", "1–3W · recovery carries over and the schedule eases"),
 			}
 		"study":
 			return {
@@ -8157,14 +8122,14 @@ func _weekly_commitment_base_preview(action_id: String, person_id: String = "") 
 				"risk": _tr("낮은 위험", "LOW RISK"),
 				"now": _tr("{name}에게 이번 주의 시간을 건넨다", "Give this week's time to {name}").format({"name": pname}),
 				"cost": _tr("수입과 준비는 다음 주로 미룬다", "Delay income and preparation until next week"),
-				"later": _tr("1~3주 · 관계 장면과 사람 쪽 루틴", "1–3W · a relationship scene and people-first routine"),
+				"later": _tr("1~3주 · 관계 장면이 열리고 다음 연락의 반응이 달라진다", "1–3W · a relationship scene opens and the next reply changes"),
 			}
 		"invest":
 			return {
 				"risk": _tr("자산별 위험 1~5", "ASSET RISK 1–5"),
 				"now": _tr("자산 하나를 골라 실제 거래한다", "Choose one asset and place a real trade"),
 				"cost": _tr("원금 손실 가능 · 거래 전엔 취소 가능", "Principal at risk · cancel before the trade"),
-				"later": _tr("1~3주 · 시장 결산과 돈 쪽 루틴", "1–3W · market settlement and a money-first routine"),
+				"later": _tr("1~3주 · 시장 결산과 보유 자산의 변동", "1–3W · market settlement and movement in holdings"),
 			}
 		"gamble":
 			return {
@@ -17218,6 +17183,8 @@ func _ending_playstyle(parent: Control):
 			12, "#7a8496"))
 
 func _show_month_summary(snap: Dictionary):
+	# 결산이 열릴 때 직전 주간 카드와 문장을 뒤에 남기지 않는다.
+	_clear_week_reading_surface()
 	_pending_month_summary = true
 	_open_modal(_tr("%s 결산", "%s Summary") % snap["date"])
 	# 월말은 진행 필수 표면이다. 1280×800에서도 휠 없이 한 화면에 끝나야 한다.
@@ -17363,8 +17330,10 @@ func _show_month_summary(snap: Dictionary):
 		modal_body.add_child(demo_btn)
 	else:
 		var confirm_btn = _button(_tr("다음 달 시작  ▶", "Start Next Month  ▶"), "#0e2a3a")
+		confirm_btn.set_meta("month_summary_confirm", true)
 		confirm_btn.pressed.connect(_close_modal)
 		modal_body.add_child(confirm_btn)
+		confirm_btn.call_deferred("grab_focus")
 		# 월 결산 닫기 후 _begin_month 호출은 _pending_month_summary 플래그로 처리됨
 
 func _month_summary_result_card(grade: Dictionary, net: float, net_color: String, rung: Dictionary) -> Control:
