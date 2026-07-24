@@ -93,7 +93,7 @@
 **완료 보고 (2026-07-24 Codex):** 장면 설정에 `느리게 / 보통 / 빠르게` 3분할 행을 추가했다. 기본 `보통`은 기존 0.018초/자 체감을 보존하고, 느리게는 1.65배 간격, 빠르게는 0.5배 간격으로 현재 타이핑부터 즉시 반영되며 전역 설정으로 저장된다. 사건의 `pace=slow`는 선택 단계 위에 1.67배 호흡을 더하는 상대 연출로 유지된다. AUTO는 실제 타이핑 시간을 목표 독해시간에서 빼 세 속도의 총 독해시간이 중복되지 않는다. 포커스는 글자 크기→출력 속도→언어 순서이며 960×600 물리 창에서 무스크롤 패널 경계와 세그먼트 이동을 실행했다. `StoryAudioSettingsCheck`가 속도 비율·새 StoryMode 영속·AUTO 보정·한영 현장 언어 전환·결과 효과 1회·타이머 정지·오디오 연속성을 통과했고 일본어 UI 2,315키도 오류 0이다.
 
 #### [~] USER-P0H [P0·루프/가독성] 무정보 Quiet 주차 압축과 의미 결과 수동 확인
-**[~] 착수 (2026-07-24 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `scenes/MainGame.gd`, `content/events/story_events.json`, `tools/MotivationImprintCheck.gd`, `tools/ImmersionLoopCheck.gd`, `tools/ScreenshotQA.gd`, `locale/ui_ja.json`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
+**[~] 착수 (2026-07-24 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `scenes/MainGame.gd`, `content/events/story_events.json`, `content/events_en/story_events.json`, `tools/MotivationImprintCheck.gd`, `tools/ImmersionLoopCheck.gd`, `tools/ScreenshotQA.gd`, `locale/ui_ja.json`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
 
 **사용자 실플레이 진단:** "`루틴이 이번 주를 운반했다`, `이번 주의 시간은 몸과 사람 쪽에 남았다`가 무슨 말인지 모르겠고, 화면이 자동으로 넘어가 읽지도 못한다. 240번 반복되는 이 화면이 의미가 있는가." 또 수첩 동기 `아버지가 그 거실에 서는 걸 본다`는 목적어와 배경을 알아야만 이해되는 압축 문장이다. 현재 본편 240주는 직접 선택 52주·Echo 20주·Quiet 168주이며, 새 정보가 없는 Quiet 카드도 0.90초 동안 전체 화면을 차지한다. 월말에는 이 카드가 뒤에 남은 채 결산 모달이 겹쳐 보인다.
 
