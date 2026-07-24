@@ -112,6 +112,8 @@
 
 **수리 범위·수용 기준:** 완전 새 실행의 AUTO 기본값은 OFF이며, 사용자가 직접 켠 값만 같은 앱 세션의 다음 StoryMode에 유지한다. 튜토리얼 확인 입력은 포커스 버튼과 오버레이 전역 처리 중 정확히 한 경로만 소비해 키보드 Enter·패드 South·마우스 클릭 모두 한 번에 한 페이지만 이동하고, 닫힌 뒤 원래 AP 카드 포커스를 복구한다. 첫 AP 설명은 현재 계약대로 "이번 주 세 길 중 하나를 고르면 한 주를 맡기고 나머지 두 길은 닫힌다"를 한영으로 가르치며, 잔여 AP·다중 행동·자동 감소를 사실처럼 말하지 않는다. `story_knee_witness`와 `story_knee_choice`는 작업복 차림 정본 아버지를 실제 장면 인물로 유지하되 통화 프레임으로 오인하지 않고, 결과 산문과 선택지를 가리지 않는다. 런타임 검사는 완전 새 StoryMode AUTO OFF, 사용자가 켠 세션 유지, 물리 Enter/South/마우스 단일 이동, 최신 튜토리얼 카피, 두 무릎 사건의 아버지 현존을 실행한다.
 
+**픽셀 QA 범위 확장 (2026-07-24 Codex) — 추가로 만지는 파일:** `tools/ScreenshotQA.gd`. 기존 `story-presence` 한영 표본에 `story_knee_witness`와 `story_knee_choice`를 추가해 정본 작업복 아버지가 960×600 및 1280×800 안전영역에서 본문·선택지를 가리지 않고, 빈 방이나 통화 프레임으로 보이지 않는지 실제 게임 픽셀로 검사한다.
+
 #### [~] ORDER-43 [P0·오디오 REWORK] 파형 합성 전면 퇴출 — 실제 녹음·샘플 기반 팔레트
 **[~] 착수 (2026-07-23 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `CLAUDE.md`, `docs/DECISIONS.md`, `docs/AUDIO_QA.md`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `assets/audio/AUDIO_SOURCE_LEDGER.md`, `assets/audio/AUDIO_PROMPTS.md`, 신규 오디오 출처·크레딧 원장, `assets/scene_audio_manifest.json`, `assets/game_audio_manifest.json`, `assets/mod_asset_manifest.json`, `autoloads/BGMPlayer.gd`, `autoloads/AudioManager.gd`, `tools/generate_audio_p1_assets.py`, `tools/audio_source_audit.py`, `tools/scene_audio_contract_check.py`, `tools/AudioAssetCheck.gd`, `tools/BGMContinuityCheck.gd`, `tools/GameAudioContractCheck.gd`, 신규 샘플 임포트 도구, 교체 대상 `assets/audio/*.wav`, `assets/audio/*.ogg`와 각 `.import`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
 
