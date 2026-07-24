@@ -1,15 +1,14 @@
 # Gangnam Dream Canon Map
 
-Updated: 2026-06-12
+Updated: 2026-07-24
 
-This is the operational canon map for story, characters, and expansion work. If this file conflicts with older planning documents, use this order of truth:
+This is the operational canon map for story, characters, and expansion work. Context routing lives in `docs/CONTEXT_INDEX.md`. If documents disagree, do not silently treat shipped behavior as intended canon. Use this order:
 
-1. `CLAUDE.md` current-state block and hard project rules
-2. Runtime code and shipped content JSON
-3. `docs/CANON_MAP.md`
-4. `docs/STORY_BIBLE.md`
-5. Asset-specific canon files such as `assets/CHARACTER_VISUAL_BIBLE.md`
-6. Historical logs and old briefs
+1. The user's latest explicit instruction
+2. The latest matching entry in `docs/DECISIONS.md`
+3. The domain owner named by `docs/context_manifest.json`
+4. Runtime code and shipped content JSON as evidence of current behavior
+5. Historical logs, audits, plans, and old briefs
 
 `docs/GAME_DESIGN.md` is archival. It describes an older roguelike version and is not current canon.
 
@@ -22,7 +21,7 @@ This is the operational canon map for story, characters, and expansion work. If 
   - Drama mode: 2,000,000 KRW start, lower pressure.
   - Reality mode: 500,000 KRW start, intended balance.
   - Jiokgo mode: 300,000 KRW start, higher pressure.
-- Core deadline: 5 years, 60 turns, age 33 to 38.
+- Core deadline: 5 years, 240 weeks, age 33 to 38.
 - Victory target: total assets 3,000,000,000 KRW.
 - Default goshiwon monthly fixed expense: 650,000 KRW.
 - Genre: interactive drama / visual novel life sim, not a pure economy simulator.

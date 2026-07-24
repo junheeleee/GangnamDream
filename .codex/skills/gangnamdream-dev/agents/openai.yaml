@@ -1,0 +1,4 @@
+interface:
+  display_name: "강남드림 개발"
+  short_description: "강남드림 정본과 큐를 필요한 만큼만 읽어 안전하게 개발합니다."
+  default_prompt: "강남드림의 현재 큐와 관련 정본만 읽고 다음 작업을 구현·검증해 주세요."

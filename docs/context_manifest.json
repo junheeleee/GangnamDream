@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "updated": "2026-07-24",
+  "boot": {
+    "required": [
+      {"path": "CLAUDE.md", "max_bytes": 18000},
+      {"path": "docs/CODEX_QUEUE.md", "max_bytes": 12000}
+    ],
+    "router": {"path": "docs/CONTEXT_INDEX.md", "max_bytes": 18000},
+    "recent_log": {"path": "docs/WORK_LOG.md", "max_bytes": 40000},
+    "never_default_load": [
+      "docs/history/*.md",
+      "docs/queue_archive/*.md",
+      "docs/archive/*.md",
+      "docs/RELEASE_NOTES.md",
+      "docs/STATE_LOG_ARCHIVE.md"
+    ]
+  },
+  "authority_order": [
+    "latest_user_instruction",
+    "latest_matching_decision",
+    "domain_owner",
+    "runtime_evidence",
+    "plan_audit_history"
+  ],
+  "domain_owners": {
+    "product_and_live_state": ["CLAUDE.md"],
+    "world_characters_chapters": ["docs/STORY_BIBLE.md", "docs/CANON_MAP.md"],
+    "weekly_loop": ["docs/AP_REDESIGN.md", "docs/GAME_RECOMPOSITION_PLAN.md"],
+    "story_causality": ["content/meta/story_rules.json", "docs/STORY_CONSISTENCY_SYSTEM.md"],
+    "romance": ["docs/ROMANCE_SYSTEM.md"],
+    "balance": ["docs/BALANCE.md", "autoloads/GameState.gd"],
+    "moral_tint": ["docs/MORAL_TINT.md"],
+    "localization": ["docs/I18N_GLOSSARY.md", "docs/I18N_INFRASTRUCTURE.md"],
+    "art_direction": ["docs/GANGNAM_INK_ART_DIRECTION.md", "docs/IP_VISUAL_IDENTITY.md"],
+    "visual_continuity": ["assets/CHARACTER_VISUAL_BIBLE.md", "docs/ASSET_CONTINUITY_CHECKLIST.md"],
+    "scene_visual_contracts": ["assets/event_visual_contracts.json", "assets/cg_acting_manifest.json"],
+    "audio": ["docs/AUDIO_QA.md", "assets/game_audio_manifest.json", "assets/scene_audio_manifest.json", "assets/audio/AUDIO_SOURCE_MANIFEST.json"],
+    "ui_input": ["docs/UI_ART_DIRECTION.md", "docs/CONTROLLER_UX_STRATEGY.md", "docs/INPUT_MATRIX.md"],
+    "release_quality": ["docs/MASTER_RELEASE_AUDIT.md", "docs/QA_CHECKLIST.md", "docs/BUILD_PIPELINE.md"],
+    "store_marketing": ["docs/STEAM_PAGE.md", "docs/STORE_SHOTLIST.md", "docs/TRAILER_PRODUCTION.md"]
+  },
+  "task_profiles": {
+    "narrative": {
+      "required": ["docs/STORY_BIBLE.md", "docs/STORY_CONSISTENCY_SYSTEM.md", "content/meta/narrative_spine.json", "content/meta/story_rules.json"],
+      "conditional": ["docs/ROMANCE_SYSTEM.md", "docs/GAME_RECOMPOSITION_PLAN.md", "content/endings.json"]
+    },
+    "gameplay_balance": {
+      "required": ["docs/AP_REDESIGN.md", "docs/BALANCE.md", "autoloads/GameState.gd"],
+      "conditional": ["docs/GAME_RECOMPOSITION_PLAN.md", "content/meta/event_director.json", "tools/balance_check.py"]
+    },
+    "visual": {
+      "required": ["docs/GANGNAM_INK_ART_DIRECTION.md", "docs/ASSET_CONTINUITY_CHECKLIST.md", "assets/CHARACTER_VISUAL_BIBLE.md"],
+      "conditional": ["assets/*VISUAL_BIBLE.md", "docs/ENDING_ART.md", "docs/ENDING_AUDIT.md", "autoloads/ImageRegistry.gd", "assets/event_visual_contracts.json", "assets/cg_acting_manifest.json"]
+    },
+    "audio": {
+      "required": ["docs/AUDIO_QA.md", "assets/game_audio_manifest.json", "assets/scene_audio_manifest.json", "assets/audio/AUDIO_SOURCE_MANIFEST.json"],
+      "conditional": ["docs/PRODUCTION_ASSET_PIPELINE.md", "autoloads/AudioManager.gd", "autoloads/BGMPlayer.gd"]
+    },
+    "ui_controller": {
+      "required": ["docs/UI_ART_DIRECTION.md", "docs/CONTROLLER_UX_STRATEGY.md", "docs/INPUT_MATRIX.md"],
+      "conditional": ["docs/QA_CHECKLIST.md", "docs/MORAL_TINT.md", "autoloads/ControllerHints.gd"]
+    },
+    "localization": {
+      "required": ["docs/I18N_GLOSSARY.md", "docs/I18N_INFRASTRUCTURE.md"],
+      "conditional": ["docs/I18N_GLOSSARY_JA.md", "autoloads/LocaleManager.gd"]
+    },
+    "release": {
+      "required": ["docs/MASTER_RELEASE_AUDIT.md", "docs/QA_CHECKLIST.md", "docs/BUILD_PIPELINE.md"],
+      "conditional": ["docs/NEXTFEST_CHECKLIST.md", "docs/PLAYTEST_KIT.md", "docs/DEMO_FIXLOG.md", "docs/STEAM_PAGE.md", "docs/STORE_SHOTLIST.md"]
+    }
+  },
+  "document_groups": {
+    "boot_and_queue": [
+      "docs/CONTEXT_INDEX.md",
+      "docs/CODEX_QUEUE.md",
+      "docs/queue_active/*.md"
+    ],
+    "canon": [
+      "docs/AP_REDESIGN.md",
+      "docs/BALANCE.md",
+      "docs/CANON_MAP.md",
+      "docs/I18N_GLOSSARY.md",
+      "docs/I18N_GLOSSARY_JA.md",
+      "docs/I18N_INFRASTRUCTURE.md",
+      "docs/MODDING.md",
+      "docs/MORAL_TINT.md",
+      "docs/ROMANCE_SYSTEM.md",
+      "docs/STORY_BIBLE.md",
+      "docs/STORY_CONSISTENCY_SYSTEM.md"
+    ],
+    "plans_and_backlog": [
+      "docs/ART_MASTER_PRODUCTION.md",
+      "docs/ART_RESOLUTION_READINESS.md",
+      "docs/ASSET_GAP_SPEC.md",
+      "docs/CONTROLLER_UX_STRATEGY.md",
+      "docs/GAME_RECOMPOSITION_PLAN.md",
+      "docs/MAP_HUB_PROPOSAL.md",
+      "docs/NARRATIVE_RECOMPOSITION_PLAN.md",
+      "docs/NEW_ASSET_REQUESTS.md",
+      "docs/POST_LAUNCH_NOTES.md",
+      "docs/ROADMAP.md",
+      "docs/ROMANCE_T0_ASSET_JOBS.md",
+      "docs/TECH_DEBT.md"
+    ],
+    "production": [
+      "docs/ASSETS_BRIEF.md",
+      "docs/ASSET_CONTINUITY_CHECKLIST.md",
+      "docs/AUDIO_QA.md",
+      "docs/ENDING_ART.md",
+      "docs/GANGNAM_INK_ART_DIRECTION.md",
+      "docs/IP_VISUAL_IDENTITY.md",
+      "docs/PRODUCTION_ASSET_PIPELINE.md",
+      "docs/ROMANCE_PORTRAIT_MATRIX.md",
+      "docs/SCENE_DIRECTION.md",
+      "docs/UI_ART_DIRECTION.md"
+    ],
+    "audit_and_reports": [
+      "docs/ART_AI_AUDIT.md",
+      "docs/ASSET_QA.md",
+      "docs/CONVERGENCE_REPORT.md",
+      "docs/DEMO_EXPERIENCE_AUDIT.md",
+      "docs/DEMO_QA_REPORT.md",
+      "docs/DEMO_SCENE_FLOW_AUDIT.md",
+      "docs/ENDING_AUDIT.md",
+      "docs/FUN_AUDIT_2026-07-20.md",
+      "docs/MASTER_RELEASE_AUDIT.md",
+      "docs/PEAK_SCENE_CHAIN_AUDIT.md",
+      "docs/STEAM_QUALITY_BENCHMARKS.md"
+    ],
+    "qa_release_marketing": [
+      "docs/BUILD_PIPELINE.md",
+      "docs/INPUT_MATRIX.md",
+      "docs/NEXTFEST_CHECKLIST.md",
+      "docs/PLAYTEST_KIT.md",
+      "docs/QA_CHECKLIST.md",
+      "docs/STEAM_PAGE.md",
+      "docs/STORE_PAGE.md",
+      "docs/STORE_SHOTLIST.md",
+      "docs/STORE_TONE_OPINION.md",
+      "docs/TRAILER_PRODUCTION.md"
+    ],
+    "ledgers_and_history": [
+      "docs/DECISIONS.md",
+      "docs/DEMO_FIXLOG.md",
+      "docs/RELEASE_NOTES.md",
+      "docs/STATE_LOG_ARCHIVE.md",
+      "docs/WORK_LOG.md",
+      "docs/history/*.md",
+      "docs/queue_archive/*.md",
+      "docs/archive/*.md"
+    ]
+  },
+  "managed_links": [
+    "CLAUDE.md",
+    "docs/CONTEXT_INDEX.md",
+    "docs/CODEX_QUEUE.md",
+    "docs/queue_active/*.md",
+    ".codex/skills/gangnamdream-dev/SKILL.md"
+  ],
+  "invariants": [
+    {
+      "path": "docs/CANON_MAP.md",
+      "must_contain": ["5 years, 240 weeks", "age 33 to 38"],
+      "must_not_contain": ["5 years, 60 turns"]
+    },
+    {
+      "path": "CLAUDE.md",
+      "must_contain": ["1턴=1주, 240주", "데모=24주", "project.godot"]
+    }
+  ]
+}
