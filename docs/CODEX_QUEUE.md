@@ -116,6 +116,8 @@
 
 **6년 전 인물 정합 범위 확장 (2026-07-24 사용자 지적) — 추가로 만지는 파일:** 신규 `assets/characters/npc_father_past.png`와 Godot `.import`, `autoloads/ImageRegistry.gd`, `assets/CHARACTER_VISUAL_BIBLE.md`, `assets/IMAGE_PROMPTS.md`, `assets/ASSET_INDEX.md`, `assets/mod_asset_manifest.json`, `docs/MODDING.md`, `docs/ART_AI_AUDIT.md`. 2026년 63세 정본 초상을 2020년 회상에 재사용하지 않는다. 과거형은 같은 얼굴·체격·낡은 작업복을 유지하되 약 57세로 흰머리와 깊은 주름이 덜하고, 부채 장면의 수치심과 피로가 시선에 남아야 한다. 젊은 대역·현대적인 일상복·병원복·미소·렌즈 응시를 금지하며 두 무릎 사건과 한영 픽셀 QA는 `father_past`만 사용한다.
 
+**해상도 감사 범위 확장 (2026-07-24 Codex) — 추가로 만지는 파일:** `tools/art_resolution_baseline.json`. 신규 활성 초상 `npc_father_past.png`를 512×768 네이티브 1080p 초상으로 기준선에 등록한다. 기존 195개 에셋의 경로·종류·원본 크기·확대 밴드는 변경하거나 완화하지 않는다.
+
 #### [~] ORDER-43 [P0·오디오 REWORK] 파형 합성 전면 퇴출 — 실제 녹음·샘플 기반 팔레트
 **[~] 착수 (2026-07-23 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`, `CLAUDE.md`, `docs/DECISIONS.md`, `docs/AUDIO_QA.md`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `assets/audio/AUDIO_SOURCE_LEDGER.md`, `assets/audio/AUDIO_PROMPTS.md`, 신규 오디오 출처·크레딧 원장, `assets/scene_audio_manifest.json`, `assets/game_audio_manifest.json`, `assets/mod_asset_manifest.json`, `autoloads/BGMPlayer.gd`, `autoloads/AudioManager.gd`, `tools/generate_audio_p1_assets.py`, `tools/audio_source_audit.py`, `tools/scene_audio_contract_check.py`, `tools/AudioAssetCheck.gd`, `tools/BGMContinuityCheck.gd`, `tools/GameAudioContractCheck.gd`, 신규 샘플 임포트 도구, 교체 대상 `assets/audio/*.wav`, `assets/audio/*.ogg`와 각 `.import`. 기존 사용자 변경 `project.godot`은 건드리지 않는다.
 
