@@ -4,7 +4,19 @@
 > [`docs/SCRIPT_REVIEW_2026-07-24.md`](../SCRIPT_REVIEW_2026-07-24.md).
 > 명장면 루브릭 §8은 [`docs/ROMANCE_SYSTEM.md`](../ROMANCE_SYSTEM.md).
 
-#### [ ] ORDER-48 [P1·정점 산문 밀도] 밀도 역전 수리 — 유혹은 체인, 상실·확정은 세 문장
+#### [~] ORDER-48 [P1·정점 산문 밀도] 밀도 역전 수리 — 유혹은 체인, 상실·확정은 세 문장
+
+> **2026-07-25 착수 — 만지는 파일**
+>
+> - 로맨스 경첩: `content/events/{arc_daeun,arc_daeun_married}.json` 및
+>   같은 이름의 `content/events_en/` 오버레이
+> - 엔딩 산문: `content/endings.json`, `content/endings_en.json`
+> - 회귀 계약: `tools/ending_distinctness_audit.py`
+> - 판정·기록: `docs/ENDING_AUDIT.md`,
+>   `docs/SCRIPT_REVIEW_2026-07-24.md`, `CLAUDE.md`, `docs/WORK_LOG.md`,
+>   이 활성 사양과 큐 인덱스
+>
+> 이미지·효과 수치·플래그 생산·엔딩 라우팅은 변경하지 않는다.
 
 ## 진단
 

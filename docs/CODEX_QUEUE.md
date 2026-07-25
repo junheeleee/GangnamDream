@@ -47,7 +47,7 @@
 
 | 순서 | 상태 | 항목 | 전체 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [ ] | ORDER-48 · 정점 산문 밀도 역전 수리 | [ORDER-48](queue_active/ORDER-48.md) | P1 |
+| 1 | [~] | ORDER-48 · 정점 산문 밀도 역전 수리 | [ORDER-48](queue_active/ORDER-48.md) | 착수 2026-07-25 · 로맨스 경첩·엔딩 회수 산문 수리 |
 | 2 | [ ] | ORDER-49 · 선택의 고민 장부화 | [ORDER-49](queue_active/ORDER-49.md) | ⚠P2, 밸런스·유저 승인 필요·산문분만 선제 |
 | 3 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 데모 완료, 본편 240주 확산·장별 연속 청취 OPEN |
 | 4 | [ ] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 사양 기록, 구현 미착수 |
