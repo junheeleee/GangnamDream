@@ -14,7 +14,11 @@
 >   `arc_jiyeon_married.json`, `arc_romance_specials.json`,
 >   `callback_events_23.json`, `arc_year3_drama.json`,
 >   `arc_web_crossbeams.json`,
->   `content/events_en/relationship_events.json`,
+>   EN 지연 오버레이: `content/events_en/arc_events.json`,
+>   `arc_romance_specials.json`, `arc_year3_drama.json`,
+>   `arc_season_dates.json`, `callback_events_7.json`,
+>   `callback_events_10.json`, `callback_events_12.json`,
+>   `callback_events_15.json`, `relationship_events.json`,
 >   `content/endings.json`, `content/endings_en.json`
 > - 다은: `content/events/arc_events.json`, `callback_events_18.json`,
 >   `arc_daeun_extension.json`, `arc_daeun_married.json`,
