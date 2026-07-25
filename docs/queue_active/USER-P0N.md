@@ -15,7 +15,8 @@
 `autoloads/DataRegistry.gd`,
 `scenes/StoryMode.gd`, `scenes/MainGame.gd`, `scenes/OpeningCinematic.gd`,
 `scenes/ui/LivingSceneLayer.gd`, 관련 셰이더, `tools/LivingSceneCheck.gd`,
-`tools/ScreenshotQA.gd`, `tools/audit.sh`, 신규 전환 카탈로그·대표 240주
+`tools/StoryPlaybackCheck.gd`, `tools/ScreenshotQA.gd`, `tools/audit.sh`,
+신규 전환 카탈로그·대표 240주
 A/V 추적·Godot 런타임 검사와 해당 `.tscn`/`.uid`. 현재 diff를 읽은 뒤
 실제로 필요한 파일만 수정하며, 추가 범위가 생기면 선언 커밋을 먼저 푸시한다.
 사용자 변경 `project.godot`은 건드리지 않는다.
