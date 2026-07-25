@@ -12,6 +12,7 @@
 `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, 신규
 `assets/scene_direction_manifest.json`, `content/meta/story_rules.json`,
 `assets/event_visual_contracts.json`, `assets/scene_audio_manifest.json`,
+`autoloads/DataRegistry.gd`,
 `scenes/StoryMode.gd`, `scenes/MainGame.gd`,
 `scenes/ui/LivingSceneLayer.gd`, 관련 셰이더, `tools/LivingSceneCheck.gd`,
 `tools/ScreenshotQA.gd`, `tools/audit.sh`, 신규 전환 카탈로그·대표 240주
