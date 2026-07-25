@@ -3,7 +3,31 @@
 > Canonical status is indexed in `docs/CODEX_QUEUE.md`. 근거 원장은
 > [`docs/SCRIPT_REVIEW_2026-07-24.md`](../SCRIPT_REVIEW_2026-07-24.md).
 
-#### [ ] ORDER-44 [P0·정합 위생] 외부 테스트 오염 방지 — 죽은 인물·오기·도달불가·시제 확정 수리
+#### [~] ORDER-44 [P0·정합 위생] 외부 테스트 오염 방지 — 죽은 인물·오기·도달불가·시제 확정 수리
+
+> **2026-07-25 착수 — 만지는 파일**
+>
+> - 런타임·라우팅: `autoloads/GameState.gd`, `scenes/MainGame.gd`
+> - 엔딩: `content/endings.json`, `content/endings_en.json`
+> - 본편·아크: `content/events/arc_events.json`, `content/events/arc_h2_beats.json`,
+>   `content/events/arc_midgame.json`, `content/events/arc_drama.json`,
+>   `content/events/arc_web_crossbeams.json`, `content/events/arc_jiyeon_married.json`,
+>   `content/events/arc_year_close.json` 및 같은 이름의 `content/events_en/` 오버레이
+> - 랜덤·NG+·관계: `content/events/life_events.json`,
+>   `content/events/relationship_events.json`, `content/events/relationship_events2.json`,
+>   `content/events/ng_plus_events.json`, `content/events/callback_events_7.json`,
+>   `content/events_en/callback_events_7.json`
+> - 아버지 생존 가드 전수: `content/events/callback_events.json`,
+>   `callback_events_2.json`, `callback_events_3.json`, `callback_events_4.json`,
+>   `callback_events_5.json`, `callback_events_6.json`, `callback_events_10.json`,
+>   `callback_events_13.json`, `callback_events_17.json`, `callback_events_18.json`,
+>   `callback_events_20.json`, `callback_events_25.json`, `callback_events_28.json`,
+>   `callback_events_29.json`, `callback_events_36.json`, `callback_events_39.json`,
+>   `callback_events_43.json`, `callback_events_44.json`, `callback_events_46.json`,
+>   `callback_events_53.json`, `callback_events_54.json`, `callback_events_55.json`
+> - 계약·회귀·기록: `content/meta/story_rules.json`,
+>   `tools/EndingRouteIdentityCheck.gd`, `docs/SCRIPT_REVIEW_2026-07-24.md`,
+>   `CLAUDE.md`, `docs/WORK_LOG.md`, 이 활성 사양과 큐 인덱스
 
 ## 왜 P0인가
 

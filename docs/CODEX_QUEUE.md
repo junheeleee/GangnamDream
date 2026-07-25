@@ -47,7 +47,7 @@
 
 | 순서 | 상태 | 항목 | 전체 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [ ] | ORDER-44 · 정합 위생(죽은 인물·오기·도달불가·시제) | [ORDER-44](queue_active/ORDER-44.md) | P0 확정 버그, 외부 표본 전 착수 |
+| 1 | [~] | ORDER-44 · 정합 위생(죽은 인물·오기·도달불가·시제) | [ORDER-44](queue_active/ORDER-44.md) | 착수 2026-07-25 · 확정 오류 18군 수리·표적 런 검증 |
 | 2 | [ ] | ORDER-45 · 호칭·스피치 정본 붕괴 전수 | [ORDER-45](queue_active/ORDER-45.md) | P0 문장 수리 |
 | 3 | [ ] | ORDER-46 · 랜덤 풀 위생(수치-산문·모순·설교투) | [ORDER-46](queue_active/ORDER-46.md) | P1 |
 | 4 | [ ] | ORDER-47 · 편성/구조(장 결산·환불선·중반·4장·4→5) | [ORDER-47](queue_active/ORDER-47.md) | P1, 밴드 영향분 BALANCE 기록 |
