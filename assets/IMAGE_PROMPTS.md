@@ -293,6 +293,48 @@ sips -z 768 512
 
 ---
 
+## 2026-07-25 고시원 공용 주방 정합 배경
+
+- **최종 경로**: `assets/backgrounds/goshiwon_shared_kitchen.png`
+- **생성 방식**: Codex built-in ImageGen
+- **입력 레퍼런스**:
+  - `assets/backgrounds/goshiwon_room.png`: 같은 건물의 벽 재질·저채도
+    야간 팔레트·회화 렌더링.
+  - `assets/backgrounds/goshiwon_hallway.png`: 노후 배관·형광등·복도
+    구조. 생성 안정성을 위해 1280×800 참조본으로만 축소해 입력했다.
+- **최종 생성 원본**:
+  `/Users/junheelee/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/call_0cjpvU2utx7zltPDsldBRnyJ.png`
+- **후처리**: 1586×992 비알파 PNG를 1280×800으로 리샘플했다.
+
+```text
+Create the 2 AM shared kitchen in the exact same old Sinchon goshiwon as the
+room and hallway references. Match their mature Korean digital-painted realism,
+subtle ink edges, matte worn surfaces, low saturation, cool charcoal shadows,
+restrained amber spill, and realistic perspective.
+
+At eye level from the doorway, show a genuinely cramped two-meter-wide
+communal kitchen: one coherent stainless counter, small sink and drying rack,
+one or two cheap induction burners, modest hood, one neutral steaming pot,
+sparse mismatched communal cookware, one old shared refrigerator, narrow clear
+aisle, peeling gray-beige walls, exposed utilities, worn tile, cheap cabinets,
+small high frosted window, and fluorescent ceiling light. Keep the location
+evidence in the left/center 70% and above the lower dialogue-safe 30%; reserve
+the darker right edge for Hyunsu's transparent portrait.
+
+No people, silhouettes, bed, bedroom desk, laptop, private-room props, dining
+set, apartment island, luxury finish, restaurant equipment, large window,
+skyline, brand, logo, watermark, poster, menu, or readable text. No blocked
+appliance, duplicated sink, floating cookware, malformed fixture, or impossible
+reflection. It must read as a shared goshiwon kitchen, not an apartment, cafe,
+restaurant, or private room.
+```
+
+- **합격 기준**: 개인실 침대·책상 0, 인물·판독 문자 0, 싱크대·조리기·
+  냉장고·통로가 한 원근 안에서 물리적으로 연결된다. 실제 StoryMode에서
+  오른쪽 현수 초상과 하단 대화창을 합성해도 공용 주방이 즉시 읽혀야 한다.
+
+---
+
 ## 2026-07-24 아버지 6년 전 연령 정합
 
 ### npc_father_past.png

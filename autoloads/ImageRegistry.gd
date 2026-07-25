@@ -198,6 +198,7 @@ const BACKGROUNDS = {
 	"goshiwon":          "res://assets/backgrounds/goshiwon_room.png",
 	"goshiwon_room":     "res://assets/backgrounds/goshiwon_room.png",
 	"goshiwon_hallway":  "res://assets/backgrounds/goshiwon_hallway.png",
+	"goshiwon_shared_kitchen": "res://assets/backgrounds/goshiwon_shared_kitchen.png",
 	# 서울 일상
 	"convenience_night": "res://assets/backgrounds/convenience_store_night_v2.png",
 	"convenience_first_snow_exterior": "res://assets/backgrounds/convenience_store_exterior_first_snow.png",
@@ -604,6 +605,8 @@ func infer_background_id(ev: Dictionary, housing: String = "gosiwon") -> String:
 		return "realestate_office"
 	if event_id == "arc_gangnam_real_estate":
 		return "investment_phone"
+	if event_id == "hyunsu_study_together":
+		return "goshiwon_shared_kitchen"
 	if event_id == "arc_36_body_signal":
 		return "goshiwon_hallway"
 	if event_id == "callback_hoesik_payoff":

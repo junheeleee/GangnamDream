@@ -201,6 +201,14 @@
     {
       "kind": "background",
       "ids": [
+        "goshiwon_shared_kitchen"
+      ],
+      "relative_path": "backgrounds/goshiwon_shared_kitchen.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "gukbap_restaurant_night"
       ],
       "relative_path": "backgrounds/gukbap_restaurant_night.png",

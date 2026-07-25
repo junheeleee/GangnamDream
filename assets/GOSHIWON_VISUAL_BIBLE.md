@@ -5,6 +5,8 @@ Updated: 2026-07-17
 ## Canon Owner
 
 - Reusable background: `assets/backgrounds/goshiwon_room.png`
+- Shared-kitchen background: `assets/backgrounds/goshiwon_shared_kitchen.png`
+- Hallway background: `assets/backgrounds/goshiwon_hallway.png`
 - T1 Jiyeon CG: `assets/cg/romance/narrow_room_jiyeon_v1.png`
 - Related events: `arc_jiyeon_narrow_room_1`, `arc_jiyeon_narrow_room_2`
 
@@ -40,6 +42,29 @@ FRONT / CAMERA
 - Early investing uses a phone or one modest laptop only. No multi-monitor trading station.
 - Bedding, lamp, window, desk, shelf, fridge, and door placement remain stable across all angles.
 
+## Shared Kitchen Lock
+
+- `goshiwon_shared_kitchen.png` is a separate communal room reached from the
+  canonical hallway. It never contains Minjun's bed, desk, lamp, notebook, or
+  other private-room props.
+- The kitchen is roughly two meters wide with one continuous stainless counter,
+  one sink, one drying rack, one or two inexpensive induction burners, one
+  modest hood, shallow communal shelves, one old shared refrigerator, and one
+  narrow clear aisle. Appliance doors and the walking path must remain usable.
+- Peeling gray-beige walls, exposed utilities, worn dark tile, cheap fixtures,
+  and the 2 AM fluorescent/corridor-light mix identify it as the same building
+  as `goshiwon_hallway.png`.
+- Reusable scenery stays person-free and contains no readable labels. A neutral
+  pot and sparse communal cookware are allowed; personal study books, phones,
+  food brands, and event-specific possessions are not baked into the room.
+- The left and center retain the sink, burner, refrigerator, shelves, and aisle
+  above the dialogue-safe lower third. The right edge remains quiet enough for
+  Hyunsu's transparent portrait without hiding the location.
+- Any event whose active physical scene is inside `고시원 공용 주방`,
+  `고시원 공용 부엌`, or the `goshiwon shared kitchen` uses
+  `goshiwon_shared_kitchen`, not the private `goshiwon_room`. A hallway outside
+  the kitchen and a later verbal memory keep their actual present location.
+
 ## Jiyeon Narrow Room Lock
 
 - Jiyeon sits on the floor aisle beside the left bed, knees drawn up, not posed romantically on the bed.
@@ -61,5 +86,8 @@ FRONT / CAMERA
 - Bed rotates across the back wall, moves to the right, changes bedding, or becomes a double bed.
 - Desk moves beside the pillow, disappears, or becomes a full workstation.
 - A second door, second switch, second bed, large window, skyline, or private bathroom appears.
+- A shared-kitchen scene shows a bed, private desk, apartment island, dining
+  room, restaurant equipment, blocked refrigerator, duplicated sink, or luxury
+  cabinetry.
 - Jiyeon wears her cream blazer, beach outfit, or full makeup inside the room.
 - Either actor looks at the lens or the cup ramyeon disappears under the dialogue panel.

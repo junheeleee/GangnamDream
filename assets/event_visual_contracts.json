@@ -186,6 +186,7 @@
     {"id": "cafe_bluff_recover", "background": "cafe", "portrait": "cafe_investor"},
 
     {"id": "arc_y2_hyunsu_night_bus", "background": "late_night", "portrait": "hyunsu", "choice_result_backgrounds": {"0": "seoul_bus_terminal_night"}},
+    {"id": "hyunsu_study_together", "background": "goshiwon_shared_kitchen", "portrait": "hyunsu"},
     {"id": "arc_hyunsu_night_talk", "background": "goshiwon_hallway", "portrait": "hyunsu"},
     {"id": "hyunsu_exam_day", "background": "goshiwon_hallway", "portrait": "player_offduty_neutral"},
     {"id": "hyunsu_result_fail", "background": "goshiwon_hallway", "portrait": "player_offduty_neutral"},

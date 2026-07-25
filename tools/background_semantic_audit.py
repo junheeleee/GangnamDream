@@ -171,6 +171,8 @@ def infer_background_id(ev: Dict, housing: str = "gosiwon") -> str:
         return "realestate_office"
     if event_id == "arc_gangnam_real_estate":
         return "investment_phone"
+    if event_id == "hyunsu_study_together":
+        return "goshiwon_shared_kitchen"
     if event_id == "arc_36_body_signal":
         return "goshiwon_hallway"
     if event_id == "callback_hoesik_payoff":
@@ -435,6 +437,7 @@ EXPECTED_BY_EVENT_ID: Dict[str, Tuple[str, str]] = {
     "arc_jiyeon_father_records": ("event_id: jiyeon cafe truth", "cafe"),
     "arc_pre_ending_summit": ("event_id: gangnam real-estate closing", "realestate_office"),
     "arc_gangnam_real_estate": ("event_id: real-estate app check", "investment_phone"),
+    "hyunsu_study_together": ("event_id: Hyunsu in the shared goshiwon kitchen", "goshiwon_shared_kitchen"),
     "arc_36_body_signal": ("event_id: body signal in goshiwon stairs", "goshiwon_hallway"),
     "callback_hoesik_payoff": ("event_id: manager office callback", "office"),
     "casino_chip_exchange": ("event_id: casino cashier entrance", "jeongseon_casino_entrance"),

@@ -479,6 +479,23 @@
         "4k": "native"
       }
     },
+    "assets/backgrounds/goshiwon_shared_kitchen.png": {
+      "kind": "Background",
+      "ids": [
+        "goshiwon_shared_kitchen"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
     "assets/backgrounds/goshiwon_room.png": {
       "kind": "Background",
       "ids": [

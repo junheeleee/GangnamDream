@@ -2,7 +2,7 @@
 
 > Canonical status is indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] USER-P0R [P0·장소 정합] 고시원 공용 주방 전용 배경
+#### [x] USER-P0R [P0·장소 정합] 고시원 공용 주방 전용 배경
 
 > **2026-07-25 착수 — 만지는 파일**
 >
@@ -10,10 +10,12 @@
 > - 사건·런타임: `content/events/arc_hyunsu.json`,
 >   `autoloads/ImageRegistry.gd`
 > - 자산 계약: `assets/event_visual_contracts.json`,
->   `assets/mod_asset_manifest.json`, `tools/art_resolution_baseline.json`
+>   `assets/mod_asset_manifest.json`, `docs/MODDING.md`,
+>   `tools/art_resolution_baseline.json`
 > - 자동 회귀: `tools/background_semantic_audit.py`
 > - 정본·기록: `assets/GOSHIWON_VISUAL_BIBLE.md`, `assets/IMAGE_PROMPTS.md`,
->   `CLAUDE.md`, `docs/WORK_LOG.md`, `docs/DEMO_FIXLOG.md`, 이 활성 사양과 큐 인덱스
+>   `docs/ART_AI_AUDIT.md`, `CLAUDE.md`, `docs/WORK_LOG.md`,
+>   `docs/DEMO_FIXLOG.md`, 이 활성 사양과 큐 인덱스
 >
 > 진행 중인 `ORDER-48` 파일과 사용자 소유 변경 `project.godot`은 건드리지 않는다.
 
@@ -44,3 +46,16 @@
 - 실제 StoryMode 합성에서 현수 초상·대화창·공용 주방 가독성 확인
 - `python3 tools/background_semantic_audit.py`
 - 자산·시각 계약, 한영 표면, 전체 컴파일, `git diff --check`
+
+## 완료 결과
+
+- 내장 ImageGen으로 같은 고시원 개인실·복도 재질을 잇는
+  `1280×800` RGB 전용 공용 주방을 제작했다.
+- `hyunsu_study_together`와 이미지 레지스트리·사건 시각 계약을
+  `goshiwon_shared_kitchen`으로 고정했다.
+- 한국어 StoryMode 실제 합성
+  `/tmp/gangnamdream_qa/hyunsu_study_together_kitchen.png`에서 현수
+  초상·하단 대화창과 함께 싱크대·냄비·공용 냉장고가 읽히고 침대가
+  사라진 것을 확인했다.
+- 모드 매니페스트·해상도·시각 계약·장면 오디오·한영 표면·전체 감사를
+  통과했다.
