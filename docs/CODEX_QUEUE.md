@@ -47,7 +47,7 @@
 
 | 순서 | 상태 | 항목 | 전체 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [ ] | ORDER-49 · 선택의 고민 장부화 | [ORDER-49](queue_active/ORDER-49.md) | ⚠P2, 밸런스·유저 승인 필요·산문분만 선제 |
+| 1 | [~] | ORDER-49 · 선택의 고민 장부화 | [ORDER-49](queue_active/ORDER-49.md) | 착수 2026-07-26 · 무수치 산문 정렬·기존 인과 배선, 수치 재배치는 보류 |
 | 2 | [ ] | ORDER-50 · 리뷰 부록(동기 문장 회수·루트 변주 설교) | [ORDER-50](queue_active/ORDER-50.md) | P1, ORDER-48 완료·커밋 후 착수 |
 | 3 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 데모 완료, 본편 240주 확산·장별 연속 청취 OPEN |
 | 4 | [ ] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 사양 기록, 구현 미착수 |

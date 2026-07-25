@@ -5,7 +5,20 @@
 > ⚠ 이 오더는 **밸런스 밴드·설계 판단**을 건드린다 — 착수 전 유저/활성 오더 근거 필요
 > (`docs/CODEX_QUEUE.md` 운영 프로토콜: 밸런스 밴드 밖 수치·정본 규칙 변경은 사전 승인).
 
-#### [ ] ORDER-49 [P2·설계/밸런스] 선택의 고민 장부화 — 유혹·사랑이 수치에도 존재하게
+#### [~] ORDER-49 [P2·설계/밸런스] 선택의 고민 장부화 — 유혹·사랑이 수치에도 존재하게
+
+> **착수 2026-07-26 — 만지는 파일:** `autoloads/GameState.gd`,
+> `scenes/MainGame.gd`, `content/events/arc_daeun_married.json`,
+> `content/events_en/arc_daeun_married.json`, `content/events/arc_drama.json`,
+> `content/events_en/arc_drama.json`, `content/events/callback_events.json`,
+> `content/events_en/callback_events.json`, `content/endings.json`,
+> `content/endings_en.json`, `tools/peak_scene_chain_audit.py`,
+> `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-49.md`, `CLAUDE.md`,
+> `docs/WORK_LOG.md`.
+>
+> 이번 착수는 활성 오더가 선제 허용한 **무수치 산문 정렬과 기존 인과 배선**만
+> 수행한다. 결혼 비용·재혁 판돈 등 수치 재배치는 외부 망설임 표본과 별도 승인 전까지
+> 변경하지 않는다.
 
 ## 진단 (전 게임 최대 약점)
 
