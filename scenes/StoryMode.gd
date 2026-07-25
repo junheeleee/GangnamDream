@@ -46,6 +46,8 @@ var _pending_result_choice_index: int = -1
 var _pending_follow_up: String = ""
 var _next_transition_mode: String = ""
 var _current_transition_mode: String = ""
+var _next_transition_contract: Dictionary = {}
+var _current_transition_contract: Dictionary = {}
 var _direction: Dictionary = {}
 var _direction_camera_tween: Tween = null
 var _portrait_idle_tween: Tween = null
@@ -1615,6 +1617,8 @@ func build_save_resume_context() -> Dictionary:
 		"pending_follow_up": _pending_follow_up,
 		"next_transition_mode": _next_transition_mode,
 		"current_transition_mode": _current_transition_mode,
+		"next_transition_contract": _next_transition_contract.duplicate(true),
+		"current_transition_contract": _current_transition_contract.duplicate(true),
 		"timer_remaining_msec": timer_remaining,
 		"timer_total_msec": timer_total,
 		"timer_default_choice": _choice_countdown_default_index,
@@ -1635,6 +1639,14 @@ func _apply_story_resume_context(context: Dictionary) -> void:
 		return
 	_next_transition_mode = str(context.get("next_transition_mode", ""))
 	_current_transition_mode = str(context.get("current_transition_mode", ""))
+	var next_transition_variant: Variant = context.get("next_transition_contract", {})
+	_next_transition_contract = (
+		(next_transition_variant as Dictionary).duplicate(true)
+		if next_transition_variant is Dictionary else {})
+	var current_transition_variant: Variant = context.get("current_transition_contract", {})
+	_current_transition_contract = (
+		(current_transition_variant as Dictionary).duplicate(true)
+		if current_transition_variant is Dictionary else {})
 	var phase := str(context.get("phase", "prose"))
 	if phase == "chapter" or _is_chapter_card:
 		return
@@ -1742,9 +1754,12 @@ func _build_story_scene_transition_snapshots() -> void:
 	add_child(_story_transition_portrait_snapshot)
 
 func _normalized_story_scene_transition(mode: String) -> String:
-	if mode in ["memory_cut", "time_cut", "explicit_move"]:
+	if mode in [
+		"none", "same_location", "remote", "memory_cut", "time_cut",
+		"explicit_move", "activity_enter_return", "finale",
+	]:
 		return mode
-	return "explicit_move"
+	return "none"
 
 func _story_scene_transition_seconds(mode: String) -> float:
 	if _living_reduced_motion():
@@ -1754,8 +1769,14 @@ func _story_scene_transition_seconds(mode: String) -> float:
 			return 0.78
 		"time_cut":
 			return 0.86
-		_:
+		"finale":
+			return 1.02
+		"activity_enter_return":
+			return 0.42
+		"explicit_move":
 			return 0.54
+		_:
+			return 0.0
 
 func _capture_story_transition_snapshot() -> bool:
 	if not is_instance_valid(_story_transition_snapshot) \
@@ -1792,12 +1813,15 @@ func _capture_story_transition_snapshot() -> bool:
 	return true
 
 func _begin_story_scene_transition(mode: String) -> void:
+	var normalized := _normalized_story_scene_transition(mode)
+	if normalized in ["none", "same_location", "remote"]:
+		_story_scene_transition_active = false
+		return
 	if not is_inside_tree() or not _capture_story_transition_snapshot():
 		_story_scene_transition_active = false
 		return
 	if _story_ink_transition_tween and _story_ink_transition_tween.is_running():
 		_story_ink_transition_tween.kill()
-	var normalized := _normalized_story_scene_transition(mode)
 	_story_scene_transition_active = true
 	_story_scene_transition_duration = _story_scene_transition_seconds(normalized)
 	_story_ink_transition_kind = normalized
@@ -1869,6 +1893,8 @@ func _set_story_ink_transition_progress(value: float) -> void:
 				old_alpha = 1.0 - _story_transition_smooth(0.10, 0.92, _story_ink_transition_progress)
 			"time_cut":
 				old_alpha = 1.0 - _story_transition_smooth(0.43, 0.67, _story_ink_transition_progress)
+			"finale":
+				old_alpha = 1.0 - _story_transition_smooth(0.14, 0.94, _story_ink_transition_progress)
 			_:
 				old_alpha = 1.0 - _story_transition_smooth(0.04, 0.88, _story_ink_transition_progress)
 		_story_transition_snapshot.modulate.a = old_alpha
@@ -1920,7 +1946,7 @@ func _draw_story_ink_transition() -> void:
 		Color(base.r, base.g, base.b, overlay_alpha), true)
 
 	var is_scene_handoff := _story_ink_transition_kind in [
-		"memory_cut", "time_cut", "explicit_move"]
+		"memory_cut", "time_cut", "explicit_move", "activity_enter_return", "finale"]
 	if black > 0.01 and not is_scene_handoff:
 		var burn := Color("#000000", pulse * (0.065 + black * 0.11))
 		_story_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, Vector2(size.x, 18.0 + black * 16.0)), burn, true)
@@ -2234,10 +2260,13 @@ func _load_next_event():
 	_current = DataRegistry.find_event(event_id)
 	if _current.is_empty():
 		_next_transition_mode = ""
+		_next_transition_contract = {}
 		_load_next_event()
 		return
 	_current_transition_mode = _next_transition_mode
 	_next_transition_mode = ""
+	_current_transition_contract = _next_transition_contract.duplicate(true)
+	_next_transition_contract = {}
 	if not _read_only_replay:
 		MetaProgression.record_scene_seen(event_id)
 		GameState.record_run_scene_seen(event_id)
@@ -2492,11 +2521,15 @@ func _story_page_for_source_progress(source_index: int, progress: float) -> int:
 
 func _render_current():
 	_reset_advance_hold()
-	var continues_same_location := _current_transition_mode == "same_location"
+	var continues_same_location := _current_transition_mode in [
+		"", "none", "same_location", "remote"]
 	if not continues_same_location:
 		# 이전 배경을 실제로 붙잡아 둔 뒤에 새 장면을 아래에서 교체한다.
 		# 장면을 먼저 갈고 펄스를 덮는 방식은 하드컷을 숨기지 못한다.
 		_begin_story_scene_transition(_current_transition_mode)
+	set_meta("story_transition_contract", _current_transition_contract.duplicate(true))
+	set_meta("story_transition_mode", _normalized_story_scene_transition(
+		_current_transition_mode))
 	_reset_scene_direction()
 	_prepare_scene_direction()
 	_current_presentation = {}
@@ -2636,7 +2669,7 @@ func _maybe_change_event_background(paragraph_index: int) -> void:
 	if path.is_empty() or not ImageRegistry.has_texture(path):
 		return
 	_event_background_id = bg_id
-	_play_story_ink_transition("scene", 0.35)
+	_begin_story_scene_transition("explicit_move")
 	_bg_img.texture = ImageRegistry.load_texture(path)
 	_apply_story_surface_palette(false)
 	_configure_living_scene()
@@ -2654,7 +2687,12 @@ func _maybe_reveal_event_cg(paragraph_index: int) -> void:
 	# The ledger has already landed on the prior result paragraph. Once the
 	# authored CG opens, release the middle of the frame to its acting/object.
 	_clear_result_record_card()
-	_play_story_ink_transition("scene", 0.65)
+	var reveal_mode := (
+		"finale"
+		if DataRegistry.get_scene_direction_event_intent(
+			str(_current.get("id", ""))) == "finale"
+		else "time_cut")
+	_begin_story_scene_transition(reveal_mode)
 	_bg_img.texture = ImageRegistry.load_texture(_event_cg_path)
 	_apply_story_surface_palette(true)
 	_configure_living_scene()
@@ -2870,7 +2908,7 @@ func _apply_scene_direction_entry() -> void:
 	if not sting.is_empty():
 		AudioManager.play_direction_sting(sting, str(_current.get("id", "")))
 	var camera: String = str(_direction.get("camera", ""))
-	if not camera.is_empty():
+	if not camera.is_empty() and not _living_reduced_motion():
 		_start_scene_direction_camera(camera)
 
 func _living_reduced_motion() -> bool:
@@ -2936,6 +2974,8 @@ func _start_portrait_idle_motion() -> void:
 
 func _start_scene_direction_camera(mode: String) -> void:
 	if not is_instance_valid(_bg_img) or _bg_img.texture == null:
+		return
+	if _living_reduced_motion():
 		return
 	if mode.is_empty() or mode == "none":
 		return
@@ -3872,7 +3912,12 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 				_event_cg_path = result_cg_path
 				_event_cg_reveal_paragraph = reveal_paragraph
 				return
-			_play_story_ink_transition("scene", 0.55)
+			var result_cg_mode := (
+				"finale"
+				if DataRegistry.get_scene_direction_event_intent(
+					str(_current.get("id", ""))) == "finale"
+				else "time_cut")
+			_begin_story_scene_transition(result_cg_mode)
 			_bg_img.texture = ImageRegistry.load_texture(result_cg_path)
 			_current_uses_cg = true
 			_event_cg_id = result_cg_id
@@ -3894,7 +3939,7 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 	var result_background_path := ImageRegistry.get_background(result_background_id)
 	if result_background_path == "" or not ImageRegistry.has_texture(result_background_path):
 		return
-	_play_story_ink_transition("scene", 0.45)
+	_begin_story_scene_transition("explicit_move")
 	_bg_img.texture = ImageRegistry.load_texture(result_background_path)
 	_event_background_id = result_background_id
 	_current_uses_cg = false
@@ -3990,11 +4035,13 @@ func _after_result():
 	_pending_result_choice_index = -1
 	_clear_result_record_card()
 	_next_transition_mode = ""
+	_next_transition_contract = {}
 	# 선택의 follow_up_event가 있으면 큐 맨 앞에 끼워 이어서 재생한다. 정본
 	# 전환 원장이 same_location으로 묶은 직접 후속만 새 장면 페이드를 생략한다.
 	if _pending_follow_up != "" and not DataRegistry.find_event(_pending_follow_up).is_empty():
 		var transition := DataRegistry.get_story_transition(
 				str(_current.get("id", "")), _pending_follow_up)
+		_next_transition_contract = transition.duplicate(true)
 		_next_transition_mode = str(transition.get("mode", ""))
 		_queue.push_front(_pending_follow_up)
 	_pending_follow_up = ""

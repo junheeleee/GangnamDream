@@ -103,6 +103,10 @@ var _moral_beat_surface_active: bool = false
 var _moral_beat_bg_tween: Tween = null
 var _main_ui_root: Control = null
 var _minigame_overlay_active: bool = false
+var _active_activity_id: String = ""
+var _active_activity_contract: Dictionary = {}
+var _modal_activity_id: String = ""
+var _modal_activity_contract: Dictionary = {}
 var _dark_overlay: ColorRect = null
 var _portrait_panel: Control = null
 var _scene_first_surface_active: bool = false
@@ -12695,6 +12699,13 @@ func _on_jeongseon_casino_closed():
 
 func _enter_minigame_overlay(overlay: Node = null) -> void:
 	_minigame_overlay_active = true
+	_active_activity_id = _activity_direction_id(overlay)
+	_active_activity_contract = DataRegistry.get_scene_direction_activity_contract(
+			_active_activity_id)
+	var focus_owner := get_viewport().gui_get_focus_owner()
+	if is_instance_valid(focus_owner) and focus_owner.has_meta("ap_grid_index"):
+		_ap_focus_restore_turn = GameState.turn
+		_ap_focus_restore_index = int(focus_owner.get_meta("ap_grid_index"))
 	_hide_ap_action_commit()
 	if is_instance_valid(_main_ui_root):
 		_main_ui_root.visible = false
@@ -12709,6 +12720,12 @@ func _enter_minigame_overlay(overlay: Node = null) -> void:
 		_feedback_flash.visible = false
 	if overlay is CanvasItem:
 		(overlay as CanvasItem).move_to_front()
+	if is_instance_valid(overlay):
+		overlay.set_meta("scene_direction_activity_id", _active_activity_id)
+		overlay.set_meta(
+				"scene_direction_activity_contract",
+				_active_activity_contract.duplicate(true))
+		overlay.set_meta("scene_direction_hud_hidden", true)
 
 func _exit_minigame_overlay() -> void:
 	if not _minigame_overlay_active:
@@ -12716,7 +12733,28 @@ func _exit_minigame_overlay() -> void:
 	_minigame_overlay_active = false
 	if is_instance_valid(_main_ui_root):
 		_main_ui_root.visible = true
+		_main_ui_root.set_meta("scene_direction_returned_from", _active_activity_id)
+		_main_ui_root.set_meta(
+				"scene_direction_return_contract",
+				_active_activity_contract.duplicate(true))
+	_active_activity_id = ""
+	_active_activity_contract.clear()
 	_update_vignette()
+
+func _activity_direction_id(overlay: Node) -> String:
+	if overlay == racetrack:
+		return "racetrack"
+	if overlay == holdem_club:
+		return "holdem"
+	if overlay == scalping_game:
+		return "scalping"
+	if overlay == jeongseon_casino:
+		return "casino"
+	if overlay == job_hunt_game:
+		return "job_hunt"
+	if overlay == aruba_game:
+		return "delivery"
+	return ""
 
 func _ap_selfdev():
 	_ap_vignette(_tr("자기계발", "Self-Dev"), SELFDEV_VIGNETTES, "#5a6ea8", "home", "study")
@@ -14376,6 +14414,7 @@ func _open_investments():
 		_open_first_investment_guide()
 		return
 	_open_modal(_tr("투자 / 매수·매도", "Invest / Buy·Sell"), true, "investments")
+	_bind_modal_activity_direction("investment")
 	_invest_page_idx = clampi(_invest_page_idx, 0, _invest_pages().size() - 1)
 	_invest_pad_asset_cards.clear()
 	_invest_pad_asset_ids.clear()
@@ -14418,6 +14457,7 @@ func _open_first_investment_guide() -> void:
 	# 첫 진입은 미래를 맞히는 법이 아니라, 화면의 언어와 손실 구조만 설명한다.
 	GameState.flags["investment_first_visited"] = true
 	_open_modal(_tr("투자 화면 읽는 법", "How to Read the Investment Desk"), true, "investment_guide")
+	_bind_modal_activity_direction("investment")
 	if modal_scroll:
 		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
 		modal_scroll.custom_minimum_size = Vector2(0, 468)
@@ -15201,6 +15241,18 @@ func _open_modal(title, cancelable: bool = false, kind: String = ""):
 	call_deferred("_reset_modal_scroll")
 	call_deferred("_focus_first_in_modal_body")
 
+func _bind_modal_activity_direction(activity_id: String) -> void:
+	_modal_activity_id = activity_id
+	_modal_activity_contract = DataRegistry.get_scene_direction_activity_contract(
+			activity_id)
+	modal_layer.set_meta("scene_direction_activity_id", activity_id)
+	modal_layer.set_meta(
+			"scene_direction_activity_contract",
+			_modal_activity_contract.duplicate(true))
+	var ambience := str(_modal_activity_contract.get("ambience", ""))
+	if not ambience.is_empty():
+		BGMPlayer.enter_activity_ambience(ambience)
+
 func _modal_style(bg: String, border: String, radius: int = 6, h_margin: int = 12, v_margin: int = 10) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(bg)
@@ -15224,6 +15276,14 @@ func _focus_first_in_modal_body():
 			return
 
 func _close_modal(play_sound: bool = true):
+	if not _modal_activity_id.is_empty():
+		var ambience := str(_modal_activity_contract.get("ambience", ""))
+		if not ambience.is_empty():
+			BGMPlayer.leave_activity_ambience(ambience)
+		_modal_activity_id = ""
+		_modal_activity_contract.clear()
+		modal_layer.remove_meta("scene_direction_activity_id")
+		modal_layer.remove_meta("scene_direction_activity_contract")
 	modal_layer.visible = false
 	modal_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_modal_cancelable = false
@@ -15448,6 +15508,13 @@ func _demo_record_metric(title: String, value: String, hint: String, accent: Str
 func _show_ending(ending_id: String) -> void:
 	_ending_id = ending_id
 	_ending_data = EndingSystem.get_ending(ending_id)
+	var ending_direction := DataRegistry.get_scene_direction_ending_contract(ending_id)
+	var reduce_motion := bool(SaveManager.get_setting("reduce_motion", false))
+	var ending_hold := 0.0 if reduce_motion else float(
+			ending_direction.get("hold_seconds", 0.28))
+	var ending_reveal := 0.22 if reduce_motion else float(
+			ending_direction.get("reveal_seconds", 0.52))
+	set_meta("scene_direction_ending_contract", ending_direction.duplicate(true))
 	var ending_cg_id := str(_ending_data.get("cg", ""))
 	BGMPlayer.on_ending(ending_id, ending_cg_id)
 	AudioManager.play_ending_stinger(ending_id)
@@ -15469,13 +15536,19 @@ func _show_ending(ending_id: String) -> void:
 		var tex = ImageRegistry.load_texture(_ending_cg_path) \
 				if not _ending_cg_path.is_empty() and ImageRegistry.has_texture(_ending_cg_path) else null
 		var tw_end := create_tween()
-		tw_end.tween_property(event_bg, "modulate:a", 0.0, 0.3)
+		tw_end.tween_property(event_bg, "modulate:a", 0.0, ending_reveal * 0.5)
 		tw_end.tween_callback(func():
 			event_bg.texture = tex
-			if tex:
-				create_tween().tween_property(event_bg, "modulate:a", 0.50, 0.5)
 		)
+		if ending_hold > 0.0:
+			tw_end.tween_interval(ending_hold)
+		if tex:
+			tw_end.tween_property(event_bg, "modulate:a", 0.50, ending_reveal)
 	_open_modal("", false, "ending")
+	modal_layer.set_meta(
+			"scene_direction_finale_family",
+			str(ending_direction.get("family", "quiet_resolve")))
+	modal_layer.set_meta("scene_direction_reduce_motion", reduce_motion)
 	_ending_show_page(0)
 
 func _ending_show_page(page_index: int) -> void:

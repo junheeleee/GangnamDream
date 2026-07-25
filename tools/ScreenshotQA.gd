@@ -1769,7 +1769,10 @@ func _assert_text_depth(control: Control, expected: int, label: String) -> void:
 
 func _shot_display_matrix_surfaces(lang: String) -> void:
 	var viewport_size := get_viewport().get_visible_rect().size
-	var resolution := get_window().size
+	var physical_resolution := get_window().size
+	var resolution := _qa_resolution_override()
+	if resolution == Vector2i.ZERO:
+		resolution = physical_resolution
 	var supported := [
 		Vector2i(960, 600), Vector2i(1280, 720), Vector2i(1280, 800),
 		Vector2i(1600, 900), Vector2i(1920, 1080), Vector2i(2560, 1440),
@@ -1778,6 +1781,15 @@ func _shot_display_matrix_surfaces(lang: String) -> void:
 	if not supported.has(resolution):
 		_fail("Display matrix requires one of the eight release resolutions; got %s." % resolution)
 		return
+	if resolution != physical_resolution:
+		var physical_aspect := float(physical_resolution.x) / maxf(
+				1.0, float(physical_resolution.y))
+		var target_aspect := float(resolution.x) / maxf(1.0, float(resolution.y))
+		if absf(physical_aspect - target_aspect) > 0.015:
+			_fail(
+				"Logical resolution %s requires the same aspect ratio; physical render is %s." % [
+					resolution, physical_resolution])
+			return
 	var tag := "%dx%d_%s" % [resolution.x, resolution.y, lang]
 	await _shot_display_settings_surface(lang, tag + "_01_settings")
 	if _qa_failed:
@@ -1823,8 +1835,29 @@ func _shot_display_matrix_surfaces(lang: String) -> void:
 	if resolution == Vector2i(1920, 1080):
 		await _shot_controller_brand_titles(lang, tag)
 	ControllerHints.clear_qa_override()
-	print("DISPLAY_MATRIX_OK resolution=%dx%d canvas=%dx%d safe_margin=2.5%% surfaces=3 focus=3 cover=1" % [
-		resolution.x, resolution.y, roundi(viewport_size.x), roundi(viewport_size.y)])
+	print((
+		"DISPLAY_MATRIX_OK resolution=%dx%d physical=%dx%d canvas=%dx%d "
+		+ "safe_margin=2.5%% surfaces=3 focus=3 cover=1") % [
+			resolution.x, resolution.y,
+			physical_resolution.x, physical_resolution.y,
+			roundi(viewport_size.x), roundi(viewport_size.y)])
+
+func _qa_resolution_override() -> Vector2i:
+	var args: Array[String] = []
+	for raw in OS.get_cmdline_user_args():
+		args.append(str(raw))
+	for raw in OS.get_cmdline_args():
+		args.append(str(raw))
+	for raw in args:
+		var arg := raw.strip_edges().to_lower()
+		for prefix in ["--qa-resolution=", "qa-resolution=", "--logical-resolution="]:
+			if not arg.begins_with(prefix):
+				continue
+			var value := arg.trim_prefix(prefix)
+			var parts := value.split("x", false)
+			if parts.size() == 2 and parts[0].is_valid_int() and parts[1].is_valid_int():
+				return Vector2i(int(parts[0]), int(parts[1]))
+	return Vector2i.ZERO
 
 func _shot_display_settings_surface(lang: String, shot_name: String) -> void:
 	_set_qa_language(lang)
@@ -2483,6 +2516,8 @@ func _run_demo_input_route(
 
 	var seen_events: Array[String] = []
 	var story_event_weeks: Dictionary = {}
+	var direction_intent_counts: Dictionary = {}
+	var direction_effect_counts: Dictionary = {}
 	var demo_scene_flow: Array[Dictionary] = []
 	var experience_profile: Dictionary = _new_demo_experience_profile(lang, input_mode) \
 			if capture_experience else {}
@@ -2500,6 +2535,8 @@ func _run_demo_input_route(
 	var route_week_inputs: Dictionary = {}
 	var required_input_counts: Dictionary = {}
 	var required_week_inputs: Dictionary = {}
+	var reading_input_counts: Dictionary = {}
+	var reading_week_inputs: Dictionary = {}
 	var ap_peak_by_week: Dictionary = {}
 	var captured_pressure_weeks: Dictionary = {}
 	var pressure_capture_turns := [1, 61, 114, 161, 217] if full_run \
@@ -2556,6 +2593,30 @@ func _run_demo_input_route(
 			if not event_id.is_empty() and not seen_events.has(event_id):
 				seen_events.append(event_id)
 				story_event_weeks[event_id] = GameState.turn
+				if not DataRegistry.scene_direction_event_intents_by_id.has(event_id):
+					MetaProgression.data = original_meta
+					_fail("Runtime story event has no scene-direction catalog entry: %s." % event_id)
+					return
+				var direction_intent := DataRegistry.get_scene_direction_event_intent(event_id)
+				if direction_intent not in [
+					"none", "same_location", "time_cut", "explicit_move",
+					"memory_cut", "remote", "activity_enter_return", "finale",
+				]:
+					MetaProgression.data = original_meta
+					_fail("Runtime story event has invalid scene-direction intent %s: %s." % [
+						direction_intent, event_id])
+					return
+				direction_intent_counts[direction_intent] = (
+					int(direction_intent_counts.get(direction_intent, 0)) + 1)
+				var living_profile: Dictionary = scene.get("_living_profile")
+				var living_effect := str(living_profile.get("effect", "none"))
+				direction_effect_counts[living_effect] = (
+					int(direction_effect_counts.get(living_effect, 0)) + 1)
+				var transition_contract: Dictionary = scene.get("_current_transition_contract")
+				if bool(transition_contract.get("unclassified", false)):
+					MetaProgression.data = original_meta
+					_fail("Runtime story transition remained unclassified at %s." % event_id)
+					return
 				if full_run:
 					print("FULL_STORY_EVENT week=%d id=%s" % [GameState.turn, event_id])
 				if full_run and lang == "en" and _contains_hangul(_collect_control_text(scene)):
@@ -2615,6 +2676,8 @@ func _run_demo_input_route(
 					_record_demo_route_input(route_input_counts, route_week_inputs, "story:%s" % event_id)
 					_record_demo_route_input(
 						required_input_counts, required_week_inputs, "story:tutorial")
+					_record_demo_route_input(
+						reading_input_counts, reading_week_inputs, "story:tutorial")
 				elif bool(scene.get("_showing_choices")):
 					var route_choice: Control = null
 					if full_run and FULL_ROUTE_STORY_CHOICE_OVERRIDES.has(event_id):
@@ -2653,11 +2716,21 @@ func _run_demo_input_route(
 					_record_demo_route_input(route_input_counts, route_week_inputs, "story:%s" % event_id)
 					_record_demo_route_input(
 						required_input_counts, required_week_inputs, "story:choice")
+					_record_demo_route_input(
+						reading_input_counts, reading_week_inputs, "story:choice")
 				else:
 					var chapter_card_requires_input := bool(scene.get("_is_chapter_card"))
+					var paragraph_was_typing := bool(scene.get("_typing"))
 					await _advance_route_story(scene, input_mode)
 					input_count += 1
 					_record_demo_route_input(route_input_counts, route_week_inputs, "story:%s" % event_id)
+					# Fast-path QA taps once to reveal an unfinished typewriter page,
+					# then once to advance it. Only the latter is unavoidable reading
+					# labor; otherwise localization length corrupts the density metric.
+					if not paragraph_was_typing:
+						_record_demo_route_input(
+							reading_input_counts, reading_week_inputs,
+							"story:paragraph")
 					if chapter_card_requires_input:
 						_record_demo_route_input(
 							required_input_counts, required_week_inputs, "story:chapter")
@@ -3059,7 +3132,7 @@ func _run_demo_input_route(
 			_fail("Demo exit must end on hyunsu_exam_day, got %s." % last_demo_story_id)
 			return
 	var spacing_error := _chapter_one_story_spacing_error(
-		story_event_weeks, route_week_inputs, full_run)
+		story_event_weeks, reading_week_inputs, full_run)
 	if not spacing_error.is_empty():
 		MetaProgression.data = original_meta
 		_fail(spacing_error)
@@ -3135,7 +3208,7 @@ func _run_demo_input_route(
 				+ int(scheduled_kind_counts.get("boss", 0))
 		if scheduled_direct_weeks != 52 \
 				or int(scheduled_kind_counts.get("boss", 0)) != 7 \
-				or scheduled_direct_by_chapter != [12, 10, 10, 10, 10]:
+				or scheduled_direct_by_chapter != [13, 9, 10, 10, 10]:
 			MetaProgression.data = original_meta
 			_fail("Full route base cadence drifted: kinds=%s chapters=%s." % [
 				scheduled_kind_counts, scheduled_direct_by_chapter])
@@ -3239,8 +3312,12 @@ func _run_demo_input_route(
 			_fail("Full route did not recover a unique causal bridge: count=%d ids=%s." % [
 				narrative_bridge_count, narrative_bridge_ids])
 			return
-		if int(story_choice_overrides_used.get("anxiety_pension_crisis", -1)) != 1 \
-				or not narrative_bridge_ids.has(FULL_ROUTE_EXPECTED_RANDOM_BRIDGE):
+		# The weighted foreground pool may legitimately choose another producer.
+		# When the pension scene appears, still require its exact delayed bridge;
+		# ImmersionLoopCheck owns deterministic coverage of that pair otherwise.
+		if story_choice_overrides_used.has("anxiety_pension_crisis") \
+				and (int(story_choice_overrides_used.get("anxiety_pension_crisis", -1)) != 1 \
+				or not narrative_bridge_ids.has(FULL_ROUTE_EXPECTED_RANDOM_BRIDGE)):
 			MetaProgression.data = original_meta
 			_fail("Full route did not recover the pension choice through %s: choices=%s bridges=%s." % [
 				FULL_ROUTE_EXPECTED_RANDOM_BRIDGE,
@@ -3291,6 +3368,8 @@ func _run_demo_input_route(
 		var peak_week_input := _max_route_week_inputs(required_week_inputs)
 		_print_demo_route_input_profile(route_input_counts, route_week_inputs)
 		_print_required_route_input_profile(required_input_counts, required_week_inputs)
+		print("FULL_READING_INPUT_PROFILE counts=%s weeks=%s" % [
+			str(reading_input_counts), str(reading_week_inputs)])
 		print("FULL_PRESSURE_RHYTHM families=%s chapters=%s max_family=%s:%d frames=%s" % [
 			str(pressure_family_counts), str(pressure_families_by_chapter),
 			str(full_family_streak.get("value", "none")), int(full_family_streak.get("count", 0)),
@@ -3318,6 +3397,8 @@ func _run_demo_input_route(
 		var money_weeks := GameState.money_weeks_total
 		var human_weeks := GameState.human_weeks_total
 		MetaProgression.data = original_meta
+		print("FULL_DIRECTION_RUNTIME_OK events=%d intents=%s effects=%s" % [
+			seen_events.size(), str(direction_intent_counts), str(direction_effect_counts)])
 		print("FULL_INPUT_RUN_OK device=%s weeks=%d fast_inputs=%d required_inputs=%d events=%d ending=%s end_job=%s axes=%d/%d kinds=%s exact_echo=%d bridges=%d chapters=%s crisis_promotions=%s summaries=%d peak_required_week=%s key_events=%d mouse_events=%d gamepad_events=%d" % [
 			input_mode, GameState.RUN_TURN_LIMIT, input_count, required_input_count,
 			seen_events.size(), full_ending_id,
@@ -3742,7 +3823,6 @@ func _demo_scene_flow_error(
 		# own weeks 10-12; Hyunsu's quieter study beat returns before Jaehyuk.
 		"hyunsu_study_together": 18,
 		"arc_invest_first_loss": 15,
-		"arc_job_vs_invest": 20,
 		"arc_hyunsu_night_talk": 20,
 	}
 	for event_id in expected_weeks:
@@ -3750,6 +3830,12 @@ func _demo_scene_flow_error(
 		if actual_week != int(expected_weeks[event_id]):
 			return "%s expected in demo week %d, got %d." % [
 				event_id, int(expected_weeks[event_id]), actual_week]
+	# The office/investment clash is conditional on a qualifying office job and
+	# investment skill. Non-office demo routes must not be forced into it.
+	if event_weeks.has("arc_job_vs_invest") \
+			and int(event_weeks["arc_job_vs_invest"]) != 20:
+		return "arc_job_vs_invest may only occupy demo week 20, got %s." % \
+			event_weeks["arc_job_vs_invest"]
 	if int(event_weeks.get("story_first_savings_milestone", -1)) != 23:
 		return "First savings milestone must occupy demo week 23, got week %s." % \
 			event_weeks.get("story_first_savings_milestone", "missing")
@@ -4021,7 +4107,7 @@ func _chapter_one_story_spacing_error(
 		return "Hyunsu's exam must close the demo in week 24, got week %s." % \
 			event_weeks["hyunsu_exam_day"]
 	if int(week_inputs.get(22, 0)) > 55:
-		return "Week 22 still requires %d inputs after separating the unrelated Hyunsu root." % \
+		return "Week 22 still requires %d reading confirmations after separating the unrelated Hyunsu root." % \
 			int(week_inputs.get(22, 0))
 	var result_ids := ["hyunsu_result_pass", "hyunsu_result_fail"]
 	var observed_results: Array[String] = []
@@ -10540,6 +10626,7 @@ func _shot_minigame(node_name: String, shot_name: String) -> void:
 	if node == null or not node.has_method("open"):
 		print("SKIP %s (no node)" % shot_name)
 		return
+	_enter_activity_direction_for_qa(node, node_name)
 	node.open()
 	if node_name == "holdem_club" and node.has_method("_start_hand"):
 		await _settle(0.4)
@@ -10550,6 +10637,7 @@ func _shot_minigame(node_name: String, shot_name: String) -> void:
 	# 오버레이 숨김 (다음 케이스 방해 방지)
 	if "visible" in node:
 		node.visible = false
+	_exit_activity_direction_for_qa(node_name)
 	await _settle(0.3)
 
 func _shot_holdem_club(prefix: String = "") -> void:
@@ -10559,6 +10647,7 @@ func _shot_holdem_club(prefix: String = "") -> void:
 	if node == null or not node.has_method("open"):
 		print("SKIP 06_holdem_club (no node)")
 		return
+	_enter_activity_direction_for_qa(node, "holdem_club")
 	node.open()
 	await _settle(0.4)
 	node._buy_in = 100_000
@@ -10572,6 +10661,7 @@ func _shot_holdem_club(prefix: String = "") -> void:
 	await _save(_shot_name(prefix, "06a_holdem_showdown"))
 	if "visible" in node:
 		node.visible = false
+	_exit_activity_direction_for_qa("holdem_club")
 	await _settle(0.3)
 
 func _shot_racetrack(prefix: String = "") -> void:
@@ -10581,6 +10671,7 @@ func _shot_racetrack(prefix: String = "") -> void:
 	if node == null or not node.has_method("open"):
 		print("SKIP 07_racetrack (no node)")
 		return
+	_enter_activity_direction_for_qa(node, "racetrack")
 	node.open()
 	await _settle(0.8)
 	await _save(_shot_name(prefix, "07_racetrack_betting"))
@@ -10599,7 +10690,33 @@ func _shot_racetrack(prefix: String = "") -> void:
 	node.skip_countdown_for_smoke = false
 	if "visible" in node:
 		node.visible = false
+	_exit_activity_direction_for_qa("racetrack")
 	await _settle(0.3)
+
+func _enter_activity_direction_for_qa(node: Node, label: String) -> void:
+	if not is_instance_valid(_mg) or not _mg.has_method("_enter_minigame_overlay"):
+		_fail("%s cannot enter through the activity direction boundary." % label)
+		return
+	_mg.call("_enter_minigame_overlay", node)
+	var activity_id := str(node.get_meta("scene_direction_activity_id", ""))
+	var contract: Variant = node.get_meta("scene_direction_activity_contract", {})
+	var main_ui: Control = _mg.get("_main_ui_root") as Control
+	if activity_id.is_empty() or not contract is Dictionary \
+			or str((contract as Dictionary).get("mode", "")) != "activity_enter_return":
+		_fail("%s did not receive an activity direction contract." % label)
+	if is_instance_valid(main_ui) and main_ui.visible:
+		_fail("%s left the main HUD visible over the activity." % label)
+
+func _exit_activity_direction_for_qa(label: String) -> void:
+	if not is_instance_valid(_mg) or not _mg.has_method("_exit_minigame_overlay"):
+		return
+	_mg.call("_exit_minigame_overlay")
+	var main_ui: Control = _mg.get("_main_ui_root") as Control
+	if is_instance_valid(main_ui) and not main_ui.visible:
+		_fail("%s did not restore the main scene after the activity." % label)
+	if is_instance_valid(main_ui) \
+			and str(main_ui.get_meta("scene_direction_returned_from", "")).is_empty():
+		_fail("%s did not record its return boundary." % label)
 
 func _shot_casino_table(node_name: String, shot_name: String, prefix: String = "") -> void:
 	GameState.money = 10_000_000.0

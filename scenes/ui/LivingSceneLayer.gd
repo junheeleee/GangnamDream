@@ -23,19 +23,6 @@ const EFFECT_BY_NAME := {
 	"city_light": EffectMode.CITY_LIGHT,
 	"fireworks": EffectMode.FIREWORKS,
 }
-const RAIN_TOKENS: Array[String] = [
-	"monsoon", "rainy", "street_rain", "rain_commute", "wallet_00",
-]
-const SNOW_TOKENS: Array[String] = [
-	"first_snow", "season_snow", "snowfall",
-]
-const FIREWORK_TOKENS: Array[String] = [
-	"fireworks", "firework_festival",
-]
-const CITY_TOKENS: Array[String] = [
-	"gangnam_night", "namsan_", "rooftop_night", "hangang_night",
-	"hangang_riverside", "night_street",
-]
 
 var current_profile: Dictionary = {}
 var _fx_rect: ColorRect = null
@@ -134,37 +121,35 @@ static func build_profile(
 		reduced_motion: bool = false) -> Dictionary:
 	var event_id := str(event.get("id", "")).to_lower()
 	var channel := str(presentation.get("channel", "in_person")).to_lower()
-	var token_blob := _visual_token_blob(event, background_id, cg_id)
+	var event_intent := DataRegistry.get_scene_direction_event_intent(event_id)
+	var reviewed := DataRegistry.get_scene_direction_background_profile(background_id)
 	var authored: Dictionary = event.get("living_scene", {}) if event.get("living_scene", {}) is Dictionary else {}
-	var effect := str(authored.get("effect", "")).to_lower()
+	var effect_source := "event" if authored.has("effect") else "background_contract"
+	var effect := str(authored.get("effect", reviewed.get("effect", "none"))).to_lower()
+	if not authored.has("effect") and (channel == "memory" or event_intent == "memory_cut"):
+		effect = "memory"
+		effect_source = "communication_contract"
 	if not EFFECT_BY_NAME.has(effect):
-		if _contains_any(token_blob, FIREWORK_TOKENS):
-			effect = "fireworks"
-		elif _contains_any(token_blob, SNOW_TOKENS):
-			effect = "snow"
-		elif _contains_any(token_blob, RAIN_TOKENS):
-			effect = "rain"
-		elif channel == "memory" or bool(authored.get("memory", false)):
-			effect = "memory"
-		elif _contains_any(token_blob, CITY_TOKENS):
-			effect = "city_light"
-		else:
-			effect = "none"
+		effect = "none"
+		effect_source = "safe_none"
 
-	var base_intensity := 0.0
+	var base_intensity := float(reviewed.get("intensity", 0.0))
 	var base_blur_px := 0.0
 	var memory_afterimage := 0.0
 	match effect:
 		"rain":
-			base_intensity = 0.29 if not has_cg else 0.20
+			if base_intensity <= 0.0:
+				base_intensity = 0.29 if not has_cg else 0.20
 		"snow":
-			base_intensity = 0.27 if not has_cg else 0.18
+			if base_intensity <= 0.0:
+				base_intensity = 0.27 if not has_cg else 0.18
 		"memory":
 			base_intensity = 0.24
 			base_blur_px = 1.10 if not has_cg else 0.65
 			memory_afterimage = 0.025
 		"city_light":
-			base_intensity = 0.14 if not has_cg else 0.08
+			if base_intensity <= 0.0:
+				base_intensity = 0.14 if not has_cg else 0.08
 		"fireworks":
 			base_intensity = 0.18 if not has_cg else 0.10
 	base_intensity = clampf(float(authored.get("intensity", base_intensity)), 0.0, 0.65)
@@ -181,14 +166,16 @@ static func build_profile(
 	var raw_direction: Variant = event.get("direction", {})
 	var direction: Dictionary = raw_direction if raw_direction is Dictionary else {}
 	var authored_camera := str(direction.get("camera", "")).strip_edges()
-	var camera := authored_camera
-	var camera_source := "authored" if not authored_camera.is_empty() else "inferred"
-	if camera.is_empty():
-		match effect:
-			"rain", "city_light": camera = "living_drift"
-			"snow", "memory", "fireworks": camera = "living_push"
-			_:
-				camera = "living_push" if abs(event_id.hash()) % 2 == 0 else "living_drift"
+	var camera := authored_camera if not authored_camera.is_empty() \
+		else str(reviewed.get("camera", "none"))
+	var camera_source := "authored" if not authored_camera.is_empty() \
+		else ("background_contract" if not reviewed.is_empty() else "safe_none")
+	if effect == "memory" and authored_camera.is_empty():
+		camera = "living_push"
+		camera_source = "communication_contract"
+	elif effect == "fireworks" and authored_camera.is_empty():
+		camera = "living_push"
+		camera_source = "event"
 	if reduced_motion:
 		camera = "none"
 		camera_source = "accessibility"
@@ -203,7 +190,12 @@ static func build_profile(
 	var seed_value := float(abs(event_id.hash()) % 997) / 997.0
 	return {
 		"effect": effect,
+		"effect_source": effect_source,
 		"effect_mode": int(EFFECT_BY_NAME.get(effect, EffectMode.NONE)),
+		"environment": str(reviewed.get("environment", "unknown")),
+		"depth": str(reviewed.get("depth", "flat")),
+		"weather_source": str(reviewed.get("weather_source", "none")),
+		"event_intent": event_intent,
 		"base_intensity": base_intensity,
 		"intensity": intensity,
 		"base_blur_px": base_blur_px,
@@ -222,20 +214,3 @@ static func build_profile(
 		"seed": seed_value,
 		"reduced_motion": reduced_motion,
 	}
-
-static func _visual_token_blob(event: Dictionary, background_id: String, cg_id: String) -> String:
-	var parts: Array[String] = [
-		str(event.get("id", "")), background_id, cg_id,
-		str(event.get("background", "")), str(event.get("cg", "")),
-	]
-	var tags: Variant = event.get("tags", [])
-	if tags is Array:
-		for raw_tag in tags:
-			parts.append(str(raw_tag))
-	return " ".join(parts).to_lower()
-
-static func _contains_any(haystack: String, tokens: Array[String]) -> bool:
-	for token in tokens:
-		if token in haystack:
-			return true
-	return false

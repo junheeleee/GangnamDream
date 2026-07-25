@@ -364,3 +364,22 @@ Automated input and display gates:
 - `ScreenshotQA --qa=immersion-loop --lang=ko/en` must capture application and rest Echoes plus a matched event causal frame at 1280x800; exact action copy, dialogue dock, and controls remain inside the TV-safe area.
 - `ScreenshotQA --qa=demo-gamepad --lang=en --pad=xbox` must observe one and only one commitment in every scheduled or live-crisis-promoted direct week and an exact recent commitment in all four scheduled Echo weeks. The base slice has nine direct weeks; the current causal first-job route has ten after one reported cash-crisis promotion. `--qa=full-gamepad` must do the same for all 52 scheduled direct weeks plus any reported live-crisis promotions and twenty Echo weeks while using zero fallback catalog, keyboard, or mouse input.
 - Legacy saves without action records keep the generic money/human causal frame and must not fail deserialization.
+
+## Scene Direction / Full-Run Motion
+
+- `scene_direction_catalog.py --check` reports 1,565 events, 166 authored edges,
+  91 backgrounds, seven activities, and 35 endings with zero missing contracts.
+- `full_run_direction_audit.py` traces orthodox/people and Black-risk routes in
+  KO/EN for 960 scheduled weeks without language-dependent direction drift.
+- `SceneDirectionCheck.tscn` and `LivingSceneCheck.tscn` reject same-location
+  rewipes, unclassified movement, indoor weather, upward rain, portrait
+  occlusion, and Reduce Motion camera travel.
+- Real title-to-ending KO PlayStation and EN Xbox 240-week runs must print both
+  `FULL_DIRECTION_RUNTIME_OK` and `FULL_INPUT_RUN_OK`, with zero keyboard/mouse
+  rescue and zero unclassified runtime intent.
+- The display matrix includes 960x600, 720p, 1280x800, 1600x900, 1080p, QHD,
+  logical 4K, and 3440x1440. A passing logical 4K layout does not certify
+  native-raster sharpness or a physical TV.
+- Human gates remain mandatory for normal-speed repetition, motion sickness,
+  transition taste, physical Steam Deck shader hitching, and chapter-by-chapter
+  A/V listening.

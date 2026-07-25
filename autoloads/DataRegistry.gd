@@ -156,6 +156,7 @@ const ACHIEVEMENTS_PATH = "res://content/meta/achievements.json"
 const CLUES_PATH = "res://content/meta/clues.json"
 const THOUGHTS_PATH = "res://content/meta/thoughts.json"
 const STORY_RULES_PATH = "res://content/meta/story_rules.json"
+const SCENE_DIRECTION_MANIFEST_PATH = "res://assets/scene_direction_manifest.json"
 const MOD_EVENT_ROOT_KEYS := [
 	"id", "title", "description", "category", "rarity", "weight", "hidden",
 	"conditions", "tags", "cooldown", "choices", "portrait", "portrait_if_known",
@@ -331,6 +332,8 @@ var thoughts: Array = []
 var thoughts_by_id: Dictionary = {}
 var story_rules: Dictionary = {}
 var story_rules_by_event: Dictionary = {}
+var scene_direction_manifest: Dictionary = {}
+var scene_direction_event_intents_by_id: Dictionary = {}
 
 func _ready():
 	reload()
@@ -403,6 +406,17 @@ func reload():
 	story_rules = _load_dict(STORY_RULES_PATH)
 	var raw_event_rules: Variant = story_rules.get("events", {})
 	story_rules_by_event = raw_event_rules if raw_event_rules is Dictionary else {}
+	scene_direction_manifest = _load_dict(SCENE_DIRECTION_MANIFEST_PATH)
+	scene_direction_event_intents_by_id.clear()
+	var raw_intents: Variant = scene_direction_manifest.get("event_intents", {})
+	if raw_intents is Dictionary:
+		for intent_variant in raw_intents:
+			var intent := str(intent_variant)
+			var event_ids: Variant = (raw_intents as Dictionary).get(intent_variant, [])
+			if not event_ids is Array:
+				continue
+			for event_id_variant in event_ids:
+				scene_direction_event_intents_by_id[str(event_id_variant)] = intent
 
 func find_event(event_id):
 	return events_by_id.get(event_id, {})
@@ -472,11 +486,44 @@ func get_story_presentation(event_id: String) -> Dictionary:
 	return presentation if presentation is Dictionary else {}
 
 func get_story_transition(from_event_id: String, to_event_id: String) -> Dictionary:
-	var contracts: Variant = story_rules.get("transition_contracts", {})
+	var contracts: Variant = scene_direction_manifest.get("transition_edges", {})
+	if contracts is Dictionary:
+		var contract: Variant = (contracts as Dictionary).get(
+			"%s->%s" % [from_event_id, to_event_id], {})
+		if contract is Dictionary and not (contract as Dictionary).is_empty():
+			return (contract as Dictionary).duplicate(true)
+	# Unknown/modded edges must never inherit a decorative wipe. Shipping data
+	# is required to be exhaustive by scene_direction_catalog.py.
+	return {
+		"mode": "none",
+		"audio_policy": "continue",
+		"reduced_motion": "static_update",
+		"unclassified": true,
+	}
+
+func get_scene_direction_event_intent(event_id: String) -> String:
+	return str(scene_direction_event_intents_by_id.get(event_id, "none"))
+
+func get_scene_direction_background_profile(background_id: String) -> Dictionary:
+	var profiles: Variant = scene_direction_manifest.get("background_profiles", {})
+	if not profiles is Dictionary:
+		return {}
+	var profile: Variant = (profiles as Dictionary).get(background_id, {})
+	return (profile as Dictionary).duplicate(true) if profile is Dictionary else {}
+
+func get_scene_direction_activity_contract(activity_id: String) -> Dictionary:
+	var contracts: Variant = scene_direction_manifest.get("activity_contracts", {})
 	if not contracts is Dictionary:
 		return {}
-	var contract: Variant = contracts.get("%s->%s" % [from_event_id, to_event_id], {})
-	return contract if contract is Dictionary else {}
+	var contract: Variant = (contracts as Dictionary).get(activity_id, {})
+	return (contract as Dictionary).duplicate(true) if contract is Dictionary else {}
+
+func get_scene_direction_ending_contract(ending_id: String) -> Dictionary:
+	var contracts: Variant = scene_direction_manifest.get("ending_contracts", {})
+	if not contracts is Dictionary:
+		return {}
+	var contract: Variant = (contracts as Dictionary).get(ending_id, {})
+	return (contract as Dictionary).duplicate(true) if contract is Dictionary else {}
 
 func get_all_events():
 	return events

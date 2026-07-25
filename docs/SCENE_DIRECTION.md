@@ -77,3 +77,30 @@
 ## 4. 구현 순서 (Codex)
 
 1. `tools/audit.py` EVENT_ROOT_KEYS + direction 필드 검사 → 2. StoryMode 렌더러(pace/hold → 타이핑 엔진, amb → BGMPlayer, sting → AudioManager 레이어, camera → 배경 TextureRect 트윈) → 3. 위 대본 16장면 키 삽입 → 4. `ScreenshotQA --qa=story-en` + `BGMContinuityCheck`(sting이 BGM 재시작 안 함) + 대면/프로포즈 씬 직접 확인.
+
+## 5. 240주 전환 원장 계약
+
+`assets/scene_direction_manifest.json`이 런타임 전환의 기계 판독 정본이다.
+`tools/scene_direction_catalog.py`가 한영 사건 1,565개, 노출 경계 166개,
+배경 91종, 활동 7종, 엔딩 35종을 전수 분류한다.
+
+- 사건 경계 의도는 `same_location`, `time_cut`, `explicit_move`,
+  `memory_cut`, `remote`, `finale`, `none` 중 하나다.
+- 같은 장소·원격·전환 없음은 새 장면처럼 와이프하지 않는다.
+- 미등록 사건·배경은 산문이나 해시로 추론하지 않고 `none`으로 실패 닫힘
+  처리하며 전체 감사가 미분류를 차단한다.
+- `StoryMode`, `MainGame`, `LivingSceneLayer`는 같은 계약을 읽는다.
+  화면과 오디오는 번역 문구나 독립 타이머로 장소를 추측하지 않는다.
+- 활동 진입은 메인 HUD와 초점을 넘기고, 복귀 계약이 원래 표면·오디오·
+  초점을 되돌린다. 엔딩은 각 결말의 `finale` 곡선을 사용한다.
+- Reduce Motion은 장면 순서와 정보는 보존하되 카메라 이동·스케일을 0으로
+  만들고 짧은 정적 페이드만 사용한다.
+
+```bash
+python3 tools/scene_direction_catalog.py --check
+python3 tools/full_run_direction_audit.py
+godot --headless --path . res://tools/SceneDirectionCheck.tscn
+```
+
+정상 속도 전환 피로·멀미·감정 타이밍과 실기기 성능은 자동 통과로 대신할 수
+없으며 `USER-P0N`의 사람 게이트로 남는다.

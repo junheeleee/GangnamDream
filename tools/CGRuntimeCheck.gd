@@ -109,14 +109,10 @@ func _check_story_event_cg(event_id: String, cg_id: String) -> void:
 	var event: Dictionary = DataRegistry.find_event(event_id)
 	var reveal_paragraph := int(event.get("cg_reveal_paragraph", 0))
 	if reveal_paragraph > 0:
-		if bg_img != null and bg_img.texture != null and bg_img.texture.resource_path == expected_path:
-			_failures.append("StoryMode revealed %s before paragraph %d" % [event_id, reveal_paragraph])
-		for _paragraph in range(reveal_paragraph):
-			if bool(story.get("_typing")):
-				story.call("_on_advance")
-			story.call("_on_advance")
-			await get_tree().process_frame
-			await get_tree().process_frame
+			if bg_img != null and bg_img.texture != null and bg_img.texture.resource_path == expected_path:
+				_failures.append("StoryMode revealed %s before paragraph %d" % [event_id, reveal_paragraph])
+			for _paragraph in range(reveal_paragraph):
+				await _advance_story_paragraph(story)
 
 	if bg_img == null or bg_img.texture == null:
 		_failures.append("StoryMode did not assign a background texture for %s" % event_id)
@@ -144,11 +140,7 @@ func _check_story_event_paragraph_backgrounds(event_id: String, expected_ids: Ar
 	var bg_img := story.get("_bg_img") as TextureRect
 	for index in range(expected_ids.size()):
 		if index > 0:
-			if bool(story.get("_typing")):
-				story.call("_on_advance")
-			story.call("_on_advance")
-			await get_tree().process_frame
-			await get_tree().process_frame
+			await _advance_story_paragraph(story)
 		var background_id := str(expected_ids[index])
 		var expected_path := ImageRegistry.get_background(background_id)
 		if bg_img == null or bg_img.texture == null:
@@ -185,11 +177,7 @@ func _check_story_event_portrait_reveal(event_id: String, portrait_id: String, r
 		_failures.append("StoryMode revealed %s name before paragraph %d" % [event_id, reveal_paragraph])
 
 	for _paragraph in range(reveal_paragraph):
-		if bool(story.get("_typing")):
-			story.call("_on_advance")
-		story.call("_on_advance")
-		await get_tree().process_frame
-		await get_tree().process_frame
+		await _advance_story_paragraph(story)
 
 	var portrait := story.get("_portrait") as TextureRect
 	if portrait_frame == null or not portrait_frame.visible:
@@ -238,11 +226,7 @@ func _check_story_choice_result_visual(
 	for _step in range(12):
 		if bool(story.get("_showing_choices")):
 			break
-		if bool(story.get("_typing")):
-			story.call("_complete_typing")
-		story.call("_on_advance")
-		await get_tree().process_frame
-		await get_tree().process_frame
+		await _advance_story_paragraph(story)
 	if not bool(story.get("_showing_choices")):
 		_failures.append("StoryMode did not reach choices for %s" % event_id)
 		remove_child(story)
@@ -282,16 +266,7 @@ func _check_story_shared_result_cg(
 	for _step in range(30):
 		if bool(story.get("_showing_choices")):
 			break
-		if bool(story.get("_typing")):
-			story.call("_complete_typing")
-		# Authored peak-scene silence is measured in real seconds. The contract
-		# check skips only that wait so a headless frame loop stays deterministic.
-		if bool(story.get("_direction_hold_active")):
-			story.set("_direction_hold_active", false)
-			story.set("_direction_hold_remaining", 0.0)
-		story.call("_on_advance")
-		await get_tree().process_frame
-		await get_tree().process_frame
+		await _advance_story_paragraph(story)
 	if not bool(story.get("_showing_choices")):
 		_failures.append("StoryMode did not reach shared-result choices for %s" % event_id)
 		remove_child(story)
@@ -312,11 +287,7 @@ func _check_story_shared_result_cg(
 		_failures.append("StoryMode %s should retain its portrait before delayed result CG" % event_id)
 
 	for _paragraph in range(reveal_paragraph):
-		if bool(story.get("_typing")):
-			story.call("_complete_typing")
-		story.call("_on_advance")
-		await get_tree().process_frame
-		await get_tree().process_frame
+		await _advance_story_paragraph(story)
 	var expected_path := ImageRegistry.get_cg(cg_id)
 	if bg_img == null or bg_img.texture == null or bg_img.texture.resource_path != expected_path:
 		_failures.append("StoryMode %s did not reveal shared result CG at paragraph %d" % [
@@ -330,6 +301,22 @@ func _check_story_shared_result_cg(
 
 	remove_child(story)
 	story.queue_free()
+
+func _advance_story_paragraph(story: Node) -> void:
+	# Scene-direction transitions intentionally lock input while the outgoing
+	# frame dissolves. Runtime CG checks skip only that real-time wait.
+	if bool(story.get("_story_scene_transition_active")):
+		story.call("_finish_story_scene_transition")
+	if bool(story.get("_typing")):
+		story.call("_complete_typing")
+	if bool(story.get("_direction_hold_active")):
+		story.set("_direction_hold_active", false)
+		story.set("_direction_hold_remaining", 0.0)
+	story.call("_on_advance")
+	await get_tree().process_frame
+	if bool(story.get("_story_scene_transition_active")):
+		story.call("_finish_story_scene_transition")
+	await get_tree().process_frame
 
 func _check_date_milestone_season_contract() -> void:
 	var saved_month: int = int(GameState.month)

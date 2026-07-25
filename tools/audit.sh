@@ -296,6 +296,10 @@ python3 tools/scene_audio_catalog.py
 SCENE_AUDIO_CATALOG_EXIT=$?
 python3 tools/full_run_audio_audit.py
 FULL_RUN_AUDIO_EXIT=$?
+python3 tools/scene_direction_catalog.py
+SCENE_DIRECTION_CATALOG_EXIT=$?
+python3 tools/full_run_direction_audit.py
+FULL_RUN_DIRECTION_EXIT=$?
 python3 tools/game_audio_contract_check.py
 GAME_AUDIO_CONTRACT_EXIT=$?
 python3 tools/generate_gangnam_ui_sfx.py --check
@@ -485,6 +489,21 @@ else
 fi
 
 echo "──────────────────────────────────────────"
+echo "● 전 구간 장면 전환·활동·엔딩·Reduce Motion 런타임 검사"
+if [ -x "$GODOT" ]; then
+  SCENE_DIRECTION_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/SceneDirectionCheck.tscn 2>&1)
+  echo "$SCENE_DIRECTION_RAW" | grep -E "SCENE_DIRECTION_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
+  if echo "$SCENE_DIRECTION_RAW" | grep -q "SCENE_DIRECTION_CHECK_OK"; then
+    SCENE_DIRECTION_RUNTIME_EXIT=0
+  else
+    SCENE_DIRECTION_RUNTIME_EXIT=1
+  fi
+else
+  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 장면 연출 런타임 체크 건너뜀."
+  SCENE_DIRECTION_RUNTIME_EXIT=0
+fi
+
+echo "──────────────────────────────────────────"
 echo "● 본문·제목·선택지·상태 텍스트 재질 계약 검사"
 if [ -x "$GODOT" ]; then
   TEXT_MATERIAL_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/TextMaterialCheck.tscn 2>&1)
@@ -666,7 +685,7 @@ else
 fi
 
 echo "──────────────────────────────────────────"
-if [ "$CONTEXT_MANIFEST_EXIT" -ne 0 ] || [ "$PY_EXIT" -ne 0 ] || [ "$STORY_CONSISTENCY_EXIT" -ne 0 ] || [ "$SPEECH_REGISTER_EXIT" -ne 0 ] || [ "$RANDOM_POOL_HYGIENE_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$PACING_EXIT" -ne 0 ] || [ "$DEMO_EXPERIENCE_EXIT" -ne 0 ] || [ "$PLAYTEST_REPORT_EXIT" -ne 0 ] || [ "$NARRATIVE_CONTINUITY_EXIT" -ne 0 ] || [ "$FULL_RUN_PACING_EXIT" -ne 0 ] || [ "$NARRATIVE_SPINE_EXIT" -ne 0 ] || [ "$PEAK_CHAIN_EXIT" -ne 0 ] || [ "$KEY_ART_EXIT" -ne 0 ] || [ "$FIRST30_EXIT" -ne 0 ] || [ "$ART_AI_EXIT" -ne 0 ] || [ "$ART_RESOLUTION_EXIT" -ne 0 ] || [ "$ART_MASTER_EXIT" -ne 0 ] || [ "$CG_ACTING_EXIT" -ne 0 ] || [ "$CG_RUNTIME_EXIT" -ne 0 ] || [ "$CAST_DETAIL_EXIT" -ne 0 ] || [ "$EVENT_VISUAL_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$I18N_COVERAGE_EXIT" -ne 0 ] || [ "$I18N_SURFACE_EXIT" -ne 0 ] || [ "$JA_UI_EXIT" -ne 0 ] || [ "$I18N_RUNTIME_EXIT" -ne 0 ] || [ "$MOD_LAYER_AUDIT_EXIT" -ne 0 ] || [ "$MOD_LAYER_RUNTIME_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$EVENT_DIRECTOR_EXIT" -ne 0 ] || [ "$EVENT_DIRECTOR_RUNTIME_EXIT" -ne 0 ] || [ "$CORE_CHOICE_EXIT" -ne 0 ] || [ "$ENDING_DISTINCTNESS_EXIT" -ne 0 ] || [ "$ENDING_ROUTE_EXIT" -ne 0 ] || [ "$AUDIO_SOURCE_EXIT" -ne 0 ] || [ "$SCENE_AUDIO_EXIT" -ne 0 ] || [ "$SCENE_AUDIO_CATALOG_EXIT" -ne 0 ] || [ "$FULL_RUN_AUDIO_EXIT" -ne 0 ] || [ "$GAME_AUDIO_CONTRACT_EXIT" -ne 0 ] || [ "$UI_SFX_EXIT" -ne 0 ] || [ "$LAUNCH_AUDIO_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$GAME_AUDIO_RUNTIME_EXIT" -ne 0 ] || [ "$BGM_EXIT" -ne 0 ] || [ "$MORAL_AMBIENCE_EXIT" -ne 0 ] || [ "$IMMERSION_EXIT" -ne 0 ] || [ "$MOTIVATION_EXIT" -ne 0 ] || [ "$TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_PLAYBACK_EXIT" -ne 0 ] || [ "$MANUAL_SAVE_EXIT" -ne 0 ] || [ "$STORY_PRESENCE_EXIT" -ne 0 ] || [ "$LIVING_SCENE_EXIT" -ne 0 ] || [ "$TEXT_MATERIAL_EXIT" -ne 0 ] || [ "$STORY_AUDIO_EXIT" -ne 0 ] || [ "$INPUT_MATRIX_EXIT" -ne 0 ] || [ "$ACHIEVEMENT_EXIT" -ne 0 ] || [ "$HIDDEN_EXIT" -ne 0 ] || [ "$HOUSING_KEEPSAKE_EXIT" -ne 0 ] || [ "$YEAR_IDENTITY_EXIT" -ne 0 ] || [ "$CAST_VISUAL_TIME_EXIT" -ne 0 ] || [ "$DEMO_BUILD_EXIT" -ne 0 ] || [ "$TRAILER_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
+if [ "$CONTEXT_MANIFEST_EXIT" -ne 0 ] || [ "$PY_EXIT" -ne 0 ] || [ "$STORY_CONSISTENCY_EXIT" -ne 0 ] || [ "$SPEECH_REGISTER_EXIT" -ne 0 ] || [ "$RANDOM_POOL_HYGIENE_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$PACING_EXIT" -ne 0 ] || [ "$DEMO_EXPERIENCE_EXIT" -ne 0 ] || [ "$PLAYTEST_REPORT_EXIT" -ne 0 ] || [ "$NARRATIVE_CONTINUITY_EXIT" -ne 0 ] || [ "$FULL_RUN_PACING_EXIT" -ne 0 ] || [ "$NARRATIVE_SPINE_EXIT" -ne 0 ] || [ "$PEAK_CHAIN_EXIT" -ne 0 ] || [ "$KEY_ART_EXIT" -ne 0 ] || [ "$FIRST30_EXIT" -ne 0 ] || [ "$ART_AI_EXIT" -ne 0 ] || [ "$ART_RESOLUTION_EXIT" -ne 0 ] || [ "$ART_MASTER_EXIT" -ne 0 ] || [ "$CG_ACTING_EXIT" -ne 0 ] || [ "$CG_RUNTIME_EXIT" -ne 0 ] || [ "$CAST_DETAIL_EXIT" -ne 0 ] || [ "$EVENT_VISUAL_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$I18N_COVERAGE_EXIT" -ne 0 ] || [ "$I18N_SURFACE_EXIT" -ne 0 ] || [ "$JA_UI_EXIT" -ne 0 ] || [ "$I18N_RUNTIME_EXIT" -ne 0 ] || [ "$MOD_LAYER_AUDIT_EXIT" -ne 0 ] || [ "$MOD_LAYER_RUNTIME_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$EVENT_DIRECTOR_EXIT" -ne 0 ] || [ "$EVENT_DIRECTOR_RUNTIME_EXIT" -ne 0 ] || [ "$CORE_CHOICE_EXIT" -ne 0 ] || [ "$ENDING_DISTINCTNESS_EXIT" -ne 0 ] || [ "$ENDING_ROUTE_EXIT" -ne 0 ] || [ "$AUDIO_SOURCE_EXIT" -ne 0 ] || [ "$SCENE_AUDIO_EXIT" -ne 0 ] || [ "$SCENE_AUDIO_CATALOG_EXIT" -ne 0 ] || [ "$FULL_RUN_AUDIO_EXIT" -ne 0 ] || [ "$SCENE_DIRECTION_CATALOG_EXIT" -ne 0 ] || [ "$FULL_RUN_DIRECTION_EXIT" -ne 0 ] || [ "$GAME_AUDIO_CONTRACT_EXIT" -ne 0 ] || [ "$UI_SFX_EXIT" -ne 0 ] || [ "$LAUNCH_AUDIO_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$GAME_AUDIO_RUNTIME_EXIT" -ne 0 ] || [ "$BGM_EXIT" -ne 0 ] || [ "$MORAL_AMBIENCE_EXIT" -ne 0 ] || [ "$IMMERSION_EXIT" -ne 0 ] || [ "$MOTIVATION_EXIT" -ne 0 ] || [ "$TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_PLAYBACK_EXIT" -ne 0 ] || [ "$MANUAL_SAVE_EXIT" -ne 0 ] || [ "$STORY_PRESENCE_EXIT" -ne 0 ] || [ "$LIVING_SCENE_EXIT" -ne 0 ] || [ "$SCENE_DIRECTION_RUNTIME_EXIT" -ne 0 ] || [ "$TEXT_MATERIAL_EXIT" -ne 0 ] || [ "$STORY_AUDIO_EXIT" -ne 0 ] || [ "$INPUT_MATRIX_EXIT" -ne 0 ] || [ "$ACHIEVEMENT_EXIT" -ne 0 ] || [ "$HIDDEN_EXIT" -ne 0 ] || [ "$HOUSING_KEEPSAKE_EXIT" -ne 0 ] || [ "$YEAR_IDENTITY_EXIT" -ne 0 ] || [ "$CAST_VISUAL_TIME_EXIT" -ne 0 ] || [ "$DEMO_BUILD_EXIT" -ne 0 ] || [ "$TRAILER_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
   echo "❌ 감사 실패 — 위 ERROR를 고치고 다시 돌리세요."
   exit 1
 fi

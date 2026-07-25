@@ -13,6 +13,8 @@ const DEMO_SAME_LOCATION_EDGES := [
 	["story_knee_door", "story_knee_witness"],
 	["story_knee_witness", "story_knee_choice"],
 	["story_last_payment_wait", "story_last_payment_word"],
+]
+const DEMO_REMOTE_EDGES := [
 	["story_last_payment_exit", "story_prologue_dad"],
 ]
 const DEMO_CLASSIFIED_TRANSITION_EDGES := {
@@ -347,6 +349,11 @@ func _check_same_location_handoff() -> bool:
 		var contract := DataRegistry.get_story_transition(str(edge[0]), str(edge[1]))
 		if str(contract.get("mode", "")) != "same_location":
 			_fail("same-location transition contract is missing: %s->%s" % edge)
+			return false
+	for edge in DEMO_REMOTE_EDGES:
+		var contract := DataRegistry.get_story_transition(str(edge[0]), str(edge[1]))
+		if str(contract.get("mode", "")) != "remote":
+			_fail("remote no-wipe transition contract is missing: %s->%s" % edge)
 			return false
 
 	if not await _spawn_story_fixture("story_knee_door"):
