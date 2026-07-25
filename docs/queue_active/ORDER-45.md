@@ -26,7 +26,8 @@
 >   `arc_midgame.json`, `callback_events_44.json`
 > - 상철: `content/events/callback_events_12.json`,
 >   `content/events/callback_events_17.json`
-> - 회귀·기록: `tools/speech_register_audit.py`, `tools/audit.sh`,
+> - 회귀·기록: `tools/speech_register_audit.py`,
+>   `tools/peak_scene_chain_audit.py`, `tools/audit.sh`,
 >   `docs/SCRIPT_REVIEW_2026-07-24.md`, `CLAUDE.md`, `docs/WORK_LOG.md`,
 >   이 활성 사양과 큐 인덱스
 
