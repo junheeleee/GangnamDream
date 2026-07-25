@@ -3556,8 +3556,8 @@
     "weight": 20.0,
     "hidden": false,
     "conditions": {
-      "min_turn": 180,
-      "max_turn": 188
+    "min_turn": 176,
+    "max_turn": 184
     },
     "tags": [
       "story_beat",

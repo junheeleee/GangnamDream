@@ -465,28 +465,46 @@ EXPECTED_LATE_TEMPORAL = {
     "A 정석/다은보냄/사기": {
         69: "arc_year_one_half",
         87: "arc_34_two_years_in",
-        151: "arc_almost_there",
-        155: "arc_1b_isolation",
+        148: "arc_35_path_cost",
+        151: "arc_35_habit_check",
+        152: "arc_almost_there",
+        154: "arc_36_reality_check",
+        156: "arc_1b_isolation",
         163: "arc_36_body_signal",
         169: "arc_year_three_half",
-        177: "arc_36_night_doubt",
+        181: "arc_36_night_doubt",
         188: "arc_year4_close",
         190: "arc_final_stretch",
         193: "arc_37_reckoning",
+        204: "arc_37_burn_or_light",
         210: "arc_gangnam_real_estate",
     },
     "B 비정석/진실/committed": {
         78: "arc_year_one_half",
         96: "arc_34_two_years_in",
-        152: "arc_almost_there",
-        156: "arc_1b_isolation",
+        148: "arc_35_path_cost",
+        151: "arc_35_habit_check",
+        153: "arc_almost_there",
+        154: "arc_36_reality_check",
+        157: "arc_1b_isolation",
         163: "arc_36_body_signal",
         169: "arc_year_three_half",
-        177: "arc_36_night_doubt",
+        181: "arc_36_night_doubt",
         188: "arc_year4_close",
         190: "arc_final_stretch",
         193: "arc_37_reckoning",
+        204: "arc_37_burn_or_light",
         215: "arc_gangnam_real_estate",
+    },
+}
+EXPECTED_CHAPTER2_COMPARISON = {
+    "A 정석/다은보냄/사기": {
+        93: "arc_social_comparison",
+        105: "arc_year_two_pressure",
+    },
+    "B 비정석/진실/committed": {
+        93: "arc_social_comparison",
+        106: "arc_year_two_pressure",
     },
 }
 EXPECTED_CHAPTER3 = {
@@ -505,8 +523,6 @@ EXPECTED_CHAPTER3 = {
         121: "arc_midpoint_reckoning",
         122: "arc_year_two_half",
         126: "arc_goal_vertigo",
-        135: "arc_35_path_cost",
-        138: "arc_35_habit_check",
         140: "arc_year3_close",
     },
     "B 비정석/진실/committed": {
@@ -530,8 +546,6 @@ EXPECTED_CHAPTER3 = {
         128: "arc_y3_sangchul_deeper_room",
         132: "arc_sangchul_confrontation",
         133: "arc_sangchul_year3",
-        135: "arc_35_path_cost",
-        138: "arc_35_habit_check",
         140: "arc_year3_close",
     },
 }
@@ -565,7 +579,7 @@ EXPECTED_CHAPTER1 = {
         36: "arc_jiyeon_02_store",
         40: "arc_hyunsu_new_path",
         41: "arc_opp_sangchul_realty",
-        44: "arc_year1_close",
+        45: "arc_year1_close",
     },
     "B 비정석/진실/committed": {
         2: "arc_intro_01_meal",
@@ -595,9 +609,9 @@ EXPECTED_CHAPTER1 = {
         36: "arc_jiyeon_02_store",
         40: "arc_hyunsu_new_path",
         41: "arc_opp_sangchul_realty",
-        44: "arc_year1_close",
-        45: "arc_money_loneliness",
-        46: "arc_opp_jiyeon_bunyang",
+        45: "arc_year1_close",
+        46: "arc_money_loneliness",
+        47: "arc_opp_jiyeon_bunyang",
     },
 }
 
@@ -719,6 +733,16 @@ for name, spine, traj, hook, choice_indices in PATHS:
         print("  ✗ 3장 시간축 회귀:", ", ".join(chapter3_mismatch))
     else:
         print(f"  ✓ 3장 시간축 {len(EXPECTED_CHAPTER3[name])}앵커 고정")
+    comparison_mismatch = [
+        f"t{turn}:{firelog.get(turn, 'missing')}!={event_id}"
+        for turn, event_id in EXPECTED_CHAPTER2_COMPARISON[name].items()
+        if firelog.get(turn) != event_id
+    ]
+    if comparison_mismatch:
+        fail += 1
+        print("  ✗ 2장 비교 장면 간격 회귀:", ", ".join(comparison_mismatch))
+    else:
+        print("  ✓ 2장 대면 비교→SNS 압박 간격 고정")
     late_temporal_mismatch = [
         f"t{turn}:{firelog.get(turn, 'missing')}!={event_id}"
         for turn, event_id in EXPECTED_LATE_TEMPORAL[name].items()

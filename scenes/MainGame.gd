@@ -2678,7 +2678,7 @@ func _next_arc_id(
 		return "chapter_card_37"
 
 	# ══ 연말 클로징 씬 — 각 연도의 마지막 밤 (5권 구조의 마침표) ══
-	if t >= 44 and t <= 48 and not f.get("arc_year1_close_seen", false):
+	if t >= 45 and t <= 48 and not f.get("arc_year1_close_seen", false):
 		return "arc_year1_close"
 	if t >= 92 and t <= 96 and not f.get("arc_year2_close_seen", false):
 		return "arc_year2_close"
@@ -3186,8 +3186,8 @@ func _next_arc_id(
 			and not f.get("arc_midpoint_reckoning_seen", false):
 		return "arc_midpoint_reckoning"
 
-	# ── 동창 조우 — 2년 차, 잘 나가는 동창과 다시 비교한다 ──
-	if t >= 92 and t <= 112 \
+	# ── 동창 조우 — 2년 차 전반, 대면 비교를 먼저 겪는다 ──
+	if t >= 92 and t <= 104 \
 			and not f.get("arc_social_comparison_seen", false):
 		return "arc_social_comparison"
 
@@ -3499,7 +3499,8 @@ func _next_arc_id(
 			and not f.get("arc_34_two_years_in_seen", false):
 		return "arc_34_two_years_in"
 
-	if t >= 96 and t <= 115 and not f.get("arc_year_two_pressure_seen", false):
+	# 대면 조우와 같은 주제의 SNS 압박은 최소 한 구간 뒤에 돌아온다.
+	if t >= 105 and t <= 115 and not f.get("arc_year_two_pressure_seen", false):
 		return "arc_year_two_pressure"
 	# ── 35세 생일 (t100-112) ──
 	if t >= 100 and t <= 112 and not f.get("arc_35_birthday_seen", false):
@@ -3527,21 +3528,26 @@ func _next_arc_id(
 			return "arc_35_orthodox_weight"
 		else:
 			return "arc_35_unorthodox_weight"
-	# ── 챕터3 "무게" — 현기증을 몇 주 들고 산 뒤 읽는 3년치 영수증 ──
-	if t >= 135 and t <= 144 \
+	# ── 챕터4 도입 — 3장 현기증을 한 장 건너 들고 온 3년치 영수증 ──
+	if t >= 148 and t <= 160 \
 			and f.get("arc_goal_vertigo_seen", false) \
 			and not GameState.has_deferred_event("arc_35_path_cost") \
 			and not f.get("arc_35_path_cost_seen", false):
 		return "arc_35_path_cost"
-	# ── 35세 루틴 점검 (t138-148) ──
-	if t >= 138 and t <= 148 \
+	# ── 영수증을 읽은 뒤에야 루틴이 몸에 남긴 것을 점검한다 ──
+	if t >= 151 and t <= 164 \
+			and f.get("arc_35_path_cost_seen", false) \
 			and not GameState.has_deferred_event("arc_35_habit_check") \
 			and not f.get("arc_35_habit_check_seen", false):
 		return "arc_35_habit_check"
-	# ── 36세 현실 점검 (t145-158) ──
-	if t >= 145 and t <= 158 and not f.get("arc_36_reality_check_seen", false):
+	# ── 계산은 루틴 점검 뒤 현실의 갈림길로 한 번만 수렴한다 ──
+	if t >= 154 and t <= 166 \
+			and f.get("arc_35_habit_check_seen", false) \
+			and not f.get("arc_36_reality_check_seen", false):
 		return "arc_36_reality_check"
-	if t >= 148 and t <= 165 and not f.get("arc_year_three_crossroads_seen", false):
+	if t >= 154 and t <= 170 \
+			and f.get("arc_36_reality_check_seen", false) \
+			and not f.get("arc_year_three_crossroads_seen", false):
 		return "arc_year_three_crossroads"
 	# ── 아버지 서울 방문 — 야망의 비용 (Y4 초반, 아버지와 연결된 플레이어) ──
 	if t >= 155 and t <= 178 \
@@ -3565,13 +3571,13 @@ func _next_arc_id(
 	if t >= 156 and t <= 188 and f.get("arc_36_trust_crack_seen", false) \
 			and not f.get("arc_36_unexpected_hand_seen", false):
 		return "arc_36_unexpected_hand"
-	# ── 3년 반 마커 — t168-188 공백 구간 앵커 (무조건) ──
-	if t >= 168 and t <= 188 \
+	# ── 3년 반 마커 — 몸의 경고가 6주 뒤 계획표로 돌아온다 ──
+	if t >= 168 and t <= 184 \
 			and not GameState.has_deferred_event("arc_year_three_half") \
 			and not f.get("arc_year_three_half_seen", false):
 		return "arc_year_three_half"
-	# ── 36세 새벽 의심 (t176-190) ──
-	if t >= 176 and t <= 190 \
+	# ── 36세 새벽 의심 — 연말 직전, 몸의 장부를 12주 들고 온 뒤 ──
+	if t >= 180 and t <= 187 \
 			and not GameState.has_deferred_event("arc_36_night_doubt") \
 			and not f.get("arc_36_night_doubt_seen", false):
 		return "arc_36_night_doubt"
@@ -3586,8 +3592,8 @@ func _next_arc_id(
 			and f.get("arc_37_reckoning_seen", false) \
 			and not f.get("arc_final_year_start_seen", false):
 		return "arc_final_year_start"
-	# ── 37세 번아웃 vs 불꽃 (t210-220) ──
-	if t >= 210 and t <= 220 and not f.get("arc_37_burn_or_light_seen", false):
+	# ── 37세 번아웃 vs 불꽃 — 고자산 런의 마지막 해 중반 공백도 막는다 ──
+	if t >= 204 and t <= 214 and not f.get("arc_37_burn_or_light_seen", false):
 		return "arc_37_burn_or_light"
 	# ── 37세 마지막 평화 (t222-236) ──
 	if t >= 222 and t <= 236 and not f.get("arc_37_ending_peace_seen", false):

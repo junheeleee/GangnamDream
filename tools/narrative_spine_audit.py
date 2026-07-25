@@ -36,10 +36,15 @@ CHAPTER_PHASE_REQUIRED = {
         "escalation": {"arc_father_06_confession", "arc_sangchul_known_offer", "arc_why_gangnam_real"},
         "reversal": {"arc_jaehyuk_aftermath", "arc_y3_jiyeon_departure", "arc_midpoint_reckoning"},
         "boss": {"arc_jaehyuk_mirror", "arc_sangchul_confrontation", "arc_goal_vertigo"},
-        "aftermath": {"arc_35_path_cost", "arc_35_habit_check", "arc_year3_close"},
+        "aftermath": {"arc_year3_close"},
     },
     4: {
-        "setup": {"arc_36_reality_check", "arc_year_three_crossroads"},
+        "setup": {
+            "arc_35_path_cost",
+            "arc_35_habit_check",
+            "arc_36_reality_check",
+            "arc_year_three_crossroads",
+        },
         "escalation": {"arc_36_trust_crack", "arc_36_unexpected_hand"},
         "reversal": {"arc_father_call_on_ktx"},
         "boss": {"arc_father_passing"},
@@ -80,9 +85,10 @@ CHAPTER_TEMPORAL_REQUIRED = {
         "arc_sangchul_confrontation",
         "arc_why_gangnam_real",
         "arc_goal_vertigo",
-        "arc_35_habit_check",
     },
     4: {
+        "arc_35_path_cost",
+        "arc_35_habit_check",
         "arc_almost_there",
         "arc_1b_isolation",
         "arc_final_stretch",
@@ -98,9 +104,11 @@ CHAPTER_TEMPORAL_REQUIRED = {
 CHAPTER_TEMPORAL_COUNTS = {1: 2, 2: 1, 3: 4, 4: 3}
 REQUIRED_DEFERRED_EDGES = {
     ("arc_year_one_half", "arc_34_two_years_in"): 18,
+    ("arc_goal_vertigo", "arc_35_path_cost"): 22,
+    ("arc_35_path_cost", "arc_35_habit_check"): 3,
     ("arc_almost_there", "arc_1b_isolation"): 4,
     ("arc_36_body_signal", "arc_year_three_half"): 6,
-    ("arc_year_three_half", "arc_36_night_doubt"): 8,
+    ("arc_year_three_half", "arc_36_night_doubt"): 12,
     ("arc_year4_close", "arc_37_reckoning"): 5,
 }
 REQUIRED_IMMEDIATE_EDGES = {

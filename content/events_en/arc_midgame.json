@@ -798,20 +798,25 @@
   },
   {
     "id": "arc_final_year_start",
-    "title": "The Last Year",
-    "description": "One year left now.\n\n37 years old. This time next year is the deadline. With the cards in hand right now — what can be done? This question has never felt this concrete.",
+    "title": "The Morning After",
+    "description": "The morning after the reckoning, the calculator and notebook remained open on the desk.\n\nThe figures were unchanged. What {name} had been pretending not to know was not.\n\nBefore getting ready for work, he opened a blank page. Instead of writing what else he could gain, he began with what he was still willing to put at stake.",
+    "description_if_known": {
+      "final_year_resolve": "The morning after the reckoning, the notebook cover still seemed solid against {name}'s palm.\n\nThe night before, he had decided not to erase a single page between 500,000 won and today's figure. He had also written that an outcome could not change who owned the path.\n\nIn the morning light, he opened a blank page. The question was no longer what success should look like, but how much of the ending he could still bear as his own.",
+      "final_year_realistic": "The morning after the reckoning, the plan remained open with a new save time.\n\nLowering the expected return and entering real expenses had reduced the chance of arrival. It had also shown, for the first time, exactly where the plan might break. The numbers offered no comfort, which made them useful.\n\n{name} opened a blank page. Now the person willing to see without exaggeration had to decide how much to risk.",
+      "final_year_open": "The morning after the reckoning, {name} remembered the calculator display fading in the dark.\n\nHe had not forced an answer. He had admitted only that the largest turns of the past four years had come from beyond the calculation.\n\n{name} opened a blank page. Even without writing the ending in advance, he still had to decide what to put at stake today."
+    },
     "choices": [
       {
-        "text": "Put everything on the line. Last chance.",
-        "result_text": "Laid out all the remaining cards. Saying it's not scary would be a lie. Going anyway. This is the drama he chose."
+        "text": "Put every remaining card down — and own the cost.",
+        "result_text": "He listed the cards, the cash, and the names he could still call. \"Everything\" sounded grand. On paper, it became a quiet row of things that would be difficult to recover.\n\n{name} wrote his own name on the final line. Before what success might bring, he checked who would pay if it failed."
       },
       {
-        "text": "Protect what I have now. Land safely.",
-        "result_text": "Reduced the ambition. Not losing is also strategy. Decided not to waver in this final year."
+        "text": "Decide what to protect first — choose an ending that keeps it.",
+        "result_text": "He marked the money he would not touch, the calls he would not postpone, and the sleep he would not cut further. The plan grew smaller when only choices inside those lines remained.\n\n{name} felt relief and regret at once. He saved the file without erasing either."
       },
       {
-        "text": "Feels like something is still out there. Wait a little longer.",
-        "result_text": "Didn't rush. A year is long. Opportunity comes — still want to believe that."
+        "text": "Do not move today — leave one space open.",
+        "result_text": "He left one cell blank. He did not label whether it was for an opportunity that had not arrived or a decision he was avoiding.\n\n{name} closed the laptop and left home. Possibility and evasion occupied the blank with the same face."
       }
     ]
   },
@@ -881,7 +886,7 @@
     "choices": [
       {
         "text": "Sat on the steps with the coffee. The direction was visible.",
-        "result_text": "A room more familiar than the first one. An account better than the first month. If Minjun from a year and a half ago could see this, half of him would have felt relieved."
+      "result_text": "A room more familiar than the first one. An account better than the first month. Yet his body had changed before the numbers did.\n\nWithout thinking, his feet knew which transfer stairs were fastest and which alleys stayed lit after midnight. Seoul was still strange. His life in it was already becoming instinct."
       },
       {
         "text": "Took a sip. The pace had to change.",
@@ -1028,15 +1033,15 @@
     "choices": [
       {
         "text": "Whatever the number, this trajectory was his.",
-        "result_text": "{name} traced a line from 500,000 won on the first page to today's figure. It was not straight. Losses, detours, and pages bearing people's names broke the route.\n\nHe decided not to erase a single one. Whether he reached the target or missed it, the path would not become someone else's failure or success.\n\nWhen he closed the notebook, its cover felt solid beneath his palm. The final year was no longer time to prove the result, but time to live his own road as his own until the end."
+      "result_text": "{name} traced a line from 500,000 won on the first page to today's figure. It was not straight. Losses, detours, and pages bearing people's names broke the route.\n\nHe decided not to erase a single one. Whether he reached the target or missed it, the path would not become someone else's failure or success.\n\nWhen he closed the notebook, its cover felt solid beneath his palm."
       },
       {
         "text": "He revised the plan once more. He would enter the end knowing.",
-        "result_text": "{name} lowered the expected return and entered his real expenses. The chance of arriving shrank, but for the first time every cell balanced without exaggeration. The numbers offered no comfort, which made them useful.\n\nHe marked the points where the plan would break and revised it once more. He chose to act with the truth rather than hope without it.\n\nThe saved file carried a new timestamp. The final year looked less spectacular, but at least he could enter it with his eyes open."
+      "result_text": "{name} lowered the expected return and entered his real expenses. The chance of arriving shrank, but for the first time every cell balanced without exaggeration. The numbers offered no comfort, which made them useful.\n\nHe marked the points where the plan would break and revised it once more. He chose to act with the truth rather than hope without it.\n\nThe saved file carried a new timestamp."
       },
       {
         "text": "He closed the calculator. Only the end could answer.",
-        "result_text": "{name} closed the calculator. Making the figures more precise would not make the ending arrive early. The greatest deviations of the last four years had come from beyond the calculation. So had the things that remained longest.\n\nHe left only the notebook on the desk and turned out the light. Entering the final year without forcing an answer was also a choice.\n\nThe calculator display faded slowly in the dark. The sentence \"only the end can answer\" remained after everything else was gone."
+      "result_text": "{name} closed the calculator. Making the figures more precise would not make the ending arrive early. The greatest deviations of the last four years had come from beyond the calculation. So had the things that remained longest.\n\nHe left only the notebook on the desk and turned out the light. Not forcing an answer was also a choice.\n\nThe calculator display faded slowly in the dark."
       }
     ],
     "description_if_known": {
@@ -1144,12 +1149,12 @@
     "description_unorthodox": "The second year in Seoul was drawing to a close.\n\nHe had taken angles others would not. Some paid off. Some did not.\n\nThe city was becoming familiar, not conquered.\n\n{name} could not tell whether that was progress or adaptation.",
     "choices": [
       {
-        "text": "Double down — the next three years have to count more",
-        "result_text": "{name} restructured his targets.\n\nNot vague ambitions — concrete numbers by specific ages.\n\nThe goal was the same. The urgency was new.\n\nThree years left. He couldn't afford to keep learning things the hard way."
+      "text": "Closed his hand around the key. His body had memorized Seoul first.",
+      "result_text": "Transfer corridors, late-night restaurants, and the awnings that kept off rain came to him before he had to think.\n\nHe could not call himself a Seoulite. His body had still learned how to move through a day in this city."
       },
       {
-        "text": "Trust the process — two years of foundation means something",
-        "result_text": "{name} thought about everything that had changed in two years.\n\nThe knowledge. The contacts. The scar tissue from mistakes.\n\nNone of it showed on the surface. But it was all there.\n\nThe foundation was real. The next phase would use it."
+      "text": "Urgency could become fuel.",
+      "result_text": "Some days, urgency became energy.\n\n{name} hoped this would be one of them."
       }
     ]
   }

@@ -13,7 +13,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "autoloads" / "DataRegistry.gd"
 MANIFEST = ROOT / "content" / "meta" / "event_director.json"
-EXPECTED_CATALOG_RANDOM = 1177
+EXPECTED_CATALOG_RANDOM = 1176
 EXPECTED_DIRECTED_RANDOM = 1032
 EXPECTED_FOREGROUND_RANDOM = 61
 EXPECTED_BRIDGE_RANDOM = 18
@@ -61,15 +61,15 @@ EXPECTED_DEMO_BOSSES = [4, 24]
 EXPECTED_DEMO_ECHOES = [6, 9, 17, 21]
 EXPECTED_DEMO_SUMMARIES = [4, 12, 24]
 EXPECTED_FULL_DECISIONS = [
-    29, 37, 44,
-    49, 53, 57, 61, 67, 85, 87, 92, 94, 96,
+    29, 35, 37, 45,
+    49, 53, 57, 61, 67, 85, 92, 94, 96,
     97, 99, 107, 111, 114, 123, 131, 135, 139, 140,
     145, 149, 153, 157, 161, 169, 176, 181, 185, 188,
     193, 197, 201, 205, 209, 213, 217, 225, 229, 237,
 ]
-EXPECTED_FULL_BOSSES = [44, 92, 140, 176, 237]
+EXPECTED_FULL_BOSSES = [45, 92, 140, 176, 237]
 EXPECTED_FULL_ECHOES = [
-    51, 63, 75, 86, 98, 109, 121, 136,
+    33, 51, 63, 75, 86, 98, 109, 121, 136,
     151, 159, 171, 184, 199, 207, 219, 231,
 ]
 EXPECTED_FULL_SUMMARIES = [
@@ -477,7 +477,7 @@ def validate_manifest(manifest: dict[str, Any], events: list[dict[str, Any]]) ->
             sum((chapter - 1) * 48 < turn <= chapter * 48 for turn in all_decisions)
             for chapter in range(1, 6)
         ]
-        if chapter_counts != [12, 10, 10, 10, 10]:
+        if chapter_counts != [13, 9, 10, 10, 10]:
             errors.append(f"chapter direct-decision counts drifted: {chapter_counts}")
         if not 40 <= len(all_decisions) <= 60:
             errors.append(f"full run must expose 40..60 direct weeks, got {len(all_decisions)}")

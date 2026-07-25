@@ -180,7 +180,7 @@
       "escalation": ["arc_jaehyuk_wait", "arc_jaehyuk_hyunsu_warning", "arc_jaehyuk_04b_counter", "arc_father_06_confession", "arc_sangchul_known_offer", "arc_why_gangnam_real"],
       "reversal": ["arc_jaehyuk_04a_ghost", "arc_jaehyuk_aftermath", "arc_y3_jiyeon_departure", "arc_sangchul_known_reflex", "arc_jaehyuk_sangchul_echo", "arc_midpoint_reckoning"],
       "boss": ["arc_jaehyuk_mirror", "arc_sangchul_confrontation", "arc_goal_vertigo"],
-      "aftermath": ["arc_35_path_cost", "arc_35_habit_check", "arc_sangchul_year3", "arc_year3_close", "chapter_card_36"],
+      "aftermath": ["arc_sangchul_year3", "arc_year3_close", "chapter_card_36"],
       "temporal_spines": [
         {
           "id": "jiyeon_chooses_direction",
@@ -199,8 +199,8 @@
         },
         {
           "id": "three_billion_vertigo",
-          "events": ["arc_35_orthodox_weight", "arc_35_unorthodox_weight", "arc_why_gangnam_real", "arc_midpoint_reckoning", "arc_year_two_half", "arc_goal_vertigo", "arc_35_path_cost", "arc_35_habit_check"],
-          "payoff": "목표의 이유, 남은 시간, 숫자의 현기증, 몸에 남은 습관을 한 장부로 묶는다."
+          "events": ["arc_35_orthodox_weight", "arc_35_unorthodox_weight", "arc_why_gangnam_real", "arc_midpoint_reckoning", "arc_year_two_half", "arc_goal_vertigo"],
+          "payoff": "목표의 이유와 남은 시간을 숫자의 현기증까지 밀어 올리고, 그 청구서는 다음 장으로 넘긴다."
         }
       ],
       "handoff": "진실은 밝혀졌지만 관계와 몸과 가족이 그 선택의 청구서를 받기 시작한다."
@@ -212,7 +212,7 @@
       "weeks": [145, 192],
       "question": "사람과 몸이 성공의 비용으로 청구될 때 민준은 무엇을 먼저 지불하는가?",
       "object": "아버지의 약봉지와 비어 있는 의자",
-      "setup": ["arc_36_reality_check", "arc_year_three_crossroads"],
+      "setup": ["arc_35_path_cost", "arc_35_habit_check", "arc_36_reality_check", "arc_year_three_crossroads"],
       "escalation": ["arc_36_trust_crack", "arc_36_unexpected_hand", "arc_36_body_signal"],
       "reversal": ["arc_36_father_comes_to_seoul", "arc_father_call_on_ktx"],
       "boss": ["arc_father_passing"],
@@ -225,8 +225,8 @@
         },
         {
           "id": "body_keeps_the_ledger",
-          "events": ["arc_36_body_signal", "arc_year_three_half", "arc_36_night_doubt"],
-          "payoff": "지하철에서 먼저 울린 몸의 경고가 6주 뒤 계획표에, 다시 8주 뒤 목표 자체를 의심하는 새벽에 돌아온다."
+          "events": ["arc_35_path_cost", "arc_35_habit_check", "arc_36_body_signal", "arc_year_three_half", "arc_36_night_doubt"],
+          "payoff": "3년치 영수증과 루틴 점검이 몸의 경고로 구체화되고, 6주 뒤 계획표와 다시 12주 뒤 목표를 의심하는 새벽에 돌아온다."
         },
         {
           "id": "the_last_year_has_a_price",

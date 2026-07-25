@@ -35,6 +35,8 @@ PROLOGUE_MINUTES = 12.0
 MIN_RANDOM_OPPORTUNITIES = 24
 MAX_RANDOM_OPPORTUNITIES = 36
 MIN_RANDOM_PER_CHAPTER = 1
+EXPECTED_REFUND_DIRECT = [29, 35, 37, 45]
+EXPECTED_REFUND_ECHO = [33]
 
 
 def lists(manifest: dict[str, Any], key: str) -> set[int]:
@@ -108,7 +110,7 @@ def main() -> int:
         for chapter in range(1, 6)
     ]
     errors: list[str] = []
-    if chapter_direct != [12, 10, 10, 10, 10]:
+    if chapter_direct != [13, 9, 10, 10, 10]:
         errors.append(f"chapter decision cadence drifted: {chapter_direct}")
     if not 40 <= len(direct) <= 60:
         errors.append(f"direct weeks outside 40..60: {len(direct)}")
@@ -116,6 +118,12 @@ def main() -> int:
         errors.append(f"boss contract drifted: {sorted(bosses)}")
     if direct & echoes:
         errors.append("direct and echo weeks overlap")
+    refund_direct = sorted(turn for turn in direct if 25 <= turn <= 48)
+    refund_echo = sorted(turn for turn in echoes if 25 <= turn <= 48)
+    if refund_direct != EXPECTED_REFUND_DIRECT:
+        errors.append(f"refund-line direct cadence drifted: {refund_direct}")
+    if refund_echo != EXPECTED_REFUND_ECHO:
+        errors.append(f"refund-line echo cadence drifted: {refund_echo}")
 
     memo: dict[str, tuple[float, float]] = {}
     direct_targets = follow_up_targets(list(events.values()))
@@ -201,6 +209,7 @@ def main() -> int:
     print(
         "FULL_RUN_PACING_AUDIT_OK "
         f"direct={len(direct)} chapter_decisions={chapter_direct} "
+        f"refund_cadence=direct:{refund_direct}/echo:{refund_echo} "
         f"random_windows={min(random_windows)}-{max(random_windows)} "
         f"random_chapter_min={min(min(values) for values in random_chapter_windows)} "
         f"refund_week={min(checkpoints)}-{max(checkpoints)} "

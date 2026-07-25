@@ -2,8 +2,11 @@
   {
     "id": "arc_year1_close",
     "title": "The Last Night of 33",
-    "description": "December.\n\nA crack in the goshiwon ceiling. It was there the day {name} moved in. A year of looking at it.\n\nThis time last year, {name} stepped off a bus. One bag. 500,000 won.\n\nSurvived.\n\nIs that all — or is this just the beginning?",
+    "description": "The first year was drawing to a close.\n\nAt the desk in his current room, {name} opened the notebook. Beneath the first line — \"3 billion won. Five years.\" — ran twelve months of figures: rent, transit, a first paycheck, losses. People's names lay scattered between the numbers.\n\nHe had written that first line in a 160-square-foot goshiwon room: one desk, one blanket. Back then he had asked himself whether 3 billion won could ever come from a room like that.\n\nHis phone showed {money} in total assets. The question was still open.\n\nSeoul's lights trembled on the window. At the bottom of the page, {name} wrote another question.\n\nWhat have I passed by on the way inside?",
     "description_if_known": {
+      "kept_clean_hands": "The first year was drawing to a close.\n\nAt the desk in his current room, {name} opened the notebook. Beneath the first line — \"3 billion won. Five years.\" — ran twelve months of rent, transit, paychecks, and losses.\n\nIn the first month, he had refused an offer of 2 million won to lend out his bank account. Money never taken left no line in the ledger. Neither did the voice of a stranger crying through his phone.\n\nHe had written the goal in a 160-square-foot goshiwon room and asked whether 3 billion won could ever come from a room like that.\n\nHis phone now showed {money}. Beneath it, {name} added one more line.\n\nWhat have I passed by on the way inside?",
+      "escaped_dirty_money": "The first year was drawing to a close.\n\n{name} reread the twelve months beneath \"3 billion won. Five years.\" The 2 million won that entered in the first month and the money that left a month later sat on separate lines.\n\nAfter hearing that a crying woman's 30 million won had passed through his account, he blocked the numbers and closed the account. He returned what he had been paid and added his own money. His balance sank toward the floor again. The calls that never came after that could not be entered in a ledger.\n\nHe had written the goal in a 160-square-foot goshiwon room and asked whether 3 billion won could ever come from a room like that.\n\nHis phone now showed {money}. Beneath it, {name} added one more line.\n\nWhat have I passed by on the way inside?",
+      "fell_to_darkness": "The first year was drawing to a close.\n\n{name} reread the twelve months beneath \"3 billion won. Five years.\" Two million won in the first month. Three million more after that. He had left the source blank in the income column.\n\nA month later, he blocked the woman who called in tears. He deleted the call log, but whenever the silenced screen lit up, the waveform of her voice returned for an instant.\n\nHe had written the goal in a 160-square-foot goshiwon room and asked whether 3 billion won could ever come from a room like that.\n\nHis phone now showed {money}. Pen in hand, {name} left the final line empty for a long time.\n\nWhat have I passed by on the way inside?",
       "jaehyuk_scammed": "December.\n\nThe year Jaehyuk disappeared. The year the account ran dry. The year of the real bottom.\n\nStill here, though.\n\nLooked at the ceiling crack. Same spot as always.",
       "entered_network": "December.\n\nThe year of meeting Im Sangchul's people. Learning a little of how that world works.\n\nWhat that means going forward — still unknown.\n\nLooked at the ceiling crack. There since move-in day.",
       "hit_rock_bottom": "December.\n\nThe year of seeing the real bottom. Now {name} knows exactly where it is.\n\nClimbed back from it. Not all the way — but back.\n\nLooked at the ceiling crack. Same spot as always."
@@ -11,15 +14,15 @@
     "choices": [
       {
         "text": "(Next year, I'll live differently) — made a resolution",
-        "result_text": "Before sleep, thought about what kind of person next year's {name} should be. No answer yet. Maybe that's a good thing."
+        "result_text": "{name} added one line to the notebook: \"Next year, I write what I gained and what I gave up on the same page.\"\n\nHe did not erase the 3 billion won at the top. He decided to remember what he had left unwritten beneath it.\n\nWhen he put down the pen, the small sounds of the room returned."
       },
       {
         "text": "(Survived a year. That's enough) — quiet about it",
-        "result_text": "Made it through. That's enough. Tomorrow is tomorrow's problem."
+        "result_text": "For tonight, he kept only the fact that he had made it through a year. Whether he had done well, or where it led, would not be settled now.\n\nWhen he closed the notebook, a receipt slipped from inside the cover. {name} picked it up and tucked it back in."
       },
       {
         "text": "(Don't know. Just closed my eyes) — no thoughts",
-        "result_text": "Seoul's night came through the goshiwon window. {name} just fell asleep."
+        "result_text": "He turned the phone facedown and switched off the light. The notebook remained open, with nothing written beneath the final question.\n\nHe kept his eyes closed until the traffic outside faded. Sleep and the absence of thought looked much the same from the outside."
       }
     ]
   },
@@ -28,24 +31,24 @@
     "title": "The Last Night of 34",
     "description": "December again.\n\nCompared to a year ago — a lot has changed. Bank balance. People around. The feeling of looking in the mirror in the morning.\n\nNot sure all of it is good.\n\nJust different.\n\n34. Already two years.",
     "description_if_known": {
+      "year1_resolve": "December again.\n\nA sentence remained from the previous year: put what you gain and what you give up on the same page.\n\nThis year's pages held numbers beside people's names. Some lines were missing. Others would not erase.\n\n{name} had not found an answer. He had, at least, kept asking what kind of person he was becoming.",
+      "year1_numb": "December again.\n\nA year ago, {name} had left the notebook open without writing a word. The space beneath the final question remained blank.\n\nThis year he looked at the blank again. There was still no answer, but now he could feel himself avoiding it.\n\nFeeling nothing and trying not to feel were not the same state.",
       "jaehyuk_stood_up": "December again.\n\nThe year of getting back up after Jaehyuk's betrayal.\n\nOne more year older through that. Lost money, lost a person — but somehow feels like something was gained. Not sure exactly what yet.",
-      "crossed_line": "December again.\n\nCrossed a line this year.\n\nDidn't recognize it as a line at the time. Know it now. And — still doing fine after.\n\nThat fact says something. Think about it sometimes.",
       "chose_money_over_father": "December again.\n\nThere was a moment of choosing numbers over Dad. Seemed right at the time.\n\nStill not certain it was wrong. But — that moment comes back sometimes.",
-      "year1_resolve": "December again.\n\nA year ago, there was a resolution. What kind of person next year's {name} should be.\n\nWhether that got answered — honestly, hard to say.\n\nChanged, though. 34. Two years already.",
-      "year1_numb": "December again.\n\nA year ago, couldn't feel anything. Just fell asleep.\n\nThis time — something was felt. Not sure exactly what.\n\nThat alone made it a different year."
+      "crossed_line": "December again.\n\nCrossed a line this year.\n\nDidn't recognize it as a line at the time. Know it now. And — still doing fine after.\n\nThat fact says something. Think about it sometimes."
     },
     "choices": [
       {
         "text": "(Made it to the right track) — said it with confidence",
-        "result_text": "Year three starts. Now it gets real."
+        "result_text": "The same subway arrived the next morning. What had changed was that {name} already knew where to stand before the doors opened.\n\nFor now, he decided to call that familiarity confidence."
       },
       {
         "text": "(Feel like I lost something and gained something) — complicated",
-        "result_text": "Tried to tally the gains and losses. Stopped. Too early to settle accounts."
+        "result_text": "He tried to fit gains and losses on one line, then stopped. The more figures he wrote, the more names came first.\n\nHe folded the unsettled page and left the corner creased, so the postponement would remain visible."
       },
       {
         "text": "(Gangnam is still far) — just looked at the numbers",
-        "result_text": "Recalculated the distance. Three years left."
+        "result_text": "He left the remaining distance to the goal on the screen and sat with it. The gap had narrowed. The rate at which it narrowed offered no comfort.\n\nWhen the display went dark, only his face remained in the glass."
       }
     ]
   },
@@ -81,24 +84,24 @@
     "description": "The last night of 36.\n\nGangnam — one year left. The distance is palpable.\n\nTonight, strangely, the numbers weren't what came first. The people from these four years. The choices made.\n\nWhat kind of person I've become — it's starting to be visible.",
     "description_if_known": {
       "father_passed": "The last night of 36.\n\nThe first year without Dad.\n\nThere was something {name} had planned to do first thing upon reaching Gangnam — that's not possible now.\n\nSo Gangnam means something different now. Not sure what yet.",
-      "crossed_line": "The last night of 36.\n\nThere was a year a line got crossed. Something shifted gradually after that.\n\nWhat's done is done. Took a long time to accept that.\n\nAccepted now. This is just who {name} is.",
-      "year3_avoidant": "The last night of 36.\n\nLast year, tried to close it off. Turned away from the river and started walking.\n\nOne more year gone. One left. No time to close things off now.\n\nWanted it to look like running forward. Not running away.",
-      "year3_weighted": "The last night of 36.\n\nLast year: can't go back to not knowing.\n\nAnother year later — still can't. Just learned to carry it a little better.",
-      "year3_eyes_open": "The last night of 36.\n\nDecided last year: carry the weight, don't put it down.\n\nWhether that was right — starting to see now. Gangnam will tell.",
-      "sangchul_truth_known": "The last night of 36.\n\nKnew the truth, made the choices, watched the results accumulate.\n\nFour years of decisions are what {name} is now.\n\nWhether that's right or wrong — the ending hasn't come yet."
+      "year3_weighted": "The last night of 36.\n\nAt the Han River last year, {name} had known there was no return to ignorance. He had decided not to discard the ability to feel a burden as a burden.\n\nAnother year had not made the weight disappear. It had shown him which things, once put down, would make him lighter by taking part of him with them.\n\nWhen he touched the rooftop railing, the cold left another mark in his palm.",
+      "year3_eyes_open": "The last night of 36.\n\nLast year, {name} had decided to carry the uncomfortable things he knew alongside the goal.\n\nChoices had grown slower since then, and every sentence he selected remained longer. Even so, he could face the mirror longer than on the days he pretended not to know.\n\nGangnam's lights were closer. Now the dark water beneath them was visible too.",
+      "year3_avoidant": "The last night of 36.\n\nLast year, {name} had cleared every conversation alert and left only the target amount. He had turned away from the river.\n\nThe screen stayed quiet after that, and his pace increased. Sometimes what returned first was not whose words he had deleted, but how relieved he felt afterward.\n\nFrom the rooftop, it was hard to tell whether he had been running forward or running from something.",
+      "sangchul_truth_known": "The last night of 36.\n\nKnew the truth, made the choices, watched the results accumulate.\n\nFour years of decisions are what {name} is now.\n\nWhether that's right or wrong — the ending hasn't come yet.",
+      "crossed_line": "The last night of 36.\n\nThere was a year a line got crossed. Something shifted gradually after that.\n\nWhat's done is done. Took a long time to accept that.\n\nAccepted now. This is just who {name} is."
     },
     "choices": [
       {
         "text": "(Next year it happens) — steeled for the final stretch",
-        "result_text": "One year. The last one. Decided to remember this feeling."
+        "result_text": "Cold air slipped beneath his shirt. {name} released the railing and turned toward the stairs.\n\nBefore increasing his speed again, he decided to write the faces that had come to him tonight on the notebook's first page."
       },
       {
         "text": "(I know what kind of person I am now) — quietly",
-        "result_text": "That came before Gangnam. Knowing who you are. Now {name} knows."
+        "result_text": "What appeared before Gangnam was the direction he had chosen repeatedly over four years. A face was being made by small choices, not one grand decision.\n\n{name} called it neither good nor bad. He simply looked at it without turning away."
       },
       {
         "text": "(I'll figure it out once I'm there) — deferred it",
-        "result_text": "Will know upon arrival. Decided to believe that."
+        "result_text": "He left the answer at the destination. Judging now felt like stopping, and stopping felt too much like admitting the years behind him had been wrong.\n\nWhen the rooftop door closed, the wind cut off. For a moment, the question went quiet with it."
       }
     ]
   },

@@ -319,11 +319,11 @@ func _check_full_run_pacing() -> void:
 			echoes.append(turn_value)
 		if EventManager.narrative_should_show_full_summary(turn_value):
 			summaries.append(turn_value)
-	_expect(direct_by_chapter == [12, 10, 10, 10, 10],
+	_expect(direct_by_chapter == [13, 9, 10, 10, 10],
 		"full-run chapter decision cadence drifted: %s" % [direct_by_chapter])
-	_expect(bosses == [4, 24, 44, 92, 140, 176, 237],
+	_expect(bosses == [4, 24, 45, 92, 140, 176, 237],
 		"full-run boss cadence drifted: %s" % [bosses])
-	_expect(echoes.size() == 20, "full run must expose twenty echo weeks")
+	_expect(echoes.size() == 21, "full run must expose twenty-one echo weeks")
 	_expect(summaries.size() == 21 and summaries.back() == 240,
 		"full run must expose twenty-one gated summaries through week 240")
 	_expect(EventManager.narrative_week_kind(241) == "decision",

@@ -129,6 +129,18 @@
 
 **총평.** 240주 편성은 3~5장의 정점(진실 대면·아버지 별세·마지막 서명)과 챕터 카드의 핸드오프가 만드는 상승 구조는 견고하고, 특히 5장은 뿌리 13개라는 수치상 최저치를 arc_final_week 19변주·arc_37_ending_peace 8변주 같은 dik 회수 밀도로 실질 보완한다. 그러나 환불선 구간(t25~48)은 데모 24주의 결정 주 9회가 3회(29/37/44)로 급락하고 Echo 주가 t51에야 시작되며, 하필 그 구간의 장 보스인 arc_year1_close가 다섯 결산 중 가장 얇은(본문 131자, 한 줄 결과) 이벤트라 이탈 위험이 가장 크다. 중반 처짐의 실체는 이벤트 부족이 아니라 '계산기/장부 독백'의 단일 문법 반복으로, t121~148에 arc_midpoint_reckoning→arc_year_two_half→arc_goal_vertigo→arc_35_path_cost→arc_35_habit_check→arc_year3_close→arc_36_reality_check까지 같은 장면이 6~7회 연속 적층된다. 4장은 arc_36_trust_crack/arc_36_unexpected_hand 같은 질감 있는 비트로 수치 열세(16뿌리)를 상당 부분 만회하지만, 5장 t194~209는 고자산 런에서 무조건 비트가 사실상 비는 갭이 있다. 정본 위반은 발견하지 못했다. 수리는 신규 콘텐츠 없이 창 게이트 재배치·결어 문장 차별화·결산 result_text 보강으로 가능하다.
 
+**ORDER-47 수리 판정(2026-07-25).** 위 구조 결함은 신규 사건 없이 닫았다.
+환불선은 t35 직접 주와 t33 Echo를 받아 t25~48의 직접 결정이 3회에서 4회로
+늘었다. 1장 결산은 대포통장 선택을 상태별로 회수하고, 실제 12월 1주차인
+t45에 발화하도록 달력·보스 주·겨울 비주얼 계약을 정렬했다.
+`arc_goal_vertigo` 뒤 계산 장면은 4장으로 넘겨 22주 간격을 두었으며,
+`arc_social_comparison`과 `arc_year_two_pressure`도 서로 다른 창으로 분리했다.
+4장 내부는 길게 벌어진 후속을 t148~187에 단계적으로 배치하고 장 경계 회고 창을
+t176~184로 좁혔다. `arc_final_year_start`는 무작위 스텁이 아니라
+`arc_37_reckoning`의 보장 후속인 “정산 다음 날”로 바뀌었고,
+`arc_37_burn_or_light`는 t204부터 열려 고자산 공백을 줄였다. 대표 A/B 경로의
+아크 잼 0, 직접 결정 52회, 장별 13/9/10/10/10, Echo 21회로 회귀를 잠갔다.
+
 **점수**
 - **3/5 · 4·5장 수치 열세의 산문 밀도 보완** — 5장은 arc_final_week(dik 19변주)·arc_37_ending_peace(8변주)·arc_final_countdown이 런 전체의 선택을 호명해 뿌리 13개를 실질 보완하고, 4장도 arc_36_trust_crack('작은 균열은 내가 예민한 건지부터 의심하게 만든다')·arc_36_unexpected_hand가 질감을 만든다. 그러나 4장의 무조건 비트 다수(36_reality_check·year_three_half·36_night_doubt)가 동일한 '혼자 계산·독백' 문법이고, 아버지 사망·10억 고독은 플래그 조건부라 조건 미충족 런의 4장은 데드존에 가깝다.
 - **2/5 · 환불선(t25~48) 보장 비트 밀도** — full_run_pacing의 결정 주가 24주 동안 3회(29/37/44)뿐이고 echo_weeks는 t51에 시작해 데모(결정 9회+Echo 4회) 직후 밀도 절벽이 생긴다. 무조건 보장은 sangchul_02(t28)·jiyeon_02(t34)·현수 체인 정도이며, 이 구간의 장 보스 arc_year1_close는 본문 131자·결과 한 줄('잘 버텼다. 그거면 됐다.')로 다섯 결산 중 최약체다.
@@ -537,7 +549,7 @@
 **총평.** 1장 '생존'은 프롤로그(무릎·마지막 상환·수첩 체인)와 t1~9 인트로 체인이 게임 전체에서 가장 밀도 높은 산문 구간이며, 대포통장 유혹→한 달 뒤 청산/추락(arc_temptation_01→clean/fallout)이 장의 인과 스파인을 실제로 세운다. 현수 미니아크(라면 복도→시험 새벽→합격/불합격→방황→새 길)는 Question A("같은 길을 오르며 같은 사람이 되지 않을 수 있는가")를 병렬 인생으로 육화한 이 장 최고의 구조물이다. 다만 장 보스 arc_year1_close는 천장 금 모티프와 3종 dik로 분위기는 잡지만, 장의 간판 베팅인 대포통장 라인(kept_clean_hands/fell_to_darkness)을 호명하지 않고 세 선택지가 사실상 등가라 결산력이 약하다. 사실 오류도 있다: arc_job_first_rejection의 "6개월 공백"(정본은 6년), arc_gangnam_visit_alone의 존재하지 않는 "임상철 씨 차" 회상, arc_hyunsu_new_path(요리)와 t70+ hyunsu_reunion_later(회계법인)의 정면 충돌. 분량은 48주 대비 적정이나 t30~44는 조건부 분기 의존이라 합격·이별 조합에 따라 보장 전경이 희박해진다.
 
 - **정체성** 4/5 — 생존의 경제 감각이 구체 수치로 육화된다 — "삼각김밥 하나 1,200원. 이것도 아껴야 하나"(story_prologue_meal), "강남 아파트 30억 ÷ 200만 = 1,500개월 = 125년"(arc_intro_02_dad_call), 월세 65만·잔고 50만. 여기에 대포통장이라는 장 고유의 도덕 관문과 아버지 빚의 유산(무릎 장면)이 겹쳐 다른 장과 확실히 구분된다. 1점 감점: 장 후반 창에 등록된 자산 이정표 이벤트(arc_almost_there 10억 t25+, arc_final_stretch 20억 t47+)와 spec_result류(본사 TF 추천, 급락장 수익)가 '생존' 레지스터 밖의 어조를 끌어들이고, arc_gangnam_visit_alone은 겪지 않은 부의 멘토 회상을 전제한다.
-- **구조(기승전결)** 4/5 — 확인된 국면: setup=프롤로그 11개(story_flashforward~story_prologue_meal)+chapter_card_33+arc_intro_01~04+arc_temptation_01+cafe_00, t8 미니 결산 arc_chapter1_close("오늘 처음으로 그 질문을 진짜로 했다"). escalation=arc_job_first_rejection·arc_rescue_job·4인 만남(arc_sangchul_01_meet/arc_daeun_01_meet/arc_jiyeon_01_crash/arc_jaehyuk_01_reunion)·arc_invest_first_loss. reversal=arc_temptation_clean/fallout(t4 베팅의 한 달 뒤 대가), arc_father_02_signal(병원 신호), hyunsu_result_pass/arc_hyunsu_exam_fail 분기, arc_four_months_in(orthodox/unorthodox 노선 분기). boss=arc_year1_close(t44~48).  | **빠진/약한 국면:** aftermath — 보스가 장 끝 경계(t44~48)에 붙어 장 내부 여파 국면이 없다. 목록상 보스 뒤의 arc_final_stretch는 20억 게이트(t47+)라 1장에서 사실상 발화 불가, arc_opp_jiyeon_bunyang은 여파가 아니라 별도 기회 이벤트다.
+- **구조(기승전결)** 4/5 — 확인된 국면: setup=프롤로그 11개(story_flashforward~story_prologue_meal)+chapter_card_33+arc_intro_01~04+arc_temptation_01+cafe_00, t8 미니 결산 arc_chapter1_close("오늘 처음으로 그 질문을 진짜로 했다"). escalation=arc_job_first_rejection·arc_rescue_job·4인 만남(arc_sangchul_01_meet/arc_daeun_01_meet/arc_jiyeon_01_crash/arc_jaehyuk_01_reunion)·arc_invest_first_loss. reversal=arc_temptation_clean/fallout(t4 베팅의 한 달 뒤 대가), arc_father_02_signal(병원 신호), hyunsu_result_pass/arc_hyunsu_exam_fail 분기, arc_four_months_in(orthodox/unorthodox 노선 분기). boss=arc_year1_close(t45~48).  | **빠진/약한 국면:** aftermath — 보스가 장 끝 경계(t45~48)에 붙어 장 내부 여파 국면이 없다. 목록상 보스 뒤의 arc_final_stretch는 20억 게이트(t47+)라 1장에서 사실상 발화 불가, arc_opp_jiyeon_bunyang은 여파가 아니라 별도 기회 이벤트다.
 - **분량** 60사건 / 38810자 — 적정. 기준: 프롤로그 11 + 장 카드 1 + 스케줄러 뿌리 53 중 spec_result 6종(상호배타 변주)을 1슬롯으로 접어 48슬롯 = 60. NG+ 제외. 단 상호배타쌍(temptation clean/fallout, 현수 합격/불합격 체인, 다은 money_gap/trace)과 자산 게이트(5천만/1억/10억/20억)로 한 런의 실제 발화는 약 33~38개 — 밀도 지도의 장별 전경 뿌리 28~30과 부합. 글자수 38,810자(KR 전문, spec 2종 표본 포함)로 48주 대비 주당 약 800자, 과밀 아님. 리스크: t1~9에 프롤로그+인트로가 몰려 전반 과중, t30~44는 hyunsu_failed·daeun_let_her_go 같은 조건부 분기 의존이라 합격+연애 유지 조합에서 보장 전경이 희박해진다(CLAUDE의 t25~48 감시 지점과 일치).
 - **보스** 3/5 [`arc_year1_close`] — 천장 금 모티프("이사 온 날부터 있었다. 1년 동안 매일 봤다")와 "살아남았다. 그게 다인가, 아니면 지금부터인가"는 생존 장의 마침표로 어조가 정확하고, jaehyuk_scammed/entered_network/hit_rock_bottom 3종 dik로 런별 개인화도 있다. 그러나 결산력이 약하다: ① 장의 간판 베팅인 대포통장 라인(kept_clean_hands/lent_account/fell_to_darkness)에 dik 키가 없어 가장 큰 선택이 호명되지 않는다 ② 수첩 첫 줄('30억. 5년.')·아버지 병원 신호 등 장이 쌓은 실을 하나도 회수하지 않는다 ③ 세 선택지가 mental +2/+1/0의 등가 독백이라 결산이 아니라 소등이다. 총 667자로 t8 미니 결산(arc_chapter1_close — 대포통장 문자·아버지 전화·카페·현수 라면을 명시 회수)보다 회수 밀도가 낮다.
 
@@ -548,7 +560,8 @@
 - **[medium]** `arc_year1_close` — 장 보스가 장의 간판 베팅(대포통장 라인)을 결산하지 않고 선택지 셋이 사실상 등가다. · **수리:** 신규 금지 내 수리: 기존 플래그(kept_clean_hands/fell_to_darkness/escaped_dirty_money)를 dik로 연결하고, 결과문 3종을 기존 플래그(year1_resolve/year1_numb) 독자 경로와 차등되게 문장 수리.
 - **[medium]** `arc_spec_climber_result` — 표본 2종(climber·quant) 모두 두 선택지가 같은 결말로 수렴해 딜레마가 무력하다. · **수리:** result_text 편집으로 경로 차이를 육화(보류 선택은 기회비용의 감각 묘사로, 합류 거부·조건부 합류의 어조 차등). 효과/플래그는 이미 구분돼 inert는 아니므로 문장만 수리.
 - **[medium]** `arc_final_stretch` — '5년 전' 하드코딩과 20억 게이트(t47+) 이벤트가 1장 스케줄 창 경계 안에 등록되어 시제·장 정체성이 어긋난다. · **수리:** 문장 수리: '5년 전'→'처음 서울에 온 해' 등 상대 시제로. 스케줄 창은 손대지 않아도 문장 수리만으로 해소.
-- **[low]** `arc_year1_close` — 보스 주차 44와 이벤트 조건 month [12]가 어긋난다 — t44는 11월이라 조건 검증 경로에서 발화가 t45+로 밀린다. · **수리:** 조건에서 month [12] 제거(스케줄러 창이 이미 시점을 보장) 또는 스케줄러를 t45 시작으로 정렬. 아크 강제 경로가 조건을 무시한다면 조건 자체가 죽은 데이터이므로 정리.
+- **[resolved · ORDER-47]** `arc_year1_close` — 보스·발화 시작을 실제 12월
+  1주차인 t45로 정렬하고 `month [12]` 비주얼 계약을 유지했다.
 - **[low]** `arc_temptation_01` — "200만원. 넉 달은 버틴다"가 고정지출 정본(고시원 65만/월)과 계산이 안 맞는다. · **수리:** 문장 수리: '넉 달'→'석 달'. EN 오버레이 동시 수정.
 
 ### 3장 레버리지 (t97~144)
