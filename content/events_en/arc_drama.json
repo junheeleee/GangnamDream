@@ -2,7 +2,7 @@
   {
     "id": "hidden_whole_picture",
     "title": "The Picture He Built Alone",
-    "description": "Three nights. A registry record, a line from an article a dozen years old, one remembered scene at a time.\n\nThe name he steered away from — Han PD Construction. The 'Im' who vouched for Park Sang-jin to his father. The man who came up from a Chungcheong fishing town and reached Gangnam by stepping on people.\n\nThree threads met at one point. Im Sangchul.\n\nNo one told him. Minjun built the man out of fragments.\nAnd once he knew, the same seat in the same café looked different.",
+    "description": "Three nights. A registry record, a line from an article from back then, one remembered scene at a time.\n\nThe name he steered away from — Han PD Construction. The 'Im' who vouched for Park Sang-jin to his father. The man who came up from a Chungcheong fishing town and reached Gangnam by stepping on people.\n\nThree threads met at one point. Im Sangchul.\n\nNo one told him. Minjun built the man out of fragments.\nAnd once he knew, the same seat in the same café looked different.",
     "choices": [
       {
         "text": "Hold the cards — knowing is its own power",
@@ -21,7 +21,7 @@
   {
     "id": "arc_sangchul_deduction",
     "title": "A Name That Stayed",
-    "description": "At the networking dinner, Sangchul had steered the conversation away from one name: \"Han PD Construction.\"\nMinjun filed it away. Weeks passed.\n\nSomeone had asked, \"What about Han PD Construction?\"\nInstead of answering, Sangchul had pointed to another table. \"Don't mix with that crowd.\"\n\n1:47 a.m. Sleep would not come, so Minjun searched the name. An old local-news PDF remained online. A guarantee scam from more than a decade ago. Park Sang-jin. And an unnamed real-estate broker, identified only as Mr. Im, who had connected the victims to him.\n\nThe name was redacted. Only a case number remained at the bottom.\n\nMinjun knew the shape of those digits. The paid-in-full certificate he had received after six years of payments carried a number in the same format.\n\nToo specific to dismiss as coincidence. Still one link short of naming a man.",
+    "description": "At the networking dinner, Sangchul had steered the conversation away from one name: \"Han PD Construction.\"\nMinjun filed it away. Weeks passed.\n\nSomeone had asked, \"What about Han PD Construction?\"\nInstead of answering, Sangchul had pointed to another table. \"Don't mix with that crowd.\"\n\n1:47 a.m. Sleep would not come, so Minjun searched the name. An old local-news PDF remained online. A guarantee scam from nearly a decade ago. Park Sang-jin. And an unnamed real-estate broker, identified only as Mr. Im, who had connected the victims to him.\n\nThe name was redacted. Only a case number remained at the bottom.\n\nMinjun knew the shape of those digits. The paid-in-full certificate he had received after six years of payments carried a number in the same format.\n\nToo specific to dismiss as coincidence. Still one link short of naming a man.",
     "choices": [
       {
         "text": "Pull Father's paid-in-full certificate from the drawer",
@@ -62,7 +62,7 @@
     "choices": [
       {
         "text": "Dig deeper — trace Sangchul's old transactions",
-        "result_text": "Registry records. Old articles. Corporate histories. He dug through all of it until dawn.\n\nThe pieces aligned. Same period. Same neighborhood. Same referral structure.\n\nIm. Sang. Chul.\n\nMinjun's father never spoke the name. Minjun had found it himself.\nThe man who'd been teaching him to read charts — the same man who years ago walked his father into financial ruin.\n\nNo one told him. He figured it out alone.\nThat weight was heavier."
+        "result_text": "Registry records. Old articles. Corporate histories. He dug through all of it until dawn.\n\nThe pieces aligned. Same period. Same neighborhood. Same referral structure.\n\nIm. Sang. Chul.\n\nMinjun's father never spoke the name. Minjun had found it himself.\nThe man who'd been teaching him to read charts — the same man who back then walked his father into financial ruin.\n\nNo one told him. He figured it out alone.\nThat weight was heavier."
       },
       {
         "text": "Leave it alone — he can't be sure",
@@ -87,7 +87,7 @@
     "choices": [
       {
         "text": "\"That man named Im — do you happen to know his full name?\"",
-        "result_text": "\"Im... Sangchul, I think he said. Why?\"\n\nMinjun couldn't answer.\n\nLim. Sang. Chul.\n\nThe broker who ruined his father years ago. That man is Minjun's mentor right now. The one who sits across from him at the same café, teaching him how to read charts.\n\nThe hand holding the phone went cold."
+        "result_text": "\"Im... Sangchul, I think he said. Why?\"\n\nMinjun couldn't answer.\n\nLim. Sang. Chul.\n\nThe broker who ruined his father back then. That man is Minjun's mentor right now. The one who sits across from him at the same café, teaching him how to read charts.\n\nThe hand holding the phone went cold."
       },
       {
         "text": "\"Do you know where he is now?\"",
@@ -200,7 +200,7 @@
   {
     "id": "arc_sangchul_reckoning",
     "title": "I'm Sorry",
-    "description": "After a long pause, Lim Sangchul spoke.\n\"Your father. I knew you were his son from the start.\"\n\n{name} didn't answer. He only looked at his coffee cup. The steam had long gone cold.\n\n\"You're the one who introduced Park Sang-jin to him, weren't you?\"\n\nSangchul nodded. \"I told him Park could be trusted. I vouched for him. I thought I was doing one favor. I didn't know it would become this.\" It didn't sound like an excuse. That made it harder to bear.\n\nSilence again. Then Sangchul said, \"I'm sorry.\"\n\nThose words, carried across more than a decade, were laid on the table. {name} couldn't pick them up right away.",
+    "description": "After a long pause, Lim Sangchul spoke.\n\"Your father. I knew you were his son from the start.\"\n\n{name} didn't answer. He only looked at his coffee cup. The steam had long gone cold.\n\n\"You're the one who introduced Park Sang-jin to him, weren't you?\"\n\nSangchul nodded. \"I told him Park could be trusted. I vouched for him. I thought I was doing one favor. I didn't know it would become this.\" It didn't sound like an excuse. That made it harder to bear.\n\nSilence again. Then Sangchul said, \"I'm sorry.\"\n\nThose words, carried across nearly a decade, were laid on the table. {name} couldn't pick them up right away.",
     "choices": [
       {
         "text": "\"I'm going to report you.\"",
@@ -216,7 +216,7 @@
       },
       {
         "text": "\"Pay it back. My father's debt. With your own hands.\"",
-        "result_text": "\"Pay it back. My father's debt. With your own hands.\" {name} said it, clear and even.\nSangchul looked at him a long time. \"...So that's what you want.\"\n\"An apology doesn't fill my father's bankbook.\"\n\nInstead of answering, Sangchul took out a notebook. A few days later, money entered Father's old account. The sum that had vanished over a decade ago returned, exact to the number.\nAnd yet even as he confirmed that number, something in {name} stayed unfilled. The debt was paid — but the decade Father had lost did not come back."
+        "result_text": "\"Pay it back. My father's debt. With your own hands.\" {name} said it, clear and even.\nSangchul looked at him a long time. \"...So that's what you want.\"\n\"An apology doesn't fill my father's bankbook.\"\n\nInstead of answering, Sangchul took out a notebook. A few days later, money entered Father's old account. The sum that had vanished back then returned, exact to the number.\nAnd yet even as he confirmed that number, something in {name} stayed unfilled. The debt was paid — but the time Father had lost did not come back."
       }
     ],
     "description_if_known": {

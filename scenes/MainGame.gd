@@ -3042,7 +3042,7 @@ func _next_arc_id(
 		return "arc_jiyeon_03b_lunch"
 
 	# ── 추론 발견 경로 — 한PD건설 단서로 스스로 진실에 닿는 씬 (지력55+ 또는 비정통 경향) ──
-	if t >= 104 and t <= 124 and f.get("arc_sangchul_03_seen", false) \
+	if t >= 104 and f.get("arc_sangchul_03_seen", false) \
 			and (GameState.intelligence >= 55 or GameState.route_unorthodox > 20) \
 			and not f.get("sangchul_truth_known", false) \
 			and not f.get("arc_sangchul_deduction_seen", false):
@@ -3366,14 +3366,14 @@ func _next_arc_id(
 			and not f.get("arc_almost_there_seen", false):
 		return "arc_almost_there"
 
-	# ── 다은이 모르는 것 — 함께하는 경로, 돈 격차 (턴 28~35) ──
-	if t >= 28 and t <= 35 \
+	# ── 다은이 모르는 것 — 함께하는 경로, 돈 격차 (턴 60~70) ──
+	if t >= 60 and t <= 70 \
 			and f.get("daeun_chose_her", false) \
 			and not f.get("arc_daeun_money_gap_seen", false):
 		return "arc_daeun_money_gap"
 
-	# ── 다은의 흔적 — 보낸 경우 (턴 43~50) ──
-	if t >= 43 and t <= 50 \
+	# ── 다은의 흔적 — 보낸 경우 (턴 76~84) ──
+	if t >= 76 and t <= 84 \
 			and f.get("daeun_let_her_go", false) \
 			and f.get("arc_daeun_ghost_seen", false) \
 			and not f.get("arc_daeun_trace_seen", false):
@@ -3816,6 +3816,7 @@ func _next_arc_id(
 		if t >= 133 and f.get("arc_intro_hyunsu_seen", false) \
 				and f.get("arc_y2_hyunsu_night_bus_seen", false) \
 				and not f.get("hyunsu_passed", false) \
+				and not f.get("hyunsu_pivoted", false) \
 				and not f.get("arc_y3_hyunsu_verdict_seen", false):
 			return "arc_y3_hyunsu_verdict"
 	# Zone C (Y4 후반: 균열) — 스파인 구멍 t177~187
@@ -15866,6 +15867,9 @@ func _resolved_ending_description(ending: Dictionary) -> String:
 	var ending_know = ending.get("description_if_known", null)
 	if ending_know is Dictionary:
 		for flag_id in ending_know.keys():
+			if str(flag_id) == "jiyeon_romance_started" \
+					and GameState.flags.get("jiyeon_left", false):
+				continue
 			if GameState.flags.get(str(flag_id), false):
 				return str(ending_know[flag_id])
 	return ending_desc

@@ -40,7 +40,8 @@
     "conditions": {
       "flag": "arc_34_parents_visited",
       "min_turn": 30,
-      "housing": "gosiwon"
+      "housing": "gosiwon",
+      "no_flag": "father_passed"
     },
     "cooldown": 9999,
     "portrait": "mother",

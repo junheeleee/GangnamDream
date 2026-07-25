@@ -571,7 +571,8 @@
     "hidden": false,
     "conditions": {
       "flag": "holiday_skipped",
-      "min_turn": 8
+      "min_turn": 8,
+      "no_flag": "father_passed"
     },
     "tags": [
       "father",
@@ -656,7 +657,8 @@
     "hidden": false,
     "conditions": {
       "flag": "holiday_dad_only",
-      "min_turn": 6
+      "min_turn": 6,
+      "no_flag": "father_passed"
     },
     "tags": [
       "father",

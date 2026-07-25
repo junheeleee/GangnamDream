@@ -9,7 +9,8 @@
     "hidden": false,
     "conditions": {
       "flag": "father_apology_made",
-      "min_turn": 3
+      "min_turn": 3,
+      "no_flag": "father_passed"
     },
     "tags": [
       "family",
@@ -48,7 +49,8 @@
     "hidden": false,
     "conditions": {
       "flag": "father_story_heard",
-      "min_turn": 4
+      "min_turn": 4,
+      "no_flag": "father_passed"
     },
     "tags": [
       "family",
@@ -89,7 +91,8 @@
     "hidden": false,
     "conditions": {
       "flag": "went_home_for_father",
-      "min_turn": 4
+      "min_turn": 4,
+      "no_flag": "father_passed"
     },
     "tags": [
       "family",
@@ -128,7 +131,8 @@
     "hidden": false,
     "conditions": {
       "flag": "delayed_visiting_dad",
-      "min_turn": 4
+      "min_turn": 4,
+      "no_flag": "father_passed"
     },
     "tags": [
       "family",
@@ -167,7 +171,8 @@
     "hidden": false,
     "conditions": {
       "flag": "sent_money_instead",
-      "min_turn": 3
+      "min_turn": 3,
+      "no_flag": "father_passed"
     },
     "tags": [
       "family",
@@ -206,7 +211,8 @@
     "hidden": false,
     "conditions": {
       "flag": "told_dad_okay",
-      "min_turn": 4
+      "min_turn": 4,
+      "no_flag": "father_passed"
     },
     "tags": [
       "family",
@@ -245,7 +251,8 @@
     "hidden": false,
     "conditions": {
       "flag": "saw_father_medical",
-      "min_turn": 4
+      "min_turn": 4,
+      "no_flag": "father_passed"
     },
     "tags": [
       "family",

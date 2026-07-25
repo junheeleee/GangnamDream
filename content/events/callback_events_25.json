@@ -283,7 +283,8 @@
     "description": "부모 빚을 전부 갚은 지 두 달.\n오래 걸렸다.\n오늘 아버지에게서 전화가 왔다.",
     "conditions": {
       "flag": "parent_paid_full",
-      "min_turn": 8
+      "min_turn": 8,
+      "no_flag": "father_passed"
     },
     "choices": [
       {

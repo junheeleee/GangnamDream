@@ -5,7 +5,8 @@
     "description": "아버지의 시간이 많지 않다는 걸 알게 된 지 두 달.\n그 사실을 안고 살았다.\n오늘 아버지에게서 전화가 왔다.",
     "conditions": {
       "flag": "father_going_soon",
-      "min_turn": 8
+      "min_turn": 8,
+      "no_flag": "father_passed"
     },
     "choices": [
       {
@@ -283,7 +284,8 @@
     "description": "아버지에게 강남에 입성하겠다고 한 지 세 달.\n그 약속이 무겁게 남아 있었다.\n오늘 아버지에게서 문자가 왔다. '잘 지내냐.'",
     "conditions": {
       "flag": "promised_father_gangnam",
-      "min_turn": 12
+      "min_turn": 12,
+      "no_flag": "father_passed"
     },
     "choices": [
       {

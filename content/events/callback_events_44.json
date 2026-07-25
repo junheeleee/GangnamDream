@@ -189,7 +189,8 @@
     "hidden": false,
     "conditions": {
       "flag": "showed_room_to_parents",
-      "min_turn": 104
+      "min_turn": 104,
+      "no_flag": "father_passed"
     },
     "tags": [
       "callback",

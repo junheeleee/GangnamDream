@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-07-24",
+  "updated": "2026-07-25",
   "boot": {
     "required": [
       {"path": "CLAUDE.md", "max_bytes": 18000},
@@ -126,6 +126,7 @@
       "docs/FUN_AUDIT_2026-07-20.md",
       "docs/MASTER_RELEASE_AUDIT.md",
       "docs/PEAK_SCENE_CHAIN_AUDIT.md",
+      "docs/SCRIPT_REVIEW_2026-07-24.md",
       "docs/STEAM_QUALITY_BENCHMARKS.md"
     ],
     "qa_release_marketing": [

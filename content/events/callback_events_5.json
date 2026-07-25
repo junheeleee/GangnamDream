@@ -542,7 +542,8 @@
     "hidden": false,
     "conditions": {
       "flag": "borrowed_from_parents",
-      "min_turn": 40
+      "min_turn": 40,
+      "no_flag": "father_passed"
     },
     "tags": [
       "parent",
@@ -627,7 +628,8 @@
     "hidden": false,
     "conditions": {
       "flag": "heard_father_young_story",
-      "min_turn": 24
+      "min_turn": 24,
+      "no_flag": "father_passed"
     },
     "tags": [
       "father",
@@ -669,7 +671,8 @@
     "hidden": false,
     "conditions": {
       "flag": "asked_father_health",
-      "min_turn": 24
+      "min_turn": 24,
+      "no_flag": "father_passed"
     },
     "tags": [
       "father",

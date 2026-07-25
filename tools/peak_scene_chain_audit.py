@@ -1161,7 +1161,7 @@ def validate_sangchul_first_meeting_contract(events: dict[str, dict[str, Any]]) 
                     "flags": ["knows_dad_reason"],
                 }
             },
-            "flags": ["arc_sangchul_met_seen"],
+            "flags": ["arc_sangchul_met_seen", "sangchul_met"],
             "give_items": ["artifact_sangchul_card"],
         },
         {
@@ -1170,7 +1170,7 @@ def validate_sangchul_first_meeting_contract(events: dict[str, dict[str, Any]]) 
             "cast_effects": {
                 "sangchul": {"met": True, "affinity": 6, "stage": "watching"}
             },
-            "flags": ["arc_sangchul_met_seen"],
+            "flags": ["arc_sangchul_met_seen", "sangchul_met"],
             "give_items": ["artifact_sangchul_card"],
         },
         {
@@ -1179,7 +1179,7 @@ def validate_sangchul_first_meeting_contract(events: dict[str, dict[str, Any]]) 
             "cast_effects": {
                 "sangchul": {"met": True, "affinity": 12, "stage": "interested"}
             },
-            "flags": ["arc_sangchul_met_seen", "pride_motive"],
+            "flags": ["arc_sangchul_met_seen", "sangchul_met", "pride_motive"],
             "give_items": ["artifact_sangchul_card"],
         },
     )

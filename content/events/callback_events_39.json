@@ -145,7 +145,8 @@
     "hidden": false,
     "conditions": {
       "flag": "sangchul_news_told_father",
-      "min_turn": 120
+      "min_turn": 120,
+      "no_flag": "father_passed"
     },
     "tags": ["callback", "father", "sangchul", "story"],
     "cooldown": 999,

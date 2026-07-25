@@ -3122,7 +3122,10 @@
     "conditions": {
       "min_turn": 3,
       "max_turn": 12,
-      "no_flag": "sangchul_met"
+      "no_flag": [
+        "sangchul_met",
+        "arc_sangchul_met_seen"
+      ]
     },
     "tags": [
       "sangchul",
@@ -3596,7 +3599,8 @@
     "conditions": {
       "min_turn": 160,
       "max_turn": 220,
-      "flag": "skipped_father_wedding"
+      "flag": "skipped_father_wedding",
+      "no_flag": "father_passed"
     },
     "tags": [
       "family",
@@ -4024,7 +4028,10 @@
     "conditions": {
       "min_turn": 100,
       "max_turn": 180,
-      "no_flag": "father_health_known"
+      "no_flag": [
+        "father_health_known",
+        "father_passed"
+      ]
     },
     "tags": [
       "father",
@@ -4081,7 +4088,10 @@
       "flag": "father_health_known",
       "min_turn": 120,
       "max_turn": 208,
-      "no_flag": "father_visited"
+      "no_flag": [
+        "father_visited",
+        "father_passed"
+      ]
     },
     "tags": [
       "father",
@@ -4142,7 +4152,8 @@
       "max_turn": 232,
       "no_flag": [
         "father_reconciled",
-        "visited_father"
+        "visited_father",
+        "father_passed"
       ]
     },
     "tags": [

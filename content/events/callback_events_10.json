@@ -380,7 +380,8 @@
     "hidden": false,
     "conditions": {
       "flag": "skipped_father_hospital",
-      "min_turn": 5
+      "min_turn": 5,
+      "no_flag": "father_passed"
     },
     "tags": [
       "father",
@@ -421,7 +422,8 @@
     "hidden": false,
     "conditions": {
       "flag": "visited_father_hospital",
-      "min_turn": 3
+      "min_turn": 3,
+      "no_flag": "father_passed"
     },
     "tags": [
       "father",

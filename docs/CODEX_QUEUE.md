@@ -47,24 +47,26 @@
 
 | 순서 | 상태 | 항목 | 전체 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-44 · 정합 위생(죽은 인물·오기·도달불가·시제) | [ORDER-44](queue_active/ORDER-44.md) | 착수 2026-07-25 · 확정 오류 18군 수리·표적 런 검증 |
-| 2 | [ ] | ORDER-45 · 호칭·스피치 정본 붕괴 전수 | [ORDER-45](queue_active/ORDER-45.md) | P0 문장 수리 |
-| 3 | [ ] | ORDER-46 · 랜덤 풀 위생(수치-산문·모순·설교투) | [ORDER-46](queue_active/ORDER-46.md) | P1 |
-| 4 | [ ] | ORDER-47 · 편성/구조(장 결산·환불선·중반·4장·4→5) | [ORDER-47](queue_active/ORDER-47.md) | P1, 밴드 영향분 BALANCE 기록 |
-| 5 | [ ] | ORDER-48 · 정점 산문 밀도 역전 수리 | [ORDER-48](queue_active/ORDER-48.md) | P1 |
-| 6 | [ ] | ORDER-49 · 선택의 고민 장부화 | [ORDER-49](queue_active/ORDER-49.md) | ⚠P2, 밸런스·유저 승인 필요·산문분만 선제 |
-| 7 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 데모 완료, 본편 240주 확산·장별 연속 청취 OPEN |
-| 8 | [ ] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 사양 기록, 구현 미착수 |
-| 9 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 부분 보류 |
-| 10 | [~] | ORDER-23 · 동기 각인 수술 | [ORDER-23](queue_active/ORDER-23.md) | 외부 정상 독해 판정 대기 |
-| 11 | [~] | ORDER-22 · 주간 루프 몰입 수리 | [ORDER-22](queue_active/ORDER-22.md) | 외부 정상 독해 판정 대기 |
-| 12 | [~] | ORDER-28 · 240주 전체 재구성 | [ORDER-28](queue_active/ORDER-28.md) | 전체 범위 지속 개선 |
-| 13 | [~] | ORDER-26 · AP 의미화 | [ORDER-26](queue_active/ORDER-26.md) | 외부 정상 독해 판정 대기 |
+| 1 | [ ] | ORDER-45 · 호칭·스피치 정본 붕괴 전수 | [ORDER-45](queue_active/ORDER-45.md) | P0 문장 수리 |
+| 2 | [ ] | ORDER-46 · 랜덤 풀 위생(수치-산문·모순·설교투) | [ORDER-46](queue_active/ORDER-46.md) | P1 |
+| 3 | [ ] | ORDER-47 · 편성/구조(장 결산·환불선·중반·4장·4→5) | [ORDER-47](queue_active/ORDER-47.md) | P1, 밴드 영향분 BALANCE 기록 |
+| 4 | [ ] | ORDER-48 · 정점 산문 밀도 역전 수리 | [ORDER-48](queue_active/ORDER-48.md) | P1 |
+| 5 | [ ] | ORDER-49 · 선택의 고민 장부화 | [ORDER-49](queue_active/ORDER-49.md) | ⚠P2, 밸런스·유저 승인 필요·산문분만 선제 |
+| 6 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 데모 완료, 본편 240주 확산·장별 연속 청취 OPEN |
+| 7 | [ ] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 사양 기록, 구현 미착수 |
+| 8 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 부분 보류 |
+| 9 | [~] | ORDER-23 · 동기 각인 수술 | [ORDER-23](queue_active/ORDER-23.md) | 외부 정상 독해 판정 대기 |
+| 10 | [~] | ORDER-22 · 주간 루프 몰입 수리 | [ORDER-22](queue_active/ORDER-22.md) | 외부 정상 독해 판정 대기 |
+| 11 | [~] | ORDER-28 · 240주 전체 재구성 | [ORDER-28](queue_active/ORDER-28.md) | 전체 범위 지속 개선 |
+| 12 | [~] | ORDER-26 · AP 의미화 | [ORDER-26](queue_active/ORDER-26.md) | 외부 정상 독해 판정 대기 |
 
 ### 완료 이력
 
 - **2026-07 전체 원문 스냅샷:** [CODEX_QUEUE_2026-07.md](queue_archive/CODEX_QUEUE_2026-07.md)
 - 상세 작업 결과는 [WORK_LOG.md](WORK_LOG.md), 사용자 노트와 라운드 판정은 [DEMO_FIXLOG.md](DEMO_FIXLOG.md), 설계 결정은 [DECISIONS.md](DECISIONS.md)가 정본이다.
+- `[x] ORDER-44` (2026-07-25): 죽은 아버지 재등장, 인물 오기, 현수·상철
+  궤적, 다은 사문, 엔딩 dik·나이·시제 등 정합 P0 18군을 수리하고 회귀
+  계약을 확장했다. [완료 사양](queue_archive/ORDER-44.md)
 - `[x] USER-P0M` (2026-07-24): 엔딩 35종을 고유 1280x800 전용 CG로 배선하고 도형·공용 카드·크롭 폴백을 제거했다. 한영 70장 런타임과 전체 감사를 통과했다. [완료 사양](queue_archive/USER-P0M.md)
 - `[x] USER-P0L` (2026-07-24): 부팅 16.9KB·작업 프로필·문서 매니페스트·최근/보관 로그·프로젝트 스킬·자동 맥락 게이트를 구축하고 낡은 60턴 정본을 240주로 정렬했다.
 - `[x] USER-P0K` (2026-07-24): 395KB 단일 큐를 활성 인덱스·ID별 사양·월별 원문 아카이브로 무손실 분리했다.

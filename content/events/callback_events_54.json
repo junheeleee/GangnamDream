@@ -55,7 +55,8 @@
     "hidden": false,
     "conditions": {
       "flag": "told_family_addiction",
-      "min_turn": 30
+      "min_turn": 30,
+      "no_flag": "father_passed"
     },
     "tags": [
       "callback",

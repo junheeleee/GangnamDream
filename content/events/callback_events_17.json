@@ -122,7 +122,8 @@
     "hidden": false,
     "conditions": {
       "flag": "father_warm_moment",
-      "min_turn": 3
+      "min_turn": 3,
+      "no_flag": "father_passed"
     },
     "tags": [
       "family",
@@ -161,7 +162,8 @@
     "hidden": false,
     "conditions": {
       "flag": "father_reconciliation_deepened",
-      "min_turn": 6
+      "min_turn": 6,
+      "no_flag": "father_passed"
     },
     "tags": [
       "family",

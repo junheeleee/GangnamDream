@@ -27,12 +27,12 @@ IMAGE_REGISTRY_PATH = ROOT / "autoloads" / "ImageRegistry.gd"
 REGISTRY_ENTRY = re.compile(r'"([^"]+)":\s*"(res://[^"]+)"')
 
 ROUTES = {
-    "gangnam_dream": "순자산 30억+; 선행 NG+/신화/배우자 상실/Deep Black/고립/White 분기 미해당",
-    "empty_house": "순자산 30억+; 가까운 관계 없음; 아버지 미화해 또는 별세",
+    "gangnam_dream": "순자산 30억+; 아버지 생존; 선행 NG+/신화/배우자 상실/Deep Black/고립/White 분기 미해당",
+    "empty_house": "순자산 30억+; 아버지 별세 또는 가까운 관계 없이 아버지 미화해",
     "with_daeun": "38세 종료; 다은 연애 시작; 이혼 아님; 선행 특수 엔딩 미해당",
     "jiyeon_man": "38세 종료; 지연 연애 유지; 지연이 떠나지 않음; 순자산 30억 미만",
     "jaehyuk_way": "순자산 30억+; fell_to_darkness 또는 crossed_line; 배우자 분기 미해당",
-    "late_call": "38세 종료; 아버지 화해; 모든 상위 결산 분기 미해당",
+    "late_call": "38세 종료; 아버지 화해·생존; 모든 상위 결산 분기 미해당",
     "stable_success": "38세 종료; 순자산 10억+; 정석 정점 등 상위 자산 분기 미해당",
     "ordinary_life": "38세 종료 기본값; 또는 지연 이탈/강남 미달 이혼 변주",
     "burnout": "건강 0 이하 즉시 종료",
@@ -163,10 +163,13 @@ def main() -> int:
     if "2억. 강남은 아니었다." in orthodox_ko or "Two hundred million" in orthodox_en:
         errors.append("orthodox_pinnacle: stale 200M amount remains")
 
-    startup_ko = by_id["gangnam_dream"].get("description_if_known", {}).get("startup_exit", "")
-    startup_en = by_en_id["gangnam_dream"].get("description_if_known", {}).get("startup_exit", "")
+    if "startup_exit" in by_id["gangnam_dream"].get("description_if_known", {}) \
+            or "startup_exit" in by_en_id["gangnam_dream"].get("description_if_known", {}):
+        errors.append("gangnam_dream: unreachable startup_exit DIK must not remain")
+    startup_ko = by_id["startup_exit"].get("description_if_known", {}).get("startup_exit", "")
+    startup_en = by_en_id["startup_exit"].get("description_if_known", {}).get("startup_exit", "")
     if "엑싯 계약서" not in str(startup_ko) or "acquisition contract" not in str(startup_en):
-        errors.append("gangnam_dream: startup_exit DIK is missing or not localized")
+        errors.append("startup_exit: route-owned DIK is missing or not localized")
 
     invest_dik_ko = by_id["investment_master"].get("description_if_known", {})
     invest_dik_en = by_en_id["investment_master"].get("description_if_known", {})

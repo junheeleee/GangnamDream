@@ -576,7 +576,7 @@
       "logic": {
         "legacy": {
           "forbids_flags": ["arc_sangchul_met_seen"],
-          "produces_all": ["arc_sangchul_met_seen"]
+          "produces_all": ["arc_sangchul_met_seen", "sangchul_met"]
         }
       },
       "presentation": {
@@ -1386,7 +1386,7 @@
         "channel": "phone",
         "state": "connected",
         "scene_location": "current_housing",
-        "remote_location": "restaurant_kitchen",
+        "remote_location": "accounting_office",
         "remote_actor": "hyunsu",
         "portrait_role": "remote"
       }

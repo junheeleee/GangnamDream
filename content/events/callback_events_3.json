@@ -600,7 +600,8 @@
     "hidden": false,
     "conditions": {
       "flag": "parent_paid_full",
-      "min_turn": 20
+      "min_turn": 20,
+      "no_flag": "father_passed"
     },
     "tags": [
       "parent",
@@ -644,7 +645,8 @@
     "hidden": false,
     "conditions": {
       "flag": "told_dad_truth",
-      "min_turn": 5
+      "min_turn": 5,
+      "no_flag": "father_passed"
     },
     "tags": [
       "father",

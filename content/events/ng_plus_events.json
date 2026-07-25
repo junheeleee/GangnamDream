@@ -25,6 +25,7 @@
         "flags": [
           "arc_sangchul_ng_seen",
           "arc_sangchul_met_seen",
+          "sangchul_truth_known",
           "ng_playing_sangchul"
         ],
         "cast_effects": {

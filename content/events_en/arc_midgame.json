@@ -119,7 +119,7 @@
   {
     "id": "arc_hyunsu_new_path",
     "title": "Hyunsu's New Path",
-    "description": "After eleven that night, Hyunsu called.\n\n\"Hyung, I'm leaving the goshiwon.\"\n\nHe had boxed up his exam books. By day he would attend cooking school; at night he would start with dishes in a small restaurant kitchen. Plates knocked together beyond the phone.\n\nThe timetable that had ruled four years of his life was gone. For the first time, though, tomorrow had entered his voice.\n\n\"I don't know if I'll be good at it. But this time, I chose it.\"",
+    "description": "After eleven that night, Hyunsu called.\n\n\"Hyung, I'm leaving the goshiwon.\"\n\nHe had boxed up his exam books. By day he would attend an accounting career course; in the evening he would help enter ledgers at a small tax accountant's office. A keyboard clicked beyond the phone, followed by a printer feeding out a page.\n\nThe timetable that had ruled four years of his life was gone. For the first time, though, tomorrow had entered his voice.\n\n\"I don't know if I'll be good at it. But this time, I chose it.\"",
     "choices": [
       {
       "text": "\"Good. If you chose it, give it a real try.\" — encourage him",
@@ -127,11 +127,11 @@
       },
       {
         "text": "\"Do you have anything in mind?\" — curious",
-      "result_text": "\"Cooking. Weird, right?\" Hyunsu said. \"I liked seeing someone eat something I made. Something besides ramyeon.\"\n\nIt was not strange. It was the first time Hyunsu had spoken about himself in the future tense. {name} listened longer to the sounds of the kitchen."
+        "result_text": "\"Accounting. It was my major, remember?\" Hyunsu said. \"I thought it only existed on my diploma. I'm going to try using it again.\"\n\nIt was not strange. It was the first time Hyunsu had spoken about himself in the future tense. {name} listened longer to the keyboard beyond the phone."
       },
       {
       "text": "Offer no advice. Listen to the end.",
-      "result_text": "Hyunsu slowly described the school and restaurant he had found. {name} did not interrupt with an answer.\n\nBefore hanging up, Hyunsu said, \"Saying it out loud makes it feel real.\"\n\nSometimes listening was more exact than pushing someone forward."
+        "result_text": "Hyunsu slowly described the career course and tax accountant's office he had found. {name} did not interrupt with an answer.\n\nBefore hanging up, Hyunsu said, \"Saying it out loud makes it feel real.\"\n\nSometimes listening was more exact than pushing someone forward."
       }
     ]
   },
@@ -236,7 +236,7 @@
   {
     "id": "arc_gangnam_visit_alone",
     "title": "First Time in Gangnam Alone",
-    "description": "Came to Gangnam for the first time with no one else.\n\nNot from Sangchul's car window — on his own, by subway.\n\nWalked into a café. The Americano was 9,000 won. Just ordered it.\n\nSat by the window and looked outside. Well-dressed people walking fast, not looking at each other.\n\n{name} took a sip of coffee.\nThis is the goal. Or — is it to become someone who belongs here?",
+    "description": "Came to Gangnam for the first time with no one else.\n\nThe first glimpse of Gangnam had been a bus-stop ad on the day he arrived in Seoul.\n[A city where your place is waiting.]\nToday he had taken the subway alone all the way to that sentence.\n\nWalked into a café. The Americano was 9,000 won. Just ordered it.\n\nSat by the window and looked outside. Well-dressed people walking fast, not looking at each other.\n\n{name} took a sip of coffee.\nThis is the goal. Or — is it to become someone who belongs here?",
     "choices": [
       {
         "text": "\"I will be back here.\" — a silent promise",
@@ -282,7 +282,7 @@
       },
       {
       "text": "\"Where have you been? What are you doing?\" — ask",
-      "result_text": "Much later came a reply. \"I sleep in the day. At night I wash dishes at a restaurant run by someone I know. Just trying to keep my hands moving.\"\n\nA knife emoji ended the sentence. Small as it was, it looked like the first mark on an empty timetable."
+        "result_text": "Much later came a reply. \"I sleep in the day. In the evening I sort receipts at a company run by someone I know. Just trying to look at numbers again.\"\n\nA calculator emoji ended the sentence. Small as it was, it looked like the first mark on an empty timetable."
       },
       {
       "text": "Send a ramyeon voucher and, \"Eat. Then sleep.\"",
@@ -437,7 +437,7 @@
   {
     "id": "arc_final_stretch",
     "title": "The End Is in Sight",
-    "description": "Walking down Gangnam-daero.\n\nFive years ago, looked up at those apartments from here. \"Could I live there?\" — a thought made almost as a joke.\n\nTotal assets now over 2 billion. 1 billion left. Reachable within a year. On paper.\n\nThat it's actually real hasn't sunk in.",
+    "description": "Walking down Gangnam-daero.\n\nIn his first year in Seoul, he looked up at those apartments from here. \"Could I live there?\" — a thought made almost as a joke.\n\nTotal assets now over 2 billion. 1 billion left. Reachable within a year. On paper.\n\nThat it's actually real hasn't sunk in.",
     "choices": [
       {
         "text": "Looked up at that apartment again.",

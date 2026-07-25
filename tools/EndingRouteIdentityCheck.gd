@@ -8,6 +8,8 @@ func _ready() -> void:
 	GameState.game_over.connect(_on_game_over)
 	_check_startup_before_generic_gangnam()
 	_check_generic_gangnam_without_startup()
+	_check_father_passed_gangnam_is_empty_house()
+	_check_father_passed_blocks_late_call()
 	_check_committed_investor_before_career()
 	_check_uncommitted_investor_stays_career()
 	_check_legacy_investment_master_path()
@@ -20,7 +22,7 @@ func _ready() -> void:
 			push_error("ENDING_ROUTE_IDENTITY_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("ENDING_ROUTE_IDENTITY_CHECK_OK cases=9")
+	print("ENDING_ROUTE_IDENTITY_CHECK_OK cases=11")
 	get_tree().quit(0)
 
 func _prepare_case(age_value: int = 38) -> void:
@@ -67,6 +69,20 @@ func _check_generic_gangnam_without_startup() -> void:
 	GameState.money = 3_200_000_000.0
 	GameState.cast["father"]["affinity"] = 60
 	_expect_route("ordinary 3B arrival", "gangnam_dream")
+
+func _check_father_passed_gangnam_is_empty_house() -> void:
+	_prepare_case(34)
+	GameState.money = 3_200_000_000.0
+	GameState.flags["father_passed"] = true
+	GameState.flags["father_reconciled"] = true
+	GameState.cast["father"]["affinity"] = 60
+	_expect_route("3B arrival after father passed", "empty_house")
+
+func _check_father_passed_blocks_late_call() -> void:
+	_prepare_case()
+	GameState.flags["father_reconciled"] = true
+	GameState.flags["father_passed"] = true
+	_expect_route("reconciled father already passed", "ordinary_life")
 
 func _check_committed_investor_before_career() -> void:
 	_prepare_case()

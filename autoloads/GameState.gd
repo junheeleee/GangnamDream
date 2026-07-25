@@ -2532,6 +2532,9 @@ func check_game_over():
 		#   아직 아무도 못 만난 상태 → 빈 집 대신 '신화' 엔딩으로 인정해준다.
 		if age <= 33:
 			finish_run("instant_legend"); return
+		# 아버지를 잃고 도착한 집에는 생존 변주를 씌울 수 없다.
+		if flags.get("father_passed", false):
+			finish_run("empty_house"); return
 		# ── 결혼 분기 (배우자 실을 강남 엔딩에서 회수) ──
 		# 아내를 배신하고(이혼) 강남 = 직접 버린 '외로운 부자'. crossed_line보다 먼저.
 		if flags.get("daeun_divorced", false):
@@ -2627,7 +2630,7 @@ func check_game_over():
 		if route_orthodox >= 20 and total < 300_000_000:
 			finish_run("orthodox_hollow"); return
 		# 아버지 화해
-		if flags.get("father_reconciled", false):
+		if flags.get("father_reconciled", false) and not flags.get("father_passed", false):
 			finish_run("late_call"); return           # 늦은 전화 (화해)
 		# 버텨온 것들 (직장 유지 + 번아웃 경험 or 이직 시도 — 낮은 자산의 직장인 결산)
 		# career_climber(A)는 위에서 1억+ 잡음 → 여기 오면 1억 미만의 직장인

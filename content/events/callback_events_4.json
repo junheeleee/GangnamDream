@@ -641,7 +641,8 @@
     "hidden": false,
     "conditions": {
       "flag": "saw_parents_bankbook",
-      "min_turn": 32
+      "min_turn": 32,
+      "no_flag": "father_passed"
     },
     "tags": [
       "family",

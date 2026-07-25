@@ -596,7 +596,8 @@
     "hidden": false,
     "conditions": {
       "flag": "father_going_soon",
-      "min_turn": 4
+      "min_turn": 4,
+      "no_flag": "father_passed"
     },
     "tags": [
       "father",
@@ -638,7 +639,8 @@
     "hidden": false,
     "conditions": {
       "flag": "father_reconciled_started",
-      "min_turn": 32
+      "min_turn": 32,
+      "no_flag": "father_passed"
     },
     "tags": [
       "father",

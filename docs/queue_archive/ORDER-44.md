@@ -1,9 +1,9 @@
-# Active Queue Spec: ORDER-44
+# Completed Queue Spec: ORDER-44
 
 > Canonical status is indexed in `docs/CODEX_QUEUE.md`. 근거 원장은
 > [`docs/SCRIPT_REVIEW_2026-07-24.md`](../SCRIPT_REVIEW_2026-07-24.md).
 
-#### [~] ORDER-44 [P0·정합 위생] 외부 테스트 오염 방지 — 죽은 인물·오기·도달불가·시제 확정 수리
+#### [x] ORDER-44 [P0·정합 위생] 외부 테스트 오염 방지 — 죽은 인물·오기·도달불가·시제 확정 수리
 
 > **2026-07-25 착수 — 만지는 파일**
 >
@@ -106,3 +106,21 @@
 - `python3 tools/arc_flow_sim.py` (아크 트리거·조건 변경분)
 - 대표 런 실입력으로 ①father_passed 런의 엔딩이 empty_house로 라우팅 ②sangchul 첫
   만남 단일 발화 ③현수 궤적 단일화를 확인. 완료 시 SCRIPT_REVIEW 항목에 수리 표시.
+
+## 완료 보고 (2026-07-25 Codex)
+
+- `father_passed` 런의 30억 결말을 `empty_house`로 라우팅하고 `late_call`과
+  현재 시점의 아버지 생활·관계·전화 콜백을 생존 가드로 막았다.
+- 한지연·최재혁 오기를 정정하고, 현수는 현재 `STORY_BIBLE` 정본인
+  공시생→회계 직무 궤적으로 통일했다. 이 사양 C6의 “요리 신규 정본”은
+  낡은 메모로 판정했으며 런타임·사건·발표 계약을 현재 정본에 맞췄다.
+- 다은 후속 두 장면의 사문, 현수 잔존 판정, 상철 추론 상한·NG+ 진실 플래그·
+  첫 만남 경합을 수리했다.
+- `startup_exit` dik를 실제 소유 엔딩으로 옮기고 지연 이별 뒤 “함께” 오발화를
+  차단했다. 38세 마감, 6년 공백, 보증 사기 연대, 강남 첫 기억과 서울 첫해
+  시제를 한영에서 정렬했다.
+- `EndingRouteIdentityCheck`를 11개 경로로 확장했으며 정점 체인·엔딩 구분 감사
+  계약도 새 라우팅을 검사한다.
+- JSON 구문, 한영 커버리지·한글 누출, 아크 흐름, 스토리 정합, 문서 매니페스트,
+  GDScript 컴파일과 전체 `audit.sh`를 통과했다.
+- 사용자 소유 변경 `project.godot`은 수정·스테이징하지 않았다.

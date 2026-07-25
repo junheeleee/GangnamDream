@@ -422,7 +422,8 @@
     "portrait": "father_home",
     "conditions": {
       "flag": "promised_father_gangnam",
-      "min_turn": 160
+      "min_turn": 160,
+      "no_flag": "father_passed"
     },
     "tags": [
       "family",

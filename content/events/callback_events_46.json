@@ -325,7 +325,8 @@
     "hidden": false,
     "conditions": {
       "flag": "called_about_medication",
-      "min_turn": 44
+      "min_turn": 44,
+      "no_flag": "father_passed"
     },
     "tags": ["callback", "father", "story", "family"],
     "cooldown": 999,

@@ -417,7 +417,8 @@
           }
         },
         "flags": [
-          "arc_sangchul_met_seen"
+          "arc_sangchul_met_seen",
+          "sangchul_met"
         ],
         "give_items": [
           "artifact_sangchul_card"
@@ -438,7 +439,8 @@
           }
         },
         "flags": [
-          "arc_sangchul_met_seen"
+          "arc_sangchul_met_seen",
+          "sangchul_met"
         ],
         "give_items": [
           "artifact_sangchul_card"
@@ -461,6 +463,7 @@
         },
         "flags": [
           "arc_sangchul_met_seen",
+          "sangchul_met",
           "pride_motive"
         ],
         "give_items": [
@@ -2403,7 +2406,7 @@
           "resume_polished"
         ],
         "follow_up_event": "",
-        "result_text": "자기소개서 파일을 열었다. 6개월 공백을 어떻게 메울까 한 시간을 씨름했다.\n완벽하진 않지만, 전보다는 나아졌다.\n이 한 줄 한 줄이 나중에 면접관의 눈에 닿을 것이다."
+        "result_text": "자기소개서 파일을 열었다. 6년 공백을 어떻게 메울까 한 시간을 씨름했다.\n완벽하진 않지만, 전보다는 나아졌다.\n이 한 줄 한 줄이 나중에 면접관의 눈에 닿을 것이다."
       }
     ]
   },

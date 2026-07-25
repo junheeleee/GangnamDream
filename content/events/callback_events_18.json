@@ -451,7 +451,8 @@
     "description": "아버지와의 화해가 조심스럽게 시작된 지 두 달.\n처음엔 어색했다.\n오늘 아버지에게서 문자가 왔다.",
     "conditions": {
       "flag": "father_reconciled_started",
-      "min_turn": 8
+      "min_turn": 8,
+      "no_flag": "father_passed"
     },
     "choices": [
       {

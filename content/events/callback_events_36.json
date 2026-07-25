@@ -10,7 +10,8 @@
     "hidden": false,
     "conditions": {
       "flag": "asked_father_more",
-      "min_turn": 24
+      "min_turn": 24,
+      "no_flag": "father_passed"
     },
     "tags": ["callback", "father", "story"],
     "cooldown": 999,
@@ -58,7 +59,8 @@
     "hidden": false,
     "conditions": {
       "flag": "visited_for_medication",
-      "min_turn": 28
+      "min_turn": 28,
+      "no_flag": "father_passed"
     },
     "tags": ["callback", "father", "story", "family"],
     "cooldown": 999,
@@ -106,7 +108,8 @@
     "hidden": false,
     "conditions": {
       "flag": "ignored_medication_signal",
-      "min_turn": 28
+      "min_turn": 28,
+      "no_flag": "father_passed"
     },
     "tags": ["callback", "father", "story", "family"],
     "cooldown": 999,
@@ -154,7 +157,8 @@
     "hidden": false,
     "conditions": {
       "flag": "rushed_to_father",
-      "min_turn": 40
+      "min_turn": 40,
+      "no_flag": "father_passed"
     },
     "tags": ["callback", "father", "story", "family"],
     "cooldown": 999,

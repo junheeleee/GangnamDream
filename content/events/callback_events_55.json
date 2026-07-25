@@ -49,7 +49,8 @@
     "hidden": false,
     "conditions": {
       "flag": "called_father_first",
-      "min_turn": 160
+      "min_turn": 160,
+      "no_flag": "father_passed"
     },
     "tags": ["callback", "story", "father"],
     "cooldown": 999,

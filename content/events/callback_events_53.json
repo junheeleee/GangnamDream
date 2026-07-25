@@ -399,7 +399,8 @@
     "hidden": false,
     "conditions": {
       "flag": "talked_about_parents_bankbook",
-      "min_turn": 40
+      "min_turn": 40,
+      "no_flag": "father_passed"
     },
     "tags": [
       "callback",
