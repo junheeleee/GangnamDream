@@ -1,6 +1,6 @@
 # Gangnam Dream Audio QA
 
-Updated: 2026-07-24
+Updated: 2026-07-26
 
 Production gate: an audio file existing and loading is not the same as launch approval. Every asset must also satisfy `docs/PRODUCTION_ASSET_PIPELINE.md`: commercial provenance, clean head/tail, mix balance, semantic runtime mapping, image-paired listening, and 30-minute fatigue QA.
 
@@ -73,9 +73,32 @@ The seven base tracks cover title, routine, crisis, and endings. Five authored p
 - Entrance or prop sounds land when prose names the physical action: the first meal scans at the checkout paragraph, the interview handles paper when the resume moves, Father's call vibrates only when the phone actually rings, and the prologue notebook turns a page before the pen writes.
 - Demo room/season trims place the source beds in an audible default window. Human presence is clear at Gray, attenuated at Light Black, and nearly absent at Deep Black while machinery and weather remain.
 - Korean PlayStation and English Xbox 24-week profiles expose the same 46 events, ten music keys, 41 authored-music events, and a maximum unscored root run of one.
-- 이 데모 통과는 본편 통과가 아니다. 240주 5개 장의 전 사건 의도 분류, 장면
-  연속성, 활동 피로도와 장별 사람 청취는
+- 이 데모 통과는 본편의 사람 청취 통과가 아니다. 전 사건 의도와 대표 경로
+  연속성은 아래 자동 게이트로 확장됐지만, 활동 피로도와 장별 사람 청취는
   [`ORDER-43`](queue_active/ORDER-43.md)의 열린 후속 게이트가 소유한다.
+
+### Full-Run Audio Coverage
+
+- `assets/scene_audio_manifest.json` version 11 locks all 1,565 Korean/English
+  events into exactly one intent: 225 event contracts, six inherited CG
+  contracts, 1,334 reviewed rendered-background profiles, or intentional
+  silence. The current catalog has zero unclassified or stale IDs.
+- All 91 registered backgrounds own an explicit ambience profile. Runtime
+  location selection no longer searches localized prose, category names, or
+  tags and no longer falls back to the goshiwon room. A newly registered
+  background remains silent with a warning until its profile is reviewed, and
+  `scene_audio_catalog.py` blocks the audit until the manifest is updated.
+- `current_housing` follows the live home. `current_workplace` follows the live
+  job instead of pretending every worker is in an office. Four late-route
+  scenes that still forced the original goshiwon room now follow the live
+  housing state.
+- `full_run_audio_audit.py` traces two deterministic 240-week representative
+  routes in Korean and English. The 960 traced weeks cover all five chapters,
+  authored peaks, profiled connective weeks, explicit score entrances, seven
+  activity owners, and two ending families with exact locale parity.
+- This trace proves catalog ownership, route coverage, and deterministic
+  continuity contracts. It is not a human full playthrough and cannot approve
+  loudness, fatigue, dramatic taste, or living-room intelligibility.
 
 `assets/scene_audio_manifest.json` maps all 74 active CGs to ambience and all 116 events on the 32 Tier-1 peak paths to explicit scene audio. The mother and groom-side reaction shots keep one wedding-hall room tone; the processional begins on the couple-wide entrance and continues into the close without restarting. Wedding applause and cheer are tied to the authored entrance paragraph, not to a timer from scene load. Mother's Table keeps rural room tone through the first three paragraphs before `intimate` enters on the inherited-care reveal. The Narrow Room likewise holds only the cramped-room bed through the opening truth, then admits the same cue without restarting across either buildup route or the final decision. Jiyeon's verdict and Daeun's final test keep only their apartment/oneroom life through both buildup paths; `reckoning` enters once at the irreversible decision instead of using a breakup cue that would spoil the choice. The guarantee bill holds street/pojangmacha ambience without score before Hyunsu's intimate meal, while the last signature keeps the city bed until `reckoning` enters at the authored paragraph. Father's 48-week legacy uses the live housing ambience before `grief`. Both sea dates remain on train ambience with no score through their two buildup paths, then move explicitly to seaside ambience and `wonder` only after the beach arrival. Both fireworks dates retain the Hangang crowd bed with no fireworks cue during buildup; the final decision alone admits `wonder` and the paragraph-2 distant explosion, so the soundtrack cannot announce the first shell before the prose and image do. Daeun's first-night chain keeps the actual housing image while the explicit `rain_room` bed carries rain on glass and a restrained indoor appliance/HVAC floor; it contains no outdoor voices, never enables indoor rain particles, and does not restart across the four linked events. Sangchul's first meeting keeps only the same real-estate-office room tone through all four linked events: the generic public-interior human layer is suppressed because the prose and image contain only Sangchul and Minjun, so its periodic cough cannot invent a third person. No `reckoning` or reveal cue may label him a villain before Minjun knows why he paused at the word Changwon. His deduction then resolves `current_housing` into the live goshiwon, one-room, villa, or apartment room tone; both evidence routes stay unscored, and `reckoning` starts only when the records converge at the final choice. `orthodox_pinnacle` keeps the ordinary restaurant bed under the team-dinner pause instead of borrowing a victory cue. `burnout` keeps only the existing hospital room tone under the first-person observation-bed image; no score, alarm, heartbeat, or melodramatic monitor announces how the player should read the silence.
 

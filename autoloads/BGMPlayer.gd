@@ -170,6 +170,9 @@ var _music_mode: String = "ambient"  # ambient | punctuation | activity | menu |
 var _punctuation_token: int = 0
 var _scene_audio_cg: Dictionary = {}
 var _scene_audio_events: Dictionary = {}
+var _scene_audio_intents: Dictionary = {}
+var _scene_audio_background_profiles: Dictionary = {}
+var _warned_background_profiles: Dictionary = {}
 
 const _FADE_TIME = 2.5  # 크로스페이드 초
 const _AMBIENCE_VOLUME = 1.0
@@ -551,7 +554,11 @@ func update_event_ambience(
 	if _is_ending:
 		clear_ambience()
 		return
-	var contract: Dictionary = scene_audio_contract(str(ev.get("id", "")), cg_id)
+	var event_id := str(ev.get("id", ""))
+	if scene_audio_intent_mode(event_id) == "intentional_silence":
+		clear_ambience()
+		return
+	var contract: Dictionary = scene_audio_contract(event_id, cg_id)
 	var ambience_key: String = _resolve_dynamic_ambience_key(str(contract.get("ambience", "")))
 	if ambience_key.is_empty():
 		ambience_key = _pick_ambience(ev, resolved_background_id)
@@ -579,15 +586,30 @@ func apply_ending_cg_ambience(cg_id: String) -> void:
 	set_season_ambience("")
 
 func _resolve_dynamic_ambience_key(key: String) -> String:
-	if key != "current_housing":
-		return key
-	match str(GameState.housing):
-		"gangnam", "apartment":
-			return "apartment"
-		"villa", "oneroom":
-			return "oneroom"
+	match key:
+		"current_housing":
+			match str(GameState.housing):
+				"gangnam", "apartment":
+					return "apartment"
+				"villa", "oneroom":
+					return "oneroom"
+				_:
+					return "room"
+		"current_workplace":
+			var job_id := str(GameState.current_job.get("id", ""))
+			match job_id:
+				"job_01":
+					return "convenience"
+				"job_02":
+					return "street"
+				"job_05":
+					return "hagwon"
+				"job_09":
+					return "public_office"
+				_:
+					return "office"
 		_:
-			return "room"
+			return key
 
 func scene_audio_contract(event_id: String = "", cg_id: String = "") -> Dictionary:
 	var merged: Dictionary = {}
@@ -602,9 +624,17 @@ func scene_audio_contract(event_id: String = "", cg_id: String = "") -> Dictiona
 				merged[key] = event_contract[key]
 	return merged
 
+func scene_audio_intent_mode(event_id: String) -> String:
+	if event_id.is_empty():
+		return "rendered_profile"
+	return str(_scene_audio_intents.get(event_id, "rendered_profile"))
+
 func _load_scene_audio_manifest() -> void:
 	_scene_audio_cg = {}
 	_scene_audio_events = {}
+	_scene_audio_intents = {}
+	_scene_audio_background_profiles = {}
+	_warned_background_profiles = {}
 	if not FileAccess.file_exists(SCENE_AUDIO_MANIFEST_PATH):
 		return
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SCENE_AUDIO_MANIFEST_PATH))
@@ -612,10 +642,23 @@ func _load_scene_audio_manifest() -> void:
 		return
 	var cg_contracts: Variant = parsed.get("cg", {})
 	var event_contracts: Variant = parsed.get("events", {})
+	var background_profiles: Variant = parsed.get("background_profiles", {})
+	var event_intents: Variant = parsed.get("event_intents", {})
 	if cg_contracts is Dictionary:
 		_scene_audio_cg = cg_contracts.duplicate(true)
 	if event_contracts is Dictionary:
 		_scene_audio_events = event_contracts.duplicate(true)
+	if background_profiles is Dictionary:
+		_scene_audio_background_profiles = background_profiles.duplicate(true)
+	if event_intents is Dictionary:
+		for event_id in event_intents.get("event_contract", []):
+			_scene_audio_intents[str(event_id)] = "authored_scene"
+		for event_id in event_intents.get("cg_contract", []):
+			_scene_audio_intents[str(event_id)] = "authored_scene"
+		for event_id in event_intents.get("rendered_profile", []):
+			_scene_audio_intents[str(event_id)] = "rendered_profile"
+		for event_id in event_intents.get("intentional_silence", []):
+			_scene_audio_intents[str(event_id)] = "intentional_silence"
 
 func set_ambience(key: String, include_human_ambience: bool = true) -> void:
 	if include_human_ambience:
@@ -782,122 +825,15 @@ func _event_season_key(ambience_key: String) -> String:
 
 func _pick_ambience(ev: Dictionary, resolved_background_id: String = "") -> String:
 	var bg_id := resolved_background_id.strip_edges().to_lower()
-	var has_resolved_background := not bg_id.is_empty()
-	if not has_resolved_background:
+	if bg_id.is_empty():
 		bg_id = _event_background_id(ev)
-	# 실제 렌더된 장소가 있으면 번역 본문과 장르 태그가 그 장소를
-	# 덮어쓰지 못한다. 두 값은 배경 ID조차 없는 레거시 사건의 폴백이다.
-	var tags: Array = [] if has_resolved_background else ev.get("tags", [])
-	var category: String = "" if has_resolved_background else \
-		str(ev.get("category", "")).to_lower()
-	var event_id := str(ev.get("id", ""))
-	var hay := "" if has_resolved_background else \
-		(str(ev.get("title", "")) + " " + str(ev.get("description", ""))).to_lower()
-	var padded_hay := " " + hay.replace("\n", " ") + " "
-	var rain_in_text := " rain " in padded_hay or " rainy " in padded_hay \
-			or " raining " in padded_hay or " rainfall " in padded_hay \
-			or "비가" in hay or "비를" in hay or "비에" in hay \
-			or "비 오는" in hay or "비 내" in hay or "빗" in hay or "장마" in hay or "monsoon" in hay
-	if event_id == "callback_hoesik_payoff":
-		return "office"
-	if event_id in ["arc_36_body_signal", "arc_gangnam_real_estate"]:
-		return "room"
-	if event_id in ["story_knee_door", "story_knee_witness", "story_knee_choice"]:
-		return "family_home"
-	if "casino" in tags or "jeongseon" in tags or "jeongseon_casino" in tags \
-			or "casino" in bg_id or "카지노" in hay or "바카라" in hay or "블랙잭" in hay:
-		return "casino"
-	if "racetrack" in tags or "race" in tags or "racetrack" in bg_id or "경마" in hay or "마권" in hay:
-		return "racetrack"
-	if "subway" in tags or "commute" in tags or "subway" in bg_id or "지하철" in hay:
-		return "subway"
-	if "pc_bang" in tags or "gaming" in tags or "pc_bang" in bg_id \
-			or "pc방" in hay or "피시방" in hay or "pc bang" in hay or "internet cafe" in hay:
-		return "pc_bang"
-	if "cherry_blossom" in tags or "spring_cherry" in tags or "cherry_blossom" in bg_id \
-			or "벚꽃" in hay or "꽃잎" in hay or "cherry blossom" in hay or "petals" in hay:
-		return "cherry"
-	if "saju" in tags or "saju" in bg_id \
-			or "사주" in hay or "fortune-reading" in hay or "fortune cafe" in hay:
-		return "saju"
-	if "hoesik" in tags or "company_dinner" in bg_id \
-			or "회식" in hay or "삼겹살" in hay or "company dinner" in hay or "hoesik" in hay:
-		return "hoesik"
-	if "heatwave" in tags or "heatwave" in bg_id \
-			or "폭염" in hay or "아스팔트 열기" in hay or "heatwave" in hay or "heat wave" in hay:
-		return "heatwave"
-	if "fine_dust" in tags or "fine_dust" in bg_id \
-			or "미세먼지" in hay or "황사" in hay or "fine dust" in hay or "yellow dust" in hay or "air pollution" in hay:
-		return "fine_dust"
-	if "bus_terminal" in bg_id or "chuseok_highway" in bg_id \
-			or "추석 귀성길" in hay or "귀성길" in hay or "고속도로" in hay or "시외버스" in hay \
-			or "chuseok traffic" in hay or "homecoming traffic" in hay or "intercity bus" in hay:
-		return "highway"
-	if "open_chat_screen" in bg_id or str(ev.get("id", "")) == "kx_open_chat" \
-			or "오픈채팅" in hay or "오픈 채팅" in hay or "open chat" in hay or "chat room" in hay:
-		return "open_chat"
-	if "library" in bg_id or "도서관" in hay or "열람실" in hay \
-			or "public library" in hay or "reading room" in hay:
-		return "library"
-	if "goshiwon_hallway" in bg_id:
-		return "goshiwon_hallway"
-	if "rain" in tags or "street_rainy" in bg_id or rain_in_text:
-		return "rain"
-	if "hagwon" in tags or "hagwon" in bg_id \
-			or "학원가" in hay or "대치동" in hay or "hagwon" in hay or "private academy" in hay:
-		return "hagwon"
-	if "suneung" in tags or "suneung" in bg_id or "test_hall" in bg_id \
-			or "수능" in hay or "시험장" in hay or "고사장" in hay or "csat" in hay or "exam hall" in hay:
-		return "school"
-	if "community_center" in tags or "community_center" in bg_id \
-			or "주민센터" in hay or "동사무소" in hay or "community center" in hay or "district office" in hay:
-		return "public_office"
-	if "jjimjilbang" in tags or "jjimjilbang" in bg_id \
-			or "찜질방" in hay or "사우나" in hay or "korean sauna" in hay:
-		return "jjimjilbang"
-	if "reserve_duty" in tags or "military_base_gate" in bg_id \
-			or "예비군" in hay or "reserve forces" in hay or "reserve duty" in hay or "reserve training" in hay:
-		return "military_gate"
-	if "gym" in tags or "exercise" in tags or "gym" in bg_id or "헬스장" in hay or "운동" in hay:
-		return "gym"
-	if "convenience" in tags or "convenience" in bg_id or "편의점" in hay:
-		return "convenience"
-	if "private_dining" in bg_id:
-		return "cafe"
-	if "cafe" in tags or "date" in tags or "cafe" in bg_id or "카페" in hay or "커피" in hay:
-		return "cafe"
-	if "pojangmacha" in tags or "pojangmacha" in bg_id or "포장마차" in hay:
-		return "street"
-	if "hangang" in tags or "hangang" in bg_id or "한강" in hay:
-		return "hangang"
-	if "meeting" in bg_id or "세미나" in hay or "seminar" in hay:
-		return "office"
-	if "hospital" in bg_id:
-		return "hospital"
-	if "wedding" in bg_id:
-		return "wedding_hall"
-	if "seaside" in bg_id or "beach" in bg_id:
-		return "seaside"
-	if "amusement" in bg_id:
-		return "amusement"
-	if "car_" in bg_id or bg_id.begins_with("car"):
-		return "car"
-	if "ktx" in bg_id or "train" in bg_id:
-		return "train"
-	if "oneroom" in bg_id:
-		return "oneroom"
-	if "apartment" in bg_id:
-		return "apartment"
-	if "office" in tags or "work" in tags or "jobs" in tags or category == "jobs" \
-			or "office" in bg_id or "회사" in hay or "사무실" in hay:
-		return "office"
-	if "street" in tags or "street" in bg_id \
-			or bg_id in ["gangnam_day", "gangnam_night", "gangnam_station"] \
-			or "거리" in hay or "street" in hay:
-		return "street"
-	if "rooftop" in tags or "rooftop" in bg_id:
-		return "street"
-	return "room"
+	var profile_key := str(_scene_audio_background_profiles.get(bg_id, ""))
+	if not profile_key.is_empty():
+		return _resolve_dynamic_ambience_key(profile_key)
+	if not bg_id.is_empty() and not _warned_background_profiles.has(bg_id):
+		_warned_background_profiles[bg_id] = true
+		push_warning("No reviewed audio profile for rendered background '%s'" % bg_id)
+	return ""
 
 func _event_background_id(ev: Dictionary) -> String:
 	var explicit_bg := str(ev.get("background", "")).strip_edges()

@@ -14,7 +14,7 @@ import peak_scene_chain_audit as peaks
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "assets" / "scene_audio_manifest.json"
 ACTING_PATH = ROOT / "assets" / "cg_acting_manifest.json"
-DYNAMIC_AMBIENCE_KEYS = {"current_housing"}
+DYNAMIC_AMBIENCE_KEYS = {"current_housing", "current_workplace"}
 DEMO_EVENT_IDS = set("""
 story_flashforward story_arrival story_knee_door story_knee_witness
 story_knee_choice story_last_payment_wait story_last_payment_word
