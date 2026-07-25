@@ -1208,6 +1208,9 @@ func _set_qa_language(lang: String) -> void:
 	DataRegistry.reload()
 
 func _prepare_main_game_state() -> void:
+	# Every screenshot fixture must start from its requested event, never from a
+	# resume context left by another save/load QA case in the same process.
+	SaveManager.clear_loaded_resume_context()
 	GameState.start_new_game()
 	GameState.flags["prologue_done"] = true
 	for c in ["chapter_33_seen","chapter_34_seen","chapter_35_seen","chapter_36_seen","chapter_37_seen"]:
@@ -1498,6 +1501,11 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	if story.has_method("_set_auto_mode"):
 		story._set_auto_mode(false, false)
 	await _settle(settle_time)
+	var actual_event: Variant = story.get("_current")
+	var actual_event_id := str(actual_event.get("id", "")) if actual_event is Dictionary else ""
+	if actual_event_id != event_id:
+		_fail("Story fixture requested %s, but opened %s." % [event_id, actual_event_id])
+		return
 	if finish_first_paragraph and not event_id.begins_with("chapter_card_") \
 			and bool(story.get("_typing")) and story.has_method("_on_advance"):
 		story._on_advance()
@@ -1511,7 +1519,10 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 				await _settle(0.12)
 	if show_choices and not event_id.begins_with("chapter_card_") and story.has_method("_on_advance"):
 		for _step in range(30):
-			if bool(story.get("_showing_choices")):
+			# Single-choice bridge scenes commit directly at the last paragraph.
+			# Stop on their result instead of advancing into the follow-up event
+			# and accidentally selecting that event's first real decision.
+			if bool(story.get("_showing_choices")) or bool(story.get("_pending_after_result")):
 				break
 			story._on_advance()
 			await _settle(0.16)

@@ -285,8 +285,8 @@
     "description": "Jaehyuk called a meeting. Hotel lounge.\n\n\"I'll be straight with you. {name}, this is just for you.\nSomething big came in. Triple the principal. But the window closes this week.\"\n\nHe leans forward. Voice drops.\n\n\"You want Gangnam, right? How long will that take on a salary? At our age, there's no answer in a paycheck.\nYou trust me, right? We lived and died together in there.\"\n\nTriple the principal. This week only.\nBoth sentences landed at the same time.",
     "choices": [
       {
-        "text": "Put in everything — trust Jaehyuk.",
-        "result_text": "Cleaned out the account. Nearly everything.\nJaehyuk pats the shoulder. 'Good call. You'll be laughing soon.'\n\nThat night, {name} couldn't sleep.\nWhether it was anticipation or dread — impossible to tell."
+        "text": "Send the 3 million won Jaehyuk asked for.",
+        "result_text": "He sent the 3 million won Jaehyuk had asked for.\nJaehyuk patted his shoulder. \"Good call. You'll be smiling soon.\"\n\nThat night, {name} couldn't sleep.\nThe amount he had just sent kept looking larger than everything left in the account."
       },
       {
         "text": "Put in a portion — want in, but won't bet it all.",

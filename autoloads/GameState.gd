@@ -2494,6 +2494,16 @@ func check_game_over():
 	if addiction_tendency >= 90:
 		finish_run("crypto_ghost"); return
 
+	# 다은의 믿음을 서류로 이용한 런은 30억을 먼저 달성해도 그 결산을
+	# 건너뛰지 않는다. StoryMode의 기존 최종 선택이 끝난 뒤 같은 호출에서
+	# 결혼 유지/이혼 결과에 맞는 성공 엔딩으로 다시 판정된다.
+	var daeun_reckoning_pending: bool = bool(flags.get("daeun_married", false)) \
+			and flags.get("used_daeun_as_means", false) \
+			and not flags.get("arc_daeun_final_choice_seen", false) \
+			and not flags.get("daeun_divorced", false)
+	if total_now >= GANGNAM_TARGET and daeun_reckoning_pending:
+		return
+
 	# ══ NG+ 전용 엔딩 — MetaProgression 조건 필요 ══════════
 	var _mp_meta = MetaProgression.data
 

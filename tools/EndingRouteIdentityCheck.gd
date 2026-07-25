@@ -10,6 +10,7 @@ func _ready() -> void:
 	_check_generic_gangnam_without_startup()
 	_check_father_passed_gangnam_is_empty_house()
 	_check_father_passed_blocks_late_call()
+	_check_daeun_reckoning_blocks_instant_gangnam()
 	_check_committed_investor_before_career()
 	_check_uncommitted_investor_stays_career()
 	_check_legacy_investment_master_path()
@@ -22,7 +23,7 @@ func _ready() -> void:
 			push_error("ENDING_ROUTE_IDENTITY_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("ENDING_ROUTE_IDENTITY_CHECK_OK cases=11")
+	print("ENDING_ROUTE_IDENTITY_CHECK_OK cases=12")
 	get_tree().quit(0)
 
 func _prepare_case(age_value: int = 38) -> void:
@@ -83,6 +84,16 @@ func _check_father_passed_blocks_late_call() -> void:
 	GameState.flags["father_reconciled"] = true
 	GameState.flags["father_passed"] = true
 	_expect_route("reconciled father already passed", "ordinary_life")
+
+func _check_daeun_reckoning_blocks_instant_gangnam() -> void:
+	_prepare_case(34)
+	GameState.money = 3_200_000_000.0
+	GameState.flags["daeun_married"] = true
+	GameState.flags["used_daeun_as_means"] = true
+	var before := _received_endings.size()
+	GameState.check_game_over()
+	if _received_endings.size() != before or GameState.is_game_over:
+		_failures.append("3B arrival bypassed Daeun's pending final reckoning")
 
 func _check_committed_investor_before_career() -> void:
 	_prepare_case()

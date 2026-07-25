@@ -2990,14 +2990,14 @@ func _next_arc_id(
 			and not f.get("sangchul_cut_ties", false) \
 			and not f.get("arc_daeun_test_seen", false):
 		return "arc_daeun_the_test"
-	# ④ 최종 선택 — 돈이냐 배우자냐. 30억 미달+마감 임박에만(정직-부자는 스킵→진엔딩).
-	if t >= 228 and f.get("daeun_married", false) \
+	# ④ 최종 선택 — 돈이냐 배우자냐. 마감 임박 또는 30억 달성 시,
+	#    아내의 믿음을 서류로 쓴 대가를 성공 엔딩보다 먼저 결산한다.
+	if (t >= 228 or GameState.get_total_asset_value() >= GameState.GANGNAM_TARGET) \
+			and f.get("daeun_married", false) \
 			and f.get("arc_daeun_wedding_day_seen", false) \
 			and f.get("used_daeun_as_means", false) \
 			and not f.get("daeun_divorced", false) \
-			and not f.get("arc_daeun_final_choice_seen", false) \
-			and GameState.get_total_asset_value() >= 1_800_000_000.0 \
-			and GameState.get_total_asset_value() < 3_000_000_000.0:
+			and not f.get("arc_daeun_final_choice_seen", false):
 		return "arc_daeun_final_choice"
 	# ── 다은 05 — 기다려달라 한 뒤 이별 ──
 	if t >= 92 and f.get("daeun_deferred", false) \
@@ -3053,7 +3053,7 @@ func _next_arc_id(
 		return "arc_father_05_after_visit"
 	# ── 아버지 고백 — 빚의 소개인 임상철 (방문 + 상철 커피 이후면 충분)
 	# arc_sangchul_02_seen: 커피 1회로 임상철 이름 인식 가능 (03 네트워크 불요)
-	if t >= 112 and f.get("visited_father", false) \
+	if t >= 102 and f.get("visited_father", false) \
 			and f.get("arc_father_05_seen", false) \
 			and f.get("arc_sangchul_02_seen", false) \
 			and not GameState.has_deferred_event("arc_father_06_confession") \
@@ -3682,8 +3682,16 @@ func _next_arc_id(
 			and not f.get("arc_daeun_year3_together_seen", false):
 		return "arc_daeun_year3_together"
 	# 김다은 Year 3 — 결혼 소식 (이별 궤적)
-	if t >= 100 and (f.get("daeun_let_her_go", false) or f.get("daeun_breakup_accepted", false)) \
-			and (f.get("arc_daeun_ghost_seen", false) or f.get("daeun_breakup_accepted", false)) \
+	var daeun_apart_path: bool = bool(f.get("daeun_let_her_go", false)) \
+			or f.get("daeun_breakup_accepted", false) \
+			or f.get("daeun_let_drift", false) \
+			or f.get("daeun_breakup_begged", false)
+	var daeun_apart_departure_seen: bool = bool(f.get("arc_daeun_ghost_seen", false)) \
+			or f.get("daeun_breakup_accepted", false) \
+			or f.get("daeun_let_drift", false) \
+			or f.get("daeun_breakup_begged", false)
+	if t >= 100 and daeun_apart_path \
+			and daeun_apart_departure_seen \
 			and not f.get("arc_daeun_year3_apart_seen", false):
 		return "arc_daeun_year3_apart"
 	# ── 다은 특별 스토리 「시골의 이틀」 (7-A, Y3 이후 여름) ──

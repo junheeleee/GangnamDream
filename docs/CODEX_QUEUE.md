@@ -47,20 +47,23 @@
 
 | 순서 | 상태 | 항목 | 전체 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-49 · 선택의 고민 장부화 | [ORDER-49](queue_active/ORDER-49.md) | 착수 2026-07-26 · 무수치 산문 정렬·기존 인과 배선, 수치 재배치는 보류 |
-| 2 | [ ] | ORDER-50 · 리뷰 부록(동기 문장 회수·루트 변주 설교) | [ORDER-50](queue_active/ORDER-50.md) | P1, ORDER-48 완료·커밋 후 착수 |
-| 3 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 데모 완료, 본편 240주 확산·장별 연속 청취 OPEN |
-| 4 | [ ] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 사양 기록, 구현 미착수 |
-| 5 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 부분 보류 |
-| 6 | [~] | ORDER-23 · 동기 각인 수술 | [ORDER-23](queue_active/ORDER-23.md) | 외부 정상 독해 판정 대기 |
-| 7 | [~] | ORDER-22 · 주간 루프 몰입 수리 | [ORDER-22](queue_active/ORDER-22.md) | 외부 정상 독해 판정 대기 |
-| 8 | [~] | ORDER-28 · 240주 전체 재구성 | [ORDER-28](queue_active/ORDER-28.md) | 전체 범위 지속 개선 |
-| 9 | [~] | ORDER-26 · AP 의미화 | [ORDER-26](queue_active/ORDER-26.md) | 외부 정상 독해 판정 대기 |
+| 1 | [ ] | ORDER-50 · 리뷰 부록(동기 문장 회수·루트 변주 설교) | [ORDER-50](queue_active/ORDER-50.md) | P1, ORDER-48 완료·커밋 후 착수 |
+| 2 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 데모 완료, 본편 240주 확산·장별 연속 청취 OPEN |
+| 3 | [ ] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 사양 기록, 구현 미착수 |
+| 4 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 부분 보류 |
+| 5 | [~] | ORDER-23 · 동기 각인 수술 | [ORDER-23](queue_active/ORDER-23.md) | 외부 정상 독해 판정 대기 |
+| 6 | [~] | ORDER-22 · 주간 루프 몰입 수리 | [ORDER-22](queue_active/ORDER-22.md) | 외부 정상 독해 판정 대기 |
+| 7 | [~] | ORDER-28 · 240주 전체 재구성 | [ORDER-28](queue_active/ORDER-28.md) | 전체 범위 지속 개선 |
+| 8 | [~] | ORDER-26 · AP 의미화 | [ORDER-26](queue_active/ORDER-26.md) | 외부 정상 독해 판정 대기 |
 
 ### 완료 이력
 
 - **2026-07 전체 원문 스냅샷:** [CODEX_QUEUE_2026-07.md](queue_archive/CODEX_QUEUE_2026-07.md)
 - 상세 작업 결과는 [WORK_LOG.md](WORK_LOG.md), 사용자 노트와 라운드 판정은 [DEMO_FIXLOG.md](DEMO_FIXLOG.md), 설계 결정은 [DECISIONS.md](DECISIONS.md)가 정본이다.
+- `[x] ORDER-49` (2026-07-26): 다은 배신·결혼 준비, 재혁 판돈·보증,
+  아버지 소개인 단서를 실제 장부와 엔딩 기억에 연결했다. 30억 조기 엔딩이
+  다은 최종 대면을 건너뛰지 않으며, 경제 수치는 근거 없이 바꾸지 않았다.
+  [완료 사양](queue_archive/ORDER-49.md)
 - `[x] ORDER-48` (2026-07-26): 다은의 조기 연애 확정·이혼 경첩과 핵심
   엔딩 기억을 장면 밀도로 복원했다. White의 허위 무결 주장을 제거하고
   결산 6종·코다 34개를 고유 사물과 후일담으로 분리했으며 한영 1280×800

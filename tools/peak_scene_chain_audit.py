@@ -16,6 +16,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EVENTS_KO = os.path.join(ROOT, "content", "events")
 EVENTS_EN = os.path.join(ROOT, "content", "events_en")
 MAIN_GAME = os.path.join(ROOT, "scenes", "MainGame.gd")
+GAME_STATE = os.path.join(ROOT, "autoloads", "GameState.gd")
+ENDINGS_KO = os.path.join(ROOT, "content", "endings.json")
+ENDINGS_EN = os.path.join(ROOT, "content", "endings_en.json")
 
 # The names mirror docs/ROMANCE_SYSTEM.md section 8. Each root is the exact
 # StoryMode entry point; scheduled scenes weeks later do not count as one chain.
@@ -441,8 +444,13 @@ def validate_jaehyuk_contracts(events: dict[str, dict[str, Any]]) -> None:
             f"actual={sorted(actual_ghost_paths)!r} expected={sorted(expected_ghost_paths)!r}"
         )
 
-    if events["arc_jaehyuk_03_pitch"].get("cg") != "cg_jaehyuk_reveal":
+    pitch = events["arc_jaehyuk_03_pitch"]
+    if pitch.get("cg") != "cg_jaehyuk_reveal":
         raise ValueError("Jaehyuk table CG must belong to the hotel-lounge pitch")
+    pitch_all_in = (pitch.get("choices") or [])[0]
+    pitch_copy = f"{pitch_all_in.get('text', '')}\n{pitch_all_in.get('result_text', '')}"
+    if "거의 전부" in pitch_copy or pitch_all_in.get("effects", {}).get("money") != -3_000_000:
+        raise ValueError("Jaehyuk pitch must state the fixed KRW 3M stake without an all-assets claim")
     if events[ghost_root].get("cg"):
         raise ValueError("Jaehyuk ghost must not show an in-person table CG")
 
@@ -555,6 +563,7 @@ def validate_jaehyuk_contracts(events: dict[str, dict[str, Any]]) -> None:
             "flags": [
                 "arc_jaehyuk_mirror_seen",
                 "vouched_jaehyuk_guarantee",
+                "jaehyuk_exploited",
                 "crossed_line",
             ],
             "foreshadow": "그의 방식이 틀리지 않을 수도 있었다. 강남에는 이런 사람들이 필요하다고, 스스로를 설득했다.",
@@ -1772,7 +1781,7 @@ def validate_breakup_peak_contracts(events: dict[str, dict[str, Any]]) -> None:
             "actor": "daeun",
             "texts": (
                 '펜을 내려놓는다. "다은씨, 우리 그냥... 좀 늦게 가요."',
-                "서명한다. 강남이 한 걸음 앞이다.",
+                "서명한다. 이번에도 숫자를 믿는다.",
                 "(펜을 든 채 — 서랍 속 그 포스트잇이 생각났다)",
             ),
             "effects": (
@@ -1904,16 +1913,51 @@ def validate_breakup_peak_contracts(events: dict[str, dict[str, Any]]) -> None:
     daeun_gate = source[block_at:return_at + len('return "arc_daeun_final_choice"')]
     for token in (
         "t >= 228",
+        "GameState.get_total_asset_value() >= GameState.GANGNAM_TARGET",
         'f.get("daeun_married", false)',
         'f.get("arc_daeun_wedding_day_seen", false)',
         'f.get("used_daeun_as_means", false)',
         'not f.get("daeun_divorced", false)',
         'not f.get("arc_daeun_final_choice_seen", false)',
-        "GameState.get_total_asset_value() >= 1_800_000_000.0",
-        "GameState.get_total_asset_value() < 3_000_000_000.0",
     ):
         if token not in daeun_gate:
             raise ValueError(f"Daeun final-choice causal gate missing: {token}")
+    for stale_gate in ("1_800_000_000.0", "< 3_000_000_000.0"):
+        if stale_gate in daeun_gate:
+            raise ValueError(f"Daeun final-choice retained the old asset corridor: {stale_gate}")
+
+    apart_at = source.find('return "arc_daeun_year3_apart"')
+    apart_start = source.rfind("\n\tvar daeun_apart_path", 0, apart_at)
+    apart_block = source[apart_start:apart_at + len('return "arc_daeun_year3_apart"')]
+    for token in ("daeun_let_drift", "daeun_breakup_begged"):
+        if token not in apart_block:
+            raise ValueError(f"Daeun year-three apart route lost breakup variant: {token}")
+
+    father_at = source.find('return "arc_father_06_confession"')
+    father_start = source.rfind("\n\tif ", 0, father_at)
+    father_block = source[father_start:father_at + len('return "arc_father_06_confession"')]
+    if "t >= 102" not in father_block or "t >= 112" in father_block:
+        raise ValueError("Father's broker confession must precede the t104 deduction window")
+
+    with open(GAME_STATE, encoding="utf-8") as handle:
+        game_state_source = handle.read()
+    for token in (
+        "daeun_reckoning_pending",
+        'flags.get("used_daeun_as_means", false)',
+        'not flags.get("arc_daeun_final_choice_seen", false)',
+        "total_now >= GANGNAM_TARGET",
+    ):
+        if token not in game_state_source:
+            raise ValueError(f"Daeun ending cascade can bypass her reckoning: {token}")
+
+    with open(ENDINGS_KO, encoding="utf-8") as handle:
+        endings_ko = {item["id"]: item for item in json.load(handle)}
+    with open(ENDINGS_EN, encoding="utf-8") as handle:
+        endings_en = {item["id"]: item for item in json.load(handle)}
+    for locale, ending in (("ko", endings_ko["jaehyuk_way"]), ("en", endings_en["jaehyuk_way"])):
+        known = ending.get("description_if_known") or {}
+        if "vouched_jaehyuk_guarantee" not in known:
+            raise ValueError(f"Jaehyuk guarantee has no ending memory in {locale}")
 
 
 def validate_jiyeon_marriage_routing_contract() -> None:
