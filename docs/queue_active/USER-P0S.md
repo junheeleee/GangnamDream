@@ -22,6 +22,7 @@
   - 이미 존재하는 `ORDER-48` 변경은 수정·스테이징하지 않는다.
 - `autoloads/EventManager.gd`
 - `autoloads/GameState.gd`
+- `autoloads/DataRegistry.gd`
 - `content/events/arc_events.json`
 - `content/events_en/arc_events.json`
 - `content/events/arc_midgame.json`
@@ -32,11 +33,21 @@
 - `assets/scene_audio_manifest.json`
 - `content/meta/story_rules.json`
 - `docs/STORY_BIBLE.md`
+- `docs/STORY_CONSISTENCY_SYSTEM.md`
 - `docs/DEMO_FIXLOG.md`
 - `docs/WORK_LOG.md`
 - `docs/CODEX_QUEUE.md`
 - `CLAUDE.md`
 - 이번 결함을 고정하는 기존 또는 신규 표적 감사 파일
+- `tools/story_consistency_audit.py`
+
+## 정합 계약 보강
+
+- 사건 ID 하나가 논리 선행조건, 현장 참여자·역할, 장소, 초상, 오디오 계약을
+  함께 추적할 수 있게 한다.
+- 직업 의존 사건은 `story_rules.json`의 허용 직업군을 런타임도 읽는다.
+- 편의점 재회처럼 직업 자유화 뒤 역할이 바뀐 장면은 `participant_roles`로
+  민준·다은·지연의 현장 역할을 명시하고 자동 감사한다.
 
 ## 보호 범위
 
