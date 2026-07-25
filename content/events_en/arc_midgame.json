@@ -197,20 +197,20 @@
   },
   {
     "id": "arc_late_game_push",
-    "title": "Time Running Out",
-    "description": "Opened the calculator. Again.\n\nAdded the balance and portfolio together. Calculated the distance to a Gangnam apartment.\n\nWhether the number was reachable — right now, it's on the borderline.\n\nWhether this game had a predetermined outcome, or whether there was one final move left. {name} still didn't know.",
+    "title": "Twelve-Week Check",
+    "description": "Three months had passed since the final year began.\n\n{name} printed the order history and spread it across the desk. There were two more red lines than green ones. One square remained before the loss limit written in the notebook.\n\nThe first train passed outside. The question was not how the story ended. It was whether to spend that final square today.",
     "choices": [
       {
-        "text": "\"Going big on the last chance.\" — put what's left on the line",
-        "result_text": "Terrified and electric. Playing it safe now would be something to regret later.\n\nClosed the calculator and stood up."
+        "text": "Raise the loss limit by one square and write the order conditions.",
+        "result_text": "When {name} rewrote the number beside the limit, the ballpoint pen scored the paper.\n\nHe did not press Order yet. Instead, he wrote two lines: the price to enter and the price at which he had to leave."
       },
       {
-        "text": "\"What I've done so far is enough.\" — accept it",
-        "result_text": "Even without the 3 billion — so much had changed from a year ago.\n\nThat alone felt like it counted for something."
+        "text": "Leave the original loss limit where it is.",
+        "result_text": "{name} traced the red line until it grew dark.\n\nAbove it sat the price of a Gangnam listing. Below it sat the cash he had kept. Neither disappeared from the page."
       },
       {
-        "text": "Make no decision. Just live through the next month.",
-        "result_text": "Tomorrow will bring the answer.\n\nFor now, just sleep."
+        "text": "Place no order today. Record only the open and close.",
+        "result_text": "{name} closed the execution window and wrote down only two prices.\n\nThere was no action between them. The blank remained. Tomorrow, it could become either evidence or an excuse."
       }
     ]
   },
@@ -1108,21 +1108,21 @@
   {
     "id": "arc_34_routine_trap",
     "title": "The Routine Trap",
-    "description": "One day, {name} realized he'd been doing the same things every day.\n\nSame wake-up time. Same route. Same lunch spot. Same desk.\n\nWas this discipline — or had he just stopped thinking?",
-    "description_orthodox": "Same wake-up time. Same route. Same desk.\n\nEvery day felt like the last.\n\n{name} called it discipline. But somewhere, he wondered if habit had swallowed intention.",
-    "description_unorthodox": "He'd tried everything once. Now he was doing the same things every day.\n\nRoutine had crept in. Not through failure — through repetition.\n\n{name} noticed it like someone noticing they'd been holding their breath.",
+    "description": "The alarm rang at 6:40. Before opening his eyes, {name} knew exactly where to reach to silence it.\n\nThe same tuna-mayo triangle kimbap. The second subway door in the same car. Right foot first when it opened.\n\nThat morning, while throwing away the wrapper, he noticed the expiration stamp sat in the same place as last week's.\n\n{name} stopped in front of the turnstile. The person behind him stepped around his shoulder.",
+    "description_orthodox": "The alarm rang at 6:40. Before opening his eyes, {name} knew exactly where to reach to silence it.\n\nSecond subway door. Eleven minutes to work. One lap of the stairs after lunch. The same check marks multiplied in Notes.\n\nThat morning, he checked the first line but could not remember what he had written beside it yesterday.\n\n{name} sat on a platform bench and traced the past week's marks with one finger.",
+    "description_unorthodox": "The alarm rang at 6:40. His hand moved before his eyes opened.\n\nSame convenience store, same triangle kimbap, same subway door. The clerk knew he needed no bag before he spoke.\n\nYesterday's ad reflected in the train window. His face overlapped the model's smiling mouth.\n\n{name} stood up one stop before his usual station.",
     "choices": [
       {
-        "text": "Break the pattern — try something different today",
-        "result_text": "{name} deliberately changed one thing.\n\nIt wasn't dramatic. Just a different route, a different cafe.\n\nBut the day felt different. Slightly more awake.\n\nSometimes a small disruption is all it takes to remember you're choosing this."
+        "text": "Add one small thing inside the routine.",
+        "result_text": "{name} kept the alarm where it was and cleared fifteen minutes before leaving.\n\nOn the first day, he read one notebook page while his tea cooled. On the third, a new number appeared beneath the same sentence.\n\nA week later, seven short lines marked the calendar."
       },
       {
-        "text": "Stay the course — consistency is the point",
-        "result_text": "{name} stayed with the routine.\n\nNot because he couldn't change, but because he'd chosen this pattern for a reason.\n\nDiscipline means doing it even when it feels like nothing.\n\nEspecially then."
+        "text": "Deliberately change what has become familiar.",
+        "result_text": "{name} got off at the next station and climbed an unfamiliar exit.\n\nThe stairs were longer than expected. The smell of baking bread reached into the alley. He arrived four minutes late.\n\nThat evening, he wrote the alley's name on the back of the receipt."
       }
     ],
     "description_if_known": {
-      "set_morning_routine": "One day, {name} realized he'd been doing the same things every day.\n\nSame wake-up time. Same route. Same lunch spot. Same desk.\n\nWas this discipline — or had he just stopped thinking?\n\nA year ago, the night one chapter ended, he'd set a morning routine.\nThat routine became this treadmill. A routine and a trap — the same shape."
+      "set_morning_routine": "The alarm rang at 6:40. Before opening his eyes, {name} knew exactly where to reach to silence it.\n\nThe same tuna-mayo triangle kimbap. The second subway door in the same car. Right foot first when it opened.\n\nA year ago, the notebook had read, '7 AM tomorrow.' He had drawn a small line beside it for every day he kept the promise.\n\n{name} looked at the crowded marks and stopped his pen over today's square. The page recorded how often he had kept it, but not how far it had taken him."
     }
   },
   {

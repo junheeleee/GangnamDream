@@ -24,6 +24,12 @@ const MOTIVE_SENTENCES_KO := {
 	"notebook_motive_proof": "우리를 무너뜨린 세계에 내 이름으로 선다",
 	"notebook_motive_survival": "다시는 돈 앞에 무릎 꿇지 않는다",
 }
+const MOTIVE_SENTENCES_EN := {
+	"notebook_motive_family": "I will give my father a home again.",
+	"notebook_motive_proof": "I will stand in my own name inside the world that broke us.",
+	"notebook_motive_survival": "I will never kneel before money again.",
+}
+const MOTIVE_CLOSING_EVENTS := ["arc_chapter1_close", "arc_year1_close"]
 const MEMORY_READERS := {
 	"arc_father_06_confession": ["knee_day_faced", "knee_day_froze", "knee_day_turned"],
 	"arc_sangchul_confrontation": ["knee_day_faced", "knee_day_froze", "knee_day_turned"],
@@ -46,7 +52,7 @@ func _ready() -> void:
 			push_error("MOTIVATION_IMPRINT_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("MOTIVATION_IMPRINT_OK chain=9 identity=9 readers=9 motives=3 father_contacts=3")
+	print("MOTIVATION_IMPRINT_OK chain=9 identity=9 readers=9 motives=3 closing_surfaces=48 father_contacts=3")
 	get_tree().quit(0)
 
 func _check_chain_and_identity_choices() -> void:
@@ -129,7 +135,36 @@ func _check_notebook_recall() -> void:
 			"Japanese notebook sentence is missing or leaked Hangul: %s" % sentence_ja)
 		_expect(ritual_ja.contains(sentence_ja) and ritual_ja.contains("3か月目"),
 			"Japanese notebook ritual lost sentence or month: %s" % ritual_ja)
+	_check_closing_scene_recall()
 	game.free()
+
+func _check_closing_scene_recall() -> void:
+	for language in ["ko", "en"]:
+		LocaleManager.language = language
+		DataRegistry.reload()
+		for raw_flag in MOTIVE_SENTENCES_KO:
+			var flag := str(raw_flag)
+			GameState.start_new_game()
+			GameState.flags[flag] = true
+			var expected := str(
+				MOTIVE_SENTENCES_KO[flag]
+				if language == "ko"
+				else MOTIVE_SENTENCES_EN[flag]
+			)
+			_expect(GameState.notebook_motive_sentence() == expected,
+				"GameState motive mismatch for %s (%s)" % [flag, language])
+			for event_id in MOTIVE_CLOSING_EVENTS:
+				var event: Dictionary = DataRegistry.find_event(event_id)
+				_expect(not event.is_empty(), "missing closing event %s (%s)" % [event_id, language])
+				var surfaces: Array[String] = [str(event.get("description", ""))]
+				for variant in (event.get("description_if_known", {}) as Dictionary).values():
+					surfaces.append(str(variant))
+				for surface in surfaces:
+					var rendered := GameState.format_event_text(surface)
+					_expect(rendered.contains(expected),
+						"%s lost %s motive in %s" % [event_id, flag, language])
+					_expect(not rendered.contains("{notebook_motive}"),
+						"%s left motive token unresolved in %s" % [event_id, language])
 
 func _check_demo_father_contacts() -> void:
 	var fixtures := [

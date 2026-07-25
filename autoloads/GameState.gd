@@ -2246,6 +2246,24 @@ func format_money(amount):
 func format_money_compact(amount) -> String:
 	return LocaleManager.format_money(float(amount), true)
 
+func notebook_motive_sentence() -> String:
+	if bool(flags.get("notebook_motive_family", false)):
+		return LocaleManager.ui(
+			"아버지에게 다시 집을 마련해 드린다",
+			"I will give my father a home again."
+		)
+	if bool(flags.get("notebook_motive_proof", false)):
+		return LocaleManager.ui(
+			"우리를 무너뜨린 세계에 내 이름으로 선다",
+			"I will stand in my own name inside the world that broke us."
+		)
+	if bool(flags.get("notebook_motive_survival", false)):
+		return LocaleManager.ui(
+			"다시는 돈 앞에 무릎 꿇지 않는다",
+			"I will never kneel before money again."
+		)
+	return LocaleManager.ui("30억. 5년 안에.", "Three billion won. Five years.")
+
 func format_event_text(text: String) -> String:
 	var job_name: String = get_job_display_name()
 	var total_assets: float = get_total_asset_value()
@@ -2267,6 +2285,7 @@ func format_event_text(text: String) -> String:
 		.replace("{expense}", format_money(fixed_expense)) \
 		.replace("{debt}", format_money(loan_total)) \
 		.replace("{loan}", format_money(loan_total)) \
+		.replace("{notebook_motive}", notebook_motive_sentence()) \
 		.replace("{keepsake}", get_pending_housing_keepsake_name())
 
 func get_total_asset_value():

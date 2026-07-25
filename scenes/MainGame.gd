@@ -2201,14 +2201,7 @@ func _goal_time_display() -> Dictionary:
 	}
 
 func _notebook_motive_sentence() -> String:
-	var f: Dictionary = GameState.flags
-	if bool(f.get("notebook_motive_family", false)):
-		return _tr("아버지에게 다시 집을 마련해 드린다", "I will give my father a home again.")
-	if bool(f.get("notebook_motive_proof", false)):
-		return _tr("우리를 무너뜨린 세계에 내 이름으로 선다", "I will stand in my own name inside the world that broke us.")
-	if bool(f.get("notebook_motive_survival", false)):
-		return _tr("다시는 돈 앞에 무릎 꿇지 않는다", "I will never kneel before money again.")
-	return _tr("30억. 5년 안에.", "Three billion won. Five years.")
+	return GameState.notebook_motive_sentence()
 
 func _notebook_elapsed_months() -> int:
 	return maxi(0, int((maxi(1, GameState.turn) - 1) / 4))
@@ -3379,9 +3372,10 @@ func _next_arc_id(
 			GameState.flags.erase("just_quit_job")
 		return "arc_quit_job"
 
-	# ── 막판 한 방 — 마지막 정산과 마지막 해 선언을 본 뒤에만 온다. ──
-	if t >= 197 \
+	# ── 막판 한 방 — 마지막 해 선언 뒤, 6개월 카운트다운 전의 짧은 창. ──
+	if t >= 205 and t <= 215 \
 			and f.get("arc_37_reckoning_seen", false) \
+			and f.get("arc_final_year_start_seen", false) \
 			and GameState.get_total_asset_value() < 2_800_000_000.0 \
 			and not f.get("arc_late_game_push_seen", false):
 		return "arc_late_game_push"
@@ -3475,7 +3469,9 @@ func _next_arc_id(
 			and not GameState.has_deferred_event("arc_jaehyuk_mirror") \
 			and not f.get("arc_jaehyuk_mirror_seen", false):
 		return "arc_jaehyuk_mirror"
-	if t >= 55 and (f.get("arc_daeun_04_seen", false) or f.get("arc_daeun_ghost_seen", false)) \
+	if t >= 193 \
+			and f.get("arc_final_stretch_seen", false) \
+			and (f.get("arc_daeun_04_seen", false) or f.get("arc_daeun_ghost_seen", false)) \
 			and not f.get("arc_daeun_later_echo_seen", false):
 		return "arc_daeun_later_echo"
 
@@ -3788,6 +3784,7 @@ func _next_arc_id(
 			and GameState.get_total_asset_value() < 500_000_000.0:
 		return "arc_jiyeon_verdict"
 	if t >= 193 and (f.get("daeun_romance_started", false) or f.get("arc_daeun_year4_together_seen", false)) \
+			and GameState.get_total_asset_value() >= 2_900_000_000.0 \
 			and not f.get("arc_daeun_year5_seen", false):
 		return "arc_daeun_year5_ending"
 	# 김다은 Year 5 — 강남대로에서 혼자 (이별 궤적)

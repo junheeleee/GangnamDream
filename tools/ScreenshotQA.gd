@@ -9030,6 +9030,39 @@ func _shot_motivation_imprint_surfaces(lang: String = "en", prefix: String = "mo
 	await _shot_story_event(
 		"story_prologue_goal", prefix + "03_notebook_motive_choice", "", 0.45, true, true)
 
+	var motive_fixtures := [
+		["family", "notebook_motive_family"],
+		["proof", "notebook_motive_proof"],
+		["survival", "notebook_motive_survival"],
+	]
+	for fixture in motive_fixtures:
+		var motive_slug := str(fixture[0])
+		var motive_flag := str(fixture[1])
+		for closing in [
+			["arc_chapter1_close", "chapter1", 3],
+			["arc_year1_close", "year1", 1],
+		]:
+			_prepare_main_game_state()
+			GameState.flags[motive_flag] = true
+			var expected_sentence := GameState.notebook_motive_sentence()
+			var closing_event: Dictionary = DataRegistry.find_event(str(closing[0]))
+			var rendered_description := GameState.format_event_text(
+				str(closing_event.get("description", ""))
+			)
+			if expected_sentence not in rendered_description:
+				_fail("%s lost %s motive before render in %s." % [
+					str(closing[0]), motive_slug, lang])
+				return
+			await _shot_story_event(
+				str(closing[0]),
+				prefix + "04_%s_%s" % [motive_slug, str(closing[1])],
+				"",
+				0.45,
+				true,
+				false,
+				-1,
+				int(closing[2]))
+
 	_prepare_main_game_state()
 	GameState.turn = 13
 	GameState.month = 4

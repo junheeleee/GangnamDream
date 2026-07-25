@@ -10,10 +10,10 @@
       },
       {
         "text": "Gloss over it — 'I was preparing to start a business.'",
-        "result_text": "Packaged it plausibly. The interviewer nodded — but wrote something long in her notes.\nLike someone writing 'needs verification.'\n\nWalking down the stairs, {name} thought:\nOne lie calls for another.\nAnd that weight tends to arrive sooner than expected."
+        "result_text": "Packaged it plausibly. The interviewer nodded, but wrote something long in her notes.\n\nEvery step down echoed through the empty building. In the second-floor window, his reflected mouth seemed to repeat the answer he had just given.\n{name} looked away and took the last flight."
       }
     ],
-    "description_orthodox": "The company from the application replied. Mapo-gu. Third floor. No elevator.\n\nCounted the stairs on the way up. 29. {name} counts things like this — turning it into numbers makes it lighter.\n\nThe interviewer picked up the résumé. Her eyes stopped at the six-year gap.\n\n{name} knew this question was coming. He'd prepared.\nPreparing doesn't make it hurt less.",
+    "description_orthodox": "The company from the application replied. Mapo-gu. Third floor. No elevator.\n\nAt the third landing, {name} stopped for breath. Flaking paint from the handrail dusted his palm.\n\nThe interviewer picked up the résumé. The tip of her pen stopped at the six-year gap.\n\n{name} placed the rehearsed answer on his tongue. His mouth was so dry it tasted like paper.",
     "description_unorthodox": "The company from the application replied. Mapo-gu. Third floor. No elevator.\n\n'Mirae Industrial Tech.' Funny. If this is the future, the future's pretty narrow.\nDoesn't matter. He needs money now, and this whole thing is temporary anyway.\n\nThe interviewer flagged the six-year gap. {name} knew that look — 'an odd one.'\nFine. So what if I'm odd."
   },
   {
@@ -45,19 +45,19 @@
     "choices": [
       {
         "text": "Delete the app — comparison is poison.",
-        "result_text": "Held it down. Deleted it.\nWatching someone else's finish line won't move {name}'s starting line.\n\nThe screen cleared a little. The mind — just a little.\nBut that empty space felt like it could be filled with something."
+        "result_text": "Held the icon down. The small X trembled, then vanished.\n\nThe black screen held only the fluorescent light and {name}'s face.\nHis finger tapped the empty space once more out of habit."
       },
       {
         "text": "Use that feeling as fuel — just you wait.",
-        "result_text": "Envy turned to anger.\n'Just you wait' is dangerous — it can burn the person who feels it.\n\nBut right now this is all there is to run on.\n{name} turned off the phone and closed the eyes. Seoul's night wasn't over yet."
+        "result_text": "Envy caught hot at the back of {name}'s throat.\n\nHe opened Notes and wrote three things to do tomorrow. The battery reached nine percent as he typed the last period.\nWhen he turned the phone facedown, the pipe behind the wall sounded louder."
       },
       {
         "text": "Just look. Jealous is jealous.",
         "result_text": "Scrolled to the end. Even hit Like.\n\nDecided not to pretend not to be jealous. That's honest too.\nBut the honesty of that night — ached a little long."
       }
     ],
-    "description_orthodox": "2 AM. The goshiwon room.\n\nOpened Instagram. Scrolling the feed, {name} stopped.\n\nPark Minho, housing-lottery win. Lee Suhyeon, Maldives honeymoon. Kim Junghoon, foreign car.\n\n{name} worked out how old each was, when they must have started.\nWhere am I right now?\n\nHe knows comparison doesn't help. But without coordinates, you don't know which way you're facing.",
-    "description_unorthodox": "2 AM. The goshiwon room.\n\nOpened Instagram. Other people's lives slid past like ads.\n\nLottery win. Maldives. BMW.\n\n{name} thought — is that it? Is that 'arrival'?\nA housing-lottery win is the start of a 30-year mortgage, and after the honeymoon photos, what comes next?\n\nEveryone posts like they've arrived at something. {name} found that a little funny.\nAbout himself, and about them too.",
+    "description_orthodox": "2 AM. The goshiwon room.\n\n{name} opened Instagram and stopped mid-scroll.\n\nThe corner of Minho's housing contract. Maldives sand on Suhyeon's ankle. A BMW key resting in Junghoon's palm.\n\nThe clock in the corner changed from 2:17 to 2:18. His thumb could not move to the next photo.\n\n{name} looked between the damp wallpaper and the new living room on the screen.",
+    "description_unorthodox": "2 AM. The goshiwon room.\n\n{name} opened Instagram. Other people's lives slid past like ads.\n\nA bank-loan envelope had been cropped from the edge of the housing contract. The slide after the Maldives beach showed an airport baggage line. Black grease remained under the thumbnail holding the BMW key.\n\n{name} pinched the photos twice, trying to see beyond their frames.\n\nSomeone snored next door. Only the Like counts moved, one at a time.",
     "description_long_gosiwon": "2 AM.\n\nOpened Instagram again. Seventh month in this room.\n\nPark Minho, housing-lottery win. Lee Suhyeon, newlywed. Kim Junghoon, foreign car.\n\n{name} set the phone down. Not envy, not anger — just distant.\nSome days your own life doesn't feel like your own.\nToday was one of those days.",
     "description_if_known": {
       "lent_account": "2 AM. The goshiwon room.\n\nStaring at the ceiling, {name}'s fingers found the phone. Instagram.\n\nPark Minho — 'Finally my own home 🏠 Housing lottery win T_T Waited 10 years'\nLee Suhyeon — Maldives honeymoon. Turquoise water. A wedding dress.\nKim Junghoon — BMW 3 Series key flex.\n\n{name} scrolled, then stopped. Does that money have an origin too? The lottery deposit, the wedding budget, the car installments — all of it came from somewhere and flowed somewhere.\n\nThe thought circled back to his own account. Two million won landed last week. It would leave again soon. The money passing through that account right now — under whose name is it flowing?\n\n650,000 won rent. Third month in this room. Between the people on the screen and {name}, there was now one more line, and it could not be seen.",
@@ -84,7 +84,7 @@
   {
     "id": "arc_chapter1_close",
     "title": "Two Months In",
-    "description": "2 AM.\n\nThe ramyeon broth had gone cold.\nAfter Hyunsu went back inside, {name} stood in the hallway alone for a while.\n\nHis first two months in Seoul — the burner account text, his father's call, the first Gangnam cafe he ever walked into, Hyunsu's ramyeon.\n\nBack in the room, {name} opens the notebook. First line:\n'3 billion won. Five years.'\n\nNothing below it.\n\nUnder fluorescent light: a 4.5-pyeong goshiwon room. One desk. One blanket.\nCan 3 billion won actually come out of here?\n\n{name} still doesn't have an answer.\nBut — tonight was the first time the question felt completely real.",
+    "description": "2 AM.\n\nThe ramyeon broth had gone cold.\nAfter Hyunsu went back inside, {name} stood in the hallway alone for a while.\n\nHis first two months in Seoul — the burner account text, his father's call, the first Gangnam cafe he ever walked into, Hyunsu's ramyeon.\n\nBack in the room, {name} opened the notebook. First line:\n'{notebook_motive}'\n\nBelow it: '3 billion won. Five years.' The pages after that were still empty.\n\nUnder fluorescent light: a 4.5-pyeong goshiwon room. One desk. One blanket.\nCan 3 billion won actually come out of here?\n\n{name} still didn't have an answer.\nBut tonight was the first time the question felt completely real.",
     "choices": [
       {
         "text": "Close the notebook. That's enough for today.",
@@ -92,7 +92,7 @@
       },
       {
         "text": "Write one more line: 'Wake up at 7 AM tomorrow.'",
-        "result_text": "7 AM tomorrow. Below that first line — 3 billion won with nothing under it — just that.\n\nThree billion won is far. 7 AM is close.\nHe decided to start with the smallest thing he could actually do right now.\n\nTurned off the light. {name} thought tomorrow might be just a little different from today."
+        "result_text": "Below the two sentences, {name} wrote: '7 AM tomorrow.'\n\nThree billion won is far. 7 AM is close.\nHe decided to start with the smallest thing he could actually do right now.\n\nHe turned off the light. Tomorrow might be just a little different from today."
       }
     ]
   },
@@ -415,11 +415,11 @@
       },
       {
         "text": "\"I have my own way of doing things.\"",
-        "result_text": "\"Sure. You've got to figure it out for yourself in the end.\"\nSangchul laughed, unbothered.\n{name} hung up and stared at the ceiling for a while.\nWhat his own way actually was — he still wasn't sure.",
-        "bridge_summary": "He rejected Sangchul's method, but still could not write down a method of his own."
+        "result_text": "\"Sure. You've got to figure it out for yourself in the end.\"\nSangchul laughed, unbothered.\n{name} hung up and opened the notebook. He wrote 'My way,' then stopped.\nThe pen left one dark dot beneath the empty line.",
+        "bridge_summary": "After rejecting Sangchul's method, he wrote 'My way' in the notebook and left the line beneath it empty."
       }
     ],
-    "description_orthodox": "Im Sangchul held out a cup of tea.\n\n\"You thinking about investing?\"\n\nBefore answering, {name} ran the math — why is this man asking? What does he want?\nThere's no kindness without an angle. Or almost none.\n\n\"I am — but I don't know yet.\"\n\n\"That's the most honest answer there is.\" Im Sangchul smiled.\n{name} studied that smile. It looked genuine — for the first time.",
+    "description_orthodox": "Im Sangchul held out a cup of tea.\n\n\"You thinking about investing?\"\n\n{name} left the cup where it was and looked first at the business card beside the handle. Its corners were worn. Three numbers had been written on the back in ballpoint pen.\n\n\"I am — but I don't know yet.\"\n\n\"That's the most honest answer there is.\" Im Sangchul smiled.\nHe did not pull the untouched cup back toward himself.",
     "description_unorthodox": "Im Sangchul held out a cup of tea.\n\n\"You thinking about investing?\"\n\n\"Sure.\" {name} answered right away.\n\n\"Why?\"\n\nThat stung. Why. Too simple to call it the money; too long to explain if it was Gangnam.\n\n\"I haven't sorted it out yet.\"\n\n\"Let me know when you do.\" Im Sangchul smiled."
   },
   {
@@ -651,9 +651,9 @@
   {
     "id": "arc_jiyeon_truth_warned",
     "title": "The Things He Already Knew",
-    "description": "Jiyeon reached out first.\n\"Oppa, do you have time to meet for a bit?\"\n\nSitting across from her at the café, {name} already remembered what Sangchul had said.\n'That woman needs presale numbers — she's after your money.'\n\nShe opened her mouth.\nThe story of her father's company. The presale targets. And — why she'd pitched it to Minjun.\n\n\"But that's not all of it.\nMy wish for you to do well — that was real too.\nAnd... I was curious about you, and I wanted to be near you.\"\n\n\"All three are tangled together, and I don't know what kind of person I am.\nAm I a bad person?\"\n\n{name} already knew. Which made it stranger still — complication came before anger.",
+    "description": "Jiyeon reached out first.\n\"Minjun, do you have time to meet for a bit?\"\n\nSitting across from her at the café, {name} already remembered what Sangchul had said.\n'That woman needs presale numbers — she's after your money.'\n\nShe opened her mouth.\nThe story of her father's company. The presale targets. And why she'd pitched it to Minjun.\n\n\"But that's not all of it.\nMy wish for you to do well was real too.\nAnd... I was curious about you, and I wanted to be near you.\"\n\n\"All three are tangled together, and I don't know what kind of person I am.\nAm I a bad person?\"\n\n{name} already knew. Which made it stranger still: complication came before anger.",
     "description_if_known": {
-      "jiyeon_seen_by_gifts": "Jiyeon reached out first.\n\"Oppa, do you have time to meet for a bit?\"\n\nSitting across from her at the café, {name} already remembered what Sangchul had said.\n'That woman needs presale numbers — she's after your money.'\n\nBut something else surfaced alongside it.\nThe gifts he'd chosen by remembering things she'd let slip in passing. That proud face of hers, buckling for a second each time she received one.\n\nShe opened her mouth.\nThe story of her father's company. The presale targets. And — why she'd pitched it to Minjun.\n\n\"But that's not all of it.\nYou're... one of the few people who saw me as a person, not a thing, oppa.\"\n\n\"All three are tangled together, and I don't know what kind of person I am.\nAm I a bad person?\"\n\n{name} already knew. Which made it stranger still — complication came before anger."
+      "jiyeon_seen_by_gifts": "Jiyeon reached out first.\n\"Minjun, do you have time to meet for a bit?\"\n\nSitting across from her at the café, {name} already remembered what Sangchul had said.\n'That woman needs presale numbers — she's after your money.'\n\nBut something else surfaced alongside it.\nThe gifts he'd chosen by remembering things she'd let slip in passing. That proud face of hers, buckling for a second each time she received one.\n\nShe opened her mouth.\nThe story of her father's company. The presale targets. And why she'd pitched it to Minjun.\n\n\"But that's not all of it.\nYou're... one of the few people who saw me as a person, not a thing, Minjun.\"\n\n\"All three are tangled together, and I don't know what kind of person I am.\nAm I a bad person?\"\n\n{name} already knew. Which made it stranger still: complication came before anger."
     },
     "choices": [
       {
@@ -666,7 +666,7 @@
       },
       {
         "text": "\"That's just how people are. Your world had its own ways.\"",
-        "result_text": "\"You... already knew, oppa.\"\nFor the first time, Jiyeon's face had set down its defenses.\n\"And you can still say that?\"\nHe'd thought a betrayal you saw coming would hurt less — it didn't, not quite.\nStill, forgiveness was also a thing he did for himself."
+        "result_text": "\"You... already knew, Minjun.\"\nFor the first time, Jiyeon's face had set down its defenses.\n\"And you can still say that?\"\nHe'd thought a betrayal you saw coming would hurt less. It didn't, not quite.\nStill, forgiveness was also a thing he did for himself."
       }
     ]
   },

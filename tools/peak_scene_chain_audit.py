@@ -2005,6 +2005,87 @@ def validate_jiyeon_marriage_routing_contract() -> None:
             raise ValueError(f"Jiyeon verdict chronology gate missing: {token}")
 
 
+def validate_review_appendix_contracts(
+        ko_events: dict[str, dict[str, Any]],
+        en_events: dict[str, dict[str, Any]]) -> None:
+    """Lock the ORDER-50 motive, late-game, and pre-romance repairs."""
+    with open(MAIN_GAME, encoding="utf-8") as handle:
+        source = handle.read()
+
+    def if_block_before(return_line: str) -> str:
+        return_at = source.find(return_line)
+        if return_at < 0:
+            raise ValueError(f"missing review-appendix route: {return_line}")
+        block_at = source.rfind("\n\tif ", 0, return_at)
+        if block_at < 0:
+            raise ValueError(f"missing route condition before: {return_line}")
+        return source[block_at:return_at + len(return_line)]
+
+    late_push = if_block_before('return "arc_late_game_push"')
+    for token in (
+        "t >= 205",
+        "t <= 215",
+        'f.get("arc_37_reckoning_seen", false)',
+        'f.get("arc_final_year_start_seen", false)',
+        "GameState.get_total_asset_value() < 2_800_000_000.0",
+    ):
+        if token not in late_push:
+            raise ValueError(f"late-game push window lost contract: {token}")
+
+    daeun_echo = if_block_before('return "arc_daeun_later_echo"')
+    for token in (
+        "t >= 193",
+        'f.get("arc_final_stretch_seen", false)',
+        'not f.get("arc_daeun_later_echo_seen", false)',
+    ):
+        if token not in daeun_echo:
+            raise ValueError(f"Daeun final-stretch echo lost gate: {token}")
+
+    daeun_year5 = if_block_before('return "arc_daeun_year5_ending"')
+    for token in (
+        "t >= 193",
+        "GameState.get_total_asset_value() >= 2_900_000_000.0",
+        'not f.get("arc_daeun_year5_seen", false)',
+    ):
+        if token not in daeun_year5:
+            raise ValueError(f"Daeun near-goal dinner lost gate: {token}")
+
+    for language, events in (("ko", ko_events), ("en", en_events)):
+        for event_id in ("arc_chapter1_close", "arc_year1_close"):
+            event = events[event_id]
+            surfaces = [str(event.get("description", ""))]
+            surfaces.extend(str(value) for value in (
+                event.get("description_if_known") or {}
+            ).values())
+            for surface in surfaces:
+                if "{notebook_motive}" not in surface:
+                    raise ValueError(
+                        f"{event_id} lost notebook motive token in {language}"
+                    )
+
+        jiyeon_truth = json.dumps(
+            events["arc_jiyeon_truth_warned"], ensure_ascii=False
+        ).lower()
+        forbidden_address = "오빠" if language == "ko" else "oppa"
+        if forbidden_address in jiyeon_truth:
+            raise ValueError(
+                f"Jiyeon pre-romance truth retained {forbidden_address} in {language}"
+            )
+
+    routine_ko = json.dumps(
+        ko_events["arc_34_routine_trap"], ensure_ascii=False
+    )
+    routine_en = json.dumps(
+        en_events["arc_34_routine_trap"], ensure_ascii=False
+    )
+    for stale in ("루틴은 도구다", "편안함은 성장의 반대말", "루틴을 깨면 원래 안 보이던"):
+        if stale in routine_ko:
+            raise ValueError(f"routine scene retained abstract maxim: {stale}")
+    for stale in ("Discipline means", "Sometimes a small disruption"):
+        if stale in routine_en:
+            raise ValueError(f"English routine scene retained abstract maxim: {stale}")
+
+
 def measure(label: str, root_id: str, events: dict[str, dict[str, Any]]) -> PeakMetric:
     paths = walk_paths(events, root_id)
     links = [len(path.event_ids) for path in paths]
@@ -2079,6 +2160,7 @@ def main() -> int:
     validate_father_passing_contract(ko_events)
     validate_breakup_peak_contracts(ko_events)
     validate_jiyeon_marriage_routing_contract()
+    validate_review_appendix_contracts(ko_events, en_events)
     metrics = [measure(label, root_id, ko_events) for label, root_id in PEAK_ROOTS]
     visited = {
         event_id
