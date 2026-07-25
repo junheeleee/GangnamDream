@@ -6,11 +6,11 @@
     "choices": [
       {
         "text": "Decline immediately",
-        "result_text": "You declined right away.\nGetting burned once had sharpened the response.\nExperience exists for exactly this moment."
+        "result_text": "You declined right away.\nGetting burned once had sharpened the response."
       },
       {
         "text": "At least hear it out",
-        "result_text": "You listened.\nThe structure was the same as before.\nListening itself — was a signal you could get pulled in again."
+        "result_text": "You listened.\nThe structure was the same as before."
       }
     ]
   },
@@ -21,11 +21,11 @@
     "choices": [
       {
         "text": "Saw it coming",
-        "result_text": "You'd seen it coming.\nBecause you'd looked into it, you'd seen it.\nKnowing something — sometimes lets you get out of the way."
+        "result_text": "You'd seen it coming.\nBecause you'd looked into it, you'd seen it."
       },
       {
         "text": "Still feels bitter",
-        "result_text": "It felt bitter.\nYou thought about the people who got hurt.\nYou had the information and escaped — they didn't."
+        "result_text": "It felt bitter.\nYou thought about the people who got hurt."
       }
     ]
   },
@@ -36,11 +36,11 @@
     "choices": [
       {
         "text": "Check the result",
-        "result_text": "Confronting it directly had created movement.\nLeft alone, it would have dragged on — facing it brought it to an end.\nAn uncomfortable conversation prevents a longer discomfort."
+        "result_text": "Confronting it directly had created movement.\nLeft alone, it would have dragged on — facing it brought it to an end."
       },
       {
         "text": "Still not fully resolved",
-        "result_text": "Not fully resolved yet.\nBut different from before the confrontation.\nA start is what makes an ending possible."
+        "result_text": "Not fully resolved yet.\nBut different from before the confrontation."
       }
     ]
   },
@@ -51,11 +51,11 @@
     "choices": [
       {
         "text": "Keep going",
-        "result_text": "You kept going.\nLegal routes are slow.\nBut they leave a record — that's what sets them apart from other options."
+        "result_text": "You kept going.\nLegal routes are slow."
       },
       {
         "text": "Getting worn out",
-        "result_text": "You were getting worn out.\nYou hadn't expected it to take this long.\nBut stopping meant everything so far evaporated.\nThe other side is waiting for you to quit — which is exactly why you can't."
+        "result_text": "You were getting worn out.\nYou hadn't expected it to take this long.\nBut stopping meant everything so far evaporated."
       }
     ]
   },
@@ -66,11 +66,11 @@
     "choices": [
       {
         "text": "Keep building it",
-        "result_text": "You kept going.\nOne reliable client — becomes the most important foundation.\nThe freelancer's fear is no work. Right now, that's not the problem."
+        "result_text": "You kept going.\nOne reliable client — becomes the most important foundation."
       },
       {
         "text": "Consider going back to full-time",
-        "result_text": "You thought about full-time.\nOnce stability arrived — bigger stability pulled at you.\nThat's just human. But this path is also its own kind of stability."
+        "result_text": "You thought about full-time.\nOnce stability arrived — bigger stability pulled at you."
       }
     ]
   },
@@ -81,11 +81,11 @@
     "choices": [
       {
         "text": "Keep going",
-        "result_text": "You decided to keep going.\nOne person — is a start.\nOnly those who survive the quiet period get to see the noisy one."
+        "result_text": "You decided to keep going.\nOne person — is a start."
       },
       {
         "text": "Think about changing direction",
-        "result_text": "You thought about changing direction.\nYou used that comment as a hint.\nOne person's reaction — can be a compass for where to go next."
+        "result_text": "You thought about changing direction.\nYou used that comment as a hint."
       }
     ]
   },
@@ -96,11 +96,11 @@
     "choices": [
       {
         "text": "Give it a try together",
-        "result_text": "You tried it together.\nA collaborator found while going alone — was possible because you'd held on alone.\nWhat started solo had become shared."
+        "result_text": "You tried it together.\nA collaborator found while going alone — was possible because you'd held on alone."
       },
       {
         "text": "Watch and see for now",
-        "result_text": "You watched first.\nSomeone appearing right away — was too soon to trust.\nHaving done it alone — meant you could now see whether this person was needed."
+        "result_text": "You watched first.\nSomeone appearing right away — was too soon to trust."
       }
     ]
   },
@@ -111,11 +111,11 @@
     "choices": [
       {
         "text": "Follow the process",
-        "result_text": "You followed the steps.\nGoing there in person had created a record.\nThat record was now the foundation for this process."
+        "result_text": "You followed the steps.\nGoing there in person had created a record."
       },
       {
         "text": "Worn out but pressing on",
-        "result_text": "You were worn out.\nBut stopping meant losing everything.\nThe landlord is waiting for you to exhaust yourself — that's exactly why you have to hold on."
+        "result_text": "You were worn out.\nBut stopping meant losing everything."
       }
     ]
   },
@@ -126,11 +126,11 @@
     "choices": [
       {
         "text": "Meet her",
-        "result_text": "You met.\nReconnecting — was because both of you had wanted it.\nMending a relationship that had frayed — is more serious than starting one."
+        "result_text": "You met.\nReconnecting — was because both of you had wanted it."
       },
       {
         "text": "Ask what kind of meeting it is first",
-        "result_text": "You asked what kind of meeting.\nShe said 'Just.'\nJust — holds more than it sounds."
+        "result_text": "You asked what kind of meeting.\nShe said 'Just.'"
       }
     ]
   },
@@ -141,11 +141,11 @@
     "choices": [
       {
         "text": "Ask how things are going",
-        "result_text": "You said 'How are things?'\nThey said 'Slowly starting to rebuild.'\nChecking in after helping — shows what real help looks like."
+        "result_text": "You said 'How are things?'\nThey said 'Slowly starting to rebuild.'"
       },
       {
         "text": "Say hello first",
-        "result_text": "You reached out first.\nThey said 'Thanks. I got through it because of you.'\nHelp isn't just the moment. The memory of it keeps people going."
+        "result_text": "You reached out first.\nThey said 'Thanks. I got through it because of you.'"
       }
     ]
   },
@@ -156,11 +156,11 @@
     "choices": [
       {
         "text": "Confirm you've pulled ahead",
-        "result_text": "You had.\nWhen you'd decided to use envy as fuel — this was the destination.\nComparison becomes a tool when you set the right target."
+        "result_text": "You had.\nWhen you'd decided to use envy as fuel — this was the destination."
       },
       {
         "text": "Still a long way to go",
-        "result_text": "Still a long way.\nBut having a direction — was different from three months ago.\nEnvy had become energy — this change was proof."
+        "result_text": "Still a long way.\nBut having a direction — was different from three months ago."
       }
     ]
   },
@@ -171,11 +171,11 @@
     "choices": [
       {
         "text": "Draw the line again",
-        "result_text": "You held the line again.\nOnce is harder than twice — twice starts to feel natural.\nA boundary isn't drawn once — it's drawn over and over."
+        "result_text": "You held the line again.\nOnce is harder than twice — twice starts to feel natural."
       },
       {
         "text": "Give in this time",
-        "result_text": "This time you gave in.\nHaving a boundary doesn't mean being inflexible.\nReading the situation and choosing — that's someone who actually has one."
+        "result_text": "This time you gave in.\nHaving a boundary doesn't mean being inflexible."
       }
     ]
   },
@@ -186,11 +186,11 @@
     "choices": [
       {
         "text": "Answer warmly",
-        "result_text": "You answered warmly.\nThe holiday reconciliation had made this message possible.\nReconciliation doesn't end on the day. The messages that follow are what complete it."
+        "result_text": "You answered warmly.\nThe holiday reconciliation had made this message possible."
       },
       {
         "text": "Not fully comfortable yet, but you answer",
-        "result_text": "Not fully at ease yet — but you answered.\nComfort takes time.\nAnswering at all — is proof the reconciliation is still continuing."
+        "result_text": "Not fully at ease yet — but you answered.\nComfort takes time."
       }
     ]
   },
@@ -201,11 +201,11 @@
     "choices": [
       {
         "text": "Say things are going well",
-        "result_text": "You said 'Things are moving.'\nThey said 'I remembered that.'\nA declaration isn't just for yourself — it becomes a standard for those who heard it too."
+        "result_text": "You said 'Things are moving.'\nThey said 'I remembered that.'"
       },
       {
         "text": "Honestly say you've still got a long way",
-        "result_text": "You said honestly 'Still a long way to go.'\nThey said 'But you're still going.'\nKeeping a declaration — isn't about the result. It's about keeping the direction."
+        "result_text": "You said honestly 'Still a long way to go.'\nThey said 'But you're still going.'"
       }
     ]
   },
@@ -216,11 +216,11 @@
     "choices": [
       {
         "text": "Good call to delete it",
-        "result_text": "Your focus had shifted.\nNo feed meant time had opened up.\nHow that time was actually used — that's what the deletion was worth."
+        "result_text": "Your focus had shifted.\nNo feed meant time had opened up."
       },
       {
         "text": "Sometimes think about putting it back",
-        "result_text": "Sometimes you thought about putting it back.\nBut you remembered why you'd deleted it.\nAs long as the reason still held — the decision did too."
+        "result_text": "Sometimes you thought about putting it back.\nBut you remembered why you'd deleted it."
       }
     ]
   }

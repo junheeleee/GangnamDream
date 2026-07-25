@@ -678,7 +678,7 @@
     "choices": [
       {
         "text": "Wait until there's an official announcement",
-        "result_text": "You waited for the official announcement. 170,000 won came in, but the wait wore on your nerves."
+        "result_text": "You waited for the official announcement. Even then, you checked the forum alerts several times."
       },
       {
         "text": "Anxiously keep refreshing the real estate forums all day",
@@ -716,7 +716,7 @@
     "choices": [
       {
         "text": "Turn it off and study with a book instead",
-        "result_text": "You turned it off and opened a book. 130,000 won came in and your focus was sharper."
+        "result_text": "You turned it off and opened a book. It took three passes through the same paragraph before the thumbnail's words left your head."
       },
       {
         "text": "Watch it to the end with a laugh",
@@ -1250,8 +1250,8 @@
     "description": "You've spent three years as a parliamentary aide. Everyone keeps saying it's time to step up yourself. Party nomination looks achievable and you've built a support base. But running for office demands money and stamina. Will you run?",
     "choices": [
       {
-        "text": "Declare candidacy — run for National Assembly",
-        "result_text": "You won. Your heart nearly stopped watching the election night broadcast. Now the real work begins."
+        "text": "Apply for nomination and begin campaign preparations",
+        "result_text": "The nomination papers arrived.\nYou signed the lease for a campaign office.\nThe banner for the window was still folded."
       },
       {
         "text": "Give up this time — the moment hasn't come",

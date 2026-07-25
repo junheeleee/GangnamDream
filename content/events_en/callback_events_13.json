@@ -6,11 +6,11 @@
     "choices": [
       {
         "text": "Answer warmly",
-        "result_text": "He didn't say much — just asked how you were.\nBut the fact that he called — was the answer in itself.\nThe apology had melted something that had built up."
+        "result_text": "He didn't say much — just asked how you were.\nBut the fact that he called — was the answer in itself."
       },
       {
         "text": "Keep it short",
-        "result_text": "You talked briefly.\nHe talked about his health.\nFirst call after an apology — awkward, but that was the beginning."
+        "result_text": "You talked briefly.\nHe talked about his health."
       }
     ]
   },
@@ -21,11 +21,11 @@
     "choices": [
       {
         "text": "Ask deeper this time",
-        "result_text": "He talked for an hour.\nInside that hour — was one man's whole life.\nThe time left to hear a parent's story — there isn't as much of it as you think."
+        "result_text": "He talked for an hour.\nInside that hour — was one man's whole life."
       },
       {
         "text": "Just listen quietly",
-        "result_text": "You listened quietly.\nHis expression changed while he talked.\nListening — is sometimes everything."
+        "result_text": "You listened quietly.\nHis expression changed while he talked."
       }
     ]
   },
@@ -36,11 +36,11 @@
     "choices": [
       {
         "text": "Decide to go more often",
-        "result_text": "You put the next visit on the calendar.\nThe fact that he still remembered — was the answer that going was right.\nBeing busy and not going — those are different words."
+        "result_text": "You put the next visit on the calendar.\nThe fact that he still remembered — was the answer that going was right."
       },
       {
         "text": "Tell your mother to look after him",
-        "result_text": "'Make sure he's taking care of himself,' you said.\nMom said 'You should come by sometimes.'\nThere are things a phone call can't replace."
+        "result_text": "'Make sure he's taking care of himself,' you said.\nMom said 'You should come by sometimes.'"
       }
     ]
   },
@@ -51,11 +51,11 @@
     "choices": [
       {
         "text": "Call him",
-        "result_text": "You called.\nHe said 'Been a while.'\nA text was him thinking of his son.\nNext time — you had to go in person."
+        "result_text": "You called.\nHe said 'Been a while.'\nA text was him thinking of his son."
       },
       {
         "text": "Text back \"I'm good\"",
-        "result_text": "You texted back 'I'm good.'\nHe replied 'Good, stay healthy.'\nTwo texts exchanged — that was where the relationship stood."
+        "result_text": "You texted back 'I'm good.'\nHe replied 'Good, stay healthy.'"
       }
     ]
   },
@@ -66,11 +66,11 @@
     "choices": [
       {
         "text": "Say you'll come in person soon",
-        "result_text": "'I'll come in person next time,' you said.\nHe said 'Don't worry if you're busy.'\n'Don't worry if you're busy' — didn't mean don't come."
+        "result_text": "'I'll come in person next time,' you said.\nHe said 'Don't worry if you're busy.'"
       },
       {
         "text": "At least he's grateful",
-        "result_text": "At least he said thank you.\nBut money couldn't stand in for being there.\nYou knew that."
+        "result_text": "At least he said thank you.\nBut money couldn't stand in for being there."
       }
     ]
   },
@@ -81,11 +81,11 @@
     "choices": [
       {
         "text": "Be honest this time",
-        "result_text": "'Honestly — it's been a bit rough,' you said.\nYour father was quiet for a long moment, then: 'I see.'\nTwo words — that lifted two months of weight."
+        "result_text": "'Honestly — it's been a bit rough,' you said.\nYour father was quiet for a long moment, then: 'I see.'"
       },
       {
         "text": "\"Still fine.\"",
-        "result_text": "'Still fine,' you said.\nHe said '...Okay.'\nThe 'okay' felt like he already knew.\nParents know."
+        "result_text": "'Still fine,' you said.\nHe said '...Okay.'\nThe 'okay' felt like he already knew."
       }
     ]
   },
@@ -96,11 +96,11 @@
     "choices": [
       {
         "text": "Check the results together with him",
-        "result_text": "You heard 'Better this time' together.\nYour father said quietly 'I see.'\nGoing into the room then — put you in the room for this moment too."
+        "result_text": "You heard 'Better this time' together.\nYour father said quietly 'I see.'"
       },
       {
         "text": "Let him check on his own",
-        "result_text": "He checked it himself.\nLater he told you briefly: 'They said it's fine.'\nBeing there and being told — those are different things."
+        "result_text": "He checked it himself.\nLater he told you briefly: 'They said it's fine.'"
       }
     ]
   },
@@ -111,11 +111,11 @@
     "choices": [
       {
         "text": "\"Thanks for waiting this long.\"",
-        "result_text": "'Thanks for waiting,' you said.\nThey replied: 'People who actually pay back are rarer than you'd think.'\nPaying it back to the end — that was the measure of a person."
+        "result_text": "'Thanks for waiting,' you said.\nThey replied: 'People who actually pay back are rarer than you'd think.'"
       },
       {
         "text": "\"Yeah — it's done now.\"",
-        "result_text": "You kept it short: 'Done now.'\nThey kept it short too: 'Good for you.'\nSome relationships don't need many words."
+        "result_text": "You kept it short: 'Done now.'\nThey kept it short too: 'Good for you.'"
       }
     ]
   },
@@ -126,11 +126,11 @@
     "choices": [
       {
         "text": "\"Are you okay?\"",
-        "result_text": "'Must be rough,' you said.\nThey replied: 'Glad you didn't get in. Sorry for trying.'\nYou were right to say no — and they weren't to blame.\nBoth were true."
+        "result_text": "'Must be rough,' you said.\nThey replied: 'Glad you didn't get in. Sorry for trying.'\nYou were right to say no — and they weren't to blame."
       },
       {
         "text": "Just offer quiet support",
-        "result_text": "You said 'That must've been hard.'\nThey went quiet for a moment.\nYou were glad you'd said no — but you didn't say that out loud."
+        "result_text": "You said 'That must've been hard.'\nThey went quiet for a moment."
       }
     ]
   },
@@ -141,11 +141,11 @@
     "choices": [
       {
         "text": "Hold it again",
-        "result_text": "You held it.\nHold it twice — and you can hold it a third time.\nA line only becomes a line when you keep holding it."
+        "result_text": "You held it.\nHold it twice — and you can hold it a third time."
       },
       {
         "text": "Just this once is fine",
-        "result_text": "Once became once.\n'Just once' — that's always how it starts.\nWhat you'd held before was now wasted."
+        "result_text": "Once became once.\n'Just once' — that's always how it starts."
       }
     ]
   },
@@ -156,11 +156,11 @@
     "choices": [
       {
         "text": "Record the two months",
-        "result_text": "You wrote the date down.\nTwo months.\nSeems small — but it was the product of a decision made every day.\nThe number became a reason."
+        "result_text": "You wrote the date down.\nTwo months.\nSeems small — but it was the product of a decision made every day."
       },
       {
         "text": "Feels like there's still so far to go",
-        "result_text": "Still so far to go.\nBut you held yesterday and today.\n'Still so far' doesn't mean giving up.\nIt means you're still going."
+        "result_text": "Still so far to go.\nBut you held yesterday and today.\n'Still so far' doesn't mean giving up."
       }
     ]
   },
@@ -171,11 +171,11 @@
     "choices": [
       {
         "text": "Book an appointment right now",
-        "result_text": "You booked it.\nThe doctor said 'Why did it take this long?'\nDelaying twice had made it worse.\nNo third time."
+        "result_text": "You booked it.\nThe doctor said 'Why did it take this long?'\nDelaying twice had made it worse."
       },
       {
         "text": "Hold out a bit longer",
-        "result_text": "You held out.\nA week later it got worse.\nSome things aren't about toughness.\nYour body says things louder when you ignore them."
+        "result_text": "You held out.\nA week later it got worse.\nSome things aren't about toughness."
       }
     ]
   },
@@ -186,11 +186,11 @@
     "choices": [
       {
         "text": "\"That's great. Really.\"",
-        "result_text": "'Really glad,' you said.\nThey said 'Thanks for not judging and waiting.'\nNot judging while waiting — had made this call possible."
+        "result_text": "'Really glad,' you said.\nThey said 'Thanks for not judging and waiting.'"
       },
       {
         "text": "\"That's amazing. How did you do it?\"",
-        "result_text": "They talked for a long time.\nThe story of holding on alone through the hardest of it.\nEvery person recovers differently."
+        "result_text": "They talked for a long time.\nThe story of holding on alone through the hardest of it."
       }
     ]
   },
@@ -201,11 +201,11 @@
     "choices": [
       {
         "text": "Sign up for insurance first on the next place too",
-        "result_text": "You put insurance registration as the first item on the list.\nA policy costing tens of thousands protected hundreds of millions.\nInsurance wasn't a cost — it was the cover charge."
+        "result_text": "You put insurance registration as the first item on the list.\nA policy costing tens of thousands protected hundreds of millions."
       },
       {
         "text": "What a relief. I got lucky.",
-        "result_text": "Lucky.\nBut it wasn't luck — it was preparation.\nWhen preparation feels like luck — that's the best kind of preparation."
+        "result_text": "Lucky.\nBut it wasn't luck — it was preparation."
       }
     ]
   },
@@ -216,11 +216,11 @@
     "choices": [
       {
         "text": "Go a little closer to Gangnam",
-        "result_text": "It cost more.\nBut that neighborhood — would put the goal in sight every day.\nEnvironment pulls your direction."
+        "result_text": "It cost more.\nBut that neighborhood — would put the goal in sight every day."
       },
       {
         "text": "Now is the time to save",
-        "result_text": "You went further out.\nYou'd save more.\nWhere you live matters less than what you're doing — and that comes first."
+        "result_text": "You went further out.\nYou'd save more."
       }
     ]
   }

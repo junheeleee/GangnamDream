@@ -10,7 +10,7 @@
       },
       {
         "text": "Watch the river, steady the heart again",
-        "result_text": "The river reaches the sea without rushing.\n\n{name} leaned on the railing and watched it a long while.\nHow to set down urgency — this river taught it every time."
+        "result_text": "The river reaches the sea without rushing.\n\n{name} leaned on the railing and watched it a long while."
       }
     ]
   },
@@ -25,7 +25,7 @@
       },
       {
         "text": "No going back now — eyes forward",
-        "result_text": "Let the longing stay a longing.\n\nThat room was a station passed, not a destination.\n{name} glanced out the window once, then turned back to the desk."
+        "result_text": "Let the longing stay a longing.\n\nThat room was a station passed, not a destination."
       }
     ]
   },
@@ -40,7 +40,7 @@
       },
       {
         "text": "This time, I want to share it with someone",
-        "result_text": "Keeping it private is fine, but joy gets lighter when shared.\n\n{name} looked at the contacts list for a while.\nAs practiced as they'd become at enduring alone, sharing took practice too."
+        "result_text": "Keeping it private is fine, but joy gets lighter when shared.\n\n{name} looked at the contacts list for a while."
       }
     ]
   },
@@ -55,7 +55,7 @@
       },
       {
         "text": "Just this far for now — take it slow",
-        "result_text": "'Yeah, you can tell me slowly.'\n\nDae-un didn't push.\nSomeone who stays close without needing to see everything. {name} was grateful for that."
+        "result_text": "'Yeah, you can tell me slowly.'\n\nDae-un didn't push."
       }
     ]
   },
@@ -70,7 +70,7 @@
       },
       {
         "text": "\"I've moved somewhere better now. Come see it.\"",
-        "result_text": "'Yeah? ...you'll have to go see it.'\n\nA faint pride mixed into Dad's voice.\nBecause that room had been shown then, the change now landed more clearly."
+        "result_text": "'Yeah? ...you'll have to go see it.'\n\nA faint pride mixed into Dad's voice."
       }
     ]
   },
@@ -85,7 +85,7 @@
       },
       {
         "text": "\"I can show you now. I've moved somewhere better.\"",
-        "result_text": "'...Yeah. You'd like to see it.'\n\nIn place of the room never shown, there was now a space to be proud of.\nBecause there'd been years of hiding, the present was worth more."
+        "result_text": "'...Yeah. You'd like to see it.'\n\nIn place of the room never shown, there was now a space to be proud of."
       }
     ]
   },
@@ -100,7 +100,7 @@
       },
       {
         "text": "I know now I need to rest more often",
-        "result_text": "That day was recovery, not guilt.\n\n{name} decided not to push so hard.\nTo go all the way, body and mind had to be spent sparingly."
+        "result_text": "That day was recovery, not guilt.\n\n{name} decided not to push so hard."
       }
     ]
   },
@@ -115,7 +115,7 @@
       },
       {
         "text": "Next birthday, a day off is allowed",
-        "result_text": "That day's desperation was necessary. But not every time.\n\n{name} knows now that living a little differently is allowed.\nWith less to prove, there was less need to push so hard."
+        "result_text": "That day's desperation was necessary. But not every time.\n\n{name} knows now that living a little differently is allowed."
       }
     ]
   },
@@ -130,7 +130,7 @@
       },
       {
         "text": "This time alone is fine — I've grown sturdier",
-        "result_text": "Back then, anyone would do. Now, alone is bearable.\n\nThe strength to endure loneliness had grown a little.\n{name} set down the phone and let the solitary time simply pass."
+        "result_text": "Back then, anyone would do. Now, alone is bearable.\n\nThe strength to endure loneliness had grown a little."
       }
     ]
   },
@@ -145,7 +145,7 @@
       },
       {
         "text": "Now I think of someone to walk with",
-        "result_text": "Grown used to walking alone, but sometimes wished someone were beside them.\n\nWatching the river, {name} briefly pictured who they'd walk this path with once it was over.\nGrowing sturdy alone and walking together weren't a contradiction."
+        "result_text": "Grown used to walking alone, but sometimes wished someone were beside them.\n\nWatching the river, {name} briefly pictured who they'd walk this path with once it was over."
       }
     ]
   },
@@ -160,7 +160,7 @@
       },
       {
         "text": "Trust the test results — pace it, no overreach",
-        "result_text": "Thanks to that checkup, {name} knows their own condition.\n\nInstead of running blindly, they found a sustainable speed.\nGoing all the way belongs not to the fast but to those who don't stop."
+        "result_text": "Thanks to that checkup, {name} knows their own condition.\n\nInstead of running blindly, they found a sustainable speed."
       }
     ]
   },
@@ -175,7 +175,7 @@
       },
       {
         "text": "Just a little more — rest properly when it's over",
-        "result_text": "Put it off again. Because the finish line is in sight.\n\nBut it was 'just a little more' that time too.\n{name} made the same choice knowingly, just hoping the body would hold."
+        "result_text": "Put it off again. Because the finish line is in sight.\n\nBut it was 'just a little more' that time too."
       }
     ]
   },
@@ -190,7 +190,7 @@
       },
       {
         "text": "\"I wished someone would've asked me back then too.\"",
-        "result_text": "'...So you went through that too, hyung.'\n\nThere are people who give what they never received.\n{name} learned, from Hyun-su's words, that they'd become one of them."
+        "result_text": "'...So you went through that too, hyung.'\n\nThere are people who give what they never received."
       }
     ]
   },
@@ -205,7 +205,7 @@
       },
       {
         "text": "Sometimes I'm curious — but I still don't look",
-        "result_text": "There was curiosity. But {name} knows its cost too.\n\nAfter a brief hesitation, they set the phone down.\nOnce it's all over, reconnecting with the world then wouldn't be too late."
+        "result_text": "There was curiosity. But {name} knows its cost too.\n\nAfter a brief hesitation, they set the phone down."
       }
     ]
   }

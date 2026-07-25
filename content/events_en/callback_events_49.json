@@ -6,11 +6,11 @@
     "choices": [
       {
         "text": "Even now — my rhythm is my pace",
-        "result_text": "Copying someone else's routine doesn't last.\n\n{name} found a rhythm that fit, and it ultimately took them farther.\nGodsaeng wasn't for show — it was lived quietly."
+        "result_text": "Copying someone else's routine doesn't last.\n\n{name} found a rhythm that fit."
       },
       {
         "text": "Add good habits that fit my pace",
-        "result_text": "Keep your pace, but adopt what's good.\n\n{name} rejected the trend yet picked out what was usable.\nWithout mimicking others' ways, they still learned what was worth learning."
+        "result_text": "Keep your pace, but adopt what's good.\n\n{name} rejected the trend yet picked out what was usable."
       }
     ]
   },
@@ -25,7 +25,7 @@
       },
       {
         "text": "Even for show — it beat doing nothing",
-        "result_text": "Even if motivation came from outside, there were days it got them moving.\n\n{name} acknowledged the account served as a primer.\nEven if it started as show, it was enough if it became a habit."
+        "result_text": "Even if motivation came from outside, there were days it got them moving.\n\n{name} acknowledged the account served as a primer."
       }
     ]
   },
@@ -40,7 +40,7 @@
       },
       {
         "text": "Rest — but without guilt",
-        "result_text": "Being anxious while resting was the biggest problem.\n\n{name} now knows how to truly rest when resting.\nOnly guilt-free rest became real recovery."
+        "result_text": "Being anxious while resting was the biggest problem.\n\n{name} now knows how to truly rest when resting."
       }
     ]
   },
@@ -55,7 +55,7 @@
       },
       {
         "text": "Keep optimizing — but build in recovery time",
-        "result_text": "Pursuing efficiency isn't bad itself. Missing recovery was the problem.\n\n{name} added rest as a variable in the system.\nFinally found the balance between grinding and sustaining."
+        "result_text": "Pursuing efficiency isn't bad itself. Missing recovery was the problem.\n\n{name} added rest as a variable in the system."
       }
     ]
   },
@@ -70,7 +70,7 @@
       },
       {
         "text": "Now — I've graduated from extreme frugality",
-        "result_text": "A life policed to the last won doesn't last.\n\n{name} moved past that stage to balanced spending.\nThat room ironically taught that saving is a means, not an end."
+        "result_text": "A life policed to the last won doesn't last.\n\n{name} moved past that stage to balanced spending."
       }
     ]
   },
@@ -85,7 +85,7 @@
       },
       {
         "text": "Maybe such nudges help sometimes — check in",
-        "result_text": "Solo restraint can slacken sometimes.\n\n{name} checked whether their saving had grown lax.\nLeaving the room didn't mean quitting saving."
+        "result_text": "Solo restraint can slacken sometimes.\n\n{name} checked whether their saving had grown lax."
       }
     ]
   },
@@ -100,7 +100,7 @@
       },
       {
         "text": "Reference info — but the final call is mine",
-        "result_text": "No need to ignore all information, but blind faith is dangerous.\n\n{name} learned to filter and verify information.\nNot entrusting your money to others' certainty — that was the first principle."
+        "result_text": "No need to ignore all information, but blind faith is dangerous.\n\n{name} learned to filter and verify information."
       }
     ]
   },
@@ -115,7 +115,7 @@
       },
       {
         "text": "Verify what's verifiable — and seize good chances",
-        "result_text": "Doubt everything and you miss opportunities too.\n\n{name} found the balance between doubt and decision.\nConviction after verification was different from vague fear."
+        "result_text": "Doubt everything and you miss opportunities too.\n\n{name} found the balance between doubt and decision."
       }
     ]
   },
@@ -130,7 +130,7 @@
       },
       {
         "text": "Holding through it — built crisis resilience",
-        "result_text": "Holding at the cliff's edge gave nerve.\n\nThrough that crisis {name} learned the importance of money management down to the bone.\nThe key was not mistaking that nerve for recklessness."
+        "result_text": "Holding at the cliff's edge gave nerve.\n\nThrough that crisis {name} learned the importance of money management down to the bone."
       }
     ]
   },
@@ -145,7 +145,7 @@
       },
       {
         "text": "Now — I use my labor more efficiently",
-        "result_text": "A few thousand won earned in the rain mattered, but now they watch hourly value.\n\n{name} shifted toward raising the unit price of labor.\nThe same hours, spent differently, ultimately made the gap."
+        "result_text": "A few thousand won earned in the rain mattered, but now they watch hourly value.\n\n{name} shifted toward raising the unit price of labor."
       }
     ]
   },
@@ -160,7 +160,7 @@
       },
       {
         "text": "Cautious — but balance so as not to miss chances",
-        "result_text": "Play it too safe and you miss earning chances too.\n\n{name} honed a sense for weighing risk against reward.\nKnowing when to run and when to stop — that was ultimately skill."
+        "result_text": "Play it too safe and you miss earning chances too.\n\n{name} honed a sense for weighing risk against reward."
       }
     ]
   },
@@ -175,7 +175,7 @@
       },
       {
         "text": "Check if I paid and never watched",
-        "result_text": "Paying is consumption, not willpower.\n\n{name} honestly reviewed whether they had unwatched courses.\nReal investment wasn't payment — it was completion."
+        "result_text": "Paying is consumption, not willpower.\n\n{name} honestly reviewed whether they had unwatched courses."
       }
     ]
   },
@@ -190,7 +190,7 @@
       },
       {
         "text": "Now I take on a longer habit",
-        "result_text": "Did 30 days, so next is longer.\n\n{name} built greater consistency on the springboard of small success.\nHabit is a system, not willpower — those 30 days taught that."
+        "result_text": "Did 30 days, so next is longer.\n\n{name} built greater consistency on the springboard of small success."
       }
     ]
   },
@@ -205,7 +205,7 @@
       },
       {
         "text": "Seminars are a start — real study was hands-on",
-        "result_text": "What they heard at the seminar was just a map; walking the road was separate.\n\n{name} built real skill by testing classroom knowledge in the market.\nThe gap between learning and practice had to be filled themselves."
+        "result_text": "What they heard at the seminar was just a map; walking the road was separate.\n\n{name} built real skill by testing classroom knowledge in the market."
       }
     ]
   }

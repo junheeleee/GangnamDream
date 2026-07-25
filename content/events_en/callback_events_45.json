@@ -10,7 +10,7 @@
       },
       {
         "text": "Now I do more than just endure",
-        "result_text": "The enduring phase is past.\n\n{name} no longer merely holds on — they design what's next.\nThe first-week self would have been amazed at how far the view had widened."
+        "result_text": "The enduring phase is past.\n\n{name} no longer merely holds on — they design what's next."
       }
     ]
   },
@@ -25,7 +25,7 @@
       },
       {
         "text": "Still, the goal is elsewhere — don't forget",
-        "result_text": "Even if the work is good, this isn't the destination.\n\n{name} decided not to settle into satisfaction.\nWhat you enjoy and where you must go can differ — they remembered that coldly."
+        "result_text": "Even if the work is good, this isn't the destination.\n\n{name} decided not to settle into satisfaction."
       }
     ]
   },
@@ -40,7 +40,7 @@
       },
       {
         "text": "Re-examine whether that doubt was right",
-        "result_text": "Neither ignoring doubt nor being swept by it is the answer.\n\n{name} turned the doubt into data and checked it.\nFinding answers by numbers, not emotion — that first week taught it."
+        "result_text": "Neither ignoring doubt nor being swept by it is the answer.\n\n{name} turned the doubt into data and checked it."
       }
     ]
   },
@@ -55,7 +55,7 @@
       },
       {
         "text": "Now I watch risk over speed",
-        "result_text": "At first, believed rolling it all was the answer.\n\nNow knows not losing matters as much as gaining.\n{name}'s investing had matured from offense to balance."
+        "result_text": "At first, believed rolling it all was the answer.\n\nNow knows not losing matters as much as gaining."
       }
     ]
   },
@@ -70,7 +70,7 @@
       },
       {
         "text": "The job's still a safety net — watch the balance",
-        "result_text": "Sought another direction, but didn't carelessly toss the net underfoot.\n\n{name} planned what's next from atop the foundation of a job.\nTaking risk and being reckless are different."
+        "result_text": "Sought another direction, but didn't carelessly toss the net underfoot.\n\n{name} planned what's next from atop the foundation of a job."
       }
     ]
   },
@@ -81,11 +81,11 @@
     "choices": [
       {
         "text": "A stop-loss isn't defeat — it's discipline",
-        "result_text": "Most people hold on trying not to lose, and lose more.\n\nThe discipline learned at the first stop-loss saved {name} several times.\nKnowing when to cut was a surviving investor's first condition."
+        "result_text": "Most people hold on trying not to lose, and lose more.\n\nThe discipline learned at the first stop-loss saved {name} several times."
       },
       {
         "text": "This time, set the stop-loss line in advance",
-        "result_text": "Cut by emotion and you're always late.\n\n{name} drew the exit line before entering.\nThe first stop-loss's pain was tuition that built a principle."
+        "result_text": "Cut by emotion and you're always late.\n\n{name} drew the exit line before entering."
       }
     ]
   },
@@ -100,7 +100,7 @@
       },
       {
         "text": "Holding and stubbornness differ — recheck the basis",
-        "result_text": "Holding blindly is gambling.\n\n{name} first re-examined whether the original reason for buying still held.\nIf the basis lives, hold; if it's broken, cut. That was the difference."
+        "result_text": "Holding blindly is gambling.\n\n{name} first re-examined whether the original reason for buying still held."
       }
     ]
   },
@@ -115,7 +115,7 @@
       },
       {
         "text": "This time, choose the stop-loss over averaging down",
-        "result_text": "Catch a falling knife and you only cut your hand.\n\n{name} knows the sweet temptation of averaging down. So they guarded against it more.\nThat earlier lesson made a different choice today."
+        "result_text": "Catch a falling knife and you only cut your hand.\n\n{name} knows the sweet temptation of averaging down. So they guarded against it more."
       }
     ]
   },
@@ -130,7 +130,7 @@
       },
       {
         "text": "Cut the reckless all-nighters now — watch efficiency",
-        "result_text": "All-nighters powered by desperation were needed, but can't last forever.\n\n{name} began to value quality of time over quantity.\nTo go long, you learn to warm rather than burn."
+        "result_text": "All-nighters powered by desperation were needed, but can't last forever.\n\n{name} began to value quality of time over quantity."
       }
     ]
   },
@@ -145,7 +145,7 @@
       },
       {
         "text": "Beyond records — design the next year",
-        "result_text": "Didn't stop at writing down the road traveled.\n\n{name} used that data to plan the next year's strategy.\nRecords were both a summary of the past and a map of the future."
+        "result_text": "Didn't stop at writing down the road traveled.\n\n{name} used that data to plan the next year's strategy."
       }
     ]
   },
@@ -160,7 +160,7 @@
       },
       {
         "text": "Ferocity alone won't last — pace it sustainably",
-        "result_text": "Early explosive drive was needed. But five years isn't a sprint.\n\n{name} converted ferocity into a sustainable pace.\nGoing all the way belongs not to the fastest but to those who don't stop."
+        "result_text": "Early explosive drive was needed. But five years isn't a sprint.\n\n{name} converted ferocity into a sustainable pace."
       }
     ]
   },
@@ -175,7 +175,7 @@
       },
       {
         "text": "Now I look past the job — to the next stage",
-        "result_text": "Even a job used as a base must one day be graduated from.\n\n{name} didn't forget the job was a tool, not a purpose.\nOnce sturdy enough, the time comes to move to the next stage."
+        "result_text": "Even a job used as a base must one day be graduated from.\n\n{name} didn't forget the job was a tool, not a purpose."
       }
     ]
   },
@@ -190,7 +190,7 @@
       },
       {
         "text": "Move big but not recklessly — calculate",
-        "result_text": "Ambition is good, but ambition without calculation is gambling.\n\n{name} balanced 'bigger' against 'smarter.'\nThe bigger the move, the more firmly you must watch your footing."
+        "result_text": "Ambition is good, but ambition without calculation is gambling.\n\n{name} balanced 'bigger' against 'smarter.'"
       }
     ]
   },
@@ -205,7 +205,7 @@
       },
       {
         "text": "Inwardly — no longer bound to the job alone",
-        "result_text": "A loyal employee on the surface, a person heading toward their own goal underneath.\n\n{name} ran that dual track more skillfully now.\nKeep the job — but don't mortgage your life to it."
+        "result_text": "A loyal employee on the surface, a person heading toward their own goal underneath.\n\n{name} ran that dual track more skillfully now."
       }
     ]
   }

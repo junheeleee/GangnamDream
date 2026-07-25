@@ -6,11 +6,11 @@
     "choices": [
       {
         "text": "Keep going",
-        "result_text": "100 people.\nThe number looked small — but it had been zero when you started.\nA hundred people were actually reading — for the first time, that felt real."
+        "result_text": "100 people.\nThe number looked small — but it had been zero when you started."
       },
       {
         "text": "The pace feels too slow",
-        "result_text": "It felt slow.\nBut 100 in two months — wasn't actually bad.\nThe value of having started isn't measured by comparison — it's measured by direction."
+        "result_text": "It felt slow.\nBut 100 in two months — wasn't actually bad."
       }
     ]
   },
@@ -21,11 +21,11 @@
     "choices": [
       {
         "text": "Check the first earnings",
-        "result_text": "A small amount.\nBut it was the first money earned from content.\nJust like the first paycheck means something — this was a first too."
+        "result_text": "A small amount.\nBut it was the first money earned from content."
       },
       {
         "text": "Think about scaling it",
-        "result_text": "You thought about growing it.\nThat might be right.\nBut first — this first earning deserved to be felt."
+        "result_text": "You thought about growing it.\nThat might be right."
       }
     ]
   },
@@ -36,11 +36,11 @@
     "choices": [
       {
         "text": "Prepare what comes next",
-        "result_text": "The heat had cooled.\nViral is a moment — what comes after is skill.\nOne piece that landed big — means nothing without the next."
+        "result_text": "The heat had cooled.\nViral is a moment — what comes after is skill."
       },
       {
         "text": "Try to go viral again",
-        "result_text": "You tried to aim for it.\nViral doesn't come from aiming.\nConsistency is the only way to make the next one happen."
+        "result_text": "You tried to aim for it.\nViral doesn't come from aiming."
       }
     ]
   },
@@ -51,11 +51,11 @@
     "choices": [
       {
         "text": "Sign the contract",
-        "result_text": "You signed.\nThe first hard part of freelancing — is getting through the uneven stretch.\nThis one client got you over that."
+        "result_text": "You signed.\nThe first hard part of freelancing — is getting through the uneven stretch."
       },
       {
         "text": "Check the terms first",
-        "result_text": "You looked at the terms first.\nThey were fine.\nYou signed.\nWhat an independent person has to learn — is how to read terms."
+        "result_text": "You looked at the terms first.\nThey were fine.\nYou signed."
       }
     ]
   },
@@ -66,11 +66,11 @@
     "choices": [
       {
         "text": "Decide to invest",
-        "result_text": "You decided to go in.\nThe studying had made the judgment possible.\nUnderstanding something yourself before going in — that's the difference."
+        "result_text": "You decided to go in.\nThe studying had made the judgment possible."
       },
       {
         "text": "Keep studying",
-        "result_text": "You decided to keep studying.\nFeeling like you could judge — might be the middle, not the end.\nWhen you think you understand — questioning that once more is also part of studying."
+        "result_text": "You decided to keep studying.\nFeeling like you could judge — might be the middle, not the end."
       }
     ]
   },
@@ -81,11 +81,11 @@
     "choices": [
       {
         "text": "Check the return",
-        "result_text": "In the green.\nA small gain — but the direction was right.\nThe power of putting in consistently — isn't easy to see over a short period."
+        "result_text": "In the green.\nA small gain — but the direction was right."
       },
       {
         "text": "Stay in even if it's negative",
-        "result_text": "In the red.\nBut you didn't stop.\nETFs are built by time, not timing.\nBeing negative now — is part of that time."
+        "result_text": "In the red.\nBut you didn't stop.\nETFs are built by time, not timing."
       }
     ]
   },
@@ -96,11 +96,11 @@
     "choices": [
       {
         "text": "The information was right",
-        "result_text": "It was right.\nBut information you paid for — could have legal exposure.\nA good outcome doesn't justify the method."
+        "result_text": "It was right.\nBut information you paid for — could have legal exposure."
       },
       {
         "text": "The information was wrong",
-        "result_text": "It was wrong.\nMoney lost, and the information was bad.\nPaying for information from an unknown source — was already a loss before the outcome."
+        "result_text": "It was wrong.\nMoney lost, and the information was bad."
       }
     ]
   },
@@ -111,11 +111,11 @@
     "choices": [
       {
         "text": "Good call to report it",
-        "result_text": "It was handled.\nReporting hadn't been the easy choice.\nBut what's right — is different from what's easy."
+        "result_text": "It was handled.\nReporting hadn't been the easy choice."
       },
       {
         "text": "Had wondered if it was worth the trouble",
-        "result_text": "You'd worried about it.\nBut the result came in.\nIt resolved in the right direction.\nWorrying is natural — what matters is that it didn't stop the right call."
+        "result_text": "You'd worried about it.\nBut the result came in.\nIt resolved in the right direction."
       }
     ]
   },
@@ -126,11 +126,11 @@
     "choices": [
       {
         "text": "Knowing helped",
-        "result_text": "Because you knew — you saw this differently.\nOpening the USB had given you information.\nInformation changes based on how it's used."
+        "result_text": "Because you knew — you saw this differently.\nOpening the USB had given you information."
       },
       {
         "text": "Wish you hadn't known",
-        "result_text": "You wished you hadn't opened it.\nKnowing isn't always lighter.\nHaving found out — now you have to decide what to do with it."
+        "result_text": "You wished you hadn't opened it.\nKnowing isn't always lighter."
       }
     ]
   },
@@ -141,11 +141,11 @@
     "choices": [
       {
         "text": "Not yet",
-        "result_text": "Not yet.\nExpected — but confirming it felt heavy.\nCredit collapses in a day — and takes years to rebuild."
+        "result_text": "Not yet.\nExpected — but confirming it felt heavy."
       },
       {
         "text": "Check the recovery pace",
-        "result_text": "Recovery was underway.\nSlowly.\nBut if the direction is right — slow isn't wrong."
+        "result_text": "Recovery was underway.\nSlowly."
       }
     ]
   },
@@ -156,11 +156,11 @@
     "choices": [
       {
         "text": "The line had an effect",
-        "result_text": "It worked.\nDrawing a line — is telling the other side where you stand.\nWhat happens after you draw it — is the real test of its power."
+        "result_text": "It worked.\nDrawing a line — is telling the other side where you stand."
       },
       {
         "text": "They ignored the line",
-        "result_text": "They ignored it.\nDrawing a line doesn't change the situation on its own.\nAfter the line — action is what comes next."
+        "result_text": "They ignored it.\nDrawing a line doesn't change the situation on its own."
       }
     ]
   },
@@ -171,11 +171,11 @@
     "choices": [
       {
         "text": "Hold back this time",
-        "result_text": "You held back.\nThe last FOMO investment had taught you.\nAtmosphere is not a reason to invest — you'd learned that in your body."
+        "result_text": "You held back.\nThe last FOMO investment had taught you."
       },
       {
         "text": "Go in again",
-        "result_text": "You went in again.\n'This time is different' — that was what you'd thought last time.\nWhen FOMO becomes a habit — every time feels different."
+        "result_text": "You went in again.\n'This time is different' — that was what you'd thought last time."
       }
     ]
   },
@@ -186,11 +186,11 @@
     "choices": [
       {
         "text": "Say hello warmly",
-        "result_text": "You said hello.\nThey still remembered.\nSomeone who received help — remembers. For a long time."
+        "result_text": "You said hello.\nThey still remembered."
       },
       {
         "text": "Wondered if they'd remember",
-        "result_text": "They remembered.\nSomeone whose name you hadn't known — had turned into a connection.\nThe reach of a kind act is wider than you'd think."
+        "result_text": "They remembered.\nSomeone whose name you hadn't known — had turned into a connection."
       }
     ]
   },
@@ -201,11 +201,11 @@
     "choices": [
       {
         "text": "Be honest with them",
-        "result_text": "You were straight with them.\nThe promotion had made this conversation possible.\nMoving up brings more responsibility. This colleague is part of that responsibility."
+        "result_text": "You were straight with them.\nThe promotion had made this conversation possible."
       },
       {
         "text": "Share your approach",
-        "result_text": "You shared how you'd done it.\nHaving gotten there the orthodox way — means the method can be repeated.\nThat's why it can be shared."
+        "result_text": "You shared how you'd done it.\nHaving gotten there the orthodox way — means the method can be repeated."
       }
     ]
   },
@@ -216,11 +216,11 @@
     "choices": [
       {
         "text": "Apply",
-        "result_text": "You applied.\nThe certification had opened a door.\nGetting it had felt abstract at the time — but doors show up in unexpected places."
+        "result_text": "You applied.\nThe certification had opened a door."
       },
       {
         "text": "Check that you meet the other requirements first",
-        "result_text": "You checked the rest of the requirements.\nYou qualified.\nYou applied.\nA prepared person recognizing an opportunity — is the same as an opportunity finding a prepared person."
+        "result_text": "You checked the rest of the requirements.\nYou qualified.\nYou applied."
       }
     ]
   }

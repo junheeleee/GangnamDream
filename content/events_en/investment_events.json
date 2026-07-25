@@ -24,12 +24,12 @@
     "description": "1 AM. Crypto futures profit screenshots are flooding the group chat.\n'200% in one hour', 'This actually works.'\n\nEveryone who knows is already in — or so the word goes.\n10x leverage, 100,000 won margin to get 1 million won exposure.\n{name}'s fingers hover over the screen.\nThe exchange app download button is right there.",
     "choices": [
       {
-        "text": "Quietly close the position. Lock in profit.",
-        "result_text": "Coolheadedly locked in the gain. Resisting greed is the hardest investment skill of all."
+        "text": "Do not install the exchange app",
+        "result_text": "You closed the download page and muted the group chat.\nAt 2 AM, your hand reached for the screen again, but the app was not there."
       },
       {
-        "text": "Look away. Close the app.",
-        "result_text": "Tuned it out — but the unease didn't settle easily. A night of wavering."
+        "text": "Close the chat but leave the download page open",
+        "result_text": "You closed only the group chat.\nThe download button remained open in the browser."
       },
       {
         "text": "Full leverage. All in.",

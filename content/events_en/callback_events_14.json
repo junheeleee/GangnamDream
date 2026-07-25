@@ -6,11 +6,11 @@
     "choices": [
       {
         "text": "Hear the result",
-        "result_text": "The person received a disciplinary action.\n'Thank you for reporting it,' they said.\nBeing recognized for doing the right thing — wasn't always how it went.\nThis time it was."
+        "result_text": "The person received a disciplinary action.\n'Thank you for reporting it,' they said.\nBeing recognized for doing the right thing — wasn't always how it went."
       },
       {
         "text": "Just quietly check the outcome",
-        "result_text": "You confirmed the outcome.\nSomething had changed.\nReporting had been the right call — confirmed."
+        "result_text": "You confirmed the outcome.\nSomething had changed."
       }
     ]
   },
@@ -21,11 +21,11 @@
     "choices": [
       {
         "text": "It was right to hold it",
-        "result_text": "Holding out had been right.\nStaying clean isn't losing an opportunity — it's waiting for a better one.\nNow you understood the difference."
+        "result_text": "Holding out had been right.\nStaying clean isn't losing an opportunity — it's waiting for a better one."
       },
       {
         "text": "Partly feels like luck",
-        "result_text": "Partly luck.\nBut that luck only became luck because you'd held the line.\nChoice creates luck."
+        "result_text": "Partly luck.\nBut that luck only became luck because you'd held the line."
       }
     ]
   },
@@ -36,11 +36,11 @@
     "choices": [
       {
         "text": "Try to contain the damage",
-        "result_text": "You tried to contain it.\nCouldn't fully undo it.\nCrossing a line once — the repair cost is higher than what you gained.\nYou learned that now."
+        "result_text": "You tried to contain it.\nCouldn't fully undo it.\nCrossing a line once — the repair cost is higher than what you gained."
       },
       {
         "text": "Admit it and try to correct it",
-        "result_text": "You admitted it.\nThe other party said 'Better that you told me directly.'\nAdmitting the compromise — was the way to stop a second one."
+        "result_text": "You admitted it.\nThe other party said 'Better that you told me directly.'"
       }
     ]
   },
@@ -51,7 +51,7 @@
     "choices": [
       {
         "text": "Check the result",
-        "result_text": "[Resolved]\nThe outcome arrived.\nThe formal process took time — but it worked.\nGoing by the book looks slow — but it doesn't collapse."
+        "result_text": "[Resolved]\nThe outcome arrived.\nThe formal process took time — but it worked."
       }
     ]
   },
@@ -62,11 +62,11 @@
     "choices": [
       {
         "text": "\"Yes — what's this about?\"",
-        "result_text": "An invitation to a tournament.\nBecoming a regular had opened a new door.\nGoing often had quietly become a network."
+        "result_text": "An invitation to a tournament.\nBecoming a regular had opened a new door."
       },
       {
         "text": "\"How did you get my number?\" — cautious",
-        "result_text": "You were wary.\nThey said 'The pub owner gave it.'\nBeing cautious wasn't wrong.\nChecking was the better move."
+        "result_text": "You were wary.\nThey said 'The pub owner gave it.'\nBeing cautious wasn't wrong."
       }
     ]
   },
@@ -77,11 +77,11 @@
     "choices": [
       {
         "text": "Walk past",
-        "result_text": "You kept walking.\nWithout the rule — you'd have gone in.\nA rule is for keeping when the urge hits.\nYou kept it."
+        "result_text": "You kept walking.\nWithout the rule — you'd have gone in.\nA rule is for keeping when the urge hits."
       },
       {
         "text": "Once is fine",
-        "result_text": "You went in.\nTwo hours passed.\nThe rule broke.\nYou'd need a stronger reason next time."
+        "result_text": "You went in.\nTwo hours passed.\nThe rule broke."
       }
     ]
   },
@@ -92,11 +92,11 @@
     "choices": [
       {
         "text": "\"Not really. I just had a rule.\"",
-        "result_text": "'I just had a line I'd set,' you said.\nThey replied 'That's exactly what takes something.'\nHaving a rule — was the rarest thing at a poker table."
+        "result_text": "'I just had a line I'd set,' you said.\nThey replied 'That's exactly what takes something.'"
       },
       {
         "text": "\"Did I? I just wasn't lucky that day.\"",
-        "result_text": "'Just wasn't my lucky day,' you said.\nThey said '...That's actually scarier to hear.'\nCalling it luck — creates the illusion luck will come next time."
+        "result_text": "'Just wasn't my lucky day,' you said.\nThey said '...That's actually scarier to hear.'"
       }
     ]
   },
@@ -107,11 +107,11 @@
     "choices": [
       {
         "text": "Just one. Don't let it become a habit.",
-        "result_text": "You bought one.\n5,000 won brought 1,000 won profit.\nOne ticket was the standard.\nA fifth-place win shouldn't lead to five more tickets."
+        "result_text": "You bought one.\n5,000 won brought 1,000 won profit.\nOne ticket was the standard."
       },
       {
         "text": "Maybe I should buy more this time",
-        "result_text": "You bought five.\nAll blanks.\nThe 5th prize win — made you buy five more.\nA small win building larger expectations — that's how gambling is designed."
+        "result_text": "You bought five.\nAll blanks.\nThe 5th prize win — made you buy five more."
       }
     ]
   },
@@ -122,11 +122,11 @@
     "choices": [
       {
         "text": "It went into savings",
-        "result_text": "You'd saved it.\nThe number was still there.\nEven small luck — stays differently depending on what you do with it."
+        "result_text": "You'd saved it.\nThe number was still there."
       },
       {
         "text": "Can't remember. Must've spent it somewhere.",
-        "result_text": "You couldn't remember.\nYou'd spent it somewhere.\nThe small win — had drifted away without leaving a trace.\nNothing remained."
+        "result_text": "You couldn't remember.\nYou'd spent it somewhere.\nThe small win — had drifted away without leaving a trace."
       }
     ]
   },
@@ -137,11 +137,11 @@
     "choices": [
       {
         "text": "Take it calmly",
-        "result_text": "You just said 'Thank you.'\nSomeone said 'Honestly — that's the hardest part.'\nThe orthodox path — looks ordinary but staying on it is the hard part."
+        "result_text": "You just said 'Thank you.'\nSomeone said 'Honestly — that's the hardest part.'"
       },
       {
         "text": "Say it was just doing the job",
-        "result_text": "'I was just doing the work,' you said.\nThey smiled.\nBeing unfazed about it — was itself an impression."
+        "result_text": "'I was just doing the work,' you said.\nThey smiled."
       }
     ]
   },
@@ -152,11 +152,11 @@
     "choices": [
       {
         "text": "Open up about what's been on your mind",
-        "result_text": "You talked for an hour.\nThey said 'If I'd made that choice back then — things would have been different.'\nThe weight in a failed person's words — different from the advice of someone who only succeeded."
+        "result_text": "You talked for an hour.\nThey said 'If I'd made that choice back then — things would have been different.'"
       },
       {
         "text": "\"Doing well\" is all you say",
-        "result_text": "'Doing well,' you said.\nThey replied 'Good to hear.'\nLeaving things unsaid at a table where you could have said them — you'd feel that later."
+        "result_text": "'Doing well,' you said.\nThey replied 'Good to hear.'"
       }
     ]
   },
@@ -167,11 +167,11 @@
     "choices": [
       {
         "text": "Make the suggestion from that angle",
-        "result_text": "You made the suggestion.\nThe team lead said 'Where did that come from?'\nThinking like a founder — showed up at the conference table.\nThought creates action."
+        "result_text": "You made the suggestion.\nThe team lead said 'Where did that come from?'\nThinking like a founder — showed up at the conference table."
       },
       {
         "text": "Just listen quietly",
-        "result_text": "You listened quietly.\nA point you'd have missed before was visible now.\nEven without speaking — what you saw had changed."
+        "result_text": "You listened quietly.\nA point you'd have missed before was visible now."
       }
     ]
   },
@@ -182,11 +182,11 @@
     "choices": [
       {
         "text": "You're out — and it's better",
-        "result_text": "You got out.\nSomething heavy became lighter.\nLeaving a relationship isn't always running away.\nThis time — it wasn't."
+        "result_text": "You got out.\nSomething heavy became lighter.\nLeaving a relationship isn't always running away."
       },
       {
         "text": "Didn't fully get out",
-        "result_text": "You didn't fully leave.\nThere were reasons.\nHaving reasons for something and it being good — those aren't the same."
+        "result_text": "You didn't fully leave.\nThere were reasons."
       }
     ]
   },
@@ -197,11 +197,11 @@
     "choices": [
       {
         "text": "Stay with it",
-        "result_text": "The suit was moving forward.\nAlone, you'd have given up.\nPeople who've been through the same thing together — that creates something you don't have alone."
+        "result_text": "The suit was moving forward.\nAlone, you'd have given up."
       },
       {
         "text": "It takes a lot of energy. Pull back a little.",
-        "result_text": "You pulled back.\nYou were starting to drain.\nJoining was right — but protecting yourself while staying was also a way to be there."
+        "result_text": "You pulled back.\nYou were starting to drain."
       }
     ]
   },
@@ -212,11 +212,11 @@
     "choices": [
       {
         "text": "Refuse and get out",
-        "result_text": "You refused.\nGetting out wasn't easy.\nWhat it cost to leave — you only learned when you tried to leave.\nGoing in had been expensive."
+        "result_text": "You refused.\nGetting out wasn't easy.\nWhat it cost to leave — you only learned when you tried to leave."
       },
       {
         "text": "Just this once",
-        "result_text": "You did it.\nIt wasn't just once.\n'Just once' doesn't apply in this world."
+        "result_text": "You did it.\nIt wasn't just once."
       }
     ]
   }

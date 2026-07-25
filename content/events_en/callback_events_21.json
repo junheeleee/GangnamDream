@@ -6,11 +6,11 @@
     "choices": [
       {
         "text": "Good call to refuse",
-        "result_text": "It had dropped hard.\nRefusing had been right.\nBut it was a gut call at the time, not information.\nWhen a gut call is right — trusting a principle is more repeatable than trusting the gut."
+        "result_text": "It had dropped hard.\nRefusing had been right.\nBut it was a gut call at the time, not information."
       },
       {
         "text": "Check how it played out",
-        "result_text": "Up then down.\nDeclining had worked out in the end — but it was refusing to participate, not timing the exit.\nRefusing to participate — is the most reliable method."
+        "result_text": "Up then down.\nDeclining had worked out in the end — but it was refusing to participate, not timing the exit."
       }
     ]
   },
@@ -21,11 +21,11 @@
     "choices": [
       {
         "text": "Hear what happened",
-        "result_text": "'Good thing I listened to you,' they said.\nYou remembered how they'd been annoyed when you stopped them.\nSaying the uncomfortable thing — that's what a real friend does."
+        "result_text": "'Good thing I listened to you,' they said.\nYou remembered how they'd been annoyed when you stopped them."
       },
       {
         "text": "Don't say \"I told you so\"",
-        "result_text": "You didn't gloat.\nThey said 'Thanks.'\nProving you were right — isn't for the friend."
+        "result_text": "You didn't gloat.\nThey said 'Thanks.'"
       }
     ]
   },
@@ -36,11 +36,11 @@
     "choices": [
       {
         "text": "Turn it down",
-        "result_text": "You declined.\nAfter a big win — the urge to sit back down is at its strongest.\nThat's exactly when to be most careful."
+        "result_text": "You declined.\nAfter a big win — the urge to sit back down is at its strongest."
       },
       {
         "text": "Just once more",
-        "result_text": "You sat.\nThis time was different.\nSitting down after a big win — means going in already behind."
+        "result_text": "You sat.\nThis time was different."
       }
     ]
   },
@@ -51,11 +51,11 @@
     "choices": [
       {
         "text": "Turn it down",
-        "result_text": "You declined.\nQuitting starts with not answering these messages.\nThe decision to quit matters less than the choices made after."
+        "result_text": "You declined.\nQuitting starts with not answering these messages."
       },
       {
         "text": "Go just to watch",
-        "result_text": "You went just to watch.\nYou didn't sit.\nBut breathing that air again — made the next time harder to refuse."
+        "result_text": "You went just to watch.\nYou didn't sit."
       }
     ]
   },
@@ -66,11 +66,11 @@
     "choices": [
       {
         "text": "Don't go this time",
-        "result_text": "You didn't go.\nThe memory of chasing the loss — stopped you this time.\nA bad experience becoming a lesson — is when it gets used next time."
+        "result_text": "You didn't go.\nThe memory of chasing the loss — stopped you this time."
       },
       {
         "text": "This time is different",
-        "result_text": "You went.\n'This time is different' —\nyou only remembered you'd said that last time after you sat down."
+        "result_text": "You went.\n'This time is different.' You had said the same thing last time."
       }
     ]
   },
@@ -81,11 +81,11 @@
     "choices": [
       {
         "text": "Put it to good use",
-        "result_text": "You'd used it well.\nWinfall money — leaves something when it's used for something real.\nMoney won by luck stays when it isn't bet on luck again."
+        "result_text": "You'd used it well.\nWinfall money — leaves something when it's used for something real."
       },
       {
         "text": "The urge to bet again had been there",
-        "result_text": "The urge had been there.\nYou'd put some back in.\nPutting winnings back in — is the fastest way to give them back."
+        "result_text": "The urge had been there.\nYou'd put some back in."
       }
     ]
   },
@@ -96,11 +96,11 @@
     "choices": [
       {
         "text": "Good call to refuse",
-        "result_text": "Things hadn't gone well for them.\nRefusing had been right.\nThe awkwardness of declining — is easier than what would have come from co-signing badly."
+        "result_text": "Things hadn't gone well for them.\nRefusing had been right."
       },
       {
         "text": "Still thinking about the relationship",
-        "result_text": "Still on your mind.\nBut the outcome had been right.\nRefusing to guarantee someone — is choosing substance over the relationship."
+        "result_text": "Still on your mind.\nBut the outcome had been right."
       }
     ]
   },
@@ -111,11 +111,11 @@
     "choices": [
       {
         "text": "Check what it says",
-        "result_text": "A missed payment notice.\nThe moment you signed — their credit became yours.\nOnly co-sign when you're ready to pay for them."
+        "result_text": "A missed payment notice.\nThe moment you signed — their credit became yours."
       },
       {
         "text": "Call them first",
-        "result_text": "You called first.\nNo answer.\nBeing a guarantor doesn't end at signing — it has to be managed.\nNo answer is already a signal."
+        "result_text": "You called first.\nNo answer.\nBeing a guarantor doesn't end at signing — it has to be managed."
       }
     ]
   },
@@ -126,11 +126,11 @@
     "choices": [
       {
         "text": "The neighbor didn't have it",
-        "result_text": "The neighbor hadn't gotten insurance.\nWhen the landlord issue came up, the difference showed.\nInsurance earns its worth when you don't need it — not using it is the good outcome."
+        "result_text": "The neighbor hadn't gotten insurance.\nWhen the landlord issue came up, the difference showed."
       },
       {
         "text": "Feel relief",
-        "result_text": "You felt relief.\nYou'd thought the premium was a waste at times.\nThe best insurance is the kind you never have to use — you understood that now."
+        "result_text": "You felt relief.\nYou'd thought the premium was a waste at times."
       }
     ]
   },
@@ -141,11 +141,11 @@
     "choices": [
       {
         "text": "Find out what it's about",
-        "result_text": "They said returning the deposit would be difficult.\nNot getting insurance — was exactly for this moment.\nThe hassle you avoided — has come back as a fight."
+        "result_text": "They said returning the deposit would be difficult.\nNot getting insurance — was exactly for this moment."
       },
       {
         "text": "Start dealing with it now",
-        "result_text": "You moved fast to respond.\nNo insurance meant fighting it yourself.\nHassle vs. fighting — you know now which one was worse."
+        "result_text": "You moved fast to respond.\nNo insurance meant fighting it yourself."
       }
     ]
   },
@@ -156,11 +156,11 @@
     "choices": [
       {
         "text": "Answer it",
-        "result_text": "You answered.\nNothing much said.\nJust a check-in.\nAfter the silence that followed the refusal — she was the one who broke it."
+        "result_text": "You answered.\nNothing much said.\nJust a check-in."
       },
       {
         "text": "Still not sure how to be with them",
-        "result_text": "Still felt uncomfortable.\nThe refusal might have been right.\nBut the discomfort in the relationship — that's a separate thing that needs its own work."
+        "result_text": "Still felt uncomfortable.\nThe refusal might have been right."
       }
     ]
   },
@@ -171,7 +171,7 @@
     "choices": [
       {
         "text": "Hear what they have to say",
-        "result_text": "'I appreciate you being honest with me,' they said.\nNot a reprimand.\nThe confession had built trust.\nThe position the honesty made — is sturdier than the one the exaggeration made."
+        "result_text": "'I appreciate you being honest with me,' they said.\nNot a reprimand.\nThe confession had built trust."
       }
     ]
   },
@@ -182,11 +182,11 @@
     "choices": [
       {
         "text": "See what they're saying",
-        "result_text": "'That was cool — the way you were just straight about it,' they said.\nThe honesty — had become an impression.\nPutting the exaggeration down — turned out to be the more memorable thing."
+        "result_text": "'That was cool — the way you were just straight about it,' they said.\nThe honesty — had become an impression."
       },
       {
         "text": "Answer warmly",
-        "result_text": "You answered warmly.\nBeing honest that night — had made this message happen.\nHonesty looks like a loss in the short term — but leaves the strongest impression long term."
+        "result_text": "You answered warmly.\nBeing honest that night — had made this message happen."
       }
     ]
   },
@@ -197,11 +197,11 @@
     "choices": [
       {
         "text": "See what it is",
-        "result_text": "A small piece of good luck.\nWhether it was connected to the wallet — impossible to say.\nBut doing right things accumulates — not just in results, but in the person you become."
+        "result_text": "A small piece of good luck.\nWhether it was connected to the wallet — impossible to say."
       },
       {
         "text": "Just a good day",
-        "result_text": "Just a good day.\nReturning the wallet hadn't been about getting something back.\nYou still remembered that."
+        "result_text": "Just a good day.\nReturning the wallet hadn't been about getting something back."
       }
     ]
   },
@@ -212,11 +212,11 @@
     "choices": [
       {
         "text": "Return it this time",
-        "result_text": "You returned it this time.\nThe lingering guilt from last time had stayed with you.\nThat unease — had made this choice."
+        "result_text": "You returned it this time.\nThe lingering guilt from last time had stayed with you."
       },
       {
         "text": "Keep it again",
-        "result_text": "You kept it again.\nWhat you've done once is easier the second time.\nAnd the third time is easier still."
+        "result_text": "You kept it again.\nWhat you've done once is easier the second time."
       }
     ]
   }

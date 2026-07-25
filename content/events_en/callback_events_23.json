@@ -6,11 +6,11 @@
     "choices": [
       {
         "text": "Don't answer",
-        "result_text": "You didn't pick up.\nBeing used once had sharpened your judgment.\nBeing fooled twice is different from being fooled once."
+        "result_text": "You didn't pick up.\nBeing used once had sharpened your judgment."
       },
       {
         "text": "Hear what he has to say",
-        "result_text": "You listened.\nIt wasn't an apology.\nIt was another proposal.\nPeople who use others just change their methods."
+        "result_text": "You listened.\nIt wasn't an apology.\nIt was another proposal."
       }
     ]
   },
@@ -21,11 +21,11 @@
     "choices": [
       {
         "text": "Speak your mind honestly",
-        "result_text": "You told him straight.\nJaehyuk paused to think.\n\"That's a fair point,\" he said.\nFor a partnership to mean something, both sides have to be able to be honest."
+        "result_text": "You told him straight.\nJaehyuk paused to think.\n\"That's a fair point,\" he said."
       },
       {
         "text": "Defer to Jaehyuk's judgment",
-        "result_text": "You left it to him.\nHe decided.\nIf you never voice your opinion in a partnership, you end up just going along."
+        "result_text": "You left it to him.\nHe decided."
       }
     ]
   },
@@ -36,11 +36,11 @@
     "choices": [
       {
         "text": "Find out what happened",
-        "result_text": "You couldn't tell whether the deal had worked out or not.\nBut the feeling that you were right to say no was still there.\nSome refusals are right even without a clear outcome."
+        "result_text": "You couldn't tell whether the deal had worked out or not.\nBut the feeling that you were right to say no was still there."
       },
       {
         "text": "Don't give it a second thought",
-        "result_text": "You let it go.\nHowever things turned out on Jaehyuk's side—that's the story after you said no.\nA refusal doesn't have to follow what comes next."
+        "result_text": "You let it go.\nHowever things turned out on Jaehyuk's side—that's the story after you said no."
       }
     ]
   },
@@ -51,11 +51,11 @@
     "choices": [
       {
         "text": "Go through the process",
-        "result_text": "You followed the proper steps.\nIt was complicated.\nBut letting it go could have cost even more in the long run.\nFighting back after being scammed prevents the next scam."
+        "result_text": "You followed the proper steps.\nIt was complicated.\nBut letting it go could have cost even more in the long run."
       },
       {
         "text": "Weigh whether it's worth the cost and energy",
-        "result_text": "You considered dropping it.\nThe lawyer said, \"This might not be just your problem.\"\nThey meant there could be other victims."
+        "result_text": "You considered dropping it.\nThe lawyer said, \"This might not be just your problem.\""
       }
     ]
   },
@@ -66,11 +66,11 @@
     "choices": [
       {
         "text": "Answer warmly",
-        "result_text": "You answered warmly.\nJiyeon said, \"Nothing special—have you eaten?\"\nA casual message like that is what being together actually looks like."
+        "result_text": "You answered warmly.\nJiyeon said, \"Nothing special—have you eaten?\""
       },
       {
         "text": "Stop asking why she's calling first",
-        "result_text": "You just picked up.\nJiyeon laughed. \"You always used to ask what was up.\"\nBeing together means being able to call for no reason."
+        "result_text": "You just picked up.\nJiyeon laughed. \"You always used to ask what was up.\""
       }
     ]
   },
@@ -81,11 +81,11 @@
     "choices": [
       {
         "text": "Answer",
-        "result_text": "You picked up.\nJiyeon asked, \"Was it okay that I called back then?\"\n\"It was fine,\" you said.\nYou'd become the kind of people who could reach out first."
+        "result_text": "You picked up.\nJiyeon asked, \"Was it okay that I called back then?\"\n\"It was fine,\" you said."
       },
       {
         "text": "Try contacting her first this time",
-        "result_text": "You reached out first.\nShe picked up right away.\nSomeone who's been the first to receive a call knows how to make one."
+        "result_text": "You reached out first.\nShe picked up right away."
       }
     ]
   },
@@ -96,11 +96,11 @@
     "choices": [
       {
         "text": "Think it through with her",
-        "result_text": "You thought it through with her.\nDaeun said, \"It's nice doing this kind of thing together.\"\nBeing together was confirmed in those few words."
+        "result_text": "You thought it through with her.\nDaeun said, \"It's nice doing this kind of thing together.\""
       },
       {
         "text": "Just listen",
-        "result_text": "You listened.\nDaeun said, \"Thanks. I feel better having said it.\"\nBeing there doesn't have to mean fixing things."
+        "result_text": "You listened.\nDaeun said, \"Thanks. I feel better having said it.\""
       }
     ]
   },
@@ -111,11 +111,11 @@
     "choices": [
       {
         "text": "Be genuinely glad for her",
-        "result_text": "You were glad for her.\nGenuinely.\nWhen you end things not out of bitterness, the other person's happiness becomes something real to celebrate."
+        "result_text": "You were glad for her.\nGenuinely."
       },
       {
         "text": "Still feel complicated about it",
-        "result_text": "You still felt complicated.\nBut knowing she was happy—that didn't feel bad.\nComplicated feelings and being glad for someone can exist at the same time."
+        "result_text": "You still felt complicated.\nBut knowing she was happy—that didn't feel bad."
       }
     ]
   },
@@ -126,11 +126,11 @@
     "choices": [
       {
         "text": "Say hello naturally",
-        "result_text": "You said hello naturally.\nShe did too.\nLetting go had made this naturalness possible.\nIf you'd held on by force, there'd be no greeting like this."
+        "result_text": "You said hello naturally.\nShe did too.\nLetting go had made this naturalness possible."
       },
       {
         "text": "Make eye contact but walk past",
-        "result_text": "You walked past.\nIt felt like the right call.\nLetting go also means being able to pass each other without stopping."
+        "result_text": "You walked past.\nIt felt like the right call."
       }
     ]
   },
@@ -141,11 +141,11 @@
     "choices": [
       {
         "text": "Check the results",
-        "result_text": "It worked.\nThe feeling when the numbers lined up—not intuition, but logic actually operating.\nChoosing the quant path found its meaning in this moment."
+        "result_text": "It worked.\nThe feeling when the numbers lined up—not intuition, but logic actually operating."
       },
       {
         "text": "Refine it further",
-        "result_text": "You refined it more.\nOne success doesn't mean the algorithm is finished.\nThe quant path has no end—that's the nature of the field."
+        "result_text": "You refined it more.\nOne success doesn't mean the algorithm is finished."
       }
     ]
   },
@@ -156,11 +156,11 @@
     "choices": [
       {
         "text": "Came out profitable",
-        "result_text": "You were in the green.\nBut the stress had piled up alongside the gains.\nSpeculation—the results look fine, but the process is a different story."
+        "result_text": "You were in the green.\nBut the stress had piled up alongside the gains."
       },
       {
         "text": "Came out at a loss",
-        "result_text": "You were in the red.\nChoosing this track meant accepting losses like this.\nYou should have known what you were accepting when you chose it."
+        "result_text": "You were in the red.\nChoosing this track meant accepting losses like this."
       }
     ]
   },
@@ -171,11 +171,11 @@
     "choices": [
       {
         "text": "Meet them in person",
-        "result_text": "You met them.\nIt was the first time you'd seen someone using it rather than building it.\nYou had a user—the track had finally begun."
+        "result_text": "You met them.\nIt was the first time you'd seen someone using it rather than building it."
       },
       {
         "text": "Ask how they found it",
-        "result_text": "You asked how they'd heard about it.\n\"Just stumbled across it,\" they said.\nJust stumbled across it—that's the most honest answer a first user can give."
+        "result_text": "You asked how they'd heard about it.\n\"Just stumbled across it,\" they said."
       }
     ]
   },
@@ -186,11 +186,11 @@
     "choices": [
       {
         "text": "Keep going",
-        "result_text": "You kept going.\nAs long as the money comes in—you keep going.\nStopping is usually not a choice. It's an accident."
+        "result_text": "You kept going.\nAs long as the money comes in—you keep going."
       },
       {
         "text": "You can still stop here",
-        "result_text": "You stopped.\nThe unease had made you stop.\nConscience speaks slowly—but it always speaks eventually."
+        "result_text": "You stopped.\nThe unease had made you stop."
       }
     ]
   },
@@ -201,11 +201,11 @@
     "choices": [
       {
         "text": "Find out what happened",
-        "result_text": "It blew up.\nIf you'd taken that money, you'd have gone down with it.\nYou were right to say no.\nThe regret reads differently now."
+        "result_text": "It blew up.\nIf you'd taken that money, you'd have gone down with it.\nYou were right to say no."
       },
       {
         "text": "Still feel the regret",
-        "result_text": "Maybe it wouldn't have blown up.\nYou still felt the sting.\nBut you'd already said no.\nYou'd already put yourself on the line with that choice."
+        "result_text": "Maybe it wouldn't have blown up.\nYou still felt the sting.\nBut you'd already said no."
       }
     ]
   }

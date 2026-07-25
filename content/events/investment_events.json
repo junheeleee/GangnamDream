@@ -65,26 +65,24 @@
     "cooldown": 12,
     "choices": [
       {
-        "text": "조용히 정리했다",
+        "text": "거래소 앱을 설치하지 않는다",
         "effects": {
-          "money": 380000,
-          "investment_skill": -2,
+          "investment_skill": 2,
           "tint": 2
         },
-        "result_text": "냉정하게 수익을 확정했다. 욕심을 참는 것이 가장 어려운 투자 기술이다."
+        "result_text": "다운로드 창을 닫고 단톡방 알림도 껐다.\n새벽 두 시, 손은 다시 화면을 찾았지만 앱은 없었다."
       },
       {
-        "text": "모른 척 창을 닫는다",
+        "text": "단톡방만 닫고 다운로드 창은 남겨둔다",
         "effects": {
           "mental": 3,
           "tint": 1
         },
-        "result_text": "유혹을 외면했지만 불안감은 쉽게 가시지 않는다. 마음이 흔들리는 밤이다."
+        "result_text": "단톡방만 닫았다.\n다운로드 버튼은 브라우저에 그대로 남아 있었다."
       },
       {
         "text": "레버리지 풀베팅을 건다",
         "effects": {
-          "reputation": 3,
           "investment_skill": -1,
           "addiction_tendency": 15,
           "tint": -3

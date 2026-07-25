@@ -10,7 +10,7 @@
       },
       {
         "text": "Now, sometimes — spend on myself too",
-        "result_text": "Hold back everything and something eventually bursts.\n\n{name} learned the balance between restraint and reward.\nTo finish five years, you have to allow yourself small things sometimes."
+        "result_text": "Hold back everything and something eventually bursts.\n\n{name} learned the balance between restraint and reward."
       }
     ]
   },
@@ -25,7 +25,7 @@
       },
       {
         "text": "A bank balance reassures more than memories — restraint now",
-        "result_text": "That rationalization wasn't always right.\n\n{name} decided not to hide behind 'experience is an asset.'\nThe real asset was a balance edging closer to the goal."
+        "result_text": "That rationalization wasn't always right.\n\n{name} decided not to hide behind 'experience is an asset.'"
       }
     ]
   },
@@ -40,7 +40,7 @@
       },
       {
         "text": "Check whether I only regretted and repeated",
-        "result_text": "Regret and change are different.\n\n{name} honestly examined whether they'd only repeated vows.\nWhat truly changed wasn't the count of vows, but the results of actions."
+        "result_text": "Regret and change are different.\n\n{name} honestly examined whether they'd only repeated vows."
       }
     ]
   },
@@ -55,7 +55,7 @@
       },
       {
         "text": "Goal first for now — think about it after",
-        "result_text": "No need to decide everything at once.\n\n{name} decided to focus on the current goal first.\nLife's big decisions aren't too late to face once there's some room."
+        "result_text": "No need to decide everything at once.\n\n{name} decided to focus on the current goal first."
       }
     ]
   },
@@ -70,7 +70,7 @@
       },
       {
         "text": "Enough, yes — but sometimes I miss company",
-        "result_text": "Alone being enough didn't mean needing no one.\n\n{name} acknowledged both self-sufficiency and the longing for connection.\nThe two weren't a contradiction, but two natural sides of a person."
+        "result_text": "Alone being enough didn't mean needing no one.\n\n{name} acknowledged both self-sufficiency and the longing for connection."
       }
     ]
   },
@@ -85,7 +85,7 @@
       },
       {
         "text": "Now I'm unshaken even seeing it — I've grown sturdy",
-        "result_text": "Deleting the app was training, not escape.\n\nNow {name}'s pace doesn't waver even seeing others' boasts.\nPast the avoiding stage, arrived at the stage of being fine facing it."
+        "result_text": "Deleting the app was training, not escape.\n\nNow {name}'s pace doesn't waver even seeing others' boasts."
       }
     ]
   },
@@ -100,7 +100,7 @@
       },
       {
         "text": "I learned to turn comparison into fuel",
-        "result_text": "The same comparison can sink you or lift you.\n\n{name} learned to turn envy into analysis.\nStart asking 'how did they do it?' and comparison becomes study."
+        "result_text": "The same comparison can sink you or lift you.\n\n{name} learned to turn envy into analysis."
       }
     ]
   },
@@ -115,7 +115,7 @@
       },
       {
         "text": "More than the item — the sense of achievement was real",
-        "result_text": "More than the luxury itself, the fact of having come far enough to buy it was bigger.\n\n{name} also knows an item's satisfaction is short.\nThe real reward was in the journey, not the bank account."
+        "result_text": "More than the luxury itself, the fact of having come far enough to buy it was bigger.\n\n{name} also knows an item's satisfaction is short."
       }
     ]
   },
@@ -130,7 +130,7 @@
       },
       {
         "text": "Now — if I truly want it, I can buy it",
-        "result_text": "Always holding back isn't the answer.\n\n{name} now knows how to spend on what's truly wanted.\nRestraint and stinginess differ. Spending with discernment was a skill too."
+        "result_text": "Always holding back isn't the answer.\n\n{name} now knows how to spend on what's truly wanted."
       }
     ]
   },
@@ -145,7 +145,7 @@
       },
       {
         "text": "My turn comes too — quietly prepare",
-        "result_text": "Instead of envying now, build silently.\n\n{name} knows it's a time to prepare, not to show off.\nWhen the quiet accumulation ends, it shows without needing to boast."
+        "result_text": "Instead of envying now, build silently.\n\n{name} knows it's a time to prepare, not to show off."
       }
     ]
   },
@@ -160,7 +160,7 @@
       },
       {
         "text": "It stings less now — because I see my path",
-        "result_text": "Before, another's car stung. Now less so.\n\nThe clearer one's own path, the less others' speed mattered.\n{name} knows that change is itself growth."
+        "result_text": "Before, another's car stung. Now less so.\n\nThe clearer one's own path, the less others' speed mattered."
       }
     ]
   },
@@ -175,7 +175,7 @@
       },
       {
         "text": "Now I know how to rest more cheaply too",
-        "result_text": "You can rest without a hotel.\n\n{name} learned to recover spending less.\nThe essence of rest wasn't the place, but the heart that pauses for a moment."
+        "result_text": "You can rest without a hotel.\n\n{name} learned to recover spending less."
       }
     ]
   },
@@ -186,11 +186,11 @@
     "choices": [
       {
         "text": "Still proud — it's strategy, not penny-pinching",
-        "result_text": "Frugality for a goal is nothing to be ashamed of.\n\nEven if others see penny-pinching, {name} knows it's their own choice.\nProud frugality was the mark of someone unshaken."
+        "result_text": "Frugality for a goal is nothing to be ashamed of.\n\nEven if others see penny-pinching, {name} knows it's their own choice."
       },
       {
         "text": "No need to explain — show it with results",
-        "result_text": "The more you explain, the more it sounds like an excuse.\n\n{name} decided to prove it with results instead of words.\nOnce arrived, what the frugality was for becomes clear without saying."
+        "result_text": "The more you explain, the more it sounds like an excuse.\n\n{name} decided to prove it with results instead of words."
       }
     ]
   },
@@ -205,7 +205,7 @@
       },
       {
         "text": "Now I pick my tables — not every seat is the answer",
-        "result_text": "Not every networking table helps.\n\n{name} learned to tell which to attend and which to skip.\nTime is an asset too, so where to spend it was itself strategy."
+        "result_text": "Not every networking table helps.\n\n{name} learned to tell which to attend and which to skip."
       }
     ]
   }

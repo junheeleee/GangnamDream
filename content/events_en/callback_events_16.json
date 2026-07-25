@@ -6,11 +6,11 @@
     "choices": [
       {
         "text": "\"Yeah. Glad it worked out.\"",
-        "result_text": "You heard what happened after.\nHolding back had been right.\nResisting greed — is the most reliable way to avoid a loss."
+        "result_text": "You heard what happened after.\nHolding back had been right."
       },
       {
         "text": "\"I did think about how nice it would've been if it worked.\"",
-        "result_text": "'I thought about it too,' you said.\nThey said 'Even if it worked, you'd have gone all in next round.'\nThe greed you held back once — helped you hold it the next time."
+        "result_text": "'I thought about it too,' you said.\nThey said 'Even if it worked, you'd have gone all in next round.'"
       }
     ]
   },
@@ -21,11 +21,11 @@
     "choices": [
       {
         "text": "Talk naturally",
-        "result_text": "It was natural.\nThe relief showed — in this conversation.\nCarrying guilt makes conversation awkward.\nAfter resolution, it's lighter."
+        "result_text": "It was natural.\nThe relief showed — in this conversation.\nCarrying guilt makes conversation awkward."
       },
       {
         "text": "Bring up that incident one more time",
-        "result_text": "\"I still think about what happened then,\" you said.\nThey said 'Me too.'\nEven after resolution — what's worth remembering, stays."
+        "result_text": "\"I still think about what happened then,\" you said.\nThey said 'Me too.'"
       }
     ]
   },
@@ -36,11 +36,11 @@
     "choices": [
       {
         "text": "Build on the connection",
-        "result_text": "You met.\nWhat started at a cafe — had traveled here.\nPeople connect through people."
+        "result_text": "You met.\nWhat started at a cafe — had traveled here."
       },
       {
         "text": "Look into who they are first",
-        "result_text": "You looked into them first.\nTrustworthy route.\nYou met.\nVerifying first was right."
+        "result_text": "You looked into them first.\nTrustworthy route.\nYou met."
       }
     ]
   },
@@ -51,11 +51,11 @@
     "choices": [
       {
         "text": "It was the right time to sell",
-        "result_text": "It had gone up further — then dropped by half.\nSelling when you did was right.\nThe timing of holding back greed — proved itself in results.\nThe rule was right."
+        "result_text": "It had gone up further — then dropped by half.\nSelling when you did was right.\nThe timing of holding back greed — proved itself in results."
       },
       {
         "text": "The higher it went, the more I feel I missed",
-        "result_text": "You thought about the higher prices.\nBut the lower ones were visible too.\nSelling at the top was luck.\nSelling by principle — that could be used next time."
+        "result_text": "You thought about the higher prices.\nBut the lower ones were visible too.\nSelling at the top was luck."
       }
     ]
   },
@@ -66,11 +66,11 @@
     "choices": [
       {
         "text": "\"That's a relief. Really.\"",
-        "result_text": "'Really glad,' you said.\nThe friend replied 'Thanks for back then.'\nTrying to stop someone risks making things awkward.\nStopping them anyway — had been right."
+        "result_text": "'Really glad,' you said.\nThe friend replied 'Thanks for back then.'\nTrying to stop someone risks making things awkward."
       },
       {
         "text": "\"You just got lucky.\"",
-        "result_text": "'You got lucky,' you said.\nThey replied 'No — you read it right.'\nThere are times when refusing the gratitude isn't humility — it's not good manners."
+        "result_text": "'You got lucky,' you said.\nThey replied 'No — you read it right.'"
       }
     ]
   },
@@ -81,11 +81,11 @@
     "choices": [
       {
         "text": "Write it off as tuition and move on",
-        "result_text": "You moved on.\nYou wrote down how much you'd lost.\nFor this to be tuition — you couldn't go in the same way again.\nThe record became a brake."
+        "result_text": "You moved on.\nYou wrote down how much you'd lost.\nFor this to be tuition — you couldn't go in the same way again."
       },
       {
         "text": "Try to recover it",
-        "result_text": "You looked for recovery.\nLooking for it in the same place — became the same approach.\nRecovery had to come from somewhere else."
+        "result_text": "You looked for recovery.\nLooking for it in the same place — became the same approach."
       }
     ]
   },
@@ -96,7 +96,7 @@
     "choices": [
       {
         "text": "Go in with some nerves",
-        "result_text": "The team lead said 'I appreciated you telling me honestly.'\nNot a reprimand.\nThe confession had built trust.\nHonesty had made a more solid footing than the exaggeration."
+        "result_text": "The team lead said 'I appreciated you telling me honestly.'\nNot a reprimand.\nThe confession had built trust."
       }
     ]
   },
@@ -107,11 +107,11 @@
     "choices": [
       {
         "text": "Come clean now",
-        "result_text": "You told the truth.\nThe team lead's expression was hard.\n'Why didn't you say so sooner,' they said.\nThe bigger the lie stacks — the harder it is to tell the truth.\nAnd the harder it gets — the sooner it should have been said."
+        "result_text": "You told the truth.\nThe team lead's expression was hard.\n'Why didn't you say so sooner,' they said.\nThe bigger the lie stacks — the harder it is to tell the truth."
       },
       {
         "text": "Keep denying it",
-        "result_text": "You denied it.\nThey produced the evidence.\nLies always get found out.\nThe finding out isn't the problem — everything stacked before that was."
+        "result_text": "You denied it.\nThey produced the evidence.\nLies always get found out."
       }
     ]
   },
@@ -122,11 +122,11 @@
     "choices": [
       {
         "text": "Hear what he has to say",
-        "result_text": "Jaehyuk said 'I'm glad you asked directly.'\nWhispering behind someone's back — talking to their face kept the relationship intact."
+        "result_text": "Jaehyuk said 'I'm glad you asked directly.'"
       },
       {
         "text": "Ask first: \"Something you want to say?\"",
-        "result_text": "You said 'Is there something you want to tell me?'\nHe said 'Yeah — it's about back then.'\nAsking directly — had made him come directly."
+        "result_text": "You said 'Is there something you want to tell me?'\nHe said 'Yeah — it's about back then.'"
       }
     ]
   },
@@ -137,11 +137,11 @@
     "choices": [
       {
         "text": "Just listen",
-        "result_text": "You listened.\nJaehyuk was the same.\nCutting things off had been confirmed as right.\nBreaking takes pain — but what comes after proves it."
+        "result_text": "You listened.\nJaehyuk was the same.\nCutting things off had been confirmed as right."
       },
       {
         "text": "\"Can we not talk about him?\"",
-        "result_text": "'Let's not,' you said.\nThey said 'Okay.'\nCutting it was cutting it.\nNot even the updates were needed."
+        "result_text": "'Let's not,' you said.\nThey said 'Okay.'\nCutting it was cutting it."
       }
     ]
   },
@@ -152,11 +152,11 @@
     "choices": [
       {
         "text": "Analyze and buy",
-        "result_text": "You stopped and analyzed.\nThe outcome was good.\nHolding up against impulse — that was what the habit was really for.\nHabit beat emotion."
+        "result_text": "You stopped and analyzed.\nThe outcome was good.\nHolding up against impulse — that was what the habit was really for."
       },
       {
         "text": "Go with gut this time",
-        "result_text": "You went with gut.\nThe outcome was uncertain.\nBut breaking a habit once — made it easier to break the next time."
+        "result_text": "You went with gut.\nThe outcome was uncertain."
       }
     ]
   },
@@ -167,11 +167,11 @@
     "choices": [
       {
         "text": "Close it",
-        "result_text": "You closed it.\nAds always said 'This time it's an opportunity.'\nSometimes they were right.\nBut when they were wrong, what you lost — was bigger than what you'd gain when right."
+        "result_text": "You closed it.\nAds always said 'This time it's an opportunity.'\nSometimes they were right."
       },
       {
         "text": "At least look at the content",
-        "result_text": "You looked.\nIt sounded plausible.\nPlausible was what made it dangerous.\nYou closed it."
+        "result_text": "You looked.\nIt sounded plausible.\nPlausible was what made it dangerous."
       }
     ]
   },
@@ -182,11 +182,11 @@
     "choices": [
       {
         "text": "Act on that lesson",
-        "result_text": "You stopped.\nYou pulled out when you had enough.\nA lesson is for using when the same moment returns.\nThis was that moment."
+        "result_text": "You stopped.\nYou pulled out when you had enough.\nA lesson is for using when the same moment returns."
       },
       {
         "text": "\"This time is different.\"",
-        "result_text": "You said 'This time is different.'\nEveryone who'd ever said that — had seen the same ending.\nThe lesson stayed as memory only."
+        "result_text": "You said 'This time is different.'\nEveryone who'd ever said that — had seen the same ending."
       }
     ]
   },
@@ -197,11 +197,11 @@
     "choices": [
       {
         "text": "Check on the remaining stake",
-        "result_text": "You reviewed it.\nThe exited portion was locked in — the rest needed watching.\nPartial cash-out had reduced anxiety and sharpened judgment."
+        "result_text": "You reviewed it.\nThe exited portion was locked in — the rest needed watching."
       },
       {
         "text": "Good news — better to hold more",
-        "result_text": "You decided to hold more.\nThe founder's optimism had colored your judgment.\nGood news is exactly when you need to stay cold — you'd forgotten that."
+        "result_text": "You decided to hold more.\nThe founder's optimism had colored your judgment."
       }
     ]
   }

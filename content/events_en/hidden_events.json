@@ -139,7 +139,7 @@
     "choices": [
       {
         "text": "Analyze the announcement and adjust related assets",
-        "result_text": "You read the policy text carefully and reworked your portfolio. Reading the news fast is the skill of staying ahead of the market."
+        "result_text": "You read the policy text carefully and reworked your portfolio.\nYou left the related tickers open and waited for the next announcement."
       },
       {
         "text": "Tune it out and carry on as usual",
@@ -147,7 +147,7 @@
       },
       {
         "text": "Dive boldly into the policy-beneficiary stocks",
-        "result_text": "You read the policy direction and bet boldly. The key is moving before the news breaks."
+        "result_text": "You bought the stocks expected to benefit from the policy.\nYou could not turn off the breaking-news alerts until the market closed."
       }
     ]
   },
@@ -436,7 +436,7 @@
     "choices": [
       {
         "text": "Decide to ride it. The chance is now.",
-        "result_text": "You put in 3 million won.\n\nThe first two days it rose. You thought you'd called it right.\nThe next week a correction came.\n\nThe group chat went quiet.\nNobody posts screenshots of their losses.\n\nFOMO runs both ways.\nThe fear of buying in and the fear of falling weighed the same."
+        "result_text": "You put in 300,000 won.\n\nThe first two days it rose. You thought you'd called it right.\nThe next week a correction came.\n\nThe group chat went quiet.\nNobody posts screenshots of their losses.\n\nFOMO runs both ways.\nThe fear of buying in and the fear of falling weighed the same."
       },
       {
         "text": "Just watch. This could be the top.",

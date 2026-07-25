@@ -6,11 +6,11 @@
     "choices": [
       {
         "text": "Meet her",
-        "result_text": "You met.\nThe first meeting after an apology — was different.\nWith the weight lifted — other things filled the space."
+        "result_text": "You met.\nThe first meeting after an apology — was different."
       },
       {
         "text": "Still a bit awkward. Suggest next time.",
-        "result_text": "You said 'Let's meet soon.'\nShe said 'Sure.'\nAwkwardness doesn't go away by avoiding it.\nFacing it was faster."
+        "result_text": "You said 'Let's meet soon.'\nShe said 'Sure.'\nAwkwardness doesn't go away by avoiding it."
       }
     ]
   },
@@ -21,11 +21,11 @@
     "choices": [
       {
         "text": "Hear the proposal",
-        "result_text": "You heard it.\nIt had come through Jiyeon.\nPeople bring people — that's how networks work."
+        "result_text": "You heard it.\nIt had come through Jiyeon."
       },
       {
         "text": "Ask Jiyeon about it first before deciding",
-        "result_text": "You asked Jiyeon first.\nShe replied 'They're trustworthy.'\nTrust comes before information."
+        "result_text": "You asked Jiyeon first.\nShe replied 'They're trustworthy.'"
       }
     ]
   },
@@ -36,11 +36,11 @@
     "choices": [
       {
         "text": "Listen quietly",
-        "result_text": "You listened for a long time.\nJiyeon kept talking — as she talked, more came out.\nTrust takes a long time to build — and a moment to spend.\nThis was that moment."
+        "result_text": "You listened for a long time.\nJiyeon kept talking — as she talked, more came out.\nTrust takes a long time to build — and a moment to spend."
       },
       {
         "text": "Think through it with her",
-        "result_text": "You talked it through together.\nJiyeon said 'There aren't many people I can say this to.'\nTrust means — saying things you don't say to just anyone."
+        "result_text": "You talked it through together.\nJiyeon said 'There aren't many people I can say this to.'"
       }
     ]
   },
@@ -51,11 +51,11 @@
     "choices": [
       {
         "text": "Listen well this time too",
-        "result_text": "You listened.\nJiyeon said, 'Talking to you is easy, oppa.'\nThe first door that opened — calls the next story in."
+        "result_text": "You listened.\nJiyeon said, 'Talking to you is easy, oppa.'"
       },
       {
         "text": "Open up honestly yourself too",
-        "result_text": "You were honest too.\nWhen one side opens — the other does too. That's conversation.\nThe evening stretched on."
+        "result_text": "You were honest too.\nWhen one side opens — the other does too. That's conversation."
       }
     ]
   },
@@ -66,11 +66,11 @@
     "choices": [
       {
         "text": "Continue building this connection",
-        "result_text": "You met again.\nThe introduction through Jiyeon — had continued beyond Jiyeon.\nA good introduction becomes a relationship in its own right."
+        "result_text": "You met again.\nThe introduction through Jiyeon — had continued beyond Jiyeon."
       },
       {
         "text": "Say you're busy this time",
-        "result_text": "'Busy these days,' you said.\nThey understood.\nBut a referred connection — is harder to rebuild once it breaks."
+        "result_text": "'Busy these days,' you said.\nThey understood."
       }
     ]
   },
@@ -81,11 +81,11 @@
     "choices": [
       {
         "text": "Hear it out properly this time",
-        "result_text": "You listened.\nWith actual attention, it was clearer than you'd let it be.\nDeflecting doesn't make it disappear — it comes back."
+        "result_text": "You listened.\nWith actual attention, it was clearer than you'd let it be."
       },
       {
         "text": "Deflect it gently again",
-        "result_text": "You slid past it again.\nJiyeon's expression shifted for a moment.\nShe said 'I see.'\nDeflecting twice — the other side takes that as the answer."
+        "result_text": "You slid past it again.\nJiyeon's expression shifted for a moment.\nShe said 'I see.'"
       }
     ]
   },
@@ -96,11 +96,11 @@
     "choices": [
       {
         "text": "\"Was she? Please pass on my thanks.\"",
-        "result_text": "Jiyeon smiled.\n'I will.'\nA parent's trust — builds the foundation of a relationship."
+        "result_text": "Jiyeon smiled.\n'I will.'"
       },
       {
         "text": "\"That's nice.\" Take it calmly.",
-        "result_text": "You received it calmly.\nJiyeon said 'You're so unfazed.'\nBeing unfazed — you heard later — was what left the bigger impression."
+        "result_text": "You received it calmly.\nJiyeon said 'You're so unfazed.'"
       }
     ]
   },
@@ -111,11 +111,11 @@
     "choices": [
       {
         "text": "Receive it with gratitude",
-        "result_text": "You received it gratefully.\nThe timing of when giving comes back — can't be predicted.\nThat's why you give without calculation — and when it returns, it feels better for it."
+        "result_text": "You received it gratefully.\nThe timing of when giving comes back — can't be predicted."
       },
       {
         "text": "\"You didn't have to.\"",
-        "result_text": "'You didn't need to do this,' you said.\nJiyeon said 'I wanted to.'\n'Needed to' and 'wanted to' — those are different things."
+        "result_text": "'You didn't need to do this,' you said.\nJiyeon said 'I wanted to.'"
       }
     ]
   },
@@ -126,11 +126,11 @@
     "choices": [
       {
         "text": "\"I can come out now. Where are you?\"",
-        "result_text": "You went.\nDaeun said 'You didn't have to come out.'\n'I did,' you said.\nA deepened bond meant — getting this kind of call."
+        "result_text": "You went.\nDaeun said 'You didn't have to come out.'\n'I did,' you said."
       },
       {
         "text": "Listen over the phone",
-        "result_text": "You listened on the phone.\nAn hour passed.\nAt the end Daeun said 'Thank you.'\nBeing there takes different forms."
+        "result_text": "You listened on the phone.\nAn hour passed.\nAt the end Daeun said 'Thank you.'"
       }
     ]
   },
@@ -141,11 +141,11 @@
     "choices": [
       {
         "text": "\"Sure.\" Reply right away.",
-        "result_text": "You said 'Sure.' right away.\nA third one became real.\nThree times — wasn't coincidence anymore."
+        "result_text": "You said 'Sure.' right away.\nA third one became real."
       },
       {
         "text": "\"Let me check my schedule and get back to you.\"",
-        "result_text": "You checked.\nYou were free.\nYou replied.\nGoing slow is still going."
+        "result_text": "You checked.\nYou were free.\nYou replied."
       }
     ]
   },
@@ -156,11 +156,11 @@
     "choices": [
       {
         "text": "\"It wasn't easy to say.\"",
-        "result_text": "Daeun said 'I know. That's what made it good.'\nHonesty done the hard way — stays longer than the easy kind."
+        "result_text": "Daeun said 'I know. That's what made it good.'"
       },
       {
         "text": "\"I just felt like I had to.\"",
-        "result_text": "'I felt like I should say it,' you said.\nDaeun replied 'Not many people are like that.'\nDoing what you're supposed to do — turns out it's not that common."
+        "result_text": "'I felt like I should say it,' you said.\nDaeun replied 'Not many people are like that.'"
       }
     ]
   }

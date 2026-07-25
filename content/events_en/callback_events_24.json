@@ -6,11 +6,11 @@
     "choices": [
       {
         "text": "Mix in actively",
-        "result_text": "You mingled.\nThe way they spoke and carried themselves was different.\nThe standards that form inside this circle—you have to know them to survive on this track."
+        "result_text": "You mingled.\nThe way they spoke and carried themselves was different."
       },
       {
         "text": "Observe",
-        "result_text": "You watched.\nHow they talked, what they valued.\nGetting in is harder than staying in."
+        "result_text": "You watched.\nHow they talked, what they valued."
       }
     ]
   },
@@ -21,11 +21,11 @@
     "choices": [
       {
         "text": "Seize the opportunity",
-        "result_text": "You took it.\nThe network track had started delivering.\nThe value of a connection isn't proven when you make it — it's proven when you use it."
+        "result_text": "You took it.\nThe network track had started delivering."
       },
       {
         "text": "Hold out for a better opportunity through a higher-level contact",
-        "result_text": "You waited.\nAlways thinking a better opportunity is coming — that thinking can cost you the one in front of you."
+        "result_text": "You waited."
       }
     ]
   },
@@ -36,11 +36,11 @@
     "choices": [
       {
         "text": "Accept the result as meaningful",
-        "result_text": "You took it as meaningful.\nThe revenue was small.\nBut actually solving a real problem for someone—that was why you chose this track."
+        "result_text": "You took it as meaningful.\nThe revenue was small."
       },
       {
         "text": "Wonder again if this is the right direction",
-        "result_text": "You wondered again.\nCan meaning and survival happen at the same time?\nSocial entrepreneurship — that question is the core of this track."
+        "result_text": "You wondered again.\nCan meaning and survival happen at the same time?"
       }
     ]
   },
@@ -51,11 +51,11 @@
     "choices": [
       {
         "text": "Feel the trust was justified",
-        "result_text": "Jaehyuk had kept the trust.\nSomeone who fully honors complete trust — they're rare.\nJaehyuk was one of them."
+        "result_text": "Jaehyuk had kept the trust.\nSomeone who fully honors complete trust — they're rare."
       },
       {
         "text": "Realize the trust was misplaced",
-        "result_text": "Jaehyuk had been using that trust for his own gain.\nGiving everything — had meant losing everything.\nTrust is something you give after you know the person."
+        "result_text": "Jaehyuk had been using that trust for his own gain.\nGiving everything — had meant losing everything."
       }
     ]
   },
@@ -66,11 +66,11 @@
     "choices": [
       {
         "text": "Answer",
-        "result_text": "You picked up.\nJaehyuk said, \"I'm actually glad you said it to my face.\"\nSometimes standing up to someone doesn't end a relationship — it resets it."
+        "result_text": "You picked up.\nJaehyuk said, \"I'm actually glad you said it to my face.\""
       },
       {
         "text": "Don't answer",
-        "result_text": "You didn't pick up.\nStanding up to him had also meant closing this chapter.\nNot every relationship needs to continue."
+        "result_text": "You didn't pick up.\nStanding up to him had also meant closing this chapter."
       }
     ]
   },
@@ -81,11 +81,11 @@
     "choices": [
       {
         "text": "Answer",
-        "result_text": "You picked up.\nJiyeon asked, \"Are you making good use of it?\"\n\"Yes,\" you said.\nA relationship where money has changed hands — honesty matters even more."
+        "result_text": "You picked up.\nJiyeon asked, \"Are you making good use of it?\"\n\"Yes,\" you said."
       },
       {
         "text": "Say you'll pay it back",
-        "result_text": "You said you'd pay it back.\nJiyeon went quiet for a moment.\nBeing the first to say you'll repay a debt — can also mean you want to settle the relationship."
+        "result_text": "You said you'd pay it back.\nJiyeon went quiet for a moment."
       }
     ]
   },
@@ -96,11 +96,11 @@
     "choices": [
       {
         "text": "Say it was the right call",
-        "result_text": "You said it was.\nDaeun asked, \"Was it hard back then?\"\nWhether a choice was right — doesn't show right after. It takes time."
+        "result_text": "You said it was.\nDaeun asked, \"Was it hard back then?\""
       },
       {
         "text": "Acknowledge the complicated feelings",
-        "result_text": "You said it was complicated.\nDaeun nodded.\nA relationship where you can talk about the complexity of a choice — that's a real one."
+        "result_text": "You said it was complicated.\nDaeun nodded."
       }
     ]
   },
@@ -111,11 +111,11 @@
     "choices": [
       {
         "text": "Take it naturally",
-        "result_text": "You took it in stride.\n\"We\" — it means more when the other person says it first.\nYour commitment had built that word."
+        "result_text": "You took it in stride.\n\"We\" — it means more when the other person says it first."
       },
       {
         "text": "Hold onto that moment",
-        "result_text": "You held onto it.\nSmall promises, and then \"we.\"\nRelationships aren't built in dramatic moments — they're built in ones like this."
+        "result_text": "You held onto it.\nSmall promises, and then \"we.\""
       }
     ]
   },
@@ -126,11 +126,11 @@
     "choices": [
       {
         "text": "Tell yourself you'll never do that again",
-        "result_text": "You told yourself never again.\nStealing and then gambling — what followed had taught you something.\nReflection is what turns experience into change."
+        "result_text": "You told yourself never again.\nStealing and then gambling — what followed had taught you something."
       },
       {
         "text": "Write it off as the past",
-        "result_text": "You wrote it off.\nBut the past — is what made you who you are now.\nForgetting and overcoming are different things."
+        "result_text": "You wrote it off.\nBut the past — is what made you who you are now."
       }
     ]
   },
@@ -141,11 +141,11 @@
     "choices": [
       {
         "text": "Find some way to give it back",
-        "result_text": "You looked for a way to return it.\nAnonymously if needed.\nEven with a profit — a part of you still felt the original amount needed to go back."
+        "result_text": "You looked for a way to return it.\nAnonymously if needed."
       },
       {
         "text": "Cover it over with the gains",
-        "result_text": "You buried it under the profits.\nBut covering something over doesn't make it disappear.\nGuilt surfaces more when the memory fades — not when it's fresh."
+        "result_text": "You buried it under the profits.\nBut covering something over doesn't make it disappear."
       }
     ]
   },
@@ -156,11 +156,11 @@
     "choices": [
       {
         "text": "Keep going",
-        "result_text": "You kept at it.\nIt started as a muddy beginning — but what mattered in the end was following through.\nAn opportunity belongs to whoever builds on it, regardless of where it started."
+        "result_text": "You kept at it.\nIt started as a muddy beginning — but what mattered in the end was following through."
       },
       {
         "text": "Admit the path now is different from how it began",
-        "result_text": "You admitted it was different.\nHowever it started — where you're standing now is a place you chose to come to."
+        "result_text": "You admitted it was different."
       }
     ]
   },
@@ -171,11 +171,11 @@
     "choices": [
       {
         "text": "Answer honestly",
-        "result_text": "You picked up.\nThe other person knew you'd tried to make amends.\nHow you handle yourself afterward — is what people remember more than the mistake."
+        "result_text": "You picked up.\nThe other person knew you'd tried to make amends."
       },
       {
         "text": "Answer despite the awkwardness",
-        "result_text": "You answered despite the discomfort.\nMaking amends doesn't erase the guilt.\nBut answering while carrying that discomfort — that's what real amends looks like."
+        "result_text": "You answered despite the discomfort.\nMaking amends doesn't erase the guilt."
       }
     ]
   },
@@ -186,11 +186,11 @@
     "choices": [
       {
         "text": "Handle it differently this time",
-        "result_text": "You handled it differently.\nThe humiliation back then had changed how you judged things now.\nThat's how experience gets used — you change when a similar situation comes around."
+        "result_text": "You handled it differently.\nThe humiliation back then had changed how you judged things now."
       },
       {
         "text": "Repeat the same mistake",
-        "result_text": "You made the same mistake again.\nExperience doesn't automatically become a lesson.\nMaking the same mistake twice — means you haven't finished learning from it yet."
+        "result_text": "You made the same mistake again.\nExperience doesn't automatically become a lesson."
       }
     ]
   },
@@ -201,11 +201,11 @@
     "choices": [
       {
         "text": "Say hello warmly",
-        "result_text": "You greeted them warmly.\nThey were glad to see you too.\nEven if you left early — you shared time there.\nThat time is what makes a greeting possible."
+        "result_text": "You greeted them warmly.\nThey were glad to see you too.\nEven if you left early — you shared time there."
       },
       {
         "text": "Walk past awkwardly",
-        "result_text": "You walked past awkwardly.\nLeaving early was still sitting with you.\nOne hello might have been enough to clear the air."
+        "result_text": "You walked past awkwardly.\nLeaving early was still sitting with you."
       }
     ]
   }

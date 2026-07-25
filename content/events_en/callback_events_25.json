@@ -6,11 +6,11 @@
     "choices": [
       {
         "text": "Express gratitude",
-        "result_text": "You thanked them.\nThe owner asked, \"Did things work out?\"\nA small connection — can change the direction of a life."
+        "result_text": "You thanked them.\nThe owner asked, \"Did things work out?\""
       },
       {
         "text": "Catch up",
-        "result_text": "You caught up.\nThe owner said to reach out if there was anything else they could help with.\nConnections don't end with just one encounter."
+        "result_text": "You caught up.\nThe owner said to reach out if there was anything else they could help with."
       }
     ]
   },
@@ -21,11 +21,11 @@
     "choices": [
       {
         "text": "Chat warmly",
-        "result_text": "You had a warm exchange.\nBecoming a regular — means belonging to that space.\nHaving somewhere you belong gives life a sense of stability."
+        "result_text": "You had a warm exchange.\nBecoming a regular — means belonging to that space."
       },
       {
         "text": "Buy quickly today",
-        "result_text": "You were in a hurry.\nThe owner smiled and said, \"Busy day?\" and packed things up for you.\nBeing a regular — means someone looks out for you even on a rushed day."
+        "result_text": "You were in a hurry.\nThe owner smiled and said, \"Busy day?\" and packed things up for you."
       }
     ]
   },
@@ -36,11 +36,11 @@
     "choices": [
       {
         "text": "Take it again",
-        "result_text": "You took it.\nYou adapted faster than the first time.\nSkills learned through the body — accumulate, and the speed changes."
+        "result_text": "You took it.\nYou adapted faster than the first time."
       },
       {
         "text": "Negotiate for better terms this time",
-        "result_text": "You negotiated.\nWith experience behind you, you don't have to just take what's offered.\nThe difference between the first time and the second — is leverage."
+        "result_text": "You negotiated.\nWith experience behind you, you don't have to just take what's offered."
       }
     ]
   },
@@ -51,11 +51,11 @@
     "choices": [
       {
         "text": "Make the call yourself",
-        "result_text": "You made the call.\nWhether it was right or wrong, you'd find out later.\nA manager — is someone who is trusted to decide."
+        "result_text": "You made the call.\nWhether it was right or wrong, you'd find out later."
       },
       {
         "text": "Check with someone above",
-        "result_text": "You checked upstairs.\nBetter to confirm than to get it wrong, you thought.\nBut always checking — keeps a manager from growing."
+        "result_text": "You checked upstairs.\nBetter to confirm than to get it wrong, you thought."
       }
     ]
   },
@@ -66,11 +66,11 @@
     "choices": [
       {
         "text": "Say something",
-        "result_text": "You said something.\nThe neighbor said, \"Nothing big, but thanks.\"\nGetting closer — gains meaning in moments like this."
+        "result_text": "You said something.\nThe neighbor said, \"Nothing big, but thanks.\""
       },
       {
         "text": "Keep an eye out",
-        "result_text": "You watched from a distance.\nYou told yourself you'd say something when the moment was right.\nThe closer the relationship, the easier it is to just say something."
+        "result_text": "You watched from a distance.\nYou told yourself you'd say something when the moment was right."
       }
     ]
   },
@@ -81,11 +81,11 @@
     "choices": [
       {
         "text": "Find out what happened",
-        "result_text": "They told you they'd heard the warning.\nAnd avoided it.\nOne warning — had kept someone from being hurt."
+        "result_text": "They told you they'd heard the warning.\nAnd avoided it."
       },
       {
         "text": "Say you're relieved",
-        "result_text": "You said you were relieved.\nThey said so too.\nA single word had made this conversation possible."
+        "result_text": "You said you were relieved.\nThey said so too."
       }
     ]
   },
@@ -96,11 +96,11 @@
     "choices": [
       {
         "text": "Accept the results",
-        "result_text": "You looked at the numbers.\nNumbers aren't everything.\nBut they show you where you're standing right now."
+        "result_text": "You looked at the numbers.\nNumbers aren't everything."
       },
       {
         "text": "Rethink the strategy",
-        "result_text": "You reworked the strategy.\nPrinciple alone won't carry you in politics.\nHolding to your principles while changing your strategy — that's the hard part."
+        "result_text": "You reworked the strategy.\nPrinciple alone won't carry you in politics."
       }
     ]
   },
@@ -111,11 +111,11 @@
     "choices": [
       {
         "text": "Do what you promised first",
-        "result_text": "You started with what you'd promised.\nWhat you said before the win — becomes the benchmark after it.\nThe first use of power defines the whole."
+        "result_text": "You started with what you'd promised.\nWhat you said before the win — becomes the benchmark after it."
       },
       {
         "text": "Start by understanding the reality",
-        "result_text": "You took stock of the situation.\nThe gap between promises and reality — is what makes politics hard.\nActing without understanding leads to mistakes."
+        "result_text": "You took stock of the situation.\nThe gap between promises and reality — is what makes politics hard."
       }
     ]
   },
@@ -126,11 +126,11 @@
     "choices": [
       {
         "text": "Check the outcome",
-        "result_text": "An aggressive strategy — wins big when it works, loses big when it doesn't.\nEither way — choosing it meant accepting the result."
+        "result_text": "An aggressive strategy — wins big when it works, loses big when it doesn't."
       },
       {
         "text": "Shift part of the position to defense now",
-        "result_text": "You moved part of the position to defense.\nAll offense doesn't keep you alive.\nBalancing attack and defense — is the skill of the final stretch."
+        "result_text": "You moved part of the position to defense.\nAll offense doesn't keep you alive."
       }
     ]
   },
@@ -141,11 +141,11 @@
     "choices": [
       {
         "text": "Review current assets",
-        "result_text": "You checked the numbers.\nA defensive strategy — doesn't lose big.\nBut it doesn't grow big either.\nWhich you chose determines the final number."
+        "result_text": "You checked the numbers.\nA defensive strategy — doesn't lose big.\nBut it doesn't grow big either."
       },
       {
         "text": "See if there's room to go after additional opportunities",
-        "result_text": "You looked for room.\nEven with a defensive strategy — opportunities come.\nProtecting and watching for chances — that's what defense really means."
+        "result_text": "You looked for room.\nEven with a defensive strategy — opportunities come."
       }
     ]
   },
@@ -156,11 +156,11 @@
     "choices": [
       {
         "text": "Feel that it was meaningful",
-        "result_text": "It had been meaningful.\nMoney wasn't everything.\nThese five years — had been filled with things you could only learn by living them."
+        "result_text": "It had been meaningful.\nMoney wasn't everything."
       },
       {
         "text": "It's not over yet",
-        "result_text": "It wasn't over.\nLooking back — doesn't mean stopping.\nYou can look back and still move forward."
+        "result_text": "It wasn't over.\nLooking back — doesn't mean stopping."
       }
     ]
   },
@@ -171,11 +171,11 @@
     "choices": [
       {
         "text": "Answer",
-        "result_text": "You picked up.\nYour parents said, \"Thank you.\"\nTaking on the debt — had come back as gratitude.\nBut the burden was still real."
+        "result_text": "You picked up.\nYour parents said, \"Thank you.\"\nTaking on the debt — had come back as gratitude."
       },
       {
         "text": "Be honest about your situation",
-        "result_text": "You told them honestly.\nYour parents said, \"We're sorry.\"\nHonesty — is a way to share the weight."
+        "result_text": "You told them honestly.\nYour parents said, \"We're sorry.\""
       }
     ]
   },
@@ -186,11 +186,11 @@
     "choices": [
       {
         "text": "Answer warmly",
-        "result_text": "You answered warmly.\nYour father asked, \"How are you holding up?\"\nThe debt being gone — had let the relationship start fresh."
+        "result_text": "You answered warmly.\nYour father asked, \"How are you holding up?\""
       },
       {
         "text": "Ask what's up first",
-        "result_text": "You asked what was going on.\n\"Just calling,\" he said.\nBeing able to just call — was what had changed."
+        "result_text": "You asked what was going on.\n\"Just calling,\" he said."
       }
     ]
   },
@@ -201,11 +201,11 @@
     "choices": [
       {
         "text": "Feel the compromise was the right call",
-        "result_text": "It was right.\nEven if incomplete — a moving compromise can be better than blocked justice.\nCompromise is not defeat."
+        "result_text": "It was right.\nEven if incomplete — a moving compromise can be better than blocked justice."
       },
       {
         "text": "Still feel it's incomplete",
-        "result_text": "It still felt incomplete.\nBut an incomplete resolution is better than none.\nWaiting for a perfect solution and doing nothing — is the worse choice."
+        "result_text": "It still felt incomplete.\nBut an incomplete resolution is better than none."
       }
     ]
   },
@@ -216,11 +216,11 @@
     "choices": [
       {
         "text": "Bet again",
-        "result_text": "You bet again.\nJust because it worked once doesn't mean it'll work next time.\nBut the memory of it working — makes you bet again."
+        "result_text": "You bet again.\nJust because it worked once doesn't mean it'll work next time."
       },
       {
         "text": "Verify it before deciding",
-        "result_text": "You verified it first.\nYou checked the source of the information.\nIf one success doesn't make you believe blindly — that's when experience becomes a real lesson."
+        "result_text": "You verified it first.\nYou checked the source of the information."
       }
     ]
   }
