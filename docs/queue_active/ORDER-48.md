@@ -11,7 +11,7 @@
 > - 로맨스 경첩: `content/events/{arc_daeun,arc_daeun_married}.json` 및
 >   같은 이름의 `content/events_en/` 오버레이
 > - 엔딩 산문: `content/endings.json`, `content/endings_en.json`
-> - 회귀 계약: `tools/ending_distinctness_audit.py`
+> - 회귀 계약: `tools/ending_distinctness_audit.py`, `tools/ScreenshotQA.gd`
 > - 판정·기록: `docs/ENDING_AUDIT.md`,
 >   `docs/SCRIPT_REVIEW_2026-07-24.md`, `CLAUDE.md`, `docs/WORK_LOG.md`,
 >   이 활성 사양과 큐 인덱스
