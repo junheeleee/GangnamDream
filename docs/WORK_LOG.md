@@ -23,6 +23,11 @@
 - 자동 추적은 사람 청취가 아니다. clean 3플랫폼 RC와 헤드폰·노트북·
   거실 TV 장별 연속 청취는 열린 게이트로 유지한다. 사용자 소유
   `project.godot`은 수정·스테이징하지 않았다.
+- clean revision `e849a6af2aed4aa1c7fc5a7785f59ac1b7ac952d`, tree
+  `95a0674b05987efd62558f7aab09a64df0056042`에서 fresh import·데모 계약,
+  Windows/macOS/Linux·Steam Deck export와 macOS 격리 HOME 부팅을 통과했다.
+  매니페스트 SHA-256은 `26287c8124bb0838dbe2062f5d8072d819b164569162af773c091ad28b644cab`이며
+  세 산출물은 로컬 복사 뒤 다시 검산했다.
 
 ## 2026-07-26 (Codex — ORDER-50 동기 회수·작성형 산문 P1)
 

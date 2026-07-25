@@ -85,5 +85,13 @@
   활동 7종, 엔딩 2종의 소유권과 언어 패리티를 검증했다.
 - 전체 `audit.sh`는 사건 1,565개, 오디오 139개, 합성 원음 0, 장면·게임·
   Moral·BGM 연속성, 한영 표면과 Godot 54개 스크립트 컴파일까지 통과했다.
-- 남은 게이트는 이 커밋의 clean 3플랫폼 RC와 장별 대표 경로의 헤드폰·
-  노트북·거실 TV 연속 청취다. 자동 추적은 사람 청취 GO를 대신하지 않는다.
+- clean revision `e849a6af2aed4aa1c7fc5a7785f59ac1b7ac952d`, tree
+  `95a0674b05987efd62558f7aab09a64df0056042`에서 fresh import·데모 계약과
+  Windows/macOS/Linux·Steam Deck export를 통과했다. 매니페스트 SHA-256은
+  `26287c8124bb0838dbe2062f5d8072d819b164569162af773c091ad28b644cab`,
+  산출물은 Windows `ea0ab3fe50ff2a5038a23c6cd573c94963b0faacfb850e88726ba91c5806111f`,
+  macOS `4495d2424b13bad545870bacc7a460b2764895c20f7d39dd8331a69676e232cd`,
+  Linux·Steam Deck `6858217e11fc6820d00f5be4cacb13e16e7f859ad534aefbfa572449bd95a55a`다.
+  로컬 복사 뒤 세 파일을 재검산했고 macOS 패키지는 격리 HOME에서 부팅했다.
+- 남은 게이트는 장별 대표 경로의 헤드폰·노트북·거실 TV 연속 청취뿐이다.
+  자동 추적과 패키지 부팅은 사람 청취 GO를 대신하지 않는다.
