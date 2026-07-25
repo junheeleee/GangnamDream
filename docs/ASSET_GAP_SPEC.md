@@ -111,7 +111,7 @@
 | CG ID | 연결 엔딩 | 구도/내용 |
 |---|---|---|
 | `cg_ending_full_circle` | `full_circle` | 상철 빚을 청산하고 아버지 이름을 돌려받는 S+ 진엔딩 |
-| `cg_ending_gangnam_dream_white` | `gangnam_dream_white` | 아무도 밟지 않고 강남에 도착한 White route 전용 컷 |
+| `cg_ending_gangnam_dream_white` | `gangnam_dream_white` | 도착한 뒤에도 자기 손을 돌아보는 White route 전용 컷 |
 | `cg_ending_with_daeun` | `with_daeun` | 작은 주방/외곽 빌라, 다은과 민준의 평온 |
 | `cg_ending_second_love` | `second_love` | 강남 아파트 베란다, 다은과 같이 도착한 엔딩 |
 | `cg_ending_jiyeon_man` | `jiyeon_man` | 강남 거울 앞, 위험하고 고혹적인 지연과 공허한 민준 |

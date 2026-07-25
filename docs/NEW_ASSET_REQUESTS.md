@@ -69,7 +69,7 @@
 | 요청 ID | 연결 엔딩 | 설명 |
 |---|---|---|
 | `cg_ending_full_circle` | `full_circle` | 강남 펜트하우스/거실 창가. 상철 빚을 청산하고 아버지 이름을 돌려받는 S+ 진엔딩 |
-| `cg_ending_gangnam_dream_white` | `gangnam_dream_white` | White moral route 전용. 강남 야경 앞, 차갑고 맑은 공기, 아무도 밟지 않고 도착한 고요함 |
+| `cg_ending_gangnam_dream_white` | `gangnam_dream_white` | White moral route 전용. 강남 야경 앞, 차갑고 맑은 공기, 도착한 뒤에도 자기 손을 돌아보는 고요함 |
 | `cg_ending_with_daeun` | `with_daeun` | 작은 주방/외곽 빌라. 다은과 민준이 라면/커피를 사이에 두고 웃는 장면 |
 | `cg_ending_second_love` | `second_love` | 강남 아파트 베란다. 다은은 야경을 보고 민준은 커피를 탄다 |
 | `cg_ending_jiyeon_man` | `jiyeon_man` | 강남 고급 욕실/복도 거울. 고혹적이고 위험한 지연, 행복과 공허 사이의 민준 |

@@ -67,6 +67,79 @@ ROUTES = {
 REVIEW_MARKER = re.compile(r"<!-- reviewed-pair: ([a-z0-9_]+)\|([a-z0-9_]+) -->")
 TABLE_ID = re.compile(r"^\| `([a-z0-9_]+)` \|", re.MULTILINE)
 
+REQUIRED_PEAK_DIK = {
+    "gangnam_dream_white": {
+        "cleared_father_debt_from_sangchul",
+        "sangchul_quietly_distanced",
+        "promise_reaffirmed",
+        "kept_clean_hands",
+    },
+    "empty_house": {
+        "father_confession_heard",
+        "father_reconciled",
+        "promise_reaffirmed",
+    },
+    "mental_break": {
+        "daeun_romance_started",
+        "father_reconciled",
+        "hyunsu_comforted",
+    },
+    "career_burnout": {
+        "jobswitch_satisfied",
+        "career_door_opened",
+        "father_reconciled",
+    },
+}
+
+# These branches are codas, not alternate endings. They must stay shorter than
+# the ending body instead of copying the full body and appending one paragraph.
+COMPACT_CODA_DIK = {
+    "stable_success": {
+        "called_at_1b_milestone",
+        "daeun_last_encounter",
+        "friendship_deepened",
+        "friendship_deepened_after_wedding",
+        "jeonse_fighting",
+        "health_managed",
+    },
+    "investment_master": {
+        "cafe_mentor_deep_network",
+        "cafe_long_game_won",
+        "quant_refined",
+        "pb_verified",
+        "etf_first_purchase",
+        "left_leading_room",
+        "read_contract_closely",
+    },
+    "orthodox_pinnacle": {
+        "salary_raised",
+        "salary_denied",
+        "credit_asserted",
+        "credit_recognized",
+        "jobswitch_reconnected",
+        "declined_golf",
+        "extreme_frugal",
+        "frugal_quiet",
+        "skipped_staycation",
+        "ignored_mystery_info",
+        "orthodox_wavered",
+    },
+    "balanced_life": {
+        "cafe_kindness_reconnected",
+        "standard_internalized",
+        "replied_old_contact",
+        "friendship_found_new_rhythm",
+    },
+    "unorthodox_legend": {
+        "cafe_double_jackpot",
+        "coin_second_win",
+        "holdem_high_stakes_win",
+        "own_path_solidified",
+        "investigating_gray_contact",
+        "gray_tip_debt_paid",
+    },
+}
+
 
 def _load_rows(path: Path) -> list[dict]:
     return json.loads(path.read_text(encoding="utf-8"))
@@ -158,7 +231,12 @@ def main() -> int:
 
     orthodox_ko = _all_text(by_id["orthodox_pinnacle"])
     orthodox_en = _all_text(by_en_id["orthodox_pinnacle"])
-    if "10억. 강남은 아니었다." not in orthodox_ko or "One billion won. It wasn't Gangnam." not in orthodox_en:
+    if (
+        "10억" not in orthodox_ko
+        or "강남은 아니었다" not in orthodox_ko
+        or "one billion won" not in orthodox_en.lower()
+        or "not gangnam" not in orthodox_en.lower()
+    ):
         errors.append("orthodox_pinnacle: body must match the actual 1B threshold")
     if "2억. 강남은 아니었다." in orthodox_ko or "Two hundred million" in orthodox_en:
         errors.append("orthodox_pinnacle: stale 200M amount remains")
@@ -182,7 +260,64 @@ def main() -> int:
     if "5억" in committed_ko or "five hundred million" in committed_en.lower():
         errors.append("investment_master: committed investor branch falsely claims the legacy 500M total")
 
+    white_ko = _all_text(by_id["gangnam_dream_white"])
+    white_en = _all_text(by_en_id["gangnam_dream_white"])
+    if "이삿짐 상자" not in white_ko or "오래된 수첩" not in white_ko:
+        errors.append("gangnam_dream_white: Korean prose must use the moving-box and old-notebook CG anchors")
+    if "moving box" not in white_en or "old notebook" not in white_en:
+        errors.append("gangnam_dream_white: English prose must use the moving-box and old-notebook CG anchors")
+    if (
+        "누구도 밟지 않고" in white_ko
+        or "아무도 밟지 않고" in white_ko
+        or "without stepping on anyone" in white_en.lower()
+    ):
+        errors.append("gangnam_dream_white: unsupported blanket innocence claim remains")
+
+    daeun_married_ko = str(
+        by_id["gangnam_dream"].get("description_if_known", {}).get("daeun_married", "")
+    )
+    daeun_married_en = str(
+        by_en_id["gangnam_dream"].get("description_if_known", {}).get("daeun_married", "")
+    )
+    if "그녀의 이름을 지름길의 서류로 쓰지 않고" not in daeun_married_ko:
+        errors.append("gangnam_dream/daeun_married: Korean claim must stay limited to Daeun's paperwork")
+    if "without putting her name on the paperwork for a shortcut" not in daeun_married_en:
+        errors.append("gangnam_dream/daeun_married: English claim must stay limited to Daeun's paperwork")
+
+    for ending_id, required_keys in REQUIRED_PEAK_DIK.items():
+        ko_keys = set(by_id[ending_id].get("description_if_known", {}) or {})
+        en_keys = set(by_en_id[ending_id].get("description_if_known", {}) or {})
+        if ko_keys != en_keys:
+            errors.append(
+                "%s: KO/EN DIK key mismatch ko=%s en=%s"
+                % (ending_id, sorted(ko_keys), sorted(en_keys))
+            )
+        missing = required_keys - ko_keys
+        if missing:
+            errors.append("%s: required peak DIK missing %s" % (ending_id, sorted(missing)))
+
+    for ending_id, coda_keys in COMPACT_CODA_DIK.items():
+        for locale, row in (
+            ("KO", by_id[ending_id]),
+            ("EN", by_en_id[ending_id]),
+        ):
+            base = str(row.get("description", ""))
+            dik = row.get("description_if_known", {}) or {}
+            for key in sorted(coda_keys):
+                value = str(dik.get(key, ""))
+                if not value:
+                    errors.append("%s/%s: compact coda DIK missing %s" % (ending_id, locale, key))
+                elif len(value) >= len(base) * 0.65:
+                    errors.append(
+                        "%s/%s/%s: coda is too close to a full ending copy (%d/%d chars)"
+                        % (ending_id, locale, key, len(value), len(base))
+                    )
+
     main_game_source = (ROOT / "scenes" / "MainGame.gd").read_text(encoding="utf-8")
+    meta_progression_source = (ROOT / "autoloads" / "MetaProgression.gd").read_text(encoding="utf-8")
+    for stale_claim in ("아무도 밟지 않고 30억", "without stepping on anyone"):
+        if stale_claim in main_game_source or stale_claim in meta_progression_source:
+            errors.append("gangnam_dream_white: stale blanket innocence claim remains on a runtime surface")
     if "ENDING_CARD_SYMBOL_PATHS" in main_game_source:
         errors.append("MainGame still exposes geometric ending-symbol fallbacks")
     image_registry_source = IMAGE_REGISTRY_PATH.read_text(encoding="utf-8")

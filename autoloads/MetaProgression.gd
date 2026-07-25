@@ -121,7 +121,7 @@ const ALL_TITLES := [
 	{"id":"investigator_title", "name":"의심하는 자",        "cat":"이야기", "rare":"uncommon",
 	 "desc":"친구의 경고를 흘려듣지 않았다. 의심은 때로 우정의 다른 이름이다."},
 	{"id":"white_gangnam_title","name":"사람으로 강남에",    "cat":"메타",   "rare":"legendary",
-	 "desc":"아무도 밟지 않고 30억을 달성했다. 화면이 하얗게 빛나던 그 순간을 기억한다. 0.1%의 길."},
+	 "desc":"30억에 도착한 뒤에도 자기 손을 돌아봤다. 화면이 하얗게 빛나던 그 순간을 기억한다. 0.1%의 길."},
 ]
 
 const TITLE_EN := {
@@ -174,7 +174,7 @@ const TITLE_EN := {
 	"father_peace_title": {"name":"Last Spring", "cat":"Story", "desc":"Made peace with your father. Before the cherry blossoms. Before it was too late."},
 	"love_chosen_title": {"name":"One Who Chose Love", "cat":"Story", "desc":"Held onto Daeun at the crossroads. Something you caught before Gangnam."},
 	"investigator_title": {"name":"The Suspicious One", "cat":"Story", "desc":"Did not dismiss your friend's warning. Suspicion is sometimes another name for friendship."},
-	"white_gangnam_title": {"name":"To Gangnam as a Human Being", "cat":"Meta", "desc":"Reached KRW 3 billion without stepping on anyone. Remember the moment the screen turned white. The 0.1% path."},
+	"white_gangnam_title": {"name":"To Gangnam as a Human Being", "cat":"Meta", "desc":"Reached KRW 3 billion and still looked back at what those hands had done. Remember the moment the screen turned white. The 0.1% path."},
 }
 
 # ── 칭호 보유 → 다음 런 시작 보너스 (카테고리별, 상한 있음) ────────

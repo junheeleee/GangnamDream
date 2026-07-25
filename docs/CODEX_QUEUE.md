@@ -47,21 +47,25 @@
 
 | 순서 | 상태 | 항목 | 전체 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-48 · 정점 산문 밀도 역전 수리 | [ORDER-48](queue_active/ORDER-48.md) | 착수 2026-07-25 · 로맨스 경첩·엔딩 회수 산문 수리 |
-| 2 | [ ] | ORDER-49 · 선택의 고민 장부화 | [ORDER-49](queue_active/ORDER-49.md) | ⚠P2, 밸런스·유저 승인 필요·산문분만 선제 |
-| 3 | [ ] | ORDER-50 · 리뷰 부록(동기 문장 회수·루트 변주 설교) | [ORDER-50](queue_active/ORDER-50.md) | P1, ORDER-48 완료·커밋 후 착수(파일 겹침) |
-| 4 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 데모 완료, 본편 240주 확산·장별 연속 청취 OPEN |
-| 5 | [ ] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 사양 기록, 구현 미착수 |
-| 6 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 부분 보류 |
-| 7 | [~] | ORDER-23 · 동기 각인 수술 | [ORDER-23](queue_active/ORDER-23.md) | 외부 정상 독해 판정 대기 |
-| 8 | [~] | ORDER-22 · 주간 루프 몰입 수리 | [ORDER-22](queue_active/ORDER-22.md) | 외부 정상 독해 판정 대기 |
-| 9 | [~] | ORDER-28 · 240주 전체 재구성 | [ORDER-28](queue_active/ORDER-28.md) | 전체 범위 지속 개선 |
-| 10 | [~] | ORDER-26 · AP 의미화 | [ORDER-26](queue_active/ORDER-26.md) | 외부 정상 독해 판정 대기 |
+| 1 | [ ] | ORDER-49 · 선택의 고민 장부화 | [ORDER-49](queue_active/ORDER-49.md) | ⚠P2, 밸런스·유저 승인 필요·산문분만 선제 |
+| 2 | [ ] | ORDER-50 · 리뷰 부록(동기 문장 회수·루트 변주 설교) | [ORDER-50](queue_active/ORDER-50.md) | P1, ORDER-48 완료·커밋 후 착수 |
+| 3 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 데모 완료, 본편 240주 확산·장별 연속 청취 OPEN |
+| 4 | [ ] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 사양 기록, 구현 미착수 |
+| 5 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 부분 보류 |
+| 6 | [~] | ORDER-23 · 동기 각인 수술 | [ORDER-23](queue_active/ORDER-23.md) | 외부 정상 독해 판정 대기 |
+| 7 | [~] | ORDER-22 · 주간 루프 몰입 수리 | [ORDER-22](queue_active/ORDER-22.md) | 외부 정상 독해 판정 대기 |
+| 8 | [~] | ORDER-28 · 240주 전체 재구성 | [ORDER-28](queue_active/ORDER-28.md) | 전체 범위 지속 개선 |
+| 9 | [~] | ORDER-26 · AP 의미화 | [ORDER-26](queue_active/ORDER-26.md) | 외부 정상 독해 판정 대기 |
 
 ### 완료 이력
 
 - **2026-07 전체 원문 스냅샷:** [CODEX_QUEUE_2026-07.md](queue_archive/CODEX_QUEUE_2026-07.md)
 - 상세 작업 결과는 [WORK_LOG.md](WORK_LOG.md), 사용자 노트와 라운드 판정은 [DEMO_FIXLOG.md](DEMO_FIXLOG.md), 설계 결정은 [DECISIONS.md](DECISIONS.md)가 정본이다.
+- `[x] ORDER-48` (2026-07-26): 다은의 조기 연애 확정·이혼 경첩과 핵심
+  엔딩 기억을 장면 밀도로 복원했다. White의 허위 무결 주장을 제거하고
+  결산 6종·코다 34개를 고유 사물과 후일담으로 분리했으며 한영 1280×800
+  21면과 전체 감사를 통과했다.
+  [완료 사양](queue_archive/ORDER-48.md)
 - `[x] USER-P0S` (2026-07-26): 긴 산문 안전 분할과 숨은 관계 수치 비노출,
   직업·인물 역할·장소·A/V의 사건 ID 결합 계약, 지연 버스정류장/한식당
   분기, 경마 실제 진입·결과 입력·경마장 복귀를 수리했다.

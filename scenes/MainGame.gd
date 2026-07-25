@@ -16664,7 +16664,7 @@ func _ending_run_summary(ending_id: String) -> String:
 	var is_unorthodox = route_diff <= -7
 	match ending_id:
 		"gangnam_dream_white":
-			return _tr("아무도 밟지 않고 30억을 달성했다. 이 도시에서 사람으로 남은 강남입성.", "Reached ₩3B without stepping on anyone. Made it to Gangnam — and stayed human.")
+			return _tr("30억에 도착한 뒤에도 자기 손을 돌아봤다. 사람으로 남으려 한 강남입성.", "Reached ₩3B and still looked back at what those hands had done. Made it to Gangnam still trying to remain human.")
 		"gangnam_dream":
 			if is_orthodox:
 				return _tr("착실하게 살아온 청년이 마침내 강남에 입성했다", "A young man who lived diligently finally made it into Gangnam.")

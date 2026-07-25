@@ -1,6 +1,6 @@
 # 엔딩 35종 감사
 
-Updated: 2026-07-24
+Updated: 2026-07-26
 Scope: `content/endings.json`, `content/endings_en.json`, 35개 전용 CG,
 `ImageRegistry`, 실제 엔딩 UI, KO/EN 1280x800
 
@@ -20,10 +20,31 @@ Scope: `content/endings.json`, `content/endings_en.json`, 35개 전용 CG,
 | 공용 배경 카드 | 0 |
 | 명시적 카메라·시선·손 계약 | 35 |
 | KO/EN 전수 런타임 캡처 | PASS (35+35) |
+| S+ White 회수 변주 | 4 |
+| 핵심 무변주 결말 회수 추가 | 9 (`empty_house`·`mental_break`·`career_burnout`) |
+| 자산 결산 코다 본문 복제 | 0 (대상 34개 전부 압축) |
 
 시각 정본과 파일 전수표는
 [`assets/ENDING_COMPLETE_VISUAL_BIBLE.md`](../assets/ENDING_COMPLETE_VISUAL_BIBLE.md)가
 소유한다. 이 문서는 결과와 실패 이력만 기록한다.
+
+## ORDER-48 산문 밀도 수리
+
+- `gangnam_dream_white`는 추상적인 무결 선언 대신 이삿짐 상자·등기·오래된
+  수첩으로 현재 행동을 만들고, 아버지의 약속·상철의 빚과 거리·첫 불법
+  제안 거절을 네 개 dik로 회수한다. 다른 경로의 선 넘음을 지우는
+  “아무도 밟지 않고” 절대 문구는 엔딩·요약·칭호에서 제거했다.
+- `stable_success`·`orthodox_pinnacle`·`investment_master`·
+  `unorthodox_legend`·`balanced_life`·`early_retirement`는 각각
+  침대 끝의 폰, 회식 불판, 매매 수첩, 반대편 신호, 빈 수첩 칸, 울리지
+  않는 알람으로 끝난다. 기존 dik가 본문 전체를 복제한 뒤 두 줄을 붙이던
+  구조는 짧은 장면 코다로 바꿨다.
+- `empty_house`는 화해·고백·약속을, `mental_break`는 다은·아버지·현수를,
+  `career_burnout`은 이직·열린 문·아버지를 회수한다. 기본 결말과 변주가
+  서로 다른 5년을 실제 사물과 행동으로 기억한다.
+- `ScreenshotQA --qa=order-48 --lang=ko/en`에서 로맨스 경첩 7패널과
+  엔딩 기본·변주 14경로를 각각 1280×800로 렌더했다. 긴 산문은 장면
+  페이지로 분할됐고 텍스트·버튼·CG 경계 충돌은 없었다.
 
 ## 이번 전수 수리
 

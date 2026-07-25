@@ -1,10 +1,10 @@
-# Active Queue Spec: ORDER-48
+# Completed Queue Spec: ORDER-48
 
 > Canonical status is indexed in `docs/CODEX_QUEUE.md`. 근거 원장은
 > [`docs/SCRIPT_REVIEW_2026-07-24.md`](../SCRIPT_REVIEW_2026-07-24.md).
 > 명장면 루브릭 §8은 [`docs/ROMANCE_SYSTEM.md`](../ROMANCE_SYSTEM.md).
 
-#### [~] ORDER-48 [P1·정점 산문 밀도] 밀도 역전 수리 — 유혹은 체인, 상실·확정은 세 문장
+#### [x] ORDER-48 [P1·정점 산문 밀도] 밀도 역전 수리 — 유혹은 체인, 상실·확정은 세 문장
 
 > **2026-07-25 착수 — 만지는 파일**
 >
@@ -70,3 +70,24 @@
 - `python3 tools/en_coverage_check.py`(엔딩 dik 35/35 패리티 유지)
 - 수리한 정점(다은 04b·final_choice, gangnam_dream_white)을 1280x800 실렌더해 §8
   6요소(감각·시간 늘리기·절제·여운) 충족을 육안 확인.
+
+## 완료 보고 — 2026-07-26
+
+- 다은 조기 연애 확정과 이혼 결과를 계산기 불빛·멈춘 손·도장·식은 차 같은
+  장면 물성으로 벌렸다. 초기 다은 선택지의 괄호형 관계 결과 예고도 한영
+  모두 제거했다.
+- White 엔딩의 절대적 무결 주장을 걷고 이삿짐 상자·오래된 수첩·아버지
+  약속·상철과의 거리·깨끗한 손 경로를 실제 `description_if_known`으로
+  회수했다. `empty_house`, `mental_break`, `career_burnout`도 5년의 관계
+  기억을 되돌려 받는다.
+- 자산 결산 6종은 서로 다른 사물과 하루의 동작으로 끝나며, 34개 변주 코다는
+  본문 복사가 아니라 짧은 후일담으로 축약했다. 핵심 엔딩 9종은 실제 선택
+  기억을 갖는다.
+- `ending_distinctness_audit.py`가 White의 시각 앵커·허위 무결 문장·필수
+  기억 키·코다 길이·런타임 요약을 회귀 검사한다.
+- `ScreenshotQA --qa=order-48`로 다은 확정 3면, 이혼 4면, 엔딩 14면을
+  한국어·영어 1280×800에서 렌더했다. 잘림·버튼/CG 충돌 없이 문단 분할과
+  한영 표면을 확인했다.
+- JSON 6개, 호칭, 정점 체인 32개, 사건 정합, 엔딩 35종 구분성,
+  영문 커버리지와 전체 `audit.sh`가 통과했다. 사용자 소유
+  `project.godot`은 수정 범위와 커밋에서 제외한다.

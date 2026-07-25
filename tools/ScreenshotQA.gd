@@ -42,6 +42,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=season-peaks --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ending-p1 --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ending-all --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=order-48 --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=transport --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=first-snow --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=climate --lang=en
@@ -145,6 +146,7 @@ const QA_SCOPE_ENDINGS_EN := "endings_en"
 const QA_SCOPE_ENDING_P0 := "ending_p0"
 const QA_SCOPE_ENDING_P1 := "ending_p1"
 const QA_SCOPE_ENDING_ALL := "ending_all"
+const QA_SCOPE_ORDER_48 := "order_48"
 const QA_SCOPE_TRANSPORT := "transport"
 const QA_SCOPE_DEMO_END_EN := "demo_end_en"
 const QA_SCOPE_TITLE_EN := "title_en"
@@ -676,6 +678,15 @@ func _ready() -> void:
 		print("SCREENSHOT_QA_DONE scope=ending-all lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
+	if scope == QA_SCOPE_ORDER_48:
+		var lang := _qa_language("en")
+		await _shot_order48_surfaces(lang, "order48_en_" if lang == "en" else "order48_ko_")
+		if _qa_failed:
+			get_tree().quit(1)
+			return
+		print("SCREENSHOT_QA_DONE scope=order-48 lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
 	if scope == QA_SCOPE_TRANSPORT:
 		var lang := _qa_language("en")
 		await _shot_transport_surfaces(lang, "transport_en_" if lang == "en" else "transport_ko_")
@@ -1037,6 +1048,10 @@ func _qa_scope() -> String:
 				"qa=ending-all", "--qa=ending-all", "qa=ending_all", "--qa=ending_all",
 				"scope=ending-all", "--scope=ending-all", "scope=ending_all", "--scope=ending_all"]:
 			return QA_SCOPE_ENDING_ALL
+		if arg in ["order-48", "order_48", "--order-48", "--order_48",
+				"qa=order-48", "--qa=order-48", "qa=order_48", "--qa=order_48",
+				"scope=order-48", "--scope=order-48"]:
+			return QA_SCOPE_ORDER_48
 		if arg in ["transport", "rail", "train", "--transport", "qa=transport", "--qa=transport",
 				"scope=transport", "--scope=transport"]:
 			return QA_SCOPE_TRANSPORT
@@ -9748,6 +9763,61 @@ func _shot_all_ending_surfaces(lang: String, prefix: String) -> void:
 		index += 1
 		await _shot_exact_ending_cg(
 				ending_id, cg_id, "%s%02d_%s" % [prefix, index, ending_id])
+
+func _shot_order48_surfaces(lang: String, prefix: String) -> void:
+	_set_qa_language(lang)
+	for result_paragraph in [0, 2, 5]:
+		_prepare_order48_daeun_state()
+		await _shot_story_event(
+				"arc_daeun_04b_future",
+				prefix + "01_daeun_commitment_%d" % result_paragraph,
+				"", 0.45, true, true, 3, 0, false, result_paragraph)
+
+	for result_paragraph in [0, 2, 4, 6]:
+		_prepare_breakup_qa_state("daeun")
+		await _shot_story_event(
+				"arc_daeun_final_choice_decision",
+				prefix + "02_daeun_divorce_%d" % result_paragraph,
+				"", 0.45, true, true, 1, 0, false, result_paragraph)
+
+	_prepare_main_game_state()
+	_seed_portfolio()
+	await _boot_main_game()
+	var ending_targets := [
+		["gangnam_dream", "cg_ending_gangnam_dream", "03_gangnam_daeun", ["daeun_married"]],
+		["gangnam_dream_white", "cg_ending_gangnam_dream_white", "04_white", []],
+		["gangnam_dream_white", "cg_ending_gangnam_dream_white", "05_white_promise", ["promise_reaffirmed"]],
+		["empty_house", "cg_ending_empty_house", "06_empty_father", ["father_reconciled"]],
+		["stable_success", "cg_ending_stable_success", "07_stable", []],
+		["stable_success", "cg_ending_stable_success", "08_stable_memory", ["called_at_1b_milestone"]],
+		["investment_master", "cg_ending_investment_master", "09_investment", []],
+		["investment_master", "cg_ending_investment_master", "10_investment_memory", ["left_leading_room"]],
+		["orthodox_pinnacle", "cg_ending_orthodox_pinnacle", "11_orthodox", []],
+		["balanced_life", "cg_ending_balanced_life", "12_balanced", []],
+		["unorthodox_legend", "cg_ending_unorthodox_legend", "13_unorthodox", []],
+		["early_retirement", "cg_ending_early_retirement", "14_early_retirement", []],
+		["mental_break", "cg_ending_mental_break", "15_mental_daeun", ["daeun_romance_started"]],
+		["career_burnout", "cg_ending_career_burnout", "16_career_father", ["father_reconciled"]],
+	]
+	var order48_flags := [
+		"daeun_married", "promise_reaffirmed", "father_reconciled",
+		"called_at_1b_milestone", "left_leading_room", "daeun_romance_started",
+	]
+	for target in ending_targets:
+		for flag in order48_flags:
+			GameState.flags.erase(flag)
+		await _shot_exact_ending_cg(
+				str(target[0]), str(target[1]), prefix + str(target[2]), target[3])
+
+func _prepare_order48_daeun_state() -> void:
+	_prepare_main_game_state()
+	GameState.age = 34
+	GameState.turn = 46
+	GameState.moral_tint = 0.0
+	_set_cast_relation_for_qa("daeun", 55)
+	GameState.cast["daeun"]["stage"] = "close"
+	GameState.flags.erase("daeun_romance_started")
+	GameState.flags.erase("arc_daeun_04b_seen")
 
 func _shot_surface_en() -> void:
 	var prefix := "surface_en_"

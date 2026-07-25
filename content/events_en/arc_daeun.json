@@ -5,11 +5,11 @@
     "description": "The convenience store you go to every night.\n\nToday again — one triangle kimbap, and a card held out at the register. Then she speaks.\n\n\"That one's close to expiry, so it's buy one get one. Grab another.\"\n\nThe woman behind the counter. Not a stranger — you'd seen her before. But you'd never heard anything like that.\n\nHow long has it been since anyone in Seoul showed you this kind of kindness?\nFor a moment, the narrow little store felt a different temperature.",
     "choices": [
       {
-        "text": "Say thank you — and ask her name  (connection starting / courage·slight distance)",
+        "text": "Thank her, then ask her name",
         "result_text": "\"...Thank you. I'm in here all the time and you always look out for me.\"\nShe smiled for the first time. \"Kim Daeun. I see you a lot.\"\n\nA small name, exchanged between two people.\nThe Seoul night felt, just a little, less cold."
       },
       {
-        "text": "Just nod thanks and leave  (focus maintained / warmth missed)",
+        "text": "Thank her and leave",
         "result_text": "{name} gave a small bow and stepped out.\nRight now, the only thing in view is 3 billion won.\n\nStill — the bag with two triangle kimbap in it sat strangely heavy in the hand."
       }
     ]
@@ -20,15 +20,15 @@
     "description": "She has {name}'s order memorized now. Triangle kimbap, sometimes cup ramyeon.\nThe late-night convenience store has become a small world just for the two of them.\nTonight, out of nowhere, she says something.\n\"I'm saving up to bring my mom here. She's alone back in the countryside.\nI knew Seoul was expensive, but... not like this.\"\n\nA life carrying the same weight as {name}'s — and it had been right there behind the counter all along.",
     "choices": [
       {
-        "text": "Genuinely cheer her on — and pitch in when you can  (connection / money·time)",
+        "text": "Genuinely cheer her on — and pitch in when you can",
         "result_text": "{name} helped carry her bags sometimes, and left a warm drink now and then.\nNothing big — but they'd become people who understood each other's exhaustion.\nDeep in debt himself — and yet, this warmth was something {name} didn't want to give up.\nThat night, staring at the goshiwon ceiling, her laugh surfaced out of nowhere. He didn't bother asking himself why."
       },
       {
-        "text": "Keep a polite distance — you can barely afford yourself  (focus / distance)",
+        "text": "Keep a polite distance — you can barely afford yourself",
         "result_text": "{name} stayed warm, but never let things go deeper.\nShe noticed the boundary too and took a small step back.\nCaring costs something — and {name} couldn't afford the bill right now.\nWhether that was wise restraint or lonely avoidance, he couldn't say."
       },
       {
-        "text": "Come out with it — tell her about the 3 billion won Gangnam dream  (honesty / vulnerability)",
+        "text": "Come out with it — tell her about the 3 billion won Gangnam dream",
         "result_text": "The words came out. For the first time, in front of this person."
       }
     ]
@@ -58,7 +58,7 @@
         "result_text": "She was quiet for a moment. Then smiled softly.\n\"...Okay. I'll stay a little longer.\"\nShe didn't ask why. {name} didn't explain."
       },
       {
-        "text": "Say nothing. Let her go  (focus on goal / regret·loss)",
+        "text": "Say nothing. Let her go",
         "result_text": "{name} couldn't open his mouth. Told himself: you can't afford to be anchored right now.\nDaeun smiled faintly, said \"Take care,\" and turned away.\nAfter that, the late-night convenience store was once again a world of one.\nThe goal was sharp and clear — and one corner of the heart was permanently empty."
       }
     ]
@@ -111,8 +111,8 @@
         "result_text": "Couldn't answer. That silence stayed with him a long time."
       },
       {
-        "text": "\"Forget Gangnam — I need you, now. Let's be together.\"",
-        "result_text": "Daeun's eyes went wide. The glow of the calculator screen flickered between them.\n\n\"...You mean it?\"\n\"Yeah. Gangnam will still be there in five years. But you — you're here now.\"\n\nShe laughed, then cried, then both.\n\nAfter that night, the distance across the convenience-store counter was gone. They became a couple.\nThe remaining four years — they'd walk them not alone, but together."
+      "text": "\"Forget Gangnam — I need you here, now. Let's be together.\"",
+        "result_text": "Daeun's eyes widened. The numbers on the calculator stayed still, but their light trembled faintly between them.\n\n\"...Do you mean it?\"\n\"I do. Gangnam will still be there in five years. But you — you're here now.\"\n\nDaeun did not smile right away. She looked at {name}'s hand resting on the calculator and pressed her lips together. Only after touching the reddened corner of one eye with the back of her hand did she nod.\n\n\"Then you don't get to say you weren't sure later.\"\n\"I won't.\"\n\nShe smiled. Neither of them hurried to fill the silence before it was finished.\n\nThat night, the distance that had lingered since the convenience-store counter disappeared. It was the first day they chose to walk the remaining four years together."
       }
     ]
   },
