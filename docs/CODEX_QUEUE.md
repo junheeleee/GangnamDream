@@ -47,7 +47,7 @@
 
 | 순서 | 상태 | 항목 | 전체 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [ ] | ORDER-47 · 편성/구조(장 결산·환불선·중반·4장·4→5) | [ORDER-47](queue_active/ORDER-47.md) | P1, 밴드 영향분 BALANCE 기록 |
+| 1 | [~] | ORDER-47 · 편성/구조(장 결산·환불선·중반·4장·4→5) | [ORDER-47](queue_active/ORDER-47.md) | 착수 2026-07-25 · 장 결산·환불선·중반·4장·4→5 구조 수리 |
 | 2 | [ ] | ORDER-48 · 정점 산문 밀도 역전 수리 | [ORDER-48](queue_active/ORDER-48.md) | P1 |
 | 3 | [ ] | ORDER-49 · 선택의 고민 장부화 | [ORDER-49](queue_active/ORDER-49.md) | ⚠P2, 밸런스·유저 승인 필요·산문분만 선제 |
 | 4 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 데모 완료, 본편 240주 확산·장별 연속 청취 OPEN |

@@ -4,7 +4,18 @@
 > [`docs/SCRIPT_REVIEW_2026-07-24.md`](../SCRIPT_REVIEW_2026-07-24.md) 「챕터 구조 판정」·「240주 편성」.
 > 편성 정본은 `content/meta/event_director.json`, 장면 스파인은 `content/meta/narrative_spine.json`.
 
-#### [ ] ORDER-47 [P1·편성/구조] 장 결산·환불선 밀도·중반 반복·4장 함몰·4→5 중복
+#### [~] ORDER-47 [P1·편성/구조] 장 결산·환불선 밀도·중반 반복·4장 함몰·4→5 중복
+
+> **2026-07-25 착수 — 만지는 파일**
+>
+> - 편성 정본: `content/meta/event_director.json`,
+>   `content/meta/narrative_spine.json`
+> - 사건: `content/events/{arc_year_close,arc_midgame,arc_chapter_themes,life_events}.json`
+>   및 같은 이름의 `content/events_en/` 오버레이
+> - 구조 회귀: `tools/{full_run_pacing_audit,narrative_continuity_audit,narrative_spine_audit,arc_flow_sim}.py`
+>   중 새 구조 계약에 필요한 파일
+> - 수치·기록: `docs/BALANCE.md`, `docs/SCRIPT_REVIEW_2026-07-24.md`,
+>   `CLAUDE.md`, `docs/WORK_LOG.md`, 이 활성 사양과 큐 인덱스
 
 ## 진단
 
