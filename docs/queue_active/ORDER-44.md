@@ -26,8 +26,9 @@
 >   `callback_events_43.json`, `callback_events_44.json`, `callback_events_46.json`,
 >   `callback_events_53.json`, `callback_events_54.json`, `callback_events_55.json`
 > - 계약·회귀·기록: `content/meta/story_rules.json`,
->   `tools/EndingRouteIdentityCheck.gd`, `docs/SCRIPT_REVIEW_2026-07-24.md`,
->   `CLAUDE.md`, `docs/WORK_LOG.md`, 이 활성 사양과 큐 인덱스
+>   `tools/EndingRouteIdentityCheck.gd`, `docs/context_manifest.json`,
+>   `docs/SCRIPT_REVIEW_2026-07-24.md`, `CLAUDE.md`, `docs/WORK_LOG.md`,
+>   이 활성 사양과 큐 인덱스
 
 ## 왜 P0인가
 
