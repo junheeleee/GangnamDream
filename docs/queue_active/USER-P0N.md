@@ -13,7 +13,7 @@
 `assets/scene_direction_manifest.json`, `content/meta/story_rules.json`,
 `assets/event_visual_contracts.json`, `assets/scene_audio_manifest.json`,
 `autoloads/DataRegistry.gd`,
-`scenes/StoryMode.gd`, `scenes/MainGame.gd`,
+`scenes/StoryMode.gd`, `scenes/MainGame.gd`, `scenes/OpeningCinematic.gd`,
 `scenes/ui/LivingSceneLayer.gd`, 관련 셰이더, `tools/LivingSceneCheck.gd`,
 `tools/ScreenshotQA.gd`, `tools/audit.sh`, 신규 전환 카탈로그·대표 240주
 A/V 추적·Godot 런타임 검사와 해당 `.tscn`/`.uid`. 현재 diff를 읽은 뒤
@@ -103,3 +103,19 @@ A/V 추적·Godot 런타임 검사와 해당 `.tscn`/`.uid`. 현재 diff를 읽�
 - Steam Deck 목표 설정에서 프레임 드롭과 셰이더 컴파일 끊김이 장면 전환을
   훼손하지 않는다.
 - `ORDER-43`의 장별 청취와 같은 빌드에서 최종 A/V 사람 판정을 수행한다.
+
+## 2026-07-26 자동 구현 결과
+
+- `assets/scene_direction_manifest.json`에 사건 1,565개, 경계 166개,
+  배경 91종, 활동 7종, 엔딩 35종을 분류했다. 미분류 기본 와이프는 0이다.
+- `DataRegistry`, `StoryMode`, `MainGame`, `LivingSceneLayer`가 같은 계약을
+  소비한다. 같은 장소·원격 통신은 재와이프하지 않고, 이동·시간 경과·회상·
+  활동·피날레는 서로 다른 곡선을 쓴다.
+- 정적 전수 감사는 정석/사람 중심·Black-risk × KO/EN 총 960주를 통과했다.
+- 실제 런타임 KO PlayStation/EN Xbox 경로는 각각 240주, 218사건,
+  `with_daeun` 엔딩, 패드 전용 입력으로 완주했다. 두 런 모두
+  `FULL_DIRECTION_RUNTIME_OK`와 `FULL_INPUT_RUN_OK`를 출력했다.
+- 960x600부터 3440x1440과 논리 4K까지 안전영역·포커스·커버 프레이밍을
+  통과했다. 논리 4K는 네이티브 원화 품질 판정이 아니다.
+- 자동 범위는 완료했다. 정상 속도 반복 피로·멀미, 물리 Steam Deck 성능,
+  장별 헤드폰/노트북/TV A/V 청취가 남아 있으므로 상태는 `[~]`를 유지한다.
