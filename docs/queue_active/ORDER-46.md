@@ -3,7 +3,18 @@
 > Canonical status is indexed in `docs/CODEX_QUEUE.md`. 근거 원장은
 > [`docs/SCRIPT_REVIEW_2026-07-24.md`](../SCRIPT_REVIEW_2026-07-24.md) 「랜덤 풀 표본」.
 
-#### [ ] ORDER-46 [P1·랜덤 풀 위생] 수치-산문 단절·모순·설교투 하향
+#### [~] ORDER-46 [P1·랜덤 풀 위생] 수치-산문 단절·모순·설교투 하향
+
+> **2026-07-25 착수 — 만지는 파일**
+>
+> - 기본 풀: `content/events/{life,relationship,investment,hidden}_events.json`
+>   및 같은 이름의 `content/events_en/` 오버레이
+> - 에코 풀: `content/events/callback_events_{12..25,43..54}.json`
+>   및 같은 이름의 `content/events_en/` 오버레이
+> - 회귀·밸런스: `tools/random_pool_hygiene_audit.py`, `tools/audit.sh`,
+>   `docs/BALANCE.md`
+> - 기록: `docs/SCRIPT_REVIEW_2026-07-24.md`, `CLAUDE.md`,
+>   `docs/WORK_LOG.md`, 이 활성 사양과 큐 인덱스
 
 ## 진단
 
