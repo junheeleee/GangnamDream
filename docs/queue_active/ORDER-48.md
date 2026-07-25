@@ -12,6 +12,9 @@
 >   같은 이름의 `content/events_en/` 오버레이
 > - 엔딩 산문: `content/endings.json`, `content/endings_en.json`
 > - 회귀 계약: `tools/ending_distinctness_audit.py`, `tools/ScreenshotQA.gd`
+> - 엔딩 요약·업적 표면: `scenes/MainGame.gd`, `autoloads/MetaProgression.gd`,
+>   `locale/ui_ja.json`
+> - 낡은 시각 설명 정렬: `docs/NEW_ASSET_REQUESTS.md`, `docs/ASSET_GAP_SPEC.md`
 > - 판정·기록: `docs/ENDING_AUDIT.md`,
 >   `docs/SCRIPT_REVIEW_2026-07-24.md`, `CLAUDE.md`, `docs/WORK_LOG.md`,
 >   이 활성 사양과 큐 인덱스
