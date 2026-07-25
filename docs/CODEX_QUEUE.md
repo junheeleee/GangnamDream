@@ -47,13 +47,13 @@
 
 | 순서 | 상태 | 항목 | 전체 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 전 사건·배경·대표 240주 자동 확산·clean RC PASS, 장별 사람 연속 청취 OPEN |
-| 2 | [~] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 1,565사건·960주 정적/KO·EN 240주 실주행·논리 4K PASS, 정상 속도·실기기·A/V 사람 판정 OPEN |
-| 3 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 부분 보류 |
-| 4 | [~] | ORDER-23 · 동기 각인 수술 | [ORDER-23](queue_active/ORDER-23.md) | 외부 정상 독해 판정 대기 |
-| 5 | [~] | ORDER-22 · 주간 루프 몰입 수리 | [ORDER-22](queue_active/ORDER-22.md) | 외부 정상 독해 판정 대기 |
-| 6 | [~] | ORDER-28 · 240주 전체 재구성 | [ORDER-28](queue_active/ORDER-28.md) | 전체 범위 지속 개선 |
-| 7 | [~] | ORDER-26 · AP 의미화 | [ORDER-26](queue_active/ORDER-26.md) | 외부 정상 독해 판정 대기 |
+| 1 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 전 사건·배경·대표 240주 자동 확산과 clean RC `d73afa6` PASS, 장별 사람 연속 청취 OPEN |
+| 2 | [~] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 1,565사건·960주 정적/KO·EN 240주 실주행·논리 4K와 clean RC PASS, 정상 속도·실기기·A/V 사람 판정 OPEN |
+| 3 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 번역 인프라·일본어 UI/프롤로그/직업명 자동 검사 PASS, 데모 GO 뒤 본문 번역·15장 캡처·원어민 검수 OPEN |
+| 4 | [~] | ORDER-23 · 동기 각인 수술 | [ORDER-23](queue_active/ORDER-23.md) | 자동 구조·KO/EN 런타임 PASS, 플레이어의 동기 문장 기억 여부 사람 판정 OPEN |
+| 5 | [~] | ORDER-22 · 주간 루프 몰입 수리 | [ORDER-22](queue_active/ORDER-22.md) | 자동 주간 루프·입력·오디오·KO/EN PASS, 정상 속도 몰입·재미 사람 판정 OPEN |
+| 6 | [~] | ORDER-28 · 240주 전체 재구성 | [ORDER-28](queue_active/ORDER-28.md) | 구조·240주·엔딩·3플랫폼 clean RC 자동 게이트 PASS, 외부 정상 독해 10인 플레이 0/10 OPEN |
+| 7 | [~] | ORDER-26 · AP 의미화 | [ORDER-26](queue_active/ORDER-26.md) | AP 인과·포기·후속·KO/EN·패드·240주 자동 게이트 PASS, 망설임·전략 재미 사람 판정 OPEN |
 
 ### 완료 이력
 
