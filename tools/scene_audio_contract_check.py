@@ -46,6 +46,12 @@ DEMO_SCORE_ANCHORS = {
     "hyunsu_exam_day": "hyunsu",
 }
 MIN_DEMO_FOLEY_EVENTS = 24
+PRIVATE_OFFICE_EVENT_IDS = {
+    "arc_sangchul_01_meet",
+    "arc_sangchul_01_measure",
+    "arc_sangchul_01_coffee",
+    "arc_sangchul_01_answer",
+}
 
 
 def load_json(path: Path):
@@ -143,6 +149,9 @@ def main() -> int:
         music = contract.get("music")
         if bool(contract.get("suppress_music", False)) and music is not None:
             errors.append(f"{owner}: suppress_music and music cannot coexist")
+        suppress_human = contract.get("suppress_human_ambience", False)
+        if not isinstance(suppress_human, bool):
+            errors.append(f"{owner}: suppress_human_ambience must be a boolean")
         if music is not None:
             if not isinstance(music, dict):
                 errors.append(f"{owner}: music must be an object")
@@ -153,6 +162,16 @@ def main() -> int:
                     errors.append(f"{owner}: unknown music key {key!r}")
                 if not isinstance(start, int) or isinstance(start, bool) or start < 0:
                     errors.append(f"{owner}: invalid music start_paragraph {start!r}")
+
+    for event_id in sorted(PRIVATE_OFFICE_EVENT_IDS):
+        contract = event_contracts.get(event_id, {})
+        if not isinstance(contract, dict):
+            errors.append(f"{event_id}: private-office audio contract is missing")
+            continue
+        if contract.get("ambience") != "office":
+            errors.append(f"{event_id}: private office must retain office room tone")
+        if contract.get("suppress_human_ambience") is not True:
+            errors.append(f"{event_id}: private office must suppress anonymous human ambience")
 
     for event_id, contract in event_contracts.items():
         event = events.get(event_id)

@@ -300,9 +300,11 @@ func _ready() -> void:
 	BGMPlayer.play_scene_paragraph_music(sangchul_meet, "", 0)
 	await get_tree().create_timer(0.18).timeout
 	if BGMPlayer._current_ambience_key != "office" \
+			or not BGMPlayer._current_human_ambience_key.is_empty() \
+			or BGMPlayer._human_ambience_player.playing \
 			or BGMPlayer._music_mode != "ambient" or not BGMPlayer._current_key.is_empty() \
 			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
-		_fail("Sangchul first meeting telegraphed a score instead of office room tone")
+		_fail("Sangchul first meeting added people or score to the private office room tone")
 		return
 	var sangchul_office_pos := BGMPlayer._ambience_player.get_playback_position()
 	BGMPlayer.update_event_ambience(sangchul_measure)
@@ -310,8 +312,10 @@ func _ready() -> void:
 	BGMPlayer.play_scene_paragraph_music(sangchul_measure, "", 0)
 	await get_tree().process_frame
 	if BGMPlayer._current_ambience_key != "office" \
+			or not BGMPlayer._current_human_ambience_key.is_empty() \
+			or BGMPlayer._human_ambience_player.playing \
 			or BGMPlayer._ambience_player.get_playback_position() + 0.05 < sangchul_office_pos:
-		_fail("Sangchul first-meeting office ambience restarted across the chain")
+		_fail("Sangchul first-meeting private office ambience restarted or gained a human layer")
 		return
 	if BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
 		_fail("Sangchul first-meeting branch started directive music")

@@ -446,6 +446,7 @@
     "arc_daeun_final_choice_decision": {"ambience": "oneroom", "music": {"key": "reckoning", "start_paragraph": 0}},
     "arc_sangchul_01_meet": {
       "ambience": "office",
+      "suppress_human_ambience": true,
       "suppress_music": true,
       "paragraph_cues": {
         "0": [{"sfx": "traffic_pass", "volume_db": -8.0}],
@@ -454,12 +455,18 @@
     },
     "arc_sangchul_01_measure": {
       "ambience": "office",
+      "suppress_human_ambience": true,
       "suppress_music": true,
       "paragraph_cues": {"0": [{"sfx": "cup_set", "volume_db": -7.0}]}
     },
-    "arc_sangchul_01_coffee": {"ambience": "office", "suppress_music": true},
+    "arc_sangchul_01_coffee": {
+      "ambience": "office",
+      "suppress_human_ambience": true,
+      "suppress_music": true
+    },
     "arc_sangchul_01_answer": {
       "ambience": "office",
+      "suppress_human_ambience": true,
       "suppress_music": true,
       "paragraph_cues": {
         "3": [{"sfx": "traffic_pass", "volume_db": -7.0}],

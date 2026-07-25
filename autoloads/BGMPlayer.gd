@@ -555,7 +555,7 @@ func update_event_ambience(
 	var ambience_key: String = _resolve_dynamic_ambience_key(str(contract.get("ambience", "")))
 	if ambience_key.is_empty():
 		ambience_key = _pick_ambience(ev, resolved_background_id)
-	set_ambience(ambience_key)
+	set_ambience(ambience_key, not bool(contract.get("suppress_human_ambience", false)))
 	set_season_ambience(_event_season_key(ambience_key))
 
 func play_scene_paragraph_music(ev: Dictionary, cg_id: String, paragraph_index: int) -> void:
@@ -617,12 +617,14 @@ func _load_scene_audio_manifest() -> void:
 	if event_contracts is Dictionary:
 		_scene_audio_events = event_contracts.duplicate(true)
 
-func set_ambience(key: String) -> void:
-	if key == _current_ambience_key and _ambience_player and _ambience_player.playing:
+func set_ambience(key: String, include_human_ambience: bool = true) -> void:
+	if include_human_ambience:
 		_set_human_ambience_for_world(key)
+	else:
+		_stop_human_ambience_immediate()
+	if key == _current_ambience_key and _ambience_player and _ambience_player.playing:
 		return
 	_current_ambience_key = key
-	_set_human_ambience_for_world(key)
 	if _ambience_tween and _ambience_tween.is_running():
 		_ambience_tween.kill()
 	if key == "" or not AMBIENCE_TRACKS.has(key):
@@ -670,6 +672,15 @@ func _set_human_ambience_for_world(world_key: String) -> void:
 	_human_ambience_tween.set_ease(Tween.EASE_IN_OUT)
 	_human_ambience_tween.tween_property(
 		_human_ambience_player, "volume_db", _human_ambience_target_db(), 1.1)
+
+func _stop_human_ambience_immediate() -> void:
+	_current_human_ambience_key = ""
+	if _human_ambience_tween and _human_ambience_tween.is_running():
+		_human_ambience_tween.kill()
+	if _moral_human_tween and _moral_human_tween.is_running():
+		_moral_human_tween.kill()
+	if _human_ambience_player:
+		_human_ambience_player.stop()
 
 func set_season_ambience(key: String) -> void:
 	if key == _current_season_key and _season_player and _season_player.playing:
