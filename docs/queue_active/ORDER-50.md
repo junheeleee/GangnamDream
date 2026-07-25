@@ -6,7 +6,21 @@
 > 완료 오더에 없던 **잔존 신규 발견**이다. A는 ORDER-47 이후에도 실파일에 잔존함을 확인했다.
 > ORDER-48(arc_daeun/endings/MainGame.gd)과 파일이 겹치므로 **ORDER-48 완료·커밋 후 착수**한다.
 
-#### [ ] ORDER-50 [P1·리뷰 부록] 동기 문장 회수 실패 + 루트 변주 설교 미끄러짐
+#### [~] ORDER-50 [P1·리뷰 부록] 동기 문장 회수 실패 + 루트 변주 설교 미끄러짐
+
+> **착수 2026-07-26 — 만지는 파일:** `autoloads/GameState.gd`,
+> `scenes/MainGame.gd`, `content/events/arc_events.json`,
+> `content/events_en/arc_events.json`, `content/events/arc_year_close.json`,
+> `content/events_en/arc_year_close.json`, `content/events/arc_midgame.json`,
+> `content/events_en/arc_midgame.json`, `content/events/arc_daeun_extension.json`,
+> `content/events_en/arc_daeun_extension.json`, `tools/MotivationImprintCheck.gd`,
+> `tools/ScreenshotQA.gd`, `tools/peak_scene_chain_audit.py`,
+> `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-50.md`, `CLAUDE.md`,
+> `docs/WORK_LOG.md`.
+>
+> 신규 사건·경제 수치는 만들지 않는다. 기존 동기 플래그의 공용 독자,
+> 작성형 산문의 감각 구체화, 겹친 종반 비트의 편성 강등과 이미 승인된
+> 종반 자산 게이트만 정렬한다.
 
 ## 배경
 
