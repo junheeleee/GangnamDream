@@ -411,6 +411,62 @@ func find_story_rule(event_id: String) -> Dictionary:
 	var rule: Variant = story_rules_by_event.get(event_id, {})
 	return rule if rule is Dictionary else {}
 
+func story_prerequisites_met(event_id: String, context: Dictionary) -> bool:
+	var logic: Variant = find_story_rule(event_id).get("logic", {})
+	if not logic is Dictionary:
+		return true
+	var prerequisites: Variant = (logic as Dictionary).get("prerequisites", {})
+	if not prerequisites is Dictionary or (prerequisites as Dictionary).is_empty():
+		return true
+	var all_clauses: Variant = (prerequisites as Dictionary).get("all", [])
+	if all_clauses is Array:
+		for clause in all_clauses:
+			if not clause is Dictionary or not _story_clause_met(clause, context):
+				return false
+	var any_clauses: Variant = (prerequisites as Dictionary).get("any", [])
+	if any_clauses is Array and not (any_clauses as Array).is_empty():
+		for clause in any_clauses:
+			if clause is Dictionary and _story_clause_met(clause, context):
+				return true
+		return false
+	return true
+
+func _story_clause_met(clause: Dictionary, context: Dictionary) -> bool:
+	var actual: Variant = _story_context_value(context, str(clause.get("path", "")))
+	var expected: Variant = clause.get("value")
+	match str(clause.get("op", "eq")):
+		"eq":
+			return actual == expected
+		"neq":
+			return actual != expected
+		"in":
+			return expected is Array and (expected as Array).has(actual)
+		"not_in":
+			return expected is Array and not (expected as Array).has(actual)
+		"gte":
+			return (actual is int or actual is float) \
+					and (expected is int or expected is float) \
+					and float(actual) >= float(expected)
+		"lte":
+			return (actual is int or actual is float) \
+					and (expected is int or expected is float) \
+					and float(actual) <= float(expected)
+		"truthy":
+			return bool(actual)
+		"falsy":
+			return not bool(actual)
+	return false
+
+func _story_context_value(context: Dictionary, path: String) -> Variant:
+	if path.is_empty():
+		return null
+	var value: Variant = context
+	for segment in path.split("."):
+		if not value is Dictionary:
+			return null
+		value = (value as Dictionary).get(segment)
+	return value
+
 func get_story_presentation(event_id: String) -> Dictionary:
 	var presentation: Variant = find_story_rule(event_id).get("presentation", {})
 	return presentation if presentation is Dictionary else {}

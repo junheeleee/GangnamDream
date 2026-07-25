@@ -413,6 +413,18 @@ func _check_racetrack_keyboard() -> void:
 	await _press_key(KEY_ENTER)
 	_expect(int(track.get("_phase")) == 1 and float(track.get("_bet_stake")) > 0.0,
 		"racetrack Enter did not place the bet and start the race")
+	var race: Dictionary = track.get("_race")
+	track.set("_finish", (race.get("horses", []) as Array).duplicate())
+	track.set("_payout_amt", 0.0)
+	track.set("_phase", 2)
+	track.call("_render")
+	await get_tree().process_frame
+	await _press_key(KEY_RIGHT)
+	_expect(int(track.get("_pad_result_idx")) == 1,
+		"racetrack Right did not highlight Leave on the result screen")
+	await _press_key(KEY_ENTER)
+	_expect(not bool(track.get("visible")),
+		"racetrack Enter did not activate the highlighted Leave action")
 	await _dispose_keyboard_surface(track)
 
 func _check_casino_hub_keyboard() -> void:

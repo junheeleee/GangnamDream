@@ -34,6 +34,16 @@
       ]
     }
   },
+  "participant_role_types": [
+    "customer",
+    "clerk",
+    "cyclist",
+    "driver",
+    "employee",
+    "supervisor",
+    "guest",
+    "host"
+  ],
   "exclusive_flag_groups": {
     "romance_route": ["daeun_romance_started", "jiyeon_romance_started"],
     "jiyeon_verdict": [
@@ -51,7 +61,7 @@
     ]
   },
   "coverage_targets": {
-    "minimum_ledger_events": 114,
+    "minimum_ledger_events": 119,
     "max_unclassified_communication_suspects": 0,
     "demo_logic": [
       "arc_intro_02_dad_call",
@@ -488,7 +498,130 @@
         "channel": "in_person",
         "scene_location": "convenience_store",
         "participants": ["player", "daeun"],
-        "portrait_role": "present"
+        "participant_roles": {
+          "player": "customer",
+          "daeun": "clerk"
+        },
+        "portrait_role": "present",
+        "expected_background": "convenience_night",
+        "expected_portrait": "daeun_smile",
+        "expected_ambience": "convenience"
+      }
+    },
+    "arc_jiyeon_01_crash": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "street_rainy",
+        "participants": ["player", "jiyeon"],
+        "participant_roles": {
+          "player": "cyclist",
+          "jiyeon": "driver"
+        },
+        "portrait_role": "present",
+        "expected_background": "street_rainy",
+        "expected_portrait": "jiyeon_normal",
+        "expected_ambience": "rain"
+      }
+    },
+    "arc_jiyeon_02_store": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "street_rainy",
+        "participants": ["player", "jiyeon"],
+        "participant_roles": {
+          "player": "customer",
+          "jiyeon": "driver"
+        },
+        "portrait_role": "present",
+        "expected_background": "street_rainy",
+        "expected_portrait": "jiyeon_normal",
+        "expected_ambience": "rain"
+      }
+    },
+    "arc_jiyeon_03_offer": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "street_rainy",
+        "participants": ["player", "jiyeon"],
+        "participant_roles": {
+          "player": "customer",
+          "jiyeon": "driver"
+        },
+        "portrait_role": "present",
+        "expected_background": "street_rainy",
+        "expected_portrait": "jiyeon_warm",
+        "expected_ambience": "rain"
+      }
+    },
+    "arc_jiyeon_03b_lunch": {
+      "logic": {
+        "prerequisites": {
+          "all": [
+            {"path": "turn", "op": "gte", "value": 70},
+            {"path": "flags.arc_jiyeon_offer_seen", "op": "eq", "value": true},
+            {"path": "flags.arc_jiyeon_03b_seen", "op": "neq", "value": true},
+            {"path": "flags.arc_sangchul_jiyeon_reveal_seen", "op": "neq", "value": true}
+          ],
+          "any": [
+            {"path": "flags.jiyeon_had_coffee", "op": "eq", "value": true},
+            {"path": "flags.jiyeon_honest", "op": "eq", "value": true}
+          ]
+        }
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "restaurant",
+        "participants": ["player", "jiyeon"],
+        "participant_roles": {
+          "player": "guest",
+          "jiyeon": "host"
+        },
+        "portrait_role": "present",
+        "expected_background": "restaurant",
+        "expected_portrait": "jiyeon_warm",
+        "expected_ambience": "cafe"
+      }
+    },
+    "arc_job_vs_invest": {
+      "logic": {
+        "prerequisites": {
+          "all": [
+            {"path": "turn", "op": "gte", "value": 20},
+            {"path": "turn", "op": "lte", "value": 30},
+            {
+              "path": "player.job.id",
+              "op": "in",
+              "value": [
+                "job_03",
+                "job_04",
+                "job_05",
+                "job_06",
+                "job_07",
+                "job_08",
+                "job_09",
+                "job_10",
+                "job_12",
+                "job_14",
+                "job_15"
+              ]
+            },
+            {"path": "player.investment_skill", "op": "gte", "value": 10},
+            {"path": "flags.arc_job_invest_clash_seen", "op": "neq", "value": true}
+          ]
+        }
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "office",
+        "participants": ["player", "boss"],
+        "participant_roles": {
+          "player": "employee",
+          "boss": "supervisor"
+        },
+        "portrait_role": "present",
+        "expected_background": "office",
+        "expected_portrait": "boss",
+        "expected_ambience": "office"
       }
     },
     "arc_daeun_first_night": {

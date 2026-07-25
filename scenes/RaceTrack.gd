@@ -42,6 +42,7 @@ var skip_countdown_for_smoke: bool = false
 var _pad_navigation_active: bool = false
 var _pad_horse_idx: int = 0
 var _pad_stake_idx: int = 0
+var _pad_result_idx: int = 0
 
 var _font: FontFile
 var _font_bold: FontFile
@@ -190,6 +191,7 @@ func open() -> void:
 	_pad_navigation_active = false
 	_pad_horse_idx = 0
 	_pad_stake_idx = 0
+	_pad_result_idx = 0
 	# 영속 명마 세계 — GameState.flags에 저장돼 씬 리로드·세이브를 견딘다
 	if not (GameState.flags.get("horse_world") is Dictionary):
 		GameState.flags["horse_world"] = {}
@@ -238,8 +240,17 @@ func _unhandled_input(event: InputEvent) -> void:
 			elif ControllerHints.details_pressed(event):
 				handled = _pad_show_rules()
 		Phase.RESULT:
-			if event.is_action_pressed("ui_accept"):
-				_new_race()
+			if event.is_action_pressed("gd_tab_prev") \
+					or event.is_action_pressed("ui_left"):
+				handled = _pad_move_result(-1)
+			elif event.is_action_pressed("gd_tab_next") \
+					or event.is_action_pressed("ui_right"):
+				handled = _pad_move_result(1)
+			elif event.is_action_pressed("ui_accept"):
+				if _pad_result_idx == 0:
+					_new_race()
+				else:
+					_on_exit()
 				handled = true
 			elif event.is_action_pressed("ui_cancel"):
 				_on_exit()
@@ -272,6 +283,12 @@ func _pad_cycle_bet_type(delta: int) -> bool:
 func _pad_cycle_stake(delta: int) -> bool:
 	_pad_stake_idx = int(posmod(_pad_stake_idx + delta, STAKE_OPTIONS.size()))
 	AudioManager.play("casino_coin")
+	_render()
+	return true
+
+func _pad_move_result(delta: int) -> bool:
+	_pad_result_idx = int(posmod(_pad_result_idx + delta, 2))
+	AudioManager.play("click")
 	_render()
 	return true
 
@@ -308,6 +325,7 @@ func _new_race() -> void:
 	_picks = []
 	_bet_stake = 0.0
 	_pad_horse_idx = 0
+	_pad_result_idx = 0
 	_tip = {}
 	_tip_seen = false
 	_phase = Phase.BETTING
@@ -932,6 +950,7 @@ func _draw_jockey(dst: Rect2, lane_color: Color, index: int) -> void:
 
 func _finish_race() -> void:
 	_phase = Phase.RESULT
+	_pad_result_idx = 0
 	_completed_races += 1
 	AudioManager.play("race_finish")
 	if is_instance_valid(_msg):
@@ -1129,7 +1148,7 @@ func _render_result() -> void:
 	again.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_style(again, "#231016", "#a03a4a")
 	again.pressed.connect(_new_race)
-	if _should_show_pad_cursor():
+	if _should_show_pad_cursor() and _pad_result_idx == 0:
 		_mark_pad_button(again)
 	row.add_child(again)
 	var leave := Button.new()
@@ -1137,6 +1156,8 @@ func _render_result() -> void:
 	leave.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_style(leave, "#10231a", "#2a7a52")
 	leave.pressed.connect(_on_exit)
+	if _should_show_pad_cursor() and _pad_result_idx == 1:
+		_mark_pad_button(leave)
 	row.add_child(leave)
 
 func _make_result_row(rank: int) -> Control:

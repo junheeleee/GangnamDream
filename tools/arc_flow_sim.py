@@ -480,8 +480,10 @@ EXPECTED_LATE_TEMPORAL = {
         210: "arc_gangnam_real_estate",
     },
     "B 비정석/진실/committed": {
-        78: "arc_year_one_half",
-        96: "arc_34_two_years_in",
+        # This route refuses Jiyeon's coffee/meal offer, so the restaurant
+        # branch and its occupied foreground week no longer exist.
+        75: "arc_year_one_half",
+        93: "arc_34_two_years_in",
         148: "arc_35_path_cost",
         151: "arc_35_habit_check",
         153: "arc_almost_there",
@@ -503,7 +505,7 @@ EXPECTED_CHAPTER2_COMPARISON = {
         105: "arc_year_two_pressure",
     },
     "B 비정석/진실/committed": {
-        93: "arc_social_comparison",
+        94: "arc_social_comparison",
         106: "arc_year_two_pressure",
     },
 }
@@ -565,7 +567,7 @@ EXPECTED_CHAPTER1 = {
         16: "arc_father_quiet_call",
         17: "arc_jiyeon_01_crash",
         19: "arc_jaehyuk_01_reunion",
-        20: "arc_job_vs_invest",
+        20: "arc_hyunsu_night_talk",
         21: "arc_father_02_signal",
         22: "arc_gangnam_visit_alone",
         24: "hyunsu_exam_day",
@@ -595,7 +597,7 @@ EXPECTED_CHAPTER1 = {
         16: "arc_father_quiet_call",
         17: "arc_jiyeon_01_crash",
         19: "arc_jaehyuk_01_reunion",
-        20: "arc_job_vs_invest",
+        20: "arc_hyunsu_night_talk",
         21: "arc_father_02_signal",
         22: "arc_gangnam_visit_alone",
         24: "hyunsu_exam_day",
@@ -700,7 +702,10 @@ for name, spine, traj, hook, choice_indices in PATHS:
         ]
         print("  ✗ 1장 전경 회귀:", ", ".join(missing + extras))
     else:
-        print(f"  ✓ 1장 전경 {len(EXPECTED_CHAPTER1[name])}앵커 고정")
+        print(
+            f"  ✓ 1장 전경 {len(EXPECTED_CHAPTER1[name])}앵커 고정"
+            "·생존직 20주 현수 대체 장면"
+        )
     chapter1_bridges = {
         turn: bridge_ids for turn, bridge_ids in bridge_log.items() if turn <= 48
     }

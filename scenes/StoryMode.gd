@@ -33,7 +33,8 @@ const STORY_TEXT_SPEED_INTERVAL_SCALES := {
 # ── 상태 ──────────────────────────────────────────────────────
 var _queue: Array = []          # 재생할 이벤트 ID 목록
 var _current: Dictionary = {}   # 현재 이벤트
-var _paragraphs: Array = []     # 현재 이벤트 본문 문단들
+var _paragraphs: Array = []     # 화면 높이에 맞춰 나눈 현재 이벤트 본문 페이지
+var _paragraph_source_indices: Array = []  # 각 페이지가 속한 원문 문단 번호
 var _para_index: int = 0
 var _typing: bool = false
 var _type_full: String = ""     # 현재 문단 전체 텍스트
@@ -1677,22 +1678,23 @@ func _restore_story_result(context: Dictionary) -> void:
 	if _story_choice_has_visible_result(choice):
 		_show_story_result_record(choice, false)
 	var result: String = _fmt(str(choice.get("result_text", "")))
-	_paragraphs = _split_story_paragraphs(result)
+	_apply_story_page_data(_story_page_data(result))
 	_restore_story_paragraph(context, true)
 
 func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 	if _paragraphs.is_empty():
 		return
 	_para_index = clampi(int(context.get("paragraph_index", 0)), 0, _paragraphs.size() - 1)
-	_maybe_change_event_background(_para_index)
-	_maybe_reveal_event_portrait(_para_index)
-	_maybe_reveal_event_cg(_para_index)
+	var source_paragraph_index := _story_source_paragraph_index(_para_index)
+	_maybe_change_event_background(source_paragraph_index)
+	_maybe_reveal_event_portrait(source_paragraph_index)
+	_maybe_reveal_event_cg(source_paragraph_index)
 	if result_phase:
 		AudioManager.play_scene_result_paragraph_cues(
 			str(_current.get("id", "")), _event_cg_id,
-			_pending_result_choice_index, _para_index)
+			_pending_result_choice_index, source_paragraph_index)
 	else:
-		_play_current_paragraph_audio(_para_index)
+		_play_current_paragraph_audio(source_paragraph_index)
 	var paragraph := str(_paragraphs[_para_index])
 	var was_typing := bool(context.get("paragraph_was_typing", false))
 	var saved_type_pos: int = clampi(int(context.get("type_pos", paragraph.length())),
@@ -1999,9 +2001,23 @@ func _set_story_text_size(level: String) -> void:
 	var normalized := _normalized_story_text_size(level)
 	if normalized == _story_text_size:
 		return
+	var source_paragraph_index := _story_source_paragraph_index(_para_index)
+	var was_typing := _typing
+	var old_type_length := maxi(1, _type_full.length())
+	var type_ratio := clampf(float(_type_pos) / float(old_type_length), 0.0, 1.0)
+	var source_page_progress := _story_source_page_progress(_para_index, type_ratio)
+	var hint_was_visible := is_instance_valid(_continue_hint) and _continue_hint.visible
+	var beat_was_waiting := _direction_beat_waiting
 	_story_text_size = normalized
 	SaveManager.set_setting("story_text_size", normalized)
 	_apply_story_text_size()
+	if not _current.is_empty() and not _is_chapter_card and not _showing_choices:
+		var raw_text := _current_story_phase_text()
+		if not raw_text.is_empty():
+			_restore_localized_story_text(
+				_story_page_data(raw_text), source_paragraph_index,
+				source_page_progress, was_typing, type_ratio,
+				hint_was_visible, beat_was_waiting)
 
 func _normalized_story_text_speed(raw_level: String) -> String:
 	return raw_level if raw_level in STORY_TEXT_SPEED_LEVELS else STORY_TEXT_SPEED_DEFAULT
@@ -2034,10 +2050,11 @@ func _set_story_language(raw_language: String) -> void:
 	if language not in LocaleManager.get_selectable_languages() or language == LocaleManager.language:
 		return
 	var event_id := str(_current.get("id", ""))
-	var paragraph_index := _para_index
+	var source_paragraph_index := _story_source_paragraph_index(_para_index)
 	var was_typing := _typing
 	var old_type_length := maxi(1, _type_full.length())
 	var type_ratio := clampf(float(_type_pos) / float(old_type_length), 0.0, 1.0)
+	var source_page_progress := _story_source_page_progress(_para_index, type_ratio)
 	var hint_was_visible := is_instance_valid(_continue_hint) and _continue_hint.visible
 	var beat_was_waiting := _direction_beat_waiting
 
@@ -2048,20 +2065,19 @@ func _set_story_language(raw_language: String) -> void:
 		EventManager.current_event = _current
 		_current_presentation = DataRegistry.get_story_presentation(event_id)
 		_title_lbl.text = "— %s —" % _fmt(str(_current.get("title", "")))
-		var localized_paragraphs: Array
+		var localized_page_data: Dictionary
 		if _pending_after_result and _pending_result_choice_index >= 0:
-			localized_paragraphs = _localized_result_paragraphs(_pending_result_choice_index)
+			localized_page_data = _localized_result_page_data(_pending_result_choice_index)
 			var localized_choices: Array = _current.get("choices", [])
 			if _pending_result_choice_index < localized_choices.size() \
 					and is_instance_valid(_result_record_card):
 				_show_story_result_record(
 					localized_choices[_pending_result_choice_index] as Dictionary, false)
 		else:
-			localized_paragraphs = _split_story_paragraphs(
-				_resolved_story_description(_current))
+			localized_page_data = _story_page_data(_resolved_story_description(_current))
 		_restore_localized_story_text(
-			localized_paragraphs, paragraph_index, was_typing, type_ratio,
-			hint_was_visible, beat_was_waiting)
+			localized_page_data, source_paragraph_index, source_page_progress,
+			was_typing, type_ratio, hint_was_visible, beat_was_waiting)
 		_refresh_story_choice_language()
 		_refresh_story_speaker_language()
 		if _is_chapter_card:
@@ -2089,22 +2105,27 @@ func _localized_story_event(event_id: String) -> Dictionary:
 		localized["choices"] = GameState.build_year_scene_choices(curation_year)
 	return localized
 
-func _localized_result_paragraphs(choice_index: int) -> Array:
+func _localized_result_page_data(choice_index: int) -> Dictionary:
 	var choices: Array = _current.get("choices", [])
 	if choice_index < 0 or choice_index >= choices.size():
-		return _paragraphs.duplicate()
+		return {
+			"pages": _paragraphs.duplicate(),
+			"source_indices": _paragraph_source_indices.duplicate(),
+		}
 	var result: String = _fmt(str((choices[choice_index] as Dictionary).get("result_text", "")))
-	return _split_story_paragraphs(result)
+	return _story_page_data(result)
 
 func _restore_localized_story_text(
-		localized_paragraphs: Array,
-		paragraph_index: int,
+		page_data: Dictionary,
+		source_paragraph_index: int,
+		source_page_progress: float,
 		was_typing: bool,
 		type_ratio: float,
 		hint_was_visible: bool,
 		beat_was_waiting: bool) -> void:
-	_paragraphs = localized_paragraphs if not localized_paragraphs.is_empty() else [""]
-	_para_index = clampi(paragraph_index, 0, _paragraphs.size() - 1)
+	_apply_story_page_data(page_data)
+	_para_index = _story_page_for_source_progress(
+		source_paragraph_index, source_page_progress)
 	if beat_was_waiting:
 		_direction_pending_text = str(_paragraphs[_para_index])
 		var previous_index := maxi(0, _para_index - 1)
@@ -2311,15 +2332,163 @@ func _resolved_story_description(event: Dictionary) -> String:
 		desc = "[color=#9aa4b2][i]%s[/i][/color]\n%s" % [_fmt(causal_frame), desc]
 	return desc
 
+func _current_story_phase_text() -> String:
+	if _pending_after_result and _pending_result_choice_index >= 0:
+		var choices: Array = _current.get("choices", [])
+		if _pending_result_choice_index < choices.size():
+			return _fmt(str((choices[_pending_result_choice_index] as Dictionary).get(
+				"result_text", "")))
+	return _resolved_story_description(_current)
+
 func _split_story_paragraphs(text: String) -> Array:
-	var paragraphs: Array = []
+	return (_story_page_data(text).get("pages", [""]) as Array)
+
+func _story_page_data(text: String) -> Dictionary:
+	var pages: Array = []
+	var source_indices: Array = []
+	var source_index := 0
 	for para in text.split("\n\n"):
 		var paragraph := str(para).strip_edges()
-		if not paragraph.is_empty():
-			paragraphs.append(paragraph)
-	if paragraphs.is_empty():
-		paragraphs = [""]
-	return paragraphs
+		if paragraph.is_empty():
+			source_index += 1
+			continue
+		for page in _paginate_story_paragraph(paragraph):
+			pages.append(str(page))
+			source_indices.append(source_index)
+		source_index += 1
+	if pages.is_empty():
+		pages = [""]
+		source_indices = [0]
+	return {
+		"pages": pages,
+		"source_indices": source_indices,
+	}
+
+func _apply_story_page_data(page_data: Dictionary) -> void:
+	_paragraphs = (page_data.get("pages", [""]) as Array).duplicate()
+	_paragraph_source_indices = (
+		page_data.get("source_indices", [0]) as Array).duplicate()
+	if _paragraphs.is_empty():
+		_paragraphs = [""]
+	if _paragraph_source_indices.size() != _paragraphs.size():
+		_paragraph_source_indices.clear()
+		for index in range(_paragraphs.size()):
+			_paragraph_source_indices.append(index)
+
+func _paginate_story_paragraph(paragraph: String) -> Array:
+	var pages: Array = []
+	var remaining := paragraph.strip_edges()
+	while not remaining.is_empty():
+		if _story_page_fits(remaining):
+			pages.append(remaining)
+			break
+		var low := 1
+		var high := remaining.length()
+		var best := 1
+		while low <= high:
+			var midpoint := int((low + high) / 2)
+			if _story_page_fits(remaining.substr(0, midpoint)):
+				best = midpoint
+				low = midpoint + 1
+			else:
+				high = midpoint - 1
+		var split_at := _story_safe_page_break(remaining, best)
+		var page := remaining.substr(0, split_at).strip_edges()
+		if page.is_empty():
+			split_at = maxi(1, best)
+			page = remaining.substr(0, split_at).strip_edges()
+		pages.append(page)
+		remaining = remaining.substr(split_at).strip_edges()
+	return pages if not pages.is_empty() else [paragraph]
+
+func _story_page_fits(text: String) -> bool:
+	if _font == null:
+		return text.count("\n") < 5
+	var viewport_width := get_viewport_rect().size.x
+	var body_width := maxf(420.0, viewport_width - 172.0)
+	var body_height := 132.0 + (22.0 if _story_text_size == "large" else 0.0)
+	var measured := _font.get_multiline_string_size(
+		_story_visible_text(text), HORIZONTAL_ALIGNMENT_LEFT, body_width,
+		_story_font_size(20))
+	return measured.y <= body_height - 8.0
+
+func _story_visible_text(text: String) -> String:
+	var visible := ""
+	var inside_tag := false
+	for index in range(text.length()):
+		var character := text.substr(index, 1)
+		if character == "[":
+			inside_tag = true
+		elif character == "]" and inside_tag:
+			inside_tag = false
+		elif not inside_tag:
+			visible += character
+	return visible
+
+func _story_safe_page_break(text: String, best: int) -> int:
+	var tag_depth := 0
+	var safe_breaks: Array[int] = []
+	var index := 0
+	while index < mini(best, text.length()):
+		if text.substr(index, 1) == "[":
+			var close := text.find("]", index)
+			if close < 0 or close >= best:
+				break
+			var tag := text.substr(index + 1, close - index - 1).strip_edges()
+			if tag.begins_with("/"):
+				tag_depth = maxi(0, tag_depth - 1)
+			elif not tag.ends_with("/") and not tag.begins_with("br"):
+				tag_depth += 1
+			index = close + 1
+			continue
+		var character := text.substr(index, 1)
+		if tag_depth == 0 and (character in [" ", "\n", ".", ",", "!", "?", "。", "！", "？"]):
+			safe_breaks.append(index + 1)
+		index += 1
+	var minimum_break := maxi(1, int(float(best) * 0.55))
+	for safe_index in range(safe_breaks.size() - 1, -1, -1):
+		var candidate := int(safe_breaks[safe_index])
+		if candidate >= minimum_break:
+			return candidate
+	return maxi(1, best)
+
+func _story_source_paragraph_index(page_index: int) -> int:
+	if page_index >= 0 and page_index < _paragraph_source_indices.size():
+		return int(_paragraph_source_indices[page_index])
+	return maxi(0, page_index)
+
+func _first_story_page_for_source(source_index: int) -> int:
+	for page_index in range(_paragraph_source_indices.size()):
+		if int(_paragraph_source_indices[page_index]) == source_index:
+			return page_index
+	return clampi(source_index, 0, _paragraphs.size() - 1)
+
+func _story_source_page_progress(page_index: int, within_page: float) -> float:
+	var source_index := _story_source_paragraph_index(page_index)
+	var source_pages: Array[int] = []
+	for candidate in range(_paragraph_source_indices.size()):
+		if int(_paragraph_source_indices[candidate]) == source_index:
+			source_pages.append(candidate)
+	if source_pages.is_empty():
+		return 0.0
+	var ordinal := source_pages.find(page_index)
+	if ordinal < 0:
+		ordinal = 0
+	return clampf(
+		(float(ordinal) + clampf(within_page, 0.0, 1.0)) /
+			float(source_pages.size()), 0.0, 0.999)
+
+func _story_page_for_source_progress(source_index: int, progress: float) -> int:
+	var source_pages: Array[int] = []
+	for page_index in range(_paragraph_source_indices.size()):
+		if int(_paragraph_source_indices[page_index]) == source_index:
+			source_pages.append(page_index)
+	if source_pages.is_empty():
+		return _first_story_page_for_source(source_index)
+	var ordinal := mini(
+		source_pages.size() - 1,
+		int(floor(clampf(progress, 0.0, 0.999) * float(source_pages.size()))))
+	return int(source_pages[ordinal])
 
 func _render_current():
 	_reset_advance_hold()
@@ -2438,9 +2607,9 @@ func _render_current():
 		_animate_story_text_panel()
 
 	# 본문 문단 분할. 언어 즉시 전환도 같은 해석 함수를 사용해 현재 장면만 다시 바인딩한다.
-	_paragraphs = _split_story_paragraphs(_resolved_story_description(_current))
+	_apply_story_page_data(_story_page_data(_resolved_story_description(_current)))
 	_para_index = 0
-	_play_current_paragraph_audio(_para_index)
+	_play_current_paragraph_audio(_story_source_paragraph_index(_para_index))
 	_start_typing(_paragraphs[0])
 
 func _play_current_paragraph_audio(paragraph_index: int) -> void:
@@ -2972,18 +3141,22 @@ func _on_advance():
 		_complete_typing()
 		return
 	# 다음 문단
+	var previous_source_index := _story_source_paragraph_index(_para_index)
 	_para_index += 1
 	if _para_index < _paragraphs.size():
-		_maybe_change_event_background(_para_index)
-		_maybe_reveal_event_portrait(_para_index)
-		_maybe_reveal_event_cg(_para_index)
-		if _pending_after_result:
-			AudioManager.play_scene_result_paragraph_cues(
-				str(_current.get("id", "")), _event_cg_id,
-				_pending_result_choice_index, _para_index)
-		else:
-			_play_current_paragraph_audio(_para_index)
-		if str(_direction.get("pace", "")) == "beat":
+		var source_index := _story_source_paragraph_index(_para_index)
+		var entered_new_authored_paragraph := source_index != previous_source_index
+		if entered_new_authored_paragraph:
+			_maybe_change_event_background(source_index)
+			_maybe_reveal_event_portrait(source_index)
+			_maybe_reveal_event_cg(source_index)
+			if _pending_after_result:
+				AudioManager.play_scene_result_paragraph_cues(
+					str(_current.get("id", "")), _event_cg_id,
+					_pending_result_choice_index, source_index)
+			else:
+				_play_current_paragraph_audio(source_index)
+		if entered_new_authored_paragraph and str(_direction.get("pace", "")) == "beat":
 			_begin_direction_beat(str(_paragraphs[_para_index]))
 		else:
 			_start_typing(str(_paragraphs[_para_index]))
@@ -3393,17 +3566,10 @@ func _story_result_display_effects(eff: Dictionary) -> Dictionary:
 func _story_result_effect_visible(key: String) -> bool:
 	return key not in ["tint", "route_orthodox", "route_unorthodox"]
 
-func _story_result_visible_cast_effects(cast_effects: Dictionary) -> Array:
-	var visible: Array = []
-	for pid in cast_effects:
-		var item = cast_effects[pid]
-		if not (item is Dictionary):
-			continue
-		var val := int(item.get("affinity", 0))
-		if val == 0:
-			continue
-		visible.append({"id": str(pid), "affinity": val})
-	return visible
+func _story_result_visible_cast_effects(_cast_effects: Dictionary) -> Array:
+	# 관계는 표정·대사·후속 행동으로 읽힌다. 숫자를 공개하면 인물을
+	# 공략식으로 환원하고, 다음 선택의 정답까지 미리 가르치게 된다.
+	return []
 
 func _story_result_tone_label(disp: Dictionary, cast_items: Array = []) -> Dictionary:
 	var positive := 0
@@ -3809,17 +3975,12 @@ func _on_choice(idx: int):
 	if result != "":
 		if has_result_record:
 			_show_story_result_record(choice)
-		_paragraphs = []
-		for para in result.split("\n\n"):
-			var p = str(para).strip_edges()
-			if p != "":
-				_paragraphs.append(p)
-		if _paragraphs.is_empty():
-			_paragraphs = [result]
+		_apply_story_page_data(_story_page_data(result))
 		_para_index = 0
 		_pending_after_result = true
 		AudioManager.play_scene_result_paragraph_cues(
-			current_event_id, _event_cg_id, idx, _para_index)
+			current_event_id, _event_cg_id, idx,
+			_story_source_paragraph_index(_para_index))
 		_start_typing(_paragraphs[0])
 	else:
 		_after_result()
@@ -4129,17 +4290,9 @@ func _show_change_toasts(before: Dictionary):
 			good = diff < 0
 		_spawn_toast(txt, Color("#00c896") if good else Color("#ff6b6b"))
 
-## 인물 관계(호감도) 변화 토스트
-func _show_cast_toasts(before: Dictionary):
-	for pid in before:
-		var now = GameState.get_cast_affinity(pid)
-		var diff = now - int(before[pid])
-		if diff == 0:
-			continue
-		var nm = _cast_display_name(pid)
-		var arrow = _tr("▲ 가까워짐", "▲ closer") if diff > 0 else _tr("▼ 멀어짐", "▼ distant")
-		var txt = _tr("%s 호감도 %s%d  (%s)", "%s affinity %s%d  (%s)") % [nm, "+" if diff > 0 else "", diff, arrow]
-		_spawn_toast(txt, Color("#e8a0c0") if diff > 0 else Color("#ff6b6b"))
+## 관계 수치는 숨긴다. 변화는 같은 장면의 연기와 후속 사건이 회수한다.
+func _show_cast_toasts(_before: Dictionary):
+	pass
 
 func _spawn_toast(text: String, color: Color):
 	var palette := _story_palette()

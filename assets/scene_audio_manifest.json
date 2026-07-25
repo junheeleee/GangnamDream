@@ -1,6 +1,6 @@
 {
-  "version": 9,
-  "updated": "2026-07-24",
+  "version": 10,
+  "updated": "2026-07-26",
   "policy": {
     "diegetic_spoken_language": "ko",
     "localize_diegetic_speech": false,
@@ -293,6 +293,10 @@
         "1": [{"sfx": "bicycle_impact", "volume_db": -3.0}]
       }
     },
+    "arc_jiyeon_02_store": {
+      "ambience": "rain",
+      "music": {"key": "jiyeon", "start_paragraph": 2}
+    },
     "hyunsu_study_together": {
       "ambience": "goshiwon_hallway",
       "music": {"key": "hyunsu", "start_paragraph": 1},
@@ -349,7 +353,8 @@
     "arc_sangchul_03_network": {"ambience": "cafe", "suppress_music": true},
     "arc_daeun_03_fork": {"ambience": "convenience", "suppress_music": true},
     "arc_father_medication": {"ambience": "office", "suppress_music": true},
-    "arc_jiyeon_03_offer": {"ambience": "convenience", "suppress_music": true},
+    "arc_jiyeon_03_offer": {"ambience": "rain", "suppress_music": true},
+    "arc_jiyeon_03b_lunch": {"ambience": "cafe", "music": {"key": "jiyeon", "start_paragraph": 2}},
     "arc_34_doors_open": {"ambience": "office", "suppress_music": true},
     "arc_34_parents_visit": {"ambience": "current_housing", "suppress_music": true},
     "arc_father_03_hospital": {"ambience": "current_housing", "suppress_music": true},

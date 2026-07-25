@@ -27,6 +27,9 @@ func _ready() -> void:
 	if not await _check_default_auto_contract():
 		return
 	await _free_story_fixture()
+	if not await _check_story_text_pagination():
+		return
+	await _free_story_fixture()
 	if not await _check_accept_hold_boundary():
 		return
 	await _free_story_fixture()
@@ -81,6 +84,42 @@ func _ready() -> void:
 		+ "direct_commit=1 hints=ko_en_xbox_ps_nintendo choice_commit=0"
 	)
 	get_tree().quit(0)
+
+func _check_story_text_pagination() -> bool:
+	var original_size := str(SaveManager.get_setting("story_text_size", "standard"))
+	if not await _spawn_story_fixture("arc_sangchul_01_answer"):
+		return false
+	var choices: Array = (_story.get("_current") as Dictionary).get("choices", [])
+	if choices.is_empty():
+		_fail("long-result fixture has no choice")
+		return false
+	var result_text := str((choices[0] as Dictionary).get("result_text", ""))
+	for size_level in ["standard", "large"]:
+		_story.call("_set_story_text_size", size_level)
+		var page_data: Dictionary = _story.call("_story_page_data", result_text)
+		var pages: Array = page_data.get("pages", [])
+		var source_indices: Array = page_data.get("source_indices", [])
+		if pages.size() < 2:
+			_fail("%s story text did not paginate the clipped Sangchul result" % size_level)
+			return false
+		if source_indices.size() != pages.size():
+			_fail("%s story pagination lost source paragraph mapping" % size_level)
+			return false
+		for page_index in range(pages.size()):
+			if int(source_indices[page_index]) != 0:
+				_fail("%s story pagination changed the authored paragraph index" % size_level)
+				return false
+			if not bool(_story.call("_story_page_fits", str(pages[page_index]))):
+				_fail("%s story page %d still overflows the dialogue panel" % [
+					size_level, page_index])
+				return false
+	if not (_story.call("_story_result_visible_cast_effects", {
+		"jiyeon": {"affinity": 5},
+	}) as Array).is_empty():
+		_fail("StoryMode exposed exact relationship deltas")
+		return false
+	_story.call("_set_story_text_size", original_size)
+	return true
 
 func _spawn_story_fixture(
 		event_id: String = "story_prologue_dad",

@@ -28,7 +28,9 @@ WEEKS_PER_CHAPTER = 48
 TOTAL_CHAPTERS = 5
 CHAPTER_RATCHETS = {
     1: {
-        "chained_min": 7,
+        # Survival-job paths use the substantial Hyunsu kitchen scene directly
+        # at week 20 instead of inventing a company-manager prelude.
+        "chained_min": 6,
         "peak_roots_min": 1,
         "temporal_roots_min": 3,
         "isolated_micro_max": 0,

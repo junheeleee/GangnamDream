@@ -9,8 +9,8 @@
         "result_text": "Watched two races. From the stands, the horses rounding the corners were fast and quiet. More to see than expected.\nNo betting. That was a choice too."
       },
       {
-        "text": "Buy a win ticket (5,000 won)",
-        "result_text": "Picked number 7. No reason. Just liked 7.\nResult: 4th place. No payout.\n5,000 won gone. Strangely, it didn't sting much.\nThat was the scary part."
+        "text": "Pick a win ticket for yourself",
+        "result_text": "{name} stepped up to the betting terminal.\n\nThe race card was packed with recent form, jockeys, assigned weight, and odds. Only now did it feel real: choosing one number meant putting money behind it.\n\nWatching was over. It was time to choose a horse and place the bet."
       },
       {
         "text": "Ask a nearby guy how he picks",

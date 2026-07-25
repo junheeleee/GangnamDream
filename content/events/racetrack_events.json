@@ -73,17 +73,17 @@
         "follow_up_event": ""
       },
       {
-        "text": "단승 한 장 사본다 (5,000원)",
+        "text": "단승 한 장 직접 골라본다",
         "effects": {
-          "money": -5000,
           "luck": 2,
           "mental": 3
         },
         "flags": [
           "racetrack_visited",
-          "racetrack_bet_first"
+          "racetrack_bet_first",
+          "open_racetrack_after_story"
         ],
-        "result_text": "7번 마를 찍었다. 근거는 없었다. 그냥 7이 좋아서.\n결과는 4위. 환급 없음.\n5천원이 사라졌다. 생각보다 아깝지 않았다.\n그게 좀 무서웠다.",
+        "result_text": "{name}은 마권 발매기 앞에 섰다.\n\n출전표에는 최근 전적, 기수, 부담 중량, 배당이 빼곡했다. 숫자를 하나 고르는 순간 돈이 걸린다는 사실이 이제야 실감났다.\n\n구경은 여기까지였다. 직접 말을 고르고 베팅할 차례였다.",
         "follow_up_event": ""
       },
       {

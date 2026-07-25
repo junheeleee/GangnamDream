@@ -1,12 +1,73 @@
 # Story Consistency System
 
-Updated: 2026-07-17
+Updated: 2026-07-26
 
 ## Purpose
 
 `content/meta/story_rules.json` is the language-independent source for story facts that must not drift between Korean text, English overlays, routing code, portraits, and backgrounds.
 
 The ledger does not replace the save-compatible flag system in one risky rewrite. It first makes hidden assumptions measurable, then moves runtime routing to typed facts in controlled slices.
+
+## Event ID Is the Join Key
+
+Every authored event keeps one stable ID across all layers:
+
+- Korean source and localized text overlays
+- executable prerequisites and outcomes
+- participants and their role in the physical scene
+- background, portrait, CG, ambience, and transition contracts
+- route simulation and regression tests
+
+Do not infer these facts from prose or filenames. A rewrite may keep the event ID
+for save compatibility while changing its title, venue, or wording; the contracts
+attached to that ID must change in the same commit.
+
+### Executable prerequisites
+
+`logic.prerequisites` is the first generic runtime-owned gate. It accepts `all`
+and `any` groups whose clauses use a dotted state path:
+
+```json
+{
+  "logic": {
+    "prerequisites": {
+      "all": [
+        {"path": "turn", "op": "gte", "value": 20},
+        {"path": "player.job.id", "op": "in", "value": ["job_03", "job_08"]},
+        {"path": "flags.scene_seen", "op": "neq", "value": true}
+      ]
+    }
+  }
+}
+```
+
+Supported operators are `eq`, `neq`, `in`, `not_in`, `gte`, `lte`, `truthy`,
+and `falsy`. Runtime context currently exposes `turn`, `player`, and `flags`.
+New domains must be added to one context builder rather than read ad hoc inside
+each scheduler branch.
+
+### Participant roles and audiovisual expectations
+
+An in-person scene may add `participant_roles` and exact expectations:
+
+```json
+{
+  "presentation": {
+    "channel": "in_person",
+    "scene_location": "convenience_store",
+    "participants": ["player", "daeun"],
+    "participant_roles": {"player": "customer", "daeun": "clerk"},
+    "expected_background": "convenience_night",
+    "expected_portrait": "daeun_smile",
+    "expected_ambience": "convenience"
+  }
+}
+```
+
+`story_consistency_audit.py` joins this declaration to the event JSON, visual
+contract, and scene-audio manifest. A customer scanning the register, a company
+manager visiting an unemployed save, or a Korean restaurant showing a cafe must
+fail before playtest.
 
 ## Contract Layers
 
@@ -114,8 +175,12 @@ Do not infer channels from localized prose at runtime. Text scanning is only an 
 ## Migration Order
 
 1. Audit-only ledger and remote-presentation runtime: complete.
-2. Demo weeks 1-24 prerequisite evaluation from the ledger.
-3. Father, romance, Sangchul, and ending-critical routing.
-4. Remaining authored arcs, then ambient/random events.
+2. Demo weeks 1-24 prerequisite evaluation from the ledger: in progress.
+3. Migrate job-dependent and romance-critical events with participant and A/V
+   contracts.
+4. Move repeated choice effects into one validated effect evaluator.
+5. Resolve MORAL_TINT through authored presentation profiles rather than
+   scattered color literals.
+6. Remaining authored arcs, then ambient/random events.
 
 Hard contradictions fail the build even if an aggregate quality score is high. Coverage percentage is progress, not permission to ship an impossible scene.

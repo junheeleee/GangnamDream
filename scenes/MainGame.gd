@@ -393,6 +393,14 @@ func _run_theme_display(theme_id: String) -> String:
 ## 앰비언트 이벤트(_maybe_play_month_situation)는 여기서 부르지 않는다.
 ## 아크/마일스톤/프롤로그가 이미 재생된 달에 랜덤 이벤트가 추가로 뜨는 것을 방지.
 func _continue_after_story():
+	var followup_activity := _take_story_followup_activity()
+	if followup_activity == "racetrack":
+		SceneTransition.fade_in()
+		current_event = {}
+		_refresh_all()
+		_render_ap_actions()
+		call_deferred("_open_racetrack")
+		return
 	if not _foreground_story_consumed_this_week():
 		var arc_id = _next_arc_id(-1, false, true)
 		if arc_id != "":
@@ -408,6 +416,12 @@ func _continue_after_story():
 	if _demo_director_requires_player_input():
 		TutorialOverlay.maybe_show("main_game", self)
 	_demo_director_route_week()
+
+func _take_story_followup_activity() -> String:
+	if bool(GameState.flags.get("open_racetrack_after_story", false)):
+		GameState.flags.erase("open_racetrack_after_story")
+		return "racetrack"
+	return ""
 
 func _init_systems():
 	investment_system = load("res://systems/InvestmentSystem.gd").new()
@@ -2594,6 +2608,23 @@ func _office_routine_available(f: Dictionary, at_turn: int = -1) -> bool:
 			and GameState.job_tenure >= 3 \
 			and not f.get("arc_office_routine_seen", false)
 
+func _story_rule_context(at_turn: int, f: Dictionary) -> Dictionary:
+	return {
+		"turn": at_turn,
+		"player": {
+			"job": GameState.current_job,
+			"investment_skill": GameState.investment_skill,
+		},
+		"flags": f,
+	}
+
+func _story_event_prerequisites_met(event_id: String, at_turn: int,
+		f: Dictionary) -> bool:
+	if DataRegistry.find_story_rule(event_id).is_empty():
+		return false
+	return DataRegistry.story_prerequisites_met(
+		event_id, _story_rule_context(at_turn, f))
+
 func _demo_narrative_bridge_choice(event_id: String) -> int:
 	var f := GameState.flags
 	match event_id:
@@ -3036,9 +3067,7 @@ func _next_arc_id(
 		return "arc_jiyeon_02_store"
 	if f.get("arc_jiyeon_store_seen", false) and not f.get("arc_jiyeon_offer_seen", false) and t >= 58:
 		return "arc_jiyeon_03_offer"
-	if t >= 70 and f.get("arc_jiyeon_offer_seen", false) \
-			and not f.get("arc_jiyeon_03b_seen", false) \
-			and not f.get("arc_sangchul_jiyeon_reveal_seen", false):
+	if _story_event_prerequisites_met("arc_jiyeon_03b_lunch", t, f):
 		return "arc_jiyeon_03b_lunch"
 
 	# ── 추론 발견 경로 — 한PD건설 단서로 스스로 진실에 닿는 씬 (지력55+ 또는 비정통 경향) ──
@@ -3160,11 +3189,8 @@ func _next_arc_id(
 			and not f.get("arc_sangchul_jiyeon_reveal_seen", false):
 		return "arc_sangchul_jiyeon_reveal"
 
-	# ── 직장+투자 충돌 — 직장 있고 투자 시작했을 때 (턴 20~30) ──
-	if t >= 20 and t <= 30 \
-			and not GameState.current_job.is_empty() \
-			and GameState.investment_skill >= 10 \
-			and not f.get("arc_job_invest_clash_seen", false):
+	# 직장·투자 충돌의 주차, 직업, 투자 숙련, 1회 조건은 사건 정합 원장이 소유한다.
+	if _story_event_prerequisites_met("arc_job_vs_invest", t, f):
 		return "arc_job_vs_invest"
 
 	# ── 월급의 한계 — 2년 차, 반년 이상 재직한 뒤 ──
@@ -5858,7 +5884,7 @@ func _append_scene_commitment_ledger(record: Dictionary) -> void:
 	for detail in [
 		[_tr("실제 결과", "ACTUAL RESULT"), _weekly_commitment_outcome_text(record), "#e4e9ef"],
 		[_tr("그 주에 놓친 길", "NOT CHOSEN THAT WEEK"), _weekly_commitment_forgone_labels(record), "#b7bec7"],
-		[_tr("남은 파장", "REMAINING WAVE"), _weekly_commitment_later_text(record), "#929ba7"],
+		[_tr("남은 웨이브", "REMAINING WAVE"), _weekly_commitment_later_text(record), "#929ba7"],
 	]:
 		var value := str(detail[1]).strip_edges()
 		if value.is_empty():
@@ -7312,7 +7338,7 @@ func _weekly_commitment_echo_record(record: Dictionary) -> String:
 	var forgone := _weekly_commitment_forgone_labels(record)
 	var later := _weekly_commitment_later_text(record)
 	return _tr(
-		"택한 것 · {chosen}\n실제 결과 · {outcome}\n그 주에 놓친 길 · {forgone}\n남은 파장 · {later}",
+		"택한 것 · {chosen}\n실제 결과 · {outcome}\n그 주에 놓친 길 · {forgone}\n남은 웨이브 · {later}",
 		"CHOSEN · {chosen}\nACTUAL RESULT · {outcome}\nNOT CHOSEN THAT WEEK · {forgone}\nREMAINING WAVE · {later}"
 	).format({
 		"chosen": chosen,
@@ -7744,7 +7770,7 @@ func _contextual_week_pressure(person_id: String, person_name: String) -> Dictio
 			return {
 				"id": "home_margin",
 				"family": "housing",
-				"title": _tr("{home}이 이번 달의 크기를 정한다", "The {home} sets the size of this month").format({"home": housing_name}),
+				"title": _tr("이번 달도 {home}에서 버틴다", "Another month in the {home}").format({"home": housing_name}),
 				"question": _tr("지출을 줄일까, 한 번 더 벌까, 방 안에서 숨을 돌릴까?", "Cut spending, earn once more, or breathe at home?"),
 				"detail": _tr("월 고정비 {rent} · 현금 {cash}", "Monthly bills {rent} · cash {cash}").format({
 					"rent": GameState.format_money(GameState.get_monthly_required_cash()),
@@ -9093,27 +9119,27 @@ func _ap_action_preview(fn_name: String, icon_id: String) -> String:
 		"_ap_contact_person":
 			return _tr("낮은 위험 · AP 1 · 정신 +5 · 스트레스 -3 · 관계 +4 · 1~3주: 인연", "LOW · AP 1 · Mental +5 · Stress -3 · Bond +4 · 1–3W: relationship")
 		"_open_cat_people":
-			return _tr("파장  관계와 다음 장면이 달라진다", "ECHO  Bonds and later scenes can change")
+			return _tr("웨이브  관계와 다음 장면이 달라진다", "ECHO  Bonds and later scenes can change")
 		"_open_cat_gambling":
 			return _tr("높은 위험 · 현금 손실 · 즉시 결과 · 1~3주: 중독과 통제 비용", "HIGH · Cash loss · Instant result · 1–3W: addiction and control cost")
 		"_open_racetrack", "_open_holdem", "_open_scalping", "_open_jeongseon_casino":
-			return _tr("높은 위험 · AP 1 · 현금 손실 가능 · 즉시 결과 · 1~3주 파장", "HIGH · AP 1 · Cash loss possible · Instant result · 1–3W echo")
+			return _tr("높은 위험 · AP 1 · 현금 손실 가능 · 즉시 결과 · 1~3주 웨이브", "HIGH · AP 1 · Cash loss possible · Instant result · 1–3W echo")
 		"_open_routine_modal":
 			return _tr("시간  조용한 주를 최대 4주 압축", "TIME  Compress up to four quiet weeks")
 		"_ap_date":
-			return _tr("파장  관계 · 둘만의 장면", "ECHO  Relationship · a scene together")
+			return _tr("웨이브  관계 · 둘만의 장면", "ECHO  Relationship · a scene together")
 		"_open_cat_life":
 			return _tr("무료  주거와 생활을 정리한다", "FREE  Manage housing and daily life")
 	match icon_id:
 		"job":
-			return _tr("파장  경력과 월수입", "ECHO  Career and monthly income")
+			return _tr("웨이브  경력과 월수입", "ECHO  Career and monthly income")
 		"money":
-			return _tr("파장  이번 달 현금흐름", "ECHO  This month's cashflow")
+			return _tr("웨이브  이번 달 현금흐름", "ECHO  This month's cashflow")
 		"people":
-			return _tr("파장  관계와 이후의 선택", "ECHO  Bonds and later choices")
+			return _tr("웨이브  관계와 이후의 선택", "ECHO  Bonds and later choices")
 		"casino":
 			return _tr("위험  현금과 통제력", "RISK  Cash and control")
-	return _tr("파장  이번 주 이후에 남는다", "ECHO  Carries beyond this week")
+	return _tr("웨이브  이번 주 이후에 남는다", "ECHO  Carries beyond this week")
 
 func _make_ap_board_card(title: String, subtitle: String, icon_id: String,
 		accent: String, disabled: bool, free_action: bool, forced_badge: String,
@@ -12615,7 +12641,7 @@ func _open_racetrack():
 func _on_racetrack_closed():
 	_exit_minigame_overlay()
 	_record_gamble_session_result(_settle_gamble_session(
-		"gamble_racetrack", "racetrack", "expedition", racetrack))
+		"gamble_racetrack", "racetrack", "racetrack", racetrack))
 	_refresh_all()
 	_render_ap_actions()
 
@@ -12974,17 +13000,9 @@ func _story_result_feedback_card(effects: Dictionary, selected_choice: Dictionar
 		grid.add_child(_wrap_label(_tr("눈에 띄는 변화는 없었다.", "No visible stat change."), 12, "#8f98aa"))
 	return card
 
-func _story_result_visible_cast_effects(cast_effects: Dictionary) -> Array:
-	var visible: Array = []
-	for pid in cast_effects:
-		var item = cast_effects[pid]
-		if not (item is Dictionary):
-			continue
-		var val := int(item.get("affinity", 0))
-		if val == 0:
-			continue
-		visible.append({"id": str(pid), "affinity": val})
-	return visible
+func _story_result_visible_cast_effects(_cast_effects: Dictionary) -> Array:
+	# 관계는 수치 공략표가 아니라 이후의 말투·행동·장면으로 읽힌다.
+	return []
 
 func _story_result_cast_badge(pid: String, affinity_delta: int) -> Control:
 	var badge := PanelContainer.new()

@@ -157,7 +157,7 @@
   {
     "id": "arc_jiyeon_01_crash",
     "title": "Contact",
-    "description": "Spring afternoon. On the way to work.\nPedaling the bike, turning into an alley — a black sedan swung out and clipped the front wheel.\n\n{name} hit the asphalt. Knee scraped. Front wheel bent.\n\nA woman steps out from the driver's seat. Early thirties. Long black hair, a cream tailored suit, and a composure that looks more expensive than the car. But right now, she is clearly shaken.\n\n'Oh no — are you okay? I can call insurance—'\n\n{name} stands the bike back up. Checks the wheel. Checks the watch.\n40 minutes to the start of the shift.",
+    "description": "Spring afternoon. A back road in Sinchon.\nA black sedan swung around the corner and clipped the front wheel of {name}'s bicycle.\n\n{name} hit the asphalt. Knee scraped. Front wheel bent.\n\nA woman stepped out from the driver's seat. Early thirties. Long black hair, a cream tailored suit, and a composure that looked more expensive than the car. But right then, she was clearly shaken.\n\n\"Oh no — are you okay? I can call insurance—\"\n\n{name} stood the bicycle back up and checked the wheel. There were still things to finish before the day was over. He could not afford to spend much longer in the road.",
     "choices": [
       {
         "text": "'I'm fine.' — Just leave.",
@@ -172,28 +172,28 @@
         "result_text": "Words that had been held in came out. She bows her head.\n'...I'm really sorry.'\n\nIt seemed genuine. Which made it impossible to stay angry.\n{name} sighs and walks the bent bike away.\nThe weight of her gaze lingered."
       }
     ],
-    "description_orthodox": "Spring afternoon. A Sinchon back road.\n\nA black sedan came around the corner and clipped the bike. He went down. Knee bleeding. Wheel bent.\n\nThe car door opened. A woman in her early thirties. A flustered look.\n\n{name} tallied the losses — wheel repair, the late penalty at work, hospital fees.\n\n\"The hospital's fine. Just the repair—\"\n\nThen he checked his watch. 40 minutes until his shift. No time to argue now.",
-    "description_unorthodox": "Spring afternoon. A Sinchon back road.\n\nBlack sedan. Corner. Impact. Down.\n\nGetting up, {name} caught the plate. Foreign car. Money in this neighborhood.\n\nThe woman stepped out. Playing flustered, but her eyes were calm. Someone used to situations like this.\n\n\"You should really see a doctor—\"\n\n{name} worked out that he had 40 minutes until his shift.\nAnd that this woman owed something."
+    "description_orthodox": "Spring afternoon. A Sinchon back road.\n\nA black sedan came around the corner and clipped the bike. He went down. Knee bleeding. Wheel bent.\n\nThe car door opened. A woman in her early thirties. A flustered look.\n\n{name} tallied the losses — wheel repair, hospital fees, the hours left in the day.\n\n\"The hospital's fine. Just the repair—\"\n\nHe could not afford to spend much longer arguing in the road.",
+    "description_unorthodox": "Spring afternoon. A Sinchon back road.\n\nBlack sedan. Corner. Impact. Down.\n\nGetting up, {name} caught the plate. Foreign car. Money in this neighborhood.\n\nThe woman stepped out. Playing flustered, but her eyes were calm. Someone used to situations like this.\n\n\"You should really see a doctor—\"\n\n{name} calculated the hours left in the day and the bent wheel.\nAnd the fact that this woman now owed him something."
   },
   {
     "id": "arc_jiyeon_02_store",
     "title": "You Again",
-    "description": "Convenience store night shift.\nPast midnight. The door chime rings.\n\n{name} stops.\nIt's her. The woman who drove the car that hit the bike.\n\nShe recognizes {name} too. Her eyes go wide.\n'...Oh? The one from—?'\n\nA bottle of wine in her hand. Clothes that don't belong in this neighborhood.\nWhy is she here, at this hour, at this store?",
+    "description": "Late at night, at a bus stop near Sinchon Station. The rain had just let up.\n\nA black sedan eased to the edge of the wet road. The driver's door opened and a woman stepped out.\n\nIt was the driver who had hit the bicycle.\n\nShe recognized {name} too. Her eyes widened.\n\"...Wait. You're the one from that day, aren't you?\"\n\nThe arrival time changed on the bus display. This time there was no counter, and no one else between them.",
     "choices": [
       {
-        "text": "Pretend not to know her. Ring it up.",
-        "result_text": "'15,000 won.'\n{name} scans the barcode mechanically.\n\nShe looks like she's about to say something. Hands over the card. Bags up. Picks it up.\nAt the door, one last look back.\n'...You work here.'\nThe door closes. Chime rings."
+        "text": "Pretend not to recognize her and watch the bus display",
+        "result_text": "{name} kept his eyes on the display.\n\nThe woman took one step closer first.\n\"Excuse me. Is the bicycle okay? I never apologized properly that day.\"\n\nOnly then did {name} turn. An awkward silence passed.\n\"I'm Han Jiyeon. I thought I should at least tell you my name.\"\n\nBus headlights spread across the wet road in the distance."
       },
       {
-        "text": "'The car.' Acknowledge her first.",
-        "result_text": "Her face lights up. Relieved.\n'You remember me! I felt so bad — I looked around for a while after you left.'\n'Nothing to look for.'\n'But people don't usually just walk away like that.'\nShe hesitates a moment, then:\n'I'm Han Jiyeon.'\nFor the first time that day — a name."
+        "text": "\"You were driving that day, right?\" Speak first",
+        "result_text": "The tension left her face.\n\"You remember. You just walked away that day, and it kept bothering me.\"\n\"There was no need to look for me.\"\n\"People don't usually leave like that.\"\n\nShe hesitated, then held out a hand.\n\"I'm Han Jiyeon. I wanted to at least give you my name this time.\"\n\nFor the first time, there was a name between them."
       }
     ]
   },
   {
     "id": "arc_jiyeon_03_offer",
     "title": "Let Me Make It Up to You",
-    "description": "A few days later, with his mother's message still sitting among his phone notifications, {name} stopped at the convenience store for a triangle gimbap.\n\nThat car was parked outside. Han Jiyeon stepped out. This was no accident; she looked as though she had been waiting to find him again.\n\n\"Just let me buy you one coffee. If not that, then a meal. It's been weighing on me. That day was my fault, and you walked away without taking anything.\"\n\nIn the space of one week, Daeun had asked whether to leave Seoul, his mother had mentioned his father's medication, and now Jiyeon wanted to repay a debt of conscience. Three voices held {name} from different directions.\n\nJiyeon seemed sincere. But if one coffee became a beginning, the distance between their worlds would come into sharper focus.",
+    "description": "A few days later, on a main road in the same neighborhood. Rain was falling again.\n\nThe black sedan stopped beside the bus shelter. Han Jiyeon got out with an umbrella. This was not another chance encounter.\n\n\"Just let me buy you one coffee. If not that, then a meal. It's been weighing on me. That day was my fault, and you walked away without taking anything.\"\n\nFor days, a message about his father's medication and job alerts had been piling up on the same phone screen. Now Jiyeon wanted to repay a debt of conscience.\n\nShe seemed sincere. But if one coffee became a beginning, the distance between their worlds would come into sharper focus.",
     "choices": [
       {
         "text": "Decline — \"Don't worry about it. I'm really fine.\"",
@@ -212,7 +212,7 @@
   {
     "id": "arc_jiyeon_03b_lunch",
     "title": "Her World",
-    "description": "Jiyeon said she was buying lunch. A promise.\n\nShe took {name} to a Korean restaurant in Cheongdam. Lunch set: 40,000 won.\n\n{name} opened the menu, closed it, opened it again, closed it.\n\nShe pretended not to notice. Or really didn't.\nAfter ordering she said:\n\n'Actually you're interested in investing. You're studying for your father's company, but there's no one in your circle who does this, which is frustrating.'\n\n{name} thought for a moment.\nWhat exactly does this person want — impossible to read clearly.",
+    "description": "A few days later, Jiyeon contacted {name} again. This time, she asked him to join her for lunch.\n\nShe took {name} to a Korean restaurant in Cheongdam. Lunch set: 40,000 won.\n\n{name} opened the menu, closed it, opened it again, closed it.\n\nShe pretended not to notice. Or really didn't.\nAfter ordering she said:\n\n\"I'm interested in investing, actually. I've been studying because of my father's company, but no one around me is into this stuff. It gets frustrating.\"\n\n{name} thought for a moment.\nWhat exactly did this person want? It was impossible to tell.",
     "choices": [
       {
         "text": "'I'm studying it too. Let's talk.' — Approach as investment partners.",

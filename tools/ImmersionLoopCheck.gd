@@ -99,7 +99,7 @@ func _check_action_consequence_echoes() -> void:
 	var rest_frame_ko := EventManager.causal_frame_for(health_event)
 	LocaleManager.language = "en"
 	var rest_frame_en := EventManager.causal_frame_for(health_event)
-	if not (rest_frame_ko.contains("멈춘") or rest_frame_ko.contains("비워 둔")):
+	if not (rest_frame_ko.contains("멈춘") or rest_frame_ko.contains("비워")):
 		_fail("rest event lost its exact Korean cause: %s" % rest_frame_ko)
 	if rest_frame_en.findn("application") >= 0 or _contains_hangul(rest_frame_en):
 		_fail("rest event inherited the application cause: %s" % rest_frame_en)

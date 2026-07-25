@@ -1803,7 +1803,7 @@ func consume_weekly_commitment_echoes(max_count: int = 2) -> Array:
 	return returned
 
 func _register_action_place(place_id: String, axis: String) -> void:
-	if not place_id in ["home", "store", "work", "river", "city", "underground", "expedition"]:
+	if not place_id in ["home", "store", "work", "river", "city", "underground", "expedition", "racetrack"]:
 		return
 	var visit: Dictionary = action_places_this_week.get(place_id, {
 		"count": 0,
@@ -1826,6 +1826,7 @@ const ACTION_PLACE_ECHO_FAMILIES := {
 	"money:city": ["social", "network", "career"],
 	"money:underground": ["investment", "finance", "gambling", "risk", "holdem"],
 	"money:expedition": ["gambling", "casino", "racetrack", "risk"],
+	"money:racetrack": ["gambling", "racetrack", "risk"],
 	"human:home": ["health", "rest", "daily_life", "family", "relationship"],
 	"human:store": ["relationship", "romance", "social", "daeun"],
 	"human:river": ["health", "rest", "leisure", "social", "relationship"],

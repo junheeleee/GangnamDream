@@ -7,11 +7,13 @@ var _failures: Array[String] = []
 func _ready() -> void:
 	_check_opening_intent()
 	_check_opening_interview_causality()
+	_check_story_prerequisite_contract()
+	_check_racetrack_story_handoff()
 	_check_boss_choice(0, "arc_temptation_clean")
 	_check_boss_choice(1, "arc_temptation_fallout")
 	_check_foreground_commitment_weeks()
 	if _failures.is_empty():
-		print("CORE_CHOICE_SLICE_CHECK_OK intent=1 interview=causal authored=7 generic=2 ap_duplicate=0 delayed=t8 branches=2 axes=money/human save=roundtrip")
+		print("CORE_CHOICE_SLICE_CHECK_OK intent=1 interview=causal job_gate=ledger jiyeon_lunch=branch_gated racetrack=handoff authored=7 generic=2 ap_duplicate=0 delayed=t8 branches=2 axes=money/human save=roundtrip")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -98,6 +100,73 @@ func _check_opening_interview_causality() -> void:
 	GameState.current_job = DataRegistry.get_job("job_01").duplicate(true)
 	_expect(game._next_arc_id(2, true, false) != "arc_intro_01_meal",
 		"the opening interview fired for an already-employed save")
+	game.free()
+
+func _check_story_prerequisite_contract() -> void:
+	GameState.start_new_game()
+	GameState.turn = 24
+	GameState.investment_skill = 10
+	GameState.current_job = DataRegistry.get_job("job_01").duplicate(true)
+	var game = _new_main_game()
+	_expect(not game._story_event_prerequisites_met(
+		"arc_job_vs_invest", GameState.turn, GameState.flags),
+		"survival job passed the company-manager story prerequisite")
+
+	GameState.current_job = DataRegistry.get_job("job_03").duplicate(true)
+	_expect(game._story_event_prerequisites_met(
+		"arc_job_vs_invest", GameState.turn, GameState.flags),
+		"corporate job did not pass the declarative story prerequisite")
+
+	GameState.flags["arc_job_invest_clash_seen"] = true
+	_expect(not game._story_event_prerequisites_met(
+		"arc_job_vs_invest", GameState.turn, GameState.flags),
+		"seen company-manager event passed its one-shot prerequisite")
+
+	GameState.flags.erase("arc_job_invest_clash_seen")
+	GameState.turn = 31
+	_expect(not game._story_event_prerequisites_met(
+		"arc_job_vs_invest", GameState.turn, GameState.flags),
+		"company-manager event passed outside its authored week range")
+
+	GameState.turn = 70
+	GameState.flags = {
+		"arc_jiyeon_offer_seen": true,
+		"jiyeon_refused_coffee": true,
+	}
+	_expect(not game._story_event_prerequisites_met(
+		"arc_jiyeon_03b_lunch", GameState.turn, GameState.flags),
+		"Jiyeon lunch fired after the player refused both coffee and a meal")
+	GameState.flags["jiyeon_had_coffee"] = true
+	_expect(game._story_event_prerequisites_met(
+		"arc_jiyeon_03b_lunch", GameState.turn, GameState.flags),
+		"Jiyeon lunch did not open after the coffee route")
+	GameState.flags.erase("jiyeon_had_coffee")
+	GameState.flags["jiyeon_honest"] = true
+	_expect(game._story_event_prerequisites_met(
+		"arc_jiyeon_03b_lunch", GameState.turn, GameState.flags),
+		"Jiyeon lunch did not open after the honest conversation route")
+	GameState.flags["arc_jiyeon_03b_seen"] = true
+	_expect(not game._story_event_prerequisites_met(
+		"arc_jiyeon_03b_lunch", GameState.turn, GameState.flags),
+		"seen Jiyeon lunch passed its one-shot prerequisite")
+	game.free()
+
+func _check_racetrack_story_handoff() -> void:
+	GameState.start_new_game()
+	var event: Dictionary = DataRegistry.find_event("race_first_visit")
+	var choices: Array = event.get("choices", [])
+	_expect(choices.size() >= 2, "race_first_visit no longer has its bet choice")
+	if choices.size() < 2:
+		return
+	var starting_money: int = int(GameState.money)
+	GameState.apply_choice(event, choices[1])
+	_expect(int(GameState.money) == starting_money,
+		"race_first_visit charged a scripted loss before the playable race")
+	var game = _new_main_game()
+	_expect(game._take_story_followup_activity() == "racetrack",
+		"race_first_visit did not hand off to the playable racetrack")
+	_expect(not bool(GameState.flags.get("open_racetrack_after_story", false)),
+		"racetrack story handoff flag was not consumed")
 	game.free()
 
 func _check_boss_choice(choice_index: int, expected_follow_up: String) -> void:

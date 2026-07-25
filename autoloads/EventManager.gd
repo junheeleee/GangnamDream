@@ -576,7 +576,7 @@ func _action_causal_frame(event: Dictionary, match_data: Dictionary) -> String:
 		"rest":
 			return _causal_variant(event, [
 				LocaleManager.ui("하루를 멈춘 뒤라, 미뤄 둔 몸의 신호가 더 선명했다.", "After stopping for a day, the signals his body had postponed felt sharper."),
-				LocaleManager.ui("억지로 비워 둔 시간이 이번 주의 속도를 늦추고 있었다.", "The time he had forced himself to leave empty was slowing this week down."),
+				LocaleManager.ui("일정을 비워 뒀다. 오랜만에 쫓기지 않는 한 주였다.", "He cleared the week. For once, it did not feel like a chase."),
 			])
 		"study", "study_read", "study_exercise", "study_meditation", "study_invest":
 			return _causal_variant(event, [

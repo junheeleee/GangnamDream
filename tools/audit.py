@@ -1165,6 +1165,32 @@ def _gather_game_flags():
             gr_json = {}
             _walk_event_flags(ev, game_sets, gr_json, set(), {}, "x")
             reads |= set(gr_json.keys())
+    # Declarative story prerequisites read the same GameState flags without
+    # repeating them in MainGame.gd. Keep the debt ratchet aware of that
+    # canonical reader so moving a gate into story_rules does not create a
+    # false write-only flag.
+    try:
+        story_rules = json.load(open(
+            os.path.join(ROOT, "content", "meta", "story_rules.json"),
+            encoding="utf-8",
+        ))
+        for rule in story_rules.get("events", {}).values():
+            prerequisites = (
+                rule.get("logic", {}).get("prerequisites", {})
+                if isinstance(rule, dict) else {}
+            )
+            if not isinstance(prerequisites, dict):
+                continue
+            for group in ("all", "any"):
+                clauses = prerequisites.get(group, [])
+                if not isinstance(clauses, list):
+                    continue
+                for clause in clauses:
+                    path = str(clause.get("path", "")) if isinstance(clause, dict) else ""
+                    if path.startswith("flags.") and len(path) > len("flags."):
+                        reads.add(path[len("flags."):])
+    except (OSError, ValueError, TypeError, json.JSONDecodeError):
+        pass
     # 엔딩 description_if_known 키도 read — _show_ending()이 flags.get()으로 읽는다.
     # (events/*.json만 스캔하면 엔딩 변주가 읽는 플래그가 write-only로 오탐됨)
     try:

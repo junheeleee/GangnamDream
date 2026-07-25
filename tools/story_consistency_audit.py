@@ -20,6 +20,9 @@ ROOT = Path(__file__).resolve().parents[1]
 EVENT_DIR = ROOT / "content" / "events"
 EVENT_EN_DIR = ROOT / "content" / "events_en"
 RULES_PATH = ROOT / "content" / "meta" / "story_rules.json"
+JOBS_PATH = ROOT / "content" / "jobs.json"
+VISUAL_CONTRACTS_PATH = ROOT / "assets" / "event_visual_contracts.json"
+SCENE_AUDIO_PATH = ROOT / "assets" / "scene_audio_manifest.json"
 
 ALLOWED_CHANNELS = {
     "in_person",
@@ -33,8 +36,33 @@ ALLOWED_CHANNELS = {
 REMOTE_CHANNELS = {"phone", "video_call", "message", "memory"}
 ALLOWED_PORTRAIT_ROLES = {"present", "remote", "local", "none"}
 ALLOWED_STATES = {"", "connected", "incoming", "dialing", "missed", "received"}
-LOGIC_KEYS = {"requires", "forbids", "produces", "choice_produces", "legacy"}
+LOGIC_KEYS = {
+    "requires",
+    "forbids",
+    "produces",
+    "choice_produces",
+    "legacy",
+    "prerequisites",
+}
 LEGACY_KEYS = {"requires_flags", "forbids_flags", "produces_all", "produces_any"}
+PREREQUISITE_GROUP_KEYS = {"all", "any"}
+PREREQUISITE_CLAUSE_KEYS = {"path", "op", "value"}
+PREREQUISITE_OPERATORS = {
+    "eq",
+    "neq",
+    "in",
+    "not_in",
+    "gte",
+    "lte",
+    "truthy",
+    "falsy",
+}
+PREREQUISITE_STATIC_PATHS = {
+    "turn",
+    "player.job.id",
+    "player.investment_skill",
+}
+PREREQUISITE_DYNAMIC_PREFIXES = ("flags.",)
 PRESENTATION_KEYS = {
     "channel",
     "state",
@@ -44,6 +72,9 @@ PRESENTATION_KEYS = {
     "participants",
     "portrait_role",
     "expected_portrait",
+    "participant_roles",
+    "expected_background",
+    "expected_ambience",
 }
 COMMUNICATION_TITLE = re.compile(r"전화|통화|카톡|문자|연락", re.IGNORECASE)
 ALLOWED_TRANSITION_MODES = {"same_location", "explicit_move", "time_cut", "memory_cut"}
@@ -180,6 +211,50 @@ def validate_fact_clause(
     return fact_id, value
 
 
+def validate_prerequisite_clause(
+    clause: Any,
+    owner: str,
+    job_ids: set[str],
+    errors: list[str],
+) -> None:
+    if not isinstance(clause, dict):
+        errors.append(f"{owner}: prerequisite clause must be an object")
+        return
+    unknown = set(clause) - PREREQUISITE_CLAUSE_KEYS
+    if unknown:
+        errors.append(f"{owner}: unknown keys {sorted(unknown)}")
+    path = str(clause.get("path", "")).strip()
+    operation = str(clause.get("op", "")).strip()
+    if not path:
+        errors.append(f"{owner}: path is required")
+    elif (
+        path not in PREREQUISITE_STATIC_PATHS
+        and not any(path.startswith(prefix) and len(path) > len(prefix)
+                    for prefix in PREREQUISITE_DYNAMIC_PREFIXES)
+    ):
+        errors.append(f"{owner}: unsupported context path {path!r}")
+    if operation not in PREREQUISITE_OPERATORS:
+        errors.append(f"{owner}: invalid operator {operation!r}")
+        return
+    if operation not in {"truthy", "falsy"} and "value" not in clause:
+        errors.append(f"{owner}: {operation} requires value")
+        return
+    value = clause.get("value")
+    if operation in {"in", "not_in"}:
+        if not isinstance(value, list) or not value:
+            errors.append(f"{owner}: {operation} value must be a non-empty array")
+            return
+    if path == "player.job.id":
+        raw_values = value if isinstance(value, list) else [value]
+        unknown_jobs = sorted(
+            str(job_id)
+            for job_id in raw_values
+            if str(job_id) and str(job_id) not in job_ids
+        )
+        if unknown_jobs:
+            errors.append(f"{owner}: unknown job ids {unknown_jobs}")
+
+
 def main() -> int:
     errors: list[str] = []
     events, event_errors = load_events()
@@ -227,6 +302,43 @@ def main() -> int:
         errors.append("events must be an object")
         rules = {}
     events_en = load_overlay_events(EVENT_EN_DIR)
+    raw_jobs = load_json(JOBS_PATH)
+    job_ids = {
+        str(job.get("id", ""))
+        for job in raw_jobs
+        if isinstance(raw_jobs, list) and isinstance(job, dict) and job.get("id")
+    } if isinstance(raw_jobs, list) else set()
+    if not job_ids:
+        errors.append("content/jobs.json: no job ids found")
+
+    role_types = set(
+        validate_string_list(
+            ledger.get("participant_role_types", []),
+            "participant_role_types",
+            errors,
+            allow_empty=False,
+        )
+    )
+
+    visual_data = load_json(VISUAL_CONTRACTS_PATH)
+    visual_rows = visual_data.get("contracts", []) if isinstance(visual_data, dict) else []
+    visual_contracts: dict[str, dict[str, Any]] = {}
+    if not isinstance(visual_rows, list):
+        errors.append("assets/event_visual_contracts.json: contracts must be an array")
+        visual_rows = []
+    for row in visual_rows:
+        if not isinstance(row, dict) or not str(row.get("id", "")):
+            continue
+        contract_id = str(row["id"])
+        if contract_id in visual_contracts:
+            errors.append(f"duplicate visual contract id: {contract_id}")
+        visual_contracts[contract_id] = row
+
+    audio_data = load_json(SCENE_AUDIO_PATH)
+    audio_events = audio_data.get("events", {}) if isinstance(audio_data, dict) else {}
+    if not isinstance(audio_events, dict):
+        errors.append("assets/scene_audio_manifest.json: events must be an object")
+        audio_events = {}
 
     remote_contracts = 0
     logic_contracts = 0
@@ -273,6 +385,41 @@ def main() -> int:
                     validate_fact_clause(
                         clause, f"{owner}.logic.produces[{index}]", "set", fact_values, errors
                     )
+
+                prerequisites = logic.get("prerequisites")
+                if prerequisites is not None:
+                    if not isinstance(prerequisites, dict):
+                        errors.append(f"{owner}.logic.prerequisites: must be an object")
+                    else:
+                        unknown_groups = set(prerequisites) - PREREQUISITE_GROUP_KEYS
+                        if unknown_groups:
+                            errors.append(
+                                f"{owner}.logic.prerequisites: unknown keys "
+                                f"{sorted(unknown_groups)}"
+                            )
+                        clause_count = 0
+                        for group_key in PREREQUISITE_GROUP_KEYS:
+                            if group_key not in prerequisites:
+                                continue
+                            clauses = prerequisites[group_key]
+                            group_owner = f"{owner}.logic.prerequisites.{group_key}"
+                            if not isinstance(clauses, list):
+                                errors.append(f"{group_owner}: must be an array")
+                                continue
+                            if not clauses:
+                                errors.append(f"{group_owner}: must not be empty")
+                            clause_count += len(clauses)
+                            for index, clause in enumerate(clauses):
+                                validate_prerequisite_clause(
+                                    clause,
+                                    f"{group_owner}[{index}]",
+                                    job_ids,
+                                    errors,
+                                )
+                        if clause_count == 0:
+                            errors.append(
+                                f"{owner}.logic.prerequisites: needs at least one clause"
+                            )
 
                 choices = event.get("choices", [])
                 choices = choices if isinstance(choices, list) else []
@@ -350,6 +497,12 @@ def main() -> int:
                 portrait_role = str(presentation.get("portrait_role", ""))
                 state = str(presentation.get("state", ""))
                 expected_portrait = str(presentation.get("expected_portrait", ""))
+                expected_background = str(
+                    presentation.get("expected_background", "")
+                )
+                expected_ambience = str(
+                    presentation.get("expected_ambience", "")
+                )
                 if channel not in ALLOWED_CHANNELS:
                     errors.append(f"{owner}.presentation: invalid channel {channel!r}")
                 if portrait_role not in ALLOWED_PORTRAIT_ROLES:
@@ -361,6 +514,67 @@ def main() -> int:
                         f"{owner}.presentation: portrait {event.get('portrait', '')!r} "
                         f"!= expected {expected_portrait!r}"
                     )
+                visual_contract = visual_contracts.get(str(event_id))
+                if expected_background:
+                    if str(event.get("background", "")) != expected_background:
+                        errors.append(
+                            f"{owner}.presentation: background "
+                            f"{event.get('background', '')!r} != expected "
+                            f"{expected_background!r}"
+                        )
+                    if visual_contract is None:
+                        errors.append(
+                            f"{owner}.presentation: expected_background needs a visual contract"
+                        )
+                    elif str(visual_contract.get("background", "")) != expected_background:
+                        errors.append(
+                            f"{owner}.presentation: visual contract background "
+                            f"{visual_contract.get('background', '')!r} != expected "
+                            f"{expected_background!r}"
+                        )
+                if expected_portrait and visual_contract is not None:
+                    if str(visual_contract.get("portrait", "")) != expected_portrait:
+                        errors.append(
+                            f"{owner}.presentation: visual contract portrait "
+                            f"{visual_contract.get('portrait', '')!r} != expected "
+                            f"{expected_portrait!r}"
+                        )
+                if expected_ambience:
+                    audio_contract = audio_events.get(str(event_id), {})
+                    if not isinstance(audio_contract, dict):
+                        audio_contract = {}
+                    if str(audio_contract.get("ambience", "")) != expected_ambience:
+                        errors.append(
+                            f"{owner}.presentation: audio ambience "
+                            f"{audio_contract.get('ambience', '')!r} != expected "
+                            f"{expected_ambience!r}"
+                        )
+
+                participants = presentation.get("participants", [])
+                participant_roles = presentation.get("participant_roles")
+                if participant_roles is not None:
+                    if not isinstance(participant_roles, dict):
+                        errors.append(
+                            f"{owner}.presentation.participant_roles: must be an object"
+                        )
+                    else:
+                        participant_ids = {
+                            str(participant)
+                            for participant in participants
+                        } if isinstance(participants, list) else set()
+                        role_ids = {str(participant) for participant in participant_roles}
+                        if role_ids != participant_ids:
+                            errors.append(
+                                f"{owner}.presentation.participant_roles: keys "
+                                f"{sorted(role_ids)} != participants "
+                                f"{sorted(participant_ids)}"
+                            )
+                        for participant, role in participant_roles.items():
+                            if str(role) not in role_types:
+                                errors.append(
+                                    f"{owner}.presentation.participant_roles."
+                                    f"{participant}: unknown role {role!r}"
+                                )
                 if channel in REMOTE_CHANNELS:
                     remote_contracts += 1
                     for key in ("scene_location", "remote_location", "remote_actor"):
