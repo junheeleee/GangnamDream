@@ -15,7 +15,7 @@
 >   `callback_events_23.json`
 > - 다은: `content/events/arc_events.json`, `callback_events_18.json`,
 >   `arc_daeun_extension.json`, `arc_daeun_married.json`,
->   `arc_midgame.json`
+>   `arc_midgame.json`, `callback_events_44.json`
 > - 상철: `content/events/callback_events_12.json`,
 >   `content/events/callback_events_17.json`
 > - 회귀·기록: `tools/speech_register_audit.py`, `tools/audit.sh`,
