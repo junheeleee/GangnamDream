@@ -13,7 +13,7 @@
 
 ## 감사 결과
 
-- 활성 인벤토리: **229장** (`CG 60 / Portrait 90 / Background 79`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
+- 활성 인벤토리: **243장** (`CG 74 / Portrait 90 / Background 79`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
 - 전수 방법: 종류별 콘택트시트 24장으로 얼굴·실루엣·그레이딩·공간을 1차 비교하고, 손·반사·차량·카운터·정류장처럼 오독 위험이 있는 컷과 키 비주얼 10장은 원본 해상도로 다시 열었다.
 - 런타임 수리: 배경이 구워진 `main_character_50s.png`를 본편의 `player_hollow` 슬롯에서 제외하고 같은 민준의 투명 피로 초상으로 통합했다. 현재 이벤트가 없는 박재원의 죽은 초상 등록도 제거했다.
 - 이미지 수리: `ending_crypto_ghost.png`의 비현실적인 6면 모니터 벽을 정본 고시원 안의 휴대폰 1대·낡은 노트북 1대로 교체했다. 방 크기, 작은 불투명창, 침대/책상 방향, 민준 신원, 다섯 손가락, 무문자 차트를 원본에서 재검수했다.
@@ -158,7 +158,7 @@
 | Portrait | `assets/characters/main_character_office.png` | `player_office` | 512x768 | yes | `8ed1dd5e17f2` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
 | Portrait | `assets/characters/main_character_part_time.png` | `player_part_time` | 512x768 | yes | `75fe48972ea7` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
 | Portrait | `assets/characters/main_character_shocked.png` | `player_shocked` | 512x768 | yes | `1253c6e5204e` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
-| Portrait | `assets/characters/main_character_tired.png` | `player_hollow`, `player_sad`, `player_tired` | 512x768 | yes | `4a5980b1497b` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
+| Portrait | `assets/characters/main_character_tired.png` | `player_hollow`, `player_sad`, `player_tired` | 512x768 | yes | `8882315c4a63` | PASS-B | 동일 민준·검은 크루넥·투명 분리 유지. 두 눈을 분명히 뜬 하향 시선, 병색·충혈 없는 피로, 척추는 세우고 어깨만 이완한 실루엣을 원본과 실제 화면에서 확인. |
 | Portrait | `assets/characters/main_character_unemployed.png` | `player_romance_casual`, `player_unemployed` | 512x768 | yes | `cb6f640c2d92` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
 | Portrait | `assets/characters/npc_boss.png` | `sangchul_normal` | 512x768 | yes | `33348d66a94c` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
 | Portrait | `assets/characters/npc_cafe_broker_kim.png` | `cafe_broker_kim` | 512x768 | yes | `68ffd6b2068c` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |

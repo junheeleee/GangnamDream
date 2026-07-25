@@ -36,6 +36,16 @@ Use this before generating, accepting, wiring, or replacing any image asset. A v
 - Reuse the same character design across expressions; do not let the model age or recast the person.
 - A CG outfit and its event portrait must use the same clothing unless the text explicitly shows a wardrobe change between paragraphs.
 - Lock Minjun's clothing too. A heroine match does not excuse a protagonist who changes from sweatshirt to suit between portrait and CG.
+- Audit posture as identity, not generic mood. The cast must not share one
+  hunched frontal bust pose merely because the story is difficult.
+- Tired acting keeps the eyes legible and the spine readable. Use gaze, eyelid
+  tension, jaw, breathing, and shoulder relaxation before bending the whole
+  torso. Half-shut red eyes or a collapsed chest fail unless an explicit
+  illness/injury scene owns them.
+- Compare recurring portraits as a silhouette sheet before approval: Minjun's
+  guarded lean, Daeun's careful upright stance, Jiyeon's controlled posture,
+  Hyunsu's rounded ease, Jaehyuk's polish, Sangchul's grounded lean, and
+  Father's mild age-specific stoop must differ at a one-second glance.
 
 ### Backgrounds
 

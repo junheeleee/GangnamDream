@@ -762,6 +762,18 @@ weather, romance, and historical portraits remain fixed.
   - Demo opening-interview CG: inexpensive-suit Minjun on the candidate side and a distinct early-40s interviewer on the staff side share a mutual eye line over the resume.
   - Lower 30 percent remains dialogue-safe; layout and acting owner is `assets/OFFICE_INTERVIEW_VISUAL_BIBLE.md`.
 
+### Publisher Logo
+
+- `assets/logos/junpac_games_logo_v2.png`
+  - User-approved JUNPAC GAMES publisher wordmark: central four-point star,
+    dark navy serif `JUNPAC`, and small tracked `GAMES`.
+  - 1024×1024 RGBA source. The splash uses an `AtlasTexture` only to remove
+    empty alpha padding; the approved pixels are not redrawn or recolored.
+  - Status: approved runtime source for the automatic publisher pre-roll.
+- `assets/logos/junpac_games_logo.jpg` and `scenes/ui/JunpacMark.gd`
+  - Deprecated and removed. Do not restore the opaque board or the earlier
+    code-native crescent interpretation.
+
 ### Logo Concept
 - `assets/logos/gangnam_dream_logo_concept.png`
   - AI-generated logo direction only.

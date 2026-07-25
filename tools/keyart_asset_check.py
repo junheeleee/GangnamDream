@@ -11,6 +11,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MASTER = ROOT / "assets/keyart/gangnam_dream_keyart_cast_v1.png"
 LEGACY_NAME = "gangnam_dream_keyart_rooftop.png"
+PUBLISHER_LOGO = ROOT / "assets/logos/junpac_games_logo_v2.png"
+DEPRECATED_PUBLISHER_FILES = (
+    ROOT / "assets/logos/junpac_games_logo.jpg",
+    ROOT / "assets/logos/junpac_games_logo.jpg.import",
+    ROOT / "scenes/ui/JunpacMark.gd",
+    ROOT / "scenes/ui/JunpacMark.gd.uid",
+)
 DERIVATIVES = {
     "steam_capsule_main": (616, 353),
     "steam_header": (460, 215),
@@ -25,6 +32,13 @@ def png_size(path: Path) -> tuple[int, int]:
     return struct.unpack(">II", header[16:24])
 
 
+def png_color_type(path: Path) -> int:
+    header = path.read_bytes()[:26]
+    if len(header) != 26 or header[:8] != b"\x89PNG\r\n\x1a\n":
+        raise ValueError(f"not a PNG: {path.relative_to(ROOT)}")
+    return header[25]
+
+
 def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -36,6 +50,20 @@ def main() -> int:
         failures.append("identity-owned master is missing")
     elif png_size(MASTER) != (1920, 1080):
         failures.append(f"master must be 1920x1080, got {png_size(MASTER)}")
+
+    if not PUBLISHER_LOGO.exists():
+        failures.append("approved publisher logo is missing")
+    else:
+        if png_size(PUBLISHER_LOGO) != (1024, 1024):
+            failures.append(
+                f"publisher logo must be 1024x1024, got {png_size(PUBLISHER_LOGO)}"
+            )
+        if png_color_type(PUBLISHER_LOGO) != 6:
+            failures.append("publisher logo must be an RGBA PNG")
+
+    for path in DEPRECATED_PUBLISHER_FILES:
+        if path.exists():
+            failures.append(f"deprecated publisher asset remains: {path.relative_to(ROOT)}")
 
     for stem, expected_size in DERIVATIVES.items():
         official = ROOT / f"assets/keyart/{stem}.png"
@@ -66,8 +94,10 @@ def main() -> int:
     splash_source = (ROOT / "scenes/SplashScreen.gd").read_text(encoding="utf-8")
     if "junpac_games_logo.jpg" in splash_source:
         failures.append("SplashScreen still embeds the opaque JUNPAC JPEG")
-    if "res://scenes/ui/JunpacMark.gd" not in splash_source:
-        failures.append("SplashScreen does not use the code-native JUNPAC mark")
+    if "res://assets/logos/junpac_games_logo_v2.png" not in splash_source:
+        failures.append("SplashScreen does not use the approved JUNPAC PNG")
+    if "res://scenes/ui/JunpacMark.gd" in splash_source:
+        failures.append("SplashScreen still uses the retired code-native JUNPAC mark")
 
     if failures:
         for failure in failures:
@@ -76,7 +106,7 @@ def main() -> int:
 
     print(
         "KEY_ART_CHECK_OK master=1920x1080 derivatives=616x353,460x215,231x87 "
-        "runtime_surfaces=2 publisher_mark=code_native legacy_runtime_refs=0"
+        "runtime_surfaces=2 publisher_mark=image_asset legacy_runtime_refs=0"
     )
     return 0
 

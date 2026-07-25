@@ -47,22 +47,27 @@
 
 | 순서 | 상태 | 항목 | 전체 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | USER-P0P · 민준 피로 초상 표정 수리 | [USER-P0P](queue_active/USER-P0P.md) | 눈 충혈·반감김 제거, 동일 신원·의상·실루엣 유지 |
-| 2 | [~] | USER-P0O · 새 JUNPAC GAMES 로고 정본화 | [USER-P0O](queue_active/USER-P0O.md) | 사용자 승인 PNG로 프리롤·감사 교체 |
-| 3 | [~] | ORDER-48 · 정점 산문 밀도 역전 수리 | [ORDER-48](queue_active/ORDER-48.md) | 착수 2026-07-25 · 로맨스 경첩·엔딩 회수 산문 수리 |
-| 4 | [ ] | ORDER-49 · 선택의 고민 장부화 | [ORDER-49](queue_active/ORDER-49.md) | ⚠P2, 밸런스·유저 승인 필요·산문분만 선제 |
-| 5 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 데모 완료, 본편 240주 확산·장별 연속 청취 OPEN |
-| 6 | [ ] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 사양 기록, 구현 미착수 |
-| 7 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 부분 보류 |
-| 8 | [~] | ORDER-23 · 동기 각인 수술 | [ORDER-23](queue_active/ORDER-23.md) | 외부 정상 독해 판정 대기 |
-| 9 | [~] | ORDER-22 · 주간 루프 몰입 수리 | [ORDER-22](queue_active/ORDER-22.md) | 외부 정상 독해 판정 대기 |
-| 10 | [~] | ORDER-28 · 240주 전체 재구성 | [ORDER-28](queue_active/ORDER-28.md) | 전체 범위 지속 개선 |
-| 11 | [~] | ORDER-26 · AP 의미화 | [ORDER-26](queue_active/ORDER-26.md) | 외부 정상 독해 판정 대기 |
+| 1 | [~] | ORDER-48 · 정점 산문 밀도 역전 수리 | [ORDER-48](queue_active/ORDER-48.md) | 착수 2026-07-25 · 로맨스 경첩·엔딩 회수 산문 수리 |
+| 2 | [ ] | ORDER-49 · 선택의 고민 장부화 | [ORDER-49](queue_active/ORDER-49.md) | ⚠P2, 밸런스·유저 승인 필요·산문분만 선제 |
+| 3 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 데모 완료, 본편 240주 확산·장별 연속 청취 OPEN |
+| 4 | [ ] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 사양 기록, 구현 미착수 |
+| 5 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 부분 보류 |
+| 6 | [~] | ORDER-23 · 동기 각인 수술 | [ORDER-23](queue_active/ORDER-23.md) | 외부 정상 독해 판정 대기 |
+| 7 | [~] | ORDER-22 · 주간 루프 몰입 수리 | [ORDER-22](queue_active/ORDER-22.md) | 외부 정상 독해 판정 대기 |
+| 8 | [~] | ORDER-28 · 240주 전체 재구성 | [ORDER-28](queue_active/ORDER-28.md) | 전체 범위 지속 개선 |
+| 9 | [~] | ORDER-26 · AP 의미화 | [ORDER-26](queue_active/ORDER-26.md) | 외부 정상 독해 판정 대기 |
 
 ### 완료 이력
 
 - **2026-07 전체 원문 스냅샷:** [CODEX_QUEUE_2026-07.md](queue_archive/CODEX_QUEUE_2026-07.md)
 - 상세 작업 결과는 [WORK_LOG.md](WORK_LOG.md), 사용자 노트와 라운드 판정은 [DEMO_FIXLOG.md](DEMO_FIXLOG.md), 설계 결정은 [DECISIONS.md](DECISIONS.md)가 정본이다.
+- `[x] USER-P0P` (2026-07-25): 민준 피로 초상의 붉고 반쯤 감긴 눈과
+  붕괴된 상체를 같은 얼굴·검은 크루넥의 열린 하향 시선과 이완된 어깨로
+  교체하고, 인물별 자세 실루엣 계약을 정본화했다.
+  [완료 사양](queue_archive/USER-P0P.md)
+- `[x] USER-P0O` (2026-07-25): 사용자 승인 JUNPAC GAMES PNG를 순백
+  퍼블리셔 프리롤에 중앙 배치하고 과거 JPEG·코드 초승달을 제거했다.
+  [완료 사양](queue_archive/USER-P0O.md)
 - `[x] ORDER-47` (2026-07-25): 1장 환불선·결산, 중반 계산 장면,
   4장 간격, 4→5 정산 호흡과 실제 12월 보스 주를 정렬했다. 직접 결정
   52회·Echo 21회·대표 경로 잼 0을 잠갔다.

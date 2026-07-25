@@ -35,7 +35,7 @@ func _run() -> void:
 			push_error("FIRST_30_SECONDS_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("FIRST_30_SECONDS_CHECK_OK gates=1 beats=3 budget=17.1s logo=vector audio=1 reduced_motion=1 pad=1")
+	print("FIRST_30_SECONDS_CHECK_OK gates=1 beats=3 budget=17.1s logo=image audio=1 reduced_motion=1 pad=1")
 	get_tree().quit(0)
 
 
@@ -50,13 +50,24 @@ func _check_splash() -> void:
 	_expect(str(splash.get_meta("launch_next_scene", "")) == "res://scenes/StartMenu.tscn",
 		"Publisher pre-roll does not hand off to StartMenu.")
 	_expect(AudioManager.has_sound("publisher_sting"), "Publisher sting was not loaded.")
-	var mark := splash.find_child("JunpacMark", true, false)
-	_expect(mark != null, "Code-native JUNPAC mark is missing.")
+	var publisher_backdrop := splash.find_child("PublisherBackdrop", true, false) as ColorRect
+	_expect(is_instance_valid(publisher_backdrop),
+		"Publisher pre-roll is missing its dedicated white backdrop.")
+	if is_instance_valid(publisher_backdrop):
+		_expect(publisher_backdrop.color.is_equal_approx(Color.WHITE),
+			"Publisher pre-roll backdrop is not pure white.")
+	var mark := splash.find_child("JunpacLogo", true, false)
+	_expect(mark != null, "Approved JUNPAC logo image is missing.")
 	if mark != null:
-		_expect(str(mark.get_meta("publisher_mark_kind", "")) == "code_native",
-			"Publisher mark is not tagged as code-native.")
+		_expect(str(mark.get_meta("publisher_mark_kind", "")) == "image_asset",
+			"Publisher mark is not tagged as an approved image asset.")
 		_expect(bool(mark.get_meta("publisher_mark_transparent", false)),
 			"Publisher mark lost its transparent surface contract.")
+		_expect(str(mark.get_meta("publisher_mark_source", ""))
+				== "res://assets/logos/junpac_games_logo_v2.png",
+			"Publisher mark source drifted from the approved PNG.")
+	_expect(_tree_uses_texture(splash, "junpac_games_logo_v2.png"),
+		"Runtime launch tree does not use the approved JUNPAC PNG.")
 	_expect(not _tree_uses_texture(splash, "junpac_games_logo.jpg"),
 		"Runtime launch tree still references the JPEG publisher board.")
 	await get_tree().create_timer(3.25).timeout
@@ -193,11 +204,22 @@ func _check_static_budget() -> void:
 func _tree_uses_texture(node: Node, file_name: String) -> bool:
 	if node is TextureRect:
 		var texture := (node as TextureRect).texture
-		if texture != null and texture.resource_path.ends_with(file_name):
+		if _texture_uses_file(texture, file_name):
 			return true
 	for child in node.get_children():
 		if _tree_uses_texture(child, file_name):
 			return true
+	return false
+
+
+func _texture_uses_file(texture: Texture2D, file_name: String) -> bool:
+	if texture == null:
+		return false
+	if texture.resource_path.ends_with(file_name):
+		return true
+	if texture is AtlasTexture:
+		var atlas := (texture as AtlasTexture).atlas
+		return atlas != null and atlas.resource_path.ends_with(file_name)
 	return false
 
 

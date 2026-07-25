@@ -1,12 +1,14 @@
 extends Control
 
 const GangnamWordmarkScript := preload("res://scenes/ui/GangnamWordmark.gd")
-const JunpacMarkScript := preload("res://scenes/ui/JunpacMark.gd")
 const LivingSceneLayerScript := preload("res://scenes/ui/LivingSceneLayer.gd")
 
 const NEXT_SCENE := "res://scenes/StartMenu.tscn"
 const BRAND_SEQUENCE_SECONDS := 3.1
 const LAUNCH_REQUIRED_INPUT_GATES := 0
+const JUNPAC_LOGO_PATH := "res://assets/logos/junpac_games_logo_v2.png"
+const JUNPAC_LOGO_REGION := Rect2(132.0, 300.0, 760.0, 360.0)
+const JUNPAC_LOGO_DISPLAY_SIZE := Vector2(560.0, 265.0)
 
 var _transitioning: bool = false
 var _language_gate: Control = null
@@ -21,6 +23,7 @@ var _sequence_generation: int = 0
 var _transition_request_count: int = 0
 
 var _bg_img:     TextureRect
+var _publisher_backdrop: ColorRect
 var _publisher_logo: Control
 var _wordmark: VBoxContainer
 var _tagline_lbl: Label
@@ -313,7 +316,16 @@ func _build_ui():
 	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(overlay)
 
-	# 4. The publisher pre-roll is an overlay, never a layout spacer that moves
+	# 4. The approved navy JUNPAC wordmark owns a pure-white publisher card.
+	# This must sit above every dark title-grade layer so white stays white.
+	_publisher_backdrop = ColorRect.new()
+	_publisher_backdrop.name = "PublisherBackdrop"
+	_publisher_backdrop.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_publisher_backdrop.color = Color("#ffffff")
+	_publisher_backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_publisher_backdrop)
+
+	# 5. The publisher pre-roll is an overlay, never a layout spacer that moves
 	# the title after it fades.
 	var publisher_center := CenterContainer.new()
 	publisher_center.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -322,7 +334,7 @@ func _build_ui():
 	_publisher_logo = _build_junpac_logo()
 	publisher_center.add_child(_publisher_logo)
 
-	# 5. Shared poster lockup in the art's reserved left third.
+	# 6. Shared poster lockup in the art's reserved left third.
 	var margin := MarginContainer.new()
 	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
 	margin.add_theme_constant_override("margin_left", 58)
@@ -373,9 +385,23 @@ func _build_ui():
 	# Do not allocate a detached Label here; an orphaned Control leaks its font RID.
 
 func _build_junpac_logo() -> Control:
-	var mark := JunpacMarkScript.new()
+	var mark := TextureRect.new()
+	mark.name = "JunpacLogo"
+	mark.custom_minimum_size = JUNPAC_LOGO_DISPLAY_SIZE
 	mark.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	mark.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	mark.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	mark.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	mark.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var source := load(JUNPAC_LOGO_PATH) as Texture2D
+	if source != null:
+		var crop := AtlasTexture.new()
+		crop.atlas = source
+		crop.region = JUNPAC_LOGO_REGION
+		mark.texture = crop
+	mark.set_meta("publisher_mark_kind", "image_asset")
+	mark.set_meta("publisher_mark_transparent", true)
+	mark.set_meta("publisher_mark_source", JUNPAC_LOGO_PATH)
 	mark.modulate = Color(1, 1, 1, 0.0)
 	return mark
 
@@ -383,7 +409,7 @@ func _build_junpac_logo() -> Control:
 func _run_sequence():
 	_sequence_generation += 1
 	var generation := _sequence_generation
-	# A quiet owned sting and one clean mark replace the old black-box JPEG.
+	# A quiet owned sting and the approved transparent wordmark open the game.
 	AudioManager.play("publisher_sting")
 	set_meta("publisher_sting_play_count", 1)
 	_fade_in(_publisher_logo, 0.42)
@@ -391,6 +417,7 @@ func _run_sequence():
 	if generation != _sequence_generation or _transitioning:
 		return
 	_fade_out(_publisher_logo, 0.28)
+	_fade_out(_publisher_backdrop, 0.28)
 	await get_tree().create_timer(0.28).timeout
 	if generation != _sequence_generation or _transitioning:
 		return

@@ -24,6 +24,10 @@ This file is the visual canon for recurring characters. It overrides older one-o
   blanking the actor or inventing a context change.
 - Five years must read through grooming, posture, fatigue, confidence, and
   wardrobe maintenance, not exaggerated wrinkles or sudden middle age.
+- Do not use the same hunched frontal bust pose as shorthand for hardship across
+  the cast. Emotion belongs first in gaze, jaw, hands, weight distribution, and
+  breathing. Posture remains a character silhouette and changes only as much as
+  the scene acting requires.
 
 ## Cast Readability Locks
 
@@ -37,6 +41,28 @@ This file is the visual canon for recurring characters. It overrides older one-o
 - Kim Daeun: ordinary convenience-store survival warmth, beige cardigan/navy work shirt, soft tired eyes.
 - Han Jiyeon: long black hair, cream/black tailored suit, old-money jewelry, dangerous high-status aura.
 - Lee Minseo: 38-year-old self-made Gangnam arrival mentor, short neat dark hair, charcoal practical blazer, calm tired eyes.
+
+## Posture Readability Locks
+
+- Kim Minjun: guarded and lean, with a slight downward head angle, but his spine
+  remains readable. A tired Minjun relaxes his shoulders without folding his
+  chest; a determined Minjun squares them. Every emotion must not reuse one
+  defeated slump.
+- Kim Daeun: modest and careful, yet upright enough to read as an adult who
+  works long shifts. Shyness may narrow her gestures, not cave in her torso.
+- Han Jiyeon: level chin, open upper chest, and controlled asymmetry. Her danger
+  comes from stillness and eye contact, never from the same rounded shoulders as
+  Minjun or Hyunsu.
+- Kang Hyunsu: soft rounded build and relaxed weight, with an approachable
+  slouch only in study/rest contexts. His neck and chest do not collapse.
+- Choi Jaehyuk: polished upright posture and deliberate shoulder line, even
+  when exhausted. Pressure tightens his stillness rather than bending him into
+  Minjun.
+- Im Sangchul: grounded, practiced adult posture with a slight conversational
+  lean. He is not a second Jaehyuk and not an elderly stoop.
+- Father: a mild working-life stoop belongs to his age and history. It becomes
+  heavier only in explicit weak/hospital states and must not spread to younger
+  cast portraits.
 
 ## Kim Minjun
 
@@ -54,7 +80,7 @@ This file is the visual canon for recurring characters. It overrides older one-o
 
 No luxury watch, no designer styling, no polished Gangnam success look in early/core expressions.
 
-**Current Asset Status:** `main_character_neutral_goshiwon.png`, `main_character_tired.png`, `main_character_determined.png`, `main_character_happy.png`, and `main_character_shocked.png` were regenerated on 2026-06-12 as transparent portraits. `main_character_unemployed.png`, `main_character_part_time.png`, `main_character_office.png`, and `main_character_corporate.png` were added on 2026-06-12 for runtime outfit switching. Each job family now owns explicit `_y3` and `_y5` transparent anchors; the `y1` source remains the canonical base. The `neutral_goshiwon` filename is legacy for the transparent file only; do not bake a room into that portrait. Moral-threshold vignettes compose the separate canonical goshiwon background behind it at runtime.
+**Current Asset Status:** `main_character_neutral_goshiwon.png`, `main_character_determined.png`, `main_character_happy.png`, and `main_character_shocked.png` were regenerated on 2026-06-12 as transparent portraits. `main_character_tired.png` was replaced on 2026-07-25 with the same black-crewneck identity, clearly open downcast eyes, and a relaxed but non-collapsed posture; redness, sickly half-closed eyelids, and the universal defeated slump are prohibited. `main_character_unemployed.png`, `main_character_part_time.png`, `main_character_office.png`, and `main_character_corporate.png` were added on 2026-06-12 for runtime outfit switching. Each job family now owns explicit `_y3` and `_y5` transparent anchors; the `y1` source remains the canonical base. The `neutral_goshiwon` filename is legacy for the transparent file only; do not bake a room into that portrait. Moral-threshold vignettes compose the separate canonical goshiwon background behind it at runtime.
 
 **Runtime Outfit Rules:** `ImageRegistry.get_player_context_portrait()` is the source of truth. Survival jobs (`job_01`, `job_02`) use part-time workwear; ordinary low/mid-tier office/education/tech jobs use office wear; `job_08`, finance, sales, and tier 3+ jobs use corporate suit. Stress/critical/milestone states still override with tired/shocked/happy emotional portraits.
 

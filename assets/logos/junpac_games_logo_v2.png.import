@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://eyns4appvrx0"
-path="res://.godot/imported/junpac_games_logo.jpg-2333c2d4252fb4d85dc8f755a7ec57de.ctex"
+uid="uid://bp3ho2b05j3s6"
+path="res://.godot/imported/junpac_games_logo_v2.png-f7ba3421af18a3d03775a376baa95f86.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/logos/junpac_games_logo.jpg"
-dest_files=["res://.godot/imported/junpac_games_logo.jpg-2333c2d4252fb4d85dc8f755a7ec57de.ctex"]
+source_file="res://assets/logos/junpac_games_logo_v2.png"
+dest_files=["res://.godot/imported/junpac_games_logo_v2.png-f7ba3421af18a3d03775a376baa95f86.ctex"]
 
 [params]
 
