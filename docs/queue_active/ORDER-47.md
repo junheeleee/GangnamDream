@@ -13,10 +13,15 @@
 > - 사건: `content/events/{arc_year_close,arc_midgame,arc_chapter_themes,life_events}.json`
 >   및 같은 이름의 `content/events_en/` 오버레이
 > - 사건 창·편성 런타임: `scenes/MainGame.gd`
-> - 구조 회귀: `tools/{event_director_audit,full_run_pacing_audit,narrative_continuity_audit,narrative_spine_audit,arc_flow_sim}.py`
+> - 구조 회귀: `tools/{event_director_audit,full_run_pacing_audit,narrative_continuity_audit,narrative_spine_audit,arc_flow_sim}.py`,
+>   `tools/EventDirectorCheck.gd`
 >   중 새 구조 계약에 필요한 파일
 > - 수치·기록: `docs/BALANCE.md`, `docs/SCRIPT_REVIEW_2026-07-24.md`,
 >   `CLAUDE.md`, `docs/WORK_LOG.md`, 이 활성 사양과 큐 인덱스
+
+> **2026-07-25 범위 보강:** `arc_year1_close`의 비주얼 계약은 12월을
+> 요구하지만 기존 t44는 실제 달력상 11월 4주차였다. 결산·보스 주를
+> t45(12월 1주차)로 정렬하고 Godot 런타임 편성 계약도 함께 검증한다.
 
 ## 진단
 
