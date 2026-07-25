@@ -4,7 +4,23 @@
 > [`docs/SCRIPT_REVIEW_2026-07-24.md`](../SCRIPT_REVIEW_2026-07-24.md).
 > 호칭/스피치 정본은 [`docs/ROMANCE_SYSTEM.md`](../ROMANCE_SYSTEM.md)가 소유한다.
 
-#### [ ] ORDER-45 [P0·정본 집행] 호칭·스피치 정본 붕괴 전수 수리
+#### [~] ORDER-45 [P0·정본 집행] 호칭·스피치 정본 붕괴 전수 수리
+
+> **2026-07-25 착수 — 만지는 파일**
+>
+> - 정본: `docs/ROMANCE_SYSTEM.md`
+> - 지연: `content/events/arc_events.json`, `callback_events_24.json`,
+>   `arc_romance_y5.json`, `relationship_events.json`,
+>   `arc_jiyeon_married.json`, `arc_romance_specials.json`,
+>   `callback_events_23.json`
+> - 다은: `content/events/arc_events.json`, `callback_events_18.json`,
+>   `arc_daeun_extension.json`, `arc_daeun_married.json`,
+>   `arc_midgame.json`
+> - 상철: `content/events/callback_events_12.json`,
+>   `content/events/callback_events_17.json`
+> - 회귀·기록: `tools/speech_register_audit.py`, `tools/audit.sh`,
+>   `docs/SCRIPT_REVIEW_2026-07-24.md`, `CLAUDE.md`, `docs/WORK_LOG.md`,
+>   이 활성 사양과 큐 인덱스
 
 ## 정본 (어겨진 규칙)
 
