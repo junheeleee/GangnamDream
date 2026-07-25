@@ -1,10 +1,10 @@
-# Active Queue Spec: ORDER-45
+# Completed Queue Spec: ORDER-45
 
 > Canonical status is indexed in `docs/CODEX_QUEUE.md`. 근거 원장은
 > [`docs/SCRIPT_REVIEW_2026-07-24.md`](../SCRIPT_REVIEW_2026-07-24.md).
 > 호칭/스피치 정본은 [`docs/ROMANCE_SYSTEM.md`](../ROMANCE_SYSTEM.md)가 소유한다.
 
-#### [~] ORDER-45 [P0·정본 집행] 호칭·스피치 정본 붕괴 전수 수리
+#### [x] ORDER-45 [P0·정본 집행] 호칭·스피치 정본 붕괴 전수 수리
 
 > **2026-07-25 착수 — 만지는 파일**
 >
@@ -84,3 +84,21 @@ KR 수리 시 함께 점검.
 - `python3 tools/english_hangul_audit.py`
 - 지연 `year5_return` 경로를 실렌더해 '첫 반말' 비트가 앞선 위반 제거로 실제 첫 반말이
   되는지 육안 확인. 다은 정점(프로포즈·결혼·최종선택) 존댓말 일관성 확인.
+
+## 완료 보고 (2026-07-25 Codex)
+
+- 지연은 연애 확정 전 존댓말, 확정 후 “오빠”+반말로 거래·재회·데이트·
+  결혼·엔딩을 정렬했다. 다은→민준 “민준씨”+존댓말, 민준→두 여성·상철
+  존댓말 기조도 콜백·정점까지 교정했다.
+- EN 오버레이는 한국어 “오빠”와 동일한 중첩 필드에 `oppa`가 있는지 전수
+  대조했고, 감정 의미 오역과 문장부호까지 함께 수리했다.
+- `speech_register_audit.py`를 추가해 사건 29계약·엔딩 4계약과 KR↔EN 동일
+  필드 호칭을 검사하고 `audit.sh`에 연결했다. 정점 체인 32개도 새 정본으로
+  갱신했다.
+- JSON 구문, 문서 매니페스트, 한영 커버리지·한글 누출, 호칭 감사, 정점 체인,
+  GDScript 55개 컴파일을 포함한 전체 감사를 통과했다.
+- 영어 `home-peaks`, `ending-p0/p1`, `namsan`, `first-snow`, `amusement`를
+  실렌더 확인했다. 한국어 `breakup` 범위에서는 최종 선택 전에 종결 상태가
+  서는 기존 진행 부채를 발견했으며 이번 문장 수리의 회귀가 아니므로 후속 구조
+  수리 대상으로 분리했다.
+- 사용자 소유 변경 `project.godot`은 수정·스테이징하지 않았다.

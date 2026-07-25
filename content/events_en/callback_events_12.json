@@ -2,7 +2,7 @@
   {
     "id": "callback_jiyeon_accepted_echo",
     "title": "After Accepting",
-    "description": "Two months since you decided to accept what Jiyeon said.\nYou thought it was the right call.\nToday a short message from Jiyeon.\n'Minjun — how've you been?'",
+    "description": "Two months since you decided to accept what Jiyeon said.\nYou thought it was the right call.\nToday a short message from Jiyeon.\n'Oppa — how've you been?'",
     "choices": [
       {
         "text": "Answer honestly",
@@ -47,7 +47,7 @@
   {
     "id": "callback_jiyeon_honest_world_echo",
     "title": "When You Spoke Honestly About the World",
-    "description": "Two months since you told Jiyeon what you honestly thought about how the world works.\nToday she reached out first.\n'Minjun — what you said then. I keep thinking about it.'",
+    "description": "Two months since you told Jiyeon what you honestly thought about how the world works.\nToday she reached out first.\n'Oppa — what you said then. I keep thinking about it.'",
     "choices": [
       {
         "text": "\"Which part?\"",

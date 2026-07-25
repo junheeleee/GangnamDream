@@ -51,7 +51,7 @@
     "choices": [
       {
         "text": "Listen well this time too",
-        "result_text": "You listened.\nJiyeon said 'Talking to you is easy.'\nThe first door that opened — calls the next story in."
+        "result_text": "You listened.\nJiyeon said, 'Talking to you is easy, oppa.'\nThe first door that opened — calls the next story in."
       },
       {
         "text": "Open up honestly yourself too",
@@ -92,7 +92,7 @@
   {
     "id": "callback_jiyeon_mother_direct_echo",
     "title": "Directly with Jiyeon's Mother",
-    "description": "Two months since you had a direct conversation with Jiyeon's mother.\nToday Jiyeon brought it up.\n'My mother was saying good things about you.'",
+    "description": "Two months since you had a direct conversation with Jiyeon's mother.\nToday Jiyeon brought it up.\n'My mother was saying good things about you, oppa.'",
     "choices": [
       {
         "text": "\"Was she? Please pass on my thanks.\"",

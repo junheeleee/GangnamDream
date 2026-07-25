@@ -80,7 +80,7 @@
       },
       {
         "text": "\"What happened?\" Ask without hiding the worry.",
-        "result_text": "\"What happened?\" When {name} asked, Jiyeon let out a small laugh.\n\"...Of course that's the first thing you'd ask.\"\nShe didn't answer. Instead she took off her shoes, came in, and sat on the narrow room's floor.\n\"I'll stay a bit. ...That okay?\"\n{name} nodded."
+        "result_text": "\"What happened?\" When {name} asked, Jiyeon let out a small laugh.\n\"...Of course that's the first thing you'd ask, oppa.\"\nShe didn't answer. Instead she took off her shoes, came in, and sat on the narrow room's floor.\n\"I'll stay a bit. ...That okay?\"\n{name} nodded."
       }
     ],
     "description_if_known": {
@@ -127,7 +127,7 @@
       }
     ],
     "description_if_known": {
-      "told_jiyeon_about_records": "Jiyeon looked at the coat she had thrown aside. It was the most expensive thing in the room, crumpled on the floor.\n\n\"Now we know why my house is so wide. Its size came from taking rooms away from other people. Your father's name was on that list.\"\n\nShe did not cover the sentence with an apology. She did not ask to be forgiven.\n\"Everyone at home talked about me today. Where I'll live, what I'll inherit. But in that house, I couldn't tell which part of my life had ever really been mine.\"\n\nJiyeon traced the beads of water on the ramyeon lid. She had walked out of that wide home carrying only a phone and the coat on the floor."
+      "told_jiyeon_about_records": "Jiyeon looked at the coat she had thrown aside. It was the most expensive thing in the room, crumpled on the floor.\n\n\"Now we know why my house is so wide. Its size came from taking rooms away from other people. Your father's name was on that list too, oppa.\"\n\nShe did not cover the sentence with an apology. She did not ask to be forgiven.\n\"Everyone at home talked about me today. Where I'll live, what I'll inherit. But in that house, I couldn't tell which part of my life had ever really been mine.\"\n\nJiyeon traced the beads of water on the ramyeon lid. She had walked out of that wide home carrying only a phone and the coat on the floor."
     }
   },
   {

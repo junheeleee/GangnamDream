@@ -47,7 +47,7 @@
   {
     "id": "callback_jiyeon_refused_deal_echo",
     "title": "Jiyeon Shows Up Again",
-    "description": "You turned down Jiyeon's proposal two months ago.\nToday you ran into her at a café.\n\"Oh — Minjun. Good to see you.\"\nNo trace of resentment on her face.",
+    "description": "You turned down Jiyeon's proposal two months ago.\nToday you ran into her at a café.\n\"Oh — oppa. Good to see you.\"\nNo trace of resentment on her face.",
     "choices": [
       {
         "text": "Sit down and talk",
@@ -62,7 +62,7 @@
   {
     "id": "callback_jiyeon_took_money_weight",
     "title": "The Weight of That Money",
-    "description": "Two months since you took money from Jiyeon.\nToday a call from Jiyeon.\n\"Minjun. That — what I gave you — it's working out, right?\"\nHard to tell if it was a question or a check-in.",
+    "description": "Two months since you took money from Jiyeon.\nToday a call from Jiyeon.\n\"Oppa. That — what I gave you — it's working out, right?\"\nHard to tell if it was a question or a check-in.",
     "choices": [
       {
         "text": "Tell her honestly where things stand",
@@ -92,7 +92,7 @@
   {
     "id": "callback_forgave_jiyeon_outcome",
     "title": "After the Forgiveness",
-    "description": "That conversation where you forgave Jiyeon.\nAfter that, something between you shifted.\nToday Jiyeon appeared with something.\n\"There's something I've been wanting to give you.\"",
+    "description": "That conversation where you forgave Jiyeon.\nAfter that, something between you shifted.\nToday Jiyeon appeared with something.\n\"There's something I've been wanting to give you, oppa.\"",
     "choices": [
       {
         "text": "Accept it",

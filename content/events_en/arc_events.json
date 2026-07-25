@@ -227,11 +227,11 @@
   {
     "id": "arc_jiyeon_05_epilogue",
     "title": "After",
-    "description": "The morning after {name} told her everything —\nJiyeon sent a message first.\n\n'you're scared you might still be angry.\nYou talked so much yesterday... You're a little weird, aren't you?'\n\n{name} stared at the phone.\n\nA woman with three layers of reason.\nBecause of her father's company. Because she needed an investor. And because she wanted someone close.\n\nWhat can this become?",
+    "description": "The morning after {name} told her everything —\nJiyeon sent a message first.\n\n'I'm scared you might still be angry, oppa.\nI said so much yesterday... I'm kind of strange, aren't I?'\n\n{name} stared at the phone.\n\nA woman with three layers of reason.\nBecause of her father's company. Because she needed an investor. And because she wanted someone close.\n\nWhat can this become?",
     "choices": [
       {
         "text": "'You're not weird. That's just being human.' — Accept it.",
-        "result_text": "Sent the reply.\nA moment later, hers: 'You're weird too. That's why you like it.'\n{name} half-smiled. Felt like there was one more reason to reach Gangnam."
+        "result_text": "Sent the reply.\nA moment later, hers: 'You're strange too, oppa. That's why I like you.'\n{name} half-smiled. Felt like there was one more reason to reach Gangnam."
       },
       {
         "text": "'Jiyeon — Gangnam still comes first for me.' — Draw a clear line.",
@@ -425,7 +425,7 @@
   {
     "id": "arc_opp_jiyeon_bunyang",
     "title": "The Presale Right",
-    "description": "Jiyeon called him aside, quietly.\n\n\"My father's company is putting up a presale development in Gangnam. It hasn't gone public yet.\nIf you just put down the deposit, the premium will be enormous. I'm only telling you.\"\n\n{name} hesitated. This was an opportunity Jiyeon's world was offering him.\nTake it, and he'd close in on Gangnam. But in that same moment, he'd be in her debt.\nHe'd be setting one foot inside her world.\n\n\"Why are you giving this to me?\"\n\"...You really have to ask?\" She smiled.\n\nMoney and feelings, both on the line.",
+    "description": "Jiyeon called him aside, quietly.\n\n\"My father's company is putting up a presale development in Gangnam. It hasn't gone public yet.\nIf you just put down the deposit, the premium will be enormous. I'm only telling you, oppa.\"\n\n{name} hesitated. This was an opportunity Jiyeon's world was offering him.\nTake it, and he'd close in on Gangnam. But in that same moment, he'd be in her debt.\nHe'd be setting one foot inside her world.\n\n\"Why are you giving this to me?\"\n\"...You really have to ask?\" She smiled.\n\nMoney and feelings, both on the line.",
     "choices": [
       {
         "text": "Take the chance — to get closer to Gangnam",
@@ -433,7 +433,7 @@
       },
       {
         "text": "Turn it down — I want to get there under my own power",
-        "result_text": "\"Thank you. But I want to do this on my own.\"\nJiyeon's expression hardened, subtly.\n\"...You really are a strange one. You're turning this down?\"\n\nShe didn't understand. But {name} —\nhe liked the version of himself that owed her nothing.\nGangnam slipped further away, but he could hold his head up."
+        "result_text": "\"Thank you. But I want to do this on my own.\"\nJiyeon's expression hardened, subtly.\n\"...You really are a strange one, oppa. You're turning this down?\"\n\nShe didn't understand. But {name} —\nhe liked the version of himself that owed her nothing.\nGangnam slipped further away, but he could hold his head up."
       }
     ]
   },
@@ -629,9 +629,9 @@
   {
     "id": "arc_jiyeon_truth_moment",
     "title": "The Things She Couldn't Say Back Then",
-    "description": "Jiyeon reached out first.\n\"Minjun, do you have time to meet for a bit?\"\n\nAcross the café table, her face was different from usual.\nThe face of someone who'd been preparing for something a long time.\n\n\"I think I need to be honest with you.\"\n\nShe said her father's company was struggling.\nThat this presale had to go well.\nThat's why she needed investors, and why she'd pitched it to Minjun.\nThat part was true too.\n\n\"But that's not all of it.\nMy wish for you to do well — that was real too.\nAnd... I was curious about you, and I wanted to be near you.\"\n\n\"All three are tangled together, and I don't know what kind of person I am.\nAm I a bad person?\"",
+    "description": "Jiyeon reached out first.\n\"Oppa, do you have time to meet for a bit?\"\n\nAcross the café table, her face was different from usual.\nThe face of someone who'd been preparing for something a long time.\n\n\"I think I need to be honest with you, oppa.\"\n\nShe said her father's company was struggling.\nThat this presale had to go well.\nThat's why she needed investors, and why she'd pitched it to Minjun.\nThat part was true too.\n\n\"But that's not all of it.\nMy wish for you to do well — that was real too.\nAnd... I was curious about you, and I wanted to be near you.\"\n\n\"All three are tangled together, and I don't know what kind of person I am.\nAm I a bad person?\"",
     "description_if_known": {
-      "jiyeon_seen_by_gifts": "Jiyeon reached out first.\n\"Minjun, do you have time to meet for a bit?\"\n\nAcross the café table, her face was different from usual.\nThe face of someone who'd been preparing for something a long time.\n\n\"I think I need to be honest with you.\"\n\nShe said her father's company was struggling.\nThat this presale had to go well.\nThat's why she needed investors, and why she'd pitched it to Minjun.\nThat part was true too.\n\n\"But that's not all of it.\"\nShe paused for a moment.\n\"...You even remembered things I said in passing. That exhibition catalogue.\nPlenty of people bought me things. But the first one who actually remembered me — that was you, oppa.\"\n\n\"All three are tangled together, and I don't know what kind of person I am.\nAm I a bad person?\""
+      "jiyeon_seen_by_gifts": "Jiyeon reached out first.\n\"Oppa, do you have time to meet for a bit?\"\n\nAcross the café table, her face was different from usual.\nThe face of someone who'd been preparing for something a long time.\n\n\"I think I need to be honest with you, oppa.\"\n\nShe said her father's company was struggling.\nThat this presale had to go well.\nThat's why she needed investors, and why she'd pitched it to Minjun.\nThat part was true too.\n\n\"But that's not all of it.\"\nShe paused for a moment.\n\"...You even remembered things I said in passing. That exhibition catalogue.\nPlenty of people bought me things. But the first one who actually remembered me — that was you, oppa.\"\n\n\"All three are tangled together, and I don't know what kind of person I am.\nAm I a bad person?\""
     },
     "choices": [
       {
@@ -651,9 +651,9 @@
   {
     "id": "arc_jiyeon_truth_warned",
     "title": "The Things He Already Knew",
-    "description": "Jiyeon reached out first.\n\"Minjun, do you have time to meet for a bit?\"\n\nSitting across from her at the café, {name} already remembered what Sangchul had said.\n'That woman needs presale numbers — she's after your money.'\n\nShe opened her mouth.\nThe story of her father's company. The presale targets. And — why she'd pitched it to Minjun.\n\n\"But that's not all of it.\nMy wish for you to do well — that was real too.\nAnd... I was curious about you, and I wanted to be near you.\"\n\n\"All three are tangled together, and I don't know what kind of person I am.\nAm I a bad person?\"\n\n{name} already knew. Which made it stranger still — complication came before anger.",
+    "description": "Jiyeon reached out first.\n\"Oppa, do you have time to meet for a bit?\"\n\nSitting across from her at the café, {name} already remembered what Sangchul had said.\n'That woman needs presale numbers — she's after your money.'\n\nShe opened her mouth.\nThe story of her father's company. The presale targets. And — why she'd pitched it to Minjun.\n\n\"But that's not all of it.\nMy wish for you to do well — that was real too.\nAnd... I was curious about you, and I wanted to be near you.\"\n\n\"All three are tangled together, and I don't know what kind of person I am.\nAm I a bad person?\"\n\n{name} already knew. Which made it stranger still — complication came before anger.",
     "description_if_known": {
-      "jiyeon_seen_by_gifts": "Jiyeon reached out first.\n\"Minjun, do you have time to meet for a bit?\"\n\nSitting across from her at the café, {name} already remembered what Sangchul had said.\n'That woman needs presale numbers — she's after your money.'\n\nBut something else surfaced alongside it.\nThe gifts he'd chosen by remembering things she'd let slip in passing. That proud face of hers, buckling for a second each time she received one.\n\nShe opened her mouth.\nThe story of her father's company. The presale targets. And — why she'd pitched it to Minjun.\n\n\"But that's not all of it.\nYou're... one of the few people who saw me as a person, not a thing.\"\n\n\"All three are tangled together, and I don't know what kind of person I am.\nAm I a bad person?\"\n\n{name} already knew. Which made it stranger still — complication came before anger."
+      "jiyeon_seen_by_gifts": "Jiyeon reached out first.\n\"Oppa, do you have time to meet for a bit?\"\n\nSitting across from her at the café, {name} already remembered what Sangchul had said.\n'That woman needs presale numbers — she's after your money.'\n\nBut something else surfaced alongside it.\nThe gifts he'd chosen by remembering things she'd let slip in passing. That proud face of hers, buckling for a second each time she received one.\n\nShe opened her mouth.\nThe story of her father's company. The presale targets. And — why she'd pitched it to Minjun.\n\n\"But that's not all of it.\nYou're... one of the few people who saw me as a person, not a thing, oppa.\"\n\n\"All three are tangled together, and I don't know what kind of person I am.\nAm I a bad person?\"\n\n{name} already knew. Which made it stranger still — complication came before anger."
     },
     "choices": [
       {
@@ -666,7 +666,7 @@
       },
       {
         "text": "\"That's just how people are. Your world had its own ways.\"",
-        "result_text": "\"You... already knew.\"\nFor the first time, Jiyeon's face had set down its defenses.\n\"And you can still say that?\"\nHe'd thought a betrayal you saw coming would hurt less — it didn't, not quite.\nStill, forgiveness was also a thing he did for himself."
+        "result_text": "\"You... already knew, oppa.\"\nFor the first time, Jiyeon's face had set down its defenses.\n\"And you can still say that?\"\nHe'd thought a betrayal you saw coming would hurt less — it didn't, not quite.\nStill, forgiveness was also a thing he did for himself."
       }
     ]
   },

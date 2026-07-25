@@ -770,7 +770,7 @@ def validate_wedding_night_contracts(events: dict[str, dict[str, Any]]) -> None:
             "actor": "jiyeon",
             "texts": (
                 "그 침묵을 존중하고, 먼저 손을 내민다.",
-                '긴장을 들킨 그녀를 살짝 놀린다. "천하의 한지연이 말이 없네."',
+                '긴장을 들킨 그녀를 살짝 놀린다. "천하의 한지연이 말이 없네요."',
             ),
         },
     )
@@ -1771,7 +1771,7 @@ def validate_breakup_peak_contracts(events: dict[str, dict[str, Any]]) -> None:
             "portrait": None,
             "actor": "daeun",
             "texts": (
-                '펜을 내려놓는다. "다은아, 우리 그냥... 좀 늦게 가자."',
+                '펜을 내려놓는다. "다은씨, 우리 그냥... 좀 늦게 가요."',
                 "서명한다. 강남이 한 걸음 앞이다.",
                 "(펜을 든 채 — 서랍 속 그 포스트잇이 생각났다)",
             ),
@@ -1803,7 +1803,7 @@ def validate_breakup_peak_contracts(events: dict[str, dict[str, Any]]) -> None:
             "portrait": "jiyeon_cold",
             "actor": "jiyeon",
             "texts": (
-                '"바뀔게. 당신 세계에 맞출게. 뭐든 할게." (그녀를 붙잡는다)',
+                '"바뀔게요. 당신 세계에 맞출게요. 뭐든 할게요." (그녀를 붙잡는다)',
                 '"이게 나예요. 못 바꿔요. ...미안해요." (그녀를 보낸다)',
                 "(폰을 꺼낸다 — 그녀의 첫 문자를, 아직 지우지 않았다)",
             ),
