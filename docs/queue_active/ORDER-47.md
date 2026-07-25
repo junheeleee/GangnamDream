@@ -12,6 +12,7 @@
 >   `content/meta/narrative_spine.json`
 > - 사건: `content/events/{arc_year_close,arc_midgame,arc_chapter_themes,life_events}.json`
 >   및 같은 이름의 `content/events_en/` 오버레이
+> - 사건 창·편성 런타임: `scenes/MainGame.gd`
 > - 구조 회귀: `tools/{full_run_pacing_audit,narrative_continuity_audit,narrative_spine_audit,arc_flow_sim}.py`
 >   중 새 구조 계약에 필요한 파일
 > - 수치·기록: `docs/BALANCE.md`, `docs/SCRIPT_REVIEW_2026-07-24.md`,
