@@ -12,7 +12,8 @@
 > - 지연: `content/events/arc_events.json`, `callback_events_24.json`,
 >   `arc_romance_y5.json`, `relationship_events.json`,
 >   `arc_jiyeon_married.json`, `arc_romance_specials.json`,
->   `callback_events_23.json`
+>   `callback_events_23.json`, `arc_year3_drama.json`,
+>   `content/endings.json`, `content/endings_en.json`
 > - 다은: `content/events/arc_events.json`, `callback_events_18.json`,
 >   `arc_daeun_extension.json`, `arc_daeun_married.json`,
 >   `arc_midgame.json`, `callback_events_44.json`
