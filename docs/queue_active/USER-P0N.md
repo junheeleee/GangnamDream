@@ -1,10 +1,23 @@
-# Pending Queue Spec: USER-P0N
+# Active Queue Spec: USER-P0N
 
 > Canonical status is indexed in `docs/CODEX_QUEUE.md`. This file owns the
 > pending full-run direction pass; existing scene language remains canonical in
 > `docs/SCENE_DIRECTION.md`.
 
-#### [ ] USER-P0N [P0·연출] 데모 장면 연출 문법 240주 전 구간 확산
+#### [~] USER-P0N [P0·연출] 데모 장면 연출 문법 240주 전 구간 확산
+
+**[~] 착수 (2026-07-26 Codex) — 만지는 파일:** `docs/CODEX_QUEUE.md`,
+`docs/queue_active/USER-P0N.md`, `CLAUDE.md`, `docs/SCENE_DIRECTION.md`,
+`docs/MORAL_TINT.md`, `docs/QA_CHECKLIST.md`, `docs/MASTER_RELEASE_AUDIT.md`,
+`docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, 신규
+`assets/scene_direction_manifest.json`, `content/meta/story_rules.json`,
+`assets/event_visual_contracts.json`, `assets/scene_audio_manifest.json`,
+`scenes/StoryMode.gd`, `scenes/MainGame.gd`,
+`scenes/ui/LivingSceneLayer.gd`, 관련 셰이더, `tools/LivingSceneCheck.gd`,
+`tools/ScreenshotQA.gd`, `tools/audit.sh`, 신규 전환 카탈로그·대표 240주
+A/V 추적·Godot 런타임 검사와 해당 `.tscn`/`.uid`. 현재 diff를 읽은 뒤
+실제로 필요한 파일만 수정하며, 추가 범위가 생기면 선언 커밋을 먼저 푸시한다.
+사용자 변경 `project.godot`은 건드리지 않는다.
 
 ## 사용자 지시
 
