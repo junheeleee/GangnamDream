@@ -5,7 +5,7 @@
 > → `ORDER-53`(예약 배열 확장). 이 오더는 그 계보의 **마지막 남은 휴면 코퍼스**를 닫는다.
 > **Claude 코드 검증 완료(2026-07-26)** — 아래 수치·계약은 저장소에서 재현한 사실이다.
 
-#### [~] 착수 — 만지는 파일: `content/events/{butterfly_events,chain_events,rare_encounter_events}.json`, `content/events_en/{butterfly_events,chain_events,rare_encounter_events}.json`, `content/meta/event_director.json`, `tools/{audit,event_director_audit,arc_flow_sim}.py`, `tools/{EventDirectorCheck,ScreenshotQA}.gd`, `docs/{BALANCE,CODEX_QUEUE,WORK_LOG}.md`, `docs/queue_active/ORDER-54.md`, `CLAUDE.md`
+#### [~] 착수 — 만지는 파일: `autoloads/EventManager.gd`, `scenes/MainGame.gd`, `content/events/{butterfly_events,chain_events,rare_encounter_events}.json`, `content/events_en/{butterfly_events,chain_events,rare_encounter_events}.json`, `content/meta/event_director.json`, `tools/{audit,event_director_audit,arc_flow_sim}.py`, `tools/{EventDirectorCheck,ScreenshotQA}.gd`, `docs/{BALANCE,CODEX_QUEUE,WORK_LOG}.md`, `docs/queue_active/ORDER-54.md`, `CLAUDE.md`
 
 ORDER-54 [P1·체인 부활] 씨앗-수확 12체인을 되살린다
 
@@ -136,6 +136,19 @@ ORDER-51이 확인한 마지막 휴면 덩어리다. 감사가 지금도 정직�
 `butterfly_events.json`에 있으므로 KR·EN 두 파일을 착수 범위에 추가했다.
 한 수확을 두 선택이 공유하는 유명인 체인과 반찬가게 합류 때문에 생산자 선택 행은
 14개지만, 고유 수확 이벤트는 12개다.
+
+### 예약 조건 보험의 런타임 결함 (착수 중 재현)
+
+`MainGame._next_arc_id()`는 `GameState.pop_ready_deferred_events()`로 예약을 제거한 뒤
+`EventManager.trigger_event_by_id()`를 호출한다. 이 함수는 대상의 `conditions`를 검사하지
+않고 바로 큐에 넣으므로, 이 문서가 요구한 `chain_interior_offer.conditions.no_job`을
+추가해도 이미 취업한 민준에게 입사 제안이 강제 발화한다.
+
+→ 예약 이벤트 전용 조건 검사 진입점을 추가하고, 조건 불충족 예약은 큐에 넣지 않은 채
+그 주의 정상 편성을 계속한다. 같은 주에 만기가 겹친 다른 예약은 이어서 검사한다.
+즉시 `follow_up_event`는 선택이 직접 연 장면이므로 기존처럼 조건 우회 동작을 유지한다.
+이 보험을 잠그기 위해 `autoloads/EventManager.gd`와 `scenes/MainGame.gd`를 착수 범위에
+추가했다.
 
 ## 검증
 
