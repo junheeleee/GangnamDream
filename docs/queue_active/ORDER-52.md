@@ -4,7 +4,7 @@
 > **유저 결정 = (나) 선별 부활**(2026-07-26). 근거 원장: 각본 리뷰 3차 + 부활 선별 정독.
 > **Claude 코드 검증 완료** — 아래 엔진 제약·슬롯 점유는 저장소에서 재현한 사실이다.
 
-#### [~] T1 완료 — T2 승인 대기. 만지는 파일: `content/events/{amb_scenarios,arc_daeun,arc_daeun_extension,arc_drama,arc_events,arc_hyunsu,arc_midgame,arc_romance_y5,arc_year3_drama,scenario_cafe_callback}.json`, `content/events/callback_events_{2,5,6,7,8,13,36,37,39,41,42,43,44,55}.json`, 같은 이름의 `content/events_en/` 오버레이, `content/meta/story_rules.json`, `assets/event_visual_contracts.json`, `assets/scene_direction_manifest.json`, `tools/event_director_audit.py`, `tools/arc_flow_sim.py`, `tools/EventDirectorCheck.gd`, `tools/ScreenshotQA.gd`, `tools/DelayedPayoffCheck.gd`, `tools/DelayedPayoffCheck.tscn`, `tools/narrative_continuity_audit.py`, `tools/full_run_pacing_audit.py`, `docs/BALANCE.md`, `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-52.md`, `CLAUDE.md`, `docs/WORK_LOG.md`
+#### [x] T1 완료 — T2는 사용자 승인 뒤 [`ORDER-53`](ORDER-53.md)으로 이관
 
 ORDER-52 [P1·지연 회수 부활] 도달 불가 콜백 32건을 예약형으로 되살린다
 
@@ -103,7 +103,7 @@ ORDER-51에서 확인된 사실: 콜백 620건 중 도달 가능 24건(3.9%), ch
   아니며 자동 허용목록으로 되살리지 않는다.
 - T2의 슬롯 점유 3행과 `GameState.gd` 배열 확장은 수정하지 않았다.
 
-## T2. 슬롯 점유 3행 — ⚠ 엔진 확장 필요 (유저 승인 대기)
+## T2. 슬롯 점유 3행 — ORDER-53으로 이관
 
 하필 **값어치 최상위 3건**이 이미 예약된 선택지에 걸린다.
 
@@ -117,7 +117,7 @@ ORDER-51에서 확인된 사실: 콜백 620건 중 도달 가능 24건(3.9%), ch
 문자열 호환 유지). 소규모지만 엔진 스키마 변경이라 승인 대상. **(나)** 기존 예약 대상
 (`arc_sangchul_year3`·`arc_jaehyuk_aftermath`) 안에 부활 콜백 내용을 dik 분기로 흡수한다 —
 신규 배선 없이 가능하나 별도 장면의 무게는 잃는다. **(다)** 이 3건 포기.
-**Claude 추천: (가)** — 한 줄 확장으로 이후 부활·후속 배선의 상한이 사라진다. 승인 전 착수 금지.
+**사용자 결정: (가) 승인.** 구현·배선·검증은 `ORDER-53`이 소유한다.
 
 ## 부활 전 필수 산문 수리 — 25건
 

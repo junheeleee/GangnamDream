@@ -47,7 +47,7 @@
 
 | 순서 | 상태 | 항목 | 전체 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-52 · 지연 회수 부활 32건 예약 배선 | [ORDER-52](queue_active/ORDER-52.md) | T1 34행/29건·한영·240주 QA 완료. T2 3행 배열 확장 ⚠승인 대기 |
+| 1 | [~] | ORDER-53 · 한 선택지에 예약 여럿 + T2 3행 부활 | [ORDER-53](queue_active/ORDER-53.md) | 착수: 문자열 호환 배열 스키마·전 소비자·세이브 회귀·3행 배선 |
 | 2 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 전 사건·배경·대표 240주 자동 확산과 clean RC `d73afa6` PASS, 장별 사람 연속 청취 OPEN |
 | 3 | [~] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 1,565사건·960주 정적/KO·EN 240주 실주행·논리 4K와 clean RC PASS, 정상 속도·실기기·A/V 사람 판정 OPEN |
 | 4 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 번역 인프라·일본어 UI/프롤로그/직업명 자동 검사 PASS, 데모 GO 뒤 본문 번역·15장 캡처·원어민 검수 OPEN |
@@ -60,6 +60,10 @@
 
 - **2026-07 전체 원문 스냅샷:** [CODEX_QUEUE_2026-07.md](queue_archive/CODEX_QUEUE_2026-07.md)
 - 상세 작업 결과는 [WORK_LOG.md](WORK_LOG.md), 사용자 노트와 라운드 판정은 [DEMO_FIXLOG.md](DEMO_FIXLOG.md), 설계 결정은 [DECISIONS.md](DECISIONS.md)가 정본이다.
+- `[x] ORDER-52` (2026-07-26): 생산자 선택 34행에서 고유 지연 회수
+  29건을 8~16주 뒤 예약하고 산문·효과·조건·장소·한영 표면을 정렬했다.
+  T2 엔진 배열 확장과 추가 3행은 사용자 승인 뒤 ORDER-53으로 이관했다.
+  [완료 사양](queue_active/ORDER-52.md)
 - `[x] ORDER-51` (2026-07-26): 도달 가능한 콜백 24건 중 결함 3건의
   금액·산문·시점·장소를 한영 정렬했다. 콜백 620건과 체인 12건의
   실제 진입 경로를 계산하는 회귀 게이트를 추가해 휴면 기준선 596+12의
