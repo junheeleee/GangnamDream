@@ -4,6 +4,16 @@
 > [`history/WORK_LOG_2026-05-16_to_2026-07-24.md`](history/WORK_LOG_2026-05-16_to_2026-07-24.md)에 손실 없이 보존했다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-07-26 (Claude — 지연 회수 엔진 정독·ORDER-51 발행)
+
+### 각본 리뷰의 마지막 미검토 표면에서 도달 불가 코퍼스를 찾았다
+
+- gap감사가 지목한 2축(`chain_events.json` 12체인 + 비인물 콜백)을 4갈래 병렬 정독했다. 리뷰어 주장을 믿지 않고 **저장소에서 직접 재현**했다.
+- 검증된 사실: 콜백 **620건 중 도달 가능 24건(3.9%)**, chain 체인 **0/12**. 유일 경로는 `EventManager.draw_situations()` → `is_foreground_random_event()` 허용목록(전경 61 + 다리 18)이고, **대체 경로 0건**(전 이벤트의 `follow_up_event`/`deferred_follow_up`/`next_event` 중 `callback_`·`chain_` 포인터 0, 아크 스케줄러 반환 0). chain은 허용목록 2건조차 씨앗이 목록 밖이라 연쇄 사망.
+- 맥락: 이 상태는 `ORDER-37` 콘텐츠 다이어트의 결과이며 사고가 아니다. 다만 다이어트 의도는 무관한 단문의 전경 점유 차단이었지 회수 층 폐쇄가 아니었다. 주간 Echo는 콜백이 아니라 행동 원장(`_demo_director_recent_action_record`)을 읽으므로, 회수 약속의 일부는 Echo·dik가 이미 수행 중이다.
+- **우선순위 분류:** 리뷰가 지적한 결함 15건 중 **플레이어가 실제로 보는 것은 3건뿐**(`callback_jeonse_scam_narrow` 손실 10배 불일치, `callback_recycling_neighbor` 잔존 설교, `callback_formal_complaint_filed_echo` min_turn 사문). 나머지 12건은 죽은 콘텐츠 안이라 처분 결정 전 착수 금지로 묶었다.
+- ORDER-51 발행: A(도달분 3건 수리)·C(사문 회귀 게이트)는 즉시 실행, **B(596콜백+12체인 처분)는 ⚠유저 설계 판단 대기**. Claude 추천은 (나) 선별 부활 — 허용목록 확대가 아니라 생산자 이벤트에서 `deferred_follow_up`으로 직접 예약해 다이어트 정본을 깨지 않는 방식.
+
 ## 2026-07-26 (Codex — 활성 큐 자동 범위 전수 마감·clean RC)
 
 ### 기계가 판정할 수 있는 일은 모두 끝내고 사람 판정을 분리했다
