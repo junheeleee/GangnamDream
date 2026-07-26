@@ -230,7 +230,7 @@
   {
     "id": "callback_called_hyunsu_scam_echo",
     "title": "사기당하고 현수한테 연락한 것",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "hyunsu",
     "category": "relationship",
     "rarity": "uncommon",
@@ -317,7 +317,7 @@
   {
     "id": "callback_called_about_medication_echo",
     "title": "아버지한테 직접 전화한 것",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "father_home",
     "category": "story",
     "rarity": "uncommon",

@@ -2828,7 +2828,7 @@
   {
     "id": "arc_father_01_call",
     "title": "전화",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "player_tired",
     "cg": "cg_demo_father_first_call",
     "category": "story",
@@ -2911,7 +2911,7 @@
   {
     "id": "arc_father_02_signal",
     "title": "카톡 하나",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "player_normal",
     "category": "story",
     "rarity": "story",
@@ -4015,7 +4015,7 @@
   {
     "id": "arc_hyunsu_lifeline_call",
     "title": "연락해도 되는 사람",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "hyunsu",
     "category": "story",
     "rarity": "story",

@@ -88,7 +88,7 @@
       "min_turn": 30
     },
     "cooldown": 32,
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "player_normal",
     "description": "뉴스 기사를 보다가 손이 멈췄다.\n「자녀 1인당 양육비 평균 3억 2천만 원」\n\n민준은 잠깐 계산기를 켰다. 대학까지 보내면 월 얼마가 드나. 사교육까지 더하면.\n\n숫자가 쌓일수록 가슴 한쪽이 무거워졌다.",
     "choices": [

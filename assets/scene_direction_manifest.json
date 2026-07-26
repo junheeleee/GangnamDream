@@ -2449,7 +2449,7 @@
     "arc_daeun_03_fork->arc_father_medication": {
       "mode": "explicit_move",
       "from_surface": "convenience_night",
-      "to_surface": "office",
+      "to_surface": "subway",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade"
     },
@@ -2665,7 +2665,7 @@
     },
     "arc_father_medication->arc_jiyeon_03_offer": {
       "mode": "explicit_move",
-      "from_surface": "office",
+      "from_surface": "subway",
       "to_surface": "street_rainy",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade"
@@ -2740,7 +2740,7 @@
     "arc_intro_01_meal->arc_intro_02_dad_call": {
       "mode": "time_cut",
       "from_surface": "office_interview_day",
-      "to_surface": "current_housing",
+      "to_surface": "goshiwon_room",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
       "arrival_cue_ko": "고시원. 새벽 세 시.",

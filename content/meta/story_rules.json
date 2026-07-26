@@ -61,7 +61,7 @@
     ]
   },
   "coverage_targets": {
-    "minimum_ledger_events": 119,
+    "minimum_ledger_events": 135,
     "max_unclassified_communication_suspects": 0,
     "demo_logic": [
       "arc_intro_02_dad_call",
@@ -261,7 +261,7 @@
     },
     "cafe_cb_honest_00->cafe_cb_honest_in": {
       "mode": "explicit_move",
-      "from_location": "goshiwon_room",
+      "from_location": "current_housing",
       "to_location": "cafe",
       "arrival_cue_ko": "약속한 날, 다시 그 카페",
       "arrival_cue_en": "On the appointed day, back at the cafe"
@@ -875,7 +875,7 @@
       "presentation": {
         "channel": "phone",
         "state": "missed",
-        "scene_location": "current_housing",
+        "scene_location": "goshiwon_room",
         "remote_location": "changwon_home",
         "remote_actor": "father",
         "portrait_role": "local"
@@ -975,10 +975,13 @@
       "presentation": {
         "channel": "message",
         "state": "received",
-        "scene_location": "office",
+        "scene_location": "subway",
         "remote_location": "changwon_home",
         "remote_actor": "mother",
-        "portrait_role": "local"
+        "portrait_role": "local",
+        "expected_portrait": "player_tired",
+        "expected_background": "subway",
+        "expected_ambience": "subway"
       }
     },
     "arc_father_06_confession": {
@@ -1223,7 +1226,7 @@
       "presentation": {
         "channel": "phone",
         "state": "incoming",
-        "scene_location": "current_housing",
+        "scene_location": "goshiwon_room",
         "remote_location": "changwon_home",
         "remote_actor": "father",
         "portrait_role": "local"
@@ -1928,6 +1931,204 @@
         "scene_location": "hangang_riverside",
         "participants": ["player", "jiyeon"],
         "portrait_role": "present"
+      }
+    },
+    "arc_34_routine_trap": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_portrait": "player_normal",
+        "expected_background": "current_housing",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "arc_34_two_years_in": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_portrait": "player_tired",
+        "expected_background": "current_housing",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "arc_35_orthodox_weight": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_portrait": "player_tired",
+        "expected_background": "current_housing",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "holdem_skill_transfers": {
+      "logic": {
+        "prerequisites": {
+          "all": [
+            {
+              "path": "player.job.id",
+              "op": "in",
+              "value": [
+                "job_01", "job_02", "job_03", "job_04", "job_05",
+                "job_06", "job_07", "job_08", "job_09", "job_10",
+                "job_11", "job_12", "job_13", "job_14", "job_15"
+              ]
+            },
+            {"path": "flags.holdem_regular", "op": "eq", "value": true}
+          ]
+        }
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "office",
+        "participants": ["player", "counterparty"],
+        "portrait_role": "local"
+      }
+    },
+    "arc_spec_career": {
+      "logic": {
+        "prerequisites": {
+          "all": [
+            {"path": "flags.pending_spec_career", "op": "eq", "value": true},
+            {"path": "flags.pending_spec_career_done", "op": "neq", "value": true},
+            {"path": "flags.career_months_total", "op": "gte", "value": 12},
+            {
+              "path": "player.job.id",
+              "op": "in",
+              "value": [
+                "job_03", "job_04", "job_05", "job_06", "job_07",
+                "job_08", "job_09", "job_10", "job_12", "job_14", "job_15"
+              ]
+            }
+          ]
+        }
+      },
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "office",
+        "participants": ["player"],
+        "portrait_role": "local"
+      }
+    },
+    "arc_spec_elite_result": {
+      "logic": {
+        "prerequisites": {
+          "all": [
+            {"path": "turn", "op": "gte", "value": 25},
+            {"path": "flags.spec_elite", "op": "eq", "value": true},
+            {"path": "flags.arc_spec_elite_result_seen", "op": "neq", "value": true},
+            {
+              "path": "player.job.id",
+              "op": "in",
+              "value": [
+                "job_03", "job_04", "job_05", "job_06", "job_07",
+                "job_08", "job_09", "job_10", "job_12", "job_14", "job_15"
+              ]
+            }
+          ]
+        }
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "office",
+        "participants": ["player", "boss"],
+        "portrait_role": "local"
+      }
+    },
+    "arc_spec_climber_result": {
+      "logic": {
+        "prerequisites": {
+          "all": [
+            {"path": "turn", "op": "gte", "value": 25},
+            {"path": "flags.spec_social_climber", "op": "eq", "value": true},
+            {"path": "flags.arc_spec_climber_result_seen", "op": "neq", "value": true},
+            {
+              "path": "player.job.id",
+              "op": "in",
+              "value": [
+                "job_03", "job_04", "job_05", "job_06", "job_07",
+                "job_08", "job_09", "job_10", "job_12", "job_14", "job_15"
+              ]
+            }
+          ]
+        }
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "meeting",
+        "participants": ["player", "boss"],
+        "portrait_role": "local"
+      }
+    },
+    "anxiety_child_cost_calc": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_normal",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "callback_child_cost_grind": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_normal",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "callback_chose_money_father_echo": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_tired",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "callback_daeun_breakup_begged_echo": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_tired",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "callback_daeun_daily_life_echo": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "current_housing",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present",
+        "expected_background": "current_housing",
+        "expected_portrait": "daeun_smile",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "callback_father_confession_echo": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "cafe",
+        "participants": ["player", "sangchul"],
+        "portrait_role": "local",
+        "expected_background": "cafe",
+        "expected_portrait": "player_shocked",
+        "expected_ambience": "cafe"
       }
     },
     "rel_daeun_first_text": {

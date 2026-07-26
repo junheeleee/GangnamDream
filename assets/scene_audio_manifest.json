@@ -847,7 +847,15 @@
     "arc_34_money_attracts_money": {"ambience": "current_housing", "suppress_music": true},
     "arc_sangchul_03_network": {"ambience": "cafe", "suppress_music": true},
     "arc_daeun_03_fork": {"ambience": "convenience", "suppress_music": true},
-    "arc_father_medication": {"ambience": "office", "suppress_music": true},
+    "arc_father_medication": {
+      "ambience": "subway",
+      "suppress_music": true,
+      "paragraph_cues": {
+        "0": [
+          {"sfx": "phone_notification", "volume_db": -5.0}
+        ]
+      }
+    },
     "arc_jiyeon_03_offer": {"ambience": "rain", "suppress_music": true},
     "arc_jiyeon_03b_lunch": {"ambience": "cafe", "music": {"key": "jiyeon", "start_paragraph": 2}},
     "arc_34_doors_open": {"ambience": "office", "suppress_music": true},
@@ -1032,7 +1040,13 @@
     "arc_jaehyuk_mirror_reply": {"ambience": "room", "music": {"key": "reckoning", "start_paragraph": 0}},
     "arc_jaehyuk_mirror_father": {"ambience": "room", "music": {"key": "grief", "start_paragraph": 0}},
     "arc_jaehyuk_mirror_decision": {"ambience": "room", "music": {"key": "reckoning", "start_paragraph": 0}},
-    "arc_35_orthodox_weight": {"ambience": "office", "music": {"key": "reckoning", "start_paragraph": 2}},
+    "arc_35_orthodox_weight": {"ambience": "current_housing", "music": {"key": "reckoning", "start_paragraph": 2}},
+    "anxiety_child_cost_calc": {"ambience": "current_housing", "suppress_music": true},
+    "callback_child_cost_grind": {"ambience": "current_housing", "suppress_music": true},
+    "callback_chose_money_father_echo": {"ambience": "current_housing", "suppress_music": true},
+    "callback_daeun_breakup_begged_echo": {"ambience": "current_housing", "suppress_music": true},
+    "callback_daeun_daily_life_echo": {"ambience": "current_housing", "suppress_music": true},
+    "callback_father_confession_echo": {"ambience": "cafe", "music": {"key": "reckoning", "start_paragraph": 2}},
     "arc_35_unorthodox_weight": {"ambience": "room", "music": {"key": "reckoning", "start_paragraph": 2}},
     "arc_why_gangnam_real": {"ambience": "street", "music": {"key": "wonder", "start_paragraph": 2}},
     "arc_midpoint_reckoning": {"ambience": "current_housing", "music": {"key": "reckoning", "start_paragraph": 2}},

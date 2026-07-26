@@ -2,7 +2,7 @@
   {
     "id": "callback_told_father_win_echo",
     "title": "그때 그 전화",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "father_home",
     "category": "story",
     "rarity": "uncommon",
@@ -294,7 +294,7 @@
   {
     "id": "callback_called_dad_milestone_echo",
     "title": "그냥 목소리 들으려 했던 전화",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "father_home",
     "category": "story",
     "rarity": "uncommon",

@@ -129,7 +129,7 @@
   {
     "id": "callback_sangchul_personal_echo",
     "title": "버티다 보면",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "sangchul_normal",
     "category": "story",
     "rarity": "uncommon",

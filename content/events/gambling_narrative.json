@@ -196,9 +196,10 @@
     "weight": 0.8,
     "background": "office",
     "portrait": "player_normal",
-    "conditions": {
-      "flag": "holdem_regular"
-    },
+  "conditions": {
+    "flag": "holdem_regular",
+    "has_job": true
+  },
     "tags": [
       "gambling",
       "holdem",

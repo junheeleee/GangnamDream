@@ -11,9 +11,9 @@
       "flag": "child_cost_motivated"
     },
     "cooldown": 9999,
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "player_normal",
-    "description": "이달도 갈아넣었다. 야근, 절약, 포트폴리오 점검.\n\n언젠가 아이를 키우려면 3억 2천이 든다는 걸 처음 알았던 날이 기억난다.\n\n그 숫자를 아는 사람과 모르는 사람은 같은 하루를 다르게 산다.",
+    "description": "이달도 갈아넣었다. 일, 절약, 포트폴리오 점검.\n\n언젠가 아이를 키우려면 3억 2천이 든다는 걸 처음 알았던 날이 기억난다.\n\n그 숫자를 아는 사람과 모르는 사람은 같은 하루를 다르게 산다.",
     "choices": [
       {
         "text": "아직 멀었지만, 가고 있다.",

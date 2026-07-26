@@ -137,7 +137,7 @@
   {
     "id": "callback_sangchul_news_father_echo",
     "title": "그래, 잘 됐다",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "father_home",
     "category": "story",
     "rarity": "uncommon",

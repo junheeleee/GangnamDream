@@ -313,9 +313,39 @@ func _check_employment_consistency() -> void:
 	GameState.current_job = DataRegistry.get_job("job_01").duplicate(true)
 	_expect(not bool(main_game.call("_career_specialization_ready", GameState.flags)),
 		"Office specialization appeared during convenience-store survival work.")
+	GameState.current_job = DataRegistry.get_job("job_11").duplicate(true)
+	_expect(not bool(main_game.call("_career_specialization_ready", GameState.flags)),
+		"Company-ladder specialization appeared for a startup founder.")
+	GameState.current_job = DataRegistry.get_job("job_03").duplicate(true)
+	GameState.turn = 25
+	GameState.flags["spec_elite"] = true
+	GameState.flags.erase("arc_spec_elite_result_seen")
+	_expect(bool(main_game.call(
+		"_story_event_prerequisites_met",
+		"arc_spec_elite_result", 25, GameState.flags)),
+		"Elite specialization result did not open for an employed office route.")
+	GameState.current_job = {}
+	_expect(not bool(main_game.call(
+		"_story_event_prerequisites_met",
+		"arc_spec_elite_result", 25, GameState.flags)),
+		"Elite specialization result survived after the player quit.")
+	GameState.flags.erase("spec_elite")
+	GameState.flags["spec_social_climber"] = true
+	GameState.current_job = DataRegistry.get_job("job_03").duplicate(true)
+	_expect(bool(main_game.call(
+		"_story_event_prerequisites_met",
+		"arc_spec_climber_result", 25, GameState.flags)),
+		"Relationship specialization result did not open for an employed office route.")
+	GameState.current_job = {}
+	_expect(not bool(main_game.call(
+		"_story_event_prerequisites_met",
+		"arc_spec_climber_result", 25, GameState.flags)),
+		"Relationship specialization result survived after the player quit.")
+	GameState.flags.erase("spec_social_climber")
 	GameState.turn = 16
 	GameState.job_tenure = 3
 	GameState.flags.erase("arc_office_routine_seen")
+	GameState.current_job = DataRegistry.get_job("job_01").duplicate(true)
 	_expect(not bool(main_game.call("_office_routine_available", GameState.flags, 16)),
 		"A convenience-store survival job exposed the office overtime scene.")
 	GameState.current_job = DataRegistry.get_job("job_03").duplicate(true)
@@ -369,6 +399,54 @@ func _check_employment_consistency() -> void:
 		"First savings milestone is no longer grounded in the player's live home.")
 	_expect(str(DataRegistry.find_event("arc_temptation_clean").get("background", "")) == "goshiwon_room",
 		"Clean temptation aftermath moved out of the room described by its prose.")
+	var medication_event: Dictionary = DataRegistry.find_event("arc_father_medication")
+	_expect(str(medication_event.get("background", "")) == "subway",
+		"Father medication message still assumes an office.")
+	var medication_text := JSON.stringify(medication_event)
+	_expect(not medication_text.contains("회의") and not medication_text.contains("자리로 돌아"),
+		"Father medication message still narrates employment-only actions.")
+	var orthodox_weight: Dictionary = DataRegistry.find_event("arc_35_orthodox_weight")
+	_expect(str(orthodox_weight.get("background", "")) == "current_housing",
+		"The orthodox route reflection still assumes an office.")
+	var holdem_transfer: Dictionary = DataRegistry.find_event("holdem_skill_transfers")
+	var holdem_conditions: Dictionary = holdem_transfer.get("conditions", {})
+	_expect(bool(holdem_conditions.get("has_job", false)),
+		"The office holdem-transfer event can still enter the random pool while unemployed.")
+	for dynamic_event_id in [
+		"anxiety_child_cost_calc",
+		"arc_father_01_call", "arc_father_02_signal",
+		"arc_hyunsu_lifeline_call", "arc_jiyeon_year4_call",
+		"cafe_cb_stole_call", "cafe_cb_honest_00",
+		"callback_asked_father_more_echo",
+		"callback_called_about_medication_echo",
+		"callback_called_dad_milestone_echo",
+		"callback_called_hyunsu_scam_echo",
+		"callback_child_cost_grind",
+		"callback_chose_money_father_echo",
+		"callback_daeun_breakup_begged_echo",
+		"callback_daeun_daily_life_echo",
+		"callback_father_promise",
+		"callback_knows_dad_reason_echo",
+		"callback_proactive_parent_care_echo",
+		"callback_rushed_to_father_echo",
+		"callback_sangchul_news_father_echo",
+		"callback_sangchul_personal_echo",
+		"callback_told_father_win_echo",
+		"hyunsu_year4_echo", "hyunsu_year5_call",
+		"rel_daeun_first_text",
+	]:
+		_expect(str(DataRegistry.find_event(dynamic_event_id).get(
+			"background", "")) == "current_housing",
+			"%s is still pinned to an obsolete home." % dynamic_event_id)
+	_expect(str(DataRegistry.find_event("callback_father_confession_echo").get(
+		"background", "")) == "cafe",
+		"Sangchul's in-person tea callback is not grounded in the cafe.")
+	_expect(str(DataRegistry.find_event("arc_intro_02_dad_call").get(
+		"background", "")) == "goshiwon_room",
+		"The fixed week-two goshiwon calculation lost its authored room.")
+	_expect(str(DataRegistry.find_event("arc_father_ng_call").get(
+		"background", "")) == "goshiwon_room",
+		"The early NG+ father call lost its authored goshiwon room.")
 	var job_invest: Dictionary = DataRegistry.find_event("arc_job_vs_invest")
 	for choice_value in job_invest.get("choices", []):
 		var choice: Dictionary = choice_value

@@ -2,7 +2,7 @@
   {
     "id": "callback_asked_father_more_echo",
     "title": "아버지가 더 말했다",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "father_home",
     "category": "story",
     "rarity": "uncommon",
@@ -149,7 +149,7 @@
   {
     "id": "callback_rushed_to_father_echo",
     "title": "그때 달려왔던 것",
-    "background": "late_night",
+    "background": "current_housing",
     "portrait": "father_home",
     "category": "story",
     "rarity": "uncommon",

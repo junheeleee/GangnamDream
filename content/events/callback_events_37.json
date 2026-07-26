@@ -47,7 +47,7 @@
   {
     "id": "callback_knows_dad_reason_echo",
     "title": "처음에 왜 왔냐고",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "sangchul_serious",
     "category": "story",
     "rarity": "uncommon",
@@ -103,7 +103,7 @@
   {
     "id": "callback_daeun_daily_life_echo",
     "title": "짜도 괜찮아",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "daeun_smile",
     "category": "story",
     "rarity": "uncommon",
@@ -194,7 +194,7 @@
   {
     "id": "callback_daeun_breakup_begged_echo",
     "title": "바뀔 수 있다고 했던 말",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "player_tired",
     "category": "story",
     "rarity": "uncommon",

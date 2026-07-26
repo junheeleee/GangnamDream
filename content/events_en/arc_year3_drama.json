@@ -131,11 +131,11 @@
   {
     "id": "arc_jiyeon_year4_call",
     "title": "A Call from Busan",
-    "description": "On a rainy night in the goshiwon, Han Jiyeon called. It was the first time {name} had heard her voice since she moved to Busan, almost a year ago.\n\n\"The deal closed. A small villa in Goejeong-dong. My first sale from start to finish.\"\n\nShe did not sound as lightly triumphant as she once had. Papers shifted and a bus braked outside her office at the other end of the call.\n\nJiyeon laughed, caught her breath, then spoke longer about the instant her own stamp met the contract than about the price.\n\nBefore congratulating her, {name} wondered why she had wanted him to hear this first.",
+    "description": "On a rainy night, Han Jiyeon called. It was the first time {name} had heard her voice since she moved to Busan, almost a year ago.\n\n\"The deal closed. A small villa in Goejeong-dong. My first sale from start to finish.\"\n\nShe did not sound as lightly triumphant as she once had. Papers shifted and a bus braked outside her office at the other end of the call.\n\nJiyeon laughed, caught her breath, then spoke longer about the instant her own stamp met the contract than about the price.\n\nBefore congratulating her, {name} wondered why she had wanted him to hear this first.",
     "choices": [
       {
         "text": "\"That's great. Genuinely. You made it happen.\"",
-        "result_text": "\"That's wonderful. You carried it from beginning to end.\"\n\nThe line went quiet for a moment. Jiyeon laughed softly. \"It finally feels real when you say it, oppa. I didn't call just anyone tonight.\"\n\n{name} watched rain travel down the window instead of answering. A first contract in Busan and a small room in Seoul occupied the same call. For a moment, the year's distance narrowed to the width of a voice."
+        "result_text": "\"That's wonderful. You carried it from beginning to end.\"\n\nThe line went quiet for a moment. Jiyeon laughed softly. \"It finally feels real when you say it, oppa. I didn't call just anyone tonight.\"\n\n{name} watched rain travel down the window instead of answering. A first contract in Busan and a night in Seoul occupied the same call. For a moment, the year's distance narrowed to the width of a voice."
       },
       {
         "text": "\"Can I say I've missed you? After this long?\"",
@@ -143,7 +143,7 @@
       },
       {
         "text": "\"I'm holding on here too. Each in our own direction.\"",
-        "result_text": "\"I'm holding on here too. Each in our own direction.\"\n\nJiyeon was quiet, then said, \"Yes. We're both still on the way.\" The celebratory call soon ended with ordinary questions about life.\n\nDifferent directions was still a true phrase. After they hung up, the goshiwon stairs and the stairs to her Busan office seemed level for one moment, then moved apart again."
+        "result_text": "\"I'm holding on here too. Each in our own direction.\"\n\nJiyeon was quiet, then said, \"Yes. We're both still on the way.\" The celebratory call soon ended with ordinary questions about life.\n\nDifferent directions was still a true phrase. After they hung up, the Seoul night and the lights of her Busan office seemed level for one moment, then moved apart again."
       }
     ]
   },

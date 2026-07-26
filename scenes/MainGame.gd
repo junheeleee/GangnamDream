@@ -2567,13 +2567,8 @@ func _year_scene_curation_id(year_index: int) -> String:
 	return ""
 
 func _career_specialization_ready(f: Dictionary) -> bool:
-	if not f.get("pending_spec_career", false) or f.get("pending_spec_career_done", false):
-		return false
-	if GameState.current_job.is_empty():
-		return false
-	if str(GameState.current_job.get("category", "")) == "survival":
-		return false
-	return int(f.get("career_months_total", 0)) >= 12
+	return _story_event_prerequisites_met(
+		"arc_spec_career", GameState.turn, f)
 
 func _first_job_week_arc_id(f: Dictionary, at_turn: int = -1) -> String:
 	var query_turn: int = GameState.turn if at_turn < 0 else at_turn
@@ -3450,9 +3445,9 @@ func _next_arc_id(
 		return "arc_jiyeon_05_epilogue"
 
 	# ══ 6구간: 전문화 결말 — 선택한 방식이 결실을 맺는다 (턴 25+) ══
-	if t >= 25 and f.get("spec_elite", false) and not f.get("arc_spec_elite_result_seen", false):
+	if _story_event_prerequisites_met("arc_spec_elite_result", t, f):
 		return "arc_spec_elite_result"
-	if t >= 25 and f.get("spec_social_climber", false) and not f.get("arc_spec_climber_result_seen", false):
+	if _story_event_prerequisites_met("arc_spec_climber_result", t, f):
 		return "arc_spec_climber_result"
 	if t >= 25 and f.get("spec_quant", false) and not f.get("arc_spec_quant_result_seen", false):
 		return "arc_spec_quant_result"

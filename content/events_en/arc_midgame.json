@@ -369,15 +369,15 @@
   {
     "id": "arc_father_medication",
     "title": "The Name of the Medication",
-    "description": "Three days after answering Daeun, {name}'s phone gave a short buzz during a meeting. It was his mother.\n\n\"Your father started taking medication. He says it's nothing serious. Don't worry.\"\n\n{name} read it twice. What medication? Since when? What had the doctor said? His father always removed the important details first when telling people not to worry, and his mother seemed to have copied the habit word for word.\n\nDays ago, someone standing in front of him had asked whether to leave Seoul. Now someone in Changwon asked nothing from inside a screen. The reply cursor blinked. When a family says \"nothing serious\" before anyone has asked, it usually means someone is already afraid.",
+    "description": "Three days after answering Daeun, {name}'s phone gave a short buzz in a subway transfer corridor at seven in the evening. It was his mother.\n\n\"Your father started taking medication. He says it's nothing serious. Don't worry.\"\n\n{name} read it twice. What medication? Since when? What had the doctor said? His father always removed the important details first when telling people not to worry, and his mother seemed to have copied the habit word for word.\n\nDays ago, someone standing in front of him had asked whether to leave Seoul. Now someone in Changwon asked nothing from inside a screen. The reply cursor blinked. When a family says \"nothing serious\" before anyone has asked, it usually means someone is already afraid.",
     "choices": [
       {
         "text": "Called his father directly.",
-        "result_text": "{name} stepped outside the meeting room and called at once.\n\n\"I'm fine. It's only blood pressure medication.\" Before {name} could ask, his father quickly gave the name and dosage. His voice sounded ordinary, but the pauses between breaths were short.\n\nWhen {name} asked about the hospital, his father laughed. \"I said it's nothing.\" The laugh was so precisely casual that it made things worse.\n\nAfter the call, {name} wrote down the medication's name. The unfamiliar word remained on the screen like an alert all day."
+      "result_text": "{name} stepped to the edge of the corridor and called at once.\n\n\"I'm fine. It's only blood pressure medication.\" Before {name} could ask, his father quickly gave the name and dosage. His voice sounded ordinary, but the pauses between breaths were short.\n\nWhen {name} asked about the hospital, his father laughed. \"I said it's nothing.\" The laugh was so precisely casual that it made things worse.\n\nAfter the call, {name} wrote down the medication's name. He could not clear the unfamiliar word from the screen before the next train passed."
       },
       {
         "text": "Replied to his mother with \"Okay\" and let it go.",
-        "result_text": "He replied, \"Okay. Make sure he takes it,\" and closed the message. There was still a meeting, a deadline, and too much to calculate. He told himself he had no room to hold his father's medication too.\n\nBack at the table, someone asked about the item just discussed. {name} paused like a man who had heard nothing, then answered.\n\nWork resumed. The phone in his pocket stayed silent, yet the sentence he had closed remained heavy in his palm all day."
+      "result_text": "He replied, \"Okay. Make sure he takes it,\" and closed the message. There were still errands to finish and overdue numbers to sort out. He told himself he had no room to hold his father's medication too.\n\nWhen the train arrived, the crowd carried him inside. Two stops passed before he realized he could no longer remember the medication's name.\n\nThe phone in his pocket stayed silent, yet the sentence he had closed remained heavy in his palm until he reached home."
       },
       {
         "text": "Said he'd come down on the weekend.",
@@ -1109,7 +1109,7 @@
     "id": "arc_34_routine_trap",
     "title": "The Routine Trap",
     "description": "The alarm rang at 6:40. Before opening his eyes, {name} knew exactly where to reach to silence it.\n\nThe same tuna-mayo triangle kimbap. The second subway door in the same car. Right foot first when it opened.\n\nThat morning, while throwing away the wrapper, he noticed the expiration stamp sat in the same place as last week's.\n\n{name} stopped in front of the turnstile. The person behind him stepped around his shoulder.",
-    "description_orthodox": "The alarm rang at 6:40. Before opening his eyes, {name} knew exactly where to reach to silence it.\n\nSecond subway door. Eleven minutes to work. One lap of the stairs after lunch. The same check marks multiplied in Notes.\n\nThat morning, he checked the first line but could not remember what he had written beside it yesterday.\n\n{name} sat on a platform bench and traced the past week's marks with one finger.",
+    "description_orthodox": "The alarm rang at 6:40. Before opening his eyes, {name} knew exactly where to reach to silence it.\n\nSecond subway door. Eleven minutes to his first appointment. One lap of the stairs after lunch. The same check marks multiplied in Notes.\n\nThat morning, he checked the first line but could not remember what he had written beside it yesterday.\n\n{name} sat on a platform bench and traced the past week's marks with one finger.",
     "description_unorthodox": "The alarm rang at 6:40. His hand moved before his eyes opened.\n\nSame convenience store, same triangle kimbap, same subway door. The clerk knew he needed no bag before he spoke.\n\nYesterday's ad reflected in the train window. His face overlapped the model's smiling mouth.\n\n{name} stood up one stop before his usual station.",
     "choices": [
       {
@@ -1118,7 +1118,7 @@
       },
       {
         "text": "Deliberately change what has become familiar.",
-        "result_text": "{name} got off at the next station and climbed an unfamiliar exit.\n\nThe stairs were longer than expected. The smell of baking bread reached into the alley. He arrived four minutes late.\n\nThat evening, he wrote the alley's name on the back of the receipt."
+      "result_text": "{name} got off at the next station and climbed an unfamiliar exit.\n\nThe stairs were longer than expected. The smell of baking bread reached into the alley. His first appointment started four minutes late.\n\nThat evening, he wrote the alley's name on the back of the receipt."
       }
     ],
     "description_if_known": {

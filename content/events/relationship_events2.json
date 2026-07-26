@@ -2,7 +2,7 @@
   {
     "id": "rel_daeun_first_text",
     "title": "먼저 보낸 문자",
-    "background": "goshiwon",
+    "background": "current_housing",
     "portrait": "player_happy",
     "category": "relationship",
     "rarity": "uncommon",

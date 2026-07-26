@@ -109,6 +109,19 @@ Every high-risk remote scene declares:
 
 For remote media, identical local and remote locations are invalid. A remote portrait must resolve to the declared remote actor. `internal` is reserved for one physically present participant thinking or investigating alone; it requires one local portrait and cannot declare a remote actor or location.
 
+### Dynamic scene locations
+
+`current_housing` and `current_workplace` are state-owned scene locations, not
+generic fallbacks. When an event uses one of these keys, the event background,
+story-rule presentation, visual contract, audio profile, and transition contract
+must all retain the same dynamic key. Runtime resolves it from the current save
+only when the scene opens.
+
+Do not replace `current_housing` with `goshiwon_room` merely because Minjun starts
+the game there. Likewise, an office scene that requires `current_workplace` must
+also carry an executable employment prerequisite. A remembered specialization or
+past company flag cannot make an office scene valid after Minjun quits.
+
 ### Scene transitions
 
 Demo-critical follow-up edges declare one of four modes:
@@ -136,10 +149,11 @@ CGs remain authoritative. A split-screen phone CG may hide the standing portrait
 
 The first pass intentionally covers high-risk material instead of pretending all 1,500 events are migrated:
 
-- Ledger events: 105 / 1,565 (6.7%)
-- Typed logic contracts: 35
-- Remote/media presentation contracts: 43
-- Authored transition contracts: 48 / 48
+- Ledger events: 135 / 1,565 (8.6%)
+- Typed logic contracts: 49
+- Remote/media presentation contracts: 49
+- Dynamic location contracts: 58
+- Authored transition contracts: 64 / 64
 - Unauthorized demo location jumps: 0
 - Unclassified non-player portraits with phone/message titles: 0
 - Demo father-contact logic targets: 4 / 4
@@ -157,6 +171,15 @@ Sangchul's deduction is an `internal` same-location chain in Minjun's live housi
 Sangchul's casino invitation starts as a `message` in Minjun's live housing, moves through two `internal` calculation routes, and reaches the original local reply without changing location or room tone. Only the accepted reply issues a ticket and follows an `explicit_move` contract to the Jeongseon exterior, where Sangchul resets to `in_person`. The declined route cannot show the casino or imply that Sangchul entered Minjun's room.
 
 Hyunsu's employment news is a `message` in Minjun's live housing with Hyunsu shown only as the remote accounting-route sender. The photo and failed-exam memory links remain in that same room and cannot mutate state. `hyunsu_comforted` selects the knocked-door memory; its absence selects the respectful-waiting memory. Both routes require an explicit Saturday move to the old-neighborhood restaurant before Hyunsu becomes `in_person`, the cafe/intimate audio bed begins, or the physical business card can enter inventory.
+
+Exposed callbacks and career scenes now obey the same state contract. Calls,
+messages, private memories, and domestic reflections follow Minjun's live housing
+after every move; Sangchul's in-person tea confession stays in a cafe. Father's
+medication message occurs on a public-transit trip home, so it remains valid for
+unemployed, part-time, and salaried saves. Routine reflections use work, income,
+and schedule language instead of inventing an office. Hold'em-to-negotiation and
+career-specialization results require a current job at the moment they are
+scheduled, including after a later resignation.
 
 These are ratchets. `minimum_ledger_events` cannot fall, and the unclassified communication count cannot rise above zero.
 

@@ -34,6 +34,7 @@ ALLOWED_CHANNELS = {
     "narration",
 }
 REMOTE_CHANNELS = {"phone", "video_call", "message", "memory"}
+DYNAMIC_SCENE_LOCATIONS = {"current_housing", "current_workplace"}
 ALLOWED_PORTRAIT_ROLES = {"present", "remote", "local", "none"}
 ALLOWED_STATES = {"", "connected", "incoming", "dialing", "missed", "received"}
 LOGIC_KEYS = {
@@ -244,7 +245,7 @@ def validate_prerequisite_clause(
         if not isinstance(value, list) or not value:
             errors.append(f"{owner}: {operation} value must be a non-empty array")
             return
-    if path == "player.job.id":
+    if path == "player.job.id" and operation not in {"truthy", "falsy"}:
         raw_values = value if isinstance(value, list) else [value]
         unknown_jobs = sorted(
             str(job_id)
@@ -342,6 +343,7 @@ def main() -> int:
 
     remote_contracts = 0
     logic_contracts = 0
+    dynamic_location_contracts = 0
     for event_id, rule in rules.items():
         owner = f"events.{event_id}"
         event = events.get(str(event_id))
@@ -503,6 +505,7 @@ def main() -> int:
                 expected_ambience = str(
                     presentation.get("expected_ambience", "")
                 )
+                scene_location = str(presentation.get("scene_location", ""))
                 if channel not in ALLOWED_CHANNELS:
                     errors.append(f"{owner}.presentation: invalid channel {channel!r}")
                 if portrait_role not in ALLOWED_PORTRAIT_ROLES:
@@ -515,6 +518,23 @@ def main() -> int:
                         f"!= expected {expected_portrait!r}"
                     )
                 visual_contract = visual_contracts.get(str(event_id))
+                if scene_location in DYNAMIC_SCENE_LOCATIONS:
+                    dynamic_location_contracts += 1
+                    if str(event.get("background", "")) != scene_location:
+                        errors.append(
+                            f"{owner}.presentation: dynamic scene {scene_location!r} "
+                            f"uses fixed event background "
+                            f"{event.get('background', '')!r}"
+                        )
+                    if (
+                        visual_contract is not None
+                        and str(visual_contract.get("background", "")) != scene_location
+                    ):
+                        errors.append(
+                            f"{owner}.presentation: dynamic scene {scene_location!r} "
+                            f"uses fixed visual background "
+                            f"{visual_contract.get('background', '')!r}"
+                        )
                 if expected_background:
                     if str(event.get("background", "")) != expected_background:
                         errors.append(
@@ -742,6 +762,7 @@ def main() -> int:
         "STORY_CONSISTENCY_AUDIT_OK "
         f"events={len(events)} ledger={len(rules)} ({ledger_percent:.1f}%) "
         f"logic={logic_contracts} remote={remote_contracts} "
+        f"dynamic_locations={dynamic_location_contracts} "
         f"transitions={validated_transition_contracts} unauthorized_demo_jumps=0 "
         f"exclusive_groups={len(normalized_groups)} unclassified={len(unclassified_suspects)}"
     )

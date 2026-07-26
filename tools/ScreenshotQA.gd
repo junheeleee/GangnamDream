@@ -1588,7 +1588,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 		"arc_year4_close": "winter",
 		"arc_sangchul_03_network": "cafe",
 		"arc_daeun_03_fork": "convenience",
-		"arc_father_medication": "office",
+		"arc_father_medication": "subway",
 		"arc_34_doors_open": "office",
 		"arc_sangchul_mirror": "street",
 		"arc_career_ceiling": "office",
@@ -5670,7 +5670,7 @@ func _shot_event_visual_surfaces(lang: String = "en", prefix: String = "event_vi
 		["arc_year2_close", "10_year2_winter_street"],
 		["arc_year3_close", "10a_year3_winter_hangang"],
 		["arc_year4_close", "10b_year4_winter_rooftop"],
-		["arc_father_medication", "11_father_medication_room"],
+		["arc_father_medication", "11_father_medication_subway"],
 		["callback_called_about_medication_echo", "12_father_callback_room"],
 		["arc_sangchul_03_network", "13_sangchul_restaurant"],
 		["arc_daeun_the_test", "14_daeun_test_cafe"],
@@ -7157,8 +7157,8 @@ func _assert_chapter2_visual_state(story: Node, event_id: String, selected_choic
 		"arc_34_money_attracts_money": "investment_phone",
 		"arc_sangchul_03_network": "sangchul_private_dining",
 		"arc_daeun_03_fork": "convenience_night",
-		"arc_father_medication": "office",
-		"arc_jiyeon_03_offer": "convenience_night",
+		"arc_father_medication": "subway",
+		"arc_jiyeon_03_offer": "street_rainy",
 		"arc_34_doors_open": "meeting",
 		"arc_34_parents_visit": "apartment",
 		"arc_father_03_hospital": "apartment",
@@ -7167,13 +7167,13 @@ func _assert_chapter2_visual_state(story: Node, event_id: String, selected_choic
 		"arc_father_04_visit": "hospital",
 	}
 	var result_backgrounds := {
-		"arc_jiyeon_03_offer:0": "street",
+		"arc_jiyeon_03_offer:0": "street_rainy",
 		"arc_jiyeon_03_offer:1": "cafe",
 		"arc_34_parents_visit:0": "restaurant",
 		"arc_34_parents_visit:1": "apartment",
 	}
 	var result_ambiences := {
-		"arc_jiyeon_03_offer:0": "street",
+		"arc_jiyeon_03_offer:0": "rain",
 		"arc_jiyeon_03_offer:1": "cafe",
 		"arc_34_parents_visit:0": "hoesik",
 		"arc_34_parents_visit:1": "oneroom",
@@ -7433,13 +7433,13 @@ func _assert_chapter3_spine_state(story: Node, event_id: String) -> void:
 	if _qa_scope() != QA_SCOPE_CHAPTER3_SPINE:
 		return
 	var current_housing_events := [
+		"arc_35_orthodox_weight",
 		"arc_midpoint_reckoning", "arc_year_two_half", "arc_goal_vertigo",
 		"arc_jiyeon_year3", "arc_y3_jiyeon_departure", "arc_jaehyuk_wait",
 		"arc_jaehyuk_hyunsu_warning", "arc_jaehyuk_aftermath",
 		"arc_father_05_after_visit", "arc_father_06_confession",
 	]
 	var expected_backgrounds := {
-		"arc_35_orthodox_weight": "office",
 		"arc_why_gangnam_real": "gangnam_night",
 		"arc_35_path_cost": "late_night",
 		"arc_35_habit_check": "late_night",
@@ -7471,7 +7471,7 @@ func _assert_chapter3_spine_state(story: Node, event_id: String) -> void:
 			event_id, expected_path, actual_path])
 
 	var expected_ambiences := {
-		"arc_35_orthodox_weight": "office", "arc_why_gangnam_real": "street",
+		"arc_35_orthodox_weight": "oneroom", "arc_why_gangnam_real": "street",
 		"arc_midpoint_reckoning": "oneroom", "arc_year_two_half": "oneroom",
 		"arc_goal_vertigo": "oneroom", "arc_35_path_cost": "room",
 		"arc_35_habit_check": "room", "arc_jiyeon_year3": "oneroom",

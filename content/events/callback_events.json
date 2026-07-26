@@ -418,7 +418,7 @@
     "category": "family",
     "rarity": "rare",
     "weight": 1.2,
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "father_home",
     "conditions": {
       "flag": "promised_father_gangnam",

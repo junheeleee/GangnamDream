@@ -2,7 +2,7 @@
   {
     "id": "callback_father_confession_echo",
     "title": "그날의 무게",
-    "background": "goshiwon_room",
+    "background": "cafe",
     "portrait": "player_shocked",
     "category": "story",
     "rarity": "uncommon",
@@ -194,7 +194,7 @@
   {
     "id": "callback_chose_money_father_echo",
     "title": "숫자와 날짜",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "player_tired",
     "category": "story",
     "rarity": "uncommon",

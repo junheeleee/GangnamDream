@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-55
+# Completed Queue Spec: ORDER-55
 
-> Canonical status is indexed in `docs/CODEX_QUEUE.md`.
+> Completed 2026-07-26. Canonical status is indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] 착수 — 만지는 파일
+#### [x] 완료 — 만진 파일
 
 - `docs/CODEX_QUEUE.md`
 - `docs/queue_active/ORDER-55.md`
@@ -85,3 +85,14 @@ ORDER-55 [P0·정합 QA] 실제 노출 사건의 직업·주거·장소 계약�
 - `python3 tools/en_coverage_check.py`
 - `python3 tools/english_hangul_audit.py`
 - `git diff --check`
+
+## 완료 보고
+
+- 실제 도달 사건의 고정 고시원/야간 배경을 현재 주거 계약으로 정렬하고,
+  임상철 대면 콜백은 카페로 분리했다.
+- 직업 비의존 장면은 대중교통·일·수입·일정 문법으로 바꾸고, 회사 전용
+  홀덤·전문화 결과는 현재 재직 상태를 다시 확인한다.
+- 정합 원장은 135/1,565건, 논리 49건, 원격 49건, 동적 장소 58건,
+  전환 64/64건이며 무단 데모 점프와 동적 장소 불일치는 0건이다.
+- `chapter2-peaks` 영어 18면, 데모 런타임 회귀, 전체 감사, 영어 누출,
+  컴파일 54개와 공백 검사를 통과했다.
