@@ -36,6 +36,23 @@ ROMANCE_BUNDLES = {
     "daeun_shared_dream",
     "jiyeon_debt_coffee",
 }
+GENERIC_FOREGROUND_IDS = {
+    "routine_apply",
+    "routine_side_shift",
+    "routine_study",
+    "routine_recovery",
+}
+PLAYER_COPY_FIELDS = (
+    "offer_ko",
+    "offer_en",
+    "detail_ko",
+    "detail_en",
+    "deadline_ko",
+    "deadline_en",
+    "decline_ko",
+    "decline_en",
+)
+ALLOWED_ACTION_IDS = {"apply", "side_shift", "resume", "interview", "study", "rest"}
 
 
 def fail(message: str, errors: list[str]) -> None:
@@ -197,6 +214,8 @@ def main() -> int:
     expected_start = 1
     total_minutes = 0
     all_month_offer_ids: set[str] = set()
+    action_offer_months: dict[str, list[int]] = {}
+    prototype_offer_ids: set[str] = set()
     for expected_month, raw in enumerate(months, start=1):
         month = require_dict(raw, f"month {expected_month}", errors)
         if int(month.get("month", 0)) != expected_month:
@@ -217,6 +236,19 @@ def main() -> int:
             all_month_offer_ids.add(bundle_id)
             if bundle_id not in bundles:
                 fail(f"month {expected_month} references missing offer {bundle_id}", errors)
+                continue
+            bundle = require_dict(bundles[bundle_id], f"bundle {bundle_id}", errors)
+            if bundle_id in GENERIC_FOREGROUND_IDS or str(bundle.get("kind", "")) == "routine":
+                fail(f"month {expected_month} exposes generic AP action {bundle_id}", errors)
+            action_id = str(bundle.get("action_id", ""))
+            if action_id:
+                action_offer_months.setdefault(bundle_id, []).append(expected_month)
+                if action_id not in ALLOWED_ACTION_IDS:
+                    fail(f"{bundle_id} has unsupported action_id {action_id}", errors)
+                if not bundle_id.startswith(f"m{expected_month}_"):
+                    fail(f"{bundle_id} must be a month-specific foreground commitment", errors)
+            if expected_month <= 2:
+                prototype_offer_ids.add(bundle_id)
         locked = require_list(month.get("locked"), f"month {expected_month}.locked", errors)
         if len(locked) > int(surface.get("maximum_locked_slots_per_month", 1)):
             fail(f"month {expected_month} locks too many foreground slots", errors)
@@ -225,6 +257,8 @@ def main() -> int:
             bundle_id = str(lock.get("bundle", ""))
             if bundle_id not in bundles:
                 fail(f"month {expected_month} lock references missing bundle {bundle_id}", errors)
+            elif expected_month <= 2:
+                prototype_offer_ids.add(bundle_id)
             week = int(lock.get("week", 0))
             if week < weeks[0] or week > weeks[1]:
                 fail(f"month {expected_month} lock week {week} lies outside {weeks}", errors)
@@ -232,6 +266,16 @@ def main() -> int:
         if named_cap > int(relationship.get("maximum_active_named_threads", 4)):
             fail(f"month {expected_month} exceeds named-character cap", errors)
         total_minutes += int(month.get("target_minutes", 0))
+
+    for bundle_id, owner_months in action_offer_months.items():
+        if len(owner_months) != 1:
+            fail(f"{bundle_id} is reused across months {owner_months}; foreground actions must be concrete", errors)
+
+    for bundle_id in sorted(prototype_offer_ids):
+        bundle = require_dict(bundles.get(bundle_id), f"prototype bundle {bundle_id}", errors)
+        for field in PLAYER_COPY_FIELDS:
+            if not str(bundle.get(field, "")).strip():
+                fail(f"{bundle_id} is missing bilingual player copy field {field}", errors)
 
     if not 75 <= total_minutes <= 120:
         fail(f"monthly target minutes total {total_minutes} is outside 75..120", errors)
