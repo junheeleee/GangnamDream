@@ -1,6 +1,6 @@
 # Controller UX Strategy
 
-Updated: 2026-07-19
+Updated: 2026-07-27
 
 ## Why This Exists
 
@@ -58,11 +58,33 @@ Before demo/release candidate builds:
 
 ## Screen Models
 
+### Core Loop V2 Phone / Calendar
+
+Implementation status: explicit week 1-8 prototype complete in
+`scenes/CoreLoopPlanner.gd`; the existing AP surface remains the week 9-240
+fallback until the human GO.
+
+- The planner shows exactly four week slots without scrolling at 1280x720.
+- D-pad moves within opportunities or week slots; South assigns or confirms.
+- East removes the selected non-fixed assignment. It never removes the locked
+  boss week or commits the month.
+- LB/RB switches Messages / Calendar / People / Record.
+- Mouse hover grabs the same GUI focus used by keyboard and controller.
+- Fixed obligations remain readable but are not controller targets.
+- The People tab shows only lived relationship history. It does not reveal an
+  unmet character's name, affinity, route stage, or future requirement.
+- The final confirmation remains disabled until all four weeks are filled.
+- A plan commit returns to the first scheduled week; reopening the planner must
+  restore the last meaningful week or offer focus.
+
 ### AP / Life Sim Screens
 
 Use a vertical action rail.
 
-Implementation status: main AP rail first pass complete, AP slot numbering/keycap pass complete, AP no-scroll 1280x800 pass complete, cancelable AP/menu modal back behavior complete in `scenes/MainGame.gd`.
+Implementation status: retained as the week 9-240 fallback while Core Loop V2
+is evaluated. Main AP rail first pass, slot numbering/keycaps, 1280x800
+no-scroll, and cancelable AP/menu back behavior are complete in
+`scenes/MainGame.gd`.
 
 - D-pad up/down: move between action cards.
 - A: choose action.
@@ -269,16 +291,18 @@ The horse list may remain scrollable/clickable for mouse, but controller mode mu
 
 ## Implementation Order
 
-1. AP and VN: lock main rail behavior and default focus.
-2. Slots and Blackjack: simple action rail first. ✅ first pass complete
-3. Dai Sai: replace flat controller traversal with Simple/Face/Total mode model. ✅ first pass complete
-4. Baccarat: betting-zone selector. ✅ first pass complete
-5. Roulette: outside/number/action cursor. ✅ first pass complete
-6. Big Wheel: segment cursor plus spin target. ✅ first pass complete
-7. Holdem: action rail plus safe default action. ✅ first pass complete
-8. Casino hub: unified venue list and rules access. ✅ first pass complete
-9. RaceTrack: horse cursor plus betting slip flow. ✅ first pass complete
-10. Investment modal: asset cursor plus trade-action rail. ✅ first pass complete
+1. Core Loop V2 month planner: four-week semantic schedule, default focus,
+   cancellation, and human ownership GO. ✅ week 1-8 automated prototype complete
+2. AP and VN fallback: lock main rail behavior and default focus.
+3. Slots and Blackjack: simple action rail first. ✅ first pass complete
+4. Dai Sai: replace flat controller traversal with Simple/Face/Total mode model. ✅ first pass complete
+5. Baccarat: betting-zone selector. ✅ first pass complete
+6. Roulette: outside/number/action cursor. ✅ first pass complete
+7. Big Wheel: segment cursor plus spin target. ✅ first pass complete
+8. Holdem: action rail plus safe default action. ✅ first pass complete
+9. Casino hub: unified venue list and rules access. ✅ first pass complete
+10. RaceTrack: horse cursor plus betting slip flow. ✅ first pass complete
+11. Investment modal: asset cursor plus trade-action rail. ✅ first pass complete
 
 ## QA Method
 
@@ -306,5 +330,13 @@ All on controller only.
 `InputMatrixCheck.tscn` executes the shared West/North secondary routes for the casino hub, Blackjack, Baccarat, Slots, Roulette, Big Wheel, Dai Sai, Holdem, and RaceTrack in both keyboard and gamepad modes. It also drives nine keyboard core tasks through real input dispatch, from stake selection to starting the actual hand, spin, roll, race, or selected casino table. This prevents a keyboard-only command from being documented but unreachable, and prevents gamepad labels from drifting away from their physical action.
 
 The title-to-demo route has completed all 24 weeks with actual keyboard events and zero mouse events, then with actual mouse events and zero keyboard events. Sixteen Korean/English display-matrix renders cover eight release resolutions, and each language has Xbox, PlayStation, and Nintendo title-glyph evidence at 1080p. The exact contract and remaining physical-device gates are recorded in `docs/INPUT_MATRIX.md`.
+
+`CoreLoopV2Check.tscn` verifies explicit activation, four-slot scheduling, the
+fixed fourth week, East-safe removal, save/load, delayed consequences across a
+month boundary, one consequence per week, player-initiated relationship state,
+and zero hidden-score or Korean leakage on the English planner.
+`ScreenshotQA --qa=core-loop-v2 --lang=ko/en` boots the real `MainGame`, opens
+the planner through its runtime handoff, and captures all four tabs at 1280x720
+without scrolling.
 
 These automated passes prove routing and presentation, not hand feel. Full Controller Support remains blocked on physical Steam Deck, DualSense, and Switch Pro blind passes, including reconnect, suspend/resume, Steam overlay, and accidental-input review.

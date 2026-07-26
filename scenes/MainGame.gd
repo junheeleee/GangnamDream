@@ -6,6 +6,8 @@ extends Control
 const STEAM_APP_ID := "STEAM_APP_ID"  # TODO: Steamworks 등록 후 실제 App ID(숫자)로 교체
 const STEAM_FALLBACK_URL := "https://store.steampowered.com/search/?term=Gangnam%20Dream"
 const SEOUL_MAP_STRIP_SCRIPT = preload("res://ui_components/SeoulMapStrip.gd")
+const DEMO_CORE_LOOP_V2 = preload("res://systems/DemoCoreLoopV2.gd")
+const CORE_LOOP_PLANNER_SCRIPT = preload("res://scenes/CoreLoopPlanner.gd")
 
 var investment_system: Node
 var job_system: Node
@@ -131,6 +133,8 @@ var _ending_finale_beats: Array[String] = []
 var _ending_new_achievements: Array = []
 var _ending_new_titles: Array = []
 var _presentation_rng := RandomNumberGenerator.new()
+var _core_loop_planner: Control = null
+var _core_loop_v2_side_shift_job_id := ""
 const ENDING_PAGE_COUNT := 6
 
 # ── MORAL MONOCHROME 팔레트 ─────────────────────────────────────
@@ -342,6 +346,7 @@ func _ready():
 	jeongseon_casino.closed.connect(_on_jeongseon_casino_closed)
 	if GameState.action_log.is_empty():
 		GameState.new_game()
+	DEMO_CORE_LOOP_V2.initialize_for_run()
 	investment_system.initialize()
 	BGMPlayer.start()
 	if not LocaleManager.language_changed.is_connected(_on_language_changed):
@@ -397,6 +402,9 @@ func _run_theme_display(theme_id: String) -> String:
 ## 앰비언트 이벤트(_maybe_play_month_situation)는 여기서 부르지 않는다.
 ## 아크/마일스톤/프롤로그가 이미 재생된 달에 랜덤 이벤트가 추가로 뜨는 것을 방지.
 func _continue_after_story():
+	if DEMO_CORE_LOOP_V2.is_active():
+		_core_loop_v2_continue_after_story()
+		return
 	var followup_activity := _take_story_followup_activity()
 	if followup_activity == "racetrack":
 		SceneTransition.fade_in()
@@ -420,6 +428,200 @@ func _continue_after_story():
 	if _demo_director_requires_player_input():
 		TutorialOverlay.maybe_show("main_game", self)
 	_demo_director_route_week()
+
+func _core_loop_v2_continue_after_story() -> void:
+	DEMO_CORE_LOOP_V2.restore_story_bundle_followups()
+	SceneTransition.fade_in()
+	current_event = {}
+	var active_kind := DEMO_CORE_LOOP_V2.active_kind()
+	if active_kind == "consequence":
+		DEMO_CORE_LOOP_V2.complete_active_bundle()
+		_refresh_all()
+		call_deferred("_core_loop_v2_route_week")
+		return
+	if active_kind == "schedule":
+		DEMO_CORE_LOOP_V2.complete_active_bundle()
+		call_deferred("_core_loop_v2_advance_completed_week")
+		return
+	# 프롤로그는 월간 슬롯이 아니다. 복귀 직후 플레이어가 첫 달을 직접 짠다.
+	_refresh_all()
+	call_deferred("_core_loop_v2_route_week")
+
+func _core_loop_v2_route_week() -> void:
+	if not DEMO_CORE_LOOP_V2.is_active():
+		_demo_director_route_week()
+		return
+	if DEMO_CORE_LOOP_V2.turn_completed():
+		_core_loop_v2_advance_completed_week()
+		return
+	var pending_consequence := DEMO_CORE_LOOP_V2.pending_consequence_id()
+	if not pending_consequence.is_empty():
+		_core_loop_v2_begin_story_bundle(pending_consequence, "consequence")
+		return
+	var month_index := DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn)
+	if DEMO_CORE_LOOP_V2.needs_plan(month_index):
+		_core_loop_v2_open_planner(month_index)
+		return
+	var bundle_id := DEMO_CORE_LOOP_V2.bundle_id_for_turn()
+	var scene_bundle := DEMO_CORE_LOOP_V2.bundle(bundle_id)
+	if bundle_id.is_empty() or scene_bundle.is_empty():
+		push_error("Core Loop V2 has no scheduled bundle for turn %d" % GameState.turn)
+		DEMO_CORE_LOOP_V2.disable_for_run()
+		_render_ap_actions()
+		return
+	if scene_bundle.get("existing_roots", []) is Array \
+			and not (scene_bundle.get("existing_roots", []) as Array).is_empty():
+		_core_loop_v2_begin_story_bundle(bundle_id, "schedule")
+		return
+	if not str(scene_bundle.get("action_id", "")).is_empty():
+		_core_loop_v2_begin_action_bundle(bundle_id, scene_bundle)
+		return
+	push_error("Core Loop V2 bundle has no playable surface: %s" % bundle_id)
+	DEMO_CORE_LOOP_V2.disable_for_run()
+	_render_ap_actions()
+
+func _core_loop_v2_open_planner(month_index: int) -> void:
+	if not is_instance_valid(_core_loop_planner):
+		_core_loop_planner = CORE_LOOP_PLANNER_SCRIPT.new()
+		add_child(_core_loop_planner)
+		_core_loop_planner.plan_committed.connect(_on_core_loop_v2_plan_committed)
+	if is_instance_valid(_main_ui_root):
+		_main_ui_root.visible = false
+	if is_instance_valid(info_panel):
+		info_panel.visible = false
+	_core_loop_planner.move_to_front()
+	_core_loop_planner.open(month_index)
+
+func _on_core_loop_v2_plan_committed(month_index: int, schedule: Dictionary) -> void:
+	var result := DEMO_CORE_LOOP_V2.commit_plan(month_index, schedule)
+	if not bool(result.get("ok", false)):
+		push_error("Core Loop V2 rejected plan: %s" % str(result.get("error", "unknown")))
+		return
+	if is_instance_valid(_core_loop_planner):
+		_core_loop_planner.close()
+	if is_instance_valid(_main_ui_root):
+		_main_ui_root.visible = true
+	_refresh_all()
+	if not bool(get_meta("_screenshot_qa_static_surface", false)):
+		SaveManager.autosave()
+	call_deferred("_core_loop_v2_route_week")
+
+func _core_loop_v2_begin_story_bundle(bundle_id: String, kind: String) -> void:
+	var roots := DEMO_CORE_LOOP_V2.resolved_event_roots(bundle_id)
+	if roots.is_empty() or not DEMO_CORE_LOOP_V2.begin_bundle(bundle_id, kind):
+		push_error("Core Loop V2 could not start story bundle: %s" % bundle_id)
+		return
+	DEMO_CORE_LOOP_V2.prepare_story_bundle(bundle_id)
+	_go_story_mode(roots)
+
+func _core_loop_v2_begin_action_bundle(bundle_id: String, scene_bundle: Dictionary) -> void:
+	var action_id := str(scene_bundle.get("action_id", ""))
+	if not DEMO_CORE_LOOP_V2.begin_bundle(bundle_id, "schedule"):
+		return
+	if not GameState.arm_weekly_commitment({
+		"turn": GameState.turn,
+		"pressure_id": bundle_id,
+		"pressure_family": str(scene_bundle.get("kind", "routine")),
+		"choice_id": action_id,
+		"forgone_ids": [],
+	}):
+		DEMO_CORE_LOOP_V2.cancel_active_bundle()
+		push_error("Core Loop V2 could not arm action bundle: %s" % bundle_id)
+		return
+	match action_id:
+		"apply":
+			if bundle_id == "m1_mirae_application":
+				_submit_opening_interview_application()
+			else:
+				_core_loop_v2_submit_application(bundle_id, scene_bundle)
+		"side_shift":
+			_core_loop_v2_open_side_shift(bundle_id)
+		"resume":
+			_ap_write_resume()
+		"interview":
+			_ap_interview_prep()
+		"rest":
+			_core_loop_v2_take_recovery(scene_bundle)
+		_:
+			GameState.cancel_pending_weekly_commitment(GameState.turn)
+			DEMO_CORE_LOOP_V2.cancel_active_bundle()
+			push_error("Core Loop V2 unsupported action: %s" % action_id)
+
+func _core_loop_v2_submit_application(bundle_id: String, scene_bundle: Dictionary) -> void:
+	if not GameState.spend_ap():
+		GameState.cancel_pending_weekly_commitment(GameState.turn)
+		DEMO_CORE_LOOP_V2.cancel_active_bundle()
+		return
+	var application_id := bundle_id.trim_prefix("m2_").trim_suffix("_application")
+	GameState.flags["core_loop_%s_application_sent" % application_id] = true
+	GameState.flags["core_loop_%s_application_turn" % application_id] = GameState.turn
+	GameState.register_action_axis("money", "work", "apply")
+	GameState.finalize_weekly_commitment("apply", "", {
+		"application_id": application_id,
+		"status": "submitted",
+	})
+	var title := _core_loop_v2_localized(scene_bundle, "offer")
+	var body := _core_loop_v2_localized(scene_bundle, "detail") + "\n\n" + _tr(
+		"전송 버튼을 누른 뒤에도 화면은 그대로였다. 답이 올지는 아직 모른다.",
+		"The screen did not change after Send. There was still no promise of a reply.")
+	GameState.add_log(title + " — " + body.replace("\n", " "), "job")
+	turn_action_log.append(title)
+	_show_vignette(title, body, {}, "#69717c")
+	_refresh_all()
+
+func _core_loop_v2_open_side_shift(bundle_id: String) -> void:
+	_enter_minigame_overlay(aruba_game)
+	var original_job: Dictionary = GameState.current_job.duplicate(true)
+	_core_loop_v2_side_shift_job_id = (
+		"job_01" if bundle_id == "m1_convenience_trial_shift" else "job_02"
+	)
+	GameState.current_job = {
+		"id": _core_loop_v2_side_shift_job_id
+	}
+	aruba_game.open()
+	GameState.current_job = original_job
+
+func _core_loop_v2_take_recovery(scene_bundle: Dictionary) -> void:
+	if not GameState.spend_ap():
+		GameState.cancel_pending_weekly_commitment(GameState.turn)
+		DEMO_CORE_LOOP_V2.cancel_active_bundle()
+		return
+	var effects := {"mental": 10, "health": 3}
+	for stat_name in effects:
+		GameState.modify_stat(stat_name, int(effects[stat_name]))
+	GameState.register_action_axis("human", "home", "rest")
+	GameState.finalize_weekly_commitment("rest")
+	var title := _core_loop_v2_localized(scene_bundle, "offer")
+	var body := _core_loop_v2_localized(scene_bundle, "detail") + "\n\n" + _tr(
+		"알람이 울리지 않은 오후, 몸이 먼저 멈춰 있던 시간을 따라잡았다.",
+		"With no alarm in the afternoon, the body finally caught up with the time it had lost.")
+	GameState.add_log(title + " — " + body.replace("\n", " "), "event")
+	turn_action_log.append(title)
+	_show_vignette(title, body, effects, "#69717c")
+	_refresh_all()
+
+func _core_loop_v2_localized(data: Dictionary, stem: String) -> String:
+	var key := "%s_%s" % [stem, "en" if LocaleManager.is_english() else "ko"]
+	return str(data.get(key, ""))
+
+func _core_loop_v2_finish_action_week() -> void:
+	if not DEMO_CORE_LOOP_V2.action_result_ready():
+		return
+	DEMO_CORE_LOOP_V2.complete_active_bundle()
+	_core_loop_v2_advance_completed_week()
+
+func _core_loop_v2_advance_completed_week() -> void:
+	if GameState.week_of_month == 4:
+		_run_month_end_transition(false)
+		if not GameState.is_game_over:
+			_begin_month()
+		return
+	GameState.advance_calendar()
+	_refresh_all()
+	if GameState.is_game_over:
+		return
+	SaveManager.autosave()
+	_begin_month()
 
 func _take_story_followup_activity() -> String:
 	if bool(GameState.flags.get("open_racetrack_after_story", false)):
@@ -2477,6 +2679,9 @@ func _begin_month_story_and_render():
 		else:
 			_go_story_mode(["story_arrival"])
 		return
+	if DEMO_CORE_LOOP_V2.is_active():
+		_core_loop_v2_route_week()
+		return
 	# 아크 이벤트 (인물 스토리) — 마일스톤보다 우선. 정식 구간에서는
 	# 한 주에 서로 다른 루트 장면을 하나만 열어 시간 인과를 보존한다.
 	if not _foreground_story_consumed_this_week():
@@ -4375,6 +4580,9 @@ func _on_result_confirmed():
 		var v: Dictionary = GameState.pending_tint_vignette
 		GameState.pending_tint_vignette = {}
 		_show_moral_beat(int(v.get("from", 0)), int(v.get("to", 0)))
+		return
+	if DEMO_CORE_LOOP_V2.is_active() and DEMO_CORE_LOOP_V2.action_result_ready():
+		_core_loop_v2_finish_action_week()
 		return
 	if current_event.is_empty() and _demo_pressure_enabled() \
 			and _demo_director_requires_player_input() \
@@ -9029,6 +9237,8 @@ func _weekly_commitment_forgone_labels(record: Dictionary) -> String:
 	return " / ".join(labels)
 
 func _on_weekly_commitment_finalized(record: Dictionary) -> void:
+	if DEMO_CORE_LOOP_V2.is_active() and DEMO_CORE_LOOP_V2.note_action_commitment(record):
+		return
 	var action_id := str(record.get("choice_id", ""))
 	var person_id := str(record.get("person_id", ""))
 	var spec := _demo_action_spec(action_id, person_id)
@@ -10395,8 +10605,13 @@ func _open_cat_work():
 	if GameState.flags.get("creator_started", false) and not GameState.flags.get("creator_viral", false):
 		_cat_modal_button(_tr("콘텐츠 제작  —  채널을 키운다", "Make content  —  grow your channel"), "#4a7a3a", "_ap_create_content")
 
-func _side_shift_title() -> String:
-	match str(GameState.current_job.get("id", "")):
+func _side_shift_title(job_id_override: String = "") -> String:
+	var job_id := (
+		job_id_override
+		if not job_id_override.is_empty()
+		else str(GameState.current_job.get("id", ""))
+	)
+	match job_id:
 		"job_01":
 			return _tr("추가 야간 시프트", "Extra night shift")
 		"job_02":
@@ -11150,6 +11365,8 @@ func _ap_side_job():
 
 func _on_aruba_closed(earned: int, stress_delta: int, health_delta: int) -> void:
 	_exit_minigame_overlay()
+	var side_shift_job_id := _core_loop_v2_side_shift_job_id
+	_core_loop_v2_side_shift_job_id = ""
 	if not GameState.spend_ap():
 		GameState.cancel_pending_weekly_commitment(GameState.turn)
 		return
@@ -11159,10 +11376,10 @@ func _on_aruba_closed(earned: int, stress_delta: int, health_delta: int) -> void
 	var total_health_delta := -3 + health_delta
 	GameState.modify_stat("health", total_health_delta)
 	GameState.add_tendency("found", 1)   # 알바·부업 = 창업형 기질
-	var shift_title := _side_shift_title()
+	var shift_title := _side_shift_title(side_shift_job_id)
 	GameState.add_log(_tr("💼 %s 수입 %s (건강 %d→%d, 정신력 %+d)", "💼 %s income %s (Health %d→%d, Mental %+d)") % [
 		shift_title, GameState.format_money(float(earned)), health_before, GameState.health, -stress_delta], "job")
-	var vignette_pool := _side_shift_vignettes()
+	var vignette_pool := _side_shift_vignettes(side_shift_job_id)
 	var _sj_v: Dictionary = vignette_pool[randi() % vignette_pool.size()]
 	var mood: String = str(_sj_v.get("et" if LocaleManager.is_english() else "t", _sj_v.get("t", "")))
 	turn_action_log.append("✓ 💼 %s — %s" % [shift_title, mood.substr(0, 22)])
@@ -12440,8 +12657,13 @@ const SIDE_JOB_VIGNETTES_GENERAL := [
 	{"t":"작은 금액이지만, 내가 번 돈이다. 그 느낌은 컸다.", "et":"A small amount, but money I earned. That part felt large."},
 ]
 
-func _side_shift_vignettes() -> Array:
-	match str(GameState.current_job.get("id", "")):
+func _side_shift_vignettes(job_id_override: String = "") -> Array:
+	var job_id := (
+		job_id_override
+		if not job_id_override.is_empty()
+		else str(GameState.current_job.get("id", ""))
+	)
+	match job_id:
 		"job_01":
 			return SIDE_JOB_VIGNETTES_CONVENIENCE
 		"job_02":
@@ -12805,7 +13027,15 @@ func _show_vignette(title: String, body: String, eff: Dictionary, color: String)
 
 	var commitment := GameState.get_weekly_commitment_for_turn(GameState.turn)
 	var scene_result := _scene_first_surface_active and not commitment.is_empty()
-	if scene_result:
+	var core_loop_v2_result := (
+		DEMO_CORE_LOOP_V2.is_active()
+		and DEMO_CORE_LOOP_V2.action_result_ready()
+	)
+	if core_loop_v2_result:
+		# The V2 calendar owns the consequence layer. Repeating the legacy AP
+		# ledger here turns a prose scene back into a management dashboard.
+		pass
+	elif scene_result:
 		_append_scene_commitment_ledger(commitment)
 	else:
 		var result_card: Control = _ap_result_feedback_card(disp, color)
@@ -12825,7 +13055,10 @@ func _show_vignette(title: String, body: String, eff: Dictionary, color: String)
 	choice_box.add_child(btn_row)
 
 	var btn: Button = _button(
-		_tr("다음 주로", "Continue") if scene_result else _tr("확인", "OK"), color)
+		_tr("다음 주로", "Continue")
+			if scene_result or core_loop_v2_result
+			else _tr("확인", "OK"),
+		color)
 	btn.set_meta("ap_result_confirm", true)
 	btn.custom_minimum_size = Vector2(220, 46)
 	btn.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
@@ -13235,6 +13468,9 @@ func _on_job_hunt_closed(stress_delta: int, quality: int) -> void:
 	GameState.finalize_weekly_commitment(action_id, "", {"quality": quality})
 	GameState.stats_changed.emit()
 	_refresh_all()
+	if DEMO_CORE_LOOP_V2.is_active() and DEMO_CORE_LOOP_V2.action_result_ready():
+		call_deferred("_core_loop_v2_finish_action_week")
+		return
 	_render_ap_actions()
 
 func _ap_move_housing():

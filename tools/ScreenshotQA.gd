@@ -75,6 +75,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-mouse --lang=en --demo-build
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=full-gamepad --lang=en --pad=xbox
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=full-gamepad --lang=ko --pad=playstation --write-chapter-saves
+##       godot --rendering-driver opengl3 --resolution 1280x720 res://tools/ScreenshotQA.tscn -- --qa=core-loop-v2 --lang=en
 ## 헤드리스 더미 렌더러는 빈 텍스처를 주므로 x11+opengl3(xvfb) 필요.
 ## .tscn 으로 부팅해야 autoload(GameState 등)가 로드된다.
 
@@ -96,6 +97,7 @@ const QA_SCOPE_DEMO_EXPERIENCE := "demo_experience"
 const QA_SCOPE_DEMO_KEYBOARD := "demo_keyboard"
 const QA_SCOPE_DEMO_MOUSE := "demo_mouse"
 const QA_SCOPE_FULL_GAMEPAD := "full_gamepad"
+const QA_SCOPE_CORE_LOOP_V2 := "core_loop_v2"
 const QA_SCOPE_START_EN := "start_en"
 const QA_SCOPE_FIRST_30 := "first_30"
 const QA_SCOPE_GALLERY := "gallery"
@@ -209,6 +211,14 @@ func _ready() -> void:
 			QA_SCOPE_DEMO_KEYBOARD, QA_SCOPE_DEMO_MOUSE] \
 			and not GameState.is_demo_build():
 		_fail("Demo QA requires the explicit --demo-build test flag.")
+		return
+	if scope == QA_SCOPE_CORE_LOOP_V2:
+		var lang := _qa_language("en")
+		await _shot_core_loop_v2_surfaces(lang)
+		if _qa_failed:
+			return
+		print("SCREENSHOT_QA_DONE scope=core-loop-v2 lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
 		return
 	if scope in [QA_SCOPE_CASINO, QA_SCOPE_CASINO_EN]:
 		var lang := _qa_language("en" if scope == QA_SCOPE_CASINO_EN else "ko")
@@ -808,6 +818,10 @@ func _qa_scope() -> String:
 		args.append(str(raw))
 	for raw in args:
 		var arg := raw.strip_edges().to_lower()
+		if arg in ["core-loop-v2", "core_loop_v2", "--core-loop-v2", "--core_loop_v2",
+				"qa=core-loop-v2", "--qa=core-loop-v2", "qa=core_loop_v2",
+				"--qa=core_loop_v2", "scope=core-loop-v2", "--scope=core-loop-v2"]:
+			return QA_SCOPE_CORE_LOOP_V2
 		if arg in ["first-30", "first_30", "launch", "--first-30", "--first_30",
 				"qa=first-30", "--qa=first-30", "qa=first_30", "--qa=first_30",
 				"scope=first-30", "--scope=first-30"]:
@@ -1248,6 +1262,98 @@ func _prepare_main_game_state() -> void:
 	GameState.flags.erase("route_startup")
 	_seed_cast_state()
 	_suppress_tutorial_overlays()
+
+func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
+	_set_qa_language(lang)
+	GameState.start_new_game()
+	GameState.flags["prologue_done"] = true
+	GameState.add_log("Core Loop V2 QA", "system")
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	core_loop.initialize_for_run(true)
+	await _boot_main_game()
+	_mg._core_loop_v2_open_planner(1)
+	await get_tree().process_frame
+	var planner = _mg._core_loop_planner
+	await _settle(0.35)
+	if not is_instance_valid(planner):
+		_fail("MainGame did not create the Core Loop V2 planner.")
+		return
+	if planner._slot_buttons.size() != 4:
+		_fail("Core Loop V2 planner rendered %d week slots instead of four." % [
+			planner._slot_buttons.size()])
+		return
+	if _tree_contains_scroll_container(planner):
+		_fail("Core Loop V2 planner introduced a scroll container at %s." % get_window().size)
+		return
+	var focus_owner := get_viewport().gui_get_focus_owner()
+	if focus_owner == null or not planner.is_ancestor_of(focus_owner):
+		_fail("Core Loop V2 planner opened without keyboard/controller focus.")
+		return
+	var prefix := "core_loop_v2_%s_" % lang.replace("-", "_").to_lower()
+	await _save(prefix + "01_calendar_open", 0.15)
+	planner.assign_offer_to_week("m1_mirae_application", 1)
+	planner.assign_offer_to_week("father_first_call", 2)
+	planner.assign_offer_to_week("hyunsu_first_meet", 3)
+	if planner.schedule_snapshot().size() != 4:
+		_fail("Core Loop V2 visual fixture could not fill all four weeks.")
+		return
+	await _save(prefix + "02_calendar_planned", 0.15)
+	planner._switch_tab(0)
+	await _save(prefix + "03_messages", 0.15)
+	planner._switch_tab(2)
+	await _save(prefix + "04_people", 0.15)
+	planner._switch_tab(3)
+	await _save(prefix + "05_record", 0.15)
+	planner._switch_tab(1)
+	planner._commit_plan()
+	await _settle(0.55)
+	if planner.visible:
+		_fail("Core Loop V2 planner remained open after a valid plan commit.")
+		return
+	if core_loop.active_bundle_id() != "m1_mirae_application" \
+			or not core_loop.action_result_ready():
+		_fail("Core Loop V2 plan did not enter the first scheduled application scene.")
+		return
+	if not GameState.has_weekly_commitment_for_turn(1):
+		_fail("Core Loop V2 application did not write the week-one transaction.")
+		return
+	_mg._finish_typing()
+	await _save(prefix + "06_first_week_application", 0.15)
+	await _dispose_main_game()
+
+	GameState.start_new_game()
+	GameState.flags["prologue_done"] = true
+	core_loop.initialize_for_run(true)
+	await _boot_main_game()
+	_mg._core_loop_v2_open_planner(1)
+	await get_tree().process_frame
+	planner = _mg._core_loop_planner
+	planner.assign_offer_to_week("m1_convenience_trial_shift", 1)
+	planner.assign_offer_to_week("father_first_call", 2)
+	planner.assign_offer_to_week("hyunsu_first_meet", 3)
+	planner._commit_plan()
+	await _settle(0.35)
+	if not _mg.aruba_game.visible or int(_mg.aruba_game._mode) != 1:
+		_fail("Core Loop V2 convenience shift did not open the convenience minigame.")
+		return
+	if _mg._core_loop_v2_side_shift_job_id != "job_01":
+		_fail("Core Loop V2 lost the convenience result identity after restoring the career.")
+		return
+	if _mg._side_shift_title(_mg._core_loop_v2_side_shift_job_id) != LocaleManager.ui(
+			"추가 야간 시프트", "Extra night shift"):
+		_fail("Core Loop V2 convenience result would use the wrong shift title.")
+		return
+	await _dispose_main_game()
+
+func _tree_contains_scroll_container(root: Node) -> bool:
+	var stack: Array[Node] = [root]
+	while not stack.is_empty():
+		var node: Node = stack.pop_back()
+		if node is ScrollContainer:
+			return true
+		for child in node.get_children():
+			stack.append(child)
+	return false
 
 func _prepare_story_event_fixture(event_id: String) -> void:
 	match event_id:

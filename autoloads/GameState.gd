@@ -175,6 +175,9 @@ var weekly_commitments: Array = []
 # 범용 결정에서 지나친 길은 다음에 같은 길을 택할 때까지 남는다.
 # localized prose가 아닌 action/person/turn/count와 당시 시장가격만 저장한다.
 var forgone_path_debts: Dictionary = {}
+# Core Loop V2는 8주 사람 GO 전까지 명시적 테스트 런에서만 사용한다.
+# 한 사전 안에 일정·놓친 길·관계 단계를 묶어 기존 저장과 역호환한다.
+var core_loop_v2_state: Dictionary = {}
 # 인물별 연락 기록 — 리캡 카드의 "잔인한 통계"용 원장 (person_id → 횟수 / 마지막 턴)
 var contact_counts: Dictionary = {}
 var last_contact_turn: Dictionary = {}
@@ -468,6 +471,7 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	pending_weekly_commitment = {}
 	weekly_commitments = []
 	forgone_path_debts = {}
+	core_loop_v2_state = {}
 	contact_counts = {}
 	last_contact_turn = {}
 	run_seen_scenes_by_year = {}
@@ -2761,6 +2765,7 @@ func serialize():
 		"pending_weekly_commitment": pending_weekly_commitment,
 		"weekly_commitments": weekly_commitments,
 		"forgone_path_debts": forgone_path_debts,
+		"core_loop_v2_state": core_loop_v2_state,
 		"contact_counts": contact_counts,
 		"last_contact_turn": last_contact_turn,
 		"run_seen_scenes_by_year": run_seen_scenes_by_year,
@@ -2877,6 +2882,10 @@ func load_from_dict(data):
 			int(debt.get("first_turn", 1)), int(debt.get("last_turn", debt.get("first_turn", 1))))
 		valid_forgone_debts[expected_key] = debt
 	forgone_path_debts = valid_forgone_debts
+	if not data.has("core_loop_v2_state") or typeof(core_loop_v2_state) != TYPE_DICTIONARY:
+		core_loop_v2_state = {}
+	else:
+		core_loop_v2_state = core_loop_v2_state.duplicate(true)
 	if not data.has("run_seen_scenes_by_year") or typeof(run_seen_scenes_by_year) != TYPE_DICTIONARY:
 		run_seen_scenes_by_year = {}
 	if not data.has("year_scenes") or typeof(year_scenes) != TYPE_DICTIONARY:

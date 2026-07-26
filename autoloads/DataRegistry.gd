@@ -156,6 +156,7 @@ const ACHIEVEMENTS_PATH = "res://content/meta/achievements.json"
 const CLUES_PATH = "res://content/meta/clues.json"
 const THOUGHTS_PATH = "res://content/meta/thoughts.json"
 const STORY_RULES_PATH = "res://content/meta/story_rules.json"
+const DEMO_CORE_LOOP_V2_PATH = "res://content/meta/demo_core_loop_v2.json"
 const SCENE_DIRECTION_MANIFEST_PATH = "res://assets/scene_direction_manifest.json"
 const MOD_EVENT_ROOT_KEYS := [
 	"id", "title", "description", "category", "rarity", "weight", "hidden",
@@ -332,6 +333,7 @@ var thoughts: Array = []
 var thoughts_by_id: Dictionary = {}
 var story_rules: Dictionary = {}
 var story_rules_by_event: Dictionary = {}
+var demo_core_loop_v2: Dictionary = {}
 var scene_direction_manifest: Dictionary = {}
 var scene_direction_event_intents_by_id: Dictionary = {}
 
@@ -447,6 +449,7 @@ func reload():
 	story_rules = _load_dict(STORY_RULES_PATH)
 	var raw_event_rules: Variant = story_rules.get("events", {})
 	story_rules_by_event = raw_event_rules if raw_event_rules is Dictionary else {}
+	demo_core_loop_v2 = _load_dict(DEMO_CORE_LOOP_V2_PATH)
 	scene_direction_manifest = _load_dict(SCENE_DIRECTION_MANIFEST_PATH)
 	scene_direction_event_intents_by_id.clear()
 	var raw_intents: Variant = scene_direction_manifest.get("event_intents", {})

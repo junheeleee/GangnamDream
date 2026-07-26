@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "design_contract",
+  "status": "runtime_prototype",
   "runtime_default": false,
   "fallback": "event_director_v1",
   "scope": {
@@ -73,11 +73,11 @@
       "estimated_minutes": 8
     },
     "opening_interview_math": {
-      "kind": "prelude",
-      "existing_roots": ["arc_intro_01_meal", "arc_intro_02_dad_call"],
+      "kind": "consequence",
+      "existing_roots": ["arc_intro_01_meal"],
       "characters": ["father"],
-      "initiated_by": "prior_player_application",
-      "source_contract": "application_sent_before_week_one",
+      "initiated_by": "system",
+      "requires_prior_choice": "m1_mirae_application",
       "consumes_slot": false,
       "estimated_minutes": 7
     },
@@ -87,8 +87,8 @@
       "characters": [],
       "initiated_by": "player",
       "consumes_slot": true,
-      "offer_ko": "미래유통 운영직 공고",
-      "offer_en": "Mirae Retail Operations Opening",
+      "offer_ko": "미래산업기술 채용 공고",
+      "offer_en": "Mirae Industrial Tech Opening",
       "detail_ko": "이력서를 다시 손봐 이번 주 금요일 마감 전에 지원한다.",
       "detail_en": "Revise the resume and apply before Friday's deadline.",
       "deadline_ko": "이번 달 첫 금요일",
@@ -328,6 +328,7 @@
       "characters": ["hyunsu"],
       "relationship_stage": "met",
       "initiated_by": "world",
+      "suppress_follow_up_events": ["arc_chapter1_close"],
       "consumes_slot": true,
       "offer_ko": "공용 주방의 낯선 이웃",
       "offer_en": "The Stranger in the Shared Kitchen",
@@ -372,6 +373,7 @@
       "relationship_stage": "player_reached_out",
       "initiated_by": "player",
       "requires_player_initiated": true,
+      "requires_completed_bundle": "hyunsu_first_meet",
       "consumes_slot": true,
       "offer_ko": "현수에게 먼저 보내는 메시지",
       "offer_en": "Message Hyunsu First",
@@ -576,7 +578,7 @@
       "title_ko": "남은 돈",
       "title_en": "What Is Left",
       "target_minutes": 14,
-      "prelude": ["debt_scar_prelude", "opening_interview_math"],
+      "prelude": ["debt_scar_prelude"],
       "locked": [{"week": 4, "bundle": "first_temptation_boss"}],
       "offers": [
         "m1_mirae_application",
@@ -587,6 +589,7 @@
         "hyunsu_first_meet"
       ],
       "active_named_characters_max": 2,
+      "conditional_consequences": ["opening_interview_math"],
       "closing": []
     },
     {
