@@ -25,6 +25,17 @@
 누락하면 다음 세션이 인간 NO-GO를 받은 기존 AP 설계를 다시 우선할 수 있다.
 게임 루프 프로필과 정본 소유자에 V2를 가장 앞에 연결한다.
 
+**런타임 수직 단면 범위 확장 (2026-07-27 Codex) — 추가로 만지는 파일:**
+`autoloads/DataRegistry.gd`, `autoloads/GameState.gd`,
+`systems/DemoCoreLoopV2.gd`, `scenes/CoreLoopPlanner.gd`,
+`scenes/MainGame.gd`, `tools/CoreLoopV2Check.gd`,
+`tools/CoreLoopV2Check.tscn`, `tools/ScreenshotQA.gd`, `tools/audit.sh`,
+`docs/CONTROLLER_UX_STRATEGY.md`, `docs/QA_CHECKLIST.md`.
+1~8주만 명시적 개발 플래그와 QA 범위에서 새 휴대폰·달력을 사용하며,
+사람 GO 전 `runtime_default=false`, 기존 5년 편성, 엔딩, 사용자 변경
+`project.godot`은 유지한다. V2 저장은 새 단일 사전 필드로만 추가하고
+기존 저장은 빈 상태로 역호환한다.
+
 ## 목적
 
 - 기존 5년·240주 콘텐츠와 저장 정본은 파괴하지 않는다.
