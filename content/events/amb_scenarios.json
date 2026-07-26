@@ -171,6 +171,8 @@
         "flags": [
           "hoesik_left_early"
         ],
+        "deferred_follow_up": "callback_hoesik_left_early_office",
+        "deferred_delay": 12,
         "effects": {
           "health": 5,
           "reputation": -4,
@@ -270,6 +272,8 @@
         "flags": [
           "hoesik_caved"
         ],
+        "deferred_follow_up": "callback_hoesik_caved_reputation",
+        "deferred_delay": 8,
         "effects": {
           "health": -5,
           "reputation": 1,

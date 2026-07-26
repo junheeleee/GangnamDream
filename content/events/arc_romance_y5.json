@@ -34,6 +34,8 @@
           "arc_daeun_y5_feelings_seen",
           "daeun_romance_started"
         ],
+        "deferred_follow_up": "callback_daeun_committed_gangnam_eve",
+        "deferred_delay": 8,
         "cast_effects": {
           "daeun": {
             "affinity": 20,

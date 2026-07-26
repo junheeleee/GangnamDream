@@ -1032,11 +1032,12 @@
     },
     "callback_medication_visited_echo": {
       "presentation": {
-        "channel": "in_person",
-        "scene_location": "changwon_hospital",
-        "participants": ["player", "father"],
-        "portrait_role": "present",
-        "expected_portrait": "father_hospitalized"
+        "channel": "memory",
+        "scene_location": "current_housing",
+        "remote_location": "changwon_home_at_medication_visit",
+        "remote_actor": "father",
+        "portrait_role": "remote",
+        "expected_portrait": "father_home"
       }
     },
     "callback_showed_room_parents_echo": {

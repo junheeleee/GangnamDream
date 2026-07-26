@@ -36,15 +36,15 @@
   {
     "id": "callback_declined_sangchul_deal_echo",
     "title": "What Happened to That Property",
-    "description": "The redevelopment villa deal you turned down from Im Sangchul.\nToday Sangchul called.\n\"Minjun. Remember that property?\nRedevelopment consortium approval came through today.\"",
+    "description": "During the evening rush, Sangchul called as you crossed a subway transfer corridor.\n'Minjun. Remember the redevelopment villa you passed on? The association approval came through today.'\n\nPeople streamed past on both sides while you stopped beneath the arrival board.",
     "choices": [
       {
         "text": "\"Good for you. I'm still building up.\"",
-        "result_text": "Sangchul said, \"It's a shame — but being careful isn't wrong.\"\nIf you'd entered then, it would've been 1.8x by now.\nThere's something you didn't lose either. But it stayed on your mind a long time."
+      "result_text": "Sangchul said, 'It's a shame, but being careful isn't wrong.'\nIf you had entered then, it would be worth 1.8 times as much now. An arriving train drowned out the call for a moment.\nWhile waiting for the next one, you wrote down what you had protected and what you had missed."
       },
       {
         "text": "\"Next one, let's do it together.\"",
-        "result_text": "Sangchul said 'Sure. There's always another deal.'\nAnother opportunity will come.\nThis one slipped by — but the relationship with Sangchul remains."
+      "result_text": "Sangchul said, 'Sure. There will be another one.'\nThe next-train notice appeared as the call ended. This property had passed, but Sangchul's next call remained."
       }
     ]
   },
@@ -201,7 +201,7 @@
   {
     "id": "callback_escaped_dirty_trace",
     "title": "A Police Call",
-    "description": "Five months since you touched that burner account and got out.\nToday an unknown number called.\n'Hello, this is the Cyber Investigation Unit.\nWe have a few things to ask you.'",
+  "description": "Four months since you touched that burner account and got out.\nToday an unknown number called.\n'Hello, this is the Cyber Investigation Unit.\nWe have a few things to ask you.'",
     "choices": [
       {
         "text": "Tell them everything honestly",

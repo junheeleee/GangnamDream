@@ -50,9 +50,9 @@
   },
   {
     "id": "callback_medication_visited_echo",
-    "title": "그때 왔던 아이",
-    "background": "hospital",
-    "portrait": "father_hospitalized",
+    "title": "승차권과 약봉지",
+    "background": "current_housing",
+    "portrait": "father_home",
     "category": "story",
     "rarity": "uncommon",
     "weight": 1.0,
@@ -64,10 +64,10 @@
     },
     "tags": ["callback", "father", "story", "family"],
     "cooldown": 999,
-    "description": "아버지가 쓰러진 후 병원에서 첫 진료.\n\n담당 의사가 {name}을 보더니 말했다.\n\"아, 전에 오셨던 분 맞죠? 혈압약 문제로.\"\n\n아버지가 옆에서 {name}을 봤다.",
+  "description": "휴대폰 사진을 정리하다 석 달 전 창원행 승차권이 나왔다.\n그다음 사진에는 식탁 위 약봉지와 아버지가 깎아 둔 사과가 찍혀 있었다.\n\n내려오지 말라던 사람이 현관 앞에서 먼저 가방을 받아 들었던 날이었다.",
     "choices": [
       {
-        "text": "\"네. 걱정이 됐어요.\"",
+      "text": "그날 사진과 날짜를 가족 앨범에 남긴다",
         "effects": {
           "mental": 6
         },
@@ -78,10 +78,10 @@
         },
         "flags": ["father_knew_i_came"],
         "follow_up_event": "",
-        "result_text": "아버지가 아무 말도 안 하셨다.\n그냥 시선을 창밖으로 돌리셨다.\n\n나중에 집에 오는 길에 아버지가 말씀하셨다.\n\"...기억하고 있었어.\" 약 먹으러 왔던 거."
+      "result_text": "승차권 사진 아래에 '약 시작한 주말'이라고 적었다.\n그날 아버지는 고맙다는 말 대신 {name}의 밥그릇에 생선을 더 놓았다. 말하지 않은 장면까지 날짜와 함께 남았다."
       },
       {
-        "text": "\"그냥 지나가다 들렸었어요.\"",
+      "text": "사진을 닫고 승차권만 보관한다",
         "effects": {
           "mental": 3,
           "social_skill": 1
@@ -93,14 +93,14 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "아버지는 고개를 끄덕이셨다.\n말씀은 안 하셨지만 — 가슴 어딘가에 닿은 것 같았다.\n그냥 지나가다 들리는 사람이 아버지 병원 이름을 어떻게 알겠나."
+      "result_text": "사진은 닫았지만 승차권 이미지는 지우지 않았다.\n작은 날짜 한 줄이 그 주말에 실제로 내려갔다는 증거로 남았다."
       }
     ]
   },
   {
     "id": "callback_medication_ignored_echo",
     "title": "그때 안 왔던 것",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "father_home",
     "category": "story",
     "rarity": "uncommon",
@@ -113,10 +113,10 @@
     },
     "tags": ["callback", "father", "story", "family"],
     "cooldown": 999,
-    "description": "아버지가 쓰러진 후 첫 통화였다.\n\n아버지 목소리는 여전히 평온했다.\n\n\"민준아. 어머니한테서 연락 온 거 알지? 약 시작한다고.\"\n\n{name}은 대답하기 전에 잠깐 멈췄다.",
+  "description": "메시지 검색창에 '약'을 입력하자 석 달 전 어머니의 문장이 나왔다.\n'아버지 혈압약 시작했다.'\n그 아래에는 {name}이 보낸 '알겠어요'와, 끝내 걸지 않은 통화 기록이 비어 있었다.",
     "choices": [
       {
-        "text": "\"네. 그때 전화 드렸어야 했는데요.\"",
+      "text": "어머니에게 그때 넘긴 일을 사과한다",
         "effects": {
           "mental": 4,
           "social_skill": 2
@@ -128,10 +128,10 @@
         },
         "flags": ["apologized_for_ignoring"],
         "follow_up_event": "",
-        "result_text": "\"괜찮아.\" 아버지가 말씀하셨다.\n\"바쁜 거 알았어.\"\n\n그 '괜찮아'가 진짜 괜찮은 건지 아닌지 {name}은 오래 생각했다."
+      "result_text": "'그때 제가 너무 가볍게 넘겼어요. 미안해요.'\n어머니는 한참 뒤 '알았다'고 답했다.\n짧은 문장이었지만 이번에는 대화창을 먼저 닫지 않았다."
       },
       {
-        "text": "\"그땐 몰랐어요. 별거 아닌 줄 알았어요.\"",
+      "text": "검색 결과를 닫는다",
         "effects": {
           "mental": -3
         },
@@ -142,7 +142,7 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "\"그래.\"\n아버지는 그 한 마디로 끝내셨다.\n\n전화를 끊고 나서 {name}은 한동안 폰을 내려다봤다.\n그때 뭔가를 알았어야 했다."
+      "result_text": "검색 결과를 닫았다.\n대화 목록에는 다른 메시지들이 올라왔지만, '알겠어요'라는 네 글자는 검색 기록에 그대로 남았다."
       }
     ]
   },

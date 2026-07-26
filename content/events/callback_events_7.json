@@ -86,8 +86,9 @@
   },
   {
     "id": "callback_jiyeon_took_deal_consequence",
-    "title": "계약서 한 줄",
-    "description": "지연의 제안을 받았다.\n계약서에 서명하고 3개월이 지났다.\n오늘 첫 정산이 들어왔다.\n예상보다 적었다.",
+    "title": "계약 뒤의 비용",
+    "background": "investment_phone",
+    "description": "지연의 제안을 받아 계약한 지 석 달.\n정산서 첫 장에는 취득 관련 세금, 중도금 이자, 법무비와 예치금이 나란히 적혀 있었다.\n\n물건의 성패와 별개로 계약을 들고 있는 동안 먼저 내야 하는 비용이었다.",
     "category": "investment",
     "rarity": "uncommon",
     "weight": 1.0,
@@ -104,7 +105,7 @@
     "cooldown": 999,
     "choices": [
       {
-        "text": "지연에게 직접 따진다",
+      "text": "지연에게 비용 항목을 하나씩 확인한다",
         "effects": {
           "social_skill": 2,
           "investment_skill": 3,
@@ -112,7 +113,7 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "지연이 계약서를 다시 펼쳤다.\n\"여기 이 조항 — 읽으셨어요?\"\n읽지 않은 조항이 있었다.\n계약서는 처음부터 끝까지 읽는 거다."
+      "result_text": "지연이 계약서와 정산서를 나란히 펼쳤다.\n\"이자는 일정에 따라 달라지고, 이 예치금은 잔금 때 정산돼요.\"\n{name}은 각 항목 옆에 지급 시기와 환급 조건을 적었다. 질문하지 않았으면 전부 손실처럼 보였을 숫자였다."
       },
       {
         "text": "계약서를 다시 꼼꼼히 읽는다",
@@ -125,7 +126,7 @@
           "read_contract_closely"
         ],
         "follow_up_event": "",
-        "result_text": "세 번 읽었다.\n조항이 보였다. 합법이었다. 하지만 불리했다.\n다음엔 서명 전에 읽는다."
+      "result_text": "계약서를 세 번 읽었다.\n비용은 조항마다 흩어져 있었고, 합치자 유지 자금이 따로 필요했다.\n{name}은 다음 계약부터 서명 전에 총비용표를 만들기로 했다."
       }
     ]
   },

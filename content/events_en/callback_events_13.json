@@ -62,15 +62,15 @@
   {
     "id": "callback_sent_money_instead_echo",
     "title": "Sending Money Instead",
-    "description": "A month since you sent money instead of going in person.\nToday a short text from your father.\n'Got it. Thank you.'",
+    "description": "Two and a half months since you sent money instead of going in person.\nToday a short text from your father.\n'Got it. Thank you.'",
     "choices": [
       {
         "text": "Say you'll come in person soon",
-        "result_text": "'I'll come in person next time,' you said.\nHe said 'Don't worry if you're busy.'"
+        "result_text": "'I'll come in person next time,' you replied. He said, 'Don't worry if you're busy.'\nYou opened the calendar, then closed it without choosing a date."
       },
       {
         "text": "At least he's grateful",
-        "result_text": "At least he said thank you.\nBut money couldn't stand in for being there."
+        "result_text": "You left a short reply and rested your thumb over the call button.\nThe button stayed lit until the screen dimmed on its own."
       }
     ]
   },

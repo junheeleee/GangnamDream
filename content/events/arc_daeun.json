@@ -91,6 +91,8 @@
           "daeun_supportive",
           "arc_daeun_regular_seen"
         ],
+        "deferred_follow_up": "callback_daeun_supportive_warmth",
+        "deferred_delay": 12,
         "effects": {
           "mental": 11,
           "money": -30000,
@@ -430,6 +432,8 @@
           "arc_daeun_04b_seen",
           "daeun_deferred"
         ],
+        "deferred_follow_up": "callback_daeun_deferred_silence",
+        "deferred_delay": 12,
         "result_text": "그녀가 웃었는데, 그 웃음이 조금 슬펐다. {name}도 알고 있었다."
       },
       {
@@ -609,6 +613,8 @@
           "arc_daeun_05_together_seen",
           "daeun_daily_life"
         ],
+        "deferred_follow_up": "callback_daeun_daily_life_echo",
+        "deferred_delay": 12,
         "result_text": "냉장고를 같이 뒤졌다. 변변한 재료는 없었지만 — 그런 저녁이 나쁘지 않았다."
       },
       {
@@ -690,6 +696,8 @@
           "arc_daeun_05_breaking_seen",
           "daeun_breakup_begged"
         ],
+        "deferred_follow_up": "callback_daeun_breakup_begged_echo",
+        "deferred_delay": 12,
         "result_text": "다은은 잠깐 {name}을 봤다.\n\"...민준씨가 바뀌는 게 문제가 아니에요. 나도 기다리는 걸 선택한 거잖아요. 그게 지쳤어요.\"\n\n그 말이 훨씬 정직했다.\n{name}은 아무 말도 하지 못했다."
       }
     ]

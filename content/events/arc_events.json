@@ -504,6 +504,8 @@
           "arc_invest_guidance_seen",
           "investment_lesson_1"
         ],
+        "deferred_follow_up": "callback_investment_lesson_echo",
+        "deferred_delay": 16,
         "result_text": "임상철이 한참을 생각하다 말했다.\n\"처음엔 작게 해. 잃어도 배울 수 있는 돈으로.\n잃으면서 시장이 눈에 들어오기 시작해.\"\n\n통화를 끊고, {name}은 투자 탭을 처음으로 열었다.",
         "bridge_summary": "상철의 말대로, 잃어도 배울 수 있는 만큼만 시장에 넣어 보기로 했다."
       },
@@ -738,6 +740,8 @@
           "arc_jiyeon_offer_seen",
           "jiyeon_honest"
         ],
+        "deferred_follow_up": "callback_jiyeon_honest_referral",
+        "deferred_delay": 16,
         "cast_effects": {
           "jiyeon": {
             "affinity": 20,
@@ -1503,6 +1507,8 @@
           "arc_opp_sangchul_seen",
           "declined_sangchul_deal"
         ],
+        "deferred_follow_up": "callback_declined_sangchul_deal_echo",
+        "deferred_delay": 16,
         "result_text": "\"...그래. 네 돈인데. 신중한 것도 능력이지.\"\n임상철은 아쉬워하지 않았다. 오히려 그 신중함을 좋게 봤다.\n기회는 또 온다. 다만, 자주 오진 않는다는 게 문제다."
       }
     ]
@@ -1553,6 +1559,8 @@
           "arc_opp_jiyeon_seen",
           "took_jiyeon_deal"
         ],
+        "deferred_follow_up": "callback_jiyeon_took_deal_consequence",
+        "deferred_delay": 12,
       "result_text": "계약금을 넣었다. 한지연의 세계에 한 발을 들였다.\n\n그녀가 만족스러운 듯 웃는다. \"잘 생각했어요.\"\n근데 {name}은 알고 있었다. 이건 공짜가 아니라는 걸.\n강남이 가까워진 만큼, 그녀도 가까워졌다. 빚처럼."
       },
       {
@@ -1698,6 +1706,8 @@
           "escaped_dirty_money",
           "was_compromised"
         ],
+        "deferred_follow_up": "callback_escaped_dirty_trace",
+        "deferred_delay": 16,
         "result_text": "{name}은 번호를 다 차단하고, 받은 200만원에 사비를 더해\n그 여자에게 할 수 있는 만큼 돌려보냈다. 통장도 해지했다.\n\n잔고는 다시 바닥. 며칠 잠도 못 잤다.\n하지만 더 깊은 곳으로 끌려가기 전에, 발을 뺐다.\n한 번의 실수로 끝낼 기회는 — 아직 있었다."
       },
       {
@@ -1838,6 +1848,8 @@
           "arc_sangchul_03_seen",
           "approached_shadow_investors"
         ],
+        "deferred_follow_up": "callback_shadow_investors_proposal",
+        "deferred_delay": 12,
         "result_text": "그들의 말은 달콤했다. 구체적인 수치, 그럴듯한 구조.\n{name}은 듣다 보니 심장이 뛰었다.\n\n자리를 마치고 나오는 길, 임상철이 조용히 말했다.\n\"저 사람들 — 몇 년 뒤에 잡혀가는 경우 많아.\n그리고 주변 사람들도 같이 망해.\"\n{name}은 고개를 끄덕였다. 조금 늦게.",
         "clues": [
           "clue_hanpd_name"
@@ -2237,6 +2249,8 @@
           "jiyeon_came_clean",
           "jiyeon_together"
         ],
+        "deferred_follow_up": "callback_jiyeon_together_pressure",
+        "deferred_delay": 16,
         "result_text": "한지연의 눈에 눈물이 맺혔다.\n\"...고마워요. 그 말 들을 자격이 있는지 모르겠는데.\"\n\n둘은 오래 얘기했다.\n분양의 실제 구조, 빠져나올 방법, 최악의 경우.\n이번엔 계산도, 숨김도 없이.\n\n이상하게도 — 이게 더 강남에 가까워지는 길처럼 느껴졌다.\n돈이 아니라, 사람으로."
       },
       {
@@ -2320,6 +2334,8 @@
           "jiyeon_came_clean",
           "jiyeon_together"
         ],
+        "deferred_follow_up": "callback_jiyeon_together_pressure",
+        "deferred_delay": 16,
         "result_text": "\"...알고 계셨어요?\"\n한지연이 잠시 말을 잃었다.\n\"그럼 왜 아직도 여기 계세요?\"\n{name}은 대답하는 대신 커피를 한 모금 마셨다.\n그 침묵이 오히려 답이었다."
       },
       {
@@ -2994,6 +3010,8 @@
           "arc_father_03_seen",
           "rushed_to_father"
         ],
+        "deferred_follow_up": "callback_rushed_to_father_echo",
+        "deferred_delay": 14,
         "result_text": "창원행 KTX 첫 차를 예매했다. 새벽 다섯 시 서울역.\n기차 안에서 아버지 얼굴을 떠올렸다.\n마지막으로 봤던 게 언제인지 — 계산하다가 멈췄다.\n너무 오래됐다."
       },
       {
@@ -3029,6 +3047,8 @@
           "arc_father_03_seen",
           "sent_money_instead"
         ],
+        "deferred_follow_up": "callback_sent_money_instead_echo",
+        "deferred_delay": 10,
         "result_text": "입금했다. 병원비에 보태라고.\n어머니는 \"고마워\"라고 했다.\n아버지가 그 돈이 누구 것인지 물어볼 것이다.\n어머니가 뭐라고 답할지 — {name}은 생각하지 않기로 했다."
       },
       {

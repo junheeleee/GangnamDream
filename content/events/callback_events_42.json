@@ -8,10 +8,11 @@
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {
-      "flag": "father_confession_heard",
-      "min_turn": 76
-    },
+  "conditions": {
+    "flag": "father_confession_heard",
+    "min_turn": 76,
+    "no_flag": "sangchul_confronted"
+  },
     "tags": [
       "callback",
       "father",

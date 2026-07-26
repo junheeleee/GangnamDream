@@ -137,15 +137,15 @@
   {
     "id": "callback_told_daeun_everything_echo",
     "title": "Telling Her Everything",
-    "description": "The day {name} decided to tell Dae-un everything — the 3 billion won goal, starting with 500,000 won, all of it.\n\nToday Dae-un brought it up again.\n\n'When you told me everything that day, honestly I was surprised. But — thank you. You trusted me.'",
+    "description": "The day {name} decided to tell Daeun everything — the 3 billion won goal, starting with 500,000 won, all of it.\n\nToday Daeun brought it up again.\n\n'When you told me everything that day, I was surprised. But I was grateful too. You trusted me.'",
     "choices": [
       {
         "text": "\"I didn't want to hide anything from you.\"",
-        "result_text": "Dae-un fiddled with her cup and smiled.\n\n'That's why I wanted to go along. Your reckless goal.'\n\nThe choice not to hide set the two of them facing the same direction."
+      "result_text": "Daeun turned her cup between her hands.\n\n'That's why I wanted to go with you. Even that reckless goal is something I know about now.'\n\n{name} smiled, but the confession had not made everything lighter. From now on, the losses would have to be told honestly too."
       },
       {
         "text": "\"You were the only one I had who'd believe it.\"",
-        "result_text": "'...Then own those words.'\n\nDae-un said it like a joke, but her eyes were serious."
+      "result_text": "'Then stand by those words. Don't tell me only the good numbers.'\n\nDaeun said it like a joke, but her eyes were serious. {name} wondered whether the same promise would hold next month."
       }
     ]
   },

@@ -31,16 +31,16 @@
   },
   {
     "id": "callback_hyunsu_departure_meal_echo",
-    "title": "When Are You Getting Out",
-    "description": "Still in the goshiwon.\n\nHyun-su's last question at the noodle place.\n'Hyung — when are you getting out of here?'\n'...Not sure.'\n\nHis laugh. It stayed.\n\nSome days the answer is still 'not sure.'",
+    "title": "The Question That Remained",
+    "description": "While scrolling through old photos, you found the receipt from your last meal with Hyunsu.\n\n'Hyung, when are you getting out of here?'\n'...Not sure.'\n\nYour address could change, but some days the answer was still 'not sure.'",
     "choices": [
       {
         "text": "The day will come — believe that",
-        "result_text": "Hyun-su made it out in five years.\n{name} is still here.\n\nBut there'll be a day. When this room is looked back on from the other side.\nWait until then to decide what it meant."
+      "result_text": "Hyunsu walked out the day his exam was over.\nUnder your current address, you wrote three conditions for the next place.\n\nYou did not know when it would happen, but turning the question into a plan took only one line."
       },
       {
         "text": "That question feels heavy today",
-        "result_text": "'Not sure.' Still the answer.\n\nHis question had weight. Today it's heavier.\n\nBut still here means still not quit.\nThat's the only math that matters right now."
+      "result_text": "'Not sure.' Still the answer.\n\nYou closed the receipt photo. Whatever your current address, being unable to name the next one had not changed.\nThat night, you opened a housing app and closed it without entering a single filter."
       }
     ]
   },

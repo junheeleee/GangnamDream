@@ -16,16 +16,19 @@
   },
   {
     "id": "callback_daeun_committed_gangnam_eve",
-    "title": "The Night Before",
-    "description": "Tomorrow is the contract. 3 billion. A Gangnam apartment.\nDaeun texted. 'Free this evening?\nLet's grab something simple to eat.'",
+    "title": "An Evening to Do the Math Together",
+    "description": "A message came from Daeun.\n'Free this evening? Let's grab something simple to eat.'\n\nYour current assets were {money}. There was no contract date yet. But you no longer had to plan a home alone.",
+    "description_if_known": {
+      "arc_almost_there_seen": "Even after crossing 1 billion won, there was still distance left to 3 billion.\nA message came from Daeun.\n'Free this evening? Let's grab something simple to eat.'\n\nBefore setting a contract date, there was something the two of you could decide: what kind of home you wanted and how you wanted to live in it."
+    },
     "choices": [
       {
         "text": "Go",
-        "result_text": "It was a gukbap place.\nDaeun pushed her bowl aside and said. 'Tomorrow?'\n'Yeah.'\n'I knew it from the beginning. You'll be fine.'\nYou slept well that night."
+        "result_text": "It was a gukbap place.\nDaeun opened a note on her phone and wrote down two bedrooms and commute time. You entered a blank figure beside the budget.\n\nThere was no apartment to sign for yet. But for the first time, the shape of the home you both wanted sat on the same screen.\nThat note stayed with you longer than the target figure that night."
       },
       {
-        "text": "Focus on tomorrow. Today is better alone",
-        "result_text": "'I have some things to sort out today.'\nDaeun replied 'Okay.'\nYou spent the night rereading the contract alone.\nWhether it was the right call — who knows."
+        "text": "Say you need to run the numbers and put it off",
+        "result_text": "'I still have some figures to work through.'\nDaeun replied, 'Okay.'\nYou opened the asset sheet alone. The numbers became more precise, but the space for the home you might share remained blank."
       }
     ]
   },
@@ -66,7 +69,7 @@
     "choices": [
       {
         "text": "Meet them",
-        "result_text": "A tax accountant's office. We restructured the portfolio.\nLater you calculated it — saved 12 million in taxes alone.\nYou texted Jiyeon to say thank you.\n'Of course. I like honest people.' The reply came back."
+        "result_text": "At the tax accountant's office, you cleared up missed deductions and overlapping products.\nThe refund and savings came to 1.2 million won.\nYou texted Jiyeon to thank her.\n'Bring the paperwork first next time,' she replied."
       },
       {
         "text": "Pass — still want to do it solo",
@@ -241,31 +244,31 @@
   },
   {
     "id": "callback_hoesik_left_early_office",
-    "title": "In the Hallway",
-    "description": "A junior colleague whispered in the hallway today.\n'Hey, the department head... he's still talking about you leaving early at the last work dinner.\nSomething like 'Where do they learn these manners these days.''",
+    "title": "A Message Three Months Later",
+    "description": "A message arrived from a junior colleague you used to work with.\n'The department head is still talking about you leaving early at last quarter's work dinner. He says people these days have no loyalty.'\n\nEven if your workplace had changed, that night's judgment remained in the group chat.",
     "choices": [
       {
-        "text": "Address it directly — explain to the head",
-        "result_text": "'I had a prior commitment that day. I apologize.'\nThe head said 'It's fine' and walked on.\nWhether it's resolved isn't clear — but at least it was said."
+        "text": "Send the manager a brief explanation",
+        "result_text": "'I left early because I had an important commitment the next morning. I should have explained sooner.'\nA read receipt appeared, followed by: 'Understood.'\nYou did not know whether the judgment had changed, but you had not left silence in its place."
       },
       {
-        "text": "Don't let it bother you",
-        "result_text": "You can't live dancing to the department head's tune.\nBut you also know reputation builds slowly, grain by grain.\nYou focused on work today."
+        "text": "Close the chat without replying",
+        "result_text": "You read the message and closed the chat.\nThere was no way to know what sat beside your name now. Even after turning the phone face down, you checked the screen twice as if it had vibrated."
       }
     ]
   },
   {
     "id": "callback_hoesik_caved_reputation",
-    "title": "The Next Work Dinner",
-    "description": "A work dinner notice went up in the team chat.\nA junior colleague messaged you separately.\n'Of course you're coming, right? You always roll with the vibe.'",
+    "title": "Another Full Glass",
+    "description": "Another work dinner notice appeared in the group chat.\nA junior colleague you used to work with messaged separately.\n'You're coming again, right? They say the mood only works when you're there.'\n\nFailing to refuse last time had returned as an assigned role.",
     "choices": [
       {
         "text": "Politely decline this time",
-        "result_text": "'I have something on.'\nThe colleague said 'Oh, okay.'\nThe team was quieter the next day.\nBut your body was fine."
+        "result_text": "'I can't make it this time.'\nThe colleague replied, 'Understood.'\nThat night, a photo in the group chat showed one empty chair. You muted the notifications and went to sleep on time."
       },
       {
         "text": "Go again",
-        "result_text": "You went.\nYou stayed late again.\n'I knew we could count on you' — those words from someone.\nIn the taxi home you thought about what that meant."
+        "result_text": "The empty glass was filled again. At the second-round karaoke bar, the microphone came around three times.\n'I knew we could count on you,' someone said.\nYour flushed face reflected in the taxi window, and you dismissed the next morning's alarm twice."
       }
     ]
   },

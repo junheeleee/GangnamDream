@@ -50,7 +50,7 @@
   {
     "id": "callback_daeun_married_echo",
     "title": "SNS에서 봤다",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "player_tired",
     "category": "story",
     "rarity": "uncommon",
@@ -58,11 +58,11 @@
     "hidden": false,
     "conditions": {
       "flag": "daeun_married",
-      "min_turn": 130
+      "min_turn": 112
     },
     "tags": ["callback", "daeun", "story"],
     "cooldown": 999,
-    "description": "며칠이 지났다.\n\n그 사진이 가끔 떠오른다. 웨딩 드레스. 환하게 웃는 얼굴.\n\n{name}은 그 사람을 미워하지는 않는다.\n그냥 — 그 웃음이 어쩐지 낯설었다.\n\n자기도 그렇게 웃을 수 있는 날이 올까.",
+  "description": "몇 달이 지났다.\n\n그 사진이 가끔 떠오른다. 웨딩드레스. 환하게 웃는 얼굴.\n\n{name}은 그 사람을 미워하지는 않는다.\n그냥 그 웃음이 이제 자기 기억 바깥의 삶에 속한다는 사실이 낯설었다.\n\n자기도 그렇게 웃을 수 있는 날이 올까.",
     "choices": [
       {
         "text": "잘 됐다. 진심으로.",
@@ -96,11 +96,11 @@
     "hidden": false,
     "conditions": {
       "flag": "daeun_gangnam_first",
-      "min_turn": 165
+      "min_turn": 153
     },
     "tags": ["callback", "daeun", "romance", "story"],
     "cooldown": 999,
-    "description": "다은이 강남 회사 첫 출근을 마쳤다.\n\n\"오늘 어땠어요?\" {name}이 물었다.\n\"생각보다 훨씬 빠르게 걸어다녀요, 거기 사람들이.\" 다은이 웃었다.\n\n그 카페 약속이 생각났다. \"강남 가면 근처 카페 가자요.\"",
+  "description": "다은이 강남 회사 첫 출근을 마쳤다.\n\n\"오늘 어땠어요?\" {name}이 물었다.\n\"생각보다 훨씬 빠르게 걸어 다녀요, 거기 사람들이.\" 다은이 웃었다.\n\n그때 저장해 둔 지도 핀이 생각났다. \"강남 가면 근처 카페 가요.\"",
     "choices": [
       {
         "text": "\"이번 주말에 그 카페 가자.\" 약속을 지킨다",

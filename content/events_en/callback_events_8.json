@@ -1,16 +1,20 @@
 [
   {
     "id": "callback_cafe_stole_gambled_result",
-    "title": "What That Hand Paid",
-    "description": "Two months since you went in on the stolen tip from the café.\nToday you opened the portfolio.",
+    "title": "The Result of That Bet",
+    "description": "Two months since you entered on information overheard at the café.\nThe outcome was already in the account. When you reopened the trade history, the name of the person you had overheard came to mind before the ticker did.",
+    "description_if_known": {
+      "cafe_jackpot": "Two months since you entered on information overheard at the café.\nThe profit remained in the account. When you reopened the trade history, the name of the person you had overheard came to mind before the green figure did.",
+      "cafe_burned": "Two months since you entered on information overheard at the café.\nThe loss was already in the account. When you reopened the trade history, the name of the person you had overheard came to mind before the red figure did."
+    },
     "choices": [
       {
-        "text": "It made money. But it feels wrong.",
-        "result_text": "You made money.\nBut you knew how you made it.\nWhatever you do with this money — where it came from doesn't change."
+        "text": "Record both the result and the source",
+        "result_text": "Beside the return, you wrote: 'Unverified information overheard by chance.'\nThe entry became one line longer. You left the uncomfortable origin in the ledger so you would not trust the same kind of source next time."
       },
       {
-        "text": "It lost. And someone found out.",
-        "result_text": "The stolen information was wrong anyway.\nThen a message from someone who'd been at that table.\n'You overheard us that day, didn't you?'\nTwo things lost at once."
+        "text": "Record only the figures and close the trade",
+        "result_text": "You entered only the amount and return. The source field stayed blank.\nOnce the screen closed, the numbers looked clean. Only {name} knew what had opened the position."
       }
     ]
   },

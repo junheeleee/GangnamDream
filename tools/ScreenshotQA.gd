@@ -5517,22 +5517,30 @@ func _shot_delayed_payoff_surfaces(
 		lang: String = "en", prefix: String = "delayed_en_") -> void:
 	_set_qa_language(lang)
 	var cases := [
-		["callback_jeonse_scam_narrow", "01_jeonse_scam", 45_000_000.0, 50, 1],
-		["callback_recycling_neighbor", "02_recycling_neighbor", 50_000_000.0, 63, 1],
-		["callback_formal_complaint_filed_echo", "03_formal_complaint", 50_000_000.0, 68, 0],
+		["callback_jeonse_scam_narrow", "01_jeonse_scam", 45_000_000.0, 50, 0, 1, true],
+		["callback_recycling_neighbor", "02_recycling_neighbor", 50_000_000.0, 63, 0, 1, true],
+		["callback_formal_complaint_filed_echo", "03_formal_complaint", 50_000_000.0, 68, 0, 0, true],
+		["callback_cafe_stole_gambled_result", "04_cafe_result", 50_000_000.0, 53, 0, 0, false],
+		["callback_sent_money_instead_echo", "05_sent_money", 50_000_000.0, 55, 0, 0, false],
+		["callback_jiyeon_honest_referral", "06_tax_referral", 51_200_000.0, 63, 0, 0, false],
+		["callback_told_daeun_investing_echo", "07_partial_disclosure", 50_000_000.0, 56, 1, 0, false],
+		["callback_medication_visited_echo", "08_medication_memory", 50_000_000.0, 64, 0, 0, false],
+		["callback_hyunsu_departure_meal_echo", "09_hyunsu_question", 50_000_000.0, 53, 1, 0, false],
+		["callback_daeun_committed_gangnam_eve", "10_shared_home", 1_100_000_000.0, 83, 0, 0, false],
+		["callback_jiyeon_took_deal_consequence", "11_contract_cost", 50_000_000.0, 50, 0, 0, false],
 	]
 	for data in cases:
 		var event_id := str(data[0])
 		var label := str(data[1])
 		_prepare_delayed_payoff_qa_state(event_id)
-		_assert_delayed_payoff_runtime_ready(event_id)
+		_assert_delayed_payoff_runtime_ready(event_id, bool(data[6]))
 		await _shot_story_event(event_id, prefix + label + "_prose", "", 0.45, true)
 
 		_prepare_delayed_payoff_qa_state(event_id)
-		_assert_delayed_payoff_runtime_ready(event_id)
+		_assert_delayed_payoff_runtime_ready(event_id, bool(data[6]))
 		await _shot_story_event(
 			event_id, prefix + label + "_result", "", 0.45, true, true,
-			0, 0, false, int(data[4]))
+			int(data[4]), 0, false, int(data[5]))
 		if not is_equal_approx(GameState.money, float(data[2])):
 			_fail("%s result money expected %s, got %s." % [
 				event_id, data[2], GameState.money])
@@ -5554,11 +5562,35 @@ func _prepare_delayed_payoff_qa_state(event_id: String) -> void:
 			GameState.flags["recycling_diligent"] = true
 		"callback_formal_complaint_filed_echo":
 			GameState.flags["formal_complaint_filed"] = true
+		"callback_cafe_stole_gambled_result":
+			GameState.flags["cafe_stole_gambled"] = true
+			GameState.flags["cafe_jackpot"] = true
+		"callback_sent_money_instead_echo":
+			GameState.flags["sent_money_instead"] = true
+		"callback_jiyeon_honest_referral":
+			GameState.flags["jiyeon_honest"] = true
+		"callback_told_daeun_investing_echo":
+			GameState.flags["told_daeun_investing"] = true
+		"callback_medication_visited_echo":
+			GameState.flags["visited_for_medication"] = true
+		"callback_hyunsu_departure_meal_echo":
+			GameState.flags["hyunsu_departure_meal"] = true
+		"callback_daeun_committed_gangnam_eve":
+			GameState.turn = 208
+			GameState.money = 1_100_000_000.0
+			GameState.flags["daeun_romance_started"] = true
+			GameState.flags["arc_almost_there_seen"] = true
+		"callback_jiyeon_took_deal_consequence":
+			GameState.flags["took_jiyeon_deal"] = true
 
-func _assert_delayed_payoff_runtime_ready(event_id: String) -> void:
+func _assert_delayed_payoff_runtime_ready(event_id: String, bridge_event: bool = true) -> void:
 	var event: Dictionary = DataRegistry.find_event(event_id)
 	if event.is_empty():
 		_fail("Delayed payoff fixture could not find %s." % event_id)
+		return
+	if not bridge_event:
+		if EventManager.is_directed_random_event(event):
+			_fail("%s leaked back into the standalone random pool." % event_id)
 		return
 	if not EventManager.is_narrative_bridge_event(event):
 		_fail("%s is no longer exposed by the runtime bridge director." % event_id)

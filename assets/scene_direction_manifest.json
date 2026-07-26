@@ -1514,7 +1514,6 @@
       "callback_looked_up_apartment_echo",
       "callback_lotto_5th_prize_echo",
       "callback_market_value_checked_echo",
-      "callback_medication_visited_echo",
       "callback_met_bankrupt_ceo_lesson",
       "callback_met_ex_echo",
       "callback_mid_goal_echo",
@@ -2252,6 +2251,7 @@
     ],
     "memory_cut": [
       "arc_father_call_on_ktx_memory",
+      "callback_medication_visited_echo",
       "callback_proactive_parent_care_echo",
       "callback_sangchul_personal_echo"
     ],

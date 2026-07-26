@@ -216,6 +216,8 @@
           "arc_y3_cost_of_knowing_seen",
           "used_sangchul_network_after"
         ],
+        "deferred_follow_up": "callback_used_sangchul_after_echo",
+        "deferred_delay": 10,
         "result_text": "거래를 성사시켰다. 수익이 들어왔다.\n\n그 컨설턴트 이름 옆에 임상철의 이름이 희미하게 겹쳐 보였지만 — 그건 {name}만 아는 이야기다."
       },
       {
@@ -347,6 +349,8 @@
           "arc_y3_jiyeon_departure_seen",
           "jiyeon_sent_off_well"
         ],
+        "deferred_follow_up": "callback_jiyeon_busan_postcard",
+        "deferred_delay": 16,
         "cast_effects": {
           "jiyeon": {
             "affinity": 6
@@ -365,6 +369,8 @@
           "arc_y3_jiyeon_departure_seen",
           "jiyeon_sent_off_well"
         ],
+        "deferred_follow_up": "callback_jiyeon_busan_postcard",
+        "deferred_delay": 16,
         "cast_effects": {
           "jiyeon": {
             "affinity": 10

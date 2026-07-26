@@ -88,6 +88,7 @@
   {
     "id": "callback_daeun_supportive_warmth",
     "title": "다은의 문자",
+    "background": "current_housing",
     "description": "다은이 힘들어할 때 옆에 있어줬던 게 몇 달 전이다.\n오늘 다은에게서 문자가 왔다.\n'민준씨. 그때 생각이 나서요.\n요즘 잘 지내요?'",
     "category": "relationship",
     "rarity": "uncommon",
@@ -110,20 +111,20 @@
           "mental": 15,
           "social_skill": 2
         },
-        "flags": [
-          "daeun_date_set"
-        ],
-        "follow_up_event": "",
-        "result_text": "다은이 '좋아요'라고 바로 답장했다.\n그때 옆에 있어준 게 여기까지 왔다.\n좋은 일은 이렇게 돌아오기도 한다."
+      "flags": [
+        "daeun_date_set"
+      ],
+      "follow_up_event": "",
+      "result_text": "다은이 '좋아요. 이번 주 목요일 어때요?'라고 바로 답장했다.\n{name}은 달력을 열어 퇴근 뒤 시간을 비웠다. 대화창에는 편의점 근처 국숫집 지도 핀이 하나 올라왔다."
       },
       {
         "text": "\"잘 지내요\"라고만 답장한다",
         "effects": {
           "mental": 5
         },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "다은이 '잘됐네요 :)'라고 했다.\n대화가 짧게 끝났다.\n마음은 있었는데 — 거리를 좁히지는 못했다."
+      "flags": [],
+      "follow_up_event": "",
+      "result_text": "다은이 '잘됐네요 :)'라고 답했다.\n{name}은 입력창을 한 번 더 눌렀다가 아무것도 쓰지 않고 화면을 껐다. 마지막 메시지는 그날 밤까지 읽음 표시 아래에 그대로 있었다."
       }
     ]
   },

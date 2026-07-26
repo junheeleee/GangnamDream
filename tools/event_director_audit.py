@@ -15,38 +15,67 @@ REGISTRY = ROOT / "autoloads" / "DataRegistry.gd"
 MANIFEST = ROOT / "content" / "meta" / "event_director.json"
 MAIN_GAME = ROOT / "scenes" / "MainGame.gd"
 EXPECTED_CATALOG_RANDOM = 1176
-EXPECTED_DIRECTED_RANDOM = 1032
+EXPECTED_DIRECTED_RANDOM = 1017
 EXPECTED_FOREGROUND_RANDOM = 61
 EXPECTED_BRIDGE_RANDOM = 18
 EXPECTED_CALLBACK_TOTAL = 620
 EXPECTED_CHAIN_TOTAL = 12
-MAX_DORMANT_CALLBACKS = 596
+MAX_DORMANT_CALLBACKS = 567
 MAX_DORMANT_CHAINS = 12
 EXPECTED_REACHABLE_CALLBACKS = {
     "callback_amusement_child_reunion",
     "callback_amusement_photo_found",
+    "callback_cafe_stole_gambled_result",
     "callback_chaebol_met_dinner",
     "callback_child_cost_grind",
+    "callback_chose_money_father_echo",
+    "callback_daeun_breakup_begged_echo",
+    "callback_daeun_committed_gangnam_eve",
+    "callback_daeun_daily_life_echo",
+    "callback_daeun_deferred_silence",
+    "callback_daeun_gangnam_first_echo",
+    "callback_daeun_married_echo",
+    "callback_daeun_supportive_warmth",
+    "callback_declined_sangchul_deal_echo",
+    "callback_escaped_dirty_trace",
+    "callback_father_confession_echo",
     "callback_father_promise",
     "callback_formal_complaint_filed_echo",
     "callback_guarantee_default",
     "callback_guarantee_refused_news",
+    "callback_hoesik_caved_reputation",
+    "callback_hoesik_left_early_office",
+    "callback_hyunsu_departure_meal_echo",
     "callback_interview_lie_confessed_echo",
+    "callback_investment_lesson_echo",
     "callback_jaehyuk_reported_witness",
     "callback_jaehyuk_testified_echo",
     "callback_jeonse_auction_insured",
     "callback_jeonse_protected_safe",
     "callback_jeonse_scam_narrow",
+    "callback_jiyeon_busan_postcard",
+    "callback_jiyeon_honest_referral",
+    "callback_jiyeon_together_pressure",
+    "callback_jiyeon_took_deal_consequence",
     "callback_kkondae_respect",
     "callback_lied_interview_surfaces",
+    "callback_medication_ignored_echo",
+    "callback_medication_visited_echo",
     "callback_mindset_investor_echo",
     "callback_mystery_info_reported_outcome",
     "callback_pension_self_fund",
     "callback_recycling_neighbor",
     "callback_resume_lie_confessed_echo",
     "callback_resume_lie_confessed_outcome",
+    "callback_rushed_to_father_echo",
+    "callback_sangchul_truth_buried_echo",
+    "callback_sent_money_instead_echo",
+    "callback_shadow_investors_proposal",
     "callback_tax_windfall",
+    "callback_told_daeun_everything_echo",
+    "callback_told_daeun_investing_echo",
     "callback_truth_echo",
+    "callback_used_sangchul_after_echo",
 }
 EXPECTED_IMPLICIT_BRIDGE_ROOTS = {
     "amb_idea_stolen_00",

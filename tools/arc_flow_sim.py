@@ -465,11 +465,11 @@ EXPECTED_LATE_TEMPORAL = {
     "A 정석/다은보냄/사기": {
         69: "arc_year_one_half",
         87: "arc_34_two_years_in",
-        148: "arc_35_path_cost",
-        151: "arc_35_habit_check",
-        152: "arc_almost_there",
+        149: "arc_35_path_cost",
+        151: "arc_almost_there",
+        152: "arc_35_habit_check",
         154: "arc_36_reality_check",
-        156: "arc_1b_isolation",
+        155: "arc_1b_isolation",
         163: "arc_36_body_signal",
         169: "arc_year_three_half",
         181: "arc_36_night_doubt",
@@ -484,8 +484,8 @@ EXPECTED_LATE_TEMPORAL = {
         # branch and its occupied foreground week no longer exist.
         75: "arc_year_one_half",
         93: "arc_34_two_years_in",
-        148: "arc_35_path_cost",
-        151: "arc_35_habit_check",
+        149: "arc_35_path_cost",
+        152: "arc_35_habit_check",
         153: "arc_almost_there",
         154: "arc_36_reality_check",
         157: "arc_1b_isolation",
@@ -524,7 +524,8 @@ EXPECTED_CHAPTER3 = {
         118: "arc_jaehyuk_mirror",
         121: "arc_midpoint_reckoning",
         122: "arc_year_two_half",
-        126: "arc_goal_vertigo",
+        126: "callback_jiyeon_busan_postcard",
+        127: "arc_goal_vertigo",
         140: "arc_year3_close",
     },
     "B 비정석/진실/committed": {
@@ -542,10 +543,12 @@ EXPECTED_CHAPTER3 = {
         120: "arc_sangchul_known_reflex",
         121: "arc_midpoint_reckoning",
         122: "arc_year_two_half",
-        124: "arc_jaehyuk_sangchul_echo",
-        126: "arc_goal_vertigo",
-        127: "arc_jiyeon_father_records",
-        128: "arc_y3_sangchul_deeper_room",
+        124: "callback_father_confession_echo",
+        125: "arc_jaehyuk_sangchul_echo",
+        126: "callback_jiyeon_busan_postcard",
+        127: "arc_goal_vertigo",
+        129: "arc_jiyeon_father_records",
+        130: "arc_y3_sangchul_deeper_room",
         132: "arc_sangchul_confrontation",
         133: "arc_sangchul_year3",
         140: "arc_year3_close",
@@ -572,16 +575,18 @@ EXPECTED_CHAPTER1 = {
         22: "arc_gangnam_visit_alone",
         24: "hyunsu_exam_day",
         25: "hyunsu_result_fail",
-        28: "arc_sangchul_02_coffee",
+        28: "callback_investment_lesson_echo",
         29: "arc_hyunsu_exam_fail",
         30: "arc_goshiwon_goodbye",
-        31: "arc_first_real_win",
+        31: "arc_sangchul_02_coffee",
+        32: "arc_first_real_win",
         34: "arc_hyunsu_drift",
         35: "arc_daeun_02_regular",
         36: "arc_jiyeon_02_store",
         40: "arc_hyunsu_new_path",
         41: "arc_opp_sangchul_realty",
         45: "arc_year1_close",
+        47: "callback_daeun_supportive_warmth",
     },
     "B 비정석/진실/committed": {
         2: "arc_intro_01_meal",
@@ -600,20 +605,23 @@ EXPECTED_CHAPTER1 = {
         20: "arc_hyunsu_night_talk",
         21: "arc_father_02_signal",
         22: "arc_gangnam_visit_alone",
-        24: "hyunsu_exam_day",
-        25: "hyunsu_result_fail",
-        28: "arc_goshiwon_goodbye",
-        29: "arc_hyunsu_exam_fail",
-        30: "arc_sangchul_02_coffee",
-        31: "arc_first_real_win",
-        34: "arc_hyunsu_drift",
-        35: "arc_daeun_02_regular",
+        24: "callback_escaped_dirty_trace",
+        25: "hyunsu_exam_day",
+        26: "hyunsu_result_fail",
+        28: "callback_investment_lesson_echo",
+        29: "arc_goshiwon_goodbye",
+        30: "arc_hyunsu_exam_fail",
+        31: "arc_sangchul_02_coffee",
+        32: "arc_first_real_win",
+        34: "arc_daeun_02_regular",
+        35: "arc_hyunsu_drift",
         36: "arc_jiyeon_02_store",
-        40: "arc_hyunsu_new_path",
-        41: "arc_opp_sangchul_realty",
+        40: "arc_opp_sangchul_realty",
+        41: "arc_hyunsu_new_path",
         45: "arc_year1_close",
-        46: "arc_money_loneliness",
-        47: "arc_opp_jiyeon_bunyang",
+        46: "callback_daeun_supportive_warmth",
+        47: "arc_money_loneliness",
+        48: "arc_opp_jiyeon_bunyang",
     },
 }
 
@@ -622,6 +630,80 @@ EXPECTED_CHAPTER1_BRIDGES = {
     12: ["arc_invest_guidance"],
     13: ["arc_night_routine"],
     15: ["arc_paycheck_reality"],
+}
+
+EXPECTED_T1_DELAYED_PAYOFFS = {
+    "A 정석/다은보냄/사기": {
+        "callback_investment_lesson_echo": 28,
+        "callback_daeun_supportive_warmth": 47,
+        "callback_jiyeon_together_pressure": 88,
+        "callback_rushed_to_father_echo": 91,
+        "callback_jiyeon_took_deal_consequence": 112,
+        "callback_jiyeon_busan_postcard": 126,
+    },
+    "B 비정석/진실/committed": {
+        "callback_escaped_dirty_trace": 24,
+        "callback_investment_lesson_echo": 28,
+        "callback_daeun_supportive_warmth": 46,
+        "callback_jiyeon_took_deal_consequence": 60,
+        "callback_jiyeon_together_pressure": 86,
+        "callback_rushed_to_father_echo": 88,
+        "callback_father_confession_echo": 124,
+        "callback_jiyeon_busan_postcard": 126,
+        "callback_daeun_gangnam_first_echo": 155,
+    },
+}
+
+T1_DELAYED_PAYOFF_IDS = {
+    "callback_hoesik_left_early_office",
+    "callback_hoesik_caved_reputation",
+    "callback_daeun_supportive_warmth",
+    "callback_investment_lesson_echo",
+    "callback_escaped_dirty_trace",
+    "callback_cafe_stole_gambled_result",
+    "callback_told_daeun_everything_echo",
+    "callback_told_daeun_investing_echo",
+    "callback_sent_money_instead_echo",
+    "callback_rushed_to_father_echo",
+    "callback_medication_visited_echo",
+    "callback_medication_ignored_echo",
+    "callback_jiyeon_honest_referral",
+    "callback_jiyeon_together_pressure",
+    "callback_jiyeon_took_deal_consequence",
+    "callback_declined_sangchul_deal_echo",
+    "callback_shadow_investors_proposal",
+    "callback_hyunsu_departure_meal_echo",
+    "callback_daeun_deferred_silence",
+    "callback_daeun_breakup_begged_echo",
+    "callback_daeun_daily_life_echo",
+    "callback_daeun_married_echo",
+    "callback_father_confession_echo",
+    "callback_sangchul_truth_buried_echo",
+    "callback_jiyeon_busan_postcard",
+    "callback_daeun_gangnam_first_echo",
+    "callback_chose_money_father_echo",
+    "callback_used_sangchul_after_echo",
+    "callback_daeun_committed_gangnam_eve",
+}
+
+CAPPED_ARC_WINDOWS = {
+    "arc_36_body_signal": (163, 172),
+    "arc_year_three_half": (168, 184),
+    "arc_36_night_doubt": (180, 187),
+    "arc_y3_jiyeon_departure": (110, 135),
+    "arc_endgame_sixmonths": (216, 237),
+    "arc_daeun_money_gap": (60, 70),
+}
+
+EXPECTED_CAPPED_ARCS = {
+    "A 정석/다은보냄/사기": {
+        "arc_36_body_signal",
+        "arc_year_three_half",
+        "arc_36_night_doubt",
+        "arc_y3_jiyeon_departure",
+        "arc_endgame_sixmonths",
+    },
+    "B 비정석/진실/committed": set(CAPPED_ARC_WINDOWS),
 }
 
 HYUNSU_CHAPTER1_SEQUENCE = [
@@ -687,6 +769,49 @@ for name, spine, traj, hook, choice_indices in PATHS:
         print("  ✗ 후속 체인 플래그 누락:", missing_flags)
     else:
         print("  ✓ 즉시 후속 체인 플래그 완결")
+    expected_payoffs = EXPECTED_T1_DELAYED_PAYOFFS[name]
+    actual_payoffs = {
+        event_id: turn for event_id, turn in fired.items()
+        if event_id in T1_DELAYED_PAYOFF_IDS
+    }
+    if actual_payoffs != expected_payoffs:
+        fail += 1
+        missing_payoffs = [
+            f"{event_id}@t{actual_payoffs.get(event_id, 'missing')}!=t{turn}"
+            for event_id, turn in expected_payoffs.items()
+            if actual_payoffs.get(event_id) != turn
+        ]
+        unexpected_payoffs = [
+            f"{event_id}@t{turn}"
+            for event_id, turn in actual_payoffs.items()
+            if event_id not in expected_payoffs
+        ]
+        print("  ✗ T1 지연 회수 시간축:", ", ".join(missing_payoffs + unexpected_payoffs))
+    else:
+        payoff_counts = {
+            year: sum(
+                1 for turn in actual_payoffs.values()
+                if start <= turn <= end
+            )
+            for year, (start, end) in YEARS.items()
+        }
+        print(
+            f"  ✓ T1 지연 회수 {len(actual_payoffs)}건·중복 0: "
+            + " ".join(f"Y{year}={payoff_counts[year]}" for year in range(1, 6))
+        )
+    capped_errors = []
+    for event_id in EXPECTED_CAPPED_ARCS[name]:
+        start, end = CAPPED_ARC_WINDOWS[event_id]
+        turn = fired.get(event_id)
+        if turn is None:
+            capped_errors.append(f"{event_id}=missing")
+        elif not start <= turn <= end:
+            capped_errors.append(f"{event_id}@t{turn} not in {start}..{end}")
+    if capped_errors:
+        fail += 1
+        print("  ✗ 상한 아크 잠식:", ", ".join(capped_errors))
+    else:
+        print(f"  ✓ 상한 아크 {len(EXPECTED_CAPPED_ARCS[name])}종 윈도우 내 생존")
     chapter1_log = {turn: event_id for turn, event_id in firelog.items() if turn <= 48}
     if chapter1_log != EXPECTED_CHAPTER1[name]:
         fail += 1

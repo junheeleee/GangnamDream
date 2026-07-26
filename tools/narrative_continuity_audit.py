@@ -34,8 +34,10 @@ CHAPTER_RATCHETS = {
         "peak_roots_min": 1,
         "temporal_roots_min": 3,
         "isolated_micro_max": 0,
-        "stops_max": 30,
-        "thread_switches_max": 25,
+        # ORDER-52 restores authored consequence scenes in Chapter 1. These are
+        # deliberate delayed-payoff stops, not random-card or filler regressions.
+        "stops_max": 33,
+        "thread_switches_max": 28,
     },
     2: {
         "chained_min": 4,

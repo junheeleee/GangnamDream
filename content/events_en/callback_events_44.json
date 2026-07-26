@@ -47,15 +47,15 @@
   {
     "id": "callback_told_daeun_investing_echo",
     "title": "Saying Just a Little",
-    "description": "The day {name} told Dae-un only 'investing's been going okay lately' — and stopped there.\n\nToday Dae-un asked, lightly.\n\n'You mentioned investing back then. How's it going now? ...Never mind, you don't have to say if you don't want to.'",
+  "description": "The day {name} told Daeun only 'investing's been going okay lately' — and stopped there.\n\nToday Daeun asked, lightly.\n\n'You mentioned investing back then. How's it going now? ...Never mind, you don't have to say if you don't want to.'",
     "choices": [
       {
         "text": "Be a little more honest this time",
-        "result_text": "Said one step more than last time.\n\nDae-un listened seriously.\n'Thanks for telling me. I like getting a glimpse of your world.'\nOpening up gradually was a relationship's pace too."
+      "result_text": "You showed her the positions in red, not only the ones in profit.\n\nDaeun studied the screen and said, 'Thank you for telling me. I like being able to see a little more of your world.'\nAfter she handed the phone back, the red figures looked sharper than before."
       },
       {
-        "text": "Just this far for now — take it slow",
-        "result_text": "'Yeah, you can tell me slowly.'\n\nDae-un didn't push."
+      "text": "Draw a line and say you do not want to talk about it yet",
+      "result_text": "'It's okay. You can tell me when you're ready. I won't press.'\n\nDaeun meant it. From then on, she stopped bringing up investments first. It was easier, and a new unasked space appeared between you."
       }
     ]
   },

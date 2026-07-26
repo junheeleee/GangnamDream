@@ -31,16 +31,16 @@
   },
   {
     "id": "callback_jiyeon_took_deal_consequence",
-    "title": "One Line in the Contract",
-    "description": "You took Jiyeon's deal.\nThree months after signing.\nToday the first settlement came through.\nLess than expected.",
+    "title": "The Costs After Signing",
+    "description": "Three months after accepting Jiyeon's offer, the first statement arrived.\nAcquisition taxes, interim-payment interest, legal fees, and escrow sat side by side.\n\nWhatever happened to the property itself, these were the costs of carrying the contract.",
     "choices": [
       {
-        "text": "Confront Jiyeon directly",
-        "result_text": "Jiyeon reopened the contract.\n\"This clause here — did you read this?\"\nThere was a clause you'd missed.\nContracts are read all the way through."
+        "text": "Ask Jiyeon to explain each cost",
+        "result_text": "Jiyeon set the contract beside the statement.\n'The interest changes with the schedule, and this escrow is reconciled at closing.'\nYou wrote the payment date and refund condition beside every item. Without asking, all of it would have looked like a loss."
       },
       {
         "text": "Read the contract carefully again",
-        "result_text": "Three times through.\nThe clause appeared. Legal — but disadvantageous.\nNext time, read before signing."
+        "result_text": "You read the contract three times.\nThe costs were scattered across different clauses; together, they required a separate reserve.\nFrom now on, you would calculate total carrying costs before signing."
       }
     ]
   },

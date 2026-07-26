@@ -4,7 +4,7 @@
 > **유저 결정 = (나) 선별 부활**(2026-07-26). 근거 원장: 각본 리뷰 3차 + 부활 선별 정독.
 > **Claude 코드 검증 완료** — 아래 엔진 제약·슬롯 점유는 저장소에서 재현한 사실이다.
 
-#### [~] 착수 — T1만. 만지는 파일: `content/events/{amb_scenarios,arc_daeun,arc_daeun_extension,arc_drama,arc_events,arc_hyunsu,arc_midgame,arc_romance_y5,arc_year3_drama,scenario_cafe_callback}.json`, `content/events/callback_events_{2,5,6,7,8,13,36,37,39,41,42,43,44,55}.json`, 같은 이름의 `content/events_en/` 오버레이, `content/meta/story_rules.json`, `assets/event_visual_contracts.json`, `assets/scene_direction_manifest.json`, `tools/event_director_audit.py`, `tools/arc_flow_sim.py`, `tools/EventDirectorCheck.gd`, `tools/ScreenshotQA.gd`, `tools/DelayedPayoffCheck.gd`, `tools/DelayedPayoffCheck.tscn`, `tools/narrative_continuity_audit.py`, `tools/full_run_pacing_audit.py`, `docs/BALANCE.md`, `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-52.md`, `CLAUDE.md`, `docs/WORK_LOG.md`
+#### [~] T1 완료 — T2 승인 대기. 만지는 파일: `content/events/{amb_scenarios,arc_daeun,arc_daeun_extension,arc_drama,arc_events,arc_hyunsu,arc_midgame,arc_romance_y5,arc_year3_drama,scenario_cafe_callback}.json`, `content/events/callback_events_{2,5,6,7,8,13,36,37,39,41,42,43,44,55}.json`, 같은 이름의 `content/events_en/` 오버레이, `content/meta/story_rules.json`, `assets/event_visual_contracts.json`, `assets/scene_direction_manifest.json`, `tools/event_director_audit.py`, `tools/arc_flow_sim.py`, `tools/EventDirectorCheck.gd`, `tools/ScreenshotQA.gd`, `tools/DelayedPayoffCheck.gd`, `tools/DelayedPayoffCheck.tscn`, `tools/narrative_continuity_audit.py`, `tools/full_run_pacing_audit.py`, `docs/BALANCE.md`, `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-52.md`, `CLAUDE.md`, `docs/WORK_LOG.md`
 
 ORDER-52 [P1·지연 회수 부활] 도달 불가 콜백 32건을 예약형으로 되살린다
 
@@ -83,6 +83,25 @@ ORDER-51에서 확인된 사실: 콜백 620건 중 도달 가능 24건(3.9%), ch
 `callback_jiyeon_together_pressure`·`callback_jiyeon_busan_postcard` 각 2행)는 그 플래그를 세우는
 선택지가 여럿이라 **모든 분기에 같은 예약을 달아야** 어느 선택으로 가도 회수된다. 중복 발화는
 콜백 자체의 `cooldown`/`seen` 플래그로 막는다.
+
+## T1 실행 결과 — 2026-07-26
+
+- 생산자 선택 **34행 → 고유 콜백 29건**을 정확히 배선했다.
+  `GameState.apply_choice()` 런타임 검사가 각 예약의 대상 ID와
+  `현재 주차 + delay`를 전부 확인한다.
+- 필수 산문·조건·효과를 한영으로 정렬했다. 아버지 약 복용 회수는
+  현재 주거에서 사진을 보는 기억 장면으로, 경찰·지연 어머니 전화는
+  현재 주거의 원격 장면으로, 계약 비용은 투자 서류 표면으로 분류했다.
+  쓰이지 않는 신규 플래그는 남기지 않았다.
+- 대표 A/B 240주에서 각각 **6건/9건**이 발화했고 중복은 0건이었다.
+  상한 있는 아크는 전부 창 안에서 생존했으며 아크 잼은 0이었다.
+- 1280×800 한국어·영어에서 대표 11건의 소개/결과를 각각 렌더해
+  **44장**을 검사했다. 돈·정신력 효과와 결과 문단 진행도 런타임에서
+  함께 확인했다.
+- 이벤트 디렉터는 도달 가능한 콜백이 **24 → 53건**, 휴면 콜백이
+  **596 → 567건**으로 바뀌었다. 남은 휴면 코퍼스는 이번 선별 범위가
+  아니며 자동 허용목록으로 되살리지 않는다.
+- T2의 슬롯 점유 3행과 `GameState.gd` 배열 확장은 수정하지 않았다.
 
 ## T2. 슬롯 점유 3행 — ⚠ 엔진 확장 필요 (유저 승인 대기)
 

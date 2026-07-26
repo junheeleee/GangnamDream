@@ -32,7 +32,9 @@ SUMMARY_SECONDS = 15.0
 QUIET_SECONDS = 0.90
 ECHO_SECONDS = 1.35
 PROLOGUE_MINUTES = 12.0
-MIN_RANDOM_OPPORTUNITIES = 24
+# ORDER-52 restores authored delayed consequences into direct weeks. Those
+# scenes correctly displace a small number of random foreground opportunities.
+MIN_RANDOM_OPPORTUNITIES = 22
 MAX_RANDOM_OPPORTUNITIES = 36
 MIN_RANDOM_PER_CHAPTER = 1
 EXPECTED_REFUND_DIRECT = [29, 35, 37, 45]

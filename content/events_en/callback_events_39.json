@@ -17,7 +17,7 @@
   {
     "id": "callback_daeun_married_echo",
     "title": "The Feed",
-    "description": "Days later.\n\nThe photo surfaces sometimes.\nWhite dress. A wide smile.\n\n{name} doesn't resent her.\nIt's just that the smile feels unfamiliar.\n\nCould a smile like that ever come.",
+    "description": "Months later.\n\nThe photo still surfaces sometimes. The wedding dress. The bright smile.\n\n{name} does not resent her. It is simply strange that the smile now belongs to a life outside your memories.\n\nWill a day come when you can smile like that too?",
     "choices": [
       {
         "text": "Genuinely glad for her",
@@ -32,7 +32,7 @@
   {
     "id": "callback_daeun_gangnam_first_echo",
     "title": "The Café Promise",
-    "description": "Dae-un finished her first day at the Gangnam office.\n\n'How was it?'\n'Everyone walks so fast there.'\n\nShe laughed.\n\nThe promise from before: 'When you get to Gangnam, we'll hit that café nearby.'",
+    "description": "Daeun finished her first day at the Gangnam office.\n\n'How was it?' {name} asked.\n'Everyone walks so fast there.' She laughed.\n\nYou remembered the map pin you had saved. 'When you're in Gangnam, let's go to that café nearby.'",
     "choices": [
       {
         "text": "\"Let's go this weekend. I'll buy.\"",

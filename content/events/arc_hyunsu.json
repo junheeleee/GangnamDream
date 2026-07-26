@@ -347,6 +347,8 @@
           "hyunsu_pass_news_seen",
           "hyunsu_departure_meal"
         ],
+        "deferred_follow_up": "callback_hyunsu_departure_meal_echo",
+        "deferred_delay": 16,
         "result_text": "근처 순대국밥집. 현수가 많이 먹었다. 내일 볼 시험이 없는 사람의 밥이었다.\n\n\"형은 언제 여기 나가요?\"\n\"...글쎄.\"\n\n대답 대신 깍두기 접시를 밀어 줬다. 현수는 더 묻지 않고 그냥 웃었다. 그 웃음이 오래 남았다.\n\n같은 출발선이었는데 — 한 명이 먼저 나갔다. 계산서를 집으며 {name}은 생각했다. 이 돈은 이상하게, 하나도 아깝지 않다고."
       },
       {

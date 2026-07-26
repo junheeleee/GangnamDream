@@ -3,6 +3,43 @@ extends Node
 
 var _failures: Array[String] = []
 
+const DELAYED_PAYOFF_WIRING := [
+	{"event": "amb_hoesik_00", "choice": 1, "target": "callback_hoesik_left_early_office", "delay": 12},
+	{"event": "amb_hoesik_dodge", "choice": 1, "target": "callback_hoesik_caved_reputation", "delay": 8},
+	{"event": "arc_daeun_02_regular", "choice": 0, "target": "callback_daeun_supportive_warmth", "delay": 12},
+	{"event": "arc_invest_guidance", "choice": 0, "target": "callback_investment_lesson_echo", "delay": 16},
+	{"event": "arc_temptation_fallout", "choice": 0, "target": "callback_escaped_dirty_trace", "delay": 16},
+	{"event": "cafe_cb_stole_allin", "choice": 0, "target": "callback_cafe_stole_gambled_result", "delay": 10},
+	{"event": "arc_daeun_money_gap", "choice": 2, "target": "callback_told_daeun_everything_echo", "delay": 12},
+	{"event": "arc_daeun_money_gap", "choice": 1, "target": "callback_told_daeun_investing_echo", "delay": 12},
+	{"event": "arc_father_03_hospital", "choice": 2, "target": "callback_sent_money_instead_echo", "delay": 10},
+	{"event": "arc_father_03_hospital", "choice": 0, "target": "callback_rushed_to_father_echo", "delay": 14},
+	{"event": "arc_father_medication", "choice": 2, "target": "callback_medication_visited_echo", "delay": 12},
+	{"event": "arc_father_medication", "choice": 1, "target": "callback_medication_ignored_echo", "delay": 12},
+	{"event": "arc_jiyeon_03_offer", "choice": 2, "target": "callback_jiyeon_honest_referral", "delay": 16},
+	{"event": "arc_jiyeon_truth_moment", "choice": 0, "target": "callback_jiyeon_together_pressure", "delay": 16},
+	{"event": "arc_jiyeon_truth_warned", "choice": 0, "target": "callback_jiyeon_together_pressure", "delay": 16},
+	{"event": "arc_opp_jiyeon_bunyang", "choice": 0, "target": "callback_jiyeon_took_deal_consequence", "delay": 12},
+	{"event": "arc_opp_sangchul_realty", "choice": 2, "target": "callback_declined_sangchul_deal_echo", "delay": 16},
+	{"event": "arc_sangchul_03_network", "choice": 1, "target": "callback_shadow_investors_proposal", "delay": 12},
+	{"event": "hyunsu_pass_news", "choice": 0, "target": "callback_hyunsu_departure_meal_echo", "delay": 16},
+	{"event": "arc_daeun_04b_future", "choice": 1, "target": "callback_daeun_deferred_silence", "delay": 12},
+	{"event": "arc_daeun_05_breaking", "choice": 1, "target": "callback_daeun_breakup_begged_echo", "delay": 12},
+	{"event": "arc_daeun_05_together", "choice": 0, "target": "callback_daeun_daily_life_echo", "delay": 12},
+	{"event": "arc_daeun_year3_apart", "choice": 0, "target": "callback_daeun_married_echo", "delay": 12},
+	{"event": "arc_daeun_year3_apart", "choice": 1, "target": "callback_daeun_married_echo", "delay": 12},
+	{"event": "arc_father_06_confession", "choice": 0, "target": "callback_father_confession_echo", "delay": 12},
+	{"event": "arc_father_06_confession", "choice": 1, "target": "callback_father_confession_echo", "delay": 12},
+	{"event": "arc_father_06_confession", "choice": 2, "target": "callback_father_confession_echo", "delay": 12},
+	{"event": "arc_sangchul_buried_silence", "choice": 0, "target": "callback_sangchul_truth_buried_echo", "delay": 12},
+	{"event": "arc_y3_jiyeon_departure", "choice": 0, "target": "callback_jiyeon_busan_postcard", "delay": 16},
+	{"event": "arc_y3_jiyeon_departure", "choice": 1, "target": "callback_jiyeon_busan_postcard", "delay": 16},
+	{"event": "arc_daeun_year4_together", "choice": 0, "target": "callback_daeun_gangnam_first_echo", "delay": 8},
+	{"event": "arc_father_passing_deal_morning", "choice": 0, "target": "callback_chose_money_father_echo", "delay": 12},
+	{"event": "arc_y3_cost_of_knowing", "choice": 0, "target": "callback_used_sangchul_after_echo", "delay": 10},
+	{"event": "arc_daeun_y5_feelings", "choice": 0, "target": "callback_daeun_committed_gangnam_eve", "delay": 8},
+]
+
 func _ready() -> void:
 	GameState.start_new_game()
 	_check_catalog_and_ranges()
@@ -10,11 +47,12 @@ func _ready() -> void:
 	_check_context_gates()
 	_check_once_and_repeat_policy()
 	_check_authored_bypass()
+	_check_delayed_payoff_wiring()
 	_check_demo_pacing()
 	_check_full_run_pacing()
 	_check_rhythm_save_migration()
 	if _failures.is_empty():
-		print("EVENT_DIRECTOR_CHECK_OK directed=1032 foreground=61 bridge=18 bridge_roots=7 auto_multi=0 once=1029 repeatable=3 chapters=5 asset_bands=5 demo=9/2/4/3 authored=7 generic=2 full=52/5/20/21 save=legacy+demo")
+		print("EVENT_DIRECTOR_CHECK_OK directed=1017 foreground=61 bridge=18 bridge_roots=7 auto_multi=0 once=1014 repeatable=3 callbacks=34/29 chapters=5 asset_bands=5 demo=9/2/4/3 authored=7 generic=2 full=52/5/20/21 save=legacy+demo")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -27,7 +65,7 @@ func _check_catalog_and_ranges() -> void:
 		var event: Dictionary = event_value
 		if EventManager.is_directed_random_event(event):
 			directed_count += 1
-	_expect(directed_count == 1032, "runtime directed pool is %d, expected 1032" % directed_count)
+	_expect(directed_count == 1017, "runtime directed pool is %d, expected 1017" % directed_count)
 	var chapter_ids: Array[String] = []
 	for turn_value in [1, 49, 97, 145, 193]:
 		chapter_ids.append(EventManager.director_chapter_id(turn_value))
@@ -239,6 +277,52 @@ func _check_authored_bypass() -> void:
 	EventManager.register_directed_event(story)
 	_expect(GameState.random_event_counts == counts_before,
 		"authored story changed random-event history")
+
+func _check_delayed_payoff_wiring() -> void:
+	var unique_targets: Dictionary = {}
+	for row_value in DELAYED_PAYOFF_WIRING:
+		var row: Dictionary = row_value
+		var event_id := str(row["event"])
+		var choice_index := int(row["choice"])
+		var target_id := str(row["target"])
+		var delay := int(row["delay"])
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		var target: Dictionary = DataRegistry.find_event(target_id)
+		_expect(not event.is_empty(), "delayed-payoff producer is missing: %s" % event_id)
+		_expect(not target.is_empty(), "delayed-payoff target is missing: %s" % target_id)
+		if event.is_empty():
+			continue
+		var choices: Array = event.get("choices", [])
+		_expect(choice_index >= 0 and choice_index < choices.size(),
+			"delayed-payoff choice index is invalid: %s#%d" % [event_id, choice_index])
+		if choice_index < 0 or choice_index >= choices.size():
+			continue
+		var choice: Dictionary = choices[choice_index]
+		_expect(str(choice.get("deferred_follow_up", "")) == target_id,
+			"delayed-payoff target drifted: %s#%d" % [event_id, choice_index])
+		_expect(int(choice.get("deferred_delay", -1)) == delay,
+			"delayed-payoff delay drifted: %s#%d" % [event_id, choice_index])
+		unique_targets[target_id] = true
+
+		GameState.start_new_game()
+		GameState.turn = 40
+		GameState.deferred_events.clear()
+		GameState.apply_choice(event, choice)
+		var scheduled := false
+		for entry_value in GameState.deferred_events:
+			var entry: Dictionary = entry_value
+			if str(entry.get("event_id", "")) != target_id:
+				continue
+			scheduled = int(entry.get("trigger_turn", -1)) == 40 + delay
+			break
+		_expect(scheduled,
+			"runtime did not schedule delayed payoff: %s#%d -> %s +%d" \
+			% [event_id, choice_index, target_id, delay])
+	_expect(DELAYED_PAYOFF_WIRING.size() == 34,
+		"delayed-payoff wiring row count drifted")
+	_expect(unique_targets.size() == 29,
+		"delayed-payoff unique target count drifted: %d" % unique_targets.size())
+	GameState.start_new_game()
 
 func _check_demo_pacing() -> void:
 	var kinds: Array[String] = []

@@ -111,6 +111,8 @@
           "arc_daeun_year3_apart_seen",
           "daeun_married"
         ],
+        "deferred_follow_up": "callback_daeun_married_echo",
+        "deferred_delay": 12,
         "cast_effects": {
           "daeun": {
             "affinity": 3
@@ -128,6 +130,8 @@
           "arc_daeun_year3_apart_seen",
           "daeun_married"
         ],
+        "deferred_follow_up": "callback_daeun_married_echo",
+        "deferred_delay": 12,
         "result_text": "사진을 지나쳐 스크롤을 내렸다. 바로 다음에는 수익률을 자랑하는 코인 광고가 나왔다. {name}은 평소처럼 숫자를 읽으려 했지만 문장이 눈에 들어오지 않았다.\n\n앱을 닫고 엎어둔 휴대폰이 한동안 다시 울리지 않았다. 삶은 계속되고 자기도 가야 한다고 생각했다.\n\n다만 다시 계산기를 열기 전, 화면이 꺼진 시간만큼은 누구의 목표에도 속하지 않았다."
       }
     ]
@@ -163,6 +167,8 @@
           "arc_daeun_year4_together_seen",
           "daeun_gangnam_first"
         ],
+        "deferred_follow_up": "callback_daeun_gangnam_first_echo",
+        "deferred_delay": 8,
         "cast_effects": {
           "daeun": {
             "affinity": 8,

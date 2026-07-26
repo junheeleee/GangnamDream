@@ -153,6 +153,8 @@
           "cafe_stole_gambled",
           "crossed_line_early"
         ],
+        "deferred_follow_up": "callback_cafe_stole_gambled_result",
+        "deferred_delay": 10,
         "opportunity": {
           "stake_ratio": 0.85,
           "success_rate": 0.24,

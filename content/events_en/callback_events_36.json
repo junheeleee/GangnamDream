@@ -16,31 +16,31 @@
   },
   {
     "id": "callback_medication_visited_echo",
-    "title": "The Kid Who Came In",
-    "description": "Dad's first appointment after the fall.\n\nThe doctor looked up at {name}.\n'Oh — you've been in before, right? About the blood pressure medication.'\n\nDad glanced over.",
+    "title": "A Train Ticket and a Medicine Bag",
+    "description": "While sorting photos on your phone, you found a train ticket to Changwon from three months ago.\nThe next photo showed a medicine bag on the table and an apple your father had peeled.\n\nThe man who told you not to come had been waiting by the door to take your bag.",
     "choices": [
       {
-        "text": "\"Yes. I was worried.\"",
-        "result_text": "Dad didn't say anything.\nJust turned toward the window.\n\nOn the way home, he spoke.\n'...I remembered. That you came in about the medication.'"
+        "text": "Save the photos and date in the family album",
+        "result_text": "Under the ticket, you wrote: 'The weekend he started medication.'\nThat day, your father had put another piece of fish in your bowl instead of saying thank you. Even what went unsaid now had a date."
       },
       {
-        "text": "\"Just happened to be passing by.\"",
-        "result_text": "Dad nodded. Didn't push.\n\nBut no one wanders into their father's specific hospital by accident.\nHe probably knew that too."
+        "text": "Close the photos but keep the ticket",
+        "result_text": "You closed the photos without deleting the ticket.\nOne small date remained as proof that you had actually gone down that weekend."
       }
     ]
   },
   {
     "id": "callback_medication_ignored_echo",
-    "title": "The Signal That Was Missed",
-    "description": "The first call after Dad's collapse.\n\nHis voice was still calm.\n\n'Minjun-ah. You got your mother's message, didn't you — about starting the medication.'\n\n{name} paused before answering.",
+    "title": "The Time You Did Not Go",
+    "description": "You searched your messages for 'medication' and found your mother's text from three months ago.\n'Your father started blood pressure medicine.'\nBelow it sat your reply — 'Okay' — and the empty space where no call had followed.",
     "choices": [
       {
-        "text": "\"I should have called then. I'm sorry.\"",
-        "result_text": "'It's fine,' Dad said.\n'I knew you were busy.'\n\nWhether that 'it's fine' was real — {name} thought about it for a long time."
+        "text": "Apologize to your mother for brushing it aside",
+        "result_text": "'I treated it too lightly then. I'm sorry.'\nAfter a long pause, your mother replied, 'I know.'\nIt was a short message, but this time you did not close the conversation first."
       },
       {
-        "text": "\"I didn't know it was serious. I thought it was minor.\"",
-        "result_text": "'Right.'\nDad ended it with that one word.\n\n{name} stared at the phone after hanging up.\nThere was something that should have been noticed then."
+        "text": "Close the search results",
+        "result_text": "You closed the search results.\nOther messages rose to the top of the list, but those two words — 'Okay' — remained in the search history."
       }
     ]
   },

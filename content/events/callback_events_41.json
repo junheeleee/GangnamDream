@@ -83,8 +83,8 @@
   },
   {
     "id": "callback_hyunsu_departure_meal_echo",
-    "title": "형은 언제 나가요",
-    "background": "goshiwon_room",
+    "title": "남아 있는 질문",
+    "background": "current_housing",
     "portrait": "player_tired",
     "category": "story",
     "rarity": "uncommon",
@@ -96,7 +96,7 @@
     },
     "tags": ["callback", "hyunsu", "story"],
     "cooldown": 999,
-    "description": "오늘도 고시원이다.\n\n현수가 나갔을 때 했던 말이 가끔 생각난다.\n\"형은 언제 여기 나가요?\"\n\"...글쎄.\"\n\n그 대답이 아직도 '글쎄'인 날들이 있다.",
+  "description": "휴대폰 사진을 넘기다 현수와 마지막으로 밥을 먹던 날의 영수증이 나왔다.\n\n\"형은 언제 여기 나가요?\"\n\"...글쎄.\"\n\n사는 곳은 달라질 수 있어도 그 대답이 아직 '글쎄'인 날들이 있었다.",
     "choices": [
       {
         "text": "나가는 날이 올 거라고 믿는다",
@@ -105,7 +105,7 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "현수는 나갔다. 5년이 걸렸다.\n{name}은 아직 여기 있다.\n\n근데 언젠가 나가는 날이 있을 거다.\n그날 이 방에서의 시간이 어떻게 보일지는 — 그때 가서 보면 된다."
+      "result_text": "현수는 자기 시험이 끝난 날 문밖으로 나갔다.\n{name}은 현재 주소 아래에 다음에 옮길 곳의 조건을 세 가지 적었다.\n\n언제일지는 몰라도, 질문을 계획으로 바꾸는 데는 지금 한 줄이면 됐다."
       },
       {
         "text": "그 질문이 오늘은 무겁다",
@@ -114,7 +114,7 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "글쎄. 아직도 글쎄.\n\n현수한테 그 말을 했을 때 웃어넘겼는데, 오늘은 무겁다.\n\n그래도 여기 있다는 게 — 아직 포기 안 했다는 거다."
+      "result_text": "글쎄. 아직도 글쎄.\n\n{name}은 영수증 사진을 닫았다. 현재 주소가 어디든 다음을 말하지 못한다는 사실은 그대로였다.\n그날 밤 부동산 앱을 열었다가 조건을 하나도 넣지 못하고 닫았다."
       }
     ]
   },
