@@ -47,7 +47,7 @@
 
 | 순서 | 상태 | 항목 | 전체 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [ ] | ORDER-54 · 씨앗-수확 12체인 부활 | [ORDER-54](queue_active/ORDER-54.md) | 마지막 휴면 코퍼스. 결함 수리 → 씨앗 5건 산문 확장·허용목록 → 수확은 ORDER-53 예약 배선 |
+| 1 | [~] | ORDER-54 · 씨앗-수확 12체인 부활 | [ORDER-54](queue_active/ORDER-54.md) | 착수: 취업·조건·산문 결함 수리 → 씨앗 5건 허용목록 → 수확 12건 예약·실주행 |
 | 2 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 전 사건·배경·대표 240주 자동 확산과 clean RC `d73afa6` PASS, 장별 사람 연속 청취 OPEN |
 | 3 | [~] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 1,565사건·960주 정적/KO·EN 240주 실주행·논리 4K와 clean RC PASS, 정상 속도·실기기·A/V 사람 판정 OPEN |
 | 4 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 번역 인프라·일본어 UI/프롤로그/직업명 자동 검사 PASS, 데모 GO 뒤 본문 번역·15장 캡처·원어민 검수 OPEN |

@@ -5,7 +5,9 @@
 > → `ORDER-53`(예약 배열 확장). 이 오더는 그 계보의 **마지막 남은 휴면 코퍼스**를 닫는다.
 > **Claude 코드 검증 완료(2026-07-26)** — 아래 수치·계약은 저장소에서 재현한 사실이다.
 
-#### [ ] ORDER-54 [P1·체인 부활] 씨앗-수확 12체인을 되살린다
+#### [~] 착수 — 만지는 파일: `content/events/{chain_events,rare_encounter_events}.json`, `content/events_en/{chain_events,rare_encounter_events}.json`, `content/meta/event_director.json`, `tools/{audit,event_director_audit,arc_flow_sim}.py`, `tools/{EventDirectorCheck,ScreenshotQA}.gd`, `docs/{BALANCE,CODEX_QUEUE,WORK_LOG}.md`, `docs/queue_active/ORDER-54.md`, `CLAUDE.md`
+
+ORDER-54 [P1·체인 부활] 씨앗-수확 12체인을 되살린다
 
 ## 배경과 결정
 
