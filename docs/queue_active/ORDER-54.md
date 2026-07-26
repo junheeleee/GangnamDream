@@ -5,7 +5,7 @@
 > → `ORDER-53`(예약 배열 확장). 이 오더는 그 계보의 **마지막 남은 휴면 코퍼스**를 닫는다.
 > **Claude 코드 검증 완료(2026-07-26)** — 아래 수치·계약은 저장소에서 재현한 사실이다.
 
-#### [~] 착수 — 만지는 파일: `autoloads/EventManager.gd`, `scenes/MainGame.gd`, `content/events/{butterfly_events,chain_events,rare_encounter_events}.json`, `content/events_en/{butterfly_events,chain_events,rare_encounter_events}.json`, `content/meta/event_director.json`, `tools/{audit,event_director_audit,arc_flow_sim}.py`, `tools/{EventDirectorCheck,ScreenshotQA}.gd`, `docs/{BALANCE,CODEX_QUEUE,WORK_LOG}.md`, `docs/queue_active/ORDER-54.md`, `CLAUDE.md`
+#### [~] 착수 — 만지는 파일: `autoloads/EventManager.gd`, `scenes/MainGame.gd`, `content/events/{butterfly_events,chain_events,life_events,rare_encounter_events}.json`, `content/events_en/{butterfly_events,chain_events,life_events,rare_encounter_events}.json`, `content/meta/event_director.json`, `tools/{audit,event_director_audit,arc_flow_sim}.py`, `tools/{EventDirectorCheck,ScreenshotQA}.gd`, `docs/{BALANCE,CODEX_QUEUE,WORK_LOG}.md`, `docs/queue_active/ORDER-54.md`, `CLAUDE.md`
 
 ORDER-54 [P1·체인 부활] 씨앗-수확 12체인을 되살린다
 
@@ -77,6 +77,11 @@ ORDER-51이 확인한 마지막 휴면 덩어리다. 감사가 지금도 정직�
 `chain_banchan_reunion`은 정반대로 갈린 두 선택이 2비트 뒤 **동일 플래그로 수렴**해 갈림이
 무효가 된다. → 최소한 거절 분기에도 상태를 남겨 이후 콜백·dik가 읽을 수 있게 한다
 (`chain_envelope_guilt`가 이미 `envelope_kept_final`로 이 일을 정확히 하고 있으니 그 패턴을 따른다).
+
+착수 중 구조 부채 래칫이 새 거절 플래그 11건을 실제 독자가 없는 쓰기 전용 상태로 정확히
+차단했다. 기준선을 올리지 않고, 5년 끝의 `final_last_winter`에 한·영
+`description_memory_if_known`를 배선한다. 별도 단문 콜백을 늘리지 않으면서도 지나친 사람,
+보관한 명함, 놓친 공고 같은 작은 선택이 마지막 겨울에 실제 사물로 한 번 되비치게 한다.
 
 ### A-6. ⚠ 리뷰어 주장 중 **기각**한 것 (Claude 정정)
 1차 리뷰는 `chain_neighbor_civil_servant`의 `money +1,200,000`을 "이삿짐 박스 세 번에 120만원 —
