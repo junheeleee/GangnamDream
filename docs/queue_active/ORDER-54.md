@@ -5,7 +5,7 @@
 > → `ORDER-53`(예약 배열 확장). 이 오더는 그 계보의 **마지막 남은 휴면 코퍼스**를 닫는다.
 > **Claude 코드 검증 완료(2026-07-26)** — 아래 수치·계약은 저장소에서 재현한 사실이다.
 
-#### [~] 착수 — 만지는 파일: `autoloads/EventManager.gd`, `scenes/MainGame.gd`, `content/events/{butterfly_events,chain_events,life_events,rare_encounter_events}.json`, `content/events_en/{butterfly_events,chain_events,life_events,rare_encounter_events}.json`, `content/meta/event_director.json`, `tools/{audit,event_director_audit,arc_flow_sim}.py`, `tools/{EventDirectorCheck,ScreenshotQA}.gd`, `docs/{BALANCE,CODEX_QUEUE,WORK_LOG}.md`, `docs/queue_active/ORDER-54.md`, `CLAUDE.md`
+#### [~] 착수 — 만지는 파일: `autoloads/{DataRegistry,EventManager,GameState}.gd`, `scenes/MainGame.gd`, `content/events/{butterfly_events,chain_events,life_events,rare_encounter_events}.json`, `content/events_en/{butterfly_events,chain_events,life_events,rare_encounter_events}.json`, `content/meta/event_director.json`, `tools/{audit,event_director_audit,arc_flow_sim}.py`, `tools/{EventDirectorCheck,ScreenshotQA}.gd`, `docs/{BALANCE,CODEX_QUEUE,WORK_LOG}.md`, `docs/queue_active/ORDER-54.md`, `CLAUDE.md`
 
 ORDER-54 [P1·체인 부활] 씨앗-수확 12체인을 되살린다
 
@@ -48,11 +48,17 @@ ORDER-51이 확인한 마지막 휴면 덩어리다. 감사가 지금도 정직�
   `money 500000` 1회뿐이고 `grant_job`이 없다. 실제 상태는 **무직·월수입 0**으로 남는다.
   `content/jobs.json`에 280만원 자리도 없다(`job_04` 271만 / `job_05` 317만).
   → 기존 job id 중 현장 관리직 성격에 맞는 행에 `grant_job`을 연결하고 결과문 금액을 그 행의
-  급여와 맞춘다. **동시에 `conditions`에 `"no_job": true`를 추가**한다 — 형제 두 건
-  (`chain_banchan_son`·`chain_exec_interview`)은 이미 이 게이트를 갖는데 이 이벤트만 없어
-  대기업 재직 중인 민준에게도 현장직 제안이 열린다.
+  급여와 맞춘다.
 - **`chain_exec_interview`#0** — 계열사 면접 합격 서사인데 `grant_job`이 없다. 같은 방식으로
   기존 job id를 연결한다. (`no_job` 게이트는 이미 있음 — 유지.)
+
+착수 중 교차조건을 실제 연결해 보니 최초의 `no_job` 처방은 기각해야 했다.
+`chain_envelope_owner_return`은 편의점 야간 알바(`job_01`)만 발화하는데, 그 선택이 예약하는
+`chain_interior_offer`를 무직 전용으로 만들면 플레이어가 사이 10주 안에 임의 퇴사하지 않는
+한 체인이 스스로 끊긴다. 최종 제안은 **`job_01`에서 `job_03`으로의 이직**이어야 한다.
+따라서 `conditions.job_id=job_01`로 기업 재직자의 모순만 막고, 선택의 `grant_job`에 명시적
+`replace_current_job=true`를 붙여 기존 유효 급여를 빼고 새 직업·급여를 한 원자적 상태로
+교체한다. 일반 `grant_job`의 기존 "무직일 때만" 계약은 그대로 둔다.
 
 ### A-2. 선택 전에 결과를 확정 고지한다 (medium)
 `chain_neighbor_civil_servant`#1의 선택지 텍스트가 "나중에 하려다 마감을 놓친다" 식으로
@@ -146,8 +152,8 @@ ORDER-51이 확인한 마지막 휴면 덩어리다. 감사가 지금도 정직�
 
 `MainGame._next_arc_id()`는 `GameState.pop_ready_deferred_events()`로 예약을 제거한 뒤
 `EventManager.trigger_event_by_id()`를 호출한다. 이 함수는 대상의 `conditions`를 검사하지
-않고 바로 큐에 넣으므로, 이 문서가 요구한 `chain_interior_offer.conditions.no_job`을
-추가해도 이미 취업한 민준에게 입사 제안이 강제 발화한다.
+않고 바로 큐에 넣으므로, `chain_interior_offer.conditions.job_id`를
+추가해도 다른 직업인 민준에게 입사 제안이 강제 발화한다.
 
 → 예약 이벤트 전용 조건 검사 진입점을 추가하고, 조건 불충족 예약은 큐에 넣지 않은 채
 그 주의 정상 편성을 계속한다. 같은 주에 만기가 겹친 다른 예약은 이어서 검사한다.
