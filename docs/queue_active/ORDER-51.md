@@ -3,7 +3,7 @@
 > Canonical status is indexed in `docs/CODEX_QUEUE.md`. 근거: 각본 리뷰 3차(지연 회수 엔진 2축 정독).
 > **Claude 직접 코드 검증 완료(2026-07-26)** — 아래 수치는 리뷰어 주장이 아니라 저장소에서 재현한 사실이다.
 
-#### [~] 착수 — 만지는 파일: `content/events/callback_events_14.json`, `content/events/callback_events_34.json`, `content/events_en/callback_events_14.json`, `content/events_en/callback_events_34.json`, `tools/event_director_audit.py`, `docs/BALANCE.md`, `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-51.md`, `CLAUDE.md`, `docs/WORK_LOG.md`
+#### [~] 착수 — 만지는 파일: `content/events/callback_events_14.json`, `content/events/callback_events_34.json`, `content/events_en/callback_events_14.json`, `content/events_en/callback_events_34.json`, `tools/event_director_audit.py`, `tools/ScreenshotQA.gd`, `docs/BALANCE.md`, `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-51.md`, `CLAUDE.md`, `docs/WORK_LOG.md`
 
 ORDER-51 [P1 + ⚠설계 판단] 지연 회수 엔진 — 도달 불가 코퍼스와 도달분 3건 수리
 
