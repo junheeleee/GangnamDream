@@ -4,7 +4,7 @@
 > **유저 결정 = (나) 선별 부활**(2026-07-26). 근거 원장: 각본 리뷰 3차 + 부활 선별 정독.
 > **Claude 코드 검증 완료** — 아래 엔진 제약·슬롯 점유는 저장소에서 재현한 사실이다.
 
-#### [~] 착수 — T1만. 만지는 파일: `content/events/{amb_scenarios,arc_daeun,arc_daeun_extension,arc_drama,arc_events,arc_hyunsu,arc_midgame,arc_romance_y5,arc_year3_drama,scenario_cafe_callback}.json`, `content/events/callback_events_{2,5,6,7,8,13,36,37,39,41,42,43,44,55}.json`, 같은 이름의 `content/events_en/` 오버레이, `tools/event_director_audit.py`, `tools/arc_flow_sim.py`, `tools/EventDirectorCheck.gd`, `tools/ScreenshotQA.gd`, `tools/DelayedPayoffCheck.gd`, `tools/DelayedPayoffCheck.tscn`, `docs/BALANCE.md`, `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-52.md`, `CLAUDE.md`, `docs/WORK_LOG.md`
+#### [~] 착수 — T1만. 만지는 파일: `content/events/{amb_scenarios,arc_daeun,arc_daeun_extension,arc_drama,arc_events,arc_hyunsu,arc_midgame,arc_romance_y5,arc_year3_drama,scenario_cafe_callback}.json`, `content/events/callback_events_{2,5,6,7,8,13,36,37,39,41,42,43,44,55}.json`, 같은 이름의 `content/events_en/` 오버레이, `content/meta/story_rules.json`, `assets/event_visual_contracts.json`, `tools/event_director_audit.py`, `tools/arc_flow_sim.py`, `tools/EventDirectorCheck.gd`, `tools/ScreenshotQA.gd`, `tools/DelayedPayoffCheck.gd`, `tools/DelayedPayoffCheck.tscn`, `tools/narrative_continuity_audit.py`, `tools/full_run_pacing_audit.py`, `docs/BALANCE.md`, `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-52.md`, `CLAUDE.md`, `docs/WORK_LOG.md`
 
 ORDER-52 [P1·지연 회수 부활] 도달 불가 콜백 32건을 예약형으로 되살린다
 
