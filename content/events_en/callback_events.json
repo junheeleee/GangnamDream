@@ -2,7 +2,7 @@
   {
     "id": "callback_guarantee_default",
     "title": "Registered Mail",
-    "description": "Registered mail in the goshiwon mailbox.\n\n○○ Bank. Addressee: {name}.\n\n'Due to delinquency on the loan of primary debtor Kim ○○,\npayment is hereby demanded from you as joint guarantor.\nAmount claimed: 32 million won.'\n\nIt was one stamp. At a drinking table. Between friends.\n\nThis is what Father spent his whole life repaying. Now it was {name}'s turn.",
+    "description": "Registered mail was waiting in the mailbox.\n\n○○ Bank. Addressee: {name}.\n\n'Due to delinquency on the loan of primary debtor Kim ○○,\npayment is hereby demanded from you as joint guarantor.\nAmount claimed: 32 million won.'\n\nIt was one stamp. At a drinking table. Between friends.\n\nThis is what Father spent his whole life repaying. Now it was {name}'s turn.",
     "choices": [
       {
         "text": "Find the friend. First check if he ran",

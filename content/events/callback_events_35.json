@@ -150,7 +150,7 @@
   {
     "id": "callback_mindset_investor_echo",
     "title": "첫 수익과 첫 손실",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "player_normal",
     "category": "investment",
     "rarity": "uncommon",

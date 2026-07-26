@@ -47,19 +47,24 @@
 
 | 순서 | 상태 | 항목 | 전체 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-56 · 도달 442사건 상태 정합 전수 계약 | [ORDER-56](queue_active/ORDER-56.md) | 착수 — 306개 진입점과 후속 폐쇄 442사건의 직업·주거·관계·생사·장소 전수 분류 중 |
-| 2 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 전 사건·배경·대표 240주 자동 확산과 clean RC `d73afa6` PASS, 장별 사람 연속 청취 OPEN |
-| 3 | [~] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 1,565사건·960주 정적/KO·EN 240주 실주행·논리 4K와 clean RC PASS, 정상 속도·실기기·A/V 사람 판정 OPEN |
-| 4 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 번역 인프라·일본어 UI/프롤로그/직업명 자동 검사 PASS, 데모 GO 뒤 본문 번역·15장 캡처·원어민 검수 OPEN |
-| 5 | [~] | ORDER-23 · 동기 각인 수술 | [ORDER-23](queue_active/ORDER-23.md) | 자동 구조·KO/EN 런타임 PASS, 플레이어의 동기 문장 기억 여부 사람 판정 OPEN |
-| 6 | [~] | ORDER-22 · 주간 루프 몰입 수리 | [ORDER-22](queue_active/ORDER-22.md) | 자동 주간 루프·입력·오디오·KO/EN PASS, 정상 속도 몰입·재미 사람 판정 OPEN |
-| 7 | [~] | ORDER-28 · 240주 전체 재구성 | [ORDER-28](queue_active/ORDER-28.md) | 구조·240주·엔딩·3플랫폼 clean RC 자동 게이트 PASS, 외부 정상 독해 10인 플레이 0/10 OPEN |
-| 8 | [~] | ORDER-26 · AP 의미화 | [ORDER-26](queue_active/ORDER-26.md) | AP 인과·포기·후속·KO/EN·패드·240주 자동 게이트 PASS, 망설임·전략 재미 사람 판정 OPEN |
+| 1 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 전 사건·배경·대표 240주 자동 확산과 clean RC `d73afa6` PASS, 장별 사람 연속 청취 OPEN |
+| 2 | [~] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 1,565사건·960주 정적/KO·EN 240주 실주행·논리 4K와 clean RC PASS, 정상 속도·실기기·A/V 사람 판정 OPEN |
+| 3 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 번역 인프라·일본어 UI/프롤로그/직업명 자동 검사 PASS, 데모 GO 뒤 본문 번역·15장 캡처·원어민 검수 OPEN |
+| 4 | [~] | ORDER-23 · 동기 각인 수술 | [ORDER-23](queue_active/ORDER-23.md) | 자동 구조·KO/EN 런타임 PASS, 플레이어의 동기 문장 기억 여부 사람 판정 OPEN |
+| 5 | [~] | ORDER-22 · 주간 루프 몰입 수리 | [ORDER-22](queue_active/ORDER-22.md) | 자동 주간 루프·입력·오디오·KO/EN PASS, 정상 속도 몰입·재미 사람 판정 OPEN |
+| 6 | [~] | ORDER-28 · 240주 전체 재구성 | [ORDER-28](queue_active/ORDER-28.md) | 구조·240주·엔딩·3플랫폼 clean RC 자동 게이트 PASS, 외부 정상 독해 10인 플레이 0/10 OPEN |
+| 7 | [~] | ORDER-26 · AP 의미화 | [ORDER-26](queue_active/ORDER-26.md) | AP 인과·포기·후속·KO/EN·패드·240주 자동 게이트 PASS, 망설임·전략 재미 사람 판정 OPEN |
 
 ### 완료 이력
 
 - **2026-07 전체 원문 스냅샷:** [CODEX_QUEUE_2026-07.md](queue_archive/CODEX_QUEUE_2026-07.md)
 - 상세 작업 결과는 [WORK_LOG.md](WORK_LOG.md), 사용자 노트와 라운드 판정은 [DEMO_FIXLOG.md](DEMO_FIXLOG.md), 설계 결정은 [DECISIONS.md](DECISIONS.md)가 정본이다.
+- `[x] ORDER-56` (2026-07-27): 런타임 진입점 306개와 후속 폐쇄로
+  실제 노출 사건 442개를 고정하고 상태 민감 433개·검토 중립 9개로
+  전수 분류했다. 직업·주거·관계·아버지 생사·장소 계약과 고위험
+  26장면의 산문·시각·오디오 정합을 감사로 잠그고 발견 모순을 한영
+  동시 수리했다.
+  [완료 사양](queue_archive/ORDER-56.md)
 - `[x] ORDER-55` (2026-07-26): 실제 노출 사건의 동적 주거·현재 직업
   계약을 사건·산문·시각·오디오·전환 원장까지 정렬했다. 이사 뒤
   고시원 회귀와 무직 상태의 회사 전용 사건을 차단하고, 동적 장소 58건과

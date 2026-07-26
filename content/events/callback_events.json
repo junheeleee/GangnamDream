@@ -2,11 +2,11 @@
   {
     "id": "callback_guarantee_default",
     "title": "등기우편",
-    "description": "고시원 우편함에 등기우편이 와 있었다.\n\n○○은행. 수신인 {name}.\n\n'주채무자 김○○의 대출금 연체에 따라\n연대보증인인 귀하에게 채무 이행을 청구합니다.\n청구 금액: 32,000,000원.'\n\n도장 하나였다. 술자리에서, 우리 사이에, 찍었던.\n\n아버지가 평생 갚은 게 이거였다. 이제 {name} 차례였다.",
+    "description": "우편함에 등기우편이 와 있었다.\n\n○○은행. 수신인 {name}.\n\n'주채무자 김○○의 대출금 연체에 따라\n연대보증인인 귀하에게 채무 이행을 청구합니다.\n청구 금액: 32,000,000원.'\n\n도장 하나였다. 술자리에서, 우리 사이에, 찍었던.\n\n아버지가 평생 갚은 게 이거였다. 이제 {name} 차례였다.",
     "category": "finance",
     "rarity": "rare",
     "weight": 1.2,
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "conditions": {
       "flag": "guarantee_signed",
       "min_turn": 8
@@ -56,7 +56,7 @@
     "category": "social",
     "rarity": "rare",
     "weight": 1.0,
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "conditions": {
       "flag": "guarantee_refused",
       "min_turn": 8
@@ -100,7 +100,7 @@
     "category": "finance",
     "rarity": "rare",
     "weight": 1.2,
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "conditions": {
       "flag": "jeonse_insured",
       "min_turn": 6

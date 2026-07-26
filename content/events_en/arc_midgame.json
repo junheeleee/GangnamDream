@@ -100,7 +100,7 @@
   {
     "id": "arc_first_real_win",
     "title": "Fifty Million",
-    "description": "{name} turned the calculator off, then on again. The figure remained: 50,000,000 won. Its eight digits looked too bright in the small room.\n\nThree billion won was still far away; every calculation made the remaining distance more exact. Yet he had begun with 500,000 won, a balance that once made rent frightening. It had grown a hundredfold, carrying luck, endurance, and several choices he could never make the same way again.\n\nHe covered the number with one finger, then revealed it. For the first time, possibility looked less like a feeling than evidence. The refrigerator sounded exactly as it had yesterday.",
+    "description": "{name} turned the calculator off, then on again. The figure remained: 50,000,000 won. Its eight digits looked too bright in the room.\n\nThree billion won was still far away; every calculation made the remaining distance more exact. Yet he had begun with 500,000 won, a balance that once made rent frightening. It had grown a hundredfold, carrying luck, endurance, and several choices he could never make the same way again.\n\nHe covered the number with one finger, then revealed it. For the first time, possibility looked less like a feeling than evidence. The refrigerator sounded exactly as it had yesterday.",
     "choices": [
       {
         "text": "Tell no one. Walk to the convenience store and buy something expensive.",
@@ -756,7 +756,7 @@
   {
     "id": "arc_year_two_pressure",
     "title": "Autumn of Year Two",
-    "description": "A wedding invitation from Mingi, a high school classmate.\n\nApartment photos being posted to the group chat too. 'Finally got my own place!' Went to hit like — then stopped. He's still paying rent. Tried not to compare, but autumn always seems to pull it out of you.",
+    "description": "A wedding invitation from Mingi, a high school classmate.\n\nApartment photos appeared in the group chat too. 'Finally got my own place!' {name} went to hit like, then stopped. He still opened the calculator first whenever he saw a home price. He tried not to compare, but autumn always seemed to pull it out of him.",
     "choices": [
       {
         "text": "Genuinely congratulate him. I'm on my own path.",
@@ -799,7 +799,7 @@
   {
     "id": "arc_final_year_start",
     "title": "The Morning After",
-    "description": "The morning after the reckoning, the calculator and notebook remained open on the desk.\n\nThe figures were unchanged. What {name} had been pretending not to know was not.\n\nBefore getting ready for work, he opened a blank page. Instead of writing what else he could gain, he began with what he was still willing to put at stake.",
+    "description": "The morning after the reckoning, the calculator and notebook remained open on the desk.\n\nThe figures were unchanged. What {name} had been pretending not to know was not.\n\nBefore starting the day, he opened a blank page. Instead of writing what else he could gain, he began with what he was still willing to put at stake.",
     "description_if_known": {
       "final_year_resolve": "The morning after the reckoning, the notebook cover still seemed solid against {name}'s palm.\n\nThe night before, he had decided not to erase a single page between 500,000 won and today's figure. He had also written that an outcome could not change who owned the path.\n\nIn the morning light, he opened a blank page. The question was no longer what success should look like, but how much of the ending he could still bear as his own.",
       "final_year_realistic": "The morning after the reckoning, the plan remained open with a new save time.\n\nLowering the expected return and entering real expenses had reduced the chance of arrival. It had also shown, for the first time, exactly where the plan might break. The numbers offered no comfort, which made them useful.\n\n{name} opened a blank page. Now the person willing to see without exaggeration had to decide how much to risk.",
@@ -823,7 +823,7 @@
   {
     "id": "arc_endgame_sixmonths",
     "title": "Six Months",
-    "description": "Twenty-four weeks remained. Looking over Gangnam at night, {name} moved between the total assets on his phone and the price of an apartment listing. He knew the exact shortfall now. It looked smaller than it had when unknown, and far more cruel.\n\nFor five years, every choice had led into another month. Now there were few months left to recover from one loss, few seasons in which to call the people he had postponed. How he spent the end would remain as clearly as the result.\n\nWhen the screen went dark, his face overlapped the city lights in the glass. Numbers might decide the ending. They did not have to decide the shape of the final twenty-four weeks.",
+    "description": "Twenty-four weeks remained. {name} moved between a nighttime photo of Gangnam, the total assets on his phone, and the price of an apartment listing. He knew the exact shortfall now. It looked smaller than it had when unknown, and far more cruel.\n\nFor five years, every choice had led into another month. Now there were few months left to recover from one loss, few seasons in which to call the people he had postponed. How he spent the end would remain as clearly as the result.\n\nWhen the screen went dark, his face overlapped the light in the room. Numbers might decide the ending. They did not have to decide the shape of the final twenty-four weeks.",
     "choices": [
       {
         "text": "His hand shook. He clicked anyway.",
@@ -839,9 +839,9 @@
       }
     ],
     "description_if_known": {
-      "final_year_all_in": "Twenty-four weeks remained. Looking over Gangnam at night, {name} moved between his total assets and apartment prices. He knew the exact shortfall now.\n\nA year ago, he had admitted his fear and still placed nearly everything on the table. The result lived in every rise and hollow of today's balance. Anyone who has gone all in knows that pulling back and pushing farther can make the hand shake in exactly the same way.\n\nHe darkened the screen and saw his face in the glass. The last twenty-four weeks were no longer a test of courage, but a choice about which tremor to follow.",
-      "final_year_conservative": "Twenty-four weeks remained. Looking over Gangnam at night, {name} moved between his total assets and apartment prices. He knew the exact shortfall now.\n\nA year ago, he decided that wanting less could also be strategy. What failed to rise had also failed to fall, and what he had preserved was why he still stood here. Yet with the end in sight, he could no longer tell whether his rule was prudence or fear.\n\nHe darkened the screen and saw his face in the glass. The last twenty-four weeks could be a final act of trust in the plan, or the moment to revise it once.",
-      "final_year_waiting": "Twenty-four weeks remained. Looking over Gangnam at night, {name} moved between his total assets and apartment prices. He knew the exact shortfall now.\n\nA year ago, he had said, \"Not yet.\" A year was long, and there was time to postpone an answer. Now the calendar held no square he could still call \"not yet.\" Every deferred decision had crowded into these twenty-four weeks.\n\nHe darkened the screen and saw his face in the glass. At the very end, it became clear that waiting had been a choice too."
+      "final_year_all_in": "Twenty-four weeks remained. With a nighttime photo of Gangnam open on his phone, {name} moved between his total assets and apartment prices. He knew the exact shortfall now.\n\nA year ago, he had admitted his fear and still placed nearly everything on the table. The result lived in every rise and hollow of today's balance. Anyone who has gone all in knows that pulling back and pushing farther can make the hand shake in exactly the same way.\n\nHe darkened the screen and saw his face in the glass. The last twenty-four weeks were no longer a test of courage, but a choice about which tremor to follow.",
+      "final_year_conservative": "Twenty-four weeks remained. With a nighttime photo of Gangnam open on his phone, {name} moved between his total assets and apartment prices. He knew the exact shortfall now.\n\nA year ago, he decided that wanting less could also be strategy. What failed to rise had also failed to fall, and what he had preserved was why he still stood here. Yet with the end in sight, he could no longer tell whether his rule was prudence or fear.\n\nHe darkened the screen and saw his face in the glass. The last twenty-four weeks could be a final act of trust in the plan, or the moment to revise it once.",
+      "final_year_waiting": "Twenty-four weeks remained. With a nighttime photo of Gangnam open on his phone, {name} moved between his total assets and apartment prices. He knew the exact shortfall now.\n\nA year ago, he had said, \"Not yet.\" A year was long, and there was time to postpone an answer. Now the calendar held no square he could still call \"not yet.\" Every deferred decision had crowded into these twenty-four weeks.\n\nHe darkened the screen and saw his face in the glass. At the very end, it became clear that waiting had been a choice too."
     }
   },
   {

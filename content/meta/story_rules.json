@@ -61,7 +61,7 @@
     ]
   },
   "coverage_targets": {
-    "minimum_ledger_events": 135,
+    "minimum_ledger_events": 160,
     "max_unclassified_communication_suspects": 0,
     "demo_logic": [
       "arc_intro_02_dad_call",
@@ -210,7 +210,7 @@
     "arc_intro_04_hyunsu->arc_chapter1_close": {
       "mode": "explicit_move",
       "from_location": "goshiwon_hallway",
-      "to_location": "goshiwon_room",
+      "to_location": "current_housing",
       "arrival_cue_ko": "현수가 들어간 뒤",
       "arrival_cue_en": "After Hyunsu went back inside"
     },
@@ -485,6 +485,13 @@
       "to_location": "current_housing",
       "arrival_cue_ko": "마지막 상자를 열었다",
       "arrival_cue_en": "The last box came open"
+    },
+    "amb_hoesik_00->amb_hoesik_drink": {
+      "mode": "time_cut",
+      "from_location": "company_dinner_restaurant",
+      "to_location": "current_housing",
+      "arrival_cue_ko": "그리고 다음 날 아침",
+      "arrival_cue_en": "And then the next morning"
     },
     "arc_37_reckoning->arc_final_year_start": {
       "mode": "same_location",
@@ -1226,10 +1233,13 @@
       "presentation": {
         "channel": "phone",
         "state": "incoming",
-        "scene_location": "goshiwon_room",
+        "scene_location": "current_housing",
         "remote_location": "changwon_home",
         "remote_actor": "father",
-        "portrait_role": "local"
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_normal",
+        "expected_ambience": "current_housing"
       }
     },
     "arc_pre_ending_father_call": {
@@ -2129,6 +2139,281 @@
         "expected_background": "cafe",
         "expected_portrait": "player_shocked",
         "expected_ambience": "cafe"
+      }
+    },
+    "amb_hoesik_drink": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_shocked",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "anxiety_pension_crisis": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_normal",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "arc_chapter1_close": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_tired",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "arc_daeun_04_morning": {
+      "presentation": {
+        "channel": "message",
+        "state": "received",
+        "scene_location": "current_housing",
+        "remote_location": "off_scene",
+        "remote_actor": "daeun",
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_happy",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "arc_daeun_04b_future": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "current_housing",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present",
+        "expected_background": "current_housing",
+        "expected_portrait": "daeun_sad",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "arc_daeun_05_together": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "current_housing",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present",
+        "expected_background": "current_housing",
+        "expected_portrait": "daeun_smile",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "arc_daeun_our_home": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "current_housing",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present",
+        "expected_background": "current_housing",
+        "expected_portrait": "daeun_smile",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "arc_invest_guidance": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "realestate_office",
+        "participants": ["player", "sangchul"],
+        "portrait_role": "present",
+        "expected_background": "realestate_office",
+        "expected_portrait": "sangchul_normal",
+        "expected_ambience": "office"
+      }
+    },
+    "arc_job_first_rejection": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_sad",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "arc_pre_ending_winter": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_tired",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "arc_temptation_clean": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_normal",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "butterfly_mystery_info_result_scam": {
+      "presentation": {
+        "channel": "narration",
+        "scene_location": "current_housing",
+        "portrait_role": "none",
+        "expected_background": "current_housing",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "cafe_cb_stole_00": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_tired",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "callback_guarantee_default": {
+      "presentation": {
+        "channel": "narration",
+        "scene_location": "current_housing",
+        "portrait_role": "none",
+        "expected_background": "current_housing",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "callback_guarantee_refused_news": {
+      "presentation": {
+        "channel": "narration",
+        "scene_location": "current_housing",
+        "portrait_role": "none",
+        "expected_background": "current_housing",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "callback_investment_lesson_echo": {
+      "presentation": {
+        "channel": "memory",
+        "scene_location": "current_housing",
+        "remote_location": "realestate_office_at_lesson",
+        "remote_actor": "sangchul",
+        "portrait_role": "remote",
+        "expected_background": "current_housing",
+        "expected_portrait": "sangchul_normal",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "callback_jeonse_auction_insured": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "auction_office",
+        "remote_actor": "auction_officer",
+        "portrait_role": "none",
+        "expected_background": "current_housing",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "callback_kkondae_respect": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "current_workplace",
+        "participants": ["player", "supervisor"],
+        "participant_roles": {
+          "player": "employee",
+          "supervisor": "supervisor"
+        },
+        "portrait_role": "local",
+        "expected_background": "current_workplace",
+        "expected_portrait": "player_normal",
+        "expected_ambience": "current_workplace"
+      }
+    },
+    "callback_mindset_investor_echo": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_normal",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "callback_tax_windfall": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_normal",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "final_last_winter": {
+      "presentation": {
+        "channel": "narration",
+        "scene_location": "current_housing",
+        "portrait_role": "none",
+        "expected_background": "current_housing",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "flex_sns_envy": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_tired",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "ng_recovery_echo": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_determined",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "recovery_first_week": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_tired",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "yolo_morning_after": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_normal",
+        "expected_ambience": "current_housing"
       }
     },
     "rel_daeun_first_text": {

@@ -1,6 +1,6 @@
 # Story Consistency System
 
-Updated: 2026-07-26
+Updated: 2026-07-27
 
 ## Purpose
 
@@ -122,6 +122,27 @@ the game there. Likewise, an office scene that requires `current_workplace` must
 also carry an executable employment prerequisite. A remembered specialization or
 past company flag cannot make an office scene valid after Minjun quits.
 
+### Exposed-event state coverage
+
+`content/meta/exposed_event_state_contracts.json` owns the state review for
+events the current runtime can actually expose. `event_director_audit.py`
+calculates the same roots used by foreground, bridge, and arc scheduling, then
+closes over direct and deferred follow-ups. The contract stores SHA-256 hashes
+for both the root ID set and the exposed closure, so a different set with the
+same count cannot silently replace it.
+
+Every exposed event is exactly one of:
+
+- `state_sensitive`: declares the relevant `employment`, `housing`,
+  `relationship`, `father_life`, and `location` assumptions.
+- `reviewed_neutral`: carries a written reason why state-like prose does not
+  constrain the live save.
+
+Newly exposed events fail the audit until reviewed. High-risk scenes additionally
+require matching story, visual, and audio contracts. This is a reachability
+ratchet, not a claim that dormant events or human-only visual continuity are
+already correct.
+
 ### Scene transitions
 
 Demo-critical follow-up edges declare one of four modes:
@@ -147,13 +168,21 @@ CGs remain authoritative. A split-screen phone CG may hide the standing portrait
 
 ## Current Baseline
 
-The first pass intentionally covers high-risk material instead of pretending all 1,500 events are migrated:
+The current pass separates runtime exposure coverage from deep authored-ledger
+coverage instead of treating either percentage as proof of total correctness:
 
-- Ledger events: 135 / 1,565 (8.6%)
+- Runtime roots: 306
+- Exposed closure: 442 / 442 classified
+- Exposed state-sensitive events: 433
+- Exposed reviewed-neutral events: 9
+- State dimensions: employment 98, housing 163, relationship 214,
+  father life 111, location 408
+- Full story + visual + audio contracts required: 26 high-risk events
+- Ledger events: 160 / 1,565 (10.2%)
 - Typed logic contracts: 49
-- Remote/media presentation contracts: 49
-- Dynamic location contracts: 58
-- Authored transition contracts: 64 / 64
+- Remote/media presentation contracts: 52
+- Dynamic location contracts: 83
+- Authored transition contracts: 65 / 65
 - Unauthorized demo location jumps: 0
 - Unclassified non-player portraits with phone/message titles: 0
 - Demo father-contact logic targets: 4 / 4
@@ -181,7 +210,9 @@ and schedule language instead of inventing an office. Hold'em-to-negotiation and
 career-specialization results require a current job at the moment they are
 scheduled, including after a later resignation.
 
-These are ratchets. `minimum_ledger_events` cannot fall, and the unclassified communication count cannot rise above zero.
+These are ratchets. `minimum_ledger_events` cannot fall, the exposed ID hashes
+cannot drift without review, and the unclassified communication count cannot rise
+above zero.
 
 ## Authoring Workflow
 

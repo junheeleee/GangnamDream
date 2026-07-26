@@ -3801,7 +3801,9 @@ func _next_arc_id(
 		if _asset >= 2_500_000_000.0 and not f.get("arc_pre_ending_summit_seen", false):
 			return "arc_pre_ending_summit"
 		# 강남 못 감 — 다섯 번째 겨울
-		if _asset < 300_000_000.0 and not f.get("arc_pre_ending_winter_seen", false):
+		if _asset < 300_000_000.0 \
+				and not f.get("arc_pre_ending_winter_seen", false) \
+				and not f.get("final_last_winter_seen", false):
 			return "arc_pre_ending_winter"
 		# 아버지와 화해한 경우 — 마지막 통화 (중간 궤적 커버)
 		if f.get("father_reconciled", false) \

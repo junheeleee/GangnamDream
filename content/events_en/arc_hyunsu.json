@@ -32,7 +32,7 @@
   {
     "id": "hyunsu_result_pass",
     "title": "Hyunsu Passed",
-    "description": "Hyunsu knocked on his door. Two knocks, a long gap between them.\n\n\"Hyung, I passed.\"\n\nHe said it quietly. No shouting, no smile. His phone was still in his hand, the acceptance screen glowing, his fingertips pressed white against the glass.\n\nFour years. Every year he failed, he had turned one year older and opened the same workbook again — and all of that time was pressed into that one low voice.\n\n\"I wanted to tell you first, hyung.\"",
+    "description": "Hyunsu sent a message: \"Hyung, could you come by my room for a minute?\" {name} walked down the corridor of Hyunsu's goshiwon and stopped at his door. When it opened, Hyunsu spoke.\n\n\"Hyung, I passed.\"\n\nHe said it quietly. No shouting, no smile. His phone was still in his hand, the acceptance screen glowing, his fingertips pressed white against the glass.\n\nFour years. Every year he failed, he had turned one year older and opened the same workbook again — and all of that time was pressed into that one low voice.\n\n\"I wanted to tell you first, hyung.\"",
     "choices": [
       {
         "text": "Congratulate him",
@@ -58,7 +58,7 @@
   {
     "id": "hyunsu_pivot",
     "title": "Hyunsu's New Direction",
-    "description": "Hyunsu stopped mid-packing and called {name} over.\n\nHe was done with the civil service exam, he said. He'd prepare for a job instead. His major had been accounting; he'd start over on that road.\n\nInside the box, four years of exam books were stacked in neat rows. He wasn't throwing them out — he was packing them. \"If I sell them used, the next person can use them.\" One by one, Hyunsu laid the worn-cornered books in straight.\n\n\"It's not farther, and it's not closer. It's just a different road.\"\n\n{name} turned those words over for a long time. It was a sentence you could hold up against your own road, too.",
+    "description": "Hyunsu called and said, \"I'm packing. Could you come by for a minute?\" {name} went to Hyunsu's goshiwon. Hyunsu stopped packing long enough to open the door.\n\nHe was done with the civil service exam, he said. He'd prepare for a job instead. His major had been accounting; he'd start over on that road.\n\nInside the box, four years of exam books were stacked in neat rows. He wasn't throwing them out — he was packing them. \"If I sell them used, the next person can use them.\" One by one, Hyunsu laid the worn-cornered books in straight.\n\n\"It's not farther, and it's not closer. It's just a different road.\"\n\n{name} turned those words over for a long time. It was a sentence you could hold up against your own road, too.",
     "choices": [
       {
         "text": "Tell him it'll work out",
@@ -124,7 +124,7 @@
   {
     "id": "hyunsu_pass_news",
     "title": "Hyunsu's Posting",
-    "description": "Hyunsu was packing boxes.\n\n\"Hyung, I got my posting. I have to go next week.\"\n\nSome county office in Gyeonggi-do. Four years living in this room, and it came to two boxes. One box of exam books, one box of everything else. The calendar sat on top — the circle drawn around the exam date still sharp.\n\nWith his door propped open, Hyunsu tore off a strip of tape. The rasp of it carried down the hall.\n\nFour years in this room, packed into two boxes. Whatever didn't fit — that probably goes with him, written into the body.",
+    "description": "Hyunsu shared the posting news and asked {name} to visit the room one last time. {name} went to Hyunsu's goshiwon. When he opened the door, Hyunsu was packing boxes.\n\n\"Hyung, I got my posting. I have to go next week.\"\n\nSome county office in Gyeonggi-do. Four years living in this room, and it came to two boxes. One box of exam books, one box of everything else. The calendar sat on top — the circle drawn around the exam date still sharp.\n\nWith his door propped open, Hyunsu tore off a strip of tape. The rasp of it carried down the hall.\n\nFour years in this room, packed into two boxes. Whatever didn't fit — that probably goes with him, written into the body.",
     "choices": [
       {
         "text": "Buy him dinner",

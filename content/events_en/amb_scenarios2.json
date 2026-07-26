@@ -36,15 +36,15 @@
   {
     "id": "amb_holiday_00",
     "title": "The Holiday",
-    "description": "Lunar New Year is coming. Go home, or stay?\nAt the family gathering, questions will be waiting like a firing squad.\n\"Found a job yet? At your age. The neighbor's kid just bought a Gangnam apartment.\"\n\nDad said \"don't bother coming if you're busy.\"\nThat one sentence sat heavier than all the questions.",
+    "description": "Lunar New Year is coming. Go home, or stay?\nAt the family gathering, questions will be waiting like a firing squad.\n\"How's work these days? Any marriage plans? The neighbor's kid just bought a Gangnam apartment.\"\n\nDad said \"don't bother coming if you're busy.\"\nThat one sentence sat heavier than all the questions.",
     "choices": [
       {
         "text": "Go. Family is family.  (relationships / money + stress)",
-        "result_text": "The express bus terminal was packed with people heading home for the holiday. When I arrived, Father was standing at the front door."
+      "result_text": "The express bus terminal was packed with people heading home for the holiday. When {name} arrived, Dad was standing at the front door."
       },
       {
         "text": "Don't go. Too busy.  (avoidance / guilt + relationship)",
-        "result_text": "{name} made up an excuse. No comparisons to endure. No fare to spend.\nIn return — spent the whole holiday alone in a half-tatami goshiwon.\nDad sent a message: 'Make sure you eat.' For a long time, {name} couldn't reply."
+      "result_text": "{name} made up an excuse. No comparisons to endure. No fare to spend.\nIn return, he spent the whole holiday alone in the room he lived in now.\nDad sent a message: 'Make sure you eat.' For a long time, {name} couldn't reply."
       },
       {
         "text": "Visit just Dad separately.  (compromise / cost)",

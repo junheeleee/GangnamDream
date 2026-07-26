@@ -184,7 +184,7 @@ def infer_background_id(ev: Dict, housing: str = "gosiwon") -> str:
     if event_id in ("amb_coin_00", "amb_coin_warn"):
         return "investment_phone"
     if event_id == "amb_hoesik_drink":
-        return "goshiwon_room"
+        return "current_housing"
     if event_id == "amb_jobswitch_in":
         return "office"
     if event_id == "amb_quit_impulse":
@@ -444,7 +444,7 @@ EXPECTED_BY_EVENT_ID: Dict[str, Tuple[str, str]] = {
     "amb_jeonse_00": ("event_id: neighbor jeonse warning at home", "apartment"),
     "amb_coin_00": ("event_id: coin tip phone call", "investment_phone"),
     "amb_coin_warn": ("event_id: coin warning phone call", "investment_phone"),
-    "amb_hoesik_drink": ("event_id: next morning hangover", "goshiwon_room"),
+    "amb_hoesik_drink": ("event_id: next morning hangover", "current_housing"),
     "amb_jobswitch_in": ("event_id: new office after job switch", "office"),
     "amb_quit_impulse": ("event_id: subway quit impulse", "subway"),
     "arc_daeun_03b_date": ("event_id: Daeun pojangmacha date", "pojangmacha"),

@@ -132,7 +132,7 @@
       "min_turn": 8
     },
     "cooldown": 36,
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "player_normal",
     "description": "뉴스 헤드라인이 눈에 들어왔다.\n「국민연금 2055년 완전 고갈 전망... 지금 서른 세대는 한 푼도 못 받을 수도」\n\n2055년. 민준이 예순다섯 살이 되는 해다.\n\n그냥 지나치기엔 숫자가 너무 구체적이었다.",
     "choices": [

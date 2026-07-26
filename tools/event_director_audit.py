@@ -237,6 +237,32 @@ def scheduled_arc_ids(events: list[dict[str, Any]]) -> set[str]:
     }
 
 
+def exposed_event_reachability(
+    events: list[dict[str, Any]], manifest: dict[str, Any]
+) -> tuple[set[str], set[str]]:
+    """Return runtime roots and their explicit/deferred follow-up closure."""
+    by_id = {str(event["id"]): event for event in events}
+    content_diet = manifest.get("content_diet", {})
+    roots = {
+        str(event_id)
+        for key in ("foreground_event_ids", "bridge_event_ids")
+        for event_id in content_diet.get(key, [])
+        if str(event_id) in by_id
+    }
+    roots |= scheduled_arc_ids(events)
+
+    reachable = set(roots)
+    pending = list(roots)
+    while pending:
+        source_id = pending.pop()
+        for target_id in event_follow_up_targets(by_id[source_id]):
+            if target_id not in by_id or target_id in reachable:
+                continue
+            reachable.add(target_id)
+            pending.append(target_id)
+    return roots, reachable
+
+
 def delayed_event_reachability(
     events: list[dict[str, Any]], manifest: dict[str, Any]
 ) -> tuple[set[str], set[str], set[str], set[str]]:

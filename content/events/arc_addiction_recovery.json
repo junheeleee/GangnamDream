@@ -85,7 +85,7 @@
     "weight": 0,
     "hidden": true,
     "portrait": "player_tired",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "conditions": {
       "flag": "in_recovery_started",
       "no_flag": "recovery_week_passed"

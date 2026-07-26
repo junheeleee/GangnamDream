@@ -397,8 +397,8 @@ func _check_employment_consistency() -> void:
 		"Corporate paycheck did not resolve to the office.")
 	_expect(str(DataRegistry.find_event("story_first_savings_milestone").get("background", "")) == "current_housing",
 		"First savings milestone is no longer grounded in the player's live home.")
-	_expect(str(DataRegistry.find_event("arc_temptation_clean").get("background", "")) == "goshiwon_room",
-		"Clean temptation aftermath moved out of the room described by its prose.")
+	_expect(str(DataRegistry.find_event("arc_temptation_clean").get("background", "")) == "current_housing",
+		"Clean temptation aftermath stopped following the player's live home.")
 	var medication_event: Dictionary = DataRegistry.find_event("arc_father_medication")
 	_expect(str(medication_event.get("background", "")) == "subway",
 		"Father medication message still assumes an office.")
@@ -445,8 +445,8 @@ func _check_employment_consistency() -> void:
 		"background", "")) == "goshiwon_room",
 		"The fixed week-two goshiwon calculation lost its authored room.")
 	_expect(str(DataRegistry.find_event("arc_father_ng_call").get(
-		"background", "")) == "goshiwon_room",
-		"The early NG+ father call lost its authored goshiwon room.")
+		"background", "")) == "current_housing",
+		"The NG+ father call stopped following the player's live home.")
 	var job_invest: Dictionary = DataRegistry.find_event("arc_job_vs_invest")
 	for choice_value in job_invest.get("choices", []):
 		var choice: Dictionary = choice_value

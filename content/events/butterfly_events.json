@@ -141,7 +141,7 @@
     "category": "investment",
     "rarity": "legendary",
     "weight": 0.2,
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "conditions": {
       "flag": "mystery_info_bought",
       "min_turn": 12,

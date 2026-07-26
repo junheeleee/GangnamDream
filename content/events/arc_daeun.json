@@ -260,7 +260,7 @@
     "id": "arc_daeun_04_morning",
     "direction": {"pace": "slow", "camera": "drift"},
     "title": "새벽의 이유",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "player_happy",
     "category": "story",
     "rarity": "story",
@@ -379,7 +379,7 @@
   {
     "id": "arc_daeun_04b_future",
     "title": "당신과 강남",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "daeun_sad",
     "category": "story",
     "rarity": "story",
@@ -579,7 +579,7 @@
   {
     "id": "arc_daeun_05_together",
     "title": "겨울의 셋방",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "daeun_smile",
     "category": "story",
     "rarity": "story",

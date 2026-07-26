@@ -6,7 +6,7 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "daeun_smile",
     "conditions": {
       "min_turn": 9999

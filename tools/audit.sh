@@ -235,6 +235,7 @@ BAL_EXIT=$?
 echo "──────────────────────────────────────────"
 echo "● 챕터·자산·직업·주거·관계 기반 랜덤 사건 편성 검사"
 python3 tools/event_director_audit.py
+python3 tools/exposed_state_consistency_audit.py
 EVENT_DIRECTOR_EXIT=$?
 if [ -x "$GODOT" ]; then
   EVENT_DIRECTOR_RAW=$(run_limited "$GODOT" --headless --quit-after 1200 res://tools/EventDirectorCheck.tscn 2>&1)

@@ -818,7 +818,6 @@
       "father_reconcile",
       "father_wedding_call",
       "fear_greed_index",
-      "final_last_winter",
       "final_stretch_check",
       "finance_011",
       "finance_012",
@@ -1421,7 +1420,6 @@
       "callback_interview_lie_doubled_consequence",
       "callback_invest_mindset_echo",
       "callback_investment_analysis_habit_echo",
-      "callback_investment_lesson_echo",
       "callback_jaehyuk_01b_pressed_result",
       "callback_jaehyuk_02b_questioned_echo",
       "callback_jaehyuk_exploited_echo",
@@ -1443,7 +1441,6 @@
       "callback_jaehyuk_trusted_fully_echo",
       "callback_jeongseon_quit_vow_echo",
       "callback_jeongseon_self_aware_echo",
-      "callback_jeonse_auction_insured",
       "callback_jeonse_auction_uninsured",
       "callback_jeonse_chased_landlord_echo",
       "callback_jeonse_ignored_echo",
@@ -1818,7 +1815,6 @@
       "arc_daeun_02_regular",
       "arc_daeun_03_fork",
       "arc_daeun_03b_date",
-      "arc_daeun_04_morning",
       "arc_daeun_04b_future",
       "arc_daeun_05_breaking",
       "arc_daeun_05_together",
@@ -2055,6 +2051,7 @@
       "egg_veteran_return",
       "empty_fridge_00",
       "father_hospital_wait",
+      "final_last_winter",
       "flex_frugal_identity",
       "flex_golf_invite",
       "flex_hotel_staycation",
@@ -2250,11 +2247,13 @@
     ],
     "memory_cut": [
       "arc_father_call_on_ktx_memory",
+      "callback_investment_lesson_echo",
       "callback_medication_visited_echo",
       "callback_proactive_parent_care_echo",
       "callback_sangchul_personal_echo"
     ],
     "remote": [
+      "arc_daeun_04_morning",
       "arc_father_01_call",
       "arc_father_02_signal",
       "arc_father_03_hospital",
@@ -2288,6 +2287,7 @@
       "callback_called_hyunsu_scam_echo",
       "callback_father_promise",
       "callback_jaehyuk_exploited_retaliate",
+      "callback_jeonse_auction_insured",
       "callback_knows_dad_reason_echo",
       "callback_medication_ignored_echo",
       "callback_rushed_to_father_echo",
@@ -2342,11 +2342,13 @@
       "reduced_motion": "static_update"
     },
     "amb_hoesik_00->amb_hoesik_drink": {
-      "mode": "explicit_move",
+      "mode": "time_cut",
       "from_surface": "company_dinner_restaurant",
-      "to_surface": "goshiwon_room",
+      "to_surface": "current_housing",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "arrival_cue_ko": "그리고 다음 날 아침",
+      "arrival_cue_en": "And then the next morning"
     },
     "amb_holiday_00->amb_holiday_home": {
       "mode": "explicit_move",
@@ -2749,7 +2751,7 @@
     "arc_intro_04_hyunsu->arc_chapter1_close": {
       "mode": "explicit_move",
       "from_surface": "goshiwon_hallway",
-      "to_surface": "goshiwon_room",
+      "to_surface": "current_housing",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
       "arrival_cue_ko": "현수가 들어간 뒤",
@@ -3260,11 +3262,11 @@
       "arrival_cue_en": "On the appointed day, back at the cafe"
     },
     "cafe_cb_stole_00->cafe_cb_stole_call": {
-      "mode": "explicit_move",
-      "from_surface": "goshiwon_room",
+      "mode": "remote",
+      "from_surface": "current_housing",
       "to_surface": "current_housing",
-      "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "audio_policy": "continue",
+      "reduced_motion": "static_update"
     },
     "cafe_cb_stole_call->cafe_cb_stole_allin": {
       "mode": "explicit_move",
@@ -3518,7 +3520,7 @@
     "yolo_spend_moment->yolo_morning_after": {
       "mode": "time_cut",
       "from_surface": "convenience_night",
-      "to_surface": "goshiwon_room",
+      "to_surface": "current_housing",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade"
     }

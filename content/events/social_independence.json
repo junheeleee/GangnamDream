@@ -57,7 +57,7 @@
   {
     "id": "yolo_morning_after",
     "title": "다음 날 아침",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "player_normal",
     "category": "social",
     "rarity": "uncommon",
@@ -458,7 +458,7 @@
   {
     "id": "flex_sns_envy",
     "title": "남의 하이라이트",
-    "background": "investment_phone",
+    "background": "current_housing",
     "portrait": "player_tired",
     "category": "social",
     "rarity": "uncommon",
@@ -474,7 +474,7 @@
       "self_reflection"
     ],
     "cooldown": 14,
-    "description": "자기 전에 무심코 인스타를 열었다.\n\n동기는 발리에 있었다. 후배는 신차를 뽑았다. 누군가는 오마카세, 누군가는 청혼.\n\n{name}은 고시원 천장 아래에서 그 화면을 넘기고 있었다.\n\n남들은 다 어딘가 도착해 있는 것 같았다. 나만 빼고.\n근데 알고 있었다. 저건 남의 하이라이트고, 지금 이건 내 비하인드라는 걸.",
+    "description": "자기 전에 무심코 인스타를 열었다.\n\n동기는 발리에 있었다. 후배는 신차를 뽑았다. 누군가는 오마카세, 누군가는 청혼.\n\n{name}은 불 꺼진 방에서 그 화면을 넘기고 있었다.\n\n남들은 다 어딘가 도착해 있는 것 같았다. 나만 빼고.\n근데 알고 있었다. 저건 남의 하이라이트고, 지금 이건 내 비하인드라는 걸.",
     "choices": [
       {
         "text": "앱을 지운다 — 비교는 도둑이다",

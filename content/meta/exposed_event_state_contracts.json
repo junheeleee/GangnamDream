@@ -1,0 +1,2034 @@
+{
+  "schema_version": 1,
+  "scope": {
+    "root_count": 306,
+    "exposed_count": 442,
+    "root_ids_sha256": "25c02d7dde5e35a34014c11afec2a3deba8a3122ded9f273cb59f720cd46a96e",
+    "exposed_ids_sha256": "9c93a65474b4d3dda102eb423184eacca10b94cff9caf353bb1228b4eebcfa6d"
+  },
+  "state_sensitive": {
+    "amb_coin_00": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "amb_coin_warn": [
+      "housing",
+      "location"
+    ],
+    "amb_credit_confront": [
+      "employment",
+      "location"
+    ],
+    "amb_credit_steal_00": [
+      "employment",
+      "location"
+    ],
+    "amb_hoesik_00": [
+      "employment",
+      "location"
+    ],
+    "amb_hoesik_dodge": [
+      "employment",
+      "location"
+    ],
+    "amb_hoesik_drink": [
+      "employment",
+      "housing",
+      "location"
+    ],
+    "amb_holiday_00": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "amb_holiday_home": [
+      "employment",
+      "father_life",
+      "location"
+    ],
+    "amb_idea_stolen_00": [
+      "employment",
+      "location"
+    ],
+    "amb_jeonse_00": [
+      "housing",
+      "location"
+    ],
+    "amb_jeonse_check": [
+      "housing",
+      "location"
+    ],
+    "amb_jeonse_confront": [
+      "housing",
+      "location"
+    ],
+    "amb_jobswitch_00": [
+      "employment",
+      "location"
+    ],
+    "amb_jobswitch_in": [
+      "employment",
+      "location"
+    ],
+    "amb_mlm_00": [
+      "employment",
+      "location"
+    ],
+    "amb_mlm_meet": [
+      "location"
+    ],
+    "amb_wallet_return": [
+      "location"
+    ],
+    "anxiety_child_cost_calc": [
+      "housing",
+      "location"
+    ],
+    "anxiety_pension_crisis": [
+      "housing",
+      "location"
+    ],
+    "arc_1b_isolation": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_34_doors_open": [
+      "employment",
+      "location",
+      "relationship"
+    ],
+    "arc_34_money_attracts_money": [
+      "location",
+      "relationship"
+    ],
+    "arc_34_parents_visit": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_34_routine_trap": [
+      "housing",
+      "location"
+    ],
+    "arc_34_two_years_in": [
+      "housing",
+      "location"
+    ],
+    "arc_35_alone": [
+      "employment",
+      "location"
+    ],
+    "arc_35_birthday": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_35_habit_check": [
+      "housing",
+      "location"
+    ],
+    "arc_35_orthodox_weight": [
+      "housing",
+      "location"
+    ],
+    "arc_35_path_cost": [
+      "location"
+    ],
+    "arc_35_unorthodox_weight": [
+      "location"
+    ],
+    "arc_36_body_signal": [
+      "location"
+    ],
+    "arc_36_father_comes_to_seoul": [
+      "father_life",
+      "location"
+    ],
+    "arc_36_night_doubt": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_36_reality_check": [
+      "housing",
+      "location"
+    ],
+    "arc_36_trust_crack": [
+      "father_life",
+      "location"
+    ],
+    "arc_36_unexpected_hand": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_37_burn_or_light": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_37_ending_peace": [
+      "father_life",
+      "location"
+    ],
+    "arc_37_reckoning": [
+      "housing",
+      "location"
+    ],
+    "arc_after_scam": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_almost_there": [
+      "housing",
+      "location"
+    ],
+    "arc_career_ceiling": [
+      "employment",
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_ch1_career_first_spec": [
+      "employment",
+      "location"
+    ],
+    "arc_ch1_invest_first_chart": [
+      "housing",
+      "location"
+    ],
+    "arc_ch1_startup_first_idea": [
+      "housing",
+      "location"
+    ],
+    "arc_ch1_theme_invest_deep": [
+      "housing",
+      "location"
+    ],
+    "arc_ch1_theme_network_first": [
+      "employment",
+      "location"
+    ],
+    "arc_chapter1_close": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_01_meet": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_02_regular": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_02b_dream": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_03_fork": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_03b_date": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_04_morning": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_04b_future": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_05_breaking": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_05_together": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_05_uncertain": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_families_meet": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_final_choice": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_final_choice_decision": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_final_choice_kitchen": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_final_choice_name": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_first_kiss": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_first_kiss_ask": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_first_kiss_choice": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_first_kiss_wait": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_first_night": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_first_night_decision": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_first_night_silence": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_first_night_truth": [
+      "employment",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_ghost": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_later_echo": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_money_gap": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_ng_meet": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_our_home": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_proposal": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_proposal_answer": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_proposal_last_cup": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_regret_draft": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_the_test": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_trace": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_wedding_aisle": [
+      "relationship"
+    ],
+    "arc_daeun_wedding_day": [
+      "relationship"
+    ],
+    "arc_daeun_wedding_groom_side": [
+      "father_life",
+      "relationship"
+    ],
+    "arc_daeun_wedding_prep": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_wedding_walk": [
+      "relationship"
+    ],
+    "arc_daeun_y5_feelings": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_year3_apart": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_year3_together": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_year4_quiet": [
+      "employment",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_year4_together": [
+      "employment",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_year5_apart": [
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_year5_ending": [
+      "location",
+      "relationship"
+    ],
+    "arc_endgame_sixmonths": [
+      "housing",
+      "location"
+    ],
+    "arc_father_01_call": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_father_02_signal": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_father_03_hospital": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_father_04_visit": [
+      "employment",
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_father_05_after_visit": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_father_06_confession": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_father_call_on_ktx": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_father_call_on_ktx_memory": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_father_call_on_ktx_number": [
+      "father_life",
+      "location"
+    ],
+    "arc_father_legacy": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_father_medication": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_father_ng_call": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_father_passing": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_father_passing_deal_morning": [
+      "father_life",
+      "location"
+    ],
+    "arc_father_passing_deal_room": [
+      "father_life",
+      "location"
+    ],
+    "arc_father_passing_hospital_room": [
+      "father_life",
+      "location"
+    ],
+    "arc_father_passing_platform": [
+      "father_life",
+      "location"
+    ],
+    "arc_father_quiet_call": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_final_countdown": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_final_stretch": [
+      "location"
+    ],
+    "arc_final_week": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_final_year_start": [
+      "housing",
+      "location"
+    ],
+    "arc_first_real_win": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_four_months_in": [
+      "location"
+    ],
+    "arc_gangnam_real_estate": [
+      "father_life",
+      "location"
+    ],
+    "arc_gangnam_visit_alone": [
+      "location"
+    ],
+    "arc_goal_vertigo": [
+      "housing",
+      "location"
+    ],
+    "arc_goshiwon_goodbye": [
+      "employment",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_gosiwon_wall": [
+      "housing",
+      "location"
+    ],
+    "arc_housing_new_life": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_hyunsu_drift": [
+      "employment",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_hyunsu_exam_fail": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_hyunsu_lifeline_call": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_hyunsu_new_path": [
+      "employment",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_hyunsu_night_talk": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_intro_01_meal": [
+      "father_life",
+      "location"
+    ],
+    "arc_intro_02_dad_call": [
+      "employment",
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_intro_03_sns": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_intro_04_hyunsu": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_invest_first_loss": [
+      "housing",
+      "relationship"
+    ],
+    "arc_invest_guidance": [
+      "employment",
+      "location",
+      "relationship"
+    ],
+    "arc_jaehyuk_01_reunion": [
+      "location",
+      "relationship"
+    ],
+    "arc_jaehyuk_01b_real_face": [
+      "location",
+      "relationship"
+    ],
+    "arc_jaehyuk_02_bond": [
+      "location",
+      "relationship"
+    ],
+    "arc_jaehyuk_02b_favor": [
+      "employment",
+      "location",
+      "relationship"
+    ],
+    "arc_jaehyuk_03_pitch": [
+      "employment",
+      "location",
+      "relationship"
+    ],
+    "arc_jaehyuk_04a_ghost": [
+      "employment",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_jaehyuk_04b_counter": [
+      "employment",
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_jaehyuk_04c_stand_up": [
+      "location",
+      "relationship"
+    ],
+    "arc_jaehyuk_aftermath": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_jaehyuk_ghost_decision": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_jaehyuk_ghost_message": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_jaehyuk_ghost_read": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_jaehyuk_hyunsu_warning": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_jaehyuk_mirror": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_jaehyuk_mirror_decision": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_jaehyuk_mirror_father": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_jaehyuk_mirror_reply": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_jaehyuk_photo_in_dark": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_jaehyuk_sangchul_echo": [
+      "location",
+      "relationship"
+    ],
+    "arc_jaehyuk_wait": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_01_crash": [
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_02_store": [
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_03_offer": [
+      "employment",
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_03b_lunch": [
+      "employment",
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_05_epilogue": [
+      "employment",
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_father_records": [
+      "employment",
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_first_kiss": [
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_first_kiss_choice": [
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_first_kiss_silence": [
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_first_kiss_speak": [
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_real_reason": [
+      "employment",
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_truth_moment": [
+      "employment",
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_truth_warned": [
+      "employment",
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_verdict": [
+      "employment",
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_verdict_decision": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_verdict_fear": [
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_verdict_voice": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_wedding_gap": [
+      "father_life",
+      "relationship"
+    ],
+    "arc_jiyeon_wedding_gap_decision": [
+      "employment",
+      "father_life",
+      "relationship"
+    ],
+    "arc_jiyeon_wedding_guest_list": [
+      "employment",
+      "father_life",
+      "relationship"
+    ],
+    "arc_jiyeon_y5_feelings": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_year3": [
+      "employment",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_year4_call": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_year4_seoul": [
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_year4_seoul_daeun": [
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_year5_news": [
+      "location",
+      "relationship"
+    ],
+    "arc_jiyeon_year5_return": [
+      "employment",
+      "location",
+      "relationship"
+    ],
+    "arc_job_first_rejection": [
+      "employment",
+      "housing",
+      "location"
+    ],
+    "arc_job_vs_invest": [
+      "employment",
+      "location",
+      "relationship"
+    ],
+    "arc_late_game_push": [
+      "housing",
+      "location"
+    ],
+    "arc_midpoint_reckoning": [
+      "housing",
+      "location"
+    ],
+    "arc_minjun_first_call": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_minseo_01_meet": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_minseo_02_real": [
+      "location",
+      "relationship"
+    ],
+    "arc_minseo_03_arrival": [
+      "location",
+      "relationship"
+    ],
+    "arc_minseo_03b_not_arrived": [
+      "location",
+      "relationship"
+    ],
+    "arc_money_loneliness": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_night_routine": [
+      "location",
+      "relationship"
+    ],
+    "arc_office_routine": [
+      "employment"
+    ],
+    "arc_opp_jiyeon_bunyang": [
+      "employment",
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_opp_jiyeon_win": [
+      "location",
+      "relationship"
+    ],
+    "arc_opp_sangchul_realty": [
+      "location",
+      "relationship"
+    ],
+    "arc_opp_sangchul_win": [
+      "employment",
+      "location",
+      "relationship"
+    ],
+    "arc_paycheck_reality": [
+      "employment",
+      "relationship"
+    ],
+    "arc_pre_ending_father_call": [
+      "father_life",
+      "location"
+    ],
+    "arc_pre_ending_summit": [
+      "employment",
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_pre_ending_winter": [
+      "housing",
+      "location"
+    ],
+    "arc_quit_job": [
+      "employment",
+      "location"
+    ],
+    "arc_rescue_job": [
+      "employment",
+      "housing",
+      "location"
+    ],
+    "arc_sangchul_01_answer": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_01_coffee": [
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_01_measure": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_01_meet": [
+      "employment",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_02_coffee": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_03_network": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_buried_silence": [
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_card_at_confrontation": [
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_casino_arrival": [
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_casino_cost": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_casino_decision": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_casino_invite": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_casino_people": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_confrontation": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_deduction": [
+      "employment",
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_deduction_career": [
+      "employment",
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_deduction_case": [
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_deduction_decision": [
+      "employment",
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_human": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_jiyeon_reveal": [
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_known_offer": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_known_reflex": [
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_mirror": [
+      "employment",
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_ng_meet": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_offguard": [
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_reckoning": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_stairwell": [
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_year3": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_social_comparison": [
+      "location"
+    ],
+    "arc_spec_career": [
+      "employment",
+      "location"
+    ],
+    "arc_spec_climber_result": [
+      "employment",
+      "location"
+    ],
+    "arc_spec_elite_result": [
+      "employment",
+      "location"
+    ],
+    "arc_spec_found": [
+      "employment",
+      "location"
+    ],
+    "arc_spec_invest": [
+      "location"
+    ],
+    "arc_spec_quant_result": [
+      "location"
+    ],
+    "arc_spec_social_result": [
+      "location"
+    ],
+    "arc_spec_speculator_result": [
+      "location"
+    ],
+    "arc_spec_tech_result": [
+      "location"
+    ],
+    "arc_temptation_01": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_temptation_clean": [
+      "housing",
+      "location"
+    ],
+    "arc_temptation_fallout": [
+      "location"
+    ],
+    "arc_why_gangnam_real": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_y2_hyunsu_night_bus": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_y2_sangchul_first_favor": [
+      "employment",
+      "location",
+      "relationship"
+    ],
+    "arc_y2_worn_face": [
+      "location",
+      "relationship"
+    ],
+    "arc_y3_cost_of_knowing": [
+      "location",
+      "relationship"
+    ],
+    "arc_y3_hyunsu_verdict": [
+      "location",
+      "relationship"
+    ],
+    "arc_y3_jiyeon_departure": [
+      "employment",
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_y3_ledger_grind": [
+      "location"
+    ],
+    "arc_y3_ledger_kept": [
+      "location"
+    ],
+    "arc_y3_sangchul_deeper_room": [
+      "employment",
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_y4_folded_time": [
+      "location"
+    ],
+    "arc_y4_marriage_talk": [
+      "location",
+      "relationship"
+    ],
+    "arc_y4_network_bill": [
+      "location",
+      "relationship"
+    ],
+    "arc_year1_close": [
+      "employment",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_year2_close": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_year3_close": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_year4_close": [
+      "father_life",
+      "location"
+    ],
+    "arc_year_one_half": [
+      "location"
+    ],
+    "arc_year_one_mark": [
+      "housing",
+      "location"
+    ],
+    "arc_year_three_crossroads": [
+      "location"
+    ],
+    "arc_year_three_half": [
+      "housing",
+      "location"
+    ],
+    "arc_year_two_half": [
+      "housing",
+      "location"
+    ],
+    "arc_year_two_pressure": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "butterfly_mystery_info_details": [
+      "location"
+    ],
+    "butterfly_mystery_info_result_scam": [
+      "housing",
+      "location"
+    ],
+    "butterfly_resume_lie_caught": [
+      "employment",
+      "location"
+    ],
+    "cafe_00": [
+      "location"
+    ],
+    "cafe_bluff_01": [
+      "location"
+    ],
+    "cafe_bluff_caught": [
+      "location"
+    ],
+    "cafe_bluff_recover": [
+      "location"
+    ],
+    "cafe_caught_honest": [
+      "location"
+    ],
+    "cafe_cb_honest_00": [
+      "housing",
+      "location"
+    ],
+    "cafe_cb_honest_in": [
+      "location"
+    ],
+    "cafe_cb_humiliated_00": [
+      "location"
+    ],
+    "cafe_cb_stole_00": [
+      "employment",
+      "housing",
+      "location"
+    ],
+    "cafe_cb_stole_allin": [
+      "location"
+    ],
+    "cafe_cb_stole_call": [
+      "employment",
+      "housing",
+      "location"
+    ],
+    "cafe_cb_stole_smart": [
+      "employment",
+      "location"
+    ],
+    "cafe_cb_stole_verify": [
+      "employment",
+      "location"
+    ],
+    "cafe_humble": [
+      "location"
+    ],
+    "cafe_listen_01": [
+      "housing",
+      "location"
+    ],
+    "cafe_mind_01": [
+      "location"
+    ],
+    "cafe_peek_01": [
+      "employment",
+      "location"
+    ],
+    "cafe_talk_01": [
+      "location"
+    ],
+    "callback_amusement_child_reunion": [
+      "location",
+      "relationship"
+    ],
+    "callback_amusement_photo_found": [
+      "location",
+      "relationship"
+    ],
+    "callback_cafe_stole_gambled_result": [
+      "location"
+    ],
+    "callback_chaebol_met_dinner": [
+      "location"
+    ],
+    "callback_child_cost_grind": [
+      "housing",
+      "location"
+    ],
+    "callback_chose_money_father_echo": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "callback_daeun_breakup_begged_echo": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "callback_daeun_committed_gangnam_eve": [
+      "location",
+      "relationship"
+    ],
+    "callback_daeun_daily_life_echo": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "callback_daeun_deferred_silence": [
+      "relationship"
+    ],
+    "callback_daeun_gangnam_first_echo": [
+      "employment",
+      "location",
+      "relationship"
+    ],
+    "callback_daeun_married_echo": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "callback_daeun_supportive_warmth": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "callback_declined_sangchul_deal_echo": [
+      "location",
+      "relationship"
+    ],
+    "callback_escaped_dirty_trace": [
+      "housing",
+      "location"
+    ],
+    "callback_father_confession_echo": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "callback_father_promise": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "callback_formal_complaint_filed_echo": [
+      "employment",
+      "housing",
+      "location"
+    ],
+    "callback_guarantee_default": [
+      "employment",
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "callback_guarantee_refused_news": [
+      "housing",
+      "location"
+    ],
+    "callback_hoesik_caved_reputation": [
+      "employment",
+      "location"
+    ],
+    "callback_hoesik_left_early_office": [
+      "employment",
+      "housing",
+      "location"
+    ],
+    "callback_hyunsu_departure_meal_echo": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "callback_interview_lie_confessed_echo": [
+      "employment"
+    ],
+    "callback_investment_lesson_echo": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "callback_jaehyuk_exploited_retaliate": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "callback_jaehyuk_partnered_reckoning": [
+      "location",
+      "relationship"
+    ],
+    "callback_jaehyuk_reported_witness": [
+      "relationship"
+    ],
+    "callback_jaehyuk_testified_echo": [
+      "relationship"
+    ],
+    "callback_jeonse_auction_insured": [
+      "housing",
+      "location"
+    ],
+    "callback_jeonse_protected_safe": [
+      "housing",
+      "location"
+    ],
+    "callback_jeonse_scam_narrow": [
+      "housing",
+      "location"
+    ],
+    "callback_jiyeon_busan_postcard": [
+      "employment",
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "callback_jiyeon_honest_referral": [
+      "employment",
+      "relationship"
+    ],
+    "callback_jiyeon_together_pressure": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "callback_jiyeon_took_deal_consequence": [
+      "location",
+      "relationship"
+    ],
+    "callback_kkondae_respect": [
+      "employment",
+      "location"
+    ],
+    "callback_lied_interview_surfaces": [
+      "employment",
+      "father_life",
+      "location"
+    ],
+    "callback_medication_ignored_echo": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "callback_medication_visited_echo": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "callback_mindset_investor_echo": [
+      "housing",
+      "location"
+    ],
+    "callback_mystery_info_reported_outcome": [
+      "location"
+    ],
+    "callback_pension_self_fund": [
+      "employment",
+      "location"
+    ],
+    "callback_recycling_neighbor": [
+      "housing",
+      "location"
+    ],
+    "callback_resume_lie_confessed_echo": [
+      "employment"
+    ],
+    "callback_resume_lie_confessed_outcome": [
+      "employment"
+    ],
+    "callback_rushed_to_father_echo": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "callback_sangchul_leveraged_cost": [
+      "father_life",
+      "location",
+      "relationship"
+    ],
+    "callback_sangchul_truth_buried_echo": [
+      "location",
+      "relationship"
+    ],
+    "callback_sent_money_instead_echo": [
+      "father_life"
+    ],
+    "callback_shadow_investors_proposal": [
+      "relationship"
+    ],
+    "callback_tax_windfall": [
+      "housing",
+      "location"
+    ],
+    "callback_told_daeun_everything_echo": [
+      "location",
+      "relationship"
+    ],
+    "callback_told_daeun_investing_echo": [
+      "location",
+      "relationship"
+    ],
+    "callback_truth_echo": [
+      "location"
+    ],
+    "callback_used_sangchul_after_echo": [
+      "location",
+      "relationship"
+    ],
+    "casino_chip_exchange": [
+      "location"
+    ],
+    "casino_comp_offer": [
+      "employment",
+      "location"
+    ],
+    "casino_no_clocks": [
+      "location"
+    ],
+    "chain_banchan_reunion": [
+      "location"
+    ],
+    "chain_banchan_reunion_declined": [
+      "housing",
+      "location"
+    ],
+    "chain_banchan_son": [
+      "employment",
+      "housing",
+      "location"
+    ],
+    "chain_celeb_return": [
+      "employment",
+      "location"
+    ],
+    "chain_envelope_guilt": [
+      "employment",
+      "housing",
+      "location"
+    ],
+    "chain_envelope_owner_return": [
+      "employment",
+      "location"
+    ],
+    "chain_exec_interview": [
+      "employment",
+      "location"
+    ],
+    "chain_exec_meal": [
+      "employment",
+      "housing",
+      "location"
+    ],
+    "chain_interior_offer": [
+      "employment",
+      "location"
+    ],
+    "chain_neighbor_civil_servant": [
+      "housing",
+      "location"
+    ],
+    "chain_neighbor_moving": [
+      "housing",
+      "location"
+    ],
+    "chain_scammer_again": [
+      "location"
+    ],
+    "chapter_card_33": [
+      "father_life",
+      "location"
+    ],
+    "chapter_card_34": [
+      "location"
+    ],
+    "chapter_card_35": [
+      "location"
+    ],
+    "chapter_card_36": [
+      "location"
+    ],
+    "chapter_card_37": [
+      "location"
+    ],
+    "class_reunion_lie_exposed": [
+      "location"
+    ],
+    "debt_invest_margin_call": [
+      "location"
+    ],
+    "drama_crypto_allin": [
+      "location"
+    ],
+    "drama_crypto_result_big": [
+      "employment"
+    ],
+    "drama_crypto_result_small": [
+      "location"
+    ],
+    "egg_4am_clarity": [
+      "location"
+    ],
+    "egg_gambling_mirror": [
+      "location"
+    ],
+    "egg_honest_paradox": [
+      "location"
+    ],
+    "egg_quiet_rich": [
+      "housing",
+      "location"
+    ],
+    "father_hospital_results": [
+      "father_life",
+      "location"
+    ],
+    "father_hospital_wait": [
+      "father_life",
+      "location"
+    ],
+    "father_old_photo": [
+      "father_life"
+    ],
+    "final_last_winter": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "flex_sns_envy": [
+      "housing",
+      "location"
+    ],
+    "gambling_rock_bottom": [
+      "employment",
+      "father_life",
+      "location"
+    ],
+    "gig_delivery_night": [
+      "employment",
+      "location"
+    ],
+    "godsaeng_paradox": [
+      "location"
+    ],
+    "godsaeng_start": [
+      "location"
+    ],
+    "hidden_chaebol_elevator": [
+      "father_life"
+    ],
+    "holdem_all_in_stranger": [
+      "location"
+    ],
+    "holdem_skill_transfers": [
+      "employment",
+      "location"
+    ],
+    "hyunsu_exam_day": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "hyunsu_pass_news": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "hyunsu_pivot": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "hyunsu_result_fail": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "hyunsu_result_pass": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "hyunsu_reunion_later": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "hyunsu_reunion_meet": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "hyunsu_reunion_memory": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "hyunsu_reunion_photo": [
+      "employment",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "hyunsu_study_together": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "hyunsu_year4_echo": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "hyunsu_year5_call": [
+      "employment",
+      "father_life",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "inv_redev_completion_sale": [
+      "location"
+    ],
+    "inv_redev_zone_tip": [
+      "location"
+    ],
+    "leading_room_joined": [
+      "location"
+    ],
+    "ng_gambling_premonition": [
+      "location",
+      "relationship"
+    ],
+    "ng_recovery_discipline": [
+      "location"
+    ],
+    "ng_recovery_echo": [
+      "housing",
+      "location"
+    ],
+    "ng_recovery_mentor_moment": [
+      "location"
+    ],
+    "parents_bankbook": [
+      "father_life"
+    ],
+    "race_first_visit": [
+      "location"
+    ],
+    "race_last_bettor": [
+      "location"
+    ],
+    "race_mentor_truth": [
+      "location"
+    ],
+    "race_number_three": [
+      "location"
+    ],
+    "race_number_three_result": [
+      "location"
+    ],
+    "race_tip_seller_02": [
+      "location"
+    ],
+    "racetrack_mentor_meet": [
+      "location"
+    ],
+    "rare_celeb_convenience": [
+      "employment",
+      "location"
+    ],
+    "rare_convenience_lottery": [
+      "location"
+    ],
+    "rare_goshiwon_neighbor_success": [
+      "housing",
+      "location"
+    ],
+    "rare_lottery_result": [
+      "location"
+    ],
+    "rare_market_kind_stranger": [
+      "employment",
+      "location"
+    ],
+    "rare_night_alva_find": [
+      "employment",
+      "location"
+    ],
+    "recovery_first_week": [
+      "housing",
+      "location"
+    ],
+    "recovery_one_month_clean": [
+      "location"
+    ],
+    "recovery_relapse_test": [
+      "location"
+    ],
+    "sangchul_becomes_primary": [
+      "father_life",
+      "relationship"
+    ],
+    "sangchul_world_absorbed": [
+      "relationship"
+    ],
+    "shadow_loan_answer": [
+      "location"
+    ],
+    "shadow_promise_again": [
+      "location"
+    ],
+    "shadow_snitch_found": [
+      "location"
+    ],
+    "shadow_snitch_rumor": [
+      "location"
+    ],
+    "yolo_morning_after": [
+      "housing",
+      "location"
+    ],
+    "yolo_spend_moment": [
+      "location"
+    ]
+  },
+  "reviewed_neutral": [
+    "amb_guarantee_00",
+    "amb_wallet_00",
+    "butterfly_mystery_info_offer",
+    "class_reunion",
+    "hidden_bull_market_fomo",
+    "hidden_gangnam_open_house",
+    "rare_wallet_executive",
+    "shadow_loan_collector",
+    "shadow_old_promise"
+  ],
+  "reviewed_neutral_contexts": {
+    "amb_wallet_00": {
+      "housing": "financial pressure does not assert a specific dwelling type"
+    },
+    "class_reunion": {
+      "relationship": "the marriage reference describes classmates, not Minjun"
+    },
+    "hidden_gangnam_open_house": {
+      "housing": "the apartment is a property being viewed, not Minjun's residence"
+    }
+  },
+  "fixed_location_contexts": {
+    "arc_gosiwon_wall": "chapter_one_canon",
+    "arc_intro_02_dad_call": "chapter_one_canon",
+    "arc_intro_03_sns": "chapter_one_canon",
+    "arc_temptation_01": "chapter_one_canon",
+    "hyunsu_result_pass": "hyunsu_residence",
+    "hyunsu_pivot": "hyunsu_residence",
+    "hyunsu_pass_news": "hyunsu_residence"
+  },
+  "required_layer_contracts": {
+    "amb_hoesik_drink": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "anxiety_pension_crisis": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "arc_chapter1_close": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "arc_daeun_04_morning": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "arc_daeun_04b_future": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "arc_daeun_05_together": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "arc_daeun_our_home": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "arc_father_ng_call": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "arc_invest_guidance": {
+      "scene_location": "realestate_office",
+      "visual_background": "realestate_office",
+      "audio_ambience": "office"
+    },
+    "arc_job_first_rejection": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "arc_pre_ending_winter": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "arc_temptation_clean": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "butterfly_mystery_info_result_scam": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "cafe_cb_stole_00": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "callback_guarantee_default": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "callback_guarantee_refused_news": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "callback_investment_lesson_echo": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "callback_jeonse_auction_insured": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "callback_kkondae_respect": {
+      "scene_location": "current_workplace",
+      "visual_background": "current_workplace",
+      "audio_ambience": "current_workplace"
+    },
+    "callback_mindset_investor_echo": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "callback_tax_windfall": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "final_last_winter": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "flex_sns_envy": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "ng_recovery_echo": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "recovery_first_week": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    },
+    "yolo_morning_after": {
+      "scene_location": "current_housing",
+      "visual_background": "current_housing",
+      "audio_ambience": "current_housing"
+    }
+  }
+}

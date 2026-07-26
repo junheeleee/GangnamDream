@@ -252,7 +252,7 @@
     {"id": "arc_jaehyuk_mirror_father", "background": "current_housing", "portrait": "player_normal", "cg": null},
     {"id": "arc_jaehyuk_mirror_decision", "background": "current_housing", "portrait": "player_normal", "cg": null},
 
-    {"id": "cafe_cb_stole_00", "background": "goshiwon_room", "portrait": "player_tired"},
+    {"id": "cafe_cb_stole_00", "background": "current_housing", "portrait": "player_tired"},
     {"id": "cafe_cb_stole_call", "background": "current_housing", "portrait": "cafe_broker_kim"},
     {"id": "cafe_cb_stole_verify", "background": "investment_phone", "portrait": "player_determined"},
     {"id": "cafe_cb_stole_allin", "background": "investment_phone", "portrait": "player_shocked"},
@@ -264,7 +264,33 @@
     {"id": "callback_cafe_jackpot_greed", "portrait": "cafe_broker_kim"},
     {"id": "callback_cafe_smart_win_mentor", "portrait": "cafe_broker_kim"},
     {"id": "callback_cafe_honest_win_deeper", "portrait": "cafe_investor"},
-    {"id": "callback_cafe_honest_trust_return", "portrait": "cafe_investor"}
+    {"id": "callback_cafe_honest_trust_return", "portrait": "cafe_investor"},
+
+    {"id": "amb_hoesik_drink", "background": "current_housing", "portrait": "player_shocked"},
+    {"id": "anxiety_pension_crisis", "background": "current_housing", "portrait": "player_normal"},
+    {"id": "arc_chapter1_close", "background": "current_housing", "portrait": "player_tired"},
+    {"id": "arc_daeun_04_morning", "background": "current_housing", "portrait": "player_happy"},
+    {"id": "arc_daeun_04b_future", "background": "current_housing", "portrait": "daeun_sad"},
+    {"id": "arc_daeun_05_together", "background": "current_housing", "portrait": "daeun_smile"},
+    {"id": "arc_daeun_our_home", "background": "current_housing", "portrait": "daeun_smile"},
+    {"id": "arc_father_ng_call", "background": "current_housing", "portrait": "player_normal"},
+    {"id": "arc_invest_guidance", "background": "realestate_office", "portrait": "sangchul_normal"},
+    {"id": "arc_job_first_rejection", "background": "current_housing", "portrait": "player_sad"},
+    {"id": "arc_pre_ending_winter", "background": "current_housing", "portrait": "player_tired"},
+    {"id": "arc_temptation_clean", "background": "current_housing", "portrait": "player_normal"},
+    {"id": "butterfly_mystery_info_result_scam", "background": "current_housing", "portrait": null},
+    {"id": "callback_guarantee_default", "background": "current_housing", "portrait": null},
+    {"id": "callback_guarantee_refused_news", "background": "current_housing", "portrait": null},
+    {"id": "callback_investment_lesson_echo", "background": "current_housing", "portrait": "sangchul_normal"},
+    {"id": "callback_jeonse_auction_insured", "background": "current_housing", "portrait": null},
+    {"id": "callback_kkondae_respect", "background": "current_workplace", "portrait": "player_normal"},
+    {"id": "callback_mindset_investor_echo", "background": "current_housing", "portrait": "player_normal"},
+    {"id": "callback_tax_windfall", "background": "current_housing", "portrait": "player_normal"},
+    {"id": "final_last_winter", "background": "current_housing", "portrait": null},
+    {"id": "flex_sns_envy", "background": "current_housing", "portrait": "player_tired"},
+    {"id": "ng_recovery_echo", "background": "current_housing", "portrait": "player_determined"},
+    {"id": "recovery_first_week", "background": "current_housing", "portrait": "player_tired"},
+    {"id": "yolo_morning_after", "background": "current_housing", "portrait": "player_normal"}
   ],
   "known_debt": []
 }

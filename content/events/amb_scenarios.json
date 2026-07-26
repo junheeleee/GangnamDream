@@ -193,7 +193,7 @@
   {
     "id": "amb_hoesik_drink",
     "title": "다음 날 아침",
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "player_shocked",
     "category": "social",
     "rarity": "story",

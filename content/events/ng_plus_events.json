@@ -115,7 +115,7 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "player_normal",
     "conditions": {
       "min_turn": 9999
@@ -213,7 +213,7 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "background": "goshiwon_room",
+    "background": "current_housing",
     "portrait": "player_determined",
     "conditions": {
       "min_turn": 9999

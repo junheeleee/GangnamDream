@@ -84,7 +84,7 @@
   {
     "id": "arc_chapter1_close",
     "title": "Two Months In",
-    "description": "2 AM.\n\nThe ramyeon broth had gone cold.\nAfter Hyunsu went back inside, {name} stood in the hallway alone for a while.\n\nHis first two months in Seoul — the burner account text, his father's call, the first Gangnam cafe he ever walked into, Hyunsu's ramyeon.\n\nBack in the room, {name} opened the notebook. First line:\n'{notebook_motive}'\n\nBelow it: '3 billion won. Five years.' The pages after that were still empty.\n\nUnder fluorescent light: a 4.5-pyeong goshiwon room. One desk. One blanket.\nCan 3 billion won actually come out of here?\n\n{name} still didn't have an answer.\nBut tonight was the first time the question felt completely real.",
+    "description": "2 AM.\n\nThe ramyeon broth had gone cold.\nAfter Hyunsu went back inside, {name} stood in the hallway alone for a while.\n\nHis first two months in Seoul — the burner account text, his father's call, the first Gangnam cafe he ever walked into, Hyunsu's ramyeon.\n\n{name} returned to the room where he currently lived and opened the notebook. First line:\n'{notebook_motive}'\n\nBelow it: '3 billion won. Five years.' The pages after that were still empty.\n\nUnder fluorescent light: a small room. One desk. One blanket.\nCan 3 billion won actually come out of here?\n\n{name} still didn't have an answer.\nBut tonight was the first time the question felt completely real.",
     "choices": [
       {
         "text": "Close the notebook. That's enough for today.",
@@ -401,26 +401,26 @@
   {
     "id": "arc_invest_guidance",
     "title": "Make the Seed Money Work",
-    "description": "Im Sangchul held out a cup of tea.\n\n\"You thinking about investing?\"\n\nBefore answering, {name} looked at the man's hands. Hands that had worked.\nManual labor, night-guard shifts, real-estate gigs. Two buildings now.\n\n\"I am — but I don't know anything yet.\"\n\n\"That's the most honest answer there is.\" Im Sangchul smiled.\n\"Someone who knows nothing is the easiest to teach. It's the ones who pretend to know that are the problem.\"",
+    "description": "About two weeks after their first meeting, {name} returned to the Sinchon real-estate office. Im Sangchul held out a cup of tea.\n\n\"You thinking about investing?\"\n\nBefore answering, {name} looked at the man's hands. Hands that had worked.\nManual labor, night-guard shifts, real-estate gigs. Two buildings now.\n\n\"I am — but I don't know anything yet.\"\n\n\"That's the most honest answer there is.\" Im Sangchul smiled.\n\"Someone who knows nothing is the easiest to teach. It's the ones who pretend to know that are the problem.\"",
     "choices": [
       {
         "text": "\"How should I start?\" — ask in earnest",
-        "result_text": "Sangchul thought for a long while before speaking.\n\"Start small at first. With money you can afford to lose and still learn from.\nYou lose some, and the market starts coming into focus.\"\n\nAfter hanging up, {name} opened the investment tab for the first time.",
+        "result_text": "Sangchul thought for a long while before speaking.\n\"Start small at first. With money you can afford to lose and still learn from.\nYou lose some, and the market starts coming into focus.\"\n\nAfter leaving the office, {name} opened the investment tab for the first time.",
         "bridge_summary": "He followed Sangchul's advice: enter the market only with enough to lose and learn from."
       },
       {
         "text": "\"Shouldn't saving come first?\"",
-        "result_text": "\"Saving's the foundation, sure. But saving alone will never get you there.\"\nSangchul said it with a smile.\n\"Anyway, give it some thought. There's no rush.\"\nThe call ended. Something sat heavy in a corner of his chest.",
+        "result_text": "\"Saving's the foundation, sure. But saving alone will never get you there.\"\nSangchul said it with a smile.\n\"Anyway, give it some thought. There's no rush.\"\n{name} left the office. Something sat heavy in a corner of his chest.",
         "bridge_summary": "Sangchul's warning that saving alone would never be enough stayed behind every calculation that week."
       },
       {
         "text": "\"I have my own way of doing things.\"",
-        "result_text": "\"Sure. You've got to figure it out for yourself in the end.\"\nSangchul laughed, unbothered.\n{name} hung up and opened the notebook. He wrote 'My way,' then stopped.\nThe pen left one dark dot beneath the empty line.",
+        "result_text": "\"Sure. You've got to figure it out for yourself in the end.\"\nSangchul laughed, unbothered.\n{name} left the office and opened the notebook. He wrote 'My way,' then stopped.\nThe pen left one dark dot beneath the empty line.",
         "bridge_summary": "After rejecting Sangchul's method, he wrote 'My way' in the notebook and left the line beneath it empty."
       }
     ],
-    "description_orthodox": "Im Sangchul held out a cup of tea.\n\n\"You thinking about investing?\"\n\n{name} left the cup where it was and looked first at the business card beside the handle. Its corners were worn. Three numbers had been written on the back in ballpoint pen.\n\n\"I am — but I don't know yet.\"\n\n\"That's the most honest answer there is.\" Im Sangchul smiled.\nHe did not pull the untouched cup back toward himself.",
-    "description_unorthodox": "Im Sangchul held out a cup of tea.\n\n\"You thinking about investing?\"\n\n\"Sure.\" {name} answered right away.\n\n\"Why?\"\n\nThat stung. Why. Too simple to call it the money; too long to explain if it was Gangnam.\n\n\"I haven't sorted it out yet.\"\n\n\"Let me know when you do.\" Im Sangchul smiled."
+    "description_orthodox": "About two weeks after their first meeting, {name} returned to the Sinchon real-estate office. Im Sangchul held out a cup of tea.\n\n\"You thinking about investing?\"\n\n{name} left the cup where it was and looked first at the business card beside the handle. Its corners were worn. Three numbers had been written on the back in ballpoint pen.\n\n\"I am — but I don't know yet.\"\n\n\"That's the most honest answer there is.\" Im Sangchul smiled.\nHe did not pull the untouched cup back toward himself.",
+    "description_unorthodox": "About two weeks after their first meeting, {name} returned to the Sinchon real-estate office. Im Sangchul held out a cup of tea.\n\n\"You thinking about investing?\"\n\n\"Sure.\" {name} answered right away.\n\n\"Why?\"\n\nThat stung. Why. Too simple to call it the money; too long to explain if it was Gangnam.\n\n\"I haven't sorted it out yet.\"\n\n\"Let me know when you do.\" Im Sangchul smiled."
   },
   {
     "id": "arc_opp_jiyeon_bunyang",
@@ -461,7 +461,7 @@
         "result_text": "{name} let out a long breath.\n\nSlow as it is, the honest road gets you furthest in the end.\nEven if it's hard right now — he chose to believe that.\n\nThe rent was still unpaid. But his hands were clean."
       }
     ],
-    "description": "A month later, in the same room, he was watching the news when a chyron scrolled past.\n\n'Burner-account recruitment ring arrested — dozens of account holders charged. Up to 3 years in prison.'\n\nThat night, the number he'd blocked came back to him.\nSo did the two million won he'd turned down.\n\nHe lay there a long while with the screen gone dark.\nIf he'd sent it back then — by now he'd be inside that very news chyron.\n\nHe'd have been dreaming of Gangnam with a criminal record."
+    "description": "A month later, at night, he was watching the news in the room where he currently lived when a chyron scrolled past.\n\n'Burner-account recruitment ring arrested — dozens of account holders charged. Up to 3 years in prison.'\n\nThat night, the number he'd blocked came back to him.\nSo did the two million won he'd turned down.\n\nHe lay there a long while with the screen gone dark.\nIf he'd sent it back then — by now he'd be inside that very news chyron.\n\nHe'd have been dreaming of Gangnam with a criminal record."
   },
   {
     "id": "arc_temptation_fallout",
