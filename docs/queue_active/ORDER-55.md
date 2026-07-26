@@ -11,6 +11,7 @@
 - `docs/STORY_CONSISTENCY_SYSTEM.md`
 - `content/meta/story_rules.json`
 - `content/events/{arc_events,ng_plus_events,arc_year3_drama,scenario_cafe_callback,callback_events,callback_events_36,arc_hyunsu,arc_midgame,arc_chapter_themes,gambling_narrative}.json`
+- `content/events/{callback_events_37,callback_events_39,callback_events_40,callback_events_43,callback_events_46,callback_events_51,relationship_events2}.json`
 - `content/events_en/{arc_events,ng_plus_events,arc_year3_drama,scenario_cafe_callback,callback_events,callback_events_36,arc_hyunsu,arc_midgame,arc_chapter_themes,gambling_narrative}.json`
 - `scenes/MainGame.gd`
 - `assets/event_visual_contracts.json`
