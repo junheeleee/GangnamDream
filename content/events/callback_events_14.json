@@ -126,15 +126,16 @@
   {
     "id": "callback_formal_complaint_filed_echo",
     "title": "정식 민원 이후",
-    "description": "정식 민원을 넣었던 게 두 달 전이다.\n오늘 담당 기관에서 결과 통보가 왔다.",
+    "description": "인사팀에 서면으로 문제를 제기한 뒤, 회신이 왔다.",
     "category": "social",
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
     "conditions": {
       "flag": "formal_complaint_filed",
-      "min_turn": 5
+      "min_turn": 80
     },
+    "background": "current_housing",
     "tags": [
       "social",
       "callback",
@@ -151,7 +152,7 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "[처리 완료] 결과가 나왔다.\n정식 절차가 시간이 걸렸지만 — 작동했다."
+        "result_text": "인사팀 회신에는 '사실관계 확인 중'이라고 적혀 있었다.\n문서 맨 아래에는 접수 번호와 담당자 이름이 남아 있었다."
       }
     ]
   },

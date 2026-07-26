@@ -1,6 +1,6 @@
 # Active Queue Spec: ORDER-52
 
-> Canonical status is indexed in `docs/CODEX_QUEUE.md`. 선행: [`ORDER-51`](ORDER-51.md) B의
+> Canonical status is indexed in `docs/CODEX_QUEUE.md`. 선행: [`ORDER-51`](../queue_archive/ORDER-51.md) B의
 > **유저 결정 = (나) 선별 부활**(2026-07-26). 근거 원장: 각본 리뷰 3차 + 부활 선별 정독.
 > **Claude 코드 검증 완료** — 아래 엔진 제약·슬롯 점유는 저장소에서 재현한 사실이다.
 
@@ -108,7 +108,7 @@ ORDER-51에서 확인된 사실: 콜백 620건 중 도달 가능 24건(3.9%), ch
 | `callback_sent_money_instead_echo` | 세 가지. (1) 설명문 '직접 가는 대신 돈을 보냈던 게 한 달 전이다'를 delay 10주에 맞춰 '두 달 반 전'으로 고친다. (2) 선택지 0의 mental +11은 '곧 직접 갈게요'라는 또 한 번의 미룸에 주는 순보상이라 뒤집어야 한다 — 아버지의 '바쁘면 됐다'가 이미 그 대가이므로 소폭 감소나 0으로 조정한다. (3) 선택지 1의 '하지만 돈이 — 존재를 대신할 수는 없었다'는 서술자 교훈이므로 삭제하고, 문자 화면을 오래 들여다보는 동작으로 대체한다. |
 | `callback_medication_visited_echo` | 첫 줄 '아버지가 쓰러진 후 병원에서 첫 진료'가 arc_father_03_hospital(MainGame.gd:3023, t>=82)을 전제하는데 이 배선의 착지는 t≈70으로 아직 쓰러지기 전이다. 정기 진료 재방문 장면으로 고친다. 또 deferred 경로는 conditions를 재검사하지 않아 no_flag: father_passed가 무력화되므로, 문장이 아버지 생존을 단정하지 않게 다듬는다. |
 | `callback_medication_ignored_echo` | 첫 줄 '아버지가 쓰러진 후 첫 통화였다'가 같은 이유로 아직 오지 않은 병원 사건을 전제한다. 약을 시작한 뒤의 일상 통화로 고쳐야 t≈70 착지와 맞는다. |
-| `callback_daeun_married_echo` | 두 가지. (1) 본문 첫 줄 '며칠이 지났다'가 12주 지연과 어긋나므로 '몇 달이 지났다'로 바꿔야 늦은 회수로 읽힌다. (2) 이 콜백은 arc_daeun_year3_apart 전용 예약으로만 살린다 — daeun_married 플래그를 arc_daeun_proposal_answer[0](민준이 다은과 결혼)도 세우므로 조건 기반 부활은 금지다(레포 확인). |
+| `callback_daeun_married_echo` | 두 가지. (1) 본문 첫 줄 '며칠이 지났다'가 12주 지연과 어긋나므로 '몇 달이 지났다'로 바꿔야 늦은 회수로 읽힌다. (2) 이 콜백은 arc_daeun_year3_apart 전용 예약으로만 살린다 — daeun_married 플래그를 `arc_daeun_proposal_answer[0]`(민준이 다은과 결혼)도 세우므로 조건 기반 부활은 금지다(레포 확인). |
 | `callback_hyunsu_departure_meal_echo` | 첫 줄 '오늘도 고시원이다'가 이미 이사한 플레이어에게는 거짓이 된다. arc_goshiwon_goodbye_seen이면 발화하지 않게 막거나, 이사한 경우의 대체 첫 줄(같은 질문이 새 집에서 떠오르는 형태)을 둔다. |
 | `callback_declined_sangchul_deal_echo` | 설명문이 77자로 장면이 얇다. 임상철의 전화를 받는 장소와 시간 한 줄(예: 퇴근길 지하철 환승 통로)을 얹으면 감각 구체 기준을 통과한다. 회수의 값어치('그날 넣었으면 지금쯤 1.8배였다')는 그대로 둔다. |
 | `callback_jiyeon_took_deal_consequence` | '오늘 첫 정산이 들어왔다. 예상보다 적었다'가 분양권 도박의 승리 분기에서 모순된다. 정산 부족을 승패와 무관한 항목(중개보수·부대비용·유보 조항)으로 바꿔 어느 결과에서도 성립하게 한다. |

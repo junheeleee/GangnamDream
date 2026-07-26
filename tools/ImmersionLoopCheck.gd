@@ -178,7 +178,7 @@ func _check_random_narrative_bridge_flow() -> void:
 		game.free()
 
 		GameState.start_new_game()
-		GameState.turn = GameState.DEMO_TURN_LIMIT + 1
+		GameState.turn = 80
 		GameState.flags["formal_complaint_filed"] = true
 		EventManager.event_cooldowns.clear()
 		EventManager.recent_event_ids.clear()

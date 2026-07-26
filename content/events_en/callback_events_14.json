@@ -47,11 +47,11 @@
   {
     "id": "callback_formal_complaint_filed_echo",
     "title": "After the Formal Complaint",
-    "description": "Two months since you filed the formal complaint.\nToday the agency sent a resolution notice.",
+    "description": "After you put the complaint to HR in writing, their response arrived.",
     "choices": [
       {
         "text": "Check the result",
-        "result_text": "[Resolved]\nThe outcome arrived.\nThe formal process took time — but it worked."
+        "result_text": "HR's reply read: 'Fact-finding in progress.'\nAt the bottom were the case number and the staff member's name."
       }
     ]
   },

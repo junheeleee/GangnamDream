@@ -1,9 +1,9 @@
-# Active Queue Spec: ORDER-51
+# Completed Queue Spec: ORDER-51
 
 > Canonical status is indexed in `docs/CODEX_QUEUE.md`. 근거: 각본 리뷰 3차(지연 회수 엔진 2축 정독).
 > **Claude 직접 코드 검증 완료(2026-07-26)** — 아래 수치는 리뷰어 주장이 아니라 저장소에서 재현한 사실이다.
 
-#### [~] 착수 — 만지는 파일: `content/events/callback_events_14.json`, `content/events/callback_events_34.json`, `content/events_en/callback_events_14.json`, `content/events_en/callback_events_34.json`, `tools/event_director_audit.py`, `tools/EventDirectorCheck.gd`, `tools/ImmersionLoopCheck.gd`, `tools/ScreenshotQA.gd`, `docs/BALANCE.md`, `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-51.md`, `docs/queue_active/ORDER-52.md`, `CLAUDE.md`, `docs/WORK_LOG.md`
+#### [x] 완료 — 만진 파일: `content/events/callback_events_14.json`, `content/events/callback_events_34.json`, `content/events_en/callback_events_14.json`, `content/events_en/callback_events_34.json`, `tools/event_director_audit.py`, `tools/EventDirectorCheck.gd`, `tools/ImmersionLoopCheck.gd`, `tools/ScreenshotQA.gd`, `docs/BALANCE.md`, `docs/CODEX_QUEUE.md`, `docs/queue_archive/ORDER-51.md`, `docs/queue_active/ORDER-52.md`, `CLAUDE.md`, `docs/WORK_LOG.md`
 
 ORDER-51 [P1 + ⚠설계 판단] 지연 회수 엔진 — 도달 불가 코퍼스와 도달분 3건 수리
 
@@ -61,7 +61,7 @@ ORDER-51 [P1 + ⚠설계 판단] 지연 회수 엔진 — 도달 불가 코퍼�
 - **(다) 허용목록 확대** — 목록에 콜백을 대량 추가. 비용 최소지만 ORDER-37이 막았던
   "무관한 단문이 전경을 빼앗는" 문제가 재발하므로 **비추천**.
 
-**✅ 유저 결정 (2026-07-26): (나) 선별 부활.** 후속 범위는 [`ORDER-52`](ORDER-52.md)가 소유한다 —
+**✅ 유저 결정 (2026-07-26): (나) 선별 부활.** 후속 범위는 [`ORDER-52`](../queue_active/ORDER-52.md)가 소유한다 —
 249건 정독 선별 → 최종 32건(37 배선행), T1 34행 즉시 배선 / T2 3행은 엔진 확장 승인 대기 /
 부활 전 필수 산문 수리 25건. **B는 이 오더에서 종결되었으므로 여기서 추가 착수하지 않는다.**
 
@@ -88,3 +88,22 @@ ORDER-51 [P1 + ⚠설계 판단] 지연 회수 엔진 — 도달 불가 코퍼�
   수치 변경분 `docs/BALANCE.md` 기록.
 - A는 도달 가능 3건이므로 실제 런타임 발화를 1280x800 실렌더로 확인.
 - B는 유저 결정 후 별도 오더에서 검증 범위를 정한다.
+
+## 완료 보고 — 2026-07-26
+
+- 도달 가능한 24개 콜백 중 결함이 있던 3개를 한영 동시에 수리했다.
+  전세 사기 회수는 산문과 실제 차감을 500만원으로 정렬했고, 재활용 이웃은
+  사회 해설 대신 이후 복도에서 먼저 인사하는 행동으로 끝낸다. 서면 신고
+  회수는 원천 선택 이후인 80주부터 열리고 현재 주거 배경을 사용한다.
+- `event_director_audit.py`가 전경·다리·명시 후속·예약 후속·아크 스케줄러와
+  플래그 생산자를 따라 실제 도달성을 계산한다. 현재 기준선은 콜백
+  24/620, 체인 0/12이며 휴면 596+12는 경고로 기록하되 앞으로 늘어나면
+  전체 감사를 실패시킨다.
+- 세 사건의 본문과 결과를 한영 1280x800로 각각 6면씩 실제 렌더했다.
+  런타임에서 전세 500만원·정신력 8 감소, 이웃 정신력 5 증가, 신고
+  정신력 10 증가까지 검증했다. 영어 화면의 한글 누출은 0이다.
+- B의 설계 판단은 유저가 `(나) 선별 부활`로 확정했으며, 부활 32건의
+  산문 수리와 예약 배선은 `ORDER-52`가 단독 소유한다.
+- 밸런스 5개 밴드와 전략 발산, 사건 디렉터, 몰입 루프, 한영 1,565개,
+  Godot 54개 스크립트 컴파일을 검증했다. 사용자 소유 `project.godot`은
+  수정 범위와 커밋에서 제외한다.

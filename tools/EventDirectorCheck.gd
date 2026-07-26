@@ -85,7 +85,7 @@ func _check_content_diet() -> void:
 	GameState.flags["formal_complaint_filed"] = true
 	_expect(EventManager.draw_narrative_bridge_event().is_empty(),
 		"random bridge leaked into the curated 24-week demo")
-	GameState.turn = 25
+	GameState.turn = 80
 	var bridge_fixture: Dictionary = DataRegistry.find_event("callback_formal_complaint_filed_echo")
 	_expect(EventManager._is_event_eligible(bridge_fixture, true),
 		"eligible causal bridge fixture failed its deterministic state conditions")

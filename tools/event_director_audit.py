@@ -13,10 +13,41 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "autoloads" / "DataRegistry.gd"
 MANIFEST = ROOT / "content" / "meta" / "event_director.json"
+MAIN_GAME = ROOT / "scenes" / "MainGame.gd"
 EXPECTED_CATALOG_RANDOM = 1176
 EXPECTED_DIRECTED_RANDOM = 1032
 EXPECTED_FOREGROUND_RANDOM = 61
 EXPECTED_BRIDGE_RANDOM = 18
+EXPECTED_CALLBACK_TOTAL = 620
+EXPECTED_CHAIN_TOTAL = 12
+MAX_DORMANT_CALLBACKS = 596
+MAX_DORMANT_CHAINS = 12
+EXPECTED_REACHABLE_CALLBACKS = {
+    "callback_amusement_child_reunion",
+    "callback_amusement_photo_found",
+    "callback_chaebol_met_dinner",
+    "callback_child_cost_grind",
+    "callback_father_promise",
+    "callback_formal_complaint_filed_echo",
+    "callback_guarantee_default",
+    "callback_guarantee_refused_news",
+    "callback_interview_lie_confessed_echo",
+    "callback_jaehyuk_reported_witness",
+    "callback_jaehyuk_testified_echo",
+    "callback_jeonse_auction_insured",
+    "callback_jeonse_protected_safe",
+    "callback_jeonse_scam_narrow",
+    "callback_kkondae_respect",
+    "callback_lied_interview_surfaces",
+    "callback_mindset_investor_echo",
+    "callback_mystery_info_reported_outcome",
+    "callback_pension_self_fund",
+    "callback_recycling_neighbor",
+    "callback_resume_lie_confessed_echo",
+    "callback_resume_lie_confessed_outcome",
+    "callback_tax_windfall",
+    "callback_truth_echo",
+}
 EXPECTED_IMPLICIT_BRIDGE_ROOTS = {
     "amb_idea_stolen_00",
     "anxiety_child_cost_calc",
@@ -125,6 +156,108 @@ def follow_up_targets(events: list[dict[str, Any]]) -> set[str]:
                 if target:
                     targets.add(target)
     return targets
+
+
+def event_follow_up_targets(event: dict[str, Any]) -> set[str]:
+    targets: set[str] = set()
+    for key in ("follow_up_event", "deferred_follow_up", "next_event"):
+        target = str(event.get(key, ""))
+        if target:
+            targets.add(target)
+    for choice in event.get("choices", []):
+        if not isinstance(choice, dict):
+            continue
+        for key in ("follow_up_event", "deferred_follow_up", "next_event"):
+            target = str(choice.get(key, ""))
+            if target:
+                targets.add(target)
+    return targets
+
+
+def scheduled_arc_ids(events: list[dict[str, Any]]) -> set[str]:
+    by_id = {str(event["id"]) for event in events}
+    source = MAIN_GAME.read_text(encoding="utf-8")
+    try:
+        block = source.split("func _next_arc_id(", 1)[1].split("\nfunc ", 1)[0]
+    except IndexError as exc:
+        raise RuntimeError("MainGame._next_arc_id could not be parsed") from exc
+    return {
+        event_id
+        for event_id in re.findall(r'\breturn\s+"([^"]+)"', block)
+        if event_id in by_id
+    }
+
+
+def delayed_event_reachability(
+    events: list[dict[str, Any]], manifest: dict[str, Any]
+) -> tuple[set[str], set[str], set[str], set[str]]:
+    by_id = {str(event["id"]): event for event in events}
+    callback_ids = {
+        event_id for event_id in by_id if event_id.startswith("callback_")
+    }
+    chain_ids = {event_id for event_id in by_id if event_id.startswith("chain_")}
+    delayed_ids = callback_ids | chain_ids
+    content_diet = manifest.get("content_diet", {})
+    exposed_ids = {
+        str(event_id)
+        for key in ("foreground_event_ids", "bridge_event_ids")
+        for event_id in content_diet.get(key, [])
+        if str(event_id) in by_id
+    }
+    scheduler_ids = scheduled_arc_ids(events)
+
+    enabled_ids = exposed_ids | scheduler_ids
+    reachable = (enabled_ids - delayed_ids) | (callback_ids & enabled_ids)
+    explicit_chain_targets: set[str] = set()
+
+    def drain_explicit_edges(pending: list[str]) -> None:
+        while pending:
+            source_id = pending.pop()
+            for target in event_follow_up_targets(by_id[source_id]):
+                if target not in by_id:
+                    continue
+                if target in chain_ids:
+                    explicit_chain_targets.add(target)
+                if target in reachable:
+                    continue
+                reachable.add(target)
+                pending.append(target)
+
+    drain_explicit_edges(list(reachable))
+
+    producers_by_flag: dict[str, set[str]] = {}
+    for event in events:
+        for flag in event_produced_flags(event):
+            producers_by_flag.setdefault(flag, set()).add(str(event["id"]))
+
+    # Chain rows are random-pool consumers of prior flags, not standalone roots.
+    # An allowlisted chain is live only when every required flag can be produced
+    # by an already reachable event. Explicit follow-ups remain valid entrances.
+    chain_candidates = (chain_ids & enabled_ids) | explicit_chain_targets
+    while True:
+        newly_reachable: list[str] = []
+        for event_id in sorted(chain_candidates - reachable):
+            required_flags = bridge_condition_flags(by_id[event_id])
+            has_reachable_producers = all(
+                bool(producers_by_flag.get(flag, set()) & reachable)
+                for flag in required_flags
+            )
+            if event_id in explicit_chain_targets \
+                    or (required_flags and has_reachable_producers) \
+                    or not required_flags:
+                reachable.add(event_id)
+                newly_reachable.append(event_id)
+        if not newly_reachable:
+            break
+        drain_explicit_edges(newly_reachable)
+        chain_candidates |= explicit_chain_targets
+
+    return (
+        callback_ids,
+        chain_ids,
+        reachable & callback_ids,
+        reachable & chain_ids,
+    )
 
 
 def is_directed_random(
@@ -614,6 +747,13 @@ def main() -> int:
     bridge_random = [
         event for event in events if is_bridge_random(event, manifest, direct_targets)
     ]
+    try:
+        callback_ids, chain_ids, reachable_callbacks, reachable_chains = \
+            delayed_event_reachability(events, manifest)
+    except RuntimeError as exc:
+        errors.append(str(exc))
+        callback_ids, chain_ids = set(), set()
+        reachable_callbacks, reachable_chains = set(), set()
     if len(events) != 1565:
         errors.append(f"registered event count drifted: expected 1565, got {len(events)}")
     if len(catalog_random) != EXPECTED_CATALOG_RANDOM:
@@ -638,18 +778,51 @@ def main() -> int:
     } & {str(event["id"]) for event in bridge_random}
     if overlap:
         errors.append(f"foreground and bridge pools overlap: {sorted(overlap)}")
+    if len(callback_ids) != EXPECTED_CALLBACK_TOTAL:
+        errors.append(
+            "callback corpus count drifted: "
+            f"expected {EXPECTED_CALLBACK_TOTAL}, got {len(callback_ids)}"
+        )
+    if len(chain_ids) != EXPECTED_CHAIN_TOTAL:
+        errors.append(
+            f"chain corpus count drifted: expected {EXPECTED_CHAIN_TOTAL}, got {len(chain_ids)}"
+        )
+    missing_reachable = EXPECTED_REACHABLE_CALLBACKS - reachable_callbacks
+    if missing_reachable:
+        errors.append(
+            "previously reachable callbacks became dormant: "
+            f"{sorted(missing_reachable)}"
+        )
+    dormant_callbacks = callback_ids - reachable_callbacks
+    dormant_chains = chain_ids - reachable_chains
+    if len(dormant_callbacks) > MAX_DORMANT_CALLBACKS:
+        errors.append(
+            "dormant callback corpus increased: "
+            f"baseline<={MAX_DORMANT_CALLBACKS}, got {len(dormant_callbacks)}"
+        )
+    if len(dormant_chains) > MAX_DORMANT_CHAINS:
+        errors.append(
+            "dormant chain corpus increased: "
+            f"baseline<={MAX_DORMANT_CHAINS}, got {len(dormant_chains)}"
+        )
 
     if errors:
         for message in errors:
             fail(message)
         return 1
     print(
+        "WARNING event director: dormant delayed corpus remains pending design "
+        f"callback={len(dormant_callbacks)} chain={len(dormant_chains)}"
+    )
+    print(
         "EVENT_DIRECTOR_AUDIT_OK "
         f"events={len(events)} catalog_random={len(catalog_random)} "
         f"directed_random={len(directed_random)} once={len(directed_random) - len(EXPECTED_REPEATABLE)} "
         f"foreground={len(foreground_random)} bridge={len(bridge_random)} "
         f"bridge_roots={len(EXPECTED_IMPLICIT_BRIDGE_ROOTS)} "
-        f"repeatable={len(EXPECTED_REPEATABLE)} chapters=5 asset_bands=5"
+        f"repeatable={len(EXPECTED_REPEATABLE)} "
+        f"callback_reachable={len(reachable_callbacks)} "
+        f"chain_reachable={len(reachable_chains)} chapters=5 asset_bands=5"
     )
     return 0
 

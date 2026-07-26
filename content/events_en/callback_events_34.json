@@ -17,7 +17,7 @@
     "choices": [
       {
         "text": "Contact the Legal Aid Corporation and fight for what you can recover",
-        "result_text": "Went to the Legal Aid Corporation. No fixed-date stamp means you're a junior creditor.\n\n500,000 won lost in the end — a partial recovery.\n[One document. One trip to the community center. That's what it cost to protect 50 million won in deposit money. In Korea, jeonse fraud has cost thousands of people their life savings. The fixed-date stamp costs 600 won to file, takes 10 minutes, and can be the only protection.]\nNow you know it in your bones."
+        "result_text": "Went to the Legal Aid Corporation. No fixed-date stamp means you're a junior creditor.\n\nOnly part of the deposit came back. The loss was 5 million won.\nNow you know in your bones what that one document was worth."
       }
     ]
   },
@@ -80,7 +80,7 @@
     "choices": [
       {
         "text": "Exchange a proper greeting",
-        "result_text": "We learned each other's names.\n\nYou have a neighbor in the goshiwon now. Small trust built from something small.\n[Recycling rules in Korea are strict and specific: separate plastic, cans, paper, styrofoam, glass, food waste — each with its own designated bin and day. Rinsing bottles, removing labels — it's genuinely complex. But everyone does it, because the social pressure to comply is real. The unwritten compact that makes this country's density work.]"
+        "result_text": "We learned each other's names.\n\nAfter that, whenever we passed in the hallway, one of us would nod first."
       }
     ]
   }

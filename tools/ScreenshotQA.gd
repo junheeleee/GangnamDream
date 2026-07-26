@@ -47,6 +47,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=first-snow --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=climate --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=event-visuals --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=delayed-payoff --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-act-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=immersion-loop --lang=en
@@ -138,6 +139,7 @@ const QA_SCOPE_JAEHYUK_PEAKS := "jaehyuk_peaks"
 const QA_SCOPE_FIRST_SNOW := "first_snow"
 const QA_SCOPE_CLIMATE := "climate"
 const QA_SCOPE_EVENT_VISUALS := "event_visuals"
+const QA_SCOPE_DELAYED_PAYOFF := "delayed_payoff"
 const QA_SCOPE_AP_EN := "ap_en"
 const QA_SCOPE_AP_ACT_EN := "ap_act_en"
 const QA_SCOPE_IMMERSION_LOOP := "immersion_loop"
@@ -619,6 +621,16 @@ func _ready() -> void:
 		print("SCREENSHOT_QA_DONE scope=event-visuals lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
+	if scope == QA_SCOPE_DELAYED_PAYOFF:
+		var lang := _qa_language("en")
+		await _shot_delayed_payoff_surfaces(
+				lang, "delayed_en_" if lang == "en" else "delayed_ko_")
+		if _qa_failed:
+			get_tree().quit(1)
+			return
+		print("SCREENSHOT_QA_DONE scope=delayed-payoff lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
 	if scope == QA_SCOPE_AP_EN:
 		var lang := _qa_language("en")
 		await _shot_ap_shell_surfaces(lang, "ap_en_" if lang == "en" else "ap_ko_")
@@ -1015,6 +1027,11 @@ func _qa_scope() -> String:
 				"--event-visuals", "--event_visuals", "qa=event-visuals", "--qa=event-visuals",
 				"qa=event_visuals", "--qa=event_visuals", "scope=event-visuals", "--scope=event-visuals"]:
 			return QA_SCOPE_EVENT_VISUALS
+		if arg in ["delayed-payoff", "delayed_payoff", "callback-payoff", "callback_payoff",
+				"--delayed-payoff", "--delayed_payoff", "qa=delayed-payoff", "--qa=delayed-payoff",
+				"qa=delayed_payoff", "--qa=delayed_payoff",
+				"scope=delayed-payoff", "--scope=delayed-payoff"]:
+			return QA_SCOPE_DELAYED_PAYOFF
 		if arg in ["ap-en", "ap_en", "main-en", "main_en", "--ap-en", "--ap_en",
 				"qa=ap-en", "--qa=ap-en", "qa=ap_en", "--qa=ap_en",
 				"qa=main-en", "--qa=main-en", "scope=ap-en", "--scope=ap-en"]:
@@ -1528,11 +1545,18 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 			await _settle(0.16)
 		if bool(story.get("_showing_choices")):
 			await _settle(0.4)
+	var should_finish_result := false
 	if select_choice >= 0 and bool(story.get("_showing_choices")) and story.has_method("_on_choice"):
 		GameState.flags["tut_stat_shown"] = true
 		GameState.flags["tut_cast_shown"] = true
 		story._on_choice(select_choice)
 		await _settle(0.35)
+		should_finish_result = true
+	elif select_choice >= 0 and bool(story.get("_pending_after_result")):
+		# One-choice bridge events commit directly at the last prose paragraph.
+		# Their result still needs the same completion path as a visible choice.
+		should_finish_result = true
+	if should_finish_result:
 		if bool(story.get("_typing")) and story.has_method("_on_advance"):
 			if story.has_method("_complete_typing"):
 				story._complete_typing()
@@ -5488,6 +5512,58 @@ func _shot_climate_surfaces(lang: String = "en", prefix: String = "climate_en_")
 		var label := str(data[1])
 		await _shot_story_event(event_id, prefix + label + "_intro", lang, 0.45, true)
 		await _shot_story_event(event_id, prefix + label + "_choices", lang, 0.45, true, true)
+
+func _shot_delayed_payoff_surfaces(
+		lang: String = "en", prefix: String = "delayed_en_") -> void:
+	_set_qa_language(lang)
+	var cases := [
+		["callback_jeonse_scam_narrow", "01_jeonse_scam", 45_000_000.0, 50, 1],
+		["callback_recycling_neighbor", "02_recycling_neighbor", 50_000_000.0, 63, 1],
+		["callback_formal_complaint_filed_echo", "03_formal_complaint", 50_000_000.0, 68, 0],
+	]
+	for data in cases:
+		var event_id := str(data[0])
+		var label := str(data[1])
+		_prepare_delayed_payoff_qa_state(event_id)
+		_assert_delayed_payoff_runtime_ready(event_id)
+		await _shot_story_event(event_id, prefix + label + "_prose", "", 0.45, true)
+
+		_prepare_delayed_payoff_qa_state(event_id)
+		_assert_delayed_payoff_runtime_ready(event_id)
+		await _shot_story_event(
+			event_id, prefix + label + "_result", "", 0.45, true, true,
+			0, 0, false, int(data[4]))
+		if not is_equal_approx(GameState.money, float(data[2])):
+			_fail("%s result money expected %s, got %s." % [
+				event_id, data[2], GameState.money])
+		if GameState.mental != int(data[3]):
+			_fail("%s result mental expected %s, got %s." % [
+				event_id, data[3], GameState.mental])
+
+func _prepare_delayed_payoff_qa_state(event_id: String) -> void:
+	_prepare_main_game_state()
+	GameState.turn = 100
+	GameState.year = 2028
+	GameState.month = 2
+	GameState.week_of_month = 1
+	GameState.money = 50_000_000.0
+	match event_id:
+		"callback_jeonse_scam_narrow":
+			GameState.flags["jeonse_unprotected"] = true
+		"callback_recycling_neighbor":
+			GameState.flags["recycling_diligent"] = true
+		"callback_formal_complaint_filed_echo":
+			GameState.flags["formal_complaint_filed"] = true
+
+func _assert_delayed_payoff_runtime_ready(event_id: String) -> void:
+	var event: Dictionary = DataRegistry.find_event(event_id)
+	if event.is_empty():
+		_fail("Delayed payoff fixture could not find %s." % event_id)
+		return
+	if not EventManager.is_narrative_bridge_event(event):
+		_fail("%s is no longer exposed by the runtime bridge director." % event_id)
+	if not EventManager._is_event_eligible(event, true):
+		_fail("%s is not eligible after its producer state is seeded." % event_id)
 
 func _shot_event_visual_surfaces(lang: String = "en", prefix: String = "event_visual_en_") -> void:
 	_set_qa_language(lang)
