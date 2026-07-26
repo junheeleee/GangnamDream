@@ -1069,17 +1069,34 @@ func apply_choice(event, choice):
 	# 선택지가 루트 포인트를 줄 수도 있다: "route": "orthodox" | "unorthodox"
 	if choice.has("route"):
 		add_route_point(str(choice["route"]))
-	# 선택지가 직접 직업을 줄 수도 있다: "grant_job": "job_01" (이미 직업이 있으면 무시)
-	if choice.has("grant_job") and current_job.is_empty():
+	# 선택지가 직접 직업을 줄 수도 있다. 기존 직업 교체는 명시한 선택지만 허용한다.
+	var replace_current_job := bool(choice.get("replace_current_job", false))
+	if choice.has("grant_job") and (current_job.is_empty() or replace_current_job):
 		var gj = DataRegistry.get_job(str(choice["grant_job"]))
 		if not gj.is_empty():
+			var previous_job: Dictionary = current_job.duplicate(true)
+			if not previous_job.is_empty():
+				var previous_salary := float(previous_job.get(
+					"effective_salary", previous_job.get("base_salary", 0.0)))
+				monthly_income = maxf(0.0, monthly_income - previous_salary)
 			current_job    = gj.duplicate(true)
 			job_tenure     = 0
 			work_performance = 50
-			monthly_income = float(gj.get("base_salary", 0))
+			var new_salary := float(gj.get("base_salary", 0.0))
+			current_job["effective_salary"] = new_salary
+			monthly_income = new_salary if previous_job.is_empty() \
+				else monthly_income + new_salary
 			flags["has_job"] = true
 			flags["job_started_turn"] = turn
-			add_log(LocaleManager.ui("💼 취업: %s", "💼 Hired: %s") % get_job_display_name(gj), "job")
+			var new_tier := int(gj.get("tier", 1))
+			if new_tier > int(flags.get("max_job_tier", 0)):
+				flags["max_job_tier"] = new_tier
+			if previous_job.is_empty():
+				add_log(LocaleManager.ui("💼 취업: %s", "💼 Hired: %s") \
+					% get_job_display_name(gj), "job")
+			else:
+				add_log(LocaleManager.ui("💼 이직: %s → %s", "💼 Changed jobs: %s → %s") \
+					% [get_job_display_name(previous_job), get_job_display_name(gj)], "job")
 	# 스토리 인물 관계 변화 (cast_effects)
 	# 예: "cast_effects": { "jiyeon": { "affinity": 10, "stage": "interest", "met": true } }
 	for person_id in choice.get("cast_effects", {}):

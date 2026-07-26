@@ -83,6 +83,19 @@
     "id": "final_last_winter",
     "title": "Last Winter",
     "description": "December.\n\nThe memory of the first night in the goshiwon came back.\nThe flickering fluorescent light. A thin blanket. The neighboring wall filling the window.\n\n{name} opened the window.\nCold air came in. Seoul was in winter.\n\nFive years had passed.\n\nWhat was different now?\nThe room was different. The number in the account. What the years had written on the face.\n\nSome things hadn't changed.\nGangnam was still far. Dad's calls were still short.\nSomething unnameable remained in the chest.\n\nThis is the last month.",
+    "description_memory_if_known": {
+      "chain_banchan_passed_by": "The closing glass door of the side-dish shop came back to him. The last time he saw her was when he looked back before turning the corner.",
+      "chain_banchan_refused_again": "He remembered the empty place beside the instant rice. The second kindness she offered had gone back into the refrigerated case.",
+      "chain_banchan_card_kept": "The corner of the business card in his wallet had worn down long ago. He had never saved the number.",
+      "chain_exec_kept_distance": "The executive's card was still tucked inside his wallet. The number had never entered his phone.",
+      "chain_exec_interview_failed": "The erased reply and the subject line of the rejection email returned together.",
+      "chain_interior_gig_declined": "He had remembered the business card only after opening the last drink in the stockroom. He never found where he had put it.",
+      "chain_interior_offer_declined": "The old tape measure from the day he left the site group chat still sat on top of the toolbox.",
+      "chain_neighbor_kept_distance": "He remembered the exam envelope abandoned outside the next room. It belonged to someone whose name he had never asked.",
+      "chain_housing_deadline_missed": "When he reopened the notice the day after the deadline, it read 'Applications Closed.' The unsent reply was still there too.",
+      "chain_celeb_photo_kept": "One photograph from the convenience store at dawn remained in a private album. The man never came back after that night.",
+      "chain_scam_victim_ignored": "The open wallet and the document envelope at the end of the alley overlapped again. That night too, he had slept with his phone face down."
+    },
     "choices": [
       {
         "text": "Focus on what time is left.",

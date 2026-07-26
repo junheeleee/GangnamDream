@@ -725,6 +725,18 @@ func trigger_event_by_id(event_id):
 	if not event.is_empty():
 		queue_event(event)
 
+## Delayed callbacks may outlive the state that made them plausible. Unlike an
+## immediate authored follow-up, they must still satisfy their event conditions.
+func trigger_deferred_event_by_id(event_id: String) -> bool:
+	var event: Dictionary = DataRegistry.find_event(event_id)
+	if event.is_empty():
+		push_error("Deferred event missing: %s" % event_id)
+		return false
+	if not _check_conditions(event.get("conditions", {})):
+		return false
+	queue_event(event)
+	return true
+
 ## Low-signal authored events keep their original effects and history without
 ## interrupting the novel with another standalone choice screen. The caller
 ## chooses from the event's existing options based on decisions already made.

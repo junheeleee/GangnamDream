@@ -1,13 +1,32 @@
-# Active Queue Spec: ORDER-54
+# Completed Queue Spec: ORDER-54
 
 > Canonical status is indexed in `docs/CODEX_QUEUE.md`.
 > 선행 계보: [`ORDER-51`](../queue_archive/ORDER-51.md)(사문 발견) → `ORDER-52`(콜백 32건 부활)
 > → `ORDER-53`(예약 배열 확장). 이 오더는 그 계보의 **마지막 남은 휴면 코퍼스**를 닫는다.
 > **Claude 코드 검증 완료(2026-07-26)** — 아래 수치·계약은 저장소에서 재현한 사실이다.
 
-#### [~] 착수 — 만지는 파일: `autoloads/{DataRegistry,EventManager,GameState}.gd`, `scenes/MainGame.gd`, `content/events/{butterfly_events,chain_events,life_events,rare_encounter_events}.json`, `content/events_en/{butterfly_events,chain_events,life_events,rare_encounter_events}.json`, `content/meta/event_director.json`, `locale/ui_ja.json`, `tools/{audit,arc_flow_sim,convergence_sim,event_director_audit,mod_pack_validator}.py`, `tools/{EventDirectorCheck,ScreenshotQA}.gd`, `docs/{BALANCE,CODEX_QUEUE,WORK_LOG}.md`, `docs/queue_active/ORDER-54.md`, `CLAUDE.md`
+#### [x] 완료 — 만진 파일: `autoloads/{DataRegistry,EventManager,GameState}.gd`, `scenes/MainGame.gd`, `content/events/{butterfly_events,chain_events,life_events,rare_encounter_events}.json`, `content/events_en/{chain_events,life_events,rare_encounter_events}.json`, `content/meta/event_director.json`, `locale/ui_ja.json`, `tools/{audit,convergence_sim,event_director_audit,mod_pack_validator}.py`, `tools/EventDirectorCheck.gd`, `docs/{BALANCE,CODEX_QUEUE,WORK_LOG}.md`, `docs/queue_archive/ORDER-54.md`, `CLAUDE.md`
 
 ORDER-54 [P1·체인 부활] 씨앗-수확 12체인을 되살린다
+
+## 실행 결과
+
+- 씨앗 5건의 설명을 전경 계약까지 보강하고 생산자 선택 14행에서 고유
+  수확 12건을 8~12주 뒤 예약했다. 기존 전경 수확 2건을 제거했으므로
+  전경 사건은 **61 - 2 + 5 = 64건**, 도달 체인은 **0 → 12건**,
+  휴면 체인은 **12 → 0건**이다.
+- 예약 사건 전용 조건 진입점을 추가했다. 직업·주거가 예약 뒤 달라지면
+  모순된 장면은 발화하지 않고, 같은 주의 다음 유효 예약을 계속 검사한다.
+- 계열사 합격은 실제 `job_08`·월 455만원을 부여한다. 편의점에서 이어진
+  인테리어 제안은 `job_01 → job_03`·월 224만원 이직으로 처리하며
+  기존 직업 급여만 교체하고 다른 월수입은 보존한다.
+- 거절·보류 11분기는 고유 플래그를 남기고 마지막 겨울의 한영 기억이
+  실제로 읽는다. 격언·회계 결구는 사물과 행동으로 교체했다.
+- 재검수에서 고시원 이웃 씨앗의 거주 조건, 이웃 문자의 현재 주거 배경,
+  편의점 이미지와 충돌하던 마트 벨트·카트 소품을 함께 바로잡았다.
+- 정적 부채 0, 체인 12/12, 대표 A/B 240주 아크 잼 0, 5전략 발산,
+  한영 1,565사건, 일본어 UI 키, Godot 전체 컴파일과 전체 감사를
+  통과했다. 사용자 소유 `project.godot`은 건드리지 않았다.
 
 ## 배경과 결정
 
@@ -27,7 +46,8 @@ ORDER-51이 확인한 마지막 휴면 덩어리다. 감사가 지금도 정직�
 체인은 씨앗(랜덤 조우)과 수확(조건부 후속)의 2단 구조라 둘의 배선 방식이 다르다.
 
 - **씨앗 5건은 허용목록에 넣는다.** 작성형 생산자가 없는 진짜 랜덤 조우라 예약 배선 대상이
-  아니다. `foreground_event_ids` 61 → 66.
+  아니다. 기존 전경 수확 2건을 제거하므로 `foreground_event_ids`는
+  `61 - 2 + 5 = 64`.
 - **수확은 허용목록에 넣지 않는다.** ORDER-53이 확장한 `deferred_follow_up` 배열로 **씨앗의
   해당 선택지에서 8~12주 예약**한다. 이 방식의 이득 셋:
   1. 허용목록 증가가 +5로 끝난다(체인 12건을 넣으면 +17).
@@ -169,7 +189,7 @@ ORDER-51이 확인한 마지막 휴면 덩어리다. 감사가 지금도 정직�
 
 - `python3 tools/audit.py` → ERROR 0/WARNING 0, write-only 플래그 0, inert 0
 - `python3 tools/event_director_audit.py` → **`chain_reachable`이 0에서 12로**, 휴면 경고의
-  `chain=12`가 사라진다. `foreground` 61 → 66, 씨앗 5건이 전경 계약을 통과한다.
+  `chain=12`가 사라진다. `foreground` 61 → 64, 씨앗 5건이 전경 계약을 통과한다.
 - `python3 tools/arc_flow_sim.py` — 예약이 아크 슬롯을 잠식하므로 상한 있는 아크의 도달률
   회귀를 확인한다(ORDER-52 검증 항목과 동일한 8종).
 - `GODOT=<경로> ./tools/audit.sh` → "✅ 감사 통과", `python3 tools/english_hangul_audit.py`

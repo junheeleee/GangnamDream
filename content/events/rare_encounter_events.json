@@ -2,7 +2,7 @@
   {
     "id": "rare_celeb_convenience",
     "title": "새벽 3시의 손님",
-    "description": "야간 알바 중 새벽 3시.\n\n문이 열렸다. 모자 깊이 눌러 쓴 남자가 들어왔다.\n\n삼각김밥 두 개, 에너지 음료 하나.\n계산하면서 모자가 살짝 올라갔다.\n\n{name}은 굳었다. TV에서 봤던 얼굴이었다.",
+    "description": "야간 알바 중 새벽 3시. 냉장고 압축기와 형광등 소리만 남은 시간이었다.\n\n문이 열리고 모자를 깊이 눌러쓴 남자가 들어왔다. 그는 매대를 한 바퀴 돌더니 삼각김밥 두 개와 에너지 음료 하나를 계산대에 놓았다.\n\n바코드를 찍는 동안 모자가 살짝 올라갔다. {name}의 손이 영수증 위에서 멎었다. TV에서 여러 번 봤던 얼굴이었다.",
     "category": "social",
     "rarity": "legendary",
     "weight": 0.15,
@@ -28,6 +28,8 @@
         "flags": [
           "met_celebrity"
         ],
+        "deferred_follow_up": "chain_celeb_return",
+        "deferred_delay": 8,
         "result_text": "\"감사합니다.\" 그 목소리도 TV에서 들었던 그 목소리였다.\n\n남자가 나갔다. 편의점이 다시 조용해졌다.\n\n{name}은 계산대를 닦았다. 평소처럼.\n그 사람도 새벽에 삼각김밥을 먹는다는 게 이상하게 위안이 됐다.",
         "follow_up_event": ""
       },
@@ -41,6 +43,8 @@
         "flags": [
           "met_celebrity"
         ],
+        "deferred_follow_up": "chain_celeb_return",
+        "deferred_delay": 8,
         "result_text": "남자가 잠깐 멈췄다가 웃었다.\n\"쉬는 날엔 그냥 사람이에요.\"\n\n나가면서 영수증 뒤에 싸인을 해줬다.\n\n{name}은 그걸 지갑에 넣었다. 팔진 않을 거다.",
         "follow_up_event": ""
       }
@@ -179,7 +183,7 @@
   {
     "id": "rare_wallet_executive",
     "title": "지갑을 주웠다",
-    "description": "지하철역 계단에서 지갑이 떨어져 있었다.\n\n명함이 들어 있었다. ○○그룹 전무이사.\n\n현금도 꽤 있었다. 카드도 여러 장.\n\n{name}은 지갑을 들었다.",
+    "description": "퇴근 인파가 빠진 지하철역 계단. 벽 쪽에 검은 지갑 하나가 펼쳐진 채 떨어져 있었다.\n\n{name}은 지나쳤다가 두 칸을 다시 올라왔다. 안에는 ○○그룹 전무이사라고 적힌 명함, 카드 여러 장, 5만원권 세 장이 가지런히 끼워져 있었다.\n\n개찰구 쪽에서는 안내 방송이 반복됐다. 지갑을 든 손 앞에서 계단을 오르내리는 사람들은 아무도 멈추지 않았다.",
     "category": "social",
     "rarity": "rare",
     "weight": 0.35,
@@ -203,7 +207,9 @@
         "flags": [
           "returned_wallet"
         ],
-        "result_text": "일주일 뒤 문자가 왔다. 명함 속 번호였다.\n\"저번에 감사했습니다. 밥 한 번 사도 될까요?\"\n\n{name}은 그 자리에서 한참 화면을 봤다.\n어떤 인연은 계단에서 시작된다.",
+        "deferred_follow_up": "chain_exec_meal",
+        "deferred_delay": 8,
+        "result_text": "일주일 뒤 문자가 왔다. 명함 속 번호였다.\n\"저번에 감사했습니다. 밥 한 번 사도 될까요?\"\n\n{name}은 그 자리에서 한참 화면을 봤다.\n저장되지 않은 번호와 약속 장소가 화면 위에 나란히 떠 있었다.",
         "follow_up_event": ""
       },
       {
@@ -223,7 +229,7 @@
   {
     "id": "rare_market_kind_stranger",
     "title": "계산대 앞에서",
-    "description": "마트 계산대. 카드를 긁었다.\n\n'한도 초과'.\n\n뒤에 줄이 서 있었다. {name}은 물건을 내려놓으려 했다.\n\n\"제가 낼게요.\"\n\n뒤에 서 있던 50대 여자가 먼저 카드를 내밀었다.",
+    "description": "동네 편의점 계산대. {name}은 즉석밥과 달걀, 라면을 카운터 위에 올리고 카드를 내밀었다.\n\n'한도 초과'.\n\n직원이 같은 카드를 다시 받아 들었고, 뒤에 선 사람의 장바구니 모서리가 종아리에 한 번 닿았다. {name}은 가격표를 훑으며 무엇부터 내려놓을지 손을 뻗었다.\n\n\"제가 낼게요.\"\n\n뒤에 서 있던 50대 여자의 카드가 단말기 앞에 먼저 놓였다.",
     "category": "social",
     "rarity": "rare",
     "weight": 0.3,
@@ -249,7 +255,9 @@
         "flags": [
           "stranger_helped"
         ],
-        "result_text": "여자가 웃었다.\n\"됐어요. 나도 옛날에 그런 적 있었어.\"\n\n계산이 끝나고 각자 나갔다.\n\n{name}은 주차장에서 잠깐 서 있었다.\n서울이 다 차갑진 않다는 걸, 가끔 이렇게 배운다.",
+        "deferred_follow_up": "chain_banchan_reunion",
+        "deferred_delay": 8,
+        "result_text": "여자가 웃었다.\n\"됐어요. 나도 옛날에 그런 적 있었어.\"\n\n계산이 끝나고 각자 나갔다.\n\n{name}은 주차장에서 봉투 손잡이를 한 손에 모아 쥐었다. 여자는 이미 횡단보도 건너편으로 사라진 뒤였다.",
         "follow_up_event": ""
       },
       {
@@ -261,6 +269,8 @@
         "flags": [
           "stranger_help_declined"
         ],
+        "deferred_follow_up": "chain_banchan_reunion_declined",
+        "deferred_delay": 8,
         "result_text": "물건을 다 내려놓고 나왔다.\n\n빈손으로 나오는 길. 흐렸다.\n\n다음 월급날까지 버텨야 했다. 버틸 수 있었다.\n그게 지금 할 수 있는 전부였다.",
         "follow_up_event": ""
       }
@@ -357,7 +367,7 @@
   {
     "id": "rare_night_alva_find",
     "title": "손님이 두고 간 것",
-    "description": "야간 알바 마감 정리 중.\n\n테이블 아래 봉투 하나가 있었다.\n\n열어봤다. 현금다발. 숫자를 셌다.\n50만원이었다.\n\nCCTV가 있다. 어쩌면 손님이 돌아올 수도 있다.",
+    "description": "야간 알바 마감 정리 중. 마지막 손님이 나가고 자동문이 잠긴 뒤였다.\n\n{name}은 의자를 올리고 테이블 아래를 닦다가 검은 봉투 하나를 발견했다. 안에는 고무줄로 묶인 5만원권이 들어 있었다. 두 번 세어도 50만원이었다.\n\n천장 모서리의 CCTV 표시등이 붉게 깜박였다. 쓰레기봉투를 묶는 동안에도 자동문 너머로 돌아오는 사람은 없었다.",
     "category": "social",
     "rarity": "rare",
     "weight": 0.25,
@@ -384,6 +394,8 @@
         "flags": [
           "honest_found_money"
         ],
+        "deferred_follow_up": "chain_envelope_owner_return",
+        "deferred_delay": 8,
         "result_text": "사장님이 30분 뒤 나타났다. 손님에게 연락이 됐다.\n\n손님이 와서 봉투를 가져갔다. 10만원을 {name}에게 줬다.\n\n\"고마워요. 전 재산이었는데.\"\n\n그 말이 오래 남았다. 10만원보다.",
         "follow_up_event": ""
       },
@@ -399,6 +411,8 @@
         "flags": [
           "took_found_money"
         ],
+        "deferred_follow_up": "chain_envelope_guilt",
+        "deferred_delay": 8,
         "result_text": "집에 와서 봉투를 꺼냈다.\n50만원.\n\n자려고 누웠다. 잠이 안 왔다.\nCCTV 생각이 났다. 손님이 다시 올 수도 있었다.\n\n{name}은 새벽 내내 천장을 봤다.\n돈의 무게가 이런 거였다.",
         "follow_up_event": ""
       }
@@ -452,12 +466,14 @@
   {
     "id": "rare_goshiwon_neighbor_success",
     "title": "옆방 소식",
-    "description": "고시원 복도에서 옆방 사람과 마주쳤다.\n\n6개월째 공시 준비하던 사람이었다. 항상 새벽에 불이 켜져 있었다.\n\n오늘 표정이 달랐다.\n\n\"나 붙었어.\"",
+    "description": "고시원 복도에서 옆방 사람과 마주쳤다. 그는 여섯 달째 공무원 시험을 준비했고, 새벽마다 문틈 아래로 스탠드 불빛이 새어 나오던 사람이었다.\n\n오늘은 손에 두꺼운 수험서를 들고 있지 않았다. 대신 휴대폰 화면을 몇 번이나 껐다 켰다. 잠을 못 잔 얼굴인데 입가만 자꾸 올라갔다.\n\n{name}이 무슨 일이냐고 묻기도 전에 그가 화면을 내밀었다.\n\n\"나 붙었어.\"",
     "category": "social",
     "rarity": "rare",
     "weight": 0.3,
     "background": "goshiwon_hallway",
-    "conditions": {},
+    "conditions": {
+      "housing": "gosiwon"
+    },
     "tags": [
       "social",
       "rare",
@@ -476,7 +492,9 @@
         "flags": [
           "congratulated_neighbor"
         ],
-        "result_text": "\"진짜? 축하해.\"\n\n그 말을 하면서 {name}은 자기 감정을 살폈다.\n부럽긴 했다. 근데 그것보다 — 기뻤다.\n\n같은 건물에서 같은 밤을 보낸 사람이 됐으니까.\n{name} 차례도 온다. 언제가 될지 모르지만.",
+        "deferred_follow_up": "chain_neighbor_moving",
+        "deferred_delay": 8,
+        "result_text": "\"진짜? 축하해.\"\n\n그 말을 하면서 {name}은 자기 감정을 살폈다.\n부럽긴 했다. 하지만 웃음이 먼저 나왔다.\n\n둘은 좁은 복도에 서서 합격자 조회 화면을 다시 열어봤다. 이름과 수험번호가 그대로 있었다.",
         "follow_up_event": ""
       },
       {

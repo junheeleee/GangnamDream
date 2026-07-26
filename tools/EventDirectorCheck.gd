@@ -58,6 +58,37 @@ const MULTI_DEFERRED_PAYOFF_WIRING := [
 	},
 ]
 
+const CHAIN_DEFERRED_PAYOFF_WIRING := [
+	{"event": "rare_market_kind_stranger", "choice": 0, "target": "chain_banchan_reunion", "delay": 8},
+	{"event": "rare_market_kind_stranger", "choice": 1, "target": "chain_banchan_reunion_declined", "delay": 8},
+	{"event": "chain_banchan_reunion", "choice": 0, "target": "chain_banchan_son", "delay": 10},
+	{"event": "chain_banchan_reunion_declined", "choice": 0, "target": "chain_banchan_son", "delay": 10},
+	{"event": "rare_wallet_executive", "choice": 0, "target": "chain_exec_meal", "delay": 8},
+	{"event": "chain_exec_meal", "choice": 0, "target": "chain_exec_interview", "delay": 10},
+	{"event": "rare_night_alva_find", "choice": 0, "target": "chain_envelope_owner_return", "delay": 8},
+	{"event": "rare_night_alva_find", "choice": 1, "target": "chain_envelope_guilt", "delay": 8},
+	{"event": "chain_envelope_owner_return", "choice": 0, "target": "chain_interior_offer", "delay": 10},
+	{"event": "rare_goshiwon_neighbor_success", "choice": 0, "target": "chain_neighbor_moving", "delay": 8},
+	{"event": "chain_neighbor_moving", "choice": 0, "target": "chain_neighbor_civil_servant", "delay": 12},
+	{"event": "rare_celeb_convenience", "choice": 0, "target": "chain_celeb_return", "delay": 8},
+	{"event": "rare_celeb_convenience", "choice": 1, "target": "chain_celeb_return", "delay": 8},
+	{"event": "butterfly_mystery_info_result_scam", "choice": 0, "target": "chain_scammer_again", "delay": 12},
+]
+
+const CHAIN_TERMINAL_FLAGS := [
+	{"event": "chain_banchan_reunion", "choice": 1, "flag": "chain_banchan_passed_by"},
+	{"event": "chain_banchan_reunion_declined", "choice": 1, "flag": "chain_banchan_refused_again"},
+	{"event": "chain_banchan_son", "choice": 1, "flag": "chain_banchan_card_kept"},
+	{"event": "chain_exec_meal", "choice": 1, "flag": "chain_exec_kept_distance"},
+	{"event": "chain_exec_interview", "choice": 1, "flag": "chain_exec_interview_failed"},
+	{"event": "chain_envelope_owner_return", "choice": 1, "flag": "chain_interior_gig_declined"},
+	{"event": "chain_interior_offer", "choice": 1, "flag": "chain_interior_offer_declined"},
+	{"event": "chain_neighbor_moving", "choice": 1, "flag": "chain_neighbor_kept_distance"},
+	{"event": "chain_neighbor_civil_servant", "choice": 1, "flag": "chain_housing_deadline_missed"},
+	{"event": "chain_celeb_return", "choice": 1, "flag": "chain_celeb_photo_kept"},
+	{"event": "chain_scammer_again", "choice": 1, "flag": "chain_scam_victim_ignored"},
+]
+
 func _ready() -> void:
 	GameState.start_new_game()
 	_check_catalog_and_ranges()
@@ -66,11 +97,12 @@ func _ready() -> void:
 	_check_once_and_repeat_policy()
 	_check_authored_bypass()
 	_check_delayed_payoff_wiring()
+	_check_seed_harvest_chains()
 	_check_demo_pacing()
 	_check_full_run_pacing()
 	_check_rhythm_save_migration()
 	if _failures.is_empty():
-		print("EVENT_DIRECTOR_CHECK_OK directed=1015 foreground=61 bridge=18 bridge_roots=7 auto_multi=0 once=1014 repeatable=3 callbacks=37/32 chapters=5 asset_bands=5 demo=9/2/4/3 authored=7 generic=2 full=52/5/20/21 save=legacy+demo+deferred")
+		print("EVENT_DIRECTOR_CHECK_OK directed=1003 foreground=64 bridge=18 bridge_roots=6 auto_multi=0 once=1000 repeatable=3 callbacks=37/32 chains=14/12 chapters=5 asset_bands=5 demo=9/2/4/3 authored=7 generic=2 full=52/5/20/21 save=legacy+demo+deferred")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -83,7 +115,7 @@ func _check_catalog_and_ranges() -> void:
 		var event: Dictionary = event_value
 		if EventManager.is_directed_random_event(event):
 			directed_count += 1
-	_expect(directed_count == 1015, "runtime directed pool is %d, expected 1015" % directed_count)
+	_expect(directed_count == 1003, "runtime directed pool is %d, expected 1003" % directed_count)
 	var chapter_ids: Array[String] = []
 	for turn_value in [1, 49, 97, 145, 193]:
 		chapter_ids.append(EventManager.director_chapter_id(turn_value))
@@ -107,8 +139,8 @@ func _check_content_diet() -> void:
 			_expect((event.get("choices", []) as Array).size() == 1,
 				"multi-choice event entered the automatic bridge pool: %s" \
 				% str(event.get("id", "")))
-	_expect(foreground_count == 61,
-		"curated foreground pool is %d, expected 61" % foreground_count)
+	_expect(foreground_count == 64,
+		"curated foreground pool is %d, expected 64" % foreground_count)
 	_expect(bridge_count == 18,
 		"safe one-choice bridge pool is %d, expected 18" % bridge_count)
 
@@ -444,6 +476,174 @@ func _check_delayed_payoff_wiring() -> void:
 	GameState.load_from_dict(saved)
 	_expect(GameState.deferred_events == saved_deferred,
 		"legacy deferred_events save format changed during array extension")
+	GameState.start_new_game()
+
+func _check_seed_harvest_chains() -> void:
+	var unique_targets: Dictionary = {}
+	for row_value in CHAIN_DEFERRED_PAYOFF_WIRING:
+		var row: Dictionary = row_value
+		var event_id := str(row["event"])
+		var choice_index := int(row["choice"])
+		var target_id := str(row["target"])
+		var delay := int(row["delay"])
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		var target: Dictionary = DataRegistry.find_event(target_id)
+		_expect(not event.is_empty(), "seed-harvest producer is missing: %s" % event_id)
+		_expect(not target.is_empty(), "seed-harvest target is missing: %s" % target_id)
+		if event.is_empty():
+			continue
+		var choices: Array = event.get("choices", [])
+		_expect(choice_index >= 0 and choice_index < choices.size(),
+			"seed-harvest choice index is invalid: %s#%d" % [event_id, choice_index])
+		if choice_index < 0 or choice_index >= choices.size():
+			continue
+		var choice: Dictionary = choices[choice_index]
+		var normalized: Array = DataRegistry.deferred_follow_ups(choice)
+		_expect(_normalized_schedule_has(normalized, target_id, delay),
+			"seed-harvest schedule drifted: %s#%d -> %s +%d" \
+			% [event_id, choice_index, target_id, delay])
+		_expect(normalized.size() == 1,
+			"seed-harvest choice gained an unintended second schedule: %s#%d" \
+			% [event_id, choice_index])
+		unique_targets[target_id] = true
+
+		GameState.start_new_game()
+		GameState.turn = 40
+		GameState.deferred_events.clear()
+		GameState.apply_choice(event, choice)
+		_expect(_runtime_schedule_has(target_id, 40 + delay),
+			"runtime did not schedule seed harvest: %s#%d -> %s +%d" \
+			% [event_id, choice_index, target_id, delay])
+	_expect(CHAIN_DEFERRED_PAYOFF_WIRING.size() == 14,
+		"seed-harvest wiring row count drifted")
+	_expect(unique_targets.size() == 12,
+		"seed-harvest unique target count drifted: %d" % unique_targets.size())
+
+	var final_winter: Dictionary = DataRegistry.find_event("final_last_winter")
+	var final_memories: Dictionary = final_winter.get("description_memory_if_known", {})
+	for row_value in CHAIN_TERMINAL_FLAGS:
+		var row: Dictionary = row_value
+		var event_id := str(row["event"])
+		var choice_index := int(row["choice"])
+		var flag_id := str(row["flag"])
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		var choices: Array = event.get("choices", [])
+		_expect(choice_index >= 0 and choice_index < choices.size(),
+			"chain terminal choice index is invalid: %s#%d" % [event_id, choice_index])
+		if choice_index < 0 or choice_index >= choices.size():
+			continue
+		var choice: Dictionary = choices[choice_index]
+		_expect((choice.get("flags", []) as Array).has(flag_id),
+			"chain terminal branch lost its memory flag: %s#%d -> %s" \
+			% [event_id, choice_index, flag_id])
+		_expect(not str(final_memories.get(flag_id, "")).strip_edges().is_empty(),
+			"chain terminal branch has no last-winter memory: %s" % flag_id)
+		GameState.start_new_game()
+		GameState.apply_choice(event, choice)
+		_expect(bool(GameState.flags.get(flag_id, false)),
+			"chain terminal flag was not persisted at runtime: %s" % flag_id)
+
+	var job_rows := [
+		{"event": "chain_exec_interview", "from_job": "", "job": "job_08", "salary": 4_550_000.0},
+		{"event": "chain_interior_offer", "from_job": "job_01", "job": "job_03", "salary": 2_240_000.0},
+	]
+	for row_value in job_rows:
+		var row: Dictionary = row_value
+		var event_id := str(row["event"])
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		var choices: Array = event.get("choices", [])
+		_expect(not choices.is_empty(), "chain job event has no choices: %s" % event_id)
+		if choices.is_empty():
+			continue
+		GameState.start_new_game()
+		GameState.turn = 100
+		var from_job_id := str(row["from_job"])
+		if not from_job_id.is_empty():
+			GameState.current_job = DataRegistry.get_job(from_job_id).duplicate(true)
+			var old_salary := float(GameState.current_job.get("base_salary", 0.0))
+			GameState.current_job["effective_salary"] = old_salary
+			GameState.monthly_income = old_salary
+		GameState.apply_choice(event, choices[0] as Dictionary)
+		_expect(str(GameState.current_job.get("id", "")) == str(row["job"]),
+			"chain job result did not grant %s: %s" % [str(row["job"]), event_id])
+		_expect_close(GameState.monthly_income, float(row["salary"]),
+			"chain job result salary drifted: %s" % event_id)
+
+	EventManager.pending_events.clear()
+	EventManager.current_event = {}
+	GameState.start_new_game()
+	GameState.turn = 100
+	GameState.flags["chain_interior_gig"] = true
+	GameState.current_job = DataRegistry.get_job("job_08").duplicate(true)
+	_expect(not EventManager.trigger_deferred_event_by_id("chain_interior_offer"),
+		"employed player received the delayed interior job offer")
+	_expect(EventManager.pending_events.is_empty(),
+		"rejected interior offer still entered the event queue")
+	GameState.current_job = DataRegistry.get_job("job_01").duplicate(true)
+	_expect(EventManager.trigger_deferred_event_by_id("chain_interior_offer"),
+		"convenience-store worker could not receive the delayed interior job offer")
+
+	EventManager.pending_events.clear()
+	GameState.start_new_game()
+	GameState.turn = 100
+	GameState.flags["met_celebrity"] = true
+	GameState.current_job = DataRegistry.get_job("job_03").duplicate(true)
+	_expect(not EventManager.trigger_deferred_event_by_id("chain_celeb_return"),
+		"celebrity returned to a convenience store where Minjun no longer works")
+	GameState.current_job = DataRegistry.get_job("job_01").duplicate(true)
+	_expect(EventManager.trigger_deferred_event_by_id("chain_celeb_return"),
+		"celebrity return was blocked during Minjun's convenience-store job")
+
+	EventManager.pending_events.clear()
+	GameState.start_new_game()
+	GameState.turn = 100
+	GameState.flags["congratulated_neighbor"] = true
+	GameState.housing = "apartment"
+	_expect(not EventManager.trigger_deferred_event_by_id("chain_neighbor_moving"),
+		"goshiwon neighbor moved out after Minjun had already left the goshiwon")
+	GameState.housing = "gosiwon"
+	_expect(EventManager.trigger_deferred_event_by_id("chain_neighbor_moving"),
+		"goshiwon neighbor move was blocked while Minjun still lived there")
+	EventManager.pending_events.clear()
+	GameState.housing = "apartment"
+	_expect(not EventManager.trigger_deferred_event_by_id("rare_goshiwon_neighbor_success"),
+		"goshiwon neighbor seed appeared after Minjun had already left the goshiwon")
+	GameState.housing = "gosiwon"
+	_expect(EventManager.trigger_deferred_event_by_id("rare_goshiwon_neighbor_success"),
+		"goshiwon neighbor seed was blocked while Minjun still lived there")
+	var housing_message: Dictionary = DataRegistry.find_event("chain_neighbor_civil_servant")
+	_expect(str(housing_message.get("background", "")) == "current_housing",
+		"the former neighbor's text does not follow Minjun's current housing")
+
+	# MainGame consumes due reservations one at a time. An invalid first row must
+	# not swallow a valid reservation due in the same week.
+	EventManager.pending_events.clear()
+	GameState.start_new_game()
+	GameState.turn = 100
+	GameState.flags["chain_interior_gig"] = true
+	GameState.flags["congratulated_neighbor"] = true
+	GameState.current_job = DataRegistry.get_job("job_08").duplicate(true)
+	GameState.housing = "gosiwon"
+	GameState.add_deferred_event("chain_interior_offer", 0)
+	GameState.add_deferred_event("chain_neighbor_moving", 0)
+	var first_due: Array = GameState.pop_ready_deferred_events()
+	_expect(first_due == ["chain_interior_offer"],
+		"same-week deferred fixture did not expose the invalid offer first")
+	_expect(not EventManager.trigger_deferred_event_by_id(str(first_due[0])),
+		"same-week invalid offer bypassed its job condition")
+	var second_due: Array = GameState.pop_ready_deferred_events()
+	_expect(second_due == ["chain_neighbor_moving"],
+		"valid same-week deferred event was swallowed by the invalid offer")
+	_expect(EventManager.trigger_deferred_event_by_id(str(second_due[0])),
+		"valid same-week deferred event failed after skipping the invalid offer")
+	_expect(GameState.deferred_events.is_empty(),
+		"same-week deferred fixture left an unconsumed reservation")
+	_expect(EventManager.pending_events.size() == 1 \
+			and str((EventManager.pending_events[0] as Dictionary).get("id", "")) \
+			== "chain_neighbor_moving",
+		"same-week condition gate queued the wrong deferred event")
+	EventManager.pending_events.clear()
+	EventManager.current_event = {}
 	GameState.start_new_game()
 
 func _normalized_schedule_has(entries: Array, event_id: String, delay: int) -> bool:

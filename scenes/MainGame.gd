@@ -2747,11 +2747,14 @@ func _next_arc_id(
 
 	# ══ 그림자 이벤트 — N턴 후 과거 선택이 되돌아온다 ══════════
 	if not preview_only:
-		var shadow_events = GameState.pop_ready_deferred_events()
-		for sid in shadow_events:
-			if not sid.is_empty():
-				EventManager.trigger_event_by_id(sid)
-				return ""  # 이번 턴 arc는 그림자가 가져간다
+		while true:
+			var shadow_events = GameState.pop_ready_deferred_events()
+			if shadow_events.is_empty():
+				break
+			var shadow_id := str(shadow_events[0])
+			if not shadow_id.is_empty() \
+					and EventManager.trigger_deferred_event_by_id(shadow_id):
+				return ""  # 이번 턴 arc는 조건을 통과한 그림자가 가져간다
 
 
 	# ══ 1구간: 주인공 몰입 (턴 1-8, 인물 없음) ══════════

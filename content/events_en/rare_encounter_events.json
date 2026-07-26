@@ -2,7 +2,7 @@
   {
     "id": "rare_celeb_convenience",
     "title": "3 AM Customer",
-    "description": "Night shift. 3 AM.\n\nThe door opened. A man walked in, hat pulled low.\n\nTwo triangle sandwiches, one energy drink.\nWhile paying, the hat shifted slightly.\n\n{name} froze. That was a face from TV.",
+    "description": "Three in the morning on the night shift. Only the refrigerator compressor and fluorescent lights were making noise.\n\nThe door opened and a man in a low hat walked in. He circled the aisles, then placed two triangle kimbap and an energy drink on the counter.\n\nAs {name} scanned them, the hat shifted. His hand stopped over the receipt. He had seen that face on television more than once.",
     "choices": [
       {
         "text": "Act like you don't recognize him",
@@ -62,11 +62,11 @@
   {
     "id": "rare_wallet_executive",
     "title": "Found a Wallet",
-    "description": "A wallet lying on the subway station stairs.\n\nBusiness card inside. Senior Executive, ○○ Group.\n\nQuite a bit of cash. Several cards.\n\n{name} picked it up.",
+    "description": "The evening crowd had thinned on the subway stairs. A black wallet lay open against the wall.\n\n{name} passed it, then climbed back two steps. Inside were several cards, three 50,000-won bills, and a business card for a senior executive at ○○ Group.\n\nAn announcement repeated near the gates. People kept moving around the hand holding the wallet, and no one else stopped.",
     "choices": [
       {
         "text": "Hand it in to station staff",
-        "result_text": "A text came a week later. The number from the business card.\n\"Thank you for the other day. Can I buy you a meal?\"\n\n{name} stared at the screen for a long moment.\nSome connections start on staircases."
+        "result_text": "A text came a week later. The number from the business card.\n\"Thank you for the other day. Can I buy you a meal?\"\n\n{name} stared at the screen for a long moment.\nAn unsaved number and a meeting place sat side by side on the display."
       },
       {
         "text": "Take the cash and leave the wallet",
@@ -77,11 +77,11 @@
   {
     "id": "rare_market_kind_stranger",
     "title": "At the Register",
-    "description": "Grocery store register. Swiped the card.\n\n'Credit limit exceeded.'\n\nA line forming behind. {name} started putting items back.\n\n\"I'll pay.\"\n\nA woman in her 50s standing behind held out her card.",
+    "description": "At a neighborhood convenience-store register, {name} set instant rice, eggs, and ramyeon on the counter and handed over his card.\n\n'Credit limit exceeded.'\n\nThe clerk tried it again, and the corner of the next customer's basket tapped his calf. He scanned the price labels and reached for the first thing to put back.\n\n\"I'll pay.\"\n\nThe card of a woman in her 50s was already waiting beside the terminal.",
     "choices": [
       {
         "text": "\"Thank you. If you give me your account I'll send it right away\"",
-        "result_text": "She smiled.\n\"It's fine. I was there once too.\"\n\nTransaction done. Each went their way.\n\n{name} stood in the parking lot for a moment.\nNot all of Seoul is cold. Sometimes this is how you learn that."
+        "result_text": "She smiled.\n\"It's fine. I was there once too.\"\n\nThe transaction ended and they went separate ways.\n\n{name} gathered the bag handles into one hand in the parking lot. The woman had already disappeared beyond the crosswalk."
       },
       {
         "text": "\"It's okay\" and put the items back",
@@ -122,7 +122,7 @@
   {
     "id": "rare_night_alva_find",
     "title": "What a Customer Left Behind",
-    "description": "Cleaning up after the night shift.\n\nA paper bag under a table.\n\nOpened it. Cash. Counted it.\n500,000 won.\n\nThere's CCTV. The customer might come back.",
+    "description": "Closing cleanup on the night shift, after the last customer had left and the automatic door was locked.\n\nWhile stacking chairs and wiping under a table, {name} found a black envelope. Inside was a rubber-banded stack of 50,000-won bills. Two counts gave the same total: 500,000 won.\n\nThe red light on the ceiling camera blinked. No one returned while he tied the trash bags.",
     "choices": [
       {
         "text": "Call the manager immediately",
@@ -152,11 +152,11 @@
   {
     "id": "rare_goshiwon_neighbor_success",
     "title": "News from Next Door",
-    "description": "Ran into the next-door neighbor in the goshiwon hallway.\n\nSomeone who'd been studying for the Grade 9 civil service exam for 6 months. Light always on past midnight.\n\nToday their expression was different.\n\n\"I passed.\"",
+    "description": "{name} ran into the next-door neighbor in the goshiwon hallway. For six months, that neighbor had studied for the civil service exam, with lamplight leaking under the door every night.\n\nToday there was no thick exam book in his hands. He kept waking his phone instead. His face looked sleepless, but the corners of his mouth would not stay down.\n\nBefore {name} could ask, he held out the screen.\n\n\"I passed.\"",
     "choices": [
       {
         "text": "Congratulate them sincerely",
-        "result_text": "\"Really? Congratulations.\"\n\nSaying that, {name} checked his own feelings.\nWas there envy? Yes. But more than that — genuine happiness.\n\nThis person had shared the same walls and same nights.\n{name}'s turn will come. Don't know when. But it will."
+        "result_text": "\"Really? Congratulations.\"\n\nAs he said it, {name} checked his own reaction.\nThere was envy. But the smile came first.\n\nThey stood in the narrow hall and opened the results page again. The name and candidate number were still there."
       },
       {
         "text": "Think quietly — \"I need to get out of here too\"",

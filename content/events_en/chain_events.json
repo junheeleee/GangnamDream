@@ -2,22 +2,22 @@
   {
     "id": "chain_banchan_reunion",
     "title": "That Woman from the Market",
-    "description": "A neighborhood alley. Passing a small banchan shop when a voice called out.\n\n\"Hey? Aren't you that young man from before?\"\n\nThe woman who'd held out her card at the market register.\n\n\"This is my shop. So you live around here too.\"",
+    "description": "A neighborhood alley. Passing a small banchan shop when a voice called out.\n\n\"Hey? Aren't you that young man from before?\"\n\nThe woman who'd held out her card at the convenience-store register.\n\n\"This is my shop. So you live around here too.\"",
     "choices": [
       {
         "text": "\"Thank you for that day. Really.\" — bow properly",
-        "result_text": "She waved it off.\n\"Oh, that was nothing. Buy some side dishes, I'll give you a discount.\"\n\nBought rolled omelette and stir-fried anchovies. She charged half.\n\nStarted dropping by once a week after that.\nBanchan containers began stacking up in the goshiwon fridge.\nHaving a regular spot in Seoul — that means having a neighborhood."
+        "result_text": "She waved it off.\n\"Oh, that was nothing. Buy some side dishes, I'll give you a discount.\"\n\nBought rolled omelette and stir-fried anchovies. She charged half.\n\nStarted dropping by once a week after that.\nOn the third container, 'Kim Minjun' was written across the lid in black marker."
       },
       {
         "text": "Too awkward — just nod and walk past",
-        "result_text": "Lowered his head and walked faster.\n\nShe said something else from behind. Pretended not to hear.\n\nA few steps later, regret.\nChances to thank someone who deserves it don't come often.\nNext time, I'll stop by. Though next times aren't guaranteed."
+        "result_text": "Lowered his head and walked faster.\n\nShe said something else from behind. Pretended not to hear.\n\nBefore turning the corner, {name} looked back once. She was handing another customer a bag, and the shop's glass door was slowly closing."
       }
     ]
   },
   {
     "id": "chain_banchan_reunion_declined",
     "title": "A Face That Remembers",
-    "description": "In front of a banchan shop in a neighborhood alley.\n\n\"Young man. The market, right?\"\n\nThe woman whose card he'd refused at the register.\n\n\"You wouldn't take it, to the end. Rare these days, that.\"\n\nShe held out a container of side dishes. \"This one's free. Refuse and I'll get angry.\"",
+    "description": "In front of a banchan shop in a neighborhood alley.\n\n\"Young man. The convenience store, right?\"\n\nThe woman whose card he'd refused at the register.\n\n\"You wouldn't take it, to the end. Rare these days, that.\"\n\nShe held out a container of side dishes. \"This one's free. Refuse and I'll get angry.\"",
     "choices": [
       {
         "text": "Accept it this time",
@@ -25,22 +25,22 @@
       },
       {
         "text": "\"The thought is enough\" — decline again",
-        "result_text": "She sighed.\n\"Young man, you know what? Receiving takes practice too.\"\n\nPulling back the container, she said:\n\"People who only know how to give and never receive — they always end up alone.\"\n\nWalking out of the alley, those words kept following."
+        "result_text": "She sighed.\n\"All right. Just make sure you eat.\"\n\nShe put the container back in the refrigerated display.\n\nAt the goshiwon, {name} peeled open a bowl of instant rice. One side of the little table was still empty where the banchan could have gone."
       }
     ]
   },
   {
     "id": "chain_banchan_son",
     "title": "The Banchan Shop's Son",
-    "description": "Stopped by the shop — an unfamiliar man was there.\n\nEarly 40s. Suit. Helping with his mother's shop.\n\n\"Ah, you're the one Mother talked about. The market.\"\n\nHe pulled out a business card. HR team lead at a mid-sized company.\n\n\"My mother's eye for people is accurate. Thirty years of running a shop.\"",
+    "description": "Stopped by the shop — an unfamiliar man was there.\n\nEarly 40s. Suit. Helping with his mother's shop.\n\n\"Ah, you're the one Mother talked about. The convenience store.\"\n\nHe pulled out a business card. HR team lead at a mid-sized company.\n\n\"My mother's eye for people is accurate. Thirty years of running a shop.\"",
     "choices": [
       {
         "text": "Find the courage — \"Are there any open positions?\"",
-        "result_text": "The man smiled.\n\"Send your resume. With Mother's recommendation, your documents get read. Guaranteed.\"\n\nSent the resume that week. The interview call came.\n\nThe day a card got declined at a market register.\nThat day rolled all the way here.\nLife's paths sometimes run through banchan shops."
+        "result_text": "The man smiled.\n\"Send your resume. With Mother's recommendation, your documents get read. Guaranteed.\"\n\nSent the resume that week. The interview call came.\n\nBelow the interview date on the phone, the banchan shop's number was now saved under 'Owner.'"
       },
       {
         "text": "Don't want to impose — just take the card",
-        "result_text": "\"Thank you,\" and put the card in the wallet.\n\nThe woman, packing anchovies, added from the side:\n\"Call my son. Impose, nonsense. In Seoul, people who calculate that stuff all starve.\"\n\nThe card in the wallet got heavier."
+        "result_text": "\"Thank you,\" and put the card in the wallet.\n\nThe woman packed the anchovies and said, \"Call if you change your mind.\"\n\nBack at the goshiwon, the corner of the card stuck out over the transit card. {name} did not save the number."
       }
     ]
   },
@@ -55,7 +55,7 @@
       },
       {
         "text": "Deflect politely. Don't want to show everything",
-        "result_text": "\"I'm preparing various things.\"\n\nHe didn't press. The food was good.\n\nAt parting, he gave a business card.\n\"Call if you need anything.\"\n\nOn the subway home, a thought:\nWhat pride protected, and what door it closed — both were clear."
+        "result_text": "\"I'm preparing various things.\"\n\nHe didn't press. The food was good.\n\nAt parting, he gave a business card.\n\"Call if you need anything.\"\n\n{name} put the card deep inside his wallet. He never saved the executive's number."
       }
     ]
   },
@@ -66,11 +66,11 @@
     "choices": [
       {
         "text": "Tell the wallet story exactly as it happened",
-        "result_text": "\"I found his wallet at a subway station and returned it. That's all.\"\n\nThe interviewers looked at each other. One smiled.\n\"We heard that story. We wanted to hear it from you.\"\n\nThe offer came three days later.\n\nOne wallet found on a staircase.\nLife sometimes turns on things like that."
+        "result_text": "\"I found his wallet at a subway station and returned it. That's all.\"\n\nThe interviewers looked at each other. One smiled.\n\"We heard that story. We wanted to hear it from you.\"\n\nThe offer came three days later. Base pay was 4.55 million won a month.\n\nOn the first morning, {name} rubbed a thumb over the affiliate logo on his new employee badge."
       },
       {
         "text": "Just say \"It's a personal connection\"",
-        "result_text": "The interviewer nodded. Didn't ask further.\n\nThe result was rejection.\n\nLater, a text from the executive:\n'Why didn't you tell the wallet story? That's your best credential.'\n\n{name} couldn't write a reply for a long time.\nThe habit of hiding what doesn't need hiding — six years of debt left that behind."
+        "result_text": "The interviewer nodded. Didn't ask further.\n\nThe result was rejection.\n\nLater, a text from the executive:\n'Why didn't you tell the wallet story? That's your best credential.'\n\n{name} wrote a reply, then erased it. Only the rejection email's subject line remained on the screen."
       }
     ]
   },
@@ -92,15 +92,15 @@
   {
     "id": "chain_interior_offer",
     "title": "The Boss's Offer",
-    "description": "Another weekend on site.\n\nDuring teardown, the boss sat down next to {name}.\n\n\"Starting next month I'm running two sites at once. I need someone to take one.\"\n\n\"Not full-time employment — site management. 2.8 million won a month. Learn the work, I'll raise it.\"\n\n\"I saw that you're honest. In this business, that's the rarest thing there is.\"",
+    "description": "Another weekend on site.\n\nDuring teardown, the boss sat down next to {name}.\n\n\"Starting next month I'm running two sites at once. I need someone to organize estimates and move between them.\"\n\n\"Come in as office staff. Base pay is 2.24 million won a month. Learn the sites and I'll raise it.\"\n\n\"I saw that you're honest. In this business, that's the rarest thing there is.\"",
     "choices": [
       {
         "text": "Accept. Learn on site.",
-        "result_text": "First month's pay: 2.8 million won.\n\nThinking back, it started with an envelope under a table.\nIf he'd walked out with that envelope — 500,000 won would have been the end of it.\n\nThe 500,000 won reported straight to the manager\ncame back as 2.8 million won a month.\n\nHonesty is an investment with delayed returns."
+        "result_text": "A 500,000-won site handover allowance came first. Base pay would be 2.24 million won a month from then on.\n\n{name} tucked the estimate binder under one arm and walked through the empty site.\n\nOn the first attendance sheet linking the desk and the job site, he wrote his own name."
       },
       {
         "text": "Decline. My path is elsewhere.",
-        "result_text": "\"I'm grateful, but I have a direction I'm heading.\"\n\nThe boss looked disappointed but smiled.\n\"Fine. But remember. There's always a seat for you.\"\n\nOn the way home, an odd steadiness.\nA person with somewhere to return to can go further."
+        "result_text": "\"I'm grateful, but I have a direction I'm heading.\"\n\nThe boss looked disappointed but smiled.\n\"Fine. But remember. There's always a seat for you.\"\n\nDuring teardown, {name} put the boss's worn tape measure on top of the toolbox. That night, he left the site's group chat."
       }
     ]
   },
@@ -115,7 +115,7 @@
       },
       {
         "text": "Pretend not to see it. Too late now.",
-        "result_text": "Walked past the paper to the shift.\n\nA week later it fell off, soaked in rain.\n\nThe 500,000 won stays in the drawer.\nCan't even spend it. Spending it makes it truly not his.\n\nOne dawn, standing at the register, a thought:\nThe money is here — but something is gone. Not being able to name it made it worse."
+        "result_text": "Walked past the paper to the shift.\n\nA week later it fell off, soaked in rain.\n\nThe 500,000 won was still in the drawer. It had not been spent.\n\nOne dawn after work, the envelope caught on the frame when {name} tried to close the drawer. The handle would not shut on the first try."
       }
     ]
   },
@@ -126,11 +126,11 @@
     "choices": [
       {
         "text": "Help carry the boxes",
-        "result_text": "Carried boxes together. Three trips to the truck.\n\nAfter loading, they came back with two canned coffees.\n\n\"You're the first person I got attached to in a goshiwon.\"\n\nExchanged numbers. The truck pulled out of the alley.\n\nThe light next door doesn't come on anymore. But a contact remained.\nIn Seoul, that's worth quite a lot."
+        "result_text": "Carried boxes together. Three trips to the truck.\n\nAfter loading, they came back with two canned coffees.\n\n\"You're the first person I got attached to in a goshiwon.\"\n\nExchanged numbers. The truck pulled out of the alley.\n\nThe light next door would not come on again. The new contact remained on {name}'s phone."
       },
       {
         "text": "Just say \"good luck out there\"",
-        "result_text": "\"You worked hard. Live well.\"\n\nThey smiled and carried the boxes down.\n\nThat evening, the door next door stood open. An empty room.\n\nSomeone who lived one wall away for six months.\nOnly then did it register — never even asked their name."
+        "result_text": "\"You worked hard. Live well.\"\n\nThey smiled and carried the boxes down.\n\nThat evening, the door next door stood open. An exam-document envelope lay discarded on the floor.\n\nOnly then did {name} realize he had never asked the neighbor's name."
       }
     ]
   },
@@ -141,11 +141,11 @@
     "choices": [
       {
         "text": "Apply immediately",
-        "result_text": "Gathered the documents and applied. Selected.\n\nSix months of rent support. 1.2 million won total.\n\nThe notice was public. Anyone could see it. But not everyone looks.\nWho tells you first — that's what connections actually are.\n\nThree trips of boxes on moving day became 1.2 million won.\nBut bigger than the money — someone remembered him."
+        "result_text": "Gathered the documents and applied. Selected.\n\nSix months of rent support. 1.2 million won total.\n\n{name} sent a screenshot of the approval message.\n'I applied because of you. Thank you.'\n\nA thumbs-up emoji arrived a moment later."
       },
       {
-        "text": "Plan to do it later — miss the deadline",
-        "result_text": "'you'll do it later' was the problem.\n\nOpened the notice the day after the deadline. Applications closed.\n\n1.2 million won slipped through his fingers.\n\nCouldn't bring himself to tell the neighbor.\nSent 'Applied. Thank you!' and stared at the ceiling for a while.\n\nThey say opportunity belongs to the prepared — half right.\nOpportunity belongs to those who don't postpone."
+        "text": "Save the link and plan to apply over the weekend",
+        "result_text": "The weekend passed. When {name} opened the notice the next day, 'Applications Closed' was stamped across the page.\n\nHe drafted a reply.\n'Thank you for telling me. I missed it.'\n\nHis finger stayed over the send button for a long time."
       }
     ]
   },
@@ -160,7 +160,7 @@
       },
       {
         "text": "Ask for just one photo",
-        "result_text": "\"Um... could I get one picture?\"\n\nThe man paused, then nodded.\n\"Just don't post it anywhere.\"\n\nTook it. Never posted it. A promise is a promise.\n\nThe man didn't come back after that.\nMaybe one photo was traded for one regular."
+        "result_text": "\"Um... could I get one picture?\"\n\nThe man paused, then nodded.\n\"Just don't post it anywhere.\"\n\nTook it. Never posted it. A promise is a promise.\n\nThe man didn't come back after that. The photograph stayed in a private album."
       }
     ]
   },
@@ -171,11 +171,11 @@
     "choices": [
       {
         "text": "Step in. \"That man is a scammer.\"",
-        "result_text": "The student and the scammer turned at the same time.\n\nThe scammer recognized {name}. Half a second. Then simply walked away.\nDidn't even run. This wasn't his first time.\n\nThe student asked, \"You know him?\"\n\"Cost me 500,000 won to know him.\"\n\nNever got the 500,000 won back.\nBut someone else's 500,000 won was saved. Decided to call that even."
+        "result_text": "The student and the scammer turned at the same time.\n\nThe scammer recognized {name}. Half a second. Then simply walked away.\nDidn't even run. This wasn't his first time.\n\nThe student asked, \"You know him?\"\n\"Cost me 500,000 won to know him.\"\n\nThe student put the wallet back in a pocket and disappeared across the crosswalk."
       },
       {
         "text": "Walk past. Not my business.",
-        "result_text": "Didn't slow down.\n\nAt the end of the block, looked back once.\nThe student was taking out a wallet.\n\nThat night in bed, the scene replayed on loop.\n\nGetting scammed wasn't his fault.\nBut today's silence — that was a choice."
+        "result_text": "Didn't slow down.\n\nAt the end of the block, {name} looked back once. The student was taking out a wallet.\n\nEven after the lights were off that night, the hand shaking the document envelope and the open wallet kept alternating in his mind. He turned the phone face down."
       }
     ]
   }

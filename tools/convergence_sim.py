@@ -556,7 +556,7 @@ def _apply_choice(state: SimState, event: dict, choice: dict, week: int, rng: ra
         state.cast[pid] = max(-100.0, min(100.0, state.cast.get(pid, 0.0) + float(effect.get("affinity", 0.0))))
         if effect.get("stage"): state.cast_stage[pid] = str(effect["stage"])
     job_id = str(choice.get("grant_job", ""))
-    if job_id in JOBS and not state.job_id:
+    if job_id in JOBS and (not state.job_id or bool(choice.get("replace_current_job", False))):
         _set_job(state, job_id)
     if choice.get("opportunity"):
         _resolve_opportunity(state, choice["opportunity"], rng)

@@ -47,19 +47,23 @@
 
 | 순서 | 상태 | 항목 | 전체 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-54 · 씨앗-수확 12체인 부활 | [ORDER-54](queue_active/ORDER-54.md) | 착수: 취업·조건·산문 결함 수리 → 씨앗 5건 허용목록 → 수확 12건 예약·실주행 |
-| 2 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 전 사건·배경·대표 240주 자동 확산과 clean RC `d73afa6` PASS, 장별 사람 연속 청취 OPEN |
-| 3 | [~] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 1,565사건·960주 정적/KO·EN 240주 실주행·논리 4K와 clean RC PASS, 정상 속도·실기기·A/V 사람 판정 OPEN |
-| 4 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 번역 인프라·일본어 UI/프롤로그/직업명 자동 검사 PASS, 데모 GO 뒤 본문 번역·15장 캡처·원어민 검수 OPEN |
-| 5 | [~] | ORDER-23 · 동기 각인 수술 | [ORDER-23](queue_active/ORDER-23.md) | 자동 구조·KO/EN 런타임 PASS, 플레이어의 동기 문장 기억 여부 사람 판정 OPEN |
-| 6 | [~] | ORDER-22 · 주간 루프 몰입 수리 | [ORDER-22](queue_active/ORDER-22.md) | 자동 주간 루프·입력·오디오·KO/EN PASS, 정상 속도 몰입·재미 사람 판정 OPEN |
-| 7 | [~] | ORDER-28 · 240주 전체 재구성 | [ORDER-28](queue_active/ORDER-28.md) | 구조·240주·엔딩·3플랫폼 clean RC 자동 게이트 PASS, 외부 정상 독해 10인 플레이 0/10 OPEN |
-| 8 | [~] | ORDER-26 · AP 의미화 | [ORDER-26](queue_active/ORDER-26.md) | AP 인과·포기·후속·KO/EN·패드·240주 자동 게이트 PASS, 망설임·전략 재미 사람 판정 OPEN |
+| 1 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 전 사건·배경·대표 240주 자동 확산과 clean RC `d73afa6` PASS, 장별 사람 연속 청취 OPEN |
+| 2 | [~] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 1,565사건·960주 정적/KO·EN 240주 실주행·논리 4K와 clean RC PASS, 정상 속도·실기기·A/V 사람 판정 OPEN |
+| 3 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 번역 인프라·일본어 UI/프롤로그/직업명 자동 검사 PASS, 데모 GO 뒤 본문 번역·15장 캡처·원어민 검수 OPEN |
+| 4 | [~] | ORDER-23 · 동기 각인 수술 | [ORDER-23](queue_active/ORDER-23.md) | 자동 구조·KO/EN 런타임 PASS, 플레이어의 동기 문장 기억 여부 사람 판정 OPEN |
+| 5 | [~] | ORDER-22 · 주간 루프 몰입 수리 | [ORDER-22](queue_active/ORDER-22.md) | 자동 주간 루프·입력·오디오·KO/EN PASS, 정상 속도 몰입·재미 사람 판정 OPEN |
+| 6 | [~] | ORDER-28 · 240주 전체 재구성 | [ORDER-28](queue_active/ORDER-28.md) | 구조·240주·엔딩·3플랫폼 clean RC 자동 게이트 PASS, 외부 정상 독해 10인 플레이 0/10 OPEN |
+| 7 | [~] | ORDER-26 · AP 의미화 | [ORDER-26](queue_active/ORDER-26.md) | AP 인과·포기·후속·KO/EN·패드·240주 자동 게이트 PASS, 망설임·전략 재미 사람 판정 OPEN |
 
 ### 완료 이력
 
 - **2026-07 전체 원문 스냅샷:** [CODEX_QUEUE_2026-07.md](queue_archive/CODEX_QUEUE_2026-07.md)
 - 상세 작업 결과는 [WORK_LOG.md](WORK_LOG.md), 사용자 노트와 라운드 판정은 [DEMO_FIXLOG.md](DEMO_FIXLOG.md), 설계 결정은 [DECISIONS.md](DECISIONS.md)가 정본이다.
+- `[x] ORDER-54` (2026-07-26): 씨앗 5건의 생산자 선택 14행에서
+  수확 12건을 8~12주 뒤 예약해 휴면 체인을 0으로 닫았다. 예약 조건을
+  현재 직업·주거에 다시 대입하고 실제 취업·이직·월수입, 거절 기억,
+  한영·일본어 UI와 장소 정합까지 잠갔다.
+  [완료 사양](queue_archive/ORDER-54.md)
 - `[x] ORDER-53` (2026-07-26): 지연 예약을 기존 문자열 또는 혼합
   배열로 정규화하고 엔진·모드·감사·시뮬레이터 전 소비자와 저장 회귀를
   잠갔다. 기존 1주 후속을 유지한 채 재혁·상철의 12~14주 대가 3건을

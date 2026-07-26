@@ -17,13 +17,13 @@ REGISTRY = ROOT / "autoloads" / "DataRegistry.gd"
 MANIFEST = ROOT / "content" / "meta" / "event_director.json"
 MAIN_GAME = ROOT / "scenes" / "MainGame.gd"
 EXPECTED_CATALOG_RANDOM = 1176
-EXPECTED_DIRECTED_RANDOM = 1015
-EXPECTED_FOREGROUND_RANDOM = 61
+EXPECTED_DIRECTED_RANDOM = 1003
+EXPECTED_FOREGROUND_RANDOM = 64
 EXPECTED_BRIDGE_RANDOM = 18
 EXPECTED_CALLBACK_TOTAL = 620
 EXPECTED_CHAIN_TOTAL = 12
 MAX_DORMANT_CALLBACKS = 564
-MAX_DORMANT_CHAINS = 12
+MAX_DORMANT_CHAINS = 0
 EXPECTED_REACHABLE_CALLBACKS = {
     "callback_amusement_child_reunion",
     "callback_amusement_photo_found",
@@ -86,10 +86,23 @@ EXPECTED_IMPLICIT_BRIDGE_ROOTS = {
     "amb_idea_stolen_00",
     "anxiety_child_cost_calc",
     "anxiety_pension_crisis",
-    "butterfly_mystery_info_result_scam",
     "butterfly_resume_lie_caught",
     "callback_jaehyuk_reported_witness",
     "callback_lied_interview_surfaces",
+}
+EXPECTED_REACHABLE_CHAINS = {
+    "chain_banchan_reunion",
+    "chain_banchan_reunion_declined",
+    "chain_banchan_son",
+    "chain_celeb_return",
+    "chain_envelope_guilt",
+    "chain_envelope_owner_return",
+    "chain_exec_interview",
+    "chain_exec_meal",
+    "chain_interior_offer",
+    "chain_neighbor_civil_servant",
+    "chain_neighbor_moving",
+    "chain_scammer_again",
 }
 EXPECTED_CONTENT_DIET = {
     "foreground_min_description_chars": 160,
@@ -828,6 +841,12 @@ def main() -> int:
         errors.append(
             "previously reachable callbacks became dormant: "
             f"{sorted(missing_reachable)}"
+        )
+    if reachable_chains != EXPECTED_REACHABLE_CHAINS:
+        errors.append(
+            "reachable chain corpus drifted: "
+            f"expected {sorted(EXPECTED_REACHABLE_CHAINS)}, "
+            f"got {sorted(reachable_chains)}"
         )
     dormant_callbacks = callback_ids - reachable_callbacks
     dormant_chains = chain_ids - reachable_chains
