@@ -19,6 +19,7 @@
 - `scenes/MainGame.gd` (중복 상태 비트의 스케줄러 차단 시)
 - `tools/exposed_state_consistency_audit.py`
 - `tools/event_director_audit.py`
+- `tools/background_semantic_audit.py`
 - `tools/story_consistency_audit.py`
 - `tools/audit.sh`
 - `tools/DemoBuildCheck.gd`
