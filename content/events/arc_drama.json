@@ -556,7 +556,13 @@
           "crossed_line"
         ],
         "result_text": "\"그 덕분에 내가 여기 있는 거잖아요.\" {name}이 말하자, 임상철이 잠깐 멈췄다.\n\"…그렇게 쓸 건가.\"\n\n{name}은 웃었다. 그 웃음이 스스로도 어색했다.\n이 사람이 아버지를 망하게 했다. 그런데 이 사람의 네트워크 없이는 강남에 못 간다. 그러니 미움은 접어두고, 이 손을 도구로 쓰기로 했다.\n계산은 맞았다. 다만 그날 이후, 거울 속 얼굴을 똑바로 보기가 조금 어려워졌다.",
-        "deferred_follow_up": "arc_sangchul_year3",
+        "deferred_follow_up": [
+          "arc_sangchul_year3",
+          {
+            "id": "callback_sangchul_leveraged_cost",
+            "delay": 12
+          }
+        ],
         "deferred_delay": 1
       },
       {

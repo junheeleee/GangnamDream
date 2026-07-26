@@ -19,6 +19,8 @@
 """
 import re, json, glob, sys, os
 
+from event_schedule import deferred_follow_ups
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 VERBOSE = "--verbose" in sys.argv
@@ -205,9 +207,7 @@ def canonical_deferred_links(eid, choice_indices, stack=()):
         index = 0
     choice = choices[index]
     links = []
-    deferred_id = str(choice.get("deferred_follow_up", "")).strip()
-    if deferred_id:
-        links.append((deferred_id, int(choice.get("deferred_delay", 6))))
+    links.extend(deferred_follow_ups(choice))
     follow_up = str(choice.get("follow_up_event", "")).strip()
     if follow_up:
         links.extend(canonical_deferred_links(follow_up, choice_indices, stack + (eid,)))

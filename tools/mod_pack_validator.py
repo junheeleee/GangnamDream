@@ -12,6 +12,8 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from event_schedule import DeferredFollowUpError, deferred_follow_ups
+
 
 ROOT = Path(__file__).resolve().parents[1]
 EVENT_DIR = ROOT / "content" / "events"
@@ -131,10 +133,19 @@ def validate_choice(
     for flag in produced_flags(choice):
         if not flag.startswith("mod_") and flag not in allowed_core_flags:
             report.error(f"{label}: produced flag '{flag}' must use the mod_ prefix")
-    for key in ("follow_up_event", "deferred_follow_up"):
-        target = str(choice.get(key, ""))
-        if target and pack_ids and target not in pack_ids:
-            report.error(f"{label}: {key} target '{target}' is outside this pack")
+    target = str(choice.get("follow_up_event", ""))
+    if target and pack_ids and target not in pack_ids:
+        report.error(f"{label}: follow_up_event target '{target}' is outside this pack")
+    try:
+        delayed_links = deferred_follow_ups(choice)
+    except DeferredFollowUpError as exc:
+        report.error(f"{label}: {exc}")
+        delayed_links = []
+    for target, _delay in delayed_links:
+        if pack_ids and target not in pack_ids:
+            report.error(
+                f"{label}: deferred_follow_up target '{target}' is outside this pack"
+            )
 
 
 def validate_catalog_value(base: Any, patch: Any, label: str, report: Report) -> None:

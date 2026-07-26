@@ -1388,6 +1388,38 @@
         }
       }
     },
+    "callback_sangchul_leveraged_cost": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "cafe",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "cafe",
+        "expected_portrait": "player_determined"
+      }
+    },
+    "callback_jaehyuk_exploited_retaliate": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "unknown_location",
+        "remote_actor": "jaehyuk",
+        "portrait_role": "remote",
+        "expected_background": "current_housing",
+        "expected_portrait": "jaehyuk_cornered"
+      }
+    },
+    "callback_jaehyuk_partnered_reckoning": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "meeting",
+        "participants": ["player", "jaehyuk"],
+        "portrait_role": "present",
+        "expected_background": "meeting",
+        "expected_portrait": "jaehyuk_cornered"
+      }
+    },
     "arc_opp_sangchul_realty": {
       "presentation": {
         "channel": "phone",

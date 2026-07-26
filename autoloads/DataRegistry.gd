@@ -335,6 +335,47 @@ var story_rules_by_event: Dictionary = {}
 var scene_direction_manifest: Dictionary = {}
 var scene_direction_event_intents_by_id: Dictionary = {}
 
+## 한 선택지의 지연 예약을 저장 포맷과 같은 {event_id, delay} 목록으로 정규화한다.
+## 기존 문자열과 문자열/객체 혼합 배열을 함께 받으며 빈 id는 예약하지 않는다.
+func deferred_follow_ups(owner: Dictionary) -> Array:
+	var raw: Variant = owner.get("deferred_follow_up", "")
+	var default_delay: int = int(owner.get("deferred_delay", 6))
+	var values: Array = raw if raw is Array else [raw]
+	var result: Array = []
+	for value in values:
+		var event_id := ""
+		var delay := default_delay
+		if value is String:
+			event_id = str(value).strip_edges()
+		elif value is Dictionary:
+			event_id = str((value as Dictionary).get("id", "")).strip_edges()
+			delay = int((value as Dictionary).get("delay", default_delay))
+		if not event_id.is_empty():
+			result.append({"event_id": event_id, "delay": delay})
+	return result
+
+func deferred_follow_up_shape_is_valid(owner: Dictionary) -> bool:
+	var raw: Variant = owner.get("deferred_follow_up", "")
+	if owner.has("deferred_delay") and typeof(owner["deferred_delay"]) != TYPE_INT:
+		return false
+	if raw is String:
+		return true
+	if not raw is Array:
+		return false
+	for value in raw:
+		if value is String:
+			continue
+		if not value is Dictionary:
+			return false
+		var entry: Dictionary = value
+		if not entry.keys().all(func(key): return str(key) in ["id", "delay"]):
+			return false
+		if not entry.get("id", "") is String:
+			return false
+		if entry.has("delay") and typeof(entry["delay"]) != TYPE_INT:
+			return false
+	return true
+
 func _ready():
 	reload()
 
@@ -681,9 +722,18 @@ func _mod_choice_valid(
 		if not str(flag).begins_with("mod_") and not allowed_core_flags.has(flag):
 			push_warning("Skipping event mod with unnamespaced flag '%s': %s" % [flag, path])
 			return false
-	for follow_key in ["follow_up_event", "deferred_follow_up"]:
-		var target := str(choice.get(follow_key, ""))
-		if not target.is_empty() and not pack_ids.is_empty() and not pack_ids.has(target):
+	var immediate_target := str(choice.get("follow_up_event", ""))
+	if not immediate_target.is_empty() and not pack_ids.is_empty() \
+			and not pack_ids.has(immediate_target):
+		push_warning("Skipping event mod with cross-pack follow-up '%s': %s" \
+			% [immediate_target, path])
+		return false
+	if not deferred_follow_up_shape_is_valid(choice):
+		push_warning("Skipping event mod with malformed deferred follow-up: %s" % path)
+		return false
+	for entry_value in deferred_follow_ups(choice):
+		var target := str((entry_value as Dictionary).get("event_id", ""))
+		if not pack_ids.is_empty() and not pack_ids.has(target):
 			push_warning("Skipping event mod with cross-pack follow-up '%s': %s" % [target, path])
 			return false
 	return true

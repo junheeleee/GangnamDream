@@ -1090,9 +1090,11 @@ func apply_choice(event, choice):
 	# 시간차 후속은 모든 선택 경로가 공유하는 이 지점에서 한 번만 예약한다.
 	# StoryMode는 EventManager.resolve_choice()를 거치지 않으므로 여기서 빠지면
 	# JSON에 선언한 deferred_follow_up이 실제 VN 플레이에서 유실된다.
-	var deferred_id := str(choice.get("deferred_follow_up", "")).strip_edges()
-	if not deferred_id.is_empty():
-		add_deferred_event(deferred_id, int(choice.get("deferred_delay", 6)))
+	for deferred_value in DataRegistry.deferred_follow_ups(choice):
+		var deferred: Dictionary = deferred_value
+		add_deferred_event(
+			str(deferred.get("event_id", "")),
+			int(deferred.get("delay", 6)))
 	event_log.append({
 		"turn": turn,
 		"event_id": event.get("id", ""),

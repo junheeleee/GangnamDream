@@ -1391,7 +1391,13 @@
         ],
         "result_text": "\"신고 안 할게. 대신 내 돈 세 배로 돌려줘. 일주일 안에.\"\n재혁은 떨면서 고개를 끄덕였다. 돈이 들어왔다.\n\n강남에 한 발 가까워졌다. 근데 {name}은 그날 밤,\n자기가 재혁과 뭐가 다른지 한참을 생각했다.\n답을 찾지 못했다.",
         "route": "unorthodox",
-        "deferred_follow_up": "arc_jaehyuk_aftermath",
+        "deferred_follow_up": [
+          "arc_jaehyuk_aftermath",
+          {
+            "id": "callback_jaehyuk_exploited_retaliate",
+            "delay": 12
+          }
+        ],
         "deferred_delay": 1
       },
       {
@@ -1415,7 +1421,13 @@
         ],
         "result_text": "\"신고 대신, 같이 하자. 대신 이번엔 제대로.\"\n재혁의 눈에 안도와 두려움이 섞였다.\n\n{name}은 선을 넘었다. 강남은 가까워질 것이다.\n빠르게. 더럽게.\n아버지한테 보여줄 그 집이, 이런 돈으로 사는 집이어도 되는 걸까.\n그 질문을, {name}은 묻지 않기로 했다. 지금은.",
         "route": "unorthodox",
-        "deferred_follow_up": "arc_jaehyuk_aftermath",
+        "deferred_follow_up": [
+          "arc_jaehyuk_aftermath",
+          {
+            "id": "callback_jaehyuk_partnered_reckoning",
+            "delay": 14
+          }
+        ],
         "deferred_delay": 1
       }
     ]

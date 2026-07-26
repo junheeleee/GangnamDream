@@ -40,6 +40,24 @@ const DELAYED_PAYOFF_WIRING := [
 	{"event": "arc_daeun_y5_feelings", "choice": 0, "target": "callback_daeun_committed_gangnam_eve", "delay": 8},
 ]
 
+const MULTI_DEFERRED_PAYOFF_WIRING := [
+	{
+		"event": "arc_jaehyuk_04b_counter", "choice": 1,
+		"existing": "arc_jaehyuk_aftermath", "existing_delay": 1,
+		"target": "callback_jaehyuk_exploited_retaliate", "delay": 12,
+	},
+	{
+		"event": "arc_jaehyuk_04b_counter", "choice": 2,
+		"existing": "arc_jaehyuk_aftermath", "existing_delay": 1,
+		"target": "callback_jaehyuk_partnered_reckoning", "delay": 14,
+	},
+	{
+		"event": "arc_sangchul_reckoning", "choice": 2,
+		"existing": "arc_sangchul_year3", "existing_delay": 1,
+		"target": "callback_sangchul_leveraged_cost", "delay": 12,
+	},
+]
+
 func _ready() -> void:
 	GameState.start_new_game()
 	_check_catalog_and_ranges()
@@ -52,7 +70,7 @@ func _ready() -> void:
 	_check_full_run_pacing()
 	_check_rhythm_save_migration()
 	if _failures.is_empty():
-		print("EVENT_DIRECTOR_CHECK_OK directed=1017 foreground=61 bridge=18 bridge_roots=7 auto_multi=0 once=1014 repeatable=3 callbacks=34/29 chapters=5 asset_bands=5 demo=9/2/4/3 authored=7 generic=2 full=52/5/20/21 save=legacy+demo")
+		print("EVENT_DIRECTOR_CHECK_OK directed=1015 foreground=61 bridge=18 bridge_roots=7 auto_multi=0 once=1014 repeatable=3 callbacks=37/32 chapters=5 asset_bands=5 demo=9/2/4/3 authored=7 generic=2 full=52/5/20/21 save=legacy+demo+deferred")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -65,7 +83,7 @@ func _check_catalog_and_ranges() -> void:
 		var event: Dictionary = event_value
 		if EventManager.is_directed_random_event(event):
 			directed_count += 1
-	_expect(directed_count == 1017, "runtime directed pool is %d, expected 1017" % directed_count)
+	_expect(directed_count == 1015, "runtime directed pool is %d, expected 1015" % directed_count)
 	var chapter_ids: Array[String] = []
 	for turn_value in [1, 49, 97, 145, 193]:
 		chapter_ids.append(EventManager.director_chapter_id(turn_value))
@@ -298,6 +316,9 @@ func _check_delayed_payoff_wiring() -> void:
 		if choice_index < 0 or choice_index >= choices.size():
 			continue
 		var choice: Dictionary = choices[choice_index]
+		_expect(choice.get("deferred_follow_up", "") is String,
+			"legacy delayed-payoff row stopped using the compatible string shape: %s#%d" \
+			% [event_id, choice_index])
 		_expect(str(choice.get("deferred_follow_up", "")) == target_id,
 			"delayed-payoff target drifted: %s#%d" % [event_id, choice_index])
 		_expect(int(choice.get("deferred_delay", -1)) == delay,
@@ -322,7 +343,124 @@ func _check_delayed_payoff_wiring() -> void:
 		"delayed-payoff wiring row count drifted")
 	_expect(unique_targets.size() == 29,
 		"delayed-payoff unique target count drifted: %d" % unique_targets.size())
+
+	var multi_targets: Dictionary = {}
+	for row_value in MULTI_DEFERRED_PAYOFF_WIRING:
+		var row: Dictionary = row_value
+		var event_id := str(row["event"])
+		var choice_index := int(row["choice"])
+		var existing_id := str(row["existing"])
+		var existing_delay := int(row["existing_delay"])
+		var target_id := str(row["target"])
+		var target_delay := int(row["delay"])
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		var choices: Array = event.get("choices", [])
+		_expect(choice_index >= 0 and choice_index < choices.size(),
+			"multi delayed-payoff choice index is invalid: %s#%d" % [event_id, choice_index])
+		if choice_index < 0 or choice_index >= choices.size():
+			continue
+		var choice: Dictionary = choices[choice_index]
+		var normalized: Array = DataRegistry.deferred_follow_ups(choice)
+		_expect(_normalized_schedule_has(normalized, existing_id, existing_delay),
+			"multi delayed-payoff lost existing schedule: %s#%d -> %s +%d" \
+			% [event_id, choice_index, existing_id, existing_delay])
+		_expect(_normalized_schedule_has(normalized, target_id, target_delay),
+			"multi delayed-payoff lost added schedule: %s#%d -> %s +%d" \
+			% [event_id, choice_index, target_id, target_delay])
+		_expect(normalized.size() == 2,
+			"multi delayed-payoff has an unexpected third schedule: %s#%d" \
+			% [event_id, choice_index])
+		multi_targets[target_id] = true
+
+		GameState.start_new_game()
+		GameState.turn = 40
+		GameState.deferred_events.clear()
+		GameState.apply_choice(event, choice)
+		_expect(_runtime_schedule_has(existing_id, 40 + existing_delay),
+			"runtime lost existing schedule beside added callback: %s#%d" \
+			% [event_id, choice_index])
+		_expect(_runtime_schedule_has(target_id, 40 + target_delay),
+			"runtime did not schedule added delayed payoff: %s#%d" \
+			% [event_id, choice_index])
+		_expect(GameState.deferred_events.size() == 2,
+			"one choice did not retain exactly two deferred schedules: %s#%d" \
+			% [event_id, choice_index])
+		GameState.turn = 40 + existing_delay
+		var first_due: Array = GameState.pop_ready_deferred_events()
+		_expect(first_due == [existing_id],
+			"existing one-week follow-up did not fire first: %s#%d" \
+			% [event_id, choice_index])
+		_expect(GameState.has_deferred_event(target_id),
+			"later callback was swallowed by the existing follow-up: %s#%d" \
+			% [event_id, choice_index])
+		GameState.turn = 40 + target_delay
+		var second_due: Array = GameState.pop_ready_deferred_events()
+		_expect(second_due == [target_id],
+			"added callback did not fire at its own delay: %s#%d" \
+			% [event_id, choice_index])
+		_expect(GameState.deferred_events.is_empty(),
+			"multi delayed-payoff left a duplicate schedule after both firings: %s#%d" \
+			% [event_id, choice_index])
+	_expect(MULTI_DEFERRED_PAYOFF_WIRING.size() == 3,
+		"multi delayed-payoff wiring row count drifted")
+	_expect(multi_targets.size() == 3,
+		"multi delayed-payoff unique target count drifted: %d" % multi_targets.size())
+
 	GameState.start_new_game()
+	GameState.turn = 70
+	var mixed_choice := {
+		"deferred_follow_up": [
+			"",
+			"schema_shared_delay",
+			{"id": "", "delay": 2},
+			{"id": "schema_custom_delay", "delay": 3},
+			{"id": "schema_shared_delay", "delay": 2},
+		],
+		"deferred_delay": 7,
+	}
+	_expect(DataRegistry.deferred_follow_up_shape_is_valid(mixed_choice),
+		"valid mixed deferred schedule failed schema validation")
+	_expect(not DataRegistry.deferred_follow_up_shape_is_valid({
+			"deferred_follow_up": ["schema_bad_default"],
+			"deferred_delay": 7.0,
+		}), "floating-point default delay bypassed integer schema")
+	_expect(not DataRegistry.deferred_follow_up_shape_is_valid({
+			"deferred_follow_up": [{"id": "schema_bad_entry", "delay": 3.5}],
+		}), "floating-point entry delay bypassed integer schema")
+	_expect(not DataRegistry.deferred_follow_up_shape_is_valid({
+			"deferred_follow_up": {"id": "schema_not_an_array"},
+		}), "dictionary root bypassed string-or-array schema")
+	GameState.apply_choice({"id": "deferred_schema_fixture"}, mixed_choice)
+	_expect(_runtime_schedule_has("schema_shared_delay", 72),
+		"duplicate deferred id did not preserve the earlier trigger turn")
+	_expect(_runtime_schedule_has("schema_custom_delay", 73),
+		"per-entry deferred delay was not honored")
+	_expect(GameState.deferred_events.size() == 2,
+		"empty ids or duplicate deferred ids leaked into storage")
+
+	var saved: Dictionary = GameState.serialize()
+	var saved_deferred: Array = GameState.deferred_events.duplicate(true)
+	GameState.start_new_game()
+	GameState.load_from_dict(saved)
+	_expect(GameState.deferred_events == saved_deferred,
+		"legacy deferred_events save format changed during array extension")
+	GameState.start_new_game()
+
+func _normalized_schedule_has(entries: Array, event_id: String, delay: int) -> bool:
+	for value in entries:
+		var entry: Dictionary = value
+		if str(entry.get("event_id", "")) == event_id \
+				and int(entry.get("delay", -1)) == delay:
+			return true
+	return false
+
+func _runtime_schedule_has(event_id: String, trigger_turn: int) -> bool:
+	for value in GameState.deferred_events:
+		var entry: Dictionary = value
+		if str(entry.get("event_id", "")) == event_id \
+				and int(entry.get("trigger_turn", -1)) == trigger_turn:
+			return true
+	return false
 
 func _check_demo_pacing() -> void:
 	var kinds: Array[String] = []

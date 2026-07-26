@@ -1,13 +1,28 @@
-# Active Queue Spec: ORDER-53
+# Completed Queue Spec: ORDER-53
 
 > Canonical status is indexed in `docs/CODEX_QUEUE.md`.
 > 선행: [`ORDER-52`](ORDER-52.md) T2 — **유저 승인 완료(2026-07-26): 엔진 배열 확장 (가)안 채택.**
-> ORDER-52가 `[~]`인 동안 그 파일을 건드리지 않기 위해 T2를 이 오더로 분리했다.
+> ORDER-52가 `[~]`이던 동안 그 파일을 건드리지 않기 위해 T2를 이 오더로 분리했다.
 > **착수 조건: ORDER-52 T1 완료·커밋 후** (`arc_events.json`·`arc_drama.json` 등 파일이 겹친다).
 
-#### [~] 착수 — 만지는 파일: `autoloads/{DataRegistry,EventManager,GameState}.gd`, `content/events/{arc_drama,arc_events,callback_events_2}.json`, `content/events_en/callback_events_2.json`, `content/meta/story_rules.json`, `assets/{event_visual_contracts,scene_direction_manifest}.json`, `tools/{event_schedule,audit,event_director_audit,narrative_continuity_audit,narrative_spine_audit,arc_flow_sim,convergence_sim,mod_pack_validator}.py`, `tools/{EventDirectorCheck,ScreenshotQA}.gd`, `docs/{BALANCE,CODEX_QUEUE,WORK_LOG}.md`, `docs/queue_active/{ORDER-52,ORDER-53}.md`, `CLAUDE.md`
+#### [x] 완료 — 만진 파일: `autoloads/{DataRegistry,EventManager,GameState}.gd`, `content/events/{arc_drama,arc_events,callback_events_2}.json`, `content/events_en/callback_events_2.json`, `content/meta/story_rules.json`, `assets/{event_visual_contracts,scene_direction_manifest}.json`, `tools/{event_schedule,audit,event_director_audit,narrative_continuity_audit,narrative_spine_audit,arc_flow_sim,convergence_sim,mod_pack_validator}.py`, `tools/{EventDirectorCheck,ScreenshotQA}.gd`, `docs/{BALANCE,CODEX_QUEUE,WORK_LOG}.md`, `docs/queue_archive/{ORDER-51,ORDER-52,ORDER-53}.md`, `CLAUDE.md`
 
 ORDER-53 [P1·엔진 확장 + 배선] 한 선택지에 예약 여럿 — T2 3행 부활
+
+## 실행 결과
+
+- Godot와 Python이 `deferred_follow_up` 문자열 또는 문자열/`{id, delay}`
+  혼합 배열을 같은 방식으로 정규화한다. 빈 id는 무시하고 delay는 정수만
+  허용하며 대상 존재·모드 팩 경계·체인 도달성을 모든 소비자가 검사한다.
+- 현재 문자열 112행은 기존 형식 그대로 남았고, 승인된 세 선택지만 배열이
+  됐다. 각 선택에서 기존 1주 후속과 12~14주 콜백이 순서대로 한 번씩
+  발화하며 중복 예약은 더 이른 주만 유지한다.
+- `deferred_events[{event_id, trigger_turn}]` 저장 형식은 불변이다. 기존
+  세이브 왕복, 대표 A/B 240주 아크 상한, 한영 장면·오디오·시각 계약과
+  실제 렌더 스위트를 통과했다.
+- 재혁 역협박은 현재 거처의 전화 인셋, 공모 정산은 회의실 대면, 상철
+  회수는 카페 내면 장면으로 구분했다. 재혁 -300만원과
+  +1,500만원/+800만원 효과를 한영 결과문과 맞췄다.
 
 ## 배경
 

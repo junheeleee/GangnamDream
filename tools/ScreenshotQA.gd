@@ -1627,6 +1627,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	_assert_cafe_visual_state(story, event_id)
 	_assert_resolved_visual_debt_state(story, event_id)
 	_assert_jaehyuk_visual_state(story, event_id)
+	_assert_order53_payoff_visual_state(story, event_id)
 	_assert_commitment_visual_state(story, event_id, select_choice)
 	_assert_breakup_visual_state(story, event_id, select_choice)
 	_assert_transport_visual_state(story, event_id)
@@ -1672,6 +1673,53 @@ func _assert_temporal_portrait_state(story: Node, event_id: String) -> void:
 			or visible_rect.size.y < viewport_size.y * 0.42:
 		_fail("%s turn %d temporal portrait is too small or clipped: %s in %s." % [
 			event_id, GameState.turn, visible_rect, viewport_size])
+
+func _assert_order53_payoff_visual_state(story: Node, event_id: String) -> void:
+	var contracts := {
+		"callback_jaehyuk_exploited_retaliate": {
+			"background": ImageRegistry.infer_background_id({}, GameState.housing),
+			"portrait": "jaehyuk_cornered",
+			"channel": "phone",
+			"remote": true,
+		},
+		"callback_jaehyuk_partnered_reckoning": {
+			"background": "meeting",
+			"portrait": "jaehyuk_cornered",
+			"channel": "in_person",
+			"remote": false,
+		},
+		"callback_sangchul_leveraged_cost": {
+			"background": "cafe",
+			"portrait": "player_determined",
+			"channel": "internal",
+			"remote": false,
+		},
+	}
+	if not contracts.has(event_id):
+		return
+	var contract: Dictionary = contracts[event_id]
+	var actual_background := str(story.get("_event_background_id"))
+	if actual_background != str(contract["background"]):
+		_fail("%s background expected %s, got %s." % [
+			event_id, contract["background"], actual_background])
+	var presentation: Dictionary = story.get("_current_presentation")
+	if str(presentation.get("channel", "")) != str(contract["channel"]):
+		_fail("%s channel expected %s, got %s." % [
+			event_id, contract["channel"], presentation.get("channel", "")])
+	if bool(story.get("_portrait_remote_inset")) != bool(contract["remote"]):
+		_fail("%s remote portrait state expected %s." % [event_id, contract["remote"]])
+	var portrait := story.get("_portrait") as TextureRect
+	var actual_portrait_path := ""
+	if is_instance_valid(portrait) and portrait.texture != null:
+		actual_portrait_path = portrait.texture.resource_path
+	var expected_portrait_path := ImageRegistry.get_portrait(str(contract["portrait"]))
+	if actual_portrait_path != expected_portrait_path:
+		_fail("%s portrait expected %s, got %s." % [
+			event_id, expected_portrait_path, actual_portrait_path])
+	if event_id == "callback_jaehyuk_exploited_retaliate":
+		var communication_badge := story.get("_communication_badge") as Control
+		if not is_instance_valid(communication_badge) or not communication_badge.visible:
+			_fail("%s did not render its phone-call badge." % event_id)
 
 func _shot_living_scene_surfaces(lang: String, prefix: String) -> void:
 	await _shot_story_event("kx_monsoon", prefix + "01_rain", lang, 1.5, true)
@@ -5528,6 +5576,9 @@ func _shot_delayed_payoff_surfaces(
 		["callback_hyunsu_departure_meal_echo", "09_hyunsu_question", 50_000_000.0, 53, 1, 0, false],
 		["callback_daeun_committed_gangnam_eve", "10_shared_home", 1_100_000_000.0, 83, 0, 0, false],
 		["callback_jiyeon_took_deal_consequence", "11_contract_cost", 50_000_000.0, 50, 0, 0, false],
+		["callback_jaehyuk_exploited_retaliate", "12_jaehyuk_retaliate", 47_000_000.0, 53, 0, 0, false],
+		["callback_jaehyuk_partnered_reckoning", "13_jaehyuk_reckoning", 65_000_000.0, 50, 0, 0, false],
+		["callback_sangchul_leveraged_cost", "14_sangchul_cost", 50_000_000.0, 50, 0, 0, false],
 	]
 	for data in cases:
 		var event_id := str(data[0])
@@ -5582,6 +5633,12 @@ func _prepare_delayed_payoff_qa_state(event_id: String) -> void:
 			GameState.flags["arc_almost_there_seen"] = true
 		"callback_jiyeon_took_deal_consequence":
 			GameState.flags["took_jiyeon_deal"] = true
+		"callback_jaehyuk_exploited_retaliate":
+			GameState.flags["jaehyuk_exploited"] = true
+		"callback_jaehyuk_partnered_reckoning":
+			GameState.flags["jaehyuk_partnered"] = true
+		"callback_sangchul_leveraged_cost":
+			GameState.flags["sangchul_leveraged"] = true
 
 func _assert_delayed_payoff_runtime_ready(event_id: String, bridge_event: bool = true) -> void:
 	var event: Dictionary = DataRegistry.find_event(event_id)

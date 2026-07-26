@@ -20,6 +20,8 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
+from event_schedule import deferred_follow_ups
+
 
 ROOT = Path(__file__).resolve().parents[1]
 EVENT_DIR = ROOT / "content" / "events"
@@ -121,9 +123,7 @@ def deferred_followups(event: dict[str, Any]) -> list[tuple[str, int]]:
     for choice in event.get("choices", []):
         if not isinstance(choice, dict):
             continue
-        target = str(choice.get("deferred_follow_up", "")).strip()
-        if target:
-            result.append((target, int(choice.get("deferred_delay", 6))))
+        result.extend(deferred_follow_ups(choice))
     return result
 
 

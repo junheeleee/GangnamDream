@@ -16,6 +16,8 @@ ERROR가 하나라도 있으면 exit code 1.  WARNING은 통과(코드 0)하되 
 """
 import json, os, re, sys, glob
 
+from event_schedule import DeferredFollowUpError, deferred_follow_ups
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # ── 색/출력 헬퍼 ──────────────────────────────────────────────
@@ -324,10 +326,16 @@ def check_events():
                 if fu and fu not in known_ids:
                     err('%s  [%s] 선택지%d follow_up_event "%s" 가 존재하지 않음 (스토리 체인 끊김)'
                         % (rel(p), eid, ci, fu))
-                dfu = ch.get("deferred_follow_up", "")
-                if dfu and dfu not in known_ids:
-                    err('%s  [%s] 선택지%d deferred_follow_up "%s" 가 존재하지 않음 (그림자 체인 끊김)'
-                        % (rel(p), eid, ci, dfu))
+                try:
+                    delayed_links = deferred_follow_ups(ch)
+                except DeferredFollowUpError as exc:
+                    err('%s  [%s] 선택지%d deferred_follow_up 형식 오류: %s'
+                        % (rel(p), eid, ci, exc))
+                    delayed_links = []
+                for dfu, _delay in delayed_links:
+                    if dfu not in known_ids:
+                        err('%s  [%s] 선택지%d deferred_follow_up "%s" 가 존재하지 않음 '
+                            '(그림자 체인 끊김)' % (rel(p), eid, ci, dfu))
                 # follow_up이 있는 '이어지는 선택지'는 result_text 없이 바로 다음 노드로
                 # 내려가는 게 정상(연속 분기). 그 경우는 빈 result_text를 경고하지 않는다.
                 if "result_text" in ch and not str(ch["result_text"]).strip() and not fu:
@@ -1037,15 +1045,23 @@ def check_dead_arc_events():
         for e in evs:
             if not isinstance(e, dict):
                 continue
-            for key in ("follow_up", "follow_up_event", "deferred_follow_up"):
+            for key in ("follow_up", "follow_up_event"):
                 v = e.get(key)
                 if isinstance(v, str) and v:
                     follow_targets.add(v)
+            try:
+                follow_targets.update(target for target, _delay in deferred_follow_ups(e))
+            except DeferredFollowUpError:
+                pass
             for ch in e.get("choices", []) or []:
-                for key in ("follow_up_event", "deferred_follow_up"):
-                    v = ch.get(key)
-                    if isinstance(v, str) and v:
-                        follow_targets.add(v)
+                v = ch.get("follow_up_event")
+                if isinstance(v, str) and v:
+                    follow_targets.add(v)
+                try:
+                    follow_targets.update(
+                        target for target, _delay in deferred_follow_ups(ch))
+                except DeferredFollowUpError:
+                    pass
             cond = e.get("conditions", {}) or {}
             mt = cond.get("min_turn", 0)
             if isinstance(mt, (int, float)) and mt >= 9999:

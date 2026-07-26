@@ -9,18 +9,20 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from event_schedule import deferred_follow_ups, deferred_target_ids
+
 
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "autoloads" / "DataRegistry.gd"
 MANIFEST = ROOT / "content" / "meta" / "event_director.json"
 MAIN_GAME = ROOT / "scenes" / "MainGame.gd"
 EXPECTED_CATALOG_RANDOM = 1176
-EXPECTED_DIRECTED_RANDOM = 1017
+EXPECTED_DIRECTED_RANDOM = 1015
 EXPECTED_FOREGROUND_RANDOM = 61
 EXPECTED_BRIDGE_RANDOM = 18
 EXPECTED_CALLBACK_TOTAL = 620
 EXPECTED_CHAIN_TOTAL = 12
-MAX_DORMANT_CALLBACKS = 567
+MAX_DORMANT_CALLBACKS = 564
 MAX_DORMANT_CHAINS = 12
 EXPECTED_REACHABLE_CALLBACKS = {
     "callback_amusement_child_reunion",
@@ -48,6 +50,8 @@ EXPECTED_REACHABLE_CALLBACKS = {
     "callback_hyunsu_departure_meal_echo",
     "callback_interview_lie_confessed_echo",
     "callback_investment_lesson_echo",
+    "callback_jaehyuk_exploited_retaliate",
+    "callback_jaehyuk_partnered_reckoning",
     "callback_jaehyuk_reported_witness",
     "callback_jaehyuk_testified_echo",
     "callback_jeonse_auction_insured",
@@ -68,6 +72,7 @@ EXPECTED_REACHABLE_CALLBACKS = {
     "callback_resume_lie_confessed_echo",
     "callback_resume_lie_confessed_outcome",
     "callback_rushed_to_father_echo",
+    "callback_sangchul_leveraged_cost",
     "callback_sangchul_truth_buried_echo",
     "callback_sent_money_instead_echo",
     "callback_shadow_investors_proposal",
@@ -180,26 +185,28 @@ def follow_up_targets(events: list[dict[str, Any]]) -> set[str]:
         for choice in event.get("choices", []):
             if not isinstance(choice, dict):
                 continue
-            for key in ("follow_up_event", "deferred_follow_up"):
-                target = str(choice.get(key, ""))
-                if target:
-                    targets.add(target)
+            target = str(choice.get("follow_up_event", ""))
+            if target:
+                targets.add(target)
+            targets.update(deferred_target_ids(choice))
     return targets
 
 
 def event_follow_up_targets(event: dict[str, Any]) -> set[str]:
     targets: set[str] = set()
-    for key in ("follow_up_event", "deferred_follow_up", "next_event"):
+    for key in ("follow_up_event", "next_event"):
         target = str(event.get(key, ""))
         if target:
             targets.add(target)
+    targets.update(deferred_target_ids(event))
     for choice in event.get("choices", []):
         if not isinstance(choice, dict):
             continue
-        for key in ("follow_up_event", "deferred_follow_up", "next_event"):
+        for key in ("follow_up_event", "next_event"):
             target = str(choice.get(key, ""))
             if target:
                 targets.add(target)
+        targets.update(deferred_target_ids(choice))
     return targets
 
 
@@ -305,11 +312,11 @@ def is_directed_random(
 
 
 def event_has_follow_up(event: dict[str, Any]) -> bool:
-    if str(event.get("follow_up_event", "")):
+    if str(event.get("follow_up_event", "")) or deferred_follow_ups(event):
         return True
     return any(
         str(choice.get("follow_up_event", ""))
-        or str(choice.get("deferred_follow_up", ""))
+        or deferred_follow_ups(choice)
         for choice in event.get("choices", [])
         if isinstance(choice, dict)
     )

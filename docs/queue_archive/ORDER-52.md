@@ -1,4 +1,4 @@
-# Active Queue Spec: ORDER-52
+# Completed Queue Spec: ORDER-52
 
 > Canonical status is indexed in `docs/CODEX_QUEUE.md`. 선행: [`ORDER-51`](../queue_archive/ORDER-51.md) B의
 > **유저 결정 = (나) 선별 부활**(2026-07-26). 근거 원장: 각본 리뷰 3차 + 부활 선별 정독.

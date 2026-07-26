@@ -80,9 +80,13 @@ func _rebuild_follow_up_targets() -> void:
 		var event_follow_up := str(event.get("follow_up_event", ""))
 		if not event_follow_up.is_empty():
 			_follow_up_target_ids[event_follow_up] = true
-		for choice in event.get("choices", []):
-			for key in ["follow_up_event", "deferred_follow_up"]:
-				var target := str(choice.get(key, ""))
+		for choice_value in event.get("choices", []):
+			var choice: Dictionary = choice_value
+			var immediate_target := str(choice.get("follow_up_event", ""))
+			if not immediate_target.is_empty():
+				_follow_up_target_ids[immediate_target] = true
+			for deferred_value in DataRegistry.deferred_follow_ups(choice):
+				var target := str((deferred_value as Dictionary).get("event_id", ""))
 				if not target.is_empty():
 					_follow_up_target_ids[target] = true
 
@@ -638,9 +642,10 @@ func causal_frame_for(event: Dictionary) -> String:
 func _event_has_follow_up(event: Dictionary) -> bool:
 	if not str(event.get("follow_up_event", "")).is_empty():
 		return true
-	for choice in event.get("choices", []):
+	for choice_value in event.get("choices", []):
+		var choice: Dictionary = choice_value
 		if not str(choice.get("follow_up_event", "")).is_empty() \
-				or not str(choice.get("deferred_follow_up", "")).is_empty():
+				or not DataRegistry.deferred_follow_ups(choice).is_empty():
 			return true
 	return false
 

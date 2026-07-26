@@ -114,7 +114,7 @@
     "choices": [
       {
         "text": "\"I'll report you\" — I have evidence",
-        "result_text": "'I have everything recorded. I can file first.'\nJaehyuk went silent, then hung up.\nA week later money arrived. Not triple — but the principal."
+        "result_text": "'I have everything recorded. I can file first.'\nJaehyuk went silent, then hung up.\nA week later you settled the account. You sent back 3 million won from what he had already paid and kept only the principal portion."
       },
       {
         "text": "Compromise — just take the principal",
@@ -129,11 +129,11 @@
     "choices": [
       {
         "text": "Show the evidence — take the agreed split",
-        "result_text": "You had a recording. Jaehyuk went cold.\nYou got the agreed cut. 58 million won.\nThat's the end with Jaehyuk. It was always going to end this way."
+        "result_text": "You had a recording. Jaehyuk went cold.\nYou got the agreed cut. 15 million won.\nThat's the end with Jaehyuk. It was always going to end this way."
       },
       {
         "text": "Take what he offers — don't want more entanglement",
-        "result_text": "You took 32 million won. 26 million won less than agreed.\n'Fine.' Jaehyuk patted your shoulder.\nOn the way out you washed your hands. Twice."
+        "result_text": "You took 8 million won, 7 million less than agreed.\n'Fine.' Jaehyuk patted your shoulder.\nOn the way out you washed your hands. Twice."
       }
     ]
   },

@@ -221,6 +221,8 @@
     {"id": "arc_jaehyuk_wait", "background": "current_housing", "portrait": "player_tired"},
     {"id": "arc_jaehyuk_hyunsu_warning", "background": "current_housing", "portrait": "hyunsu"},
     {"id": "arc_jaehyuk_04b_counter", "background": "meeting", "portrait": "jaehyuk_cornered"},
+    {"id": "callback_jaehyuk_exploited_retaliate", "background": "current_housing", "portrait": "jaehyuk_cornered"},
+    {"id": "callback_jaehyuk_partnered_reckoning", "background": "meeting", "portrait": "jaehyuk_cornered"},
     {"id": "arc_father_05_after_visit", "background": "current_housing", "portrait": "player_normal"},
     {"id": "arc_father_06_confession", "background": "current_housing", "portrait": "player_shocked"},
     {"id": "arc_sangchul_known_offer", "background": "realestate_office", "portrait": "sangchul_normal"},
@@ -230,6 +232,7 @@
     {"id": "arc_jiyeon_father_records", "background": "cafe", "portrait": "jiyeon_normal"},
     {"id": "arc_y3_sangchul_deeper_room", "background": "meeting", "portrait": "sangchul_serious"},
     {"id": "arc_sangchul_year3", "background": "street", "portrait": "player_normal"},
+    {"id": "callback_sangchul_leveraged_cost", "background": "cafe", "portrait": "player_determined"},
 
     {"id": "arc_jaehyuk_03_pitch", "background": "meeting", "portrait": "jaehyuk_charisma", "cg": "cg_jaehyuk_reveal"},
     {"id": "arc_jaehyuk_04a_ghost", "background": "current_housing", "portrait": "player_shocked", "cg": null},

@@ -9,6 +9,8 @@ import os
 import sys
 from typing import Any
 
+from event_schedule import deferred_follow_ups
+
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SPINE_PATH = os.path.join(ROOT, "content", "meta", "narrative_spine.json")
@@ -326,8 +328,7 @@ def main() -> int:
     for (source, target), delay in REQUIRED_DEFERRED_EDGES.items():
         choices = ko_events.get(source, {}).get("choices", [])
         if not choices or any(
-            str(choice.get("deferred_follow_up", "")) != target
-            or int(choice.get("deferred_delay", 0)) != delay
+            (target, delay) not in deferred_follow_ups(choice)
             for choice in choices
             if isinstance(choice, dict)
         ):

@@ -20,6 +20,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from statistics import median
 
+from event_schedule import deferred_follow_ups
+
 
 ROOT = Path(__file__).resolve().parents[1]
 RARITY_WEIGHT = {"common": 1.0, "uncommon": 0.7, "rare": 0.28, "legendary": 0.08}
@@ -561,9 +563,9 @@ def _apply_choice(state: SimState, event: dict, choice: dict, week: int, rng: ra
     follow = str(choice.get("follow_up_event", ""))
     if follow in EVENTS_BY_ID:
         state.deferred.append((week + 1, follow))
-    deferred = str(choice.get("deferred_follow_up", ""))
-    if deferred in EVENTS_BY_ID:
-        state.deferred.append((week + int(choice.get("deferred_delay", 6)), deferred))
+    for deferred, delay in deferred_follow_ups(choice):
+        if deferred in EVENTS_BY_ID:
+            state.deferred.append((week + delay, deferred))
     state.events_seen += 1
     state.clamp()
 
