@@ -12,6 +12,7 @@
 - `content/meta/story_rules.json`
 - `content/events/{arc_events,ng_plus_events,arc_year3_drama,scenario_cafe_callback,callback_events,callback_events_36,arc_hyunsu,arc_midgame,arc_chapter_themes,gambling_narrative}.json`
 - `content/events/{callback_events_37,callback_events_39,callback_events_40,callback_events_43,callback_events_46,callback_events_51,relationship_events2}.json`
+- `content/events/{anxiety_events,callback_events_29,callback_events_42}.json`
 - `content/events_en/{arc_events,ng_plus_events,arc_year3_drama,scenario_cafe_callback,callback_events,callback_events_36,arc_hyunsu,arc_midgame,arc_chapter_themes,gambling_narrative}.json`
 - `scenes/MainGame.gd`
 - `assets/event_visual_contracts.json`
@@ -37,6 +38,8 @@ ORDER-55 [P0·정합 QA] 실제 노출 사건의 직업·주거·장소 계약�
    경로와 무관하게 출근·직장을 기정사실화한다.
 4. `holdem_skill_transfers`는 회사 협상 장면인데 `holdem_regular`만 검사한다.
 5. 커리어 전문화 결과 두 건은 전문화 선택 뒤 퇴사해도 회사 장면을 강제할 수 있다.
+6. 이사 뒤에도 사적인 생활·회상 콜백 네 건이 고시원으로 돌아가며, 임상철과 차를
+   마시는 대면 콜백 한 건은 고시원 배경을 사용한다.
 
 ## 구현 계약
 
@@ -47,6 +50,7 @@ ORDER-55 [P0·정합 QA] 실제 노출 사건의 직업·주거·장소 계약�
 - 인트로처럼 본문이 실제 고시원을 명시하는 사건은 반대로 규칙 원장의
   `scene_location`을 `goshiwon_room`으로 바로잡는다.
 - 4년차 지연 전화의 고정 고시원 문구는 현재 거주지를 침범하지 않는 문장으로 한영 수리한다.
+- 이사 이후의 생활·회상 콜백은 현재 주거를 따르고, 임상철 대면 장면은 카페로 고정한다.
 
 ### B. 선택 직업
 
