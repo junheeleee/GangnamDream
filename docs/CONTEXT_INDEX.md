@@ -1,6 +1,6 @@
 # Gangnam Dream Context Index
 
-Updated: 2026-07-24
+Updated: 2026-07-27
 
 이 문서는 “무엇이 정본인가”를 다시 설명하는 바이블이 아니라, 작업에 필요한 정본만 고르는 라우터다. 상세 규칙은 아래 소유 문서 한 곳에만 둔다. 기계 판독 버전은 `docs/context_manifest.json`이다.
 
@@ -29,7 +29,7 @@ Updated: 2026-07-24
 |---|---|---|
 | 상품 정체성·현재 상태 | `CLAUDE.md` | 현재 목표, 불변 규칙, 다음 작업 |
 | 세계·인물·5장 서사 | `docs/STORY_BIBLE.md`, `docs/CANON_MAP.md` | 의도된 이야기와 세계 사실 |
-| 선택·주간 루프 | `docs/AP_REDESIGN.md`, `docs/GAME_RECOMPOSITION_PLAN.md` | AP, Quiet/Echo/Decision/Boss |
+| 선택·주간 루프 | `docs/CORE_LOOP_V2.md`, `content/meta/demo_core_loop_v2.json`, `docs/AP_REDESIGN.md`, `docs/GAME_RECOMPOSITION_PLAN.md` | 데모 월간 약속·휴대폰·관계 주도권, 기존 AP·Quiet/Echo 폴백 |
 | 인과·장소·대화 채널 | `content/meta/story_rules.json`, `docs/STORY_CONSISTENCY_SYSTEM.md` | 선행조건, 통화/기억, 장면 전환 |
 | 관계·결혼 | `docs/ROMANCE_SYSTEM.md` | 호칭, 상호배타, 결혼·이별 |
 | 밸런스 | `docs/BALANCE.md`, `autoloads/GameState.gd` | 의도 밴드와 현재 실행값 |
@@ -61,13 +61,16 @@ Updated: 2026-07-24
 조건부:
 
 - 관계 장면: `docs/ROMANCE_SYSTEM.md`
-- 주간 편성: `docs/GAME_RECOMPOSITION_PLAN.md`, 현재 `ORDER-28`
+- 데모 1~24주 편성: `docs/CORE_LOOP_V2.md`, `content/meta/demo_core_loop_v2.json`, 현재 `ORDER-57`
+- 본편 폴백 편성: `docs/GAME_RECOMPOSITION_PLAN.md`, 현재 `ORDER-28`
 - 엔딩 라우팅: `content/endings.json`, `systems/EndingSystem.gd`, 관련 `DECISIONS` 절
 
 ### 게임 루프·밸런스
 
 필수:
 
+- `docs/CORE_LOOP_V2.md`
+- `content/meta/demo_core_loop_v2.json`
 - `docs/AP_REDESIGN.md`
 - `docs/BALANCE.md`
 - `autoloads/GameState.gd`
@@ -78,6 +81,10 @@ Updated: 2026-07-24
 - 사건 편성: `content/meta/event_director.json`
 - 장편 구조: `docs/GAME_RECOMPOSITION_PLAN.md`
 - 수치 변경: 관련 시뮬레이터와 `tools/balance_check.py`
+
+데모 1~24주에서는 Core Loop V2가 화면·관계 주도권·월간 편성의 우선
+정본이다. 기존 AP/Decision 문서는 내부 경제와 25~240주 폴백의 증거이며,
+V2 사람 GO 전까지 삭제하거나 전 구간에 확산하지 않는다.
 
 ### 캐릭터·CG·배경
 

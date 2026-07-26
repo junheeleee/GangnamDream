@@ -1,0 +1,452 @@
+{
+  "schema": 1,
+  "status": "design_contract",
+  "runtime_default": false,
+  "fallback": "event_director_v1",
+  "scope": {
+    "min_week": 1,
+    "max_week": 24,
+    "months": 6,
+    "weeks_per_month": 4,
+    "prototype_weeks": [1, 8],
+    "target_play_minutes": [75, 120],
+    "target_major_scenes": [18, 22]
+  },
+  "surface": {
+    "primary": "phone_calendar",
+    "tabs": ["messages", "calendar", "people", "record"],
+    "foreground_slots_per_month": 4,
+    "minimum_offers_per_month": 5,
+    "maximum_offers_per_month": 7,
+    "maximum_locked_slots_per_month": 1,
+    "visible_ap": false,
+    "visible_affinity_numbers": false,
+    "visible_moral_values": false
+  },
+  "routine": {
+    "background_ap_per_week": 2,
+    "selection_cadence": "monthly",
+    "primary_tracks": ["livelihood", "growth", "recovery"],
+    "direct_weekly_ap_menu": false,
+    "job_is_persistent_obligation": true,
+    "applications_required_before_interview": true
+  },
+  "relationship": {
+    "stages": [
+      "unmet",
+      "met",
+      "opening",
+      "player_reached_out",
+      "shared_commitment",
+      "friction",
+      "repair_or_distance",
+      "reciprocal",
+      "romantic_intent",
+      "committed",
+      "closed"
+    ],
+    "maximum_active_named_threads": 4,
+    "maximum_primary_threads": 2,
+    "generic_contact_rewards": false,
+    "romance_requires_player_initiation": true,
+    "future_route_preview": false
+  },
+  "exclusive_groups": {
+    "romance_entry": {
+      "members": ["daeun_world_meet", "jiyeon_world_meet"],
+      "maximum_selected": 1,
+      "scope": "month"
+    },
+    "money_mentor_entry": {
+      "members": ["sangchul_world_meet", "jaehyuk_world_meet"],
+      "maximum_selected": 1,
+      "scope": "month"
+    }
+  },
+  "scene_bundles": {
+    "debt_scar_prelude": {
+      "kind": "prelude",
+      "existing_roots": ["story_flashforward", "story_knee_door", "story_last_payment_wait"],
+      "characters": ["father"],
+      "initiated_by": "system",
+      "consumes_slot": false,
+      "estimated_minutes": 8
+    },
+    "opening_interview_math": {
+      "kind": "prelude",
+      "existing_roots": ["arc_intro_01_meal", "arc_intro_02_dad_call"],
+      "characters": ["father"],
+      "initiated_by": "prior_player_application",
+      "source_contract": "application_sent_before_week_one",
+      "consumes_slot": false,
+      "estimated_minutes": 7
+    },
+    "routine_apply": {
+      "kind": "routine",
+      "action_id": "apply",
+      "characters": [],
+      "initiated_by": "player",
+      "consumes_slot": true,
+      "decline_consequence": "this_posting_expires"
+    },
+    "routine_side_shift": {
+      "kind": "routine",
+      "action_id": "side_shift",
+      "characters": [],
+      "initiated_by": "player",
+      "consumes_slot": true,
+      "decline_consequence": "cash_buffer_does_not_grow"
+    },
+    "routine_study": {
+      "kind": "routine",
+      "action_id": "study",
+      "characters": [],
+      "initiated_by": "player",
+      "consumes_slot": true,
+      "decline_consequence": "preparation_window_moves_on"
+    },
+    "routine_recovery": {
+      "kind": "routine",
+      "action_id": "rest",
+      "characters": [],
+      "initiated_by": "player",
+      "consumes_slot": true,
+      "decline_consequence": "strain_carries_into_next_commitment"
+    },
+    "father_first_call": {
+      "kind": "care",
+      "existing_roots": ["arc_father_01_call"],
+      "characters": ["father"],
+      "relationship_stage": "opening",
+      "initiated_by": "reciprocal",
+      "consumes_slot": true,
+      "decline_consequence": "father_stops_asking_for_that_month"
+    },
+    "hyunsu_first_meet": {
+      "kind": "encounter",
+      "existing_roots": ["arc_intro_04_hyunsu"],
+      "characters": ["hyunsu"],
+      "relationship_stage": "met",
+      "initiated_by": "world",
+      "consumes_slot": true,
+      "decline_consequence": "the_neighbor_remains_only_a_face"
+    },
+    "first_temptation_boss": {
+      "kind": "boss",
+      "existing_roots": ["arc_temptation_01"],
+      "characters": [],
+      "initiated_by": "world",
+      "consumes_slot": true,
+      "locked_week": 4,
+      "decline_consequence": "the_offer_is_answered_or_refused_in_scene"
+    },
+    "temptation_consequence": {
+      "kind": "consequence",
+      "existing_roots": ["arc_temptation_clean", "arc_temptation_fallout"],
+      "characters": [],
+      "initiated_by": "system",
+      "consumes_slot": false,
+      "requires_prior_choice": "first_temptation_boss",
+      "estimated_minutes": 4
+    },
+    "hyunsu_player_reachout": {
+      "kind": "pursuit",
+      "existing_roots": ["hyunsu_study_together"],
+      "characters": ["hyunsu"],
+      "relationship_stage": "player_reached_out",
+      "initiated_by": "player",
+      "requires_player_initiated": true,
+      "consumes_slot": true,
+      "decline_consequence": "hyunsu_studies_alone_and_the_opening_cools"
+    },
+    "cafe_world_glimpse": {
+      "kind": "temptation",
+      "existing_roots": ["cafe_00"],
+      "characters": [],
+      "initiated_by": "player",
+      "consumes_slot": true,
+      "decline_consequence": "the_overheard_property_lead_disappears"
+    },
+    "sns_pressure_night": {
+      "kind": "reflection",
+      "existing_roots": ["arc_intro_03_sns"],
+      "characters": [],
+      "initiated_by": "world",
+      "consumes_slot": true,
+      "decline_consequence": "the_comparison_pressure_goes_unexamined"
+    },
+    "month_two_notebook": {
+      "kind": "closing",
+      "existing_roots": ["arc_chapter1_close"],
+      "characters": ["hyunsu"],
+      "initiated_by": "system",
+      "consumes_slot": false,
+      "estimated_minutes": 5
+    },
+    "daeun_world_meet": {
+      "kind": "encounter",
+      "existing_roots": ["arc_daeun_01_meet"],
+      "characters": ["daeun"],
+      "relationship_stage": "met",
+      "initiated_by": "world",
+      "eligibility": "late_shop_or_survival_route",
+      "exclusive_group": "romance_entry",
+      "consumes_slot": true,
+      "decline_consequence": "the_clerk_remains_a_familiar_stranger"
+    },
+    "jiyeon_world_meet": {
+      "kind": "encounter",
+      "existing_roots": ["arc_jiyeon_01_crash"],
+      "characters": ["jiyeon"],
+      "relationship_stage": "met",
+      "initiated_by": "world",
+      "eligibility": "bike_delivery_or_low_cost_mobility_route",
+      "exclusive_group": "romance_entry",
+      "consumes_slot": true,
+      "decline_consequence": "the_accident_ends_without_a_reason_to_reconnect"
+    },
+    "father_quiet_call": {
+      "kind": "care",
+      "existing_roots": ["arc_father_quiet_call"],
+      "characters": ["father"],
+      "relationship_stage": "shared_commitment",
+      "initiated_by": "player",
+      "requires_player_initiated": true,
+      "consumes_slot": true,
+      "decline_consequence": "another_sunday_passes_without_the_real_question"
+    },
+    "hyunsu_night_talk": {
+      "kind": "pursuit",
+      "existing_roots": ["arc_hyunsu_night_talk"],
+      "characters": ["hyunsu"],
+      "relationship_stage": "shared_commitment",
+      "initiated_by": "reciprocal",
+      "requires_player_initiated": true,
+      "consumes_slot": true,
+      "decline_consequence": "hyunsu_does_not_share_the_exam_fear"
+    },
+    "daeun_player_return": {
+      "kind": "pursuit",
+      "existing_roots": ["arc_daeun_02_regular"],
+      "characters": ["daeun"],
+      "relationship_stage": "player_reached_out",
+      "initiated_by": "player",
+      "requires_player_initiated": true,
+      "consumes_slot": true,
+      "decline_consequence": "daeun_reads_the_first_meeting_as_politeness"
+    },
+    "jiyeon_player_message": {
+      "kind": "pursuit",
+      "planned_scene_id": "v2_jiyeon_player_message",
+      "characters": ["jiyeon"],
+      "relationship_stage": "player_reached_out",
+      "initiated_by": "player",
+      "requires_player_initiated": true,
+      "consumes_slot": true,
+      "decline_consequence": "jiyeon_assumes_he_wants_the_incident_closed"
+    },
+    "sangchul_world_meet": {
+      "kind": "encounter",
+      "existing_roots": ["arc_sangchul_01_meet"],
+      "characters": ["sangchul"],
+      "relationship_stage": "met",
+      "initiated_by": "world",
+      "eligibility": "housing_search_route",
+      "exclusive_group": "money_mentor_entry",
+      "consumes_slot": true,
+      "decline_consequence": "the_warm_coffee_and_card_are_left_behind"
+    },
+    "jaehyuk_world_meet": {
+      "kind": "encounter",
+      "existing_roots": ["arc_jaehyuk_01_reunion"],
+      "characters": ["jaehyuk"],
+      "relationship_stage": "met",
+      "initiated_by": "reciprocal",
+      "eligibility": "old_network_route",
+      "exclusive_group": "money_mentor_entry",
+      "consumes_slot": true,
+      "decline_consequence": "jaehyuk_stops_waiting_for_an_immediate_reply"
+    },
+    "daeun_shared_dream": {
+      "kind": "pursuit",
+      "existing_roots": ["arc_daeun_02b_dream"],
+      "characters": ["daeun"],
+      "relationship_stage": "shared_commitment",
+      "initiated_by": "reciprocal",
+      "requires_player_initiated": true,
+      "consumes_slot": true,
+      "decline_consequence": "the_question_of_why_gangnam_remains_unasked"
+    },
+    "jiyeon_debt_coffee": {
+      "kind": "pursuit",
+      "existing_roots": ["arc_jiyeon_02_store", "arc_jiyeon_03_offer"],
+      "characters": ["jiyeon"],
+      "relationship_stage": "shared_commitment",
+      "initiated_by": "reciprocal",
+      "requires_player_initiated": true,
+      "consumes_slot": true,
+      "decline_consequence": "jiyeon_stops_trying_to_repay_the_personal_debt"
+    },
+    "sangchul_second_coffee": {
+      "kind": "pursuit",
+      "existing_roots": ["arc_sangchul_02_coffee"],
+      "characters": ["sangchul"],
+      "relationship_stage": "player_reached_out",
+      "initiated_by": "player",
+      "requires_player_initiated": true,
+      "consumes_slot": true,
+      "decline_consequence": "the_card_goes_cold_in_the_wallet"
+    },
+    "jaehyuk_real_face": {
+      "kind": "pursuit",
+      "existing_roots": ["arc_jaehyuk_01b_real_face", "arc_jaehyuk_02_bond"],
+      "characters": ["jaehyuk"],
+      "relationship_stage": "shared_commitment",
+      "initiated_by": "player",
+      "requires_player_initiated": true,
+      "consumes_slot": true,
+      "decline_consequence": "the_reunion_stays_surface_level"
+    },
+    "father_health_signal": {
+      "kind": "care",
+      "existing_roots": ["arc_father_02_signal"],
+      "characters": ["father"],
+      "relationship_stage": "friction",
+      "initiated_by": "reciprocal",
+      "requires_player_initiated": true,
+      "consumes_slot": true,
+      "decline_consequence": "the_visit_window_closes_for_this_month"
+    },
+    "demo_collision": {
+      "kind": "boss",
+      "planned_scene_id": "v2_demo_first_bill",
+      "existing_roots": ["story_six_months", "arc_gangnam_visit_alone", "arc_four_months_in"],
+      "characters": ["father"],
+      "initiated_by": "system",
+      "consumes_slot": true,
+      "locked_week": 24,
+      "variants": ["employed", "unemployed", "selected_relationship", "selected_money_mentor"],
+      "decline_consequence": "the_player_must_choose_one_live_obligation"
+    }
+  },
+  "months": [
+    {
+      "month": 1,
+      "weeks": [1, 4],
+      "title_ko": "남은 돈",
+      "title_en": "What Is Left",
+      "target_minutes": 14,
+      "prelude": ["debt_scar_prelude", "opening_interview_math"],
+      "locked": [{"week": 4, "bundle": "first_temptation_boss"}],
+      "offers": [
+        "routine_apply",
+        "routine_side_shift",
+        "routine_study",
+        "routine_recovery",
+        "father_first_call",
+        "hyunsu_first_meet"
+      ],
+      "active_named_characters_max": 2,
+      "closing": []
+    },
+    {
+      "month": 2,
+      "weeks": [5, 8],
+      "title_ko": "같은 도시의 사람",
+      "title_en": "People in the Same City",
+      "target_minutes": 14,
+      "prelude": [],
+      "locked": [],
+      "offers": [
+        "routine_apply",
+        "routine_side_shift",
+        "routine_study",
+        "routine_recovery",
+        "hyunsu_player_reachout",
+        "cafe_world_glimpse",
+        "sns_pressure_night"
+      ],
+      "conditional_consequences": ["temptation_consequence"],
+      "active_named_characters_max": 2,
+      "closing": ["month_two_notebook"]
+    },
+    {
+      "month": 3,
+      "weeks": [9, 12],
+      "title_ko": "다시 볼 이유",
+      "title_en": "A Reason to Meet Again",
+      "target_minutes": 15,
+      "prelude": [],
+      "locked": [],
+      "offers": [
+        "routine_apply",
+        "routine_side_shift",
+        "routine_recovery",
+        "father_quiet_call",
+        "hyunsu_night_talk",
+        "daeun_world_meet",
+        "jiyeon_world_meet"
+      ],
+      "active_named_characters_max": 3,
+      "closing": []
+    },
+    {
+      "month": 4,
+      "weeks": [13, 16],
+      "title_ko": "문을 보여 주는 사람",
+      "title_en": "The Person Who Shows the Door",
+      "target_minutes": 16,
+      "prelude": [],
+      "locked": [],
+      "offers": [
+        "routine_apply",
+        "routine_study",
+        "routine_recovery",
+        "daeun_player_return",
+        "jiyeon_player_message",
+        "sangchul_world_meet",
+        "jaehyuk_world_meet"
+      ],
+      "active_named_characters_max": 4,
+      "closing": []
+    },
+    {
+      "month": 5,
+      "weeks": [17, 20],
+      "title_ko": "기다리는 쪽",
+      "title_en": "The One Who Waits",
+      "target_minutes": 17,
+      "prelude": [],
+      "locked": [{"week": 20, "bundle": "father_health_signal"}],
+      "offers": [
+        "routine_apply",
+        "routine_recovery",
+        "daeun_shared_dream",
+        "jiyeon_debt_coffee",
+        "sangchul_second_coffee",
+        "jaehyuk_real_face"
+      ],
+      "active_named_characters_max": 4,
+      "closing": []
+    },
+    {
+      "month": 6,
+      "weeks": [21, 24],
+      "title_ko": "첫 청구서",
+      "title_en": "The First Bill",
+      "target_minutes": 19,
+      "prelude": [],
+      "locked": [{"week": 24, "bundle": "demo_collision"}],
+      "offers": [
+        "routine_apply",
+        "routine_side_shift",
+        "routine_study",
+        "routine_recovery",
+        "father_quiet_call",
+        "hyunsu_night_talk"
+      ],
+      "active_named_characters_max": 4,
+      "closing": []
+    }
+  ]
+}
