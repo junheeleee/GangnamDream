@@ -5,7 +5,7 @@
 > → `ORDER-53`(예약 배열 확장). 이 오더는 그 계보의 **마지막 남은 휴면 코퍼스**를 닫는다.
 > **Claude 코드 검증 완료(2026-07-26)** — 아래 수치·계약은 저장소에서 재현한 사실이다.
 
-#### [~] 착수 — 만지는 파일: `content/events/{chain_events,rare_encounter_events}.json`, `content/events_en/{chain_events,rare_encounter_events}.json`, `content/meta/event_director.json`, `tools/{audit,event_director_audit,arc_flow_sim}.py`, `tools/{EventDirectorCheck,ScreenshotQA}.gd`, `docs/{BALANCE,CODEX_QUEUE,WORK_LOG}.md`, `docs/queue_active/ORDER-54.md`, `CLAUDE.md`
+#### [~] 착수 — 만지는 파일: `content/events/{butterfly_events,chain_events,rare_encounter_events}.json`, `content/events_en/{butterfly_events,chain_events,rare_encounter_events}.json`, `content/meta/event_director.json`, `tools/{audit,event_director_audit,arc_flow_sim}.py`, `tools/{EventDirectorCheck,ScreenshotQA}.gd`, `docs/{BALANCE,CODEX_QUEUE,WORK_LOG}.md`, `docs/queue_active/ORDER-54.md`, `CLAUDE.md`
 
 ORDER-54 [P1·체인 부활] 씨앗-수확 12체인을 되살린다
 
@@ -113,6 +113,29 @@ ORDER-51이 확인한 마지막 휴면 덩어리다. 감사가 지금도 정직�
 
 착수 시 실제 플래그 생산 지점을 grep으로 특정해 배선표를 이 파일에 기록한 뒤 구현한다.
 수확 12건의 `conditions.min_turn`은 **하한 보험으로만 남기고** 상대 간격은 예약이 소유한다.
+
+### 실제 생산자-수확 배선표 (2026-07-26 런타임 데이터 확인)
+
+| 생산자 선택 | 수확 이벤트 | 간격 |
+|---|---|---:|
+| `rare_market_kind_stranger`#0 | `chain_banchan_reunion` | 8주 |
+| `rare_market_kind_stranger`#1 | `chain_banchan_reunion_declined` | 8주 |
+| `chain_banchan_reunion`#0 | `chain_banchan_son` | 10주 |
+| `chain_banchan_reunion_declined`#0 | `chain_banchan_son` | 10주 |
+| `rare_wallet_executive`#0 | `chain_exec_meal` | 8주 |
+| `chain_exec_meal`#0 | `chain_exec_interview` | 10주 |
+| `rare_night_alva_find`#0 | `chain_envelope_owner_return` | 8주 |
+| `rare_night_alva_find`#1 | `chain_envelope_guilt` | 8주 |
+| `chain_envelope_owner_return`#0 | `chain_interior_offer` | 10주 |
+| `rare_goshiwon_neighbor_success`#0 | `chain_neighbor_moving` | 8주 |
+| `chain_neighbor_moving`#0 | `chain_neighbor_civil_servant` | 12주 |
+| `rare_celeb_convenience`#0·#1 | `chain_celeb_return` | 8주 |
+| `butterfly_mystery_info_result_scam`#0 | `chain_scammer_again` | 12주 |
+
+마지막 사기 체인의 생산자는 전경 씨앗 5건과 다른
+`butterfly_events.json`에 있으므로 KR·EN 두 파일을 착수 범위에 추가했다.
+한 수확을 두 선택이 공유하는 유명인 체인과 반찬가게 합류 때문에 생산자 선택 행은
+14개지만, 고유 수확 이벤트는 12개다.
 
 ## 검증
 
