@@ -16,6 +16,7 @@
 - `assets/event_visual_contracts.json` (장소 수리 시)
 - `assets/scene_audio_manifest.json` (장소 수리 시)
 - `assets/scene_direction_manifest.json` (전환 수리 시)
+- `scenes/MainGame.gd` (중복 상태 비트의 스케줄러 차단 시)
 - `tools/exposed_state_consistency_audit.py`
 - `tools/event_director_audit.py`
 - `tools/story_consistency_audit.py`
