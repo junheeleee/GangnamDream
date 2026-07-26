@@ -4,6 +4,18 @@
 > [`history/WORK_LOG_2026-05-16_to_2026-07-24.md`](history/WORK_LOG_2026-05-16_to_2026-07-24.md)에 손실 없이 보존했다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-07-26 (Claude — ORDER-51·52·53 계보 판정: PASS)
+
+### 보고를 믿지 않고 저장소에서 재현해 지연 회수 부활 전 계보를 판정했다
+
+- **엔진 확장 검증**: `DataRegistry.deferred_follow_ups()`가 문자열·문자열배열·`{id, delay}` dict를 정규화하고 빈 id를 무시한다. 사양대로 `add_deferred_event()` 시그니처와 저장 포맷 `deferred_events`는 불변이라 세이브 마이그레이션이 없다. `deferred_follow_up_shape_is_valid()` 형태 검증기까지 추가된 것은 사양 초과 달성이다.
+- **하위 호환 실측**: 기존 문자열 배선 112건이 그대로 남고 배열은 T2 3행뿐이다. 문자열 경로를 건드리지 않았다.
+- **T2 배선 실측**: 세 선택지 모두 기존 예약(`arc_sangchul_year3`·`arc_jaehyuk_aftermath`, delay 1)을 배열 첫 원소로 보존하고 신규 콜백을 자체 delay(12/12/14) dict로 덧붙였다. 사양의 "대체하지 말 것"을 정확히 지켰다.
+- **감사 확장 검증**: `tools/audit.py`가 인라인 검사를 공유 모듈 `event_schedule.deferred_follow_ups`로 승격하고 `DeferredFollowUpError` 형태 오류·존재성·체인 추적(1053/1062)을 배열 전수로 처리한다. 사문 재발 경로가 닫혔다.
+- **게이트 실행**: `audit.py` ERROR 0/WARNING 0, write-only 플래그 0, inert 0. `event_director_audit.py`는 `callback_reachable=56`(24→53→56), 휴면 `callback=564`(596에서 감소), `chain=0/12`.
+- **판정: ORDER-51·52·53 PASS.** 각본 리뷰 3차에서 발견한 "도달 불가 회수 코퍼스"가 유저 결정 (나) 선별 부활로 닫혔다.
+- **남은 열린 항목**: `chain_events.json` 12체인은 여전히 `chain_reachable=0`이다. 부활 선별이 작성형 생산자를 가진 콜백만 대상으로 했고, 체인의 씨앗은 `rare_encounter_events.json`의 랜덤 조우라 예약 배선 대상이 아니었기 때문이다. 감사가 `dormant ... chain=12 pending design`으로 정직하게 경고 중이며, 되살리려면 씨앗 5~6건의 허용목록 편입(소규모 (다) 방식)이 필요하므로 별도 유저 판단 사안으로 남긴다.
+
 ## 2026-07-26 (Codex — ORDER-53 다중 지연 예약·T2 3행 부활)
 
 ### 한 선택이 가까운 후속과 늦은 대가를 모두 잃지 않고 기억한다
