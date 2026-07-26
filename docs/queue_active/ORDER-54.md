@@ -5,7 +5,7 @@
 > → `ORDER-53`(예약 배열 확장). 이 오더는 그 계보의 **마지막 남은 휴면 코퍼스**를 닫는다.
 > **Claude 코드 검증 완료(2026-07-26)** — 아래 수치·계약은 저장소에서 재현한 사실이다.
 
-#### [~] 착수 — 만지는 파일: `autoloads/{DataRegistry,EventManager,GameState}.gd`, `scenes/MainGame.gd`, `content/events/{butterfly_events,chain_events,life_events,rare_encounter_events}.json`, `content/events_en/{butterfly_events,chain_events,life_events,rare_encounter_events}.json`, `content/meta/event_director.json`, `tools/{audit,arc_flow_sim,convergence_sim,event_director_audit,mod_pack_validator}.py`, `tools/{EventDirectorCheck,ScreenshotQA}.gd`, `docs/{BALANCE,CODEX_QUEUE,WORK_LOG}.md`, `docs/queue_active/ORDER-54.md`, `CLAUDE.md`
+#### [~] 착수 — 만지는 파일: `autoloads/{DataRegistry,EventManager,GameState}.gd`, `scenes/MainGame.gd`, `content/events/{butterfly_events,chain_events,life_events,rare_encounter_events}.json`, `content/events_en/{butterfly_events,chain_events,life_events,rare_encounter_events}.json`, `content/meta/event_director.json`, `locale/ui_ja.json`, `tools/{audit,arc_flow_sim,convergence_sim,event_director_audit,mod_pack_validator}.py`, `tools/{EventDirectorCheck,ScreenshotQA}.gd`, `docs/{BALANCE,CODEX_QUEUE,WORK_LOG}.md`, `docs/queue_active/ORDER-54.md`, `CLAUDE.md`
 
 ORDER-54 [P1·체인 부활] 씨앗-수확 12체인을 되살린다
 
@@ -160,6 +160,10 @@ ORDER-51이 확인한 마지막 휴면 덩어리다. 감사가 지금도 정직�
 즉시 `follow_up_event`는 선택이 직접 연 장면이므로 기존처럼 조건 우회 동작을 유지한다.
 이 보험을 잠그기 위해 `autoloads/EventManager.gd`와 `scenes/MainGame.gd`를 착수 범위에
 추가했다.
+
+취업 결과를 실제 직업 전환으로 연결하면서 기존 UI 로그와 구분되는 `이직` 로그를 추가했다.
+전체 감사의 일본어 키 동등성 게이트가 이를 정확히 검출했으므로 `locale/ui_ja.json`도 범위에
+추가해 한국어·영어·일본어 UI 키를 함께 맞춘다.
 
 ## 검증
 
