@@ -2,6 +2,8 @@ extends Control
 
 const GangnamWordmarkScript := preload("res://scenes/ui/GangnamWordmark.gd")
 const LivingSceneLayerScript := preload("res://scenes/ui/LivingSceneLayer.gd")
+const DemoCoreLoopV2Script := preload("res://systems/DemoCoreLoopV2.gd")
+const BuildInfoScript := preload("res://systems/BuildInfo.gd")
 
 const LAUNCH_REQUIRED_INPUT_GATES := 1
 const NEW_STORY_SCENE := "res://scenes/OpeningCinematic.tscn"
@@ -29,6 +31,7 @@ var _load_next_button: Button = null
 var _archive_tab: int = 0
 var _archive_page: int = 0
 var _title_command_buttons: Array[Button] = []
+var _new_run_core_loop_v2_test := false
 
 var _splash_layer: Control
 var _splash_active: bool = true
@@ -166,6 +169,9 @@ const DIFFICULTY_TEXT_EN := {
 func _ready():
 	set_meta("launch_required_input_gates", LAUNCH_REQUIRED_INPUT_GATES)
 	set_meta("new_story_scene", NEW_STORY_SCENE)
+	set_meta("game_version", BuildInfoScript.GAME_VERSION)
+	set_meta("build_id", BuildInfoScript.BUILD_ID)
+	BuildInfoScript.apply_window_title(get_window(), false, LocaleManager.is_english())
 	_build_ui()
 	_build_splash()
 	BGMPlayer.start_menu()
@@ -431,6 +437,7 @@ func _build_ui():
 	margin.add_theme_constant_override("margin_top", 48)
 	margin.add_theme_constant_override("margin_bottom", 46)
 	add_child(margin)
+	_add_build_identity_label()
 
 	var column := VBoxContainer.new()
 	column.custom_minimum_size = Vector2(390, 0)
@@ -494,6 +501,16 @@ func _build_ui():
 	new_btn.pressed.connect(_start_new_run)
 	menu.add_child(new_btn)
 
+	if OS.is_debug_build():
+		var core_loop_v2_btn := _title_command_button(
+			_tr("Core Loop V2  ·  8주 테스트", "Core Loop V2  ·  Eight-Week Test"), true)
+		core_loop_v2_btn.tooltip_text = _tr(
+			"새 월간 약속 구조를 별도 저장 상태로 시작합니다.",
+			"Start the new monthly-commitment prototype in a separate run state.")
+		core_loop_v2_btn.set_meta("core_loop_v2_test_entry", true)
+		core_loop_v2_btn.pressed.connect(_start_core_loop_v2_test_run)
+		menu.add_child(core_loop_v2_btn)
+
 	var load_btn := _title_command_button(_tr("불러오기", "Load Game"))
 	load_btn.pressed.connect(_open_load_overlay)
 	menu.add_child(load_btn)
@@ -524,6 +541,28 @@ func _build_ui():
 		continue_btn.call_deferred("grab_focus")
 	else:
 		new_btn.call_deferred("grab_focus")
+
+func _add_build_identity_label() -> void:
+	var identity := Label.new()
+	identity.name = "BuildIdentity"
+	identity.text = BuildInfoScript.identity_label(false)
+	identity.tooltip_text = identity.text
+	identity.anchor_left = 1.0
+	identity.anchor_top = 1.0
+	identity.anchor_right = 1.0
+	identity.anchor_bottom = 1.0
+	identity.offset_left = -390.0
+	identity.offset_top = -42.0
+	identity.offset_right = -28.0
+	identity.offset_bottom = -18.0
+	identity.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	identity.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	identity.add_theme_font_size_override("font_size", 12)
+	identity.add_theme_color_override("font_color", Color("#929ba6"))
+	identity.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	identity.z_index = 12
+	identity.set_meta("build_identity", true)
+	add_child(identity)
 
 func _title_command_button(text: String, quiet: bool = false) -> Button:
 	var button := Button.new()
@@ -1692,6 +1731,13 @@ func _update_theme_desc() -> void:
 
 # ── 시작 / 로드 ─────────────────────────────────────────────────
 func _start_new_run():
+	_request_new_run(false)
+
+func _start_core_loop_v2_test_run() -> void:
+	_request_new_run(true)
+
+func _request_new_run(core_loop_v2_test: bool) -> void:
+	_new_run_core_loop_v2_test = core_loop_v2_test
 	# 첫 실행 시 콘텐츠 경고 표시
 	if not MetaProgression.data.get("content_warning_seen", false):
 		_show_content_warning()
@@ -1825,12 +1871,21 @@ func _show_content_warning():
 func _do_start_run():
 	# 이름·루트 선택 없이 고정 시작 (드라마 모드)
 	# 성향은 플레이 중 선택으로 자연스럽게 결정됨
+	_initialize_new_run_state(_new_run_core_loop_v2_test)
+	SceneTransition.go(NEW_STORY_SCENE)
+
+func _initialize_new_run_state(core_loop_v2_test: bool) -> void:
 	SaveManager.clear_loaded_resume_context()
 	GameState.start_new_game(_tr("김민준", "Kim Minjun"), "지방_상경", "none", "백수", "자유런", "현실")
-	SceneTransition.go(NEW_STORY_SCENE)
+	if core_loop_v2_test:
+		DemoCoreLoopV2Script.initialize_for_run(true)
+	BuildInfoScript.apply_window_title(
+		get_window(), core_loop_v2_test, LocaleManager.is_english())
 
 func _load_slot(slot):
 	if SaveManager.load_game(slot):
+		BuildInfoScript.apply_window_title(
+			get_window(), DemoCoreLoopV2Script.requested(), LocaleManager.is_english())
 		SceneTransition.go(SaveManager.loaded_scene_path())
 
 # ── UI 헬퍼 ────────────────────────────────────────────────────

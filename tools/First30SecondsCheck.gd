@@ -6,6 +6,7 @@ extends Node
 const SPLASH_SCENE := preload("res://scenes/SplashScreen.tscn")
 const MENU_SCENE := preload("res://scenes/StartMenu.tscn")
 const OPENING_SCENE := preload("res://scenes/OpeningCinematic.tscn")
+const BuildInfoScript := preload("res://systems/BuildInfo.gd")
 
 var _failures: Array[String] = []
 
@@ -97,6 +98,12 @@ func _check_title_menu() -> void:
 		"New Story bypasses the authored motion-comic opening.")
 	var visible_text := _collect_text(menu)
 	_expect("PRESS ANY KEY" in visible_text, "English title gate is missing its start prompt.")
+	_expect(BuildInfoScript.identity_label(false) in visible_text,
+		"Title menu does not expose the current game version and build ID.")
+	_expect(str(menu.get_meta("game_version", "")) == BuildInfoScript.GAME_VERSION,
+		"Title menu game-version metadata drifted from BuildInfo.")
+	_expect(str(menu.get_meta("build_id", "")) == BuildInfoScript.BUILD_ID,
+		"Title menu build metadata drifted from BuildInfo.")
 	_expect(not _contains_hangul(visible_text), "English title gate contains Hangul.")
 	menu.call("_dismiss_splash")
 	await get_tree().create_timer(0.30).timeout

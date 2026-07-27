@@ -1265,6 +1265,9 @@ func _prepare_main_game_state() -> void:
 
 func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	_set_qa_language(lang)
+	await _assert_core_loop_v2_debug_entry(lang)
+	if _qa_failed:
+		return
 	GameState.start_new_game()
 	GameState.flags["prologue_done"] = true
 	GameState.add_log("Core Loop V2 QA", "system")
@@ -1344,6 +1347,61 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		_fail("Core Loop V2 convenience result would use the wrong shift title.")
 		return
 	await _dispose_main_game()
+
+func _assert_core_loop_v2_debug_entry(lang: String) -> void:
+	_seed_start_menu_meta_progress()
+	var packed := load("res://scenes/StartMenu.tscn") as PackedScene
+	if packed == null:
+		_fail("Core Loop V2 QA could not load StartMenu.tscn.")
+		return
+	var menu := packed.instantiate()
+	get_tree().root.add_child.call_deferred(menu)
+	await get_tree().process_frame
+	if menu.has_method("_dismiss_splash"):
+		menu._dismiss_splash()
+	await _settle(0.35)
+	var test_button: Button = null
+	for raw_button in menu.get("_title_command_buttons"):
+		if raw_button is Button and bool(raw_button.get_meta(
+				"core_loop_v2_test_entry", false)):
+			test_button = raw_button as Button
+			break
+	if not is_instance_valid(test_button) or not test_button.visible:
+		_fail("DEBUG title menu does not expose the Core Loop V2 test entry.")
+		return
+	if test_button.focus_mode != Control.FOCUS_ALL:
+		_fail("Core Loop V2 test entry is not keyboard/controller focusable.")
+		return
+	var build_info = load("res://systems/BuildInfo.gd")
+	var identity := menu.find_child("BuildIdentity", true, false) as Label
+	if not is_instance_valid(identity) \
+			or identity.text != build_info.identity_label(false):
+		_fail("Title menu does not expose the canonical version and build ID.")
+		return
+	var prefix := "core_loop_v2_%s_" % lang.replace("-", "_").to_lower()
+	await _save(prefix + "00_debug_start_entry", 0.1)
+	menu._initialize_new_run_state(false)
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	if bool(GameState.core_loop_v2_state.get("enabled", false)):
+		_fail("Normal New Story incorrectly enables Core Loop V2.")
+		return
+	if build_info.CORE_LOOP_V2_CHANNEL in get_window().title:
+		_fail("Normal New Story incorrectly labels the window as Core Loop V2.")
+		return
+	menu._initialize_new_run_state(true)
+	if not bool(GameState.core_loop_v2_state.get("enabled", false)):
+		_fail("DEBUG Core Loop V2 entry did not enable the prototype state.")
+		return
+	if build_info.CORE_LOOP_V2_CHANNEL not in get_window().title:
+		_fail("DEBUG Core Loop V2 entry did not label the active window.")
+		return
+	if is_instance_valid(menu):
+		var parent := menu.get_parent()
+		if parent != null:
+			parent.remove_child(menu)
+		menu.free()
+	_remove_start_menu_nodes()
+	await _settle(0.2)
 
 func _tree_contains_scroll_container(root: Node) -> bool:
 	var stack: Array[Node] = [root]

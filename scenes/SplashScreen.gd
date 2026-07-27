@@ -2,6 +2,7 @@ extends Control
 
 const GangnamWordmarkScript := preload("res://scenes/ui/GangnamWordmark.gd")
 const LivingSceneLayerScript := preload("res://scenes/ui/LivingSceneLayer.gd")
+const BuildInfoScript := preload("res://systems/BuildInfo.gd")
 
 const NEXT_SCENE := "res://scenes/StartMenu.tscn"
 const BRAND_SEQUENCE_SECONDS := 3.1
@@ -50,6 +51,7 @@ func _ready():
 	var saved_language := str(SaveManager.get_setting("language", ""))
 	if saved_language in LocaleManager.get_selectable_languages():
 		LocaleManager.set_language(saved_language)
+	BuildInfoScript.apply_window_title(get_window(), false, LocaleManager.is_english())
 	SceneTransition.fade_in()
 	if _force_language_gate_for_qa or saved_language not in LocaleManager.get_selectable_languages() \
 			or not bool(SaveManager.get_setting("language_gate_seen", false)):
@@ -254,6 +256,7 @@ func _select_language(lang: String) -> void:
 		return
 	_language_choice_locked = true
 	LocaleManager.set_language(lang)
+	BuildInfoScript.apply_window_title(get_window(), false, LocaleManager.is_english())
 	SaveManager.set_setting("language_gate_seen", true)
 	for raw_button in _language_buttons.values():
 		var button := raw_button as Button
