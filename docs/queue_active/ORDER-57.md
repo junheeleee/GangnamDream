@@ -47,6 +47,14 @@
 `Core Loop V2 8주 테스트`를 명시적으로 골라 새 런을 시작할 수 있게 하고,
 출시 빌드 비노출·한영·패드 포커스·실제 V2 활성화를 표적 QA로 잠근다.
 
+**빌드 식별 표면 범위 확장 (2026-07-27 Codex) — 추가로 만지는 파일:**
+`systems/BuildInfo.gd`, `scenes/SplashScreen.gd`, `scenes/StartMenu.gd`,
+`tools/ScreenshotQA.gd`, `tools/First30SecondsCheck.gd`, `CLAUDE.md`,
+`docs/WORK_LOG.md`. `project.godot`의 사용자 변경은 건드리지 않는다.
+게임 버전과 날짜형 빌드 ID는 한 파일에서만 소유하고, 시작 화면과 실행창
+제목에서 항상 식별 가능하게 한다. DEBUG V2 진입은 같은 버전 옆에
+`CORE LOOP V2`를 덧붙여 일반 시작·V2 테스트 캡처를 혼동하지 않게 한다.
+
 ## 목적
 
 - 기존 5년·240주 콘텐츠와 저장 정본은 파괴하지 않는다.
