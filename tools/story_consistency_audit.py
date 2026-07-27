@@ -72,6 +72,7 @@ PRESENTATION_KEYS = {
     "remote_actor",
     "participants",
     "portrait_role",
+    "nameplate_role",
     "expected_portrait",
     "participant_roles",
     "expected_background",
@@ -79,6 +80,7 @@ PRESENTATION_KEYS = {
 }
 COMMUNICATION_TITLE = re.compile(r"전화|통화|카톡|문자|연락", re.IGNORECASE)
 ALLOWED_TRANSITION_MODES = {"same_location", "explicit_move", "time_cut", "memory_cut"}
+ALLOWED_NAMEPLATE_ROLES = {"auto", "hidden"}
 TRANSITION_KEYS = {
     "mode",
     "from_location",
@@ -497,6 +499,7 @@ def main() -> int:
                     )
                 channel = str(presentation.get("channel", ""))
                 portrait_role = str(presentation.get("portrait_role", ""))
+                nameplate_role = str(presentation.get("nameplate_role", "auto"))
                 state = str(presentation.get("state", ""))
                 expected_portrait = str(presentation.get("expected_portrait", ""))
                 expected_background = str(
@@ -510,6 +513,10 @@ def main() -> int:
                     errors.append(f"{owner}.presentation: invalid channel {channel!r}")
                 if portrait_role not in ALLOWED_PORTRAIT_ROLES:
                     errors.append(f"{owner}.presentation: invalid portrait_role {portrait_role!r}")
+                if nameplate_role not in ALLOWED_NAMEPLATE_ROLES:
+                    errors.append(
+                        f"{owner}.presentation: invalid nameplate_role {nameplate_role!r}"
+                    )
                 if state not in ALLOWED_STATES:
                     errors.append(f"{owner}.presentation: invalid state {state!r}")
                 if expected_portrait and str(event.get("portrait", "")) != expected_portrait:

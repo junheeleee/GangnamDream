@@ -2205,12 +2205,20 @@ func _refresh_story_speaker_language() -> void:
 	_update_communication_badge(
 		str(_current_presentation.get("channel", "in_person")),
 		str(_current_presentation.get("state", "")))
+	if _story_nameplate_hidden():
+		if is_instance_valid(_name_panel):
+			_name_panel.visible = false
+		return
 	var info := ImageRegistry.get_person_info(_resolved_event_portrait_id())
 	if info.is_empty() or str(info.get("name", "")).is_empty():
+		if is_instance_valid(_name_panel):
+			_name_panel.visible = false
 		return
 	var display_name := str(info.get("name", ""))
 	var suffix := _remote_name_suffix()
 	_name_tag.text = display_name if suffix.is_empty() else "%s  ·  %s" % [display_name, suffix]
+	if is_instance_valid(_name_panel):
+		_name_panel.visible = true
 
 func _refresh_continue_hint_text() -> void:
 	if not is_instance_valid(_continue_hint):
@@ -2770,6 +2778,9 @@ func _remote_name_suffix() -> String:
 		"memory": return _tr("기억", "Memory")
 	return ""
 
+func _story_nameplate_hidden() -> bool:
+	return str(_current_presentation.get("nameplate_role", "auto")) == "hidden"
+
 func _show_portrait(portrait_id: String, bg_only: bool = false):
 	_configure_portrait_presentation()
 	var info := {}
@@ -2798,7 +2809,8 @@ func _show_portrait(portrait_id: String, bg_only: bool = false):
 		_portrait_frame.visible = false
 
 	# 이름표 — 인물 정보가 있으면 표시 (이미지 없어도 누구 대사인지 알려줌)
-	if not info.is_empty() and str(info.get("name", "")) != "":
+	if not _story_nameplate_hidden() \
+			and not info.is_empty() and str(info.get("name", "")) != "":
 		var display_name := str(info.get("name", ""))
 		var remote_suffix := _remote_name_suffix()
 		_name_tag.text = display_name if remote_suffix.is_empty() else "%s  ·  %s" % [display_name, remote_suffix]

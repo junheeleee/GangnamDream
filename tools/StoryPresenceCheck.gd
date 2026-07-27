@@ -14,6 +14,8 @@ func _run() -> void:
 
 	LocaleManager.language = "ko"
 	DataRegistry.reload()
+	if not await _check_narrated_father_memory_ko():
+		return
 	if not await _check_remote_phone_ko():
 		return
 	if not await _check_local_message_ko():
@@ -42,8 +44,28 @@ func _run() -> void:
 
 	LocaleManager.language = _original_language
 	DataRegistry.reload()
-	print("STORY_PRESENCE_CHECK_OK phone=remote message=local casino_invite=remote casino_reply=internal casino_arrival=full hyunsu_message=remote hyunsu_meet=full memory=inset ktx=memory in_person=full en=clean")
+	print("STORY_PRESENCE_CHECK_OK father_memory=narrated phone=remote message=local casino_invite=remote casino_reply=internal casino_arrival=full hyunsu_message=remote hyunsu_meet=full memory=inset ktx=memory in_person=full en=clean")
 	get_tree().quit(0)
+
+func _check_narrated_father_memory_ko() -> bool:
+	for event_id in ["story_knee_witness", "story_knee_choice"]:
+		_story = await _boot_story(event_id)
+		if _story == null:
+			return false
+		var presentation: Dictionary = _story.get("_current_presentation")
+		var frame := _story.get("_portrait_frame") as Control
+		var name_panel := _story.get("_name_panel") as Control
+		if str(presentation.get("nameplate_role", "")) != "hidden":
+			return _fail("%s lost its narrated-nameplate contract" % event_id)
+		if not is_instance_valid(frame) or not frame.visible:
+			return _fail("%s lost the father memory portrait" % event_id)
+		if not is_instance_valid(name_panel) or name_panel.visible:
+			return _fail("%s still labels narration as Father's speech" % event_id)
+		_story.call("_refresh_story_speaker_language")
+		if name_panel.visible:
+			return _fail("%s restored Father's nameplate during language refresh" % event_id)
+		await _remove_story()
+	return true
 
 func _check_remote_phone_ko() -> bool:
 	_story = await _boot_story("story_prologue_dad")

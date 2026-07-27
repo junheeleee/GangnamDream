@@ -500,6 +500,26 @@
     }
   },
   "events": {
+    "story_knee_witness": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "dad_house",
+        "participants": ["player", "father", "creditor"],
+        "portrait_role": "present",
+        "nameplate_role": "hidden",
+        "expected_portrait": "father_past"
+      }
+    },
+    "story_knee_choice": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "dad_house",
+        "participants": ["player", "father", "creditor"],
+        "portrait_role": "present",
+        "nameplate_role": "hidden",
+        "expected_portrait": "father_past"
+      }
+    },
     "arc_daeun_01_meet": {
       "presentation": {
         "channel": "in_person",
