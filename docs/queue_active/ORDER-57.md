@@ -284,7 +284,8 @@ StoryMode resume의 중첩 schema로 왕복해 48주 1장과 240주 전체판에
 `assets/scene_direction_manifest.json`, `systems/DemoCoreLoopV2.gd`,
 `scenes/CoreLoopPlanner.gd`, `scenes/StartMenu.gd`,
 `tools/demo_core_loop_v2_audit.py`, `tools/core_loop_v2_balance_sim.py`,
-`tools/CoreLoopV2Check.gd`, 신규 `tools/CoreLoopV2CCheck.gd`,
+`tools/CoreLoopV2Check.gd`, `tools/CoreLoopV2BCheck.gd`,
+신규 `tools/CoreLoopV2CCheck.gd`,
 신규 `tools/CoreLoopV2CCheck.tscn`, `tools/ScreenshotQA.gd`,
 `tools/audit.sh`, `locale/ui_ja.json`.
 13~16주는 한빛유통 지원서의 실제 면접, 다은/지연의 선택별 한 단계 관계
