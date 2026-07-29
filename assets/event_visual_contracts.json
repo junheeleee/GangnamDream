@@ -1,5 +1,5 @@
 {
-  "version": 30,
+  "version": 31,
   "tag_coverage": [
     "climate",
     "season",
@@ -198,6 +198,11 @@
     {"id": "v2_hyunsu_player_reachout", "background": "goshiwon_room", "portrait": null},
     {"id": "v2_hyunsu_first_study", "background": "goshiwon_shared_kitchen", "portrait": "hyunsu"},
     {"id": "v2_hyunsu_study_followup", "background": "goshiwon_shared_kitchen", "portrait": "hyunsu"},
+    {"id": "v2_hanbit_interview", "background": "office_interview_day", "portrait": "player_suit"},
+    {"id": "v2_daeun_return_named", "background": "convenience_night", "portrait": "daeun_smile"},
+    {"id": "v2_daeun_return_after_distance", "background": "convenience_night", "portrait": "daeun_normal"},
+    {"id": "v2_sangchul_housing_lead", "background": "realestate_office", "portrait": "sangchul_normal"},
+    {"id": "v2_jaehyuk_message", "background": "goshiwon_room", "portrait": null},
     {"id": "arc_hyunsu_night_talk", "background": "goshiwon_hallway", "portrait": "hyunsu"},
     {"id": "hyunsu_exam_day", "background": "goshiwon_hallway", "portrait": "player_offduty_neutral"},
     {"id": "hyunsu_result_fail", "background": "goshiwon_hallway", "portrait": "player_offduty_neutral"},

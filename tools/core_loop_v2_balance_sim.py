@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Deterministic twelve-week economy check for the Core Loop V2 B gate.
+"""Deterministic sixteen-week economy check for the Core Loop V2 C gate.
 
 This is deliberately a small, auditable ledger rather than a probability
 forecast. It preserves the eight-week A1 result, demonstrates the deliberate
-month-three cash pressure, proves the four-night legal shift can keep a
-livelihood path solvent, distinguishes arrears from global bankruptcy, and
-checks both authored exits from the dirty-money branch.
+month-three cash pressure and twelve-week B result, proves the two authored
+legal shifts can keep a sixteen-week livelihood path solvent, distinguishes
+arrears from global bankruptcy, and checks both authored exits from the
+dirty-money branch.
 """
 
 from __future__ import annotations
@@ -25,7 +26,8 @@ STARTING_CASH = 500_000
 OPENING_SURVIVAL_BUFFER = 300_000
 MONTHLY_FIXED_COST = 650_000
 A1_WEEKS = 8
-DEVELOPMENT_WEEKS = 12
+B_WEEKS = 12
+DEVELOPMENT_WEEKS = 16
 
 
 @dataclass
@@ -158,15 +160,21 @@ def main() -> int:
             errors,
         )
 
-    no_shift_livelihood = simulate_legal(
-        "no_shift_livelihood", ("livelihood", "recovery"), options
+    b_no_shift_livelihood = simulate_legal(
+        "b_no_shift_livelihood",
+        ("livelihood", "recovery"),
+        options,
+        B_WEEKS,
     )
-    no_shift_growth = simulate_legal(
-        "no_shift_growth", ("growth", "livelihood"), options
+    b_no_shift_growth = simulate_legal(
+        "b_no_shift_growth",
+        ("growth", "livelihood"),
+        options,
+        B_WEEKS,
     )
-    pressure_ledgers = (no_shift_livelihood, no_shift_growth)
+    pressure_ledgers = (b_no_shift_livelihood, b_no_shift_growth)
     for ledger in pressure_ledgers:
-        if ledger.routine_units != DEVELOPMENT_WEEKS * 2:
+        if ledger.routine_units != B_WEEKS * 2:
             fail(
                 f"{ledger.name} executed {ledger.routine_units} routine units, "
                 "expected 24",
@@ -178,12 +186,12 @@ def main() -> int:
                 f"of KRW -310,000, got {ledger.cash:,}",
                 errors,
             )
-    if no_shift_livelihood.mental <= no_shift_growth.mental:
+    if b_no_shift_livelihood.mental <= b_no_shift_growth.mental:
         fail(
             "recovery support no longer leaves more mental capacity than growth",
             errors,
         )
-    if no_shift_growth.intelligence <= no_shift_livelihood.intelligence:
+    if b_no_shift_growth.intelligence <= b_no_shift_livelihood.intelligence:
         fail(
             "growth support no longer produces a distinct skill advantage",
             errors,
@@ -201,13 +209,73 @@ def main() -> int:
             errors,
         )
     legal_inventory = simulate_legal(
-        "legal_livelihood_inventory", ("livelihood", "recovery"), options
+        "legal_livelihood_inventory",
+        ("livelihood", "recovery"),
+        options,
+        B_WEEKS,
     )
     legal_inventory.apply_effects(inventory_effects)
     if legal_inventory.cash < 50_000:
         fail(
             f"livelihood plus inventory must end at or above KRW 50,000, "
             f"got {legal_inventory.cash:,}",
+            errors,
+        )
+
+    c_no_shifts = simulate_legal(
+        "c_no_shifts", ("livelihood", "recovery"), options
+    )
+    if c_no_shifts.routine_units != DEVELOPMENT_WEEKS * 2:
+        fail(
+            f"the sixteen-week fixture executed {c_no_shifts.routine_units} "
+            "routine units, expected 32",
+            errors,
+        )
+    if c_no_shifts.cash != -680_000:
+        fail(
+            "the sixteen-week no-shift livelihood path must expose KRW 680,000 "
+            f"of arrears, got {c_no_shifts.cash:,}",
+            errors,
+        )
+
+    logistics_config = action_config(contract, "m4_logistics_shift")
+    if str(logistics_config.get("execution", "")) != "instant_effect":
+        fail("month-four logistics work is not an instant authored effect", errors)
+    logistics_effects = logistics_config.get("effects", {})
+    if not isinstance(logistics_effects, dict):
+        logistics_effects = {}
+    if logistics_effects != {"money": 520_000, "health": -7, "mental": -5}:
+        fail(
+            f"logistics shift effects drifted: {logistics_effects}",
+            errors,
+        )
+
+    c_late_shift_only = simulate_legal(
+        "c_late_shift_only", ("livelihood", "recovery"), options
+    )
+    c_late_shift_only.apply_effects(logistics_effects)
+    if c_late_shift_only.cash != -160_000:
+        fail(
+            "taking only the late logistics shift must not erase the missed "
+            f"month-three choice, got {c_late_shift_only.cash:,}",
+            errors,
+        )
+
+    c_two_shift_legal = simulate_legal(
+        "c_two_shift_legal", ("livelihood", "recovery"), options
+    )
+    c_two_shift_legal.apply_effects(inventory_effects)
+    c_two_shift_legal.apply_effects(logistics_effects)
+    if c_two_shift_legal.cash != 200_000:
+        fail(
+            "the two-shift legal path must finish week 16 at exactly "
+            f"KRW 200,000, got {c_two_shift_legal.cash:,}",
+            errors,
+        )
+    if c_two_shift_legal.cash - 180_000 != 20_000:
+        fail(
+            "the legal week-16 path no longer supports the optional "
+            "KRW 180,000 refurbished phone with a KRW 20,000 remainder",
             errors,
         )
 
@@ -270,7 +338,7 @@ def main() -> int:
         fail("dirty branch has money but no explicit mental or moral cost", errors)
 
     dirty_before_fallout = simulate_legal(
-        "dirty_before_fallout", ("growth", "livelihood"), options
+        "dirty_before_fallout", ("growth", "livelihood"), options, B_WEEKS
     )
     dirty_before_fallout.apply_effects(dirty_effects)
     dirty_before_fallout.flags.update(str(flag) for flag in dirty_flags)
@@ -296,7 +364,7 @@ def main() -> int:
         fail("deeper dirty-money branch must add exactly KRW 3,000,000", errors)
 
     dirty_escaped = simulate_legal(
-        "dirty_escaped", ("growth", "livelihood"), options
+        "dirty_escaped", ("growth", "livelihood"), options, B_WEEKS
     )
     dirty_escaped.apply_effects(dirty_effects)
     dirty_escaped.apply_effects(escaped_effects)
@@ -308,7 +376,7 @@ def main() -> int:
         )
 
     dirty_deeper = simulate_legal(
-        "dirty_deeper", ("growth", "livelihood"), options
+        "dirty_deeper", ("growth", "livelihood"), options, B_WEEKS
     )
     dirty_deeper.apply_effects(dirty_effects)
     dirty_deeper.apply_effects(deeper_effects)
@@ -340,13 +408,17 @@ def main() -> int:
     print(
         "core_loop_v2_balance_ok "
         f"a1_cash={a1_livelihood.cash} "
-        f"no_shift_cash={no_shift_livelihood.cash} "
-        f"arrears={max(0, -no_shift_livelihood.cash)} "
+        f"b_no_shift_cash={b_no_shift_livelihood.cash} "
+        f"b_arrears={max(0, -b_no_shift_livelihood.cash)} "
         f"inventory_cash={legal_inventory.cash} "
+        f"c_no_shift_cash={c_no_shifts.cash} "
+        f"c_late_shift_cash={c_late_shift_only.cash} "
+        f"c_two_shift_cash={c_two_shift_legal.cash} "
         f"dirty_before_fallout={dirty_before_fallout.cash} "
         f"dirty_escaped={dirty_escaped.cash} dirty_deeper={dirty_deeper.cash} "
         f"dirty_costs={explicit_costs} "
-        f"routine_units={no_shift_growth.routine_units} "
+        f"b_routine_units={b_no_shift_growth.routine_units} "
+        f"c_routine_units={c_no_shifts.routine_units} "
         f"recovery_diminished={diminished_recovery}"
     )
     return 0

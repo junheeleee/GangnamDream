@@ -29,6 +29,11 @@ const OWNED_STORY_ROOTS := [
 	"v2_hyunsu_player_reachout",
 	"v2_hyunsu_first_study",
 	"v2_hyunsu_study_followup",
+	"v2_hanbit_interview",
+	"v2_daeun_return_named",
+	"v2_daeun_return_after_distance",
+	"v2_sangchul_housing_lead",
+	"v2_jaehyuk_message",
 ]
 const ENABLE_ARGS := [
 	"--core-loop-v2",
@@ -499,6 +504,7 @@ static func commit_plan(
 			for dispatch_key in [
 				"target_bundle", "consumer_bundle", "matching_bundle",
 				"target_kinds", "consumer_bundles", "fallback",
+				"application_transition",
 			]:
 				if outcome.has(dispatch_key):
 					var dispatch_value: Variant = outcome[dispatch_key]
@@ -738,6 +744,36 @@ static func _consume_decline_record(
 	if not effects.is_empty():
 		GameState.apply_effects(effects)
 	record["effects_applied"] = effects.duplicate(true)
+	var raw_transition: Variant = record.get("application_transition", {})
+	if raw_transition is Dictionary:
+		var transition: Dictionary = raw_transition
+		var application_id := str(
+			transition.get("application_id", "")).strip_edges()
+		var from_status := str(transition.get("from", "")).strip_edges()
+		var to_status := str(transition.get("to", "")).strip_edges()
+		var current_status := str(
+			state["application_statuses"].get(
+				application_id, application_status(application_id)))
+		if not application_id.is_empty() \
+				and not from_status.is_empty() \
+				and not to_status.is_empty() \
+				and current_status == from_status:
+			state["application_statuses"][application_id] = to_status
+			var transition_receipt := {
+				"application_id": application_id,
+				"from": from_status,
+				"to": to_status,
+				"bundle_id": str(record.get("producer_bundle", "")),
+				"decline_id": str(record.get("id", "")),
+				"turn": int(GameState.turn),
+			}
+			record["application_transition_applied"] = \
+				transition_receipt.duplicate(true)
+			state["application_transition_receipts"][
+				"decline:%s:%d" % [
+					str(record.get("id", "")), int(GameState.turn)
+				]
+			] = transition_receipt
 	record["consumed_turn"] = int(GameState.turn)
 	record["dispatch"] = dispatch
 	for raw_key in extra:
@@ -1491,6 +1527,10 @@ static func _note_relationship_story_choice(
 		var target_rank := RELATIONSHIP_STAGE_ORDER.find(target_stage)
 		if target_rank < 0 or current_rank < 0 or target_rank < current_rank:
 			return false
+		if target_stage != current_stage \
+				and _relationship_advanced_in_month(
+					state, character_id, month_for_turn(GameState.turn)):
+			return false
 		if target_stage != current_stage:
 			state["relationship_stages"][character_id] = target_stage
 		var receipt := {
@@ -1527,6 +1567,19 @@ static func _note_relationship_story_choice(
 			}
 		GameState.core_loop_v2_state = state
 		return true
+	return false
+
+static func _relationship_advanced_in_month(
+		state: Dictionary, character_id: String, month_index: int) -> bool:
+	for raw_receipt in state["relationship_history"]:
+		if not raw_receipt is Dictionary:
+			continue
+		var receipt: Dictionary = raw_receipt
+		if str(receipt.get("character", "")) != character_id \
+				or str(receipt.get("from", "")) == str(receipt.get("to", "")):
+			continue
+		if month_for_turn(int(receipt.get("turn", 0))) == month_index:
+			return true
 	return false
 
 static func _note_application_story_choice(
@@ -1738,6 +1791,12 @@ static func _predicate_met(
 			var required_rank := RELATIONSHIP_STAGE_ORDER.find(required_stage)
 			return not character.is_empty() and current_rank >= 0 \
 				and required_rank >= 0 and current_rank >= required_rank
+		"relationship_stage_is":
+			var character := str(predicate.get("character", "")).strip_edges()
+			var required_stage := str(predicate.get("stage", "")).strip_edges()
+			return not character.is_empty() \
+				and RELATIONSHIP_STAGE_ORDER.has(required_stage) \
+				and relationship_stage(character) == required_stage
 		"relationship_memory":
 			var character := str(predicate.get("character", "")).strip_edges()
 			var memory := str(predicate.get("memory", "")).strip_edges()
@@ -1767,6 +1826,18 @@ static func _predicate_met(
 			return not application_id.is_empty() \
 				and not expected_status.is_empty() \
 				and application_status(application_id) == expected_status
+		"application_status_not_in":
+			var application_id := str(
+				predicate.get("application_id", "")).strip_edges()
+			var raw_statuses: Variant = predicate.get("statuses", [])
+			if application_id.is_empty() or not raw_statuses is Array \
+					or (raw_statuses as Array).is_empty():
+				return false
+			var current_status := application_status(application_id)
+			for raw_status in raw_statuses:
+				if current_status == str(raw_status).strip_edges():
+					return false
+			return true
 	return false
 
 static func _normalized_schedule(raw_schedule: Dictionary) -> Dictionary:

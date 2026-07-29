@@ -125,6 +125,7 @@ StoryMode는 원문 문단 인덱스를 정본으로 쓰지만 검사는 화면 
 `content/meta/demo_core_loop_v2.json`, `systems/DemoCoreLoopV2.gd`,
 `scenes/CoreLoopPlanner.gd`, `scenes/MainGame.gd`, `scenes/StartMenu.gd`,
 `tools/demo_core_loop_v2_audit.py`, `tools/core_loop_v2_balance_sim.py`,
+`tools/event_director_audit.py`,
 `tools/CoreLoopV2Check.gd`, `tools/CoreLoopV2BCheck.gd`,
 `tools/CoreLoopV2BCheck.tscn`, `tools/ScreenshotQA.gd`, `tools/audit.sh`,
 `locale/ui_ja.json`.
@@ -276,16 +277,19 @@ StoryMode resume의 중첩 schema로 왕복해 48주 1장과 240주 전체판에
 **C 13~16주 선제 추적·돈 인물 착수 (2026-07-30 Codex) — 추가로 만지는
 파일:** `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-57.md`,
 `docs/CORE_LOOP_V2.md`, `docs/STORY_BIBLE.md`, `docs/DECISIONS.md`,
-`docs/BALANCE.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `CLAUDE.md`,
+`docs/BALANCE.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`,
+`docs/history/WORK_LOG_2026-07-25.md`, `CLAUDE.md`,
 `content/meta/demo_core_loop_v2.json`, `content/meta/narrative_spine.json`,
 `content/meta/story_rules.json`, `content/events/core_loop_v2_events.json`,
 `content/events_en/core_loop_v2_events.json`,
 `assets/event_visual_contracts.json`, `assets/scene_audio_manifest.json`,
-`assets/scene_direction_manifest.json`, `systems/DemoCoreLoopV2.gd`,
+`assets/scene_direction_manifest.json`, `assets/ui/phone/README.md`,
+`assets/ui/phone/phone_frame_starter.png`, `systems/DemoCoreLoopV2.gd`,
 `scenes/CoreLoopPlanner.gd`, `scenes/StartMenu.gd`,
 `tools/demo_core_loop_v2_audit.py`, `tools/core_loop_v2_balance_sim.py`,
 `tools/CoreLoopV2Check.gd`, `tools/CoreLoopV2BCheck.gd`,
 신규 `tools/CoreLoopV2CCheck.gd`,
+신규 `tools/CoreLoopV2CCheck.gd.uid`,
 신규 `tools/CoreLoopV2CCheck.tscn`, `tools/ScreenshotQA.gd`,
 `tools/audit.sh`, `locale/ui_ja.json`.
 13~16주는 한빛유통 지원서의 실제 면접, 다은/지연의 선택별 한 단계 관계
@@ -535,3 +539,36 @@ story/visual/audio 계약 순서로 연결한다.
   `runtime_default=false`, `finish_run`, 13~240주와 사용자 소유
   `project.godot`은 유지했다. 정상 속도 첫 만남 기억·재미 사람 게이트와
   물리 패드 판정은 OPEN이다.
+
+### 2026-07-30 — C 1~16주 선제 추적·돈 인물 입구 AUTO PASS
+
+- 한빛유통은 실제 제출 상태에서만 면접이 열리고
+  `submitted → interviewed/not_attended`를 한 번 기록한다. 다은은 첫 만남의
+  이름 공개·거리 두기 선택에 따라 다른 직접 재방문을 쓴다. 지연은
+  연락처 없이 버스정류장에서 우연히 다시 만나며, 지연이 먼저 자전거
+  안부와 이름을 건네거나 민준이 먼저 사고 이야기를 꺼낸다. 같은 인물의
+  관계 단계는 한 달에 한 번만 오른다.
+- 상철은 카페 옆자리에서 들은 재개발 입주권 통화, 재혁은 앞선 SNS
+  압박이라는 서로 다른 root에서만 열린다. 방 시세 탐색은 상철의 선행이
+  아니라 C의 첫 대면 행동이다. C에서는 첫 대화·카카오톡 답장까지만
+  사용하고 투자 권유, 30억원 동기, 기존 48주·240주 진실 장면을
+  선취하지 않는다. 두 입구는 같은 실행에서 동시에 전경 주연이 되지 않는다.
+- 네 번째 달은 성긴 상태에서 정확히 5개, 선행 선택이 풍부한 상태에서
+  7개 제안을 가진다. 자격증 수업·물류 대타·검진·회복·주거복지 상담은
+  고유 기한과 원자 실행·저장 영수증을 가진다. 부업 없는 16주 체납
+  68만원, 늦은 물류 대타만 고른 체납 16만원, 두 합법 대타 뒤 현금
+  20만원과 리퍼폰 구매 뒤 2만원을 결정론 원장으로 잠갔다.
+- 실제 수신 메시지와 통화 기록만 사람 연락으로 표시한다. 직접 방문 일정과
+  개인 메모, 미선택 결과는 일정·`SYSTEM RECORDS`로 분리했다. 시작폰은
+  최신형처럼 보이던 얇은 베젤 대신 2017년형 중고 보급폰의 넓은 플라스틱
+  베젤·수화부·작동하는 세 버튼 내비게이션을 사용하고, 리퍼폰·플래그십의
+  금속 셸·제스처 바와 구분한다.
+- A/B/C 저장 런타임, 1,575사건 한영·서사·장면·시각·오디오 계약,
+  240주 대표 오디오 경로, KO/EN 1280×720·960×600 실제 폰 렌더와
+  전체 감사가 PASS다. 16주 결산은 저장 뒤 17주 기존 편성기로 떨어지지
+  않는다. `runtime_default=false`, `finish_run`, 17~240주, 엔딩과 사용자
+  소유 `project.godot`은 유지했다.
+- **사람 게이트는 OPEN이다.** 정상 속도 선제 행동 기억·관계 애착·재미와
+  물리 패드 판정을 자동 통과로 주장하지 않는다. 다음 개발 상한은 D
+  17~20주이며, 놓친 길 회수와 아버지 건강 신호가 완성되기 전 21주를
+  열지 않는다.

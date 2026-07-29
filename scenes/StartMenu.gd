@@ -502,12 +502,15 @@ func _build_ui():
 	menu.add_child(new_btn)
 
 	if OS.is_debug_build():
+		var core_loop_cap_week := DemoCoreLoopV2Script.development_cap_week()
 		var core_loop_v2_btn := _title_command_button(
-			_tr("Core Loop V2  ·  12주 테스트",
-				"Core Loop V2  ·  Twelve-Week Test"), true)
+			_tr("Core Loop V2  ·  %d주 테스트" % core_loop_cap_week,
+				"Core Loop V2  ·  %d-Week Test" % core_loop_cap_week), true)
 		core_loop_v2_btn.tooltip_text = _tr(
-			"현재 열린 1~12주 월간 약속 구조를 별도 저장 상태로 시작합니다.",
-			"Start the currently available Weeks 1–12 monthly-commitment slice in a separate run state.")
+			"현재 열린 1~%d주 월간 약속 구조를 별도 저장 상태로 시작합니다." \
+				% core_loop_cap_week,
+			"Start the currently available Weeks 1–%d monthly-commitment slice in a separate run state." \
+				% core_loop_cap_week)
 		core_loop_v2_btn.set_meta("core_loop_v2_test_entry", true)
 		core_loop_v2_btn.pressed.connect(_start_core_loop_v2_test_run)
 		menu.add_child(core_loop_v2_btn)

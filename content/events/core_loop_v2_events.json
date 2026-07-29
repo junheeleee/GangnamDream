@@ -173,5 +173,190 @@
         "result_text": "현수는 접어 둔 문제를 펴고, {name}은 옆에 계산 과정을 적었다. 사십 분 뒤에는 자리를 바꿔 현수가 이력서의 어색한 문장을 짚었다.\n\n둘은 다음번에 서로 막힌 한 가지씩을 가져오기로 했다.\n\n혼자 미루던 일이, 다음에 누군가에게 보여 줄 일이 됐다."
       }
     ]
+  },
+  {
+    "id": "v2_hanbit_interview",
+    "title": "한빛유통 1차 면접",
+    "category": "career",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "core_loop_v2",
+      "career",
+      "hanbit"
+    ],
+    "cooldown": 9999,
+    "one_time": true,
+    "background": "office_interview_day",
+    "portrait": "player_suit",
+    "description": "목요일 오후 두 시. 한빛유통 물류센터 2층 회의실. 9주차에 보낸 운영지원 지원서가 면접관 앞에 놓여 있었다.\n\n면접관이 재고표 두 장을 나란히 펼쳤다. 한 장에는 전산 수량 184개, 다른 장에는 현장 확인 수량 179개가 적혀 있었다.\n\n\"전산에는 백팔십사 개인데 창고에는 백칠십구 개뿐이라면, 무엇부터 하시겠습니까?\"\n\n정답을 외워 말할 수 있는 질문은 아니었다. 다섯 개가 사라진 건지, 기록이 늦은 건지, 처음 센 숫자가 틀린 건지부터 가려야 했다.",
+    "choices": [
+      {
+        "text": "\"입고와 출고 기록부터 시간순으로 맞춰 보겠습니다.\"",
+        "effects": {
+          "intelligence": 2
+        },
+        "result_text": "\"마지막으로 숫자가 같았던 시점부터 확인하겠습니다. 그다음 입고표와 출고표, 반품 기록을 차례로 대조하겠습니다.\"\n\n면접관이 물었다. \"기록에도 없다면요?\"\n\n\"수량을 임의로 맞추지 않고, 원인이 확인되지 않은 재고 차이로 먼저 보고하겠습니다.\"\n\n면접관은 답을 적고 다음 장을 넘겼다. 아직 결과를 말할 때는 아니었다."
+      },
+      {
+        "text": "\"현장 담당자와 다시 세고, 차이가 난 시점을 찾겠습니다.\"",
+        "effects": {
+          "intelligence": 1,
+          "social_skill": 1
+        },
+        "result_text": "\"혼자 전산 숫자를 고치기 전에 현장 담당자와 같은 물건을 다시 세겠습니다. 위치가 바뀌었거나 출고 대기 중인 물건이 있는지도 함께 확인하겠습니다.\"\n\n면접관이 물었다. \"오늘 출고해야 하는 물건이라면요?\"\n\n\"실물 확인이 끝난 수량과 아직 확인 중인 수량을 나눠서 먼저 알리겠습니다. 모르는 다섯 개를 있는 것처럼 처리하지는 않겠습니다.\"\n\n면접관은 짧게 고개를 끄덕이고 다음 질문을 읽었다. 아직 결과를 말할 때는 아니었다."
+      }
+    ]
+  },
+  {
+    "id": "v2_daeun_return_named",
+    "title": "이번에는 먼저",
+    "category": "relationship",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "core_loop_v2",
+      "daeun"
+    ],
+    "cooldown": 9999,
+    "one_time": true,
+    "portrait": "daeun_smile",
+    "background": "convenience_night",
+    "description": "야간 근무가 시작된 지 얼마 지나지 않은 시간. {name}은 지난번과 같은 편의점 문을 열었다.\n\n살 것이 없는 건 아니었다. 하지만 이 시간에 맞춰 온 이유가 물건뿐은 아니었다.\n\n계산대 안쪽에서 가격표를 정리하던 김다은이 고개를 들었다. 잠깐 얼굴을 살피더니 먼저 물었다.\n\n\"{name} 씨, 맞죠?\"",
+    "choices": [
+      {
+        "text": "\"김다은 씨. 오늘도 야간이네요.\"",
+        "effects": {
+          "social_skill": 2
+        },
+        "result_text": "\"이름 기억하셨네요. 네, 오늘도 새벽까지예요.\"\n\n다은은 손에 들고 있던 가격표를 내려놓았다. {name}은 늦은 시간에 힘들지 않으냐고 물었고, 다은은 손님이 몰리는 시간만 지나면 괜찮다고 답했다.\n\n길지 않은 대화였다. 그래도 이번에는 {name}이 먼저 이름을 불러 말을 걸었다."
+      },
+      {
+        "text": "\"지난번 1+1, 잘 먹었습니다.\"",
+        "effects": {
+          "mental": 2
+        },
+        "result_text": "\"그건 행사라서 알려 드린 건데요.\"\n\n다은이 웃었다. \"그래도 잘 드셨다니 다행이네요.\"\n\n{name}은 고맙다는 말을 한 번 더 하고 계산을 마쳤다. 문을 열고 나가려는데 다은이 말했다. \"다음엔 행사표부터 보세요, {name} 씨.\"\n\n{name}도 웃으며 \"네, 다은 씨\" 하고 답했다. 지난번보다 한마디가 더 남았다."
+      }
+    ]
+  },
+  {
+    "id": "v2_daeun_return_after_distance",
+    "title": "못 한 인사",
+    "category": "relationship",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "core_loop_v2",
+      "daeun"
+    ],
+    "cooldown": 9999,
+    "one_time": true,
+    "portrait": "daeun_normal",
+    "background": "convenience_night",
+    "description": "그날 새벽, 1+1 행사를 알려 준 직원이 있던 편의점. 지난번에는 고맙다는 인사만 남기고 나왔다.\n\n{name}이 삼각김밥을 계산대에 올리자 직원이 얼굴을 유심히 봤다.\n\n\"지난번에 오셨죠? 행사 상품 하나 더 가져가신 분.\"\n\n서로 얼굴은 기억하고 있었다. 아직 이름은 몰랐다.",
+    "choices": [
+      {
+        "text": "\"지난번엔 인사만 하고 갔네요. 저는 {name}입니다.\"",
+        "effects": {
+          "social_skill": 2
+        },
+        "result_text": "직원이 잠깐 놀랐다가 고개를 숙여 인사했다.\n\n\"저는 김다은이에요. 야간 근무해요.\"\n\n{name}은 이름을 한 번 되뇌고, 다은도 {name}의 이름을 다시 말했다. 계산을 마치고 나올 때는 둘 다 서로를 이름으로 부를 수 있게 됐다."
+      },
+      {
+        "text": "\"그날 1+1 알려주셔서 고마웠어요.\"",
+        "effects": {
+          "mental": 1,
+          "social_skill": 1
+        },
+        "result_text": "\"기억하고 계셨네요. 별건 아니었는데.\"\n\n직원이 영수증을 건네며 물었다. \"그런데 성함이 어떻게 되세요?\"\n\n{name}이 먼저 이름을 말하자 그녀도 \"김다은이에요\"라고 답했다. 지난번에 못 한 인사를 이제야 나눴다. 다음 약속을 잡거나 연락처를 주고받은 건 아니었다."
+      }
+    ]
+  },
+  {
+    "id": "v2_sangchul_housing_lead",
+    "title": "방 보러 간 날",
+    "category": "relationship",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "core_loop_v2",
+      "sangchul"
+    ],
+    "cooldown": 9999,
+    "one_time": true,
+    "portrait": "sangchul_normal",
+    "background": "realestate_office",
+    "description": "4월 첫째 주, 봄비가 그친 신촌 골목. {name}은 고시원을 벗어날 방이 있는지 알아보려고 작은 부동산 문을 열었다.\n\n책상 건너 남자가 반지하 원룸 매물표를 계산기 옆에 놓았다.\n\n\"이 방은 보증금 천에 월 오십오. 관리비는 별도예요.\"\n\n지금 가진 돈으로는 보증금부터 멀었다. {name}이 계산기 버튼을 몇 번 더 누르는 동안, 남자는 그 손끝과 낡은 운동화를 가만히 봤다.\n\n\"지금 사정으로는 좀 힘들겠는데요.\"\n\n{name}이 의자를 밀고 일어났다. 남자는 종이컵 두 개를 꺼냈다.\n\n\"잠깐. 방 못 구했다고 바로 쫓아낼 수는 없잖아요. 따뜻한 커피 한 잔은 드릴 수 있어요.\"",
+    "choices": [
+      {
+        "text": "\"제 사정을 어떻게 아셨어요?\"",
+        "follow_up_event": "arc_sangchul_01_measure",
+        "result_text": "남자가 들고 있던 서류를 내려놓고 {name}을 봤다.\n\n\"제가 틀렸습니까?\"\n\n{name}은 대답하지 않았다. 남자는 빈 의자를 턱으로 가리켰다. 이번에는 호의보다 확인에 가까운 눈이었다."
+      },
+      {
+        "text": "\"커피만 마시고 가겠습니다.\"",
+        "follow_up_event": "arc_sangchul_01_coffee",
+        "result_text": "종이컵은 손을 데울 만큼 뜨거웠고, 믹스커피는 지나치게 달았다.\n\n{name}이 다시 앉자 남자가 서류철을 옆으로 치웠다. 가려져 있던 책상 위 명패가 드러났다. '공인중개사 임상철'.\n\n방을 구하지 못한 손님에게 시간을 쓰는 이유는 아직 알 수 없었다."
+      }
+    ]
+  },
+  {
+    "id": "v2_jaehyuk_message",
+    "title": "10년 만의 메시지",
+    "category": "relationship",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "core_loop_v2",
+      "jaehyuk"
+    ],
+    "cooldown": 9999,
+    "one_time": true,
+    "background": "goshiwon_room",
+    "description": "밤 아홉 시 사십 분. 카카오톡에 낯익은 이름이 떴다. 최재혁.\n\n\"{name}, 나 재혁이야. 군대 동기 최재혁. 기억나지? 오랜만이다. 잘 지냈어?\"\n\n스물두 살, 같은 내무반에서 지냈다. 제대한 뒤 몇 번 안부를 주고받다가 번호가 바뀌고 연락이 끊겼다.\n\n{name}은 입력창을 열었다. 십 년을 한 문장으로 건너갈 차례였다.",
+    "choices": [
+      {
+        "text": "\"기억하지. 진짜 오랜만이다.\"",
+        "effects": {
+          "mental": 2,
+          "social_skill": 1
+        },
+        "result_text": "{name}: \"기억하지. 너도 잘 지냈어?\"\n\n재혁: \"나야 뭐, 지냈지. 번호가 바뀌어서 이제야 찾았다.\"\n\n군대에서 함께 알던 이름 몇 개와 요즘 사는 동네 이야기가 짧게 오갔다. 만날 날짜를 정하지는 않았다. 끊겼던 대화가 카카오톡 목록 위로 다시 올라왔다."
+      },
+      {
+        "text": "\"기억해. 갑자기 무슨 일이야?\"",
+        "effects": {
+          "intelligence": 1,
+          "social_skill": 1
+        },
+        "result_text": "{name}: \"기억해. 갑자기 무슨 일이야?\"\n\n재혁: \"무슨 일은 없어. 그냥 오랜만에 생각나서 연락했지. 불편했으면 미안하고.\"\n\n{name}: \"아니. 갑자기라서 물어봤어.\"\n\n몇 마디 안부를 더 주고받은 뒤 대화가 멈췄다. 아직 만나자는 약속은 잡지 않았다."
+      }
+    ]
   }
 ]

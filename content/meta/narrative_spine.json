@@ -262,27 +262,27 @@
       },
       {
         "id": "five_hundred_thousand",
-        "weeks": [1, 3],
-        "foreground_roots": ["arc_intro_01_meal", "arc_intro_02_dad_call"],
-        "promise": "면접에서 말한 6년이 그날 밤 125년이라는 계산으로 돌아온다."
+        "weeks": [1, 4],
+        "foreground_roots": ["arc_intro_01_meal", "arc_father_01_call", "arc_intro_04_hyunsu", "arc_temptation_01"],
+        "promise": "50만원으로 시작한 첫 달에 일자리, 아버지의 전화, 옆방 사람, 불법 제안 중 무엇을 달력에 넣는지가 민준의 첫 줄을 만든다."
       },
       {
         "id": "first_line",
-        "weeks": [4, 8],
-        "foreground_roots": ["arc_temptation_01", "arc_intro_03_sns", "cafe_00", "arc_temptation_clean", "arc_temptation_fallout"],
-        "promise": "첫 불법 제안의 선택을 즉시 해설하지 않고, 한 달 뒤 남의 삶과 자기 얼굴을 보는 방식으로 돌려준다."
+        "weeks": [5, 8],
+        "foreground_roots": ["v2_hyunsu_player_reachout", "v2_hyunsu_first_study", "arc_intro_03_sns", "cafe_00", "arc_temptation_clean", "arc_temptation_fallout"],
+        "promise": "첫 불법 제안의 선택을 즉시 해설하지 않고, 민준이 먼저 보낸 연락과 남의 성공을 바라보는 방식으로 한 달 뒤 돌려준다."
       },
       {
         "id": "people_in_the_same_city",
-        "weeks": [9, 13],
-        "foreground_roots": ["arc_intro_04_hyunsu", "arc_chapter1_close", "arc_sangchul_01_meet", "arc_daeun_01_meet"],
-        "promise": "같은 서울에서 버티는 세 사람이 서로 다른 출구를 보여 준다."
+        "weeks": [9, 12],
+        "foreground_roots": ["v2_hyunsu_study_followup", "arc_father_quiet_call", "arc_daeun_01_meet", "arc_jiyeon_01_crash"],
+        "promise": "같은 서울에서 버티는 사람을 직접 찾아가거나 우연히 마주치고, 그 첫 장면을 다음 만남의 자격으로 남긴다."
       },
       {
         "id": "faces_of_money",
-        "weeks": [14, 17],
-        "foreground_roots": ["arc_father_01_call", "arc_father_quiet_call", "arc_jiyeon_01_crash"],
-        "promise": "돈이 필요한 사람과 돈이 문제를 해결한다고 믿는 사람이 한 주 안에 충돌한다."
+        "weeks": [13, 16],
+        "foreground_roots": ["v2_hanbit_interview", "v2_daeun_return_named", "v2_daeun_return_after_distance", "arc_jiyeon_02_store", "v2_sangchul_housing_lead", "v2_jaehyuk_message"],
+        "promise": "면접과 생계 사이에서 누구를 다시 찾아갈지 고르고, 방값을 묻는 부동산과 10년 만의 카카오톡이 돈의 다음 두 얼굴을 연다."
       },
       {
         "id": "the_old_friend",

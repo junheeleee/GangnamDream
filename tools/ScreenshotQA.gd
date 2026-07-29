@@ -1820,21 +1820,64 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		return
 	await _save(prefix + "18_phone_month_three_calendar", 0.15)
 	await _open_core_loop_v2_phone_app(
-		planner, "messages", "month-three ten-message surface")
+		planner, "messages", "month-three system-record surface")
 	if _qa_failed:
 		return
-	var month_three_message_grid: Node = null
-	if planner._read_only_surface.get_child_count() > 1:
-		month_three_message_grid = planner._read_only_surface.get_child(1)
-	if not month_three_message_grid is GridContainer \
-			or (month_three_message_grid as GridContainer).get_child_count() != 10:
-		_fail("Core Loop V2 month-three message surface did not render 7 offers plus 3 due receipts.")
+	var month_three_record_count := _count_meta_value(
+		planner._read_only_surface, "phone_thread_kind", "system_record")
+	var month_three_received_count := (
+		_count_meta_value(
+			planner._read_only_surface, "phone_thread_kind", "inbound_message")
+		+ _count_meta_value(
+			planner._read_only_surface, "phone_thread_kind", "call_log")
+	)
+	if month_three_record_count != 3 or month_three_received_count != 0:
+		_fail("Core Loop V2 month-three message surface did not isolate its 3 due system records from non-message offers.")
 		return
 	_assert_core_loop_v2_phone_surface(
-		planner, "month-three ten-message surface")
+		planner, "month-three system-record surface")
 	if _qa_failed:
 		return
 	await _save(prefix + "19_phone_month_three_messages", 0.15)
+	planner.close()
+	if not _seed_core_loop_v2_month_four_density(core_loop):
+		_fail("Core Loop V2 month-four rich phone fixture could not be prepared.")
+		return
+	planner.open(4)
+	await _settle(0.55)
+	await _open_core_loop_v2_phone_app(
+		planner, "calendar", "month-four seven-offer calendar")
+	if _qa_failed:
+		return
+	if core_loop.available_offer_ids(4).size() != 7 \
+			or planner._offer_buttons.size() != 7:
+		_fail("Core Loop V2 month four did not render its exact seven-offer rich path.")
+		return
+	await _save(prefix + "19b_phone_month_four_calendar", 0.15)
+	await _open_core_loop_v2_phone_app(
+		planner, "messages", "month-four received-contact surface")
+	if _qa_failed:
+		return
+	if _count_meta_value(
+			planner._read_only_surface,
+			"phone_thread_kind",
+			"inbound_message") != 2 \
+			or _count_meta_value(
+				planner._read_only_surface,
+				"phone_thread_kind",
+				"system_record") != 0:
+		_fail("Core Loop V2 month-four Messages did not show only Hanbit and Jaehyuk as received contacts.")
+		return
+	await _save(prefix + "19c_phone_month_four_messages", 0.15)
+	await _open_core_loop_v2_phone_app(
+		planner, "contacts", "month-four earned contact methods")
+	if _qa_failed:
+		return
+	var month_four_contacts := _collect_control_text(planner._read_only_surface)
+	if LocaleManager.ui("김다은", "Kim Daeun") not in month_four_contacts:
+		_fail("Core Loop V2 month-four Contacts omitted Daeun's earned direct-visit channel.")
+		return
+	await _save(prefix + "19d_phone_month_four_contacts", 0.15)
 	planner.close()
 	var month_fixture := {
 		"month": 1,
@@ -1874,13 +1917,13 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	await _dispose_main_game()
 
 	if not _seed_core_loop_v2_completion_fixture(core_loop):
-		_fail("Core Loop V2 screenshot fixture could not reach its twelve-week boundary.")
+		_fail("Core Loop V2 screenshot fixture could not reach its sixteen-week boundary.")
 		return
 	var completion_snapshot: Dictionary = core_loop.completion_snapshot()
-	if GameState.turn != 13 \
-			or int(completion_snapshot.get("completed_through_week", 0)) != 12 \
-			or (completion_snapshot.get("month_summaries", {}) as Dictionary).size() != 3:
-		_fail("Core Loop V2 completion fixture lost turn 13, week 12, or its three month records.")
+	if GameState.turn != 17 \
+			or int(completion_snapshot.get("completed_through_week", 0)) != 16 \
+			or (completion_snapshot.get("month_summaries", {}) as Dictionary).size() != 4:
+		_fail("Core Loop V2 completion fixture lost turn 17, week 16, or its four month records.")
 		return
 	await _boot_main_game()
 	_mg._core_loop_v2_show_completion()
@@ -1912,14 +1955,14 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		return
 	var recap_text := _collect_control_text(_mg.modal_layer)
 	var expected_boundary := LocaleManager.ui(
-		"1~%d주 데모 완료 · %d주차는 이 버전에서 시작되지 않는다.",
-		"WEEKS 1–%d COMPLETE · WEEK %d DOES NOT BEGIN IN THIS DEMO.") % [
-			12, 13,
-		]
+			"1~%d주 데모 완료 · %d주차는 이 버전에서 시작되지 않는다.",
+			"WEEKS 1–%d COMPLETE · WEEK %d DOES NOT BEGIN IN THIS DEMO.") % [
+				16, 17,
+			]
 	if expected_boundary not in recap_text:
-		_fail("Core Loop V2 recap does not expose the dynamic week-12 boundary.")
+		_fail("Core Loop V2 recap does not expose the dynamic week-16 boundary.")
 		return
-	await _save(prefix + "21_twelve_week_recap", 0.15)
+	await _save(prefix + "21_sixteen_week_recap", 0.15)
 	await _dispose_main_game()
 
 	await _boot_main_game()
@@ -2126,6 +2169,57 @@ func _seed_core_loop_v2_action_completion(
 		and core_loop.note_action_commitment(action_record) \
 		and core_loop.complete_active_bundle() == bundle_id
 
+func _seed_core_loop_v2_month_four_density(core_loop: Variant) -> bool:
+	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	var completed: Array = state.get("completed_bundles", [])
+	var completed_turns: Dictionary = state.get("completed_bundle_turns", {})
+	for spec in [
+		["m3_hanbit_application", 9],
+		["daeun_world_meet", 11],
+		["cafe_world_glimpse", 7],
+		["sns_pressure_night", 8],
+	]:
+		var bundle_id := str(spec[0])
+		if not completed.has(bundle_id):
+			completed.append(bundle_id)
+		completed_turns[bundle_id] = int(spec[1])
+	state["completed_bundles"] = completed
+	state["completed_bundle_turns"] = completed_turns
+	var stages: Dictionary = state.get("relationship_stages", {})
+	stages["daeun"] = "opening"
+	state["relationship_stages"] = stages
+	var memories: Array = state.get("relationship_memories", [])
+	if not memories.any(func(raw_memory):
+			return raw_memory is Dictionary \
+				and str((raw_memory as Dictionary).get("character", "")) == "daeun" \
+				and str((raw_memory as Dictionary).get("memory", "")) \
+					== "daeun_name_exchanged"):
+		memories.append({
+			"character": "daeun",
+			"memory": "daeun_name_exchanged",
+			"bundle_id": "daeun_world_meet",
+			"turn": 11,
+		})
+	state["relationship_memories"] = memories
+	var applications: Dictionary = state.get("application_statuses", {})
+	applications["hanbit_ops_2026q1"] = "submitted"
+	state["application_statuses"] = applications
+	state["active_bundle"] = ""
+	state["active_kind"] = ""
+	state["active_turn"] = 0
+	state["action_result_ready"] = false
+	GameState.core_loop_v2_state = state
+	GameState.turn = 13
+	GameState.month = 4
+	GameState.week_of_month = 1
+	core_loop.initialize_for_run(true)
+	var available: Array[String] = core_loop.available_offer_ids(4)
+	return available.size() == 7 \
+		and available.has("m4_hanbit_interview") \
+		and available.has("daeun_player_return") \
+		and available.has("sangchul_world_meet") \
+		and available.has("jaehyuk_world_meet")
+
 func _seed_core_loop_v2_completion_fixture(core_loop: Variant) -> bool:
 	GameState.start_new_game()
 	GameState.flags["prologue_done"] = true
@@ -2149,8 +2243,14 @@ func _seed_core_loop_v2_completion_fixture(core_loop: Variant) -> bool:
 			"11": "m3_empty_saturday",
 			"12": "daeun_world_meet",
 		},
+		{
+			"13": "m4_certificate_session",
+			"14": "m4_hanbit_interview",
+			"15": "m4_logistics_shift",
+			"16": "daeun_player_return",
+		},
 	]
-	for month_index in range(1, 4):
+	for month_index in range(1, 5):
 		GameState.turn = 1 + ((month_index - 1) * 4)
 		if not bool(core_loop.commit_plan(
 				month_index, schedules[month_index - 1]).get("ok", false)):
@@ -2184,6 +2284,14 @@ func _seed_core_loop_v2_completion_fixture(core_loop: Variant) -> bool:
 					if not core_loop.note_story_choice(
 							"arc_daeun_01_meet", 0):
 						return false
+				elif bundle_id == "m4_hanbit_interview":
+					if not core_loop.note_story_choice(
+							"v2_hanbit_interview", 0):
+						return false
+				elif bundle_id == "daeun_player_return":
+					if not core_loop.note_story_choice(
+							"v2_daeun_return_named", 0):
+						return false
 				if core_loop.complete_active_bundle() != bundle_id:
 					return false
 		GameState.turn = month_index * 4 + 1
@@ -2198,14 +2306,14 @@ func _seed_core_loop_v2_completion_fixture(core_loop: Variant) -> bool:
 		}
 		core_loop.record_month_summary(
 			month_index, fixture_snapshot, fixture_snapshot)
-		if month_index < 3:
+		if month_index < 4:
 			core_loop.acknowledge_month_summary(month_index)
 	GameState.flags["lent_account"] = true
 	GameState.flags["escaped_dirty_money"] = true
 	GameState.money = 780_000.0
 	GameState.health = 61
 	GameState.mental = 47
-	GameState.turn = 13
+	GameState.turn = 17
 	GameState.week_of_month = 1
 	return core_loop.mark_prototype_complete()
 
@@ -2322,10 +2430,10 @@ func _assert_core_loop_v2_debug_entry(lang: String) -> void:
 		_fail("DEBUG title menu does not expose the Core Loop V2 test entry.")
 		return
 	var expected_test_label := LocaleManager.ui(
-		"Core Loop V2  ·  12주 테스트",
-		"Core Loop V2  ·  Twelve-Week Test")
+		"Core Loop V2  ·  16주 테스트",
+		"Core Loop V2  ·  16-Week Test")
 	if test_button.text != expected_test_label:
-		_fail("DEBUG Core Loop V2 entry does not name the twelve-week slice: %s." % [
+		_fail("DEBUG Core Loop V2 entry does not name the sixteen-week slice: %s." % [
 			test_button.text])
 		return
 	if test_button.focus_mode != Control.FOCUS_ALL:
@@ -2409,6 +2517,23 @@ func _assert_core_loop_v2_phone_surface(
 			shell.texture.resource_path if is_instance_valid(shell) \
 				and is_instance_valid(shell.texture) else "<missing>",
 		])
+		return
+	var gesture_bar := planner._phone_gesture_bar as Control
+	var legacy_nav := planner._phone_legacy_nav as Control
+	if device_id == "starter":
+		if not is_instance_valid(legacy_nav) \
+				or not legacy_nav.is_visible_in_tree() \
+				or (is_instance_valid(gesture_bar) \
+					and gesture_bar.is_visible_in_tree()):
+			_fail(("Core Loop V2 %s starter phone did not use legacy "
+				+ "Android navigation.") % context)
+			return
+	elif not is_instance_valid(gesture_bar) \
+			or not gesture_bar.is_visible_in_tree() \
+			or (is_instance_valid(legacy_nav) \
+				and legacy_nav.is_visible_in_tree()):
+		_fail("Core Loop V2 %s %s phone did not use gesture navigation." % [
+			context, device_id])
 		return
 	var expected_date: String = str(GameState.get_date_string())
 	if str(planner._status_date_label.text) != expected_date \
@@ -5745,6 +5870,14 @@ func _find_meta_control(root: Node, meta_key: String) -> Control:
 		if found != null:
 			return found
 	return null
+
+func _count_meta_value(root: Node, meta_key: String, expected: Variant) -> int:
+	var count := 0
+	if root.has_meta(meta_key) and root.get_meta(meta_key) == expected:
+		count += 1
+	for child in root.get_children():
+		count += _count_meta_value(child, meta_key, expected)
+	return count
 
 func _press_qa_action(action_name: String) -> void:
 	var pressed := InputEventAction.new()

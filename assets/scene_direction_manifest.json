@@ -2236,8 +2236,12 @@
       "survival_rent_due",
       "unorthodox_gray_zone_tip",
       "unorthodox_underground_network",
+      "v2_daeun_return_after_distance",
+      "v2_daeun_return_named",
+      "v2_hanbit_interview",
       "v2_hyunsu_first_study",
       "v2_hyunsu_study_followup",
+      "v2_sangchul_housing_lead",
       "wedding_invitation_flood",
       "work_burnout_monday",
       "work_credit_stolen",
@@ -2303,6 +2307,7 @@
       "rel_daeun_first_text",
       "story_prologue_dad",
       "v2_hyunsu_player_reachout",
+      "v2_jaehyuk_message",
       "v2_mirae_result_message",
       "v2_seorin_result_message"
     ],
@@ -3530,6 +3535,20 @@
       "reduced_motion": "static_fade",
       "arrival_cue_ko": "다음 날 저녁 여덟 시, 공용 주방",
       "arrival_cue_en": "The next evening at eight, in the shared kitchen"
+    },
+    "v2_sangchul_housing_lead->arc_sangchul_01_coffee": {
+      "mode": "same_location",
+      "from_surface": "realestate_office",
+      "to_surface": "realestate_office",
+      "audio_policy": "continue",
+      "reduced_motion": "static_update"
+    },
+    "v2_sangchul_housing_lead->arc_sangchul_01_measure": {
+      "mode": "same_location",
+      "from_surface": "realestate_office",
+      "to_surface": "realestate_office",
+      "audio_policy": "continue",
+      "reduced_motion": "static_update"
     },
     "yolo_spend_moment->yolo_morning_after": {
       "mode": "time_cut",

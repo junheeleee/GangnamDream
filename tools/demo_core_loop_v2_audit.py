@@ -113,10 +113,12 @@ ALLOWED_PREREQUISITE_GROUPS = {"all", "any"}
 ALLOWED_PREREQUISITE_KINDS = {
     "completed_bundle",
     "relationship_at_least",
+    "relationship_stage_is",
     "relationship_memory",
     "player_initiated",
     "routine_selected",
     "application_status",
+    "application_status_not_in",
 }
 LEGACY_REQUIREMENT_KEYS = {
     "eligibility",
@@ -190,19 +192,17 @@ EXPECTED_APPLICATION_OUTCOMES = {
             "to": "no_offer",
         }
     ],
+    "m4_hanbit_interview": [
+        {
+            "event_id": "v2_hanbit_interview",
+            "choices": [0, 1],
+            "application_id": "hanbit_ops_2026q1",
+            "from": "submitted",
+            "to": "interviewed",
+        }
+    ],
 }
-EXPECTED_FUTURE_APPLICATION_CONTRACTS = {
-    "m4_hanbit_interview": {
-        "producer_bundle": "m3_hanbit_application",
-        "application_id": "hanbit_ops_2026q1",
-        "from": "submitted",
-        "to": "interviewed",
-        "owner_month": 4,
-        "allowed_weeks": [13, 14, 15, 16],
-        "activation_cap_week": 16,
-        "runtime_surface": "deferred",
-    }
-}
+EXPECTED_FUTURE_APPLICATION_CONTRACTS: dict[str, dict[str, Any]] = {}
 EXPECTED_DEFERRED_CALLBACK_CONTRACTS = {
     "callback_escaped_dirty_trace": {
         "producer_bundle": "temptation_consequence",
@@ -325,6 +325,51 @@ EXPECTED_M3_ALLOWED_WEEKS = {
     "daeun_world_meet": [10, 11, 12],
     "jiyeon_world_meet": [10, 11, 12],
 }
+EXPECTED_M4_ALLOWED_WEEKS = {
+    "m4_hanbit_interview": [14],
+    "m4_dodam_application": [13],
+    "m4_certificate_session": [13, 14, 15],
+    "m4_logistics_shift": [13, 14, 15],
+    "m4_health_check_day": [13, 14, 15, 16],
+    "m4_housing_welfare_consultation": [13, 14, 15, 16],
+    "daeun_player_return": [15, 16],
+    "daeun_return_after_distance": [15, 16],
+    "jiyeon_bus_stop_reunion": [15, 16],
+    "sangchul_world_meet": [13, 14],
+    "jaehyuk_world_meet": [13, 14, 15, 16],
+}
+EXPECTED_M4_ACTION_CORE = {
+    "m4_dodam_application": {
+        "execution": "application",
+        "application_id": "dodam_customer_ops_2026q2",
+        "job_id": "job_04",
+        "status": "submitted",
+    },
+    "m4_certificate_session": {
+        "execution": "instant_effect",
+        "axis": "human",
+        "place_id": "city",
+        "effects": {"intelligence": 2, "mental": -2},
+    },
+    "m4_logistics_shift": {
+        "execution": "instant_effect",
+        "axis": "money",
+        "place_id": "work",
+        "effects": {"money": 520_000, "health": -7, "mental": -5},
+    },
+    "m4_health_check_day": {
+        "execution": "instant_effect",
+        "axis": "human",
+        "place_id": "hospital",
+        "effects": {"health": 1, "mental": 1},
+    },
+    "m4_housing_welfare_consultation": {
+        "execution": "instant_effect",
+        "axis": "human",
+        "place_id": "city",
+        "effects": {"intelligence": 1, "mental": 1},
+    },
+}
 EXPECTED_CHOICE_RECEIPTS = {
     "father_first_call": {
         0: ("unmet", "opening", "reciprocal", "father_wellbeing_returned"),
@@ -386,6 +431,57 @@ EXPECTED_CHOICE_RECEIPTS = {
     "daeun_world_meet": {
         0: ("unmet", "opening", "world", "daeun_name_exchanged"),
         1: ("unmet", "met", "world", "daeun_kept_distance"),
+    },
+    "daeun_player_return": {
+        0: (
+            "opening",
+            "player_reached_out",
+            "player",
+            "daeun_returned_using_her_name",
+        ),
+        1: (
+            "opening",
+            "player_reached_out",
+            "player",
+            "daeun_returned_to_thank_her",
+        ),
+    },
+    "daeun_return_after_distance": {
+        0: (
+            "met",
+            "opening",
+            "player",
+            "daeun_names_exchanged_on_return",
+        ),
+        1: (
+            "met",
+            "opening",
+            "player",
+            "daeun_thanks_reopened_conversation",
+        ),
+    },
+    "jiyeon_bus_stop_reunion": {
+        0: (
+            "met",
+            "opening",
+            "reciprocal",
+            "jiyeon_name_offered_after_silence",
+        ),
+        1: (
+            "met",
+            "opening",
+            "player",
+            "jiyeon_name_exchanged_after_player_spoke",
+        ),
+    },
+    "sangchul_world_meet": {
+        0: ("unmet", "met", "world", "sangchul_spoke_of_father"),
+        1: ("unmet", "met", "world", "sangchul_kept_goal_plain"),
+        2: ("unmet", "met", "world", "sangchul_named_city_pride"),
+    },
+    "jaehyuk_world_meet": {
+        0: ("unmet", "met", "reciprocal", "jaehyuk_message_welcomed"),
+        1: ("unmet", "met", "reciprocal", "jaehyuk_message_guarded"),
     },
 }
 EXPECTED_ROUTINE_EFFECTS = {
@@ -460,6 +556,11 @@ ACTIVE_KO_EVENT_IDS = {
     "v2_hyunsu_player_reachout",
     "v2_hyunsu_first_study",
     "v2_hyunsu_study_followup",
+    "v2_hanbit_interview",
+    "v2_daeun_return_named",
+    "v2_daeun_return_after_distance",
+    "v2_sangchul_housing_lead",
+    "v2_jaehyuk_message",
     "cafe_00",
     "cafe_listen_01",
     "cafe_peek_01",
@@ -533,6 +634,96 @@ def load_registered_events(errors: list[str]) -> dict[str, dict[str, Any]]:
             if isinstance(row, dict) and str(row.get("id", "")):
                 events[str(row["id"])] = row
     return events
+
+
+def reachable_event_ids(
+    roots: set[str], events: dict[str, dict[str, Any]]
+) -> set[str]:
+    """Return each root and every authored choice follow-up reachable from it."""
+    reachable: set[str] = set()
+    pending = list(roots)
+    while pending:
+        event_id = pending.pop()
+        if not event_id or event_id in reachable:
+            continue
+        reachable.add(event_id)
+        event = events.get(event_id, {})
+        if not isinstance(event, dict):
+            continue
+        for raw_choice in event.get("choices", []):
+            if not isinstance(raw_choice, dict):
+                continue
+            follow_up = str(raw_choice.get("follow_up_event", "")).strip()
+            if follow_up and follow_up not in reachable:
+                pending.append(follow_up)
+    return reachable
+
+
+def fixture_predicate_met(predicate: dict[str, Any], fixture: dict[str, Any]) -> bool:
+    kind = str(predicate.get("kind", ""))
+    if kind == "completed_bundle":
+        return str(predicate.get("bundle_id", "")) in fixture.get("completed", set())
+    if kind == "relationship_stage_is":
+        return fixture.get("stages", {}).get(
+            str(predicate.get("character", "")), "unmet"
+        ) == str(predicate.get("stage", ""))
+    if kind == "relationship_at_least":
+        current = str(
+            fixture.get("stages", {}).get(
+                str(predicate.get("character", "")), "unmet"
+            )
+        )
+        required = str(predicate.get("stage", ""))
+        return (
+            current != "closed"
+            and current in EXPECTED_STAGES
+            and required in EXPECTED_STAGES
+            and EXPECTED_STAGES.index(current) >= EXPECTED_STAGES.index(required)
+        )
+    if kind == "relationship_memory":
+        return (
+            str(predicate.get("character", "")),
+            str(predicate.get("memory", "")),
+        ) in fixture.get("memories", set())
+    if kind == "player_initiated":
+        return str(predicate.get("character", "")) in fixture.get(
+            "player_initiated", set()
+        )
+    if kind == "routine_selected":
+        return str(predicate.get("track", "")) in fixture.get("routines", set())
+    if kind == "application_status":
+        return fixture.get("applications", {}).get(
+            str(predicate.get("application_id", "")), ""
+        ) == str(predicate.get("status", ""))
+    if kind == "application_status_not_in":
+        return fixture.get("applications", {}).get(
+            str(predicate.get("application_id", "")), ""
+        ) not in {str(value) for value in predicate.get("statuses", [])}
+    return False
+
+
+def bundle_available_in_fixture(
+    bundle: dict[str, Any], fixture: dict[str, Any]
+) -> bool:
+    prerequisites = bundle.get("prerequisites")
+    if not isinstance(prerequisites, dict):
+        return True
+    all_rows = prerequisites.get("all")
+    if isinstance(all_rows, list) and not all(
+        isinstance(row, dict) and fixture_predicate_met(row, fixture)
+        for row in all_rows
+    ):
+        return False
+    any_rows = prerequisites.get("any")
+    if isinstance(any_rows, list) and not any(
+        isinstance(row, dict) and fixture_predicate_met(row, fixture)
+        for row in any_rows
+    ):
+        return False
+    return bool(
+        (isinstance(all_rows, list) and all_rows)
+        or (isinstance(any_rows, list) and any_rows)
+    )
 
 
 def validate_korean_player_copy(
@@ -870,7 +1061,7 @@ def validate_prerequisites(
                         f"{owner} references missing bundle {required_bundle}",
                         errors,
                     )
-            elif kind == "relationship_at_least":
+            elif kind in {"relationship_at_least", "relationship_stage_is"}:
                 expected_keys.update({"character", "stage"})
                 if not str(clause.get("character", "")).strip():
                     fail(f"{owner}.character cannot be empty", errors)
@@ -896,6 +1087,18 @@ def validate_prerequisites(
                     fail(f"{owner}.application_id cannot be empty", errors)
                 if not str(clause.get("status", "")).strip():
                     fail(f"{owner}.status cannot be empty", errors)
+            elif kind == "application_status_not_in":
+                expected_keys.update({"application_id", "statuses"})
+                if not str(clause.get("application_id", "")).strip():
+                    fail(f"{owner}.application_id cannot be empty", errors)
+                statuses = require_list(
+                    clause.get("statuses"), f"{owner}.statuses", errors
+                )
+                if not statuses or any(
+                    not isinstance(value, str) or not value.strip()
+                    for value in statuses
+                ):
+                    fail(f"{owner}.statuses must contain status strings", errors)
             unknown_keys = set(clause) - expected_keys
             missing_keys = expected_keys - set(clause)
             if unknown_keys:
@@ -947,6 +1150,7 @@ def validate_application_outcomes(
                 errors,
             )
         }
+        reachable = reachable_event_ids(roots, registered_events)
         prerequisite_states = {
             (
                 str(clause.get("application_id", "")),
@@ -967,10 +1171,10 @@ def validate_application_outcomes(
                 raw_row, f"{bundle_id}.application_outcomes[{index}]", errors
             )
             event_id = str(row.get("event_id", ""))
-            if event_id not in roots:
+            if event_id not in reachable:
                 fail(
                     f"{bundle_id} application outcome event {event_id} "
-                    "is not owned by the bundle",
+                    "is not reachable from the bundle entry roots",
                     errors,
                 )
             event = require_dict(
@@ -1309,7 +1513,7 @@ def main() -> int:
     groups = require_dict(contract.get("exclusive_groups"), "exclusive_groups", errors)
 
     if int(contract.get("schema_version", 0)) != 3:
-        fail("schema_version must be 3 for the 12-week executable contract", errors)
+        fail("schema_version must be 3 for the 16-week executable contract", errors)
     if bool(contract.get("runtime_default", True)):
         fail("runtime_default must stay false before the 24-week human GO", errors)
     if str(contract.get("fallback", "")) != "event_director_v1":
@@ -1321,8 +1525,8 @@ def main() -> int:
         "max_week": 24,
         "months": 6,
         "weeks_per_month": 4,
-        "development_cap_week": 12,
-        "prototype_weeks": [1, 12],
+        "development_cap_week": 16,
+        "prototype_weeks": [1, 16],
     }
     for key, expected in expected_scope.items():
         if scope.get(key) != expected:
@@ -1337,9 +1541,9 @@ def main() -> int:
         development_month_count = 0
     else:
         development_month_count = development_cap_week // weeks_per_month
-    if development_month_count != 3:
+    if development_month_count != 4:
         fail(
-            "the B gate must expose exactly three completed development months",
+            "the C gate must expose exactly four completed development months",
             errors,
         )
     if (
@@ -1606,6 +1810,7 @@ def main() -> int:
         maximum = int(surface.get("maximum_offers_per_month", 7))
         if (
             expected_month <= development_month_count
+            and expected_month != 4
             and not minimum <= len(offers) <= maximum
         ):
             fail(f"month {expected_month} must expose {minimum}..{maximum} offers, got {len(offers)}", errors)
@@ -1705,6 +1910,105 @@ def main() -> int:
         if expected_month == 3 and named_cap != 3:
             fail("month 3 must cap simultaneous named leads at three", errors)
         total_minutes += int(month.get("target_minutes", 0))
+
+    if development_month_count >= 4 and len(months) >= 4:
+        month_four = require_dict(months[3], "month 4", errors)
+        month_four_offers = [
+            str(value) for value in month_four.get("offers", [])
+        ]
+        month_four_fallbacks = [
+            str(value) for value in month_four.get("fallback_offers", [])
+        ]
+        month_four_fixtures = {
+            "sparse_no_prior_person_or_hanbit": {
+                "completed": set(),
+                "stages": {},
+                "memories": set(),
+                "applications": {},
+            },
+            "hanbit_and_named_daeun": {
+                "completed": {"m3_hanbit_application", "daeun_world_meet"},
+                "stages": {"daeun": "opening"},
+                "memories": {("daeun", "daeun_name_exchanged")},
+                "applications": {"hanbit_ops_2026q1": "submitted"},
+            },
+            "distance_daeun": {
+                "completed": {"daeun_world_meet"},
+                "stages": {"daeun": "met"},
+                "memories": {("daeun", "daeun_kept_distance")},
+                "applications": {},
+            },
+            "jiyeon": {
+                "completed": {"jiyeon_world_meet"},
+                "stages": {"jiyeon": "met"},
+                "memories": {("jiyeon", "jiyeon_walked_away")},
+                "applications": {},
+            },
+            "money_paths_and_named_daeun": {
+                "completed": {
+                    "cafe_world_glimpse",
+                    "sns_pressure_night",
+                    "daeun_world_meet",
+                },
+                "stages": {"daeun": "opening"},
+                "memories": {("daeun", "daeun_name_exchanged")},
+                "applications": {},
+            },
+        }
+        minimum = int(surface.get("minimum_offers_per_month", 5))
+        maximum = int(surface.get("maximum_offers_per_month", 7))
+        for fixture_name, fixture in month_four_fixtures.items():
+            visible = [
+                bundle_id
+                for bundle_id in month_four_offers
+                if bundle_available_in_fixture(
+                    require_dict(
+                        bundles.get(bundle_id),
+                        f"bundle {bundle_id}",
+                        errors,
+                    ),
+                    fixture,
+                )
+            ]
+            if len(visible) < minimum:
+                for bundle_id in month_four_fallbacks:
+                    if bundle_available_in_fixture(
+                        require_dict(
+                            bundles.get(bundle_id),
+                            f"bundle {bundle_id}",
+                            errors,
+                        ),
+                        fixture,
+                    ):
+                        visible.append(bundle_id)
+                    if len(visible) >= minimum:
+                        break
+            if not minimum <= len(visible) <= maximum:
+                fail(
+                    f"month 4 fixture {fixture_name} must expose "
+                    f"{minimum}..{maximum} offers, got {len(visible)}: {visible}",
+                    errors,
+                )
+            if (
+                fixture.get("applications", {}).get(
+                    "hanbit_ops_2026q1", ""
+                )
+                == "submitted"
+            ):
+                if "m4_hanbit_interview" not in visible \
+                        or "m4_dodam_application" in visible:
+                    fail(
+                        "submitted Hanbit status must replace Dodam with the "
+                        "authored interview offer",
+                        errors,
+                    )
+            elif "m4_dodam_application" not in visible \
+                    or "m4_hanbit_interview" in visible:
+                fail(
+                    "without a submitted Hanbit application, Dodam must remain "
+                    "available and the interview hidden",
+                    errors,
+                )
 
     orphan_bundles = set(str(value) for value in bundles).difference(
         referenced_bundle_ids
@@ -1814,6 +2118,48 @@ def main() -> int:
                 f"got {bundle.get('allowed_weeks')}",
                 errors,
             )
+    for bundle_id, expected_weeks in EXPECTED_M4_ALLOWED_WEEKS.items():
+        bundle = require_dict(bundles.get(bundle_id), f"bundle {bundle_id}", errors)
+        if bundle.get("allowed_weeks") != expected_weeks:
+            fail(
+                f"{bundle_id}.allowed_weeks expected {expected_weeks}, "
+                f"got {bundle.get('allowed_weeks')}",
+                errors,
+            )
+
+    expected_m4_phone_surfaces = {
+        "m4_hanbit_interview": "inbound_message",
+        "m4_dodam_application": "self_note",
+        "m4_certificate_session": "self_note",
+        "m4_logistics_shift": "self_note",
+        "m4_health_check_day": "self_note",
+        "m4_housing_welfare_consultation": "self_note",
+        "daeun_player_return": "self_note",
+        "daeun_return_after_distance": "self_note",
+        "jiyeon_bus_stop_reunion": "world_encounter",
+        "sangchul_world_meet": "self_note",
+        "jaehyuk_world_meet": "inbound_message",
+    }
+    for bundle_id, expected_surface in expected_m4_phone_surfaces.items():
+        bundle = require_dict(bundles.get(bundle_id), f"bundle {bundle_id}", errors)
+        if bundle.get("phone_surface") != expected_surface:
+            fail(
+                f"{bundle_id}.phone_surface expected {expected_surface!r}, "
+                f"got {bundle.get('phone_surface')!r}",
+                errors,
+            )
+        if expected_surface == "inbound_message":
+            for field in (
+                "message_sender_ko",
+                "message_sender_en",
+                "message_body_ko",
+                "message_body_en",
+            ):
+                value = str(bundle.get(field, "")).strip()
+                if not value:
+                    fail(f"{bundle_id} inbound message is missing {field}", errors)
+                elif field.endswith("_en") and HANGUL_RE.search(value):
+                    fail(f"{bundle_id}.{field} leaks Hangul into English", errors)
 
     month_three = require_dict(
         months[2] if len(months) >= 3 else {},
@@ -1875,6 +2221,28 @@ def main() -> int:
                 )
             result_copy_values[field].add(value)
 
+    for bundle_id, expected_core in EXPECTED_M4_ACTION_CORE.items():
+        bundle = require_dict(bundles.get(bundle_id), f"bundle {bundle_id}", errors)
+        config = require_dict(
+            bundle.get("action_config"), f"{bundle_id}.action_config", errors
+        )
+        for key, expected_value in expected_core.items():
+            if config.get(key) != expected_value:
+                fail(
+                    f"{bundle_id}.action_config.{key} expected "
+                    f"{expected_value!r}, got {config.get(key)!r}",
+                    errors,
+                )
+        for field in result_copy_fields:
+            value = str(config.get(field, "")).strip()
+            if not value:
+                fail(f"{bundle_id}.action_config is missing {field}", errors)
+            elif field.endswith("_en") and HANGUL_RE.search(value):
+                fail(
+                    f"{bundle_id}.action_config.{field} leaks Hangul into English",
+                    errors,
+                )
+
     decline_outcomes = require_dict(
         contract.get("decline_outcomes"), "decline_outcomes", errors
     )
@@ -1929,6 +2297,24 @@ def main() -> int:
                     f"decline outcome {consequence_id} leaks Hangul into English",
                     errors,
                 )
+        raw_transition = outcome.get("application_transition")
+        if consequence_id == "hanbit_interview_not_attended":
+            expected_transition = {
+                "application_id": "hanbit_ops_2026q1",
+                "from": "submitted",
+                "to": "not_attended",
+            }
+            if raw_transition != expected_transition:
+                fail(
+                    "declining the Hanbit interview must close submitted as "
+                    f"not_attended, got {raw_transition}",
+                    errors,
+                )
+        elif raw_transition is not None:
+            fail(
+                f"{consequence_id} has an unowned application transition",
+                errors,
+            )
         if str(outcome.get("consumer_kind", "")) == "next_matching_bundle":
             if outcome.get("target_kinds") != ["encounter", "pursuit"]:
                 fail(
@@ -2001,6 +2387,7 @@ def main() -> int:
     for bundle_id in sorted(development_relationship_ids):
         bundle = require_dict(bundles.get(bundle_id), f"bundle {bundle_id}", errors)
         roots = [str(value) for value in bundle.get("existing_roots", [])]
+        reachable = reachable_event_ids(set(roots), registered_events)
         mappings = require_list(
             bundle.get("relationship_outcomes"),
             f"{bundle_id}.relationship_outcomes",
@@ -2018,9 +2405,9 @@ def main() -> int:
                 errors,
             )
             event_id = str(mapping.get("event_id", "")).strip()
-            if event_id not in roots:
+            if event_id not in reachable:
                 fail(
-                    f"{bundle_id} relationship outcome references non-root "
+                    f"{bundle_id} relationship outcome references unreachable "
                     f"event {event_id}",
                     errors,
                 )
@@ -2147,7 +2534,7 @@ def main() -> int:
                         errors,
                     )
                 choice_set.add(raw_choice)
-        for event_id in roots:
+        for event_id, actual_choice_indexes in mapped_choices.items():
             event = require_dict(
                 registered_events.get(event_id),
                 f"registered event {event_id}",
@@ -2157,18 +2544,21 @@ def main() -> int:
                 event.get("choices"), f"registered event {event_id}.choices", errors
             )
             expected_choice_indexes = set(range(len(choices)))
-            is_hyunsu_message_lead_in = (
-                bundle_id == "hyunsu_player_reachout"
-                and event_id == "v2_hyunsu_player_reachout"
-            )
-            if (
-                not is_hyunsu_message_lead_in
-                and mapped_choices.get(event_id, set()) != expected_choice_indexes
-            ):
+            if actual_choice_indexes != expected_choice_indexes:
                 fail(
                     f"{bundle_id} must map every {event_id} choice exactly once: "
                     f"expected {sorted(expected_choice_indexes)}, got "
-                    f"{sorted(mapped_choices.get(event_id, set()))}",
+                    f"{sorted(actual_choice_indexes)}",
+                    errors,
+                )
+            if event_id not in roots and any(
+                isinstance(choice, dict)
+                and str(choice.get("follow_up_event", "")).strip()
+                for choice in choices
+            ):
+                fail(
+                    f"{bundle_id} relationship outcome event {event_id} is "
+                    "not terminal in its authored follow-up graph",
                     errors,
                 )
 
@@ -2261,11 +2651,10 @@ def main() -> int:
     )
     if hyunsu_followup.get("existing_roots") != [
         "v2_hyunsu_player_reachout",
-        "v2_hyunsu_first_study",
     ]:
         fail(
-            "Hyunsu player reach-out must separate the message from the "
-            "next-day in-person study scene",
+            "Hyunsu player reach-out must queue only the message entry root; "
+            "the next-day study scene is reached through its authored follow-up",
             errors,
         )
     hyunsu_reciprocal = require_dict(

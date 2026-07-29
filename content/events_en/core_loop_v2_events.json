@@ -69,5 +69,80 @@
         "result_text": "Hyunsu opens the folded problem, and {name} writes out the steps beside it. Forty minutes later they trade places, and Hyunsu points out an awkward sentence in the resume.\n\nThey agree to bring one thing each that has them stuck next time.\n\nWork each had postponed alone becomes work someone else will see when they meet again."
       }
     ]
+  },
+  {
+    "id": "v2_hanbit_interview",
+    "title": "Hanbit Distribution First Interview",
+    "description": "Two o'clock Thursday afternoon, in a second-floor meeting room at Hanbit Distribution's logistics center. The operations-support application {name} sent in Week 9 lies in front of the interviewer.\n\nThe interviewer places two inventory sheets side by side. One lists a system count of 184; the other lists a physical count of 179.\n\n\"The system says one hundred eighty-four, but the warehouse has only one hundred seventy-nine. What do you do first?\"\n\nThere is no stock answer to recite. First he has to find out whether five units vanished, a record was late, or the first count was wrong.",
+    "choices": [
+      {
+        "text": "\"I would reconcile the receiving and shipping records in chronological order.\"",
+        "result_text": "\"I would start from the last point when the numbers matched. Then I would compare the receiving slips, shipping slips, and return records in order.\"\n\nThe interviewer asks, \"And if none of the records explain it?\"\n\n\"I would report it as an unresolved discrepancy instead of changing the count to make it match.\"\n\nThe interviewer writes down the answer and turns the page. It is not time to give a result yet."
+      },
+      {
+        "text": "\"I would recount with the floor lead and find when the discrepancy began.\"",
+        "result_text": "\"Before changing anything in the system, I would recount the same items with the floor lead. We would also check whether anything was moved or staged for shipping.\"\n\nThe interviewer asks, \"What if those items have to ship today?\"\n\n\"I would report the confirmed quantity separately from the quantity still under review. I would not treat the missing five as if they were there.\"\n\nThe interviewer gives a short nod and reads the next question. It is not time to give a result yet."
+      }
+    ]
+  },
+  {
+    "id": "v2_daeun_return_named",
+    "title": "This Time, First",
+    "description": "Not long after the night shift begins, {name} opens the door of the same convenience store.\n\nHe does need a few things, but they are not the only reason he came at this hour.\n\nKim Daeun looks up from the price tags she is sorting behind the counter. She studies his face for a moment, then asks first.\n\n\"{name}-ssi, right?\"",
+    "choices": [
+      {
+        "text": "\"Daeun-ssi. Another night shift?\"",
+        "result_text": "\"You remembered my name. Yes, I'm here until dawn again.\"\n\nDaeun sets down the price tags in her hand. {name} asks whether working this late is hard, and she says it is manageable once the busiest hour passes.\n\nIt is not a long conversation. Still, this time {name} is the one who says her name and starts it."
+      },
+      {
+        "text": "\"I ate well, thanks to that two-for-one deal last time.\"",
+        "result_text": "\"I only told you because it was on promotion.\"\n\nDaeun smiles. \"Still, I'm glad you enjoyed it.\"\n\n{name} thanks her once more and finishes paying. As he opens the door to leave, Daeun says, \"Check the sale tags first next time, {name}-ssi.\"\n\n{name} laughs. \"I will, Daeun-ssi.\" Their second conversation lasts one line longer than the first."
+      }
+    ]
+  },
+  {
+    "id": "v2_daeun_return_after_distance",
+    "title": "The Greeting Left Unsaid",
+    "description": "The convenience store where a clerk pointed out the two-for-one deal that dawn. Last time, {name} left after saying only thank you.\n\nWhen he sets a triangle kimbap on the counter, the clerk studies his face.\n\n\"You came in last time, right? The one who picked up the extra promotional item.\"\n\nThey remember each other's faces. They still do not know each other's names.",
+    "choices": [
+      {
+        "text": "\"I left after barely saying hello last time. I'm {name}.\"",
+        "result_text": "The clerk looks briefly surprised, then bows in greeting.\n\n\"I'm Kim Daeun. I work nights.\"\n\n{name} repeats her name once, and Daeun says his again. By the time he finishes paying and leaves, they can finally call each other by name."
+      },
+      {
+        "text": "\"Thank you for telling me about the two-for-one deal that day.\"",
+        "result_text": "\"You remembered. It really wasn't much.\"\n\nThe clerk asks as she hands him the receipt, \"What is your name, by the way?\"\n\n{name} introduces himself first, and she answers, \"I'm Kim Daeun.\" They finally exchange the introductions they skipped last time. They do not make plans or exchange contact information."
+      }
+    ]
+  },
+  {
+    "id": "v2_sangchul_housing_lead",
+    "title": "Looking for a Room",
+    "description": "The first week of April, on a Sinchon side street after the spring rain. {name} opens the door of a small real-estate office to find out whether he can leave the goshiwon.\n\nThe man across the desk places a basement studio listing beside the calculator.\n\n\"Ten million won deposit, five hundred fifty thousand a month. Maintenance is separate.\"\n\nEven the deposit is far beyond what {name} has. As he taps the calculator a few more times, the man quietly watches his fingers, then his worn sneakers.\n\n\"That would be difficult in your situation.\"\n\n{name} pushes back his chair to stand. The man takes out two paper cups.\n\n\"Wait. Just because you can't rent this place doesn't mean I have to send you straight back out. I can at least make you a warm cup of coffee.\"",
+    "choices": [
+      {
+        "text": "\"How did you know about my situation?\"",
+        "result_text": "The man sets down the papers in his hand and looks at {name}.\n\n\"Was I wrong?\"\n\n{name} does not answer. The man motions toward the empty chair with his chin. His gaze now feels less like kindness than verification."
+      },
+      {
+        "text": "\"I'll have the coffee, then leave.\"",
+        "result_text": "The paper cup is hot enough to warm his hands, and the instant coffee is too sweet.\n\nWhen {name} sits again, the man moves a file aside, revealing the desk plaque beneath it: “Licensed Real-Estate Agent Im Sangchul.”\n\n{name} still does not know why he is spending time on someone who cannot afford the room."
+      }
+    ]
+  },
+  {
+    "id": "v2_jaehyuk_message",
+    "title": "A Message After Ten Years",
+    "description": "Nine forty at night. A familiar name appears in KakaoTalk: Choi Jaehyuk.\n\n\"Hey, {name}. It's Jaehyuk—Choi Jaehyuk from the army. You remember me, right? It's been a long time. How are you?\"\n\nThey were twenty-two and in the same barracks. After discharge they checked in a few times, then a changed number ended the contact.\n\n{name} opens the reply field. It is his turn to cross ten years in one sentence.",
+    "choices": [
+      {
+        "text": "\"Of course I remember. It really has been a long time.\"",
+        "result_text": "{name}: \"Of course I remember. Have you been well?\"\n\nJaehyuk: \"More or less. My number changed, and I only just found you again.\"\n\nThey briefly trade the names of people they knew in the army and the neighborhoods where they live now. They do not set a date to meet. The conversation that had gone quiet rises to the top of the KakaoTalk list again."
+      },
+      {
+        "text": "\"I remember. What brought this on?\"",
+        "result_text": "{name}: \"I remember. What brought this on?\"\n\nJaehyuk: \"Nothing happened. I just thought of you after all this time. Sorry if it bothered you.\"\n\n{name}: \"No. I only asked because it was sudden.\"\n\nAfter a few more lines of small talk, the chat stops. They have not made plans to meet yet."
+      }
+    ]
   }
 ]

@@ -47,6 +47,7 @@ var _message_thread_title := ""
 var _message_thread_body := ""
 var _message_thread_bundle_id := ""
 var _message_thread_key := ""
+var _message_thread_kind := ""
 
 var _font: FontFile
 var _font_bold: FontFile
@@ -87,10 +88,13 @@ var _phone_rest_position := Vector2.ZERO
 var _phone_frame_texture: TextureRect
 var _phone_screen_inset: MarginContainer
 var _phone_display_panel: PanelContainer
+var _phone_content_margin: MarginContainer
 var _phone_wallpaper_photo: TextureRect
-var _phone_frame_aspect := 1530.0 / 662.0
+var _phone_gesture_bar: PanelContainer
+var _phone_legacy_nav: VBoxContainer
+var _phone_frame_aspect := 1705.0 / 756.0
 var _phone_inset_ratio := Vector4(
-	43.0 / 1530.0, 41.0 / 662.0, 48.0 / 1530.0, 35.0 / 662.0)
+	185.0 / 1705.0, 67.0 / 756.0, 188.0 / 1705.0, 66.0 / 756.0)
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -332,16 +336,16 @@ func _build_ui() -> void:
 	_phone_wallpaper_photo.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_phone_display_panel.add_child(_phone_wallpaper_photo)
 
-	var display_margin := MarginContainer.new()
-	display_margin.add_theme_constant_override("margin_left", 46)
-	display_margin.add_theme_constant_override("margin_right", 20)
-	display_margin.add_theme_constant_override("margin_top", 6)
-	display_margin.add_theme_constant_override("margin_bottom", 6)
-	_phone_display_panel.add_child(display_margin)
+	_phone_content_margin = MarginContainer.new()
+	_phone_content_margin.add_theme_constant_override("margin_left", 46)
+	_phone_content_margin.add_theme_constant_override("margin_right", 20)
+	_phone_content_margin.add_theme_constant_override("margin_top", 6)
+	_phone_content_margin.add_theme_constant_override("margin_bottom", 6)
+	_phone_display_panel.add_child(_phone_content_margin)
 
 	_phone_screen = VBoxContainer.new()
 	_phone_screen.add_theme_constant_override("separation", 4)
-	display_margin.add_child(_phone_screen)
+	_phone_content_margin.add_child(_phone_screen)
 
 	var status_bar := HBoxContainer.new()
 	status_bar.custom_minimum_size = Vector2(0, 22)
@@ -505,22 +509,52 @@ func _build_ui() -> void:
 	gesture_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	gesture_layer.z_index = 20
 	_phone_display_panel.add_child(gesture_layer)
-	var gesture_bar := PanelContainer.new()
-	gesture_bar.name = "PhoneGestureBar"
-	gesture_bar.anchor_left = 0.5
-	gesture_bar.anchor_top = 1.0
-	gesture_bar.anchor_right = 0.5
-	gesture_bar.anchor_bottom = 1.0
-	gesture_bar.offset_left = -44.0
-	gesture_bar.offset_top = -7.0
-	gesture_bar.offset_right = 44.0
-	gesture_bar.offset_bottom = -3.0
-	gesture_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_phone_gesture_bar = PanelContainer.new()
+	_phone_gesture_bar.name = "PhoneGestureBar"
+	_phone_gesture_bar.anchor_left = 0.5
+	_phone_gesture_bar.anchor_top = 1.0
+	_phone_gesture_bar.anchor_right = 0.5
+	_phone_gesture_bar.anchor_bottom = 1.0
+	_phone_gesture_bar.offset_left = -44.0
+	_phone_gesture_bar.offset_top = -7.0
+	_phone_gesture_bar.offset_right = 44.0
+	_phone_gesture_bar.offset_bottom = -3.0
+	_phone_gesture_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var gesture_style := StyleBoxFlat.new()
 	gesture_style.bg_color = Color("#e7ebf0", 0.72)
 	gesture_style.set_corner_radius_all(4)
-	gesture_bar.add_theme_stylebox_override("panel", gesture_style)
-	gesture_layer.add_child(gesture_bar)
+	_phone_gesture_bar.add_theme_stylebox_override("panel", gesture_style)
+	gesture_layer.add_child(_phone_gesture_bar)
+	_phone_legacy_nav = VBoxContainer.new()
+	_phone_legacy_nav.name = "LegacyAndroidNavigation"
+	_phone_legacy_nav.anchor_left = 1.0
+	_phone_legacy_nav.anchor_top = 0.5
+	_phone_legacy_nav.anchor_right = 1.0
+	_phone_legacy_nav.anchor_bottom = 0.5
+	_phone_legacy_nav.offset_left = -33.0
+	_phone_legacy_nav.offset_top = -54.0
+	_phone_legacy_nav.offset_right = -5.0
+	_phone_legacy_nav.offset_bottom = 54.0
+	_phone_legacy_nav.add_theme_constant_override("separation", 3)
+	gesture_layer.add_child(_phone_legacy_nav)
+	for nav_spec in [
+		["□", "_show_home"],
+		["○", "_show_home"],
+		["◁", "_go_back_one_level"],
+	]:
+		var nav_button := Button.new()
+		nav_button.text = str(nav_spec[0])
+		nav_button.flat = true
+		nav_button.focus_mode = Control.FOCUS_NONE
+		nav_button.custom_minimum_size = Vector2(28, 32)
+		nav_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		nav_button.add_theme_font_override("font", _font)
+		nav_button.add_theme_font_size_override("font_size", 14)
+		nav_button.add_theme_color_override("font_color", Color("#d5d9de", 0.78))
+		nav_button.add_theme_color_override(
+			"font_hover_color", Color("#ffffff", 0.96))
+		nav_button.pressed.connect(Callable(self, str(nav_spec[1])))
+		_phone_legacy_nav.add_child(nav_button)
 
 	_phone_frame_texture = TextureRect.new()
 	_phone_frame_texture.name = "PhysicalPhoneMaterial"
@@ -746,7 +780,7 @@ func _play_phone_open_animation(read_only: bool) -> void:
 			_phone_frame.position = _phone_rest_position
 			_phone_frame.rotation = 0.0
 			_phone_frame.scale = Vector2.ONE)
-	if read_only:
+	if read_only or _phone_message_badge_count() == 0:
 		AudioManager.play_ui_open(-11.0)
 	else:
 		AudioManager.play_varied("phone_vibrate", -8.0, 0.97, 1.02)
@@ -759,10 +793,10 @@ func _refresh_phone_material() -> void:
 	match device_id:
 		"starter":
 			_phone_frame_texture.texture = PHONE_FRAME_STARTER
-			_phone_frame_aspect = 1530.0 / 662.0
+			_phone_frame_aspect = 1705.0 / 756.0
 			_phone_inset_ratio = Vector4(
-				43.0 / 1530.0, 41.0 / 662.0,
-				48.0 / 1530.0, 35.0 / 662.0)
+				185.0 / 1705.0, 67.0 / 756.0,
+				188.0 / 1705.0, 66.0 / 756.0)
 		"flagship":
 			_phone_frame_texture.texture = PHONE_FRAME_FLAGSHIP
 			_phone_frame_aspect = 1512.0 / 720.0
@@ -775,6 +809,15 @@ func _refresh_phone_material() -> void:
 			_phone_inset_ratio = Vector4(
 				34.0 / 1613.0, 35.0 / 700.0,
 				37.0 / 1613.0, 31.0 / 700.0)
+	if is_instance_valid(_phone_gesture_bar):
+		_phone_gesture_bar.visible = device_id != "starter"
+	if is_instance_valid(_phone_legacy_nav):
+		_phone_legacy_nav.visible = device_id == "starter"
+	if is_instance_valid(_phone_content_margin):
+		_phone_content_margin.add_theme_constant_override(
+			"margin_left", 14 if device_id == "starter" else 46)
+		_phone_content_margin.add_theme_constant_override(
+			"margin_right", 38 if device_id == "starter" else 20)
 
 func _refresh_status_bar() -> void:
 	if not is_instance_valid(_status_date_label):
@@ -965,9 +1008,12 @@ func _set_phone_app_icon_focus(
 			17))
 
 func _phone_message_badge_count() -> int:
-	return (
-		CORE_LOOP.available_offer_ids(_month_index).size()
-		+ CORE_LOOP.decline_receipts_for_month(_month_index).size())
+	var count := 0
+	for bundle_id in CORE_LOOP.available_offer_ids(_month_index):
+		var phone_surface := _phone_surface_kind(CORE_LOOP.bundle(bundle_id))
+		if phone_surface in ["inbound_message", "call_log"]:
+			count += 1
+	return count
 
 func _open_app(app_id: String) -> void:
 	if app_id not in PHONE_SYSTEM.visible_app_ids():
@@ -1044,8 +1090,10 @@ func _rebuild_active_app() -> void:
 				_read_only_surface.visible = false
 				_rebuild_calendar()
 		"contacts":
-			_app_title_label.text = LocaleManager.ui("연락처", "CONTACTS")
-			_page_label.text = LocaleManager.ui("함께 겪은 일", "SHARED HISTORY")
+			_app_title_label.text = LocaleManager.ui(
+				"만난 사람", "PEOPLE MET")
+			_page_label.text = LocaleManager.ui(
+				"연락수단과 함께한 일", "CONTACT METHODS AND SHARED HISTORY")
 			_build_people_surface()
 		"bank":
 			_app_title_label.text = LocaleManager.ui("은행", "BANK")
@@ -1688,13 +1736,56 @@ func _rebuild_read_only_surface() -> void:
 		3:
 			_build_record_surface()
 
+func _phone_surface_kind(offer: Dictionary) -> String:
+	var phone_surface := str(offer.get("phone_surface", "")).strip_edges()
+	if phone_surface in [
+		"inbound_message", "call_log", "self_note", "world_encounter",
+	]:
+		return phone_surface
+	# Missing or unknown data must never turn a self-authored plan into an
+	# incoming message.
+	return ""
+
+func _received_phone_offer_ids() -> Array[String]:
+	var result: Array[String] = []
+	for bundle_id in CORE_LOOP.available_offer_ids(_month_index):
+		var offer := CORE_LOOP.bundle(bundle_id)
+		if _phone_surface_kind(offer) in ["inbound_message", "call_log"]:
+			result.append(bundle_id)
+	return result
+
+func _optional_phone_copy(offer: Dictionary, stem: String) -> String:
+	var suffix := "en" if LocaleManager.is_english() else "ko"
+	return str(offer.get("%s_%s" % [stem, suffix], "")).strip_edges()
+
+func _phone_message_sender(offer: Dictionary) -> String:
+	var sender := _optional_phone_copy(offer, "message_sender")
+	if not sender.is_empty():
+		return sender
+	return _localized(offer, "offer")
+
+func _phone_message_body(offer: Dictionary) -> String:
+	var body := _optional_phone_copy(offer, "message_body")
+	if not body.is_empty():
+		return body.replace(
+			"{name}",
+			LocaleManager.localize_player_name(str(GameState.player_name)))
+	var detail := _localized(offer, "detail").strip_edges()
+	var deadline := _localized(offer, "deadline").strip_edges()
+	if deadline.is_empty():
+		return detail
+	return "%s · %s" % [detail, deadline]
+
 func _build_messages_surface() -> void:
-	var message_total := _phone_message_badge_count()
+	var received_offer_ids := _received_phone_offer_ids()
+	var decline_records := CORE_LOOP.decline_receipts_for_month(_month_index)
 	_page_label.text = LocaleManager.ui(
-		"%d개의 대화" % message_total,
-		"%d THREADS" % message_total)
+		"받은 연락 %d · 기록 %d" % [
+			received_offer_ids.size(), decline_records.size()],
+		"%d RECEIVED · %d RECORDS" % [
+			received_offer_ids.size(), decline_records.size()])
 	_read_only_surface.add_child(_section_title(LocaleManager.ui(
-		"받은 메시지", "INBOX")))
+		"받은 연락", "RECEIVED CONTACT")))
 	var grid := GridContainer.new()
 	grid.columns = 2
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -1702,28 +1793,64 @@ func _build_messages_surface() -> void:
 	grid.add_theme_constant_override("h_separation", 8)
 	grid.add_theme_constant_override("v_separation", 5)
 	_read_only_surface.add_child(grid)
-	for raw_record in CORE_LOOP.decline_receipts_for_month(_month_index):
+	for bundle_id in received_offer_ids:
+		var offer := CORE_LOOP.bundle(bundle_id)
+		var phone_surface := _phone_surface_kind(offer)
+		grid.add_child(_compact_message_row(
+			_phone_message_sender(offer),
+			_phone_message_body(offer),
+			bundle_id,
+			"offer:%s" % bundle_id,
+			phone_surface))
+	if received_offer_ids.is_empty():
+		grid.add_child(_read_only_row(
+			LocaleManager.ui("새로 받은 연락 없음", "NO NEW CONTACT"),
+			LocaleManager.ui(
+				"이번 달 일정은 메시지가 아닌 일정 앱에서 직접 고를 수 있다.",
+				"Plans that are not messages remain available directly in Calendar."),
+			58))
+
+	if decline_records.is_empty():
+		return
+	_read_only_surface.add_child(_section_title(LocaleManager.ui(
+		"지난달 기록", "SYSTEM RECORDS")))
+	var record_grid := GridContainer.new()
+	record_grid.columns = 2
+	record_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	record_grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	record_grid.add_theme_constant_override("h_separation", 8)
+	record_grid.add_theme_constant_override("v_separation", 5)
+	_read_only_surface.add_child(record_grid)
+	for raw_record in decline_records:
 		if not raw_record is Dictionary:
 			continue
 		var record: Dictionary = raw_record
 		var producer: Dictionary = CORE_LOOP.bundle(
 			str(record.get("producer_bundle", "")))
 		var receipt_key: String = "receipt:%s" % str(record.get(
-			"producer_bundle", grid.get_child_count()))
-		grid.add_child(_compact_message_row(
+			"producer_bundle", record_grid.get_child_count()))
+		var record_title := _localized(producer, "offer").strip_edges()
+		if record_title.is_empty():
+			record_title = LocaleManager.ui("지난달 일정 기록", "LAST MONTH'S RECORD")
+		var record_body := str(record.get(
+			"message_en" if LocaleManager.is_english() else "message_ko", "")
+		).strip_edges()
+		if record_body.is_empty():
+			record_body = _localized(producer, "decline")
+		record_grid.add_child(_compact_message_row(
 			LocaleManager.ui("지난달에 잡지 않은 제안 · ", "NOT SCHEDULED LAST MONTH · ")
-				+ _localized(producer, "offer"),
-			str(record.get(
-				"message_en" if LocaleManager.is_english() else "message_ko", "")),
-			"", receipt_key))
-	for bundle_id in CORE_LOOP.available_offer_ids(_month_index):
-		var offer := CORE_LOOP.bundle(bundle_id)
-		grid.add_child(_compact_message_row(
-			_localized(offer, "offer"),
-			"%s · %s" % [_localized(offer, "detail"), _localized(offer, "deadline")],
-			bundle_id, "offer:%s" % bundle_id))
+				+ record_title,
+			record_body,
+			"",
+			receipt_key,
+			"system_record"))
 
 func _build_message_thread_surface() -> void:
+	if _message_thread_kind == "system_record":
+		_build_system_record_thread_surface()
+		return
+	if _message_thread_kind == "call_log":
+		_app_title_label.text = LocaleManager.ui("통화 기록", "CALL LOG")
 	var thread := VBoxContainer.new()
 	thread.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	thread.add_theme_constant_override("separation", 10)
@@ -1748,7 +1875,9 @@ func _build_message_thread_surface() -> void:
 	sender_line.add_child(sender_copy)
 	sender_copy.add_child(_label(_message_thread_title, 15, COLOR_TEXT, true))
 	sender_copy.add_child(_label(
-		LocaleManager.ui("이번 달 받은 메시지", "Received this month"),
+		LocaleManager.ui("이번 달 통화 기록", "Call logged this month")
+			if _message_thread_kind == "call_log"
+			else LocaleManager.ui("이번 달 받은 메시지", "Received this month"),
 		11, COLOR_DIM))
 
 	var bubble_row := HBoxContainer.new()
@@ -1757,9 +1886,13 @@ func _build_message_thread_surface() -> void:
 	var incoming_bubble := PanelContainer.new()
 	incoming_bubble.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	incoming_bubble.size_flags_stretch_ratio = 0.70
+	var bubble_background := Color("#18212b") \
+		if _message_thread_kind == "call_log" else Color("#e9edf1")
+	var bubble_border := Color("#465361") \
+		if _message_thread_kind == "call_log" else Color("#ffffff")
 	incoming_bubble.add_theme_stylebox_override(
 		"panel", _rounded_panel_style(
-			Color("#e9edf1"), Color("#ffffff"), 1, 18))
+			bubble_background, bubble_border, 1, 18))
 	bubble_row.add_child(incoming_bubble)
 	var bubble_margin := MarginContainer.new()
 	bubble_margin.add_theme_constant_override("margin_left", 18)
@@ -1768,7 +1901,8 @@ func _build_message_thread_surface() -> void:
 	bubble_margin.add_theme_constant_override("margin_bottom", 14)
 	incoming_bubble.add_child(bubble_margin)
 	var message_copy := _label(
-		_message_thread_body, 14, Color("#20262d"))
+		_message_thread_body, 14,
+		COLOR_TEXT if _message_thread_kind == "call_log" else Color("#20262d"))
 	message_copy.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	bubble_margin.add_child(message_copy)
 	var bubble_space := Control.new()
@@ -1779,9 +1913,12 @@ func _build_message_thread_surface() -> void:
 	if not _message_thread_bundle_id.is_empty() \
 			and CORE_LOOP.available_offer_ids(_month_index).has(
 				_message_thread_bundle_id):
-		var action := _button(LocaleManager.ui(
-			"일정 앱에서 날짜 잡기",
-			"CHOOSE A DATE IN CALENDAR"), true)
+		var action_text := LocaleManager.ui(
+			"일정에서 확인하기", "VIEW IN CALENDAR")
+		if not _read_only_plan:
+			action_text = LocaleManager.ui(
+				"일정에 넣기", "ADD TO CALENDAR")
+		var action := _button(action_text, true)
 		action.custom_minimum_size = Vector2(260, 42)
 		action.size_flags_horizontal = Control.SIZE_SHRINK_END
 		_apply_contact_action_style(action)
@@ -1792,9 +1929,22 @@ func _build_message_thread_surface() -> void:
 		action.call_deferred("grab_focus")
 	else:
 		thread.add_child(_label(LocaleManager.ui(
-			"지난 제안이라 지금은 답장을 보내거나 일정에 넣을 수 없다.",
-			"This offer has passed, so it can no longer be scheduled."),
+			"이 연락은 지금 일정에 넣을 수 없다.",
+			"This contact can no longer be scheduled."),
 			12, COLOR_DIM))
+
+func _build_system_record_thread_surface() -> void:
+	_app_title_label.text = LocaleManager.ui("지난달 기록", "SYSTEM RECORDS")
+	_page_label.text = LocaleManager.ui("일정 원장", "CALENDAR LEDGER")
+	_read_only_surface.add_child(_section_title(LocaleManager.ui(
+		"사람이 보낸 메시지가 아닌 지난 일정의 기록",
+		"A RECORD FROM THE CALENDAR, NOT A MESSAGE")))
+	_read_only_surface.add_child(_read_only_row(
+		_message_thread_title, _message_thread_body, 110))
+	_read_only_surface.add_child(_label(LocaleManager.ui(
+		"지난달 일정에 넣지 않은 제안에서 남은 결과다. 답장할 상대는 없다.",
+		"This was left by an offer not scheduled last month. There is no sender to reply to."),
+		12, COLOR_DIM))
 
 func _open_calendar_from_message(bundle_id: String) -> void:
 	if not CORE_LOOP.available_offer_ids(_month_index).has(bundle_id):
@@ -1810,7 +1960,7 @@ func _open_calendar_from_message(bundle_id: String) -> void:
 
 func _build_people_surface() -> void:
 	_read_only_surface.add_child(_section_title(LocaleManager.ui(
-		"연락하며 함께한 일", "CONTACTS AND SHARED HISTORY")))
+		"만난 사람과 연락수단", "PEOPLE MET AND WAYS TO REACH THEM")))
 	var seen: Array[String] = ["father"]
 	var raw_stages: Variant = GameState.core_loop_v2_state.get(
 		"relationship_stages", {})
@@ -1828,7 +1978,7 @@ func _build_people_surface() -> void:
 
 func _contact_row(character_id: String) -> Control:
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(0, 92)
+	panel.custom_minimum_size = Vector2(0, 104)
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	panel.add_theme_stylebox_override(
 		"panel", _panel_style(COLOR_PANEL, COLOR_BORDER, 1))
@@ -1848,7 +1998,7 @@ func _contact_row(character_id: String) -> Control:
 			_message_avatar_color(character_id), Color("#ffffff", 0.20), 1, 26))
 	row.add_child(avatar)
 	var avatar_mark := _label(
-		_character_name(character_id).left(1).to_upper(), 18, Color.WHITE, true)
+		_character_avatar_mark(character_id), 18, Color.WHITE, true)
 	avatar_mark.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	avatar_mark.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	avatar.add_child(avatar_mark)
@@ -1862,67 +2012,156 @@ func _contact_row(character_id: String) -> Control:
 	history.max_lines_visible = 2
 	history.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	copy.add_child(history)
+
+	var channel := _contact_method(character_id)
 	var topic_bundle := _contact_topic_bundle(character_id)
-	if not _contact_number_known(character_id):
-		var no_number := _label(LocaleManager.ui(
-			"만난 적은 있지만 전화번호는 저장하지 않았다.",
-			"You have met, but no phone number is saved."), 13, COLOR_DIM, true)
-		no_number.custom_minimum_size = Vector2(250, 36)
-		no_number.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		row.add_child(no_number)
-	elif topic_bundle.is_empty():
-		var unavailable := _label(LocaleManager.ui(
-			"지금은 전화할 이야기가 없다.",
-			"There is nothing to call about right now."), 13, COLOR_DIM, true)
-		unavailable.custom_minimum_size = Vector2(220, 36)
-		unavailable.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		row.add_child(unavailable)
-	elif _read_only_plan:
+	var can_schedule := (
+		not topic_bundle.is_empty()
+		and _contact_method_allows_bundle(
+			character_id, channel, topic_bundle)
+	)
+	var controls := VBoxContainer.new()
+	controls.custom_minimum_size = Vector2(270, 0)
+	controls.add_theme_constant_override("separation", 4)
+	row.add_child(controls)
+	var channel_label := _label(
+		_contact_method_copy(character_id, channel), 12, COLOR_DIM, true)
+	channel_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	channel_label.max_lines_visible = 2
+	channel_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	controls.add_child(channel_label)
+	if can_schedule and _read_only_plan:
 		var scheduled := _schedule.values().has(topic_bundle)
 		var topic := CORE_LOOP.bundle(topic_bundle)
 		var confirmed_copy := LocaleManager.ui(
-			"확정 일정에 있음\n%s",
-			"IN CONFIRMED CALENDAR\n%s") % _localized(topic, "offer") \
+			"확정 일정에 있음 · %s",
+			"IN CONFIRMED CALENDAR · %s") % _localized(topic, "offer") \
 			if scheduled else LocaleManager.ui(
-				"이번 달에는 일정에 넣지 않음\n%s",
-				"NOT SCHEDULED THIS MONTH\n%s") % _localized(topic, "offer")
+				"이번 달에는 일정에 넣지 않음 · %s",
+				"NOT SCHEDULED THIS MONTH · %s") % _localized(topic, "offer")
 		var confirmed_state := _label(
-			confirmed_copy, 13, COLOR_DIM, true)
-		confirmed_state.custom_minimum_size = Vector2(250, 46)
+			confirmed_copy, 11, COLOR_DIM)
+		confirmed_state.custom_minimum_size = Vector2(270, 28)
 		confirmed_state.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		confirmed_state.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		row.add_child(confirmed_state)
-	else:
+		controls.add_child(confirmed_state)
+	elif can_schedule:
 		var topic := CORE_LOOP.bundle(topic_bundle)
-		var action_label := LocaleManager.ui(
-			"먼저 연락할 시간 잡기",
-			"MAKE TIME TO REACH OUT") if topic_bundle == "hyunsu_player_reachout" \
-			else LocaleManager.ui(
-				"이번 달 통화로 잡기",
-				"MAKE TIME FOR THIS CALL") if topic_bundle == "father_first_call" \
-			else LocaleManager.ui(
-				"전화할 시간 잡기",
-				"SCHEDULE TIME TO CALL")
+		var action_label := _contact_action_copy(
+			character_id, channel, topic_bundle)
 		var contact_button := _button(
 			"%s\n%s" % [action_label, _localized(topic, "offer")], false)
 		contact_button.set_meta("phone_compact", true)
-		contact_button.custom_minimum_size = Vector2(250, 46)
-		contact_button.add_theme_font_size_override("font_size", 13)
+		contact_button.custom_minimum_size = Vector2(270, 44)
+		contact_button.add_theme_font_size_override("font_size", 12)
 		contact_button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		contact_button.pressed.connect(_focus_contact_offer.bind(topic_bundle))
 		contact_button.mouse_entered.connect(contact_button.grab_focus)
 		_apply_contact_action_style(contact_button)
-		row.add_child(contact_button)
+		controls.add_child(contact_button)
 	return panel
 
+func _character_avatar_mark(character_id: String) -> String:
+	if character_id == "daeun" and not _daeun_name_known():
+		return LocaleManager.ui("편", "C")
+	if character_id == "jiyeon" and not _jiyeon_name_known():
+		return LocaleManager.ui("차", "D")
+	return _character_name(character_id).left(1).to_upper()
+
+func _contact_method(character_id: String) -> String:
+	match character_id:
+		"father":
+			return "phone"
+		"hyunsu":
+			return "kakao" if _bundle_completed("hyunsu_first_meet") else "none"
+		"daeun":
+			return "known_place" \
+				if CORE_LOOP.relationship_stage(character_id) != "unmet" else "none"
+		"jiyeon":
+			# The crash and bus-stop scenes do not exchange a number or create
+			# a message thread.
+			return "none"
+		"sangchul":
+			if CORE_LOOP.relationship_stage(character_id) != "unmet" \
+					and (
+						GameState.has_item("artifact_sangchul_card")
+						or bool(GameState.flags.get(
+							"artifact_sangchul_card", false))
+					):
+				return "business_card"
+		"jaehyuk":
+			if _has_relationship_memory(character_id, [
+				"jaehyuk_message_welcomed",
+				"jaehyuk_message_guarded",
+			]):
+				return "kakao"
+	return "none"
+
+func _contact_method_copy(character_id: String, method: String) -> String:
+	match method:
+		"phone":
+			return LocaleManager.ui(
+				"연락수단 · 저장된 전화번호",
+				"CONTACT · SAVED PHONE NUMBER")
+		"kakao":
+			return LocaleManager.ui(
+				"연락수단 · 카카오톡 대화",
+				"CONTACT · KAKAOTALK THREAD")
+		"business_card":
+			return LocaleManager.ui(
+				"연락수단 · 받은 명함의 번호",
+				"CONTACT · NUMBER ON HIS BUSINESS CARD")
+		"known_place":
+			return LocaleManager.ui(
+				"연락처 없음 · 찾아갈 편의점만 알고 있다",
+				"NO CONTACT DETAILS · ONLY THE STORE IS KNOWN")
+	if character_id == "jiyeon":
+		return LocaleManager.ui(
+			"연락수단 없음 · 전화번호나 메시지를 주고받지 않았다",
+			"NO CONTACT METHOD · NO NUMBER OR MESSAGES EXCHANGED")
+	return LocaleManager.ui(
+		"연락수단 없음", "NO CONTACT METHOD")
+
 func _contact_number_known(character_id: String) -> bool:
-	if character_id == "father":
-		return true
-	if character_id == "hyunsu":
-		var completed: Array = GameState.core_loop_v2_state.get(
-			"completed_bundles", [])
-		return completed.has("hyunsu_first_meet")
-	return false
+	return _contact_method(character_id) in [
+		"phone", "kakao", "business_card",
+	]
+
+func _contact_method_allows_bundle(
+		character_id: String, method: String, bundle_id: String) -> bool:
+	if character_id == "daeun" and bundle_id in [
+		"daeun_player_return", "daeun_return_after_distance",
+	]:
+		return method == "known_place"
+	return method in ["phone", "kakao", "business_card"]
+
+func _contact_action_copy(
+		character_id: String, method: String, bundle_id: String) -> String:
+	if character_id == "daeun" and bundle_id in [
+		"daeun_player_return", "daeun_return_after_distance",
+	]:
+		return LocaleManager.ui(
+			"직접 찾아갈 시간 잡기",
+			"MAKE TIME TO VISIT IN PERSON")
+	if bundle_id == "hyunsu_player_reachout":
+		return LocaleManager.ui(
+			"먼저 연락할 시간 잡기",
+			"MAKE TIME TO REACH OUT")
+	if bundle_id == "father_first_call":
+		return LocaleManager.ui(
+			"이번 달 통화로 잡기",
+			"MAKE TIME FOR THIS CALL")
+	if method == "kakao":
+		return LocaleManager.ui(
+			"카카오톡으로 연락할 시간 잡기",
+			"MAKE TIME TO MESSAGE")
+	if method == "business_card":
+		return LocaleManager.ui(
+			"명함의 번호로 연락할 시간 잡기",
+			"MAKE TIME TO USE THE CARD")
+	return LocaleManager.ui(
+		"전화할 시간 잡기",
+		"SCHEDULE TIME TO CALL")
 
 func _contact_topic_bundle(character_id: String) -> String:
 	var candidates: Array[String] = []
@@ -1931,6 +2170,11 @@ func _contact_topic_bundle(character_id: String) -> String:
 			candidates = ["father_first_call", "father_quiet_call"]
 		"hyunsu":
 			candidates = ["hyunsu_player_reachout"]
+		"daeun":
+			candidates = [
+				"daeun_player_return",
+				"daeun_return_after_distance",
+			]
 	var available := CORE_LOOP.available_offer_ids(_month_index)
 	for bundle_id in candidates:
 		if available.has(bundle_id):
@@ -2081,18 +2325,26 @@ func _read_only_row(title: String, body: String, minimum_height: float = 76.0) -
 
 func _compact_message_row(
 		title: String, body: String, bundle_id: String,
-		thread_key: String) -> Button:
+		thread_key: String, thread_kind: String) -> Button:
+	var is_system_record := thread_kind == "system_record"
+	var is_call_log := thread_kind == "call_log"
 	var panel := Button.new()
 	panel.text = ""
+	panel.set_meta("phone_thread_kind", thread_kind)
 	panel.focus_mode = Control.FOCUS_ALL
 	panel.custom_minimum_size = Vector2(0, 58)
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var normal := _rounded_panel_style(
-		Color("#0b1017", 0.82), Color("#ffffff", 0.10), 1, 14)
+		Color("#12151a", 0.90) if is_system_record else Color("#0b1017", 0.82),
+		Color("#68717c", 0.32) if is_system_record else Color("#ffffff", 0.10),
+		1, 8 if is_system_record else 14)
 	var hover := _rounded_panel_style(
-		Color("#17212c", 0.96), Color("#ffffff", 0.25), 1, 14)
+		Color("#1d2229", 0.96) if is_system_record else Color("#17212c", 0.96),
+		Color("#8d98a5", 0.48) if is_system_record else Color("#ffffff", 0.25),
+		1, 8 if is_system_record else 14)
 	var focused := _rounded_panel_style(
-		Color("#17212c", 0.98), COLOR_ACCENT, 2, 14)
+		Color("#222831", 0.98) if is_system_record else Color("#17212c", 0.98),
+		COLOR_ACCENT, 2, 8 if is_system_record else 14)
 	for style in [normal, hover, focused]:
 		style.content_margin_left = 0
 		style.content_margin_right = 0
@@ -2103,7 +2355,8 @@ func _compact_message_row(
 	panel.add_theme_stylebox_override("focus", focused)
 	panel.add_theme_stylebox_override("pressed", focused)
 	panel.pressed.connect(
-		_open_message_thread.bind(title, body, bundle_id, thread_key))
+		_open_message_thread.bind(
+			title, body, bundle_id, thread_key, thread_kind))
 	panel.mouse_entered.connect(panel.grab_focus)
 	var margin := MarginContainer.new()
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -2122,9 +2375,15 @@ func _compact_message_row(
 	avatar.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	avatar.add_theme_stylebox_override(
 		"panel", _rounded_panel_style(
-			_message_avatar_color(title), Color("#ffffff", 0.22), 1, 19))
+			Color("#343b44") if is_system_record
+				else _message_avatar_color(title),
+			Color("#7b8794") if is_system_record else Color("#ffffff", 0.22),
+			1, 7 if is_system_record else 19))
 	row.add_child(avatar)
-	var avatar_label := _label(_message_avatar_mark(title), 13, Color.WHITE, true)
+	var avatar_label := _label(
+		LocaleManager.ui("기록", "LOG") if is_system_record
+			else _message_avatar_mark(title),
+		9 if is_system_record else 13, Color.WHITE, true)
 	avatar_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	avatar_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	avatar_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -2144,9 +2403,16 @@ func _compact_message_row(
 	bubble.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	bubble.add_theme_stylebox_override(
 		"panel", _rounded_panel_style(
-			Color("#e7eaee"), Color("#ffffff"), 1, 11))
+			Color("#242a32") if is_system_record \
+				else Color("#18212b") if is_call_log else Color("#e7eaee"),
+			Color("#59636f") if is_system_record \
+				else Color("#465361") if is_call_log else Color("#ffffff"),
+			1, 5 if is_system_record or is_call_log else 11))
 	box.add_child(bubble)
-	var body_label := _label(body, 11, Color("#252a31"))
+	var body_label := _label(
+		body, 11,
+		COLOR_DIM if is_system_record \
+			else COLOR_TEXT if is_call_log else Color("#252a31"))
 	body_label.max_lines_visible = 1
 	body_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	body_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -2156,11 +2422,12 @@ func _compact_message_row(
 
 func _open_message_thread(
 		title: String, body: String, bundle_id: String,
-		thread_key: String) -> void:
+		thread_key: String, thread_kind: String) -> void:
 	_message_thread_title = title
 	_message_thread_body = body
 	_message_thread_bundle_id = bundle_id
 	_message_thread_key = thread_key
+	_message_thread_kind = thread_kind
 	_screen_mode = "message_thread"
 	_active_app_id = "messages"
 	_rebuild()
@@ -2607,6 +2874,37 @@ func _routine_effect_copy(option: Dictionary) -> String:
 		])
 	return " / ".join(parts)
 
+func _bundle_completed(bundle_id: String) -> bool:
+	var completed: Variant = GameState.core_loop_v2_state.get(
+		"completed_bundles", [])
+	return completed is Array and (completed as Array).has(bundle_id)
+
+func _has_relationship_memory(
+		character_id: String, memory_ids: Array) -> bool:
+	for raw_memory_id in memory_ids:
+		var memory_id := str(raw_memory_id).strip_edges()
+		if memory_id.is_empty():
+			continue
+		if CORE_LOOP.has_relationship_memory(character_id, memory_id) \
+				or bool(GameState.flags.get(memory_id, false)):
+			return true
+	return false
+
+func _daeun_name_known() -> bool:
+	return _has_relationship_memory("daeun", [
+		"daeun_name_exchanged",
+		"daeun_returned_using_her_name",
+		"daeun_returned_to_thank_her",
+		"daeun_names_exchanged_on_return",
+		"daeun_thanks_reopened_conversation",
+	])
+
+func _jiyeon_name_known() -> bool:
+	return _has_relationship_memory("jiyeon", [
+		"jiyeon_name_offered_after_silence",
+		"jiyeon_name_exchanged_after_player_spoke",
+	])
+
 func _character_name(character_id: String) -> String:
 	match character_id:
 		"father":
@@ -2614,9 +2912,15 @@ func _character_name(character_id: String) -> String:
 		"hyunsu":
 			return LocaleManager.ui("현수", "Hyunsu")
 		"daeun":
-			return LocaleManager.ui("김다은", "Kim Daeun")
+			return LocaleManager.ui("김다은", "Kim Daeun") \
+				if _daeun_name_known() else LocaleManager.ui(
+					"24시간 편의점 야간 직원",
+					"24-Hour Store Night Clerk")
 		"jiyeon":
-			return LocaleManager.ui("한지연", "Han Jiyeon")
+			return LocaleManager.ui("한지연", "Han Jiyeon") \
+				if _jiyeon_name_known() else LocaleManager.ui(
+					"검은 세단 운전자",
+					"Black-Sedan Driver")
 		"sangchul":
 			return LocaleManager.ui("임상철", "Im Sangchul")
 		"jaehyuk":
@@ -2632,12 +2936,119 @@ func _relationship_copy(character_id: String) -> String:
 		return LocaleManager.ui(
 			"짧게 통화했다. 서로의 목소리를 듣고 통화를 마쳤다.",
 			"You spoke briefly, heard each other's voices, and ended the call.")
+	if character_id == "hyunsu":
+		if _has_relationship_memory(character_id, [
+			"hyunsu_same_hour_confirmed",
+			"hyunsu_one_problem_each_agreed",
+		]):
+			return LocaleManager.ui(
+				"현수가 먼저 다시 공부하자고 했고, 같은 시간을 함께 쓰기로 했다.",
+				"Hyunsu asked to study again, and you agreed to share the same hour.")
+		if _has_relationship_memory(character_id, [
+			"hyunsu_resume_shared",
+			"hyunsu_problem_set_shared",
+		]):
+			return LocaleManager.ui(
+				"공용 주방에서 만난 현수에게 내가 먼저 카카오톡을 보내 함께 공부할 날을 잡았다.",
+				"I messaged Hyunsu first after meeting in the shared kitchen and set a day to study.")
+		if _has_relationship_memory(character_id, [
+			"hyunsu_honest_uncertainty",
+			"hyunsu_declared_dream",
+		]):
+			return LocaleManager.ui(
+				"공용 주방에서 처음 이야기를 나눴다. 아직 함께할 약속은 없다.",
+				"You first spoke in the shared kitchen. There is no plan together yet.")
+	if character_id == "daeun":
+		if _has_relationship_memory(character_id, [
+			"daeun_returned_using_her_name",
+		]):
+			return LocaleManager.ui(
+				"내가 다시 편의점에 찾아가, 다은의 이름을 불러 말을 걸었다.",
+				"I returned to the store, said Daeun's name, and spoke first.")
+		if _has_relationship_memory(character_id, [
+			"daeun_returned_to_thank_her",
+		]):
+			return LocaleManager.ui(
+				"내가 다시 편의점에 찾아가, 다은에게 지난번 일을 고맙다고 말했다.",
+				"I returned to the store and thanked Daeun for the other night.")
+		if _has_relationship_memory(character_id, [
+			"daeun_names_exchanged_on_return",
+		]):
+			return LocaleManager.ui(
+				"내가 편의점에 다시 찾아가 먼저 인사했고, 이번에는 서로 이름을 알았다.",
+				"I returned to the store, greeted her first, and this time we learned each other's names.")
+		if _has_relationship_memory(character_id, [
+			"daeun_thanks_reopened_conversation",
+		]):
+			return LocaleManager.ui(
+				"내가 편의점에 다시 찾아가, 그날 못 한 고맙다는 말을 먼저 건넸다.",
+				"I returned to the store and began with the thank-you I had left unsaid.")
+		if _has_relationship_memory(character_id, ["daeun_name_exchanged"]):
+			return LocaleManager.ui(
+				"새벽 편의점에서 이름을 들었다. 다시 찾아갈지는 아직 정하지 않았다.",
+				"You learned her name at the store before dawn. You have not decided whether to return.")
+		if _has_relationship_memory(character_id, ["daeun_kept_distance"]):
+			return LocaleManager.ui(
+				"새벽 편의점에서 인사만 나눴다. 이름은 아직 모른다.",
+				"You exchanged only a greeting at the store before dawn. You still do not know her name.")
+	if character_id == "jiyeon":
+		if _has_relationship_memory(character_id, [
+			"jiyeon_name_exchanged_after_player_spoke",
+		]):
+			return LocaleManager.ui(
+				"정류장에서 다시 마주쳤을 때 내가 먼저 사고 이야기를 꺼내 서로 이름을 알았다.",
+				"When we crossed paths again at the bus stop, I brought up the accident first and we learned each other's names.")
+		if _has_relationship_memory(character_id, [
+			"jiyeon_name_offered_after_silence",
+		]):
+			return LocaleManager.ui(
+				"정류장에서 우연히 다시 마주쳤고, 지연이 먼저 자전거 안부와 이름을 건넸다.",
+				"We crossed paths again by chance at the bus stop. Jiyeon asked about the bicycle and gave her name first.")
+		if _has_relationship_memory(character_id, [
+			"jiyeon_walked_away",
+			"jiyeon_repair_cost_taken",
+			"jiyeon_driver_confronted",
+		]):
+			return LocaleManager.ui(
+				"신촌 골목의 사고로 한 번 마주쳤다. 연락처도 이름도 모른다.",
+				"You met once in a Sinchon side-street accident. You know neither her name nor contact details.")
+	if character_id == "sangchul":
+		if _has_relationship_memory(character_id, [
+			"sangchul_spoke_of_father",
+		]):
+			return LocaleManager.ui(
+				"원룸 시세를 묻다 상철을 만났고, 아버지에게 보여드리고 싶은 이유를 말한 뒤 명함을 받았다.",
+				"You met Sangchul while asking about studio rents, told him you wanted to show Father one day, and took his card.")
+		if _has_relationship_memory(character_id, [
+			"sangchul_kept_goal_plain",
+		]):
+			return LocaleManager.ui(
+				"원룸 시세를 묻다 상철을 만났고, 강남이 목표라는 말을 남긴 뒤 명함을 받았다.",
+				"You met Sangchul while asking about studio rents, said Gangnam was the goal, and took his card.")
+		if _has_relationship_memory(character_id, [
+			"sangchul_named_city_pride",
+		]):
+			return LocaleManager.ui(
+				"원룸 시세를 묻다 상철을 만났고, 도시에 지기 싫다는 이유를 말한 뒤 명함을 받았다.",
+				"You met Sangchul while asking about studio rents, said you refused to lose to the city, and took his card.")
+		if GameState.has_item("artifact_sangchul_card"):
+			return LocaleManager.ui(
+				"원룸 시세를 묻다 만났고, 그가 건넨 명함을 가지고 있다.",
+				"You met while asking about studio rents and still have the card he gave you.")
+	if character_id == "jaehyuk":
+		if _has_relationship_memory(character_id, [
+			"jaehyuk_message_welcomed",
+		]):
+			return LocaleManager.ui(
+				"10년 만에 온 재혁의 카카오톡을 반갑게 받아 답장했다.",
+				"You welcomed Jaehyuk's KakaoTalk message after ten years and replied.")
+		if _has_relationship_memory(character_id, [
+			"jaehyuk_message_guarded",
+		]):
+			return LocaleManager.ui(
+				"10년 만에 온 재혁의 카카오톡에 조심스럽게 답장했다.",
+				"You replied cautiously to Jaehyuk's KakaoTalk message after ten years.")
 	var stage := CORE_LOOP.relationship_stage(character_id)
-	var initiated := CORE_LOOP.was_player_initiated(character_id)
-	if initiated:
-		return LocaleManager.ui(
-			"내가 먼저 연락해 한 번 더 만났다.",
-			"You reached out first and met again.")
 	match stage:
 		"met":
 			return LocaleManager.ui(
@@ -2647,6 +3058,10 @@ func _relationship_copy(character_id: String) -> String:
 			return LocaleManager.ui(
 				"한 번 더 말을 걸어도 어색하지 않은 사이다.",
 				"Another conversation would not feel out of place.")
+		"player_reached_out", "shared_commitment":
+			return LocaleManager.ui(
+				"직접 고른 다음 행동이 함께한 일의 기록에 남아 있다.",
+				"The next action you chose is preserved in your shared history.")
 	return LocaleManager.ui(
 		"아직 서로 아는 사이가 아니다.",
 		"You have not entered each other's time yet.")

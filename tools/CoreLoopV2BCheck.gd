@@ -15,7 +15,7 @@ func _ready() -> void:
 	if not GameState.weekly_commitment_finalized.is_connected(action_callback):
 		GameState.weekly_commitment_finalized.connect(action_callback)
 	_check_contract_and_legacy_boundary()
-	_check_twelve_week_boundary_roundtrip()
+	_check_twelve_week_boundary_continuation()
 	_check_month_opening_snapshot()
 	_check_typed_visibility()
 	_check_allowed_weeks_and_exclusive_entry()
@@ -37,14 +37,14 @@ func _ready() -> void:
 	_check_initial_subsidy_once_across_five_years()
 	_check_twelve_week_routine_units()
 	await _check_month_autosave_boundary()
-	await _check_terminal_autosave_boundary()
+	await _check_month_three_autosave_boundary()
 	await _check_action_result_system_overlay()
 	await _check_unfinalized_action_resume()
 	AudioManager.sfx_enabled = original_sfx_enabled
 	if _failures.is_empty():
 		print(
-			"CORE_LOOP_V2_B_CHECK_OK schema=3 cap=12 migration=8_to_12 "
-			+ "terminal=week12/roundtrip prerequisites=typed/closed_safe "
+			"CORE_LOOP_V2_B_CHECK_OK schema=3 cap=16 migration=8_to_16 "
+			+ "continuation=week12_to_13/roundtrip prerequisites=typed/closed_safe "
 			+ "entries=daeun_jiyeon_father_hyunsu exclusive=romance_entry "
 			+ "relationship=from_to/current_turn_receipt/no_regression "
 			+ "memory=reader_variants "
@@ -52,7 +52,7 @@ func _ready() -> void:
 			+ "callback=receipt_superseded/long_preserved "
 			+ "prelude=scheduled_owner/story_action/save_once "
 			+ "action=atomic/save_result_once/all_schema_lazy/rollback "
-			+ "boundary_save=single/month_terminal "
+			+ "boundary_save=single/month3_nonterminal "
 			+ "month_delta=opening_to_close/save_roundtrip "
 			+ "overlay=result_resume pending=minigame_restart "
 			+ "decline=next_matching_once/fallback deadlines=weeks9_12 "
@@ -67,8 +67,8 @@ func _ready() -> void:
 func _check_contract_and_legacy_boundary() -> void:
 	_expect(int(CORE_LOOP.contract().get("schema_version", 0)) == 3,
 		"B runtime contract is not schema 3")
-	_expect(CORE_LOOP.development_cap_week() == 12,
-		"B development cap is not week 12")
+	_expect(CORE_LOOP.development_cap_week() == 16,
+		"B regression did not inherit the week-16 development cap")
 	GameState.start_new_game()
 	GameState.turn = 9
 	GameState.core_loop_v2_state = {
@@ -98,7 +98,7 @@ func _check_contract_and_legacy_boundary() -> void:
 	var migrated: Dictionary = GameState.core_loop_v2_state
 	_expect(int(migrated.get("schema", 0)) == 3 \
 			and int(migrated.get("completed_through_week", 0)) == 8 \
-			and int(migrated.get("development_cap_week", 0)) == 12,
+			and int(migrated.get("development_cap_week", 0)) == 16,
 		"schema-2 completion did not migrate to completed-through week 8")
 	var migrated_relationship_receipt: Variant = (
 		migrated.get("relationship_choice_receipts", {}) as Dictionary
@@ -121,7 +121,7 @@ func _check_contract_and_legacy_boundary() -> void:
 	_expect(CORE_LOOP.is_active(),
 		"migrated A1 save did not continue into week 9")
 	_expect(not CORE_LOOP.is_prototype_complete(),
-		"migrated A1 save was mistaken for a completed 12-week build")
+		"migrated A1 save was mistaken for a completed 16-week build")
 	var saved: Dictionary = GameState.serialize()
 	GameState.start_new_game()
 	GameState.load_from_dict(saved)
@@ -131,7 +131,7 @@ func _check_contract_and_legacy_boundary() -> void:
 				"completed_through_week", 0)) == 8,
 		"week-9 migration did not survive save/load")
 
-func _check_twelve_week_boundary_roundtrip() -> void:
+func _check_twelve_week_boundary_continuation() -> void:
 	_fresh()
 	var state: Dictionary = GameState.core_loop_v2_state
 	state["completed_turns"] = range(1, 13)
@@ -142,24 +142,20 @@ func _check_twelve_week_boundary_roundtrip() -> void:
 		"week 12 was outside the B development window")
 	GameState.turn = 13
 	_expect(not CORE_LOOP.is_prototype_complete(),
-		"week 12 was considered closed before its terminal marker")
-	_expect(CORE_LOOP.mark_prototype_complete(),
-		"turn 13 could not close a completed week-12 build")
-	_expect(CORE_LOOP.is_prototype_complete() and not CORE_LOOP.is_active(),
-		"completed B build did not stop at turn 13")
-	var snapshot := CORE_LOOP.completion_snapshot()
-	_expect(int(snapshot.get("completed_through_week", 0)) == 12 \
-			and int(snapshot.get("development_cap_week", 0)) == 12 \
-			and int(snapshot.get("completed_at_turn", 0)) == 13,
-		"dynamic completion snapshot lost its week-12 boundary")
+		"week 12 was mistaken for the extended build boundary")
+	_expect(not CORE_LOOP.mark_prototype_complete(),
+		"turn 13 incorrectly closed the week-16 development build")
+	_expect(CORE_LOOP.is_active(),
+		"the B slice did not continue into week 13")
 	var saved: Dictionary = GameState.serialize()
 	GameState.start_new_game()
 	GameState.load_from_dict(saved)
 	CORE_LOOP.initialize_for_run()
-	_expect(CORE_LOOP.is_prototype_complete() \
-			and int(GameState.core_loop_v2_state.get(
-				"completed_through_week", 0)) == 12,
-		"week-12 terminal marker did not survive save/load")
+	_expect(not CORE_LOOP.is_prototype_complete() \
+			and CORE_LOOP.is_active() \
+			and (GameState.core_loop_v2_state.get(
+				"completed_turns", []) as Array).has(12),
+		"week-12 continuation did not survive save/load")
 
 func _check_month_opening_snapshot() -> void:
 	_fresh()
@@ -244,7 +240,7 @@ func _check_month_autosave_boundary() -> void:
 	packed = null
 	await get_tree().process_frame
 
-func _check_terminal_autosave_boundary() -> void:
+func _check_month_three_autosave_boundary() -> void:
 	_fresh()
 	var packed := load("res://scenes/MainGame.tscn") as PackedScene
 	_expect(packed != null,
@@ -262,7 +258,7 @@ func _check_terminal_autosave_boundary() -> void:
 	var state: Dictionary = GameState.core_loop_v2_state
 	state["completed_turns"] = range(1, 13)
 	state["completed_through_week"] = 8
-	state["development_cap_week"] = 12
+	state["development_cap_week"] = 16
 	state["prototype_complete"] = false
 	state["prototype_completed_at_turn"] = 0
 	state["completed_at_turn"] = 0
@@ -281,25 +277,25 @@ func _check_terminal_autosave_boundary() -> void:
 	await get_tree().process_frame
 
 	_expect(_captured_boundary_saves.size() == 1,
-		"week-12 rollover wrote an intermediate autosave before its "
-		+ "terminal marker")
+		"week-12 rollover did not write exactly one month-three autosave")
 	if _captured_boundary_saves.size() == 1:
 		var saved_state: Dictionary = _captured_boundary_saves[0]
 		var saved_v2: Dictionary = saved_state.get(
 			"core_loop_v2_state", {})
 		_expect(int(saved_state.get("turn", 0)) == 13 \
-				and int(saved_v2.get("completed_through_week", 0)) == 12 \
-				and bool(saved_v2.get("prototype_complete", false)) \
+				and int(saved_v2.get("completed_through_week", 0)) == 8 \
+				and (saved_v2.get("completed_turns", []) as Array).has(12) \
+				and not bool(saved_v2.get("prototype_complete", true)) \
 				and (saved_v2.get(
 					"month_summaries", {}) as Dictionary).has("3"),
-			"the only week-12 boundary autosave was not a complete terminal "
+			"the week-12 boundary autosave was not a resumable month-three "
 			+ "snapshot")
 	_expect(SaveManager.load_game(SaveManager.AUTOSAVE_SLOT) \
-			and CORE_LOOP.initialize_for_run() \
-			and GameState.turn == 13 \
-			and CORE_LOOP.is_prototype_complete() \
-			and not CORE_LOOP.is_active(),
-		"the durable week-12 boundary did not reload into the terminal recap")
+				and CORE_LOOP.initialize_for_run() \
+				and GameState.turn == 13 \
+				and not CORE_LOOP.is_prototype_complete() \
+				and CORE_LOOP.is_active(),
+			"the durable week-12 boundary did not reload into month four")
 
 	main_game.free()
 	packed = null

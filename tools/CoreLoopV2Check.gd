@@ -35,7 +35,7 @@ func _ready() -> void:
 			+ "forgone=producer_consumer/once delayed=cross_month/one_per_week "
 			+ "relationship=choice_only/monotonic summary=ack/save "
 			+ "followup=restored save=roundtrip "
-			+ "terminal=week12/24w_sticky_recap "
+			+ "boundary=week12_continues/24w_sticky_recap "
 			+ "phone=home5/status/calendar_cancel+secondary/contacts/bank/device_preview/read_only_reopen "
 			+ "planner=1280x720_focus_scroll "
 			+ "en_hangul=0 hidden_scores=0")
@@ -57,10 +57,13 @@ func _check_explicit_activation() -> void:
 	_expect(CORE_LOOP.is_active(),
 		"prototype did not extend its explicit runtime through week 9")
 	GameState.turn = 13
-	_expect(not CORE_LOOP.is_active(),
-		"prototype escaped its week 1-12 boundary")
+	_expect(CORE_LOOP.is_active(),
+		"extended development build did not continue into week 13")
 	_expect(not CORE_LOOP.is_prototype_complete(),
 		"prototype marked an untouched week-thirteen run complete")
+	GameState.turn = 17
+	_expect(not CORE_LOOP.is_active() and not CORE_LOOP.is_prototype_complete(),
+		"untouched build did not stop safely after its week-16 boundary")
 
 func _check_deadline_and_routine_validation() -> void:
 	GameState.start_new_game()
@@ -571,14 +574,12 @@ func _check_prototype_completion_boundary() -> void:
 	GameState.flags["lent_account"] = true
 	GameState.flags["escaped_dirty_money"] = true
 	_expect(not CORE_LOOP.mark_prototype_complete(),
-		"prototype closed before the week-twelve month-end rollover")
+		"prototype closed before the week-sixteen month-end rollover")
 	GameState.turn = 13
-	_expect(CORE_LOOP.mark_prototype_complete(),
-		"prototype could not mark its post-week-twelve terminal state")
-	_expect(CORE_LOOP.is_prototype_complete(),
-		"prototype terminal marker was not readable")
-	_expect(not CORE_LOOP.is_active(),
-		"completed prototype remained active in week thirteen")
+	_expect(not CORE_LOOP.mark_prototype_complete(),
+		"week 13 incorrectly marked the extended build complete")
+	_expect(not CORE_LOOP.is_prototype_complete() and CORE_LOOP.is_active(),
+		"completed B commitments did not continue into month four")
 
 	var snapshot := CORE_LOOP.completion_snapshot()
 	_expect((snapshot.get("kept", []) as Array).size() == 12,
@@ -593,14 +594,25 @@ func _check_prototype_completion_boundary() -> void:
 	var saved: Dictionary = GameState.serialize()
 	GameState.start_new_game()
 	GameState.load_from_dict(saved)
-	_expect(CORE_LOOP.is_prototype_complete(),
-		"prototype terminal marker did not survive save/load")
+	CORE_LOOP.initialize_for_run()
+	_expect(not CORE_LOOP.is_prototype_complete() and CORE_LOOP.is_active(),
+		"week-12 continuation did not survive save/load")
 	_expect(GameState.turn == 13,
-		"prototype terminal save did not remain at the post-week-twelve boundary")
+		"week-12 continuation save did not remain at week 13")
 
 func _check_prototype_completion_surface() -> void:
 	LocaleManager.language = "en"
 	GameState.add_log("Core Loop V2 completion fixture", "system")
+	GameState.turn = 17
+	var completion_state: Dictionary = (
+		GameState.core_loop_v2_state as Dictionary).duplicate(true)
+	completion_state["completed_turns"] = range(1, 17)
+	completion_state["completed_through_week"] = 16
+	completion_state["development_cap_week"] = 16
+	completion_state["prototype_complete"] = true
+	completion_state["prototype_completed_at_turn"] = 17
+	completion_state["completed_at_turn"] = 17
+	GameState.core_loop_v2_state = completion_state
 	var packed := load("res://scenes/MainGame.tscn") as PackedScene
 	_expect(packed != null,
 		"completion recap could not load MainGame.tscn")
@@ -622,13 +634,13 @@ func _check_prototype_completion_surface() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 	_expect(str(main_game._modal_kind) == "core_loop_v2_complete",
-		"post-week-twelve MainGame did not open the completion recap")
+		"post-week-sixteen MainGame did not open the completion recap")
 	_expect(bool(main_game.modal_layer.get_meta(
 			"core_loop_v2_completion", false)),
 		"completion recap did not expose its terminal surface marker")
 	_expect(not main_game.modal_close_button.visible,
 		"completion recap exposed a close path into the legacy director")
-	_expect(GameState.turn == 13,
+	_expect(GameState.turn == 17,
 		"opening the completion recap advanced into another week")
 	var viewport_rect := get_viewport().get_visible_rect()
 	var panel_rect: Rect2 = main_game.modal_panel.get_global_rect()
@@ -729,6 +741,20 @@ func _check_planner_surface() -> void:
 	planner.size = Vector2(1280, 720)
 	planner.open(1)
 	await get_tree().create_timer(0.50).timeout
+	LocaleManager.language = "ko"
+	GameState.player_name = "박서준"
+	var custom_name_ko := planner._phone_message_body(
+		CORE_LOOP.bundle("jaehyuk_world_meet"))
+	LocaleManager.language = "en"
+	GameState.player_name = "Alex Park"
+	var custom_name_en := planner._phone_message_body(
+		CORE_LOOP.bundle("jaehyuk_world_meet"))
+	_expect(custom_name_ko.find("박서준") >= 0 \
+			and custom_name_ko.find("민준") < 0 \
+			and custom_name_en.find("Alex Park") >= 0 \
+			and custom_name_en.find("Minjun") < 0,
+		"received-message preview did not use the saved custom player name")
+	GameState.player_name = LocaleManager.DEFAULT_NAME_EN
 	_expect(planner.visible, "planner did not open")
 	_expect(planner._screen_mode == "home" \
 			and planner._active_app_id.is_empty(),
@@ -741,6 +767,19 @@ func _check_planner_surface() -> void:
 			and planner._app_buttons.has(app_id)
 	_expect(essential_apps_visible,
 		"phone home did not expose exactly the five essential apps")
+	_expect(is_instance_valid(planner._phone_legacy_nav) \
+			and planner._phone_legacy_nav.visible \
+			and planner._phone_legacy_nav.get_child_count() == 3 \
+			and not planner._phone_gesture_bar.visible,
+		"old starter phone did not expose its three-button navigation")
+	planner._open_app("calendar")
+	var legacy_home := planner._phone_legacy_nav.get_child(1) as Button
+	if is_instance_valid(legacy_home):
+		legacy_home.pressed.emit()
+	_expect(is_instance_valid(legacy_home) \
+			and planner._screen_mode == "home" \
+			and planner._active_app_id.is_empty(),
+		"starter phone Home hardware action did not return to the launcher")
 	_expect(planner._status_date_label.text == GameState.get_date_string(),
 		"phone status bar date did not read the live calendar")
 	_expect("LTE" in planner._status_balance_label.text,
@@ -777,6 +816,11 @@ func _check_planner_surface() -> void:
 			and planner._active_app_id == "messages" \
 			and not planner._message_thread_body.is_empty(),
 		"pressing a message did not open its bubble conversation")
+	var editable_thread_text := _collect_surface_text(planner)
+	_expect(editable_thread_text.find("ADD TO CALENDAR") >= 0 \
+			and editable_thread_text.find("CHOOSE A DATE") < 0,
+		"received-message action implied that a fixed appointment "
+		+ "still needed a new date")
 	planner._go_back_one_level()
 	planner._go_back_one_level()
 	_expect(planner._screen_mode == "home",
