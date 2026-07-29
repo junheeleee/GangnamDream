@@ -503,10 +503,11 @@ func _build_ui():
 
 	if OS.is_debug_build():
 		var core_loop_v2_btn := _title_command_button(
-			_tr("Core Loop V2  ·  8주 테스트", "Core Loop V2  ·  Eight-Week Test"), true)
+			_tr("Core Loop V2  ·  12주 테스트",
+				"Core Loop V2  ·  Twelve-Week Test"), true)
 		core_loop_v2_btn.tooltip_text = _tr(
-			"새 월간 약속 구조를 별도 저장 상태로 시작합니다.",
-			"Start the new monthly-commitment prototype in a separate run state.")
+			"현재 열린 1~12주 월간 약속 구조를 별도 저장 상태로 시작합니다.",
+			"Start the currently available Weeks 1–12 monthly-commitment slice in a separate run state.")
 		core_loop_v2_btn.set_meta("core_loop_v2_test_entry", true)
 		core_loop_v2_btn.pressed.connect(_start_core_loop_v2_test_run)
 		menu.add_child(core_loop_v2_btn)

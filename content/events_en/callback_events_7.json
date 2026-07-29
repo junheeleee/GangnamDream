@@ -61,16 +61,16 @@
   },
   {
     "id": "callback_jiyeon_took_money_weight",
-    "title": "The Weight of That Money",
-    "description": "Two months since you took money from Jiyeon.\nToday a call from Jiyeon.\n\"Oppa. That — what I gave you — it's working out, right?\"\nHard to tell if it was a question or a check-in.",
+    "title": "The Front-Wheel Estimate",
+    "description": "The day after the crash, at a neighborhood bicycle shop.\nThe mechanic spun the bent front wheel and said,\n\"Eighty thousand won, including replacement.\"\n\nThe 80,000 won in cash from the day before was still in {name}'s pocket.",
     "choices": [
       {
-        "text": "Tell her honestly where things stand",
-        "result_text": "'Managing it well. I'll give you a full report.'\nJiyeon said 'No report needed. Just results.'\nThis person spoke in outcomes."
+        "text": "Use the 80,000 won to repair it now",
+        "result_text": "{name} handed the mechanic one 50,000 won note and three 10,000 won notes.\nEvery won he had received went into the repair.\n\nThe new front wheel ran straight. {name} rode the bicycle out of the shop."
       },
       {
-        "text": "Just say \"It's going well.\"",
-        "result_text": "Short answer.\nJiyeon said '...Alright.'\nAs long as that money exists, this relationship won't be simple."
+        "text": "Delay the repair and keep the 80,000 won",
+        "result_text": "{name} took only the estimate and wheeled the bent bicycle back outside.\nThe 80,000 won stayed in his pocket, and the front wheel stayed bent.\n\nHe parked the bicycle outside the goshiwon and went in on foot."
       }
     ]
   },

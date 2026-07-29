@@ -121,11 +121,6 @@ CONTRACTS: dict[str, dict[str, Any]] = {
             "넌 진짜 이상한 사람이야",
         ],
     },
-    "callback_jiyeon_took_money_echo": {
-        "file": "callback_events_24.json",
-        "required": ["그거 잘 쓰고 있어요?", '"네"라고 했다'],
-        "forbidden": ["그거 잘 쓰고 있어?", '"응"이라고 했다'],
-    },
     "arc_jiyeon_y5_feelings": {
         "file": "arc_romance_y5.json",
         "required": ["이번 달에 서울 올라와요. 보고 싶으면 연락해요."],

@@ -172,41 +172,45 @@
   },
   {
     "id": "callback_jiyeon_took_money_weight",
-    "title": "그 돈의 무게",
-    "description": "지연에게서 돈을 받은 지 두 달이 됐다.\n오늘 지연에게서 연락이 왔다.\n\"오빠. 그때 드린 거 — 잘 되고 있죠?\"\n질문인지 확인인지 모를 말투였다.",
-    "category": "investment",
+    "title": "앞바퀴 수리 견적",
+    "description": "사고 다음 날, 동네 자전거 수리점.\n정비사가 휘어진 앞바퀴를 돌려 보고 말했다.\n\"교체까지 8만 원입니다.\"\n\n어제 받은 현금 8만 원은 아직 {name}의 주머니에 있었다.",
+    "category": "daily_life",
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
     "conditions": {
-      "flag": "jiyeon_took_money",
+      "flag": "jiyeon_repair_cash_received",
       "min_turn": 8
     },
     "tags": [
       "jiyeon",
       "callback",
-      "investment"
+      "daily_life"
     ],
     "cooldown": 999,
     "choices": [
       {
-        "text": "솔직하게 현황을 말한다",
+        "text": "받은 8만 원으로 바로 수리한다",
         "effects": {
-          "mental": 8,
-          "social_skill": 2
+          "money": -80000,
+          "mental": 2
         },
-        "flags": [],
+        "flags": [
+          "bicycle_repaired_with_jiyeon_cash"
+        ],
         "follow_up_event": "",
-        "result_text": "\"잘 운용하고 있어요. 보고 드릴게요.\"\n지연이 \"보고는 됐고요. 결과만요.\" 했다.\n이 사람은 결과로 말하는 사람이었다."
+        "result_text": "{name}은 5만 원짜리 한 장과 1만 원짜리 세 장을 정비사에게 건넸다.\n받은 돈은 남김없이 수리비로 나갔다.\n\n새 앞바퀴는 흔들리지 않았다. {name}은 자전거를 타고 수리점을 나섰다."
       },
       {
-        "text": "\"잘 되고 있어요\"라고만 한다",
+        "text": "수리를 미루고 8만 원을 남긴다",
         "effects": {
-          "mental": -5
+          "mental": -2
         },
-        "flags": [],
+        "flags": [
+          "bicycle_repair_deferred"
+        ],
         "follow_up_event": "",
-        "result_text": "짧게 답했다.\n지연이 \"...알겠어요\"라고 했다.\n그 돈이 있는 한 이 사람과의 관계는 간단하지 않을 것이다."
+        "result_text": "{name}은 견적서만 받아 들고 휘어진 자전거를 다시 끌고 나왔다.\n현금 8만 원은 주머니에 남았고, 앞바퀴도 그대로였다.\n\n고시원 앞에 자전거를 세워 두고 걸어서 들어갔다."
       }
     ]
   },

@@ -76,16 +76,16 @@
   },
   {
     "id": "callback_jiyeon_took_money_echo",
-    "title": "After Taking Money from Jiyeon",
-    "description": "Two months since you took money from Jiyeon.\nThe money had helped.\nToday Jiyeon reached out.",
+    "title": "The Front Wheel Left Bent",
+    "description": "The bicycle parked outside the goshiwon still had a bent front wheel.\nThe repair shop's 80,000 won estimate had not changed either.\n\nThe 80,000 won in cash from the crash was still in {name}'s wallet.",
     "choices": [
       {
-        "text": "Answer",
-        "result_text": "You picked up.\nJiyeon asked, \"Are you making good use of it?\"\n\"Yes,\" you said."
+        "text": "Pay 80,000 won and repair the front wheel",
+        "result_text": "{name} wheeled the bicycle he had left unrepaired back to the shop.\nHe paid 80,000 won, and the mechanic replaced the bent front wheel.\n\nOn the way back, the bicycle no longer pulled to one side."
       },
       {
-        "text": "Say you'll pay it back",
-        "result_text": "You said you'd pay it back.\nJiyeon went quiet for a moment."
+        "text": "Leave the bicycle and use public transit",
+        "result_text": "{name} left the bent bicycle parked outside the goshiwon.\nHe kept the 80,000 won in his wallet.\n\nThat day too, he walked to the bus stop and tapped his transit card to board."
       }
     ]
   },

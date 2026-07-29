@@ -38,6 +38,8 @@
     "customer",
     "clerk",
     "cyclist",
+    "passenger",
+    "pedestrian",
     "driver",
     "employee",
     "supervisor",
@@ -127,7 +129,8 @@
       "story_last_payment_exit->story_prologue_dad",
       "story_prologue_dad->story_prologue_goal",
       "story_prologue_goal->story_prologue_meal",
-      "story_prologue_meal->story_pressure"
+      "story_prologue_meal->story_pressure",
+      "v2_hyunsu_player_reachout->v2_hyunsu_first_study"
     ]
   },
   "transition_contracts": {
@@ -199,6 +202,13 @@
       "to_location": "goshiwon_room",
       "arrival_cue_ko": "보름이 지났다",
       "arrival_cue_en": "Two weeks in"
+    },
+    "v2_hyunsu_player_reachout->v2_hyunsu_first_study": {
+      "mode": "time_cut",
+      "from_location": "goshiwon_room",
+      "to_location": "goshiwon_shared_kitchen",
+      "arrival_cue_ko": "다음 날 저녁 여덟 시, 공용 주방",
+      "arrival_cue_en": "The next evening at eight, in the shared kitchen"
     },
     "arc_intro_01_meal->arc_intro_02_dad_call": {
       "mode": "time_cut",
@@ -500,6 +510,56 @@
     }
   },
   "events": {
+    "v2_mirae_result_message": {
+      "presentation": {
+        "channel": "message",
+        "state": "received",
+        "scene_location": "goshiwon_room",
+        "remote_location": "mirae_office",
+        "remote_actor": "mirae_recruiting",
+        "portrait_role": "none",
+        "nameplate_role": "hidden",
+        "expected_background": "goshiwon_room",
+        "expected_ambience": "goshiwon_hallway"
+      }
+    },
+    "v2_seorin_result_message": {
+      "presentation": {
+        "channel": "message",
+        "state": "received",
+        "scene_location": "goshiwon_room",
+        "remote_location": "seorin_office",
+        "remote_actor": "seorin_recruiting",
+        "portrait_role": "none",
+        "nameplate_role": "hidden",
+        "expected_background": "goshiwon_room",
+        "expected_ambience": "goshiwon_hallway"
+      }
+    },
+    "v2_hyunsu_player_reachout": {
+      "presentation": {
+        "channel": "message",
+        "state": "received",
+        "scene_location": "goshiwon_room",
+        "remote_location": "goshiwon_next_room",
+        "remote_actor": "hyunsu",
+        "portrait_role": "none",
+        "nameplate_role": "hidden",
+        "expected_background": "goshiwon_room",
+        "expected_ambience": "goshiwon_hallway"
+      }
+    },
+    "v2_hyunsu_first_study": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "goshiwon_shared_kitchen",
+        "participants": ["player", "hyunsu"],
+        "portrait_role": "present",
+        "expected_background": "goshiwon_shared_kitchen",
+        "expected_portrait": "hyunsu",
+        "expected_ambience": "goshiwon_hallway"
+      }
+    },
     "story_knee_witness": {
       "presentation": {
         "channel": "in_person",
@@ -520,6 +580,29 @@
         "expected_portrait": "father_past"
       }
     },
+    "v2_hyunsu_study_followup": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "goshiwon_shared_kitchen",
+        "participants": ["player", "hyunsu"],
+        "portrait_role": "present",
+        "expected_background": "goshiwon_shared_kitchen",
+        "expected_portrait": "hyunsu",
+        "expected_ambience": "goshiwon_hallway"
+      }
+    },
+    "arc_intro_04_hyunsu": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "goshiwon_hallway",
+        "participants": ["player", "hyunsu"],
+        "portrait_role": "present",
+        "nameplate_role": "auto",
+        "expected_background": "goshiwon_hallway",
+        "expected_portrait": "hyunsu",
+        "expected_ambience": "goshiwon_hallway"
+      }
+    },
     "arc_daeun_01_meet": {
       "presentation": {
         "channel": "in_person",
@@ -530,6 +613,7 @@
           "daeun": "clerk"
         },
         "portrait_role": "present",
+        "nameplate_role": "hidden",
         "expected_background": "convenience_night",
         "expected_portrait": "daeun_smile",
         "expected_ambience": "convenience"
@@ -545,6 +629,7 @@
           "jiyeon": "driver"
         },
         "portrait_role": "present",
+        "nameplate_role": "hidden",
         "expected_background": "street_rainy",
         "expected_portrait": "jiyeon_normal",
         "expected_ambience": "rain"
@@ -553,13 +638,14 @@
     "arc_jiyeon_02_store": {
       "presentation": {
         "channel": "in_person",
-        "scene_location": "street_rainy",
+        "scene_location": "sinchon_bus_stop",
         "participants": ["player", "jiyeon"],
         "participant_roles": {
-          "player": "customer",
+          "player": "pedestrian",
           "jiyeon": "driver"
         },
         "portrait_role": "present",
+        "nameplate_role": "hidden",
         "expected_background": "street_rainy",
         "expected_portrait": "jiyeon_normal",
         "expected_ambience": "rain"

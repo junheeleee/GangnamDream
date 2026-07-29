@@ -196,16 +196,16 @@
   },
   {
     "id": "callback_escaped_dirty_money_echo",
-    "title": "After Refusing Dirty Money",
-    "description": "Two months since you walked away from big money and turned down a dirty deal.\nYou still missed that money sometimes.\nToday you heard how that deal turned out.",
+    "title": "After Getting Out of Dirty Money",
+    "description": "After you returned the 1.5 million won remaining from the 2 million won payment and got out of the dirty deal, the 500,000 won you could not return and the larger payout you walked away from sometimes came back together.\nToday you heard how that deal turned out.",
     "choices": [
       {
         "text": "Find out what happened",
-        "result_text": "It blew up.\nIf you'd taken that money, you'd have gone down with it.\nYou were right to say no."
+        "result_text": "The operation eventually blew up.\nIf you had gone any deeper, you would have gone down with it.\nReturning 1.5 million won and getting out had been late, but necessary."
       },
       {
         "text": "Still feel the regret",
-        "result_text": "Maybe it wouldn't have blown up.\nYou still felt the sting.\nBut you'd already said no."
+        "result_text": "Even after hearing it had blown up, you first calculated what the larger payout would have been.\nThe 1.5 million won you returned and the imagined profit you lost remained on the same ledger for a while."
       }
     ]
   }

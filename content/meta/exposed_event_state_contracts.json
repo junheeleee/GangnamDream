@@ -726,6 +726,7 @@
       "relationship"
     ],
     "arc_jiyeon_02_store": [
+      "housing",
       "location",
       "relationship"
     ],
@@ -1257,9 +1258,11 @@
       "location"
     ],
     "cafe_bluff_01": [
+      "housing",
       "location"
     ],
     "cafe_bluff_caught": [
+      "housing",
       "location"
     ],
     "cafe_bluff_recover": [

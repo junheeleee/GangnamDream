@@ -1415,6 +1415,33 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		return
 	await _save(prefix + "08_month_two_messages", 0.15)
 	planner.close()
+	if not _seed_core_loop_v2_month_three_density(core_loop):
+		_fail("Core Loop V2 month-three density fixture could not be prepared.")
+		return
+	planner.open(3)
+	await get_tree().process_frame
+	if core_loop.available_offer_ids(3).size() != 7 \
+			or planner._offer_buttons.size() != 7:
+		_fail("Core Loop V2 month three did not expose its seven eligible opportunities.")
+		return
+	_assert_core_loop_v2_planner_bounds(planner, "month-three seven-offer calendar")
+	if _qa_failed:
+		return
+	await _save(prefix + "09_month_three_calendar", 0.15)
+	planner._switch_tab(0)
+	await get_tree().process_frame
+	var month_three_message_grid: Node = null
+	if planner._read_only_surface.get_child_count() > 1:
+		month_three_message_grid = planner._read_only_surface.get_child(1)
+	if not month_three_message_grid is GridContainer \
+			or (month_three_message_grid as GridContainer).get_child_count() != 10:
+		_fail("Core Loop V2 month-three message surface did not render 7 offers plus 3 due receipts.")
+		return
+	_assert_core_loop_v2_planner_bounds(planner, "month-three ten-message surface")
+	if _qa_failed:
+		return
+	await _save(prefix + "10_month_three_messages", 0.15)
+	planner.close()
 	var month_fixture := {
 		"month": 1,
 		"before": {
@@ -1448,12 +1475,18 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	if not month_viewport.encloses(_mg.modal_panel.get_global_rect()):
 		_fail("Core Loop V2 month-end notebook exceeds %s." % month_viewport)
 		return
-	await _save(prefix + "09_month_end_notebook", 0.15)
+	await _save(prefix + "11_month_end_notebook", 0.15)
 	_mg._close_modal(false)
 	await _dispose_main_game()
 
 	if not _seed_core_loop_v2_completion_fixture(core_loop):
-		_fail("Core Loop V2 screenshot fixture could not reach its eight-week boundary.")
+		_fail("Core Loop V2 screenshot fixture could not reach its twelve-week boundary.")
+		return
+	var completion_snapshot: Dictionary = core_loop.completion_snapshot()
+	if GameState.turn != 13 \
+			or int(completion_snapshot.get("completed_through_week", 0)) != 12 \
+			or (completion_snapshot.get("month_summaries", {}) as Dictionary).size() != 3:
+		_fail("Core Loop V2 completion fixture lost turn 13, week 12, or its three month records.")
 		return
 	await _boot_main_game()
 	_mg._core_loop_v2_show_completion()
@@ -1478,10 +1511,76 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		_fail("Core Loop V2 recap CTA did not own initial focus.")
 		return
 	if _mg.modal_scroll.vertical_scroll_mode \
-			!= ScrollContainer.SCROLL_MODE_DISABLED:
-		_fail("Core Loop V2 recap unexpectedly requires scrolling at 720p.")
+			!= ScrollContainer.SCROLL_MODE_AUTO \
+			or _mg.modal_scroll.scroll_vertical != 0 \
+			or not _mg.modal_footer.visible:
+		_fail("Core Loop V2 recap did not open at the top with a sticky CTA.")
 		return
-	await _save(prefix + "10_eight_week_recap", 0.15)
+	var recap_text := _collect_control_text(_mg.modal_layer)
+	var expected_boundary := LocaleManager.ui(
+		"1~%d주 데모 완료 · %d주차는 이 버전에서 시작되지 않는다.",
+		"WEEKS 1–%d COMPLETE · WEEK %d DOES NOT BEGIN IN THIS DEMO.") % [
+			12, 13,
+		]
+	if expected_boundary not in recap_text:
+		_fail("Core Loop V2 recap does not expose the dynamic week-12 boundary.")
+		return
+	await _save(prefix + "12_twelve_week_recap", 0.15)
+	await _dispose_main_game()
+
+	await _boot_main_game()
+	_mg.set_meta(
+		"_qa_core_loop_v2_completion_snapshot",
+		_core_loop_v2_dense_completion_snapshot(core_loop))
+	_mg.set_meta("_qa_core_loop_v2_completion_cap_week", 24)
+	_mg._core_loop_v2_show_completion()
+	await _settle(0.35)
+	var dense_done: Button = _find_visible_meta_button(
+		_mg.modal_layer, "core_loop_v2_recap_done")
+	var dense_intro := _find_meta_control(
+		_mg.modal_layer, "core_loop_v2_recap_intro")
+	var dense_scroll_rect: Rect2 = _mg.modal_scroll.get_global_rect()
+	if not is_instance_valid(dense_done) \
+			or not recap_viewport.encloses(dense_done.get_global_rect()) \
+			or not is_instance_valid(dense_intro) \
+			or not dense_scroll_rect.grow(4.0).encloses(
+				dense_intro.get_global_rect()) \
+			or _mg.modal_scroll.scroll_vertical != 0 \
+			or _mg.modal_body.get_combined_minimum_size().y \
+				<= _mg.modal_scroll.size.y:
+		_fail("24-week recap did not keep its title at the top, CTA fixed, and body scrollable.")
+		return
+	var dense_boundary := LocaleManager.ui(
+		"1~%d주 데모 완료 · %d주차는 이 버전에서 시작되지 않는다.",
+		"WEEKS 1–%d COMPLETE · WEEK %d DOES NOT BEGIN IN THIS DEMO.") % [
+			24, 25,
+		]
+	if dense_boundary not in _collect_control_text(_mg.modal_layer):
+		_fail("24-week recap density fixture lost its week-25 boundary.")
+		return
+	await _save(prefix + "13_twenty_four_week_recap", 0.15)
+	await _dispose_main_game()
+
+	_seed_core_loop_v2_legacy_eight_week_save(core_loop)
+	await _boot_main_game()
+	# ScreenshotQA boots MainGame in static-surface mode to prevent scene swaps,
+	# so exercise the normal post-story Core Loop route explicitly.
+	_mg._core_loop_v2_route_week()
+	await _settle(0.35)
+	planner = _mg._core_loop_planner
+	if not is_instance_valid(planner) or not planner.visible \
+			or int(planner._month_index) != 3:
+		_fail("A legacy completed week-eight save did not continue into the month-three planner.")
+		return
+	if core_loop.is_prototype_complete() \
+			or int(GameState.core_loop_v2_state.get(
+				"completed_through_week", 0)) != 8:
+		_fail("Legacy week-eight migration was mistaken for the current week-twelve boundary.")
+		return
+	_assert_core_loop_v2_planner_bounds(planner, "legacy save month-three continuation")
+	if _qa_failed:
+		return
+	await _save(prefix + "14_legacy_week_eight_continues", 0.15)
 	await _dispose_main_game()
 
 	GameState.start_new_game()
@@ -1509,13 +1608,113 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		return
 	await _dispose_main_game()
 
+func _seed_core_loop_v2_month_three_density(core_loop: Variant) -> bool:
+	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	var completed: Array = state.get("completed_bundles", [])
+	var completed_turns: Dictionary = state.get("completed_bundle_turns", {})
+	for spec in [
+		["m1_convenience_trial_shift", 1],
+		["father_first_call", 2],
+		["hyunsu_first_meet", 3],
+		["hyunsu_player_reachout", 6],
+		["m2_rain_delivery_shift", 7],
+	]:
+		var bundle_id := str(spec[0])
+		if not completed.has(bundle_id):
+			completed.append(bundle_id)
+		completed_turns[bundle_id] = int(spec[1])
+	state["completed_bundles"] = completed
+	state["completed_bundle_turns"] = completed_turns
+	var plans: Dictionary = state.get("plans", {})
+	plans["2"] = {
+		"schedule": {},
+		"selected": [],
+		"routines": {"primary": "livelihood", "secondary": "recovery"},
+		"forgone": [],
+		"planned_turn": 5,
+	}
+	state["plans"] = plans
+	var stages: Dictionary = state.get("relationship_stages", {})
+	stages["father"] = "opening"
+	stages["hyunsu"] = "player_reached_out"
+	state["relationship_stages"] = stages
+	var initiated: Array = state.get("player_initiated", [])
+	if not initiated.has("hyunsu"):
+		initiated.append("hyunsu")
+	state["player_initiated"] = initiated
+	var receipts: Array = []
+	for raw_receipt in state.get("decline_receipts", []):
+		if raw_receipt is Dictionary \
+				and int((raw_receipt as Dictionary).get("visible_month", 0)) != 3:
+			receipts.append((raw_receipt as Dictionary).duplicate(true))
+	for outcome_id in [
+		"seorin_posting_expires",
+		"rain_shift_passes",
+		"mock_interview_window_closes",
+	]:
+		var receipt: Dictionary = core_loop.decline_outcome(outcome_id)
+		if receipt.is_empty():
+			return false
+		receipt["visible_month"] = 3
+		receipts.append(receipt)
+	state["decline_receipts"] = receipts
+	state["active_bundle"] = ""
+	state["active_kind"] = ""
+	state["active_turn"] = 0
+	state["action_result_ready"] = false
+	GameState.core_loop_v2_state = state
+	GameState.turn = 9
+	GameState.week_of_month = 1
+	core_loop.initialize_for_run(true)
+	return core_loop.available_offer_ids(3).size() == 7 \
+		and core_loop.decline_receipts_for_month(3).size() == 3
+
+func _seed_core_loop_v2_action_completion(
+		core_loop: Variant, bundle_id: String) -> bool:
+	var scene_bundle: Dictionary = core_loop.bundle(bundle_id)
+	var action_id := str(scene_bundle.get("action_id", ""))
+	if action_id.is_empty():
+		return false
+	GameState.action_points = maxi(1, GameState.max_action_points)
+	if not GameState.arm_weekly_commitment({
+		"turn": GameState.turn,
+		"pressure_id": bundle_id,
+		"pressure_family": str(scene_bundle.get("kind", "routine")),
+		"choice_id": action_id,
+		"forgone_ids": [],
+	}):
+		return false
+	if not GameState.spend_ap():
+		return false
+	var config: Dictionary = (
+		(scene_bundle.get("action_config", {}) as Dictionary).duplicate(true)
+		if scene_bundle.get("action_config", {}) is Dictionary else {}
+	)
+	var details: Dictionary = {}
+	var execution := str(config.get("execution", ""))
+	if not execution.is_empty():
+		details["execution"] = execution
+	if execution == "application":
+		details["application_id"] = str(config.get("application_id", ""))
+		details["job_id"] = str(config.get("job_id", ""))
+		details["status"] = str(config.get("status", "submitted"))
+	elif config.get("effects", {}) is Dictionary:
+		details["effects"] = (
+			config.get("effects", {}) as Dictionary).duplicate(true)
+	if not GameState.finalize_weekly_commitment(action_id, "", details):
+		return false
+	var action_record := GameState.get_weekly_commitment_for_turn(GameState.turn)
+	return not action_record.is_empty() \
+		and core_loop.note_action_commitment(action_record) \
+		and core_loop.complete_active_bundle() == bundle_id
+
 func _seed_core_loop_v2_completion_fixture(core_loop: Variant) -> bool:
 	GameState.start_new_game()
 	GameState.flags["prologue_done"] = true
 	core_loop.initialize_for_run(true)
 	var schedules := [
 		{
-			"1": "m1_mirae_application",
+			"1": "m1_convenience_trial_shift",
 			"2": "father_first_call",
 			"3": "hyunsu_first_meet",
 			"4": "first_temptation_boss",
@@ -1526,25 +1725,51 @@ func _seed_core_loop_v2_completion_fixture(core_loop: Variant) -> bool:
 			"7": "m2_rain_delivery_shift",
 			"8": "m2_sleep_debt_sunday",
 		},
+		{
+			"9": "m3_hanbit_application",
+			"10": "m3_inventory_shift",
+			"11": "m3_empty_saturday",
+			"12": "daeun_world_meet",
+		},
 	]
-	for month_index in range(1, 3):
+	for month_index in range(1, 4):
 		GameState.turn = 1 + ((month_index - 1) * 4)
 		if not bool(core_loop.commit_plan(
 				month_index, schedules[month_index - 1]).get("ok", false)):
 			return false
 		for week in range(GameState.turn, GameState.turn + 4):
 			GameState.turn = week
+			GameState.week_of_month = posmod(week - 1, 4) + 1
 			var bundle_id: String = core_loop.bundle_id_for_turn()
 			if bundle_id.is_empty() \
 					or not core_loop.begin_bundle(bundle_id, "schedule"):
 				return false
-			if bundle_id == "father_first_call":
-				core_loop.note_story_choice("arc_father_01_call", 0)
-			elif bundle_id == "hyunsu_first_meet":
-				core_loop.note_story_choice("arc_intro_04_hyunsu", 0)
-			elif bundle_id == "hyunsu_player_reachout":
-				core_loop.note_story_choice("v2_hyunsu_player_reachout", 0)
-			core_loop.complete_active_bundle()
+			var scene_bundle: Dictionary = core_loop.bundle(bundle_id)
+			if not str(scene_bundle.get("action_id", "")).is_empty():
+				if not _seed_core_loop_v2_action_completion(
+						core_loop, bundle_id):
+					return false
+			else:
+				if bundle_id == "father_first_call":
+					if not core_loop.note_story_choice(
+							"arc_father_01_call", 0):
+						return false
+				elif bundle_id == "hyunsu_first_meet":
+					if not core_loop.note_story_choice(
+							"arc_intro_04_hyunsu", 0):
+						return false
+				elif bundle_id == "hyunsu_player_reachout":
+					if not core_loop.note_story_choice(
+							"v2_hyunsu_player_reachout", 0):
+						return false
+				elif bundle_id == "daeun_world_meet":
+					if not core_loop.note_story_choice(
+							"arc_daeun_01_meet", 0):
+						return false
+				if core_loop.complete_active_bundle() != bundle_id:
+					return false
+		GameState.turn = month_index * 4 + 1
+		GameState.week_of_month = 1
 		core_loop.process_due_decline_outcomes(month_index)
 		var fixture_snapshot := {
 			"money": GameState.money,
@@ -1555,15 +1780,107 @@ func _seed_core_loop_v2_completion_fixture(core_loop: Variant) -> bool:
 		}
 		core_loop.record_month_summary(
 			month_index, fixture_snapshot, fixture_snapshot)
-		if month_index == 1:
-			core_loop.acknowledge_month_summary(1)
+		if month_index < 3:
+			core_loop.acknowledge_month_summary(month_index)
 	GameState.flags["lent_account"] = true
 	GameState.flags["escaped_dirty_money"] = true
 	GameState.money = 780_000.0
 	GameState.health = 61
 	GameState.mental = 47
-	GameState.turn = 9
+	GameState.turn = 13
+	GameState.week_of_month = 1
 	return core_loop.mark_prototype_complete()
+
+func _core_loop_v2_dense_completion_snapshot(
+		core_loop: Variant) -> Dictionary:
+	var snapshot: Dictionary = core_loop.completion_snapshot()
+	var bundle_ids: Array = (
+		core_loop.contract().get("scene_bundles", {}) as Dictionary
+	).keys()
+	bundle_ids.sort()
+	if bundle_ids.is_empty():
+		return snapshot
+	var kept: Array = []
+	var forgone: Array = []
+	for index in range(24):
+		kept.append({
+			"week": index + 1,
+			"bundle_id": str(bundle_ids[index % bundle_ids.size()]),
+		})
+		forgone.append({
+			"week": index + 1,
+			"bundle_id": str(bundle_ids[
+				(index + 24) % bundle_ids.size()]),
+		})
+	snapshot["kept"] = kept
+	snapshot["forgone"] = forgone
+	var summaries: Dictionary = (
+		snapshot.get("month_summaries", {}) as Dictionary
+	).duplicate(true)
+	summaries["6"] = {
+		"month": 6,
+		"fixed_expense": 650_000.0,
+		"cash_shortfall": 310_000.0,
+	}
+	snapshot["month_summaries"] = summaries
+	return snapshot
+
+func _seed_core_loop_v2_legacy_eight_week_save(core_loop: Variant) -> void:
+	GameState.start_new_game()
+	GameState.flags["prologue_done"] = true
+	GameState.add_log("Legacy Core Loop V2 QA", "system")
+	var month_one_schedule := {
+		"1": "m1_convenience_trial_shift",
+		"2": "father_first_call",
+		"3": "hyunsu_first_meet",
+		"4": "first_temptation_boss",
+	}
+	var month_two_schedule := {
+		"5": "hyunsu_player_reachout",
+		"6": "m2_seorin_application",
+		"7": "m2_rain_delivery_shift",
+		"8": "m2_sleep_debt_sunday",
+	}
+	var completed_bundles: Array = (
+		month_one_schedule.values() + month_two_schedule.values())
+	var completed_turns: Dictionary = {}
+	for raw_week in month_one_schedule:
+		completed_turns[str(month_one_schedule[raw_week])] = int(raw_week)
+	for raw_week in month_two_schedule:
+		completed_turns[str(month_two_schedule[raw_week])] = int(raw_week)
+	GameState.core_loop_v2_state = {
+		"schema": 2,
+		"enabled": true,
+		"prototype_complete": true,
+		"prototype_completed_at_turn": 9,
+		"plans": {
+			"1": {
+				"schedule": month_one_schedule,
+				"routines": {
+					"primary": "livelihood", "secondary": "recovery"},
+			},
+			"2": {
+				"schedule": month_two_schedule,
+				"routines": {
+					"primary": "livelihood", "secondary": "recovery"},
+			},
+		},
+		"completed_turns": [1, 2, 3, 4, 5, 6, 7, 8],
+		"completed_bundles": completed_bundles,
+		"completed_bundle_turns": completed_turns,
+		"month_summaries": {
+			"1": {"month": 1, "acknowledged": true},
+			"2": {"month": 2, "acknowledged": true},
+		},
+		"relationship_stages": {
+			"father": "opening",
+			"hyunsu": "player_reached_out",
+		},
+		"player_initiated": ["hyunsu"],
+	}
+	GameState.turn = 9
+	GameState.week_of_month = 1
+	core_loop.initialize_for_run(true)
 
 func _assert_core_loop_v2_debug_entry(lang: String) -> void:
 	_seed_start_menu_meta_progress()
@@ -1585,6 +1902,13 @@ func _assert_core_loop_v2_debug_entry(lang: String) -> void:
 			break
 	if not is_instance_valid(test_button) or not test_button.visible:
 		_fail("DEBUG title menu does not expose the Core Loop V2 test entry.")
+		return
+	var expected_test_label := LocaleManager.ui(
+		"Core Loop V2  ·  12주 테스트",
+		"Core Loop V2  ·  Twelve-Week Test")
+	if test_button.text != expected_test_label:
+		_fail("DEBUG Core Loop V2 entry does not name the twelve-week slice: %s." % [
+			test_button.text])
 		return
 	if test_button.focus_mode != Control.FOCUS_ALL:
 		_fail("Core Loop V2 test entry is not keyboard/controller focusable.")
@@ -4884,6 +5208,15 @@ func _find_visible_meta_button(root: Node, meta_key: String) -> Button:
 		return null
 	for child in root.get_children():
 		var found := _find_visible_meta_button(child, meta_key)
+		if found != null:
+			return found
+	return null
+
+func _find_meta_control(root: Node, meta_key: String) -> Control:
+	if root is Control and root.has_meta(meta_key):
+		return root as Control
+	for child in root.get_children():
+		var found := _find_meta_control(child, meta_key)
 		if found != null:
 			return found
 	return null

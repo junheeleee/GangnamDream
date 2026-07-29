@@ -168,40 +168,37 @@
   },
   {
     "id": "callback_jiyeon_took_money_echo",
-    "title": "지연의 돈을 받았던 뒤",
-    "description": "지연에게서 돈을 받은 지 두 달.\n그 돈은 도움이 됐다.\n오늘 지연이 연락을 해왔다.",
+    "title": "미뤄 둔 앞바퀴",
+    "description": "고시원 앞에 세워 둔 자전거의 앞바퀴는 아직 휘어 있었다.\n수리점에서 받은 견적서에도 수리비 8만 원이 적혀 있었다.\n\n사고 때 받은 현금 8만 원은 아직 {name}의 지갑에 있었다.",
     "conditions": {
-      "flag": "jiyeon_took_money",
+      "flag": "bicycle_repair_deferred",
       "min_turn": 8
     },
     "choices": [
       {
-        "text": "받다",
-        "result_text": "받았다.\n지연이 \"그거 잘 쓰고 있어요?\"라고 물었다.\n\"네\"라고 했다.",
+        "text": "8만 원을 내고 앞바퀴를 수리한다",
+        "result_text": "{name}은 미뤄 둔 자전거를 수리점까지 끌고 갔다.\n현금 8만 원을 내자 정비사가 휘어진 앞바퀴를 새것으로 갈았다.\n\n돌아오는 길에는 자전거가 한쪽으로 쏠리지 않았다.",
         "effects": {
+          "money": -80000,
           "mental": 2
         },
-        "cast_effects": {
-          "jiyeon": {
-            "affinity": 2
-          }
-        }
+        "flags": [
+          "bicycle_repaired_after_delay"
+        ]
       },
       {
-        "text": "갚겠다고 하다",
-        "result_text": "\"갚겠다\"고 했다.\n지연이 잠시 침묵했다.",
+        "text": "자전거를 두고 대중교통을 이용한다",
+        "result_text": "{name}은 휘어진 자전거를 고시원 앞에 그대로 두었다.\n현금 8만 원은 지갑에 남겼다.\n\n그날도 정류장까지 걸어가 교통카드를 찍고 버스에 올랐다.",
         "effects": {
-          "mental": 3
+          "mental": -1
         },
-        "cast_effects": {
-          "jiyeon": {
-            "affinity": 4
-          }
-        }
+        "flags": [
+          "bicycle_left_unrepaired"
+        ]
       }
     ],
     "cooldown": 999,
-    "category": "relationship"
+    "category": "daily_life"
   },
   {
     "id": "callback_daeun_chose_her_echo",

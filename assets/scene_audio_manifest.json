@@ -1,5 +1,5 @@
 {
-  "version": 12,
+  "version": 13,
   "updated": "2026-07-29",
   "policy": {
     "diegetic_spoken_language": "ko",
@@ -164,7 +164,8 @@
           "story_first_paycheck_feel", "story_first_savings_milestone", "story_flashforward", "story_knee_choice",
           "story_knee_door", "story_knee_witness", "story_last_payment_exit", "story_last_payment_wait",
           "story_last_payment_word", "story_pressure", "story_prologue_dad", "story_prologue_goal",
-          "story_prologue_meal", "story_six_months", "v2_hyunsu_player_reachout", "yolo_morning_after"
+          "story_prologue_meal", "story_six_months", "v2_mirae_result_message", "v2_seorin_result_message",
+          "v2_hyunsu_player_reachout", "v2_hyunsu_first_study", "v2_hyunsu_study_followup", "yolo_morning_after"
         ],
     "cg_contract": [
           "arc_date_park_daeun", "arc_season_cherry_daeun", "arc_season_cherry_jiyeon", "arc_season_snow_daeun",
@@ -801,16 +802,50 @@
         ]
       }
     },
+    "v2_mirae_result_message": {
+      "ambience": "goshiwon_hallway",
+      "paragraph_cues": {
+        "0": [
+          {"sfx": "phone_notification", "volume_db": -7.0}
+        ]
+      }
+    },
+    "v2_seorin_result_message": {
+      "ambience": "goshiwon_hallway",
+      "paragraph_cues": {
+        "0": [
+          {"sfx": "phone_notification", "volume_db": -7.0}
+        ]
+      }
+    },
     "v2_hyunsu_player_reachout": {
       "ambience": "goshiwon_hallway",
-      "music": {"key": "hyunsu", "start_paragraph": 3},
+      "music": {"key": "hyunsu", "start_paragraph": 2},
       "paragraph_cues": {
         "2": [
           {"sfx": "phone_notification", "volume_db": -7.0}
-        ],
-        "4": [
+        ]
+      }
+    },
+    "v2_hyunsu_first_study": {
+      "ambience": "goshiwon_hallway",
+      "music": {"key": "hyunsu", "start_paragraph": 0},
+      "paragraph_cues": {
+        "1": [
           {"sfx": "kettle_pour", "volume_db": -5.0},
           {"sfx": "cup_set", "delay": 1.25, "volume_db": -7.0}
+        ]
+      }
+    },
+    "v2_hyunsu_study_followup": {
+      "ambience": "goshiwon_hallway",
+      "music": {"key": "hyunsu", "start_paragraph": 1},
+      "paragraph_cues": {
+        "0": [
+          {"sfx": "cup_set", "volume_db": -7.0}
+        ],
+        "2": [
+          {"sfx": "page_turn", "volume_db": -8.0}
         ]
       }
     },

@@ -74,6 +74,10 @@ func _check_story_mode_cg() -> void:
 		"goshiwon_room",
 		"goshiwon_room",
 		"goshiwon_room",
+	])
+	await _check_story_event_paragraph_backgrounds("v2_hyunsu_first_study", [
+		"goshiwon_shared_kitchen",
+		"goshiwon_shared_kitchen",
 		"goshiwon_shared_kitchen",
 	])
 	await _check_story_choice_result_visual(
@@ -92,7 +96,8 @@ func _check_story_mode_cg() -> void:
 			"arc_jiyeon_wedding_night_choice", 0, "jiyeon_newlywed_home",
 			"cg_romance_wedding_morning_jiyeon", 1)
 	await _check_story_event_portrait_reveal("arc_jiyeon_narrow_room_1", "jiyeon_narrow_door", 2)
-	await _check_story_event_portrait_reveal("v2_hyunsu_player_reachout", "hyunsu", 4)
+	await _check_story_event_initial_portrait("v2_hyunsu_player_reachout", "")
+	await _check_story_event_initial_portrait("v2_hyunsu_first_study", "hyunsu")
 	await _check_story_event_prelude_visual(
 		"arc_season_snow_daeun", "convenience_first_snow_exterior", "daeun_first_snow")
 	await _check_story_event_prelude_visual(
@@ -195,6 +200,43 @@ func _advance_story_to_source_paragraph(
 			max_advances,
 		])
 	return false
+
+func _check_story_event_initial_portrait(event_id: String, portrait_id: String) -> void:
+	GameState.pending_story_queue = [event_id]
+	var story_scene := load("res://scenes/StoryMode.tscn") as PackedScene
+	var story: Node = story_scene.instantiate()
+	add_child(story)
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	var portrait_frame := story.get("_portrait_frame") as Control
+	var name_panel := story.get("_name_panel") as Control
+	if portrait_id.is_empty():
+		if portrait_frame != null and portrait_frame.visible:
+			_failures.append("StoryMode should hide portrait for remote event %s" % event_id)
+		if name_panel != null and name_panel.visible:
+			_failures.append("StoryMode should hide speaker name for remote event %s" % event_id)
+	else:
+		var expected_path := ImageRegistry.get_portrait(portrait_id)
+		var portrait := story.get("_portrait") as TextureRect
+		if expected_path.is_empty():
+			_failures.append("missing %s" % portrait_id)
+		elif portrait_frame == null or not portrait_frame.visible:
+			_failures.append("StoryMode should show %s portrait when %s begins" % [
+				portrait_id,
+				event_id,
+			])
+		elif portrait == null or portrait.texture == null \
+				or portrait.texture.resource_path != expected_path:
+			_failures.append("StoryMode %s initial portrait mismatch" % event_id)
+		if name_panel == null or not name_panel.visible:
+			_failures.append("StoryMode should show %s name when %s begins" % [
+				portrait_id,
+				event_id,
+			])
+
+	remove_child(story)
+	story.queue_free()
 
 func _check_story_event_portrait_reveal(event_id: String, portrait_id: String, reveal_paragraph: int) -> void:
 	var expected_path := ImageRegistry.get_portrait(portrait_id)

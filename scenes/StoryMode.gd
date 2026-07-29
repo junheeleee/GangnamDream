@@ -1681,7 +1681,8 @@ func _restore_story_result(context: Dictionary) -> void:
 	var choice: Dictionary = choices[choice_index]
 	_pending_result_choice_index = choice_index
 	_pending_follow_up = str(context.get(
-		"pending_follow_up", _choice_follow_up_id(choice)))
+		"pending_follow_up", _choice_follow_up_id(
+			choice, str(_current.get("id", "")), choice_index)))
 	_pending_after_result = true
 	_showing_choices = false
 	_choice_box.visible = false
@@ -2323,6 +2324,26 @@ func _known_flag_condition_matches(condition_key: String) -> bool:
 			return false
 	return true
 
+func _story_memory_condition_matches(condition_key: String) -> bool:
+	for raw_condition in condition_key.split("&", false):
+		var condition := str(raw_condition).strip_edges()
+		if condition.begins_with("relationship_memory:"):
+			var receipt_id := condition.trim_prefix(
+				"relationship_memory:")
+			var separator := receipt_id.find(":")
+			if separator <= 0 or separator >= receipt_id.length() - 1:
+				return false
+			var character_id := receipt_id.substr(0, separator).strip_edges()
+			var memory_id := receipt_id.substr(separator + 1).strip_edges()
+			if character_id.is_empty() or memory_id.is_empty() \
+					or not DEMO_CORE_LOOP_V2.has_relationship_memory(
+						character_id, memory_id):
+				return false
+		elif condition.is_empty() \
+				or not GameState.flags.get(condition, false):
+			return false
+	return true
+
 func _resolved_story_description(event: Dictionary) -> String:
 	var desc_raw: String = str(event.get("description", ""))
 	var ortho: int = int(GameState.route_orthodox)
@@ -2359,7 +2380,7 @@ func _resolved_story_description(event: Dictionary) -> String:
 	var memory_map = event.get("description_memory_if_known", null)
 	if memory_map is Dictionary:
 		for condition_key in memory_map.keys():
-			if _known_flag_condition_matches(str(condition_key)):
+			if _story_memory_condition_matches(str(condition_key)):
 				var memory_text := str(memory_map[condition_key]).strip_edges()
 				if not memory_text.is_empty():
 					desc_raw += "\n\n" + memory_text
@@ -3860,8 +3881,15 @@ func _visible_choice_indices(event: Dictionary) -> Array[int]:
 			visible.append(i)
 	return visible
 
-func _choice_follow_up_id(choice: Dictionary) -> String:
-	return str(choice.get("follow_up_event", ""))
+func _choice_follow_up_id(
+		choice: Dictionary, event_id: String = "",
+		choice_index: int = -1) -> String:
+	var follow_up_id := str(choice.get("follow_up_event", ""))
+	if DEMO_CORE_LOOP_V2.is_active() \
+			and DEMO_CORE_LOOP_V2.story_follow_up_is_suppressed(
+				event_id, choice_index, follow_up_id):
+		return ""
+	return follow_up_id
 
 func _make_choice_button(text: String, idx: int, display_num: int = -1) -> Button:
 	var btn = Button.new()
@@ -3995,7 +4023,8 @@ func _on_choice(idx: int):
 	_pulse_story_choice_commit()
 
 	# follow_up_event를 직접 읽어 큐에 이어붙임 (StoryMode는 자체 큐 사용)
-	_pending_follow_up = _choice_follow_up_id(choice)
+	_pending_follow_up = _choice_follow_up_id(
+		choice, current_event_id, idx)
 	var result: String = _fmt(str(choice.get("result_text", "")))
 	var has_result_record: bool = not _read_only_replay \
 		and result != "" and _story_choice_has_visible_result(choice)

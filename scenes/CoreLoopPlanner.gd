@@ -212,7 +212,7 @@ func _build_ui() -> void:
 	offers_column.add_theme_constant_override("separation", 8)
 	_calendar_surface.add_child(offers_column)
 	offers_column.add_child(_section_title(
-		LocaleManager.ui("도착한 제안", "INCOMING OPPORTUNITIES")))
+		LocaleManager.ui("이번 달 선택지", "THIS MONTH'S OPTIONS")))
 	_offer_list = VBoxContainer.new()
 	_offer_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_offer_list.add_theme_constant_override("separation", 7)
@@ -262,14 +262,14 @@ func _rebuild() -> void:
 		"MONTH %d · %s" % [_month_index, str(_month_data.get("title_en", ""))])
 	if _review_pending:
 		_month_label.text = LocaleManager.ui(
-			"일정과 닫히는 제안의 이름을 읽은 뒤, 이번 달을 확정한다.",
-			"Read the schedule and the opportunities that will close before confirming.")
+			"이번 달에 할 일과 하지 않을 일을 확인한 뒤 계획을 확정한다.",
+			"Review what you will and will not do this month, then confirm the plan.")
 	else:
 		_month_label.text = LocaleManager.ui(
-			"메시지를 읽고, 이번 달에 지킬 네 약속을 정한다.",
-			"Read what arrived, then decide which four commitments you will keep.")
+			"이번 달 소식과 기회를 살펴보고, 네 주에 무엇을 할지 정한다.",
+			"Review this month's updates and opportunities, then decide what to do each week.")
 	var tab_names := [
-		LocaleManager.ui("메시지", "MESSAGES"),
+		LocaleManager.ui("소식·기회", "UPDATES"),
 		LocaleManager.ui("일정", "CALENDAR"),
 		LocaleManager.ui("인연", "PEOPLE"),
 		LocaleManager.ui("기록", "RECORD"),
@@ -368,12 +368,12 @@ func _refresh_calendar() -> void:
 	var selected_offer := CORE_LOOP.bundle(_selected_offer_id)
 	if selected_offer.is_empty():
 		_detail_label.text = LocaleManager.ui(
-			"제안을 고르면 약속의 장소와 기한, 놓쳤을 때 닫히는 문을 확인할 수 있다.",
-			"Choose an opportunity to see its place, deadline, and what closes if you pass.")
+			"제안을 고르면 장소와 기한, 고르지 않았을 때 달라지는 일을 볼 수 있다.",
+			"Choose an option to see its place, deadline, and what changes if you pass.")
 	else:
 		_detail_label.text = "%s\n%s: %s" % [
 			_localized(selected_offer, "detail"),
-			LocaleManager.ui("놓치면", "IF MISSED"),
+			LocaleManager.ui("고르지 않으면", "IF NOT CHOSEN"),
 			_localized(selected_offer, "decline"),
 		]
 	_refresh_footer()
@@ -390,7 +390,7 @@ func _rebuild_read_only_surface() -> void:
 
 func _build_messages_surface() -> void:
 	_read_only_surface.add_child(_section_title(LocaleManager.ui(
-		"이번 달에 도착한 것", "WHAT ARRIVED THIS MONTH")))
+		"이번 달 소식과 기회", "UPDATES AND OPTIONS THIS MONTH")))
 	var grid := GridContainer.new()
 	grid.columns = 2
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -405,7 +405,7 @@ func _build_messages_surface() -> void:
 		var producer: Dictionary = CORE_LOOP.bundle(
 			str(record.get("producer_bundle", "")))
 		grid.add_child(_compact_message_row(
-			LocaleManager.ui("닫힌 문 · ", "CLOSED · ")
+			LocaleManager.ui("고르지 않은 일 · ", "NOT CHOSEN · ")
 				+ _localized(producer, "offer"),
 			str(record.get(
 				"message_en" if LocaleManager.is_english() else "message_ko", ""))))
@@ -417,40 +417,46 @@ func _build_messages_surface() -> void:
 
 func _build_people_surface() -> void:
 	_read_only_surface.add_child(_section_title(LocaleManager.ui(
-		"지나온 관계", "RELATIONSHIPS SO FAR")))
+		"지금까지 만난 사람", "PEOPLE MET SO FAR")))
 	var seen: Array[String] = []
-	for bundle_id in CORE_LOOP.available_offer_ids(_month_index):
-		for raw_character in CORE_LOOP.bundle(bundle_id).get("characters", []):
-			var character_id := str(raw_character)
-			if seen.has(character_id) \
-					or (character_id != "father" \
-						and CORE_LOOP.relationship_stage(character_id) == "unmet"):
+	var raw_stages: Variant = GameState.core_loop_v2_state.get(
+		"relationship_stages", {})
+	if raw_stages is Dictionary:
+		for raw_character in (raw_stages as Dictionary).keys():
+			var character_id := str(raw_character).strip_edges()
+			var stage := str((raw_stages as Dictionary).get(
+				raw_character, "unmet"))
+			if character_id.is_empty() or stage == "unmet" \
+					or seen.has(character_id):
 				continue
 			seen.append(character_id)
-			_read_only_surface.add_child(_read_only_row(
-				_character_name(character_id),
-				_relationship_copy(character_id)))
+	for character_id in seen:
+		_read_only_surface.add_child(_read_only_row(
+			_character_name(character_id),
+			_relationship_copy(character_id)))
 	if seen.is_empty():
 		_read_only_surface.add_child(_read_only_row(
-			LocaleManager.ui("아직 이름 붙은 인연이 없다", "No named connection yet"),
 			LocaleManager.ui(
-				"첫 만남은 우연일 수 있다. 그다음 연락은 저절로 이어지지 않는다.",
-				"A first meeting can be chance. The next contact will not happen by itself.")))
+				"아직 기록된 연락이나 만남이 없다",
+				"No calls or meetings recorded yet"),
+			LocaleManager.ui(
+				"통화하거나 새 사람을 만나면 다음 달에도 이곳에 남는다.",
+				"Calls and new meetings remain here in later months.")))
 
 func _build_record_surface() -> void:
 	var section_heading := LocaleManager.ui(
-		"확정 전 확인", "BEFORE YOU COMMIT") if _review_pending else LocaleManager.ui(
-		"이번 달에 남길 기록", "THIS MONTH'S RECORD")
+		"계획 확인", "REVIEW PLAN") if _review_pending else LocaleManager.ui(
+		"이번 달 계획", "THIS MONTH'S PLAN")
 	_read_only_surface.add_child(_section_title(section_heading))
 	_build_routine_surface()
 	var scheduled_lines := _scheduled_commitment_lines()
 	_read_only_surface.add_child(_read_only_row(
-		LocaleManager.ui("지킬 네 약속", "FOUR COMMITMENTS TO KEEP"),
+		LocaleManager.ui("네 주에 할 일", "WHAT YOU WILL DO"),
 		"\n".join(scheduled_lines),
 		118))
 	var unchosen_lines := _unchosen_offer_lines()
 	_read_only_surface.add_child(_read_only_row(
-		LocaleManager.ui("이번 달에 닫히는 제안", "OPPORTUNITIES THAT WILL CLOSE"),
+		LocaleManager.ui("이번 달에 고르지 않은 일", "NOT CHOSEN THIS MONTH"),
 		"\n".join(unchosen_lines),
 		104))
 
@@ -472,8 +478,8 @@ func _build_routine_surface() -> void:
 	box.add_theme_constant_override("separation", 6)
 	margin.add_child(box)
 	var title := LocaleManager.ui(
-		"매주 뒤에서 계속할 두 루틴",
-		"TWO ROUTINES TO KEEP EACH WEEK")
+		"이번 달에 매주 계속할 두 가지",
+		"TWO THINGS TO KEEP UP EACH WEEK")
 	box.add_child(_label(title, 14, COLOR_TEXT, true))
 	var options := CORE_LOOP.routine_options()
 	for slot in ["primary", "secondary"]:
@@ -481,8 +487,8 @@ func _build_routine_surface() -> void:
 		row.add_theme_constant_override("separation", 6)
 		box.add_child(row)
 		var slot_label := _label(
-			LocaleManager.ui("주 루틴", "PRIMARY")
-				if slot == "primary" else LocaleManager.ui("보조", "SECONDARY"),
+			LocaleManager.ui("주로 할 일", "PRIMARY")
+				if slot == "primary" else LocaleManager.ui("보조로 할 일", "SECONDARY"),
 			12, COLOR_DIM, true)
 		slot_label.custom_minimum_size = Vector2(86, 34)
 		slot_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -505,8 +511,8 @@ func _build_routine_surface() -> void:
 			_routine_buttons[key] = button
 			var selected := str(_routines.get(slot, "")) == str(routine_id)
 			button.text = ("%s%s" % [
-				LocaleManager.ui("선택 · ", "SET · ") if selected else "",
 				_localized(option, "label"),
+				LocaleManager.ui(" (선택됨)", " (SET)") if selected else "",
 			])
 			_apply_button_style(button, false, selected)
 	var selected_details: Array[String] = []
@@ -683,14 +689,15 @@ func _refresh_footer() -> void:
 			]
 		return
 	_confirm_button.text = LocaleManager.ui(
-		"이번 달 선택을 확인한다",
+		"이번 달 계획을 확인한다",
 		"Review This Month's Plan")
 	var missed_count := maxi(
 		CORE_LOOP.available_offer_ids(_month_index).size()
 			- _selected_offer_count(), 0)
 	_status_label.text = LocaleManager.ui(
-		"네 주를 모두 정하면, 고르지 않은 %d개의 제안은 이번 달에 닫힌다." % missed_count,
-		"Fill all four weeks. %d unchosen opportunities will close this month." % missed_count)
+		"네 주를 모두 정하면, 남은 제안 {count}개는 이번 달에 고르지 않는다.",
+		"Fill all four weeks. You will pass on {count} other options this month."
+	).format({"count": missed_count})
 	_hint_label.text = LocaleManager.ui(
 		"방향키 이동 · %s 배치 · %s 배치 취소 · %s/%s 탭" % [
 			ControllerHints.south(),
@@ -709,23 +716,27 @@ func _plan_error_text(validation: Dictionary) -> String:
 	match str(validation.get("error", "")):
 		"deadline_missed":
 			return LocaleManager.ui(
-				"이 제안은 그 주까지 기다리지 않는다. 기한 안의 주차로 옮겨야 한다.",
-				"That opportunity will not wait for that week. Move it inside its deadline.")
+				"그 주에는 이미 기한이 지났다. 더 이른 주로 옮겨야 한다.",
+				"The deadline has already passed by that week. Move it earlier.")
 		"choose_two_routines":
 			return LocaleManager.ui(
-				"이번 달에 이어 갈 주 루틴과 보조 루틴을 고른다.",
-				"Choose a primary and secondary routine for this month.")
+				"이번 달에 매주 계속할 두 가지를 고른다.",
+				"Choose two things to keep up each week this month.")
 		"routines_must_be_distinct":
 			return LocaleManager.ui(
-				"서로 다른 두 루틴을 골라야 한다.",
-				"Choose two different routines.")
+				"서로 다른 두 가지를 골라야 한다.",
+				"Choose two different things.")
 		"job_requires_primary_livelihood":
 			return LocaleManager.ui(
-				"취업 중에는 본업이 주 루틴을 차지한다.",
-				"While employed, the job occupies the primary routine.")
+				"취업 중에는 본업을 매주 해야 한다.",
+				"While employed, your job must remain a weekly activity.")
+		"exclusive_group":
+			return LocaleManager.ui(
+				"서로 겹치는 두 만남은 같은 달에 함께 고를 수 없다.",
+				"These two meetings cannot both be chosen in the same month.")
 	return LocaleManager.ui(
-		"네 주의 약속과 두 루틴을 모두 정해야 한다.",
-		"Fill all four weeks and choose both routines.")
+		"네 주에 할 일과 매주 계속할 두 가지를 모두 정해야 한다.",
+		"Fill all four weeks and choose both weekly activities.")
 
 func _begin_commit_review() -> void:
 	_review_pending = true
@@ -772,8 +783,8 @@ func _unchosen_offer_lines() -> Array[String]:
 		lines.append("• %s" % _localized(CORE_LOOP.bundle(bundle_id), "offer"))
 	if lines.is_empty():
 		lines.append(LocaleManager.ui(
-			"이번 달에 닫히는 제안 없음",
-			"No opportunities will close this month"))
+			"이번 달에 고르지 않은 일 없음",
+			"Nothing is left unchosen this month"))
 	return lines
 
 func _selected_offer_count() -> int:
@@ -830,8 +841,8 @@ func _routine_effect_copy(option: Dictionary) -> String:
 		effects = branch as Dictionary if branch is Dictionary else {}
 	var labels := {
 		"money": LocaleManager.ui("현금", "Cash"),
-		"health": LocaleManager.ui("몸", "Body"),
-		"mental": LocaleManager.ui("마음", "Mind"),
+		"health": LocaleManager.ui("건강", "Health"),
+		"mental": LocaleManager.ui("정신력", "Mental"),
 		"intelligence": LocaleManager.ui("지력", "Skill"),
 		"work_performance": LocaleManager.ui("업무", "Work"),
 	}
@@ -868,26 +879,30 @@ func _character_name(character_id: String) -> String:
 
 func _relationship_copy(character_id: String) -> String:
 	if character_id == "father":
+		if CORE_LOOP.relationship_stage(character_id) == "unmet":
+			return LocaleManager.ui(
+				"연락처는 저장돼 있다. 이번 달에는 아직 통화하지 않았다.",
+				"His number is saved. You have not spoken this month.")
 		return LocaleManager.ui(
-			"짧은 통화 뒤에, 서로 묻지 못한 말이 남아 있다.",
-			"After each brief call, something neither of you asks remains.")
+			"짧게 통화했다. 서로의 목소리를 듣고 통화를 마쳤다.",
+			"You spoke briefly, heard each other's voices, and ended the call.")
 	var stage := CORE_LOOP.relationship_stage(character_id)
 	var initiated := CORE_LOOP.was_player_initiated(character_id)
 	if initiated:
 		return LocaleManager.ui(
-			"내가 먼저 연락했고, 그 뒤의 시간이 기록되어 있다.",
-			"You reached out first, and what followed is recorded.")
+			"내가 먼저 연락해 한 번 더 만났다.",
+			"You reached out first and met again.")
 	match stage:
 		"met":
 			return LocaleManager.ui(
-				"한 번 마주쳤다. 다음 만남은 아직 약속되지 않았다.",
+				"한 번 마주쳤다. 다시 만날 약속은 없다.",
 				"You met once. Nothing has promised a second meeting.")
 		"opening":
 			return LocaleManager.ui(
-				"다시 말을 걸 수 있는 작은 틈이 남아 있다.",
-				"A small opening remains for another conversation.")
+				"한 번 더 말을 걸어도 어색하지 않은 사이다.",
+				"Another conversation would not feel out of place.")
 	return LocaleManager.ui(
-		"아직 서로의 시간에 들어오지 않았다.",
+		"아직 서로 아는 사이가 아니다.",
 		"You have not entered each other's time yet.")
 
 func _section_title(text: String) -> Label:

@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "status": "runtime_prototype",
   "runtime_default": false,
   "fallback": "event_director_v1",
@@ -8,9 +8,62 @@
     "max_week": 24,
     "months": 6,
     "weeks_per_month": 4,
-    "prototype_weeks": [1, 8],
-    "target_play_minutes": [75, 120],
+    "development_cap_week": 12,
+    "prototype_weeks": [1, 12],
+    "target_play_minutes": [75, 95],
     "target_major_scenes": [18, 22]
+  },
+  "long_arc_contract": {
+    "demo_role": "chapter_one_first_half",
+    "chapter_one_end_week": 48,
+    "full_run_end_week": 240,
+    "year_count": 5,
+    "demo_may_open_but_not_resolve": [
+      "father_health",
+      "hyunsu_exam",
+      "romance",
+      "money_mentor_truth",
+      "employment"
+    ],
+    "canonical_reentry": {
+      "unselected_romance_entry": {
+        "not_before_week": 25,
+        "not_after_week": 40,
+        "policy": "deferred_not_erased"
+      },
+      "unselected_money_mentor_entry": {
+        "not_before_week": 25,
+        "not_after_week": 44,
+        "policy": "deferred_not_erased"
+      }
+    },
+    "chapter_one_boss_window": [45, 48],
+    "week_24_is_midyear_boss": true
+  },
+  "future_application_contracts": {
+    "m4_hanbit_interview": {
+      "producer_bundle": "m3_hanbit_application",
+      "application_id": "hanbit_ops_2026q1",
+      "from": "submitted",
+      "to": "interviewed",
+      "owner_month": 4,
+      "allowed_weeks": [13, 14, 15, 16],
+      "activation_cap_week": 16,
+      "runtime_surface": "deferred"
+    }
+  },
+  "deferred_callback_contracts": {
+    "callback_escaped_dirty_trace": {
+      "producer_bundle": "temptation_consequence",
+      "producer_event": "arc_temptation_fallout",
+      "producer_choices": [0],
+      "scheduled_week": 8,
+      "delay_weeks": 16,
+      "due_week": 24,
+      "final_owner_bundle": "demo_collision",
+      "consume_phase": "before_owner_scene",
+      "activation_cap_week": 24
+    }
   },
   "surface": {
     "primary": "phone_calendar",
@@ -55,8 +108,8 @@
         "axis": "money",
         "label_ko": "성장",
         "label_en": "Growth",
-        "description_ko": "매주 공부 시간을 지켜 다음 지원과 면접에서 꺼낼 실력을 쌓는다.",
-        "description_en": "Protect weekly study time and build skills for the next application or interview.",
+        "description_ko": "매주 공부 시간을 지켜 다음 지원서와 면접에 필요한 실력을 쌓는다.",
+        "description_en": "Protect weekly study time and build the skills needed for the next application and interview.",
         "weekly_effects": {
           "intelligence": 1,
           "mental": -1
@@ -66,8 +119,8 @@
         "axis": "human",
         "label_ko": "회복",
         "label_en": "Recovery",
-        "description_ko": "매주 잠과 식사를 먼저 챙겨 몸과 마음이 다음 약속까지 버티게 한다.",
-        "description_en": "Protect weekly sleep and meals so body and mind can carry the next commitment.",
+        "description_ko": "매주 잠과 식사를 먼저 챙겨 건강과 정신력을 회복한다.",
+        "description_en": "Protect weekly sleep and meals to recover health and mental strength.",
         "weekly_effects": {
           "health": 1,
           "mental": 3
@@ -112,29 +165,29 @@
       "producer_bundle": "m1_mirae_application",
       "consumer_kind": "next_month_message",
       "visible_month": 2,
-      "message_ko": "미래산업기술 공고가 닫혔다. 같은 자리는 이번 달 돌아오지 않는다.",
-      "message_en": "Mirae's opening closed; the same seat will not return this month."
+      "message_ko": "미래산업기술 지원 마감일이 지났다. 이번 달에는 같은 자리에 지원할 수 없다.",
+      "message_en": "Mirae's deadline passed; the same role is no longer accepting applications this month."
     },
     "cash_buffer_does_not_grow": {
       "producer_bundle": "m1_convenience_trial_shift",
       "consumer_kind": "next_month_message",
       "visible_month": 2,
-      "message_ko": "목요일 대타는 다른 사람에게 갔다. 월세 통장은 비어 있다.",
-      "message_en": "Someone else took Thursday's shift; the rent buffer stayed empty."
+      "message_ko": "목요일 대타는 다른 사람이 맡았다. 그날 받을 수 있었던 돈은 벌지 못했다.",
+      "message_en": "Someone else covered Thursday's shift; that night's pay was not earned."
     },
     "preparation_window_moves_on": {
       "producer_bundle": "m1_youth_center_resume_clinic",
       "consumer_kind": "next_month_message",
       "visible_month": 2,
-      "message_ko": "무료 첨삭 자리가 닫혔다. 다음 예약은 한 달 뒤다.",
-      "message_en": "The free resume review closed; the next booking is a month away."
+      "message_ko": "다음에 지원할 때까지 자기소개서 문장은 고쳐지지 않았다.",
+      "message_en": "The cover-letter answers remained unrevised until the next application."
     },
     "strain_carries_into_next_commitment": {
       "producer_bundle": "m1_phone_off_sunday",
       "consumer_kind": "next_month_message",
       "visible_month": 2,
-      "message_ko": "쉬지 못한 피로가 두 번째 달 첫 약속까지 따라왔다.",
-      "message_en": "Missed rest followed him into the first commitment of month two.",
+      "message_ko": "일요일에도 쉬지 못해, 두 번째 달 첫 일정을 시작할 때 몸이 무거웠다.",
+      "message_en": "After missing Sunday rest, he began the first activity of Month Two still exhausted.",
       "effects": {
         "health": -2,
         "mental": -2
@@ -165,29 +218,29 @@
       "producer_bundle": "m2_seorin_application",
       "consumer_kind": "terminal_recap",
       "visible_month": 2,
-      "message_ko": "서린물산 채용 창구가 닫혔다. 보내지 않은 지원서는 남지 않았다.",
-      "message_en": "Seorin's hiring window closed; the unsent application left no trace."
+      "message_ko": "서린물산 지원 마감일이 지났다. 지원서를 보내지 않았다.",
+      "message_en": "Seorin's application deadline passed; no application was sent."
     },
     "rain_shift_passes": {
       "producer_bundle": "m2_rain_delivery_shift",
       "consumer_kind": "terminal_recap",
       "visible_month": 2,
-      "message_ko": "비가 그치며 할증 배달도 끝났다. 그날 몫의 현금은 돌아오지 않는다.",
-      "message_en": "The rain and surge shift ended; that evening's cash is gone."
+      "message_ko": "비가 그쳤고 할증 배달도 끝났다. 그날 받을 수 있었던 수입은 벌지 못했다.",
+      "message_en": "The rain stopped and surge pay ended; that evening's income was not earned."
     },
     "mock_interview_window_closes": {
       "producer_bundle": "m2_youth_center_mock_interview",
       "consumer_kind": "terminal_recap",
       "visible_month": 2,
-      "message_ko": "마지막 모의면접 자리는 다른 사람에게 갔다. 연습 창구가 닫혔다.",
-      "message_en": "Someone else took the last mock interview; the practice window closed."
+      "message_ko": "마지막 모의면접 자리는 다른 사람이 예약했다. 이번 달에는 더 신청할 수 없다.",
+      "message_en": "Someone else booked the last mock interview; there are no more sessions this month."
     },
     "sleep_debt_rolls_forward": {
       "producer_bundle": "m2_sleep_debt_sunday",
       "consumer_kind": "terminal_recap",
       "visible_month": 2,
-      "message_ko": "갚지 못한 잠이 여덟 번째 주 뒤에도 몸에 남았다.",
-      "message_en": "Sleep debt remained in his body after week eight.",
+      "message_ko": "8주가 끝난 뒤에도 수면 부족으로 몸이 무거웠다.",
+      "message_en": "Even after Week Eight, lack of sleep left him exhausted.",
       "effects": {
         "health": -2,
         "mental": -2
@@ -197,47 +250,189 @@
       "producer_bundle": "hyunsu_player_reachout",
       "consumer_kind": "terminal_recap",
       "visible_month": 2,
-      "message_ko": "메시지가 없는 사이 현수는 혼자 공부했다. 열린 틈은 식었다.",
-      "message_en": "Without a message, Hyunsu studied alone and the opening cooled."
+      "message_ko": "먼저 연락하지 않는 동안 현수는 혼자 공부했다. 함께 공부하자는 말은 나오지 않았다.",
+      "message_en": "While you did not reach out, Hyunsu studied alone. Neither of you suggested studying together."
     },
     "the_overheard_property_lead_disappears": {
       "producer_bundle": "cafe_world_glimpse",
       "consumer_kind": "terminal_recap",
       "visible_month": 2,
-      "message_ko": "창가의 매물 이야기는 그날 저녁과 함께 사라졌다.",
-      "message_en": "The property lead by the window vanished with that evening."
+      "message_ko": "그날 카페에 가지 않아, 정장 남자의 통화도 테이블 위 서류도 보지 못했다.",
+      "message_en": "He did not go to the café that evening, so he never heard the suited man's call or saw the papers on his table."
     },
     "the_comparison_pressure_goes_unexamined": {
       "producer_bundle": "sns_pressure_night",
       "consumer_kind": "terminal_recap",
       "visible_month": 2,
-      "message_ko": "이름 붙이지 않은 비교 압박이 밤마다 화면을 다시 켰다.",
-      "message_en": "Unnamed comparison pressure kept relighting the screen at night.",
+      "message_ko": "남들과 비교하는 생각 때문에 밤마다 다시 휴대폰을 켰다.",
+      "message_en": "Comparing himself with others made him turn the phone on again each night.",
       "effects": {
         "mental": -1
       }
+    },
+    "hanbit_posting_expires": {
+      "producer_bundle": "m3_hanbit_application",
+      "consumer_kind": "next_month_message",
+      "visible_month": 4,
+      "message_ko": "한빛유통 운영지원 지원 마감일이 지났다. 지원서를 보내지 않았다.",
+      "message_en": "The Hanbit Distribution operations-support deadline passed; no application was sent."
+    },
+    "inventory_shift_is_filled": {
+      "producer_bundle": "m3_inventory_shift",
+      "consumer_kind": "next_month_message",
+      "visible_month": 4,
+      "message_ko": "다른 팀이 재고표를 제출했다. 36만원을 받을 야간 재고조사는 끝났다.",
+      "message_en": "Another team submitted the inventory sheet; the KRW 360,000 overnight count is over."
+    },
+    "strain_carries_into_romance_entry": {
+      "producer_bundle": "m3_empty_saturday",
+      "consumer_kind": "next_matching_bundle",
+      "visible_month": 3,
+      "target_kinds": ["encounter", "pursuit"],
+      "message_ko": "토요일에도 쉬지 못해, 다음 사람을 만날 때까지 피로가 남았다.",
+      "message_en": "After missing Saturday rest, the fatigue remained through his next meeting.",
+      "effects": {
+        "health": -2,
+        "mental": -2
+      },
+      "fallback": {
+        "consumer_kind": "closing_month",
+        "visible_month": 3
+      }
+    },
+    "the_room_ledger_waits": {
+      "producer_bundle": "m3_room_ledger",
+      "consumer_kind": "next_month_message",
+      "visible_month": 4,
+      "message_ko": "영수증과 빨래는 그대로 쌓였다. 정리하지 않은 지출도 그대로 남았다.",
+      "message_en": "Receipts and laundry kept piling up; the unreviewed expenses remained as well."
+    },
+    "the_library_board_changes": {
+      "producer_bundle": "m3_library_job_board",
+      "consumer_kind": "next_month_message",
+      "visible_month": 4,
+      "message_ko": "구립도서관 취업 게시판이 새 종이로 바뀌었다. 지난달의 작은 공고들은 내려갔다.",
+      "message_en": "The district library replaced its job-board sheets; last month's small notices came down."
+    },
+    "another_sunday_passes_without_the_real_question": {
+      "producer_bundle": "father_quiet_call",
+      "consumer_kind": "next_month_message",
+      "visible_month": 4,
+      "message_ko": "아버지에게 다시 전화하지 않은 채 일요일이 하나 더 지났다. 통화목록의 아버지 이름은 아래로 밀렸다.",
+      "message_en": "Another Sunday passed without calling Father back, and his name slipped down the call log."
+    },
+    "hyunsu_does_not_confirm_the_next_study_hour": {
+      "producer_bundle": "hyunsu_study_followup",
+      "consumer_kind": "next_month_message",
+      "visible_month": 4,
+      "message_ko": "현수의 제안을 받지 않았다. 공용 주방의 빈 탁자는 다시 혼자 쓰는 자리가 됐다.",
+      "message_en": "I did not take Hyunsu up on his offer; the empty kitchen table became a place we used alone again."
+    },
+    "the_clerk_remains_a_familiar_stranger": {
+      "producer_bundle": "daeun_world_meet",
+      "consumer_kind": "next_month_message",
+      "visible_month": 4,
+      "message_ko": "그 새벽에는 24시간 편의점에 가지 않아, 계산대 직원과 만나지 않았다.",
+      "message_en": "He did not go to the 24-hour store that dawn, so he never met the clerk."
+    },
+    "the_accident_ends_without_a_reason_to_reconnect": {
+      "producer_bundle": "jiyeon_world_meet",
+      "consumer_kind": "next_month_message",
+      "visible_month": 4,
+      "message_ko": "그날은 신촌 이면도로를 지나지 않아, 검은 세단의 운전자와 마주치지 않았다.",
+      "message_en": "He did not take the Sinchon side street that day, so he never met the driver of the black sedan."
     }
   },
   "scene_bundles": {
-    "debt_scar_prelude": {
-      "kind": "prelude",
-      "allowed_weeks": [1],
-      "existing_roots": ["story_flashforward", "story_knee_door", "story_last_payment_wait"],
-      "characters": ["father"],
-      "initiated_by": "system",
-      "consumes_slot": false,
-      "estimated_minutes": 8
-    },
     "opening_interview_math": {
       "kind": "consequence",
       "allowed_weeks": [2, 3, 4],
       "existing_roots": ["arc_intro_01_meal"],
       "suppress_follow_up_events": ["arc_intro_02_dad_call"],
-      "characters": ["father"],
+      "characters": [],
       "initiated_by": "system",
-      "requires_prior_choice": "m1_mirae_application",
+      "prerequisites": {
+        "all": [
+          {
+            "kind": "completed_bundle",
+            "bundle_id": "m1_mirae_application"
+          },
+          {
+            "kind": "application_status",
+            "application_id": "mirae_industrial_tech",
+            "status": "submitted"
+          }
+        ]
+      },
+      "application_outcomes": [
+        {
+          "event_id": "arc_intro_01_meal",
+          "choices": [0, 1],
+          "application_id": "mirae_industrial_tech",
+          "from": "submitted",
+          "to": "interviewed"
+        }
+      ],
       "consumes_slot": false,
       "estimated_minutes": 7
+    },
+    "m2_mirae_result_message": {
+      "kind": "consequence",
+      "allowed_weeks": [5],
+      "existing_roots": ["v2_mirae_result_message"],
+      "characters": [],
+      "initiated_by": "system",
+      "prerequisites": {
+        "all": [
+          {
+            "kind": "application_status",
+            "application_id": "mirae_industrial_tech",
+            "status": "interviewed"
+          }
+        ]
+      },
+      "application_outcomes": [
+        {
+          "event_id": "v2_mirae_result_message",
+          "choices": [0],
+          "application_id": "mirae_industrial_tech",
+          "from": "interviewed",
+          "to": "no_offer"
+        }
+      ],
+      "consumes_slot": false,
+      "estimated_minutes": 2
+    },
+    "m3_seorin_result_message": {
+      "kind": "consequence",
+      "allowed_weeks": [9],
+      "existing_roots": ["v2_seorin_result_message"],
+      "characters": [],
+      "initiated_by": "system",
+      "prerequisites": {
+        "all": [
+          {
+            "kind": "completed_bundle",
+            "bundle_id": "m2_seorin_application"
+          },
+          {
+            "kind": "application_status",
+            "application_id": "seorin_contract_2026q1",
+            "status": "submitted"
+          }
+        ]
+      },
+      "application_outcomes": [
+        {
+          "event_id": "v2_seorin_result_message",
+          "choices": [0],
+          "application_id": "seorin_contract_2026q1",
+          "from": "submitted",
+          "to": "no_offer"
+        }
+      ],
+      "consumes_slot": false,
+      "estimated_minutes": 2
     },
     "m1_mirae_application": {
       "kind": "career",
@@ -248,12 +443,12 @@
       "consumes_slot": true,
       "offer_ko": "미래산업기술 채용 공고",
       "offer_en": "Mirae Industrial Tech Opening",
-      "detail_ko": "이력서를 다시 손봐 이번 주 금요일 마감 전에 지원한다.",
-      "detail_en": "Revise the resume and apply before Friday's deadline.",
+      "detail_ko": "준비해 둔 이력서를 첨부해 이번 주 금요일 마감 전에 지원한다.",
+      "detail_en": "Attach the prepared resume and apply before Friday's deadline.",
       "deadline_ko": "이번 달 첫 금요일",
       "deadline_en": "First Friday of the month",
-      "decline_ko": "이번 채용 공고는 닫힌다.",
-      "decline_en": "This opening closes.",
+      "decline_ko": "이번 달 지원 기간이 끝난다.",
+      "decline_en": "The application period ends this month.",
       "decline_consequence": "this_posting_expires"
     },
     "m1_convenience_trial_shift": {
@@ -269,8 +464,8 @@
       "detail_en": "Cover one overnight shift at a nearby convenience store.",
       "deadline_ko": "이번 달 목요일 밤 한 번",
       "deadline_en": "One Thursday night this month",
-      "decline_ko": "다음 달 월세를 받쳐 줄 현금이 생기지 않는다.",
-      "decline_en": "No extra cash is added to next month's rent buffer.",
+      "decline_ko": "그날 받을 수 있었던 돈은 벌지 못한다.",
+      "decline_en": "That night's pay is not earned.",
       "decline_consequence": "cash_buffer_does_not_grow"
     },
     "m1_youth_center_resume_clinic": {
@@ -280,14 +475,14 @@
       "characters": [],
       "initiated_by": "player",
       "consumes_slot": true,
-      "offer_ko": "청년센터 이력서 첨삭",
-      "offer_en": "Youth Center Resume Clinic",
-      "detail_ko": "낡은 자기소개서를 들고 일대일 첨삭 자리에 간다.",
-      "detail_en": "Take the old cover letter to a one-on-one review session.",
-      "deadline_ko": "이번 달 수요일 오후",
-      "deadline_en": "One Wednesday afternoon this month",
-      "decline_ko": "무료 첨삭 예약은 다음 달까지 다시 열리지 않는다.",
-      "decline_en": "The free review slot will not reopen until next month.",
+      "offer_ko": "자기소개서 네 문항 고쳐 쓰기",
+      "offer_en": "Rewrite Four Cover-Letter Answers",
+      "detail_ko": "저장해 둔 자기소개서를 열어 지원동기와 강점 등 네 문항의 답을 다시 쓴다.",
+      "detail_en": "Open the saved cover letter and rewrite four answers, including motivation and strengths.",
+      "deadline_ko": "다음 지원서 제출 전",
+      "deadline_en": "Before the next application is sent",
+      "decline_ko": "다음에 지원할 때까지 자기소개서 문장은 고쳐지지 않는다.",
+      "decline_en": "The cover-letter answers remain unrevised until the next application.",
       "decline_consequence": "preparation_window_moves_on"
     },
     "m1_phone_off_sunday": {
@@ -299,27 +494,36 @@
       "consumes_slot": true,
       "offer_ko": "휴대폰을 끄는 일요일",
       "offer_en": "A Sunday with the Phone Off",
-      "detail_ko": "지원 알림도 돈 계산도 멈추고 밀린 잠부터 갚는다.",
+      "detail_ko": "지원 알림과 돈 계산을 멈추고 하루 동안 푹 잔다.",
       "detail_en": "Silence job alerts and money calculations long enough to sleep.",
-      "deadline_ko": "이번 달 남은 일요일",
+      "deadline_ko": "이번 달 안에 쉴 수 있는 일요일",
       "deadline_en": "Any remaining Sunday this month",
-      "decline_ko": "피로가 다음 약속까지 따라간다.",
-      "decline_en": "The fatigue carries into the next commitment.",
+      "decline_ko": "다음 일정을 시작할 때도 피곤하다.",
+      "decline_en": "He is still tired when the next activity begins.",
       "decline_consequence": "strain_carries_into_next_commitment"
     },
     "m2_seorin_application": {
       "kind": "career",
       "allowed_weeks": [5, 6],
       "action_id": "apply",
+      "action_config": {
+        "execution": "application",
+        "application_id": "seorin_contract_2026q1",
+        "status": "submitted",
+        "result_title_ko": "서린물산 지원서를 보냈다",
+        "result_title_en": "Seorin Application Sent",
+        "result_body_ko": "경력 공백을 숨기지 않고 계약직 지원서를 보냈다. 접수 확인 메일은 왔지만 결과는 아직 모른다.",
+        "result_body_en": "The contract-role application went out without disguising the employment gap. A receipt email arrived, but the result is still unknown."
+      },
       "characters": [],
       "initiated_by": "player",
       "consumes_slot": true,
       "offer_ko": "서린물산 계약직 공고",
       "offer_en": "Seorin Trading Contract Opening",
-      "detail_ko": "경력 공백을 숨기지 않는 문장으로 두 번째 지원서를 보낸다.",
-      "detail_en": "Send a second application without disguising the employment gap.",
-      "deadline_ko": "이번 달 채용 창구가 닫히기 전",
-      "deadline_en": "Before this month's hiring window closes",
+      "detail_ko": "경력 공백을 숨기지 않고 지원서를 보낸다.",
+      "detail_en": "Send an application without disguising the employment gap.",
+      "deadline_ko": "이번 달 지원 마감 전",
+      "deadline_en": "Before this month's application deadline",
       "decline_ko": "서린물산의 이번 채용은 끝난다.",
       "decline_en": "Seorin Trading's current hiring round ends.",
       "decline_consequence": "seorin_posting_expires"
@@ -331,7 +535,7 @@
       "characters": [],
       "initiated_by": "player",
       "consumes_slot": true,
-      "offer_ko": "비 예보 금요일 배달",
+      "offer_ko": "비가 예보된 금요일 배달",
       "offer_en": "Friday Delivery in the Rain",
       "detail_ko": "비 할증이 붙는 저녁 배달 한 번으로 생활비를 보탠다.",
       "detail_en": "Take one rain-surge delivery shift to cover living costs.",
@@ -365,39 +569,165 @@
       "characters": [],
       "initiated_by": "player",
       "consumes_slot": true,
-      "offer_ko": "밀린 잠을 갚는 일요일",
+      "offer_ko": "밀린 잠을 자는 일요일",
       "offer_en": "A Sunday to Repay Sleep",
-      "detail_ko": "알람을 지우고 하루를 비워 흔들리는 몸을 먼저 세운다.",
-      "detail_en": "Clear the alarms and give the unsteady body a full day.",
-      "deadline_ko": "이번 달 남은 일요일",
+      "detail_ko": "알람을 끄고 하루 푹 쉬어 지친 몸을 추스른다.",
+      "detail_en": "Turn off the alarm and rest for a full day to recover from exhaustion.",
+      "deadline_ko": "이번 달 안에 쉴 수 있는 일요일",
       "deadline_en": "Any remaining Sunday this month",
-      "decline_ko": "수면 부족이 다음 달 첫 약속까지 남는다.",
-      "decline_en": "The sleep debt remains through next month's first commitment.",
+      "decline_ko": "다음 달 첫 일정을 시작할 때도 잠이 부족하다.",
+      "decline_en": "He still lacks sleep when next month's first activity begins.",
       "decline_consequence": "sleep_debt_rolls_forward"
     },
     "m3_hanbit_application": {
       "kind": "career",
+      "allowed_weeks": [9],
       "action_id": "apply",
+      "action_config": {
+        "execution": "application",
+        "application_id": "hanbit_ops_2026q1",
+        "job_id": "job_03",
+        "status": "submitted",
+        "result_title_ko": "한빛유통 지원서를 보냈다",
+        "result_title_en": "Hanbit Application Sent",
+        "result_body_ko": "운영지원 공고에 이력서를 첨부했다. 접수번호는 받았지만 연락이 온다는 보장은 없다.",
+        "result_body_en": "The resume was attached to the operations opening. A receipt number arrived, but there is no guarantee of a reply."
+      },
       "characters": [],
       "initiated_by": "player",
       "consumes_slot": true,
+      "offer_ko": "한빛유통 운영지원 공고",
+      "offer_en": "Hanbit Distribution Operations Opening",
+      "detail_ko": "준비해 둔 이력서를 첨부해 물류 운영지원 자리에 지원한다.",
+      "detail_en": "Attach the prepared resume and apply for a logistics operations support role.",
+      "deadline_ko": "9주차 월요일 오전",
+      "deadline_en": "Monday morning of Week 9",
+      "decline_ko": "오전 접수가 끝나면 더 지원할 수 없다.",
+      "decline_en": "Applications are no longer accepted after Monday morning intake ends.",
       "decline_consequence": "hanbit_posting_expires"
     },
     "m3_inventory_shift": {
       "kind": "livelihood",
+      "allowed_weeks": [9, 10, 11],
       "action_id": "side_shift",
+      "action_config": {
+        "execution": "instant_effect",
+        "axis": "money",
+        "place_id": "work",
+        "effects": {
+          "money": 360000,
+          "health": -4,
+          "mental": -3
+        },
+        "result_title_ko": "나흘의 재고조사를 마쳤다",
+        "result_title_en": "Four Nights of Inventory Finished",
+        "result_body_ko": "나흘 밤 바코드를 찍고 36만원을 받았다. 손목과 눈에는 피로가 남았다.",
+        "result_body_en": "Four nights of scanning barcodes paid KRW 360,000. His wrists and eyes remained tired."
+      },
       "characters": [],
       "initiated_by": "player",
       "consumes_slot": true,
+      "offer_ko": "나흘 야간 재고조사",
+      "offer_en": "Four-Night Inventory Count",
+      "detail_ko": "폐점 뒤 나흘 연속으로 창고와 매대의 수량을 다시 센다.",
+      "detail_en": "Recount the warehouse and shelves after closing for four nights in a row.",
+      "deadline_ko": "11주차 폐점 전",
+      "deadline_en": "Before closing time in Week 11",
+      "decline_ko": "나흘짜리 자리는 다른 사람으로 채워진다.",
+      "decline_en": "Someone else fills the four-night shift.",
       "decline_consequence": "inventory_shift_is_filled"
     },
     "m3_empty_saturday": {
       "kind": "recovery",
+      "allowed_weeks": [9, 10, 11],
       "action_id": "rest",
+      "action_config": {
+        "execution": "rest",
+        "effects": {
+          "health": 4,
+          "mental": 6
+        },
+        "recovery_routine_effects": {
+          "health": 2,
+          "mental": 3
+        },
+        "result_title_ko": "토요일을 비워 두었다",
+        "result_title_en": "Saturday Stayed Empty",
+        "result_body_ko": "알람을 끄고 아무 약속 없이 씻고 밥을 먹은 뒤 오래 잤다. 저녁에는 몸이 조금 가벼워졌다.",
+        "result_body_en": "With no appointments, he turned off the alarm, showered, ate, and slept for hours. By evening, his body felt a little lighter."
+      },
       "characters": [],
       "initiated_by": "player",
       "consumes_slot": true,
+      "offer_ko": "아무 약속도 없는 토요일",
+      "offer_en": "A Saturday with No Plans",
+      "detail_ko": "이번 달 토요일 하나를 비워 씻고 먹고 오래 잔다.",
+      "detail_en": "Protect one Saturday this month for a shower, a meal, and a long sleep.",
+      "deadline_ko": "11주차가 끝나기 전",
+      "deadline_en": "Before the end of Week 11",
+      "decline_ko": "다음 사람을 만날 때까지 피로가 남는다.",
+      "decline_en": "The fatigue remains through the next meeting.",
       "decline_consequence": "strain_carries_into_romance_entry"
+    },
+    "m3_room_ledger": {
+      "kind": "recovery",
+      "allowed_weeks": [9, 10, 11, 12],
+      "action_id": "rest",
+      "action_config": {
+        "execution": "rest",
+        "effects": {
+          "health": 1,
+          "mental": 2
+        },
+        "recovery_routine_effects": {
+          "mental": 1
+        },
+        "result_title_ko": "방 안의 밀린 것들을 정리했다",
+        "result_title_en": "The Room Ledger Was Put in Order",
+        "result_body_ko": "영수증을 날짜순으로 정리하고 빨래를 돌렸다. 큰 문제는 풀리지 않았지만, 무엇부터 처리해야 할지는 분명해졌다.",
+        "result_body_en": "He sorted the receipts by date and ran the laundry. The larger problems remained, but he knew what needed attention first."
+      },
+      "characters": [],
+      "initiated_by": "player",
+      "consumes_slot": true,
+      "offer_ko": "영수증과 빨래를 정리하는 밤",
+      "offer_en": "A Night for Receipts and Laundry",
+      "detail_ko": "방 안에 밀린 영수증과 빨래부터 처리한다.",
+      "detail_en": "Deal with the receipts and laundry piling up in the room.",
+      "deadline_ko": "세 번째 달이 끝나기 전",
+      "deadline_en": "Before the end of Month Three",
+      "decline_ko": "쌓인 영수증과 빨래가 다음 달로 넘어간다.",
+      "decline_en": "The receipts and laundry roll into next month.",
+      "decline_consequence": "the_room_ledger_waits"
+    },
+    "m3_library_job_board": {
+      "kind": "growth",
+      "allowed_weeks": [9, 10, 11, 12],
+      "action_id": "study",
+      "action_config": {
+        "execution": "instant_effect",
+        "axis": "human",
+        "place_id": "city",
+        "effects": {
+          "intelligence": 1
+        },
+        "result_title_ko": "도서관 채용 공고를 수첩에 옮겼다",
+        "result_title_en": "Library Job Notices Copied into the Notebook",
+        "result_body_ko": "도서관 채용 공고를 수첩에 옮겼다. 당장 면접이 생긴 것은 아니지만, 어떤 기술을 더 준비해야 할지는 알게 됐다.",
+        "result_body_en": "He copied the library's job notices into the notebook. It did not create an interview, but it showed which skills he still needed."
+      },
+      "characters": [],
+      "initiated_by": "player",
+      "consumes_slot": true,
+      "offer_ko": "구립도서관 채용 공고 살펴보기",
+      "offer_en": "Review Openings at the District Library",
+      "detail_ko": "구립도서관 게시판에서 채용 공고와 필요한 기술을 수첩에 적는다.",
+      "detail_en": "Copy job openings and their required skills from the district library board into the notebook.",
+      "deadline_ko": "세 번째 달 게시판이 바뀌기 전",
+      "deadline_en": "Before the Month Three board is replaced",
+      "decline_ko": "이번 달 채용 공고는 게시판에서 내려간다.",
+      "decline_en": "This month's job notices come down from the board.",
+      "decline_consequence": "the_library_board_changes"
     },
     "m4_dodam_application": {
       "kind": "career",
@@ -480,23 +810,40 @@
       "relationship_outcomes": [
         {
           "event_id": "arc_father_01_call",
-          "choices": [0, 1],
-          "stage": "opening",
-          "character": "father"
+          "choices": [0],
+          "character": "father",
+          "from": "unmet",
+          "to": "opening",
+          "initiative": "reciprocal",
+          "memory": "father_wellbeing_returned"
+        },
+        {
+          "event_id": "arc_father_01_call",
+          "choices": [1],
+          "character": "father",
+          "from": "unmet",
+          "to": "opening",
+          "initiative": "reciprocal",
+          "memory": "father_future_reassured",
+          "supersedes_callbacks": ["callback_told_dad_okay_echo"],
+          "replacement_bundle": "father_quiet_call"
         },
         {
           "event_id": "arc_father_01_call",
           "choices": [2],
-          "stage": "met",
-          "character": "father"
+          "character": "father",
+          "from": "unmet",
+          "to": "opening",
+          "initiative": "reciprocal",
+          "memory": "father_call_ended_quickly"
         }
       ],
       "initiated_by": "reciprocal",
       "consumes_slot": true,
       "offer_ko": "아버지의 짧은 전화",
       "offer_en": "A Short Call from Father",
-      "detail_ko": "별일 없다는 말 뒤에 남은 숨을 그냥 끊지 않는다.",
-      "detail_en": "Stay on the line long enough to hear what follows 'I'm fine.'",
+      "detail_ko": "전화가 왔을 때 바로 끊지 않고, 짧은 안부 뒤에 남은 침묵까지 듣는다.",
+      "detail_en": "When Father calls, stay on the line through the silence after the brief greetings.",
       "deadline_ko": "이번 달 저녁 한 번",
       "deadline_en": "One evening this month",
       "decline_ko": "아버지는 이번 달에는 다시 묻지 않는다.",
@@ -512,9 +859,23 @@
       "relationship_outcomes": [
         {
           "event_id": "arc_intro_04_hyunsu",
-          "choices": [0, 1],
-          "stage": "opening",
-          "character": "hyunsu"
+          "choices": [0],
+          "character": "hyunsu",
+          "from": "unmet",
+          "to": "opening",
+          "initiative": "world",
+          "memory": "hyunsu_honest_uncertainty"
+        },
+        {
+          "event_id": "arc_intro_04_hyunsu",
+          "choices": [1],
+          "character": "hyunsu",
+          "from": "unmet",
+          "to": "opening",
+          "initiative": "world",
+          "memory": "hyunsu_declared_dream",
+          "supersedes_callbacks": ["callback_declared_dream_echo"],
+          "replacement_bundle": "hyunsu_player_reachout"
         }
       ],
       "initiated_by": "world",
@@ -522,8 +883,8 @@
       "consumes_slot": true,
       "offer_ko": "공용 주방의 낯선 이웃",
       "offer_en": "The Stranger in the Shared Kitchen",
-      "detail_ko": "새벽 라면 물이 끓는 동안 현수와 처음 몇 마디를 나눈다.",
-      "detail_en": "Exchange a few words with Hyunsu while ramyeon water boils before dawn.",
+      "detail_ko": "새벽 라면 물이 끓는 동안 옆방의 낯선 이웃과 처음 몇 마디를 나눈다.",
+      "detail_en": "Exchange a few words with the unknown neighbor from the next room while ramyeon water boils before dawn.",
       "deadline_ko": "이번 달 늦은 밤",
       "deadline_en": "One late night this month",
       "decline_ko": "그는 한동안 이름 없는 이웃으로 남는다.",
@@ -540,50 +901,95 @@
       "locked_week": 4,
       "offer_ko": "모르는 번호",
       "offer_en": "An Unknown Number",
-      "detail_ko": "월세가 모자란 밤, 너무 쉬운 돈 이야기가 걸려 온다.",
-      "detail_en": "On a night when rent falls short, an offer of easy money calls.",
+      "detail_ko": "월세 낼 날이 다가오던 밤, 모르는 번호로 너무 쉬운 돈을 제안하는 문자가 온다.",
+      "detail_en": "As rent day approaches, an unknown number texts an offer of money that sounds far too easy.",
       "deadline_ko": "4주차 고정",
       "deadline_en": "Fixed to Week 4",
-      "decline_ko": "답은 장면 안에서 정한다.",
-      "decline_en": "The answer is decided inside the scene.",
+      "decline_ko": "고르지 않고 넘길 수 없다. 4주차에 문자를 확인하고 받거나 거절해야 한다.",
+      "decline_en": "This cannot be passed over. In Week 4, the message must be accepted or refused.",
       "decline_consequence": "the_offer_is_answered_or_refused_in_scene"
     },
     "temptation_consequence": {
       "kind": "consequence",
-      "allowed_weeks": [5, 6, 7, 8],
+      "allowed_weeks": [8],
       "existing_roots": ["arc_temptation_clean", "arc_temptation_fallout"],
       "characters": [],
       "initiated_by": "system",
       "consumes_slot": false,
-      "requires_prior_choice": "first_temptation_boss",
+      "prerequisites": {
+        "all": [
+          {
+            "kind": "completed_bundle",
+            "bundle_id": "first_temptation_boss"
+          }
+        ]
+      },
       "estimated_minutes": 4
     },
     "hyunsu_player_reachout": {
       "kind": "pursuit",
       "allowed_weeks": [5, 6],
-      "existing_roots": ["v2_hyunsu_player_reachout"],
+      "existing_roots": [
+        "v2_hyunsu_player_reachout",
+        "v2_hyunsu_first_study"
+      ],
       "characters": ["hyunsu"],
       "relationship_stage": "player_reached_out",
       "relationship_outcomes": [
         {
-          "event_id": "v2_hyunsu_player_reachout",
-          "choices": [0, 1],
-          "stage": "player_reached_out",
-          "character": "hyunsu"
+          "event_id": "v2_hyunsu_first_study",
+          "choices": [0],
+          "character": "hyunsu",
+          "from": "opening",
+          "to": "player_reached_out",
+          "initiative": "player",
+          "memory": "hyunsu_resume_shared"
+        },
+        {
+          "event_id": "v2_hyunsu_first_study",
+          "choices": [1],
+          "character": "hyunsu",
+          "from": "opening",
+          "to": "player_reached_out",
+          "initiative": "player",
+          "memory": "hyunsu_problem_set_shared"
         }
       ],
       "initiated_by": "player",
-      "requires_player_initiated": true,
-      "requires_completed_bundle": "hyunsu_first_meet",
+      "prerequisites": {
+        "all": [
+          {
+            "kind": "completed_bundle",
+            "bundle_id": "hyunsu_first_meet"
+          },
+          {
+            "kind": "relationship_at_least",
+            "character": "hyunsu",
+            "stage": "opening"
+          }
+        ],
+        "any": [
+          {
+            "kind": "relationship_memory",
+            "character": "hyunsu",
+            "memory": "hyunsu_honest_uncertainty"
+          },
+          {
+            "kind": "relationship_memory",
+            "character": "hyunsu",
+            "memory": "hyunsu_declared_dream"
+          }
+        ]
+      },
       "consumes_slot": true,
       "offer_ko": "현수에게 먼저 보내는 메시지",
       "offer_en": "Message Hyunsu First",
-      "detail_ko": "공용 주방에서 끝난 대화를 공부 약속으로 이어 본다.",
-      "detail_en": "Turn the shared-kitchen conversation into a study plan.",
-      "deadline_ko": "이번 달 시험 준비가 시작되기 전",
-      "deadline_en": "Before this month's exam preparation begins",
-      "decline_ko": "현수는 혼자 공부하고, 먼저 열린 틈은 식는다.",
-      "decline_en": "Hyunsu studies alone, and the opening cools.",
+      "detail_ko": "공용 주방에서 만난 현수에게 먼저 연락해 처음으로 같이 공부할 날을 잡는다.",
+      "detail_en": "Contact Hyunsu first after meeting in the shared kitchen and set a day to study together.",
+      "deadline_ko": "현수가 이번 달 공부 일정을 정하기 전",
+      "deadline_en": "Before Hyunsu settles this month's study schedule",
+      "decline_ko": "현수는 혼자 공부한다. 함께 공부하자는 말은 나오지 않는다.",
+      "decline_en": "Hyunsu studies alone. Neither suggests studying together.",
       "decline_consequence": "hyunsu_studies_alone_and_the_opening_cools"
     },
     "cafe_world_glimpse": {
@@ -593,14 +999,14 @@
       "characters": [],
       "initiated_by": "player",
       "consumes_slot": true,
-      "offer_ko": "창가 자리의 부동산 대화",
-      "offer_en": "Property Talk by the Window",
-      "detail_ko": "커피 한 잔 값으로 강남의 숫자를 말하는 사람들 곁에 앉는다.",
-      "detail_en": "Spend the price of a coffee to sit near people discussing Gangnam in numbers.",
+      "offer_ko": "카페 옆자리 남자의 통화",
+      "offer_en": "The Call at the Next Café Table",
+      "detail_ko": "커피 한 잔을 시키고, 옆자리 정장 남자가 재개발 입주권을 말하는 통화를 듣는다.",
+      "detail_en": "Order a coffee and hear the suited man at the next table talking about a redevelopment occupancy right.",
       "deadline_ko": "이번 달 비 오는 저녁",
       "deadline_en": "One rainy evening this month",
-      "decline_ko": "우연히 들을 수 있었던 매물 이야기는 사라진다.",
-      "decline_en": "The overheard property lead disappears.",
+      "decline_ko": "그날 카페에 가지 않아 정장 남자의 통화와 서류를 보지 못한다.",
+      "decline_en": "He does not go to the café that evening and never hears the suited man's call or sees his papers.",
       "decline_consequence": "the_overheard_property_lead_disappears"
     },
     "sns_pressure_night": {
@@ -610,94 +1016,417 @@
       "characters": [],
       "initiated_by": "world",
       "consumes_slot": true,
-      "offer_ko": "불 꺼진 방의 피드",
+      "offer_ko": "불을 끄고 본 SNS 피드",
       "offer_en": "The Feed in a Dark Room",
       "detail_ko": "잠들기 전, 잘된 사람들의 사진을 끝까지 들여다본다.",
       "detail_en": "Before sleep, keep scrolling through pictures of people who made it.",
       "deadline_ko": "이번 달 잠들지 못한 밤",
       "deadline_en": "One sleepless night this month",
-      "decline_ko": "비교의 압박은 이름 붙지 않은 채 남는다.",
-      "decline_en": "The pressure of comparison remains unnamed.",
+      "decline_ko": "화면을 끈 뒤에도 남들과 비교하는 생각은 계속된다.",
+      "decline_en": "Even after the screen goes dark, the comparisons continue.",
       "decline_consequence": "the_comparison_pressure_goes_unexamined"
-    },
-    "month_two_notebook": {
-      "kind": "closing",
-      "allowed_weeks": [8],
-      "existing_roots": ["arc_chapter1_close"],
-      "characters": ["hyunsu"],
-      "initiated_by": "system",
-      "consumes_slot": false,
-      "estimated_minutes": 5
     },
     "daeun_world_meet": {
       "kind": "encounter",
+      "allowed_weeks": [10, 11, 12],
       "existing_roots": ["arc_daeun_01_meet"],
       "characters": ["daeun"],
       "relationship_stage": "met",
+      "relationship_outcomes": [
+        {
+          "event_id": "arc_daeun_01_meet",
+          "choices": [0],
+          "character": "daeun",
+          "from": "unmet",
+          "to": "opening",
+          "initiative": "world",
+          "memory": "daeun_name_exchanged",
+          "supersedes_callbacks": ["callback_daeun_first_kind_memory"],
+          "replacement_bundle": "daeun_player_return"
+        },
+        {
+          "event_id": "arc_daeun_01_meet",
+          "choices": [1],
+          "character": "daeun",
+          "from": "unmet",
+          "to": "met",
+          "initiative": "world",
+          "memory": "daeun_kept_distance",
+          "supersedes_callbacks": ["callback_daeun_kept_distance_echo"],
+          "replacement_bundle": "daeun_return_after_distance"
+        }
+      ],
       "initiated_by": "world",
-      "eligibility": "late_shop_or_survival_route",
+      "prerequisites": {
+        "all": [
+          {
+            "kind": "routine_selected",
+            "track": "livelihood"
+          }
+        ]
+      },
       "exclusive_group": "romance_entry",
       "consumes_slot": true,
+      "offer_ko": "새벽 편의점의 계산대",
+      "offer_en": "The Dawn Convenience Store Counter",
+      "detail_ko": "생활비를 벌려고 단기 일을 이어가던 달, 잠이 오지 않은 새벽에 24시간 편의점에 들어가 계산대 직원과 처음 말을 섞는다.",
+      "detail_en": "During a month of short-term work for living expenses, enter a 24-hour store on a sleepless dawn and speak with the clerk for the first time.",
+      "deadline_ko": "12주차 새벽 전",
+      "deadline_en": "Before dawn in Week 12",
+      "decline_ko": "그 새벽에는 편의점에 가지 않아, 계산대 직원과 만나지 않는다.",
+      "decline_en": "He does not go to the store that dawn, so he does not meet the clerk.",
       "decline_consequence": "the_clerk_remains_a_familiar_stranger"
     },
     "jiyeon_world_meet": {
       "kind": "encounter",
+      "allowed_weeks": [10, 11, 12],
       "existing_roots": ["arc_jiyeon_01_crash"],
       "characters": ["jiyeon"],
       "relationship_stage": "met",
+      "relationship_outcomes": [
+        {
+          "event_id": "arc_jiyeon_01_crash",
+          "choices": [0],
+          "character": "jiyeon",
+          "from": "unmet",
+          "to": "met",
+          "initiative": "world",
+          "memory": "jiyeon_walked_away",
+          "supersedes_callbacks": ["callback_jiyeon_walked_away_echo"],
+          "replacement_bundle": "jiyeon_bus_stop_reunion"
+        },
+        {
+          "event_id": "arc_jiyeon_01_crash",
+          "choices": [1],
+          "character": "jiyeon",
+          "from": "unmet",
+          "to": "met",
+          "initiative": "world",
+          "memory": "jiyeon_repair_cost_taken"
+        },
+        {
+          "event_id": "arc_jiyeon_01_crash",
+          "choices": [2],
+          "character": "jiyeon",
+          "from": "unmet",
+          "to": "met",
+          "initiative": "world",
+          "memory": "jiyeon_driver_confronted",
+          "supersedes_callbacks": ["callback_jiyeon_got_angry_aftermath"],
+          "replacement_bundle": "jiyeon_bus_stop_reunion"
+        }
+      ],
       "initiated_by": "world",
-      "eligibility": "bike_delivery_or_low_cost_mobility_route",
+      "prerequisites": {
+        "all": [
+          {
+            "kind": "completed_bundle",
+            "bundle_id": "m2_rain_delivery_shift"
+          }
+        ]
+      },
       "exclusive_group": "romance_entry",
       "consumes_slot": true,
+      "offer_ko": "신촌 골목의 검은 세단",
+      "offer_en": "The Black Sedan on a Sinchon Side Street",
+      "detail_ko": "교통비를 아끼려고 중고 자전거로 비 오는 신촌 골목을 지나다 검은 세단에 부딪히고, 운전석의 낯선 여성과 처음 마주한다.",
+      "detail_en": "While riding a used bicycle through a rainy Sinchon side street to save transit fare, collide with a black sedan and first face the stranger behind the wheel.",
+      "deadline_ko": "12주차 해 질 녘 전",
+      "deadline_en": "Before dusk in Week 12",
+      "decline_ko": "그날 신촌 이면도로를 지나지 않아, 검은 세단의 운전자와 만나지 않는다.",
+      "decline_en": "He does not take the Sinchon side street that day, so he does not meet the driver of the black sedan.",
       "decline_consequence": "the_accident_ends_without_a_reason_to_reconnect"
     },
     "father_quiet_call": {
       "kind": "care",
+      "allowed_weeks": [9, 10, 11, 12],
       "existing_roots": ["arc_father_quiet_call"],
       "characters": ["father"],
-      "relationship_stage": "shared_commitment",
+      "relationship_stage": "opening",
+      "relationship_outcomes": [
+        {
+          "event_id": "arc_father_quiet_call",
+          "choices": [0],
+          "character": "father",
+          "from": "opening",
+          "to": "opening",
+          "initiative": "player",
+          "memory": "father_gangnam_words_held_back"
+        },
+        {
+          "event_id": "arc_father_quiet_call",
+          "choices": [1],
+          "character": "father",
+          "from": "opening",
+          "to": "opening",
+          "initiative": "player",
+          "memory": "father_quiet_call_ended"
+        },
+        {
+          "event_id": "arc_father_quiet_call",
+          "choices": [2],
+          "character": "father",
+          "from": "opening",
+          "to": "opening",
+          "initiative": "player",
+          "memory": "father_asked_more",
+          "supersedes_callbacks": ["callback_asked_father_more_echo"],
+          "replacement_bundle": "father_health_signal"
+        }
+      ],
       "initiated_by": "player",
-      "requires_player_initiated": true,
+      "prerequisites": {
+        "all": [
+          {
+            "kind": "completed_bundle",
+            "bundle_id": "father_first_call"
+          },
+          {
+            "kind": "relationship_at_least",
+            "character": "father",
+            "stage": "met"
+          }
+        ],
+        "any": [
+          {
+            "kind": "relationship_memory",
+            "character": "father",
+            "memory": "father_wellbeing_returned"
+          },
+          {
+            "kind": "relationship_memory",
+            "character": "father",
+            "memory": "father_future_reassured"
+          },
+          {
+            "kind": "relationship_memory",
+            "character": "father",
+            "memory": "father_call_ended_quickly"
+          }
+        ]
+      },
       "consumes_slot": true,
+      "offer_ko": "일요일에 아버지에게 다시 전화하기",
+      "offer_en": "Call Father Again on Sunday",
+      "detail_ko": "첫 통화 뒤 몇 주가 지난 일요일, 이번에는 내가 먼저 전화해 밥과 날씨, 공장 일 이야기를 듣는다.",
+      "detail_en": "Several weeks after the first call, I call Father on a Sunday and listen as he talks about meals, the weather, and his factory shift.",
+      "deadline_ko": "이번 달 네 번의 일요일 중 한 번",
+      "deadline_en": "One of this month's four Sundays",
+      "decline_ko": "이번 달에는 아버지에게 다시 전화하지 않는다.",
+      "decline_en": "I do not call Father again this month.",
       "decline_consequence": "another_sunday_passes_without_the_real_question"
     },
-    "hyunsu_night_talk": {
+    "hyunsu_study_followup": {
       "kind": "pursuit",
-      "existing_roots": ["arc_hyunsu_night_talk"],
+      "allowed_weeks": [9, 10, 11, 12],
+      "existing_roots": ["v2_hyunsu_study_followup"],
       "characters": ["hyunsu"],
       "relationship_stage": "shared_commitment",
+      "relationship_outcomes": [
+        {
+          "event_id": "v2_hyunsu_study_followup",
+          "choices": [0],
+          "character": "hyunsu",
+          "from": "player_reached_out",
+          "to": "shared_commitment",
+          "initiative": "reciprocal",
+          "memory": "hyunsu_same_hour_confirmed"
+        },
+        {
+          "event_id": "v2_hyunsu_study_followup",
+          "choices": [1],
+          "character": "hyunsu",
+          "from": "player_reached_out",
+          "to": "shared_commitment",
+          "initiative": "reciprocal",
+          "memory": "hyunsu_one_problem_each_agreed"
+        }
+      ],
       "initiated_by": "reciprocal",
-      "requires_player_initiated": true,
+      "prerequisites": {
+        "all": [
+          {
+            "kind": "completed_bundle",
+            "bundle_id": "hyunsu_player_reachout"
+          },
+          {
+            "kind": "relationship_at_least",
+            "character": "hyunsu",
+            "stage": "player_reached_out"
+          },
+          {
+            "kind": "player_initiated",
+            "character": "hyunsu"
+          }
+        ],
+        "any": [
+          {
+            "kind": "relationship_memory",
+            "character": "hyunsu",
+            "memory": "hyunsu_resume_shared"
+          },
+          {
+            "kind": "relationship_memory",
+            "character": "hyunsu",
+            "memory": "hyunsu_problem_set_shared"
+          }
+        ]
+      },
       "consumes_slot": true,
-      "decline_consequence": "hyunsu_does_not_share_the_exam_fear"
+      "offer_ko": "현수가 먼저 제안한 공부 약속",
+      "offer_en": "Hyunsu Asks About Studying Again",
+      "detail_ko": "먼저 함께 공부하자고 한 뒤 얼마 지나지 않아, 이번에는 현수가 같은 시간에 다시 한 시간 공부하자고 한다.",
+      "detail_en": "Some time after I first suggested studying together, Hyunsu asks to share another hour at the same time of day.",
+      "deadline_ko": "12주차가 끝나기 전",
+      "deadline_en": "Before the end of Week 12",
+      "decline_ko": "현수의 제안을 받지 않아 둘은 다시 각자 공부한다.",
+      "decline_en": "I do not take Hyunsu up on the offer, and we return to studying alone.",
+      "decline_consequence": "hyunsu_does_not_confirm_the_next_study_hour"
     },
     "daeun_player_return": {
       "kind": "pursuit",
-      "existing_roots": ["arc_daeun_02_regular"],
+      "allowed_weeks": [13, 14, 15, 16],
+      "planned_scene_id": "v2_daeun_return_named",
       "characters": ["daeun"],
       "relationship_stage": "player_reached_out",
       "initiated_by": "player",
-      "requires_player_initiated": true,
+      "prerequisites": {
+        "all": [
+          {
+            "kind": "completed_bundle",
+            "bundle_id": "daeun_world_meet"
+          },
+          {
+            "kind": "relationship_memory",
+            "character": "daeun",
+            "memory": "daeun_name_exchanged"
+          }
+        ]
+      },
       "consumes_slot": true,
+      "offer_ko": "다은이 일하는 편의점에 다시 가기",
+      "offer_en": "Return to the Store with a Name",
+      "detail_ko": "다은의 이름을 기억한 채 같은 편의점에 한 번 더 들른다. 단골이나 연인이 아니라, 다시 말을 걸 사람으로 돌아간다.",
+      "detail_en": "Return to the same store remembering Daeun's name—not as a regular or a date, but as someone choosing another conversation.",
+      "deadline_ko": "네 번째 달 마지막 야간 근무 전",
+      "deadline_en": "Before the last night shift of Month Four",
+      "decline_ko": "이름을 알고도 다시 말을 걸 이번 달의 시간은 지나간다.",
+      "decline_en": "This month's chance to speak again despite knowing her name passes.",
       "decline_consequence": "daeun_reads_the_first_meeting_as_politeness"
     },
-    "jiyeon_player_message": {
+    "daeun_return_after_distance": {
       "kind": "pursuit",
-      "planned_scene_id": "v2_jiyeon_player_message",
-      "characters": ["jiyeon"],
+      "allowed_weeks": [13, 14, 15, 16],
+      "planned_scene_id": "v2_daeun_return_after_distance",
+      "characters": ["daeun"],
       "relationship_stage": "player_reached_out",
       "initiated_by": "player",
-      "requires_player_initiated": true,
+      "prerequisites": {
+        "all": [
+          {
+            "kind": "completed_bundle",
+            "bundle_id": "daeun_world_meet"
+          },
+          {
+            "kind": "relationship_memory",
+            "character": "daeun",
+            "memory": "daeun_kept_distance"
+          }
+        ]
+      },
       "consumes_slot": true,
+      "offer_ko": "이름을 묻지 못한 편의점에 다시 가기",
+      "offer_en": "Back to the Store Without Her Name",
+      "detail_ko": "지난번에는 인사만 남겼다. 같은 편의점에 돌아가 그날 못 한 한마디를 직접 시작한다.",
+      "detail_en": "Last time he left only a thank-you. Return to the store and begin the sentence he did not.",
+      "deadline_ko": "네 번째 달 마지막 야간 근무 전",
+      "deadline_en": "Before the last night shift of Month Four",
+      "decline_ko": "계산대의 직원은 이름 없는 익숙한 얼굴로 남는다.",
+      "decline_en": "The clerk remains a familiar face without a name.",
+      "decline_consequence": "daeun_reads_the_first_meeting_as_politeness"
+    },
+    "jiyeon_bus_stop_reunion": {
+      "kind": "encounter",
+      "allowed_weeks": [13, 14, 15, 16],
+      "existing_roots": ["arc_jiyeon_02_store"],
+      "characters": ["jiyeon"],
+      "relationship_stage": "opening",
+      "relationship_outcomes": [
+        {
+          "event_id": "arc_jiyeon_02_store",
+          "choices": [0],
+          "character": "jiyeon",
+          "from": "met",
+          "to": "opening",
+          "initiative": "reciprocal",
+          "memory": "jiyeon_name_offered_after_silence"
+        },
+        {
+          "event_id": "arc_jiyeon_02_store",
+          "choices": [1],
+          "character": "jiyeon",
+          "from": "met",
+          "to": "player_reached_out",
+          "initiative": "player",
+          "memory": "jiyeon_name_exchanged_after_player_spoke"
+        }
+      ],
+      "initiated_by": "world",
+      "prerequisites": {
+        "all": [
+          {
+            "kind": "completed_bundle",
+            "bundle_id": "jiyeon_world_meet"
+          },
+          {
+            "kind": "relationship_at_least",
+            "character": "jiyeon",
+            "stage": "met"
+          }
+        ],
+        "any": [
+          {
+            "kind": "relationship_memory",
+            "character": "jiyeon",
+            "memory": "jiyeon_walked_away"
+          },
+          {
+            "kind": "relationship_memory",
+            "character": "jiyeon",
+            "memory": "jiyeon_repair_cost_taken"
+          },
+          {
+            "kind": "relationship_memory",
+            "character": "jiyeon",
+            "memory": "jiyeon_driver_confronted"
+          }
+        ]
+      },
+      "consumes_slot": true,
+      "offer_ko": "비가 갠 신촌 정류장",
+      "offer_en": "The Sinchon Bus Stop After Rain",
+      "detail_ko": "연락처가 없던 검은 세단의 운전자를 버스정류장에서 우연히 다시 마주한다.",
+      "detail_en": "At a bus stop, unexpectedly meet the black-sedan driver whose contact information he never received.",
+      "deadline_ko": "네 번째 달 비가 그친 밤",
+      "deadline_en": "One night after rain in Month Four",
+      "decline_ko": "둘 사이에는 사고와 모르는 이름만 남는다.",
+      "decline_en": "Only the accident and two unknown names remain between them.",
       "decline_consequence": "jiyeon_assumes_he_wants_the_incident_closed"
     },
     "sangchul_world_meet": {
       "kind": "encounter",
-      "existing_roots": ["arc_sangchul_01_meet"],
+      "planned_scene_id": "v2_sangchul_housing_lead",
       "characters": ["sangchul"],
       "relationship_stage": "met",
       "initiated_by": "world",
-      "eligibility": "housing_search_route",
+      "prerequisites": {
+        "all": [
+          {
+            "kind": "completed_bundle",
+            "bundle_id": "cafe_world_glimpse"
+          }
+        ]
+      },
       "exclusive_group": "money_mentor_entry",
       "consumes_slot": true,
       "decline_consequence": "the_warm_coffee_and_card_are_left_behind"
@@ -708,65 +1437,82 @@
       "characters": ["jaehyuk"],
       "relationship_stage": "met",
       "initiated_by": "reciprocal",
-      "eligibility": "old_network_route",
       "exclusive_group": "money_mentor_entry",
       "consumes_slot": true,
       "decline_consequence": "jaehyuk_stops_waiting_for_an_immediate_reply"
     },
     "daeun_shared_dream": {
       "kind": "pursuit",
-      "existing_roots": ["arc_daeun_02b_dream"],
+      "planned_scene_id": "v2_daeun_small_commitment",
       "characters": ["daeun"],
       "relationship_stage": "shared_commitment",
       "initiated_by": "reciprocal",
-      "requires_player_initiated": true,
       "consumes_slot": true,
       "decline_consequence": "the_question_of_why_gangnam_remains_unasked"
     },
-    "jiyeon_debt_coffee": {
+    "jiyeon_second_crossing": {
       "kind": "pursuit",
-      "existing_roots": ["arc_jiyeon_02_store", "arc_jiyeon_03_offer"],
+      "planned_scene_id": "v2_jiyeon_second_crossing",
       "characters": ["jiyeon"],
       "relationship_stage": "shared_commitment",
       "initiated_by": "reciprocal",
-      "requires_player_initiated": true,
       "consumes_slot": true,
       "decline_consequence": "jiyeon_stops_trying_to_repay_the_personal_debt"
     },
     "sangchul_second_coffee": {
       "kind": "pursuit",
-      "existing_roots": ["arc_sangchul_02_coffee"],
+      "planned_scene_id": "v2_sangchul_demo_echo",
       "characters": ["sangchul"],
       "relationship_stage": "player_reached_out",
       "initiated_by": "player",
-      "requires_player_initiated": true,
       "consumes_slot": true,
       "decline_consequence": "the_card_goes_cold_in_the_wallet"
     },
-    "jaehyuk_real_face": {
+    "jaehyuk_plain_reunion_echo": {
       "kind": "pursuit",
-      "existing_roots": ["arc_jaehyuk_01b_real_face", "arc_jaehyuk_02_bond"],
+      "planned_scene_id": "v2_jaehyuk_plain_reunion_echo",
       "characters": ["jaehyuk"],
-      "relationship_stage": "shared_commitment",
+      "relationship_stage": "opening",
       "initiated_by": "player",
-      "requires_player_initiated": true,
       "consumes_slot": true,
       "decline_consequence": "the_reunion_stays_surface_level"
     },
     "father_health_signal": {
       "kind": "care",
+      "allowed_weeks": [21],
       "existing_roots": ["arc_father_02_signal"],
       "characters": ["father"],
-      "relationship_stage": "friction",
-      "initiated_by": "reciprocal",
-      "requires_player_initiated": true,
-      "consumes_slot": true,
+      "relationship_stage": "opening",
+      "initiated_by": "world",
+      "consumes_slot": false,
       "decline_consequence": "the_visit_window_closes_for_this_month"
+    },
+    "hyunsu_exam_eve": {
+      "kind": "care",
+      "allowed_weeks": [23],
+      "planned_scene_id": "v2_hyunsu_exam_eve",
+      "characters": ["hyunsu"],
+      "relationship_stage": "shared_commitment",
+      "initiated_by": "reciprocal",
+      "prerequisites": {
+        "all": [
+          {
+            "kind": "completed_bundle",
+            "bundle_id": "hyunsu_study_followup"
+          },
+          {
+            "kind": "relationship_at_least",
+            "character": "hyunsu",
+            "stage": "shared_commitment"
+          }
+        ]
+      },
+      "consumes_slot": true,
+      "decline_consequence": "hyunsu_takes_the_exam_without_another_shared_hour"
     },
     "demo_collision": {
       "kind": "boss",
       "planned_scene_id": "v2_demo_first_bill",
-      "existing_roots": ["story_six_months", "arc_gangnam_visit_alone", "arc_four_months_in"],
       "characters": ["father"],
       "initiated_by": "system",
       "consumes_slot": true,
@@ -782,7 +1528,7 @@
       "title_ko": "남은 돈",
       "title_en": "What Is Left",
       "target_minutes": 14,
-      "prelude": ["debt_scar_prelude"],
+      "prelude": [],
       "locked": [{"week": 4, "bundle": "first_temptation_boss"}],
       "offers": [
         "m1_mirae_application",
@@ -813,9 +1559,12 @@
         "cafe_world_glimpse",
         "sns_pressure_night"
       ],
-      "conditional_consequences": ["temptation_consequence"],
+      "conditional_consequences": [
+        "m2_mirae_result_message",
+        "temptation_consequence"
+      ],
       "active_named_characters_max": 2,
-      "closing": ["month_two_notebook"]
+      "closing": []
     },
     {
       "month": 3,
@@ -830,18 +1579,20 @@
         "m3_inventory_shift",
         "m3_empty_saturday",
         "father_quiet_call",
-        "hyunsu_night_talk",
+        "hyunsu_study_followup",
         "daeun_world_meet",
         "jiyeon_world_meet"
       ],
+      "fallback_offers": ["m3_room_ledger", "m3_library_job_board"],
       "active_named_characters_max": 3,
+      "conditional_consequences": ["m3_seorin_result_message"],
       "closing": []
     },
     {
       "month": 4,
       "weeks": [13, 16],
-      "title_ko": "문을 보여 주는 사람",
-      "title_en": "The Person Who Shows the Door",
+      "title_ko": "일자리와 다음 만남",
+      "title_en": "Work and the Next Meeting",
       "target_minutes": 16,
       "prelude": [],
       "locked": [],
@@ -850,7 +1601,8 @@
         "m4_certificate_session",
         "m4_health_check_day",
         "daeun_player_return",
-        "jiyeon_player_message",
+        "daeun_return_after_distance",
+        "jiyeon_bus_stop_reunion",
         "sangchul_world_meet",
         "jaehyuk_world_meet"
       ],
@@ -864,14 +1616,14 @@
       "title_en": "The One Who Waits",
       "target_minutes": 17,
       "prelude": [],
-      "locked": [{"week": 20, "bundle": "father_health_signal"}],
+      "locked": [],
       "offers": [
         "m5_city_service_application",
         "m5_last_empty_sunday",
         "daeun_shared_dream",
-        "jiyeon_debt_coffee",
+        "jiyeon_second_crossing",
         "sangchul_second_coffee",
-        "jaehyuk_real_face"
+        "jaehyuk_plain_reunion_echo"
       ],
       "active_named_characters_max": 4,
       "closing": []
@@ -882,15 +1634,14 @@
       "title_ko": "첫 청구서",
       "title_en": "The First Bill",
       "target_minutes": 19,
-      "prelude": [],
+      "prelude": ["father_health_signal"],
       "locked": [{"week": 24, "bundle": "demo_collision"}],
       "offers": [
         "m6_public_recruitment",
         "m6_holiday_night_shift",
         "m6_last_study_group",
         "m6_no_plans_day",
-        "father_quiet_call",
-        "hyunsu_night_talk"
+        "hyunsu_exam_eve"
       ],
       "active_named_characters_max": 4,
       "closing": []

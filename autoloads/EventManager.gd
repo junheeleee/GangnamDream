@@ -12,6 +12,7 @@ var director_rules: Dictionary = {}
 var _follow_up_target_ids: Dictionary = {}
 
 const EVENT_DIRECTOR_PATH := "res://content/meta/event_director.json"
+const DEMO_CORE_LOOP_V2 := preload("res://systems/DemoCoreLoopV2.gd")
 
 const ECHO_CATEGORY_ALIASES := {
 	"career": ["jobs", "job", "work", "career"],
@@ -788,6 +789,8 @@ func _remember_recent(event_id):
 func _is_event_eligible(event, deterministic_hidden: bool = false):
 	var event_id = str(event.get("id", ""))
 	if event_id.is_empty():
+		return false
+	if DEMO_CORE_LOOP_V2.legacy_callback_is_superseded(event_id):
 		return false
 	if event_cooldowns.has(event_id) or recent_event_ids.has(event_id):
 		return false

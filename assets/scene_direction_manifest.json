@@ -2236,7 +2236,8 @@
       "survival_rent_due",
       "unorthodox_gray_zone_tip",
       "unorthodox_underground_network",
-      "v2_hyunsu_player_reachout",
+      "v2_hyunsu_first_study",
+      "v2_hyunsu_study_followup",
       "wedding_invitation_flood",
       "work_burnout_monday",
       "work_credit_stolen",
@@ -2300,7 +2301,10 @@
       "hyunsu_year5_call",
       "mother_call_compare",
       "rel_daeun_first_text",
-      "story_prologue_dad"
+      "story_prologue_dad",
+      "v2_hyunsu_player_reachout",
+      "v2_mirae_result_message",
+      "v2_seorin_result_message"
     ],
     "activity_enter_return": [],
     "finale": [
@@ -3517,6 +3521,15 @@
       "reduced_motion": "static_fade",
       "arrival_cue_ko": "보름이 지났다",
       "arrival_cue_en": "Two weeks in"
+    },
+    "v2_hyunsu_player_reachout->v2_hyunsu_first_study": {
+      "mode": "time_cut",
+      "from_surface": "goshiwon_room",
+      "to_surface": "goshiwon_shared_kitchen",
+      "audio_policy": "crossfade",
+      "reduced_motion": "static_fade",
+      "arrival_cue_ko": "다음 날 저녁 여덟 시, 공용 주방",
+      "arrival_cue_en": "The next evening at eight, in the shared kitchen"
     },
     "yolo_spend_moment->yolo_morning_after": {
       "mode": "time_cut",

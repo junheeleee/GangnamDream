@@ -1,8 +1,45 @@
 [
   {
+    "id": "v2_mirae_result_message",
+    "title": "Mirae Industrial Tech Result",
+    "description": "At 10:17 a.m., a text titled “Mirae Industrial Tech Hiring Result” arrives.\n\n“After review, we regret that we will not be moving forward with your application.”\n\n{name} sent the application and went to the interview. This time, that was as far as it went.",
+    "choices": [
+      {
+        "text": "Close the message and record the result",
+        "result_text": "{name} writes “No offer” in the application record. The submitted resume and the interview answers do not disappear. They remain as something to reopen before the next posting."
+      }
+    ]
+  },
+  {
+    "id": "v2_seorin_result_message",
+    "title": "Seorin Trading Result",
+    "description": "A two-line email arrives from Seorin Trading's recruiting team.\n\n“Thank you for applying. After review, we regret that we will not be moving forward with your application.”\n\nIt was the application {name} sent without hiding the employment gap. The answer is too short to hide anything at all.",
+    "choices": [
+      {
+        "text": "File the email in the hiring folder",
+        "result_text": "{name} moves the email into the hiring folder instead of deleting it. This application is over, and its status now reads “No offer.”"
+      }
+    ]
+  },
+  {
     "id": "v2_hyunsu_player_reachout",
     "title": "Reaching Out First",
-    "description": "Eleven twelve at night. In the goshiwon's shared KakaoTalk chat, {name} found the name of the man next door again. Kang Hyunsu. They had not messaged privately once since meeting.\n\n{name}: \"Want to study together in the kitchen for an hour tomorrow night? I'll work on my resume.\"\n\n{name} was the one who pressed Send. The read receipt appeared, and three minutes later a reply arrived.\n\nHyunsu: \"Sounds good, hyung. I'll bring coffee.\"\n\nThe next evening, they actually sat across from each other at the shared kitchen's small table. Hyunsu had his worn administrative-law workbook; {name} had the resume he was still revising. Even while the electric kettle boiled, neither left the table.",
+    "description": "Eleven twelve at night. In the goshiwon's shared KakaoTalk chat, {name} found the name of the man next door again. Kang Hyunsu. They had not messaged privately once since meeting.\n\n{name}: \"Want to study together in the kitchen for an hour tomorrow night? I'll work on my resume.\"\n\n{name} was the one who pressed Send. The read receipt appeared, and three minutes later a reply arrived.\n\nHyunsu: \"Sounds good, hyung. I'll bring coffee.\"",
+    "description_memory_if_known": {
+      "relationship_memory:hyunsu:hyunsu_honest_uncertainty": "On the night they met, {name} had answered, “I don't know yet.” This time, instead of an answer, he made an hour they could share.",
+      "relationship_memory:hyunsu:hyunsu_declared_dream": "{name} had said he would make it to Gangnam within five years. Instead of keeping that claim to himself, he messaged Hyunsu first and asked to study together."
+    },
+    "choices": [
+      {
+        "text": "Set the time for tomorrow evening",
+        "result_text": "{name} checks when the shared kitchen will be free and sends a reply.\n\n{name}: \"Eight tomorrow. See you in the kitchen.\"\nHyunsu: \"Okay. I'll be there.\"\n\nThe appointment stays on the screen. {name} is still the one who reached out first."
+      }
+    ]
+  },
+  {
+    "id": "v2_hyunsu_first_study",
+    "title": "Their First Hour Together",
+    "description": "The next evening at eight, in the shared kitchen. {name} carries in his resume. Hyunsu is already there.\n\nTwo paper cups and a worn administrative-law workbook sit on the small table. {name} opens the half-revised resume across from him.\n\nNeither leaves the table while the electric kettle boils.",
     "choices": [
       {
         "text": "Open the resume first",
@@ -10,7 +47,26 @@
       },
       {
         "text": "Ask about Hyunsu's workbook first",
-        "result_text": "\"How far do you need to get tonight?\"\n\nHyunsu opened to a folded page. \"Up to here. I'll finish by the time you finish your resume.\"\n\nThey set a one-hour timer between them. When it rang, the workbook held new marks and the resume held a rewritten sentence. Hyunsu was the first to ask if they were meeting at the same time next week."
+        "result_text": "\"How far do you need to get tonight?\"\n\nHyunsu opened to a folded page. \"Up to here. I'll finish by the time you finish your resume.\"\n\nThey set a one-hour timer between them. When it rang, the workbook held new marks and the resume held a rewritten sentence. They cleared the paper cups and returned to their rooms."
+      }
+    ]
+  },
+  {
+    "id": "v2_hyunsu_study_followup",
+    "title": "The Same Time",
+    "description": "Some time after their first study session, {name} passes through the shared kitchen on the same evening of the week. Hyunsu looks up from the table. Two paper cups sit beside his worn workbook.\n\n\"Hyung, want to do an hour again tonight?\"\n\nHe does not ask about an exam date or his chances of passing. He only asks whether they can share another hour like the first one.\n\n{name} looks between the resume that needs another revision and the problem Hyunsu marked. Last time {name} reached out first; this time Hyunsu is the one who asks to do it again.",
+    "description_memory_if_known": {
+      "relationship_memory:hyunsu:hyunsu_resume_shared": "Last time, they opened {name}'s resume first. Hyunsu still remembered the final line he had said did not sound like an excuse.",
+      "relationship_memory:hyunsu:hyunsu_problem_set_shared": "Last time, they opened the page Hyunsu had folded first. {name} remembered the one-hour timer they had set and the bent corner of that page."
+    },
+    "choices": [
+      {
+        "text": "\"Sure. Let's do another hour.\"",
+        "result_text": "They place a phone timer in the middle of the table. Hyunsu opens his workbook and {name} opens the resume.\n\nWhen the hour ends, they agree to sit down at the same time again.\n\nThey make no promise that either of them will succeed. They do promise to study together again."
+      },
+      {
+        "text": "\"Let's start with your problem. I'll do mine after.\"",
+        "result_text": "Hyunsu opens the folded problem, and {name} writes out the steps beside it. Forty minutes later they trade places, and Hyunsu points out an awkward sentence in the resume.\n\nThey agree to bring one thing each that has them stuck next time.\n\nWork each had postponed alone becomes work someone else will see when they meet again."
       }
     ]
   }

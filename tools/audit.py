@@ -446,14 +446,15 @@ def check_romance_visual_manifest():
 # ══════════════════════════════════════════════════════════════
 # 게임 플래그 SET 위치:
 #   JSON: choices[].flags[], effects.flag, opportunity.win_flag/lose_flag
-#   GD  : flags["x"] = ...
+#   GD  : flags["x"] = ... 또는 원자 트랜잭션의 flag_updates["x"] = ...
 # 게임 플래그 READ 위치:
 #   GD  : f.get("x") / flags.get("x") / f.has("x") / flags.has("x")
 #   JSON: conditions.flag / conditions.no_flag
 # cast 플래그(인물별 네임스페이스):
 #   SET : cast_effects.<pid>.flags[]
 #   READ: cast_has_flag("pid","flag"), conditions.cast_flag {person,flag}
-FLAG_SET_GD   = re.compile(r'\bflags\["([A-Za-z0-9_]+)"\]\s*=\s*[^=]')
+FLAG_SET_GD   = re.compile(
+    r'\b(?:flags|flag_updates)\["([A-Za-z0-9_]+)"\]\s*=\s*[^=]')
 FLAG_READ_GD  = [
     re.compile(r'\bf\.get\("([A-Za-z0-9_]+)"'),
     re.compile(r'\bflags\.get\("([A-Za-z0-9_]+)"'),
@@ -495,6 +496,8 @@ def _walk_event_flags(ev, game_sets, game_reads_json, cast_sets, cast_reads_json
     if isinstance(memory_dik, dict):
         for condition_key in memory_dik.keys():
             for fl in _known_condition_flags(condition_key):
+                if fl.startswith("relationship_memory:"):
+                    continue
                 game_reads_json.setdefault(fl, []).append(where)
     pik = ev.get("portrait_if_known", {})
     if isinstance(pik, dict):

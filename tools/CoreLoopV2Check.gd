@@ -1,5 +1,5 @@
 extends Node
-## ORDER-57: explicit 8-week Core Loop V2 runtime, save, causality, and UI contract.
+## ORDER-57: shared 1–8 week Core Loop V2 regression under the staged demo gate.
 
 const CORE_LOOP := preload("res://systems/DemoCoreLoopV2.gd")
 const PLANNER := preload("res://scenes/CoreLoopPlanner.gd")
@@ -28,13 +28,13 @@ func _ready() -> void:
 	AudioManager.sfx_enabled = original_sfx_enabled
 	if _failures.is_empty():
 		print(
-			"CORE_LOOP_V2_CHECK_OK activation=explicit months=2 slots=4 "
+			"CORE_LOOP_V2_CHECK_OK activation=explicit shared_months=2 slots=4 "
 			+ "locked=week4 deadlines=machine plan=immutable "
 			+ "routines=16_units/once/job_transition "
 			+ "forgone=producer_consumer/once delayed=cross_month/one_per_week "
 			+ "relationship=choice_only/monotonic summary=ack/save "
 			+ "followup=restored save=roundtrip "
-			+ "terminal=week8/recap planner=1280x720_no_scroll "
+			+ "terminal=week12/24w_sticky_recap planner=1280x720_no_scroll "
 			+ "en_hangul=0 hidden_scores=0")
 		get_tree().quit(0)
 		return
@@ -51,10 +51,13 @@ func _check_explicit_activation() -> void:
 	_expect(CORE_LOOP.is_active(),
 		"prototype did not become active in week one")
 	GameState.turn = 9
+	_expect(CORE_LOOP.is_active(),
+		"prototype did not extend its explicit runtime through week 9")
+	GameState.turn = 13
 	_expect(not CORE_LOOP.is_active(),
-		"prototype escaped its week 1-8 boundary")
+		"prototype escaped its week 1-12 boundary")
 	_expect(not CORE_LOOP.is_prototype_complete(),
-		"prototype marked an untouched week-nine run complete")
+		"prototype marked an untouched week-thirteen run complete")
 
 func _check_deadline_and_routine_validation() -> void:
 	GameState.start_new_game()
@@ -139,7 +142,11 @@ func _check_month_one_plan() -> void:
 
 	_expect(CORE_LOOP.begin_bundle("m1_mirae_application", "schedule"),
 		"application bundle could not begin")
-	_expect(CORE_LOOP.note_action_commitment({"choice_id": "apply"}),
+	_expect(CORE_LOOP.note_action_commitment(
+			_finalized_action_record("apply", {
+				"application_id": "mirae_industrial_tech",
+				"status": "submitted",
+			})),
 		"application result did not match its scheduled action")
 	GameState.flags["opening_interview_application_sent"] = true
 	GameState.flags["opening_interview_application_turn"] = 1
@@ -305,7 +312,10 @@ func _check_delayed_consequences_cross_month() -> void:
 	CORE_LOOP.commit_plan(1, _month_one_schedule())
 	GameState.turn = 1
 	CORE_LOOP.begin_bundle("m1_mirae_application", "schedule")
-	CORE_LOOP.note_action_commitment({"choice_id": "apply"})
+	CORE_LOOP.note_action_commitment(_finalized_action_record("apply", {
+		"application_id": "mirae_industrial_tech",
+		"status": "submitted",
+	}))
 	GameState.flags["opening_interview_application_sent"] = true
 	GameState.flags["opening_interview_application_turn"] = 1
 	CORE_LOOP.complete_active_bundle()
@@ -314,6 +324,8 @@ func _check_delayed_consequences_cross_month() -> void:
 	_expect(CORE_LOOP.pending_consequence_id() == "opening_interview_math",
 		"week-one application did not produce its in-month interview")
 	CORE_LOOP.begin_bundle("opening_interview_math", "consequence")
+	_expect(CORE_LOOP.note_story_choice("arc_intro_01_meal", 0),
+		"opening interview did not advance the application to interviewed")
 	CORE_LOOP.complete_active_bundle()
 	_expect(CORE_LOOP.pending_consequence_id().is_empty(),
 		"two consequence scenes stacked in the same week")
@@ -325,8 +337,20 @@ func _check_delayed_consequences_cross_month() -> void:
 	CORE_LOOP.complete_active_bundle()
 
 	GameState.turn = 5
+	_expect(CORE_LOOP.pending_consequence_id() == "m2_mirae_result_message",
+		"Mirae's interview result did not arrive in Week 5")
+	CORE_LOOP.begin_bundle("m2_mirae_result_message", "consequence")
+	_expect(CORE_LOOP.note_story_choice("v2_mirae_result_message", 0),
+		"Mirae's result did not close the application as no-offer")
+	CORE_LOOP.complete_active_bundle()
+	_expect(CORE_LOOP.pending_consequence_id().is_empty(),
+		"Mirae's result stacked with the later temptation consequence")
+	GameState.turn = 7
+	_expect(CORE_LOOP.pending_consequence_id().is_empty(),
+		"one-month temptation consequence fired before Week 8")
+	GameState.turn = 8
 	_expect(CORE_LOOP.pending_consequence_id() == "temptation_consequence",
-		"boss consequence did not wait for the following open week")
+		"one-month temptation consequence did not mature in Week 8")
 
 func _check_relationship_initiative() -> void:
 	GameState.start_new_game()
@@ -370,12 +394,12 @@ func _check_relationship_initiative() -> void:
 	_expect(not CORE_LOOP.was_player_initiated("hyunsu"),
 		"completion-only follow-up was misrecorded as player initiative")
 	CORE_LOOP.begin_bundle("hyunsu_player_reachout", "schedule")
-	_expect(CORE_LOOP.note_story_choice("v2_hyunsu_player_reachout", 1),
-		"Hyunsu's actual player-first message choice was not consumed")
+	_expect(CORE_LOOP.note_story_choice("v2_hyunsu_first_study", 1),
+		"Hyunsu's actual first study choice was not consumed")
 	var history_size_after_choice := (
 		GameState.core_loop_v2_state.get("relationship_history", []) as Array
 	).size()
-	_expect(CORE_LOOP.note_story_choice("v2_hyunsu_player_reachout", 1) \
+	_expect(CORE_LOOP.note_story_choice("v2_hyunsu_first_study", 1) \
 			and (
 				GameState.core_loop_v2_state.get(
 					"relationship_history", []) as Array
@@ -447,12 +471,18 @@ func _check_story_followup_suppression() -> void:
 			== "arc_chapter1_close",
 		"Hyunsu first meeting baseline follow-up drifted")
 	CORE_LOOP.prepare_story_bundle("hyunsu_first_meet")
-	_expect(not (choices[0] as Dictionary).has("follow_up_event"),
-		"legacy auto-closing was not suppressed inside the V2 scene")
+	_expect(str((choices[0] as Dictionary).get("follow_up_event", "")) \
+			== "arc_chapter1_close" \
+			and CORE_LOOP.story_follow_up_is_suppressed(
+				"arc_intro_04_hyunsu", 0, "arc_chapter1_close"),
+		"V2 suppression receipt did not block the legacy auto-closing "
+		+ "without mutating event data")
 	CORE_LOOP.restore_story_bundle_followups()
 	_expect(str((choices[0] as Dictionary).get("follow_up_event", "")) \
-			== "arc_chapter1_close",
-		"suppressed legacy follow-up was not restored after the V2 scene")
+			== "arc_chapter1_close" \
+			and not CORE_LOOP.story_follow_up_is_suppressed(
+				"arc_intro_04_hyunsu", 0, "arc_chapter1_close"),
+		"V2 follow-up suppression receipt was not cleared after the scene")
 
 func _check_branch_resolution() -> void:
 	GameState.start_new_game()
@@ -475,10 +505,16 @@ func _check_prototype_completion_boundary() -> void:
 		var bundle_id := CORE_LOOP.bundle_id_for_turn()
 		_expect(CORE_LOOP.begin_bundle(bundle_id, "schedule"),
 			"completion fixture could not begin week %d" % week)
-		if bundle_id == "hyunsu_first_meet":
+		if bundle_id == "father_first_call":
+			_expect(CORE_LOOP.note_story_choice("arc_father_01_call", 0),
+				"completion fixture could not record Father's first call")
+		elif bundle_id == "hyunsu_first_meet":
 			_expect(CORE_LOOP.note_story_choice("arc_intro_04_hyunsu", 0),
 				"completion fixture could not record Hyunsu's meeting choice")
-		CORE_LOOP.complete_active_bundle()
+		_expect(_record_fixture_action(bundle_id),
+			"completion fixture could not record week %d action" % week)
+		_expect(CORE_LOOP.complete_active_bundle() == bundle_id,
+			"completion fixture could not complete week %d" % week)
 
 	GameState.turn = 5
 	var month_two_schedule := {
@@ -496,27 +532,56 @@ func _check_prototype_completion_boundary() -> void:
 			"completion fixture could not begin week %d" % week)
 		if bundle_id == "hyunsu_player_reachout":
 			_expect(CORE_LOOP.note_story_choice(
-				"v2_hyunsu_player_reachout", 0),
-				"completion fixture could not record the player-first message")
-		CORE_LOOP.complete_active_bundle()
+				"v2_hyunsu_first_study", 0),
+				"completion fixture could not record Hyunsu's first study choice")
+		_expect(_record_fixture_action(bundle_id),
+			"completion fixture could not record week %d action" % week)
+		_expect(CORE_LOOP.complete_active_bundle() == bundle_id,
+			"completion fixture could not complete week %d" % week)
+
+	GameState.turn = 9
+	var month_three_schedule := {
+		"9": "m3_hanbit_application",
+		"10": "m3_inventory_shift",
+		"11": "daeun_world_meet",
+		"12": "father_quiet_call",
+	}
+	_expect(bool(CORE_LOOP.commit_plan(
+			3, month_three_schedule, _growth_routines()).get("ok", false)),
+		"completion fixture could not commit month three")
+	for week in range(9, 13):
+		GameState.turn = week
+		var bundle_id := CORE_LOOP.bundle_id_for_turn()
+		_expect(CORE_LOOP.begin_bundle(bundle_id, "schedule"),
+			"completion fixture could not begin week %d" % week)
+		if bundle_id == "daeun_world_meet":
+			_expect(CORE_LOOP.note_story_choice("arc_daeun_01_meet", 0),
+				"completion fixture could not record Daeun's first meeting")
+		elif bundle_id == "father_quiet_call":
+			_expect(CORE_LOOP.note_story_choice("arc_father_quiet_call", 2),
+				"completion fixture could not record Father's longer call")
+		_expect(_record_fixture_action(bundle_id),
+			"completion fixture could not record week %d action" % week)
+		_expect(CORE_LOOP.complete_active_bundle() == bundle_id,
+			"completion fixture could not complete week %d" % week)
 
 	GameState.flags["lent_account"] = true
 	GameState.flags["escaped_dirty_money"] = true
 	_expect(not CORE_LOOP.mark_prototype_complete(),
-		"prototype closed before the week-eight month-end rollover")
-	GameState.turn = 9
+		"prototype closed before the week-twelve month-end rollover")
+	GameState.turn = 13
 	_expect(CORE_LOOP.mark_prototype_complete(),
-		"prototype could not mark its post-week-eight terminal state")
+		"prototype could not mark its post-week-twelve terminal state")
 	_expect(CORE_LOOP.is_prototype_complete(),
 		"prototype terminal marker was not readable")
 	_expect(not CORE_LOOP.is_active(),
-		"completed prototype remained active in week nine")
+		"completed prototype remained active in week thirteen")
 
 	var snapshot := CORE_LOOP.completion_snapshot()
-	_expect((snapshot.get("kept", []) as Array).size() == 8,
-		"completion recap did not retain all eight scheduled commitments")
-	_expect((snapshot.get("forgone", []) as Array).size() == 6,
-		"completion recap did not retain the six named closed opportunities")
+	_expect((snapshot.get("kept", []) as Array).size() == 12,
+		"completion recap did not retain all twelve scheduled commitments")
+	_expect((snapshot.get("forgone", []) as Array).size() == 9,
+		"completion recap did not retain the nine named closed opportunities")
 	_expect((snapshot.get("player_initiated", []) as Array).has("hyunsu"),
 		"completion recap lost the player's relationship initiative")
 	_expect(str(snapshot.get("temptation_branch", "")) == "returned_money",
@@ -527,8 +592,8 @@ func _check_prototype_completion_boundary() -> void:
 	GameState.load_from_dict(saved)
 	_expect(CORE_LOOP.is_prototype_complete(),
 		"prototype terminal marker did not survive save/load")
-	_expect(GameState.turn == 9,
-		"prototype terminal save did not remain at the post-week-eight boundary")
+	_expect(GameState.turn == 13,
+		"prototype terminal save did not remain at the post-week-twelve boundary")
 
 func _check_prototype_completion_surface() -> void:
 	LocaleManager.language = "en"
@@ -540,6 +605,10 @@ func _check_prototype_completion_surface() -> void:
 		return
 	var main_game = packed.instantiate()
 	main_game.set_meta("_screenshot_qa_static_surface", true)
+	main_game.set_meta(
+		"_qa_core_loop_v2_completion_snapshot",
+		_qa_twenty_four_week_completion_snapshot())
+	main_game.set_meta("_qa_core_loop_v2_completion_cap_week", 24)
 	add_child(main_game)
 	await get_tree().process_frame
 	await get_tree().process_frame
@@ -548,14 +617,15 @@ func _check_prototype_completion_surface() -> void:
 	LocaleManager.language = "en"
 	main_game._core_loop_v2_show_completion()
 	await get_tree().process_frame
+	await get_tree().process_frame
 	_expect(str(main_game._modal_kind) == "core_loop_v2_complete",
-		"post-week-eight MainGame did not open the completion recap")
+		"post-week-twelve MainGame did not open the completion recap")
 	_expect(bool(main_game.modal_layer.get_meta(
 			"core_loop_v2_completion", false)),
 		"completion recap did not expose its terminal surface marker")
 	_expect(not main_game.modal_close_button.visible,
 		"completion recap exposed a close path into the legacy director")
-	_expect(GameState.turn == 9,
+	_expect(GameState.turn == 13,
 		"opening the completion recap advanced into another week")
 	var viewport_rect := get_viewport().get_visible_rect()
 	var panel_rect: Rect2 = main_game.modal_panel.get_global_rect()
@@ -567,32 +637,82 @@ func _check_prototype_completion_surface() -> void:
 	_expect(is_instance_valid(done_button),
 		"completion recap omitted its terminal CTA")
 	if is_instance_valid(done_button):
-		var scroll_rect: Rect2 = main_game.modal_scroll.get_global_rect()
 		var done_rect: Rect2 = done_button.get_global_rect()
 		# Focus tween can expand the CTA by roughly three logical pixels
 		# while it remains visually inside the fixed footer.
 		_expect(done_button.is_visible_in_tree() \
-				and scroll_rect.grow(4.0).encloses(done_rect),
-			"completion CTA opened below the 720p fold: scroll=%s button=%s" % [
-				scroll_rect, done_rect])
+				and panel_rect.grow(4.0).encloses(done_rect) \
+				and main_game.modal_footer.visible,
+			"completion CTA escaped its sticky footer: panel=%s button=%s" % [
+				panel_rect, done_rect])
+	var scroll_rect: Rect2 = main_game.modal_scroll.get_global_rect()
+	var intro_node := _find_meta_node(
+		main_game.modal_layer, "core_loop_v2_recap_intro") as Control
+	_expect(is_instance_valid(intro_node) \
+			and scroll_rect.grow(4.0).encloses(
+				intro_node.get_global_rect()) \
+			and main_game.modal_scroll.scroll_vertical == 0,
+		"24-week record did not open at its title and first paragraph")
+	_expect(main_game.modal_scroll.vertical_scroll_mode \
+			== ScrollContainer.SCROLL_MODE_AUTO \
+			and main_game.modal_body.get_combined_minimum_size().y \
+				> main_game.modal_scroll.size.y,
+		"24-week record did not retain an explorable bounded body")
+	_expect(get_viewport().gui_get_focus_owner() == done_button,
+		"sticky completion CTA did not own initial focus")
 	var surface_text := _collect_surface_text(main_game.modal_layer)
 	var upper_surface := surface_text.to_upper()
-	_expect(upper_surface.find("COMMITMENTS KEPT") >= 0,
-		"completion recap omitted the kept commitments section")
-	_expect(upper_surface.find("DOORS CLOSED") >= 0,
-		"completion recap omitted the named closed opportunities section")
+	_expect(upper_surface.find("COMPLETED") >= 0,
+		"completion recap omitted the completed-activities section")
+	_expect(upper_surface.find("NOT CHOSEN") >= 0,
+		"completion recap omitted the unchosen-opportunities section")
 	_expect(upper_surface.find("CASH LEFT") >= 0 \
-			and upper_surface.find("BODY") >= 0,
-		"completion recap omitted current cash or body state")
+			and upper_surface.find("HEALTH") >= 0,
+		"completion recap omitted current cash or health state")
 	_expect(surface_text.find("Hyunsu") >= 0,
 		"completion recap omitted the player's relationship initiative")
-	_expect(upper_surface.find("WEEK 9") >= 0,
-		"completion recap did not state its week-nine boundary")
+	_expect(upper_surface.find("WEEK 25") >= 0,
+		"24-week completion density fixture did not state its week-25 boundary")
 	_expect(not _contains_hangul(surface_text),
 		"English completion recap leaked Hangul: %s" % surface_text)
 	main_game.free()
 	packed = null
 	await get_tree().process_frame
+
+func _qa_twenty_four_week_completion_snapshot() -> Dictionary:
+	var snapshot := CORE_LOOP.completion_snapshot()
+	var bundle_ids: Array = (
+		CORE_LOOP.contract().get("scene_bundles", {}) as Dictionary
+	).keys()
+	bundle_ids.sort()
+	_expect(not bundle_ids.is_empty(),
+		"24-week completion QA could not enumerate authored bundles")
+	if bundle_ids.is_empty():
+		return snapshot
+	var kept: Array = []
+	var forgone: Array = []
+	for index in range(24):
+		kept.append({
+			"week": index + 1,
+			"bundle_id": str(bundle_ids[index % bundle_ids.size()]),
+		})
+		forgone.append({
+			"week": index + 1,
+			"bundle_id": str(bundle_ids[
+				(index + 24) % bundle_ids.size()]),
+		})
+	snapshot["kept"] = kept
+	snapshot["forgone"] = forgone
+	var summaries: Dictionary = (
+		snapshot.get("month_summaries", {}) as Dictionary
+	).duplicate(true)
+	summaries["6"] = {
+		"month": 6,
+		"fixed_expense": 650_000.0,
+		"cash_shortfall": 310_000.0,
+	}
+	snapshot["month_summaries"] = summaries
+	return snapshot
 
 func _check_planner_surface() -> void:
 	GameState.start_new_game()
@@ -657,6 +777,36 @@ func _growth_routines() -> Dictionary:
 	return {
 		"primary": "growth",
 		"secondary": "livelihood",
+	}
+
+func _record_fixture_action(bundle_id: String) -> bool:
+	var scene_bundle := CORE_LOOP.bundle(bundle_id)
+	var action_id := str(scene_bundle.get("action_id", ""))
+	if action_id.is_empty():
+		return true
+	var config: Dictionary = (
+		(scene_bundle.get("action_config", {}) as Dictionary).duplicate(true)
+		if scene_bundle.get("action_config", {}) is Dictionary else {}
+	)
+	var details := {
+		"execution": str(config.get("execution", "fixture")),
+	}
+	if action_id == "apply":
+		details["application_id"] = str(config.get(
+			"application_id", bundle_id.trim_suffix("_application")))
+		details["status"] = str(config.get("status", "submitted"))
+	return CORE_LOOP.note_action_commitment(
+		_finalized_action_record(action_id, details))
+
+func _finalized_action_record(
+		action_id: String, details: Dictionary = {}) -> Dictionary:
+	return {
+		"turn": int(GameState.turn),
+		"pressure_id": CORE_LOOP.active_bundle_id(),
+		"choice_id": action_id,
+		"actual_action_id": action_id,
+		"outcome": {},
+		"details": details.duplicate(true),
 	}
 
 func _collect_surface_text(root: Node) -> String:

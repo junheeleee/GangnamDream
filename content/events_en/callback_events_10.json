@@ -16,16 +16,16 @@
   },
   {
     "id": "callback_jiyeon_walked_away_echo",
-    "title": "The Seat She Left First",
-    "description": "The day Jiyeon stood up and left first.\nTwo months have passed.\nA mutual contact mentioned she's been doing well.",
+    "title": "After Leaving the Crash First",
+    "description": "{name} left the crash without compensation or contact information.\nAfter that day, every look at the bent front wheel brought back the black sedan and its unnamed driver.",
     "choices": [
       {
-        "text": "Reach out",
-        "result_text": "'Heard you're doing well. You should have checked in.'\nJiyeon said 'you didn't have much room back then either.'\nThe person who leaves first isn't always in the wrong."
+        "text": "Ask a repair shop for an estimate",
+        "result_text": "The mechanic spun the front wheel and said it would need replacing.\n{name} folded the estimate and put it away. There was no way to contact the driver."
       },
       {
-        "text": "Leave it. Good that she's well.",
-        "result_text": "Good that she was well.\nMaybe they'd just gone different directions.\nThat's also a kind of ending."
+        "text": "Leave the bicycle parked for now",
+        "result_text": "The bent wheel was not safe to ride. {name} left the bicycle against the goshiwon wall and walked out."
       }
     ]
   },
@@ -91,16 +91,16 @@
   },
   {
     "id": "callback_daeun_first_kind_memory",
-    "title": "What Daeun Remembered",
-    "description": "It's been a while since you first spoke up when Daeun seemed to be having a hard time.\nOver a meal today, Daeun said:\n\"Minjun — when you said something back then — do you remember that?\"",
+    "title": "The Night He First Asked Her Name",
+    "description": "On another night at the convenience store, Daeun spoke while straightening the triangle-gimbap shelf.\n\"{name}, remember when I pointed out the buy-one-get-one offer? You asked my name right away.\"",
     "choices": [
       {
-        "text": "\"I remember. You looked like you were really struggling.\"",
-        "result_text": "Daeun said 'I was. That's what got me through it.'\nThe table went quiet for a moment.\nA small kindness stays that long — you didn't know."
+        "text": "\"I remember. I had completely missed the offer.\"",
+        "result_text": "Daeun laughed. \"You were the first customer who asked my name that night.\"\nThe short exchange at the register remained between them exactly as it happened."
       },
       {
-        "text": "\"Did I? It's a bit fuzzy for me.\"",
-        "result_text": "Daeun smiled. 'I remember.'\nThe things you do — get remembered somewhere you don't know."
+        "text": "\"Those two gimbap covered two meals.\"",
+        "result_text": "Daeun laughed as she replaced the red sale tag. \"Then I told you in time.\"\nEven after paying, {name} stayed at the counter and talked a little longer."
       }
     ]
   },

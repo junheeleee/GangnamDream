@@ -11,6 +11,7 @@ enum Mode { CARDS, CONVENIENCE, DELIVERY }
 
 # 2026 최저임금 10,320원 × 8시간 = 82,560원. 게임에서는 야간/단기 가산을 둥글게 반영한다.
 const BASE_PAY := 90_000
+const BASE_SHIFT_HEALTH_DELTA := -3
 
 # ── 상황 카드 데이터 ──────────────────────────────────────────────
 const SCENARIOS_CONVENIENCE = [
@@ -147,24 +148,24 @@ const CUSTOMER_TYPES = [
 		"text_en": "Excuse me, checkout please.",
 		"patience": 12.0, "urgency": 1,
 		"actions": [
-			{"text": "빠르게 스캔한다", "text_en": "Scan quickly.", "bonus": 2_000, "stress": 0, "tip": "뚝딱 처리됐다.", "tip_en": "Handled in a flash."},
-			{"text": "\"잠깐만요~\" 다른 손님 먼저", "text_en": "\"One moment, please.\" Help another customer first.", "bonus": -1_000, "stress": 1, "tip": "한숨 쉬며 기다렸다.", "tip_en": "They waited with a sigh."},
+			{"text": "빠르게 스캔한다", "text_en": "Scan quickly.", "bonus": 2_000, "stress": 0, "tip": "점장이 빠른 응대 기록을 보고 성과수당 2천 원을 붙였다.", "tip_en": "The manager added a 2,000 won performance bonus for the quick checkout."},
+			{"text": "\"잠깐만요\" 다른 손님 먼저", "text_en": "\"One moment, please.\" Help another customer first.", "bonus": 0, "stress": 1, "tip": "손님은 한숨을 쉬며 기다렸다.", "tip_en": "The customer waited with a sigh."},
 		]
 	},
 	{
-		"id": "angry", "name": "진상 손님", "name_en": "Difficult Customer",
+		"id": "angry", "name": "화를 내는 손님", "name_en": "Angry Customer",
 		"text": "야! 왜 이렇게 느려!",
 		"text_en": "Hey! Why are you so slow?",
 		"patience": 6.0, "urgency": 3,
 		"actions": [
 			{"text": "\"죄송합니다\" 차분히 대응", "text_en": "\"I'm sorry.\" Respond calmly.", "bonus": 0, "stress": 2, "tip": "간신히 진정됐다.", "tip_en": "They barely calmed down."},
-			{"text": "\"불편하셨다면 더 노력하겠습니다\"", "text_en": "\"I'll do better if this caused inconvenience.\"", "bonus": 1_000, "stress": 1, "tip": "오히려 미안해했다.", "tip_en": "They actually felt bad."},
-			{"text": "무시하고 다른 손님 먼저", "text_en": "Ignore them and help another customer first.", "bonus": -2_000, "stress": 5, "tip": "점장한테 신고한다고.", "tip_en": "They threatened to report you to the manager."},
+			{"text": "\"많이 기다리셨죠. 바로 계산해 드릴게요\"", "text_en": "\"You've waited long enough. I'll ring this up now.\"", "bonus": 1_000, "stress": 1, "tip": "손님은 미안했다며 팁 천 원을 계산대에 두고 갔다.", "tip_en": "The customer apologized and left a 1,000 won tip on the counter."},
+			{"text": "무시하고 다른 손님 먼저", "text_en": "Ignore them and help another customer first.", "bonus": 0, "stress": 5, "tip": "손님은 점장에게 항의하겠다고 했다.", "tip_en": "They threatened to complain to the manager."},
 		]
 	},
 	{
 		"id": "regular_elder", "name": "단골 할머니", "name_en": "Elderly Regular",
-		"text": "총각, 나 봤어요? 매일 오는데.",
+		"text": "총각, 오늘 대타예요? 나는 매일 이 시간에 오는데.",
 		"text_en": "Young man, do you remember me? I come here every day.",
 		"patience": 16.0, "urgency": 0,
 		"actions": [
@@ -179,8 +180,8 @@ const CUSTOMER_TYPES = [
 		"patience": 9.0, "urgency": 2,
 		"actions": [
 			{"text": "친절하게 안내한다", "text_en": "Guide them politely.", "bonus": 0, "stress": 1, "tip": "고맙다며 갔다.", "tip_en": "They thanked you and left."},
-			{"text": "\"많이 드셨는데 괜찮으세요?\"", "text_en": "\"You've had a lot. Are you okay?\"", "bonus": 2_000, "stress": 0, "tip": "감동받았다며 팁을.", "tip_en": "They were touched and left a tip."},
-			{"text": "못 본 척한다", "text_en": "Pretend not to see them.", "bonus": -1_000, "stress": 2, "tip": "혼자 한참 헤맸다.", "tip_en": "They wandered around alone for a while."},
+			{"text": "\"많이 드신 것 같은데, 물도 같이 찾으세요?\"", "text_en": "\"Looks like you've had a lot. Do you need some water too?\"", "bonus": 2_000, "stress": 0, "tip": "손님은 고맙다며 2천 원을 계산대에 두고 갔다.", "tip_en": "The customer thanked you and left 2,000 won on the counter."},
+			{"text": "못 본 척한다", "text_en": "Pretend not to see them.", "bonus": 0, "stress": 2, "tip": "손님은 혼자 한참 매장을 헤맸다.", "tip_en": "The customer wandered around the store alone for a while."},
 		]
 	},
 	{
@@ -189,8 +190,8 @@ const CUSTOMER_TYPES = [
 		"text_en": "I bought this yesterday, and it's defective.",
 		"patience": 10.0, "urgency": 1,
 		"actions": [
-			{"text": "영수증 확인 후 즉시 교환", "text_en": "Check the receipt and exchange it immediately.", "bonus": 2_000, "stress": 1, "tip": "깔끔하게 처리됐다.", "tip_en": "Cleanly handled."},
-			{"text": "점장에게 물어봐야 한다고 설명", "text_en": "Explain that you need to ask the manager.", "bonus": -1_000, "stress": 2, "tip": "손님이 불만이다.", "tip_en": "The customer is unhappy."},
+			{"text": "영수증 확인 후 즉시 교환", "text_en": "Check the receipt and exchange it immediately.", "bonus": 2_000, "stress": 1, "tip": "점장이 교환 기록을 확인하고 성과수당 2천 원을 붙였다.", "tip_en": "The manager reviewed the exchange and added a 2,000 won performance bonus."},
+			{"text": "점장에게 물어봐야 한다고 설명", "text_en": "Explain that you need to ask the manager.", "bonus": 0, "stress": 2, "tip": "손님은 기다려야 한다며 불만을 보였다.", "tip_en": "The customer was unhappy about having to wait."},
 		]
 	},
 	{
@@ -199,27 +200,27 @@ const CUSTOMER_TYPES = [
 		"text_en": "I had a parcel left here.",
 		"patience": 11.0, "urgency": 1,
 		"actions": [
-			{"text": "등록번호 확인 후 찾아준다", "text_en": "Check the tracking number and find it.", "bonus": 1_000, "stress": 0, "tip": "빠르게 처리됐다.", "tip_en": "Handled quickly."},
-			{"text": "뒤에 있을 거라고 알아서 찾으라 한다", "text_en": "Tell them it should be in the back and to find it themselves.", "bonus": -500, "stress": 1, "tip": "손님이 불만 표정.", "tip_en": "The customer looks displeased."},
+			{"text": "등록번호 확인 후 찾아준다", "text_en": "Check the tracking number and find it.", "bonus": 1_000, "stress": 0, "tip": "손님은 고맙다며 팁 천 원을 두고 갔다.", "tip_en": "The customer thanked you and left a 1,000 won tip."},
+			{"text": "뒤에 있을 거라고 알아서 찾으라 한다", "text_en": "Tell them it should be in the back and to find it themselves.", "bonus": 0, "stress": 1, "tip": "손님은 불만스러운 표정으로 택배를 찾았다.", "tip_en": "The customer searched for the parcel with an unhappy look."},
 		]
 	},
 	{
 		"id": "points", "name": "포인트 손님", "name_en": "Points Customer",
-		"text": "포인트 카드요! 이거 적립 됐어요?",
+		"text": "포인트 카드요! 이거 적립됐어요?",
 		"text_en": "My points card! Did this get credited?",
 		"patience": 9.0, "urgency": 1,
 		"actions": [
-			{"text": "영수증 보고 재적립 처리", "text_en": "Check the receipt and credit the points again.", "bonus": 1_000, "stress": 0, "tip": "감사합니다! 하며 갔다.", "tip_en": "They left saying, \"Thank you!\""},
-			{"text": "\"계산 전에 말씀해야...\"", "text_en": "\"You need to tell me before checkout...\"", "bonus": -500, "stress": 2, "tip": "다시는 안 온다고.", "tip_en": "They said they would never come back."},
+			{"text": "영수증 보고 재적립 처리", "text_en": "Check the receipt and credit the points again.", "bonus": 1_000, "stress": 0, "tip": "점장이 사후 적립 기록을 보고 성과수당 천 원을 붙였다.", "tip_en": "The manager reviewed the points correction and added a 1,000 won performance bonus."},
+			{"text": "\"계산 전에 말씀해 주셔야 해요\"", "text_en": "\"You need to tell me before checkout.\"", "bonus": 0, "stress": 2, "tip": "손님은 다시 오지 않겠다며 나갔다.", "tip_en": "They left saying they would never return."},
 		]
 	},
 	{
-		"id": "lost", "name": "길 묻는 손님", "name_en": "Lost Customer",
+		"id": "lost", "name": "상품 위치를 묻는 손님", "name_en": "Customer Looking for an Item",
 		"text": "저기, 삼각김밥 어디 있어요?",
 		"text_en": "Excuse me, where are the triangle gimbap?",
 		"patience": 13.0, "urgency": 0,
 		"actions": [
-			{"text": "직접 자리에서 안내한다", "text_en": "Walk them to the shelf yourself.", "bonus": 1_000, "stress": 0, "tip": "고마워하며 여러 개 샀다.", "tip_en": "They thanked you and bought several."},
+			{"text": "진열대까지 함께 가서 안내한다", "text_en": "Walk them to the shelf yourself.", "bonus": 1_000, "stress": 0, "tip": "손님은 고맙다며 팁 천 원을 두고 갔다.", "tip_en": "The customer thanked you and left a 1,000 won tip."},
 			{"text": "방향만 손으로 가리킨다", "text_en": "Just point in the general direction.", "bonus": 0, "stress": 0, "tip": "찾아갔다.", "tip_en": "They found it."},
 		]
 	},
@@ -233,10 +234,11 @@ const CONV_TIMEOUT_STRESS := 2   # 타임아웃당 스트레스 (기본; urgency
 # ── 배달 루트 상수 ────────────────────────────────────────────────
 const DEL_TIME_BUDGET := 120
 const DEL_BASE_BONUS := 8_000
+const DEL_RAIN_SURGE_PER_ORDER := 5_000
 const DEL_ORDERS_DATA = [
 	{"name": "홍대 치킨", "name_en": "Hongdae Chicken", "time": 18, "tip": 5_000, "info": "1층 · 18분", "info_en": "1F · 18 min"},
 	{"name": "신촌 피자", "name_en": "Sinchon Pizza", "time": 30, "tip": 11_000, "info": "3층 · 30분", "info_en": "3F · 30 min"},
-	{"name": "여의도 오피스 런치", "name_en": "Yeouido Office Lunch", "time": 45, "tip": 18_000, "info": "22층 · 45분", "info_en": "22F · 45 min"},
+	{"name": "여의도 사무실 야식", "name_en": "Yeouido Office Late-Night Meal", "time": 45, "tip": 18_000, "info": "22층 · 45분", "info_en": "22F · 45 min"},
 	{"name": "이대 야식", "name_en": "Ewha Late-Night Meal", "time": 25, "tip": 8_000, "info": "4층 · 25분", "info_en": "4F · 25 min"},
 	{"name": "공덕역 카페", "name_en": "Gongdeok Station Cafe", "time": 14, "tip": 4_000, "info": "1층 · 14분", "info_en": "1F · 14 min"},
 	{"name": "마포 공사장 도시락", "name_en": "Mapo Construction Site Lunchbox", "time": 8, "tip": 2_500, "info": "1층 · 8분", "info_en": "1F · 8 min"},
@@ -279,6 +281,8 @@ var _del_selected: Array = []
 var _del_order_btns: Array = []
 var _del_status_lbl: Label = null
 var _del_confirm_btn: Button = null
+var _shift_context: Dictionary = {}
+var _last_shift_receipt: Dictionary = {}
 
 # ── UI 참조 ───────────────────────────────────────────────────────
 var _root_vb: VBoxContainer
@@ -346,10 +350,12 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 
 # ── 진입 ─────────────────────────────────────────────────────────
-func open() -> void:
+func open(shift_context: Dictionary = {}) -> void:
 	_earned = BASE_PAY
 	_stress_delta = 0
 	_health_delta = 0
+	_shift_context = shift_context.duplicate(true)
+	_last_shift_receipt = {}
 	_del_selected = []
 	_card_idx = 0
 	_card_waiting = false
@@ -375,19 +381,34 @@ func open() -> void:
 	match _mode:
 		Mode.CONVENIENCE:
 			_set_scene_surface("res://assets/backgrounds/convenience_store_night_v2.png", "convenience")
-			_header_lbl.text = LocaleManager.ui("편의점 야간 시프트", "Convenience Store Night Shift")
+			_header_lbl.text = LocaleManager.ui("편의점 야간 근무", "Convenience Store Night Shift")
 			_start_convenience()
 		Mode.DELIVERY:
 			_set_scene_surface("res://assets/backgrounds/aruba_delivery_street.png", "street")
-			_header_lbl.text = LocaleManager.ui("배달 루트 설정", "Delivery Route Planning")
+			_header_lbl.text = LocaleManager.ui(
+				"비 오는 저녁 배달" if _is_rain_surge_shift() else "배달 루트 설정",
+				"Rainy Evening Delivery" if _is_rain_surge_shift()
+				else "Delivery Route Planning")
 			_start_delivery()
 		Mode.CARDS:
 			_set_scene_surface("res://assets/backgrounds/office_desk.png", "office")
-			_header_lbl.text = LocaleManager.ui("알바 시프트", "Part-Time Shift")
+			_header_lbl.text = LocaleManager.ui("알바 근무", "Part-Time Shift")
 			_start_cards()
 
 func get_base_pay() -> int:
 	return BASE_PAY
+
+func is_rain_surge_shift() -> bool:
+	return _is_rain_surge_shift()
+
+func get_last_shift_receipt() -> Dictionary:
+	return _last_shift_receipt.duplicate(true)
+
+func _is_rain_surge_shift() -> bool:
+	return (
+		str(_shift_context.get("weather", "")) == "rain"
+		and bool(_shift_context.get("surge_pay", false))
+	)
 
 func _clear_content() -> void:
 	for ch in _content_vb.get_children():
@@ -450,7 +471,7 @@ func _build_base_ui() -> void:
 	var hdr := HBoxContainer.new()
 	_root_vb.add_child(hdr)
 	_header_lbl = Label.new()
-	_header_lbl.text = LocaleManager.ui("알바 시프트", "Part-Time Shift")
+	_header_lbl.text = LocaleManager.ui("알바 근무", "Part-Time Shift")
 	_header_lbl.add_theme_font_size_override("font_size", 24)
 	_header_lbl.add_theme_color_override("font_color", Color("#f0c36a"))
 	_header_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -1008,7 +1029,15 @@ func _start_delivery() -> void:
 	_progress_lbl.text = LocaleManager.ui("루트 설정", "Route")
 
 	var guide := Label.new()
-	guide.text = LocaleManager.ui("제한 시간 %d분. 배달할 순서대로 선택하세요. 다시 선택하면 취소됩니다.", "Time limit: %d minutes. Select deliveries in order. Select again to cancel.") % DEL_TIME_BUDGET
+	if _is_rain_surge_shift():
+		guide.text = LocaleManager.ui(
+			"8시간 근무 중 비가 오는 저녁 피크 %d분입니다. 완료한 건마다 비 할증 %s이 붙고, 빗길 운행으로 건강이 1 더 줄어듭니다.",
+			"This is the rainy %d-minute evening peak of an eight-hour shift. Each completed delivery adds a %s rain surge, and riding in the rain costs 1 extra Health.") % [
+				DEL_TIME_BUDGET, _fmt(DEL_RAIN_SURGE_PER_ORDER)]
+	else:
+		guide.text = LocaleManager.ui(
+			"8시간 근무 중 저녁 피크 %d분입니다. 배달할 순서대로 선택하세요. 다시 선택하면 취소됩니다.",
+			"This is the %d-minute evening peak of an eight-hour shift. Select deliveries in order; select again to cancel.") % DEL_TIME_BUDGET
 	guide.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	guide.add_theme_font_size_override("font_size", 15)
 	guide.add_theme_color_override("font_color", Color("#b1c0cc"))
@@ -1095,15 +1124,28 @@ func _del_refresh_ui() -> void:
 
 	var tip_preview := 0
 	var bonus_preview := 0
+	var surge_preview := 0
 	for i in _del_selected:
 		tip_preview += int(DEL_ORDERS_DATA[i]["tip"])
 		bonus_preview += DEL_BASE_BONUS
+		if _is_rain_surge_shift():
+			surge_preview += DEL_RAIN_SURGE_PER_ORDER
 
 	var remaining := DEL_TIME_BUDGET - time_used
 	var status_color := "#3dba6a" if remaining >= 20 else "#f0b429" if remaining >= 0 else "#e85d5d"
 	if is_instance_valid(_del_status_lbl):
-		_del_status_lbl.text = LocaleManager.ui("소요 %d분 / %d분 (여유 %d분)  |  예상 추가 수입 +%s", "Time %d / %d min (%d min spare)  |  Expected extra income +%s") % [
-			time_used, DEL_TIME_BUDGET, remaining, _fmt(tip_preview + bonus_preview)]
+		_del_status_lbl.text = LocaleManager.ui(
+			"소요 %d분 / %d분 (여유 %d분)  |  예상 추가 수입 +%s%s",
+			"Time %d / %d min (%d min spare)  |  Expected extra income +%s%s") % [
+				time_used,
+				DEL_TIME_BUDGET,
+				remaining,
+				_fmt(tip_preview + bonus_preview + surge_preview),
+				LocaleManager.ui(
+					" (비 할증 %s)" % _fmt(surge_preview),
+					" (%s rain surge)" % _fmt(surge_preview))
+				if _is_rain_surge_shift() else "",
+			]
 		_del_status_lbl.add_theme_color_override("font_color", Color(status_color))
 
 	if is_instance_valid(_del_confirm_btn):
@@ -1111,12 +1153,34 @@ func _del_refresh_ui() -> void:
 
 func _del_confirm() -> void:
 	var tip_total := 0
+	var route_minutes := 0
 	for i in _del_selected:
 		tip_total += int(DEL_ORDERS_DATA[i]["tip"])
+		route_minutes += int(DEL_ORDERS_DATA[i]["time"])
 	var delivery_count := _del_selected.size()
-	_earned += tip_total + delivery_count * DEL_BASE_BONUS
+	var surge_total := (
+		delivery_count * DEL_RAIN_SURGE_PER_ORDER
+		if _is_rain_surge_shift() else 0
+	)
+	_earned += tip_total + delivery_count * DEL_BASE_BONUS + surge_total
 	_stress_delta += maxi(delivery_count - 2, 0)
 	_health_delta -= delivery_count
+	if _is_rain_surge_shift() and delivery_count > 0:
+		_health_delta -= 1
+	_last_shift_receipt = {
+		"mode": "delivery",
+		"weather": "rain" if _is_rain_surge_shift() else "clear",
+		"base_pay": BASE_PAY,
+		"delivery_count": delivery_count,
+		"route_minutes": route_minutes,
+		"tip_total": tip_total,
+		"route_bonus_total": delivery_count * DEL_BASE_BONUS,
+		"surge_per_delivery": (
+			DEL_RAIN_SURGE_PER_ORDER if _is_rain_surge_shift() else 0
+		),
+		"surge_total": surge_total,
+		"earned": _earned,
+	}
 	_show_result()
 
 # ══════════════════════════════════════════════════════════════════
@@ -1137,11 +1201,21 @@ func _show_result() -> void:
 
 	match _mode:
 		Mode.CONVENIENCE:
-			finish_lbl.text = LocaleManager.ui("시프트 종료  %d / %d명 응대 성공", "Shift Complete  %d / %d served successfully") % [_conv_good, CONV_TOTAL]
+			finish_lbl.text = LocaleManager.ui("근무 종료  %d / %d명 응대 성공", "Shift Complete  %d / %d served successfully") % [_conv_good, CONV_TOTAL]
 		Mode.DELIVERY:
-			finish_lbl.text = LocaleManager.ui("배달 완료 — %d건", "Delivery Complete — %d orders") % _del_selected.size()
+			if _is_rain_surge_shift():
+				finish_lbl.text = LocaleManager.ui(
+					"빗속 배달 완료 — %d건 · 비 할증 +%s",
+					"Rain Delivery Complete — %d orders · +%s surge") % [
+						_del_selected.size(),
+						_fmt(int(_last_shift_receipt.get("surge_total", 0))),
+					]
+			else:
+				finish_lbl.text = LocaleManager.ui(
+					"배달 완료 — %d건",
+					"Delivery Complete — %d orders") % _del_selected.size()
 		Mode.CARDS:
-			finish_lbl.text = LocaleManager.ui("시프트 끝", "Shift Complete")
+			finish_lbl.text = LocaleManager.ui("근무 종료", "Shift Complete")
 
 	var earn_lbl := Label.new()
 	earn_lbl.text = "+%s" % _fmt(_earned)
@@ -1155,14 +1229,15 @@ func _show_result() -> void:
 	stat_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	stat_row.add_theme_constant_override("separation", 16)
 	_content_vb.add_child(stat_row)
+	var total_health_delta := BASE_SHIFT_HEALTH_DELTA + _health_delta
 	if _stress_delta != 0:
 		stat_row.add_child(_mini_lbl(
 			LocaleManager.ui("정신력 %+d", "Mental %+d") % (-_stress_delta),
 			"#e85d5d" if _stress_delta > 0 else "#3dba6a"))
-	if _health_delta != 0:
+	if total_health_delta != 0:
 		stat_row.add_child(_mini_lbl(
-			LocaleManager.ui("건강 %+d", "Health %+d") % _health_delta,
-			"#e85d5d" if _health_delta < 0 else "#3dba6a"))
+			LocaleManager.ui("건강 %+d", "Health %+d") % total_health_delta,
+			"#e85d5d" if total_health_delta < 0 else "#3dba6a"))
 
 	var ok_btn := _make_btn(LocaleManager.ui("퇴근하기", "Clock Out"), "#0e3a2a", 15)
 	ok_btn.custom_minimum_size = Vector2(0, 46)
@@ -1174,7 +1249,10 @@ func _on_finish() -> void:
 	MetaProgression.record_minigame_play("aruba")
 	BGMPlayer.leave_activity_ambience()
 	visible = false
-	closed.emit(_earned, _stress_delta, _health_delta)
+	closed.emit(
+		_earned,
+		_stress_delta,
+		BASE_SHIFT_HEALTH_DELTA + _health_delta)
 
 # ── 헬퍼 ─────────────────────────────────────────────────────────
 func _customer_tag(customer: Dictionary) -> String:

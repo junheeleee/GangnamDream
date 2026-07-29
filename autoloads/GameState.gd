@@ -14,6 +14,7 @@ signal weekly_commitment_finalized(commitment: Dictionary)
 # Codex 테마색 구독용 — norm(-1~+1) 부드러운 보간, stage(-2~+2) 이산 효과
 signal moral_tint_changed(norm: float, stage: int)
 
+const INITIAL_SETTLEMENT_SUBSIDY := 300_000.0
 const STAT_THRESHOLDS: Array = [30, 50, 70]
 var unlocked_stat_thresholds: Dictionary = {}
 
@@ -1650,7 +1651,7 @@ func cancel_pending_weekly_commitment(expected_turn: int = -1) -> void:
 		return
 	pending_weekly_commitment = {}
 
-func _weekly_commitment_action_matches(choice_id: String, action_id: String) -> bool:
+func weekly_commitment_action_matches(choice_id: String, action_id: String) -> bool:
 	var accepted: Array = WEEKLY_COMMITMENT_ACTION_MATCHES.get(choice_id, [choice_id])
 	return accepted.has(action_id)
 
@@ -1659,6 +1660,93 @@ func has_pending_weekly_commitment(commitment_turn: int = -1) -> bool:
 		return false
 	return commitment_turn < 0 \
 		or int(pending_weekly_commitment.get("turn", -1)) == commitment_turn
+
+func claim_initial_settlement_subsidy() -> bool:
+	# This is a one-time opening buffer, not a January benefit. `month == 1`
+	# becomes true again in every chapter year, so both the absolute turn gate
+	# and a durable receipt are required for the 240-week ledger.
+	if turn > 4 or bool(flags.get("settlement_subsidy_received", false)):
+		return false
+	flags["settlement_subsidy_received"] = true
+	add_money(INITIAL_SETTLEMENT_SUBSIDY)
+	return true
+
+## Complete a deterministic foreground action as one state transaction.
+## Application cards, authored instant results, and recovery cards all share
+## this path so AP, public effects, causal flags, axis history, and the weekly
+## commitment cannot diverge. A late finalization failure restores the exact
+## serialized state that existed before the action began.
+func finalize_weekly_effect_action(
+		action_id: String, effects: Dictionary, axis: String,
+		place_id: String = "", subject_id: String = "",
+		details: Dictionary = {}, flag_updates: Dictionary = {}) -> Dictionary:
+	var normalized_action := action_id.strip_edges().to_lower()
+	var normalized_axis := axis.strip_edges().to_lower()
+	if normalized_action.is_empty():
+		return {"ok": false, "error": "missing_action"}
+	if normalized_axis not in ["money", "human"]:
+		return {"ok": false, "error": "invalid_axis"}
+	if pending_weekly_commitment.is_empty():
+		return {"ok": false, "error": "missing_pending_commitment"}
+	if int(pending_weekly_commitment.get("turn", -1)) != turn:
+		return {"ok": false, "error": "pending_turn_mismatch"}
+	var choice_id := str(
+		pending_weekly_commitment.get("choice_id", "")).strip_edges().to_lower()
+	if not weekly_commitment_action_matches(choice_id, normalized_action):
+		return {"ok": false, "error": "action_mismatch"}
+	if has_weekly_commitment_for_turn(turn):
+		return {"ok": false, "error": "turn_already_finalized"}
+	if action_points <= 0:
+		return {"ok": false, "error": "insufficient_ap"}
+
+	var snapshot: Dictionary = serialize().duplicate(true)
+	var transient_snapshot := {
+		"pending_tint_vignette": pending_tint_vignette.duplicate(true),
+		"pending_scar_vignette": pending_scar_vignette,
+	}
+	if not spend_ap():
+		return {"ok": false, "error": "insufficient_ap"}
+	if not effects.is_empty():
+		apply_effects(effects)
+	for raw_flag in flag_updates:
+		var flag_id := str(raw_flag).strip_edges()
+		if flag_id.is_empty():
+			continue
+		var flag_value: Variant = flag_updates[raw_flag]
+		if flag_value == null:
+			flags.erase(flag_id)
+		else:
+			flags[flag_id] = flag_value
+	register_action_axis(
+		normalized_axis, place_id, normalized_action, subject_id)
+	if not finalize_weekly_commitment(
+			normalized_action, subject_id, details):
+		_restore_serialized_snapshot_exact(snapshot)
+		pending_tint_vignette = (
+			transient_snapshot["pending_tint_vignette"] as Dictionary
+		).duplicate(true)
+		pending_scar_vignette = str(
+			transient_snapshot["pending_scar_vignette"])
+		money_changed.emit(money)
+		moral_tint_changed.emit(moral_tint_norm(), moral_stage())
+		return {"ok": false, "error": "finalize_failed", "rolled_back": true}
+	return {
+		"ok": true,
+		"record": get_weekly_commitment_for_turn(turn),
+	}
+
+func _restore_serialized_snapshot_exact(snapshot: Dictionary) -> void:
+	# The general save loader performs compatibility normalization. Transaction
+	# rollback must then restore every serialized value byte-for-byte so a
+	# migration or profile-dependent default cannot become part of a failed
+	# action.
+	load_from_dict(snapshot)
+	for raw_key in snapshot:
+		var value: Variant = snapshot[raw_key]
+		if value is Dictionary or value is Array:
+			value = value.duplicate(true)
+		set(str(raw_key), value)
+	stats_changed.emit()
 
 func finalize_weekly_commitment(action_id: String, subject_id: String = "",
 		details: Dictionary = {}) -> bool:
@@ -1670,7 +1758,7 @@ func finalize_weekly_commitment(action_id: String, subject_id: String = "",
 	var normalized_action := action_id.strip_edges().to_lower()
 	var choice_id := str(pending_weekly_commitment.get("choice_id", ""))
 	if normalized_action.is_empty() \
-			or not _weekly_commitment_action_matches(choice_id, normalized_action):
+			or not weekly_commitment_action_matches(choice_id, normalized_action):
 		return false
 	if has_weekly_commitment_for_turn(turn):
 		pending_weekly_commitment = {}

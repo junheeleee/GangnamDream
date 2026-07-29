@@ -2,15 +2,15 @@
   {
     "id": "arc_daeun_01_meet",
     "title": "Buy One Get One",
-    "description": "The convenience store you go to every night.\n\nToday again — one triangle kimbap, and a card held out at the register. Then she speaks.\n\n\"That one's close to expiry, so it's buy one get one. Grab another.\"\n\nThe woman behind the counter. Not a stranger — you'd seen her before. But you'd never heard anything like that.\n\nHow long has it been since anyone in Seoul showed you this kind of kindness?\nFor a moment, the narrow little store felt a different temperature.",
+    "description": "It was a time when short-term work was covering the living expenses. Unable to sleep before dawn, {name} steps into a lit 24-hour convenience store.\n\nHe sets one triangle gimbap on the counter and reaches for his card. The clerk points to a small red sign on the shelf.\n\n\"That one's buy one get one today. Grab another.\"\n\n{name} had missed the sign. She could have simply rung up one, but she points out the offer first.\nA stranger's face across the register. He does not know her name yet.",
     "choices": [
       {
         "text": "Thank her, then ask her name",
-        "result_text": "\"...Thank you. I'm in here all the time and you always look out for me.\"\nShe smiled for the first time. \"Kim Daeun. I see you a lot.\"\n\nA small name, exchanged between two people.\nThe Seoul night felt, just a little, less cold."
+        "result_text": "\"...I didn't know about the offer. Thank you.\"\nThe clerk smiles. \"I'm Kim Daeun. I work nights.\"\n\n{name} gives his name too. For the first time, they know each other's names.\nThe Seoul night feels, just a little, less cold."
       },
       {
         "text": "Thank her and leave",
-        "result_text": "{name} gave a small bow and stepped out.\nRight now, the only thing in view is 3 billion won.\n\nStill — the bag with two triangle kimbap in it sat strangely heavy in the hand."
+        "result_text": "{name} gives a small bow and steps outside.\nIt is not a night when he has room to draw a stranger into a longer conversation.\n\nThe bag holds two triangle gimbap for the price he had expected to pay for one. He never asked the clerk's name."
       }
     ]
   },
@@ -36,11 +36,11 @@
   {
     "id": "arc_daeun_02b_dream",
     "title": "The Dream",
-  "description": "When the late-night convenience store emptied, only the refrigerator motor remained. Folding the lid of his ramyeon cup, {name} said, \"Within five years, I'll be living in Gangnam with 3 billion won in assets.\"\n\nDaeun's hand stopped over the barcode scanner. She gave a short laugh of surprise, then grew serious. \"That's a very big dream. But why Gangnam, Minjun?\"\n\n{name} looked down at the steam rising from the cup. He had prepared an answer about success and status. Daeun's eyes held no contempt, only a quiet curiosity waiting for whatever he had hidden behind that answer.",
+  "description": "When the late-night convenience store emptied, only the refrigerator motor remained. Folding the lid of his ramyeon cup, {name} said, \"Within five years, I'll be living in Gangnam with 3 billion won in assets.\"\n\nDaeun's hand stopped over the barcode scanner. She gave a short laugh of surprise, then grew serious. \"That's a very big dream. But why Gangnam, {name}?\"\n\n{name} looked down at the steam rising from the cup. He had prepared an answer about success and status. Daeun's eyes held no contempt, only a quiet curiosity waiting for whatever he had hidden behind that answer.",
     "choices": [
       {
       "text": "\"Because I never want to be looked down on again.\" — give her the hidden reason",
-      "result_text": "For the first time, {name} spoke about shrinking before anyone could discover he was poor, and avoiding people's eyes through the years spent paying his father's debt. The steam blurred his sight as the words continued.\n\nDaeun rested both hands on the counter and listened to the end. \"I understand. But where you live doesn't give anyone permission to look down on you, Minjun.\"\n\nNo one had ever taken his side before taking the side of his goal. Her sentence remained above the cooling broth."
+      "result_text": "For the first time, {name} spoke about shrinking before anyone could discover he was poor, and avoiding people's eyes through the years spent paying his father's debt. The steam blurred his sight as the words continued.\n\nDaeun rested both hands on the counter and listened to the end. \"I understand. But where you live doesn't give anyone permission to look down on you, {name}.\"\n\nNo one had ever taken his side before taking the side of his goal. Her sentence remained above the cooling broth."
       },
       {
       "text": "\"It's just the symbol of success.\" — use the answer he prepared",

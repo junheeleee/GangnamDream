@@ -30,6 +30,8 @@ var modal_scroll: ScrollContainer
 var modal_panel: PanelContainer
 var modal_body: VBoxContainer
 var modal_header: HBoxContainer
+var modal_outer: VBoxContainer
+var modal_footer: VBoxContainer
 var modal_title_label: Label
 var modal_pad_hint_label: Label
 var modal_close_button: Button
@@ -438,12 +440,38 @@ func _core_loop_v2_continue_after_story() -> void:
 	current_event = {}
 	var active_kind := DEMO_CORE_LOOP_V2.active_kind()
 	if active_kind == "consequence":
-		DEMO_CORE_LOOP_V2.complete_active_bundle()
+		if DEMO_CORE_LOOP_V2.complete_active_bundle().is_empty():
+			push_error("Core Loop V2 consequence returned without a completion receipt")
+			return
 		_refresh_all()
 		call_deferred("_core_loop_v2_route_week")
 		return
 	if active_kind == "schedule":
-		DEMO_CORE_LOOP_V2.complete_active_bundle()
+		var owner_id := DEMO_CORE_LOOP_V2.active_bundle_id()
+		var prelude_receipt := DEMO_CORE_LOOP_V2.scheduled_prelude_receipt(
+			owner_id)
+		if not prelude_receipt.is_empty():
+			var prelude_status := str(
+				prelude_receipt.get("status", ""))
+			if prelude_status == "presented":
+				var consumption := DEMO_CORE_LOOP_V2.consume_scheduled_prelude(
+					owner_id)
+				if not bool(consumption.get("ok", false)):
+					push_error(
+						"Core Loop V2 scheduled prelude could not close: %s"
+						% str(consumption.get("error", "unknown")))
+					return
+				prelude_receipt = consumption.get(
+					"receipt", {}) as Dictionary
+			if str(prelude_receipt.get("surface_kind", "")) == "action":
+				# The consequence was this action card's narrative prelude, not
+				# a second foreground owner. Resume the still-active schedule.
+				_refresh_all()
+				call_deferred("_core_loop_v2_route_week")
+				return
+		if DEMO_CORE_LOOP_V2.complete_active_bundle().is_empty():
+			push_error("Core Loop V2 story bundle returned without its required choice receipt")
+			return
 		call_deferred("_core_loop_v2_advance_completed_week")
 		return
 	# 프롤로그는 월간 슬롯이 아니다. 복귀 직후 플레이어가 첫 달을 직접 짠다.
@@ -459,6 +487,11 @@ func _core_loop_v2_route_week() -> void:
 		return
 	if DEMO_CORE_LOOP_V2.turn_completed():
 		_core_loop_v2_advance_completed_week()
+		return
+	if DEMO_CORE_LOOP_V2.action_result_ready():
+		if not _core_loop_v2_restore_action_result():
+			push_error(
+				"Core Loop V2 could not restore its finalized action result")
 		return
 	var pending_summary := DEMO_CORE_LOOP_V2.pending_month_summary()
 	if not pending_summary.is_empty():
@@ -478,16 +511,40 @@ func _core_loop_v2_route_week() -> void:
 	if bool(routine_result.get("applied", false)):
 		_core_loop_v2_log_routine_receipt(
 			routine_result.get("receipt", {}) as Dictionary)
-	var pending_consequence := DEMO_CORE_LOOP_V2.pending_consequence_id()
-	if not pending_consequence.is_empty():
-		_core_loop_v2_begin_story_bundle(pending_consequence, "consequence")
-		return
 	var bundle_id := DEMO_CORE_LOOP_V2.bundle_id_for_turn()
 	var scene_bundle := DEMO_CORE_LOOP_V2.bundle(bundle_id)
 	if bundle_id.is_empty() or scene_bundle.is_empty():
 		push_error("Core Loop V2 has no scheduled bundle for turn %d" % GameState.turn)
 		DEMO_CORE_LOOP_V2.disable_for_run()
 		_render_ap_actions()
+		return
+	if not DEMO_CORE_LOOP_V2.begin_bundle(bundle_id, "schedule"):
+		push_error(
+			"Core Loop V2 scheduled owner conflict on turn %d: %s"
+			% [GameState.turn, bundle_id])
+		return
+	var pre_bundle_declines := DEMO_CORE_LOOP_V2.process_declines_before_bundle(bundle_id)
+	if not pre_bundle_declines.is_empty():
+		_core_loop_v2_present_pre_bundle_declines(pre_bundle_declines)
+		# Keep the receipt visible before a VN transition replaces MainGame.
+		await get_tree().create_timer(0.65).timeout
+	var prelude_result := DEMO_CORE_LOOP_V2.claim_scheduled_prelude(bundle_id)
+	if not bool(prelude_result.get("ok", false)):
+		push_error("Core Loop V2 could not attach scheduled prelude: %s" % str(
+			prelude_result.get("error", "unknown")))
+		return
+	if bool(prelude_result.get("claimed", false)):
+		_core_loop_v2_play_scheduled_prelude(
+			bundle_id,
+			prelude_result.get("receipt", {}) as Dictionary)
+		return
+	var prelude_receipt: Dictionary = prelude_result.get("receipt", {})
+	if not prelude_receipt.is_empty() \
+			and str(prelude_receipt.get("status", "")) == "presented":
+		# A mid-StoryMode save owns this receipt. Never replay either the
+		# consequence roots or the scheduled story from MainGame re-entry.
+		push_warning(
+			"Core Loop V2 scheduled prelude is still active in StoryMode")
 		return
 	if scene_bundle.get("existing_roots", []) is Array \
 			and not (scene_bundle.get("existing_roots", []) as Array).is_empty():
@@ -536,19 +593,86 @@ func _core_loop_v2_begin_story_bundle(bundle_id: String, kind: String) -> void:
 	DEMO_CORE_LOOP_V2.prepare_story_bundle(bundle_id)
 	_go_story_mode(roots)
 
+func _core_loop_v2_play_scheduled_prelude(
+		bundle_id: String, receipt: Dictionary) -> void:
+	var consequence_id := str(
+		receipt.get("consequence_id", "")).strip_edges()
+	var roots: Array = (
+		(receipt.get("roots", []) as Array).duplicate()
+		if receipt.get("roots", []) is Array else []
+	)
+	var surface_kind := str(receipt.get("surface_kind", ""))
+	if consequence_id.is_empty() or roots.is_empty() \
+			or surface_kind not in ["story", "action"]:
+		push_error(
+			"Core Loop V2 scheduled prelude receipt is not playable")
+		return
+	DEMO_CORE_LOOP_V2.prepare_story_bundle(consequence_id)
+	if surface_kind == "story":
+		var scheduled_roots := DEMO_CORE_LOOP_V2.resolved_event_roots(
+			bundle_id)
+		if scheduled_roots.is_empty():
+			push_error(
+				"Core Loop V2 story owner lost its scheduled roots: %s"
+				% bundle_id)
+			return
+		DEMO_CORE_LOOP_V2.prepare_story_bundle(bundle_id)
+		for raw_root in scheduled_roots:
+			roots.append(str(raw_root))
+	_go_story_mode(roots)
+
 func _core_loop_v2_begin_action_bundle(bundle_id: String, scene_bundle: Dictionary) -> void:
 	var action_id := str(scene_bundle.get("action_id", ""))
 	if not DEMO_CORE_LOOP_V2.begin_bundle(bundle_id, "schedule"):
 		return
-	if not GameState.arm_weekly_commitment({
+	var commitment := {
 		"turn": GameState.turn,
 		"pressure_id": bundle_id,
 		"pressure_family": str(scene_bundle.get("kind", "routine")),
 		"choice_id": action_id,
 		"forgone_ids": [],
-	}):
+	}
+	if GameState.has_pending_weekly_commitment(GameState.turn):
+		var pending := GameState.pending_weekly_commitment
+		var same_unfinalized_owner := (
+			int(pending.get("turn", -1)) == int(GameState.turn)
+			and str(pending.get("pressure_id", "")) == bundle_id
+			and str(pending.get("choice_id", "")) == action_id
+		)
+		if not same_unfinalized_owner:
+			_core_loop_v2_rollback_action_bundle()
+			push_error(
+				"Core Loop V2 found another pending action while resuming %s"
+				% bundle_id)
+			return
+		# Mini-game progress is intentionally not serialized. A save made after
+		# arming but before effects restarts the same authored action from its
+		# beginning, with no AP/effect applied yet.
+		GameState.cancel_pending_weekly_commitment(GameState.turn)
+	if not GameState.arm_weekly_commitment(commitment):
 		DEMO_CORE_LOOP_V2.cancel_active_bundle()
 		push_error("Core Loop V2 could not arm action bundle: %s" % bundle_id)
+		return
+	var raw_config: Variant = scene_bundle.get("action_config", {})
+	var action_config: Dictionary = (
+		(raw_config as Dictionary).duplicate(true)
+		if raw_config is Dictionary else {}
+	)
+	var execution := str(action_config.get("execution", "")).strip_edges()
+	if not execution.is_empty():
+		match execution:
+			"application":
+				_core_loop_v2_submit_application(
+					bundle_id, scene_bundle, action_config)
+			"instant_effect":
+				_core_loop_v2_apply_instant_effect(
+					bundle_id, scene_bundle, action_config)
+			"rest":
+				_core_loop_v2_take_recovery(scene_bundle, action_config)
+			_:
+				_core_loop_v2_rollback_action_bundle()
+				push_error("Core Loop V2 unsupported execution: %s (%s)" % [
+					execution, bundle_id])
 		return
 	match action_id:
 		"apply":
@@ -565,30 +689,96 @@ func _core_loop_v2_begin_action_bundle(bundle_id: String, scene_bundle: Dictiona
 		"rest":
 			_core_loop_v2_take_recovery(scene_bundle)
 		_:
-			GameState.cancel_pending_weekly_commitment(GameState.turn)
-			DEMO_CORE_LOOP_V2.cancel_active_bundle()
+			_core_loop_v2_rollback_action_bundle()
 			push_error("Core Loop V2 unsupported action: %s" % action_id)
 
-func _core_loop_v2_submit_application(bundle_id: String, scene_bundle: Dictionary) -> void:
-	if not GameState.spend_ap():
-		GameState.cancel_pending_weekly_commitment(GameState.turn)
-		DEMO_CORE_LOOP_V2.cancel_active_bundle()
-		return
-	var application_id := bundle_id.trim_prefix("m2_").trim_suffix("_application")
-	GameState.flags["core_loop_%s_application_sent" % application_id] = true
-	GameState.flags["core_loop_%s_application_turn" % application_id] = GameState.turn
-	GameState.register_action_axis("money", "work", "apply")
-	GameState.finalize_weekly_commitment("apply", "", {
+func _core_loop_v2_rollback_action_bundle() -> void:
+	GameState.cancel_pending_weekly_commitment(GameState.turn)
+	DEMO_CORE_LOOP_V2.cancel_active_bundle()
+
+func _core_loop_v2_submit_application(
+		bundle_id: String, scene_bundle: Dictionary,
+		action_config: Dictionary = {}) -> void:
+	var application_id := str(
+		action_config.get("application_id", "")).strip_edges()
+	if application_id.is_empty():
+		application_id = bundle_id.trim_suffix("_application")
+		var prefix_end := application_id.find("_")
+		if prefix_end > 0:
+			application_id = application_id.substr(prefix_end + 1)
+	var status := str(action_config.get("status", "submitted")).strip_edges()
+	var job_id := str(action_config.get("job_id", "")).strip_edges()
+	var receipt := {
+		"execution": "application",
 		"application_id": application_id,
-		"status": "submitted",
-	})
-	var title := _core_loop_v2_localized(scene_bundle, "offer")
-	var body := _core_loop_v2_localized(scene_bundle, "detail") + "\n\n" + _tr(
-		"전송 버튼을 누른 뒤에도 화면은 그대로였다. 답이 올지는 아직 모른다.",
-		"The screen did not change after Send. There was still no promise of a reply.")
+		"status": status,
+	}
+	if not job_id.is_empty():
+		receipt["job_id"] = job_id
+	var transaction := GameState.finalize_weekly_effect_action(
+		"apply", {}, "money", "work", "", receipt)
+	if not bool(transaction.get("ok", false)):
+		_core_loop_v2_rollback_action_bundle()
+		push_error("Core Loop V2 application transaction failed: %s (%s)" % [
+			bundle_id, str(transaction.get("error", "unknown"))])
+		return
+	var title := _core_loop_v2_localized(action_config, "result_title")
+	if title.is_empty():
+		title = _core_loop_v2_localized(scene_bundle, "offer")
+	var body := _core_loop_v2_localized(action_config, "result_body")
+	if body.is_empty():
+		body = _core_loop_v2_localized(scene_bundle, "detail") + "\n\n" + _tr(
+			"전송 버튼을 누른 뒤에도 화면은 그대로였다. 답이 올지는 아직 모른다.",
+			"The screen did not change after Send. There was still no promise of a reply.")
 	GameState.add_log(title + " — " + body.replace("\n", " "), "job")
 	turn_action_log.append(title)
 	_show_vignette(title, body, {}, "#69717c")
+	_refresh_all()
+
+func _core_loop_v2_apply_instant_effect(
+		bundle_id: String, scene_bundle: Dictionary,
+		action_config: Dictionary) -> void:
+	var raw_effects: Variant = action_config.get("effects", {})
+	var effects: Dictionary = (
+		(raw_effects as Dictionary).duplicate(true)
+		if raw_effects is Dictionary else {}
+	)
+	if effects.is_empty():
+		_core_loop_v2_rollback_action_bundle()
+		push_error("Core Loop V2 instant effect has no effects: %s" % bundle_id)
+		return
+	var action_id := str(scene_bundle.get("action_id", "side_shift"))
+	var axis := str(action_config.get("axis", "")).strip_edges().to_lower()
+	var place_id := str(action_config.get("place_id", "")).strip_edges()
+	if axis not in ["money", "human"] or place_id.is_empty():
+		_core_loop_v2_rollback_action_bundle()
+		push_error(
+			"Core Loop V2 instant effect has no valid axis/place: %s"
+			% bundle_id)
+		return
+	var transaction := GameState.finalize_weekly_effect_action(
+		action_id, effects, axis, place_id, "", {
+		"execution": "instant_effect",
+		"axis": axis,
+		"place_id": place_id,
+		"effects": effects.duplicate(true),
+	})
+	if not bool(transaction.get("ok", false)):
+		_core_loop_v2_rollback_action_bundle()
+		push_error("Core Loop V2 instant-effect transaction failed: %s (%s)" % [
+			bundle_id, str(transaction.get("error", "unknown"))])
+		return
+	var title := _core_loop_v2_localized(action_config, "result_title")
+	if title.is_empty():
+		title = _core_loop_v2_localized(scene_bundle, "offer")
+	var body := _core_loop_v2_localized(action_config, "result_body")
+	if body.is_empty():
+		body = _core_loop_v2_localized(scene_bundle, "detail")
+	GameState.add_log(title + " — " + body.replace("\n", " "), "job")
+	turn_action_log.append(title)
+	if float(effects.get("money", 0.0)) > 0.0:
+		AudioManager.play("money_gain")
+	_show_vignette(title, body, effects, "#69717c")
 	_refresh_all()
 
 func _core_loop_v2_open_side_shift(bundle_id: String) -> void:
@@ -600,27 +790,78 @@ func _core_loop_v2_open_side_shift(bundle_id: String) -> void:
 	GameState.current_job = {
 		"id": _core_loop_v2_side_shift_job_id
 	}
-	aruba_game.open()
+	var shift_context := {}
+	if bundle_id == "m2_rain_delivery_shift":
+		shift_context = {
+			"weather": "rain",
+			"surge_pay": true,
+		}
+	aruba_game.open(shift_context)
 	GameState.current_job = original_job
 
-func _core_loop_v2_take_recovery(scene_bundle: Dictionary) -> void:
-	if not GameState.spend_ap():
-		GameState.cancel_pending_weekly_commitment(GameState.turn)
-		DEMO_CORE_LOOP_V2.cancel_active_bundle()
-		return
+func _core_loop_v2_take_recovery(
+		scene_bundle: Dictionary, action_config: Dictionary = {}) -> void:
 	var effects := {"mental": 10, "health": 3}
-	for stat_name in effects:
-		GameState.modify_stat(stat_name, int(effects[stat_name]))
-	GameState.register_action_axis("human", "home", "rest")
-	GameState.finalize_weekly_commitment("rest")
-	var title := _core_loop_v2_localized(scene_bundle, "offer")
-	var body := _core_loop_v2_localized(scene_bundle, "detail") + "\n\n" + _tr(
-		"알람이 울리지 않은 오후, 몸이 먼저 멈춰 있던 시간을 따라잡았다.",
-		"With no alarm in the afternoon, the body finally caught up with the time it had lost.")
+	var diminished_by_routine := false
+	var raw_effects: Variant = action_config.get("effects", {})
+	if raw_effects is Dictionary and not (raw_effects as Dictionary).is_empty():
+		effects = (raw_effects as Dictionary).duplicate(true)
+		var routines := DEMO_CORE_LOOP_V2.routine_selection_for_month()
+		var has_recovery_routine := (
+			str(routines.get("primary", "")) == "recovery"
+			or str(routines.get("secondary", "")) == "recovery"
+		)
+		var raw_diminished: Variant = action_config.get(
+			"recovery_routine_effects", {})
+		if has_recovery_routine and raw_diminished is Dictionary \
+				and not (raw_diminished as Dictionary).is_empty():
+			effects = (raw_diminished as Dictionary).duplicate(true)
+			diminished_by_routine = true
+	var transaction := GameState.finalize_weekly_effect_action(
+		"rest", effects, "human", "home", "", {
+		"execution": "rest",
+		"effects": effects.duplicate(true),
+		"diminished_by_recovery_routine": diminished_by_routine,
+	})
+	if not bool(transaction.get("ok", false)):
+		_core_loop_v2_rollback_action_bundle()
+		push_error("Core Loop V2 recovery transaction failed: %s (%s)" % [
+			str(scene_bundle.get("action_id", "rest")),
+			str(transaction.get("error", "unknown")),
+		])
+		return
+	var title := _core_loop_v2_localized(action_config, "result_title")
+	if title.is_empty():
+		title = _core_loop_v2_localized(scene_bundle, "offer")
+	var body := _core_loop_v2_localized(action_config, "result_body")
+	if body.is_empty():
+		body = _core_loop_v2_localized(scene_bundle, "detail") + "\n\n" + _tr(
+			"알람을 끄고 푹 잤다. 미뤄 둔 피로가 조금 풀렸다.",
+			"The alarm stayed off while you slept for hours. Some of the fatigue finally eased.")
 	GameState.add_log(title + " — " + body.replace("\n", " "), "event")
 	turn_action_log.append(title)
 	_show_vignette(title, body, effects, "#69717c")
 	_refresh_all()
+
+func _core_loop_v2_present_pre_bundle_declines(records: Array) -> void:
+	var visible_count := 0
+	for raw_record in records:
+		if not raw_record is Dictionary:
+			continue
+		var record: Dictionary = raw_record
+		var message_key := (
+			"message_en" if LocaleManager.is_english() else "message_ko")
+		var message := str(record.get(message_key, "")).strip_edges()
+		if message.is_empty():
+			continue
+		GameState.add_log(_tr(
+			"고르지 않은 일 — %s", "Not chosen — %s") % message, "event")
+		if visible_count < 3:
+			_show_toast(message, Color("#9b8589"))
+			visible_count += 1
+	if is_instance_valid(_toast_container):
+		_toast_container.set_meta(
+			"core_loop_v2_pre_bundle_declines", visible_count)
 
 func _core_loop_v2_log_routine_receipt(receipt: Dictionary) -> void:
 	var names: Array[String] = []
@@ -632,8 +873,8 @@ func _core_loop_v2_log_routine_receipt(receipt: Dictionary) -> void:
 		if not label.is_empty():
 			names.append(label)
 	GameState.add_log(_tr(
-		"배경 루틴 — %s",
-		"Background routines — %s") % " + ".join(names), "system")
+		"매주 계속한 일 — %s",
+		"Kept up each week — %s") % " + ".join(names), "system")
 
 func _core_loop_v2_localized(data: Dictionary, stem: String) -> String:
 	var key := "%s_%s" % [stem, "en" if LocaleManager.is_english() else "ko"]
@@ -677,47 +918,59 @@ func _core_loop_v2_temptation_recap(branch: String) -> String:
 	match branch:
 		"refused_offer":
 			return _tr(
-				"200만원은 들어오지 않았다. 월세 날짜는 그대로 다가왔고, 차단한 번호만 기록에 남았다.",
-				"KRW 2M never arrived. Rent still came due; only the blocked number remained in the record.")
+				"200만원은 들어오지 않았다. 월세 낼 날은 그대로 다가왔고, 그 번호는 차단 목록에 남았다.",
+				"KRW 2M never arrived. Rent still came due, and the number remained on the block list.")
 		"returned_money":
 			return _tr(
-				"통장을 빌려준 뒤 피해자의 전화를 받았다. 받은 돈에 사비를 보태 돌려보내고 통장을 닫았다.",
-				"After lending out the account, a victim called. You added your own cash to what you had received, sent it back, and closed the account.")
+				"은행의 피해금 반환 요청을 받은 뒤, 받은 200만원 가운데 150만원의 반환에 동의했다. 해당 계좌를 해지하고 모집책 번호도 모두 차단했다.",
+				"After the bank requested the return of fraud proceeds, you authorized KRW 1.5M from the KRW 2M payment, closed that account, and blocked every recruiter number.")
 		"accepted_more":
 			return _tr(
-				"피해자의 전화를 차단했다. 처음 받은 돈 뒤로 또 다른 돈이 들어왔고, 모르는 번호들은 남았다.",
-				"You blocked the victim's call. More money followed the first payment, and the unknown numbers remained.")
+				"은행의 피해금 반환 요청에 동의하지 않았다. 처음 받은 현금 200만원에 이어 지하철 보관함에서 현금 300만원을 더 받았고, 모집책은 다른 이름과 계좌번호를 문자로 계속 보냈다.",
+				"You declined the bank's request to return the fraud proceeds. After the first KRW 2M in cash, you collected another KRW 3M in cash from a subway locker, and the recruiter kept texting other names and account numbers.")
 		"lent_account":
 			return _tr(
-				"통장을 빌려주고 200만원을 받았다. 그 돈이 지나간 자리에서 모르는 전화가 시작됐다.",
-				"You lent out the account and received KRW 2M. Unknown calls began where that money had passed.")
+				"통장·체크카드와 비밀번호를 대포통장 모집책에게 넘기고 현금 200만원을 받았다. 한 달 뒤 은행에서 피해금 반환 요청이 왔다.",
+				"You handed a bankbook, debit card, and PIN to an illegal account recruiter for KRW 2M in cash. One month later, the bank requested the return of fraud proceeds.")
 	return _tr(
-		"4주차의 모르는 번호에 내린 답이 아직 기록 안에서 정리되지 않았다.",
+		"4주차에 모르는 번호로부터 받은 제안은 아직 결론이 나지 않았다.",
 		"The answer to Week 4's unknown number has not yet settled into the record.")
 
-func _core_loop_v2_initiative_recap(snapshot: Dictionary) -> String:
-	var names: Array[String] = []
+func _core_loop_v2_initiative_recap(
+		snapshot: Dictionary, completed_months: int) -> String:
+	var statements: Array[String] = []
 	for raw_character in snapshot.get("player_initiated", []):
 		var character_id := str(raw_character)
 		var person_info: Dictionary = ImageRegistry.get_person_info(character_id)
 		var display_name := str(person_info.get("name", "")).strip_edges()
 		if display_name.is_empty() and character_id == "hyunsu":
 			display_name = _tr("현수", "Hyunsu")
-		if not display_name.is_empty() and not names.has(display_name):
-			names.append(display_name)
-	if names.is_empty():
+		match character_id:
+			"father":
+				statements.append(_tr(
+					"첫 통화 뒤, 이번에는 내가 먼저 아버지에게 전화했다.",
+					"After the first call, I called Father back."))
+			"hyunsu":
+				statements.append(_tr(
+					"공용 주방에서 만난 뒤, 내가 먼저 현수에게 메시지를 보내 함께 공부할 날을 잡았다.",
+					"After meeting in the shared kitchen, I messaged Hyunsu first and set a day to study together."))
+			_:
+				if not display_name.is_empty():
+					statements.append(_tr(
+						"앞서 만난 뒤, 내가 먼저 %s에게 다시 만나자고 했다.",
+						"After our earlier meeting, I asked %s to meet again."
+					) % display_name)
+	if statements.is_empty():
 		return _tr(
-			"먼저 보낸 연락은 없었다. 두 달 동안 사람보다 다른 약속을 달력에 남겼다.",
-			"You did not send the first message. Other commitments occupied the calendar across these two months.")
-	return _tr(
-		"%s에게 먼저 연락했다. 우연한 첫 만남 뒤의 다음 약속은 민준이 열었다.",
-		"You reached out to %s first. Minjun opened the next commitment after the chance meeting."
-	) % ", ".join(names)
+			"지난 %d개월 동안 내가 먼저 보낸 연락은 없었다.",
+			"During the past %d months, I did not contact anyone first."
+		) % completed_months
+	return " ".join(statements)
 
 func _core_loop_v2_show_completion() -> void:
 	if not DEMO_CORE_LOOP_V2.is_prototype_complete():
 		return
-	# Upgrade an older week-nine prototype save to the explicit terminal marker.
+	# Upgrade an older boundary save to the current explicit terminal marker.
 	DEMO_CORE_LOOP_V2.mark_prototype_complete()
 	if is_instance_valid(modal_layer) and modal_layer.visible \
 			and _modal_kind == "core_loop_v2_complete":
@@ -733,19 +986,26 @@ func _core_loop_v2_show_completion() -> void:
 	_refresh_all()
 
 	var snapshot := DEMO_CORE_LOOP_V2.completion_snapshot()
+	var cap_week := DEMO_CORE_LOOP_V2.development_cap_week()
+	# QA can exercise the final 24-week density before that development gate is
+	# activated. Runtime callers never set these instance-local test fixtures.
+	if bool(get_meta("_screenshot_qa_static_surface", false)):
+		var qa_snapshot: Variant = get_meta(
+			"_qa_core_loop_v2_completion_snapshot", {})
+		if qa_snapshot is Dictionary and not (qa_snapshot as Dictionary).is_empty():
+			snapshot = (qa_snapshot as Dictionary).duplicate(true)
+		cap_week = maxi(1, int(get_meta(
+			"_qa_core_loop_v2_completion_cap_week", cap_week)))
 	var kept: Array[String] = _core_loop_v2_recap_names(
 		snapshot.get("kept", []), true)
-	var forgone: Array[String] = []
-	for raw_record in snapshot.get("decline_receipts", []):
-		if not raw_record is Dictionary:
-			continue
-		var record: Dictionary = raw_record
-		var message_key := "message_en" if LocaleManager.is_english() else "message_ko"
-		var message := str(record.get(message_key, "")).strip_edges()
-		if not message.is_empty():
-			forgone.append(message)
+	# The full decline copy belongs in the month notebooks and message receipts.
+	# The terminal record names every forgone opportunity compactly so both
+	# languages remain readable without scrolling at the 720p demo target.
+	var forgone: Array[String] = _core_loop_v2_recap_names(
+		snapshot.get("forgone", []), false)
 	var branch := str(snapshot.get("temptation_branch", "unresolved"))
-	_open_modal(_tr("두 달의 기록", "Two Months, Recorded"),
+	var completed_months := DEMO_CORE_LOOP_V2.month_for_turn(cap_week)
+	_open_modal(_tr("%d개월 돌아보기", "%d-Month Recap") % completed_months,
 		false, "core_loop_v2_complete")
 	modal_layer.set_meta("core_loop_v2_completion", true)
 	if is_instance_valid(modal_close_button):
@@ -757,13 +1017,17 @@ func _core_loop_v2_show_completion() -> void:
 		modal_panel.offset_top = -320
 		modal_panel.offset_bottom = 320
 	if modal_scroll:
-		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-		modal_scroll.custom_minimum_size = Vector2(0, 500)
+		# The record grows with the development cap. Keep the body bounded and
+		# open it at the beginning; the terminal action lives in a sticky footer.
+		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+		modal_scroll.custom_minimum_size = Vector2(0, 452)
+		modal_scroll.scroll_vertical = 0
 	modal_body.add_theme_constant_override("separation", 9)
 
 	var intro := _wrap_label(_tr(
-		"여기서 8주 테스트는 끝난다. 달력에 넣은 약속과 닫힌 문, 지금 남은 몸과 돈을 그대로 기록했다.",
-		"The eight-week test ends here. This record keeps the commitments on your calendar, the doors that closed, and the body and cash you have left."),
+		"여기까지 %d주를 보냈다. 그동안 한 일과 고르지 않은 일, 현재 현금과 건강·정신 상태를 정리했다.",
+		"You have completed %d weeks. Here is what you did, what you passed on, and your current cash, health, and mental state."
+		) % cap_week,
 		12, "#aeb8c6")
 	intro.set_meta("core_loop_v2_recap_intro", true)
 	modal_body.add_child(intro)
@@ -787,24 +1051,43 @@ func _core_loop_v2_show_completion() -> void:
 	condition_grid.set_meta("core_loop_v2_recap_condition", true)
 	modal_body.add_child(condition_grid)
 	var rung: Dictionary = GameState.get_financial_rung()
-	condition_grid.add_child(_month_summary_metric_card(
-		_tr("남은 현금", "Cash Left"), GameState.format_money(GameState.money),
-		_tr("월말 정산 후", "After month-end"), "#c7ced8"))
-	var month_two_summary := DEMO_CORE_LOOP_V2.month_summary(2)
+	var completion_cash_metric := _core_loop_v2_cash_metric(
+		float(GameState.money),
+		float(snapshot.get("cash_shortfall",
+			DEMO_CORE_LOOP_V2.cash_shortfall_for_money(
+				float(GameState.money)))),
+		_tr("월말 정산 후", "After month-end"))
+	var completion_cash_card := _month_summary_metric_card(
+		str(completion_cash_metric.get("label", "")),
+		str(completion_cash_metric.get("value", "")),
+		str(completion_cash_metric.get("note", "")),
+		str(completion_cash_metric.get("accent", "#c7ced8")))
+	completion_cash_card.set_meta(
+		"core_loop_v2_cash_shortfall",
+		float(completion_cash_metric.get("cash_shortfall", 0.0)))
+	condition_grid.add_child(completion_cash_card)
+	var final_month_summary := DEMO_CORE_LOOP_V2.month_summary(completed_months)
+	var snapshot_summaries: Variant = snapshot.get("month_summaries", {})
+	if snapshot_summaries is Dictionary:
+		var snapshot_summary: Variant = (snapshot_summaries as Dictionary).get(
+			str(completed_months), {})
+		if snapshot_summary is Dictionary \
+				and not (snapshot_summary as Dictionary).is_empty():
+			final_month_summary = (snapshot_summary as Dictionary).duplicate(true)
 	condition_grid.add_child(_month_summary_metric_card(
 		_tr("고정비", "Fixed Cost"),
-		GameState.format_money(float(month_two_summary.get(
+		GameState.format_money(float(final_month_summary.get(
 			"fixed_expense", GameState.get_monthly_required_cash()))),
-		_tr("두 번째 달", "Month two"), "#a98b88"))
+		_tr("%d번째 달", "Month %d") % completed_months, "#a98b88"))
 	condition_grid.add_child(_month_summary_metric_card(
-		_tr("몸", "Body"), "%d / 100" % GameState.health,
+		_tr("건강", "Health"), "%d / 100" % GameState.health,
 		_tr("현재 건강", "Current health"), "#91a6a2"))
 	condition_grid.add_child(_month_summary_metric_card(
-		_tr("마음", "Mind"), "%d / 100" % GameState.mental,
+		_tr("정신력", "Mental"), "%d / 100" % GameState.mental,
 		_tr("현재 정신력", "Current mental"), "#9aa1b3"))
 	condition_grid.add_child(_month_summary_metric_card(
-		_tr("다음 한 단", "Next Rung"), str(rung.get("label", "")),
-		_tr("%s 남음", "%s left") % GameState.format_money(
+		_tr("다음 재정 목표", "Next Financial Goal"), str(rung.get("label", "")),
+		_tr("달성까지 %s", "%s to go") % GameState.format_money(
 			float(rung.get("remaining", 0.0))), "#a5adb9"))
 
 	var path_grid := GridContainer.new()
@@ -815,57 +1098,137 @@ func _core_loop_v2_show_completion() -> void:
 	path_grid.set_meta("core_loop_v2_recap_paths", true)
 	modal_body.add_child(path_grid)
 	path_grid.add_child(_core_loop_v2_recap_list_card(
-		_tr("지킨 약속", "Commitments Kept"), kept,
-		_tr("완료된 약속이 없다.", "No commitments were completed."), "#8695a8"))
+		_tr("완료한 일정", "Completed"), kept,
+		_tr("완료한 일정이 없다.", "No activities were completed."), "#8695a8"))
 	path_grid.add_child(_core_loop_v2_recap_list_card(
-		_tr("닫힌 문", "Doors Closed"), forgone,
-		_tr("기록된 닫힌 문이 없다.", "No closed doors were recorded."), "#8e7f84"))
+		_tr("고르지 않은 일", "Not Chosen"), forgone,
+		_tr("고르지 않은 제안이 없다.", "No options were left unchosen."), "#8e7f84"))
 
 	var initiative_card := _info_card("#8795a8", "#090c11")
 	initiative_card.set_meta("core_loop_v2_recap_initiative", true)
 	initiative_card.add_child(_wrap_label(
-		_core_loop_v2_initiative_recap(snapshot), 13, "#b8c2cf"))
+		_core_loop_v2_initiative_recap(snapshot, completed_months),
+		13, "#b8c2cf"))
 	modal_body.add_child(initiative_card)
 
 	var test_state := _label(
-		_tr("1~8주 완료 · 9주차는 이 테스트에서 시작되지 않는다.",
-			"WEEKS 1–8 COMPLETE · WEEK 9 DOES NOT BEGIN IN THIS TEST."),
+		_tr("1~%d주 데모 완료 · %d주차는 이 버전에서 시작되지 않는다.",
+			"WEEKS 1–%d COMPLETE · WEEK %d DOES NOT BEGIN IN THIS DEMO.") % [
+				cap_week, cap_week + 1,
+			],
 		11, "#7b8593")
 	test_state.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	test_state.set_meta("core_loop_v2_recap_boundary", true)
-	modal_body.add_child(test_state)
 	var done_button := _primary_cta_button(_tr(
-		"테스트 마치고 시작 화면으로  ›",
-		"End Test · Return to Title  ›"))
+		"데모를 마치고 시작 화면으로  ›",
+		"Finish Demo · Return to Title  ›"))
 	done_button.set_meta("core_loop_v2_recap_done", true)
 	done_button.pressed.connect(_core_loop_v2_return_to_title)
 	done_button.call_deferred("grab_focus")
-	modal_body.add_child(done_button)
+	if is_instance_valid(modal_footer):
+		modal_footer.add_child(test_state)
+		modal_footer.add_child(done_button)
+		modal_footer.visible = true
+	else:
+		modal_body.add_child(test_state)
+		modal_body.add_child(done_button)
+	if modal_scroll:
+		modal_scroll.call_deferred("set_v_scroll", 0)
 	if not bool(get_meta("_screenshot_qa_static_surface", false)):
 		SaveManager.autosave()
 
 func _core_loop_v2_return_to_title() -> void:
 	# Keep the completed marker in the autosave. Continuing this test later must
-	# reopen its record instead of entering the legacy week-nine director.
-	DEMO_CORE_LOOP_V2.acknowledge_month_summary(2)
+	# reopen its record instead of entering the legacy director after the cap.
+	var final_month := DEMO_CORE_LOOP_V2.month_for_turn(
+		DEMO_CORE_LOOP_V2.development_cap_week())
+	DEMO_CORE_LOOP_V2.acknowledge_month_summary(final_month)
 	SaveManager.autosave()
 	_go_to_menu()
 
 func _core_loop_v2_finish_action_week() -> void:
 	if not DEMO_CORE_LOOP_V2.action_result_ready():
 		return
-	DEMO_CORE_LOOP_V2.complete_active_bundle()
+	if DEMO_CORE_LOOP_V2.complete_active_bundle().is_empty():
+		push_error("Core Loop V2 action bundle has no completion receipt")
+		return
 	_core_loop_v2_advance_completed_week()
+
+func _core_loop_v2_restore_action_result() -> bool:
+	var receipt := DEMO_CORE_LOOP_V2.recover_action_result()
+	if receipt.is_empty():
+		return false
+	var bundle_id := str(receipt.get("bundle_id", ""))
+	var scene_bundle := DEMO_CORE_LOOP_V2.bundle(bundle_id)
+	var config: Dictionary = (
+		(receipt.get("config", {}) as Dictionary).duplicate(true)
+		if receipt.get("config", {}) is Dictionary else {}
+	)
+	var details: Dictionary = (
+		(receipt.get("result_details", {}) as Dictionary).duplicate(true)
+		if receipt.get("result_details", {}) is Dictionary else {}
+	)
+	var effects: Dictionary = (
+		(details.get("effects", {}) as Dictionary).duplicate(true)
+		if details.get("effects", {}) is Dictionary else {}
+	)
+	if effects.is_empty() and receipt.get("outcome", {}) is Dictionary:
+		effects = (receipt.get("outcome", {}) as Dictionary).duplicate(true)
+	var title := _core_loop_v2_localized(config, "result_title")
+	if title.is_empty():
+		title = _core_loop_v2_localized(scene_bundle, "offer")
+	var body := _core_loop_v2_localized(config, "result_body")
+	if body.is_empty():
+		body = _core_loop_v2_localized(scene_bundle, "detail")
+		match str(details.get(
+				"execution", config.get("execution", ""))):
+			"application":
+				body += "\n\n" + _tr(
+					"전송 버튼을 누른 뒤에도 화면은 그대로였다. 답이 올지는 아직 모른다.",
+					"The screen did not change after Send. There was still no promise of a reply.")
+			"rest":
+				body += "\n\n" + _tr(
+					"알람을 끄고 푹 잤다. 미뤄 둔 피로가 조금 풀렸다.",
+					"The alarm stayed off while you slept for hours. Some of the fatigue finally eased.")
+	# Loading this surface only re-renders the durable receipt. Its AP, effects,
+	# axis, log line, and weekly commitment were already finalized before save.
+	_show_vignette(title, body, effects, "#69717c")
+	_refresh_all()
+	return true
 
 func _core_loop_v2_economy_snapshot() -> Dictionary:
 	return {
 		"turn": int(GameState.turn),
 		"date": GameState.get_date_string(),
 		"money": float(GameState.money),
+		"cash_shortfall": DEMO_CORE_LOOP_V2.cash_shortfall_for_money(
+			float(GameState.money)),
 		"monthly_income": float(GameState.monthly_income),
 		"fixed_expense": float(GameState.get_monthly_required_cash()),
 		"health": int(GameState.health),
 		"mental": int(GameState.mental),
+	}
+
+func _core_loop_v2_cash_metric(
+		money: float, cash_shortfall: float, cash_note: String) -> Dictionary:
+	# Recompute from a negative balance as a safety net for pre-receipt saves.
+	var resolved_shortfall := maxf(
+		maxf(0.0, cash_shortfall),
+		DEMO_CORE_LOOP_V2.cash_shortfall_for_money(money))
+	if resolved_shortfall > 0.0:
+		return {
+			"label": _tr("체납", "Arrears"),
+			"value": GameState.format_money(resolved_shortfall),
+			"note": _tr("월말 미납액", "Amount unpaid at month-end"),
+			"accent": "#b98b88",
+			"cash_shortfall": resolved_shortfall,
+		}
+	return {
+		"label": _tr("남은 현금", "Cash Left"),
+		"value": GameState.format_money(money),
+		"note": cash_note,
+		"accent": "#c7ced8",
+		"cash_shortfall": 0.0,
 	}
 
 func _core_loop_v2_show_month_summary(summary: Dictionary) -> void:
@@ -900,8 +1263,8 @@ func _core_loop_v2_show_month_summary(summary: Dictionary) -> void:
 	var cash_delta := float(after.get("money", 0.0)) - float(before.get("money", 0.0))
 	var delta_prefix := "+" if cash_delta >= 0.0 else ""
 	var intro := _wrap_label(_tr(
-		"네 주의 배경 루틴과 전경 약속, 월세, 놓친 문이 한 장부에 함께 적혔다.",
-		"Four weeks of background routines, foreground commitments, rent, and closed doors now share one ledger."),
+		"이번 달에 한 일과 고르지 않은 일, 생활비와 몸 상태를 함께 정리했다.",
+		"Here is what you did and did not choose this month, along with living costs and your condition."),
 		13, "#aeb8c6")
 	intro.set_meta("core_loop_v2_month_intro", true)
 	modal_body.add_child(intro)
@@ -913,22 +1276,32 @@ func _core_loop_v2_show_month_summary(summary: Dictionary) -> void:
 	metric_grid.add_theme_constant_override("v_separation", 8)
 	metric_grid.set_meta("core_loop_v2_month_metrics", true)
 	modal_body.add_child(metric_grid)
-	metric_grid.add_child(_month_summary_metric_card(
-		_tr("남은 현금", "Cash Left"),
-		GameState.format_money(float(after.get("money", 0.0))),
-		_tr("월말 처리 %s%s", "%s%s at closing") % [
-			delta_prefix, GameState.format_money(cash_delta)],
-		"#c7ced8"))
+	var closing_money := float(after.get("money", 0.0))
+	var month_cash_metric := _core_loop_v2_cash_metric(
+		closing_money,
+		float(summary.get("cash_shortfall",
+			DEMO_CORE_LOOP_V2.cash_shortfall_for_money(closing_money))),
+		_tr("이번 달 증감 %s%s", "%s%s this month") % [
+			delta_prefix, GameState.format_money(cash_delta)])
+	var month_cash_card := _month_summary_metric_card(
+		str(month_cash_metric.get("label", "")),
+		str(month_cash_metric.get("value", "")),
+		str(month_cash_metric.get("note", "")),
+		str(month_cash_metric.get("accent", "#c7ced8")))
+	month_cash_card.set_meta(
+		"core_loop_v2_cash_shortfall",
+		float(month_cash_metric.get("cash_shortfall", 0.0)))
+	metric_grid.add_child(month_cash_card)
 	metric_grid.add_child(_month_summary_metric_card(
 		_tr("고정비", "Fixed Cost"),
 		GameState.format_money(float(summary.get("fixed_expense", 0.0))),
 		_tr("월세·이자", "Rent and interest"), "#a98b88"))
 	metric_grid.add_child(_month_summary_metric_card(
-		_tr("몸", "Body"), "%d / 100" % int(after.get("health", 0)),
-		_tr("결산 뒤 건강", "Health after closing"), "#91a6a2"))
+		_tr("건강", "Health"), "%d / 100" % int(after.get("health", 0)),
+		_tr("월말 건강", "Health at month-end"), "#91a6a2"))
 	metric_grid.add_child(_month_summary_metric_card(
-		_tr("마음", "Mind"), "%d / 100" % int(after.get("mental", 0)),
-		_tr("결산 뒤 정신력", "Mind after closing"), "#9aa1b3"))
+		_tr("정신력", "Mental"), "%d / 100" % int(after.get("mental", 0)),
+		_tr("월말 정신력", "Mental at month-end"), "#9aa1b3"))
 
 	var path_grid := GridContainer.new()
 	path_grid.columns = 2
@@ -939,8 +1312,8 @@ func _core_loop_v2_show_month_summary(summary: Dictionary) -> void:
 	var kept: Array[String] = _core_loop_v2_recap_names(
 		summary.get("kept", []), true)
 	path_grid.add_child(_core_loop_v2_recap_list_card(
-		_tr("지킨 약속", "Commitments Kept"), kept,
-		_tr("지킨 약속이 없다.", "No commitments were kept."), "#8695a8"))
+		_tr("이번 달에 한 일", "Completed This Month"), kept,
+		_tr("이번 달에 끝낸 일이 없다.", "Nothing was completed this month."), "#8695a8"))
 	var closed: Array[String] = []
 	for raw_record in summary.get("decline_receipts", []):
 		if not raw_record is Dictionary:
@@ -951,8 +1324,8 @@ func _core_loop_v2_show_month_summary(summary: Dictionary) -> void:
 		if not message.is_empty():
 			closed.append(message)
 	path_grid.add_child(_core_loop_v2_recap_list_card(
-		_tr("닫힌 문이 남긴 것", "What Closed Doors Left"), closed,
-		_tr("이번 달 닫힌 문이 없다.", "No doors closed this month."), "#8e7f84"))
+		_tr("고르지 않은 일의 결과", "Results of Unchosen Options"), closed,
+		_tr("이번 달에는 고르지 않은 일의 결과가 없다.", "No unchosen option had a result this month."), "#8e7f84"))
 
 	var routine_names: Array[String] = []
 	var routines: Dictionary = summary.get("routines", {})
@@ -965,14 +1338,14 @@ func _core_loop_v2_show_month_summary(summary: Dictionary) -> void:
 			routine_names.append(label)
 	if not routine_names.is_empty():
 		modal_body.add_child(_wrap_label(_tr(
-			"배경 루틴 · %s · 4주",
-			"Background routines · %s · 4 weeks"
+			"4주 동안 계속한 일 · %s",
+			"Kept up for four weeks · %s"
 		) % " + ".join(routine_names), 12, "#8f99a8"))
 
 	var rung: Dictionary = GameState.get_financial_rung()
 	modal_body.add_child(_wrap_label(_tr(
-		"다음 한 단 · %s — %s 남음",
-		"Next rung · %s — %s left") % [
+		"다음 재정 목표 · %s — 달성까지 %s",
+		"Next financial goal · %s — %s to go") % [
 			str(rung.get("label", "")),
 			GameState.format_money(float(rung.get("remaining", 0.0))),
 		], 12, "#8f99a8"))
@@ -996,10 +1369,17 @@ func _core_loop_v2_acknowledge_month_summary(month_index: int) -> void:
 	_begin_month()
 
 func _core_loop_v2_advance_completed_week() -> void:
-	if GameState.turn == DEMO_CORE_LOOP_V2.PROTOTYPE_MAX_WEEK:
+	var cap_week := DEMO_CORE_LOOP_V2.development_cap_week()
+	if GameState.turn == cap_week:
 		var closing_month := DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn)
-		var before := _core_loop_v2_economy_snapshot()
-		_run_month_end_transition(false)
+		var before := DEMO_CORE_LOOP_V2.month_opening_snapshot(closing_month)
+		if before.is_empty():
+			before = _core_loop_v2_economy_snapshot()
+		# V2 owns one durable boundary write after its decline receipts,
+		# month summary, and terminal marker are all complete. Saving inside
+		# the shared rollover would leave a reloadable turn-13 snapshot
+		# without the week-12 completion marker.
+		_run_month_end_transition(false, false)
 		if GameState.is_game_over:
 			return
 		DEMO_CORE_LOOP_V2.process_due_decline_outcomes(closing_month)
@@ -1007,22 +1387,28 @@ func _core_loop_v2_advance_completed_week() -> void:
 		DEMO_CORE_LOOP_V2.record_month_summary(
 			closing_month, before, after)
 		if not DEMO_CORE_LOOP_V2.mark_prototype_complete():
-			push_error("Core Loop V2 could not close its eight-week boundary")
+			push_error("Core Loop V2 could not close its week-%d boundary" % cap_week)
 			return
-		SaveManager.autosave()
+		# The completion surface owns the one terminal autosave after every
+		# receipt and marker above is present.
 		_core_loop_v2_show_completion()
 		return
 	if GameState.week_of_month == 4:
 		var closing_month := DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn)
-		var before := _core_loop_v2_economy_snapshot()
-		_run_month_end_transition(false)
+		var before := DEMO_CORE_LOOP_V2.month_opening_snapshot(closing_month)
+		if before.is_empty():
+			before = _core_loop_v2_economy_snapshot()
+		# The V2 month receipt and the calendar rollover must become durable
+		# together; the caller writes the single completed boundary below.
+		_run_month_end_transition(false, false)
 		if GameState.is_game_over:
 			return
 		DEMO_CORE_LOOP_V2.process_due_decline_outcomes(closing_month)
 		var after := _core_loop_v2_economy_snapshot()
 		var summary := DEMO_CORE_LOOP_V2.record_month_summary(
 			closing_month, before, after)
-		SaveManager.autosave()
+		# The notebook surface writes the one boundary save after the summary
+		# exists, matching the terminal completion ownership above.
 		_core_loop_v2_show_month_summary(summary)
 		return
 	GameState.advance_calendar()
@@ -2964,13 +3350,13 @@ func _build_modal():
 	modal_layer.add_child(modal_panel)
 	var panel = modal_panel
 
-	var outer = VBoxContainer.new()
-	outer.add_theme_constant_override("separation", 8)
-	panel.add_child(outer)
+	modal_outer = VBoxContainer.new()
+	modal_outer.add_theme_constant_override("separation", 8)
+	panel.add_child(modal_outer)
 
 	# Header row with title + close button
 	modal_header = HBoxContainer.new()
-	outer.add_child(modal_header)
+	modal_outer.add_child(modal_header)
 	modal_title_label = _label("", 24, "#e8eaf0")
 	modal_title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	modal_header.add_child(modal_title_label)
@@ -2989,13 +3375,21 @@ func _build_modal():
 	modal_scroll = ScrollContainer.new()
 	modal_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	modal_scroll.custom_minimum_size = Vector2(0, 468)
-	outer.add_child(modal_scroll)
+	modal_outer.add_child(modal_scroll)
 
 	modal_body = VBoxContainer.new()
 	modal_body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	modal_body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	modal_body.add_theme_constant_override("separation", 10)
 	modal_scroll.add_child(modal_body)
+
+	# Reserved for modal-specific sticky actions. Most modals keep it hidden;
+	# long records can place their terminal action here without opening at the
+	# bottom of the scroll surface.
+	modal_footer = VBoxContainer.new()
+	modal_footer.visible = false
+	modal_footer.add_theme_constant_override("separation", 4)
+	modal_outer.add_child(modal_footer)
 
 func _build_toast_layer():
 	_toast_container = VBoxContainer.new()
@@ -3075,6 +3469,16 @@ func _begin_month():
 		return
 	BGMPlayer.enter_ambient_bed(0.9)
 	BGMPlayer.update_idle_ambience()
+	if DEMO_CORE_LOOP_V2.is_active() \
+			and DEMO_CORE_LOOP_V2.action_result_ready():
+		turn_action_log.clear()
+		if not _core_loop_v2_restore_action_result():
+			# Never route a finalized result back through its executor. A bad
+			# receipt is safer as an explicit load error than duplicated money,
+			# recovery, AP, or application state.
+			push_error(
+				"Core Loop V2 could not recover the saved action result")
+		return
 	GameState.restore_ap()
 	_animate_ap_refill()
 	turn_action_log.clear()
@@ -4788,7 +5192,8 @@ func _present_tendency_realization(kind: String):
 
 ## 월말 처리 파이프라인 — 정상 "다음 주"(월말)와 몽타주가 공유한다.
 ## 경제/월처리 + 월말 결산 모달까지. 동작은 기존 _on_next_month 월말 분기와 동일.
-func _run_month_end_transition(show_summary: bool = true) -> void:
+func _run_month_end_transition(
+		show_summary: bool = true, persist_transition: bool = true) -> void:
 	job_system.process_monthly_job()
 	relationship_system.process_monthly_relationships()
 	inventory_system.process_monthly_items()
@@ -4797,9 +5202,8 @@ func _run_month_end_transition(show_summary: bool = true) -> void:
 	BGMPlayer.update_context()
 
 	# 1개월만 정착 지원금 — 2개월차부터 진짜 생존 압박
-	var subsidy_applied = GameState.month <= 1
+	var subsidy_applied := GameState.claim_initial_settlement_subsidy()
 	if subsidy_applied:
-		GameState.add_money(300_000.0)
 		GameState.add_log(_tr("초기 정착 지원금 30만원 수령", "Received KRW 300,000 initial settlement subsidy"), "system")
 
 	var snap = {
@@ -4829,7 +5233,8 @@ func _run_month_end_transition(show_summary: bool = true) -> void:
 		_show_toast(paycheck_toast, Color("#00c896"))
 	if GameState.is_game_over:
 		return
-	SaveManager.autosave()
+	if persist_transition:
+		SaveManager.autosave()
 	_check_title_unlocks()
 	if show_summary:
 		_show_month_summary(snap)
@@ -11768,19 +12173,21 @@ func _commit_opening_interview_application() -> bool:
 			"pressure_family": "employment",
 			"choice_id": "apply",
 			"forgone_ids": [],
-		})
+			})
 		if not armed_here:
 			return false
-	if not GameState.spend_ap():
-		if armed_here:
-			GameState.cancel_pending_weekly_commitment(GameState.turn)
-		return false
-	_mark_opening_interview_application_sent()
-	GameState.register_action_axis("money", "work", "apply")
-	return GameState.finalize_weekly_commitment("apply", "", {
-		"application_id": "mirae_industrial_tech",
-		"status": "submitted",
-	})
+	var transaction := GameState.finalize_weekly_effect_action(
+		"apply", {}, "money", "work", "", {
+				"execution": "application",
+				"application_id": "mirae_industrial_tech",
+				"status": "submitted",
+		}, {
+				"opening_interview_application_sent": true,
+				"opening_interview_application_turn": GameState.turn,
+		})
+	if not bool(transaction.get("ok", false)) and armed_here:
+		GameState.cancel_pending_weekly_commitment(GameState.turn)
+	return bool(transaction.get("ok", false))
 
 func _ap_side_job():
 	if GameState.action_points <= 0:
@@ -11792,31 +12199,74 @@ func _on_aruba_closed(earned: int, stress_delta: int, health_delta: int) -> void
 	_exit_minigame_overlay()
 	var side_shift_job_id := _core_loop_v2_side_shift_job_id
 	_core_loop_v2_side_shift_job_id = ""
-	if not GameState.spend_ap():
-		GameState.cancel_pending_weekly_commitment(GameState.turn)
-		return
+	var shift_receipt: Dictionary = aruba_game.get_last_shift_receipt()
 	var health_before: int = GameState.health
-	GameState.add_money(float(earned))
-	GameState.modify_hidden_stat("stress", stress_delta)
-	var total_health_delta := -3 + health_delta
-	GameState.modify_stat("health", total_health_delta)
+	var total_health_delta := health_delta
+	var effects := {
+		"money": earned,
+		"stress": stress_delta,
+		"health": total_health_delta,
+	}
+	var display_effects := {
+		"money": earned,
+		"health": total_health_delta,
+		"mental": -stress_delta,
+	}
+	if GameState.has_pending_weekly_commitment(GameState.turn):
+		var action_receipt := {
+			"execution": "side_shift",
+			"axis": "money",
+			"place_id": "work",
+			"effects": effects.duplicate(true),
+			"earned": earned,
+			"health_delta": total_health_delta,
+			"mental_delta": -stress_delta,
+		}
+		if not shift_receipt.is_empty():
+			action_receipt["shift"] = shift_receipt.duplicate(true)
+		var transaction := GameState.finalize_weekly_effect_action(
+			"side_shift", effects, "money", "work", "", action_receipt)
+		if not bool(transaction.get("ok", false)):
+			if DEMO_CORE_LOOP_V2.is_active() \
+					and not DEMO_CORE_LOOP_V2.active_bundle_id().is_empty():
+				_core_loop_v2_rollback_action_bundle()
+			else:
+				GameState.cancel_pending_weekly_commitment(GameState.turn)
+			push_error("Weekly side-shift transaction failed: %s" % str(
+				transaction.get("error", "unknown")))
+			return
+	else:
+		if not GameState.spend_ap():
+			return
+		GameState.apply_effects(effects)
+		GameState.register_action_axis("money", "work", "side_shift")
 	GameState.add_tendency("found", 1)   # 알바·부업 = 창업형 기질
 	var shift_title := _side_shift_title(side_shift_job_id)
 	GameState.add_log(_tr("💼 %s 수입 %s (건강 %d→%d, 정신력 %+d)", "💼 %s income %s (Health %d→%d, Mental %+d)") % [
 		shift_title, GameState.format_money(float(earned)), health_before, GameState.health, -stress_delta], "job")
-	var vignette_pool := _side_shift_vignettes(side_shift_job_id)
-	var _sj_v: Dictionary = vignette_pool[randi() % vignette_pool.size()]
-	var mood: String = str(_sj_v.get("et" if LocaleManager.is_english() else "t", _sj_v.get("t", "")))
+	var mood := ""
+	if str(shift_receipt.get("weather", "")) == "rain" \
+			and int(shift_receipt.get("surge_total", 0)) > 0:
+		mood = _tr(
+			"비가 그치기 전 %d건을 마쳤다. 건당 %s의 비 할증, 모두 %s이 추가됐다. 기본 수당과 배달 보너스까지 합친 정산액은 %s이었다.",
+			"Completed %d deliveries before the rain stopped. The %s-per-order rain surge added %s; base pay and route bonuses brought the total payout to %s.") % [
+				int(shift_receipt.get("delivery_count", 0)),
+				GameState.format_money(float(
+					shift_receipt.get("surge_per_delivery", 0))),
+				GameState.format_money(float(
+					shift_receipt.get("surge_total", 0))),
+				GameState.format_money(float(earned)),
+			]
+	else:
+		var vignette_pool := _side_shift_vignettes(side_shift_job_id)
+		var _sj_v: Dictionary = vignette_pool[randi() % vignette_pool.size()]
+		mood = str(_sj_v.get(
+			"et" if LocaleManager.is_english() else "t",
+			_sj_v.get("t", "")))
 	turn_action_log.append("✓ 💼 %s — %s" % [shift_title, mood.substr(0, 22)])
-	GameState.register_action_axis("money", "work", "side_shift")
-	GameState.finalize_weekly_commitment("side_shift", "", {
-		"earned": earned,
-		"health_delta": total_health_delta,
-		"mental_delta": -stress_delta,
-	})
 	AudioManager.play("money_gain")
-	_show_effects_float({"money": earned, "health": total_health_delta, "mental": -stress_delta})
-	_show_vignette(shift_title, mood, {"money": earned, "health": total_health_delta, "mental": -stress_delta}, "#dc6a2a")
+	_show_effects_float(display_effects)
+	_show_vignette(shift_title, mood, display_effects, "#dc6a2a")
 	_refresh_all()
 
 const _SAVE_SCENES = [
@@ -13836,61 +14286,105 @@ func _ap_create_content():
 func _ap_write_resume():
 	if GameState.action_points <= 0:
 		return
-	turn_action_log.append(_tr("지원서 다듬기 — 평가 시작", "Resume Writing — assessment started"))
+	turn_action_log.append(_tr(
+		"자기소개서 작성 — 평가 시작",
+		"Resume Writing — assessment started"))
 	_enter_minigame_overlay(job_hunt_game)
 	job_hunt_game.open(0)  # Mode.RESUME = 0
 
 func _ap_interview_prep():
 	if GameState.action_points <= 0:
 		return
-	turn_action_log.append(_tr("Mock interview — assessment started", "Mock Interview — assessment started"))
+	turn_action_log.append(_tr("모의면접 — 평가 시작", "Mock Interview — assessment started"))
 	_enter_minigame_overlay(job_hunt_game)
 	job_hunt_game.open(1)  # Mode.INTERVIEW = 1
 
 func _on_job_hunt_closed(stress_delta: int, quality: int) -> void:
 	_exit_minigame_overlay()
-	if not GameState.spend_ap():
-		GameState.cancel_pending_weekly_commitment(GameState.turn)
-		return
 	# quality: 0=재작성필요, 1=무난, 2=양호, 3=우수
 	var is_resume: bool = job_hunt_game.current_mode == 0  # Mode.RESUME
-	GameState.modify_hidden_stat("stress", stress_delta)
-	GameState.add_tendency("career", 1)
+	var action_id := "resume" if is_resume else "interview"
+	var effects := {"stress": stress_delta}
+	var flag_updates: Dictionary = {}
+	var result_log := ""
 	if is_resume:
 		match quality:
 			3:
-				GameState.modify_stat("intelligence", 2)
-				GameState.flags["resume_polished"] = true
-				GameState.add_log(_tr("자소서 작성 완료 (평가 A) — 지력 +2, 이력서 완성", "Resume complete (Grade A) — Intelligence +2, resume complete"), "event")
+				effects["intelligence"] = 2
+				flag_updates["resume_polished"] = true
+				result_log = _tr(
+					"자기소개서 작성 완료 (평가 A) — 지력 +2",
+					"Resume complete (Grade A) — Intelligence +2, resume complete")
 			2:
-				GameState.modify_stat("intelligence", 1)
-				GameState.flags["resume_polished"] = true
-				GameState.add_log(_tr("자소서 작성 완료 (평가 B) — 지력 +1, 이력서 완성", "Resume complete (Grade B) — Intelligence +1, resume complete"), "event")
+				effects["intelligence"] = 1
+				flag_updates["resume_polished"] = true
+				result_log = _tr(
+					"자기소개서 작성 완료 (평가 B) — 지력 +1",
+					"Resume complete (Grade B) — Intelligence +1, resume complete")
 			1:
-				GameState.add_log(_tr("자소서 작성 완료 (평가 C) — 보완이 필요하다", "Resume complete (Grade C) — needs polish"), "event")
+				result_log = _tr(
+					"자기소개서 작성 완료 (평가 C) — 보완이 필요하다",
+					"Resume complete (Grade C) — needs polish")
 			0:
-				GameState.modify_hidden_stat("stress", 1)
-				GameState.add_log(_tr("자소서 작성 실패 (평가 D) — 정신력 -1", "Resume failed (Grade D) — Mental -1"), "event")
+				result_log = _tr(
+					"자기소개서 작성 실패 (평가 D)",
+					"Resume failed (Grade D)")
 	else:
 		match quality:
 			3:
-				GameState.modify_stat("social_skill", 2)
-				GameState.modify_stat("luck", 1)
-				GameState.flags["interview_practiced"] = true
-				GameState.add_log(_tr("모의 면접 완료 (평가 A) — 사회성 +2, 운 +1", "Mock interview complete (Grade A) — Social +2, Luck +1"), "event")
+				effects["social_skill"] = 2
+				effects["luck"] = 1
+				flag_updates["interview_practiced"] = true
+				result_log = _tr(
+					"모의 면접 완료 (평가 A) — 사회성 +2, 운 +1",
+					"Mock interview complete (Grade A) — Social +2, Luck +1")
 			2:
-				GameState.modify_stat("social_skill", 1)
-				GameState.flags["interview_practiced"] = true
-				GameState.add_log(_tr("모의 면접 완료 (평가 B) — 사회성 +1", "Mock interview complete (Grade B) — Social +1"), "event")
+				effects["social_skill"] = 1
+				flag_updates["interview_practiced"] = true
+				result_log = _tr(
+					"모의 면접 완료 (평가 B) — 사회성 +1",
+					"Mock interview complete (Grade B) — Social +1")
 			1:
-				GameState.modify_stat("luck", 1)
-				GameState.add_log(_tr("모의 면접 완료 (평가 C) — 운 +1", "Mock interview complete (Grade C) — Luck +1"), "event")
+				effects["luck"] = 1
+				result_log = _tr(
+					"모의 면접 완료 (평가 C) — 운 +1",
+					"Mock interview complete (Grade C) — Luck +1")
 			0:
-				GameState.modify_hidden_stat("stress", 1)
-				GameState.add_log(_tr("모의 면접 실패 (평가 D) — 정신력 -1", "Mock interview failed (Grade D) — Mental -1"), "event")
-	var action_id := "resume" if is_resume else "interview"
-	GameState.register_action_axis("money", "work", action_id)
-	GameState.finalize_weekly_commitment(action_id, "", {"quality": quality})
+				result_log = _tr(
+					"모의 면접 실패 (평가 D)",
+					"Mock interview failed (Grade D)")
+
+	var mental_delta: int = -int(effects.get("stress", 0))
+	if mental_delta != 0:
+		result_log += _tr(
+			" — 정신력 %+d",
+			" — Mental %+d") % mental_delta
+
+	if GameState.has_pending_weekly_commitment(GameState.turn):
+		var transaction := GameState.finalize_weekly_effect_action(
+			action_id, effects, "money", "work", "", {
+				"execution": "job_hunt_minigame",
+				"quality": quality,
+				"effects": effects.duplicate(true),
+			}, flag_updates)
+		if not bool(transaction.get("ok", false)):
+			if DEMO_CORE_LOOP_V2.is_active() \
+					and not DEMO_CORE_LOOP_V2.active_bundle_id().is_empty():
+				_core_loop_v2_rollback_action_bundle()
+			else:
+				GameState.cancel_pending_weekly_commitment(GameState.turn)
+			push_error("Weekly job-hunt transaction failed: %s" % str(
+				transaction.get("error", "unknown")))
+			return
+	else:
+		if not GameState.spend_ap():
+			return
+		GameState.apply_effects(effects)
+		for raw_flag in flag_updates:
+			GameState.flags[str(raw_flag)] = flag_updates[raw_flag]
+		GameState.register_action_axis("money", "work", action_id)
+	GameState.add_tendency("career", 1)
+	GameState.add_log(result_log, "event")
 	GameState.stats_changed.emit()
 	_refresh_all()
 	if DEMO_CORE_LOOP_V2.is_active() and DEMO_CORE_LOOP_V2.action_result_ready():
@@ -15535,7 +16029,7 @@ func _on_use_item(item_id):
 		_show_toast(str(result.get("message", _tr("사용 불가", "Cannot use"))), Color("#ff4444"))
 
 func _open_system_menu():
-	_open_modal(_tr("시스템", "System"), true)
+	_open_modal(_tr("시스템", "System"), true, "system")
 	modal_body.add_child(_modal_section_header(
 		_tr("설정 / 저장", "Settings / Save"),
 		"menu",
@@ -15802,6 +16296,11 @@ func _load_from_slot(slot: int):
 func _unhandled_input(event):
 	if GameState.is_game_over:
 		return
+	# Mini-games own their own cancel/pause semantics. Opening the global save
+	# menu after a V2 action has been armed but before it resolves would persist
+	# progress that the mini-game cannot resume.
+	if _minigame_overlay_active:
+		return
 	# Space/Enter: 타이핑 스킵 (비주얼노벨 표준 — 모달 닫힌 상태에서만)
 	if event.is_action_pressed("ui_accept") and not modal_layer.visible:
 		if _typing_tween and _typing_tween.is_running():
@@ -15864,6 +16363,9 @@ func _go_to_menu():
 
 func _open_modal(title, cancelable: bool = false, kind: String = ""):
 	_clear_box(modal_body)
+	if is_instance_valid(modal_footer):
+		_clear_box(modal_footer)
+		modal_footer.visible = false
 	modal_body.add_theme_constant_override("separation", 10)
 	modal_title_label.text = title
 	_modal_cancelable = cancelable
@@ -15990,6 +16492,8 @@ func _close_modal(play_sound: bool = true):
 		# 빠지지 않는다. 현재 주의 편성 계약으로 다시 합류한다.
 		if DEMO_CORE_LOOP_V2.is_prototype_complete():
 			call_deferred("_core_loop_v2_show_completion")
+		elif DEMO_CORE_LOOP_V2.is_active():
+			call_deferred("_core_loop_v2_route_week")
 		else:
 			_demo_director_route_week()
 	if not _pending_tendency_kind.is_empty():
@@ -15998,7 +16502,23 @@ func _close_modal(play_sound: bool = true):
 		call_deferred("_present_tendency_realization", tendency_kind)
 
 func _cancel_modal() -> void:
+	# The system menu is an overlay, not the owner of the commitment below it.
+	# In particular, a finalized V2 action result must survive Options/East/X
+	# and return to its durable Continue surface without losing its receipt.
+	if _modal_kind == "system" \
+			or (
+				DEMO_CORE_LOOP_V2.is_active()
+				and (
+					DEMO_CORE_LOOP_V2.action_result_ready()
+					or GameState.has_weekly_commitment_for_turn(GameState.turn)
+				)
+			):
+		_close_modal()
+		return
 	GameState.cancel_pending_weekly_commitment(GameState.turn)
+	if DEMO_CORE_LOOP_V2.is_active() \
+			and not DEMO_CORE_LOOP_V2.active_bundle_id().is_empty():
+		DEMO_CORE_LOOP_V2.cancel_active_bundle()
 	_close_modal()
 
 func _show_demo_ending():
