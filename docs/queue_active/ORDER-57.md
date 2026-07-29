@@ -217,6 +217,33 @@ NO-GO이며, 12주 완료나 기본 전환으로 선언하지 않는다.
 본문·결과·회고에서 발신자, 현금 전달 방식, 현재 잔고, 장소와 자연스러운
 한국어를 맞추며 새 경제 보상이나 관계 단계는 만들지 않는다.
 
+**휴대폰 허브 정본·첫 구현 착수 (2026-07-29 Codex) — 추가로 만지는
+파일:** `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-57.md`,
+`docs/CORE_LOOP_V2.md`, `docs/DECISIONS.md`, `docs/BALANCE.md`,
+`docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `CLAUDE.md`,
+`content/meta/demo_core_loop_v2.json`, `content/events/life_events.json`,
+`content/events_en/life_events.json`, `autoloads/GameState.gd`,
+`autoloads/ControllerHints.gd`, 신규 `systems/PhoneSystem.gd`,
+`scenes/CoreLoopPlanner.gd`, `scenes/MainGame.gd`,
+`tools/demo_core_loop_v2_audit.py`, `tools/CoreLoopV2Check.gd`,
+`tools/ScreenshotQA.gd`, `tools/audit.sh`, `locale/ui_ja.json`.
+사용자가 날짜·잔액·투자·도박·인물 전화와 기기 구매를 GTA식 실제 폰
+UI의 앱으로 묶고, 장기적으로 기기 등급별 미니게임을 확장하라고 지시했다.
+기존 플래너의 공개 API와 네 주 계획 계약은 보존하되, 720p에서 읽히는
+가로형 실물 폰 셸·상태바·홈·앱 스택으로 바꾼다.
+
+첫 구현은 시작폰과 13주 이후 리퍼폰, 메시지·일정·연락처·은행·기기 앱,
+정확한 날짜·잔액·구매 후 잔액, 저장 이관과 의미 입력을 소유한다. 시작폰도
+모든 필수 정보·연락·접근성을 제공한다. 투자와 도박은 각각 실제 금융
+온보딩과 장소 발견 뒤에만 나타나며, 기존 AP 연락·투자·도박 함수를 곧바로
+재사용하지 않는다. 집중 매매와 도박은 앞으로 명시적 전경 약속 실행기가
+소유하고, 기기 등급은 수익률·승률·관계 보상·필수 서사를 바꾸지 않는다.
+등급별 게임 앱은 계약만 잠그고 C~F의 핵심 인과보다 앞서 제작하지 않는다.
+수리 30만원·새 기기 100만원을 말하면서 다른 현금 효과를 적용하는 기존
+폰 파손 사건은 기기 구매를 연결하기 전에 한영 산문과 실제 효과를 맞춘다.
+`runtime_default=false`, `finish_run`, 25~240주 편성·엔딩과 사용자 소유
+`project.godot`은 유지한다.
+
 ## 목적
 
 - 기존 5년·240주 콘텐츠와 저장 정본은 파괴하지 않는다.
