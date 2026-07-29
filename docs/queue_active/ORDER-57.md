@@ -325,6 +325,13 @@ StoryMode resume의 중첩 schema로 왕복해 48주 1장과 240주 전체판에
 `tools/CoreLoopV2CCheck.gd`, 신규 `tools/CoreLoopV2DCheck.gd`,
 신규 `tools/CoreLoopV2DCheck.gd.uid`, 신규 `tools/CoreLoopV2DCheck.tscn`,
 `tools/ScreenshotQA.gd`, `tools/audit.sh`, `locale/ui_ja.json`.
+**D 출시 후보 정합성 보강 (2026-07-30 Codex) — 추가 범위:**
+`autoloads/GameState.gd`, `autoloads/DataRegistry.gd`, `scenes/MainGame.gd`,
+`tools/mod_pack_validator.py`. 17주 채용의 실제 근무 주수만 첫 급여에
+반영하고, 한빛유통 직무명이 일반 직업명으로 덮이지 않게 하며, 월말에는
+놓친 제안명만 정리하고 구체적인 결과는 다음 달 휴대폰 기록에서 한 번만
+보여 준다. 조건부 채용 문자는 달력 제안으로 승격하지 않고 메시지 앱의
+수신 기록으로만 합친다.
 다섯 번째 달은 선택한 관계 한 갈래와 상철/재혁 중 실제로 연 돈 갈래만
 각각 한 단계 이어 간다. 같은 달에는 도시시설 계약직 지원, 이삿짐 대타,
 실무 수업, 회복 또는 상담도 경쟁시켜 사람 장면을 전부 고르면 생계가,
