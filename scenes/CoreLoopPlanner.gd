@@ -24,6 +24,9 @@ const PHONE_FRAME_FLAGSHIP := preload(
 	"res://assets/ui/phone/phone_frame_flagship.png")
 const PHONE_MAX_WIDTH := 1180.0
 const PHONE_EDGE_GAP := 24.0
+const STARTER_FRAME_SIZE := Vector2(1672.0, 940.0)
+const STARTER_SCREEN_RECT := Rect2(289.0, 130.0, 1094.0, 680.0)
+const STARTER_LCD_LETTERBOX_PX := 32.0
 
 var _month_index := 1
 var _month_data: Dictionary = {}
@@ -87,14 +90,24 @@ var _phone_animating := false
 var _phone_rest_position := Vector2.ZERO
 var _phone_frame_texture: TextureRect
 var _phone_screen_inset: MarginContainer
+var _phone_screen_mat: PanelContainer
+var _phone_lcd_inset: MarginContainer
+var _phone_lcd_clip: Control
 var _phone_display_panel: PanelContainer
 var _phone_content_margin: MarginContainer
+var _phone_wallpaper: TextureRect
 var _phone_wallpaper_photo: TextureRect
+var _phone_lcd_haze: ColorRect
+var _status_network_label: Label
 var _phone_gesture_bar: PanelContainer
-var _phone_legacy_nav: VBoxContainer
-var _phone_frame_aspect := 1705.0 / 756.0
+var _phone_legacy_nav: Control
+var _phone_device_id := "starter"
+var _phone_frame_aspect := STARTER_FRAME_SIZE.x / STARTER_FRAME_SIZE.y
 var _phone_inset_ratio := Vector4(
-	185.0 / 1705.0, 67.0 / 756.0, 188.0 / 1705.0, 66.0 / 756.0)
+	STARTER_SCREEN_RECT.position.x / STARTER_FRAME_SIZE.x,
+	STARTER_SCREEN_RECT.position.y / STARTER_FRAME_SIZE.y,
+	(STARTER_FRAME_SIZE.x - STARTER_SCREEN_RECT.end.x) / STARTER_FRAME_SIZE.x,
+	(STARTER_FRAME_SIZE.y - STARTER_SCREEN_RECT.end.y) / STARTER_FRAME_SIZE.y)
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -299,20 +312,41 @@ func _build_ui() -> void:
 	_phone_screen_inset.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	frame_clip.add_child(_phone_screen_inset)
 
+	# The starter handset has a 16:10-ish glass opening. A black inner mat and
+	# smaller 16:9 LCD keep it from reading like a current edge-to-edge panel.
+	_phone_screen_mat = PanelContainer.new()
+	_phone_screen_mat.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_phone_screen_mat.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_phone_screen_mat.clip_contents = true
+	_phone_screen_mat.add_theme_stylebox_override(
+		"panel", _phone_screen_mat_style(7))
+	_phone_screen_inset.add_child(_phone_screen_mat)
+	_phone_lcd_inset = MarginContainer.new()
+	_phone_lcd_inset.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_phone_lcd_inset.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_phone_screen_mat.add_child(_phone_lcd_inset)
+	_phone_lcd_clip = Control.new()
+	_phone_lcd_clip.name = "FixedLcdViewport"
+	_phone_lcd_clip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_phone_lcd_clip.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_phone_lcd_clip.clip_contents = true
+	_phone_lcd_inset.add_child(_phone_lcd_clip)
+
 	_phone_display_panel = PanelContainer.new()
+	_phone_display_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_phone_display_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_phone_display_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_phone_display_panel.clip_contents = true
 	_phone_display_panel.add_theme_stylebox_override(
 		"panel", _rounded_panel_style(COLOR_SCREEN, Color("#252c35"), 1, 28))
-	_phone_screen_inset.add_child(_phone_display_panel)
+	_phone_lcd_clip.add_child(_phone_display_panel)
 
-	var wallpaper := TextureRect.new()
-	wallpaper.name = "PhoneWallpaper"
-	wallpaper.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	wallpaper.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	wallpaper.stretch_mode = TextureRect.STRETCH_SCALE
-	wallpaper.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_phone_wallpaper = TextureRect.new()
+	_phone_wallpaper.name = "PhoneWallpaper"
+	_phone_wallpaper.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_phone_wallpaper.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_phone_wallpaper.stretch_mode = TextureRect.STRETCH_SCALE
+	_phone_wallpaper.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var wallpaper_gradient := Gradient.new()
 	wallpaper_gradient.offsets = PackedFloat32Array([0.0, 0.46, 1.0])
 	wallpaper_gradient.colors = PackedColorArray([
@@ -323,8 +357,8 @@ func _build_ui() -> void:
 	wallpaper_texture.fill_from = Vector2(0.0, 0.0)
 	wallpaper_texture.fill_to = Vector2(1.0, 1.0)
 	wallpaper_texture.gradient = wallpaper_gradient
-	wallpaper.texture = wallpaper_texture
-	_phone_display_panel.add_child(wallpaper)
+	_phone_wallpaper.texture = wallpaper_texture
+	_phone_display_panel.add_child(_phone_wallpaper)
 	_phone_wallpaper_photo = TextureRect.new()
 	_phone_wallpaper_photo.name = "PhoneWallpaperPhoto"
 	_phone_wallpaper_photo.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -347,13 +381,21 @@ func _build_ui() -> void:
 	_phone_screen.add_theme_constant_override("separation", 4)
 	_phone_content_margin.add_child(_phone_screen)
 
+	_phone_lcd_haze = ColorRect.new()
+	_phone_lcd_haze.name = "StarterLcdHaze"
+	_phone_lcd_haze.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_phone_lcd_haze.color = Color.TRANSPARENT
+	_phone_lcd_haze.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_phone_lcd_haze.z_index = 10
+	_phone_display_panel.add_child(_phone_lcd_haze)
+
 	var status_bar := HBoxContainer.new()
 	status_bar.custom_minimum_size = Vector2(0, 22)
 	status_bar.add_theme_constant_override("separation", 12)
 	_phone_screen.add_child(status_bar)
-	var carrier := _label("09:41", 12, COLOR_TEXT, true)
-	carrier.custom_minimum_size = Vector2(82, 0)
-	status_bar.add_child(carrier)
+	_status_network_label = _label("LTE", 12, COLOR_TEXT, true)
+	_status_network_label.custom_minimum_size = Vector2(82, 0)
+	status_bar.add_child(_status_network_label)
 	_status_date_label = _label("", 12, COLOR_DIM, true)
 	_status_date_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_status_date_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -525,34 +567,32 @@ func _build_ui() -> void:
 	gesture_style.set_corner_radius_all(4)
 	_phone_gesture_bar.add_theme_stylebox_override("panel", gesture_style)
 	gesture_layer.add_child(_phone_gesture_bar)
-	_phone_legacy_nav = VBoxContainer.new()
+	# The starter's navigation symbols and home key are part of the generated
+	# shell. Keep only invisible hit areas over the physical controls.
+	_phone_legacy_nav = Control.new()
 	_phone_legacy_nav.name = "LegacyAndroidNavigation"
-	_phone_legacy_nav.anchor_left = 1.0
-	_phone_legacy_nav.anchor_top = 0.5
-	_phone_legacy_nav.anchor_right = 1.0
-	_phone_legacy_nav.anchor_bottom = 0.5
-	_phone_legacy_nav.offset_left = -33.0
-	_phone_legacy_nav.offset_top = -54.0
-	_phone_legacy_nav.offset_right = -5.0
-	_phone_legacy_nav.offset_bottom = 54.0
-	_phone_legacy_nav.add_theme_constant_override("separation", 3)
-	gesture_layer.add_child(_phone_legacy_nav)
+	_phone_legacy_nav.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_phone_legacy_nav.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_phone_legacy_nav.z_index = 40
+	frame_clip.add_child(_phone_legacy_nav)
 	for nav_spec in [
-		["□", "_show_home"],
-		["○", "_show_home"],
-		["◁", "_go_back_one_level"],
+		[Rect2(1415.0, 195.0, 155.0, 125.0), "_show_home", "menu"],
+		[Rect2(1405.0, 340.0, 170.0, 240.0), "_show_home", "home"],
+		[Rect2(1415.0, 620.0, 155.0, 135.0), "_go_back_one_level", "back"],
 	]:
 		var nav_button := Button.new()
-		nav_button.text = str(nav_spec[0])
+		var key_rect: Rect2 = nav_spec[0]
+		nav_button.text = ""
 		nav_button.flat = true
 		nav_button.focus_mode = Control.FOCUS_NONE
-		nav_button.custom_minimum_size = Vector2(28, 32)
 		nav_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-		nav_button.add_theme_font_override("font", _font)
-		nav_button.add_theme_font_size_override("font_size", 14)
-		nav_button.add_theme_color_override("font_color", Color("#d5d9de", 0.78))
-		nav_button.add_theme_color_override(
-			"font_hover_color", Color("#ffffff", 0.96))
+		nav_button.set_meta("physical_key", str(nav_spec[2]))
+		nav_button.anchor_left = key_rect.position.x / STARTER_FRAME_SIZE.x
+		nav_button.anchor_top = key_rect.position.y / STARTER_FRAME_SIZE.y
+		nav_button.anchor_right = key_rect.end.x / STARTER_FRAME_SIZE.x
+		nav_button.anchor_bottom = key_rect.end.y / STARTER_FRAME_SIZE.y
+		for state in ["normal", "hover", "pressed", "focus", "disabled"]:
+			nav_button.add_theme_stylebox_override(state, StyleBoxEmpty.new())
 		nav_button.pressed.connect(Callable(self, str(nav_spec[1])))
 		_phone_legacy_nav.add_child(nav_button)
 
@@ -591,7 +631,8 @@ func _rebuild() -> void:
 	_home_surface.visible = _screen_mode == "home"
 	_app_surface.visible = _screen_mode != "home"
 	_app_scroll.visible = _screen_mode != "home"
-	_phone_wallpaper_photo.visible = _screen_mode == "home"
+	_phone_wallpaper_photo.visible = (
+		_screen_mode == "home" and _phone_device_id != "starter")
 	_app_header.visible = true
 	_home_button.visible = false
 	_back_button.visible = _screen_mode != "home"
@@ -731,6 +772,14 @@ func _update_phone_geometry() -> void:
 			"margin_right", ceili(frame_size.x * _phone_inset_ratio.z))
 		_phone_screen_inset.add_theme_constant_override(
 			"margin_bottom", ceili(frame_size.y * _phone_inset_ratio.w))
+	if is_instance_valid(_phone_lcd_inset):
+		var letterbox := ceili(
+			frame_size.y * STARTER_LCD_LETTERBOX_PX / STARTER_FRAME_SIZE.y
+		) if _phone_device_id == "starter" else 0
+		_phone_lcd_inset.add_theme_constant_override("margin_left", 0)
+		_phone_lcd_inset.add_theme_constant_override("margin_top", letterbox)
+		_phone_lcd_inset.add_theme_constant_override("margin_right", 0)
+		_phone_lcd_inset.add_theme_constant_override("margin_bottom", letterbox)
 	_phone_rest_position = (viewport_size - frame_size) * 0.5
 	_phone_frame.size = frame_size
 	_phone_frame.pivot_offset = frame_size * 0.5
@@ -790,13 +839,18 @@ func _refresh_phone_material() -> void:
 	if not is_instance_valid(_phone_frame_texture):
 		return
 	var device_id := str(PHONE_SYSTEM.current_device().get("id", "starter"))
+	_phone_device_id = device_id
 	match device_id:
 		"starter":
 			_phone_frame_texture.texture = PHONE_FRAME_STARTER
-			_phone_frame_aspect = 1705.0 / 756.0
+			_phone_frame_aspect = STARTER_FRAME_SIZE.x / STARTER_FRAME_SIZE.y
 			_phone_inset_ratio = Vector4(
-				185.0 / 1705.0, 67.0 / 756.0,
-				188.0 / 1705.0, 66.0 / 756.0)
+				STARTER_SCREEN_RECT.position.x / STARTER_FRAME_SIZE.x,
+				STARTER_SCREEN_RECT.position.y / STARTER_FRAME_SIZE.y,
+				(STARTER_FRAME_SIZE.x - STARTER_SCREEN_RECT.end.x) \
+					/ STARTER_FRAME_SIZE.x,
+				(STARTER_FRAME_SIZE.y - STARTER_SCREEN_RECT.end.y) \
+					/ STARTER_FRAME_SIZE.y)
 		"flagship":
 			_phone_frame_texture.texture = PHONE_FRAME_FLAGSHIP
 			_phone_frame_aspect = 1512.0 / 720.0
@@ -815,15 +869,51 @@ func _refresh_phone_material() -> void:
 		_phone_legacy_nav.visible = device_id == "starter"
 	if is_instance_valid(_phone_content_margin):
 		_phone_content_margin.add_theme_constant_override(
-			"margin_left", 14 if device_id == "starter" else 46)
+			"margin_left", 12 if device_id == "starter" else 46)
 		_phone_content_margin.add_theme_constant_override(
-			"margin_right", 38 if device_id == "starter" else 20)
+			"margin_right", 12 if device_id == "starter" else 20)
+	if is_instance_valid(_phone_screen_mat):
+		_phone_screen_mat.add_theme_stylebox_override(
+			"panel", _phone_screen_mat_style(
+				7 if device_id == "starter" else 28))
+	if is_instance_valid(_phone_display_panel):
+		_phone_display_panel.add_theme_stylebox_override(
+			"panel", _rounded_panel_style(
+				Color("#20282d") if device_id == "starter" else COLOR_SCREEN,
+				Color("#56636b") if device_id == "starter" \
+					else Color("#252c35"),
+				1, 5 if device_id == "starter" else 28))
+	if is_instance_valid(_phone_wallpaper):
+		_phone_wallpaper.texture = _phone_wallpaper_texture(device_id)
+	if is_instance_valid(_phone_wallpaper_photo):
+		_phone_wallpaper_photo.visible = (
+			_screen_mode == "home" and device_id != "starter")
+	if is_instance_valid(_phone_lcd_haze):
+		_phone_lcd_haze.color = Color(0.46, 0.56, 0.60, 0.09) \
+			if device_id == "starter" else Color.TRANSPARENT
 
 func _refresh_status_bar() -> void:
 	if not is_instance_valid(_status_date_label):
 		return
 	_status_date_label.text = GameState.get_date_string()
-	_status_balance_label.text = "LTE  ·  87%"
+	_status_network_label.text = "LTE"
+	_status_balance_label.text = "87%"
+
+func _phone_wallpaper_texture(device_id: String) -> GradientTexture2D:
+	var gradient := Gradient.new()
+	gradient.offsets = PackedFloat32Array([0.0, 0.48, 1.0])
+	gradient.colors = PackedColorArray([
+		Color("#354148"), Color("#263137"), Color("#1a2125")
+	]) if device_id == "starter" else PackedColorArray([
+		Color("#182232"), Color("#101721"), Color("#080b11")
+	])
+	var texture := GradientTexture2D.new()
+	texture.width = 1024
+	texture.height = 512
+	texture.fill_from = Vector2(0.0, 0.0)
+	texture.fill_to = Vector2(1.0, 1.0)
+	texture.gradient = gradient
+	return texture
 
 func _rebuild_home() -> void:
 	_clear_children(_home_surface)
@@ -901,16 +991,23 @@ func _app_meta(app_id: String) -> Dictionary:
 
 func _phone_app_tile(
 		app_id: String, meta: Dictionary, favorite: bool) -> Button:
+	var legacy_style := _phone_device_id == "starter"
+	var icon_size := 56 if legacy_style else 64
+	var icon_radius := 8 if legacy_style else 17
 	var tile := Button.new()
 	tile.text = ""
 	tile.focus_mode = Control.FOCUS_ALL
-	tile.custom_minimum_size = Vector2(0, 104)
+	tile.custom_minimum_size = Vector2(0, 98 if legacy_style else 104)
 	tile.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	tile.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	tile.set_meta("phone_generation", "legacy" if legacy_style else "modern")
+	tile.set_meta("phone_icon_size", icon_size)
+	tile.set_meta("phone_icon_radius", icon_radius)
 	for state in ["normal", "hover", "pressed", "focus"]:
 		tile.add_theme_stylebox_override(
 			state, _rounded_panel_style(
-				Color.TRANSPARENT, Color.TRANSPARENT, 0, 18))
+				Color.TRANSPARENT, Color.TRANSPARENT, 0,
+				8 if legacy_style else 18))
 
 	var layout := VBoxContainer.new()
 	layout.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -920,31 +1017,40 @@ func _phone_app_tile(
 	tile.add_child(layout)
 
 	var icon_center := CenterContainer.new()
-	icon_center.custom_minimum_size = Vector2(0, 70)
+	icon_center.custom_minimum_size = Vector2(0, 68 if legacy_style else 70)
 	icon_center.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	layout.add_child(icon_center)
 	var icon_stage := Control.new()
-	icon_stage.custom_minimum_size = Vector2(74, 70)
+	icon_stage.custom_minimum_size = Vector2(
+		64 if legacy_style else 74, 68 if legacy_style else 70)
 	icon_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	icon_center.add_child(icon_stage)
 	var icon_shell := PanelContainer.new()
-	icon_shell.position = Vector2(5, 2)
-	icon_shell.size = Vector2(64, 64)
+	icon_shell.position = Vector2(4, 2) if legacy_style else Vector2(5, 2)
+	icon_shell.size = Vector2(icon_size, icon_size)
 	icon_shell.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var icon_color: Color = meta.get("color", Color("#687381")) as Color
+	if legacy_style:
+		icon_color = icon_color.lerp(Color("#69747a"), 0.42).darkened(0.08)
 	icon_shell.add_theme_stylebox_override(
 		"panel", _rounded_panel_style(
-			icon_color, Color("#ffffff", 0.22), 1, 17))
+			icon_color,
+			Color("#c5cdd1", 0.28) if legacy_style \
+				else Color("#ffffff", 0.22),
+			1, icon_radius))
 	icon_stage.add_child(icon_shell)
 	tile.focus_entered.connect(
-		_set_phone_app_icon_focus.bind(icon_shell, icon_color, true))
+		_set_phone_app_icon_focus.bind(
+			icon_shell, icon_color, icon_radius, true))
 	tile.focus_exited.connect(
-		_set_phone_app_icon_focus.bind(icon_shell, icon_color, false))
+		_set_phone_app_icon_focus.bind(
+			icon_shell, icon_color, icon_radius, false))
 	var icon_margin := MarginContainer.new()
-	icon_margin.add_theme_constant_override("margin_left", 16)
-	icon_margin.add_theme_constant_override("margin_right", 16)
-	icon_margin.add_theme_constant_override("margin_top", 16)
-	icon_margin.add_theme_constant_override("margin_bottom", 16)
+	var icon_padding := 14 if legacy_style else 16
+	icon_margin.add_theme_constant_override("margin_left", icon_padding)
+	icon_margin.add_theme_constant_override("margin_right", icon_padding)
+	icon_margin.add_theme_constant_override("margin_top", icon_padding)
+	icon_margin.add_theme_constant_override("margin_bottom", icon_padding)
 	icon_margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	icon_shell.add_child(icon_margin)
 	var icon := TextureRect.new()
@@ -961,12 +1067,15 @@ func _phone_app_tile(
 		var message_count := _phone_message_badge_count()
 		if message_count > 0:
 			var badge := PanelContainer.new()
-			badge.position = Vector2(53, -2)
-			badge.size = Vector2(24, 24)
+			badge.position = Vector2(45, -1) \
+				if legacy_style else Vector2(53, -2)
+			badge.size = Vector2(22, 22) \
+				if legacy_style else Vector2(24, 24)
 			badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			badge.add_theme_stylebox_override(
 				"panel", _rounded_panel_style(
-					Color("#d84f59"), Color("#f7d5d8"), 1, 12))
+					Color("#b94f56") if legacy_style else Color("#d84f59"),
+					Color("#f7d5d8"), 1, 7 if legacy_style else 12))
 			icon_stage.add_child(badge)
 			var count := _label(str(mini(message_count, 99)), 11, Color.WHITE, true)
 			count.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -975,12 +1084,15 @@ func _phone_app_tile(
 			badge.add_child(count)
 	if favorite:
 		var pin := PanelContainer.new()
-		pin.position = Vector2(-1, 49)
-		pin.size = Vector2(21, 21)
+		pin.position = Vector2(-1, 42) \
+			if legacy_style else Vector2(-1, 49)
+		pin.size = Vector2(20, 20) \
+			if legacy_style else Vector2(21, 21)
 		pin.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		pin.add_theme_stylebox_override(
 			"panel", _rounded_panel_style(
-				Color("#d8c38d"), Color("#fff0bc"), 1, 11))
+				Color("#b8ab82") if legacy_style else Color("#d8c38d"),
+				Color("#fff0bc"), 1, 6 if legacy_style else 11))
 		icon_stage.add_child(pin)
 		var pin_label := _label("1", 10, Color("#17130a"), true)
 		pin_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -989,7 +1101,8 @@ func _phone_app_tile(
 		pin.add_child(pin_label)
 
 	var app_label: Label = _label(
-		str(meta.get("label", app_id)), 13, COLOR_TEXT, true)
+		str(meta.get("label", app_id)), 12 if legacy_style else 13,
+		Color("#d1d7d8") if legacy_style else COLOR_TEXT, true)
 	app_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	app_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	app_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -997,7 +1110,8 @@ func _phone_app_tile(
 	return tile
 
 func _set_phone_app_icon_focus(
-		icon_shell: PanelContainer, icon_color: Color, focused: bool) -> void:
+		icon_shell: PanelContainer, icon_color: Color,
+		icon_radius: int, focused: bool) -> void:
 	if not is_instance_valid(icon_shell):
 		return
 	icon_shell.add_theme_stylebox_override(
@@ -1005,7 +1119,7 @@ func _set_phone_app_icon_focus(
 			icon_color,
 			COLOR_ACCENT if focused else Color("#ffffff", 0.22),
 			3 if focused else 1,
-			17))
+			icon_radius))
 
 func _phone_message_badge_count() -> int:
 	return _received_phone_offer_ids().size()
@@ -3305,6 +3419,15 @@ func _panel_style(bg: Color, border: Color, width: int) -> StyleBoxFlat:
 	style.content_margin_right = 14
 	style.content_margin_top = 9
 	style.content_margin_bottom = 9
+	return style
+
+func _phone_screen_mat_style(radius: int) -> StyleBoxFlat:
+	var style := _rounded_panel_style(
+		Color("#020304"), Color("#11161a"), 1, radius)
+	style.content_margin_left = 0
+	style.content_margin_top = 0
+	style.content_margin_right = 0
+	style.content_margin_bottom = 0
 	return style
 
 func _rounded_panel_style(

@@ -793,6 +793,17 @@ func _check_planner_surface() -> void:
 			and planner._phone_legacy_nav.get_child_count() == 3 \
 			and not planner._phone_gesture_bar.visible,
 		"old starter phone did not expose its three-button navigation")
+	var physical_keys_are_transparent := true
+	var expected_physical_keys := ["menu", "home", "back"]
+	for key_index in range(3):
+		var physical_key := planner._phone_legacy_nav.get_child(key_index) as Button
+		physical_keys_are_transparent = physical_keys_are_transparent \
+			and is_instance_valid(physical_key) \
+			and physical_key.text.is_empty() \
+			and str(physical_key.get_meta("physical_key", "")) \
+				== expected_physical_keys[key_index]
+	_expect(physical_keys_are_transparent,
+		"starter phone duplicated software glyphs over its physical keys")
 	planner._open_app("calendar")
 	var legacy_home := planner._phone_legacy_nav.get_child(1) as Button
 	if is_instance_valid(legacy_home):
@@ -803,7 +814,8 @@ func _check_planner_surface() -> void:
 		"starter phone Home hardware action did not return to the launcher")
 	_expect(planner._status_date_label.text == GameState.get_date_string(),
 		"phone status bar date did not read the live calendar")
-	_expect("LTE" in planner._status_balance_label.text,
+	_expect(planner._status_network_label.text == "LTE" \
+			and "09:41" not in _collect_surface_text(planner),
 		"phone status bar did not read as a handset network surface")
 	_expect(GameState.format_money(GameState.money) in planner._page_label.text,
 		"phone home did not expose the live balance outside the status bar")
@@ -818,6 +830,18 @@ func _check_planner_surface() -> void:
 			and frame_rect.size.x > 0.0 \
 			and frame_rect.size.y > 0.0,
 		"physical phone frame escaped the 1280x720 viewport")
+	var lcd_size: Vector2 = planner._phone_lcd_clip.size
+	var starter_tile: Button = planner._app_buttons.get("messages")
+	_expect(absf(float(planner._phone_frame_aspect)
+				- 1672.0 / 940.0) < 0.001 \
+			and lcd_size.y > 0.0 \
+			and absf(lcd_size.x / lcd_size.y - 16.0 / 9.0) < 0.03 \
+			and not planner._phone_wallpaper_photo.visible \
+			and planner._phone_lcd_haze.color.a > 0.0 \
+			and is_instance_valid(starter_tile) \
+			and int(starter_tile.get_meta("phone_icon_size", 0)) == 56 \
+			and int(starter_tile.get_meta("phone_icon_radius", 0)) == 8,
+		"starter phone lost its small 16:9 LCD or angular legacy launcher")
 
 	var surface_samples: Array[String] = [
 		_collect_surface_text(planner)]

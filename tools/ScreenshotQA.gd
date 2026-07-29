@@ -2787,6 +2787,30 @@ func _assert_core_loop_v2_phone_surface(
 			_fail(("Core Loop V2 %s starter phone did not use legacy "
 				+ "Android navigation.") % context)
 			return
+		if absf(phone_aspect - 1672.0 / 940.0) > 0.001:
+			_fail("Core Loop V2 %s starter shell kept a modern aspect." % context)
+			return
+		var transparent_key_names := ["menu", "home", "back"]
+		for key_index in range(transparent_key_names.size()):
+			var key_button := legacy_nav.get_child(key_index) as Button \
+				if key_index < legacy_nav.get_child_count() else null
+			if not is_instance_valid(key_button) \
+					or not key_button.text.is_empty() \
+					or str(key_button.get_meta("physical_key", "")) \
+						!= transparent_key_names[key_index]:
+				_fail(("Core Loop V2 %s starter phone duplicated a "
+					+ "software navigation glyph over its physical shell.") % context)
+				return
+		var lcd_panel := planner._phone_lcd_clip as Control
+		var lcd_haze := planner._phone_lcd_haze as ColorRect
+		if not is_instance_valid(lcd_panel) or lcd_panel.size.y <= 0.0 \
+				or absf(lcd_panel.size.x / lcd_panel.size.y - 16.0 / 9.0) > 0.03 \
+				or not is_instance_valid(lcd_haze) or lcd_haze.color.a <= 0.0:
+			_fail(("Core Loop V2 %s starter phone lost its small "
+				+ "letterboxed 16:9 LCD: size=%s.") % [context,
+					lcd_panel.size if is_instance_valid(lcd_panel) \
+						else Vector2.ZERO])
+			return
 	elif not is_instance_valid(gesture_bar) \
 			or not gesture_bar.is_visible_in_tree() \
 			or (is_instance_valid(legacy_nav) \
@@ -2796,11 +2820,12 @@ func _assert_core_loop_v2_phone_surface(
 		return
 	var expected_date: String = str(GameState.get_date_string())
 	if str(planner._status_date_label.text) != expected_date \
-			or "LTE" not in str(planner._status_balance_label.text):
+			or str(planner._status_network_label.text) != "LTE" \
+			or "09:41" in _collect_control_text(planner):
 		_fail("Core Loop V2 %s status bar is stale: date=%s network=%s." % [
 			context,
 			str(planner._status_date_label.text),
-			str(planner._status_balance_label.text),
+			str(planner._status_network_label.text),
 		])
 		return
 	var focus_owner := get_viewport().gui_get_focus_owner()
@@ -2826,6 +2851,13 @@ func _assert_core_loop_v2_phone_home(
 		if not is_instance_valid(button) or not button.is_visible_in_tree():
 			_fail("Core Loop V2 %s is missing the visible %s app." % [
 				context, app_id])
+			return
+		if str(load("res://systems/PhoneSystem.gd").current_device().get(
+				"id", "starter")) == "starter" \
+				and (int(button.get_meta("phone_icon_size", 0)) != 56 \
+					or int(button.get_meta("phone_icon_radius", 0)) != 8):
+			_fail(("Core Loop V2 %s starter launcher rendered %s "
+				+ "as a rounded modern app tile.") % [context, app_id])
 			return
 	if app_buttons.has("games"):
 		_fail("Core Loop V2 %s exposed the post-launch Games app." % context)

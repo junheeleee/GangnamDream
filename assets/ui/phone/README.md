@@ -7,35 +7,53 @@ are transparent so `CoreLoopPlanner` can render live UI beneath it.
 
 | Runtime asset | Tier | Generated source | Processing |
 |---|---|---|---|
-| `phone_frame_starter.png` | 2017 hand-me-down budget phone | `/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/call_OnKDiiGqoQCjKjy5q2oPD1Ox.png` | Built-in ImageGen, `#ff00ff` chroma removal and despill, safe crop, 1705×756 RGBA |
+| `phone_frame_starter.png` | 2013–2015 physical-key hand-me-down Android phone | `/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/call_hMa0Rt1lA4eA5Y2UdldELHXK.png` | Built-in ImageGen edit, `#ff00ff` chroma removal and despill, 1672×940 RGBA |
 | `phone_frame_refurbished.png` | refurbished premium phone | `/Users/junheelee/.codex/generated_images/019fae08-cfb7-7073-b918-f55e32759797/call_qRdgoHMb0y1CIqOpbNRrCwAL.png` | Built-in ImageGen, `#ff00ff` chroma removal, safe crop, 1613×700 RGBA |
 | `phone_frame_flagship.png` | current-generation flagship | `/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/call_Q5AeZUpaYR8DOASuE4inzUmK.png` | Built-in ImageGen, `#ff00ff` chroma removal and spill neutralization, safe crop, aspect correction, 1512×720 RGBA |
 
-The starter has 858,221 fully transparent, 12,383 partially transparent, and
-418,376 opaque pixels; the starter and refurbished assets have zero residual
-magenta pixels and fully transparent corner pixels. The flagship has 985,278 fully transparent,
-30,590 partially transparent, and 72,772 opaque pixels; all four corner alpha
-values are zero.
+The starter has 1,001,100 fully transparent, 10,754 partially transparent, and
+559,826 opaque pixels. Its four corner alpha values are zero. The rectangular
+display opening is transparent from x=289..1382 and y=130..809. The flagship
+has 985,278 fully transparent, 30,590 partially transparent, and 72,772 opaque
+pixels; all four corner alpha values are zero.
 
-## Exact prompts
+## Source prompts and replacement contracts
 
-### Starter
+The current starter replaced the 2017 shell after a human NO-GO that it still
+read as a current phone. The prior tracked starter was supplied to built-in
+ImageGen as the edit target with this exact prompt:
 
 ```text
-Use case: product-mockup
-Asset type: Gangnam Dream in-game diegetic smartphone shell overlay, STARTER / OLD HAND-ME-DOWN device tier, second production pass
-Primary request: Create one unmistakably outdated, inexpensive, visibly used but functional Korean-market Android-style budget smartphone from roughly 2017, viewed perfectly straight-on from the front and already rotated clockwise into landscape orientation. It must read as an old hand-me-down phone in 2026, never as a current flagship, while leaving enough display width for a game UI.
-Scene/backdrop: The entire area outside the physical phone AND the entire display opening inside the bezel must be one perfectly flat solid #ff00ff chroma-key color for later transparency removal. No floor plane.
-Subject: A single unbranded old budget smartphone physical shell only. Clearly visible thick black plastic LEFT and RIGHT short-side bezels in landscape and moderately thick top/bottom bezels. On the LEFT short bezel only, include one narrow old-fashioned earpiece slit, one small circular front camera, and two tiny sensor dots. The RIGHT short bezel must be completely plain. No physical home button and no printed or illuminated navigation symbols. Chunky rounded matte-to-semi-gloss dark charcoal polycarbonate frame, modest manufacturing seams, several subtle edge scuffs and softened corners, but no cracks and no protective case.
-Proportion requirement: Overall outside phone silhouette approximately 2.20:1 width-to-height. Empty display opening approximately 2.00:1 width-to-height. Each LEFT and RIGHT bezel should occupy roughly 7–8% of total width, and top/bottom bezel roughly 4–5% of total height. Do not create a square or 16:10 display opening.
-Style/medium: Photorealistic restrained product render for a serious Korean social-reality game, believable used electronics rather than parody.
-Composition/framing: Orthographic exact front elevation, centered and perfectly level, complete device visible with even generous padding, no perspective, no three-quarter angle, no tilt.
-Lighting/mood: Very restrained neutral studio edge highlight on the solid plastic shell only; no cast shadow, contact shadow, glow, reflection, or gradient in the background or display opening.
-Color palette: Worn black and dark charcoal plastic only. Never use magenta in the physical phone.
-Materials/textures: Inexpensive polycarbonate, older thicker front glass, light realistic edge wear only on the shell.
-Constraints: Physical bezel/frame/shell only. The full rectangular screen opening must remain completely empty perfectly flat #ff00ff. The full outside background must remain completely flat #ff00ff. Crisp isolated silhouette, exactly one device. No logo, brand, UI, icons, symbols, text, wallpaper, status bar, buttons on the front face, hands, stand, cable, rear camera, accessories, watermark.
-Avoid: contemporary edge-to-edge display, thin uniform bezel, hole-punch camera, notch, pill cutout, curved display, foldable phone, titanium or premium metal, physical home button, capacitive key markings, modern gesture bar, rugged bumper case, gaming-phone decorations, excessive damage, broken glass, futuristic concept art, perspective distortion, shadows, gradients or lighting variation in either chroma-key region.
+Use case: precise-object-edit
+Asset type: transparent physical phone shell overlay for a Godot game UI
+Input image 1: edit target and exact composition reference
+Primary request: redesign only the physical handset as an unmistakably old 2013–2015 low-end Android hand-me-down phone, shown straight-on in landscape orientation. Keep a clean rectangular 16:9 screen opening in the center for game UI compositing.
+Subject: chunky dark navy-black glossy polycarbonate body; very thick left and right short-side bezels and clearly thick top/bottom bezels; slightly bulbous rounded plastic edges; visible cheap molded seams; worn silver-painted trim with rubbed corners and small everyday scuffs. On the LEFT short bezel, include a long horizontal earpiece slit (rotated with the phone), a small circular front camera, and two sensor dots. On the RIGHT short bezel, include one unmistakable raised oval physical HOME button plus two faint old capacitive MENU and BACK symbols. The three physical controls must read clearly even when the asset is reduced to about 850 pixels wide.
+Scene/backdrop: the entire outside background and the entire screen opening must be perfectly flat solid #ff00ff chroma key.
+Composition/framing: exactly one whole phone, centered, orthographic front view, landscape, no perspective tilt, generous even padding, wide 16:9-ish handset silhouette.
+Style/medium: photorealistic isolated product material, ordinary used budget phone, deliberately dated rather than sleek or premium.
+Materials/textures: thick glossy cheap plastic, slightly yellowed/rubbed trim, subtle fingerprints and edge wear, no cracks.
+Constraints: change the shell design while preserving a simple centered empty rectangular screen opening; both outside and screen opening are uniform #ff00ff with no shadows, gradients, texture, reflections, or lighting variation; crisp isolated silhouette; no #ff00ff on the device; no logo or brand; no UI, icons, wallpaper, status bar, text, hands, case, stand, cable, rear camera, accessories, watermark.
+Avoid: modern edge-to-edge display, thin uniform bezel, metal or titanium rails, hole-punch/notch, gesture bar, symmetrical premium silhouette, rounded modern app screen, protective case.
 ```
+
+### Starter replacement runtime contract
+
+- The shell must visibly retain worn polycarbonate, thick asymmetric bezels,
+  an earpiece, camera/sensors, a physical oval Home key, and printed Menu/Back
+  symbols. It should read as a used 2013–2015 low-cost Android handset before
+  the player reads any text.
+- The 1094×680 glass opening is filled by a black mat. The live LCD is inset by
+  32 source pixels at the top and bottom, producing an approximately 16:9
+  display instead of stretching the UI across the whole older glass opening.
+- Starter-only rendering uses a 5px screen corner, muted blue-gray LCD base,
+  light haze, no photographic wallpaper, and 56px app tiles with 8px corners.
+  Refurbished and flagship rendering retain their existing modern treatment.
+- The shell already contains the three navigation controls. Runtime buttons
+  over Menu/Home/Back have empty text and transparent states; they are only
+  pointer hit areas aligned to those physical controls.
+- The status bar uses the live game date, `LTE`, and battery percentage. It
+  must not restore the generic `09:41` product-marketing time.
 
 ### Refurbished
 
