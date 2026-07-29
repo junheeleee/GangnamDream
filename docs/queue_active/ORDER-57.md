@@ -308,6 +308,38 @@ StoryMode resume의 중첩 schema로 왕복해 48주 1장과 240주 전체판에
 차단한다. 내부 개발 상한만 16주로 늘리고 `runtime_default=false`,
 `finish_run`, 17~240주, 엔딩과 사용자 소유 `project.godot`은 유지한다.
 
+**D 17~20주 기다림·네 의무 충돌 착수 (2026-07-30 Codex) — 추가로 만지는
+파일:** `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-57.md`,
+`docs/CORE_LOOP_V2.md`, `docs/STORY_BIBLE.md`, `docs/DECISIONS.md`,
+`docs/BALANCE.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `CLAUDE.md`,
+`content/meta/demo_core_loop_v2.json`, `content/meta/narrative_spine.json`,
+`content/meta/story_rules.json`, `content/events/core_loop_v2_events.json`,
+`content/events_en/core_loop_v2_events.json`, `content/events/arc_events.json`,
+`content/events_en/arc_events.json`, `assets/event_visual_contracts.json`,
+`assets/scene_audio_manifest.json`, `assets/scene_direction_manifest.json`,
+`systems/DemoCoreLoopV2.gd`, `scenes/CoreLoopPlanner.gd`,
+`scenes/StartMenu.gd`, `tools/demo_core_loop_v2_audit.py`,
+`tools/core_loop_v2_balance_sim.py`, `tools/event_director_audit.py`,
+`tools/CoreLoopV2Check.gd`, `tools/CoreLoopV2BCheck.gd`,
+`tools/CoreLoopV2CCheck.gd`, 신규 `tools/CoreLoopV2DCheck.gd`,
+신규 `tools/CoreLoopV2DCheck.gd.uid`, 신규 `tools/CoreLoopV2DCheck.tscn`,
+`tools/ScreenshotQA.gd`, `tools/audit.sh`, `locale/ui_ja.json`.
+다섯 번째 달은 선택한 관계 한 갈래와 상철/재혁 중 실제로 연 돈 갈래만
+각각 한 단계 이어 간다. 같은 달에는 도시시설 계약직 지원, 이삿짐 대타,
+실무 수업, 회복 또는 상담도 경쟁시켜 사람 장면을 전부 고르면 생계가,
+생계만 고르면 기다리게 한 사람이 남도록 한다. 관계 단계는 정확히 한 칸만
+전진하며 연애·투자 권유·사기 진실·30억원 동기를 선취하지 않는다.
+
+3~4개월의 미선택 제안은 다음 달 휴대폰 `SYSTEM RECORDS`에서 실제 마감,
+비용, 채워진 자리로 한 번 회수한다. 20주차는 기존 장편의 21주 사건을
+무작정 앞당기는 대신 V2 월말의 아버지 건강 연락으로 명시해 네 번째 고정
+약속을 점유하고, 방문·연기 선택 기억을 24주 정점 후보까지 보존한다.
+지원서는 제출 상태와 다음 달 결과 계약을 함께 만들며, 결정론 원장은
+1~20주 합법 생존 경로와 대타를 포기한 체납 경로를 모두 보여 준다.
+개발 상한만 20주로 늘리고 `runtime_default=false`, `finish_run`,
+21~240주, 기존 48주·5년 인과, 엔딩과 사용자 소유 `project.godot`은
+유지한다.
+
 ## 목적
 
 - 기존 5년·240주 콘텐츠와 저장 정본은 파괴하지 않는다.
