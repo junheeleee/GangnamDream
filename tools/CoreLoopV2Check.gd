@@ -14,6 +14,8 @@ func _ready() -> void:
 	_check_relationship_initiative()
 	_check_story_followup_suppression()
 	_check_branch_resolution()
+	_check_prototype_completion_boundary()
+	await _check_prototype_completion_surface()
 	_check_planner_surface()
 	LocaleManager.language = original_language
 	if _failures.is_empty():
@@ -21,7 +23,8 @@ func _ready() -> void:
 			"CORE_LOOP_V2_CHECK_OK activation=explicit months=2 slots=4 "
 			+ "locked=week4 forgone=ledger delayed=cross_month/one_per_week "
 			+ "relationship=player_initiated followup=restored save=roundtrip "
-			+ "planner=1280x720_no_scroll en_hangul=0 hidden_scores=0")
+			+ "terminal=week8/recap planner=1280x720_no_scroll "
+			+ "en_hangul=0 hidden_scores=0")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -39,6 +42,8 @@ func _check_explicit_activation() -> void:
 	GameState.turn = 9
 	_expect(not CORE_LOOP.is_active(),
 		"prototype escaped its week 1-8 boundary")
+	_expect(not CORE_LOOP.is_prototype_complete(),
+		"prototype marked an untouched week-nine run complete")
 
 func _check_month_one_plan() -> void:
 	GameState.start_new_game()
@@ -174,6 +179,127 @@ func _check_branch_resolution() -> void:
 			== ["arc_temptation_fallout"],
 		"fallen temptation branch resolved to the wrong scene")
 
+func _check_prototype_completion_boundary() -> void:
+	GameState.start_new_game()
+	CORE_LOOP.initialize_for_run(true)
+	_expect(bool(CORE_LOOP.commit_plan(1, _month_one_schedule()).get("ok", false)),
+		"completion fixture could not commit month one")
+	for week in range(1, 5):
+		GameState.turn = week
+		var bundle_id := CORE_LOOP.bundle_id_for_turn()
+		_expect(CORE_LOOP.begin_bundle(bundle_id, "schedule"),
+			"completion fixture could not begin week %d" % week)
+		CORE_LOOP.complete_active_bundle()
+
+	GameState.turn = 5
+	var month_two_schedule := {
+		"5": "hyunsu_player_reachout",
+		"6": "m2_seorin_application",
+		"7": "m2_rain_delivery_shift",
+		"8": "m2_sleep_debt_sunday",
+	}
+	_expect(bool(CORE_LOOP.commit_plan(2, month_two_schedule).get("ok", false)),
+		"completion fixture could not commit month two")
+	for week in range(5, 9):
+		GameState.turn = week
+		var bundle_id := CORE_LOOP.bundle_id_for_turn()
+		_expect(CORE_LOOP.begin_bundle(bundle_id, "schedule"),
+			"completion fixture could not begin week %d" % week)
+		CORE_LOOP.complete_active_bundle()
+
+	GameState.flags["lent_account"] = true
+	GameState.flags["escaped_dirty_money"] = true
+	_expect(not CORE_LOOP.mark_prototype_complete(),
+		"prototype closed before the week-eight month-end rollover")
+	GameState.turn = 9
+	_expect(CORE_LOOP.mark_prototype_complete(),
+		"prototype could not mark its post-week-eight terminal state")
+	_expect(CORE_LOOP.is_prototype_complete(),
+		"prototype terminal marker was not readable")
+	_expect(not CORE_LOOP.is_active(),
+		"completed prototype remained active in week nine")
+
+	var snapshot := CORE_LOOP.completion_snapshot()
+	_expect((snapshot.get("kept", []) as Array).size() == 8,
+		"completion recap did not retain all eight scheduled commitments")
+	_expect((snapshot.get("forgone", []) as Array).size() == 6,
+		"completion recap did not retain the six named closed opportunities")
+	_expect((snapshot.get("player_initiated", []) as Array).has("hyunsu"),
+		"completion recap lost the player's relationship initiative")
+	_expect(str(snapshot.get("temptation_branch", "")) == "returned_money",
+		"completion recap did not resolve the temptation branch")
+
+	var saved: Dictionary = GameState.serialize()
+	GameState.start_new_game()
+	GameState.load_from_dict(saved)
+	_expect(CORE_LOOP.is_prototype_complete(),
+		"prototype terminal marker did not survive save/load")
+	_expect(GameState.turn == 9,
+		"prototype terminal save did not remain at the post-week-eight boundary")
+
+func _check_prototype_completion_surface() -> void:
+	LocaleManager.language = "en"
+	GameState.add_log("Core Loop V2 completion fixture", "system")
+	var packed := load("res://scenes/MainGame.tscn") as PackedScene
+	_expect(packed != null,
+		"completion recap could not load MainGame.tscn")
+	if packed == null:
+		return
+	var main_game = packed.instantiate()
+	main_game.set_meta("_screenshot_qa_static_surface", true)
+	add_child(main_game)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	# LocaleManager's startup setting load is deferred; reassert the requested
+	# language after that callback before rendering this isolated QA surface.
+	LocaleManager.language = "en"
+	main_game._core_loop_v2_show_completion()
+	await get_tree().process_frame
+	_expect(str(main_game._modal_kind) == "core_loop_v2_complete",
+		"post-week-eight MainGame did not open the completion recap")
+	_expect(bool(main_game.modal_layer.get_meta(
+			"core_loop_v2_completion", false)),
+		"completion recap did not expose its terminal surface marker")
+	_expect(not main_game.modal_close_button.visible,
+		"completion recap exposed a close path into the legacy director")
+	_expect(GameState.turn == 9,
+		"opening the completion recap advanced into another week")
+	var viewport_rect := get_viewport().get_visible_rect()
+	var panel_rect: Rect2 = main_game.modal_panel.get_global_rect()
+	_expect(viewport_rect.encloses(panel_rect),
+		"completion recap escaped the viewport: viewport=%s panel=%s" % [
+			viewport_rect, panel_rect])
+	var done_button := _find_meta_node(
+		main_game.modal_layer, "core_loop_v2_recap_done") as Button
+	_expect(is_instance_valid(done_button),
+		"completion recap omitted its terminal CTA")
+	if is_instance_valid(done_button):
+		var scroll_rect: Rect2 = main_game.modal_scroll.get_global_rect()
+		var done_rect: Rect2 = done_button.get_global_rect()
+		_expect(done_button.is_visible_in_tree() \
+				and done_rect.position.y >= scroll_rect.position.y \
+				and done_rect.end.y <= scroll_rect.end.y,
+			"completion CTA opened below the 720p fold: scroll=%s button=%s" % [
+				scroll_rect, done_rect])
+	var surface_text := _collect_surface_text(main_game.modal_layer)
+	var upper_surface := surface_text.to_upper()
+	_expect(upper_surface.find("COMMITMENTS KEPT") >= 0,
+		"completion recap omitted the kept commitments section")
+	_expect(upper_surface.find("DOORS CLOSED") >= 0,
+		"completion recap omitted the named closed opportunities section")
+	_expect(upper_surface.find("CASH LEFT") >= 0 \
+			and upper_surface.find("BODY") >= 0,
+		"completion recap omitted current cash or body state")
+	_expect(surface_text.find("Hyunsu") >= 0,
+		"completion recap omitted the player's relationship initiative")
+	_expect(upper_surface.find("WEEK 9") >= 0,
+		"completion recap did not state its week-nine boundary")
+	_expect(not _contains_hangul(surface_text),
+		"English completion recap leaked Hangul: %s" % surface_text)
+	main_game.free()
+	packed = null
+	await get_tree().process_frame
+
 func _check_planner_surface() -> void:
 	GameState.start_new_game()
 	CORE_LOOP.initialize_for_run(true)
@@ -237,6 +363,16 @@ func _collect_surface_text(root: Node) -> String:
 		for child in node.get_children():
 			stack.append(child)
 	return "\n".join(chunks)
+
+func _find_meta_node(root: Node, meta_key: String) -> Node:
+	var stack: Array[Node] = [root]
+	while not stack.is_empty():
+		var node: Node = stack.pop_back()
+		if node.has_meta(meta_key):
+			return node
+		for child in node.get_children():
+			stack.append(child)
+	return null
 
 func _contains_hangul(text: String) -> bool:
 	var regex := RegEx.new()

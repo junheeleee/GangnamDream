@@ -248,7 +248,7 @@ story/visual/audio 계약 순서로 연결한다.
   약속명과 미선택 제안명을 다시 확인한다. 첫 South는 검토, East는 일정
   보존 편집 복귀, 두 번째 South만 계획 확정이다.
 - `CoreLoopV2Check`, KO/EN `ScreenshotQA --qa=core-loop-v2`,
-  컨텍스트·영어 누출·diff 표적 검사는 PASS다. `finish_run`, 본편 엔딩,
+  컨텍스트·영어 누출·diff 표적 검사와 전체 감사는 PASS다. `finish_run`, 본편 엔딩,
   `runtime_default=false`, 사용자 소유 `project.godot`은 유지했다.
 - **A1은 OPEN이다.** 이름을 보여 주는 것만으로 실제 포기 결과를 구현했다고
   판정하지 않는다. 배경 루틴, 포기 생산자/소비자 1:1, 기계 기한, 선택 결과

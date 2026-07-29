@@ -1293,6 +1293,9 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		_fail("Core Loop V2 planner opened without keyboard/controller focus.")
 		return
 	var prefix := "core_loop_v2_%s_" % lang.replace("-", "_").to_lower()
+	_assert_core_loop_v2_planner_bounds(planner, "calendar open")
+	if _qa_failed:
+		return
 	await _save(prefix + "01_calendar_open", 0.15)
 	planner.assign_offer_to_week("m1_mirae_application", 1)
 	planner.assign_offer_to_week("father_first_call", 2)
@@ -1302,16 +1305,62 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		return
 	await _save(prefix + "02_calendar_planned", 0.15)
 	planner._switch_tab(0)
+	await get_tree().process_frame
+	_assert_core_loop_v2_planner_bounds(planner, "messages")
+	if _qa_failed:
+		return
 	await _save(prefix + "03_messages", 0.15)
 	planner._switch_tab(2)
+	await get_tree().process_frame
+	_assert_core_loop_v2_planner_bounds(planner, "people")
+	if _qa_failed:
+		return
 	await _save(prefix + "04_people", 0.15)
 	planner._switch_tab(3)
+	await get_tree().process_frame
+	_assert_core_loop_v2_record_names(planner, core_loop, lang)
+	if _qa_failed:
+		return
+	_assert_core_loop_v2_planner_bounds(planner, "record")
+	if _qa_failed:
+		return
 	await _save(prefix + "05_record", 0.15)
 	planner._switch_tab(1)
-	planner._commit_plan()
+	await get_tree().process_frame
+	planner._confirm_button.grab_focus()
+	await _press_qa_action("ui_accept")
+	await _settle(0.12)
+	if not planner.visible or not planner.review_pending() or planner._active_tab != 3:
+		_fail("First South press did not open the Core Loop V2 pre-commit review.")
+		return
+	if not core_loop.plan_for_month(1).is_empty():
+		_fail("Core Loop V2 persisted a plan before the pre-commit review was accepted.")
+		return
+	_assert_core_loop_v2_record_names(planner, core_loop, lang)
+	if _qa_failed:
+		return
+	_assert_core_loop_v2_planner_bounds(planner, "pre-commit review")
+	if _qa_failed:
+		return
+	await _save(prefix + "06_commit_review", 0.15)
+	await _press_qa_action("ui_cancel")
+	await _settle(0.12)
+	if planner.review_pending() or planner._active_tab != 1 \
+			or planner.schedule_snapshot().size() != 4:
+		_fail("East did not return the Core Loop V2 review to an intact editable schedule.")
+		return
+	await get_tree().process_frame
+	planner._confirm_button.grab_focus()
+	await _press_qa_action("ui_accept")
+	await _settle(0.12)
+	if not planner.visible or not planner.review_pending():
+		_fail("Core Loop V2 review did not reopen after returning to edit.")
+		return
+	planner._confirm_button.grab_focus()
+	await _press_qa_action("ui_accept")
 	await _settle(0.55)
 	if planner.visible:
-		_fail("Core Loop V2 planner remained open after a valid plan commit.")
+		_fail("Core Loop V2 planner remained open after the reviewed plan was confirmed.")
 		return
 	if core_loop.active_bundle_id() != "m1_mirae_application" \
 			or not core_loop.action_result_ready():
@@ -1321,7 +1370,43 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		_fail("Core Loop V2 application did not write the week-one transaction.")
 		return
 	_mg._finish_typing()
-	await _save(prefix + "06_first_week_application", 0.15)
+	await _save(prefix + "07_first_week_application", 0.15)
+	var density_state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	var completed_for_density: Array = density_state.get("completed_bundles", [])
+	if not completed_for_density.has("hyunsu_first_meet"):
+		completed_for_density.append("hyunsu_first_meet")
+	density_state["completed_bundles"] = completed_for_density
+	GameState.core_loop_v2_state = density_state
+	planner.open(2)
+	planner._switch_tab(0)
+	await get_tree().process_frame
+	if core_loop.available_offer_ids(2).size() != 7:
+		_fail("Core Loop V2 month-two density fixture did not expose all seven messages.")
+		return
+	_assert_core_loop_v2_planner_bounds(planner, "seven-message month")
+	if _qa_failed:
+		return
+	await _save(prefix + "08_month_two_messages", 0.15)
+	planner.close()
+	await _dispose_main_game()
+
+	if not _seed_core_loop_v2_completion_fixture(core_loop):
+		_fail("Core Loop V2 screenshot fixture could not reach its eight-week boundary.")
+		return
+	await _boot_main_game()
+	_mg._core_loop_v2_show_completion()
+	await _settle(0.35)
+	if str(_mg._modal_kind) != "core_loop_v2_complete" \
+			or not bool(_mg.modal_layer.get_meta("core_loop_v2_completion", false)):
+		_fail("Core Loop V2 completion recap did not open for visual QA.")
+		return
+	var recap_viewport := get_viewport().get_visible_rect()
+	var recap_panel: Rect2 = _mg.modal_panel.get_global_rect()
+	if not recap_viewport.encloses(recap_panel):
+		_fail("Core Loop V2 completion recap exceeds %s: %s." % [
+			recap_viewport, recap_panel])
+		return
+	await _save(prefix + "09_eight_week_recap", 0.15)
 	await _dispose_main_game()
 
 	GameState.start_new_game()
@@ -1335,6 +1420,7 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	planner.assign_offer_to_week("father_first_call", 2)
 	planner.assign_offer_to_week("hyunsu_first_meet", 3)
 	planner._commit_plan()
+	planner._commit_plan()
 	await _settle(0.35)
 	if not _mg.aruba_game.visible or int(_mg.aruba_game._mode) != 1:
 		_fail("Core Loop V2 convenience shift did not open the convenience minigame.")
@@ -1347,6 +1433,44 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		_fail("Core Loop V2 convenience result would use the wrong shift title.")
 		return
 	await _dispose_main_game()
+
+func _seed_core_loop_v2_completion_fixture(core_loop: Variant) -> bool:
+	GameState.start_new_game()
+	GameState.flags["prologue_done"] = true
+	core_loop.initialize_for_run(true)
+	var schedules := [
+		{
+			"1": "m1_mirae_application",
+			"2": "father_first_call",
+			"3": "hyunsu_first_meet",
+			"4": "first_temptation_boss",
+		},
+		{
+			"5": "hyunsu_player_reachout",
+			"6": "m2_seorin_application",
+			"7": "m2_rain_delivery_shift",
+			"8": "m2_sleep_debt_sunday",
+		},
+	]
+	for month_index in range(1, 3):
+		GameState.turn = 1 + ((month_index - 1) * 4)
+		if not bool(core_loop.commit_plan(
+				month_index, schedules[month_index - 1]).get("ok", false)):
+			return false
+		for week in range(GameState.turn, GameState.turn + 4):
+			GameState.turn = week
+			var bundle_id: String = core_loop.bundle_id_for_turn()
+			if bundle_id.is_empty() \
+					or not core_loop.begin_bundle(bundle_id, "schedule"):
+				return false
+			core_loop.complete_active_bundle()
+	GameState.flags["lent_account"] = true
+	GameState.flags["escaped_dirty_money"] = true
+	GameState.money = 780_000.0
+	GameState.health = 61
+	GameState.mental = 47
+	GameState.turn = 9
+	return core_loop.mark_prototype_complete()
 
 func _assert_core_loop_v2_debug_entry(lang: String) -> void:
 	_seed_start_menu_meta_progress()
@@ -1412,6 +1536,59 @@ func _tree_contains_scroll_container(root: Node) -> bool:
 		for child in node.get_children():
 			stack.append(child)
 	return false
+
+func _assert_core_loop_v2_planner_bounds(planner: Control, context: String) -> void:
+	var viewport_rect := get_viewport().get_visible_rect()
+	var stack: Array[Node] = [planner]
+	while not stack.is_empty():
+		var node: Node = stack.pop_back()
+		if node is Control:
+			var control := node as Control
+			if control.is_visible_in_tree() and control.size.x > 0.5 and control.size.y > 0.5:
+				var rect := control.get_global_rect()
+				if rect.position.x < viewport_rect.position.x - 1.0 \
+						or rect.position.y < viewport_rect.position.y - 1.0 \
+						or rect.end.x > viewport_rect.end.x + 1.0 \
+						or rect.end.y > viewport_rect.end.y + 1.0:
+					_fail("Core Loop V2 %s surface exceeds %s: %s at %s." % [
+						context, viewport_rect, control.name, rect])
+					return
+		for child in node.get_children():
+			stack.append(child)
+
+func _assert_core_loop_v2_record_names(
+		planner: Control, core_loop: Variant, lang: String) -> void:
+	var record_surface := planner._read_only_surface as Control
+	if not is_instance_valid(record_surface):
+		_fail("Core Loop V2 record surface is missing.")
+		return
+	var surface_text := _collect_control_text(record_surface)
+	var scheduled_ids := [
+		"m1_mirae_application",
+		"father_first_call",
+		"hyunsu_first_meet",
+		"first_temptation_boss",
+	]
+	var unchosen_ids := [
+		"m1_convenience_trial_shift",
+		"m1_youth_center_resume_clinic",
+		"m1_phone_off_sunday",
+	]
+	var offer_key := "offer_ko" if lang == "ko" else "offer_en"
+	var decline_key := "decline_ko" if lang == "ko" else "decline_en"
+	for bundle_id in scheduled_ids + unchosen_ids:
+		var bundle: Dictionary = core_loop.bundle(bundle_id)
+		var offer_name := str(bundle.get(offer_key, ""))
+		if offer_name.is_empty() or offer_name not in surface_text:
+			_fail("Core Loop V2 record omitted the named commitment/opportunity %s (%s)." % [
+				bundle_id, offer_name])
+			return
+	for bundle_id in unchosen_ids:
+		var bundle: Dictionary = core_loop.bundle(bundle_id)
+		var future_copy := str(bundle.get(decline_key, ""))
+		if not future_copy.is_empty() and future_copy in surface_text:
+			_fail("Core Loop V2 pre-commit record spoiled the future outcome for %s." % bundle_id)
+			return
 
 func _prepare_story_event_fixture(event_id: String) -> void:
 	match event_id:

@@ -20,6 +20,7 @@ var _locked_by_week: Dictionary = {}
 var _selected_week := 1
 var _selected_offer_id := ""
 var _active_tab := 1
+var _review_pending := false
 
 var _font: FontFile
 var _font_bold: FontFile
@@ -51,6 +52,7 @@ func open(month_index: int) -> void:
 	_month_data = CORE_LOOP.month_spec(month_index)
 	_schedule = {}
 	_locked_by_week = {}
+	_review_pending = false
 	for raw_lock in _month_data.get("locked", []):
 		if not raw_lock is Dictionary:
 			continue
@@ -79,11 +81,15 @@ func close() -> void:
 func schedule_snapshot() -> Dictionary:
 	return _schedule.duplicate(true)
 
+func review_pending() -> bool:
+	return _review_pending
+
 func assign_offer_to_week(bundle_id: String, week: int) -> bool:
 	if not CORE_LOOP.available_offer_ids(_month_index).has(bundle_id):
 		return false
 	if _locked_by_week.has(str(week)):
 		return false
+	_review_pending = false
 	for raw_week in _schedule.keys():
 		if str(_schedule.get(raw_week, "")) == bundle_id:
 			_schedule.erase(raw_week)
@@ -97,6 +103,7 @@ func unassign_week(week: int) -> bool:
 	var week_key := str(week)
 	if _locked_by_week.has(week_key) or not _schedule.has(week_key):
 		return false
+	_review_pending = false
 	_schedule.erase(week_key)
 	_refresh_calendar()
 	return true
@@ -221,9 +228,14 @@ func _rebuild() -> void:
 	_title_label.text = LocaleManager.ui(
 		"%d월 · %s" % [_month_index, str(_month_data.get("title_ko", ""))],
 		"MONTH %d · %s" % [_month_index, str(_month_data.get("title_en", ""))])
-	_month_label.text = LocaleManager.ui(
-		"메시지를 읽고, 이번 달에 지킬 네 약속을 정한다.",
-		"Read what arrived, then decide which four commitments you will keep.")
+	if _review_pending:
+		_month_label.text = LocaleManager.ui(
+			"일정과 닫히는 제안의 이름을 읽은 뒤, 이번 달을 확정한다.",
+			"Read the schedule and the opportunities that will close before confirming.")
+	else:
+		_month_label.text = LocaleManager.ui(
+			"메시지를 읽고, 이번 달에 지킬 네 약속을 정한다.",
+			"Read what arrived, then decide which four commitments you will keep.")
 	var tab_names := [
 		LocaleManager.ui("메시지", "MESSAGES"),
 		LocaleManager.ui("일정", "CALENDAR"),
@@ -347,11 +359,19 @@ func _rebuild_read_only_surface() -> void:
 func _build_messages_surface() -> void:
 	_read_only_surface.add_child(_section_title(LocaleManager.ui(
 		"이번 달에 도착한 것", "WHAT ARRIVED THIS MONTH")))
+	var grid := GridContainer.new()
+	grid.columns = 2
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	grid.add_theme_constant_override("h_separation", 10)
+	grid.add_theme_constant_override("v_separation", 8)
+	_read_only_surface.add_child(grid)
 	for bundle_id in CORE_LOOP.available_offer_ids(_month_index):
 		var offer := CORE_LOOP.bundle(bundle_id)
-		_read_only_surface.add_child(_read_only_row(
+		grid.add_child(_read_only_row(
 			_localized(offer, "offer"),
-			"%s · %s" % [_localized(offer, "detail"), _localized(offer, "deadline")]))
+			"%s · %s" % [_localized(offer, "detail"), _localized(offer, "deadline")],
+			94))
 
 func _build_people_surface() -> void:
 	_read_only_surface.add_child(_section_title(LocaleManager.ui(
@@ -376,26 +396,25 @@ func _build_people_surface() -> void:
 				"A first meeting can be chance. The next contact will not happen by itself.")))
 
 func _build_record_surface() -> void:
-	_read_only_surface.add_child(_section_title(LocaleManager.ui(
-		"이번 달에 남길 기록", "THIS MONTH'S RECORD")))
-	var selected_count := _schedule.size()
+	var section_heading := LocaleManager.ui(
+		"확정 전 확인", "BEFORE YOU COMMIT") if _review_pending else LocaleManager.ui(
+		"이번 달에 남길 기록", "THIS MONTH'S RECORD")
+	_read_only_surface.add_child(_section_title(section_heading))
+	var scheduled_lines := _scheduled_commitment_lines()
 	_read_only_surface.add_child(_read_only_row(
-		LocaleManager.ui("지킬 약속", "COMMITMENTS"),
-		LocaleManager.ui(
-			"%d / 4주가 정해졌다." % selected_count,
-			"%d of 4 weeks are planned." % selected_count)))
-	var missed_count := maxi(
-		CORE_LOOP.available_offer_ids(_month_index).size()
-			- _selected_offer_count(), 0)
+		LocaleManager.ui("지킬 네 약속", "FOUR COMMITMENTS TO KEEP"),
+		"\n".join(scheduled_lines),
+		142))
+	var unchosen_lines := _unchosen_offer_lines()
 	_read_only_surface.add_child(_read_only_row(
-		LocaleManager.ui("닫히는 문", "DOORS LEFT CLOSED"),
-		LocaleManager.ui(
-			"이대로 시작하면 %d개의 제안을 놓친다." % missed_count,
-			"Starting now leaves %d opportunities behind." % missed_count)))
+		LocaleManager.ui("이번 달에 닫히는 제안", "OPPORTUNITIES THAT WILL CLOSE"),
+		"\n".join(unchosen_lines),
+		126))
 
-func _read_only_row(title: String, body: String) -> Control:
+func _read_only_row(title: String, body: String, minimum_height: float = 76.0) -> Control:
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(0, 76)
+	panel.custom_minimum_size = Vector2(0, minimum_height)
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	panel.add_theme_stylebox_override("panel", _panel_style(COLOR_PANEL, COLOR_BORDER, 1))
 	var margin := MarginContainer.new()
 	margin.add_theme_constant_override("margin_left", 16)
@@ -441,10 +460,16 @@ func _week_focused(week: int) -> void:
 func _commit_plan() -> void:
 	if _schedule.size() != 4:
 		return
+	if not _review_pending:
+		_begin_commit_review()
+		return
 	emit_signal("plan_committed", _month_index, _schedule.duplicate(true))
 
 func _switch_tab(index: int) -> void:
-	_active_tab = clampi(index, 0, 3)
+	var target := clampi(index, 0, 3)
+	if _review_pending and target != 3:
+		_review_pending = false
+	_active_tab = target
 	_rebuild()
 
 func _cycle_tab(delta: int) -> void:
@@ -461,8 +486,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("gd_tab_next"):
 		_cycle_tab(1)
 		handled = true
-	elif event.is_action_pressed("ui_cancel") and _active_tab == 1:
-		handled = unassign_week(_selected_week)
+	elif event.is_action_pressed("ui_cancel"):
+		if _review_pending:
+			_cancel_commit_review()
+			handled = true
+		elif _active_tab == 1:
+			handled = unassign_week(_selected_week)
 	if handled:
 		get_viewport().set_input_as_handled()
 
@@ -472,6 +501,20 @@ func _refresh_footer() -> void:
 	var ready := _schedule.size() == 4
 	_confirm_button.disabled = not ready
 	_apply_button_style(_confirm_button, ready, ready)
+	if _review_pending:
+		_confirm_button.text = LocaleManager.ui(
+			"이대로 확정하고 첫 주를 시작한다",
+			"Confirm Plan and Begin Week One")
+		_hint_label.text = LocaleManager.ui(
+			"%s 일정 수정 · %s 최종 확정",
+			"%s Edit Schedule · %s Confirm Plan") % [
+				ControllerHints.east(),
+				ControllerHints.south(),
+			]
+		return
+	_confirm_button.text = LocaleManager.ui(
+		"이번 달 선택을 확인한다",
+		"Review This Month's Plan")
 	var missed_count := maxi(
 		CORE_LOOP.available_offer_ids(_month_index).size()
 			- _selected_offer_count(), 0)
@@ -491,6 +534,55 @@ func _refresh_footer() -> void:
 			ControllerHints.shoulder_l(),
 			ControllerHints.shoulder_r(),
 		])
+
+func _begin_commit_review() -> void:
+	_review_pending = true
+	_active_tab = 3
+	_rebuild()
+	_confirm_button.call_deferred("grab_focus")
+
+func _cancel_commit_review() -> void:
+	_review_pending = false
+	_active_tab = 1
+	_rebuild()
+
+func _scheduled_commitment_lines() -> Array[String]:
+	var lines: Array[String] = []
+	var weeks: Array = _month_data.get("weeks", [1, 4])
+	for week in range(int(weeks[0]), int(weeks[1]) + 1):
+		var week_key := str(week)
+		var bundle_id := str(_schedule.get(week_key, ""))
+		var offer_name := LocaleManager.ui(
+			"아직 배치하지 않음", "Not scheduled yet")
+		if not bundle_id.is_empty():
+			offer_name = _localized(CORE_LOOP.bundle(bundle_id), "offer")
+		var fixed := LocaleManager.ui(" · 고정", " · FIXED") \
+			if _locked_by_week.has(week_key) else ""
+		lines.append(LocaleManager.ui(
+			"{week}주차 · {offer}{fixed}",
+			"WEEK {week} · {offer}{fixed}").format({
+				"week": posmod(week - 1, 4) + 1,
+				"offer": offer_name,
+				"fixed": fixed,
+			}))
+	return lines
+
+func _unchosen_offer_ids() -> Array[String]:
+	var result: Array[String] = []
+	for bundle_id in CORE_LOOP.available_offer_ids(_month_index):
+		if not _schedule.values().has(bundle_id):
+			result.append(bundle_id)
+	return result
+
+func _unchosen_offer_lines() -> Array[String]:
+	var lines: Array[String] = []
+	for bundle_id in _unchosen_offer_ids():
+		lines.append("• %s" % _localized(CORE_LOOP.bundle(bundle_id), "offer"))
+	if lines.is_empty():
+		lines.append(LocaleManager.ui(
+			"이번 달에 닫히는 제안 없음",
+			"No opportunities will close this month"))
+	return lines
 
 func _selected_offer_count() -> int:
 	var count := 0

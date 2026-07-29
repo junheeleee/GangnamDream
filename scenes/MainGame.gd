@@ -402,6 +402,9 @@ func _run_theme_display(theme_id: String) -> String:
 ## 앰비언트 이벤트(_maybe_play_month_situation)는 여기서 부르지 않는다.
 ## 아크/마일스톤/프롤로그가 이미 재생된 달에 랜덤 이벤트가 추가로 뜨는 것을 방지.
 func _continue_after_story():
+	if DEMO_CORE_LOOP_V2.is_prototype_complete():
+		_core_loop_v2_show_completion()
+		return
 	if DEMO_CORE_LOOP_V2.is_active():
 		_core_loop_v2_continue_after_story()
 		return
@@ -448,6 +451,9 @@ func _core_loop_v2_continue_after_story() -> void:
 	call_deferred("_core_loop_v2_route_week")
 
 func _core_loop_v2_route_week() -> void:
+	if DEMO_CORE_LOOP_V2.is_prototype_complete():
+		_core_loop_v2_show_completion()
+		return
 	if not DEMO_CORE_LOOP_V2.is_active():
 		_demo_director_route_week()
 		return
@@ -604,6 +610,203 @@ func _core_loop_v2_localized(data: Dictionary, stem: String) -> String:
 	var key := "%s_%s" % [stem, "en" if LocaleManager.is_english() else "ko"]
 	return str(data.get(key, ""))
 
+func _core_loop_v2_recap_names(records: Array, include_week: bool) -> Array[String]:
+	var names: Array[String] = []
+	for raw_record in records:
+		if not raw_record is Dictionary:
+			continue
+		var record: Dictionary = raw_record
+		var bundle_id := str(record.get("bundle_id", ""))
+		var title := _core_loop_v2_localized(
+			DEMO_CORE_LOOP_V2.bundle(bundle_id), "offer").strip_edges()
+		if title.is_empty():
+			continue
+		if include_week:
+			title = _tr("%d주 · %s", "W%d · %s") % [
+				int(record.get("week", 0)), title]
+		if not names.has(title):
+			names.append(title)
+	return names
+
+func _core_loop_v2_recap_list_card(
+		title: String, names: Array[String], empty_text: String, accent: String) -> Control:
+	var card := _info_card(accent, "#090c11")
+	card.custom_minimum_size = Vector2(0, 96)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 6)
+	card.add_child(box)
+	var title_label := _label(title.to_upper(), 11, "#788394")
+	if _font_bold:
+		title_label.add_theme_font_override("font", _font_bold)
+	box.add_child(title_label)
+	box.add_child(_wrap_label(
+		"  ·  ".join(names) if not names.is_empty() else empty_text,
+		12, "#c6ced9" if not names.is_empty() else "#737d8b"))
+	return card
+
+func _core_loop_v2_temptation_recap(branch: String) -> String:
+	match branch:
+		"refused_offer":
+			return _tr(
+				"200만원은 들어오지 않았다. 월세 날짜는 그대로 다가왔고, 차단한 번호만 기록에 남았다.",
+				"KRW 2M never arrived. Rent still came due; only the blocked number remained in the record.")
+		"returned_money":
+			return _tr(
+				"통장을 빌려준 뒤 피해자의 전화를 받았다. 받은 돈에 사비를 보태 돌려보내고 통장을 닫았다.",
+				"After lending out the account, a victim called. You added your own cash to what you had received, sent it back, and closed the account.")
+		"accepted_more":
+			return _tr(
+				"피해자의 전화를 차단했다. 처음 받은 돈 뒤로 또 다른 돈이 들어왔고, 모르는 번호들은 남았다.",
+				"You blocked the victim's call. More money followed the first payment, and the unknown numbers remained.")
+		"lent_account":
+			return _tr(
+				"통장을 빌려주고 200만원을 받았다. 그 돈이 지나간 자리에서 모르는 전화가 시작됐다.",
+				"You lent out the account and received KRW 2M. Unknown calls began where that money had passed.")
+	return _tr(
+		"4주차의 모르는 번호에 내린 답이 아직 기록 안에서 정리되지 않았다.",
+		"The answer to Week 4's unknown number has not yet settled into the record.")
+
+func _core_loop_v2_initiative_recap(snapshot: Dictionary) -> String:
+	var names: Array[String] = []
+	for raw_character in snapshot.get("player_initiated", []):
+		var character_id := str(raw_character)
+		var person_info: Dictionary = ImageRegistry.get_person_info(character_id)
+		var display_name := str(person_info.get("name", "")).strip_edges()
+		if display_name.is_empty() and character_id == "hyunsu":
+			display_name = _tr("현수", "Hyunsu")
+		if not display_name.is_empty() and not names.has(display_name):
+			names.append(display_name)
+	if names.is_empty():
+		return _tr(
+			"먼저 보낸 연락은 없었다. 두 달 동안 사람보다 다른 약속을 달력에 남겼다.",
+			"You did not send the first message. Other commitments occupied the calendar across these two months.")
+	return _tr(
+		"%s에게 먼저 연락했다. 우연한 첫 만남 뒤의 다음 약속은 민준이 열었다.",
+		"You reached out to %s first. Minjun opened the next commitment after the chance meeting."
+	) % ", ".join(names)
+
+func _core_loop_v2_show_completion() -> void:
+	if not DEMO_CORE_LOOP_V2.is_prototype_complete():
+		return
+	# Upgrade an older week-nine prototype save to the explicit terminal marker.
+	DEMO_CORE_LOOP_V2.mark_prototype_complete()
+	if is_instance_valid(modal_layer) and modal_layer.visible \
+			and _modal_kind == "core_loop_v2_complete":
+		return
+	if is_instance_valid(_core_loop_planner):
+		_core_loop_planner.close()
+	if is_instance_valid(_main_ui_root):
+		_main_ui_root.visible = true
+	if is_instance_valid(info_panel):
+		info_panel.visible = false
+	current_event = {}
+	_clear_week_reading_surface()
+	_refresh_all()
+
+	var snapshot := DEMO_CORE_LOOP_V2.completion_snapshot()
+	var kept: Array[String] = _core_loop_v2_recap_names(
+		snapshot.get("kept", []), true)
+	var forgone: Array[String] = _core_loop_v2_recap_names(
+		snapshot.get("forgone", []), false)
+	var branch := str(snapshot.get("temptation_branch", "unresolved"))
+	_open_modal(_tr("두 달의 기록", "Two Months, Recorded"),
+		false, "core_loop_v2_complete")
+	modal_layer.set_meta("core_loop_v2_completion", true)
+	if is_instance_valid(modal_close_button):
+		modal_close_button.visible = false
+	if modal_panel:
+		modal_panel.custom_minimum_size = Vector2(860, 640)
+		modal_panel.offset_left = -430
+		modal_panel.offset_right = 430
+		modal_panel.offset_top = -320
+		modal_panel.offset_bottom = 320
+	if modal_scroll:
+		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+		modal_scroll.custom_minimum_size = Vector2(0, 500)
+	modal_body.add_theme_constant_override("separation", 9)
+
+	var intro := _wrap_label(_tr(
+		"여기서 8주 테스트는 끝난다. 달력에 넣은 약속과 닫힌 문, 지금 남은 몸과 돈을 그대로 기록했다.",
+		"The eight-week test ends here. This record keeps the commitments on your calendar, the doors that closed, and the body and cash you have left."),
+		13, "#aeb8c6")
+	intro.set_meta("core_loop_v2_recap_intro", true)
+	modal_body.add_child(intro)
+
+	var branch_card := _info_card(
+		"#c7ced8" if branch == "refused_offer" else "#a98b88", "#090c11")
+	branch_card.set_meta("core_loop_v2_recap_branch", branch)
+	var branch_box := VBoxContainer.new()
+	branch_box.add_theme_constant_override("separation", 4)
+	branch_card.add_child(branch_box)
+	branch_box.add_child(_label(_tr("4주차 이후", "AFTER WEEK 4"), 11, "#788394"))
+	branch_box.add_child(_wrap_label(
+		_core_loop_v2_temptation_recap(branch), 13, "#cbd3de"))
+	modal_body.add_child(branch_card)
+
+	var condition_grid := GridContainer.new()
+	condition_grid.columns = 4
+	condition_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	condition_grid.add_theme_constant_override("h_separation", 8)
+	condition_grid.add_theme_constant_override("v_separation", 8)
+	condition_grid.set_meta("core_loop_v2_recap_condition", true)
+	modal_body.add_child(condition_grid)
+	var rung: Dictionary = GameState.get_financial_rung()
+	condition_grid.add_child(_month_summary_metric_card(
+		_tr("남은 현금", "Cash Left"), GameState.format_money(GameState.money),
+		_tr("월말 정산 후", "After month-end"), "#c7ced8"))
+	condition_grid.add_child(_month_summary_metric_card(
+		_tr("몸", "Body"), "%d / 100" % GameState.health,
+		_tr("현재 건강", "Current health"), "#91a6a2"))
+	condition_grid.add_child(_month_summary_metric_card(
+		_tr("마음", "Mind"), "%d / 100" % GameState.mental,
+		_tr("현재 정신력", "Current mental"), "#9aa1b3"))
+	condition_grid.add_child(_month_summary_metric_card(
+		_tr("다음 한 단", "Next Rung"), str(rung.get("label", "")),
+		_tr("%s 남음", "%s left") % GameState.format_money(
+			float(rung.get("remaining", 0.0))), "#a5adb9"))
+
+	var path_grid := GridContainer.new()
+	path_grid.columns = 2
+	path_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	path_grid.add_theme_constant_override("h_separation", 8)
+	path_grid.add_theme_constant_override("v_separation", 8)
+	path_grid.set_meta("core_loop_v2_recap_paths", true)
+	modal_body.add_child(path_grid)
+	path_grid.add_child(_core_loop_v2_recap_list_card(
+		_tr("지킨 약속", "Commitments Kept"), kept,
+		_tr("완료된 약속이 없다.", "No commitments were completed."), "#8695a8"))
+	path_grid.add_child(_core_loop_v2_recap_list_card(
+		_tr("닫힌 문", "Doors Closed"), forgone,
+		_tr("기록된 닫힌 문이 없다.", "No closed doors were recorded."), "#8e7f84"))
+
+	var initiative_card := _info_card("#8795a8", "#090c11")
+	initiative_card.set_meta("core_loop_v2_recap_initiative", true)
+	initiative_card.add_child(_wrap_label(
+		_core_loop_v2_initiative_recap(snapshot), 13, "#b8c2cf"))
+	modal_body.add_child(initiative_card)
+
+	var test_state := _label(
+		_tr("1~8주 완료 · 9주차는 이 테스트에서 시작되지 않는다.",
+			"WEEKS 1–8 COMPLETE · WEEK 9 DOES NOT BEGIN IN THIS TEST."),
+		11, "#7b8593")
+	test_state.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	test_state.set_meta("core_loop_v2_recap_boundary", true)
+	modal_body.add_child(test_state)
+	var done_button := _primary_cta_button(_tr(
+		"테스트 마치고 시작 화면으로  ›",
+		"End Test · Return to Title  ›"))
+	done_button.set_meta("core_loop_v2_recap_done", true)
+	done_button.pressed.connect(_core_loop_v2_return_to_title)
+	done_button.call_deferred("grab_focus")
+	modal_body.add_child(done_button)
+	if not bool(get_meta("_screenshot_qa_static_surface", false)):
+		SaveManager.autosave()
+
+func _core_loop_v2_return_to_title() -> void:
+	# Keep the completed marker in the autosave. Continuing this test later must
+	# reopen its record instead of entering the legacy week-nine director.
+	_go_to_menu()
+
 func _core_loop_v2_finish_action_week() -> void:
 	if not DEMO_CORE_LOOP_V2.action_result_ready():
 		return
@@ -611,6 +814,16 @@ func _core_loop_v2_finish_action_week() -> void:
 	_core_loop_v2_advance_completed_week()
 
 func _core_loop_v2_advance_completed_week() -> void:
+	if GameState.turn == DEMO_CORE_LOOP_V2.PROTOTYPE_MAX_WEEK:
+		_run_month_end_transition(false)
+		if GameState.is_game_over:
+			return
+		if not DEMO_CORE_LOOP_V2.mark_prototype_complete():
+			push_error("Core Loop V2 could not close its eight-week boundary")
+			return
+		SaveManager.autosave()
+		_core_loop_v2_show_completion()
+		return
 	if GameState.week_of_month == 4:
 		_run_month_end_transition(false)
 		if not GameState.is_game_over:
@@ -2656,6 +2869,9 @@ func _run_week_start_economy() -> void:
 			_screen_flash(Color("#d73a49"), 0.35, 0.55)
 
 func _begin_month():
+	if DEMO_CORE_LOOP_V2.is_prototype_complete():
+		_core_loop_v2_show_completion()
+		return
 	BGMPlayer.enter_ambient_bed(0.9)
 	BGMPlayer.update_idle_ambience()
 	GameState.restore_ap()
@@ -2668,6 +2884,9 @@ func _begin_month():
 ## _begin_month의 스토리 트리거 + 화면 렌더 꼬리 부분.
 ## 몽타주 종료 후 재개도 이 경로를 쓴다(주-시작 경제는 이미 처리됐으므로 재실행하지 않음).
 func _begin_month_story_and_render():
+	if DEMO_CORE_LOOP_V2.is_prototype_complete():
+		_core_loop_v2_show_completion()
+		return
 	# ── 스토리 이벤트 트리거 ─────────────────────────
 	# 턴 1: 프롤로그 → StoryMode(비주얼노벨)로 재생 (1회만)
 	if GameState.turn == 1 and not GameState.flags.get("prologue_done", false):
@@ -15563,7 +15782,10 @@ func _close_modal(play_sound: bool = true):
 	if current_event.is_empty() and not GameState.is_game_over:
 		# 설정·정보·성향 모달이 자동 주차 중 닫혀도 레거시 AP 화면으로
 		# 빠지지 않는다. 현재 주의 편성 계약으로 다시 합류한다.
-		_demo_director_route_week()
+		if DEMO_CORE_LOOP_V2.is_prototype_complete():
+			call_deferred("_core_loop_v2_show_completion")
+		else:
+			_demo_director_route_week()
 	if not _pending_tendency_kind.is_empty():
 		var tendency_kind := _pending_tendency_kind
 		_pending_tendency_kind = ""

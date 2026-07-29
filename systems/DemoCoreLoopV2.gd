@@ -43,6 +43,91 @@ static func is_active() -> bool:
 	return bool(GameState.core_loop_v2_state.get("enabled", false)) \
 		and GameState.turn >= 1 and GameState.turn <= PROTOTYPE_MAX_WEEK
 
+static func is_prototype_complete() -> bool:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	if not bool(state.get("enabled", false)):
+		return false
+	if bool(state.get("prototype_complete", false)):
+		return true
+	# Saves made by the first prototype could already be on week nine after
+	# completing week eight. Recover those runs into the recap instead of
+	# silently dropping them into the legacy director.
+	return GameState.turn > PROTOTYPE_MAX_WEEK \
+		and (state.get("completed_turns", []) as Array).has(PROTOTYPE_MAX_WEEK)
+
+static func mark_prototype_complete() -> bool:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	if not bool(state.get("enabled", false)) \
+			or GameState.turn <= PROTOTYPE_MAX_WEEK \
+			or not (state.get("completed_turns", []) as Array).has(PROTOTYPE_MAX_WEEK):
+		return false
+	state["prototype_complete"] = true
+	state["prototype_completed_at_turn"] = GameState.turn
+	state["active_bundle"] = ""
+	state["active_kind"] = ""
+	state["active_turn"] = 0
+	state["action_result_ready"] = false
+	GameState.core_loop_v2_state = state
+	return true
+
+static func completion_snapshot() -> Dictionary:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var completed_turns: Array = state.get("completed_turns", [])
+	var kept: Array = []
+	for month_index in range(1, month_for_turn(PROTOTYPE_MAX_WEEK) + 1):
+		var plan := plan_for_month(month_index)
+		var raw_schedule: Variant = plan.get("schedule", {})
+		if not raw_schedule is Dictionary:
+			continue
+		var weeks: Array[int] = []
+		for raw_week in (raw_schedule as Dictionary):
+			var week := int(raw_week)
+			if week >= 1 and week <= PROTOTYPE_MAX_WEEK:
+				weeks.append(week)
+		weeks.sort()
+		for week in weeks:
+			if not completed_turns.has(week):
+				continue
+			var bundle_id := str((raw_schedule as Dictionary).get(str(week), ""))
+			if bundle_id.is_empty():
+				continue
+			kept.append({
+				"month": month_index,
+				"week": week,
+				"bundle_id": bundle_id,
+			})
+
+	var forgone: Array = []
+	for raw_record in state.get("forgone", []):
+		if not raw_record is Dictionary:
+			continue
+		var record: Dictionary = raw_record
+		if int(record.get("month", 0)) < 1 \
+				or int(record.get("month", 0)) > month_for_turn(PROTOTYPE_MAX_WEEK):
+			continue
+		forgone.append(record.duplicate(true))
+
+	var temptation_branch := "unresolved"
+	if bool(GameState.flags.get("lent_account", false)):
+		if bool(GameState.flags.get("escaped_dirty_money", false)):
+			temptation_branch = "returned_money"
+		elif bool(GameState.flags.get("fell_to_darkness", false)):
+			temptation_branch = "accepted_more"
+		else:
+			temptation_branch = "lent_account"
+	elif bool(GameState.flags.get("kept_clean_hands", false)):
+		temptation_branch = "refused_offer"
+
+	return {
+		"kept": kept,
+		"forgone": forgone,
+		"player_initiated": (state.get("player_initiated", []) as Array).duplicate(),
+		"relationship_stages":
+			(state.get("relationship_stages", {}) as Dictionary).duplicate(true),
+		"temptation_branch": temptation_branch,
+		"completed_at_turn": int(state.get("prototype_completed_at_turn", 0)),
+	}
+
 static func month_for_turn(turn: int) -> int:
 	return maxi(1, int(floor(float(maxi(turn, 1) - 1) / 4.0)) + 1)
 
@@ -403,4 +488,7 @@ static func _normalized_state(raw_state: Dictionary) -> Dictionary:
 	state["active_kind"] = str(state.get("active_kind", ""))
 	state["active_turn"] = int(state.get("active_turn", 0))
 	state["action_result_ready"] = bool(state.get("action_result_ready", false))
+	state["prototype_complete"] = bool(state.get("prototype_complete", false))
+	state["prototype_completed_at_turn"] = int(
+		state.get("prototype_completed_at_turn", 0))
 	return state
