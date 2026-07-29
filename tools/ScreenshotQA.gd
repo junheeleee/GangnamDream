@@ -1318,6 +1318,29 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	await _save(prefix + "04_people", 0.15)
 	planner._switch_tab(3)
 	await get_tree().process_frame
+	var growth_button: Button = planner._routine_buttons.get("primary:growth")
+	if not is_instance_valid(growth_button):
+		_fail("Core Loop V2 record tab did not expose the primary Growth routine.")
+		return
+	growth_button.grab_focus()
+	await _send_route_raw_gamepad_button(JOY_BUTTON_A)
+	if str(planner.routine_snapshot().get("primary", "")) != "growth":
+		_fail("Raw gamepad South did not select the primary Growth routine.")
+		return
+	var rebuilt_growth: Button = planner._routine_buttons.get("primary:growth")
+	if not is_instance_valid(rebuilt_growth) \
+			or get_viewport().gui_get_focus_owner() != rebuilt_growth:
+		_fail("Routine selection rebuild lost gamepad focus.")
+		return
+	var livelihood_button: Button = planner._routine_buttons.get("primary:livelihood")
+	livelihood_button.grab_focus()
+	await _send_route_raw_gamepad_button(JOY_BUTTON_A)
+	if str(planner.routine_snapshot().get("primary", "")) != "livelihood":
+		_fail("Raw gamepad South did not restore the primary Livelihood routine.")
+		return
+	if str(planner.routine_snapshot().get("secondary", "")) != "recovery":
+		_fail("Routine focus QA changed the untouched secondary routine.")
+		return
 	_assert_core_loop_v2_record_names(planner, core_loop, lang)
 	if _qa_failed:
 		return
@@ -1376,7 +1399,11 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	if not completed_for_density.has("hyunsu_first_meet"):
 		completed_for_density.append("hyunsu_first_meet")
 	density_state["completed_bundles"] = completed_for_density
+	var density_stages: Dictionary = density_state.get("relationship_stages", {})
+	density_stages["hyunsu"] = "opening"
+	density_state["relationship_stages"] = density_stages
 	GameState.core_loop_v2_state = density_state
+	core_loop.process_due_decline_outcomes(1)
 	planner.open(2)
 	planner._switch_tab(0)
 	await get_tree().process_frame
@@ -1388,6 +1415,41 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		return
 	await _save(prefix + "08_month_two_messages", 0.15)
 	planner.close()
+	var month_fixture := {
+		"month": 1,
+		"before": {
+			"money": 780_000.0,
+			"health": 66,
+			"mental": 55,
+		},
+		"after": {
+			"money": 430_000.0,
+			"health": 62,
+			"mental": 51,
+		},
+		"fixed_expense": 650_000.0,
+		"routines": {"primary": "livelihood", "secondary": "recovery"},
+		"kept": [
+			{"week": 1, "bundle_id": "m1_mirae_application"},
+			{"week": 2, "bundle_id": "father_first_call"},
+			{"week": 3, "bundle_id": "hyunsu_first_meet"},
+			{"week": 4, "bundle_id": "first_temptation_boss"},
+		],
+		"decline_receipts": core_loop.decline_receipts_from_month(1),
+	}
+	_mg._core_loop_v2_show_month_summary(month_fixture)
+	await _settle(0.25)
+	if str(_mg._modal_kind) != "core_loop_v2_month_summary" \
+			or not bool(_mg.modal_layer.get_meta(
+				"core_loop_v2_month_summary", false)):
+		_fail("Core Loop V2 month-end notebook did not open for visual QA.")
+		return
+	var month_viewport := get_viewport().get_visible_rect()
+	if not month_viewport.encloses(_mg.modal_panel.get_global_rect()):
+		_fail("Core Loop V2 month-end notebook exceeds %s." % month_viewport)
+		return
+	await _save(prefix + "09_month_end_notebook", 0.15)
+	_mg._close_modal(false)
 	await _dispose_main_game()
 
 	if not _seed_core_loop_v2_completion_fixture(core_loop):
@@ -1406,7 +1468,20 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		_fail("Core Loop V2 completion recap exceeds %s: %s." % [
 			recap_viewport, recap_panel])
 		return
-	await _save(prefix + "09_eight_week_recap", 0.15)
+	var recap_done: Button = _find_visible_meta_button(
+		_mg.modal_layer, "core_loop_v2_recap_done")
+	if not is_instance_valid(recap_done) \
+			or not recap_viewport.encloses(recap_done.get_global_rect()):
+		_fail("Core Loop V2 recap CTA is not visible without scrolling.")
+		return
+	if get_viewport().gui_get_focus_owner() != recap_done:
+		_fail("Core Loop V2 recap CTA did not own initial focus.")
+		return
+	if _mg.modal_scroll.vertical_scroll_mode \
+			!= ScrollContainer.SCROLL_MODE_DISABLED:
+		_fail("Core Loop V2 recap unexpectedly requires scrolling at 720p.")
+		return
+	await _save(prefix + "10_eight_week_recap", 0.15)
 	await _dispose_main_game()
 
 	GameState.start_new_game()
@@ -1463,7 +1538,25 @@ func _seed_core_loop_v2_completion_fixture(core_loop: Variant) -> bool:
 			if bundle_id.is_empty() \
 					or not core_loop.begin_bundle(bundle_id, "schedule"):
 				return false
+			if bundle_id == "father_first_call":
+				core_loop.note_story_choice("arc_father_01_call", 0)
+			elif bundle_id == "hyunsu_first_meet":
+				core_loop.note_story_choice("arc_intro_04_hyunsu", 0)
+			elif bundle_id == "hyunsu_player_reachout":
+				core_loop.note_story_choice("v2_hyunsu_player_reachout", 0)
 			core_loop.complete_active_bundle()
+		core_loop.process_due_decline_outcomes(month_index)
+		var fixture_snapshot := {
+			"money": GameState.money,
+			"fixed_expense": GameState.get_monthly_required_cash(),
+			"monthly_income": GameState.monthly_income,
+			"health": GameState.health,
+			"mental": GameState.mental,
+		}
+		core_loop.record_month_summary(
+			month_index, fixture_snapshot, fixture_snapshot)
+		if month_index == 1:
+			core_loop.acknowledge_month_summary(1)
 	GameState.flags["lent_account"] = true
 	GameState.flags["escaped_dirty_money"] = true
 	GameState.money = 780_000.0

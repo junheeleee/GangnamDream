@@ -12,6 +12,7 @@ extends Control
 ##   SceneTransition.go("res://scenes/StoryMode.tscn") 로 진입.
 
 # ── 노출 색상 ─────────────────────────────────────────────────
+const DEMO_CORE_LOOP_V2 := preload("res://systems/DemoCoreLoopV2.gd")
 const C_NARRATION := "#d8dce8"
 const C_DIM       := "#8892a4"
 const C_CHOICE    := "#c8d0e0"
@@ -4006,6 +4007,8 @@ func _on_choice(idx: int):
 		cast_before[str(pid)] = GameState.get_cast_affinity(str(pid))
 	if not _read_only_replay:
 		GameState.apply_choice(_current, choice)
+		if DEMO_CORE_LOOP_V2.is_active():
+			DEMO_CORE_LOOP_V2.note_story_choice(current_event_id, idx)
 		if owns_weekly_commitment:
 			var forgone_choice_indexes: Array[int] = []
 			for alternative_index in _visible_choice_indices(_current):

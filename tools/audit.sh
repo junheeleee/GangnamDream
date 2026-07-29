@@ -44,7 +44,7 @@ cleanup_isolated_home() {
     return 1
   fi
   case "$target" in
-	  "$temp_root"/gangnam-achievements.*|"$temp_root"/gangnam-ending-route.*|"$temp_root"/gangnam-first30.*|"$temp_root"/gangnam-hidden.*|"$temp_root"/gangnam-housing-keepsake.*|"$temp_root"/gangnam-input-matrix.*|"$temp_root"/gangnam-manual-save.*|"$temp_root"/gangnam-mod-layer.*|"$temp_root"/gangnam-story-audio.*|"$temp_root"/gangnam-story-tutorial.*)
+	  "$temp_root"/gangnam-achievements.*|"$temp_root"/gangnam-core-loop-v2.*|"$temp_root"/gangnam-ending-route.*|"$temp_root"/gangnam-first30.*|"$temp_root"/gangnam-hidden.*|"$temp_root"/gangnam-housing-keepsake.*|"$temp_root"/gangnam-input-matrix.*|"$temp_root"/gangnam-manual-save.*|"$temp_root"/gangnam-mod-layer.*|"$temp_root"/gangnam-story-audio.*|"$temp_root"/gangnam-story-tutorial.*)
       rm -rf -- "$target"
       ;;
     *)
@@ -53,6 +53,48 @@ cleanup_isolated_home() {
       ;;
   esac
 }
+
+# A success marker alone is insufficient: Godot can print it and still exit
+# non-zero or emit a late script error. Every captured runtime check rejects
+# those failures. A1 checks pass "strict" to reject any ERROR line as well;
+# several older isolated suites still emit known teardown-only resource noise.
+godot_check_passed() {
+  local output="$1"
+  local exit_status="$2"
+  local success_marker="$3"
+  local error_mode="${4:-compiler}"
+  if [ "$exit_status" -ne 0 ]; then
+    echo "  ✗ Godot 종료코드: $exit_status"
+    return 1
+  fi
+  if ! printf '%s\n' "$output" | grep -Fq "$success_marker"; then
+    echo "  ✗ 성공 마커 없음: $success_marker"
+    return 1
+  fi
+  local error_lines
+  error_lines=$(printf '%s\n' "$output" \
+    | grep -iE 'ERROR:|SCRIPT ERROR|Parse Error|Compile Error|Failed to load script')
+  if [ "$error_mode" != "strict" ]; then
+    error_lines=$(printf '%s\n' "$error_lines" \
+      | grep -viE 'ERROR: [0-9]+ resources still in use at exit')
+  fi
+  if [ -n "$error_lines" ]; then
+    echo "  ✗ 성공 마커와 함께 Godot 오류가 출력됨"
+    return 1
+  fi
+  return 0
+}
+
+if godot_check_passed $'AUDIT_GUARD_SELF_TEST_OK\nERROR: synthetic late failure' \
+    0 "AUDIT_GUARD_SELF_TEST_OK" strict >/dev/null; then
+  echo "❌ 내부 감사 오류 — Godot ERROR 동시 출력 감지가 작동하지 않습니다."
+  exit 1
+fi
+if godot_check_passed "AUDIT_GUARD_SELF_TEST_OK" \
+    7 "AUDIT_GUARD_SELF_TEST_OK" >/dev/null; then
+  echo "❌ 내부 감사 오류 — Godot 비정상 종료코드 감지가 작동하지 않습니다."
+  exit 1
+fi
 
 echo "──────────────────────────────────────────"
 echo "● 장기 맥락 부팅 예산·정본 분류·내부 링크 검사"
@@ -124,9 +166,11 @@ KEY_ART_EXIT=$?
 if [ -x "$GODOT" ]; then
   FIRST30_HOME=$(make_isolated_home "gangnam-first30")
   FIRST30_RAW=$(run_limited env HOME="$FIRST30_HOME" "$GODOT" --headless --quit-after 1200 res://tools/First30SecondsCheck.tscn 2>&1)
+  FIRST30_STATUS=$?
   cleanup_isolated_home "$FIRST30_HOME"
   echo "$FIRST30_RAW" | grep -E "FIRST_30_SECONDS_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$FIRST30_RAW" | grep -q "FIRST_30_SECONDS_CHECK_OK"; then
+  if godot_check_passed "$FIRST30_RAW" "$FIRST30_STATUS" \
+      "FIRST_30_SECONDS_CHECK_OK"; then
     FIRST30_EXIT=0
   else
     FIRST30_EXIT=1
@@ -160,8 +204,10 @@ echo "────────────────────────�
 echo "● 스토리·엔딩 CG 실제 경로·소유권·해상도 런타임 검사"
 if [ -x "$GODOT" ]; then
   CG_RUNTIME_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/CGRuntimeCheck.tscn 2>&1)
+  CG_RUNTIME_STATUS=$?
   echo "$CG_RUNTIME_RAW" | grep -E "CG_RUNTIME_CHECK_OK|SCRIPT ERROR|Parse Error|Compile Error|missing .*cg|cg mismatch|shared by|must use" | sed 's/^/  /'
-  if echo "$CG_RUNTIME_RAW" | grep -q "CG_RUNTIME_CHECK_OK"; then
+  if godot_check_passed "$CG_RUNTIME_RAW" "$CG_RUNTIME_STATUS" \
+      "CG_RUNTIME_CHECK_OK"; then
     CG_RUNTIME_EXIT=0
   else
     CG_RUNTIME_EXIT=1
@@ -198,8 +244,10 @@ python3 tools/ja_translation_audit.py --scope ui
 JA_UI_EXIT=$?
 if [ -x "$GODOT" ]; then
   I18N_RAW=$(run_limited "$GODOT" --headless --quit-after 1200 res://tools/I18nInfrastructureCheck.tscn 2>&1)
+  I18N_STATUS=$?
   echo "$I18N_RAW" | grep -E "I18N_(INFRASTRUCTURE_CHECK_OK|INFRASTRUCTURE_CHECK_FAIL|FONT_COVERAGE)|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$I18N_RAW" | grep -q "I18N_INFRASTRUCTURE_CHECK_OK"; then
+  if godot_check_passed "$I18N_RAW" "$I18N_STATUS" \
+      "I18N_INFRASTRUCTURE_CHECK_OK"; then
     I18N_RUNTIME_EXIT=0
   else
     I18N_RUNTIME_EXIT=1
@@ -216,9 +264,11 @@ MOD_LAYER_AUDIT_EXIT=$?
 if [ -x "$GODOT" ]; then
   MOD_LAYER_HOME=$(make_isolated_home "gangnam-mod-layer")
   MOD_LAYER_RAW=$(run_limited env HOME="$MOD_LAYER_HOME" "$GODOT" --headless --quit-after 1200 res://tools/ModLayerCheck.tscn 2>&1)
+  MOD_LAYER_STATUS=$?
   cleanup_isolated_home "$MOD_LAYER_HOME"
   echo "$MOD_LAYER_RAW" | grep -E "MOD_LAYER_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$MOD_LAYER_RAW" | grep -q "MOD_LAYER_CHECK_OK"; then
+  if godot_check_passed "$MOD_LAYER_RAW" "$MOD_LAYER_STATUS" \
+      "MOD_LAYER_CHECK_OK"; then
     MOD_LAYER_RUNTIME_EXIT=0
   else
     MOD_LAYER_RUNTIME_EXIT=1
@@ -242,13 +292,19 @@ echo "────────────────────────�
 echo "● Core Loop V2 6개월·월간 약속·관계 주도권 설계 계약"
 python3 tools/demo_core_loop_v2_audit.py
 CORE_LOOP_V2_EXIT=$?
+python3 tools/core_loop_v2_balance_sim.py
+CORE_LOOP_V2_BALANCE_EXIT=$?
 
 echo "──────────────────────────────────────────"
 echo "● Core Loop V2 1~8주 계획·저장·지연 결과·관계 주도권 런타임"
 if [ -x "$GODOT" ]; then
-  CORE_LOOP_V2_RUNTIME_RAW=$(run_limited "$GODOT" --headless --quit-after 1200 res://tools/CoreLoopV2Check.tscn 2>&1)
+  CORE_LOOP_V2_HOME=$(make_isolated_home "gangnam-core-loop-v2")
+  CORE_LOOP_V2_RUNTIME_RAW=$(run_limited env HOME="$CORE_LOOP_V2_HOME" "$GODOT" --headless --quit-after 1200 res://tools/CoreLoopV2Check.tscn 2>&1)
+  CORE_LOOP_V2_RUNTIME_STATUS=$?
+  cleanup_isolated_home "$CORE_LOOP_V2_HOME"
   echo "$CORE_LOOP_V2_RUNTIME_RAW" | grep -E "CORE_LOOP_V2_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$CORE_LOOP_V2_RUNTIME_RAW" | grep -q "CORE_LOOP_V2_CHECK_OK"; then
+  if godot_check_passed "$CORE_LOOP_V2_RUNTIME_RAW" \
+      "$CORE_LOOP_V2_RUNTIME_STATUS" "CORE_LOOP_V2_CHECK_OK" strict; then
     CORE_LOOP_V2_RUNTIME_EXIT=0
   else
     CORE_LOOP_V2_RUNTIME_EXIT=1
@@ -260,8 +316,10 @@ fi
 
 if [ -x "$GODOT" ]; then
   EVENT_DIRECTOR_RAW=$(run_limited "$GODOT" --headless --quit-after 1200 res://tools/EventDirectorCheck.tscn 2>&1)
+  EVENT_DIRECTOR_STATUS=$?
   echo "$EVENT_DIRECTOR_RAW" | grep -E "EVENT_DIRECTOR_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$EVENT_DIRECTOR_RAW" | grep -q "EVENT_DIRECTOR_CHECK_OK"; then
+  if godot_check_passed "$EVENT_DIRECTOR_RAW" "$EVENT_DIRECTOR_STATUS" \
+      "EVENT_DIRECTOR_CHECK_OK"; then
     EVENT_DIRECTOR_RUNTIME_EXIT=0
   else
     EVENT_DIRECTOR_RUNTIME_EXIT=1
@@ -275,8 +333,10 @@ echo "─────────────────────"
 echo "● 첫 8주 계획·Boss 선택·지연 결과 수직 단면 검사"
 if [ -x "$GODOT" ]; then
   CORE_CHOICE_RAW=$(run_limited "$GODOT" --headless --quit-after 1200 res://tools/CoreChoiceSliceCheck.tscn 2>&1)
+  CORE_CHOICE_STATUS=$?
   echo "$CORE_CHOICE_RAW" | grep -E "CORE_CHOICE_SLICE_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$CORE_CHOICE_RAW" | grep -q "CORE_CHOICE_SLICE_CHECK_OK"; then
+  if godot_check_passed "$CORE_CHOICE_RAW" "$CORE_CHOICE_STATUS" \
+      "CORE_CHOICE_SLICE_CHECK_OK"; then
     CORE_CHOICE_EXIT=0
   else
     CORE_CHOICE_EXIT=1
@@ -296,9 +356,11 @@ echo "● 창업·투자·정석·비정석·균형·직장 종결 라우팅 실
 if [ -x "$GODOT" ]; then
   ENDING_ROUTE_HOME=$(make_isolated_home "gangnam-ending-route")
   ENDING_ROUTE_RAW=$(run_limited env HOME="$ENDING_ROUTE_HOME" "$GODOT" --headless --quit-after 3600 res://tools/EndingRouteIdentityCheck.tscn 2>&1)
+  ENDING_ROUTE_STATUS=$?
   cleanup_isolated_home "$ENDING_ROUTE_HOME"
   echo "$ENDING_ROUTE_RAW" | grep -E "ENDING_ROUTE_IDENTITY_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$ENDING_ROUTE_RAW" | grep -q "ENDING_ROUTE_IDENTITY_CHECK_OK"; then
+  if godot_check_passed "$ENDING_ROUTE_RAW" "$ENDING_ROUTE_STATUS" \
+      "ENDING_ROUTE_IDENTITY_CHECK_OK"; then
     ENDING_ROUTE_EXIT=0
   else
     ENDING_ROUTE_EXIT=1
@@ -330,8 +392,10 @@ python3 tools/generate_launch_audio.py --check
 LAUNCH_AUDIO_EXIT=$?
 if [ -x "$GODOT" ]; then
   AUDIO_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/AudioAssetCheck.tscn 2>&1)
+  AUDIO_STATUS=$?
   echo "$AUDIO_RAW" | grep -E "AUDIO_ASSET_CHECK_OK|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$AUDIO_RAW" | grep -q "AUDIO_ASSET_CHECK_OK"; then
+  if godot_check_passed "$AUDIO_RAW" "$AUDIO_STATUS" \
+      "AUDIO_ASSET_CHECK_OK"; then
     AUDIO_EXIT=0
   else
     AUDIO_EXIT=1
@@ -345,8 +409,10 @@ echo "────────────────────────�
 echo "● 미니게임 물리음·장소 앰비언스 런타임 검사"
 if [ -x "$GODOT" ]; then
   GAME_AUDIO_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/GameAudioContractCheck.tscn 2>&1)
+  GAME_AUDIO_STATUS=$?
   echo "$GAME_AUDIO_RAW" | grep -E "GAME_AUDIO_RUNTIME_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$GAME_AUDIO_RAW" | grep -q "GAME_AUDIO_RUNTIME_OK"; then
+  if godot_check_passed "$GAME_AUDIO_RAW" "$GAME_AUDIO_STATUS" \
+      "GAME_AUDIO_RUNTIME_OK"; then
     GAME_AUDIO_RUNTIME_EXIT=0
   else
     GAME_AUDIO_RUNTIME_EXIT=1
@@ -360,8 +426,10 @@ echo "────────────────────────�
 echo "● BGM 재시작/도덕 질감/장면 앰비언스 연속성 검사"
 if [ -x "$GODOT" ]; then
   BGM_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/BGMContinuityCheck.tscn 2>&1)
+  BGM_STATUS=$?
   echo "$BGM_RAW" | grep -E "BGM_CONTINUITY_OK|BGM_CONTINUITY_FAIL|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$BGM_RAW" | grep -q "BGM_CONTINUITY_OK"; then
+  if godot_check_passed "$BGM_RAW" "$BGM_STATUS" \
+      "BGM_CONTINUITY_OK"; then
     BGM_EXIT=0
   else
     BGM_EXIT=1
@@ -375,8 +443,10 @@ echo "────────────────────────�
 echo "● 도덕 밴드 사람층 소거·무기질 장소 지속 검사"
 if [ -x "$GODOT" ]; then
   MORAL_AMBIENCE_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/MoralAmbienceCheck.tscn 2>&1)
+  MORAL_AMBIENCE_STATUS=$?
   echo "$MORAL_AMBIENCE_RAW" | grep -E "MORAL_AMBIENCE_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$MORAL_AMBIENCE_RAW" | grep -q "MORAL_AMBIENCE_CHECK_OK"; then
+  if godot_check_passed "$MORAL_AMBIENCE_RAW" "$MORAL_AMBIENCE_STATUS" \
+      "MORAL_AMBIENCE_CHECK_OK"; then
     MORAL_AMBIENCE_EXIT=0
   else
     MORAL_AMBIENCE_EXIT=1
@@ -390,8 +460,10 @@ echo "────────────────────────�
 echo "● 주간 행동 에코·인과 프레임·비네트·예감·SFX 믹스 검사"
 if [ -x "$GODOT" ]; then
   IMMERSION_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/ImmersionLoopCheck.tscn 2>&1)
+  IMMERSION_STATUS=$?
   echo "$IMMERSION_RAW" | grep -E "IMMERSION_LOOP_CHECK_(OK|FAIL)|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$IMMERSION_RAW" | grep -q "IMMERSION_LOOP_CHECK_OK"; then
+  if godot_check_passed "$IMMERSION_RAW" "$IMMERSION_STATUS" \
+      "IMMERSION_LOOP_CHECK_OK"; then
     IMMERSION_EXIT=0
   else
     IMMERSION_EXIT=1
@@ -405,8 +477,10 @@ echo "────────────────────────�
 echo "● 프롤로그 동기 3연타·수첩 재호출·아버지 데모 접점 검사"
 if [ -x "$GODOT" ]; then
   MOTIVATION_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/MotivationImprintCheck.tscn 2>&1)
+  MOTIVATION_STATUS=$?
   echo "$MOTIVATION_RAW" | grep -E "MOTIVATION_IMPRINT_(OK|FAIL)|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$MOTIVATION_RAW" | grep -q "MOTIVATION_IMPRINT_OK"; then
+  if godot_check_passed "$MOTIVATION_RAW" "$MOTIVATION_STATUS" \
+      "MOTIVATION_IMPRINT_OK"; then
     MOTIVATION_EXIT=0
   else
     MOTIVATION_EXIT=1
@@ -420,8 +494,10 @@ echo "────────────────────────�
 echo "● 튜토리얼 입력 포커스 회귀 검사"
 if [ -x "$GODOT" ]; then
   TUTORIAL_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/TutorialInputCheck.tscn 2>&1)
+  TUTORIAL_STATUS=$?
   echo "$TUTORIAL_RAW" | grep -E "TUTORIAL_INPUT_CHECK_OK|TUTORIAL_INPUT_CHECK_FAIL|ERROR:|SCRIPT ERROR" | sed 's/^/  /'
-  if echo "$TUTORIAL_RAW" | grep -q "TUTORIAL_INPUT_CHECK_OK"; then
+  if godot_check_passed "$TUTORIAL_RAW" "$TUTORIAL_STATUS" \
+      "TUTORIAL_INPUT_CHECK_OK"; then
     TUTORIAL_EXIT=0
   else
     TUTORIAL_EXIT=1
@@ -436,9 +512,11 @@ echo "● 프롤로그 결과·첫 AP 튜토리얼 배치 검사"
 if [ -x "$GODOT" ]; then
   STORY_TUTORIAL_HOME=$(make_isolated_home "gangnam-story-tutorial")
   STORY_TUTORIAL_RAW=$(run_limited env HOME="$STORY_TUTORIAL_HOME" "$GODOT" --headless --quit-after 3600 res://tools/StoryTutorialPlacementCheck.tscn 2>&1)
+  STORY_TUTORIAL_STATUS=$?
   cleanup_isolated_home "$STORY_TUTORIAL_HOME"
   echo "$STORY_TUTORIAL_RAW" | grep -E "STORY_TUTORIAL_PLACEMENT_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$STORY_TUTORIAL_RAW" | grep -q "STORY_TUTORIAL_PLACEMENT_CHECK_OK"; then
+  if godot_check_passed "$STORY_TUTORIAL_RAW" "$STORY_TUTORIAL_STATUS" \
+      "STORY_TUTORIAL_PLACEMENT_CHECK_OK"; then
     STORY_TUTORIAL_EXIT=0
   else
     STORY_TUTORIAL_EXIT=1
@@ -452,8 +530,10 @@ echo "────────────────────────�
 echo "● 스토리 자동 재생 선택지 안전 검사"
 if [ -x "$GODOT" ]; then
   STORY_PLAYBACK_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/StoryPlaybackCheck.tscn 2>&1)
+  STORY_PLAYBACK_STATUS=$?
   echo "$STORY_PLAYBACK_RAW" | grep -E "STORY_PLAYBACK_CHECK_OK|STORY_PLAYBACK_CHECK_FAIL|ERROR:|SCRIPT ERROR" | sed 's/^/  /'
-  if echo "$STORY_PLAYBACK_RAW" | grep -q "STORY_PLAYBACK_CHECK_OK"; then
+  if godot_check_passed "$STORY_PLAYBACK_RAW" "$STORY_PLAYBACK_STATUS" \
+      "STORY_PLAYBACK_CHECK_OK"; then
     STORY_PLAYBACK_EXIT=0
   else
     STORY_PLAYBACK_EXIT=1
@@ -468,9 +548,11 @@ echo "● 10슬롯·스토리 문단/선택/결과/타이머 수동 저장 검�
 if [ -x "$GODOT" ]; then
   MANUAL_SAVE_HOME=$(make_isolated_home "gangnam-manual-save")
   MANUAL_SAVE_RAW=$(run_limited env HOME="$MANUAL_SAVE_HOME" "$GODOT" --headless --resolution 960x600 --quit-after 1200 res://tools/ManualSaveCheck.tscn 2>&1)
+  MANUAL_SAVE_STATUS=$?
   cleanup_isolated_home "$MANUAL_SAVE_HOME"
   echo "$MANUAL_SAVE_RAW" | grep -E "MANUAL_SAVE_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$MANUAL_SAVE_RAW" | grep -q "MANUAL_SAVE_CHECK_OK"; then
+  if godot_check_passed "$MANUAL_SAVE_RAW" "$MANUAL_SAVE_STATUS" \
+      "MANUAL_SAVE_CHECK_OK"; then
     MANUAL_SAVE_EXIT=0
   else
     MANUAL_SAVE_EXIT=1
@@ -484,8 +566,10 @@ echo "────────────────────────�
 echo "● 대면·전화·영상통화·메시지·기억 초상 공간 검사"
 if [ -x "$GODOT" ]; then
   STORY_PRESENCE_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/StoryPresenceCheck.tscn 2>&1)
+  STORY_PRESENCE_STATUS=$?
   echo "$STORY_PRESENCE_RAW" | grep -E "STORY_PRESENCE_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$STORY_PRESENCE_RAW" | grep -q "STORY_PRESENCE_CHECK_OK"; then
+  if godot_check_passed "$STORY_PRESENCE_RAW" "$STORY_PRESENCE_STATUS" \
+      "STORY_PRESENCE_CHECK_OK"; then
     STORY_PRESENCE_EXIT=0
   else
     STORY_PRESENCE_EXIT=1
@@ -499,8 +583,10 @@ echo "────────────────────────�
 echo "● Living Scene 날씨·기억·카메라·모랄·접근성 계약 검사"
 if [ -x "$GODOT" ]; then
   LIVING_SCENE_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/LivingSceneCheck.tscn 2>&1)
+  LIVING_SCENE_STATUS=$?
   echo "$LIVING_SCENE_RAW" | grep -E "LIVING_SCENE_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$LIVING_SCENE_RAW" | grep -q "LIVING_SCENE_CHECK_OK"; then
+  if godot_check_passed "$LIVING_SCENE_RAW" "$LIVING_SCENE_STATUS" \
+      "LIVING_SCENE_CHECK_OK"; then
     LIVING_SCENE_EXIT=0
   else
     LIVING_SCENE_EXIT=1
@@ -514,8 +600,10 @@ echo "────────────────────────�
 echo "● 전 구간 장면 전환·활동·엔딩·Reduce Motion 런타임 검사"
 if [ -x "$GODOT" ]; then
   SCENE_DIRECTION_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/SceneDirectionCheck.tscn 2>&1)
+  SCENE_DIRECTION_STATUS=$?
   echo "$SCENE_DIRECTION_RAW" | grep -E "SCENE_DIRECTION_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$SCENE_DIRECTION_RAW" | grep -q "SCENE_DIRECTION_CHECK_OK"; then
+  if godot_check_passed "$SCENE_DIRECTION_RAW" "$SCENE_DIRECTION_STATUS" \
+      "SCENE_DIRECTION_CHECK_OK"; then
     SCENE_DIRECTION_RUNTIME_EXIT=0
   else
     SCENE_DIRECTION_RUNTIME_EXIT=1
@@ -529,8 +617,10 @@ echo "────────────────────────�
 echo "● 본문·제목·선택지·상태 텍스트 재질 계약 검사"
 if [ -x "$GODOT" ]; then
   TEXT_MATERIAL_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/TextMaterialCheck.tscn 2>&1)
+  TEXT_MATERIAL_STATUS=$?
   echo "$TEXT_MATERIAL_RAW" | grep -E "TEXT_MATERIAL_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$TEXT_MATERIAL_RAW" | grep -q "TEXT_MATERIAL_CHECK_OK"; then
+  if godot_check_passed "$TEXT_MATERIAL_RAW" "$TEXT_MATERIAL_STATUS" \
+      "TEXT_MATERIAL_CHECK_OK"; then
     TEXT_MATERIAL_EXIT=0
   else
     TEXT_MATERIAL_EXIT=1
@@ -545,9 +635,11 @@ echo "● 이벤트 중 오디오 설정·패드 메뉴·재생 연속성 검사
 if [ -x "$GODOT" ]; then
   STORY_AUDIO_HOME=$(make_isolated_home "gangnam-story-audio")
   STORY_AUDIO_RAW=$(run_limited env HOME="$STORY_AUDIO_HOME" "$GODOT" --headless --quit-after 3600 res://tools/StoryAudioSettingsCheck.tscn 2>&1)
+  STORY_AUDIO_STATUS=$?
   cleanup_isolated_home "$STORY_AUDIO_HOME"
   echo "$STORY_AUDIO_RAW" | grep -E "STORY_AUDIO_SETTINGS_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$STORY_AUDIO_RAW" | grep -q "STORY_AUDIO_SETTINGS_CHECK_OK"; then
+  if godot_check_passed "$STORY_AUDIO_RAW" "$STORY_AUDIO_STATUS" \
+      "STORY_AUDIO_SETTINGS_CHECK_OK"; then
     STORY_AUDIO_EXIT=0
   else
     STORY_AUDIO_EXIT=1
@@ -562,9 +654,11 @@ echo "● 입력·화면·글리프·접근성·Steam Input 계약 검사"
 if [ -x "$GODOT" ]; then
   INPUT_MATRIX_HOME=$(make_isolated_home "gangnam-input-matrix")
   INPUT_MATRIX_RAW=$(run_limited env HOME="$INPUT_MATRIX_HOME" "$GODOT" --headless --quit-after 3600 res://tools/InputMatrixCheck.tscn 2>&1)
+  INPUT_MATRIX_STATUS=$?
   cleanup_isolated_home "$INPUT_MATRIX_HOME"
   echo "$INPUT_MATRIX_RAW" | grep -E "INPUT_MATRIX_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$INPUT_MATRIX_RAW" | grep -q "INPUT_MATRIX_CHECK_OK"; then
+  if godot_check_passed "$INPUT_MATRIX_RAW" "$INPUT_MATRIX_STATUS" \
+      "INPUT_MATRIX_CHECK_OK"; then
     INPUT_MATRIX_EXIT=0
   else
     INPUT_MATRIX_EXIT=1
@@ -579,9 +673,11 @@ echo "● 업적 15종 카탈로그/번역/실제 해금 경로 검사"
 if [ -x "$GODOT" ]; then
   ACHIEVEMENT_HOME=$(make_isolated_home "gangnam-achievements")
   ACHIEVEMENT_RAW=$(run_limited env HOME="$ACHIEVEMENT_HOME" "$GODOT" --headless --quit-after 3600 res://tools/AchievementPathCheck.tscn 2>&1)
+  ACHIEVEMENT_STATUS=$?
   cleanup_isolated_home "$ACHIEVEMENT_HOME"
   echo "$ACHIEVEMENT_RAW" | grep -E "ACHIEVEMENT_PATH_CHECK_OK|ACHIEVEMENT_PATH_CHECK_FAIL|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$ACHIEVEMENT_RAW" | grep -q "ACHIEVEMENT_PATH_CHECK_OK"; then
+  if godot_check_passed "$ACHIEVEMENT_RAW" "$ACHIEVEMENT_STATUS" \
+      "ACHIEVEMENT_PATH_CHECK_OK"; then
     ACHIEVEMENT_EXIT=0
   else
     ACHIEVEMENT_EXIT=1
@@ -596,9 +692,11 @@ echo "● 유물 제시·히든 6경로 블랙박스 검사"
 if [ -x "$GODOT" ]; then
   HIDDEN_HOME=$(make_isolated_home "gangnam-hidden")
   HIDDEN_RAW=$(run_limited env HOME="$HIDDEN_HOME" "$GODOT" --headless --quit-after 3600 res://tools/HiddenFeatureCheck.tscn 2>&1)
+  HIDDEN_STATUS=$?
   cleanup_isolated_home "$HIDDEN_HOME"
   echo "$HIDDEN_RAW" | grep -E "HIDDEN_FEATURE_(CHECK_OK|CHECK_FAIL|EVIDENCE)|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$HIDDEN_RAW" | grep -q "HIDDEN_FEATURE_CHECK_OK"; then
+  if godot_check_passed "$HIDDEN_RAW" "$HIDDEN_STATUS" \
+      "HIDDEN_FEATURE_CHECK_OK"; then
     HIDDEN_EXIT=0
   else
     HIDDEN_EXIT=1
@@ -613,9 +711,11 @@ echo "● 이사 전 유물 보존·처분·후속 침묵 검사"
 if [ -x "$GODOT" ]; then
   HOUSING_KEEPSAKE_HOME=$(make_isolated_home "gangnam-housing-keepsake")
   HOUSING_KEEPSAKE_RAW=$(run_limited env HOME="$HOUSING_KEEPSAKE_HOME" "$GODOT" --headless --quit-after 3600 res://tools/HousingKeepsakeCheck.tscn 2>&1)
+  HOUSING_KEEPSAKE_STATUS=$?
   cleanup_isolated_home "$HOUSING_KEEPSAKE_HOME"
   echo "$HOUSING_KEEPSAKE_RAW" | grep -E "HOUSING_KEEPSAKE_(CHECK_OK|CHECK_FAIL|EVIDENCE)|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$HOUSING_KEEPSAKE_RAW" | grep -q "HOUSING_KEEPSAKE_CHECK_OK"; then
+  if godot_check_passed "$HOUSING_KEEPSAKE_RAW" \
+      "$HOUSING_KEEPSAKE_STATUS" "HOUSING_KEEPSAKE_CHECK_OK"; then
     HOUSING_KEEPSAKE_EXIT=0
   else
     HOUSING_KEEPSAKE_EXIT=1
@@ -629,8 +729,10 @@ echo "────────────────────────�
 echo "● 연차 정체성·실제 장면 큐레이션·시그니처 시스템 검사"
 if [ -x "$GODOT" ]; then
   YEAR_IDENTITY_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/YearIdentityCheck.tscn 2>&1)
+  YEAR_IDENTITY_STATUS=$?
   echo "$YEAR_IDENTITY_RAW" | grep -E "YEAR_IDENTITY_(CHECK_OK|CHECK_FAIL)|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$YEAR_IDENTITY_RAW" | grep -q "YEAR_IDENTITY_CHECK_OK"; then
+  if godot_check_passed "$YEAR_IDENTITY_RAW" "$YEAR_IDENTITY_STATUS" \
+      "YEAR_IDENTITY_CHECK_OK"; then
     YEAR_IDENTITY_EXIT=0
   else
     YEAR_IDENTITY_EXIT=1
@@ -644,8 +746,10 @@ echo "────────────────────────�
 echo "● 1·3·5년 인물 외형·상황복 잠금·관계 stage 비간섭 검사"
 if [ -x "$GODOT" ]; then
   CAST_VISUAL_TIME_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/CastVisualTimeCheck.tscn 2>&1)
+  CAST_VISUAL_TIME_STATUS=$?
   echo "$CAST_VISUAL_TIME_RAW" | grep -E "CAST_VISUAL_TIME_(CHECK_OK|CHECK_FAIL)|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$CAST_VISUAL_TIME_RAW" | grep -q "CAST_VISUAL_TIME_CHECK_OK"; then
+  if godot_check_passed "$CAST_VISUAL_TIME_RAW" "$CAST_VISUAL_TIME_STATUS" \
+      "CAST_VISUAL_TIME_CHECK_OK"; then
     CAST_VISUAL_TIME_EXIT=0
   else
     CAST_VISUAL_TIME_EXIT=1
@@ -659,8 +763,10 @@ echo "────────────────────────�
 echo "● 데모 빌드 flavor·1~8주 정본 체인·24주 차단 검사"
 if [ -x "$GODOT" ]; then
   DEMO_BUILD_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/DemoBuildCheck.tscn -- --demo-build 2>&1)
+  DEMO_BUILD_STATUS=$?
   echo "$DEMO_BUILD_RAW" | grep -E "DEMO_BUILD_(CHECK_OK|CHECK_FAIL)|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if echo "$DEMO_BUILD_RAW" | grep -q "DEMO_BUILD_CHECK_OK"; then
+  if godot_check_passed "$DEMO_BUILD_RAW" "$DEMO_BUILD_STATUS" \
+      "DEMO_BUILD_CHECK_OK"; then
     DEMO_BUILD_EXIT=0
   else
     DEMO_BUILD_EXIT=1
@@ -689,12 +795,16 @@ if [ -x "$GODOT" ]; then
   run_limited "$GODOT" --headless --editor --quit-after 30 >/dev/null 2>&1
   # 2) 씬 부팅으로 전 스크립트 강제 컴파일
   RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/CompileCheck.tscn 2>&1)
+  GD_STATUS=$?
   echo "$RAW" | grep -E "COMPILE_SCAN" | sed 's/^/  /'
   GD_OUT=$(echo "$RAW" | grep -v "COMPILE_SCAN" \
-    | grep -iE "Failed to load script|Parse Error|Compile Error" \
+    | grep -iE "ERROR:|SCRIPT ERROR|Failed to load script|Parse Error|Compile Error" \
     | grep -viE "Cannot open|No loader|\.png|\.ogg|\.mp3|AudioStream|texture|\.import")
-  if [ -n "$GD_OUT" ]; then
+  if [ "$GD_STATUS" -ne 0 ] || [ -n "$GD_OUT" ]; then
     echo "  ✗ 컴파일 에러:"
+    if [ "$GD_STATUS" -ne 0 ]; then
+      echo "    Godot 종료코드: $GD_STATUS"
+    fi
     echo "$GD_OUT" | sed 's/^/    /' | head -20
     GD_EXIT=1
   else
@@ -707,7 +817,7 @@ else
 fi
 
 echo "──────────────────────────────────────────"
-if [ "$CONTEXT_MANIFEST_EXIT" -ne 0 ] || [ "$PY_EXIT" -ne 0 ] || [ "$STORY_CONSISTENCY_EXIT" -ne 0 ] || [ "$SPEECH_REGISTER_EXIT" -ne 0 ] || [ "$RANDOM_POOL_HYGIENE_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$PACING_EXIT" -ne 0 ] || [ "$DEMO_EXPERIENCE_EXIT" -ne 0 ] || [ "$PLAYTEST_REPORT_EXIT" -ne 0 ] || [ "$NARRATIVE_CONTINUITY_EXIT" -ne 0 ] || [ "$FULL_RUN_PACING_EXIT" -ne 0 ] || [ "$NARRATIVE_SPINE_EXIT" -ne 0 ] || [ "$PEAK_CHAIN_EXIT" -ne 0 ] || [ "$KEY_ART_EXIT" -ne 0 ] || [ "$FIRST30_EXIT" -ne 0 ] || [ "$ART_AI_EXIT" -ne 0 ] || [ "$ART_RESOLUTION_EXIT" -ne 0 ] || [ "$ART_MASTER_EXIT" -ne 0 ] || [ "$CG_ACTING_EXIT" -ne 0 ] || [ "$CG_RUNTIME_EXIT" -ne 0 ] || [ "$CAST_DETAIL_EXIT" -ne 0 ] || [ "$EVENT_VISUAL_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$I18N_COVERAGE_EXIT" -ne 0 ] || [ "$I18N_SURFACE_EXIT" -ne 0 ] || [ "$JA_UI_EXIT" -ne 0 ] || [ "$I18N_RUNTIME_EXIT" -ne 0 ] || [ "$MOD_LAYER_AUDIT_EXIT" -ne 0 ] || [ "$MOD_LAYER_RUNTIME_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$EVENT_DIRECTOR_EXIT" -ne 0 ] || [ "$CORE_LOOP_V2_EXIT" -ne 0 ] || [ "$CORE_LOOP_V2_RUNTIME_EXIT" -ne 0 ] || [ "$EVENT_DIRECTOR_RUNTIME_EXIT" -ne 0 ] || [ "$CORE_CHOICE_EXIT" -ne 0 ] || [ "$ENDING_DISTINCTNESS_EXIT" -ne 0 ] || [ "$ENDING_ROUTE_EXIT" -ne 0 ] || [ "$AUDIO_SOURCE_EXIT" -ne 0 ] || [ "$SCENE_AUDIO_EXIT" -ne 0 ] || [ "$SCENE_AUDIO_CATALOG_EXIT" -ne 0 ] || [ "$FULL_RUN_AUDIO_EXIT" -ne 0 ] || [ "$SCENE_DIRECTION_CATALOG_EXIT" -ne 0 ] || [ "$FULL_RUN_DIRECTION_EXIT" -ne 0 ] || [ "$GAME_AUDIO_CONTRACT_EXIT" -ne 0 ] || [ "$UI_SFX_EXIT" -ne 0 ] || [ "$LAUNCH_AUDIO_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$GAME_AUDIO_RUNTIME_EXIT" -ne 0 ] || [ "$BGM_EXIT" -ne 0 ] || [ "$MORAL_AMBIENCE_EXIT" -ne 0 ] || [ "$IMMERSION_EXIT" -ne 0 ] || [ "$MOTIVATION_EXIT" -ne 0 ] || [ "$TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_PLAYBACK_EXIT" -ne 0 ] || [ "$MANUAL_SAVE_EXIT" -ne 0 ] || [ "$STORY_PRESENCE_EXIT" -ne 0 ] || [ "$LIVING_SCENE_EXIT" -ne 0 ] || [ "$SCENE_DIRECTION_RUNTIME_EXIT" -ne 0 ] || [ "$TEXT_MATERIAL_EXIT" -ne 0 ] || [ "$STORY_AUDIO_EXIT" -ne 0 ] || [ "$INPUT_MATRIX_EXIT" -ne 0 ] || [ "$ACHIEVEMENT_EXIT" -ne 0 ] || [ "$HIDDEN_EXIT" -ne 0 ] || [ "$HOUSING_KEEPSAKE_EXIT" -ne 0 ] || [ "$YEAR_IDENTITY_EXIT" -ne 0 ] || [ "$CAST_VISUAL_TIME_EXIT" -ne 0 ] || [ "$DEMO_BUILD_EXIT" -ne 0 ] || [ "$TRAILER_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
+if [ "$CONTEXT_MANIFEST_EXIT" -ne 0 ] || [ "$PY_EXIT" -ne 0 ] || [ "$STORY_CONSISTENCY_EXIT" -ne 0 ] || [ "$SPEECH_REGISTER_EXIT" -ne 0 ] || [ "$RANDOM_POOL_HYGIENE_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$PACING_EXIT" -ne 0 ] || [ "$DEMO_EXPERIENCE_EXIT" -ne 0 ] || [ "$PLAYTEST_REPORT_EXIT" -ne 0 ] || [ "$NARRATIVE_CONTINUITY_EXIT" -ne 0 ] || [ "$FULL_RUN_PACING_EXIT" -ne 0 ] || [ "$NARRATIVE_SPINE_EXIT" -ne 0 ] || [ "$PEAK_CHAIN_EXIT" -ne 0 ] || [ "$KEY_ART_EXIT" -ne 0 ] || [ "$FIRST30_EXIT" -ne 0 ] || [ "$ART_AI_EXIT" -ne 0 ] || [ "$ART_RESOLUTION_EXIT" -ne 0 ] || [ "$ART_MASTER_EXIT" -ne 0 ] || [ "$CG_ACTING_EXIT" -ne 0 ] || [ "$CG_RUNTIME_EXIT" -ne 0 ] || [ "$CAST_DETAIL_EXIT" -ne 0 ] || [ "$EVENT_VISUAL_EXIT" -ne 0 ] || [ "$EN_HANGUL_EXIT" -ne 0 ] || [ "$EN_COVERAGE_EXIT" -ne 0 ] || [ "$I18N_COVERAGE_EXIT" -ne 0 ] || [ "$I18N_SURFACE_EXIT" -ne 0 ] || [ "$JA_UI_EXIT" -ne 0 ] || [ "$I18N_RUNTIME_EXIT" -ne 0 ] || [ "$MOD_LAYER_AUDIT_EXIT" -ne 0 ] || [ "$MOD_LAYER_RUNTIME_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$EVENT_DIRECTOR_EXIT" -ne 0 ] || [ "$CORE_LOOP_V2_EXIT" -ne 0 ] || [ "$CORE_LOOP_V2_BALANCE_EXIT" -ne 0 ] || [ "$CORE_LOOP_V2_RUNTIME_EXIT" -ne 0 ] || [ "$EVENT_DIRECTOR_RUNTIME_EXIT" -ne 0 ] || [ "$CORE_CHOICE_EXIT" -ne 0 ] || [ "$ENDING_DISTINCTNESS_EXIT" -ne 0 ] || [ "$ENDING_ROUTE_EXIT" -ne 0 ] || [ "$AUDIO_SOURCE_EXIT" -ne 0 ] || [ "$SCENE_AUDIO_EXIT" -ne 0 ] || [ "$SCENE_AUDIO_CATALOG_EXIT" -ne 0 ] || [ "$FULL_RUN_AUDIO_EXIT" -ne 0 ] || [ "$SCENE_DIRECTION_CATALOG_EXIT" -ne 0 ] || [ "$FULL_RUN_DIRECTION_EXIT" -ne 0 ] || [ "$GAME_AUDIO_CONTRACT_EXIT" -ne 0 ] || [ "$UI_SFX_EXIT" -ne 0 ] || [ "$LAUNCH_AUDIO_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$GAME_AUDIO_RUNTIME_EXIT" -ne 0 ] || [ "$BGM_EXIT" -ne 0 ] || [ "$MORAL_AMBIENCE_EXIT" -ne 0 ] || [ "$IMMERSION_EXIT" -ne 0 ] || [ "$MOTIVATION_EXIT" -ne 0 ] || [ "$TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_TUTORIAL_EXIT" -ne 0 ] || [ "$STORY_PLAYBACK_EXIT" -ne 0 ] || [ "$MANUAL_SAVE_EXIT" -ne 0 ] || [ "$STORY_PRESENCE_EXIT" -ne 0 ] || [ "$LIVING_SCENE_EXIT" -ne 0 ] || [ "$SCENE_DIRECTION_RUNTIME_EXIT" -ne 0 ] || [ "$TEXT_MATERIAL_EXIT" -ne 0 ] || [ "$STORY_AUDIO_EXIT" -ne 0 ] || [ "$INPUT_MATRIX_EXIT" -ne 0 ] || [ "$ACHIEVEMENT_EXIT" -ne 0 ] || [ "$HIDDEN_EXIT" -ne 0 ] || [ "$HOUSING_KEEPSAKE_EXIT" -ne 0 ] || [ "$YEAR_IDENTITY_EXIT" -ne 0 ] || [ "$CAST_VISUAL_TIME_EXIT" -ne 0 ] || [ "$DEMO_BUILD_EXIT" -ne 0 ] || [ "$TRAILER_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
   echo "❌ 감사 실패 — 위 ERROR를 고치고 다시 돌리세요."
   exit 1
 fi

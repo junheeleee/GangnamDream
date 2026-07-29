@@ -1,5 +1,5 @@
 {
-  "schema": 1,
+  "schema_version": 2,
   "status": "runtime_prototype",
   "runtime_default": false,
   "fallback": "event_director_v1",
@@ -27,9 +27,53 @@
     "background_ap_per_week": 2,
     "selection_cadence": "monthly",
     "primary_tracks": ["livelihood", "growth", "recovery"],
+    "required_track_count": 2,
+    "tracks_must_be_distinct": true,
     "direct_weekly_ap_menu": false,
     "job_is_persistent_obligation": true,
-    "applications_required_before_interview": true
+    "applications_required_before_interview": true,
+    "options": {
+      "livelihood": {
+        "axis": "money",
+        "label_ko": "생계",
+        "label_en": "Livelihood",
+        "description_ko": "무직이면 매주 단기 일을 잡고, 취업 뒤에는 맡은 일을 버틴다.",
+        "description_en": "Take weekly short-term work while unemployed; once hired, keep up with the job.",
+        "weekly_effects": {
+          "unemployed": {
+            "money": 70000,
+            "health": -1,
+            "mental": -1
+          },
+          "employed": {
+            "work_performance": 1,
+            "mental": -1
+          }
+        }
+      },
+      "growth": {
+        "axis": "money",
+        "label_ko": "성장",
+        "label_en": "Growth",
+        "description_ko": "매주 공부 시간을 지켜 다음 지원과 면접에서 꺼낼 실력을 쌓는다.",
+        "description_en": "Protect weekly study time and build skills for the next application or interview.",
+        "weekly_effects": {
+          "intelligence": 1,
+          "mental": -1
+        }
+      },
+      "recovery": {
+        "axis": "human",
+        "label_ko": "회복",
+        "label_en": "Recovery",
+        "description_ko": "매주 잠과 식사를 먼저 챙겨 몸과 마음이 다음 약속까지 버티게 한다.",
+        "description_en": "Protect weekly sleep and meals so body and mind can carry the next commitment.",
+        "weekly_effects": {
+          "health": 1,
+          "mental": 3
+        }
+      }
+    }
   },
   "relationship": {
     "stages": [
@@ -63,9 +107,121 @@
       "scope": "month"
     }
   },
+  "decline_outcomes": {
+    "this_posting_expires": {
+      "producer_bundle": "m1_mirae_application",
+      "consumer_kind": "next_month_message",
+      "visible_month": 2,
+      "message_ko": "미래산업기술 공고가 닫혔다. 같은 자리는 이번 달 돌아오지 않는다.",
+      "message_en": "Mirae's opening closed; the same seat will not return this month."
+    },
+    "cash_buffer_does_not_grow": {
+      "producer_bundle": "m1_convenience_trial_shift",
+      "consumer_kind": "next_month_message",
+      "visible_month": 2,
+      "message_ko": "목요일 대타는 다른 사람에게 갔다. 월세 통장은 비어 있다.",
+      "message_en": "Someone else took Thursday's shift; the rent buffer stayed empty."
+    },
+    "preparation_window_moves_on": {
+      "producer_bundle": "m1_youth_center_resume_clinic",
+      "consumer_kind": "next_month_message",
+      "visible_month": 2,
+      "message_ko": "무료 첨삭 자리가 닫혔다. 다음 예약은 한 달 뒤다.",
+      "message_en": "The free resume review closed; the next booking is a month away."
+    },
+    "strain_carries_into_next_commitment": {
+      "producer_bundle": "m1_phone_off_sunday",
+      "consumer_kind": "next_month_message",
+      "visible_month": 2,
+      "message_ko": "쉬지 못한 피로가 두 번째 달 첫 약속까지 따라왔다.",
+      "message_en": "Missed rest followed him into the first commitment of month two.",
+      "effects": {
+        "health": -2,
+        "mental": -2
+      }
+    },
+    "father_stops_asking_for_that_month": {
+      "producer_bundle": "father_first_call",
+      "consumer_kind": "next_month_message",
+      "visible_month": 2,
+      "message_ko": "아버지는 다시 묻지 않았다. 통화목록의 이름만 아래로 밀렸다.",
+      "message_en": "Father did not ask again; his name slipped down the call log."
+    },
+    "the_neighbor_remains_only_a_face": {
+      "producer_bundle": "hyunsu_first_meet",
+      "consumer_kind": "next_month_message",
+      "visible_month": 2,
+      "message_ko": "새벽 주방의 남자는 이름 없는 이웃으로 남았다.",
+      "message_en": "The man from the late-night kitchen remained a nameless neighbor."
+    },
+    "the_offer_is_answered_or_refused_in_scene": {
+      "producer_bundle": "first_temptation_boss",
+      "consumer_kind": "in_scene_choice",
+      "visible_month": 1,
+      "message_ko": "모르는 번호의 제안은 그날 밤 받거나 거절했다.",
+      "message_en": "The unknown number was answered or refused that night."
+    },
+    "seorin_posting_expires": {
+      "producer_bundle": "m2_seorin_application",
+      "consumer_kind": "terminal_recap",
+      "visible_month": 2,
+      "message_ko": "서린물산 채용 창구가 닫혔다. 보내지 않은 지원서는 남지 않았다.",
+      "message_en": "Seorin's hiring window closed; the unsent application left no trace."
+    },
+    "rain_shift_passes": {
+      "producer_bundle": "m2_rain_delivery_shift",
+      "consumer_kind": "terminal_recap",
+      "visible_month": 2,
+      "message_ko": "비가 그치며 할증 배달도 끝났다. 그날 몫의 현금은 돌아오지 않는다.",
+      "message_en": "The rain and surge shift ended; that evening's cash is gone."
+    },
+    "mock_interview_window_closes": {
+      "producer_bundle": "m2_youth_center_mock_interview",
+      "consumer_kind": "terminal_recap",
+      "visible_month": 2,
+      "message_ko": "마지막 모의면접 자리는 다른 사람에게 갔다. 연습 창구가 닫혔다.",
+      "message_en": "Someone else took the last mock interview; the practice window closed."
+    },
+    "sleep_debt_rolls_forward": {
+      "producer_bundle": "m2_sleep_debt_sunday",
+      "consumer_kind": "terminal_recap",
+      "visible_month": 2,
+      "message_ko": "갚지 못한 잠이 여덟 번째 주 뒤에도 몸에 남았다.",
+      "message_en": "Sleep debt remained in his body after week eight.",
+      "effects": {
+        "health": -2,
+        "mental": -2
+      }
+    },
+    "hyunsu_studies_alone_and_the_opening_cools": {
+      "producer_bundle": "hyunsu_player_reachout",
+      "consumer_kind": "terminal_recap",
+      "visible_month": 2,
+      "message_ko": "메시지가 없는 사이 현수는 혼자 공부했다. 열린 틈은 식었다.",
+      "message_en": "Without a message, Hyunsu studied alone and the opening cooled."
+    },
+    "the_overheard_property_lead_disappears": {
+      "producer_bundle": "cafe_world_glimpse",
+      "consumer_kind": "terminal_recap",
+      "visible_month": 2,
+      "message_ko": "창가의 매물 이야기는 그날 저녁과 함께 사라졌다.",
+      "message_en": "The property lead by the window vanished with that evening."
+    },
+    "the_comparison_pressure_goes_unexamined": {
+      "producer_bundle": "sns_pressure_night",
+      "consumer_kind": "terminal_recap",
+      "visible_month": 2,
+      "message_ko": "이름 붙이지 않은 비교 압박이 밤마다 화면을 다시 켰다.",
+      "message_en": "Unnamed comparison pressure kept relighting the screen at night.",
+      "effects": {
+        "mental": -1
+      }
+    }
+  },
   "scene_bundles": {
     "debt_scar_prelude": {
       "kind": "prelude",
+      "allowed_weeks": [1],
       "existing_roots": ["story_flashforward", "story_knee_door", "story_last_payment_wait"],
       "characters": ["father"],
       "initiated_by": "system",
@@ -74,7 +230,9 @@
     },
     "opening_interview_math": {
       "kind": "consequence",
+      "allowed_weeks": [2, 3, 4],
       "existing_roots": ["arc_intro_01_meal"],
+      "suppress_follow_up_events": ["arc_intro_02_dad_call"],
       "characters": ["father"],
       "initiated_by": "system",
       "requires_prior_choice": "m1_mirae_application",
@@ -83,6 +241,7 @@
     },
     "m1_mirae_application": {
       "kind": "career",
+      "allowed_weeks": [1],
       "action_id": "apply",
       "characters": [],
       "initiated_by": "player",
@@ -99,6 +258,7 @@
     },
     "m1_convenience_trial_shift": {
       "kind": "livelihood",
+      "allowed_weeks": [1, 2, 3],
       "action_id": "side_shift",
       "characters": [],
       "initiated_by": "player",
@@ -115,6 +275,7 @@
     },
     "m1_youth_center_resume_clinic": {
       "kind": "growth",
+      "allowed_weeks": [1, 2, 3],
       "action_id": "resume",
       "characters": [],
       "initiated_by": "player",
@@ -131,6 +292,7 @@
     },
     "m1_phone_off_sunday": {
       "kind": "recovery",
+      "allowed_weeks": [1, 2, 3],
       "action_id": "rest",
       "characters": [],
       "initiated_by": "player",
@@ -147,6 +309,7 @@
     },
     "m2_seorin_application": {
       "kind": "career",
+      "allowed_weeks": [5, 6],
       "action_id": "apply",
       "characters": [],
       "initiated_by": "player",
@@ -163,6 +326,7 @@
     },
     "m2_rain_delivery_shift": {
       "kind": "livelihood",
+      "allowed_weeks": [6, 7],
       "action_id": "side_shift",
       "characters": [],
       "initiated_by": "player",
@@ -179,6 +343,7 @@
     },
     "m2_youth_center_mock_interview": {
       "kind": "growth",
+      "allowed_weeks": [7],
       "action_id": "interview",
       "characters": [],
       "initiated_by": "player",
@@ -195,6 +360,7 @@
     },
     "m2_sleep_debt_sunday": {
       "kind": "recovery",
+      "allowed_weeks": [5, 6, 7, 8],
       "action_id": "rest",
       "characters": [],
       "initiated_by": "player",
@@ -307,9 +473,24 @@
     },
     "father_first_call": {
       "kind": "care",
+      "allowed_weeks": [1, 2, 3],
       "existing_roots": ["arc_father_01_call"],
       "characters": ["father"],
       "relationship_stage": "opening",
+      "relationship_outcomes": [
+        {
+          "event_id": "arc_father_01_call",
+          "choices": [0, 1],
+          "stage": "opening",
+          "character": "father"
+        },
+        {
+          "event_id": "arc_father_01_call",
+          "choices": [2],
+          "stage": "met",
+          "character": "father"
+        }
+      ],
       "initiated_by": "reciprocal",
       "consumes_slot": true,
       "offer_ko": "아버지의 짧은 전화",
@@ -324,9 +505,18 @@
     },
     "hyunsu_first_meet": {
       "kind": "encounter",
+      "allowed_weeks": [1, 2, 3],
       "existing_roots": ["arc_intro_04_hyunsu"],
       "characters": ["hyunsu"],
       "relationship_stage": "met",
+      "relationship_outcomes": [
+        {
+          "event_id": "arc_intro_04_hyunsu",
+          "choices": [0, 1],
+          "stage": "opening",
+          "character": "hyunsu"
+        }
+      ],
       "initiated_by": "world",
       "suppress_follow_up_events": ["arc_chapter1_close"],
       "consumes_slot": true,
@@ -342,6 +532,7 @@
     },
     "first_temptation_boss": {
       "kind": "boss",
+      "allowed_weeks": [4],
       "existing_roots": ["arc_temptation_01"],
       "characters": [],
       "initiated_by": "world",
@@ -359,6 +550,7 @@
     },
     "temptation_consequence": {
       "kind": "consequence",
+      "allowed_weeks": [5, 6, 7, 8],
       "existing_roots": ["arc_temptation_clean", "arc_temptation_fallout"],
       "characters": [],
       "initiated_by": "system",
@@ -368,9 +560,18 @@
     },
     "hyunsu_player_reachout": {
       "kind": "pursuit",
-      "existing_roots": ["hyunsu_study_together"],
+      "allowed_weeks": [5, 6],
+      "existing_roots": ["v2_hyunsu_player_reachout"],
       "characters": ["hyunsu"],
       "relationship_stage": "player_reached_out",
+      "relationship_outcomes": [
+        {
+          "event_id": "v2_hyunsu_player_reachout",
+          "choices": [0, 1],
+          "stage": "player_reached_out",
+          "character": "hyunsu"
+        }
+      ],
       "initiated_by": "player",
       "requires_player_initiated": true,
       "requires_completed_bundle": "hyunsu_first_meet",
@@ -387,6 +588,7 @@
     },
     "cafe_world_glimpse": {
       "kind": "temptation",
+      "allowed_weeks": [6, 7],
       "existing_roots": ["cafe_00"],
       "characters": [],
       "initiated_by": "player",
@@ -403,6 +605,7 @@
     },
     "sns_pressure_night": {
       "kind": "reflection",
+      "allowed_weeks": [5, 6, 7, 8],
       "existing_roots": ["arc_intro_03_sns"],
       "characters": [],
       "initiated_by": "world",
@@ -419,6 +622,7 @@
     },
     "month_two_notebook": {
       "kind": "closing",
+      "allowed_weeks": [8],
       "existing_roots": ["arc_chapter1_close"],
       "characters": ["hyunsu"],
       "initiated_by": "system",

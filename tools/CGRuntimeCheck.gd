@@ -69,6 +69,13 @@ func _check_story_mode_cg() -> void:
 		"amusement_roller_coaster",
 		"amusement_photo_booth",
 	])
+	await _check_story_event_paragraph_backgrounds("v2_hyunsu_player_reachout", [
+		"goshiwon_room",
+		"goshiwon_room",
+		"goshiwon_room",
+		"goshiwon_room",
+		"goshiwon_shared_kitchen",
+	])
 	await _check_story_choice_result_visual(
 		"arc_date_park_jiyeon", 0, "cg_romance_amusement_photo_strip_jiyeon", true)
 	await _check_story_choice_result_visual(
@@ -85,6 +92,7 @@ func _check_story_mode_cg() -> void:
 			"arc_jiyeon_wedding_night_choice", 0, "jiyeon_newlywed_home",
 			"cg_romance_wedding_morning_jiyeon", 1)
 	await _check_story_event_portrait_reveal("arc_jiyeon_narrow_room_1", "jiyeon_narrow_door", 2)
+	await _check_story_event_portrait_reveal("v2_hyunsu_player_reachout", "hyunsu", 4)
 	await _check_story_event_prelude_visual(
 		"arc_season_snow_daeun", "convenience_first_snow_exterior", "daeun_first_snow")
 	await _check_story_event_prelude_visual(
@@ -109,10 +117,13 @@ func _check_story_event_cg(event_id: String, cg_id: String) -> void:
 	var event: Dictionary = DataRegistry.find_event(event_id)
 	var reveal_paragraph := int(event.get("cg_reveal_paragraph", 0))
 	if reveal_paragraph > 0:
-			if bg_img != null and bg_img.texture != null and bg_img.texture.resource_path == expected_path:
-				_failures.append("StoryMode revealed %s before paragraph %d" % [event_id, reveal_paragraph])
-			for _paragraph in range(reveal_paragraph):
-				await _advance_story_paragraph(story)
+		if bg_img != null and bg_img.texture != null and bg_img.texture.resource_path == expected_path:
+			_failures.append("StoryMode revealed %s before paragraph %d" % [event_id, reveal_paragraph])
+		if not await _advance_story_to_source_paragraph(
+				story, event_id, reveal_paragraph):
+			remove_child(story)
+			story.queue_free()
+			return
 
 	if bg_img == null or bg_img.texture == null:
 		_failures.append("StoryMode did not assign a background texture for %s" % event_id)
@@ -139,8 +150,8 @@ func _check_story_event_paragraph_backgrounds(event_id: String, expected_ids: Ar
 
 	var bg_img := story.get("_bg_img") as TextureRect
 	for index in range(expected_ids.size()):
-		if index > 0:
-			await _advance_story_paragraph(story)
+		if not await _advance_story_to_source_paragraph(story, event_id, index):
+			break
 		var background_id := str(expected_ids[index])
 		var expected_path := ImageRegistry.get_background(background_id)
 		if bg_img == null or bg_img.texture == null:
@@ -155,6 +166,35 @@ func _check_story_event_paragraph_backgrounds(event_id: String, expected_ids: Ar
 
 	remove_child(story)
 	story.queue_free()
+
+func _advance_story_to_source_paragraph(
+		story: Node, event_id: String, target_source_index: int) -> bool:
+	var pages := story.get("_paragraphs") as Array
+	var max_advances := maxi(8, pages.size() * 3 + 4)
+	for _step in range(max_advances):
+		var page_index := int(story.get("_para_index"))
+		var source_index := int(story.call("_story_source_paragraph_index", page_index))
+		if source_index == target_source_index:
+			return true
+		if source_index > target_source_index or bool(story.get("_showing_choices")):
+			break
+		await _advance_story_paragraph(story)
+
+	var stopped_page_index := int(story.get("_para_index"))
+	var stopped_source_index := int(story.call(
+		"_story_source_paragraph_index", stopped_page_index))
+	_failures.append(
+		(
+			"StoryMode %s did not reach source paragraph %d "
+			+ "(stopped at source %d, page %d after at most %d advances)"
+		) % [
+			event_id,
+			target_source_index,
+			stopped_source_index,
+			stopped_page_index,
+			max_advances,
+		])
+	return false
 
 func _check_story_event_portrait_reveal(event_id: String, portrait_id: String, reveal_paragraph: int) -> void:
 	var expected_path := ImageRegistry.get_portrait(portrait_id)
@@ -176,8 +216,10 @@ func _check_story_event_portrait_reveal(event_id: String, portrait_id: String, r
 	if name_panel != null and name_panel.visible:
 		_failures.append("StoryMode revealed %s name before paragraph %d" % [event_id, reveal_paragraph])
 
-	for _paragraph in range(reveal_paragraph):
-		await _advance_story_paragraph(story)
+	if not await _advance_story_to_source_paragraph(story, event_id, reveal_paragraph):
+		remove_child(story)
+		story.queue_free()
+		return
 
 	var portrait := story.get("_portrait") as TextureRect
 	if portrait_frame == null or not portrait_frame.visible:
@@ -286,8 +328,10 @@ func _check_story_shared_result_cg(
 	if portrait_frame == null or not portrait_frame.visible:
 		_failures.append("StoryMode %s should retain its portrait before delayed result CG" % event_id)
 
-	for _paragraph in range(reveal_paragraph):
-		await _advance_story_paragraph(story)
+	if not await _advance_story_to_source_paragraph(story, event_id, reveal_paragraph):
+		remove_child(story)
+		story.queue_free()
+		return
 	var expected_path := ImageRegistry.get_cg(cg_id)
 	if bg_img == null or bg_img.texture == null or bg_img.texture.resource_path != expected_path:
 		_failures.append("StoryMode %s did not reveal shared result CG at paragraph %d" % [

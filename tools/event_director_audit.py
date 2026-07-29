@@ -20,6 +20,10 @@ EXPECTED_CATALOG_RANDOM = 1176
 EXPECTED_DIRECTED_RANDOM = 1003
 EXPECTED_FOREGROUND_RANDOM = 64
 EXPECTED_BRIDGE_RANDOM = 18
+EXPECTED_REGISTERED_EVENTS = 1566
+EXPECTED_DIRECT_ONLY_EVENTS = {
+    "v2_hyunsu_player_reachout",
+}
 EXPECTED_CALLBACK_TOTAL = 620
 EXPECTED_CHAIN_TOTAL = 12
 MAX_DORMANT_CALLBACKS = 564
@@ -829,8 +833,36 @@ def main() -> int:
         errors.append(str(exc))
         callback_ids, chain_ids = set(), set()
         reachable_callbacks, reachable_chains = set(), set()
-    if len(events) != 1565:
-        errors.append(f"registered event count drifted: expected 1565, got {len(events)}")
+    if len(events) != EXPECTED_REGISTERED_EVENTS:
+        errors.append(
+            "registered event count drifted: "
+            f"expected {EXPECTED_REGISTERED_EVENTS}, got {len(events)}"
+        )
+    by_id = {str(event["id"]): event for event in events}
+    for event_id in sorted(EXPECTED_DIRECT_ONLY_EVENTS):
+        event = by_id.get(event_id)
+        if event is None:
+            errors.append(f"direct-only V2 event is not registered: {event_id}")
+            continue
+        if (
+            not bool(event.get("hidden", False))
+            or float(event.get("weight", 1.0)) != 0.0
+            or int(event.get("conditions", {}).get("min_turn", 0)) != 9999
+        ):
+            errors.append(
+                f"direct-only V2 event can leak into random scheduling: {event_id}"
+            )
+        if any(
+            str(candidate["id"]) == event_id
+            for pool in (
+                catalog_random,
+                directed_random,
+                foreground_random,
+                bridge_random,
+            )
+            for candidate in pool
+        ):
+            errors.append(f"direct-only V2 event entered a random pool: {event_id}")
     if len(catalog_random) != EXPECTED_CATALOG_RANDOM:
         errors.append(
             f"catalog random count drifted: expected {EXPECTED_CATALOG_RANDOM}, got {len(catalog_random)}"

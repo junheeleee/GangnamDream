@@ -1,5 +1,5 @@
 {
-  "version": 27,
+  "version": 28,
   "tag_coverage": [
     "climate",
     "season",
@@ -192,6 +192,7 @@
 
     {"id": "arc_y2_hyunsu_night_bus", "background": "late_night", "portrait": "hyunsu", "choice_result_backgrounds": {"0": "seoul_bus_terminal_night"}},
     {"id": "hyunsu_study_together", "background": "goshiwon_shared_kitchen", "portrait": "hyunsu"},
+    {"id": "v2_hyunsu_player_reachout", "background": "goshiwon_room", "portrait": "hyunsu", "portrait_reveal_paragraph": 4},
     {"id": "arc_hyunsu_night_talk", "background": "goshiwon_hallway", "portrait": "hyunsu"},
     {"id": "hyunsu_exam_day", "background": "goshiwon_hallway", "portrait": "player_offduty_neutral"},
     {"id": "hyunsu_result_fail", "background": "goshiwon_hallway", "portrait": "player_offduty_neutral"},

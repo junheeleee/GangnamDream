@@ -460,13 +460,27 @@ func _core_loop_v2_route_week() -> void:
 	if DEMO_CORE_LOOP_V2.turn_completed():
 		_core_loop_v2_advance_completed_week()
 		return
-	var pending_consequence := DEMO_CORE_LOOP_V2.pending_consequence_id()
-	if not pending_consequence.is_empty():
-		_core_loop_v2_begin_story_bundle(pending_consequence, "consequence")
+	var pending_summary := DEMO_CORE_LOOP_V2.pending_month_summary()
+	if not pending_summary.is_empty():
+		_core_loop_v2_show_month_summary(pending_summary)
 		return
 	var month_index := DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn)
 	if DEMO_CORE_LOOP_V2.needs_plan(month_index):
 		_core_loop_v2_open_planner(month_index)
+		return
+	var routine_result := DEMO_CORE_LOOP_V2.apply_background_routines_for_turn()
+	if not bool(routine_result.get("ok", false)):
+		push_error("Core Loop V2 routine failed: %s" % str(
+			routine_result.get("error", "unknown")))
+		DEMO_CORE_LOOP_V2.disable_for_run()
+		_render_ap_actions()
+		return
+	if bool(routine_result.get("applied", false)):
+		_core_loop_v2_log_routine_receipt(
+			routine_result.get("receipt", {}) as Dictionary)
+	var pending_consequence := DEMO_CORE_LOOP_V2.pending_consequence_id()
+	if not pending_consequence.is_empty():
+		_core_loop_v2_begin_story_bundle(pending_consequence, "consequence")
 		return
 	var bundle_id := DEMO_CORE_LOOP_V2.bundle_id_for_turn()
 	var scene_bundle := DEMO_CORE_LOOP_V2.bundle(bundle_id)
@@ -498,8 +512,10 @@ func _core_loop_v2_open_planner(month_index: int) -> void:
 	_core_loop_planner.move_to_front()
 	_core_loop_planner.open(month_index)
 
-func _on_core_loop_v2_plan_committed(month_index: int, schedule: Dictionary) -> void:
-	var result := DEMO_CORE_LOOP_V2.commit_plan(month_index, schedule)
+func _on_core_loop_v2_plan_committed(
+		month_index: int, schedule: Dictionary, routines: Dictionary) -> void:
+	var result := DEMO_CORE_LOOP_V2.commit_plan(
+		month_index, schedule, routines)
 	if not bool(result.get("ok", false)):
 		push_error("Core Loop V2 rejected plan: %s" % str(result.get("error", "unknown")))
 		return
@@ -606,6 +622,19 @@ func _core_loop_v2_take_recovery(scene_bundle: Dictionary) -> void:
 	_show_vignette(title, body, effects, "#69717c")
 	_refresh_all()
 
+func _core_loop_v2_log_routine_receipt(receipt: Dictionary) -> void:
+	var names: Array[String] = []
+	var options := DEMO_CORE_LOOP_V2.routine_options()
+	for slot in ["primary", "secondary"]:
+		var routine_id := str(receipt.get(slot, ""))
+		var option: Dictionary = options.get(routine_id, {})
+		var label := _core_loop_v2_localized(option, "label")
+		if not label.is_empty():
+			names.append(label)
+	GameState.add_log(_tr(
+		"배경 루틴 — %s",
+		"Background routines — %s") % " + ".join(names), "system")
+
 func _core_loop_v2_localized(data: Dictionary, stem: String) -> String:
 	var key := "%s_%s" % [stem, "en" if LocaleManager.is_english() else "ko"]
 	return str(data.get(key, ""))
@@ -631,7 +660,7 @@ func _core_loop_v2_recap_names(records: Array, include_week: bool) -> Array[Stri
 func _core_loop_v2_recap_list_card(
 		title: String, names: Array[String], empty_text: String, accent: String) -> Control:
 	var card := _info_card(accent, "#090c11")
-	card.custom_minimum_size = Vector2(0, 96)
+	card.custom_minimum_size = Vector2(0, 76)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 6)
 	card.add_child(box)
@@ -706,8 +735,15 @@ func _core_loop_v2_show_completion() -> void:
 	var snapshot := DEMO_CORE_LOOP_V2.completion_snapshot()
 	var kept: Array[String] = _core_loop_v2_recap_names(
 		snapshot.get("kept", []), true)
-	var forgone: Array[String] = _core_loop_v2_recap_names(
-		snapshot.get("forgone", []), false)
+	var forgone: Array[String] = []
+	for raw_record in snapshot.get("decline_receipts", []):
+		if not raw_record is Dictionary:
+			continue
+		var record: Dictionary = raw_record
+		var message_key := "message_en" if LocaleManager.is_english() else "message_ko"
+		var message := str(record.get(message_key, "")).strip_edges()
+		if not message.is_empty():
+			forgone.append(message)
 	var branch := str(snapshot.get("temptation_branch", "unresolved"))
 	_open_modal(_tr("두 달의 기록", "Two Months, Recorded"),
 		false, "core_loop_v2_complete")
@@ -721,14 +757,14 @@ func _core_loop_v2_show_completion() -> void:
 		modal_panel.offset_top = -320
 		modal_panel.offset_bottom = 320
 	if modal_scroll:
-		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 		modal_scroll.custom_minimum_size = Vector2(0, 500)
 	modal_body.add_theme_constant_override("separation", 9)
 
 	var intro := _wrap_label(_tr(
 		"여기서 8주 테스트는 끝난다. 달력에 넣은 약속과 닫힌 문, 지금 남은 몸과 돈을 그대로 기록했다.",
 		"The eight-week test ends here. This record keeps the commitments on your calendar, the doors that closed, and the body and cash you have left."),
-		13, "#aeb8c6")
+		12, "#aeb8c6")
 	intro.set_meta("core_loop_v2_recap_intro", true)
 	modal_body.add_child(intro)
 
@@ -740,11 +776,11 @@ func _core_loop_v2_show_completion() -> void:
 	branch_card.add_child(branch_box)
 	branch_box.add_child(_label(_tr("4주차 이후", "AFTER WEEK 4"), 11, "#788394"))
 	branch_box.add_child(_wrap_label(
-		_core_loop_v2_temptation_recap(branch), 13, "#cbd3de"))
+		_core_loop_v2_temptation_recap(branch), 12, "#cbd3de"))
 	modal_body.add_child(branch_card)
 
 	var condition_grid := GridContainer.new()
-	condition_grid.columns = 4
+	condition_grid.columns = 5
 	condition_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	condition_grid.add_theme_constant_override("h_separation", 8)
 	condition_grid.add_theme_constant_override("v_separation", 8)
@@ -754,6 +790,12 @@ func _core_loop_v2_show_completion() -> void:
 	condition_grid.add_child(_month_summary_metric_card(
 		_tr("남은 현금", "Cash Left"), GameState.format_money(GameState.money),
 		_tr("월말 정산 후", "After month-end"), "#c7ced8"))
+	var month_two_summary := DEMO_CORE_LOOP_V2.month_summary(2)
+	condition_grid.add_child(_month_summary_metric_card(
+		_tr("고정비", "Fixed Cost"),
+		GameState.format_money(float(month_two_summary.get(
+			"fixed_expense", GameState.get_monthly_required_cash()))),
+		_tr("두 번째 달", "Month two"), "#a98b88"))
 	condition_grid.add_child(_month_summary_metric_card(
 		_tr("몸", "Body"), "%d / 100" % GameState.health,
 		_tr("현재 건강", "Current health"), "#91a6a2"))
@@ -805,6 +847,8 @@ func _core_loop_v2_show_completion() -> void:
 func _core_loop_v2_return_to_title() -> void:
 	# Keep the completed marker in the autosave. Continuing this test later must
 	# reopen its record instead of entering the legacy week-nine director.
+	DEMO_CORE_LOOP_V2.acknowledge_month_summary(2)
+	SaveManager.autosave()
 	_go_to_menu()
 
 func _core_loop_v2_finish_action_week() -> void:
@@ -813,11 +857,155 @@ func _core_loop_v2_finish_action_week() -> void:
 	DEMO_CORE_LOOP_V2.complete_active_bundle()
 	_core_loop_v2_advance_completed_week()
 
+func _core_loop_v2_economy_snapshot() -> Dictionary:
+	return {
+		"turn": int(GameState.turn),
+		"date": GameState.get_date_string(),
+		"money": float(GameState.money),
+		"monthly_income": float(GameState.monthly_income),
+		"fixed_expense": float(GameState.get_monthly_required_cash()),
+		"health": int(GameState.health),
+		"mental": int(GameState.mental),
+	}
+
+func _core_loop_v2_show_month_summary(summary: Dictionary) -> void:
+	if summary.is_empty():
+		return
+	var month_index := int(summary.get("month", 0))
+	if is_instance_valid(modal_layer) and modal_layer.visible \
+			and _modal_kind == "core_loop_v2_month_summary" \
+			and int(modal_layer.get_meta("core_loop_v2_month", 0)) == month_index:
+		return
+	_clear_week_reading_surface()
+	_open_modal(_tr(
+		"%d개월차 수첩", "Month %d Notebook") % month_index,
+		false, "core_loop_v2_month_summary")
+	modal_layer.set_meta("core_loop_v2_month_summary", true)
+	modal_layer.set_meta("core_loop_v2_month", month_index)
+	if is_instance_valid(modal_close_button):
+		modal_close_button.visible = false
+	if modal_panel:
+		modal_panel.custom_minimum_size = Vector2(820, 610)
+		modal_panel.offset_left = -410
+		modal_panel.offset_right = 410
+		modal_panel.offset_top = -305
+		modal_panel.offset_bottom = 305
+	if modal_scroll:
+		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+		modal_scroll.custom_minimum_size = Vector2(0, 470)
+	modal_body.add_theme_constant_override("separation", 9)
+
+	var before: Dictionary = summary.get("before", {})
+	var after: Dictionary = summary.get("after", {})
+	var cash_delta := float(after.get("money", 0.0)) - float(before.get("money", 0.0))
+	var delta_prefix := "+" if cash_delta >= 0.0 else ""
+	var intro := _wrap_label(_tr(
+		"네 주의 배경 루틴과 전경 약속, 월세, 놓친 문이 한 장부에 함께 적혔다.",
+		"Four weeks of background routines, foreground commitments, rent, and closed doors now share one ledger."),
+		13, "#aeb8c6")
+	intro.set_meta("core_loop_v2_month_intro", true)
+	modal_body.add_child(intro)
+
+	var metric_grid := GridContainer.new()
+	metric_grid.columns = 4
+	metric_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	metric_grid.add_theme_constant_override("h_separation", 8)
+	metric_grid.add_theme_constant_override("v_separation", 8)
+	metric_grid.set_meta("core_loop_v2_month_metrics", true)
+	modal_body.add_child(metric_grid)
+	metric_grid.add_child(_month_summary_metric_card(
+		_tr("남은 현금", "Cash Left"),
+		GameState.format_money(float(after.get("money", 0.0))),
+		_tr("월말 처리 %s%s", "%s%s at closing") % [
+			delta_prefix, GameState.format_money(cash_delta)],
+		"#c7ced8"))
+	metric_grid.add_child(_month_summary_metric_card(
+		_tr("고정비", "Fixed Cost"),
+		GameState.format_money(float(summary.get("fixed_expense", 0.0))),
+		_tr("월세·이자", "Rent and interest"), "#a98b88"))
+	metric_grid.add_child(_month_summary_metric_card(
+		_tr("몸", "Body"), "%d / 100" % int(after.get("health", 0)),
+		_tr("결산 뒤 건강", "Health after closing"), "#91a6a2"))
+	metric_grid.add_child(_month_summary_metric_card(
+		_tr("마음", "Mind"), "%d / 100" % int(after.get("mental", 0)),
+		_tr("결산 뒤 정신력", "Mind after closing"), "#9aa1b3"))
+
+	var path_grid := GridContainer.new()
+	path_grid.columns = 2
+	path_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	path_grid.add_theme_constant_override("h_separation", 8)
+	path_grid.add_theme_constant_override("v_separation", 8)
+	modal_body.add_child(path_grid)
+	var kept: Array[String] = _core_loop_v2_recap_names(
+		summary.get("kept", []), true)
+	path_grid.add_child(_core_loop_v2_recap_list_card(
+		_tr("지킨 약속", "Commitments Kept"), kept,
+		_tr("지킨 약속이 없다.", "No commitments were kept."), "#8695a8"))
+	var closed: Array[String] = []
+	for raw_record in summary.get("decline_receipts", []):
+		if not raw_record is Dictionary:
+			continue
+		var record: Dictionary = raw_record
+		var message_key := "message_en" if LocaleManager.is_english() else "message_ko"
+		var message := str(record.get(message_key, "")).strip_edges()
+		if not message.is_empty():
+			closed.append(message)
+	path_grid.add_child(_core_loop_v2_recap_list_card(
+		_tr("닫힌 문이 남긴 것", "What Closed Doors Left"), closed,
+		_tr("이번 달 닫힌 문이 없다.", "No doors closed this month."), "#8e7f84"))
+
+	var routine_names: Array[String] = []
+	var routines: Dictionary = summary.get("routines", {})
+	var routine_options := DEMO_CORE_LOOP_V2.routine_options()
+	for slot in ["primary", "secondary"]:
+		var routine_id := str(routines.get(slot, ""))
+		var option: Dictionary = routine_options.get(routine_id, {})
+		var label := _core_loop_v2_localized(option, "label")
+		if not label.is_empty():
+			routine_names.append(label)
+	if not routine_names.is_empty():
+		modal_body.add_child(_wrap_label(_tr(
+			"배경 루틴 · %s · 4주",
+			"Background routines · %s · 4 weeks"
+		) % " + ".join(routine_names), 12, "#8f99a8"))
+
+	var rung: Dictionary = GameState.get_financial_rung()
+	modal_body.add_child(_wrap_label(_tr(
+		"다음 한 단 · %s — %s 남음",
+		"Next rung · %s — %s left") % [
+			str(rung.get("label", "")),
+			GameState.format_money(float(rung.get("remaining", 0.0))),
+		], 12, "#8f99a8"))
+	var confirm := _primary_cta_button(_tr(
+		"%d개월차 계획하기  ›",
+		"Plan Month %d  ›") % (month_index + 1))
+	confirm.set_meta("core_loop_v2_month_confirm", true)
+	confirm.pressed.connect(
+		_core_loop_v2_acknowledge_month_summary.bind(month_index))
+	confirm.call_deferred("grab_focus")
+	modal_body.add_child(confirm)
+	if not bool(get_meta("_screenshot_qa_static_surface", false)):
+		SaveManager.autosave()
+
+func _core_loop_v2_acknowledge_month_summary(month_index: int) -> void:
+	if not DEMO_CORE_LOOP_V2.acknowledge_month_summary(month_index):
+		return
+	_close_modal(false)
+	if not bool(get_meta("_screenshot_qa_static_surface", false)):
+		SaveManager.autosave()
+	_begin_month()
+
 func _core_loop_v2_advance_completed_week() -> void:
 	if GameState.turn == DEMO_CORE_LOOP_V2.PROTOTYPE_MAX_WEEK:
+		var closing_month := DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn)
+		var before := _core_loop_v2_economy_snapshot()
 		_run_month_end_transition(false)
 		if GameState.is_game_over:
 			return
+		DEMO_CORE_LOOP_V2.process_due_decline_outcomes(closing_month)
+		var after := _core_loop_v2_economy_snapshot()
+		DEMO_CORE_LOOP_V2.record_month_summary(
+			closing_month, before, after)
 		if not DEMO_CORE_LOOP_V2.mark_prototype_complete():
 			push_error("Core Loop V2 could not close its eight-week boundary")
 			return
@@ -825,9 +1013,17 @@ func _core_loop_v2_advance_completed_week() -> void:
 		_core_loop_v2_show_completion()
 		return
 	if GameState.week_of_month == 4:
+		var closing_month := DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn)
+		var before := _core_loop_v2_economy_snapshot()
 		_run_month_end_transition(false)
-		if not GameState.is_game_over:
-			_begin_month()
+		if GameState.is_game_over:
+			return
+		DEMO_CORE_LOOP_V2.process_due_decline_outcomes(closing_month)
+		var after := _core_loop_v2_economy_snapshot()
+		var summary := DEMO_CORE_LOOP_V2.record_month_summary(
+			closing_month, before, after)
+		SaveManager.autosave()
+		_core_loop_v2_show_month_summary(summary)
 		return
 	GameState.advance_calendar()
 	_refresh_all()
@@ -2850,6 +3046,11 @@ func _escape_bbcode_text(value: Variant) -> String:
 ## _begin_month와 몽타주 주-전환이 공유한다(경제 코드 중복 방지, 동작 불변).
 func _run_week_start_economy() -> void:
 	if GameState.week_of_month != 1:
+		return
+	# Core Loop V2 is a hand-authored, balance-locked demo slice. Its month
+	# pressure is settled explicitly at week four; legacy random crises and
+	# market rolls would make the same saved plan resolve differently.
+	if DEMO_CORE_LOOP_V2.requested():
 		return
 	if GameState.turn > 4:  # 튜토리얼 1달(4주) 이후부터 크라이시스
 		var crisis = _roll_monthly_crisis()
@@ -5148,6 +5349,8 @@ func _refresh_all():
 	# AP 도트 (이벤트 없을 때만 표시, _render_ap_actions에서도 갱신)
 	var ap = GameState.action_points
 	top_labels["ap"].text = _ap_status_text()
+	if top_labels.has("ap_chip"):
+		(top_labels["ap_chip"] as Control).visible = not DEMO_CORE_LOOP_V2.requested()
 	# 초상화 하단 플레이어 정보 (이벤트 중 인물 표시 시에는 건드리지 않음)
 	var showing_character = not current_event.is_empty() and str(current_event.get("portrait", "")) != ""
 	if not showing_character:
@@ -5505,7 +5708,7 @@ func _make_progress_row(title: String, ratio: float, fill_color: String, value_t
 ## AP 충전 애니메이션 — Citizen Sleeper의 다이스 등장과 같은 역할
 ## 각 AP 핍이 순서대로 깜빡이며 나타나 "새 기회 충전" 감각 전달
 func _animate_ap_refill() -> void:
-	if not top_labels.has("ap"):
+	if not top_labels.has("ap") or DEMO_CORE_LOOP_V2.requested():
 		return
 	var ap_lbl: Label = top_labels["ap"]
 	var max_ap: int = GameState.max_action_points
@@ -11028,12 +11231,15 @@ func _build_people_status_strip() -> Control:
 	row.add_child(stat)
 	stat.add_child(_label(_tr("만난 사람", "KNOWN PEOPLE"), 10, "#6f7886"))
 	stat.add_child(_label("%d / 5" % met_count, 15, "#cbd5e1"))
-	var ap := VBoxContainer.new()
-	ap.custom_minimum_size = Vector2(150, 0)
-	ap.add_theme_constant_override("separation", 2)
-	row.add_child(ap)
-	ap.add_child(_label(_tr("행동력", "ACTION"), 10, "#6f7886"))
-	ap.add_child(_label(_ap_status_text(), 15, "#cbd5e1" if GameState.action_points > 0 else "#ff7070"))
+	if not DEMO_CORE_LOOP_V2.requested():
+		var ap := VBoxContainer.new()
+		ap.custom_minimum_size = Vector2(150, 0)
+		ap.add_theme_constant_override("separation", 2)
+		row.add_child(ap)
+		ap.add_child(_label(_tr("행동력", "ACTION"), 10, "#6f7886"))
+		ap.add_child(_label(
+			_ap_status_text(), 15,
+			"#cbd5e1" if GameState.action_points > 0 else "#ff7070"))
 	return panel
 
 func _build_people_page_tabs() -> Control:

@@ -1,6 +1,6 @@
 {
-  "version": 11,
-  "updated": "2026-07-26",
+  "version": 12,
+  "updated": "2026-07-29",
   "policy": {
     "diegetic_spoken_language": "ko",
     "localize_diegetic_speech": false,
@@ -164,7 +164,7 @@
           "story_first_paycheck_feel", "story_first_savings_milestone", "story_flashforward", "story_knee_choice",
           "story_knee_door", "story_knee_witness", "story_last_payment_exit", "story_last_payment_wait",
           "story_last_payment_word", "story_pressure", "story_prologue_dad", "story_prologue_goal",
-          "story_prologue_meal", "story_six_months", "yolo_morning_after"
+          "story_prologue_meal", "story_six_months", "v2_hyunsu_player_reachout", "yolo_morning_after"
         ],
     "cg_contract": [
           "arc_date_park_daeun", "arc_season_cherry_daeun", "arc_season_cherry_jiyeon", "arc_season_snow_daeun",
@@ -796,6 +796,19 @@
       "music": {"key": "hyunsu", "start_paragraph": 1},
       "paragraph_cues": {
         "0": [
+          {"sfx": "kettle_pour", "volume_db": -5.0},
+          {"sfx": "cup_set", "delay": 1.25, "volume_db": -7.0}
+        ]
+      }
+    },
+    "v2_hyunsu_player_reachout": {
+      "ambience": "goshiwon_hallway",
+      "music": {"key": "hyunsu", "start_paragraph": 3},
+      "paragraph_cues": {
+        "2": [
+          {"sfx": "phone_notification", "volume_db": -7.0}
+        ],
+        "4": [
           {"sfx": "kettle_pour", "volume_db": -5.0},
           {"sfx": "cup_set", "delay": 1.25, "volume_db": -7.0}
         ]

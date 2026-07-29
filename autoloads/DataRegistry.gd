@@ -1,6 +1,7 @@
 extends Node
 
 const EVENT_PATHS = [
+	"res://content/events/core_loop_v2_events.json",
 	"res://content/events/story_events.json",
 	"res://content/events/arc_events.json",
 	"res://content/events/arc_hyunsu.json",

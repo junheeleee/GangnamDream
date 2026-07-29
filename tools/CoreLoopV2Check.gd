@@ -8,21 +8,32 @@ var _failures: Array[String] = []
 
 func _ready() -> void:
 	var original_language := LocaleManager.language
+	var original_sfx_enabled := AudioManager.sfx_enabled
+	AudioManager.sfx_enabled = false
 	_check_explicit_activation()
+	_check_deadline_and_routine_validation()
 	_check_month_one_plan()
+	_check_background_routines_once()
+	_check_midmonth_employment_routine_transition()
+	_check_decline_consumption_once()
 	_check_delayed_consequences_cross_month()
 	_check_relationship_initiative()
+	_check_month_summary_durability()
 	_check_story_followup_suppression()
 	_check_branch_resolution()
 	_check_prototype_completion_boundary()
 	await _check_prototype_completion_surface()
 	_check_planner_surface()
 	LocaleManager.language = original_language
+	AudioManager.sfx_enabled = original_sfx_enabled
 	if _failures.is_empty():
 		print(
 			"CORE_LOOP_V2_CHECK_OK activation=explicit months=2 slots=4 "
-			+ "locked=week4 forgone=ledger delayed=cross_month/one_per_week "
-			+ "relationship=player_initiated followup=restored save=roundtrip "
+			+ "locked=week4 deadlines=machine plan=immutable "
+			+ "routines=16_units/once/job_transition "
+			+ "forgone=producer_consumer/once delayed=cross_month/one_per_week "
+			+ "relationship=choice_only/monotonic summary=ack/save "
+			+ "followup=restored save=roundtrip "
 			+ "terminal=week8/recap planner=1280x720_no_scroll "
 			+ "en_hangul=0 hidden_scores=0")
 		get_tree().quit(0)
@@ -45,6 +56,44 @@ func _check_explicit_activation() -> void:
 	_expect(not CORE_LOOP.is_prototype_complete(),
 		"prototype marked an untouched week-nine run complete")
 
+func _check_deadline_and_routine_validation() -> void:
+	GameState.start_new_game()
+	CORE_LOOP.initialize_for_run(true)
+	var wrong_deadline := {
+		"1": "father_first_call",
+		"2": "m1_mirae_application",
+		"3": "hyunsu_first_meet",
+		"4": "first_temptation_boss",
+	}
+	var deadline_result := CORE_LOOP.validate_plan(
+		1, wrong_deadline, _growth_routines())
+	_expect(not bool(deadline_result.get("ok", false)) \
+			and str(deadline_result.get("error", "")) == "deadline_missed" \
+			and str(deadline_result.get("bundle", "")) == "m1_mirae_application",
+		"machine deadline allowed the week-one application in week two")
+	var duplicate_routines := {
+		"primary": "livelihood",
+		"secondary": "livelihood",
+	}
+	var duplicate_result := CORE_LOOP.validate_plan(
+		1, _month_one_schedule(), duplicate_routines)
+	_expect(not bool(duplicate_result.get("ok", false)) \
+			and str(duplicate_result.get("error", "")) \
+				== "routines_must_be_distinct",
+		"monthly plan accepted the same routine in both background units")
+	var valid_result := CORE_LOOP.validate_plan(
+		1, _month_one_schedule(), _growth_routines())
+	_expect(bool(valid_result.get("ok", false)),
+		"legal week deadlines and two distinct routines were rejected")
+	GameState.current_job = {"id": "qa_employed"}
+	var employed_result := CORE_LOOP.validate_plan(
+		1, _month_one_schedule(), _growth_routines())
+	_expect(not bool(employed_result.get("ok", false)) \
+			and str(employed_result.get("error", "")) \
+				== "job_requires_primary_livelihood",
+		"an employed plan displaced its persistent job obligation")
+	GameState.current_job = {}
+
 func _check_month_one_plan() -> void:
 	GameState.start_new_game()
 	CORE_LOOP.initialize_for_run(true)
@@ -63,8 +112,7 @@ func _check_month_one_plan() -> void:
 		"4": "m1_phone_off_sunday",
 	}
 	var invalid_result := CORE_LOOP.validate_plan(1, invalid)
-	_expect(not bool(invalid_result.get("ok", false)) \
-			and str(invalid_result.get("error", "")) == "locked_week_changed",
+	_expect(not bool(invalid_result.get("ok", false)),
 		"week-four boss could be replaced")
 
 	var schedule := _month_one_schedule()
@@ -75,6 +123,19 @@ func _check_month_one_plan() -> void:
 		"week-four boss was not preserved in the committed schedule")
 	_expect(CORE_LOOP.forgone_for_month(1).size() == 3,
 		"month-one forgone ledger did not record exactly three closed offers")
+	var pending_count := (
+		GameState.core_loop_v2_state.get("pending_declines", []) as Array
+	).size()
+	var duplicate_commit := CORE_LOOP.commit_plan(1, schedule)
+	_expect(not bool(duplicate_commit.get("ok", false)) \
+			and str(duplicate_commit.get("error", "")) \
+				== "plan_already_committed",
+		"a committed month could be committed a second time")
+	_expect(CORE_LOOP.forgone_for_month(1).size() == 3 \
+			and (
+				GameState.core_loop_v2_state.get("pending_declines", []) as Array
+			).size() == pending_count,
+		"duplicate plan commit created duplicate decline producers")
 
 	_expect(CORE_LOOP.begin_bundle("m1_mirae_application", "schedule"),
 		"application bundle could not begin")
@@ -99,16 +160,163 @@ func _check_month_one_plan() -> void:
 	_expect(CORE_LOOP.has_completed_bundle("m1_mirae_application"),
 		"completed application did not survive save/load")
 
+func _check_background_routines_once() -> void:
+	GameState.start_new_game()
+	CORE_LOOP.initialize_for_run(true)
+	var starting_money := float(GameState.money)
+	var starting_intelligence := int(GameState.intelligence)
+	_expect(bool(CORE_LOOP.commit_plan(
+		1, _month_one_schedule(), _growth_routines()).get("ok", false)),
+		"routine fixture could not commit month one")
+	for week in range(1, 5):
+		GameState.turn = week
+		var first: Dictionary = CORE_LOOP.apply_background_routines_for_turn()
+		_expect(bool(first.get("ok", false)) \
+				and bool(first.get("applied", false)),
+			"week %d did not apply its two background routine units" % week)
+		var receipt: Dictionary = first.get("receipt", {})
+		_expect((receipt.get("units", []) as Array).size() == 2,
+			"week %d did not record exactly two routine units" % week)
+		var money_after_first := float(GameState.money)
+		var intelligence_after_first := int(GameState.intelligence)
+		var repeated: Dictionary = CORE_LOOP.apply_background_routines_for_turn()
+		_expect(bool(repeated.get("ok", false)) \
+				and not bool(repeated.get("applied", true)),
+			"week %d applied background routines more than once" % week)
+		_expect(is_equal_approx(float(GameState.money), money_after_first) \
+				and int(GameState.intelligence) == intelligence_after_first,
+			"week %d duplicate routine call changed state" % week)
+
+	GameState.turn = 5
+	_expect(bool(CORE_LOOP.commit_plan(
+		2, _month_two_legal_schedule(), _growth_routines()).get("ok", false)),
+		"routine fixture could not commit month two")
+	for week in range(5, 9):
+		GameState.turn = week
+		var result: Dictionary = CORE_LOOP.apply_background_routines_for_turn()
+		_expect(bool(result.get("ok", false)) \
+				and bool(result.get("applied", false)),
+			"week %d did not apply its background routine units" % week)
+		_expect(((result.get("receipt", {}) as Dictionary).get(
+			"units", []) as Array).size() == 2,
+			"week %d did not record exactly two routine units" % week)
+
+	var receipts: Dictionary = GameState.core_loop_v2_state.get(
+		"routine_receipts", {})
+	var total_units := 0
+	for raw_receipt in receipts.values():
+		if raw_receipt is Dictionary:
+			total_units += ((raw_receipt as Dictionary).get("units", []) as Array).size()
+	_expect(receipts.size() == 8 and total_units == 16,
+		"eight weeks did not produce exactly 16 durable routine units")
+	_expect(is_equal_approx(
+		float(GameState.money) - starting_money, 8.0 * 70_000.0),
+		"livelihood background routine did not pay eight legal weekly units")
+	_expect(int(GameState.intelligence) - starting_intelligence == 8,
+		"growth background routine did not apply once per week")
+
+	var saved: Dictionary = GameState.serialize()
+	var money_before_reload := float(GameState.money)
+	GameState.start_new_game()
+	GameState.load_from_dict(saved)
+	var reloaded_repeat: Dictionary = \
+		CORE_LOOP.apply_background_routines_for_turn(8)
+	_expect(not bool(reloaded_repeat.get("applied", true)) \
+			and is_equal_approx(float(GameState.money), money_before_reload),
+		"routine once-only receipt did not survive save/load")
+
+func _check_midmonth_employment_routine_transition() -> void:
+	GameState.start_new_game()
+	CORE_LOOP.initialize_for_run(true)
+	var planned := {
+		"primary": "growth",
+		"secondary": "recovery",
+	}
+	_expect(bool(CORE_LOOP.commit_plan(
+		1, _month_one_schedule(), planned).get("ok", false)),
+		"mid-month employment fixture could not commit its unemployed plan")
+	GameState.turn = 1
+	_expect(bool(CORE_LOOP.apply_background_routines_for_turn().get(
+		"applied", false)),
+		"pre-employment routines did not apply")
+	GameState.current_job = {"id": "qa_midmonth_job"}
+	GameState.turn = 2
+	var result: Dictionary = CORE_LOOP.apply_background_routines_for_turn()
+	var receipt: Dictionary = result.get("receipt", {})
+	var units: Array = receipt.get("units", [])
+	var applied_ids: Array[String] = []
+	for raw_unit in units:
+		if raw_unit is Dictionary:
+			applied_ids.append(str((raw_unit as Dictionary).get(
+				"routine_id", "")))
+	_expect(bool(result.get("ok", false)) \
+			and bool(result.get("applied", false)),
+		"a job accepted mid-month invalidated the existing routine plan")
+	_expect(bool(receipt.get("employment_forced", false)) \
+			and str(receipt.get("primary", "")) == "livelihood" \
+			and str(receipt.get("secondary", "")) == "growth",
+		"mid-month employment did not replace the primary with the job obligation")
+	_expect(applied_ids == ["livelihood", "growth"],
+		"mid-month employment did not preserve the player's planned primary "
+		+ "as the support routine")
+	GameState.current_job = {}
+
+func _check_decline_consumption_once() -> void:
+	GameState.start_new_game()
+	CORE_LOOP.initialize_for_run(true)
+	_expect(bool(CORE_LOOP.commit_plan(
+		1, _month_one_schedule(), _growth_routines()).get("ok", false)),
+		"decline fixture could not commit month one")
+	var state_before: Dictionary = GameState.core_loop_v2_state
+	_expect((state_before.get("pending_declines", []) as Array).size() == 3,
+		"three unselected month-one offers did not create three decline producers")
+	_expect(CORE_LOOP.process_due_decline_outcomes(0).is_empty(),
+		"month-one decline outcomes resolved before the month closed")
+	GameState.turn = 5
+	var health_before := int(GameState.health)
+	var mental_before := int(GameState.mental)
+	var resolved: Array = CORE_LOOP.process_due_decline_outcomes(1)
+	_expect(resolved.size() == 3,
+		"month-one decline producers did not reach exactly three consumers")
+	_expect(CORE_LOOP.decline_receipts_for_month(2).size() == 3,
+		"next-month message ledger did not expose the three resolved outcomes")
+	_expect(int(GameState.health) == health_before - 2 \
+			and int(GameState.mental) == mental_before - 2,
+		"missed recovery consequence did not apply its authored cost once")
+	var health_after := int(GameState.health)
+	var mental_after := int(GameState.mental)
+	_expect(CORE_LOOP.process_due_decline_outcomes(1).is_empty(),
+		"resolved decline outcomes were consumed twice")
+	_expect(int(GameState.health) == health_after \
+			and int(GameState.mental) == mental_after,
+		"second decline-consumer pass changed player state")
+
+	var saved: Dictionary = GameState.serialize()
+	GameState.start_new_game()
+	GameState.load_from_dict(saved)
+	_expect(CORE_LOOP.decline_receipts_for_month(2).size() == 3,
+		"decline consumer receipts did not survive save/load")
+	_expect(CORE_LOOP.process_due_decline_outcomes(1).is_empty(),
+		"save/load resurrected already consumed decline outcomes")
+
 func _check_delayed_consequences_cross_month() -> void:
 	GameState.start_new_game()
 	CORE_LOOP.initialize_for_run(true)
-	GameState.turn = 3
 	CORE_LOOP.commit_plan(1, _month_one_schedule())
+	GameState.turn = 1
 	CORE_LOOP.begin_bundle("m1_mirae_application", "schedule")
 	CORE_LOOP.note_action_commitment({"choice_id": "apply"})
 	GameState.flags["opening_interview_application_sent"] = true
-	GameState.flags["opening_interview_application_turn"] = 3
+	GameState.flags["opening_interview_application_turn"] = 1
 	CORE_LOOP.complete_active_bundle()
+
+	GameState.turn = 2
+	_expect(CORE_LOOP.pending_consequence_id() == "opening_interview_math",
+		"week-one application did not produce its in-month interview")
+	CORE_LOOP.begin_bundle("opening_interview_math", "consequence")
+	CORE_LOOP.complete_active_bundle()
+	_expect(CORE_LOOP.pending_consequence_id().is_empty(),
+		"two consequence scenes stacked in the same week")
 
 	GameState.turn = 4
 	_expect(CORE_LOOP.pending_consequence_id().is_empty(),
@@ -117,26 +325,39 @@ func _check_delayed_consequences_cross_month() -> void:
 	CORE_LOOP.complete_active_bundle()
 
 	GameState.turn = 5
-	_expect(CORE_LOOP.pending_consequence_id() == "opening_interview_math",
-		"week-three application result was lost at the month boundary")
-	CORE_LOOP.begin_bundle("opening_interview_math", "consequence")
-	CORE_LOOP.complete_active_bundle()
-	_expect(CORE_LOOP.pending_consequence_id().is_empty(),
-		"two consequence scenes stacked in the same week")
-	GameState.turn = 6
 	_expect(CORE_LOOP.pending_consequence_id() == "temptation_consequence",
 		"boss consequence did not wait for the following open week")
 
 func _check_relationship_initiative() -> void:
 	GameState.start_new_game()
 	CORE_LOOP.initialize_for_run(true)
+	var relationship_contract: Dictionary = CORE_LOOP.contract().get(
+		"relationship", {})
+	_expect(CORE_LOOP.RELATIONSHIP_STAGE_ORDER \
+			== relationship_contract.get("stages", []),
+		"runtime relationship order drifted from the canonical monotonic stages")
 	_expect(not CORE_LOOP.available_offer_ids(2).has("hyunsu_player_reachout"),
 		"relationship pursuit appeared before meeting Hyunsu")
 	GameState.turn = 2
 	CORE_LOOP.begin_bundle("hyunsu_first_meet", "schedule")
 	CORE_LOOP.complete_active_bundle()
-	_expect(CORE_LOOP.relationship_stage("hyunsu") == "met",
-		"first meeting did not persist the met stage")
+	_expect(CORE_LOOP.relationship_stage("hyunsu") == "unmet",
+		"bundle completion advanced Hyunsu without an actual scene choice")
+	_expect(not CORE_LOOP.available_offer_ids(2).has("hyunsu_player_reachout"),
+		"completion-only meeting opened a relationship pursuit")
+	CORE_LOOP.begin_bundle("hyunsu_first_meet", "schedule")
+	var meeting_choice_noted := CORE_LOOP.note_story_choice(
+		"arc_intro_04_hyunsu", 0)
+	_expect(meeting_choice_noted,
+		"Hyunsu's actual first-meeting choice was not consumed "
+		+ "(active=%s outcomes=%s)" % [
+			CORE_LOOP.active_bundle_id(),
+			CORE_LOOP.bundle("hyunsu_first_meet").get(
+				"relationship_outcomes", []),
+		])
+	CORE_LOOP.complete_active_bundle()
+	_expect(CORE_LOOP.relationship_stage("hyunsu") == "opening",
+		"first-meeting choice did not persist the authored opening stage")
 	_expect(not CORE_LOOP.was_player_initiated("hyunsu"),
 		"chance meeting was misrecorded as player initiation")
 	_expect(CORE_LOOP.available_offer_ids(2).has("hyunsu_player_reachout"),
@@ -144,10 +365,75 @@ func _check_relationship_initiative() -> void:
 	GameState.turn = 5
 	CORE_LOOP.begin_bundle("hyunsu_player_reachout", "schedule")
 	CORE_LOOP.complete_active_bundle()
+	_expect(CORE_LOOP.relationship_stage("hyunsu") == "opening",
+		"follow-up bundle completion advanced the relationship without a choice")
+	_expect(not CORE_LOOP.was_player_initiated("hyunsu"),
+		"completion-only follow-up was misrecorded as player initiative")
+	CORE_LOOP.begin_bundle("hyunsu_player_reachout", "schedule")
+	_expect(CORE_LOOP.note_story_choice("v2_hyunsu_player_reachout", 1),
+		"Hyunsu's actual player-first message choice was not consumed")
+	var history_size_after_choice := (
+		GameState.core_loop_v2_state.get("relationship_history", []) as Array
+	).size()
+	_expect(CORE_LOOP.note_story_choice("v2_hyunsu_player_reachout", 1) \
+			and (
+				GameState.core_loop_v2_state.get(
+					"relationship_history", []) as Array
+			).size() == history_size_after_choice,
+		"the same story result created duplicate relationship history")
+	CORE_LOOP.complete_active_bundle()
 	_expect(CORE_LOOP.relationship_stage("hyunsu") == "player_reached_out",
 		"proactive message did not advance the relationship stage")
 	_expect(CORE_LOOP.was_player_initiated("hyunsu"),
 		"proactive message was not recorded as the player's action")
+	CORE_LOOP.begin_bundle("hyunsu_first_meet", "schedule")
+	_expect(not CORE_LOOP.note_story_choice("arc_intro_04_hyunsu", 0),
+		"an earlier relationship choice was allowed to move the stage backward")
+	_expect(CORE_LOOP.relationship_stage("hyunsu") == "player_reached_out",
+		"relationship stage regressed after replaying an earlier choice")
+	CORE_LOOP.cancel_active_bundle()
+
+func _check_month_summary_durability() -> void:
+	GameState.start_new_game()
+	CORE_LOOP.initialize_for_run(true)
+	CORE_LOOP.commit_plan(1, _month_one_schedule(), _growth_routines())
+	GameState.turn = 5
+	var before := {
+		"money": 500_000.0,
+		"health": 78,
+		"mental": 63,
+		"fixed_expense": 650_000.0,
+		"monthly_income": 0.0,
+	}
+	var after := {
+		"money": 60_000.0,
+		"health": 74,
+		"mental": 59,
+	}
+	var summary: Dictionary = CORE_LOOP.record_month_summary(
+		1, before, after, {"next_rung": "one_month_buffer"})
+	_expect(int(summary.get("month", 0)) == 1 \
+			and not bool(summary.get("acknowledged", true)),
+		"month summary was not recorded as a pending durable recap")
+	_expect(is_equal_approx(float(summary.get("fixed_expense", 0.0)), 650_000.0),
+		"month summary lost its fixed-expense evidence")
+	var saved: Dictionary = GameState.serialize()
+	GameState.start_new_game()
+	GameState.load_from_dict(saved)
+	var pending: Dictionary = CORE_LOOP.pending_month_summary()
+	_expect(int(pending.get("month", 0)) == 1 \
+			and str(pending.get("next_rung", "")) == "one_month_buffer",
+		"unacknowledged month summary did not survive save/load")
+	_expect(CORE_LOOP.acknowledge_month_summary(1),
+		"month summary could not be acknowledged")
+	_expect(CORE_LOOP.pending_month_summary().is_empty(),
+		"acknowledged month summary reopened immediately")
+	var acknowledged_save: Dictionary = GameState.serialize()
+	GameState.start_new_game()
+	GameState.load_from_dict(acknowledged_save)
+	_expect(bool(CORE_LOOP.month_summary(1).get("acknowledged", false)) \
+			and CORE_LOOP.pending_month_summary().is_empty(),
+		"month summary acknowledgment did not survive save/load")
 
 func _check_story_followup_suppression() -> void:
 	GameState.start_new_game()
@@ -189,6 +475,9 @@ func _check_prototype_completion_boundary() -> void:
 		var bundle_id := CORE_LOOP.bundle_id_for_turn()
 		_expect(CORE_LOOP.begin_bundle(bundle_id, "schedule"),
 			"completion fixture could not begin week %d" % week)
+		if bundle_id == "hyunsu_first_meet":
+			_expect(CORE_LOOP.note_story_choice("arc_intro_04_hyunsu", 0),
+				"completion fixture could not record Hyunsu's meeting choice")
 		CORE_LOOP.complete_active_bundle()
 
 	GameState.turn = 5
@@ -205,6 +494,10 @@ func _check_prototype_completion_boundary() -> void:
 		var bundle_id := CORE_LOOP.bundle_id_for_turn()
 		_expect(CORE_LOOP.begin_bundle(bundle_id, "schedule"),
 			"completion fixture could not begin week %d" % week)
+		if bundle_id == "hyunsu_player_reachout":
+			_expect(CORE_LOOP.note_story_choice(
+				"v2_hyunsu_player_reachout", 0),
+				"completion fixture could not record the player-first message")
 		CORE_LOOP.complete_active_bundle()
 
 	GameState.flags["lent_account"] = true
@@ -276,9 +569,10 @@ func _check_prototype_completion_surface() -> void:
 	if is_instance_valid(done_button):
 		var scroll_rect: Rect2 = main_game.modal_scroll.get_global_rect()
 		var done_rect: Rect2 = done_button.get_global_rect()
+		# Focus tween can expand the CTA by roughly three logical pixels
+		# while it remains visually inside the fixed footer.
 		_expect(done_button.is_visible_in_tree() \
-				and done_rect.position.y >= scroll_rect.position.y \
-				and done_rect.end.y <= scroll_rect.end.y,
+				and scroll_rect.grow(4.0).encloses(done_rect),
 			"completion CTA opened below the 720p fold: scroll=%s button=%s" % [
 				scroll_rect, done_rect])
 	var surface_text := _collect_surface_text(main_game.modal_layer)
@@ -341,7 +635,7 @@ func _check_planner_surface() -> void:
 	var people_text := _collect_surface_text(planner)
 	_expect(people_text.find("Hyunsu") < 0,
 		"People tab revealed Hyunsu before the first meeting")
-	planner.queue_free()
+	planner.free()
 
 func _month_one_schedule() -> Dictionary:
 	return {
@@ -349,6 +643,20 @@ func _month_one_schedule() -> Dictionary:
 		"2": "father_first_call",
 		"3": "hyunsu_first_meet",
 		"4": "first_temptation_boss",
+	}
+
+func _month_two_legal_schedule() -> Dictionary:
+	return {
+		"5": "m2_seorin_application",
+		"6": "m2_rain_delivery_shift",
+		"7": "m2_youth_center_mock_interview",
+		"8": "m2_sleep_debt_sunday",
+	}
+
+func _growth_routines() -> Dictionary:
+	return {
+		"primary": "growth",
+		"secondary": "livelihood",
 	}
 
 func _collect_surface_text(root: Node) -> String:

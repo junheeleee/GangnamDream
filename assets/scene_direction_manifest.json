@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-07-26",
+  "updated": "2026-07-29",
   "policy": {
     "unknown_transition": "none",
     "same_location_restarts": false,
@@ -2236,6 +2236,7 @@
       "survival_rent_due",
       "unorthodox_gray_zone_tip",
       "unorthodox_underground_network",
+      "v2_hyunsu_player_reachout",
       "wedding_invitation_flood",
       "work_burnout_monday",
       "work_credit_stolen",

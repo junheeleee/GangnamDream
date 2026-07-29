@@ -1,10 +1,10 @@
 extends Control
 ## ORDER-57: 월초 휴대폰 일정. 네 주의 약속을 한 화면에서 배치한다.
 
-signal plan_committed(month_index: int, schedule: Dictionary)
+signal plan_committed(month_index: int, schedule: Dictionary, routines: Dictionary)
 
 const CORE_LOOP := preload("res://systems/DemoCoreLoopV2.gd")
-const COLOR_BG := Color("#07090c", 0.97)
+const COLOR_BG := Color("#07090c", 1.0)
 const COLOR_PANEL := Color("#10141a", 0.96)
 const COLOR_PANEL_ALT := Color("#171c23", 0.96)
 const COLOR_BORDER := Color("#4e5865")
@@ -16,6 +16,7 @@ const COLOR_DANGER := Color("#b66b6b")
 var _month_index := 1
 var _month_data: Dictionary = {}
 var _schedule: Dictionary = {}
+var _routines: Dictionary = {}
 var _locked_by_week: Dictionary = {}
 var _selected_week := 1
 var _selected_offer_id := ""
@@ -33,6 +34,7 @@ var _offer_list: VBoxContainer
 var _slot_list: VBoxContainer
 var _offer_buttons: Dictionary = {}
 var _slot_buttons: Dictionary = {}
+var _routine_buttons: Dictionary = {}
 var _status_label: Label
 var _detail_label: Label
 var _hint_label: Label
@@ -51,6 +53,9 @@ func open(month_index: int) -> void:
 	_month_index = month_index
 	_month_data = CORE_LOOP.month_spec(month_index)
 	_schedule = {}
+	_routines = CORE_LOOP.default_routines()
+	if not GameState.current_job.is_empty():
+		_routines["primary"] = "livelihood"
 	_locked_by_week = {}
 	_review_pending = false
 	for raw_lock in _month_data.get("locked", []):
@@ -81,11 +86,16 @@ func close() -> void:
 func schedule_snapshot() -> Dictionary:
 	return _schedule.duplicate(true)
 
+func routine_snapshot() -> Dictionary:
+	return _routines.duplicate(true)
+
 func review_pending() -> bool:
 	return _review_pending
 
 func assign_offer_to_week(bundle_id: String, week: int) -> bool:
 	if not CORE_LOOP.available_offer_ids(_month_index).has(bundle_id):
+		return false
+	if not CORE_LOOP.bundle_allowed_in_week(bundle_id, week):
 		return false
 	if _locked_by_week.has(str(week)):
 		return false
@@ -97,6 +107,28 @@ func assign_offer_to_week(bundle_id: String, week: int) -> bool:
 	_selected_offer_id = bundle_id
 	_selected_week = week
 	_refresh_calendar()
+	return true
+
+func select_routine(slot: String, routine_id: String) -> bool:
+	if slot not in ["primary", "secondary"] \
+			or not CORE_LOOP.routine_options().has(routine_id):
+		return false
+	if slot == "primary" and not GameState.current_job.is_empty() \
+			and routine_id != "livelihood":
+		return false
+	var other_slot := "secondary" if slot == "primary" else "primary"
+	var previous := str(_routines.get(slot, ""))
+	if str(_routines.get(other_slot, "")) == routine_id:
+		if other_slot == "primary" and not GameState.current_job.is_empty():
+			return false
+		_routines[other_slot] = previous
+	_routines[slot] = routine_id
+	_review_pending = false
+	_rebuild()
+	var focus_key := "%s:%s" % [slot, routine_id]
+	var focus_button: Button = _routine_buttons.get(focus_key)
+	if is_instance_valid(focus_button):
+		focus_button.call_deferred("grab_focus")
 	return true
 
 func unassign_week(week: int) -> bool:
@@ -366,12 +398,22 @@ func _build_messages_surface() -> void:
 	grid.add_theme_constant_override("h_separation", 10)
 	grid.add_theme_constant_override("v_separation", 8)
 	_read_only_surface.add_child(grid)
+	for raw_record in CORE_LOOP.decline_receipts_for_month(_month_index):
+		if not raw_record is Dictionary:
+			continue
+		var record: Dictionary = raw_record
+		var producer: Dictionary = CORE_LOOP.bundle(
+			str(record.get("producer_bundle", "")))
+		grid.add_child(_compact_message_row(
+			LocaleManager.ui("닫힌 문 · ", "CLOSED · ")
+				+ _localized(producer, "offer"),
+			str(record.get(
+				"message_en" if LocaleManager.is_english() else "message_ko", ""))))
 	for bundle_id in CORE_LOOP.available_offer_ids(_month_index):
 		var offer := CORE_LOOP.bundle(bundle_id)
-		grid.add_child(_read_only_row(
+		grid.add_child(_compact_message_row(
 			_localized(offer, "offer"),
-			"%s · %s" % [_localized(offer, "detail"), _localized(offer, "deadline")],
-			94))
+			"%s · %s" % [_localized(offer, "detail"), _localized(offer, "deadline")]))
 
 func _build_people_surface() -> void:
 	_read_only_surface.add_child(_section_title(LocaleManager.ui(
@@ -400,16 +442,85 @@ func _build_record_surface() -> void:
 		"확정 전 확인", "BEFORE YOU COMMIT") if _review_pending else LocaleManager.ui(
 		"이번 달에 남길 기록", "THIS MONTH'S RECORD")
 	_read_only_surface.add_child(_section_title(section_heading))
+	_build_routine_surface()
 	var scheduled_lines := _scheduled_commitment_lines()
 	_read_only_surface.add_child(_read_only_row(
 		LocaleManager.ui("지킬 네 약속", "FOUR COMMITMENTS TO KEEP"),
 		"\n".join(scheduled_lines),
-		142))
+		118))
 	var unchosen_lines := _unchosen_offer_lines()
 	_read_only_surface.add_child(_read_only_row(
 		LocaleManager.ui("이번 달에 닫히는 제안", "OPPORTUNITIES THAT WILL CLOSE"),
 		"\n".join(unchosen_lines),
-		126))
+		104))
+
+func _build_routine_surface() -> void:
+	_routine_buttons.clear()
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(0, 116)
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.add_theme_stylebox_override(
+		"panel", _panel_style(COLOR_PANEL, COLOR_BORDER, 1))
+	_read_only_surface.add_child(panel)
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 14)
+	margin.add_theme_constant_override("margin_right", 14)
+	margin.add_theme_constant_override("margin_top", 8)
+	margin.add_theme_constant_override("margin_bottom", 8)
+	panel.add_child(margin)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 6)
+	margin.add_child(box)
+	var title := LocaleManager.ui(
+		"매주 뒤에서 계속할 두 루틴",
+		"TWO ROUTINES TO KEEP EACH WEEK")
+	box.add_child(_label(title, 14, COLOR_TEXT, true))
+	var options := CORE_LOOP.routine_options()
+	for slot in ["primary", "secondary"]:
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 6)
+		box.add_child(row)
+		var slot_label := _label(
+			LocaleManager.ui("주 루틴", "PRIMARY")
+				if slot == "primary" else LocaleManager.ui("보조", "SECONDARY"),
+			12, COLOR_DIM, true)
+		slot_label.custom_minimum_size = Vector2(86, 34)
+		slot_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		row.add_child(slot_label)
+		for routine_id in options:
+			var option: Dictionary = options[routine_id]
+			var button := _button(_localized(option, "label"), false)
+			button.tooltip_text = _localized(option, "description")
+			button.custom_minimum_size = Vector2(0, 34)
+			button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			button.disabled = (
+				slot == "primary"
+				and not GameState.current_job.is_empty()
+				and str(routine_id) != "livelihood"
+			)
+			button.pressed.connect(select_routine.bind(slot, str(routine_id)))
+			button.mouse_entered.connect(button.grab_focus)
+			row.add_child(button)
+			var key := "%s:%s" % [slot, str(routine_id)]
+			_routine_buttons[key] = button
+			var selected := str(_routines.get(slot, "")) == str(routine_id)
+			button.text = ("%s%s" % [
+				LocaleManager.ui("선택 · ", "SET · ") if selected else "",
+				_localized(option, "label"),
+			])
+			_apply_button_style(button, false, selected)
+	var selected_details: Array[String] = []
+	for slot in ["primary", "secondary"]:
+		var routine_id := str(_routines.get(slot, ""))
+		var option: Dictionary = options.get(routine_id, {})
+		var label := _localized(option, "label")
+		var effects := _routine_effect_copy(option)
+		if not label.is_empty() and not effects.is_empty():
+			selected_details.append("%s — %s" % [label, effects])
+	var detail := _label("  ·  ".join(selected_details), 12, COLOR_DIM)
+	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	detail.max_lines_visible = 2
+	box.add_child(detail)
 
 func _read_only_row(title: String, body: String, minimum_height: float = 76.0) -> Control:
 	var panel := PanelContainer.new()
@@ -431,12 +542,43 @@ func _read_only_row(title: String, body: String, minimum_height: float = 76.0) -
 	box.add_child(body_label)
 	return panel
 
+func _compact_message_row(title: String, body: String) -> Control:
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(0, 68)
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var style := _panel_style(COLOR_PANEL, COLOR_BORDER, 1)
+	style.content_margin_left = 0
+	style.content_margin_right = 0
+	style.content_margin_top = 0
+	style.content_margin_bottom = 0
+	panel.add_theme_stylebox_override("panel", style)
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 13)
+	margin.add_theme_constant_override("margin_right", 13)
+	margin.add_theme_constant_override("margin_top", 7)
+	margin.add_theme_constant_override("margin_bottom", 7)
+	panel.add_child(margin)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 2)
+	margin.add_child(box)
+	var title_label := _label(title, 14, COLOR_TEXT, true)
+	title_label.max_lines_visible = 1
+	title_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	box.add_child(title_label)
+	var body_label := _label(body, 12, COLOR_DIM)
+	body_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	body_label.max_lines_visible = 2
+	body_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	box.add_child(body_label)
+	return panel
+
 func _assign_offer(bundle_id: String) -> void:
 	var target_week := _selected_week
-	if _locked_by_week.has(str(target_week)):
-		target_week = _first_open_week()
+	if _locked_by_week.has(str(target_week)) \
+			or not CORE_LOOP.bundle_allowed_in_week(bundle_id, target_week):
+		target_week = _first_open_week_for_bundle(bundle_id)
 	if target_week <= 0:
-		target_week = _first_replaceable_week()
+		target_week = _first_replaceable_week_for_bundle(bundle_id)
 	if target_week <= 0:
 		return
 	assign_offer_to_week(bundle_id, target_week)
@@ -460,10 +602,16 @@ func _week_focused(week: int) -> void:
 func _commit_plan() -> void:
 	if _schedule.size() != 4:
 		return
+	var validation := CORE_LOOP.validate_plan(_month_index, _schedule, _routines)
+	if not bool(validation.get("ok", false)):
+		_status_label.text = _plan_error_text(validation)
+		return
 	if not _review_pending:
 		_begin_commit_review()
 		return
-	emit_signal("plan_committed", _month_index, _schedule.duplicate(true))
+	emit_signal(
+		"plan_committed", _month_index, _schedule.duplicate(true),
+		_routines.duplicate(true))
 
 func _switch_tab(index: int) -> void:
 	var target := clampi(index, 0, 3)
@@ -480,13 +628,34 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not visible:
 		return
 	var handled := false
-	if event.is_action_pressed("gd_tab_prev"):
+	if event is InputEventJoypadButton and (event as InputEventJoypadButton).pressed:
+		var joy_button := int((event as InputEventJoypadButton).button_index)
+		match joy_button:
+			JOY_BUTTON_A:
+				var focused := get_viewport().gui_get_focus_owner()
+				if focused is Button and is_ancestor_of(focused) \
+						and not (focused as Button).disabled:
+					(focused as Button).pressed.emit()
+					handled = true
+			JOY_BUTTON_B:
+				if _review_pending:
+					_cancel_commit_review()
+					handled = true
+				elif _active_tab == 1:
+					handled = unassign_week(_selected_week)
+			JOY_BUTTON_LEFT_SHOULDER:
+				_cycle_tab(-1)
+				handled = true
+			JOY_BUTTON_RIGHT_SHOULDER:
+				_cycle_tab(1)
+				handled = true
+	if not handled and event.is_action_pressed("gd_tab_prev"):
 		_cycle_tab(-1)
 		handled = true
-	elif event.is_action_pressed("gd_tab_next"):
+	elif not handled and event.is_action_pressed("gd_tab_next"):
 		_cycle_tab(1)
 		handled = true
-	elif event.is_action_pressed("ui_cancel"):
+	elif not handled and event.is_action_pressed("ui_cancel"):
 		if _review_pending:
 			_cancel_commit_review()
 			handled = true
@@ -498,9 +667,10 @@ func _unhandled_input(event: InputEvent) -> void:
 func _refresh_footer() -> void:
 	if not is_instance_valid(_confirm_button):
 		return
-	var ready := _schedule.size() == 4
+	var validation := CORE_LOOP.validate_plan(_month_index, _schedule, _routines)
+	var ready := bool(validation.get("ok", false))
 	_confirm_button.disabled = not ready
-	_apply_button_style(_confirm_button, ready, ready)
+	_apply_button_style(_confirm_button, false, ready)
 	if _review_pending:
 		_confirm_button.text = LocaleManager.ui(
 			"이대로 확정하고 첫 주를 시작한다",
@@ -534,6 +704,28 @@ func _refresh_footer() -> void:
 			ControllerHints.shoulder_l(),
 			ControllerHints.shoulder_r(),
 		])
+
+func _plan_error_text(validation: Dictionary) -> String:
+	match str(validation.get("error", "")):
+		"deadline_missed":
+			return LocaleManager.ui(
+				"이 제안은 그 주까지 기다리지 않는다. 기한 안의 주차로 옮겨야 한다.",
+				"That opportunity will not wait for that week. Move it inside its deadline.")
+		"choose_two_routines":
+			return LocaleManager.ui(
+				"이번 달에 이어 갈 주 루틴과 보조 루틴을 고른다.",
+				"Choose a primary and secondary routine for this month.")
+		"routines_must_be_distinct":
+			return LocaleManager.ui(
+				"서로 다른 두 루틴을 골라야 한다.",
+				"Choose two different routines.")
+		"job_requires_primary_livelihood":
+			return LocaleManager.ui(
+				"취업 중에는 본업이 주 루틴을 차지한다.",
+				"While employed, the job occupies the primary routine.")
+	return LocaleManager.ui(
+		"네 주의 약속과 두 루틴을 모두 정해야 한다.",
+		"Fill all four weeks and choose both routines.")
 
 func _begin_commit_review() -> void:
 	_review_pending = true
@@ -598,6 +790,15 @@ func _first_open_week() -> int:
 			return week
 	return -1
 
+func _first_open_week_for_bundle(bundle_id: String) -> int:
+	var weeks: Array = _month_data.get("weeks", [1, 4])
+	for week in range(int(weeks[0]), int(weeks[1]) + 1):
+		if not _schedule.has(str(week)) \
+				and not _locked_by_week.has(str(week)) \
+				and CORE_LOOP.bundle_allowed_in_week(bundle_id, week):
+			return week
+	return -1
+
 func _first_replaceable_week() -> int:
 	var weeks: Array = _month_data.get("weeks", [1, 4])
 	for week in range(int(weeks[0]), int(weeks[1]) + 1):
@@ -605,9 +806,49 @@ func _first_replaceable_week() -> int:
 			return week
 	return -1
 
+func _first_replaceable_week_for_bundle(bundle_id: String) -> int:
+	var weeks: Array = _month_data.get("weeks", [1, 4])
+	for week in range(int(weeks[0]), int(weeks[1]) + 1):
+		if not _locked_by_week.has(str(week)) \
+				and CORE_LOOP.bundle_allowed_in_week(bundle_id, week):
+			return week
+	return -1
+
 func _localized(data: Dictionary, stem: String) -> String:
 	var key := "%s_%s" % [stem, "en" if LocaleManager.is_english() else "ko"]
 	return str(data.get(key, ""))
+
+func _routine_effect_copy(option: Dictionary) -> String:
+	var raw_effects: Variant = option.get("weekly_effects", {})
+	if not raw_effects is Dictionary:
+		return ""
+	var effects: Dictionary = raw_effects
+	if effects.has("unemployed") or effects.has("employed"):
+		var employment_key := "employed" \
+			if not GameState.current_job.is_empty() else "unemployed"
+		var branch: Variant = effects.get(employment_key, {})
+		effects = branch as Dictionary if branch is Dictionary else {}
+	var labels := {
+		"money": LocaleManager.ui("현금", "Cash"),
+		"health": LocaleManager.ui("몸", "Body"),
+		"mental": LocaleManager.ui("마음", "Mind"),
+		"intelligence": LocaleManager.ui("지력", "Skill"),
+		"work_performance": LocaleManager.ui("업무", "Work"),
+	}
+	var order := ["money", "health", "mental", "intelligence", "work_performance"]
+	var parts: Array[String] = []
+	for key in order:
+		if not effects.has(key):
+			continue
+		var value := int(effects[key])
+		var shown: String = GameState.format_money(abs(value)) if key == "money" \
+			else str(abs(value))
+		parts.append("%s %s%s" % [
+			str(labels[key]),
+			"+" if value >= 0 else "-",
+			shown,
+		])
+	return " / ".join(parts)
 
 func _character_name(character_id: String) -> String:
 	match character_id:

@@ -1,0 +1,17 @@
+[
+  {
+    "id": "v2_hyunsu_player_reachout",
+    "title": "Reaching Out First",
+    "description": "Eleven twelve at night. In the goshiwon's shared KakaoTalk chat, {name} found the name of the man next door again. Kang Hyunsu. They had not messaged privately once since meeting.\n\n{name}: \"Want to study together in the kitchen for an hour tomorrow night? I'll work on my resume.\"\n\n{name} was the one who pressed Send. The read receipt appeared, and three minutes later a reply arrived.\n\nHyunsu: \"Sounds good, hyung. I'll bring coffee.\"\n\nThe next evening, they actually sat across from each other at the shared kitchen's small table. Hyunsu had his worn administrative-law workbook; {name} had the resume he was still revising. Even while the electric kettle boiled, neither left the table.",
+    "choices": [
+      {
+        "text": "Open the resume first",
+        "result_text": "{name} read aloud the sentence explaining his employment gap. Hyunsu stopped his finger on the workbook and listened to the end.\n\n\"Hyung, that last line works. It doesn't sound like an excuse.\"\n\n{name} drew a line under it. Hyunsu opened his administrative-law pages again. For an hour, they traded only the words they needed. Work each had done alone became something held on the same table."
+      },
+      {
+        "text": "Ask about Hyunsu's workbook first",
+        "result_text": "\"How far do you need to get tonight?\"\n\nHyunsu opened to a folded page. \"Up to here. I'll finish by the time you finish your resume.\"\n\nThey set a one-hour timer between them. When it rang, the workbook held new marks and the resume held a rewritten sentence. Hyunsu was the first to ask if they were meeting at the same time next week."
+      }
+    ]
+  }
+]

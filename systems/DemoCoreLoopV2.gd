@@ -2,8 +2,25 @@ extends RefCounted
 ## ORDER-57: 8주 수직 단면의 월간 계획·약속·놓친 길 저장 계약.
 ## 기존 240주 편성기는 사람 GO 전까지 그대로 두고 명시적 테스트 런만 활성화한다.
 
-const SCHEMA := 1
+const SCHEMA := 2
 const PROTOTYPE_MAX_WEEK := 8
+const RELATIONSHIP_STAGE_ORDER := [
+	"unmet",
+	"met",
+	"opening",
+	"player_reached_out",
+	"shared_commitment",
+	"friction",
+	"repair_or_distance",
+	"reciprocal",
+	"romantic_intent",
+	"committed",
+	"closed",
+]
+# Trigger-only story roots owned by this data-driven router. Keeping the
+# literal IDs here also lets the dead-arc audit prove that these events have a
+# runtime consumer even though their schedule lives in JSON.
+const OWNED_STORY_ROOTS := ["v2_hyunsu_player_reachout"]
 const ENABLE_ARGS := [
 	"--core-loop-v2",
 	"core-loop-v2",
@@ -121,6 +138,12 @@ static func completion_snapshot() -> Dictionary:
 	return {
 		"kept": kept,
 		"forgone": forgone,
+		"decline_receipts":
+			(state.get("decline_receipts", []) as Array).duplicate(true),
+		"routine_receipts":
+			(state.get("routine_receipts", {}) as Dictionary).duplicate(true),
+		"month_summaries":
+			(state.get("month_summaries", {}) as Dictionary).duplicate(true),
 		"player_initiated": (state.get("player_initiated", []) as Array).duplicate(),
 		"relationship_stages":
 			(state.get("relationship_stages", {}) as Dictionary).duplicate(true),
@@ -167,7 +190,66 @@ static func plan_for_month(month_index: int = -1) -> Dictionary:
 static func needs_plan(month_index: int = -1) -> bool:
 	return plan_for_month(month_index).is_empty()
 
-static func validate_plan(month_index: int, raw_schedule: Dictionary) -> Dictionary:
+static func routine_options() -> Dictionary:
+	var raw_routine: Variant = contract().get("routine", {})
+	if not raw_routine is Dictionary:
+		return {}
+	var raw_options: Variant = (raw_routine as Dictionary).get("options", {})
+	return (raw_options as Dictionary).duplicate(true) \
+		if raw_options is Dictionary else {}
+
+static func default_routines() -> Dictionary:
+	var options := routine_options()
+	var ids: Array[String] = []
+	for preferred in ["livelihood", "recovery", "growth"]:
+		if options.has(preferred):
+			ids.append(preferred)
+	for raw_id in options:
+		var option_id := str(raw_id)
+		if not ids.has(option_id):
+			ids.append(option_id)
+	return {
+		"primary": ids[0] if ids.size() > 0 else "",
+		"secondary": ids[1] if ids.size() > 1 else "",
+	}
+
+static func validate_routines(raw_routines: Dictionary) -> Dictionary:
+	var routines := raw_routines.duplicate(true)
+	if routines.is_empty():
+		# Schema-1 saves and the earliest A0 automated fixtures did not own
+		# routine choices. Migrate them to a legal, survivable pair.
+		routines = default_routines()
+	var primary := str(routines.get("primary", "")).strip_edges()
+	var secondary := str(routines.get("secondary", "")).strip_edges()
+	var options := routine_options()
+	if primary.is_empty() or secondary.is_empty():
+		return {"ok": false, "error": "choose_two_routines"}
+	if primary == secondary:
+		return {"ok": false, "error": "routines_must_be_distinct"}
+	if not options.has(primary) or not options.has(secondary):
+		return {"ok": false, "error": "unknown_routine"}
+	if not GameState.current_job.is_empty() and primary != "livelihood":
+		return {"ok": false, "error": "job_requires_primary_livelihood"}
+	return {
+		"ok": true,
+		"routines": {"primary": primary, "secondary": secondary},
+	}
+
+static func bundle_allowed_in_week(bundle_id: String, week: int) -> bool:
+	var scene_bundle := bundle(bundle_id)
+	if scene_bundle.is_empty():
+		return false
+	var raw_allowed: Variant = scene_bundle.get("allowed_weeks", [])
+	if not raw_allowed is Array or (raw_allowed as Array).is_empty():
+		return false
+	for raw_week in raw_allowed:
+		if int(raw_week) == week:
+			return true
+	return false
+
+static func validate_plan(
+		month_index: int, raw_schedule: Dictionary,
+		raw_routines: Dictionary = {}) -> Dictionary:
 	var spec := month_spec(month_index)
 	if spec.is_empty():
 		return {"ok": false, "error": "missing_month"}
@@ -200,6 +282,13 @@ static func validate_plan(month_index: int, raw_schedule: Dictionary) -> Diction
 			return {"ok": false, "error": "empty_week", "week": week}
 		if not allowed.has(bundle_id):
 			return {"ok": false, "error": "unavailable_bundle", "bundle": bundle_id}
+		if not bundle_allowed_in_week(bundle_id, week):
+			return {
+				"ok": false,
+				"error": "deadline_missed",
+				"bundle": bundle_id,
+				"week": week,
+			}
 		if locked_by_week.has(week_key) and bundle_id != str(locked_by_week[week_key]):
 			return {"ok": false, "error": "locked_week_changed", "week": week}
 		if selected.has(bundle_id):
@@ -216,15 +305,33 @@ static func validate_plan(month_index: int, raw_schedule: Dictionary) -> Diction
 				count += 1
 		if count > int(group.get("maximum_selected", 1)):
 			return {"ok": false, "error": "exclusive_group"}
-	return {"ok": true, "schedule": schedule, "selected": selected}
+	var routine_validation := validate_routines(raw_routines)
+	if not bool(routine_validation.get("ok", false)):
+		return routine_validation
+	return {
+		"ok": true,
+		"schedule": schedule,
+		"selected": selected,
+		"routines": routine_validation.get("routines", {}),
+	}
 
-static func commit_plan(month_index: int, raw_schedule: Dictionary) -> Dictionary:
-	var validation := validate_plan(month_index, raw_schedule)
+static func commit_plan(
+		month_index: int, raw_schedule: Dictionary,
+		raw_routines: Dictionary = {}) -> Dictionary:
+	var existing_state := _normalized_state(GameState.core_loop_v2_state)
+	var existing_plan: Variant = existing_state["plans"].get(str(month_index), {})
+	if existing_plan is Dictionary and not (existing_plan as Dictionary).is_empty():
+		# A committed month is an immutable promise. Besides blocking edits after
+		# its first week, this prevents a duplicate UI signal from producing a
+		# second set of decline consequences.
+		return {"ok": false, "error": "plan_already_committed"}
+	var validation := validate_plan(month_index, raw_schedule, raw_routines)
 	if not bool(validation.get("ok", false)):
 		return validation
-	var state := _normalized_state(GameState.core_loop_v2_state)
+	var state := existing_state
 	var schedule: Dictionary = validation.get("schedule", {})
 	var selected: Array = validation.get("selected", [])
+	var routines: Dictionary = validation.get("routines", {})
 	var forgone_this_month: Array = []
 	for bundle_id in available_offer_ids(month_index):
 		if selected.has(bundle_id):
@@ -238,16 +345,253 @@ static func commit_plan(month_index: int, raw_schedule: Dictionary) -> Dictionar
 		}
 		forgone_this_month.append(record)
 		state["forgone"].append(record)
+		var consequence_id := str(record.get("decline_consequence", ""))
+		var outcome := decline_outcome(consequence_id)
+		if not consequence_id.is_empty() and not outcome.is_empty():
+			state["pending_declines"].append({
+				"id": consequence_id,
+				"producer_bundle": bundle_id,
+				"month": month_index,
+				"visible_month": int(outcome.get("visible_month", month_index + 1)),
+				"consumer_kind": str(outcome.get("consumer_kind", "")),
+				"message_ko": str(outcome.get("message_ko", "")),
+				"message_en": str(outcome.get("message_en", "")),
+				"effects": (outcome.get("effects", {}) as Dictionary).duplicate(true)
+					if outcome.get("effects", {}) is Dictionary else {},
+			})
 	while state["forgone"].size() > 48:
 		state["forgone"].pop_front()
 	state["plans"][str(month_index)] = {
 		"schedule": schedule.duplicate(true),
 		"selected": selected.duplicate(),
+		"routines": routines.duplicate(true),
 		"forgone": forgone_this_month,
 		"planned_turn": GameState.turn,
 	}
 	GameState.core_loop_v2_state = state
-	return {"ok": true, "schedule": schedule.duplicate(true)}
+	return {
+		"ok": true,
+		"schedule": schedule.duplicate(true),
+		"routines": routines.duplicate(true),
+	}
+
+static func routine_selection_for_month(month_index: int = -1) -> Dictionary:
+	var plan := plan_for_month(month_index)
+	var raw_routines: Variant = plan.get("routines", {})
+	if raw_routines is Dictionary and not (raw_routines as Dictionary).is_empty():
+		return (raw_routines as Dictionary).duplicate(true)
+	return default_routines()
+
+static func apply_background_routines_for_turn(turn: int = -1) -> Dictionary:
+	var target_turn := turn if turn > 0 else int(GameState.turn)
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var turn_key := str(target_turn)
+	if state["routine_receipts"].has(turn_key):
+		var prior: Dictionary = state["routine_receipts"][turn_key]
+		return {
+			"ok": true,
+			"applied": false,
+			"receipt": prior.duplicate(true),
+		}
+	var month_index := month_for_turn(target_turn)
+	var plan := plan_for_month(month_index)
+	if plan.is_empty():
+		return {"ok": false, "error": "missing_plan"}
+	var raw_planned: Variant = plan.get("routines", {})
+	var planned: Dictionary = (raw_planned as Dictionary).duplicate(true) \
+		if raw_planned is Dictionary else {}
+	var effective := planned.duplicate(true)
+	var employment_forced := false
+	if not GameState.current_job.is_empty() \
+			and str(effective.get("primary", "")) != "livelihood":
+		# A job accepted after the monthly plan must not invalidate the run.
+		# It becomes the persistent primary obligation immediately, while the
+		# player's planned primary remains the one support routine.
+		effective = {
+			"primary": "livelihood",
+			"secondary": str(effective.get("primary", "")),
+		}
+		employment_forced = true
+	var validation := validate_routines(effective)
+	if not bool(validation.get("ok", false)):
+		return validation
+	var routines: Dictionary = validation.get("routines", {})
+	var receipt := {
+		"turn": target_turn,
+		"month": month_index,
+		"primary": str(routines.get("primary", "")),
+		"secondary": str(routines.get("secondary", "")),
+		"planned_primary": str(planned.get("primary", "")),
+		"planned_secondary": str(planned.get("secondary", "")),
+		"employment_forced": employment_forced,
+		"units": [],
+		"effects": {},
+	}
+	for slot in ["primary", "secondary"]:
+		var routine_id := str(routines.get(slot, ""))
+		var effects := _routine_effects(routine_id)
+		if effects.is_empty():
+			return {
+				"ok": false,
+				"error": "missing_routine_effects",
+				"routine": routine_id,
+			}
+		GameState.apply_effects(effects)
+		receipt["units"].append({
+			"slot": slot,
+			"routine_id": routine_id,
+			"effects": effects.duplicate(true),
+		})
+		for raw_key in effects:
+			var key := str(raw_key)
+			var value: Variant = effects[raw_key]
+			if value is int or value is float:
+				receipt["effects"][key] = float(
+					receipt["effects"].get(key, 0.0)) + float(value)
+	state["routine_receipts"][turn_key] = receipt.duplicate(true)
+	GameState.core_loop_v2_state = state
+	return {"ok": true, "applied": true, "receipt": receipt}
+
+static func _routine_effects(routine_id: String) -> Dictionary:
+	var options := routine_options()
+	var raw_option: Variant = options.get(routine_id, {})
+	if not raw_option is Dictionary:
+		return {}
+	var raw_effects: Variant = (raw_option as Dictionary).get("weekly_effects", {})
+	if not raw_effects is Dictionary:
+		return {}
+	var effects: Dictionary = raw_effects
+	if effects.has("unemployed") or effects.has("employed"):
+		var employment_key := "employed" \
+			if not GameState.current_job.is_empty() else "unemployed"
+		var branch: Variant = effects.get(employment_key, {})
+		return (branch as Dictionary).duplicate(true) \
+			if branch is Dictionary else {}
+	return effects.duplicate(true)
+
+static func decline_outcome(consequence_id: String) -> Dictionary:
+	var raw_outcomes: Variant = contract().get("decline_outcomes", {})
+	if not raw_outcomes is Dictionary:
+		return {}
+	var raw_outcome: Variant = (raw_outcomes as Dictionary).get(consequence_id, {})
+	return (raw_outcome as Dictionary).duplicate(true) \
+		if raw_outcome is Dictionary else {}
+
+static func process_due_decline_outcomes(closing_month: int) -> Array:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var remaining: Array = []
+	var resolved: Array = []
+	for raw_record in state["pending_declines"]:
+		if not raw_record is Dictionary:
+			continue
+		var record: Dictionary = (raw_record as Dictionary).duplicate(true)
+		if int(record.get("month", 0)) > closing_month:
+			remaining.append(record)
+			continue
+		if str(record.get("consumer_kind", "")) == "in_scene_choice":
+			# Locked choice-owned consequences are consumed by the scene, never
+			# by the monthly decline ledger.
+			continue
+		var effects: Dictionary = record.get("effects", {}) as Dictionary \
+			if record.get("effects", {}) is Dictionary else {}
+		if not effects.is_empty():
+			GameState.apply_effects(effects)
+		record["effects_applied"] = effects.duplicate(true)
+		record["consumed_turn"] = int(GameState.turn)
+		record["closing_month"] = closing_month
+		state["decline_receipts"].append(record)
+		resolved.append(record.duplicate(true))
+	state["pending_declines"] = remaining
+	GameState.core_loop_v2_state = state
+	return resolved
+
+static func decline_receipts_for_month(visible_month: int) -> Array:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var result: Array = []
+	for raw_record in state["decline_receipts"]:
+		if raw_record is Dictionary \
+				and int((raw_record as Dictionary).get("visible_month", 0)) == visible_month:
+			result.append((raw_record as Dictionary).duplicate(true))
+	return result
+
+static func decline_receipts_from_month(month_index: int) -> Array:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var result: Array = []
+	for raw_record in state["decline_receipts"]:
+		if raw_record is Dictionary \
+				and int((raw_record as Dictionary).get("month", 0)) == month_index:
+			result.append((raw_record as Dictionary).duplicate(true))
+	return result
+
+static func record_month_summary(
+		month_index: int, before: Dictionary, after: Dictionary,
+		extra: Dictionary = {}) -> Dictionary:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var month_key := str(month_index)
+	if state["month_summaries"].has(month_key):
+		return (state["month_summaries"][month_key] as Dictionary).duplicate(true)
+	var plan := plan_for_month(month_index)
+	var completed_turns: Array = state.get("completed_turns", [])
+	var kept: Array = []
+	var schedule: Dictionary = plan.get("schedule", {}) as Dictionary \
+		if plan.get("schedule", {}) is Dictionary else {}
+	for raw_week in schedule:
+		var week := int(raw_week)
+		if completed_turns.has(week):
+			kept.append({
+				"week": week,
+				"bundle_id": str(schedule[raw_week]),
+			})
+	var summary := {
+		"month": month_index,
+		"before": before.duplicate(true),
+		"after": after.duplicate(true),
+		"fixed_expense": float(before.get("fixed_expense", 0.0)),
+		"monthly_income": float(before.get("monthly_income", 0.0)),
+		"kept": kept,
+		"routines": (
+			(plan.get("routines", {}) as Dictionary).duplicate(true)
+			if plan.get("routines", {}) is Dictionary else default_routines()
+		),
+		"decline_receipts": decline_receipts_from_month(month_index),
+		"acknowledged": false,
+		"recorded_turn": int(GameState.turn),
+	}
+	for raw_key in extra:
+		summary[str(raw_key)] = extra[raw_key]
+	state["month_summaries"][month_key] = summary
+	GameState.core_loop_v2_state = state
+	return summary.duplicate(true)
+
+static func month_summary(month_index: int) -> Dictionary:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var raw_summary: Variant = state["month_summaries"].get(str(month_index), {})
+	return (raw_summary as Dictionary).duplicate(true) \
+		if raw_summary is Dictionary else {}
+
+static func pending_month_summary() -> Dictionary:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var month_indexes: Array[int] = []
+	for raw_key in state["month_summaries"]:
+		month_indexes.append(int(raw_key))
+	month_indexes.sort()
+	for month_index in month_indexes:
+		var raw_summary: Variant = state["month_summaries"].get(str(month_index), {})
+		if raw_summary is Dictionary \
+				and not bool((raw_summary as Dictionary).get("acknowledged", false)):
+			return (raw_summary as Dictionary).duplicate(true)
+	return {}
+
+static func acknowledge_month_summary(month_index: int) -> bool:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var month_key := str(month_index)
+	if not state["month_summaries"].has(month_key):
+		return false
+	var summary: Dictionary = state["month_summaries"][month_key]
+	summary["acknowledged"] = true
+	state["month_summaries"][month_key] = summary
+	GameState.core_loop_v2_state = state
+	return true
 
 static func bundle_id_for_turn(turn: int = -1) -> String:
 	var target_turn: int = turn if turn > 0 else int(GameState.turn)
@@ -315,10 +659,9 @@ static func complete_active_bundle() -> String:
 	else:
 		if not state["completed_bundles"].has(bundle_id):
 			state["completed_bundles"].append(bundle_id)
-		state["completed_bundle_turns"][bundle_id] = GameState.turn
+			state["completed_bundle_turns"][bundle_id] = GameState.turn
 		if not state["completed_turns"].has(GameState.turn):
 			state["completed_turns"].append(GameState.turn)
-		_apply_relationship_progress(state, bundle_id)
 	state["active_bundle"] = ""
 	state["active_kind"] = ""
 	state["active_turn"] = 0
@@ -347,6 +690,8 @@ static func pending_consequence_id(month_index: int = -1) -> String:
 		if state["shown_consequences"].has(consequence_id):
 			continue
 		var consequence := bundle(consequence_id)
+		if not bundle_allowed_in_week(consequence_id, int(GameState.turn)):
+			continue
 		var required := str(consequence.get("requires_prior_choice", ""))
 		if required.is_empty() or not state["completed_bundles"].has(required):
 			continue
@@ -437,24 +782,85 @@ static func was_player_initiated(character_id: String) -> bool:
 	var initiated: Variant = GameState.core_loop_v2_state.get("player_initiated", [])
 	return initiated is Array and (initiated as Array).has(character_id)
 
-static func _bundle_requirement_met(scene_bundle: Dictionary) -> bool:
-	var required := str(scene_bundle.get("requires_completed_bundle", ""))
-	if required.is_empty():
-		return true
-	var completed: Variant = GameState.core_loop_v2_state.get("completed_bundles", [])
-	return completed is Array and (completed as Array).has(required)
-
-static func _apply_relationship_progress(state: Dictionary, bundle_id: String) -> void:
+static func note_story_choice(event_id: String, choice_index: int) -> bool:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var bundle_id := str(state.get("active_bundle", ""))
+	if bundle_id.is_empty():
+		return false
 	var scene_bundle := bundle(bundle_id)
-	var stage := str(scene_bundle.get("relationship_stage", ""))
-	if stage.is_empty():
-		return
-	for raw_character in scene_bundle.get("characters", []):
-		var character_id := str(raw_character)
-		state["relationship_stages"][character_id] = stage
+	var raw_outcomes: Variant = scene_bundle.get("relationship_outcomes", [])
+	if not raw_outcomes is Array:
+		return false
+	for raw_outcome in raw_outcomes:
+		if not raw_outcome is Dictionary:
+			continue
+		var outcome: Dictionary = raw_outcome
+		if str(outcome.get("event_id", "")) != event_id:
+			continue
+		var choices: Variant = outcome.get("choices", [])
+		if not choices is Array:
+			continue
+		var choice_matches := false
+		for raw_choice in choices:
+			if int(raw_choice) == choice_index:
+				choice_matches = true
+				break
+		if not choice_matches:
+			continue
+		var receipt_key := "%s:%s:%d:%d" % [
+			bundle_id, event_id, choice_index, int(GameState.turn)]
+		if state["relationship_choice_receipts"].has(receipt_key):
+			return true
+		var character_id := str(outcome.get("character", ""))
+		if character_id.is_empty():
+			var characters: Array = scene_bundle.get("characters", [])
+			if not characters.is_empty():
+				character_id = str(characters[0])
+		var target_stage := str(outcome.get("stage", ""))
+		if character_id.is_empty() or target_stage.is_empty():
+			return false
+		var current_stage := str(
+			state["relationship_stages"].get(character_id, "unmet"))
+		var current_rank := RELATIONSHIP_STAGE_ORDER.find(current_stage)
+		var target_rank := RELATIONSHIP_STAGE_ORDER.find(target_stage)
+		if target_rank < 0 or current_rank < 0 or target_rank < current_rank:
+			return false
+		if target_stage != current_stage:
+			state["relationship_stages"][character_id] = target_stage
+		state["relationship_history"].append({
+			"character": character_id,
+			"from": current_stage,
+			"to": target_stage,
+			"bundle_id": bundle_id,
+			"event_id": event_id,
+			"choice_index": choice_index,
+			"turn": int(GameState.turn),
+		})
 		if str(scene_bundle.get("initiated_by", "")) == "player" \
 				and not state["player_initiated"].has(character_id):
 			state["player_initiated"].append(character_id)
+		state["relationship_choice_receipts"][receipt_key] = true
+		GameState.core_loop_v2_state = state
+		return true
+	return false
+
+static func _bundle_requirement_met(scene_bundle: Dictionary) -> bool:
+	var required := str(scene_bundle.get("requires_completed_bundle", ""))
+	if not required.is_empty():
+		var completed: Variant = GameState.core_loop_v2_state.get(
+			"completed_bundles", [])
+		if not completed is Array or not (completed as Array).has(required):
+			return false
+	if bool(scene_bundle.get("requires_player_initiated", false)) \
+			and str(scene_bundle.get("initiated_by", "")) != "player":
+		for raw_character in scene_bundle.get("characters", []):
+			if not was_player_initiated(str(raw_character)):
+				return false
+	if str(scene_bundle.get("initiated_by", "")) == "player":
+		for raw_character in scene_bundle.get("characters", []):
+			if relationship_stage(str(raw_character)) == "unmet":
+				return false
+	return true
 
 static func _normalized_schedule(raw_schedule: Dictionary) -> Dictionary:
 	var schedule: Dictionary = {}
@@ -473,14 +879,15 @@ static func _normalized_state(raw_state: Dictionary) -> Dictionary:
 	state["enabled"] = bool(state.get("enabled", false))
 	for key in [
 		"plans", "completed_bundle_turns", "shown_consequence_turns",
-		"relationship_stages",
-		"suppressed_followups",
+		"relationship_stages", "relationship_choice_receipts",
+		"suppressed_followups", "routine_receipts", "month_summaries",
 	]:
 		if not state.has(key) or not state[key] is Dictionary:
 			state[key] = {}
 	for key in [
 		"forgone", "completed_turns", "completed_bundles",
-		"shown_consequences", "player_initiated",
+		"shown_consequences", "player_initiated", "pending_declines",
+		"decline_receipts", "relationship_history",
 	]:
 		if not state.has(key) or not state[key] is Array:
 			state[key] = []
