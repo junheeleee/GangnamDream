@@ -353,6 +353,47 @@ StoryMode resume의 중첩 schema로 왕복해 48주 1장과 240주 전체판에
 21~240주, 기존 48주·5년 인과, 엔딩과 사용자 소유 `project.godot`은
 유지한다.
 
+**E 21~24주 첫 청구서·24주 데모 통합 착수 (2026-07-30 Codex) — 추가로
+만지는 파일:** `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-57.md`,
+`docs/CORE_LOOP_V2.md`, `docs/STORY_BIBLE.md`, `docs/DECISIONS.md`,
+`docs/BALANCE.md`, `docs/DEMO_FIXLOG.md`, `docs/QA_CHECKLIST.md`,
+`docs/MASTER_RELEASE_AUDIT.md`, `docs/SCENE_DIRECTION.md`,
+`docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `CLAUDE.md`,
+`content/meta/demo_core_loop_v2.json`, `content/meta/narrative_spine.json`,
+`content/meta/story_rules.json`, `content/events/core_loop_v2_events.json`,
+`content/events_en/core_loop_v2_events.json`, `content/events/arc_hyunsu.json`,
+`content/events_en/arc_hyunsu.json`, `autoloads/DataRegistry.gd`,
+`autoloads/GameState.gd`, `systems/DemoCoreLoopV2.gd`,
+`scenes/CoreLoopPlanner.gd`, `scenes/MainGame.gd`, `scenes/StoryMode.gd`,
+`assets/ui/phone/phone_frame_starter.png`, `assets/ui/phone/README.md`,
+`assets/event_visual_contracts.json`, `assets/scene_audio_manifest.json`,
+`assets/scene_direction_manifest.json`, `tools/demo_core_loop_v2_audit.py`,
+`tools/core_loop_v2_balance_sim.py`, `tools/event_director_audit.py`,
+`tools/scene_direction_catalog.py`, `tools/mod_pack_validator.py`,
+`tools/CoreLoopV2Check.gd`, `tools/CoreLoopV2BCheck.gd`,
+`tools/CoreLoopV2CCheck.gd`, `tools/CoreLoopV2DCheck.gd`,
+신규 `tools/CoreLoopV2ECheck.gd`, 신규 `tools/CoreLoopV2ECheck.gd.uid`,
+신규 `tools/CoreLoopV2ECheck.tscn`, `tools/ScreenshotQA.gd`,
+`tools/audit.sh`, `locale/ui_ja.json`.
+21주 계획 전에는 아버지 건강 신호를 주차를 쓰지 않는 저장 가능 전주곡으로
+정확히 한 번 보여 준다. 22~23주는 실제 제출 영수증이 있는 회사 결과만
+전화 메시지로 회수하고, 24주는 D에서 실제로 완료한 사람·직업·돈 선택과
+도래한 위험 콜백만 후보로 계산해 가족·생계·인연 중 하나를 고르게 한다.
+선택 후보와 포기한 의무는 추측 플래그가 아니라 영구 영수증으로 남겨
+25~48주가 이어받게 한다. 현수는 24주 시험 당일까지 보여 주되 정식 결과는
+25주 이후 정본을 보존한다. 6개월 회고·저장·데모 CTA는 25주 경계에서
+한 번만 열고 `finish_run`이나 1장 결말로 위장하지 않는다.
+
+사용자가 시작폰을 여전히 최신형으로 판정했으므로, 얇은 검은 직사각형과
+현대식 홈 화면을 유지한 채 센서만 더하는 방식은 폐기한다. 시작폰은
+2013~2015년형 저가 안드로이드 중고품으로 세대를 낮춰 두꺼운 유광
+플라스틱 짧은 변, 물리 홈 키·구형 메뉴/뒤로 키, 작은 16:9 화면, 낡은
+상태바와 각진 앱 타일을 함께 사용한다. 리퍼폰·플래그십만 금속 셸,
+둥근 앱 아이콘과 제스처 내비게이션을 쓴다. KO/EN 960×600과
+1280×720 실제 렌더에서 기기 이름을 읽지 않아도 세대 차이가 보여야 한다.
+개발 상한만 24주로 늘리고 `runtime_default=false`, 사람 GO,
+25~240주 기존 편성·엔딩과 사용자 소유 `project.godot`은 유지한다.
+
 ## 목적
 
 - 기존 5년·240주 콘텐츠와 저장 정본은 파괴하지 않는다.
