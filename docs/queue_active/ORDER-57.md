@@ -118,6 +118,32 @@ StoryMode는 원문 문단 인덱스를 정본으로 쓰지만 검사는 화면 
 상한 안에서 페이지를 진행하도록 검사만 고쳐 전체 감사의 우연 통과를
 제거한다.
 
+**B 9~12주 첫 만남·세 번째 달 착수 (2026-07-29 Codex) — 추가로 만지는
+파일:** `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-57.md`,
+`docs/CORE_LOOP_V2.md`, `docs/BALANCE.md`, `docs/QA_CHECKLIST.md`,
+`docs/WORK_LOG.md`, `docs/history/WORK_LOG_2026-07-25.md`, `CLAUDE.md`,
+`content/meta/demo_core_loop_v2.json`, `systems/DemoCoreLoopV2.gd`,
+`scenes/CoreLoopPlanner.gd`, `scenes/MainGame.gd`, `scenes/StartMenu.gd`,
+`tools/demo_core_loop_v2_audit.py`, `tools/core_loop_v2_balance_sim.py`,
+`tools/CoreLoopV2Check.gd`, `tools/CoreLoopV2BCheck.gd`,
+`tools/CoreLoopV2BCheck.tscn`, `tools/ScreenshotQA.gd`, `tools/audit.sh`,
+`locale/ui_ja.json`.
+세 번째 달의 세 행동 카드에는 고유 한영 카피·기한·실행 설정·한 번뿐인
+결과와 포기 소비자를 연결한다. 자유 문자열 `eligibility`는 완료 약속,
+월간 루틴, 관계 단계, 플레이어 선제 행동을 읽는 typed prerequisite로
+교체하고, 다은/지연의 생활 동선 입구는 둘 다 보일 수 있어도 한 달에 최대
+하나만 계획하게 한다. 실제 첫 만남 선택은 결과별 `from→to`, 주도권과
+기억 receipt를 소유하며 bundle 완료만으로는 전이하지 않는다. 아버지와
+현수 후속도 실제 A1 선택·단계를 만족해야만 보인다.
+
+저장 schema는 기존 8주 boolean 완료를 `completed_through_week=8`로
+이관하고 별도 개발 상한 12와 비교한다. 따라서 A1 완료 저장은 9주
+플래너로 이어지지만 12주 완료 저장은 13주에서 세 달 회고로 멈추며,
+미완성 13주나 기존 디렉터로 떨어지지 않는다. 월 3 최대 밀도, 실제
+South/East/LB/RB·방향 입력, 저장 왕복과 24개 배경 루틴 단위를 B 전용
+게이트로 잠근다. `runtime_default=false`, `finish_run`, 13~240주,
+사용자 소유 `project.godot`은 유지한다.
+
 ## 목적
 
 - 기존 5년·240주 콘텐츠와 저장 정본은 파괴하지 않는다.
