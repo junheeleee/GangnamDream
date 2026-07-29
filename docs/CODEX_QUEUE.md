@@ -47,7 +47,7 @@
 
 | 순서 | 상태 | 항목 | 전체 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-57 · Core Loop V2 데모 재구축 | [ORDER-57](queue_active/ORDER-57.md) | B 착수: 9~12주 행동 실행·typed 선행조건·다은/지연 최대 한 입구·8→12주 저장 경계를 구현 중. 기본 전환·사람 GO는 OPEN |
+| 1 | [~] | ORDER-57 · Core Loop V2 데모 재구축 | [ORDER-57](queue_active/ORDER-57.md) | B NO-GO 재작업: 1년·5년 정본 인과, 첫 만남 기억 소비, 수치 정합성, 원자 행동·결과 저장 복구를 함께 보정 중. 기본 전환·사람 GO는 OPEN |
 | 2 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 전 사건·배경·대표 240주 자동 확산과 clean RC `d73afa6` PASS, 장별 사람 연속 청취 OPEN |
 | 3 | [~] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 1,565사건·960주 정적/KO·EN 240주 실주행·논리 4K와 clean RC PASS, 정상 속도·실기기·A/V 사람 판정 OPEN |
 | 4 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 번역 인프라·일본어 UI/프롤로그/직업명 자동 검사 PASS, 데모 GO 뒤 본문 번역·15장 캡처·원어민 검수 OPEN |

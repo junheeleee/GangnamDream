@@ -144,6 +144,29 @@ South/East/LB/RB·방향 입력, 저장 왕복과 24개 배경 루틴 단위를 
 게이트로 잠근다. `runtime_default=false`, `finish_run`, 13~240주,
 사용자 소유 `project.godot`은 유지한다.
 
+**B 장기 아크·인과·트랜잭션 NO-GO 재작업 범위 확장
+(2026-07-29 Codex) — 추가로 만지는 파일:** `docs/DECISIONS.md`,
+`content/events/arc_daeun.json`, `content/events_en/arc_daeun.json`,
+`content/events/arc_events.json`, `content/events_en/arc_events.json`,
+`content/events/core_loop_v2_events.json`,
+`content/events_en/core_loop_v2_events.json`, `content/meta/story_rules.json`,
+`autoloads/GameState.gd`, `assets/event_visual_contracts.json`,
+`assets/scene_audio_manifest.json`, `assets/scene_direction_manifest.json`,
+`tools/scene_direction_catalog.py`, `tools/event_director_audit.py`.
+24주는 1장 48주의 전반부이며 5년의 결론이 아니다. 따라서 9~12주는
+아버지·현수·다은·지연의 정본 사실과 선택 기억을 훗날 소비할 수 있는
+인과만 연다. 첫 만남 이전 이름·연락처·반복 친절을 선취하거나 현수 시험,
+아버지의 발신 방향, 지연의 보상 금액을 바꾸어 쓰지 않는다. 닫힌 관계는
+`at_least`를 통과하지 않고, 첫 만남 결과는 다음 카드의 조건이나 변형이
+실제로 읽는다.
+
+행동 결과는 AP·효과·축 등록·주차 확정을 하나의 원자 트랜잭션으로
+처리하며 실패 시 전부 되돌린다. 결과 화면에서 저장한 세이브와 schema 2의
+진행 중 행동도 재적용 없이 정확히 한 번 복구한다. 같은 주의 예약 사건과
+후속 결과가 두 개의 독립 전경 장면으로 겹치지 않도록 하나의 약속 소유권
+아래 묶는다. 이 조건과 1년·5년 장기 편성 감사를 통과하기 전 B는
+NO-GO이며, 12주 완료나 기본 전환으로 선언하지 않는다.
+
 ## 목적
 
 - 기존 5년·240주 콘텐츠와 저장 정본은 파괴하지 않는다.
