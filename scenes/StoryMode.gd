@@ -30,6 +30,17 @@ const STORY_TEXT_SPEED_INTERVAL_SCALES := {
 	"standard": 1.00,
 	"fast": 0.50,
 }
+const DIALOGUE_LOG_SCHEMA := 1
+const DIALOGUE_LOG_MAX_ENTRIES := 256
+const DIALOGUE_LOG_MAX_TEXT_LENGTH := 12000
+const STORY_BBCODE_TAGS: Array[String] = [
+	"b", "i", "u", "s",
+	"left", "center", "right", "fill", "indent", "code",
+	"font", "font_size", "color", "bgcolor", "fgcolor",
+	"outline_size", "outline_color", "url", "hint",
+	"wave", "tornado", "shake", "fade", "rainbow", "pulse",
+	"img", "table", "cell", "ul", "ol", "p", "br", "lb", "rb",
+]
 
 # ── 상태 ──────────────────────────────────────────────────────
 var _queue: Array = []          # 재생할 이벤트 ID 목록
@@ -123,6 +134,17 @@ var _advance_hold_event_id: String = ""
 var _audio_settings_button: Button = null
 var _audio_settings_popup: Control = null
 var _audio_settings_previous_focus: Control = null
+var _dialogue_log_button: Button = null
+var _dialogue_log_button_signature: String = ""
+var _dialogue_log_popup: Control = null
+var _dialogue_log_scroll: ScrollContainer = null
+var _dialogue_log_close_button: Button = null
+var _dialogue_log_previous_focus: Control = null
+var _dialogue_log_entries: Array = []
+var _dialogue_log_truncated: bool = false
+var _dialogue_log_resume_history_unavailable: bool = false
+var _dialogue_log_event_serial: int = 0
+var _dialogue_log_next_serial: int = 0
 var _audio_bgm_slider: HSlider = null
 var _audio_sfx_slider: HSlider = null
 var _audio_reduce_motion_toggle: CheckButton = null
@@ -200,6 +222,7 @@ func _ready():
 	var resume_context := SaveManager.consume_loaded_resume_context()
 	if str(resume_context.get("kind", "")) == "story":
 		_pending_restore_context = resume_context.duplicate(true)
+		_restore_dialogue_log_state(resume_context)
 		_queue = resume_context.get("queue", []).duplicate(true)
 		var resume_event_id := str(resume_context.get("event_id", ""))
 		if not resume_event_id.is_empty():
@@ -797,7 +820,7 @@ func _build_ui():
 	_toast_layer = VBoxContainer.new()
 	_toast_layer.set_anchors_preset(Control.PRESET_TOP_RIGHT)
 	_toast_layer.offset_left = -340
-	_toast_layer.offset_top = 50
+	_toast_layer.offset_top = 58
 	_toast_layer.offset_right = -24
 	_toast_layer.add_theme_constant_override("separation", 6)
 	_toast_layer.alignment = BoxContainer.ALIGNMENT_END
@@ -809,7 +832,7 @@ func _build_ui():
 	_hud_panel = hud_panel
 	hud_panel.set_anchors_preset(Control.PRESET_TOP_WIDE)
 	hud_panel.offset_top = 0
-	hud_panel.offset_bottom = 38
+	hud_panel.offset_bottom = 48
 	hud_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var hud_style = StyleBoxFlat.new()
 	hud_style.bg_color = Color("#0b0c10", 0.86)
@@ -820,31 +843,59 @@ func _build_ui():
 	_hud_label = Label.new()
 	_hud_label.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_hud_label.offset_left = 24
-	_hud_label.offset_right = -126
+	_hud_label.offset_right = -292
 	_hud_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_register_story_font(_hud_label, "font_size", 14)
 	_hud_label.add_theme_color_override("font_color", Color("#aeb6c8"))
 	_hud_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_apply_font(_hud_label)
 	hud_panel.add_child(_hud_label)
+	_build_dialogue_log_button()
 	_build_story_audio_settings_button()
 	_apply_story_surface_palette(false, true)
 	_build_story_ink_transition_layer()
+
+func _build_dialogue_log_button() -> void:
+	_dialogue_log_button = Button.new()
+	_dialogue_log_button.name = "DialogueLogButton"
+	_dialogue_log_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	_dialogue_log_button.offset_left = -278
+	_dialogue_log_button.offset_top = 4
+	_dialogue_log_button.offset_right = -116
+	_dialogue_log_button.offset_bottom = 44
+	_dialogue_log_button.focus_mode = Control.FOCUS_NONE
+	_dialogue_log_button.z_index = 74
+	_register_story_font(_dialogue_log_button, "font_size", 14)
+	_dialogue_log_button.add_theme_color_override("font_color", Color("#b8c0cc"))
+	_dialogue_log_button.add_theme_color_override("font_hover_color", Color("#f1f4f8"))
+	if _font_bold:
+		_dialogue_log_button.add_theme_font_override("font", _font_bold)
+	var normal := _story_panel_style(
+		Color("#0a0c10", 0.82), Color("#343a43", 0.88), 4, 12, 4)
+	var hover := normal.duplicate()
+	hover.bg_color = Color("#171b21", 0.96)
+	hover.border_color = Color("#8a949f")
+	_dialogue_log_button.add_theme_stylebox_override("normal", normal)
+	_dialogue_log_button.add_theme_stylebox_override("hover", hover)
+	_dialogue_log_button.add_theme_stylebox_override("pressed", hover)
+	_dialogue_log_button.pressed.connect(_open_dialogue_log)
+	add_child(_dialogue_log_button)
+	_refresh_dialogue_log_button(true)
 
 func _build_story_audio_settings_button() -> void:
 	_audio_settings_button = Button.new()
 	_audio_settings_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
 	_audio_settings_button.offset_left = -108
-	_audio_settings_button.offset_top = 5
+	_audio_settings_button.offset_top = 4
 	_audio_settings_button.offset_right = -14
-	_audio_settings_button.offset_bottom = 33
+	_audio_settings_button.offset_bottom = 44
 	_audio_settings_button.text = _tr("설정", "Settings")
 	_audio_settings_button.tooltip_text = _tr(
 		"장면 설정 (%s)" % ControllerHints.start_btn(),
 		"Scene settings (%s)" % ControllerHints.start_btn())
 	_audio_settings_button.focus_mode = Control.FOCUS_NONE
 	_audio_settings_button.z_index = 74
-	_audio_settings_button.add_theme_font_size_override("font_size", 12)
+	_register_story_font(_audio_settings_button, "font_size", 14)
 	_audio_settings_button.add_theme_color_override("font_color", Color("#b8c0cc"))
 	_audio_settings_button.add_theme_color_override("font_hover_color", Color("#f1f4f8"))
 	if _font_bold:
@@ -860,7 +911,8 @@ func _build_story_audio_settings_button() -> void:
 	add_child(_audio_settings_button)
 
 func _open_audio_settings() -> void:
-	if is_instance_valid(_audio_settings_popup):
+	if is_instance_valid(_audio_settings_popup) \
+			or is_instance_valid(_dialogue_log_popup):
 		return
 	_audio_settings_previous_focus = get_viewport().gui_get_focus_owner()
 	_pause_story_countdown_for_settings()
@@ -1229,6 +1281,353 @@ func _close_audio_settings() -> void:
 		_audio_settings_previous_focus.call_deferred("grab_focus")
 	_audio_settings_previous_focus = null
 	_settings_focus_key = ""
+
+func _refresh_dialogue_log_button(force: bool = false) -> void:
+	if not is_instance_valid(_dialogue_log_button):
+		return
+	var shortcut := ControllerHints.west()
+	var signature := "%s:%s" % [LocaleManager.language, shortcut]
+	if not force and signature == _dialogue_log_button_signature:
+		return
+	_dialogue_log_button_signature = signature
+	_dialogue_log_button.text = "%s  [%s]" % [
+		_tr("대화 기록", "Dialogue History"), shortcut]
+	_dialogue_log_button.tooltip_text = _tr(
+		"지난 대사와 장면 묘사 다시 보기 (%s)",
+		"Review earlier dialogue and scene narration (%s)") % shortcut
+
+func _open_dialogue_log() -> void:
+	if is_instance_valid(_dialogue_log_popup) \
+			or is_instance_valid(_audio_settings_popup) \
+			or _transitioning or _story_scene_transition_active \
+			or _is_chapter_card or _current.is_empty():
+		return
+	_reset_advance_hold()
+	_dialogue_log_previous_focus = get_viewport().gui_get_focus_owner()
+	_pause_story_countdown_for_settings()
+	_create_dialogue_log_popup()
+
+func _create_dialogue_log_popup() -> void:
+	var overlay := ColorRect.new()
+	overlay.name = "DialogueLogOverlay"
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.color = Color(0, 0, 0, 0.76)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	overlay.z_index = 120
+	add_child(overlay)
+	_dialogue_log_popup = overlay
+	overlay.tree_exited.connect(func():
+		if _dialogue_log_popup == overlay:
+			_dialogue_log_popup = null)
+
+	var panel := PanelContainer.new()
+	panel.name = "DialogueLogPanel"
+	panel.anchor_left = 0.5
+	panel.anchor_right = 0.5
+	panel.anchor_top = 0.5
+	panel.anchor_bottom = 0.5
+	panel.offset_left = -450
+	panel.offset_right = 450
+	panel.offset_top = -310
+	panel.offset_bottom = 310
+	panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	var palette := _story_palette()
+	panel.add_theme_stylebox_override("panel", _story_panel_style(
+		palette["panel_bg"], palette["panel_border"], 8, 28, 22, 3))
+	overlay.add_child(panel)
+
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 10)
+	panel.add_child(column)
+
+	var header := HBoxContainer.new()
+	header.custom_minimum_size = Vector2(0, 52)
+	header.add_theme_constant_override("separation", 16)
+	column.add_child(header)
+	var titles := VBoxContainer.new()
+	titles.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	titles.add_theme_constant_override("separation", 2)
+	header.add_child(titles)
+	var title := Label.new()
+	title.text = _tr("대화 기록", "Dialogue History")
+	_register_story_font(title, "font_size", 23)
+	title.add_theme_color_override("font_color", palette["focus"])
+	if _font_bold:
+		title.add_theme_font_override("font", _font_bold)
+	titles.add_child(title)
+	var note := Label.new()
+	note.text = _tr(
+		"지금까지 나온 대사와 장면 묘사, 내가 고른 선택만 볼 수 있습니다.",
+		"Only dialogue and scene narration already shown, plus choices already made, are available.")
+	_register_story_font(note, "font_size", 13)
+	note.add_theme_color_override("font_color", palette["dim"])
+	if _font:
+		note.add_theme_font_override("font", _font)
+	titles.add_child(note)
+	var display_entries := _dialogue_log_display_entries()
+	var count_label := Label.new()
+	count_label.text = _tr("%d개", "%d entries") % display_entries.size()
+	count_label.custom_minimum_size = Vector2(110, 0)
+	count_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	count_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_register_story_font(count_label, "font_size", 14)
+	count_label.add_theme_color_override("font_color", palette["dim"])
+	if _font_bold:
+		count_label.add_theme_font_override("font", _font_bold)
+	header.add_child(count_label)
+
+	var separator := HSeparator.new()
+	separator.modulate = palette["line"]
+	column.add_child(separator)
+
+	_dialogue_log_scroll = ScrollContainer.new()
+	_dialogue_log_scroll.name = "DialogueLogScroll"
+	_dialogue_log_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_dialogue_log_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_dialogue_log_scroll.focus_mode = Control.FOCUS_ALL
+	_dialogue_log_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_dialogue_log_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	_dialogue_log_scroll.gui_input.connect(_on_dialogue_log_scroll_input)
+	var scroll_focus := StyleBoxFlat.new()
+	scroll_focus.bg_color = Color(0, 0, 0, 0)
+	scroll_focus.border_color = palette["focus"]
+	scroll_focus.set_border_width_all(2)
+	scroll_focus.set_corner_radius_all(5)
+	scroll_focus.content_margin_left = 4
+	scroll_focus.content_margin_right = 4
+	scroll_focus.content_margin_top = 4
+	scroll_focus.content_margin_bottom = 4
+	_dialogue_log_scroll.add_theme_stylebox_override("focus", scroll_focus)
+	column.add_child(_dialogue_log_scroll)
+
+	var list := VBoxContainer.new()
+	list.name = "DialogueLogEntries"
+	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	list.add_theme_constant_override("separation", 9)
+	_dialogue_log_scroll.add_child(list)
+	if _dialogue_log_truncated:
+		_add_dialogue_log_notice(list, _tr(
+			"이 대화가 길어 가장 오래된 일부 내용은 표시하지 않습니다.",
+			"This conversation is long, so its oldest entries are no longer shown."),
+			palette)
+	if _dialogue_log_resume_history_unavailable:
+		_add_dialogue_log_notice(list, _tr(
+			"이 저장은 대화 기록 기능이 생기기 전에 만들어져, 불러온 시점 이전의 내용은 표시할 수 없습니다.",
+			"This save predates Dialogue History, so anything before the loaded point is unavailable."),
+			palette)
+	if display_entries.is_empty():
+		_add_dialogue_log_notice(
+			list, _tr("아직 다시 볼 내용이 없습니다.", "Nothing to review yet."),
+			palette)
+	else:
+		for index in range(display_entries.size()):
+			_add_dialogue_log_entry_card(
+				list, display_entries[index] as Dictionary, index + 1, palette)
+
+	var footer := HBoxContainer.new()
+	footer.custom_minimum_size = Vector2(0, 42)
+	footer.add_theme_constant_override("separation", 14)
+	column.add_child(footer)
+	var hint := Label.new()
+	hint.text = _tr(
+		"↑↓ 스크롤 · [%s] 닫기",
+		"↑↓ Scroll · [%s] Close") % ControllerHints.east()
+	hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hint.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_register_story_font(hint, "font_size", 13)
+	hint.add_theme_color_override("font_color", palette["dim"])
+	if _font:
+		hint.add_theme_font_override("font", _font)
+	footer.add_child(hint)
+	var close_button := Button.new()
+	_dialogue_log_close_button = close_button
+	close_button.name = "DialogueLogClose"
+	close_button.text = _tr("닫기", "Close")
+	close_button.custom_minimum_size = Vector2(150, 40)
+	close_button.focus_mode = Control.FOCUS_ALL
+	_register_story_font(close_button, "font_size", 15)
+	if _font_bold:
+		close_button.add_theme_font_override("font", _font_bold)
+	var close_normal := _story_panel_style(
+		palette["choice_bg"], palette["panel_border"], 5, 16, 7)
+	var close_focus := close_normal.duplicate()
+	close_focus.bg_color = palette["choice_hover"]
+	close_focus.border_color = palette["focus"]
+	close_focus.set_border_width_all(2)
+	close_button.add_theme_stylebox_override("normal", close_normal)
+	close_button.add_theme_stylebox_override("hover", close_focus)
+	close_button.add_theme_stylebox_override("focus", close_focus)
+	close_button.add_theme_stylebox_override("pressed", close_focus)
+	close_button.pressed.connect(_close_dialogue_log)
+	footer.add_child(close_button)
+	_dialogue_log_scroll.focus_neighbor_bottom = close_button.get_path()
+	close_button.focus_neighbor_top = _dialogue_log_scroll.get_path()
+
+	overlay.gui_input.connect(func(event: InputEvent):
+		if event is InputEventMouseButton and event.pressed:
+			_close_dialogue_log())
+	call_deferred("_focus_dialogue_log")
+	call_deferred("_scroll_dialogue_log_to_latest")
+
+func _add_dialogue_log_notice(
+		parent: Control, message: String, palette: Dictionary) -> void:
+	var notice := Label.new()
+	notice.text = message
+	notice.custom_minimum_size = Vector2(0, 48)
+	notice.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	notice.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_register_story_font(notice, "font_size", 14)
+	notice.add_theme_color_override("font_color", palette["dim"])
+	if _font:
+		notice.add_theme_font_override("font", _font)
+	parent.add_child(notice)
+
+func _add_dialogue_log_entry_card(
+		parent: Control, entry: Dictionary, display_index: int,
+		palette: Dictionary) -> void:
+	var kind := str(entry.get("kind", "prose"))
+	var card := PanelContainer.new()
+	card.name = "DialogueLogEntry%03d" % display_index
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var border_color: Color = (
+		palette["focus"] if kind == "choice" else palette["panel_border"])
+	var style := _story_panel_style(
+		palette["choice_bg"], border_color, 6, 16, 11,
+		4 if kind == "choice" else 2)
+	card.add_theme_stylebox_override("panel", style)
+	parent.add_child(card)
+
+	var content := VBoxContainer.new()
+	content.add_theme_constant_override("separation", 6)
+	card.add_child(content)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 9)
+	content.add_child(row)
+	var number := Label.new()
+	number.text = "%02d" % display_index
+	number.custom_minimum_size = Vector2(34, 0)
+	_register_story_font(number, "font_size", 12)
+	number.add_theme_color_override("font_color", palette["dead"])
+	if _font_bold:
+		number.add_theme_font_override("font", _font_bold)
+	row.add_child(number)
+	var heading := Label.new()
+	heading.text = _dialogue_log_entry_heading(entry)
+	heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_register_story_font(heading, "font_size", 14)
+	heading.add_theme_color_override(
+		"font_color", palette["focus"] if kind == "choice" else palette["dim"])
+	if _font_bold:
+		heading.add_theme_font_override("font", _font_bold)
+	row.add_child(heading)
+	var context := str(entry.get("screen_context", "")).strip_edges()
+	if not context.is_empty() and kind != "choice":
+		var context_label := Label.new()
+		context_label.text = _tr(
+			"장면 정보 · %s", "Scene context · %s") % context
+		context_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		_register_story_font(context_label, "font_size", 12)
+		context_label.add_theme_color_override("font_color", palette["dead"])
+		if _font:
+			context_label.add_theme_font_override("font", _font)
+		row.add_child(context_label)
+
+	var body := RichTextLabel.new()
+	body.name = "DialogueLogBody"
+	body.bbcode_enabled = false
+	body.fit_content = true
+	body.scroll_active = false
+	body.selection_enabled = true
+	body.custom_minimum_size = Vector2(0, 28)
+	body.text = str(entry.get("text", ""))
+	_register_story_font(body, "normal_font_size", 17)
+	body.add_theme_color_override("default_color", palette["text"])
+	if _font:
+		body.add_theme_font_override("normal_font", _font)
+	body.mouse_filter = Control.MOUSE_FILTER_PASS
+	content.add_child(body)
+
+func _dialogue_log_entry_heading(entry: Dictionary) -> String:
+	var kind := str(entry.get("kind", "prose"))
+	var title := str(entry.get("title", "")).strip_edges()
+	if kind == "choice":
+		var player := str(entry.get("speaker", GameState.player_name)).strip_edges()
+		return "%s · %s" % [_tr("내 선택", "My Choice"), player]
+	if kind == "result":
+		return "%s · %s" % [
+			title if not title.is_empty() else _tr("장면", "Scene"),
+			_tr("선택 결과", "Choice Result")]
+	return title if not title.is_empty() else _tr("장면", "Scene")
+
+func _focus_dialogue_log() -> void:
+	if is_instance_valid(_dialogue_log_scroll):
+		_dialogue_log_scroll.grab_focus()
+
+func _scroll_dialogue_log_to_latest() -> void:
+	if not is_instance_valid(_dialogue_log_scroll):
+		return
+	var bar := _dialogue_log_scroll.get_v_scroll_bar()
+	if is_instance_valid(bar):
+		_dialogue_log_scroll.scroll_vertical = int(bar.max_value)
+
+func _on_dialogue_log_scroll_input(event: InputEvent) -> void:
+	if not is_instance_valid(_dialogue_log_scroll):
+		return
+	if event.is_action_pressed("ui_up"):
+		_scroll_dialogue_log_by(-54)
+		_dialogue_log_scroll.accept_event()
+	elif event.is_action_pressed("ui_down"):
+		var bar := _dialogue_log_scroll.get_v_scroll_bar()
+		var maximum := int(maxf(0.0, bar.max_value - bar.page)) \
+				if is_instance_valid(bar) else 0
+		if _dialogue_log_scroll.scroll_vertical >= maximum - 2 \
+				and is_instance_valid(_dialogue_log_close_button):
+			_dialogue_log_close_button.grab_focus()
+		else:
+			_scroll_dialogue_log_by(54)
+		_dialogue_log_scroll.accept_event()
+	elif event.is_action_pressed("ui_page_up"):
+		_scroll_dialogue_log_by(-360)
+		_dialogue_log_scroll.accept_event()
+	elif event.is_action_pressed("ui_page_down"):
+		_scroll_dialogue_log_by(360)
+		_dialogue_log_scroll.accept_event()
+	elif event is InputEventKey and event.pressed and not event.echo:
+		var key := event as InputEventKey
+		if key.keycode == KEY_HOME:
+			_dialogue_log_scroll.scroll_vertical = 0
+			_dialogue_log_scroll.accept_event()
+		elif key.keycode == KEY_END:
+			_scroll_dialogue_log_to_latest()
+			_dialogue_log_scroll.accept_event()
+
+func _scroll_dialogue_log_by(amount: int) -> void:
+	if not is_instance_valid(_dialogue_log_scroll):
+		return
+	var bar := _dialogue_log_scroll.get_v_scroll_bar()
+	var maximum := int(maxf(0.0, bar.max_value - bar.page)) \
+			if is_instance_valid(bar) else 0
+	_dialogue_log_scroll.scroll_vertical = clampi(
+		_dialogue_log_scroll.scroll_vertical + amount, 0, maximum)
+
+func _close_dialogue_log() -> void:
+	if not is_instance_valid(_dialogue_log_popup):
+		_dialogue_log_popup = null
+		_dialogue_log_scroll = null
+		_dialogue_log_close_button = null
+		return
+	var popup := _dialogue_log_popup
+	_dialogue_log_popup = null
+	_dialogue_log_scroll = null
+	_dialogue_log_close_button = null
+	popup.queue_free()
+	_resume_story_countdown_after_settings()
+	AudioManager.play_ui_close(-14.0)
+	if is_instance_valid(_dialogue_log_previous_focus):
+		_dialogue_log_previous_focus.call_deferred("grab_focus")
+	_dialogue_log_previous_focus = null
 
 func _rebuild_story_settings_popup(focus_key: String) -> void:
 	if not is_instance_valid(_audio_settings_popup):
@@ -1603,6 +2002,17 @@ func build_save_resume_context() -> Dictionary:
 	elif _choice_countdown_deadline_msec > 0:
 		timer_remaining = maxi(1, _choice_countdown_deadline_msec - Time.get_ticks_msec())
 		timer_total = maxi(timer_remaining, _choice_countdown_total_msec)
+	var saved_paragraph_index := clampi(
+		_para_index, 0, maxi(0, _paragraphs.size() - 1))
+	var saved_paragraph_length := maxi(1, _type_full.length())
+	var paragraph_type_ratio := (
+		clampf(float(_type_pos) / float(saved_paragraph_length), 0.0, 1.0)
+		if _typing else 1.0)
+	var source_paragraph_index := _story_source_paragraph_index(
+		saved_paragraph_index)
+	var source_text_progress := _story_source_page_progress(
+		saved_paragraph_index, paragraph_type_ratio)
+	var source_paragraph_count := _story_source_paragraph_count()
 	return {
 		"kind": "story",
 		"scene": "res://scenes/StoryMode.tscn",
@@ -1611,9 +2021,14 @@ func build_save_resume_context() -> Dictionary:
 		"event_id": str(_current.get("id", "")),
 		"queue": _queue.duplicate(true),
 		"phase": _story_resume_phase(),
-		"paragraph_index": _para_index,
+		"paragraph_index": saved_paragraph_index,
 		"paragraph_was_typing": _typing,
 		"type_pos": _type_pos,
+		"paragraph_type_ratio": paragraph_type_ratio,
+		"source_paragraph_index": source_paragraph_index,
+		"source_text_progress": source_text_progress,
+		"source_paragraph_count": source_paragraph_count,
+		"story_locale": LocaleManager.language,
 		"pending_result_choice_index": _pending_result_choice_index,
 		"pending_follow_up": _pending_follow_up,
 		"next_transition_mode": _next_transition_mode,
@@ -1623,6 +2038,14 @@ func build_save_resume_context() -> Dictionary:
 		"timer_remaining_msec": timer_remaining,
 		"timer_total_msec": timer_total,
 		"timer_default_choice": _choice_countdown_default_index,
+		"dialogue_log": {
+			"schema": DIALOGUE_LOG_SCHEMA,
+			"entries": _dialogue_log_entries.duplicate(true),
+			"truncated": _dialogue_log_truncated,
+			"resume_history_unavailable": _dialogue_log_resume_history_unavailable,
+			"event_serial": _dialogue_log_event_serial,
+			"next_serial": _dialogue_log_next_serial,
+		},
 	}
 
 func _story_resume_phase() -> String:
@@ -1698,7 +2121,39 @@ func _restore_story_result(context: Dictionary) -> void:
 func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 	if _paragraphs.is_empty():
 		return
-	_para_index = clampi(int(context.get("paragraph_index", 0)), 0, _paragraphs.size() - 1)
+	var was_typing := bool(context.get("paragraph_was_typing", false))
+	var restored_type_ratio := clampf(
+		float(context.get("paragraph_type_ratio", 1.0)), 0.0, 1.0)
+	var has_source_position := context.has("source_paragraph_index") \
+			and context.has("source_text_progress")
+	var phase := str(context.get("phase", "result" if result_phase else "prose"))
+	var saved_locale := str(context.get("story_locale", "")).strip_edges()
+	var current_source_count := _story_source_paragraph_count()
+	var saved_source_count := int(context.get("source_paragraph_count", -1))
+	var locale_structure_changed := not saved_locale.is_empty() \
+			and saved_locale != LocaleManager.language \
+			and (saved_source_count < 0 \
+				or saved_source_count != current_source_count)
+	var legacy_position_is_unsafe := not has_source_position \
+			and phase in ["prose", "result"]
+	if locale_structure_changed or legacy_position_is_unsafe:
+		# Localized overlays do not all share the same blank-line boundaries.
+		# Rewinding the current phase is conservative but cannot reveal a line
+		# that was still in the future in the language used for the save.
+		_para_index = _first_story_page_for_source(0)
+		restored_type_ratio = 0.0
+		was_typing = true
+	elif has_source_position:
+		var restored_position := _story_restore_position_for_source_progress(
+			int(context.get("source_paragraph_index", 0)),
+			float(context.get("source_text_progress", 0.0)))
+		_para_index = int(restored_position.get("page_index", 0))
+		restored_type_ratio = clampf(
+			float(restored_position.get("type_ratio", restored_type_ratio)),
+			0.0, 1.0)
+	else:
+		_para_index = clampi(
+			int(context.get("paragraph_index", 0)), 0, _paragraphs.size() - 1)
 	var source_paragraph_index := _story_source_paragraph_index(_para_index)
 	_maybe_change_event_background(source_paragraph_index)
 	_maybe_reveal_event_portrait(source_paragraph_index)
@@ -1710,9 +2165,14 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 	else:
 		_play_current_paragraph_audio(source_paragraph_index)
 	var paragraph := str(_paragraphs[_para_index])
-	var was_typing := bool(context.get("paragraph_was_typing", false))
-	var saved_type_pos: int = clampi(int(context.get("type_pos", paragraph.length())),
-		0, paragraph.length())
+	var saved_type_pos: int
+	if has_source_position:
+		saved_type_pos = clampi(
+			int(roundf(float(paragraph.length()) * restored_type_ratio)),
+			0, paragraph.length())
+	else:
+		saved_type_pos = clampi(
+			int(context.get("type_pos", paragraph.length())), 0, paragraph.length())
 	_type_full = paragraph
 	_auto_wait = -1.0
 	if was_typing and saved_type_pos < paragraph.length():
@@ -1723,6 +2183,7 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 	_type_pos = paragraph.length()
 	_typing = false
 	_body_lbl.text = paragraph
+	_record_current_dialogue_source()
 	_refresh_continue_hint_text()
 	_continue_hint.visible = true
 	_arm_auto_advance(paragraph)
@@ -2033,7 +2494,8 @@ func _set_story_text_size(level: String) -> void:
 	var was_typing := _typing
 	var old_type_length := maxi(1, _type_full.length())
 	var type_ratio := clampf(float(_type_pos) / float(old_type_length), 0.0, 1.0)
-	var source_page_progress := _story_source_page_progress(_para_index, type_ratio)
+	var source_page_progress := _story_source_page_progress(
+		_para_index, 0.0 if _direction_beat_waiting else type_ratio)
 	var hint_was_visible := is_instance_valid(_continue_hint) and _continue_hint.visible
 	var beat_was_waiting := _direction_beat_waiting
 	_story_text_size = normalized
@@ -2082,7 +2544,9 @@ func _set_story_language(raw_language: String) -> void:
 	var was_typing := _typing
 	var old_type_length := maxi(1, _type_full.length())
 	var type_ratio := clampf(float(_type_pos) / float(old_type_length), 0.0, 1.0)
-	var source_page_progress := _story_source_page_progress(_para_index, type_ratio)
+	var source_page_progress := _story_source_page_progress(
+		_para_index, 0.0 if _direction_beat_waiting else type_ratio)
+	var source_paragraph_count := _story_source_paragraph_count()
 	var hint_was_visible := is_instance_valid(_continue_hint) and _continue_hint.visible
 	var beat_was_waiting := _direction_beat_waiting
 
@@ -2103,6 +2567,19 @@ func _set_story_language(raw_language: String) -> void:
 					localized_choices[_pending_result_choice_index] as Dictionary, false)
 		else:
 			localized_page_data = _story_page_data(_resolved_story_description(_current))
+		var localized_source_count := _story_page_data_source_paragraph_count(
+			localized_page_data)
+		if not _showing_choices \
+				and localized_source_count != source_paragraph_count:
+			# Source block numbers are not stable across every localization.
+			# Restart this prose/result phase instead of mapping into text the
+			# player may not yet have seen in the previous language.
+			source_paragraph_index = 0
+			source_page_progress = 0.0
+			was_typing = true
+			type_ratio = 0.0
+			hint_was_visible = false
+			beat_was_waiting = false
 		_restore_localized_story_text(
 			localized_page_data, source_paragraph_index, source_page_progress,
 			was_typing, type_ratio, hint_was_visible, beat_was_waiting)
@@ -2118,6 +2595,7 @@ func _set_story_language(raw_language: String) -> void:
 		_audio_settings_button.tooltip_text = _tr(
 			"장면 설정 (%s)" % ControllerHints.start_btn(),
 			"Scene settings (%s)" % ControllerHints.start_btn())
+	_refresh_dialogue_log_button(true)
 	_settings_focus_key = "language:%s" % language
 	call_deferred("_rebuild_story_settings_popup", _settings_focus_key)
 
@@ -2152,8 +2630,11 @@ func _restore_localized_story_text(
 		hint_was_visible: bool,
 		beat_was_waiting: bool) -> void:
 	_apply_story_page_data(page_data)
-	_para_index = _story_page_for_source_progress(
+	var restored_position := _story_restore_position_for_source_progress(
 		source_paragraph_index, source_page_progress)
+	_para_index = int(restored_position.get("page_index", 0))
+	var localized_type_ratio := clampf(
+		float(restored_position.get("type_ratio", type_ratio)), 0.0, 1.0)
 	if beat_was_waiting:
 		_direction_pending_text = str(_paragraphs[_para_index])
 		var previous_index := maxi(0, _para_index - 1)
@@ -2165,7 +2646,9 @@ func _restore_localized_story_text(
 		return
 	_type_full = str(_paragraphs[_para_index])
 	if was_typing:
-		_type_pos = clampi(int(roundf(float(_type_full.length()) * type_ratio)), 0, _type_full.length())
+		_type_pos = clampi(
+			int(roundf(float(_type_full.length()) * localized_type_ratio)),
+			0, _type_full.length())
 		_typing = _type_pos < _type_full.length()
 		_body_lbl.text = _type_full.substr(0, _type_pos)
 		_continue_hint.visible = false
@@ -2273,6 +2756,14 @@ func _load_next_event():
 		_next_transition_contract = {}
 		_load_next_event()
 		return
+	var restoring_current_event := not _pending_restore_context.is_empty() \
+			and str(_pending_restore_context.get("event_id", "")) == event_id
+	if restoring_current_event and _dialogue_log_event_serial > 0:
+		_dialogue_log_next_serial = maxi(
+			_dialogue_log_next_serial, _dialogue_log_event_serial)
+	else:
+		_dialogue_log_next_serial += 1
+		_dialogue_log_event_serial = _dialogue_log_next_serial
 	_current_transition_mode = _next_transition_mode
 	_next_transition_mode = ""
 	_current_transition_contract = _next_transition_contract.duplicate(true)
@@ -2472,17 +2963,257 @@ func _story_page_fits(text: String) -> bool:
 	return measured.y <= body_height - 8.0
 
 func _story_visible_text(text: String) -> String:
+	return _dialogue_log_plain_text(text)
+
+func _story_bbcode_tag_name(raw_tag: String) -> String:
+	var tag_name := raw_tag.strip_edges()
+	if tag_name.begins_with("/"):
+		tag_name = tag_name.substr(1).strip_edges()
+	var equals_index := tag_name.find("=")
+	var space_index := tag_name.find(" ")
+	var separator_index := equals_index
+	if separator_index < 0 or (
+			space_index >= 0 and space_index < separator_index):
+		separator_index = space_index
+	if separator_index >= 0:
+		tag_name = tag_name.substr(0, separator_index)
+	tag_name = tag_name.to_lower()
+	return tag_name if tag_name in STORY_BBCODE_TAGS else ""
+
+func _dialogue_log_plain_text(text: String) -> String:
+	# Story prose intentionally uses square brackets for notices, headlines and
+	# app copy. Strip only BBCode tags that RichTextLabel actually interprets;
+	# treating every [...] token as markup erases authored lines such as
+	# "[입금] 급여" from both pagination measurements and Dialogue History.
 	var visible := ""
-	var inside_tag := false
-	for index in range(text.length()):
-		var character := text.substr(index, 1)
-		if character == "[":
-			inside_tag = true
-		elif character == "]" and inside_tag:
-			inside_tag = false
-		elif not inside_tag:
-			visible += character
+	var index := 0
+	while index < text.length():
+		if text.substr(index, 1) == "[":
+			var close_index := text.find("]", index + 1)
+			if close_index >= 0:
+				var raw_tag := text.substr(
+					index + 1, close_index - index - 1).strip_edges()
+				var tag_name := _story_bbcode_tag_name(raw_tag)
+				if not tag_name.is_empty():
+					if tag_name == "lb":
+						visible += "["
+					elif tag_name == "rb":
+						visible += "]"
+					elif tag_name == "br" and not raw_tag.begins_with("/"):
+						visible += "\n"
+					index = close_index + 1
+					continue
+		visible += text.substr(index, 1)
+		index += 1
 	return visible
+
+func _restore_dialogue_log_state(context: Dictionary) -> void:
+	_dialogue_log_entries.clear()
+	_dialogue_log_truncated = false
+	_dialogue_log_resume_history_unavailable = false
+	_dialogue_log_event_serial = 0
+	_dialogue_log_next_serial = 0
+	var raw_log: Variant = context.get("dialogue_log", {})
+	if not raw_log is Dictionary:
+		_dialogue_log_resume_history_unavailable = true
+		return
+	var saved_log := raw_log as Dictionary
+	if int(saved_log.get("schema", 0)) != DIALOGUE_LOG_SCHEMA:
+		_dialogue_log_resume_history_unavailable = true
+		return
+	var raw_entries: Variant = saved_log.get("entries", [])
+	if raw_entries is Array:
+		for raw_entry in raw_entries:
+			if not raw_entry is Dictionary:
+				continue
+			var normalized := _normalized_dialogue_log_entry(raw_entry as Dictionary)
+			if normalized.is_empty():
+				continue
+			_dialogue_log_entries.append(normalized)
+			if _dialogue_log_entries.size() > DIALOGUE_LOG_MAX_ENTRIES:
+				_dialogue_log_entries.pop_front()
+				_dialogue_log_truncated = true
+	_dialogue_log_truncated = _dialogue_log_truncated \
+			or bool(saved_log.get("truncated", false))
+	_dialogue_log_resume_history_unavailable = bool(
+		saved_log.get("resume_history_unavailable", false))
+	_dialogue_log_event_serial = maxi(0, int(saved_log.get("event_serial", 0)))
+	_dialogue_log_next_serial = maxi(
+		_dialogue_log_event_serial, int(saved_log.get("next_serial", 0)))
+	for entry in _dialogue_log_entries:
+		_dialogue_log_next_serial = maxi(
+			_dialogue_log_next_serial, int((entry as Dictionary).get("event_serial", 0)))
+
+func _normalized_dialogue_log_entry(raw_entry: Dictionary) -> Dictionary:
+	var kind := str(raw_entry.get("kind", ""))
+	if kind not in ["prose", "choice", "result"]:
+		return {}
+	var text := str(raw_entry.get("text", "")).strip_edges()
+	if text.is_empty():
+		return {}
+	if text.length() > DIALOGUE_LOG_MAX_TEXT_LENGTH:
+		text = text.substr(0, DIALOGUE_LOG_MAX_TEXT_LENGTH)
+	return {
+		"seq": maxi(1, int(raw_entry.get("seq", 1))),
+		"event_serial": maxi(0, int(raw_entry.get("event_serial", 0))),
+		"event_id": str(raw_entry.get("event_id", "")).substr(0, 160),
+		"kind": kind,
+		"choice_index": int(raw_entry.get("choice_index", -1)),
+		"source_paragraph_index": maxi(
+			-1, int(raw_entry.get("source_paragraph_index", -1))),
+		"page_index": maxi(-1, int(raw_entry.get("page_index", -1))),
+		"title": str(raw_entry.get("title", "")).substr(0, 320),
+		"speaker": str(raw_entry.get("speaker", "")).substr(0, 240),
+		"screen_context": str(raw_entry.get("screen_context", "")).substr(0, 240),
+		"channel": str(raw_entry.get("channel", "")).substr(0, 80),
+		"locale": str(raw_entry.get("locale", "")).substr(0, 32),
+		"text": text,
+	}
+
+func _record_current_dialogue_source() -> void:
+	if _current.is_empty() or _is_chapter_card or _paragraphs.is_empty() \
+			or _para_index < 0 or _para_index >= _paragraphs.size():
+		return
+	var source_index := _story_source_paragraph_index(_para_index)
+	if _para_index + 1 < _paragraphs.size() \
+			and _story_source_paragraph_index(_para_index + 1) == source_index:
+		return
+	var kind := "result" if _pending_after_result else "prose"
+	var text := _dialogue_log_source_text(source_index, _para_index, false)
+	if text.is_empty():
+		return
+	_append_dialogue_log_entry({
+		"event_serial": _dialogue_log_event_serial,
+		"event_id": str(_current.get("id", "")),
+		"kind": kind,
+		"choice_index": _pending_result_choice_index if kind == "result" else -1,
+		"source_paragraph_index": source_index,
+		"page_index": _para_index,
+		"title": _dialogue_log_plain_text(_fmt(str(_current.get("title", "")))),
+		"speaker": _dialogue_log_screen_name(),
+		"screen_context": _dialogue_log_screen_context(),
+		"channel": str(_current_presentation.get("channel", "in_person")),
+		"locale": LocaleManager.language,
+		"text": text,
+	})
+
+func _record_dialogue_choice(choice: Dictionary, choice_index: int) -> void:
+	var base_text := str(choice.get("text", _tr("선택", "Choose")))
+	var visible_text := _fmt(_moral_perception_text(
+		choice.get("text_if_moral", {}), base_text))
+	_append_dialogue_log_entry({
+		"event_serial": _dialogue_log_event_serial,
+		"event_id": str(_current.get("id", "")),
+		"kind": "choice",
+		"choice_index": choice_index,
+		"source_paragraph_index": -1,
+		"page_index": -1,
+		"title": _dialogue_log_plain_text(_fmt(str(_current.get("title", "")))),
+		"speaker": GameState.player_name,
+		"screen_context": "",
+		"channel": str(_current_presentation.get("channel", "in_person")),
+		"locale": LocaleManager.language,
+		"text": _dialogue_log_plain_text(visible_text).strip_edges(),
+	})
+
+func _append_dialogue_log_entry(raw_entry: Dictionary) -> void:
+	var entry := _normalized_dialogue_log_entry(raw_entry)
+	if entry.is_empty():
+		return
+	entry["seq"] = (
+		int((_dialogue_log_entries[-1] as Dictionary).get("seq", 0)) + 1
+		if not _dialogue_log_entries.is_empty() else 1)
+	if not _dialogue_log_entries.is_empty():
+		var previous := _dialogue_log_entries[-1] as Dictionary
+		if _dialogue_log_entry_key(previous) == _dialogue_log_entry_key(entry):
+			# A restored fully-read page and a language/text-size refresh may
+			# revisit the same completion hook. Preserve one exact receipt.
+			return
+	_dialogue_log_entries.append(entry)
+	if _dialogue_log_entries.size() > DIALOGUE_LOG_MAX_ENTRIES:
+		_dialogue_log_entries.pop_front()
+		_dialogue_log_truncated = true
+
+func _dialogue_log_entry_key(entry: Dictionary) -> String:
+	return "%d:%s:%d:%d" % [
+		int(entry.get("event_serial", 0)),
+		str(entry.get("kind", "")),
+		int(entry.get("choice_index", -1)),
+		int(entry.get("source_paragraph_index", -1)),
+	]
+
+func _dialogue_log_source_text(
+		source_index: int, through_page_index: int, use_visible_current: bool) -> String:
+	var pieces: Array[String] = []
+	for page_index in range(_paragraphs.size()):
+		if page_index > through_page_index:
+			break
+		if _story_source_paragraph_index(page_index) != source_index:
+			continue
+		var page_text := str(_paragraphs[page_index])
+		if use_visible_current and page_index == through_page_index \
+				and is_instance_valid(_body_lbl):
+			page_text = _body_lbl.text
+		var visible := _dialogue_log_plain_text(page_text).strip_edges()
+		if not visible.is_empty():
+			pieces.append(visible)
+	return " ".join(pieces).strip_edges()
+
+func _dialogue_log_screen_name() -> String:
+	if is_instance_valid(_name_panel) and _name_panel.visible \
+			and is_instance_valid(_name_tag):
+		return _name_tag.text.strip_edges()
+	return ""
+
+func _dialogue_log_screen_context() -> String:
+	var name := _dialogue_log_screen_name()
+	if not name.is_empty():
+		# 원격 이름표에는 이미 "전화 너머/영상통화/메시지/기억"이 붙는다.
+		# 통신 배지를 한 번 더 이어 같은 맥락을 중복 표기하지 않는다.
+		return name
+	if is_instance_valid(_communication_badge) and _communication_badge.visible \
+			and is_instance_valid(_communication_label):
+		var channel_label := _communication_label.text.strip_edges()
+		if not channel_label.is_empty():
+			return channel_label
+	return ""
+
+func _dialogue_log_display_entries() -> Array:
+	var entries := _dialogue_log_entries.duplicate(true)
+	var transient := _dialogue_log_transient_entry()
+	if not transient.is_empty():
+		if entries.is_empty() \
+				or _dialogue_log_entry_key(entries[-1] as Dictionary) \
+				!= _dialogue_log_entry_key(transient):
+			entries.append(transient)
+	return entries
+
+func _dialogue_log_transient_entry() -> Dictionary:
+	if _current.is_empty() or _is_chapter_card or _direction_beat_waiting \
+			or _paragraphs.is_empty() or _para_index < 0 \
+			or _para_index >= _paragraphs.size():
+		return {}
+	var source_index := _story_source_paragraph_index(_para_index)
+	var text := _dialogue_log_source_text(
+		source_index, _para_index, _typing)
+	if text.is_empty():
+		return {}
+	var kind := "result" if _pending_after_result else "prose"
+	return _normalized_dialogue_log_entry({
+		"seq": _dialogue_log_entries.size() + 1,
+		"event_serial": _dialogue_log_event_serial,
+		"event_id": str(_current.get("id", "")),
+		"kind": kind,
+		"choice_index": _pending_result_choice_index if kind == "result" else -1,
+		"source_paragraph_index": source_index,
+		"page_index": _para_index,
+		"title": _dialogue_log_plain_text(_fmt(str(_current.get("title", "")))),
+		"speaker": _dialogue_log_screen_name(),
+		"screen_context": _dialogue_log_screen_context(),
+		"channel": str(_current_presentation.get("channel", "in_person")),
+		"locale": LocaleManager.language,
+		"text": text,
+	})
 
 func _story_safe_page_break(text: String, best: int) -> int:
 	var tag_depth := 0
@@ -2491,15 +3222,20 @@ func _story_safe_page_break(text: String, best: int) -> int:
 	while index < mini(best, text.length()):
 		if text.substr(index, 1) == "[":
 			var close := text.find("]", index)
-			if close < 0 or close >= best:
-				break
-			var tag := text.substr(index + 1, close - index - 1).strip_edges()
-			if tag.begins_with("/"):
-				tag_depth = maxi(0, tag_depth - 1)
-			elif not tag.ends_with("/") and not tag.begins_with("br"):
-				tag_depth += 1
-			index = close + 1
-			continue
+			if close >= 0:
+				var raw_tag := text.substr(
+					index + 1, close - index - 1).strip_edges()
+				var tag_name := _story_bbcode_tag_name(raw_tag)
+				if not tag_name.is_empty():
+					if close >= best:
+						break
+					if raw_tag.begins_with("/"):
+						tag_depth = maxi(0, tag_depth - 1)
+					elif tag_name not in ["br", "lb", "rb", "img"] \
+							and not raw_tag.ends_with("/"):
+						tag_depth += 1
+					index = close + 1
+					continue
 		var character := text.substr(index, 1)
 		if tag_depth == 0 and (character in [" ", "\n", ".", ",", "!", "?", "。", "！", "？"]):
 			safe_breaks.append(index + 1)
@@ -2516,6 +3252,20 @@ func _story_source_paragraph_index(page_index: int) -> int:
 		return int(_paragraph_source_indices[page_index])
 	return maxi(0, page_index)
 
+func _story_source_paragraph_count() -> int:
+	var source_ids: Dictionary = {}
+	for source_index in _paragraph_source_indices:
+		source_ids[int(source_index)] = true
+	return source_ids.size()
+
+func _story_page_data_source_paragraph_count(page_data: Dictionary) -> int:
+	var source_ids: Dictionary = {}
+	var raw_indices: Variant = page_data.get("source_indices", [])
+	if raw_indices is Array:
+		for source_index in raw_indices:
+			source_ids[int(source_index)] = true
+	return source_ids.size()
+
 func _first_story_page_for_source(source_index: int) -> int:
 	for page_index in range(_paragraph_source_indices.size()):
 		if int(_paragraph_source_indices[page_index]) == source_index:
@@ -2530,24 +3280,61 @@ func _story_source_page_progress(page_index: int, within_page: float) -> float:
 			source_pages.append(candidate)
 	if source_pages.is_empty():
 		return 0.0
-	var ordinal := source_pages.find(page_index)
-	if ordinal < 0:
-		ordinal = 0
-	return clampf(
-		(float(ordinal) + clampf(within_page, 0.0, 1.0)) /
-			float(source_pages.size()), 0.0, 0.999)
+	var total_characters := 0
+	var consumed_characters := 0.0
+	var page_ordinal := source_pages.find(page_index)
+	if page_ordinal < 0:
+		page_ordinal = 0
+	for ordinal in range(source_pages.size()):
+		var candidate := int(source_pages[ordinal])
+		var page_length := str(_paragraphs[candidate]).length()
+		total_characters += page_length
+		if ordinal == page_ordinal:
+			consumed_characters += (
+				float(page_length) * clampf(within_page, 0.0, 1.0))
+		elif ordinal < page_ordinal:
+			consumed_characters += float(page_length)
+	if total_characters <= 0:
+		return 0.0
+	return clampf(consumed_characters / float(total_characters), 0.0, 1.0)
 
 func _story_page_for_source_progress(source_index: int, progress: float) -> int:
+	return int(_story_restore_position_for_source_progress(
+		source_index, progress).get("page_index", 0))
+
+func _story_restore_position_for_source_progress(
+		source_index: int, progress: float) -> Dictionary:
 	var source_pages: Array[int] = []
 	for page_index in range(_paragraph_source_indices.size()):
 		if int(_paragraph_source_indices[page_index]) == source_index:
 			source_pages.append(page_index)
 	if source_pages.is_empty():
-		return _first_story_page_for_source(source_index)
-	var ordinal := mini(
-		source_pages.size() - 1,
-		int(floor(clampf(progress, 0.0, 0.999) * float(source_pages.size()))))
-	return int(source_pages[ordinal])
+		return {
+			"page_index": _first_story_page_for_source(source_index),
+			"type_ratio": clampf(progress, 0.0, 1.0),
+		}
+	var total_characters := 0
+	for page_index in source_pages:
+		total_characters += str(_paragraphs[page_index]).length()
+	if total_characters <= 0:
+		return {"page_index": int(source_pages[0]), "type_ratio": 0.0}
+	var target_characters := (
+		clampf(progress, 0.0, 1.0) * float(total_characters))
+	var consumed_characters := 0.0
+	for ordinal in range(source_pages.size()):
+		var page_index := int(source_pages[ordinal])
+		var page_length := str(_paragraphs[page_index]).length()
+		var is_last := ordinal == source_pages.size() - 1
+		if target_characters <= consumed_characters + float(page_length) or is_last:
+			var local_progress := (
+				(target_characters - consumed_characters) / float(page_length)
+				if page_length > 0 else 0.0)
+			return {
+				"page_index": page_index,
+				"type_ratio": clampf(local_progress, 0.0, 1.0),
+			}
+		consumed_characters += float(page_length)
+	return {"page_index": int(source_pages[-1]), "type_ratio": 1.0}
 
 func _render_current():
 	_reset_advance_hold()
@@ -2582,6 +3369,8 @@ func _render_current():
 
 	# 챕터 카드 오버레이 정리 + 일반 UI 복원
 	_is_chapter_card = false
+	if is_instance_valid(_dialogue_log_button):
+		_dialogue_log_button.visible = true
 	if _chapter_overlay != null and is_instance_valid(_chapter_overlay):
 		_chapter_overlay.queue_free()
 		_chapter_overlay = null
@@ -2593,6 +3382,8 @@ func _render_current():
 	# 챕터 카드 전용 시네마틱 연출
 	if str(_current.get("id", "")).begins_with("chapter_card_"):
 		_is_chapter_card = true
+		if is_instance_valid(_dialogue_log_button):
+			_dialogue_log_button.visible = false
 		_render_chapter_card_cinematic()
 		return
 	if _story_visual_override_active and _hud_panel != null:
@@ -3090,6 +3881,7 @@ func _complete_typing() -> void:
 	_type_pos = _type_full.length()
 	_typing = false
 	_body_lbl.text = _type_full
+	_record_current_dialogue_source()
 	if _should_begin_direction_hold():
 		_begin_direction_hold()
 		return
@@ -3115,9 +3907,11 @@ func _start_typing(full_text: String):
 
 func _process(delta):
 	_refresh_auto_button()
+	_refresh_dialogue_log_button()
 	# 설정을 읽는 동안 장면도 함께 멈춘다. 타이핑·AUTO·연출 홀드가
 	# 모달 뒤에서 진행되면 언어/글자 크기를 확인할 시간이 사라진다.
-	if is_instance_valid(_audio_settings_popup):
+	if is_instance_valid(_audio_settings_popup) \
+			or is_instance_valid(_dialogue_log_popup):
 		return
 	# 새 장소가 완전히 드러나기 전에는 첫 문장과 AUTO를 진행하지 않는다.
 	if _story_scene_transition_active:
@@ -3161,7 +3955,8 @@ func _begin_advance_hold() -> void:
 	if _showing_choices or _is_chapter_card or _auto_mode \
 			or _story_scene_transition_active \
 			or _direction_hold_active or _direction_beat_waiting \
-			or is_instance_valid(_audio_settings_popup):
+			or is_instance_valid(_audio_settings_popup) \
+			or is_instance_valid(_dialogue_log_popup):
 		return
 	_advance_hold_active = true
 	_advance_hold_wait = ADVANCE_HOLD_INITIAL_DELAY
@@ -3179,6 +3974,7 @@ func _process_advance_hold(delta: float) -> void:
 			or _story_scene_transition_active \
 			or _direction_hold_active or _direction_beat_waiting \
 			or is_instance_valid(_audio_settings_popup) \
+			or is_instance_valid(_dialogue_log_popup) \
 			or str(_current.get("id", "")) != _advance_hold_event_id:
 		_reset_advance_hold()
 		return
@@ -3199,7 +3995,8 @@ func _process_advance_hold(delta: float) -> void:
 # ── 입력: 클릭하여 진행 ───────────────────────────────────────
 func _on_advance():
 	if _transitioning or _story_scene_transition_active \
-			or _showing_choices or is_instance_valid(_audio_settings_popup):
+			or _showing_choices or is_instance_valid(_audio_settings_popup) \
+			or is_instance_valid(_dialogue_log_popup):
 		return
 	if _direction_hold_active:
 		return
@@ -3254,9 +4051,20 @@ func _unhandled_input(event: InputEvent):
 		_reset_advance_hold()
 	if _transitioning or _story_scene_transition_active:
 		return
+	if is_instance_valid(_dialogue_log_popup):
+		if ControllerHints.secondary_pressed(event) \
+				or event.is_action_pressed("gd_menu") \
+				or event.is_action_pressed("ui_cancel"):
+			_close_dialogue_log()
+			get_viewport().set_input_as_handled()
+		return
 	if is_instance_valid(_audio_settings_popup):
 		if event.is_action_pressed("gd_menu") or event.is_action_pressed("ui_cancel"):
 			_close_audio_settings()
+		get_viewport().set_input_as_handled()
+		return
+	if ControllerHints.secondary_pressed(event):
+		_open_dialogue_log()
 		get_viewport().set_input_as_handled()
 		return
 	if event.is_action_pressed("gd_menu"):
@@ -3337,6 +4145,7 @@ func _can_auto_advance() -> bool:
 			and not _direction_hold_active \
 			and not _direction_beat_waiting \
 			and not is_instance_valid(_audio_settings_popup) \
+			and not is_instance_valid(_dialogue_log_popup) \
 			and is_instance_valid(_continue_hint) \
 			and _continue_hint.visible
 
@@ -4017,6 +4826,7 @@ func _on_choice(idx: int):
 	var commitment_baseline: Dictionary = GameState.weekly_commitment_snapshot(
 		commitment_person_id) if owns_weekly_commitment else {}
 	_pending_result_choice_index = idx
+	_record_dialogue_choice(choice, idx)
 	AudioManager.play("choice_made")
 	AudioManager.pulse_gamepad(0.035, 0.070, 0.055)
 	_play_story_ink_transition("choice", 0.65)

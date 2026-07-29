@@ -93,23 +93,19 @@
   {
     "id": "hidden_004",
     "title": "Spiderweb Screen",
-    "description": "You slipped on the third step of the stairs.\n\nYour phone hit the floor.\nThere was a sound.\n\nYou picked it up. The screen was a spiderweb.\nThere was an important call coming today.\nOr there might have been.",
+    "description": "You slipped on the third step of the stairs.\n\nYour phone hit the floor.\nThere was a sound.\n\nWhen you picked it up, the screen was webbed with cracks.\nAn important call might come today.\nYou compared two repair shops with the price of a do-it-yourself screen kit.",
     "choices": [
       {
         "text": "Head straight to a repair shop",
         "result_text": "You went to a nearby repair shop.\n120,000 won.\nWaited an hour. Good as new."
       },
       {
-        "text": "Tape it up and just keep using it",
-        "result_text": "You found some clear tape.\nStuck it on.\nA shard of glass caught the tip of your finger."
+        "text": "Replace the screen with a do-it-yourself kit",
+        "result_text": "You ordered a 60,000-won screen kit.\nA shard nicked your fingertip, but you replaced the screen on the same device that night."
       },
       {
-        "text": "Swap the device through a secondhand deal",
-        "result_text": "You posted it on a used-goods app.\nGot a reply within thirty minutes.\nSold it for 70,000 and bought a used phone for 100,000."
-      },
-      {
-        "text": "Check whether insurance covers it",
-        "result_text": "You opened the carrier's app.\nTurns out you were insured.\nDeductible: 30,000 won. Insurance you didn't even remember having."
+        "text": "Repair it with a used screen assembly",
+        "result_text": "You found a used screen assembly for 70,000 won.\nLabor cost 30,000 won.\nThe screen worked, though the colors stayed slightly yellow."
       }
     ]
   },
@@ -233,7 +229,7 @@
   },
   {
     "id": "hidden_012",
-    "title": "A Forgotten Bankbook",
+    "title": "A Forgotten Account",
     "description": "While tidying up your banking apps, you found it.\n\nAn account you'd opened long ago.\nBalance: 47,200 won.\n\nYou couldn't even remember the last time you'd looked at it.\nMaybe it had been even longer.",
     "choices": [
       {
@@ -250,7 +246,7 @@
       },
       {
         "text": "Decide not to touch it for now",
-        "result_text": "Opened the bankbook, then closed it.\nThe 47,200 won will stay where it is.\nTomorrow's {name} can decide."
+        "result_text": "Checked the balance, then closed the banking app.\nThe 47,200 won will stay where it is.\nTomorrow's {name} can decide."
       }
     ]
   },

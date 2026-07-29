@@ -19,7 +19,7 @@ MAIN_GAME = ROOT / "scenes" / "MainGame.gd"
 EXPECTED_CATALOG_RANDOM = 1176
 EXPECTED_DIRECTED_RANDOM = 1003
 EXPECTED_FOREGROUND_RANDOM = 64
-EXPECTED_BRIDGE_RANDOM = 18
+EXPECTED_BRIDGE_RANDOM = 19
 EXPECTED_REGISTERED_EVENTS = 1570
 EXPECTED_DIRECT_ONLY_EVENTS = {
     "v2_hyunsu_player_reachout",
@@ -95,6 +95,9 @@ EXPECTED_IMPLICIT_BRIDGE_ROOTS = {
     "callback_jaehyuk_reported_witness",
     "callback_lied_interview_surfaces",
 }
+EXPECTED_CAUSAL_PRODUCER_ROOTS = EXPECTED_IMPLICIT_BRIDGE_ROOTS | {
+    "butterfly_mystery_info_result_scam",
+}
 EXPECTED_REACHABLE_CHAINS = {
     "chain_banchan_reunion",
     "chain_banchan_reunion_declined",
@@ -130,6 +133,7 @@ EXPECTED_CONTENT_DIET = {
     "bridge_min_turn": 25,
     "bridge_single_choice_only": True,
     "bridge_requires_stateful_condition": True,
+    "bridge_fallback_event_ids": ["survival_rent_due"],
     "foreground_include_bridge_producers": True,
     "implicit_bridge_root_excluded_tags": ["korea"],
     "foreground_requires_causal_context": True,
@@ -610,11 +614,23 @@ def validate_manifest(manifest: dict[str, Any], events: list[dict[str, Any]]) ->
             and event_produced_flags(event) & bridge_trigger_flags
             and not event_has_follow_up(event)
         }
+        causal_producer_roots = {
+            str(event["id"])
+            for event in events
+            if str(event["id"]) in expected_foreground_ids
+            and event_produced_flags(event) & bridge_trigger_flags
+        }
         if implicit_bridge_roots != EXPECTED_IMPLICIT_BRIDGE_ROOTS:
             errors.append(
                 "implicit bridge roots drifted: "
                 f"expected {sorted(EXPECTED_IMPLICIT_BRIDGE_ROOTS)}, "
                 f"got {sorted(implicit_bridge_roots)}"
+            )
+        if causal_producer_roots != EXPECTED_CAUSAL_PRODUCER_ROOTS:
+            errors.append(
+                "causal producer roots drifted: "
+                f"expected {sorted(EXPECTED_CAUSAL_PRODUCER_ROOTS)}, "
+                f"got {sorted(causal_producer_roots)}"
             )
         actual_foreground_ids = content_diet.get("foreground_event_ids", [])
         actual_bridge_ids = content_diet.get("bridge_event_ids", [])
@@ -934,6 +950,7 @@ def main() -> int:
         f"directed_random={len(directed_random)} once={len(directed_random) - len(EXPECTED_REPEATABLE)} "
         f"foreground={len(foreground_random)} bridge={len(bridge_random)} "
         f"bridge_roots={len(EXPECTED_IMPLICIT_BRIDGE_ROOTS)} "
+        f"causal_roots={len(EXPECTED_CAUSAL_PRODUCER_ROOTS)} "
         f"repeatable={len(EXPECTED_REPEATABLE)} "
         f"callback_reachable={len(reachable_callbacks)} "
         f"chain_reachable={len(reachable_chains)} chapters=5 asset_bands=5"

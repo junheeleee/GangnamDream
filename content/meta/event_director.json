@@ -42,6 +42,9 @@
     "bridge_min_turn": 25,
     "bridge_single_choice_only": true,
     "bridge_requires_stateful_condition": true,
+    "bridge_fallback_event_ids": [
+      "survival_rent_due"
+    ],
     "foreground_include_bridge_producers": true,
     "implicit_bridge_root_excluded_tags": [
       "korea"
@@ -131,7 +134,8 @@
       "callback_resume_lie_confessed_outcome",
       "callback_tax_windfall",
       "sangchul_becomes_primary",
-      "sangchul_world_absorbed"
+      "sangchul_world_absorbed",
+      "survival_rent_due"
     ]
   },
   "demo_pacing": {

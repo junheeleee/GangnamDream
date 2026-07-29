@@ -380,8 +380,8 @@
     "description": "The next morning, another call came in the empty meeting room.\n\n\"Your father passed away last night.\"\n\nAt the very hour Minjun was making his five million. The contract had been cleared away, but the deposit alert was still on his screen. After the call ended, the number and the hospital call remained side by side.",
     "choices": [
       {
-        "text": "Open the banking app.",
-        "result_text": "Minjun set the phone down and opened the banking app. The number had gone up. Five million won, exactly.\nHe looked at it a long time. He'd thought he'd feel nothing; he was wrong. That this number would, for the rest of his life, be priced at the same value as this morning — only now did Minjun understand it."
+        "text": "Check the deposit in the banking app.",
+        "result_text": "Minjun ended the call and checked the deposit in the banking app. The number had gone up. Five million won, exactly.\nHe looked at it a long time. He'd thought he'd feel nothing; he was wrong. That this number would, for the rest of his life, be priced at the same value as this morning — only now did Minjun understand it."
       }
     ]
   },

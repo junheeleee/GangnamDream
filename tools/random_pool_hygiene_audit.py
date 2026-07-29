@@ -121,6 +121,81 @@ def check() -> tuple[list[str], dict[str, int]]:
     if "300,000 won" not in fomo_en.get("result_text", ""):
         errors.append("hidden_bull_market_fomo: English prose is not 300,000 won")
 
+    phone_cost_contracts = {
+        "disasters_009": [-180_000, 0, -250_000],
+        "disasters_006": [-300_000, -180_000],
+        "hidden_004": [-120_000, -60_000, -100_000],
+    }
+    for event_id, expected_money in phone_cost_contracts.items():
+        event = loaded["ko"][event_id]
+        actual_money = [
+            int(item.get("effects", {}).get("money", 0))
+            for item in event.get("choices", [])
+            if isinstance(item, dict)
+        ]
+        if actual_money != expected_money:
+            errors.append(
+                f"{event_id}: phone repair money {actual_money} != {expected_money}"
+            )
+        all_event_text = json.dumps(event, ensure_ascii=False)
+        if "새 기기를 산다" in all_event_text or "중고폰으로 바꾼다" in all_event_text:
+            errors.append(
+                f"{event_id}: same-device repair event changes phone ownership in prose"
+            )
+        for item in event.get("choices", []):
+            if isinstance(item, dict) and "investment_effects" in item:
+                errors.append(
+                    f"{event_id}: phone repair still mutates unrelated market state"
+                )
+            effects = item.get("effects", {}) if isinstance(item, dict) else {}
+            unrelated = {
+                "luck", "reputation", "investment_skill", "tint"
+            }.intersection(effects)
+            if unrelated:
+                errors.append(
+                    f"{event_id}: phone repair mutates unrelated "
+                    f"{sorted(unrelated)}"
+                )
+
+    if "18만원" not in loaded["ko"]["disasters_009"].get("description", "") \
+            or "25만원" not in loaded["ko"]["disasters_009"].get(
+                "description", ""):
+        errors.append("disasters_009: repair quote and charged amounts diverged")
+    if "180,000 won" not in loaded["en"]["disasters_009"].get(
+            "description", "") \
+            or "250,000 won" not in loaded["en"]["disasters_009"].get(
+                "description", ""):
+        errors.append("disasters_009: English repair quote parity drifted")
+    rent_ko = loaded["ko"]["survival_rent_due"]
+    rent_en = loaded["en"]["survival_rent_due"]
+    rent_money = [
+        int(item.get("effects", {}).get("money", 0))
+        for item in rent_ko.get("choices", [])
+        if isinstance(item, dict)
+    ]
+    if rent_money != [0] \
+            or len(rent_ko.get("choices", [])) != 1 \
+            or int(rent_ko["choices"][0].get(
+                "effects", {}).get("mental", 0)) != -3:
+        errors.append(
+            "survival_rent_due: reminder is not one honest -3 mental "
+            "acknowledgement before monthly settlement"
+        )
+    if rent_ko.get("conditions", {}).get("housing") != "gosiwon":
+        errors.append(
+            "survival_rent_due: goshiwon reminder can appear after moving out"
+        )
+    if "65만원" not in rent_ko.get("description", "") \
+            or "52만" in json.dumps(rent_ko, ensure_ascii=False):
+        errors.append(
+            "survival_rent_due: Korean reminder drifted from 650,000-won housing"
+        )
+    if "650,000 won" not in rent_en.get("description", "") \
+            or "520,000" in json.dumps(rent_en, ensure_ascii=False):
+        errors.append(
+            "survival_rent_due: English reminder drifted from 650,000-won housing"
+        )
+
     political_ko = choice(loaded["ko"], "political_election_victory", 0)
     political_en = choice(loaded["en"], "political_election_victory", 0)
     if "공천장이 도착했다" not in political_ko.get("result_text", ""):

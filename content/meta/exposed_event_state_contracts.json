@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "scope": {
-    "root_count": 306,
-    "exposed_count": 442,
-    "root_ids_sha256": "25c02d7dde5e35a34014c11afec2a3deba8a3122ded9f273cb59f720cd46a96e",
-    "exposed_ids_sha256": "9c93a65474b4d3dda102eb423184eacca10b94cff9caf353bb1228b4eebcfa6d"
+    "root_count": 307,
+    "exposed_count": 443,
+    "root_ids_sha256": "222bb9101da3e94f2dd488250cd5ba5aa449dcfe6d7cea86cb4b67625ae51274",
+    "exposed_ids_sha256": "61f6a679edaa9e1d2dffe6fb04376ea2479bc08f3b5d2734cefa437aaafcd67c"
   },
   "state_sensitive": {
     "amb_coin_00": [
@@ -1861,6 +1861,11 @@
       "location"
     ],
     "shadow_snitch_rumor": [
+      "location"
+    ],
+    "survival_rent_due": [
+      "employment",
+      "housing",
       "location"
     ],
     "yolo_morning_after": [

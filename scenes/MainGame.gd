@@ -136,6 +136,9 @@ var _ending_new_achievements: Array = []
 var _ending_new_titles: Array = []
 var _presentation_rng := RandomNumberGenerator.new()
 var _core_loop_planner: Control = null
+var _phone_button: Button = null
+var _phone_focus_restore: Control = null
+var _title_collection_button: Button = null
 var _core_loop_v2_side_shift_job_id := ""
 const ENDING_PAGE_COUNT := 6
 
@@ -558,16 +561,97 @@ func _core_loop_v2_route_week() -> void:
 	_render_ap_actions()
 
 func _core_loop_v2_open_planner(month_index: int) -> void:
+	_core_loop_v2_ensure_phone_surface()
 	if not is_instance_valid(_core_loop_planner):
-		_core_loop_planner = CORE_LOOP_PLANNER_SCRIPT.new()
-		add_child(_core_loop_planner)
-		_core_loop_planner.plan_committed.connect(_on_core_loop_v2_plan_committed)
+		return
 	if is_instance_valid(_main_ui_root):
 		_main_ui_root.visible = false
 	if is_instance_valid(info_panel):
 		info_panel.visible = false
 	_core_loop_planner.move_to_front()
-	_core_loop_planner.open(month_index)
+	_core_loop_planner.open(month_index, false)
+
+func _core_loop_v2_ensure_phone_surface() -> void:
+	if not is_instance_valid(_core_loop_planner):
+		_core_loop_planner = CORE_LOOP_PLANNER_SCRIPT.new()
+		add_child(_core_loop_planner)
+		_core_loop_planner.plan_committed.connect(_on_core_loop_v2_plan_committed)
+		_core_loop_planner.phone_closed.connect(
+			_on_core_loop_v2_phone_closed)
+
+func _core_loop_v2_can_open_phone() -> bool:
+	if not DEMO_CORE_LOOP_V2.is_active() or _minigame_overlay_active:
+		return false
+	if (_typing_tween and _typing_tween.is_running()) \
+			or _choice_reveal_pending \
+			or (
+				is_instance_valid(_choice_countdown_timer) \
+				and not _choice_countdown_timer.is_stopped()
+			):
+		return false
+	if is_instance_valid(modal_layer) and modal_layer.visible:
+		return false
+	if is_instance_valid(info_panel) and info_panel.visible:
+		return false
+	var month_index := DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn)
+	return not DEMO_CORE_LOOP_V2.plan_for_month(month_index).is_empty()
+
+func _core_loop_v2_open_phone() -> bool:
+	if not _core_loop_v2_can_open_phone():
+		return false
+	var focus_owner := get_viewport().gui_get_focus_owner()
+	_phone_focus_restore = focus_owner as Control \
+		if focus_owner is Control \
+			and not (
+				is_instance_valid(_core_loop_planner) \
+				and _core_loop_planner.is_ancestor_of(focus_owner)
+			) else null
+	_core_loop_v2_ensure_phone_surface()
+	if not is_instance_valid(_core_loop_planner):
+		_phone_focus_restore = null
+		return false
+	if is_instance_valid(info_panel):
+		info_panel.visible = false
+	var month_index := DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn)
+	_core_loop_planner.move_to_front()
+	var opened := bool(_core_loop_planner.open(month_index, true))
+	if not opened:
+		_phone_focus_restore = null
+	return opened
+
+func _on_core_loop_v2_phone_closed() -> void:
+	call_deferred("_core_loop_v2_restore_phone_focus")
+
+func _core_loop_v2_restore_phone_focus() -> void:
+	var target := _phone_focus_restore
+	_phone_focus_restore = null
+	if _core_loop_v2_focus_target_available(target):
+		target.grab_focus()
+		return
+	for fallback in [_result_focus_button, next_button, _phone_button]:
+		if _core_loop_v2_focus_target_available(fallback):
+			(fallback as Control).grab_focus()
+			return
+
+func _core_loop_v2_focus_target_available(target: Control) -> bool:
+	if not is_instance_valid(target) or not target.is_inside_tree() \
+			or not target.is_visible_in_tree() \
+			or target.focus_mode == Control.FOCUS_NONE:
+		return false
+	if target is BaseButton and (target as BaseButton).disabled:
+		return false
+	return true
+
+func _core_loop_v2_phone_shortcut_pressed(event: InputEvent) -> bool:
+	if event is InputEventJoypadButton:
+		var joy_event := event as InputEventJoypadButton
+		return joy_event.pressed and joy_event.button_index == JOY_BUTTON_Y
+	if event is InputEventKey:
+		var key_event := event as InputEventKey
+		return key_event.pressed and not key_event.echo \
+			and (key_event.keycode == KEY_P \
+				or key_event.physical_keycode == KEY_P)
+	return false
 
 func _on_core_loop_v2_plan_committed(
 		month_index: int, schedule: Dictionary, routines: Dictionary) -> void:
@@ -2475,6 +2559,18 @@ func _build_top_bar(parent):
 	var money_lbl = _hud_chip(row, "money", "#d9dee6", 210, false)
 	top_labels["money"] = money_lbl
 
+	_phone_button = _small_button(_tr("휴대폰", "Phone"), "#1e2a3a")
+	_phone_button.custom_minimum_size = Vector2(64, 40)
+	_phone_button.add_theme_font_size_override("font_size", 14)
+	_phone_button.size_flags_horizontal = Control.SIZE_SHRINK_END
+	_phone_button.tooltip_text = _tr(
+		"확정한 일정과 은행·연락처를 연다 (P / %s)",
+		"Open the confirmed calendar, bank, and contacts (P / %s)"
+	) % ControllerHints.north()
+	_phone_button.pressed.connect(_core_loop_v2_open_phone)
+	_phone_button.visible = false
+	row.add_child(_phone_button)
+
 	var info_btn = _small_button(_tr("정보", "Info"), "#1e2a3a")
 	info_btn.custom_minimum_size = Vector2(58, 40)
 	info_btn.add_theme_font_size_override("font_size", 14)
@@ -2503,12 +2599,12 @@ func _build_top_bar(parent):
 	next_button.pressed.connect(_on_next_month)
 	row.add_child(next_button)
 
-	var title_btn2 = _small_button(_tr("칭호", "Title"), "#1a2a1a")
-	title_btn2.custom_minimum_size = Vector2(56, 40)
-	title_btn2.add_theme_font_size_override("font_size", 14)
-	title_btn2.size_flags_horizontal = Control.SIZE_SHRINK_END
-	title_btn2.pressed.connect(_open_title_collection)
-	row.add_child(title_btn2)
+	_title_collection_button = _small_button(_tr("칭호", "Title"), "#1a2a1a")
+	_title_collection_button.custom_minimum_size = Vector2(56, 40)
+	_title_collection_button.add_theme_font_size_override("font_size", 14)
+	_title_collection_button.size_flags_horizontal = Control.SIZE_SHRINK_END
+	_title_collection_button.pressed.connect(_open_title_collection)
+	row.add_child(_title_collection_button)
 
 func _build_portrait_panel(parent):
 	# 왼쪽 고정 초상화 패널
@@ -5756,6 +5852,15 @@ func _refresh_all():
 	top_labels["ap"].text = _ap_status_text()
 	if top_labels.has("ap_chip"):
 		(top_labels["ap_chip"] as Control).visible = not DEMO_CORE_LOOP_V2.requested()
+	if is_instance_valid(_phone_button):
+		_phone_button.text = _tr("휴대폰", "Phone")
+		_phone_button.tooltip_text = _tr(
+			"확정한 일정과 은행·연락처를 연다 (P / %s)",
+			"Open the confirmed calendar, bank, and contacts (P / %s)"
+		) % ControllerHints.north()
+		_phone_button.visible = _core_loop_v2_can_open_phone()
+	if is_instance_valid(_title_collection_button):
+		_title_collection_button.visible = not DEMO_CORE_LOOP_V2.requested()
 	# 초상화 하단 플레이어 정보 (이벤트 중 인물 표시 시에는 건드리지 않음)
 	var showing_character = not current_event.is_empty() and str(current_event.get("portrait", "")) != ""
 	if not showing_character:
@@ -15303,10 +15408,10 @@ func _render_investment_assets_page() -> void:
 		page_no,
 		_tr("↑↓ 자산 · ←→ 매수/매도 · LB/RB 페이지", "↑↓ asset · ←→ buy/sell · LB/RB page"),
 		"#5b9cf6"))
-	if GameState.investment_skill < 25:
+	if GameState.mental < 70:
 		_invest_page_body.add_child(_wrap_label(
-			_tr("투자감각이 낮으면 거래 수수료가 높습니다. 주문 전 위험 등급과 수수료를 확인하세요.",
-			"Low Investing means higher trading fees. Check the risk rating and fee before an order."),
+			_tr("현재 정신력이 낮아 매수 수수료가 기본 0.3%보다 높습니다. 추가분은 최대 20%p이며, 매도 수수료는 0.5%입니다.",
+			"Low Mental currently raises the 0.3% buy fee. The surcharge is capped at 20 percentage points; the sell fee is 0.5%."),
 			12, "#f0b429"))
 	var visible_count := mini(2, rows.size())
 	var start_idx := clampi(_invest_pad_asset_idx - 1, 0, maxi(0, rows.size() - visible_count))
@@ -15635,8 +15740,8 @@ func _open_first_investment_guide() -> void:
 		"#f0b429", "invest", _tr("변동", "RISK"), 64.0)
 	_cat_modal_status_card(
 		_tr("거래 수수료", "Trading Fee"),
-		_tr("매수 금액과 매도 대금에서 차감됩니다. 투자감각이 낮을수록 더 높습니다.",
-		"Deducted from buys and sales. Lower Investing means a higher fee."),
+		_tr("매수는 기본 0.3%이며 정신력 70 미만이면 최대 20%p가 추가됩니다. 매도는 0.5%가 차감됩니다.",
+		"Buys cost 0.3%, plus up to 20 percentage points when Mental is below 70. Sells cost 0.5%."),
 		"#a7b0c2", "money", _tr("비용", "COST"), 64.0)
 	_cat_modal_status_card(
 		_tr("레버리지", "Leverage"),
@@ -16294,12 +16399,21 @@ func _load_from_slot(slot: int):
 		SceneTransition.go(SaveManager.loaded_scene_path())
 
 func _unhandled_input(event):
+	# Core Loop V2 phone owns its full semantic-input stack while visible.
+	# Without this guard an East/Back press that the child uses to return home
+	# can also fall through and open MainGame's system menu.
+	if is_instance_valid(_core_loop_planner) and _core_loop_planner.visible:
+		return
 	if GameState.is_game_over:
 		return
 	# Mini-games own their own cancel/pause semantics. Opening the global save
 	# menu after a V2 action has been armed but before it resolves would persist
 	# progress that the mini-game cannot resume.
 	if _minigame_overlay_active:
+		return
+	if _core_loop_v2_phone_shortcut_pressed(event) \
+			and _core_loop_v2_open_phone():
+		get_viewport().set_input_as_handled()
 		return
 	# Space/Enter: 타이핑 스킵 (비주얼노벨 표준 — 모달 닫힌 상태에서만)
 	if event.is_action_pressed("ui_accept") and not modal_layer.visible:

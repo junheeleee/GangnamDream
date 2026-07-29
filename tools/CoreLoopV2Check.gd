@@ -23,7 +23,8 @@ func _ready() -> void:
 	_check_branch_resolution()
 	_check_prototype_completion_boundary()
 	await _check_prototype_completion_surface()
-	_check_planner_surface()
+	await _check_planner_surface()
+	await _stop_test_audio()
 	LocaleManager.language = original_language
 	AudioManager.sfx_enabled = original_sfx_enabled
 	if _failures.is_empty():
@@ -34,7 +35,9 @@ func _ready() -> void:
 			+ "forgone=producer_consumer/once delayed=cross_month/one_per_week "
 			+ "relationship=choice_only/monotonic summary=ack/save "
 			+ "followup=restored save=roundtrip "
-			+ "terminal=week12/24w_sticky_recap planner=1280x720_no_scroll "
+			+ "terminal=week12/24w_sticky_recap "
+			+ "phone=home5/status/calendar_cancel+secondary/contacts/bank/device_preview/read_only_reopen "
+			+ "planner=1280x720_focus_scroll "
 			+ "en_hangul=0 hidden_scores=0")
 		get_tree().quit(0)
 		return
@@ -718,14 +721,77 @@ func _check_planner_surface() -> void:
 	GameState.start_new_game()
 	CORE_LOOP.initialize_for_run(true)
 	LocaleManager.language = "en"
+	GameState.money = 432_100.0
 	var planner = PLANNER.new()
 	add_child(planner)
+	planner.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	planner.position = Vector2.ZERO
+	planner.size = Vector2(1280, 720)
 	planner.open(1)
+	await get_tree().create_timer(0.50).timeout
 	_expect(planner.visible, "planner did not open")
+	_expect(planner._screen_mode == "home" \
+			and planner._active_app_id.is_empty(),
+		"opening the phone did not start on its home screen")
+	var essential_apps := [
+		"messages", "calendar", "contacts", "bank", "device"]
+	var essential_apps_visible: bool = planner._app_buttons.size() == 5
+	for app_id in essential_apps:
+		essential_apps_visible = essential_apps_visible \
+			and planner._app_buttons.has(app_id)
+	_expect(essential_apps_visible,
+		"phone home did not expose exactly the five essential apps")
+	_expect(planner._status_date_label.text == GameState.get_date_string(),
+		"phone status bar date did not read the live calendar")
+	_expect("LTE" in planner._status_balance_label.text,
+		"phone status bar did not read as a handset network surface")
+	_expect(GameState.format_money(GameState.money) in planner._page_label.text,
+		"phone home did not expose the live balance outside the status bar")
+	var frame_rect := Rect2(
+		planner._phone_frame.position, planner._phone_frame.size)
+	var frame_end := frame_rect.position + frame_rect.size
+	_expect(is_instance_valid(planner._phone_frame) \
+			and frame_rect.position.x >= 0.0 \
+			and frame_rect.position.y >= 0.0 \
+			and frame_end.x <= 1280.0 \
+			and frame_end.y <= 720.0 \
+			and frame_rect.size.x > 0.0 \
+			and frame_rect.size.y > 0.0,
+		"physical phone frame escaped the 1280x720 viewport")
+
+	var surface_samples: Array[String] = [
+		_collect_surface_text(planner)]
+	planner._open_app("messages")
+	var message_grid: Node = planner._read_only_surface.get_child(1) \
+		if planner._read_only_surface.get_child_count() > 1 else null
+	var first_thread: Button = (
+		(message_grid as GridContainer).get_child(0) as Button
+		if message_grid is GridContainer \
+			and (message_grid as GridContainer).get_child_count() > 0 else null
+	)
+	_expect(is_instance_valid(first_thread),
+		"Messages did not expose focusable conversation rows")
+	if is_instance_valid(first_thread):
+		first_thread.pressed.emit()
+	_expect(planner._screen_mode == "message_thread" \
+			and planner._active_app_id == "messages" \
+			and not planner._message_thread_body.is_empty(),
+		"pressing a message did not open its bubble conversation")
+	planner._go_back_one_level()
+	planner._go_back_one_level()
+	_expect(planner._screen_mode == "home",
+		"message thread Back stack did not return to phone home")
+	planner._open_app("calendar")
+	_expect(planner._screen_mode == "app" \
+			and planner._active_app_id == "calendar",
+		"Calendar app did not open from the phone home")
 	_expect(planner._slot_buttons.size() == 4,
 		"planner did not render four week slots")
-	_expect(not planner._calendar_surface is ScrollContainer,
-		"planner calendar introduced a scroll surface")
+	_expect(is_instance_valid(planner._app_scroll) \
+			and planner._app_scroll.horizontal_scroll_mode \
+				== ScrollContainer.SCROLL_MODE_DISABLED \
+			and planner._app_scroll.follow_focus,
+		"planner lost its focus-following vertical app viewport")
 	_expect(planner.assign_offer_to_week("m1_mirae_application", 1),
 		"planner could not schedule the application")
 	_expect(planner.assign_offer_to_week("father_first_call", 2),
@@ -733,29 +799,186 @@ func _check_planner_surface() -> void:
 	_expect(planner.assign_offer_to_week("hyunsu_first_meet", 3),
 		"planner could not schedule the Hyunsu meeting")
 	_expect(not planner.unassign_week(4),
-		"planner allowed East/cancel to remove the fixed boss week")
-	_expect(planner.unassign_week(2),
-		"planner could not remove a player-assigned week")
+		"planner allowed the fixed boss week to be removed")
+	var scheduled_before_cancel: Dictionary = planner.schedule_snapshot()
+	var cancel_event := InputEventAction.new()
+	cancel_event.action = "ui_cancel"
+	cancel_event.pressed = true
+	planner._unhandled_input(cancel_event)
+	_expect(planner._screen_mode == "home" \
+			and planner._active_app_id.is_empty(),
+		"East/ui_cancel did not return Calendar to phone home")
+	_expect(planner.schedule_snapshot() == scheduled_before_cancel,
+		"East/ui_cancel changed the calendar schedule")
+
+	planner._open_app("calendar")
+	planner._select_week(2)
+	var secondary_event := InputEventAction.new()
+	secondary_event.action = "gd_secondary"
+	secondary_event.pressed = true
+	planner._unhandled_input(secondary_event)
+	_expect(not planner.schedule_snapshot().has("2") \
+			and planner._screen_mode == "app" \
+			and planner._active_app_id == "calendar",
+		"West/secondary did not remove only the selected calendar week")
 	_expect(planner.assign_offer_to_week("father_first_call", 2),
-		"planner could not restore a removed player assignment")
+		"planner could not restore the week removed by West/secondary")
 	var schedule: Dictionary = planner.schedule_snapshot()
 	_expect(schedule.size() == 4 \
 			and str(schedule.get("4", "")) == "first_temptation_boss",
 		"planner did not preserve its fixed fourth week")
 
-	var surface_text := _collect_surface_text(planner)
+	surface_samples.append(_collect_surface_text(planner))
+	planner._open_app("contacts")
+	var initial_contacts := _collect_surface_text(planner)
+	surface_samples.append(initial_contacts)
+	_expect(initial_contacts.find("Father") >= 0,
+		"Contacts did not show Father's saved number")
+	for hidden_name in ["Kim Daeun", "Han Jiyeon", "Hyunsu"]:
+		_expect(initial_contacts.find(hidden_name) < 0,
+			"Contacts revealed an unmet person: %s" % hidden_name)
+
+	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	var completed: Array = state.get("completed_bundles", [])
+	if not completed.has("hyunsu_first_meet"):
+		completed.append("hyunsu_first_meet")
+	state["completed_bundles"] = completed
+	var stages: Dictionary = state.get("relationship_stages", {})
+	stages["hyunsu"] = "opening"
+	state["relationship_stages"] = stages
+	var memories: Array = state.get("relationship_memories", [])
+	memories.append({
+		"character": "hyunsu",
+		"memory": "hyunsu_honest_uncertainty",
+	})
+	state["relationship_memories"] = memories
+	GameState.core_loop_v2_state = state
+	GameState.turn = 5
+	GameState.month = 2
+	GameState.week_of_month = 1
+	planner.open(2)
+	planner._open_app("contacts")
+	var unlocked_contacts := _collect_surface_text(planner)
+	surface_samples.append(unlocked_contacts)
+	_expect(unlocked_contacts.find("Hyunsu") >= 0 \
+			and unlocked_contacts.find("MAKE TIME TO REACH OUT") >= 0 \
+			and planner._contact_number_known("hyunsu") \
+			and planner._contact_topic_bundle("hyunsu") \
+				== "hyunsu_player_reachout",
+		"Hyunsu's earned number did not expose the authored message offer")
+	planner._focus_contact_offer("hyunsu_player_reachout")
+	_expect(planner._screen_mode == "app" \
+			and planner._active_app_id == "calendar" \
+			and planner._selected_offer_id == "hyunsu_player_reachout",
+		"Hyunsu's contact action did not route to its authored Calendar offer")
+
+	GameState.money = -310_000.0
+	planner._open_app("bank")
+	var bank_text := _collect_surface_text(planner)
+	surface_samples.append(bank_text)
+	_expect(bank_text.find(GameState.format_money(-310_000.0)) >= 0 \
+			and bank_text.to_lower().find("arrears") >= 0 \
+			and bank_text.find(GameState.format_money(310_000.0)) >= 0,
+		"Bank app did not show the live negative balance and arrears")
+
+	GameState.money = 500_000.0
+	GameState.turn = 12
+	planner._open_app("device")
+	var week_twelve_device_text := _collect_surface_text(planner)
+	surface_samples.append(week_twelve_device_text)
+	var locked_refurbished: Button = planner._device_buttons.get("refurbished")
+	_expect(is_instance_valid(locked_refurbished) \
+			and locked_refurbished.disabled \
+			and week_twelve_device_text.find("Available from week 13") >= 0,
+		"Device app did not keep the refurbished phone locked in week 12")
+
+	GameState.turn = 13
+	planner._open_app("device")
+	var available_refurbished: Button = planner._device_buttons.get("refurbished")
+	var money_before_preview := float(GameState.money)
+	var phone_before_preview: Dictionary = GameState.phone_state.duplicate(true)
+	_expect(is_instance_valid(available_refurbished) \
+			and not available_refurbished.disabled,
+		"refurbished phone was not available in week 13 with enough cash")
+	if is_instance_valid(available_refurbished) \
+			and not available_refurbished.disabled:
+		available_refurbished.pressed.emit()
+	var device_preview_text := _collect_surface_text(planner)
+	surface_samples.append(device_preview_text)
+	_expect(planner._screen_mode == "device_confirm" \
+			and planner._pending_device_id == "refurbished" \
+			and is_instance_valid(planner._device_confirm_button),
+		"first device action did not open the second-step purchase preview")
+	_expect(device_preview_text.find(GameState.format_money(180_000.0)) >= 0 \
+			and device_preview_text.find(GameState.format_money(320_000.0)) >= 0,
+		"device preview did not show the exact price and balance after")
+	_expect(is_equal_approx(float(GameState.money), money_before_preview) \
+			and GameState.phone_state == phone_before_preview,
+		"device purchase preview changed money or phone ownership")
+	planner._unhandled_input(cancel_event)
+	_expect(planner._screen_mode == "app" \
+			and planner._active_app_id == "device" \
+			and is_equal_approx(float(GameState.money), money_before_preview) \
+			and GameState.phone_state == phone_before_preview,
+		"East/ui_cancel did not leave the unpurchased device preview unchanged")
+
+	GameState.turn = 1
+	GameState.month = 1
+	GameState.week_of_month = 1
+	var committed := CORE_LOOP.commit_plan(
+		1, schedule, planner.routine_snapshot())
+	_expect(bool(committed.get("ok", false)),
+		"read-only phone fixture could not commit its month")
+	var committed_schedule: Dictionary = (
+		CORE_LOOP.plan_for_month(1).get("schedule", {}) as Dictionary
+	).duplicate(true)
+	var committed_routines: Dictionary = (
+		CORE_LOOP.plan_for_month(1).get("routines", {}) as Dictionary
+	).duplicate(true)
+	_expect(planner.open(1, true) and planner.read_only_plan() \
+			and planner.schedule_snapshot() == committed_schedule \
+			and planner.routine_snapshot() == committed_routines,
+		"phone did not reopen the saved month as an exact read-only plan")
+	planner._open_app("calendar")
+	_expect(planner._active_tab == 3 and not planner._confirm_button.visible,
+		"read-only Calendar did not open on its confirmed summary")
+	var read_only_scroll: VScrollBar = planner._app_scroll.get_v_scroll_bar()
+	if read_only_scroll.max_value > read_only_scroll.page + 0.5:
+		var scroll_before: int = planner._app_scroll.scroll_vertical
+		var down_event: InputEventAction = InputEventAction.new()
+		down_event.action = "ui_down"
+		down_event.pressed = true
+		planner._unhandled_input(down_event)
+		_expect(planner._app_scroll.scroll_vertical > scroll_before,
+			"read-only Calendar did not scroll from semantic Down input")
+	_expect(not planner.assign_offer_to_week("m1_phone_off_sunday", 1) \
+			and not planner.unassign_week(2) \
+			and not planner.select_routine("primary", "recovery") \
+			and planner.schedule_snapshot() == committed_schedule \
+			and planner.routine_snapshot() == committed_routines,
+		"read-only phone changed an immutable monthly promise")
+	planner._open_app("contacts")
+	var read_only_contacts := _collect_surface_text(planner)
+	_expect(read_only_contacts.find("IN CONFIRMED CALENDAR") >= 0 \
+			and read_only_contacts.find("MAKE TIME FOR THIS CALL") < 0 \
+			and read_only_contacts.find("MAKE TIME TO REACH OUT") < 0,
+		"read-only Contacts exposed a dead scheduling action")
+	planner._unhandled_input(cancel_event)
+	planner._unhandled_input(cancel_event)
+	_expect(not planner.visible,
+		"East/ui_cancel could not put away the reopened read-only phone")
+
+	var surface_text := "\n".join(surface_samples)
 	_expect(not _contains_hangul(surface_text),
-		"English planner leaked Hangul: %s" % surface_text)
+		"English phone surface leaked Hangul: %s" % surface_text)
 	for forbidden in [
 		"ACTION POINT", "AFFINITY", "MORAL", "행동력", "호감도", "도덕",
 	]:
 		_expect(surface_text.to_upper().find(forbidden.to_upper()) < 0,
 			"planner exposed hidden system language: %s" % forbidden)
-	planner._switch_tab(2)
-	var people_text := _collect_surface_text(planner)
-	_expect(people_text.find("Hyunsu") < 0,
-		"People tab revealed Hyunsu before the first meeting")
-	planner.free()
+	planner.queue_free()
+	await get_tree().process_frame
+	await get_tree().process_frame
 
 func _month_one_schedule() -> Dictionary:
 	return {
@@ -816,7 +1039,7 @@ func _collect_surface_text(root: Node) -> String:
 		var node: Node = stack.pop_back()
 		if node is CanvasItem and not (node as CanvasItem).is_visible_in_tree():
 			continue
-		if node is Label or node is Button:
+		if node is Label or node is Button or node is RichTextLabel:
 			chunks.append(str(node.text))
 		for child in node.get_children():
 			stack.append(child)
@@ -836,6 +1059,24 @@ func _contains_hangul(text: String) -> bool:
 	var regex := RegEx.new()
 	regex.compile("[가-힣ㄱ-ㅎㅏ-ㅣ]")
 	return regex.search(text) != null
+
+func _stop_test_audio() -> void:
+	for player_value in AudioManager.get("_pool"):
+		var player := player_value as AudioStreamPlayer
+		if player != null:
+			player.stop()
+			player.stream = null
+	BGMPlayer.stop()
+	for player_key in [
+		"_player_a", "_player_b", "_ambience_player", "_season_player",
+		"_human_ambience_player",
+	]:
+		var bgm_player := BGMPlayer.get(player_key) as AudioStreamPlayer
+		if bgm_player != null:
+			bgm_player.stop()
+			bgm_player.stream = null
+	await get_tree().process_frame
+	await get_tree().create_timer(0.08).timeout
 
 func _expect(condition: bool, message: String) -> void:
 	if not condition:

@@ -339,7 +339,7 @@
   },
   {
     "id": "story_first_savings_milestone",
-    "title": "I Opened My Bankbook",
+    "title": "The First Three Million Won",
     "description": "{name} opened the banking app and stopped at the balance. It had crossed three million won. This was the account that held only five hundred thousand when he came to Seoul.\n\nThere was no grand success in the transaction history: wages, transit, convenience-store meals, rent. The small differences left after eating, sleeping, working, and closing things he wanted to buy had accumulated one line at a time.\n\nGangnam seemed almost no closer. The starting balance, however, had finally been pushed below the visible part of the screen. For the first time, {name} could see that money protected was also distance traveled.",
     "choices": [
       {

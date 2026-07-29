@@ -490,6 +490,16 @@ func draw_narrative_bridge_event() -> Dictionary:
 		if not _is_event_eligible(event, true) or not _event_has_causal_context(event):
 			continue
 		eligible.append(event)
+	# Recurring survival reminders should keep the world alive, but they must
+	# not crowd out a newly eligible consequence of the player's prior choice.
+	# Use them only when no stronger causal callback can fire this week.
+	var fallback_ids: Array = rules.get("bridge_fallback_event_ids", [])
+	var primary: Array = []
+	for event in eligible:
+		if not fallback_ids.has(str((event as Dictionary).get("id", ""))):
+			primary.append(event)
+	if not primary.is_empty():
+		eligible = primary
 	return _weighted_pick(eligible)
 
 func _event_echo_families(event: Dictionary) -> Array:

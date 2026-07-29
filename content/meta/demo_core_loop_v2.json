@@ -76,6 +76,191 @@
     "visible_affinity_numbers": false,
     "visible_moral_values": false
   },
+  "phone": {
+    "schema_version": 2,
+    "home_grid": [4, 2],
+    "persistent_fields": [
+      "schema",
+      "current_device_id",
+      "owned_device_ids",
+      "purchase_receipts",
+      "favorite_app_id"
+    ],
+    "forbidden_state_mirrors": [
+      "turn",
+      "year",
+      "month",
+      "week_of_month",
+      "money",
+      "loans",
+      "market_prices",
+      "portfolio",
+      "relationships",
+      "cast"
+    ],
+    "app_order": [
+      "messages",
+      "calendar",
+      "contacts",
+      "bank",
+      "device",
+      "investment",
+      "leisure",
+      "games"
+    ],
+    "apps": {
+      "messages": {
+        "label_ko": "메시지",
+        "label_en": "Messages",
+        "availability": {
+          "kind": "always"
+        }
+      },
+      "calendar": {
+        "label_ko": "일정",
+        "label_en": "Calendar",
+        "availability": {
+          "kind": "always"
+        }
+      },
+      "contacts": {
+        "label_ko": "연락처",
+        "label_en": "Contacts",
+        "availability": {
+          "kind": "always"
+        }
+      },
+      "bank": {
+        "label_ko": "은행",
+        "label_en": "Banking",
+        "availability": {
+          "kind": "always"
+        }
+      },
+      "device": {
+        "label_ko": "기기",
+        "label_en": "Device",
+        "availability": {
+          "kind": "always"
+        }
+      },
+      "investment": {
+        "label_ko": "투자",
+        "label_en": "Investing",
+        "availability": {
+          "kind": "any_flag",
+          "flags": ["has_received_paycheck", "had_first_investment"]
+        }
+      },
+      "leisure": {
+        "label_ko": "여가",
+        "label_en": "Leisure",
+        "availability": {
+          "kind": "any_flag",
+          "flags": [
+            "racetrack_guide_met",
+            "racetrack_visited",
+            "holdem_visited",
+            "casino_club_introduced"
+          ]
+        }
+      },
+      "games": {
+        "label_ko": "게임",
+        "label_en": "Games",
+        "availability": {
+          "kind": "post_launch"
+        }
+      }
+    },
+    "device_order": ["starter", "refurbished", "midrange", "flagship"],
+    "devices": {
+      "starter": {
+        "label_ko": "오래된 보급폰",
+        "label_en": "Old Budget Phone",
+        "tier": 0,
+        "available_from_week": 1,
+        "price": 0,
+        "runtime_implemented": true,
+        "purchasable_in_demo": true,
+        "features": [
+          "essential_apps",
+          "calls",
+          "accessibility"
+        ]
+      },
+      "refurbished": {
+        "label_ko": "리퍼폰",
+        "label_en": "Refurbished Phone",
+        "tier": 1,
+        "available_from_week": 13,
+        "price": 180000,
+        "runtime_implemented": true,
+        "purchasable_in_demo": true,
+        "features": [
+          "essential_apps",
+          "calls",
+          "accessibility",
+          "home_favorite_app"
+        ]
+      },
+      "midrange": {
+        "label_ko": "중급폰",
+        "label_en": "Midrange Phone",
+        "tier": 2,
+        "available_from_week": 25,
+        "price": 550000,
+        "runtime_implemented": false,
+        "purchasable_in_demo": false,
+        "features": [
+          "essential_apps",
+          "calls",
+          "accessibility",
+          "home_favorite_app",
+          "multiple_shortcuts",
+          "price_alert",
+          "record_search",
+          "midrange_games"
+        ]
+      },
+      "flagship": {
+        "label_ko": "플래그십",
+        "label_en": "Flagship",
+        "tier": 3,
+        "available_from_week": 49,
+        "price": 1200000,
+        "runtime_implemented": false,
+        "purchasable_in_demo": false,
+        "features": [
+          "essential_apps",
+          "calls",
+          "accessibility",
+          "home_favorite_app",
+          "photo_notes",
+          "voice_notes",
+          "multiple_alerts",
+          "premium_games"
+        ]
+      }
+    },
+    "purchase_contract": {
+      "blocks_duplicate": true,
+      "blocks_downgrade": true,
+      "shows_balance_after": true,
+      "requires_available_week": true
+    },
+    "tier_neutrality": {
+      "unaffected_systems": [
+        "essential_apps",
+        "story_access",
+        "call_access",
+        "accessibility",
+        "investment_returns",
+        "gambling_odds",
+        "relationship_rewards"
+      ]
+    }
+  },
   "routine": {
     "background_ap_per_week": 2,
     "selection_cadence": "monthly",

@@ -19,6 +19,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-presence --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-audio --lang=en
+##       godot --rendering-driver opengl3 --resolution 1280x720 res://tools/ScreenshotQA.tscn -- --qa=story-dialogue-history --lang=ko
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-moral --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1920x1080 res://tools/ScreenshotQA.tscn -- --qa=living-scene --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1920x1080 res://tools/ScreenshotQA.tscn -- --qa=display-matrix --lang=en
@@ -109,6 +110,7 @@ const QA_SCOPE_I18N_LAYOUT := "i18n_layout"
 const QA_SCOPE_STORY_EN := "story_en"
 const QA_SCOPE_STORY_PRESENCE := "story_presence"
 const QA_SCOPE_STORY_AUDIO := "story_audio"
+const QA_SCOPE_STORY_DIALOGUE_HISTORY := "story_dialogue_history"
 const QA_SCOPE_STORY_MORAL := "story_moral"
 const QA_SCOPE_LIVING_SCENE := "living_scene"
 const QA_SCOPE_DISPLAY_MATRIX := "display_matrix"
@@ -389,6 +391,15 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_story_audio_settings(lang, "story_audio_en_" if lang == "en" else "story_audio_ko_")
 		print("SCREENSHOT_QA_DONE scope=story-audio lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_STORY_DIALOGUE_HISTORY:
+		var lang := _qa_language("ko")
+		await _shot_story_dialogue_history(lang)
+		if _qa_failed:
+			return
+		print("SCREENSHOT_QA_DONE scope=story-dialogue-history lang=%s dir=%s" % [
+			lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_STORY_MORAL:
@@ -818,6 +829,12 @@ func _qa_scope() -> String:
 		args.append(str(raw))
 	for raw in args:
 		var arg := raw.strip_edges().to_lower()
+		if arg in ["story-dialogue-history", "story_dialogue_history",
+				"--story-dialogue-history", "--story_dialogue_history",
+				"qa=story-dialogue-history", "--qa=story-dialogue-history",
+				"qa=story_dialogue_history", "--qa=story_dialogue_history",
+				"scope=story-dialogue-history", "--scope=story-dialogue-history"]:
+			return QA_SCOPE_STORY_DIALOGUE_HISTORY
 		if arg in ["core-loop-v2", "core_loop_v2", "--core-loop-v2", "--core_loop_v2",
 				"qa=core-loop-v2", "--qa=core-loop-v2", "qa=core_loop_v2",
 				"--qa=core_loop_v2", "scope=core-loop-v2", "--scope=core-loop-v2"]:
@@ -1277,60 +1294,346 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	_mg._core_loop_v2_open_planner(1)
 	await get_tree().process_frame
 	var planner = _mg._core_loop_planner
-	await _settle(0.35)
+	var reduce_phone_motion := bool(SaveManager.get_setting(
+		"reduce_motion", SaveManager.get_setting("reduced_motion", false)))
 	if not is_instance_valid(planner):
 		_fail("MainGame did not create the Core Loop V2 planner.")
+		return
+	if reduce_phone_motion:
+		if bool(planner._phone_animating) \
+				or absf(float(planner._phone_frame.rotation)) > 0.001:
+			_fail("Reduce Motion kept the phone's portrait-to-landscape rotation.")
+			return
+	elif not bool(planner._phone_animating) \
+			or float(planner._phone_frame.rotation) < 0.20:
+		_fail("Phone open did not begin camera-up in portrait orientation.")
+		return
+	await _settle(0.55)
+	var prefix := "core_loop_v2_%s_" % lang.replace("-", "_").to_lower()
+	var essential_apps: Array[String] = [
+		"messages", "calendar", "contacts", "bank", "device",
+	]
+	_assert_core_loop_v2_phone_home(
+		planner, essential_apps, "phone home")
+	if _qa_failed:
+		return
+	await _save(prefix + "01_phone_home", 0.15)
+
+	await _open_core_loop_v2_phone_app(
+		planner, "calendar", "calendar open")
+	if _qa_failed:
 		return
 	if planner._slot_buttons.size() != 4:
 		_fail("Core Loop V2 planner rendered %d week slots instead of four." % [
 			planner._slot_buttons.size()])
 		return
-	if _tree_contains_scroll_container(planner):
-		_fail("Core Loop V2 planner introduced a scroll container at %s." % get_window().size)
-		return
-	var focus_owner := get_viewport().gui_get_focus_owner()
-	if focus_owner == null or not planner.is_ancestor_of(focus_owner):
-		_fail("Core Loop V2 planner opened without keyboard/controller focus.")
-		return
-	var prefix := "core_loop_v2_%s_" % lang.replace("-", "_").to_lower()
-	_assert_core_loop_v2_planner_bounds(planner, "calendar open")
-	if _qa_failed:
-		return
-	await _save(prefix + "01_calendar_open", 0.15)
+	await _save(prefix + "02_phone_calendar_open", 0.15)
 	planner.assign_offer_to_week("m1_mirae_application", 1)
 	planner.assign_offer_to_week("father_first_call", 2)
 	planner.assign_offer_to_week("hyunsu_first_meet", 3)
 	if planner.schedule_snapshot().size() != 4:
 		_fail("Core Loop V2 visual fixture could not fill all four weeks.")
 		return
-	await _save(prefix + "02_calendar_planned", 0.15)
-	planner._switch_tab(0)
-	await get_tree().process_frame
-	_assert_core_loop_v2_planner_bounds(planner, "messages")
+	var complete_schedule: Dictionary = planner.schedule_snapshot()
+	await _send_route_raw_gamepad_button(JOY_BUTTON_B)
+	await _settle(0.08)
+	if str(planner._screen_mode) != "home" \
+			or planner.schedule_snapshot() != complete_schedule:
+		_fail("Phone East did not return home with the four-week schedule intact.")
+		return
+	_assert_core_loop_v2_phone_home(
+		planner, essential_apps, "home after East")
 	if _qa_failed:
 		return
-	await _save(prefix + "03_messages", 0.15)
-	planner._switch_tab(2)
-	await get_tree().process_frame
-	_assert_core_loop_v2_planner_bounds(planner, "people")
+	await _open_core_loop_v2_phone_app(
+		planner, "calendar", "calendar West task")
 	if _qa_failed:
 		return
-	await _save(prefix + "04_people", 0.15)
-	planner._switch_tab(3)
+	planner._select_week(2)
+	var removable_slot: Button = planner._slot_buttons.get("2")
+	if not is_instance_valid(removable_slot) or removable_slot.disabled:
+		_fail("Core Loop V2 calendar has no removable week-two slot.")
+		return
+	removable_slot.grab_focus()
+	await _send_route_raw_gamepad_button(JOY_BUTTON_X)
+	await _settle(0.08)
+	if planner.schedule_snapshot().has("2") \
+			or planner.schedule_snapshot().size() != 3:
+		_fail("Phone West did not remove only the selected calendar entry.")
+		return
+	if not planner.assign_offer_to_week("father_first_call", 2) \
+			or planner.schedule_snapshot() != complete_schedule:
+		_fail("Core Loop V2 calendar could not restore the West-removed entry.")
+		return
+	_assert_core_loop_v2_phone_surface(planner, "calendar planned")
+	if _qa_failed:
+		return
+	await _save(prefix + "03_phone_calendar_planned", 0.15)
+
+	await _open_core_loop_v2_phone_app(
+		planner, "messages", "messages")
+	if _qa_failed:
+		return
+	await _save(prefix + "04_phone_messages", 0.15)
+	var message_grid: Node = planner._read_only_surface.get_child(1) \
+		if planner._read_only_surface.get_child_count() > 1 else null
+	var first_thread: Button = (
+		(message_grid as GridContainer).get_child(0) as Button
+		if message_grid is GridContainer \
+			and (message_grid as GridContainer).get_child_count() > 0 else null
+	)
+	if not is_instance_valid(first_thread):
+		_fail("Messages did not expose a focusable conversation row.")
+		return
+	first_thread.grab_focus()
+	await _send_route_raw_gamepad_button(JOY_BUTTON_A)
+	await _settle(0.12)
+	if str(planner._screen_mode) != "message_thread":
+		_fail("South on a message did not open the conversation bubbles.")
+		return
+	await _save(prefix + "04b_phone_message_thread", 0.15)
+	await _send_route_raw_gamepad_button(JOY_BUTTON_B)
+	await _settle(0.08)
+	if str(planner._screen_mode) != "app" \
+			or str(planner._active_app_id) != "messages":
+		_fail("East did not return from a conversation to the Messages inbox.")
+		return
+	await _open_core_loop_v2_phone_app(
+		planner, "contacts", "contacts")
+	if _qa_failed:
+		return
+	var contacts_text := _collect_control_text(planner._read_only_surface)
+	if LocaleManager.ui("아버지", "Father") not in contacts_text:
+		_fail("Core Loop V2 Contacts omitted Father's saved number.")
+		return
+	await _save(prefix + "05_phone_contacts", 0.15)
+	await _open_core_loop_v2_phone_app(
+		planner, "bank", "bank")
+	if _qa_failed:
+		return
+	var bank_text := _collect_control_text(planner._read_only_surface)
+	for live_amount in [
+		GameState.format_money(GameState.money),
+		GameState.format_money(GameState.get_monthly_required_cash()),
+	]:
+		if live_amount not in bank_text:
+			_fail("Core Loop V2 Bank omitted live amount %s." % live_amount)
+			return
+	await _save(prefix + "06_phone_bank", 0.15)
+
+	var phone_system = load("res://systems/PhoneSystem.gd")
+	var fixture_turn := int(GameState.turn)
+	var fixture_year := int(GameState.year)
+	var fixture_month := int(GameState.month)
+	var fixture_week := int(GameState.week_of_month)
+	var fixture_money := float(GameState.money)
+	var fixture_phone_state: Dictionary = GameState.phone_state.duplicate(true)
+	var fixture_flags: Dictionary = GameState.flags.duplicate(true)
+	var fixture_portfolio: Dictionary = GameState.portfolio.duplicate(true)
+	var fixture_market_prices: Dictionary = GameState.market_prices.duplicate(true)
+	GameState.turn = 12
+	GameState.month = 3
+	GameState.week_of_month = 4
+	await _open_core_loop_v2_phone_app(
+		planner, "device", "device week 12 locked")
+	if _qa_failed:
+		return
+	var locked_check: Dictionary = phone_system.can_purchase_device("refurbished")
+	var locked_device_button: Button = planner._device_buttons.get("refurbished")
+	if str(locked_check.get("reason", "")) != "not_yet_available" \
+			or not is_instance_valid(locked_device_button) \
+			or not locked_device_button.disabled:
+		_fail("Refurbished phone was not visibly locked through week 12.")
+		return
+	await _save(prefix + "07_phone_device_week12_locked", 0.15)
+
+	GameState.turn = 13
+	GameState.month = 4
+	GameState.week_of_month = 1
+	await _send_route_raw_gamepad_button(JOY_BUTTON_B)
+	await _settle(0.08)
+	await _open_core_loop_v2_phone_app(
+		planner, "device", "device week 13")
+	if _qa_failed:
+		return
+	var available_check: Dictionary = phone_system.can_purchase_device("refurbished")
+	var refurbished_button: Button = planner._device_buttons.get("refurbished")
+	if not bool(available_check.get("ok", false)) \
+			or float(available_check.get("price", 0.0)) != 180_000.0 \
+			or not is_instance_valid(refurbished_button) \
+			or refurbished_button.disabled:
+		_fail("Refurbished phone did not unlock for exactly 180,000 won at week 13.")
+		return
+	var balance_before_device := float(GameState.money)
+	refurbished_button.grab_focus()
+	await _send_route_raw_gamepad_button(JOY_BUTTON_A)
+	await _settle(0.08)
+	if str(planner._screen_mode) != "device_confirm" \
+			or float(GameState.money) != balance_before_device \
+			or str(phone_system.current_device().get("id", "")) != "starter" \
+			or not is_instance_valid(planner._device_confirm_button):
+		_fail("First South on the refurbished phone charged money before confirmation.")
+		return
+	_assert_core_loop_v2_phone_surface(planner, "device purchase confirmation")
+	if _qa_failed:
+		return
+	await _save(prefix + "08_phone_device_purchase_confirm", 0.15)
+	await _send_route_raw_gamepad_button(JOY_BUTTON_B)
+	await _settle(0.08)
+	if str(planner._screen_mode) != "app" \
+			or str(planner._active_app_id) != "device" \
+			or float(GameState.money) != balance_before_device \
+			or str(phone_system.current_device().get("id", "")) != "starter":
+		_fail("Phone East did not cancel the pending device purchase without charging.")
+		return
+	refurbished_button = planner._device_buttons.get("refurbished")
+	refurbished_button.grab_focus()
+	await _send_route_raw_gamepad_button(JOY_BUTTON_A)
+	await _settle(0.08)
+	var purchase_confirm: Button = planner._device_confirm_button
+	if not is_instance_valid(purchase_confirm):
+		_fail("Second device confirmation screen did not expose its purchase button.")
+		return
+	purchase_confirm.grab_focus()
+	await _send_route_raw_gamepad_button(JOY_BUTTON_A)
+	await _settle(0.12)
+	var expected_after_purchase := balance_before_device - 180_000.0
+	if absf(float(GameState.money) - expected_after_purchase) > 0.001 \
+			or str(phone_system.current_device().get("id", "")) != "refurbished" \
+			or not str(phone_system.favorite_app_id()).is_empty() \
+			or GameState.format_money(expected_after_purchase) \
+				not in str(planner._device_feedback):
+		_fail("Confirmed phone purchase changed an unchosen favorite or lost its exact balance.")
+		return
+	if not is_instance_valid(planner._favorite_cycle_button):
+		_fail("Refurbished phone did not expose its implemented first-home-app control.")
+		return
+	planner._favorite_cycle_button.grab_focus()
+	await _send_route_raw_gamepad_button(JOY_BUTTON_A)
+	await _settle(0.08)
+	if not is_instance_valid(planner._favorite_cycle_button):
+		_fail("Favorite selection rebuild lost its Device control.")
+		return
+	planner._favorite_cycle_button.grab_focus()
+	await _send_route_raw_gamepad_button(JOY_BUTTON_A)
+	await _settle(0.08)
+	if str(phone_system.favorite_app_id()) != "calendar" \
+			or str(phone_system.home_app_ids()[0]) != "calendar" \
+			or str(phone_system.visible_app_ids()[0]) != "messages":
+		_fail("Refurbished phone could not change and reorder its first home app.")
+		return
+	_assert_core_loop_v2_phone_surface(planner, "refurbished device")
+	if _qa_failed:
+		return
+	await _save(prefix + "09_phone_device_refurbished", 0.15)
+	await _open_core_loop_v2_phone_app(
+		planner, "bank", "bank after device purchase")
+	if _qa_failed:
+		return
+	if GameState.format_money(expected_after_purchase) \
+			not in _collect_control_text(planner._read_only_surface):
+		_fail("Bank did not refresh to the exact post-device balance.")
+		return
+	await _save(prefix + "10_phone_bank_after_device", 0.15)
+
+	GameState.flags["has_received_paycheck"] = true
+	GameState.flags["racetrack_guide_met"] = true
+	GameState.portfolio = {
+		"samsung": {"quantity": 2.0, "avg_price": 70_000.0},
+	}
+	GameState.market_prices["samsung"] = 75_000.0
+	await _send_route_raw_gamepad_button(JOY_BUTTON_B)
+	await _settle(0.08)
+	var conditional_apps: Array[String] = [
+		"messages", "calendar", "contacts", "bank", "device",
+		"investment", "leisure",
+	]
+	_assert_core_loop_v2_phone_home(
+		planner, conditional_apps, "conditional phone home")
+	if _qa_failed:
+		return
+	await _save(prefix + "11_phone_home_conditional_apps", 0.15)
+	await _open_core_loop_v2_phone_app(
+		planner, "investment", "investment")
+	if _qa_failed:
+		return
+	var investment_text := _collect_control_text(planner._read_only_surface)
+	for market_amount in [
+		GameState.format_money(GameState.money),
+		GameState.format_money(150_000.0),
+		GameState.format_money(75_000.0),
+	]:
+		if market_amount not in investment_text:
+			_fail("Investment app omitted live amount %s." % market_amount)
+			return
+	await _save(prefix + "12_phone_investment", 0.15)
+	await _open_core_loop_v2_phone_app(
+		planner, "leisure", "leisure")
+	if _qa_failed:
+		return
+	if LocaleManager.ui("경마장", "Racecourse") \
+			not in _collect_control_text(planner._read_only_surface):
+		_fail("Leisure app omitted the actually discovered racecourse.")
+		return
+	await _save(prefix + "13_phone_leisure", 0.15)
+
+	var flagship_fixture: Dictionary = GameState.phone_state.duplicate(true)
+	flagship_fixture["current_device_id"] = "flagship"
+	var flagship_owned: Array = (
+		flagship_fixture.get("owned_device_ids", []) as Array).duplicate()
+	if not flagship_owned.has("flagship"):
+		flagship_owned.append("flagship")
+	flagship_fixture["owned_device_ids"] = flagship_owned
+	GameState.phone_state = flagship_fixture
+	planner._show_home()
 	await get_tree().process_frame
+	_assert_core_loop_v2_phone_home(
+		planner, conditional_apps, "flagship phone home")
+	if _qa_failed:
+		return
+	_assert_core_loop_v2_phone_surface(planner, "flagship material")
+	if _qa_failed:
+		return
+	await _save(prefix + "13b_phone_home_flagship", 0.15)
+
+	GameState.turn = fixture_turn
+	GameState.year = fixture_year
+	GameState.month = fixture_month
+	GameState.week_of_month = fixture_week
+	GameState.money = fixture_money
+	GameState.phone_state = fixture_phone_state
+	GameState.flags = fixture_flags
+	GameState.portfolio = fixture_portfolio
+	GameState.market_prices = fixture_market_prices
+	planner._show_home()
+	await get_tree().process_frame
+	await _open_core_loop_v2_phone_app(
+		planner, "calendar", "calendar before record")
+	if _qa_failed:
+		return
+	await _send_route_raw_gamepad_button(JOY_BUTTON_RIGHT_SHOULDER)
+	await _settle(0.08)
+	if planner._active_tab != 3:
+		_fail("Calendar RB did not open the in-app month summary.")
+		return
 	var growth_button: Button = planner._routine_buttons.get("primary:growth")
 	if not is_instance_valid(growth_button):
 		_fail("Core Loop V2 record tab did not expose the primary Growth routine.")
 		return
 	growth_button.grab_focus()
 	await _send_route_raw_gamepad_button(JOY_BUTTON_A)
+	await _settle(0.08)
 	if str(planner.routine_snapshot().get("primary", "")) != "growth":
 		_fail("Raw gamepad South did not select the primary Growth routine.")
 		return
 	var rebuilt_growth: Button = planner._routine_buttons.get("primary:growth")
+	var rebuilt_focus_owner := get_viewport().gui_get_focus_owner()
 	if not is_instance_valid(rebuilt_growth) \
-			or get_viewport().gui_get_focus_owner() != rebuilt_growth:
-		_fail("Routine selection rebuild lost gamepad focus.")
+			or rebuilt_focus_owner != rebuilt_growth:
+		_fail("Routine selection rebuild lost gamepad focus: expected=%s actual=%s." % [
+			str(rebuilt_growth),
+			str(rebuilt_focus_owner),
+		])
 		return
 	var livelihood_button: Button = planner._routine_buttons.get("primary:livelihood")
 	livelihood_button.grab_focus()
@@ -1344,12 +1647,15 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	_assert_core_loop_v2_record_names(planner, core_loop, lang)
 	if _qa_failed:
 		return
-	_assert_core_loop_v2_planner_bounds(planner, "record")
+	_assert_core_loop_v2_phone_surface(planner, "calendar record")
 	if _qa_failed:
 		return
-	await _save(prefix + "05_record", 0.15)
-	planner._switch_tab(1)
-	await get_tree().process_frame
+	await _save(prefix + "14_phone_calendar_record", 0.15)
+	await _send_route_raw_gamepad_button(JOY_BUTTON_LEFT_SHOULDER)
+	await _settle(0.08)
+	if planner._active_tab != 1:
+		_fail("Calendar LB did not return from summary to the editable plan.")
+		return
 	planner._confirm_button.grab_focus()
 	await _press_qa_action("ui_accept")
 	await _settle(0.12)
@@ -1365,7 +1671,7 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	_assert_core_loop_v2_planner_bounds(planner, "pre-commit review")
 	if _qa_failed:
 		return
-	await _save(prefix + "06_commit_review", 0.15)
+	await _save(prefix + "15_phone_plan_review", 0.15)
 	await _press_qa_action("ui_cancel")
 	await _settle(0.12)
 	if planner.review_pending() or planner._active_tab != 1 \
@@ -1392,8 +1698,75 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	if not GameState.has_weekly_commitment_for_turn(1):
 		_fail("Core Loop V2 application did not write the week-one transaction.")
 		return
+	if _mg._core_loop_v2_open_phone() or planner.visible:
+		_fail("Phone opened while result typing could still steal its focus.")
+		return
 	_mg._finish_typing()
-	await _save(prefix + "07_first_week_application", 0.15)
+	await _save(prefix + "16_first_week_application", 0.15)
+	var committed_schedule: Dictionary = (
+		core_loop.plan_for_month(1).get("schedule", {}) as Dictionary
+	).duplicate(true)
+	var phone_return_focus := get_viewport().gui_get_focus_owner() as Control
+	if not is_instance_valid(phone_return_focus) \
+			or planner.is_ancestor_of(phone_return_focus):
+		_fail("Gameplay exposed no focus target to restore after closing the phone.")
+		return
+	_mg.info_panel.visible = true
+	if _mg._core_loop_v2_open_phone() or planner.visible \
+			or not _mg.info_panel.visible:
+		_fail("Phone opened over the Info panel and destroyed its input context.")
+		return
+	_mg.info_panel.visible = false
+	await _send_route_raw_gamepad_button(JOY_BUTTON_Y)
+	await _settle(0.12)
+	if not planner.visible or not planner.read_only_plan() \
+			or planner.schedule_snapshot() != committed_schedule \
+			or str(planner._screen_mode) != "app" \
+			or str(planner._active_app_id) != "calendar" \
+			or planner._active_tab != 3 \
+			or not is_instance_valid(_mg._main_ui_root) \
+			or not _mg._main_ui_root.visible:
+		_fail(
+			"Y did not reopen the committed month at its last app as a read-only overlay.")
+		return
+	await _open_core_loop_v2_phone_app(
+		planner, "calendar", "reopened confirmed calendar")
+	if _qa_failed:
+		return
+	if planner._active_tab != 3 or planner._confirm_button.visible \
+			or planner.unassign_week(2) \
+			or planner.schedule_snapshot() != committed_schedule:
+		_fail("Reopened Calendar exposed an edit path for the confirmed month.")
+		return
+	await _save(prefix + "16b_phone_reopened_read_only", 0.15)
+	await _send_route_raw_gamepad_button(JOY_BUTTON_B)
+	await _settle(0.05)
+	var remembered_home_focus: Button = planner._app_buttons.get("bank")
+	if not is_instance_valid(remembered_home_focus):
+		_fail("Phone home omitted the Bank focus target before close.")
+		return
+	remembered_home_focus.grab_focus()
+	await _send_route_raw_gamepad_button(JOY_BUTTON_B)
+	await _settle(0.08)
+	if planner.visible or not _mg._main_ui_root.visible \
+			or get_viewport().gui_get_focus_owner() != phone_return_focus:
+		_fail(
+			"East did not put away the reopened phone and restore exact gameplay focus.")
+		return
+	await _send_route_raw_gamepad_button(JOY_BUTTON_Y)
+	await _settle(0.12)
+	var reopened_bank_focus: Button = planner._app_buttons.get("bank")
+	if not planner.visible or str(planner._screen_mode) != "home" \
+			or not is_instance_valid(reopened_bank_focus) \
+			or get_viewport().gui_get_focus_owner() != reopened_bank_focus:
+		_fail("Phone did not restore its last home app focus on same-scene reopen.")
+		return
+	await _send_route_raw_gamepad_button(JOY_BUTTON_B)
+	await _settle(0.08)
+	if planner.visible \
+			or get_viewport().gui_get_focus_owner() != phone_return_focus:
+		_fail("Second phone close did not restore exact gameplay focus.")
+		return
 	var density_state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
 	var completed_for_density: Array = density_state.get("completed_bundles", [])
 	if not completed_for_density.has("hyunsu_first_meet"):
@@ -1402,34 +1775,54 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	var density_stages: Dictionary = density_state.get("relationship_stages", {})
 	density_stages["hyunsu"] = "opening"
 	density_state["relationship_stages"] = density_stages
+	var density_memories: Array = density_state.get("relationship_memories", [])
+	if not density_memories.any(func(raw_memory):
+			return raw_memory is Dictionary \
+				and str((raw_memory as Dictionary).get("character", "")) == "hyunsu" \
+				and str((raw_memory as Dictionary).get("memory", "")) \
+					== "hyunsu_honest_uncertainty"):
+		density_memories.append({
+			"character": "hyunsu",
+			"memory": "hyunsu_honest_uncertainty",
+			"bundle_id": "hyunsu_first_meet",
+			"turn": 3,
+		})
+	density_state["relationship_memories"] = density_memories
 	GameState.core_loop_v2_state = density_state
 	core_loop.process_due_decline_outcomes(1)
 	planner.open(2)
-	planner._switch_tab(0)
-	await get_tree().process_frame
+	await _settle(0.55)
 	if core_loop.available_offer_ids(2).size() != 7:
 		_fail("Core Loop V2 month-two density fixture did not expose all seven messages.")
 		return
-	_assert_core_loop_v2_planner_bounds(planner, "seven-message month")
+	await _open_core_loop_v2_phone_app(
+		planner, "messages", "seven-message month")
 	if _qa_failed:
 		return
-	await _save(prefix + "08_month_two_messages", 0.15)
+	await _save(prefix + "17_phone_month_two_messages", 0.15)
 	planner.close()
 	if not _seed_core_loop_v2_month_three_density(core_loop):
-		_fail("Core Loop V2 month-three density fixture could not be prepared.")
+		_fail("Core Loop V2 month-three density fixture could not be prepared: "
+			+ "offers=%d receipts=%d." % [
+				core_loop.available_offer_ids(3).size(),
+				core_loop.decline_receipts_for_month(3).size(),
+			])
 		return
 	planner.open(3)
-	await get_tree().process_frame
+	await _settle(0.55)
 	if core_loop.available_offer_ids(3).size() != 7 \
 			or planner._offer_buttons.size() != 7:
 		_fail("Core Loop V2 month three did not expose its seven eligible opportunities.")
 		return
-	_assert_core_loop_v2_planner_bounds(planner, "month-three seven-offer calendar")
+	await _open_core_loop_v2_phone_app(
+		planner, "calendar", "month-three seven-offer calendar")
 	if _qa_failed:
 		return
-	await _save(prefix + "09_month_three_calendar", 0.15)
-	planner._switch_tab(0)
-	await get_tree().process_frame
+	await _save(prefix + "18_phone_month_three_calendar", 0.15)
+	await _open_core_loop_v2_phone_app(
+		planner, "messages", "month-three ten-message surface")
+	if _qa_failed:
+		return
 	var month_three_message_grid: Node = null
 	if planner._read_only_surface.get_child_count() > 1:
 		month_three_message_grid = planner._read_only_surface.get_child(1)
@@ -1437,10 +1830,11 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 			or (month_three_message_grid as GridContainer).get_child_count() != 10:
 		_fail("Core Loop V2 month-three message surface did not render 7 offers plus 3 due receipts.")
 		return
-	_assert_core_loop_v2_planner_bounds(planner, "month-three ten-message surface")
+	_assert_core_loop_v2_phone_surface(
+		planner, "month-three ten-message surface")
 	if _qa_failed:
 		return
-	await _save(prefix + "10_month_three_messages", 0.15)
+	await _save(prefix + "19_phone_month_three_messages", 0.15)
 	planner.close()
 	var month_fixture := {
 		"month": 1,
@@ -1475,7 +1869,7 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	if not month_viewport.encloses(_mg.modal_panel.get_global_rect()):
 		_fail("Core Loop V2 month-end notebook exceeds %s." % month_viewport)
 		return
-	await _save(prefix + "11_month_end_notebook", 0.15)
+	await _save(prefix + "20_month_end_notebook", 0.15)
 	_mg._close_modal(false)
 	await _dispose_main_game()
 
@@ -1525,7 +1919,7 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	if expected_boundary not in recap_text:
 		_fail("Core Loop V2 recap does not expose the dynamic week-12 boundary.")
 		return
-	await _save(prefix + "12_twelve_week_recap", 0.15)
+	await _save(prefix + "21_twelve_week_recap", 0.15)
 	await _dispose_main_game()
 
 	await _boot_main_game()
@@ -1558,7 +1952,7 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	if dense_boundary not in _collect_control_text(_mg.modal_layer):
 		_fail("24-week recap density fixture lost its week-25 boundary.")
 		return
-	await _save(prefix + "13_twenty_four_week_recap", 0.15)
+	await _save(prefix + "22_twenty_four_week_recap", 0.15)
 	await _dispose_main_game()
 
 	_seed_core_loop_v2_legacy_eight_week_save(core_loop)
@@ -1577,10 +1971,13 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 				"completed_through_week", 0)) != 8:
 		_fail("Legacy week-eight migration was mistaken for the current week-twelve boundary.")
 		return
-	_assert_core_loop_v2_planner_bounds(planner, "legacy save month-three continuation")
+	_assert_core_loop_v2_phone_home(
+		planner, [
+			"messages", "calendar", "contacts", "bank", "device",
+		], "legacy save month-three continuation")
 	if _qa_failed:
 		return
-	await _save(prefix + "14_legacy_week_eight_continues", 0.15)
+	await _save(prefix + "23_legacy_phone_home", 0.15)
 	await _dispose_main_game()
 
 	GameState.start_new_game()
@@ -1642,6 +2039,27 @@ func _seed_core_loop_v2_month_three_density(core_loop: Variant) -> bool:
 	if not initiated.has("hyunsu"):
 		initiated.append("hyunsu")
 	state["player_initiated"] = initiated
+	var memories: Array = state.get("relationship_memories", [])
+	for memory_spec in [
+		["father", "father_wellbeing_returned", "father_first_call", 2],
+		["hyunsu", "hyunsu_honest_uncertainty", "hyunsu_first_meet", 3],
+		["hyunsu", "hyunsu_resume_shared", "hyunsu_player_reachout", 6],
+	]:
+		var character_id := str(memory_spec[0])
+		var memory_id := str(memory_spec[1])
+		var already_recorded := memories.any(func(raw_memory):
+			return raw_memory is Dictionary \
+				and str((raw_memory as Dictionary).get("character", "")) \
+					== character_id \
+				and str((raw_memory as Dictionary).get("memory", "")) == memory_id)
+		if not already_recorded:
+			memories.append({
+				"character": character_id,
+				"memory": memory_id,
+				"bundle_id": str(memory_spec[2]),
+				"turn": int(memory_spec[3]),
+			})
+	state["relationship_memories"] = memories
 	var receipts: Array = []
 	for raw_receipt in state.get("decline_receipts", []):
 		if raw_receipt is Dictionary \
@@ -1760,7 +2178,7 @@ func _seed_core_loop_v2_completion_fixture(core_loop: Variant) -> bool:
 						return false
 				elif bundle_id == "hyunsu_player_reachout":
 					if not core_loop.note_story_choice(
-							"v2_hyunsu_player_reachout", 0):
+							"v2_hyunsu_first_study", 0):
 						return false
 				elif bundle_id == "daeun_world_meet":
 					if not core_loop.note_story_choice(
@@ -1944,15 +2362,112 @@ func _assert_core_loop_v2_debug_entry(lang: String) -> void:
 	_remove_start_menu_nodes()
 	await _settle(0.2)
 
-func _tree_contains_scroll_container(root: Node) -> bool:
-	var stack: Array[Node] = [root]
-	while not stack.is_empty():
-		var node: Node = stack.pop_back()
-		if node is ScrollContainer:
-			return true
-		for child in node.get_children():
-			stack.append(child)
-	return false
+func _assert_core_loop_v2_phone_surface(
+		planner: Control, context: String) -> void:
+	var app_scroll := planner._app_scroll as ScrollContainer
+	if not is_instance_valid(app_scroll) \
+			or app_scroll.horizontal_scroll_mode != ScrollContainer.SCROLL_MODE_DISABLED \
+			or not app_scroll.follow_focus:
+		_fail("Core Loop V2 phone lost its focus-following vertical app viewport on %s." % context)
+		return
+	_assert_core_loop_v2_planner_bounds(planner, context)
+	if _qa_failed:
+		return
+	var frame := planner._phone_frame as Control
+	var viewport_rect := get_viewport().get_visible_rect()
+	if not is_instance_valid(frame) or not frame.is_visible_in_tree() \
+			or not viewport_rect.encloses(frame.get_global_rect()):
+		_fail("Core Loop V2 %s lost its physical phone frame inside %s." % [
+			context, viewport_rect])
+		return
+	var available_size := Vector2(
+		maxf(480.0, viewport_rect.size.x - 48.0),
+		maxf(320.0, viewport_rect.size.y - 48.0))
+	var expected_width := minf(1180.0, available_size.x)
+	var phone_aspect := float(planner._phone_frame_aspect)
+	var expected_height := expected_width / phone_aspect
+	if expected_height > available_size.y:
+		expected_height = available_size.y
+		expected_width = expected_height * phone_aspect
+	var expected_size := Vector2(expected_width, expected_height)
+	if frame.size.distance_to(expected_size) > 2.0:
+		_fail("Core Loop V2 %s phone frame is %s instead of %s." % [
+			context, frame.size, expected_size])
+		return
+	var shell := planner._phone_frame_texture as TextureRect
+	var device_id := str(load(
+		"res://systems/PhoneSystem.gd").current_device().get("id", "starter"))
+	var expected_shell := "res://assets/ui/phone/phone_frame_refurbished.png"
+	if device_id == "starter":
+		expected_shell = "res://assets/ui/phone/phone_frame_starter.png"
+	elif device_id == "flagship":
+		expected_shell = "res://assets/ui/phone/phone_frame_flagship.png"
+	if not is_instance_valid(shell) or not is_instance_valid(shell.texture) \
+			or shell.texture.resource_path != expected_shell:
+		_fail("Core Loop V2 %s uses the wrong physical shell for %s: %s." % [
+			context, device_id,
+			shell.texture.resource_path if is_instance_valid(shell) \
+				and is_instance_valid(shell.texture) else "<missing>",
+		])
+		return
+	var expected_date: String = str(GameState.get_date_string())
+	if str(planner._status_date_label.text) != expected_date \
+			or "LTE" not in str(planner._status_balance_label.text):
+		_fail("Core Loop V2 %s status bar is stale: date=%s network=%s." % [
+			context,
+			str(planner._status_date_label.text),
+			str(planner._status_balance_label.text),
+		])
+		return
+	var focus_owner := get_viewport().gui_get_focus_owner()
+	if not is_instance_valid(focus_owner) \
+			or not planner.is_ancestor_of(focus_owner) \
+			or not (focus_owner as Control).is_visible_in_tree():
+		_fail("Core Loop V2 %s has no visible phone focus owner." % context)
+
+func _assert_core_loop_v2_phone_home(
+		planner: Control, expected_apps: Array[String],
+		context: String) -> void:
+	if str(planner._screen_mode) != "home":
+		_fail("Core Loop V2 %s is not the phone home screen." % context)
+		return
+	var app_buttons: Dictionary = planner._app_buttons
+	if app_buttons.size() != expected_apps.size():
+		_fail("Core Loop V2 %s exposed %d apps instead of %d: %s." % [
+			context, app_buttons.size(), expected_apps.size(),
+			str(app_buttons.keys())])
+		return
+	for app_id in expected_apps:
+		var button: Button = app_buttons.get(app_id)
+		if not is_instance_valid(button) or not button.is_visible_in_tree():
+			_fail("Core Loop V2 %s is missing the visible %s app." % [
+				context, app_id])
+			return
+	if app_buttons.has("games"):
+		_fail("Core Loop V2 %s exposed the post-launch Games app." % context)
+		return
+	_assert_core_loop_v2_phone_surface(planner, context)
+
+func _open_core_loop_v2_phone_app(
+		planner: Control, app_id: String, context: String) -> void:
+	if str(planner._screen_mode) != "home":
+		await _send_route_raw_gamepad_button(JOY_BUTTON_B)
+		await _settle(0.08)
+	if str(planner._screen_mode) != "home":
+		_fail("Core Loop V2 could not return home before opening %s." % app_id)
+		return
+	var app_button: Button = planner._app_buttons.get(app_id)
+	if not is_instance_valid(app_button) or app_button.disabled:
+		_fail("Core Loop V2 phone home cannot open %s." % app_id)
+		return
+	app_button.grab_focus()
+	await _send_route_raw_gamepad_button(JOY_BUTTON_A)
+	await _settle(0.08)
+	if str(planner._screen_mode) != "app" \
+			or str(planner._active_app_id) != app_id:
+		_fail("Core Loop V2 phone did not open the %s app." % app_id)
+		return
+	_assert_core_loop_v2_phone_surface(planner, context)
 
 func _assert_core_loop_v2_planner_bounds(planner: Control, context: String) -> void:
 	var viewport_rect := get_viewport().get_visible_rect()
@@ -1963,6 +2478,16 @@ func _assert_core_loop_v2_planner_bounds(planner: Control, context: String) -> v
 			var control := node as Control
 			if control.is_visible_in_tree() and control.size.x > 0.5 and control.size.y > 0.5:
 				var rect := control.get_global_rect()
+				var ancestor := control.get_parent()
+				while ancestor != null and ancestor != planner:
+					if ancestor is ScrollContainer:
+						rect = rect.intersection(
+							(ancestor as ScrollContainer).get_global_rect())
+					ancestor = ancestor.get_parent()
+				if rect.size.x <= 0.5 or rect.size.y <= 0.5:
+					for child in node.get_children():
+						stack.append(child)
+					continue
 				if rect.position.x < viewport_rect.position.x - 1.0 \
 						or rect.position.y < viewport_rect.position.y - 1.0 \
 						or rect.end.x > viewport_rect.end.x + 1.0 \
@@ -5857,6 +6382,173 @@ func _shot_story_presence_surfaces(lang: String = "en", prefix: String = "presen
 	await _shot_story_event("arc_father_02_signal", prefix + "05_local_message", "", 0.55, true)
 	await _shot_story_event("callback_sangchul_personal_echo", prefix + "06_memory_inset", "", 0.55, true)
 	await _shot_story_event("arc_sangchul_confrontation", prefix + "07_in_person_full_portrait", "", 0.55, true)
+
+func _shot_story_dialogue_history(lang: String = "ko") -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	_prepare_story_event_fixture("story_prologue_dad")
+	GameState.story_replay_mode = true
+	GameState.pending_story_queue = ["story_prologue_dad"]
+	var packed := load("res://scenes/StoryMode.tscn") as PackedScene
+	var story := packed.instantiate() as Control
+	get_tree().root.add_child.call_deferred(story)
+	await get_tree().process_frame
+	await _settle(0.25)
+	story.call("_set_auto_mode", false, false, false)
+	for _step in range(80):
+		if bool(story.get("_showing_choices")):
+			break
+		if bool(story.get("_typing")):
+			story.call("_complete_typing")
+		elif bool(story.get("_direction_beat_waiting")):
+			story.call("_finish_direction_beat")
+		elif bool(story.get("_direction_hold_active")):
+			story.set("_direction_hold_remaining", 0.0)
+			story.call("_process", 0.01)
+		else:
+			story.call("_on_advance")
+		await get_tree().process_frame
+	if not bool(story.get("_showing_choices")):
+		_fail("Dialogue History fixture did not reach its choices.")
+		return
+	# 이 범위는 실제 상단 버튼 → pressed 신호 → 모달 경로를 검증한다.
+	# 직접 내부 함수를 호출하면 버튼 배선이 끊겨도 캡처가 통과할 수 있다.
+	var log_button := story.get("_dialogue_log_button") as Button
+	if not is_instance_valid(log_button) or not log_button.visible \
+			or not log_button.pressed.is_connected(
+				Callable(story, "_open_dialogue_log")):
+		_fail("Dialogue History top button is missing or disconnected.")
+		return
+	log_button.emit_signal("pressed")
+	await _settle(0.35)
+	var popup := story.get("_dialogue_log_popup") as Control
+	var panel := popup.get_node_or_null("DialogueLogPanel") as Control \
+			if is_instance_valid(popup) else null
+	var scroll := story.get("_dialogue_log_scroll") as ScrollContainer
+	if not is_instance_valid(panel) or not is_instance_valid(scroll):
+		_fail("Dialogue History surface is incomplete.")
+		return
+	if not get_viewport().get_visible_rect().encloses(panel.get_global_rect()):
+		_fail("Dialogue History escaped the viewport at %s." % str(
+			get_viewport().get_visible_rect().size))
+		return
+	if get_viewport().gui_get_focus_owner() != scroll:
+		_fail("Dialogue History did not expose its controller scroll focus.")
+		return
+	var entries: Array = story.get("_dialogue_log_entries")
+	if entries.size() < 3:
+		_fail("Dialogue History fixture did not preserve enough prior prose.")
+		return
+	var visible_history := ""
+	for raw_entry in entries:
+		visible_history += "\n" + str((raw_entry as Dictionary).get("text", ""))
+	for choice in (story.get("_current") as Dictionary).get("choices", []):
+		var unchosen_text := str((choice as Dictionary).get("text", ""))
+		if not unchosen_text.is_empty() and unchosen_text in visible_history:
+			_fail("Dialogue History screenshot leaked an unchosen option.")
+			return
+	await _save(
+		"dialogue_history_%s_01_choice_review" % (
+			"en" if lang == "en" else "ko"))
+
+	var close_button := popup.find_child(
+		"DialogueLogClose", true, false) as Button
+	if not is_instance_valid(close_button):
+		_fail("Dialogue History close button is missing.")
+		return
+	close_button.emit_signal("pressed")
+	await _settle(0.15)
+
+	# 큰 글자에서 실제 선택 버튼을 확정하고, 읽은 결과가 기록된 다음 같은
+	# 상단 버튼으로 다시 연다. 최신 두 카드는 한 화면에 함께 보여야 한다.
+	story.set("_story_text_size", "large")
+	story.call("_apply_story_text_size")
+	if str(story.get("_story_text_size")) != "large":
+		_fail("Dialogue History fixture could not apply Large story text.")
+		return
+	var choice_box := story.get("_choice_box") as VBoxContainer
+	if not is_instance_valid(choice_box) or choice_box.get_child_count() < 2:
+		_fail("Dialogue History fixture has fewer than two visible choices.")
+		return
+	var chosen_button := choice_box.get_child(1).get_child(0) as Button
+	if not is_instance_valid(chosen_button):
+		_fail("Dialogue History fixture choice button is missing.")
+		return
+	chosen_button.emit_signal("pressed")
+	await get_tree().process_frame
+	for _step in range(80):
+		if _dialogue_history_kind_count(
+				story.get("_dialogue_log_entries"), "result") > 0:
+			break
+		if bool(story.get("_typing")):
+			story.call("_complete_typing")
+		elif bool(story.get("_direction_beat_waiting")):
+			story.call("_finish_direction_beat")
+		elif bool(story.get("_direction_hold_active")):
+			story.set("_direction_hold_remaining", 0.0)
+			story.call("_process", 0.01)
+		else:
+			story.call("_on_advance")
+		await get_tree().process_frame
+	var completed_entries: Array = story.get("_dialogue_log_entries")
+	if _dialogue_history_kind_count(completed_entries, "choice") != 1 \
+			or _dialogue_history_kind_count(completed_entries, "result") < 1:
+		_fail("Dialogue History did not retain both the chosen option and read result.")
+		return
+	if not is_instance_valid(log_button) or not log_button.visible:
+		_fail("Dialogue History top button disappeared after the choice result.")
+		return
+	log_button.emit_signal("pressed")
+	await _settle(0.35)
+	popup = story.get("_dialogue_log_popup") as Control
+	panel = popup.get_node_or_null("DialogueLogPanel") as Control \
+			if is_instance_valid(popup) else null
+	if not is_instance_valid(panel) \
+			or not get_viewport().get_visible_rect().encloses(panel.get_global_rect()):
+		_fail("Large Dialogue History escaped the viewport after a choice result.")
+		return
+	var card_kinds: Dictionary = {}
+	for raw_entry in story.call("_dialogue_log_display_entries"):
+		var entry := raw_entry as Dictionary
+		card_kinds[str(entry.get("kind", ""))] = true
+	if not card_kinds.has("choice") or not card_kinds.has("result"):
+		_fail("Dialogue History result screenshot omitted its choice/result cards.")
+		return
+	var visible_card_kinds: Dictionary = {}
+	var result_scroll := story.get("_dialogue_log_scroll") as ScrollContainer
+	if not is_instance_valid(result_scroll):
+		_fail("Large Dialogue History lost its scroll surface.")
+		return
+	var visible_scroll_rect := result_scroll.get_global_rect()
+	for raw_card in panel.find_children(
+			"DialogueLogEntry*", "PanelContainer", true, false):
+		var card := raw_card as PanelContainer
+		if not visible_scroll_rect.intersects(card.get_global_rect()):
+			continue
+		var card_text := _collect_control_text(card)
+		if LocaleManager.ui("내 선택", "My Choice") in card_text:
+			visible_card_kinds["choice"] = true
+		if LocaleManager.ui("선택 결과", "Choice Result") in card_text:
+			visible_card_kinds["result"] = true
+	if not visible_card_kinds.has("choice") \
+			or not visible_card_kinds.has("result"):
+		_fail("Large Dialogue History did not show its choice and result cards together.")
+		return
+	await _save(
+		"dialogue_history_%s_02_choice_result_large" % (
+			"en" if lang == "en" else "ko"))
+
+	_remove_nodes_by_script("res://scenes/StoryMode.gd")
+	GameState.pending_story_queue.clear()
+	await _settle(0.25)
+
+func _dialogue_history_kind_count(entries: Array, kind: String) -> int:
+	var count := 0
+	for raw_entry in entries:
+		if raw_entry is Dictionary \
+				and str((raw_entry as Dictionary).get("kind", "")) == kind:
+			count += 1
+	return count
 
 func _shot_story_audio_settings(lang: String = "en", prefix: String = "story_audio_en_") -> void:
 	_set_qa_language(lang)

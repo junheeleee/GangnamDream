@@ -597,7 +597,7 @@
   {
     "id": "drama_addiction_debt",
     "title": "The Hole",
-    "description": "Opened the account.\n\nMuch lower than expected.\n\nLooked back over the last two months. The bets.\nThe days of big losses. The days of betting more to try to recover.\n\n{name} stared at the numbers for a long time, then put down the phone.\nWhat scared more wasn't how much had been lost — but how much more seemed likely to go.",
+    "description": "Opened the banking app and checked the balance.\n\nMuch lower than expected.\n\nLooked back over the last two months. The bets.\nThe days of big losses. The days of betting more to try to recover.\n\n{name} stared at the numbers for a long time, then put down the phone.\nWhat scared more wasn't how much had been lost — but how much more seemed likely to go.",
     "choices": [
       {
         "text": "Stop for now — delete every betting and gambling app",

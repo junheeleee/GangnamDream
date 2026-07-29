@@ -101,19 +101,15 @@
   {
     "id": "disasters_006",
     "title": "Phone Smashed",
-    "description": "Dropped the phone walking. Screen shattered.\nRepair estimate: 300,000 won. Or a new one: 1 million won.\n\nUnexpected outflow. It comes out of money set aside for investing.\n{name} paused before reaching for the wallet.\nWhat's the most rational way to handle this?",
+    "description": "You dropped your phone while walking. The screen shattered.\nAn official repair costs 300,000 won. An independent shop quoted 180,000 won for a used screen assembly.\n\nThe expense was sudden, and it would come out of money set aside for investing.\nBefore paying, {name} compared the two shops' warranties and reviews.",
     "choices": [
       {
-        "text": "Check if there's insurance coverage.",
-        "result_text": "Quietly dug up the insurance policy that was filed away. Being prepared pays off."
+        "text": "Leave it with the official service center",
+        "result_text": "You paid 300,000 won to repair the same device. The unplanned expense hurt, but the official warranty remained."
       },
       {
-        "text": "Panic. Just buy a new phone.",
-        "result_text": "Rushed to the store on impulse. The shattered screen hurt less than the receipt."
-      },
-      {
-        "text": "Find a used phone fast.",
-        "result_text": "Scoured the secondhand apps. Finding efficiency in a crisis — that's Seoul survival instinct."
+        "text": "Repair it with a used screen assembly",
+        "result_text": "A well-reviewed independent shop fitted a used screen assembly. It cost 180,000 won, though the colors flickered now and then."
       }
     ]
   },
@@ -223,7 +219,7 @@
   {
     "id": "gambling_020",
     "title": "\"One Shot Is All It Takes\"",
-    "description": "A senior at work said it over drinks. 'I made 100 million won on crypto last year. You just need the right timing.'\n{name} couldn't shake it even back home.\n\nOpened the account. What if all of it went in right now?\nRationality says no. Emotion whispers maybe.\n{name} has to make an important decision tonight.",
+    "description": "A senior at work said it over drinks. 'I made 100 million won on crypto last year. You just need the right timing.'\n{name} couldn't shake it even back home.\n\nChecked the balance in the banking app. What if all of it went in right now?\nRationality says no. Emotion whispers maybe.\n{name} has to make an important decision tonight.",
     "choices": [
       {
         "text": "Hear it — then coldly run the numbers.",
@@ -341,7 +337,7 @@
   {
     "id": "inv_dividend_received",
     "title": "Dividend Deposit",
-    "description": "A KakaoBank notification arrived at lunch. '47,200 won dividend deposited.' Money from a stock held without much expectation. Small — but the sensation of money arriving without doing anything is entirely new. Took a screenshot of the balance and stared at it for a while.",
+    "description": "A KakaoBank notification arrived at lunch. '47,200 won dividend deposited.' Money from a stock held without much expectation. Small — but the sensation of money arriving without doing anything is entirely new. Took a screenshot of the deposit notification and stared at it for a while.",
     "choices": [
       {
         "text": "Reinvest the dividend immediately.",

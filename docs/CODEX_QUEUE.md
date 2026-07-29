@@ -47,7 +47,7 @@
 
 | 순서 | 상태 | 항목 | 전체 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-57 · Core Loop V2 데모 재구축 | [ORDER-57](queue_active/ORDER-57.md) | B 1~12주 AUTO PASS. 휴대폰 허브 정본·첫 구현 착수: 가로형 기기 셸, 필수 앱, 시작폰/리퍼폰 저장·구매를 잠근 뒤 C 13~16주로 진행. 기본 전환·사람 GO는 OPEN |
+| 1 | [~] | ORDER-57 · Core Loop V2 데모 재구축 | [ORDER-57](queue_active/ORDER-57.md) | B 1~12주 AUTO PASS. 가로형 휴대폰 허브·필수 앱·시작폰/리퍼폰과 선택 전 대화 기록의 저장·타이머·포커스 계약을 통합 검증한 뒤 C 13~16주로 진행. 기본 전환·사람 GO는 OPEN |
 | 2 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 전 사건·배경·대표 240주 자동 확산과 clean RC `d73afa6` PASS, 장별 사람 연속 청취 OPEN |
 | 3 | [~] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 1,565사건·960주 정적/KO·EN 240주 실주행·논리 4K와 clean RC PASS, 정상 속도·실기기·A/V 사람 판정 OPEN |
 | 4 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 번역 인프라·일본어 UI/프롤로그/직업명 자동 검사 PASS, 데모 GO 뒤 본문 번역·15장 캡처·원어민 검수 OPEN |
@@ -60,8 +60,9 @@
 
 - **2026-07 전체 원문 스냅샷:** [CODEX_QUEUE_2026-07.md](queue_archive/CODEX_QUEUE_2026-07.md)
 - 상세 작업 결과는 [WORK_LOG.md](WORK_LOG.md), 사용자 노트와 라운드 판정은 [DEMO_FIXLOG.md](DEMO_FIXLOG.md), 설계 결정은 [DECISIONS.md](DECISIONS.md)가 정본이다.
-- `[x] ORDER-56` (2026-07-27): 런타임 진입점 306개와 후속 폐쇄로
-  실제 노출 사건 442개를 고정하고 상태 민감 433개·검토 중립 9개로
+- `[x] ORDER-56` (2026-07-27, 현재 정본 2026-07-29): 런타임 진입점
+  307개와 후속 폐쇄로 실제 노출 사건 443개를 고정하고 상태 민감
+  434개·검토 중립 9개로
   전수 분류했다. 직업·주거·관계·아버지 생사·장소 계약과 고위험
   26장면의 산문·시각·오디오 정합을 감사로 잠그고 발견 모순을 한영
   동시 수리했다.

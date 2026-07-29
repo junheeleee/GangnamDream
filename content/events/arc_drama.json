@@ -921,13 +921,13 @@
     "description": "다음 날 아침, 텅 빈 회의실에서 다시 전화가 왔다.\n\n\"아버님이 어젯밤에 돌아가셨습니다.\"\n\n민준이 5백만원을 벌던, 바로 그 시간이었다. 계약서는 정리돼 있었고 입금 알림은 아직 지워지지 않았다. 전화가 끝난 뒤에도 숫자와 병원 번호가 같은 화면에 남았다.",
     "choices": [
       {
-        "text": "통장 앱을 연다.",
+        "text": "은행 앱에서 입금 내역을 확인한다.",
         "effects": {"mental": -25, "money": 5000000, "tint": -8},
         "cast_effects": {"father": {"stage": "passed"}},
         "flags": ["arc_father_passing_seen", "father_passed", "chose_money_over_father"],
         "deferred_follow_up": "callback_chose_money_father_echo",
         "deferred_delay": 12,
-        "result_text": "민준은 폰을 내려놓고 통장 앱을 열었다. 숫자는 올라가 있었다. 정확히 5백만원.\n그 숫자를 오래 봤다. 아무 느낌도 안 들 줄 알았는데, 아니었다. 저 숫자가 앞으로 평생 이 아침과 같은 값으로 매겨질 거라는 걸 — 민준은 그제야 알았다."
+        "result_text": "민준은 통화를 끊고 은행 앱에서 입금 내역을 확인했다. 숫자는 올라가 있었다. 정확히 5백만원.\n그 숫자를 오래 봤다. 아무 느낌도 안 들 줄 알았는데, 아니었다. 저 숫자가 앞으로 평생 이 아침과 같은 값으로 매겨질 거라는 걸 — 민준은 그제야 알았다."
       }
     ]
   },

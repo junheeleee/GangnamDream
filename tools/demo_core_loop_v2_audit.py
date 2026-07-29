@@ -16,6 +16,51 @@ REGISTRY_PATH = ROOT / "autoloads" / "DataRegistry.gd"
 HANGUL_RE = re.compile(r"[가-힣]")
 
 EXPECTED_TABS = ["messages", "calendar", "people", "record"]
+EXPECTED_PHONE_APPS = [
+    "messages",
+    "calendar",
+    "contacts",
+    "bank",
+    "device",
+    "investment",
+    "leisure",
+    "games",
+]
+EXPECTED_PHONE_DEVICES = {
+    "starter": (0, 1, 0, True, True),
+    "refurbished": (1, 13, 180_000, True, True),
+    "midrange": (2, 25, 550_000, False, False),
+    "flagship": (3, 49, 1_200_000, False, False),
+}
+EXPECTED_PHONE_ESSENTIAL_APPS = {
+    "messages",
+    "calendar",
+    "contacts",
+    "bank",
+    "device",
+}
+EXPECTED_INVESTMENT_FLAGS = {
+    "has_received_paycheck",
+    "had_first_investment",
+}
+EXPECTED_LEISURE_DISCOVERY_FLAGS = {
+    "racetrack_guide_met",
+    "racetrack_visited",
+    "holdem_visited",
+    "casino_club_introduced",
+}
+EXPECTED_PHONE_LIVE_STATE_FIELDS = {
+    "turn",
+    "year",
+    "month",
+    "week_of_month",
+    "money",
+    "loans",
+    "market_prices",
+    "portfolio",
+    "relationships",
+    "cast",
+}
 EXPECTED_STAGES = [
     "unmet",
     "met",
@@ -39,6 +84,7 @@ EXPECTED_CONTRACT_ROOT_KEYS = {
     "future_application_contracts",
     "deferred_callback_contracts",
     "surface",
+    "phone",
     "routine",
     "relationship",
     "exclusive_groups",
@@ -570,6 +616,207 @@ def require_list(value: Any, label: str, errors: list[str]) -> list[Any]:
     return value
 
 
+def validate_phone_contract(
+    phone: dict[str, Any], errors: list[str]
+) -> None:
+    if int(phone.get("schema_version", 0)) != 2:
+        fail("phone.schema_version must be 2", errors)
+    if phone.get("home_grid") != [4, 2]:
+        fail("phone.home_grid must remain the 4x2 app surface", errors)
+    if phone.get("persistent_fields") != [
+        "schema",
+        "current_device_id",
+        "owned_device_ids",
+        "purchase_receipts",
+        "favorite_app_id",
+    ]:
+        fail(
+            "phone state must persist only device ownership, exact "
+            "historical purchase receipts, and the unlocked home favorite",
+            errors,
+        )
+    forbidden_mirrors = {
+        str(value)
+        for value in require_list(
+            phone.get("forbidden_state_mirrors"),
+            "phone.forbidden_state_mirrors",
+            errors,
+        )
+    }
+    if forbidden_mirrors != EXPECTED_PHONE_LIVE_STATE_FIELDS:
+        fail(
+            "phone forbidden mirrors must cover live date, finance, market, "
+            "and relationship owners",
+            errors,
+        )
+
+    app_order = require_list(
+        phone.get("app_order"), "phone.app_order", errors
+    )
+    if app_order != EXPECTED_PHONE_APPS:
+        fail(f"phone.app_order must be {EXPECTED_PHONE_APPS}", errors)
+    apps = require_dict(phone.get("apps"), "phone.apps", errors)
+    if set(apps) != set(EXPECTED_PHONE_APPS):
+        fail("phone.apps drifted from the eight-app contract", errors)
+    for app_id in EXPECTED_PHONE_APPS:
+        app = require_dict(apps.get(app_id), f"phone.apps.{app_id}", errors)
+        for language_key in ("label_ko", "label_en"):
+            label = app.get(language_key)
+            if not isinstance(label, str) or not label.strip():
+                fail(f"phone.apps.{app_id}.{language_key} is empty", errors)
+            elif language_key == "label_en" and HANGUL_RE.search(label):
+                fail(
+                    f"phone.apps.{app_id}.label_en contains Hangul",
+                    errors,
+                )
+        availability = require_dict(
+            app.get("availability"),
+            f"phone.apps.{app_id}.availability",
+            errors,
+        )
+        kind = str(availability.get("kind", ""))
+        if app_id in EXPECTED_PHONE_ESSENTIAL_APPS:
+            if kind != "always" or set(availability) != {"kind"}:
+                fail(
+                    f"essential phone app {app_id} must always be visible",
+                    errors,
+                )
+        elif app_id == "investment":
+            flags = {
+                str(value)
+                for value in require_list(
+                    availability.get("flags"),
+                    "phone.apps.investment.availability.flags",
+                    errors,
+                )
+            }
+            if kind != "any_flag" or flags != EXPECTED_INVESTMENT_FLAGS:
+                fail(
+                    "investment app must unlock from the neutral paycheck or "
+                    "first-investment flags",
+                    errors,
+                )
+        elif app_id == "leisure":
+            flags = {
+                str(value)
+                for value in require_list(
+                    availability.get("flags"),
+                    "phone.apps.leisure.availability.flags",
+                    errors,
+                )
+            }
+            if (
+                kind != "any_flag"
+                or flags != EXPECTED_LEISURE_DISCOVERY_FLAGS
+            ):
+                fail(
+                    "leisure app must unlock only from actual place "
+                    "discovery flags",
+                    errors,
+                )
+        elif app_id == "games" and kind != "post_launch":
+            fail("games app must remain post_launch and hidden", errors)
+
+    device_order = require_list(
+        phone.get("device_order"), "phone.device_order", errors
+    )
+    if device_order != list(EXPECTED_PHONE_DEVICES):
+        fail(
+            f"phone.device_order must be {list(EXPECTED_PHONE_DEVICES)}",
+            errors,
+        )
+    devices = require_dict(phone.get("devices"), "phone.devices", errors)
+    if set(devices) != set(EXPECTED_PHONE_DEVICES):
+        fail("phone.devices drifted from the four-tier contract", errors)
+    for device_id, expected in EXPECTED_PHONE_DEVICES.items():
+        device = require_dict(
+            devices.get(device_id), f"phone.devices.{device_id}", errors
+        )
+        actual = (
+            int(device.get("tier", -1)),
+            int(device.get("available_from_week", 0)),
+            int(device.get("price", -1)),
+            bool(device.get("runtime_implemented", False)),
+            bool(device.get("purchasable_in_demo", False)),
+        )
+        if actual != expected:
+            fail(
+                f"phone device {device_id} expected "
+                f"tier/week/price/implemented/demo "
+                f"{expected}, got {actual}",
+                errors,
+            )
+        features = {
+            str(value)
+            for value in require_list(
+                device.get("features"),
+                f"phone.devices.{device_id}.features",
+                errors,
+            )
+        }
+        if not {"essential_apps", "calls", "accessibility"}.issubset(features):
+            fail(
+                f"phone device {device_id} gates an essential capability",
+                errors,
+            )
+        for language_key in ("label_ko", "label_en"):
+            label = device.get(language_key)
+            if not isinstance(label, str) or not label.strip():
+                fail(
+                    f"phone.devices.{device_id}.{language_key} is empty",
+                    errors,
+                )
+            elif language_key == "label_en" and HANGUL_RE.search(label):
+                fail(
+                    f"phone.devices.{device_id}.label_en contains Hangul",
+                    errors,
+                )
+
+    purchase = require_dict(
+        phone.get("purchase_contract"), "phone.purchase_contract", errors
+    )
+    expected_purchase_keys = {
+        "blocks_duplicate",
+        "blocks_downgrade",
+        "shows_balance_after",
+        "requires_available_week",
+    }
+    if set(purchase) != expected_purchase_keys or not all(
+        bool(purchase.get(key, False)) for key in expected_purchase_keys
+    ):
+        fail(
+            "phone purchase contract must block duplicate/downgrade/early "
+            "purchases and show the balance after",
+            errors,
+        )
+    neutrality = require_dict(
+        phone.get("tier_neutrality"), "phone.tier_neutrality", errors
+    )
+    unaffected = {
+        str(value)
+        for value in require_list(
+            neutrality.get("unaffected_systems"),
+            "phone.tier_neutrality.unaffected_systems",
+            errors,
+        )
+    }
+    expected_unaffected = {
+        "essential_apps",
+        "story_access",
+        "call_access",
+        "accessibility",
+        "investment_returns",
+        "gambling_odds",
+        "relationship_rewards",
+    }
+    if unaffected != expected_unaffected:
+        fail(
+            "phone tiers must not alter critical access, odds, returns, or "
+            "relationship rewards",
+            errors,
+        )
+
+
 def validate_prerequisites(
     bundle_id: str,
     raw_prerequisites: Any,
@@ -1054,6 +1301,7 @@ def main() -> int:
         contract.get("long_arc_contract"), "long_arc_contract", errors
     )
     surface = require_dict(contract.get("surface"), "surface", errors)
+    phone = require_dict(contract.get("phone"), "phone", errors)
     routine = require_dict(contract.get("routine"), "routine", errors)
     relationship = require_dict(contract.get("relationship"), "relationship", errors)
     bundles = require_dict(contract.get("scene_bundles"), "scene_bundles", errors)
@@ -1066,6 +1314,7 @@ def main() -> int:
         fail("runtime_default must stay false before the 24-week human GO", errors)
     if str(contract.get("fallback", "")) != "event_director_v1":
         fail("existing event director must remain the development fallback", errors)
+    validate_phone_contract(phone, errors)
 
     expected_scope = {
         "min_week": 1,
@@ -2495,6 +2744,9 @@ def main() -> int:
         f"months={len(months)} weeks={scope['min_week']}..{scope['max_week']} "
         f"bundles={len(bundles)} target_minutes={total_minutes} "
         f"slots={surface['foreground_slots_per_month']} "
+        f"phone_apps={len(EXPECTED_PHONE_APPS)} "
+        f"phone_devices={len(EXPECTED_PHONE_DEVICES)} "
+        f"phone_runtime_devices={sum(1 for value in EXPECTED_PHONE_DEVICES.values() if value[3])} "
         f"development_cap={development_cap_week} "
         f"development_months={development_month_count} "
         f"development_deadlines={len(development_player_ids)} "

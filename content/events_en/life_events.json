@@ -2,7 +2,7 @@
   {
     "id": "father_wedding_call",
     "title": "Dad's Call",
-    "description": "It was Dad.\n\nA family friend's son is getting married this weekend.\nCome home, he said. It'd be nice to go together.\n\n{name} checked the calendar. An investment deadline this week.\nChecked the account. Hadn't even had fried chicken this month.\n\nOn the other end of the phone, Dad was waiting.",
+    "description": "It was Dad.\n\nA family friend's son is getting married this weekend.\nCome home, he said. It'd be nice to go together.\n\n{name} checked the calendar. The investment deadline was this week.\nHe opened the banking app. Even ordering fried chicken felt tight this month.\n\nOn the other end of the phone, Dad was waiting.",
     "choices": [
       {
         "text": "Go home. The investment can wait a month.",
@@ -386,19 +386,19 @@
   {
     "id": "disasters_009",
     "title": "Broken Phone",
-    "description": "You dropped your phone coming down the stairs.\n\nThere was a sound. Glass shattering. It bounced once and landed face-down.\n\nYou picked it up slowly. The screen was cracked like a spiderweb.\n\nRepair estimate: 300,000 won. New device: 1 million won.\nYou couldn't bring yourself to open your banking app. You just stood on the stairs for about three seconds.",
+    "description": "You dropped your phone coming down the stairs.\n\nGlass cracked. The device bounced once and stopped face-down.\n\nYou picked it up slowly. The screen had split into a spiderweb.\n\nAn official repair costs 180,000 won and takes two days. Same-day repair costs 250,000 won.\nYou stood on the stairs with your banking balance still open.",
     "choices": [
       {
-        "text": "Get a cheap replacement from a secondhand site",
-        "result_text": "You scoured a used phone site and found a deal. It worked better than expected and oddly cleared your head."
+        "text": "Use the official repair service (180,000 won · two days)",
+        "result_text": "You paid 180,000 won and left the device there. You used an old spare for two days, then got the same phone back with an intact screen."
       },
       {
-        "text": "Keep using it with the cracked screen and feel miserable",
-        "result_text": "You kept using it with the cracked screen. Every time you looked at it, your mood sank."
+        "text": "Add a screen film and endure it for this week",
+        "result_text": "A thick screen film held the glass down for the week. A free weekend check replaced it with a temporary panel, but every wake screen brought the crack back to mind."
       },
       {
-        "text": "Splurge on a brand-new phone on installments",
-        "result_text": "You bought the latest phone on installments. The reaction from people around you was good, but you worried about your account balance."
+        "text": "Pay for same-day repair (250,000 won)",
+        "result_text": "You paid 250,000 won and got the same device back that evening. You missed no important calls, but the smaller balance was hard to ignore."
       }
     ]
   },
@@ -1551,7 +1551,7 @@
   {
     "id": "father_missed_chance",
     "title": "Father Was Hospitalized",
-    "description": "A call from your mother.\n\nYour father had collapsed, she said. Nothing too serious, but could you come visit?\n\n{name} looked at the calendar. This month was also packed.\nLooked at the account. Still far from the goal.\n\nMother was waiting.",
+    "description": "A call from your mother.\n\nYour father had collapsed, she said. Nothing too serious, but could you come visit?\n\n{name} checked the calendar. This month was packed too.\nHe checked the balance in his banking app. The goal was still far away.\n\nMother was waiting.",
     "choices": [
       {
         "text": "Go down. This time, you go.",
@@ -1776,16 +1776,12 @@
   },
   {
     "id": "survival_rent_due",
-    "title": "Rent Day",
-    "description": "The calendar app showed 'Rent' again.\n\n520,000 won for the goshiwon. At least electricity and water are included, small comfort.\nYou opened the account. The balance stared back.\n\nYou know you have to pay. But what's left after is the problem.\n\nWhat if the landlady quietly knocks — you were holding your breath inside the room.",
+    "title": "Rent Reminder",
+    "description": "The calendar app showed 'Check rent' again.\n\nThis month's goshiwon bill is 650,000 won. At least electricity and water are included.\nYou opened the banking app and checked the balance for the end-of-month transfer.\n\nYou know the money will leave during settlement. The question is what remains afterward.",
     "choices": [
       {
-        "text": "Transfer immediately (520,000 won)",
-        "result_text": "Transfer complete. The balance dropped visibly.\nRelief that you survived another month, and dread at having to do it again — both arrived at once.\nThe room was quiet."
-      },
-      {
-        "text": "Hold on this month — ask the landlady to wait a few days",
-        "result_text": "The landlady said 'Well, what can you do,' but her expression said otherwise.\nYou started avoiding her eyes whenever you crossed paths in the hallway.\nThe thing poor people lose most is their dignity."
+        "text": "Check the month-end transfer and remaining balance",
+        "result_text": "You confirmed that 650,000 won would leave once at month-end.\nThe balance had not changed yet, but the money remaining for this month was suddenly clear."
       }
     ]
   },

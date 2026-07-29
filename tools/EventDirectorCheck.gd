@@ -3,6 +3,16 @@ extends Node
 
 var _failures: Array[String] = []
 
+const CAUSAL_PRODUCER_ROOT_IDS := [
+	"amb_idea_stolen_00",
+	"anxiety_child_cost_calc",
+	"anxiety_pension_crisis",
+	"butterfly_mystery_info_result_scam",
+	"butterfly_resume_lie_caught",
+	"callback_jaehyuk_reported_witness",
+	"callback_lied_interview_surfaces",
+]
+
 const DELAYED_PAYOFF_WIRING := [
 	{"event": "amb_hoesik_00", "choice": 1, "target": "callback_hoesik_left_early_office", "delay": 12},
 	{"event": "amb_hoesik_dodge", "choice": 1, "target": "callback_hoesik_caved_reputation", "delay": 8},
@@ -102,7 +112,7 @@ func _ready() -> void:
 	_check_full_run_pacing()
 	_check_rhythm_save_migration()
 	if _failures.is_empty():
-		print("EVENT_DIRECTOR_CHECK_OK directed=1003 foreground=64 bridge=18 bridge_roots=6 auto_multi=0 once=1000 repeatable=3 callbacks=37/32 chains=14/12 chapters=5 asset_bands=5 demo=9/2/4/3 authored=7 generic=2 full=52/5/20/21 save=legacy+demo+deferred")
+		print("EVENT_DIRECTOR_CHECK_OK directed=1003 foreground=64 bridge=19 bridge_roots=6 causal_roots=7 auto_multi=0 once=1000 repeatable=3 callbacks=37/32 chains=14/12 chapters=5 asset_bands=5 demo=9/2/4/3 authored=7 generic=2 full=52/5/20/21 save=legacy+demo+deferred")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -141,8 +151,12 @@ func _check_content_diet() -> void:
 				% str(event.get("id", "")))
 	_expect(foreground_count == 64,
 		"curated foreground pool is %d, expected 64" % foreground_count)
-	_expect(bridge_count == 18,
-		"safe one-choice bridge pool is %d, expected 18" % bridge_count)
+	_expect(bridge_count == 19,
+		"safe one-choice bridge pool is %d, expected 19" % bridge_count)
+	for root_id in CAUSAL_PRODUCER_ROOT_IDS:
+		_expect(EventManager.is_foreground_random_event(
+				DataRegistry.find_event(root_id)),
+			"causal producer root left the foreground pool: %s" % root_id)
 
 	var everyday: Dictionary = DataRegistry.find_event("convenience_store_meal")
 	var substantial: Dictionary = DataRegistry.find_event("father_old_photo")

@@ -16,6 +16,7 @@ signal moral_tint_changed(norm: float, stage: int)
 
 const INITIAL_SETTLEMENT_SUBSIDY := 300_000.0
 const STAT_THRESHOLDS: Array = [30, 50, 70]
+const PHONE_SYSTEM := preload("res://systems/PhoneSystem.gd")
 var unlocked_stat_thresholds: Dictionary = {}
 
 const DEMO_FEATURE := "gangnam_demo"
@@ -179,6 +180,9 @@ var forgone_path_debts: Dictionary = {}
 # Core Loop V2는 8주 사람 GO 전까지 명시적 테스트 런에서만 사용한다.
 # 한 사전 안에 일정·놓친 길·관계 단계를 묶어 기존 저장과 역호환한다.
 var core_loop_v2_state: Dictionary = {}
+# 휴대폰은 기기 소유권과 구매 당시 영수증만 저장한다. 현재 날짜·잔액·
+# 대출·시세·관계는 각 정본에서 실시간으로 읽으며 이 사전에 복제하지 않는다.
+var phone_state: Dictionary = {}
 # 인물별 연락 기록 — 리캡 카드의 "잔인한 통계"용 원장 (person_id → 횟수 / 마지막 턴)
 var contact_counts: Dictionary = {}
 var last_contact_turn: Dictionary = {}
@@ -473,6 +477,7 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	weekly_commitments = []
 	forgone_path_debts = {}
 	core_loop_v2_state = {}
+	phone_state = PHONE_SYSTEM.default_state()
 	contact_counts = {}
 	last_contact_turn = {}
 	run_seen_scenes_by_year = {}
@@ -1043,8 +1048,16 @@ func apply_choice(event, choice):
 			add_item(item_id, 1)
 	for rel_effect in choice.get("relationship_effects", []):
 		apply_relationship_effect(rel_effect)
-	for investment_effect in choice.get("investment_effects", []):
-		apply_investment_effect(investment_effect)
+	var investment_effects: Variant = choice.get("investment_effects", [])
+	# Early authored cards stored one market modifier as an object, while
+	# newer cards use an array. Accept both shapes so a dormant card cannot
+	# iterate dictionary keys and crash when it is reactivated.
+	if investment_effects is Dictionary:
+		apply_investment_effect(investment_effects)
+	elif investment_effects is Array:
+		for investment_effect in investment_effects:
+			if investment_effect is Dictionary:
+				apply_investment_effect(investment_effect)
 	# 발견 레이어 — 선택지가 단서를 줄 수 있다: "clues": ["clue_x"]
 	for clue_id in choice.get("clues", []):
 		add_clue(str(clue_id))
@@ -2854,6 +2867,7 @@ func serialize():
 		"weekly_commitments": weekly_commitments,
 		"forgone_path_debts": forgone_path_debts,
 		"core_loop_v2_state": core_loop_v2_state,
+		"phone_state": phone_state,
 		"contact_counts": contact_counts,
 		"last_contact_turn": last_contact_turn,
 		"run_seen_scenes_by_year": run_seen_scenes_by_year,
@@ -2914,6 +2928,15 @@ func load_from_dict(data):
 		if not allowed.has(key):
 			continue
 		var value = data[key]
+		if key == "phone_state":
+			# A typed Dictionary property cannot safely accept malformed legacy
+			# JSON through set(). Normalize from an empty dictionary instead of
+			# accidentally inheriting the device from the previous in-memory run.
+			if value is Dictionary:
+				phone_state = (value as Dictionary).duplicate(true)
+			else:
+				phone_state = {}
+			continue
 		if int_fields.has(key) and value is float:
 			value = int(value)
 		set(key, value)
@@ -2974,6 +2997,11 @@ func load_from_dict(data):
 		core_loop_v2_state = {}
 	else:
 		core_loop_v2_state = core_loop_v2_state.duplicate(true)
+	# 구버전·손상 저장은 시작폰으로 안전하게 이관한다. PhoneSystem 정규화는
+	# 기기 소유권·구매 영수증 외의 동적 GameState 미러와 알 수 없는 키를
+	# 모두 제거한다.
+	phone_state = PHONE_SYSTEM.normalized_state(
+		phone_state if data.has("phone_state") else {})
 	if not data.has("run_seen_scenes_by_year") or typeof(run_seen_scenes_by_year) != TYPE_DICTIONARY:
 		run_seen_scenes_by_year = {}
 	if not data.has("year_scenes") or typeof(year_scenes) != TYPE_DICTIONARY:

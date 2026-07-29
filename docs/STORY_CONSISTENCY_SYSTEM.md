@@ -171,12 +171,12 @@ CGs remain authoritative. A split-screen phone CG may hide the standing portrait
 The current pass separates runtime exposure coverage from deep authored-ledger
 coverage instead of treating either percentage as proof of total correctness:
 
-- Runtime roots: 306
-- Exposed closure: 442 / 442 classified
-- Exposed state-sensitive events: 433
+- Runtime roots: 307
+- Exposed closure: 443 / 443 classified
+- Exposed state-sensitive events: 434
 - Exposed reviewed-neutral events: 9
-- State dimensions: employment 98, housing 163, relationship 214,
-  father life 111, location 408
+- State dimensions: employment 99, housing 167, relationship 214,
+  father life 111, location 409
 - Full story + visual + audio contracts required: 26 high-risk events
 - Ledger events: 160 / 1,565 (10.2%)
 - Typed logic contracts: 49
