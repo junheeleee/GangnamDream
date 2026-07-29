@@ -55,6 +55,21 @@
 제목에서 항상 식별 가능하게 한다. DEBUG V2 진입은 같은 버전 옆에
 `CORE LOOP V2`를 덧붙여 일반 시작·V2 테스트 캡처를 혼동하지 않게 한다.
 
+**24주 실제 데모 개발 승인·P0 수리 착수 (2026-07-29 Codex) — 추가로 만지는
+파일:** `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-57.md`,
+`docs/CORE_LOOP_V2.md`, `docs/DECISIONS.md`, `docs/QA_CHECKLIST.md`,
+`docs/WORK_LOG.md`, `CLAUDE.md`, `systems/DemoCoreLoopV2.gd`,
+`scenes/CoreLoopPlanner.gd`, `scenes/MainGame.gd`,
+`tools/CoreLoopV2Check.gd`, `tools/ScreenshotQA.gd`, `locale/ui_ja.json`.
+사용자는 1~8주 심층 진단의 결함을 승인하고 최종 상품 데모를 24주로 완성하는
+개발 계획 수립과 개선 착수를 지시했다. 첫 수리 묶음은 8주차가 기존판으로
+떨어지지 않는 명시적 종료·회고, 플레이어가 이름으로 읽는 놓친 길, 720p
+휴대폰 경계와 실제 패드 과업을 소유한다. 이 착수는 최종 24주 목표를
+승인하지만 `runtime_default` 즉시 전환이나 미완성 9~24주 개방을 뜻하지
+않는다. 8주 루프 완결 → 12주 인과/연애 수직 단면 → 24주 통합 → 기본 데모
+전환의 단계 게이트를 지킨다. 기존 사용자 변경 `project.godot`, 25~240주,
+엔딩 캐스케이드와 30억원 전제는 건드리지 않는다.
+
 ## 목적
 
 - 기존 5년·240주 콘텐츠와 저장 정본은 파괴하지 않는다.
