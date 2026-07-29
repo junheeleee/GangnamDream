@@ -672,6 +672,91 @@
         "expected_ambience": "goshiwon_hallway"
       }
     },
+    "v2_hanbit_offer_message": {
+      "presentation": {
+        "channel": "message",
+        "state": "received",
+        "scene_location": "goshiwon_room",
+        "remote_location": "hanbit_distribution_center",
+        "remote_actor": "hanbit_recruiting",
+        "portrait_role": "none",
+        "nameplate_role": "hidden",
+        "expected_background": "goshiwon_room",
+        "expected_ambience": "goshiwon_hallway"
+      }
+    },
+    "v2_daeun_small_commitment": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "convenience_store",
+        "participants": ["player", "daeun"],
+        "participant_roles": {
+          "player": "customer",
+          "daeun": "clerk"
+        },
+        "portrait_role": "present",
+        "nameplate_role": "hidden",
+        "expected_background": "convenience_night",
+        "expected_portrait": "daeun_smile",
+        "expected_ambience": "convenience"
+      }
+    },
+    "v2_daeun_third_greeting": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "convenience_store",
+        "participants": ["player", "daeun"],
+        "participant_roles": {
+          "player": "customer",
+          "daeun": "clerk"
+        },
+        "portrait_role": "present",
+        "nameplate_role": "hidden",
+        "expected_background": "convenience_night",
+        "expected_portrait": "daeun_normal",
+        "expected_ambience": "convenience"
+      }
+    },
+    "v2_jiyeon_second_crossing": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "sinchon_neighborhood_main_road",
+        "participants": ["player", "jiyeon"],
+        "participant_roles": {
+          "player": "pedestrian",
+          "jiyeon": "driver"
+        },
+        "portrait_role": "present",
+        "nameplate_role": "hidden",
+        "expected_background": "street_rainy",
+        "expected_portrait": "jiyeon_normal",
+        "expected_ambience": "street"
+      }
+    },
+    "v2_sangchul_demo_echo": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "realestate_office",
+        "participants": ["player", "sangchul"],
+        "portrait_role": "present",
+        "nameplate_role": "hidden",
+        "expected_background": "realestate_office",
+        "expected_portrait": "sangchul_normal",
+        "expected_ambience": "office"
+      }
+    },
+    "v2_jaehyuk_plain_reunion_echo": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "sinchon_pojangmacha",
+        "participants": ["player", "jaehyuk"],
+        "portrait_role": "present",
+        "nameplate_role": "hidden",
+        "expected_background": "pojangmacha",
+        "expected_portrait": "jaehyuk_friendly",
+        "expected_ambience": "street"
+      }
+    },
     "arc_intro_04_hyunsu": {
       "presentation": {
         "channel": "in_person",

@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Deterministic sixteen-week economy check for the Core Loop V2 C gate.
+"""Deterministic twenty-week economy check for the Core Loop V2 D gate.
 
 This is deliberately a small, auditable ledger rather than a probability
 forecast. It preserves the eight-week A1 result, demonstrates the deliberate
 month-three cash pressure and twelve-week B result, proves the two authored
-legal shifts can keep a sixteen-week livelihood path solvent, distinguishes
-arrears from global bankruptcy, and checks both authored exits from the
-dirty-money branch.
+legal shifts can keep a sixteen-week livelihood path solvent, proves the
+month-five moving shift still leaves missed work visible, verifies the first
+legal job payoff, distinguishes arrears from global bankruptcy, and checks both
+authored exits from the dirty-money branch.
 """
 
 from __future__ import annotations
@@ -21,13 +22,16 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT_PATH = ROOT / "content" / "meta" / "demo_core_loop_v2.json"
 ARC_EVENTS_PATH = ROOT / "content" / "events" / "arc_events.json"
+CORE_LOOP_EVENTS_PATH = ROOT / "content" / "events" / "core_loop_v2_events.json"
+JOBS_PATH = ROOT / "content" / "jobs.json"
 
 STARTING_CASH = 500_000
 OPENING_SURVIVAL_BUFFER = 300_000
 MONTHLY_FIXED_COST = 650_000
 A1_WEEKS = 8
 B_WEEKS = 12
-DEVELOPMENT_WEEKS = 16
+C_WEEKS = 16
+DEVELOPMENT_WEEKS = 20
 
 
 @dataclass
@@ -83,6 +87,31 @@ def simulate_legal(
             ledger.routine_units += 1
         if _week % 4 == 0:
             ledger.cash -= MONTHLY_FIXED_COST
+    return ledger
+
+
+def simulate_hired_month_five(
+    name: str,
+    routine_pair: tuple[str, str],
+    options: dict[str, Any],
+    first_paycheck: int,
+) -> Ledger:
+    ledger = Ledger(name=name)
+    for week in range(1, DEVELOPMENT_WEEKS + 1):
+        # MainGame applies the Week-17 background routines before the Hanbit
+        # result prelude. The accepted job therefore replaces livelihood from
+        # Week 18 onward. The final Month-Five deposit covers only those three
+        # worked weeks; the normal monthly salary starts next month.
+        employed = week >= 18
+        for routine_id in routine_pair:
+            ledger.apply_effects(
+                weekly_effects(options, routine_id, employed=employed)
+            )
+            ledger.routine_units += 1
+        if week % 4 == 0:
+            ledger.cash -= MONTHLY_FIXED_COST
+            if employed:
+                ledger.cash += first_paycheck
     return ledger
 
 
@@ -223,9 +252,9 @@ def main() -> int:
         )
 
     c_no_shifts = simulate_legal(
-        "c_no_shifts", ("livelihood", "recovery"), options
+        "c_no_shifts", ("livelihood", "recovery"), options, C_WEEKS
     )
-    if c_no_shifts.routine_units != DEVELOPMENT_WEEKS * 2:
+    if c_no_shifts.routine_units != C_WEEKS * 2:
         fail(
             f"the sixteen-week fixture executed {c_no_shifts.routine_units} "
             "routine units, expected 32",
@@ -251,7 +280,7 @@ def main() -> int:
         )
 
     c_late_shift_only = simulate_legal(
-        "c_late_shift_only", ("livelihood", "recovery"), options
+        "c_late_shift_only", ("livelihood", "recovery"), options, C_WEEKS
     )
     c_late_shift_only.apply_effects(logistics_effects)
     if c_late_shift_only.cash != -160_000:
@@ -262,7 +291,7 @@ def main() -> int:
         )
 
     c_two_shift_legal = simulate_legal(
-        "c_two_shift_legal", ("livelihood", "recovery"), options
+        "c_two_shift_legal", ("livelihood", "recovery"), options, C_WEEKS
     )
     c_two_shift_legal.apply_effects(inventory_effects)
     c_two_shift_legal.apply_effects(logistics_effects)
@@ -276,6 +305,159 @@ def main() -> int:
         fail(
             "the legal week-16 path no longer supports the optional "
             "KRW 180,000 refurbished phone with a KRW 20,000 remainder",
+            errors,
+        )
+
+    moving_config = action_config(contract, "m5_weekend_move_shift")
+    if str(moving_config.get("execution", "")) != "instant_effect":
+        fail("month-five moving work is not an instant authored effect", errors)
+    moving_effects = moving_config.get("effects", {})
+    if not isinstance(moving_effects, dict):
+        moving_effects = {}
+    if moving_effects != {"money": 560_000, "health": -8, "mental": -5}:
+        fail(f"month-five moving shift effects drifted: {moving_effects}", errors)
+
+    d_no_shifts = simulate_legal(
+        "d_no_shifts", ("livelihood", "recovery"), options
+    )
+    if d_no_shifts.routine_units != DEVELOPMENT_WEEKS * 2:
+        fail(
+            f"the twenty-week fixture executed {d_no_shifts.routine_units} "
+            "routine units, expected 40",
+            errors,
+        )
+    if d_no_shifts.cash != -1_050_000:
+        fail(
+            "the twenty-week no-shift livelihood path must expose "
+            f"KRW 1,050,000 of arrears, got {d_no_shifts.cash:,}",
+            errors,
+        )
+
+    d_late_shift_only = simulate_legal(
+        "d_late_shift_only", ("livelihood", "recovery"), options
+    )
+    d_late_shift_only.apply_effects(logistics_effects)
+    d_late_shift_only.apply_effects(moving_effects)
+    if d_late_shift_only.cash != 30_000:
+        fail(
+            "the month-four and month-five shifts must leave exactly "
+            f"KRW 30,000 while preserving the missed month-three choice, "
+            f"got {d_late_shift_only.cash:,}",
+            errors,
+        )
+
+    d_three_shift_legal = simulate_legal(
+        "d_three_shift_legal", ("livelihood", "recovery"), options
+    )
+    d_three_shift_legal.apply_effects(inventory_effects)
+    d_three_shift_legal.apply_effects(logistics_effects)
+    d_three_shift_legal.apply_effects(moving_effects)
+    if d_three_shift_legal.cash != 390_000:
+        fail(
+            "all three authored legal shifts must finish week 20 at exactly "
+            f"KRW 390,000, got {d_three_shift_legal.cash:,}",
+            errors,
+        )
+    if d_three_shift_legal.cash - 180_000 != 210_000:
+        fail(
+            "the three-shift week-20 path no longer supports the optional "
+            "KRW 180,000 refurbished phone with a KRW 210,000 remainder",
+            errors,
+        )
+
+    jobs = load_json(JOBS_PATH)
+    if not isinstance(jobs, list):
+        fail("job catalog must be a list", errors)
+        jobs = []
+    hanbit_job = next(
+        (
+            row
+            for row in jobs
+            if isinstance(row, dict) and row.get("id") == "job_03"
+        ),
+        {},
+    )
+    hanbit_salary = int(hanbit_job.get("base_salary", 0))
+    if hanbit_salary != 2_240_000:
+        fail(
+            f"Hanbit job_03 salary drifted from KRW 2,240,000: "
+            f"{hanbit_salary:,}",
+            errors,
+        )
+    core_events = load_json(CORE_LOOP_EVENTS_PATH)
+    hanbit_event = next(
+        (
+            row
+            for row in core_events
+            if isinstance(row, dict)
+            and row.get("id") == "v2_hanbit_offer_message"
+        ),
+        {},
+    )
+    hanbit_choices = hanbit_event.get("choices", [])
+    hanbit_accept = (
+        hanbit_choices[0]
+        if isinstance(hanbit_choices, list)
+        and hanbit_choices
+        and isinstance(hanbit_choices[0], dict)
+        else {}
+    )
+    first_paycheck_ratio = float(hanbit_accept.get("first_paycheck_ratio", 0.0))
+    if first_paycheck_ratio != 0.75:
+        fail(
+            "Hanbit's first paycheck must cover exactly three of four weeks, "
+            f"got ratio {first_paycheck_ratio}",
+            errors,
+        )
+    expected_display = {
+        "ko": "한빛유통 물류센터 운영지원 계약직",
+        "en": "Hanbit Logistics Operations Support (Contract)",
+    }
+    if hanbit_accept.get("grant_job_display") != expected_display:
+        fail(
+            "Hanbit's granted job lost its company-specific role name",
+            errors,
+        )
+    hanbit_first_paycheck = int(hanbit_salary * first_paycheck_ratio)
+    d_hired_legal = simulate_hired_month_five(
+        "d_hired_legal",
+        ("livelihood", "recovery"),
+        options,
+        hanbit_first_paycheck,
+    )
+    d_hired_legal.apply_effects(inventory_effects)
+    d_hired_legal.apply_effects(logistics_effects)
+    if d_hired_legal.cash != 1_300_000:
+        fail(
+            "accepting the earned Hanbit offer after both earlier legal shifts "
+            "must finish week 20 at exactly KRW 1,300,000 after the "
+            "three-week first paycheck, "
+            f"got {d_hired_legal.cash:,}",
+            errors,
+        )
+    if d_hired_legal.cash - 180_000 != 1_120_000:
+        fail(
+            "the employed legal path must retain KRW 1,120,000 after the "
+            "optional refurbished phone",
+            errors,
+        )
+
+    d_growth_config = action_config(contract, "m5_evening_spreadsheet_class")
+    d_growth_effects = d_growth_config.get("effects", {})
+    if d_growth_effects != {"intelligence": 2, "mental": -2}:
+        fail(f"month-five spreadsheet course effects drifted: {d_growth_effects}", errors)
+    d_clinic_config = action_config(contract, "m5_employment_contract_clinic")
+    d_clinic_effects = d_clinic_config.get("effects", {})
+    if d_clinic_effects != {"intelligence": 1, "mental": 1}:
+        fail(f"month-five contract clinic effects drifted: {d_clinic_effects}", errors)
+    d_recovery_config = action_config(contract, "m5_last_empty_sunday")
+    d_recovery_effects = d_recovery_config.get("effects", {})
+    d_recovery_diminished = d_recovery_config.get("recovery_routine_effects", {})
+    if d_recovery_effects != {"health": 5, "mental": 7}:
+        fail(f"month-five full recovery drifted: {d_recovery_effects}", errors)
+    if d_recovery_diminished != {"health": 2, "mental": 3}:
+        fail(
+            f"month-five diminished recovery drifted: {d_recovery_diminished}",
             errors,
         )
 
@@ -414,11 +596,16 @@ def main() -> int:
         f"c_no_shift_cash={c_no_shifts.cash} "
         f"c_late_shift_cash={c_late_shift_only.cash} "
         f"c_two_shift_cash={c_two_shift_legal.cash} "
+        f"d_no_shift_cash={d_no_shifts.cash} "
+        f"d_late_shift_cash={d_late_shift_only.cash} "
+        f"d_three_shift_cash={d_three_shift_legal.cash} "
+        f"d_hired_cash={d_hired_legal.cash} "
         f"dirty_before_fallout={dirty_before_fallout.cash} "
         f"dirty_escaped={dirty_escaped.cash} dirty_deeper={dirty_deeper.cash} "
         f"dirty_costs={explicit_costs} "
         f"b_routine_units={b_no_shift_growth.routine_units} "
         f"c_routine_units={c_no_shifts.routine_units} "
+        f"d_routine_units={d_no_shifts.routine_units} "
         f"recovery_diminished={diminished_recovery}"
     )
     return 0

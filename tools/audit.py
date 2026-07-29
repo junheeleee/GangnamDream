@@ -646,7 +646,8 @@ LIVING_SCENE_EFFECTS = {"none", "rain", "snow", "memory", "city_light", "firewor
 CHOICE_KEYS = {"text", "text_if_moral", "effects", "flags", "follow_up_event", "result_text",
                "result_cg", "result_cg_reveal_paragraph", "result_background", "result_ambience",
                "opportunity", "cast_effects", "relationship_effects",
-               "investment_effects", "tendency", "route", "grant_job", "replace_current_job",
+               "investment_effects", "tendency", "route", "grant_job",
+               "grant_job_display", "first_paycheck_ratio", "replace_current_job",
                "conditions_note", "deferred_follow_up", "deferred_delay",
                "foreshadow", "bridge_summary", "clues", "give_items", "requires_item", "housing_keepsake",
                "year_scene"}
@@ -1077,6 +1078,25 @@ def check_dead_arc_events():
                 ue = (t.get("on_complete", {}) or {}).get("unlock_event")
                 if isinstance(ue, str) and ue:
                     follow_targets.add(ue)
+        except Exception:
+            pass
+    # Core Loop V2 resolves authored roots from its machine-readable bundle
+    # contract rather than hard-coding every event ID in GDScript. Count only
+    # executable existing_roots here; planned_scene_id remains design data and
+    # must not make an unfinished event look reachable.
+    v2_contract_path = os.path.join(
+        ROOT, "content", "meta", "demo_core_loop_v2.json")
+    if os.path.exists(v2_contract_path):
+        try:
+            v2_contract = json.load(
+                open(v2_contract_path, encoding="utf-8"))
+            for bundle in (
+                    v2_contract.get("scene_bundles", {}) or {}).values():
+                if not isinstance(bundle, dict):
+                    continue
+                for root_id in bundle.get("existing_roots", []) or []:
+                    if isinstance(root_id, str) and root_id:
+                        follow_targets.add(root_id)
         except Exception:
             pass
     for eid, p in trigger_only:

@@ -35,7 +35,7 @@ func _ready() -> void:
 			+ "forgone=producer_consumer/once delayed=cross_month/one_per_week "
 			+ "relationship=choice_only/monotonic summary=ack/save "
 			+ "followup=restored save=roundtrip "
-			+ "boundary=week12_continues/24w_sticky_recap "
+			+ "boundary=week12_continues/week20_turn21/24w_sticky_recap "
 			+ "phone=home5/status/calendar_cancel+secondary/contacts/bank/device_preview/read_only_reopen "
 			+ "planner=1280x720_focus_scroll "
 			+ "en_hangul=0 hidden_scores=0")
@@ -51,6 +51,8 @@ func _check_explicit_activation() -> void:
 		"prototype activated without its explicit runtime flag")
 	_expect(CORE_LOOP.initialize_for_run(true),
 		"forced prototype activation failed")
+	_expect(CORE_LOOP.development_cap_week() == 20,
+		"shared regression did not inherit the week-20 development cap")
 	_expect(CORE_LOOP.is_active(),
 		"prototype did not become active in week one")
 	GameState.turn = 9
@@ -62,8 +64,14 @@ func _check_explicit_activation() -> void:
 	_expect(not CORE_LOOP.is_prototype_complete(),
 		"prototype marked an untouched week-thirteen run complete")
 	GameState.turn = 17
+	_expect(CORE_LOOP.is_active() and not CORE_LOOP.is_prototype_complete(),
+		"extended development build did not continue into week 17")
+	GameState.turn = 20
+	_expect(CORE_LOOP.is_active() and not CORE_LOOP.is_prototype_complete(),
+		"extended development build did not include week 20")
+	GameState.turn = 21
 	_expect(not CORE_LOOP.is_active() and not CORE_LOOP.is_prototype_complete(),
-		"untouched build did not stop safely after its week-16 boundary")
+		"untouched build did not stop safely after its week-20 boundary")
 
 func _check_deadline_and_routine_validation() -> void:
 	GameState.start_new_game()
@@ -574,7 +582,7 @@ func _check_prototype_completion_boundary() -> void:
 	GameState.flags["lent_account"] = true
 	GameState.flags["escaped_dirty_money"] = true
 	_expect(not CORE_LOOP.mark_prototype_complete(),
-		"prototype closed before the week-sixteen month-end rollover")
+		"prototype closed before the week-twenty month-end rollover")
 	GameState.turn = 13
 	_expect(not CORE_LOOP.mark_prototype_complete(),
 		"week 13 incorrectly marked the extended build complete")
@@ -603,16 +611,29 @@ func _check_prototype_completion_boundary() -> void:
 func _check_prototype_completion_surface() -> void:
 	LocaleManager.language = "en"
 	GameState.add_log("Core Loop V2 completion fixture", "system")
-	GameState.turn = 17
+	GameState.turn = 21
 	var completion_state: Dictionary = (
 		GameState.core_loop_v2_state as Dictionary).duplicate(true)
-	completion_state["completed_turns"] = range(1, 17)
-	completion_state["completed_through_week"] = 16
-	completion_state["development_cap_week"] = 16
+	completion_state["completed_turns"] = range(1, 21)
+	completion_state["completed_through_week"] = 20
+	completion_state["development_cap_week"] = 20
 	completion_state["prototype_complete"] = true
-	completion_state["prototype_completed_at_turn"] = 17
-	completion_state["completed_at_turn"] = 17
+	completion_state["prototype_completed_at_turn"] = 21
+	completion_state["completed_at_turn"] = 21
+	var completion_summaries: Dictionary = (
+		completion_state.get("month_summaries", {}) as Dictionary
+	).duplicate(true)
+	for month_index in range(1, 6):
+		if not completion_summaries.has(str(month_index)):
+			completion_summaries[str(month_index)] = {
+				"month": month_index,
+				"fixed_expense": 650_000.0,
+				"cash_shortfall": 0.0,
+			}
+	completion_state["month_summaries"] = completion_summaries
 	GameState.core_loop_v2_state = completion_state
+	_expect(completion_summaries.size() == 5,
+		"week-20 terminal fixture did not retain all five month records")
 	var packed := load("res://scenes/MainGame.tscn") as PackedScene
 	_expect(packed != null,
 		"completion recap could not load MainGame.tscn")
@@ -634,13 +655,13 @@ func _check_prototype_completion_surface() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 	_expect(str(main_game._modal_kind) == "core_loop_v2_complete",
-		"post-week-sixteen MainGame did not open the completion recap")
+		"post-week-twenty MainGame did not open the completion recap")
 	_expect(bool(main_game.modal_layer.get_meta(
 			"core_loop_v2_completion", false)),
 		"completion recap did not expose its terminal surface marker")
 	_expect(not main_game.modal_close_button.visible,
 		"completion recap exposed a close path into the legacy director")
-	_expect(GameState.turn == 17,
+	_expect(GameState.turn == 21,
 		"opening the completion recap advanced into another week")
 	var viewport_rect := get_viewport().get_visible_rect()
 	var panel_rect: Rect2 = main_game.modal_panel.get_global_rect()

@@ -1,5 +1,5 @@
 {
-  "version": 31,
+  "version": 32,
   "tag_coverage": [
     "climate",
     "season",
@@ -203,6 +203,12 @@
     {"id": "v2_daeun_return_after_distance", "background": "convenience_night", "portrait": "daeun_normal"},
     {"id": "v2_sangchul_housing_lead", "background": "realestate_office", "portrait": "sangchul_normal"},
     {"id": "v2_jaehyuk_message", "background": "goshiwon_room", "portrait": null},
+    {"id": "v2_hanbit_offer_message", "background": "goshiwon_room", "portrait": null},
+    {"id": "v2_daeun_small_commitment", "background": "convenience_night", "portrait": "daeun_smile"},
+    {"id": "v2_daeun_third_greeting", "background": "convenience_night", "portrait": "daeun_normal"},
+    {"id": "v2_jiyeon_second_crossing", "background": "street_rainy", "portrait": "jiyeon_normal", "choice_result_backgrounds": {"0": "cafe"}},
+    {"id": "v2_sangchul_demo_echo", "background": "realestate_office", "portrait": "sangchul_normal"},
+    {"id": "v2_jaehyuk_plain_reunion_echo", "background": "pojangmacha", "portrait": "jaehyuk_friendly"},
     {"id": "arc_hyunsu_night_talk", "background": "goshiwon_hallway", "portrait": "hyunsu"},
     {"id": "hyunsu_exam_day", "background": "goshiwon_hallway", "portrait": "player_offduty_neutral"},
     {"id": "hyunsu_result_fail", "background": "goshiwon_hallway", "portrait": "player_offduty_neutral"},

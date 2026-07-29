@@ -97,7 +97,7 @@
   만들고 짧은 정적 페이드만 사용한다.
 
 ```bash
-python3 tools/scene_direction_catalog.py --check
+python3 tools/scene_direction_catalog.py
 python3 tools/full_run_direction_audit.py
 godot --headless --path . res://tools/SceneDirectionCheck.tscn
 ```

@@ -43,7 +43,7 @@ func _ready() -> void:
 	AudioManager.sfx_enabled = original_sfx_enabled
 	if _failures.is_empty():
 		print(
-			"CORE_LOOP_V2_B_CHECK_OK schema=3 cap=16 migration=8_to_16 "
+			"CORE_LOOP_V2_B_CHECK_OK schema=3 cap=20 migration=8_and_12_to_20 "
 			+ "continuation=week12_to_13/roundtrip prerequisites=typed/closed_safe "
 			+ "entries=daeun_jiyeon_father_hyunsu exclusive=romance_entry "
 			+ "relationship=from_to/current_turn_receipt/no_regression "
@@ -67,8 +67,8 @@ func _ready() -> void:
 func _check_contract_and_legacy_boundary() -> void:
 	_expect(int(CORE_LOOP.contract().get("schema_version", 0)) == 3,
 		"B runtime contract is not schema 3")
-	_expect(CORE_LOOP.development_cap_week() == 16,
-		"B regression did not inherit the week-16 development cap")
+	_expect(CORE_LOOP.development_cap_week() == 20,
+		"B regression did not inherit the week-20 development cap")
 	GameState.start_new_game()
 	GameState.turn = 9
 	GameState.core_loop_v2_state = {
@@ -98,7 +98,7 @@ func _check_contract_and_legacy_boundary() -> void:
 	var migrated: Dictionary = GameState.core_loop_v2_state
 	_expect(int(migrated.get("schema", 0)) == 3 \
 			and int(migrated.get("completed_through_week", 0)) == 8 \
-			and int(migrated.get("development_cap_week", 0)) == 16,
+			and int(migrated.get("development_cap_week", 0)) == 20,
 		"schema-2 completion did not migrate to completed-through week 8")
 	var migrated_relationship_receipt: Variant = (
 		migrated.get("relationship_choice_receipts", {}) as Dictionary
@@ -121,7 +121,7 @@ func _check_contract_and_legacy_boundary() -> void:
 	_expect(CORE_LOOP.is_active(),
 		"migrated A1 save did not continue into week 9")
 	_expect(not CORE_LOOP.is_prototype_complete(),
-		"migrated A1 save was mistaken for a completed 16-week build")
+		"migrated A1 save was mistaken for a completed 20-week build")
 	var saved: Dictionary = GameState.serialize()
 	GameState.start_new_game()
 	GameState.load_from_dict(saved)
@@ -135,16 +135,25 @@ func _check_twelve_week_boundary_continuation() -> void:
 	_fresh()
 	var state: Dictionary = GameState.core_loop_v2_state
 	state["completed_turns"] = range(1, 13)
-	state["completed_through_week"] = 8
+	state["completed_through_week"] = 12
+	state["development_cap_week"] = 12
+	state["prototype_complete"] = true
+	state["prototype_completed_at_turn"] = 13
+	state["completed_at_turn"] = 13
 	GameState.core_loop_v2_state = state
 	GameState.turn = 12
 	_expect(CORE_LOOP.is_active(),
 		"week 12 was outside the B development window")
 	GameState.turn = 13
+	_expect(CORE_LOOP.initialize_for_run(),
+		"week-12 completion did not initialize under the week-20 cap")
+	_expect(int(GameState.core_loop_v2_state.get(
+			"development_cap_week", 0)) == 20,
+		"week-12 completion did not migrate its development cap to week 20")
 	_expect(not CORE_LOOP.is_prototype_complete(),
 		"week 12 was mistaken for the extended build boundary")
 	_expect(not CORE_LOOP.mark_prototype_complete(),
-		"turn 13 incorrectly closed the week-16 development build")
+		"turn 13 incorrectly closed the week-20 development build")
 	_expect(CORE_LOOP.is_active(),
 		"the B slice did not continue into week 13")
 	var saved: Dictionary = GameState.serialize()
@@ -153,6 +162,10 @@ func _check_twelve_week_boundary_continuation() -> void:
 	CORE_LOOP.initialize_for_run()
 	_expect(not CORE_LOOP.is_prototype_complete() \
 			and CORE_LOOP.is_active() \
+			and int(GameState.core_loop_v2_state.get(
+				"completed_through_week", 0)) == 12 \
+			and int(GameState.core_loop_v2_state.get(
+				"development_cap_week", 0)) == 20 \
 			and (GameState.core_loop_v2_state.get(
 				"completed_turns", []) as Array).has(12),
 		"week-12 continuation did not survive save/load")
@@ -258,7 +271,7 @@ func _check_month_three_autosave_boundary() -> void:
 	var state: Dictionary = GameState.core_loop_v2_state
 	state["completed_turns"] = range(1, 13)
 	state["completed_through_week"] = 8
-	state["development_cap_week"] = 16
+	state["development_cap_week"] = 20
 	state["prototype_complete"] = false
 	state["prototype_completed_at_turn"] = 0
 	state["completed_at_turn"] = 0

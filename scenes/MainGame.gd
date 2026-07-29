@@ -1403,13 +1403,15 @@ func _core_loop_v2_show_month_summary(summary: Dictionary) -> void:
 		if not raw_record is Dictionary:
 			continue
 		var record: Dictionary = raw_record
-		var message_key := "message_en" if LocaleManager.is_english() else "message_ko"
-		var message := str(record.get(message_key, "")).strip_edges()
-		if not message.is_empty():
-			closed.append(message)
+		var producer := DEMO_CORE_LOOP_V2.bundle(
+			str(record.get("producer_bundle", "")))
+		var offer_name := _core_loop_v2_localized(
+			producer, "offer").strip_edges()
+		if not offer_name.is_empty() and not closed.has(offer_name):
+			closed.append(offer_name)
 	path_grid.add_child(_core_loop_v2_recap_list_card(
-		_tr("고르지 않은 일의 결과", "Results of Unchosen Options"), closed,
-		_tr("이번 달에는 고르지 않은 일의 결과가 없다.", "No unchosen option had a result this month."), "#8e7f84"))
+		_tr("이번 달에 잡지 않은 일정", "Not Scheduled This Month"), closed,
+		_tr("이번 달에는 놓친 일정이 없다.", "No plans were left unscheduled this month."), "#8e7f84"))
 
 	var routine_names: Array[String] = []
 	var routines: Dictionary = summary.get("routines", {})
@@ -5305,7 +5307,7 @@ func _run_month_end_transition(
 	var snap = {
 		"date": GameState.get_date_string(),
 		"money_before": GameState.money,
-		"monthly_income": GameState.monthly_income,
+		"monthly_income": GameState.get_monthly_payable_income(),
 		"fixed_expense": GameState.get_monthly_required_cash(),
 		"assets_before": GameState.get_total_asset_value(),
 		"health_before": GameState.health,

@@ -583,6 +583,11 @@ func get_job_display_name(job: Dictionary = {}) -> String:
 	var source: Dictionary = current_job if job.is_empty() else job
 	if source.is_empty():
 		return LocaleManager.ui("무직", "Unemployed")
+	var authored_name_key := "display_name_ko" \
+			if LocaleManager.language == "ko" else "display_name_en"
+	var authored_name := str(source.get(authored_name_key, "")).strip_edges()
+	if not authored_name.is_empty():
+		return authored_name
 	var job_id := str(source.get("id", ""))
 	if not job_id.is_empty():
 		var localized: Dictionary = DataRegistry.get_job(job_id)
@@ -913,14 +918,34 @@ func upgrade_housing() -> Dictionary:
 	stats_changed.emit()
 	return {"success": true, "housing": next_info}
 
+func get_monthly_payable_income() -> float:
+	var payable_income := float(monthly_income)
+	if current_job.is_empty() \
+			or not current_job.has("pending_first_paycheck_ratio"):
+		return payable_income
+	var current_salary := float(current_job.get(
+		"effective_salary", current_job.get("base_salary", 0.0)))
+	var first_ratio: float = clampf(float(current_job.get(
+		"pending_first_paycheck_ratio", 1.0)), 0.0, 1.0)
+	return maxf(
+		0.0,
+		payable_income - current_salary + current_salary * first_ratio)
+
 func apply_monthly_pressure():
 	fixed_expense = get_housing_expense()
 	var loan_interest: float = get_monthly_loan_interest()
 	var required_cash: float = float(fixed_expense) + loan_interest
 	var reserve_target: float = required_cash * 3.0
-	add_money(monthly_income - fixed_expense)
+	var payable_income := get_monthly_payable_income()
+	add_money(payable_income - fixed_expense)
+	# Mid-month hires may author an explicit first-pay ratio. The normal
+	# monthly salary remains visible in the job UI; only this first deposit is
+	# prorated, then the marker is consumed before the next month.
+	if not current_job.is_empty() \
+			and current_job.has("pending_first_paycheck_ratio"):
+		current_job.erase("pending_first_paycheck_ratio")
 	# 첫 월급 수령 플래그 — 투자 기능 잠금 해제 트리거
-	if monthly_income > 0 and not flags.get("has_received_paycheck", false):
+	if payable_income > 0 and not flags.get("has_received_paycheck", false):
 		flags["has_received_paycheck"] = true
 		add_log(LocaleManager.ui("💳 첫 월급이 통장에 들어왔다. 이제 투자를 시작할 수 있다.", "💳 Your first paycheck hit the account. Investing is now available."), "job")
 
@@ -1102,6 +1127,19 @@ func apply_choice(event, choice):
 			work_performance = 50
 			var new_salary := float(gj.get("base_salary", 0.0))
 			current_job["effective_salary"] = new_salary
+			var display_names: Variant = choice.get("grant_job_display", {})
+			if display_names is Dictionary:
+				for language_key in ["ko", "en"]:
+					var display_name := str(
+						(display_names as Dictionary).get(
+							language_key, "")).strip_edges()
+					if not display_name.is_empty():
+						current_job["display_name_%s" % language_key] = \
+							display_name
+			if choice.has("first_paycheck_ratio"):
+				current_job["pending_first_paycheck_ratio"] = clampf(
+					float(choice.get("first_paycheck_ratio", 1.0)),
+					0.0, 1.0)
 			monthly_income = new_salary if previous_job.is_empty() \
 				else monthly_income + new_salary
 			flags["has_job"] = true

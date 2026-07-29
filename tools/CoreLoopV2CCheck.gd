@@ -55,13 +55,13 @@ func _ready() -> void:
 	_check_money_entry_prerequisites_and_exclusivity()
 	_check_story_entry_roots_and_terminal_outcomes()
 	_check_c_action_contracts_and_roundtrips()
-	await _check_sixteen_week_terminal_boundary()
+	await _check_sixteen_week_continuation_boundary()
 
 	AudioManager.sfx_enabled = original_sfx_enabled
 	_restore_autosave()
 	if _failures.is_empty():
 		print(
-			"CORE_LOOP_V2_C_CHECK_OK schema=3 cap=16 migration=12_to_16 "
+			"CORE_LOOP_V2_C_CHECK_OK schema=3 cap=20 migration=12_to_20 "
 			+ "offers=sparse5_rich7 hanbit=week14/submitted/interviewed/decline_once "
 			+ "daeun=two_paths/two_choices/player_once "
 			+ "jiyeon=reciprocal_or_player/opening "
@@ -69,7 +69,7 @@ func _ready() -> void:
 			+ "money_entries=distinct_prerequisites/mutual_exclusion "
 			+ "events=entry_roots/terminal_outcomes "
 			+ "actions=apply_study_shift_recovery/atomic/save_once "
-			+ "terminal=week16/turn17/no_legacy_fallback")
+			+ "continuation=week16_to_17/month5_planner/no_legacy_fallback")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -85,14 +85,14 @@ func _check_contract_and_twelve_week_resume() -> void:
 	var raw_prototype_weeks: Variant = scope.get("prototype_weeks", [])
 	_expect(int(contract.get("schema_version", 0)) == 3,
 		"C runtime contract is not schema 3")
-	_expect(CORE_LOOP.development_cap_week() == 16 \
-			and int(scope.get("development_cap_week", 0)) == 16,
-		"C development cap is not week 16")
+	_expect(CORE_LOOP.development_cap_week() == 20 \
+			and int(scope.get("development_cap_week", 0)) == 20,
+		"C regression did not inherit the week-20 development cap")
 	_expect(raw_prototype_weeks is Array \
 			and (raw_prototype_weeks as Array).size() == 2 \
 			and int((raw_prototype_weeks as Array)[0]) == 1 \
-			and int((raw_prototype_weeks as Array)[1]) == 16,
-		"C prototype window is not exactly weeks 1–16")
+			and int((raw_prototype_weeks as Array)[1]) == 20,
+		"C prototype window is not exactly weeks 1–20")
 	_expect(not bool(contract.get("runtime_default", true)),
 		"C enabled the unfinished V2 loop by default")
 
@@ -163,10 +163,10 @@ func _check_contract_and_twelve_week_resume() -> void:
 		"schema-3 week-12 terminal save did not initialize")
 	var migrated: Dictionary = GameState.core_loop_v2_state
 	_expect(int(migrated.get("schema", 0)) == 3 \
-			and int(migrated.get("development_cap_week", 0)) == 16 \
+			and int(migrated.get("development_cap_week", 0)) == 20 \
 			and int(migrated.get("completed_through_week", 0)) == 12 \
 			and not bool(migrated.get("prototype_complete", true)),
-		"week-12 completion did not reopen under the week-16 cap")
+		"week-12 completion did not reopen under the week-20 cap")
 	_expect(CORE_LOOP.is_active() \
 			and not CORE_LOOP.is_prototype_complete() \
 			and CORE_LOOP.needs_plan(4),
@@ -944,12 +944,12 @@ func _check_atomic_action_roundtrip(
 			and not CORE_LOOP.action_result_ready(),
 		"%s result Continue did not complete exactly once" % bundle_id)
 
-func _check_sixteen_week_terminal_boundary() -> void:
+func _check_sixteen_week_continuation_boundary() -> void:
 	_fresh_at(16)
 	GameState.money = 2_000_000.0
 	var packed := load("res://scenes/MainGame.tscn") as PackedScene
 	_expect(packed != null,
-		"week-16 terminal QA could not load MainGame")
+		"week-16 continuation QA could not load MainGame")
 	if packed == null:
 		return
 	var main_game = packed.instantiate()
@@ -963,7 +963,7 @@ func _check_sixteen_week_terminal_boundary() -> void:
 	var state: Dictionary = GameState.core_loop_v2_state
 	state["completed_turns"] = range(1, 17)
 	state["completed_through_week"] = 12
-	state["development_cap_week"] = 16
+	state["development_cap_week"] = 20
 	state["prototype_complete"] = false
 	state["prototype_completed_at_turn"] = 0
 	state["completed_at_turn"] = 0
@@ -988,36 +988,80 @@ func _check_sixteen_week_terminal_boundary() -> void:
 		var saved_v2: Dictionary = saved_state.get(
 			"core_loop_v2_state", {})
 		_expect(int(saved_state.get("turn", 0)) == 17 \
+				and (saved_v2.get(
+					"completed_turns", []) as Array).has(16) \
 				and int(saved_v2.get(
-					"completed_through_week", 0)) == 16 \
-				and bool(saved_v2.get("prototype_complete", false)) \
-				and int(saved_v2.get("completed_at_turn", 0)) == 17 \
+					"completed_through_week", 0)) == 12 \
+				and int(saved_v2.get(
+					"development_cap_week", 0)) == 20 \
+				and not bool(saved_v2.get("prototype_complete", true)) \
+				and int(saved_v2.get("completed_at_turn", 0)) == 0 \
 				and (saved_v2.get(
 					"month_summaries", {}) as Dictionary).has("4"),
-			"the week-16 autosave was not one complete turn-17 snapshot")
+			"the week-16 autosave was not one resumable turn-17 snapshot")
 
-	_expect(SaveManager.load_game(SaveManager.AUTOSAVE_SLOT) \
-			and CORE_LOOP.initialize_for_run() \
+	var boundary_loaded := SaveManager.load_game(SaveManager.AUTOSAVE_SLOT)
+	var boundary_initialized := boundary_loaded \
+		and CORE_LOOP.initialize_for_run()
+	var loaded_completed_turns: Array = (
+		GameState.core_loop_v2_state.get(
+			"completed_turns", []) as Array)
+	var loaded_completed_sixteen := loaded_completed_turns.any(
+		func(raw_turn): return int(raw_turn) == 16)
+	_expect(boundary_initialized \
 			and GameState.turn == 17 \
-			and CORE_LOOP.is_prototype_complete() \
-			and not CORE_LOOP.is_active() \
+			and not CORE_LOOP.is_prototype_complete() \
+			and CORE_LOOP.is_active() \
+			and CORE_LOOP.needs_plan(5) \
+			and loaded_completed_sixteen \
 			and not GameState.is_game_over,
-		"durable week-16 completion did not reload at the turn-17 boundary")
+		"durable week-16 completion did not reload into the Month Five window: "
+		+ "loaded=%s initialized=%s turn=%d active=%s complete=%s "
+		% [
+			str(boundary_loaded), str(boundary_initialized),
+			GameState.turn, str(CORE_LOOP.is_active()),
+			str(CORE_LOOP.is_prototype_complete()),
+		]
+		+ "needs_plan=%s completed16=%s game_over=%s" % [
+			str(CORE_LOOP.needs_plan(5)),
+			str(loaded_completed_sixteen),
+			str(GameState.is_game_over),
+		])
 	main_game._core_loop_v2_route_week()
 	await get_tree().process_frame
 	await get_tree().process_frame
-	_expect(str(main_game._modal_kind) == "core_loop_v2_complete" \
+	_expect(str(main_game._modal_kind) == "core_loop_v2_month_summary" \
 			and bool(main_game.modal_layer.get_meta(
-				"core_loop_v2_completion", false)) \
+				"core_loop_v2_month_summary", false)) \
+			and int(main_game.modal_layer.get_meta(
+				"core_loop_v2_month", 0)) == 4 \
 			and not main_game.modal_close_button.visible \
 			and GameState.turn == 17 \
+			and CORE_LOOP.is_active() \
+			and not CORE_LOOP.is_prototype_complete() \
 			and bool(GameState.core_loop_v2_state.get(
 				"enabled", false)),
-		"turn 17 opened or exposed a close path into the legacy director")
+		"turn 17 did not preserve the Month Four notebook before Month Five")
 	var done_button := _find_meta_node(
 		main_game.modal_layer, "core_loop_v2_recap_done")
-	_expect(is_instance_valid(done_button),
-		"turn-17 completion recap lost its title-screen CTA")
+	_expect(not is_instance_valid(done_button),
+		"turn 17 exposed the terminal recap or a legacy fallback")
+	var month_confirm := _find_meta_node(
+		main_game.modal_layer, "core_loop_v2_month_confirm")
+	_expect(is_instance_valid(month_confirm),
+		"turn 17 continuation lost its Month Five planning CTA")
+	if is_instance_valid(month_confirm):
+		main_game._core_loop_v2_acknowledge_month_summary(4)
+		await get_tree().process_frame
+		await get_tree().process_frame
+		var planner = main_game._core_loop_planner
+		_expect(is_instance_valid(planner) \
+				and planner.visible \
+				and int(planner._month_index) == 5 \
+				and CORE_LOOP.needs_plan(5) \
+				and CORE_LOOP.is_active() \
+				and not CORE_LOOP.is_prototype_complete(),
+			"the week-16 continuation could not open the Month Five planner")
 
 	main_game.free()
 	packed = null

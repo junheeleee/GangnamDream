@@ -1008,12 +1008,7 @@ func _set_phone_app_icon_focus(
 			17))
 
 func _phone_message_badge_count() -> int:
-	var count := 0
-	for bundle_id in CORE_LOOP.available_offer_ids(_month_index):
-		var phone_surface := _phone_surface_kind(CORE_LOOP.bundle(bundle_id))
-		if phone_surface in ["inbound_message", "call_log"]:
-			count += 1
-	return count
+	return _received_phone_offer_ids().size()
 
 func _open_app(app_id: String) -> void:
 	if app_id not in PHONE_SYSTEM.visible_app_ids():
@@ -1752,6 +1747,13 @@ func _received_phone_offer_ids() -> Array[String]:
 		var offer := CORE_LOOP.bundle(bundle_id)
 		if _phone_surface_kind(offer) in ["inbound_message", "call_log"]:
 			result.append(bundle_id)
+	for bundle_id in CORE_LOOP.received_phone_consequence_ids(_month_index):
+		if result.has(bundle_id):
+			continue
+		var consequence := CORE_LOOP.bundle(bundle_id)
+		if _phone_surface_kind(consequence) \
+				in ["inbound_message", "call_log"]:
+			result.append(bundle_id)
 	return result
 
 func _optional_phone_copy(offer: Dictionary, stem: String) -> String:
@@ -2131,6 +2133,7 @@ func _contact_method_allows_bundle(
 		character_id: String, method: String, bundle_id: String) -> bool:
 	if character_id == "daeun" and bundle_id in [
 		"daeun_player_return", "daeun_return_after_distance",
+		"daeun_shared_dream", "daeun_third_greeting",
 	]:
 		return method == "known_place"
 	return method in ["phone", "kakao", "business_card"]
@@ -2139,6 +2142,7 @@ func _contact_action_copy(
 		character_id: String, method: String, bundle_id: String) -> String:
 	if character_id == "daeun" and bundle_id in [
 		"daeun_player_return", "daeun_return_after_distance",
+		"daeun_shared_dream", "daeun_third_greeting",
 	]:
 		return LocaleManager.ui(
 			"직접 찾아갈 시간 잡기",
@@ -2174,7 +2178,13 @@ func _contact_topic_bundle(character_id: String) -> String:
 			candidates = [
 				"daeun_player_return",
 				"daeun_return_after_distance",
+				"daeun_shared_dream",
+				"daeun_third_greeting",
 			]
+		"sangchul":
+			candidates = ["sangchul_second_coffee"]
+		"jaehyuk":
+			candidates = ["jaehyuk_plain_reunion_echo"]
 	var available := CORE_LOOP.available_offer_ids(_month_index)
 	for bundle_id in candidates:
 		if available.has(bundle_id):
@@ -2960,6 +2970,30 @@ func _relationship_copy(character_id: String) -> String:
 				"You first spoke in the shared kitchen. There is no plan together yet.")
 	if character_id == "daeun":
 		if _has_relationship_memory(character_id, [
+			"daeun_same_tuesday_promised",
+		]):
+			return LocaleManager.ui(
+				"내가 다시 찾아간 뒤, 다음 화요일에도 서로의 한 주를 묻기로 했다.",
+				"After I returned, we agreed to ask about each other's week again next Tuesday.")
+		if _has_relationship_memory(character_id, [
+			"daeun_late_meal_promised",
+		]):
+			return LocaleManager.ui(
+				"내가 다시 찾아간 뒤, 다음에는 서로 늦은 끼니를 거르지 않았는지 확인하기로 했다.",
+				"After I returned, we agreed to check next time that neither of us had skipped a late meal.")
+		if _has_relationship_memory(character_id, [
+			"daeun_third_greeting_started",
+		]):
+			return LocaleManager.ui(
+				"이름을 안 뒤 다시 편의점에 찾아가, 내가 먼저 세 번째 대화를 시작했다.",
+				"After learning her name, I returned to the store and began our third conversation.")
+		if _has_relationship_memory(character_id, [
+			"daeun_shift_question_asked",
+		]):
+			return LocaleManager.ui(
+				"이름을 안 뒤 다시 편의점에 찾아가, 내가 먼저 다은의 야간 근무를 물었다.",
+				"After learning her name, I returned and asked Daeun about her night shift first.")
+		if _has_relationship_memory(character_id, [
 			"daeun_returned_using_her_name",
 		]):
 			return LocaleManager.ui(
@@ -2993,6 +3027,24 @@ func _relationship_copy(character_id: String) -> String:
 				"You exchanged only a greeting at the store before dawn. You still do not know her name.")
 	if character_id == "jiyeon":
 		if _has_relationship_memory(character_id, [
+			"jiyeon_neighborhood_coffee_accepted",
+		]):
+			return LocaleManager.ui(
+				"큰길에서 다시 마주친 지연과 가까운 카페에 들어가 대화를 이어 갔다.",
+				"After meeting Jiyeon again on the main road, we continued talking at a nearby café.")
+		if _has_relationship_memory(character_id, [
+			"jiyeon_talk_without_debt_requested",
+		]):
+			return LocaleManager.ui(
+				"큰길에서 다시 마주친 지연에게 보상 말고 서로의 이야기를 하자고 먼저 말했다.",
+				"After meeting Jiyeon again, I asked to talk about each other rather than compensation.")
+		if _has_relationship_memory(character_id, [
+			"jiyeon_coffee_fully_refused",
+		]):
+			return LocaleManager.ui(
+				"큰길에서 다시 마주쳤지만, 지연의 커피 제안을 받지 않고 돌아섰다.",
+				"We met again on the main road, but I declined Jiyeon's coffee invitation and left.")
+		if _has_relationship_memory(character_id, [
 			"jiyeon_name_exchanged_after_player_spoke",
 		]):
 			return LocaleManager.ui(
@@ -3013,6 +3065,18 @@ func _relationship_copy(character_id: String) -> String:
 				"신촌 골목의 사고로 한 번 마주쳤다. 연락처도 이름도 모른다.",
 				"You met once in a Sinchon side-street accident. You know neither her name nor contact details.")
 	if character_id == "sangchul":
+		if _has_relationship_memory(character_id, [
+			"sangchul_own_pace_stated",
+		]):
+			return LocaleManager.ui(
+				"명함의 번호로 먼저 연락해 다시 만났고, 내 속도로 배우겠다고 말했다.",
+				"I called the number on his card, met him again, and said I would learn at my own pace.")
+		if _has_relationship_memory(character_id, [
+			"sangchul_numbers_first_recorded",
+		]):
+			return LocaleManager.ui(
+				"명함의 번호로 먼저 연락해 다시 만났고, 월세와 생활비부터 적어 보기로 했다.",
+				"I called the number on his card, met him again, and decided to start by recording rent and living costs.")
 		if _has_relationship_memory(character_id, [
 			"sangchul_spoke_of_father",
 		]):
@@ -3036,6 +3100,18 @@ func _relationship_copy(character_id: String) -> String:
 				"원룸 시세를 묻다 만났고, 그가 건넨 명함을 가지고 있다.",
 				"You met while asking about studio rents and still have the card he gave you.")
 	if character_id == "jaehyuk":
+		if _has_relationship_memory(character_id, [
+			"jaehyuk_reunion_warm",
+		]):
+			return LocaleManager.ui(
+				"카카오톡 답장 뒤 포장마차에서 재혁을 만나, 십 년 만의 사진을 새로 남겼다.",
+				"After replying in KakaoTalk, I met Jaehyuk at a pojangmacha and took our first new photo in ten years.")
+		if _has_relationship_memory(character_id, [
+			"jaehyuk_reunion_guarded",
+		]):
+			return LocaleManager.ui(
+				"카카오톡 답장 뒤 포장마차에서 재혁을 만났지만, 서두르지 않고 거리를 남겼다.",
+				"After replying in KakaoTalk, I met Jaehyuk at a pojangmacha but kept some distance.")
 		if _has_relationship_memory(character_id, [
 			"jaehyuk_message_welcomed",
 		]):

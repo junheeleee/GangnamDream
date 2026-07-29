@@ -285,16 +285,16 @@
         "promise": "면접과 생계 사이에서 누구를 다시 찾아갈지 고르고, 방값을 묻는 부동산과 10년 만의 카카오톡이 돈의 다음 두 얼굴을 연다."
       },
       {
-        "id": "the_old_friend",
-        "weeks": [18, 21],
-        "foreground_roots": ["arc_jaehyuk_01_reunion", "arc_father_02_signal"],
-        "promise": "성공한 얼굴로 돌아온 친구와 약해진 아버지의 목소리가 다음 선택의 양끝이 된다."
+        "id": "the_waiting_side",
+        "weeks": [17, 20],
+        "foreground_roots": ["v2_hanbit_offer_message", "v2_daeun_small_commitment", "v2_daeun_third_greeting", "v2_jiyeon_second_crossing", "v2_sangchul_demo_echo", "v2_jaehyuk_plain_reunion_echo"],
+        "promise": "취업 결과와 생계 사이에서 앞서 시간을 쓴 사람 하나를 다시 고르고, 기다리게 한 사람과 놓친 자리를 다음 달의 빚으로 남긴다."
       },
       {
-        "id": "four_year_promise",
-        "weeks": [22, 24],
-        "foreground_roots": ["arc_job_vs_invest", "arc_gangnam_visit_alone", "arc_four_months_in"],
-        "promise": "직업, 사람, 강남 가운데 무엇을 먼저 보는지가 다음 네 해의 주어가 된다."
+        "id": "first_bill",
+        "weeks": [21, 24],
+        "foreground_roots": ["arc_father_02_signal", "arc_job_vs_invest", "arc_gangnam_visit_alone", "arc_four_months_in"],
+        "promise": "21주의 아버지 건강 신호와 20주까지 고른 직업·사람·돈의 영수증이 첫 청구서가 되어, 다음 네 해의 주어를 만든다."
       }
     ],
     "bridge_roots": [

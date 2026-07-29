@@ -201,8 +201,36 @@ EXPECTED_APPLICATION_OUTCOMES = {
             "to": "interviewed",
         }
     ],
+    "m5_hanbit_offer_message": [
+        {
+            "event_id": "v2_hanbit_offer_message",
+            "choices": [0, 1],
+            "application_id": "hanbit_ops_2026q1",
+            "from": "interviewed",
+            "to": "resolved",
+        }
+    ],
 }
-EXPECTED_FUTURE_APPLICATION_CONTRACTS: dict[str, dict[str, Any]] = {}
+EXPECTED_FUTURE_APPLICATION_CONTRACTS: dict[str, dict[str, Any]] = {
+    "m6_dodam_response": {
+        "producer_bundle": "m4_dodam_application",
+        "application_id": "dodam_customer_ops_2026q2",
+        "from": "submitted",
+        "owner_month": 6,
+        "allowed_weeks": [21, 22, 23, 24],
+        "activation_cap_week": 24,
+        "runtime_surface": "deferred",
+    },
+    "m6_city_service_response": {
+        "producer_bundle": "m5_city_service_application",
+        "application_id": "city_facility_ops_2026h1",
+        "from": "submitted",
+        "owner_month": 6,
+        "allowed_weeks": [21, 22, 23, 24],
+        "activation_cap_week": 24,
+        "runtime_surface": "deferred",
+    },
+}
 EXPECTED_DEFERRED_CALLBACK_CONTRACTS = {
     "callback_escaped_dirty_trace": {
         "producer_bundle": "temptation_consequence",
@@ -370,6 +398,61 @@ EXPECTED_M4_ACTION_CORE = {
         "effects": {"intelligence": 1, "mental": 1},
     },
 }
+EXPECTED_M5_ALLOWED_WEEKS = {
+    "m5_city_service_application": [17],
+    "m5_weekend_move_shift": [17, 18, 19, 20],
+    "m5_evening_spreadsheet_class": [17, 18, 19, 20],
+    "m5_last_empty_sunday": [17, 18, 19, 20],
+    "m5_employment_contract_clinic": [17, 18, 19, 20],
+    "daeun_shared_dream": [20],
+    "daeun_third_greeting": [20],
+    "jiyeon_second_crossing": [20],
+    "sangchul_second_coffee": [20],
+    "jaehyuk_plain_reunion_echo": [20],
+}
+EXPECTED_M5_ACTION_CORE = {
+    "m5_city_service_application": {
+        "execution": "application",
+        "application_id": "city_facility_ops_2026h1",
+        "job_id": "job_03",
+        "status": "submitted",
+    },
+    "m5_weekend_move_shift": {
+        "execution": "instant_effect",
+        "axis": "money",
+        "place_id": "work",
+        "effects": {"money": 560_000, "health": -8, "mental": -5},
+    },
+    "m5_evening_spreadsheet_class": {
+        "execution": "instant_effect",
+        "axis": "human",
+        "place_id": "city",
+        "effects": {"intelligence": 2, "mental": -2},
+    },
+    "m5_last_empty_sunday": {
+        "execution": "rest",
+        "effects": {"health": 5, "mental": 7},
+        "recovery_routine_effects": {"health": 2, "mental": 3},
+    },
+    "m5_employment_contract_clinic": {
+        "execution": "instant_effect",
+        "axis": "human",
+        "place_id": "city",
+        "effects": {"intelligence": 1, "mental": 1},
+    },
+}
+EXPECTED_M5_DECLINES = {
+    "m5_city_service_application": ("next_month_message", 6),
+    "m5_weekend_move_shift": ("next_month_message", 6),
+    "m5_evening_spreadsheet_class": ("next_month_message", 6),
+    "m5_last_empty_sunday": ("next_month_message", 6),
+    "m5_employment_contract_clinic": ("next_month_message", 6),
+    "daeun_shared_dream": ("next_month_message", 6),
+    "daeun_third_greeting": ("next_month_message", 6),
+    "jiyeon_second_crossing": ("next_month_message", 6),
+    "sangchul_second_coffee": ("next_month_message", 6),
+    "jaehyuk_plain_reunion_echo": ("next_month_message", 6),
+}
 EXPECTED_CHOICE_RECEIPTS = {
     "father_first_call": {
         0: ("unmet", "opening", "reciprocal", "father_wellbeing_returned"),
@@ -483,6 +566,82 @@ EXPECTED_CHOICE_RECEIPTS = {
         0: ("unmet", "met", "reciprocal", "jaehyuk_message_welcomed"),
         1: ("unmet", "met", "reciprocal", "jaehyuk_message_guarded"),
     },
+    "daeun_shared_dream": {
+        0: (
+            "player_reached_out",
+            "shared_commitment",
+            "reciprocal",
+            "daeun_same_tuesday_promised",
+        ),
+        1: (
+            "player_reached_out",
+            "shared_commitment",
+            "reciprocal",
+            "daeun_late_meal_promised",
+        ),
+    },
+    "daeun_third_greeting": {
+        0: (
+            "opening",
+            "player_reached_out",
+            "player",
+            "daeun_third_greeting_started",
+        ),
+        1: (
+            "opening",
+            "player_reached_out",
+            "player",
+            "daeun_shift_question_asked",
+        ),
+    },
+    "jiyeon_second_crossing": {
+        0: (
+            "opening",
+            "player_reached_out",
+            "reciprocal",
+            "jiyeon_neighborhood_coffee_accepted",
+        ),
+        1: (
+            "opening",
+            "player_reached_out",
+            "player",
+            "jiyeon_talk_without_debt_requested",
+        ),
+        2: (
+            "opening",
+            "opening",
+            "reciprocal",
+            "jiyeon_coffee_fully_refused",
+        ),
+    },
+    "sangchul_second_coffee": {
+        0: (
+            "met",
+            "opening",
+            "player",
+            "sangchul_own_pace_stated",
+        ),
+        1: (
+            "met",
+            "opening",
+            "player",
+            "sangchul_numbers_first_recorded",
+        ),
+    },
+    "jaehyuk_plain_reunion_echo": {
+        0: (
+            "met",
+            "opening",
+            "reciprocal",
+            "jaehyuk_reunion_warm",
+        ),
+        1: (
+            "met",
+            "opening",
+            "reciprocal",
+            "jaehyuk_reunion_guarded",
+        ),
+    },
 }
 EXPECTED_ROUTINE_EFFECTS = {
     "livelihood": {
@@ -561,6 +720,12 @@ ACTIVE_KO_EVENT_IDS = {
     "v2_daeun_return_after_distance",
     "v2_sangchul_housing_lead",
     "v2_jaehyuk_message",
+    "v2_hanbit_offer_message",
+    "v2_daeun_small_commitment",
+    "v2_daeun_third_greeting",
+    "v2_jiyeon_second_crossing",
+    "v2_sangchul_demo_echo",
+    "v2_jaehyuk_plain_reunion_echo",
     "cafe_00",
     "cafe_listen_01",
     "cafe_peek_01",
@@ -1221,6 +1386,46 @@ def validate_application_outcomes(
             errors,
         )
 
+    hanbit_offer = require_dict(
+        registered_events.get("v2_hanbit_offer_message"),
+        "registered event v2_hanbit_offer_message",
+        errors,
+    )
+    hanbit_choices = require_list(
+        hanbit_offer.get("choices"),
+        "registered event v2_hanbit_offer_message.choices",
+        errors,
+    )
+    if len(hanbit_choices) == 2:
+        accepted = require_dict(
+            hanbit_choices[0],
+            "registered event v2_hanbit_offer_message.choices[0]",
+            errors,
+        )
+        declined = require_dict(
+            hanbit_choices[1],
+            "registered event v2_hanbit_offer_message.choices[1]",
+            errors,
+        )
+        if (
+            accepted.get("grant_job") != "job_03"
+            or accepted.get("first_paycheck_ratio") != 0.75
+            or accepted.get("grant_job_display")
+            != {
+                "ko": "한빛유통 물류센터 운영지원 계약직",
+                "en": "Hanbit Logistics Operations Support (Contract)",
+            }
+            or "flags" in accepted
+            or "grant_job" in declined
+            or "flags" in declined
+        ):
+            fail(
+                "Hanbit's exact application receipt must distinguish a "
+                "job_03 hire with a three-week first paycheck and exact role "
+                "name from a no-job decline without write-only flags",
+                errors,
+            )
+
 
 def validate_future_application_contracts(
     raw_contracts: Any,
@@ -1513,7 +1718,7 @@ def main() -> int:
     groups = require_dict(contract.get("exclusive_groups"), "exclusive_groups", errors)
 
     if int(contract.get("schema_version", 0)) != 3:
-        fail("schema_version must be 3 for the 16-week executable contract", errors)
+        fail("schema_version must be 3 for the 20-week executable contract", errors)
     if bool(contract.get("runtime_default", True)):
         fail("runtime_default must stay false before the 24-week human GO", errors)
     if str(contract.get("fallback", "")) != "event_director_v1":
@@ -1525,8 +1730,8 @@ def main() -> int:
         "max_week": 24,
         "months": 6,
         "weeks_per_month": 4,
-        "development_cap_week": 16,
-        "prototype_weeks": [1, 16],
+        "development_cap_week": 20,
+        "prototype_weeks": [1, 20],
     }
     for key, expected in expected_scope.items():
         if scope.get(key) != expected:
@@ -1541,9 +1746,9 @@ def main() -> int:
         development_month_count = 0
     else:
         development_month_count = development_cap_week // weeks_per_month
-    if development_month_count != 4:
+    if development_month_count != 5:
         fail(
-            "the C gate must expose exactly four completed development months",
+            "the D gate must expose exactly five completed development months",
             errors,
         )
     if (
@@ -1736,6 +1941,13 @@ def main() -> int:
     expected_groups = {
         "romance_entry": {"daeun_world_meet", "jiyeon_world_meet"},
         "money_mentor_entry": {"sangchul_world_meet", "jaehyuk_world_meet"},
+        "month_five_person_climax": {
+            "daeun_shared_dream",
+            "daeun_third_greeting",
+            "jiyeon_second_crossing",
+            "sangchul_second_coffee",
+            "jaehyuk_plain_reunion_echo",
+        },
     }
     for group_id, expected_members in expected_groups.items():
         group = require_dict(groups.get(group_id), f"group {group_id}", errors)
@@ -1810,7 +2022,7 @@ def main() -> int:
         maximum = int(surface.get("maximum_offers_per_month", 7))
         if (
             expected_month <= development_month_count
-            and expected_month != 4
+            and expected_month not in {4, 5}
             and not minimum <= len(offers) <= maximum
         ):
             fail(f"month {expected_month} must expose {minimum}..{maximum} offers, got {len(offers)}", errors)
@@ -2010,6 +2222,91 @@ def main() -> int:
                     errors,
                 )
 
+    if development_month_count >= 5 and len(months) >= 5:
+        month_five = require_dict(months[4], "month 5", errors)
+        month_five_offers = [
+            str(value) for value in month_five.get("offers", [])
+        ]
+        month_five_fixtures = {
+            "sparse_no_person_path": {
+                "completed": set(),
+                "stages": {},
+                "memories": set(),
+                "player_initiated": set(),
+                "applications": {},
+            },
+            "named_daeun_and_sangchul": {
+                "completed": {"daeun_player_return", "sangchul_world_meet"},
+                "stages": {
+                    "daeun": "player_reached_out",
+                    "sangchul": "met",
+                },
+                "memories": {
+                    ("daeun", "daeun_returned_using_her_name"),
+                    ("sangchul", "sangchul_spoke_of_father"),
+                },
+                "player_initiated": {"daeun", "sangchul"},
+                "applications": {},
+            },
+            "distance_daeun_and_jaehyuk": {
+                "completed": {
+                    "daeun_return_after_distance",
+                    "jaehyuk_world_meet",
+                },
+                "stages": {"daeun": "opening", "jaehyuk": "met"},
+                "memories": {
+                    ("daeun", "daeun_names_exchanged_on_return"),
+                    ("jaehyuk", "jaehyuk_message_guarded"),
+                },
+                "player_initiated": {"daeun"},
+                "applications": {},
+            },
+            "jiyeon_and_sangchul": {
+                "completed": {
+                    "jiyeon_bus_stop_reunion",
+                    "sangchul_world_meet",
+                },
+                "stages": {"jiyeon": "opening", "sangchul": "met"},
+                "memories": {
+                    ("jiyeon", "jiyeon_name_offered_after_silence"),
+                    ("sangchul", "sangchul_kept_goal_plain"),
+                },
+                "player_initiated": {"sangchul"},
+                "applications": {},
+            },
+        }
+        minimum = int(surface.get("minimum_offers_per_month", 5))
+        maximum = int(surface.get("maximum_offers_per_month", 7))
+        person_members = expected_groups["month_five_person_climax"]
+        for fixture_name, fixture in month_five_fixtures.items():
+            visible = [
+                bundle_id
+                for bundle_id in month_five_offers
+                if bundle_available_in_fixture(
+                    require_dict(
+                        bundles.get(bundle_id),
+                        f"bundle {bundle_id}",
+                        errors,
+                    ),
+                    fixture,
+                )
+            ]
+            if not minimum <= len(visible) <= maximum:
+                fail(
+                    f"month 5 fixture {fixture_name} must expose "
+                    f"{minimum}..{maximum} offers, got {len(visible)}: {visible}",
+                    errors,
+                )
+            visible_people = person_members.intersection(visible)
+            expected_people = 0 if fixture_name == "sparse_no_person_path" else 2
+            if len(visible_people) != expected_people:
+                fail(
+                    f"month 5 fixture {fixture_name} expected "
+                    f"{expected_people} live person offers, got "
+                    f"{sorted(visible_people)}",
+                    errors,
+                )
+
     orphan_bundles = set(str(value) for value in bundles).difference(
         referenced_bundle_ids
     )
@@ -2126,6 +2423,14 @@ def main() -> int:
                 f"got {bundle.get('allowed_weeks')}",
                 errors,
             )
+    for bundle_id, expected_weeks in EXPECTED_M5_ALLOWED_WEEKS.items():
+        bundle = require_dict(bundles.get(bundle_id), f"bundle {bundle_id}", errors)
+        if bundle.get("allowed_weeks") != expected_weeks:
+            fail(
+                f"{bundle_id}.allowed_weeks expected {expected_weeks}, "
+                f"got {bundle.get('allowed_weeks')}",
+                errors,
+            )
 
     expected_m4_phone_surfaces = {
         "m4_hanbit_interview": "inbound_message",
@@ -2160,6 +2465,97 @@ def main() -> int:
                     fail(f"{bundle_id} inbound message is missing {field}", errors)
                 elif field.endswith("_en") and HANGUL_RE.search(value):
                     fail(f"{bundle_id}.{field} leaks Hangul into English", errors)
+
+    expected_m5_phone_surfaces = {
+        "m5_city_service_application": "self_note",
+        "m5_weekend_move_shift": "self_note",
+        "m5_evening_spreadsheet_class": "self_note",
+        "m5_last_empty_sunday": "self_note",
+        "m5_employment_contract_clinic": "self_note",
+        "daeun_shared_dream": "self_note",
+        "daeun_third_greeting": "self_note",
+        "jiyeon_second_crossing": "self_note",
+        "sangchul_second_coffee": "self_note",
+        "jaehyuk_plain_reunion_echo": "inbound_message",
+        "m5_hanbit_offer_message": "inbound_message",
+    }
+    for bundle_id, expected_surface in expected_m5_phone_surfaces.items():
+        bundle = require_dict(bundles.get(bundle_id), f"bundle {bundle_id}", errors)
+        if bundle.get("phone_surface") != expected_surface:
+            fail(
+                f"{bundle_id}.phone_surface expected {expected_surface!r}, "
+                f"got {bundle.get('phone_surface')!r}",
+                errors,
+            )
+        if expected_surface == "inbound_message":
+            for field in (
+                "message_sender_ko",
+                "message_sender_en",
+                "message_body_ko",
+                "message_body_en",
+            ):
+                value = str(bundle.get(field, "")).strip()
+                if not value:
+                    fail(f"{bundle_id} inbound message is missing {field}", errors)
+                elif field.endswith("_en") and HANGUL_RE.search(value):
+                    fail(f"{bundle_id}.{field} leaks Hangul into English", errors)
+
+    city_application = require_dict(
+        bundles.get("m5_city_service_application"),
+        "bundle m5_city_service_application",
+        errors,
+    )
+    if (
+        city_application.get("deadline_ko") != "17주차 금요일 오후 6시"
+        or city_application.get("deadline_en")
+        != "Friday at 6:00 p.m. in Week 17"
+    ):
+        fail(
+            "the Week-17 city application must remain open after Hanbit's "
+            "Tuesday hiring message",
+            errors,
+        )
+    for intensive_id in (
+        "m5_weekend_move_shift",
+        "m5_evening_spreadsheet_class",
+    ):
+        intensive = require_dict(
+            bundles.get(intensive_id), f"bundle {intensive_id}", errors
+        )
+        authored_copy = " ".join(
+            str(intensive.get(field, ""))
+            for field in (
+                "offer_ko",
+                "detail_ko",
+                "offer_en",
+                "detail_en",
+            )
+        )
+        config = require_dict(
+            intensive.get("action_config"),
+            f"bundle {intensive_id}.action_config",
+            errors,
+        )
+        authored_copy += " " + " ".join(
+            str(config.get(field, ""))
+            for field in (
+                "result_title_ko",
+                "result_body_ko",
+                "result_title_en",
+                "result_body_en",
+            )
+        )
+        if (
+            "선택한 주" not in authored_copy
+            or any(
+                stale in authored_copy
+                for stale in ("토요일 네 번", "토요일마다", "Four Saturdays")
+            )
+        ):
+            fail(
+                f"{intensive_id} still grants future weeks before they occur",
+                errors,
+            )
 
     month_three = require_dict(
         months[2] if len(months) >= 3 else {},
@@ -2222,6 +2618,28 @@ def main() -> int:
             result_copy_values[field].add(value)
 
     for bundle_id, expected_core in EXPECTED_M4_ACTION_CORE.items():
+        bundle = require_dict(bundles.get(bundle_id), f"bundle {bundle_id}", errors)
+        config = require_dict(
+            bundle.get("action_config"), f"{bundle_id}.action_config", errors
+        )
+        for key, expected_value in expected_core.items():
+            if config.get(key) != expected_value:
+                fail(
+                    f"{bundle_id}.action_config.{key} expected "
+                    f"{expected_value!r}, got {config.get(key)!r}",
+                    errors,
+                )
+        for field in result_copy_fields:
+            value = str(config.get(field, "")).strip()
+            if not value:
+                fail(f"{bundle_id}.action_config is missing {field}", errors)
+            elif field.endswith("_en") and HANGUL_RE.search(value):
+                fail(
+                    f"{bundle_id}.action_config.{field} leaks Hangul into English",
+                    errors,
+                )
+
+    for bundle_id, expected_core in EXPECTED_M5_ACTION_CORE.items():
         bundle = require_dict(bundles.get(bundle_id), f"bundle {bundle_id}", errors)
         config = require_dict(
             bundle.get("action_config"), f"{bundle_id}.action_config", errors
@@ -2374,6 +2792,23 @@ def main() -> int:
                 f"{visible_month}",
                 errors,
             )
+    for bundle_id, (consumer_kind, visible_month) in EXPECTED_M5_DECLINES.items():
+        bundle = require_dict(bundles.get(bundle_id), f"bundle {bundle_id}", errors)
+        consequence_id = str(bundle.get("decline_consequence", "")).strip()
+        outcome = require_dict(
+            decline_outcomes.get(consequence_id),
+            f"decline_outcomes.{consequence_id}",
+            errors,
+        )
+        if (
+            str(outcome.get("consumer_kind", "")) != consumer_kind
+            or int(outcome.get("visible_month", 0)) != visible_month
+        ):
+            fail(
+                f"{bundle_id} decline must use {consumer_kind} in month "
+                f"{visible_month}",
+                errors,
+            )
 
     development_relationship_ids = {
         bundle_id
@@ -2469,6 +2904,18 @@ def main() -> int:
                 < EXPECTED_STAGES.index(from_stage)
             ):
                 fail(f"{bundle_id} relationship outcome regresses stage", errors)
+            if (
+                from_stage in EXPECTED_STAGES
+                and to_stage in EXPECTED_STAGES
+                and from_stage != "unmet"
+                and EXPECTED_STAGES.index(to_stage)
+                > EXPECTED_STAGES.index(from_stage) + 1
+            ):
+                fail(
+                    f"{bundle_id} relationship outcome skips an intermediate "
+                    f"stage ({from_stage} -> {to_stage})",
+                    errors,
+                )
             character = str(mapping.get("character", "")).strip()
             if not character or character not in {
                 str(value) for value in bundle.get("characters", [])
@@ -2702,6 +3149,35 @@ def main() -> int:
         ("jiyeon", "jiyeon_walked_away"): {"jiyeon_bus_stop_reunion"},
         ("jiyeon", "jiyeon_repair_cost_taken"): {"jiyeon_bus_stop_reunion"},
         ("jiyeon", "jiyeon_driver_confronted"): {"jiyeon_bus_stop_reunion"},
+        ("daeun", "daeun_returned_using_her_name"): {"daeun_shared_dream"},
+        ("daeun", "daeun_returned_to_thank_her"): {"daeun_shared_dream"},
+        ("daeun", "daeun_names_exchanged_on_return"): {
+            "daeun_third_greeting"
+        },
+        ("daeun", "daeun_thanks_reopened_conversation"): {
+            "daeun_third_greeting"
+        },
+        ("jiyeon", "jiyeon_name_offered_after_silence"): {
+            "jiyeon_second_crossing"
+        },
+        ("jiyeon", "jiyeon_name_exchanged_after_player_spoke"): {
+            "jiyeon_second_crossing"
+        },
+        ("sangchul", "sangchul_spoke_of_father"): {
+            "sangchul_second_coffee"
+        },
+        ("sangchul", "sangchul_kept_goal_plain"): {
+            "sangchul_second_coffee"
+        },
+        ("sangchul", "sangchul_named_city_pride"): {
+            "sangchul_second_coffee"
+        },
+        ("jaehyuk", "jaehyuk_message_welcomed"): {
+            "jaehyuk_plain_reunion_echo"
+        },
+        ("jaehyuk", "jaehyuk_message_guarded"): {
+            "jaehyuk_plain_reunion_echo"
+        },
     }
     for memory_key, expected_consumers in expected_memory_consumers.items():
         if memory_consumers.get(memory_key, set()) != expected_consumers:

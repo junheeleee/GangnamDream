@@ -1394,6 +1394,44 @@ static func _eligible_consequence_ids(month_index: int = -1) -> Array[String]:
 				result.append(consequence_id)
 	return result
 
+## Received phone history is proven by the durable presentation receipt, not
+## by a still-pending predicate. A hiring choice changes its application
+## status, but the text message must remain in the same month's inbox.
+static func received_phone_consequence_ids(
+		month_index: int = -1) -> Array[String]:
+	var target_month := (
+		month_index if month_index > 0 else month_for_turn(GameState.turn))
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var result: Array[String] = []
+	for raw_id in month_spec(target_month).get(
+			"conditional_consequences", []):
+		var consequence_id := str(raw_id).strip_edges()
+		if consequence_id.is_empty() or result.has(consequence_id):
+			continue
+		var consequence := bundle(consequence_id)
+		if str(consequence.get("phone_surface", "")) \
+				not in ["inbound_message", "call_log"]:
+			continue
+		var raw_receipt: Variant = state["consequence_receipts"].get(
+			consequence_id, {})
+		if not raw_receipt is Dictionary:
+			continue
+		var receipt: Dictionary = raw_receipt
+		if str(receipt.get("consequence_id", "")) != consequence_id \
+				or str(receipt.get("status", "")) \
+					not in ["presented", "consumed"]:
+			continue
+		var presented_turn := int(receipt.get(
+			"presented_turn", receipt.get("turn", 0)))
+		if presented_turn < 1 \
+				or month_for_turn(presented_turn) != target_month \
+				or not state["shown_consequences"].has(consequence_id) \
+				or int(state["shown_consequence_turns"].get(
+					consequence_id, 0)) != presented_turn:
+			continue
+		result.append(consequence_id)
+	return result
+
 static func resolved_event_roots(bundle_id: String) -> Array:
 	var scene_bundle := bundle(bundle_id)
 	if bundle_id == "temptation_consequence":
@@ -1526,6 +1564,12 @@ static func _note_relationship_story_choice(
 		var current_rank := RELATIONSHIP_STAGE_ORDER.find(current_stage)
 		var target_rank := RELATIONSHIP_STAGE_ORDER.find(target_stage)
 		if target_rank < 0 or current_rank < 0 or target_rank < current_rank:
+			return false
+		# A first encounter may establish an opening immediately, but once two
+		# people know each other a single authored choice may advance at most
+		# one relationship step. This keeps later month data from silently
+		# skipping the player-initiation or shared-commitment beats.
+		if current_stage != "unmet" and target_rank > current_rank + 1:
 			return false
 		if target_stage != current_stage \
 				and _relationship_advanced_in_month(

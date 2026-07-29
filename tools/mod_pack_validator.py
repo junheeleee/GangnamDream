@@ -34,7 +34,8 @@ CHOICE_KEYS = {
     "text", "text_if_moral", "effects", "flags", "follow_up_event", "result_text",
     "result_cg", "result_cg_reveal_paragraph", "result_background", "result_ambience",
     "opportunity", "cast_effects", "relationship_effects", "investment_effects",
-    "tendency", "route", "grant_job", "replace_current_job", "conditions_note", "deferred_follow_up",
+    "tendency", "route", "grant_job", "grant_job_display",
+    "first_paycheck_ratio", "replace_current_job", "conditions_note", "deferred_follow_up",
     "deferred_delay", "foreshadow", "bridge_summary", "clues", "give_items",
     "requires_item", "housing_keepsake", "year_scene",
 }

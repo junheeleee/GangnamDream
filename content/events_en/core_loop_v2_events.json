@@ -144,5 +144,99 @@
         "result_text": "{name}: \"I remember. What brought this on?\"\n\nJaehyuk: \"Nothing happened. I just thought of you after all this time. Sorry if it bothered you.\"\n\n{name}: \"No. I only asked because it was sudden.\"\n\nAfter a few more lines of small talk, the chat stops. They have not made plans to meet yet."
       }
     ]
+  },
+  {
+    "id": "v2_hanbit_offer_message",
+    "title": "An Offer from Hanbit Distribution",
+    "description": "At 11:08 Tuesday morning, a text arrives from Hanbit Distribution's recruiting team.\n\n“Following your first interview, we would like to offer you a contract position in logistics-center operations support. Please let us know by six this evening whether you can start Monday.”\n\n{name} remembers the application he sent in Week 9 and the inventory sheets on the conference-room table in Week 14. The interview result has returned as a single question: Will he show up for work?",
+    "choices": [
+      {
+        "text": "\"I can start Monday.\"",
+        "result_text": "{name} replies that he can start. A moment later, another message arrives with his start time and a list of things to bring.\n\nHis first paycheck covers the three weeks from Monday's start through month-end: KRW 1.68 million. Full months after that pay KRW 2.24 million. What remains is reaching Hanbit Distribution's logistics center on time Monday morning."
+      },
+      {
+        "text": "\"Thank you for the offer, but I have to decline.\"",
+        "result_text": "{name} adds a brief explanation and sends the reply.\n\n“Understood. Thank you for applying.”\n\nThat closes the hiring process. His application record now holds the interview, the offer, and his decision not to take it."
+      }
+    ]
+  },
+  {
+    "id": "v2_daeun_small_commitment",
+    "title": "Next Tuesday",
+    "description": "On {name}'s third visit to the convenience store, the counter is quiet. Daeun changes the receipt roll, then asks him a question.\n\n\"Did you eat dinner today, {name}?\"\n\nWhen he answers, she nods. Last time she remembered his name. This time she remembers to ask whether he ate this late at night.\n\n\"I keep asking about you first. Next time, you have to ask how I'm doing too.\"",
+    "choices": [
+      {
+        "text": "\"Then I'll come back at this time next Tuesday.\"",
+        "result_text": "Daeun checks the clock on the wall and smiles.\n\n\"I'll be here at this time Tuesday. Even if we can't talk long, let's at least ask how the other's day went.\"\n\nThey agree to check in at the same time next Tuesday. It is not a grand promise. That makes it feel like one they can keep."
+      },
+      {
+        "text": "\"All right. But you can't skip your late meal either.\"",
+        "result_text": "Daeun laughs and holds up one finger.\n\n\"Then the first thing we do next time is check whether the other person ate. Neither of us gets to do all the nagging.\"\n\n{name} raises a finger and agrees. They now have one thing to talk about the next time they meet. For now, that is enough."
+      }
+    ]
+  },
+  {
+    "id": "v2_daeun_third_greeting",
+    "title": "One More Question",
+    "description": "On {name}'s third visit to the convenience store, Daeun is putting price tags on a new delivery.\n\n\"Welcome.\"\n\nEven after learning each other's names, they have exchanged little more than brief greetings across the counter. {name} finishes paying but does not walk straight to the door. This time, he is the one who adds something more.",
+    "choices": [
+      {
+        "text": "\"Daeun, was it any less busy tonight?\"",
+        "result_text": "Daeun sets down the bundle of price tags.\n\n\"It was hectic until a few minutes ago, but I can breathe now. What about you?\"\n\n{name} answers with two sentences about his day. A customer comes in and ends the conversation there, but both of them know where to pick it up the next time they meet."
+      },
+      {
+        "text": "\"Last time I only told you my name. Most days, I don't get done until around this time.\"",
+        "result_text": "Daeun listens without leaning across the counter.\n\n\"So that's why you always come in around this time. By the time my shift ends, the whole day is gone too.\"\n\n{name} says that next time, he will ask about her day. He does not ask for her number or make plans elsewhere, but their conversation across the counter lasts one line longer."
+      }
+    ]
+  },
+  {
+    "id": "v2_jiyeon_second_crossing",
+    "title": "The Main Road Again",
+    "description": "A few weeks later, after the rain, {name} walks the same neighborhood road he took home from the bus stop. Han Jiyeon stands beside her black sedan at the wet curb.\n\n\"Last time, all we did was exchange names.\"\n\nJiyeon points to a cafe across the street.\n\n\"If you have time, have one cup of coffee with me. I won't bring up compensation. I came because I wanted to actually talk to you.\"\n\nThe light changes, and people pass between them. They have no contact information and made no plans. This is an invitation {name} has to answer here.",
+    "choices": [
+      {
+        "text": "\"One cup somewhere nearby, then.\"",
+        "result_text": "They enter a small cafe across the street. Jiyeon does not return to the accident.\n\nInstead, she asks which roads {name} takes most often in this neighborhood and which place in Seoul he learned first. {name} asks whether she comes to this area often.\n\nBy the time their coffee cups are half empty, the conversation is no longer about handling the accident. They make no plans for next time, but each leaves with another question to ask."
+      },
+      {
+        "text": "\"If this isn't about paying me back, we can talk while we walk.\"",
+        "result_text": "Jiyeon glances at the cafe, then nods. They walk one block along the main road.\n\n{name} asks why she came back to this neighborhood. She says their last conversation was so short that it stayed on her mind. Then she asks what he has been doing lately.\n\nIt is no longer a meeting where one person owes the other. They each offer one honest question instead."
+      },
+      {
+        "text": "\"I'm going to leave it here today.\"",
+        "result_text": "{name} bows his head in farewell and walks toward the crosswalk.\n\nJiyeon does not follow or call after him. A car door closes behind him.\n\nThey still have no way to contact each other, and no next meeting takes shape. The main road in the neighborhood falls quiet again."
+      }
+    ]
+  },
+  {
+    "id": "v2_sangchul_demo_echo",
+    "title": "A Second Cup of Instant Coffee",
+    "description": "{name} takes Im Sangchul's business card from his wallet, calls the number on it, and asks if he can stop by again.\n\nA few days later, in the same real-estate office, Sangchul serves instant coffee in the same paper cups.\n\n\"You came back. What are you here to look at this time, if not a room?\"\n\n{name} admits that he still does not know where to begin. Instead of answering, Sangchul places a blank sheet of paper and a pen in the middle of the desk.",
+    "choices": [
+      {
+        "text": "\"I want to learn at my own pace instead of rushing.\"",
+        "result_text": "Sangchul takes a sip from his paper cup and nods.\n\n\"That doesn't mean you're moving slowly. It means you aren't running in someone else's order.\"\n\nHe does not write down an answer for {name}. {name} folds the blank sheet and slips it into his pocket. He will decide for himself what belongs on it."
+      },
+      {
+        "text": "\"I'll start by recording where my own money goes.\"",
+        "result_text": "{name} writes rent, food, and transportation at the top of the page. Sangchul does not supply any numbers. He only asks whether anything is missing.\n\nWhen {name} leaves the office, the page holds several expenses to check before the month ends.\n\nThe value of the second cup is not advice. It is the empty space {name} still has to fill."
+      }
+    ]
+  },
+  {
+    "id": "v2_jaehyuk_plain_reunion_echo",
+    "title": "Together at a Pojangmacha Again",
+    "description": "After a few more KakaoTalk messages, they agree to meet at a pojangmacha on Saturday evening.\n\nJaehyuk dresses more sharply than he did in the army, but his laugh sounds the same. As soon as they sit down, they remember a night spent on guard duty together and the time they nearly missed the bus back from leave.\n\n\"Ten years, and this stuff still doesn't go away.\"\n\nUntil the last skewer is gone, Jaehyuk asks where {name} lives now, and {name} asks where he has been. Out of a decade apart, the nights they both remember return first.",
+    "choices": [
+      {
+        "text": "\"Let's take a photo so we don't lose track of each other again.\"",
+        "result_text": "Jaehyuk props up his phone and starts the timer. Under the tent lights, they lean shoulder to shoulder and smile.\n\nA moment later, the photo arrives on {name}'s phone. For the first time, the two of them are in the same frame without their uniforms.\n\n\"Next time, let's not wait so long.\"\n\nNeither of them laughs the words away."
+      },
+      {
+        "text": "Keep the night to old stories and leave first",
+        "result_text": "{name} checks the time of the last train and sets down his glass.\n\n\"Let's call it here tonight. It was good to see you again.\"\n\nJaehyuk does not press him to stay. He smiles and offers his hand. They shared plenty about the army, but only what they needed to about their present lives.\n\nThe warmth of seeing him remains. The distance between them can close more slowly."
+      }
+    ]
   }
 ]
