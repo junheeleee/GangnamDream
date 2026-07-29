@@ -273,6 +273,36 @@ StoryMode resume의 중첩 schema로 왕복해 48주 1장과 240주 전체판에
 이전 기록을 복원할 수 없다는 안내를 남긴다. `project.godot`, 관계·경제
 정본과 기본 전환은 바꾸지 않는다.
 
+**C 13~16주 선제 추적·돈 인물 착수 (2026-07-30 Codex) — 추가로 만지는
+파일:** `docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-57.md`,
+`docs/CORE_LOOP_V2.md`, `docs/STORY_BIBLE.md`, `docs/DECISIONS.md`,
+`docs/BALANCE.md`, `docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `CLAUDE.md`,
+`content/meta/demo_core_loop_v2.json`, `content/meta/narrative_spine.json`,
+`content/meta/story_rules.json`, `content/events/core_loop_v2_events.json`,
+`content/events_en/core_loop_v2_events.json`,
+`assets/event_visual_contracts.json`, `assets/scene_audio_manifest.json`,
+`assets/scene_direction_manifest.json`, `systems/DemoCoreLoopV2.gd`,
+`scenes/CoreLoopPlanner.gd`, `scenes/StartMenu.gd`,
+`tools/demo_core_loop_v2_audit.py`, `tools/core_loop_v2_balance_sim.py`,
+`tools/CoreLoopV2Check.gd`, 신규 `tools/CoreLoopV2CCheck.gd`,
+신규 `tools/CoreLoopV2CCheck.tscn`, `tools/ScreenshotQA.gd`,
+`tools/audit.sh`, `locale/ui_ja.json`.
+13~16주는 한빛유통 지원서의 실제 면접, 다은/지연의 선택별 한 단계 관계
+전이, 상철의 주거 탐색 입구와 재혁의 10년 만 카카오톡 입구를 연다.
+다은·상철·교육·검진처럼 플레이어가 직접 찾아가는 행동은 받은 문자로
+위장하지 않고 `내 일정/메모`, 지연의 우연한 재회는 `이동 중 사건`,
+한빛·재혁의 실제 수신만 `메시지`로 구분한다. 만난 사람, 이름을 아는 사람,
+연락수단 보유자를 분리해 이름과 전화 버튼을 선취하지 않는다.
+
+관계는 한 달에 한 단계만 오르고, C에서는 `romantic_intent/date`, 채용,
+투자 권유와 돈 인물의 진실을 열지 않는다. 상철은 4월 전용 V2 입구를,
+재혁은 답장까지만 사용해 기존 48주 1장과 240주 후속을 보존한다.
+한빛 면접은 `submitted → interviewed`만 수행한다. 합법 생계가 더러운 돈의
+유일한 대안이 되지 않도록 13~16주 경제 밴드를 시뮬레이션으로 잠근다.
+후속 사건은 진입 root에서 도달 가능한 terminal을 인정해 큐 중복 재생을
+차단한다. 내부 개발 상한만 16주로 늘리고 `runtime_default=false`,
+`finish_run`, 17~240주, 엔딩과 사용자 소유 `project.godot`은 유지한다.
+
 ## 목적
 
 - 기존 5년·240주 콘텐츠와 저장 정본은 파괴하지 않는다.
