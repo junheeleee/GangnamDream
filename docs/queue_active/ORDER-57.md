@@ -101,6 +101,14 @@
 `runtime_default=false`, 9주 차단, `finish_run` 비호출, 25~240주 폴백,
 사용자 소유 `project.godot`은 유지한다.
 
+**A1 사건 연출 원장 범위 확장 (2026-07-29 Codex) — 추가로 만지는 파일:**
+`assets/scene_direction_manifest.json`, `tools/scene_direction_catalog.py`,
+`tools/event_director_audit.py`. 현수 선제 연락 전용 사건을 실제 사건
+레지스트리에 더하자 장면 이동 의도와 Event Director 등록 기준선도 함께
+증가해야 했다. 신규 사건은 `hidden=true`, `weight=0`, `min_turn=9999`로
+랜덤 풀에 들어가지 않으며, 오디오·장면 연출 원장을 같은 선언 커밋 뒤
+재생성해 정본 수와 런타임 소비자를 일치시킨다.
+
 ## 목적
 
 - 기존 5년·240주 콘텐츠와 저장 정본은 파괴하지 않는다.
