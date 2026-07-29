@@ -77,6 +77,30 @@
 있던 2026-07-24 각본 리뷰 한 건을 기존 날짜별 보관본으로 무손실 이동하고,
 최신 작업만 부팅 문서에 남긴다.
 
+**A1 1~8주 공통 루프 완결 착수 (2026-07-29 Codex) — 추가로 만지는 파일:**
+`docs/CODEX_QUEUE.md`, `docs/queue_active/ORDER-57.md`,
+`docs/CORE_LOOP_V2.md`, `docs/BALANCE.md`, `docs/QA_CHECKLIST.md`,
+`CLAUDE.md`, `docs/WORK_LOG.md`, `content/meta/demo_core_loop_v2.json`,
+`content/events/core_loop_v2_events.json`,
+`content/events_en/core_loop_v2_events.json`, `content/meta/story_rules.json`,
+`autoloads/DataRegistry.gd`, `systems/DemoCoreLoopV2.gd`,
+`scenes/CoreLoopPlanner.gd`, `scenes/MainGame.gd`, `scenes/StoryMode.gd`,
+`assets/event_visual_contracts.json`, `assets/scene_audio_manifest.json`,
+`tools/demo_core_loop_v2_audit.py`, `tools/core_loop_v2_balance_sim.py`,
+`tools/CoreLoopV2Check.gd`, `tools/ScreenshotQA.gd`, `tools/audit.sh`,
+`locale/ui_ja.json`.
+분석에서 배경 AP 16회가 실행되지 않고, `decline_consequence`가 문자열
+원장으로 끝나며, 주차 기한과 장면 선택 결과가 상태를 소유하지 않고,
+합법 최적 경로도 8주 말 적자라는 결함을 재현했다. A1은 월간 주/보조
+루틴을 실제 주간 경제에 적용하고, 모든 1~8주 포기에 한영 소비자와 한 번뿐인
+상태 회수를 연결하며, `allowed_weeks`와 결과별 관계 전이를 기계화한다.
+현수 선제 연락은 우연한 기존 주방 장면 재사용 대신 V2 전용 대면 장면으로
+교체하고, 월말에는 돈·고정비·몸·마음·지킨 약속·닫힌 문·다음 한 단을
+저장 가능한 회고로 보여 준다. 전용 결정론 시뮬레이션에서 합법 생계 경로가
+두 달 고정비를 감당하고 더러운 돈이 유일한 탈출구가 아님을 잠근다.
+`runtime_default=false`, 9주 차단, `finish_run` 비호출, 25~240주 폴백,
+사용자 소유 `project.godot`은 유지한다.
+
 ## 목적
 
 - 기존 5년·240주 콘텐츠와 저장 정본은 파괴하지 않는다.
@@ -98,9 +122,9 @@
 2. **8주 구조 프로토타입:** 기존판을 폴백으로 남기고 월간 계획·저장·기본
    인과를 별도 런타임에 연결한다. AUTO PASS, 사람 NO-GO.
 3. **A0 8주 세션 수리:** 명시적 종료·회고, 이름 있는 포기 확인,
-   720p·실제 패드 과업을 닫는다. 진행 중.
+   720p·실제 패드 과업을 닫는다. AUTO PASS.
 4. **A1 8주 루프 완결:** 배경 루틴, 실제 `forgone` 소비자, 월말 회수,
-   기한, 선택 결과 기반 관계 단계와 합법 경제 경로를 연결한다.
+   기한, 선택 결과 기반 관계 단계와 합법 경제 경로를 연결한다. 진행 중.
 5. **B 9~12주:** 다은/지연 생활 동선 입구를 열되 연애 GO는 판정하지 않는다.
 6. **C 13~16주:** 선택한 인연 추적, 상철/재혁 입구, 직업·성장 행동을 연다.
 7. **D 17~20주:** 관계·돈·아버지·생계의 실제 충돌과 놓친 길 회수를 연다.
