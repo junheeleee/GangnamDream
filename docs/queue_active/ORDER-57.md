@@ -148,6 +148,7 @@ South/East/LB/RB·방향 입력, 저장 왕복과 24개 배경 루틴 단위를 
 (2026-07-29 Codex) — 추가로 만지는 파일:** `docs/DECISIONS.md`,
 `content/events/arc_daeun.json`, `content/events_en/arc_daeun.json`,
 `content/events/arc_events.json`, `content/events_en/arc_events.json`,
+`content/events/arc_year_close.json`, `content/events_en/arc_year_close.json`,
 `content/events/core_loop_v2_events.json`,
 `content/events_en/core_loop_v2_events.json`, `content/meta/story_rules.json`,
 `autoloads/GameState.gd`, `assets/event_visual_contracts.json`,
