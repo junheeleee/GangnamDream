@@ -112,6 +112,9 @@
     "engineering_infra": [
       "docs/ENGINEERING_PLAN.md",
       "tools/audit_scope.json"
+    ],
+    "session_handoff": [
+      "docs/HANDOFF.md"
     ]
   },
   "task_profiles": {
@@ -211,8 +214,9 @@
   },
   "document_groups": {
     "boot_and_queue": [
-      "docs/CONTEXT_INDEX.md",
       "docs/CODEX_QUEUE.md",
+      "docs/CONTEXT_INDEX.md",
+      "docs/HANDOFF.md",
       "docs/queue_active/*.md"
     ],
     "canon": [
