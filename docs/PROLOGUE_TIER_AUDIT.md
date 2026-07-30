@@ -24,19 +24,41 @@ story_flashforward → story_arrival → story_knee_door → story_knee_witness
 
 ## 판정표
 
-| 장면 ID | 현재 계층 | 있어야 할 계층 | 어긋난 항목 | 근거 | 심각도 |
-|---|---|---|---|---|---|
-| `story_flashforward` | T2 | T2 | — | `direction` 보유, 얼굴 비공개 유지 | 통과 |
-| `story_arrival` | T2 | T2 | 1 | `direction` 없음. 앞뒤 장면은 전부 보유 | P1 |
-| `story_knee_door` | T2 | T2 | — | 초상 없음 = 문 뒤 청취. 동석 오인 없음 | 통과 |
-| `story_knee_witness` | T2 | T2 | — | `father_past` 초상, 회상 표기 정확 | 통과 |
-| `story_knee_choice` | T2 | **T1** | 1, 3 | 선택 3·분기 실존하나 왕복 1회. 대가 없는 tint(아래 P1-A) | P1 |
-| `story_last_payment_wait` | T2 | T2 | — | — | 통과 |
-| `story_last_payment_word` | T2 | T2 | 3 | 선택 1이 비용 0에 `tint +2`(아래 P1-A) | P1 |
-| `story_last_payment_exit` | T2 | T2 | — | — | 통과 |
-| `story_prologue_dad` | T2 | **T1** | 1, 3 | `direction` 없음. **순수 이득 선택**(아래 P1-A) | P1 |
-| `story_prologue_goal` | T2 | **T1** | 1 | `direction` 없음. 상품 정의를 지는 장면 | P1 |
-| `story_prologue_meal` | T2 | T2 | 1 | `direction` 없음 | P2 |
+> **2026-07-30 갱신.** 최초 판정은 이벤트 하나를 장면으로 세어 11행으로 썼다.
+> 사용자 승인으로 `SCENE_TIER` §0(체인 하나가 장면 하나)이 서면서 아래로 다시
+> 판정했다. 아래가 정본 판정이다.
+
+**프롤로그 전체가 하나의 T1 장면이다.** `story_flashforward`가 진입 이벤트이고
+`story_prologue_meal`에서 `story_pressure`로 제어가 넘어가며 끝난다.
+
+### 장면 판정
+
+| 항목 | 계약(T1) | 실측 | 판정 |
+|---|---|---|---|
+| 체인 비트 | 최소 3, 상한 없음 | **11** | 통과 |
+| 대화 왕복 | 최소 8 | **11비트** | 통과 |
+| 선택점 | 2~3 이상 | **5** (`knee_choice` 3 · `last_payment_word` 3 · `dad` 2 · `goal` 3 · `meal` 2) | 통과 |
+| 결정 선택 | 최소 1 | `knee_choice`·`goal`이 플래그로 길을 닫는다 | 통과 |
+| 전용 배경 | 필수 | 6종 전부 등록, 크롭 재사용 없음 | 통과 |
+| 초상 연기 | 필수 | `father_past`·`father_home`·`player_*` 지정 | 통과 |
+| 장면 전용 오디오 | 필수 | `direction.amb`·`sting`이 7비트에만 있다 | **P1** |
+| 연출 키 | 필수 | **11비트 중 7만 보유** | **P1** |
+
+### 비트별 결함
+
+| 비트 | 어긋난 항목 | 근거 | 심각도 |
+|---|---|---|---|
+| `story_arrival` | 1 | `direction` 없음. 앞뒤 비트는 보유 | P1 |
+| `story_knee_choice` | 3 | 대가 없는 `tint +2`(아래 P1-A) | P1 |
+| `story_last_payment_word` | 3 | 선택 1이 비용 0에 `tint +2` | P1 |
+| `story_prologue_dad` | 1, 3 | `direction` 없음. **순수 이득 선택** | P1 |
+| `story_prologue_goal` | 1 | `direction` 없음. 상품 정의를 지는 비트 | P1 |
+| `story_prologue_meal` | 1 | `direction` 없음 | P2 |
+| 나머지 5비트 | — | — | 통과 |
+
+**계층 판정이 바뀌었다.** 이벤트 단위로 읽었을 때는 세 비트가 `T2인데 T1이어야
+한다`로 보였지만, 체인 단위로는 **프롤로그가 이미 T1이고 밀도 계약을 전부
+충족한다.** 남은 것은 연출 커버리지와 도덕 축 둘뿐이다.
 
 ---
 
@@ -92,16 +114,17 @@ story_flashforward → story_arrival → story_knee_door → story_knee_witness
 원인 추정: 앞 7장면은 `ORDER-50` 계열에서 연출을 받았고 뒤 4장면은 그 전에 쓰여
 누락된 채 남았다. **수리 비용이 가장 낮은 항목**이다.
 
-## P2-A · 계층 정의 공백 — 정본 쪽 결함
+## P2-A · 계층 정의 공백 — **해소됨 (2026-07-30)**
 
-`SCENE_TIER.md`가 **체인을 한 장면으로 세는지 규정하지 않는다.** 프롤로그는 11이벤트
-체인인데 T1 계약은 `follow_up_event 체인 2~4개 연쇄`라, 문자 그대로 읽으면 프롤로그가
-**너무 길어서** T1에 미달한다.
+`SCENE_TIER.md`가 체인을 한 장면으로 세는지 규정하지 않아, 문자 그대로 읽으면
+11이벤트 프롤로그가 `체인 2~4개` 상한에 걸려 **너무 길어서** 미달이 됐다.
 
-이건 콘텐츠 결함이 아니라 **규칙이 프롤로그를 보지 않고 쓰였다는 증거**다. 어제 단
-`[첫 실행 재조정]` 표시가 정확히 이 경우를 위한 것이므로, `SCENE_TIER`가 개별 이벤트와
-체인 중 무엇을 장면 단위로 삼는지 정하고 표시를 뗀다. **`ORDER-60` 배치 2 전에
-정해야 한다** — 안 정하면 24주 판정이 같은 모호함 위에서 이뤄진다.
+콘텐츠 결함이 아니라 **규칙이 프롤로그를 보지 않고 쓰였다는 증거**였다. 사용자
+승인으로 `SCENE_TIER` §0을 세워 해소했다 — **체인 하나가 장면 하나이고, 계층
+계약은 비트가 아니라 체인 전체에 건다. 체인 길이 상한은 폐지한다.**
+
+`[첫 실행 재조정]` 표시가 실제로 작동한 첫 사례다. 추정 수치가 실물을 만나
+방어되지 않고 고쳐졌다.
 
 ---
 
@@ -126,5 +149,8 @@ story_flashforward → story_arrival → story_knee_door → story_knee_witness
 
 - P1-A는 **수치 변경**이라 밸런스 밴드 확인이 필요하다. 별도 오더로 올린다.
 - P1-B는 `direction` 키 4개 추가이며 렌더러는 이미 있다. 가장 싸다.
-- P2-A는 **배치 2보다 먼저** 정본을 정해야 한다.
+- P2-A는 해소됐다. `SCENE_TIER` §0이 배치 2의 기준이 된다.
 - 이 배치에서 발견한 P0은 **없다.** 정합이 깨진 곳이 없으므로 즉시 수리 대상도 없다.
+
+수리 오더는 **배치 2 결과까지 모아서 한 번에 낸다.** 지금 내면 `story_events.json`을
+두 번 열게 되고, 데모 24주에서 같은 도덕 축 결함이 더 나올 가능성이 높다.
