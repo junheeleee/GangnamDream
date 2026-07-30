@@ -36,6 +36,16 @@ jobs:
           unzip -q godot.zip
           sudo mv "Godot_v${GODOT_VERSION}-stable_linux.x86_64" /usr/local/bin/godot
           godot --version
+      # .godot/은 .gitignore 대상이라 새 클론에는 임포트 캐시도, class_name 전역
+      # 목록(.godot/global_script_class_cache.cfg)도 없다. 이 단계가 없으면
+      # 폰트·오디오가 res://.godot/imported/*에서 로드 실패하고 FontKit·ModLoader·
+      # TutorialOverlay가 미선언이 되어 오토로드가 Nil로 죽는다. audit.sh는
+      # 오토로드와 class_name이 모두 등록된 상태를 전제한다(tools/audit.sh 참조).
+      - name: 자산 임포트 (.godot 캐시·class_name 전역 생성)
+        run: |
+          godot --headless --import --quit-after 2000 2>&1 | tail -30 || true
+          test -f .godot/global_script_class_cache.cfg \
+            || { echo "::error::임포트 후에도 class_name 전역 캐시가 없다"; exit 1; }
       - name: 전체 감사 (컴파일 체크 포함)
         run: GODOT=/usr/local/bin/godot ./tools/audit.sh
       - name: SimRun 경제 시뮬 (60턴 완주 검증)
