@@ -643,7 +643,7 @@ echo "────────────────────────�
 echo "● 10슬롯·스토리 문단/선택/결과/타이머 수동 저장 검사"
 if [ -x "$GODOT" ]; then
   MANUAL_SAVE_HOME=$(make_isolated_home "gangnam-manual-save")
-  MANUAL_SAVE_RAW=$(run_limited env HOME="$MANUAL_SAVE_HOME" "$GODOT" --headless --resolution 960x600 --quit-after 1200 res://tools/ManualSaveCheck.tscn 2>&1)
+  MANUAL_SAVE_RAW=$(run_limited env HOME="$MANUAL_SAVE_HOME" "$GODOT" --headless --resolution 960x600 --quit-after 3600 res://tools/ManualSaveCheck.tscn 2>&1)
   MANUAL_SAVE_STATUS=$?
   cleanup_isolated_home "$MANUAL_SAVE_HOME"
   echo "$MANUAL_SAVE_RAW" | grep -E "MANUAL_SAVE_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'

@@ -254,7 +254,14 @@ func _check_cross_locale_resume_rewind() -> void:
 	_expect(int(_story.call(
 		"_story_source_paragraph_index", restored_page)) == 0,
 		"cross-locale load mapped into a potentially unseen paragraph")
-	_expect(bool(_story.get("_typing")) and int(_story.get("_type_pos")) <= 6,
+	# 타자기는 실제 델타 시간으로 진행하므로 로드 직후 프레임이 길어지면 스스로
+	# 앞서 나간다. 절대 문자 수로 판정하면 되감기가 정상인데도 실패한다.
+	# 이 가드가 잡으려는 회귀는 저장된 90% 지점에서의 재개이므로, 복원 위치가
+	# 그 문단의 절반 앞이면 되감기가 일어난 것으로 판정한다.
+	var restored_full := str(_story.get("_type_full"))
+	var rewind_ceiling := maxi(7, int(floor(float(restored_full.length()) * 0.5)))
+	_expect(bool(_story.get("_typing")) \
+			and int(_story.get("_type_pos")) < rewind_ceiling,
 		"cross-locale load did not rewind the current prose phase")
 	var rewind_entries: Array = _story.call("_dialogue_log_display_entries")
 	var rewind_is_safe := rewind_entries.size() <= 1
