@@ -108,6 +108,10 @@
     "work_unit": [
       "docs/WORK_UNIT.md",
       "docs/CODEX_QUEUE.md"
+    ],
+    "engineering_infra": [
+      "docs/ENGINEERING_PLAN.md",
+      "tools/audit_scope.json"
     ]
   },
   "task_profiles": {
@@ -232,6 +236,7 @@
       "docs/ART_RESOLUTION_READINESS.md",
       "docs/ASSET_GAP_SPEC.md",
       "docs/CONTROLLER_UX_STRATEGY.md",
+      "docs/ENGINEERING_PLAN.md",
       "docs/GAME_RECOMPOSITION_PLAN.md",
       "docs/MAP_HUB_PROPOSAL.md",
       "docs/NARRATIVE_RECOMPOSITION_PLAN.md",

@@ -1,0 +1,737 @@
+{
+  "_comment": [
+    "변경 파일 → 필요한 검사 매핑. tools/audit_select.py가 읽는다.",
+    "규칙: 매칭되는 규칙이 하나도 없는 변경은 전체 감사를 요구한다(안전 기본값).",
+    "각 항목의 paths는 fnmatch 글롭이며 저장소 루트 기준 상대경로에 대해 평가한다.",
+    "godot=true 인 검사는 Godot 실행파일이 있을 때만 돌린다.",
+    "새 검사를 audit.sh에 추가하면 여기에도 등록한다 — 미등록 검사는",
+    "audit_select.py --verify 가 실패로 보고한다."
+  ],
+  "always": [
+    "tools/context_manifest_check.py"
+  ],
+  "checks": [
+    {
+      "tool": "tools/audit.py",
+      "why": "사건·플래그·직렬화 정합 7종. 콘텐츠와 런타임 상태의 공통 기반",
+      "paths": [
+        "content/**",
+        "autoloads/**",
+        "systems/**",
+        "scenes/**",
+        "tools/audit.py"
+      ]
+    },
+    {
+      "tool": "tools/context_manifest_check.py",
+      "why": "부팅 예산·정본 분류·내부 링크",
+      "paths": [
+        "docs/**",
+        "CLAUDE.md",
+        "AGENTS.md",
+        "docs/context_manifest.json"
+      ]
+    },
+    {
+      "tool": "tools/story_consistency_audit.py",
+      "why": "선행조건·배제 상태·장소·대화 채널 원장",
+      "paths": [
+        "content/events/**",
+        "content/events_en/**",
+        "content/meta/story_rules.json"
+      ]
+    },
+    {
+      "tool": "tools/speech_register_audit.py",
+      "why": "호칭·관계 단계별 말투",
+      "paths": [
+        "content/events/**",
+        "content/events_en/**",
+        "content/endings*.json",
+        "content/meta/story_rules.json"
+      ]
+    },
+    {
+      "tool": "tools/random_pool_hygiene_audit.py",
+      "why": "랜덤 풀 수치-산문 모순·설교투",
+      "paths": [
+        "content/events/**",
+        "content/events_en/**"
+      ]
+    },
+    {
+      "tool": "tools/narrative_continuity_audit.py",
+      "why": "장편 연속성·챕터 밀도·고립 단편",
+      "paths": [
+        "content/events/**",
+        "content/meta/narrative_spine.json"
+      ]
+    },
+    {
+      "tool": "tools/narrative_spine_audit.py",
+      "why": "5장 구조·세계 법칙·모티프 plant/reader",
+      "paths": [
+        "content/meta/narrative_spine.json",
+        "content/events/**"
+      ]
+    },
+    {
+      "tool": "tools/peak_scene_chain_audit.py",
+      "why": "정점 장면 체인",
+      "paths": [
+        "content/events/**",
+        "docs/ROMANCE_SYSTEM.md",
+        "docs/SCENE_TIER.md"
+      ]
+    },
+    {
+      "tool": "tools/event_director_audit.py",
+      "why": "디렉터 풀·콜백 도달성·체인",
+      "paths": [
+        "content/events/**",
+        "content/meta/event_director.json"
+      ]
+    },
+    {
+      "tool": "tools/ending_distinctness_audit.py",
+      "why": "엔딩 35종 구분성",
+      "paths": [
+        "content/endings*.json",
+        "content/meta/narrative_spine.json"
+      ]
+    },
+    {
+      "tool": "tools/demo_core_loop_v2_audit.py",
+      "why": "데모 24주 루프 계약",
+      "paths": [
+        "content/meta/demo_core_loop_v2.json",
+        "systems/DemoCoreLoopV2.gd",
+        "scenes/CoreLoopPlanner.gd"
+      ]
+    },
+    {
+      "tool": "tools/core_loop_v2_balance_sim.py",
+      "why": "데모 결정론 경제 원장",
+      "paths": [
+        "content/meta/demo_core_loop_v2.json",
+        "systems/DemoCoreLoopV2.gd",
+        "autoloads/GameState.gd",
+        "content/jobs.json"
+      ]
+    },
+    {
+      "tool": "tools/balance_check.py",
+      "why": "밸런스 밴드·전략 발산 래칫",
+      "paths": [
+        "autoloads/GameState.gd",
+        "content/jobs.json",
+        "content/assets.json",
+        "content/items.json",
+        "systems/**"
+      ]
+    },
+    {
+      "tool": "tools/first_session_pacing_audit.py",
+      "why": "첫 세션 입력 밀도·프롤로그 체인",
+      "paths": [
+        "content/events/story_events.json",
+        "content/events/arc_intro*.json",
+        "scenes/StoryMode.gd"
+      ]
+    },
+    {
+      "tool": "tools/demo_experience_audit.py",
+      "why": "정상 독해 체험 프로파일",
+      "paths": [
+        "content/events/**",
+        "content/meta/demo_core_loop_v2.json"
+      ]
+    },
+    {
+      "tool": "tools/full_run_pacing_audit.py",
+      "why": "240주 페이싱",
+      "paths": [
+        "content/events/**",
+        "content/meta/narrative_spine.json"
+      ]
+    },
+    {
+      "tool": "tools/english_hangul_audit.py",
+      "why": "영어 표면 한글 누출",
+      "paths": [
+        "content/events_en/**",
+        "content/endings_en.json",
+        "locale/**",
+        "scenes/**",
+        "systems/**",
+        "autoloads/**",
+        "ui_components/**",
+        "tools/*.gd"
+      ]
+    },
+    {
+      "tool": "tools/en_coverage_check.py",
+      "why": "영어 커버리지",
+      "paths": [
+        "content/events/**",
+        "content/events_en/**",
+        "content/endings*.json"
+      ]
+    },
+    {
+      "tool": "tools/i18n_coverage_check.py",
+      "why": "다국어 커버리지",
+      "paths": [
+        "locale/**",
+        "content/endings_ja.json",
+        "content/endings_zh-CN.json",
+        "content/endings_zh-TW.json"
+      ]
+    },
+    {
+      "tool": "tools/multilingual_surface_audit.py",
+      "why": "다국어 표면",
+      "paths": [
+        "locale/**",
+        "scenes/**",
+        "systems/**",
+        "autoloads/**"
+      ]
+    },
+    {
+      "tool": "tools/ja_translation_audit.py",
+      "why": "일본어 UI 키",
+      "paths": [
+        "locale/ui_ja.json",
+        "locale/**"
+      ]
+    },
+    {
+      "tool": "tools/audio_source_audit.py",
+      "why": "오디오 출처·해시·합성 부재",
+      "paths": [
+        "assets/audio/**"
+      ]
+    },
+    {
+      "tool": "tools/event_visual_contract_check.py",
+      "why": "사건별 시각 계약",
+      "paths": [
+        "assets/event_visual_contracts.json",
+        "assets/**",
+        "content/events/**"
+      ]
+    },
+    {
+      "tool": "tools/cg_acting_contract_check.py",
+      "why": "CG 카메라·시선·연기",
+      "paths": [
+        "assets/cg_acting_manifest.json",
+        "assets/cg/**",
+        "content/events/**"
+      ]
+    },
+    {
+      "tool": "tools/cast_detail_contract_check.py",
+      "why": "A/B/C 렌더 계층",
+      "paths": [
+        "assets/cast_detail_manifest.json",
+        "assets/characters/**"
+      ]
+    },
+    {
+      "tool": "tools/art_ai_audit.py",
+      "why": "원화 사람 검수 해시",
+      "paths": [
+        "assets/**",
+        "docs/ART_AI_AUDIT.md"
+      ]
+    },
+    {
+      "tool": "tools/art_resolution_audit.py",
+      "why": "1080p·4K 확대율",
+      "paths": [
+        "assets/**"
+      ]
+    },
+    {
+      "tool": "tools/art_master_audit.py",
+      "why": "승격 원화 재현·출처. 전체 git 히스토리 필요",
+      "paths": [
+        "assets/**",
+        "tools/art_master_manifest.json"
+      ]
+    },
+    {
+      "tool": "tools/keyart_asset_check.py",
+      "why": "키아트 자산",
+      "paths": [
+        "assets/keyart/**",
+        "assets/**"
+      ]
+    },
+    {
+      "tool": "tools/scene_direction_catalog.py",
+      "why": "장면 전환 원장",
+      "paths": [
+        "assets/scene_direction_manifest.json",
+        "content/events/**",
+        "docs/SCENE_DIRECTION.md"
+      ]
+    },
+    {
+      "tool": "tools/mod_layer_audit.py",
+      "why": "모드 계층",
+      "paths": [
+        "assets/mod_asset_manifest.json",
+        "autoloads/ModLoader.gd"
+      ]
+    },
+    {
+      "tool": "tools/arc_flow_sim.py",
+      "why": "아크 예약 간격·이정표 순서",
+      "paths": [
+        "content/events/**",
+        "content/meta/event_director.json"
+      ]
+    },
+    {
+      "tool": "tools/playtest_report.py",
+      "why": "외부 표본 세션 무결성",
+      "paths": [
+        "docs/playtest/**",
+        "tools/playtest_report.py"
+      ]
+    },
+    {
+      "tool": "tools/CompileCheck.tscn",
+      "godot": true,
+      "why": "전체 GDScript 컴파일",
+      "paths": [
+        "**/*.gd",
+        "project.godot"
+      ]
+    },
+    {
+      "tool": "tools/CoreLoopV2Check.tscn",
+      "godot": true,
+      "why": "데모 1~8주 런타임",
+      "paths": [
+        "systems/DemoCoreLoopV2.gd",
+        "scenes/CoreLoopPlanner.gd",
+        "content/meta/demo_core_loop_v2.json"
+      ]
+    },
+    {
+      "tool": "tools/CoreLoopV2BCheck.tscn",
+      "godot": true,
+      "why": "데모 9~12주 런타임",
+      "paths": [
+        "systems/DemoCoreLoopV2.gd",
+        "scenes/CoreLoopPlanner.gd",
+        "content/meta/demo_core_loop_v2.json"
+      ]
+    },
+    {
+      "tool": "tools/CoreLoopV2CCheck.tscn",
+      "godot": true,
+      "why": "데모 13~16주 런타임",
+      "paths": [
+        "systems/DemoCoreLoopV2.gd",
+        "scenes/CoreLoopPlanner.gd",
+        "content/meta/demo_core_loop_v2.json"
+      ]
+    },
+    {
+      "tool": "tools/CoreLoopV2DCheck.tscn",
+      "godot": true,
+      "why": "데모 17~20주 런타임",
+      "paths": [
+        "systems/DemoCoreLoopV2.gd",
+        "scenes/CoreLoopPlanner.gd",
+        "content/meta/demo_core_loop_v2.json"
+      ]
+    },
+    {
+      "tool": "tools/StoryPlaybackCheck.tscn",
+      "godot": true,
+      "why": "스토리 자동 재생·선택 안전",
+      "paths": [
+        "scenes/StoryMode.gd",
+        "content/events/**"
+      ]
+    },
+    {
+      "tool": "tools/StoryPresenceCheck.tscn",
+      "godot": true,
+      "why": "대면·전화·메시지·기억 초상 공간",
+      "paths": [
+        "scenes/StoryMode.gd",
+        "content/meta/story_rules.json",
+        "assets/event_visual_contracts.json"
+      ]
+    },
+    {
+      "tool": "tools/StoryDialogueHistoryCheck.tscn",
+      "godot": true,
+      "why": "대화 기록 노출·타이머·저장 경계",
+      "paths": [
+        "scenes/StoryMode.gd"
+      ]
+    },
+    {
+      "tool": "tools/ManualSaveCheck.tscn",
+      "godot": true,
+      "why": "10슬롯 수동 저장 왕복",
+      "paths": [
+        "autoloads/SaveManager.gd",
+        "autoloads/GameState.gd",
+        "scenes/StoryMode.gd"
+      ]
+    },
+    {
+      "tool": "tools/InputMatrixCheck.tscn",
+      "godot": true,
+      "why": "입력·해상도·글리프·Steam Input",
+      "paths": [
+        "scenes/**",
+        "autoloads/ControllerHints.gd",
+        "steam_input/**",
+        "ui_components/**"
+      ]
+    },
+    {
+      "tool": "tools/CGRuntimeCheck.tscn",
+      "godot": true,
+      "why": "CG 문단 배경 게이트",
+      "paths": [
+        "assets/cg/**",
+        "assets/event_visual_contracts.json",
+        "scenes/StoryMode.gd"
+      ]
+    },
+    {
+      "tool": "tools/SceneDirectionCheck.tscn",
+      "godot": true,
+      "why": "장면 전환·활동·Reduce Motion 런타임",
+      "paths": [
+        "assets/scene_direction_manifest.json",
+        "scenes/StoryMode.gd",
+        "autoloads/SceneTransition.gd"
+      ]
+    },
+    {
+      "tool": "tools/GameAudioContractCheck.tscn",
+      "godot": true,
+      "why": "게임 오디오 계약",
+      "paths": [
+        "assets/audio/**",
+        "assets/game_audio_manifest.json",
+        "autoloads/AudioManager.gd",
+        "autoloads/BGMPlayer.gd"
+      ]
+    },
+    {
+      "tool": "tools/BGMContinuityCheck.tscn",
+      "godot": true,
+      "why": "BGM 연속성",
+      "paths": [
+        "assets/audio/**",
+        "autoloads/BGMPlayer.gd"
+      ]
+    },
+    {
+      "tool": "tools/EndingRouteIdentityCheck.tscn",
+      "godot": true,
+      "why": "엔딩 라우팅 실행",
+      "paths": [
+        "content/endings*.json",
+        "systems/EndingSystem.gd"
+      ]
+    },
+    {
+      "tool": "tools/DemoBuildCheck.tscn",
+      "godot": true,
+      "why": "데모 빌드 flavor·차단",
+      "paths": [
+        "systems/**",
+        "scenes/**",
+        "content/meta/demo_core_loop_v2.json"
+      ]
+    },
+    {
+      "tool": "tools/PhoneSystemCheck.tscn",
+      "godot": true,
+      "why": "휴대폰 허브",
+      "paths": [
+        "systems/PhoneSystem.gd",
+        "scenes/CoreLoopPlanner.gd",
+        "assets/ui/phone/**"
+      ]
+    },
+    {
+      "tool": "tools/exposed_state_consistency_audit.py",
+      "why": "노출 사건의 상태 계약",
+      "paths": [
+        "content/events/**",
+        "content/meta/exposed_event_state_contracts.json"
+      ]
+    },
+    {
+      "tool": "tools/surface_emoji_audit.py",
+      "why": "표면 이모지 위생",
+      "paths": [
+        "scenes/**",
+        "systems/**",
+        "autoloads/**",
+        "locale/**",
+        "ui_components/**"
+      ]
+    },
+    {
+      "tool": "tools/scene_audio_contract_check.py",
+      "why": "장면별 오디오 계약",
+      "paths": [
+        "assets/scene_audio_manifest.json",
+        "assets/audio/**",
+        "content/events/**"
+      ]
+    },
+    {
+      "tool": "tools/scene_audio_catalog.py",
+      "why": "장면 오디오 카탈로그",
+      "paths": [
+        "assets/scene_audio_manifest.json",
+        "content/events/**"
+      ]
+    },
+    {
+      "tool": "tools/full_run_audio_audit.py",
+      "why": "240주 대표 오디오 경로",
+      "paths": [
+        "assets/audio/**",
+        "assets/scene_audio_manifest.json",
+        "content/events/**"
+      ]
+    },
+    {
+      "tool": "tools/full_run_direction_audit.py",
+      "why": "240주 연출 경로",
+      "paths": [
+        "assets/scene_direction_manifest.json",
+        "content/events/**"
+      ]
+    },
+    {
+      "tool": "tools/game_audio_contract_check.py",
+      "why": "게임 오디오 키 계약",
+      "paths": [
+        "assets/game_audio_manifest.json",
+        "assets/audio/**"
+      ]
+    },
+    {
+      "tool": "tools/generate_gangnam_ui_sfx.py",
+      "why": "UI SFX 생성물 검증",
+      "paths": [
+        "assets/audio/**"
+      ]
+    },
+    {
+      "tool": "tools/generate_launch_audio.py",
+      "why": "런치 오디오 생성물 검증",
+      "paths": [
+        "assets/audio/**"
+      ]
+    },
+    {
+      "tool": "tools/AchievementPathCheck.tscn",
+      "godot": true,
+      "why": "업적 해금 경로",
+      "paths": [
+        "content/**",
+        "systems/**"
+      ]
+    },
+    {
+      "tool": "tools/AudioAssetCheck.tscn",
+      "godot": true,
+      "why": "오디오 자산 런타임 로드",
+      "paths": [
+        "assets/audio/**"
+      ]
+    },
+    {
+      "tool": "tools/CastVisualTimeCheck.tscn",
+      "godot": true,
+      "why": "연차별 인물 외형 잠금",
+      "paths": [
+        "assets/characters/**",
+        "content/meta/cast_visual_years.json"
+      ]
+    },
+    {
+      "tool": "tools/CoreChoiceSliceCheck.tscn",
+      "godot": true,
+      "why": "작성형 선택 수직 단면",
+      "paths": [
+        "content/events/**",
+        "scenes/MainGame.gd"
+      ]
+    },
+    {
+      "tool": "tools/EventDirectorCheck.tscn",
+      "godot": true,
+      "why": "디렉터 런타임",
+      "paths": [
+        "content/meta/event_director.json",
+        "autoloads/EventManager.gd"
+      ]
+    },
+    {
+      "tool": "tools/First30SecondsCheck.tscn",
+      "godot": true,
+      "why": "첫 30초",
+      "paths": [
+        "scenes/StartMenu.gd",
+        "scenes/StoryMode.gd",
+        "systems/BuildInfo.gd"
+      ]
+    },
+    {
+      "tool": "tools/HiddenFeatureCheck.tscn",
+      "godot": true,
+      "why": "유물·히든 경로",
+      "paths": [
+        "content/items.json",
+        "content/events/**"
+      ]
+    },
+    {
+      "tool": "tools/HousingKeepsakeCheck.tscn",
+      "godot": true,
+      "why": "이사 전 유물 보존",
+      "paths": [
+        "content/items.json",
+        "content/events/**"
+      ]
+    },
+    {
+      "tool": "tools/I18nInfrastructureCheck.tscn",
+      "godot": true,
+      "why": "다국어 런타임",
+      "paths": [
+        "locale/**",
+        "autoloads/LocaleManager.gd"
+      ]
+    },
+    {
+      "tool": "tools/ImmersionLoopCheck.tscn",
+      "godot": true,
+      "why": "주간 루프 몰입",
+      "paths": [
+        "scenes/MainGame.gd",
+        "systems/**"
+      ]
+    },
+    {
+      "tool": "tools/LivingSceneCheck.tscn",
+      "godot": true,
+      "why": "날씨·기억·카메라·접근성",
+      "paths": [
+        "scenes/StoryMode.gd",
+        "assets/scene_direction_manifest.json"
+      ]
+    },
+    {
+      "tool": "tools/ModLayerCheck.tscn",
+      "godot": true,
+      "why": "모드 계층 런타임",
+      "paths": [
+        "autoloads/ModLoader.gd",
+        "assets/mod_asset_manifest.json"
+      ]
+    },
+    {
+      "tool": "tools/MoralAmbienceCheck.tscn",
+      "godot": true,
+      "why": "moral 사람층 감쇄",
+      "paths": [
+        "assets/audio/**",
+        "docs/MORAL_TINT.md",
+        "systems/**"
+      ]
+    },
+    {
+      "tool": "tools/MotivationImprintCheck.tscn",
+      "godot": true,
+      "why": "동기 문장 각인·회수",
+      "paths": [
+        "content/events/story_events.json",
+        "content/events/**"
+      ]
+    },
+    {
+      "tool": "tools/StoryAudioSettingsCheck.tscn",
+      "godot": true,
+      "why": "사건 중 오디오 설정·패드",
+      "paths": [
+        "scenes/StoryMode.gd",
+        "autoloads/AudioManager.gd"
+      ]
+    },
+    {
+      "tool": "tools/StoryTutorialPlacementCheck.tscn",
+      "godot": true,
+      "why": "프롤로그 결과·첫 튜토리얼 배치",
+      "paths": [
+        "scenes/StoryMode.gd",
+        "scenes/MainGame.gd"
+      ]
+    },
+    {
+      "tool": "tools/TextMaterialCheck.tscn",
+      "godot": true,
+      "why": "본문·선택지 재질 계약",
+      "paths": [
+        "scenes/StoryMode.gd",
+        "autoloads/UIStyle.gd",
+        "ui_components/**"
+      ]
+    },
+    {
+      "tool": "tools/TutorialInputCheck.tscn",
+      "godot": true,
+      "why": "튜토리얼 입력 포커스",
+      "paths": [
+        "scenes/MainGame.gd",
+        "ui_components/**"
+      ]
+    },
+    {
+      "tool": "tools/YearIdentityCheck.tscn",
+      "godot": true,
+      "why": "연차 정체성·큐레이션",
+      "paths": [
+        "content/events/**",
+        "content/meta/narrative_spine.json"
+      ]
+    },
+    {
+      "tool": "tools/audit_select.py --verify",
+      "why": "감사 인프라 자체를 바꾸면 등록 누락부터 확인한다",
+      "paths": [
+        "tools/audit_scope.json",
+        "tools/audit_select.py",
+        "tools/audit.sh"
+      ]
+    },
+    {
+      "tool": "tools/audit.py",
+      "why": "도구 변경은 정적 감사로 회귀를 본다",
+      "paths": [
+        "tools/*.py"
+      ]
+    }
+  ]
+}
