@@ -7,117 +7,286 @@
     {
       "id": "time_is_capital",
       "statement": "서울에서 돈이 없는 사람은 먼저 자기 시간을 판다.",
-      "proof": ["arc_intro_01_meal", "arc_job_vs_invest", "arc_37_reckoning"]
+      "proof": [
+        "arc_intro_01_meal",
+        "arc_job_vs_invest",
+        "arc_37_reckoning"
+      ]
     },
     {
       "id": "addresses_are_status",
       "statement": "같은 도시에서도 주소는 사람을 대하는 태도와 선택지를 바꾼다.",
-      "proof": ["arc_sangchul_01_meet", "arc_gangnam_visit_alone", "arc_pre_ending_summit"]
+      "proof": [
+        "arc_sangchul_01_meet",
+        "arc_gangnam_visit_alone",
+        "arc_pre_ending_summit"
+      ]
     },
     {
       "id": "trust_creates_debt",
       "statement": "보증과 소개와 호의는 숫자보다 오래 남는 부채를 만든다.",
-      "proof": ["story_knee_witness", "arc_sangchul_deduction", "arc_jaehyuk_mirror"]
+      "proof": [
+        "story_knee_witness",
+        "arc_sangchul_deduction",
+        "arc_jaehyuk_mirror"
+      ]
     },
     {
       "id": "success_moves_the_bill",
       "statement": "성공은 대가를 없애지 않고 다른 사람과 미래의 자신에게 옮긴다.",
-      "proof": ["arc_temptation_fallout", "arc_jaehyuk_04a_ghost", "arc_daeun_final_choice"]
+      "proof": [
+        "arc_temptation_fallout",
+        "arc_jaehyuk_04a_ghost",
+        "arc_daeun_final_choice"
+      ]
     },
     {
       "id": "memory_is_the_moral_ui",
       "statement": "도덕은 점수가 아니라 같은 문장과 사물과 얼굴을 다르게 보게 되는 기억이다.",
-      "proof": ["story_last_payment_exit", "arc_father_call_on_ktx", "arc_final_countdown"]
+      "proof": [
+        "story_last_payment_exit",
+        "arc_father_call_on_ktx",
+        "arc_final_countdown"
+      ]
     }
   ],
   "characters": [
     {
       "id": "father",
       "function": "상처의 기원과 민준이 끝내 답해야 할 첫 번째 채권자",
-      "chapters": [1, 2, 3, 4, 5],
-      "anchors": ["story_knee_witness", "arc_father_01_call", "arc_father_06_confession", "arc_father_passing", "arc_father_legacy", "arc_pre_ending_father_call"]
+      "chapters": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "anchors": [
+        "story_knee_witness",
+        "arc_father_01_call",
+        "arc_father_06_confession",
+        "arc_father_passing",
+        "arc_father_legacy",
+        "arc_pre_ending_father_call"
+      ]
     },
     {
       "id": "sangchul",
       "function": "선의를 잃지 않았다고 믿으며 타협을 축적한 전세대의 민준",
-      "chapters": [1, 2, 3, 4, 5],
-      "anchors": ["arc_sangchul_01_meet", "arc_sangchul_human", "arc_sangchul_deduction", "arc_sangchul_confrontation", "arc_sangchul_reckoning"]
+      "chapters": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "anchors": [
+        "arc_sangchul_01_meet",
+        "arc_sangchul_human",
+        "arc_sangchul_deduction",
+        "arc_sangchul_confrontation",
+        "arc_sangchul_reckoning"
+      ]
     },
     {
       "id": "jaehyuk",
       "function": "피해자가 살아남기 위해 가해자가 되었을 때 도착하는 미래의 민준",
-      "chapters": [1, 2, 3, 5],
-      "anchors": ["arc_jaehyuk_01_reunion", "arc_jaehyuk_01b_real_face", "arc_jaehyuk_03_pitch", "arc_jaehyuk_04a_ghost", "arc_jaehyuk_mirror"]
+      "chapters": [
+        1,
+        2,
+        3,
+        5
+      ],
+      "anchors": [
+        "arc_jaehyuk_01_reunion",
+        "arc_jaehyuk_01b_real_face",
+        "arc_jaehyuk_03_pitch",
+        "arc_jaehyuk_04a_ghost",
+        "arc_jaehyuk_mirror"
+      ]
     },
     {
       "id": "hyunsu",
       "function": "느리더라도 타인을 밟지 않고 흐르는 시간과 실패 뒤의 다른 출구",
-      "chapters": [1, 2, 3, 5],
-      "anchors": ["arc_intro_04_hyunsu", "hyunsu_reunion_later", "hyunsu_year5_call"]
+      "chapters": [
+        1,
+        2,
+        3,
+        5
+      ],
+      "anchors": [
+        "arc_intro_04_hyunsu",
+        "hyunsu_reunion_later",
+        "hyunsu_year5_call"
+      ]
     },
     {
       "id": "daeun",
       "function": "사람을 목표 달성의 비용이나 보상으로 환산하지 않는 삶의 증인",
-      "chapters": [1, 2, 3, 4, 5],
-      "anchors": ["arc_daeun_01_meet", "arc_daeun_02_regular", "arc_daeun_proposal", "arc_daeun_wedding_day", "arc_daeun_final_choice"]
+      "chapters": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "anchors": [
+        "arc_daeun_01_meet",
+        "arc_daeun_02_regular",
+        "arc_daeun_proposal",
+        "arc_daeun_wedding_day",
+        "arc_daeun_final_choice"
+      ]
     },
     {
       "id": "jiyeon",
       "function": "민준이 원하는 계급의 문턱이자 사랑과 소유를 혼동하게 만드는 욕망의 얼굴",
-      "chapters": [1, 2, 3, 4, 5],
-      "anchors": ["arc_jiyeon_01_crash", "arc_jiyeon_03_offer", "arc_jiyeon_narrow_room_2", "arc_jiyeon_wedding_gap", "arc_jiyeon_verdict"]
+      "chapters": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "anchors": [
+        "arc_jiyeon_01_crash",
+        "arc_jiyeon_03_offer",
+        "arc_jiyeon_narrow_room_2",
+        "arc_jiyeon_wedding_gap",
+        "arc_jiyeon_verdict"
+      ]
+    }
+  ],
+  "supporting_cast": [
+    {
+      "id": "minseo",
+      "function": "민준보다 3년 먼저 같은 목표에 도착해, 도착이 질문을 끝내지 않는다는 것을 먼저 아는 사람",
+      "chapters": [
+        4,
+        5
+      ],
+      "anchors": [
+        "arc_minseo_01_meet",
+        "arc_minseo_02_real",
+        "arc_minseo_03_arrival",
+        "arc_minseo_03b_not_arrived"
+      ],
+      "late_by_design": "먼저 도착한 사람은 민준이 도착 근처에 갔을 때만 의미를 가진다. 1~3장에 등장하면 대비가 성립하지 않는다."
     }
   ],
   "motifs": [
     {
       "id": "signature",
       "meaning": "남의 이름을 믿고 적는 행위가 누구의 삶을 담보로 잡는가",
-      "plant": {"chapter": 1, "event": "story_knee_witness"},
+      "plant": {
+        "chapter": 1,
+        "event": "story_knee_witness"
+      },
       "readers": [
-        {"chapter": 3, "event": "arc_sangchul_deduction"},
-        {"chapter": 3, "event": "arc_jaehyuk_mirror"},
-        {"chapter": 5, "event": "arc_final_countdown"}
+        {
+          "chapter": 3,
+          "event": "arc_sangchul_deduction"
+        },
+        {
+          "chapter": 3,
+          "event": "arc_jaehyuk_mirror"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_final_countdown"
+        }
       ]
     },
     {
       "id": "twenty_three_seconds",
       "meaning": "말하지 않은 시간이 관계에서 사라지는 속도",
-      "plant": {"chapter": 1, "event": "arc_father_01_call"},
+      "plant": {
+        "chapter": 1,
+        "event": "arc_father_01_call"
+      },
       "readers": [
-        {"chapter": 4, "event": "arc_father_passing"},
-        {"chapter": 4, "event": "arc_father_call_on_ktx"},
-        {"chapter": 5, "event": "arc_father_legacy"},
-        {"chapter": 5, "event": "arc_pre_ending_father_call"}
+        {
+          "chapter": 4,
+          "event": "arc_father_passing"
+        },
+        {
+          "chapter": 4,
+          "event": "arc_father_call_on_ktx"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_father_legacy"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_pre_ending_father_call"
+        }
       ]
     },
     {
       "id": "cold_coffee",
       "meaning": "호의와 거래의 경계가 식어 가는 시간",
-      "plant": {"chapter": 1, "event": "arc_sangchul_01_meet"},
+      "plant": {
+        "chapter": 1,
+        "event": "arc_sangchul_01_meet"
+      },
       "readers": [
-        {"chapter": 2, "event": "arc_sangchul_human"},
-        {"chapter": 3, "event": "arc_sangchul_confrontation"},
-        {"chapter": 5, "event": "arc_sangchul_reckoning"}
+        {
+          "chapter": 2,
+          "event": "arc_sangchul_human"
+        },
+        {
+          "chapter": 3,
+          "event": "arc_sangchul_confrontation"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_sangchul_reckoning"
+        }
       ]
     },
     {
       "id": "screen_number",
       "meaning": "숫자가 생존의 단위에서 타인의 고통을 지우는 단위로 변하는 과정",
-      "plant": {"chapter": 1, "event": "story_last_payment_exit"},
+      "plant": {
+        "chapter": 1,
+        "event": "story_last_payment_exit"
+      },
       "readers": [
-        {"chapter": 2, "event": "arc_jaehyuk_02b_favor"},
-        {"chapter": 3, "event": "arc_jaehyuk_04a_ghost"},
-        {"chapter": 5, "event": "arc_year5_scene"}
+        {
+          "chapter": 2,
+          "event": "arc_jaehyuk_02b_favor"
+        },
+        {
+          "chapter": 3,
+          "event": "arc_jaehyuk_04a_ghost"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_year5_scene"
+        }
       ]
     },
     {
       "id": "threshold",
       "meaning": "문 안으로 들어가는 것이 소속인지 침입인지 선택하게 하는 경계",
-      "plant": {"chapter": 1, "event": "story_knee_door"},
+      "plant": {
+        "chapter": 1,
+        "event": "story_knee_door"
+      },
       "readers": [
-        {"chapter": 2, "event": "arc_jiyeon_03_offer"},
-        {"chapter": 4, "event": "arc_jiyeon_wedding_gap"},
-        {"chapter": 5, "event": "arc_pre_ending_summit"}
+        {
+          "chapter": 2,
+          "event": "arc_jiyeon_03_offer"
+        },
+        {
+          "chapter": 4,
+          "event": "arc_jiyeon_wedding_gap"
+        },
+        {
+          "chapter": 5,
+          "event": "arc_pre_ending_summit"
+        }
       ]
     }
   ],
@@ -126,23 +295,53 @@
       "number": 1,
       "title_ko": "남은 사람",
       "title_en": "What Remains",
-      "weeks": [1, 48],
+      "weeks": [
+        1,
+        48
+      ],
       "question": "정직하게 살아서는 닿을 수 없는 목표 앞에서 민준은 첫 선을 넘는가?",
       "object": "마지막 상환확인서",
-      "setup": ["story_knee_door", "story_last_payment_wait", "arc_intro_01_meal"],
-      "escalation": ["arc_temptation_01", "cafe_00", "arc_sangchul_01_meet"],
-      "reversal": ["arc_jiyeon_01_crash", "arc_jaehyuk_01_reunion"],
-      "boss": ["arc_year1_close"],
-      "aftermath": ["chapter_card_34"],
+      "setup": [
+        "story_knee_door",
+        "story_last_payment_wait",
+        "arc_intro_01_meal"
+      ],
+      "escalation": [
+        "arc_temptation_01",
+        "cafe_00",
+        "arc_sangchul_01_meet"
+      ],
+      "reversal": [
+        "arc_jiyeon_01_crash",
+        "arc_jaehyuk_01_reunion"
+      ],
+      "boss": [
+        "arc_year1_close"
+      ],
+      "aftermath": [
+        "chapter_card_34"
+      ],
       "temporal_spines": [
         {
           "id": "room_becomes_home",
-          "events": ["arc_gosiwon_wall", "arc_goshiwon_goodbye", "arc_housing_new_life"],
+          "events": [
+            "arc_gosiwon_wall",
+            "arc_goshiwon_goodbye",
+            "arc_housing_new_life"
+          ],
           "payoff": "얇은 벽을 견디던 방에서 자기 문을 닫는 첫날까지, 주거 상승이 면적뿐 아니라 고독의 감각도 바꾸는 일임을 보여준다."
         },
         {
           "id": "hyunsu_after_the_exam",
-          "events": ["arc_intro_04_hyunsu", "arc_hyunsu_night_talk", "hyunsu_exam_day", "hyunsu_result_fail", "arc_hyunsu_exam_fail", "arc_hyunsu_drift", "arc_hyunsu_new_path"],
+          "events": [
+            "arc_intro_04_hyunsu",
+            "arc_hyunsu_night_talk",
+            "hyunsu_exam_day",
+            "hyunsu_result_fail",
+            "arc_hyunsu_exam_fail",
+            "arc_hyunsu_drift",
+            "arc_hyunsu_new_path"
+          ],
           "payoff": "시험의 성공 여부보다 결과 뒤의 빈 시간과 자기 손으로 고른 다음 길을 현수의 1장 변화로 남긴다."
         }
       ],
@@ -152,18 +351,46 @@
       "number": 2,
       "title_ko": "문을 여는 값",
       "title_en": "The Price of Entry",
-      "weeks": [49, 96],
+      "weeks": [
+        49,
+        96
+      ],
       "question": "기회가 사람의 얼굴로 올 때 민준은 호의와 거래를 구분할 수 있는가?",
       "object": "1년 장부, 쌓인 명함, 창원 병실 번호",
-      "setup": ["arc_year_one_mark", "arc_34_money_attracts_money", "arc_sangchul_03_network"],
-      "escalation": ["arc_daeun_03_fork", "arc_father_medication", "arc_jiyeon_03_offer"],
-      "reversal": ["arc_34_doors_open", "arc_34_parents_visit", "arc_father_03_hospital"],
-      "boss": ["arc_sangchul_mirror", "arc_career_ceiling", "arc_father_04_visit"],
-      "aftermath": ["arc_34_two_years_in", "arc_year2_close", "arc_year_two_pressure", "chapter_card_35"],
+      "setup": [
+        "arc_year_one_mark",
+        "arc_34_money_attracts_money",
+        "arc_sangchul_03_network"
+      ],
+      "escalation": [
+        "arc_daeun_03_fork",
+        "arc_father_medication",
+        "arc_jiyeon_03_offer"
+      ],
+      "reversal": [
+        "arc_34_doors_open",
+        "arc_34_parents_visit",
+        "arc_father_03_hospital"
+      ],
+      "boss": [
+        "arc_sangchul_mirror",
+        "arc_career_ceiling",
+        "arc_father_04_visit"
+      ],
+      "aftermath": [
+        "arc_34_two_years_in",
+        "arc_year2_close",
+        "arc_year_two_pressure",
+        "chapter_card_35"
+      ],
       "temporal_spines": [
         {
           "id": "second_year_becomes_home",
-          "events": ["arc_year_one_mark", "arc_year_one_half", "arc_34_two_years_in"],
+          "events": [
+            "arc_year_one_mark",
+            "arc_year_one_half",
+            "arc_34_two_years_in"
+          ],
           "payoff": "서울에서 버틴 시간을 숫자로 세다가, 어느 방에 살든 몸에 밴 도시의 습관이 두 번째 해의 집이 되었음을 깨닫는다."
         }
       ],
@@ -173,33 +400,92 @@
       "number": 3,
       "title_ko": "같은 손",
       "title_en": "The Same Hands",
-      "weeks": [97, 144],
+      "weeks": [
+        97,
+        144
+      ],
       "question": "상처의 진실을 알게 된 민준은 가해자를 심판하는가, 이용하는가, 닮아 가는가?",
       "object": "사건번호가 적힌 보증 PDF, 편도표, 목표액이 적힌 계산기",
-      "setup": ["arc_35_birthday", "arc_jiyeon_year3", "arc_jaehyuk_03_pitch", "arc_father_05_after_visit", "arc_35_orthodox_weight", "arc_35_unorthodox_weight"],
-      "escalation": ["arc_jaehyuk_wait", "arc_jaehyuk_hyunsu_warning", "arc_jaehyuk_04b_counter", "arc_father_06_confession", "arc_sangchul_known_offer", "arc_why_gangnam_real"],
-      "reversal": ["arc_jaehyuk_04a_ghost", "arc_jaehyuk_aftermath", "arc_y3_jiyeon_departure", "arc_sangchul_known_reflex", "arc_jaehyuk_sangchul_echo", "arc_midpoint_reckoning"],
-      "boss": ["arc_jaehyuk_mirror", "arc_sangchul_confrontation", "arc_goal_vertigo"],
-      "aftermath": ["arc_sangchul_year3", "arc_year3_close", "chapter_card_36"],
+      "setup": [
+        "arc_35_birthday",
+        "arc_jiyeon_year3",
+        "arc_jaehyuk_03_pitch",
+        "arc_father_05_after_visit",
+        "arc_35_orthodox_weight",
+        "arc_35_unorthodox_weight"
+      ],
+      "escalation": [
+        "arc_jaehyuk_wait",
+        "arc_jaehyuk_hyunsu_warning",
+        "arc_jaehyuk_04b_counter",
+        "arc_father_06_confession",
+        "arc_sangchul_known_offer",
+        "arc_why_gangnam_real"
+      ],
+      "reversal": [
+        "arc_jaehyuk_04a_ghost",
+        "arc_jaehyuk_aftermath",
+        "arc_y3_jiyeon_departure",
+        "arc_sangchul_known_reflex",
+        "arc_jaehyuk_sangchul_echo",
+        "arc_midpoint_reckoning"
+      ],
+      "boss": [
+        "arc_jaehyuk_mirror",
+        "arc_sangchul_confrontation",
+        "arc_goal_vertigo"
+      ],
+      "aftermath": [
+        "arc_sangchul_year3",
+        "arc_year3_close",
+        "chapter_card_36"
+      ],
       "temporal_spines": [
         {
           "id": "jiyeon_chooses_direction",
-          "events": ["arc_35_birthday", "arc_jiyeon_year3", "arc_y3_jiyeon_departure"],
+          "events": [
+            "arc_35_birthday",
+            "arc_jiyeon_year3",
+            "arc_y3_jiyeon_departure"
+          ],
           "payoff": "나이를 먹는 것과 자기 방향을 고르는 것이 같은 일이 아님을 편도표로 보여준다."
         },
         {
           "id": "jaehyuk_debt_mirror",
-          "events": ["arc_jaehyuk_03_pitch", "arc_jaehyuk_wait", "arc_jaehyuk_hyunsu_warning", "arc_jaehyuk_04a_ghost", "arc_jaehyuk_04b_counter", "arc_jaehyuk_aftermath", "arc_jaehyuk_mirror"],
+          "events": [
+            "arc_jaehyuk_03_pitch",
+            "arc_jaehyuk_wait",
+            "arc_jaehyuk_hyunsu_warning",
+            "arc_jaehyuk_04a_ghost",
+            "arc_jaehyuk_04b_counter",
+            "arc_jaehyuk_aftermath",
+            "arc_jaehyuk_mirror"
+          ],
           "payoff": "친구에게 맡긴 돈이 아버지의 보증 서명과 같은 질문으로 돌아온다."
         },
         {
           "id": "father_and_sangchul_same_hands",
-          "events": ["arc_father_05_after_visit", "arc_father_06_confession", "arc_sangchul_known_offer", "arc_sangchul_known_reflex", "arc_jaehyuk_sangchul_echo", "arc_sangchul_confrontation", "arc_sangchul_year3"],
+          "events": [
+            "arc_father_05_after_visit",
+            "arc_father_06_confession",
+            "arc_sangchul_known_offer",
+            "arc_sangchul_known_reflex",
+            "arc_jaehyuk_sangchul_echo",
+            "arc_sangchul_confrontation",
+            "arc_sangchul_year3"
+          ],
           "payoff": "가해자를 안 뒤에도 그의 문을 쓰는 민준이 사람을 계산하는 같은 손을 발견한다."
         },
         {
           "id": "three_billion_vertigo",
-          "events": ["arc_35_orthodox_weight", "arc_35_unorthodox_weight", "arc_why_gangnam_real", "arc_midpoint_reckoning", "arc_year_two_half", "arc_goal_vertigo"],
+          "events": [
+            "arc_35_orthodox_weight",
+            "arc_35_unorthodox_weight",
+            "arc_why_gangnam_real",
+            "arc_midpoint_reckoning",
+            "arc_year_two_half",
+            "arc_goal_vertigo"
+          ],
           "payoff": "목표의 이유와 남은 시간을 숫자의 현기증까지 밀어 올리고, 그 청구서는 다음 장으로 넘긴다."
         }
       ],
@@ -209,28 +495,63 @@
       "number": 4,
       "title_ko": "청구서",
       "title_en": "The Bill",
-      "weeks": [145, 192],
+      "weeks": [
+        145,
+        192
+      ],
       "question": "사람과 몸이 성공의 비용으로 청구될 때 민준은 무엇을 먼저 지불하는가?",
       "object": "아버지의 약봉지와 비어 있는 의자",
-      "setup": ["arc_35_path_cost", "arc_35_habit_check", "arc_36_reality_check", "arc_year_three_crossroads"],
-      "escalation": ["arc_36_trust_crack", "arc_36_unexpected_hand", "arc_36_body_signal"],
-      "reversal": ["arc_36_father_comes_to_seoul", "arc_father_call_on_ktx"],
-      "boss": ["arc_father_passing"],
-      "aftermath": ["arc_36_night_doubt", "arc_year4_close", "chapter_card_37"],
+      "setup": [
+        "arc_35_path_cost",
+        "arc_35_habit_check",
+        "arc_36_reality_check",
+        "arc_year_three_crossroads"
+      ],
+      "escalation": [
+        "arc_36_trust_crack",
+        "arc_36_unexpected_hand",
+        "arc_36_body_signal"
+      ],
+      "reversal": [
+        "arc_36_father_comes_to_seoul",
+        "arc_father_call_on_ktx"
+      ],
+      "boss": [
+        "arc_father_passing"
+      ],
+      "aftermath": [
+        "arc_36_night_doubt",
+        "arc_year4_close",
+        "chapter_card_37"
+      ],
       "temporal_spines": [
         {
           "id": "wealth_without_witness",
-          "events": ["arc_almost_there", "arc_1b_isolation", "arc_final_stretch"],
+          "events": [
+            "arc_almost_there",
+            "arc_1b_isolation",
+            "arc_final_stretch"
+          ],
           "payoff": "10억 돌파의 흥분이 함께 말할 사람 없는 고독으로 식고, 20억 앞에서도 숫자만 커졌는지 묻게 한다."
         },
         {
           "id": "body_keeps_the_ledger",
-          "events": ["arc_35_path_cost", "arc_35_habit_check", "arc_36_body_signal", "arc_year_three_half", "arc_36_night_doubt"],
+          "events": [
+            "arc_35_path_cost",
+            "arc_35_habit_check",
+            "arc_36_body_signal",
+            "arc_year_three_half",
+            "arc_36_night_doubt"
+          ],
           "payoff": "3년치 영수증과 루틴 점검이 몸의 경고로 구체화되고, 6주 뒤 계획표와 다시 12주 뒤 목표를 의심하는 새벽에 돌아온다."
         },
         {
           "id": "the_last_year_has_a_price",
-          "events": ["arc_year4_close", "arc_37_reckoning", "arc_final_year_start"],
+          "events": [
+            "arc_year4_close",
+            "arc_37_reckoning",
+            "arc_final_year_start"
+          ],
           "payoff": "36세의 마지막 밤에 본 자기 모습을 5주 뒤 장부로 정산한 뒤에야 마지막 1년의 패를 고르게 한다."
         }
       ],
@@ -240,60 +561,144 @@
       "number": 5,
       "title_ko": "이름을 적는 사람",
       "title_en": "The Name on the Line",
-      "weeks": [193, 240],
+      "weeks": [
+        193,
+        240
+      ],
       "question": "마지막 숫자 앞에서 민준은 누구의 이름과 시간을 담보로 서명하는가?",
       "object": "등기 서류 또는 빈 수첩의 마지막 줄",
-      "setup": ["arc_37_reckoning", "arc_final_year_start"],
-      "escalation": ["arc_late_game_push", "arc_endgame_sixmonths"],
-      "reversal": ["arc_father_legacy", "arc_pre_ending_summit"],
-      "boss": ["arc_daeun_final_choice", "arc_jiyeon_verdict", "arc_final_countdown"],
-      "aftermath": ["arc_final_week", "arc_year5_scene", "arc_37_ending_peace"],
+      "setup": [
+        "arc_37_reckoning",
+        "arc_final_year_start"
+      ],
+      "escalation": [
+        "arc_late_game_push",
+        "arc_endgame_sixmonths"
+      ],
+      "reversal": [
+        "arc_father_legacy",
+        "arc_pre_ending_summit"
+      ],
+      "boss": [
+        "arc_daeun_final_choice",
+        "arc_jiyeon_verdict",
+        "arc_final_countdown"
+      ],
+      "aftermath": [
+        "arc_final_week",
+        "arc_year5_scene",
+        "arc_37_ending_peace"
+      ],
       "handoff": "엔딩은 30억의 성패와 함께, 1장의 문턱에 섰던 사람과 같은 이름으로 끝나는지 답한다."
     }
   ],
   "demo": {
-    "weeks": [1, 24],
+    "weeks": [
+      1,
+      24
+    ],
     "sequences": [
       {
         "id": "scar_before_week_one",
-        "weeks": [0, 0],
-        "foreground_roots": ["story_flashforward", "story_knee_door", "story_last_payment_wait"],
+        "weeks": [
+          0,
+          0
+        ],
+        "foreground_roots": [
+          "story_flashforward",
+          "story_knee_door",
+          "story_last_payment_wait"
+        ],
         "promise": "아버지의 무릎과 민준의 마지막 상환이 5년 목표의 주어를 만든다."
       },
       {
         "id": "five_hundred_thousand",
-        "weeks": [1, 4],
-        "foreground_roots": ["arc_intro_01_meal", "arc_father_01_call", "arc_intro_04_hyunsu", "arc_temptation_01"],
+        "weeks": [
+          1,
+          4
+        ],
+        "foreground_roots": [
+          "arc_intro_01_meal",
+          "arc_father_01_call",
+          "arc_intro_04_hyunsu",
+          "arc_temptation_01"
+        ],
         "promise": "50만원으로 시작한 첫 달에 일자리, 아버지의 전화, 옆방 사람, 불법 제안 중 무엇을 달력에 넣는지가 민준의 첫 줄을 만든다."
       },
       {
         "id": "first_line",
-        "weeks": [5, 8],
-        "foreground_roots": ["v2_hyunsu_player_reachout", "v2_hyunsu_first_study", "arc_intro_03_sns", "cafe_00", "arc_temptation_clean", "arc_temptation_fallout"],
+        "weeks": [
+          5,
+          8
+        ],
+        "foreground_roots": [
+          "v2_hyunsu_player_reachout",
+          "v2_hyunsu_first_study",
+          "arc_intro_03_sns",
+          "cafe_00",
+          "arc_temptation_clean",
+          "arc_temptation_fallout"
+        ],
         "promise": "첫 불법 제안의 선택을 즉시 해설하지 않고, 민준이 먼저 보낸 연락과 남의 성공을 바라보는 방식으로 한 달 뒤 돌려준다."
       },
       {
         "id": "people_in_the_same_city",
-        "weeks": [9, 12],
-        "foreground_roots": ["v2_hyunsu_study_followup", "arc_father_quiet_call", "arc_daeun_01_meet", "arc_jiyeon_01_crash"],
+        "weeks": [
+          9,
+          12
+        ],
+        "foreground_roots": [
+          "v2_hyunsu_study_followup",
+          "arc_father_quiet_call",
+          "arc_daeun_01_meet",
+          "arc_jiyeon_01_crash"
+        ],
         "promise": "같은 서울에서 버티는 사람을 직접 찾아가거나 우연히 마주치고, 그 첫 장면을 다음 만남의 자격으로 남긴다."
       },
       {
         "id": "faces_of_money",
-        "weeks": [13, 16],
-        "foreground_roots": ["v2_hanbit_interview", "v2_daeun_return_named", "v2_daeun_return_after_distance", "arc_jiyeon_02_store", "v2_sangchul_housing_lead", "v2_jaehyuk_message"],
+        "weeks": [
+          13,
+          16
+        ],
+        "foreground_roots": [
+          "v2_hanbit_interview",
+          "v2_daeun_return_named",
+          "v2_daeun_return_after_distance",
+          "arc_jiyeon_02_store",
+          "v2_sangchul_housing_lead",
+          "v2_jaehyuk_message"
+        ],
         "promise": "면접과 생계 사이에서 누구를 다시 찾아갈지 고르고, 방값을 묻는 부동산과 10년 만의 카카오톡이 돈의 다음 두 얼굴을 연다."
       },
       {
         "id": "the_waiting_side",
-        "weeks": [17, 20],
-        "foreground_roots": ["v2_hanbit_offer_message", "v2_daeun_small_commitment", "v2_daeun_third_greeting", "v2_jiyeon_second_crossing", "v2_sangchul_demo_echo", "v2_jaehyuk_plain_reunion_echo"],
+        "weeks": [
+          17,
+          20
+        ],
+        "foreground_roots": [
+          "v2_hanbit_offer_message",
+          "v2_daeun_small_commitment",
+          "v2_daeun_third_greeting",
+          "v2_jiyeon_second_crossing",
+          "v2_sangchul_demo_echo",
+          "v2_jaehyuk_plain_reunion_echo"
+        ],
         "promise": "취업 결과와 생계 사이에서 앞서 시간을 쓴 사람 하나를 다시 고르고, 기다리게 한 사람과 놓친 자리를 다음 달의 빚으로 남긴다."
       },
       {
         "id": "first_bill",
-        "weeks": [21, 24],
-        "foreground_roots": ["arc_father_02_signal", "arc_job_vs_invest", "arc_gangnam_visit_alone", "arc_four_months_in"],
+        "weeks": [
+          21,
+          24
+        ],
+        "foreground_roots": [
+          "arc_father_02_signal",
+          "arc_job_vs_invest",
+          "arc_gangnam_visit_alone",
+          "arc_four_months_in"
+        ],
         "promise": "21주의 아버지 건강 신호와 20주까지 고른 직업·사람·돈의 영수증이 첫 청구서가 되어, 다음 네 해의 주어를 만든다."
       }
     ],
