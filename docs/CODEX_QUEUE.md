@@ -53,14 +53,15 @@
 
 | 순서 | 상태 | 항목 | 전체 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-57 · Core Loop V2 데모 재구축 | [ORDER-57](queue_active/ORDER-57.md) | D 1~20주 AUTO PASS. **E 장면 밀도 REWORK + 생계 축 authored 백필을 month 6 구현보다 먼저 확정한다** — 월별 도달 가능 authored 슬롯 `2/3/3/4/1/1`(합 14)이 `주요 장면 18~22` 게이트에 미달하고, 생계 중심 경로의 authored 슬롯은 전 구간 0이다. 배타 완화 승인과 백필 4건 반영이 필요하다. 이어서 E 21~24주 첫 청구서·6개월 회고와 시작폰 세대감. 기본 전환·사람 GO는 OPEN |
-| 2 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 전 사건·배경·대표 240주 자동 확산과 clean RC `d73afa6` PASS, 장별 사람 연속 청취 OPEN |
-| 3 | [~] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 1,581사건·960주 정적/KO·EN 240주 실주행·논리 4K와 clean RC PASS, 정상 속도·실기기·A/V 사람 판정 OPEN |
-| 4 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 번역 인프라·일본어 UI/프롤로그/직업명 자동 검사 PASS, 데모 GO 뒤 본문 번역·15장 캡처·원어민 검수 OPEN |
-| 5 | [~] | ORDER-23 · 동기 각인 수술 | [ORDER-23](queue_active/ORDER-23.md) | 자동 구조·KO/EN 런타임 PASS, 플레이어의 동기 문장 기억 여부 사람 판정 OPEN |
-| 6 | [~] | ORDER-22 · 주간 루프 몰입 수리 | [ORDER-22](queue_active/ORDER-22.md) | 자동 주간 루프·입력·오디오·KO/EN PASS, 정상 속도 몰입·재미 사람 판정 OPEN |
-| 7 | [~] | ORDER-28 · 240주 전체 재구성 | [ORDER-28](queue_active/ORDER-28.md) | 구조·240주·엔딩·3플랫폼 clean RC 자동 게이트 PASS, 외부 정상 독해 10인 플레이 0/10 OPEN |
-| 8 | [~] | ORDER-26 · AP 의미화 | [ORDER-26](queue_active/ORDER-26.md) | AP 인과·포기·후속·KO/EN·패드·240주 자동 게이트 PASS, 망설임·전략 재미 사람 판정 OPEN |
+| 1 | [~] | ORDER-57 · Core Loop V2 데모 재구축 | [ORDER-57](queue_active/ORDER-57.md) | D 1~20주 AUTO PASS. **E 장면 밀도 REWORK와 생계 축 백필을 month 6 구현보다 먼저 확정한다** — 미확정 시 여섯째 달 재작업. 이어서 21~24주 첫 청구서·6개월 회고·시작폰 세대감. 기본 전환·사람 GO는 OPEN |
+| 2 | [ ] | ORDER-58 · 데모 평가 후속 | [ORDER-58](queue_active/ORDER-58.md) | 미착수. 축 대칭·유혹 밀도·선택지 중립. `ORDER-57` E 뒤 착수하되 영어 유혹 선택지 수리만 선행 가능. **각 묶음은 구현보다 정본 배치를 먼저 한다.** 장르·스토어 약속은 사용자 결정 대기 |
+| 3 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 전 사건·배경·대표 240주 자동 확산과 clean RC `d73afa6` PASS, 장별 사람 연속 청취 OPEN |
+| 4 | [~] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 1,581사건·960주 정적/KO·EN 240주 실주행·논리 4K와 clean RC PASS, 정상 속도·실기기·A/V 사람 판정 OPEN |
+| 5 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 번역 인프라·일본어 UI/프롤로그/직업명 자동 검사 PASS, 데모 GO 뒤 본문 번역·15장 캡처·원어민 검수 OPEN |
+| 6 | [~] | ORDER-23 · 동기 각인 수술 | [ORDER-23](queue_active/ORDER-23.md) | 자동 구조·KO/EN 런타임 PASS, 플레이어의 동기 문장 기억 여부 사람 판정 OPEN |
+| 7 | [~] | ORDER-22 · 주간 루프 몰입 수리 | [ORDER-22](queue_active/ORDER-22.md) | 자동 주간 루프·입력·오디오·KO/EN PASS, 정상 속도 몰입·재미 사람 판정 OPEN |
+| 8 | [~] | ORDER-28 · 240주 전체 재구성 | [ORDER-28](queue_active/ORDER-28.md) | 구조·240주·엔딩·3플랫폼 clean RC 자동 게이트 PASS, 외부 정상 독해 10인 플레이 0/10 OPEN |
+| 9 | [~] | ORDER-26 · AP 의미화 | [ORDER-26](queue_active/ORDER-26.md) | AP 인과·포기·후속·KO/EN·패드·240주 자동 게이트 PASS, 망설임·전략 재미 사람 판정 OPEN |
 
 ### 완료 이력
 
