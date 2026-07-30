@@ -224,6 +224,37 @@ def main() -> int:
         for event_id in anchors if isinstance(anchors, list) else []:
             require_event(str(event_id), f"character {character_id}", ko_ids, en_ids, errors)
 
+    # 조연 정본: CORE_CAST의 "전 편 관통" 계약을 흔들지 않으면서 반복 등장
+    # 인물을 등재한다. 특정 장에만 존재하는 것이 설계인 인물이 있다 —
+    # 먼저 도착한 사람은 주인공이 도착 근처에 갔을 때만 의미를 가진다.
+    supporting = spine.get("supporting_cast", [])
+    if not isinstance(supporting, list):
+        fail(errors, "supporting_cast must be a list")
+        supporting = []
+    for row in supporting:
+        if not isinstance(row, dict):
+            fail(errors, "supporting cast entry must be an object")
+            continue
+        support_id = str(row.get("id", ""))
+        if support_id in CORE_CAST:
+            fail(errors, f"supporting cast {support_id} duplicates the core cast")
+        if len(str(row.get("function", "")).strip()) < 15:
+            fail(errors, f"supporting cast {support_id} lacks a dramatic function")
+        support_chapters = row.get("chapters", [])
+        if not isinstance(support_chapters, list) or not support_chapters:
+            fail(errors, f"supporting cast {support_id} needs at least one chapter")
+        if len(set(support_chapters)) >= 4:
+            fail(errors, f"supporting cast {support_id} spans the epic; promote to core cast")
+        if len(set(support_chapters)) < 4 and not str(row.get("late_by_design", "")).strip():
+            fail(errors, f"supporting cast {support_id} must state why it is confined")
+        support_anchors = row.get("anchors", [])
+        if not isinstance(support_anchors, list) or len(support_anchors) < 3:
+            fail(errors, f"supporting cast {support_id} needs at least three anchors")
+        for event_id in support_anchors if isinstance(support_anchors, list) else []:
+            require_event(
+                str(event_id), f"supporting cast {support_id}", ko_ids, en_ids, errors
+            )
+
     chapters = spine.get("chapters", [])
     if not isinstance(chapters, list) or len(chapters) != 5:
         fail(errors, "exactly five chapters are required")
@@ -456,6 +487,7 @@ def main() -> int:
     print(
         "NARRATIVE_SPINE_AUDIT_OK "
         f"chapters={len(chapters)} characters={len(characters)} "
+        f"supporting={len(supporting)} "
         f"world_laws={len(world_laws)} motifs={len(motifs)} "
         f"chapter5_readers={chapter_five_readers} "
         f"demo_sequences={len(sequences)} foreground={len(foreground_roots)} "
