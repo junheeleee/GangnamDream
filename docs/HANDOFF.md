@@ -50,7 +50,7 @@
 
 ## 열려 있는 사용자 결정
 
-- 스토어 약속을 `30억 성공기`로 갈지 `30억을 좇다 무엇이 되는가`로 갈지.
-
-시스템 척추와 엔딩 계층은 2026-07-30 승인되어 정본이 됐다 —
-`narrative_spine.json`의 장별 `system` 블록과 `docs/ENDING_CONTRACT.md`.
+없음. 2026-07-30에 시스템 척추(`narrative_spine.json` 장별 `system`), 엔딩
+계층(`ENDING_CONTRACT.md`), 도덕 축의 대가 계약(`MORAL_TINT.md` §2), 판매 톤
+(`STEAM_PAGE.md` §1.5 — 성공의 대가를 선언하지 않고 상황으로 제시)이 전부
+확정됐다.
