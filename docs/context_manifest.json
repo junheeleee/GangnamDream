@@ -115,6 +115,11 @@
     ],
     "session_handoff": [
       "docs/HANDOFF.md"
+    ],
+    "endings": [
+      "docs/ENDING_CONTRACT.md",
+      "content/endings.json",
+      "systems/EndingSystem.gd"
     ]
   },
   "task_profiles": {
@@ -224,6 +229,7 @@
       "docs/BALANCE.md",
       "docs/CANON_MAP.md",
       "docs/CORE_LOOP_V2.md",
+      "docs/ENDING_CONTRACT.md",
       "docs/I18N_GLOSSARY.md",
       "docs/I18N_GLOSSARY_JA.md",
       "docs/I18N_INFRASTRUCTURE.md",

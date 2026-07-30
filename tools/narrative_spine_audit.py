@@ -268,6 +268,23 @@ def main() -> int:
         number = int(chapter.get("number", 0))
         if number != expected_number:
             fail(errors, f"chapter order mismatch: expected {expected_number}, got {number}")
+
+        # 시스템 척추: 서사가 다섯 번 질문을 바꾸는 동안 플레이어의 동사가
+        # 그대로면 5년이 수치 등반이 된다. 각 장은 무엇을 열고 무엇을 닫는지
+        # 선언하며, 닫는 것이 없는 장은 첫 장뿐이다.
+        system = chapter.get("system", {})
+        if not isinstance(system, dict):
+            fail(errors, f"chapter {expected_number} system must be an object")
+            system = {}
+        for field in ("opens", "pressure", "failure"):
+            if len(str(system.get(field, "")).strip()) < 5:
+                fail(errors, f"chapter {expected_number} system lacks {field}")
+        closes = str(system.get("closes", "")).strip()
+        if expected_number == 1 and closes:
+            fail(errors, "chapter 1 closes nothing; it opens the verbs")
+        if expected_number > 1 and len(closes) < 5:
+            fail(errors,
+                 f"chapter {expected_number} must close something the run already opened")
         weeks = chapter.get("weeks", [])
         if not isinstance(weeks, list) or len(weeks) != 2:
             fail(errors, f"chapter {number} has invalid week window")
@@ -487,7 +504,7 @@ def main() -> int:
     print(
         "NARRATIVE_SPINE_AUDIT_OK "
         f"chapters={len(chapters)} characters={len(characters)} "
-        f"supporting={len(supporting)} "
+        f"supporting={len(supporting)} system_spine=5 "
         f"world_laws={len(world_laws)} motifs={len(motifs)} "
         f"chapter5_readers={chapter_five_readers} "
         f"demo_sequences={len(sequences)} foreground={len(foreground_roots)} "
