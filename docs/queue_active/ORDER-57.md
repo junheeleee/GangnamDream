@@ -394,6 +394,91 @@ StoryMode resume의 중첩 schema로 왕복해 48주 1장과 240주 전체판에
 개발 상한만 24주로 늘리고 `runtime_default=false`, 사람 GO,
 25~240주 기존 편성·엔딩과 사용자 소유 `project.godot`은 유지한다.
 
+**E 장면 밀도 REWORK — 월별 최소 authored 슬롯 (2026-07-30 Claude 판정,
+사용자 승인) — Codex가 E 안에서 만지는 파일:** `docs/CORE_LOOP_V2.md`,
+`docs/DECISIONS.md`, `docs/BALANCE.md`, `docs/QA_CHECKLIST.md`,
+`content/meta/demo_core_loop_v2.json`,
+`content/events/core_loop_v2_events.json`,
+`content/events_en/core_loop_v2_events.json`,
+`assets/event_visual_contracts.json`, `assets/scene_audio_manifest.json`,
+`assets/scene_direction_manifest.json`, `tools/demo_core_loop_v2_audit.py`,
+`tools/CoreLoopV2ECheck.gd`. **이 항목은 month 6 구현보다 먼저 확정한다.**
+현재 데이터 그대로 여섯 번째 달을 완성하면 전량 재작업이 된다.
+
+**측정 근거 (2026-07-30 Claude, `demo_core_loop_v2.json` 실측):** 번들이
+`existing_roots` 또는 `planned_scene_id`를 가지면 authored 장면, 아니면
+`action_config` 결과 카드 또는 미니게임이다. 배타 그룹과 4슬롯 제약을
+적용한 월별 도달 가능 authored 슬롯은 `2 / 3 / 3 / 4 / 1 / 1`이며 24슬롯
+합계는 14다. `성공 기준`의 `주요 장면 18~22개`를 프렐류드·locked·조건부
+결과를 다 더해도 넘지 못한다. 곡선은 네 번째 달에 정점을 찍고 정점이어야
+할 다섯·여섯 번째 달에서 1로 붕괴한다.
+
+같은 실측에서 1~20주 40제안의 kind별 authored 비율은 `pursuit 9/9`,
+`encounter 6/6`, `care 2/2`, `temptation 1/1`, `reflection 1/1`인 반면
+`livelihood 0/5`, `growth 0/5`, `recovery 0/5`, `career 1/6`이다. 따라서
+플레이어가 매달 실제로 하는 교환은 사람과 생계가 아니라 **산문 장면과 숫자
+카드**이며, 생계를 고른 주는 무게가 없고 생계를 포기한 주는 아픔이 없다.
+다섯 번째 달은 실용 제안 5개가 전부 카드·미니게임이라 생계 위주 플레이의
+한 달이 산문 0분이 된다. 이는 상품 정의가 요구하는 대가 대칭의 결함이지
+분량 부족이 아니다.
+
+**규칙 (`CORE_LOOP_V2.md` §12 성공 기준이 소유):** 월별 도달 가능 authored
+슬롯은 최소 2, 다섯·여섯 번째 달은 최소 3이다. 목표 곡선은
+`2 / 3 / 3 / 4 / 3 / 3`이고 슬롯 합계 18에 프렐류드·locked·조건부 결과를
+더해 18~22 게이트 안에 든다. 한 번들이 authored인지는 산문 존재가 아니라
+`existing_roots`·`planned_scene_id`의 실제 해석 가능 여부로 판정한다.
+
+**월별 요구 — 첫 네 달은 재작업이 없다.**
+
+| 달 | 현재 | 목표 | 필요한 작업 |
+|---:|---:|---:|---|
+| 1~4 | 2·3·3·4 | 2·3·3·4 | 없음. 완료분을 다시 열지 않는다. |
+| 5 | 1 | 3 | 배타 완화로 +1, 실용 제안 1건 authored 전환으로 +1 |
+| 6 | 1 | 3 | 미구현이므로 설계 단계에서 충족. 추가 비용 없음 |
+
+- 다섯 번째 달의 authored 전환 1건은 `m5_weekend_move_shift`를 기본안으로
+  한다. 나흘 연속 이삿짐 대타가 20주 사람 자리를 실제로 밀어내는 달이므로,
+  몸을 쓴 생계가 장면으로 남아야 기다리게 한 사람의 부재가 대가로 읽힌다.
+  다른 후보를 고르면 근거를 같은 선언에 남긴다. 새 경제 보상·관계 단계·
+  재화를 만들지 않고 기존 효과를 유지한 채 실행 표면만 장면으로 올린다.
+- 여섯 번째 달은 네 슬롯 중 최소 셋이 authored여야 한다. 현재 스텁 5건
+  (`m6_public_recruitment`, `m6_holiday_night_shift`, `m6_last_study_group`,
+  `m6_no_plans_day`, `father_health_signal`)은 `allowed_weeks`와 한영
+  `offer/detail/deadline/decline` 8필드가 전부 비어 있으므로, 카피를 채울 때
+  실행 표면을 함께 정한다. 카드 넷에 장면 하나로 완성하지 않는다.
+
+**배타 완화 (2026-07-30 사용자 승인 — 정본 규칙 변경):**
+`exclusive_groups.month_five_person_climax.maximum_selected`를 1에서 2로
+올린다. D 사람 게이트는 `기다리게 한 사람 하나를 기억한다`인데 현재는
+기다리게 한 사람이 넷인데 그것을 장면으로 겪을 자리가 0이라, 회수 구조가
+아니라 배타 규칙이 게이트를 막고 있었다. 완화 뒤에도 다음은 유지한다.
+같은 인물의 관계 단계는 한 달에 한 칸만 오르고, `romance_entry`와
+`money_mentor_entry`의 최대 1은 그대로이며, 한 달 실질 등장 주연 최대 4명과
+연애·투자 권유·사기 진실·30억원 동기 비선취도 그대로다. 두 자리를 모두
+사람에게 쓰면 그 달의 생계·성장이 실제로 비어야 하며, 배타 완화가 슬롯
+증설이나 난이도 완화로 이어지지 않는다.
+
+**자동 게이트 (`demo_core_loop_v2_audit.py`에 추가):**
+
+- 월별 도달 가능 authored 슬롯을 배타 그룹·슬롯 수와 함께 계산하고 최소
+  2, 다섯·여섯 번째 달 최소 3을 강제한다. 기준선 하락은 실패다.
+- 24주 authored 슬롯 합계와 프렐류드·locked·조건부 결과를 더한 주요 장면
+  수가 18~22 안에 드는지 검사한다.
+- kind별 authored 비율을 출력해 `livelihood/growth/recovery` 전 구간 0이
+  다시 굳는 것을 회귀로 잡는다. F 전까지 이 셋의 authored 합계 0은
+  경고이며, F 통합 게이트에서는 실패로 승격한다.
+- 모든 번들에 `estimated_minutes`를 채우고 월별 합이 `target_minutes`와
+  ±3분 안에서 일치하는지 검사한다. 현재 56개 중 5개만 값을 가져 95분
+  목표에 데이터 근거가 없다. 수치를 맞추려고 산문을 늘리지 않으며, 합이
+  어긋나면 목표치 쪽을 고친다.
+
+**금지·보존:** 새 재화·앱 묶음·도감·슬롯 증설은 없다. 첫 네 달의 완료된
+카드·기한·포기 소비자·관계 전이는 다시 열지 않는다. `runtime_default=false`,
+`finish_run` 비호출, 25~240주 편성·엔딩, 사용자 소유 `project.godot`을
+유지한다. 월3~5 생계 authored 백필의 나머지 후보
+(`m3_inventory_shift`, `m4_logistics_shift`, `m5_employment_contract_clinic`)는
+이 REWORK가 아니라 E 완료 뒤 F 전 별도 선언에서 다룬다.
+
 ## 목적
 
 - 기존 5년·240주 콘텐츠와 저장 정본은 파괴하지 않는다.
