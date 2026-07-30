@@ -609,8 +609,35 @@ decline` 한영 8필드, `allowed_weeks`, `decline_consequence`와 소비자,
 7. **D 17~20주:** 관계·돈·취업·생계의 실제 충돌과 놓친 길 회수를 연다.
    AUTO PASS.
 8. **E 21~24주:** 신규 `첫 청구서` 정점과 6개월 회고·데모 CTA를 완성한다.
+   **E에 `direction` 백필이 추가됐다 (2026-07-30 Claude, `ORDER-60` 배치 2
+   판정 결과).** 아래 §E 연출 백필 참조.
 9. **F 통합:** 정상 독해 75~95분·18~22장면·KO/EN·실제 패드·저장·A/V·사람 GO 뒤
    일반 새 이야기를 V2로 전환한다.
+
+### E 연출 백필 — `direction` 43건 (2026-07-30 Claude 추가)
+
+`ORDER-60` 배치 2가 실측했다. **V2 도달 이벤트 43개 중 39개에 `direction`이
+없다(91%).** `core_loop_v2_events.json`의 신규 집필 16개는 **전부 0**이고,
+가진 것은 `first_temptation_boss`와 `sangchul_world_meet` 계열 넷뿐이다.
+프롤로그가 11비트 중 7을 가진 것과 대비된다 — **새로 쓴 구간일수록 연출이 없다.**
+
+`SCENE_TIER`가 T1·T2에 요구하는 계약이고 렌더러는 이미 있다. 능력이 아니라
+누락이므로 E 안에서 채운다.
+
+- **별도 오더로 내지 않는다.** E가 이미 `content/events/core_loop_v2_events.json`,
+  `assets/scene_direction_manifest.json`, `docs/SCENE_DIRECTION.md`를 선언했다.
+  같은 파일을 두 오더가 만지면 충돌한다.
+- 스키마는 `SCENE_DIRECTION.md`가 소유한다. **키를 발명하지 않는다.**
+- **밀도 REWORK와 같은 단위에서 처리한다.** 장면을 열어 비트를 늘릴 때 그 장면의
+  `direction`을 같이 넣는다. 연출만 따로 도는 배치를 만들지 않는다.
+- 프롤로그의 누락 4건(`story_arrival`·`story_prologue_dad`·`story_prologue_goal`·
+  `story_prologue_meal`)도 같이 채운다. `story_events.json`은 E의 선언 목록에
+  없으므로 **착수 시 선언에 추가한다.**
+- 완료 기준: V2 도달 이벤트와 프롤로그 체인에서 `direction` 누락 **0**.
+  `tools/event_director_audit.py`가 이미 이 축을 본다.
+
+**하지 않을 것:** 연출 키를 채우려고 장면의 산문·선택·수치를 바꾸지 않는다.
+도덕 축 수리는 E의 범위가 아니다(데모는 6%로 이미 건강하다).
 10. **5년 보존:** 데모 통합 GO 전에는 주 25~240과 엔딩을 이식하지 않는다.
 
 ## 24주 작업 묶음과 소유권
