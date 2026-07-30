@@ -41,6 +41,8 @@
 ### 활성 오더 인덱스
 
 > **읽기 규칙:** 이 인덱스에서 실행할 항목 하나를 고른 뒤 해당 `queue_active/<ID>.md`만 읽는다. 완료 이력 전체를 기본 컨텍스트에 넣지 않는다.
+> **`[~]` 레거시 항목(9번 이하)은 자동 게이트가 전부 PASS이고 남은 것은 사람 판정뿐이다.**
+> 그 행의 게이트 열에는 열려 있는 사람 판정만 적는다.
 > **착수/완료 규칙:** 상태는 이 표가 정본이다. 상세 사양·범위 확장은 해당 활성 파일에 기록하고 선언 커밋을 먼저 푸시한다. 완료 시 보고를 월별 아카이브와 WORK_LOG에 옮기고 표에서 제거한다.
 
 | 순서 | 상태 | 항목 | 전체 사양 | 현재 게이트 |
@@ -52,14 +54,14 @@
 | 5 | [ ] | ORDER-59 · 정합 기반 (지식 원장·다은 phase·규칙 화계) | [ORDER-59](queue_active/ORDER-59.md) | 미착수. **대화량을 늘리기 전에 선행한다** — 지금은 화자도 지식도 표현할 자리가 없고 다은 phase가 typed fact가 아니다. 신규 장면에만 필수 적용하고 기존 1,581건은 래칫으로 악화만 막는다 |
 | 6 | [ ] | ORDER-58 · 데모 평가 후속 | [ORDER-58](queue_active/ORDER-58.md) | 미착수. 축 대칭·유혹 밀도·선택지 중립. `ORDER-57` E 뒤 착수하되 영어 유혹 선택지 수리만 선행 가능. **각 묶음은 구현보다 정본 배치를 먼저 한다.** 장르·스토어 약속은 사용자 결정 대기 |
 | 7 | [ ] | ORDER-63 · 표면 단일 언어 (UI·폰트·테마) | [ORDER-63](queue_active/ORDER-63.md) | 미착수. **외주 0원 결정에 따른 첫 오더.** `UI_ART_DIRECTION`의 2026-07-12 진단이 그대로다 — 이모지 572, `StyleBoxFlat` 256, `.theme` 0, 폰트 1종. 계측기부터 만들고 테마로 흡수한다. **데모 화면만** |
-| 8 | [ ] | ORDER-64 · 인물 서명 강제 (소품·실루엣·모티프) | [ORDER-64](queue_active/ORDER-64.md) | 미착수. `IP_VISUAL_IDENTITY`의 주연 6인 서명표가 완성돼 있는데 **읽는 검사가 0개**다. 민준 4음 테마가 없는데 아버지 모티프가 그 결손으로 정의돼 있다. **검사·기준선까지가 범위, 자산 교체는 별도 오더** |
-| 9 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 전 사건·배경·대표 240주 자동 확산과 clean RC `d73afa6` PASS, 장별 사람 연속 청취 OPEN |
-| 10 | [~] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 1,581사건·960주 정적/KO·EN 240주 실주행·논리 4K와 clean RC PASS, 정상 속도·실기기·A/V 사람 판정 OPEN |
-| 11 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 번역 인프라·일본어 UI/프롤로그/직업명 자동 검사 PASS, 데모 GO 뒤 본문 번역·15장 캡처·원어민 검수 OPEN |
-| 12 | [~] | ORDER-23 · 동기 각인 수술 | [ORDER-23](queue_active/ORDER-23.md) | 자동 구조·KO/EN 런타임 PASS, 플레이어의 동기 문장 기억 여부 사람 판정 OPEN |
-| 13 | [~] | ORDER-22 · 주간 루프 몰입 수리 | [ORDER-22](queue_active/ORDER-22.md) | 자동 주간 루프·입력·오디오·KO/EN PASS, 정상 속도 몰입·재미 사람 판정 OPEN |
-| 14 | [~] | ORDER-28 · 240주 전체 재구성 | [ORDER-28](queue_active/ORDER-28.md) | 구조·240주·엔딩·3플랫폼 clean RC 자동 게이트 PASS, 외부 정상 독해 10인 플레이 0/10 OPEN |
-| 15 | [~] | ORDER-26 · AP 의미화 | [ORDER-26](queue_active/ORDER-26.md) | AP 인과·포기·후속·KO/EN·패드·240주 자동 게이트 PASS, 망설임·전략 재미 사람 판정 OPEN |
+| 8 | [ ] | ORDER-64 · 서명·연속성 강제 | [ORDER-64](queue_active/ORDER-64.md) | 미착수. 서명표와 Lock 24건이 있는데 **읽는 검사가 0개**다. 민준 4음 테마 부재, 모티프 명단 불일치, 생성 시드·프롬프트 미보존으로 인물과 오브젝트가 함께 표류한다. **전수 지정이 아니라 재등장·서사 의미로만 고정. 검사·기준선까지가 범위** |
+| 9 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 장별 사람 연속 청취 |
+| 10 | [~] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 정상 속도·실기기·A/V 사람 판정 |
+| 11 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 데모 GO 뒤 본문 번역·15장 캡처·원어민 검수 |
+| 12 | [~] | ORDER-23 · 동기 각인 수술 | [ORDER-23](queue_active/ORDER-23.md) | 동기 문장 기억 여부 사람 판정 |
+| 13 | [~] | ORDER-22 · 주간 루프 몰입 수리 | [ORDER-22](queue_active/ORDER-22.md) | 정상 속도 몰입·재미 사람 판정 |
+| 14 | [~] | ORDER-28 · 240주 전체 재구성 | [ORDER-28](queue_active/ORDER-28.md) | 외부 정상 독해 10인 플레이 0/10 |
+| 15 | [~] | ORDER-26 · AP 의미화 | [ORDER-26](queue_active/ORDER-26.md) | 망설임·전략 재미 사람 판정 |
 
 ### 완료 이력
 
