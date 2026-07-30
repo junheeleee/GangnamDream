@@ -28,7 +28,12 @@ jobs:
     name: Godot 헤드리스 컴파일 + 경제 시뮬
     runs-on: ubuntu-latest
     steps:
+      # art_master_audit.py는 art_master_manifest.json의 source_ref 커밋을
+      # `git show <ref>:<경로>`로 열어 승격 원화의 검수 원본과 대조한다. 기본
+      # 얕은 클론에는 그 커밋이 없어 ART_MASTER_EXIT이 항상 실패한다.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Godot ${{ env.GODOT_VERSION }} 설치
         run: |
           curl -sSL -o godot.zip \
