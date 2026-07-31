@@ -47,23 +47,24 @@
 
 | 순서 | 상태 | 항목 | 전체 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-57 · Core Loop V2 데모 재구축 | [ORDER-57](queue_active/ORDER-57.md) | D 1~20주 AUTO PASS. **E 밀도 REWORK·생계 백필을 month 6보다 먼저 확정**(미확정 시 재작업). **`ORDER-60` 판정으로 `direction` 백필 43건이 E에 추가**(§E 연출 백필). 이어서 21~24주 첫 청구서·6개월 회고·시작폰 세대감. 전환·사람 GO는 OPEN |
-| 2 | [~] | ORDER-60 · 프롤로그부터 전면 재검토 | [ORDER-60](queue_active/ORDER-60.md) | 배치 1·2 완료([PROLOGUE](PROLOGUE_TIER_AUDIT.md)·[DEMO](DEMO_TIER_AUDIT.md)), P0 0건. **배치 3~7은 데모 출고 뒤** |
-| 3 | [ ] | ORDER-62 · 기능 생존·킬링포인트 감사 | [ORDER-62](queue_active/ORDER-62.md) | **기계 축 완료(Claude)** — 고아 스크립트 래칫(`feature_liveness_audit`). 남은 것은 네 판정·킬링포인트 전수 판정이며 **제거는 사용자 승인 뒤** |
-| 4 | [ ] | ORDER-61 · 정본 공백 (심의·접근성·저장·성능·오디오·리스크) | [ORDER-61](queue_active/ORDER-61.md) | 미착수. **배치 1(등급·심의)이 P0** — 도박 4종 5,496줄에 GRAC·Steam 언급이 정본 0개. 등급 판단은 사용자 결정. 나머지 다섯은 독립 |
-| 5 | [ ] | ORDER-59 · 정합 기반 (지식 원장·다은 phase·규칙 화계) | [ORDER-59](queue_active/ORDER-59.md) | 미착수. **대화량을 늘리기 전에 선행한다** — 지금은 화자도 지식도 표현할 자리가 없고 다은 phase가 typed fact가 아니다. 신규 장면에만 필수 적용하고 기존 1,581건은 래칫으로 악화만 막는다 |
-| 6 | [ ] | ORDER-58 · 데모 평가 후속 | [ORDER-58](queue_active/ORDER-58.md) | 미착수. 축 대칭·유혹 밀도·선택지 중립. `ORDER-57` E 뒤 착수하되 영어 유혹 선택지 수리만 선행 가능. **각 묶음은 구현보다 정본 배치를 먼저 한다.** 장르·스토어 약속은 사용자 결정 대기 |
-| 7 | [ ] | ORDER-63 · 표면 단일 언어 (UI·폰트·테마) | [ORDER-63](queue_active/ORDER-63.md) | **배치 1·2 완료(Claude)** — 계측기(`surface_coherence_audit`)와 물성 정본(`SURFACE_MATERIAL`). 배치 3(테마 단일 출처)이 화면을 바꾼다. **데모 화면만** |
-| 8 | [ ] | ORDER-64 · 서명·연속성 강제 | [ORDER-64](queue_active/ORDER-64.md) | **배치 1·2 완료(Claude)** — 서명표를 `identity_signature.json`으로 승격하고 검사 배선. 알려진 결함 5건은 래칫. 배치 3~7(모티프·음색·채택률·연속성)은 미착수 |
-| 9 | [ ] | ORDER-65 · 장이 닫는 것을 실제로 닫는다 | [ORDER-65](queue_active/ORDER-65.md) | **데모 출고 뒤.** `narrative_spine`이 장마다 닫는 동사를 선언하는데 구현이 0이다 — 3장이 `시간 팔기`를 닫는다면서 `JobSystem`에 장 게이팅이 없다. 선언만 있고 소비자가 없는 정본 |
-| 10 | [ ] | ORDER-66 · 제품 패키징 (크레딧·버전·고지) | [ORDER-66](queue_active/ORDER-66.md) | 미착수. **빠진 것 셋** — 엔딩 크레딧 전무, 게임 버전 문자열 없음, 게임 내 제3자 고지 없음. 폰트 OFL 사본과 빌드 포함은 선수리 완료. Steam SDK는 심의 뒤 별도 |
-| 11 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_archive/ORDER-43.md) | 장별 사람 연속 청취 |
-| 12 | [~] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_archive/USER-P0N.md) | 정상 속도·실기기·A/V 사람 판정 |
-| 13 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_archive/ORDER-21.md) | 데모 GO 뒤 본문 번역·15장 캡처·원어민 검수 |
-| 14 | [~] | ORDER-23 · 동기 각인 수술 | [ORDER-23](queue_archive/ORDER-23.md) | 동기 문장 기억 여부 사람 판정 |
-| 15 | [~] | ORDER-22 · 주간 루프 몰입 수리 | [ORDER-22](queue_archive/ORDER-22.md) | 정상 속도 몰입·재미 사람 판정 |
-| 16 | [~] | ORDER-28 · 240주 전체 재구성 | [ORDER-28](queue_archive/ORDER-28.md) | 외부 정상 독해 10인 플레이 0/10 |
-| 17 | [~] | ORDER-26 · AP 의미화 | [ORDER-26](queue_archive/ORDER-26.md) | 망설임·전략 재미 사람 판정 |
+| 1 | [~] | ORDER-57 · Core Loop V2 데모 재구축 | [ORDER-57](queue_active/ORDER-57.md) | D 1~20주 AUTO PASS. **E 밀도 REWORK·생계 백필을 month 6보다 먼저 확정**(미확정 시 재작업). +`direction` 백필 43건(`ORDER-60` 판정). 이어서 21~24주 첫 청구서·6개월 회고·시작폰 세대감. 전환·사람 GO OPEN |
+| 2 | [~] | ORDER-60 · 프롤로그부터 전면 재검토 | [ORDER-60](queue_active/ORDER-60.md) | 배치 1·2 완료([PROLOGUE](PROLOGUE_TIER_AUDIT.md)·[DEMO](DEMO_TIER_AUDIT.md)), P0 0건. **3~7은 데모 출고 뒤** |
+| 3 | [ ] | ORDER-62 · 기능 생존·킬링포인트 감사 | [ORDER-62](queue_active/ORDER-62.md) | **기계 축 완료(Claude)** — 고아 스크립트 래칫(`feature_liveness_audit`). 남은 것은 네 판정·킬링포인트 전수 판정, **제거는 사용자 승인 뒤** |
+| 4 | [ ] | ORDER-61 · 정본 공백 (심의·접근성·저장·성능·오디오·리스크) | [ORDER-61](queue_active/ORDER-61.md) | 미착수. **배치 1(등급·심의)이 P0** — 도박 4종 5,496줄에 GRAC·Steam 언급이 정본 0개. 등급은 사용자 결정. 나머지 다섯은 독립 |
+| 5 | [ ] | ORDER-59 · 정합 기반 (지식 원장·다은 phase·규칙 화계) | [ORDER-59](queue_active/ORDER-59.md) | 미착수. **대화량을 늘리기 전에 선행한다** — 화자도 지식도 표현할 자리가 없고 다은 phase가 typed fact가 아니다. 신규 장면에만 필수, 기존 1,581건은 래칫 |
+| 6 | [ ] | ORDER-58 · 데모 평가 후속 | [ORDER-58](queue_active/ORDER-58.md) | 미착수. 축 대칭·유혹 밀도·선택지 중립. `ORDER-57` E 뒤, 영어 유혹 선택지 수리만 선행 가능. **구현보다 정본 배치를 먼저.** 장르·스토어 약속은 사용자 결정 대기 |
+| 7 | [ ] | ORDER-67 · `.gd` 분해 (한 파일이 전부인 상태) | [ORDER-67](queue_active/ORDER-67.md) | 미착수. **`ORDER-57` E 뒤, `ORDER-63` 배치 3 앞.** `MainGame.gd` 19,984줄=전체 21%, 함수 688·`signal` 0. 테마 override 645건(27%)이 여기 있어 배치 3을 막는다. **첫 칼은 미접촉 316함수 7,267줄** |
+| 8 | [ ] | ORDER-63 · 표면 단일 언어 (UI·폰트·테마) | [ORDER-63](queue_active/ORDER-63.md) | **배치 1·2 완료(Claude)** — 계측기(`surface_coherence_audit`)·물성 정본(`SURFACE_MATERIAL`). 배치 3(테마 단일 출처)이 화면을 바꾼다. **데모 화면만** |
+| 9 | [ ] | ORDER-64 · 서명·연속성 강제 | [ORDER-64](queue_active/ORDER-64.md) | **배치 1·2 완료(Claude)** — 서명표를 `identity_signature.json`으로 승격·배선. 알려진 결함 5건은 래칫. 배치 3~7(모티프·음색·채택률·연속성) 미착수 |
+| 10 | [ ] | ORDER-65 · 장이 닫는 것을 실제로 닫는다 | [ORDER-65](queue_active/ORDER-65.md) | **데모 출고 뒤.** `narrative_spine`이 장마다 닫는 동사를 선언하는데 구현이 0 — 3장이 `시간 팔기`를 닫는다면서 `JobSystem`에 장 게이팅이 없다. 소비자 없는 정본 |
+| 11 | [ ] | ORDER-66 · 제품 패키징 (크레딧·버전·고지) | [ORDER-66](queue_active/ORDER-66.md) | 미착수. **빠진 것 셋** — 엔딩 크레딧·게임 버전 문자열·게임 내 제3자 고지. 폰트 OFL 사본과 빌드 포함은 선수리 완료. Steam SDK는 심의 뒤 별도 |
+| 12 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_archive/ORDER-43.md) | 장별 사람 연속 청취 |
+| 13 | [~] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_archive/USER-P0N.md) | 정상 속도·실기기·A/V 사람 판정 |
+| 14 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_archive/ORDER-21.md) | 데모 GO 뒤 본문 번역·15장 캡처·원어민 검수 |
+| 15 | [~] | ORDER-23 · 동기 각인 수술 | [ORDER-23](queue_archive/ORDER-23.md) | 동기 문장 기억 여부 사람 판정 |
+| 16 | [~] | ORDER-22 · 주간 루프 몰입 수리 | [ORDER-22](queue_archive/ORDER-22.md) | 정상 속도 몰입·재미 사람 판정 |
+| 17 | [~] | ORDER-28 · 240주 전체 재구성 | [ORDER-28](queue_archive/ORDER-28.md) | 외부 정상 독해 10인 플레이 0/10 |
+| 18 | [~] | ORDER-26 · AP 의미화 | [ORDER-26](queue_archive/ORDER-26.md) | 망설임·전략 재미 사람 판정 |
 
 ### 완료 이력
 
