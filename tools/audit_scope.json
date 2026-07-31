@@ -771,14 +771,23 @@
       ]
     },
     {
-      "tool": "tools/project_dashboard.py",
-      "why": "현황 문서 신선도 — audit.sh는 --md docs/STATUS.md --check 로 부른다. 생성 문서가 저장소보다 낡으면 거짓말이 된다",
+      "tool": "tools/project_dashboard.py --md docs/STATUS.md --check",
+      "why": "현황 문서 신선도 — 생성 문서가 저장소보다 낡으면 거짓말이 된다",
       "paths": [
         "content/**",
         "docs/CODEX_QUEUE.md",
         "docs/STATUS.md",
         "tools/project_dashboard.py",
         "tools/*_baseline.json"
+      ]
+    },
+    {
+      "tool": "tools/context_manifest_check.py",
+      "why": "스킬·에이전트 지침은 런타임 표면이 없다 — 문서 정합만 해당하며, 이 검사는 always 목록이라 실제로는 추가 비용이 0이다. 규칙이 없으면 스킬 한 줄 수정이 전체 감사(10분)를 부른다",
+      "paths": [
+        ".codex/skills/**",
+        "AGENTS.md",
+        ".codex/agents/**"
       ]
     }
   ]
