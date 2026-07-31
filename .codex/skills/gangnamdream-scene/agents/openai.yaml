@@ -1,0 +1,4 @@
+interface:
+  display_name: "강남드림 장면 집필"
+  short_description: "장면 계층 계약을 산문보다 먼저 확정해 감사 왕복을 없앱니다."
+  default_prompt: "이 장면의 계층과 계약(비트·선택점·자산·연출·대가)을 먼저 확정한 뒤 집필해 주세요."
