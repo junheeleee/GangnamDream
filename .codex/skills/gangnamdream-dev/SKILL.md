@@ -47,6 +47,12 @@ python3 tools/en_coverage_check.py
 git diff --check
 ```
 
+`docs/STATUS.md` is generated, never hand-edited. Any content change makes it stale and `audit.sh` fails on it. Regenerate in the same commit:
+
+```bash
+python3 tools/project_dashboard.py --md docs/STATUS.md
+```
+
 Several checks are ratchets with a recorded baseline: `surface_coherence_audit`, `identity_signature_audit`, `feature_liveness_audit`, `peak_scene_chain_audit`. **A known defect passes and a new one fails.** When one improves, update its baseline in the same commit so the debt cannot creep back. Never widen a baseline to make a failure go away — fix the change or say why the ratchet is wrong.
 
 Use only relevant ScreenshotQA scopes while iterating. Treat automated visual/audio checks as contract evidence, not human taste approval.

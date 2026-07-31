@@ -25,7 +25,8 @@
       "docs/queue_archive/*.md",
       "docs/archive/*.md",
       "docs/RELEASE_NOTES.md",
-      "docs/STATE_LOG_ARCHIVE.md"
+      "docs/STATE_LOG_ARCHIVE.md",
+      "docs/STATUS.md"
     ],
     "handoff": {
       "path": "docs/HANDOFF.md",
@@ -296,6 +297,7 @@
       "docs/PEAK_SCENE_CHAIN_AUDIT.md",
       "docs/PROLOGUE_TIER_AUDIT.md",
       "docs/SCRIPT_REVIEW_2026-07-24.md",
+      "docs/STATUS.md",
       "docs/STEAM_QUALITY_BENCHMARKS.md"
     ],
     "qa_release_marketing": [

@@ -72,10 +72,15 @@
 체인 탐색기는 정답 선택 판정을 브라우저에서 다시 돌린다(211비트 중 11건).
 **tint·route를 그대로 보여 주므로 개발용이며 플레이어에게 공개하지 않는다.**
 
-`main` 푸시마다 `.github/workflows/dashboard.yml`이 다시 만들어 Pages에 올린다.
-**갱신을 사람이나 에이전트가 맡으면 잊는 순간 거짓말이 되므로 CI가 소유한다.**
-Pages는 `Settings → Pages → Source = GitHub Actions`를 사람이 켜야 시작된다.
-켜기 전에도 Actions 탭의 `Dashboard` 실행에서 아티팩트로 내려받을 수 있다.
+**사람이 보는 판은 [`STATUS.md`](STATUS.md)다** — GitHub이 그대로 렌더하고,
+PR diff에 상태 변화가 드러나며, 세션·인프라가 필요 없다.
+`--md docs/STATUS.md`로 다시 만들고 **`audit.sh`가 낡으면 실패시킨다.**
+갱신을 사람 기억에 맡기면 잊는 순간 거짓말이 되므로 검사가 소유한다.
+데모 체인 28개는 mermaid로 그려 GitHub에서 바로 보인다.
+
+**정답 선택 수는 이제 `dominant_index()`가 센다(414).** `DEMO_TIER_AUDIT`의
+413은 되살릴 수 없는 일회성 측정이었고 한 건 차이는 특정하지 못했다.
+**재현되지 않는 수치를 정본으로 두지 않는다.**
 
 ## 열려 있는 사용자 결정
 

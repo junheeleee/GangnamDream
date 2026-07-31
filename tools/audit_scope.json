@@ -769,6 +769,17 @@
         "docs/FEATURE_LEDGER.md",
         "tools/feature_liveness_audit.py"
       ]
+    },
+    {
+      "tool": "tools/project_dashboard.py",
+      "why": "현황 문서 신선도 — audit.sh는 --md docs/STATUS.md --check 로 부른다. 생성 문서가 저장소보다 낡으면 거짓말이 된다",
+      "paths": [
+        "content/**",
+        "docs/CODEX_QUEUE.md",
+        "docs/STATUS.md",
+        "tools/project_dashboard.py",
+        "tools/*_baseline.json"
+      ]
     }
   ]
 }
