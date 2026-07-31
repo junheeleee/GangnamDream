@@ -1,0 +1,17 @@
+{
+  "prop_mentions": {
+    "daeun": 2,
+    "father": 0,
+    "jaehyuk": 0,
+    "jiyeon": 7,
+    "minjun": 0,
+    "sangchul": 2
+  },
+  "known_failures": [
+    "father_motif_depends_on_absent_minjun_theme",
+    "motif_roster_mismatch",
+    "prop_unmentioned:father",
+    "prop_unmentioned:jaehyuk",
+    "prop_unmentioned:minjun"
+  ]
+}

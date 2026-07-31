@@ -732,6 +732,43 @@
       "paths": [
         "tools/*.py"
       ]
+    },
+    {
+      "tool": "tools/surface_coherence_audit.py",
+      "why": "화면 언어 분열의 정량 흔적(이모지·수동 스타일·테마 우회·팔레트 밖 색). 래칫",
+      "paths": [
+        "autoloads/**",
+        "scenes/**",
+        "systems/**",
+        "tools/surface_coherence_audit.py",
+        "content/themes/**",
+        "*.theme",
+        "*.tres"
+      ]
+    },
+    {
+      "tool": "tools/identity_signature_audit.py",
+      "why": "주연 6인 서명표 강제 — 소품 되풀이·모티프 명단·표 완전성. 알려진 결함은 래칫",
+      "paths": [
+        "content/meta/identity_signature.json",
+        "docs/IP_VISUAL_IDENTITY.md",
+        "assets/ASSET_INDEX.md",
+        "assets/CHARACTER_VISUAL_BIBLE.md",
+        "tools/AudioAssetCheck.gd",
+        "assets/audio/**",
+        "tools/identity_signature_audit.py"
+      ]
+    },
+    {
+      "tool": "tools/feature_liveness_audit.py",
+      "why": "진입점 없는 스크립트 래칫. 도달 불가 코드가 새로 쌓이는 것을 막는다",
+      "paths": [
+        "**/*.gd",
+        "**/*.tscn",
+        "project.godot",
+        "docs/FEATURE_LEDGER.md",
+        "tools/feature_liveness_audit.py"
+      ]
     }
   ]
 }
