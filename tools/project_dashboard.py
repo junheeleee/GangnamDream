@@ -16,10 +16,32 @@ import html
 import json
 import os
 import re
+import subprocess
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def stamp() -> str:
+    """When and from what. A dashboard without this cannot be trusted."""
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    sha = os.environ.get("GITHUB_SHA", "")
+    if not sha:
+        try:
+            sha = subprocess.run(
+                ["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True,
+                text=True, timeout=5).stdout.strip()
+        except (OSError, subprocess.SubprocessError):
+            sha = ""
+    ref = os.environ.get("GITHUB_REF_NAME", "")
+    bits = [now]
+    if sha:
+        bits.append(sha[:8])
+    if ref:
+        bits.append(ref)
+    return " · ".join(bits)
 
 
 # ---------------------------------------------------------------- extraction
@@ -528,10 +550,11 @@ def build() -> str:
     idx = json.dumps(index, ensure_ascii=False)
 
     return f"""<title>강남드림 — 현재 상태</title>
+<meta name="robots" content="noindex, nofollow">
 <style>{CSS}</style>
 <div class="wrap">
 <header>
-  <div class="stamp mono">생성 · tools/project_dashboard.py</div>
+  <div class="stamp mono">{html.escape(stamp())} · tools/project_dashboard.py</div>
   <h1>강남드림 — 지금 어디까지 왔는가</h1>
   <p class="sub">저장소에서 직접 읽어 만든다. 오더·기준선·서명표·척추·데모 번들·
   선택 그래프 전부 실시간 추출이라, 손으로 쓴 현황 문서처럼 낡지 않는다.</p>
