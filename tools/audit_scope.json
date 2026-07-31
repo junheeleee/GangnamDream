@@ -745,6 +745,19 @@
         "*.theme",
         "*.tres"
       ]
+    },
+    {
+      "tool": "tools/identity_signature_audit.py",
+      "why": "주연 6인 서명표 강제 — 소품 되풀이·모티프 명단·표 완전성. 알려진 결함은 래칫",
+      "paths": [
+        "content/meta/identity_signature.json",
+        "docs/IP_VISUAL_IDENTITY.md",
+        "assets/ASSET_INDEX.md",
+        "assets/CHARACTER_VISUAL_BIBLE.md",
+        "tools/AudioAssetCheck.gd",
+        "assets/audio/**",
+        "tools/identity_signature_audit.py"
+      ]
     }
   ]
 }

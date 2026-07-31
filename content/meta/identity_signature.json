@@ -1,0 +1,60 @@
+{
+  "_comment": [
+    "docs/IP_VISUAL_IDENTITY.md 의 Flagship Cast 표를 기계 판독으로 투영한 것이다.",
+    "산문 정본은 그 문서가 계속 소유하며, 두 곳이 어긋나면 산문이 이긴다.",
+    "여기에 표에 없는 값을 채워 넣지 않는다. 빈 칸은 빈 칸으로 둔다.",
+    "검사용 키워드 같은 파생 값은 이 파일이 아니라 tools/identity_signature_audit.py 가 갖는다."
+  ],
+  "source": "docs/IP_VISUAL_IDENTITY.md#flagship-cast",
+  "schema_version": 1,
+  "flagship": {
+    "minjun": {
+      "name_en": "Kim Minjun",
+      "desire": "Wants a different life without knowing what may remain of him",
+      "locked_silhouette": "Lean shoulders, uneven black fringe, worn black crewneck in private life",
+      "signature_material": "Concrete gray / reflected glass",
+      "owned_prop": "Folded account statement showing the starting balance, never a luxury prop at launch",
+      "audio_motif": "Four-note theme that can clear, distort, or hollow out"
+    },
+    "jiyeon": {
+      "name_en": "Han Jiyeon",
+      "desire": "Offers the fastest path upward while refusing to be merely a guide",
+      "locked_silhouette": "Long one-sided black waves, sharp eyes, ivory tailoring over black",
+      "signature_material": "Ivory lacquer / black automotive glass / fine gold geometry",
+      "owned_prop": "Unbranded black luxury-car key and angular earring",
+      "audio_motif": "Cool piano interval with a held unresolved note"
+    },
+    "daeun": {
+      "name_en": "Kim Daeun",
+      "desire": "Has little to spare but notices what other people need",
+      "locked_silhouette": "Short layered bob, fixed side hair clip, navy work line under beige knit",
+      "signature_material": "Warm paper / convenience-store fluorescent light / faded blue stripe",
+      "owned_prop": "Handwritten post-it and the same hair clip in every outfit",
+      "audio_motif": "Close felt piano and soft room tone, never cute chimes"
+    },
+    "jaehyuk": {
+      "name_en": "Choi Jaehyuk",
+      "desire": "His kindness may be sincere and useful at the same time",
+      "locked_silhouette": "Swept hair, open black collar, smile that survives bad news",
+      "signature_material": "Camera flash / black mirror / wet bar table",
+      "owned_prop": "Pocha photograph with a darkened second reading",
+      "audio_motif": "Dry finger snap or shutter transient over Minjun's motif"
+    },
+    "sangchul": {
+      "name_en": "Im Sangchul",
+      "desire": "The hand offering a ladder may be the hand that built the trap",
+      "locked_silhouette": "Salt-and-pepper sweep, patterned shirt, dark jacket, practiced half-smile",
+      "signature_material": "Worn leather / business-card stock / smoke-dark private room",
+      "owned_prop": "Business card with handwritten number",
+      "audio_motif": "Low brushed rhythm and one muted brass breath"
+    },
+    "father": {
+      "name_en": "Father",
+      "desire": "Shame makes him withdraw from the son he is trying to protect",
+      "locked_silhouette": "Narrow older frame, faded blue work jacket, plaid collar",
+      "signature_material": "Faded workwear / old paper / weak phone light",
+      "owned_prop": "23-second call screen and debt records",
+      "audio_motif": "Bare room tone with the four-note theme missing its last note"
+    }
+  }
+}
