@@ -30,7 +30,15 @@ Do not load full logs, release notes, archives, or unrelated active orders by de
 
 ## Verify
 
-Run the narrow check for the changed behavior first. Before completion, run:
+**Let the repository choose the checks. Do not run the full audit while iterating** — it takes about ten minutes, and `audit_select` resolves a docs-only change in under a second.
+
+```bash
+python3 tools/audit_select.py --base main   # 변경이 요구하는 검사만 고른다
+```
+
+An unmatched path deliberately demands the full audit; that is the safe default, not a bug. Register a new check in `tools/audit_scope.json` — `--verify` fails on an unregistered one.
+
+Before completion:
 
 ```bash
 python3 tools/context_manifest_check.py
@@ -38,6 +46,14 @@ GODOT=/usr/local/bin/godot ./tools/audit.sh
 python3 tools/en_coverage_check.py
 git diff --check
 ```
+
+`docs/STATUS.md` is generated, never hand-edited. Any content change makes it stale and `audit.sh` fails on it. Regenerate in the same commit:
+
+```bash
+python3 tools/project_dashboard.py --md docs/STATUS.md
+```
+
+Several checks are ratchets with a recorded baseline: `surface_coherence_audit`, `identity_signature_audit`, `feature_liveness_audit`, `peak_scene_chain_audit`. **A known defect passes and a new one fails.** When one improves, update its baseline in the same commit so the debt cannot creep back. Never widen a baseline to make a failure go away — fix the change or say why the ratchet is wrong.
 
 Use only relevant ScreenshotQA scopes while iterating. Treat automated visual/audio checks as contract evidence, not human taste approval.
 

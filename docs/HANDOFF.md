@@ -50,8 +50,37 @@
   **틀리게 잡는 검사는 없느니만 못하다.**
 - **플래그는 `conditions`가 아니라 dik 산문 키로 소비된다**(`arc_drama.json:228`).
 - **오더는 한국어, `assets/*VISUAL_BIBLE.md`는 영어다.** 한쪽만 보면 오판한다.
-- 부팅 예산: `CODEX_QUEUE.md` 12KB · `WORK_LOG.md` 40KB · `CLAUDE.md` 18KB.
+- 예산: `CODEX_QUEUE.md` 12KB · `WORK_LOG.md` 40KB · `CLAUDE.md` 18KB ·
+  `HANDOFF.md` 6KB · **활성 오더 각 16KB**(`ORDER-57`만 예외, E 마감 시 해소).
+  2026-07-31에 완료된 `[~]` 사양 7건을 `queue_archive/`로 내려 활성 오더를
+  **288KB → 143KB**로 줄였다. 예산이 인덱스에만 있고 인덱스가 가리키는 문서에
+  없으면 무게가 그쪽으로 흘러간다.
 - `art_master_audit.py`는 전체 git 히스토리를, `audit.sh`는 선행 import를 요구한다.
+
+## Codex 효율 (2026-07-31)
+
+스킬은 `.claude/`가 아니라 **`.codex/skills/`**에 있다. `gangnamdream-dev`가
+부팅·작업·검증·마감을 덮고, **`gangnamdream-scene`**이 장면 계약을 산문보다 먼저
+확정시킨다. 검증 절에 `audit_select`를 명시했다 — 그전에는 도구 이름이 없어
+전체 감사(10분)를 매번 돌 여지가 있었다.
+
+## 현황 대시보드 (2026-07-31)
+
+`python3 tools/project_dashboard.py` → `build/project_dashboard.html`(gitignore).
+오더·래칫 기준선·서명표·5장 척추·데모 번들·**선택 체인 그래프**를 저장소에서
+직접 뽑아 한 장으로 만든다. **손으로 쓴 현황 문서를 만들지 않는다** — 낡는다.
+체인 탐색기는 정답 선택 판정을 브라우저에서 다시 돌린다(211비트 중 11건).
+**tint·route를 그대로 보여 주므로 개발용이며 플레이어에게 공개하지 않는다.**
+
+**사람이 보는 판은 [`STATUS.md`](STATUS.md)다** — GitHub이 그대로 렌더하고,
+PR diff에 상태 변화가 드러나며, 세션·인프라가 필요 없다.
+`--md docs/STATUS.md`로 다시 만들고 **`audit.sh`가 낡으면 실패시킨다.**
+갱신을 사람 기억에 맡기면 잊는 순간 거짓말이 되므로 검사가 소유한다.
+데모 체인 28개는 mermaid로 그려 GitHub에서 바로 보인다.
+
+**정답 선택 수는 이제 `dominant_index()`가 센다(414).** `DEMO_TIER_AUDIT`의
+413은 되살릴 수 없는 일회성 측정이었고 한 건 차이는 특정하지 못했다.
+**재현되지 않는 수치를 정본으로 두지 않는다.**
 
 ## 열려 있는 사용자 결정
 
