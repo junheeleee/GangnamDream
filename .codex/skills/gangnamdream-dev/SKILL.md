@@ -28,6 +28,22 @@ Do not load full logs, release notes, archives, or unrelated active orders by de
 - For audio work, use recorded or real-instrument sample sources only and preserve source manifests.
 - Keep Korean source and English player surface aligned. Never move gameplay keys into translation overlays.
 
+## Propose, and improve yourself
+
+`docs/PROPOSALS.md` owns the rules. Read it before your first proposal, not this skill — a copy here would go stale.
+
+Three ways to handle what you find while working. **Most findings are the first kind.**
+
+1. **Just do it** — typo, broken link, dead comment, a check that reports something false, a failure message that does not say how to fix it, an unregistered check, a stale generated document. Same commit, no proposal.
+2. **Do it and record why** — inside scope but a reasonable person could disagree. Proceed, and put the reasoning in the commit message and `WORK_LOG.md` so the user can reverse it later.
+3. **Stop and propose** — canon rules, story/cast/relationships, numbers outside the balance bands, a new system not in the queue, deleting anything, scope growth, finishing or removing a half-built feature, ratings/legal. File it and **do not start that one item.** Finish the rest of the work unit; a proposal must not halt the session.
+
+**Eligibility is friction, not imagination.** If you did not hit it while working, it belongs in `docs/POST_LAUNCH_NOTES.md`. Five open proposals maximum, twenty-one days to a decision — `context_manifest_check.py` fails on both, and open ones surface in `docs/STATUS.md` where the user already looks.
+
+Every proposal carries a recommendation. Listing options without choosing hands the work back. And if you cannot write **what the project keeps paying if nobody acts**, it is a preference, not a proposal — do not file it.
+
+**The cheapest self-improvement is one line.** When this session cost you time — a tool you could not find, an assumption that was wrong, an order whose boundary was unclear — add one line to the skill or the owning document in the same commit. That is category 1 and needs no permission. **Add a line only where it would have saved you; a skill that grows every session stops being read.**
+
 ## Verify
 
 **Let the repository choose the checks. Do not run the full audit while iterating** — it takes about ten minutes, and `audit_select` resolves a docs-only change in under a second.

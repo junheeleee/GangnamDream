@@ -236,6 +236,7 @@
       "docs/CODEX_QUEUE.md",
       "docs/CONTEXT_INDEX.md",
       "docs/HANDOFF.md",
+      "docs/PROPOSALS.md",
       "docs/queue_active/*.md"
     ],
     "canon": [

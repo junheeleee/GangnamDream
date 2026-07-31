@@ -570,6 +570,38 @@ def tiles(rows: list[dict]) -> str:
         for r in rows) + "</div>"
 
 
+def proposals() -> list[dict]:
+    """열린 제안. 규칙과 상한은 docs/PROPOSALS.md와 context_manifest_check가 소유한다.
+
+    여기 싣는 이유는 하나다 — **읽히지 않는 제안 목록을 하나 더 만들지 않기
+    위해서다.** 사용자가 이미 보는 화면에 나타나야 결정이 일어난다.
+    """
+    out: list[dict] = []
+    section, cur = None, None
+    for line in read_text("docs/PROPOSALS.md").splitlines():
+        if line.startswith("## "):
+            section, cur = line[3:].strip(), None
+            continue
+        if section != "열린 제안":
+            continue
+        m = re.match(r"^###\s+(P-\d+)\s+·\s+(.+?)\s+\[열림\s+(\S+)\]\s*$", line)
+        if m:
+            cur = {"id": m.group(1), "title": m.group(2), "opened": m.group(3),
+                   "권고": "", "대가": ""}
+            out.append(cur)
+            continue
+        if cur:
+            f = re.match(r"^-\s+\*\*(권고|대가|결정)\*\*\s*—\s*(.+?)\s*$", line)
+            if not f:
+                continue
+            if f.group(1) == "결정" and f.group(2) != "(대기)":
+                out.remove(cur)
+                cur = None
+            elif f.group(1) in cur:
+                cur[f.group(1)] = f.group(2)
+    return out
+
+
 def md_escape(s: str) -> str:
     """표 안에서 셀을 깨뜨리는 것만 막는다. 산문을 건드리지 않는다."""
     return str(s).replace("|", "\\|").replace("\n", " ").strip()
@@ -603,6 +635,23 @@ def markdown() -> str:
     add("")
     add("**개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.")
     add("플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.")
+    add("")
+
+    props = proposals()
+    add("## 당신의 결정을 기다리는 것")
+    add("")
+    if props:
+        add("에이전트가 작업 중 부딪혀 올린 제안이다. 규칙·상한은")
+        add("[`PROPOSALS.md`](PROPOSALS.md)가 소유하며, 21일이 지나면 감사가 실패한다.")
+        add("")
+        add("| | 제안 | 안 하면 계속 내는 것 | 권고 | 열림 |")
+        add("|---|---|---|---|---|")
+        for p in props:
+            add(f"| `{p['id']}` | {md_escape(p['title'])} | {md_escape(p['대가'])} | "
+                f"**{md_escape(p['권고'])}** | {p['opened']} |")
+    else:
+        add("열린 제안이 없다. 에이전트가 작업 중 부딪힌 것을")
+        add("[`PROPOSALS.md`](PROPOSALS.md)에 올리면 여기 실린다.")
     add("")
 
     add("## 한눈에")

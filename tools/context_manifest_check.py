@@ -8,6 +8,7 @@ import json
 import re
 import sys
 from collections import defaultdict
+from datetime import date
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -192,6 +193,64 @@ def validate_archive(errors: list[str]) -> int:
     return size
 
 
+PROPOSAL_CAP = 5
+PROPOSAL_EXPIRY_DAYS = 21
+PROPOSAL_HEAD = re.compile(
+    r"^###\s+(P-\d+)\s+·\s+(.+?)\s+\[열림\s+(\d{4}-\d{2}-\d{2})\]\s*$")
+
+
+def validate_proposals(errors: list[str]) -> int:
+    """열린 제안의 개수와 나이를 강제한다.
+
+    상한이 없으면 목록이 길어지고, 길어지면 안 읽히고, 안 읽히면 제안하는 행위
+    자체가 무의미해진다. 이 저장소가 이미 여러 번 겪은 실패라 명예 규칙으로
+    두지 않는다. 규칙 자체는 docs/PROPOSALS.md가 소유한다.
+    """
+    path = ROOT / "docs/PROPOSALS.md"
+    if not path.exists():
+        errors.append("missing docs/PROPOSALS.md")
+        return 0
+
+    section = None
+    open_rows: list[tuple[str, str, str]] = []
+    pending = None
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.startswith("## "):
+            section = line[3:].strip()
+            pending = None
+            continue
+        if section != "열린 제안":
+            continue
+        head = PROPOSAL_HEAD.match(line)
+        if head:
+            pending = head.groups()
+            open_rows.append(pending)
+            continue
+        if pending and line.strip().startswith("- **결정**"):
+            decided = line.split("—", 1)[-1].strip()
+            if decided and decided != "(대기)":
+                open_rows.remove(pending)
+            pending = None
+
+    if len(open_rows) > PROPOSAL_CAP:
+        errors.append(
+            f"open proposals {len(open_rows)} exceed cap {PROPOSAL_CAP} — "
+            "close one before adding another (docs/PROPOSALS.md)")
+
+    today = date.today()
+    for pid, title, opened in open_rows:
+        try:
+            age = (today - date.fromisoformat(opened)).days
+        except ValueError:
+            errors.append(f"proposal {pid} has an unreadable open date: {opened}")
+            continue
+        if age > PROPOSAL_EXPIRY_DAYS:
+            errors.append(
+                f"proposal {pid} is {age} days old (limit {PROPOSAL_EXPIRY_DAYS}) — "
+                f"decide it or move it to docs/POST_LAUNCH_NOTES.md: {title}")
+    return len(open_rows)
+
+
 def main() -> int:
     errors: list[str] = []
     if not MANIFEST_PATH.exists():
@@ -213,6 +272,7 @@ def main() -> int:
     link_count = validate_managed_links(manifest, errors)
     invariant_count = validate_invariants(manifest, errors)
     archive_size = validate_archive(errors)
+    open_proposals = validate_proposals(errors)
 
     if errors:
         print("CONTEXT_MANIFEST_CHECK_FAIL")
@@ -227,7 +287,8 @@ def main() -> int:
     print(
         "CONTEXT_MANIFEST_CHECK_OK "
         f"boot_bytes={boot_bytes} docs={docs_count} classified={classified_count} "
-        f"links={link_count} invariants={invariant_count} archive_bytes={archive_size}"
+        f"links={link_count} invariants={invariant_count} archive_bytes={archive_size} "
+        f"open_proposals={open_proposals}"
     )
     return 0
 
