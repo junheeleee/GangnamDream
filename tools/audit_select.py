@@ -88,8 +88,11 @@ def select(files: list[str], scope: dict) -> tuple[list[dict], list[str]]:
 
 
 def registered_tools(scope: dict) -> set[str]:
-    tools = {c["tool"] for c in scope["checks"]}
-    tools |= set(scope.get("always", []))
+    # run_check는 `tool`에 인자를 붙여 쓸 수 있게 돼 있다(`X.py --flag`).
+    # 대조는 audit.sh가 부르는 파일 이름과 하는 것이므로 첫 토큰만 본다.
+    # 이 구분이 없으면 인자를 단 등록이 MISSING으로 잘못 잡힌다.
+    tools = {c["tool"].split()[0] for c in scope["checks"]}
+    tools |= {t.split()[0] for t in scope.get("always", [])}
     return tools
 
 
