@@ -758,6 +758,17 @@
         "assets/audio/**",
         "tools/identity_signature_audit.py"
       ]
+    },
+    {
+      "tool": "tools/feature_liveness_audit.py",
+      "why": "진입점 없는 스크립트 래칫. 도달 불가 코드가 새로 쌓이는 것을 막는다",
+      "paths": [
+        "**/*.gd",
+        "**/*.tscn",
+        "project.godot",
+        "docs/FEATURE_LEDGER.md",
+        "tools/feature_liveness_audit.py"
+      ]
     }
   ]
 }
