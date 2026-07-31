@@ -122,6 +122,7 @@ RANDOM_POOL_HYGIENE_EXIT=$?
 
 echo "──────────────────────────────────────────"
 python3 tools/surface_emoji_audit.py
+SURFACE_EXIT=$?
 
 echo "──────────────────────────────────────────"
 echo "● 화면 언어 분열 흔적 감사 (래칫)"
