@@ -1,6 +1,12 @@
 # Active Queue Spec: ORDER-57
 
 > Canonical status is indexed in `docs/CODEX_QUEUE.md`.
+>
+> **이 파일은 66KB로 활성 오더 상한(16KB)의 유일한 예외다.** A~E 다섯 단계를 한
+> 파일에 담고 있고 A~D는 완료됐다. **E를 닫을 때 완료 단계의 착수 선언·범위 확장·
+> 진행 기록을 `docs/queue_archive/ORDER-57_log.md`로 내려 예외를 없앤다.** 그 안에
+> 아직 E를 구속하는 규칙 문단이 섞여 있으므로, 파일을 소유한 쪽이 분리한다 —
+> 선언 블록만 기계로 골라내려다 규칙을 함께 옮길 뻔했다(2026-07-31 Claude 확인).
 
 #### [~] ORDER-57 [P0·코어 재구축] Core Loop V2 — 플레이어가 자기 6개월을 설계하는 데모
 

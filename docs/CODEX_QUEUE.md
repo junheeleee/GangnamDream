@@ -57,13 +57,13 @@
 | 8 | [ ] | ORDER-64 · 서명·연속성 강제 | [ORDER-64](queue_active/ORDER-64.md) | **배치 1·2 완료(Claude)** — 서명표를 `identity_signature.json`으로 승격하고 검사 배선. 알려진 결함 5건은 래칫. 배치 3~7(모티프·음색·채택률·연속성)은 미착수 |
 | 9 | [ ] | ORDER-65 · 장이 닫는 것을 실제로 닫는다 | [ORDER-65](queue_active/ORDER-65.md) | **데모 출고 뒤.** `narrative_spine`이 장마다 닫는 동사를 선언하는데 구현이 0이다 — 3장이 `시간 팔기`를 닫는다면서 `JobSystem`에 장 게이팅이 없다. 선언만 있고 소비자가 없는 정본 |
 | 10 | [ ] | ORDER-66 · 제품 패키징 (크레딧·버전·고지) | [ORDER-66](queue_active/ORDER-66.md) | 미착수. **빠진 것 셋** — 엔딩 크레딧 전무, 게임 버전 문자열 없음, 게임 내 제3자 고지 없음. 폰트 OFL 사본과 빌드 포함은 선수리 완료. Steam SDK는 심의 뒤 별도 |
-| 11 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_active/ORDER-43.md) | 장별 사람 연속 청취 |
-| 12 | [~] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_active/USER-P0N.md) | 정상 속도·실기기·A/V 사람 판정 |
-| 13 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_active/ORDER-21.md) | 데모 GO 뒤 본문 번역·15장 캡처·원어민 검수 |
-| 14 | [~] | ORDER-23 · 동기 각인 수술 | [ORDER-23](queue_active/ORDER-23.md) | 동기 문장 기억 여부 사람 판정 |
-| 15 | [~] | ORDER-22 · 주간 루프 몰입 수리 | [ORDER-22](queue_active/ORDER-22.md) | 정상 속도 몰입·재미 사람 판정 |
-| 16 | [~] | ORDER-28 · 240주 전체 재구성 | [ORDER-28](queue_active/ORDER-28.md) | 외부 정상 독해 10인 플레이 0/10 |
-| 17 | [~] | ORDER-26 · AP 의미화 | [ORDER-26](queue_active/ORDER-26.md) | 망설임·전략 재미 사람 판정 |
+| 11 | [~] | ORDER-43 · 실제 녹음/샘플 오디오 REWORK | [ORDER-43](queue_archive/ORDER-43.md) | 장별 사람 연속 청취 |
+| 12 | [~] | USER-P0N · 데모 장면 연출 문법 240주 전 구간 확산 | [USER-P0N](queue_archive/USER-P0N.md) | 정상 속도·실기기·A/V 사람 판정 |
+| 13 | [~] | ORDER-21 · 일본어 번역 웨이브 | [ORDER-21](queue_archive/ORDER-21.md) | 데모 GO 뒤 본문 번역·15장 캡처·원어민 검수 |
+| 14 | [~] | ORDER-23 · 동기 각인 수술 | [ORDER-23](queue_archive/ORDER-23.md) | 동기 문장 기억 여부 사람 판정 |
+| 15 | [~] | ORDER-22 · 주간 루프 몰입 수리 | [ORDER-22](queue_archive/ORDER-22.md) | 정상 속도 몰입·재미 사람 판정 |
+| 16 | [~] | ORDER-28 · 240주 전체 재구성 | [ORDER-28](queue_archive/ORDER-28.md) | 외부 정상 독해 10인 플레이 0/10 |
+| 17 | [~] | ORDER-26 · AP 의미화 | [ORDER-26](queue_archive/ORDER-26.md) | 망설임·전략 재미 사람 판정 |
 
 ### 완료 이력
 

@@ -1,4 +1,10 @@
-# Active Queue Spec: USER-P0N
+# Human-Gate Queue Spec: USER-P0N
+
+> **자동 게이트는 전부 PASS했고 사람 판정만 열려 있다.** 현재 상태는
+> `docs/CODEX_QUEUE.md`가 소유한다. 이 사양은 근거 보존용이며, 남은 사람 게이트를
+> 돌리는 데는 필요하지 않다. 2026-07-31에 `queue_active/`에서 이관했다 — 활성
+> 오더 288KB의 75%가 이런 완료 사양이었고, Codex가 매 세션 그 무게를 지고 있었다.
+
 
 > Canonical status is indexed in `docs/CODEX_QUEUE.md`. This file owns the
 > pending full-run direction pass; existing scene language remains canonical in

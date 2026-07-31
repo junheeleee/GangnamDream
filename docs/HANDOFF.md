@@ -50,7 +50,11 @@
   **틀리게 잡는 검사는 없느니만 못하다.**
 - **플래그는 `conditions`가 아니라 dik 산문 키로 소비된다**(`arc_drama.json:228`).
 - **오더는 한국어, `assets/*VISUAL_BIBLE.md`는 영어다.** 한쪽만 보면 오판한다.
-- 부팅 예산: `CODEX_QUEUE.md` 12KB · `WORK_LOG.md` 40KB · `CLAUDE.md` 18KB.
+- 예산: `CODEX_QUEUE.md` 12KB · `WORK_LOG.md` 40KB · `CLAUDE.md` 18KB ·
+  `HANDOFF.md` 6KB · **활성 오더 각 16KB**(`ORDER-57`만 예외, E 마감 시 해소).
+  2026-07-31에 완료된 `[~]` 사양 7건을 `queue_archive/`로 내려 활성 오더를
+  **288KB → 143KB**로 줄였다. 예산이 인덱스에만 있고 인덱스가 가리키는 문서에
+  없으면 무게가 그쪽으로 흘러간다.
 - `art_master_audit.py`는 전체 git 히스토리를, `audit.sh`는 선행 import를 요구한다.
 
 ## 열려 있는 사용자 결정

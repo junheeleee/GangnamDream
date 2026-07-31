@@ -76,6 +76,25 @@ def validate_budgets(manifest: dict[str, Any], errors: list[str]) -> None:
         if isinstance(entry, dict):
             budget_entries.append(entry)
 
+    # 활성 오더는 부팅 문서가 아니지만 Codex가 매 세션 통째로 읽는다. 인덱스만
+    # 예산이 있고 인덱스가 가리키는 문서에 없으면 무게가 그쪽으로 흘러간다.
+    spec = boot.get("active_order")
+    if isinstance(spec, dict):
+        max_bytes = int(spec.get("max_bytes", 0))
+        exceptions = dict(spec.get("exceptions", {}))
+        for path in sorted(ROOT.glob(str(spec.get("glob", "")))):
+            rel = path.relative_to(ROOT).as_posix()
+            size = path.stat().st_size
+            if size <= max_bytes:
+                continue
+            if rel in exceptions:
+                print(f"  NOTE {rel} is {size} bytes — 예외: {exceptions[rel]}")
+                continue
+            errors.append(
+                f"active order too large: {rel} is {size} bytes (max {max_bytes}). "
+                "완료된 단계를 docs/queue_archive/ 로 내리거나 오더를 나눈다"
+            )
+
     for entry in budget_entries:
         path_value = str(entry.get("path", ""))
         max_bytes = int(entry.get("max_bytes", 0))
