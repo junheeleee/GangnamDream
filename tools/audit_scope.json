@@ -732,6 +732,19 @@
       "paths": [
         "tools/*.py"
       ]
+    },
+    {
+      "tool": "tools/surface_coherence_audit.py",
+      "why": "화면 언어 분열의 정량 흔적(이모지·수동 스타일·테마 우회·팔레트 밖 색). 래칫",
+      "paths": [
+        "autoloads/**",
+        "scenes/**",
+        "systems/**",
+        "tools/surface_coherence_audit.py",
+        "content/themes/**",
+        "*.theme",
+        "*.tres"
+      ]
     }
   ]
 }

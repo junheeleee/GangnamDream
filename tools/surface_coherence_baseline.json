@@ -1,0 +1,9 @@
+{
+  "metrics": {
+    "stylebox_constructions": 260,
+    "theme_overrides_outside_owner": 2116,
+    "distinct_font_sizes": 27,
+    "colors_outside_palette": 678,
+    "theme_resources": 0
+  }
+}
