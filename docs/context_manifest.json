@@ -26,7 +26,11 @@
       "docs/archive/*.md",
       "docs/RELEASE_NOTES.md",
       "docs/STATE_LOG_ARCHIVE.md"
-    ]
+    ],
+    "handoff": {
+      "path": "docs/HANDOFF.md",
+      "max_bytes": 6000
+    }
   },
   "authority_order": [
     "latest_user_instruction",
