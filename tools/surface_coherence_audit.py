@@ -20,6 +20,9 @@ import json
 import re
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from human_gates import print_pending  # noqa: E402
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -198,6 +201,7 @@ def main() -> int:
         )
         return 1
 
+    print_pending("surface")
     print("\nSURFACE_COHERENCE_OK " + json.dumps(metrics))
     return 0
 

@@ -18,6 +18,9 @@ import sys
 from collections import Counter
 from dataclasses import asdict, dataclass
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from human_gates import print_pending  # noqa: E402
 from typing import Any
 
 from event_schedule import deferred_follow_ups
@@ -533,6 +536,7 @@ def print_text(report: dict[str, Any]) -> None:
         micro = path["isolated_micro_scenes"]
         preview = ",".join(f"t{item['week']}:{item['event']}" for item in micro[:16])
         print(f"  ISOLATED_MICRO count={len(micro)} sample={preview or 'none'}")
+    print_pending("narrative")
     print("NARRATIVE_CONTINUITY_AUDIT_OK")
 
 

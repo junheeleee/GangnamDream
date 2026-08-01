@@ -782,6 +782,15 @@
       ]
     },
     {
+      "tool": "tools/human_gates.py",
+      "why": "사람 판정 원장 — 오더가 끝났는데 게이트가 남거나, done인데 근거가 없으면 실패한다",
+      "paths": [
+        "docs/human_gates.json",
+        "docs/CODEX_QUEUE.md",
+        "tools/human_gates.py"
+      ]
+    },
+    {
       "tool": "tools/context_manifest_check.py",
       "why": "스킬·에이전트 지침은 런타임 표면이 없다 — 문서 정합만 해당하며, 이 검사는 always 목록이라 실제로는 추가 비용이 0이다. 규칙이 없으면 스킬 한 줄 수정이 전체 감사(10분)를 부른다",
       "paths": [

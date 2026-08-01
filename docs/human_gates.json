@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "_comment": [
+    "자동으로 잴 수 없는 판정의 단일 원장. tools/human_gates.py가 읽는다.",
+    "여기 있는 항목은 검사에서 '대기'로만 출력되며 절대 통과 처리되지 않는다.",
+    "새 게이트를 여기서 발명하지 않는다 — CLAUDE.md의 '열려 있는 사람 게이트',",
+    "CODEX_QUEUE의 사람 판정 열, 오더 사양에 이미 있는 것을 옮겨 적는다.",
+    "owner는 실재하는 오더여야 하고, human_gates.py가 그것을 검사한다.",
+    "state: open(미완) | done(사람이 통과시킴, 날짜와 근거를 evidence에)"
+  ],
+  "gates": [
+    {
+      "id": "full_run_normal_speed",
+      "domain": "pacing",
+      "gate": "정상 속도 전체 플레이",
+      "why": "페이싱 검사는 사건 수와 간격을 센다. 지루한지는 세어지지 않는다.",
+      "owner": "ORDER-22",
+      "state": "open"
+    },
+    {
+      "id": "chapter_audio_continuous_listen",
+      "domain": "audio",
+      "gate": "장별 헤드폰·노트북·TV 연속 청취",
+      "why": "자동 검사는 파일 존재와 계약만 본다. 반복이 지겨운지, 따로 찾아들을 만한지는 들어야 안다.",
+      "owner": "ORDER-43",
+      "state": "open"
+    },
+    {
+      "id": "physical_controllers",
+      "domain": "input",
+      "gate": "물리 Steam Deck·DualSense·Switch Pro 실기기",
+      "why": "InputMatrixCheck는 매핑과 글리프를 본다. 손에 쥐었을 때의 오작동은 실기기에서만 나온다.",
+      "owner": "USER-P0N",
+      "state": "open"
+    },
+    {
+      "id": "external_readthrough",
+      "domain": "narrative",
+      "gate": "외부 정상 독해 10인 플레이 (현재 0/10)",
+      "why": "정합 검사는 모순을 잡지 재미를 잡지 않는다. 처음 읽는 사람만 아는 것이 있다.",
+      "owner": "ORDER-28",
+      "state": "open"
+    },
+    {
+      "id": "motivation_recall",
+      "domain": "narrative",
+      "gate": "동기 문장을 플레이어가 실제로 기억하는가",
+      "why": "각인 검사는 문장이 노출됐는지만 안다. 기억은 사람에게 물어야 한다.",
+      "owner": "ORDER-23",
+      "state": "open"
+    },
+    {
+      "id": "weekly_loop_fun",
+      "domain": "pacing",
+      "gate": "주간 루프가 재미있는가 — 망설임과 전략",
+      "why": "루프 검사는 선택지 수와 도달성을 본다. 망설였는지는 사람만 안다.",
+      "owner": "ORDER-26",
+      "state": "open"
+    },
+    {
+      "id": "cast_silhouette_64px",
+      "domain": "identity",
+      "gate": "64 px 실루엣 — 인물이 64픽셀에서 구분되는가",
+      "why": "서명표는 소품과 모티프의 존재를 센다. 알아보는지는 눈으로 봐야 한다.",
+      "owner": "ORDER-64",
+      "state": "open"
+    },
+    {
+      "id": "cast_scene_ownership",
+      "domain": "identity",
+      "gate": "장면 소유 — 다른 인물로 대체 불가능한 장면을 갖는가",
+      "why": "기계는 인물이 등장하는 장면 수를 센다. 대체 가능한지는 읽어야 안다.",
+      "owner": "ORDER-64",
+      "state": "open"
+    },
+    {
+      "id": "cast_expression_grammar",
+      "domain": "identity",
+      "gate": "표정 문법 — 같은 감정을 인물마다 다르게 연기하는가",
+      "why": "자산 검사는 파일 유무를 본다. 연기의 차이는 나란히 놓고 봐야 안다.",
+      "owner": "ORDER-64",
+      "state": "open"
+    },
+    {
+      "id": "surface_not_cheap",
+      "domain": "surface",
+      "gate": "화면이 싸구려 웹 모달이 아니라 이 게임의 물건으로 보이는가",
+      "why": "surface_coherence는 분열의 흔적을 센다. 세지 못하는 것은 통일된 화면이 좋은가다.",
+      "owner": "ORDER-63",
+      "state": "open"
+    },
+    {
+      "id": "demo_transition_go",
+      "domain": "pacing",
+      "gate": "데모 24주 전환·사람 GO",
+      "why": "1~20주 자동 게이트는 통과했다. 24주가 하나의 이야기로 읽히는지는 판정이 남았다.",
+      "owner": "ORDER-57",
+      "state": "open"
+    },
+    {
+      "id": "ja_native_review",
+      "domain": "localization",
+      "gate": "일본어 원어민 검수",
+      "why": "커버리지 검사는 키 누락과 한글 누출을 잡는다. 자연스러움은 원어민만 안다.",
+      "owner": "ORDER-21",
+      "state": "open"
+    }
+  ]
+}

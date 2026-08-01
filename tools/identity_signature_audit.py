@@ -26,6 +26,9 @@ import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from human_gates import print_pending  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[1]
 SIGNATURE = ROOT / "content" / "meta" / "identity_signature.json"
 PROSE_CANON = ROOT / "docs" / "IP_VISUAL_IDENTITY.md"
@@ -49,12 +52,8 @@ PROP_KEYWORDS = {
     "father": ["23-second", "23초", "debt record", "빚"],
 }
 
-# 자동으로 판정할 수 없는 게이트. 통과 처리하지 않는다.
-HUMAN_GATES = (
-    "64 px silhouette — 인물이 64픽셀에서 구분되는가",
-    "scene ownership — 다른 인물로 대체 불가능한 장면을 갖는가",
-    "expression grammar — 같은 감정을 인물마다 다르게 연기하는가",
-)
+# 사람 게이트는 docs/human_gates.json 이 소유한다. 이 도구가 목록을 들고 있으면
+# 다른 도메인의 검사들과 갈라져, 어디까지가 사람 몫인지 저장소가 두 벌로 답한다.
 
 
 def load_signature() -> dict:
@@ -188,9 +187,7 @@ def main() -> int:
         motif = "모티프 자산 있음" if have.get(cid) else "모티프 자산 없음"
         print(f"    {cid:<{width}}  {count:>3}   {motif}{mark}")
 
-    print("\n  사람 판정 대기 — 자동으로 잴 수 없다. 통과 처리하지 않는다.")
-    for gate in HUMAN_GATES:
-        print(f"    · {gate}")
+    print_pending("identity")
 
     for note in notes:
         print(f"\n  참고: {note}")
