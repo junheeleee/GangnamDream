@@ -73,6 +73,8 @@ Several checks are ratchets with a recorded baseline: `surface_coherence_audit`,
 
 Use only relevant ScreenshotQA scopes while iterating. Treat automated visual/audio checks as contract evidence, not human taste approval.
 
+**A green audit means the contracts held, not that the work is good.** `docs/human_gates.json` lists what no check can decide — every audit that has a gate in its domain prints it as pending and never passes it. Do not report a task finished when its gate is still open; say which gate remains and who owns it. Move a gate to `done` only when a human judged it, and record the evidence — `tools/human_gates.py` fails on a `done` without it, and on a gate whose owning order no longer exists.
+
 ## Close
 
 1. Update the live state in `CLAUDE.md`.

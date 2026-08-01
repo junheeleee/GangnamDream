@@ -4,8 +4,12 @@
 from __future__ import annotations
 
 import json
+import sys
 from dataclasses import dataclass
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from human_gates import print_pending  # noqa: E402
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -195,6 +199,7 @@ def main() -> int:
     if first_meaningful > 5:
         raise ValueError(f"first meaningful choice arrives too late: event {first_meaningful}>5")
 
+    print_pending("pacing")
     print(
         "FIRST_SESSION_PACING_OK "
         f"paths={len(paths)} events={min_events}-{max_events} "

@@ -637,6 +637,22 @@ def markdown() -> str:
     add("플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.")
     add("")
 
+    gates = [g for g in (read_json("docs/human_gates.json") or {}).get("gates", [])
+             if g.get("state") == "open"]
+    add("## 사람만 할 수 있는 판정")
+    add("")
+    add("**초록불은 계약을 지켰다는 뜻이지 좋다는 뜻이 아니다.** 아래는 자동 검사가")
+    add("대신할 수 없어 남아 있는 것이며, 원장은")
+    add("[`human_gates.json`](human_gates.json)이 소유한다.")
+    add("")
+    add("| 판정 | 왜 사람이어야 하나 | 소유 |")
+    add("|---|---|---|")
+    for g in sorted(gates, key=lambda r: (r["domain"], r["id"])):
+        add(f"| {md_escape(g['gate'])} | {md_escape(g['why'])} | `{g['owner']}` |")
+    if not gates:
+        add("| *(열린 게이트 없음)* | | |")
+    add("")
+
     props = proposals()
     add("## 당신의 결정을 기다리는 것")
     add("")
