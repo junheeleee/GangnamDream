@@ -166,6 +166,24 @@ func _check_timed_choice_focus_restore() -> bool:
 	if not scroll.has_theme_stylebox_override("focus"):
 		_fail("Dialogue History scroll focus has no visible style")
 		return false
+	var popup := _story.get("_dialogue_log_popup") as Control
+	if not is_instance_valid(popup):
+		_fail("Dialogue History popup is missing")
+		return false
+	var panel := popup.get_node_or_null("DialogueLogPanel") as Control
+	if not is_instance_valid(panel):
+		_fail("Dialogue History panel is missing")
+		return false
+	var wheel := InputEventMouseButton.new()
+	wheel.button_index = MOUSE_BUTTON_WHEEL_DOWN
+	wheel.pressed = true
+	wheel.position = panel.get_global_rect().get_center()
+	wheel.global_position = wheel.position
+	_story.call("_on_dialogue_log_overlay_input", wheel, panel)
+	await get_tree().process_frame
+	if not is_instance_valid(_story.get("_dialogue_log_popup")):
+		_fail("Dialogue History treated a mouse wheel as a backdrop close")
+		return false
 	var scroll_bar := scroll.get_v_scroll_bar()
 	if is_instance_valid(scroll_bar):
 		scroll.scroll_vertical = int(scroll_bar.max_value)
@@ -174,18 +192,24 @@ func _check_timed_choice_focus_restore() -> bool:
 	down.pressed = true
 	_story.call("_on_dialogue_log_scroll_input", down)
 	await get_tree().process_frame
-	var close_button := _story.get("_dialogue_log_close_button") as Button
-	if not is_instance_valid(close_button) \
-			or get_viewport().gui_get_focus_owner() != close_button:
-		_fail("Dialogue History bottom Down did not focus Close")
+	if get_viewport().gui_get_focus_owner() != scroll:
+		_fail("Dialogue History bottom Down escaped the scroll surface")
 		return false
 	_story.call("_process", 2.0)
 	if int(_story.get("_settings_countdown_remaining_msec")) != paused_remaining \
 			or int(_story.get("_pending_result_choice_index")) != -1:
 		_fail("timed choice advanced behind Dialogue History")
 		return false
-	_story.call("_close_dialogue_log")
+	var backdrop_click := InputEventMouseButton.new()
+	backdrop_click.button_index = MOUSE_BUTTON_LEFT
+	backdrop_click.pressed = true
+	backdrop_click.position = Vector2(1, 1)
+	backdrop_click.global_position = backdrop_click.position
+	_story.call("_on_dialogue_log_overlay_input", backdrop_click, panel)
 	await get_tree().process_frame
+	if is_instance_valid(_story.get("_dialogue_log_popup")):
+		_fail("Dialogue History backdrop left-click did not close")
+		return false
 	var resumed_remaining := int(_story.get("_choice_countdown_deadline_msec")) \
 			- Time.get_ticks_msec()
 	if abs(resumed_remaining - paused_remaining) > 250 \

@@ -1044,8 +1044,10 @@ func _create_story_settings_popup(focus_key: String, play_open_sound: bool) -> v
 		AudioManager.play_ui_open(-12.0)
 
 	var close_from_backdrop := func(event: InputEvent):
-		if event is InputEventMouseButton and event.pressed:
-			_close_audio_settings()
+		if event is InputEventMouseButton:
+			var mouse := event as InputEventMouseButton
+			if mouse.pressed and mouse.button_index == MOUSE_BUTTON_LEFT:
+				_close_audio_settings()
 	overlay.gui_input.connect(close_from_backdrop)
 
 func _add_story_segmented_row(
@@ -1463,11 +1465,24 @@ func _create_dialogue_log_popup() -> void:
 	_dialogue_log_scroll.focus_neighbor_bottom = close_button.get_path()
 	close_button.focus_neighbor_top = _dialogue_log_scroll.get_path()
 
-	overlay.gui_input.connect(func(event: InputEvent):
-		if event is InputEventMouseButton and event.pressed:
-			_close_dialogue_log())
+	overlay.gui_input.connect(_on_dialogue_log_overlay_input.bind(panel))
 	call_deferred("_focus_dialogue_log")
 	call_deferred("_scroll_dialogue_log_to_latest")
+
+func _on_dialogue_log_overlay_input(
+		event: InputEvent, panel: Control) -> void:
+	if not event is InputEventMouseButton:
+		return
+	var mouse := event as InputEventMouseButton
+	# Wheel buttons are scroll input, not backdrop clicks. They may bubble out of
+	# nested labels and the ScrollContainer when the log is already at an edge.
+	if not mouse.pressed or mouse.button_index != MOUSE_BUTTON_LEFT:
+		return
+	if is_instance_valid(panel) \
+			and panel.get_global_rect().has_point(mouse.global_position):
+		return
+	_close_dialogue_log()
+	get_viewport().set_input_as_handled()
 
 func _add_dialogue_log_notice(
 		parent: Control, message: String, palette: Dictionary) -> void:
@@ -1579,14 +1594,7 @@ func _on_dialogue_log_scroll_input(event: InputEvent) -> void:
 		_scroll_dialogue_log_by(-54)
 		_dialogue_log_scroll.accept_event()
 	elif event.is_action_pressed("ui_down"):
-		var bar := _dialogue_log_scroll.get_v_scroll_bar()
-		var maximum := int(maxf(0.0, bar.max_value - bar.page)) \
-				if is_instance_valid(bar) else 0
-		if _dialogue_log_scroll.scroll_vertical >= maximum - 2 \
-				and is_instance_valid(_dialogue_log_close_button):
-			_dialogue_log_close_button.grab_focus()
-		else:
-			_scroll_dialogue_log_by(54)
+		_scroll_dialogue_log_by(54)
 		_dialogue_log_scroll.accept_event()
 	elif event.is_action_pressed("ui_page_up"):
 		_scroll_dialogue_log_by(-360)
@@ -1809,8 +1817,10 @@ func _create_story_save_popup() -> void:
 		button.add_theme_stylebox_override("pressed", focus)
 
 	overlay.gui_input.connect(func(event: InputEvent):
-		if event is InputEventMouseButton and event.pressed:
-			_close_audio_settings())
+		if event is InputEventMouseButton:
+			var mouse := event as InputEventMouseButton
+			if mouse.pressed and mouse.button_index == MOUSE_BUTTON_LEFT:
+				_close_audio_settings())
 	call_deferred("_focus_first_story_save_control")
 
 func _add_story_save_slot_row(
