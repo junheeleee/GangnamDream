@@ -1,4 +1,4 @@
-# Active Queue Spec: ORDER-75
+# Archived Queue Spec: ORDER-75
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
