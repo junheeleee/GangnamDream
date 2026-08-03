@@ -7,6 +7,22 @@
 > 차례로 옮긴다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-03 (Codex — ORDER-68 실행 큐·사람 게이트 수렴)
+
+- 충돌하던 `CLAUDE`·큐·HANDOFF 순서를 `CODEX_QUEUE` 한 곳으로 모았다. 57~67
+  대형 원문은 손실 없이 `queue_backlog/`로 옮기고, 승인된 P-1~P-3과 즉시 출고
+  블로커를 ORDER-69~75의 1~2배치 사양으로 분리했다. 상태/배치 수 불일치는 새
+  `queue_consistency_check.py`가 전체 감사에서 막는다.
+- 사람 게이트를 schema v2로 올려 demo/full scope, 정확한 RC, 표본·환경, 합격
+  기준, 완료 증거의 commit/tree/manifest 결속을 강제했다. V2 이전 `e849a6a`는
+  역사 증거로만 RETIRED했고, 현 후보는 거짓 해시 없이 `waiting_rebuild`다. 동일한
+  구 RC 표본 10건도 `playtest_report.py`가 현 후보와 다르면 거부한다.
+- P-1의 종전 정신력 수열이 필수 사건을 누락한 것도 정정했다. 실제 현 clean
+  생계+성장은 12주 말 종료이며, ORDER-69는 18 kernel·Godot 4 full-route·24→48주
+  이월로 `-1→+1` 승인값을 검증한다.
+- context/queue/dashboard/human-gate/playtest self-test/정적 감사와 diff 검사가
+  통과했다. 자동 검사는 사람의 정상 속도·연속 A/V·재미 GO를 대신하지 않는다.
+
 ## 2026-08-03 (Codex — 최신 메인 재통합·ORDER-57 E 후보 정합 마감)
 
 - `origin/main@ed661ec`를 별도 `codex/order57-e-integration` 작업트리에 두고

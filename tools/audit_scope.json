@@ -8,7 +8,8 @@
     "audit_select.py --verify 가 실패로 보고한다."
   ],
   "always": [
-    "tools/context_manifest_check.py"
+    "tools/context_manifest_check.py",
+    "tools/queue_consistency_check.py"
   ],
   "checks": [
     {
@@ -296,10 +297,11 @@
       ]
     },
     {
-      "tool": "tools/playtest_report.py",
+      "tool": "tools/playtest_report.py --self-test",
       "why": "외부 표본 세션 무결성",
       "paths": [
         "docs/playtest/**",
+        "docs/human_gates.json",
         "tools/playtest_report.py"
       ]
     },
@@ -805,6 +807,7 @@
       "paths": [
         "content/**",
         "docs/CODEX_QUEUE.md",
+        "docs/human_gates.json",
         "docs/STATUS.md",
         "tools/project_dashboard.py",
         "tools/*_baseline.json"
@@ -816,7 +819,21 @@
       "paths": [
         "docs/human_gates.json",
         "docs/CODEX_QUEUE.md",
+        "docs/queue_active/**",
+        "docs/queue_backlog/**",
+        "docs/queue_archive/**",
         "tools/human_gates.py"
+      ]
+    },
+    {
+      "tool": "tools/queue_consistency_check.py",
+      "why": "실행 큐·활성 사양·부팅 문서의 다음 작업과 상태를 한 정본으로 맞춘다",
+      "paths": [
+        "docs/CODEX_QUEUE.md",
+        "docs/queue_active/**",
+        "CLAUDE.md",
+        "docs/HANDOFF.md",
+        "tools/queue_consistency_check.py"
       ]
     },
     {

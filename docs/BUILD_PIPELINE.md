@@ -128,7 +128,22 @@ Windows와 Linux/Deck의 `run` 칸은 아직 미검증이다. macOS 실주행 �
 | Aggregator fixtures | PASS | 10건: 준비/미달/NO-GO/P0/중복/혼합/점수/enum/망설임 저표본·필수 원문 |
 | Human evidence | OPEN | 같은 RC 10명, EN 3명, 경험 양 군, 구체 계획 70% 필요 |
 
-현재 외부 표본 정본은 ORDER-43 본편 오디오 자동 확산 clean RC다. 소스 revision은 `e849a6af2aed4aa1c7fc5a7785f59ac1b7ac952d`, tree는 `95a0674b05987efd62558f7aab09a64df0056042`, 매니페스트 파일 SHA-256은 `26287c8124bb0838dbe2062f5d8072d819b164569162af773c091ad28b644cab`다. 산출물 SHA-256은 Windows `ea0ab3fe50ff2a5038a23c6cd573c94963b0faacfb850e88726ba91c5806111f`, macOS `4495d2424b13bad545870bacc7a460b2764895c20f7d39dd8331a69676e232cd`, Linux·Steam Deck `6858217e11fc6820d00f5be4cacb13e16e7f859ad534aefbfa572449bd95a55a`다. 별도 clean worktree의 fresh import와 `DEMO_BUILD_CHECK_OK`, 세 export, 로컬 복사 뒤 3종 재검산, 격리 HOME의 macOS 패키지 부팅을 통과했다. 이 revision은 사건 1,565개·배경 91종의 오디오 의도와 두 한영 대표 240주 추적을 포함한다. 이후의 큐·RC 원장 커밋은 문서 전용이므로 게임플레이 revision을 바꾸지 않는다. 파일럿 5명과 본표본 10명은 이 매니페스트가 아닌 빌드를 섞지 않는다.
+**현재 V2 외부 표본 RC는 미발급이다.** Core Loop V2 출시 블로커가 main에
+합쳐진 뒤 clean worktree의 `playtest`가 만든 commit/tree/manifest/플랫폼 해시를
+`human_gates.json` 후보 레지스트리에 등록하기 전에는 외부 세션을 모집하지 않는다.
+같은 해시끼리 모였더라도 현재 후보와 다르면 `playtest_report.py`가 거부해야 한다.
+
+**RETIRED — 역사 증거만 보존, 새 세션·현 출시 판정에 사용 금지.** ORDER-43
+본편 오디오 자동 확산 RC의 소스 revision은
+`e849a6af2aed4aa1c7fc5a7785f59ac1b7ac952d`, tree는
+`95a0674b05987efd62558f7aab09a64df0056042`, 매니페스트 파일 SHA-256은
+`26287c8124bb0838dbe2062f5d8072d819b164569162af773c091ad28b644cab`다. 산출물
+SHA-256은 Windows `ea0ab3fe50ff2a5038a23c6cd573c94963b0faacfb850e88726ba91c5806111f`,
+macOS `4495d2424b13bad545870bacc7a460b2764895c20f7d39dd8331a69676e232cd`,
+Linux·Steam Deck `6858217e11fc6820d00f5be4cacb13e16e7f859ad534aefbfa572449bd95a55a`다.
+별도 clean worktree의 fresh import와 `DEMO_BUILD_CHECK_OK`, 세 export, 로컬 복사
+뒤 재검산, 격리 HOME macOS 부팅을 통과한 당시 빌드지만 V2 이전이며 표본은
+`0/10`이다. 이후 게임플레이·콘텐츠가 크게 바뀌었으므로 새 후보를 대신하지 않는다.
 
 자동 게이트는 표본이 `READY_FOR_HUMAN_VERDICT`인지만 판정하며 재미·출시 GO를 선언하지 않는다. Windows와 Linux/Deck의 물리 기기 실행 스모크도 계속 OPEN이다.
 

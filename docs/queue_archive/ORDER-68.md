@@ -2,7 +2,7 @@
 
 > Canonical status is indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-68 [P0·운영 정합] 데모 출시까지 한 줄로 실행되게 만든다
+#### [x] ORDER-68 [P0·운영 정합] 데모 출시까지 한 줄로 실행되게 만든다
 
 **사용자 지시 (2026-08-03):** 누적된 분석과 Claude 작업을 정리하고, 모순을
 해소한 뒤 순서대로 계속 진행한다.
@@ -52,3 +52,18 @@
 - 우선순위·상태 단일 소유권과 사람 게이트 증거 필드는 계속 유효하므로 각 소유
   문서/데이터에 승격한다.
 - 이 오더의 파일 목록과 측정치는 일회성 실행 기록이다.
+
+## 완료 보고 (2026-08-03)
+
+- 우선순위·상태 소유자는 `CODEX_QUEUE.md` 한 곳이며 활성 사양 상태 불일치 `0`.
+- 57~67 부모 원문은 손실 없이 `queue_backlog/`로 옮기고, 지금 실행 가능한
+  ORDER-69~75만 각각 1~2배치로 분리했다.
+- P-1~P-3 사용자 승인을 `DECISIONS.md`와 실행 자식에 옮겨 열린 제안 `0`.
+- 사람 게이트 schema v2가 scope/후보/표본/합격 기준을 강제하며 demo/full RC는
+  거짓 해시 없이 `waiting_rebuild`다. V2 이전 `e849a6a`는 RETIRED로 보존했다.
+- 동일한 구 RC 표본 10건도 현 후보와 다르면 reporter가 거부한다.
+- `context_manifest_check`, `queue_consistency_check`, dashboard freshness,
+  human-gates, playtest self-test, 정적 감사와 `git diff --check` PASS.
+- **승격:** `CODEX_QUEUE.md` 운영 프로토콜 v3·실행 정본 구조,
+  `human_gates.json` schema v2, `BUILD_PIPELINE.md` RC 퇴역 규칙.
+- **일회성:** 기존 오더의 불일치 목록, 이동 파일 목록, 당시 측정치.

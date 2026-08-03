@@ -18,11 +18,17 @@ from collections import Counter
 from pathlib import Path
 from typing import Any, Iterable
 
+try:
+    from human_gates import LedgerValidationError, canonical_active_candidate
+except ModuleNotFoundError:  # package import, e.g. `python -m tools.playtest_report`
+    from tools.human_gates import LedgerValidationError, canonical_active_candidate
+
 
 SCHEMA_VERSION = 2
 STATUS_READY = "READY_FOR_HUMAN_VERDICT"
 STATUS_INCOMPLETE = "INCOMPLETE_SAMPLE"
 STATUS_NO_GO = "NO_GO_REPAIR_REQUIRED"
+CANONICAL_GATE_ID = "external_readthrough"
 
 REQUIRED_FIELDS = {
     "schema_version",
@@ -239,7 +245,10 @@ def validate_session(raw: Any, source: str = "<memory>") -> dict[str, Any]:
     return session
 
 
-def validate_collection(sessions: list[dict[str, Any]]) -> None:
+def validate_collection(
+    sessions: list[dict[str, Any]],
+    expected_candidate: dict[str, Any] | None = None,
+) -> None:
     errors: list[str] = []
     if not sessions:
         errors.append("no sessions supplied")
@@ -257,6 +266,20 @@ def validate_collection(sessions: list[dict[str, Any]]) -> None:
     if len(manifests) != 1:
         errors.append(f"mixed manifest hashes: {', '.join(manifests)}")
 
+    if expected_candidate is not None:
+        expected_revision = expected_candidate.get("commit")
+        expected_manifest = expected_candidate.get("manifest_sha256")
+        if revisions != [expected_revision]:
+            errors.append(
+                "stale or foreign build revision: "
+                f"sessions={', '.join(revisions)} canonical={expected_revision}"
+            )
+        if manifests != [expected_manifest]:
+            errors.append(
+                "stale or foreign manifest: "
+                f"sessions={', '.join(manifests)} canonical={expected_manifest}"
+            )
+
     platform_hashes: dict[str, set[str]] = {}
     for session in sessions:
         platform_hashes.setdefault(session["platform"], set()).add(
@@ -272,7 +295,10 @@ def validate_collection(sessions: list[dict[str, Any]]) -> None:
         raise ValidationFailure(errors)
 
 
-def load_sessions(paths: list[Path]) -> list[dict[str, Any]]:
+def load_sessions(
+    paths: list[Path],
+    expected_candidate: dict[str, Any] | None = None,
+) -> list[dict[str, Any]]:
     sessions: list[dict[str, Any]] = []
     errors: list[str] = []
     for path in paths:
@@ -285,7 +311,7 @@ def load_sessions(paths: list[Path]) -> list[dict[str, Any]]:
             errors.extend(exc.errors)
     if errors:
         raise ValidationFailure(errors)
-    validate_collection(sessions)
+    validate_collection(sessions, expected_candidate)
     return sessions
 
 
@@ -297,8 +323,11 @@ def _nonempty_counts(sessions: list[dict[str, Any]], field: str) -> Counter[str]
     return Counter(session[field] for session in sessions if session[field])
 
 
-def aggregate(sessions: list[dict[str, Any]]) -> dict[str, Any]:
-    validate_collection(sessions)
+def aggregate(
+    sessions: list[dict[str, Any]],
+    expected_candidate: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    validate_collection(sessions, expected_candidate)
     total = len(sessions)
     language_counts = Counter(session["language"] for session in sessions)
     experience_counts = Counter(session["narrative_experience"] for session in sessions)
@@ -459,6 +488,14 @@ def self_test() -> None:
     assert aggregate(ready)["status"] == STATUS_READY
     assert aggregate(ready[:5])["status"] == STATUS_INCOMPLETE
 
+    canonical = {
+        "id": "demo_rc_fixture",
+        "status": "active",
+        "commit": "abcdef0",
+        "manifest_sha256": "a" * 64,
+    }
+    assert aggregate(ready, canonical)["status"] == STATUS_READY
+
     low_hesitation = [dict(session) for session in ready]
     for session in low_hesitation:
         session["hesitated_choice"] = False
@@ -494,6 +531,17 @@ def self_test() -> None:
     except ValidationFailure:
         pass
 
+    stale_uniform = [dict(session) for session in ready]
+    for session in stale_uniform:
+        session["build_revision"] = "1234567"
+        session["manifest_sha256"] = "b" * 64
+    try:
+        validate_collection(stale_uniform, canonical)
+        raise AssertionError("uniform stale release candidate was accepted")
+    except ValidationFailure as exc:
+        assert any("stale or foreign build revision" in error for error in exc.errors)
+        assert any("stale or foreign manifest" in error for error in exc.errors)
+
     invalid = _fixture(1)
     invalid["ui_readability"] = 6
     try:
@@ -519,7 +567,7 @@ def self_test() -> None:
     except ValidationFailure:
         pass
 
-    print("PLAYTEST_REPORT_SELF_TEST_OK cases=10")
+    print("PLAYTEST_REPORT_SELF_TEST_OK cases=11 stale_uniform=blocked")
 
 
 def parse_args() -> argparse.Namespace:
@@ -546,8 +594,12 @@ def main() -> int:
         print("ERROR: supply one or more session JSON files", file=sys.stderr)
         return 2
     try:
-        report = aggregate(load_sessions(args.sessions))
-    except ValidationFailure as exc:
+        candidate = canonical_active_candidate(CANONICAL_GATE_ID)
+        report = aggregate(
+            load_sessions(args.sessions, candidate),
+            candidate,
+        )
+    except (ValidationFailure, LedgerValidationError) as exc:
         for error in exc.errors:
             print(f"ERROR: {error}", file=sys.stderr)
         return 2

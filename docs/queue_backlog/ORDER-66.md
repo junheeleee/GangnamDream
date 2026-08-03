@@ -1,6 +1,11 @@
-# Active Queue Spec: ORDER-66
+# Parent Queue Plan: ORDER-66
 
-> Canonical status is indexed in `docs/CODEX_QUEUE.md`.
+> 최초 진단이 낡은 패키징 부모 계획이다. 기존 버전 표면과 엔딩 크레딧을
+> 재구현하지 않고, 실측 후 남은 공백만 자식 오더로 실행한다.
+>
+> **2026-08-03 정합화:** `BuildInfo.gd`의 게임 버전/빌드 ID, StartMenu 표면,
+> `_ending_build_credits_page()`가 이미 존재한다. 남은 P0는 빌드 flavor와 save
+> metadata의 동일 식별자, stale ID 갱신, 원장 기반 제3자 고지 접근성이다.
 
 #### [ ] ORDER-66 [P1·패키징] 제품으로서 빠진 것
 

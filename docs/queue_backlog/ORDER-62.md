@@ -1,6 +1,11 @@
-# Active Queue Spec: ORDER-62
+# Parent Queue Plan: ORDER-62
 
-> Canonical status is indexed in `docs/CODEX_QUEUE.md`.
+> 기계 축 완료 기록과 제품 판정의 부모 계획이다. 직접 실행하지 않고 데모 범위
+> 자식 오더로 분리한다.
+>
+> **2026-08-03 정합화:** 현재 감사는 고아 스크립트 래칫만 있고 feature ledger를
+> 실제로 읽지 않는다. 데모 도달 기능의 제품 판정과 원장 validator를 먼저 만들며,
+> 정성 삭제·반쪽 기능 완성은 항목별 사용자 승인 전에는 하지 않는다.
 
 #### [~] ORDER-62 [P0·기능 정리] 모든 기능에 킬링포인트가 있는가 — 기계 축 완료
 

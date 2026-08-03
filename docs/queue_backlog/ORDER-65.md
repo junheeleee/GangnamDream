@@ -1,6 +1,11 @@
-# Active Queue Spec: ORDER-65
+# Parent Queue Plan: ORDER-65
 
-> Canonical status is indexed in `docs/CODEX_QUEUE.md`.
+> 데모 뒤 1년·5년 장 마감의 부모 계획이다. 직접 실행하지 않고 장별 자식
+> 오더로 분리한다.
+>
+> **2026-08-03 정합화:** `arc_career_ceiling`은 3장 시작이 아니라 2장 보스와
+> 88~108주 경계다. 노동을 닫는 구현은 직업/빈곤 경로의 대체 생계와 240주
+> 밸런스 계약 없이 넣으면 softlock이므로, 장별 닫힘 계약과 fallback을 먼저 잰다.
 
 #### [ ] ORDER-65 [P1·척추 이행] 장이 닫는다고 한 것을 실제로 닫는다
 

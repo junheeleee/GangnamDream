@@ -1,6 +1,11 @@
-# Active Queue Spec: ORDER-57
+# Parent Queue Plan: ORDER-57
 
-> Canonical status is indexed in `docs/CODEX_QUEUE.md`.
+> 완료 기록과 사람 GO까지의 부모 계획이다. 직접 실행하지 않고
+> `docs/CODEX_QUEUE.md`의 1~2배치 자식 오더로만 실행한다.
+>
+> **2026-08-03 정합화:** A~E 기계 통합은 완료됐지만 제품 E/F는 정신력
+> full-route, 전용 release flavor, 24주 T1과 같은 RC 사람 GO 전까지 미완이다.
+> 종전 정신력 월말 수열은 필수 사건을 누락했으므로 완료 증거로 재사용하지 않는다.
 >
 > **이 파일은 66KB로 활성 오더 상한(16KB)의 유일한 예외다.** A~E 다섯 단계를 한
 > 파일에 담고 있고 A~D는 완료됐다. **E를 닫을 때 완료 단계의 착수 선언·범위 확장·

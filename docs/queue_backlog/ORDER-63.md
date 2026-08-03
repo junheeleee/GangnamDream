@@ -1,6 +1,12 @@
-# Active Queue Spec: ORDER-63
+# Parent Queue Plan: ORDER-63
 
-> Canonical status is indexed in `docs/CODEX_QUEUE.md`.
+> 배치 1·2 완료 기록과 표면 작업의 부모 계획이다. 직접 실행하지 않고 데모
+> 표면 자식 오더로 분리한다.
+>
+> **2026-08-03 정합화:** 완료된 것은 계측기와 `SURFACE_MATERIAL` 정본뿐이며 화면
+> 자체는 아직 바뀌지 않았다. 감사의 0개 theme resource 통과와 서로 다른 분모·
+> 60색 런타임 팔레트 문제를 먼저 바로잡고, 데모 UI 이음새 추출 뒤 theme 단일
+> 출처를 적용한다.
 
 #### [~] ORDER-63 [P1·표면] 화면이 하나의 언어를 갖는다 — 배치 1·2 완료
 

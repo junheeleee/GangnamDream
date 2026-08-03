@@ -1,6 +1,12 @@
-# Active Queue Spec: ORDER-61
+# Parent Queue Plan: ORDER-61
 
-> Canonical status is indexed in `docs/CODEX_QUEUE.md`.
+> 서로 독립인 출시 공백의 부모 계획이다. 직접 실행하지 않고 도메인별 자식
+> 오더로 분리한다.
+>
+> **2026-08-03 정합화:** 도박 표면은 미니게임 네 파일이 아니라 카지노 허브·테이블·
+> 직접 진입 전체이며 demo export는 `all_resources`라 미도달 자산도 패키지에 든다.
+> 오디오 방향은 `AUDIO_QA`와 오디오 manifest에 이미 있다. 심의 인벤토리,
+> 접근성, 저장, 성능, 오디오, 리스크를 서로 다른 자식으로 다룬다.
 
 #### [ ] ORDER-61 [P1·정본 공백] 심의·접근성·저장·성능·오디오 방향·리스크
 

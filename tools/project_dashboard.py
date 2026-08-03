@@ -607,6 +607,55 @@ def md_escape(s: str) -> str:
     return str(s).replace("|", "\\|").replace("\n", " ").strip()
 
 
+def human_gate_ledger() -> dict[str, Any]:
+    data = read_json("docs/human_gates.json")
+    return data if isinstance(data, dict) else {}
+
+
+def human_gate_scope(gate: dict) -> str:
+    scope = gate.get("scope", {})
+    if not isinstance(scope, dict):
+        return "범위 오류"
+    blocks = scope.get("blocks", [])
+    block_text = ", ".join(str(value) for value in blocks) if isinstance(blocks, list) else ""
+    content = str(scope.get("content", ""))
+    return f"{block_text} · {content}".strip(" ·") or "범위 미기록"
+
+
+def human_gate_candidate(ledger: dict, gate: dict) -> str:
+    revision_id = str(gate.get("revision", ""))
+    candidates = ledger.get("release_candidates", {})
+    candidate = candidates.get(revision_id, {}) if isinstance(candidates, dict) else {}
+    if not isinstance(candidate, dict):
+        return f"{revision_id or '후보 없음'} · 상태 오류"
+    if candidate.get("status") == "active":
+        commit = str(candidate.get("commit", ""))[:8]
+        manifest = str(candidate.get("manifest_sha256", ""))[:8]
+        return f"{revision_id} · ACTIVE {commit} / manifest {manifest}"
+    if candidate.get("status") == "waiting_rebuild":
+        return f"{revision_id} · REBUILD 대기"
+    return f"{revision_id or '후보 없음'} · 상태 오류"
+
+
+def human_gate_sample(gate: dict, separator: str = " · ") -> str:
+    sample = gate.get("sample", {})
+    if not isinstance(sample, dict):
+        return "표본 오류"
+    cohort = str(sample.get("cohort", ""))
+    requirements = sample.get("requirements", [])
+    rows = [cohort] if cohort else []
+    if isinstance(requirements, list):
+        rows.extend(str(value) for value in requirements if value)
+    return separator.join(rows) or "표본 미기록"
+
+
+def human_gate_acceptance(gate: dict, separator: str = " · ") -> str:
+    acceptance = gate.get("acceptance", [])
+    if not isinstance(acceptance, list):
+        return "합격 기준 오류"
+    return separator.join(str(value) for value in acceptance if value) or "합격 기준 미기록"
+
+
 def markdown() -> str:
     """GitHub이 그대로 렌더하는 현황 문서.
 
@@ -637,20 +686,34 @@ def markdown() -> str:
     add("플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.")
     add("")
 
-    gates = [g for g in (read_json("docs/human_gates.json") or {}).get("gates", [])
-             if g.get("state") == "open"]
+    gate_ledger = human_gate_ledger()
+    gate_source = gate_ledger.get("gates", [])
+    gates = [
+        gate for gate in gate_source
+        if isinstance(gate, dict) and gate.get("state") == "open"
+    ] if isinstance(gate_source, list) else []
     add("## 사람만 할 수 있는 판정")
     add("")
     add("**초록불은 계약을 지켰다는 뜻이지 좋다는 뜻이 아니다.** 아래는 자동 검사가")
     add("대신할 수 없어 남아 있는 것이며, 원장은")
     add("[`human_gates.json`](human_gates.json)이 소유한다.")
     add("")
-    add("| 판정 | 왜 사람이어야 하나 | 소유 |")
-    add("|---|---|---|")
-    for g in sorted(gates, key=lambda r: (r["domain"], r["id"])):
-        add(f"| {md_escape(g['gate'])} | {md_escape(g['why'])} | `{g['owner']}` |")
+    add("| 범위 | 판정 | 후보 | 표본·환경 | 합격 기준 | 소유 |")
+    add("|---|---|---|---|---|---|")
+    for g in sorted(gates, key=lambda r: (human_gate_scope(r), r.get("domain", ""), r.get("id", ""))):
+        verdict = (
+            f"**{md_escape(g.get('gate', '이름 없음'))}**<br>"
+            f"<sub>{md_escape(g.get('why', ''))}</sub>"
+        )
+        sample = md_escape(human_gate_sample(g, "<br>"))
+        acceptance = md_escape(human_gate_acceptance(g, "<br>"))
+        add(
+            f"| {md_escape(human_gate_scope(g))} | {verdict} | "
+            f"`{md_escape(human_gate_candidate(gate_ledger, g))}` | {sample} | "
+            f"{acceptance} | `{md_escape(g.get('owner', ''))}` |"
+        )
     if not gates:
-        add("| *(열린 게이트 없음)* | | |")
+        add("| *(열린 게이트 없음)* | | | | | |")
     add("")
 
     props = proposals()
@@ -807,12 +870,35 @@ def build() -> str:
     cst = cast()
     bundles = demo_bundles()
     dom = dominant_choices(by)
+    gate_ledger = human_gate_ledger()
+    gate_source = gate_ledger.get("gates", [])
+    gates = [
+        gate for gate in gate_source
+        if isinstance(gate, dict) and gate.get("state") == "open"
+    ] if isinstance(gate_source, list) else []
 
     order_rows = "".join(
         f'<tr><td class="mono nb">{html.escape(o["id"])}</td>'
         f'<td>{html.escape(o["title"])}</td>'
         f'<td><span class="pill {"run" if o["state"]=="진행" else "todo"}">{o["state"]}</span></td>'
         f'<td>{html.escape(o["gate"])[:210]}</td></tr>' for o in ords)
+
+    human_gate_rows = "".join(
+        f'<tr><td>{html.escape(human_gate_scope(gate))}</td>'
+        f'<td><strong>{html.escape(str(gate.get("gate", "이름 없음")))}</strong><br>'
+        f'<span style="color:var(--faint)">{html.escape(str(gate.get("why", "")))}</span></td>'
+        f'<td><span class="pill {"run" if "ACTIVE" in human_gate_candidate(gate_ledger, gate) else "todo"}">'
+        f'{html.escape(human_gate_candidate(gate_ledger, gate))}</span></td>'
+        f'<td>{html.escape(human_gate_sample(gate)).replace(" · ", "<br>")}</td>'
+        f'<td>{html.escape(human_gate_acceptance(gate)).replace(" · ", "<br>")}</td>'
+        f'<td class="mono nb">{html.escape(str(gate.get("owner", "")))}</td></tr>'
+        for gate in sorted(
+            gates,
+            key=lambda row: (human_gate_scope(row), row.get("domain", ""), row.get("id", "")),
+        )
+    )
+    if not human_gate_rows:
+        human_gate_rows = '<tr><td colspan="6" class="empty">열린 게이트 없음</td></tr>'
 
     chapter_cards = "".join(
         f'<div class="chapter"><h3>{c["n"]}장 · {html.escape(c["title"])}'
@@ -867,6 +953,15 @@ def build() -> str:
   <p class="lede">왼쪽 띠가 있는 항목은 래칫 검사가 지키는 값이다. 색은 좋고 나쁨이지
   강조가 아니다.</p>
   {tiles(metrics(by, index, dom))}
+</section>
+
+<section>
+  <h2>사람만 할 수 있는 판정</h2>
+  <p class="lede"><strong>초록불은 계약을 지켰다는 뜻이지 좋다는 뜻이 아니다.</strong>
+  범위·후보·표본·합격 기준이 같은 행에서 확인돼야 사람 판정을 출시 근거로 쓸 수 있다.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>범위</th><th>판정</th><th>후보</th><th>표본·환경</th><th>합격 기준</th><th>소유</th></tr></thead>
+    <tbody>{human_gate_rows}</tbody></table></div>
 </section>
 
 <section>

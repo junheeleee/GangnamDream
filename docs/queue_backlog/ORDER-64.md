@@ -1,6 +1,12 @@
-# Active Queue Spec: ORDER-64
+# Parent Queue Plan: ORDER-64
 
-> Canonical status is indexed in `docs/CODEX_QUEUE.md`.
+> 배치 1·2 완료 기록과 전 구간 서명 작업의 부모 계획이다. 직접 실행하지 않고
+> 데모/전 구간 자식 오더로 분리한다.
+>
+> **2026-08-03 정합화:** 서명표·감사 배선은 완료됐지만 알려진 5결함은 합격이
+> 아니라 악화 방지 래칫이다. 구조화된 object ID 없이 반복 소품을 자동 탐지한다고
+> 약속하지 않는다. 데모 인물 모티프/비교 시트와 전 자산 provenance/continuity를
+> 분리한다.
 
 #### [~] ORDER-64 [P1·서명] 개성은 그리는 것이 아니라 되풀이하는 것이다 — 배치 1·2 완료
 

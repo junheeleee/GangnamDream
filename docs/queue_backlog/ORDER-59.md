@@ -1,6 +1,12 @@
-# Active Queue Spec: ORDER-59
+# Parent Queue Plan: ORDER-59
 
-> Canonical status is indexed in `docs/CODEX_QUEUE.md`.
+> 부모 계획이다. 직접 실행하지 않고 `docs/CODEX_QUEUE.md`의 작은 자식 오더로
+> 분리한 뒤 실행한다.
+>
+> **2026-08-03 정합화:** 현 데이터는 루트 `requires/sets`가 아니라
+> `logic.requires/logic.choice_produces`를 쓴다. `speakers + common references`는
+> 어느 화자가 어느 사실을 아는지 증명하지 못하므로 채택하지 않는다. 신규 데모
+> 장면용 화자별 최소 스키마를 먼저 만들고 1,581건 전면 백필은 데모 뒤로 둔다.
 
 #### [ ] ORDER-59 [P0·정합 기반] 지식 원장 · 다은 phase · 규칙 기반 화계
 

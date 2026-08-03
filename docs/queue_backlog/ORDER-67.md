@@ -1,6 +1,13 @@
-# Active Queue Spec: ORDER-67
+# Parent Queue Plan: ORDER-67
 
-> Canonical status is indexed in `docs/CODEX_QUEUE.md`.
+> 전 구간 구조 개선의 부모 계획이다. 직접 실행하지 않고 데모 UI를 실제로
+> 막는 이음새만 먼저 작은 자식 오더로 분리한다.
+>
+> **2026-08-03 정합화:** E 통합 뒤 `MainGame.gd`와 전체 GDScript 수치는 원문의
+> 기준보다 커졌고, `_next_arc_id`·`_month_narration`은 GameState를 읽으며
+> `_build_display_settings`는 Control을 생성해 순수함수가 아니다. 7,267줄 일괄
+> 이동은 테마를 직접 풀지 않으므로 금지하고, 계측 뒤 데모 UI 한 응집 덩어리만
+> 무행동 추출한다.
 
 #### [ ] ORDER-67 [P2·구조] 한 파일이 전부인 상태를 끝낸다
 

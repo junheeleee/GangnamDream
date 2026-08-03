@@ -23,6 +23,7 @@
     },
     "never_default_load": [
       "docs/history/*.md",
+      "docs/queue_backlog/*.md",
       "docs/queue_archive/*.md",
       "docs/archive/*.md",
       "docs/RELEASE_NOTES.md",
@@ -36,10 +37,8 @@
     "active_order": {
       "glob": "docs/queue_active/*.md",
       "max_bytes": 16000,
-      "_comment": "활성 오더는 Codex가 매 세션 통째로 읽는다. 넘으면 완료 단계를 queue_archive/ 로 내리거나 오더를 나눈다.",
-      "exceptions": {
-        "docs/queue_active/ORDER-57.md": "A~E 다섯 단계를 한 파일에 담고 있고 A~D가 완료됐다. E 마감 시 완료 단계를 queue_archive/ORDER-57_log.md 로 내려 예외를 없앤다"
-      }
+      "_comment": "활성 오더는 Codex가 매 세션 통째로 읽는다. 넘으면 완료 단계를 queue_archive/ 로 내리거나 부모 계획을 queue_backlog/ 로 옮기고 실행 조각을 나눈다.",
+      "exceptions": {}
     }
   },
   "authority_order": [
@@ -269,7 +268,8 @@
       "docs/POST_LAUNCH_NOTES.md",
       "docs/ROADMAP.md",
       "docs/ROMANCE_T0_ASSET_JOBS.md",
-      "docs/TECH_DEBT.md"
+      "docs/TECH_DEBT.md",
+      "docs/queue_backlog/*.md"
     ],
     "production": [
       "docs/ASSETS_BRIEF.md",
@@ -330,6 +330,7 @@
     "docs/CONTEXT_INDEX.md",
     "docs/CODEX_QUEUE.md",
     "docs/queue_active/*.md",
+    "docs/queue_backlog/*.md",
     ".codex/skills/gangnamdream-dev/SKILL.md"
   ],
   "invariants": [
