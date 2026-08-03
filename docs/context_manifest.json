@@ -349,8 +349,8 @@
     {
       "path": "docs/CORE_LOOP_V2.md",
       "must_contain": [
-        "월별 도달 가능 authored 슬롯은 최소 2개이며, 다섯·여섯 번째 달은 최소 3개다.",
-        "생계 중심 경로의 월별 도달 가능 authored 슬롯은 최소 1개다.",
+        "주요 장면 수에는 목표·하한·상한을 두지 않는다.",
+        "수를 맞추려고 얕은 사건을 전경으로 올리지 않으며",
         "authored 판정은 `existing_roots` 또는 `planned_scene_id`가 실제 등록 사건으로"
       ]
     },
