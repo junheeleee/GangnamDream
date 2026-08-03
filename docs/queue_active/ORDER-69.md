@@ -2,7 +2,13 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-69 [P0·밸런스] 24주 합법 경로가 정점 전에 무너지지 않게 한다
+#### [~] ORDER-69 [P0·밸런스] 24주 합법 경로가 정점 전에 무너지지 않게 한다
+
+**착수 파일:** `content/meta/demo_core_loop_v2.json`,
+`tools/demo_core_loop_v2_audit.py`, `tools/core_loop_v2_balance_sim.py`,
+`tools/CoreLoopV2ECheck.gd`, `tools/CoreLoopV2HandoffCheck.gd`,
+`scenes/MainGame.gd`, `docs/BALANCE.md`, `docs/CORE_LOOP_V2.md`,
+`docs/QA_CHECKLIST.md`와 큐/증거 문서.
 
 **사용자 승인 (2026-08-03):** `PROPOSALS.md` P-1 권고대로 진행한다.
 

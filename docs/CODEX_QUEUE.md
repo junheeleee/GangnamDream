@@ -59,7 +59,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [ ] | ORDER-69 · 24주 정신력 생존성 | [ORDER-69](queue_active/ORDER-69.md) | P-1 승인. 시작값부터 clean/dirty·세 루틴을 정적+Godot로 잠금 |
+| 1 | [~] | ORDER-69 · 24주 정신력 생존성 | [ORDER-69](queue_active/ORDER-69.md) | **착수 —** V2 루틴 원장·full-route 시뮬/런타임·월말 포기 game-over·24→48주 이월 |
 | 2 | [ ] | ORDER-70 · V2 playtest release flavor | [ORDER-70](queue_active/ORDER-70.md) | P-2 승인. retail 기본값 유지·진입/표식/세이브 분리 |
 | 3 | [ ] | ORDER-71 · 영어 유혹 선택지 중립 | [ORDER-71](queue_active/ORDER-71.md) | 수치·후속 없이 영어 도덕 자기선언만 제거 |
 | 4 | [ ] | ORDER-72 · 심의·스토어 콘텐츠 인벤토리 | [ORDER-72](queue_active/ORDER-72.md) | export 포함 범위를 실측. 최종 등급·삭제는 사용자 결정 |
