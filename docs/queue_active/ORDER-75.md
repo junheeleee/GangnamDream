@@ -2,11 +2,53 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-75 [P0·정점] 24주 첫 청구서를 데모 전용 T1으로 완성한다
+#### [~] ORDER-75 [P0·정점] 24주 첫 청구서를 데모 전용 T1으로 완성한다
 
 **사용자 승인 (2026-08-03):** `PROPOSALS.md` P-3의 데모 T1 등록과 기존
 8방향 선택·효과·영수증 보존 범위는 승인됐다. P-3의 고정 비트 수는 이후
 사용자 지시가 폐기했으며, 숫자 할당량 없는 한 편의 깊은 연속 장면으로 진행한다.
+
+> 착수 — 새 진입 루트와 필요한 내부 링크만 추가한다. 기존
+> `v2_demo_first_bill`은 8방향 결정과 27·28·48주 영수증을 계속 소유한다.
+> 구현 링크에는 같은 제목·로그·장소·음악을 유지하고
+> `continuous_scene_fragment`를 붙여 갤러리·올해의 장면에는 진입 루트 하나만
+> 남긴다. 링크·패널·독해 시간은 목표값이 아니라 완성 뒤 관측값이다.
+>
+> 배치 A 파일 — 원고·상태·연속성:
+> `content/events/core_loop_v2_events.json`,
+> `content/events_en/core_loop_v2_events.json`,
+> `content/meta/demo_core_loop_v2.json`, `content/meta/narrative_spine.json`,
+> `content/meta/story_rules.json`, `systems/DemoCoreLoopV2.gd`,
+> `autoloads/GameState.gd`, `autoloads/DataRegistry.gd`,
+> `scenes/StoryMode.gd`, `tools/audit.py`,
+> `tools/demo_core_loop_v2_audit.py`, `tools/CoreLoopV2ECheck.gd`,
+> `tools/CoreLoopV2HandoffCheck.gd`, `tools/ManualSaveCheck.gd`,
+> `tools/ModLayerCheck.gd`, `tools/BGMContinuityCheck.gd`,
+> `tools/ScreenshotQA.gd`, `tools/audit_scope.json`.
+>
+> 배치 B 파일 — 전용 연출·출시 원장:
+> `assets/backgrounds/v2_first_bill_desk_closeup.png`,
+> `assets/backgrounds/v2_first_bill_desk_closeup.png.import`,
+> `assets/characters/main_character_first_bill_decision.png`,
+> `assets/characters/main_character_first_bill_decision.png.import`,
+> `autoloads/ImageRegistry.gd`, `content/meta/cast_visual_years.json`,
+> `assets/FIRST_BILL_VISUAL_BIBLE.md`, `assets/GOSHIWON_VISUAL_BIBLE.md`,
+> `assets/CHARACTER_VISUAL_BIBLE.md`, `assets/IMAGE_PROMPTS.md`,
+> `assets/ASSET_INDEX.md`, `assets/event_visual_contracts.json`,
+> `assets/scene_audio_manifest.json`, `assets/scene_direction_manifest.json`,
+> `tools/scene_direction_catalog.py`,
+> `assets/mod_asset_manifest.json`, `docs/MODDING.md`,
+> `docs/ART_AI_AUDIT.md`, `tools/art_resolution_baseline.json`,
+> `content/meta/release_content_inventory.json`,
+> `docs/CONTENT_RATING_INVENTORY.md`.
+>
+> 종료 파일 — `CLAUDE.md`, `docs/CODEX_QUEUE.md`,
+> `docs/CORE_LOOP_V2.md`, `docs/CHOICE_CONSEQUENCE_SYSTEM.md`,
+> `docs/PROPOSALS.md`, `docs/QA_CHECKLIST.md`, `docs/DEMO_FIXLOG.md`,
+> `docs/WORK_LOG.md`, `docs/RELEASE_NOTES.md`, `docs/STATUS.md`,
+> `docs/queue_active/ORDER-75.md`, `docs/queue_archive/ORDER-75.md`.
+> `MainGame.gd`, `SaveManager.gd`, `project.godot`, 48주 보스·엔딩·밸런스 수치는
+> 이 작업에서 바꾸지 않는다.
 
 ## 깊이 3문
 
@@ -34,6 +76,12 @@
   결정이 소유한다.
 - 구현 노드가 여러 개여도 중간 제목·입장 전환·대화 로그·장소·음악을 불필요하게
   다시 시작하지 않는다. 짧은 독립 카드 여러 장으로 분해하면 실패다.
+- 실제 `candidate_ids`만 증거·선택·후일담에 쓴다. 후보가 아닌 사람·서류·약속을
+  산문에 발명하지 않고, 도시 작업표와 야간 대타처럼 시간이 지나 사라진 길은
+  단순한 `미룸`이 아니라 `마감을 놓친 일`로 구분한다.
+- 체력 5에서 `urgent_paid_shift`로 건강 0이 되는 기존 번아웃 경로만 공통
+  수첩·토요일·25주 여운에 합류시키지 않는다. 그 밖의 생존 경로는 같은 후일담이
+  실제 선택·미선택 영수증을 읽는다.
 
 ## 배치 B — 전용 연출 자산과 계약
 
@@ -47,6 +95,7 @@
 
 - 모든 경로가 위 장면 기능과 한 장면 연속성을 충족하며 독립 1링크 카드 연속 `0`
 - 표현 선택을 쓴 경로: 선택별 고유 반응 PASS, 신규 수치/플래그 `0`
+- 표현 선택 전후 `GameState.serialize()` diff `0`, V2 영수증·주간 약속 diff `0`
 - 기존 8선택 효과/영수증 diff: `0`
 - 모든 경로의 공통 후속이 실제 선택·미선택 영수증을 읽음
 - 신규 자산 continuity/계약/KO·EN 렌더: PASS
