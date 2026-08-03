@@ -189,9 +189,14 @@ func _check_third_party_notices(menu: Control) -> void:
 	_expect(is_instance_valid(scroll) and scroll.size.x > 400.0
 			and scroll.size.y > 160.0,
 		"Notice reference area does not fit the current viewport.")
+	var focus_frame := overlay.find_child(
+		"ThirdPartyNoticesScrollFrame", true, false) as Panel
 	_expect(is_instance_valid(scroll)
 			and bool(scroll.get_meta("third_party_notice_scroll_focus", false))
-			and scroll.has_theme_stylebox_override("focus"),
+			and scroll.focus_mode == Control.FOCUS_ALL
+			and is_instance_valid(focus_frame)
+			and focus_frame.has_theme_stylebox_override("panel")
+			and focus_frame.has_meta("third_party_notice_focus_active"),
 		"Notice scroll area has no visible controller-focus contract.")
 	menu.call("_close_third_party_notices")
 	await get_tree().process_frame
