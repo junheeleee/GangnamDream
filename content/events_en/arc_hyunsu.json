@@ -43,15 +43,20 @@
   {
     "id": "hyunsu_result_fail",
     "title": "Hyunsu Didn't Pass",
-    "description": "Hyunsu hadn't come out of his room in three days.\n\nIt had been three days, too, since the sound of boiling ramyeon water had disappeared from the shared kitchen. Only light leaked from under his door. That it was on — that was all there was to go by.\n\n{name} stood in front of that door, a convenience store bag in hand. One wall away, four years had ended.\n\nShould he knock. He raised his hand, lowered it, raised it again.",
+    "description": "On Monday, when the result was posted, one Kakao message arrived from Hyunsu.\n\n“Hyung, I didn't pass.”\n\nFor the next three days, Hyunsu did not leave his room. The sound of ramyeon water boiling disappeared from the shared kitchen. {name} went to Hyunsu's goshiwon with a convenience-store bag. Only light leaked from under the door.\n\nShould he knock? He raised his hand, lowered it, then raised it again.",
+    "description_memory_if_known": {
+      "relationship_memory:hyunsu:hyunsu_exam_eve_one_problem": "Standing at the door, {name} remembers the problem photo they reviewed over Kakao on the final Sunday before the exam. Hyunsu had said he would finish that one problem and sleep.",
+      "relationship_memory:hyunsu:hyunsu_exam_eve_rest_protected": "Standing at the door, {name} remembers Hyunsu's reply from the final Sunday before the exam: “Okay. I'll set my alarm and lie down. You sleep too, hyung.”",
+      "future_story_source:hyunsu_exam_2026:hyunsu_exam_eve_unanswered": "On the final Sunday before the exam, {name} did not answer Hyunsu's Kakao message. Standing outside the door now, he remembers the problem photo that remained on the screen that night."
+    },
     "choices": [
       {
         "text": "Knock on the door",
-        "result_text": "After a long while, the door opened.\n\nHyunsu's eyes were swollen. On the floor, a workbook lay open where it had fallen — as if he hadn't had the strength to close it.\n\nNeither of them said much. {name} took two drinks out of the bag and held one out. Hyunsu took it. The sound of the can opening rang strangely loud in the small room.\n\nThat was enough. Sometimes that's everything."
+        "result_text": "After a long while, the door opened.\n\nHyunsu's eyes were swollen. An open workbook lay on the floor.\n\n{name} took two drinks out of the bag and held one out. Hyunsu took it. The sound of the can opening rang strangely loud in the small room.\n\nThey sat without speaking until both cans were empty."
       },
       {
         "text": "Leave him be — he probably wants to be alone",
-        "result_text": "On the fourth day, Hyunsu came out.\n\nWithout a word, he washed his face at the sink for a long time. The water stopped, and there was the stillness of someone standing in front of the mirror a moment.\n\nHis eyes met {name}'s in the hallway. Hyunsu gave a small nod.\n\nWhether it meant he was okay, or that he still didn't know — {name} chose not to ask. Believing that this, too, was one way of staying near."
+        "result_text": "{name} left without knocking, still carrying the convenience-store bag.\n\nOn the fourth day, he visited the goshiwon again and found Hyunsu washing his face for a long time at the shared sink. When the water stopped, their eyes met in the hallway. Hyunsu gave a small nod.\n\n{name} nodded back. He asked nothing that day."
       }
     ]
   },

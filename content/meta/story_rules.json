@@ -2747,6 +2747,215 @@
         "remote_actor": "cafe_investor",
         "portrait_role": "local"
       }
+    },
+    "v2_father_health_signal": {
+      "logic": {
+        "requires": [
+          {
+            "fact": "father.life",
+            "is": "alive"
+          }
+        ],
+        "produces": [
+          {
+            "fact": "father.life",
+            "set": "concern"
+          }
+        ],
+        "legacy": {
+          "forbids_flags": [
+            "arc_father_02_done",
+            "father_passed"
+          ],
+          "produces_all": [
+            "arc_father_02_done"
+          ]
+        }
+      },
+      "presentation": {
+        "channel": "message",
+        "state": "received",
+        "scene_location": "current_housing",
+        "remote_location": "changwon",
+        "remote_actor": "neighbor_choi",
+        "portrait_role": "none",
+        "nameplate_role": "hidden",
+        "expected_background": "current_housing",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "v2_dodam_result_message": {
+      "presentation": {
+        "channel": "message",
+        "state": "received",
+        "scene_location": "current_housing",
+        "remote_location": "dodam_customer_center",
+        "remote_actor": "dodam_recruiting",
+        "portrait_role": "none",
+        "nameplate_role": "hidden",
+        "expected_background": "current_housing",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "v2_city_service_work_sample_message": {
+      "presentation": {
+        "channel": "message",
+        "state": "received",
+        "scene_location": "current_housing",
+        "remote_location": "city_facilities_office",
+        "remote_actor": "city_facilities_recruiting",
+        "portrait_role": "none",
+        "nameplate_role": "hidden",
+        "expected_background": "current_housing",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "v2_city_service_result_message": {
+      "logic": {
+        "legacy": {
+          "forbids_flags": [
+            "v2_city_service_result_seen"
+          ],
+          "produces_all": [
+            "v2_city_service_result_seen"
+          ]
+        }
+      },
+      "presentation": {
+        "channel": "message",
+        "state": "received",
+        "scene_location": "current_housing",
+        "remote_location": "city_facilities_office",
+        "remote_actor": "city_facilities_recruiting",
+        "portrait_role": "none",
+        "nameplate_role": "hidden",
+        "expected_background": "current_housing",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "v2_daeun_tuesday_followthrough": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "convenience_store",
+        "participants": [
+          "player",
+          "daeun"
+        ],
+        "participant_roles": {
+          "player": "customer",
+          "daeun": "clerk"
+        },
+        "portrait_role": "present",
+        "nameplate_role": "hidden",
+        "expected_background": "convenience_night",
+        "expected_portrait": "daeun_smile",
+        "expected_ambience": "convenience"
+      }
+    },
+    "v2_hyunsu_exam_eve": {
+      "presentation": {
+        "channel": "message",
+        "state": "received",
+        "scene_location": "current_housing",
+        "remote_location": "hyunsu_current_room",
+        "remote_actor": "hyunsu",
+        "portrait_role": "none",
+        "nameplate_role": "hidden",
+        "expected_background": "current_housing",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "v2_hyunsu_exam_morning_echo": {
+      "logic": {
+        "legacy": {
+          "forbids_flags": [
+            "hyunsu_exam_day_seen"
+          ],
+          "produces_all": [
+            "hyunsu_exam_day_seen"
+          ]
+        }
+      },
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": [
+          "player"
+        ],
+        "portrait_role": "local",
+        "nameplate_role": "hidden",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_offduty_neutral",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "v2_dirty_trace_initial_call": {
+      "logic": {
+        "legacy": {
+          "requires_flags": [
+            "escaped_dirty_money"
+          ]
+        }
+      },
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "police_cyber_investigation_office",
+        "remote_actor": "police_investigator",
+        "portrait_role": "none",
+        "nameplate_role": "hidden",
+        "expected_background": "current_housing",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "v2_dirty_recruiter_week24": {
+      "logic": {
+        "legacy": {
+          "requires_flags": [
+            "fell_to_darkness"
+          ]
+        }
+      },
+      "presentation": {
+        "channel": "message",
+        "state": "received",
+        "scene_location": "current_housing",
+        "remote_location": "off_scene",
+        "remote_actor": "dirty_account_recruiter",
+        "portrait_role": "none",
+        "nameplate_role": "hidden",
+        "expected_background": "current_housing",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "v2_gangnam_receipt_walk": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "gangnam_station_street",
+        "participants": [
+          "player"
+        ],
+        "portrait_role": "local",
+        "nameplate_role": "hidden",
+        "expected_background": "gangnam_night",
+        "expected_portrait": "player_normal",
+        "expected_ambience": "street"
+      }
+    },
+    "v2_demo_first_bill": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": [
+          "player"
+        ],
+        "portrait_role": "local",
+        "nameplate_role": "hidden",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_offduty_neutral",
+        "expected_ambience": "current_housing"
+      }
     }
   }
 }

@@ -2830,10 +2830,51 @@ func _story_memory_condition_matches(condition_key: String) -> bool:
 					or not DEMO_CORE_LOOP_V2.has_relationship_memory(
 						character_id, memory_id):
 				return false
+		elif condition.begins_with("future_story_source:"):
+			var source_key := condition.trim_prefix(
+				"future_story_source:")
+			var separator := source_key.find(":")
+			if separator <= 0 \
+					or separator >= source_key.length() - 1:
+				return false
+			var receipt_id := source_key.substr(
+				0, separator).strip_edges()
+			var source_id := source_key.substr(
+				separator + 1).strip_edges()
+			if receipt_id.is_empty() or source_id.is_empty() \
+					or not DEMO_CORE_LOOP_V2.future_story_source_matches(
+						receipt_id, source_id):
+				return false
+		elif condition.begins_with("obligation_receipt:"):
+			var receipt_key := condition.trim_prefix(
+				"obligation_receipt:")
+			var parts := receipt_key.split(":", false)
+			if parts.size() != 3:
+				return false
+			var bundle_id := str(parts[0]).strip_edges()
+			var disposition := str(parts[1]).strip_edges()
+			var obligation_id := str(parts[2]).strip_edges()
+			if bundle_id.is_empty() or obligation_id.is_empty() \
+					or not DEMO_CORE_LOOP_V2.obligation_receipt_matches(
+						bundle_id, obligation_id, disposition):
+				return false
 		elif condition.is_empty() \
 				or not GameState.flags.get(condition, false):
 			return false
 	return true
+
+func _obligation_condition_disposition(condition_key: String) -> String:
+	for raw_condition in condition_key.split("&", false):
+		var condition := str(raw_condition).strip_edges()
+		if not condition.begins_with("obligation_receipt:"):
+			continue
+		var parts := condition.trim_prefix(
+			"obligation_receipt:").split(":", false)
+		if parts.size() == 3:
+			var disposition := str(parts[1]).strip_edges().to_lower()
+			if disposition in ["selected", "deferred"]:
+				return disposition
+	return ""
 
 func _resolved_story_description(event: Dictionary) -> String:
 	var desc_raw: String = str(event.get("description", ""))
@@ -2870,12 +2911,24 @@ func _resolved_story_description(event: Dictionary) -> String:
 		desc_raw = str(event["description_unorthodox"])
 	var memory_map = event.get("description_memory_if_known", null)
 	if memory_map is Dictionary:
+		var ordinary_memory_added := false
+		var obligation_dispositions_added: Dictionary = {}
 		for condition_key in memory_map.keys():
 			if _story_memory_condition_matches(str(condition_key)):
 				var memory_text := str(memory_map[condition_key]).strip_edges()
-				if not memory_text.is_empty():
-					desc_raw += "\n\n" + memory_text
-				break
+				if memory_text.is_empty():
+					continue
+				var disposition := _obligation_condition_disposition(
+					str(condition_key))
+				if disposition.is_empty():
+					if ordinary_memory_added:
+						continue
+					ordinary_memory_added = true
+				elif obligation_dispositions_added.has(disposition):
+					continue
+				else:
+					obligation_dispositions_added[disposition] = true
+				desc_raw += "\n\n" + memory_text
 	var desc := _fmt(desc_raw)
 	var causal_frame := EventManager.causal_frame_for(event)
 	if not causal_frame.is_empty():
@@ -4677,6 +4730,12 @@ func _choice_visible(ch: Dictionary) -> bool:
 	var need_item := str(ch.get("requires_item", ""))
 	if need_item != "" and not GameState.has_item(need_item):
 		return false
+	var obligation_id := str(
+		ch.get("v2_obligation_id", "")).strip_edges()
+	if not obligation_id.is_empty() and DEMO_CORE_LOOP_V2.is_active() \
+			and not DEMO_CORE_LOOP_V2.story_choice_available(
+				str(_current.get("id", "")), obligation_id):
+		return false
 	return true
 
 ## 원본 선택지 인덱스를 유지한 채 현재 플레이어에게 보이는 선택지만 반환한다.
@@ -4694,6 +4753,15 @@ func _choice_follow_up_id(
 		choice: Dictionary, event_id: String = "",
 		choice_index: int = -1) -> String:
 	var follow_up_id := str(choice.get("follow_up_event", ""))
+	var raw_required_flags: Variant = choice.get(
+		"follow_up_requires_flags", [])
+	if not raw_required_flags is Array:
+		return ""
+	for raw_flag in raw_required_flags as Array:
+		var flag_id := str(raw_flag).strip_edges()
+		if flag_id.is_empty() \
+				or not bool(GameState.flags.get(flag_id, false)):
+			return ""
 	if DEMO_CORE_LOOP_V2.is_active() \
 			and DEMO_CORE_LOOP_V2.story_follow_up_is_suppressed(
 				event_id, choice_index, follow_up_id):
@@ -4815,8 +4883,10 @@ func _on_choice(idx: int):
 	var choices: Array = _current.get("choices", [])
 	if idx < 0 or idx >= choices.size():
 		return
-	_stop_story_choice_countdown()
 	var choice: Dictionary = choices[idx]
+	if not _choice_visible(choice):
+		return
+	_stop_story_choice_countdown()
 	var current_event_id := str(_current.get("id", ""))
 	var commitment_contract: Dictionary = EventManager.narrative_commitment_contract(
 		current_event_id, GameState.turn) if not _read_only_replay else {}
@@ -4848,6 +4918,8 @@ func _on_choice(idx: int):
 		GameState.apply_choice(_current, choice)
 		if DEMO_CORE_LOOP_V2.is_active():
 			DEMO_CORE_LOOP_V2.note_story_choice(current_event_id, idx)
+		DEMO_CORE_LOOP_V2.note_post_demo_application_result(
+			current_event_id, idx)
 		if owns_weekly_commitment:
 			var forgone_choice_indexes: Array[int] = []
 			for alternative_index in _visible_choice_indices(_current):

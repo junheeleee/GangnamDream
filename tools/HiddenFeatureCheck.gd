@@ -31,6 +31,7 @@ func _ready() -> void:
 	_check_artifact_choice_visibility()
 	_check_choice_item_grants()
 	_check_jaehyuk_follow_up()
+	_check_father_medication_follow_up_gate()
 	_check_jiyeon_third_path()
 	_check_daeun_post_it_route()
 	_check_dawn_people()
@@ -46,7 +47,7 @@ func _ready() -> void:
 			push_error("HIDDEN_FEATURE_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("HIDDEN_FEATURE_CHECK_OK artifact_choices=3 choice_grants=3 follow_up=1 jiyeon_dik=1 daeun_route=1 dawn=5 drawer=1 keepsakes=6")
+	print("HIDDEN_FEATURE_CHECK_OK artifact_choices=3 choice_grants=3 follow_up=1 conditional_follow_up=3x2 jiyeon_dik=1 daeun_route=1 dawn=5 drawer=1 keepsakes=6")
 	get_tree().quit(0)
 
 func _check_artifact_choice_visibility() -> void:
@@ -117,6 +118,48 @@ func _check_jaehyuk_follow_up() -> void:
 		if not GameState.flags.get(flag_id, false):
 			_fail("Jaehyuk photo route did not set %s" % flag_id)
 	print("HIDDEN_FEATURE_EVIDENCE jaehyuk follow_up=%s flags=3" % follow_up)
+	story.free()
+
+func _check_father_medication_follow_up_gate() -> void:
+	LocaleManager.language = "ko"
+	DataRegistry.reload()
+	_reset_run()
+	var story = StoryModeScript.new()
+	var event: Dictionary = DataRegistry.find_event(
+		"arc_father_medication")
+	var choices: Array = event.get("choices", []) as Array
+	if choices.size() != 3:
+		_fail("Father medication fixture must have three choices")
+		story.free()
+		return
+	for choice_index in range(choices.size()):
+		var choice: Dictionary = choices[choice_index]
+		if story._choice_follow_up_id(
+				choice, "arc_father_medication", choice_index) != "":
+			_fail(
+				"Father medication choice %d bypassed Jiyeon's reunion gate"
+					% choice_index)
+	GameState.flags["arc_jiyeon_store_seen"] = true
+	for choice_index in range(choices.size()):
+		var choice: Dictionary = choices[choice_index]
+		if story._choice_follow_up_id(
+				choice, "arc_father_medication", choice_index) \
+				!= "arc_jiyeon_03_offer":
+			_fail(
+				"Father medication choice %d lost the eligible Jiyeon chain"
+					% choice_index)
+	var health_call: Dictionary = DataRegistry.find_event(
+		"father_health_call")
+	var no_flags: Variant = (
+		health_call.get("conditions", {}) as Dictionary
+	).get("no_flag", [])
+	if not no_flags is Array \
+			or not (no_flags as Array).has(
+				"arc_father_medication_seen"):
+		_fail("Father's random health call can repeat known medication news")
+	print(
+		"HIDDEN_FEATURE_EVIDENCE father_medication "
+		+ "jiyeon_gate=3x2 repeated_health_news=blocked")
 	story.free()
 
 func _check_jiyeon_third_path() -> void:

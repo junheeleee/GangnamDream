@@ -82,6 +82,8 @@ EXPECTED_CONTRACT_ROOT_KEYS = {
     "scope",
     "long_arc_contract",
     "future_application_contracts",
+    "future_story_contracts",
+    "post_demo_application_contracts",
     "deferred_callback_contracts",
     "surface",
     "phone",
@@ -210,6 +212,24 @@ EXPECTED_APPLICATION_OUTCOMES = {
             "to": "resolved",
         }
     ],
+    "m6_dodam_response": [
+        {
+            "event_id": "v2_dodam_result_message",
+            "choices": [0],
+            "application_id": "dodam_customer_ops_2026q2",
+            "from": "submitted",
+            "to": "no_offer",
+        }
+    ],
+    "demo_collision": [
+        {
+            "event_id": "v2_demo_first_bill",
+            "choices": [0, 1, 3, 4, 5, 6, 7],
+            "application_id": "city_facility_ops_2026h1",
+            "from": "submitted",
+            "to": "no_offer",
+        }
+    ],
 }
 EXPECTED_FUTURE_APPLICATION_CONTRACTS: dict[str, dict[str, Any]] = {
     "m6_dodam_response": {
@@ -217,19 +237,61 @@ EXPECTED_FUTURE_APPLICATION_CONTRACTS: dict[str, dict[str, Any]] = {
         "application_id": "dodam_customer_ops_2026q2",
         "from": "submitted",
         "owner_month": 6,
-        "allowed_weeks": [21, 22, 23, 24],
+        "allowed_weeks": [22],
         "activation_cap_week": 24,
-        "runtime_surface": "deferred",
+        "runtime_surface": "inbound_message",
+        "result_event": "v2_dodam_result_message",
+        "to": "no_offer",
     },
     "m6_city_service_response": {
         "producer_bundle": "m5_city_service_application",
         "application_id": "city_facility_ops_2026h1",
         "from": "submitted",
         "owner_month": 6,
-        "allowed_weeks": [21, 22, 23, 24],
+        "allowed_weeks": [23],
         "activation_cap_week": 24,
-        "runtime_surface": "deferred",
+        "runtime_surface": "inbound_message",
+        "result_event": "v2_city_service_work_sample_message",
+        "to": "submitted",
     },
+}
+EXPECTED_FUTURE_STORY_CONTRACTS: dict[str, dict[str, Any]] = {
+    "hyunsu_exam_2026": {
+        "producer_bundle": "hyunsu_exam_eve",
+        "required_memories": [
+            "hyunsu_exam_eve_one_problem",
+            "hyunsu_exam_eve_rest_protected",
+        ],
+        "unanswered_source": "hyunsu_exam_eve_unanswered",
+        "decline_outcome":
+            "hyunsu_takes_the_exam_without_another_shared_hour",
+        "trigger_event": "v2_hyunsu_exam_morning_echo",
+        "trigger_flag": "hyunsu_exam_day_seen",
+        "exam_week": 24,
+        "result_available_week": 27,
+        "canonical_outcome": "fail",
+        "result_event": "hyunsu_result_fail",
+        "narrative_spine": "hyunsu_after_the_exam",
+        "legacy_override_flag": "hyunsu_encouraged",
+        "legacy_override_event": "hyunsu_result_pass",
+        "choice_changes_outcome": False,
+        "choice_changes_description": True,
+    }
+}
+EXPECTED_POST_DEMO_APPLICATION_CONTRACTS = {
+    "city_facility_ops_2026h1_result": {
+        "producer_bundle": "demo_collision",
+        "producer_event": "v2_demo_first_bill",
+        "producer_choice": 2,
+        "selected_obligation_id": "city_work_sample",
+        "application_id": "city_facility_ops_2026h1",
+        "from": "submitted",
+        "to": "no_offer",
+        "not_before_week": 28,
+        "not_after_week": 32,
+        "result_event": "v2_city_service_result_message",
+        "result_flag": "v2_city_service_result_seen",
+    }
 }
 EXPECTED_DEFERRED_CALLBACK_CONTRACTS = {
     "callback_escaped_dirty_trace": {
@@ -453,7 +515,74 @@ EXPECTED_M5_DECLINES = {
     "sangchul_second_coffee": ("next_month_message", 6),
     "jaehyuk_plain_reunion_echo": ("next_month_message", 6),
 }
+EXPECTED_M6_ALLOWED_WEEKS = {
+    "m6_public_recruitment": [21, 22, 23],
+    "m6_holiday_night_shift": [21, 22, 23],
+    "m6_last_study_group": [21, 22, 23],
+    "m6_no_plans_day": [21, 22, 23],
+    "m6_gangnam_receipt_walk": [21, 22, 23],
+    "hyunsu_exam_eve": [23],
+    "m6_daeun_tuesday_followthrough": [21],
+    "father_health_signal": [21],
+    "m6_dodam_response": [22],
+    "m6_city_service_response": [23],
+    "demo_collision": [24],
+}
+EXPECTED_M6_ACTION_CORE = {
+    "m6_public_recruitment": {
+        "execution": "instant_effect",
+        "axis": "human",
+        "place_id": "city",
+        "effects": {"intelligence": 3, "mental": -3},
+    },
+    "m6_holiday_night_shift": {
+        "execution": "instant_effect",
+        "axis": "money",
+        "place_id": "work",
+        "effects": {"money": 480_000, "health": -6, "mental": -5},
+    },
+    "m6_last_study_group": {
+        "execution": "instant_effect",
+        "axis": "human",
+        "place_id": "library",
+        "effects": {"intelligence": 2, "social_skill": 1, "mental": -2},
+    },
+    "m6_no_plans_day": {
+        "execution": "rest",
+        "effects": {"health": 5, "mental": 7},
+        "recovery_routine_effects": {"health": 2, "mental": 3},
+    },
+}
+EXPECTED_M6_DECLINES = {
+    "m6_public_recruitment": ("terminal_recap", 6),
+    "m6_holiday_night_shift": ("terminal_recap", 6),
+    "m6_last_study_group": ("terminal_recap", 6),
+    "m6_no_plans_day": ("terminal_recap", 6),
+    "m6_gangnam_receipt_walk": ("terminal_recap", 6),
+    "hyunsu_exam_eve": ("terminal_recap", 6),
+    "m6_daeun_tuesday_followthrough": ("terminal_recap", 6),
+}
 EXPECTED_CHOICE_RECEIPTS = {
+    "father_health_signal": {
+        0: (
+            "unmet",
+            "opening",
+            "reciprocal",
+            "father_neighbor_detail_checked",
+        ),
+        1: (
+            "unmet",
+            "opening",
+            "reciprocal",
+            "father_called_again_that_evening",
+        ),
+        2: (
+            "unmet",
+            "opening",
+            "reciprocal",
+            "father_health_warning_postponed",
+        ),
+    },
     "father_first_call": {
         0: ("unmet", "opening", "reciprocal", "father_wellbeing_returned"),
         1: ("unmet", "opening", "reciprocal", "father_future_reassured"),
@@ -1316,16 +1445,22 @@ def validate_application_outcomes(
             )
         }
         reachable = reachable_event_ids(roots, registered_events)
+        raw_prerequisites: Any = bundle.get("prerequisites", {})
+        prerequisites = (
+            raw_prerequisites
+            if isinstance(raw_prerequisites, dict)
+            else require_dict(
+                raw_prerequisites,
+                f"{bundle_id}.prerequisites",
+                errors,
+            )
+        )
         prerequisite_states = {
             (
                 str(clause.get("application_id", "")),
                 str(clause.get("status", "")),
             )
-            for clauses in require_dict(
-                bundle.get("prerequisites"),
-                f"{bundle_id}.prerequisites",
-                errors,
-            ).values()
+            for clauses in prerequisites.values()
             if isinstance(clauses, list)
             for clause in clauses
             if isinstance(clause, dict)
@@ -1353,17 +1488,27 @@ def validate_application_outcomes(
                 errors,
             )
             mapped_choices = row.get("choices")
-            if mapped_choices != list(range(len(event_choices))):
+            expected_choice_indexes = list(range(len(event_choices)))
+            if bundle_id == "demo_collision":
+                # Choosing the City work sample keeps the submitted
+                # application live; every other First Bill choice closes it.
+                expected_choice_indexes = [
+                    value for value in expected_choice_indexes if value != 2
+                ]
+            if mapped_choices != expected_choice_indexes:
                 fail(
-                    f"{bundle_id} must map every {event_id} terminal choice "
-                    f"exactly once; got {mapped_choices}",
+                    f"{bundle_id} must map its exact {event_id} application "
+                    f"choices {expected_choice_indexes}; got {mapped_choices}",
                     errors,
                 )
             required_state = (
                 str(row.get("application_id", "")),
                 str(row.get("from", "")),
             )
-            if required_state not in prerequisite_states:
+            if (
+                bundle_id != "demo_collision"
+                and required_state not in prerequisite_states
+            ):
                 fail(
                     f"{bundle_id} does not require its application transition "
                     f"source state {required_state}",
@@ -1472,56 +1617,364 @@ def validate_future_application_contracts(
 
         owner_month = int(row.get("owner_month", 0))
         allowed_weeks = row.get("allowed_weeks")
-        expected_weeks = list(
+        month_weeks = list(
             range((owner_month - 1) * 4 + 1, owner_month * 4 + 1)
         )
-        if allowed_weeks != expected_weeks:
+        expected_weeks = expected.get("allowed_weeks", [])
+        if (
+            allowed_weeks != expected_weeks
+            or not set(allowed_weeks).issubset(month_weeks)
+        ):
             fail(
-                f"{owner_id} future interview window must be {expected_weeks}",
+                f"{owner_id} response window must be {expected_weeks} "
+                f"inside {month_weeks}",
                 errors,
             )
         activation_cap_week = int(row.get("activation_cap_week", 0))
         if (
-            activation_cap_week != expected_weeks[-1]
-            or activation_cap_week <= development_cap_week
-            or row.get("runtime_surface") != "deferred"
+            activation_cap_week != month_weeks[-1]
+            or activation_cap_week != development_cap_week
+            or row.get("runtime_surface") != "inbound_message"
         ):
             fail(
-                f"{owner_id} must remain deferred until the Week "
-                f"{expected_weeks[-1]} gate",
+                f"{owner_id} must be an implemented Month-Six inbound message "
+                f"under the Week-{development_cap_week} cap",
                 errors,
             )
-        if owner_id in bundles:
+        owner = require_dict(
+            bundles.get(owner_id), f"bundle {owner_id}", errors
+        )
+        result_event = str(row.get("result_event", ""))
+        if (
+            owner.get("allowed_weeks") != expected_weeks
+            or owner.get("existing_roots") != [result_event]
+            or owner.get("phone_surface") != "inbound_message"
+            or bool(owner.get("consumes_slot", True))
+        ):
             fail(
-                f"{owner_id} exposes an unfinished runtime bundle before "
-                f"the Week {activation_cap_week} gate",
+                f"{owner_id} does not own its exact non-slot response surface",
+                errors,
+            )
+        prerequisite_states = {
+            (
+                str(clause.get("application_id", "")),
+                str(clause.get("status", "")),
+            )
+            for clauses in require_dict(
+                owner.get("prerequisites"),
+                f"{owner_id}.prerequisites",
+                errors,
+            ).values()
+            if isinstance(clauses, list)
+            for clause in clauses
+            if isinstance(clause, dict)
+            and clause.get("kind") == "application_status"
+        }
+        if (str(row.get("application_id", "")), str(row.get("from", ""))) \
+                not in prerequisite_states:
+            fail(
+                f"{owner_id} does not require the exact submitted producer "
+                "status",
+                errors,
+            )
+        owner_has_transition = bool(owner.get("application_outcomes", []))
+        if (row.get("to") != row.get("from")) != owner_has_transition:
+            fail(
+                f"{owner_id} application-transition ownership contradicts "
+                f"{row.get('from')}→{row.get('to')}",
                 errors,
             )
 
+        surface_months: list[tuple[int, str]] = []
         for month_index, raw_month in enumerate(months, start=1):
             month = require_dict(raw_month, f"month {month_index}", errors)
-            surface_ids = {
-                str(value)
-                for collection in (
-                    "offers",
-                    "fallback_offers",
-                    "prelude",
-                    "conditional_consequences",
-                    "closing",
-                )
-                for value in month.get(collection, [])
-            }
-            surface_ids.update(
-                str(lock.get("bundle", ""))
-                for lock in month.get("locked", [])
-                if isinstance(lock, dict)
+            for collection in (
+                "offers",
+                "fallback_offers",
+                "prelude",
+                "conditional_consequences",
+                "closing",
+            ):
+                if owner_id in {
+                    str(value) for value in month.get(collection, [])
+                }:
+                    surface_months.append((month_index, collection))
+        if surface_months != [(owner_month, "conditional_consequences")]:
+            fail(
+                f"{owner_id} must appear once as a Month-{owner_month} "
+                f"conditional consequence, got {surface_months}",
+                errors,
             )
-            if owner_id in surface_ids:
-                fail(
-                    f"{owner_id} is exposed on the month {month_index} "
-                    "runtime surface before implementation",
-                    errors,
-                )
+
+
+def validate_future_story_contracts(
+    raw_contracts: Any,
+    bundles: dict[str, Any],
+    registered_events: dict[str, dict[str, Any]],
+    development_cap_week: int,
+    errors: list[str],
+) -> None:
+    contracts = require_dict(
+        raw_contracts, "future_story_contracts", errors
+    )
+    if contracts != EXPECTED_FUTURE_STORY_CONTRACTS:
+        fail(
+            "future story contracts drifted: expected "
+            f"{EXPECTED_FUTURE_STORY_CONTRACTS}, got {contracts}",
+            errors,
+        )
+
+    row = require_dict(
+        contracts.get("hyunsu_exam_2026"),
+        "future_story_contracts.hyunsu_exam_2026",
+        errors,
+    )
+    producer_id = str(row.get("producer_bundle", ""))
+    producer = require_dict(
+        bundles.get(producer_id), f"bundle {producer_id}", errors
+    )
+    required_memories = [
+        str(value) for value in require_list(
+            row.get("required_memories"),
+            "hyunsu_exam_2026.required_memories",
+            errors,
+        )
+    ]
+    produced_memories = {
+        str(mapping.get("memory", ""))
+        for mapping in producer.get("relationship_outcomes", [])
+        if isinstance(mapping, dict)
+    }
+    if set(required_memories) != produced_memories:
+        fail(
+            "Hyunsu's future result contract must read both exact "
+            f"exam-eve memories, got {sorted(produced_memories)}",
+            errors,
+        )
+
+    exam_week = int(row.get("exam_week", 0))
+    available_week = int(row.get("result_available_week", 0))
+    if exam_week != development_cap_week or available_week != 27:
+        fail(
+            "Hyunsu's exam must close Week 24 while its canonical result "
+            "waits until Week 27",
+            errors,
+        )
+    trigger_event = require_dict(
+        registered_events.get(str(row.get("trigger_event", ""))),
+        "hyunsu_exam_2026.trigger_event",
+        errors,
+    )
+    trigger_flags = {
+        str(flag)
+        for choice in trigger_event.get("choices", [])
+        if isinstance(choice, dict)
+        for flag in choice.get("flags", [])
+    }
+    if str(row.get("trigger_flag", "")) not in trigger_flags:
+        fail(
+            "Hyunsu's Week-24 trigger event does not write its exact exam flag",
+            errors,
+        )
+
+    result_event_id = str(row.get("result_event", ""))
+    result_event = require_dict(
+        registered_events.get(result_event_id),
+        f"registered event {result_event_id}",
+        errors,
+    )
+    memory_copy = require_dict(
+        result_event.get("description_memory_if_known"),
+        f"{result_event_id}.description_memory_if_known",
+        errors,
+    )
+    expected_memory_keys = {
+        f"relationship_memory:hyunsu:{memory}"
+        for memory in required_memories
+    }
+    unanswered_source = str(row.get("unanswered_source", "")).strip()
+    decline_outcome = str(row.get("decline_outcome", "")).strip()
+    expected_memory_keys.add(
+        "future_story_source:hyunsu_exam_2026:"
+        f"{unanswered_source}"
+    )
+    if set(memory_copy) != expected_memory_keys:
+        fail(
+            "Hyunsu's canonical result scene must visibly read both V2 "
+            "exam-eve answers and the unanswered path",
+            errors,
+        )
+    override_event = str(row.get("legacy_override_event", ""))
+    if (
+        result_event_id != "hyunsu_result_fail"
+        or result_event_id not in registered_events
+        or override_event != "hyunsu_result_pass"
+        or override_event not in registered_events
+        or unanswered_source != "hyunsu_exam_eve_unanswered"
+        or decline_outcome
+            != "hyunsu_takes_the_exam_without_another_shared_hour"
+        or bool(row.get("choice_changes_outcome", True))
+        or not bool(row.get("choice_changes_description", False))
+    ):
+        fail(
+            "Hyunsu's V2 handoff must preserve the canonical failure arc, "
+            "legacy pass override, and memory-only prose variation",
+            errors,
+        )
+    delayed_chain = [
+        (
+            "hyunsu_result_fail",
+            "arc_hyunsu_exam_fail",
+            4,
+            None,
+        ),
+        (
+            "arc_hyunsu_exam_fail",
+            "arc_hyunsu_drift",
+            5,
+            {
+                "flag": "hyunsu_failed",
+                "no_flag": "arc_hyunsu_exam_fail_seen",
+                "min_turn": 25,
+            },
+        ),
+        (
+            "arc_hyunsu_drift",
+            "arc_hyunsu_new_path",
+            6,
+            {
+                "flag": "arc_hyunsu_exam_fail_seen",
+                "no_flag": "arc_hyunsu_drift_seen",
+                "min_turn": 30,
+            },
+        ),
+    ]
+    for producer_id, follow_up_id, delay, producer_conditions in delayed_chain:
+        producer_event = require_dict(
+            registered_events.get(producer_id),
+            f"registered event {producer_id}",
+            errors,
+        )
+        producer_choices = require_list(
+            producer_event.get("choices"),
+            f"{producer_id}.choices",
+            errors,
+        )
+        if not producer_choices or any(
+            not isinstance(choice, dict)
+            or str(choice.get("deferred_follow_up", "")) != follow_up_id
+            or int(choice.get("deferred_delay", 0)) != delay
+            for choice in producer_choices
+        ):
+            fail(
+                "Hyunsu's failure handoff must preserve the exact "
+                f"{producer_id} → {follow_up_id} +{delay}-week chain",
+                errors,
+            )
+        if producer_conditions is not None and require_dict(
+            producer_event.get("conditions"),
+            f"{producer_id}.conditions",
+            errors,
+        ) != producer_conditions:
+            fail(
+                f"{producer_id} must remain eligible when its delayed "
+                "callback becomes due",
+                errors,
+            )
+    new_path_conditions = {
+        "flag": "arc_hyunsu_drift_seen",
+        "no_flag": "arc_hyunsu_new_path_seen",
+        "min_turn": 36,
+    }
+    if require_dict(
+        registered_events.get("arc_hyunsu_new_path", {}).get(
+            "conditions"
+        ),
+        "arc_hyunsu_new_path.conditions",
+        errors,
+    ) != new_path_conditions:
+        fail(
+            "arc_hyunsu_new_path must remain eligible for the final "
+            "delayed callback",
+            errors,
+        )
+
+
+def validate_post_demo_application_contracts(
+    raw_contracts: Any,
+    bundles: dict[str, Any],
+    registered_events: dict[str, dict[str, Any]],
+    development_cap_week: int,
+    errors: list[str],
+) -> None:
+    contracts = require_dict(
+        raw_contracts, "post_demo_application_contracts", errors
+    )
+    if contracts != EXPECTED_POST_DEMO_APPLICATION_CONTRACTS:
+        fail(
+            "post-demo application contracts drifted: expected "
+            f"{EXPECTED_POST_DEMO_APPLICATION_CONTRACTS}, got {contracts}",
+            errors,
+        )
+    row = require_dict(
+        contracts.get("city_facility_ops_2026h1_result"),
+        "post_demo_application_contracts.city_facility_ops_2026h1_result",
+        errors,
+    )
+    producer = require_dict(
+        bundles.get(str(row.get("producer_bundle", ""))),
+        "City post-demo producer bundle",
+        errors,
+    )
+    obligation_rows = require_list(
+        producer.get("obligation_outcomes"),
+        "City post-demo producer obligation outcomes",
+        errors,
+    )
+    expected_choice = int(row.get("producer_choice", -1))
+    if not any(
+        isinstance(outcome, dict)
+        and str(outcome.get("event_id", ""))
+            == str(row.get("producer_event", ""))
+        and expected_choice in outcome.get("choices", [])
+        and str(outcome.get("selected_obligation_id", ""))
+            == str(row.get("selected_obligation_id", ""))
+        for outcome in obligation_rows
+    ):
+        fail(
+            "City post-demo result is not owned by the exact Week-24 choice",
+            errors,
+        )
+    if (
+        int(row.get("not_before_week", 0)) != 28
+        or int(row.get("not_after_week", 0)) != 32
+        or int(row.get("not_before_week", 0)) <= development_cap_week
+        or str(row.get("from", "")) != "submitted"
+        or str(row.get("to", "")) != "no_offer"
+    ):
+        fail(
+            "City post-demo result must close submitted→no_offer in "
+            "Weeks 28–32",
+            errors,
+        )
+    result_event = require_dict(
+        registered_events.get(str(row.get("result_event", ""))),
+        "City post-demo result event",
+        errors,
+    )
+    result_flag = str(row.get("result_flag", ""))
+    choice_flags = {
+        str(flag)
+        for choice in result_event.get("choices", [])
+        if isinstance(choice, dict)
+        for flag in choice.get("flags", [])
+    }
+    if result_flag != "v2_city_service_result_seen" \
+            or result_flag not in choice_flags:
+        fail(
+            "City post-demo result event does not consume its exact flag",
+            errors,
+        )
 
 
 def validate_deferred_callback_contracts(
@@ -1658,10 +2111,10 @@ def validate_deferred_callback_contracts(
                 f"Week {due_week}",
                 errors,
             )
-        if development_cap_week >= due_week:
+        if development_cap_week != due_week:
             fail(
-                f"{callback_id} remains a deferred contract even though the "
-                f"Week {due_week} runtime gate is open",
+                f"{callback_id} must be consumed exactly when the Week "
+                f"{due_week} runtime gate opens",
                 errors,
             )
 
@@ -1718,7 +2171,7 @@ def main() -> int:
     groups = require_dict(contract.get("exclusive_groups"), "exclusive_groups", errors)
 
     if int(contract.get("schema_version", 0)) != 3:
-        fail("schema_version must be 3 for the 20-week executable contract", errors)
+        fail("schema_version must be 3 for the 24-week executable contract", errors)
     if bool(contract.get("runtime_default", True)):
         fail("runtime_default must stay false before the 24-week human GO", errors)
     if str(contract.get("fallback", "")) != "event_director_v1":
@@ -1730,8 +2183,8 @@ def main() -> int:
         "max_week": 24,
         "months": 6,
         "weeks_per_month": 4,
-        "development_cap_week": 20,
-        "prototype_weeks": [1, 20],
+        "development_cap_week": 24,
+        "prototype_weeks": [1, 24],
     }
     for key, expected in expected_scope.items():
         if scope.get(key) != expected:
@@ -1746,20 +2199,26 @@ def main() -> int:
         development_month_count = 0
     else:
         development_month_count = development_cap_week // weeks_per_month
-    if development_month_count != 5:
+    if development_month_count != 6:
         fail(
-            "the D gate must expose exactly five completed development months",
+            "the E gate must expose exactly six completed development months",
             errors,
         )
     if (
         long_arc.get("demo_role") != "chapter_one_first_half"
         or int(long_arc.get("chapter_one_end_week", 0)) != 48
+        or long_arc.get("chapter_close_weeks") != [48, 96, 144, 192]
         or int(long_arc.get("full_run_end_week", 0)) != 240
         or int(long_arc.get("year_count", 0)) != 5
         or long_arc.get("chapter_one_boss_window") != [45, 48]
         or not bool(long_arc.get("week_24_is_midyear_boss", False))
     ):
-        fail("24-week demo must remain the first half of a 48-week chapter and 240-week run", errors)
+        fail(
+            "24-week demo must remain the first half of a 48-week chapter; "
+            "chapter closes must stay exact at Weeks 48/96/144/192 in the "
+            "240-week run",
+            errors,
+        )
     canonical_reentry = require_dict(
         long_arc.get("canonical_reentry"),
         "long_arc_contract.canonical_reentry",
@@ -1915,6 +2374,20 @@ def main() -> int:
         development_cap_week,
         errors,
     )
+    validate_future_story_contracts(
+        contract.get("future_story_contracts"),
+        bundles,
+        registered_events,
+        development_cap_week,
+        errors,
+    )
+    validate_post_demo_application_contracts(
+        contract.get("post_demo_application_contracts"),
+        bundles,
+        registered_events,
+        development_cap_week,
+        errors,
+    )
     validate_deferred_callback_contracts(
         contract.get("deferred_callback_contracts"),
         bundles,
@@ -1932,7 +2405,11 @@ def main() -> int:
         for event_id in roots:
             if str(event_id) not in registered:
                 fail(f"{bundle_id} references missing event {event_id}", errors)
-        if bool(bundle.get("consumes_slot", False)) and not str(bundle.get("decline_consequence", "")):
+        if (
+            bool(bundle.get("consumes_slot", False))
+            and str(bundle.get("kind", "")) != "boss"
+            and not str(bundle.get("decline_consequence", ""))
+        ):
             fail(f"{bundle_id} consumes a slot but has no decline consequence", errors)
         stage = str(bundle.get("relationship_stage", ""))
         if stage and stage not in EXPECTED_STAGES:
@@ -2072,7 +2549,15 @@ def main() -> int:
             referenced_bundle_ids.add(bundle_id)
             if bundle_id not in bundles:
                 fail(f"month {expected_month} lock references missing bundle {bundle_id}", errors)
-            elif expected_month <= development_month_count:
+            elif (
+                expected_month <= development_month_count
+                and str(
+                    require_dict(
+                        bundles.get(bundle_id), f"bundle {bundle_id}", errors
+                    ).get("kind", "")
+                )
+                != "boss"
+            ):
                 development_surface_ids.add(bundle_id)
                 development_player_ids.add(bundle_id)
                 development_month_by_bundle[bundle_id] = expected_month
@@ -2093,17 +2578,22 @@ def main() -> int:
                 )
             ]
             referenced_bundle_ids.update(surface_ids)
-            if (
-                expected_month <= development_month_count
-                and collection_key in {"prelude", "closing"}
-                and surface_ids
-            ):
-                fail(
-                    f"month {expected_month} declares {collection_key} "
-                    "bundles that the implemented V2 runtime does not consume; "
-                    "use the receipt-backed month summary or add an explicit owner",
-                    errors,
+            if expected_month <= development_month_count:
+                allowed_non_slot = (
+                    expected_month == 6
+                    and collection_key == "prelude"
+                    and surface_ids == ["father_health_signal"]
                 )
+                if (
+                    collection_key in {"prelude", "closing"}
+                    and surface_ids
+                    and not allowed_non_slot
+                ):
+                    fail(
+                        f"month {expected_month} declares unsupported "
+                        f"{collection_key} bundles {surface_ids}",
+                        errors,
+                    )
             for bundle_id in surface_ids:
                 if bundle_id not in bundles:
                     fail(
@@ -2307,6 +2797,98 @@ def main() -> int:
                     errors,
                 )
 
+    if development_month_count >= 6 and len(months) >= 6:
+        month_six = require_dict(months[5], "month 6", errors)
+        month_six_offers = [
+            str(value) for value in month_six.get("offers", [])
+        ]
+        month_six_fixtures = {
+            "base": {
+                "completed": set(),
+                "stages": {},
+                "memories": set(),
+                "player_initiated": set(),
+                "applications": {},
+            },
+            "hyunsu_followthrough": {
+                "completed": {"hyunsu_study_followup"},
+                "stages": {"hyunsu": "shared_commitment"},
+                "memories": set(),
+                "player_initiated": set(),
+                "applications": {},
+            },
+            "daeun_followthrough": {
+                "completed": {"daeun_shared_dream"},
+                "stages": {"daeun": "shared_commitment"},
+                "memories": {
+                    ("daeun", "daeun_same_tuesday_promised"),
+                },
+                "player_initiated": {"daeun"},
+                "applications": {},
+            },
+            "both_person_paths": {
+                "completed": {
+                    "hyunsu_study_followup",
+                    "daeun_shared_dream",
+                },
+                "stages": {
+                    "hyunsu": "shared_commitment",
+                    "daeun": "shared_commitment",
+                },
+                "memories": {
+                    ("daeun", "daeun_same_tuesday_promised"),
+                },
+                "player_initiated": {"daeun"},
+                "applications": {},
+            },
+        }
+        expected_base = {
+            "m6_public_recruitment",
+            "m6_holiday_night_shift",
+            "m6_last_study_group",
+            "m6_no_plans_day",
+            "m6_gangnam_receipt_walk",
+        }
+        conditional_ids = {
+            "hyunsu_exam_eve",
+            "m6_daeun_tuesday_followthrough",
+        }
+        expected_by_fixture = {
+            "base": expected_base,
+            "hyunsu_followthrough": expected_base | {"hyunsu_exam_eve"},
+            "daeun_followthrough": expected_base
+            | {"m6_daeun_tuesday_followthrough"},
+            "both_person_paths": expected_base | conditional_ids,
+        }
+        minimum = int(surface.get("minimum_offers_per_month", 5))
+        maximum = int(surface.get("maximum_offers_per_month", 7))
+        for fixture_name, fixture in month_six_fixtures.items():
+            visible = {
+                bundle_id
+                for bundle_id in month_six_offers
+                if bundle_available_in_fixture(
+                    require_dict(
+                        bundles.get(bundle_id),
+                        f"bundle {bundle_id}",
+                        errors,
+                    ),
+                    fixture,
+                )
+            }
+            if visible != expected_by_fixture[fixture_name]:
+                fail(
+                    f"month 6 fixture {fixture_name} expected "
+                    f"{sorted(expected_by_fixture[fixture_name])}, got "
+                    f"{sorted(visible)}",
+                    errors,
+                )
+            if not minimum <= len(visible) <= maximum:
+                fail(
+                    f"month 6 fixture {fixture_name} must expose "
+                    f"{minimum}..{maximum} offers, got {len(visible)}",
+                    errors,
+                )
+
     orphan_bundles = set(str(value) for value in bundles).difference(
         referenced_bundle_ids
     )
@@ -2431,6 +3013,14 @@ def main() -> int:
                 f"got {bundle.get('allowed_weeks')}",
                 errors,
             )
+    for bundle_id, expected_weeks in EXPECTED_M6_ALLOWED_WEEKS.items():
+        bundle = require_dict(bundles.get(bundle_id), f"bundle {bundle_id}", errors)
+        if bundle.get("allowed_weeks") != expected_weeks:
+            fail(
+                f"{bundle_id}.allowed_weeks expected {expected_weeks}, "
+                f"got {bundle.get('allowed_weeks')}",
+                errors,
+            )
 
     expected_m4_phone_surfaces = {
         "m4_hanbit_interview": "inbound_message",
@@ -2480,6 +3070,39 @@ def main() -> int:
         "m5_hanbit_offer_message": "inbound_message",
     }
     for bundle_id, expected_surface in expected_m5_phone_surfaces.items():
+        bundle = require_dict(bundles.get(bundle_id), f"bundle {bundle_id}", errors)
+        if bundle.get("phone_surface") != expected_surface:
+            fail(
+                f"{bundle_id}.phone_surface expected {expected_surface!r}, "
+                f"got {bundle.get('phone_surface')!r}",
+                errors,
+            )
+        if expected_surface == "inbound_message":
+            for field in (
+                "message_sender_ko",
+                "message_sender_en",
+                "message_body_ko",
+                "message_body_en",
+            ):
+                value = str(bundle.get(field, "")).strip()
+                if not value:
+                    fail(f"{bundle_id} inbound message is missing {field}", errors)
+                elif field.endswith("_en") and HANGUL_RE.search(value):
+                    fail(f"{bundle_id}.{field} leaks Hangul into English", errors)
+
+    expected_m6_phone_surfaces = {
+        "father_health_signal": "inbound_message",
+        "m6_public_recruitment": "self_note",
+        "m6_holiday_night_shift": "self_note",
+        "m6_last_study_group": "self_note",
+        "m6_no_plans_day": "self_note",
+        "m6_gangnam_receipt_walk": "self_note",
+        "hyunsu_exam_eve": "inbound_message",
+        "m6_daeun_tuesday_followthrough": "self_note",
+        "m6_dodam_response": "inbound_message",
+        "m6_city_service_response": "inbound_message",
+    }
+    for bundle_id, expected_surface in expected_m6_phone_surfaces.items():
         bundle = require_dict(bundles.get(bundle_id), f"bundle {bundle_id}", errors)
         if bundle.get("phone_surface") != expected_surface:
             fail(
@@ -2661,6 +3284,28 @@ def main() -> int:
                     errors,
                 )
 
+    for bundle_id, expected_core in EXPECTED_M6_ACTION_CORE.items():
+        bundle = require_dict(bundles.get(bundle_id), f"bundle {bundle_id}", errors)
+        config = require_dict(
+            bundle.get("action_config"), f"{bundle_id}.action_config", errors
+        )
+        for key, expected_value in expected_core.items():
+            if config.get(key) != expected_value:
+                fail(
+                    f"{bundle_id}.action_config.{key} expected "
+                    f"{expected_value!r}, got {config.get(key)!r}",
+                    errors,
+                )
+        for field in result_copy_fields:
+            value = str(config.get(field, "")).strip()
+            if not value:
+                fail(f"{bundle_id}.action_config is missing {field}", errors)
+            elif field.endswith("_en") and HANGUL_RE.search(value):
+                fail(
+                    f"{bundle_id}.action_config.{field} leaks Hangul into English",
+                    errors,
+                )
+
     decline_outcomes = require_dict(
         contract.get("decline_outcomes"), "decline_outcomes", errors
     )
@@ -2809,6 +3454,23 @@ def main() -> int:
                 f"{visible_month}",
                 errors,
             )
+    for bundle_id, (consumer_kind, visible_month) in EXPECTED_M6_DECLINES.items():
+        bundle = require_dict(bundles.get(bundle_id), f"bundle {bundle_id}", errors)
+        consequence_id = str(bundle.get("decline_consequence", "")).strip()
+        outcome = require_dict(
+            decline_outcomes.get(consequence_id),
+            f"decline_outcomes.{consequence_id}",
+            errors,
+        )
+        if (
+            str(outcome.get("consumer_kind", "")) != consumer_kind
+            or int(outcome.get("visible_month", 0)) != visible_month
+        ):
+            fail(
+                f"{bundle_id} decline must use {consumer_kind} in month "
+                f"{visible_month}",
+                errors,
+            )
 
     development_relationship_ids = {
         bundle_id
@@ -2818,7 +3480,7 @@ def main() -> int:
                 "relationship_stage", ""
             )
         )
-    }
+    } | {"father_health_signal"}
     for bundle_id in sorted(development_relationship_ids):
         bundle = require_dict(bundles.get(bundle_id), f"bundle {bundle_id}", errors)
         roots = [str(value) for value in bundle.get("existing_roots", [])]
@@ -2856,6 +3518,7 @@ def main() -> int:
                 "memory",
             }
             optional_mapping_keys = {
+                "allow_already_at_target",
                 "supersedes_callbacks",
                 "replacement_bundle",
             }
@@ -2885,6 +3548,14 @@ def main() -> int:
                     )
             from_stage = str(mapping.get("from", "")).strip()
             to_stage = str(mapping.get("to", "")).strip()
+            allow_already_at_target = mapping.get(
+                "allow_already_at_target", False
+            )
+            if not isinstance(allow_already_at_target, bool):
+                fail(
+                    f"{bundle_id} allow_already_at_target must be boolean",
+                    errors,
+                )
             if from_stage not in EXPECTED_STAGES:
                 fail(
                     f"{bundle_id} relationship outcome has unknown from "
@@ -2904,6 +3575,12 @@ def main() -> int:
                 < EXPECTED_STAGES.index(from_stage)
             ):
                 fail(f"{bundle_id} relationship outcome regresses stage", errors)
+            if allow_already_at_target and from_stage == to_stage:
+                fail(
+                    f"{bundle_id} allow_already_at_target requires a real "
+                    "from/to transition",
+                    errors,
+                )
             if (
                 from_stage in EXPECTED_STAGES
                 and to_stage in EXPECTED_STAGES
@@ -2962,7 +3639,11 @@ def main() -> int:
             )
             if not choices:
                 fail(f"{bundle_id} relationship outcome has no choices", errors)
-            elif len(choices) != 1:
+            elif len(choices) != 1 and not (
+                bundle_id == "m6_daeun_tuesday_followthrough"
+                and choices == [0, 1]
+                and memory == "daeun_tuesday_checkin_kept"
+            ):
                 fail(
                     f"{bundle_id} must record one memory per terminal choice",
                     errors,
@@ -3227,18 +3908,316 @@ def main() -> int:
     )
     if (
         father_signal.get("allowed_weeks") != [21]
+        or father_signal.get("existing_roots") != ["v2_father_health_signal"]
         or bool(father_signal.get("consumes_slot", True))
         or "requires_player_initiated" in father_signal
     ):
         fail("Father's health signal must remain a universal Week 21 world fact", errors)
+    if (
+        "약국 봉투" not in str(father_signal.get("message_body_ko", ""))
+        or "pharmacy" not in str(father_signal.get("message_body_en", "")).lower()
+    ):
+        fail(
+            "Father's Week-21 phone preview must report the observed pharmacy "
+            "bags instead of presenting a hospital visit as known fact",
+            errors,
+        )
+    father_signal_event = require_dict(
+        registered_events.get("v2_father_health_signal"),
+        "registered event v2_father_health_signal",
+        errors,
+    )
+    father_signal_choices = require_list(
+        father_signal_event.get("choices"),
+        "registered event v2_father_health_signal.choices",
+        errors,
+    )
+    expected_father_signal_choices = [
+        (
+            {"mental": -3},
+            {"arc_father_01_seen", "arc_father_02_done"},
+        ),
+        (
+            {"mental": -2},
+            {"arc_father_01_seen", "arc_father_02_done"},
+        ),
+        (
+            {"mental": -5},
+            {"arc_father_01_seen", "arc_father_02_done"},
+        ),
+    ]
+    if len(father_signal_choices) != len(expected_father_signal_choices):
+        fail("Father's Week-21 signal must keep exactly three choices", errors)
+    else:
+        for choice_index, (expected_effects, expected_flags) in enumerate(
+            expected_father_signal_choices
+        ):
+            choice = require_dict(
+                father_signal_choices[choice_index],
+                f"v2_father_health_signal.choices[{choice_index}]",
+                errors,
+            )
+            if (
+                choice.get("effects") != expected_effects
+                or {
+                    str(value) for value in choice.get("flags", [])
+                }
+                != expected_flags
+            ):
+                fail(
+                    f"Father's Week-21 choice {choice_index} must preserve "
+                    f"its exact mental effect and canonical arc flag",
+                    errors,
+                )
+    serialized_father_signal = json.dumps(
+        father_signal_event, ensure_ascii=False
+    )
+    if any(
+        invented in serialized_father_signal
+        for invented in ("-50000", "-50,000", "기차표", "승차권", "송금했다")
+    ):
+        fail(
+            "Father's Week-21 signal invents travel, remittance, or KRW 50,000",
+            errors,
+        )
+
     demo_collision = require_dict(
         bundles.get("demo_collision"), "bundle demo_collision", errors
     )
     if (
         demo_collision.get("planned_scene_id") != "v2_demo_first_bill"
-        or demo_collision.get("existing_roots")
+        or demo_collision.get("existing_roots") != ["v2_demo_first_bill"]
+        or demo_collision.get("allowed_weeks") != [24]
+        or int(demo_collision.get("locked_week", 0)) != 24
     ):
-        fail("Week 24 must own one new First Bill root, not stacked legacy recaps", errors)
+        fail(
+            "Week 24 must own the exact First Bill root at the locked boss slot",
+            errors,
+        )
+    expected_obligation_ids = [
+        "father_call",
+        "hanbit_month_close",
+        "city_work_sample",
+        "daeun_checkin",
+        "jaehyuk_reply",
+        "sangchul_ledger",
+        "urgent_paid_shift",
+        "body_rest",
+    ]
+    expected_obligation_outcomes = [
+        {
+            "event_id": "v2_demo_first_bill",
+            "choices": [choice_index],
+            "selected_obligation_id": obligation_id,
+        }
+        for choice_index, obligation_id in enumerate(expected_obligation_ids)
+    ]
+    if demo_collision.get("obligation_outcomes") != expected_obligation_outcomes:
+        fail(
+            "Week-24 First Bill obligation mapping must partition all eight "
+            "authored choices exactly once",
+            errors,
+        )
+    first_bill_event = require_dict(
+        registered_events.get("v2_demo_first_bill"),
+        "registered event v2_demo_first_bill",
+        errors,
+    )
+    first_bill_choices = require_list(
+        first_bill_event.get("choices"),
+        "registered event v2_demo_first_bill.choices",
+        errors,
+    )
+    actual_obligation_ids = [
+        str(
+            require_dict(
+                raw_choice,
+                f"registered event v2_demo_first_bill.choices[{choice_index}]",
+                errors,
+            ).get("v2_obligation_id", "")
+        )
+        for choice_index, raw_choice in enumerate(first_bill_choices)
+    ]
+    if actual_obligation_ids != expected_obligation_ids:
+        fail(
+            "First Bill event choices must expose the same eight obligation "
+            f"IDs in order, got {actual_obligation_ids}",
+            errors,
+        )
+    expected_initiators = {
+        0: "father",
+        3: "daeun",
+        4: "jaehyuk",
+    }
+    for choice_index, raw_choice in enumerate(first_bill_choices):
+        choice = require_dict(
+            raw_choice,
+            f"registered event v2_demo_first_bill.choices[{choice_index}]",
+            errors,
+        )
+        if (
+            str(choice.get("v2_player_initiated_character", ""))
+            != expected_initiators.get(choice_index, "")
+        ):
+            fail(
+                f"First Bill choice {choice_index} has the wrong durable "
+                "player-initiative owner",
+                errors,
+            )
+        if choice.get("flags", []):
+            fail(
+                f"First Bill choice {choice_index} reintroduced write-only flags",
+                errors,
+            )
+    forbidden_first_bill_copy = (
+        "오늘 저녁에 할 수 있는 일은 하나뿐",
+        "There is time to do only one thing tonight",
+        "오후 6시가 지나기 전 끝낼 수 있는 일은 하나뿐",
+        "There is time to finish only one thing before six",
+        "재혁의 카카오톡에 오늘 안에 답",
+        "Answer Jaehyuk's Kakao message",
+    )
+    serialized_first_bill = json.dumps(
+        first_bill_event, ensure_ascii=False
+    )
+    if any(
+        forbidden in serialized_first_bill
+        for forbidden in forbidden_first_bill_copy
+    ):
+        fail(
+            "First Bill copy still claims false physical exclusivity or an "
+            "inbound Jaehyuk message",
+            errors,
+        )
+    if len(first_bill_choices) == 8:
+        urgent_effects = require_dict(
+            first_bill_choices[6],
+            "registered event v2_demo_first_bill.choices[6]",
+            errors,
+        ).get("effects")
+        if urgent_effects != {
+            "money": 280_000,
+            "health": -5,
+            "mental": -4,
+        }:
+            fail(
+                "First Bill urgent paid shift must keep its exact KRW 280,000 "
+                "health/mental receipt",
+                errors,
+            )
+
+    dirty_tradeoffs = {
+        "v2_dirty_trace_initial_call": [
+            {"mental": -4},
+            {"intelligence": 1, "mental": -5},
+        ],
+        "v2_dirty_recruiter_week24": [
+            {"mental": -2},
+            {"intelligence": 1, "mental": -4},
+        ],
+    }
+    for event_id, expected_effects in dirty_tradeoffs.items():
+        dirty_event = require_dict(
+            registered_events.get(event_id),
+            f"registered event {event_id}",
+            errors,
+        )
+        dirty_choices = require_list(
+            dirty_event.get("choices"),
+            f"registered event {event_id}.choices",
+            errors,
+        )
+        actual_effects = [
+            require_dict(
+                choice,
+                f"{event_id}.choices[{choice_index}]",
+                errors,
+            ).get("effects", {})
+            for choice_index, choice in enumerate(dirty_choices)
+        ]
+        if actual_effects != expected_effects or any(
+            require_dict(
+                choice,
+                f"{event_id}.choices[{choice_index}]",
+                errors,
+            ).get("flags", [])
+            for choice_index, choice in enumerate(dirty_choices)
+        ):
+            fail(
+                f"{event_id} must keep its non-dominated stat tradeoff "
+                "without write-only flags",
+                errors,
+            )
+
+    gangnam_event = require_dict(
+        registered_events.get("v2_gangnam_receipt_walk"),
+        "registered event v2_gangnam_receipt_walk",
+        errors,
+    )
+    gangnam_choices = require_list(
+        gangnam_event.get("choices"),
+        "registered event v2_gangnam_receipt_walk.choices",
+        errors,
+    )
+    gangnam_effects = [
+        require_dict(
+            choice,
+            f"v2_gangnam_receipt_walk.choices[{choice_index}]",
+            errors,
+        ).get("effects", {})
+        for choice_index, choice in enumerate(gangnam_choices)
+    ]
+    if gangnam_effects != [
+        {"money": -9_000, "mental": 3},
+        {},
+        {"intelligence": 1, "mental": -1},
+    ] or any(
+        require_dict(
+            choice,
+            f"v2_gangnam_receipt_walk.choices[{choice_index}]",
+            errors,
+        ).get("flags", [])
+        for choice_index, choice in enumerate(gangnam_choices)
+    ):
+        fail(
+            "Gangnam's KRW 9,000 choice must trade recovery for cash while "
+            "the other choices remain distinct and flag-free",
+            errors,
+        )
+
+    hyunsu_morning = require_dict(
+        registered_events.get("v2_hyunsu_exam_morning_echo"),
+        "registered event v2_hyunsu_exam_morning_echo",
+        errors,
+    )
+    hyunsu_morning_choices = require_list(
+        hyunsu_morning.get("choices"),
+        "registered event v2_hyunsu_exam_morning_echo.choices",
+        errors,
+    )
+    if (
+        len(hyunsu_morning_choices) != 1
+        or "hyunsu_exam_day_seen"
+        not in require_dict(
+            hyunsu_morning_choices[0] if hyunsu_morning_choices else {},
+            "registered event v2_hyunsu_exam_morning_echo.choices[0]",
+            errors,
+        ).get("flags", [])
+    ):
+        fail(
+            "Hyunsu's Week-24 Saturday echo must leave exactly one "
+            "hyunsu_exam_day_seen receipt",
+            errors,
+        )
+    if any(
+        event_id in registered_events
+        for event_id in (
+            "v2_hyunsu_exam_result",
+            "v2_hyunsu_exam_pass",
+            "v2_hyunsu_exam_failure",
+        )
+    ):
+        fail("the 24-week demo must not reveal Hyunsu's exam result", errors)
     forbidden_demo_roots = {
         "arc_daeun_02_regular",
         "arc_daeun_02b_dream",
@@ -3447,6 +4426,61 @@ def main() -> int:
     escaped_year_copy = str(year_close_variants.get("escaped_dirty_money", ""))
     if "150만원" not in escaped_year_copy or "사비" in escaped_year_copy:
         fail("Year-one escaped-dirty-money recap must preserve the KRW 1,500,000 return", errors)
+    year_close_obligation_readers = require_dict(
+        year_close_event.get("description_memory_if_known"),
+        "arc_year1_close.description_memory_if_known",
+        errors,
+    )
+    for obligation_id in expected_obligation_ids:
+        for disposition in ("selected", "deferred"):
+            condition_key = (
+                "obligation_receipt:demo_collision:"
+                f"{disposition}:{obligation_id}"
+            )
+            if not str(year_close_obligation_readers.get(condition_key, "")).strip():
+                fail(
+                    "Year-one close must visibly read Week-24 obligation "
+                    f"{obligation_id!r} when {disposition}",
+                    errors,
+                )
+    city_year_result_key = (
+        "obligation_receipt:demo_collision:selected:"
+        "city_work_sample&v2_city_service_result_seen"
+    )
+    if not str(
+        year_close_obligation_readers.get(city_year_result_key, "")
+    ).strip():
+        fail(
+            "Year-one close must replace the Week-24 City submission "
+            "with its actual Week-28 result once that message was read",
+            errors,
+        )
+    try:
+        demo_core_source = (
+            ROOT / "systems/DemoCoreLoopV2.gd"
+        ).read_text(encoding="utf-8")
+        story_mode_source = (
+            ROOT / "scenes/StoryMode.gd"
+        ).read_text(encoding="utf-8")
+    except OSError as exc:
+        fail(f"cannot load obligation receipt reader sources: {exc}", errors)
+        demo_core_source, story_mode_source = "", ""
+    if "static func obligation_receipt_matches(" not in demo_core_source:
+        fail(
+            "DemoCoreLoopV2 must expose a public selected/deferred "
+            "obligation receipt lookup",
+            errors,
+        )
+    if (
+        'condition.begins_with("obligation_receipt:")'
+        not in story_mode_source
+        or "_obligation_condition_disposition" not in story_mode_source
+    ):
+        fail(
+            "StoryMode must resolve obligation receipt conditions and render "
+            "both the selected and deferred Week-24 memories",
+            errors,
+        )
     try:
         english_event_rows = json.loads(
             (ROOT / "content/events_en/arc_events.json").read_text(
@@ -3578,6 +4612,25 @@ def main() -> int:
     )
     if "1.5 million" not in english_escaped_year or "own money" in english_escaped_year:
         fail("English year-one recap must preserve the KRW 1,500,000 return", errors)
+    english_year_obligation_readers = require_dict(
+        english_year.get("description_memory_if_known"),
+        "English arc_year1_close.description_memory_if_known",
+        errors,
+    )
+    if set(english_year_obligation_readers) != set(year_close_obligation_readers):
+        fail(
+            "English year-one close must mirror every Korean Week-24 "
+            "obligation reader condition",
+            errors,
+        )
+    for condition_key in year_close_obligation_readers:
+        if not str(
+            english_year_obligation_readers.get(condition_key, "")
+        ).strip():
+            fail(
+                f"English year-one close has no prose for {condition_key!r}",
+                errors,
+            )
     try:
         main_game_source = (ROOT / "scenes/MainGame.gd").read_text(
             encoding="utf-8"
@@ -3620,6 +4673,8 @@ def main() -> int:
         f"relationship_choice_maps={len(development_relationship_ids)} "
         f"application_transitions={len(EXPECTED_APPLICATION_OUTCOMES)} "
         f"future_applications={len(EXPECTED_FUTURE_APPLICATION_CONTRACTS)} "
+        f"future_stories={len(EXPECTED_FUTURE_STORY_CONTRACTS)} "
+        f"post_demo_applications={len(EXPECTED_POST_DEMO_APPLICATION_CONTRACTS)} "
         f"deferred_callbacks={len(EXPECTED_DEFERRED_CALLBACK_CONTRACTS)} "
         f"visible_ap={str(surface['visible_ap']).lower()}"
     )

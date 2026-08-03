@@ -66,11 +66,11 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": [
-      "story",
-      "arc",
-      "internal"
-    ],
+  "tags": [
+    "story",
+    "arc",
+    "internal"
+  ],
     "cooldown": 9999,
     "description": "서울에 온 지 2년 반. 240주 가운데 절반을 지나왔다.\n\n며칠 전 강남의 불빛 앞에서 스스로에게 왜 여기까지 왔는지 물었다. 오늘은 그 대답 옆에 실제 잔액과 남은 120주를 적었다.\n\n핸드폰 계산기에 목표액과 현재 자산을 넣었다. 매주 얼마를 벌고, 얼마나 불려야 하는지 숫자가 나왔다.\n\n처음의 30억은 막연해서 오히려 가벼웠다. 절반을 산 뒤의 30억에는 이미 보낸 사람, 받은 전화, 잠들지 못한 밤이 들어 있었다.\n\n불가능하다고 단정할 숫자는 아니었다. 그러나 지금 속도 그대로라면, 남은 절반은 앞의 절반과 다른 값을 요구했다.",
     "choices": [
@@ -385,7 +385,9 @@
     "weight": 0,
     "hidden": false,
     "conditions": {
-      "min_turn": 9999
+      "flag": "arc_hyunsu_drift_seen",
+      "no_flag": "arc_hyunsu_new_path_seen",
+      "min_turn": 36
     },
     "tags": [
       "story",
@@ -411,7 +413,7 @@
             "affinity": 5
           }
         },
-        "result_text": "수화기 너머에서 현수가 숨을 짧게 내쉬었다. 웃음에 가까운 소리였다.\n\n\"형도 잘 지내요. 잘될 때만 말고요.\"\n\n통화가 끝난 뒤 {name}은 한동안 꺼진 화면을 들고 있었다. 같은 고시원을 거쳐 나온 두 사람이, 이제 서로 다른 내일을 갖고 있었다."
+        "result_text": "수화기 너머에서 현수가 숨을 짧게 내쉬었다. 웃음에 가까운 소리였다.\n\n\"형도 잘 지내요. 잘될 때만 말고요.\"\n\n통화가 끝난 뒤 {name}은 한동안 꺼진 화면을 들고 있었다. 같은 고시원에서 만난 두 사람이, 이제 서로 다른 내일을 갖고 있었다."
       },
       {
         "text": "\"뭐 할 건지 생각은 있어?\" — 궁금해진다",
@@ -712,7 +714,9 @@
     "weight": 0,
     "hidden": false,
     "conditions": {
-      "min_turn": 9999
+      "flag": "hyunsu_failed",
+      "no_flag": "arc_hyunsu_exam_fail_seen",
+      "min_turn": 25
     },
     "tags": [
       "story",
@@ -893,7 +897,9 @@
     "weight": 0,
     "hidden": false,
     "conditions": {
-      "min_turn": 9999
+      "flag": "arc_hyunsu_exam_fail_seen",
+      "no_flag": "arc_hyunsu_drift_seen",
+      "min_turn": 30
     },
     "tags": [
       "story",
@@ -912,7 +918,7 @@
           "arc_hyunsu_drift_seen",
           "hyunsu_drift_ignored"
         ],
-        "result_text": "할 말이 없었다. 아니, 있었을지도 모른다. {name}은 몇 줄을 썼다가 전부 지우고 화면을 껐다.\n\n읽지 않은 메시지 하나가 새벽 내내 알림창에 남았다.",
+        "result_text": "할 말이 없었다. 아니, 있었을지도 모른다. {name}은 몇 줄을 썼다가 전부 지우고 화면을 껐다.\n\n답하지 못한 메시지 하나가 새벽 내내 알림창에 남았다.",
         "deferred_follow_up": "arc_hyunsu_new_path",
         "deferred_delay": 6
       },
@@ -1215,7 +1221,10 @@
       "family"
     ],
     "cooldown": 9999,
-    "description": "다은에게 답한 지 사흘 뒤, 저녁 일곱 시의 지하철 환승 통로에서 휴대폰이 짧게 울렸다. 어머니였다.\n\n'아버지 요즘 약 드시기 시작했어. 대수롭지 않대. 걱정하지 마라.'\n\n{name}은 문장을 두 번 읽었다. 무슨 약인지, 언제부터인지, 병원에서는 뭐라고 했는지 아무것도 없었다. 아버지는 걱정하지 말라고 할 때 늘 중요한 설명부터 줄였다. 어머니도 그 말투를 그대로 옮겨 적은 것 같았다.\n\n며칠 전에는 서울을 떠날지 묻는 사람이 눈앞에 있었다. 이제는 창원에서 아무것도 묻지 않는 사람이 화면 안에 있었다. 답장 칸의 커서가 깜빡였다. 대수롭지 않다는 말을 가족이 먼저 꺼낼 때는, 대개 누군가 이미 걱정하고 있다는 뜻이었다.",
+    "description": "저녁 일곱 시의 지하철 환승 통로에서 휴대폰이 짧게 울렸다. 어머니였다.\n\n'아버지 요즘 약 드시기 시작했어. 대수롭지 않대. 걱정하지 마라.'\n\n{name}은 문장을 두 번 읽었다. 무슨 약인지, 언제부터인지, 병원에서는 뭐라고 했는지 아무것도 없었다. 아버지는 걱정하지 말라고 할 때 늘 중요한 설명부터 줄였다. 어머니도 그 말투를 그대로 옮겨 적은 것 같았다.\n\n화면 속 창원에서는 아무도 {name}에게 무언가를 요구하지 않았다. 걱정하지 말라는 문장만 있었고 답장 칸의 커서가 깜빡였다. 대수롭지 않다는 말을 가족이 먼저 꺼낼 때는, 대개 누군가 이미 걱정하고 있다는 뜻이었다.",
+    "description_if_known": {
+      "arc_daeun_fork_seen": "다은에게 서울을 떠날지 답한 지 사흘 뒤, 저녁 일곱 시의 지하철 환승 통로에서 휴대폰이 짧게 울렸다. 어머니였다.\n\n'아버지 요즘 약 드시기 시작했어. 대수롭지 않대. 걱정하지 마라.'\n\n{name}은 문장을 두 번 읽었다. 무슨 약인지, 언제부터인지, 병원에서는 뭐라고 했는지 아무것도 없었다. 아버지는 걱정하지 말라고 할 때 늘 중요한 설명부터 줄였다. 어머니도 그 말투를 그대로 옮겨 적은 것 같았다.\n\n사흘 전에는 서울을 떠날지 묻는 사람이 눈앞에 있었다. 이제는 창원에서 아무것도 묻지 않는 사람이 화면 안에 있었다. 답장 칸의 커서가 깜빡였다. 대수롭지 않다는 말을 가족이 먼저 꺼낼 때는, 대개 누군가 이미 걱정하고 있다는 뜻이었다."
+    },
     "choices": [
       {
         "text": "아버지한테 직접 전화했다",
@@ -1228,6 +1237,9 @@
           "called_about_medication"
         ],
         "follow_up_event": "arc_jiyeon_03_offer",
+        "follow_up_requires_flags": [
+          "arc_jiyeon_store_seen"
+        ],
         "cast_effects": {
           "father": {
             "affinity": 3
@@ -1247,7 +1259,10 @@
         "deferred_follow_up": "callback_medication_ignored_echo",
         "deferred_delay": 12,
         "follow_up_event": "arc_jiyeon_03_offer",
-      "result_text": "'알겠어요. 잘 챙겨드세요.'라고 답하고 화면을 닫았다. 오늘 처리할 일도, 밀린 계산도 남아 있었다. 아버지 약까지 붙들 여유는 없다고 생각했다.\n\n열차가 들어오자 사람들 사이에 밀려 탔다. 두 정거장을 지나는 동안 방금 읽은 약 이름이 떠오르지 않았다.\n\n주머니 속 폰은 더 울리지 않았는데, 닫은 문장은 집에 도착할 때까지 손바닥에 무겁게 남았다."
+        "follow_up_requires_flags": [
+          "arc_jiyeon_store_seen"
+        ],
+      "result_text": "'알겠어요. 잘 챙겨드세요.'라고 답하고 대화창을 닫았다. 오늘 처리할 일도, 밀린 계산도 남아 있었다. 아버지 약까지 붙들 여유는 없다고 생각했다.\n\n열차가 들어오자 사람들 사이에 밀려 탔다. 두 정거장을 지나는 동안, 무슨 약인지 한 번도 묻지 않았다는 생각이 들었다.\n\n주머니 속 폰은 더 울리지 않았다. 어머니에게 보낸 짧은 답장이 집에 도착할 때까지 자꾸 떠올랐다."
       },
       {
         "text": "주말에 내려가겠다고 했다",
@@ -1263,6 +1278,9 @@
         "deferred_follow_up": "callback_medication_visited_echo",
         "deferred_delay": 12,
         "follow_up_event": "arc_jiyeon_03_offer",
+        "follow_up_requires_flags": [
+          "arc_jiyeon_store_seen"
+        ],
         "cast_effects": {
           "father": {
             "affinity": 4
@@ -1414,7 +1432,8 @@
     "tags": [
       "story",
       "arc",
-      "internal"
+      "internal",
+      "chapter_bridge"
     ],
     "cooldown": 9999,
   "description": "강남대로를 걸었다.\n\n처음 서울에 온 해, 여기서 저 아파트를 올려다봤다. \"저기 살 수 있을까.\" 농담처럼 했던 생각이다.\n\n지금 총자산이 20억을 넘겼다. 10억이 남았다. 1년 안에 가능하다. 계산상으로는.\n\n그게 진짜라는 게 실감이 안 난다.",

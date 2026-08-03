@@ -61,7 +61,7 @@ func _ready() -> void:
 	_restore_autosave()
 	if _failures.is_empty():
 		print(
-			"CORE_LOOP_V2_C_CHECK_OK schema=3 cap=20 migration=12_to_20 "
+			"CORE_LOOP_V2_C_CHECK_OK schema=3 cap=24 migration=12_to_24 "
 			+ "offers=sparse5_rich7 hanbit=week14/submitted/interviewed/decline_once "
 			+ "daeun=two_paths/two_choices/player_once "
 			+ "jiyeon=reciprocal_or_player/opening "
@@ -85,14 +85,14 @@ func _check_contract_and_twelve_week_resume() -> void:
 	var raw_prototype_weeks: Variant = scope.get("prototype_weeks", [])
 	_expect(int(contract.get("schema_version", 0)) == 3,
 		"C runtime contract is not schema 3")
-	_expect(CORE_LOOP.development_cap_week() == 20 \
-			and int(scope.get("development_cap_week", 0)) == 20,
-		"C regression did not inherit the week-20 development cap")
+	_expect(CORE_LOOP.development_cap_week() == 24 \
+			and int(scope.get("development_cap_week", 0)) == 24,
+		"C regression did not inherit the week-24 development cap")
 	_expect(raw_prototype_weeks is Array \
 			and (raw_prototype_weeks as Array).size() == 2 \
 			and int((raw_prototype_weeks as Array)[0]) == 1 \
-			and int((raw_prototype_weeks as Array)[1]) == 20,
-		"C prototype window is not exactly weeks 1–20")
+			and int((raw_prototype_weeks as Array)[1]) == 24,
+		"C prototype window is not exactly weeks 1–24")
 	_expect(not bool(contract.get("runtime_default", true)),
 		"C enabled the unfinished V2 loop by default")
 
@@ -163,10 +163,10 @@ func _check_contract_and_twelve_week_resume() -> void:
 		"schema-3 week-12 terminal save did not initialize")
 	var migrated: Dictionary = GameState.core_loop_v2_state
 	_expect(int(migrated.get("schema", 0)) == 3 \
-			and int(migrated.get("development_cap_week", 0)) == 20 \
+			and int(migrated.get("development_cap_week", 0)) == 24 \
 			and int(migrated.get("completed_through_week", 0)) == 12 \
 			and not bool(migrated.get("prototype_complete", true)),
-		"week-12 completion did not reopen under the week-20 cap")
+		"week-12 completion did not reopen under the week-24 cap")
 	_expect(CORE_LOOP.is_active() \
 			and not CORE_LOOP.is_prototype_complete() \
 			and CORE_LOOP.needs_plan(4),
@@ -963,7 +963,7 @@ func _check_sixteen_week_continuation_boundary() -> void:
 	var state: Dictionary = GameState.core_loop_v2_state
 	state["completed_turns"] = range(1, 17)
 	state["completed_through_week"] = 12
-	state["development_cap_week"] = 20
+	state["development_cap_week"] = 24
 	state["prototype_complete"] = false
 	state["prototype_completed_at_turn"] = 0
 	state["completed_at_turn"] = 0
@@ -993,7 +993,7 @@ func _check_sixteen_week_continuation_boundary() -> void:
 				and int(saved_v2.get(
 					"completed_through_week", 0)) == 12 \
 				and int(saved_v2.get(
-					"development_cap_week", 0)) == 20 \
+					"development_cap_week", 0)) == 24 \
 				and not bool(saved_v2.get("prototype_complete", true)) \
 				and int(saved_v2.get("completed_at_turn", 0)) == 0 \
 				and (saved_v2.get(

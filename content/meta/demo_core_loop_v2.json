@@ -8,14 +8,15 @@
     "max_week": 24,
     "months": 6,
     "weeks_per_month": 4,
-    "development_cap_week": 20,
-    "prototype_weeks": [1, 20],
+    "development_cap_week": 24,
+    "prototype_weeks": [1, 24],
     "target_play_minutes": [75, 95],
     "target_major_scenes": [18, 22]
   },
   "long_arc_contract": {
     "demo_role": "chapter_one_first_half",
     "chapter_one_end_week": 48,
+    "chapter_close_weeks": [48, 96, 144, 192],
     "full_run_end_week": 240,
     "year_count": 5,
     "demo_may_open_but_not_resolve": [
@@ -46,18 +47,59 @@
       "application_id": "dodam_customer_ops_2026q2",
       "from": "submitted",
       "owner_month": 6,
-      "allowed_weeks": [21, 22, 23, 24],
+      "allowed_weeks": [22],
       "activation_cap_week": 24,
-      "runtime_surface": "deferred"
+      "runtime_surface": "inbound_message",
+      "result_event": "v2_dodam_result_message",
+      "to": "no_offer"
     },
     "m6_city_service_response": {
       "producer_bundle": "m5_city_service_application",
       "application_id": "city_facility_ops_2026h1",
       "from": "submitted",
       "owner_month": 6,
-      "allowed_weeks": [21, 22, 23, 24],
+      "allowed_weeks": [23],
       "activation_cap_week": 24,
-      "runtime_surface": "deferred"
+      "runtime_surface": "inbound_message",
+      "result_event": "v2_city_service_work_sample_message",
+      "to": "submitted"
+    }
+  },
+  "future_story_contracts": {
+    "hyunsu_exam_2026": {
+      "producer_bundle": "hyunsu_exam_eve",
+      "required_memories": [
+        "hyunsu_exam_eve_one_problem",
+        "hyunsu_exam_eve_rest_protected"
+      ],
+      "unanswered_source": "hyunsu_exam_eve_unanswered",
+      "decline_outcome": "hyunsu_takes_the_exam_without_another_shared_hour",
+      "trigger_event": "v2_hyunsu_exam_morning_echo",
+      "trigger_flag": "hyunsu_exam_day_seen",
+      "exam_week": 24,
+      "result_available_week": 27,
+      "canonical_outcome": "fail",
+      "result_event": "hyunsu_result_fail",
+      "narrative_spine": "hyunsu_after_the_exam",
+      "legacy_override_flag": "hyunsu_encouraged",
+      "legacy_override_event": "hyunsu_result_pass",
+      "choice_changes_outcome": false,
+      "choice_changes_description": true
+    }
+  },
+  "post_demo_application_contracts": {
+    "city_facility_ops_2026h1_result": {
+      "producer_bundle": "demo_collision",
+      "producer_event": "v2_demo_first_bill",
+      "producer_choice": 2,
+      "selected_obligation_id": "city_work_sample",
+      "application_id": "city_facility_ops_2026h1",
+      "from": "submitted",
+      "to": "no_offer",
+      "not_before_week": 28,
+      "not_after_week": 32,
+      "result_event": "v2_city_service_result_message",
+      "result_flag": "v2_city_service_result_seen"
     }
   },
   "deferred_callback_contracts": {
@@ -701,6 +743,55 @@
       "visible_month": 6,
       "message_ko": "재혁이 보낸 포장마차 약속에 답하지 않았다. 이번 달에는 두 사람이 만나지 않았다.",
       "message_en": "Jaehyuk's invitation to the pojangmacha went unanswered, so the two did not meet this month."
+    },
+    "first_half_recruitment_closes": {
+      "producer_bundle": "m6_public_recruitment",
+      "consumer_kind": "terminal_recap",
+      "visible_month": 6,
+      "message_ko": "공공기관 계약직 NCS 실전 대비반이 끝났다. 이번 달에는 시간 안에 문제를 풀어 보는 연습을 하지 못했다.",
+      "message_en": "The public-contract NCS practice session ended without a timed practice attempt this month."
+    },
+    "holiday_shift_is_filled": {
+      "producer_bundle": "m6_holiday_night_shift",
+      "consumer_kind": "terminal_recap",
+      "visible_month": 6,
+      "message_ko": "목요일부터 토요일까지 이어지는 사흘 심야 상하차 자리는 다른 사람으로 채워졌다. 받을 수 있었던 48만원은 벌지 못했다.",
+      "message_en": "Someone else took the Thursday-to-Saturday overnight loading shifts, so the 480,000 won was not earned."
+    },
+    "study_group_takes_the_exam_without_minjun": {
+      "producer_bundle": "m6_last_study_group",
+      "consumer_kind": "terminal_recap",
+      "visible_month": 6,
+      "message_ko": "이번 달 마지막 실전 문제풀이 모임은 민준 없이 끝났다. 틀린 문제의 풀이를 서로 비교할 기회도 지나갔다.",
+      "message_en": "This month's final practice group finished without Minjun, and the chance to compare wrong answers passed with the month."
+    },
+    "the_first_bill_arrives_on_an_exhausted_body": {
+      "producer_bundle": "m6_no_plans_day",
+      "consumer_kind": "terminal_recap",
+      "visible_month": 6,
+      "message_ko": "여섯 번째 달에도 하루를 온전히 비우지는 못했다.",
+      "message_en": "Month Six ended without one fully protected day."
+    },
+    "gangnam_receipt_walk_passes": {
+      "producer_bundle": "m6_gangnam_receipt_walk",
+      "consumer_kind": "terminal_recap",
+      "visible_month": 6,
+      "message_ko": "이번 달에는 강남역 카페 앞에서 쓸 돈을 직접 정해 보지 않았다.",
+      "message_en": "This month passed without deciding what to spend outside the Gangnam Station cafe."
+    },
+    "daeun_tuesday_promise_missed": {
+      "producer_bundle": "m6_daeun_tuesday_followthrough",
+      "consumer_kind": "terminal_recap",
+      "visible_month": 6,
+      "message_ko": "다은과 약속한 화요일이 지났다. 그날 편의점에는 가지 않았다.",
+      "message_en": "The Tuesday promised to Daeun passed without a visit to the store."
+    },
+    "hyunsu_takes_the_exam_without_another_shared_hour": {
+      "producer_bundle": "hyunsu_exam_eve",
+      "consumer_kind": "terminal_recap",
+      "visible_month": 6,
+      "message_ko": "시험 전 마지막 주에 현수의 카카오톡을 읽었지만, 한 문제도 함께 보지 않았고 쉬라는 답장도 보내지 못했다.",
+      "message_en": "Hyunsu's Kakao message arrived in the final week before the exam, but they neither reviewed one problem nor exchanged a message about resting."
     }
   },
   "scene_bundles": {
@@ -1447,8 +1538,8 @@
       "consumes_slot": true,
       "offer_ko": "아무 약속도 잡지 않는 일요일",
       "offer_en": "A Sunday with No Commitments",
-      "detail_ko": "알람과 구직 앱을 끄고 밀린 잠과 식사를 챙기는 하루를 남겨 둔다.",
-      "detail_en": "Leave one day for sleep and proper meals with alarms and job apps turned off.",
+      "detail_ko": "휴대폰 알람을 끄고 구직 공고도 보지 않은 채, 밀린 잠과 식사를 챙기는 하루를 남겨 둔다.",
+      "detail_en": "Turn off the phone alarm, leave job postings unread, and reserve one day for sleep and proper meals.",
       "deadline_ko": "다섯 번째 달의 마지막 일요일",
       "deadline_en": "The final Sunday of Month Five",
       "decline_ko": "이번 달은 하루도 완전히 쉬지 못한 채 끝난다.",
@@ -1487,36 +1578,150 @@
       "decline_consequence": "contract_clinic_intake_closes"
     },
     "m6_public_recruitment": {
-      "kind": "career",
-      "action_id": "apply",
+      "kind": "growth",
+      "allowed_weeks": [21, 22, 23],
+      "action_id": "study",
+      "action_config": {
+        "execution": "instant_effect",
+        "axis": "human",
+        "place_id": "city",
+        "effects": {
+          "intelligence": 3,
+          "mental": -3
+        },
+        "result_title_ko": "NCS 실전 문제를 시간 안에 풀었다",
+        "result_title_en": "Completed a Timed NCS Practice Set",
+        "result_body_ko": "공공기관 계약직 실전 대비반에서 자료해석 문제를 제한 시간 안에 풀고, 틀린 문항의 계산 순서를 다시 적었다. 새 지원서를 보낸 것은 아니다.",
+        "result_body_en": "In a public-contract prep session, he finished a timed data-interpretation set and rewrote the steps behind each wrong answer. No new application was submitted."
+      },
       "characters": [],
       "initiated_by": "player",
+      "phone_surface": "self_note",
       "consumes_slot": true,
+      "offer_ko": "공공기관 계약직 NCS 실전 대비",
+      "offer_en": "Public-Contract NCS Practice",
+      "detail_ko": "새 지원서를 보내는 대신, 선택한 주에 공공기관 계약직 필기 문제를 실제 제한 시간에 맞춰 푼다.",
+      "detail_en": "Instead of submitting a new application, complete a timed written-test set for public contract roles in the selected week.",
+      "deadline_ko": "23주차 마지막 실전 대비반 전",
+      "deadline_en": "Before the final practice session in Week 23",
+      "decline_ko": "이번 달에는 제한 시간을 두고 필기 문제를 풀어 보지 못한다.",
+      "decline_en": "No timed written-test practice is completed this month.",
       "decline_consequence": "first_half_recruitment_closes"
     },
     "m6_holiday_night_shift": {
       "kind": "livelihood",
+      "allowed_weeks": [21, 22, 23],
       "action_id": "side_shift",
+      "action_config": {
+        "execution": "instant_effect",
+        "axis": "money",
+        "place_id": "work",
+        "effects": {
+          "money": 480000,
+          "health": -6,
+          "mental": -5
+        },
+        "result_title_ko": "사흘 연속 심야 상하차를 마쳤다",
+        "result_title_en": "Finished Three Consecutive Overnight Loading Shifts",
+        "result_body_ko": "선택한 주 목요일부터 토요일까지 택배 상자를 내리고 구역별로 쌓아 48만원을 받았다. 어깨와 손목에는 사흘 밤의 무게가 남았다.",
+        "result_body_en": "From Thursday through Saturday of the selected week, he unloaded and sorted parcels for 480,000 won. Three nights of weight remained in his shoulders and wrists."
+      },
       "characters": [],
       "initiated_by": "player",
+      "phone_surface": "self_note",
       "consumes_slot": true,
+      "offer_ko": "목·금·토 사흘 심야 상하차",
+      "offer_en": "Three Consecutive Overnight Loading Shifts",
+      "detail_ko": "선택한 주 목요일부터 토요일까지 택배 상자를 내리고 구역별로 쌓는다.",
+      "detail_en": "Unload and sort parcels from Thursday through Saturday of the selected week.",
+      "deadline_ko": "23주차 마지막 심야조 배정 전",
+      "deadline_en": "Before the final overnight crew is assigned in Week 23",
+      "decline_ko": "목요일부터 토요일까지 이어지는 사흘 심야조는 다른 사람으로 채워진다.",
+      "decline_en": "Someone else takes the Thursday-to-Saturday overnight crew.",
       "decline_consequence": "holiday_shift_is_filled"
     },
     "m6_last_study_group": {
       "kind": "growth",
+      "allowed_weeks": [21, 22, 23],
       "action_id": "study",
+      "action_config": {
+        "execution": "instant_effect",
+        "axis": "human",
+        "place_id": "library",
+        "effects": {
+          "intelligence": 2,
+          "social_skill": 1,
+          "mental": -2
+        },
+        "result_title_ko": "이번 달 마지막 실전 문제풀이 모임을 마쳤다",
+        "result_title_en": "Finished This Month's Final Practice Group",
+        "result_body_ko": "도서관 마감 전까지 각자 푼 문제를 바꿔 채점하고, 틀린 문항 두 개의 풀이를 소리 내 설명했다. 합격을 약속한 사람은 없었다.",
+        "result_body_en": "Before the library closed, the group traded answer sheets and explained two wrong answers aloud. No one promised anyone a pass."
+      },
       "characters": [],
       "initiated_by": "player",
+      "phone_surface": "self_note",
       "consumes_slot": true,
+      "offer_ko": "이번 달 마지막 실전 문제풀이 모임",
+      "offer_en": "This Month's Final Practice-Question Group",
+      "detail_ko": "선택한 주 도서관에서 각자 푼 문제를 바꿔 채점하고 오답 풀이를 설명한다.",
+      "detail_en": "In the selected week, trade practice sheets at the library and explain the wrong answers.",
+      "deadline_ko": "23주차 도서관 마감 전",
+      "deadline_en": "Before the library closes in Week 23",
+      "decline_ko": "이번 달 마지막 모임은 민준 없이 끝난다.",
+      "decline_en": "The final group finishes without Minjun.",
       "decline_consequence": "study_group_takes_the_exam_without_minjun"
     },
     "m6_no_plans_day": {
       "kind": "recovery",
+      "allowed_weeks": [21, 22, 23],
       "action_id": "rest",
+      "action_config": {
+        "execution": "rest",
+        "effects": {
+          "health": 5,
+          "mental": 7
+        },
+        "recovery_routine_effects": {
+          "health": 2,
+          "mental": 3
+        },
+        "result_title_ko": "하루를 아무에게도 주지 않았다",
+        "result_title_en": "Kept One Day for Himself",
+        "result_body_ko": "알람을 끄고 늦게 일어나 씻은 뒤 밥을 챙겨 먹었다. 은행 앱과 일정표는 저녁까지 열지 않았다. 낮에는 부족했던 잠을 더 잤고, 오늘 잡힌 일은 없었다.",
+        "result_body_en": "He turned off the alarm, woke late, showered, and ate. The banking app and calendar stayed closed until evening. He slept off more of the hours he had missed, with nothing else scheduled that day."
+      },
       "characters": [],
       "initiated_by": "player",
+      "phone_surface": "self_note",
       "consumes_slot": true,
+      "offer_ko": "아무에게도 주지 않는 하루",
+      "offer_en": "One Day Given to No One",
+      "detail_ko": "선택한 주 하루는 일도 약속도 잡지 않고 잠과 식사를 먼저 챙긴다.",
+      "detail_en": "Keep one day in the selected week free of work and commitments, protecting sleep and meals first.",
+      "deadline_ko": "23주차가 끝나기 전",
+      "deadline_en": "Before the end of Week 23",
+      "decline_ko": "여섯 번째 달에도 하루를 온전히 쉬지 못한다.",
+      "decline_en": "Month Six ends without one fully protected day.",
       "decline_consequence": "the_first_bill_arrives_on_an_exhausted_body"
+    },
+    "m6_gangnam_receipt_walk": {
+      "kind": "reflection",
+      "allowed_weeks": [21, 22, 23],
+      "existing_roots": ["v2_gangnam_receipt_walk"],
+      "characters": [],
+      "initiated_by": "player",
+      "phone_surface": "self_note",
+      "consumes_slot": true,
+      "offer_ko": "강남역에서 오늘 쓸 돈 정하기",
+      "offer_en": "Decide What to Spend Tonight at Gangnam Station",
+      "detail_ko": "강남역 카페 앞에서 9,000원을 쓸지, 그냥 지나칠지, 이번 달 말 고정비부터 확인할지 정한다.",
+      "detail_en": "Outside a Gangnam Station cafe, decide whether to spend 9,000 won, walk away, or check the fixed costs due at the end of this month first.",
+      "deadline_ko": "23주차 마지막 저녁",
+      "deadline_en": "The final evening of Week 23",
+      "decline_ko": "이번 달에는 강남역 거리를 직접 걷지 않는다.",
+      "decline_en": "He does not walk the streets around Gangnam Station this month.",
+      "decline_consequence": "gangnam_receipt_walk_passes"
     },
     "father_first_call": {
       "kind": "care",
@@ -2648,20 +2853,182 @@
     "father_health_signal": {
       "kind": "care",
       "allowed_weeks": [21],
-      "existing_roots": ["arc_father_02_signal"],
+      "existing_roots": ["v2_father_health_signal"],
       "characters": ["father"],
       "relationship_stage": "opening",
+      "relationship_outcomes": [
+        {
+          "event_id": "v2_father_health_signal",
+          "choices": [0],
+          "character": "father",
+          "from": "unmet",
+          "to": "opening",
+          "initiative": "reciprocal",
+          "memory": "father_neighbor_detail_checked",
+          "allow_already_at_target": true
+        },
+        {
+          "event_id": "v2_father_health_signal",
+          "choices": [1],
+          "character": "father",
+          "from": "unmet",
+          "to": "opening",
+          "initiative": "reciprocal",
+          "memory": "father_called_again_that_evening",
+          "allow_already_at_target": true
+        },
+        {
+          "event_id": "v2_father_health_signal",
+          "choices": [2],
+          "character": "father",
+          "from": "unmet",
+          "to": "opening",
+          "initiative": "reciprocal",
+          "memory": "father_health_warning_postponed",
+          "allow_already_at_target": true
+        }
+      ],
       "initiated_by": "world",
-      "consumes_slot": false,
-      "decline_consequence": "the_visit_window_closes_for_this_month"
+      "phone_surface": "inbound_message",
+      "message_sender_ko": "최씨 아저씨",
+      "message_sender_en": "Mr. Choi",
+      "message_body_ko": "민준아, 네 아버지가 요 며칠 약국 봉투를 들고 들어오더라. 네가 한번 연락해 봐라.",
+      "message_body_en": "Minjun, I have seen your father come home with pharmacy bags a few times lately. You should check in with him.",
+      "consumes_slot": false
+    },
+    "m6_dodam_response": {
+      "kind": "consequence",
+      "allowed_weeks": [22],
+      "existing_roots": ["v2_dodam_result_message"],
+      "characters": [],
+      "initiated_by": "world",
+      "phone_surface": "inbound_message",
+      "message_sender_ko": "도담고객센터 채용팀",
+      "message_sender_en": "Dodam Recruiting",
+      "message_body_ko": "지원해 주셔서 감사합니다. 검토 결과 이번 상담 운영직 전형에는 함께하기 어렵게 되었습니다.",
+      "message_body_en": "Thank you for applying. After review, we will not be moving forward with your customer-operations application.",
+      "prerequisites": {
+        "all": [
+          {
+            "kind": "application_status",
+            "application_id": "dodam_customer_ops_2026q2",
+            "status": "submitted"
+          }
+        ]
+      },
+      "application_outcomes": [
+        {
+          "event_id": "v2_dodam_result_message",
+          "choices": [0],
+          "application_id": "dodam_customer_ops_2026q2",
+          "from": "submitted",
+          "to": "no_offer"
+        }
+      ],
+      "consumes_slot": false
+    },
+    "m6_city_service_response": {
+      "kind": "consequence",
+      "allowed_weeks": [23],
+      "existing_roots": ["v2_city_service_work_sample_message"],
+      "characters": [],
+      "initiated_by": "world",
+      "phone_surface": "inbound_message",
+      "message_sender_ko": "도시시설운영단 채용팀",
+      "message_sender_en": "City Facilities Recruiting",
+      "message_body_ko": "지원서 검토를 위해 24주차 금요일 오후 6시까지 시설 점검 작업표 견본을 제출해 주세요.",
+      "message_body_en": "For application review, please submit a sample facilities-inspection worksheet by 6:00 p.m. Friday of Week 24.",
+      "prerequisites": {
+        "all": [
+          {
+            "kind": "application_status",
+            "application_id": "city_facility_ops_2026h1",
+            "status": "submitted"
+          }
+        ]
+      },
+      "consumes_slot": false
+    },
+    "m6_daeun_tuesday_followthrough": {
+      "kind": "pursuit",
+      "allowed_weeks": [21],
+      "existing_roots": ["v2_daeun_tuesday_followthrough"],
+      "characters": ["daeun"],
+      "relationship_stage": "shared_commitment",
+      "relationship_outcomes": [
+        {
+          "event_id": "v2_daeun_tuesday_followthrough",
+          "choices": [0, 1],
+          "character": "daeun",
+          "from": "shared_commitment",
+          "to": "shared_commitment",
+          "initiative": "player",
+          "memory": "daeun_tuesday_checkin_kept"
+        }
+      ],
+      "initiated_by": "player",
+      "phone_surface": "self_note",
+      "prerequisites": {
+        "all": [
+          {
+            "kind": "completed_bundle",
+            "bundle_id": "daeun_shared_dream"
+          },
+          {
+            "kind": "relationship_stage_is",
+            "character": "daeun",
+            "stage": "shared_commitment"
+          },
+          {
+            "kind": "relationship_memory",
+            "character": "daeun",
+            "memory": "daeun_same_tuesday_promised"
+          }
+        ]
+      },
+      "consumes_slot": true,
+      "offer_ko": "약속한 화요일에 다은을 찾아가기",
+      "offer_en": "Keep the Tuesday Check-In with Daeun",
+      "detail_ko": "연락처는 없지만 약속한 시간이 있다. 21주차 화요일 새벽, 다은이 근무하는 편의점에 직접 간다.",
+      "detail_en": "There is no phone number, but there is a promised time. Go to Daeun's convenience-store shift early Tuesday of Week 21.",
+      "deadline_ko": "21주차 화요일 새벽",
+      "deadline_en": "Early Tuesday in Week 21",
+      "decline_ko": "약속한 화요일에 편의점에 가지 않는다.",
+      "decline_en": "He does not go to the store on the Tuesday they promised.",
+      "decline_consequence": "daeun_tuesday_promise_missed"
     },
     "hyunsu_exam_eve": {
       "kind": "care",
       "allowed_weeks": [23],
-      "planned_scene_id": "v2_hyunsu_exam_eve",
+      "existing_roots": ["v2_hyunsu_exam_eve"],
       "characters": ["hyunsu"],
       "relationship_stage": "shared_commitment",
+      "relationship_outcomes": [
+        {
+          "event_id": "v2_hyunsu_exam_eve",
+          "choices": [0],
+          "character": "hyunsu",
+          "from": "shared_commitment",
+          "to": "shared_commitment",
+          "initiative": "reciprocal",
+          "memory": "hyunsu_exam_eve_one_problem"
+        },
+        {
+          "event_id": "v2_hyunsu_exam_eve",
+          "choices": [1],
+          "character": "hyunsu",
+          "from": "shared_commitment",
+          "to": "shared_commitment",
+          "initiative": "reciprocal",
+          "memory": "hyunsu_exam_eve_rest_protected"
+        }
+      ],
       "initiated_by": "reciprocal",
+      "phone_surface": "inbound_message",
+      "message_sender_ko": "강현수",
+      "message_sender_en": "Kang Hyunsu",
+      "message_body_ko": "형, 다음 주 토요일 시험인데 아직 헷갈리는 문제가 하나 있어요. 지금 잠깐 괜찮아요?",
+      "message_body_en": "Hyung, the exam is next Saturday and there is one problem I still mix up. Do you have a minute?",
       "prerequisites": {
         "all": [
           {
@@ -2669,24 +3036,83 @@
             "bundle_id": "hyunsu_study_followup"
           },
           {
-            "kind": "relationship_at_least",
+            "kind": "relationship_stage_is",
             "character": "hyunsu",
             "stage": "shared_commitment"
           }
         ]
       },
       "consumes_slot": true,
+      "offer_ko": "시험 전 마지막 문제에 답하기",
+      "offer_en": "Answer One Last Problem Before the Exam",
+      "detail_ko": "시험 전 마지막 일요일 밤, 현수가 카카오톡으로 보낸 행정법 한 문제를 함께 보거나 지금은 덮고 자라고 답한다.",
+      "detail_en": "On the final Sunday night before the exam, review one administrative-law problem Hyunsu sends by Kakao or tell him to close it and sleep.",
+      "deadline_ko": "23주차 일요일 밤",
+      "deadline_en": "Sunday night of Week 23",
+      "decline_ko": "시험 전 마지막 주의 메시지를 읽고도 답하지 못한다.",
+      "decline_en": "The message from the final week before the exam goes unanswered.",
       "decline_consequence": "hyunsu_takes_the_exam_without_another_shared_hour"
     },
     "demo_collision": {
       "kind": "boss",
+      "allowed_weeks": [24],
       "planned_scene_id": "v2_demo_first_bill",
+      "existing_roots": ["v2_demo_first_bill"],
       "characters": ["father"],
       "initiated_by": "system",
       "consumes_slot": true,
       "locked_week": 24,
-      "variants": ["employed", "unemployed", "selected_relationship", "selected_money_mentor"],
-      "decline_consequence": "the_player_must_choose_one_live_obligation"
+      "application_outcomes": [
+        {
+          "event_id": "v2_demo_first_bill",
+          "choices": [0, 1, 3, 4, 5, 6, 7],
+          "application_id": "city_facility_ops_2026h1",
+          "from": "submitted",
+          "to": "no_offer"
+        }
+      ],
+      "obligation_outcomes": [
+        {
+          "event_id": "v2_demo_first_bill",
+          "choices": [0],
+          "selected_obligation_id": "father_call"
+        },
+        {
+          "event_id": "v2_demo_first_bill",
+          "choices": [1],
+          "selected_obligation_id": "hanbit_month_close"
+        },
+        {
+          "event_id": "v2_demo_first_bill",
+          "choices": [2],
+          "selected_obligation_id": "city_work_sample"
+        },
+        {
+          "event_id": "v2_demo_first_bill",
+          "choices": [3],
+          "selected_obligation_id": "daeun_checkin"
+        },
+        {
+          "event_id": "v2_demo_first_bill",
+          "choices": [4],
+          "selected_obligation_id": "jaehyuk_reply"
+        },
+        {
+          "event_id": "v2_demo_first_bill",
+          "choices": [5],
+          "selected_obligation_id": "sangchul_ledger"
+        },
+        {
+          "event_id": "v2_demo_first_bill",
+          "choices": [6],
+          "selected_obligation_id": "urgent_paid_shift"
+        },
+        {
+          "event_id": "v2_demo_first_bill",
+          "choices": [7],
+          "selected_obligation_id": "body_rest"
+        }
+      ]
     }
   },
   "months": [
@@ -2807,8 +3233,8 @@
     {
       "month": 6,
       "weeks": [21, 24],
-      "title_ko": "첫 청구서",
-      "title_en": "The First Bill",
+      "title_ko": "먼저 할 일",
+      "title_en": "What Comes First",
       "target_minutes": 19,
       "prelude": ["father_health_signal"],
       "locked": [{"week": 24, "bundle": "demo_collision"}],
@@ -2817,9 +3243,15 @@
         "m6_holiday_night_shift",
         "m6_last_study_group",
         "m6_no_plans_day",
-        "hyunsu_exam_eve"
+        "m6_gangnam_receipt_walk",
+        "hyunsu_exam_eve",
+        "m6_daeun_tuesday_followthrough"
       ],
       "active_named_characters_max": 4,
+      "conditional_consequences": [
+        "m6_dodam_response",
+        "m6_city_service_response"
+      ],
       "closing": []
     }
   ]

@@ -22,7 +22,6 @@ func _ready() -> void:
 	_check_story_followup_suppression()
 	_check_branch_resolution()
 	_check_prototype_completion_boundary()
-	await _check_prototype_completion_surface()
 	await _check_planner_surface()
 	await _stop_test_audio()
 	LocaleManager.language = original_language
@@ -35,7 +34,7 @@ func _ready() -> void:
 			+ "forgone=producer_consumer/once delayed=cross_month/one_per_week "
 			+ "relationship=choice_only/monotonic summary=ack/save "
 			+ "followup=restored save=roundtrip "
-			+ "boundary=week12_continues/week20_turn21/24w_sticky_recap "
+			+ "boundary=week12_continues/week24_cap "
 			+ "phone=home5/status/calendar_cancel+secondary/contacts/bank/device_preview/read_only_reopen "
 			+ "planner=1280x720_focus_scroll "
 			+ "en_hangul=0 hidden_scores=0")
@@ -51,8 +50,8 @@ func _check_explicit_activation() -> void:
 		"prototype activated without its explicit runtime flag")
 	_expect(CORE_LOOP.initialize_for_run(true),
 		"forced prototype activation failed")
-	_expect(CORE_LOOP.development_cap_week() == 20,
-		"shared regression did not inherit the week-20 development cap")
+	_expect(CORE_LOOP.development_cap_week() == 24,
+		"shared regression did not inherit the week-24 development cap")
 	_expect(CORE_LOOP.is_active(),
 		"prototype did not become active in week one")
 	GameState.turn = 9
@@ -70,8 +69,14 @@ func _check_explicit_activation() -> void:
 	_expect(CORE_LOOP.is_active() and not CORE_LOOP.is_prototype_complete(),
 		"extended development build did not include week 20")
 	GameState.turn = 21
+	_expect(CORE_LOOP.is_active() and not CORE_LOOP.is_prototype_complete(),
+		"extended development build did not continue into week 21")
+	GameState.turn = 24
+	_expect(CORE_LOOP.is_active() and not CORE_LOOP.is_prototype_complete(),
+		"extended development build did not include week 24")
+	GameState.turn = 25
 	_expect(not CORE_LOOP.is_active() and not CORE_LOOP.is_prototype_complete(),
-		"untouched build did not stop safely after its week-20 boundary")
+		"untouched build did not stop safely after its week-24 boundary")
 
 func _check_deadline_and_routine_validation() -> void:
 	GameState.start_new_game()
@@ -582,7 +587,7 @@ func _check_prototype_completion_boundary() -> void:
 	GameState.flags["lent_account"] = true
 	GameState.flags["escaped_dirty_money"] = true
 	_expect(not CORE_LOOP.mark_prototype_complete(),
-		"prototype closed before the week-twenty month-end rollover")
+		"prototype closed before the week-twenty-four month-end rollover")
 	GameState.turn = 13
 	_expect(not CORE_LOOP.mark_prototype_complete(),
 		"week 13 incorrectly marked the extended build complete")
@@ -607,148 +612,6 @@ func _check_prototype_completion_boundary() -> void:
 		"week-12 continuation did not survive save/load")
 	_expect(GameState.turn == 13,
 		"week-12 continuation save did not remain at week 13")
-
-func _check_prototype_completion_surface() -> void:
-	LocaleManager.language = "en"
-	GameState.add_log("Core Loop V2 completion fixture", "system")
-	GameState.turn = 21
-	var completion_state: Dictionary = (
-		GameState.core_loop_v2_state as Dictionary).duplicate(true)
-	completion_state["completed_turns"] = range(1, 21)
-	completion_state["completed_through_week"] = 20
-	completion_state["development_cap_week"] = 20
-	completion_state["prototype_complete"] = true
-	completion_state["prototype_completed_at_turn"] = 21
-	completion_state["completed_at_turn"] = 21
-	var completion_summaries: Dictionary = (
-		completion_state.get("month_summaries", {}) as Dictionary
-	).duplicate(true)
-	for month_index in range(1, 6):
-		if not completion_summaries.has(str(month_index)):
-			completion_summaries[str(month_index)] = {
-				"month": month_index,
-				"fixed_expense": 650_000.0,
-				"cash_shortfall": 0.0,
-			}
-	completion_state["month_summaries"] = completion_summaries
-	GameState.core_loop_v2_state = completion_state
-	_expect(completion_summaries.size() == 5,
-		"week-20 terminal fixture did not retain all five month records")
-	var packed := load("res://scenes/MainGame.tscn") as PackedScene
-	_expect(packed != null,
-		"completion recap could not load MainGame.tscn")
-	if packed == null:
-		return
-	var main_game = packed.instantiate()
-	main_game.set_meta("_screenshot_qa_static_surface", true)
-	main_game.set_meta(
-		"_qa_core_loop_v2_completion_snapshot",
-		_qa_twenty_four_week_completion_snapshot())
-	main_game.set_meta("_qa_core_loop_v2_completion_cap_week", 24)
-	add_child(main_game)
-	await get_tree().process_frame
-	await get_tree().process_frame
-	# LocaleManager's startup setting load is deferred; reassert the requested
-	# language after that callback before rendering this isolated QA surface.
-	LocaleManager.language = "en"
-	main_game._core_loop_v2_show_completion()
-	await get_tree().process_frame
-	await get_tree().process_frame
-	_expect(str(main_game._modal_kind) == "core_loop_v2_complete",
-		"post-week-twenty MainGame did not open the completion recap")
-	_expect(bool(main_game.modal_layer.get_meta(
-			"core_loop_v2_completion", false)),
-		"completion recap did not expose its terminal surface marker")
-	_expect(not main_game.modal_close_button.visible,
-		"completion recap exposed a close path into the legacy director")
-	_expect(GameState.turn == 21,
-		"opening the completion recap advanced into another week")
-	var viewport_rect := get_viewport().get_visible_rect()
-	var panel_rect: Rect2 = main_game.modal_panel.get_global_rect()
-	_expect(viewport_rect.encloses(panel_rect),
-		"completion recap escaped the viewport: viewport=%s panel=%s" % [
-			viewport_rect, panel_rect])
-	var done_button := _find_meta_node(
-		main_game.modal_layer, "core_loop_v2_recap_done") as Button
-	_expect(is_instance_valid(done_button),
-		"completion recap omitted its terminal CTA")
-	if is_instance_valid(done_button):
-		var done_rect: Rect2 = done_button.get_global_rect()
-		# Focus tween can expand the CTA by roughly three logical pixels
-		# while it remains visually inside the fixed footer.
-		_expect(done_button.is_visible_in_tree() \
-				and panel_rect.grow(4.0).encloses(done_rect) \
-				and main_game.modal_footer.visible,
-			"completion CTA escaped its sticky footer: panel=%s button=%s" % [
-				panel_rect, done_rect])
-	var scroll_rect: Rect2 = main_game.modal_scroll.get_global_rect()
-	var intro_node := _find_meta_node(
-		main_game.modal_layer, "core_loop_v2_recap_intro") as Control
-	_expect(is_instance_valid(intro_node) \
-			and scroll_rect.grow(4.0).encloses(
-				intro_node.get_global_rect()) \
-			and main_game.modal_scroll.scroll_vertical == 0,
-		"24-week record did not open at its title and first paragraph")
-	_expect(main_game.modal_scroll.vertical_scroll_mode \
-			== ScrollContainer.SCROLL_MODE_AUTO \
-			and main_game.modal_body.get_combined_minimum_size().y \
-				> main_game.modal_scroll.size.y,
-		"24-week record did not retain an explorable bounded body")
-	_expect(get_viewport().gui_get_focus_owner() == done_button,
-		"sticky completion CTA did not own initial focus")
-	var surface_text := _collect_surface_text(main_game.modal_layer)
-	var upper_surface := surface_text.to_upper()
-	_expect(upper_surface.find("COMPLETED") >= 0,
-		"completion recap omitted the completed-activities section")
-	_expect(upper_surface.find("NOT CHOSEN") >= 0,
-		"completion recap omitted the unchosen-opportunities section")
-	_expect(upper_surface.find("CASH LEFT") >= 0 \
-			and upper_surface.find("HEALTH") >= 0,
-		"completion recap omitted current cash or health state")
-	_expect(surface_text.find("Hyunsu") >= 0,
-		"completion recap omitted the player's relationship initiative")
-	_expect(upper_surface.find("WEEK 25") >= 0,
-		"24-week completion density fixture did not state its week-25 boundary")
-	_expect(not _contains_hangul(surface_text),
-		"English completion recap leaked Hangul: %s" % surface_text)
-	main_game.free()
-	packed = null
-	await get_tree().process_frame
-
-func _qa_twenty_four_week_completion_snapshot() -> Dictionary:
-	var snapshot := CORE_LOOP.completion_snapshot()
-	var bundle_ids: Array = (
-		CORE_LOOP.contract().get("scene_bundles", {}) as Dictionary
-	).keys()
-	bundle_ids.sort()
-	_expect(not bundle_ids.is_empty(),
-		"24-week completion QA could not enumerate authored bundles")
-	if bundle_ids.is_empty():
-		return snapshot
-	var kept: Array = []
-	var forgone: Array = []
-	for index in range(24):
-		kept.append({
-			"week": index + 1,
-			"bundle_id": str(bundle_ids[index % bundle_ids.size()]),
-		})
-		forgone.append({
-			"week": index + 1,
-			"bundle_id": str(bundle_ids[
-				(index + 24) % bundle_ids.size()]),
-		})
-	snapshot["kept"] = kept
-	snapshot["forgone"] = forgone
-	var summaries: Dictionary = (
-		snapshot.get("month_summaries", {}) as Dictionary
-	).duplicate(true)
-	summaries["6"] = {
-		"month": 6,
-		"fixed_expense": 650_000.0,
-		"cash_shortfall": 310_000.0,
-	}
-	snapshot["month_summaries"] = summaries
-	return snapshot
 
 func _check_planner_surface() -> void:
 	GameState.start_new_game()

@@ -219,7 +219,7 @@ def check_events():
         "finance", "family", "jobs", "social", "gambling", "health",
         "investment", "relationship", "disasters", "politics", "comedy",
         "military", "story", "romance", "housing", "daily_life",
-        "self_development", "career",
+        "self_development", "career", "reflection",
     }
 
     for p, evs in events_by_file.items():
@@ -496,7 +496,11 @@ def _walk_event_flags(ev, game_sets, game_reads_json, cast_sets, cast_reads_json
     if isinstance(memory_dik, dict):
         for condition_key in memory_dik.keys():
             for fl in _known_condition_flags(condition_key):
-                if fl.startswith("relationship_memory:"):
+                if fl.startswith((
+                    "relationship_memory:",
+                    "future_story_source:",
+                    "obligation_receipt:",
+                )):
                     continue
                 game_reads_json.setdefault(fl, []).append(where)
     pik = ev.get("portrait_if_known", {})
@@ -643,14 +647,16 @@ DIRECTION_VALUES = {
 LIVING_SCENE_KEYS = {"effect", "intensity", "blur_px", "memory"}
 LIVING_SCENE_EFFECTS = {"none", "rain", "snow", "memory", "city_light", "fireworks"}
 # apply_choice()가 실제로 처리하는 선택지 키 + 주석용 키
-CHOICE_KEYS = {"text", "text_if_moral", "effects", "flags", "follow_up_event", "result_text",
+CHOICE_KEYS = {"text", "text_if_moral", "effects", "flags", "follow_up_event",
+               "follow_up_requires_flags", "result_text",
                "result_cg", "result_cg_reveal_paragraph", "result_background", "result_ambience",
                "opportunity", "cast_effects", "relationship_effects",
                "investment_effects", "tendency", "route", "grant_job",
                "grant_job_display", "first_paycheck_ratio", "replace_current_job",
                "conditions_note", "deferred_follow_up", "deferred_delay",
                "foreshadow", "bridge_summary", "clues", "give_items", "requires_item", "housing_keepsake",
-               "year_scene"}
+               "year_scene", "v2_obligation_id",
+               "v2_player_initiated_character"}
 
 def _match_arm_keys(src, func_pattern):
     """함수 본문 안 match 문의 따옴표 키들을 수집 (코드가 진실 — 목록 자동 동기화)."""
@@ -819,6 +825,22 @@ def check_event_keys():
                 for k in ch.keys():
                     if k not in CHOICE_KEYS:
                         warn('%s  [%s] 선택지%d 모르는 키 "%s"' % (rel(p), eid, ci, k))
+                if "follow_up_requires_flags" in ch:
+                    required_flags = ch.get("follow_up_requires_flags")
+                    if (
+                        not isinstance(required_flags, list)
+                        or not required_flags
+                        or any(
+                            not isinstance(flag, str) or not flag.strip()
+                            for flag in required_flags
+                        )
+                        or not str(ch.get("follow_up_event", "")).strip()
+                    ):
+                        err(
+                            '%s  [%s] 선택지%d follow_up_requires_flags는 '
+                            '비어 있지 않은 플래그 배열과 follow_up_event가 필요함'
+                            % (rel(p), eid, ci)
+                        )
                 if "text_if_moral" in ch:
                     _check_moral_text_map(
                         ch.get("text_if_moral"),

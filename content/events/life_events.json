@@ -4047,6 +4047,7 @@
       "max_turn": 180,
       "no_flag": [
         "father_health_known",
+        "arc_father_medication_seen",
         "father_passed"
       ]
     },

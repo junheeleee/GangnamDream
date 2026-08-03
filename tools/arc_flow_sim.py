@@ -151,6 +151,11 @@ def evalconds(conds, S):
         c = r.strip().rstrip(':')
         c = re.sub(r'_mp\.get\([^)]*\)', 'False', c)
         c = re.sub(r'MetaProgression\.meta\.get\([^)]*\)', 'False', c)
+        # The two representative 240-week traces model the legacy director,
+        # not a Core Loop V2 save. V2's receipt-backed Week-27 result has its
+        # own runtime gate; here the memory helper must remain false so the
+        # canonical legacy Week-25 failure branch stays in the simulated graph.
+        c = re.sub(r'\bv2_hyunsu_receipt_known\b', 'False', c)
         c = c.replace("false", "False").replace("true", "True")
         c = c.replace("GameState.flags", "S.flags").replace("GameState.", "S.")
         c = re.sub(r'\bf\.get\(', 'S.flags.get(', c)
@@ -461,6 +466,12 @@ REQUIRED_FLAGS = {
         "arc_final_year_start_seen",
     ],
 }
+EXPECTED_YEAR_CLOSES = {
+    "arc_year1_close": 48,
+    "arc_year2_close": 96,
+    "arc_year3_close": 144,
+    "arc_year4_close": 192,
+}
 EXPECTED_LATE_TEMPORAL = {
     "A 정석/다은보냄/사기": {
         69: "arc_year_one_half",
@@ -473,9 +484,9 @@ EXPECTED_LATE_TEMPORAL = {
         163: "arc_36_body_signal",
         169: "arc_year_three_half",
         181: "arc_36_night_doubt",
-        188: "arc_year4_close",
+        192: "arc_year4_close",
         190: "arc_final_stretch",
-        193: "arc_37_reckoning",
+        197: "arc_37_reckoning",
         204: "arc_37_burn_or_light",
         210: "arc_gangnam_real_estate",
     },
@@ -492,20 +503,20 @@ EXPECTED_LATE_TEMPORAL = {
         163: "arc_36_body_signal",
         169: "arc_year_three_half",
         181: "arc_36_night_doubt",
-        188: "arc_year4_close",
+        192: "arc_year4_close",
         190: "arc_final_stretch",
-        193: "arc_37_reckoning",
+        197: "arc_37_reckoning",
         204: "arc_37_burn_or_light",
         215: "arc_gangnam_real_estate",
     },
 }
 EXPECTED_CHAPTER2_COMPARISON = {
     "A 정석/다은보냄/사기": {
-        93: "arc_social_comparison",
+        92: "arc_social_comparison",
         105: "arc_year_two_pressure",
     },
     "B 비정석/진실/committed": {
-        94: "arc_social_comparison",
+        92: "arc_social_comparison",
         106: "arc_year_two_pressure",
     },
 }
@@ -526,7 +537,7 @@ EXPECTED_CHAPTER3 = {
         122: "arc_year_two_half",
         126: "callback_jiyeon_busan_postcard",
         127: "arc_goal_vertigo",
-        140: "arc_year3_close",
+        144: "arc_year3_close",
     },
     "B 비정석/진실/committed": {
         100: "arc_father_05_after_visit",
@@ -551,7 +562,7 @@ EXPECTED_CHAPTER3 = {
         130: "arc_y3_sangchul_deeper_room",
         132: "arc_sangchul_confrontation",
         133: "arc_sangchul_year3",
-        140: "arc_year3_close",
+        144: "arc_year3_close",
     },
 }
 
@@ -585,8 +596,8 @@ EXPECTED_CHAPTER1 = {
         36: "arc_jiyeon_02_store",
         40: "arc_hyunsu_new_path",
         41: "arc_opp_sangchul_realty",
-        45: "arc_year1_close",
         47: "callback_daeun_supportive_warmth",
+        48: "arc_year1_close",
     },
     "B 비정석/진실/committed": {
         2: "arc_intro_01_meal",
@@ -618,10 +629,10 @@ EXPECTED_CHAPTER1 = {
         36: "arc_jiyeon_02_store",
         40: "arc_opp_sangchul_realty",
         41: "arc_hyunsu_new_path",
-        45: "arc_year1_close",
+        45: "arc_money_loneliness",
         46: "callback_daeun_supportive_warmth",
-        47: "arc_money_loneliness",
-        48: "arc_opp_jiyeon_bunyang",
+        47: "arc_opp_jiyeon_bunyang",
+        48: "arc_year1_close",
     },
 }
 
@@ -645,7 +656,7 @@ EXPECTED_T1_DELAYED_PAYOFFS = {
         "callback_escaped_dirty_trace": 24,
         "callback_investment_lesson_echo": 28,
         "callback_daeun_supportive_warmth": 46,
-        "callback_jiyeon_took_deal_consequence": 60,
+        "callback_jiyeon_took_deal_consequence": 59,
         "callback_jiyeon_together_pressure": 86,
         "callback_rushed_to_father_echo": 88,
         "callback_father_confession_echo": 124,
@@ -769,6 +780,23 @@ for name, spine, traj, hook, choice_indices in PATHS:
         print("  ✗ 후속 체인 플래그 누락:", missing_flags)
     else:
         print("  ✓ 즉시 후속 체인 플래그 완결")
+    actual_year_closes = {
+        event_id: fired.get(event_id)
+        for event_id in EXPECTED_YEAR_CLOSES
+    }
+    if actual_year_closes != EXPECTED_YEAR_CLOSES:
+        fail += 1
+        print(
+            "  ✗ 연말 결산 주차 회귀:",
+            ", ".join(
+                f"{event_id}@t{actual_year_closes.get(event_id, 'missing')}"
+                f"!=t{expected_turn}"
+                for event_id, expected_turn in EXPECTED_YEAR_CLOSES.items()
+                if actual_year_closes.get(event_id) != expected_turn
+            ),
+        )
+    else:
+        print("  ✓ 연말 결산 W48/W96/W144/W192 정확 고정")
     expected_payoffs = EXPECTED_T1_DELAYED_PAYOFFS[name]
     actual_payoffs = {
         event_id: turn for event_id, turn in fired.items()

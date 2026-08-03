@@ -123,7 +123,7 @@
     "choices": [
       {
       "text": "\"Good. If you chose it, give it a real try.\" — encourage him",
-      "result_text": "Hyunsu let out a short breath on the other end, almost a laugh.\n\n\"You take care too, hyung. Not only when things go well.\"\n\nAfter the call, {name} held the dark screen a while. Two people who had passed through the same goshiwon now had different tomorrows."
+      "result_text": "Hyunsu let out a short breath on the other end, almost a laugh.\n\n\"You take care too, hyung. Not only when things go well.\"\n\nAfter the call, {name} held the dark screen a while. Two people who had met in the same goshiwon now had different tomorrows."
       },
       {
         "text": "\"Do you have anything in mind?\" — curious",
@@ -283,7 +283,7 @@
     "choices": [
       {
       "text": "Write a reply, then erase it.",
-      "result_text": "There was nothing to say. Or perhaps too much. {name} wrote several lines, erased them all, and turned off the screen.\n\nOne unread message remained in the notification panel until morning."
+      "result_text": "There was nothing to say. Or perhaps too much. {name} wrote several lines, erased them all, and turned off the screen.\n\nOne unanswered message remained in the notification panel until morning."
       },
       {
       "text": "\"Where have you been? What are you doing?\" — ask",
@@ -374,7 +374,10 @@
   {
     "id": "arc_father_medication",
     "title": "The Name of the Medication",
-    "description": "Three days after answering Daeun, {name}'s phone gave a short buzz in a subway transfer corridor at seven in the evening. It was his mother.\n\n\"Your father started taking medication. He says it's nothing serious. Don't worry.\"\n\n{name} read it twice. What medication? Since when? What had the doctor said? His father always removed the important details first when telling people not to worry, and his mother seemed to have copied the habit word for word.\n\nDays ago, someone standing in front of him had asked whether to leave Seoul. Now someone in Changwon asked nothing from inside a screen. The reply cursor blinked. When a family says \"nothing serious\" before anyone has asked, it usually means someone is already afraid.",
+    "description": "At seven in the evening, {name}'s phone gave a short buzz in a subway transfer corridor. It was his mother.\n\n\"Your father started taking medication. He says it's nothing serious. Don't worry.\"\n\n{name} read it twice. What medication? Since when? What had the doctor said? His father always removed the important details first when telling people not to worry, and his mother seemed to have copied the habit word for word.\n\nNo one in Changwon was asking anything of {name} through the screen. There was only the instruction not to worry and a blinking reply cursor. When a family says \"nothing serious\" before anyone has asked, it usually means someone is already afraid.",
+    "description_if_known": {
+      "arc_daeun_fork_seen": "Three days after answering Daeun's question about leaving Seoul, {name}'s phone gave a short buzz in a subway transfer corridor at seven in the evening. It was his mother.\n\n\"Your father started taking medication. He says it's nothing serious. Don't worry.\"\n\n{name} read it twice. What medication? Since when? What had the doctor said? His father always removed the important details first when telling people not to worry, and his mother seemed to have copied the habit word for word.\n\nThree days ago, someone standing in front of him had asked whether to leave Seoul. Now someone in Changwon asked nothing from inside a screen. The reply cursor blinked. When a family says \"nothing serious\" before anyone has asked, it usually means someone is already afraid."
+    },
     "choices": [
       {
         "text": "Called his father directly.",
@@ -382,7 +385,7 @@
       },
       {
         "text": "Replied to his mother with \"Okay\" and let it go.",
-      "result_text": "He replied, \"Okay. Make sure he takes it,\" and closed the message. There were still errands to finish and overdue numbers to sort out. He told himself he had no room to hold his father's medication too.\n\nWhen the train arrived, the crowd carried him inside. Two stops passed before he realized he could no longer remember the medication's name.\n\nThe phone in his pocket stayed silent, yet the sentence he had closed remained heavy in his palm until he reached home."
+      "result_text": "He replied, \"Okay. Make sure he takes it,\" and closed the chat. There were still errands to finish and overdue numbers to sort out. He told himself he had no room to hold his father's medication too.\n\nWhen the train arrived, the crowd carried him inside. Two stops later, it occurred to him that he had never asked what the medication was.\n\nThe phone stayed silent in his pocket, but the short reply he had sent his mother kept returning until he reached home."
       },
       {
         "text": "Said he'd come down on the weekend.",

@@ -3098,6 +3098,40 @@ func has_deferred_event(event_id: String) -> bool:
 			return true
 	return false
 
+## 지정한 예약 사건 하나만 현재 턴에 원자적으로 인수한다.
+## due_turn을 주면 그 정확한 예약 주차만 허용하며, 같은 턴에 준비된 다른
+## 사건은 순서나 내용이 바뀌지 않은 채 큐에 남는다.
+func claim_deferred_event(event_id: String, due_turn: int = -1) -> Dictionary:
+	var normalized_id := event_id.strip_edges()
+	if normalized_id.is_empty():
+		return {}
+	var selected_index := -1
+	var selected_trigger := 2147483647
+	for index in range(deferred_events.size()):
+		var raw_entry: Variant = deferred_events[index]
+		if not raw_entry is Dictionary:
+			continue
+		var entry: Dictionary = raw_entry
+		if str(entry.get("event_id", "")).strip_edges() != normalized_id:
+			continue
+		var trigger_turn := int(entry.get("trigger_turn", 9999))
+		if trigger_turn > turn \
+				or (due_turn >= 0 and trigger_turn != due_turn):
+			continue
+		if trigger_turn < selected_trigger:
+			selected_index = index
+			selected_trigger = trigger_turn
+	if selected_index < 0:
+		return {}
+	var claimed: Dictionary = (
+		deferred_events[selected_index] as Dictionary
+	).duplicate(true)
+	deferred_events.remove_at(selected_index)
+	claimed["event_id"] = normalized_id
+	claimed["trigger_turn"] = selected_trigger
+	claimed["claimed_turn"] = int(turn)
+	return claimed
+
 ## 현재 턴에 발동할 가장 이른 그림자 이벤트 하나를 반환한다.
 ## 한 주에 여러 예약이 겹쳐도 나머지는 큐에 남겨 다음 호출에서 이어 간다.
 func pop_ready_deferred_events() -> Array:

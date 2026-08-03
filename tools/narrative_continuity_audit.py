@@ -258,11 +258,22 @@ THREAD_TOKENS: tuple[tuple[str, tuple[str, ...]], ...] = (
 
 
 def story_thread(event: dict[str, Any]) -> str:
+    tags = {
+        str(tag).lower()
+        for tag in event.get("tags", [])
+        if isinstance(tag, str)
+    }
+    # Explicit chapter-boundary tags own the thread classification. This keeps
+    # an approach scene such as arc_final_stretch attached to the close it
+    # leads into instead of treating the incidental word "final" as a detached
+    # endgame micro-scene.
+    if "year_close" in tags or "chapter_bridge" in tags:
+        return "chapter"
     fields: list[str] = [
         str(event.get("id", "")),
         str(event.get("portrait", "")),
         str(event.get("category", "")),
-        " ".join(str(tag) for tag in event.get("tags", []) if isinstance(tag, str)),
+        " ".join(tags),
         " ".join(str(key) for key in (event.get("cast_effects") or {}).keys()),
     ]
     corpus = " ".join(fields).lower()

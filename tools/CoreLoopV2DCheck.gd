@@ -1,5 +1,5 @@
 extends Node
-## ORDER-57 D: weeks 17–20 offers, receipts, declines, and terminal boundary.
+## ORDER-57 D: weeks 17–20 offers, receipts, declines, and Month-Six handoff.
 
 const CORE_LOOP := preload("res://systems/DemoCoreLoopV2.gd")
 
@@ -226,7 +226,7 @@ func _ready() -> void:
 	_check_m5_action_roundtrips()
 	_check_month_five_declines_once()
 	_check_c_system_records_once()
-	await _check_week_twenty_terminal_boundary()
+	await _check_week_twenty_continuation_boundary()
 
 	if GameState.game_over.is_connected(game_over_callback):
 		GameState.game_over.disconnect(game_over_callback)
@@ -234,14 +234,14 @@ func _ready() -> void:
 	_restore_autosave()
 	if _failures.is_empty():
 		print(
-			"CORE_LOOP_V2_D_CHECK_OK schema=3 cap=20 prototype=1_20 "
+			"CORE_LOOP_V2_D_CHECK_OK schema=3 cap=24 prototype=1_24 "
 			+ "offers=sparse5_rich7/c_path_exact "
 			+ "person_climax=maximum1 surfaces=actions5/roots5 "
 			+ "hanbit=inbox/interviewed_to_resolved/prorated_hire_or_decline/save/ledger1300000 "
 			+ "relationship=all_choices/one_or_same_step/turn20/save "
 			+ "actions=apply_shift_study_rest_clinic/atomic/no_reapply "
 			+ "declines=month6_once/save system_records=month5_once "
-			+ "terminal=week20/turn21/single_save/sticky/no_finish/no_legacy "
+			+ "continuation=week20/turn21/single_save/month6/no_finish/no_legacy "
 			+ "father_signal=week21/non_slot/not_executed")
 		get_tree().quit(0)
 		return
@@ -261,11 +261,11 @@ func _check_contract() -> void:
 	)
 	_expect(int(contract.get("schema_version", 0)) == 3,
 		"D runtime contract is not schema 3")
-	_expect(CORE_LOOP.development_cap_week() == 20 \
-			and int(scope.get("development_cap_week", 0)) == 20,
-		"D development cap is not week 20")
-	_expect(_int_array(prototype_weeks) == [1, 20],
-		"D prototype window is not exactly weeks 1–20")
+	_expect(CORE_LOOP.development_cap_week() == 24 \
+			and int(scope.get("development_cap_week", 0)) == 24,
+		"D development cap is not week 24")
+	_expect(_int_array(prototype_weeks) == [1, 24],
+		"D prototype window is not exactly weeks 1–24")
 	_expect(not bool(contract.get("runtime_default", true)),
 		"D enabled the unfinished V2 loop by default")
 
@@ -1080,7 +1080,7 @@ func _check_c_system_records_once() -> void:
 				consequence_id).size() == 1,
 		"C System Record replayed after save/load")
 
-func _check_week_twenty_terminal_boundary() -> void:
+func _check_week_twenty_continuation_boundary() -> void:
 	_check_father_signal_contract()
 	_fresh_at(20)
 	GameState.money = 2_000_000.0
@@ -1088,7 +1088,7 @@ func _check_week_twenty_terminal_boundary() -> void:
 	GameState.mental = 90
 	var packed := load("res://scenes/MainGame.tscn") as PackedScene
 	_expect(packed != null,
-		"week-20 terminal QA could not load MainGame")
+		"week-20 continuation QA could not load MainGame")
 	if packed == null:
 		return
 	var main_game = packed.instantiate()
@@ -1102,7 +1102,7 @@ func _check_week_twenty_terminal_boundary() -> void:
 	var state: Dictionary = GameState.core_loop_v2_state
 	state["completed_turns"] = range(1, 21)
 	state["completed_through_week"] = 16
-	state["development_cap_week"] = 20
+	state["development_cap_week"] = 24
 	state["prototype_complete"] = false
 	state["prototype_completed_at_turn"] = 0
 	state["completed_at_turn"] = 0
@@ -1133,62 +1133,61 @@ func _check_week_twenty_terminal_boundary() -> void:
 		)
 		_expect(int(saved_state.get("turn", 0)) == 21 \
 				and int(saved_v2.get(
-					"completed_through_week", 0)) == 20 \
-				and bool(saved_v2.get("prototype_complete", false)) \
-				and int(saved_v2.get("completed_at_turn", 0)) == 21 \
+					"completed_through_week", 0)) == 16 \
+				and int(saved_v2.get(
+					"development_cap_week", 0)) == 24 \
+				and not bool(saved_v2.get("prototype_complete", true)) \
+				and int(saved_v2.get("completed_at_turn", 0)) == 0 \
 				and (saved_v2.get(
 					"month_summaries", {}) as Dictionary).has("5"),
-			"the week-20 autosave is not one complete turn-21 snapshot")
+			"the week-20 autosave is not one resumable turn-21 snapshot")
 
 	_expect(GameState.turn == 21 \
-			and CORE_LOOP.is_prototype_complete() \
-			and not CORE_LOOP.is_active() \
+			and not CORE_LOOP.is_prototype_complete() \
+			and CORE_LOOP.is_active() \
 			and not GameState.is_game_over \
 			and _game_over_signals == 0 \
 			and not CORE_LOOP.has_completed_bundle(
 				"father_health_signal") \
-			and not _event_log_has("arc_father_02_signal"),
-		"week-20 completion ran an ending, legacy week, or father signal")
-	_expect(str(main_game._modal_kind) == "core_loop_v2_complete" \
+			and not _event_log_has("v2_father_health_signal"),
+		"week-20 continuation ran an ending, legacy week, or father signal")
+	_expect(str(main_game._modal_kind) == "core_loop_v2_month_summary" \
 			and bool(main_game.modal_layer.get_meta(
-				"core_loop_v2_completion", false)) \
+				"core_loop_v2_month_summary", false)) \
+			and int(main_game.modal_layer.get_meta(
+				"core_loop_v2_month", 0)) == 5 \
 			and not main_game.modal_close_button.visible,
-		"turn 21 did not open the sticky V2 completion record")
+		"turn 21 did not preserve the Month Five notebook before Month Six")
 
-	var terminal_turn: int = GameState.turn
-	var terminal_events: Array = GameState.event_log.duplicate(true)
-	main_game._core_loop_v2_route_week()
-	await get_tree().process_frame
-	main_game._core_loop_v2_route_week()
-	await get_tree().process_frame
-	_expect(GameState.turn == terminal_turn \
-			and GameState.event_log == terminal_events \
-			and str(main_game._modal_kind) == "core_loop_v2_complete" \
-			and CORE_LOOP.active_bundle_id().is_empty() \
-			and not CORE_LOOP.has_completed_bundle(
-				"father_health_signal") \
-			and not GameState.is_game_over \
-			and _game_over_signals == 0,
-		"re-entering the terminal record advanced into legacy or father content")
+	var terminal_done := _find_meta_node(
+		main_game.modal_layer, "core_loop_v2_recap_done")
+	var month_confirm := _find_meta_node(
+		main_game.modal_layer, "core_loop_v2_month_confirm")
+	_expect(not is_instance_valid(terminal_done) \
+			and is_instance_valid(month_confirm) \
+			and CORE_LOOP.needs_plan(6),
+		"turn 21 exposed a terminal CTA or lost its Month Six planning handoff")
 
 	_expect(SaveManager.load_game(SaveManager.AUTOSAVE_SLOT) \
 			and CORE_LOOP.initialize_for_run() \
 			and GameState.turn == 21 \
 			and int(GameState.core_loop_v2_state.get(
-				"completed_through_week", 0)) == 20 \
-			and CORE_LOOP.is_prototype_complete() \
-			and not CORE_LOOP.is_active(),
-		"durable week-20 completion did not reload at turn 21")
+				"completed_through_week", 0)) == 16 \
+			and int(GameState.core_loop_v2_state.get(
+				"development_cap_week", 0)) == 24 \
+			and not CORE_LOOP.is_prototype_complete() \
+			and CORE_LOOP.is_active(),
+		"durable week-20 continuation did not reload at turn 21")
 	main_game._core_loop_v2_route_week()
 	await get_tree().process_frame
-	_expect(str(main_game._modal_kind) == "core_loop_v2_complete" \
+	_expect(str(main_game._modal_kind) == "core_loop_v2_month_summary" \
 			and GameState.turn == 21 \
 			and not CORE_LOOP.has_completed_bundle(
 				"father_health_signal") \
-			and not _event_log_has("arc_father_02_signal") \
+			and not _event_log_has("v2_father_health_signal") \
 			and not GameState.is_game_over \
 			and _game_over_signals == 0,
-		"loaded terminal state fell through to week 21 or finish_run")
+		"loaded continuation skipped its notebook or replayed Month Six")
 
 	main_game.free()
 	packed = null
@@ -1216,7 +1215,7 @@ func _check_father_signal_contract() -> void:
 			and _int_array(father.get("allowed_weeks", [])) == [21] \
 			and not bool(father.get("consumes_slot", true)) \
 			and CORE_LOOP.resolved_event_roots(
-				"father_health_signal") == ["arc_father_02_signal"] \
+				"father_health_signal") == ["v2_father_health_signal"] \
 			and not CORE_LOOP.bundle_allowed_in_week(
 				"father_health_signal", 20) \
 			and CORE_LOOP.bundle_allowed_in_week(
@@ -1392,6 +1391,17 @@ func _event_log_has(event_id: String) -> bool:
 					"event_id", "")) == event_id:
 			return true
 	return false
+
+func _find_meta_node(root: Node, meta_key: String) -> Node:
+	if not is_instance_valid(root):
+		return null
+	if root.has_meta(meta_key):
+		return root
+	for child in root.get_children():
+		var found := _find_meta_node(child, meta_key)
+		if is_instance_valid(found):
+			return found
+	return null
 
 func _effect_values(effects: Dictionary) -> Dictionary:
 	var result: Dictionary = {}

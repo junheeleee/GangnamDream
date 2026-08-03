@@ -18,6 +18,9 @@
     "id": "arc_daeun_02_regular",
     "title": "Regular",
     "description": "She has {name}'s order memorized now. Triangle kimbap, sometimes cup ramyeon.\nThe late-night convenience store has become a small world just for the two of them.\nTonight, out of nowhere, she says something.\n\"I'm saving up to bring my mom here. She's alone back in the countryside.\nI knew Seoul was expensive, but... not like this.\"\n\nA life carrying the same weight as {name}'s — and it had been right there behind the counter all along.",
+    "description_memory_if_known": {
+      "relationship_memory:daeun:daeun_tuesday_checkin_kept": "Before dawn on Tuesday of Week 21, {name} remembered what he had said and came back to the store. Because he had kept that one promise, this conversation did not begin by accident."
+    },
     "choices": [
       {
         "text": "Genuinely cheer her on — and pitch in when you can",

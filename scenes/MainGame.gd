@@ -140,6 +140,7 @@ var _phone_button: Button = null
 var _phone_focus_restore: Control = null
 var _title_collection_button: Button = null
 var _core_loop_v2_side_shift_job_id := ""
+var _core_loop_v2_completion_autosave_succeeded := false
 const ENDING_PAGE_COUNT := 6
 
 # ── MORAL MONOCHROME 팔레트 ─────────────────────────────────────
@@ -501,6 +502,12 @@ func _core_loop_v2_route_week() -> void:
 		_core_loop_v2_show_month_summary(pending_summary)
 		return
 	var month_index := DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn)
+	var month_prelude := DEMO_CORE_LOOP_V2.pending_month_prelude(
+		month_index)
+	if not month_prelude.is_empty():
+		_core_loop_v2_begin_story_bundle(
+			month_prelude, "consequence")
+		return
 	if DEMO_CORE_LOOP_V2.needs_plan(month_index):
 		_core_loop_v2_open_planner(month_index)
 		return
@@ -670,9 +677,21 @@ func _on_core_loop_v2_plan_committed(
 	call_deferred("_core_loop_v2_route_week")
 
 func _core_loop_v2_begin_story_bundle(bundle_id: String, kind: String) -> void:
-	var roots := DEMO_CORE_LOOP_V2.resolved_event_roots(bundle_id)
-	if roots.is_empty() or not DEMO_CORE_LOOP_V2.begin_bundle(bundle_id, kind):
+	if not DEMO_CORE_LOOP_V2.begin_bundle(bundle_id, kind):
 		push_error("Core Loop V2 could not start story bundle: %s" % bundle_id)
+		return
+	if bundle_id == "demo_collision":
+		var preparation := DEMO_CORE_LOOP_V2.prepare_demo_collision()
+		if not bool(preparation.get("ok", false)):
+			DEMO_CORE_LOOP_V2.cancel_active_bundle()
+			push_error(
+				"Core Loop V2 could not prepare demo collision: %s"
+				% str(preparation.get("error", "unknown")))
+			return
+	var roots := DEMO_CORE_LOOP_V2.resolved_event_roots(bundle_id)
+	if roots.is_empty():
+		DEMO_CORE_LOOP_V2.cancel_active_bundle()
+		push_error("Core Loop V2 story bundle has no roots: %s" % bundle_id)
 		return
 	DEMO_CORE_LOOP_V2.prepare_story_bundle(bundle_id)
 	_go_story_mode(roots)
@@ -1003,19 +1022,19 @@ func _core_loop_v2_temptation_recap(branch: String) -> String:
 		"refused_offer":
 			return _tr(
 				"200만원은 들어오지 않았다. 월세 낼 날은 그대로 다가왔고, 그 번호는 차단 목록에 남았다.",
-				"KRW 2M never arrived. Rent still came due, and the number remained on the block list.")
+				"Two million won never arrived. Rent still came due, and the number remained on the block list.")
 		"returned_money":
 			return _tr(
 				"은행의 피해금 반환 요청을 받은 뒤, 받은 200만원 가운데 150만원의 반환에 동의했다. 해당 계좌를 해지하고 모집책 번호도 모두 차단했다.",
-				"After the bank requested the return of fraud proceeds, you authorized KRW 1.5M from the KRW 2M payment, closed that account, and blocked every recruiter number.")
+				"After the bank requested the return of fraud proceeds, you authorized 1.5 million won from the 2 million won payment, closed that account, and blocked every recruiter number.")
 		"accepted_more":
 			return _tr(
 				"은행의 피해금 반환 요청에 동의하지 않았다. 처음 받은 현금 200만원에 이어 지하철 보관함에서 현금 300만원을 더 받았고, 모집책은 다른 이름과 계좌번호를 문자로 계속 보냈다.",
-				"You declined the bank's request to return the fraud proceeds. After the first KRW 2M in cash, you collected another KRW 3M in cash from a subway locker, and the recruiter kept texting other names and account numbers.")
+				"You declined the bank's request to return the fraud proceeds. After the first 2 million won in cash, you collected another 3 million won from a subway locker, and the recruiter kept texting other names and account numbers.")
 		"lent_account":
 			return _tr(
 				"통장·체크카드와 비밀번호를 대포통장 모집책에게 넘기고 현금 200만원을 받았다. 한 달 뒤 은행에서 피해금 반환 요청이 왔다.",
-				"You handed a bankbook, debit card, and PIN to an illegal account recruiter for KRW 2M in cash. One month later, the bank requested the return of fraud proceeds.")
+				"You handed a bankbook, debit card, and PIN to an illegal account recruiter for 2 million won in cash. One month later, the bank requested the return of fraud proceeds.")
 	return _tr(
 		"4주차에 모르는 번호로부터 받은 제안은 아직 결론이 나지 않았다.",
 		"The answer to Week 4's unknown number has not yet settled into the record.")
@@ -1038,11 +1057,19 @@ func _core_loop_v2_initiative_recap(
 				statements.append(_tr(
 					"공용 주방에서 만난 뒤, 내가 먼저 현수에게 메시지를 보내 함께 공부할 날을 잡았다.",
 					"After meeting in the shared kitchen, I messaged Hyunsu first and set a day to study together."))
+			"daeun":
+				statements.append(_tr(
+					"전에 나눈 말을 기억하고, 내가 먼저 다은이 일하는 편의점에 찾아가 안부를 물었다.",
+					"I remembered our earlier conversation, went to Daeun's store, and checked in on her first."))
+			"jaehyuk":
+				statements.append(_tr(
+					"다시 만난 뒤, 내가 먼저 재혁에게 이번 주 안부를 보냈다.",
+					"After we met again, I messaged Jaehyuk first to ask how his week had gone."))
 			_:
 				if not display_name.is_empty():
 					statements.append(_tr(
-						"앞서 만난 뒤, 내가 먼저 %s에게 다시 만나자고 했다.",
-						"After our earlier meeting, I asked %s to meet again."
+						"앞서 만난 뒤, 내가 먼저 %s에게 다시 연락했다.",
+						"After our earlier meeting, I contacted %s first."
 					) % display_name)
 	if statements.is_empty():
 		return _tr(
@@ -1051,10 +1078,289 @@ func _core_loop_v2_initiative_recap(
 		) % completed_months
 	return " ".join(statements)
 
-func _core_loop_v2_show_completion() -> void:
+func _core_loop_v2_final_decline_messages(
+		snapshot: Dictionary, final_month: int) -> Array[String]:
+	var messages: Array[String] = []
+	var message_key := "message_en" if LocaleManager.is_english() \
+		else "message_ko"
+	for raw_receipt in snapshot.get("decline_receipts", []):
+		if not raw_receipt is Dictionary:
+			continue
+		var receipt: Dictionary = raw_receipt
+		if int(receipt.get("visible_month", 0)) != final_month:
+			continue
+		var message := GameState.format_event_text(str(
+			receipt.get(message_key, ""))).strip_edges()
+		if not message.is_empty() and not messages.has(message):
+			messages.append(message)
+	return messages
+
+func _core_loop_v2_obligation_label(obligation_id: String) -> String:
+	var event: Dictionary = DataRegistry.find_event(
+		"v2_demo_first_bill")
+	var choices: Variant = event.get("choices", [])
+	if choices is Array:
+		for raw_choice in choices:
+			if not raw_choice is Dictionary:
+				continue
+			var choice: Dictionary = raw_choice
+			if str(choice.get(
+					"v2_obligation_id", "")).strip_edges() \
+					== obligation_id:
+				var label := GameState.format_event_text(
+					str(choice.get("text", ""))).strip_edges()
+				if not label.is_empty():
+					return label
+	var fallbacks := {
+		"father_call": _tr(
+			"아버지에게 다시 전화하기", "Call Father Again"),
+		"hanbit_month_close": _tr(
+			"한빛 첫 월말 마감", "Hanbit's First Month-End Close"),
+		"city_work_sample": _tr(
+			"도시시설운영단 과제", "City Facilities Work Sample"),
+		"daeun_checkin": _tr("다은에게 가기", "Go See Daeun"),
+		"jaehyuk_reply": _tr(
+			"재혁에게 먼저 안부 보내기",
+			"Message Jaehyuk First"),
+		"sangchul_ledger": _tr(
+			"내 지출 장부 맞추기", "Reconcile My Expense Ledger"),
+		"urgent_paid_shift": _tr(
+			"당일 유급 근무", "Take the Urgent Paid Shift"),
+		"body_rest": _tr("몸을 쉬게 하기", "Let the Body Rest"),
+	}
+	return str(fallbacks.get(obligation_id, obligation_id))
+
+func _core_loop_v2_unresolved_recap(snapshot: Dictionary) -> Array[String]:
+	var unresolved: Array[String] = []
+	var consequence_receipts: Dictionary = (
+		(snapshot.get("consequence_receipts", {}) as Dictionary)
+		if snapshot.get("consequence_receipts", {}) is Dictionary else {}
+	)
+	var raw_father_receipt: Variant = consequence_receipts.get(
+		"father_health_signal", {})
+	var father_receipt: Dictionary = (
+		raw_father_receipt as Dictionary
+		if raw_father_receipt is Dictionary else {}
+	)
+	var father_status := str(father_receipt.get("status", ""))
+	var father_receipt_valid: bool = (
+		str(father_receipt.get("consequence_id", "")) \
+			== "father_health_signal" \
+		and str(father_receipt.get("scheduled_bundle", "")).is_empty() \
+		and int(father_receipt.get("turn", 0)) == 21 \
+		and father_status == "consumed" \
+		and str(father_receipt.get("surface_kind", "")) \
+			== "legacy_separate" \
+		and father_receipt.get("roots", []) \
+			== ["v2_father_health_signal"] \
+		and int(father_receipt.get("presented_turn", 0)) == 21 \
+		and int(father_receipt.get("consumed_turn", 0)) == 21 \
+		and bool(father_receipt.get(
+			"legacy_separate_owner", false))
+	)
+	if father_receipt_valid:
+		unresolved.append(_tr(
+			"아버지가 병원에 다니는지, 어디가 아픈지는 아직 모른다.",
+			"You still do not know whether Father has been visiting a hospital or what is wrong."))
+
+	var future_story_receipts: Dictionary = (
+		(snapshot.get("future_story_receipts", {}) as Dictionary)
+		if snapshot.get("future_story_receipts", {}) is Dictionary else {}
+	)
+	var raw_hyunsu_receipt: Variant = future_story_receipts.get(
+		"hyunsu_exam_2026", {})
+	var hyunsu_receipt: Dictionary = (
+		raw_hyunsu_receipt as Dictionary
+		if raw_hyunsu_receipt is Dictionary else {}
+	)
+	var hyunsu_source_memory := str(hyunsu_receipt.get(
+		"source_memory", ""))
+	var hyunsu_source_kind := str(hyunsu_receipt.get(
+		"source_kind", ""))
+	var hyunsu_source_valid: bool = (
+		hyunsu_source_kind == "relationship_memory" \
+		and hyunsu_source_memory in [
+			"hyunsu_exam_eve_one_problem",
+			"hyunsu_exam_eve_rest_protected",
+		]
+	) or (
+		hyunsu_source_kind == "declined" \
+		and hyunsu_source_memory == "hyunsu_exam_eve_unanswered" \
+		and str(hyunsu_receipt.get("decline_outcome", "")) \
+			== "hyunsu_takes_the_exam_without_another_shared_hour"
+	)
+	var hyunsu_receipt_valid: bool = (
+		str(hyunsu_receipt.get("receipt_id", "")) \
+			== "hyunsu_exam_2026" \
+		and str(hyunsu_receipt.get("character", "")) == "hyunsu" \
+		and str(hyunsu_receipt.get("producer_bundle", "")) \
+			== "hyunsu_exam_eve" \
+		and hyunsu_source_valid \
+		and str(hyunsu_receipt.get("outcome", "")) == "fail" \
+		and int(hyunsu_receipt.get("recorded_turn", 0)) in [
+			21, 22, 23, 24] \
+		and int(hyunsu_receipt.get("exam_turn", 0)) == 24 \
+		and int(hyunsu_receipt.get("available_turn", 0)) == 27 \
+		and str(hyunsu_receipt.get("result_event", "")) \
+			== "hyunsu_result_fail"
+	)
+	if hyunsu_receipt_valid:
+		unresolved.append(_tr(
+			"현수의 시험은 시작됐지만 결과는 아직 나오지 않았다.",
+			"Hyunsu has taken the exam, but the result is not available yet."))
+
+	var deferred_receipts: Dictionary = (
+		(snapshot.get("deferred_callback_receipts", {}) as Dictionary)
+		if snapshot.get("deferred_callback_receipts", {}) is Dictionary else {}
+	)
+	var raw_dirty_receipt: Variant = deferred_receipts.get(
+		"callback_escaped_dirty_trace", {})
+	var dirty_receipt: Dictionary = (
+		raw_dirty_receipt as Dictionary
+		if raw_dirty_receipt is Dictionary else {}
+	)
+	var dirty_receipt_valid: bool = (
+		str(dirty_receipt.get("source", "")) \
+			== "callback_escaped_dirty_trace" \
+		and str(dirty_receipt.get("root", "")) \
+			== "v2_dirty_trace_initial_call" \
+		and int(dirty_receipt.get("trigger_turn", 0)) == 24 \
+		and str(dirty_receipt.get("event_id", "")) \
+			== "v2_dirty_trace_initial_call" \
+		and int(dirty_receipt.get("claimed_turn", 0)) == 24 \
+		and str(dirty_receipt.get("status", "")) == "resolved" \
+		and not bool(dirty_receipt.get("synthetic", true)) \
+		and int(dirty_receipt.get("choice_index", -1)) in [0, 1] \
+		and int(dirty_receipt.get("resolved_turn", 0)) == 24
+	)
+	if dirty_receipt_valid:
+		unresolved.append(_tr(
+			"경찰의 초기 확인 전화는 끝났지만 출석 일정과 처분은 아직 정해지지 않았다.",
+			"The police's initial call is over, but no appearance date or disposition has been set."))
+
+	var application_statuses: Dictionary = (
+		(snapshot.get("application_statuses", {}) as Dictionary)
+		if snapshot.get("application_statuses", {}) is Dictionary else {}
+	)
+	var city_status := str(application_statuses.get(
+		"city_facility_ops_2026h1", ""))
+	if city_status == "submitted":
+		unresolved.append(_tr(
+			"도시시설운영단은 작업표를 접수했지만 면접·채용 결과는 아직 오지 않았다.",
+			"City Facilities received the work sample, but no interview or hiring decision has arrived."))
+
+	var hanbit_status := str(application_statuses.get(
+		"hanbit_ops_2026q1", ""))
+	if hanbit_status == "interviewed":
+		unresolved.append(_tr(
+			"한빛유통 면접 결과는 아직 오지 않았다.",
+			"Hanbit's interview result has not arrived yet."))
+	elif hanbit_status == "resolved" \
+			and str(GameState.current_job.get("id", "")) == "job_03":
+		unresolved.append(_tr(
+			"한빛유통 계약이 얼마나 이어질지는 아직 알 수 없다.",
+			"You still do not know how long the Hanbit contract will last."))
+
+	return unresolved
+
+func _core_loop_v2_city_work_sample_expired(
+		snapshot: Dictionary, obligation: Dictionary) -> bool:
+	var choice_to_obligation := {
+		0: "father_call",
+		1: "hanbit_month_close",
+		2: "city_work_sample",
+		3: "daeun_checkin",
+		4: "jaehyuk_reply",
+		5: "sangchul_ledger",
+		6: "urgent_paid_shift",
+		7: "body_rest",
+	}
+	var choice_index := int(obligation.get("choice_index", -1))
+	var selected_id := str(obligation.get(
+		"selected_obligation_id", ""))
+	var raw_candidates: Variant = obligation.get("candidate_ids", [])
+	var deferred: Variant = obligation.get(
+		"deferred_obligation_ids", [])
+	if not raw_candidates is Array or not deferred is Array \
+			or not choice_to_obligation.has(choice_index) \
+			or str(choice_to_obligation[choice_index]) != selected_id \
+			or not (deferred as Array).has("city_work_sample") \
+			or selected_id == "city_work_sample" \
+			or str(obligation.get("bundle_id", "")) != "demo_collision" \
+			or str(obligation.get("event_id", "")) \
+				!= "v2_demo_first_bill" \
+			or int(obligation.get("turn", 0)) != 24:
+		return false
+	var candidates: Array[String] = []
+	for raw_candidate in raw_candidates as Array:
+		var candidate_id := str(raw_candidate)
+		if candidate_id.is_empty() or candidates.has(candidate_id):
+			return false
+		candidates.append(candidate_id)
+	var expected_deferred: Array[String] = []
+	for candidate_id in candidates:
+		if candidate_id != selected_id:
+			expected_deferred.append(candidate_id)
+	var deferred_ids: Array[String] = []
+	for raw_deferred_id in deferred as Array:
+		var deferred_id := str(raw_deferred_id)
+		if deferred_id.is_empty() or deferred_ids.has(deferred_id):
+			return false
+		deferred_ids.append(deferred_id)
+	if not candidates.has(selected_id) \
+			or not candidates.has("city_work_sample") \
+			or deferred_ids != expected_deferred:
+		return false
+	var application_statuses: Variant = snapshot.get(
+		"application_statuses", {})
+	if not application_statuses is Dictionary \
+			or str((application_statuses as Dictionary).get(
+				"city_facility_ops_2026h1", "")) != "no_offer":
+		return false
+	var raw_transitions: Variant = snapshot.get(
+		"application_transition_receipts", {})
+	if not raw_transitions is Dictionary:
+		return false
+	var expected_key := "demo_collision:v2_demo_first_bill:%d:24" \
+		% choice_index
+	for raw_key in (raw_transitions as Dictionary):
+		if str(raw_key) != expected_key:
+			continue
+		var raw_receipt: Variant = (
+			raw_transitions as Dictionary
+		).get(raw_key, {})
+		if not raw_receipt is Dictionary:
+			continue
+		var receipt: Dictionary = raw_receipt
+		if str(receipt.get("receipt_key", "")) == expected_key \
+				and str(receipt.get("application_id", "")) \
+					== "city_facility_ops_2026h1" \
+				and str(receipt.get("from", "")) == "submitted" \
+				and str(receipt.get("to", "")) == "no_offer" \
+				and str(receipt.get("bundle_id", "")) \
+					== "demo_collision" \
+				and str(receipt.get("event_id", "")) \
+					== "v2_demo_first_bill" \
+				and int(receipt.get("choice_index", -1)) \
+					== choice_index \
+				and int(receipt.get("turn", 0)) == 24:
+			return true
+	return false
+
+func _core_loop_v2_autosave_completion() -> bool:
+	if has_meta("_qa_core_loop_v2_autosave_result"):
+		return bool(get_meta("_qa_core_loop_v2_autosave_result"))
+	if bool(get_meta("_screenshot_qa_static_surface", false)):
+		return true
+	return SaveManager.autosave()
+
+func _core_loop_v2_show_completion(
+		persist_new_boundary: bool = false) -> void:
 	if not DEMO_CORE_LOOP_V2.is_prototype_complete():
 		return
-	# Upgrade an older boundary save to the current explicit terminal marker.
+	# Normalize older boundary saves in memory. Only the transition that just
+	# completed Week 24 owns a new write; reopening an already durable completed
+	# save must never overwrite it or become blocked by a redundant save failure.
 	DEMO_CORE_LOOP_V2.mark_prototype_complete()
 	if is_instance_valid(modal_layer) and modal_layer.visible \
 			and _modal_kind == "core_loop_v2_complete":
@@ -1109,8 +1415,8 @@ func _core_loop_v2_show_completion() -> void:
 	modal_body.add_theme_constant_override("separation", 9)
 
 	var intro := _wrap_label(_tr(
-		"여기까지 %d주를 보냈다. 그동안 한 일과 고르지 않은 일, 현재 현금과 건강·정신 상태를 정리했다.",
-		"You have completed %d weeks. Here is what you did, what you passed on, and your current cash, health, and mental state."
+		"%d주 동안 무엇을 했고 무엇을 놓쳤는지 돌아본다. 현재 잔액과 건강, 마음 상태도 함께 확인한다.",
+		"Look back at what you did and what you missed over %d weeks. You can also check your current balance, health, and state of mind."
 		) % cap_week,
 		12, "#aeb8c6")
 	intro.set_meta("core_loop_v2_recap_intro", true)
@@ -1188,6 +1494,105 @@ func _core_loop_v2_show_completion() -> void:
 		_tr("고르지 않은 일", "Not Chosen"), forgone,
 		_tr("고르지 않은 제안이 없다.", "No options were left unchosen."), "#8e7f84"))
 
+	var final_declines := _core_loop_v2_final_decline_messages(
+		snapshot, completed_months)
+	if not final_declines.is_empty():
+		var decline_card := _core_loop_v2_recap_list_card(
+			_tr("이번 달에 고르지 못한 일",
+				"What I Couldn't Choose This Month"),
+			final_declines,
+			_tr("이번 달에 고르지 못한 일이 없다.",
+				"Nothing Was Left Unchosen This Month."),
+			"#8e7f84")
+		decline_card.set_meta(
+			"core_loop_v2_recap_final_declines", true)
+		modal_body.add_child(decline_card)
+
+	var raw_obligation_receipts: Variant = snapshot.get(
+		"obligation_receipts", {})
+	if raw_obligation_receipts is Dictionary:
+		var raw_obligation: Variant = (
+			raw_obligation_receipts as Dictionary
+		).get("demo_collision", {})
+		if raw_obligation is Dictionary \
+				and not (raw_obligation as Dictionary).is_empty():
+			var obligation: Dictionary = raw_obligation
+			var selected_id := str(obligation.get(
+				"selected_obligation_id", ""))
+			var selected_ids: Array[String] = []
+			var selected_labels: Array[String] = []
+			if not selected_id.is_empty():
+				var selected_label := _core_loop_v2_obligation_label(
+					selected_id)
+				if not selected_label.is_empty():
+					selected_ids.append(selected_id)
+					selected_labels.append(selected_label)
+			var deferred_ids: Array[String] = []
+			var deferred_labels: Array[String] = []
+			var expired_ids: Array[String] = []
+			var expired_labels: Array[String] = []
+			var city_work_sample_expired := (
+				_core_loop_v2_city_work_sample_expired(
+					snapshot, obligation)
+			)
+			for raw_id in obligation.get(
+					"deferred_obligation_ids", []):
+				var obligation_id := str(raw_id)
+				var obligation_label := _core_loop_v2_obligation_label(
+					obligation_id)
+				if obligation_label.is_empty():
+					continue
+				if obligation_id == "city_work_sample" \
+						and city_work_sample_expired:
+					if not expired_ids.has(obligation_id):
+						expired_ids.append(obligation_id)
+						expired_labels.append(obligation_label)
+				elif not deferred_ids.has(obligation_id):
+					deferred_ids.append(obligation_id)
+					deferred_labels.append(obligation_label)
+			var bill_grid := GridContainer.new()
+			bill_grid.columns = 2
+			bill_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			bill_grid.add_theme_constant_override("h_separation", 8)
+			bill_grid.add_theme_constant_override("v_separation", 8)
+			bill_grid.set_meta(
+				"core_loop_v2_recap_first_bill", true)
+			var selected_card := _core_loop_v2_recap_list_card(
+				_tr("이번 주에 끝낸 일",
+					"What I Finished This Week"),
+				selected_labels,
+				_tr("기록된 선택이 없다.", "No choice was recorded."),
+				"#8795a8")
+			selected_card.set_meta(
+				"core_loop_v2_recap_selected_obligations",
+				selected_ids.duplicate())
+			bill_grid.add_child(selected_card)
+			var deferred_card := _core_loop_v2_recap_list_card(
+				_tr("이번 주에 하지 못한 일",
+					"What I Couldn't Do This Week"),
+				deferred_labels,
+				_tr("하지 못한 일이 없다.",
+					"Nothing else was left undone."),
+				"#8e7f84")
+			deferred_card.set_meta(
+				"core_loop_v2_recap_deferred_obligations",
+				deferred_ids.duplicate())
+			bill_grid.add_child(deferred_card)
+			modal_body.add_child(bill_grid)
+			if not expired_labels.is_empty():
+				var expired_card := _core_loop_v2_recap_list_card(
+					_tr("기한을 놓친 일", "Opportunity That Expired"),
+					expired_labels,
+					_tr("기한을 놓친 일이 없다.",
+						"No opportunity expired."),
+					"#a98b88")
+				expired_card.set_meta(
+					"core_loop_v2_recap_expired", true)
+				expired_card.set_meta(
+					"core_loop_v2_recap_expired_obligations",
+					expired_ids.duplicate())
+				modal_body.add_child(expired_card)
+
 	var initiative_card := _info_card("#8795a8", "#090c11")
 	initiative_card.set_meta("core_loop_v2_recap_initiative", true)
 	initiative_card.add_child(_wrap_label(
@@ -1195,18 +1600,60 @@ func _core_loop_v2_show_completion() -> void:
 		13, "#b8c2cf"))
 	modal_body.add_child(initiative_card)
 
-	var test_state := _label(
-		_tr("1~%d주 데모 완료 · %d주차는 이 버전에서 시작되지 않는다.",
-			"WEEKS 1–%d COMPLETE · WEEK %d DOES NOT BEGIN IN THIS DEMO.") % [
-				cap_week, cap_week + 1,
-			],
-		11, "#7b8593")
+	var unresolved := _core_loop_v2_unresolved_recap(snapshot)
+	if not unresolved.is_empty():
+		var unresolved_card := _core_loop_v2_recap_list_card(
+			_tr("아직 풀리지 않은 일", "Still Unresolved"),
+			unresolved,
+			_tr("아직 풀리지 않은 일이 없다.",
+				"Nothing remains unresolved."),
+			"#9b8e72")
+		unresolved_card.set_meta(
+			"core_loop_v2_recap_unresolved", true)
+		modal_body.add_child(unresolved_card)
+
+	var final_month := DEMO_CORE_LOOP_V2.month_for_turn(
+		DEMO_CORE_LOOP_V2.development_cap_week())
+	DEMO_CORE_LOOP_V2.acknowledge_month_summary(final_month)
+	_core_loop_v2_completion_autosave_succeeded = (
+		_core_loop_v2_autosave_completion()
+		if persist_new_boundary else true
+	)
+	modal_layer.set_meta(
+		"core_loop_v2_completion_autosave_succeeded",
+		_core_loop_v2_completion_autosave_succeeded)
+	var boundary_copy := ""
+	if not _core_loop_v2_completion_autosave_succeeded:
+		boundary_copy = _tr(
+			"자동 저장에 실패했다. 시작 화면으로 나가기 전에 다시 시도해 주세요.",
+			"Autosave failed. Please try again before returning to the title screen.")
+	elif cap_week == 24 and persist_new_boundary:
+		boundary_copy = _tr(
+			"여섯 달의 기록을 자동 저장했다. 첫해는 아직 끝나지 않았다.",
+			"Your six-month record was saved automatically. The first year is not over yet.")
+	elif cap_week == 24:
+		boundary_copy = _tr(
+			"저장된 여섯 달의 기록을 열었다. 첫해는 아직 끝나지 않았다.",
+			"Your saved six-month record is open. The first year is not over yet.")
+	else:
+		boundary_copy = _tr(
+			"%d주 동안의 기록을 자동 저장했다. 이어지는 시간은 아직 열리지 않았다.",
+			"Your first %d weeks were saved automatically. What comes next is not open yet."
+		) % cap_week
+	var test_state := _wrap_label(boundary_copy, 11, "#7b8593")
 	test_state.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	test_state.set_meta("core_loop_v2_recap_boundary", true)
-	var done_button := _primary_cta_button(_tr(
-		"데모를 마치고 시작 화면으로  ›",
-		"Finish Demo · Return to Title  ›"))
+	var done_button := _primary_cta_button(
+		_tr(
+			"데모를 마치고 시작 화면으로  ›",
+			"Finish Demo · Return to Title  ›")
+		if _core_loop_v2_completion_autosave_succeeded else _tr(
+			"자동 저장 다시 시도  ›",
+			"Retry Autosave  ›"))
 	done_button.set_meta("core_loop_v2_recap_done", true)
+	done_button.set_meta(
+		"core_loop_v2_recap_requires_autosave_retry",
+		not _core_loop_v2_completion_autosave_succeeded)
 	done_button.pressed.connect(_core_loop_v2_return_to_title)
 	done_button.call_deferred("grab_focus")
 	if is_instance_valid(modal_footer):
@@ -1218,17 +1665,19 @@ func _core_loop_v2_show_completion() -> void:
 		modal_body.add_child(done_button)
 	if modal_scroll:
 		modal_scroll.call_deferred("set_v_scroll", 0)
-	if not bool(get_meta("_screenshot_qa_static_surface", false)):
-		SaveManager.autosave()
 
 func _core_loop_v2_return_to_title() -> void:
-	# Keep the completed marker in the autosave. Continuing this test later must
-	# reopen its record instead of entering the legacy director after the cap.
-	var final_month := DEMO_CORE_LOOP_V2.month_for_turn(
-		DEMO_CORE_LOOP_V2.development_cap_week())
-	DEMO_CORE_LOOP_V2.acknowledge_month_summary(final_month)
-	SaveManager.autosave()
-	_go_to_menu()
+	if not _core_loop_v2_completion_autosave_succeeded:
+		if not _core_loop_v2_autosave_completion():
+			_show_toast(_tr(
+				"자동 저장에 실패했습니다. 다시 시도해 주세요.",
+				"Autosave failed. Please try again."),
+				Color("#a98b88"))
+			return
+		_core_loop_v2_completion_autosave_succeeded = true
+	if bool(get_meta("_screenshot_qa_static_surface", false)):
+		return
+	SceneTransition.go("res://scenes/StartMenu.tscn")
 
 func _core_loop_v2_finish_action_week() -> void:
 	if not DEMO_CORE_LOOP_V2.action_result_ready():
@@ -1477,7 +1926,7 @@ func _core_loop_v2_advance_completed_week() -> void:
 			return
 		# The completion surface owns the one terminal autosave after every
 		# receipt and marker above is present.
-		_core_loop_v2_show_completion()
+		_core_loop_v2_show_completion(true)
 		return
 	if GameState.week_of_month == 4:
 		var closing_month := DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn)
@@ -3659,11 +4108,26 @@ func _go_story_mode(event_ids: Array, keep_cover: bool = false):
 	# 콜드오픈은 같은 첫 주의 챕터 카드까지 이어져야 한다. 그 한 번을 제외하면
 	# 데모도 정식 구간과 똑같이 한 주에 하나의 독립 서사 뿌리만 허용한다.
 	# follow_up_event 체인은 StoryMode 내부 큐에서 계속 재생되므로 잘리지 않는다.
+	# 연말의 '올해의 장면'은 별도 주의 새 사건이 아니라 방금 닫은 장을 고르는
+	# 메타 단계이므로, 정확한 마지막 주의 클로징 뒤 같은 큐에서만 이어진다.
+	var story_queue: Array = event_ids.duplicate()
+	if story_queue.size() == 1:
+		var close_years := {
+			"arc_year1_close": 1,
+			"arc_year2_close": 2,
+			"arc_year3_close": 3,
+			"arc_year4_close": 4,
+		}
+		var year_index := int(close_years.get(first_event_id, 0))
+		if year_index > 0:
+			var curation_id := _year_scene_curation_id(year_index)
+			if not curation_id.is_empty():
+				story_queue.append(curation_id)
 	var opening_prologue := GameState.turn == 1 \
 			and first_event_id in ["story_flashforward", "story_arrival"]
 	if not first_event_id.is_empty() and not opening_prologue:
 		GameState.flags["foreground_story_turn"] = GameState.turn
-	GameState.pending_story_queue = event_ids
+	GameState.pending_story_queue = story_queue
 	GameState.story_return_scene = "res://scenes/MainGame.tscn"
 	if keep_cover:
 		SceneTransition.go_covered("res://scenes/StoryMode.tscn")
@@ -3804,6 +4268,101 @@ func _resolve_demo_narrative_bridge(
 	return EventManager.resolve_narrative_bridge(
 		event_id, _demo_narrative_bridge_choice(event_id))
 
+func _core_loop_v2_hyunsu_result_evidence() -> bool:
+	var state: Variant = GameState.core_loop_v2_state
+	if not state is Dictionary \
+			or not bool((state as Dictionary).get("enabled", false)):
+		return false
+	var v2_state: Dictionary = state
+	if DEMO_CORE_LOOP_V2.has_hyunsu_exam_outcome_receipt():
+		return true
+	var raw_memories: Variant = v2_state.get(
+		"relationship_memories", [])
+	if raw_memories is Array:
+		for raw_memory in raw_memories:
+			if raw_memory is Dictionary \
+					and str((raw_memory as Dictionary).get(
+						"character", "")) == "hyunsu" \
+					and str((raw_memory as Dictionary).get(
+						"bundle_id", "")) == "hyunsu_exam_eve" \
+					and int((raw_memory as Dictionary).get(
+						"turn", 0)) in [21, 22, 23] \
+					and str((raw_memory as Dictionary).get(
+						"memory", "")) in [
+							"hyunsu_exam_eve_one_problem",
+							"hyunsu_exam_eve_rest_protected",
+						]:
+				return true
+	var completed_bundles: Variant = v2_state.get(
+		"completed_bundles", [])
+	if not completed_bundles is Array \
+			or not (completed_bundles as Array).has(
+				"hyunsu_study_followup") \
+			or (completed_bundles as Array).has("hyunsu_exam_eve"):
+		return false
+	var stages: Variant = v2_state.get("relationship_stages", {})
+	if not stages is Dictionary \
+			or str((stages as Dictionary).get(
+				"hyunsu", "")) != "shared_commitment":
+		return false
+	var raw_plan: Variant = (
+		v2_state.get("plans", {}) as Dictionary
+	).get("6", {}) if v2_state.get("plans", {}) is Dictionary else {}
+	if not raw_plan is Dictionary \
+			or (raw_plan as Dictionary).is_empty():
+		return true
+	for raw_forgone in (raw_plan as Dictionary).get("forgone", []):
+		if raw_forgone is Dictionary \
+				and str((raw_forgone as Dictionary).get(
+					"bundle_id", "")) == "hyunsu_exam_eve":
+			return true
+	return false
+
+func _ready_deferred_entries() -> Array[Dictionary]:
+	var ready: Array[Dictionary] = []
+	for queue_index in range(GameState.deferred_events.size()):
+		var raw_entry: Variant = GameState.deferred_events[queue_index]
+		if not raw_entry is Dictionary:
+			continue
+		var entry: Dictionary = raw_entry
+		var trigger_turn := int(entry.get("trigger_turn", 9999))
+		if trigger_turn > GameState.turn:
+			continue
+		var candidate := entry.duplicate(true)
+		candidate["_queue_index"] = queue_index
+		ready.append(candidate)
+	ready.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
+		var left_turn := int(left.get("trigger_turn", 9999))
+		var right_turn := int(right.get("trigger_turn", 9999))
+		if left_turn != right_turn:
+			return left_turn < right_turn
+		return int(left.get("_queue_index", 0)) \
+			< int(right.get("_queue_index", 0))
+	)
+	return ready
+
+func _deferred_foreground_event_id(
+		resolve_reservation: bool) -> String:
+	for entry in _ready_deferred_entries():
+		var event_id := str(entry.get("event_id", "")).strip_edges()
+		var trigger_turn := int(entry.get("trigger_turn", -1))
+		if event_id.is_empty():
+			continue
+		if not EventManager.deferred_event_is_eligible(event_id):
+			# Display and montage guards are observational. Only the actual
+			# foreground router may discard a stale reservation.
+			if resolve_reservation:
+				GameState.claim_deferred_event(
+					event_id, trigger_turn)
+			continue
+		if not resolve_reservation:
+			return event_id
+		var claim := GameState.claim_deferred_event(
+			event_id, trigger_turn)
+		if not claim.is_empty():
+			return event_id
+	return ""
+
 func _next_arc_id(
 		at_turn: int = -1, preview_only: bool = false, resolve_bridges: bool = false) -> String:
 	var t = GameState.turn if at_turn < 0 else at_turn
@@ -3827,17 +4386,18 @@ func _next_arc_id(
 	if _age == 37 and not f.get("chapter_37_seen", false):
 		return "chapter_card_37"
 
-	# ══ 연말 클로징 씬 — 각 연도의 마지막 밤 (5권 구조의 마침표) ══
-	if t >= 45 and t <= 48 and not f.get("arc_year1_close_seen", false):
+	# ══ 연말 클로징 씬 — 각 48주 장의 정확한 마지막 밤 ══════════
+	if t == 48 and not f.get("arc_year1_close_seen", false):
 		return "arc_year1_close"
-	if t >= 92 and t <= 96 and not f.get("arc_year2_close_seen", false):
+	if t == 96 and not f.get("arc_year2_close_seen", false):
 		return "arc_year2_close"
-	if t >= 140 and t <= 144 and not f.get("arc_year3_close_seen", false):
+	if t == 144 and not f.get("arc_year3_close_seen", false):
 		return "arc_year3_close"
-	if t >= 188 and t <= 192 and not f.get("arc_year4_close_seen", false):
+	if t == 192 and not f.get("arc_year4_close_seen", false):
 		return "arc_year4_close"
-	# 연말 장면 선택은 직전 클로징을 본 뒤 같은 연차 안에서 바로 이어진다.
-	# 후보는 현재 런에서 실제로 본 장면뿐이며 3개 미만이면 표면을 만들지 않는다.
+	# 신규 런의 연말 장면 선택은 클로징과 같은 StoryMode 큐에서 이어진다.
+	# 아래는 선택 직전 중단·구세이브를 위한 복구 경로다. 후보는 현재 런에서
+	# 실제로 본 장면뿐이며 3개 미만이면 표면을 만들지 않는다.
 	if not preview_only:
 		var year_scene_id := ""
 		if f.get("arc_year1_close_seen", false):
@@ -3862,6 +4422,38 @@ func _next_arc_id(
 			if not year_scene_id.is_empty():
 				return year_scene_id
 
+	# 24주차에 도시시설 작업표를 실제로 제출한 경로는 첫해 안에서
+	# 채용 결과를 받는다. 제출하지 않은 경로에는 이 문자가 생기지 않는다.
+	var post_demo_application_result := (
+		DEMO_CORE_LOOP_V2.post_demo_application_result_event_id(
+			t, not preview_only))
+	if not post_demo_application_result.is_empty():
+		return post_demo_application_result
+	# V2's selected-memory and eligible unanswered paths can rebuild a typed
+	# receipt from their durable Week-24 evidence. Live routing may recover it;
+	# preview routing stays read-only and never falls into the immediate legacy
+	# failure merely because an older/partial save omitted the derived receipt.
+	var v2_hyunsu_receipt_known := (
+		_core_loop_v2_hyunsu_result_evidence()
+	)
+	var v2_state: Variant = GameState.core_loop_v2_state
+	var v2_enabled := v2_state is Dictionary \
+		and bool((v2_state as Dictionary).get("enabled", false))
+	if not f.get("hyunsu_encouraged", false) \
+			and not f.get("hyunsu_passed", false) \
+			and not f.get("hyunsu_failed", false) \
+			and v2_enabled:
+		var post_demo_hyunsu_result := (
+			DEMO_CORE_LOOP_V2.hyunsu_exam_result_event_id(
+				t, not preview_only)
+		)
+		if not preview_only:
+			v2_hyunsu_receipt_known = (
+				_core_loop_v2_hyunsu_result_evidence()
+			)
+		if not post_demo_hyunsu_result.is_empty():
+			return post_demo_hyunsu_result
+
 	# ══ 고시원 탈출 — 이사한 첫 턴에 감정 장면 (어느 턴이든) ══
 	if GameState.housing != "gosiwon" \
 			and not f.get("arc_goshiwon_goodbye_seen", false):
@@ -3869,14 +4461,11 @@ func _next_arc_id(
 
 	# ══ 그림자 이벤트 — N턴 후 과거 선택이 되돌아온다 ══════════
 	if not preview_only:
-		while true:
-			var shadow_events = GameState.pop_ready_deferred_events()
-			if shadow_events.is_empty():
-				break
-			var shadow_id := str(shadow_events[0])
-			if not shadow_id.is_empty() \
-					and EventManager.trigger_deferred_event_by_id(shadow_id):
-				return ""  # 이번 턴 arc는 조건을 통과한 그림자가 가져간다
+		var deferred_foreground_id := (
+			_deferred_foreground_event_id(resolve_bridges)
+		)
+		if not deferred_foreground_id.is_empty():
+			return deferred_foreground_id
 
 
 	# ══ 1구간: 주인공 몰입 (턴 1-8, 인물 없음) ══════════
@@ -4409,14 +4998,17 @@ func _next_arc_id(
 			and not f.get("hyunsu_exam_day_seen", false):
 		return "hyunsu_exam_day"
 
-	# ── 현수 — 시험 결과 (불합격이 기본 스토리, 합격은 hyunsu_encouraged 선택 시) ──
-	# 시험 당일 즉시 합격/불합격이 나오던 회귀를 막고 최소 주 25까지 기다린다.
+	# ── 현수 — 시험 결과 ──
+	# 레거시 응원 선택은 기존 분기를 보존한다. V2는 시험 전 실제 기억을
+	# 읽어 2주 뒤 불합격 장면의 변주로 넘긴다. 마지막 답장 하나가 4년치
+	# 시험의 합격 여부를 뒤집지는 않는다.
 	if t >= 25 and f.get("hyunsu_exam_day_seen", false) \
 			and not f.get("hyunsu_passed", false) \
 			and not f.get("hyunsu_failed", false):
 		if f.get("hyunsu_encouraged", false):
 			return "hyunsu_result_pass"
-		return "hyunsu_result_fail"
+		if not v2_hyunsu_receipt_known:
+			return "hyunsu_result_fail"
 	# ── 현수 — 합격 후 발령 소식 ──
 	if t >= 80 and f.get("hyunsu_passed", false) \
 			and not f.get("hyunsu_pass_news_seen", false):

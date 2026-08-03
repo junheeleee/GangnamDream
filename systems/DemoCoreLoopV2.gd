@@ -34,6 +34,17 @@ const OWNED_STORY_ROOTS := [
 	"v2_daeun_return_after_distance",
 	"v2_sangchul_housing_lead",
 	"v2_jaehyuk_message",
+	"v2_father_health_signal",
+	"v2_dodam_result_message",
+	"v2_city_service_work_sample_message",
+	"v2_city_service_result_message",
+	"v2_daeun_tuesday_followthrough",
+	"v2_hyunsu_exam_eve",
+	"v2_hyunsu_exam_morning_echo",
+	"v2_gangnam_receipt_walk",
+	"v2_dirty_trace_initial_call",
+	"v2_dirty_recruiter_week24",
+	"v2_demo_first_bill",
 ]
 const ENABLE_ARGS := [
 	"--core-loop-v2",
@@ -41,9 +52,105 @@ const ENABLE_ARGS := [
 	"--qa=core-loop-v2",
 	"qa=core-loop-v2",
 ]
+const HYUNSU_EXAM_OUTCOME_RECEIPT_ID := "hyunsu_exam_2026"
+const CITY_RESULT_RECEIPT_ID := "city_facility_ops_2026h1_result"
 
 static func contract() -> Dictionary:
 	return DataRegistry.demo_core_loop_v2
+
+static func _hyunsu_exam_contract() -> Dictionary:
+	var raw_contracts: Variant = contract().get(
+		"future_story_contracts", {})
+	if not raw_contracts is Dictionary:
+		return {}
+	var raw_spec: Variant = (raw_contracts as Dictionary).get(
+		HYUNSU_EXAM_OUTCOME_RECEIPT_ID, {})
+	if not raw_spec is Dictionary:
+		return {}
+	var spec: Dictionary = (raw_spec as Dictionary).duplicate(true)
+	var raw_memories: Variant = spec.get("required_memories", [])
+	if not raw_memories is Array:
+		return {}
+	var memories: Array[String] = []
+	for raw_memory in raw_memories:
+		var memory_id := str(raw_memory).strip_edges()
+		if not memory_id.is_empty() and not memories.has(memory_id):
+			memories.append(memory_id)
+	var producer_bundle := str(
+		spec.get("producer_bundle", "")).strip_edges()
+	var trigger_event := str(
+		spec.get("trigger_event", "")).strip_edges()
+	var trigger_flag := str(
+		spec.get("trigger_flag", "")).strip_edges()
+	var canonical_outcome := str(
+		spec.get("canonical_outcome", "")).strip_edges()
+	var result_event := str(
+		spec.get("result_event", "")).strip_edges()
+	var unanswered_source := str(
+		spec.get("unanswered_source", "")).strip_edges()
+	var decline_outcome := str(
+		spec.get("decline_outcome", "")).strip_edges()
+	var exam_week := int(spec.get("exam_week", 0))
+	var available_week := int(spec.get(
+		"result_available_week", 0))
+	if memories.is_empty() \
+			or producer_bundle.is_empty() \
+			or trigger_event.is_empty() \
+			or trigger_flag.is_empty() \
+			or canonical_outcome.is_empty() \
+			or result_event.is_empty() \
+			or unanswered_source.is_empty() \
+			or memories.has(unanswered_source) \
+			or decline_outcome.is_empty() \
+			or exam_week < 1 \
+			or available_week <= exam_week \
+			or bool(spec.get("choice_changes_outcome", true)):
+		return {}
+	spec["required_memories"] = memories
+	spec["producer_bundle"] = producer_bundle
+	spec["trigger_event"] = trigger_event
+	spec["trigger_flag"] = trigger_flag
+	spec["canonical_outcome"] = canonical_outcome
+	spec["result_event"] = result_event
+	spec["unanswered_source"] = unanswered_source
+	spec["decline_outcome"] = decline_outcome
+	spec["exam_week"] = exam_week
+	spec["result_available_week"] = available_week
+	return spec
+
+static func _city_result_contract() -> Dictionary:
+	var raw_contracts: Variant = contract().get(
+		"post_demo_application_contracts", {})
+	if not raw_contracts is Dictionary:
+		return {}
+	var raw_spec: Variant = (raw_contracts as Dictionary).get(
+		CITY_RESULT_RECEIPT_ID, {})
+	if not raw_spec is Dictionary:
+		return {}
+	var spec: Dictionary = (raw_spec as Dictionary).duplicate(true)
+	for field in [
+		"producer_bundle", "producer_event",
+		"selected_obligation_id", "application_id",
+		"from", "to", "result_event", "result_flag",
+	]:
+		var value := str(spec.get(field, "")).strip_edges()
+		if value.is_empty():
+			return {}
+		spec[field] = value
+	var producer_choice := int(spec.get(
+		"producer_choice", -1))
+	var not_before_week := int(spec.get(
+		"not_before_week", 0))
+	var not_after_week := int(spec.get(
+		"not_after_week", 0))
+	if producer_choice < 0 or not_before_week <= 24 \
+			or not_after_week < not_before_week \
+			or str(spec["from"]) == str(spec["to"]):
+		return {}
+	spec["producer_choice"] = producer_choice
+	spec["not_before_week"] = not_before_week
+	spec["not_after_week"] = not_after_week
+	return spec
 
 static func development_cap_week() -> int:
 	var raw_scope: Variant = contract().get("scope", {})
@@ -204,10 +311,22 @@ static func completion_snapshot() -> Dictionary:
 			(state.get("application_transition_receipts", {}) as Dictionary).duplicate(true),
 		"legacy_callback_resolutions":
 			(state.get("legacy_callback_resolutions", {}) as Dictionary).duplicate(true),
+		"future_story_receipts":
+			(state.get("future_story_receipts", {}) as Dictionary).duplicate(true),
+		"future_application_receipts":
+			(state.get("future_application_receipts", {}) as Dictionary).duplicate(true),
 		"action_receipts":
 			(state.get("action_receipts", {}) as Dictionary).duplicate(true),
 		"consequence_receipts":
 			(state.get("consequence_receipts", {}) as Dictionary).duplicate(true),
+		"story_choice_receipts":
+			(state.get("story_choice_receipts", {}) as Dictionary).duplicate(true),
+		"obligation_receipts":
+			(state.get("obligation_receipts", {}) as Dictionary).duplicate(true),
+		"deferred_callback_receipts":
+			(state.get("deferred_callback_receipts", {}) as Dictionary).duplicate(true),
+		"demo_collision_context":
+			(state.get("demo_collision_context", {}) as Dictionary).duplicate(true),
 		"temptation_branch": temptation_branch,
 		"cash_shortfall": cash_shortfall_for_money(closing_money),
 		"completed_through_week": int(
@@ -278,6 +397,28 @@ static func plan_for_month(month_index: int = -1) -> Dictionary:
 
 static func needs_plan(month_index: int = -1) -> bool:
 	return plan_for_month(month_index).is_empty()
+
+## 월간 계획을 열기 전에 반드시 도착해야 하는 비슬롯 장면을 반환한다.
+## 표시 여부는 조건식이 아니라 영구 consequence receipt가 소유하므로,
+## 저장 뒤 다시 들어와도 같은 전화나 메시지가 두 번 재생되지 않는다.
+static func pending_month_prelude(month_index: int = -1) -> String:
+	var target_month := (
+		month_index if month_index > 0 else month_for_turn(GameState.turn))
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	for raw_id in month_spec(target_month).get("prelude", []):
+		var prelude_id := str(raw_id).strip_edges()
+		if prelude_id.is_empty() \
+				or state["shown_consequences"].has(prelude_id) \
+				or state["consequence_receipts"].has(prelude_id):
+			continue
+		var prelude_spec := bundle(prelude_id)
+		if prelude_spec.is_empty() \
+				or not bundle_allowed_in_week(prelude_id, int(GameState.turn)) \
+				or not _bundle_requirement_met(
+					prelude_spec, int(GameState.turn) + 1):
+			continue
+		return prelude_id
+	return ""
 
 static func routine_options() -> Dictionary:
 	var raw_routine: Variant = contract().get("routine", {})
@@ -1004,8 +1145,210 @@ static func has_relationship_memory(
 					"character", "")) == normalized_character \
 				and str((raw_receipt as Dictionary).get(
 					"memory", "")) == normalized_memory:
+				return true
+	return false
+
+## 24주 충돌 영수증에서 실제로 고른 의무와 실제 후보였지만 미룬 의무를
+## 구분해 읽는다. 후보에 없던 의무는 deferred로 간주하지 않는다.
+static func obligation_receipt_matches(
+		bundle_id: String, obligation_id: String,
+		disposition: String) -> bool:
+	var normalized_bundle := bundle_id.strip_edges()
+	var normalized_obligation := obligation_id.strip_edges()
+	var normalized_disposition := disposition.strip_edges().to_lower()
+	if normalized_bundle.is_empty() or normalized_obligation.is_empty() \
+			or normalized_disposition not in ["selected", "deferred"]:
+		return false
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var raw_receipt: Variant = state["obligation_receipts"].get(
+		normalized_bundle, {})
+	if not raw_receipt is Dictionary:
+		return false
+	var receipt: Dictionary = raw_receipt
+	var raw_candidates: Variant = receipt.get("candidate_ids", [])
+	var raw_deferred: Variant = receipt.get(
+		"deferred_obligation_ids", [])
+	var selected_id := str(receipt.get(
+		"selected_obligation_id", "")).strip_edges()
+	if str(receipt.get("bundle_id", "")) != normalized_bundle \
+			or selected_id.is_empty() \
+			or not raw_candidates is Array \
+			or not raw_deferred is Array \
+			or not (raw_candidates as Array).has(selected_id) \
+			or not (raw_candidates as Array).has(normalized_obligation):
+		return false
+	if normalized_disposition == "selected":
+		return selected_id == normalized_obligation
+	return selected_id != normalized_obligation \
+		and (raw_deferred as Array).has(normalized_obligation)
+
+static func has_hyunsu_exam_memory() -> bool:
+	var spec := _hyunsu_exam_contract()
+	if spec.is_empty():
+		return false
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	for memory_id in spec["required_memories"]:
+		if _has_relationship_memory(state, "hyunsu", memory_id):
 			return true
 	return false
+
+static func has_hyunsu_exam_outcome_receipt() -> bool:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var raw_receipt: Variant = state["future_story_receipts"].get(
+		HYUNSU_EXAM_OUTCOME_RECEIPT_ID, {})
+	return raw_receipt is Dictionary \
+		and _hyunsu_exam_outcome_receipt_valid(
+			raw_receipt as Dictionary)
+
+static func future_story_source_matches(
+		receipt_id: String, source_id: String) -> bool:
+	var normalized_receipt := receipt_id.strip_edges()
+	var normalized_source := source_id.strip_edges()
+	if normalized_receipt != HYUNSU_EXAM_OUTCOME_RECEIPT_ID \
+			or normalized_source.is_empty():
+		return false
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var raw_receipt: Variant = state["future_story_receipts"].get(
+		normalized_receipt, {})
+	return raw_receipt is Dictionary \
+		and _hyunsu_exam_outcome_receipt_valid(
+			raw_receipt as Dictionary) \
+		and str((raw_receipt as Dictionary).get(
+			"source_memory", "")) == normalized_source
+
+static func post_demo_application_result_event_id(
+		at_turn: int = -1,
+		resolve_missing_receipt: bool = true) -> String:
+	var spec := _city_result_contract()
+	if spec.is_empty():
+		return ""
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var raw_receipt: Variant = state[
+		"future_application_receipts"].get(
+			CITY_RESULT_RECEIPT_ID, {})
+	if (
+		not raw_receipt is Dictionary
+		or not _city_result_receipt_valid(
+			raw_receipt as Dictionary)
+	) and resolve_missing_receipt \
+			and int(GameState.turn) > 24:
+		raw_receipt = _recover_missing_city_result_receipt(state)
+		state = _normalized_state(GameState.core_loop_v2_state)
+	if not raw_receipt is Dictionary \
+			or not _city_result_receipt_valid(
+				raw_receipt as Dictionary) \
+			or str((raw_receipt as Dictionary).get(
+				"status", "")) != "pending" \
+			or str(state["application_statuses"].get(
+				str(spec["application_id"]), "")) \
+				!= str(spec["from"]):
+		return ""
+	var query_turn := int(GameState.turn) \
+		if at_turn < 0 else at_turn
+	# The future result is a bounded inbox opportunity, not a permanent poll:
+	# after its authored Week 28–32 window the unresolved receipt stays silent.
+	if query_turn < int(spec["not_before_week"]) \
+			or query_turn > int(spec["not_after_week"]):
+		return ""
+	return str(spec["result_event"])
+
+static func note_post_demo_application_result(
+		event_id: String, choice_index: int) -> bool:
+	var spec := _city_result_contract()
+	if spec.is_empty() \
+			or event_id != str(spec["result_event"]) \
+			or choice_index != 0 \
+			or int(GameState.turn) < int(
+				spec["not_before_week"]):
+		return false
+	var event: Dictionary = DataRegistry.find_event(event_id)
+	var choices: Variant = event.get("choices", [])
+	if event.is_empty() or not choices is Array \
+			or choice_index >= (choices as Array).size() \
+			or not (choices as Array)[choice_index] is Dictionary:
+		return false
+	var choice: Dictionary = (choices as Array)[
+		choice_index]
+	if not choice.get("flags", []) is Array \
+			or not (choice.get("flags", []) as Array).has(
+				str(spec["result_flag"])) \
+			or not bool(GameState.flags.get(
+				str(spec["result_flag"]), false)):
+		return false
+	var state := _normalized_state(
+		GameState.core_loop_v2_state)
+	var raw_receipt: Variant = state[
+		"future_application_receipts"].get(
+			CITY_RESULT_RECEIPT_ID, {})
+	if not raw_receipt is Dictionary \
+			or not _city_result_receipt_valid(
+				raw_receipt as Dictionary):
+		return false
+	var receipt: Dictionary = (
+		raw_receipt as Dictionary).duplicate(true)
+	if str(receipt.get("status", "")) == "resolved":
+		return int(receipt.get(
+			"choice_index", -1)) == choice_index
+	if str(receipt.get("status", "")) != "pending" \
+			or str(state["application_statuses"].get(
+				str(spec["application_id"]), "")) \
+				!= str(spec["from"]):
+		return false
+	receipt["status"] = "resolved"
+	receipt["resolved_turn"] = int(GameState.turn)
+	receipt["choice_index"] = choice_index
+	state["future_application_receipts"][
+		CITY_RESULT_RECEIPT_ID] = receipt
+	state["application_statuses"][
+		str(spec["application_id"])] = str(spec["to"])
+	var transition_key := "future:%s:%d:%d" % [
+		CITY_RESULT_RECEIPT_ID, choice_index,
+		int(GameState.turn)]
+	state["application_transition_receipts"][
+		transition_key] = {
+			"receipt_key": transition_key,
+			"application_id": str(spec["application_id"]),
+			"from": str(spec["from"]),
+			"to": str(spec["to"]),
+			"bundle_id": CITY_RESULT_RECEIPT_ID,
+			"event_id": event_id,
+			"choice_index": choice_index,
+			"turn": int(GameState.turn),
+		}
+	GameState.core_loop_v2_state = state
+	return true
+
+static func hyunsu_exam_result_event_id(
+		at_turn: int = -1,
+		resolve_missing_receipt: bool = true) -> String:
+	var spec := _hyunsu_exam_contract()
+	if spec.is_empty():
+		return ""
+	var query_turn := int(GameState.turn) if at_turn < 0 else at_turn
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var raw_receipt: Variant = state["future_story_receipts"].get(
+		HYUNSU_EXAM_OUTCOME_RECEIPT_ID, {})
+	if (
+		not raw_receipt is Dictionary
+		or not _hyunsu_exam_outcome_receipt_valid(
+			raw_receipt as Dictionary)
+	):
+		if not resolve_missing_receipt \
+				or int(GameState.turn) <= int(spec["exam_week"]):
+			return ""
+		raw_receipt = _recover_missing_hyunsu_exam_outcome_receipt(
+			state)
+	if not raw_receipt is Dictionary \
+			or not _hyunsu_exam_outcome_receipt_valid(
+				raw_receipt as Dictionary):
+		return ""
+	if query_turn < int((raw_receipt as Dictionary).get(
+			"available_turn", 0)):
+		return ""
+	if str((raw_receipt as Dictionary).get(
+			"outcome", "")) != str(spec["canonical_outcome"]):
+		return ""
+	return str(spec["result_event"])
 
 static func legacy_callback_is_superseded(callback_id: String) -> bool:
 	var normalized_id := callback_id.strip_edges()
@@ -1140,8 +1483,36 @@ static func complete_active_bundle() -> String:
 			"application_outcomes", [])
 		if application_outcomes is Array \
 				and not (application_outcomes as Array).is_empty() \
+				and _selected_choice_requires_outcome_receipt(
+					state, bundle_id, "application_outcomes") \
 				and not _has_current_application_receipt(state, bundle_id):
 			return ""
+		if bundle_id == "demo_collision":
+			var raw_obligation: Variant = state["obligation_receipts"].get(
+				bundle_id, {})
+			if not raw_obligation is Dictionary \
+					or int((raw_obligation as Dictionary).get(
+						"turn", -1)) != int(GameState.turn):
+				return ""
+			var raw_context: Variant = state.get(
+				"demo_collision_context", {})
+			if not raw_context is Dictionary \
+					or int((raw_context as Dictionary).get(
+						"turn", -1)) != int(GameState.turn):
+				return ""
+			var dirty_root := str((raw_context as Dictionary).get(
+				"dirty_root", "")).strip_edges()
+			if not dirty_root.is_empty():
+				var dirty_source := str((raw_context as Dictionary).get(
+					"dirty_source", "")).strip_edges()
+				var raw_dirty: Variant = state[
+					"deferred_callback_receipts"].get(dirty_source, {})
+				if not raw_dirty is Dictionary \
+						or str((raw_dirty as Dictionary).get(
+							"root", "")) != dirty_root \
+						or str((raw_dirty as Dictionary).get(
+							"status", "")) != "resolved":
+					return ""
 		if int(contract().get("schema_version", 1)) >= 3 \
 				and not str(active_spec.get("action_id", "")).is_empty():
 			var raw_action_receipt: Variant = state["action_receipts"].get(
@@ -1155,6 +1526,8 @@ static func complete_active_bundle() -> String:
 			"application_outcomes", [])
 		if consequence_application_outcomes is Array \
 				and not (consequence_application_outcomes as Array).is_empty() \
+				and _selected_choice_requires_outcome_receipt(
+					state, bundle_id, "application_outcomes") \
 				and not _has_current_application_receipt(state, bundle_id):
 			return ""
 		if not state["shown_consequences"].has(bundle_id):
@@ -1206,6 +1579,59 @@ static func _has_current_application_receipt(
 					"turn", -1)) == int(GameState.turn):
 			return true
 	return false
+
+static func _selected_choice_requires_outcome_receipt(
+		state: Dictionary, bundle_id: String, outcome_field: String) -> bool:
+	var raw_outcomes: Variant = bundle(bundle_id).get(outcome_field, [])
+	if not raw_outcomes is Array or (raw_outcomes as Array).is_empty():
+		return false
+	var declared_event_was_chosen := false
+	var applicable_outcomes := 0
+	for raw_outcome in raw_outcomes:
+		if raw_outcome is Dictionary \
+				and _outcome_runtime_applicable(
+					state, bundle_id, raw_outcome as Dictionary):
+			applicable_outcomes += 1
+	if applicable_outcomes == 0:
+		return false
+	for raw_story_receipt in state["story_choice_receipts"].values():
+		if not raw_story_receipt is Dictionary:
+			continue
+		var story_receipt: Dictionary = raw_story_receipt
+		if int(story_receipt.get("turn", -1)) != int(GameState.turn):
+			continue
+		var event_id := str(story_receipt.get("event_id", ""))
+		var choice_index := int(story_receipt.get("choice_index", -1))
+		for raw_outcome in raw_outcomes:
+			if not raw_outcome is Dictionary \
+					or not _outcome_runtime_applicable(
+						state, bundle_id, raw_outcome as Dictionary) \
+					or str((raw_outcome as Dictionary).get(
+						"event_id", "")) != event_id:
+				continue
+			declared_event_was_chosen = true
+			if _outcome_choice_matches(
+					raw_outcome as Dictionary, choice_index):
+				return true
+	# No choice receipt means the declared transition scene has not been read
+	# yet and must still block completion. A receipt for the same event on a
+	# deliberately unmapped choice means that choice carries no transition.
+	return not declared_event_was_chosen
+
+static func _outcome_runtime_applicable(
+		state: Dictionary, bundle_id: String,
+		outcome: Dictionary) -> bool:
+	if bundle_id != "demo_collision" \
+			or str(outcome.get("application_id", "")) \
+				!= "city_facility_ops_2026h1":
+		return true
+	var raw_context: Variant = state.get("demo_collision_context", {})
+	if not raw_context is Dictionary \
+			or not (raw_context as Dictionary).get(
+				"candidate_ids", []) is Array:
+		return false
+	return ((raw_context as Dictionary).get(
+		"candidate_ids", []) as Array).has("city_work_sample")
 
 static func cancel_active_bundle() -> void:
 	var state := _normalized_state(GameState.core_loop_v2_state)
@@ -1318,6 +1744,8 @@ static func consume_scheduled_prelude(
 		"application_outcomes", [])
 	if application_outcomes is Array \
 			and not (application_outcomes as Array).is_empty() \
+			and _selected_choice_requires_outcome_receipt(
+				state, consequence_id, "application_outcomes") \
 			and not _has_current_application_receipt(
 				state, consequence_id):
 		return {
@@ -1403,8 +1831,12 @@ static func received_phone_consequence_ids(
 		month_index if month_index > 0 else month_for_turn(GameState.turn))
 	var state := _normalized_state(GameState.core_loop_v2_state)
 	var result: Array[String] = []
-	for raw_id in month_spec(target_month).get(
-			"conditional_consequences", []):
+	var receipt_candidates: Array = []
+	receipt_candidates.append_array(month_spec(target_month).get(
+		"prelude", []))
+	receipt_candidates.append_array(month_spec(target_month).get(
+		"conditional_consequences", []))
+	for raw_id in receipt_candidates:
 		var consequence_id := str(raw_id).strip_edges()
 		if consequence_id.is_empty() or result.has(consequence_id):
 			continue
@@ -1434,12 +1866,232 @@ static func received_phone_consequence_ids(
 
 static func resolved_event_roots(bundle_id: String) -> Array:
 	var scene_bundle := bundle(bundle_id)
+	if bundle_id == "demo_collision":
+		var state := _normalized_state(GameState.core_loop_v2_state)
+		var raw_context: Variant = state.get("demo_collision_context", {})
+		if not raw_context is Dictionary:
+			return []
+		var context: Dictionary = raw_context
+		if int(context.get("turn", -1)) != int(GameState.turn) \
+				or str(context.get("bundle_id", "")) != bundle_id:
+			return []
+		var stored_roots: Variant = context.get("roots", [])
+		return (stored_roots as Array).duplicate() \
+			if stored_roots is Array else []
 	if bundle_id == "temptation_consequence":
 		if bool(GameState.flags.get("lent_account", false)):
 			return ["arc_temptation_fallout"]
 		return ["arc_temptation_clean"]
 	var roots: Variant = scene_bundle.get("existing_roots", [])
 	return (roots as Array).duplicate() if roots is Array else []
+
+## 24주 보스의 실제 충돌 후보와 예약 콜백을 한 번만 확정한다.
+## 이 함수가 성공한 뒤에는 저장/재진입 모두 같은 roots와 후보를 읽으며,
+## 이미 인수한 예약 사건을 다시 큐에서 찾거나 제거하지 않는다.
+static func prepare_demo_collision() -> Dictionary:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	if str(state.get("active_bundle", "")) != "demo_collision" \
+			or str(state.get("active_kind", "")) != "schedule" \
+			or int(state.get("active_turn", 0)) != int(GameState.turn) \
+			or int(GameState.turn) != 24:
+		return {"ok": false, "error": "demo_collision_owner_mismatch"}
+	var raw_existing: Variant = state.get("demo_collision_context", {})
+	if raw_existing is Dictionary \
+			and not (raw_existing as Dictionary).is_empty():
+		var existing: Dictionary = raw_existing
+		if str(existing.get("bundle_id", "")) != "demo_collision" \
+				or int(existing.get("turn", -1)) != int(GameState.turn) \
+				or not existing.get("roots", []) is Array \
+				or not existing.get("candidate_ids", []) is Array:
+			return {"ok": false, "error": "invalid_demo_collision_context"}
+		GameState.core_loop_v2_state = state
+		return {
+			"ok": true,
+			"prepared": false,
+			"context": existing.duplicate(true),
+		}
+
+	var roots: Array[String] = []
+
+	var dirty_source := ""
+	var dirty_root := ""
+	if bool(GameState.flags.get("escaped_dirty_money", false)):
+		dirty_source = "callback_escaped_dirty_trace"
+		dirty_root = "v2_dirty_trace_initial_call"
+		var raw_dirty_receipt: Variant = state[
+			"deferred_callback_receipts"].get(dirty_source, {})
+		if raw_dirty_receipt is Dictionary \
+				and not (raw_dirty_receipt as Dictionary).is_empty():
+			var existing_dirty: Dictionary = raw_dirty_receipt
+			if str(existing_dirty.get("root", "")) != dirty_root \
+					or int(existing_dirty.get("claimed_turn", -1)) != 24 \
+					or str(existing_dirty.get("status", "")) \
+						not in ["claimed", "resolved"]:
+				return {"ok": false, "error": "invalid_dirty_callback_receipt"}
+		else:
+			var claimed := GameState.claim_deferred_event(
+				"callback_escaped_dirty_trace", 24)
+			if claimed.is_empty():
+				return {"ok": false, "error": "missing_due_dirty_callback"}
+			state["deferred_callback_receipts"][dirty_source] = {
+				"source": dirty_source,
+				"trigger_turn": int(claimed.get("trigger_turn", 24)),
+				"claimed_turn": int(GameState.turn),
+				"root": dirty_root,
+				"status": "claimed",
+				"synthetic": false,
+			}
+	elif bool(GameState.flags.get("fell_to_darkness", false)):
+		dirty_source = "fell_to_darkness"
+		dirty_root = "v2_dirty_recruiter_week24"
+		state["deferred_callback_receipts"][dirty_source] = {
+			"source": dirty_source,
+			"trigger_turn": int(GameState.turn),
+			"claimed_turn": int(GameState.turn),
+			"root": dirty_root,
+			"status": "claimed",
+			"synthetic": true,
+		}
+	if not dirty_root.is_empty():
+		roots.append(dirty_root)
+	roots.append("v2_demo_first_bill")
+	# 금요일 18시 작업표 마감과 월말 선택을 먼저 닫은 뒤, 토요일 아침
+	# 현수의 시험장 앞 장면으로 데모의 마지막 시간을 보낸다.
+	if has_completed_bundle("hyunsu_study_followup") \
+			and relationship_stage("hyunsu") == "shared_commitment":
+		if not has_completed_bundle(str(
+				_hyunsu_exam_contract().get(
+					"producer_bundle", ""))):
+			var unanswered_receipt := (
+				_ensure_hyunsu_exam_outcome_receipt(
+					state, true))
+			if unanswered_receipt.is_empty():
+				return {
+					"ok": false,
+					"error":
+						"missing_hyunsu_unanswered_future_receipt",
+				}
+			state = _normalized_state(
+				GameState.core_loop_v2_state)
+		roots.append("v2_hyunsu_exam_morning_echo")
+
+	var candidates := _demo_collision_candidate_ids(state)
+	if candidates.is_empty() or not candidates.has("father_call"):
+		return {"ok": false, "error": "missing_demo_collision_candidates"}
+	var context := {
+		"bundle_id": "demo_collision",
+		"turn": int(GameState.turn),
+		"roots": roots.duplicate(),
+		"candidate_ids": candidates.duplicate(),
+		"dirty_source": dirty_source,
+		"dirty_root": dirty_root,
+		"prepared": true,
+	}
+	state["demo_collision_context"] = context
+	GameState.core_loop_v2_state = state
+	return {
+		"ok": true,
+		"prepared": true,
+		"context": context.duplicate(true),
+	}
+
+static func story_choice_available(
+		event_id: String, obligation_id: String) -> bool:
+	var normalized_obligation := obligation_id.strip_edges()
+	if event_id != "v2_demo_first_bill" \
+			or normalized_obligation.is_empty():
+		return false
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var raw_context: Variant = state.get("demo_collision_context", {})
+	if not raw_context is Dictionary:
+		return false
+	var context: Dictionary = raw_context
+	return str(context.get("bundle_id", "")) == "demo_collision" \
+		and int(context.get("turn", -1)) == int(GameState.turn) \
+		and context.get("candidate_ids", []) is Array \
+		and (context.get("candidate_ids", []) as Array).has(
+			normalized_obligation)
+
+static func _demo_collision_candidate_ids(state: Dictionary) -> Array[String]:
+	var priority: Array[String] = ["father_call"]
+	if application_status("city_facility_ops_2026h1") == "submitted" \
+			and _consequence_was_presented(
+				state, "m6_city_service_response"):
+		priority.append("city_work_sample")
+	if str(GameState.current_job.get("id", "")) == "job_03":
+		priority.append("hanbit_month_close")
+	var person_obligation := _demo_person_obligation(state)
+	if not person_obligation.is_empty():
+		priority.append(person_obligation)
+	if GameState.current_job.is_empty():
+		priority.append("urgent_paid_shift")
+	priority.append("body_rest")
+
+	var selected: Array[String] = []
+	for obligation_id in priority:
+		if not selected.has(obligation_id) and selected.size() < 4:
+			selected.append(obligation_id)
+	var canonical_order := [
+		"father_call",
+		"hanbit_month_close",
+		"city_work_sample",
+		"daeun_checkin",
+		"jaehyuk_reply",
+		"sangchul_ledger",
+		"urgent_paid_shift",
+		"body_rest",
+	]
+	var ordered: Array[String] = []
+	for obligation_id in canonical_order:
+		if selected.has(obligation_id):
+			ordered.append(obligation_id)
+	return ordered
+
+static func _demo_person_obligation(state: Dictionary) -> String:
+	if has_completed_bundle("daeun_shared_dream") \
+			and not _has_relationship_memory(
+				state, "daeun", "daeun_same_tuesday_promised") \
+			and _has_relationship_memory(
+				state, "daeun", "daeun_late_meal_promised"):
+		return "daeun_checkin"
+	if has_completed_bundle("jaehyuk_plain_reunion_echo") \
+			and (
+				_has_relationship_memory(
+					state, "jaehyuk", "jaehyuk_reunion_warm")
+				or _has_relationship_memory(
+					state, "jaehyuk", "jaehyuk_reunion_guarded")
+			):
+		return "jaehyuk_reply"
+	if has_completed_bundle("sangchul_second_coffee") \
+			and (
+				_has_relationship_memory(
+					state, "sangchul", "sangchul_own_pace_stated")
+				or _has_relationship_memory(
+					state, "sangchul", "sangchul_numbers_first_recorded")
+			):
+		return "sangchul_ledger"
+	return ""
+
+static func _has_relationship_memory(
+		state: Dictionary, character_id: String, memory_id: String) -> bool:
+	for raw_receipt in state["relationship_memories"]:
+		if raw_receipt is Dictionary \
+				and str((raw_receipt as Dictionary).get(
+					"character", "")) == character_id \
+				and str((raw_receipt as Dictionary).get(
+					"memory", "")) == memory_id:
+			return true
+	return false
+
+static func _consequence_was_presented(
+		state: Dictionary, consequence_id: String) -> bool:
+	var raw_receipt: Variant = state["consequence_receipts"].get(
+		consequence_id, {})
+	return raw_receipt is Dictionary \
+		and str((raw_receipt as Dictionary).get(
+			"consequence_id", "")) == consequence_id \
+		and str((raw_receipt as Dictionary).get(
+			"status", "")) in ["presented", "consumed"]
 
 static func prepare_story_bundle(bundle_id: String) -> void:
 	var scene_bundle := bundle(bundle_id)
@@ -1492,13 +2144,590 @@ static func was_player_initiated(character_id: String) -> bool:
 
 static func note_story_choice(event_id: String, choice_index: int) -> bool:
 	var state := _normalized_state(GameState.core_loop_v2_state)
+	if event_id == "v2_demo_first_bill":
+		var selected_obligation := _obligation_id_for_choice(
+			"demo_collision", event_id, choice_index)
+		if selected_obligation.is_empty() \
+				or not story_choice_available(
+					event_id, selected_obligation):
+			return false
+	var expects_deferred := _story_choice_is_deferred_callback(
+		state, event_id)
+	var expects_obligation := _story_choice_declares_outcome(
+		state, event_id, choice_index, "obligation_outcomes")
+	var expects_relationship := _story_choice_declares_outcome(
+		state, event_id, choice_index, "relationship_outcomes")
+	var expects_application := _story_choice_declares_outcome(
+		state, event_id, choice_index, "application_outcomes")
+	var story_recorded := _note_generic_story_choice(
+		state, event_id, choice_index)
+	if not story_recorded:
+		return false
+	state = _normalized_state(GameState.core_loop_v2_state)
+	var deferred_recorded := _note_deferred_callback_story_choice(
+		state, event_id, choice_index)
+	if deferred_recorded:
+		state = _normalized_state(GameState.core_loop_v2_state)
+	var obligation_recorded := _note_obligation_story_choice(
+		state, event_id, choice_index)
+	if obligation_recorded:
+		state = _normalized_state(GameState.core_loop_v2_state)
 	var relationship_recorded := _note_relationship_story_choice(
 		state, event_id, choice_index)
 	if relationship_recorded:
 		state = _normalized_state(GameState.core_loop_v2_state)
+		var hyunsu_exam_spec := _hyunsu_exam_contract()
+		if not hyunsu_exam_spec.is_empty() \
+				and str(state.get("active_bundle", "")) \
+					== str(hyunsu_exam_spec["producer_bundle"]):
+			_ensure_hyunsu_exam_outcome_receipt(state)
+			state = _normalized_state(GameState.core_loop_v2_state)
 	var application_recorded := _note_application_story_choice(
 		state, event_id, choice_index)
-	return relationship_recorded or application_recorded
+	if expects_deferred and not deferred_recorded:
+		return false
+	if expects_obligation and not obligation_recorded:
+		return false
+	if expects_relationship and not relationship_recorded:
+		return false
+	if expects_application and not application_recorded:
+		return false
+	return story_recorded
+
+static func _ensure_hyunsu_exam_outcome_receipt(
+		state: Dictionary,
+		allow_unanswered: bool = false) -> Dictionary:
+	var spec := _hyunsu_exam_contract()
+	if spec.is_empty():
+		return {}
+	var raw_existing: Variant = state["future_story_receipts"].get(
+		HYUNSU_EXAM_OUTCOME_RECEIPT_ID, {})
+	if raw_existing is Dictionary \
+			and _hyunsu_exam_outcome_receipt_valid(
+				raw_existing as Dictionary):
+		return (raw_existing as Dictionary).duplicate(true)
+	var source_memory := ""
+	var source_kind := "relationship_memory"
+	for memory_id in spec["required_memories"]:
+		if _has_relationship_memory(state, "hyunsu", memory_id):
+			source_memory = memory_id
+			break
+	if source_memory.is_empty() and allow_unanswered \
+			and bool(state.get("enabled", false)) \
+			and int(GameState.turn) == int(spec["exam_week"]) \
+			and state["completed_bundles"].has(
+				"hyunsu_study_followup") \
+			and not state["completed_bundles"].has(
+				str(spec["producer_bundle"])):
+		source_memory = str(spec["unanswered_source"])
+		source_kind = "declined"
+	if source_memory.is_empty():
+		return {}
+	# The chapter-one spine owns failure, drift, and the later new path. V2's
+	# last-night choice changes how that failure is remembered, not the score.
+	# The result stays unavailable through Weeks 25–26 and opens in Week 27.
+	var receipt := {
+		"receipt_id": HYUNSU_EXAM_OUTCOME_RECEIPT_ID,
+		"character": "hyunsu",
+		"producer_bundle": str(spec["producer_bundle"]),
+		"source_memory": source_memory,
+		"source_kind": source_kind,
+		"outcome": str(spec["canonical_outcome"]),
+		"recorded_turn": int(GameState.turn),
+		"exam_turn": int(spec["exam_week"]),
+		"available_turn": int(spec["result_available_week"]),
+		"result_event": str(spec["result_event"]),
+	}
+	if source_kind == "declined":
+		receipt["decline_outcome"] = str(
+			spec["decline_outcome"])
+	state["future_story_receipts"][
+		HYUNSU_EXAM_OUTCOME_RECEIPT_ID] = receipt
+	GameState.core_loop_v2_state = state
+	return receipt.duplicate(true)
+
+static func _recover_missing_hyunsu_exam_outcome_receipt(
+		state: Dictionary) -> Dictionary:
+	var spec := _hyunsu_exam_contract()
+	if spec.is_empty() \
+			or int(GameState.turn) <= int(spec["exam_week"]):
+		return {}
+	# An exact choice memory is already durable proof of the Week-23 reply,
+	# even when a partial save lost the derived future-story receipt.
+	var source_memory := ""
+	var source_kind := "relationship_memory"
+	for memory_id in spec["required_memories"]:
+		if _has_relationship_memory(state, "hyunsu", memory_id):
+			source_memory = str(memory_id)
+			break
+	# With no choice memory, infer "unanswered" only after the deadline and only
+	# from the completed shared-study route. If the Month-6 plan survived, its
+	# explicit forgone record is required; a scheduled-but-incomplete producer
+	# stays ambiguous and must not be rewritten as a decline.
+	if source_memory.is_empty() \
+			and _hyunsu_unanswered_recovery_is_proven(state, spec):
+		source_memory = str(spec["unanswered_source"])
+		source_kind = "declined"
+	if source_memory.is_empty():
+		return {}
+	var exam_turn := int(spec["exam_week"])
+	var receipt := {
+		"receipt_id": HYUNSU_EXAM_OUTCOME_RECEIPT_ID,
+		"character": "hyunsu",
+		"producer_bundle": str(spec["producer_bundle"]),
+		"source_memory": source_memory,
+		"source_kind": source_kind,
+		"outcome": str(spec["canonical_outcome"]),
+		# Recovery restores the canonical exam checkpoint; it does not invent
+		# a new event in whichever later week happened to load the save.
+		"recorded_turn": exam_turn,
+		"exam_turn": exam_turn,
+		"available_turn": int(spec["result_available_week"]),
+		"result_event": str(spec["result_event"]),
+	}
+	if source_kind == "declined":
+		receipt["decline_outcome"] = str(spec["decline_outcome"])
+	state["future_story_receipts"][
+		HYUNSU_EXAM_OUTCOME_RECEIPT_ID] = receipt
+	GameState.core_loop_v2_state = state
+	return receipt.duplicate(true)
+
+static func _hyunsu_unanswered_recovery_is_proven(
+		state: Dictionary, spec: Dictionary) -> bool:
+	var producer_bundle := str(spec["producer_bundle"])
+	if not bool(state.get("enabled", false)) \
+			or not state["completed_bundles"].has(
+				"hyunsu_study_followup") \
+			or str(state["relationship_stages"].get(
+				"hyunsu", "")) != "shared_commitment" \
+			or state["completed_bundles"].has(producer_bundle):
+		return false
+	if _forgone_bundle_recorded(
+			state.get("forgone", []), producer_bundle):
+		return true
+	var month_key := str(month_for_turn(int(spec["exam_week"])))
+	var raw_plan: Variant = state["plans"].get(month_key, {})
+	if raw_plan is Dictionary \
+			and not (raw_plan as Dictionary).is_empty():
+		return _forgone_bundle_recorded(
+			(raw_plan as Dictionary).get("forgone", []),
+			producer_bundle)
+	# Older partial saves may retain the completed relationship route but lose
+	# the Month-6 plan. Past the Week-23 deadline, absence of the producer is
+	# then sufficient only because both eligibility proofs above survived.
+	return true
+
+static func _forgone_bundle_recorded(
+		raw_records: Variant, bundle_id: String) -> bool:
+	if not raw_records is Array:
+		return false
+	for raw_record in raw_records as Array:
+		if raw_record is Dictionary \
+				and str((raw_record as Dictionary).get(
+					"bundle_id", "")) == bundle_id:
+			return true
+	return false
+
+static func _hyunsu_exam_outcome_receipt_valid(
+		receipt: Dictionary) -> bool:
+	var spec := _hyunsu_exam_contract()
+	if spec.is_empty():
+		return false
+	var source_memory := str(receipt.get(
+		"source_memory", ""))
+	var source_kind := str(receipt.get(
+		"source_kind", ""))
+	var selected_memory := (
+		spec["required_memories"] as Array
+	).has(source_memory)
+	var unanswered := source_memory \
+		== str(spec["unanswered_source"])
+	var source_valid := (
+		selected_memory
+			and source_kind == "relationship_memory"
+	) or (
+		unanswered
+			and source_kind == "declined"
+			and str(receipt.get("decline_outcome", "")) \
+				== str(spec["decline_outcome"])
+	)
+	return str(receipt.get("receipt_id", "")) \
+			== HYUNSU_EXAM_OUTCOME_RECEIPT_ID \
+		and str(receipt.get("character", "")) == "hyunsu" \
+		and str(receipt.get("producer_bundle", "")) \
+			== str(spec["producer_bundle"]) \
+		and source_valid \
+		and str(receipt.get("outcome", "")) \
+			== str(spec["canonical_outcome"]) \
+		and int(receipt.get("recorded_turn", 0)) >= 1 \
+		and int(receipt.get("exam_turn", 0)) \
+			== int(spec["exam_week"]) \
+		and int(receipt.get("available_turn", 0)) \
+			== int(spec["result_available_week"]) \
+		and str(receipt.get("result_event", "")) \
+			== str(spec["result_event"])
+
+static func _ensure_city_result_receipt(
+		state: Dictionary,
+		selected_obligation: String,
+		event_id: String,
+		choice_index: int) -> Dictionary:
+	var spec := _city_result_contract()
+	if spec.is_empty() \
+			or selected_obligation \
+				!= str(spec["selected_obligation_id"]) \
+			or event_id != str(spec["producer_event"]) \
+			or choice_index != int(spec["producer_choice"]) \
+			or int(GameState.turn) != 24 \
+			or str(state["application_statuses"].get(
+				str(spec["application_id"]), "")) \
+				!= str(spec["from"]):
+		return {}
+	var raw_existing: Variant = state[
+		"future_application_receipts"].get(
+			CITY_RESULT_RECEIPT_ID, {})
+	if raw_existing is Dictionary \
+			and _city_result_receipt_valid(
+				raw_existing as Dictionary):
+		return (raw_existing as Dictionary).duplicate(true)
+	var receipt := {
+		"receipt_id": CITY_RESULT_RECEIPT_ID,
+		"application_id": str(spec["application_id"]),
+		"producer_bundle": str(spec["producer_bundle"]),
+		"producer_event": event_id,
+		"producer_choice": choice_index,
+		"selected_obligation_id": selected_obligation,
+		"from": str(spec["from"]),
+		"to": str(spec["to"]),
+		"recorded_turn": int(GameState.turn),
+		"available_turn": int(spec["not_before_week"]),
+		"result_event": str(spec["result_event"]),
+		"status": "pending",
+	}
+	state["future_application_receipts"][
+		CITY_RESULT_RECEIPT_ID] = receipt
+	GameState.core_loop_v2_state = state
+	return receipt.duplicate(true)
+
+static func _recover_missing_city_result_receipt(
+		state: Dictionary) -> Dictionary:
+	var spec := _city_result_contract()
+	if spec.is_empty() \
+			or int(GameState.turn) <= 24 \
+			or str(state["application_statuses"].get(
+				str(spec["application_id"]), "")) \
+				!= str(spec["from"]):
+		return {}
+	var raw_obligation: Variant = state["obligation_receipts"].get(
+		str(spec["producer_bundle"]), {})
+	if not raw_obligation is Dictionary \
+			or not _exact_city_obligation_receipt_matches(
+				raw_obligation as Dictionary, spec):
+		return {}
+	var receipt := {
+		"receipt_id": CITY_RESULT_RECEIPT_ID,
+		"application_id": str(spec["application_id"]),
+		"producer_bundle": str(spec["producer_bundle"]),
+		"producer_event": str(spec["producer_event"]),
+		"producer_choice": int(spec["producer_choice"]),
+		"selected_obligation_id":
+			str(spec["selected_obligation_id"]),
+		"from": str(spec["from"]),
+		"to": str(spec["to"]),
+		"recorded_turn": 24,
+		"available_turn": int(spec["not_before_week"]),
+		"result_event": str(spec["result_event"]),
+		"status": "pending",
+	}
+	state["future_application_receipts"][
+		CITY_RESULT_RECEIPT_ID] = receipt
+	GameState.core_loop_v2_state = state
+	return receipt.duplicate(true)
+
+static func _exact_city_obligation_receipt_matches(
+		receipt: Dictionary, spec: Dictionary) -> bool:
+	var raw_candidates: Variant = receipt.get("candidate_ids", [])
+	var raw_deferred: Variant = receipt.get(
+		"deferred_obligation_ids", [])
+	if not raw_candidates is Array or not raw_deferred is Array:
+		return false
+	var candidates: Array[String] = []
+	for raw_candidate in raw_candidates as Array:
+		var candidate_id := str(raw_candidate).strip_edges()
+		if candidate_id.is_empty() or candidates.has(candidate_id):
+			return false
+		candidates.append(candidate_id)
+	var expected_selected := str(spec["selected_obligation_id"])
+	var expected_deferred: Array[String] = []
+	for candidate_id in candidates:
+		if candidate_id != expected_selected:
+			expected_deferred.append(candidate_id)
+	var deferred: Array[String] = []
+	for raw_deferred_id in raw_deferred as Array:
+		deferred.append(str(raw_deferred_id).strip_edges())
+	return str(receipt.get("bundle_id", "")) \
+				== str(spec["producer_bundle"]) \
+			and str(receipt.get("event_id", "")) \
+				== str(spec["producer_event"]) \
+			and int(receipt.get("turn", 0)) == 24 \
+			and int(receipt.get("choice_index", -1)) \
+				== int(spec["producer_choice"]) \
+			and str(receipt.get(
+				"selected_obligation_id", "")) \
+				== expected_selected \
+			and candidates.has(expected_selected) \
+			and deferred == expected_deferred
+
+static func _city_result_receipt_valid(
+		receipt: Dictionary) -> bool:
+	var spec := _city_result_contract()
+	if spec.is_empty():
+		return false
+	return str(receipt.get("receipt_id", "")) \
+			== CITY_RESULT_RECEIPT_ID \
+		and str(receipt.get("application_id", "")) \
+			== str(spec["application_id"]) \
+		and str(receipt.get("producer_bundle", "")) \
+			== str(spec["producer_bundle"]) \
+		and str(receipt.get("producer_event", "")) \
+			== str(spec["producer_event"]) \
+		and int(receipt.get("producer_choice", -1)) \
+			== int(spec["producer_choice"]) \
+		and str(receipt.get(
+			"selected_obligation_id", "")) \
+			== str(spec["selected_obligation_id"]) \
+		and str(receipt.get("from", "")) \
+			== str(spec["from"]) \
+		and str(receipt.get("to", "")) \
+			== str(spec["to"]) \
+		and int(receipt.get("recorded_turn", 0)) == 24 \
+		and int(receipt.get("available_turn", 0)) \
+			== int(spec["not_before_week"]) \
+		and str(receipt.get("result_event", "")) \
+			== str(spec["result_event"]) \
+		and str(receipt.get("status", "")) \
+			in ["pending", "resolved"]
+
+static func _story_choice_declares_outcome(
+		state: Dictionary, event_id: String, choice_index: int,
+		outcome_field: String) -> bool:
+	var owner_id := _story_outcome_owner_id(
+		state, event_id, outcome_field)
+	if owner_id.is_empty():
+		return false
+	var raw_outcomes: Variant = bundle(owner_id).get(
+		outcome_field, [])
+	if not raw_outcomes is Array:
+		return false
+	for raw_outcome in raw_outcomes:
+		if raw_outcome is Dictionary \
+				and _outcome_runtime_applicable(
+					state, owner_id, raw_outcome as Dictionary) \
+				and str((raw_outcome as Dictionary).get(
+					"event_id", "")) == event_id \
+				and _outcome_choice_matches(
+					raw_outcome as Dictionary, choice_index):
+			return true
+	return false
+
+static func _story_choice_is_deferred_callback(
+		state: Dictionary, event_id: String) -> bool:
+	for raw_receipt in state["deferred_callback_receipts"].values():
+		if raw_receipt is Dictionary \
+				and str((raw_receipt as Dictionary).get(
+					"root", "")) == event_id:
+			return true
+	return false
+
+static func _note_generic_story_choice(
+		state: Dictionary, event_id: String, choice_index: int) -> bool:
+	var owner_id := str(state.get("active_bundle", "")).strip_edges()
+	var owner_kind := str(state.get("active_kind", "")).strip_edges()
+	var owner_turn := int(state.get("active_turn", 0))
+	if owner_id.is_empty() or owner_kind not in ["schedule", "consequence"] \
+			or owner_turn != int(GameState.turn) \
+			or event_id.is_empty() or choice_index < 0:
+		return false
+	var event: Dictionary = DataRegistry.find_event(event_id)
+	var choices: Variant = event.get("choices", [])
+	if event.is_empty() or not choices is Array \
+			or choice_index >= (choices as Array).size():
+		return false
+	var raw_choice: Variant = (choices as Array)[choice_index]
+	if not raw_choice is Dictionary:
+		return false
+	var initiated_character := str(
+		(raw_choice as Dictionary).get(
+			"v2_player_initiated_character", "")).strip_edges()
+	if not initiated_character.is_empty() \
+			and not GameState.cast.has(initiated_character):
+		return false
+	var receipt_key := "%s:%s:%d:%d" % [
+		owner_id, event_id, choice_index, int(GameState.turn)]
+	var raw_existing: Variant = state["story_choice_receipts"].get(
+		receipt_key, {})
+	if raw_existing is Dictionary \
+			and not (raw_existing as Dictionary).is_empty():
+		var existing: Dictionary = (
+			raw_existing as Dictionary).duplicate(true)
+		var exact_match := str(existing.get("bundle_id", "")) == owner_id \
+			and str(existing.get("active_kind", "")) == owner_kind \
+			and str(existing.get("event_id", "")) == event_id \
+			and int(existing.get("choice_index", -1)) == choice_index \
+			and int(existing.get("turn", -1)) == int(GameState.turn)
+		if not exact_match:
+			return false
+		if not initiated_character.is_empty():
+			var stored_character := str(existing.get(
+				"player_initiated_character", "")).strip_edges()
+			if not stored_character.is_empty() \
+					and stored_character != initiated_character:
+				return false
+			existing["player_initiated_character"] = initiated_character
+			state["story_choice_receipts"][receipt_key] = existing
+			if not state["player_initiated"].has(initiated_character):
+				state["player_initiated"].append(initiated_character)
+			GameState.core_loop_v2_state = state
+		return true
+	var receipt := {
+		"receipt_key": receipt_key,
+		"bundle_id": owner_id,
+		"active_kind": owner_kind,
+		"event_id": event_id,
+		"choice_index": choice_index,
+		"turn": int(GameState.turn),
+	}
+	if not initiated_character.is_empty():
+		receipt["player_initiated_character"] = initiated_character
+		if not state["player_initiated"].has(initiated_character):
+			state["player_initiated"].append(initiated_character)
+	state["story_choice_receipts"][receipt_key] = receipt
+	GameState.core_loop_v2_state = state
+	return true
+
+static func _note_deferred_callback_story_choice(
+		state: Dictionary, event_id: String, choice_index: int) -> bool:
+	for raw_source in state["deferred_callback_receipts"]:
+		var source := str(raw_source)
+		var raw_receipt: Variant = state[
+			"deferred_callback_receipts"].get(source, {})
+		if not raw_receipt is Dictionary:
+			continue
+		var receipt: Dictionary = raw_receipt
+		if str(receipt.get("root", "")) != event_id:
+			continue
+		if str(receipt.get("status", "")) == "resolved":
+			return int(receipt.get("choice_index", -1)) == choice_index \
+				and int(receipt.get("resolved_turn", -1)) \
+					== int(GameState.turn)
+		if str(receipt.get("status", "")) != "claimed" \
+				or int(receipt.get("claimed_turn", -1)) \
+					!= int(GameState.turn):
+			return false
+		receipt["status"] = "resolved"
+		receipt["event_id"] = event_id
+		receipt["choice_index"] = choice_index
+		receipt["resolved_turn"] = int(GameState.turn)
+		state["deferred_callback_receipts"][source] = receipt
+		GameState.core_loop_v2_state = state
+		return true
+	return false
+
+static func _note_obligation_story_choice(
+		state: Dictionary, event_id: String, choice_index: int) -> bool:
+	var bundle_id := _story_outcome_owner_id(
+		state, event_id, "obligation_outcomes")
+	if bundle_id.is_empty():
+		return false
+	var selected_obligation := _obligation_id_for_choice(
+		bundle_id, event_id, choice_index)
+	if selected_obligation.is_empty() \
+			or not story_choice_available(
+				event_id, selected_obligation):
+		return false
+	var raw_context: Variant = state.get("demo_collision_context", {})
+	if not raw_context is Dictionary:
+		return false
+	var context: Dictionary = raw_context
+	var raw_candidates: Variant = context.get("candidate_ids", [])
+	if not raw_candidates is Array:
+		return false
+	var candidate_ids: Array = (raw_candidates as Array).duplicate()
+	var deferred_ids: Array = []
+	for raw_candidate in candidate_ids:
+		var candidate_id := str(raw_candidate)
+		if candidate_id != selected_obligation:
+			deferred_ids.append(candidate_id)
+	var receipt := {
+		"bundle_id": bundle_id,
+		"event_id": event_id,
+		"turn": int(GameState.turn),
+		"candidate_ids": candidate_ids,
+		"selected_obligation_id": selected_obligation,
+		"choice_index": choice_index,
+		"deferred_obligation_ids": deferred_ids,
+	}
+	var raw_existing: Variant = state["obligation_receipts"].get(
+		bundle_id, {})
+	if raw_existing is Dictionary \
+			and not (raw_existing as Dictionary).is_empty():
+		var existing: Dictionary = raw_existing
+		var exact_existing: bool = (
+			str(existing.get("event_id", "")) == event_id \
+			and int(existing.get("turn", -1)) == int(GameState.turn) \
+			and str(existing.get("selected_obligation_id", "")) \
+				== selected_obligation \
+			and int(existing.get("choice_index", -1)) == choice_index \
+			and existing.get("candidate_ids", []) == candidate_ids
+		)
+		if not exact_existing:
+			return false
+		if selected_obligation == "city_work_sample" \
+				and _ensure_city_result_receipt(
+					state, selected_obligation,
+					event_id, choice_index).is_empty():
+			return false
+		return true
+	state["obligation_receipts"][bundle_id] = receipt
+	if selected_obligation == "city_work_sample" \
+			and _ensure_city_result_receipt(
+				state, selected_obligation,
+				event_id, choice_index).is_empty():
+		return false
+	state = _normalized_state(
+		GameState.core_loop_v2_state) \
+		if selected_obligation == "city_work_sample" \
+		else state
+	GameState.core_loop_v2_state = state
+	return true
+
+static func _obligation_id_for_choice(
+		bundle_id: String, event_id: String, choice_index: int) -> String:
+	var raw_outcomes: Variant = bundle(bundle_id).get(
+		"obligation_outcomes", [])
+	if not raw_outcomes is Array:
+		return ""
+	for raw_outcome in raw_outcomes:
+		if not raw_outcome is Dictionary:
+			continue
+		var outcome: Dictionary = raw_outcome
+		if str(outcome.get("event_id", "")) == event_id \
+				and _outcome_choice_matches(outcome, choice_index):
+			var obligation_id := str(outcome.get(
+				"selected_obligation_id", "")).strip_edges()
+			var event: Dictionary = DataRegistry.find_event(event_id)
+			var choices: Variant = event.get("choices", [])
+			if obligation_id.is_empty() or not choices is Array \
+					or choice_index < 0 \
+					or choice_index >= (choices as Array).size() \
+					or not (choices as Array)[choice_index] is Dictionary:
+				return ""
+			var choice: Dictionary = (choices as Array)[choice_index]
+			return obligation_id \
+				if str(choice.get(
+					"v2_obligation_id", "")).strip_edges() \
+					== obligation_id else ""
+	return ""
 
 static func _note_relationship_story_choice(
 		state: Dictionary, event_id: String, choice_index: int) -> bool:
@@ -1559,7 +2788,12 @@ static func _note_relationship_story_choice(
 			return false
 		var current_stage := str(
 			state["relationship_stages"].get(character_id, "unmet"))
-		if current_stage != from_stage:
+		var allow_already_at_target := bool(
+			outcome.get("allow_already_at_target", false))
+		var already_at_target := allow_already_at_target \
+			and current_stage == target_stage \
+			and current_stage != from_stage
+		if current_stage != from_stage and not already_at_target:
 			return false
 		var current_rank := RELATIONSHIP_STAGE_ORDER.find(current_stage)
 		var target_rank := RELATIONSHIP_STAGE_ORDER.find(target_stage)
@@ -1641,7 +2875,9 @@ static func _note_application_story_choice(
 		if not raw_outcome is Dictionary:
 			continue
 		var outcome: Dictionary = raw_outcome
-		if str(outcome.get("event_id", "")) != event_id \
+		if not _outcome_runtime_applicable(
+				state, bundle_id, outcome) \
+				or str(outcome.get("event_id", "")) != event_id \
 				or not _outcome_choice_matches(outcome, choice_index):
 			continue
 		var receipt_key := "%s:%s:%d:%d" % [
@@ -1910,6 +3146,9 @@ static func _normalized_state(raw_state: Dictionary) -> Dictionary:
 		"action_receipts", "application_statuses", "consequence_receipts",
 		"application_transition_receipts",
 		"legacy_callback_resolutions",
+		"story_choice_receipts", "obligation_receipts",
+		"deferred_callback_receipts", "demo_collision_context",
+		"future_story_receipts", "future_application_receipts",
 	]:
 		if not state.has(key) or not state[key] is Dictionary:
 			state[key] = {}
@@ -1920,6 +3159,17 @@ static func _normalized_state(raw_state: Dictionary) -> Dictionary:
 	]:
 		if not state.has(key) or not state[key] is Array:
 			state[key] = []
+	for raw_receipt in state["story_choice_receipts"].values():
+		if not raw_receipt is Dictionary:
+			continue
+		var initiated_character := str(
+			(raw_receipt as Dictionary).get(
+				"player_initiated_character", "")).strip_edges()
+		if not initiated_character.is_empty() \
+				and GameState.cast.has(initiated_character) \
+				and not state["player_initiated"].has(
+					initiated_character):
+			state["player_initiated"].append(initiated_character)
 	var normalized_summaries: Dictionary = {}
 	for raw_month_key in state["month_summaries"]:
 		var raw_summary: Variant = state["month_summaries"][raw_month_key]

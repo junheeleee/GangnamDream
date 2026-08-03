@@ -738,13 +738,17 @@ func trigger_event_by_id(event_id):
 
 ## Delayed callbacks may outlive the state that made them plausible. Unlike an
 ## immediate authored follow-up, they must still satisfy their event conditions.
-func trigger_deferred_event_by_id(event_id: String) -> bool:
+func deferred_event_is_eligible(event_id: String) -> bool:
 	var event: Dictionary = DataRegistry.find_event(event_id)
 	if event.is_empty():
 		push_error("Deferred event missing: %s" % event_id)
 		return false
-	if not _check_conditions(event.get("conditions", {})):
+	return _check_conditions(event.get("conditions", {}))
+
+func trigger_deferred_event_by_id(event_id: String) -> bool:
+	if not deferred_event_is_eligible(event_id):
 		return false
+	var event: Dictionary = DataRegistry.find_event(event_id)
 	queue_event(event)
 	return true
 

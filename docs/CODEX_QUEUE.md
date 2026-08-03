@@ -47,7 +47,7 @@
 
 | 순서 | 상태 | 항목 | 전체 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-57 · Core Loop V2 데모 재구축 | [ORDER-57](queue_active/ORDER-57.md) | D 1~20주 AUTO PASS. **E 밀도 REWORK·생계 백필을 month 6보다 먼저 확정**(미확정 시 재작업). +`direction` 백필 43건(`ORDER-60` 판정). 이어서 21~24주 첫 청구서·6개월 회고·시작폰 세대감. 전환·사람 GO OPEN |
+| 1 | [~] | ORDER-57 · Core Loop V2 데모 재구축 | [ORDER-57](queue_active/ORDER-57.md) | D 1~20주 AUTO PASS. **E 21~24주 후보 재통합 중** — 밀도·생계 authored·`direction` 백필과 조기 `mental_break` P1을 닫기 전 E PASS 금지. 전환·사람 GO OPEN |
 | 2 | [~] | ORDER-60 · 프롤로그부터 전면 재검토 | [ORDER-60](queue_active/ORDER-60.md) | 배치 1·2 완료([PROLOGUE](PROLOGUE_TIER_AUDIT.md)·[DEMO](DEMO_TIER_AUDIT.md)), P0 0건. **3~7은 데모 출고 뒤** |
 | 3 | [ ] | ORDER-62 · 기능 생존·킬링포인트 감사 | [ORDER-62](queue_active/ORDER-62.md) | **기계 축 완료(Claude)** — 고아 스크립트 래칫(`feature_liveness_audit`). 남은 것은 네 판정·킬링포인트 전수 판정, **제거는 사용자 승인 뒤** |
 | 4 | [ ] | ORDER-61 · 정본 공백 (심의·접근성·저장·성능·오디오·리스크) | [ORDER-61](queue_active/ORDER-61.md) | 미착수. **배치 1(등급·심의)이 P0** — 도박 4종 5,496줄에 GRAC·Steam 언급이 정본 0개. 등급은 사용자 결정. 나머지 다섯은 독립 |

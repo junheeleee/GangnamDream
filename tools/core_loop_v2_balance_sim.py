@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""Deterministic twenty-week economy check for the Core Loop V2 D gate.
+"""Deterministic twenty-four-week economy check for the Core Loop V2 E gate.
 
 This is deliberately a small, auditable ledger rather than a probability
 forecast. It preserves the eight-week A1 result, demonstrates the deliberate
 month-three cash pressure and twelve-week B result, proves the two authored
 legal shifts can keep a sixteen-week livelihood path solvent, proves the
 month-five moving shift still leaves missed work visible, verifies the first
-legal job payoff, distinguishes arrears from global bankruptcy, and checks both
-authored exits from the dirty-money branch.
+legal job payoff, then closes Month Six with the holiday shift, the Week-24
+urgent-work option, one salary, and one fixed-cost charge. It also distinguishes
+arrears from global bankruptcy and checks both authored dirty-money exits.
 """
 
 from __future__ import annotations
@@ -32,6 +33,7 @@ A1_WEEKS = 8
 B_WEEKS = 12
 C_WEEKS = 16
 DEVELOPMENT_WEEKS = 20
+E_WEEKS = 24
 
 
 @dataclass
@@ -112,6 +114,25 @@ def simulate_hired_month_five(
             ledger.cash -= MONTHLY_FIXED_COST
             if employed:
                 ledger.cash += first_paycheck
+    return ledger
+
+
+def simulate_hired_month_six_from_close(
+    name: str,
+    starting_cash: int,
+    routine_pair: tuple[str, str],
+    options: dict[str, Any],
+    monthly_salary: int,
+) -> Ledger:
+    ledger = Ledger(name=name, cash=starting_cash)
+    for _week in range(21, E_WEEKS + 1):
+        for routine_id in routine_pair:
+            ledger.apply_effects(
+                weekly_effects(options, routine_id, employed=True)
+            )
+            ledger.routine_units += 1
+    ledger.cash += monthly_salary
+    ledger.cash -= MONTHLY_FIXED_COST
     return ledger
 
 
@@ -442,6 +463,228 @@ def main() -> int:
             errors,
         )
 
+    e_public_config = action_config(contract, "m6_public_recruitment")
+    e_public_effects = e_public_config.get("effects", {})
+    if e_public_effects != {"intelligence": 3, "mental": -3}:
+        fail(f"month-six NCS practice effects drifted: {e_public_effects}", errors)
+
+    e_holiday_config = action_config(contract, "m6_holiday_night_shift")
+    e_holiday_effects = e_holiday_config.get("effects", {})
+    if e_holiday_effects != {
+        "money": 480_000,
+        "health": -6,
+        "mental": -5,
+    }:
+        fail(
+            f"month-six holiday shift effects drifted: {e_holiday_effects}",
+            errors,
+        )
+
+    e_study_config = action_config(contract, "m6_last_study_group")
+    e_study_effects = e_study_config.get("effects", {})
+    if e_study_effects != {
+        "intelligence": 2,
+        "social_skill": 1,
+        "mental": -2,
+    }:
+        fail(
+            f"month-six final study group effects drifted: {e_study_effects}",
+            errors,
+        )
+
+    e_recovery_config = action_config(contract, "m6_no_plans_day")
+    e_recovery_effects = e_recovery_config.get("effects", {})
+    e_recovery_diminished = e_recovery_config.get(
+        "recovery_routine_effects", {}
+    )
+    if e_recovery_effects != {"health": 5, "mental": 7}:
+        fail(
+            f"month-six full recovery effects drifted: {e_recovery_effects}",
+            errors,
+        )
+    if e_recovery_diminished != {"health": 2, "mental": 3}:
+        fail(
+            "month-six recovery-routine diminishing return drifted: "
+            f"{e_recovery_diminished}",
+            errors,
+        )
+
+    first_bill = event_by_id(core_events, "v2_demo_first_bill")
+    first_bill_choices = first_bill.get("choices", [])
+    urgent_paid_choice = next(
+        (
+            choice
+            for choice in first_bill_choices
+            if isinstance(choice, dict)
+            and choice.get("v2_obligation_id") == "urgent_paid_shift"
+        ),
+        {},
+    )
+    urgent_paid_effects = urgent_paid_choice.get("effects", {})
+    if urgent_paid_effects != {
+        "money": 280_000,
+        "health": -5,
+        "mental": -4,
+    }:
+        fail(
+            f"Week-24 urgent paid-work effects drifted: {urgent_paid_effects}",
+            errors,
+        )
+
+    father_signal = event_by_id(core_events, "v2_father_health_signal")
+    father_money_effects = [
+        int(choice.get("effects", {}).get("money", 0))
+        for choice in father_signal.get("choices", [])
+        if isinstance(choice, dict)
+        and isinstance(choice.get("effects", {}), dict)
+    ]
+    if father_money_effects != [0, 0, 0]:
+        fail(
+            "Father's Week-21 signal must not invent a hospital, travel, or "
+            f"remittance cost: {father_money_effects}",
+            errors,
+        )
+
+    e_no_shifts = simulate_legal(
+        "e_no_shifts",
+        ("livelihood", "recovery"),
+        options,
+        E_WEEKS,
+    )
+    if e_no_shifts.routine_units != E_WEEKS * 2:
+        fail(
+            f"the twenty-four-week fixture executed {e_no_shifts.routine_units} "
+            "routine units, expected 48",
+            errors,
+        )
+    if e_no_shifts.cash != -1_420_000:
+        fail(
+            "the twenty-four-week no-shift livelihood path must expose "
+            f"KRW 1,420,000 of arrears, got {e_no_shifts.cash:,}",
+            errors,
+        )
+
+    e_no_month_three_shift = simulate_legal(
+        "e_no_month_three_shift",
+        ("livelihood", "recovery"),
+        options,
+        E_WEEKS,
+    )
+    e_no_month_three_shift.apply_effects(logistics_effects)
+    e_no_month_three_shift.apply_effects(moving_effects)
+    e_no_month_three_shift.apply_effects(e_holiday_effects)
+    if e_no_month_three_shift.cash != 140_000:
+        fail(
+            "the Month 4-6 shift path must preserve the missed Month-3 choice "
+            f"at exactly KRW 140,000, got {e_no_month_three_shift.cash:,}",
+            errors,
+        )
+
+    e_three_prior_shifts = simulate_legal(
+        "e_three_prior_shifts",
+        ("livelihood", "recovery"),
+        options,
+        E_WEEKS,
+    )
+    for effects in (inventory_effects, logistics_effects, moving_effects):
+        e_three_prior_shifts.apply_effects(effects)
+    if e_three_prior_shifts.cash != 20_000:
+        fail(
+            "taking all three earlier shifts but missing Month Six must close "
+            f"at exactly KRW 20,000, got {e_three_prior_shifts.cash:,}",
+            errors,
+        )
+
+    e_four_shift_legal = simulate_legal(
+        "e_four_shift_legal",
+        ("livelihood", "recovery"),
+        options,
+        E_WEEKS,
+    )
+    for effects in (
+        inventory_effects,
+        logistics_effects,
+        moving_effects,
+        e_holiday_effects,
+    ):
+        e_four_shift_legal.apply_effects(effects)
+    if e_four_shift_legal.cash != 500_000:
+        fail(
+            "all four authored legal shifts must finish Week 24 at exactly "
+            f"KRW 500,000, got {e_four_shift_legal.cash:,}",
+            errors,
+        )
+
+    e_four_shifts_with_urgent = simulate_legal(
+        "e_four_shifts_with_urgent",
+        ("livelihood", "recovery"),
+        options,
+        E_WEEKS,
+    )
+    for effects in (
+        inventory_effects,
+        logistics_effects,
+        moving_effects,
+        e_holiday_effects,
+        urgent_paid_effects,
+    ):
+        e_four_shifts_with_urgent.apply_effects(effects)
+    if e_four_shifts_with_urgent.cash != 780_000:
+        fail(
+            "the four legal shifts plus First Bill urgent work must close at "
+            f"exactly KRW 780,000, got {e_four_shifts_with_urgent.cash:,}",
+            errors,
+        )
+
+    e_holiday_and_urgent_only = simulate_legal(
+        "e_holiday_and_urgent_only",
+        ("livelihood", "recovery"),
+        options,
+        E_WEEKS,
+    )
+    e_holiday_and_urgent_only.apply_effects(e_holiday_effects)
+    e_holiday_and_urgent_only.apply_effects(urgent_paid_effects)
+    if e_holiday_and_urgent_only.cash != -660_000:
+        fail(
+            "Month Six's holiday and urgent shifts alone must not erase five "
+            f"months of missed work: got {e_holiday_and_urgent_only.cash:,}",
+            errors,
+        )
+
+    e_hired_legal = simulate_hired_month_six_from_close(
+        "e_hired_legal",
+        d_hired_legal.cash,
+        ("livelihood", "recovery"),
+        options,
+        hanbit_salary,
+    )
+    if d_hired_legal.routine_units + e_hired_legal.routine_units != E_WEEKS * 2:
+        fail(
+            "the hired six-month path must execute exactly 48 background "
+            "routine units",
+            errors,
+        )
+    if e_hired_legal.cash != 2_890_000:
+        fail(
+            "the Hanbit Month-Six ledger must be 1,300,000 + 2,240,000 "
+            f"- 650,000 = 2,890,000, got {e_hired_legal.cash:,}",
+            errors,
+        )
+    e_hired_refurbished = simulate_hired_month_six_from_close(
+        "e_hired_refurbished",
+        d_hired_legal.cash - 180_000,
+        ("livelihood", "recovery"),
+        options,
+        hanbit_salary,
+    )
+    if e_hired_refurbished.cash != 2_710_000:
+        fail(
+            "the refurbished-phone Hanbit ledger must be 1,120,000 + "
+            f"2,240,000 - 650,000 = 2,710,000, got "
+            f"{e_hired_refurbished.cash:,}",
+            errors,
+        )
+
     d_growth_config = action_config(contract, "m5_evening_spreadsheet_class")
     d_growth_effects = d_growth_config.get("effects", {})
     if d_growth_effects != {"intelligence": 2, "mental": -2}:
@@ -600,13 +843,22 @@ def main() -> int:
         f"d_late_shift_cash={d_late_shift_only.cash} "
         f"d_three_shift_cash={d_three_shift_legal.cash} "
         f"d_hired_cash={d_hired_legal.cash} "
+        f"e_no_shift_cash={e_no_shifts.cash} "
+        f"e_no_m3_shift_cash={e_no_month_three_shift.cash} "
+        f"e_three_prior_shift_cash={e_three_prior_shifts.cash} "
+        f"e_four_shift_cash={e_four_shift_legal.cash} "
+        f"e_four_shift_urgent_cash={e_four_shifts_with_urgent.cash} "
+        f"e_hired_cash={e_hired_legal.cash} "
+        f"e_hired_refurb_cash={e_hired_refurbished.cash} "
         f"dirty_before_fallout={dirty_before_fallout.cash} "
         f"dirty_escaped={dirty_escaped.cash} dirty_deeper={dirty_deeper.cash} "
         f"dirty_costs={explicit_costs} "
         f"b_routine_units={b_no_shift_growth.routine_units} "
         f"c_routine_units={c_no_shifts.routine_units} "
         f"d_routine_units={d_no_shifts.routine_units} "
-        f"recovery_diminished={diminished_recovery}"
+        f"e_routine_units={e_no_shifts.routine_units} "
+        f"recovery_diminished={diminished_recovery} "
+        f"e_recovery_diminished={e_recovery_diminished}"
     )
     return 0
 

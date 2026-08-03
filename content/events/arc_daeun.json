@@ -83,6 +83,9 @@
     ],
     "cooldown": 9999,
     "description": "이제 그녀는 {name}의 주문을 외운다. 삼각김밥, 가끔 컵라면.\n새벽의 편의점은 둘만의 작은 세계가 됐다.\n오늘 그녀가 문득 말했다.\n\"저는 엄마 모시고 오려고 돈 모아요. 시골에 혼자 계셔서.\n...근데 서울 살이가 이렇게 비쌀 줄은 몰랐어요.\"\n\n{name}과 같은 무게의 삶이, 카운터 너머에 있었다.",
+    "description_memory_if_known": {
+      "relationship_memory:daeun:daeun_tuesday_checkin_kept": "21주차 화요일 새벽에도 {name}은 전에 한 말을 잊지 않고 편의점에 찾아왔다. 한 번 지킨 약속이 있었기에, 이번 이야기는 우연히 열린 것이 아니었다."
+    },
     "choices": [
       {
         "text": "진심으로 응원하고, 가끔 손을 보탠다",

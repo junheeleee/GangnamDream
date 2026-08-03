@@ -653,7 +653,7 @@
           "arc_intro_04_hyunsu",
           "arc_temptation_01"
         ],
-        "promise": "50만원으로 시작한 첫 달에 일자리, 아버지의 전화, 옆방 사람, 불법 제안 중 무엇을 달력에 넣는지가 민준의 첫 줄을 만든다."
+        "promise": "50만원으로 시작한 첫 달에 일자리, 아버지의 전화, 옆방 사람, 불법 제안 중 무엇을 이번 달 일정으로 잡는지가 민준의 첫 줄을 만든다."
       },
       {
         "id": "first_line",
@@ -724,12 +724,18 @@
           24
         ],
         "foreground_roots": [
-          "arc_father_02_signal",
-          "arc_job_vs_invest",
-          "arc_gangnam_visit_alone",
-          "arc_four_months_in"
+          "v2_father_health_signal",
+          "v2_dodam_result_message",
+          "v2_city_service_work_sample_message",
+          "v2_daeun_tuesday_followthrough",
+          "v2_hyunsu_exam_eve",
+          "v2_gangnam_receipt_walk",
+          "v2_dirty_trace_initial_call",
+          "v2_dirty_recruiter_week24",
+          "v2_demo_first_bill",
+          "v2_hyunsu_exam_morning_echo"
         ],
-        "promise": "21주의 아버지 건강 신호와 20주까지 고른 직업·사람·돈의 영수증이 첫 청구서가 되어, 다음 네 해의 주어를 만든다."
+        "promise": "21주의 아버지 건강 신호와 20주까지 실제로 만든 직업·사람·돈의 영수증이 금요일 저녁의 한 선택으로 충돌하고, 토요일 현수의 시험 시작만 확인한 채 첫해 후반으로 넘긴다."
       }
     ],
     "bridge_roots": [

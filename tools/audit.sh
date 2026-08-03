@@ -44,7 +44,7 @@ cleanup_isolated_home() {
     return 1
   fi
   case "$target" in
-	  "$temp_root"/gangnam-achievements.*|"$temp_root"/gangnam-core-loop-v2.*|"$temp_root"/gangnam-core-loop-v2-b.*|"$temp_root"/gangnam-core-loop-v2-c.*|"$temp_root"/gangnam-core-loop-v2-d.*|"$temp_root"/gangnam-ending-route.*|"$temp_root"/gangnam-first30.*|"$temp_root"/gangnam-hidden.*|"$temp_root"/gangnam-housing-keepsake.*|"$temp_root"/gangnam-input-matrix.*|"$temp_root"/gangnam-manual-save.*|"$temp_root"/gangnam-mod-layer.*|"$temp_root"/gangnam-phone-system.*|"$temp_root"/gangnam-story-audio.*|"$temp_root"/gangnam-story-dialogue-history.*|"$temp_root"/gangnam-story-tutorial.*)
+	  "$temp_root"/gangnam-achievements.*|"$temp_root"/gangnam-core-loop-v2.*|"$temp_root"/gangnam-core-loop-v2-b.*|"$temp_root"/gangnam-core-loop-v2-c.*|"$temp_root"/gangnam-core-loop-v2-d.*|"$temp_root"/gangnam-core-loop-v2-e.*|"$temp_root"/gangnam-core-loop-v2-handoff.*|"$temp_root"/gangnam-ending-route.*|"$temp_root"/gangnam-first30.*|"$temp_root"/gangnam-hidden.*|"$temp_root"/gangnam-housing-keepsake.*|"$temp_root"/gangnam-input-matrix.*|"$temp_root"/gangnam-manual-save.*|"$temp_root"/gangnam-mod-layer.*|"$temp_root"/gangnam-phone-system.*|"$temp_root"/gangnam-story-audio.*|"$temp_root"/gangnam-story-dialogue-history.*|"$temp_root"/gangnam-story-tutorial.*)
       rm -rf -- "$target"
       ;;
     *)
@@ -379,7 +379,7 @@ else
 fi
 
 echo "──────────────────────────────────────────"
-echo "● Core Loop V2 D 17~20주 포기 회수·인물 충돌·행동·종료 런타임"
+echo "● Core Loop V2 D 17~20주 포기 회수·인물 충돌·행동·6개월차 계속 런타임"
 if [ -x "$GODOT" ]; then
   CORE_LOOP_V2_D_HOME=$(make_isolated_home "gangnam-core-loop-v2-d")
   CORE_LOOP_V2_D_RUNTIME_RAW=$(run_limited env HOME="$CORE_LOOP_V2_D_HOME" "$GODOT" --headless --quit-after 1200 res://tools/CoreLoopV2DCheck.tscn 2>&1)
@@ -395,6 +395,45 @@ if [ -x "$GODOT" ]; then
 else
   echo "  ⚠ Godot 실행파일 없음 ($GODOT) — Core Loop V2 D 런타임 체크 건너뜀."
   CORE_LOOP_V2_D_RUNTIME_EXIT=0
+fi
+
+echo "──────────────────────────────────────────"
+echo "● Core Loop V2 E 21~24주 선행 신호·지연 회수·의무 충돌·실제 데모 종료 런타임"
+if [ -x "$GODOT" ]; then
+  CORE_LOOP_V2_E_HOME=$(make_isolated_home "gangnam-core-loop-v2-e")
+  CORE_LOOP_V2_E_RUNTIME_RAW=$(run_limited env HOME="$CORE_LOOP_V2_E_HOME" "$GODOT" --headless --quit-after 1800 res://tools/CoreLoopV2ECheck.tscn 2>&1)
+  CORE_LOOP_V2_E_RUNTIME_STATUS=$?
+  cleanup_isolated_home "$CORE_LOOP_V2_E_HOME"
+  echo "$CORE_LOOP_V2_E_RUNTIME_RAW" | grep -E "CORE_LOOP_V2_E_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
+  if godot_check_passed "$CORE_LOOP_V2_E_RUNTIME_RAW" \
+      "$CORE_LOOP_V2_E_RUNTIME_STATUS" "CORE_LOOP_V2_E_CHECK_OK" strict; then
+    CORE_LOOP_V2_E_RUNTIME_EXIT=0
+  else
+    CORE_LOOP_V2_E_RUNTIME_EXIT=1
+  fi
+else
+  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — Core Loop V2 E 런타임 체크 건너뜀."
+  CORE_LOOP_V2_E_RUNTIME_EXIT=0
+fi
+
+echo "──────────────────────────────────────────"
+echo "● Core Loop V2 24→48주 실제 스케줄러·현수/도시 결과·1년 결산 인계"
+if [ -x "$GODOT" ]; then
+  CORE_LOOP_V2_HANDOFF_HOME=$(make_isolated_home "gangnam-core-loop-v2-handoff")
+  CORE_LOOP_V2_HANDOFF_RAW=$(run_limited env HOME="$CORE_LOOP_V2_HANDOFF_HOME" "$GODOT" --headless --quit-after 1200 res://tools/CoreLoopV2HandoffCheck.tscn 2>&1)
+  CORE_LOOP_V2_HANDOFF_STATUS=$?
+  cleanup_isolated_home "$CORE_LOOP_V2_HANDOFF_HOME"
+  echo "$CORE_LOOP_V2_HANDOFF_RAW" | grep -E "CORE_LOOP_V2_HANDOFF_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
+  if godot_check_passed "$CORE_LOOP_V2_HANDOFF_RAW" \
+      "$CORE_LOOP_V2_HANDOFF_STATUS" \
+      "CORE_LOOP_V2_HANDOFF_CHECK_OK" strict; then
+    CORE_LOOP_V2_HANDOFF_EXIT=0
+  else
+    CORE_LOOP_V2_HANDOFF_EXIT=1
+  fi
+else
+  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — Core Loop V2 24→48주 인계 체크 건너뜀."
+  CORE_LOOP_V2_HANDOFF_EXIT=0
 fi
 
 echo "──────────────────────────────────────────"
@@ -938,14 +977,16 @@ else
 fi
 
 echo "──────────────────────────────────────────"
-# 게이트가 68개 플래그를 검사하므로, 실패 시 어떤 검사가 걸렸는지 이름으로
+# 게이트가 85개 플래그를 검사하므로, 실패 시 어떤 검사가 걸렸는지 이름으로
 # 알려 준다. 검사마다 ✗를 찍지 않는 경로가 있어 이름 없이는 추적이 어렵다.
 AUDIT_EXIT_FLAGS="
   CONTEXT_MANIFEST_EXIT PY_EXIT STORY_CONSISTENCY_EXIT SPEECH_REGISTER_EXIT RANDOM_POOL_HYGIENE_EXIT SURFACE_EXIT
   PACING_EXIT DEMO_EXPERIENCE_EXIT PLAYTEST_REPORT_EXIT NARRATIVE_CONTINUITY_EXIT FULL_RUN_PACING_EXIT NARRATIVE_SPINE_EXIT
-  PEAK_CHAIN_EXIT KEY_ART_EXIT ART_AI_EXIT ART_RESOLUTION_EXIT ART_MASTER_EXIT CG_ACTING_EXIT
-  CG_RUNTIME_EXIT CAST_DETAIL_EXIT EVENT_VISUAL_EXIT EN_HANGUL_EXIT EN_COVERAGE_EXIT JA_UI_EXIT
+  PEAK_CHAIN_EXIT KEY_ART_EXIT FIRST30_EXIT ART_AI_EXIT ART_RESOLUTION_EXIT ART_MASTER_EXIT CG_ACTING_EXIT
+  CG_RUNTIME_EXIT CAST_DETAIL_EXIT EVENT_VISUAL_EXIT EN_HANGUL_EXIT EN_COVERAGE_EXIT I18N_COVERAGE_EXIT I18N_SURFACE_EXIT JA_UI_EXIT I18N_RUNTIME_EXIT
   MOD_LAYER_AUDIT_EXIT MOD_LAYER_RUNTIME_EXIT BAL_EXIT EVENT_DIRECTOR_EXIT EXPOSED_STATE_EXIT PHONE_SYSTEM_EXIT
+  CORE_LOOP_V2_EXIT CORE_LOOP_V2_BALANCE_EXIT CORE_LOOP_V2_RUNTIME_EXIT CORE_LOOP_V2_B_RUNTIME_EXIT CORE_LOOP_V2_C_RUNTIME_EXIT
+  CORE_LOOP_V2_D_RUNTIME_EXIT CORE_LOOP_V2_E_RUNTIME_EXIT CORE_LOOP_V2_HANDOFF_EXIT
   EVENT_DIRECTOR_RUNTIME_EXIT CORE_CHOICE_EXIT ENDING_DISTINCTNESS_EXIT ENDING_ROUTE_EXIT AUDIO_SOURCE_EXIT SCENE_AUDIO_EXIT
   SCENE_AUDIO_CATALOG_EXIT FULL_RUN_AUDIO_EXIT SCENE_DIRECTION_CATALOG_EXIT FULL_RUN_DIRECTION_EXIT GAME_AUDIO_CONTRACT_EXIT UI_SFX_EXIT
   LAUNCH_AUDIO_EXIT AUDIO_EXIT GAME_AUDIO_RUNTIME_EXIT BGM_EXIT MORAL_AMBIENCE_EXIT IMMERSION_EXIT

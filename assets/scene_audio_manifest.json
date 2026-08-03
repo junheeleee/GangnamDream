@@ -1,5 +1,5 @@
 {
-  "version": 14,
+  "version": 16,
   "updated": "2026-07-30",
   "policy": {
     "diegetic_spoken_language": "ko",
@@ -164,11 +164,14 @@
           "story_first_paycheck_feel", "story_first_savings_milestone", "story_flashforward", "story_knee_choice",
           "story_knee_door", "story_knee_witness", "story_last_payment_exit", "story_last_payment_wait",
           "story_last_payment_word", "story_pressure", "story_prologue_dad", "story_prologue_goal",
-          "story_prologue_meal", "story_six_months", "v2_daeun_return_after_distance", "v2_daeun_return_named",
-          "v2_daeun_small_commitment", "v2_daeun_third_greeting", "v2_hanbit_interview", "v2_hanbit_offer_message",
-          "v2_hyunsu_first_study", "v2_hyunsu_player_reachout", "v2_hyunsu_study_followup", "v2_jaehyuk_message",
-          "v2_jaehyuk_plain_reunion_echo", "v2_jiyeon_second_crossing", "v2_mirae_result_message", "v2_sangchul_demo_echo",
-          "v2_sangchul_housing_lead", "v2_seorin_result_message", "yolo_morning_after"
+          "story_prologue_meal", "story_six_months", "v2_city_service_result_message", "v2_city_service_work_sample_message", "v2_daeun_return_after_distance",
+          "v2_daeun_return_named", "v2_daeun_small_commitment", "v2_daeun_third_greeting", "v2_daeun_tuesday_followthrough",
+          "v2_demo_first_bill", "v2_dirty_recruiter_week24", "v2_dirty_trace_initial_call", "v2_dodam_result_message",
+          "v2_father_health_signal", "v2_gangnam_receipt_walk", "v2_hanbit_interview", "v2_hanbit_offer_message",
+          "v2_hyunsu_exam_eve", "v2_hyunsu_exam_morning_echo", "v2_hyunsu_first_study", "v2_hyunsu_player_reachout",
+          "v2_hyunsu_study_followup", "v2_jaehyuk_message", "v2_jaehyuk_plain_reunion_echo", "v2_jiyeon_second_crossing",
+          "v2_mirae_result_message", "v2_sangchul_demo_echo", "v2_sangchul_housing_lead", "v2_seorin_result_message",
+          "yolo_morning_after"
         ],
     "cg_contract": [
           "arc_date_park_daeun", "arc_season_cherry_daeun", "arc_season_cherry_jiyeon", "arc_season_snow_daeun",
@@ -955,6 +958,98 @@
           {"sfx": "cup_set", "volume_db": -8.0}
         ]
       }
+    },
+    "v2_father_health_signal": {
+      "ambience": "current_housing",
+      "music": {"key": "family", "start_paragraph": 1},
+      "paragraph_cues": {
+        "0": [
+          {"sfx": "phone_notification", "volume_db": -6.0}
+        ],
+        "2": [
+          {"sfx": "phone_vibrate", "volume_db": -7.0}
+        ]
+      }
+    },
+    "v2_dodam_result_message": {
+      "ambience": "current_housing",
+      "suppress_music": true,
+      "paragraph_cues": {
+        "0": [
+          {"sfx": "phone_notification", "volume_db": -7.0}
+        ]
+      }
+    },
+    "v2_city_service_work_sample_message": {
+      "ambience": "current_housing",
+      "suppress_music": true,
+      "paragraph_cues": {
+        "0": [
+          {"sfx": "phone_notification", "volume_db": -7.0}
+        ]
+      }
+    },
+    "v2_city_service_result_message": {
+      "ambience": "current_housing",
+      "suppress_music": true,
+      "paragraph_cues": {
+        "0": [
+          {"sfx": "phone_notification", "volume_db": -7.0}
+        ]
+      }
+    },
+    "v2_daeun_tuesday_followthrough": {
+      "ambience": "convenience",
+      "music": {"key": "daeun", "start_paragraph": 1},
+      "paragraph_cues": {
+        "0": [
+          {"sfx": "door_latch", "volume_db": -7.0}
+        ]
+      }
+    },
+    "v2_hyunsu_exam_eve": {
+      "ambience": "current_housing",
+      "music": {"key": "hyunsu", "start_paragraph": 1},
+      "paragraph_cues": {
+        "0": [
+          {"sfx": "phone_notification", "volume_db": -7.0}
+        ]
+      }
+    },
+    "v2_hyunsu_exam_morning_echo": {
+      "ambience": "current_housing",
+      "music": {"key": "hyunsu", "start_paragraph": 1}
+    },
+    "v2_dirty_trace_initial_call": {
+      "ambience": "current_housing",
+      "music": {"key": "crisis", "start_paragraph": 1},
+      "paragraph_cues": {
+        "0": [
+          {"sfx": "phone_vibrate", "volume_db": -5.0}
+        ]
+      }
+    },
+    "v2_dirty_recruiter_week24": {
+      "ambience": "current_housing",
+      "music": {"key": "crisis", "start_paragraph": 1},
+      "paragraph_cues": {
+        "0": [
+          {"sfx": "phone_notification", "volume_db": -6.0}
+        ]
+      }
+    },
+    "v2_gangnam_receipt_walk": {
+      "ambience": "street",
+      "music": {"key": "wonder", "start_paragraph": 2},
+      "paragraph_cues": {
+        "0": [
+          {"sfx": "traffic_pass", "volume_db": -8.0}
+        ]
+      }
+    },
+    "v2_demo_first_bill": {
+      "ambience": "current_housing",
+      "music": {"key": "reckoning", "start_paragraph": 1}
     },
     "arc_jaehyuk_01_reunion": {
       "ambience": "street",
