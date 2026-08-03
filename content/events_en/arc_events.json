@@ -449,7 +449,7 @@
     "description": "The goshiwon, 2 a.m. Rent comes out of the account next week. One look at the balance and the first thing out of him is a sigh.\n\nA text from an unknown number.\n\"Lend us just your bankbook and debit card — two million on the spot. You don't have to do anything.\nOne month, that's all. Zero risk. Contact us only if you're in a tight spot.\"\n\n{name} knows what that is. A burner bank account — an account lent out so voice-phishing money can be laundered through it.\nSomeone else's stolen money would pass through his account.\n\nTwo million won. Just over three months of rent.\nHis finger hovers over the reply.",
     "choices": [
       {
-        "text": "Delete it — I won't sink that low",
+        "text": "Block the number and put the phone face down",
       "result_text": "{name} blocked the number and flipped the phone face-down.\nThe two million won never arrived, and rent day kept approaching.\n\nHe remembered the six years he had spent repaying debt caused by his father's bad loan guarantee. {name} picked up the phone again and looked for work he could take the next day."
       },
       {
