@@ -59,7 +59,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [ ] | ORDER-71 · 영어 유혹 선택지 중립 | [ORDER-71](queue_active/ORDER-71.md) | 수치·후속 없이 영어 도덕 자기선언만 제거 |
+| 1 | [~] | ORDER-71 · 영어 유혹 선택지 중립 | [ORDER-71](queue_active/ORDER-71.md) | 착수 선언. 수치·후속 없이 영어 도덕 자기선언만 제거 |
 | 2 | [ ] | ORDER-72 · 심의·스토어 콘텐츠 인벤토리 | [ORDER-72](queue_active/ORDER-72.md) | export 포함 범위를 실측. 최종 등급·삭제는 사용자 결정 |
 | 3 | [ ] | ORDER-73 · 버전·세이브·제3자 고지 | [ORDER-73](queue_active/ORDER-73.md) | 기존 BuildInfo/엔딩 크레딧 재사용, 남은 메타·고지만 구현 |
 | 4 | [ ] | ORDER-74 · 신규 데모 지식·화자 계약 | [ORDER-74](queue_active/ORDER-74.md) | 실제 `logic` 스키마 위 최소 표현·신규분 래칫 |
