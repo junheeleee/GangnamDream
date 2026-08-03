@@ -11,7 +11,8 @@ MainGame을 완주하므로 V2의 월간 계획·첫 청구서 완주 증거로 
 
 > 배치 A — 실제 입력 블랙박스:
 > `tools/ScreenshotQA.gd`, `scenes/CoreLoopPlanner.gd`,
-> `tools/audit.sh`, `.github/workflows/ci.yml`, `tools/audit_scope.json`.
+> `project.godot`, `tools/audit.sh`, `.github/workflows/ci.yml`,
+> `tools/audit_scope.json`.
 >
 > 배치 B — 정본·완료 기록:
 > `CLAUDE.md`, `docs/CODEX_QUEUE.md`, `docs/CORE_LOOP_V2.md`,
@@ -20,8 +21,24 @@ MainGame을 완주하므로 V2의 월간 계획·첫 청구서 완주 증거로 
 > `docs/queue_active/ORDER-78.md`, `docs/queue_archive/ORDER-78.md`.
 >
 > 게임의 원고·수치·저장 스키마·장면 편성·선택 효과는 바꾸지 않는다.
-> 실제 화면을 고르는 안정된 메타데이터 외의 런타임 변경이 필요하면 이 오더에
-> 조용히 붙이지 않고 원인을 먼저 기록한다.
+> 아래에 기록한 South-button 확인 매핑과 중복 처리 제거 외의 런타임 변경이
+> 필요하면 이 오더에 조용히 붙이지 않고 원인을 먼저 기록한다.
+
+## 중간 검토에서 발견한 런타임 차단 (2026-08-04)
+
+- 첫 자동 경로는 일반 버튼에 `InputEventAction("ui_accept")`을 넣어 24주를
+  완주했지만, 이 이벤트에는 실제 장치·버튼 정체성이 없었다. 그러므로 이를
+  PlayStation 패드 완주 증거로 세지 않는다.
+- Godot 4.6.2 최소 재현에서 현재 프로젝트의 `ui_accept`는 Enter·KP Enter·
+  Space만 포함하고 Joypad South를 포함하지 않았다. 원시 South 입력은
+  StoryMode·튜토리얼·일반 CTA 버튼을 누르지 못했다.
+- `ui_accept`에 Joypad South를 등록하면 일반 버튼은 한 번 눌리지만,
+  `CoreLoopPlanner`의 기존 South 수동 `pressed.emit()`과 함께 두 번 발화한다.
+- 따라서 제품 InputMap에 South를 정식 확인 입력으로 등록하고 계획판의 중복
+  수동 발화를 제거한다. 그 뒤 KO 경로는 의미 action이 아닌 원시
+  `InputEventJoypadButton` press/release만 사용해 24주를 다시 완주한다.
+- 이 수정은 패드 확인 입력의 누락을 복구하는 기존 기능 수리다. 포커스 탐색,
+  게임 수치, 원고, 계획 규칙, 선택 효과는 바꾸지 않는다.
 
 ## 깊이 3문
 
