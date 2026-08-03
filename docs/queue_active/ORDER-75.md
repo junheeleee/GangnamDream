@@ -20,6 +20,7 @@
 > `content/meta/demo_core_loop_v2.json`, `content/meta/narrative_spine.json`,
 > `content/meta/story_rules.json`, `systems/DemoCoreLoopV2.gd`,
 > `autoloads/GameState.gd`, `autoloads/DataRegistry.gd`,
+> `autoloads/MetaProgression.gd`, `content/meta/default_meta.json`,
 > `scenes/StoryMode.gd`, `tools/audit.py`,
 > `tools/demo_core_loop_v2_audit.py`, `tools/story_consistency_audit.py`,
 > `tools/CoreLoopV2ECheck.gd`,
@@ -52,6 +53,14 @@
 > `docs/queue_active/ORDER-75.md`, `docs/queue_archive/ORDER-75.md`.
 > `MainGame.gd`, `SaveManager.gd`, `project.godot`, 48주 보스·엔딩·밸런스 수치는
 > 이 작업에서 바꾸지 않는다.
+
+> 범위 보강 (2026-08-03) — 진입 루트만 갤러리에 남긴다는 위 계약은 장면 당시
+> 24주 후보·금액·선택 영수증도 함께 동결해야 새 게임과 25주 이후에 빈 문장이나
+> 8개 전부 노출 없이 재생된다. 그래서 `MetaProgression.gd`와
+> `default_meta.json`을 장면별 읽기 전용 재생 스냅숏 저장에 한해 배치 A에
+> 추가한다. ORDER-75 이전 Week-24 중간 저장의 옛 결정 루트도 기존
+> `DemoCoreLoopV2.gd`·`StoryMode.gd` 안에서 새 opening→decision→ledger 계약으로
+> 보정하며, `SaveManager.gd`나 저장 버전·게임 진행 수치는 바꾸지 않는다.
 
 ## 깊이 3문
 
