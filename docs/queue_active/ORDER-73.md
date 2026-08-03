@@ -15,6 +15,7 @@
 >
 > 배치 B 파일: `assets/third_party/THIRD_PARTY_COMPONENTS.json`,
 > `assets/third_party/GODOT_ENGINE_LICENSE.txt`,
+> `assets/third_party/GODOT_ENGINE_COPYRIGHT.txt`,
 > `content/meta/third_party_notices.json`, `tools/third_party_notice_audit.py`,
 > `assets/audio/AUDIO_SOURCE_MANIFEST.json`,
 > `assets/audio/AUDIO_SOURCE_LEDGER.md`,
@@ -58,6 +59,9 @@
 - 말발굽 pack의 혼합 라이선스를 pack 단위 CC BY로 과장하지 않는다. 실제 출하
   파일이 쓴 `ground.mp3`의 D4XX·CC0 per-file 기록을 원천 manifest와 생성기에
   남기고, 게임 내 고지와 필수 저작자표시 수를 그 실제 사용분에서 계산한다.
+- Godot 자체 MIT만으로 엔진에 포함된 제3자 라이브러리를 덮지 않는다. 공식
+  4.6.2-stable `COPYRIGHT.txt`를 hash 고정해 패키지와 게임 내 엔진 탭에서
+  접근할 수 있게 한다.
 
 ## 완료 증거
 
