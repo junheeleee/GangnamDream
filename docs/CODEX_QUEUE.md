@@ -59,7 +59,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [ ] | ORDER-72 · 심의·스토어 콘텐츠 인벤토리 | [ORDER-72](queue_active/ORDER-72.md) | export 포함 범위를 실측. 최종 등급·삭제는 사용자 결정 |
+| 1 | [~] | ORDER-72 · 심의·스토어 콘텐츠 인벤토리 | [ORDER-72](queue_active/ORDER-72.md) | 착수 선언. all_resources의 package/reachable 범위를 분리 실측 |
 | 2 | [ ] | ORDER-73 · 버전·세이브·제3자 고지 | [ORDER-73](queue_active/ORDER-73.md) | 기존 BuildInfo/엔딩 크레딧 재사용, 남은 메타·고지만 구현 |
 | 3 | [ ] | ORDER-74 · 신규 데모 지식·화자 계약 | [ORDER-74](queue_active/ORDER-74.md) | 실제 `logic` 스키마 위 최소 표현·신규분 래칫 |
 | 4 | [ ] | ORDER-75 · 24주 데모 전용 T1 정점 | [ORDER-75](queue_active/ORDER-75.md) | P-3 승인. 기존 8선택/영수증 보존, 3비트·8턴·전용 자산 |
