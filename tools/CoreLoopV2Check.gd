@@ -36,6 +36,8 @@ func _ready() -> void:
 			+ "followup=restored save=roundtrip "
 			+ "boundary=week12_continues/week24_cap "
 			+ "planner=wide4tabs/4weeks/status+people+record/two_step/read_only "
+			+ "planner_intent=focus_safe/offer_then_week/toggle/move/invalid_safe "
+			+ "planner_focus=explicit_neighbors "
 			+ "planner_input=west_remove/east_safe/shoulders/p-north "
 			+ "planner_layout=1280x800/960x600 communication=separate_signal "
 			+ "en_hangul=0 hidden_scores=0")
@@ -746,6 +748,7 @@ func _check_planner_surface() -> void:
 
 	GameState.core_loop_v2_state = planning_state
 	planner._switch_tab(1)
+	await _check_planner_offer_then_week(planner)
 	_expect(planner.assign_offer_to_week("m1_mirae_application", 1),
 		"planner could not schedule the application")
 	_expect(planner.assign_offer_to_week("father_first_call", 2),
@@ -824,6 +827,27 @@ func _check_planner_surface() -> void:
 	_expect(review_text.find("REVIEW PLAN") >= 0 \
 			and review_text.find("OPTIONS LEFT OUT") >= 0,
 		"review step did not disclose the plan and forgone options")
+	_expect(_focus_neighbor(planner._confirm_button, "focus_neighbor_top") \
+			== planner._tab_buttons[3],
+		"review confirmation kept a hidden Calendar focus chain above it")
+	var schedule_before_phone_focus: Dictionary = planner.schedule_snapshot()
+	_expect(planner.focus_offer("father_first_call") \
+			and not planner.review_pending() \
+			and planner._active_tab == 1 \
+			and planner.schedule_snapshot() == schedule_before_phone_focus \
+			and _planner_armed_offer_id(planner).is_empty(),
+		"Phone VIEW PLAN preserved a stale final-confirm state on Calendar")
+	planner._commit_plan()
+	await get_tree().process_frame
+	_expect(planner.review_pending() and planner._active_tab == 3 \
+			and _focus_neighbor(planner._confirm_button, "focus_neighbor_top") \
+				== planner._tab_buttons[3],
+		"review could not be re-entered safely after Phone VIEW PLAN: pending=%s tab=%s neighbor=%s path=%s expected=%s" % [
+			planner.review_pending(), planner._active_tab,
+			_focus_neighbor(planner._confirm_button, "focus_neighbor_top"),
+			planner._confirm_button.focus_neighbor_top,
+			planner._confirm_button.get_path_to(planner._tab_buttons[3]),
+		])
 	planner._commit_plan()
 	_expect(commits.size() == 1 \
 			and int(commits[0].get("month", 0)) == 1,
@@ -846,16 +870,26 @@ func _check_planner_surface() -> void:
 	var committed_routines: Dictionary = (
 		CORE_LOOP.plan_for_month(1).get("routines", {}) as Dictionary
 	).duplicate(true)
+	planner._cancel_commit_review()
+	planner._assign_offer("m1_phone_off_sunday")
+	_expect(_planner_armed_offer_id(planner) == "m1_phone_off_sunday",
+		"editable planner could not arm an offer before read-only reopen")
 	_expect(planner.open(1, true) and planner.read_only_plan() \
 			and planner.schedule_snapshot() == committed_schedule \
-			and planner.routine_snapshot() == committed_routines,
+			and planner.routine_snapshot() == committed_routines \
+			and _planner_armed_offer_id(planner).is_empty(),
 		"Schedule button did not reopen the exact confirmed plan read-only")
+	var read_only_before: Dictionary = planner.schedule_snapshot()
+	planner._assign_offer("m1_phone_off_sunday")
+	planner._select_week(1)
 	_expect(not planner.assign_offer_to_week("m1_phone_off_sunday", 1) \
 			and not planner.unassign_week(2) \
 			and not planner.select_routine("primary", "recovery") \
-			and planner.schedule_snapshot() == committed_schedule \
+			and planner.schedule_snapshot() == read_only_before \
 			and planner.routine_snapshot() == committed_routines,
 		"read-only planner changed an immutable monthly promise")
+	_expect(_planner_armed_offer_id(planner).is_empty(),
+		"read-only planner armed an offer or retained a stale intent")
 
 	planner.size = Vector2(960, 600)
 	planner._apply_responsive_layout()
@@ -905,6 +939,233 @@ func _check_planner_surface() -> void:
 	planner.queue_free()
 	await get_tree().process_frame
 	await get_tree().process_frame
+
+func _check_planner_offer_then_week(planner) -> void:
+	var baseline: Dictionary = planner.schedule_snapshot()
+	var first_detail := str(planner._detail_label.text)
+	planner._offer_focused("father_first_call")
+	await get_tree().process_frame
+	_expect(planner.schedule_snapshot() == baseline \
+			and _planner_armed_offer_id(planner).is_empty() \
+			and str(planner._detail_label.text) != first_detail,
+		"focusing an offer scheduled or armed it instead of showing detail")
+	var father_detail := str(planner._detail_label.text)
+	var hover_button: Button = planner._offer_buttons.get("hyunsu_first_meet")
+	if is_instance_valid(hover_button):
+		hover_button.mouse_entered.emit()
+		await get_tree().process_frame
+	_expect(is_instance_valid(hover_button) \
+			and planner.schedule_snapshot() == baseline \
+			and _planner_armed_offer_id(planner).is_empty() \
+			and planner._selected_offer_id == "hyunsu_first_meet" \
+			and str(planner._detail_label.text) != father_detail,
+		"hovering an offer did not remain a detail-only preview")
+
+	planner._select_week(1)
+	var no_arm_text := "%s\n%s\n%s" % [
+		str(planner._detail_label.text),
+		str(planner._status_label.text),
+		str(planner._hint_label.text),
+	]
+	var no_arm_upper := no_arm_text.to_upper()
+	_expect(planner.schedule_snapshot() == baseline \
+			and _planner_armed_offer_id(planner).is_empty() \
+			and no_arm_upper.find("CHOOSE") >= 0 \
+			and (no_arm_upper.find("OFFER") >= 0 \
+				or no_arm_upper.find("OPTION") >= 0),
+		"clicking an empty week without an armed offer changed the plan or hid guidance")
+
+	planner._assign_offer("father_first_call")
+	var armed_button: Button = planner._offer_buttons.get("father_first_call")
+	_expect(planner.schedule_snapshot() == baseline \
+			and _planner_armed_offer_id(planner) == "father_first_call" \
+			and is_instance_valid(armed_button) \
+			and bool(armed_button.get_meta("core_loop_v2_offer_armed", false)) \
+			and armed_button.text.to_upper().find("SELECTED ·") >= 0 \
+			and str(planner._status_label.text).to_upper().find(
+				"WHICH WEEK SHOULD THIS GO IN?") >= 0 \
+			and str(planner._hint_label.text).to_upper().find(
+				"PLACE IN WEEK") >= 0 \
+			and str(planner._hint_label.text).to_upper().find(
+				"AGAIN TO CANCEL") >= 0,
+		"offer press did not arm a zero-mutation intent with the English card/footer cue")
+	planner._assign_offer("father_first_call")
+	_expect(planner.schedule_snapshot() == baseline \
+			and _planner_armed_offer_id(planner).is_empty(),
+		"pressing the armed offer again did not cancel without mutation")
+
+	planner._assign_offer("father_first_call")
+	var legal_before: Dictionary = planner.schedule_snapshot()
+	planner._select_week(1)
+	var legal_after: Dictionary = planner.schedule_snapshot()
+	_expect(_dictionary_delta_count(legal_before, legal_after) == 1 \
+			and str(legal_after.get("1", "")) == "father_first_call" \
+			and _planner_armed_offer_id(planner).is_empty(),
+		"legal offer-to-week confirmation did not make exactly one slot change and clear intent")
+
+	planner._assign_offer("father_first_call")
+	var move_before: Dictionary = planner.schedule_snapshot()
+	planner._select_week(2)
+	var move_after: Dictionary = planner.schedule_snapshot()
+	_expect(_dictionary_delta_count(move_before, move_after) == 2 \
+			and not move_after.has("1") \
+			and str(move_after.get("2", "")) == "father_first_call" \
+			and move_after.values().count("father_first_call") == 1 \
+			and _planner_armed_offer_id(planner).is_empty(),
+		"moving a placed offer did not remove the old slot or created a duplicate")
+
+	_expect(planner.assign_offer_to_week("hyunsu_first_meet", 1),
+		"component fixture could not occupy week one")
+	planner._assign_offer("father_first_call")
+	var occupied_before: Dictionary = planner.schedule_snapshot()
+	planner._select_week(1)
+	_expect(planner.schedule_snapshot() == occupied_before \
+			and _planner_armed_offer_id(planner) == "father_first_call" \
+			and planner.placement_error() == "occupied" \
+			and str(planner._status_label.text).to_upper().find(
+				"REMOVE IT FIRST") >= 0,
+		"occupied week did not reject with zero mutation, visible error, and retained intent")
+
+	planner._assign_offer("father_first_call")
+	planner._assign_offer("m1_mirae_application")
+	var deadline_before: Dictionary = planner.schedule_snapshot()
+	planner._select_week(3)
+	var deadline_error := str(planner._status_label.text).to_upper()
+	_expect(planner.schedule_snapshot() == deadline_before \
+			and _planner_armed_offer_id(planner) == "m1_mirae_application" \
+			and planner.placement_error() == "deadline" \
+			and (deadline_error.find("DEADLINE") >= 0 \
+				or deadline_error.find("EARLIER") >= 0),
+		"deadline rejection mutated the plan, hid its error, or cleared intent")
+
+	planner._assign_offer("m1_mirae_application")
+	planner._assign_offer("father_first_call")
+	var same_week_before: Dictionary = planner.schedule_snapshot()
+	planner._select_week(2)
+	_expect(planner.schedule_snapshot() == same_week_before \
+			and _planner_armed_offer_id(planner).is_empty() \
+			and planner.placement_error().is_empty(),
+		"confirming an offer in its existing week changed the plan or kept stale intent")
+	var fixed_button: Button = planner._slot_buttons.get("4")
+	_expect(is_instance_valid(fixed_button) and fixed_button.disabled,
+		"fixed week-four commitment was not visibly disabled")
+
+	planner._week_focused(2)
+	planner._assign_offer("m1_phone_off_sunday")
+	var west_before: Dictionary = planner.schedule_snapshot()
+	var west_event := InputEventAction.new()
+	west_event.action = "gd_secondary"
+	west_event.pressed = true
+	planner._unhandled_input(west_event)
+	var west_after: Dictionary = planner.schedule_snapshot()
+	_expect(_dictionary_delta_count(west_before, west_after) == 1 \
+			and not west_after.has("2") \
+			and str(west_after.get("1", "")) == "hyunsu_first_meet" \
+			and str(west_after.get("4", "")) == "first_temptation_boss" \
+			and _planner_armed_offer_id(planner) == "m1_phone_off_sunday",
+		"West did not remove only the selected schedule while retaining armed intent")
+
+	var tab_before: Dictionary = planner.schedule_snapshot()
+	planner._switch_tab(0)
+	_expect(planner.schedule_snapshot() == tab_before \
+			and _planner_armed_offer_id(planner).is_empty(),
+		"switching away from Calendar changed the plan or retained armed intent")
+	planner._switch_tab(1)
+	_check_planner_focus_neighbors(planner)
+
+	planner._assign_offer("m1_phone_off_sunday")
+	var reopen_before: Dictionary = planner.schedule_snapshot()
+	_expect(planner.open(1) \
+			and planner.schedule_snapshot() == reopen_before \
+			and _planner_armed_offer_id(planner).is_empty(),
+		"reopening the same month changed its draft or retained armed intent")
+	planner._assign_offer("m1_phone_off_sunday")
+	_expect(planner.open(2) and _planner_armed_offer_id(planner).is_empty(),
+		"opening a new month retained the previous month's armed intent")
+	_expect(planner.open(1) \
+			and planner.schedule_snapshot().size() == 1 \
+			and str(planner.schedule_snapshot().get("4", "")) \
+				== "first_temptation_boss" \
+			and _planner_armed_offer_id(planner).is_empty(),
+		"component interaction fixture did not reset month one cleanly")
+
+func _planner_armed_offer_id(planner) -> String:
+	var field_value := str(planner.get("_armed_offer_id"))
+	var meta_value := str(planner.get_meta("core_loop_v2_armed_offer_id", ""))
+	var public_value := str(planner.armed_offer_id())
+	_expect(field_value == meta_value and field_value == public_value,
+		"planner armed-offer field, public reader, and QA metadata disagreed")
+	return field_value
+
+func _dictionary_delta_count(before: Dictionary, after: Dictionary) -> int:
+	var keys: Array = before.keys()
+	for key in after.keys():
+		if not keys.has(key):
+			keys.append(key)
+	var changed := 0
+	for key in keys:
+		if before.has(key) != after.has(key) \
+				or before.get(key) != after.get(key):
+			changed += 1
+	return changed
+
+func _check_planner_focus_neighbors(planner) -> void:
+	var offer_controls: Array = planner._offer_buttons.values()
+	var week_controls: Array = []
+	for raw_week in planner._slot_buttons.values():
+		var week_button := raw_week as Button
+		if is_instance_valid(week_button) and not week_button.disabled:
+			week_controls.append(week_button)
+	var expected_right := planner._slot_buttons.get(
+		str(planner._selected_week)) as Button
+	if not is_instance_valid(expected_right) or expected_right.disabled:
+		expected_right = week_controls[0] as Button
+	var expected_left := planner._offer_buttons.get(
+		_planner_armed_offer_id(planner)) as Button
+	if not is_instance_valid(expected_left):
+		expected_left = planner._offer_buttons.get(
+			planner._selected_offer_id) as Button
+	if not is_instance_valid(expected_left):
+		expected_left = offer_controls[0] as Button
+	for index in range(offer_controls.size()):
+		var offer := offer_controls[index] as Control
+		var expected_top: Control = (
+			offer_controls[index - 1] as Control
+			if index > 0 else planner._tab_buttons[1])
+		var expected_bottom: Control = (
+			offer_controls[index + 1] as Control
+			if index + 1 < offer_controls.size() else planner._confirm_button)
+		_expect(is_instance_valid(offer) \
+				and _focus_neighbor(offer, "focus_neighbor_top") == expected_top \
+				and _focus_neighbor(offer, "focus_neighbor_bottom") \
+					== expected_bottom \
+				and _focus_neighbor(offer, "focus_neighbor_right") \
+					== expected_right,
+			"offer column did not expose explicit adjacent up/down and week-right neighbors")
+	for index in range(week_controls.size()):
+		var week := week_controls[index] as Control
+		var expected_top: Control = (
+			week_controls[index - 1] as Control
+			if index > 0 else planner._tab_buttons[1])
+		var expected_bottom: Control = (
+			week_controls[index + 1] as Control
+			if index + 1 < week_controls.size() else planner._confirm_button)
+		_expect(is_instance_valid(week) \
+				and _focus_neighbor(week, "focus_neighbor_top") == expected_top \
+				and _focus_neighbor(week, "focus_neighbor_bottom") \
+					== expected_bottom \
+				and _focus_neighbor(week, "focus_neighbor_left") \
+					== expected_left,
+			"week column did not expose explicit adjacent up/down and offer-left neighbors")
+
+func _focus_neighbor(control: Control, property_name: StringName) -> Control:
+	if not is_instance_valid(control):
+		return null
+	var path: NodePath = control.get(property_name)
+	if path.is_empty():
+		return null
+	return control.get_node_or_null(path) as Control
+
 func _month_one_schedule() -> Dictionary:
 	return {
 		"1": "m1_mirae_application",

@@ -1475,6 +1475,163 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		return
 	await _save(prefix + "01_planner_calendar_empty", 0.05)
 
+	var first_offer := planner._offer_buttons.get(
+		"m1_mirae_application") as Button
+	var father_offer := planner._offer_buttons.get("father_first_call") as Button
+	var hyunsu_offer := planner._offer_buttons.get("hyunsu_first_meet") as Button
+	var week_one := planner._slot_buttons.get("1") as Button
+	var week_two := planner._slot_buttons.get("2") as Button
+	var week_three := planner._slot_buttons.get("3") as Button
+	if not is_instance_valid(first_offer) or not is_instance_valid(father_offer) \
+			or not is_instance_valid(hyunsu_offer) \
+			or not is_instance_valid(week_one) or not is_instance_valid(week_two) \
+			or not is_instance_valid(week_three):
+		_fail("The first planner cannot expose the ORDER-79 interaction fixture.")
+		return
+
+	# Focus and hover may change detail, but they are not placement intent.
+	first_offer.grab_focus()
+	await get_tree().process_frame
+	if planner.schedule_snapshot() != initial_schedule \
+			or not _core_loop_v2_armed_offer_id(planner).is_empty() \
+			or get_viewport().gui_get_focus_owner() != first_offer:
+		_fail("Focusing an offer mutated or armed the first planner.")
+		return
+	first_offer.mouse_entered.emit()
+	await get_tree().process_frame
+	if planner.schedule_snapshot() != initial_schedule \
+			or not _core_loop_v2_armed_offer_id(planner).is_empty() \
+			or get_viewport().gui_get_focus_owner() != first_offer:
+		_fail("Hovering an offer mutated or armed the first planner.")
+		return
+
+	# A week press without an armed offer only changes the visible week selection.
+	week_two.pressed.emit()
+	await get_tree().process_frame
+	if planner.schedule_snapshot() != initial_schedule \
+			or not _core_loop_v2_armed_offer_id(planner).is_empty() \
+			or int(planner.get("_selected_week")) != 2:
+		_fail("A no-arm week press changed the schedule.")
+		return
+
+	# Offer means intent; the legal week press is the only mutation boundary.
+	first_offer.pressed.emit()
+	await get_tree().process_frame
+	if planner.schedule_snapshot() != initial_schedule \
+			or not _core_loop_v2_armed_surface_visible(
+				planner, first_offer, "m1_mirae_application", "legal intent"):
+		return
+	await _save(prefix + "01a_planner_offer_armed", 0.45)
+	week_one.pressed.emit()
+	await get_tree().process_frame
+	var after_legal: Dictionary = planner.schedule_snapshot()
+	if _core_loop_v2_changed_schedule_keys(initial_schedule, after_legal) != ["1"] \
+			or str(after_legal.get("1", "")) != "m1_mirae_application" \
+			or not _core_loop_v2_armed_offer_id(planner).is_empty() \
+			or not str(planner.get_meta(
+				"core_loop_v2_armed_offer_id", "")).is_empty() \
+			or bool(first_offer.get_meta("core_loop_v2_offer_armed", false)):
+		_fail("A legal week press was not one exact placement: %s." % after_legal)
+		return
+
+	# Re-selecting the same week is idempotent and consumes the visible intent.
+	first_offer.pressed.emit()
+	week_one.pressed.emit()
+	await get_tree().process_frame
+	if planner.schedule_snapshot() != after_legal \
+			or not _core_loop_v2_armed_offer_id(planner).is_empty():
+		_fail("A same-week placement duplicated or retained its intent.")
+		return
+
+	# Move a multi-week offer; the first-week application intentionally cannot move.
+	father_offer.pressed.emit()
+	week_two.pressed.emit()
+	var before_move: Dictionary = planner.schedule_snapshot()
+	father_offer.pressed.emit()
+	week_three.pressed.emit()
+	await get_tree().process_frame
+	var after_move: Dictionary = planner.schedule_snapshot()
+	if _core_loop_v2_changed_schedule_keys(before_move, after_move) != ["2", "3"] \
+			or after_move.has("2") \
+			or str(after_move.get("3", "")) != "father_first_call" \
+			or after_move.values().count("father_first_call") != 1 \
+			or not _core_loop_v2_armed_offer_id(planner).is_empty():
+		_fail("Moving an offer did not produce one erase/insert pair: %s." % after_move)
+		return
+	father_offer.pressed.emit()
+	week_two.pressed.emit()
+	await get_tree().process_frame
+	if planner.schedule_snapshot() != before_move:
+		_fail("The move fixture could not restore the multi-week offer.")
+		return
+
+	# Occupied and deadline-invalid weeks reject the placement, explain it, and keep intent.
+	var before_occupied: Dictionary = planner.schedule_snapshot()
+	hyunsu_offer.pressed.emit()
+	var occupied_status_before := str((planner._status_label as Label).text)
+	week_two.pressed.emit()
+	await get_tree().process_frame
+	if planner.schedule_snapshot() != before_occupied \
+			or _core_loop_v2_armed_offer_id(planner) != "hyunsu_first_meet" \
+			or str(planner.call("placement_error")) != "occupied" \
+			or str((planner._status_label as Label).text).is_empty() \
+			or str((planner._status_label as Label).text) == occupied_status_before \
+			or not _core_loop_v2_armed_surface_visible(
+				planner, hyunsu_offer, "hyunsu_first_meet", "occupied error",
+				"그 주에는 이미 다른 약속이 있다.",
+				"That week already has a commitment."):
+		_fail("An occupied week did not reject visibly while preserving intent.")
+		return
+	await _save(prefix + "01b_planner_occupied_error", 0.45)
+	hyunsu_offer.pressed.emit()
+	await get_tree().process_frame
+	if not _core_loop_v2_armed_offer_id(planner).is_empty() \
+			or not bool(planner.unassign_week(2)) \
+			or planner.schedule_snapshot() != after_legal:
+		_fail("The occupied-week fixture did not restore the legal schedule.")
+		return
+
+	var deadline_offer_id := ""
+	var deadline_week := 0
+	for raw_offer_id in core_loop.available_offer_ids(1):
+		var offer_id := str(raw_offer_id)
+		for week in range(1, 4):
+			if not core_loop.bundle_allowed_in_week(offer_id, week):
+				deadline_offer_id = offer_id
+				deadline_week = week
+				break
+		if not deadline_offer_id.is_empty():
+			break
+	var deadline_offer := planner._offer_buttons.get(deadline_offer_id) as Button
+	var deadline_slot := planner._slot_buttons.get(str(deadline_week)) as Button
+	if deadline_offer_id.is_empty() or not is_instance_valid(deadline_offer) \
+			or not is_instance_valid(deadline_slot):
+		_fail("The first planner has no visible deadline-invalid fixture.")
+		return
+	deadline_offer.pressed.emit()
+	var before_deadline: Dictionary = planner.schedule_snapshot()
+	var deadline_status_before := str((planner._status_label as Label).text)
+	deadline_slot.pressed.emit()
+	await get_tree().process_frame
+	if planner.schedule_snapshot() != before_deadline \
+			or _core_loop_v2_armed_offer_id(planner) != deadline_offer_id \
+			or str(planner.call("placement_error")) != "deadline" \
+			or str((planner._status_label as Label).text).is_empty() \
+			or str((planner._status_label as Label).text) == deadline_status_before \
+			or not _core_loop_v2_armed_surface_visible(
+				planner, deadline_offer, deadline_offer_id, "deadline error",
+				"그 주까지 미루면 늦는다.",
+				"That week is too late."):
+		_fail("A deadline-invalid week did not reject visibly while preserving intent.")
+		return
+	await _save(prefix + "01c_planner_deadline_error", 0.45)
+	planner.open(1, false)
+	await _settle(0.08)
+	if planner.schedule_snapshot() != after_legal \
+			or not _core_loop_v2_armed_offer_id(planner).is_empty():
+		_fail("Reopening the editable planner retained a stale placement intent.")
+		return
+
 	var expected_schedule := {
 		"1": "m1_mirae_application",
 		"2": "father_first_call",
@@ -1631,11 +1788,15 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		_fail("The Plan button reopened different committed data: %s / %s." % [
 			str(locked_schedule), str(locked_routines)])
 		return
+	var locked_armed_before := _core_loop_v2_armed_offer_id(planner)
+	planner.call("_assign_offer", "father_first_call")
+	planner.call("_select_week", 1)
 	if bool(planner.assign_offer_to_week("father_first_call", 1)) \
 			or bool(planner.unassign_week(1)) \
 			or bool(planner.select_routine("primary", "growth")) \
 			or planner.schedule_snapshot() != locked_schedule \
-			or planner.routine_snapshot() != locked_routines:
+			or planner.routine_snapshot() != locked_routines \
+			or _core_loop_v2_armed_offer_id(planner) != locked_armed_before:
 		_fail("The read-only Plan surface accepted or applied a mutation.")
 		return
 	await _save(prefix + "10_planner_read_only", 0.05)
@@ -6341,6 +6502,8 @@ func _run_core_loop_v2_input_route(
 	var last_reported_turn := 0
 	var last_signature := ""
 	var stagnant_steps := 0
+	var offer_intents := 0
+	var week_commits := 0
 
 	for _step in range(50000):
 		await get_tree().create_timer(0.012).timeout
@@ -6502,34 +6665,76 @@ func _run_core_loop_v2_input_route(
 						if str(expected_schedule.get(raw_week, "")) == next_offer:
 							target_week = int(raw_week)
 							break
-					var week_button := _find_visible_meta_value_button(
-						planner, "core_loop_v2_week", target_week)
-					if week_button == null:
-						_fail("Core Loop V2 Month %d cannot select Week %d for %s." % [
-							month_index, target_week, next_offer])
-						return false
-					var before_week_input: Dictionary = schedule.duplicate(true)
-					await _activate_route_control(week_button, input_mode)
-					if planner.call("schedule_snapshot") != before_week_input:
-						_fail("Core Loop V2 Week %d selection committed an offer before confirmation." % target_week)
-						return false
-					if int(planner.get("_selected_week")) != target_week:
-						_fail("Core Loop V2 Week %d input did not select the visible calendar slot." % target_week)
-						return false
-					var offer_button := _find_visible_meta_value_button(
-						planner, "core_loop_v2_offer_id", next_offer)
-					if offer_button == null:
-						_fail("Core Loop V2 Month %d cannot reach planned offer %s." % [
-							month_index, next_offer])
-						return false
-					await _activate_route_control(offer_button, input_mode)
+					var raw_first_placement := month_index == 1 \
+						and next_offer == "m1_mirae_application" \
+						and offer_intents == 0 and schedule.size() == 1
+					var offer_button: Button = null
+					if raw_first_placement:
+						var restored_focus := get_viewport().gui_get_focus_owner()
+						if not restored_focus is Button \
+								or str(restored_focus.get_meta(
+									"core_loop_v2_offer_id", "")) != next_offer:
+							_fail("Core Loop V2 tutorial did not restore raw focus to the first offer: %s." % [
+								restored_focus.name if is_instance_valid(restored_focus) else "none"])
+							return false
+						offer_button = restored_focus as Button
+						await _send_route_input(input_mode)
+					else:
+						offer_button = _find_visible_meta_value_button(
+							planner, "core_loop_v2_offer_id", next_offer)
+						if offer_button == null:
+							_fail("Core Loop V2 Month %d cannot reach planned offer %s." % [
+								month_index, next_offer])
+							return false
+						await _activate_route_control(offer_button, input_mode)
+					offer_intents += 1
 					var after_offer_input: Dictionary = planner.call(
 						"schedule_snapshot")
-					if after_offer_input.size() != before_week_input.size() + 1 \
-							or str(after_offer_input.get(str(target_week), "")) \
-								!= next_offer:
-						_fail("Core Loop V2 offer input did not place %s into visible Week %d: %s." % [
-							next_offer, target_week, after_offer_input])
+					if after_offer_input != schedule \
+							or not _core_loop_v2_armed_surface_visible(
+								planner, offer_button, next_offer,
+								"Month %d input route" % month_index):
+						return false
+
+					var week_button: Button = null
+					if raw_first_placement:
+						if input_mode == "gamepad":
+							await _send_route_raw_gamepad_button(
+								JOY_BUTTON_DPAD_RIGHT)
+						else:
+							await _send_route_key(KEY_RIGHT)
+						var week_focus := get_viewport().gui_get_focus_owner()
+						if not week_focus is Button \
+								or int(week_focus.get_meta(
+									"core_loop_v2_week", 0)) != target_week:
+							_fail("Core Loop V2 raw Right did not cross from the first offer to Week %d: %s." % [
+								target_week,
+								week_focus.name if is_instance_valid(week_focus) else "none"])
+							return false
+						week_button = week_focus as Button
+						await _send_route_input(input_mode)
+					else:
+						week_button = _find_visible_meta_value_button(
+							planner, "core_loop_v2_week", target_week)
+						if week_button == null:
+							_fail("Core Loop V2 Month %d cannot select Week %d for %s." % [
+								month_index, target_week, next_offer])
+							return false
+						await _activate_route_control(week_button, input_mode)
+					week_commits += 1
+					var after_week_input: Dictionary = planner.call(
+						"schedule_snapshot")
+					if _core_loop_v2_changed_schedule_keys(
+							after_offer_input, after_week_input) != [str(target_week)] \
+							or str(after_week_input.get(str(target_week), "")) != next_offer \
+							or not _core_loop_v2_armed_offer_id(planner).is_empty() \
+							or not str(planner.get_meta(
+								"core_loop_v2_armed_offer_id", "")).is_empty() \
+							or bool(offer_button.get_meta(
+								"core_loop_v2_offer_armed", false)):
+						_fail("Core Loop V2 Week %d input was not one exact commit of %s: before=%s after=%s." % [
+							target_week, next_offer, after_offer_input,
+							after_week_input])
 						return false
 					continue
 				if schedule.size() != 4:
@@ -6614,7 +6819,8 @@ func _run_core_loop_v2_input_route(
 							scene, story_sequence, planner_months_seen,
 							committed_months, month_summaries_seen,
 							tutorial_inputs, tutorial_state_verified,
-							action_result_confirms):
+							action_result_confirms, offer_intents,
+							week_commits):
 						return false
 					await _save("core_loop_v2_%s_%s_week_24_completion" % [
 						lang, input_mode], 0.0)
@@ -6732,8 +6938,9 @@ func _run_core_loop_v2_input_route(
 				return false
 			if not _assert_core_loop_v2_input_purity(input_mode):
 				return false
-			print("CORE_LOOP_V2_INPUT_OK device=%s lang=%s weeks=24 plans=6 tutorial=3 first_bill=1/1/1 hyunsu=1 autosave=1 title_return=1 mixed=0 story_events=%d keyboard_events=%d mouse_events=%d gamepad_events=%d semantic_events=%d unknown_events=%d saves=%d" % [
-				input_mode, lang, story_sequence.size(), _route_keyboard_events,
+			print("CORE_LOOP_V2_INPUT_OK device=%s lang=%s weeks=24 plans=6 offer_intents=%d week_commits=%d tutorial=3 first_bill=1/1/1 hyunsu=1 autosave=1 title_return=1 mixed=0 story_events=%d keyboard_events=%d mouse_events=%d gamepad_events=%d semantic_events=%d unknown_events=%d saves=%d" % [
+				input_mode, lang, offer_intents, week_commits,
+				story_sequence.size(), _route_keyboard_events,
 				_route_mouse_events, _route_gamepad_events,
 				_route_semantic_events, _route_unknown_events,
 				_core_loop_v2_save_events.size()])
@@ -6788,6 +6995,88 @@ func _core_loop_v2_expected_schedule(month_index: int) -> Dictionary:
 			schedule[str(week)] = str(wanted[wanted_index])
 			wanted_index += 1
 	return schedule
+
+func _core_loop_v2_armed_offer_id(planner: Control) -> String:
+	if not is_instance_valid(planner):
+		return ""
+	return str(planner.get("_armed_offer_id"))
+
+func _core_loop_v2_changed_schedule_keys(
+		before: Dictionary, after: Dictionary) -> Array[String]:
+	var keys: Array[String] = []
+	for raw_key in before.keys() + after.keys():
+		var key := str(raw_key)
+		if not keys.has(key):
+			keys.append(key)
+	keys.sort_custom(func(a: String, b: String) -> bool: return int(a) < int(b))
+	var changed: Array[String] = []
+	for key in keys:
+		if before.has(key) != after.has(key) \
+				or str(before.get(key, "")) != str(after.get(key, "")):
+			changed.append(key)
+	return changed
+
+func _core_loop_v2_armed_surface_visible(
+	planner: Control, offer_button: Button, offer_id: String,
+		context: String,
+		status_ko: String = "이 일을 어느 주에 넣을까?",
+		status_en: String = "WHICH WEEK SHOULD THIS GO IN?") -> bool:
+	if _core_loop_v2_armed_offer_id(planner) != offer_id \
+			or str(planner.get_meta("core_loop_v2_armed_offer_id", "")) != offer_id:
+		_fail("Core Loop V2 %s did not expose armed offer %s." % [
+			context, offer_id])
+		return false
+	if not is_instance_valid(offer_button) \
+			or not bool(offer_button.get_meta(
+				"core_loop_v2_offer_armed", false)) \
+			or _tr("선택 중 ·", "SELECTED ·") not in offer_button.text:
+		_fail("Core Loop V2 %s armed offer card has no visible selected state." % context)
+		return false
+	var status_label := planner.get("_status_label") as Label
+	var hint_label := planner.get("_hint_label") as Label
+	if not is_instance_valid(status_label) \
+			or _tr(status_ko, status_en) \
+				not in status_label.text:
+		_fail("Core Loop V2 %s armed offer has no visible week prompt." % context)
+		return false
+	if not is_instance_valid(hint_label) \
+			or _tr("주에 넣기", "Place in Week") not in hint_label.text \
+			or _tr("다시 누르면 취소", "Again to Cancel") not in hint_label.text:
+		_fail("Core Loop V2 %s armed offer has no independent placement/cancel hint." % context)
+		return false
+	var viewport_rect := get_viewport().get_visible_rect().grow(1.0)
+	for control in [
+		planner,
+		planner.get("_page_margin") as Control,
+		planner.get("_title_label") as Control,
+		offer_button,
+		status_label as Control,
+		hint_label as Control,
+		planner.get("_confirm_button") as Control,
+	]:
+		if not is_instance_valid(control) or not control.is_visible_in_tree() \
+				or not viewport_rect.encloses(control.get_global_rect()) \
+				or not _control_inside_clipping_ancestors(control):
+			_fail("Core Loop V2 %s armed copy escaped the viewport at 960x600: %s." % [
+				context, control.name if is_instance_valid(control) else "missing"])
+			return false
+		if control.get_combined_minimum_size().y > control.size.y + 1.0:
+			_fail("Core Loop V2 %s armed copy is vertically clipped: %s min=%s size=%s." % [
+				context, control.name, control.get_combined_minimum_size(), control.size])
+			return false
+	return true
+
+func _control_inside_clipping_ancestors(control: Control) -> bool:
+	var visible_rect := control.get_global_rect()
+	var ancestor := control.get_parent()
+	while ancestor != null:
+		if ancestor is Control:
+			var ancestor_control := ancestor as Control
+			if ancestor_control.clip_contents \
+					and not ancestor_control.get_global_rect().grow(1.0).encloses(visible_rect):
+				return false
+		ancestor = ancestor.get_parent()
+	return true
 
 func _core_loop_v2_story_positions(
 		story_sequence: Array[Dictionary], event_id: String) -> Array[int]:
@@ -6881,7 +7170,8 @@ func _assert_core_loop_v2_input_completion(
 		planner_months_seen: Dictionary, committed_months: Dictionary,
 		month_summaries_seen: Dictionary, tutorial_inputs: int,
 		tutorial_state_verified: bool,
-		action_result_confirms: Dictionary) -> bool:
+		action_result_confirms: Dictionary, offer_intents: int,
+		week_commits: int) -> bool:
 	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
 	var state: Dictionary = GameState.core_loop_v2_state
 	if planner_months_seen.size() != 6 or committed_months.size() != 6:
@@ -6894,6 +7184,10 @@ func _assert_core_loop_v2_input_completion(
 	if tutorial_inputs != 3 or not tutorial_state_verified \
 			or not bool(TutorialOverlay._seen.get("core_loop_v2", false)):
 		_fail("Core Loop V2 onboarding was not one state-free three-slide sequence.")
+		return false
+	if offer_intents != 22 or week_commits != 22:
+		_fail("Core Loop V2 completed with offer/week input counts %d/%d instead of 22/22." % [
+			offer_intents, week_commits])
 		return false
 	var plans: Dictionary = state.get("plans", {})
 	if plans.size() != 6:
@@ -13566,7 +13860,11 @@ func _save(shot_name: String, settle_time: float = 0.3) -> void:
 	# Prime macOS OpenGL readback once. The first get_image() after a large nested
 	# container swap can expose the intermediate layout even after CPU rects and
 	# the front buffer are settled; the following completed frame is stable.
+	RenderingServer.force_draw()
+	await get_tree().process_frame
+	await RenderingServer.frame_post_draw
 	var _discarded_readback: Image = viewport_texture.get_image()
+	RenderingServer.force_draw()
 	await get_tree().process_frame
 	await RenderingServer.frame_post_draw
 	var img: Image = viewport_texture.get_image()

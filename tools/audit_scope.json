@@ -369,11 +369,12 @@
     {
       "tool": "tools/CoreLoopV2Check.tscn",
       "godot": true,
-      "why": "데모 1~8주 런타임",
+      "why": "데모 1~8주 런타임과 제안→주차 배치 상호작용",
       "paths": [
         "systems/DemoCoreLoopV2.gd",
         "scenes/CoreLoopPlanner.gd",
-        "content/meta/demo_core_loop_v2.json"
+        "content/meta/demo_core_loop_v2.json",
+        "tools/CoreLoopV2Check.gd"
       ]
     },
     {

@@ -21,6 +21,9 @@ var _routines: Dictionary = {}
 var _locked_by_week: Dictionary = {}
 var _selected_week := 1
 var _selected_offer_id := ""
+var _armed_offer_id := ""
+var _placement_error := ""
+var _detail_week := -1
 var _active_tab := 1
 var _review_pending := false
 var _read_only_plan := false
@@ -62,6 +65,7 @@ func _ready() -> void:
 	set_meta("core_loop_v2_planner", true)
 	set_meta("core_loop_v2_month", _month_index)
 	set_meta("core_loop_v2_review_pending", false)
+	set_meta("core_loop_v2_armed_offer_id", "")
 	z_index = 96
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	_font = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
@@ -76,6 +80,8 @@ func open(month_index: int, read_only: bool = false) -> bool:
 	var was_read_only := _read_only_plan
 	_month_index = month_index
 	_month_data = CORE_LOOP.month_spec(month_index)
+	_clear_placement_intent()
+	_detail_week = -1
 	var committed_plan := CORE_LOOP.plan_for_month(month_index)
 	if read_only and committed_plan.is_empty():
 		visible = false
@@ -146,10 +152,19 @@ func review_pending() -> bool:
 func read_only_plan() -> bool:
 	return _read_only_plan
 
+func armed_offer_id() -> String:
+	return _armed_offer_id
+
+func placement_error() -> String:
+	return _placement_error
+
 func focus_offer(bundle_id: String) -> bool:
 	if not CORE_LOOP.available_offer_ids(_month_index).has(bundle_id):
 		return false
+	_review_pending = false
+	_clear_placement_intent()
 	_selected_offer_id = bundle_id
+	_detail_week = -1
 	_active_tab = 1
 	_pending_focus_offer_id = bundle_id
 	if visible:
@@ -168,6 +183,9 @@ func assign_offer_to_week(bundle_id: String, week: int) -> bool:
 		return false
 	if _locked_by_week.has(str(week)):
 		return false
+	var target_bundle := str(_schedule.get(str(week), ""))
+	if not target_bundle.is_empty() and target_bundle != bundle_id:
+		return false
 	_review_pending = false
 	for raw_week in _schedule.keys():
 		if str(_schedule.get(raw_week, "")) == bundle_id:
@@ -175,6 +193,7 @@ func assign_offer_to_week(bundle_id: String, week: int) -> bool:
 	_schedule[str(week)] = bundle_id
 	_selected_offer_id = bundle_id
 	_selected_week = week
+	_detail_week = week
 	_refresh_calendar()
 	return true
 
@@ -208,6 +227,9 @@ func unassign_week(week: int) -> bool:
 		return false
 	_review_pending = false
 	_schedule.erase(week_key)
+	_placement_error = ""
+	if _armed_offer_id.is_empty():
+		_detail_week = week
 	_refresh_calendar()
 	return true
 
@@ -444,7 +466,7 @@ func _rebuild() -> void:
 			"Review what you scheduled and which options you left out, then confirm.")
 	else:
 		_month_label.text = LocaleManager.ui(
-			"이번 달 제안을 네 주에 배치하고, 매주 이어 갈 일을 정한다.",
+			"이번 달 제안을 네 주에 나눠 넣고, 매주 이어 갈 일을 정한다.",
 			"Place this month's options across four weeks and choose what to keep doing weekly.")
 	var tab_names := [
 		LocaleManager.ui("현황", "OVERVIEW"),
@@ -470,11 +492,21 @@ func _rebuild() -> void:
 		_rebuild_calendar()
 	else:
 		_rebuild_read_only_surface()
+		_connect_non_calendar_focus_neighbors()
 	_apply_responsive_layout()
 	_refresh_footer()
 	_focus_restore_generation += 1
 	call_deferred(
 		"_restore_focus_after_rebuild", _focus_restore_generation)
+
+
+func _connect_non_calendar_focus_neighbors() -> void:
+	if _active_tab < 0 or _active_tab >= _tab_buttons.size():
+		return
+	var active_tab := _tab_buttons[_active_tab]
+	_confirm_button.focus_neighbor_top = _confirm_button.get_path_to(active_tab)
+	_confirm_button.focus_neighbor_bottom = _confirm_button.get_path_to(
+		_confirm_button)
 
 
 func _communication_badge_count() -> int:
@@ -535,18 +567,29 @@ func _rebuild_calendar() -> void:
 
 func _refresh_calendar() -> void:
 	var available := CORE_LOOP.available_offer_ids(_month_index)
+	set_meta("core_loop_v2_armed_offer_id", _armed_offer_id)
 	for bundle_id in available:
 		var button: Button = _offer_buttons.get(bundle_id)
 		if not is_instance_valid(button):
 			continue
 		var assigned := _schedule.values().has(bundle_id)
+		var armed := bundle_id == _armed_offer_id
 		var offer := CORE_LOOP.bundle(bundle_id)
+		var state_labels: Array[String] = []
+		if armed:
+			state_labels.append(LocaleManager.ui("선택 중", "SELECTED"))
+		if assigned:
+			state_labels.append(LocaleManager.ui("일정에 넣음", "SCHEDULED"))
+		var state_prefix := ""
+		if not state_labels.is_empty():
+			state_prefix = "%s · " % " · ".join(state_labels)
 		button.text = "%s%s\n%s" % [
-			LocaleManager.ui("배치됨 · ", "SCHEDULED · ") if assigned else "",
+			state_prefix,
 			_localized(offer, "offer"),
 			_localized(offer, "deadline"),
 		]
-		_apply_button_style(button, bundle_id == _selected_offer_id, assigned)
+		button.set_meta("core_loop_v2_offer_armed", armed)
+		_apply_button_style(button, armed, assigned)
 
 	for week_key in _slot_buttons:
 		var week := int(week_key)
@@ -575,18 +618,113 @@ func _refresh_calendar() -> void:
 		_apply_button_style(
 			button, week == _selected_week, not bundle_id.is_empty())
 
+	_refresh_calendar_detail()
+	_connect_calendar_focus_neighbors()
+	_refresh_footer()
+
+
+func _refresh_calendar_detail() -> void:
+	if _armed_offer_id.is_empty() and _detail_week > 0:
+		var week_key := str(_detail_week)
+		var week_in_month := posmod(_detail_week - 1, 4) + 1
+		var week_bundle_id := str(_schedule.get(week_key, ""))
+		if week_bundle_id.is_empty():
+			_detail_label.text = LocaleManager.ui(
+				"%d주차는 비어 있다.\n왼쪽에서 할 일을 고른 뒤 이 주를 눌러 일정에 넣는다." % week_in_month,
+				"WEEK %d is open.\nChoose an offer on the left, then press this week to place it." % week_in_month)
+			return
+		var week_offer := CORE_LOOP.bundle(week_bundle_id)
+		_detail_label.text = LocaleManager.ui(
+			"%d주차 · %s\n%s" % [
+				week_in_month, _localized(week_offer, "offer"),
+				_localized(week_offer, "detail"),
+			],
+			"WEEK %d · %s\n%s" % [
+				week_in_month, _localized(week_offer, "offer"),
+				_localized(week_offer, "detail"),
+			])
+		return
+
 	var selected_offer := CORE_LOOP.bundle(_selected_offer_id)
 	if selected_offer.is_empty():
 		_detail_label.text = LocaleManager.ui(
 			"제안을 고르면 장소와 기한, 고르지 않았을 때 생기는 일을 볼 수 있다.",
 			"Choose an option to see its place, deadline, and what happens if you leave it out.")
-	else:
-		_detail_label.text = "%s\n%s: %s" % [
-			_localized(selected_offer, "detail"),
-			LocaleManager.ui("고르지 않으면", "IF LEFT OUT"),
-			_localized(selected_offer, "decline"),
-		]
-	_refresh_footer()
+		return
+	_detail_label.text = "%s\n%s: %s" % [
+		_localized(selected_offer, "detail"),
+		LocaleManager.ui("고르지 않으면", "IF LEFT OUT"),
+		_localized(selected_offer, "decline"),
+	]
+
+
+func _connect_calendar_focus_neighbors() -> void:
+	var offer_controls: Array[Control] = []
+	for bundle_id in CORE_LOOP.available_offer_ids(_month_index):
+		var offer_button: Control = _offer_buttons.get(bundle_id) as Control
+		if is_instance_valid(offer_button):
+			offer_controls.append(offer_button)
+
+	var enabled_week_controls: Array[Control] = []
+	var all_week_controls: Array[Control] = []
+	var weeks: Array = _month_data.get("weeks", [1, 4])
+	for week in range(int(weeks[0]), int(weeks[1]) + 1):
+		var week_button: Button = _slot_buttons.get(str(week)) as Button
+		if not is_instance_valid(week_button):
+			continue
+		all_week_controls.append(week_button)
+		if not week_button.disabled:
+			enabled_week_controls.append(week_button)
+
+	if offer_controls.is_empty() or enabled_week_controls.is_empty():
+		return
+
+	var right_target: Button = _slot_buttons.get(str(_selected_week)) as Button
+	if not is_instance_valid(right_target) or right_target.disabled:
+		right_target = enabled_week_controls[0] as Button
+	var left_target: Button = _offer_buttons.get(_armed_offer_id) as Button
+	if not is_instance_valid(left_target):
+		left_target = _offer_buttons.get(_selected_offer_id) as Button
+	if not is_instance_valid(left_target):
+		left_target = offer_controls[0] as Button
+
+	for index in range(offer_controls.size()):
+		var button := offer_controls[index]
+		var top_target: Control = offer_controls[index - 1] \
+			if index > 0 else _tab_buttons[1]
+		var bottom_target: Control = offer_controls[index + 1] \
+			if index + 1 < offer_controls.size() else _confirm_button
+		button.focus_neighbor_left = button.get_path_to(button)
+		button.focus_neighbor_right = button.get_path_to(right_target)
+		button.focus_neighbor_top = button.get_path_to(top_target)
+		button.focus_neighbor_bottom = button.get_path_to(bottom_target)
+
+	for index in range(all_week_controls.size()):
+		var button := all_week_controls[index]
+		var prior_enabled: Control = _tab_buttons[1]
+		var next_enabled: Control = _confirm_button
+		for candidate_index in range(enabled_week_controls.size()):
+			var candidate := enabled_week_controls[candidate_index]
+			if candidate == button:
+				if candidate_index > 0:
+					prior_enabled = enabled_week_controls[candidate_index - 1]
+				if candidate_index + 1 < enabled_week_controls.size():
+					next_enabled = enabled_week_controls[candidate_index + 1]
+				break
+			if candidate.position.y < button.position.y:
+				prior_enabled = candidate
+			elif candidate.position.y > button.position.y \
+					and next_enabled == _confirm_button:
+				next_enabled = candidate
+		button.focus_neighbor_left = button.get_path_to(left_target)
+		button.focus_neighbor_right = button.get_path_to(button)
+		button.focus_neighbor_top = button.get_path_to(prior_enabled)
+		button.focus_neighbor_bottom = button.get_path_to(next_enabled)
+
+	var first_offer := offer_controls[0]
+	var last_week := enabled_week_controls[enabled_week_controls.size() - 1]
+	_tab_buttons[1].focus_neighbor_bottom = _tab_buttons[1].get_path_to(first_offer)
+	_confirm_button.focus_neighbor_top = _confirm_button.get_path_to(last_week)
 
 
 func _rebuild_read_only_surface() -> void:
@@ -897,7 +1035,8 @@ func _restore_focus_after_rebuild(generation: int) -> void:
 		var bundle_id := _pending_focus_offer_id
 		_pending_focus_offer_id = ""
 		var offer_button: Button = _offer_buttons.get(bundle_id)
-		if is_instance_valid(offer_button):
+		if _active_tab == 1 and is_instance_valid(offer_button) \
+				and offer_button.is_visible_in_tree():
 			offer_button.grab_focus()
 			return
 	if not _pending_focus_routine_key.is_empty():
@@ -971,37 +1110,104 @@ func _restore_focus_key(key: String) -> bool:
 
 
 func _assign_offer(bundle_id: String) -> void:
-	if _read_only_plan:
+	if _read_only_plan or _review_pending:
 		return
-	var target_week := _selected_week
-	if _locked_by_week.has(str(target_week)) \
-			or not CORE_LOOP.bundle_allowed_in_week(bundle_id, target_week):
-		target_week = _first_open_week_for_bundle(bundle_id)
-	if target_week <= 0:
-		target_week = _first_replaceable_week_for_bundle(bundle_id)
-	if target_week <= 0:
+	if not CORE_LOOP.available_offer_ids(_month_index).has(bundle_id):
+		_placement_error = "unavailable"
+		_refresh_calendar()
 		return
-	assign_offer_to_week(bundle_id, target_week)
-	var next_week := _first_open_week()
-	if next_week > 0:
-		_selected_week = next_week
+	_selected_offer_id = bundle_id
+	_detail_week = -1
+	if _armed_offer_id == bundle_id:
+		_clear_placement_intent()
+		_refresh_calendar()
+		return
+	_armed_offer_id = bundle_id
+	_placement_error = ""
 	_refresh_calendar()
 
 func _select_week(week: int) -> void:
 	_selected_week = week
+	if _read_only_plan or _review_pending:
+		_detail_week = week
+		_refresh_calendar()
+		return
+	if _armed_offer_id.is_empty():
+		_placement_error = ""
+		_detail_week = week
+		var scheduled_offer := str(_schedule.get(str(week), ""))
+		if CORE_LOOP.available_offer_ids(_month_index).has(scheduled_offer):
+			_selected_offer_id = scheduled_offer
+		_refresh_calendar()
+		return
+
+	var bundle_id := _armed_offer_id
+	_selected_offer_id = bundle_id
+	_detail_week = -1
+	var week_key := str(week)
+	var target_bundle := str(_schedule.get(week_key, ""))
+	if target_bundle == bundle_id:
+		_clear_placement_intent()
+		_detail_week = week
+		_refresh_calendar()
+		return
+	if _locked_by_week.has(week_key):
+		_placement_error = "locked"
+		_refresh_calendar()
+		return
+	if not CORE_LOOP.available_offer_ids(_month_index).has(bundle_id):
+		_placement_error = "unavailable"
+		_refresh_calendar()
+		return
+	if not CORE_LOOP.bundle_allowed_in_week(bundle_id, week):
+		_placement_error = "deadline"
+		_refresh_calendar()
+		return
+	if not target_bundle.is_empty():
+		_placement_error = "occupied"
+		_refresh_calendar()
+		return
+	if not assign_offer_to_week(bundle_id, week):
+		_placement_error = "unavailable"
+		_refresh_calendar()
+		return
+	_clear_placement_intent()
+	_detail_week = week
 	_refresh_calendar()
 
 func _offer_focused(bundle_id: String) -> void:
+	if _active_tab != 1 or not _calendar_surface.is_visible_in_tree():
+		return
 	_selected_offer_id = bundle_id
+	_detail_week = -1
 	_refresh_calendar()
 
 func _week_focused(week: int) -> void:
+	if _active_tab != 1 or not _calendar_surface.is_visible_in_tree():
+		return
 	_selected_week = week
+	if _armed_offer_id.is_empty():
+		_detail_week = week
+		var scheduled_offer := str(_schedule.get(str(week), ""))
+		if CORE_LOOP.available_offer_ids(_month_index).has(scheduled_offer):
+			_selected_offer_id = scheduled_offer
 	_refresh_calendar()
+
+func _clear_placement_intent() -> void:
+	_armed_offer_id = ""
+	_placement_error = ""
+	set_meta("core_loop_v2_armed_offer_id", "")
+	for raw_button in _offer_buttons.values():
+		if raw_button is Button and is_instance_valid(raw_button):
+			(raw_button as Button).set_meta("core_loop_v2_offer_armed", false)
 
 func _commit_plan() -> void:
 	if _read_only_plan:
 		close()
+		return
+	if not _armed_offer_id.is_empty():
+		_placement_error = "review_blocked"
+		_refresh_calendar()
 		return
 	if _schedule.size() != 4:
 		return
@@ -1018,6 +1224,8 @@ func _commit_plan() -> void:
 
 func _switch_tab(index: int) -> void:
 	var target := clampi(index, 0, 3)
+	if target != 1:
+		_clear_placement_intent()
 	if _review_pending and target != 3:
 		_review_pending = false
 	_active_tab = target
@@ -1097,6 +1305,7 @@ func _refresh_footer() -> void:
 		_status_label.text = LocaleManager.ui(
 			"확정한 계획이다. 일정과 매주 할 일은 바꿀 수 없다.",
 			"This plan is confirmed. The schedule and weekly routines cannot be changed.")
+		_fit_status_label_height(52.0)
 		_hint_label.text = LocaleManager.ui(
 			"방향키 이동 · %s 닫기 · %s/%s 탭",
 			"D-pad Navigate · %s Close · %s/%s Tabs") % [
@@ -1107,7 +1316,8 @@ func _refresh_footer() -> void:
 		return
 	_confirm_button.visible = true
 	var validation := CORE_LOOP.validate_plan(_month_index, _schedule, _routines)
-	var ready := bool(validation.get("ok", false))
+	var ready := bool(validation.get("ok", false)) \
+		and _armed_offer_id.is_empty()
 	_confirm_button.disabled = not ready
 	_apply_button_style(_confirm_button, false, ready)
 	if _review_pending:
@@ -1124,6 +1334,36 @@ func _refresh_footer() -> void:
 	_confirm_button.text = LocaleManager.ui(
 		"이번 달 계획을 확인한다",
 		"Review This Month's Plan")
+	if not _armed_offer_id.is_empty():
+		var armed_prompt := LocaleManager.ui(
+			"이 일을 어느 주에 넣을까?",
+			"WHICH WEEK SHOULD THIS GO IN?")
+		var error_text := _placement_error_text(_placement_error)
+		_status_label.text = armed_prompt if error_text.is_empty() else error_text
+		_fit_status_label_height(52.0)
+		_hint_label.text = LocaleManager.ui(
+			"%s 주에 넣기 · %s 같은 제안 다시 누르면 취소 · %s 일정 빼기" % [
+				ControllerHints.south(), ControllerHints.south(),
+				ControllerHints.west(),
+			],
+			"%s Place in Week · %s Same Offer Again to Cancel · %s Remove" % [
+				ControllerHints.south(), ControllerHints.south(),
+				ControllerHints.west(),
+			])
+		return
+	if not _placement_error.is_empty():
+		_status_label.text = _placement_error_text(_placement_error)
+		_fit_status_label_height(72.0)
+		_hint_label.text = LocaleManager.ui(
+			"방향키 이동 · %s 제안 고르기 · %s 일정 빼기 · %s/%s 탭" % [
+				ControllerHints.south(), ControllerHints.west(),
+				ControllerHints.shoulder_l(), ControllerHints.shoulder_r(),
+			],
+			"D-pad Navigate · %s Select Offer · %s Remove · %s/%s Tabs" % [
+				ControllerHints.south(), ControllerHints.west(),
+				ControllerHints.shoulder_l(), ControllerHints.shoulder_r(),
+			])
+		return
 	var missed_count := maxi(
 		CORE_LOOP.available_offer_ids(_month_index).size()
 			- _selected_offer_count(), 0)
@@ -1131,19 +1371,50 @@ func _refresh_footer() -> void:
 		"네 주를 모두 정하면, 남은 제안 {count}개는 이번 달에 고르지 않는다.",
 		"Fill all four weeks. {count} other options will be left out this month."
 	).format({"count": missed_count})
+	_fit_status_label_height(52.0)
 	_hint_label.text = LocaleManager.ui(
-		"방향키 이동 · %s 배치 · %s 배치 취소 · %s/%s 탭" % [
+		"방향키 이동 · %s 제안 고르기 · %s 일정 빼기 · %s/%s 탭" % [
 			ControllerHints.south(),
 			ControllerHints.west(),
 			ControllerHints.shoulder_l(),
 			ControllerHints.shoulder_r(),
 		],
-		"D-pad Navigate · %s Schedule · %s Remove · %s/%s Tabs" % [
+		"D-pad Navigate · %s Choose Offer · %s Remove · %s/%s Tabs" % [
 			ControllerHints.south(),
 			ControllerHints.west(),
 			ControllerHints.shoulder_l(),
 			ControllerHints.shoulder_r(),
 		])
+
+func _fit_status_label_height(minimum_height: float) -> void:
+	if not is_instance_valid(_status_label):
+		return
+	_status_label.custom_minimum_size.y = 0.0
+	_status_label.custom_minimum_size.y = minimum_height
+
+func _placement_error_text(error: String) -> String:
+	match error:
+		"occupied":
+			return LocaleManager.ui(
+				"그 주에는 이미 다른 약속이 있다. 먼저 그 약속을 빼야 한다.",
+				"That week already has a commitment. Remove it first.")
+		"deadline":
+			return LocaleManager.ui(
+				"그 주까지 미루면 늦는다. 더 이른 주를 골라야 한다.",
+				"That week is too late. Choose an earlier one.")
+		"locked":
+			return LocaleManager.ui(
+				"이미 확정된 일정이라 옮길 수 없다.",
+				"That commitment is fixed and cannot be moved.")
+		"unavailable":
+			return LocaleManager.ui(
+				"이번 달에는 이 제안을 일정에 넣을 수 없다.",
+				"This offer is not available for this month's schedule.")
+		"review_blocked":
+			return LocaleManager.ui(
+				"먼저 넣을 주를 고른다. 취소하려면 같은 제안을 한 번 더 누른다.",
+				"Choose a week first. To cancel, press the same offer again.")
+	return ""
 
 func _plan_error_text(validation: Dictionary) -> String:
 	match str(validation.get("error", "")):
@@ -1174,6 +1445,7 @@ func _plan_error_text(validation: Dictionary) -> String:
 func _begin_commit_review() -> void:
 	if _read_only_plan:
 		return
+	_clear_placement_intent()
 	_review_pending = true
 	_active_tab = 3
 	_rebuild()
