@@ -7,14 +7,16 @@
 
 ## 지금 상황
 
-- 최신 `origin/main` 위에 `ORDER-57` E 후보를 재통합한 별도 worktree/브랜치에서
-  작업 중이다. 원래 `main` 작업트리의 Claude 변경과 사용자 소유
-  `project.godot`은 건드리지 않았다.
-- `ORDER-69`는 승인된 V2 생계·성장 정신력 `-1→+1`을 적용하고, 실제 1→24주
-  네 컴포넌트 경로와 그 snapshot의 25→48주 파급, decline 사망 순서,
-  durable V2→legacy 대체 receipt와 dirty/clean 저장 migration을 자동 PASS로
-  잠갔다. 5년 공통 압박·회복·`finish_run`은 불변이다.
-- 이 PASS는 MainGame 프롤로그부터 만든 실제 데모-flavor 저장이나 제품 UI
+- `ORDER-70`은 retail 기본값을 닫은 채 `core_loop_v2_playtest` release
+  flavor를 분리했다. 세 플랫폼 clean export·manifest, release 진입 1/retail 0,
+  전역 표식, retail과 교차하지 않는 설정·화면·메타·autosave·슬롯 1~10의
+  게임 쓰기 경로 14개, macOS KO/EN 무인자 진입을 검증했다.
+- 이 산출물은 flavor·패키징 증명이며 `human_gates.json`의 현재
+  `demo_rc`가 아니다. Windows/Linux native run, 실제 V2 월간 네 약속부터
+  정상 속도 24주·CTA, 외부 0/10, 연속 A/V와 물리 패드는 OPEN이다.
+- 원래 `main` 작업트리의 Claude staged 변경과 사용자 소유 `project.godot`은
+  별도 clean worktree의 ORDER-70 작업에서 수정·스테이징·복구하지 않았다.
+- `ORDER-69`의 component PASS는 MainGame 프롤로그부터 만든 실제 데모-flavor 저장이나 제품 UI
   이월 증거가 아니다. 정식판에서 완료 저장을 열면 아직 24주 CTA와 V2 차단에
   막히므로 출시 차단점으로 남는다. E의 authored 휴식 sibling 회귀도 선택 전
   위험 표시나 정상 속도 사람 체감을 대신하지 않는다.
@@ -24,8 +26,6 @@
 
 ## 2026-08-03 남은 사용자 승인 실행 범위
 
-- `core_loop_v2_playtest` release flavor에서만 V2 진입·빌드 표식·분리 세이브를
-  연다. retail 기본값은 사람 GO 뒤에만 바꾼다.
 - `v2_demo_first_bill`을 48주 결말과 구분된 데모 전용 T1 정점으로 만든다.
   기존 8선택/효과/영수증을 보존하고 3비트·8극적 턴·전용 연출 자산을 붙인다.
 
@@ -35,7 +35,8 @@
 
 - `BUILD_PIPELINE.md`의 `e849a6a` 외부 RC는 V2 이전 역사 빌드다. 당시 증거는
   보존하되 새 표본·현 후보·출시 GO에 재사용하지 않는다.
-- 새 V2 RC는 모든 P0가 main에 들어간 뒤 clean worktree에서 발급한다. 정확한
+- 새 V2 RC는 모든 P0가 main에 들어간 뒤 clean worktree에서 발급한다. ORDER-70
+  flavor-proof를 후보로 재사용하지 않는다. 정확한
   commit/tree/manifest/플랫폼 해시가 생기기 전에는 후보 리비전을 지어 쓰지 않는다.
 - 외부 30분 테스트는 계획 이해도를 보고, 정상 속도 24주 완주는 결말·기억·재미를
   본다. 같은 RC를 쓸 수 있지만 서로를 대신하지 않는다.

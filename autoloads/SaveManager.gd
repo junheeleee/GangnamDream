@@ -1,5 +1,7 @@
 extends Node
 
+const BUILD_FLAVOR := preload("res://systems/BuildFlavor.gd")
+
 signal save_completed(success: bool, slot: int)
 signal load_completed(success: bool, slot: int)
 
@@ -7,7 +9,9 @@ const SAVE_VERSION = 4
 const NARRATIVE_RHYTHM_VERSION = 1
 const SLOT_COUNT = 10
 const AUTOSAVE_SLOT = 0
-const SETTINGS_PATH = "user://gangnam_dream_settings.json"
+# Compatibility constant for tests and tools that explicitly inspect the
+# legacy retail file. Production reads and writes use settings_path().
+const SETTINGS_PATH = BUILD_FLAVOR.RETAIL_SETTINGS_PATH
 const MAIN_GAME_SCENE = "res://scenes/MainGame.tscn"
 const STORY_MODE_SCENE = "res://scenes/StoryMode.tscn"
 
@@ -21,9 +25,10 @@ func _load_settings() -> void:
 	if _settings_loaded:
 		return
 	_settings_loaded = true
-	if not FileAccess.file_exists(SETTINGS_PATH):
+	var path := settings_path()
+	if not FileAccess.file_exists(path):
 		return
-	var f = FileAccess.open(SETTINGS_PATH, FileAccess.READ)
+	var f = FileAccess.open(path, FileAccess.READ)
 	if f == null:
 		return
 	var txt = f.get_as_text()
@@ -39,7 +44,7 @@ func get_setting(key: String, default_value = null):
 func set_setting(key: String, value) -> void:
 	_load_settings()
 	_settings[key] = value
-	var f = FileAccess.open(SETTINGS_PATH, FileAccess.WRITE)
+	var f = FileAccess.open(settings_path(), FileAccess.WRITE)
 	if f == null:
 		return
 	f.store_string(JSON.stringify(_settings))
@@ -62,7 +67,6 @@ func save_game(
 	var payload = {
 		"version": SAVE_VERSION,
 		"narrative_rhythm_version": NARRATIVE_RHYTHM_VERSION,
-		"build_flavor": "demo" if GameState.is_demo_build() else "full",
 		"slot": slot,
 		"saved_at": Time.get_datetime_string_from_system(),
 		"mod_active": ModLoader.is_active(LocaleManager.language),
@@ -71,6 +75,7 @@ func save_game(
 		"resume": resume_context.duplicate(true),
 		"metadata": metadata.duplicate(true),
 	}
+	payload.merge(save_identity_fields(), true)
 	var file = FileAccess.open(_slot_path(slot), FileAccess.WRITE)
 	if file == null:
 		save_completed.emit(false, slot)
@@ -213,13 +218,20 @@ func get_save_info(slot: int) -> Dictionary:
 func slot_path(slot: int) -> String:
 	return _slot_path(slot)
 
+func settings_path() -> String:
+	return BUILD_FLAVOR.settings_path()
+
+func save_identity_fields() -> Dictionary:
+	return {
+		"build_flavor": BUILD_FLAVOR.build_flavor_id(),
+		"save_namespace": BUILD_FLAVOR.save_namespace_id(),
+	}
+
 func _valid_slot(slot: int) -> bool:
 	return slot >= AUTOSAVE_SLOT and slot <= SLOT_COUNT
 
 func _slot_path(slot: int) -> String:
-	if slot == AUTOSAVE_SLOT:
-		return "user://gangnam_dream_autosave.json"
-	return "user://gangnam_dream_slot_%d.json" % slot
+	return BUILD_FLAVOR.slot_path(slot)
 
 func _estimate_total_assets(state: Dictionary) -> float:
 	var total = float(state.get("money", 0.0))

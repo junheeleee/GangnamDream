@@ -4,6 +4,7 @@ const GangnamWordmarkScript := preload("res://scenes/ui/GangnamWordmark.gd")
 const LivingSceneLayerScript := preload("res://scenes/ui/LivingSceneLayer.gd")
 const DemoCoreLoopV2Script := preload("res://systems/DemoCoreLoopV2.gd")
 const BuildInfoScript := preload("res://systems/BuildInfo.gd")
+const BuildFlavorScript := preload("res://systems/BuildFlavor.gd")
 
 const LAUNCH_REQUIRED_INPUT_GATES := 1
 const NEW_STORY_SCENE := "res://scenes/OpeningCinematic.tscn"
@@ -32,6 +33,7 @@ var _archive_tab: int = 0
 var _archive_page: int = 0
 var _title_command_buttons: Array[Button] = []
 var _new_run_core_loop_v2_test := false
+var _playtest_release_entry_ready_reported := false
 
 var _splash_layer: Control
 var _splash_active: bool = true
@@ -166,11 +168,19 @@ const DIFFICULTY_TEXT_EN := {
 	},
 }
 
+static func release_v2_entry_count(playtest_build: bool) -> int:
+	# Pure release policy: debug affordances do not count as a shipped entry.
+	return 1 if playtest_build else 0
+
 func _ready():
+	var playtest_build := BuildFlavorScript.is_core_loop_v2_playtest_build()
 	set_meta("launch_required_input_gates", LAUNCH_REQUIRED_INPUT_GATES)
 	set_meta("new_story_scene", NEW_STORY_SCENE)
 	set_meta("game_version", BuildInfoScript.GAME_VERSION)
 	set_meta("build_id", BuildInfoScript.BUILD_ID)
+	set_meta("build_flavor", BuildFlavorScript.build_flavor_id())
+	set_meta(
+		"release_v2_entry_count", release_v2_entry_count(playtest_build))
 	BuildInfoScript.apply_window_title(get_window(), false, LocaleManager.is_english())
 	_build_ui()
 	_build_splash()
@@ -223,6 +233,9 @@ func _rebuild_language_ui(show_splash: bool = false) -> void:
 		child.queue_free()
 	await get_tree().process_frame
 	_build_ui()
+	BuildInfoScript.apply_window_title(
+		get_window(), DemoCoreLoopV2Script.requested(),
+		LocaleManager.is_english())
 	if show_splash:
 		_build_splash()
 	else:
@@ -427,6 +440,7 @@ func _dismiss_splash():
 	tween.tween_callback(_splash_layer.queue_free)
 
 func _build_ui():
+	var playtest_build := BuildFlavorScript.is_core_loop_v2_playtest_build()
 	_build_title_backdrop(self)
 	_title_command_buttons.clear()
 
@@ -497,12 +511,35 @@ func _build_ui():
 		continue_btn.pressed.connect(func(): _load_slot(latest_slot))
 	menu.add_child(continue_btn)
 
-	var new_btn := _title_command_button(_tr("새 이야기", "New Story"))
-	new_btn.pressed.connect(_start_new_run)
+	var core_loop_cap_week := DemoCoreLoopV2Script.development_cap_week()
+	var new_btn := _title_command_button(
+		_tr("%d주 데모 시작" % core_loop_cap_week,
+			"Start %d-Week Demo" % core_loop_cap_week)
+		if playtest_build else _tr("새 이야기", "New Story"))
+	if playtest_build:
+		new_btn.tooltip_text = _tr(
+			"1~%d주 V2 데모를 별도 테스트 저장으로 시작합니다." \
+				% core_loop_cap_week,
+			"Start the Weeks 1–%d V2 demo in a separate playtest save." \
+				% core_loop_cap_week)
+		new_btn.set_meta("core_loop_v2_test_entry", true)
+		new_btn.set_meta("build_entry_kind", "core_loop_v2_playtest")
+		new_btn.pressed.connect(_start_core_loop_v2_test_run)
+	else:
+		new_btn.set_meta("build_entry_kind", "legacy")
+		new_btn.pressed.connect(_start_new_run)
 	menu.add_child(new_btn)
 
-	if OS.is_debug_build():
-		var core_loop_cap_week := DemoCoreLoopV2Script.development_cap_week()
+	if playtest_build:
+		if not _playtest_release_entry_ready_reported:
+			_playtest_release_entry_ready_reported = true
+			print(
+				"PLAYTEST_RELEASE_ENTRY_READY flavor=%s weeks=%d entries=%d" % [
+					BuildFlavorScript.PLAYTEST_FLAVOR_ID,
+					core_loop_cap_week,
+					release_v2_entry_count(playtest_build),
+				])
+	elif OS.is_debug_build():
 		var core_loop_v2_btn := _title_command_button(
 			_tr("Core Loop V2  ·  %d주 테스트" % core_loop_cap_week,
 				"Core Loop V2  ·  %d-Week Test" % core_loop_cap_week), true)
@@ -512,6 +549,7 @@ func _build_ui():
 			"Start the currently available Weeks 1–%d monthly-commitment slice in a separate run state." \
 				% core_loop_cap_week)
 		core_loop_v2_btn.set_meta("core_loop_v2_test_entry", true)
+		core_loop_v2_btn.set_meta("build_entry_kind", "core_loop_v2_debug")
 		core_loop_v2_btn.pressed.connect(_start_core_loop_v2_test_run)
 		menu.add_child(core_loop_v2_btn)
 

@@ -4,6 +4,7 @@
     "규칙: 매칭되는 규칙이 하나도 없는 변경은 전체 감사를 요구한다(안전 기본값).",
     "각 항목의 paths는 fnmatch 글롭이며 저장소 루트 기준 상대경로에 대해 평가한다.",
     "godot=true 인 검사는 Godot 실행파일이 있을 때만 돌린다.",
+    "Godot scene의 args는 프로젝트 인자 배열이며 -- 뒤에 전달한다.",
     "새 검사를 audit.sh에 추가하면 여기에도 등록한다 — 미등록 검사는",
     "audit_select.py --verify 가 실패로 보고한다."
   ],
@@ -483,11 +484,40 @@
     {
       "tool": "tools/DemoBuildCheck.tscn",
       "godot": true,
+      "args": [
+        "--demo-build"
+      ],
       "why": "데모 빌드 flavor·차단",
       "paths": [
         "systems/**",
         "scenes/**",
-        "content/meta/demo_core_loop_v2.json"
+        "content/meta/demo_core_loop_v2.json",
+        "tools/DemoBuildCheck.gd",
+        "tools/DemoBuildCheck.tscn"
+      ]
+    },
+    {
+      "tool": "tools/PlaytestFlavorCheck.tscn",
+      "godot": true,
+      "args": [
+        "--demo-build",
+        "--core-loop-v2-playtest-build"
+      ],
+      "why": "V2 release playtest 진입·표식·retail 게임 쓰기 데이터 격리",
+      "paths": [
+        "systems/BuildFlavor.gd",
+        "systems/BuildInfo.gd",
+        "systems/DemoCoreLoopV2.gd",
+        "autoloads/SaveManager.gd",
+        "autoloads/MetaProgression.gd",
+        "autoloads/DisplayManager.gd",
+        "autoloads/ModLoader.gd",
+        "autoloads/SceneTransition.gd",
+        "scenes/StartMenu.gd",
+        "export_presets.cfg",
+        "tools/build.sh",
+        "tools/PlaytestFlavorCheck.gd",
+        "tools/PlaytestFlavorCheck.tscn"
       ]
     },
     {

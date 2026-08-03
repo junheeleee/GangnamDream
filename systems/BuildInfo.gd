@@ -2,15 +2,30 @@ extends RefCounted
 ## Player-visible build identity. Update these two values together for each
 ## testable build so screenshots and bug reports identify the exact revision.
 
+const BuildFlavorScript := preload("res://systems/BuildFlavor.gd")
+
 const GAME_VERSION := "0.1.0-dev"
-const BUILD_ID := "2026.07.27.1"
+const BUILD_ID := "2026.08.03.1"
 const CORE_LOOP_V2_CHANNEL := "CORE LOOP V2"
+const CORE_LOOP_V2_PLAYTEST_CHANNEL := "CORE LOOP V2 · PLAYTEST"
+
+
+static func _channel_label(core_loop_v2: bool) -> String:
+	# The release flavor identifies the artifact, not merely the current run.
+	# Keep that identity on the splash, title menu, and window even before a
+	# tester presses the dedicated V2 entry or while a save is being loaded.
+	if BuildFlavorScript.is_core_loop_v2_playtest_build():
+		return CORE_LOOP_V2_PLAYTEST_CHANNEL
+	if core_loop_v2:
+		return CORE_LOOP_V2_CHANNEL
+	return ""
 
 
 static func identity_label(core_loop_v2: bool = false) -> String:
 	var label := "v%s  ·  BUILD %s" % [GAME_VERSION, BUILD_ID]
-	if core_loop_v2:
-		label += "  ·  %s" % CORE_LOOP_V2_CHANNEL
+	var channel := _channel_label(core_loop_v2)
+	if not channel.is_empty():
+		label += "  ·  %s" % channel
 	return label
 
 

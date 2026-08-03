@@ -4,7 +4,8 @@
 ##   ./tools/build.sh web      → build/web/index.html
 ##   ./tools/build.sh macos    → build/macos/GangnamDream.zip
 ##   ./tools/build.sh windows  → build/windows/GangnamDream.exe (Steam용)
-##   ./tools/build.sh playtest → 데모 계약 검사 + Win/macOS/Linux 데모 + 체크섬
+##   ./tools/build.sh demo     → legacy 데모 계약 + Win/macOS/Linux 데모 + 체크섬
+##   ./tools/build.sh playtest → V2 계약 + Win/macOS/Linux playtest + 체크섬
 ##   ./tools/build.sh all      → 전부
 ##
 ## 전제조건:
@@ -84,7 +85,8 @@ TEMPLATES_DIR="$HOME/Library/Application Support/Godot/export_templates"
 if [[ ! -d "$TEMPLATES_DIR" ]]; then
   TEMPLATES_DIR="$HOME/.local/share/godot/export_templates"
 fi
-if [[ "$TARGET" != "demo-check" && -z "$(ls "$TEMPLATES_DIR" 2>/dev/null)" ]]; then
+if [[ "$TARGET" != "demo-check" && "$TARGET" != "playtest-check" \
+    && -z "$(ls "$TEMPLATES_DIR" 2>/dev/null)" ]]; then
   echo ""
   echo "⚠️  Export Templates가 설치되지 않았습니다."
   echo "   설치 방법:"
@@ -170,9 +172,39 @@ run_demo_contract() {
   else
     exit_code=$?
   fi
-  echo "$output" | grep -E "DEMO_BUILD_(CHECK_OK|CHECK_FAIL)|SCRIPT ERROR|Parse Error|Compile Error" || true
-  if [[ "$exit_code" -ne 0 ]] || ! echo "$output" | grep -q "DEMO_BUILD_CHECK_OK"; then
+  local runtime_errors
+  runtime_errors=$(echo "$output" | grep -E \
+    "DEMO_BUILD_CHECK_FAIL|SCRIPT ERROR|Parse Error|Compile Error|Failed to load script|Failed loading resource|ERROR:" || true)
+  echo "$output" | grep -E \
+    "DEMO_BUILD_(CHECK_OK|CHECK_FAIL)|SCRIPT ERROR|Parse Error|Compile Error|Failed to load script|Failed loading resource|ERROR:" || true
+  if [[ "$exit_code" -ne 0 || -n "$runtime_errors" ]] \
+      || ! echo "$output" | grep -Eq '^DEMO_BUILD_CHECK_OK([[:space:]]|$)'; then
     echo "❌ 데모 계약 검사 실패 (exit=$exit_code)"
+    echo "$output"
+    exit 1
+  fi
+}
+
+run_playtest_contract() {
+  echo ""
+  echo "🧪 V2 playtest flavor·진입·세이브 분리 계약 검사..."
+  local output
+  local exit_code=0
+  if output=$("$GODOT" --headless --path "$PROJECT_DIR" --quit-after 3600 \
+      res://tools/PlaytestFlavorCheck.tscn -- \
+      --demo-build --core-loop-v2-playtest-build 2>&1); then
+    exit_code=0
+  else
+    exit_code=$?
+  fi
+  local runtime_errors
+  runtime_errors=$(echo "$output" | grep -E \
+    "PLAYTEST_FLAVOR_CHECK_FAIL|SCRIPT ERROR|Parse Error|Compile Error|Failed to load script|Failed loading resource|ERROR:" || true)
+  echo "$output" | grep -E \
+    "PLAYTEST_FLAVOR_CHECK_(OK|FAIL)|SCRIPT ERROR|Parse Error|Compile Error|Failed to load script|Failed loading resource|ERROR:" || true
+  if [[ "$exit_code" -ne 0 || -n "$runtime_errors" ]] \
+      || ! echo "$output" | grep -Eq '^PLAYTEST_FLAVOR_CHECK_OK([[:space:]]|$)'; then
+    echo "❌ V2 playtest 계약 검사 실패 (exit=$exit_code)"
     echo "$output"
     exit 1
   fi
@@ -218,6 +250,47 @@ build_linux_demo() {
   echo "✅ Linux 데모 → build/demo/linux/ ($(du -sh "$PROJECT_DIR/build/demo/linux" | cut -f1))"
 }
 
+build_windows_playtest() {
+  echo ""
+  echo "🪟 Windows V2 playtest 빌드 시작..."
+  mkdir -p "$PROJECT_DIR/build/playtest/windows"
+  "$GODOT" --headless --path "$PROJECT_DIR" --export-release "Windows V2 Playtest" \
+    "$PROJECT_DIR/build/playtest/windows/GangnamDreamV2Playtest.exe" 2>&1
+  if [[ ! -f "$PROJECT_DIR/build/playtest/windows/GangnamDreamV2Playtest.exe" ]]; then
+    echo "❌ Windows V2 playtest 빌드 실패"
+    exit 1
+  fi
+  echo "✅ Windows V2 playtest → build/playtest/windows/ ($(du -sh "$PROJECT_DIR/build/playtest/windows" | cut -f1))"
+}
+
+build_macos_playtest() {
+  echo ""
+  echo "🍎 macOS V2 playtest 빌드 시작..."
+  mkdir -p "$PROJECT_DIR/build/playtest/macos"
+  "$GODOT" --headless --path "$PROJECT_DIR" --export-release "macOS V2 Playtest" \
+    "$PROJECT_DIR/build/playtest/macos/GangnamDreamV2Playtest.zip" 2>&1
+  if [[ ! -f "$PROJECT_DIR/build/playtest/macos/GangnamDreamV2Playtest.zip" ]]; then
+    echo "❌ macOS V2 playtest 빌드 실패"
+    exit 1
+  fi
+  echo "✅ macOS V2 playtest → build/playtest/macos/GangnamDreamV2Playtest.zip ($(du -sh "$PROJECT_DIR/build/playtest/macos/GangnamDreamV2Playtest.zip" | cut -f1))"
+}
+
+build_linux_playtest() {
+  echo ""
+  echo "🐧 Linux / Steam Deck V2 playtest 빌드 시작..."
+  mkdir -p "$PROJECT_DIR/build/playtest/linux"
+  "$GODOT" --headless --path "$PROJECT_DIR" --export-release \
+    "Linux / Steam Deck V2 Playtest" \
+    "$PROJECT_DIR/build/playtest/linux/GangnamDreamV2Playtest.x86_64" 2>&1
+  if [[ ! -f "$PROJECT_DIR/build/playtest/linux/GangnamDreamV2Playtest.x86_64" ]]; then
+    echo "❌ Linux V2 playtest 빌드 실패"
+    exit 1
+  fi
+  chmod +x "$PROJECT_DIR/build/playtest/linux/GangnamDreamV2Playtest.x86_64"
+  echo "✅ Linux V2 playtest → build/playtest/linux/ ($(du -sh "$PROJECT_DIR/build/playtest/linux" | cut -f1))"
+}
+
 write_demo_manifest() {
   local manifest="$PROJECT_DIR/build/demo/MANIFEST.sha256"
   local revision="unknown"
@@ -227,7 +300,7 @@ write_demo_manifest() {
     tree=$(git -C "$PROJECT_DIR" rev-parse 'HEAD^{tree}' 2>/dev/null || printf 'unknown')
   fi
   {
-    echo "# Gangnam Dream demo playtest build"
+    echo "# Gangnam Dream legacy demo build"
     echo "# revision=$revision"
     echo "# tree=$tree"
     echo "# source_status=clean"
@@ -243,7 +316,34 @@ write_demo_manifest() {
   echo "✅ 체크섬 매니페스트 → build/demo/MANIFEST.sha256"
 }
 
-build_playtest() {
+write_playtest_manifest() {
+  local manifest="$PROJECT_DIR/build/playtest/MANIFEST.sha256"
+  local revision="unknown"
+  local tree="unknown"
+  if command -v git >/dev/null 2>&1; then
+    revision=$(git -C "$PROJECT_DIR" rev-parse HEAD 2>/dev/null || printf 'unknown')
+    tree=$(git -C "$PROJECT_DIR" rev-parse 'HEAD^{tree}' 2>/dev/null || printf 'unknown')
+  fi
+  {
+    echo "# Gangnam Dream Core Loop V2 playtest build"
+    echo "# flavor=core_loop_v2_playtest"
+    echo "# features=gangnam_demo,core_loop_v2_playtest"
+    echo "# revision=$revision"
+    echo "# tree=$tree"
+    echo "# source_status=clean"
+    echo "# godot=$($GODOT --version 2>&1 | head -1)"
+    echo "# generated_utc=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+    for artifact in \
+      "$PROJECT_DIR/build/playtest/windows/GangnamDreamV2Playtest.exe" \
+      "$PROJECT_DIR/build/playtest/macos/GangnamDreamV2Playtest.zip" \
+      "$PROJECT_DIR/build/playtest/linux/GangnamDreamV2Playtest.x86_64"; do
+      shasum -a 256 "$artifact" | sed "s|$PROJECT_DIR/||"
+    done
+  } > "$manifest"
+  echo "✅ V2 playtest 체크섬 매니페스트 → build/playtest/MANIFEST.sha256"
+}
+
+build_demo() {
   require_clean_playtest_source
   prepare_playtest_imports
   require_clean_playtest_source
@@ -255,19 +355,37 @@ build_playtest() {
   write_demo_manifest
 }
 
+build_playtest() {
+  require_clean_playtest_source
+  prepare_playtest_imports
+  require_clean_playtest_source
+  run_demo_contract
+  run_playtest_contract
+  build_windows_playtest
+  build_macos_playtest
+  build_linux_playtest
+  require_clean_playtest_source
+  write_playtest_manifest
+}
+
 case "$TARGET" in
   web)     build_web ;;
   macos)   build_macos ;;
   windows) build_windows ;;
   linux)   build_linux ;;
   demo-check) run_demo_contract ;;
+  playtest-check) run_demo_contract; run_playtest_contract ;;
   windows-demo) run_demo_contract; build_windows_demo ;;
   macos-demo) run_demo_contract; build_macos_demo ;;
   linux-demo) run_demo_contract; build_linux_demo ;;
-  playtest|demo) build_playtest ;;
+  windows-playtest) run_demo_contract; run_playtest_contract; build_windows_playtest ;;
+  macos-playtest) run_demo_contract; run_playtest_contract; build_macos_playtest ;;
+  linux-playtest) run_demo_contract; run_playtest_contract; build_linux_playtest ;;
+  demo)     build_demo ;;
+  playtest) build_playtest ;;
   all)     build_web; build_macos; build_windows; build_linux ;;
   *)
-    echo "사용법: $0 [web|macos|windows|linux|all|demo-check|windows-demo|macos-demo|linux-demo|playtest]"
+    echo "사용법: $0 [web|macos|windows|linux|all|demo|demo-check|windows-demo|macos-demo|linux-demo|playtest|playtest-check|windows-playtest|macos-playtest|linux-playtest]"
     exit 1
     ;;
 esac

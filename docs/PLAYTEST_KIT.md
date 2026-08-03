@@ -4,7 +4,7 @@
 
 ## 1. 모집 표본
 
-- 초기 5명은 진행 절차와 P0 오류를 찾는 파읿이며, 최종 구조 판정은 **동일 RC 10명**을 채운 뒤에만 낸다.
+- 초기 5명은 진행 절차와 P0 오류를 찾는 파일럿이며, 최종 구조 판정은 **동일 RC 10명**을 채운 뒤에만 낸다.
 - 절반은 비주얼노벨/서사 게임 경험자, 절반은 거의 하지 않는 사람으로 맞춘다.
 - 국제 출시 판단에는 영어 원어민 또는 자연스러운 영어 사용자 3명 이상을 포함한다.
 - 개발 과정, 공략, 정답 선택지, 30억 달성법을 아는 사람은 제외한다.
@@ -22,8 +22,14 @@ English:
 
 진행자는 시작 전에 다음만 확인한다.
 
-- `build/demo/MANIFEST.sha256`과 테스트 파일 hash가 일치한다.
-- 새 저장 슬롯이며 이전 메타 진행/해금이 없다.
+- `human_gates.json`의 `demo_rc`가 `active`이고 현재
+  revision·manifest·해당 플랫폼 artifact 해시와 세션 파일이 일치한다.
+  flavor·패키징만 증명한 산출물은 후보 등록 전에 외부 세션에 쓰지 않는다.
+- `build/playtest/MANIFEST.sha256`과 테스트 파일 hash가 일치한다.
+- retail 저장은 건드리지 않는다. `gangnam_dream_v2_playtest_v1_*` 진행·설정·메타만
+  없는 새 테스트 계정 또는 새 playtest 사용자 데이터로 시작한다.
+- 창 제목·시작 화면·전 장면 우상단에 V2 playtest 표식이 보이고, 시작 메뉴의
+  기본 진입이 `24주 데모 시작 / Start 24-Week Demo`인지 확인한다.
 - 테스터가 선택한 언어, 해상도, 입력 장치를 기록한다.
 - 화면과 게임 오디오를 기록한다. 얼굴·실명·음성은 동의가 있을 때만 기록한다.
 - 타이머는 언어 선택 화면을 본 순간부터 30분이다.
@@ -33,9 +39,9 @@ English:
 `playtest` 빌드는 더러운 작업트리를 거부한다. 진행자는 `MANIFEST.sha256`의 전체 commit/tree 해시와 `source_status=clean`을 확인하고, manifest 파일 자체와 배포한 플랫폼 산출물의 SHA-256을 세션에 기록한다.
 
 ```bash
-sed -n '1,8p' build/demo/MANIFEST.sha256
-shasum -a 256 build/demo/MANIFEST.sha256
-shasum -a 256 build/demo/windows/GangnamDreamDemo.exe
+sed -n '1,10p' build/playtest/MANIFEST.sha256
+shasum -a 256 build/playtest/MANIFEST.sha256
+shasum -a 256 build/playtest/windows/GangnamDreamV2Playtest.exe
 ```
 
 - 기록 정본: `docs/playtest_session_template.json`

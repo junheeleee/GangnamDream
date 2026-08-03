@@ -170,7 +170,10 @@ static func requested() -> bool:
 	for raw_arg in OS.get_cmdline_user_args():
 		if str(raw_arg).strip_edges().to_lower() in ENABLE_ARGS:
 			return true
-	return false
+	# The retail switch lives in the data contract. It remains false until the
+	# unchanged 24-week candidate receives its human GO; the playtest build
+	# feature deliberately does not bypass the dedicated StartMenu entry.
+	return bool(contract().get("runtime_default", false))
 
 static func initialize_for_run(force: bool = false) -> bool:
 	if not force and not requested():

@@ -12,8 +12,23 @@
 | 데모 Windows | `Windows Demo` | `gangnam_demo` | `build/demo/windows/GangnamDreamDemo.exe` |
 | 데모 macOS | `macOS Demo` | `gangnam_demo` | `build/demo/macos/GangnamDreamDemo.zip` |
 | 데모 Linux/Deck | `Linux / Steam Deck Demo` | `gangnam_demo` | `build/demo/linux/GangnamDreamDemo.x86_64` |
+| V2 테스트 Windows | `Windows V2 Playtest` | `gangnam_demo,core_loop_v2_playtest` | `build/playtest/windows/GangnamDreamV2Playtest.exe` |
+| V2 테스트 macOS | `macOS V2 Playtest` | `gangnam_demo,core_loop_v2_playtest` | `build/playtest/macos/GangnamDreamV2Playtest.zip` |
+| V2 테스트 Linux/Deck | `Linux / Steam Deck V2 Playtest` | `gangnam_demo,core_loop_v2_playtest` | `build/playtest/linux/GangnamDreamV2Playtest.x86_64` |
 
-`GameState.is_demo_build()`만 flavor를 판정한다. 정식판과 데모판의 게임 코드는 같고, 데모 export preset에만 `gangnam_demo` custom feature가 붙는다. 에디터/CI에서는 `--demo-build` 인자로 같은 경로를 명시적으로 시험한다.
+`GameState.is_demo_build()`는 24주 차단만 판정한다. `BuildFlavor`는 별도로
+`core_loop_v2_playtest`를 판정해 V2 진입·빌드 표식·사용자 데이터
+네임스페이스를 한꺼번에 고른다. 에디터/CI에서는 각각 `--demo-build`와
+`--core-loop-v2-playtest-build`로 같은 경로를 명시적으로 시험한다. 콘텐츠
+개발 인자 `--core-loop-v2`, debug 여부, 저장 안의 `enabled` 값은 build flavor나
+저장 경로를 바꾸지 않는다. 기존 Demo preset에는 playtest feature를 덧붙이지 않는다.
+
+Retail은 기존 `gangnam_dream_{autosave,slot_N,settings,display,meta}.json`을
+그대로 쓴다. V2 playtest는
+`gangnam_dream_v2_playtest_v1_{autosave,slot_N,settings,display,meta}.json`만
+쓴다. 두 집합의 교집합은 0이며 어느 쪽도 다른 flavor 파일을 탐색·복사·이전·
+삭제하거나 파일이 없을 때 폴백하지 않는다. `v1`은 저장 schema와 별개인
+테스트 네임스페이스 버전이다.
 
 ## 2. 준비
 
@@ -27,13 +42,19 @@ GODOT=/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot \
 
 GODOT=/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot \
   ./tools/build.sh demo-check
+
+GODOT=/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot \
+  ./tools/build.sh playtest-check
 ```
 
-두 명령은 각각 마지막에 `✅ 감사 통과`, `DEMO_BUILD_CHECK_OK`를 출력해야 한다. Godot 공식 문서상 custom feature는 에디터 실행에는 적용되지 않고 실제 export에서만 적용되므로, 에디터 게이트의 `--demo-build`는 생략하면 안 된다.
+세 명령은 각각 마지막에 `✅ 감사 통과`, `DEMO_BUILD_CHECK_OK`,
+`PLAYTEST_FLAVOR_CHECK_OK`를 출력해야 한다. Godot 공식 문서상 custom feature는
+에디터 실행에는 적용되지 않고 실제 export에서만 적용되므로, 에디터 게이트의
+두 build 인자는 생략하면 안 된다.
 
 참고: [Godot feature tags](https://docs.godotengine.org/en/stable/tutorials/export/feature_tags.html), [command-line export](https://docs.godotengine.org/en/stable/tutorials/export/exporting_projects.html).
 
-## 3. 플레이테스트 데모 생성
+## 3. V2 플레이테스트 생성
 
 세 플랫폼을 한 번에 만든다. `playtest`는 tracked·untracked 변경이 하나라도 있는 작업트리를 거부하므로, 사용자의 진행 중 변경을 버리지 말고 커밋하거나 별도 clean worktree에서 실행한다.
 
@@ -46,19 +67,24 @@ GODOT=/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot \
 
 1. tracked·untracked 변경 0인 clean Git 소스 확인
 2. Godot `--import`로 fresh checkout의 리소스·`class_name` 캐시 생성
-3. 소스 재확인 후 데모 flavor, t=1~8 정본 아크, t=24 허용/t=25 차단 계약 검사
-4. Windows 데모 export
-5. macOS 데모 export
-6. Linux/Steam Deck 데모 export
-7. 소스 재확인 후 `build/demo/MANIFEST.sha256` 생성
+3. 소스 재확인 후 기존 데모 flavor, t=1~8 정본 아크, t=24 허용/t=25 차단 계약 검사
+4. V2 playtest 진입 1/retail release 진입 0, 전역 표식, 14개 사용자 데이터 경로
+   교집합 0, 10개 preset 계약 검사
+5. Windows V2 playtest export
+6. macOS V2 playtest export
+7. Linux/Steam Deck V2 playtest export
+8. 소스 재확인 후 `build/playtest/MANIFEST.sha256` 생성
 
-개별 빌드는 `windows-demo`, `macos-demo`, `linux-demo` 타깃을 사용한다. 정식판은 기존 `windows`, `macos`, `linux`, `all` 타깃을 사용한다. 개별 개발 export는 RC가 아니며 clean-tree 게이트를 통과했다고 간주하지 않는다.
+개별 V2 빌드는 `windows-playtest`, `macos-playtest`, `linux-playtest` 타깃을
+사용한다. 기존 Demo는 `demo`, `windows-demo`, `macos-demo`, `linux-demo`로
+그대로 만들며 정식판은 `windows`, `macos`, `linux`, `all`을 사용한다. 개별
+개발 export는 RC가 아니며 clean-tree 게이트를 통과했다고 간주하지 않는다.
 
 배포 전 `MANIFEST.sha256`의 전체 revision/tree 해시, `source_status=clean`, 산출물 해시와 실제 테스트 기록이 같아야 한다. manifest 파일 자체의 SHA-256도 세션 원장에 기록한다. 빌드 뒤 게임 소스가 바뀌면 기존 산출물은 폐기하고 다시 만든다.
 
 ```bash
-sed -n '1,8p' build/demo/MANIFEST.sha256
-shasum -a 256 build/demo/MANIFEST.sha256
+sed -n '1,10p' build/playtest/MANIFEST.sha256
+shasum -a 256 build/playtest/MANIFEST.sha256
 ```
 
 ## 4. 자동 스모크
@@ -72,6 +98,15 @@ shasum -a 256 build/demo/MANIFEST.sha256
 - t=1~8이 챕터 카드 → 첫 면접 → 통장 계산 → 쉬운 돈 → SNS → 카페 → 현수 → 1막 종료 순서인지
 - 선택 효과와 follow-up을 적용한 뒤 `chapter1_closed`가 생기는지
 - 24주차를 끝까지 허용하고 25주차 진입 전에 데모 기록 CTA로 막는지
+
+`tools/PlaytestFlavorCheck.tscn`은 playtest build 인자를 함께 받은 실제
+autoload·StartMenu 코드에서 다음을 검사한다.
+
+- release playtest의 V2 진입은 정확히 1개이고 retail release 정책은 0개인지
+- 기존 retail/Demo preset에 playtest feature가 없고 신규 세 preset에 두 feature가 있는지
+- retail과 playtest의 설정·화면·메타·자동저장·수동 슬롯 1~10 경로 교집합이 0인지
+- 창 제목·시작 화면 build identity·전 장면 corner marker 중 flavor 누락이 없는지
+- `runtime_default=false`와 24주 cutoff가 유지되고 feature만으로 런을 몰래 켜지 않는지
 
 ### 시각 스모크
 
@@ -95,18 +130,21 @@ GODOT=/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot
 
 교차 export 성공은 해당 OS 실행 성공을 뜻하지 않는다. 공개 테스트에 보낼 플랫폼마다 그 플랫폼에서 아래를 한 번 통과해야 한다.
 
-1. 기존 세이브가 없는 테스트 계정 또는 새 저장 슬롯에서 실행한다.
-2. 언어 선택이 먼저 뜨고 KO/EN 선택이 즉시 전 표면에 적용되는지 확인한다.
-3. JUNPAC 스플래시 → 플래시포워드 콜드오픈 → 시작 메뉴까지 막힘 없이 간다.
-4. 새 이야기를 시작하고 콘텐츠 경고를 확인한다.
-5. 첫 8주를 입력으로 진행한다. 각 주에 AP를 실제로 소비하고 선택지를 직접 고른다.
-6. 8주차에 `서울에서의 첫 두 달 / The First Two Months in Seoul` 장면과 AP 복귀를 확인한다.
-7. 크래시, 무한 전환, 입력 포커스 소실, 배경/BGM 재시작, 한글 누출을 기록한다.
-8. 테스트 빌드 파일의 SHA-256을 `MANIFEST.sha256`과 대조한다.
+1. 터미널 인자를 붙이지 않고 OS의 일반 실행 방식으로 V2 playtest 산출물을 연다.
+2. retail 파일을 지우지 말고, playtest 전용 저장이 없는 테스트 계정에서 시작한다.
+3. 모든 장면 우상단에 `V2 TEST BUILD · SEPARATE SAVE` 계열 표식이 있고 창 제목과
+   시작 화면 build identity에도 `CORE LOOP V2 · PLAYTEST`가 있는지 확인한다.
+4. 언어 선택이 먼저 뜨고 KO/EN 선택이 즉시 전 표면에 적용되는지 확인한다.
+5. JUNPAC 스플래시 → 시작 메뉴까지 막힘 없이 가고 기본 포커스가
+   `24주 데모 시작 / Start 24-Week Demo`인지 확인한다. legacy 새 이야기는 보이면 안 된다.
+6. 전용 진입을 누르고 콘텐츠 경고 뒤 V2 월간 네 약속 화면까지 확인한다.
+7. 24주까지 실제 입력으로 완주해 완료 회고·CTA와 t=25 차단을 확인한다.
+8. 크래시, 무한 전환, 입력 포커스 소실, 배경/BGM 재시작, 한글 누출을 기록한다.
+9. 테스트 빌드 파일의 SHA-256을 `MANIFEST.sha256`과 대조한다.
 
 Mac에서 만든 Windows/Linux 산출물은 **산출물 생성 검증**까지만 인정한다. Windows와 Steam Deck/Linux 실행 스모크는 각 기기에서 별도 수행해야 공개 배포 가능 상태다.
 
-### 최신 로컬 증적 (2026-07-13)
+### 기존 Demo 로컬 증적 (2026-07-13)
 
 | 대상 | 결과 | 범위 |
 |---|---|---|
@@ -116,6 +154,28 @@ Mac에서 만든 Windows/Linux 산출물은 **산출물 생성 검증**까지만
 | KO/EN render regression | PASS | `demo-blackbox` 언어별 17컷, CTA 첫 화면·한글 격리·빈 이미지 없음 |
 
 Windows와 Linux/Deck의 `run` 칸은 아직 미검증이다. macOS 실주행 중 발견한 직종별 첫 출근 장면과 월초 AP 상한 표기 회귀는 빌드 실패가 아니라 콘텐츠/루프 QA 항목으로 `ORDER-10`에 이관했다.
+
+### V2 flavor-proof 로컬 증적 (2026-08-03, 외부 RC 아님)
+
+| 대상 | 결과 | 범위 |
+|---|---|---|
+| Flavor contract | PASS | release V2 진입 1/retail 0, 정확히 두 custom feature를 가진 신규 preset 3개, 게임 쓰기 경로 14개씩·교집합 0, 전역 표식 1, `runtime_default=0`, cutoff 24 |
+| Windows V2 export | PASS · 생성만 | PE32+ x86-64 산출물과 manifest 해시 생성. Windows native run은 OPEN |
+| macOS V2 no-argument entry smoke | PASS · 진입까지만 | 일반 앱 실행으로 최초 언어 선택→JUNPAC→KO/EN 시작 메뉴, build identity·전역 표식, fresh playtest 데이터의 24주 단일 기본 진입, 콘텐츠 안내→V2 도입 장면 확인 |
+| Linux/Deck V2 export | PASS · 생성만 | ELF64 x86-64 산출물과 manifest 해시 생성. Linux/Deck native run은 OPEN |
+| §5 전체 package smoke | OPEN | 월간 네 약속 화면, 실제 1→24주·CTA·t=25 차단, 연속 A/V·입력은 아직 판정하지 않음 |
+| External/human evidence | OPEN | `human_gates.json`의 `demo_rc`는 재빌드 대기이며 외부 표본 0/10. flavor-proof 산출물을 외부 후보로 등록하지 않음 |
+
+flavor-proof는 `BUILD 2026.08.03.1`, revision
+`835452bc01ea97316d9dfafeaa79b8c862cca595`, tree
+`d9f97570e92913ec1bb7c21a55ad5e63613b0bba`의 clean source에서 만들었다.
+manifest 파일 SHA-256은
+`de02b11231a47e40b8b1d768bf36c9979662aab4a410c69728abab46a5f39504`,
+Windows/macOS/Linux artifact SHA-256은 각각
+`531f7e906bf6f6c2fff6926b58c8262442d53a9244768d13325de5234ee49dfc`,
+`9b90ba5d6831c3edabd64c3fec90d8a15c2c3686500b530629f6e8c250988072`,
+`8e325325e0b3b1502d3b38ddf3c7931ac48aa092ffce5dc8d6d57589016acee0`다.
+이는 exact artifact provenance일 뿐 최종 V2 demo RC나 출시 GO가 아니다.
 
 ### 외부 정상 독해 RC 게이트 (2026-07-21)
 
@@ -152,15 +212,20 @@ Linux·Steam Deck `6858217e11fc6820d00f5be4cacb13e16e7f859ad534aefbfa572449bd95a
 | 항목 | 기록 |
 |---|---|
 | 날짜/테스터 |  |
-| commit/revision |  |
+| commit/revision · tree |  |
 | manifest 파일 SHA-256 |  |
 | 플랫폼 산출물 SHA-256 |  |
 | OS/기기/해상도 |  |
 | 언어/입력 장치 |  |
-| 부팅→콜드오픈 | PASS / FAIL |
-| t=1→8 | PASS / FAIL |
-| 8주차 장면→AP 복귀 | PASS / FAIL |
+| 무인자 부팅→언어 선택→시작 메뉴 | PASS / FAIL |
+| build identity·전역 표식 | PASS / FAIL |
+| fresh 데이터의 24주 단일 진입 | PASS / FAIL |
+| 전용 진입→V2 월간 네 약속 | PASS / FAIL |
+| 실제 1→24주→회고·CTA | PASS / FAIL |
+| t=25 진입 전 차단 | PASS / FAIL |
 | 중단/오류 |  |
 | 증적 경로 |  |
 
-`PASS`는 단순히 창이 열린 상태가 아니다. 8주차 정본 장면까지 실제 입력으로 진행하고 AP 화면으로 안전하게 돌아와야 한다.
+무인자 진입 스모크 `PASS`와 24주 완주 `PASS`는 별도 판정이다. §5.1~6을
+닫으려면 월간 네 약속 화면까지 실제 입력으로 가야 하고, §5.7은 같은 산출물로
+24주 회고·CTA와 t=25 차단까지 정상 속도로 완주해야 한다.
