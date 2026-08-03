@@ -85,8 +85,6 @@ PLAYER_COPY_FIELDS = (
     "decline_en",
 )
 ALLOWED_ACTION_IDS = {"apply", "side_shift", "resume", "interview", "study", "rest"}
-EXPECTED_AUTHORED_BY_MONTH = [3, 3, 4, 4, 4, 3]
-EXPECTED_PRACTICAL_AUTHORED_BY_MONTH = [1, 2, 1, 2, 2, 1]
 PRACTICAL_EXCLUDED_KINDS = {"pursuit", "encounter", "care"}
 ACTION_STORY_ROOTS = {
     "m1_convenience_trial_shift": "v2_convenience_trial_shift",
@@ -1488,27 +1486,6 @@ def validate_density_time_hybrid_contracts(
         authored_vector.append(authored_max)
         practical_vector.append(practical_max)
 
-        if month_index <= len(EXPECTED_AUTHORED_BY_MONTH):
-            expected_authored = EXPECTED_AUTHORED_BY_MONTH[month_index - 1]
-            minimum_authored = 3 if month_index >= 5 else 2
-            if authored_max != expected_authored or authored_max < minimum_authored:
-                fail(
-                    f"month {month_index} authored maximum {authored_max}; "
-                    f"expected {expected_authored}, minimum {minimum_authored}; "
-                    f"best legal assignment={authored_witness}; offers={offer_ids}",
-                    errors,
-                )
-            expected_practical = EXPECTED_PRACTICAL_AUTHORED_BY_MONTH[
-                month_index - 1
-            ]
-            if practical_max != expected_practical or practical_max < 1:
-                fail(
-                    f"month {month_index} practical/non-person authored "
-                    f"maximum {practical_max}; expected {expected_practical}; "
-                    f"best legal assignment={practical_witness}",
-                    errors,
-                )
-
         prelude_ids = [
             str(value) for value in raw_month.get("prelude", [])
         ]
@@ -1556,35 +1533,10 @@ def validate_density_time_hybrid_contracts(
             )
         )
 
-    target_major_scenes = contract.get("scope", {}).get(
-        "target_major_scenes", []
-    )
     total_authored = sum(authored_vector)
-    if authored_vector != EXPECTED_AUTHORED_BY_MONTH:
-        fail(
-            f"authored density vector expected {EXPECTED_AUTHORED_BY_MONTH}, "
-            f"got {authored_vector}",
-            errors,
-        )
-    if practical_vector != EXPECTED_PRACTICAL_AUTHORED_BY_MONTH:
-        fail(
-            "practical/non-person density vector expected "
-            f"{EXPECTED_PRACTICAL_AUTHORED_BY_MONTH}, got {practical_vector}",
-            errors,
-        )
-    if (
-        total_authored != 21
-        or not isinstance(target_major_scenes, list)
-        or len(target_major_scenes) != 2
-        or not int(target_major_scenes[0])
-        <= total_authored
-        <= int(target_major_scenes[1])
-    ):
-        fail(
-            f"authored total must be 21 inside target_major_scenes, got "
-            f"{total_authored} vs {target_major_scenes}",
-            errors,
-        )
+    # These vectors are observations, not authoring quotas. A later pass may
+    # merge several foreground roots into one deeper continuous scene without
+    # failing merely because a monthly count changed.
 
     month_five_group = groups.get("month_five_person_climax", {})
     if not isinstance(month_five_group, dict):

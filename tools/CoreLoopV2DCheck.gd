@@ -75,8 +75,6 @@ const M5_STORY_ROOTS := {
 	},
 }
 
-const EXPECTED_AUTHORED_BY_MONTH := [3, 3, 4, 4, 4, 3]
-const EXPECTED_PRACTICAL_AUTHORED_BY_MONTH := [1, 2, 1, 2, 2, 1]
 const PERSON_KINDS := ["pursuit", "encounter", "care"]
 const ACTION_STORY_ROOTS := {
 	"m1_convenience_trial_shift": "v2_convenience_trial_shift",
@@ -260,7 +258,7 @@ func _ready() -> void:
 			"CORE_LOOP_V2_D_CHECK_OK schema=3 cap=24 prototype=1_24 "
 			+ "offers=sparse5_rich7/c_path_exact "
 			+ "person_climax=maximum2/daeun20/others19_20 "
-			+ "density=3_3_4_4_4_3/practical1_2_1_2_2_1/total21 "
+			+ "density=observed_not_quality_gate "
 			+ "minutes=all60/legal_plans_target_pm3/optional_overhead_separate "
 			+ "hybrid=action_first/story_no_gameplay_effects "
 			+ "surfaces=actions5/roots5 "
@@ -344,9 +342,6 @@ func _check_density_time_and_hybrid_contracts() -> void:
 			"%s estimated_minutes is not a positive integer: %s" % [
 				bundle_id, str(raw_minutes)])
 
-	var authored_totals: Array[int] = []
-	var practical_totals: Array[int] = []
-	var total_authored := 0
 	for month_index in range(1, 7):
 		var spec := CORE_LOOP.month_spec(month_index)
 		var offer_ids := _month_offer_ids(spec)
@@ -360,14 +355,10 @@ func _check_density_time_and_hybrid_contracts() -> void:
 					str(contract.get("exclusive_groups", {})),
 				])
 		if schedules.is_empty():
-			authored_totals.append(0)
-			practical_totals.append(0)
 			continue
 
 		var authored_max := -1
 		var practical_max := -1
-		var authored_witness: Dictionary = {}
-		var practical_witness: Dictionary = {}
 		var base_minutes_min := 1_000_000
 		var base_minutes_max := -1
 		var bad_time_examples: Array[String] = []
@@ -390,10 +381,8 @@ func _check_density_time_and_hybrid_contracts() -> void:
 					practical_count += 1
 			if authored_count > authored_max:
 				authored_max = authored_count
-				authored_witness = schedule.duplicate(true)
 			if practical_count > practical_max:
 				practical_max = practical_count
-				practical_witness = schedule.duplicate(true)
 
 			var base_minutes := _base_minutes_for_schedule(spec, schedule)
 			base_minutes_min = mini(base_minutes_min, base_minutes)
@@ -403,33 +392,9 @@ func _check_density_time_and_hybrid_contracts() -> void:
 				bad_time_examples.append("%s => %d min" % [
 					str(schedule), base_minutes])
 
-		var expected_authored := int(
-			EXPECTED_AUTHORED_BY_MONTH[month_index - 1])
-		var expected_practical := int(
-			EXPECTED_PRACTICAL_AUTHORED_BY_MONTH[month_index - 1])
-		authored_totals.append(authored_max)
-		practical_totals.append(practical_max)
-		total_authored += authored_max
-		_expect(authored_max == expected_authored,
-			"Month %d authored maximum is %d, expected %d; best legal assignment=%s; offers=%s"
-				% [
-					month_index, authored_max, expected_authored,
-					str(authored_witness), str(offer_ids),
-				])
-		var authored_minimum := 3 if month_index >= 5 else 2
-		_expect(authored_max >= authored_minimum,
-			"Month %d authored maximum %d is below minimum %d; best=%s"
-				% [
-					month_index, authored_max, authored_minimum,
-					str(authored_witness),
-				])
-		_expect(practical_max == expected_practical \
-				and practical_max >= 1,
-			"Month %d practical/non-person authored maximum is %d, expected %d; best legal assignment=%s"
-				% [
-					month_index, practical_max, expected_practical,
-					str(practical_witness),
-				])
+		_expect(authored_max >= 0 and practical_max >= 0,
+			"Month %d authored observations are invalid: all=%d practical=%d"
+				% [month_index, authored_max, practical_max])
 		_expect(target_minutes > 0 and bad_time_examples.is_empty(),
 			"Month %d legal plan time range %d–%d misses target %d±3; examples=%s; prelude=%s locked=%s"
 				% [
@@ -446,25 +411,8 @@ func _check_density_time_and_hybrid_contracts() -> void:
 		_expect(optional_overhead >= 0,
 			"Month %d optional consequence overhead is invalid" % month_index)
 
-	var target_major_scenes: Array = (
-		(contract.get("scope", {}) as Dictionary).get(
-			"target_major_scenes", []) as Array
-		if contract.get("scope", {}) is Dictionary else []
-	)
-	var target_major_min := int(target_major_scenes[0]) \
-		if target_major_scenes.size() == 2 else 0
-	var target_major_max := int(target_major_scenes[1]) \
-		if target_major_scenes.size() == 2 else 0
-	_expect(authored_totals == EXPECTED_AUTHORED_BY_MONTH \
-			and practical_totals \
-				== EXPECTED_PRACTICAL_AUTHORED_BY_MONTH,
-		"authored density vectors drifted: all=%s practical=%s" % [
-			str(authored_totals), str(practical_totals)])
-	_expect(total_authored == 21 \
-			and total_authored >= target_major_min \
-			and total_authored <= target_major_max,
-		"authored total is %d, expected 21 inside %d–%d" % [
-			total_authored, target_major_min, target_major_max])
+	# Authored counts stay visible as observations. They do not pass or fail
+	# scene quality; merging several roots into one deep scene is allowed.
 	_check_action_story_surface_contracts()
 
 func _month_offer_ids(spec: Dictionary) -> Array[String]:

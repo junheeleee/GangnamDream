@@ -11,8 +11,7 @@
     "development_cap_week": 24,
     "prototype_weeks": [1, 24],
     "target_play_minutes": [75, 95],
-    "target_play_minutes_basis": "pre_playtest_estimate",
-    "target_major_scenes": [18, 22]
+    "target_play_minutes_basis": "pre_playtest_estimate"
   },
   "long_arc_contract": {
     "demo_role": "chapter_one_first_half",
