@@ -17,6 +17,8 @@
 > `assets/third_party/GODOT_ENGINE_LICENSE.txt`,
 > `content/meta/third_party_notices.json`, `tools/third_party_notice_audit.py`,
 > `assets/audio/AUDIO_THIRD_PARTY_NOTICES.md`, `export_presets.cfg`,
+> `assets/fonts/OFL-NotoColorEmoji.txt`, `assets/fonts/OFL-Pretendard.txt`,
+> `assets/fonts/FONT_LICENSE_LEDGER.md`,
 > `scenes/StartMenu.gd`, `tools/ScreenshotQA.gd`, `tools/audit.sh`,
 > `tools/audit_scope.json`, `docs/QA_CHECKLIST.md`, `docs/BUILD_PIPELINE.md`,
 > `docs/MASTER_RELEASE_AUDIT.md`.
@@ -47,6 +49,8 @@
 - Godot Engine MIT 사본을 포함하고, 오디오 21개 원천과 서체 6개/3패밀리는
   기존 원장에서 결정론적으로 생성한다. 제공자·라이선스는 UI 코드에 손으로
   복사하지 않는다.
+- 영문 고지 화면에 노출되던 두 OFL 사본의 한국어 내부 조사 메모는 법적 원문과
+  분리한다. 실제 저작권 문구와 OFL 1.1 전문은 그대로 보존한다.
 
 ## 완료 증거
 
