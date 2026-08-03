@@ -5093,21 +5093,51 @@ def main() -> int:
     temptation_choices = require_list(
         temptation_event.get("choices"), "arc_temptation_01.choices", errors
     )
+    temptation_reject = require_dict(
+        temptation_choices[0] if temptation_choices else {},
+        "arc_temptation_01 reject choice",
+        errors,
+    )
     temptation_accept = require_dict(
         temptation_choices[1] if len(temptation_choices) > 1 else {},
         "arc_temptation_01 accept choice",
         errors,
     )
-    if (
-        "월세만 따지면 석 달" not in str(temptation_event.get("description", ""))
-        or require_dict(
-            temptation_accept.get("effects"),
-            "arc_temptation_01 accept effects",
+    if "월세만 따지면 석 달" not in str(temptation_event.get("description", "")):
+        fail(
+            "The KRW 2,000,000 temptation must equal just over three "
+            "KRW 650,000 rents",
             errors,
-        ).get("money")
-        != 2_000_000
+        )
+    if (
+        len(temptation_choices) != 2
+        or temptation_reject.get("text")
+        != "번호를 차단하고 휴대폰을 엎어놨다"
+        or temptation_reject.get("effects") != {"mental": -8, "tint": 5}
+        or set(temptation_reject.get("flags", []))
+        != {"arc_temptation_seen", "kept_clean_hands"}
+        or temptation_reject.get("route") != "orthodox"
+        or not str(temptation_reject.get("result_text", "")).startswith(
+            "{name}은 번호를 차단하고 휴대폰을 엎어놨다."
+        )
+        or temptation_accept.get("text")
+        != "통장·체크카드와 비밀번호를 넘기고 현금 200만원을 받는다"
+        or temptation_accept.get("effects")
+        != {"money": 2_000_000, "mental": -16, "tint": -10}
+        or set(temptation_accept.get("flags", []))
+        != {
+            "arc_temptation_seen",
+            "lent_account",
+            "crossed_line_early",
+            "gambling_tempted",
+        }
+        or temptation_accept.get("route") != "unorthodox"
     ):
-        fail("The KRW 2,000,000 temptation must equal just over three KRW 650,000 rents", errors)
+        fail(
+            "Week-4 temptation choice order, observable KR actions, effects, "
+            "flags, and routes must remain exact",
+            errors,
+        )
     fallout_event = require_dict(
         registered_events.get("arc_temptation_fallout"),
         "registered event arc_temptation_fallout",
@@ -5280,6 +5310,29 @@ def main() -> int:
     )
     if "three months of rent" not in str(english_temptation.get("description", "")):
         fail("English temptation copy must use the three-rent calculation", errors)
+    english_temptation_choices = require_list(
+        english_temptation.get("choices"),
+        "English arc_temptation_01.choices",
+        errors,
+    )
+    english_temptation_reject = require_dict(
+        english_temptation_choices[0] if english_temptation_choices else {},
+        "English arc_temptation_01 reject choice",
+        errors,
+    )
+    if (
+        len(english_temptation_choices) != len(temptation_choices)
+        or english_temptation_reject.get("text")
+        != "Block the number and put the phone face down"
+        or not str(english_temptation_reject.get("result_text", "")).startswith(
+            "{name} blocked the number and flipped the phone face-down."
+        )
+    ):
+        fail(
+            "English Week-4 temptation refusal must match the observable KR "
+            "action without judging the other choice",
+            errors,
+        )
     english_fallout = require_dict(
         english_events.get("arc_temptation_fallout"),
         "English arc_temptation_fallout",

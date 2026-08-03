@@ -7,10 +7,12 @@
 
 ## 지금 상황
 
-- `ORDER-70`은 retail 기본값을 닫은 채 `core_loop_v2_playtest` release
-  flavor를 분리했다. 세 플랫폼 clean export·manifest, release 진입 1/retail 0,
-  전역 표식, retail과 교차하지 않는 설정·화면·메타·autosave·슬롯 1~10의
-  게임 쓰기 경로 14개, macOS KO/EN 무인자 진입을 검증했다.
+- `ORDER-71`은 4주차 영어 유혹 거절에서 행동과 무관한 `I won't sink that
+  low`를 제거하고 한국어와 같은 번호 차단·휴대폰 뒤집기로 맞췄다. 선택
+  순서·게임플레이·8주차 분기는 그대로다. 이는 한 문장 회귀 증거이지 영어
+  콘텐츠 전수 검수가 아니다.
+- `ORDER-70`은 retail 기본값을 닫은 채 세 플랫폼 playtest flavor와
+  교집합 0인 게임 쓰기 경로 14개를 검증했다.
 - 이 산출물은 flavor·패키징 증명이며 `human_gates.json`의 현재
   `demo_rc`가 아니다. Windows/Linux native run, 실제 V2 월간 네 약속부터
   정상 속도 24주·CTA, 외부 0/10, 연속 A/V와 물리 패드는 OPEN이다.
