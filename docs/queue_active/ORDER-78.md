@@ -12,7 +12,7 @@ MainGame을 완주하므로 V2의 월간 계획·첫 청구서 완주 증거로 
 > 배치 A — 실제 입력 블랙박스:
 > `tools/ScreenshotQA.gd`, `scenes/CoreLoopPlanner.gd`,
 > `project.godot`, `systems/BuildFlavor.gd`, `tools/audit.sh`,
-> `.github/workflows/ci.yml`,
+> `.github/workflows/ci.yml`, `tools/audit_select.py`,
 > `tools/audit_scope.json`, `tools/run_core_loop_v2_input_qa.sh`.
 >
 > 배치 B — 정본·완료 기록:
@@ -47,6 +47,9 @@ MainGame을 완주하므로 V2의 월간 계획·첫 청구서 완주 증거로 
   격리가 성립하지 않는다. 전용 QA 인자와 절대 임시 경로가 함께 있을 때만
   V2 playtest 저장 경로를 그 디렉터리로 바꾼다. retail과 일반 playtest 경로는
   그대로 두며, QA는 부팅 직후 네 저장 표면이 모두 임시 루트 아래인지 확인한다.
+- 변경 파일→표적 검사 원장이 셸 실행기를 Python으로 잘못 여겨서는 안 된다.
+  `.sh` 도구와 인자를 실행 파일 그대로 호출하고 Godot가 없으면 다른 Godot
+  표적 검사와 같이 명시적으로 건너뛴다.
 
 ## 깊이 3문
 
