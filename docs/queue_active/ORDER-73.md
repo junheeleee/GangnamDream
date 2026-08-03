@@ -16,7 +16,11 @@
 > 배치 B 파일: `assets/third_party/THIRD_PARTY_COMPONENTS.json`,
 > `assets/third_party/GODOT_ENGINE_LICENSE.txt`,
 > `content/meta/third_party_notices.json`, `tools/third_party_notice_audit.py`,
-> `assets/audio/AUDIO_THIRD_PARTY_NOTICES.md`, `export_presets.cfg`,
+> `assets/audio/AUDIO_SOURCE_MANIFEST.json`,
+> `assets/audio/AUDIO_SOURCE_LEDGER.md`,
+> `assets/audio/AUDIO_THIRD_PARTY_NOTICES.md`,
+> `tools/build_sample_audio_assets.py`, `tools/audio_source_audit.py`,
+> `export_presets.cfg`,
 > `assets/fonts/OFL-NotoColorEmoji.txt`, `assets/fonts/OFL-Pretendard.txt`,
 > `assets/fonts/FONT_LICENSE_LEDGER.md`,
 > `scenes/StartMenu.gd`, `tools/ScreenshotQA.gd`, `tools/audit.sh`,
@@ -51,6 +55,9 @@
   복사하지 않는다.
 - 영문 고지 화면에 노출되던 두 OFL 사본의 한국어 내부 조사 메모는 법적 원문과
   분리한다. 실제 저작권 문구와 OFL 1.1 전문은 그대로 보존한다.
+- 말발굽 pack의 혼합 라이선스를 pack 단위 CC BY로 과장하지 않는다. 실제 출하
+  파일이 쓴 `ground.mp3`의 D4XX·CC0 per-file 기록을 원천 manifest와 생성기에
+  남기고, 게임 내 고지와 필수 저작자표시 수를 그 실제 사용분에서 계산한다.
 
 ## 완료 증거
 
