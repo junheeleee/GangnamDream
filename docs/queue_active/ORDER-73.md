@@ -30,6 +30,12 @@
 > `content/meta/release_content_inventory.json`,
 > `docs/CONTENT_RATING_INVENTORY.md`, `docs/STATUS.md`.
 >
+> 전체 감사 범위 확장 (2026-08-03) — 추가로 만지는 파일:
+> `autoloads/UIStyle.gd`. 신규 고지 화면이 화면별 `StyleBox`·테마 오버라이드
+> 래칫을 늘리는 것을 전체 감사에서 검출했다. 새 기준선을 올리지 않고 기존 전역
+> 스타일 소유자를 재사용해 같은 화면을 구성한다. 색·레이아웃·기능 계약은
+> 바꾸지 않는다.
+>
 > 종료 파일: `CLAUDE.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`,
 > `docs/queue_archive/ORDER-73.md`. `project.godot`, 서사·밸런스·게임 콘텐츠는
 > 이 작업에서 만지지 않는다.
