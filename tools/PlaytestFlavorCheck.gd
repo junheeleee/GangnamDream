@@ -95,25 +95,29 @@ func _check_export_presets() -> void:
 		_expect(presets.has(preset_name), "Missing retail preset: %s." % preset_name)
 		if presets.has(preset_name):
 			var features: Array = presets[preset_name]["features"]
-			_expect(not features.has(BuildFlavorScript.PLAYTEST_FEATURE),
-				"Retail preset %s carries the playtest feature." % preset_name)
+			_expect(_has_exact_features(features, []),
+				"Retail preset %s must carry no custom feature, got %s." % [
+					preset_name, features,
+				])
 	for preset_name in REQUIRED_DEMO_PRESETS:
 		_expect(presets.has(preset_name), "Missing legacy demo preset: %s." % preset_name)
 		if presets.has(preset_name):
 			var features: Array = presets[preset_name]["features"]
-			_expect(features.has(GameState.DEMO_FEATURE),
-				"Legacy demo preset %s lost the demo cutoff feature." % preset_name)
-			_expect(not features.has(BuildFlavorScript.PLAYTEST_FEATURE),
-				"Legacy demo preset %s was silently redefined as V2 playtest." % preset_name)
+			_expect(_has_exact_features(features, [GameState.DEMO_FEATURE]),
+				"Legacy demo preset %s must carry only %s, got %s." % [
+					preset_name, GameState.DEMO_FEATURE, features,
+				])
 	for preset_name in REQUIRED_PLAYTEST_PRESETS:
 		_expect(presets.has(preset_name), "Missing V2 playtest preset: %s." % preset_name)
 		if presets.has(preset_name):
 			var entry: Dictionary = presets[preset_name]
 			var features: Array = entry["features"]
-			_expect(features.has(GameState.DEMO_FEATURE),
-				"V2 playtest preset %s lacks the 24-week demo feature." % preset_name)
-			_expect(features.has(BuildFlavorScript.PLAYTEST_FEATURE),
-				"V2 playtest preset %s lacks the entry/save feature." % preset_name)
+			_expect(_has_exact_features(features, [
+				GameState.DEMO_FEATURE,
+				BuildFlavorScript.PLAYTEST_FEATURE,
+			]), "V2 playtest preset %s has unexpected features: %s." % [
+				preset_name, features,
+			])
 			_expect(str(entry["path"]).begins_with("build/playtest/"),
 				"V2 playtest preset %s writes outside build/playtest/." % preset_name)
 
@@ -216,16 +220,27 @@ func _check_start_surface() -> void:
 	await get_tree().process_frame
 	var playtest_entries := 0
 	var legacy_entries := 0
+	var playtest_entry: Button = null
 	for node in menu.find_children("*", "Button", true, false):
 		var entry_kind := str(node.get_meta("build_entry_kind", ""))
 		if entry_kind == BuildFlavorScript.PLAYTEST_FLAVOR_ID:
 			playtest_entries += 1
+			playtest_entry = node as Button
 		elif entry_kind == "legacy":
 			legacy_entries += 1
 	_expect(playtest_entries == 1,
 		"Playtest StartMenu exposed %d V2 entries, expected one." % playtest_entries)
 	_expect(legacy_entries == 0,
 		"Playtest StartMenu still exposed the legacy New Story entry.")
+	if is_instance_valid(playtest_entry):
+		var expected_entry_text := "Start 24-Week Demo" \
+			if LocaleManager.is_english() else "24주 데모 시작"
+		_expect(playtest_entry.text == expected_entry_text,
+			"Playtest entry text drifted: %s." % playtest_entry.text)
+		_expect(bool(playtest_entry.get_meta("core_loop_v2_test_entry", false)),
+			"Playtest entry lost its machine-readable V2 marker.")
+		_expect(not playtest_entry.pressed.get_connections().is_empty(),
+			"Playtest entry has no pressed-signal route into a V2 run.")
 	_expect(str(menu.get_meta("build_flavor", ""))
 			== BuildFlavorScript.PLAYTEST_FLAVOR_ID,
 		"StartMenu did not expose its playtest flavor metadata.")
@@ -243,6 +258,15 @@ func _unique_count(values: Array) -> int:
 	for value in values:
 		seen[str(value)] = true
 	return seen.size()
+
+
+func _has_exact_features(actual: Array, expected: Array) -> bool:
+	if actual.size() != expected.size():
+		return false
+	for feature in expected:
+		if not actual.has(feature):
+			return false
+	return true
 
 
 func _dispose(node: Node) -> void:

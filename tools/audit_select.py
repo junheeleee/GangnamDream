@@ -120,9 +120,15 @@ def run_check(check: dict, godot: str | None) -> int:
             print(f"  ⚠ {tool} — Godot 없음, 건너뜀")
             return 0
         cmd = [godot, "--headless", "--quit-after", "3600", f"res://{tool}"]
+        scene_args = check.get("args", [])
+        if scene_args:
+            cmd.extend(["--", *scene_args])
     else:
         cmd = ["python3", tool]
-    print(f"● {tool}")
+    arg_label = ""
+    if tool.endswith(".tscn") and check.get("args"):
+        arg_label = " -- " + " ".join(check["args"])
+    print(f"● {tool}{arg_label}")
     proc = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, check=False)
     tail = (proc.stdout or proc.stderr).strip().splitlines()
     for line in tail[-3:]:

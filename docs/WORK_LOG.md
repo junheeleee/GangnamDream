@@ -7,6 +7,23 @@
 > 차례로 옮긴다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-03 (Codex — ORDER-70 V2 release 테스트 flavor)
+
+- retail·기존 Demo 계약을 그대로 두고 `core_loop_v2_playtest` 전용
+  Windows/macOS/Linux preset과 clean-tree `build.sh playtest` 경로를 추가했다.
+  release playtest에서는 일반 새 이야기 대신 24주 V2 진입 하나만
+  열리고, retail release 진입은 0·`runtime_default=false`로 남는다.
+- `BuildFlavor`를 설정·화면·메타·자동저장·수동 슬롯 1~10의
+  생산 경로에 연결했다. retail/playtest 14경로의 교집합은 0이고
+  다른 flavor를 탐색·이전·삭제·폴백하지 않는다. 창 제목·시작
+  화면·장면 전역 표식은 KO/EN 언어 변경을 즉시 따른다.
+- clean 소스에서 세 플랫폼 export와 provenance manifest를 만들었다. macOS
+  산출물을 실행 인자 없이 열어 최초 언어 선택→JUNPAC→KO/EN
+  `24주 데모 시작`→콘텐츠 안내→V2 도입 장면과 고정 표식을 확인했다.
+- flavor·Demo 계약, 59개 GDScript 컴파일, 한영 누출 0, 정적·surface·전체
+  감사를 통과했다. 이 증적은 외부 RC·Windows/Linux 실기기
+  실행·정상 속도 24주 재미 GO를 대신하지 않는다.
+
 ## 2026-08-03 (Codex — ORDER-69 24주 생존성·첫해 파급 정합)
 
 - 사용자 승인대로 V2 무직/재직 생계와 성장 루틴의 주간 정신력을 `-1→+1`로

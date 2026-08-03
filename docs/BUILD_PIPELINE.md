@@ -144,7 +144,7 @@ GODOT=/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot
 
 Mac에서 만든 Windows/Linux 산출물은 **산출물 생성 검증**까지만 인정한다. Windows와 Steam Deck/Linux 실행 스모크는 각 기기에서 별도 수행해야 공개 배포 가능 상태다.
 
-### 최신 로컬 증적 (2026-07-13)
+### 기존 Demo 로컬 증적 (2026-07-13)
 
 | 대상 | 결과 | 범위 |
 |---|---|---|
@@ -154,6 +154,21 @@ Mac에서 만든 Windows/Linux 산출물은 **산출물 생성 검증**까지만
 | KO/EN render regression | PASS | `demo-blackbox` 언어별 17컷, CTA 첫 화면·한글 격리·빈 이미지 없음 |
 
 Windows와 Linux/Deck의 `run` 칸은 아직 미검증이다. macOS 실주행 중 발견한 직종별 첫 출근 장면과 월초 AP 상한 표기 회귀는 빌드 실패가 아니라 콘텐츠/루프 QA 항목으로 `ORDER-10`에 이관했다.
+
+### V2 flavor-proof 로컬 증적 (2026-08-03, 외부 RC 아님)
+
+| 대상 | 결과 | 범위 |
+|---|---|---|
+| Flavor contract | PASS | release V2 진입 1/retail 0, 정확히 두 custom feature를 가진 신규 preset 3개, 게임 쓰기 경로 14개씩·교집합 0, 전역 표식 1, `runtime_default=0`, cutoff 24 |
+| Windows V2 export | PASS · 생성만 | PE32+ x86-64 산출물과 manifest 해시 생성. Windows native run은 OPEN |
+| macOS V2 no-argument entry smoke | PASS · 진입까지만 | 일반 앱 실행으로 최초 언어 선택→JUNPAC→KO/EN 시작 메뉴, build identity·전역 표식, fresh playtest 데이터의 24주 단일 기본 진입, 콘텐츠 안내→V2 도입 장면 확인 |
+| Linux/Deck V2 export | PASS · 생성만 | ELF64 x86-64 산출물과 manifest 해시 생성. Linux/Deck native run은 OPEN |
+| §5 전체 package smoke | OPEN | 월간 네 약속 화면, 실제 1→24주·CTA·t=25 차단, 연속 A/V·입력은 아직 판정하지 않음 |
+| External/human evidence | OPEN | `human_gates.json`의 `demo_rc`는 재빌드 대기이며 외부 표본 0/10. flavor-proof 산출물을 외부 후보로 등록하지 않음 |
+
+flavor-proof 소스와 해시는 clean build가 끝난 뒤 아래 완료 원장과
+`queue_archive/ORDER-70.md`에 기록한다. 이는 exact artifact provenance일 뿐
+최종 V2 demo RC나 출시 GO가 아니다.
 
 ### 외부 정상 독해 RC 게이트 (2026-07-21)
 
@@ -190,15 +205,20 @@ Linux·Steam Deck `6858217e11fc6820d00f5be4cacb13e16e7f859ad534aefbfa572449bd95a
 | 항목 | 기록 |
 |---|---|
 | 날짜/테스터 |  |
-| commit/revision |  |
+| commit/revision · tree |  |
 | manifest 파일 SHA-256 |  |
 | 플랫폼 산출물 SHA-256 |  |
 | OS/기기/해상도 |  |
 | 언어/입력 장치 |  |
-| 부팅→콜드오픈 | PASS / FAIL |
-| t=1→8 | PASS / FAIL |
-| 8주차 장면→AP 복귀 | PASS / FAIL |
+| 무인자 부팅→언어 선택→시작 메뉴 | PASS / FAIL |
+| build identity·전역 표식 | PASS / FAIL |
+| fresh 데이터의 24주 단일 진입 | PASS / FAIL |
+| 전용 진입→V2 월간 네 약속 | PASS / FAIL |
+| 실제 1→24주→회고·CTA | PASS / FAIL |
+| t=25 진입 전 차단 | PASS / FAIL |
 | 중단/오류 |  |
 | 증적 경로 |  |
 
-`PASS`는 단순히 창이 열린 상태가 아니다. 8주차 정본 장면까지 실제 입력으로 진행하고 AP 화면으로 안전하게 돌아와야 한다.
+무인자 진입 스모크 `PASS`와 24주 완주 `PASS`는 별도 판정이다. §5.1~6을
+닫으려면 월간 네 약속 화면까지 실제 입력으로 가야 하고, §5.7은 같은 산출물로
+24주 회고·CTA와 t=25 차단까지 정상 속도로 완주해야 한다.
