@@ -35,7 +35,7 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 | 축 | 후보 사건/파일 | ID SHA-256 | KO/EN 본문 SHA-256 | 최고 사실 강도 |
 |---|---:|---|---|---|
 | 사행성·도박 | 137 / 44 | `a45013427ccac88331771025ce95d725c46ab35a4cecce2e0aa56c21571f581e` | `2b0ca94a9170cc6c69dfc652dcd18869e7345a520facf7192f56e6de7a10fdf5` | strong, moderate |
-| 선정성·성적 내용 | 119 / 26 | `84c0c1537c8d2afb3e9f83ff4ab62c5184369398db42af6353a483a662f03a32` | `3c5c81d39454c0d4a0a246fd19272f211004c7b432c44f7d40c8dbd88cb72b4e` | moderate, mild |
+| 선정성·성적 내용 | 119 / 26 | `84c0c1537c8d2afb3e9f83ff4ab62c5184369398db42af6353a483a662f03a32` | `d5cef90db552a6fd9236d03091d1e0de105eee2a448744abb53a4c823fd75803` | moderate, mild |
 | 폭력성 | 15 / 14 | `987dc15a9f106cf5b203bc8e3cce30efb6376339399a8727ca327bdfe53c0686` | `0b2038aae4c95e7b5bed65b7f353593d57dfc0759f7d108432673fa6d13b30b9` | mild |
 | 공포 | 134 / 49 | `f7b72c4ea39f178218442263fff2f99b432b7eb45206f8f284bc1601ae9cdf79` | `c62f601ec62e60b5e4f687747cd498e543123e9bd890a9c88299c6d6919a2474` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `6d12d628b20a7654ec443e3594c2bad905b778804d62ee81a4773453287f8f58` | mild |

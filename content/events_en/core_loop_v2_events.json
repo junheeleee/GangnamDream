@@ -62,18 +62,18 @@
     "choices": [
       {
         "text": "\"Sure. Let's do another hour.\"",
-        "result_text": "They place a phone timer in the middle of the table. Hyunsu opens his workbook and {name} opens the resume.\n\nWhen the hour ends, they agree to sit down at the same time again. Before they part, Hyunsu takes out his paper admission slip and says the exam begins at 9 a.m. on a Saturday next month.\n\nThey make no promise that either of them will succeed. They do promise to study together again."
+        "result_text": "They place a phone timer in the middle of the table. Hyunsu opens his workbook and {name} opens the resume.\n\nWhen the hour ends, they agree to sit down at the same time again. Before they part, Hyunsu takes out his paper admission slip and says the exam begins at 9 a.m. on Saturday, June 27.\n\nThey make no promise that either of them will succeed. They do promise to study together again."
       },
       {
         "text": "\"Let's start with your problem. I'll do mine after.\"",
-        "result_text": "Hyunsu opens the folded problem, and {name} writes out the steps beside it. Forty minutes later they trade places, and Hyunsu points out an awkward sentence in the resume.\n\nThey agree to bring one thing each that has them stuck next time. Before they part, Hyunsu takes out his paper admission slip and says the exam begins at 9 a.m. on a Saturday next month.\n\nWork each had postponed alone becomes work someone else will see when they meet again."
+        "result_text": "Hyunsu opens the folded problem, and {name} writes out the steps beside it. Forty minutes later they trade places, and Hyunsu points out an awkward sentence in the resume.\n\nThey agree to bring one thing each that has them stuck next time. Before they part, Hyunsu takes out his paper admission slip and says the exam begins at 9 a.m. on Saturday, June 27.\n\nWork each had postponed alone becomes work someone else will see when they meet again."
       }
     ]
   },
   {
     "id": "v2_hanbit_interview",
     "title": "Hanbit Distribution First Interview",
-    "description": "Two o'clock Thursday afternoon, in a second-floor meeting room at Hanbit Distribution's logistics center. The operations-support application {name} sent in Week 9 lies in front of the interviewer.\n\nThe interviewer places two inventory sheets side by side. One lists a system count of 184; the other lists a physical count of 179.\n\n\"The system says one hundred eighty-four, but the warehouse has only one hundred seventy-nine. What do you do first?\"\n\nThere is no stock answer to recite. First he has to find out whether five units vanished, a record was late, or the first count was wrong.",
+    "description": "Two o'clock Thursday afternoon, in a second-floor meeting room at Hanbit Distribution's logistics center. The operations-support application {name} sent in March lies in front of the interviewer.\n\nThe interviewer places two inventory sheets side by side. One lists a system count of 184; the other lists a physical count of 179.\n\n\"The system says one hundred eighty-four, but the warehouse has only one hundred seventy-nine. What do you do first?\"\n\nThere is no stock answer to recite. First he has to find out whether five units vanished, a record was late, or the first count was wrong.",
     "choices": [
       {
         "text": "\"I would reconcile the receiving and shipping records in chronological order.\"",
@@ -88,15 +88,15 @@
   {
     "id": "v2_daeun_return_named",
     "title": "This Time, First",
-    "description": "Not long after the night shift begins, {name} opens the door of the same convenience store.\n\nHe does need a few things, but they are not the only reason he came at this hour.\n\nKim Daeun looks up from the price tags she is sorting behind the counter. She studies his face for a moment, then asks first.\n\n\"{name}-ssi, right?\"",
+    "description": "Not long after the night shift begins, {name} opens the door of the same convenience store.\n\nHe does need a few things, but they are not the only reason he came at this hour.\n\nKim Daeun looks up from the price tags she is sorting behind the counter. She studies his face for a moment, then asks first.\n\n\"{name}, right?\"",
     "choices": [
       {
-        "text": "\"Daeun-ssi. Another night shift?\"",
+        "text": "\"Daeun. Another night shift?\"",
         "result_text": "\"You remembered my name. Yes, I'm here until dawn again.\"\n\nDaeun sets down the price tags in her hand. {name} asks whether working this late is hard, and she says it is manageable once the busiest hour passes.\n\nIt is not a long conversation. Still, this time {name} is the one who says her name and starts it."
       },
       {
         "text": "\"I ate well, thanks to that two-for-one deal last time.\"",
-        "result_text": "\"I only told you because it was on promotion.\"\n\nDaeun smiles. \"Still, I'm glad you enjoyed it.\"\n\n{name} thanks her once more and finishes paying. As he opens the door to leave, Daeun says, \"Check the sale tags first next time, {name}-ssi.\"\n\n{name} laughs. \"I will, Daeun-ssi.\" Their second conversation lasts one line longer than the first."
+        "result_text": "\"I only told you because it was on promotion.\"\n\nDaeun smiles. \"Still, I'm glad you enjoyed it.\"\n\n{name} thanks her once more and finishes paying. As he opens the door to leave, Daeun says, \"Check the sale tags first next time, {name}.\"\n\n{name} laughs. \"I will, Daeun.\" Their second conversation lasts one line longer than the first."
       }
     ]
   },
@@ -118,7 +118,7 @@
   {
     "id": "v2_sangchul_housing_lead",
     "title": "Looking for a Room",
-    "description": "The first week of April, on a Sinchon side street after the spring rain. {name} opens the door of a small real-estate office to find out whether he can leave the goshiwon.\n\nThe man across the desk places a basement studio listing beside the calculator.\n\n\"Ten million won deposit, five hundred fifty thousand a month. Maintenance is separate.\"\n\nEven the deposit is far beyond what {name} has. As he taps the calculator a few more times, the man quietly watches his fingers, then his worn sneakers.\n\n\"That would be difficult in your situation.\"\n\n{name} pushes back his chair to stand. The man takes out two paper cups.\n\n\"Wait. Just because you can't rent this place doesn't mean I have to send you straight back out. I can at least make you a warm cup of coffee.\"",
+    "description": "Early April, on a Sinchon side street after the spring rain. {name} opens the door of a small real-estate office to find out whether he can leave the goshiwon.\n\nThe man across the desk places a basement studio listing beside the calculator.\n\n\"Ten million won deposit, five hundred fifty thousand a month. Maintenance is separate.\"\n\nEven the deposit is far beyond what {name} has. As he taps the calculator a few more times, the man quietly watches his fingers, then his worn sneakers.\n\n\"That would be difficult in your situation.\"\n\n{name} pushes back his chair to stand. The man takes out two paper cups.\n\n\"Wait. Just because you can't rent this place doesn't mean I have to send you straight back out. I can at least make you a warm cup of coffee.\"",
     "choices": [
       {
         "text": "\"How did you know about my situation?\"",
@@ -148,7 +148,7 @@
   {
     "id": "v2_hanbit_offer_message",
     "title": "An Offer from Hanbit Distribution",
-    "description": "At 11:08 Tuesday morning, a text arrives from Hanbit Distribution's recruiting team.\n\n“Following your first interview, we would like to offer you a contract position in logistics-center operations support. Please let us know by six this evening whether you can start Monday.”\n\n{name} remembers the application he sent in Week 9 and the inventory sheets on the conference-room table in Week 14. The interview result has returned as a single question: Will he show up for work?",
+    "description": "At 11:08 Tuesday morning, a text arrives from Hanbit Distribution's recruiting team.\n\n“Following your first interview, we would like to offer you a contract position in logistics-center operations support. Please let us know by six this evening whether you can start Monday.”\n\n{name} remembers the application he sent in March and the inventory sheets on the conference-room table in April. The interview result has returned as a single question: Will he show up for work?",
     "choices": [
       {
         "text": "\"I can start Monday.\"",
@@ -193,7 +193,7 @@
   {
     "id": "v2_jiyeon_second_crossing",
     "title": "The Main Road Again",
-    "description": "A few weeks later, after the rain, {name} walks the same neighborhood road he took home from the bus stop. Han Jiyeon stands beside her black sedan at the wet curb.\n\n\"Last time, all we did was exchange names.\"\n\nJiyeon points to a cafe across the street.\n\n\"If you have time, have one cup of coffee with me. I won't bring up compensation. I came because I wanted to actually talk to you.\"\n\nThe light changes, and people pass between them. They have no contact information and made no plans. This is an invitation {name} has to answer here.",
+    "description": "A few weeks later, after the rain, {name} walks the same neighborhood road he took home from the bus stop. Han Jiyeon stands beside her black sedan at the wet curb.\n\n\"We never really introduced ourselves last time.\"\n\nJiyeon points to a cafe across the street.\n\n\"If you have time, have one cup of coffee with me. I won't bring up compensation. I came because I wanted to actually talk to you.\"\n\nThe light changes, and people pass between them. They have no contact information and made no plans. This is an invitation {name} has to answer here.",
     "choices": [
       {
         "text": "\"One cup somewhere nearby, then.\"",
@@ -241,8 +241,8 @@
   },
   {
     "id": "v2_father_health_signal",
-    "title": "A Message from Mr. Choi",
-    "description": "At 8:19 Monday morning of Week 21, a message arrives from Mr. Choi, Father's neighbor in Changwon.\n\n“Minjun, your father has come home carrying pharmacy bags a few times lately. I think he has been going to a hospital, but I could not ask what was wrong. You should check in with him.”\n\n{name} calls Father immediately. The phone rings for a long time, but he does not answer. Eleven minutes later, a short text arrives from Father.\n\n“I'm fine, so don't worry about it.”\n\nThere is no way to tell whether Father has actually been visiting a hospital or what was inside the pharmacy bags.",
+    "title": "The Pharmacy Bag",
+    "description": "At 8:19 on Monday morning, June 1, a message arrives from Mr. Choi, Father's neighbor in Changwon.\n\n“Minjun, your father has come home carrying pharmacy bags a few times lately. I think he has been going to a hospital, but I could not ask what was wrong. You should check in with him.”\n\n{name} calls Father immediately. The phone rings for a long time, but he does not answer. Eleven minutes later, a short text arrives from Father.\n\n“I'm fine, so don't worry about it.”\n\nThere is no way to tell whether Father has actually been visiting a hospital or what was inside the pharmacy bags.",
     "choices": [
       {
         "text": "Ask Mr. Choi which hospital it was",
@@ -261,29 +261,29 @@
   {
     "id": "v2_dodam_result_message",
     "title": "Dodam Customer Center Result",
-    "description": "At 10:41 in the morning of Week 22, a text arrives from Dodam Customer Center's recruiting team.\n\n“Thank you for applying. After review, we will not be moving forward with your customer-operations application.”\n\nThe receipt number from the Week-13 application remains at the bottom of the message. No interview was scheduled.",
+    "description": "At 10:41 one morning in the second week of June, a text arrives from Dodam Customer Center's recruiting team.\n\n“Thank you for applying. After review, we will not be moving forward with your customer-operations application.”\n\nThe receipt number from the April application remains at the bottom of the message. No interview was scheduled.",
     "choices": [
       {
         "text": "Check the receipt number and result",
-        "result_text": "{name} confirms that the receipt number in the text matches the one received in Week 13.\n\nThis hiring process ends here. There is no interview date and no further message to answer."
+        "result_text": "{name} confirms that the receipt number in the text matches the one received in April.\n\nThis hiring process ends here. There is no interview date and no further message to answer."
       }
     ]
   },
   {
     "id": "v2_city_service_work_sample_message",
     "title": "City Facilities Work-Sample Request",
-    "description": "At 4:26 Wednesday afternoon of Week 23, a text arrives from City Facilities Operations.\n\n“To support our application review, please submit a sample facilities-inspection worksheet. The deadline is 6:00 p.m. Friday of Week 24.”\n\nThe attachment includes a fictional inspection scenario and a blank form: “Civic gym, basement level one; two emergency lights not working; site recheck required.” The task is to organize it by date, facility, issue status, and action. It is neither an interview notice nor an offer.",
+    "description": "At 4:26 on Wednesday afternoon, June 17, a text arrives from City Facilities Operations.\n\n“To support our application review, please submit a sample facilities-inspection worksheet. The deadline is 6:00 p.m. on Friday, June 26.”\n\nThe attachment includes a fictional inspection scenario and a blank form: “Civic gym, basement level one; two emergency lights not working; site recheck required.” The task is to organize it by date, facility, issue status, and action. It is neither an interview notice nor an offer.",
     "choices": [
       {
         "text": "Confirm the deadline and attachment",
-        "result_text": "{name} checks “6:00 p.m. Friday of Week 24” and the attachment's filename again in the text.\n\nThe worksheet is still blank. Filling it in and sending it back before the deadline remains work not yet done."
+        "result_text": "{name} checks “6:00 p.m. on Friday, June 26” and the attachment's filename again in the text.\n\nThe worksheet is still blank. Filling it in and sending it back before the deadline remains work not yet done."
       }
     ]
   },
   {
     "id": "v2_city_service_result_message",
     "title": "City Facilities Hiring Result",
-    "description": "At 11:06 Monday morning of Week 28, about three weeks after the work sample was sent, a text arrives from City Facilities Operations.\n\n“We reviewed your facilities-inspection worksheet, but we will not be proceeding to an interview for this contract position.”\n\nIt carries the same application number as the receipt text from Week 24. No interview has been scheduled.",
+    "description": "At 11:06 on a Monday morning in late July, several weeks after the work sample was sent, a text arrives from City Facilities Operations.\n\n“We reviewed your facilities-inspection worksheet, but we will not be proceeding to an interview for this contract position.”\n\nIt carries the same application number as the receipt text from June 26. No interview has been scheduled.",
     "choices": [
       {
         "text": "Check the application number and result",
@@ -294,7 +294,7 @@
   {
     "id": "v2_daeun_tuesday_followthrough",
     "title": "The Tuesday They Promised",
-    "description": "At 1:12 Tuesday morning of Week 21, at the time they had agreed on while looking at the wall clock, {name} opens the convenience-store door.\n\nDaeun looks up from the stock she is sorting behind the counter.\n\n“You really came. We said we'd each ask how yesterday went, right?”\n\nThey did not confirm by phone. {name} had said he would come back at the same time, remembered it, and came.",
+    "description": "At 1:12 on Tuesday morning, June 2, at the time they had agreed on while looking at the wall clock, {name} opens the convenience-store door.\n\nDaeun looks up from the stock she is sorting behind the counter.\n\n“You really came. We said we'd each ask how yesterday went, right?”\n\nThey did not confirm by phone. {name} had said he would come back at the same time, remembered it, and came.",
     "choices": [
       {
         "text": "\"How was yesterday, Daeun?\"",
@@ -309,7 +309,7 @@
   {
     "id": "v2_hyunsu_exam_eve",
     "title": "One Last Problem Before the Exam",
-    "description": "At 10:04 Sunday night of Week 23, a Kakao message arrives from Hyunsu.\n\nHyunsu: “Hyung, the exam starts at nine next Saturday morning, and there is one problem I still mix up. Do you have a minute?”\n\nA photo of one administrative-law question follows. Hyunsu waits for an answer after sending it. {name} enlarges the image.",
+    "description": "At 10:04 on Sunday night, June 21, a Kakao message arrives from Hyunsu.\n\nHyunsu: “Hyung, the exam starts at nine next Saturday morning, and there is one problem I still mix up. Do you have a minute?”\n\nA photo of one administrative-law question follows. Hyunsu waits for an answer after sending it. {name} enlarges the image.",
     "choices": [
       {
         "text": "Review only this one problem together",
@@ -324,7 +324,7 @@
   {
     "id": "v2_hyunsu_exam_morning_echo",
     "title": "The Morning the Exam Began",
-    "description": "At 9:12 Saturday morning of Week 24, the exam Hyunsu mentioned has been under way since nine.\n\n{name} opens Kakao, but there is no new message beneath their last conversation. There is nothing to do but wait until the exam ends.",
+    "description": "At 9:12 on Saturday morning, June 27, the exam Hyunsu mentioned has been under way since nine.\n\n{name} opens Kakao, but there is no new message beneath their last conversation. There is nothing to do but wait until the exam ends.",
     "choices": [
       {
         "text": "Send nothing until the exam is over",
@@ -335,7 +335,7 @@
   {
     "id": "v2_dirty_trace_initial_call",
     "title": "An Initial Verification Call",
-    "description": "On Wednesday morning of Week 24, an unknown number calls.\n\n“This is the police cyber investigation team. We need an initial verification concerning an account in your name. Today we only need a few facts and dates when you could appear.”\n\nIn Week 8, {name} returned 1.5 million won of the 2 million won he had received after the bank issued a victim-funds return request. He closed the account and blocked the recruiter. The remaining 500,000 won is still part of the facts.\n\nThis call does not yet state a charge or disposition.",
+    "description": "On Wednesday morning, June 24, an unknown number calls.\n\n“This is the police cyber investigation team. We need an initial verification concerning an account in your name. Today we only need a few facts and dates when you could appear.”\n\nIn late February, {name} returned 1.5 million won of the 2 million won he had received after the bank issued a victim-funds return request. He closed the account and blocked the recruiter. The remaining 500,000 won is still part of the facts.\n\nThis call does not yet state a charge or disposition.",
     "choices": [
       {
         "text": "Give only the facts in the order you remember them",
@@ -350,7 +350,7 @@
   {
     "id": "v2_dirty_recruiter_week24",
     "title": "Another Text from the Recruiter",
-    "description": "On Wednesday morning of Week 24, a text arrives from a new number.\n\n“Three more, same as last time. You can do it, right? Answer today.”\n\nThere is no sender name. After {name} handed over three bankbooks and debit cards in Week 8, names and account numbers in the same format have returned to the screen.\n\nThis message gives neither a payment amount nor a location.",
+    "description": "On Wednesday morning, June 24, a text arrives from a new number.\n\n“Three more, same as last time. You can do it, right? Answer today.”\n\nThere is no sender name. After {name} handed over three bankbooks and debit cards in late February, names and account numbers in the same format have returned to the screen.\n\nThis message gives neither a payment amount nor a location.",
     "choices": [
       {
         "text": "Do not answer; block the number",
@@ -439,7 +439,7 @@
   {
     "id": "v2_demo_first_bill",
     "title": "One Thing to Finish This Week",
-    "description": "At 5:52 Friday afternoon of Week 24, {name} opens the banking app from his room. {cash_position}. This month's fixed costs of {expense} have not been deducted, and any wages due have not arrived yet.\n\nFrom this point on, there is time to take on only one of these. Choosing paperwork means editing and sending it before six; choosing a call or a trip means starting now.\n\n{name} decides on the one thing to finish this week.",
+    "description": "At 5:52 on Friday afternoon, June 26, {name} opens the banking app from his room. {cash_position}. This month's fixed costs of {expense} have not been deducted, and any wages due have not arrived yet.\n\nFrom this point on, there is time to take on only one of these. Choosing paperwork means editing and sending it before six; choosing a call or a trip means starting now.\n\n{name} decides on the one thing to finish this week.",
     "choices": [
       {
         "text": "Call Father again",

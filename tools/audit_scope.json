@@ -87,7 +87,8 @@
       "paths": [
         "content/events/**",
         "content/events_en/**",
-        "content/meta/story_rules.json"
+        "content/meta/story_rules.json",
+        "content/meta/demo_core_loop_v2.json"
       ]
     },
     {
@@ -154,6 +155,9 @@
       "why": "데모 24주 루프 계약",
       "paths": [
         "content/meta/demo_core_loop_v2.json",
+        "content/meta/story_rules.json",
+        "content/events/core_loop_v2_events.json",
+        "content/events_en/core_loop_v2_events.json",
         "systems/DemoCoreLoopV2.gd",
         "scenes/CoreLoopPlanner.gd"
       ]

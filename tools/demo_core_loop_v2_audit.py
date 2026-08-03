@@ -15,6 +15,11 @@ CONTRACT_PATH = ROOT / "content" / "meta" / "demo_core_loop_v2.json"
 NARRATIVE_SPINE_PATH = ROOT / "content" / "meta" / "narrative_spine.json"
 REGISTRY_PATH = ROOT / "autoloads" / "DataRegistry.gd"
 DEMO_CORE_LOOP_PATH = ROOT / "systems" / "DemoCoreLoopV2.gd"
+CORE_V2_EVENTS_PATH = ROOT / "content" / "events" / "core_loop_v2_events.json"
+CORE_V2_EVENTS_EN_PATH = (
+    ROOT / "content" / "events_en" / "core_loop_v2_events.json"
+)
+STORY_RULES_PATH = ROOT / "content" / "meta" / "story_rules.json"
 HANGUL_RE = re.compile(r"[가-힣]")
 
 EXPECTED_TABS = ["status", "calendar", "people", "record"]
@@ -54,6 +59,7 @@ EXPECTED_CONTRACT_ROOT_KEYS = {
     "runtime_default",
     "fallback",
     "scope",
+    "speech_contract",
     "long_arc_contract",
     "future_application_contracts",
     "future_story_contracts",
@@ -921,6 +927,185 @@ def load_registered_events(errors: list[str]) -> dict[str, dict[str, Any]]:
             if isinstance(row, dict) and str(row.get("id", "")):
                 events[str(row["id"])] = row
     return events
+
+
+def validate_demo_speech_contract(
+    contract: dict[str, Any], errors: list[str]
+) -> dict[str, int]:
+    """Keep every new V2 event either speech-owned or explicitly exempt."""
+    summary = {
+        "required": 0,
+        "exempt": 0,
+        "unclassified": 0,
+        "legacy_backfill_required": 0,
+    }
+    raw_contract = contract.get("speech_contract")
+    if not isinstance(raw_contract, dict):
+        fail("speech_contract must be an object", errors)
+        return summary
+    if set(raw_contract) != {"required_events", "exempt_events"}:
+        fail(
+            "speech_contract must contain only required_events and exempt_events",
+            errors,
+        )
+    required_rows = raw_contract.get("required_events")
+    exempt_rows = raw_contract.get("exempt_events")
+    if not isinstance(required_rows, list) or any(
+        not isinstance(value, str) or not value.strip() for value in required_rows
+    ):
+        fail("speech_contract.required_events must be non-empty event ids", errors)
+        required_rows = []
+    if not isinstance(exempt_rows, dict):
+        fail("speech_contract.exempt_events must be an object", errors)
+        exempt_rows = {}
+    required = {str(value) for value in required_rows}
+    exempt = {str(value) for value in exempt_rows}
+    summary["required"] = len(required)
+    summary["exempt"] = len(exempt)
+    if len(required_rows) != len(required):
+        fail("speech_contract.required_events contains duplicates", errors)
+    overlap = required & exempt
+    if overlap:
+        fail(f"speech contract required/exempt overlap {sorted(overlap)}", errors)
+    for event_id, reason in exempt_rows.items():
+        if not str(event_id).strip() or not str(reason).strip():
+            fail(f"speech exemption {event_id!r} needs a written reason", errors)
+
+    try:
+        korean_rows = json.loads(CORE_V2_EVENTS_PATH.read_text(encoding="utf-8"))
+        english_rows = json.loads(
+            CORE_V2_EVENTS_EN_PATH.read_text(encoding="utf-8")
+        )
+        story_ledger = json.loads(STORY_RULES_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        fail(f"cannot load demo speech contract inputs: {exc}", errors)
+        return summary
+    if not isinstance(korean_rows, list) or not isinstance(english_rows, list):
+        fail("Core V2 Korean/English event files must be arrays", errors)
+        return summary
+    korean_by_id = {
+        str(row.get("id", "")): row
+        for row in korean_rows
+        if isinstance(row, dict) and str(row.get("id", ""))
+    }
+    english_by_id = {
+        str(row.get("id", "")): row
+        for row in english_rows
+        if isinstance(row, dict) and str(row.get("id", ""))
+    }
+    if len(korean_by_id) != len(korean_rows):
+        fail("Core V2 Korean events contain a missing or duplicate id", errors)
+    if len(english_by_id) != len(english_rows):
+        fail("Core V2 English events contain a missing or duplicate id", errors)
+    if set(korean_by_id) != set(english_by_id):
+        fail("Core V2 Korean/English event ids differ", errors)
+    core_ids = set(korean_by_id)
+    unclassified = core_ids - required - exempt
+    summary["unclassified"] = len(unclassified)
+    if unclassified:
+        fail(f"Core V2 speech events are unclassified {sorted(unclassified)}", errors)
+    extra = (required | exempt) - core_ids
+    if extra:
+        fail(f"speech contract references non-Core-V2 events {sorted(extra)}", errors)
+    if len(required) != 27 or len(exempt) != 5 or len(core_ids) != 32:
+        fail(
+            "Core V2 speech partition must remain 27 required + 5 exempt = 32; "
+            f"got {len(required)} + {len(exempt)} = {len(core_ids)}",
+            errors,
+        )
+
+    ledger_rules = story_ledger.get("events", {}) \
+        if isinstance(story_ledger, dict) else {}
+    if not isinstance(ledger_rules, dict):
+        fail("story_rules.events must be an object", errors)
+        ledger_rules = {}
+    if int(story_ledger.get("schema_version", 0)) != 3:
+        fail("story_rules schema must be 3 for speech ownership", errors)
+    missing_speech = sorted(
+        event_id
+        for event_id in required
+        if not isinstance(ledger_rules.get(event_id), dict)
+        or not isinstance(ledger_rules[event_id].get("speech"), dict)
+    )
+    if missing_speech:
+        fail(f"required V2 events lack speech contracts {missing_speech}", errors)
+
+    hyunsu_ko = korean_by_id.get("v2_hyunsu_study_followup", {})
+    hyunsu_en = english_by_id.get("v2_hyunsu_study_followup", {})
+    hyunsu_ko_choices = hyunsu_ko.get("choices", []) \
+        if isinstance(hyunsu_ko, dict) else []
+    hyunsu_en_choices = hyunsu_en.get("choices", []) \
+        if isinstance(hyunsu_en, dict) else []
+    if (
+        not isinstance(hyunsu_ko_choices, list)
+        or len(hyunsu_ko_choices) < 2
+        or any(
+            "6월 27일 토요일 오전 9시"
+            not in str(choice.get("result_text", ""))
+            for choice in hyunsu_ko_choices[:2]
+            if isinstance(choice, dict)
+        )
+        or "다음 달 토요일 오전 9시" in json.dumps(hyunsu_ko, ensure_ascii=False)
+        or "24주차 토요일 오전 9시" in json.dumps(hyunsu_ko, ensure_ascii=False)
+    ):
+        fail("Hyunsu study follow-up must name the canonical Week-24 exam", errors)
+    if (
+        not isinstance(hyunsu_en_choices, list)
+        or len(hyunsu_en_choices) < 2
+        or any(
+            "at 9 a.m. on Saturday, June 27"
+            not in str(choice.get("result_text", ""))
+            for choice in hyunsu_en_choices[:2]
+            if isinstance(choice, dict)
+        )
+        or "on a Saturday next month" in json.dumps(hyunsu_en)
+        or "Saturday of Week 24" in json.dumps(hyunsu_en)
+    ):
+        fail("English Hyunsu follow-up must name the canonical Week-24 exam", errors)
+
+    city_ko = korean_by_id.get("v2_city_service_work_sample_message", {})
+    city_en = english_by_id.get("v2_city_service_work_sample_message", {})
+    city_ko_text = json.dumps(city_ko, ensure_ascii=False)
+    city_en_text = json.dumps(city_en, ensure_ascii=False)
+    if (
+        city_ko_text.count("6월 26일 금요일 오후 6시") != 2
+        or "24주차 금요일 오후 6시" in city_ko_text
+    ):
+        fail("City work-sample copy must expose the June 26 calendar deadline", errors)
+    if (
+        city_en_text.count("6:00 p.m. on Friday, June 26") != 2
+        or "Friday of Week 24" in city_en_text
+    ):
+        fail("English City work-sample copy must expose the June 26 deadline", errors)
+    scene_bundles = contract.get("scene_bundles", {})
+    city_bundle = scene_bundles.get("m6_city_service_response", {}) \
+        if isinstance(scene_bundles, dict) else {}
+    if (
+        not isinstance(city_bundle, dict)
+        or city_bundle.get("message_body_ko")
+        != "지원서 검토를 위해 6월 26일 금요일 오후 6시까지 시설 점검 작업표 견본을 제출해 주세요."
+        or city_bundle.get("message_body_en")
+        != "For application review, please submit a sample facilities-inspection worksheet by 6:00 p.m. on Friday, June 26."
+    ):
+        fail("City phone surface must match the authored June 26 deadline", errors)
+
+    sangchul_ko = str(
+        korean_by_id.get("v2_sangchul_housing_lead", {}).get("description", "")
+    )
+    sangchul_en = str(
+        english_by_id.get("v2_sangchul_housing_lead", {}).get("description", "")
+    )
+    if "4월 초" not in sangchul_ko or "4월 첫째 주" in sangchul_ko:
+        fail("Sangchul housing lead must use the Week-13/14-safe 'early April'", errors)
+    if "Early April" not in sangchul_en or "first week of April" in sangchul_en:
+        fail("English Sangchul lead must use 'Early April'", errors)
+    if "-ssi" in json.dumps(english_rows, ensure_ascii=False):
+        fail("Core V2 English prose must not expose Korean '-ssi' translationese", errors)
+    if re.search(r"\d+주차", json.dumps(korean_rows, ensure_ascii=False)):
+        fail("Core V2 story prose must use calendar language, not numeric game weeks", errors)
+    if re.search(r"\bWeek \d+\b", json.dumps(english_rows, ensure_ascii=False)):
+        fail("English Core V2 prose must use calendar language, not game-week labels", errors)
+    return summary
 
 
 def reachable_event_ids(
@@ -2541,6 +2726,7 @@ def main() -> int:
             errors,
         )
     validate_korean_player_copy(contract, errors)
+    speech_summary = validate_demo_speech_contract(contract, errors)
 
     scope = require_dict(contract.get("scope"), "scope", errors)
     long_arc = require_dict(
@@ -3329,6 +3515,15 @@ def main() -> int:
                 "player_initiated": {"daeun"},
                 "applications": {},
             },
+            "daeun_late_meal_only": {
+                "completed": {"daeun_shared_dream"},
+                "stages": {"daeun": "shared_commitment"},
+                "memories": {
+                    ("daeun", "daeun_late_meal_promised"),
+                },
+                "player_initiated": {"daeun"},
+                "applications": {},
+            },
             "both_person_paths": {
                 "completed": {
                     "hyunsu_study_followup",
@@ -3361,6 +3556,7 @@ def main() -> int:
             "hyunsu_followthrough": expected_base | {"hyunsu_exam_eve"},
             "daeun_followthrough": expected_base
             | {"m6_daeun_tuesday_followthrough"},
+            "daeun_late_meal_only": expected_base,
             "both_person_paths": expected_base | conditional_ids,
         }
         minimum = int(surface.get("minimum_offers_per_month", 5))
@@ -5244,6 +5440,10 @@ def main() -> int:
         f"future_stories={len(EXPECTED_FUTURE_STORY_CONTRACTS)} "
         f"post_demo_applications={len(EXPECTED_POST_DEMO_APPLICATION_CONTRACTS)} "
         f"deferred_callbacks={len(EXPECTED_DEFERRED_CALLBACK_CONTRACTS)} "
+        f"speech_required={speech_summary['required']} "
+        f"speech_exempt={speech_summary['exempt']} "
+        f"speech_unclassified={speech_summary['unclassified']} "
+        "legacy_backfill_required=0 "
         f"authored_density={density_summary['authored_vector']} "
         f"practical_density={density_summary['practical_vector']} "
         f"authored_total={density_summary['total_authored']} "

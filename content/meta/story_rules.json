@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "fact_types": {
     "father.life": {
       "type": "enum",
@@ -523,6 +523,22 @@
   },
   "events": {
     "v2_mirae_result_message": {
+      "speech": {
+        "speakers": {
+          "mirae_recruiting": {
+            "register_basis": "Institutional recruiting notice in formal polite language.",
+            "references": [
+              {
+                "fact": "mirae_recruiting.rejection_notice",
+                "source": {
+                  "kind": "self",
+                  "detail": "Mirae recruiting owns and sent the decision shown in this message."
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "message",
         "state": "received",
@@ -536,6 +552,22 @@
       }
     },
     "v2_seorin_result_message": {
+      "speech": {
+        "speakers": {
+          "seorin_recruiting": {
+            "register_basis": "Institutional recruiting notice in formal polite language.",
+            "references": [
+              {
+                "fact": "seorin_recruiting.rejection_notice",
+                "source": {
+                  "kind": "self",
+                  "detail": "Seorin recruiting owns and sent the decision shown in this email."
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "message",
         "state": "received",
@@ -549,6 +581,34 @@
       }
     },
     "v2_hyunsu_player_reachout": {
+      "speech": {
+        "speakers": {
+          "player": {
+            "register_basis": "Minjun speaks casually to the younger next-room neighbor.",
+            "references": [
+              {
+                "fact": "hyunsu.identity_as_next_room_neighbor",
+                "source": {
+                  "kind": "prior_event",
+                  "event_id": "arc_intro_04_hyunsu"
+                }
+              }
+            ]
+          },
+          "hyunsu": {
+            "register_basis": "Hyunsu calls Minjun hyung and otherwise keeps polite speech.",
+            "references": [
+              {
+                "fact": "minjun.study_invitation",
+                "source": {
+                  "kind": "scene_observation",
+                  "detail": "Hyunsu reads Minjun's study invitation in the current Kakao exchange."
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "message",
         "state": "received",
@@ -562,6 +622,36 @@
       }
     },
     "v2_hyunsu_first_study": {
+      "speech": {
+        "speakers": {
+          "player": {
+            "register_basis": "Minjun speaks casually to the younger Hyunsu during their shared study hour.",
+            "references": [
+              {
+                "fact": "hyunsu.accepted_first_study_hour",
+                "source": {
+                  "kind": "prior_choice",
+                  "event_id": "v2_hyunsu_player_reachout",
+                  "choice_index": 0
+                }
+              }
+            ]
+          },
+          "hyunsu": {
+            "register_basis": "Hyunsu keeps polite speech while addressing Minjun as hyung.",
+            "references": [
+              {
+                "fact": "hyunsu.accepted_first_study_hour",
+                "source": {
+                  "kind": "prior_choice",
+                  "event_id": "v2_hyunsu_player_reachout",
+                  "choice_index": 0
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "in_person",
         "scene_location": "goshiwon_shared_kitchen",
@@ -593,6 +683,34 @@
       }
     },
     "v2_hyunsu_study_followup": {
+      "speech": {
+        "speakers": {
+          "player": {
+            "register_basis": "Minjun continues casual speech with the younger Hyunsu.",
+            "references": [
+              {
+                "fact": "hyunsu.first_shared_study_completed",
+                "source": {
+                  "kind": "prior_event",
+                  "event_id": "v2_hyunsu_first_study"
+                }
+              }
+            ]
+          },
+          "hyunsu": {
+            "register_basis": "Hyunsu keeps polite speech and calls Minjun hyung.",
+            "references": [
+              {
+                "fact": "hyunsu.exam_week24_saturday_0900",
+                "source": {
+                  "kind": "self",
+                  "detail": "Hyunsu reads the date and time from his own admission slip."
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "in_person",
         "scene_location": "goshiwon_shared_kitchen",
@@ -604,6 +722,34 @@
       }
     },
     "v2_hanbit_interview": {
+      "speech": {
+        "speakers": {
+          "player": {
+            "register_basis": "Minjun answers an interviewer in formal polite speech.",
+            "references": [
+              {
+                "fact": "hanbit.inventory_discrepancy_184_to_179",
+                "source": {
+                  "kind": "scene_observation",
+                  "detail": "Minjun can see both inventory sheets on the interview table."
+                }
+              }
+            ]
+          },
+          "hanbit_interviewer": {
+            "register_basis": "The interviewer uses neutral institutional polite speech.",
+            "references": [
+              {
+                "fact": "hanbit.week9_application_and_inventory_case",
+                "source": {
+                  "kind": "self",
+                  "detail": "The interviewer owns the application and case sheets used in this interview."
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "in_person",
         "scene_location": "hanbit_distribution_center_meeting_room",
@@ -616,6 +762,36 @@
       }
     },
     "v2_daeun_return_named": {
+      "speech": {
+        "speakers": {
+          "player": {
+            "register_basis": "Minjun and Daeun remain polite acquaintances and use name plus ssi in Korean.",
+            "references": [
+              {
+                "fact": "daeun.names_exchanged_at_first_meeting",
+                "source": {
+                  "kind": "prior_choice",
+                  "event_id": "arc_daeun_01_meet",
+                  "choice_index": 0
+                }
+              }
+            ]
+          },
+          "daeun": {
+            "register_basis": "Daeun warmly keeps polite speech with Minjun at the counter.",
+            "references": [
+              {
+                "fact": "daeun.names_exchanged_at_first_meeting",
+                "source": {
+                  "kind": "prior_choice",
+                  "event_id": "arc_daeun_01_meet",
+                  "choice_index": 0
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "in_person",
         "scene_location": "convenience_store",
@@ -632,6 +808,36 @@
       }
     },
     "v2_daeun_return_after_distance": {
+      "speech": {
+        "speakers": {
+          "player": {
+            "register_basis": "Minjun uses polite speech because he and Daeun have not yet exchanged names.",
+            "references": [
+              {
+                "fact": "daeun.first_meeting_ended_without_names",
+                "source": {
+                  "kind": "prior_choice",
+                  "event_id": "arc_daeun_01_meet",
+                  "choice_index": 1
+                }
+              }
+            ]
+          },
+          "daeun": {
+            "register_basis": "Daeun uses clerk-customer polite speech before introducing herself.",
+            "references": [
+              {
+                "fact": "daeun.first_meeting_ended_without_names",
+                "source": {
+                  "kind": "prior_choice",
+                  "event_id": "arc_daeun_01_meet",
+                  "choice_index": 1
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "in_person",
         "scene_location": "convenience_store",
@@ -648,6 +854,41 @@
       }
     },
     "v2_sangchul_housing_lead": {
+      "speech": {
+        "speakers": {
+          "player": {
+            "register_basis": "Minjun uses polite speech with an older real-estate agent he has just met.",
+            "references": [
+              {
+                "fact": "sangchul.basement_room_terms",
+                "source": {
+                  "kind": "scene_observation",
+                  "detail": "Minjun reads the listing and hears its terms across the desk."
+                }
+              }
+            ]
+          },
+          "sangchul": {
+            "register_basis": "Sangchul begins in professional polite speech and softens without claiming intimacy.",
+            "references": [
+              {
+                "fact": "sangchul.basement_room_terms",
+                "source": {
+                  "kind": "self",
+                  "detail": "Sangchul is the agent presenting this listing and its terms."
+                }
+              },
+              {
+                "fact": "minjun.cannot_afford_the_deposit",
+                "source": {
+                  "kind": "scene_observation",
+                  "detail": "Sangchul watches Minjun recalculate the deposit and get up to leave."
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "in_person",
         "scene_location": "realestate_office",
@@ -660,6 +901,34 @@
       }
     },
     "v2_jaehyuk_message": {
+      "speech": {
+        "speakers": {
+          "player": {
+            "register_basis": "Minjun uses casual speech with a same-age former military friend.",
+            "references": [
+              {
+                "fact": "jaehyuk.shared_military_service_with_minjun",
+                "source": {
+                  "kind": "self",
+                  "detail": "Minjun personally remembers serving in the same unit as Jaehyuk."
+                }
+              }
+            ]
+          },
+          "jaehyuk": {
+            "register_basis": "Jaehyuk resumes the casual speech of same-age military friends.",
+            "references": [
+              {
+                "fact": "jaehyuk.shared_military_service_with_minjun",
+                "source": {
+                  "kind": "self",
+                  "detail": "Jaehyuk personally remembers serving in the same unit as Minjun."
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "message",
         "state": "received",
@@ -673,6 +942,34 @@
       }
     },
     "v2_hanbit_offer_message": {
+      "speech": {
+        "speakers": {
+          "player": {
+            "register_basis": "Minjun replies to a hiring team in formal polite language.",
+            "references": [
+              {
+                "fact": "hanbit.first_interview_completed",
+                "source": {
+                  "kind": "prior_event",
+                  "event_id": "v2_hanbit_interview"
+                }
+              }
+            ]
+          },
+          "hanbit_recruiting": {
+            "register_basis": "The hiring team uses formal institutional message language.",
+            "references": [
+              {
+                "fact": "hanbit.contract_offer_and_start_date",
+                "source": {
+                  "kind": "self",
+                  "detail": "Hanbit recruiting owns the offer decision, reply deadline, and start date."
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "message",
         "state": "received",
@@ -686,6 +983,34 @@
       }
     },
     "v2_daeun_small_commitment": {
+      "speech": {
+        "speakers": {
+          "player": {
+            "register_basis": "Minjun keeps warm polite speech with Daeun after learning her name.",
+            "references": [
+              {
+                "fact": "daeun.names_known_after_return",
+                "source": {
+                  "kind": "prior_event",
+                  "event_id": "v2_daeun_return_named"
+                }
+              }
+            ]
+          },
+          "daeun": {
+            "register_basis": "Daeun keeps warm polite speech and uses Minjun's name at the counter.",
+            "references": [
+              {
+                "fact": "daeun.names_known_after_return",
+                "source": {
+                  "kind": "prior_event",
+                  "event_id": "v2_daeun_return_named"
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "in_person",
         "scene_location": "convenience_store",
@@ -702,6 +1027,34 @@
       }
     },
     "v2_daeun_third_greeting": {
+      "speech": {
+        "speakers": {
+          "player": {
+            "register_basis": "Minjun keeps polite speech while extending a still-new acquaintance.",
+            "references": [
+              {
+                "fact": "daeun.names_exchanged_on_return",
+                "source": {
+                  "kind": "prior_event",
+                  "event_id": "v2_daeun_return_after_distance"
+                }
+              }
+            ]
+          },
+          "daeun": {
+            "register_basis": "Daeun keeps polite speech with a familiar customer whose name she now knows.",
+            "references": [
+              {
+                "fact": "daeun.names_exchanged_on_return",
+                "source": {
+                  "kind": "prior_event",
+                  "event_id": "v2_daeun_return_after_distance"
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "in_person",
         "scene_location": "convenience_store",
@@ -718,6 +1071,34 @@
       }
     },
     "v2_jiyeon_second_crossing": {
+      "speech": {
+        "speakers": {
+          "player": {
+            "register_basis": "Minjun keeps polite speech with Jiyeon at their second unplanned meeting.",
+            "references": [
+              {
+                "fact": "jiyeon.incomplete_introduction_at_bus_stop",
+                "source": {
+                  "kind": "prior_event",
+                  "event_id": "arc_jiyeon_02_store"
+                }
+              }
+            ]
+          },
+          "jiyeon": {
+            "register_basis": "Jiyeon keeps direct but polite speech before the relationship becomes close.",
+            "references": [
+              {
+                "fact": "jiyeon.incomplete_introduction_at_bus_stop",
+                "source": {
+                  "kind": "prior_event",
+                  "event_id": "arc_jiyeon_02_store"
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "in_person",
         "scene_location": "sinchon_neighborhood_main_road",
@@ -734,6 +1115,34 @@
       }
     },
     "v2_sangchul_demo_echo": {
+      "speech": {
+        "speakers": {
+          "player": {
+            "register_basis": "Minjun keeps polite speech with the older Sangchul while asking for guidance.",
+            "references": [
+              {
+                "fact": "sangchul.business_card_received",
+                "source": {
+                  "kind": "prior_event",
+                  "event_id": "arc_sangchul_01_answer"
+                }
+              }
+            ]
+          },
+          "sangchul": {
+            "register_basis": "Sangchul mixes mentor-like directness with polite sentence endings.",
+            "references": [
+              {
+                "fact": "sangchul.business_card_given_to_minjun",
+                "source": {
+                  "kind": "prior_event",
+                  "event_id": "arc_sangchul_01_answer"
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "in_person",
         "scene_location": "realestate_office",
@@ -746,6 +1155,34 @@
       }
     },
     "v2_jaehyuk_plain_reunion_echo": {
+      "speech": {
+        "speakers": {
+          "player": {
+            "register_basis": "Minjun uses casual speech with his same-age former military friend.",
+            "references": [
+              {
+                "fact": "jaehyuk.kakao_reconnection",
+                "source": {
+                  "kind": "prior_event",
+                  "event_id": "v2_jaehyuk_message"
+                }
+              }
+            ]
+          },
+          "jaehyuk": {
+            "register_basis": "Jaehyuk uses easy casual speech grounded in their military friendship.",
+            "references": [
+              {
+                "fact": "jaehyuk.kakao_reconnection",
+                "source": {
+                  "kind": "prior_event",
+                  "event_id": "v2_jaehyuk_message"
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "in_person",
         "scene_location": "sinchon_pojangmacha",
@@ -2772,12 +3209,53 @@
           ]
         }
       },
+      "speech": {
+        "speakers": {
+          "neighbor_choi": {
+            "register_basis": "The older neighbor uses familiar elder-to-younger speech while urging Minjun to call home.",
+            "references": [
+              {
+                "fact": "father.repeated_pharmacy_bag_sightings",
+                "source": {
+                  "kind": "self",
+                  "detail": "Mr. Choi personally saw Father return with a pharmacy bag twice."
+                }
+              }
+            ]
+          },
+          "player": {
+            "register_basis": "Minjun answers the older neighbor in polite speech.",
+            "references": [
+              {
+                "fact": "father.repeated_pharmacy_bag_sightings",
+                "source": {
+                  "kind": "scene_observation",
+                  "detail": "Minjun learns only what Mr. Choi reports in the current message exchange."
+                }
+              }
+            ]
+          },
+          "father": {
+            "register_basis": "Father uses clipped familiar speech with his adult son and withholds the health details Minjun asks about.",
+            "references": [
+              {
+                "fact": "father.dismisses_health_concern_without_details",
+                "source": {
+                  "kind": "self",
+                  "detail": "Father knows his own condition but chooses to send only a dismissive reply."
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "message",
         "state": "received",
         "scene_location": "current_housing",
         "remote_location": "changwon",
         "remote_actor": "neighbor_choi",
+        "participants": ["player", "neighbor_choi", "father"],
         "portrait_role": "none",
         "nameplate_role": "hidden",
         "expected_background": "current_housing",
@@ -2785,6 +3263,22 @@
       }
     },
     "v2_dodam_result_message": {
+      "speech": {
+        "speakers": {
+          "dodam_recruiting": {
+            "register_basis": "Institutional recruiting notice in formal polite language.",
+            "references": [
+              {
+                "fact": "dodam_recruiting.rejection_notice",
+                "source": {
+                  "kind": "self",
+                  "detail": "Dodam recruiting owns and sent the application decision."
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "message",
         "state": "received",
@@ -2798,6 +3292,22 @@
       }
     },
     "v2_city_service_work_sample_message": {
+      "speech": {
+        "speakers": {
+          "city_facilities_recruiting": {
+            "register_basis": "The hiring team uses formal task-request language with an exact deadline.",
+            "references": [
+              {
+                "fact": "city_facilities.work_sample_request_and_deadline",
+                "source": {
+                  "kind": "self",
+                  "detail": "City Facilities recruiting owns the requested task and submission deadline."
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "message",
         "state": "received",
@@ -2821,6 +3331,30 @@
           ]
         }
       },
+      "speech": {
+        "speakers": {
+          "city_facilities_recruiting": {
+            "register_basis": "The hiring team uses formal institutional rejection language.",
+            "references": [
+              {
+                "fact": "city_facilities.work_sample_submitted",
+                "source": {
+                  "kind": "prior_choice",
+                  "event_id": "v2_demo_first_bill",
+                  "choice_index": 2
+                }
+              },
+              {
+                "fact": "city_facilities.no_interview_decision",
+                "source": {
+                  "kind": "self",
+                  "detail": "City Facilities recruiting owns the decision not to proceed to an interview."
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "message",
         "state": "received",
@@ -2834,6 +3368,36 @@
       }
     },
     "v2_daeun_tuesday_followthrough": {
+      "speech": {
+        "speakers": {
+          "player": {
+            "register_basis": "Minjun and Daeun keep warm polite speech while honoring a small promise.",
+            "references": [
+              {
+                "fact": "daeun.same_tuesday_checkin_promised",
+                "source": {
+                  "kind": "prior_choice",
+                  "event_id": "v2_daeun_small_commitment",
+                  "choice_index": 0
+                }
+              }
+            ]
+          },
+          "daeun": {
+            "register_basis": "Daeun keeps warm polite speech and recognizes the promised Tuesday return.",
+            "references": [
+              {
+                "fact": "daeun.same_tuesday_checkin_promised",
+                "source": {
+                  "kind": "prior_choice",
+                  "event_id": "v2_daeun_small_commitment",
+                  "choice_index": 0
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "in_person",
         "scene_location": "convenience_store",
@@ -2853,6 +3417,34 @@
       }
     },
     "v2_hyunsu_exam_eve": {
+      "speech": {
+        "speakers": {
+          "player": {
+            "register_basis": "Minjun speaks casually but protectively to the younger Hyunsu.",
+            "references": [
+              {
+                "fact": "hyunsu.exam_week24_saturday_0900",
+                "source": {
+                  "kind": "prior_event",
+                  "event_id": "v2_hyunsu_study_followup"
+                }
+              }
+            ]
+          },
+          "hyunsu": {
+            "register_basis": "Hyunsu calls Minjun hyung and keeps polite speech even while anxious.",
+            "references": [
+              {
+                "fact": "hyunsu.exam_week24_saturday_0900",
+                "source": {
+                  "kind": "self",
+                  "detail": "Hyunsu knows the schedule printed on his own admission slip."
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "message",
         "state": "received",
@@ -2876,6 +3468,29 @@
           ]
         }
       },
+      "speech": {
+        "speakers": {
+          "player": {
+            "register_basis": "Close third-person internal narration stays restrained and factual around Hyunsu's exam.",
+            "references": [
+              {
+                "fact": "hyunsu.exam_week24_saturday_0900",
+                "source": {
+                  "kind": "prior_event",
+                  "event_id": "v2_hyunsu_study_followup"
+                }
+              },
+              {
+                "fact": "hyunsu.no_new_message_during_exam",
+                "source": {
+                  "kind": "scene_observation",
+                  "detail": "Minjun sees that the Kakao thread has no new message after the exam starts."
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "internal",
         "scene_location": "current_housing",
@@ -2895,6 +3510,35 @@
           "requires_flags": [
             "escaped_dirty_money"
           ]
+        }
+      },
+      "speech": {
+        "speakers": {
+          "player": {
+            "register_basis": "Minjun answers an investigator in careful formal polite speech.",
+            "references": [
+              {
+                "fact": "dirty_account.returned_1500000_and_closed_account",
+                "source": {
+                  "kind": "prior_choice",
+                  "event_id": "arc_temptation_fallout",
+                  "choice_index": 0
+                }
+              }
+            ]
+          },
+          "police_investigator": {
+            "register_basis": "The investigator uses procedural formal polite speech without implying a verdict.",
+            "references": [
+              {
+                "fact": "dirty_account.initial_fact_check_required",
+                "source": {
+                  "kind": "self",
+                  "detail": "The investigator is reading the current case's initial-contact procedure."
+                }
+              }
+            ]
+          }
         }
       },
       "presentation": {
@@ -2917,6 +3561,23 @@
           ]
         }
       },
+      "speech": {
+        "speakers": {
+          "dirty_account_recruiter": {
+            "register_basis": "The anonymous recruiter uses terse transactional familiarity without naming himself.",
+            "references": [
+              {
+                "fact": "dirty_account.three_sets_previously_transferred",
+                "source": {
+                  "kind": "prior_choice",
+                  "event_id": "arc_temptation_fallout",
+                  "choice_index": 1
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "message",
         "state": "received",
@@ -2930,6 +3591,22 @@
       }
     },
     "v2_gangnam_receipt_walk": {
+      "speech": {
+        "speakers": {
+          "player": {
+            "register_basis": "Close third-person internal narration treats aspiration as a concrete spending decision.",
+            "references": [
+              {
+                "fact": "gangnam.coffee_price_and_current_bank_balance",
+                "source": {
+                  "kind": "scene_observation",
+                  "detail": "Minjun sees the cafe price board and his bank-app balance in the current scene."
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "internal",
         "scene_location": "gangnam_station_street",
@@ -2944,6 +3621,42 @@
       }
     },
     "v2_demo_first_bill": {
+      "speech": {
+        "speakers": {
+          "player": {
+            "register_basis": "Close third-person internal narration weighs one concrete Week 24 obligation at a time.",
+            "references": [
+              {
+                "fact": "minjun.current_cash_and_fixed_costs",
+                "source": {
+                  "kind": "scene_observation",
+                  "detail": "Minjun reads the current cash position and pending fixed costs in his bank app."
+                }
+              },
+              {
+                "fact": "minjun.current_week24_obligations",
+                "source": {
+                  "kind": "self",
+                  "detail": "The available choices are Minjun's own current commitments and needs."
+                }
+              }
+            ]
+          },
+          "father": {
+            "register_basis": "Father answers his adult son in clipped familiar speech and redirects concern away from himself.",
+            "choice_indices": [0],
+            "references": [
+              {
+                "fact": "father.answers_minjun_but_withholds_diagnosis",
+                "source": {
+                  "kind": "self",
+                  "detail": "Father owns the decision to answer this call and not disclose a diagnosis."
+                }
+              }
+            ]
+          }
+        }
+      },
       "presentation": {
         "channel": "internal",
         "scene_location": "current_housing",

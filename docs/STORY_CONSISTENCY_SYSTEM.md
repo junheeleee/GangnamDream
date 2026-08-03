@@ -69,6 +69,60 @@ contract, and scene-audio manifest. A customer scanning the register, a company
 manager visiting an unemployed save, or a Korean restaurant showing a cafe must
 fail before playtest.
 
+### Speaker-owned knowledge and register
+
+New 1–24 week authored dialogue and message events declare `speech.speakers` in
+their event rule. Knowledge belongs to the person who says it; a shared
+`speech.references` bucket is forbidden because it cannot prove which character
+knows the fact.
+
+```json
+{
+  "speech": {
+    "speakers": {
+      "daeun": {
+        "register_basis": "Daeun keeps polite speech with Minjun in the demo.",
+        "references": [
+          {
+            "fact": "Daeun remembers Minjun's name",
+            "source": {
+              "kind": "prior_choice",
+              "event_id": "arc_daeun_01_meet",
+              "choice_index": 0
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+```
+
+Allowed sources are the speaker's own fact, a public fact, something physically
+observed in the current scene, a prior event, or one exact prior choice. Prior
+event and choice sources must exist and cannot occur only after the speaking
+event. Every speaker also states a non-empty `register_basis`; this points to the
+character/relationship voice rule and is not a generic honorific table.
+
+If a person speaks only inside one choice result, that speaker declares the exact
+zero-based `choice_indices`. This keeps the base scene's location and channel
+honest while still proving a phone answer or reply that exists only after one
+decision. A remote event that contains more than one actual sender lists every
+speaker in `presentation.participants`; `remote_actor` remains the primary sender
+that owns the surface and portrait contract.
+
+Scheduler facts may keep stable week numbers, but character-facing dialogue,
+messages, admission slips, and scene prose use the calendar language people in
+the world would use. A fact such as `exam_week24_saturday_0900` can therefore own
+the route while the visible slip says `June 27, 9:00 a.m.` Numeric labels such as
+`Week 24` belong to the planner and debug surfaces, not authored story prose.
+
+The first ratchet covers all 32 events in `core_loop_v2_events.json`: 27 with
+authored speech or message payload require this contract, while five solo action
+bridges are explicitly exempt with written reasons. It does not force the other
+1,565 events into a guessed backfill. Any new event in this V2 file must be
+classified before the audit passes.
+
 ## Contract Layers
 
 ### Typed facts

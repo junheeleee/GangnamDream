@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 EVENT_DIR = ROOT / "content" / "events"
 EVENT_EN_DIR = ROOT / "content" / "events_en"
 RULES_PATH = ROOT / "content" / "meta" / "story_rules.json"
+DEMO_CONTRACT_PATH = ROOT / "content" / "meta" / "demo_core_loop_v2.json"
 JOBS_PATH = ROOT / "content" / "jobs.json"
 VISUAL_CONTRACTS_PATH = ROOT / "assets" / "event_visual_contracts.json"
 SCENE_AUDIO_PATH = ROOT / "assets" / "scene_audio_manifest.json"
@@ -87,6 +88,16 @@ TRANSITION_KEYS = {
     "to_location",
     "arrival_cue_ko",
     "arrival_cue_en",
+}
+SPEECH_KEYS = {"speakers"}
+SPEAKER_KEYS = {"register_basis", "references", "choice_indices"}
+SPEECH_REFERENCE_KEYS = {"fact", "source"}
+SPEECH_SOURCE_KINDS = {
+    "self",
+    "public",
+    "scene_observation",
+    "prior_event",
+    "prior_choice",
 }
 
 
@@ -258,6 +269,285 @@ def validate_prerequisite_clause(
             errors.append(f"{owner}: unknown job ids {unknown_jobs}")
 
 
+def build_demo_event_weeks(
+    events: dict[str, dict[str, Any]], errors: list[str]
+) -> dict[str, set[int]]:
+    """Map V2 authored events to every demo week that can expose them."""
+    try:
+        contract = load_json(DEMO_CONTRACT_PATH)
+    except RuntimeError as exc:
+        errors.append(str(exc))
+        return {}
+    if not isinstance(contract, dict):
+        errors.append("content/meta/demo_core_loop_v2.json: root must be an object")
+        return {}
+    bundles = contract.get("scene_bundles", {})
+    if not isinstance(bundles, dict):
+        errors.append("demo_core_loop_v2.scene_bundles must be an object")
+        return {}
+
+    event_weeks: dict[str, set[int]] = {}
+
+    def add_chain(root_id: str, weeks: set[int]) -> None:
+        pending = [root_id]
+        seen: set[str] = set()
+        while pending:
+            current = pending.pop()
+            if not current or current in seen:
+                continue
+            seen.add(current)
+            if weeks:
+                event_weeks.setdefault(current, set()).update(weeks)
+            event = events.get(current, {})
+            choices = event.get("choices", []) if isinstance(event, dict) else []
+            if not isinstance(choices, list):
+                continue
+            for choice in choices:
+                if not isinstance(choice, dict):
+                    continue
+                follow_up = str(choice.get("follow_up_event", "")).strip()
+                if follow_up:
+                    pending.append(follow_up)
+
+    for raw_bundle in bundles.values():
+        if not isinstance(raw_bundle, dict):
+            continue
+        weeks = {
+            int(week)
+            for week in raw_bundle.get("allowed_weeks", [])
+            if isinstance(week, (int, float)) and not isinstance(week, bool)
+        }
+        for root_id in raw_bundle.get("existing_roots", []):
+            add_chain(str(root_id), weeks)
+
+    for raw_contract in contract.get("future_application_contracts", {}).values():
+        if not isinstance(raw_contract, dict):
+            continue
+        weeks = {
+            int(week)
+            for week in raw_contract.get("allowed_weeks", [])
+            if isinstance(week, (int, float)) and not isinstance(week, bool)
+        }
+        event_id = str(raw_contract.get("result_event", "")).strip()
+        if event_id and weeks:
+            event_weeks.setdefault(event_id, set()).update(weeks)
+    for raw_contract in contract.get("future_story_contracts", {}).values():
+        if not isinstance(raw_contract, dict):
+            continue
+        trigger = str(raw_contract.get("trigger_event", "")).strip()
+        exam_week = raw_contract.get("exam_week")
+        if trigger and isinstance(exam_week, (int, float)):
+            event_weeks.setdefault(trigger, set()).add(int(exam_week))
+        result = str(raw_contract.get("result_event", "")).strip()
+        result_week = raw_contract.get("result_available_week")
+        if result and isinstance(result_week, (int, float)):
+            event_weeks.setdefault(result, set()).add(int(result_week))
+    for raw_contract in contract.get("post_demo_application_contracts", {}).values():
+        if not isinstance(raw_contract, dict):
+            continue
+        result = str(raw_contract.get("result_event", "")).strip()
+        result_week = raw_contract.get("not_before_week")
+        if result and isinstance(result_week, (int, float)):
+            event_weeks.setdefault(result, set()).add(int(result_week))
+    return event_weeks
+
+
+def validate_speech_contract(
+    event_id: str,
+    speech: Any,
+    presentation: Any,
+    events: dict[str, dict[str, Any]],
+    event_weeks: dict[str, set[int]],
+    errors: list[str],
+) -> tuple[int, int, int, int, int]:
+    """Validate speaker-owned knowledge and return reference error counters."""
+    owner = f"events.{event_id}.speech"
+    common_references = 0
+    producerless = 0
+    unreachable = 0
+    reference_count = 0
+    choice_scoped_speakers = 0
+    if not isinstance(speech, dict):
+        errors.append(f"{owner}: must be an object")
+        return (
+            reference_count,
+            producerless,
+            common_references,
+            unreachable,
+            choice_scoped_speakers,
+        )
+    if "references" in speech:
+        common_references += 1
+        errors.append(f"{owner}: common references are forbidden; assign them to a speaker")
+    unknown_speech = set(speech) - SPEECH_KEYS
+    if unknown_speech:
+        errors.append(f"{owner}: unknown keys {sorted(unknown_speech)}")
+    speakers = speech.get("speakers")
+    if not isinstance(speakers, dict) or not speakers:
+        errors.append(f"{owner}.speakers: must be a non-empty object")
+        return (
+            reference_count,
+            producerless,
+            common_references,
+            unreachable,
+            choice_scoped_speakers,
+        )
+
+    presentation_dict = presentation if isinstance(presentation, dict) else {}
+    participants = presentation_dict.get("participants", [])
+    allowed_speakers = {
+        str(value) for value in participants
+    } if isinstance(participants, list) else set()
+    if str(presentation_dict.get("channel", "")) in REMOTE_CHANNELS:
+        allowed_speakers.add("player")
+        remote_actor = str(presentation_dict.get("remote_actor", "")).strip()
+        if remote_actor:
+            allowed_speakers.add(remote_actor)
+    event_choices = events.get(event_id, {}).get("choices", [])
+    if not isinstance(event_choices, list):
+        event_choices = []
+
+    for raw_speaker_id, raw_spec in speakers.items():
+        speaker_id = str(raw_speaker_id).strip()
+        speaker_owner = f"{owner}.speakers.{speaker_id or '<empty>'}"
+        if not speaker_id:
+            errors.append(f"{speaker_owner}: speaker id is required")
+        if not isinstance(raw_spec, dict):
+            errors.append(f"{speaker_owner}: must be an object")
+            continue
+        unknown_spec = set(raw_spec) - SPEAKER_KEYS
+        if unknown_spec:
+            errors.append(f"{speaker_owner}: unknown keys {sorted(unknown_spec)}")
+        if not str(raw_spec.get("register_basis", "")).strip():
+            errors.append(f"{speaker_owner}.register_basis: must not be empty")
+        raw_choice_indices = raw_spec.get("choice_indices")
+        choice_indices: list[int] = []
+        if raw_choice_indices is not None:
+            if (
+                not isinstance(raw_choice_indices, list)
+                or not raw_choice_indices
+                or any(
+                    not isinstance(index, int) or isinstance(index, bool)
+                    for index in raw_choice_indices
+                )
+            ):
+                errors.append(
+                    f"{speaker_owner}.choice_indices: must be a non-empty integer array"
+                )
+            else:
+                choice_indices = [int(index) for index in raw_choice_indices]
+                if len(choice_indices) != len(set(choice_indices)):
+                    errors.append(
+                        f"{speaker_owner}.choice_indices: duplicate choice indices"
+                    )
+                invalid_indices = sorted(
+                    index
+                    for index in choice_indices
+                    if index < 0 or index >= len(event_choices)
+                )
+                if invalid_indices:
+                    errors.append(
+                        f"{speaker_owner}.choice_indices: invalid indices "
+                        f"{invalid_indices} for {event_id}"
+                    )
+                else:
+                    choice_scoped_speakers += 1
+        if speaker_id and speaker_id not in allowed_speakers and not choice_indices:
+            errors.append(
+                f"{speaker_owner}: speaker is not present in the base presentation "
+                "and has no choice-result scope; "
+                f"allowed={sorted(allowed_speakers)}"
+            )
+        references = raw_spec.get("references")
+        if not isinstance(references, list) or not references:
+            errors.append(f"{speaker_owner}.references: must be a non-empty array")
+            continue
+        seen_facts: set[str] = set()
+        for index, raw_reference in enumerate(references):
+            ref_owner = f"{speaker_owner}.references[{index}]"
+            reference_count += 1
+            if not isinstance(raw_reference, dict):
+                errors.append(f"{ref_owner}: must be an object")
+                continue
+            unknown_reference = set(raw_reference) - SPEECH_REFERENCE_KEYS
+            if unknown_reference:
+                errors.append(f"{ref_owner}: unknown keys {sorted(unknown_reference)}")
+            fact = str(raw_reference.get("fact", "")).strip()
+            if not fact:
+                errors.append(f"{ref_owner}.fact: must not be empty")
+            elif fact in seen_facts:
+                errors.append(f"{ref_owner}.fact: duplicate speaker fact {fact!r}")
+            seen_facts.add(fact)
+            source = raw_reference.get("source")
+            if not isinstance(source, dict):
+                producerless += 1
+                errors.append(f"{ref_owner}.source: must be an object")
+                continue
+            kind = str(source.get("kind", "")).strip()
+            if kind not in SPEECH_SOURCE_KINDS:
+                producerless += 1
+                errors.append(f"{ref_owner}.source: invalid kind {kind!r}")
+                continue
+            if kind in {"self", "public", "scene_observation"}:
+                allowed_keys = {"kind", "detail"}
+                if set(source) - allowed_keys:
+                    errors.append(
+                        f"{ref_owner}.source: unknown keys "
+                        f"{sorted(set(source) - allowed_keys)}"
+                    )
+                if not str(source.get("detail", "")).strip():
+                    producerless += 1
+                    errors.append(f"{ref_owner}.source.detail: must not be empty")
+                continue
+
+            allowed_keys = {"kind", "event_id", "detail"}
+            if kind == "prior_choice":
+                allowed_keys.add("choice_index")
+            unknown_source = set(source) - allowed_keys
+            if unknown_source:
+                errors.append(f"{ref_owner}.source: unknown keys {sorted(unknown_source)}")
+            source_event_id = str(source.get("event_id", "")).strip()
+            source_event = events.get(source_event_id)
+            if not source_event_id or source_event is None:
+                producerless += 1
+                errors.append(f"{ref_owner}.source: missing event {source_event_id!r}")
+                continue
+            if source_event_id == event_id:
+                unreachable += 1
+                errors.append(f"{ref_owner}.source: prior source cannot be the current event")
+            if kind == "prior_choice":
+                choice_index = source.get("choice_index")
+                choices = source_event.get("choices", [])
+                if (
+                    not isinstance(choice_index, int)
+                    or isinstance(choice_index, bool)
+                    or not isinstance(choices, list)
+                    or choice_index < 0
+                    or choice_index >= len(choices)
+                ):
+                    producerless += 1
+                    errors.append(
+                        f"{ref_owner}.source: invalid choice_index {choice_index!r} "
+                        f"for {source_event_id}"
+                    )
+            source_weeks = event_weeks.get(source_event_id, set())
+            target_weeks = event_weeks.get(event_id, set())
+            if source_weeks and target_weeks and min(source_weeks) > max(target_weeks):
+                unreachable += 1
+                errors.append(
+                    f"{ref_owner}.source: {source_event_id} weeks "
+                    f"{sorted(source_weeks)} occur after {event_id} weeks "
+                    f"{sorted(target_weeks)}"
+                )
+    return (
+        reference_count,
+        producerless,
+        common_references,
+        unreachable,
+        choice_scoped_speakers,
+    )
+
+
 def main() -> int:
     errors: list[str] = []
     events, event_errors = load_events()
@@ -266,8 +556,8 @@ def main() -> int:
     if not isinstance(ledger, dict):
         print("STORY_CONSISTENCY_AUDIT_FAIL ledger root must be an object")
         return 1
-    if int(ledger.get("schema_version", 0)) != 2:
-        errors.append("schema_version must be 2")
+    if int(ledger.get("schema_version", 0)) != 3:
+        errors.append("schema_version must be 3")
 
     fact_types = ledger.get("fact_types", {})
     fact_values: dict[str, set[str]] = {}
@@ -346,6 +636,13 @@ def main() -> int:
     remote_contracts = 0
     logic_contracts = 0
     dynamic_location_contracts = 0
+    speech_contracts = 0
+    speaker_references = 0
+    speech_producerless = 0
+    speech_common_references = 0
+    speech_unreachable = 0
+    speech_choice_scoped = 0
+    demo_event_weeks = build_demo_event_weeks(events, errors)
     for event_id, rule in rules.items():
         owner = f"events.{event_id}"
         event = events.get(str(event_id))
@@ -355,7 +652,7 @@ def main() -> int:
         if not isinstance(rule, dict):
             errors.append(f"{owner}: rule must be an object")
             continue
-        unknown_rule_keys = set(rule) - {"logic", "presentation"}
+        unknown_rule_keys = set(rule) - {"logic", "presentation", "speech"}
         if unknown_rule_keys:
             errors.append(f"{owner}: unknown keys {sorted(unknown_rule_keys)}")
 
@@ -635,6 +932,31 @@ def main() -> int:
                 elif channel == "narration" and portrait_role != "none":
                     errors.append(f"{owner}.presentation: narration must use portrait_role none")
 
+        speech = rule.get("speech")
+        if speech is not None:
+            speech_contracts += 1
+            (
+                reference_count,
+                producerless,
+                common_references,
+                unreachable,
+                choice_scoped,
+            ) = (
+                validate_speech_contract(
+                    str(event_id),
+                    speech,
+                    presentation,
+                    events,
+                    demo_event_weeks,
+                    errors,
+                )
+            )
+            speaker_references += reference_count
+            speech_producerless += producerless
+            speech_common_references += common_references
+            speech_unreachable += unreachable
+            speech_choice_scoped += choice_scoped
+
         choices = event.get("choices", [])
         if isinstance(choices, list):
             for choice_index, choice in enumerate(choices):
@@ -769,6 +1091,11 @@ def main() -> int:
         "STORY_CONSISTENCY_AUDIT_OK "
         f"events={len(events)} ledger={len(rules)} ({ledger_percent:.1f}%) "
         f"logic={logic_contracts} remote={remote_contracts} "
+        f"speech={speech_contracts} speaker_references={speaker_references} "
+        f"choice_scoped_speakers={speech_choice_scoped} "
+        f"producerless={speech_producerless} "
+        f"common_references={speech_common_references} "
+        f"unreachable={speech_unreachable} "
         f"dynamic_locations={dynamic_location_contracts} "
         f"transitions={validated_transition_contracts} unauthorized_demo_jumps=0 "
         f"exclusive_groups={len(normalized_groups)} unclassified={len(unclassified_suspects)}"

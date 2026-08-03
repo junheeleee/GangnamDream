@@ -7,7 +7,7 @@
 > 전 구간 선택 그래프를 대화형으로 보려면:
 > `python3 tools/project_dashboard.py` → `build/project_dashboard.html`
 >
-> 생성 시각 · 커밋: `2026-08-03 14:29 UTC · 52130f02`
+> 생성 시각 · 커밋: `2026-08-03 15:26 UTC · f295a8cd`
 
 **개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.
 플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.
@@ -70,7 +70,6 @@
 
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
-| `ORDER-74` | 신규 데모 지식·화자 계약 | 진행 | 완료된 UI 분리를 보존하며 27개 대화의 지식·화자 계약을 재개 |
 | `ORDER-75` | 24주 데모 전용 T1 정점 | 미착수 | 기존 8방향 선택/영수증 보존, 한 번 진입하는 깊은 피날레·표현 선택·전용 자산 |
 
 ## 다섯 장 — 무엇을 열고 무엇을 닫는가
@@ -460,11 +459,11 @@ flowchart TD
 
 </details>
 
-<details><summary><b>최씨 아저씨의 메시지</b> — 1링크 · 선택점 1 (<code>v2_father_health_signal</code>)</summary>
+<details><summary><b>약국 봉투</b> — 1링크 · 선택점 1 (<code>v2_father_health_signal</code>)</summary>
 
 ```mermaid
 flowchart TD
-  v2_father_health_signal["최씨 아저씨의 메시지"]
+  v2_father_health_signal["약국 봉투"]
 ```
 
 </details>

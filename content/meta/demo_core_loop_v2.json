@@ -13,6 +13,44 @@
     "target_play_minutes": [75, 95],
     "target_play_minutes_basis": "pre_playtest_estimate"
   },
+  "speech_contract": {
+    "required_events": [
+      "v2_mirae_result_message",
+      "v2_seorin_result_message",
+      "v2_hyunsu_player_reachout",
+      "v2_hyunsu_first_study",
+      "v2_hyunsu_study_followup",
+      "v2_hanbit_interview",
+      "v2_daeun_return_named",
+      "v2_daeun_return_after_distance",
+      "v2_sangchul_housing_lead",
+      "v2_jaehyuk_message",
+      "v2_hanbit_offer_message",
+      "v2_daeun_small_commitment",
+      "v2_daeun_third_greeting",
+      "v2_jiyeon_second_crossing",
+      "v2_sangchul_demo_echo",
+      "v2_jaehyuk_plain_reunion_echo",
+      "v2_father_health_signal",
+      "v2_dodam_result_message",
+      "v2_city_service_work_sample_message",
+      "v2_city_service_result_message",
+      "v2_daeun_tuesday_followthrough",
+      "v2_hyunsu_exam_eve",
+      "v2_hyunsu_exam_morning_echo",
+      "v2_dirty_trace_initial_call",
+      "v2_dirty_recruiter_week24",
+      "v2_gangnam_receipt_walk",
+      "v2_demo_first_bill"
+    ],
+    "exempt_events": {
+      "v2_convenience_trial_shift": "solo action bridge without authored speaker exchange or message payload",
+      "v2_inventory_count_nights": "solo action bridge without authored speaker exchange or message payload",
+      "v2_logistics_class_session": "solo action bridge without authored speaker exchange or message payload",
+      "v2_moving_crew_days": "solo action bridge without authored speaker exchange or message payload",
+      "v2_empty_sunday": "solo recovery bridge without authored speaker exchange or message payload"
+    }
+  },
   "long_arc_contract": {
     "demo_role": "chapter_one_first_half",
     "chapter_one_end_week": 48,
@@ -2831,8 +2869,8 @@
       "phone_surface": "inbound_message",
       "message_sender_ko": "도시시설운영단 채용팀",
       "message_sender_en": "City Facilities Recruiting",
-      "message_body_ko": "지원서 검토를 위해 24주차 금요일 오후 6시까지 시설 점검 작업표 견본을 제출해 주세요.",
-      "message_body_en": "For application review, please submit a sample facilities-inspection worksheet by 6:00 p.m. Friday of Week 24.",
+      "message_body_ko": "지원서 검토를 위해 6월 26일 금요일 오후 6시까지 시설 점검 작업표 견본을 제출해 주세요.",
+      "message_body_en": "For application review, please submit a sample facilities-inspection worksheet by 6:00 p.m. on Friday, June 26.",
       "prerequisites": {
         "all": [
           {

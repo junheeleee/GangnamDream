@@ -1504,6 +1504,25 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	await _save(prefix + "10_planner_read_only", 0.05)
 	await _dispose_main_game()
 
+	# Render the story copy governed by the V2 speech contract, not only the
+	# planner shell. These frames expose long KO/EN dates, remote speakers, and
+	# the choice-result dialogue at the smallest supported viewport.
+	await _shot_story_event(
+		"v2_jiyeon_second_crossing", prefix + "11_jiyeon_incomplete_intro",
+		lang, 0.45, true, false, -1, 1)
+	await _shot_story_event(
+		"v2_father_health_signal", prefix + "12_father_second_sender",
+		lang, 0.45, true, false, -1, 3)
+	await _shot_story_event(
+		"v2_city_service_work_sample_message", prefix + "13_city_calendar_deadline",
+		lang, 0.45, true, false, -1, 2)
+	await _shot_story_event(
+		"v2_hyunsu_study_followup", prefix + "14_hyunsu_calendar_exam",
+		lang, 0.45, true, true, 0, 0, false, 1)
+	await _shot_story_event(
+		"v2_demo_first_bill", prefix + "15_first_bill_father_reply",
+		lang, 0.45, true, true, 0, 0, false, 2)
+
 func _seed_core_loop_v2_month_three_density(core_loop: Variant) -> bool:
 	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
 	var completed: Array = state.get("completed_bundles", [])
