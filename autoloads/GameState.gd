@@ -180,8 +180,8 @@ var forgone_path_debts: Dictionary = {}
 # Core Loop V2는 8주 사람 GO 전까지 명시적 테스트 런에서만 사용한다.
 # 한 사전 안에 일정·놓친 길·관계 단계를 묶어 기존 저장과 역호환한다.
 var core_loop_v2_state: Dictionary = {}
-# 휴대폰은 기기 소유권과 구매 당시 영수증만 저장한다. 현재 날짜·잔액·
-# 대출·시세·관계는 각 정본에서 실시간으로 읽으며 이 사전에 복제하지 않는다.
+# 휴대폰은 기종이나 앱 상태를 저장하지 않는다. 이 사전은 폐기된 기종 구매를
+# schema 3에서 한 번 정산했다는 이관 원장만 소유한다.
 var phone_state: Dictionary = {}
 # 인물별 연락 기록 — 리캡 카드의 "잔인한 통계"용 원장 (person_id → 횟수 / 마지막 턴)
 var contact_counts: Dictionary = {}
@@ -3076,11 +3076,17 @@ func load_from_dict(data):
 		core_loop_v2_state = {}
 	else:
 		core_loop_v2_state = core_loop_v2_state.duplicate(true)
-	# 구버전·손상 저장은 시작폰으로 안전하게 이관한다. PhoneSystem 정규화는
-	# 기기 소유권·구매 영수증 외의 동적 GameState 미러와 알 수 없는 키를
-	# 모두 제거한다.
-	phone_state = PHONE_SYSTEM.normalized_state(
-		phone_state if data.has("phone_state") else {})
+	# 폐기된 schema-2 기종 구매는 실제 런타임이 만들 수 있었던 리퍼폰
+	# 18만 원 영수증 한 건에 한해 환불한다. schema 3에는 정산 완료가 저장되므로
+	# 직후 저장을 다시 불러와도 돈이 두 번 늘지 않는다. 손상·위조 영수증과
+	# 알 수 없는 키는 정산 없이 제거한다.
+	var phone_migration: Dictionary = PHONE_SYSTEM.migration_result(
+		phone_state if data.has("phone_state") else {}, turn)
+	phone_state = (phone_migration.get(
+		"state", PHONE_SYSTEM.default_state()) as Dictionary).duplicate(true)
+	var legacy_phone_refund := float(phone_migration.get("refund_amount", 0.0))
+	if legacy_phone_refund > 0.0:
+		money += legacy_phone_refund
 	if not data.has("run_seen_scenes_by_year") or typeof(run_seen_scenes_by_year) != TYPE_DICTIONARY:
 		run_seen_scenes_by_year = {}
 	if not data.has("year_scenes") or typeof(year_scenes) != TYPE_DICTIONARY:

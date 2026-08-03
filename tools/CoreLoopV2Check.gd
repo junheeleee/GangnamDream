@@ -3,7 +3,6 @@ extends Node
 
 const CORE_LOOP := preload("res://systems/DemoCoreLoopV2.gd")
 const PLANNER := preload("res://scenes/CoreLoopPlanner.gd")
-const PHONE_SYSTEM := preload("res://systems/PhoneSystem.gd")
 
 var _failures: Array[String] = []
 
@@ -24,7 +23,6 @@ func _ready() -> void:
 	_check_branch_resolution()
 	_check_prototype_completion_boundary()
 	await _check_planner_surface()
-	await _check_phone_save_owner_boundary()
 	await _stop_test_audio()
 	LocaleManager.language = original_language
 	AudioManager.sfx_enabled = original_sfx_enabled
@@ -37,9 +35,9 @@ func _ready() -> void:
 			+ "relationship=choice_only/monotonic summary=ack/save "
 			+ "followup=restored save=roundtrip "
 			+ "boundary=week12_continues/week24_cap "
-			+ "phone=home5/status/calendar_cancel+secondary/contacts/bank/device_preview+state_signal/read_only_reopen "
-			+ "phone_save=owner/fail_visible/retry/roundtrip/screenshot_zero "
-			+ "planner=1280x720_focus_scroll "
+			+ "planner=wide4tabs/4weeks/status+people+record/two_step/read_only "
+			+ "planner_input=west_remove/east_safe/shoulders/p-north "
+			+ "planner_layout=1280x800/960x600 communication=separate_signal "
 			+ "en_hangul=0 hidden_scores=0")
 		get_tree().quit(0)
 		return
@@ -620,136 +618,134 @@ func _check_planner_surface() -> void:
 	GameState.start_new_game()
 	CORE_LOOP.initialize_for_run(true)
 	LocaleManager.language = "en"
-	GameState.money = 432_100.0
+	GameState.money = -310_000.0
+
 	var planner = PLANNER.new()
-	var phone_state_change_reasons: Array[String] = []
-	planner.phone_state_changed.connect(func(reason: String) -> void:
-		phone_state_change_reasons.append(reason))
+	var commits: Array[Dictionary] = []
+	var communication_requests: Array[String] = []
+	var close_receipts: Array[bool] = []
+	planner.plan_committed.connect(func(
+			month_index: int, schedule: Dictionary,
+			routines: Dictionary) -> void:
+		commits.append({
+			"month": month_index,
+			"schedule": schedule.duplicate(true),
+			"routines": routines.duplicate(true),
+		}))
+	planner.communication_requested.connect(func(bundle_id: String) -> void:
+		communication_requests.append(bundle_id))
+	planner.planner_closed.connect(func() -> void:
+		close_receipts.append(true))
 	add_child(planner)
 	planner.set_anchors_preset(Control.PRESET_TOP_LEFT)
 	planner.position = Vector2.ZERO
-	planner.size = Vector2(1280, 720)
-	planner.open(1)
-	await get_tree().create_timer(0.50).timeout
-	LocaleManager.language = "ko"
-	GameState.player_name = "박서준"
-	var custom_name_ko := planner._phone_message_body(
-		CORE_LOOP.bundle("jaehyuk_world_meet"))
-	LocaleManager.language = "en"
-	GameState.player_name = "Alex Park"
-	var custom_name_en := planner._phone_message_body(
-		CORE_LOOP.bundle("jaehyuk_world_meet"))
-	_expect(custom_name_ko.find("박서준") >= 0 \
-			and custom_name_ko.find("민준") < 0 \
-			and custom_name_en.find("Alex Park") >= 0 \
-			and custom_name_en.find("Minjun") < 0,
-		"received-message preview did not use the saved custom player name")
-	GameState.player_name = LocaleManager.DEFAULT_NAME_EN
-	_expect(planner.visible, "planner did not open")
-	_expect(planner._screen_mode == "home" \
-			and planner._active_app_id.is_empty(),
-		"opening the phone did not start on its home screen")
-	var essential_apps := [
-		"messages", "calendar", "contacts", "bank", "device"]
-	var essential_apps_visible: bool = planner._app_buttons.size() == 5
-	for app_id in essential_apps:
-		essential_apps_visible = essential_apps_visible \
-			and planner._app_buttons.has(app_id)
-	_expect(essential_apps_visible,
-		"phone home did not expose exactly the five essential apps")
-	_expect(is_instance_valid(planner._phone_legacy_nav) \
-			and planner._phone_legacy_nav.visible \
-			and planner._phone_legacy_nav.get_child_count() == 3 \
-			and not planner._phone_gesture_bar.visible,
-		"old starter phone did not expose its three-button navigation")
-	var physical_keys_are_transparent := true
-	var expected_physical_keys := ["menu", "home", "back"]
-	for key_index in range(3):
-		var physical_key := planner._phone_legacy_nav.get_child(key_index) as Button
-		physical_keys_are_transparent = physical_keys_are_transparent \
-			and is_instance_valid(physical_key) \
-			and physical_key.text.is_empty() \
-			and str(physical_key.get_meta("physical_key", "")) \
-				== expected_physical_keys[key_index]
-	_expect(physical_keys_are_transparent,
-		"starter phone duplicated software glyphs over its physical keys")
-	planner._open_app("calendar")
-	var legacy_home := planner._phone_legacy_nav.get_child(1) as Button
-	if is_instance_valid(legacy_home):
-		legacy_home.pressed.emit()
-	_expect(is_instance_valid(legacy_home) \
-			and planner._screen_mode == "home" \
-			and planner._active_app_id.is_empty(),
-		"starter phone Home hardware action did not return to the launcher")
-	_expect(planner._status_date_label.text == GameState.get_date_string(),
-		"phone status bar date did not read the live calendar")
-	_expect(planner._status_network_label.text == "LTE" \
-			and "09:41" not in _collect_surface_text(planner),
-		"phone status bar did not read as a handset network surface")
-	_expect(GameState.format_money(GameState.money) in planner._page_label.text,
-		"phone home did not expose the live balance outside the status bar")
-	var frame_rect := Rect2(
-		planner._phone_frame.position, planner._phone_frame.size)
-	var frame_end := frame_rect.position + frame_rect.size
-	_expect(is_instance_valid(planner._phone_frame) \
-			and frame_rect.position.x >= 0.0 \
-			and frame_rect.position.y >= 0.0 \
-			and frame_end.x <= 1280.0 \
-			and frame_end.y <= 720.0 \
-			and frame_rect.size.x > 0.0 \
-			and frame_rect.size.y > 0.0,
-		"physical phone frame escaped the 1280x720 viewport")
-	var lcd_size: Vector2 = planner._phone_lcd_clip.size
-	var starter_tile: Button = planner._app_buttons.get("messages")
-	_expect(absf(float(planner._phone_frame_aspect)
-				- 1672.0 / 940.0) < 0.001 \
-			and lcd_size.y > 0.0 \
-			and absf(lcd_size.x / lcd_size.y - 16.0 / 9.0) < 0.03 \
-			and not planner._phone_wallpaper_photo.visible \
-			and planner._phone_lcd_haze.color.a > 0.0 \
-			and is_instance_valid(starter_tile) \
-			and int(starter_tile.get_meta("phone_icon_size", 0)) == 56 \
-			and int(starter_tile.get_meta("phone_icon_radius", 0)) == 8,
-		"starter phone lost its small 16:9 LCD or angular legacy launcher")
+	planner.size = Vector2(1280, 800)
+	_expect(planner.open(1), "wide planner did not open month one")
+	await get_tree().create_timer(0.35).timeout
+	# LocaleManager loads the saved setting on a deferred first frame. Pin EN
+	# after that handoff so a clean QA HOME cannot turn the fixture back to KO.
+	LocaleManager.set_language("en")
+	await get_tree().process_frame
 
-	var surface_samples: Array[String] = [
-		_collect_surface_text(planner)]
-	planner._open_app("messages")
-	var message_grid: Node = planner._read_only_surface.get_child(1) \
-		if planner._read_only_surface.get_child_count() > 1 else null
-	var first_thread: Button = (
-		(message_grid as GridContainer).get_child(0) as Button
-		if message_grid is GridContainer \
-			and (message_grid as GridContainer).get_child_count() > 0 else null
-	)
-	_expect(is_instance_valid(first_thread),
-		"Messages did not expose focusable conversation rows")
-	if is_instance_valid(first_thread):
-		first_thread.pressed.emit()
-	_expect(planner._screen_mode == "message_thread" \
-			and planner._active_app_id == "messages" \
-			and not planner._message_thread_body.is_empty(),
-		"pressing a message did not open its bubble conversation")
-	var editable_thread_text := _collect_surface_text(planner)
-	_expect(editable_thread_text.find("ADD TO CALENDAR") >= 0 \
-			and editable_thread_text.find("CHOOSE A DATE") < 0,
-		"received-message action implied that a fixed appointment "
-		+ "still needed a new date")
-	planner._go_back_one_level()
-	planner._go_back_one_level()
-	_expect(planner._screen_mode == "home",
-		"message thread Back stack did not return to phone home")
-	planner._open_app("calendar")
-	_expect(planner._screen_mode == "app" \
-			and planner._active_app_id == "calendar",
-		"Calendar app did not open from the phone home")
-	_expect(planner._slot_buttons.size() == 4,
-		"planner did not render four week slots")
-	_expect(is_instance_valid(planner._app_scroll) \
-			and planner._app_scroll.horizontal_scroll_mode \
+	_expect(planner.visible and planner._active_tab == 1,
+		"wide planner did not start on Calendar")
+	_expect(planner._tab_buttons.size() == 4 \
+			and planner._tab_buttons[0].text == "OVERVIEW" \
+			and planner._tab_buttons[1].text == "CALENDAR" \
+			and planner._tab_buttons[2].text == "PEOPLE" \
+			and planner._tab_buttons[3].text == "RECORD",
+		"wide planner did not expose the four canonical tabs")
+	_expect(planner._slot_buttons.size() == 4 \
+			and planner._offer_buttons.size() == 6,
+		"wide planner did not expose four weeks and six month-one options")
+	_expect(planner._offer_scroll.follow_focus \
+			and planner._calendar_scroll.follow_focus \
+			and planner._offer_scroll.horizontal_scroll_mode \
 				== ScrollContainer.SCROLL_MODE_DISABLED \
-			and planner._app_scroll.follow_focus,
-		"planner lost its focus-following vertical app viewport")
+			and planner._calendar_scroll.horizontal_scroll_mode \
+				== ScrollContainer.SCROLL_MODE_DISABLED,
+		"wide planner lost controller focus-following vertical scroll")
+	_expect(planner._page_margin.get_theme_constant("margin_left") == 42 \
+			and planner._calendar_scroll.custom_minimum_size.x >= 419.0,
+		"1280x800 planner did not preserve its wide margins or four-week column")
+	var wide_offer_rect: Rect2 = planner._offer_scroll.get_global_rect()
+	var wide_week_rect: Rect2 = planner._calendar_scroll.get_global_rect()
+	var wide_planner_rect: Rect2 = planner.get_global_rect()
+	var wide_week_end := wide_week_rect.position + wide_week_rect.size
+	var wide_planner_end := wide_planner_rect.position + wide_planner_rect.size
+	_expect(wide_offer_rect.position.x < wide_week_rect.position.x \
+			and wide_week_rect.size.x >= 400.0 \
+			and wide_week_end.x <= wide_planner_end.x + 0.5 \
+			and wide_week_end.y <= wide_planner_end.y + 0.5,
+		"wide planner columns escaped or overlapped the 1280x800 surface")
+
+	var surface_samples: Array[String] = []
+	planner._switch_tab(0)
+	await get_tree().process_frame
+	var status_text := _collect_surface_text(planner)
+	surface_samples.append(status_text)
+	_expect(status_text.find("CURRENT DATE") >= 0 \
+			and status_text.find("ACCOUNT BALANCE") >= 0 \
+			and status_text.find("NEXT FIXED COST") >= 0 \
+			and status_text.find("ARREARS") >= 0 \
+			and status_text.find(GameState.format_money(310_000.0)) >= 0,
+		"Overview did not expose date, balance, fixed cost, and arrears clearly")
+	for retired_label in [
+		"DEVICE", "PURCHASE PHONE", "FAVORITE APP", "STARTER PHONE",
+		"REFURBISHED PHONE",
+	]:
+		_expect(status_text.find(retired_label) < 0,
+			"Overview leaked retired phone ownership UI: %s" % retired_label)
+
+	planner._switch_tab(2)
+	await get_tree().process_frame
+	var initial_people := _collect_surface_text(planner)
+	surface_samples.append(initial_people)
+	_expect(initial_people.find("Father") >= 0,
+		"People did not show Father's already-saved number")
+	for hidden_name in ["Hyunsu", "Kim Daeun", "Han Jiyeon"]:
+		_expect(initial_people.find(hidden_name) < 0,
+			"People revealed an unmet or unnamed person: %s" % hidden_name)
+
+	var planning_state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	var state: Dictionary = planning_state.duplicate(true)
+	state["completed_bundles"] = ["hyunsu_first_meet"]
+	state["relationship_stages"] = {
+		"hyunsu": "opening",
+		"daeun": "opening",
+		"jiyeon": "opening",
+	}
+	state["relationship_memories"] = [{
+		"character": "hyunsu",
+		"memory": "hyunsu_honest_uncertainty",
+	}]
+	GameState.core_loop_v2_state = state
+	planner._switch_tab(2)
+	await get_tree().process_frame
+	var earned_people := _collect_surface_text(planner)
+	surface_samples.append(earned_people)
+	_expect(earned_people.find("Hyunsu") >= 0 \
+			and earned_people.find("KAKAOTALK THREAD") >= 0,
+		"People did not preserve Hyunsu's earned contact")
+	_expect(earned_people.find("24-Hour Store Night Clerk") >= 0 \
+			and earned_people.find("Kim Daeun") < 0 \
+			and earned_people.find("Black-Sedan Driver") >= 0 \
+			and earned_people.find("Han Jiyeon") < 0,
+		"People revealed Daeun or Jiyeon's name before name exchange")
+	var memories: Array = state.get("relationship_memories", [])
+	memories.append({
+		"character": "daeun",
+		"memory": "daeun_name_exchanged",
+	})
+	state["relationship_memories"] = memories
+	GameState.core_loop_v2_state = state
+	planner._switch_tab(2)
+	await get_tree().process_frame
+	_expect(_collect_surface_text(planner).find("Kim Daeun") >= 0,
+		"People did not remember Daeun's name after the authored exchange")
+
+	GameState.core_loop_v2_state = planning_state
+	planner._switch_tab(1)
 	_expect(planner.assign_offer_to_week("m1_mirae_application", 1),
 		"planner could not schedule the application")
 	_expect(planner.assign_offer_to_week("father_first_call", 2),
@@ -757,155 +753,93 @@ func _check_planner_surface() -> void:
 	_expect(planner.assign_offer_to_week("hyunsu_first_meet", 3),
 		"planner could not schedule the Hyunsu meeting")
 	_expect(not planner.unassign_week(4),
-		"planner allowed the fixed boss week to be removed")
-	var scheduled_before_cancel: Dictionary = planner.schedule_snapshot()
-	var cancel_event := InputEventAction.new()
-	cancel_event.action = "ui_cancel"
-	cancel_event.pressed = true
-	planner._unhandled_input(cancel_event)
-	_expect(planner._screen_mode == "home" \
-			and planner._active_app_id.is_empty(),
-		"East/ui_cancel did not return Calendar to phone home")
-	_expect(planner.schedule_snapshot() == scheduled_before_cancel,
-		"East/ui_cancel changed the calendar schedule")
+		"planner allowed the fixed week-four event to be removed")
+	var schedule_before_east: Dictionary = planner.schedule_snapshot()
+	var east_event := InputEventAction.new()
+	east_event.action = "ui_cancel"
+	east_event.pressed = true
+	planner._unhandled_input(east_event)
+	_expect(planner.visible \
+			and planner.schedule_snapshot() == schedule_before_east,
+		"East changed or closed the required editable monthly plan")
 
-	planner._open_app("calendar")
 	planner._select_week(2)
-	var secondary_event := InputEventAction.new()
-	secondary_event.action = "gd_secondary"
-	secondary_event.pressed = true
-	planner._unhandled_input(secondary_event)
+	var west_event := InputEventAction.new()
+	west_event.action = "gd_secondary"
+	west_event.pressed = true
+	planner._unhandled_input(west_event)
 	_expect(not planner.schedule_snapshot().has("2") \
-			and planner._screen_mode == "app" \
-			and planner._active_app_id == "calendar",
-		"West/secondary did not remove only the selected calendar week")
+			and planner.visible and planner._active_tab == 1,
+		"West did not remove only the selected non-fixed week")
 	_expect(planner.assign_offer_to_week("father_first_call", 2),
-		"planner could not restore the week removed by West/secondary")
+		"planner could not restore the week removed with West")
+	_expect(planner.select_routine("primary", "growth") \
+			and planner.select_routine("secondary", "livelihood"),
+		"planner could not choose two distinct weekly routines")
 	var schedule: Dictionary = planner.schedule_snapshot()
 	_expect(schedule.size() == 4 \
 			and str(schedule.get("4", "")) == "first_temptation_boss",
-		"planner did not preserve its fixed fourth week")
+		"planner did not preserve all four weeks and the fixed boss event")
 
-	surface_samples.append(_collect_surface_text(planner))
-	planner._open_app("contacts")
-	var initial_contacts := _collect_surface_text(planner)
-	surface_samples.append(initial_contacts)
-	_expect(initial_contacts.find("Father") >= 0,
-		"Contacts did not show Father's saved number")
-	for hidden_name in ["Kim Daeun", "Han Jiyeon", "Hyunsu"]:
-		_expect(initial_contacts.find(hidden_name) < 0,
-			"Contacts revealed an unmet person: %s" % hidden_name)
+	planner._switch_tab(3)
+	await get_tree().process_frame
+	var record_text := _collect_surface_text(planner)
+	surface_samples.append(record_text)
+	_expect(record_text.find("THIS MONTH'S PLAN") >= 0 \
+			and record_text.find("TWO THINGS TO KEEP UP EACH WEEK") >= 0 \
+			and record_text.find("OPTIONS LEFT OUT") >= 0,
+		"Record did not explain routines, scheduled work, and options left out")
+	planner._switch_tab(1)
+	planner._communication_button.pressed.emit()
+	_expect(communication_requests.size() == 1 \
+			and communication_requests[0] == planner._selected_offer_id \
+			and planner.visible,
+		"planner did not request the separate communication phone without closing")
+	var p_event := InputEventKey.new()
+	p_event.keycode = KEY_P
+	p_event.physical_keycode = KEY_P
+	p_event.pressed = true
+	get_viewport().push_input(p_event)
+	await get_tree().process_frame
+	var north_event := InputEventJoypadButton.new()
+	north_event.button_index = JOY_BUTTON_Y
+	north_event.pressed = true
+	get_viewport().push_input(north_event)
+	await get_tree().process_frame
+	_expect(communication_requests.size() == 3 \
+			and planner.visible,
+		"P/North did not open the separate communication phone from the planner")
 
-	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
-	var completed: Array = state.get("completed_bundles", [])
-	if not completed.has("hyunsu_first_meet"):
-		completed.append("hyunsu_first_meet")
-	state["completed_bundles"] = completed
-	var stages: Dictionary = state.get("relationship_stages", {})
-	stages["hyunsu"] = "opening"
-	state["relationship_stages"] = stages
-	var memories: Array = state.get("relationship_memories", [])
-	memories.append({
-		"character": "hyunsu",
-		"memory": "hyunsu_honest_uncertainty",
-	})
-	state["relationship_memories"] = memories
-	GameState.core_loop_v2_state = state
-	GameState.turn = 5
-	GameState.month = 2
-	GameState.week_of_month = 1
-	planner.open(2)
-	planner._open_app("contacts")
-	var unlocked_contacts := _collect_surface_text(planner)
-	surface_samples.append(unlocked_contacts)
-	_expect(unlocked_contacts.find("Hyunsu") >= 0 \
-			and unlocked_contacts.find("MAKE TIME TO REACH OUT") >= 0 \
-			and planner._contact_number_known("hyunsu") \
-			and planner._contact_topic_bundle("hyunsu") \
-				== "hyunsu_player_reachout",
-		"Hyunsu's earned number did not expose the authored message offer")
-	planner._focus_contact_offer("hyunsu_player_reachout")
-	_expect(planner._screen_mode == "app" \
-			and planner._active_app_id == "calendar" \
-			and planner._selected_offer_id == "hyunsu_player_reachout",
-		"Hyunsu's contact action did not route to its authored Calendar offer")
+	var planner_validation: Dictionary = CORE_LOOP.validate_plan(
+		1, planner.schedule_snapshot(), planner.routine_snapshot())
+	_expect(bool(planner_validation.get("ok", false)),
+		"planner fixture was not valid before review: %s" % planner_validation)
+	planner._commit_plan()
+	await get_tree().process_frame
+	_expect(planner.review_pending() and planner._active_tab == 3 \
+			and commits.is_empty(),
+		"first confirmation skipped the explicit review step")
+	var review_text := _collect_surface_text(planner)
+	surface_samples.append(review_text)
+	_expect(review_text.find("REVIEW PLAN") >= 0 \
+			and review_text.find("OPTIONS LEFT OUT") >= 0,
+		"review step did not disclose the plan and forgone options")
+	planner._commit_plan()
+	_expect(commits.size() == 1 \
+			and int(commits[0].get("month", 0)) == 1,
+		"second confirmation did not emit exactly one immutable plan payload")
+	if commits.is_empty():
+		planner.queue_free()
+		await get_tree().process_frame
+		return
 
-	GameState.money = -310_000.0
-	planner._open_app("bank")
-	var bank_text := _collect_surface_text(planner)
-	surface_samples.append(bank_text)
-	_expect(bank_text.find(GameState.format_money(0.0)) >= 0 \
-			and bank_text.to_lower().find("arrears") >= 0 \
-			and bank_text.find(GameState.format_money(310_000.0)) >= 0 \
-			and bank_text.find(GameState.format_money(-310_000.0)) < 0,
-		"Bank app did not separate zero available cash from live arrears")
-
-	GameState.money = 500_000.0
-	GameState.turn = 12
-	planner._open_app("device")
-	var week_twelve_device_text := _collect_surface_text(planner)
-	surface_samples.append(week_twelve_device_text)
-	var locked_refurbished: Button = planner._device_buttons.get("refurbished")
-	_expect(is_instance_valid(locked_refurbished) \
-			and locked_refurbished.disabled \
-			and week_twelve_device_text.find("Available from week 13") >= 0,
-		"Device app did not keep the refurbished phone locked in week 12")
-
-	GameState.turn = 13
-	planner._open_app("device")
-	var available_refurbished: Button = planner._device_buttons.get("refurbished")
-	var money_before_preview := float(GameState.money)
-	var phone_before_preview: Dictionary = GameState.phone_state.duplicate(true)
-	_expect(is_instance_valid(available_refurbished) \
-			and not available_refurbished.disabled,
-		"refurbished phone was not available in week 13 with enough cash")
-	if is_instance_valid(available_refurbished) \
-			and not available_refurbished.disabled:
-		available_refurbished.pressed.emit()
-	var device_preview_text := _collect_surface_text(planner)
-	surface_samples.append(device_preview_text)
-	_expect(planner._screen_mode == "device_confirm" \
-			and planner._pending_device_id == "refurbished" \
-			and is_instance_valid(planner._device_confirm_button),
-		"first device action did not open the second-step purchase preview")
-	_expect(device_preview_text.find(GameState.format_money(180_000.0)) >= 0 \
-			and device_preview_text.find(GameState.format_money(320_000.0)) >= 0,
-		"device preview did not show the exact price and balance after")
-	_expect(is_equal_approx(float(GameState.money), money_before_preview) \
-			and GameState.phone_state == phone_before_preview,
-		"device purchase preview changed money or phone ownership")
-	planner._unhandled_input(cancel_event)
-	_expect(planner._screen_mode == "app" \
-			and planner._active_app_id == "device" \
-			and is_equal_approx(float(GameState.money), money_before_preview) \
-			and GameState.phone_state == phone_before_preview \
-			and phone_state_change_reasons.is_empty(),
-		"East/ui_cancel did not leave the unpurchased device preview unchanged")
-	var confirmed_refurbished: Button = planner._device_buttons.get(
-		"refurbished")
-	if is_instance_valid(confirmed_refurbished):
-		confirmed_refurbished.pressed.emit()
-	if is_instance_valid(planner._device_confirm_button):
-		planner._device_confirm_button.pressed.emit()
-	_expect(is_equal_approx(float(GameState.money), 320_000.0) \
-			and str(PHONE_SYSTEM.current_device().get("id", "")) \
-				== "refurbished" \
-			and phone_state_change_reasons == ["device_purchase"],
-		"confirmed device purchase did not emit one durable state-change signal")
-	if is_instance_valid(planner._favorite_cycle_button):
-		planner._favorite_cycle_button.pressed.emit()
-	_expect(PHONE_SYSTEM.favorite_app_id() == "messages" \
-			and phone_state_change_reasons \
-				== ["device_purchase", "home_favorite"],
-		"home favorite did not emit one durable state-change signal")
-
-	GameState.turn = 1
-	GameState.month = 1
-	GameState.week_of_month = 1
+	var commit_payload: Dictionary = commits[0]
 	var committed := CORE_LOOP.commit_plan(
-		1, schedule, planner.routine_snapshot())
+		1,
+		commit_payload.get("schedule", {}) as Dictionary,
+		commit_payload.get("routines", {}) as Dictionary)
 	_expect(bool(committed.get("ok", false)),
-		"read-only phone fixture could not commit its month")
+		"planner payload could not be committed by its MainGame owner")
 	var committed_schedule: Dictionary = (
 		CORE_LOOP.plan_for_month(1).get("schedule", {}) as Dictionary
 	).duplicate(true)
@@ -915,148 +849,62 @@ func _check_planner_surface() -> void:
 	_expect(planner.open(1, true) and planner.read_only_plan() \
 			and planner.schedule_snapshot() == committed_schedule \
 			and planner.routine_snapshot() == committed_routines,
-		"phone did not reopen the saved month as an exact read-only plan")
-	planner._open_app("calendar")
-	_expect(planner._active_tab == 3 and not planner._confirm_button.visible,
-		"read-only Calendar did not open on its confirmed summary")
-	var read_only_scroll: VScrollBar = planner._app_scroll.get_v_scroll_bar()
-	if read_only_scroll.max_value > read_only_scroll.page + 0.5:
-		var scroll_before: int = planner._app_scroll.scroll_vertical
-		var down_event: InputEventAction = InputEventAction.new()
-		down_event.action = "ui_down"
-		down_event.pressed = true
-		planner._unhandled_input(down_event)
-		_expect(planner._app_scroll.scroll_vertical > scroll_before,
-			"read-only Calendar did not scroll from semantic Down input")
+		"Schedule button did not reopen the exact confirmed plan read-only")
 	_expect(not planner.assign_offer_to_week("m1_phone_off_sunday", 1) \
 			and not planner.unassign_week(2) \
 			and not planner.select_routine("primary", "recovery") \
 			and planner.schedule_snapshot() == committed_schedule \
 			and planner.routine_snapshot() == committed_routines,
-		"read-only phone changed an immutable monthly promise")
-	planner._open_app("contacts")
-	var read_only_contacts := _collect_surface_text(planner)
-	_expect(read_only_contacts.find("IN CONFIRMED CALENDAR") >= 0 \
-			and read_only_contacts.find("MAKE TIME FOR THIS CALL") < 0 \
-			and read_only_contacts.find("MAKE TIME TO REACH OUT") < 0,
-		"read-only Contacts exposed a dead scheduling action")
-	planner._unhandled_input(cancel_event)
-	planner._unhandled_input(cancel_event)
-	_expect(not planner.visible,
-		"East/ui_cancel could not put away the reopened read-only phone")
+		"read-only planner changed an immutable monthly promise")
 
+	planner.size = Vector2(960, 600)
+	planner._apply_responsive_layout()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_expect(planner._compact_layout \
+			and planner._page_margin.get_theme_constant("margin_left") == 24 \
+			and planner._calendar_scroll.custom_minimum_size.x >= 339.0 \
+			and planner._calendar_scroll.custom_minimum_size.x <= 341.0,
+		"960x600 planner did not enter its compact layout")
+	var compact_week_rect: Rect2 = planner._calendar_scroll.get_global_rect()
+	var compact_planner_rect: Rect2 = planner.get_global_rect()
+	var compact_end := compact_week_rect.position + compact_week_rect.size
+	var compact_planner_end := compact_planner_rect.position \
+		+ compact_planner_rect.size
+	var compact_page_rect: Rect2 = planner._page.get_global_rect()
+	_expect(compact_week_rect.size.x >= 320.0 \
+			and compact_end.x <= compact_planner_end.x + 0.5 \
+			and compact_end.y <= compact_planner_end.y + 0.5 \
+			and compact_page_rect.position.x \
+				>= compact_planner_rect.position.x + 23.5 \
+			and compact_page_rect.end.x \
+				<= compact_planner_end.x - 23.5,
+		"compact planner content escaped its 960x600 safe margins")
+
+	planner._switch_tab(0)
+	await get_tree().process_frame
+	surface_samples.append(_collect_surface_text(planner))
+	planner._switch_tab(2)
+	await get_tree().process_frame
+	surface_samples.append(_collect_surface_text(planner))
+	planner._switch_tab(3)
+	await get_tree().process_frame
+	surface_samples.append(_collect_surface_text(planner))
 	var surface_text := "\n".join(surface_samples)
 	_expect(not _contains_hangul(surface_text),
-		"English phone surface leaked Hangul: %s" % surface_text)
+		"English planner surface leaked Hangul: %s" % surface_text)
 	for forbidden in [
 		"ACTION POINT", "AFFINITY", "MORAL", "행동력", "호감도", "도덕",
 	]:
 		_expect(surface_text.to_upper().find(forbidden.to_upper()) < 0,
 			"planner exposed hidden system language: %s" % forbidden)
+
+	planner._confirm_button.pressed.emit()
+	_expect(not planner.visible and close_receipts.size() == 1,
+		"read-only planner did not close once and return control")
 	planner.queue_free()
 	await get_tree().process_frame
 	await get_tree().process_frame
-
-func _check_phone_save_owner_boundary() -> void:
-	GameState.start_new_game()
-	CORE_LOOP.initialize_for_run(true)
-	var packed := load("res://scenes/MainGame.tscn") as PackedScene
-	_expect(packed != null, "phone save QA could not load MainGame")
-	if packed == null:
-		return
-	var main_game = packed.instantiate()
-	main_game.set_meta("_screenshot_qa_static_surface", true)
-	main_game.set_meta(
-		"_qa_core_loop_v2_phone_autosave_results", [false, true])
-	add_child(main_game)
-	await get_tree().process_frame
-	await get_tree().process_frame
-
-	GameState.start_new_game()
-	CORE_LOOP.initialize_for_run(true)
-	GameState.turn = 13
-	GameState.month = 4
-	GameState.week_of_month = 1
-	GameState.money = 500_000.0
-	main_game._core_loop_v2_ensure_phone_surface()
-	var planner = main_game._core_loop_planner
-	_expect(is_instance_valid(planner) and bool(planner.open(4)),
-		"MainGame did not create the phone save owner surface")
-	if not is_instance_valid(planner):
-		main_game.free()
-		return
-	planner._open_app("device")
-	var purchase := PHONE_SYSTEM.purchase_device("refurbished")
-	planner.phone_state_changed.emit("device_purchase")
-	await get_tree().process_frame
-	var retry_save := _find_meta_node(planner, "phone_save_retry")
-	_expect(bool(purchase.get("ok", false)) \
-			and is_equal_approx(float(GameState.money), 320_000.0) \
-			and bool(main_game._core_loop_v2_phone_state_dirty) \
-			and int(main_game.get_meta(
-				"_qa_core_loop_v2_phone_autosave_calls", 0)) == 1 \
-			and bool(planner._phone_save_pending) \
-			and is_instance_valid(retry_save),
-		"phone save failure was hidden or lost its retry ownership")
-	if is_instance_valid(retry_save):
-		(retry_save as Button).pressed.emit()
-	await get_tree().process_frame
-	await get_tree().process_frame
-	var saved_wrapper: Variant = main_game.get_meta(
-		"_qa_core_loop_v2_phone_saved_snapshot", {})
-	var saved_state: Dictionary = (
-		(saved_wrapper as Dictionary).get("state", {}) as Dictionary
-		if saved_wrapper is Dictionary else {}
-	)
-	_expect(not bool(main_game._core_loop_v2_phone_state_dirty) \
-			and int(main_game.get_meta(
-				"_qa_core_loop_v2_phone_autosave_calls", 0)) == 2 \
-			and not bool(planner._phone_save_pending) \
-			and not saved_state.is_empty() \
-			and is_equal_approx(float(saved_state.get("money", 0.0)), 320_000.0),
-		"phone save retry did not persist the exact post-purchase snapshot")
-	GameState.start_new_game()
-	GameState.load_from_dict(saved_state)
-	_expect(is_equal_approx(float(GameState.money), 320_000.0) \
-			and str(PHONE_SYSTEM.current_device().get("id", "")) \
-				== "refurbished",
-		"phone save retry snapshot did not survive a load roundtrip")
-	GameState.money = -310_000.0
-	main_game._refresh_all()
-	var expected_cash_position := GameState.cash_position_label()
-	_expect(str(main_game.top_labels["money"].text) \
-			== expected_cash_position \
-			and str(main_game.top_labels["money"].text).find(
-				GameState.format_money(-310_000.0)) < 0,
-		"MainGame V2 HUD contradicted the phone's arrears meaning")
-	var story_mode = load("res://scenes/StoryMode.gd").new()
-	story_mode._hud_label = Label.new()
-	# Keep the synthetic HUD owned by the synthetic StoryMode so its CanvasItem
-	# and font/texture RIDs are released with the fixture at shutdown.
-	story_mode.add_child(story_mode._hud_label)
-	story_mode._refresh_hud()
-	_expect(expected_cash_position in str(story_mode._hud_label.text) \
-			and str(story_mode._hud_label.text).find(
-				GameState.format_money(-310_000.0)) < 0,
-		"StoryMode V2 HUD contradicted the First Bill's arrears meaning")
-	story_mode.free()
-
-	main_game.remove_meta("_qa_core_loop_v2_phone_autosave_results")
-	var calls_before_screenshot := int(main_game.get_meta(
-		"_qa_core_loop_v2_phone_autosave_calls", 0))
-	var favorite := PHONE_SYSTEM.set_favorite_app("bank")
-	planner.phone_state_changed.emit("home_favorite")
-	_expect(bool(favorite.get("ok", false)) \
-			and int(main_game.get_meta(
-				"_qa_core_loop_v2_phone_autosave_calls", 0)) \
-				== calls_before_screenshot \
-			and not bool(main_game._core_loop_v2_phone_state_dirty),
-		"ScreenshotQA phone mutation attempted a save or dirtied the owner")
-	main_game.free()
-	packed = null
-	await get_tree().process_frame
-	await get_tree().process_frame
-
 func _month_one_schedule() -> Dictionary:
 	return {
 		"1": "m1_mirae_application",

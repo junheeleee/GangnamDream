@@ -1997,6 +1997,51 @@ static func received_phone_consequence_ids(
 		result.append(consequence_id)
 	return result
 
+## Offer-shaped calls and messages need a durable inbox history too. Once the
+## monthly plan is committed, a choice may change the very predicate that made
+## the contact available (for example submitted -> interviewed). The plan and
+## completion receipts prove that the communication really arrived even when
+## it is no longer returned by available_offer_ids().
+static func received_phone_offer_ids(
+		month_index: int = -1) -> Array[String]:
+	var target_month := (
+		month_index if month_index > 0 else month_for_turn(GameState.turn))
+	var candidates: Array[String] = []
+	for bundle_id in available_offer_ids(target_month):
+		if not candidates.has(bundle_id):
+			candidates.append(bundle_id)
+
+	var plan := plan_for_month(target_month)
+	for raw_id in plan.get("selected", []):
+		var selected_id := str(raw_id).strip_edges()
+		if not selected_id.is_empty() and not candidates.has(selected_id):
+			candidates.append(selected_id)
+	for raw_record in plan.get("forgone", []):
+		if not raw_record is Dictionary:
+			continue
+		var forgone_id := str((raw_record as Dictionary).get(
+			"bundle_id", "")).strip_edges()
+		if not forgone_id.is_empty() and not candidates.has(forgone_id):
+			candidates.append(forgone_id)
+
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	for raw_id in state["completed_bundles"]:
+		var completed_id := str(raw_id).strip_edges()
+		var completed_turn := int(
+			state["completed_bundle_turns"].get(completed_id, 0))
+		if completed_id.is_empty() \
+				or month_for_turn(completed_turn) != target_month \
+				or candidates.has(completed_id):
+			continue
+		candidates.append(completed_id)
+
+	var result: Array[String] = []
+	for bundle_id in candidates:
+		if str(bundle(bundle_id).get("phone_surface", "")) \
+				in ["inbound_message", "call_log"]:
+			result.append(bundle_id)
+	return result
+
 static func resolved_event_roots(bundle_id: String) -> Array:
 	var scene_bundle := bundle(bundle_id)
 	if bundle_id == "demo_collision":

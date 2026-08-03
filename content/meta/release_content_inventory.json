@@ -183,7 +183,7 @@
       {
         "id": "ui",
         "packaged": true,
-        "review": "UI에는 카드·칩·말 실루엣·시장 캔들·도박 행동 atlas가 있지만 실제 현금 구매/환전이나 성적·약물·폭력 묘사는 확인되지 않았으며 최종 사용자 검토가 남는다.",
+        "review": "UI에는 카드·칩·말 실루엣·시장 캔들·도박 행동 atlas가 있다. 폰 기종 구매는 종료됐고 flagship 셸만 세로 연락폰에 사용하며 starter/refurbished 셸은 all_resources pack의 출처 보존용 미사용 자산이다. 실제 현금 구매/환전이나 성적·약물·폭력 묘사는 확인되지 않았으며 최종 사용자 검토가 남는다.",
         "paths": [
           "assets/ui/action_tiles/action_advanced_atlas.png",
           "assets/ui/action_tiles/action_career_money_atlas.png",

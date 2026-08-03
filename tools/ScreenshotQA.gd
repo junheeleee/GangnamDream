@@ -77,8 +77,8 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-mouse --lang=en --demo-build
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=full-gamepad --lang=en --pad=xbox
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=full-gamepad --lang=ko --pad=playstation --write-chapter-saves
-##       godot --rendering-driver opengl3 --resolution 960x720 res://tools/ScreenshotQA.tscn -- --qa=core-loop-v2 --lang=ko
-##       godot --rendering-driver opengl3 --resolution 1280x720 res://tools/ScreenshotQA.tscn -- --qa=core-loop-v2 --lang=en
+##       godot --rendering-driver opengl3 --resolution 960x600 res://tools/ScreenshotQA.tscn -- --qa=core-loop-v2 --lang=ko
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=core-loop-v2 --lang=en
 ## 헤드리스 더미 렌더러는 빈 텍스처를 주므로 x11+opengl3(xvfb) 필요.
 ## .tscn 으로 부팅해야 autoload(GameState 등)가 로드된다.
 
@@ -1301,1087 +1301,207 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	await _assert_core_loop_v2_debug_entry(lang)
 	if _qa_failed:
 		return
+
 	GameState.start_new_game()
 	GameState.flags["prologue_done"] = true
-	GameState.add_log("Core Loop V2 QA", "system")
-	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
-	core_loop.initialize_for_run(true)
-	await _boot_main_game()
-	_mg._core_loop_v2_open_planner(1)
-	await get_tree().process_frame
-	var planner = _mg._core_loop_planner
-	var reduce_phone_motion := bool(SaveManager.get_setting(
-		"reduce_motion", SaveManager.get_setting("reduced_motion", false)))
-	if not is_instance_valid(planner):
-		_fail("MainGame did not create the Core Loop V2 planner.")
-		return
-	if reduce_phone_motion:
-		if bool(planner._phone_animating) \
-				or absf(float(planner._phone_frame.rotation)) > 0.001:
-			_fail("Reduce Motion kept the phone's portrait-to-landscape rotation.")
-			return
-	elif not bool(planner._phone_animating) \
-			or float(planner._phone_frame.rotation) < 0.20:
-		_fail("Phone open did not begin camera-up in portrait orientation.")
-		return
-	await _settle(0.55)
-	var prefix := "core_loop_v2_%s_" % lang.replace("-", "_").to_lower()
-	var essential_apps: Array[String] = [
-		"messages", "calendar", "contacts", "bank", "device",
-	]
-	_assert_core_loop_v2_phone_home(
-		planner, essential_apps, "phone home")
-	if _qa_failed:
-		return
-	await _save(prefix + "01_phone_home", 0.15)
-
-	await _open_core_loop_v2_phone_app(
-		planner, "calendar", "calendar open")
-	if _qa_failed:
-		return
-	if planner._slot_buttons.size() != 4:
-		_fail("Core Loop V2 planner rendered %d week slots instead of four." % [
-			planner._slot_buttons.size()])
-		return
-	await _save(prefix + "02_phone_calendar_open", 0.15)
-	planner.assign_offer_to_week("m1_mirae_application", 1)
-	planner.assign_offer_to_week("father_first_call", 2)
-	planner.assign_offer_to_week("hyunsu_first_meet", 3)
-	if planner.schedule_snapshot().size() != 4:
-		_fail("Core Loop V2 visual fixture could not fill all four weeks.")
-		return
-	var complete_schedule: Dictionary = planner.schedule_snapshot()
-	await _send_route_raw_gamepad_button(JOY_BUTTON_B)
-	await _settle(0.08)
-	if str(planner._screen_mode) != "home" \
-			or planner.schedule_snapshot() != complete_schedule:
-		_fail("Phone East did not return home with the four-week schedule intact.")
-		return
-	_assert_core_loop_v2_phone_home(
-		planner, essential_apps, "home after East")
-	if _qa_failed:
-		return
-	await _open_core_loop_v2_phone_app(
-		planner, "calendar", "calendar West task")
-	if _qa_failed:
-		return
-	planner._select_week(2)
-	var removable_slot: Button = planner._slot_buttons.get("2")
-	if not is_instance_valid(removable_slot) or removable_slot.disabled:
-		_fail("Core Loop V2 calendar has no removable week-two slot.")
-		return
-	removable_slot.grab_focus()
-	await _send_route_raw_gamepad_button(JOY_BUTTON_X)
-	await _settle(0.08)
-	if planner.schedule_snapshot().has("2") \
-			or planner.schedule_snapshot().size() != 3:
-		_fail("Phone West did not remove only the selected calendar entry.")
-		return
-	if not planner.assign_offer_to_week("father_first_call", 2) \
-			or planner.schedule_snapshot() != complete_schedule:
-		_fail("Core Loop V2 calendar could not restore the West-removed entry.")
-		return
-	_assert_core_loop_v2_phone_surface(planner, "calendar planned")
-	if _qa_failed:
-		return
-	await _save(prefix + "03_phone_calendar_planned", 0.15)
-
-	await _open_core_loop_v2_phone_app(
-		planner, "messages", "messages")
-	if _qa_failed:
-		return
-	await _save(prefix + "04_phone_messages", 0.15)
-	var message_grid: Node = planner._read_only_surface.get_child(1) \
-		if planner._read_only_surface.get_child_count() > 1 else null
-	var first_thread: Button = (
-		(message_grid as GridContainer).get_child(0) as Button
-		if message_grid is GridContainer \
-			and (message_grid as GridContainer).get_child_count() > 0 else null
-	)
-	if not is_instance_valid(first_thread):
-		_fail("Messages did not expose a focusable conversation row.")
-		return
-	first_thread.grab_focus()
-	await _send_route_raw_gamepad_button(JOY_BUTTON_A)
-	await _settle(0.12)
-	if str(planner._screen_mode) != "message_thread":
-		_fail("South on a message did not open the conversation bubbles.")
-		return
-	await _save(prefix + "04b_phone_message_thread", 0.15)
-	await _send_route_raw_gamepad_button(JOY_BUTTON_B)
-	await _settle(0.08)
-	if str(planner._screen_mode) != "app" \
-			or str(planner._active_app_id) != "messages":
-		_fail("East did not return from a conversation to the Messages inbox.")
-		return
-	await _open_core_loop_v2_phone_app(
-		planner, "contacts", "contacts")
-	if _qa_failed:
-		return
-	var contacts_text := _collect_control_text(planner._read_only_surface)
-	if LocaleManager.ui("아버지", "Father") not in contacts_text:
-		_fail("Core Loop V2 Contacts omitted Father's saved number.")
-		return
-	await _save(prefix + "05_phone_contacts", 0.15)
-	await _open_core_loop_v2_phone_app(
-		planner, "bank", "bank")
-	if _qa_failed:
-		return
-	var bank_text := _collect_control_text(planner._read_only_surface)
-	for live_amount in [
-		GameState.format_money(GameState.money),
-		GameState.format_money(GameState.get_monthly_required_cash()),
-	]:
-		if live_amount not in bank_text:
-			_fail("Core Loop V2 Bank omitted live amount %s." % live_amount)
-			return
-	await _save(prefix + "06_phone_bank", 0.15)
-
-	var phone_system = load("res://systems/PhoneSystem.gd")
-	var fixture_turn := int(GameState.turn)
-	var fixture_year := int(GameState.year)
-	var fixture_month := int(GameState.month)
-	var fixture_week := int(GameState.week_of_month)
-	var fixture_money := float(GameState.money)
-	var fixture_phone_state: Dictionary = GameState.phone_state.duplicate(true)
-	var fixture_flags: Dictionary = GameState.flags.duplicate(true)
-	var fixture_portfolio: Dictionary = GameState.portfolio.duplicate(true)
-	var fixture_market_prices: Dictionary = GameState.market_prices.duplicate(true)
-	GameState.turn = 12
-	GameState.month = 3
-	GameState.week_of_month = 4
-	await _open_core_loop_v2_phone_app(
-		planner, "device", "device week 12 locked")
-	if _qa_failed:
-		return
-	var locked_check: Dictionary = phone_system.can_purchase_device("refurbished")
-	var locked_device_button: Button = planner._device_buttons.get("refurbished")
-	if str(locked_check.get("reason", "")) != "not_yet_available" \
-			or not is_instance_valid(locked_device_button) \
-			or not locked_device_button.disabled:
-		_fail("Refurbished phone was not visibly locked through week 12.")
-		return
-	await _save(prefix + "07_phone_device_week12_locked", 0.15)
-
-	GameState.turn = 13
-	GameState.month = 4
-	GameState.week_of_month = 1
-	await _send_route_raw_gamepad_button(JOY_BUTTON_B)
-	await _settle(0.08)
-	await _open_core_loop_v2_phone_app(
-		planner, "device", "device week 13")
-	if _qa_failed:
-		return
-	var available_check: Dictionary = phone_system.can_purchase_device("refurbished")
-	var refurbished_button: Button = planner._device_buttons.get("refurbished")
-	if not bool(available_check.get("ok", false)) \
-			or float(available_check.get("price", 0.0)) != 180_000.0 \
-			or not is_instance_valid(refurbished_button) \
-			or refurbished_button.disabled:
-		_fail("Refurbished phone did not unlock for exactly 180,000 won at week 13.")
-		return
-	var balance_before_device := float(GameState.money)
-	refurbished_button.grab_focus()
-	await _send_route_raw_gamepad_button(JOY_BUTTON_A)
-	await _settle(0.08)
-	if str(planner._screen_mode) != "device_confirm" \
-			or float(GameState.money) != balance_before_device \
-			or str(phone_system.current_device().get("id", "")) != "starter" \
-			or not is_instance_valid(planner._device_confirm_button):
-		_fail("First South on the refurbished phone charged money before confirmation.")
-		return
-	_assert_core_loop_v2_phone_surface(planner, "device purchase confirmation")
-	if _qa_failed:
-		return
-	await _save(prefix + "08_phone_device_purchase_confirm", 0.15)
-	await _send_route_raw_gamepad_button(JOY_BUTTON_B)
-	await _settle(0.08)
-	if str(planner._screen_mode) != "app" \
-			or str(planner._active_app_id) != "device" \
-			or float(GameState.money) != balance_before_device \
-			or str(phone_system.current_device().get("id", "")) != "starter":
-		_fail("Phone East did not cancel the pending device purchase without charging.")
-		return
-	refurbished_button = planner._device_buttons.get("refurbished")
-	refurbished_button.grab_focus()
-	await _send_route_raw_gamepad_button(JOY_BUTTON_A)
-	await _settle(0.08)
-	var purchase_confirm: Button = planner._device_confirm_button
-	if not is_instance_valid(purchase_confirm):
-		_fail("Second device confirmation screen did not expose its purchase button.")
-		return
-	purchase_confirm.grab_focus()
-	await _send_route_raw_gamepad_button(JOY_BUTTON_A)
-	await _settle(0.12)
-	var expected_after_purchase := balance_before_device - 180_000.0
-	if absf(float(GameState.money) - expected_after_purchase) > 0.001 \
-			or str(phone_system.current_device().get("id", "")) != "refurbished" \
-			or not str(phone_system.favorite_app_id()).is_empty() \
-			or GameState.format_money(expected_after_purchase) \
-				not in str(planner._device_feedback):
-		_fail("Confirmed phone purchase changed an unchosen favorite or lost its exact balance.")
-		return
-	if not is_instance_valid(planner._favorite_cycle_button):
-		_fail("Refurbished phone did not expose its implemented first-home-app control.")
-		return
-	planner._favorite_cycle_button.grab_focus()
-	await _send_route_raw_gamepad_button(JOY_BUTTON_A)
-	await _settle(0.08)
-	if not is_instance_valid(planner._favorite_cycle_button):
-		_fail("Favorite selection rebuild lost its Device control.")
-		return
-	planner._favorite_cycle_button.grab_focus()
-	await _send_route_raw_gamepad_button(JOY_BUTTON_A)
-	await _settle(0.08)
-	if str(phone_system.favorite_app_id()) != "calendar" \
-			or str(phone_system.home_app_ids()[0]) != "calendar" \
-			or str(phone_system.visible_app_ids()[0]) != "messages":
-		_fail("Refurbished phone could not change and reorder its first home app.")
-		return
-	_assert_core_loop_v2_phone_surface(planner, "refurbished device")
-	if _qa_failed:
-		return
-	await _save(prefix + "09_phone_device_refurbished", 0.15)
-	await _open_core_loop_v2_phone_app(
-		planner, "bank", "bank after device purchase")
-	if _qa_failed:
-		return
-	if GameState.format_money(expected_after_purchase) \
-			not in _collect_control_text(planner._read_only_surface):
-		_fail("Bank did not refresh to the exact post-device balance.")
-		return
-	await _save(prefix + "10_phone_bank_after_device", 0.15)
-
+	GameState.flags["chapter_33_seen"] = true
+	GameState.flags["tutorial_shown"] = true
 	GameState.flags["has_received_paycheck"] = true
-	GameState.flags["racetrack_guide_met"] = true
-	GameState.portfolio = {
-		"samsung": {"quantity": 2.0, "avg_price": 70_000.0},
+	GameState.flags["racetrack_visited"] = true
+	GameState.money = 850_000.0
+	GameState.add_log("Core Loop V2 ORDER-76 QA", "system")
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	if not bool(core_loop.initialize_for_run(true)):
+		_fail("Core Loop V2 could not initialize the ORDER-76 screenshot fixture.")
+		return
+
+	await _boot_main_game()
+	if not bool(_mg._core_loop_v2_open_planner(1, false)):
+		_fail("MainGame did not open the editable wide monthly planner.")
+		return
+	await _settle(0.28)
+	var planner := _mg._core_loop_planner as Control
+	if not is_instance_valid(planner):
+		_fail("MainGame did not create the wide monthly planner.")
+		return
+	var prefix := "core_loop_v2_%s_" % lang.replace("-", "_").to_lower()
+
+	_assert_core_loop_v2_planner_surface(
+		planner, "empty calendar", 1, false, false)
+	if _qa_failed:
+		return
+	var initial_schedule: Dictionary = planner.schedule_snapshot()
+	if initial_schedule.size() != 1 \
+			or str(initial_schedule.get("4", "")) != "first_temptation_boss":
+		_fail("The first planner surface is not three open weeks plus the fixed fourth week: %s." % [
+			str(initial_schedule)])
+		return
+	await _save(prefix + "01_planner_calendar_empty", 0.05)
+
+	var expected_schedule := {
+		"1": "m1_mirae_application",
+		"2": "father_first_call",
+		"3": "hyunsu_first_meet",
+		"4": "first_temptation_boss",
 	}
-	GameState.market_prices["samsung"] = 75_000.0
-	await _send_route_raw_gamepad_button(JOY_BUTTON_B)
-	await _settle(0.08)
-	var conditional_apps: Array[String] = [
-		"messages", "calendar", "contacts", "bank", "device",
-		"investment", "leisure",
-	]
-	_assert_core_loop_v2_phone_home(
-		planner, conditional_apps, "conditional phone home")
-	if _qa_failed:
-		return
-	await _save(prefix + "11_phone_home_conditional_apps", 0.15)
-	await _open_core_loop_v2_phone_app(
-		planner, "investment", "investment")
-	if _qa_failed:
-		return
-	var investment_text := _collect_control_text(planner._read_only_surface)
-	for market_amount in [
-		GameState.format_money(GameState.money),
-		GameState.format_money(150_000.0),
-		GameState.format_money(75_000.0),
+	for assignment in [
+		["m1_mirae_application", 1],
+		["father_first_call", 2],
+		["hyunsu_first_meet", 3],
 	]:
-		if market_amount not in investment_text:
-			_fail("Investment app omitted live amount %s." % market_amount)
+		if not bool(planner.assign_offer_to_week(
+				str(assignment[0]), int(assignment[1]))):
+			_fail("The wide planner rejected the ORDER-76 fixture assignment %s." % [
+				str(assignment)])
 			return
-	await _save(prefix + "12_phone_investment", 0.15)
-	await _open_core_loop_v2_phone_app(
-		planner, "leisure", "leisure")
+	await _settle(0.16)
+	if planner.schedule_snapshot() != expected_schedule:
+		_fail("The filled four-week planner lost an assignment: %s." % [
+			str(planner.schedule_snapshot())])
+		return
+	_assert_core_loop_v2_planner_surface(
+		planner, "filled calendar", 1, false, false)
 	if _qa_failed:
 		return
-	if LocaleManager.ui("경마장", "Racecourse") \
-			not in _collect_control_text(planner._read_only_surface):
-		_fail("Leisure app omitted the actually discovered racecourse.")
-		return
-	await _save(prefix + "13_phone_leisure", 0.15)
+	await _save(prefix + "02_planner_calendar_filled", 0.05)
 
-	var flagship_fixture: Dictionary = GameState.phone_state.duplicate(true)
-	flagship_fixture["current_device_id"] = "flagship"
-	var flagship_owned: Array = (
-		flagship_fixture.get("owned_device_ids", []) as Array).duplicate()
-	if not flagship_owned.has("flagship"):
-		flagship_owned.append("flagship")
-	flagship_fixture["owned_device_ids"] = flagship_owned
-	GameState.phone_state = flagship_fixture
-	planner._show_home()
-	await get_tree().process_frame
-	_assert_core_loop_v2_phone_home(
-		planner, conditional_apps, "flagship phone home")
+	planner.call("_switch_tab", 0)
+	await _settle(0.14)
+	_assert_core_loop_v2_planner_surface(
+		planner, "status", 0, false, false)
 	if _qa_failed:
 		return
-	_assert_core_loop_v2_phone_surface(planner, "flagship material")
-	if _qa_failed:
-		return
-	await _save(prefix + "13b_phone_home_flagship", 0.15)
+	var status_text := _collect_control_text(planner._read_only_surface)
+	for expected_copy in [
+		GameState.get_date_string(),
+		GameState.format_money(GameState.get_available_cash()),
+		LocaleManager.ui("투자 현황", "INVESTMENT STATUS"),
+		LocaleManager.ui("경마장", "Racecourse"),
+	]:
+		if str(expected_copy) not in status_text:
+			_fail("The status board omitted required copy '%s'." % str(expected_copy))
+			return
+	await _save(prefix + "03_planner_status", 0.05)
 
-	GameState.turn = fixture_turn
-	GameState.year = fixture_year
-	GameState.month = fixture_month
-	GameState.week_of_month = fixture_week
-	GameState.money = fixture_money
-	GameState.phone_state = fixture_phone_state
-	GameState.flags = fixture_flags
-	GameState.portfolio = fixture_portfolio
-	GameState.market_prices = fixture_market_prices
-	planner._show_home()
-	await get_tree().process_frame
-	await _open_core_loop_v2_phone_app(
-		planner, "calendar", "calendar before record")
+	var canonical_state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	var people_state: Dictionary = canonical_state.duplicate(true)
+	var stages: Dictionary = (people_state.get(
+		"relationship_stages", {}) as Dictionary).duplicate(true)
+	for character_id in ["hyunsu", "daeun", "jiyeon"]:
+		stages[character_id] = "opening"
+	people_state["relationship_stages"] = stages
+	GameState.core_loop_v2_state = people_state
+	planner.call("_switch_tab", 2)
+	await _settle(0.14)
+	_assert_core_loop_v2_planner_surface(
+		planner, "people", 2, false, false)
 	if _qa_failed:
 		return
-	await _send_route_raw_gamepad_button(JOY_BUTTON_RIGHT_SHOULDER)
-	await _settle(0.08)
-	if planner._active_tab != 3:
-		_fail("Calendar RB did not open the in-app month summary.")
-		return
-	var growth_button: Button = planner._routine_buttons.get("primary:growth")
-	if not is_instance_valid(growth_button):
-		_fail("Core Loop V2 record tab did not expose the primary Growth routine.")
-		return
-	growth_button.grab_focus()
-	await _send_route_raw_gamepad_button(JOY_BUTTON_A)
-	await _settle(0.08)
-	if str(planner.routine_snapshot().get("primary", "")) != "growth":
-		_fail("Raw gamepad South did not select the primary Growth routine.")
-		return
-	var rebuilt_growth: Button = planner._routine_buttons.get("primary:growth")
-	var rebuilt_focus_owner := get_viewport().gui_get_focus_owner()
-	if not is_instance_valid(rebuilt_growth) \
-			or rebuilt_focus_owner != rebuilt_growth:
-		_fail("Routine selection rebuild lost gamepad focus: expected=%s actual=%s." % [
-			str(rebuilt_growth),
-			str(rebuilt_focus_owner),
-		])
-		return
-	var livelihood_button: Button = planner._routine_buttons.get("primary:livelihood")
-	livelihood_button.grab_focus()
-	await _send_route_raw_gamepad_button(JOY_BUTTON_A)
-	if str(planner.routine_snapshot().get("primary", "")) != "livelihood":
-		_fail("Raw gamepad South did not restore the primary Livelihood routine.")
-		return
-	if str(planner.routine_snapshot().get("secondary", "")) != "recovery":
-		_fail("Routine focus QA changed the untouched secondary routine.")
+	var people_text := _collect_control_text(planner._read_only_surface)
+	for character_id in ["father", "hyunsu", "daeun", "jiyeon"]:
+		var visible_name := str(planner.call("_character_name", character_id))
+		if visible_name.is_empty() or visible_name not in people_text:
+			_fail("The people board omitted %s (%s)." % [character_id, visible_name])
+			return
+	await _save(prefix + "04_planner_people", 0.05)
+	GameState.core_loop_v2_state = canonical_state
+
+	planner.call("_switch_tab", 3)
+	await _settle(0.14)
+	_assert_core_loop_v2_planner_surface(
+		planner, "record", 3, false, false)
+	if _qa_failed:
 		return
 	_assert_core_loop_v2_record_names(planner, core_loop, lang)
 	if _qa_failed:
 		return
-	_assert_core_loop_v2_phone_surface(planner, "calendar record")
-	if _qa_failed:
-		return
-	await _save(prefix + "14_phone_calendar_record", 0.15)
-	await _send_route_raw_gamepad_button(JOY_BUTTON_LEFT_SHOULDER)
-	await _settle(0.08)
-	if planner._active_tab != 1:
-		_fail("Calendar LB did not return from summary to the editable plan.")
-		return
-	planner._confirm_button.grab_focus()
-	await _press_qa_action("ui_accept")
-	await _settle(0.12)
-	if not planner.visible or not planner.review_pending() or planner._active_tab != 3:
-		_fail("First South press did not open the Core Loop V2 pre-commit review.")
-		return
-	if not core_loop.plan_for_month(1).is_empty():
-		_fail("Core Loop V2 persisted a plan before the pre-commit review was accepted.")
-		return
-	_assert_core_loop_v2_record_names(planner, core_loop, lang)
-	if _qa_failed:
-		return
-	_assert_core_loop_v2_planner_bounds(planner, "pre-commit review")
-	if _qa_failed:
-		return
-	await _save(prefix + "15_phone_plan_review", 0.15)
-	await _press_qa_action("ui_cancel")
-	await _settle(0.12)
-	if planner.review_pending() or planner._active_tab != 1 \
-			or planner.schedule_snapshot().size() != 4:
-		_fail("East did not return the Core Loop V2 review to an intact editable schedule.")
-		return
-	await get_tree().process_frame
-	planner._confirm_button.grab_focus()
-	await _press_qa_action("ui_accept")
-	await _settle(0.12)
-	if not planner.visible or not planner.review_pending():
-		_fail("Core Loop V2 review did not reopen after returning to edit.")
-		return
-	planner._confirm_button.grab_focus()
-	await _press_qa_action("ui_accept")
-	await _settle(0.55)
-	if planner.visible:
-		_fail("Core Loop V2 planner remained open after the reviewed plan was confirmed.")
-		return
-	if core_loop.active_bundle_id() != "m1_mirae_application" \
-			or not core_loop.action_result_ready():
-		_fail("Core Loop V2 plan did not enter the first scheduled application scene.")
-		return
-	if not GameState.has_weekly_commitment_for_turn(1):
-		_fail("Core Loop V2 application did not write the week-one transaction.")
-		return
-	if _mg._core_loop_v2_open_phone() or planner.visible:
-		_fail("Phone opened while result typing could still steal its focus.")
-		return
-	_mg._finish_typing()
-	await _save(prefix + "16_first_week_application", 0.15)
-	var committed_schedule: Dictionary = (
-		core_loop.plan_for_month(1).get("schedule", {}) as Dictionary
-	).duplicate(true)
-	var phone_return_focus := get_viewport().gui_get_focus_owner() as Control
-	if not is_instance_valid(phone_return_focus) \
-			or planner.is_ancestor_of(phone_return_focus):
-		_fail("Gameplay exposed no focus target to restore after closing the phone.")
-		return
-	_mg.info_panel.visible = true
-	if _mg._core_loop_v2_open_phone() or planner.visible \
-			or not _mg.info_panel.visible:
-		_fail("Phone opened over the Info panel and destroyed its input context.")
-		return
-	_mg.info_panel.visible = false
-	await _send_route_raw_gamepad_button(JOY_BUTTON_Y)
-	await _settle(0.12)
-	if not planner.visible or not planner.read_only_plan() \
-			or planner.schedule_snapshot() != committed_schedule \
-			or str(planner._screen_mode) != "app" \
-			or str(planner._active_app_id) != "calendar" \
-			or planner._active_tab != 3 \
-			or not is_instance_valid(_mg._main_ui_root) \
-			or not _mg._main_ui_root.visible:
-		_fail(
-			"Y did not reopen the committed month at its last app as a read-only overlay.")
-		return
-	await _open_core_loop_v2_phone_app(
-		planner, "calendar", "reopened confirmed calendar")
-	if _qa_failed:
-		return
-	if planner._active_tab != 3 or planner._confirm_button.visible \
-			or planner.unassign_week(2) \
-			or planner.schedule_snapshot() != committed_schedule:
-		_fail("Reopened Calendar exposed an edit path for the confirmed month.")
-		return
-	await _save(prefix + "16b_phone_reopened_read_only", 0.15)
-	await _send_route_raw_gamepad_button(JOY_BUTTON_B)
-	await _settle(0.05)
-	var remembered_home_focus: Button = planner._app_buttons.get("bank")
-	if not is_instance_valid(remembered_home_focus):
-		_fail("Phone home omitted the Bank focus target before close.")
-		return
-	remembered_home_focus.grab_focus()
-	await _send_route_raw_gamepad_button(JOY_BUTTON_B)
-	await _settle(0.08)
-	if planner.visible or not _mg._main_ui_root.visible \
-			or get_viewport().gui_get_focus_owner() != phone_return_focus:
-		_fail(
-			"East did not put away the reopened phone and restore exact gameplay focus.")
-		return
-	await _send_route_raw_gamepad_button(JOY_BUTTON_Y)
-	await _settle(0.12)
-	var reopened_bank_focus: Button = planner._app_buttons.get("bank")
-	if not planner.visible or str(planner._screen_mode) != "home" \
-			or not is_instance_valid(reopened_bank_focus) \
-			or get_viewport().gui_get_focus_owner() != reopened_bank_focus:
-		_fail("Phone did not restore its last home app focus on same-scene reopen.")
-		return
-	await _send_route_raw_gamepad_button(JOY_BUTTON_B)
-	await _settle(0.08)
-	if planner.visible \
-			or get_viewport().gui_get_focus_owner() != phone_return_focus:
-		_fail("Second phone close did not restore exact gameplay focus.")
-		return
-	var density_state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
-	var completed_for_density: Array = density_state.get("completed_bundles", [])
-	if not completed_for_density.has("hyunsu_first_meet"):
-		completed_for_density.append("hyunsu_first_meet")
-	density_state["completed_bundles"] = completed_for_density
-	var density_stages: Dictionary = density_state.get("relationship_stages", {})
-	density_stages["hyunsu"] = "opening"
-	density_state["relationship_stages"] = density_stages
-	var density_memories: Array = density_state.get("relationship_memories", [])
-	if not density_memories.any(func(raw_memory):
-			return raw_memory is Dictionary \
-				and str((raw_memory as Dictionary).get("character", "")) == "hyunsu" \
-				and str((raw_memory as Dictionary).get("memory", "")) \
-					== "hyunsu_honest_uncertainty"):
-		density_memories.append({
-			"character": "hyunsu",
-			"memory": "hyunsu_honest_uncertainty",
-			"bundle_id": "hyunsu_first_meet",
-			"turn": 3,
-		})
-	density_state["relationship_memories"] = density_memories
-	GameState.core_loop_v2_state = density_state
-	core_loop.process_due_decline_outcomes(1)
-	planner.open(2)
-	await _settle(0.55)
-	if core_loop.available_offer_ids(2).size() != 7:
-		_fail("Core Loop V2 month-two density fixture did not expose all seven messages.")
-		return
-	await _open_core_loop_v2_phone_app(
-		planner, "messages", "seven-message month")
-	if _qa_failed:
-		return
-	await _save(prefix + "17_phone_month_two_messages", 0.15)
-	planner.close()
-	if not _seed_core_loop_v2_month_three_density(core_loop):
-		_fail("Core Loop V2 month-three density fixture could not be prepared: "
-			+ "offers=%d receipts=%d." % [
-				core_loop.available_offer_ids(3).size(),
-				core_loop.decline_receipts_for_month(3).size(),
-			])
-		return
-	planner.open(3)
-	await _settle(0.55)
-	if core_loop.available_offer_ids(3).size() != 7 \
-			or planner._offer_buttons.size() != 7:
-		_fail("Core Loop V2 month three did not expose its seven eligible opportunities.")
-		return
-	await _open_core_loop_v2_phone_app(
-		planner, "calendar", "month-three seven-offer calendar")
-	if _qa_failed:
-		return
-	await _save(prefix + "18_phone_month_three_calendar", 0.15)
-	await _open_core_loop_v2_phone_app(
-		planner, "messages", "month-three system-record surface")
-	if _qa_failed:
-		return
-	var month_three_record_count := _count_meta_value(
-		planner._read_only_surface, "phone_thread_kind", "system_record")
-	var month_three_received_count := (
-		_count_meta_value(
-			planner._read_only_surface, "phone_thread_kind", "inbound_message")
-		+ _count_meta_value(
-			planner._read_only_surface, "phone_thread_kind", "call_log")
-	)
-	if month_three_record_count != 3 or month_three_received_count != 0:
-		_fail("Core Loop V2 month-three message surface did not isolate its 3 due system records from non-message offers.")
-		return
-	_assert_core_loop_v2_phone_surface(
-		planner, "month-three system-record surface")
-	if _qa_failed:
-		return
-	await _save(prefix + "19_phone_month_three_messages", 0.15)
-	planner.close()
-	if not _seed_core_loop_v2_month_four_density(core_loop):
-		_fail("Core Loop V2 month-four rich phone fixture could not be prepared.")
-		return
-	planner.open(4)
-	await _settle(0.55)
-	await _open_core_loop_v2_phone_app(
-		planner, "calendar", "month-four seven-offer calendar")
-	if _qa_failed:
-		return
-	if core_loop.available_offer_ids(4).size() != 7 \
-			or planner._offer_buttons.size() != 7:
-		_fail("Core Loop V2 month four did not render its exact seven-offer rich path.")
-		return
-	await _save(prefix + "19b_phone_month_four_calendar", 0.15)
-	await _open_core_loop_v2_phone_app(
-		planner, "messages", "month-four received-contact surface")
-	if _qa_failed:
-		return
-	if _count_meta_value(
-			planner._read_only_surface,
-			"phone_thread_kind",
-			"inbound_message") != 2 \
-			or _count_meta_value(
-				planner._read_only_surface,
-				"phone_thread_kind",
-				"system_record") != 0:
-		_fail("Core Loop V2 month-four Messages did not show only Hanbit and Jaehyuk as received contacts.")
-		return
-	await _save(prefix + "19c_phone_month_four_messages", 0.15)
-	await _open_core_loop_v2_phone_app(
-		planner, "contacts", "month-four earned contact methods")
-	if _qa_failed:
-		return
-	var month_four_contacts := _collect_control_text(planner._read_only_surface)
-	if LocaleManager.ui("김다은", "Kim Daeun") not in month_four_contacts:
-		_fail("Core Loop V2 month-four Contacts omitted Daeun's earned direct-visit channel.")
-		return
-	await _save(prefix + "19d_phone_month_four_contacts", 0.15)
-	planner.close()
-	if not _seed_core_loop_v2_month_five_density(core_loop):
-		_fail("Core Loop V2 month-five rich phone fixture could not be prepared.")
-		return
-	_mg._refresh_all()
-	await get_tree().process_frame
-	planner.open(5)
-	await _settle(0.55)
-	await _open_core_loop_v2_phone_app(
-		planner, "calendar", "month-five seven-offer calendar")
-	if _qa_failed:
-		return
-	var month_five_offers: Array[String] = core_loop.available_offer_ids(5)
-	if month_five_offers.size() != 7 \
-			or planner._offer_buttons.size() != 7 \
-			or not month_five_offers.has("m5_city_service_application") \
-			or not month_five_offers.has("daeun_shared_dream") \
-			or not month_five_offers.has("jaehyuk_plain_reunion_echo"):
-		_fail("Core Loop V2 month five did not render its livelihood, relationship, and money-person conflict.")
-		return
-	var month_five_person_button: Button = planner._offer_buttons.get(
-		"jaehyuk_plain_reunion_echo")
-	if not is_instance_valid(month_five_person_button):
-		_fail("Core Loop V2 month-five Calendar omitted Jaehyuk's earned reunion.")
-		return
-	month_five_person_button.grab_focus()
-	await _settle(0.12)
-	_assert_core_loop_v2_phone_surface(
-		planner, "month-five seven-offer calendar")
-	if _qa_failed:
-		return
-	await _save(prefix + "19e_phone_month_five_calendar", 0.15)
-	if not core_loop.received_phone_consequence_ids(5).is_empty() \
-			or planner._offer_buttons.has("m5_hanbit_offer_message"):
-		_fail("Core Loop V2 leaked Hanbit's Tuesday result before it arrived.")
-		return
-	planner.close()
-	var month_five_schedule := {
-		"17": "m5_city_service_application",
-		"18": "m5_weekend_move_shift",
-		"19": "m5_evening_spreadsheet_class",
-		"20": "daeun_shared_dream",
-	}
-	if not bool(core_loop.commit_plan(
-			5, month_five_schedule, {
-				"primary": "livelihood",
-				"secondary": "recovery",
-			}).get("ok", false)) \
-			or not core_loop.begin_bundle(
-				"m5_city_service_application", "schedule"):
-		_fail("Core Loop V2 could not prepare Hanbit's real Week-17 inbox path.")
-		return
-	var hanbit_claim: Dictionary = core_loop.claim_scheduled_prelude(
-		"m5_city_service_application")
-	var hanbit_event: Dictionary = DataRegistry.find_event(
-		"v2_hanbit_offer_message")
-	var hanbit_choices: Array = (
-		hanbit_event.get("choices", []) as Array
-		if hanbit_event.get("choices", []) is Array else []
-	)
-	if not bool(hanbit_claim.get("ok", false)) \
-			or not bool(hanbit_claim.get("claimed", false)) \
-			or hanbit_choices.size() != 2:
-		_fail("Core Loop V2 did not present Hanbit's earned hiring message.")
-		return
-	GameState.apply_choice(hanbit_event, hanbit_choices[1])
-	if not core_loop.note_story_choice(
-			"v2_hanbit_offer_message", 1) \
-			or not bool(core_loop.consume_scheduled_prelude(
-				"m5_city_service_application").get("ok", false)):
-		_fail("Core Loop V2 could not preserve Hanbit's declined inbox receipt.")
-		return
-	if not _seed_core_loop_v2_action_completion(
-			core_loop, "m5_city_service_application"):
-		_fail("Core Loop V2 could not finish the week-17 application fixture.")
-		return
-	planner.open(5)
-	await _settle(0.35)
-	await _open_core_loop_v2_phone_app(
-		planner, "messages", "month-five received and missed-path records")
-	if _qa_failed:
-		return
-	if _count_meta_value(
-			planner._read_only_surface,
-			"phone_thread_kind",
-			"inbound_message") != 2 \
-			or _count_meta_value(
-				planner._read_only_surface,
-				"phone_thread_kind",
-				"system_record") != 3 \
-			or planner._phone_message_badge_count() != 2:
-		_fail("Core Loop V2 month-five Messages did not keep Jaehyuk and Hanbit separate from three prior-month records.")
-		return
-	var month_five_messages := _collect_control_text(
-		planner._read_only_surface)
-	for expected_message_copy in [
-		LocaleManager.ui("한빛유통 채용팀", "Hanbit Recruiting"),
-		LocaleManager.ui(
-			"운영지원 계약직 채용 결과입니다. 월요일 출근 가능 여부를 오늘 오후 6시까지 회신해 주세요.",
-			"Your operations-support application is complete. Please confirm by 6 p.m. today whether you can start Monday."),
-	]:
-		if expected_message_copy not in month_five_messages:
-			_fail("Core Loop V2 month-five Messages omitted Hanbit copy: %s." % expected_message_copy)
-			return
-	if core_loop.received_phone_consequence_ids(5) \
-			!= ["m5_hanbit_offer_message"] \
-			or planner._offer_buttons.has("m5_hanbit_offer_message"):
-		_fail("Core Loop V2 did not keep Hanbit as one inbox-only receipt.")
-		return
-	_assert_core_loop_v2_phone_surface(
-		planner, "month-five received and missed-path records")
-	if _qa_failed:
-		return
-	await _save(prefix + "19f_phone_month_five_messages", 0.15)
-	await _open_core_loop_v2_phone_app(
-		planner, "contacts", "month-five earned contact methods")
-	if _qa_failed:
-		return
-	var month_five_contacts := _collect_control_text(planner._read_only_surface)
-	for expected_contact_copy in [
-		LocaleManager.ui("김다은", "Kim Daeun"),
-		LocaleManager.ui("최재혁", "Choi Jaehyuk"),
-		LocaleManager.ui(
-			"연락처 없음 · 찾아갈 편의점만 알고 있다",
-			"NO CONTACT DETAILS · ONLY THE STORE IS KNOWN"),
-		LocaleManager.ui(
-			"연락수단 · 카카오톡 대화",
-			"CONTACT · KAKAOTALK THREAD"),
-	]:
-		if expected_contact_copy not in month_five_contacts:
-			_fail("Core Loop V2 month-five Contacts omitted earned copy: %s." % expected_contact_copy)
-			return
-	var jaehyuk_contact_button: Button = null
-	var jaehyuk_action_copy := LocaleManager.ui(
-		"카카오톡으로 연락할 시간 잡기",
-		"MAKE TIME TO MESSAGE")
-	for raw_control in planner._read_only_surface.find_children(
-			"*", "Button", true, false):
-		if raw_control is Button \
-				and (raw_control as Button).text.find(
-					jaehyuk_action_copy) >= 0:
-			jaehyuk_contact_button = raw_control as Button
-			break
-	if not is_instance_valid(jaehyuk_contact_button):
-		_fail("Core Loop V2 month-five Contacts omitted Jaehyuk's schedule control.")
-		return
-	jaehyuk_contact_button.grab_focus()
-	await _settle(0.12)
-	_assert_core_loop_v2_phone_surface(
-		planner, "month-five earned contact methods")
-	if _qa_failed:
-		return
-	await _save(prefix + "19g_phone_month_five_contacts", 0.15)
-	planner.close()
-	if not _seed_core_loop_v2_month_six_density(core_loop):
-		_fail("Core Loop V2 month-six phone fixture could not be prepared.")
-		return
-	_mg._refresh_all()
-	await get_tree().process_frame
-	planner.open(6)
-	await _settle(0.55)
-	await _open_core_loop_v2_phone_app(
-		planner, "calendar", "month-six seven-offer calendar")
-	if _qa_failed:
-		return
-	var month_six_offers: Array[String] = core_loop.available_offer_ids(6)
-	if month_six_offers.size() != 7 \
-			or planner._offer_buttons.size() != 7 \
-			or not month_six_offers.has("m6_public_recruitment") \
-			or not month_six_offers.has("m6_holiday_night_shift") \
-			or not month_six_offers.has("hyunsu_exam_eve") \
-			or not month_six_offers.has(
-				"m6_daeun_tuesday_followthrough"):
-		_fail("Core Loop V2 month six did not render its exact 5–7 offer range.")
-		return
-	var month_six_hyunsu_button: Button = planner._offer_buttons.get(
-		"hyunsu_exam_eve")
-	if not is_instance_valid(month_six_hyunsu_button):
-		_fail("Core Loop V2 month-six Calendar omitted Hyunsu's earned card.")
-		return
-	month_six_hyunsu_button.grab_focus()
-	await _settle(0.12)
-	_assert_core_loop_v2_phone_surface(
-		planner, "month-six seven-offer calendar")
-	if _qa_failed:
-		return
-	await _save(prefix + "19h_phone_month_six_calendar", 0.15)
-	await _open_core_loop_v2_phone_app(
-		planner, "messages", "month-six received messages")
-	if _qa_failed:
-		return
-	if _count_meta_value(
-			planner._read_only_surface,
-			"phone_thread_kind",
-			"inbound_message") != 4 \
-			or planner._phone_message_badge_count() != 4 \
-			or core_loop.received_phone_consequence_ids(6) != [
-				"father_health_signal",
-				"m6_dodam_response",
-				"m6_city_service_response",
-			]:
-		_fail("Month Six did not keep three received consequence messages plus Hyunsu's selectable incoming message.")
-		return
-	var month_six_messages := _collect_control_text(
-		planner._read_only_surface)
-	for expected_message_copy in [
-		LocaleManager.ui("최씨 아저씨", "Mr. Choi"),
-		LocaleManager.ui("도담고객센터 채용팀", "Dodam Recruiting"),
-		LocaleManager.ui(
-			"도시시설운영단 채용팀",
-			"City Facilities Recruiting"),
-		LocaleManager.ui("강현수", "Kang Hyunsu"),
-	]:
-		if expected_message_copy not in month_six_messages:
-			_fail("Month-Six Messages omitted received copy: %s." % [
-				expected_message_copy])
-			return
-	_assert_core_loop_v2_phone_surface(
-		planner, "month-six received messages")
-	if _qa_failed:
-		return
-	await _save(prefix + "19i_phone_month_six_messages", 0.15)
-	planner.close()
-	var month_fixture := {
-		"month": 1,
-		"before": {
-			"money": 780_000.0,
-			"health": 66,
-			"mental": 55,
-		},
-		"after": {
-			"money": 430_000.0,
-			"health": 62,
-			"mental": 51,
-		},
-		"fixed_expense": 650_000.0,
-		"routines": {"primary": "livelihood", "secondary": "recovery"},
-		"kept": [
-			{"week": 1, "bundle_id": "m1_mirae_application"},
-			{"week": 2, "bundle_id": "father_first_call"},
-			{"week": 3, "bundle_id": "hyunsu_first_meet"},
-			{"week": 4, "bundle_id": "first_temptation_boss"},
-		],
-		"decline_receipts": core_loop.decline_receipts_from_month(1),
-	}
-	_mg._core_loop_v2_show_month_summary(month_fixture)
-	await _settle(0.25)
-	if str(_mg._modal_kind) != "core_loop_v2_month_summary" \
-			or not bool(_mg.modal_layer.get_meta(
-				"core_loop_v2_month_summary", false)):
-		_fail("Core Loop V2 month-end notebook did not open for visual QA.")
-		return
-	var month_viewport := get_viewport().get_visible_rect()
-	if not month_viewport.encloses(_mg.modal_panel.get_global_rect()):
-		_fail("Core Loop V2 month-end notebook exceeds %s." % month_viewport)
-		return
-	await _save(prefix + "20_month_end_notebook", 0.15)
-	_mg._close_modal(false)
-	await _dispose_main_game()
+	await _save(prefix + "05_planner_record", 0.05)
 
-	if not _seed_core_loop_v2_completion_fixture(core_loop):
-		_fail("Core Loop V2 screenshot fixture could not reach its real twenty-four-week boundary.")
-		return
-	var completion_snapshot: Dictionary = core_loop.completion_snapshot()
-	var completion_routines: Dictionary = completion_snapshot.get(
-		"routine_receipts", {})
-	var completion_routine_units := 0
-	for raw_receipt in completion_routines.values():
-		if raw_receipt is Dictionary \
-				and (raw_receipt as Dictionary).get("units", []) is Array:
-			completion_routine_units += (
-				(raw_receipt as Dictionary).get("units", []) as Array
-			).size()
-	var completion_obligations: Dictionary = completion_snapshot.get(
-		"obligation_receipts", {})
-	var completion_declines: Array = []
-	for raw_decline in completion_snapshot.get("decline_receipts", []):
-		if raw_decline is Dictionary \
-				and int((raw_decline as Dictionary).get(
-					"visible_month", 0)) == 6:
-			completion_declines.append(raw_decline)
-	if GameState.turn != 25 \
-			or int(completion_snapshot.get(
-				"completed_through_week", 0)) != 24 \
-			or (completion_snapshot.get(
-				"month_summaries", {}) as Dictionary).size() != 6 \
-			or completion_routines.size() != 24 \
-			or completion_routine_units != 48 \
-			or not completion_obligations.has("demo_collision") \
-			or completion_declines.size() != 5:
-		_fail("Core Loop V2 completion fixture mismatch: turn=%d completed=%d summaries=%d routines=%d units=%d collision=%s final_declines=%d." % [
-			GameState.turn,
-			int(completion_snapshot.get("completed_through_week", 0)),
-			(completion_snapshot.get(
-				"month_summaries", {}) as Dictionary).size(),
-			completion_routines.size(),
-			completion_routine_units,
-			str(completion_obligations.has("demo_collision")),
-			completion_declines.size(),
-		])
-		return
-	await _boot_main_game()
-	# This fixture represents the first W24→25 boundary, not a loaded completed save.
-	# Exercise the one permitted autosave so the recap exposes the fresh-save copy.
-	_mg._core_loop_v2_show_completion(true)
-	await _settle(0.35)
-	if str(_mg._modal_kind) != "core_loop_v2_complete" \
-			or not bool(_mg.modal_layer.get_meta("core_loop_v2_completion", false)):
-		_fail("Core Loop V2 completion recap did not open for visual QA.")
-		return
-	var recap_viewport := get_viewport().get_visible_rect()
-	var recap_panel: Rect2 = _mg.modal_panel.get_global_rect()
-	if not recap_viewport.encloses(recap_panel):
-		_fail("Core Loop V2 completion recap exceeds %s: %s." % [
-			recap_viewport, recap_panel])
-		return
-	var recap_done: Button = _find_visible_meta_button(
-		_mg.modal_layer, "core_loop_v2_recap_done")
-	if not is_instance_valid(recap_done) \
-			or not recap_viewport.encloses(recap_done.get_global_rect()):
-		_fail("Core Loop V2 recap CTA is not visible without scrolling.")
-		return
-	if get_viewport().gui_get_focus_owner() != recap_done:
-		_fail("Core Loop V2 recap CTA did not own initial focus.")
-		return
-	if _mg.modal_scroll.vertical_scroll_mode \
-			!= ScrollContainer.SCROLL_MODE_AUTO \
-			or _mg.modal_scroll.scroll_vertical != 0 \
-			or not _mg.modal_footer.visible:
-		_fail("Core Loop V2 recap did not open at the top with a sticky CTA.")
-		return
-	var recap_text := _collect_control_text(_mg.modal_layer)
-	var expected_boundary := LocaleManager.ui(
-		"여섯 달의 기록을 자동 저장했다. 첫해는 아직 끝나지 않았다.",
-		"Your six-month record was saved automatically. The first year is not over yet.")
-	if expected_boundary not in recap_text:
-		_fail("Core Loop V2 recap does not expose its saved first-year boundary.")
-		return
-	var recap_intro := _find_meta_control(
-		_mg.modal_layer, "core_loop_v2_recap_intro")
-	var recap_scroll_rect: Rect2 = _mg.modal_scroll.get_global_rect()
-	var recap_obligation := _find_meta_control(
-		_mg.modal_layer, "core_loop_v2_recap_first_bill")
-	var recap_selected := _find_meta_control(
-		_mg.modal_layer,
-		"core_loop_v2_recap_selected_obligations")
-	var recap_deferred := _find_meta_control(
-		_mg.modal_layer,
-		"core_loop_v2_recap_deferred_obligations")
-	var recap_declines := _find_meta_control(
-		_mg.modal_layer, "core_loop_v2_recap_final_declines")
-	var recap_expired := _find_meta_control(
-		_mg.modal_layer, "core_loop_v2_recap_expired")
-	var recap_unresolved := _find_meta_control(
-		_mg.modal_layer, "core_loop_v2_recap_unresolved")
-	if not is_instance_valid(recap_intro) \
-			or not recap_scroll_rect.grow(4.0).encloses(
-				recap_intro.get_global_rect()) \
-			or not is_instance_valid(recap_obligation) \
-			or not is_instance_valid(recap_selected) \
-			or not is_instance_valid(recap_deferred) \
-			or not is_instance_valid(recap_declines) \
-			or not is_instance_valid(recap_expired) \
-			or not is_instance_valid(recap_unresolved) \
-			or _mg.modal_body.get_combined_minimum_size().y \
-				<= _mg.modal_scroll.size.y:
-		_fail("Real 24-week recap lost its title, priority/decline/expired/unresolved records, or scrollable body.")
-		return
-	for expected_recap_copy in [
-		LocaleManager.ui(
-			"이번 주에 끝낸 일",
-			"What I Finished This Week"),
-		LocaleManager.ui(
-			"이번 주에 하지 못한 일",
-			"What I Couldn't Do This Week"),
-		LocaleManager.ui(
-			"이번 달에 고르지 못한 일",
-			"What I Couldn't Choose This Month"),
-		LocaleManager.ui(
-			"기한을 놓친 일",
-			"Opportunity That Expired"),
-		LocaleManager.ui(
-			"아직 풀리지 않은 일",
-			"Still Unresolved"),
-	]:
-		if expected_recap_copy.to_upper() not in recap_text:
-			_fail("Real 24-week recap omitted direct copy: %s." % [
-				expected_recap_copy])
-			return
-	if recap_selected.get_meta(
-			"core_loop_v2_recap_selected_obligations", []) \
-				!= ["father_call"] \
-			or recap_deferred.get_meta(
-				"core_loop_v2_recap_deferred_obligations", []) \
-				!= ["urgent_paid_shift", "body_rest"] \
-			or recap_expired.get_meta(
-				"core_loop_v2_recap_expired_obligations", []) \
-				!= ["city_work_sample"]:
-		_fail("Screenshot fixture lost its exact selected/deferred/expired obligation metadata.")
-		return
-	var selected_recap_text := _collect_control_text(recap_selected)
-	var deferred_recap_text := _collect_control_text(recap_deferred)
-	var expired_recap_text := _collect_control_text(recap_expired)
-	var father_call := LocaleManager.ui(
-		"아버지에게 다시 전화한다",
-		"Call Father again")
-	var city_work_sample := LocaleManager.ui(
-		"도시시설운영단 작업표를 제출한다",
-		"Submit the City Facilities worksheet")
-	var urgent_paid_shift := LocaleManager.ui(
-		"오늘 밤 급한 유급 일을 잡는다",
-		"Take urgent paid work tonight")
-	var body_rest := LocaleManager.ui(
-		"알람만 맞추고 몸부터 눕힌다",
-		"Set one alarm and lie down first")
-	if LocaleManager.ui(
-			"이번 주에 끝낸 일",
-			"What I Finished This Week").to_upper() \
-				not in selected_recap_text \
-			or LocaleManager.ui(
-				"이번 주에 하지 못한 일",
-				"What I Couldn't Do This Week").to_upper() \
-					not in deferred_recap_text \
-			or selected_recap_text.count(father_call) != 1 \
-			or selected_recap_text.count(city_work_sample) != 0 \
-			or selected_recap_text.count(urgent_paid_shift) != 0 \
-			or selected_recap_text.count(body_rest) != 0 \
-			or deferred_recap_text.count(father_call) != 0 \
-			or deferred_recap_text.count(city_work_sample) != 0 \
-			or deferred_recap_text.count(urgent_paid_shift) != 1 \
-			or deferred_recap_text.count(body_rest) != 1 \
-			or expired_recap_text.count(father_call) != 0 \
-			or expired_recap_text.count(city_work_sample) != 1 \
-			or expired_recap_text.count(urgent_paid_shift) != 0 \
-			or expired_recap_text.count(body_rest) != 0:
-		_fail("Screenshot fixture duplicated or misplaced a selected/deferred/expired obligation.")
-		return
-	await _save(prefix + "21_twenty_four_week_recap", 0.15)
-	await _dispose_main_game()
-
-	_seed_core_loop_v2_legacy_eight_week_save(core_loop)
-	await _boot_main_game()
-	# ScreenshotQA boots MainGame in static-surface mode to prevent scene swaps,
-	# so exercise the normal post-story Core Loop route explicitly.
-	_mg._core_loop_v2_route_week()
-	await _settle(0.35)
-	planner = _mg._core_loop_planner
-	if not is_instance_valid(planner) or not planner.visible \
-			or int(planner._month_index) != 3:
-		_fail("A legacy completed week-eight save did not continue into the month-three planner.")
-		return
-	if core_loop.is_prototype_complete() \
-			or int(GameState.core_loop_v2_state.get(
-				"completed_through_week", 0)) != 8:
-		_fail("Legacy week-eight migration was mistaken for the current week-twenty-four boundary.")
-		return
-	_assert_core_loop_v2_phone_home(
-		planner, [
-			"messages", "calendar", "contacts", "bank", "device",
-		], "legacy save month-three continuation")
+	planner.call("_commit_plan")
+	await _settle(0.16)
+	_assert_core_loop_v2_planner_surface(
+		planner, "commit review", 3, false, true)
 	if _qa_failed:
 		return
-	await _save(prefix + "22_legacy_phone_home", 0.15)
-	await _dispose_main_game()
+	if planner.schedule_snapshot() != expected_schedule:
+		_fail("Entering review mutated the four-week schedule.")
+		return
+	await _save(prefix + "06_planner_review", 0.05)
 
-	GameState.start_new_game()
-	GameState.flags["prologue_done"] = true
-	core_loop.initialize_for_run(true)
-	await _boot_main_game()
-	_mg._core_loop_v2_open_planner(1)
+	# Commit the same immutable plan without routing into week one. This scope
+	# owns UI screenshots; story/action routing has dedicated deterministic QA.
+	var expected_routines: Dictionary = planner.routine_snapshot()
+	var commit_result: Dictionary = core_loop.commit_plan(
+		1, planner.schedule_snapshot(), expected_routines)
+	if not bool(commit_result.get("ok", false)):
+		_fail("The reviewed ORDER-76 plan could not be committed: %s." % [
+			str(commit_result)])
+		return
+	planner.close()
+	_mg.call("_refresh_all")
 	await get_tree().process_frame
-	planner = _mg._core_loop_planner
-	planner.assign_offer_to_week("m1_convenience_trial_shift", 1)
-	planner.assign_offer_to_week("father_first_call", 2)
-	planner.assign_offer_to_week("hyunsu_first_meet", 3)
-	planner._commit_plan()
-	planner._commit_plan()
-	await _settle(0.35)
-	if not _mg.aruba_game.visible or int(_mg.aruba_game._mode) != 1:
-		_fail("Core Loop V2 convenience shift did not open the convenience minigame.")
+
+	if not bool(_mg._core_loop_v2_open_phone()):
+		_fail("MainGame did not open the compact communication phone.")
 		return
-	if _mg._core_loop_v2_side_shift_job_id != "job_01":
-		_fail("Core Loop V2 lost the convenience result identity after restoring the career.")
+	await _settle(0.34)
+	var phone := _mg._communication_phone as Control
+	_assert_core_loop_v2_communication_phone(
+		phone, "conversation inbox", "list", 0)
+	if _qa_failed:
 		return
-	if _mg._side_shift_title(_mg._core_loop_v2_side_shift_job_id) != LocaleManager.ui(
-			"추가 야간 시프트", "Extra night shift"):
-		_fail("Core Loop V2 convenience result would use the wrong shift title.")
+	await _save(prefix + "07_phone_inbox", 0.05)
+
+	var conversation := _find_meta_control(
+		phone, "communication_surface") as Button
+	if not is_instance_valid(conversation) \
+			or not conversation.is_visible_in_tree() or conversation.disabled:
+		_fail("The communication phone inbox has no message or call to open.")
 		return
+	conversation.pressed.emit()
+	await _settle(0.14)
+	_assert_core_loop_v2_communication_phone(
+		phone, "conversation thread", "thread", 0)
+	if _qa_failed:
+		return
+	await _save(prefix + "08_phone_thread", 0.05)
+
+	phone.call("_switch_tab", 1)
+	await _settle(0.14)
+	_assert_core_loop_v2_communication_phone(
+		phone, "contacts", "list", 1)
+	if _qa_failed:
+		return
+	await _save(prefix + "09_phone_contacts", 0.05)
+	phone.call("close")
+	await _settle(0.10)
+
+	var plan_button := _mg._planner_button as Button
+	if not is_instance_valid(plan_button) or not plan_button.is_visible_in_tree() \
+			or plan_button.disabled:
+		_fail("MainGame did not expose the Plan button after commit.")
+		return
+	plan_button.pressed.emit()
+	await _settle(0.22)
+	planner = _mg._core_loop_planner as Control
+	_assert_core_loop_v2_planner_surface(
+		planner, "read-only Plan reopen", 1, true, false)
+	if _qa_failed:
+		return
+	var locked_schedule: Dictionary = planner.schedule_snapshot()
+	var locked_routines: Dictionary = planner.routine_snapshot()
+	if locked_schedule != expected_schedule or locked_routines != expected_routines:
+		_fail("The Plan button reopened different committed data: %s / %s." % [
+			str(locked_schedule), str(locked_routines)])
+		return
+	if bool(planner.assign_offer_to_week("father_first_call", 1)) \
+			or bool(planner.unassign_week(1)) \
+			or bool(planner.select_routine("primary", "growth")) \
+			or planner.schedule_snapshot() != locked_schedule \
+			or planner.routine_snapshot() != locked_routines:
+		_fail("The read-only Plan surface accepted or applied a mutation.")
+		return
+	await _save(prefix + "10_planner_read_only", 0.05)
 	await _dispose_main_game()
 
 func _seed_core_loop_v2_month_three_density(core_loop: Variant) -> bool:
@@ -3132,161 +2252,202 @@ func _assert_core_loop_v2_debug_entry(lang: String) -> void:
 	_remove_start_menu_nodes()
 	await _settle(0.2)
 
-func _assert_core_loop_v2_phone_surface(
-		planner: Control, context: String) -> void:
-	var app_scroll := planner._app_scroll as ScrollContainer
-	if not is_instance_valid(app_scroll) \
-			or app_scroll.horizontal_scroll_mode != ScrollContainer.SCROLL_MODE_DISABLED \
-			or not app_scroll.follow_focus:
-		_fail("Core Loop V2 phone lost its focus-following vertical app viewport on %s." % context)
+func _assert_core_loop_v2_planner_surface(
+		planner: Control, context: String, expected_tab: int,
+		expected_read_only: bool, expected_review: bool) -> void:
+	if not is_instance_valid(planner) or not planner.is_visible_in_tree():
+		_fail("Core Loop V2 %s planner is not visible." % context)
+		return
+	if int(planner._active_tab) != expected_tab \
+			or bool(planner.read_only_plan()) != expected_read_only \
+			or bool(planner.review_pending()) != expected_review:
+		_fail(("Core Loop V2 %s planner state mismatch: "
+			+ "tab=%d read_only=%s review=%s.") % [
+			context, int(planner._active_tab),
+			str(planner.read_only_plan()), str(planner.review_pending()),
+		])
+		return
+	var tabs: Array = planner._tab_buttons
+	if tabs.size() != 4:
+		_fail("Core Loop V2 %s planner exposes %d tabs instead of four." % [
+			context, tabs.size()])
+		return
+	for tab_index in range(tabs.size()):
+		var tab := tabs[tab_index] as Button
+		if not is_instance_valid(tab) or not tab.is_visible_in_tree() \
+				or tab.text.strip_edges().is_empty():
+			_fail("Core Loop V2 %s planner tab %d is missing or blank." % [
+				context, tab_index])
+			return
+
+	var viewport_rect := get_viewport().get_visible_rect()
+	var page_margin := planner._page_margin as Control
+	if not is_instance_valid(page_margin) \
+			or not viewport_rect.grow(1.0).encloses(
+				page_margin.get_global_rect()):
+		_fail("Core Loop V2 %s wide planner escaped the viewport: %s." % [
+			context,
+			page_margin.get_global_rect() if is_instance_valid(page_margin)
+			else Rect2(),
+		])
 		return
 	_assert_core_loop_v2_planner_bounds(planner, context)
 	if _qa_failed:
 		return
-	var frame := planner._phone_frame as Control
-	var viewport_rect := get_viewport().get_visible_rect()
-	if not is_instance_valid(frame) or not frame.is_visible_in_tree() \
-			or not viewport_rect.encloses(frame.get_global_rect()):
-		_fail("Core Loop V2 %s lost its physical phone frame inside %s." % [
-			context, viewport_rect])
-		return
-	var available_size := Vector2(
-		maxf(480.0, viewport_rect.size.x - 48.0),
-		maxf(320.0, viewport_rect.size.y - 48.0))
-	var expected_width := minf(1180.0, available_size.x)
-	var phone_aspect := float(planner._phone_frame_aspect)
-	var expected_height := expected_width / phone_aspect
-	if expected_height > available_size.y:
-		expected_height = available_size.y
-		expected_width = expected_height * phone_aspect
-	var expected_size := Vector2(expected_width, expected_height)
-	if frame.size.distance_to(expected_size) > 2.0:
-		_fail("Core Loop V2 %s phone frame is %s instead of %s." % [
-			context, frame.size, expected_size])
-		return
-	var shell := planner._phone_frame_texture as TextureRect
-	var device_id := str(load(
-		"res://systems/PhoneSystem.gd").current_device().get("id", "starter"))
-	var expected_shell := "res://assets/ui/phone/phone_frame_refurbished.png"
-	if device_id == "starter":
-		expected_shell = "res://assets/ui/phone/phone_frame_starter.png"
-	elif device_id == "flagship":
-		expected_shell = "res://assets/ui/phone/phone_frame_flagship.png"
-	if not is_instance_valid(shell) or not is_instance_valid(shell.texture) \
-			or shell.texture.resource_path != expected_shell:
-		_fail("Core Loop V2 %s uses the wrong physical shell for %s: %s." % [
-			context, device_id,
-			shell.texture.resource_path if is_instance_valid(shell) \
-				and is_instance_valid(shell.texture) else "<missing>",
-		])
-		return
-	var gesture_bar := planner._phone_gesture_bar as Control
-	var legacy_nav := planner._phone_legacy_nav as Control
-	if device_id == "starter":
-		if not is_instance_valid(legacy_nav) \
-				or not legacy_nav.is_visible_in_tree() \
-				or (is_instance_valid(gesture_bar) \
-					and gesture_bar.is_visible_in_tree()):
-			_fail(("Core Loop V2 %s starter phone did not use legacy "
-				+ "Android navigation.") % context)
+
+	if expected_tab == 1:
+		var calendar_surface := planner._calendar_surface as Control
+		var offer_scroll := planner._offer_scroll as ScrollContainer
+		var week_scroll := planner._calendar_scroll as ScrollContainer
+		if not is_instance_valid(calendar_surface) \
+				or not calendar_surface.is_visible_in_tree() \
+				or not is_instance_valid(offer_scroll) \
+				or not is_instance_valid(week_scroll):
+			_fail("Core Loop V2 %s lost the wide calendar columns." % context)
 			return
-		if absf(phone_aspect - 1672.0 / 940.0) > 0.001:
-			_fail("Core Loop V2 %s starter shell kept a modern aspect." % context)
-			return
-		var transparent_key_names := ["menu", "home", "back"]
-		for key_index in range(transparent_key_names.size()):
-			var key_button := legacy_nav.get_child(key_index) as Button \
-				if key_index < legacy_nav.get_child_count() else null
-			if not is_instance_valid(key_button) \
-					or not key_button.text.is_empty() \
-					or str(key_button.get_meta("physical_key", "")) \
-						!= transparent_key_names[key_index]:
-				_fail(("Core Loop V2 %s starter phone duplicated a "
-					+ "software navigation glyph over its physical shell.") % context)
+		for scroll in [offer_scroll, week_scroll]:
+			if scroll.horizontal_scroll_mode \
+					!= ScrollContainer.SCROLL_MODE_DISABLED \
+					or not scroll.follow_focus:
+				_fail("Core Loop V2 %s calendar gained horizontal overflow." % context)
 				return
-		var lcd_panel := planner._phone_lcd_clip as Control
-		var lcd_haze := planner._phone_lcd_haze as ColorRect
-		if not is_instance_valid(lcd_panel) or lcd_panel.size.y <= 0.0 \
-				or absf(lcd_panel.size.x / lcd_panel.size.y - 16.0 / 9.0) > 0.03 \
-				or not is_instance_valid(lcd_haze) or lcd_haze.color.a <= 0.0:
-			_fail(("Core Loop V2 %s starter phone lost its small "
-				+ "letterboxed 16:9 LCD: size=%s.") % [context,
-					lcd_panel.size if is_instance_valid(lcd_panel) \
-						else Vector2.ZERO])
+		var offer_buttons: Dictionary = planner._offer_buttons
+		var slot_buttons: Dictionary = planner._slot_buttons
+		if offer_buttons.size() < 5 or slot_buttons.size() != 4:
+			_fail("Core Loop V2 %s calendar density changed: offers=%d weeks=%d." % [
+				context, offer_buttons.size(), slot_buttons.size()])
 			return
-	elif not is_instance_valid(gesture_bar) \
-			or not gesture_bar.is_visible_in_tree() \
-			or (is_instance_valid(legacy_nav) \
-				and legacy_nav.is_visible_in_tree()):
-		_fail("Core Loop V2 %s %s phone did not use gesture navigation." % [
-			context, device_id])
-		return
-	var expected_date: String = str(GameState.get_date_string())
-	if str(planner._status_date_label.text) != expected_date \
-			or str(planner._status_network_label.text) != "LTE" \
-			or "09:41" in _collect_control_text(planner):
-		_fail("Core Loop V2 %s status bar is stale: date=%s network=%s." % [
-			context,
-			str(planner._status_date_label.text),
-			str(planner._status_network_label.text),
-		])
-		return
+		var week_view := week_scroll.get_global_rect().grow(1.0)
+		for week_key in ["1", "2", "3", "4"]:
+			var slot := slot_buttons.get(week_key) as Button
+			if not is_instance_valid(slot) or not slot.is_visible_in_tree() \
+					or not week_view.encloses(slot.get_global_rect()):
+				_fail("Core Loop V2 %s does not show all four week rows; missing %s." % [
+					context, week_key])
+				return
+	else:
+		var read_only_scroll := planner._read_only_scroll as ScrollContainer
+		if not is_instance_valid(read_only_scroll) \
+				or not read_only_scroll.is_visible_in_tree() \
+				or read_only_scroll.horizontal_scroll_mode \
+					!= ScrollContainer.SCROLL_MODE_DISABLED \
+				or not read_only_scroll.follow_focus:
+			_fail("Core Loop V2 %s detail board lost vertical focus scrolling." % context)
+			return
+
 	var focus_owner := get_viewport().gui_get_focus_owner()
 	if not is_instance_valid(focus_owner) \
 			or not planner.is_ancestor_of(focus_owner) \
 			or not (focus_owner as Control).is_visible_in_tree():
-		_fail("Core Loop V2 %s has no visible phone focus owner." % context)
+		_fail("Core Loop V2 %s planner has no visible trapped focus." % context)
 
-func _assert_core_loop_v2_phone_home(
-		planner: Control, expected_apps: Array[String],
-		context: String) -> void:
-	if str(planner._screen_mode) != "home":
-		_fail("Core Loop V2 %s is not the phone home screen." % context)
-		return
-	var app_buttons: Dictionary = planner._app_buttons
-	if app_buttons.size() != expected_apps.size():
-		_fail("Core Loop V2 %s exposed %d apps instead of %d: %s." % [
-			context, app_buttons.size(), expected_apps.size(),
-			str(app_buttons.keys())])
-		return
-	for app_id in expected_apps:
-		var button: Button = app_buttons.get(app_id)
-		if not is_instance_valid(button) or not button.is_visible_in_tree():
-			_fail("Core Loop V2 %s is missing the visible %s app." % [
-				context, app_id])
-			return
-		if str(load("res://systems/PhoneSystem.gd").current_device().get(
-				"id", "starter")) == "starter" \
-				and (int(button.get_meta("phone_icon_size", 0)) != 56 \
-					or int(button.get_meta("phone_icon_radius", 0)) != 8):
-			_fail(("Core Loop V2 %s starter launcher rendered %s "
-				+ "as a rounded modern app tile.") % [context, app_id])
-			return
-	if app_buttons.has("games"):
-		_fail("Core Loop V2 %s exposed the post-launch Games app." % context)
-		return
-	_assert_core_loop_v2_phone_surface(planner, context)
 
-func _open_core_loop_v2_phone_app(
-		planner: Control, app_id: String, context: String) -> void:
-	if str(planner._screen_mode) != "home":
-		await _send_route_raw_gamepad_button(JOY_BUTTON_B)
-		await _settle(0.08)
-	if str(planner._screen_mode) != "home":
-		_fail("Core Loop V2 could not return home before opening %s." % app_id)
+func _assert_core_loop_v2_communication_phone(
+		phone: Control, context: String, expected_mode: String,
+		expected_tab: int) -> void:
+	if not is_instance_valid(phone) or not phone.is_visible_in_tree():
+		_fail("Core Loop V2 %s communication phone is not visible." % context)
 		return
-	var app_button: Button = planner._app_buttons.get(app_id)
-	if not is_instance_valid(app_button) or app_button.disabled:
-		_fail("Core Loop V2 phone home cannot open %s." % app_id)
+	if str(phone._screen_mode) != expected_mode \
+			or int(phone._active_tab) != expected_tab:
+		_fail("Core Loop V2 %s phone state mismatch: mode=%s tab=%d." % [
+			context, str(phone._screen_mode), int(phone._active_tab)])
 		return
-	app_button.grab_focus()
-	await _send_route_raw_gamepad_button(JOY_BUTTON_A)
-	await _settle(0.08)
-	if str(planner._screen_mode) != "app" \
-			or str(planner._active_app_id) != app_id:
-		_fail("Core Loop V2 phone did not open the %s app." % app_id)
+
+	var viewport_rect := get_viewport().get_visible_rect()
+	var drawer := phone._drawer as Control
+	var holder := phone._phone_holder as Control
+	var display := phone._display_panel as Control
+	if not is_instance_valid(drawer) or not is_instance_valid(holder) \
+			or not is_instance_valid(display):
+		_fail("Core Loop V2 %s phone is missing its drawer, shell, or display." % context)
 		return
-	_assert_core_loop_v2_phone_surface(planner, context)
+	var expected_width := 320.0 if viewport_rect.size.x <= 960.5 else 392.0
+	var drawer_rect := drawer.get_global_rect()
+	if absf(drawer_rect.size.x - expected_width) > 1.0 \
+			or absf(drawer_rect.end.x - (viewport_rect.end.x - 16.0)) > 1.0 \
+			or not viewport_rect.grow(1.0).encloses(drawer_rect):
+		_fail("Core Loop V2 %s phone drawer geometry is wrong: %s expected width %.0f." % [
+			context, drawer_rect, expected_width])
+		return
+	var holder_rect := holder.get_global_rect()
+	var display_rect := display.get_global_rect()
+	if holder_rect.size.y <= holder_rect.size.x * 1.8 \
+			or not drawer_rect.grow(1.0).encloses(holder_rect) \
+			or not holder_rect.grow(1.0).encloses(display_rect):
+		_fail("Core Loop V2 %s phone is not a contained portrait shell: %s / %s." % [
+			context, holder_rect, display_rect])
+		return
+
+	var frame := phone._frame_texture as TextureRect
+	if not is_instance_valid(frame) or not is_instance_valid(frame.texture) \
+			or frame.texture.resource_path \
+				!= "res://assets/ui/phone/phone_frame_flagship.png" \
+			or absf(frame.rotation_degrees - 90.0) > 0.01 \
+			or absf(float(frame.get_meta(
+				"source_rotation_degrees", 0.0)) - 90.0) > 0.01:
+		_fail("Core Loop V2 %s phone lost the approved flagship portrait material." % context)
+		return
+	var tabs: Array = phone._tab_buttons
+	var body_scroll := phone._body_scroll as ScrollContainer
+	if tabs.size() != 2 or not is_instance_valid(body_scroll) \
+			or body_scroll.horizontal_scroll_mode \
+				!= ScrollContainer.SCROLL_MODE_DISABLED \
+			or not body_scroll.follow_focus \
+			or not display_rect.grow(1.0).encloses(body_scroll.get_global_rect()):
+		_fail("Core Loop V2 %s phone lost its two-tab vertical viewport." % context)
+		return
+
+	var communication_surfaces: Array[String] = []
+	var contact_methods: Array[String] = []
+	var stack: Array[Node] = [phone]
+	while not stack.is_empty():
+		var node: Node = stack.pop_back()
+		if node.has_meta("communication_surface"):
+			var surface := str(node.get_meta("communication_surface", ""))
+			if surface not in ["inbound_message", "call_log"]:
+				_fail("Core Loop V2 %s phone exposed non-conversation surface %s." % [
+					context, surface])
+				return
+			communication_surfaces.append(surface)
+		if node.has_meta("contact_method"):
+			var method := str(node.get_meta("contact_method", ""))
+			if method not in ["phone", "kakao", "business_card"]:
+				_fail("Core Loop V2 %s phone exposed false contact method %s." % [
+					context, method])
+				return
+			contact_methods.append(method)
+		for child in node.get_children():
+			stack.append(child)
+	if expected_mode == "thread":
+		if str(phone._thread_bundle_id).is_empty() \
+				or str(phone._thread_kind) not in ["inbound_message", "call_log"] \
+				or not is_instance_valid(_find_visible_meta_button(
+				phone, "offer_request")):
+			_fail("Core Loop V2 %s phone thread lost its authored message/action." % context)
+			return
+	elif expected_tab == 0:
+		if communication_surfaces.is_empty() or not contact_methods.is_empty():
+			_fail("Core Loop V2 %s inbox mixed contacts with conversations." % context)
+			return
+	elif contact_methods.is_empty() or not communication_surfaces.is_empty():
+		_fail("Core Loop V2 %s contacts mixed conversations or has no real contact." % context)
+		return
+
+	var phone_text := _collect_control_text(phone).to_lower()
+	for legacy_copy in [
+		"bank", "device", "games", "stocks", "crypto",
+		"은행", "기종", "게임 앱", "주식", "코인",
+	]:
+		if legacy_copy in phone_text:
+			_fail("Core Loop V2 %s communication phone retained legacy app copy '%s'." % [
+				context, legacy_copy])
+			return
+	var focus_owner := get_viewport().gui_get_focus_owner()
+	if not is_instance_valid(focus_owner) \
+			or not phone.is_ancestor_of(focus_owner) \
+			or not (focus_owner as Control).is_visible_in_tree():
+		_fail("Core Loop V2 %s communication phone leaked modal focus." % context)
 
 func _assert_core_loop_v2_planner_bounds(planner: Control, context: String) -> void:
 	var viewport_rect := get_viewport().get_visible_rect()

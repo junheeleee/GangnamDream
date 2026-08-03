@@ -17,51 +17,23 @@ REGISTRY_PATH = ROOT / "autoloads" / "DataRegistry.gd"
 DEMO_CORE_LOOP_PATH = ROOT / "systems" / "DemoCoreLoopV2.gd"
 HANGUL_RE = re.compile(r"[가-힣]")
 
-EXPECTED_TABS = ["messages", "calendar", "people", "record"]
-EXPECTED_PHONE_APPS = [
-    "messages",
-    "calendar",
-    "contacts",
-    "bank",
-    "device",
-    "investment",
-    "leisure",
-    "games",
+EXPECTED_TABS = ["status", "calendar", "people", "record"]
+EXPECTED_PHONE_TABS = ["messages", "contacts"]
+EXPECTED_PHONE_MESSAGE_SURFACES = ["inbound_message", "call_log"]
+EXPECTED_PHONE_CONTACT_METHODS = ["phone", "kakao", "business_card"]
+EXPECTED_PHONE_PERSISTENT_FIELDS = [
+    "schema",
+    "device_purchase_retired",
+    "legacy_refund_applied",
+    "legacy_refund_amount",
 ]
-EXPECTED_PHONE_DEVICES = {
-    "starter": (0, 1, 0, True, True),
-    "refurbished": (1, 13, 180_000, True, True),
-    "midrange": (2, 25, 550_000, False, False),
-    "flagship": (3, 49, 1_200_000, False, False),
-}
-EXPECTED_PHONE_ESSENTIAL_APPS = {
-    "messages",
-    "calendar",
-    "contacts",
-    "bank",
-    "device",
-}
-EXPECTED_INVESTMENT_FLAGS = {
-    "has_received_paycheck",
-    "had_first_investment",
-}
-EXPECTED_LEISURE_DISCOVERY_FLAGS = {
-    "racetrack_guide_met",
-    "racetrack_visited",
-    "holdem_visited",
-    "casino_club_introduced",
-}
-EXPECTED_PHONE_LIVE_STATE_FIELDS = {
-    "turn",
-    "year",
-    "month",
-    "week_of_month",
-    "money",
-    "loans",
-    "market_prices",
-    "portfolio",
-    "relationships",
-    "cast",
+EXPECTED_PHONE_LEGACY_MIGRATION = {
+    "source_schema": 2,
+    "refundable_device_id": "refurbished",
+    "previous_device_id": "starter",
+    "price": 180_000,
+    "available_from_week": 13,
+    "refund_once": True,
 }
 EXPECTED_STAGES = [
     "unmet",
@@ -1710,200 +1682,54 @@ def validate_density_time_hybrid_contracts(
 def validate_phone_contract(
     phone: dict[str, Any], errors: list[str]
 ) -> None:
-    if int(phone.get("schema_version", 0)) != 2:
-        fail("phone.schema_version must be 2", errors)
-    if phone.get("home_grid") != [4, 2]:
-        fail("phone.home_grid must remain the 4x2 app surface", errors)
-    if phone.get("persistent_fields") != [
-        "schema",
-        "current_device_id",
-        "owned_device_ids",
-        "purchase_receipts",
-        "favorite_app_id",
-    ]:
-        fail(
-            "phone state must persist only device ownership, exact "
-            "historical purchase receipts, and the unlocked home favorite",
-            errors,
-        )
-    forbidden_mirrors = {
-        str(value)
-        for value in require_list(
-            phone.get("forbidden_state_mirrors"),
-            "phone.forbidden_state_mirrors",
-            errors,
-        )
+    expected_root_keys = {
+        "schema_version",
+        "persistent_fields",
+        "surface",
+        "legacy_migration",
     }
-    if forbidden_mirrors != EXPECTED_PHONE_LIVE_STATE_FIELDS:
+    if set(phone) != expected_root_keys:
         fail(
-            "phone forbidden mirrors must cover live date, finance, market, "
-            "and relationship owners",
+            "phone contract must contain only the fixed contact surface and "
+            "legacy migration metadata",
+            errors,
+        )
+    if int(phone.get("schema_version", 0)) != 3:
+        fail("phone.schema_version must be 3", errors)
+    if phone.get("persistent_fields") != EXPECTED_PHONE_PERSISTENT_FIELDS:
+        fail(
+            "phone state must persist only retirement and one-time refund "
+            "settlement fields",
             errors,
         )
 
-    app_order = require_list(
-        phone.get("app_order"), "phone.app_order", errors
-    )
-    if app_order != EXPECTED_PHONE_APPS:
-        fail(f"phone.app_order must be {EXPECTED_PHONE_APPS}", errors)
-    apps = require_dict(phone.get("apps"), "phone.apps", errors)
-    if set(apps) != set(EXPECTED_PHONE_APPS):
-        fail("phone.apps drifted from the eight-app contract", errors)
-    for app_id in EXPECTED_PHONE_APPS:
-        app = require_dict(apps.get(app_id), f"phone.apps.{app_id}", errors)
-        for language_key in ("label_ko", "label_en"):
-            label = app.get(language_key)
-            if not isinstance(label, str) or not label.strip():
-                fail(f"phone.apps.{app_id}.{language_key} is empty", errors)
-            elif language_key == "label_en" and HANGUL_RE.search(label):
-                fail(
-                    f"phone.apps.{app_id}.label_en contains Hangul",
-                    errors,
-                )
-        availability = require_dict(
-            app.get("availability"),
-            f"phone.apps.{app_id}.availability",
+    surface = require_dict(phone.get("surface"), "phone.surface", errors)
+    if set(surface) != {
+        "orientation", "tabs", "message_surfaces", "contact_methods"
+    }:
+        fail("phone.surface contains an app-grid or unknown capability", errors)
+    if surface.get("orientation") != "portrait":
+        fail("phone.surface.orientation must be portrait", errors)
+    if surface.get("tabs") != EXPECTED_PHONE_TABS:
+        fail(f"phone.surface.tabs must be {EXPECTED_PHONE_TABS}", errors)
+    if surface.get("message_surfaces") != EXPECTED_PHONE_MESSAGE_SURFACES:
+        fail(
+            "phone messages must contain only inbound_message and call_log",
             errors,
         )
-        kind = str(availability.get("kind", ""))
-        if app_id in EXPECTED_PHONE_ESSENTIAL_APPS:
-            if kind != "always" or set(availability) != {"kind"}:
-                fail(
-                    f"essential phone app {app_id} must always be visible",
-                    errors,
-                )
-        elif app_id == "investment":
-            flags = {
-                str(value)
-                for value in require_list(
-                    availability.get("flags"),
-                    "phone.apps.investment.availability.flags",
-                    errors,
-                )
-            }
-            if kind != "any_flag" or flags != EXPECTED_INVESTMENT_FLAGS:
-                fail(
-                    "investment app must unlock from the neutral paycheck or "
-                    "first-investment flags",
-                    errors,
-                )
-        elif app_id == "leisure":
-            flags = {
-                str(value)
-                for value in require_list(
-                    availability.get("flags"),
-                    "phone.apps.leisure.availability.flags",
-                    errors,
-                )
-            }
-            if (
-                kind != "any_flag"
-                or flags != EXPECTED_LEISURE_DISCOVERY_FLAGS
-            ):
-                fail(
-                    "leisure app must unlock only from actual place "
-                    "discovery flags",
-                    errors,
-                )
-        elif app_id == "games" and kind != "post_launch":
-            fail("games app must remain post_launch and hidden", errors)
+    if surface.get("contact_methods") != EXPECTED_PHONE_CONTACT_METHODS:
+        fail(
+            "phone contacts must use only phone, kakao, and business_card",
+            errors,
+        )
 
-    device_order = require_list(
-        phone.get("device_order"), "phone.device_order", errors
+    migration = require_dict(
+        phone.get("legacy_migration"), "phone.legacy_migration", errors
     )
-    if device_order != list(EXPECTED_PHONE_DEVICES):
+    if migration != EXPECTED_PHONE_LEGACY_MIGRATION:
         fail(
-            f"phone.device_order must be {list(EXPECTED_PHONE_DEVICES)}",
-            errors,
-        )
-    devices = require_dict(phone.get("devices"), "phone.devices", errors)
-    if set(devices) != set(EXPECTED_PHONE_DEVICES):
-        fail("phone.devices drifted from the four-tier contract", errors)
-    for device_id, expected in EXPECTED_PHONE_DEVICES.items():
-        device = require_dict(
-            devices.get(device_id), f"phone.devices.{device_id}", errors
-        )
-        actual = (
-            int(device.get("tier", -1)),
-            int(device.get("available_from_week", 0)),
-            int(device.get("price", -1)),
-            bool(device.get("runtime_implemented", False)),
-            bool(device.get("purchasable_in_demo", False)),
-        )
-        if actual != expected:
-            fail(
-                f"phone device {device_id} expected "
-                f"tier/week/price/implemented/demo "
-                f"{expected}, got {actual}",
-                errors,
-            )
-        features = {
-            str(value)
-            for value in require_list(
-                device.get("features"),
-                f"phone.devices.{device_id}.features",
-                errors,
-            )
-        }
-        if not {"essential_apps", "calls", "accessibility"}.issubset(features):
-            fail(
-                f"phone device {device_id} gates an essential capability",
-                errors,
-            )
-        for language_key in ("label_ko", "label_en"):
-            label = device.get(language_key)
-            if not isinstance(label, str) or not label.strip():
-                fail(
-                    f"phone.devices.{device_id}.{language_key} is empty",
-                    errors,
-                )
-            elif language_key == "label_en" and HANGUL_RE.search(label):
-                fail(
-                    f"phone.devices.{device_id}.label_en contains Hangul",
-                    errors,
-                )
-
-    purchase = require_dict(
-        phone.get("purchase_contract"), "phone.purchase_contract", errors
-    )
-    expected_purchase_keys = {
-        "blocks_duplicate",
-        "blocks_downgrade",
-        "shows_balance_after",
-        "requires_available_week",
-    }
-    if set(purchase) != expected_purchase_keys or not all(
-        bool(purchase.get(key, False)) for key in expected_purchase_keys
-    ):
-        fail(
-            "phone purchase contract must block duplicate/downgrade/early "
-            "purchases and show the balance after",
-            errors,
-        )
-    neutrality = require_dict(
-        phone.get("tier_neutrality"), "phone.tier_neutrality", errors
-    )
-    unaffected = {
-        str(value)
-        for value in require_list(
-            neutrality.get("unaffected_systems"),
-            "phone.tier_neutrality.unaffected_systems",
-            errors,
-        )
-    }
-    expected_unaffected = {
-        "essential_apps",
-        "story_access",
-        "call_access",
-        "accessibility",
-        "investment_returns",
-        "gambling_odds",
-        "relationship_rewards",
-    }
-    if unaffected != expected_unaffected:
-        fail(
-            "phone tiers must not alter critical access, odds, returns, or "
-            "relationship rewards",
+            "phone legacy migration must refund only the actual schema-2 "
+            "KRW 180,000 refurbished purchase, once",
             errors,
         )
 
@@ -2855,8 +2681,10 @@ def main() -> int:
                 errors,
             )
 
+    if surface.get("primary") != "monthly_planner":
+        fail("surface.primary must be the wide monthly_planner", errors)
     if surface.get("tabs") != EXPECTED_TABS:
-        fail(f"phone tabs must be {EXPECTED_TABS}", errors)
+        fail(f"monthly planner tabs must be {EXPECTED_TABS}", errors)
     if int(surface.get("foreground_slots_per_month", 0)) != 4:
         fail("foreground_slots_per_month must be 4", errors)
     if int(surface.get("maximum_locked_slots_per_month", 99)) != 1:
@@ -5449,9 +5277,10 @@ def main() -> int:
         f"months={len(months)} weeks={scope['min_week']}..{scope['max_week']} "
         f"bundles={len(bundles)} target_minutes={total_minutes} "
         f"slots={surface['foreground_slots_per_month']} "
-        f"phone_apps={len(EXPECTED_PHONE_APPS)} "
-        f"phone_devices={len(EXPECTED_PHONE_DEVICES)} "
-        f"phone_runtime_devices={sum(1 for value in EXPECTED_PHONE_DEVICES.values() if value[3])} "
+        f"phone_tabs={len(EXPECTED_PHONE_TABS)} "
+        f"phone_message_surfaces={len(EXPECTED_PHONE_MESSAGE_SURFACES)} "
+        f"phone_contact_methods={len(EXPECTED_PHONE_CONTACT_METHODS)} "
+        "phone_runtime_devices=0 "
         f"development_cap={development_cap_week} "
         f"development_months={development_month_count} "
         f"development_deadlines={len(development_player_ids)} "

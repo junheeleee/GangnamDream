@@ -145,6 +145,7 @@ func _ready() -> void:
 	_check_hyunsu_min_turn_and_legacy_timing()
 	_check_father_signal_replaces_skipped_first_call()
 	_check_lent_account_flag_migration()
+	_check_phone_purchase_retirement_migration()
 	_check_durable_legacy_replacements()
 	_check_actual_snapshot_carryover()
 	_check_v2_week_24_handoff()
@@ -168,6 +169,7 @@ func _ready() -> void:
 			+ "city=week28/no_offer/save_load "
 			+ "father=week21_replaces_skipped_first_call "
 			+ "migration=clean_preserved/dirty_preserved/legacy_pollution_removed "
+			+ "phone_retirement=valid_refund_once/forged_zero "
 			+ "legacy_replacements=durable_receipts/suppression_cleared "
 			+ "carryover=component_runtime/e_component_snapshots4/"
 			+ "autosave_roundtrip4/week25_48/weekly_actions24/"
@@ -734,6 +736,64 @@ func _check_lent_account_flag_migration() -> void:
 		+ "while removing polluted clean derivatives")
 
 
+func _check_phone_purchase_retirement_migration() -> void:
+	# A Week-20 handoff may contain the only device purchase that the retired
+	# prototype could create. Return that exact KRW 180,000 expense once, then
+	# require the schema-3 snapshot to roundtrip without another credit.
+	GameState.start_new_game()
+	var legacy_snapshot: Dictionary = GameState.serialize().duplicate(true)
+	legacy_snapshot["turn"] = 20
+	legacy_snapshot["money"] = 210_000.0
+	legacy_snapshot["phone_state"] = {
+		"schema": 2,
+		"current_device_id": "refurbished",
+		"owned_device_ids": ["starter", "refurbished"],
+		"purchase_receipts": [{
+			"device_id": "refurbished",
+			"previous_device_id": "starter",
+			"price": 180_000.0,
+			"turn": 16,
+			"balance_before": 390_000.0,
+			"balance_after": 210_000.0,
+		}],
+		"favorite_app_id": "calendar",
+	}
+	GameState.load_from_dict(legacy_snapshot)
+	_expect(is_equal_approx(float(GameState.money), 390_000.0) \
+			and GameState.phone_state == {
+				"schema": 3,
+				"device_purchase_retired": true,
+				"legacy_refund_applied": true,
+				"legacy_refund_amount": 180_000.0,
+			},
+		"valid Week-20 retired purchase did not refund exactly once at handoff")
+
+	var settled_snapshot: Dictionary = GameState.serialize().duplicate(true)
+	GameState.money = -999_999.0
+	GameState.phone_state = {}
+	GameState.load_from_dict(settled_snapshot)
+	_expect(is_equal_approx(float(GameState.money), 390_000.0) \
+			and GameState.phone_state == settled_snapshot.get("phone_state", {}),
+		"settled phone refund changed on the next handoff load")
+
+	var forged_snapshot: Dictionary = legacy_snapshot.duplicate(true)
+	forged_snapshot["money"] = 210_000.0
+	var forged_phone: Dictionary = (
+		forged_snapshot.get("phone_state", {}) as Dictionary).duplicate(true)
+	var forged_receipts: Array = (
+		forged_phone.get("purchase_receipts", []) as Array).duplicate(true)
+	var forged_receipt: Dictionary = (
+		forged_receipts[0] as Dictionary).duplicate(true)
+	forged_receipt["price"] = 179_999.0
+	forged_receipts[0] = forged_receipt
+	forged_phone["purchase_receipts"] = forged_receipts
+	forged_snapshot["phone_state"] = forged_phone
+	GameState.load_from_dict(forged_snapshot)
+	_expect(is_equal_approx(float(GameState.money), 210_000.0) \
+			and GameState.phone_state == PHONE_SYSTEM.default_state(),
+		"forged retired-device receipt produced money at handoff")
+
+
 func _check_durable_legacy_replacements() -> void:
 	GameState.start_new_game()
 	CORE_LOOP.initialize_for_run(true)
@@ -836,9 +896,9 @@ func _roundtrip_actual_week_24_snapshot(
 		"%s autosave payload did not contain a state dictionary" % path_id)
 	if expected_disk_state.is_empty():
 		return false
-	# GameState's documented load contract canonicalizes phone ownership even
-	# for current saves. Compare against that production-normalized payload while
-	# keeping every other serialized key byte-for-byte structural.
+	# GameState's documented load contract canonicalizes the retired-phone
+	# settlement ledger even for current saves. Compare against that normalized
+	# payload while keeping every other serialized key byte-for-byte structural.
 	expected_disk_state["phone_state"] = PHONE_SYSTEM.normalized_state(
 		expected_disk_state.get("phone_state", {}))
 

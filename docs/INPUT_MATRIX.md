@@ -15,6 +15,8 @@ The automated evidence below is sufficient for continued demo production. It is 
 | Title to demo ending | PASS | PASS | Contract only | Contract only | Contract only | Real 24-week keyboard and mouse routes |
 | VN choices | Arrows + Enter/Esc | Direct click | D-pad + South/East | D-pad + Cross/Circle | D-pad + B/A | StoryMode route and brand screenshots |
 | AP decision | Arrows + Enter | Direct click | D-pad + A/B | D-pad + Cross/Circle | D-pad + B/A | One-screen decision board, no scroll |
+| V2 monthly planner | Arrows, Enter, X, Q/E | Direct click | D-pad, A/X, LB/RB | D-pad, Cross/Square, L1/R1 | D-pad, B/Y, L/R | Four-week planner, review, immutable reopen |
+| Portrait contact phone | P, arrows, Enter/Esc, Q/E | Direct click | Y, D-pad, A/B, LB/RB | Triangle, D-pad, Cross/Circle, L1/R1 | X, D-pad, B/A, L/R | Messages/Contacts only, modal focus restore |
 | Story settings | F10/Esc | Settings button | Menu/B | Options/Circle | Plus/A | Text/language/audio/motion runtime gate, no scroll |
 | Casino hub and direct games | Q/E, X, Y, Enter, Esc | Direct click | LB/RB, X/Y, A/B | L1/R1, Square/Triangle, Cross/Circle | L/R, Y/X, B/A | Nine scenes, 18 keyboard/gamepad secondary routes, nine keyboard core tasks |
 | Vibration | N/A | N/A | API contract | API contract | API contract | Enable, strength, and bounded cue profiles; physical feel pending |

@@ -418,6 +418,20 @@
       ]
     },
     {
+      "tool": "tools/CoreLoopV2FirstEntryCheck.tscn",
+      "godot": true,
+      "why": "V2 첫 진입 프롤로그→챕터→넓은 계획판→튜토리얼 순서·저장·입력 경계",
+      "paths": [
+        "scenes/MainGame.gd",
+        "scenes/TutorialOverlay.gd",
+        "systems/DemoCoreLoopV2.gd",
+        "content/events/chapter_cards.json",
+        "tools/CoreLoopV2FirstEntryCheck.gd",
+        "tools/CoreLoopV2FirstEntryCheck.gd.uid",
+        "tools/CoreLoopV2FirstEntryCheck.tscn"
+      ]
+    },
+    {
       "tool": "tools/CoreLoopV2HandoffCheck.tscn",
       "godot": true,
       "why": "24주 데모 영수증의 48주·5년 장편 인계 런타임",
@@ -570,11 +584,31 @@
     {
       "tool": "tools/PhoneSystemCheck.tscn",
       "godot": true,
-      "why": "휴대폰 허브",
+      "why": "연락폰 schema 3·기종 구매 폐기·유효 schema 2 리퍼폰 영수증 18만원 1회 환불",
       "paths": [
         "systems/PhoneSystem.gd",
-        "scenes/CoreLoopPlanner.gd",
-        "assets/ui/phone/**"
+        "autoloads/GameState.gd",
+        "content/meta/demo_core_loop_v2.json",
+        "tools/PhoneSystemCheck.gd",
+        "tools/PhoneSystemCheck.gd.uid",
+        "tools/PhoneSystemCheck.tscn"
+      ]
+    },
+    {
+      "tool": "tools/CommunicationPhoneCheck.tscn",
+      "godot": true,
+      "why": "세로 연락폰의 대화·연락처 필터, 1280×800·960×600 기하, 모달 포커스와 의미 입력",
+      "paths": [
+        "scenes/CommunicationPhone.gd",
+        "scenes/CommunicationPhone.gd.uid",
+        "scenes/MainGame.gd",
+        "systems/DemoCoreLoopV2.gd",
+        "autoloads/GameState.gd",
+        "content/meta/demo_core_loop_v2.json",
+        "assets/ui/phone/phone_frame_flagship.png",
+        "tools/CommunicationPhoneCheck.gd",
+        "tools/CommunicationPhoneCheck.gd.uid",
+        "tools/CommunicationPhoneCheck.tscn"
       ]
     },
     {

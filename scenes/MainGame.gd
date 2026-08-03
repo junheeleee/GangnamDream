@@ -8,6 +8,7 @@ const STEAM_FALLBACK_URL := "https://store.steampowered.com/search/?term=Gangnam
 const SEOUL_MAP_STRIP_SCRIPT = preload("res://ui_components/SeoulMapStrip.gd")
 const DEMO_CORE_LOOP_V2 = preload("res://systems/DemoCoreLoopV2.gd")
 const CORE_LOOP_PLANNER_SCRIPT = preload("res://scenes/CoreLoopPlanner.gd")
+const COMMUNICATION_PHONE_SCRIPT = preload("res://scenes/CommunicationPhone.gd")
 
 var investment_system: Node
 var job_system: Node
@@ -136,12 +137,14 @@ var _ending_new_achievements: Array = []
 var _ending_new_titles: Array = []
 var _presentation_rng := RandomNumberGenerator.new()
 var _core_loop_planner: Control = null
+var _communication_phone: Control = null
+var _planner_button: Button = null
 var _phone_button: Button = null
 var _phone_focus_restore: Control = null
+var _planner_focus_restore: Control = null
 var _title_collection_button: Button = null
 var _core_loop_v2_side_shift_job_id := ""
 var _core_loop_v2_completion_autosave_succeeded := false
-var _core_loop_v2_phone_state_dirty := false
 const ENDING_PAGE_COUNT := 6
 
 # ── MORAL MONOCHROME 팔레트 ─────────────────────────────────────
@@ -412,6 +415,12 @@ func _continue_after_story():
 	if DEMO_CORE_LOOP_V2.is_prototype_complete():
 		_core_loop_v2_show_completion()
 		return
+	# V2 owns the first month's playable schedule, but the chapter card still
+	# owns the handoff from the complete prologue into Chapter 1. Route that
+	# single shared boundary before V2 takes over; otherwise the active V2 branch
+	# skips _next_arc_id() and opens the planner with no chapter identity.
+	if _route_opening_chapter_if_pending():
+		return
 	if DEMO_CORE_LOOP_V2.is_active():
 		_core_loop_v2_continue_after_story()
 		return
@@ -586,32 +595,99 @@ func _core_loop_v2_route_week() -> void:
 	DEMO_CORE_LOOP_V2.disable_for_run()
 	_render_ap_actions()
 
-func _core_loop_v2_open_planner(month_index: int) -> void:
-	_core_loop_v2_ensure_phone_surface()
+func _core_loop_v2_open_planner(
+		month_index: int, read_only: bool = false) -> bool:
+	_core_loop_v2_ensure_surfaces()
 	if not is_instance_valid(_core_loop_planner):
-		return
+		return false
+	var focus_owner := get_viewport().gui_get_focus_owner()
+	_planner_focus_restore = focus_owner as Control \
+		if focus_owner is Control \
+			and not _core_loop_planner.is_ancestor_of(focus_owner) else null
 	if is_instance_valid(_main_ui_root):
 		_main_ui_root.visible = false
 	if is_instance_valid(info_panel):
 		info_panel.visible = false
 	_core_loop_planner.move_to_front()
-	_core_loop_planner.open(month_index, false)
+	if not bool(_core_loop_planner.open(month_index, read_only)):
+		if is_instance_valid(_main_ui_root):
+			_main_ui_root.visible = true
+		_planner_focus_restore = null
+		return false
+	if not read_only:
+		_maybe_show_core_loop_v2_tutorial(month_index)
+	return true
 
-func _core_loop_v2_ensure_phone_surface() -> void:
+func _maybe_show_core_loop_v2_tutorial(month_index: int) -> void:
+	# The playable prologue and Chapter 1 card remain unobstructed. Onboarding
+	# appears only above the first real monthly planning board.
+	if month_index != 1 or GameState.turn != 1 \
+			or not bool(GameState.flags.get("prologue_done", false)) \
+			or not bool(GameState.flags.get("chapter_33_seen", false)) \
+			or bool(GameState.flags.get("tutorial_shown", false)):
+		return
+	GameState.flags["tutorial_shown"] = true
+	TutorialOverlay.maybe_show("core_loop_v2", self)
+
+func _opening_chapter_event_id() -> String:
+	if GameState.turn == 1 \
+			and bool(GameState.flags.get("prologue_done", false)) \
+			and not bool(GameState.flags.get("chapter_33_seen", false)):
+		return "chapter_card_33"
+	return ""
+
+func _route_opening_chapter_if_pending() -> bool:
+	var event_id := _opening_chapter_event_id()
+	if event_id.is_empty():
+		return false
+	# The runtime check exercises the real routing order without asking the
+	# persistent SceneTransition autoload to replace its own fixture scene.
+	if bool(get_meta("_qa_suppress_opening_chapter_transition", false)):
+		GameState.pending_story_queue = [event_id]
+		GameState.story_return_scene = "res://scenes/MainGame.tscn"
+		set_meta("_qa_opening_chapter_event", event_id)
+		return true
+	_go_story_mode([event_id], true)
+	return true
+
+func _core_loop_v2_ensure_surfaces() -> void:
 	if not is_instance_valid(_core_loop_planner):
 		_core_loop_planner = CORE_LOOP_PLANNER_SCRIPT.new()
 		add_child(_core_loop_planner)
 		_core_loop_planner.plan_committed.connect(_on_core_loop_v2_plan_committed)
-		_core_loop_planner.phone_closed.connect(
-			_on_core_loop_v2_phone_closed)
-		_core_loop_planner.phone_state_changed.connect(
-			_on_core_loop_v2_phone_state_changed)
-		_core_loop_planner.phone_save_retry_requested.connect(
-			_on_core_loop_v2_phone_save_retry_requested)
+		_core_loop_planner.planner_closed.connect(
+			_on_core_loop_v2_planner_closed)
+		_core_loop_planner.communication_requested.connect(
+			_on_core_loop_v2_communication_requested)
+	if not is_instance_valid(_communication_phone):
+		_communication_phone = COMMUNICATION_PHONE_SCRIPT.new()
+		add_child(_communication_phone)
+		_communication_phone.closed.connect(_on_core_loop_v2_phone_closed)
+		_communication_phone.offer_requested.connect(
+			_on_core_loop_v2_phone_offer_requested)
+
+func _core_loop_v2_can_open_planner() -> bool:
+	if not DEMO_CORE_LOOP_V2.is_active() or _minigame_overlay_active:
+		return false
+	var month_index := DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn)
+	return not DEMO_CORE_LOOP_V2.plan_for_month(month_index).is_empty()
+
+func _core_loop_v2_open_saved_plan() -> bool:
+	if not _core_loop_v2_can_open_planner():
+		return false
+	return _core_loop_v2_open_planner(
+		DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn), true)
 
 func _core_loop_v2_can_open_phone() -> bool:
 	if not DEMO_CORE_LOOP_V2.is_active() or _minigame_overlay_active:
 		return false
+	# First-entry onboarding owns the whole input surface. Opening the lower-z
+	# phone behind it would hide the drawer while stealing planner focus.
+	for child in get_children():
+		if child is TutorialOverlay \
+				and not child.is_queued_for_deletion() \
+				and (child as TutorialOverlay).visible:
+			return false
 	if (_typing_tween and _typing_tween.is_running()) \
 			or _choice_reveal_pending \
 			or (
@@ -623,8 +699,7 @@ func _core_loop_v2_can_open_phone() -> bool:
 		return false
 	if is_instance_valid(info_panel) and info_panel.visible:
 		return false
-	var month_index := DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn)
-	return not DEMO_CORE_LOOP_V2.plan_for_month(month_index).is_empty()
+	return true
 
 func _core_loop_v2_open_phone() -> bool:
 	if not _core_loop_v2_can_open_phone():
@@ -633,73 +708,51 @@ func _core_loop_v2_open_phone() -> bool:
 	_phone_focus_restore = focus_owner as Control \
 		if focus_owner is Control \
 			and not (
-				is_instance_valid(_core_loop_planner) \
-				and _core_loop_planner.is_ancestor_of(focus_owner)
+				is_instance_valid(_communication_phone) \
+					and _communication_phone.is_ancestor_of(focus_owner)
 			) else null
-	_core_loop_v2_ensure_phone_surface()
-	if not is_instance_valid(_core_loop_planner):
+	_core_loop_v2_ensure_surfaces()
+	if not is_instance_valid(_communication_phone):
 		_phone_focus_restore = null
 		return false
 	if is_instance_valid(info_panel):
 		info_panel.visible = false
 	var month_index := DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn)
-	_core_loop_planner.move_to_front()
-	var opened := bool(_core_loop_planner.open(month_index, true))
+	_communication_phone.move_to_front()
+	var opened := bool(_communication_phone.open(month_index))
 	if not opened:
 		_phone_focus_restore = null
 	return opened
 
 func _on_core_loop_v2_phone_closed() -> void:
-	if _core_loop_v2_phone_state_dirty:
-		_core_loop_v2_try_phone_autosave("phone_close")
 	call_deferred("_core_loop_v2_restore_phone_focus")
 
-func _on_core_loop_v2_phone_state_changed(reason: String) -> void:
-	# Phone purchases change both ownership and live cash. Favorites change the
-	# launcher itself. Persist either at the owning screen boundary so closing
-	# the game immediately after the tap cannot roll the phone state back.
-	if bool(get_meta("_screenshot_qa_static_surface", false)) \
-			and not has_meta("_qa_core_loop_v2_phone_autosave_results"):
-		return
-	_core_loop_v2_phone_state_dirty = true
-	_core_loop_v2_try_phone_autosave(reason)
+func _on_core_loop_v2_planner_closed() -> void:
+	if is_instance_valid(_main_ui_root):
+		_main_ui_root.visible = true
+	call_deferred("_core_loop_v2_restore_planner_focus")
 
-func _on_core_loop_v2_phone_save_retry_requested() -> void:
-	if _core_loop_v2_phone_state_dirty:
-		_core_loop_v2_try_phone_autosave("manual_retry")
+func _on_core_loop_v2_communication_requested(_bundle_id: String = "") -> void:
+	_core_loop_v2_open_phone()
 
-func _core_loop_v2_try_phone_autosave(reason: String) -> bool:
-	var succeeded := _core_loop_v2_phone_autosave(reason)
-	_core_loop_v2_phone_state_dirty = not succeeded
-	if is_instance_valid(_core_loop_planner):
-		_core_loop_planner.report_phone_save_result(succeeded)
-	if not succeeded:
-		push_warning("Could not autosave the changed phone state")
-		_show_toast(_tr(
-			"자동 저장에 실패했습니다. 기기 앱에서 다시 시도해 주세요.",
-			"Autosave failed. Retry from the Device app."),
-			Color(UIStyle.C_ACCENT_RED))
-	return succeeded
-
-func _core_loop_v2_phone_autosave(reason: String) -> bool:
-	if has_meta("_qa_core_loop_v2_phone_autosave_results"):
-		var raw_results: Variant = get_meta(
-			"_qa_core_loop_v2_phone_autosave_results")
-		var results: Array = (raw_results as Array).duplicate() \
-			if raw_results is Array else []
-		var succeeded := bool(results.pop_front()) \
-			if not results.is_empty() else false
-		set_meta("_qa_core_loop_v2_phone_autosave_results", results)
-		set_meta(
-			"_qa_core_loop_v2_phone_autosave_calls",
-			int(get_meta("_qa_core_loop_v2_phone_autosave_calls", 0)) + 1)
-		if succeeded:
-			set_meta("_qa_core_loop_v2_phone_saved_snapshot", {
-				"reason": reason,
-				"state": GameState.serialize().duplicate(true),
-			})
-		return succeeded
-	return SaveManager.autosave()
+func _on_core_loop_v2_phone_offer_requested(bundle_id: String) -> void:
+	var planner_was_visible := is_instance_valid(_core_loop_planner) \
+		and _core_loop_planner.visible
+	var gameplay_return_target := _phone_focus_restore
+	if not planner_was_visible:
+		# The phone's focused row becomes hidden as it closes. Carry the control
+		# that opened the phone across the read-only planner instead.
+		_phone_focus_restore = null
+	if is_instance_valid(_communication_phone) and _communication_phone.visible:
+		_communication_phone.close()
+	var month_index := DEMO_CORE_LOOP_V2.month_for_turn(GameState.turn)
+	if not planner_was_visible:
+		var read_only := not DEMO_CORE_LOOP_V2.plan_for_month(month_index).is_empty()
+		if not _core_loop_v2_open_planner(month_index, read_only):
+			return
+		_planner_focus_restore = gameplay_return_target
+	_core_loop_planner.move_to_front()
+	_core_loop_planner.call_deferred("focus_offer", bundle_id)
 
 func _core_loop_v2_restore_phone_focus() -> void:
 	var target := _phone_focus_restore
@@ -707,7 +760,18 @@ func _core_loop_v2_restore_phone_focus() -> void:
 	if _core_loop_v2_focus_target_available(target):
 		target.grab_focus()
 		return
-	for fallback in [_result_focus_button, next_button, _phone_button]:
+	for fallback in [_result_focus_button, next_button, _phone_button, _planner_button]:
+		if _core_loop_v2_focus_target_available(fallback):
+			(fallback as Control).grab_focus()
+			return
+
+func _core_loop_v2_restore_planner_focus() -> void:
+	var target := _planner_focus_restore
+	_planner_focus_restore = null
+	if _core_loop_v2_focus_target_available(target):
+		target.grab_focus()
+		return
+	for fallback in [_planner_button, _phone_button, _result_focus_button, next_button]:
 		if _core_loop_v2_focus_target_available(fallback):
 			(fallback as Control).grab_focus()
 			return
@@ -3101,13 +3165,24 @@ func _build_top_bar(parent):
 	var money_lbl = _hud_chip(row, "money", "#d9dee6", 210, false)
 	top_labels["money"] = money_lbl
 
+	_planner_button = _small_button(_tr("일정", "Plan"), "#1e2a3a")
+	_planner_button.custom_minimum_size = Vector2(58, 40)
+	_planner_button.add_theme_font_size_override("font_size", 14)
+	_planner_button.size_flags_horizontal = Control.SIZE_SHRINK_END
+	_planner_button.tooltip_text = _tr(
+		"확정한 이번 달 계획을 본다",
+		"Review this month's confirmed plan")
+	_planner_button.pressed.connect(_core_loop_v2_open_saved_plan)
+	_planner_button.visible = false
+	row.add_child(_planner_button)
+
 	_phone_button = _small_button(_tr("휴대폰", "Phone"), "#1e2a3a")
 	_phone_button.custom_minimum_size = Vector2(64, 40)
 	_phone_button.add_theme_font_size_override("font_size", 14)
 	_phone_button.size_flags_horizontal = Control.SIZE_SHRINK_END
 	_phone_button.tooltip_text = _tr(
-		"확정한 일정과 은행·연락처를 연다 (P / %s)",
-		"Open the confirmed calendar, bank, and contacts (P / %s)"
+		"문자·통화 기록과 연락처를 연다 (P / %s)",
+		"Open messages, call history, and contacts (P / %s)"
 	) % ControllerHints.north()
 	_phone_button.pressed.connect(_core_loop_v2_open_phone)
 	_phone_button.visible = false
@@ -4140,6 +4215,10 @@ func _begin_month_story_and_render():
 			_go_story_mode(["story_flashforward"])
 		else:
 			_go_story_mode(["story_arrival"])
+		return
+	# A fresh scene return and a saved MainGame re-entry must agree on the same
+	# prologue -> Chapter 1 -> wide planner order.
+	if _route_opening_chapter_if_pending():
 		return
 	if DEMO_CORE_LOOP_V2.is_active():
 		_core_loop_v2_route_week()
@@ -6557,11 +6636,17 @@ func _refresh_all():
 	top_labels["ap"].text = _ap_status_text()
 	if top_labels.has("ap_chip"):
 		(top_labels["ap_chip"] as Control).visible = not DEMO_CORE_LOOP_V2.requested()
+	if is_instance_valid(_planner_button):
+		_planner_button.text = _tr("일정", "Plan")
+		_planner_button.tooltip_text = _tr(
+			"확정한 이번 달 계획을 본다",
+			"Review this month's confirmed plan")
+		_planner_button.visible = _core_loop_v2_can_open_planner()
 	if is_instance_valid(_phone_button):
 		_phone_button.text = _tr("휴대폰", "Phone")
 		_phone_button.tooltip_text = _tr(
-			"확정한 일정과 은행·연락처를 연다 (P / %s)",
-			"Open the confirmed calendar, bank, and contacts (P / %s)"
+			"문자·통화 기록과 연락처를 연다 (P / %s)",
+			"Open messages, call history, and contacts (P / %s)"
 		) % ControllerHints.north()
 		_phone_button.visible = _core_loop_v2_can_open_phone()
 	if is_instance_valid(_title_collection_button):
@@ -17117,10 +17202,11 @@ func _load_from_slot(slot: int):
 		SceneTransition.go(SaveManager.loaded_scene_path())
 
 func _unhandled_input(event):
-	# Core Loop V2 phone owns its full semantic-input stack while visible.
-	# Without this guard an East/Back press that the child uses to return home
-	# can also fall through and open MainGame's system menu.
-	if is_instance_valid(_core_loop_planner) and _core_loop_planner.visible:
+	# The monthly planner and communication phone each own their full semantic
+	# input stack while visible. Their East/Back action must never fall through
+	# into MainGame's system menu.
+	if (is_instance_valid(_communication_phone) and _communication_phone.visible) \
+			or (is_instance_valid(_core_loop_planner) and _core_loop_planner.visible):
 		return
 	if GameState.is_game_over:
 		return

@@ -412,6 +412,70 @@ static func _get_slides(game_id: String) -> Array:
 					+ "[color=#aaffaa]💡 Strong form does not guarantee a win. Safer bets focus on top contenders.[/color]"
 				)
 			)]
+		"core_loop_v2":
+			return [
+				_localized_slide(
+					"goal",
+					"24주 동안 버티고 선택하기",
+					"Choose How to Survive 24 Weeks",
+					(
+						"민준은 서른셋, 가진 돈은 [b]50만 원[/b]입니다.\n"
+						+ "목표는 [b]5년 안에 자산 30억 원[/b].\n\n"
+						+ "이번 데모는 1년짜리 첫 챕터 가운데 앞 24주를 다룹니다.\n"
+						+ "한 달이 시작되면 넓은 계획판에서 앞으로 네 주를 정합니다.\n\n"
+						+ "무엇을 골랐는지뿐 아니라, 무엇을 미뤘는지도\n"
+						+ "다음 달의 돈과 몸, 사람 관계에 영향을 줍니다."
+					),
+					(
+						"Minjun is 33, with [b]KRW 500,000[/b] to his name.\n"
+						+ "His goal: [b]KRW 3 billion in assets within five years[/b].\n\n"
+						+ "This demo covers the first 24 weeks of the year-long Chapter 1.\n"
+						+ "At the start of each month, use the planning board to set the next four weeks.\n\n"
+						+ "What you choose matters. So does what you leave for later.\n"
+						+ "Both affect your money, health, and relationships."
+					)
+				),
+				_localized_slide(
+					"ap",
+					"제안을 네 주에 놓기",
+					"Place Offers Across Four Weeks",
+					(
+						"왼쪽에는 이번 달에 고를 수 있는 제안이, 오른쪽에는\n"
+						+ "[b]1주차부터 4주차[/b]까지의 일정이 보입니다.\n\n"
+						+ "제안을 고른 뒤 넣을 주를 선택하세요. 이미 정해진 일정은\n"
+						+ "옮길 수 없고, 나머지 빈 주는 모두 채워야 합니다.\n\n"
+						+ "확정하기 전에는 일정을 빼고 다른 제안으로 바꿀 수 있습니다."
+					),
+					(
+						"This month's offers are on the left. The calendar for\n"
+						+ "[b]Weeks 1 through 4[/b] is on the right.\n\n"
+						+ "Choose an offer, then choose its week. Fixed commitments cannot\n"
+						+ "move, and every remaining open week must be filled.\n\n"
+						+ "Before confirming, you can remove a commitment and replace it."
+					)
+				),
+				_localized_slide(
+					"health",
+					"한 달 동안 계속할 일",
+					"What Continues Through the Month",
+					(
+						"[b]주로 할 일[/b]과 [b]보조로 할 일[/b]은 생계, 성장, 회복 중\n"
+						+ "이번 달 내내 이어 갈 행동을 정합니다.\n\n"
+						+ "마지막 확인 화면에서는 선택한 일정과 [b]고르지 않은 제안[/b]을\n"
+						+ "함께 보여 줍니다. 확인한 뒤에만 첫 주가 시작됩니다.\n\n"
+						+ "휴대폰은 문자와 통화 기록을 볼 때만 엽니다. 돈과 일정은\n"
+						+ "지금 보고 있는 넓은 화면에서 관리합니다."
+					),
+					(
+						"[b]Primary[/b] and [b]secondary[/b] routines set what continues\n"
+						+ "through the month: livelihood, growth, or recovery.\n\n"
+						+ "The final review shows both your scheduled commitments and the\n"
+						+ "[b]offers you did not choose[/b]. Week 1 starts only after you confirm.\n\n"
+						+ "Open the phone only for messages and call history. Money and\n"
+						+ "scheduling stay on the full planning screen."
+					)
+				)
+			]
 		"main_game":
 			return [
 				_localized_slide(
@@ -735,6 +799,8 @@ func _icon_id_for_slide(slide: Dictionary) -> String:
 		"trading", "invest":
 			return "invest"
 	var icon := str(slide.get("icon", ""))
+	if _game_id == "core_loop_v2" and UI_ICON_PATHS.has(icon):
+		return icon
 	if _game_id == "main_game" and icon == "📊":
 		return "health"
 	if _game_id == "main_game" and icon == "⚡":

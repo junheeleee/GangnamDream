@@ -121,6 +121,8 @@ var _story_transition_snapshot: TextureRect = null
 var _story_transition_portrait_snapshot: TextureRect = null
 var _story_transition_snapshot_base_scale := Vector2.ONE
 var _story_transition_portrait_base_scale := Vector2.ONE
+var _story_transition_snapshot_base_modulate := Color.WHITE
+var _story_transition_portrait_base_modulate := Color.WHITE
 var _story_scene_transition_active: bool = false
 var _story_scene_transition_duration: float = 0.0
 var _story_text_panel_tween: Tween = null
@@ -2262,12 +2264,17 @@ func _capture_story_transition_snapshot() -> bool:
 	_story_transition_snapshot.pivot_offset = _bg_img.pivot_offset
 	_story_transition_snapshot.scale = _bg_img.scale
 	_story_transition_snapshot_base_scale = _bg_img.scale
-	_story_transition_snapshot.modulate = Color.WHITE
+	# The snapshot leaves the source hierarchy, so carry the source's effective
+	# local treatment with it instead of briefly restoring an ungraded frame.
+	_story_transition_snapshot_base_modulate = (
+		_bg_img.modulate * _bg_img.self_modulate)
+	_story_transition_snapshot.modulate = _story_transition_snapshot_base_modulate
 	_story_transition_snapshot.visible = true
 
 	_story_transition_portrait_snapshot.visible = false
 	_story_transition_portrait_snapshot.texture = null
 	_story_transition_portrait_snapshot.material = null
+	_story_transition_portrait_base_modulate = Color.WHITE
 	if is_instance_valid(_portrait_frame) and _portrait_frame.visible \
 			and is_instance_valid(_portrait) and _portrait.texture != null:
 		_story_transition_portrait_snapshot.texture = _portrait.texture
@@ -2280,8 +2287,14 @@ func _capture_story_transition_snapshot() -> bool:
 		_story_transition_portrait_snapshot.pivot_offset = _portrait_frame.pivot_offset
 		_story_transition_portrait_snapshot.scale = _portrait_frame.scale
 		_story_transition_portrait_base_scale = _portrait_frame.scale
-		_story_transition_portrait_snapshot.modulate = Color(
-			1.0, 1.0, 1.0, _portrait_frame.modulate.a)
+		# The live portrait is a child of the frame. Reproduce that composite
+		# modulate on the detached snapshot, including the Black-future
+		# silhouette RGB and alpha, instead of copying only the frame alpha.
+		_story_transition_portrait_base_modulate = (
+			_portrait_frame.modulate * _portrait.modulate
+			* _portrait.self_modulate)
+		_story_transition_portrait_snapshot.modulate = (
+			_story_transition_portrait_base_modulate)
 		_story_transition_portrait_snapshot.visible = true
 	return true
 
@@ -2324,12 +2337,14 @@ func _finish_story_scene_transition(kill_tween: bool = true) -> void:
 		_story_transition_snapshot.material = null
 		_story_transition_snapshot.scale = Vector2.ONE
 		_story_transition_snapshot.modulate = Color.WHITE
+		_story_transition_snapshot_base_modulate = Color.WHITE
 	if is_instance_valid(_story_transition_portrait_snapshot):
 		_story_transition_portrait_snapshot.visible = false
 		_story_transition_portrait_snapshot.texture = null
 		_story_transition_portrait_snapshot.material = null
 		_story_transition_portrait_snapshot.scale = Vector2.ONE
 		_story_transition_portrait_snapshot.modulate = Color.WHITE
+		_story_transition_portrait_base_modulate = Color.WHITE
 	if is_instance_valid(_story_ink_transition_layer):
 		_story_ink_transition_layer.visible = false
 		_story_ink_transition_layer.queue_redraw()
@@ -2370,9 +2385,19 @@ func _set_story_ink_transition_progress(value: float) -> void:
 				old_alpha = 1.0 - _story_transition_smooth(0.14, 0.94, _story_ink_transition_progress)
 			_:
 				old_alpha = 1.0 - _story_transition_smooth(0.04, 0.88, _story_ink_transition_progress)
-		_story_transition_snapshot.modulate.a = old_alpha
+		_story_transition_snapshot.modulate.a = (
+			_story_transition_snapshot_base_modulate.a * old_alpha)
 		if is_instance_valid(_story_transition_portrait_snapshot):
-			_story_transition_portrait_snapshot.modulate.a = old_alpha
+			var captured_is_silhouette := (
+				_story_transition_portrait_base_modulate.r <= 0.1
+				and _story_transition_portrait_base_modulate.g <= 0.1
+				and _story_transition_portrait_base_modulate.b <= 0.1)
+			# Ordinary outgoing portraits remain synchronized with the background.
+			# A deliberately hidden silhouette keeps its captured opacity ceiling,
+			# so the handoff cannot brighten it back into an identifiable face.
+			_story_transition_portrait_snapshot.modulate.a = (
+				minf(_story_transition_portrait_base_modulate.a, old_alpha)
+				if captured_is_silhouette else old_alpha)
 		if _living_reduced_motion():
 			_story_transition_snapshot.scale = _story_transition_snapshot_base_scale
 			_story_transition_portrait_snapshot.scale = _story_transition_portrait_base_scale

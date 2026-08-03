@@ -58,25 +58,34 @@ Before demo/release candidate builds:
 
 ## Screen Models
 
-### Core Loop V2 Phone / Calendar
+### Core Loop V2 Monthly Planner / Contact Phone
 
-Implementation status: explicit week 1-8 prototype complete in
-`scenes/CoreLoopPlanner.gd`; the existing AP surface remains the week 9-240
-fallback until the human GO.
+Implementation status: the 24-week planner and communication phone use separate
+focus contexts. The existing AP surface remains the post-V2 fallback until the
+human GO.
 
-- The planner shows exactly four week slots without scrolling at 1280x720.
-- D-pad moves within opportunities or week slots; South assigns or confirms.
-- East removes the selected non-fixed assignment. It never removes the locked
-  boss week or commits the month.
-- LB/RB switches Messages / Calendar / People / Record.
-- Mouse hover grabs the same GUI focus used by keyboard and controller.
-- Fixed obligations remain readable but are not controller targets.
-- The People tab shows only lived relationship history. It does not reveal an
-  unmet character's name, affinity, route stage, or future requirement.
-- The final confirmation remains disabled until all four weeks are filled.
-- A plan commit returns to the first scheduled week; reopening the planner must
-  restore the last meaningful week or offer focus.
-
+- The full-width planner shows exactly four vertical week slots beside the
+  current offers at 1280×800. At 960×600, reference surfaces may scroll
+  vertically but the active decision and footer remain reachable.
+- D-pad moves within offers or week slots; South assigns or confirms. West
+  removes the selected non-fixed assignment. It never removes a locked week or
+  commits the month.
+- LB/RB switches Status / Calendar / People / Record. Mouse hover grabs the same
+  GUI focus used by keyboard and controller.
+- The People tab shows lived relationship history without revealing an unmet
+  character's name, affinity, route stage, or future requirement.
+- The final confirmation stays disabled until all four weeks are filled. The
+  first confirm opens the chosen/unchosen review; the second commits.
+- The top Plan button reopens only the immutable confirmed month. East closes it
+  and restores the prior gameplay focus.
+- P or North opens a separate portrait communication drawer. Its LB/RB tabs are
+  Messages / Contacts; South opens a thread or authored contact action; East
+  moves thread → list → closed.
+- The contact phone overlays rather than reflows the planner or game. While it is
+  open, the underlying surface cannot receive input. Closing restores the exact
+  control that opened it.
+- Messages may route to an authored offer on the wide planner, but no phone
+  action directly changes money, stats, relationship stage, or weekly progress.
 ### AP / Life Sim Screens
 
 Use a vertical action rail.
@@ -291,8 +300,9 @@ The horse list may remain scrollable/clickable for mouse, but controller mode mu
 
 ## Implementation Order
 
-1. Core Loop V2 month planner: four-week semantic schedule, default focus,
-   cancellation, and human ownership GO. ✅ week 1-8 automated prototype complete
+1. Core Loop V2 month planner and portrait contact phone: separate focus
+   contexts, four-week semantic schedule, cancellation, and human ownership GO.
+   ✅ 24-week automated contract complete; physical Deck pass pending
 2. AP and VN fallback: lock main rail behavior and default focus.
 3. Slots and Blackjack: simple action rail first. ✅ first pass complete
 4. Dai Sai: replace flat controller traversal with Simple/Face/Total mode model. ✅ first pass complete
@@ -332,11 +342,13 @@ All on controller only.
 The title-to-demo route has completed all 24 weeks with actual keyboard events and zero mouse events, then with actual mouse events and zero keyboard events. Sixteen Korean/English display-matrix renders cover eight release resolutions, and each language has Xbox, PlayStation, and Nintendo title-glyph evidence at 1080p. The exact contract and remaining physical-device gates are recorded in `docs/INPUT_MATRIX.md`.
 
 `CoreLoopV2Check.tscn` verifies explicit activation, four-slot scheduling, the
-fixed fourth week, East-safe removal, save/load, delayed consequences across a
+fixed fourth week, West-safe removal, save/load, delayed consequences across a
 month boundary, one consequence per week, player-initiated relationship state,
 and zero hidden-score or Korean leakage on the English planner.
+`CommunicationPhoneCheck.tscn` separately verifies portrait bounds, message and
+contact filtering, thread navigation, offer routing, and focus isolation.
 `ScreenshotQA --qa=core-loop-v2 --lang=ko/en` boots the real `MainGame`, opens
-the planner through its runtime handoff, and captures all four tabs at 1280x720
-without scrolling.
+the planner and contact phone through their runtime handoff, and captures both
+at 1280×800 and 960×600.
 
 These automated passes prove routing and presentation, not hand feel. Full Controller Support remains blocked on physical Steam Deck, DualSense, and Switch Pro blind passes, including reconnect, suspend/resume, Steam overlay, and accidental-input review.

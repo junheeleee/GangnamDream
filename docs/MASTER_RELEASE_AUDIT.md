@@ -17,9 +17,11 @@ Adjacent and top-selling execution references are assigned by surface in `docs/S
 
 ## Current 24-Week Demo RC Boundary
 
-ORDER-57 E is an automated release candidate, not a human release approval.
-Weeks 1–24 now use the monthly four-promise loop and a diegetic phone; Week 24
-ends at the midpoint of the 48-week first chapter. Durable receipts continue to
+The current V2 line is an automated release candidate, not a human release
+approval. Weeks 1–24 use the monthly four-promise loop on a full-width planning
+board; a separate portrait contact phone contains only real messages, call
+history, and reachable contacts. Week 24 ends at the midpoint of the 48-week
+first chapter. Durable receipts continue to
 Hyunsu's Week-27 result, the City Facilities Week-28 result, the exact
 Week-48/96/144/192 closes and the Week-197 reckoning without replacing the
 240-week ending.
@@ -27,9 +29,10 @@ Week-48/96/144/192 closes and the Week-197 reckoning without replacing the
 Automated gates cover exact economy ledgers, choice/state round trips, one
 fresh-boundary autosave, completed-save resume without another write, Korean
 and English 720p surfaces, controller navigation contracts, all five chapter
-handoffs and zero representative-path scheduler jams. The starter phone is a
-visibly old physical-key handset; refurbished and flagship tiers remain
-visually distinct. `runtime_default=false` stays locked until one unchanged RC
+handoffs and zero representative-path scheduler jams. Device tiers, purchases,
+favorites, and phone-hosted finance or leisure are retired; valid legacy
+refurbished-phone receipts receive one idempotent KRW 180,000 migration refund.
+`runtime_default=false` stays locked until one unchanged RC
 passes a normal-speed 75–95-minute play, physical Steam Deck/DualSense input,
 continuous headphone/laptop/TV A/V review, external comprehension and a human
 desire-to-continue verdict.

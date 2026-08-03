@@ -3,13 +3,23 @@
 These unbranded handset overlays are generated UI materials. They are not
 registered story illustrations and therefore do not belong in `ImageRegistry`.
 Each PNG keeps the physical shell opaque while the exterior and display opening
-are transparent so `CoreLoopPlanner` can render live UI beneath it.
+are transparent.
 
-| Runtime asset | Tier | Generated source | Processing |
+| Asset | Current use | Generated source | Processing |
 |---|---|---|---|
-| `phone_frame_starter.png` | 2013–2015 physical-key hand-me-down Android phone | `/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/call_hMa0Rt1lA4eA5Y2UdldELHXK.png` | Built-in ImageGen edit, `#ff00ff` chroma removal and despill, 1672×940 RGBA |
-| `phone_frame_refurbished.png` | refurbished premium phone | `/Users/junheelee/.codex/generated_images/019fae08-cfb7-7073-b918-f55e32759797/call_qRdgoHMb0y1CIqOpbNRrCwAL.png` | Built-in ImageGen, `#ff00ff` chroma removal, safe crop, 1613×700 RGBA |
-| `phone_frame_flagship.png` | current-generation flagship | `/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/call_Q5AeZUpaYR8DOASuE4inzUmK.png` | Built-in ImageGen, `#ff00ff` chroma removal and spill neutralization, safe crop, aspect correction, 1512×720 RGBA |
+| `phone_frame_starter.png` | Retained provenance only; no device tier or runtime purchase | `/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/call_hMa0Rt1lA4eA5Y2UdldELHXK.png` | Built-in ImageGen edit, `#ff00ff` chroma removal and despill, 1672×940 RGBA |
+| `phone_frame_refurbished.png` | Retained provenance only; no device tier or runtime purchase | `/Users/junheelee/.codex/generated_images/019fae08-cfb7-7073-b918-f55e32759797/call_qRdgoHMb0y1CIqOpbNRrCwAL.png` | Built-in ImageGen, `#ff00ff` chroma removal, safe crop, 1613×700 RGBA |
+| `phone_frame_flagship.png` | Single fixed contact-phone shell, rotated back to portrait | `/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/call_Q5AeZUpaYR8DOASuE4inzUmK.png` | Built-in ImageGen, `#ff00ff` chroma removal and spill neutralization, safe crop, aspect correction, 1512×720 RGBA |
+
+## Current runtime contract
+
+`CommunicationPhone.gd` uses only the flagship shell as one fixed portrait
+contact drawer. It has no home launcher, device store, tier, purchase, favorite,
+bank, investment, leisure, or games surface. The drawer opens directly to
+Messages or Contacts; the wide monthly planner and MainGame own every non-contact
+system. The older two shells remain only so the generated-asset provenance and
+past release inventory stay auditable; their presence does not advertise a
+playable device choice.
 
 The starter has 1,001,100 fully transparent, 10,754 partially transparent, and
 559,826 opaque pixels. Its four corner alpha values are zero. The rectangular
@@ -37,22 +47,22 @@ Constraints: change the shell design while preserving a simple centered empty re
 Avoid: modern edge-to-edge display, thin uniform bezel, metal or titanium rails, hole-punch/notch, gesture bar, symmetrical premium silhouette, rounded modern app screen, protective case.
 ```
 
-### Starter replacement runtime contract
+### Historical starter runtime contract (retired)
 
-- The shell must visibly retain worn polycarbonate, thick asymmetric bezels,
+- The retired shell was required to retain worn polycarbonate, thick asymmetric bezels,
   an earpiece, camera/sensors, a physical oval Home key, and printed Menu/Back
   symbols. It should read as a used 2013–2015 low-cost Android handset before
   the player reads any text.
-- The 1094×680 glass opening is filled by a black mat. The live LCD is inset by
+- The retired 1094×680 glass opening was filled by a black mat. Its live LCD was inset by
   32 source pixels at the top and bottom, producing an approximately 16:9
   display instead of stretching the UI across the whole older glass opening.
-- Starter-only rendering uses a 5px screen corner, muted blue-gray LCD base,
+- Starter-only rendering used a 5px screen corner, muted blue-gray LCD base,
   light haze, no photographic wallpaper, and 56px app tiles with 8px corners.
   Refurbished and flagship rendering retain their existing modern treatment.
-- The shell already contains the three navigation controls. Runtime buttons
+- The shell contains the three navigation controls. Retired runtime buttons
   over Menu/Home/Back have empty text and transparent states; they are only
   pointer hit areas aligned to those physical controls.
-- The status bar uses the live game date, `LTE`, and battery percentage. It
+- The retired status bar used the live game date, `LTE`, and battery percentage. It
   must not restore the generic `09:41` product-marketing time.
 
 ### Refurbished

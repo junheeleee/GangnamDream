@@ -44,7 +44,7 @@ cleanup_isolated_home() {
     return 1
   fi
   case "$target" in
-	  "$temp_root"/gangnam-achievements.*|"$temp_root"/gangnam-core-loop-v2.*|"$temp_root"/gangnam-core-loop-v2-b.*|"$temp_root"/gangnam-core-loop-v2-c.*|"$temp_root"/gangnam-core-loop-v2-d.*|"$temp_root"/gangnam-core-loop-v2-e.*|"$temp_root"/gangnam-core-loop-v2-handoff.*|"$temp_root"/gangnam-ending-route.*|"$temp_root"/gangnam-first30.*|"$temp_root"/gangnam-hidden.*|"$temp_root"/gangnam-housing-keepsake.*|"$temp_root"/gangnam-input-matrix.*|"$temp_root"/gangnam-manual-save.*|"$temp_root"/gangnam-mod-layer.*|"$temp_root"/gangnam-phone-system.*|"$temp_root"/gangnam-story-audio.*|"$temp_root"/gangnam-story-dialogue-history.*|"$temp_root"/gangnam-story-tutorial.*)
+	  "$temp_root"/gangnam-achievements.*|"$temp_root"/gangnam-communication-phone.*|"$temp_root"/gangnam-core-loop-v2.*|"$temp_root"/gangnam-core-loop-v2-b.*|"$temp_root"/gangnam-core-loop-v2-c.*|"$temp_root"/gangnam-core-loop-v2-d.*|"$temp_root"/gangnam-core-loop-v2-e.*|"$temp_root"/gangnam-core-loop-v2-first-entry.*|"$temp_root"/gangnam-core-loop-v2-handoff.*|"$temp_root"/gangnam-ending-route.*|"$temp_root"/gangnam-first30.*|"$temp_root"/gangnam-hidden.*|"$temp_root"/gangnam-housing-keepsake.*|"$temp_root"/gangnam-input-matrix.*|"$temp_root"/gangnam-manual-save.*|"$temp_root"/gangnam-mod-layer.*|"$temp_root"/gangnam-phone-system.*|"$temp_root"/gangnam-story-audio.*|"$temp_root"/gangnam-story-dialogue-history.*|"$temp_root"/gangnam-story-tutorial.*)
       rm -rf -- "$target"
       ;;
     *)
@@ -439,6 +439,26 @@ else
 fi
 
 echo "──────────────────────────────────────────"
+echo "● Core Loop V2 첫 진입 프롤로그·챕터·넓은 계획판·튜토리얼 순서와 저장·입력 경계"
+if [ -x "$GODOT" ]; then
+  CORE_LOOP_V2_FIRST_ENTRY_HOME=$(make_isolated_home "gangnam-core-loop-v2-first-entry")
+  CORE_LOOP_V2_FIRST_ENTRY_RAW=$(run_limited env HOME="$CORE_LOOP_V2_FIRST_ENTRY_HOME" "$GODOT" --headless --quit-after 1200 res://tools/CoreLoopV2FirstEntryCheck.tscn 2>&1)
+  CORE_LOOP_V2_FIRST_ENTRY_STATUS=$?
+  cleanup_isolated_home "$CORE_LOOP_V2_FIRST_ENTRY_HOME"
+  echo "$CORE_LOOP_V2_FIRST_ENTRY_RAW" | grep -E "CORE_LOOP_V2_FIRST_ENTRY_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
+  if godot_check_passed "$CORE_LOOP_V2_FIRST_ENTRY_RAW" \
+      "$CORE_LOOP_V2_FIRST_ENTRY_STATUS" \
+      "CORE_LOOP_V2_FIRST_ENTRY_CHECK_OK" strict; then
+    CORE_LOOP_V2_FIRST_ENTRY_EXIT=0
+  else
+    CORE_LOOP_V2_FIRST_ENTRY_EXIT=1
+  fi
+else
+  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — Core Loop V2 첫 진입 체크 건너뜀."
+  CORE_LOOP_V2_FIRST_ENTRY_EXIT=0
+fi
+
+echo "──────────────────────────────────────────"
 echo "● Core Loop V2 24→48주 실제 스케줄러·현수/도시 결과·1년 결산 인계"
 if [ -x "$GODOT" ]; then
   CORE_LOOP_V2_HANDOFF_HOME=$(make_isolated_home "gangnam-core-loop-v2-handoff")
@@ -459,7 +479,7 @@ else
 fi
 
 echo "──────────────────────────────────────────"
-echo "● 휴대폰 앱 해금·기기 저장·리퍼폰 구매·라이브 은행 계약"
+echo "● 연락폰 schema 3·기종 구매 폐기·유효 구 저장 18만원 1회 환불 계약"
 if [ -x "$GODOT" ]; then
   PHONE_SYSTEM_HOME=$(make_isolated_home "gangnam-phone-system")
   PHONE_SYSTEM_RAW=$(run_limited env HOME="$PHONE_SYSTEM_HOME" "$GODOT" --headless --quit-after 1200 res://tools/PhoneSystemCheck.tscn 2>&1)
@@ -473,8 +493,28 @@ if [ -x "$GODOT" ]; then
     PHONE_SYSTEM_EXIT=1
   fi
 else
-  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 휴대폰 상태·구매 체크 건너뜀."
+  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 연락폰 저장 이관 체크 건너뜀."
   PHONE_SYSTEM_EXIT=0
+fi
+
+echo "──────────────────────────────────────────"
+echo "● 세로 연락폰 대화·연락처 필터·Deck 해상도·모달 포커스 계약"
+if [ -x "$GODOT" ]; then
+  COMMUNICATION_PHONE_HOME=$(make_isolated_home "gangnam-communication-phone")
+  COMMUNICATION_PHONE_RAW=$(run_limited env HOME="$COMMUNICATION_PHONE_HOME" "$GODOT" --headless --quit-after 1200 res://tools/CommunicationPhoneCheck.tscn 2>&1)
+  COMMUNICATION_PHONE_STATUS=$?
+  cleanup_isolated_home "$COMMUNICATION_PHONE_HOME"
+  echo "$COMMUNICATION_PHONE_RAW" | grep -E "COMMUNICATION_PHONE_CHECK_(OK|FAIL)|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
+  if godot_check_passed "$COMMUNICATION_PHONE_RAW" \
+      "$COMMUNICATION_PHONE_STATUS" \
+      "COMMUNICATION_PHONE_CHECK_OK" strict; then
+    COMMUNICATION_PHONE_EXIT=0
+  else
+    COMMUNICATION_PHONE_EXIT=1
+  fi
+else
+  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 세로 연락폰 체크 건너뜀."
+  COMMUNICATION_PHONE_EXIT=0
 fi
 
 if [ -x "$GODOT" ]; then
@@ -1026,9 +1066,9 @@ AUDIT_EXIT_FLAGS="
   PACING_EXIT DEMO_EXPERIENCE_EXIT PLAYTEST_REPORT_EXIT NARRATIVE_CONTINUITY_EXIT FULL_RUN_PACING_EXIT NARRATIVE_SPINE_EXIT
   PEAK_CHAIN_EXIT KEY_ART_EXIT FIRST30_EXIT ART_AI_EXIT ART_RESOLUTION_EXIT ART_MASTER_EXIT CG_ACTING_EXIT
   CG_RUNTIME_EXIT CAST_DETAIL_EXIT EVENT_VISUAL_EXIT EN_HANGUL_EXIT EN_COVERAGE_EXIT I18N_COVERAGE_EXIT I18N_SURFACE_EXIT JA_UI_EXIT I18N_RUNTIME_EXIT
-  MOD_LAYER_AUDIT_EXIT MOD_LAYER_RUNTIME_EXIT BAL_EXIT EVENT_DIRECTOR_EXIT EXPOSED_STATE_EXIT PHONE_SYSTEM_EXIT
+  MOD_LAYER_AUDIT_EXIT MOD_LAYER_RUNTIME_EXIT BAL_EXIT EVENT_DIRECTOR_EXIT EXPOSED_STATE_EXIT PHONE_SYSTEM_EXIT COMMUNICATION_PHONE_EXIT
   CORE_LOOP_V2_EXIT CORE_LOOP_V2_BALANCE_EXIT CORE_LOOP_V2_RUNTIME_EXIT CORE_LOOP_V2_B_RUNTIME_EXIT CORE_LOOP_V2_C_RUNTIME_EXIT
-  CORE_LOOP_V2_D_RUNTIME_EXIT CORE_LOOP_V2_E_RUNTIME_EXIT CORE_LOOP_V2_HANDOFF_EXIT
+  CORE_LOOP_V2_D_RUNTIME_EXIT CORE_LOOP_V2_E_RUNTIME_EXIT CORE_LOOP_V2_FIRST_ENTRY_EXIT CORE_LOOP_V2_HANDOFF_EXIT
   EVENT_DIRECTOR_RUNTIME_EXIT CORE_CHOICE_EXIT ENDING_DISTINCTNESS_EXIT ENDING_ROUTE_EXIT AUDIO_SOURCE_EXIT SCENE_AUDIO_EXIT
   SCENE_AUDIO_CATALOG_EXIT FULL_RUN_AUDIO_EXIT SCENE_DIRECTION_CATALOG_EXIT FULL_RUN_DIRECTION_EXIT GAME_AUDIO_CONTRACT_EXIT UI_SFX_EXIT
   LAUNCH_AUDIO_EXIT AUDIO_EXIT GAME_AUDIO_RUNTIME_EXIT BGM_EXIT MORAL_AMBIENCE_EXIT IMMERSION_EXIT

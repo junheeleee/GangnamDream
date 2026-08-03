@@ -712,12 +712,6 @@ def main() -> int:
             f"KRW 200,000, got {c_two_shift_legal.cash:,}",
             errors,
         )
-    if c_two_shift_legal.cash - 180_000 != 20_000:
-        fail(
-            "the legal week-16 path no longer supports the optional "
-            "KRW 180,000 refurbished phone with a KRW 20,000 remainder",
-            errors,
-        )
 
     moving_config = action_config(contract, "m5_weekend_move_shift")
     if str(moving_config.get("execution", "")) != "instant_effect":
@@ -767,12 +761,6 @@ def main() -> int:
         fail(
             "all three authored legal shifts must finish week 20 at exactly "
             f"KRW 390,000, got {d_three_shift_legal.cash:,}",
-            errors,
-        )
-    if d_three_shift_legal.cash - 180_000 != 210_000:
-        fail(
-            "the three-shift week-20 path no longer supports the optional "
-            "KRW 180,000 refurbished phone with a KRW 210,000 remainder",
             errors,
         )
 
@@ -844,12 +832,6 @@ def main() -> int:
             "must finish week 20 at exactly KRW 1,300,000 after the "
             "three-week first paycheck, "
             f"got {d_hired_legal.cash:,}",
-            errors,
-        )
-    if d_hired_legal.cash - 180_000 != 1_120_000:
-        fail(
-            "the employed legal path must retain KRW 1,120,000 after the "
-            "optional refurbished phone",
             errors,
         )
 
@@ -1060,21 +1042,6 @@ def main() -> int:
             f"- 650,000 = 2,890,000, got {e_hired_legal.cash:,}",
             errors,
         )
-    e_hired_refurbished = simulate_hired_month_six_from_close(
-        "e_hired_refurbished",
-        d_hired_legal.cash - 180_000,
-        ("livelihood", "recovery"),
-        options,
-        hanbit_salary,
-    )
-    if e_hired_refurbished.cash != 2_710_000:
-        fail(
-            "the refurbished-phone Hanbit ledger must be 1,120,000 + "
-            f"2,240,000 - 650,000 = 2,710,000, got "
-            f"{e_hired_refurbished.cash:,}",
-            errors,
-        )
-
     d_growth_config = action_config(contract, "m5_evening_spreadsheet_class")
     d_growth_effects = d_growth_config.get("effects", {})
     if d_growth_effects != {"intelligence": 2, "mental": -2}:
@@ -1264,7 +1231,7 @@ def main() -> int:
         f"e_four_shift_cash={e_four_shift_legal.cash} "
         f"e_four_shift_urgent_cash={e_four_shifts_with_urgent.cash} "
         f"e_hired_cash={e_hired_legal.cash} "
-        f"e_hired_refurb_cash={e_hired_refurbished.cash} "
+        "retired_phone_purchase_cost=0 "
         f"dirty_before_fallout={dirty_before_fallout.cash} "
         f"dirty_escaped={dirty_escaped.cash} dirty_deeper={dirty_deeper.cash} "
         f"dirty_costs={explicit_costs} "
