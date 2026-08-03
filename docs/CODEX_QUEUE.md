@@ -59,7 +59,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-80 · 현재 데모 축·위험 대가 재측정 | [ORDER-80](queue_active/ORDER-80.md) | 합법 계획 전수와 동일 조건 paired trace, 콘텐츠·수치 변경 0 |
+| 1 | [x] | ORDER-80 · 현재 데모 축·위험 대가 재측정 | [ORDER-80](queue_active/ORDER-80.md) | 실측 PASS, 장면·위험·영수증 최소 수리 사용자 판정 대기 |
 
 ### 남은 데모 출시선
 
@@ -93,6 +93,11 @@
 
 ### 완료 이력
 
+- `[x] ORDER-80` (2026-08-04): 합법 월 계획 1,421개와 같은 조건의 위험 원장
+  1,944개를 재측정했다. 3·4개월차에는 선택 authored 장면 0 경로가 있고,
+  W8 심화는 반환보다 648/648 경로에서 W24까지 공개 수치 Pareto 우세였다.
+  콘텐츠·수치·런타임은 바꾸지 않았으며 최소 수리는 사용자 판정 뒤 연다.
+  [사양](queue_active/ORDER-80.md)
 - `[x] ORDER-79` (2026-08-04): 계획판을 설명 그대로 `제안→주` 두 단계로
   맞추고 취소·이동·점유·기한·고정·읽기 전용·연락폰 복귀를 무손상으로 잠갔다.
   KO/EN 실제 입력은 여섯 계획에서 각각 대기 22회·확정 22회로 24주를 완주했다.
@@ -134,9 +139,6 @@
   retail과 교집합 0인 14경로 저장, 세 플랫폼 clean 산출·manifest,
   macOS KO/EN 무인자 진입 검증. 외부 RC·24주 사람 GO는 미완료.
   [사양](queue_archive/ORDER-70.md)
-- `[x] ORDER-69` (2026-08-03): 24주 생존성, 네 component 경로의 W24→48
-  정확 원장, decline 사망 순서와 V2→legacy 장기 인계 모순 수리.
-  [사양](queue_archive/ORDER-69.md)
 - **2026-07 전체 원문 스냅샷:** [CODEX_QUEUE_2026-07.md](queue_archive/CODEX_QUEUE_2026-07.md)
 - 상세 작업 결과는 [WORK_LOG.md](WORK_LOG.md), 사용자 노트와 라운드 판정은 [DEMO_FIXLOG.md](DEMO_FIXLOG.md), 설계 결정은 [DECISIONS.md](DECISIONS.md)가 정본이다.
 - `ORDER-56` 이전 완료 이력은 월별 원문 스냅샷, 각 `queue_archive/ORDER-*.md`,
