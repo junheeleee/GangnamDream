@@ -14,6 +14,7 @@ arrears from global bankruptcy and checks both authored dirty-money exits.
 from __future__ import annotations
 
 import json
+import re
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -25,6 +26,7 @@ CONTRACT_PATH = ROOT / "content" / "meta" / "demo_core_loop_v2.json"
 ARC_EVENTS_PATH = ROOT / "content" / "events" / "arc_events.json"
 CORE_LOOP_EVENTS_PATH = ROOT / "content" / "events" / "core_loop_v2_events.json"
 JOBS_PATH = ROOT / "content" / "jobs.json"
+GAME_STATE_PATH = ROOT / "autoloads" / "GameState.gd"
 
 STARTING_CASH = 500_000
 OPENING_SURVIVAL_BUFFER = 300_000
@@ -34,6 +36,102 @@ B_WEEKS = 12
 C_WEEKS = 16
 DEVELOPMENT_WEEKS = 20
 E_WEEKS = 24
+
+STARTING_HEALTH = 65
+STARTING_MENTAL = 60
+REALITY_HEALTH_PRESSURE = -2
+REALITY_MENTAL_PRESSURE = -3
+GOSIWON_MENTAL_PRESSURE = -2
+UNEMPLOYED_MENTAL_PRESSURE = -2
+
+KERNEL_ROUTINE_PAIRS = (
+    ("livelihood", "growth"),
+    ("livelihood", "recovery"),
+    ("growth", "recovery"),
+)
+KERNEL_BRANCHES = ("clean", "dirty_return", "dirty_deeper")
+KERNEL_POLICIES = ("cautious", "hard")
+
+# These are branch-only kernels, not claims about arbitrary full routes. They
+# include the two background routines, the authored Week-4/8 temptation branch,
+# the universal Week-21 Father signal, the branch-owned Week-24 callback, the
+# Week-24 First Bill choice, and all six real monthly-pressure settlements. They
+# deliberately exclude optional foreground actions, decline outcomes, loans,
+# addiction and relationship passives; those belong to named runtime routes.
+EXPECTED_KERNEL_TRAJECTORIES = {
+    "livelihood+growth/clean/cautious": {
+        "mental": (51, 60, 57, 54, 51, 47),
+        "health": (59, 53, 47, 41, 35, 31),
+    },
+    "livelihood+growth/clean/hard": {
+        "mental": (51, 60, 57, 54, 51, 39),
+        "health": (59, 53, 47, 41, 35, 24),
+    },
+    "livelihood+growth/dirty_return/cautious": {
+        "mental": (45, 25, 24, 21, 18, 10),
+        "health": (59, 49, 43, 37, 31, 27),
+    },
+    "livelihood+growth/dirty_return/hard": {
+        "mental": (45, 25, 24, 21, 18, 1),
+        "health": (59, 49, 43, 37, 31, 20),
+    },
+    "livelihood+growth/dirty_deeper/cautious": {
+        "mental": (45, 32, 33, 34, 35, 33),
+        "health": (59, 53, 47, 41, 35, 31),
+    },
+    "livelihood+growth/dirty_deeper/hard": {
+        "mental": (45, 32, 33, 34, 35, 23),
+        "health": (59, 53, 47, 41, 35, 24),
+    },
+    "livelihood+recovery/clean/cautious": {
+        "mental": (59, 76, 81, 86, 89, 89),
+        "health": (63, 61, 59, 57, 55, 55),
+    },
+    "livelihood+recovery/clean/hard": {
+        "mental": (59, 76, 81, 86, 89, 85),
+        "health": (63, 61, 59, 57, 55, 48),
+    },
+    "livelihood+recovery/dirty_return/cautious": {
+        "mental": (53, 41, 48, 53, 58, 58),
+        "health": (63, 57, 55, 53, 51, 51),
+    },
+    "livelihood+recovery/dirty_return/hard": {
+        "mental": (53, 41, 48, 53, 58, 49),
+        "health": (63, 57, 55, 53, 51, 44),
+    },
+    "livelihood+recovery/dirty_deeper/cautious": {
+        "mental": (53, 48, 57, 66, 75, 81),
+        "health": (63, 61, 59, 57, 55, 55),
+    },
+    "livelihood+recovery/dirty_deeper/hard": {
+        "mental": (53, 48, 57, 66, 75, 71),
+        "health": (63, 61, 59, 57, 55, 48),
+    },
+    "growth+recovery/clean/cautious": {
+        "mental": (59, 74, 79, 84, 89, 89),
+        "health": (67, 69, 71, 73, 75, 79),
+    },
+    "growth+recovery/clean/hard": {
+        "mental": (59, 74, 79, 84, 89, 85),
+        "health": (67, 69, 71, 73, 75, 72),
+    },
+    "growth+recovery/dirty_return/cautious": {
+        "mental": (53, 41, 46, 51, 56, 56),
+        "health": (67, 65, 67, 69, 71, 75),
+    },
+    "growth+recovery/dirty_return/hard": {
+        "mental": (53, 41, 46, 51, 56, 47),
+        "health": (67, 65, 67, 69, 71, 68),
+    },
+    "growth+recovery/dirty_deeper/cautious": {
+        "mental": (53, 48, 57, 66, 75, 80),
+        "health": (67, 69, 71, 73, 75, 79),
+    },
+    "growth+recovery/dirty_deeper/hard": {
+        "mental": (53, 48, 57, 66, 75, 71),
+        "health": (67, 69, 71, 73, 75, 72),
+    },
+}
 
 
 @dataclass
@@ -55,6 +153,64 @@ class Ledger:
                 self.cash += value
             elif hasattr(self, stat):
                 setattr(self, stat, int(getattr(self, stat)) + value)
+
+
+@dataclass
+class SurvivalLedger:
+    """Small deterministic mirror for the 24-week branch-only kernel."""
+
+    name: str
+    cash: int = STARTING_CASH + OPENING_SURVIVAL_BUFFER
+    health: int = STARTING_HEALTH
+    mental: int = STARTING_MENTAL
+    intelligence: int = 0
+    work_performance: int = 0
+    routine_units: int = 0
+    death_week: int = 0
+    monthly_snapshots: list[dict[str, Any]] = field(default_factory=list)
+
+    def apply_effects(self, effects: dict[str, Any]) -> None:
+        for stat, raw_value in effects.items():
+            value = int(raw_value)
+            if stat == "money":
+                self.cash += value
+            elif hasattr(self, stat):
+                setattr(self, stat, int(getattr(self, stat)) + value)
+        self.health = max(0, min(100, self.health))
+        self.mental = max(0, min(100, self.mental))
+
+    def apply_monthly_pressure(self, week: int) -> None:
+        # Mirrors GameState.apply_monthly_pressure for the reality-difficulty,
+        # unemployed, gosiwon, no-loan/no-addiction/no-relationship kernel.
+        self.cash -= MONTHLY_FIXED_COST
+        self.apply_effects({
+            "health": REALITY_HEALTH_PRESSURE,
+            "mental": REALITY_MENTAL_PRESSURE
+            + GOSIWON_MENTAL_PRESSURE
+            + UNEMPLOYED_MENTAL_PRESSURE,
+        })
+        required_cash = MONTHLY_FIXED_COST
+        reserve_target = required_cash * 3
+        if self.cash < 0:
+            reserve_band = "negative"
+            reserve_mental = -4
+        elif self.cash < required_cash:
+            reserve_band = "uncovered"
+            reserve_mental = -2
+        elif self.cash < reserve_target:
+            reserve_band = "thin"
+            reserve_mental = -1
+        else:
+            reserve_band = "safe"
+            reserve_mental = 0
+        self.apply_effects({"mental": reserve_mental})
+        self.monthly_snapshots.append({
+            "week": week,
+            "cash": self.cash,
+            "health": self.health,
+            "mental": self.mental,
+            "reserve_band": reserve_band,
+        })
 
 
 def fail(message: str, errors: list[str]) -> None:
@@ -185,8 +341,242 @@ def choice_with_flag(event: dict[str, Any], flag: str) -> dict[str, Any]:
     return {}
 
 
+def choice_with_mental_delta(event: dict[str, Any], delta: int) -> dict[str, Any]:
+    for raw_choice in event.get("choices", []):
+        if not isinstance(raw_choice, dict):
+            continue
+        effects = raw_choice.get("effects", {})
+        if isinstance(effects, dict) and int(effects.get("mental", 0)) == delta:
+            return raw_choice
+    return {}
+
+
+def choice_with_obligation(event: dict[str, Any], obligation_id: str) -> dict[str, Any]:
+    for raw_choice in event.get("choices", []):
+        if (
+            isinstance(raw_choice, dict)
+            and raw_choice.get("v2_obligation_id") == obligation_id
+        ):
+            return raw_choice
+    return {}
+
+
+def choice_effects(choice: dict[str, Any]) -> dict[str, Any]:
+    effects = choice.get("effects", {}) if isinstance(choice, dict) else {}
+    return effects if isinstance(effects, dict) else {}
+
+
+def validate_runtime_monthly_pressure(errors: list[str]) -> None:
+    """Keep the deterministic mirror tied to GameState's live constants."""
+
+    source = GAME_STATE_PATH.read_text(encoding="utf-8")
+    reality_pattern = re.compile(
+        r'"현실"\s*:\s*\{.*?"pressure_health"\s*:\s*-2\s*,\s*'
+        r'"pressure_mental"\s*:\s*-3',
+        re.DOTALL,
+    )
+    if not reality_pattern.search(source):
+        fail("reality monthly pressure drifted from health -2 / mental -3", errors)
+
+    housing_match = re.search(
+        r'match housing:(.*?)# ── 인연 패시브', source, re.DOTALL
+    )
+    housing_block = housing_match.group(1) if housing_match else ""
+    gosiwon_match = re.search(
+        r'"gosiwon":(.*?)(?:"villa", "apartment":)',
+        housing_block,
+        re.DOTALL,
+    )
+    gosiwon_block = gosiwon_match.group(1) if gosiwon_match else ""
+    if gosiwon_block.count('modify_stat("mental", -1)') != 2:
+        fail("gosiwon monthly pressure drifted from mental -2", errors)
+    if not re.search(
+        r'if monthly_income == 0:\s*modify_stat\("mental", -2\)',
+        source,
+    ):
+        fail("unemployed monthly pressure drifted from mental -2", errors)
+
+    reserve_expectations = (
+        ('reserve_band = "negative"', 'modify_stat("mental", -4)'),
+        ('reserve_band = "uncovered"', 'modify_stat("mental", -2)'),
+        ('reserve_band = "thin"', 'modify_stat("mental", -1)'),
+    )
+    for band_source, penalty_source in reserve_expectations:
+        band_index = source.find(band_source)
+        penalty_index = source.find(penalty_source, band_index)
+        if band_index < 0 or penalty_index < band_index or penalty_index > band_index + 180:
+            fail(
+                f"cash-reserve monthly pressure drifted near {band_source}",
+                errors,
+            )
+
+
+def run_survival_kernels(
+    options: dict[str, Any],
+    arc_events: list[Any],
+    core_events: list[Any],
+    errors: list[str],
+) -> dict[str, SurvivalLedger]:
+    """Execute all 18 branch-only survival kernels from the real starting state."""
+
+    temptation = event_by_id(arc_events, "arc_temptation_01")
+    clean_consequence = event_by_id(arc_events, "arc_temptation_clean")
+    fallout = event_by_id(arc_events, "arc_temptation_fallout")
+    father = event_by_id(core_events, "v2_father_health_signal")
+    dirty_trace = event_by_id(core_events, "v2_dirty_trace_initial_call")
+    dirty_recruiter = event_by_id(core_events, "v2_dirty_recruiter_week24")
+    first_bill = event_by_id(core_events, "v2_demo_first_bill")
+
+    clean_opening = choice_with_flag(temptation, "kept_clean_hands")
+    clean_week_8 = choice_with_flag(clean_consequence, "stayed_clean")
+    dirty_opening = choice_with_flag(temptation, "lent_account")
+    dirty_return = choice_with_flag(fallout, "escaped_dirty_money")
+    dirty_deeper = choice_with_flag(fallout, "fell_to_darkness")
+    branch_plans = {
+        "clean": {
+            "week_4": clean_opening,
+            "week_8": clean_week_8,
+            "week_24_event": {},
+        },
+        "dirty_return": {
+            "week_4": dirty_opening,
+            "week_8": dirty_return,
+            "week_24_event": dirty_trace,
+        },
+        "dirty_deeper": {
+            "week_4": dirty_opening,
+            "week_8": dirty_deeper,
+            "week_24_event": dirty_recruiter,
+        },
+    }
+    policy_plans = {
+        "cautious": {
+            "father_mental": -2,
+            "first_bill": "body_rest",
+            "callback_mental": {"dirty_return": -4, "dirty_deeper": -2},
+        },
+        "hard": {
+            "father_mental": -5,
+            "first_bill": "urgent_paid_shift",
+            "callback_mental": {"dirty_return": -5, "dirty_deeper": -4},
+        },
+    }
+
+    required_inputs = {
+        "clean Week-4 choice": clean_opening,
+        "clean Week-8 consequence": clean_week_8,
+        "dirty Week-4 choice": dirty_opening,
+        "dirty-return Week-8 choice": dirty_return,
+        "dirty-deeper Week-8 choice": dirty_deeper,
+        "Week-21 Father event": father,
+        "Week-24 dirty-return callback": dirty_trace,
+        "Week-24 dirty-deeper callback": dirty_recruiter,
+        "Week-24 First Bill event": first_bill,
+    }
+    for label, payload in required_inputs.items():
+        if not payload:
+            fail(f"survival kernel lost {label}", errors)
+
+    ledgers: dict[str, SurvivalLedger] = {}
+    for routine_pair in KERNEL_ROUTINE_PAIRS:
+        pair_name = "+".join(routine_pair)
+        for branch_id in KERNEL_BRANCHES:
+            branch_plan = branch_plans[branch_id]
+            for policy_id in KERNEL_POLICIES:
+                policy = policy_plans[policy_id]
+                key = f"{pair_name}/{branch_id}/{policy_id}"
+                ledger = SurvivalLedger(name=key)
+                father_choice = choice_with_mental_delta(
+                    father, int(policy["father_mental"])
+                )
+                bill_choice = choice_with_obligation(
+                    first_bill, str(policy["first_bill"])
+                )
+                callback_choice: dict[str, Any] = {}
+                callback_event = branch_plan["week_24_event"]
+                if callback_event:
+                    callback_delta = int(policy["callback_mental"][branch_id])
+                    callback_choice = choice_with_mental_delta(
+                        callback_event, callback_delta
+                    )
+                if not father_choice or not bill_choice or (
+                    callback_event and not callback_choice
+                ):
+                    fail(f"survival kernel {key} lost a policy-owned choice", errors)
+
+                for week in range(1, E_WEEKS + 1):
+                    # The Father signal is a Week-21 pre-planning interruption.
+                    if week == 21:
+                        ledger.apply_effects(choice_effects(father_choice))
+                    for routine_id in routine_pair:
+                        ledger.apply_effects(weekly_effects(options, routine_id))
+                        ledger.routine_units += 1
+                    if week == 4:
+                        ledger.apply_effects(
+                            choice_effects(branch_plan["week_4"])
+                        )
+                    elif week == 8 and branch_plan["week_8"]:
+                        ledger.apply_effects(
+                            choice_effects(branch_plan["week_8"])
+                        )
+                    if week == 24:
+                        if callback_choice:
+                            ledger.apply_effects(choice_effects(callback_choice))
+                        ledger.apply_effects(choice_effects(bill_choice))
+                    if not ledger.death_week and (
+                        ledger.health <= 0 or ledger.mental <= 0
+                    ):
+                        ledger.death_week = week
+                    if week % 4 == 0:
+                        ledger.apply_monthly_pressure(week)
+                        if not ledger.death_week and (
+                            ledger.health <= 0 or ledger.mental <= 0
+                        ):
+                            ledger.death_week = week
+
+                ledgers[key] = ledger
+                mental_path = tuple(
+                    int(row["mental"]) for row in ledger.monthly_snapshots
+                )
+                health_path = tuple(
+                    int(row["health"]) for row in ledger.monthly_snapshots
+                )
+                expected = EXPECTED_KERNEL_TRAJECTORIES.get(key, {})
+                if mental_path != expected.get("mental"):
+                    fail(
+                        f"survival kernel {key} mental path drifted: "
+                        f"{mental_path}",
+                        errors,
+                    )
+                if health_path != expected.get("health"):
+                    fail(
+                        f"survival kernel {key} health path drifted: "
+                        f"{health_path}",
+                        errors,
+                    )
+                if ledger.routine_units != E_WEEKS * 2:
+                    fail(
+                        f"survival kernel {key} executed {ledger.routine_units} "
+                        "routine units instead of 48",
+                        errors,
+                    )
+                if len(ledger.monthly_snapshots) != 6:
+                    fail(f"survival kernel {key} did not settle six months", errors)
+                if ledger.death_week:
+                    fail(
+                        f"branch-only survival kernel {key} died in Week "
+                        f"{ledger.death_week}",
+                        errors,
+                    )
+
+    if set(ledgers) != set(EXPECTED_KERNEL_TRAJECTORIES):
+        fail("the survival matrix must contain exactly 18 named kernels", errors)
+    return ledgers
+
+
 def main() -> int:
     errors: list[str] = []
+    validate_runtime_monthly_pressure(errors)
     contract = load_json(CONTRACT_PATH)
     routine = contract.get("routine", {})
     options = routine.get("options", {}) if isinstance(routine, dict) else {}
@@ -825,6 +1215,31 @@ def main() -> int:
     if 2_000_000 // MONTHLY_FIXED_COST != 3:
         fail("KRW 2,000,000 must equal three full KRW 650,000 rent payments", errors)
 
+    survival_kernels = run_survival_kernels(
+        options, arc_events, core_events, errors
+    )
+    kernel_final_mental = [
+        int(ledger.monthly_snapshots[-1]["mental"])
+        for ledger in survival_kernels.values()
+        if ledger.monthly_snapshots
+    ]
+    kernel_final_health = [
+        int(ledger.monthly_snapshots[-1]["health"])
+        for ledger in survival_kernels.values()
+        if ledger.monthly_snapshots
+    ]
+    dirty_return_cautious = survival_kernels.get(
+        "livelihood+growth/dirty_return/cautious"
+    )
+    dirty_return_mental = (
+        "/".join(
+            str(int(row["mental"]))
+            for row in dirty_return_cautious.monthly_snapshots
+        )
+        if dirty_return_cautious is not None
+        else "missing"
+    )
+
     if errors:
         for message in errors:
             print(f"ERROR core loop v2 balance: {message}")
@@ -858,7 +1273,11 @@ def main() -> int:
         f"d_routine_units={d_no_shifts.routine_units} "
         f"e_routine_units={e_no_shifts.routine_units} "
         f"recovery_diminished={diminished_recovery} "
-        f"e_recovery_diminished={e_recovery_diminished}"
+        f"e_recovery_diminished={e_recovery_diminished} "
+        f"survival_kernels={len(survival_kernels)} "
+        f"kernel_mental={min(kernel_final_mental)}-{max(kernel_final_mental)} "
+        f"kernel_health={min(kernel_final_health)}-{max(kernel_final_health)} "
+        f"dirty_return_cautious_mental={dirty_return_mental}"
     )
     return 0
 

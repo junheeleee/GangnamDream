@@ -332,11 +332,11 @@
           "unemployed": {
             "money": 70000,
             "health": -1,
-            "mental": -1
+            "mental": 1
           },
           "employed": {
             "work_performance": 1,
-            "mental": -1
+            "mental": 1
           }
         }
       },
@@ -348,7 +348,7 @@
         "description_en": "Protect weekly study time and build the skills needed for the next application and interview.",
         "weekly_effects": {
           "intelligence": 1,
-          "mental": -1
+          "mental": 1
         }
       },
       "recovery": {

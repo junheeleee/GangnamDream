@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CONTRACT_PATH = ROOT / "content" / "meta" / "demo_core_loop_v2.json"
 NARRATIVE_SPINE_PATH = ROOT / "content" / "meta" / "narrative_spine.json"
 REGISTRY_PATH = ROOT / "autoloads" / "DataRegistry.gd"
+DEMO_CORE_LOOP_PATH = ROOT / "systems" / "DemoCoreLoopV2.gd"
 HANGUL_RE = re.compile(r"[가-힣]")
 
 EXPECTED_TABS = ["messages", "calendar", "people", "record"]
@@ -796,10 +797,10 @@ EXPECTED_CHOICE_RECEIPTS = {
 }
 EXPECTED_ROUTINE_EFFECTS = {
     "livelihood": {
-        "unemployed": {"money": 70_000, "health": -1, "mental": -1},
-        "employed": {"work_performance": 1, "mental": -1},
+        "unemployed": {"money": 70_000, "health": -1, "mental": 1},
+        "employed": {"work_performance": 1, "mental": 1},
     },
-    "growth": {"intelligence": 1, "mental": -1},
+    "growth": {"intelligence": 1, "mental": 1},
     "recovery": {"health": 1, "mental": 3},
 }
 KO_SURFACE_FILES = (
@@ -2976,6 +2977,95 @@ def main() -> int:
         fail("future route preview must stay hidden", errors)
 
     registered_events = load_registered_events(errors)
+    temptation_bundle = require_dict(
+        bundles.get("temptation_consequence"),
+        "scene_bundles.temptation_consequence",
+        errors,
+    )
+    if (
+        temptation_bundle.get("allowed_weeks") != [8]
+        or temptation_bundle.get("existing_roots")
+        != ["arc_temptation_clean", "arc_temptation_fallout"]
+    ):
+        fail(
+            "Week-8 temptation consequence must schedule both clean and dirty roots",
+            errors,
+        )
+    clean_consequence = require_dict(
+        registered_events.get("arc_temptation_clean"),
+        "registered event arc_temptation_clean",
+        errors,
+    )
+    clean_choices = require_list(
+        clean_consequence.get("choices"),
+        "arc_temptation_clean.choices",
+        errors,
+    )
+    if (
+        len(clean_choices) != 1
+        or not isinstance(clean_choices[0], dict)
+        or clean_choices[0].get("effects") != {"mental": 10}
+        or not {"arc_temptation_clean_seen", "stayed_clean"}.issubset(
+            set(clean_choices[0].get("flags", []))
+        )
+    ):
+        fail(
+            "arc_temptation_clean must apply the mandatory Week-8 mental +10 receipt",
+            errors,
+        )
+    demo_core_loop_source = DEMO_CORE_LOOP_PATH.read_text(encoding="utf-8")
+    clean_branch_pattern = re.compile(
+        r'if bundle_id == "temptation_consequence":\s*'
+        r'if bool\(GameState\.flags\.get\("lent_account", false\)\):\s*'
+        r'return \["arc_temptation_fallout"\]\s*'
+        r'return \["arc_temptation_clean"\]'
+    )
+    if not clean_branch_pattern.search(demo_core_loop_source):
+        fail(
+            "DemoCoreLoopV2 must route the mandatory Week-8 clean consequence "
+            "when lent_account is absent",
+            errors,
+        )
+    cafe_honest_in = require_dict(
+        registered_events.get("cafe_cb_honest_in"),
+        "registered event cafe_cb_honest_in",
+        errors,
+    )
+    cafe_honest_choices = require_list(
+        cafe_honest_in.get("choices"),
+        "cafe_cb_honest_in.choices",
+        errors,
+    )
+    cafe_invest_flags = (
+        set(cafe_honest_choices[0].get("flags", []))
+        if cafe_honest_choices and isinstance(cafe_honest_choices[0], dict)
+        else set()
+    )
+    if "cafe_honest_invested" not in cafe_invest_flags \
+            or "kept_clean_hands" in cafe_invest_flags:
+        fail(
+            "the later honest cafe investment must not forge the Week-4 "
+            "bank-account refusal receipt",
+            errors,
+        )
+    clean_hand_producers: list[tuple[str, int]] = []
+    for event_id, event in registered_events.items():
+        if not isinstance(event, dict):
+            continue
+        choices = event.get("choices", [])
+        if not isinstance(choices, list):
+            continue
+        for choice_index, choice in enumerate(choices):
+            if isinstance(choice, dict) and "kept_clean_hands" in choice.get(
+                "flags", []
+            ):
+                clean_hand_producers.append((event_id, choice_index))
+    if clean_hand_producers != [("arc_temptation_01", 0)]:
+        fail(
+            "kept_clean_hands must be produced only by the exact Week-4 "
+            f"bank-account refusal choice: {clean_hand_producers}",
+            errors,
+        )
     v2_direction_events, prologue_direction_events = (
         validate_demo_direction_coverage(
             contract,

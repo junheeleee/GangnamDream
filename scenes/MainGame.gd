@@ -1998,6 +1998,12 @@ func _core_loop_v2_advance_completed_week() -> void:
 		if GameState.is_game_over:
 			return
 		DEMO_CORE_LOOP_V2.process_due_decline_outcomes(closing_month)
+		# A declined plan can carry the final health/mental loss. The shared
+		# rollover checked endings before those receipts were consumed, so check
+		# again before a terminal recap can cover a real failure ending.
+		GameState.check_game_over()
+		if GameState.is_game_over:
+			return
 		var after := _core_loop_v2_economy_snapshot()
 		DEMO_CORE_LOOP_V2.record_month_summary(
 			closing_month, before, after)
@@ -2019,6 +2025,11 @@ func _core_loop_v2_advance_completed_week() -> void:
 		if GameState.is_game_over:
 			return
 		DEMO_CORE_LOOP_V2.process_due_decline_outcomes(closing_month)
+		# Month notebooks obey the same ordering as the prototype boundary:
+		# decline effects resolve first, then a newly fatal state exits at once.
+		GameState.check_game_over()
+		if GameState.is_game_over:
+			return
 		var after := _core_loop_v2_economy_snapshot()
 		var summary := DEMO_CORE_LOOP_V2.record_month_summary(
 			closing_month, before, after)
@@ -4554,8 +4565,22 @@ func _next_arc_id(
 			and t > int(f.get("opening_interview_application_turn", -1)) \
 			and GameState.current_job.is_empty():
 		return "arc_intro_01_meal"
+	# The V2 interview consequence intentionally replaced this immediate legacy
+	# follow-up. Its consumed receipt survives after temporary suppression rows
+	# are cleared, and prevents a first-month calculation scene at Month 7+.
+	var opening_interview_receipt: Dictionary = (
+		(GameState.core_loop_v2_state.get(
+			"consequence_receipts", {}) as Dictionary).get(
+				"opening_interview_math", {}) as Dictionary
+	)
+	var v2_replaced_intro_dad := (
+		str(opening_interview_receipt.get("consequence_id", "")) \
+			== "opening_interview_math" \
+		and str(opening_interview_receipt.get("status", "")) == "consumed"
+	)
 	if t >= 3 and f.get("arc_intro_meal_seen", false) \
-			and not f.get("arc_intro_dad_seen", false):
+			and not f.get("arc_intro_dad_seen", false) \
+			and not v2_replaced_intro_dad:
 		return "arc_intro_02_dad_call"
 	# ★ 첫 유혹 (턴 4) — 정석 vs 위험한 지름길. 결말까지 갈리는 큰 분기.
 	if t >= 4 and not f.get("arc_temptation_seen", false):
@@ -4568,8 +4593,13 @@ func _next_arc_id(
 	if t >= 9 and not f.get("arc_intro_hyunsu_seen", false):
 		return "arc_intro_04_hyunsu"
 	# 현수 첫 대화의 follow-up이 결산을 잇는다. 옛 저장은 이 가드로 복구한다.
+	# V2가 그 직접 후속을 월간 편성으로 대체한 durable bundle receipt가
+	# 있으면 7개월차에 '서울 첫 두 달'을 legacy fallback으로 재생하지 않는다.
+	var v2_replaced_chapter_one_close := \
+		DEMO_CORE_LOOP_V2.has_completed_bundle("hyunsu_first_meet")
 	if t >= 9 and f.get("arc_intro_hyunsu_seen", false) \
-			and not f.get("chapter1_closed", false):
+			and not f.get("chapter1_closed", false) \
+			and not v2_replaced_chapter_one_close:
 		return "arc_chapter1_close"
 	# ★ 카페의 장기 파장 (턴 13) — 턴 6 선택이 되돌아온다. 위쳐3식 장기 결과.
 	if t >= 13 and not f.get("cafe_callback_seen", false):
@@ -4585,7 +4615,12 @@ func _next_arc_id(
 	# ★ 첫 유혹의 후폭풍/보상 (턴 8) — 선택에 따라 갈림
 	if f.get("lent_account", false) and not f.get("arc_temptation_fallout_seen", false) and t >= 8:
 		return "arc_temptation_fallout"
-	if f.get("kept_clean_hands", false) and not f.get("arc_temptation_clean_seen", false) and t >= 8:
+	# Legacy polluted saves may still contain both kept_clean_hands and
+	# lent_account. The concrete account-lending history must win so those saves
+	# never replay prose claiming the card/account was never handed over.
+	if f.get("kept_clean_hands", false) \
+			and not f.get("lent_account", false) \
+			and not f.get("arc_temptation_clean_seen", false) and t >= 8:
 		return "arc_temptation_clean"
 	# 불합격 메일 — 구직 2주차(t>=8), 아직 무직, 첫 탈락 경험
 	if t >= 8 and GameState.current_job.is_empty() \

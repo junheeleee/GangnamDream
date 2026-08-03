@@ -278,8 +278,7 @@
         "text": "형편에 맞게, 들어간다",
         "result_text": "큰 베팅은 아니다. 하지만 단단한 첫 걸음이다.",
         "flags": [
-          "cafe_honest_invested",
-          "kept_clean_hands"
+          "cafe_honest_invested"
         ],
         "effects": {
           "reputation": 2

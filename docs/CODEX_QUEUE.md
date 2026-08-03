@@ -59,13 +59,12 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-69 · 24주 정신력 생존성 | [ORDER-69](queue_active/ORDER-69.md) | **착수 —** V2 루틴 원장·full-route 시뮬/런타임·월말 포기 game-over·24→48주 이월 |
-| 2 | [ ] | ORDER-70 · V2 playtest release flavor | [ORDER-70](queue_active/ORDER-70.md) | P-2 승인. retail 기본값 유지·진입/표식/세이브 분리 |
-| 3 | [ ] | ORDER-71 · 영어 유혹 선택지 중립 | [ORDER-71](queue_active/ORDER-71.md) | 수치·후속 없이 영어 도덕 자기선언만 제거 |
-| 4 | [ ] | ORDER-72 · 심의·스토어 콘텐츠 인벤토리 | [ORDER-72](queue_active/ORDER-72.md) | export 포함 범위를 실측. 최종 등급·삭제는 사용자 결정 |
-| 5 | [ ] | ORDER-73 · 버전·세이브·제3자 고지 | [ORDER-73](queue_active/ORDER-73.md) | 기존 BuildInfo/엔딩 크레딧 재사용, 남은 메타·고지만 구현 |
-| 6 | [ ] | ORDER-74 · 신규 데모 지식·화자 계약 | [ORDER-74](queue_active/ORDER-74.md) | 실제 `logic` 스키마 위 최소 표현·신규분 래칫 |
-| 7 | [ ] | ORDER-75 · 24주 데모 전용 T1 정점 | [ORDER-75](queue_active/ORDER-75.md) | P-3 승인. 기존 8선택/영수증 보존, 3비트·8턴·전용 자산 |
+| 1 | [ ] | ORDER-70 · V2 playtest release flavor | [ORDER-70](queue_active/ORDER-70.md) | P-2 승인. retail 기본값 유지·진입/표식/세이브 분리 |
+| 2 | [ ] | ORDER-71 · 영어 유혹 선택지 중립 | [ORDER-71](queue_active/ORDER-71.md) | 수치·후속 없이 영어 도덕 자기선언만 제거 |
+| 3 | [ ] | ORDER-72 · 심의·스토어 콘텐츠 인벤토리 | [ORDER-72](queue_active/ORDER-72.md) | export 포함 범위를 실측. 최종 등급·삭제는 사용자 결정 |
+| 4 | [ ] | ORDER-73 · 버전·세이브·제3자 고지 | [ORDER-73](queue_active/ORDER-73.md) | 기존 BuildInfo/엔딩 크레딧 재사용, 남은 메타·고지만 구현 |
+| 5 | [ ] | ORDER-74 · 신규 데모 지식·화자 계약 | [ORDER-74](queue_active/ORDER-74.md) | 실제 `logic` 스키마 위 최소 표현·신규분 래칫 |
+| 6 | [ ] | ORDER-75 · 24주 데모 전용 T1 정점 | [ORDER-75](queue_active/ORDER-75.md) | P-3 승인. 기존 8선택/영수증 보존, 3비트·8턴·전용 자산 |
 
 ### ORDER-75 뒤의 데모 출시선
 
@@ -98,6 +97,9 @@
 
 ### 완료 이력
 
+- `[x] ORDER-69` (2026-08-03): 24주 생존성, 네 component 경로의 W24→48
+  정확 원장, decline 사망 순서와 V2→legacy 장기 인계 모순 수리.
+  [사양](queue_archive/ORDER-69.md)
 - `[x] ORDER-68` (2026-08-03): 우선순위·상태 단일 정본, 작은 active/backlog 분리,
   사람 게이트 schema v2와 구 RC 재사용 차단. [사양](queue_archive/ORDER-68.md)
 - **2026-07 전체 원문 스냅샷:** [CODEX_QUEUE_2026-07.md](queue_archive/CODEX_QUEUE_2026-07.md)

@@ -3007,6 +3007,18 @@ func load_from_dict(data):
 		if int_fields.has(key) and value is float:
 			value = int(value)
 		set(key, value)
+	# `kept_clean_hands` is the specific receipt for refusing the Week-4
+	# bank-account offer. An older cafe callback reused that flag for a later
+	# honest investment, so dirty-account saves could hold both mutually
+	# exclusive facts and receive false clean prose/achievements. Keep the
+	# concrete `lent_account` history and remove the polluted alias plus the two
+	# clean-consequence flags it could have produced. Past stat effects cannot be
+	# inferred safely from a save and are intentionally not reversed.
+	if bool(flags.get("lent_account", false)) \
+			and bool(flags.get("kept_clean_hands", false)):
+		flags.erase("kept_clean_hands")
+		flags.erase("arc_temptation_clean_seen")
+		flags.erase("stayed_clean")
 	# 구버전 세이브 호환 — cast 없으면 기본값 채움
 	if cast == null or cast.is_empty():
 		cast = _default_cast()

@@ -2,6 +2,9 @@ extends Node
 ## ORDER-57: Week-24 V2 receipts must rejoin the real Chapter-One scheduler.
 
 const CORE_LOOP := preload("res://systems/DemoCoreLoopV2.gd")
+const FULL_ROUTE_CHECK := preload("res://tools/CoreLoopV2ECheck.gd")
+const MAIN_GAME_SCRIPT := preload("res://scenes/MainGame.gd")
+const PHONE_SYSTEM := preload("res://systems/PhoneSystem.gd")
 
 const HYUNSU_RESULT := "hyunsu_result_fail"
 const HYUNSU_AFTERMATH := "arc_hyunsu_exam_fail"
@@ -42,9 +45,96 @@ const WEEK_24_DEFERRED := [
 	"body_rest",
 ]
 
+const ACTUAL_CARRYOVER_PATHS := [
+	"clean_unemployed_low",
+	"clean_hired_recovery_high",
+	"dirty_return_recovery_low",
+	"dirty_deeper_growth",
+]
+
+# JobSystem uses Godot's global RNG for monthly stat/performance rolls. These
+# fixed seeds make the exact component ledger reproducible without pretending
+# that the production UI chose a random vignette outcome.
+const ACTUAL_CARRYOVER_RNG_SEEDS := {
+	"clean_unemployed_low": 69_101,
+	"clean_hired_recovery_high": 69_102,
+	"dirty_return_recovery_low": 69_103,
+	"dirty_deeper_growth": 69_104,
+}
+
+const ACTUAL_RESCUE_JOB_WEEKS := {
+	"clean_unemployed_low": 32,
+	"dirty_return_recovery_low": 30,
+	"dirty_deeper_growth": 30,
+}
+
+const ACTUAL_WEEK_24_SNAPSHOTS := {
+	"clean_unemployed_low": [-906_500, 28, 68, false],
+	"clean_hired_recovery_high": [3_443_500, 42, 93, true],
+	"dirty_return_recovery_low": [-2_086_500, 69, 73, false],
+	"dirty_deeper_growth": [4_373_500, 23, 52, false],
+}
+
+const ACTUAL_CARRYOVER_EXPECTED := {
+	"clean_unemployed_low": {
+		"final": [1_763_500.0, 25, 41],
+		"floor": [24, 34],
+		"recovery_turns": [33, 37, 45],
+		"months": [
+			[-1_556_500.0, 26, 45, false],
+			[-886_500.0, 24, 34, true],
+			[-216_500.0, 25, 38, true],
+			[423_500.0, 26, 41, true],
+			[1_093_500.0, 24, 41, true],
+			[1_763_500.0, 25, 41, true],
+		],
+	},
+	"clean_hired_recovery_high": {
+		"final": [12_006_537.5, 30, 56],
+		"floor": [30, 47],
+		"recovery_turns": [],
+		"months": [
+			[4_086_537.5, 40, 76, true],
+			[5_676_537.5, 38, 71, true],
+			[7_236_537.5, 36, 64, true],
+			[8_826_537.5, 34, 58, true],
+			[10_416_537.5, 32, 49, true],
+			[12_006_537.5, 30, 56, true],
+		],
+	},
+	"dirty_return_recovery_low": {
+		"final": [583_500.0, 65, 47],
+		"floor": [61, 22],
+		"recovery_turns": [44, 46],
+		"months": [
+			[-2_736_500.0, 67, 50, false],
+			[-2_066_500.0, 65, 46, true],
+			[-1_426_500.0, 63, 45, true],
+			[-756_500.0, 61, 22, true],
+			[-86_500.0, 62, 32, true],
+			[583_500.0, 65, 47, true],
+		],
+	},
+	"dirty_deeper_growth": {
+		"final": [5_840_787.5, 26, 61],
+		"floor": [23, 41],
+		"recovery_turns": [25, 33, 41, 45],
+		"months": [
+			[2_520_787.5, 27, 43, false],
+			[3_190_787.5, 25, 43, true],
+			[3_860_787.5, 26, 54, true],
+			[4_500_787.5, 24, 46, true],
+			[5_170_787.5, 25, 59, true],
+			[5_840_787.5, 26, 61, true],
+		],
+	},
+}
+
 var _failures: Array[String] = []
 var _autosave_backup: Dictionary = {}
 var _main_game: Node = null
+var _carryover_evidence: Array[String] = []
+var _carryover_route_evidence: Array[String] = []
 
 
 func _ready() -> void:
@@ -54,6 +144,9 @@ func _ready() -> void:
 
 	_check_hyunsu_min_turn_and_legacy_timing()
 	_check_father_signal_replaces_skipped_first_call()
+	_check_lent_account_flag_migration()
+	_check_durable_legacy_replacements()
+	_check_actual_snapshot_carryover()
 	_check_v2_week_24_handoff()
 
 	if is_instance_valid(_main_game):
@@ -68,12 +161,25 @@ func _ready() -> void:
 		print(
 			"CORE_LOOP_V2_HANDOFF_CHECK_OK "
 			+ "scheduler=real_next_arc_id "
-			+ "v2=week25_26_hidden/week27_fail/week31_aftermath/"
+			+ "v2_result=week25_26_hidden/week27_fail/week31_aftermath/"
 			+ "week36_drift/week42_new_path "
 			+ "legacy=week25_26_fail/week29_30_aftermath/"
 			+ "week34_35_drift/week40_41_new_path "
 			+ "city=week28/no_offer/save_load "
 			+ "father=week21_replaces_skipped_first_call "
+			+ "migration=clean_preserved/dirty_preserved/legacy_pollution_removed "
+			+ "legacy_replacements=durable_receipts/suppression_cleared "
+			+ "carryover=component_runtime/e_component_snapshots4/"
+			+ "autosave_roundtrip4/week25_48/weekly_actions24/"
+			+ "deterministic_authored_vignette_index1/monthly_pressure6/"
+			+ "scheduler_claim_once/same_week_followups/"
+			+ "cafe_affordability_policy_nonpositive_cash/"
+			+ "calendar_advances24/no_date_teleport/"
+			+ "post_cap_routine_attempts24_per_route_blocked/"
+			+ "choice0_safety_net_W30_32_unemployed3/fractional_cash_exposed/"
+			+ "year1_close/natural_chapter34 evidence=%s "
+				% ",".join(_carryover_evidence)
+			+ "routes=%s " % ",".join(_carryover_route_evidence)
 			+ "year1=week48_exact/close_then_curation/"
 			+ "selected_and_deferred/result_known "
 			+ "canon=week49_chapter34/run240")
@@ -173,7 +279,911 @@ func _check_legacy_hyunsu_timing_path(
 		"legacy path scheduled or routed the obsolete duplicate pivot")
 
 
+func _check_actual_snapshot_carryover() -> void:
+	# This is a component-runtime bridge: real E snapshots, production
+	# GameState/system transactions, and MainGame's actual scheduler. The live
+	# MainGame completion CTA intentionally still owns the shipped Week-24 UI.
+	var meta_data_backup: Dictionary = MetaProgression.data.duplicate(true)
+	var raw_new_this_run: Variant = MetaProgression.get("_new_this_run")
+	var new_this_run_backup: Dictionary = (
+		(raw_new_this_run as Dictionary).duplicate(true)
+		if raw_new_this_run is Dictionary else {})
+	MetaProgression.data = DataRegistry.default_meta.duplicate(true)
+	MetaProgression.set("_new_this_run", {"achievements": []})
+	_carryover_evidence.clear()
+	_carryover_route_evidence.clear()
+
+	for path_id in ACTUAL_CARRYOVER_PATHS:
+		seed(int(ACTUAL_CARRYOVER_RNG_SEEDS[path_id]))
+		var route_result := FULL_ROUTE_CHECK.build_full_route_snapshot(path_id)
+		_expect(bool(route_result.get("ok", false)),
+			"actual carryover source %s failed E runtime: %s" % [
+				path_id, str(route_result.get("errors", []))])
+		if not bool(route_result.get("ok", false)):
+			continue
+		var snapshot: Dictionary = route_result.get("snapshot", {})
+		var expected_start: Array = ACTUAL_WEEK_24_SNAPSHOTS[path_id]
+		if not _roundtrip_actual_week_24_snapshot(
+				path_id, snapshot, expected_start):
+			continue
+		_expect(int(GameState.turn) == 25 \
+				and int(GameState.money) == int(expected_start[0]) \
+				and int(GameState.health) == int(expected_start[1]) \
+				and int(GameState.mental) == int(expected_start[2]) \
+				and (not GameState.current_job.is_empty()) == bool(expected_start[3]) \
+				and CORE_LOOP.is_prototype_complete() \
+				and not CORE_LOOP.is_active(),
+			"%s did not load its exact unreset W24→25 snapshot" % path_id)
+
+		var v2_before: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+		var routines_before: Dictionary = (
+			v2_before.get("routine_receipts", {}) as Dictionary).duplicate(true)
+		var routine_units_before := _routine_unit_count(routines_before)
+		var completed_before: Array = (
+			v2_before.get("completed_turns", []) as Array).duplicate(true)
+		var plans_before: Dictionary = (
+			v2_before.get("plans", {}) as Dictionary).duplicate(true)
+		var summaries_before: Dictionary = (
+			v2_before.get("month_summaries", {}) as Dictionary).duplicate(true)
+		var declines_before: Array = (
+			v2_before.get("decline_receipts", []) as Array).duplicate(true)
+		var v2_actions_before: Dictionary = (
+			v2_before.get("action_receipts", {}) as Dictionary).duplicate(true)
+
+		_recreate_main_game()
+		if not is_instance_valid(_main_game):
+			continue
+		var job_system: Node = load("res://systems/JobSystem.gd").new()
+		var relationship_system: Node = load(
+			"res://systems/RelationshipSystem.gd").new()
+		var inventory_system: Node = load(
+			"res://systems/InventorySystem.gd").new()
+		var floors := {
+			"health": int(GameState.health),
+			"mental": int(GameState.mental),
+		}
+		var month_checkpoints: Array[String] = []
+		var month_checkpoint_values: Array = []
+		var routed_by_week: Dictionary = {}
+		var routed_chains_by_week: Dictionary = {}
+		var routed_trace: Array[String] = []
+		var recovery_turns: Array[int] = []
+		var pressure_count := 0
+		var action_count := 0
+		var advance_count := 0
+		var post_cap_routine_attempts := 0
+		var city_resolution_count := 0
+		var month_end_turns: Array[int] = []
+		var route_failed := false
+
+		for expected_week in range(25, 49):
+			var week_index := expected_week - 1
+			var expected_date := [
+				2026 + int(week_index / 48),
+				int(posmod(week_index, 48) / 4) + 1,
+				posmod(week_index, 4) + 1,
+				33 + int(week_index / 48),
+			]
+			if int(GameState.turn) != expected_week \
+					or [GameState.year, GameState.month,
+						GameState.week_of_month, GameState.age] != expected_date:
+				_expect(false,
+					"%s calendar drift at Week %d: turn=%d date=%s expected=%s" % [
+						path_id, expected_week, int(GameState.turn),
+						str([GameState.year, GameState.month,
+							GameState.week_of_month, GameState.age]),
+						str(expected_date)])
+				route_failed = true
+				break
+
+			if not _post_cap_routine_attempt_is_inert(
+					path_id, expected_week):
+				route_failed = true
+				break
+			post_cap_routine_attempts += 1
+
+			var route_probe := _route_current_carryover_week(
+				path_id, expected_week)
+			if not bool(route_probe.get("ok", false)):
+				route_failed = true
+				break
+			var routed_id := str(route_probe.get("event_id", ""))
+			if not routed_id.is_empty():
+				routed_by_week[str(expected_week)] = routed_id
+				var applied_chain: Array[String] = []
+				var chain_state := {"city_resolutions": 0}
+				if not _apply_event_choice_chain(
+						routed_id, 0, applied_chain, {}, chain_state):
+					route_failed = true
+					break
+				city_resolution_count += int(chain_state.get(
+					"city_resolutions", 0))
+				routed_chains_by_week[str(expected_week)] = \
+					applied_chain.duplicate()
+				if expected_week == 25:
+					var should_wait_for_cafe := float(expected_start[0]) <= 0.0
+					_expect(
+						bool(GameState.flags.get(
+							"cafe_honest_patient", false)) == should_wait_for_cafe \
+						and bool(GameState.flags.get(
+							"cafe_honest_invested", false)) \
+							== (not should_wait_for_cafe),
+						("%s W25 cafe choice ignored its %.1f balance "
+						+ "affordability policy") % [
+							path_id, float(expected_start[0])])
+				routed_trace.append("%d=%s" % [
+					expected_week, ">".join(applied_chain)])
+				for chain_event_id in applied_chain:
+					if EventManager.narrative_event_owns_commitment(
+							chain_event_id, expected_week):
+						_expect(false,
+							("%s Week %d event %s owns the weekly commitment; "
+							+ "the component action must not double-spend it") % [
+								path_id, expected_week, chain_event_id])
+						route_failed = true
+						break
+				if route_failed:
+					break
+				if routed_id == CITY_RESULT:
+					_expect(int(chain_state.get("city_resolutions", 0)) == 1,
+						"%s Week-28 City result did not resolve exactly once"
+							% path_id)
+				else:
+					_expect(int(chain_state.get("city_resolutions", 0)) == 0,
+						"%s Week %d non-City chain resolved a City receipt" % [
+							path_id, expected_week])
+				_capture_actual_carryover_floors(floors)
+				if not _actual_carryover_survives(path_id, expected_week):
+					route_failed = true
+					break
+
+			var expected_target := _actual_carryover_target(
+				path_id, expected_week)
+			if not expected_target.is_empty():
+				_expect(routed_id == expected_target,
+					"%s Week %d routed %s instead of %s" % [
+						path_id, expected_week, routed_id, expected_target])
+				if routed_id != expected_target:
+					route_failed = true
+					break
+
+			var action := _apply_actual_carryover_action()
+			_expect(bool(action.get("ok", false)),
+				"%s Week %d atomic action failed: %s" % [
+					path_id, expected_week, str(action)])
+			if not bool(action.get("ok", false)):
+				route_failed = true
+				break
+			var current_action_receipt := GameState.get_weekly_commitment_for_turn(
+				expected_week)
+			_expect(not current_action_receipt.is_empty() \
+					and int(current_action_receipt.get("turn", 0)) \
+						== expected_week \
+					and str(current_action_receipt.get(
+						"actual_action_id", "")) == str(action.get(
+							"action_id", "")),
+				"%s Week %d did not finalize its production action receipt"
+					% [path_id, expected_week])
+			action_count += 1
+			if str(action.get("action_id", "")) == "rest":
+				recovery_turns.append(expected_week)
+			_capture_actual_carryover_floors(floors)
+			if not _actual_carryover_survives(path_id, expected_week):
+				route_failed = true
+				break
+
+			if expected_week % 4 == 0:
+				_capture_actual_carryover_floors(floors)
+				job_system.call("process_monthly_job")
+				_capture_actual_carryover_floors(floors)
+				if not _actual_carryover_survives(path_id, expected_week):
+					route_failed = true
+					break
+				relationship_system.call("process_monthly_relationships")
+				_capture_actual_carryover_floors(floors)
+				if not _actual_carryover_survives(path_id, expected_week):
+					route_failed = true
+					break
+				inventory_system.call("process_monthly_items")
+				_capture_actual_carryover_floors(floors)
+				if not _actual_carryover_survives(path_id, expected_week):
+					route_failed = true
+					break
+				if not GameState.current_job.is_empty():
+					GameState.add_tendency("career", 1)
+				_capture_actual_carryover_floors(floors)
+				_expect(not GameState.claim_initial_settlement_subsidy(),
+					"%s reclaimed the opening subsidy after Week 24" % path_id)
+				_capture_actual_carryover_floors(floors)
+				GameState.apply_monthly_pressure()
+				pressure_count += 1
+				_capture_actual_carryover_floors(floors)
+				if not _actual_carryover_survives(path_id, expected_week):
+					route_failed = true
+					break
+				var month_ended := GameState.advance_calendar()
+				advance_count += 1
+				_expect(month_ended,
+					"%s Week %d did not close its fourth calendar week" % [
+						path_id, expected_week])
+				if month_ended:
+					month_end_turns.append(expected_week)
+				_capture_actual_carryover_floors(floors)
+				month_checkpoints.append("%.1f_%d_%d_%s" % [
+					float(GameState.money), int(GameState.health),
+					int(GameState.mental),
+					"E" if not GameState.current_job.is_empty() else "U",
+				])
+				month_checkpoint_values.append([
+					float(GameState.money), int(GameState.health),
+					int(GameState.mental),
+					not GameState.current_job.is_empty(),
+				])
+				if not _actual_carryover_survives(
+						path_id, expected_week + 1):
+					route_failed = true
+					break
+			else:
+				var non_month_end := GameState.advance_calendar()
+				advance_count += 1
+				_expect(not non_month_end,
+					"%s Week %d unexpectedly closed a month" % [
+						path_id, expected_week])
+				_capture_actual_carryover_floors(floors)
+
+		job_system.free()
+		relationship_system.free()
+		inventory_system.free()
+		if route_failed:
+			continue
+
+		var chapter_probe_before: Dictionary = GameState.serialize().duplicate(true)
+		var natural_chapter_two_preview := str(_main_game.call(
+			"_next_arc_id", -1, true, false))
+		_expect(natural_chapter_two_preview == "chapter_card_34" \
+				and _variants_deep_equal(
+					GameState.serialize(), chapter_probe_before),
+			"%s natural 2027 boundary did not preview Chapter 34 read-only: %s"
+				% [path_id, natural_chapter_two_preview])
+
+		var v2_after: Dictionary = GameState.core_loop_v2_state
+		var routines_after: Dictionary = v2_after.get("routine_receipts", {})
+		var expected_carryover: Dictionary = ACTUAL_CARRYOVER_EXPECTED[path_id]
+		_expect(int(GameState.turn) == 49 \
+				and [GameState.year, GameState.month,
+					GameState.week_of_month, GameState.age] == [2027, 1, 1, 34] \
+				and pressure_count == 6 \
+				and action_count == 24 \
+				and advance_count == 24 \
+				and post_cap_routine_attempts == 24 \
+				and month_end_turns == [28, 32, 36, 40, 44, 48] \
+				and city_resolution_count \
+					== (1 if path_id == "clean_unemployed_low" else 0) \
+				and not GameState.is_game_over \
+				and bool(GameState.flags.get("arc_year1_close_seen", false)),
+			"%s did not complete the actual Week25→48 component bridge"
+				% path_id)
+		_expect(_variants_deep_equal([
+				float(GameState.money), int(GameState.health), int(GameState.mental),
+			], expected_carryover.get("final", [])) \
+				and [int(floors["health"]), int(floors["mental"])] \
+					== expected_carryover.get("floor", []) \
+				and recovery_turns == expected_carryover.get(
+					"recovery_turns", []) \
+				and _variants_deep_equal(
+					month_checkpoint_values,
+					expected_carryover.get("months", [])),
+			"%s exact W25→48 cash/H/M/job/recovery ledger drifted: "
+				% path_id + "final=%s floor=%s rest=%s months=%s routes=%s" % [
+					str([GameState.money, GameState.health, GameState.mental]),
+					str(floors), str(recovery_turns),
+					str(month_checkpoint_values), str(routed_trace),
+				])
+		_expect(_v2_post_cap_state_matches(path_id, v2_before, v2_after) \
+				and routines_after == routines_before \
+				and routines_after.size() == 24 \
+				and routine_units_before == 48 \
+				and _routine_unit_count(routines_after) == 48 \
+				and (v2_after.get("completed_turns", []) as Array) \
+					== completed_before \
+				and (v2_after.get("plans", {}) as Dictionary) == plans_before \
+				and (v2_after.get("month_summaries", {}) as Dictionary) \
+					== summaries_before \
+				and (v2_after.get("decline_receipts", []) as Array) \
+					== declines_before \
+				and (v2_after.get("action_receipts", {}) as Dictionary) \
+					== v2_actions_before,
+			"%s wrote a post-cap V2 routine/effect/plan/summary receipt" % path_id)
+		var retained_action_turns: Array[int] = []
+		for raw_action_receipt in GameState.weekly_commitments:
+			if raw_action_receipt is Dictionary:
+				retained_action_turns.append(int(
+					(raw_action_receipt as Dictionary).get("turn", 0)))
+		_expect(retained_action_turns == range(33, 49),
+			"%s rolling action ledger did not retain the exact latest 16 weeks: %s"
+				% [path_id, str(retained_action_turns)])
+		_expect(str(routed_by_week.get("27", "")) == HYUNSU_RESULT \
+				and str(routed_by_week.get("31", "")) == HYUNSU_AFTERMATH \
+				and str(routed_by_week.get("36", "")) == HYUNSU_DRIFT \
+				and str(routed_by_week.get("42", "")) == HYUNSU_NEW_PATH \
+				and str(routed_by_week.get("48", "")) == YEAR_ONE_CLOSE,
+			"%s lost the canonical 27/31/36/42/48 bridge events" % path_id)
+		_expect(str(routed_by_week.get("25", "")) == "cafe_cb_honest_00" \
+				and routed_chains_by_week.get("25", []) == [
+					"cafe_cb_honest_00", "cafe_cb_honest_in"],
+			("%s component snapshot did not consume the exact same-week "
+			+ "W25 cafe callback chain: %s") % [
+				path_id, str(routed_chains_by_week.get("25", []))])
+		var all_routed_events: Array[String] = []
+		for raw_chain in routed_chains_by_week.values():
+			if raw_chain is Array:
+				for raw_event_id in raw_chain:
+					all_routed_events.append(str(raw_event_id))
+		_expect(not all_routed_events.has("arc_intro_02_dad_call") \
+				and not all_routed_events.has("arc_chapter1_close") \
+				and not routed_by_week.values().has("arc_intro_02_dad_call") \
+				and not routed_by_week.values().has("arc_chapter1_close"),
+			("%s replayed a V2-replaced first-month Dad or 'first two "
+			+ "months' chapter scene after the six-month snapshot: %s") % [
+				path_id, str(all_routed_events)])
+		if path_id == "clean_unemployed_low":
+			_expect(str(routed_by_week.get("28", "")) == CITY_RESULT \
+					and CORE_LOOP.application_status(
+						"city_facility_ops_2026h1") == "no_offer",
+				"clean City path lost its actual Week-28 result")
+		else:
+			_expect(str(routed_by_week.get("28", "")) != CITY_RESULT,
+				"%s invented a City result without selecting its work sample"
+					% path_id)
+		if path_id.begins_with("dirty_"):
+			_expect(bool(GameState.flags.get("lent_account", false)) \
+					and not bool(GameState.flags.get(
+						"kept_clean_hands", false)) \
+					and not bool(GameState.flags.get(
+						"arc_temptation_clean_seen", false)) \
+					and not bool(GameState.flags.get("stayed_clean", false)) \
+					and not all_routed_events.has("arc_temptation_clean"),
+				("%s replayed the clean-account reward after the concrete "
+				+ "lent_account history, or retained mutually exclusive flags")
+					% path_id)
+		if not bool(expected_start[3]):
+			var rescue_week := int(ACTUAL_RESCUE_JOB_WEEKS[path_id])
+			_expect(str(routed_by_week.get(str(rescue_week), "")) \
+						== "arc_rescue_job" \
+					and routed_chains_by_week.get(str(rescue_week), []) == [
+						"arc_rescue_job"] \
+					and bool(GameState.flags.get("arc_rescue_job_seen", false)) \
+					and str(GameState.current_job.get("id", "")) == "job_01" \
+					and bool((month_checkpoint_values[1] as Array)[3]),
+				("%s did not explicitly accept the choice-0 W%d safety-net job "
+				+ "before its second post-cap month checkpoint") % [
+					path_id, rescue_week])
+		else:
+			_expect(str(routed_by_week.get("34", "")) != "arc_rescue_job",
+				"%s invented a rescue job for an already-employed snapshot" % path_id)
+
+		_carryover_evidence.append(
+			"%s=W48_%.1f_%d_%d/floor_%d_%d/rest_%s/months_%s" % [
+				str(FULL_ROUTE_CHECK.FULL_ROUTE_EVIDENCE_NAMES[path_id]),
+				float(GameState.money), int(GameState.health),
+				int(GameState.mental), int(floors["health"]),
+				int(floors["mental"]),
+				"none" if recovery_turns.is_empty() else "+".join(
+					recovery_turns.map(func(turn: int) -> String: return str(turn))),
+				"-".join(month_checkpoints),
+			])
+		_carryover_route_evidence.append("%s:%s" % [
+			str(FULL_ROUTE_CHECK.FULL_ROUTE_EVIDENCE_NAMES[path_id]),
+			"|".join(routed_trace),
+		])
+
+	MetaProgression.data = meta_data_backup
+	MetaProgression.set("_new_this_run", new_this_run_backup)
+
+
+func _check_lent_account_flag_migration() -> void:
+	GameState.start_new_game()
+	var clean_snapshot: Dictionary = GameState.serialize().duplicate(true)
+	var clean_flags: Dictionary = (
+		clean_snapshot.get("flags", {}) as Dictionary).duplicate(true)
+	for flag_id in [
+		"kept_clean_hands", "arc_temptation_clean_seen", "stayed_clean"]:
+		clean_flags[flag_id] = true
+	clean_flags.erase("lent_account")
+	clean_snapshot["flags"] = clean_flags
+	GameState.load_from_dict(clean_snapshot)
+	_expect(bool(GameState.flags.get("kept_clean_hands", false)) \
+			and bool(GameState.flags.get("arc_temptation_clean_seen", false)) \
+			and bool(GameState.flags.get("stayed_clean", false)) \
+			and not bool(GameState.flags.get("lent_account", false)),
+		"clean-only save lost its legitimate temptation history on load")
+
+	var dirty_snapshot: Dictionary = clean_snapshot.duplicate(true)
+	var dirty_flags: Dictionary = (
+		dirty_snapshot.get("flags", {}) as Dictionary).duplicate(true)
+	dirty_flags["lent_account"] = true
+	dirty_flags.erase("kept_clean_hands")
+	dirty_flags.erase("arc_temptation_clean_seen")
+	dirty_flags.erase("stayed_clean")
+	dirty_snapshot["flags"] = dirty_flags
+	GameState.load_from_dict(dirty_snapshot)
+	_expect(bool(GameState.flags.get("lent_account", false)) \
+			and not bool(GameState.flags.get("kept_clean_hands", false)) \
+			and not bool(GameState.flags.get(
+				"arc_temptation_clean_seen", false)) \
+			and not bool(GameState.flags.get("stayed_clean", false)),
+		"dirty-only save lost its concrete account history or invented clean flags")
+
+	var polluted_snapshot: Dictionary = clean_snapshot.duplicate(true)
+	var polluted_flags: Dictionary = (
+		polluted_snapshot.get("flags", {}) as Dictionary).duplicate(true)
+	polluted_flags["lent_account"] = true
+	polluted_flags["cafe_honest_invested"] = true
+	polluted_flags["kept_clean_hands"] = true
+	polluted_flags["arc_temptation_clean_seen"] = true
+	polluted_flags["stayed_clean"] = true
+	polluted_snapshot["flags"] = polluted_flags
+	GameState.load_from_dict(polluted_snapshot)
+	_expect(bool(GameState.flags.get("lent_account", false)) \
+			and bool(GameState.flags.get("cafe_honest_invested", false)) \
+			and not bool(GameState.flags.get("kept_clean_hands", false)) \
+			and not bool(GameState.flags.get(
+				"arc_temptation_clean_seen", false)) \
+			and not bool(GameState.flags.get("stayed_clean", false)),
+		"legacy both-flags save did not preserve concrete dirty/cafe history "
+		+ "while removing polluted clean derivatives")
+
+
+func _check_durable_legacy_replacements() -> void:
+	GameState.start_new_game()
+	CORE_LOOP.initialize_for_run(true)
+	_set_turn_date(25)
+	_seed_scheduler_baseline()
+	GameState.flags["arc_intro_meal_seen"] = true
+	GameState.flags.erase("arc_intro_dad_seen")
+	GameState.flags["chapter1_closed"] = true
+	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	state["suppressed_followups"] = {}
+	state["consequence_receipts"] = {}
+	state["completed_bundles"] = []
+	GameState.core_loop_v2_state = state
+	_recreate_main_game()
+	if not is_instance_valid(_main_game):
+		return
+	var dad_control := str(_main_game.call(
+		"_next_arc_id", -1, true, false))
+	_expect(dad_control == "arc_intro_02_dad_call",
+		"legacy Dad fallback control no longer routes without its V2 receipt")
+	state = GameState.core_loop_v2_state.duplicate(true)
+	state["suppressed_followups"] = {}
+	state["consequence_receipts"] = {
+		"opening_interview_math": {
+			"consequence_id": "opening_interview_math",
+			"status": "consumed",
+			"presented_turn": 2,
+			"consumed_turn": 2,
+		},
+	}
+	GameState.core_loop_v2_state = state
+	var dad_replaced := str(_main_game.call(
+		"_next_arc_id", -1, true, false))
+	_expect(dad_replaced != "arc_intro_02_dad_call" \
+			and (GameState.core_loop_v2_state.get(
+				"suppressed_followups", {}) as Dictionary).is_empty(),
+		"consumed interview consequence did not replace Dad after suppression clear")
+
+	GameState.flags["arc_intro_dad_seen"] = true
+	GameState.flags["arc_intro_hyunsu_seen"] = true
+	GameState.flags.erase("chapter1_closed")
+	state = GameState.core_loop_v2_state.duplicate(true)
+	state["completed_bundles"] = []
+	state["suppressed_followups"] = {}
+	GameState.core_loop_v2_state = state
+	var chapter_control := str(_main_game.call(
+		"_next_arc_id", -1, true, false))
+	_expect(chapter_control == "arc_chapter1_close",
+		"legacy Chapter-One close control no longer routes without its V2 bundle")
+	state = GameState.core_loop_v2_state.duplicate(true)
+	state["completed_bundles"] = ["hyunsu_first_meet"]
+	state["suppressed_followups"] = {}
+	GameState.core_loop_v2_state = state
+	var chapter_replaced := str(_main_game.call(
+		"_next_arc_id", -1, true, false))
+	_expect(chapter_replaced != "arc_chapter1_close" \
+			and (GameState.core_loop_v2_state.get(
+				"suppressed_followups", {}) as Dictionary).is_empty(),
+		"completed Hyunsu V2 bundle did not replace close after suppression clear")
+
+
+func _roundtrip_actual_week_24_snapshot(
+		path_id: String, snapshot: Dictionary,
+		expected_start: Array) -> bool:
+	# E's builder is a bounded component snapshot, not a claim that MainGame's
+	# prologue/UI path produced the save. First prove its in-memory serialization
+	# restores exactly and that the V2 initializer is inert at the completed cap.
+	var expected_serialized := snapshot.duplicate(true)
+	GameState.load_from_dict(expected_serialized)
+	var restored_serialized: Dictionary = GameState.serialize().duplicate(true)
+	var direct_exact: bool = restored_serialized == expected_serialized
+	_expect(direct_exact,
+		"%s E component snapshot drifted on direct GameState restore" % path_id)
+	if not direct_exact:
+		return false
+	var before_initialize := restored_serialized.duplicate(true)
+	CORE_LOOP.initialize_for_run()
+	var initialize_inert: bool = GameState.serialize() == before_initialize
+	_expect(initialize_inert,
+		"%s completed E snapshot mutated during initialize_for_run" % path_id)
+	if not initialize_inert:
+		return false
+	var canonical_core_before_save: Dictionary = \
+		GameState.core_loop_v2_state.duplicate(true)
+
+	var saved: bool = SaveManager.save_game(
+		SaveManager.AUTOSAVE_SLOT, {}, {
+			"label": "core-loop-v2-actual-carryover-%s" % path_id,
+			"qa_fixture": true,
+		})
+	_expect(saved, "%s could not write its real autosave roundtrip" % path_id)
+	if not saved:
+		return false
+	var disk_payload: Variant = JSON.parse_string(FileAccess.get_file_as_string(
+		SaveManager.slot_path(SaveManager.AUTOSAVE_SLOT)))
+	var expected_disk_state: Dictionary = (
+		(disk_payload as Dictionary).get("state", {}) as Dictionary
+	).duplicate(true) if disk_payload is Dictionary else {}
+	_expect(not expected_disk_state.is_empty(),
+		"%s autosave payload did not contain a state dictionary" % path_id)
+	if expected_disk_state.is_empty():
+		return false
+	# GameState's documented load contract canonicalizes phone ownership even
+	# for current saves. Compare against that production-normalized payload while
+	# keeping every other serialized key byte-for-byte structural.
+	expected_disk_state["phone_state"] = PHONE_SYSTEM.normalized_state(
+		expected_disk_state.get("phone_state", {}))
+
+	# Deliberately corrupt every boundary field before loading the disk payload;
+	# a serialize-helper-only false positive cannot survive this roundtrip.
+	GameState.turn = 2
+	GameState.year = 1999
+	GameState.month = 2
+	GameState.week_of_month = 2
+	GameState.age = 99
+	GameState.money = -987_654_321.0
+	GameState.health = 1
+	GameState.mental = 2
+	GameState.current_job = {"id": "qa_state_disturbance"}
+	GameState.core_loop_v2_state = {"qa_state_disturbance": true}
+	var loaded: bool = SaveManager.load_game(SaveManager.AUTOSAVE_SLOT)
+	_expect(loaded, "%s could not reload its real autosave" % path_id)
+	if not loaded:
+		return false
+
+	var loaded_serialized: Dictionary = GameState.serialize().duplicate(true)
+	var disk_full_exact: bool = false
+	var disk_drift_keys: Array[String] = []
+	for raw_key in expected_disk_state:
+		var key := str(raw_key)
+		if not loaded_serialized.has(key) \
+				or not _variants_deep_equal(
+					loaded_serialized.get(key), expected_disk_state.get(key)):
+			disk_drift_keys.append(key)
+	for raw_key in loaded_serialized:
+		var loaded_key := str(raw_key)
+		if not expected_disk_state.has(loaded_key) \
+				and not disk_drift_keys.has(loaded_key):
+			disk_drift_keys.append(loaded_key)
+	disk_full_exact = disk_drift_keys.is_empty() \
+		and loaded_serialized.size() == expected_disk_state.size()
+	_expect(disk_full_exact,
+		"%s loaded GameState did not exactly match autosave payload.state; keys=%s"
+			% [path_id, str(disk_drift_keys)])
+	var exact_boundary: bool = disk_full_exact \
+		and int(GameState.turn) == 25 \
+		and int(GameState.money) == int(expected_start[0]) \
+		and int(GameState.health) == int(expected_start[1]) \
+		and int(GameState.mental) == int(expected_start[2]) \
+		and _variants_deep_equal(
+			loaded_serialized.get("current_job", {}),
+			expected_disk_state.get("current_job", {})) \
+		and _variants_deep_equal(
+			loaded_serialized.get("core_loop_v2_state", {}),
+			expected_disk_state.get("core_loop_v2_state", {}))
+	_expect(exact_boundary,
+		("%s autosave did not restore exact W24→25 cash/H/M/job/V2 state: "
+		+ "turn=%d cash=%d H%d/M%d job=%s") % [
+			path_id, int(GameState.turn), int(GameState.money),
+			int(GameState.health), int(GameState.mental),
+			str(GameState.current_job)])
+	if not exact_boundary:
+		return false
+	var after_load_before_initialize: Dictionary = \
+		GameState.serialize().duplicate(true)
+	CORE_LOOP.initialize_for_run()
+	var after_load_initialize: Dictionary = GameState.serialize().duplicate(true)
+	var load_initialize_drift_keys: Array[String] = []
+	for raw_key in after_load_before_initialize:
+		var init_key := str(raw_key)
+		if not _variants_deep_equal(
+				after_load_before_initialize.get(init_key),
+				after_load_initialize.get(init_key)):
+			load_initialize_drift_keys.append(init_key)
+	# JSON numbers inside the V2 dictionary are canonicalized back to the typed
+	# schema on first initialization. The direct E snapshot above proved a
+	# completed typed state is fully inert; disk loading may change only this one
+	# container's representation, never another GameState field or its meaning.
+	var first_initialize_safe: bool = (
+		load_initialize_drift_keys.is_empty() \
+		or load_initialize_drift_keys == ["core_loop_v2_state"]
+	) and int(GameState.turn) == 25 \
+		and int(GameState.money) == int(expected_start[0]) \
+		and int(GameState.health) == int(expected_start[1]) \
+		and int(GameState.mental) == int(expected_start[2]) \
+		and _variants_deep_equal(
+			GameState.core_loop_v2_state, canonical_core_before_save) \
+		and CORE_LOOP.is_prototype_complete() \
+		and not CORE_LOOP.is_active()
+	_expect(first_initialize_safe,
+		"%s autosave initialization drifted outside V2 canonicalization: %s"
+			% [path_id, str(load_initialize_drift_keys)])
+	var canonicalized_once: Dictionary = GameState.serialize().duplicate(true)
+	CORE_LOOP.initialize_for_run()
+	var second_initialize_inert: bool = _variants_deep_equal(
+		GameState.serialize(), canonicalized_once)
+	_expect(second_initialize_inert,
+		"%s autosave V2 state changed on its second initialization" % path_id)
+	return first_initialize_safe and second_initialize_inert
+
+
+func _post_cap_routine_attempt_is_inert(
+		path_id: String, week: int) -> bool:
+	var before: Dictionary = GameState.serialize().duplicate(true)
+	var result := CORE_LOOP.apply_background_routines_for_turn(week)
+	var after: Dictionary = GameState.serialize().duplicate(true)
+	var inert: bool = not bool(result.get("ok", true)) \
+		and not bool(result.get("applied", false)) \
+		and str(result.get("error", "")) == "missing_plan" \
+		and after == before
+	_expect(inert,
+		"%s Week %d post-cap V2 routine attempt was not an inert missing_plan: %s"
+			% [path_id, week, str(result)])
+	return inert
+
+
+func _route_current_carryover_week(
+		path_id: String, week: int) -> Dictionary:
+	if not is_instance_valid(_main_game):
+		_expect(false, "%s Week %d has no MainGame scheduler" % [path_id, week])
+		return {"ok": false, "event_id": ""}
+	# MainGame's foreground boundary makes exactly one resolving call. A preview
+	# deliberately skips deferred bridges, so it cannot be compared with or used
+	# to choose the production result on due-deferred weeks.
+	var claimed_id := str(_main_game.call(
+		"_next_arc_id", -1, false, true))
+	return {
+		"ok": true,
+		"event_id": claimed_id,
+	}
+
+
+func _apply_event_choice_chain(
+		event_id: String, choice_index: int, applied_ids: Array[String],
+		visited: Dictionary, chain_state: Dictionary) -> bool:
+	if event_id.is_empty():
+		return true
+	if visited.has(event_id):
+		_expect(false, "immediate follow-up cycle reached %s: %s" % [
+			event_id, str(applied_ids)])
+		return false
+	visited[event_id] = true
+	var event: Dictionary = DataRegistry.find_event(event_id)
+	var choices: Array = (
+		event.get("choices", []) as Array
+		if event.get("choices", []) is Array else [])
+	# The carryover uses choice 0 by default, but must not manufacture an
+	# investment from a non-positive balance. The authored patient choice is the
+	# exact affordable sibling and keeps the relationship without fake capital.
+	if event_id == "cafe_cb_honest_in" and float(GameState.money) <= 0.0:
+		choice_index = 1
+	if event.is_empty() or choice_index < 0 or choice_index >= choices.size():
+		_expect(false, "%s immediate-chain choice %d is missing" % [
+			event_id, choice_index])
+		return false
+	var choice: Dictionary = choices[choice_index]
+	# StoryMode resolves immediate follow-up eligibility before applying the
+	# current choice, then puts that child at the front of the same scene queue.
+	var follow_up_id := _immediate_follow_up_before_choice(
+		choice, event_id, choice_index)
+	GameState.record_run_scene_seen(event_id)
+	GameState.apply_choice(event, choice)
+	if CORE_LOOP.is_active():
+		CORE_LOOP.note_story_choice(event_id, choice_index)
+	if CORE_LOOP.note_post_demo_application_result(event_id, choice_index):
+		chain_state["city_resolutions"] = int(chain_state.get(
+			"city_resolutions", 0)) + 1
+	applied_ids.append(event_id)
+	if follow_up_id.is_empty():
+		return true
+	if DataRegistry.find_event(follow_up_id).is_empty():
+		_expect(false, "%s choice %d points to missing immediate follow-up %s" % [
+			event_id, choice_index, follow_up_id])
+		return false
+	return _apply_event_choice_chain(
+		follow_up_id, 0, applied_ids, visited, chain_state)
+
+
+func _immediate_follow_up_before_choice(
+		choice: Dictionary, event_id: String,
+		choice_index: int) -> String:
+	var follow_up_id := str(choice.get("follow_up_event", ""))
+	var raw_required_flags: Variant = choice.get(
+		"follow_up_requires_flags", [])
+	if not raw_required_flags is Array:
+		return ""
+	for raw_flag in raw_required_flags as Array:
+		var flag_id := str(raw_flag).strip_edges()
+		if flag_id.is_empty() \
+				or not bool(GameState.flags.get(flag_id, false)):
+			return ""
+	if CORE_LOOP.is_active() \
+			and CORE_LOOP.story_follow_up_is_suppressed(
+				event_id, choice_index, follow_up_id):
+		return ""
+	return follow_up_id
+
+
+func _routine_unit_count(receipts: Dictionary) -> int:
+	var total := 0
+	for raw_receipt in receipts.values():
+		if raw_receipt is Dictionary:
+			var raw_units: Variant = (raw_receipt as Dictionary).get("units", [])
+			if raw_units is Array:
+				total += (raw_units as Array).size()
+	return total
+
+
+func _variants_deep_equal(left: Variant, right: Variant) -> bool:
+	if left is Dictionary or right is Dictionary:
+		if not left is Dictionary or not right is Dictionary:
+			return false
+		var left_dict: Dictionary = left
+		var right_dict: Dictionary = right
+		if left_dict.size() != right_dict.size():
+			return false
+		for raw_key in left_dict:
+			if not right_dict.has(raw_key) \
+					or not _variants_deep_equal(
+						left_dict.get(raw_key), right_dict.get(raw_key)):
+				return false
+		return true
+	if left is Array or right is Array:
+		if not left is Array or not right is Array:
+			return false
+		var left_array: Array = left
+		var right_array: Array = right
+		if left_array.size() != right_array.size():
+			return false
+		for index in range(left_array.size()):
+			if not _variants_deep_equal(left_array[index], right_array[index]):
+				return false
+		return true
+	if (left is int or left is float) \
+			and (right is int or right is float):
+		# JSON may restore an integral value as a float, but every canonical cash
+		# value in this fixture is below 2^53 and its half-won values are exactly
+		# representable. Relative approximate comparison would let an increasingly
+		# large cash drift pass, contradicting the exact-ledger contract.
+		return float(left) == float(right)
+	return left == right
+
+
+func _v2_post_cap_state_matches(
+		path_id: String, before: Dictionary, after: Dictionary) -> bool:
+	var expected := before.duplicate(true)
+	if path_id == "clean_unemployed_low":
+		var application_id := "city_facility_ops_2026h1"
+		var receipt_id := "city_facility_ops_2026h1_result"
+		var future_receipts: Dictionary = (
+			expected.get("future_application_receipts", {}) as Dictionary
+		).duplicate(true)
+		var receipt: Dictionary = (
+			future_receipts.get(receipt_id, {}) as Dictionary).duplicate(true)
+		receipt["status"] = "resolved"
+		receipt["resolved_turn"] = 28
+		receipt["choice_index"] = 0
+		future_receipts[receipt_id] = receipt
+		expected["future_application_receipts"] = future_receipts
+		var application_statuses: Dictionary = (
+			expected.get("application_statuses", {}) as Dictionary
+		).duplicate(true)
+		application_statuses[application_id] = "no_offer"
+		expected["application_statuses"] = application_statuses
+		var transition_key := "future:%s:0:28" % receipt_id
+		var transitions: Dictionary = (
+			expected.get("application_transition_receipts", {}) as Dictionary
+		).duplicate(true)
+		transitions[transition_key] = {
+				"receipt_key": transition_key,
+				"application_id": application_id,
+				"from": "submitted",
+				"to": "no_offer",
+				"bundle_id": receipt_id,
+				"event_id": CITY_RESULT,
+				"choice_index": 0,
+				"turn": 28,
+			}
+		expected["application_transition_receipts"] = transitions
+	return after == expected
+
+
+func _actual_carryover_target(path_id: String, week: int) -> String:
+	if path_id == "clean_unemployed_low" and week == 28:
+		return CITY_RESULT
+	return {
+		27: HYUNSU_RESULT,
+		31: HYUNSU_AFTERMATH,
+		36: HYUNSU_DRIFT,
+		42: HYUNSU_NEW_PATH,
+		48: YEAR_ONE_CLOSE,
+	}.get(week, "")
+
+
+func _apply_actual_carryover_action() -> Dictionary:
+	var recovery := int(GameState.health) <= 25 \
+		or int(GameState.mental) <= 30
+	var action_id := "rest" if recovery else "study"
+	var source_pool: Array = (
+		MAIN_GAME_SCRIPT.REST_VIGNETTES
+		if recovery else MAIN_GAME_SCRIPT.SELFDEV_VIGNETTES)
+	var source_index := 1
+	var source_vignette: Dictionary = source_pool[source_index]
+	var effects: Dictionary = (
+		source_vignette.get("e", {}) as Dictionary).duplicate(true)
+	GameState.restore_ap()
+	if not GameState.arm_weekly_commitment({
+		"turn": int(GameState.turn),
+		"pressure_id": "year1_carryover_week_%d" % int(GameState.turn),
+		"pressure_family": "year1_survival",
+		"choice_id": action_id,
+		"forgone_ids": ["rest" if action_id == "study" else "study"],
+	}):
+		return {"ok": false, "error": "commitment_not_armed"}
+	var transaction := GameState.finalize_weekly_effect_action(
+		action_id, effects, "human", "home", "", {
+			"execution": "rest" if recovery else "study",
+			"effects": effects.duplicate(true),
+			"source_vignette_index": source_index,
+			"component_runtime_carryover": true,
+		})
+	transaction["action_id"] = action_id
+	return transaction
+
+
+func _capture_actual_carryover_floors(floors: Dictionary) -> void:
+	floors["health"] = mini(int(floors.get("health", 100)), GameState.health)
+	floors["mental"] = mini(int(floors.get("mental", 100)), GameState.mental)
+
+
+func _actual_carryover_survives(path_id: String, at_week: int) -> bool:
+	if int(GameState.health) <= 0 or int(GameState.mental) <= 0 \
+			or GameState.get_total_asset_value() < -100_000_000.0:
+		_expect(false,
+			"%s reached a fatal Week %d state: cash=%d H%d/M%d" % [
+				path_id, at_week, int(GameState.money),
+				int(GameState.health), int(GameState.mental)])
+		return false
+	GameState.check_game_over()
+	if GameState.is_game_over:
+		_expect(false, "%s unexpectedly ended at Week %d" % [
+			path_id, at_week])
+		return false
+	return true
+
+
 func _check_v2_week_24_handoff() -> void:
+	# Focused scheduler/typed-receipt fixture. Release carryover evidence comes
+	# from the four component snapshots above; this hand-authored seed exists to
+	# isolate City resolution and close→curation queue behavior.
 	_seed_exact_v2_week_24_state()
 	_recreate_main_game()
 	if not is_instance_valid(_main_game):
@@ -511,7 +1521,7 @@ func _seed_exact_v2_week_24_state() -> void:
 				"demo_collision", "father_call", "deferred")
 			and CORE_LOOP.application_status(
 				"city_facility_ops_2026h1") == "submitted",
-		"seeded Week-24 V2 state is not accepted as exact durable evidence")
+		"focused synthetic Week-24 scheduler fixture lost its typed receipts")
 
 
 func _seed_legacy_hyunsu_result_fixture(result_week: int) -> void:

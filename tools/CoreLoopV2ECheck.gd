@@ -98,10 +98,718 @@ const PRIOR_SCHEDULES := {
 	},
 }
 
+## ORDER-69 release evidence must start at the real Week-One baseline. These
+## four routes deliberately use only production CoreLoop/GameState contracts:
+## committed plans, authored story choices, deterministic action configs,
+## scheduled consequences, decline receipts, and the shared month-end pressure.
+## The helper is public so CoreLoopV2HandoffCheck can continue the exact saved
+## snapshots instead of reconstructing a receipt-only Week-24 fixture.
+const FULL_ROUTE_PATHS := {
+	"clean_unemployed_low": {
+		"hired": false,
+		"routines": {"primary": "livelihood", "secondary": "growth"},
+		"temptation_choice": 0,
+		"fallout_choice": -1,
+		"father_health_choice": 2,
+		"exam_choice": 0,
+		# The City work sample produces the real Week-28 application result used
+		# by the post-demo handoff; no receipt is seeded later.
+		"collision_choice": 2,
+	},
+	"clean_hired_recovery_high": {
+		"hired": true,
+		"routines": {"primary": "livelihood", "secondary": "recovery"},
+		"temptation_choice": 0,
+		"fallout_choice": -1,
+		"father_health_choice": 1,
+		"exam_choice": 1,
+		"collision_choice": 7,
+	},
+	"dirty_return_recovery_low": {
+		"hired": false,
+		# The return route covers the third legal routine pair and lets the
+		# recovery half do real work after the Week-4 mistake.
+		"routines": {"primary": "growth", "secondary": "recovery"},
+		"temptation_choice": 1,
+		"fallout_choice": 0,
+		"father_health_choice": 0,
+		"exam_choice": 0,
+		"collision_choice": 7,
+	},
+	"dirty_deeper_growth": {
+		"hired": false,
+		"routines": {"primary": "livelihood", "secondary": "growth"},
+		"temptation_choice": 1,
+		"fallout_choice": 1,
+		"father_health_choice": 2,
+		"exam_choice": 0,
+		"collision_choice": 6,
+	},
+	"qa_overwork_urgent_burnout": {
+		"hired": false,
+		"overwork_schedule": true,
+		"routines": {"primary": "livelihood", "secondary": "growth"},
+		"temptation_choice": 0,
+		"fallout_choice": -1,
+		"father_health_choice": 2,
+		"exam_choice": 0,
+		"collision_choice": 6,
+	},
+	"qa_overwork_body_rest": {
+		"hired": false,
+		"overwork_schedule": true,
+		"routines": {"primary": "livelihood", "secondary": "growth"},
+		"temptation_choice": 0,
+		"fallout_choice": -1,
+		"father_health_choice": 2,
+		"exam_choice": 0,
+		"collision_choice": 7,
+	},
+}
+
+const FULL_ROUTE_COMMON_SCHEDULES := {
+	1: {
+		"1": "m1_mirae_application",
+		"2": "father_first_call",
+		"3": "hyunsu_first_meet",
+		"4": "first_temptation_boss",
+	},
+	2: {
+		"5": "m2_seorin_application",
+		"6": "hyunsu_player_reachout",
+		"7": "cafe_world_glimpse",
+		"8": "sns_pressure_night",
+	},
+}
+
+const FULL_ROUTE_HIRED_SCHEDULES := {
+	3: {
+		"9": "m3_hanbit_application",
+		"10": "m3_inventory_shift",
+		"11": "hyunsu_study_followup",
+		"12": "father_quiet_call",
+	},
+	4: {
+		"13": "m4_certificate_session",
+		"14": "m4_hanbit_interview",
+		"15": "m4_logistics_shift",
+		"16": "m4_health_check_day",
+	},
+	5: {
+		"17": "m5_city_service_application",
+		"18": "m5_weekend_move_shift",
+		"19": "m5_employment_contract_clinic",
+		"20": "m5_last_empty_sunday",
+	},
+}
+
+const FULL_ROUTE_UNEMPLOYED_SCHEDULES := {
+	3: {
+		"9": "m3_hanbit_application",
+		# One authored recovery day is the minimum legal intervention that keeps
+		# the livelihood+growth support paths above zero through Week 24.
+		"10": "m3_empty_saturday",
+		"11": "hyunsu_study_followup",
+		"12": "father_quiet_call",
+	},
+	4: {
+		"13": "m4_certificate_session",
+		"14": "sangchul_world_meet",
+		"15": "m4_logistics_shift",
+		"16": "m4_health_check_day",
+	},
+	5: {
+		"17": "m5_city_service_application",
+		# Support routes cannot honestly be called survivable if every open slot
+		# is another body-costing shift. This authored Sunday is their one Month-5
+		# recovery decision and prevents its matching fatigue decline.
+		"18": "m5_last_empty_sunday",
+		"19": "m5_evening_spreadsheet_class",
+		"20": "m5_employment_contract_clinic",
+	},
+}
+
+const FULL_ROUTE_OVERWORK_SCHEDULES := {
+	3: {
+		"9": "m3_hanbit_application",
+		"10": "m3_inventory_shift",
+		"11": "hyunsu_study_followup",
+		"12": "father_quiet_call",
+	},
+	4: {
+		"13": "m4_certificate_session",
+		"14": "sangchul_world_meet",
+		"15": "m4_logistics_shift",
+		"16": "m4_health_check_day",
+	},
+	5: {
+		"17": "m5_city_service_application",
+		"18": "m5_weekend_move_shift",
+		"19": "m5_evening_spreadsheet_class",
+		"20": "m5_employment_contract_clinic",
+	},
+}
+
+# Exact month-boundary [cash, health, mental, employed] snapshots. Cash reserve
+# drives mental pressure and the hire timing changes salary, so all four fields
+# belong to the deterministic balance contract.
+const FULL_ROUTE_EXPECTED_CHECKPOINTS := {
+	"clean_unemployed_low": [
+		[430_000, 57, 60, false],
+		[53_500, 49, 77, false],
+		[-316_500, 47, 85, false],
+		[-166_500, 35, 82, false],
+		[-536_500, 34, 85, false],
+		[-906_500, 28, 68, false],
+	],
+	"clean_hired_recovery_high": [
+		[430_000, 61, 68, false],
+		[53_500, 57, 89, false],
+		[43_500, 49, 91, false],
+		[193_500, 41, 91, false],
+		[1_853_500, 36, 92, true],
+		[3_443_500, 42, 93, true],
+	],
+	"dirty_return_recovery_low": [
+		[2_150_000, 65, 62, false],
+		[-6_500, 61, 56, false],
+		[-656_500, 65, 69, false],
+		[-786_500, 61, 74, false],
+		[-1_436_500, 65, 81, false],
+		[-2_086_500, 69, 73, false],
+	],
+	"dirty_deeper_growth": [
+		[2_430_000, 57, 54, false],
+		[5_053_500, 49, 49, false],
+		[4_683_500, 47, 61, false],
+		[4_833_500, 35, 62, false],
+		[4_463_500, 34, 69, false],
+		[4_373_500, 23, 52, false],
+	],
+}
+
+const FULL_ROUTE_EXPECTED_FLOORS := {
+	"clean_unemployed_low": [28, 60],
+	"clean_hired_recovery_high": [34, 60],
+	"dirty_return_recovery_low": [61, 56],
+	"dirty_deeper_growth": [23, 49],
+}
+
+const FULL_ROUTE_EVIDENCE_NAMES := {
+	"clean_unemployed_low": "clean_unemployed_growth_health_edge",
+	"clean_hired_recovery_high": "clean_hired_recovery",
+	"dirty_return_recovery_low": "dirty_return_growth_recovery",
+	"dirty_deeper_growth": "dirty_deeper_growth_health_edge",
+}
+
 var _failures: Array[String] = []
 var _autosave_backup: Dictionary = {}
 var _captured_terminal_saves: Array[Dictionary] = []
 var _game_over_signals := 0
+var _captured_game_over_ids: Array[String] = []
+var _full_route_evidence: Array[String] = []
+
+
+static func build_full_route_snapshot(path_id: String) -> Dictionary:
+	# start_new_game() reads title perks. Isolate only the in-memory progression
+	# so the QA baseline is exactly 500k/65/60. Successful survival routes never
+	# call finish_run(), therefore this helper must not open or write the user's
+	# meta-progression file at all.
+	var meta_data_backup: Dictionary = MetaProgression.data.duplicate(true)
+	var raw_new_this_run: Variant = MetaProgression.get("_new_this_run")
+	var new_this_run_backup: Dictionary = (
+		(raw_new_this_run as Dictionary).duplicate(true)
+		if raw_new_this_run is Dictionary else {}
+	)
+	MetaProgression.data = DataRegistry.default_meta.duplicate(true)
+	MetaProgression.set("_new_this_run", {"achievements": []})
+
+	var result := _build_full_route_snapshot_isolated(path_id)
+
+	MetaProgression.data = meta_data_backup
+	MetaProgression.set("_new_this_run", new_this_run_backup)
+	return result
+
+
+static func _build_full_route_snapshot_isolated(path_id: String) -> Dictionary:
+	var errors: Array[String] = []
+	if not FULL_ROUTE_PATHS.has(path_id):
+		return {"ok": false, "path_id": path_id,
+			"errors": ["unknown full-route path: %s" % path_id]}
+	var path: Dictionary = (FULL_ROUTE_PATHS[path_id] as Dictionary).duplicate(true)
+	GameState.start_new_game(
+		"김민준", "지방_상경", "none", "백수", "자유런", "현실")
+	CORE_LOOP.initialize_for_run(true)
+	var initial := {
+		"turn": int(GameState.turn),
+		"money": float(GameState.money),
+		"health": int(GameState.health),
+		"mental": int(GameState.mental),
+		"job": GameState.current_job.duplicate(true),
+	}
+	if initial != {
+		"turn": 1,
+		"money": 500_000.0,
+		"health": 65,
+		"mental": 60,
+		"job": {},
+	}:
+		errors.append("Week-One baseline drifted from 500k/65/60: %s" % str(initial))
+
+	var floors := {
+		"mental": int(GameState.mental),
+		"health": int(GameState.health),
+	}
+	var foreground_openings: Dictionary = {}
+	var week_24_opening_snapshot: Dictionary = {}
+	var checkpoints: Array[Dictionary] = []
+	var settlement_claims := 0
+	var month_end_checks := 0
+	var decline_game_over_checks := 0
+	var job_system: Node = load("res://systems/JobSystem.gd").new()
+	var relationship_system: Node = load(
+		"res://systems/RelationshipSystem.gd").new()
+	var inventory_system: Node = load(
+		"res://systems/InventorySystem.gd").new()
+
+	for month_index in range(1, 7):
+		if not errors.is_empty() or GameState.is_game_over:
+			break
+		var first_week := (month_index - 1) * 4 + 1
+		if int(GameState.turn) != first_week:
+			errors.append("Month %d began at Week %d, expected %d" % [
+				month_index, int(GameState.turn), first_week])
+			break
+		if month_index == 6:
+			_full_route_play_month_prelude(
+				"father_health_signal", int(path["father_health_choice"]), errors)
+			_full_route_capture_floors(floors)
+			if not errors.is_empty():
+				break
+
+		var schedule := _full_route_schedule(
+			month_index, bool(path["hired"]),
+			bool(path.get("overwork_schedule", false)))
+		if month_index == 6:
+			schedule = {
+				"21": (
+					"m6_no_plans_day"
+					if path_id == "clean_hired_recovery_high"
+					else "m6_public_recruitment"),
+				"22": "m6_last_study_group",
+				"23": "hyunsu_exam_eve",
+				"24": "demo_collision",
+			}
+		var commit := CORE_LOOP.commit_plan(
+			month_index, schedule, path["routines"] as Dictionary)
+		if not bool(commit.get("ok", false)):
+			errors.append("Month %d plan failed: %s" % [
+				month_index, str(commit)])
+			break
+
+		for week in range(first_week, first_week + 4):
+			if not errors.is_empty() or GameState.is_game_over:
+				break
+			if int(GameState.turn) != week:
+				errors.append("route reached Week %d at turn %d" % [
+					week, int(GameState.turn)])
+				break
+			var routine_result := CORE_LOOP.apply_background_routines_for_turn(week)
+			var routine_receipt: Dictionary = routine_result.get("receipt", {})
+			if not bool(routine_result.get("ok", false)) \
+					or not bool(routine_result.get("applied", false)) \
+					or (routine_receipt.get("units", []) as Array).size() != 2:
+				errors.append("Week %d routine units were not applied once: %s" % [
+					week, str(routine_result)])
+				break
+			_full_route_capture_floors(floors)
+			var bundle_id := str(schedule.get(str(week), ""))
+			foreground_openings[str(week)] = {
+				"money": float(GameState.money),
+				"health": int(GameState.health),
+				"mental": int(GameState.mental),
+			}
+			if week == 24:
+				week_24_opening_snapshot = GameState.serialize().duplicate(true)
+			_full_route_execute_bundle(bundle_id, path, errors)
+			_full_route_capture_floors(floors)
+			if not errors.is_empty():
+				break
+			if not _full_route_check_survival(
+					errors, "%s Week %d" % [path_id, week]):
+				break
+
+			if week % 4 != 0:
+				GameState.advance_calendar()
+				continue
+
+			var before := CORE_LOOP.month_opening_snapshot(month_index)
+			job_system.call("process_monthly_job")
+			relationship_system.call("process_monthly_relationships")
+			inventory_system.call("process_monthly_items")
+			if GameState.claim_initial_settlement_subsidy():
+				settlement_claims += 1
+			GameState.apply_monthly_pressure()
+			GameState.advance_calendar()
+			month_end_checks += 1
+			_full_route_capture_floors(floors)
+			if not _full_route_check_survival(
+					errors, "%s Month %d shared pressure" % [
+					path_id, month_index]):
+				break
+			var declines := CORE_LOOP.process_due_decline_outcomes(month_index)
+			decline_game_over_checks += 1
+			_full_route_capture_floors(floors)
+			if not _full_route_check_survival(
+					errors, "%s Month %d decline %s" % [
+					path_id, month_index, str(declines)]):
+				break
+			var after := _full_route_economy_snapshot()
+			var summary := CORE_LOOP.record_month_summary(
+				month_index, before, after)
+			if summary.is_empty():
+				errors.append("Month %d summary was not recorded" % month_index)
+				break
+			if month_index < 6 and not CORE_LOOP.acknowledge_month_summary(month_index):
+				errors.append("Month %d summary was not acknowledged" % month_index)
+				break
+			checkpoints.append({
+				"month": month_index,
+				"turn": int(GameState.turn),
+				"money": float(GameState.money),
+				"health": int(GameState.health),
+				"mental": int(GameState.mental),
+				"declines": declines.size(),
+				"employed": not GameState.current_job.is_empty(),
+			})
+
+	if errors.is_empty() and not CORE_LOOP.mark_prototype_complete():
+		errors.append("full route could not mark the Week-24 completion boundary")
+
+	job_system.free()
+	relationship_system.free()
+	inventory_system.free()
+
+	var state: Dictionary = GameState.core_loop_v2_state
+	var routine_receipts: Dictionary = state.get("routine_receipts", {})
+	var routine_units := 0
+	for raw_receipt in routine_receipts.values():
+		if raw_receipt is Dictionary \
+				and (raw_receipt as Dictionary).get("units", []) is Array:
+			routine_units += ((raw_receipt as Dictionary).get(
+				"units", []) as Array).size()
+	if settlement_claims != 1:
+		errors.append("settlement subsidy was claimed %d times, expected once" \
+			% settlement_claims)
+	if month_end_checks != 6 or decline_game_over_checks != 6:
+		errors.append("month-end checks drifted: pressure=%d decline=%d" % [
+			month_end_checks, decline_game_over_checks])
+	if routine_receipts.size() != 24 or routine_units != 48:
+		errors.append("full route wrote %d routine receipts / %d units" % [
+			routine_receipts.size(), routine_units])
+	if int(GameState.turn) != 25 or not CORE_LOOP.is_prototype_complete():
+		errors.append("full route did not finish as a completed turn-25 snapshot")
+	if bool(path["hired"]) != (not GameState.current_job.is_empty()):
+		errors.append("employment result did not match path contract")
+	if path_id.begins_with("clean_") \
+			and (bool(GameState.flags.get("lent_account", false)) \
+				or bool(GameState.flags.get("fell_to_darkness", false))):
+		errors.append("clean path retained a dirty-money flag")
+	if path_id == "dirty_return_recovery_low" \
+			and not bool(GameState.flags.get("escaped_dirty_money", false)):
+		errors.append("return path did not carry escaped_dirty_money")
+	if path_id == "dirty_deeper_growth" \
+			and not bool(GameState.flags.get("fell_to_darkness", false)):
+		errors.append("deeper path did not carry fell_to_darkness")
+
+	return {
+		"ok": errors.is_empty(),
+		"path_id": path_id,
+		"errors": errors,
+		"initial": initial,
+		"floors": floors.duplicate(true),
+		"foreground_openings": foreground_openings.duplicate(true),
+		"week_24_opening_snapshot": week_24_opening_snapshot.duplicate(true),
+		"checkpoints": checkpoints.duplicate(true),
+		"settlement_claims": settlement_claims,
+		"month_end_checks": month_end_checks,
+		"decline_game_over_checks": decline_game_over_checks,
+		"routine_receipts": routine_receipts.size(),
+		"routine_units": routine_units,
+		"snapshot": GameState.serialize().duplicate(true),
+	}
+
+
+static func _full_route_schedule(
+		month_index: int, hired: bool,
+		overwork_schedule: bool = false) -> Dictionary:
+	if FULL_ROUTE_COMMON_SCHEDULES.has(month_index):
+		return (FULL_ROUTE_COMMON_SCHEDULES[month_index] as Dictionary).duplicate(true)
+	if overwork_schedule:
+		return (FULL_ROUTE_OVERWORK_SCHEDULES.get(
+			month_index, {}) as Dictionary).duplicate(true)
+	var branch: Dictionary = (
+		FULL_ROUTE_HIRED_SCHEDULES if hired else FULL_ROUTE_UNEMPLOYED_SCHEDULES)
+	return (branch.get(month_index, {}) as Dictionary).duplicate(true)
+
+
+static func _full_route_play_month_prelude(
+		bundle_id: String, choice_index: int,
+		errors: Array[String]) -> void:
+	if not CORE_LOOP.begin_bundle(bundle_id, "consequence"):
+		errors.append("could not begin month prelude %s" % bundle_id)
+		return
+	CORE_LOOP.prepare_story_bundle(bundle_id)
+	if not _full_route_play_story_roots(
+			bundle_id, {"v2_father_health_signal": choice_index}, errors):
+		return
+	if CORE_LOOP.complete_active_bundle() != bundle_id:
+		errors.append("month prelude %s did not complete" % bundle_id)
+
+
+static func _full_route_execute_bundle(
+		bundle_id: String, path: Dictionary,
+		errors: Array[String]) -> void:
+	if bundle_id.is_empty() or not CORE_LOOP.begin_bundle(bundle_id, "schedule"):
+		errors.append("could not begin scheduled bundle %s at Week %d" % [
+			bundle_id, int(GameState.turn)])
+		return
+	CORE_LOOP.process_declines_before_bundle(bundle_id)
+	if not _full_route_check_survival(
+			errors, "%s pre-bundle decline" % bundle_id):
+		return
+	var prelude := CORE_LOOP.claim_scheduled_prelude(bundle_id)
+	if not bool(prelude.get("ok", false)):
+		errors.append("scheduled prelude failed for %s: %s" % [
+			bundle_id, str(prelude)])
+		return
+	if bool(prelude.get("claimed", false)):
+		var receipt: Dictionary = prelude.get("receipt", {})
+		var consequence_id := str(receipt.get("consequence_id", ""))
+		CORE_LOOP.prepare_story_bundle(consequence_id)
+		if not _full_route_play_story_roots(
+				consequence_id, _full_route_choice_map(path), errors):
+			return
+		var consumed := CORE_LOOP.consume_scheduled_prelude(bundle_id)
+		if not bool(consumed.get("ok", false)):
+			errors.append("scheduled prelude did not close for %s: %s" % [
+				bundle_id, str(consumed)])
+			return
+
+	var scene_bundle := CORE_LOOP.bundle(bundle_id)
+	var action_id := str(scene_bundle.get("action_id", ""))
+	if not action_id.is_empty():
+		_full_route_execute_action(bundle_id, scene_bundle, path, errors)
+		return
+	if bundle_id == "demo_collision":
+		var preparation := CORE_LOOP.prepare_demo_collision()
+		if not bool(preparation.get("ok", false)):
+			errors.append("demo collision preparation failed: %s" % str(preparation))
+			return
+	CORE_LOOP.prepare_story_bundle(bundle_id)
+	if not _full_route_play_story_roots(
+			bundle_id, _full_route_choice_map(path), errors):
+		return
+	if CORE_LOOP.complete_active_bundle() != bundle_id:
+		errors.append("story bundle %s did not complete" % bundle_id)
+
+
+static func _full_route_execute_action(
+		bundle_id: String, scene_bundle: Dictionary,
+		path: Dictionary, errors: Array[String]) -> void:
+	var action_id := str(scene_bundle.get("action_id", ""))
+	var raw_config: Variant = scene_bundle.get("action_config", {})
+	var config: Dictionary = (
+		(raw_config as Dictionary).duplicate(true)
+		if raw_config is Dictionary else {}
+	)
+	var execution := str(config.get("execution", ""))
+	var flag_updates: Dictionary = {}
+	var effects: Dictionary = (
+		(config.get("effects", {}) as Dictionary).duplicate(true)
+		if config.get("effects", {}) is Dictionary else {}
+	)
+	var axis := str(config.get(
+		"axis", "human" if execution == "rest" or action_id == "rest" else "money"))
+	var place_id := str(config.get(
+		"place_id", "home" if execution == "rest" or action_id == "rest" else "work"))
+	if bundle_id == "m1_mirae_application" and execution.is_empty():
+		execution = "application"
+		config = {
+			"application_id": "mirae_industrial_tech",
+			"status": "submitted",
+		}
+		# This legacy Week-One card is owned by MainGame's opening interview
+		# transaction. Mirror its full causal payload, including both durable
+		# flags; a generic application receipt is not equivalent evidence.
+		flag_updates = {
+			"opening_interview_application_sent": true,
+			"opening_interview_application_turn": int(GameState.turn),
+		}
+	if execution.is_empty() and action_id == "rest":
+		execution = "rest"
+		effects = {"mental": 10, "health": 3}
+	if execution == "rest" and not config.is_empty():
+		var routines := CORE_LOOP.routine_selection_for_month()
+		var has_recovery := str(routines.get("primary", "")) == "recovery" \
+			or str(routines.get("secondary", "")) == "recovery"
+		var diminished: Variant = config.get("recovery_routine_effects", {})
+		if has_recovery and diminished is Dictionary \
+				and not (diminished as Dictionary).is_empty():
+			effects = (diminished as Dictionary).duplicate(true)
+	var details := {"execution": execution}
+	if execution == "application":
+		details["application_id"] = str(config.get("application_id", ""))
+		details["status"] = str(config.get("status", "submitted"))
+		details["job_id"] = str(config.get("job_id", ""))
+	else:
+		details["effects"] = effects.duplicate(true)
+		details["axis"] = axis
+		details["place_id"] = place_id
+	GameState.restore_ap()
+	if not GameState.arm_weekly_commitment({
+		"turn": int(GameState.turn),
+		"pressure_id": bundle_id,
+		"pressure_family": "qa_full_route",
+		"choice_id": action_id,
+		"forgone_ids": [],
+	}):
+		errors.append("action %s could not arm its weekly commitment" % bundle_id)
+		return
+	var transaction := GameState.finalize_weekly_effect_action(
+		action_id, effects, axis, place_id, "", details, flag_updates)
+	# MainGame receives this exact record through weekly_commitment_finalized.
+	# The public snapshot helper can also run from HandoffCheck, so invoke the
+	# same idempotent production consumer explicitly instead of depending on a
+	# particular test scene's signal wiring.
+	var action_noted := bool(transaction.get("ok", false)) \
+		and CORE_LOOP.note_action_commitment(
+			transaction.get("record", {}) as Dictionary)
+	if not bool(transaction.get("ok", false)) \
+			or not action_noted \
+			or not CORE_LOOP.action_result_ready() \
+			or CORE_LOOP.action_receipt(bundle_id).is_empty():
+		errors.append("action %s failed its production transaction: %s" % [
+			bundle_id, str(transaction)])
+		return
+	if bundle_id == "m1_mirae_application":
+		var opening_receipt := CORE_LOOP.action_receipt(bundle_id)
+		if str(opening_receipt.get("application_id", "")) \
+				!= "mirae_industrial_tech" \
+				or str(opening_receipt.get("application_status", "")) \
+					!= "submitted" \
+				or not bool(GameState.flags.get(
+					"opening_interview_application_sent", false)) \
+				or int(GameState.flags.get(
+					"opening_interview_application_turn", -1)) != 1:
+			errors.append(
+				"Week-One Mirae action lost its exact application receipt/flags: %s"
+					% str(opening_receipt))
+			return
+	if CORE_LOOP.action_story_stage(bundle_id) == "story":
+		if not CORE_LOOP.acknowledge_action_story_result(bundle_id):
+			errors.append("action-story %s did not acknowledge its result" % bundle_id)
+			return
+		CORE_LOOP.prepare_story_bundle(bundle_id)
+		if not _full_route_play_story_roots(
+				bundle_id, _full_route_choice_map(path), errors):
+			return
+	if CORE_LOOP.complete_active_bundle() != bundle_id:
+		errors.append("action bundle %s did not complete" % bundle_id)
+
+
+static func _full_route_choice_map(path: Dictionary) -> Dictionary:
+	return {
+		"arc_temptation_01": int(path["temptation_choice"]),
+		"arc_temptation_fallout": int(path["fallout_choice"]),
+		"v2_hanbit_offer_message": 0,
+		"v2_father_health_signal": int(path["father_health_choice"]),
+		"v2_hyunsu_exam_eve": int(path["exam_choice"]),
+		"v2_demo_first_bill": int(path["collision_choice"]),
+		"v2_dirty_trace_initial_call": 0,
+		"v2_dirty_recruiter_week24": 0,
+	}
+
+
+static func _full_route_play_story_roots(
+		bundle_id: String, choice_map: Dictionary,
+		errors: Array[String]) -> bool:
+	var roots := CORE_LOOP.resolved_event_roots(bundle_id)
+	if roots.is_empty():
+		errors.append("story bundle %s has no resolved roots" % bundle_id)
+		return false
+	for raw_root in roots:
+		if not _full_route_play_event_chain(
+				str(raw_root), choice_map, {}, errors):
+			return false
+	return true
+
+
+static func _full_route_play_event_chain(
+		event_id: String, choice_map: Dictionary,
+		visited: Dictionary, errors: Array[String]) -> bool:
+	if event_id.is_empty() or visited.has(event_id):
+		return true
+	visited[event_id] = true
+	var event: Dictionary = DataRegistry.find_event(event_id)
+	var choices: Array = (
+		event.get("choices", []) as Array
+		if event.get("choices", []) is Array else []
+	)
+	var choice_index := int(choice_map.get(event_id, 0))
+	if event.is_empty() or choice_index < 0 or choice_index >= choices.size():
+		errors.append("event %s choice %d is unavailable" % [
+			event_id, choice_index])
+		return false
+	var choice: Dictionary = choices[choice_index]
+	GameState.record_run_scene_seen(event_id)
+	GameState.apply_choice(event, choice)
+	if not CORE_LOOP.note_story_choice(event_id, choice_index):
+		errors.append("event %s choice %d did not write a V2 receipt" % [
+			event_id, choice_index])
+		return false
+	var follow_up := str(choice.get("follow_up_event", ""))
+	if follow_up.is_empty() \
+			or CORE_LOOP.story_follow_up_is_suppressed(
+				event_id, choice_index, follow_up):
+		return true
+	return _full_route_play_event_chain(
+		follow_up, choice_map, visited, errors)
+
+
+static func _full_route_capture_floors(floors: Dictionary) -> void:
+	floors["mental"] = mini(int(floors.get("mental", 100)), int(GameState.mental))
+	floors["health"] = mini(int(floors.get("health", 100)), int(GameState.health))
+
+
+static func _full_route_check_survival(
+		errors: Array[String], context: String) -> bool:
+	# Do not invoke finish_run on a known-dead QA route: finish_run persists meta
+	# progression. A release route with a non-positive stat is already a precise
+	# failure, while valid routes still execute the production ending check.
+	if int(GameState.health) <= 0 or int(GameState.mental) <= 0 \
+			or GameState.get_total_asset_value() < -100_000_000.0:
+		errors.append("%s reached a fatal state: money=%d health=%d mental=%d" % [
+			context, int(GameState.money), int(GameState.health),
+			int(GameState.mental)])
+		return false
+	GameState.check_game_over()
+	if GameState.is_game_over:
+		errors.append("%s unexpectedly ended the run" % context)
+		return false
+	return true
+
+
+static func _full_route_economy_snapshot() -> Dictionary:
+	return {
+		"money": float(GameState.money),
+		"cash_shortfall": CORE_LOOP.cash_shortfall_for_money(
+			float(GameState.money)),
+		"monthly_income": float(GameState.monthly_income),
+		"fixed_expense": float(GameState.get_monthly_required_cash()),
+		"health": int(GameState.health),
+		"mental": int(GameState.mental),
+	}
 
 func _ready() -> void:
 	_backup_autosave()
@@ -123,6 +831,9 @@ func _ready() -> void:
 	_check_deferred_foreground_scheduler()
 	_check_collision_queue_and_receipts()
 	_check_city_choice_preserves_submission()
+	_check_full_route_release_paths()
+	await _check_fatal_decline_short_circuit()
+	await _check_intentional_overwork_death()
 	await _check_actual_weeks_and_terminal_recap()
 
 	if GameState.weekly_commitment_finalized.is_connected(action_callback):
@@ -131,6 +842,12 @@ func _ready() -> void:
 		GameState.game_over.disconnect(game_over_callback)
 	AudioManager.sfx_enabled = original_sfx_enabled
 	_restore_autosave()
+	# MainGame fixtures start ambient layers. Stop them and drain the audio
+	# players' longest short-lived fixture timer before exit. The fatal fixtures
+	# stay below the unrelated 10m milestone, so this timer can expire cleanly.
+	BGMPlayer.stop()
+	await get_tree().create_timer(2.6).timeout
+	await get_tree().process_frame
 
 	if _failures.is_empty():
 		print(
@@ -143,7 +860,15 @@ func _ready() -> void:
 			+ "collision=dirty_bill_morning/candidates4/selective_claim/"
 			+ "obligation_and_callback_receipts/father_initiative/"
 			+ "city_decline_or_preserve "
-			+ "run=weeks21_24/routines48/salary2240000/fixed650000 "
+			+ "component_routes=4/week1_500k_65_60/plans/events/declines/"
+			+ "pressure6/subsidy1/routines48 "
+			+ "snapshots=%s " % ",".join(_full_route_evidence)
+			+ "fatal_decline=synthetic_ordering_fixture/ordinary_and_cap/"
+			+ "mental1_to0/mental_break/"
+			+ "no_recap_cta "
+			+ "overwork=state_H5/urgent_paid_shift/burnout/"
+			+ "body_rest_survives_H5/no_recap_cta "
+			+ "surface_fixture=weeks21_24/salary2240000/fixed650000 "
 			+ "terminal=turn25/six_summaries/full_declines/sticky_cta/"
 			+ "single_save/resume/no_finish/no_legacy")
 		get_tree().quit(0)
@@ -1087,7 +1812,306 @@ func _check_deferred_foreground_scheduler() -> void:
 		"MainGame did not discard the stale callback and directly claim the next foreground event")
 	scheduler.free()
 
+
+func _check_full_route_release_paths() -> void:
+	_full_route_evidence.clear()
+	var route_ids := [
+		"clean_unemployed_low",
+		"clean_hired_recovery_high",
+		"dirty_return_recovery_low",
+		"dirty_deeper_growth",
+	]
+	for path_id in route_ids:
+		var result := build_full_route_snapshot(path_id)
+		_expect(bool(result.get("ok", false)),
+			"full route %s failed: %s" % [
+				path_id, str(result.get("errors", []))])
+		if not bool(result.get("ok", false)):
+			continue
+		var initial: Dictionary = result.get("initial", {})
+		var snapshot: Dictionary = result.get("snapshot", {})
+		var state: Dictionary = snapshot.get("core_loop_v2_state", {})
+		var floors: Dictionary = result.get("floors", {})
+		var final_money := int(float(snapshot.get("money", 0.0)))
+		var final_health := int(snapshot.get("health", 0))
+		var final_mental := int(snapshot.get("mental", 0))
+		var floor_health := int(floors.get("health", 0))
+		var floor_mental := int(floors.get("mental", 0))
+		var checkpoint_pairs: Array[String] = []
+		var checkpoint_values: Array = []
+		for raw_checkpoint in result.get("checkpoints", []):
+			if raw_checkpoint is Dictionary:
+				checkpoint_values.append([
+					int(float((raw_checkpoint as Dictionary).get("money", 0.0))),
+					int((raw_checkpoint as Dictionary).get("health", 0)),
+					int((raw_checkpoint as Dictionary).get("mental", 0)),
+					bool((raw_checkpoint as Dictionary).get("employed", false)),
+				])
+				checkpoint_pairs.append("%d_%d_%d_%s" % [
+					int(float((raw_checkpoint as Dictionary).get("money", 0.0))),
+					int((raw_checkpoint as Dictionary).get("health", 0)),
+					int((raw_checkpoint as Dictionary).get("mental", 0)),
+					"E" if bool((raw_checkpoint as Dictionary).get(
+						"employed", false)) else "U",
+				])
+		_full_route_evidence.append(
+			"%s=W24_%d_%d_%d/floor_%d_%d/months_%s" % [
+				str(FULL_ROUTE_EVIDENCE_NAMES[path_id]),
+				final_money, final_health, final_mental,
+				floor_health, floor_mental, "-".join(checkpoint_pairs)])
+		_expect(initial == {
+				"turn": 1,
+				"money": 500_000.0,
+				"health": 65,
+				"mental": 60,
+				"job": {},
+			} \
+				and int(snapshot.get("turn", 0)) == 25 \
+				and not bool(snapshot.get("is_game_over", true)) \
+				and int(result.get("settlement_claims", 0)) == 1 \
+				and int(result.get("month_end_checks", 0)) == 6 \
+				and int(result.get("decline_game_over_checks", 0)) == 6 \
+				and int(result.get("routine_receipts", 0)) == 24 \
+				and int(result.get("routine_units", 0)) == 48 \
+				and (state.get("completed_turns", []) as Array).size() == 24 \
+				and (state.get("month_summaries", {}) as Dictionary).size() == 6,
+			"full route %s is not a real 1→24 completion snapshot: %s" % [
+				path_id, str(result)])
+		_expect(final_health > 0 and final_mental > 0 \
+				and floor_health > 0 and floor_mental > 0,
+			"full route %s crossed a fatal floor: final H%d/M%d floor H%d/M%d"
+				% [path_id, final_health, final_mental,
+					floor_health, floor_mental])
+		_expect(checkpoint_values == FULL_ROUTE_EXPECTED_CHECKPOINTS[path_id],
+			"full route %s six month-boundary cash/H/M/job checkpoints drifted: %s"
+				% [path_id, str(checkpoint_values)])
+		_expect([floor_health, floor_mental] \
+				== FULL_ROUTE_EXPECTED_FLOORS[path_id],
+			"full route %s exact named floor drifted: H%d/M%d" % [
+				path_id, floor_health, floor_mental])
+		_expect(str(snapshot.get("run_theme", "")) == "자유런" \
+				and not bool((snapshot.get("flags", {}) as Dictionary).get(
+					"theme_clean_run", false)),
+			"full route %s mixed a neutral route with a clean-run theme flag"
+				% path_id)
+		if path_id.begins_with("clean_"):
+			_expect(bool((snapshot.get("flags", {}) as Dictionary).get(
+					"stayed_clean", false)),
+				"clean full route %s skipped the required Week-8 +10 consequence"
+					% path_id)
+
+
+func _check_fatal_decline_short_circuit() -> void:
+	# A real ending writes meta progression by design. Preserve both memory and
+	# the user:// bytes around this focused regression so QA never awards an
+	# ending to the player who ran the check.
+	var meta_data_backup: Dictionary = MetaProgression.data.duplicate(true)
+	var raw_new_this_run: Variant = MetaProgression.get("_new_this_run")
+	var new_this_run_backup: Dictionary = (
+		(raw_new_this_run as Dictionary).duplicate(true)
+		if raw_new_this_run is Dictionary else {}
+	)
+	var meta_file_backup := _capture_file_backup(
+		"user://gangnam_dream_meta.json")
+
+	for target_week in [4, 24]:
+		MetaProgression.data = DataRegistry.default_meta.duplicate(true)
+		MetaProgression.set("_new_this_run", {"achievements": []})
+		_seed_fatal_decline_boundary(target_week)
+		var packed := load("res://scenes/MainGame.tscn") as PackedScene
+		_expect(packed != null,
+			"fatal-decline Week %d fixture could not load MainGame" % target_week)
+		if packed == null:
+			continue
+		var main_game = packed.instantiate()
+		main_game.set_meta("_screenshot_qa_static_surface", true)
+		add_child(main_game)
+		# The regression needs the real GameState ending decision, not the costly
+		# audiovisual ending presentation. Disconnect only this fixture instance;
+		# the captured signal below still proves the exact ending ID.
+		var ending_callback := Callable(main_game, "_show_ending")
+		if GameState.game_over.is_connected(ending_callback):
+			GameState.game_over.disconnect(ending_callback)
+		_captured_game_over_ids.clear()
+		# _ready() has connected the real game_over→ending surface synchronously;
+		# call the exact production boundary before its deferred planner routing.
+		main_game._core_loop_v2_advance_completed_week()
+		await get_tree().process_frame
+
+		var closing_month := CORE_LOOP.month_for_turn(target_week)
+		var matching_receipts: Array = []
+		for raw_receipt in CORE_LOOP.decline_receipts_for_month(closing_month):
+			if raw_receipt is Dictionary \
+					and str((raw_receipt as Dictionary).get("id", "")) \
+						== "qa_fatal_mental_decline":
+				matching_receipts.append(raw_receipt)
+		var recap_done := _find_meta_node(
+			main_game.modal_layer, "core_loop_v2_recap_done")
+		var month_cta := _find_meta_node(
+			main_game.modal_layer, "core_loop_v2_month_confirm")
+		# Seed M6. Reality/gosiwon monthly pressure is exactly -5, so the
+		# production transition reaches M1 before this receipt applies -2 and the
+		# stat clamp lands on zero. The receipt plus exact final state locks both
+		# halves without a test-only hook in MainGame.
+		_expect(int(GameState.health) == 78 and int(GameState.mental) == 0,
+			"Week %d fatal decline was not exact seeded M6 → pressure M1 → decline M0"
+				% target_week)
+		_expect(matching_receipts.size() == 1 \
+				and float((matching_receipts[0] as Dictionary).get(
+					"effects_applied", {}).get("mental", 0.0)) == -2.0,
+			"Week %d did not consume exactly one production-pipeline mental -2 receipt"
+				% target_week)
+		_expect(GameState.is_game_over \
+				and _captured_game_over_ids == ["mental_break"] \
+				and CORE_LOOP.month_summary(closing_month).is_empty() \
+				and not CORE_LOOP.is_prototype_complete() \
+				and not is_instance_valid(recap_done) \
+				and not is_instance_valid(month_cta) \
+				and not bool(main_game.modal_layer.get_meta(
+					"core_loop_v2_completion", false)),
+			"Week %d fatal decline exposed a recap/CTA or missed mental_break"
+				% target_week)
+		main_game.free()
+		packed = null
+		await get_tree().process_frame
+		_restore_file_backup(
+			"user://gangnam_dream_meta.json", meta_file_backup)
+
+	MetaProgression.data = meta_data_backup
+	MetaProgression.set("_new_this_run", new_this_run_backup)
+	_restore_file_backup(
+		"user://gangnam_dream_meta.json", meta_file_backup)
+
+
+func _seed_fatal_decline_boundary(target_week: int) -> void:
+	GameState.start_new_game(
+		"김민준", "지방_상경", "none", "백수", "청렴런", "현실")
+	CORE_LOOP.initialize_for_run(true)
+	_set_turn_date(target_week)
+	# A zero-stress QA job removes unemployment and job-stress modifiers, leaving
+	# the real Reality/gosiwon monthly pressure at exactly -5 mental.
+	GameState.current_job = {
+		"id": "qa_zero_stress_month_end",
+		"effective_salary": 2_000_000.0,
+		"stress_per_month": 0,
+		"stat_gains": {},
+		"promotion_threshold": 999,
+	}
+	GameState.monthly_income = 2_000_000.0
+	# Stay safely above the month-end reserve boundary without crossing the
+	# unrelated 10m UI milestone after salary and housing pressure. That
+	# milestone owns a two-second portrait timer outside this ordering fixture.
+	GameState.money = 8_000_000.0
+	GameState.health = 80
+	GameState.mental = 6
+	GameState.flags["settlement_subsidy_received"] = true
+	var closing_month := CORE_LOOP.month_for_turn(target_week)
+	var state: Dictionary = GameState.core_loop_v2_state
+	state["month_opening_snapshots"][str(closing_month)] = \
+		_full_route_economy_snapshot()
+	state["pending_declines"] = [{
+		"id": "qa_fatal_mental_decline",
+		"producer_bundle": "qa_unchosen_recovery",
+		"consumer_kind": "terminal_recap",
+		"month": closing_month,
+		"visible_month": closing_month,
+		"effects": {"mental": -2},
+	}]
+	if target_week == CORE_LOOP.development_cap_week():
+		# Without the post-decline early return, this makes the old code capable
+		# of marking completion and opening its sticky terminal CTA.
+		state["completed_turns"] = [target_week]
+	GameState.core_loop_v2_state = state
+
+
+func _check_intentional_overwork_death() -> void:
+	var urgent := build_full_route_snapshot("qa_overwork_urgent_burnout")
+	var rest := build_full_route_snapshot("qa_overwork_body_rest")
+	var urgent_snapshot: Dictionary = urgent.get("snapshot", {})
+	var urgent_state: Dictionary = urgent_snapshot.get(
+		"core_loop_v2_state", {})
+	var urgent_obligation: Dictionary = (
+		(urgent_state.get("obligation_receipts", {}) as Dictionary).get(
+			"demo_collision", {}) as Dictionary)
+	var rest_snapshot: Dictionary = rest.get("snapshot", {})
+	var rest_state: Dictionary = rest_snapshot.get("core_loop_v2_state", {})
+	var rest_obligation: Dictionary = (
+		(rest_state.get("obligation_receipts", {}) as Dictionary).get(
+			"demo_collision", {}) as Dictionary)
+	var urgent_opening: Dictionary = (
+		urgent.get("foreground_openings", {}) as Dictionary).get("24", {})
+	var collision: Dictionary = DataRegistry.find_event("v2_demo_first_bill")
+	var collision_choices: Array = (
+		collision.get("choices", []) as Array
+		if collision.get("choices", []) is Array else [])
+	var recovery_choice: Dictionary = (
+		collision_choices[7] as Dictionary
+		if collision_choices.size() > 7 and collision_choices[7] is Dictionary
+		else {})
+	_expect(not bool(urgent.get("ok", true)) \
+			and int(urgent_opening.get("health", -1)) == 5 \
+			and int(urgent_snapshot.get("health", -1)) == 0 \
+			and int(urgent_snapshot.get("turn", 0)) == 24 \
+			and str(urgent_obligation.get(
+				"selected_obligation_id", "")) == "urgent_paid_shift",
+		"intentional overwork path did not reach H5 then select urgent_paid_shift→H0: %s"
+			% str(urgent))
+	_expect(str(recovery_choice.get("v2_obligation_id", "")) == "body_rest" \
+			and int((recovery_choice.get("effects", {}) as Dictionary).get(
+				"health", 0)) > 0 \
+			and bool(rest.get("ok", false)) \
+			and int(rest_snapshot.get("health", 0)) == 5 \
+			and not bool(rest_snapshot.get("is_game_over", true)) \
+			and str(rest_obligation.get(
+				"selected_obligation_id", "")) == "body_rest",
+		"body_rest was not an available, working H5 sibling recovery: %s"
+			% str(rest))
+
+	var meta_data_backup: Dictionary = MetaProgression.data.duplicate(true)
+	var raw_new_this_run: Variant = MetaProgression.get("_new_this_run")
+	var new_this_run_backup: Dictionary = (
+		(raw_new_this_run as Dictionary).duplicate(true)
+		if raw_new_this_run is Dictionary else {})
+	var meta_file_backup := _capture_file_backup(
+		"user://gangnam_dream_meta.json")
+	GameState.load_from_dict(urgent_snapshot)
+	CORE_LOOP.initialize_for_run()
+	var packed := load("res://scenes/MainGame.tscn") as PackedScene
+	_expect(packed != null,
+		"intentional overwork fixture could not load MainGame")
+	if packed != null:
+		var main_game = packed.instantiate()
+		main_game.set_meta("_screenshot_qa_static_surface", true)
+		add_child(main_game)
+		var ending_callback := Callable(main_game, "_show_ending")
+		if GameState.game_over.is_connected(ending_callback):
+			GameState.game_over.disconnect(ending_callback)
+		_captured_game_over_ids.clear()
+		main_game._core_loop_v2_advance_completed_week()
+		await get_tree().process_frame
+		var recap_done := _find_meta_node(
+			main_game.modal_layer, "core_loop_v2_recap_done")
+		var month_cta := _find_meta_node(
+			main_game.modal_layer, "core_loop_v2_month_confirm")
+		_expect(GameState.is_game_over \
+				and _captured_game_over_ids == ["burnout"] \
+				and not is_instance_valid(recap_done) \
+				and not is_instance_valid(month_cta) \
+				and not CORE_LOOP.is_prototype_complete(),
+			"urgent_paid_shift overwork did not end as burnout without recap/CTA")
+		main_game.free()
+		packed = null
+		await get_tree().process_frame
+	MetaProgression.data = meta_data_backup
+	MetaProgression.set("_new_this_run", new_this_run_backup)
+	_restore_file_backup(
+		"user://gangnam_dream_meta.json", meta_file_backup)
+
 func _check_actual_weeks_and_terminal_recap() -> void:
+	# Focused surface fixture only. Release survival evidence comes from
+	# _check_full_route_release_paths(), which starts at Week One and executes
+	# every monthly boundary. This fixture may seed prior receipts so it can
+	# exhaustively inspect the terminal modal without replaying four routes.
 	_fresh_at(21)
 	_seed_prior_development_state()
 	_unlock_hyunsu()
@@ -1102,8 +2126,6 @@ func _check_actual_weeks_and_terminal_recap() -> void:
 	}
 	GameState.monthly_income = 2_240_000.0
 	GameState.money = 1_300_000.0
-	GameState.health = 90
-	GameState.mental = 90
 	_set_turn_date(21)
 
 	# Month Six cannot be planned until the world-owned father signal closes.
@@ -1976,8 +2998,32 @@ func _capture_terminal_save(success: bool, slot: int) -> void:
 		_captured_terminal_saves.append(
 			GameState.serialize().duplicate(true))
 
-func _capture_game_over(_ending_id: String) -> void:
+func _capture_game_over(ending_id: String) -> void:
 	_game_over_signals += 1
+	_captured_game_over_ids.append(ending_id)
+
+
+func _capture_file_backup(path: String) -> Dictionary:
+	return {
+		"existed": FileAccess.file_exists(path),
+		"bytes": (
+			FileAccess.get_file_as_bytes(path)
+			if FileAccess.file_exists(path) else PackedByteArray()
+		),
+	}
+
+
+func _restore_file_backup(path: String, backup: Dictionary) -> void:
+	if backup.is_empty():
+		return
+	if bool(backup.get("existed", false)):
+		var file := FileAccess.open(path, FileAccess.WRITE)
+		if file:
+			file.store_buffer(backup.get("bytes", PackedByteArray()))
+			file.close()
+	elif FileAccess.file_exists(path):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+
 
 func _backup_autosave() -> void:
 	var path := SaveManager.slot_path(SaveManager.AUTOSAVE_SLOT)
