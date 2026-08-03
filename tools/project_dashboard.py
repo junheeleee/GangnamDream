@@ -181,7 +181,7 @@ def dominant_choices(by: dict[str, dict]) -> list[dict]:
 
 
 def walk(by: dict[str, dict], start: str) -> list[str]:
-    """start에서 후속을 따라 도달하는 비트를 순서대로. 순환은 한 번만 본다."""
+    """start에서 후속을 따라 도달하는 구현 링크를 순서대로. 순환은 한 번만 본다."""
     seen, order, stack = set(), [], [start]
     while stack:
         cur = stack.pop(0)
@@ -195,7 +195,7 @@ def walk(by: dict[str, dict], start: str) -> list[str]:
     return order
 
 
-def beat_rows(by: dict[str, dict], ids: list[str]) -> list[dict]:
+def link_rows(by: dict[str, dict], ids: list[str]) -> list[dict]:
     rows = []
     for bid in ids:
         e = by[bid]
@@ -211,7 +211,7 @@ def beat_rows(by: dict[str, dict], ids: list[str]) -> list[dict]:
 
 
 def chains(by: dict[str, dict]) -> tuple[dict, list[dict]]:
-    """Root -> ordered beats. A chain is a scene (SCENE_TIER §0)."""
+    """Root -> ordered implementation links. A chain is one scene."""
     targets = set()
     for e in by.values():
         for c in e.get("choices") or []:
@@ -228,13 +228,13 @@ def chains(by: dict[str, dict]) -> tuple[dict, list[dict]]:
         order = walk(by, rid)
         if len(order) < 2:
             continue
-        beats = beat_rows(by, order)
-        graph[rid] = {"beats": beats, "file": by[rid].get("_file", "")}
+        links = link_rows(by, order)
+        graph[rid] = {"links": links, "file": by[rid].get("_file", "")}
         index.append({
             "id": rid,
             "title": str(by[rid].get("title", "") or rid)[:48],
             "n": len(order),
-            "picks": sum(1 for b in beats if len(b["choices"]) >= 2),
+            "picks": sum(1 for link in links if len(link["choices"]) >= 2),
         })
     index.sort(key=lambda r: (-r["n"], r["id"]))
     return graph, index
@@ -304,14 +304,14 @@ def metrics(by: dict[str, dict], chain_index: list[dict],
     sig = read_json("tools/identity_signature_baseline.json") or {}
 
     multi = [e for e in by.values() if len(e.get("choices") or []) >= 2]
-    one_beat = sum(1 for e in by.values()
+    one_link = sum(1 for e in by.values()
                    if len(e.get("choices") or []) <= 1 and not e.get("direction"))
     with_dir = sum(1 for e in by.values() if e.get("direction"))
 
     rows = [
         {"k": "사건", "v": len(by), "note": "KR 이벤트 전체", "tone": "flat"},
         {"k": "선택 2+ 사건", "v": len(multi), "note": "판정 대상", "tone": "flat"},
-        {"k": "체인(장면)", "v": len(chain_index), "note": "2비트 이상", "tone": "flat"},
+        {"k": "체인(장면)", "v": len(chain_index), "note": "2링크 이상", "tone": "flat"},
         {"k": "연출 보유 사건", "v": with_dir,
          "note": f"전체의 {with_dir*100//max(len(by),1)}%", "tone": "warn"},
         {"k": "정답 선택", "v": len(dom or []),
@@ -329,7 +329,7 @@ def metrics(by: dict[str, dict], chain_index: list[dict],
          "note": "래칫", "tone": "warn"},
         {"k": "서명 알려진 결함", "v": len(sig.get("known_failures", [])),
          "note": "악화만 실패", "tone": "warn"},
-        {"k": "1비트·무연출 사건", "v": one_beat, "note": "밀도 하한 미달", "tone": "warn"},
+        {"k": "1링크·무연출 사건", "v": one_link, "note": "독립 노출 재검토", "tone": "warn"},
     ]
     return rows
 
@@ -528,7 +528,7 @@ function dominantIndex(cs){
 function render(id){
   const c = CHAINS[id];
   if(!c){ out.innerHTML = `<div class="empty">체인을 고르세요.</div>`; return; }
-  out.innerHTML = `<div class="chain">` + c.beats.map(b=>{
+  out.innerHTML = `<div class="chain">` + c.links.map(b=>{
     const dom = dominantIndex(b.choices);
     const opts = b.choices.length ? `<div class="opts">` + b.choices.map((o,i)=>`
       <div class="opt${i===dom?' dominant':''}">
@@ -552,7 +552,7 @@ function fill(filter){
   const f=(filter||"").trim().toLowerCase();
   const rows = INDEX.filter(r=> !f || r.id.toLowerCase().includes(f) || r.title.toLowerCase().includes(f));
   sel.innerHTML = rows.slice(0,400).map(r=>
-    `<option value="${esc(r.id)}">${esc(r.title)} — ${r.n}비트 · 선택점 ${r.picks} (${esc(r.id)})</option>`).join("");
+    `<option value="${esc(r.id)}">${esc(r.title)} — ${r.n}링크 · 선택점 ${r.picks} (${esc(r.id)})</option>`).join("");
   if(rows.length) render(sel.value = rows[0].id);
   else out.innerHTML = `<div class="empty">일치하는 체인이 없습니다.</div>`;
 }
@@ -818,29 +818,29 @@ def markdown() -> str:
     for b in bundles:
         for rid in b["roots"]:
             if rid in by:
-                demo_chains.append((rid, {"beats": beat_rows(by, walk(by, rid))}))
+                demo_chains.append((rid, {"links": link_rows(by, walk(by, rid))}))
     demo_chains.sort()
 
     add(f"## 선택 마인드맵 — 데모 체인 {len(demo_chains)}개")
     add("")
     add("체인 하나가 장면 하나다([`SCENE_TIER.md`](SCENE_TIER.md) §0).")
     add("지금 짓고 있는 데모 구간만 그린다 — 전 구간 65체인은 HTML 쪽에서 본다.")
-    add("`⚠︎연출없음`은 `direction` 키가 없다는 뜻이고, 그 비트는 아직 끝나지 않았다.")
+    add("`⚠︎연출없음`은 `direction` 키가 없다는 뜻이고, 그 구현 링크는 아직 끝나지 않았다.")
     add("")
     for rid, g in demo_chains:
-        title = g["beats"][0]["title"] if g["beats"] else rid
-        picks = sum(1 for b in g["beats"] if len(b["choices"]) >= 2)
+        title = g["links"][0]["title"] if g["links"] else rid
+        picks = sum(1 for b in g["links"] if len(b["choices"]) >= 2)
         add(f"<details><summary><b>{md_escape(title)}</b> "
-            f"— {len(g['beats'])}비트 · 선택점 {picks} "
+            f"— {len(g['links'])}링크 · 선택점 {picks} "
             f"(<code>{rid}</code>)</summary>")
         add("")
         add("```mermaid")
         add("flowchart TD")
-        for b in g["beats"]:
+        for b in g["links"]:
             lab = b["title"].replace('"', "'")
             mark = "" if b["dir"] else " ⚠︎연출없음"
             add(f'  {b["id"]}["{lab}{mark}"]')
-        for b in g["beats"]:
+        for b in g["links"]:
             d = dominant_index(b["choices"])
             for i, c in enumerate(b["choices"]):
                 if not c["to"]:

@@ -62,6 +62,9 @@
       "docs/AP_REDESIGN.md",
       "docs/GAME_RECOMPOSITION_PLAN.md"
     ],
+    "choice_consequences": [
+      "docs/CHOICE_CONSEQUENCE_SYSTEM.md"
+    ],
     "story_causality": [
       "content/meta/story_rules.json",
       "docs/STORY_CONSISTENCY_SYSTEM.md"
@@ -143,6 +146,7 @@
     "narrative": {
       "required": [
         "docs/STORY_BIBLE.md",
+        "docs/CHOICE_CONSEQUENCE_SYSTEM.md",
         "docs/STORY_CONSISTENCY_SYSTEM.md",
         "content/meta/narrative_spine.json",
         "content/meta/story_rules.json"
@@ -248,6 +252,7 @@
       "docs/AP_REDESIGN.md",
       "docs/BALANCE.md",
       "docs/CANON_MAP.md",
+      "docs/CHOICE_CONSEQUENCE_SYSTEM.md",
       "docs/CORE_LOOP_V2.md",
       "docs/ENDING_CONTRACT.md",
       "docs/I18N_GLOSSARY.md",

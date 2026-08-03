@@ -31,6 +31,7 @@ Updated: 2026-08-03
 | 상품 정체성·현재 상태 | `CLAUDE.md` | 현재 목표와 불변 규칙. 실행 우선순위·상태는 `CODEX_QUEUE.md`만 소유 |
 | 세계·인물·5장 서사 | `docs/STORY_BIBLE.md`, `docs/CANON_MAP.md` | 의도된 이야기와 세계 사실 |
 | 선택·주간 루프 | `docs/CORE_LOOP_V2.md`, `content/meta/demo_core_loop_v2.json`, `docs/AP_REDESIGN.md`, `docs/GAME_RECOMPOSITION_PLAN.md` | 데모의 넓은 월간 약속·별도 세로 연락폰·관계 주도권, 기존 AP·Quiet/Echo 폴백 |
+| 선택·5장 결과 | `docs/CHOICE_CONSEQUENCE_SYSTEM.md` | 표현·기억·결정 선택, 영수증·사실·반복 패턴, 챕터 간 스노우볼과 엔딩 입력 |
 | 인과·장소·대화 채널 | `content/meta/story_rules.json`, `docs/STORY_CONSISTENCY_SYSTEM.md` | 선행조건, 통화/기억, 장면 전환 |
 | 관계·결혼 | `docs/ROMANCE_SYSTEM.md` | 호칭, 상호배타, 결혼·이별 |
 | 밸런스 | `docs/BALANCE.md`, `autoloads/GameState.gd` | 의도 밴드와 현재 실행값 |
@@ -56,6 +57,7 @@ Updated: 2026-08-03
 필수:
 
 - `docs/STORY_BIBLE.md`
+- `docs/CHOICE_CONSEQUENCE_SYSTEM.md`
 - `docs/STORY_CONSISTENCY_SYSTEM.md`
 - `content/meta/narrative_spine.json`
 - `content/meta/story_rules.json`

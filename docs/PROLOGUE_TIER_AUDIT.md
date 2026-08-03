@@ -36,13 +36,13 @@ story_flashforward → story_arrival → story_knee_door → story_knee_witness
 | 항목 | 계약(T1) | 실측 | 판정 |
 |---|---|---|---|
 | 체인 비트 | 최소 3, 상한 없음 | **11** | 통과 |
-| 대화 왕복 | 최소 8 | **11비트** | 통과 |
+| 대화 왕복 | 최소 8 | **11링크** | 통과 |
 | 선택점 | 2~3 이상 | **5** (`knee_choice` 3 · `last_payment_word` 3 · `dad` 2 · `goal` 3 · `meal` 2) | 통과 |
 | 결정 선택 | 최소 1 | `knee_choice`·`goal`이 플래그로 길을 닫는다 | 통과 |
 | 전용 배경 | 필수 | 6종 전부 등록, 크롭 재사용 없음 | 통과 |
 | 초상 연기 | 필수 | `father_past`·`father_home`·`player_*` 지정 | 통과 |
 | 장면 전용 오디오 | 필수 | `direction.amb`·`sting`이 7비트에만 있다 | **P1** |
-| 연출 키 | 필수 | **11비트 중 7만 보유** | **P1** |
+| 연출 키 | 필수 | **11링크 중 7만 보유** | **P1** |
 
 ### 비트별 결함
 

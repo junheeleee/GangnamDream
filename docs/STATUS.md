@@ -7,7 +7,7 @@
 > 전 구간 선택 그래프를 대화형으로 보려면:
 > `python3 tools/project_dashboard.py` → `build/project_dashboard.html`
 >
-> 생성 시각 · 커밋: `2026-08-03 13:48 UTC · 19021ae1`
+> 생성 시각 · 커밋: `2026-08-03 14:29 UTC · 52130f02`
 
 **개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.
 플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.
@@ -53,7 +53,7 @@
 |---|---:|---|
 | 사건 | 1,597 | KR 이벤트 전체 |
 | 선택 2+ 사건 | 1,491 | 판정 대상 |
-| 체인(장면) | 65 | 2비트 이상 |
+| 체인(장면) | 65 | 2링크 이상 |
 | 연출 보유 사건 | 155 | 전체의 9% |
 | 정답 선택 | 415 | 선택 2+ 사건의 27% |
 | 테마 우회 | 2,116 | UIStyle 밖 override |
@@ -62,7 +62,7 @@
 | 팔레트 밖 색 | 678 | 정본 12색 대비 |
 | 진입점 없는 스크립트 | 2 | 래칫 |
 | 서명 알려진 결함 | 5 | 악화만 실패 |
-| 1비트·무연출 사건 | 45 | 밀도 하한 미달 |
+| 1링크·무연출 사건 | 45 | 독립 노출 재검토 |
 
 ## 오더
 
@@ -71,7 +71,7 @@
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
 | `ORDER-74` | 신규 데모 지식·화자 계약 | 진행 | 완료된 UI 분리를 보존하며 27개 대화의 지식·화자 계약을 재개 |
-| `ORDER-75` | 24주 데모 전용 T1 정점 | 미착수 | P-3 승인. 기존 8선택/영수증 보존, 3비트·8턴·전용 자산 |
+| `ORDER-75` | 24주 데모 전용 T1 정점 | 미착수 | 기존 8방향 선택/영수증 보존, 한 번 진입하는 깊은 피날레·표현 선택·전용 자산 |
 
 ## 다섯 장 — 무엇을 열고 무엇을 닫는가
 
@@ -236,9 +236,9 @@
 
 체인 하나가 장면 하나다([`SCENE_TIER.md`](SCENE_TIER.md) §0).
 지금 짓고 있는 데모 구간만 그린다 — 전 구간 65체인은 HTML 쪽에서 본다.
-`⚠︎연출없음`은 `direction` 키가 없다는 뜻이고, 그 비트는 아직 끝나지 않았다.
+`⚠︎연출없음`은 `direction` 키가 없다는 뜻이고, 그 구현 링크는 아직 끝나지 않았다.
 
-<details><summary><b>1+1</b> — 1비트 · 선택점 1 (<code>arc_daeun_01_meet</code>)</summary>
+<details><summary><b>1+1</b> — 1링크 · 선택점 1 (<code>arc_daeun_01_meet</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -247,7 +247,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>전화</b> — 1비트 · 선택점 1 (<code>arc_father_01_call</code>)</summary>
+<details><summary><b>전화</b> — 1링크 · 선택점 1 (<code>arc_father_01_call</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -256,7 +256,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>일요일 저녁</b> — 1비트 · 선택점 1 (<code>arc_father_quiet_call</code>)</summary>
+<details><summary><b>일요일 저녁</b> — 1링크 · 선택점 1 (<code>arc_father_quiet_call</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -265,7 +265,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>첫 면접</b> — 2비트 · 선택점 2 (<code>arc_intro_01_meal</code>)</summary>
+<details><summary><b>첫 면접</b> — 2링크 · 선택점 2 (<code>arc_intro_01_meal</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -277,7 +277,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>새벽 두 시</b> — 1비트 · 선택점 1 (<code>arc_intro_03_sns</code>)</summary>
+<details><summary><b>새벽 두 시</b> — 1링크 · 선택점 1 (<code>arc_intro_03_sns</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -286,7 +286,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>옆방</b> — 2비트 · 선택점 2 (<code>arc_intro_04_hyunsu</code>)</summary>
+<details><summary><b>옆방</b> — 2링크 · 선택점 2 (<code>arc_intro_04_hyunsu</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -298,7 +298,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>접촉</b> — 1비트 · 선택점 1 (<code>arc_jiyeon_01_crash</code>)</summary>
+<details><summary><b>접촉</b> — 1링크 · 선택점 1 (<code>arc_jiyeon_01_crash</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -307,7 +307,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>또, 너</b> — 1비트 · 선택점 1 (<code>arc_jiyeon_02_store</code>)</summary>
+<details><summary><b>또, 너</b> — 1링크 · 선택점 1 (<code>arc_jiyeon_02_store</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -316,7 +316,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>쉬운 돈</b> — 1비트 · 선택점 1 (<code>arc_temptation_01</code>)</summary>
+<details><summary><b>쉬운 돈</b> — 1링크 · 선택점 1 (<code>arc_temptation_01</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -325,7 +325,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>지나간 자리</b> — 1비트 · 선택점 0 (<code>arc_temptation_clean</code>)</summary>
+<details><summary><b>지나간 자리</b> — 1링크 · 선택점 0 (<code>arc_temptation_clean</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -334,7 +334,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>빌려준 계좌의 반환 요청</b> — 1비트 · 선택점 1 (<code>arc_temptation_fallout</code>)</summary>
+<details><summary><b>빌려준 계좌의 반환 요청</b> — 1링크 · 선택점 1 (<code>arc_temptation_fallout</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -343,7 +343,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>강남 카페</b> — 10비트 · 선택점 6 (<code>cafe_00</code>)</summary>
+<details><summary><b>강남 카페</b> — 10링크 · 선택점 6 (<code>cafe_00</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -370,7 +370,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>도시시설운영단 작업표 요청</b> — 1비트 · 선택점 0 (<code>v2_city_service_work_sample_message</code>)</summary>
+<details><summary><b>도시시설운영단 작업표 요청</b> — 1링크 · 선택점 0 (<code>v2_city_service_work_sample_message</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -379,7 +379,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>카운터의 첫 새벽</b> — 1비트 · 선택점 0 (<code>v2_convenience_trial_shift</code>)</summary>
+<details><summary><b>카운터의 첫 새벽</b> — 1링크 · 선택점 0 (<code>v2_convenience_trial_shift</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -388,7 +388,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>못 한 인사</b> — 1비트 · 선택점 1 (<code>v2_daeun_return_after_distance</code>)</summary>
+<details><summary><b>못 한 인사</b> — 1링크 · 선택점 1 (<code>v2_daeun_return_after_distance</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -397,7 +397,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>이번에는 먼저</b> — 1비트 · 선택점 1 (<code>v2_daeun_return_named</code>)</summary>
+<details><summary><b>이번에는 먼저</b> — 1링크 · 선택점 1 (<code>v2_daeun_return_named</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -406,7 +406,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>다음 화요일</b> — 1비트 · 선택점 1 (<code>v2_daeun_small_commitment</code>)</summary>
+<details><summary><b>다음 화요일</b> — 1링크 · 선택점 1 (<code>v2_daeun_small_commitment</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -415,7 +415,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>한마디 더</b> — 1비트 · 선택점 1 (<code>v2_daeun_third_greeting</code>)</summary>
+<details><summary><b>한마디 더</b> — 1링크 · 선택점 1 (<code>v2_daeun_third_greeting</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -424,7 +424,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>약속한 화요일</b> — 1비트 · 선택점 1 (<code>v2_daeun_tuesday_followthrough</code>)</summary>
+<details><summary><b>약속한 화요일</b> — 1링크 · 선택점 1 (<code>v2_daeun_tuesday_followthrough</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -433,7 +433,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>이번 주에 끝낼 한 가지</b> — 1비트 · 선택점 1 (<code>v2_demo_first_bill</code>)</summary>
+<details><summary><b>이번 주에 끝낼 한 가지</b> — 1링크 · 선택점 1 (<code>v2_demo_first_bill</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -442,7 +442,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>도담고객센터 채용 결과</b> — 1비트 · 선택점 0 (<code>v2_dodam_result_message</code>)</summary>
+<details><summary><b>도담고객센터 채용 결과</b> — 1링크 · 선택점 0 (<code>v2_dodam_result_message</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -451,7 +451,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>비워 둔 일요일</b> — 1비트 · 선택점 0 (<code>v2_empty_sunday</code>)</summary>
+<details><summary><b>비워 둔 일요일</b> — 1링크 · 선택점 0 (<code>v2_empty_sunday</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -460,7 +460,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>최씨 아저씨의 메시지</b> — 1비트 · 선택점 1 (<code>v2_father_health_signal</code>)</summary>
+<details><summary><b>최씨 아저씨의 메시지</b> — 1링크 · 선택점 1 (<code>v2_father_health_signal</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -469,7 +469,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>강남역 저녁 산책</b> — 1비트 · 선택점 1 (<code>v2_gangnam_receipt_walk</code>)</summary>
+<details><summary><b>강남역 저녁 산책</b> — 1링크 · 선택점 1 (<code>v2_gangnam_receipt_walk</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -478,7 +478,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>한빛유통 1차 면접</b> — 1비트 · 선택점 1 (<code>v2_hanbit_interview</code>)</summary>
+<details><summary><b>한빛유통 1차 면접</b> — 1링크 · 선택점 1 (<code>v2_hanbit_interview</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -487,7 +487,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>한빛유통 채용 연락</b> — 1비트 · 선택점 1 (<code>v2_hanbit_offer_message</code>)</summary>
+<details><summary><b>한빛유통 채용 연락</b> — 1링크 · 선택점 1 (<code>v2_hanbit_offer_message</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -496,7 +496,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>시험 전 마지막 문제</b> — 1비트 · 선택점 1 (<code>v2_hyunsu_exam_eve</code>)</summary>
+<details><summary><b>시험 전 마지막 문제</b> — 1링크 · 선택점 1 (<code>v2_hyunsu_exam_eve</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -505,7 +505,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>먼저 보낸 메시지</b> — 2비트 · 선택점 1 (<code>v2_hyunsu_player_reachout</code>)</summary>
+<details><summary><b>먼저 보낸 메시지</b> — 2링크 · 선택점 1 (<code>v2_hyunsu_player_reachout</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -516,7 +516,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>같은 시간</b> — 1비트 · 선택점 1 (<code>v2_hyunsu_study_followup</code>)</summary>
+<details><summary><b>같은 시간</b> — 1링크 · 선택점 1 (<code>v2_hyunsu_study_followup</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -525,7 +525,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>나흘째 바코드</b> — 1비트 · 선택점 0 (<code>v2_inventory_count_nights</code>)</summary>
+<details><summary><b>나흘째 바코드</b> — 1링크 · 선택점 0 (<code>v2_inventory_count_nights</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -534,7 +534,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>10년 만의 메시지</b> — 1비트 · 선택점 1 (<code>v2_jaehyuk_message</code>)</summary>
+<details><summary><b>10년 만의 메시지</b> — 1링크 · 선택점 1 (<code>v2_jaehyuk_message</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -543,7 +543,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>포장마차에서 다시</b> — 1비트 · 선택점 1 (<code>v2_jaehyuk_plain_reunion_echo</code>)</summary>
+<details><summary><b>포장마차에서 다시</b> — 1링크 · 선택점 1 (<code>v2_jaehyuk_plain_reunion_echo</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -552,7 +552,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>같은 동네 큰길</b> — 1비트 · 선택점 1 (<code>v2_jiyeon_second_crossing</code>)</summary>
+<details><summary><b>같은 동네 큰길</b> — 1링크 · 선택점 1 (<code>v2_jiyeon_second_crossing</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -561,7 +561,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>입출고표의 빈칸</b> — 1비트 · 선택점 0 (<code>v2_logistics_class_session</code>)</summary>
+<details><summary><b>입출고표의 빈칸</b> — 1링크 · 선택점 0 (<code>v2_logistics_class_session</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -570,7 +570,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>미래산업기술 채용 결과</b> — 1비트 · 선택점 0 (<code>v2_mirae_result_message</code>)</summary>
+<details><summary><b>미래산업기술 채용 결과</b> — 1링크 · 선택점 0 (<code>v2_mirae_result_message</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -579,7 +579,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>네 번째 집 앞</b> — 1비트 · 선택점 0 (<code>v2_moving_crew_days</code>)</summary>
+<details><summary><b>네 번째 집 앞</b> — 1링크 · 선택점 0 (<code>v2_moving_crew_days</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -588,7 +588,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>두 번째 믹스커피</b> — 1비트 · 선택점 1 (<code>v2_sangchul_demo_echo</code>)</summary>
+<details><summary><b>두 번째 믹스커피</b> — 1링크 · 선택점 1 (<code>v2_sangchul_demo_echo</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -597,7 +597,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>방 보러 간 날</b> — 4비트 · 선택점 2 (<code>v2_sangchul_housing_lead</code>)</summary>
+<details><summary><b>방 보러 간 날</b> — 4링크 · 선택점 2 (<code>v2_sangchul_housing_lead</code>)</summary>
 
 ```mermaid
 flowchart TD
@@ -613,7 +613,7 @@ flowchart TD
 
 </details>
 
-<details><summary><b>서린물산 채용 결과</b> — 1비트 · 선택점 0 (<code>v2_seorin_result_message</code>)</summary>
+<details><summary><b>서린물산 채용 결과</b> — 1링크 · 선택점 0 (<code>v2_seorin_result_message</code>)</summary>
 
 ```mermaid
 flowchart TD

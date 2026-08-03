@@ -60,7 +60,7 @@
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
 | 1 | [~] | ORDER-74 · 신규 데모 지식·화자 계약 | [ORDER-74](queue_active/ORDER-74.md) | 완료된 UI 분리를 보존하며 27개 대화의 지식·화자 계약을 재개 |
-| 2 | [ ] | ORDER-75 · 24주 데모 전용 T1 정점 | [ORDER-75](queue_active/ORDER-75.md) | P-3 승인. 기존 8선택/영수증 보존, 3비트·8턴·전용 자산 |
+| 2 | [ ] | ORDER-75 · 24주 데모 전용 T1 정점 | [ORDER-75](queue_active/ORDER-75.md) | 기존 8방향 선택/영수증 보존, 한 번 진입하는 깊은 피날레·표현 선택·전용 자산 |
 
 ### ORDER-75 뒤의 데모 출시선
 
@@ -86,7 +86,8 @@
   [64](queue_backlog/ORDER-64.md), [66](queue_backlog/ORDER-66.md),
   [67](queue_backlog/ORDER-67.md)
 - 데모 뒤 25~240주: [60](queue_backlog/ORDER-60.md),
-  [65](queue_backlog/ORDER-65.md), `ORDER-64` 전 자산 확산, `ORDER-67` 나머지 구조화
+  [65](queue_backlog/ORDER-65.md), [77](queue_backlog/ORDER-77.md),
+  `ORDER-64` 전 자산 확산, `ORDER-67` 나머지 구조화
 - 열린 사람 판정과 정확한 scope/RC/표본/합격 기준은
   [`human_gates.json`](human_gates.json)만 소유한다. 실행 큐에 사람 게이트 전용
   가짜 오더를 남기지 않는다.

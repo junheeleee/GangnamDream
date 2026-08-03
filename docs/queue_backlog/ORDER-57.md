@@ -637,7 +637,7 @@ decline` 한영 8필드, `allowed_weeks`, `decline_consequence`와 소비자,
 `ORDER-60` 배치 2가 실측했다. **V2 도달 이벤트 43개 중 39개에 `direction`이
 없다(91%).** `core_loop_v2_events.json`의 신규 집필 16개는 **전부 0**이고,
 가진 것은 `first_temptation_boss`와 `sangchul_world_meet` 계열 넷뿐이다.
-프롤로그가 11비트 중 7을 가진 것과 대비된다 — **새로 쓴 구간일수록 연출이 없다.**
+프롤로그가 11링크 중 7을 가진 것과 대비된다 — **새로 쓴 구간일수록 연출이 없다.**
 
 `SCENE_TIER`가 T1·T2에 요구하는 계약이고 렌더러는 이미 있다. 능력이 아니라
 누락이므로 E 안에서 채운다.
