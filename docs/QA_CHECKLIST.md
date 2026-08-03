@@ -4,6 +4,55 @@ Use this checklist before major commits, playable builds, and release candidates
 
 Cross-discipline release gates and current product risks live in `docs/MASTER_RELEASE_AUDIT.md`.
 
+## Release Content Survey / Rating Intake Gate
+
+- `content/meta/release_content_inventory.json` is the machine ledger and
+  `docs/CONTENT_RATING_INVENTORY.md` is its generated reviewer view. Run
+  `python3 tools/release_content_inventory.py`; report freshness, bilingual
+  event/ending evidence, export presets, content fingerprints, runtime online
+  APIs, and the Steam AI draft must agree. Run `--self-test` to prove the
+  mutation gates before closing inventory changes.
+- Every row must identify owner/evidence, expression intensity, and all three
+  scopes: `24-week V2 reachable`, `240-week full reachable`, and `included in
+  package but currently unreachable`. Missing ownership, reachability, package
+  state, or intensity is a release failure.
+- All current export presets use `all_resources`. Source reachability does not
+  prove package absence. Inspect real full and V2 pack ZIPs with:
+
+```bash
+python3 tools/release_content_inventory.py \
+  --pack-zip retail_full=build/qa/release_content_inventory/full.zip \
+  --pack-zip v2_playtest=build/qa/release_content_inventory/v2.zip
+```
+
+- Review gambling, sexuality, violence, fear, language, crime,
+  alcohol/tobacco/drugs, generative AI, and online features. The AI disclosure
+  must include actual pre-generated assistance in some 2D art, narrative,
+  English localization, programming/code, and audio source selection, editing,
+  arrangement, and mixing. Audio source waveforms remain recordings or recorded
+  real-instrument samples, not text-to-audio or code synthesis. Do not turn that
+  source fact into a false denial of AI-assisted audio production. Final human
+  review and no runtime generation/external AI service stay exact.
+- The current runtime is offline single-player. Network APIs, multiplayer,
+  chat, remote UGC, telemetry, real-money payment, and live AI remain zero. One
+  `OS.shell_open` may leave the game for the Steam wishlist/store page; local
+  data-only mods under `user://mods/` are not an online feature.
+- Official public references were checked 2026-08-03: [Steamworks Content
+  Survey](https://partner.steamgames.com/doc/gettingstarted/contentsurvey?l=english),
+  [게임물관리위원회 등급분류규정](https://www.law.go.kr/LSW/schlPubRulInfoP.do?chrClsCd=&schlPubRulSeq=2200000127949),
+  [게임콘텐츠등급분류위원회 이용안내](https://www.gcrb.or.kr/Images/usingGuide/using_guide_01.html),
+  and the [게임산업진흥에 관한 법률](https://www.law.go.kr/LSW/lsInfoP.do?lsId=010196).
+  Steam requires uploaded mature content to be disclosed even when inaccessible;
+  its survey does not replace the Korean evidence pass.
+- Public pages are not a verbatim copy of every partner-only form. Before each
+  submission, capture the live form, record its version and candidate build,
+  and reconcile every answer with the inventory. Automation must never choose
+  a final age rating, delete content, or change export filtering; those remain
+  `user_required`. This checklist is not legal advice.
+- Rating/submission disclosure is not store marketing. Do not expose Moral Tint,
+  hidden endings, betrayal outcomes, or other discovery-hidden material beyond
+  what the platform or rating submission actually requires.
+
 ## Controller / Steam Deck Release Gate
 - Controller support is a release gate, not a polish extra. See `docs/CONTROLLER_UX_STRATEGY.md`.
 - Focus traversal is the last resort, not the default controller model. Gameplay uses direct contextual actions or a semantic mode/cursor; focus is reserved for settings and short conventional lists.
@@ -39,7 +88,7 @@ Cross-discipline release gates and current product risks live in `docs/MASTER_RE
 | Quiet-week compression and readable consequence contract: no-information Quiet weeks render no card or fixed delay while preserving economy/axes/calendar; meaningful Echo/bridge/result cards remain for explicit confirmation; month summaries clear stale weekly layers; the family notebook motive is literal and matched in KO/EN/JA; `WAVE` and `ECHO` remain distinct; fast-forward QA inputs are measured separately from required player inputs | `MotivationImprintCheck.tscn`, `ImmersionLoopCheck.tscn`, `--qa=motivation-imprint --lang=ko/en/ja`, `--qa=immersion-loop --lang=ko/en/ja`, then `--qa=demo-gamepad --lang=ko --pad=playstation --demo-build` and `--qa=full-gamepad --lang=en --pad=xbox` |
 | Ten-slot manual saves: autosave/v3 compatibility, StoryMode prose/choice/result/timer resume, effect-once restoration, two five-row 960×600 pages, and local chapter-start fixtures at weeks 1/49/97/145/193 | `ManualSaveCheck.tscn`, then `--qa=full-gamepad --lang=ko --pad=playstation --write-chapter-saves` when regenerating slots 6–10 |
 | Six-month audio dramaturgy: Knee family-home identity, uninterrupted family motif, paragraph foley, audible default room/human mix, exact goshiwon/convenience/office/hospital source identity, ten demo music keys, maximum one unscored root, KO/EN parity | `audio_source_audit.py`, `scene_audio_catalog.py`, `AudioAssetCheck.tscn`, `BGMContinuityCheck.tscn`, `GameAudioContractCheck.tscn`, then `--qa=demo-experience --lang=ko/en --demo-build` and `python3 tools/demo_experience_audit.py <ko.json> <en.json>` |
-| Full-run audio ownership: all 1,581 events have one explicit intent, all 91 registered backgrounds have a reviewed profile, no localized prose inference or room fallback, two KO/EN representative 240-week traces cover five chapters, seven activities, and two endings | `python3 tools/scene_audio_catalog.py`, `python3 tools/full_run_audio_audit.py --output-dir build/qa/full_run_audio`, `BGMContinuityCheck.tscn`, then chapter-by-chapter human listening on headphones, laptop speakers, and living-room TV |
+| Full-run audio ownership: all 1,597 events have one explicit intent, all 93 registered backgrounds have a reviewed profile, no localized prose inference or room fallback, two KO/EN representative 240-week traces cover five chapters, seven activities, and two endings | `python3 tools/scene_audio_catalog.py`, `python3 tools/full_run_audio_audit.py --output-dir build/qa/full_run_audio`, `BGMContinuityCheck.tscn`, then chapter-by-chapter human listening on headphones, laptop speakers, and living-room TV |
 | Last-payment public office: `public_office` room tone, recorded queue ding-dong only after choice 0 result paragraph 0 begins, no waiting-description/locale-switch/result-rerender replay, provenance and stream present | `python3 tools/audio_source_audit.py`, `python3 tools/scene_audio_contract_check.py`, then `BGMContinuityCheck.tscn` |
 | Opening job causality: cash-first and preparation-first submit no application and receive no week-two interview; job-first records exactly one application, never interviews in the same week, unlocks the Mapo interview only later while unemployed, and preserves post-interview `Keep Applying` | `CoreChoiceSliceCheck.tscn` plus `DemoBuildCheck.tscn -- --demo-build` |
 | V2 release playtest flavor: three presets carry exactly `gangnam_demo,core_loop_v2_playtest`; retail/legacy Demo presets carry no playtest feature; release playtest exposes one dedicated 24-week entry while retail release exposes zero; window/title/global marker never lose flavor; settings, display, meta, autosave, and ten slots have a 14-path retail/playtest intersection of zero; no cross-flavor migration or fallback; `runtime_default=false` remains retail-owned | `PlaytestFlavorCheck.tscn -- --demo-build --core-loop-v2-playtest-build`, then `build.sh playtest`, native no-argument artifact boot, and KO/EN marker/entry inspection |
@@ -220,7 +269,7 @@ Automated art-quality gate:
 
 - `tools/art_ai_audit.py` derives the active CG, portrait, and background paths from `ImageRegistry`; no hand-maintained inventory may silently omit a runtime asset.
 - `tools/art_resolution_audit.py` measures those same active paths against 1080p and 4K cover targets and compares them with `tools/art_resolution_baseline.json`. A new/stale path, changed target contract, changed kind, or lower width/height fails `tools/audit.sh`; a larger replacement is allowed.
-- The current baseline is 195 active rasters: 59 CGs, 57 portraits, and 79 backgrounds. Fifty-seven portraits plus the promoted goshiwon hallway are native at their authored 1080p targets; the hallway is the first native 4K active raster, and 137 remaining full-screen CG/background files still require 3x enlargement.
+- The current baseline is 246 active rasters: 74 CGs, 90 portraits, and 82 backgrounds. Ninety-one meet the authored native-1080 target, 33 are native 4K, and 155 remain in the heavy/severe 4K enlargement band. This is a dimension contract, not a final face/hand/continuity or living-room verdict.
 - `docs/ART_RESOLUTION_READINESS.md` prioritizes 52 P0 assets from the real KO/EN 24-week demo profile, the executable Steam store capture contract, and A-or-higher endings. This priority report guides production; it does not turn dimensions into a human quality verdict.
 - `tools/art_master_audit.py` gates only promoted masters listed in `tools/art_master_manifest.json`. The current pilot is `goshiwon_hallway`: full-frame Real-ESRGAN, three approved 100% crops, and exact source/output/tool/model hashes. It does not approve blind upscaling for actors, hands, lettering, mirrors, or recurring props.
 - Every active path must have exactly one row and its reviewed file hash in `docs/ART_AI_AUDIT.md`; duplicate rows, changed hashes, and `FAIL` or `PENDING` verdicts fail `tools/audit.sh`.
@@ -385,8 +434,8 @@ Automated input and display gates:
 
 ## Scene Direction / Full-Run Motion
 
-- `scene_direction_catalog.py` reports 1,581 events, 169 authored edges,
-  91 backgrounds, seven activities, and 35 endings with zero missing contracts.
+- `scene_direction_catalog.py` reports 1,597 events, 169 authored edges,
+  93 backgrounds, seven activities, and 35 endings with zero missing contracts.
 - `full_run_direction_audit.py` traces orthodox/people and Black-risk routes in
   KO/EN for 960 scheduled weeks without language-dependent direction drift.
 - `SceneDirectionCheck.tscn` and `LivingSceneCheck.tscn` reject same-location

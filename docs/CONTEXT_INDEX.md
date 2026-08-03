@@ -42,6 +42,7 @@ Updated: 2026-08-03
 | 오디오 | `assets/game_audio_manifest.json`, `assets/scene_audio_manifest.json`, `assets/audio/AUDIO_SOURCE_MANIFEST.json`, `docs/AUDIO_QA.md` | 키, 장면 배선, 출처, 청취 |
 | UI·입력 | `docs/UI_ART_DIRECTION.md`, `docs/CONTROLLER_UX_STRATEGY.md`, `docs/INPUT_MATRIX.md` | 표면, 포커스, 패드, 해상도 |
 | QA·출시 | `docs/MASTER_RELEASE_AUDIT.md`, `docs/QA_CHECKLIST.md`, `docs/BUILD_PIPELINE.md` | 출시 차단 게이트 |
+| 심의·콘텐츠 설문 | `content/meta/release_content_inventory.json`, `docs/CONTENT_RATING_INVENTORY.md` | 패키지 포함 범위, 24주/240주 도달성, 내용 축, 생성형 AI·온라인 사실 |
 | Steam·마케팅 | `docs/STEAM_PAGE.md`, `docs/STORE_SHOTLIST.md`, `docs/TRAILER_PRODUCTION.md` | 외부 판매 표면 |
 | 최신 결정 이유 | `docs/DECISIONS.md` | 날짜순 결정 원장, 필요한 절만 검색 |
 | 작업 증거 | `docs/WORK_LOG.md`, `docs/history/` | 최근 결과와 과거 원문 |
@@ -158,12 +159,18 @@ V2 사람 GO 전까지 삭제하거나 전 구간에 확산하지 않는다.
 - `docs/MASTER_RELEASE_AUDIT.md`
 - `docs/QA_CHECKLIST.md`
 - `docs/BUILD_PIPELINE.md`
+- `content/meta/release_content_inventory.json`
+- `docs/CONTENT_RATING_INVENTORY.md`
 
 조건부:
 
 - Next Fest: `docs/NEXTFEST_CHECKLIST.md`
 - 외부 테스트: `docs/PLAYTEST_KIT.md`, `docs/DEMO_FIXLOG.md`
 - Steam 표면: `docs/STEAM_PAGE.md`, `docs/STORE_SHOTLIST.md`
+
+심의·설문에서는 `24주 V2 도달 / 240주 본편 도달 / 패키지 포함·현재 비도달`을
+합치지 않는다. 보고서는 사실 근거를 라우팅할 뿐 최종 연령 등급·삭제·export
+필터를 결정하지 않으며, 제출 시점의 실제 파트너·심의 화면을 다시 확인한다.
 
 ## 기록 규칙
 

@@ -25,6 +25,30 @@
       ]
     },
     {
+      "tool": "tools/release_content_inventory.py",
+      "why": "출시 preset·패키지 포함 범위·심의 축·AI/온라인 공시의 재현 가능한 사실 원장",
+      "paths": [
+        "export_presets.cfg",
+        "content/events/**",
+        "content/endings*.json",
+        "content/meta/demo_core_loop_v2.json",
+        "content/meta/event_director.json",
+        "content/meta/narrative_spine.json",
+        "content/meta/release_content_inventory.json",
+        "assets/**",
+        "autoloads/**",
+        "systems/**",
+        "scenes/**",
+        "docs/ART_AI_AUDIT.md",
+        "docs/AUDIO_QA.md",
+        "docs/CONTENT_RATING_INVENTORY.md",
+        "docs/DECISIONS.md",
+        "docs/STEAM_PAGE.md",
+        "tools/build_sample_audio_assets.py",
+        "tools/release_content_inventory.py"
+      ]
+    },
+    {
       "tool": "tools/context_manifest_check.py",
       "why": "부팅 예산·정본 분류·내부 링크",
       "paths": [

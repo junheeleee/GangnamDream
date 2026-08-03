@@ -1,6 +1,6 @@
 # Gangnam Dream Master Release Audit
 
-Updated: 2026-07-30
+Updated: 2026-08-03
 
 ## Mission
 
@@ -34,22 +34,65 @@ passes a normal-speed 75–95-minute play, physical Steam Deck/DualSense input,
 continuous headphone/laptop/TV A/V review, external comprehension and a human
 desire-to-continue verdict.
 
+## Release Content Inventory Gate
+
+The machine-readable owner is `content/meta/release_content_inventory.json`;
+the generated reviewer view is `docs/CONTENT_RATING_INVENTORY.md`. Every release
+candidate must keep three scopes separate: content reachable in the 24-week V2
+demo, content reachable in the 240-week full game, and content included in the
+uploaded package but not currently reachable in that build. The current ten
+export presets all use `all_resources`, so an inaccessible scene or minigame is
+not absent from a V2 package merely because the demo route cannot enter it.
+
+The ledger covers gambling, sexuality, violence, fear, language, crime,
+alcohol/tobacco/drugs, generative AI, and online features. Every material fact
+must name an owner, evidence, reachability, package inclusion, and expression
+intensity. A full and V2 export-pack ZIP smoke must prove the complete packaged
+event, ending, ledger, and 284-raster import inventories independently of
+source-tree scans. The current technology baseline is
+offline single-player: no runtime networking, multiplayer, chat, remote UGC,
+telemetry, real-money payment, or live AI; one `OS.shell_open` leaves the game
+for a Steam wishlist/store URL, and data-only mods read local `user://mods/`
+files.
+
+Official public references, checked 2026-08-03:
+
+- [Steamworks Content Survey](https://partner.steamgames.com/doc/gettingstarted/contentsurvey?l=english)
+- [Game Rating and Administration Committee rating rules](https://www.law.go.kr/LSW/schlPubRulInfoP.do?chrClsCd=&schlPubRulSeq=2200000127949)
+- [Game Content Rating Board guide](https://www.gcrb.or.kr/Images/usingGuide/using_guide_01.html)
+- [Game Industry Promotion Act](https://www.law.go.kr/LSW/lsInfoP.do?lsId=010196)
+
+Steam's public guide divides the survey into General Content, Mature Content,
+and Generative AI, and says uploaded adult content must be disclosed even when
+it is inaccessible or unpresented. The Korean public rules and guide require a
+separate evidence pass across sexuality, violence, fear, language, drugs
+(including alcohol and tobacco), crime, and gambling. A Steam answer does not
+automatically satisfy Korean classification.
+
+Public pages do not expose every partner-only prompt and do not determine this
+game's final age rating. Before submission, the owner must capture the live
+partner/rating form, record its version and exact candidate build, and reconcile
+it with the ledger. Final rating, deletion, and export-filter decisions remain
+`user_required`; this audit is factual evidence, not legal advice. Required
+survey disclosure also does not authorize store-page spoilers: the discovery-
+hidden marketing rules in `docs/STEAM_PAGE.md` remain intact.
+
 ## Baseline Inventory
 
 | Surface | Current baseline | What the number does not prove |
 |---|---:|---|
-| KO events | 1,565 | Consistent prose, reachability, pacing, or relevance |
-| EN event overlays | 1,565 | Native English voice or cultural clarity |
-| Choices per language | 3,447 | Meaningful tradeoffs or delayed consequence |
+| KO events | 1,597 | Consistent prose, reachability, pacing, or relevance |
+| EN event overlays | 1,597 | Native English voice or cultural clarity |
+| Choices per language | 3,506 | Meaningful tradeoffs or delayed consequence |
 | Endings | 35 | Distinct emotional payoff or bespoke presentation |
-| Explicit event/result CG links | 32 | Enough climax imagery for a commercial VN |
-| Background PNG assets | 79 | Canon continuity, physical logic, or correct event mapping |
-| Character portrait PNG assets | 62 | Flagship identity, expression coverage, or outfit continuity |
-| CG PNG files | 60 | Launch key moments and ending coverage |
-| Active raster resolution inventory | 195 | Native 4K quality, face/hand correctness, or TV viewing quality |
+| Event/result CG link instances | 40 | Enough climax imagery for a commercial VN; 38 owner events and 33 unique CG IDs |
+| Active background PNG assets | 82 | Canon continuity, physical logic, or correct event mapping |
+| Active character portrait PNG assets | 90 | Flagship identity, expression coverage, or outfit continuity |
+| Active CG PNG assets | 74 | Launch key moments and ending coverage |
+| Active raster resolution inventory | 246 | Native 4K quality, face/hand correctness, or TV viewing quality |
 | BGM / ambience / SFX | 20 / 49 / 70 | Loop fatigue, mix quality, dramatic taste, or human listening approval |
 | Achievements / easter eggs | 15 / 8 | Discovery quality or community conversation |
-| Screenshot QA scopes | 64 | Full-playthrough correctness or subjective fun |
+| Screenshot QA scopes | 78 | Full-playthrough correctness or subjective fun |
 
 The first parity audit found eight EN-only overlay rows. DataRegistry silently ignored them because no KO base event existed, so translated scenes appeared to ship while no player could reach them. They are now promoted to complete bilingual events with conditions and consequences, and EN-only dead overlays fail CI.
 
@@ -64,7 +107,7 @@ These are confidence bands, not review scores. Every band must be replaced by pl
 | Flagship character appeal | Developing | Portrait/CG outfit pairs, gaze contracts, scene-specific Minjun expressions, first-snow winter pairs, season-gated dates, and heroine-specific first-morning scenes now protect key heroine moments; general-cast seasonal coverage, leitmotifs, merchandise recall, and remaining T1/T2 work are incomplete |
 | Core weekly loop | Scene-first weekly commitment passes, fun unproven | The base calendar exposes 52 scheduled Decision/Boss weeks distributed 13/9/10/10/10, 21 Echoes, 20 blocking summaries, and a final week-240 ledger absorbed into the ending. AP remains an internal economy budget, but a direct week now hides the AP chip, portrait rail, calculation board, Seoul Trace, and separate Next Week command. The random director permits only reviewed foreground scenes and state-causal single-choice bridges. Korean PlayStation and English Xbox runs reach the same `with_daeun` ending after 240 weeks and 218 events, recover one actual causal bridge, and use zero keyboard/mouse input. This is reachability and consequence-legibility evidence rather than a fun pass |
 | Story architecture | Structural recomposition passed, Round 2 fun unproven | Seven demo sequences and a five-chapter causal spine now replace the original event-card schedule. Chapter 2 binds four causal sequences from the year ledger to the hospital door; Chapter 3 binds Jiyeon's distance, Jaehyuk's offer and consequence, Father's buried debt, and Minjun's changing definition of Gangnam across multiple weeks; Chapters 4-5 bind the guarantee bill, Hyunsu, Father visit/defer/KTX/passing/legacy, romance verdicts, and last signature. All 32 Tier-1 chains pass. Only a fresh human playthrough can overturn the user's narrative NO-GO |
-| Chapter pacing | Causal distribution implemented, late path still lean | Representative roots now distribute `28/25/26/16/13` and `30/24/32/23/15`, with zero isolated micro-scenes in all five chapters. The curated random foreground appears 28/25 times across the two paths with at least one window in every chapter. Chapter 1 holds eight chains, Chapter 2 four, Chapter 3 four temporal spines, and the late chapters preserve week-spanning body, family, relationship, and money consequences. Path A and Chapter 5 remain numerically lean; add no filler until recall and emotional carry are tested |
+| Chapter pacing | Causal distribution implemented, late path still lean | Representative roots now distribute `30/25/25/18/13` and `33/26/31/26/16`. Each route has one isolated Chapter-3 micro-scene; the curated random foreground appears 28/24 times with at least one window in every chapter. Chapter 1 holds eight chains, Chapter 2 four, Chapter 3 four temporal spines, and the late chapters preserve week-spanning body, family, relationship, and money consequences. Path A and Chapter 5 remain numerically lean; add no filler until recall and emotional carry are tested |
 | Choice consequence | Bounded path debt automated, human regret unproven | Generic forgone applications, relationships, rest, study, shifts, savings, and market windows now persist by action/person and disclose a bounded delayed cost before the path is reopened. Costs are consumed only after successful completion; cancellation is free, investment uses actual price movement, missed income is never deducted twice, and declining gambling is unpunished. Authored event consequence quality still varies, and only human replay can prove regret rather than bookkeeping |
 | Strategy /攻略 readability | Weak | The player cannot yet explain a viable 3B plan, risk bands, or why one run failed without external knowledge |
 | Balance | Technically stable | Fixed policy simulations pass current bands; human fun, exploitability, and difficulty perception remain unverified |
@@ -73,9 +116,9 @@ These are confidence bands, not review scores. Every band must be replaced by pl
 | UI/UX | Developing, direct weekly surface improved | StoryMode and direct weeks now share a restrained scene-first hierarchy: body copy is shadow-free, semantic text has 1px ink contact, and three choice surfaces use a 1px rest/2px focus/1px press contract across 720p, Deck, and 1080p. Direct weeks no longer return to a web-like AP dashboard, while the ending report remains a six-stage fullscreen controller sequence. MainGame still exposes 22 `_open_*` surfaces plus seven page renderers; People, gambling, routine, and Info Deck remain broader web/list debt |
 | Controller / Steam Deck | Developing, two full automated routes proven | Brand-aware physical-position glyphs, shared keyboard/gamepad verbs, 18 direct casino/race routes, nine keyboard core minigame tasks, keyboard-only/mouse-only demo completion, and KO PlayStation/EN Xbox title-to-ending 240-week routes are gated. The full pad routes use zero keyboard/mouse input, perform the real first-week Job Hunt, consume all granted AP, enter all five chapters, and end as `with_daeun`. Physical Steam Deck/DualSense/Switch Pro hand feel, reconnect, suspend/resume, and overlay tests remain |
 | Display / console readiness | Developing, automated layout matrix passed | Korean PlayStation and English Xbox runs now cover 960x600, 720p, 1280x800, 1600x900, 1080p, QHD, 4K, and 3440x1440. Sixteen real renders preserve exact output dimensions, TV-safe settings/AP/story controls, active focus, and distortion-free cover framing; 1080p adds all three glyph families. Physical handheld/TV checks, sofa-distance readability, suspend/resume, and certification remain. Sampled AP/world/romance art is still sourced at 1280x800, so 4K layout readiness is not native-raster readiness |
-| Image quality / continuity | Developing, first P0 4K master passed | Background/portrait separation, romance outfit pairs, spatial bibles, 59 active CG and 235 locked event visual contracts gate high-risk scenes. The 195-raster ledger blocks path and dimension regressions. `goshiwon_hallway` is the first native 4K active raster: official-tool/model/input/output hashes, full-frame inference, three 100% A/B crops, KO/EN 1080p and EN 4K runtime frames all pass. Fifty-one P0 masters and 137 full-screen 3x enlargements remain. Dimensions and one clean environment do not certify faces, hands, continuity, or physical TV viewing quality; those remain production and human gates |
-| Audio identity | Developing, full catalog automated | All 139 files are recording/sample-backed and source-audited. Every one of 1,581 KO/EN events has one explicit audio intent, all 91 registered backgrounds have reviewed ambience profiles, and two deterministic KO/EN 240-week route traces cover five chapters, seven activities, and two ending families. Runtime prose inference and the universal room fallback are removed. Long-session taste, fatigue, mix balance, memorable identity, chapter-boss arrangements, and headphones/laptop/TV listening proof remain human gates |
-| Motion / game feel | Developing, full direction catalog automated; human feel unproven | One generated ledger now classifies 1,581 events, 169 authored edges, 91 backgrounds, seven activities, and 35 endings. StoryMode, MainGame, LivingSceneLayer, and the audio catalog consume explicit location/time/channel contracts instead of localized-prose or hash inference. Two title-to-ending KO/EN pad runs traverse 218 events with runtime intent counts `explicit_move 140 / same_location 27 / remote 17 / time_cut 22 / none 6 / finale 6`; Reduce Motion removes camera travel. Input feel, repetition, transition timing, physical Deck hitching, and emotional tension still require normal-reading human replay |
+| Image quality / continuity | Developing, first P0 4K master passed | Background/portrait separation, romance outfit pairs, spatial bibles, 74 active CGs and 308 locked event visual contracts gate high-risk scenes. The 246-raster ledger blocks path and dimension regressions; 91 meet native 1080, 33 are native 4K, and 155 remain in the heavy/severe 4K enlargement band. `goshiwon_hallway` retains its official-tool/model/input/output hashes, full-frame inference, three 100% A/B crops, KO/EN 1080p and EN 4K runtime proof. Dimensions and one clean environment do not certify faces, hands, continuity, or physical TV viewing quality; those remain production and human gates |
+| Audio identity | Developing, full catalog automated | All 139 files are recording/sample-backed and source-audited. Every one of 1,597 KO/EN events has one explicit audio intent, all 93 registered backgrounds have reviewed ambience profiles, and two deterministic KO/EN 240-week route traces cover five chapters, seven activities, and two ending families. Runtime prose inference and the universal room fallback are removed. Long-session taste, fatigue, mix balance, memorable identity, chapter-boss arrangements, and headphones/laptop/TV listening proof remain human gates |
+| Motion / game feel | Developing, full direction catalog automated; human feel unproven | One generated ledger now classifies 1,597 events, 169 authored edges, 93 backgrounds, seven activities, and 35 endings. StoryMode, MainGame, LivingSceneLayer, and the audio catalog consume explicit location/time/channel contracts instead of localized-prose or hash inference. Automated KO/EN title-to-ending routes exercise the runtime direction owners and Reduce Motion removes camera travel. Input feel, repetition, transition timing, physical Deck hitching, and emotional tension still require normal-reading human replay |
 | Moral Tint impact | Promising, partially embodied | Five KO/EN anchor scenes carry one hidden attention grammar from Daeun's cafe through Sangchul, Gangnam, Father, and the final countdown. Band crossings return to one canonical goshiwon/black-crewneck memory frame, identical result cards change attention order, and Gray now stays legibly distinct from both Black collapse and White recovery on naturally dark locations. Portrait distance, surface, lived ambience, and two non-jingle attention cues support the shift; a complete neutral-to-White/Black blind run still has not proven players notice it without explanation |
 | Endings | Presentation gate passed, human impact unproven | Thirty-five save-compatible outcomes and eighteen explicit final-CG routes now end in six opaque controller-native stages: scene beats first, then credits, cast aftermath, Time Ledger, run record, and unlocks. Grade, assets, and turn count are absent from the first scene; the Jiyeon drawer cut follows credits. KO/EN title-to-ending pad routes traverse every stage, but external players must still prove recall, satisfaction, and shareability across multiple ending families |
 | Stability / save integrity | Good automated baseline | Audit, compile, language, balance, asset, tutorial input-leak, and two title-to-ending 240-week controller routes pass. The full runs repaired the week-240 termination gap and same-week authored-root drain; full branch/save migration and long-session soak remain |
@@ -84,6 +127,8 @@ These are confidence bands, not review scores. Every band must be replaced by pl
 ## 2026-07-17 Whole-Game Structure Baseline
 
 The reproducible source is `python3 tools/game_structure_audit.py`; the design response is `docs/GAME_RECOMPOSITION_PLAN.md`.
+
+This dated table is a frozen historical baseline. The current inventory is the table above; do not copy these 2026-07-17 counts into a release submission.
 
 | Measured surface | Baseline | Release implication |
 |---|---:|---|

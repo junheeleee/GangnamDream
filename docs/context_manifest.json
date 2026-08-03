@@ -108,6 +108,10 @@
       "docs/QA_CHECKLIST.md",
       "docs/BUILD_PIPELINE.md"
     ],
+    "release_content": [
+      "content/meta/release_content_inventory.json",
+      "docs/CONTENT_RATING_INVENTORY.md"
+    ],
     "store_marketing": [
       "docs/STEAM_PAGE.md",
       "docs/STORE_SHOTLIST.md",
@@ -219,7 +223,9 @@
       "required": [
         "docs/MASTER_RELEASE_AUDIT.md",
         "docs/QA_CHECKLIST.md",
-        "docs/BUILD_PIPELINE.md"
+        "docs/BUILD_PIPELINE.md",
+        "content/meta/release_content_inventory.json",
+        "docs/CONTENT_RATING_INVENTORY.md"
       ],
       "conditional": [
         "docs/NEXTFEST_CHECKLIST.md",
@@ -296,6 +302,7 @@
       "docs/ENDING_AUDIT.md",
       "docs/FUN_AUDIT_2026-07-20.md",
       "docs/MASTER_RELEASE_AUDIT.md",
+      "docs/CONTENT_RATING_INVENTORY.md",
       "docs/PEAK_SCENE_CHAIN_AUDIT.md",
       "docs/PROLOGUE_TIER_AUDIT.md",
       "docs/SCRIPT_REVIEW_2026-07-24.md",

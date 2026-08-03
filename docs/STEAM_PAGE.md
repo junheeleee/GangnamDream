@@ -1,6 +1,6 @@
 # 강남드림 Steam 스토어 페이지 정본
 
-> 최종 현행화: 2026-07-13. Steam 파트너 대시보드의 문구, 태그, 스크린샷은 이 문서를 기준으로 한다.
+> 최종 현행화: 2026-08-03. Steam 파트너 대시보드의 문구, 태그, 스크린샷은 이 문서를 기준으로 한다.
 > 과거 초안인 `docs/STORE_PAGE.md`는 사용하지 않는다.
 
 ## 1. 상품 정의
@@ -281,27 +281,53 @@ English:
 
 ## 12. 생성형 AI 공시 정본
 
-Steamworks의 [콘텐츠 설문 조사](https://partner.steamgames.com/doc/gettingstarted/contentsurvey?l=koreana)는 플레이어가 소비하는 아트·음향·서사·현지화 등에 AI 도구가 쓰였으면 사전 생성/실시간 생성을 구분해 자세히 적도록 요구한다. 강남드림은 **사전 생성만 사용**하며 게임 실행 중 AI 모델이나 외부 생성 서비스에 접속하지 않는다.
+Steamworks의 [Content Survey 공개 문서](https://partner.steamgames.com/doc/gettingstarted/contentsurvey?l=english)는 플레이어가 소비하는 출시 콘텐츠에 AI 도구가 쓰였으면 사전 생성과 실시간 생성을 구분해 자세히 적도록 요구한다(확인일 2026-08-03). 강남드림의 실제 제작 증거는 **사전 생성 보조만** 가리킨다. 일부 2D 아트·서사·영문 현지화·프로그래밍/코드와 오디오 제작의 소스 선별·편집·배열·믹싱이 해당한다. 출시 오디오 원음은 현장·사물 녹음 또는 녹음된 실악기 샘플이지만, 이 출처 사실을 오디오 제작 과정의 AI 보조를 숨기는 근거로 쓰지 않는다. 게임 실행 중 AI 모델을 구동하거나 외부 생성 서비스에 접속하지 않는다.
 
 ### Steam Content Survey - 한국어 초안
 
 ```text
-사전 생성 생성형 AI 도구가 일부 2D 배경, 캐릭터 초상화, 이벤트 CG의 초기 제작과 서사 초안 및 영문 현지화 보조에 사용되었습니다. 출시 빌드에 포함되는 모든 결과물은 개발자가 직접 선별·편집·수정하고 게임 안에서 검수했습니다. 이미지는 반복 인물의 얼굴과 의상, 손과 시선, 한국 공간의 구조, 이미지 안의 글자·상표, 색감과 크롭을 전수 확인했습니다. 서사와 현지화는 한국어/영어 의미 대응, 인물 말투, 조건·선택 결과와 화면 잘림을 검수했습니다. 게임 실행 중에는 생성형 AI 콘텐츠가 만들어지지 않으며 외부 AI 서비스에 접속하지 않습니다.
+사전 생성 생성형 AI 도구가 일부 2D 배경, 캐릭터 초상화, 이벤트 CG의 초기 제작과 서사 초안, 영문 현지화, 프로그래밍 및 코드 작성·수정, 오디오 제작의 소스 선별·편집·배열·믹싱에 보조로 사용되었습니다. 출시 빌드에 포함되는 AI 보조 결과물은 개발자가 선별·편집·수정했습니다. 활성 이미지는 반복 인물의 얼굴과 의상, 손과 시선, 한국 공간의 구조, 이미지 안의 글자·상표, 색감과 크롭을 원본 기준으로 전수 목록화·검사했습니다. 서사와 현지화는 한국어/영어 의미 대응, 조건·선택 결과를 전수 자동 검사하고 인물 말투와 화면 잘림을 대표 경로 실행으로 표본 검수했으며, 코드는 리뷰·정적 검사·자동 회귀 검사와 대표 실행으로 검증했습니다. 이는 모든 문안·코드 경로를 사람이 게임 안에서 전수 플레이했다는 뜻이 아닙니다. 출시 오디오의 원음은 AI 텍스트-투-오디오나 코드 합성 파형이 아니라 현장·사물 녹음 또는 녹음된 실악기 샘플입니다. 다만 AI가 오디오 제작 과정에 보조로 쓰였다는 사실은 공시 범위에 포함합니다. 게임 실행 중에는 생성형 AI 콘텐츠가 만들어지지 않으며 외부 AI 서비스에 접속하지 않습니다.
 ```
 
 ### Steam Content Survey - English draft
 
 ```text
-Pre-generated generative AI tools assisted with initial drafts of some 2D backgrounds, character portraits, event CGs, narrative text, and English localization. Every output included in the release build was selected, edited, corrected, and tested in-game by the developer. Visual review covers recurring character identity and wardrobe, hands and gaze, Korean spatial logic, embedded text and trademarks, grading, and crop safety. Narrative and localization review covers Korean-English meaning parity, character voice, conditions and choice consequences, and on-screen layout. The game does not generate AI content at runtime and does not connect to an external AI service during play.
+Pre-generated generative AI tools assisted with initial drafts of some 2D backgrounds, character portraits, event CGs, narrative text, English localization, programming or code changes, and audio source selection, editing, arrangement, and mixing. AI-assisted output included in the release build was selected, edited, and corrected by the developer. Active images were fully inventoried and inspected at source resolution for recurring character identity and wardrobe, hands and gaze, Korean spatial logic, embedded text and trademarks, grading, and crop safety. Narrative and localization receive full-corpus automated parity and consequence checks plus representative runtime review for character voice and on-screen layout. Code was reviewed with static checks, automated regressions, and representative runtime tests. This does not claim that a person exhaustively played every text and code path in-game. Shipped audio sources are field/object recordings or recorded real-instrument samples rather than AI text-to-audio output or code-generated waveforms; AI assistance in the production process is still disclosed. The game does not generate AI content at runtime and does not connect to an external AI service during play.
 ```
 
 공개 페이지에 짧은 설명이 필요한 경우 다음 문장만 사용한다. “AI가 다 만들었다”거나 “사람이 전부 다시 그렸다”는 식의 과장된 양극단 표현은 쓰지 않는다.
 
 ```text
-일부 2D 아트와 문안·영문 현지화의 초기 제작에 생성형 AI 도구의 도움을 받았으며, 출시되는 모든 콘텐츠는 개발자가 직접 편집·수정·검수했습니다. 플레이 중 생성되는 AI 콘텐츠는 없습니다.
+일부 2D 아트와 문안·영문 현지화·프로그래밍, 녹음·샘플 기반 오디오의 제작 과정에 생성형 AI 도구의 도움을 받았습니다. 포함 결과물은 개발자가 선별·편집·수정했고, 활성 이미지는 전수 목록화·검사했으며 다른 표면은 자동 검사와 대표 경로 실행으로 검증했습니다. 플레이 중 생성되는 AI 콘텐츠는 없습니다.
 
-Generative AI tools assisted with early production of some 2D art, writing, and English localization. All shipped content was edited, corrected, and reviewed by the developer. No AI content is generated during play.
+Generative AI tools assisted with early production of some 2D art, writing, English localization, programming, and recording/sample-based audio production. Included output was selected, edited, and corrected by the developer; active images were fully inventoried, while other surfaces use automated checks and representative runtime review. No AI content is generated during play.
 ```
+
+### 제출 사실 경계 — 공개 마케팅 문구가 아님
+
+심의·설문에 답할 실제 패키지 내용은 `docs/CONTENT_RATING_INVENTORY.md`가
+`24주 V2 도달 / 240주 본편 도달 / 패키지 포함·현재 비도달`로 나눠 보여 준다.
+현재 export preset은 모두 `all_resources`이므로 데모에서 닿지 않는 내용도 업로드
+패키지에 포함될 수 있다. Steam 공개 문서는 업로드된 성인 콘텐츠는 접근 불가여도
+공개하라고 안내하므로, 런타임 도달성만 보고 설문 답을 줄이지 않는다.
+
+현재 게임은 **오프라인 싱글플레이**다. 런타임 네트워크 API·멀티플레이·채팅·
+원격 UGC·원격 분석·실시간 AI는 없고, `MainGame.gd`의 `OS.shell_open` 한 곳만
+게임 밖 Steam 위시리스트/스토어 페이지를 연다. 데이터 모드는 `user://mods/`의
+로컬 파일만 읽으며 온라인 배포 기능을 뜻하지 않는다.
+
+공식 공개 근거는 다음 네 곳을 2026-08-03에 확인했다.
+
+- [Steamworks Content Survey](https://partner.steamgames.com/doc/gettingstarted/contentsurvey?l=english)
+- [게임물관리위원회 등급분류규정](https://www.law.go.kr/LSW/schlPubRulInfoP.do?chrClsCd=&schlPubRulSeq=2200000127949)
+- [게임콘텐츠등급분류위원회 이용안내](https://www.gcrb.or.kr/Images/usingGuide/using_guide_01.html)
+- [게임산업진흥에 관한 법률](https://www.law.go.kr/LSW/lsInfoP.do?lsId=010196)
+
+이 기록은 법률 자문이나 최종 연령 등급이 아니다. 신청 직전 실제 파트너 설문과
+국내 접수 화면을 다시 캡처해 문항·버전·제출 빌드를 대조하며, 최종 등급·콘텐츠
+삭제·export 필터 변경은 사용자와 심의 주체의 명시적 판단 뒤에만 반영한다. 필수
+공시는 마케팅용 스포일러 허가가 아니므로 아래 `⚠ 발견 보존 정본`과 비공개 항목은
+그대로 지킨다.
 
 ## 13. 업로드 전 게이트
 
@@ -311,6 +337,8 @@ Generative AI tools assisted with early production of some 2D art, writing, and 
 - [ ] 모든 스크린샷이 실제 영문 인게임 UI이며 외부 합성 문구가 없는지 확인.
 - [ ] 첫 4장만 보고도 목표, 선택, 시간 압축, 장기 결과가 각각 하나씩 읽히는지 확인.
 - [ ] 지원 언어, 엔딩 수, 데모 범위가 현재 빌드와 일치하는지 출시 후보마다 재확인.
+- [ ] 제출 후보의 실제 export와 `docs/CONTENT_RATING_INVENTORY.md`의 패키지·도달 범위를 대조.
+- [ ] 제출 당일 Steam 파트너 설문과 국내 접수 화면을 캡처하고 공개 근거의 최신성을 재확인.
 - [x] AI 보조 콘텐츠 공시 초안이 실제 사용 범위와 `docs/ART_AI_AUDIT.md` 전수 감사 결과를 반영함.
 
 

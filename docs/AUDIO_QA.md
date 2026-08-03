@@ -1,6 +1,6 @@
 # Gangnam Dream Audio QA
 
-Updated: 2026-07-26
+Updated: 2026-08-03
 
 Production gate: an audio file existing and loading is not the same as launch approval. Every asset must also satisfy `docs/PRODUCTION_ASSET_PIPELINE.md`: commercial provenance, clean head/tail, mix balance, semantic runtime mapping, image-paired listening, and 30-minute fatigue QA.
 
@@ -79,11 +79,11 @@ The seven base tracks cover title, routine, crisis, and endings. Five authored p
 
 ### Full-Run Audio Coverage
 
-- `assets/scene_audio_manifest.json` version 11 locks all 1,565 Korean/English
-  events into exactly one intent: 225 event contracts, six inherited CG
-  contracts, 1,334 reviewed rendered-background profiles, or intentional
+- `assets/scene_audio_manifest.json` version 11 locks all 1,597 Korean/English
+  events into exactly one intent: 287 event contracts, six inherited CG
+  contracts, 1,304 reviewed rendered-background profiles, or intentional
   silence. The current catalog has zero unclassified or stale IDs.
-- All 91 registered backgrounds own an explicit ambience profile. Runtime
+- All 93 registered backgrounds own an explicit ambience profile. Runtime
   location selection no longer searches localized prose, category names, or
   tags and no longer falls back to the goshiwon room. A newly registered
   background remains silent with a warning until its profile is reviewed, and
