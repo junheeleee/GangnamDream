@@ -22,6 +22,7 @@ import fnmatch
 import json
 import os
 import re
+import shlex
 import shutil
 import subprocess
 import sys
@@ -105,31 +106,36 @@ def audit_sh_tools() -> set[str]:
 
 def run_check(check: dict, godot: str | None) -> int:
     tool = check["tool"]
-    if " " in tool:
-        parts = tool.split()
-        cmd = ["python3", parts[0], *parts[1:]]
-        print(f"● {tool}")
-        proc = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, check=False)
-        for line in (proc.stdout or proc.stderr).strip().splitlines()[-2:]:
-            print(f"    {line}")
-        if proc.returncode != 0:
-            print(f"  ✗ {tool} 실패 (exit {proc.returncode})")
-        return proc.returncode
-    if tool.endswith(".tscn"):
+    parts = shlex.split(tool)
+    tool_path = parts[0]
+    tool_args = parts[1:]
+    if check.get("godot") and not godot:
+        print(f"  ⚠ {tool} — Godot 없음, 건너뜀")
+        return 0
+    if tool_path.endswith(".tscn"):
         if not godot:
             print(f"  ⚠ {tool} — Godot 없음, 건너뜀")
             return 0
-        cmd = [godot, "--headless", "--quit-after", "3600", f"res://{tool}"]
+        cmd = [godot, "--headless", "--quit-after", "3600", f"res://{tool_path}"]
         scene_args = check.get("args", [])
         if scene_args:
             cmd.extend(["--", *scene_args])
+    elif tool_path.endswith(".py"):
+        cmd = ["python3", tool_path, *tool_args]
+    elif tool_path.endswith(".sh"):
+        cmd = [tool_path, *tool_args]
     else:
-        cmd = ["python3", tool]
+        cmd = [tool_path, *tool_args]
     arg_label = ""
-    if tool.endswith(".tscn") and check.get("args"):
+    if tool_path.endswith(".tscn") and check.get("args"):
         arg_label = " -- " + " ".join(check["args"])
     print(f"● {tool}{arg_label}")
-    proc = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, check=False)
+    child_env = os.environ.copy()
+    if godot:
+        child_env["GODOT"] = godot
+    proc = subprocess.run(
+        cmd, cwd=ROOT, capture_output=True, text=True,
+        check=False, env=child_env)
     tail = (proc.stdout or proc.stderr).strip().splitlines()
     for line in tail[-3:]:
         print(f"    {line}")
@@ -187,7 +193,7 @@ def main() -> int:
         return 0
 
     godot = os.environ.get("GODOT") or shutil.which("godot")
-    if not godot and any(c["tool"].endswith(".tscn") for c in selected):
+    if not godot and any(c.get("godot", False) for c in selected):
         print("\n⚠ Godot 없음 — 런타임 검사는 건너뛴다. 배치 마감 전 CI에서 확인할 것.")
 
     print()

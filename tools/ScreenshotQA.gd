@@ -79,6 +79,9 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=full-gamepad --lang=ko --pad=playstation --write-chapter-saves
 ##       godot --rendering-driver opengl3 --resolution 960x600 res://tools/ScreenshotQA.tscn -- --qa=core-loop-v2 --lang=ko
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=core-loop-v2 --lang=en
+## V2 타이틀→24주 실제 입력 완주(격리 홈·로그·완료 화면 자동 보존):
+##       GODOT=/path/to/godot ./tools/run_core_loop_v2_input_qa.sh ko-gamepad
+##       GODOT=/path/to/godot ./tools/run_core_loop_v2_input_qa.sh en-keyboard
 ## 헤드리스 더미 렌더러는 빈 텍스처를 주므로 x11+opengl3(xvfb) 필요.
 ## .tscn 으로 부팅해야 autoload(GameState 등)가 로드된다.
 
@@ -101,6 +104,8 @@ const QA_SCOPE_DEMO_KEYBOARD := "demo_keyboard"
 const QA_SCOPE_DEMO_MOUSE := "demo_mouse"
 const QA_SCOPE_FULL_GAMEPAD := "full_gamepad"
 const QA_SCOPE_CORE_LOOP_V2 := "core_loop_v2"
+const QA_SCOPE_CORE_LOOP_V2_GAMEPAD := "core_loop_v2_gamepad"
+const QA_SCOPE_CORE_LOOP_V2_KEYBOARD := "core_loop_v2_keyboard"
 const QA_SCOPE_START_EN := "start_en"
 const QA_SCOPE_THIRD_PARTY_NOTICES := "third_party_notices"
 const QA_SCOPE_FIRST_30 := "first_30"
@@ -201,11 +206,67 @@ var _qa_failed := false
 var _route_keyboard_events := 0
 var _route_mouse_events := 0
 var _route_gamepad_events := 0
+var _route_semantic_events := 0
+var _route_unknown_events := 0
 var _route_week_limit := GameState.DEMO_TURN_LIMIT
 var _route_persistent_backups: Dictionary = {}
+var _core_loop_v2_save_events: Array[Dictionary] = []
+
+const CORE_LOOP_V2_INPUT_PLANS := {
+	1: [
+		"m1_mirae_application", "father_first_call", "hyunsu_first_meet",
+	],
+	2: [
+		"m2_seorin_application", "hyunsu_player_reachout",
+		"cafe_world_glimpse", "sns_pressure_night",
+	],
+	3: [
+		"m3_hanbit_application", "m3_inventory_shift",
+		"hyunsu_study_followup", "father_quiet_call",
+	],
+	4: [
+		"m4_certificate_session", "m4_hanbit_interview",
+		"m4_logistics_shift", "m4_health_check_day",
+	],
+	5: [
+		"m5_city_service_application", "m5_weekend_move_shift",
+		"m5_employment_contract_clinic", "m5_last_empty_sunday",
+	],
+	6: [
+		"m6_no_plans_day", "m6_last_study_group", "hyunsu_exam_eve",
+	],
+}
+
+const CORE_LOOP_V2_INPUT_STORY_CHOICES := {
+	"arc_temptation_01": 0,
+	"v2_hanbit_offer_message": 0,
+	"v2_father_health_signal": 1,
+	"v2_hyunsu_exam_eve": 1,
+	"v2_demo_first_bill_opening": 0,
+	"v2_demo_first_bill": 7,
+}
+
+const CORE_LOOP_V2_INPUT_ROUTINES := {
+	"primary": "livelihood",
+	"secondary": "recovery",
+}
 
 func _tr(ko: String, en: String) -> String:
 	return LocaleManager.ui(ko, en)
+
+func _record_route_injected_event(event: InputEvent) -> void:
+	if event is InputEventKey:
+		_route_keyboard_events += 1
+	elif event is InputEventJoypadButton \
+			or event is InputEventJoypadMotion:
+		_route_gamepad_events += 1
+	elif event is InputEventMouseButton \
+			or event is InputEventMouseMotion:
+		_route_mouse_events += 1
+	elif event is InputEventAction:
+		_route_semantic_events += 1
+	else:
+		_route_unknown_events += 1
 
 func _ready() -> void:
 	DirAccess.make_dir_recursive_absolute(OUT_DIR)
@@ -216,6 +277,70 @@ func _ready() -> void:
 			QA_SCOPE_DEMO_KEYBOARD, QA_SCOPE_DEMO_MOUSE] \
 			and not GameState.is_demo_build():
 		_fail("Demo QA requires the explicit --demo-build test flag.")
+		return
+	if scope in [QA_SCOPE_CORE_LOOP_V2_GAMEPAD, QA_SCOPE_CORE_LOOP_V2_KEYBOARD]:
+		var build_flavor = load("res://systems/BuildFlavor.gd")
+		if not GameState.is_demo_build() \
+				or not build_flavor.is_core_loop_v2_playtest_build():
+			_fail("Core Loop V2 input QA requires --demo-build and --core-loop-v2-playtest-build.")
+			return
+		var isolated_root := str(
+			build_flavor.qa_isolated_user_root()).simplify_path()
+		var isolated_prefix := isolated_root.trim_suffix("/") + "/"
+		var isolated_paths: Dictionary = \
+			build_flavor.user_data_paths_for_playtest(true)
+		if isolated_root.is_empty() or isolated_paths.size() != 14:
+			_fail("Core Loop V2 input QA requires the isolated-user-data wrapper.")
+			return
+		for raw_path in isolated_paths.values():
+			var isolated_path := str(raw_path).simplify_path()
+			if not isolated_path.begins_with(isolated_prefix):
+				_fail("Core Loop V2 persistence escaped its isolated root: %s." % isolated_path)
+				return
+		print("CORE_LOOP_V2_ISOLATED_USER_OK root=%s paths=%d" % [
+			isolated_root, isolated_paths.size()])
+		var input_mode := "gamepad" \
+				if scope == QA_SCOPE_CORE_LOOP_V2_GAMEPAD else "keyboard"
+		var expected_lang := "ko" if input_mode == "gamepad" else "en"
+		var lang := _qa_language(expected_lang)
+		if lang != expected_lang:
+			_fail("Core Loop V2 %s route requires lang=%s, got %s." % [
+				input_mode, expected_lang, lang])
+			return
+		# Capture every persistent surface before command-line QA options can write
+		# reduce-motion or locale settings.  This route may be launched from a
+		# developer's normal profile, so a successful QA run must be byte-neutral.
+		_capture_core_loop_v2_persistent_files()
+		if input_mode == "gamepad":
+			var pad_options := _apply_first_30_qa_options()
+			if str(pad_options.get("pad", "keyboard")) != "playstation":
+				_fail("Core Loop V2 gamepad route requires --pad=playstation.")
+				return
+			var raw_south := InputEventJoypadButton.new()
+			raw_south.device = 0
+			raw_south.button_index = JOY_BUTTON_A
+			raw_south.pressed = true
+			if not InputMap.event_is_action(raw_south, "ui_accept"):
+				_fail("Core Loop V2 raw Joypad South is not mapped to ui_accept.")
+				return
+		_set_qa_language(lang)
+		MetaProgression.data["content_warning_seen"] = true
+		_route_keyboard_events = 0
+		_route_mouse_events = 0
+		_route_gamepad_events = 0
+		_route_semantic_events = 0
+		_route_unknown_events = 0
+		_core_loop_v2_save_events.clear()
+		var save_listener := Callable(self, "_record_core_loop_v2_save")
+		if not SaveManager.save_completed.is_connected(save_listener):
+			SaveManager.save_completed.connect(save_listener)
+		if not await _boot_core_loop_v2_from_title(input_mode):
+			return
+		if not await _run_core_loop_v2_input_route(lang, input_mode):
+			return
+		if SaveManager.save_completed.is_connected(save_listener):
+			SaveManager.save_completed.disconnect(save_listener)
+		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_CORE_LOOP_V2:
 		var lang := _qa_language("en")
@@ -845,6 +970,18 @@ func _qa_scope() -> String:
 				"qa=story_dialogue_history", "--qa=story_dialogue_history",
 				"scope=story-dialogue-history", "--scope=story-dialogue-history"]:
 			return QA_SCOPE_STORY_DIALOGUE_HISTORY
+		if arg in ["core-loop-v2-gamepad", "core_loop_v2_gamepad",
+				"--core-loop-v2-gamepad", "--core_loop_v2_gamepad",
+				"qa=core-loop-v2-gamepad", "--qa=core-loop-v2-gamepad",
+				"qa=core_loop_v2_gamepad", "--qa=core_loop_v2_gamepad",
+				"scope=core-loop-v2-gamepad", "--scope=core-loop-v2-gamepad"]:
+			return QA_SCOPE_CORE_LOOP_V2_GAMEPAD
+		if arg in ["core-loop-v2-keyboard", "core_loop_v2_keyboard",
+				"--core-loop-v2-keyboard", "--core_loop_v2_keyboard",
+				"qa=core-loop-v2-keyboard", "--qa=core-loop-v2-keyboard",
+				"qa=core_loop_v2_keyboard", "--qa=core_loop_v2_keyboard",
+				"scope=core-loop-v2-keyboard", "--scope=core-loop-v2-keyboard"]:
+			return QA_SCOPE_CORE_LOOP_V2_KEYBOARD
 		if arg in ["core-loop-v2", "core_loop_v2", "--core-loop-v2", "--core_loop_v2",
 				"qa=core-loop-v2", "--qa=core-loop-v2", "qa=core_loop_v2",
 				"--qa=core_loop_v2", "scope=core-loop-v2", "--scope=core-loop-v2"]:
@@ -6112,12 +6249,25 @@ func _chapter_one_story_spacing_error(
 	return ""
 
 func _capture_route_persistent_files() -> void:
-	if not _route_persistent_backups.is_empty():
-		return
-	for path in [
+	_capture_route_persistent_paths([
 			"user://gangnam_dream_autosave.json",
 			"user://gangnam_dream_meta.json",
-			"user://gangnam_dream_settings.json"]:
+			"user://gangnam_dream_settings.json",
+		])
+
+func _capture_core_loop_v2_persistent_files() -> void:
+	_capture_route_persistent_paths([
+		SaveManager.slot_path(SaveManager.AUTOSAVE_SLOT),
+		SaveManager.settings_path(),
+		MetaProgression.meta_save_path(),
+		DisplayManager.display_settings_path(),
+	])
+
+func _capture_route_persistent_paths(paths: Array) -> void:
+	if not _route_persistent_backups.is_empty():
+		return
+	for path_value in paths:
+		var path := str(path_value)
 		_route_persistent_backups[path] = {
 			"existed": FileAccess.file_exists(path),
 			"bytes": FileAccess.get_file_as_bytes(path) if FileAccess.file_exists(path) else PackedByteArray(),
@@ -6154,6 +6304,983 @@ func _max_consecutive_strings(values: Array[String]) -> Dictionary:
 			best_value = current_value
 			best_count = current_count
 	return {"value": best_value, "count": best_count}
+
+func _record_core_loop_v2_save(success: bool, slot: int) -> void:
+	_core_loop_v2_save_events.append({
+		"success": success,
+		"slot": slot,
+		"turn": int(GameState.turn),
+		"completed_through_week": int(GameState.core_loop_v2_state.get(
+			"completed_through_week", 0)),
+		"prototype_complete": bool(GameState.core_loop_v2_state.get(
+			"prototype_complete", false)),
+	})
+
+func _run_core_loop_v2_input_route(
+		lang: String, input_mode: String) -> bool:
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	var planner_months_seen: Dictionary = {}
+	var committed_months: Dictionary = {}
+	var month_summaries_seen: Dictionary = {}
+	var tutorial_instance_id := 0
+	var tutorial_inputs := 0
+	var tutorial_state_before: Dictionary = {}
+	var tutorial_planner_before: Dictionary = {}
+	var tutorial_state_verified := false
+	var action_result_confirms: Dictionary = {}
+	var transient_confirms_seen: Dictionary = {}
+	var story_sequence: Array[Dictionary] = []
+	var last_story_key := ""
+	var completion_checked := false
+	var completion_surface_count := 0
+	var completion_instance_id := 0
+	var completion_cta_sent := false
+	var saves_before_title_return := -1
+	var terminal_save_bytes := PackedByteArray()
+	var title_return_input_sent := false
+	var last_reported_turn := 0
+	var last_signature := ""
+	var stagnant_steps := 0
+
+	for _step in range(50000):
+		await get_tree().create_timer(0.012).timeout
+		var scene := get_tree().current_scene
+		if not is_instance_valid(scene):
+			continue
+		var scene_script := scene.get_script() as Script
+		var script_path := scene_script.resource_path if scene_script != null else ""
+		var signature := "%s:%d:%s:%s" % [
+			script_path,
+			int(GameState.turn),
+			str(GameState.core_loop_v2_state.get("active_bundle", "")),
+			str(GameState.core_loop_v2_state.get("active_kind", "")),
+		]
+
+		if script_path == "res://scenes/StoryMode.gd":
+			var current: Dictionary = scene.get("_current")
+			var event_id := str(current.get("id", ""))
+			var story_key := "%d:%s" % [scene.get_instance_id(), event_id]
+			if not event_id.is_empty() and story_key != last_story_key:
+				last_story_key = story_key
+				story_sequence.append({
+					"id": event_id,
+					"turn": int(GameState.turn),
+					"instance": int(scene.get_instance_id()),
+				})
+				print("CORE_LOOP_V2_INPUT_STORY device=%s week=%d id=%s" % [
+					input_mode, int(GameState.turn), event_id])
+			signature += ":%s:%d:%s:%s:%s:%s:%s:%s" % [
+				event_id,
+				int(scene.get("_para_index")),
+				str(scene.get("_typing")),
+				str(scene.get("_showing_choices")),
+				str(scene.get("_pending_after_result")),
+				str(scene.get("_story_scene_transition_active")),
+				str(scene.get("_direction_hold_active")),
+				str(scene.get("_direction_beat_waiting")),
+			]
+			if bool(scene.get("_transitioning")) \
+					or bool(scene.get("_story_scene_transition_active")) \
+					or bool(scene.get("_direction_hold_active")) \
+					or event_id.is_empty():
+				pass
+			else:
+				var story_tutorial := scene.get("_tutorial_popup") as Control
+				if is_instance_valid(story_tutorial):
+					var tutorial_button := _find_first_enabled_button(story_tutorial)
+					if tutorial_button == null:
+						_fail("Core Loop V2 story tutorial has no input command in %s." % event_id)
+						return false
+					await _activate_route_control(tutorial_button, input_mode)
+				elif bool(scene.get("_showing_choices")):
+					var choice_index := int(
+						CORE_LOOP_V2_INPUT_STORY_CHOICES.get(event_id, 0))
+					var choice_box := scene.get("_choice_box") as Control
+					var route_choice := _find_choice_button(choice_box, choice_index)
+					if route_choice == null:
+						_fail("Core Loop V2 route could not select choice %d for %s." % [
+							choice_index, event_id])
+						return false
+					await _activate_route_control(route_choice, input_mode)
+				else:
+					await _advance_route_story(scene, input_mode)
+
+		elif script_path == "res://scenes/MainGame.gd":
+			if int(GameState.turn) != last_reported_turn:
+				last_reported_turn = int(GameState.turn)
+				print("CORE_LOOP_V2_INPUT_PROGRESS device=%s week=%d month=%d cash=%d health=%d mental=%d" % [
+					input_mode, int(GameState.turn),
+					int(core_loop.month_for_turn(GameState.turn)),
+					roundi(float(GameState.money)), int(GameState.health),
+					int(GameState.mental)])
+
+			var tutorial := _find_core_loop_v2_tutorial(scene)
+			if is_instance_valid(tutorial):
+				var current_tutorial_instance := int(tutorial.get_instance_id())
+				if tutorial_instance_id == 0:
+					if not is_equal_approx(float(GameState.money), 498_800.0) \
+							or int(GameState.health) != 68 \
+							or int(GameState.mental) != 64:
+						_fail("Core Loop V2 playable prologue did not reach the planner with its exact choice-0 state: cash=%s health=%d mental=%d." % [
+							str(GameState.money), int(GameState.health),
+							int(GameState.mental)])
+						return false
+					tutorial_instance_id = current_tutorial_instance
+					tutorial_state_before = GameState.serialize().duplicate(true)
+					var tutorial_planner := _find_visible_core_loop_v2_planner(scene)
+					if not is_instance_valid(tutorial_planner):
+						_fail("Core Loop V2 onboarding did not sit above the real Month-One planner.")
+						return false
+					tutorial_planner_before = {
+						"schedule": tutorial_planner.call("schedule_snapshot"),
+						"routines": tutorial_planner.call("routine_snapshot"),
+						"active_tab": int(tutorial_planner.get("_active_tab")),
+						"review_pending": bool(tutorial_planner.call("review_pending")),
+					}
+				elif tutorial_instance_id != current_tutorial_instance:
+					_fail("Core Loop V2 onboarding opened more than once.")
+					return false
+				var slide_index := int(tutorial.get("_slide_idx"))
+				if slide_index != tutorial_inputs or slide_index not in range(3):
+					_fail("Core Loop V2 onboarding order drifted: slide=%d inputs=%d." % [
+						slide_index, tutorial_inputs])
+					return false
+				var tutorial_button := _find_first_enabled_button(tutorial)
+				if tutorial_button == null:
+					_fail("Core Loop V2 onboarding slide %d has no input command." % slide_index)
+					return false
+				await _activate_route_control(tutorial_button, input_mode)
+				tutorial_inputs += 1
+				signature += ":tutorial:%d" % slide_index
+				continue
+			elif tutorial_instance_id != 0 and not tutorial_state_verified:
+				if tutorial_inputs != 3:
+					_fail("Core Loop V2 onboarding dismissed after %d inputs instead of three." % tutorial_inputs)
+					return false
+				if GameState.serialize() != tutorial_state_before:
+					_fail("Core Loop V2 onboarding input mutated gameplay state.")
+					return false
+				var tutorial_planner := _find_visible_core_loop_v2_planner(scene)
+				var tutorial_planner_after := {
+					"schedule": tutorial_planner.call("schedule_snapshot") \
+						if is_instance_valid(tutorial_planner) else {},
+					"routines": tutorial_planner.call("routine_snapshot") \
+						if is_instance_valid(tutorial_planner) else {},
+					"active_tab": int(tutorial_planner.get("_active_tab")) \
+						if is_instance_valid(tutorial_planner) else -1,
+					"review_pending": bool(tutorial_planner.call("review_pending")) \
+						if is_instance_valid(tutorial_planner) else true,
+				}
+				if tutorial_planner_after != tutorial_planner_before:
+					_fail("Core Loop V2 onboarding changed the underlying schedule, routines, tab, or review state.")
+					return false
+				tutorial_state_verified = true
+
+			var planner := _find_visible_core_loop_v2_planner(scene)
+			if is_instance_valid(planner):
+				var month_index := int(planner.get_meta("core_loop_v2_month", 0))
+				if not CORE_LOOP_V2_INPUT_PLANS.has(month_index):
+					_fail("Core Loop V2 opened an unsupported planner month %d." % month_index)
+					return false
+				planner_months_seen[month_index] = true
+				var schedule: Dictionary = planner.call("schedule_snapshot")
+				var plan_before: Dictionary = core_loop.plan_for_month(month_index)
+				if not plan_before.is_empty():
+					_fail("Core Loop V2 Month %d planner reopened after its plan was committed." % month_index)
+					return false
+				var wanted: Array = CORE_LOOP_V2_INPUT_PLANS[month_index]
+				var expected_schedule := _core_loop_v2_expected_schedule(month_index)
+				var next_offer := ""
+				for raw_offer in wanted:
+					var offer_id := str(raw_offer)
+					if not schedule.values().has(offer_id):
+						next_offer = offer_id
+						break
+				if not next_offer.is_empty():
+					var target_week := 0
+					for raw_week in expected_schedule:
+						if str(expected_schedule.get(raw_week, "")) == next_offer:
+							target_week = int(raw_week)
+							break
+					var week_button := _find_visible_meta_value_button(
+						planner, "core_loop_v2_week", target_week)
+					if week_button == null:
+						_fail("Core Loop V2 Month %d cannot select Week %d for %s." % [
+							month_index, target_week, next_offer])
+						return false
+					var before_week_input: Dictionary = schedule.duplicate(true)
+					await _activate_route_control(week_button, input_mode)
+					if planner.call("schedule_snapshot") != before_week_input:
+						_fail("Core Loop V2 Week %d selection committed an offer before confirmation." % target_week)
+						return false
+					if int(planner.get("_selected_week")) != target_week:
+						_fail("Core Loop V2 Week %d input did not select the visible calendar slot." % target_week)
+						return false
+					var offer_button := _find_visible_meta_value_button(
+						planner, "core_loop_v2_offer_id", next_offer)
+					if offer_button == null:
+						_fail("Core Loop V2 Month %d cannot reach planned offer %s." % [
+							month_index, next_offer])
+						return false
+					await _activate_route_control(offer_button, input_mode)
+					var after_offer_input: Dictionary = planner.call(
+						"schedule_snapshot")
+					if after_offer_input.size() != before_week_input.size() + 1 \
+							or str(after_offer_input.get(str(target_week), "")) \
+								!= next_offer:
+						_fail("Core Loop V2 offer input did not place %s into visible Week %d: %s." % [
+							next_offer, target_week, after_offer_input])
+						return false
+					continue
+				if schedule.size() != 4:
+					_fail("Core Loop V2 Month %d filled %d weeks instead of four: %s." % [
+						month_index, schedule.size(), schedule])
+					return false
+				if schedule != expected_schedule:
+					_fail("Core Loop V2 Month %d schedule drifted: expected=%s actual=%s." % [
+						month_index, expected_schedule, schedule])
+					return false
+				if planner.call("routine_snapshot") \
+						!= CORE_LOOP_V2_INPUT_ROUTINES:
+					_fail("Core Loop V2 Month %d did not visibly keep livelihood + recovery routines." % month_index)
+					return false
+				var confirm := _find_visible_meta_button(
+					planner, "core_loop_v2_plan_confirm")
+				if confirm == null:
+					_fail("Core Loop V2 Month %d has no enabled two-step confirm." % month_index)
+					return false
+				var review_pending := bool(planner.get_meta(
+					"core_loop_v2_review_pending", false))
+				await _activate_route_control(confirm, input_mode)
+				if not review_pending:
+					await get_tree().process_frame
+					if not core_loop.plan_for_month(month_index).is_empty() \
+							or not bool(planner.get_meta(
+								"core_loop_v2_review_pending", false)):
+						_fail("Core Loop V2 Month %d review step committed too early or failed to open." % month_index)
+						return false
+					var review_scroll := planner.get("_read_only_scroll") as Control
+					var calendar_surface := planner.get("_calendar_surface") as Control
+					var review_surface := planner.get("_read_only_surface") as Control
+					if int(planner.get("_active_tab")) != 3 \
+							or not is_instance_valid(review_scroll) \
+							or not review_scroll.is_visible_in_tree() \
+							or not is_instance_valid(calendar_surface) \
+							or calendar_surface.is_visible_in_tree() \
+							or not is_instance_valid(review_surface) \
+							or review_surface.get_child_count() == 0 \
+							or not confirm.is_visible_in_tree() or confirm.disabled:
+						_fail("Core Loop V2 Month %d review flag opened without a visible record surface." % month_index)
+						return false
+				else:
+					await get_tree().process_frame
+					var committed: Dictionary = core_loop.plan_for_month(month_index)
+					if committed.is_empty() \
+							or committed.get("schedule", {}) != expected_schedule \
+							or committed.get("routines", {}) \
+								!= CORE_LOOP_V2_INPUT_ROUTINES:
+						_fail("Core Loop V2 Month %d final confirm did not commit the visible plan." % month_index)
+						return false
+					if committed_months.has(month_index):
+						_fail("Core Loop V2 Month %d committed more than once." % month_index)
+						return false
+					committed_months[month_index] = true
+					print("CORE_LOOP_V2_INPUT_PLAN device=%s month=%d schedule=%s" % [
+						input_mode, month_index, expected_schedule])
+				continue
+
+			if bool(scene.get("_minigame_overlay_active")):
+				_fail("Core Loop V2 fixed release route entered an unexpected minigame at week %d." % GameState.turn)
+				return false
+
+			if _qa_scene_transition_active():
+				stagnant_steps = 0
+				continue
+
+			var completion := _find_visible_meta_control(
+				scene, "core_loop_v2_completion", true)
+			if is_instance_valid(completion):
+				var visible_completion_id := int(completion.get_instance_id())
+				signature += ":completion:%d:%s" % [
+					visible_completion_id, str(completion_cta_sent)]
+				if completion_instance_id == 0:
+					completion_instance_id = visible_completion_id
+					completion_surface_count = 1
+				elif completion_instance_id != visible_completion_id:
+					_fail("Core Loop V2 completion recap opened a second surface instance.")
+					return false
+				if not completion_checked:
+					if not _assert_core_loop_v2_input_completion(
+							scene, story_sequence, planner_months_seen,
+							committed_months, month_summaries_seen,
+							tutorial_inputs, tutorial_state_verified,
+							action_result_confirms):
+						return false
+					await _save("core_loop_v2_%s_%s_week_24_completion" % [
+						lang, input_mode], 0.0)
+					completion_checked = true
+					saves_before_title_return = _core_loop_v2_save_events.size()
+					terminal_save_bytes = FileAccess.get_file_as_bytes(
+						SaveManager.slot_path(SaveManager.AUTOSAVE_SLOT))
+					if terminal_save_bytes.is_empty():
+						_fail("Core Loop V2 completion autosave bytes are empty before the title CTA.")
+						return false
+				if not completion_cta_sent:
+					var done := _find_visible_meta_button(
+						completion, "core_loop_v2_recap_done")
+					if done == null:
+						_fail("Core Loop V2 completion has no controller-native title CTA.")
+						return false
+					completion_cta_sent = true
+					await _activate_route_control(done, input_mode)
+				if signature == last_signature:
+					stagnant_steps += 1
+				else:
+					last_signature = signature
+					stagnant_steps = 0
+				if stagnant_steps > 300:
+					_fail("Core Loop V2 completion CTA did not leave its only recap surface.")
+					return false
+				continue
+
+			var month_confirm := _find_visible_meta_button(
+				scene, "core_loop_v2_month_confirm")
+			if month_confirm != null:
+				var modal := scene.get("modal_layer") as Control
+				var summary_month := int(modal.get_meta(
+					"core_loop_v2_month", 0)) if is_instance_valid(modal) else 0
+				if summary_month < 1 or summary_month > 5 \
+						or month_summaries_seen.has(summary_month):
+					_fail("Core Loop V2 month notebook repeated or mislabeled: %d." % summary_month)
+					return false
+				month_summaries_seen[summary_month] = true
+				await _activate_route_control(month_confirm, input_mode)
+				continue
+
+			var result_confirm := _find_visible_meta_button(
+				scene, "ap_result_confirm")
+			if result_confirm != null:
+				var result_owner := str(GameState.core_loop_v2_state.get(
+					"active_bundle", ""))
+				if result_owner.is_empty() \
+						or int(action_result_confirms.get(result_owner, 0)) != 0:
+					_fail("Core Loop V2 action result has an empty or duplicate owner at Week %d: %s." % [
+						int(GameState.turn), result_owner])
+					return false
+				action_result_confirms[result_owner] = 1
+				await _activate_route_control(result_confirm, input_mode)
+				continue
+
+			if bool(scene.get("_transient_bg_active")):
+				var choice_surface := scene.get("choice_box") as Control
+				var transient_confirm := _find_first_enabled_button(choice_surface) \
+					if is_instance_valid(choice_surface) else null
+				if transient_confirm == null:
+					_fail("Core Loop V2 transient result has no input command at week %d." % GameState.turn)
+					return false
+				var transient_key := "%d:%s:%s" % [
+					int(GameState.turn),
+					str(GameState.core_loop_v2_state.get("active_bundle", "")),
+					transient_confirm.text,
+				]
+				if transient_confirms_seen.has(transient_key):
+					_fail("Core Loop V2 transient result ignored its input at %s." % transient_key)
+					return false
+				transient_confirms_seen[transient_key] = true
+				await _activate_route_control(transient_confirm, input_mode)
+				continue
+
+			var modal_layer := scene.get("modal_layer") as Control
+			if is_instance_valid(modal_layer) and modal_layer.visible:
+				_fail("Core Loop V2 reached unexpected modal %s at week %d." % [
+					str(scene.get("_modal_kind")), int(GameState.turn)])
+				return false
+
+		elif script_path == "res://scenes/StartMenu.gd":
+			if not completion_checked:
+				_fail("Core Loop V2 returned to title before its completion recap.")
+				return false
+			signature += ":title:%s" % str(scene.get("_splash_active"))
+			if not title_return_input_sent:
+				if not bool(scene.get("_splash_active")):
+					_fail("Core Loop V2 title return skipped the launch input gate.")
+					return false
+				if input_mode == "gamepad":
+					await _send_route_raw_gamepad_button(JOY_BUTTON_A)
+				else:
+					await _send_route_key(KEY_ENTER)
+				title_return_input_sent = true
+				await _settle(0.36)
+				continue
+			var entry := _find_visible_meta_value_button(
+				scene, "build_entry_kind", "core_loop_v2_playtest")
+			if entry == null or not bool(entry.get_meta(
+					"core_loop_v2_test_entry", false)):
+				_fail("Core Loop V2 title return did not restore the playtest entry.")
+				return false
+			if completion_surface_count != 1 or completion_instance_id == 0 \
+					or not completion_cta_sent:
+				_fail("Core Loop V2 completion recap appeared %d times." % completion_surface_count)
+				return false
+			if _core_loop_v2_save_events.size() != saves_before_title_return:
+				_fail("Core Loop V2 title CTA wrote an extra save after the terminal autosave.")
+				return false
+			if FileAccess.get_file_as_bytes(
+					SaveManager.slot_path(SaveManager.AUTOSAVE_SLOT)) \
+					!= terminal_save_bytes:
+				_fail("Core Loop V2 title CTA changed the terminal autosave without a save signal.")
+				return false
+			if not _assert_core_loop_v2_input_purity(input_mode):
+				return false
+			print("CORE_LOOP_V2_INPUT_OK device=%s lang=%s weeks=24 plans=6 tutorial=3 first_bill=1/1/1 hyunsu=1 autosave=1 title_return=1 mixed=0 story_events=%d keyboard_events=%d mouse_events=%d gamepad_events=%d semantic_events=%d unknown_events=%d saves=%d" % [
+				input_mode, lang, story_sequence.size(), _route_keyboard_events,
+				_route_mouse_events, _route_gamepad_events,
+				_route_semantic_events, _route_unknown_events,
+				_core_loop_v2_save_events.size()])
+			return true
+
+		else:
+			signature += ":waiting"
+
+		if signature == last_signature:
+			stagnant_steps += 1
+		else:
+			last_signature = signature
+			stagnant_steps = 0
+		if stagnant_steps > 900:
+			await _save("core_loop_v2_%s_%s_stall" % [lang, input_mode], 0.0)
+			_fail("Core Loop V2 %s route stalled at %s." % [input_mode, signature])
+			return false
+
+	_fail("Core Loop V2 %s route exceeded its safety limit." % input_mode)
+	return false
+
+func _find_core_loop_v2_tutorial(root: Node) -> Control:
+	if root == null:
+		return null
+	if root is TutorialOverlay:
+		var overlay := root as TutorialOverlay
+		if overlay.is_visible_in_tree() and str(overlay.get("_game_id")) == "core_loop_v2":
+			return overlay
+	for child in root.get_children():
+		var found := _find_core_loop_v2_tutorial(child)
+		if found != null:
+			return found
+	return null
+
+func _find_visible_core_loop_v2_planner(root: Node) -> Control:
+	var control := _find_visible_meta_control(root, "core_loop_v2_planner", true)
+	return control if is_instance_valid(control) and control.is_visible_in_tree() else null
+
+func _core_loop_v2_expected_schedule(month_index: int) -> Dictionary:
+	var schedule: Dictionary = {}
+	var month_start := (month_index - 1) * 4 + 1
+	var wanted: Array = CORE_LOOP_V2_INPUT_PLANS.get(month_index, [])
+	var wanted_index := 0
+	for week in range(month_start, month_start + 4):
+		if month_index == 1 and week == 4:
+			schedule[str(week)] = "first_temptation_boss"
+		elif month_index == 6 and week == 24:
+			schedule[str(week)] = "demo_collision"
+		else:
+			if wanted_index >= wanted.size():
+				return {}
+			schedule[str(week)] = str(wanted[wanted_index])
+			wanted_index += 1
+	return schedule
+
+func _core_loop_v2_story_positions(
+		story_sequence: Array[Dictionary], event_id: String) -> Array[int]:
+	var positions: Array[int] = []
+	for index in range(story_sequence.size()):
+		if str(story_sequence[index].get("id", "")) == event_id:
+			positions.append(index)
+	return positions
+
+func _core_loop_v2_story_receipt_matches(
+		receipt: Dictionary, receipt_key: String, bundle_id: String,
+		event_id: String, choice_index: int, turn: int) -> bool:
+	return str(receipt.get("receipt_key", "")) == receipt_key \
+		and str(receipt.get("bundle_id", "")) == bundle_id \
+		and str(receipt.get("active_kind", "")) == "schedule" \
+		and str(receipt.get("event_id", "")) == event_id \
+		and int(receipt.get("choice_index", -1)) == choice_index \
+		and int(receipt.get("turn", -1)) == turn
+
+func _core_loop_v2_numeric_effects_match(
+		actual_raw: Variant, expected: Dictionary) -> bool:
+	if not actual_raw is Dictionary:
+		return false
+	var actual: Dictionary = actual_raw
+	if actual.size() != expected.size():
+		return false
+	for raw_key in expected:
+		var key := str(raw_key)
+		if not actual.has(key) \
+				or not is_equal_approx(
+					float(actual.get(key, 0.0)), float(expected[key])):
+			return false
+	return true
+
+func _assert_core_loop_v2_routine_receipts(state: Dictionary) -> bool:
+	var raw_receipts: Variant = state.get("routine_receipts", {})
+	if not raw_receipts is Dictionary:
+		_fail("Core Loop V2 routine ledger is not a dictionary.")
+		return false
+	var receipts: Dictionary = raw_receipts
+	if receipts.size() != 24:
+		_fail("Core Loop V2 routine ledger stored %d weeks instead of 24." % receipts.size())
+		return false
+	for week in range(1, 25):
+		var raw_receipt: Variant = receipts.get(str(week), {})
+		if not raw_receipt is Dictionary:
+			_fail("Core Loop V2 routine ledger is missing Week %d." % week)
+			return false
+		var receipt: Dictionary = raw_receipt
+		var expected_month := int((week - 1) / 4) + 1
+		if int(receipt.get("turn", 0)) != week \
+				or int(receipt.get("month", 0)) != expected_month \
+				or str(receipt.get("primary", "")) != "livelihood" \
+				or str(receipt.get("secondary", "")) != "recovery" \
+				or str(receipt.get("planned_primary", "")) != "livelihood" \
+				or str(receipt.get("planned_secondary", "")) != "recovery" \
+				or bool(receipt.get("employment_forced", true)):
+			_fail("Core Loop V2 Week %d routine identity or month drifted: %s." % [
+				week, receipt])
+			return false
+		var raw_units: Variant = receipt.get("units", [])
+		if not raw_units is Array or (raw_units as Array).size() != 2:
+			_fail("Core Loop V2 Week %d did not apply exactly two ordered routines." % week)
+			return false
+		var units: Array = raw_units
+		if not units[0] is Dictionary or not units[1] is Dictionary:
+			_fail("Core Loop V2 Week %d routine units are not readable receipts." % week)
+			return false
+		var primary: Dictionary = units[0]
+		var secondary: Dictionary = units[1]
+		var primary_effects := {"money": 70_000, "health": -1, "mental": 1} \
+			if week <= 17 else {"work_performance": 1, "mental": 1}
+		var aggregate_effects := {"money": 70_000, "health": 0, "mental": 4} \
+			if week <= 17 else {"work_performance": 1, "health": 1, "mental": 4}
+		if str(primary.get("slot", "")) != "primary" \
+				or str(primary.get("routine_id", "")) != "livelihood" \
+				or not _core_loop_v2_numeric_effects_match(
+					primary.get("effects", {}), primary_effects) \
+				or str(secondary.get("slot", "")) != "secondary" \
+				or str(secondary.get("routine_id", "")) != "recovery" \
+				or not _core_loop_v2_numeric_effects_match(
+					secondary.get("effects", {}), {"health": 1, "mental": 3}) \
+				or not _core_loop_v2_numeric_effects_match(
+					receipt.get("effects", {}), aggregate_effects):
+			_fail("Core Loop V2 Week %d routine effects lost their unemployed/employed provenance." % week)
+			return false
+	return true
+
+func _assert_core_loop_v2_input_completion(
+		scene: Node, story_sequence: Array[Dictionary],
+		planner_months_seen: Dictionary, committed_months: Dictionary,
+		month_summaries_seen: Dictionary, tutorial_inputs: int,
+		tutorial_state_verified: bool,
+		action_result_confirms: Dictionary) -> bool:
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	var state: Dictionary = GameState.core_loop_v2_state
+	if planner_months_seen.size() != 6 or committed_months.size() != 6:
+		_fail("Core Loop V2 completed with planner/commit counts %d/%d instead of 6/6." % [
+			planner_months_seen.size(), committed_months.size()])
+		return false
+	if month_summaries_seen.size() != 5:
+		_fail("Core Loop V2 reached completion after %d intermediate notebooks instead of five." % month_summaries_seen.size())
+		return false
+	if tutorial_inputs != 3 or not tutorial_state_verified \
+			or not bool(TutorialOverlay._seen.get("core_loop_v2", false)):
+		_fail("Core Loop V2 onboarding was not one state-free three-slide sequence.")
+		return false
+	var plans: Dictionary = state.get("plans", {})
+	if plans.size() != 6:
+		_fail("Core Loop V2 completion stored %d plans instead of six." % plans.size())
+		return false
+	for month_index in range(1, 7):
+		var raw_plan: Variant = plans.get(str(month_index), {})
+		if not raw_plan is Dictionary \
+				or (raw_plan as Dictionary).get("schedule", {}) \
+					!= _core_loop_v2_expected_schedule(month_index):
+			_fail("Core Loop V2 stored Month %d differently from the input-selected plan." % month_index)
+			return false
+	var completed_turns: Array = state.get("completed_turns", [])
+	if completed_turns.size() != 24:
+		_fail("Core Loop V2 stored %d completed weeks instead of 24." % completed_turns.size())
+		return false
+	for week in range(1, 25):
+		if not completed_turns.has(week):
+			_fail("Core Loop V2 completion is missing Week %d." % week)
+			return false
+	if not _assert_core_loop_v2_routine_receipts(state):
+		return false
+	var month_summaries: Dictionary = state.get("month_summaries", {})
+	if month_summaries.size() != 6:
+		_fail("Core Loop V2 completion stored %d month summaries instead of six." % month_summaries.size())
+		return false
+	var expected_action_results := [
+		"m1_mirae_application", "m2_seorin_application",
+		"m3_hanbit_application", "m3_inventory_shift",
+		"m4_certificate_session", "m4_logistics_shift",
+		"m4_health_check_day", "m5_city_service_application",
+		"m5_weekend_move_shift", "m5_employment_contract_clinic",
+		"m5_last_empty_sunday", "m6_no_plans_day",
+		"m6_last_study_group",
+	]
+	if action_result_confirms.size() != expected_action_results.size():
+		_fail("Core Loop V2 confirmed %d action results instead of %d." % [
+			action_result_confirms.size(), expected_action_results.size()])
+		return false
+	for bundle_id in expected_action_results:
+		if int(action_result_confirms.get(bundle_id, 0)) != 1:
+			_fail("Core Loop V2 did not confirm action result %s exactly once." % bundle_id)
+			return false
+	var action_story_roots := {
+		"v2_inventory_count_nights": 10,
+		"v2_logistics_class_session": 13,
+		"v2_moving_crew_days": 18,
+		"v2_empty_sunday": 20,
+	}
+	for root_id in action_story_roots:
+		var positions := _core_loop_v2_story_positions(
+			story_sequence, str(root_id))
+		if positions.size() != 1 \
+				or int(story_sequence[positions[0]].get("turn", 0)) \
+					!= int(action_story_roots[root_id]):
+			_fail("Core Loop V2 action-story bridge %s did not follow its one confirmed result in Week %d." % [
+				root_id, int(action_story_roots[root_id])])
+			return false
+	if int(GameState.turn) != 25 or int(GameState.month) != 7 \
+			or int(GameState.week_of_month) != 1 or GameState.is_game_over:
+		_fail("Core Loop V2 boundary is not the live Week-25/Month-7 continuation: turn=%d month=%d week=%d game_over=%s." % [
+			int(GameState.turn), int(GameState.month), int(GameState.week_of_month),
+			str(GameState.is_game_over)])
+		return false
+	if int(state.get("completed_through_week", 0)) != 24 \
+			or not bool(state.get("prototype_complete", false)) \
+			or int(state.get("completed_at_turn", 0)) != 25 \
+			or int(state.get("prototype_completed_at_turn", 0)) != 25:
+		_fail("Core Loop V2 terminal markers do not describe one Week-24 to Turn-25 boundary.")
+		return false
+	if str(GameState.current_job.get("id", "")) != "job_03" \
+			or not bool(core_loop.has_hanbit_employment_provenance()):
+		_fail("Core Loop V2 completion lost the exact Week-17 Hanbit acceptance provenance.")
+		return false
+	var required_opening := [
+		"story_flashforward", "story_arrival", "story_knee_door",
+		"story_knee_witness", "story_knee_choice",
+		"story_last_payment_wait", "story_last_payment_word",
+		"story_last_payment_exit", "story_prologue_dad",
+		"story_prologue_goal", "story_prologue_meal", "story_pressure",
+		"chapter_card_33",
+	]
+	if story_sequence.size() < required_opening.size():
+		_fail("Core Loop V2 route lost the playable prologue or Chapter 1 card.")
+		return false
+	for index in range(required_opening.size()):
+		if str(story_sequence[index].get("id", "")) != str(required_opening[index]):
+			_fail("Core Loop V2 opening order drifted at position %d: expected=%s actual=%s." % [
+				index, required_opening[index],
+				str(story_sequence[index].get("id", ""))])
+			return false
+
+	var finale_ids := [
+		"v2_demo_first_bill_opening", "v2_demo_first_bill",
+		"v2_demo_first_bill_ledger", "v2_hyunsu_exam_morning_echo",
+	]
+	var finale_positions: Array[int] = []
+	var finale_instances: Array[int] = []
+	for event_id in finale_ids:
+		var positions := _core_loop_v2_story_positions(story_sequence, event_id)
+		if positions.size() != 1:
+			_fail("Core Loop V2 finale event %s appeared %d times." % [
+				event_id, positions.size()])
+			return false
+		finale_positions.append(positions[0])
+		finale_instances.append(int(story_sequence[positions[0]].get(
+			"instance", 0)))
+	if finale_positions[1] != finale_positions[0] + 1 \
+			or finale_positions[2] != finale_positions[1] + 1 \
+			or finale_positions[3] != finale_positions[2] + 1:
+		_fail("Core Loop V2 finale did not remain opening → decision → ledger → Hyunsu morning: %s." % finale_positions)
+		return false
+	if finale_instances[0] != finale_instances[1] \
+			or finale_instances[1] != finale_instances[2] \
+			or finale_instances[2] != finale_instances[3]:
+		_fail("Core Loop V2 First Bill and Hyunsu morning did not remain in one StoryMode instance.")
+		return false
+	var story_receipts: Dictionary = state.get("story_choice_receipts", {})
+	var bill_choice_key := "demo_collision:v2_demo_first_bill:7:24"
+	var raw_bill_choice: Variant = story_receipts.get(bill_choice_key, {})
+	if not raw_bill_choice is Dictionary \
+			or not _core_loop_v2_story_receipt_matches(
+				raw_bill_choice as Dictionary, bill_choice_key,
+				"demo_collision", "v2_demo_first_bill", 7, 24):
+		_fail("Core Loop V2 First Bill did not preserve original choice index 7.")
+		return false
+	var morning_key := "demo_collision:v2_hyunsu_exam_morning_echo:0:24"
+	var raw_morning: Variant = story_receipts.get(morning_key, {})
+	if not raw_morning is Dictionary \
+			or not _core_loop_v2_story_receipt_matches(
+				raw_morning as Dictionary, morning_key,
+				"demo_collision", "v2_hyunsu_exam_morning_echo", 0, 24):
+		_fail("Core Loop V2 Hyunsu morning did not write its exact once-only receipt.")
+		return false
+	for raw_receipt in story_receipts.values():
+		if raw_receipt is Dictionary \
+				and str((raw_receipt as Dictionary).get("event_id", "")) in [
+					"v2_demo_first_bill_opening",
+					"v2_demo_first_bill_ledger",
+				]:
+			_fail("Core Loop V2 expression choice created a durable story receipt.")
+			return false
+	var expected_candidates := [
+		"father_call", "hanbit_month_close", "city_work_sample", "body_rest",
+	]
+	var collision_context: Dictionary = state.get("demo_collision_context", {})
+	if str(collision_context.get("bundle_id", "")) != "demo_collision" \
+			or int(collision_context.get("turn", -1)) != 24 \
+			or collision_context.get("roots", []) != [
+				"v2_demo_first_bill_opening", "v2_hyunsu_exam_morning_echo"] \
+			or collision_context.get("candidate_ids", []) != expected_candidates \
+			or not str(collision_context.get("dirty_source", "")).is_empty() \
+			or not str(collision_context.get("dirty_root", "")).is_empty() \
+			or not bool(collision_context.get("prepared", false)):
+		_fail("Core Loop V2 First Bill candidate context drifted from the clean hired route.")
+		return false
+	var obligations: Dictionary = state.get("obligation_receipts", {})
+	var raw_obligation: Variant = obligations.get("demo_collision", {})
+	if not raw_obligation is Dictionary:
+		_fail("Core Loop V2 First Bill has no obligation receipt.")
+		return false
+	var obligation: Dictionary = raw_obligation
+	if str(obligation.get("selected_obligation_id", "")) != "body_rest" \
+			or int(obligation.get("choice_index", -1)) != 7 \
+			or int(obligation.get("turn", -1)) != 24 \
+			or str(obligation.get("bundle_id", "")) != "demo_collision" \
+			or str(obligation.get("event_id", "")) != "v2_demo_first_bill" \
+			or obligation.get("candidate_ids", []) != expected_candidates \
+			or obligation.get("deferred_obligation_ids", []) != [
+				"father_call", "hanbit_month_close", "city_work_sample"]:
+		_fail("Core Loop V2 First Bill did not select body_rest at original index 7 in Week 24.")
+		return false
+	if not bool(core_loop.obligation_receipt_matches(
+			"demo_collision", "body_rest", "selected")):
+		_fail("Core Loop V2 First Bill selected obligation is not publicly readable.")
+		return false
+	for deferred_id in ["father_call", "hanbit_month_close", "city_work_sample"]:
+		if not bool(core_loop.obligation_receipt_matches(
+				"demo_collision", deferred_id, "deferred")):
+			_fail("Core Loop V2 deferred obligation is not publicly readable: %s." % deferred_id)
+			return false
+	var application_transitions: Dictionary = state.get(
+		"application_transition_receipts", {})
+	var raw_city_expiry: Variant = application_transitions.get(
+		bill_choice_key, {})
+	if not raw_city_expiry is Dictionary:
+		_fail("Core Loop V2 deferred City work sample has no terminal transition receipt.")
+		return false
+	var city_expiry: Dictionary = raw_city_expiry
+	if str(city_expiry.get("receipt_key", "")) != bill_choice_key \
+			or str(city_expiry.get("application_id", "")) \
+				!= "city_facility_ops_2026h1" \
+			or str(city_expiry.get("from", "")) != "submitted" \
+			or str(city_expiry.get("to", "")) != "no_offer" \
+			or str(city_expiry.get("bundle_id", "")) != "demo_collision" \
+			or str(city_expiry.get("event_id", "")) != "v2_demo_first_bill" \
+			or int(city_expiry.get("choice_index", -1)) != 7 \
+			or int(city_expiry.get("turn", -1)) != 24 \
+			or str((state.get("application_statuses", {}) as Dictionary).get(
+				"city_facility_ops_2026h1", "")) != "no_offer" \
+			or (state.get("future_application_receipts", {}) as Dictionary).has(
+				"city_facility_ops_2026h1_result"):
+		_fail("Core Loop V2 deferred City work sample did not expire exactly once in Week 24.")
+		return false
+	var future_story: Dictionary = state.get("future_story_receipts", {})
+	var raw_hyunsu: Variant = future_story.get("hyunsu_exam_2026", {})
+	if not raw_hyunsu is Dictionary:
+		_fail("Core Loop V2 Hyunsu exam eve has no future outcome receipt.")
+		return false
+	var hyunsu: Dictionary = raw_hyunsu
+	var expected_hyunsu := {
+		"receipt_id": "hyunsu_exam_2026",
+		"character": "hyunsu",
+		"producer_bundle": "hyunsu_exam_eve",
+		"source_memory": "hyunsu_exam_eve_rest_protected",
+		"source_kind": "relationship_memory",
+		"outcome": "fail",
+		"recorded_turn": 23,
+		"exam_turn": 24,
+		"available_turn": 27,
+		"result_event": "hyunsu_result_fail",
+	}
+	for key in expected_hyunsu:
+		if hyunsu.get(key) != expected_hyunsu[key]:
+			_fail("Core Loop V2 Hyunsu future receipt drifted at %s: %s." % [
+				key, str(hyunsu.get(key))])
+			return false
+	if not bool(core_loop.has_hyunsu_exam_outcome_receipt()) \
+			or not bool(GameState.flags.get("hyunsu_exam_day_seen", false)) \
+			or bool(GameState.flags.get("hyunsu_passed", false)) \
+			or bool(GameState.flags.get("hyunsu_failed", false)) \
+			or not str(core_loop.hyunsu_exam_result_event_id(25, false)).is_empty() \
+			or not _core_loop_v2_story_positions(
+				story_sequence, "hyunsu_result_pass").is_empty() \
+			or not _core_loop_v2_story_positions(
+				story_sequence, "hyunsu_result_fail").is_empty():
+		_fail("Core Loop V2 revealed or lost Hyunsu's formal result at the Week-24 boundary.")
+		return false
+
+	var completion := _find_visible_meta_control(
+		scene, "core_loop_v2_completion", true)
+	if not is_instance_valid(completion) \
+			or not bool(completion.get_meta(
+				"core_loop_v2_completion_autosave_succeeded", false)):
+		_fail("Core Loop V2 completion did not expose a successful terminal autosave.")
+		return false
+	var terminal_saves: Array[Dictionary] = []
+	for save_record in _core_loop_v2_save_events:
+		if bool(save_record.get("success", false)) \
+				and int(save_record.get("slot", -1)) == SaveManager.AUTOSAVE_SLOT \
+				and int(save_record.get("turn", 0)) == 25:
+			terminal_saves.append(save_record)
+	if terminal_saves.size() != 1 \
+			or int(terminal_saves[0].get("completed_through_week", 0)) != 24 \
+			or not bool(terminal_saves[0].get("prototype_complete", false)):
+		_fail("Core Loop V2 wrote %d successful terminal autosaves instead of exactly one complete boundary." % terminal_saves.size())
+		return false
+	var save_path := SaveManager.slot_path(SaveManager.AUTOSAVE_SLOT)
+	var payload_raw: Variant = JSON.parse_string(
+		FileAccess.get_file_as_string(save_path))
+	if not payload_raw is Dictionary:
+		_fail("Core Loop V2 terminal autosave is not a readable payload: %s." % save_path)
+		return false
+	var payload: Dictionary = payload_raw
+	var saved_state_raw: Variant = payload.get("state", {})
+	var build_flavor = load("res://systems/BuildFlavor.gd")
+	if str(payload.get("build_flavor", "")) != build_flavor.PLAYTEST_FLAVOR_ID \
+			or str(payload.get("save_namespace", "")) \
+				!= build_flavor.PLAYTEST_SAVE_NAMESPACE \
+			or not saved_state_raw is Dictionary:
+		_fail("Core Loop V2 terminal autosave escaped its playtest flavor or namespace.")
+		return false
+	var expected_identity: Dictionary = SaveManager.save_identity_fields()
+	for identity_key in [
+			"game_version", "build_id", "build_flavor", "save_namespace"]:
+		if str(payload.get(identity_key, "")) \
+				!= str(expected_identity.get(identity_key, "")):
+			_fail("Core Loop V2 terminal autosave identity drifted at %s." % identity_key)
+			return false
+	var saved_state: Dictionary = saved_state_raw
+	var saved_v2_raw: Variant = saved_state.get("core_loop_v2_state", {})
+	if int(saved_state.get("turn", 0)) != 25 \
+			or int(saved_state.get("month", 0)) != 7 \
+			or int(saved_state.get("week_of_month", 0)) != 1 \
+			or bool(saved_state.get("is_game_over", false)) \
+			or not saved_v2_raw is Dictionary \
+			or int((saved_v2_raw as Dictionary).get(
+				"completed_through_week", 0)) != 24 \
+			or not bool((saved_v2_raw as Dictionary).get(
+				"prototype_complete", false)) \
+			or int((saved_v2_raw as Dictionary).get(
+				"completed_at_turn", 0)) != 25 \
+			or ((saved_v2_raw as Dictionary).get(
+				"plans", {}) as Dictionary).size() != 6 \
+			or ((saved_v2_raw as Dictionary).get(
+				"routine_receipts", {}) as Dictionary).size() != 24 \
+			or ((saved_v2_raw as Dictionary).get(
+				"month_summaries", {}) as Dictionary).size() != 6 \
+			or str((saved_state.get("current_job", {}) as Dictionary).get(
+				"id", "")) != "job_03":
+		_fail("Core Loop V2 terminal autosave does not contain the live completion boundary.")
+		return false
+	return true
+
+func _assert_core_loop_v2_input_purity(input_mode: String) -> bool:
+	if _route_semantic_events != 0 or _route_unknown_events != 0:
+		_fail("Core Loop V2 route used synthetic or unknown inputs: semantic=%d unknown=%d." % [
+			_route_semantic_events, _route_unknown_events])
+		return false
+	if input_mode == "gamepad":
+		if _route_keyboard_events != 0 or _route_mouse_events != 0 \
+				or _route_gamepad_events <= 0:
+			_fail("Core Loop V2 gamepad route mixed inputs: keyboard=%d mouse=%d gamepad=%d." % [
+				_route_keyboard_events, _route_mouse_events, _route_gamepad_events])
+			return false
+	else:
+		if _route_gamepad_events != 0 or _route_mouse_events != 0 \
+				or _route_keyboard_events <= 0:
+			_fail("Core Loop V2 keyboard route mixed inputs: keyboard=%d mouse=%d gamepad=%d." % [
+				_route_keyboard_events, _route_mouse_events, _route_gamepad_events])
+			return false
+	return true
+
+func _boot_core_loop_v2_from_title(input_mode: String) -> bool:
+	if input_mode not in ["keyboard", "gamepad"]:
+		_fail("Core Loop V2 title boot requires keyboard or gamepad, got %s." % input_mode)
+		return false
+	var packed := load("res://scenes/StartMenu.tscn") as PackedScene
+	if packed == null:
+		_fail("Core Loop V2 input run could not load StartMenu.tscn.")
+		return false
+	var menu := packed.instantiate()
+	get_tree().root.add_child.call_deferred(menu)
+	await get_tree().process_frame
+	get_tree().current_scene = menu
+	await _settle(0.25)
+	if input_mode == "gamepad":
+		await _send_route_raw_gamepad_button(JOY_BUTTON_A)
+	else:
+		await _send_route_key(KEY_ENTER)
+	await _settle(0.42)
+	if not is_instance_valid(menu):
+		_fail("Core Loop V2 %s title consumed splash and demo entry with one input." % input_mode)
+		return false
+	var entry := _find_visible_meta_value_button(
+		menu, "build_entry_kind", "core_loop_v2_playtest")
+	if entry == null or not bool(entry.get_meta("core_loop_v2_test_entry", false)):
+		_fail("Core Loop V2 title did not expose one playtest entry with both stable metadata keys.")
+		return false
+	entry.grab_focus()
+	await get_tree().process_frame
+	await _activate_route_control(entry, input_mode)
+
+	var opening_seen := false
+	var opening_skip_sent := false
+	var last_scene_path := ""
+	for _frame in range(1200):
+		await get_tree().create_timer(0.01).timeout
+		var current := get_tree().current_scene
+		if not is_instance_valid(current):
+			continue
+		var script := current.get_script() as Script
+		var path := script.resource_path if script != null else ""
+		if path != last_scene_path:
+			last_scene_path = path
+			print("CORE_LOOP_V2_INPUT_BOOT_STAGE device=%s scene=%s" % [
+				input_mode, path])
+		if path == "res://scenes/OpeningCinematic.gd":
+			opening_seen = true
+			if not opening_skip_sent and not bool(current.get("_transitioning")):
+				await get_tree().create_timer(0.28).timeout
+				if input_mode == "gamepad":
+					await _send_route_raw_gamepad_button(JOY_BUTTON_A)
+				else:
+					await _send_route_key(KEY_ENTER)
+				opening_skip_sent = true
+		elif path in ["res://scenes/StoryMode.gd", "res://scenes/MainGame.gd"]:
+			if not opening_seen:
+				_fail("Core Loop V2 title skipped the real opening scene.")
+				return false
+			if not bool(GameState.core_loop_v2_state.get("enabled", false)):
+				_fail("Core Loop V2 playtest title entry did not enable the V2 run state.")
+				return false
+			return true
+	await _save("core_loop_v2_boot_%s_stall" % input_mode, 0.0)
+	_fail("Core Loop V2 %s title boot stalled at %s." % [input_mode, last_scene_path])
+	return false
 
 func _boot_demo_from_title(input_mode: String) -> bool:
 	var packed := load("res://scenes/StartMenu.tscn") as PackedScene
@@ -6258,32 +7385,20 @@ func _send_route_key(keycode: Key) -> void:
 	pressed.keycode = keycode
 	pressed.physical_keycode = keycode
 	pressed.pressed = true
+	_record_route_injected_event(pressed)
 	Input.parse_input_event(pressed)
-	_route_keyboard_events += 1
 	await get_tree().process_frame
 	var released := pressed.duplicate() as InputEventKey
 	released.pressed = false
+	_record_route_injected_event(released)
 	Input.parse_input_event(released)
-	_route_keyboard_events += 1
 	await get_tree().process_frame
 
 func _send_route_gamepad_button(button_index: JoyButton) -> void:
 	if button_index != JOY_BUTTON_A:
 		_fail("Demo gamepad route only supports the South/accept button, got %d." % button_index)
 		return
-	var pressed := InputEventAction.new()
-	pressed.action = "ui_accept"
-	pressed.pressed = true
-	pressed.strength = 1.0
-	Input.parse_input_event(pressed)
-	_route_gamepad_events += 1
-	await get_tree().process_frame
-	var released := pressed.duplicate() as InputEventAction
-	released.pressed = false
-	released.strength = 0.0
-	Input.parse_input_event(released)
-	_route_gamepad_events += 1
-	await get_tree().process_frame
+	await _send_route_raw_gamepad_button(button_index)
 
 func _send_route_raw_gamepad_button(button_index: JoyButton) -> void:
 	var pressed := InputEventJoypadButton.new()
@@ -6291,14 +7406,14 @@ func _send_route_raw_gamepad_button(button_index: JoyButton) -> void:
 	pressed.button_index = button_index
 	pressed.pressed = true
 	pressed.pressure = 1.0
+	_record_route_injected_event(pressed)
 	Input.parse_input_event(pressed)
-	_route_gamepad_events += 1
 	await get_tree().process_frame
 	var released := pressed.duplicate() as InputEventJoypadButton
 	released.pressed = false
 	released.pressure = 0.0
+	_record_route_injected_event(released)
 	Input.parse_input_event(released)
-	_route_gamepad_events += 1
 	await get_tree().process_frame
 
 func _send_route_mouse_click(position: Vector2) -> void:
@@ -6309,8 +7424,8 @@ func _send_route_mouse_click(position: Vector2) -> void:
 	var motion := InputEventMouseMotion.new()
 	motion.position = position
 	motion.global_position = position
+	_record_route_injected_event(motion)
 	get_viewport().push_input(motion, true)
-	_route_mouse_events += 1
 	await get_tree().process_frame
 	var pressed := InputEventMouseButton.new()
 	pressed.button_index = MOUSE_BUTTON_LEFT
@@ -6318,14 +7433,14 @@ func _send_route_mouse_click(position: Vector2) -> void:
 	pressed.global_position = position
 	pressed.pressed = true
 	pressed.button_mask = MOUSE_BUTTON_MASK_LEFT
+	_record_route_injected_event(pressed)
 	get_viewport().push_input(pressed, true)
-	_route_mouse_events += 1
 	await get_tree().process_frame
 	var released := pressed.duplicate() as InputEventMouseButton
 	released.pressed = false
 	released.button_mask = 0
+	_record_route_injected_event(released)
 	get_viewport().push_input(released, true)
-	_route_mouse_events += 1
 	await get_tree().process_frame
 
 func _find_first_enabled_button(root: Node) -> Button:
@@ -6365,6 +7480,26 @@ func _find_visible_meta_button(root: Node, meta_key: String) -> Button:
 		return null
 	for child in root.get_children():
 		var found := _find_visible_meta_button(child, meta_key)
+		if found != null:
+			return found
+	return null
+
+func _find_visible_meta_value_button(
+		root: Node, meta_key: String, expected_value: Variant) -> Button:
+	if root == null:
+		return null
+	if root is Button:
+		var button := root as Button
+		if button.is_visible_in_tree() and not button.disabled \
+				and button.focus_mode != Control.FOCUS_NONE \
+				and button.has_meta(meta_key) \
+				and button.get_meta(meta_key) == expected_value:
+			return button
+	if root is Control and not (root as Control).is_visible_in_tree():
+		return null
+	for child in root.get_children():
+		var found := _find_visible_meta_value_button(
+			child, meta_key, expected_value)
 		if found != null:
 			return found
 	return null

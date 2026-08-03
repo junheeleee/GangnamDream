@@ -59,6 +59,9 @@ var _confirm_button: Button
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	set_meta("core_loop_v2_planner", true)
+	set_meta("core_loop_v2_month", _month_index)
+	set_meta("core_loop_v2_review_pending", false)
 	z_index = 96
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	_font = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
@@ -111,6 +114,7 @@ func open(month_index: int, read_only: bool = false) -> bool:
 		_last_focus_key = ""
 	_last_opened_month = month_index
 	_opened_once = true
+	set_meta("core_loop_v2_month", _month_index)
 	_pending_focus_offer_id = ""
 	_pending_focus_routine_key = ""
 	visible = true
@@ -361,6 +365,7 @@ func _build_ui() -> void:
 	_hint_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	footer.add_child(_hint_label)
 	_confirm_button = _button("", true)
+	_confirm_button.set_meta("core_loop_v2_plan_confirm", true)
 	_confirm_button.custom_minimum_size = Vector2(330, 48)
 	_confirm_button.pressed.connect(_commit_plan)
 	_confirm_button.mouse_entered.connect(_confirm_button.grab_focus)
@@ -425,6 +430,7 @@ func _request_communication() -> void:
 
 
 func _rebuild() -> void:
+	set_meta("core_loop_v2_review_pending", _review_pending)
 	_title_label.text = LocaleManager.ui(
 		"%d월 · %s" % [_month_index, str(_month_data.get("title_ko", ""))],
 		"MONTH %d · %s" % [_month_index, str(_month_data.get("title_en", ""))])
@@ -498,6 +504,7 @@ func _rebuild_calendar() -> void:
 			_localized(offer, "deadline"),
 		]
 		var offer_button := _button(text, false)
+		offer_button.set_meta("core_loop_v2_offer_id", bundle_id)
 		offer_button.name = "Offer_%s" % bundle_id
 		offer_button.custom_minimum_size = Vector2(
 			0, 58 if _compact_layout else 62)
@@ -512,6 +519,7 @@ func _rebuild_calendar() -> void:
 	var weeks: Array = _month_data.get("weeks", [1, 4])
 	for week in range(int(weeks[0]), int(weeks[1]) + 1):
 		var slot_button := _button("", false)
+		slot_button.set_meta("core_loop_v2_week", week)
 		slot_button.name = "Week_%d" % week
 		slot_button.custom_minimum_size = Vector2(
 			0, 68 if _compact_layout else 76)
@@ -1041,12 +1049,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event is InputEventJoypadButton and (event as InputEventJoypadButton).pressed:
 		var joy_button := int((event as InputEventJoypadButton).button_index)
 		match joy_button:
-			JOY_BUTTON_A:
-				var focused := get_viewport().gui_get_focus_owner()
-				if focused is Button and is_ancestor_of(focused) \
-						and not (focused as Button).disabled:
-					(focused as Button).pressed.emit()
-					handled = true
 			JOY_BUTTON_B:
 				if _read_only_plan:
 					close()

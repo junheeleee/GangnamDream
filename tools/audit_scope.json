@@ -436,6 +436,32 @@
       ]
     },
     {
+      "tool": "tools/run_core_loop_v2_input_qa.sh ko-gamepad",
+      "godot": true,
+      "why": "V2 타이틀→24주 KO 원시 PlayStation South 입력·완료 저장·타이틀 복귀",
+      "paths": [
+        "project.godot",
+        "systems/BuildFlavor.gd",
+        "scenes/CoreLoopPlanner.gd",
+        "tools/ScreenshotQA.gd",
+        "tools/run_core_loop_v2_input_qa.sh",
+        ".github/workflows/ci.yml"
+      ]
+    },
+    {
+      "tool": "tools/run_core_loop_v2_input_qa.sh en-keyboard",
+      "godot": true,
+      "why": "V2 타이틀→24주 EN 키보드 입력·완료 저장·타이틀 복귀",
+      "paths": [
+        "project.godot",
+        "systems/BuildFlavor.gd",
+        "scenes/CoreLoopPlanner.gd",
+        "tools/ScreenshotQA.gd",
+        "tools/run_core_loop_v2_input_qa.sh",
+        ".github/workflows/ci.yml"
+      ]
+    },
+    {
       "tool": "tools/CoreLoopV2HandoffCheck.tscn",
       "godot": true,
       "why": "24주 데모 영수증의 48주·5년 장편 인계 런타임",
