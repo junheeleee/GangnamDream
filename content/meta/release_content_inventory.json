@@ -102,16 +102,16 @@
   "corpus_contract": {
     "ko_event_files": 127,
     "en_event_files": 127,
-    "ko_events": 1597,
-    "en_events": 1597,
-    "event_ids_sha256": "bc70b4bd14af7a05c59bad5d52abc656149b647ec858dde20cfc2e13b76554c1",
+    "ko_events": 1599,
+    "en_events": 1599,
+    "event_ids_sha256": "ca632183f503c9cd841a597a4c147feea0bcab9acb1c93e0a5d730bccc42ba9c",
     "ko_endings": 35,
     "en_endings": 35,
     "ending_ids_sha256": "3c26984721dc1ee6a18d472b854b30578982f43632d05a3d004ad99cb247c118",
     "ending_content_sha256": "32ea94755971c459f74f5a3bae80151a077c9eb781277fee7fda58879b1045f1",
-    "active_art_assets": 246,
-    "source_raster_assets": 292,
-    "packaged_raster_assets": 284,
+    "active_art_assets": 248,
+    "source_raster_assets": 294,
+    "packaged_raster_assets": 286,
     "registry_external_source_raster_assets": 46,
     "registry_external_packaged_raster_assets": 38,
     "source_only_gdignored_raster_assets": 8,
@@ -216,14 +216,14 @@
     }
   },
   "v2_reachability_contract": {
-    "runtime_dynamic_roots": ["v2_demo_first_bill", "v2_dirty_recruiter_week24", "v2_dirty_trace_initial_call", "v2_hyunsu_exam_morning_echo"],
+    "runtime_dynamic_roots": ["v2_dirty_recruiter_week24", "v2_dirty_trace_initial_call", "v2_hyunsu_exam_morning_echo"],
     "fresh_start_prologue_root": "story_flashforward",
-    "week_1_24_event_count": 55,
-    "week_1_24_event_ids_sha256": "382a8152ddb7339fa82b1393f07f5fd40e8569ce127eb38744d9e981fdce89af",
+    "week_1_24_event_count": 57,
+    "week_1_24_event_ids_sha256": "3074eef14540f0b3e7d4afa519a35ef45bbb7ef983d1b80a128fff68fd2d63f2",
     "prologue_event_count": 12,
     "prologue_event_ids_sha256": "729252866015f61b915170eb8da2813b621dde73ca936c63fb3a161ebc5b5363",
-    "fresh_start_event_count": 67,
-    "fresh_start_event_ids_sha256": "9951423b6f51ca6eb1133ad4632d24c0042b62dda79720dc94256f9cb87f3953"
+    "fresh_start_event_count": 69,
+    "fresh_start_event_ids_sha256": "1782fb5891a77833637fb2c48693b38cc9f533701e804c3379c0a1349084a52a"
   },
   "network_contract": {
     "runtime_roots": ["autoloads", "scenes", "systems", "ui_components"],
@@ -354,8 +354,8 @@
         "categories": [], "tags": ["romance"],
         "tokens_ko": ["키스", "입을 맞", "첫날밤", "첫밤", "침대 위", "밤의 나머지", "불을 껐", "서로를 원"],
         "tokens_en": ["kiss", "first night", "on the bed", "rest of the night", "turned off the light", "wanted each other"],
-        "reviewed_search_noise_ids": ["v2_demo_first_bill"],
-        "expected_event_count": 119, "expected_file_count": 26, "expected_ids_sha256": "84c0c1537c8d2afb3e9f83ff4ab62c5184369398db42af6353a483a662f03a32", "expected_content_sha256": "d5cef90db552a6fd9236d03091d1e0de105eee2a448744abb53a4c823fd75803"
+        "reviewed_search_noise_ids": [],
+        "expected_event_count": 118, "expected_file_count": 25, "expected_ids_sha256": "cf4f957a1974afe110f23454250738e058bee25ed0b7ab93617196deae2a2919", "expected_content_sha256": "4c1b18be995d039afa0611fcaa853487e654593290098977346689f684420d5b"
       },
       "facts": [
         {

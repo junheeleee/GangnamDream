@@ -88,6 +88,7 @@ TRANSITION_KEYS = {
     "to_location",
     "arrival_cue_ko",
     "arrival_cue_en",
+    "queue_only",
 }
 SPEECH_KEYS = {"speakers"}
 SPEAKER_KEYS = {"register_basis", "references", "choice_indices"}
@@ -1026,14 +1027,23 @@ def main() -> int:
         if from_id not in events or to_id not in events:
             errors.append(f"{owner}: references a missing event")
             continue
+        queue_only = contract.get("queue_only", False)
+        if not isinstance(queue_only, bool):
+            errors.append(f"{owner}: queue_only must be a boolean")
+            queue_only = False
+        if queue_only and edge not in demo_transition_edges:
+            errors.append(f"{owner}: queue_only edges must be demo coverage targets")
+
         choices = events[from_id].get("choices", [])
         follows = {
             str(choice.get("follow_up_event", ""))
             for choice in choices
             if isinstance(choice, dict)
         } if isinstance(choices, list) else set()
-        if to_id not in follows:
+        if not queue_only and to_id not in follows:
             errors.append(f"{owner}: {from_id} does not follow to {to_id}")
+        if queue_only and to_id in follows:
+            errors.append(f"{owner}: queue_only target is already an authored follow-up")
 
         mode = str(contract.get("mode", ""))
         from_location = str(contract.get("from_location", ""))

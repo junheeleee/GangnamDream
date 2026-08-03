@@ -37,7 +37,7 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 246,
+  "inventory_count": 248,
   "counts": {
     "1080p": {
       "CG": {
@@ -48,7 +48,7 @@
         "severe": 0
       },
       "Portrait": {
-        "native": 90,
+        "native": 91,
         "light": 0,
         "medium": 0,
         "heavy": 0,
@@ -56,7 +56,7 @@
       },
       "Background": {
         "native": 1,
-        "light": 81,
+        "light": 82,
         "medium": 0,
         "heavy": 0,
         "severe": 0
@@ -73,7 +73,7 @@
       "Portrait": {
         "native": 32,
         "light": 0,
-        "medium": 58,
+        "medium": 59,
         "heavy": 0,
         "severe": 0
       },
@@ -81,7 +81,7 @@
         "native": 1,
         "light": 0,
         "medium": 0,
-        "heavy": 81,
+        "heavy": 82,
         "severe": 0
       }
     }
@@ -1394,6 +1394,23 @@
       "kind": "Background",
       "ids": [
         "trading_room"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/v2_first_bill_desk_closeup.png": {
+      "kind": "Background",
+      "ids": [
+        "v2_first_bill_desk_closeup"
       ],
       "width": 1280,
       "height": 800,
@@ -2824,6 +2841,23 @@
       "ids": [
         "player_determined",
         "player_moral_black"
+      ],
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "scale": {
+        "1080p": 1.0,
+        "4k": 2.0
+      },
+      "band": {
+        "1080p": "native",
+        "4k": "medium"
+      }
+    },
+    "assets/characters/main_character_first_bill_decision.png": {
+      "kind": "Portrait",
+      "ids": [
+        "player_first_bill_decision"
       ],
       "width": 512,
       "height": 768,

@@ -655,8 +655,14 @@ CHOICE_KEYS = {"text", "text_if_moral", "effects", "flags", "follow_up_event",
                "grant_job_display", "first_paycheck_ratio", "replace_current_job",
                "conditions_note", "deferred_follow_up", "deferred_delay",
                "foreshadow", "bridge_summary", "clues", "give_items", "requires_item", "housing_keepsake",
-               "year_scene", "v2_obligation_id",
+               "year_scene", "choice_kind", "v2_obligation_id",
                "v2_player_initiated_character"}
+CHOICE_KINDS = {"expression", "memory", "decision"}
+EXPRESSION_CHOICE_KEYS = {
+    "text", "choice_kind", "follow_up_event", "result_text",
+    "result_cg", "result_cg_reveal_paragraph", "result_background",
+    "result_ambience",
+}
 
 def _match_arm_keys(src, func_pattern):
     """함수 본문 안 match 문의 따옴표 키들을 수집 (코드가 진실 — 목록 자동 동기화)."""
@@ -825,6 +831,19 @@ def check_event_keys():
                 for k in ch.keys():
                     if k not in CHOICE_KEYS:
                         warn('%s  [%s] 선택지%d 모르는 키 "%s"' % (rel(p), eid, ci, k))
+                if "choice_kind" in ch:
+                    choice_kind = ch.get("choice_kind")
+                    if choice_kind not in CHOICE_KINDS:
+                        err('%s  [%s] 선택지%d choice_kind "%s"는 expression/memory/decision 중 하나여야 함'
+                            % (rel(p), eid, ci, choice_kind))
+                    elif choice_kind == "expression":
+                        permanent_keys = sorted(set(ch) - EXPRESSION_CHOICE_KEYS)
+                        if permanent_keys:
+                            err('%s  [%s] 선택지%d expression 선택은 현재 장면 밖 상태를 바꾸는 키를 가질 수 없음: %s'
+                                % (rel(p), eid, ci, permanent_keys))
+                        if not isinstance(ch.get("result_text"), str) or not ch.get("result_text", "").strip():
+                            err('%s  [%s] 선택지%d expression 선택에는 고유한 비어 있지 않은 result_text가 필요함'
+                                % (rel(p), eid, ci))
                 if "follow_up_requires_flags" in ch:
                     required_flags = ch.get("follow_up_requires_flags")
                     if (

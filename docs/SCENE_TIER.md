@@ -127,6 +127,7 @@
 | 장 구조·가족·진실 | `content/meta/narrative_spine.json`의 각 장 `boss` |
 | 챕터 마감 | 이 문서 §5 |
 | 도덕 분기 | `MORAL_TINT.md` |
+| 24주 데모 정점 | `CORE_LOOP_V2.md` §13·§14 E와 `demo_core_loop_v2.json`의 `first_bill_finale` |
 
 여러 문서가 같은 사건을 지정해도 계층은 하나이며, 더 높은 쪽을 따른다.
 

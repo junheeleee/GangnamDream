@@ -13,7 +13,7 @@
     },
     "description_memory_if_known": {
       "obligation_receipt:demo_collision:selected:father_call": "On Friday of Week 24, {name} called his father first. He still learned neither the diagnosis nor when he might go to Changwon, but he wrote down when to call again.",
-      "obligation_receipt:demo_collision:selected:hanbit_month_close": "On Friday of Week 24, {name} sent Hanbit Distribution's month-end discrepancy sheet at 5:59 p.m. After his first full month on the job, he closed the books without inventing figures just to make the page look complete.",
+      "obligation_receipt:demo_collision:selected:hanbit_month_close": "On Friday of Week 24, {name} sent the first month-end discrepancy sheet assigned to him at Hanbit Distribution at 5:59 p.m. He left unverified figures for a Monday site recheck instead of inventing them.",
       "obligation_receipt:demo_collision:selected:city_work_sample&v2_city_service_result_seen": "On Friday of Week 24, {name} submitted the City Facilities worksheet. In Week 28, a text with the same application number said there would be no interview. The submission and its result now stood on the same line.",
       "obligation_receipt:demo_collision:selected:city_work_sample": "On Friday of Week 24, {name} submitted the City Facilities worksheet and received an automated confirmation. The work itself was now part of his application record.",
       "obligation_receipt:demo_collision:selected:daeun_checkin": "On Friday of Week 24, {name} reached the store in time for Daeun's night shift. Their check-in stopped whenever a customer entered, but {name} was the one who had gone to see her.",
@@ -22,7 +22,7 @@
       "obligation_receipt:demo_collision:selected:urgent_paid_shift": "On Friday of Week 24, {name} took an urgent overnight loading shift and earned 280,000 won. The day's pay and the strain in his palms and lower back entered the same ledger.",
       "obligation_receipt:demo_collision:selected:body_rest": "On Friday of Week 24, {name} set one alarm and put the phone face down. With every problem still unresolved, he chose sleep instead of pushing through one more night.",
       "obligation_receipt:demo_collision:deferred:father_call": "That day, he neither called his father nor set a time for the next call.",
-      "obligation_receipt:demo_collision:deferred:hanbit_month_close": "Hanbit Distribution's month-end discrepancy sheet passed its six o'clock deadline. At the end of his first full month on the job, one unfinished duty remained as a blank in the notebook.",
+      "obligation_receipt:demo_collision:deferred:hanbit_month_close": "The first month-end discrepancy sheet assigned to him at Hanbit Distribution passed its six o'clock deadline. One duty from that first assigned close remained as a blank in the notebook.",
       "obligation_receipt:demo_collision:deferred:city_work_sample": "The City Facilities worksheet was not submitted. There was no automated receipt, and no result to wait for.",
       "obligation_receipt:demo_collision:deferred:daeun_checkin": "Though he knew when Daeun worked nights, {name} did not go to the store that day. The check-in he could have offered first was left for later.",
       "obligation_receipt:demo_collision:deferred:jaehyuk_reply": "{name} could have checked in with Jaehyuk first, but he did not start the conversation that day. Unsent words left no trace in the Kakao chat list.",

@@ -130,6 +130,7 @@ const ARCHIVE_SCENE_IDS: Array[String] = [
 	"arc_season_snow_daeun", "arc_season_snow_jiyeon",
 	"arc_daeun_first_kiss", "arc_jiyeon_first_kiss",
 	"arc_daeun_first_night", "arc_daeun_wedding_night", "arc_jiyeon_wedding_night",
+	"v2_demo_first_bill_opening",
 ]
 const ARCHIVE_HIDDEN_ACHIEVEMENTS: Array[String] = [
 	"four_seasons", "kept_evidence", "drawer_truth", "dawn_people",
@@ -1206,6 +1207,10 @@ func _archive_cg_card(cg_id: String, catalog_index: int) -> Button:
 func _archive_scene_card(scene_id: String, catalog_index: int) -> Button:
 	var event: Dictionary = DataRegistry.find_event(scene_id)
 	var unlocked: bool = MetaProgression.has_seen_scene(scene_id) and not event.is_empty()
+	if scene_id == DemoCoreLoopV2Script.FIRST_BILL_OPENING_ID:
+		unlocked = unlocked and not DemoCoreLoopV2Script \
+			.validated_complete_first_bill_replay_snapshot(
+				MetaProgression.get_scene_replay_snapshot(scene_id)).is_empty()
 	var title := str(event.get("title", _tr("기록", "Record"))) if unlocked else "???"
 	var button := _archive_card_button(142)
 	button.name = "ArchiveScene_%02d" % (catalog_index + 1)
@@ -1414,6 +1419,10 @@ func _close_archive_cg_preview() -> void:
 
 func _replay_archive_scene(scene_id: String) -> void:
 	if not MetaProgression.has_seen_scene(scene_id) or DataRegistry.find_event(scene_id).is_empty():
+		return
+	if scene_id == DemoCoreLoopV2Script.FIRST_BILL_OPENING_ID \
+			and DemoCoreLoopV2Script.validated_complete_first_bill_replay_snapshot(
+				MetaProgression.get_scene_replay_snapshot(scene_id)).is_empty():
 		return
 	GameState.pending_story_queue = [scene_id]
 	GameState.story_return_scene = "res://scenes/StartMenu.tscn"

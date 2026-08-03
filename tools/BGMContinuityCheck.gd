@@ -198,6 +198,151 @@ func _ready() -> void:
 			return
 		family_pos = BGMPlayer._player_a.get_playback_position()
 
+	# 24주 마지막 청구서는 세 개의 구현 링크지만 한 장면이다. 첫 문단의
+	# 종이 소리 뒤에 reckoning이 들어오고, 결정과 수첩 링크는 같은 주거
+	# 룸톤과 곡의 재생 위치를 이어받는다. 언어 재바인딩은 이미 지난 물리음을
+	# 다시 큐에 넣지 않는다.
+	BGMPlayer.enter_ambient_bed(0.0)
+	GameState.housing = "gosiwon"
+	GameState.month = 6
+	var first_bill_opening: Dictionary = DataRegistry.find_event(
+		"v2_demo_first_bill_opening")
+	var first_bill_decision: Dictionary = DataRegistry.find_event(
+		"v2_demo_first_bill")
+	var first_bill_ledger: Dictionary = DataRegistry.find_event(
+		"v2_demo_first_bill_ledger")
+	if first_bill_opening.is_empty() or first_bill_decision.is_empty() \
+			or first_bill_ledger.is_empty():
+		_fail("first-bill continuous-scene audio fixtures are missing")
+		return
+
+	BGMPlayer.update_event_ambience(first_bill_opening)
+	BGMPlayer.begin_story_event(first_bill_opening)
+	AudioManager.begin_story_audio_event("v2_demo_first_bill_opening")
+	BGMPlayer.play_scene_paragraph_music(first_bill_opening, "", 0)
+	AudioManager.play_scene_paragraph_cues(
+		"v2_demo_first_bill_opening", "", 0)
+	await get_tree().process_frame
+	if BGMPlayer._current_ambience_key != "room" \
+			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("first-bill opening did not establish the live room before music")
+		return
+	if _sfx_stream_count("paper_handle") != 1 \
+			or AudioManager._story_audio_seen.size() != 1:
+		_fail("first-bill opening did not queue exactly one paper handle")
+		return
+	var paper_cue_token := (
+		"v2_demo_first_bill_opening::description:0:0:paper_handle")
+	if not AudioManager._story_audio_seen.has(paper_cue_token):
+		_fail("first-bill paper cue was not owned by opening paragraph 0")
+		return
+	var paper_play_ms := int(AudioManager._last_sfx_ms.get(
+		"paper_handle", -1))
+	var opening_audio_generation := AudioManager._story_audio_generation
+	await get_tree().create_timer(0.40).timeout
+	var original_audio_language := LocaleManager.language
+	var alternate_audio_language := (
+		"en" if original_audio_language == "ko" else "ko")
+	LocaleManager.set_language(alternate_audio_language)
+	var localized_first_bill_opening: Dictionary = DataRegistry.find_event(
+		"v2_demo_first_bill_opening")
+	AudioManager.play_scene_paragraph_cues(
+		"v2_demo_first_bill_opening", "", 0)
+	LocaleManager.set_language(original_audio_language)
+	if localized_first_bill_opening.is_empty() \
+			or str(localized_first_bill_opening.get("id", "")) \
+			!= "v2_demo_first_bill_opening":
+		_fail("first-bill opening could not rebind across text locales")
+		return
+	if AudioManager._story_audio_generation != opening_audio_generation \
+			or AudioManager._story_audio_seen.size() != 1 \
+			or int(AudioManager._last_sfx_ms.get("paper_handle", -1)) \
+			!= paper_play_ms \
+			or _sfx_stream_count("paper_handle") > 1:
+		_fail("locale re-render duplicated the first-bill paper handle")
+		return
+
+	BGMPlayer.play_scene_paragraph_music(first_bill_opening, "", 1)
+	await get_tree().create_timer(0.18).timeout
+	if BGMPlayer._current_key != "reckoning" or not BGMPlayer._player_a.playing:
+		_fail("reckoning did not enter on the first-bill opening hook")
+		return
+	var first_bill_music_pos := BGMPlayer._player_a.get_playback_position()
+	var first_bill_room_pos := BGMPlayer._ambience_player.get_playback_position()
+
+	BGMPlayer.update_event_ambience(first_bill_decision)
+	BGMPlayer.begin_story_event(first_bill_decision)
+	AudioManager.begin_story_audio_event("v2_demo_first_bill")
+	BGMPlayer.play_scene_paragraph_music(first_bill_decision, "", 0)
+	await get_tree().process_frame
+	var decision_music_pos := BGMPlayer._player_a.get_playback_position()
+	if BGMPlayer._current_key != "reckoning" \
+			or decision_music_pos + 0.05 < first_bill_music_pos:
+		_fail("reckoning restarted between the first-bill opening and decision")
+		return
+	if BGMPlayer._current_ambience_key != "room" \
+			or BGMPlayer._ambience_player.get_playback_position() + 0.05 \
+			< first_bill_room_pos:
+		_fail("live room tone restarted between first-bill opening and decision")
+		return
+
+	BGMPlayer.update_event_ambience(first_bill_ledger)
+	BGMPlayer.begin_story_event(first_bill_ledger)
+	AudioManager.begin_story_audio_event("v2_demo_first_bill_ledger")
+	BGMPlayer.play_scene_paragraph_music(first_bill_ledger, "", 0)
+	await get_tree().process_frame
+	var ledger_music_pos := BGMPlayer._player_a.get_playback_position()
+	if BGMPlayer._current_key != "reckoning" \
+			or ledger_music_pos + 0.05 < decision_music_pos:
+		_fail("reckoning restarted between the first-bill decision and ledger")
+		return
+	if BGMPlayer._current_ambience_key != "room" \
+			or BGMPlayer._ambience_player.get_playback_position() + 0.05 \
+			< first_bill_room_pos:
+		_fail("live room tone restarted before the first-bill ledger")
+		return
+
+	AudioManager.play_scene_result_paragraph_cues(
+		"v2_demo_first_bill_ledger", "", 0, 0)
+	await get_tree().process_frame
+	if _sfx_stream_count("pen_write") != 1 \
+			or AudioManager._story_audio_seen.size() != 1:
+		_fail("first-bill ledger did not queue exactly one pen write")
+		return
+	var pen_cue_token := (
+		"v2_demo_first_bill_ledger::result:0:0:0:pen_write")
+	if not AudioManager._story_audio_seen.has(pen_cue_token):
+		_fail("first-bill pen cue was not owned by ledger result paragraph 0")
+		return
+	var pen_play_ms := int(AudioManager._last_sfx_ms.get("pen_write", -1))
+	var ledger_audio_generation := AudioManager._story_audio_generation
+	await get_tree().create_timer(0.68).timeout
+	original_audio_language = LocaleManager.language
+	alternate_audio_language = (
+		"en" if original_audio_language == "ko" else "ko")
+	LocaleManager.set_language(alternate_audio_language)
+	var localized_first_bill_ledger: Dictionary = DataRegistry.find_event(
+		"v2_demo_first_bill_ledger")
+	AudioManager.play_scene_result_paragraph_cues(
+		"v2_demo_first_bill_ledger", "", 0, 0)
+	LocaleManager.set_language(original_audio_language)
+	if localized_first_bill_ledger.is_empty() \
+			or str(localized_first_bill_ledger.get("id", "")) \
+			!= "v2_demo_first_bill_ledger":
+		_fail("first-bill ledger could not rebind across text locales")
+		return
+	if AudioManager._story_audio_generation != ledger_audio_generation \
+			or AudioManager._story_audio_seen.size() != 1 \
+			or int(AudioManager._last_sfx_ms.get("pen_write", -1)) != pen_play_ms \
+			or _sfx_stream_count("pen_write") > 1:
+		_fail("locale re-render duplicated the first-bill pen write")
+		return
+	if BGMPlayer._current_key != "reckoning" \
+			or BGMPlayer._player_a.get_playback_position() + 0.05 \
+			< ledger_music_pos:
+		_fail("locale re-render restarted the first-bill reckoning cue")
+		return
+
 	# 데모의 마지막 현수 시험 장면은 무음으로 버려두지 않는다. 문과 발소리
 	# 뒤에 현수 모티프가 들어오며 다음 결과를 기다리게 해야 한다.
 	BGMPlayer.enter_ambient_bed(0.0)

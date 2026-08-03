@@ -98,6 +98,7 @@ INDOOR_BACKGROUNDS = {
     "goshiwon_room",
     "goshiwon_hallway",
     "goshiwon_shared_kitchen",
+    "v2_first_bill_desk_closeup",
     "convenience_night",
     "cafe",
     "gukbap_restaurant_night",
@@ -473,6 +474,24 @@ def edge_audio_policy(mode: str) -> str:
     }[mode]
 
 
+def runtime_story_edges(
+    events: dict[str, dict[str, Any]],
+    authored_edges: dict[str, Any],
+) -> list[tuple[str, str]]:
+    """Return both authored follow-ups and roots sequenced in one StoryMode queue."""
+    pairs = set(follow_up_edges(events))
+    for edge_id, raw_contract in authored_edges.items():
+        if not isinstance(raw_contract, dict) or not raw_contract.get("queue_only", False):
+            continue
+        parts = str(edge_id).split("->")
+        if len(parts) != 2:
+            continue
+        source_id, target_id = (part.strip() for part in parts)
+        if source_id in events and target_id in events and source_id != target_id:
+            pairs.add((source_id, target_id))
+    return sorted(pairs)
+
+
 def build_edge_contracts(
     events: dict[str, dict[str, Any]],
     surfaces: dict[str, str],
@@ -483,7 +502,7 @@ def build_edge_contracts(
     if not isinstance(authored_edges, dict):
         authored_edges = {}
     contracts: dict[str, dict[str, Any]] = {}
-    for source_id, target_id in follow_up_edges(events):
+    for source_id, target_id in runtime_story_edges(events, authored_edges):
         key = f"{source_id}->{target_id}"
         authored = authored_edges.get(key, {})
         authored = authored if isinstance(authored, dict) else {}
@@ -586,7 +605,7 @@ def build_manifest() -> dict[str, Any]:
     edges = build_edge_contracts(events, surfaces, presentations)
     return {
         "version": 1,
-        "updated": "2026-07-29",
+        "updated": "2026-08-04",
         "policy": {
             "unknown_transition": "none",
             "same_location_restarts": False,
@@ -666,9 +685,15 @@ def validate(manifest: dict[str, Any]) -> list[str]:
         errors.append("event intent coverage is not exactly the shipping event set")
 
     edges = manifest.get("transition_edges", {})
-    expected_edges = set(f"{a}->{b}" for a, b in follow_up_edges(events))
+    story_rules = load_json(STORY_RULES_PATH)
+    authored_edges = story_rules.get("transition_contracts", {})
+    if not isinstance(authored_edges, dict):
+        authored_edges = {}
+    expected_edges = set(
+        f"{a}->{b}" for a, b in runtime_story_edges(events, authored_edges)
+    )
     if not isinstance(edges, dict) or set(edges) != expected_edges:
-        errors.append("follow-up transition coverage is incomplete")
+        errors.append("runtime story transition coverage is incomplete")
         edges = {}
     for edge_id, contract in edges.items():
         if not isinstance(contract, dict):

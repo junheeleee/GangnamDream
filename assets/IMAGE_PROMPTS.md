@@ -14,6 +14,112 @@ GPT(DALL-E / GPT-4o)에 아래 프롬프트를 순서대로 전달해서 이미�
 
 ---
 
+## 2026-08-04 ORDER-75 — 24주 첫 결산 전용 연출
+
+> 주의: 이 두 문장은 원 ImageGen 호출 기록이 유실된 뒤 결과물·정본·참조
+> 입력에서 복원한 **재현 프롬프트**다. 정확한 원문이라고 주장하지 않으며,
+> 민준 나이는 2026년 시작 정본인 33세로 정합성 교정했다.
+
+### `v2_first_bill_desk_closeup.png`
+
+- **최종 경로**: `assets/backgrounds/v2_first_bill_desk_closeup.png`
+- **생성 원본**: `/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-25d687d2-d0bf-46c0-89d0-0c3712e485b9.png`
+- **최종 편집 원본**: `/Users/junheelee/.codex/generated_images/019fc841-af3c-7442-b2bc-971d6c553cd4/exec-62dbbbde-2fcb-4d0b-ad41-fe4c59f9523b.png`
+- **원본/최종**: 1586x992 RGB 편집 원본 → 1280x800 RGB 리사이즈
+- **최종 SHA-256**: `bddf7fe462c6b46ab4b9a7d1ff3d02225e59c1e18c61ea2d291c02d03344883b`
+
+재현 프롬프트:
+
+```text
+Use case: stylized-concept. Asset type: reusable 16:10 visual-novel event
+background, final 1280x800. Use the supplied canonical goshiwon_room as the
+exact reference for spatial geometry, materials, class signal, and restrained
+color. At 17:52 on Friday, June 26, 2026, show Kim Minjun's goshiwon desk in a
+near-frontal close shot from slightly above eye level. On the low desk place
+exactly one unbranded smartphone with a bank app open but no legible interface,
+one open blank lined notebook, one pen, a few receipts, one water glass, and the
+small black task lamp. A strip of the narrow left-wall bed and worn room continues
+behind the desk so this is unmistakably the same canonical room. Keep every
+object, desk edge, wall switch, bed, and walking path physically coherent.
+
+Gangnam Ink visual language: desaturated Korean social-reality manhwa / visual-
+novel realism, concrete gray and charcoal, matte paper grain, restrained ink-
+wash contrast, controlled cinematic light. Mix cool late-afternoon window light
+with the small warm task lamp. The moment is quiet, pressured, and reckoning-
+focused, not spectacular. Reserve the lower 30% as a calm dialogue-safe region.
+No person, readable number, legible app UI, handwriting, receipt text, brand,
+logo, or watermark. No duplicated phone, pen, or notebook. No exaggerated poverty,
+cyberpunk finance imagery, glossy mobile-game finish, or aspirational luxury.
+```
+
+최초 출력은 산문에서 이미 열어 둔 은행 앱과 달리 휴대폰이 완전히 꺼진
+화면으로 보여 상황 정합 검수에서 탈락했다. 원 프레임을 편집 대상으로
+다시 넣고 휴대폰 화면만 다음 프롬프트로 교정했다. 새 편집 원본의
+SHA-256은 `3d9db6b4b24e3c24196da86eb35b4fa62bb4dadefcb4a1bb2119ecc742b42312`다.
+
+```text
+Use case: precise-object-edit.
+Asset type: reusable 16:10 visual-novel event background, final 1280x800.
+Input image: the supplied image is the exact edit target.
+Primary request: Change only the screen of the single smartphone on the
+lower-left side of the desk. Turn that currently black/off screen on and show
+an extremely dim, generic, unbranded Korean mobile-banking app state. The
+display should emit only a restrained cool gray-blue glow and contain a few
+soft abstract interface blocks or dividers that read as a bank app at game
+scale, but absolutely no legible letters, numbers, balances, icons, bank name,
+brand, logo, or symbol.
+Invariants: Preserve every other pixel-level scene fact as closely as possible:
+exact 16:10 composition and camera, phone body/position/charging cable, open
+notebook, pen, receipt stack, water glass, black task lamp, bed, wall, basket,
+wall switch, room geometry, object count, late-afternoon plus lamp lighting,
+Gangnam Ink texture/color, and lower dialogue-safe area. Do not move, add,
+remove, duplicate, relight, redraw, crop, rotate, or restyle anything except the
+phone display surface. Keep exactly one phone, one notebook, and one pen.
+Avoid: readable UI or text, numbers, currency, balance, brand, logo, watermark,
+bright neon, cyberpunk glow, sci-fi UI, glossy mobile-game styling, changed
+receipt marks, changed wall texture, changed lamp light, new props, people.
+```
+
+최종본은 휴대폰 단일성·충전선·왼쪽 침대·중앙 수첩·오른쪽 영수증·스탠드·
+벽 스위치의 구도를 유지한다. 화면은 켜져 있지만 게임 크롭에서도 읽히는
+문자·숫자·잔액·은행명·상표가 없다.
+
+### `main_character_first_bill_decision.png`
+
+- **최종 경로**: `assets/characters/main_character_first_bill_decision.png`
+- **생성 원본**: `/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-8c08e2c4-ac4b-448b-a61d-7ee283bc5bc9.png`
+- **참조 정본**: `main_character_neutral_goshiwon.png`,
+  `main_character_determined.png`
+- **원본/최종**: 1024x1536 RGB 마젠타 크로마 → 크로마 제거 및
+  512x768 RGBA 리사이즈
+- **최종 SHA-256**: `3a0a0dc3ea0ca92964aba4f3de245313ef40d96957fbf55b39af4166da648339`
+
+재현 프롬프트:
+
+```text
+Use case: character-concept/edit. Use the supplied canonical
+main_character_neutral and main_character_determined portraits as exact identity
+references. Create Kim Minjun, a 33-year-old Korean man in 2026, wearing the same
+plain worn black crewneck. Chest-up three-quarter frontal composition. His eyes
+look downward toward a notebook outside the portrait; mouth closed, jaw quietly
+set, deciding without performance. He is not heroic, angry, villainous, or
+despairing. Preserve the existing face shape, eye shape, nose, mouth, short messy
+black hair, lean build, age, and clothing silhouette exactly.
+
+Match Gangnam Ink's desaturated gray-charcoal palette, matte paper grain,
+restrained ink line, and the existing in-game portrait lighting, saturation, and
+line weight. Prepare for a final 512x768 transparent RGBA portrait by using one
+perfectly flat #ff00ff chroma field outside the subject. No full body, hands,
+prop, room, text, logo, watermark, jewelry, new accessory, glossy mobile-game
+rendering, or photoreal DSLR treatment.
+```
+
+`assets/FIRST_BILL_VISUAL_BIBLE.md` 가 최종 프레임·소품·연기·크롭 판정을
+소유한다. 출시 전에는 생성 서비스의 당시 이용 약관과 계정 권리 범위를
+별도 증빙에 보관한다.
+
+---
+
 ## 2026-07-24 정본 보충 — 1·3·5년 인물 외형
 
 아래 보충은 이 문서의 초기 `no anime style` 메모보다 우선한다. 현재

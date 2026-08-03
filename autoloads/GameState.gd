@@ -1057,7 +1057,17 @@ func apply_monthly_pressure():
 
 	check_game_over()
 
+func is_expression_choice(choice: Variant) -> bool:
+	return choice is Dictionary \
+		and str((choice as Dictionary).get(
+			"choice_kind", "")).strip_edges().to_lower() == "expression"
+
 func apply_choice(event, choice):
+	# Expression choices only shape the current conversation. They must leave
+	# the complete serialized run state untouched, including event counters,
+	# logs, deferred callbacks, flags, and every stat/relationship surface.
+	if is_expression_choice(choice):
+		return
 	if not event.is_empty() and event.has("id"):
 		events_seen += 1
 		EventManager.register_directed_event(event)
@@ -3089,6 +3099,21 @@ func load_from_dict(data):
 		money += legacy_phone_refund
 	if not data.has("run_seen_scenes_by_year") or typeof(run_seen_scenes_by_year) != TYPE_DICTIONARY:
 		run_seen_scenes_by_year = {}
+	else:
+		var migrated_run_scenes: Dictionary = {}
+		for raw_year_key in run_seen_scenes_by_year:
+			var raw_scenes: Variant = run_seen_scenes_by_year.get(raw_year_key, [])
+			if not raw_scenes is Array:
+				continue
+			var scenes: Array = []
+			for raw_scene_id in raw_scenes as Array:
+				var scene_id := str(raw_scene_id)
+				if scene_id == "v2_demo_first_bill":
+					scene_id = "v2_demo_first_bill_opening"
+				if not scenes.has(scene_id):
+					scenes.append(scene_id)
+			migrated_run_scenes[str(raw_year_key)] = scenes
+		run_seen_scenes_by_year = migrated_run_scenes
 	if not data.has("year_scenes") or typeof(year_scenes) != TYPE_DICTIONARY:
 		year_scenes = {}
 	if not data.has("random_event_counts") or typeof(random_event_counts) != TYPE_DICTIONARY:

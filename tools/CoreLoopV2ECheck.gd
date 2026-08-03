@@ -736,7 +736,14 @@ static func _full_route_play_story_roots(
 		errors: Array[String]) -> bool:
 	var roots := CORE_LOOP.resolved_event_roots(bundle_id)
 	if roots.is_empty():
-		errors.append("story bundle %s has no resolved roots" % bundle_id)
+		errors.append("story bundle %s has no resolved roots: context=%s flags=%s" \
+			% [bundle_id, GameState.core_loop_v2_state.get(
+				"demo_collision_context", {}), {
+					"escaped_dirty_money": bool(GameState.flags.get(
+						"escaped_dirty_money", false)),
+					"fell_to_darkness": bool(GameState.flags.get(
+						"fell_to_darkness", false)),
+				}])
 		return false
 	for raw_root in roots:
 		if not _full_route_play_event_chain(
@@ -762,12 +769,22 @@ static func _full_route_play_event_chain(
 			event_id, choice_index])
 		return false
 	var choice: Dictionary = choices[choice_index]
-	GameState.record_run_scene_seen(event_id)
+	# Mirror StoryMode's curation contract. Internal fragments never become
+	# separate year-scene candidates, and the delayed opening is recorded only
+	# after the decision has produced a complete First Bill receipt.
+	var raw_tags: Variant = event.get("tags", [])
+	var is_continuous_fragment := raw_tags is Array \
+		and (raw_tags as Array).has("continuous_scene_fragment")
+	if not is_continuous_fragment \
+			and event_id != CORE_LOOP.FIRST_BILL_OPENING_ID:
+		GameState.record_run_scene_seen(event_id)
 	GameState.apply_choice(event, choice)
 	if not CORE_LOOP.note_story_choice(event_id, choice_index):
 		errors.append("event %s choice %d did not write a V2 receipt" % [
 			event_id, choice_index])
 		return false
+	if event_id == CORE_LOOP.FIRST_BILL_DECISION_ID:
+		GameState.record_run_scene_seen(CORE_LOOP.FIRST_BILL_OPENING_ID)
 	var follow_up := str(choice.get("follow_up_event", ""))
 	if follow_up.is_empty() \
 			or CORE_LOOP.story_follow_up_is_suppressed(
@@ -824,15 +841,21 @@ func _ready() -> void:
 
 	_check_contract_and_offer_matrix()
 	_check_cash_position_copy()
+	_check_first_bill_loan_copy()
 	_check_action_story_roundtrips()
 	_check_father_prelude_roundtrip()
 	_check_application_response_roundtrips()
 	_check_hyunsu_future_bridge()
 	_check_deferred_foreground_scheduler()
+	_check_first_bill_expression_choices()
+	_check_first_bill_context_corruption_rejection()
+	_check_first_bill_custom_player_name_copy()
+	_check_hanbit_first_bill_provenance()
 	_check_collision_queue_and_receipts()
 	_check_city_choice_preserves_submission()
 	_check_full_route_release_paths()
 	await _check_fatal_decline_short_circuit()
+	await _check_first_bill_story_fatal_short_circuit()
 	await _check_intentional_overwork_death()
 	await _check_actual_weeks_and_terminal_recap()
 
@@ -860,6 +883,9 @@ func _ready() -> void:
 			+ "collision=dirty_bill_morning/candidates4/selective_claim/"
 			+ "obligation_and_callback_receipts/father_initiative/"
 			+ "city_decline_or_preserve "
+			+ "first_bill=expression_zero_state/context_corruption3/"
+			+ "loan_housing_required_split_ko_en/custom_name_ko_en/"
+			+ "hanbit_exact_provenance_legacy_prune_save "
 			+ "component_routes=4/week1_500k_65_60/plans/events/declines/"
 			+ "pressure6/subsidy1/routines48 "
 			+ "snapshots=%s " % ",".join(_full_route_evidence)
@@ -1014,6 +1040,81 @@ func _check_cash_position_copy() -> void:
 			and en_arrears.find(GameState.format_money(-770_000.0)) < 0,
 		"English First Bill copy rendered arrears as a negative bank balance")
 	LocaleManager.language = original_language
+
+
+func _check_first_bill_loan_copy() -> void:
+	_fresh_at(24)
+	GameState.money = 3_000_000.0
+	GameState.loans = {
+		"bank": 10_000_000.0,
+		"second": 0.0,
+	}
+	GameState.fixed_expense = GameState.get_housing_expense()
+	_expect(CORE_LOOP.begin_bundle("demo_collision", "schedule") \
+			and bool(CORE_LOOP.prepare_demo_collision().get("ok", false)),
+		"First Bill loan-copy fixture could not freeze Week 24")
+
+	var housing_cost := float(GameState.get_housing_expense())
+	var loan_interest := float(GameState.get_monthly_loan_interest())
+	var required_cash := float(GameState.get_monthly_required_cash())
+	var cash_after_bills := float(GameState.money) - required_cash
+	_expect(loan_interest > 0.0 \
+			and is_equal_approx(required_cash, housing_cost + loan_interest) \
+			and required_cash > housing_cost \
+			and cash_after_bills > 0.0,
+		"First Bill loan fixture did not produce distinct housing and required cash")
+
+	var original_language := LocaleManager.language
+	LocaleManager.language = "ko"
+	DataRegistry.reload()
+	var ko_opening := _first_bill_render_event_surface(
+		"v2_demo_first_bill_opening")
+	var ko_housing: String = str(GameState.format_money(housing_cost))
+	var ko_required: String = str(GameState.format_money(required_cash))
+	var ko_after: String = str(GameState.format_money(cash_after_bills))
+	var ko_after_bills := GameState.format_event_text(
+		CORE_LOOP.format_first_bill_story_tokens(
+			"{v2_first_bill_after_bills}"))
+	_expect(ko_housing != ko_required \
+			and ko_opening.contains(
+				"이번 달 주거비 %s과 대출이자가" % ko_housing) \
+			and not ko_opening.contains(
+				"이번 달 주거비 %s과 대출이자가" % ko_required) \
+			and ko_after_bills.contains(
+				"이번 달 고정비 %s을 빼면 %s이 남았다" % [
+					ko_required, ko_after]) \
+			and not ko_after_bills.contains(
+				"이번 달 고정비 %s을" % ko_housing),
+		"Korean First Bill mixed housing-only expense with loan-inclusive required cash")
+
+	LocaleManager.language = "en"
+	DataRegistry.reload()
+	var en_opening := _first_bill_render_event_surface(
+		"v2_demo_first_bill_opening")
+	var en_housing: String = str(GameState.format_money(housing_cost))
+	var en_required: String = str(GameState.format_money(required_cash))
+	var en_after: String = str(GameState.format_money(cash_after_bills))
+	var en_after_bills := GameState.format_event_text(
+		CORE_LOOP.format_first_bill_story_tokens(
+			"{v2_first_bill_after_bills}"))
+	_expect(en_housing != en_required \
+			and en_opening.contains(
+				"housing cost of %s, along with any loan interest" \
+					% en_housing) \
+			and not en_opening.contains(
+				"housing cost of %s, along with any loan interest" \
+					% en_required) \
+			and en_after_bills.contains(
+				"fixed costs of %s from the current balance of" \
+					% en_required) \
+			and en_after_bills.contains("leaves %s" % en_after) \
+			and not en_after_bills.contains(
+				"fixed costs of %s from the current balance of" \
+					% en_housing),
+		"English First Bill mixed housing-only expense with loan-inclusive required cash")
+	LocaleManager.language = original_language
+	DataRegistry.reload()
+	CORE_LOOP.cancel_active_bundle()
 
 func _check_action_story_roundtrips() -> void:
 	for raw_fixture in ACTION_STORY_FIXTURES:
@@ -1308,6 +1409,422 @@ func _check_application_response_roundtrips() -> void:
 				== ["m6_city_service_response"],
 		"City request status or inbox receipt did not survive save/load")
 
+
+func _check_first_bill_expression_choices() -> void:
+	_fresh_at(24)
+	GameState.health = 5
+	GameState.money = 500_000.0
+	_expect(CORE_LOOP.begin_bundle("demo_collision", "schedule"),
+		"First Bill expression fixture could not begin")
+	var prepared := CORE_LOOP.prepare_demo_collision()
+	var context: Dictionary = prepared.get("context", {})
+	_expect(bool(prepared.get("ok", false)) \
+			and context.get("roots", []) == [
+				"v2_demo_first_bill_opening",
+			] \
+			and context.get("candidate_ids", []) == [
+				"father_call",
+				"urgent_paid_shift",
+				"body_rest",
+			],
+		"First Bill expression fixture did not freeze the expected live evidence")
+
+	var opening: Dictionary = DataRegistry.find_event(
+		"v2_demo_first_bill_opening")
+	var opening_choices: Array = (
+		opening.get("choices", []) as Array
+		if opening.get("choices", []) is Array else [])
+	_expect(opening_choices.size() == 3,
+		"First Bill opening no longer has three local expression choices")
+	for choice_index in range(opening_choices.size()):
+		var choice: Dictionary = opening_choices[choice_index]
+		var before: Dictionary = GameState.serialize().duplicate(true)
+		GameState.apply_choice(opening, choice)
+		var noted := CORE_LOOP.note_story_choice(
+			"v2_demo_first_bill_opening", choice_index)
+		var after: Dictionary = GameState.serialize().duplicate(true)
+		_expect(GameState.is_expression_choice(choice) \
+				and noted and after == before,
+			"First Bill expression choice %d changed persistent state" \
+				% choice_index)
+
+	var original_language := LocaleManager.language
+	var token_probe := "\n".join([
+		"{v2_first_bill_body}",
+		"{v2_first_bill_trace}",
+		"{v2_first_bill_evidence}",
+		"{v2_first_bill_tradeoffs}",
+	])
+	LocaleManager.language = "ko"
+	DataRegistry.reload()
+	var ko_opening := CORE_LOOP.format_first_bill_story_tokens(token_probe)
+	LocaleManager.language = "en"
+	DataRegistry.reload()
+	var en_opening := CORE_LOOP.format_first_bill_story_tokens(token_probe)
+	_expect(not ko_opening.contains("{v2_first_bill_") \
+			and ko_opening.contains("손가락을 펴는 데 한 박자가 더 걸렸다") \
+			and ko_opening.contains("아버지 —") \
+			and ko_opening.contains("당일 대타 —") \
+			and ko_opening.contains("몸 —") \
+			and not en_opening.contains("{v2_first_bill_") \
+			and en_opening.contains("His fingers take an extra beat to open") \
+			and en_opening.contains("Father —") \
+			and en_opening.contains("Same-day shift —") \
+			and en_opening.contains("His body —"),
+		"First Bill live evidence did not render from the same KO/EN state")
+	LocaleManager.language = original_language
+	DataRegistry.reload()
+
+	var decision: Dictionary = DataRegistry.find_event("v2_demo_first_bill")
+	var decision_choices: Array = decision.get("choices", [])
+	var father_choice: Dictionary = decision_choices[0]
+	GameState.apply_choice(decision, father_choice)
+	_expect(CORE_LOOP.note_story_choice("v2_demo_first_bill", 0),
+		"First Bill decision did not write its durable obligation receipt")
+	var ledger_probe := "\n".join([
+		"{v2_first_bill_return}",
+		"{v2_first_bill_done}",
+		"{v2_first_bill_not_done}",
+		"{v2_first_bill_deadline_missed}",
+	])
+	LocaleManager.language = "ko"
+	DataRegistry.reload()
+	var ko_ledger := CORE_LOOP.format_first_bill_story_tokens(ledger_probe)
+	LocaleManager.language = "en"
+	DataRegistry.reload()
+	var en_ledger := CORE_LOOP.format_first_bill_story_tokens(ledger_probe)
+	_expect(not ko_ledger.contains("{v2_first_bill_") \
+			and ko_ledger.contains("끝낸 일 — 아버지에게 다시 전화") \
+			and ko_ledger.contains("미룬 일 — 알람을 맞추고 누워 쉬지 못했다") \
+			and ko_ledger.contains("마감을 놓친 일 — 오후 6시 30분") \
+			and not en_ledger.contains("{v2_first_bill_") \
+			and en_ledger.contains("Done — called Father again") \
+			and en_ledger.contains("Deferred — did not stop for the night") \
+			and en_ledger.contains("Deadline missed — the same-day loading vacancy"),
+		"First Bill ledger did not partition the chosen and deferred work in KO/EN")
+	LocaleManager.language = original_language
+	DataRegistry.reload()
+
+	var ledger: Dictionary = DataRegistry.find_event(
+		"v2_demo_first_bill_ledger")
+	var ledger_choice: Dictionary = (ledger.get("choices", []) as Array)[0]
+	var before_ledger_close: Dictionary = GameState.serialize().duplicate(true)
+	GameState.apply_choice(ledger, ledger_choice)
+	var ledger_noted := CORE_LOOP.note_story_choice(
+		"v2_demo_first_bill_ledger", 0)
+	_expect(GameState.is_expression_choice(ledger_choice) \
+			and ledger_noted \
+			and GameState.serialize() == before_ledger_close,
+		"First Bill notebook close changed persistent state")
+	CORE_LOOP.cancel_active_bundle()
+
+
+func _check_first_bill_context_corruption_rejection() -> void:
+	# A receipt-free clean run must not accept a canonical-looking subset that
+	# silently drops the urgent livelihood obligation.
+	_fresh_at(24)
+	_expect(CORE_LOOP.begin_bundle("demo_collision", "schedule"),
+		"clean context-corruption fixture could not begin")
+	var clean_prepared := CORE_LOOP.prepare_demo_collision()
+	var clean_context: Dictionary = (
+		(clean_prepared.get("context", {}) as Dictionary).duplicate(true)
+		if clean_prepared.get("context", {}) is Dictionary else {})
+	_expect(bool(clean_prepared.get("ok", false)) \
+			and _obligation_receipt().is_empty() \
+			and clean_context.get("candidate_ids", []) == [
+				"father_call", "urgent_paid_shift", "body_rest",
+			],
+		"clean context-corruption fixture was not receipt-free and unemployed")
+	var missing_candidate_context := clean_context.duplicate(true)
+	missing_candidate_context["candidate_ids"] = [
+		"father_call", "body_rest",
+	]
+	_expect_invalid_demo_collision_context(
+		"receipt-free candidate subset",
+		missing_candidate_context, clean_context)
+	CORE_LOOP.cancel_active_bundle()
+
+	# A dirty run cannot become clean merely because both dirty fields and the
+	# matching root disappear from a damaged save.
+	_fresh_at(24)
+	GameState.flags["escaped_dirty_money"] = true
+	GameState.deferred_events = [{
+		"event_id": "callback_escaped_dirty_trace",
+		"trigger_turn": 24,
+	}]
+	_expect(CORE_LOOP.begin_bundle("demo_collision", "schedule"),
+		"dirty context-corruption fixture could not begin")
+	var dirty_prepared := CORE_LOOP.prepare_demo_collision()
+	var dirty_context: Dictionary = (
+		(dirty_prepared.get("context", {}) as Dictionary).duplicate(true)
+		if dirty_prepared.get("context", {}) is Dictionary else {})
+	_expect(bool(dirty_prepared.get("ok", false)) \
+			and str(dirty_context.get("dirty_source", "")) \
+				== "callback_escaped_dirty_trace" \
+			and str(dirty_context.get("dirty_root", "")) \
+				== "v2_dirty_trace_initial_call" \
+			and dirty_context.get("roots", []) == [
+				"v2_dirty_trace_initial_call",
+				"v2_demo_first_bill_opening",
+			],
+		"dirty context-corruption fixture did not freeze its callback")
+	var missing_dirty_context := dirty_context.duplicate(true)
+	missing_dirty_context["dirty_source"] = ""
+	missing_dirty_context["dirty_root"] = ""
+	missing_dirty_context["roots"] = ["v2_demo_first_bill_opening"]
+	_expect_invalid_demo_collision_context(
+		"dirty flag without dirty fields/root",
+		missing_dirty_context, dirty_context)
+	CORE_LOOP.cancel_active_bundle()
+
+	# Hyunsu eligibility and its durable future receipt require the Saturday
+	# echo to remain in the frozen root order.
+	_fresh_at(24)
+	_unlock_hyunsu()
+	_expect(CORE_LOOP.begin_bundle("demo_collision", "schedule"),
+		"Hyunsu context-corruption fixture could not begin")
+	var hyunsu_prepared := CORE_LOOP.prepare_demo_collision()
+	var hyunsu_context: Dictionary = (
+		(hyunsu_prepared.get("context", {}) as Dictionary).duplicate(true)
+		if hyunsu_prepared.get("context", {}) is Dictionary else {})
+	_expect(bool(hyunsu_prepared.get("ok", false)) \
+			and hyunsu_context.get("roots", []) == [
+				"v2_demo_first_bill_opening",
+				"v2_hyunsu_exam_morning_echo",
+			],
+		"Hyunsu context-corruption fixture did not freeze its echo root")
+	var missing_hyunsu_context := hyunsu_context.duplicate(true)
+	missing_hyunsu_context["roots"] = ["v2_demo_first_bill_opening"]
+	_expect_invalid_demo_collision_context(
+		"Hyunsu-eligible context without echo root",
+		missing_hyunsu_context, hyunsu_context)
+	CORE_LOOP.cancel_active_bundle()
+
+
+func _expect_invalid_demo_collision_context(
+		label: String, corrupted_context: Dictionary,
+		expected_context: Dictionary) -> void:
+	var original_state: Dictionary = (
+		GameState.core_loop_v2_state.duplicate(true))
+	var corrupted_state := original_state.duplicate(true)
+	corrupted_state["demo_collision_context"] = (
+		corrupted_context.duplicate(true))
+	GameState.core_loop_v2_state = corrupted_state
+
+	var prepared := CORE_LOOP.prepare_demo_collision()
+	var roots := CORE_LOOP.resolved_event_roots("demo_collision")
+	var all_choices_unavailable := true
+	for obligation_id in OBLIGATION_IDS:
+		if CORE_LOOP.story_choice_available(
+				"v2_demo_first_bill", obligation_id):
+			all_choices_unavailable = false
+			break
+	var completed := CORE_LOOP.complete_active_bundle()
+	_expect(not bool(prepared.get("ok", true)) \
+			and roots.is_empty() \
+			and all_choices_unavailable \
+			and completed.is_empty() \
+			and GameState.core_loop_v2_state == corrupted_state,
+		"%s was accepted, mutated, exposed choices, or completed" % label)
+
+	GameState.core_loop_v2_state = original_state
+	var restored := CORE_LOOP.prepare_demo_collision()
+	var restored_candidates: Array = expected_context.get(
+		"candidate_ids", [])
+	var restored_choices_exact := true
+	for obligation_id in OBLIGATION_IDS:
+		if CORE_LOOP.story_choice_available(
+				"v2_demo_first_bill", obligation_id) \
+				!= restored_candidates.has(obligation_id):
+			restored_choices_exact = false
+			break
+	_expect(bool(restored.get("ok", false)) \
+			and not bool(restored.get("prepared", true)) \
+			and restored.get("context", {}) == expected_context \
+			and CORE_LOOP.resolved_event_roots("demo_collision") \
+				== expected_context.get("roots", []) \
+			and restored_choices_exact,
+		"%s fixture did not return to its exact valid context" % label)
+
+
+func _check_first_bill_custom_player_name_copy() -> void:
+	_fresh_at(24)
+	GameState.player_name = "Ari"
+	GameState.health = 5
+	_expect(CORE_LOOP.begin_bundle("demo_collision", "schedule") \
+			and bool(CORE_LOOP.prepare_demo_collision().get("ok", false)),
+		"custom-name First Bill fixture could not freeze Week 24")
+
+	var original_language := LocaleManager.language
+	for language in ["ko", "en"]:
+		LocaleManager.language = language
+		DataRegistry.reload()
+		for event_id in [
+			"v2_demo_first_bill_opening",
+			"v2_demo_first_bill",
+		]:
+			var rendered := _first_bill_render_event_surface(event_id)
+			_expect(rendered.contains("Ari") \
+					and not rendered.contains("민준") \
+					and not rendered.contains("Minjun") \
+					and not rendered.contains("{name}"),
+				"%s %s copy did not use only the custom player name" % [
+					language, event_id])
+
+	LocaleManager.language = "ko"
+	DataRegistry.reload()
+	_apply_and_note_story_choice("v2_demo_first_bill", 0)
+	for language in ["ko", "en"]:
+		LocaleManager.language = language
+		DataRegistry.reload()
+		var ledger_rendered := _first_bill_render_event_surface(
+			"v2_demo_first_bill_ledger")
+		_expect(ledger_rendered.contains("Ari") \
+				and not ledger_rendered.contains("민준") \
+				and not ledger_rendered.contains("Minjun") \
+				and not ledger_rendered.contains("{name}") \
+				and not ledger_rendered.contains("{v2_first_bill_"),
+			"%s First Bill ledger did not preserve the custom player name" \
+				% language)
+	LocaleManager.language = original_language
+	DataRegistry.reload()
+	CORE_LOOP.cancel_active_bundle()
+
+
+func _first_bill_render_event_surface(event_id: String) -> String:
+	var event: Dictionary = DataRegistry.find_event(event_id)
+	var fragments: Array[String] = [str(event.get("description", ""))]
+	var raw_choices: Variant = event.get("choices", [])
+	if raw_choices is Array:
+		for raw_choice in raw_choices as Array:
+			if not raw_choice is Dictionary:
+				continue
+			var choice: Dictionary = raw_choice
+			fragments.append(str(choice.get("text", "")))
+			fragments.append(str(choice.get("result_text", "")))
+	var expanded := CORE_LOOP.format_first_bill_story_tokens(
+		"\n".join(fragments))
+	return GameState.format_event_text(expanded)
+
+
+func _check_hanbit_first_bill_provenance() -> void:
+	_expect(not _hanbit_first_bill_fixture_has_candidate(
+		"job_03", "", {}),
+		"a bare shared job_03 invented Hanbit employment")
+	_expect(not _hanbit_first_bill_fixture_has_candidate(
+		"job_03", "resolved", {}),
+		"resolved Hanbit status without an acceptance receipt invented employment")
+	var decline_key := \
+		"m5_hanbit_offer_message:v2_hanbit_offer_message:1:17"
+	_expect(not _hanbit_first_bill_fixture_has_candidate(
+		"job_03", "resolved", {
+			decline_key: _hanbit_offer_receipt(1),
+		}), "declining Hanbit still invented its month-end sheet")
+	var acceptance_key := \
+		"m5_hanbit_offer_message:v2_hanbit_offer_message:0:17"
+	var acceptance := _hanbit_offer_receipt(0)
+	_expect(_hanbit_first_bill_fixture_has_candidate(
+		"job_03", "resolved", {acceptance_key: acceptance}),
+		"exact Hanbit employment did not unlock its month-end sheet")
+	_expect(not _hanbit_first_bill_fixture_has_candidate(
+		"job_01", "resolved", {acceptance_key: acceptance}),
+		"a former Hanbit receipt overrode the player's current non-Hanbit job")
+	var malformed := acceptance.duplicate(true)
+	malformed["choice_index"] = 1
+	_expect(not _hanbit_first_bill_fixture_has_candidate(
+		"job_03", "resolved", {acceptance_key: malformed}),
+		"a malformed acceptance receipt invented Hanbit employment")
+	_expect(not _hanbit_first_bill_fixture_has_candidate(
+		"job_03", "resolved", {
+			acceptance_key: acceptance,
+			decline_key: _hanbit_offer_receipt(1),
+		}), "contradictory Hanbit terminal receipts were guessed as acceptance")
+
+	# The earliest pre-decision saves could freeze Hanbit solely from the
+	# shared legacy job_03. Remove only that one false candidate while moving the
+	# former decision root to the opening; no completed decision is rewritten.
+	_fresh_at(24)
+	GameState.current_job = {"id": "job_03", "base_salary": 2_240_000}
+	_expect(CORE_LOOP.begin_bundle("demo_collision", "schedule") \
+			and bool(CORE_LOOP.prepare_demo_collision().get("ok", false)),
+		"false-Hanbit legacy migration fixture could not prepare")
+	var polluted_state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	var polluted_context: Dictionary = polluted_state.get(
+		"demo_collision_context", {}).duplicate(true)
+	polluted_context["roots"] = [CORE_LOOP.FIRST_BILL_DECISION_ID]
+	polluted_context["candidate_ids"] = [
+		"father_call", "hanbit_month_close", "body_rest",
+	]
+	polluted_state["demo_collision_context"] = polluted_context
+	GameState.core_loop_v2_state = polluted_state
+	_expect(CORE_LOOP.migrate_legacy_first_bill_state() \
+			and (GameState.core_loop_v2_state.get(
+				"demo_collision_context", {}) as Dictionary).get(
+					"roots", []) == [CORE_LOOP.FIRST_BILL_OPENING_ID] \
+			and (GameState.core_loop_v2_state.get(
+				"demo_collision_context", {}) as Dictionary).get(
+					"candidate_ids", []) == ["father_call", "body_rest"],
+		"legacy pre-decision migration preserved a false Hanbit candidate")
+	CORE_LOOP.cancel_active_bundle()
+
+	_fresh_at(24)
+	GameState.current_job = {"id": "job_03", "base_salary": 2_240_000}
+	_seed_hanbit_acceptance_receipt()
+	_expect(CORE_LOOP.begin_bundle("demo_collision", "schedule") \
+			and bool(CORE_LOOP.prepare_demo_collision().get("ok", false)),
+		"Hanbit provenance save fixture could not freeze First Bill")
+	var before_save_context: Dictionary = GameState.core_loop_v2_state.get(
+		"demo_collision_context", {}).duplicate(true)
+	var saved: Dictionary = GameState.serialize().duplicate(true)
+	GameState.start_new_game()
+	GameState.load_from_dict(saved)
+	CORE_LOOP.initialize_for_run()
+	var loaded := CORE_LOOP.prepare_demo_collision()
+	_expect(bool(loaded.get("ok", false)) \
+			and loaded.get("context", {}) == before_save_context \
+			and before_save_context.get("candidate_ids", []).has(
+				"hanbit_month_close"),
+		"exact Hanbit provenance or frozen candidate drifted after save/load")
+	CORE_LOOP.cancel_active_bundle()
+
+
+func _hanbit_first_bill_fixture_has_candidate(
+		job_id: String, status: String, receipts: Dictionary) -> bool:
+	_fresh_at(24)
+	GameState.current_job = {
+		"id": job_id,
+		"base_salary": 2_240_000,
+	} if not job_id.is_empty() else {}
+	var state: Dictionary = GameState.core_loop_v2_state
+	if not status.is_empty():
+		state["application_statuses"]["hanbit_ops_2026q1"] = status
+	state["application_transition_receipts"] = receipts.duplicate(true)
+	GameState.core_loop_v2_state = state
+	if not CORE_LOOP.begin_bundle("demo_collision", "schedule"):
+		return false
+	var prepared := CORE_LOOP.prepare_demo_collision()
+	var candidates: Array = (prepared.get("context", {}) as Dictionary).get(
+		"candidate_ids", []) if prepared.get("context", {}) is Dictionary else []
+	CORE_LOOP.cancel_active_bundle()
+	return bool(prepared.get("ok", false)) \
+		and candidates.has("hanbit_month_close")
+
+
+func _hanbit_offer_receipt(choice_index: int) -> Dictionary:
+	var key := "m5_hanbit_offer_message:v2_hanbit_offer_message:%d:17" \
+		% choice_index
+	return {
+		"receipt_key": key,
+		"application_id": "hanbit_ops_2026q1",
+		"from": "interviewed",
+		"to": "resolved",
+		"bundle_id": "m5_hanbit_offer_message",
+		"event_id": "v2_hanbit_offer_message",
+		"choice_index": choice_index,
+		"turn": 17,
+	}
+
+
 func _check_collision_queue_and_receipts() -> void:
 	_fresh_at(24)
 	_unlock_hyunsu()
@@ -1317,6 +1834,7 @@ func _check_collision_queue_and_receipts() -> void:
 		"id": "job_03",
 		"base_salary": 2_240_000,
 	}
+	_seed_hanbit_acceptance_receipt()
 	GameState.monthly_income = 2_240_000.0
 	_mark_completed("jaehyuk_plain_reunion_echo", 20)
 	_set_relationship_memory(
@@ -1354,7 +1872,7 @@ func _check_collision_queue_and_receipts() -> void:
 			and bool(prepared.get("prepared", false)) \
 			and context.get("roots", []) == [
 				"v2_dirty_trace_initial_call",
-				"v2_demo_first_bill",
+				"v2_demo_first_bill_opening",
 				"v2_hyunsu_exam_morning_echo",
 			] \
 			and context.get("candidate_ids", []) == expected_candidates \
@@ -1696,7 +2214,7 @@ func _check_hyunsu_future_bridge() -> void:
 			and (unanswered_prepare.get(
 				"context", {}) as Dictionary).get(
 					"roots", []) == [
-						"v2_demo_first_bill",
+						"v2_demo_first_bill_opening",
 						"v2_hyunsu_exam_morning_echo",
 					] \
 			and str(unanswered_receipt.get(
@@ -2024,6 +2542,74 @@ func _seed_fatal_decline_boundary(target_week: int) -> void:
 	GameState.core_loop_v2_state = state
 
 
+func _check_first_bill_story_fatal_short_circuit() -> void:
+	_fresh_at(24)
+	GameState.health = 5
+	_expect(CORE_LOOP.begin_bundle("demo_collision", "schedule"),
+		"fatal First Bill StoryMode fixture could not begin")
+	var prepared := CORE_LOOP.prepare_demo_collision()
+	_expect(bool(prepared.get("ok", false)) \
+			and (prepared.get("context", {}) as Dictionary).get(
+				"candidate_ids", []) == [
+					"father_call", "urgent_paid_shift", "body_rest",
+				],
+		"fatal First Bill StoryMode fixture lost its live candidates")
+	GameState.pending_story_queue = ["v2_demo_first_bill_opening"]
+	GameState.story_return_scene = "res://scenes/MainGame.tscn"
+	var packed := load("res://scenes/StoryMode.tscn") as PackedScene
+	_expect(packed != null,
+		"fatal First Bill fixture could not load StoryMode")
+	if packed == null:
+		return
+	var story := packed.instantiate() as Control
+	add_child(story)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	story.call("_set_auto_mode", false, false, false)
+	story.call("_finish_story_scene_transition")
+	story.set("_para_index", (story.get("_paragraphs") as Array).size() - 1)
+	story.call("_complete_typing")
+	story.call("_show_choices")
+	var expression_before: Dictionary = GameState.serialize().duplicate(true)
+	story.call("_on_choice", 2)
+	_expect(GameState.serialize() == expression_before \
+			and bool(story.get("_pending_after_result")),
+		"First Bill body check changed state before the fatal decision")
+	story.call("_complete_typing")
+	story.call("_after_result")
+	await get_tree().process_frame
+	story.call("_finish_story_scene_transition")
+	_expect(str((story.get("_current") as Dictionary).get("id", "")) \
+			== "v2_demo_first_bill",
+		"First Bill expression did not rejoin the shared decision")
+	story.set("_para_index", (story.get("_paragraphs") as Array).size() - 1)
+	story.call("_complete_typing")
+	story.call("_show_choices")
+	story.call("_on_choice", 6)
+	var obligation: Dictionary = _obligation_receipt()
+	_expect(int(GameState.health) == 0 \
+			and not GameState.is_game_over \
+			and str(obligation.get("selected_obligation_id", "")) \
+				== "urgent_paid_shift" \
+			and bool(story.get("_pending_after_result")),
+		"StoryMode urgent shift did not preserve its result before the burnout handoff")
+	# Prevent this component fixture from changing the active test scene. The
+	# production guard must still clear every authored continuation before
+	# _finish_all asks SceneTransition to return to MainGame.
+	story.set("_transitioning", true)
+	story.call("_after_result")
+	_expect((story.get("_queue") as Array).is_empty() \
+			and str(story.get("_pending_follow_up")).is_empty() \
+			and str((story.get("_current") as Dictionary).get("id", "")) \
+				== "v2_demo_first_bill",
+		"fatal First Bill decision entered the ledger or Saturday queue")
+	story.queue_free()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	GameState.story_return_scene = ""
+	GameState.pending_story_queue.clear()
+
+
 func _check_intentional_overwork_death() -> void:
 	var urgent := build_full_route_snapshot("qa_overwork_urgent_burnout")
 	var rest := build_full_route_snapshot("qa_overwork_body_rest")
@@ -2124,6 +2710,7 @@ func _check_actual_weeks_and_terminal_recap() -> void:
 		"display_name_en":
 			"Hanbit Logistics Operations Support (Contract)",
 	}
+	_seed_hanbit_acceptance_receipt()
 	GameState.monthly_income = 2_240_000.0
 	GameState.money = 1_300_000.0
 	_set_turn_date(21)
@@ -2220,7 +2807,7 @@ func _check_actual_weeks_and_terminal_recap() -> void:
 	var collision_context: Dictionary = preparation.get("context", {})
 	_expect(bool(preparation.get("ok", false)) \
 			and collision_context.get("roots", []) == [
-				"v2_demo_first_bill",
+				"v2_demo_first_bill_opening",
 				"v2_hyunsu_exam_morning_echo",
 			],
 		"actual Week 24 did not order Friday bill before Saturday echo")
@@ -2342,7 +2929,7 @@ func _check_actual_weeks_and_terminal_recap() -> void:
 		"도시시설운영단 작업표를 제출한다",
 		"Submit the City Facilities worksheet")
 	var body_rest := LocaleManager.ui(
-		"알람만 맞추고 몸부터 눕힌다",
+		"알람만 맞추고 침대에 눕는다",
 		"Set one alarm and lie down first")
 	var selected_text := _node_text(selected_panel)
 	var deferred_text := _node_text(deferred_panel)
@@ -2436,10 +3023,13 @@ func _check_actual_weeks_and_terminal_recap() -> void:
 		LocaleManager.ui(
 			"현수의 시험은 시작됐지만 결과는 아직 나오지 않았다.",
 			"Hyunsu has taken the exam, but the result is not available yet."),
+		LocaleManager.ui(
+			"한빛유통 계약이 얼마나 이어질지는 아직 알 수 없다.",
+			"You still do not know how long the Hanbit contract will last."),
 	]
 	_expect(main_game._core_loop_v2_unresolved_recap(
 			completion_snapshot) == expected_actual_unresolved,
-		"actual terminal unresolved recap was not the exact Father/Hyunsu pair")
+		"actual terminal unresolved recap was not the exact Father/Hyunsu/Hanbit set")
 	for expected_unresolved in expected_actual_unresolved:
 		_expect(expected_unresolved in _node_text(unresolved_panel),
 			"terminal recap omitted unresolved state: %s" % expected_unresolved)
@@ -2891,6 +3481,19 @@ func _set_application_status(
 	var statuses: Dictionary = state.get("application_statuses", {})
 	statuses[application_id] = status
 	state["application_statuses"] = statuses
+	GameState.core_loop_v2_state = state
+
+func _seed_hanbit_acceptance_receipt() -> void:
+	var state: Dictionary = GameState.core_loop_v2_state
+	var statuses: Dictionary = state.get("application_statuses", {})
+	statuses["hanbit_ops_2026q1"] = "resolved"
+	state["application_statuses"] = statuses
+	var receipts: Dictionary = state.get(
+		"application_transition_receipts", {})
+	var receipt := _hanbit_offer_receipt(0)
+	var receipt_key := str(receipt.get("receipt_key", ""))
+	receipts[receipt_key] = receipt
+	state["application_transition_receipts"] = receipts
 	GameState.core_loop_v2_state = state
 
 func _set_relationship_stage(

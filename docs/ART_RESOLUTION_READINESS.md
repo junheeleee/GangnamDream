@@ -2,13 +2,15 @@
 
 > Generated from `autoloads/ImageRegistry.gd`. Dimension readiness is not a human art verdict.
 
+Runtime exposure for the two First Bill assets comes from the dedicated Core Loop V2 ScreenshotQA at KO 960×600 and EN 1280×800: opening, decision, and ledger are counted once per locale (six hits per asset). This is not a completed 24-week `demo-experience` pass; that separate automation currently stalls at the Week 1 V2 planner and remains an open gate.
+
 ## Summary
 
 | Kind | Active | Median source | Native at 1080p | Native at 4K | Median 4K scale | Worst 4K scale |
 |---|---:|---:|---:|---:|---:|---:|
 | CG | 74 | 1280x800 | 0/74 | 0/74 | 3.00x | 3.00x |
-| Portrait | 90 | 512x768 | 90/90 | 32/90 | 2.00x | 2.00x |
-| Background | 79 | 1280x800 | 1/79 | 1/79 | 3.00x | 3.00x |
+| Portrait | 91 | 512x768 | 91/91 | 32/91 | 2.00x | 2.00x |
+| Background | 83 | 1280x800 | 1/83 | 1/83 | 3.00x | 3.00x |
 
 Scale bands: native <=1.00x, light <=1.50x, medium <=2.00x, heavy <=3.00x, severe >3.00x.
 
@@ -16,12 +18,13 @@ The 1080p/4K CG and background targets model full-screen `KEEP_ASPECT_COVERED`. 
 
 ## Priority
 
-- P0 demo, Steam store, or grade A-or-higher ending: 37
+- P0 dedicated V2 First Bill render, Steam store, or grade A-or-higher ending: 39
 - P1 ending or AP/runtime surface: 43
-- P2 remaining active library: 163
+- P2 remaining active library: 166
 
-| Priority | Kind | Asset | Demo hits | 1080p | 4K | Reason |
+| Priority | Kind | Asset | Runtime exposure hits | 1080p | 4K | Reason |
 |---|---|---|---:|---:|---:|---|
+| P0 | Background | `assets/backgrounds/v2_first_bill_desk_closeup.png` | 6 | 1.50x light | 3.00x heavy | V2 First Bill render x6 |
 | P0 | Background | `assets/backgrounds/cafe_seoul.png` | 0 | 1.50x light | 3.00x heavy | Steam store surface, AP/runtime, ending |
 | P0 | Background | `assets/backgrounds/convenience_store_night_v2.png` | 0 | 1.50x light | 3.00x heavy | grade A ending, AP/runtime, ending |
 | P0 | Background | `assets/backgrounds/gangnam_apartment.png` | 0 | 1.50x light | 3.00x heavy | grade A ending, grade S ending, AP/runtime, ending |
@@ -55,6 +58,7 @@ The 1080p/4K CG and background targets model full-screen `KEEP_ASPECT_COVERED`. 
 | P0 | CG | `assets/cg/ending_writer_v1.png` | 0 | 1.50x light | 3.00x heavy | grade A ending, ending |
 | P0 | CG | `assets/cg/romance/cherry_daeun.png` | 0 | 1.50x light | 3.00x heavy | Steam store surface |
 | P0 | Background | `assets/backgrounds/cherry_blossom_path.png` | 0 | 1.15x light | 2.30x heavy | Steam store surface |
+| P0 | Portrait | `assets/characters/main_character_first_bill_decision.png` | 6 | 1.00x native | 2.00x medium | V2 First Bill render x6 |
 | P0 | Portrait | `assets/characters/main_character_corporate.png` | 0 | 1.00x native | 2.00x medium | Steam store surface |
 | P0 | Portrait | `assets/characters/main_character_tired.png` | 0 | 1.00x native | 2.00x medium | Steam store surface |
 | P0 | Portrait | `assets/characters/npc_daeun_cherry.png` | 0 | 1.00x native | 2.00x medium | Steam store surface |

@@ -865,8 +865,23 @@ func _roundtrip_actual_week_24_snapshot(
 	GameState.load_from_dict(expected_serialized)
 	var restored_serialized: Dictionary = GameState.serialize().duplicate(true)
 	var direct_exact: bool = restored_serialized == expected_serialized
+	var direct_drift_keys: Array[String] = []
+	if not direct_exact:
+		for raw_key in expected_serialized:
+			var key := str(raw_key)
+			if not restored_serialized.has(key) \
+					or not _variants_deep_equal(
+						restored_serialized.get(key),
+						expected_serialized.get(key)):
+				direct_drift_keys.append(key)
+		for raw_key in restored_serialized:
+			var restored_key := str(raw_key)
+			if not expected_serialized.has(restored_key) \
+					and not direct_drift_keys.has(restored_key):
+				direct_drift_keys.append(restored_key)
 	_expect(direct_exact,
-		"%s E component snapshot drifted on direct GameState restore" % path_id)
+		"%s E component snapshot drifted on direct GameState restore; keys=%s" \
+			% [path_id, str(direct_drift_keys)])
 	if not direct_exact:
 		return false
 	var before_initialize := restored_serialized.duplicate(true)

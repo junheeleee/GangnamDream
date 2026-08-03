@@ -633,6 +633,14 @@
     {
       "kind": "background",
       "ids": [
+        "v2_first_bill_desk_closeup"
+      ],
+      "relative_path": "backgrounds/v2_first_bill_desk_closeup.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "warehouse_inventory_night"
       ],
       "relative_path": "backgrounds/warehouse_inventory_night.png",
@@ -1302,6 +1310,14 @@
         "player_moral_black"
       ],
       "relative_path": "characters/main_character_determined.png",
+      "resolution": "512x768"
+    },
+    {
+      "kind": "portrait",
+      "ids": [
+        "player_first_bill_decision"
+      ],
+      "relative_path": "characters/main_character_first_bill_decision.png",
       "resolution": "512x768"
     },
     {

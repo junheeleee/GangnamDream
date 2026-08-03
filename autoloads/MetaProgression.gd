@@ -5,6 +5,8 @@ const BUILD_FLAVOR := preload("res://systems/BuildFlavor.gd")
 # data. Production persistence uses meta_save_path().
 const META_SAVE_PATH = BUILD_FLAVOR.RETAIL_META_PATH
 const LEGACY_ACHIEVEMENT_IDS: Array[String] = ["white_gangnam", "clean_gangnam"]
+const SCENE_REPLAY_SNAPSHOT_MAX_BYTES := 32 * 1024
+const SCENE_REPLAY_SNAPSHOT_MAX_DEPTH := 64
 
 var data: Dictionary = {}
 # NG+ 메타 플래그 접근용 alias (data와 동일 객체)
@@ -223,9 +225,34 @@ func load_meta():
 		var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
 		if parsed is Dictionary:
 			data.merge(parsed, true)
+	var migrated := false
+	if not data.get("scene_replay_snapshots", {}) is Dictionary:
+		data["scene_replay_snapshots"] = {}
+		migrated = true
+	# The First Bill finale turned the old decision card into an internal fragment. Keep an
+	# archive unlock only when the complete opening snapshot exists; otherwise a
+	# legacy in-progress save will unlock it after its decision receipt resumes.
+	var seen_scenes: Array = data.get("seen_scenes", []) \
+		if data.get("seen_scenes", []) is Array else []
+	var migrated_scenes: Array = []
+	var replay_snapshots: Dictionary = data.get("scene_replay_snapshots", {})
+	for raw_scene_id in seen_scenes:
+		var scene_id := str(raw_scene_id)
+		if scene_id == "v2_demo_first_bill":
+			migrated = true
+			if replay_snapshots.has("v2_demo_first_bill_opening"):
+				scene_id = "v2_demo_first_bill_opening"
+			else:
+				continue
+		if not migrated_scenes.has(scene_id):
+			migrated_scenes.append(scene_id)
+		else:
+			migrated = true
+	if migrated_scenes != seen_scenes:
+		data["seen_scenes"] = migrated_scenes
+		migrated = true
 	var achievements: Array = data.get("achievements", [])
 	var sanitized: Array = []
-	var migrated := false
 	for raw_id in achievements:
 		var achievement_id := str(raw_id)
 		if achievement_id in LEGACY_ACHIEVEMENT_IDS or not DataRegistry.achievements_by_id.has(achievement_id):
@@ -245,6 +272,74 @@ func save_meta():
 
 func meta_save_path() -> String:
 	return BUILD_FLAVOR.meta_path()
+
+func record_scene_replay_snapshot(scene_id: String, snapshot: Dictionary) -> bool:
+	var validated := _validated_scene_replay_snapshot(scene_id, snapshot)
+	if validated.is_empty():
+		return false
+	var snapshots: Dictionary = {}
+	var stored_snapshots: Variant = data.get("scene_replay_snapshots", {})
+	if stored_snapshots is Dictionary:
+		snapshots = stored_snapshots
+	snapshots[scene_id] = validated
+	data["scene_replay_snapshots"] = snapshots
+	save_meta()
+	return true
+
+func get_scene_replay_snapshot(scene_id: String) -> Dictionary:
+	if scene_id.strip_edges().is_empty():
+		return {}
+	var snapshots: Variant = data.get("scene_replay_snapshots", {})
+	if not snapshots is Dictionary or not snapshots.has(scene_id):
+		return {}
+	return _validated_scene_replay_snapshot(scene_id, snapshots.get(scene_id, {}))
+
+func _validated_scene_replay_snapshot(scene_id: String, snapshot: Variant) -> Dictionary:
+	if scene_id.strip_edges().is_empty() or not snapshot is Dictionary:
+		return {}
+	var snapshot_scene_id: Variant = snapshot.get("scene_id", null)
+	if not snapshot_scene_id is String or snapshot_scene_id != scene_id:
+		return {}
+	var schema: Variant = snapshot.get("schema", null)
+	if not _valid_scene_replay_schema(schema) or not _is_json_safe(snapshot):
+		return {}
+	var encoded := JSON.stringify(snapshot)
+	if encoded.to_utf8_buffer().size() > SCENE_REPLAY_SNAPSHOT_MAX_BYTES:
+		return {}
+	var decoded: Variant = JSON.parse_string(encoded)
+	if not decoded is Dictionary:
+		return {}
+	if decoded.get("scene_id", null) != scene_id or not _valid_scene_replay_schema(decoded.get("schema", null)):
+		return {}
+	return decoded
+
+func _valid_scene_replay_schema(value: Variant) -> bool:
+	if typeof(value) != TYPE_INT and typeof(value) != TYPE_FLOAT:
+		return false
+	var numeric := float(value)
+	return not is_nan(numeric) and not is_inf(numeric) and numeric >= 1.0
+
+func _is_json_safe(value: Variant, depth: int = 0) -> bool:
+	if depth > SCENE_REPLAY_SNAPSHOT_MAX_DEPTH:
+		return false
+	match typeof(value):
+		TYPE_NIL, TYPE_BOOL, TYPE_INT, TYPE_STRING:
+			return true
+		TYPE_FLOAT:
+			var numeric := float(value)
+			return not is_nan(numeric) and not is_inf(numeric)
+		TYPE_ARRAY:
+			for item in value:
+				if not _is_json_safe(item, depth + 1):
+					return false
+			return true
+		TYPE_DICTIONARY:
+			for key in value:
+				if not key is String or not _is_json_safe(value[key], depth + 1):
+					return false
+			return true
+		_:
+			return false
 
 func unlock_achievement(achievement_id: String) -> bool:
 	if not DataRegistry.achievements_by_id.has(achievement_id):

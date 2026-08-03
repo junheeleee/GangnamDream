@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-07-29",
+  "updated": "2026-08-04",
   "policy": {
     "unknown_transition": "none",
     "same_location_restarts": false,
@@ -49,6 +49,14 @@
       "weather_source": "none"
     },
     "goshiwon_shared_kitchen": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
+    "v2_first_bill_desk_closeup": {
       "environment": "indoor",
       "depth": "near",
       "effect": "none",
@@ -1102,7 +1110,8 @@
       "rare_lottery_result",
       "story_knee_choice",
       "story_knee_witness",
-      "story_last_payment_word"
+      "story_last_payment_word",
+      "v2_demo_first_bill"
     ],
     "time_cut": [
       "age_35_checkpoint",
@@ -2259,7 +2268,8 @@
       "v2_daeun_small_commitment",
       "v2_daeun_third_greeting",
       "v2_daeun_tuesday_followthrough",
-      "v2_demo_first_bill",
+      "v2_demo_first_bill_ledger",
+      "v2_demo_first_bill_opening",
       "v2_empty_sunday",
       "v2_gangnam_receipt_walk",
       "v2_hanbit_interview",
@@ -3564,6 +3574,49 @@
       "reduced_motion": "static_fade",
       "arrival_cue_ko": "보름이 지났다",
       "arrival_cue_en": "Two weeks in"
+    },
+    "v2_demo_first_bill->v2_demo_first_bill_ledger": {
+      "mode": "time_cut",
+      "from_surface": "v2_first_bill_desk_closeup",
+      "to_surface": "v2_first_bill_desk_closeup",
+      "audio_policy": "crossfade",
+      "reduced_motion": "static_fade",
+      "arrival_cue_ko": "고른 일을 마친 뒤",
+      "arrival_cue_en": "After finishing the task he chose"
+    },
+    "v2_demo_first_bill_ledger->v2_hyunsu_exam_morning_echo": {
+      "mode": "time_cut",
+      "from_surface": "v2_first_bill_desk_closeup",
+      "to_surface": "current_housing",
+      "audio_policy": "crossfade",
+      "reduced_motion": "static_fade",
+      "arrival_cue_ko": "6월 27일 토요일 오전 9시 12분",
+      "arrival_cue_en": "At 9:12 on Saturday morning, June 27"
+    },
+    "v2_demo_first_bill_opening->v2_demo_first_bill": {
+      "mode": "same_location",
+      "from_surface": "v2_first_bill_desk_closeup",
+      "to_surface": "v2_first_bill_desk_closeup",
+      "audio_policy": "continue",
+      "reduced_motion": "static_update"
+    },
+    "v2_dirty_recruiter_week24->v2_demo_first_bill_opening": {
+      "mode": "time_cut",
+      "from_surface": "current_housing",
+      "to_surface": "v2_first_bill_desk_closeup",
+      "audio_policy": "crossfade",
+      "reduced_motion": "static_fade",
+      "arrival_cue_ko": "6월 26일 금요일 오후 5시 52분",
+      "arrival_cue_en": "At 5:52 p.m. on Friday, June 26"
+    },
+    "v2_dirty_trace_initial_call->v2_demo_first_bill_opening": {
+      "mode": "time_cut",
+      "from_surface": "current_housing",
+      "to_surface": "v2_first_bill_desk_closeup",
+      "audio_policy": "crossfade",
+      "reduced_motion": "static_fade",
+      "arrival_cue_ko": "6월 26일 금요일 오후 5시 52분",
+      "arrival_cue_en": "At 5:52 p.m. on Friday, June 26"
     },
     "v2_hyunsu_player_reachout->v2_hyunsu_first_study": {
       "mode": "time_cut",

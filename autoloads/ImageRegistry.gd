@@ -27,6 +27,8 @@ const PORTRAITS = {
 	"player_romance_casual": "res://assets/characters/main_character_unemployed.png",
 	# 비직업 일상/산책 장면. 현재 직업 정장으로 동적 교체하지 않는 검은 크루넥 중립 얼굴.
 	"player_offduty_neutral": "res://assets/characters/main_character_neutral_goshiwon.png",
+	# 24주 첫 결산 전용. 수첩을 내려다보는 y1 민준이며 직업 의상으로 교체하지 않는다.
+	"player_first_bill_decision": "res://assets/characters/main_character_first_bill_decision.png",
 	"player_heatwave":    "res://assets/characters/main_character_heatwave.png",
 	"player_monsoon":     "res://assets/characters/main_character_monsoon.png",
 	"player_cold_snap":   "res://assets/characters/main_character_cold_snap.png",
@@ -199,6 +201,8 @@ const BACKGROUNDS = {
 	"goshiwon_room":     "res://assets/backgrounds/goshiwon_room.png",
 	"goshiwon_hallway":  "res://assets/backgrounds/goshiwon_hallway.png",
 	"goshiwon_shared_kitchen": "res://assets/backgrounds/goshiwon_shared_kitchen.png",
+	# 24주 첫 결산 전용 클로즈업. 정본 고시원 책상/침대/스위치 기하를 그대로 유지한다.
+	"v2_first_bill_desk_closeup": "res://assets/backgrounds/v2_first_bill_desk_closeup.png",
 	# 서울 일상
 	"convenience_night": "res://assets/backgrounds/convenience_store_night_v2.png",
 	"convenience_first_snow_exterior": "res://assets/backgrounds/convenience_store_exterior_first_snow.png",

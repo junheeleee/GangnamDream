@@ -146,6 +146,30 @@ func _write_data_mods(
 		flags.append("mod_qa_override_%d" % index)
 		choice["flags"] = flags
 		rewritten_choices.append(choice)
+	var first_bill: Dictionary = DataRegistry.find_event(
+		"v2_demo_first_bill")
+	var first_bill_mod_choices: Array = []
+	for index in range((first_bill.get("choices", []) as Array).size()):
+		var base_choice: Dictionary = (
+			first_bill.get("choices", []) as Array)[index]
+		first_bill_mod_choices.append({
+			"text": "QA FIRST BILL %d" % index,
+			"result_text": "QA FIRST BILL RESULT %d" % index,
+			"effects": (base_choice.get("effects", {}) as Dictionary).duplicate(true),
+		})
+	var opening: Dictionary = DataRegistry.find_event(
+		"v2_demo_first_bill_opening")
+	var malicious_expression_choices: Array = []
+	for index in range((opening.get("choices", []) as Array).size()):
+		var expression_choice := {
+			"text": "QA EXPRESSION %d" % index,
+			"result_text": "QA EXPRESSION RESULT %d" % index,
+		}
+		if index == 0:
+			expression_choice["cast_effects"] = {
+				"mod_intruder": {"affinity": 99},
+			}
+		malicious_expression_choices.append(expression_choice)
 	_write_json(MOD_ROOT.path_join("events/qa_events.json"), {
 		"id": "qa_events",
 		"name": "QA Events",
@@ -215,6 +239,20 @@ func _write_data_mods(
 				"title": "QA STORY REWRITE",
 				"description": "The prose and effects changed; the schedule did not.",
 				"choices": rewritten_choices,
+			},
+			{
+				"id": "v2_demo_first_bill",
+				"override": true,
+				"title": "QA FIRST BILL REWRITE",
+				"description": "The copy changes while its obligation wiring stays canonical.",
+				"choices": first_bill_mod_choices,
+			},
+			{
+				"id": "v2_demo_first_bill_opening",
+				"override": true,
+				"title": "QA MALICIOUS EXPRESSION REWRITE",
+				"description": "This override must be rejected because it mutates cast state.",
+				"choices": malicious_expression_choices,
 			},
 		],
 	})
@@ -341,9 +379,49 @@ func _check_data_mods(
 	for index in range(rewritten.get("choices", []).size()):
 		var before_choice: Dictionary = override_before.get("choices", [])[index]
 		var after_choice: Dictionary = rewritten.get("choices", [])[index]
-		for key in ["follow_up_event", "deferred_follow_up", "deferred_delay"]:
+		for key in [
+			"follow_up_event", "deferred_follow_up", "deferred_delay",
+			"choice_kind", "v2_obligation_id",
+			"v2_player_initiated_character",
+		]:
 			_expect(after_choice.get(key) == before_choice.get(key),
 				"story rewrite changed schedule key %s" % key)
+	var first_bill: Dictionary = DataRegistry.find_event(
+		"v2_demo_first_bill")
+	var first_bill_choices: Array = first_bill.get("choices", [])
+	var expected_obligation_ids := [
+		"father_call", "hanbit_month_close", "city_work_sample",
+		"daeun_checkin", "jaehyuk_reply", "sangchul_ledger",
+		"urgent_paid_shift", "body_rest",
+	]
+	var expected_initiators := [
+		"father", "", "", "daeun", "jaehyuk", "", "", "",
+	]
+	_expect(str(first_bill.get("title", "")) == "QA FIRST BILL REWRITE" \
+			and first_bill_choices.size() == expected_obligation_ids.size(),
+		"First Bill text override did not load with its eight choices")
+	for index in range(mini(
+			first_bill_choices.size(), expected_obligation_ids.size())):
+		var mod_choice: Dictionary = first_bill_choices[index]
+		_expect(str(mod_choice.get("follow_up_event", "")) \
+				== "v2_demo_first_bill_ledger" \
+				and str(mod_choice.get("choice_kind", "")) == "decision" \
+				and str(mod_choice.get("v2_obligation_id", "")) \
+					== expected_obligation_ids[index] \
+				and str(mod_choice.get(
+					"v2_player_initiated_character", "")) \
+					== expected_initiators[index],
+			"First Bill mod changed protected choice wiring at %d" % index)
+	var expression_opening: Dictionary = DataRegistry.find_event(
+		"v2_demo_first_bill_opening")
+	var expression_choices: Array = expression_opening.get("choices", [])
+	_expect(str(expression_opening.get("title", "")) \
+			!= "QA MALICIOUS EXPRESSION REWRITE" \
+			and not expression_choices.is_empty() \
+			and str((expression_choices[0] as Dictionary).get(
+				"choice_kind", "")) == "expression" \
+			and not (expression_choices[0] as Dictionary).has("cast_effects"),
+		"stateful expression-choice override bypassed the no-state contract")
 	_expect(int(DataRegistry.get_job("job_01").get("base_salary", 0)) == job_salary_before + 2,
 		"preset load order did not use the later value")
 	var modded_job: Dictionary = DataRegistry.get_job("job_01")

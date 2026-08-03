@@ -26,8 +26,24 @@ Updated on 2026-07-13 for the `lonely_rich` P1 dining-table CG and its strict se
 Updated on 2026-07-16 for Father wardrobe separation and the Father-passing Seoul KTX platform/empty Changwon hospital room backgrounds.
 Updated on 2026-07-17 for Hyunsu's dedicated old-goshiwon-alley gukbap reunion background.
 Updated on 2026-07-24 for the seven-person `y1`/`y3`/`y5` cast-time axis and the dedicated Stable Success ending CG.
+Updated on 2026-08-04 for the 24-week first-bill desk close-up and Minjun's fixed year-one decision portrait.
 
 ## Use These Assets
+
+### 24-Week First Bill
+
+- `assets/backgrounds/v2_first_bill_desk_closeup.png`
+  - Dedicated 1280x800 close-up inside the canonical goshiwon.
+  - Keeps one phone with a very dim unreadable banking-app layout, one open
+    blank notebook, one pen, receipts, water glass, bed strip, task lamp, and
+    right-wall switch physically continuous across the three-event Week-24 finale.
+- `assets/characters/main_character_first_bill_decision.png`
+  - Dedicated 512x768 transparent portrait of year-one, age-33 Minjun in the
+    worn black crewneck, looking down with restrained decision pressure.
+  - Fixed against dynamic job and later-year replacement.
+- `assets/FIRST_BILL_VISUAL_BIBLE.md`
+  - Owns the linked-scene camera, prop, acting, UI-crop, and audio continuity
+    contract.
 
 ### Cast Time Anchors
 

@@ -98,6 +98,7 @@
     "phone_vibrate": "res://assets/audio/sfx_phone_vibrate.wav",
     "phone_notification": "res://assets/audio/sfx_phone_notification.wav",
     "paper_handle": "res://assets/audio/sfx_paper_handle.wav",
+    "pen_write": "res://assets/audio/sfx_pen_write.wav",
     "document_stamp": "res://assets/audio/sfx_document_stamp.wav",
     "door_latch": "res://assets/audio/sfx_door_latch.wav",
     "footsteps_hall": "res://assets/audio/sfx_footsteps_hall.wav",

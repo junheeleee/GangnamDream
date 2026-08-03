@@ -44,6 +44,7 @@ const OWNED_STORY_ROOTS := [
 	"v2_gangnam_receipt_walk",
 	"v2_dirty_trace_initial_call",
 	"v2_dirty_recruiter_week24",
+	"v2_demo_first_bill_opening",
 	"v2_demo_first_bill",
 ]
 const ENABLE_ARGS := [
@@ -54,6 +55,22 @@ const ENABLE_ARGS := [
 ]
 const HYUNSU_EXAM_OUTCOME_RECEIPT_ID := "hyunsu_exam_2026"
 const CITY_RESULT_RECEIPT_ID := "city_facility_ops_2026h1_result"
+const FIRST_BILL_OPENING_ID := "v2_demo_first_bill_opening"
+const FIRST_BILL_DECISION_ID := "v2_demo_first_bill"
+const FIRST_BILL_LEDGER_ID := "v2_demo_first_bill_ledger"
+const FIRST_BILL_REPLAY_SCHEMA := 1
+const FIRST_BILL_STORY_TOKENS := [
+	"{v2_first_bill_body}",
+	"{v2_first_bill_trace}",
+	"{v2_first_bill_evidence}",
+	"{v2_first_bill_after_bills}",
+	"{v2_first_bill_tradeoffs}",
+	"{v2_first_bill_return}",
+	"{v2_first_bill_done}",
+	"{v2_first_bill_not_done}",
+	"{v2_first_bill_deadline_missed}",
+	"{v2_hyunsu_exam_eve_memory}",
+]
 
 static func contract() -> Dictionary:
 	return DataRegistry.demo_core_loop_v2
@@ -178,6 +195,7 @@ static func requested() -> bool:
 static func initialize_for_run(force: bool = false) -> bool:
 	if not force and not requested():
 		return false
+	migrate_legacy_first_bill_state()
 	var state := _normalized_state(GameState.core_loop_v2_state)
 	state["enabled"] = true
 	GameState.core_loop_v2_state = state
@@ -1553,22 +1571,19 @@ static func complete_active_bundle() -> String:
 				and not _has_current_application_receipt(state, bundle_id):
 			return ""
 		if bundle_id == "demo_collision":
+			var validated_context := _validated_demo_collision_context(state)
+			if validated_context.is_empty():
+				return ""
 			var raw_obligation: Variant = state["obligation_receipts"].get(
 				bundle_id, {})
 			if not raw_obligation is Dictionary \
 					or int((raw_obligation as Dictionary).get(
 						"turn", -1)) != int(GameState.turn):
 				return ""
-			var raw_context: Variant = state.get(
-				"demo_collision_context", {})
-			if not raw_context is Dictionary \
-					or int((raw_context as Dictionary).get(
-						"turn", -1)) != int(GameState.turn):
-				return ""
-			var dirty_root := str((raw_context as Dictionary).get(
+			var dirty_root := str(validated_context.get(
 				"dirty_root", "")).strip_edges()
 			if not dirty_root.is_empty():
-				var dirty_source := str((raw_context as Dictionary).get(
+				var dirty_source := str(validated_context.get(
 					"dirty_source", "")).strip_edges()
 				var raw_dirty: Variant = state[
 					"deferred_callback_receipts"].get(dirty_source, {})
@@ -2046,12 +2061,8 @@ static func resolved_event_roots(bundle_id: String) -> Array:
 	var scene_bundle := bundle(bundle_id)
 	if bundle_id == "demo_collision":
 		var state := _normalized_state(GameState.core_loop_v2_state)
-		var raw_context: Variant = state.get("demo_collision_context", {})
-		if not raw_context is Dictionary:
-			return []
-		var context: Dictionary = raw_context
-		if int(context.get("turn", -1)) != int(GameState.turn) \
-				or str(context.get("bundle_id", "")) != bundle_id:
+		var context := _validated_demo_collision_context(state)
+		if context.is_empty():
 			return []
 		var stored_roots: Variant = context.get("roots", [])
 		return (stored_roots as Array).duplicate() \
@@ -2062,6 +2073,786 @@ static func resolved_event_roots(bundle_id: String) -> Array:
 		return ["arc_temptation_clean"]
 	var roots: Variant = scene_bundle.get("existing_roots", [])
 	return (roots as Array).duplicate() if roots is Array else []
+
+## Formats both ordinary event tokens and the First Bill's story-only tokens.
+## Gallery replay uses the exact Week-24 snapshot instead of whichever new run
+## happens to be loaded behind the archive. Rendering remains strictly
+## read-only: it never repairs, infers, or creates gameplay state.
+static func format_first_bill_story_text(
+		source_text: String, replay_snapshot: Dictionary = {}) -> String:
+	var snapshot := validated_first_bill_replay_snapshot(replay_snapshot)
+	var formatted := source_text
+	if snapshot.is_empty():
+		formatted = GameState.format_event_text(formatted)
+	else:
+		var replay_money := float(snapshot.get("money", 0.0))
+		formatted = formatted \
+			.replace("{name}", _first_bill_localized_player_name(
+				str(snapshot.get("player_name", "")))) \
+			.replace("{cash_position}",
+				_first_bill_cash_position_sentence(replay_money)) \
+			.replace("{expense}", GameState.format_money(
+				float(snapshot.get("housing_expense", 0.0))))
+		# First Bill does not currently use the remaining generic tokens, but
+		# resolving them keeps the formatter safe if a non-dynamic line gains one.
+		formatted = GameState.format_event_text(formatted)
+	formatted = format_first_bill_story_tokens(formatted, snapshot)
+	var player_name: String = _first_bill_localized_player_name(str(snapshot.get(
+		"player_name", GameState.player_name)))
+	return formatted.replace(
+		"{name}", player_name if not player_name.is_empty() else GameState.player_name)
+
+## Expands the First Bill's story-only tokens from frozen candidates and durable
+## receipts. Kept public for focused QA and other story surfaces.
+static func format_first_bill_story_tokens(
+		source_text: String, replay_snapshot: Dictionary = {}) -> String:
+	var needs_format := false
+	for token in FIRST_BILL_STORY_TOKENS:
+		if source_text.contains(token):
+			needs_format = true
+			break
+	if not needs_format:
+		return source_text
+
+	var replacements: Dictionary = {}
+	for token in FIRST_BILL_STORY_TOKENS:
+		replacements[token] = ""
+	var finale := _first_bill_finale_contract()
+	var snapshot := validated_first_bill_replay_snapshot(replay_snapshot)
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var context := _validated_demo_collision_context(state)
+	var candidates: Array[String] = []
+	var health := int(GameState.health)
+	var cash := float(GameState.money)
+	var required_cash := float(GameState.get_monthly_required_cash())
+	if not snapshot.is_empty():
+		state = _first_bill_replay_state(snapshot)
+		context = (snapshot.get("context", {}) as Dictionary).duplicate(true)
+		candidates = _first_bill_candidate_ids_from_raw(
+			context.get("candidate_ids", []))
+		health = int(snapshot.get("health", health))
+		cash = float(snapshot.get("money", cash))
+		required_cash = float(snapshot.get("required_cash", required_cash))
+	if not finale.is_empty() and not context.is_empty():
+		if candidates.is_empty():
+			candidates = _first_bill_candidate_ids(state, context)
+		if not candidates.is_empty():
+			var raw_copy: Variant = finale.get("candidate_copy", {})
+			var copy_contract: Dictionary = raw_copy \
+				if raw_copy is Dictionary else {}
+			replacements["{v2_first_bill_body}"] = \
+				_first_bill_body_copy(finale, health)
+			replacements["{v2_first_bill_trace}"] = \
+				_first_bill_trace_copy(state, context, finale)
+			replacements["{v2_first_bill_evidence}"] = \
+				_first_bill_candidate_copy_lines(
+					copy_contract, "evidence", candidates)
+			replacements["{v2_first_bill_after_bills}"] = \
+				_first_bill_after_bills_copy(finale, cash, required_cash)
+			replacements["{v2_first_bill_tradeoffs}"] = \
+				_first_bill_candidate_copy_lines(
+					copy_contract, "tradeoff", candidates)
+			replacements["{v2_hyunsu_exam_eve_memory}"] = \
+				_first_bill_hyunsu_memory_copy(state, context, finale)
+
+			var receipt := _first_bill_obligation_receipt(
+				state, context, candidates, finale)
+			if not receipt.is_empty():
+				var selected_id := str(receipt.get(
+					"selected_obligation_id", ""))
+				var selected_ids: Array[String] = [selected_id]
+				replacements["{v2_first_bill_return}"] = \
+					_first_bill_candidate_copy_lines(
+						copy_contract, "return", selected_ids)
+				replacements["{v2_first_bill_done}"] = \
+					_first_bill_candidate_copy_lines(
+						copy_contract, "done", selected_ids)
+				var ordinary_deferred: Array[String] = []
+				var deadline_deferred: Array[String] = []
+				var deadline_ids: Array = finale.get(
+					"deadline_missed_ids", []) \
+					if finale.get("deadline_missed_ids", []) is Array \
+					else []
+				for raw_id in receipt.get("deferred_obligation_ids", []):
+					var obligation_id := str(raw_id)
+					if deadline_ids.has(obligation_id):
+						deadline_deferred.append(obligation_id)
+					else:
+						ordinary_deferred.append(obligation_id)
+				replacements["{v2_first_bill_not_done}"] = \
+					_first_bill_candidate_copy_lines(
+						copy_contract, "not_done", ordinary_deferred)
+				replacements["{v2_first_bill_deadline_missed}"] = \
+					_first_bill_candidate_copy_lines(
+						copy_contract, "deadline_missed", deadline_deferred)
+
+	var formatted := source_text
+	for token in FIRST_BILL_STORY_TOKENS:
+		formatted = formatted.replace(token, str(replacements[token]))
+	var player_name: String = _first_bill_localized_player_name(str(snapshot.get(
+		"player_name", GameState.player_name)))
+	return formatted.replace(
+		"{name}", player_name if not player_name.is_empty() else GameState.player_name)
+
+static func _first_bill_finale_contract() -> Dictionary:
+	var raw_finale: Variant = bundle(
+		"demo_collision").get("first_bill_finale", {})
+	return (raw_finale as Dictionary).duplicate(true) \
+		if raw_finale is Dictionary else {}
+
+static func build_first_bill_replay_snapshot(
+		allow_completed_legacy: bool = false) -> Dictionary:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var context := _validated_demo_collision_context(
+		state, not allow_completed_legacy)
+	if context.is_empty():
+		return {}
+	var finale := _first_bill_finale_contract()
+	var candidates := _first_bill_candidate_ids(
+		state, context, not allow_completed_legacy)
+	if candidates.is_empty() or finale.is_empty():
+		return {}
+	var obligation := _first_bill_obligation_receipt(
+		state, context, candidates, finale)
+	if allow_completed_legacy and obligation.is_empty():
+		return {}
+	var snapshot_health := int(GameState.health)
+	var snapshot_mental := int(GameState.mental)
+	var snapshot_addiction := int(GameState.addiction_tendency)
+	var snapshot_money := float(GameState.money)
+	var snapshot_assets := float(GameState.get_total_asset_value())
+	# A result-phase save contains post-choice GameState. Replay needs the
+	# opening values so trying a different read-only choice starts from the same
+	# body and balance that the original decision did.
+	if not obligation.is_empty():
+		var decision: Dictionary = DataRegistry.find_event(FIRST_BILL_DECISION_ID)
+		var choices: Variant = decision.get("choices", [])
+		var selected_index := int(obligation.get("choice_index", -1))
+		if choices is Array and selected_index >= 0 \
+				and selected_index < (choices as Array).size() \
+				and (choices as Array)[selected_index] is Dictionary:
+			var effects: Dictionary = (
+				(choices as Array)[selected_index] as Dictionary).get("effects", {})
+			snapshot_health -= int(effects.get("health", 0))
+			snapshot_mental -= int(effects.get("mental", 0)) \
+				- int(effects.get("stress", 0))
+			snapshot_addiction -= int(effects.get("addiction_tendency", 0))
+			snapshot_money -= float(effects.get("money", 0.0))
+			snapshot_assets -= float(effects.get("money", 0.0))
+	var snapshot := {
+		"schema": FIRST_BILL_REPLAY_SCHEMA,
+		"scene_id": FIRST_BILL_OPENING_ID,
+		"turn": 24,
+		"player_name": str(GameState.player_name),
+		"housing": str(GameState.housing),
+		"health": snapshot_health,
+		"mental": snapshot_mental,
+		"addiction_tendency": snapshot_addiction,
+		"moral_tint": float(GameState.moral_tint),
+		"money": snapshot_money,
+		"total_assets": snapshot_assets,
+		"housing_expense": float(GameState.get_housing_expense()),
+		"required_cash": float(GameState.get_monthly_required_cash()),
+		"context": context.duplicate(true),
+		"dirty_receipt": {},
+		"hyunsu_receipt": {},
+		"obligation_receipt": {},
+	}
+	var dirty_source := str(context.get("dirty_source", "")).strip_edges()
+	if not dirty_source.is_empty():
+		var raw_dirty: Variant = state["deferred_callback_receipts"].get(
+			dirty_source, {})
+		if raw_dirty is Dictionary:
+			snapshot["dirty_receipt"] = (raw_dirty as Dictionary).duplicate(true)
+	var roots: Array = context.get("roots", [])
+	if roots.has("v2_hyunsu_exam_morning_echo"):
+		var raw_hyunsu: Variant = state["future_story_receipts"].get(
+			HYUNSU_EXAM_OUTCOME_RECEIPT_ID, {})
+		if raw_hyunsu is Dictionary:
+			snapshot["hyunsu_receipt"] = (raw_hyunsu as Dictionary).duplicate(true)
+	if not obligation.is_empty():
+		snapshot["obligation_receipt"] = obligation
+	return validated_first_bill_replay_snapshot(snapshot)
+
+static func validated_first_bill_replay_snapshot(
+		raw_snapshot: Dictionary) -> Dictionary:
+	if raw_snapshot.is_empty() \
+			or int(raw_snapshot.get("schema", 0)) != FIRST_BILL_REPLAY_SCHEMA \
+			or str(raw_snapshot.get("scene_id", "")) != FIRST_BILL_OPENING_ID \
+			or int(raw_snapshot.get("turn", -1)) != 24:
+		return {}
+	var player_name := str(raw_snapshot.get("player_name", "")).strip_edges()
+	var housing := str(raw_snapshot.get("housing", "")).strip_edges()
+	if player_name.is_empty() or player_name.length() > 64 \
+			or housing not in [
+				"gosiwon", "oneroom", "villa", "apartment", "gangnam",
+			]:
+		return {}
+	for key in ["health", "mental", "addiction_tendency", "moral_tint", "money",
+			"total_assets", "housing_expense", "required_cash"]:
+		if not raw_snapshot.has(key) \
+				or typeof(raw_snapshot[key]) not in [TYPE_INT, TYPE_FLOAT]:
+			return {}
+	var health := int(raw_snapshot.get("health", 0))
+	var mental := int(raw_snapshot.get("mental", 0))
+	var addiction := int(raw_snapshot.get("addiction_tendency", 0))
+	var moral_tint := float(raw_snapshot.get("moral_tint", 0.0))
+	var money := float(raw_snapshot.get("money", 0.0))
+	var total_assets := float(raw_snapshot.get("total_assets", 0.0))
+	var housing_expense := float(raw_snapshot.get("housing_expense", 0.0))
+	var required_cash := float(raw_snapshot.get("required_cash", 0.0))
+	if not is_finite(moral_tint) or not is_finite(money) \
+			or moral_tint < -100.0 or moral_tint > 100.0 \
+			or not is_finite(total_assets) \
+			or not is_finite(housing_expense) or not is_finite(required_cash) \
+			or health < 0 or health > 100 \
+			or mental < 0 or mental > 100 \
+			or addiction < 0 or addiction > 100 \
+			or absf(money) > 10_000_000_000_000.0 \
+			or absf(total_assets) > 10_000_000_000_000.0 \
+			or housing_expense < 0.0 \
+			or required_cash < housing_expense \
+			or required_cash > 10_000_000_000_000.0:
+		return {}
+	var raw_context: Variant = raw_snapshot.get("context", {})
+	if not raw_context is Dictionary:
+		return {}
+	var context: Dictionary = raw_context
+	if str(context.get("bundle_id", "")) != "demo_collision" \
+			or int(context.get("turn", -1)) != 24 \
+			or not context.get("roots", []) is Array:
+		return {}
+	var candidates := _first_bill_candidate_ids_from_raw(
+		context.get("candidate_ids", []))
+	if candidates.size() < 2 or candidates.size() > 4 \
+			or not candidates.has("father_call"):
+		return {}
+	var dirty_source := str(context.get("dirty_source", "")).strip_edges()
+	var dirty_root := str(context.get("dirty_root", "")).strip_edges()
+	var expected_roots: Array[String] = []
+	if dirty_source.is_empty() != dirty_root.is_empty() \
+			or dirty_root not in [
+				"", "v2_dirty_trace_initial_call", "v2_dirty_recruiter_week24",
+			]:
+		return {}
+	var raw_dirty: Variant = raw_snapshot.get("dirty_receipt", {})
+	if not raw_dirty is Dictionary:
+		return {}
+	if not dirty_root.is_empty():
+		var expected_source := (
+			"callback_escaped_dirty_trace"
+			if dirty_root == "v2_dirty_trace_initial_call"
+			else "fell_to_darkness")
+		if dirty_source != expected_source or not raw_dirty is Dictionary:
+			return {}
+		var dirty_receipt: Dictionary = raw_dirty
+		if str(dirty_receipt.get("source", "")) != dirty_source \
+				or str(dirty_receipt.get("root", "")) != dirty_root \
+				or int(dirty_receipt.get("claimed_turn", -1)) != 24 \
+				or str(dirty_receipt.get("status", "")) \
+					not in ["claimed", "resolved"]:
+			return {}
+		if str(dirty_receipt.get("status", "")) == "resolved":
+			var dirty_event: Dictionary = DataRegistry.find_event(dirty_root)
+			var dirty_choices: Variant = dirty_event.get("choices", [])
+			var dirty_choice_index := int(dirty_receipt.get("choice_index", -1))
+			if str(dirty_receipt.get("event_id", "")) != dirty_root \
+					or int(dirty_receipt.get("resolved_turn", -1)) != 24 \
+					or not dirty_choices is Array \
+					or dirty_choice_index < 0 \
+					or dirty_choice_index >= (dirty_choices as Array).size():
+				return {}
+		expected_roots.append(dirty_root)
+	elif raw_dirty is Dictionary and not (raw_dirty as Dictionary).is_empty():
+		return {}
+	expected_roots.append(FIRST_BILL_OPENING_ID)
+	var raw_hyunsu: Variant = raw_snapshot.get("hyunsu_receipt", {})
+	if not raw_hyunsu is Dictionary:
+		return {}
+	if raw_hyunsu is Dictionary and not (raw_hyunsu as Dictionary).is_empty():
+		if not _hyunsu_exam_outcome_receipt_valid(raw_hyunsu as Dictionary):
+			return {}
+		expected_roots.append("v2_hyunsu_exam_morning_echo")
+	var roots: Array = context.get("roots", [])
+	if roots.size() != expected_roots.size():
+		return {}
+	for index in range(expected_roots.size()):
+		if str(roots[index]) != expected_roots[index]:
+			return {}
+	var snapshot := raw_snapshot.duplicate(true)
+	snapshot["context"] = context.duplicate(true)
+	var raw_obligation: Variant = snapshot.get("obligation_receipt", {})
+	if not raw_obligation is Dictionary:
+		return {}
+	if raw_obligation is Dictionary and not (raw_obligation as Dictionary).is_empty():
+		var replay_state := _first_bill_replay_state(snapshot)
+		if _first_bill_obligation_receipt(
+				replay_state, context, candidates,
+				_first_bill_finale_contract()).is_empty():
+			return {}
+	return snapshot
+
+static func validated_complete_first_bill_replay_snapshot(
+		raw_snapshot: Dictionary) -> Dictionary:
+	var snapshot := validated_first_bill_replay_snapshot(raw_snapshot)
+	if snapshot.is_empty():
+		return {}
+	var raw_obligation: Variant = snapshot.get("obligation_receipt", {})
+	if not raw_obligation is Dictionary \
+			or (raw_obligation as Dictionary).is_empty():
+		return {}
+	return snapshot
+
+static func first_bill_replay_choice_available(
+		replay_snapshot: Dictionary, obligation_id: String) -> bool:
+	var snapshot := validated_first_bill_replay_snapshot(replay_snapshot)
+	if snapshot.is_empty():
+		return false
+	return _first_bill_candidate_ids_from_raw(
+		(snapshot.get("context", {}) as Dictionary).get(
+			"candidate_ids", [])).has(obligation_id.strip_edges())
+
+static func first_bill_replay_snapshot_with_choice(
+		replay_snapshot: Dictionary, choice_index: int) -> Dictionary:
+	var snapshot := validated_first_bill_replay_snapshot(replay_snapshot)
+	if snapshot.is_empty():
+		return {}
+	var context: Dictionary = snapshot.get("context", {})
+	var candidates := _first_bill_candidate_ids_from_raw(
+		context.get("candidate_ids", []))
+	var selected_id := _obligation_id_for_choice(
+		"demo_collision", FIRST_BILL_DECISION_ID, choice_index)
+	if selected_id.is_empty() or not candidates.has(selected_id):
+		return {}
+	var deferred: Array[String] = []
+	for candidate_id in candidates:
+		if candidate_id != selected_id:
+			deferred.append(candidate_id)
+	snapshot["obligation_receipt"] = {
+		"bundle_id": "demo_collision",
+		"event_id": FIRST_BILL_DECISION_ID,
+		"turn": 24,
+		"candidate_ids": candidates.duplicate(),
+		"selected_obligation_id": selected_id,
+		"choice_index": choice_index,
+		"deferred_obligation_ids": deferred,
+	}
+	return validated_first_bill_replay_snapshot(snapshot)
+
+static func first_bill_replay_choice_is_fatal(
+		replay_snapshot: Dictionary, choice_index: int) -> bool:
+	var snapshot := validated_first_bill_replay_snapshot(replay_snapshot)
+	var event: Dictionary = DataRegistry.find_event(FIRST_BILL_DECISION_ID)
+	var choices: Variant = event.get("choices", [])
+	if snapshot.is_empty() or not choices is Array \
+			or choice_index < 0 or choice_index >= (choices as Array).size() \
+			or not (choices as Array)[choice_index] is Dictionary:
+		return false
+	var effects: Dictionary = ((choices as Array)[choice_index] as Dictionary).get(
+		"effects", {})
+	var health := int(snapshot.get("health", 0)) + int(effects.get("health", 0))
+	var mental := int(snapshot.get("mental", 0)) \
+		+ int(effects.get("mental", 0)) - int(effects.get("stress", 0))
+	var assets := float(snapshot.get("total_assets", 0.0)) \
+		+ float(effects.get("money", 0.0))
+	var addiction := int(snapshot.get("addiction_tendency", 0)) \
+		+ int(effects.get("addiction_tendency", 0))
+	return health <= 0 or mental <= 0 \
+		or assets < -100_000_000.0 or addiction >= 90
+
+static func first_bill_replay_follow_up_roots(
+		replay_snapshot: Dictionary) -> Array[String]:
+	var snapshot := validated_first_bill_replay_snapshot(replay_snapshot)
+	if snapshot.is_empty():
+		return []
+	var roots: Array = (snapshot.get("context", {}) as Dictionary).get(
+		"roots", [])
+	var result: Array[String] = []
+	for raw_root in roots:
+		var root_id := str(raw_root)
+		if root_id == "v2_hyunsu_exam_morning_echo":
+			result.append(root_id)
+	return result
+
+static func _first_bill_replay_state(snapshot: Dictionary) -> Dictionary:
+	var state := _normalized_state({})
+	var context: Dictionary = snapshot.get("context", {})
+	state["demo_collision_context"] = context.duplicate(true)
+	var dirty_source := str(context.get("dirty_source", "")).strip_edges()
+	var raw_dirty: Variant = snapshot.get("dirty_receipt", {})
+	if not dirty_source.is_empty() and raw_dirty is Dictionary:
+		state["deferred_callback_receipts"][dirty_source] = (
+			raw_dirty as Dictionary).duplicate(true)
+	var raw_hyunsu: Variant = snapshot.get("hyunsu_receipt", {})
+	if raw_hyunsu is Dictionary and not (raw_hyunsu as Dictionary).is_empty():
+		state["future_story_receipts"][HYUNSU_EXAM_OUTCOME_RECEIPT_ID] = (
+			raw_hyunsu as Dictionary).duplicate(true)
+	var raw_obligation: Variant = snapshot.get("obligation_receipt", {})
+	if raw_obligation is Dictionary \
+			and not (raw_obligation as Dictionary).is_empty():
+		state["obligation_receipts"]["demo_collision"] = (
+			raw_obligation as Dictionary).duplicate(true)
+	return state
+
+static func _first_bill_cash_position_sentence(money: float) -> String:
+	var arrears := maxf(0.0, -money)
+	if arrears > 0.0:
+		return LocaleManager.ui(
+			"계좌 잔액은 %s이고, 밀린 비용은 %s이었다",
+			"The account balance was %s, with %s in arrears") \
+			% [GameState.format_money(0.0), GameState.format_money(arrears)]
+	return LocaleManager.ui(
+		"계좌 잔액은 %s이었다", "The account balance was %s") \
+		% GameState.format_money(maxf(0.0, money))
+
+static func first_bill_replay_player_name(
+		replay_snapshot: Dictionary) -> String:
+	var snapshot := validated_first_bill_replay_snapshot(replay_snapshot)
+	return _first_bill_localized_player_name(str(snapshot.get(
+		"player_name", ""))) if not snapshot.is_empty() else ""
+
+static func _first_bill_localized_player_name(raw_name: String) -> String:
+	var player_name := raw_name.strip_edges()
+	if player_name in [LocaleManager.DEFAULT_NAME_KO, LocaleManager.DEFAULT_NAME_EN]:
+		return LocaleManager.DEFAULT_NAME_EN \
+			if LocaleManager.is_english() else LocaleManager.DEFAULT_NAME_KO
+	return player_name
+
+static func _validated_demo_collision_context(
+		state: Dictionary, require_current_turn: bool = true) -> Dictionary:
+	var raw_context: Variant = state.get("demo_collision_context", {})
+	if not raw_context is Dictionary or (raw_context as Dictionary).is_empty():
+		return {}
+	var context: Dictionary = raw_context
+	var context_turn := int(context.get("turn", -1))
+	if str(context.get("bundle_id", "")) != "demo_collision" \
+			or context_turn != 24 \
+			or (require_current_turn and context_turn != int(GameState.turn)) \
+			or not context.get("roots", []) is Array \
+			or not context.get("candidate_ids", []) is Array:
+		return {}
+
+	var dirty_source := str(context.get("dirty_source", "")).strip_edges()
+	var dirty_root := str(context.get("dirty_root", "")).strip_edges()
+	var expected_dirty_source := ""
+	var expected_dirty_root := ""
+	if bool(GameState.flags.get("escaped_dirty_money", false)):
+		expected_dirty_source = "callback_escaped_dirty_trace"
+		expected_dirty_root = "v2_dirty_trace_initial_call"
+	elif bool(GameState.flags.get("fell_to_darkness", false)):
+		expected_dirty_source = "fell_to_darkness"
+		expected_dirty_root = "v2_dirty_recruiter_week24"
+	if dirty_source.is_empty() != dirty_root.is_empty() \
+			or dirty_source != expected_dirty_source \
+			or dirty_root != expected_dirty_root \
+			or dirty_root not in [
+				"", "v2_dirty_trace_initial_call", "v2_dirty_recruiter_week24",
+			]:
+		return {}
+	var expected_roots: Array[String] = []
+	if not dirty_root.is_empty():
+		var expected_source := (
+			"callback_escaped_dirty_trace"
+			if dirty_root == "v2_dirty_trace_initial_call"
+			else "fell_to_darkness")
+		if dirty_source != expected_source:
+			return {}
+		var raw_dirty_receipt: Variant = state[
+			"deferred_callback_receipts"].get(dirty_source, {})
+		if not raw_dirty_receipt is Dictionary:
+			return {}
+		var dirty_receipt: Dictionary = raw_dirty_receipt
+		if str(dirty_receipt.get("source", "")) != dirty_source \
+				or str(dirty_receipt.get("root", "")) != dirty_root \
+				or int(dirty_receipt.get("claimed_turn", -1)) != context_turn \
+				or str(dirty_receipt.get("status", "")) \
+					not in ["claimed", "resolved"]:
+			return {}
+		if str(dirty_receipt.get("status", "")) == "resolved":
+			var dirty_event: Dictionary = DataRegistry.find_event(dirty_root)
+			var dirty_choices: Variant = dirty_event.get("choices", [])
+			var dirty_choice_index := int(dirty_receipt.get("choice_index", -1))
+			if str(dirty_receipt.get("event_id", "")) != dirty_root \
+					or int(dirty_receipt.get("resolved_turn", -1)) \
+						!= context_turn \
+					or not dirty_choices is Array \
+					or dirty_choice_index < 0 \
+					or dirty_choice_index >= (dirty_choices as Array).size():
+				return {}
+		expected_roots.append(dirty_root)
+
+	var finale := _first_bill_finale_contract()
+	var raw_root_contract: Variant = finale.get("root_contract", {})
+	if not raw_root_contract is Dictionary:
+		return {}
+	var opening_root := str((raw_root_contract as Dictionary).get(
+		"opening_root", "")).strip_edges()
+	if opening_root.is_empty() or DataRegistry.find_event(opening_root).is_empty():
+		return {}
+	expected_roots.append(opening_root)
+	var roots: Array = context.get("roots", [])
+	var hyunsu_expected: bool = state["completed_bundles"].has(
+		"hyunsu_study_followup") \
+		and str(state["relationship_stages"].get(
+			"hyunsu", "unmet")) == "shared_commitment"
+	if hyunsu_expected:
+		var raw_hyunsu: Variant = state["future_story_receipts"].get(
+			HYUNSU_EXAM_OUTCOME_RECEIPT_ID, {})
+		if not raw_hyunsu is Dictionary \
+				or not _hyunsu_exam_outcome_receipt_valid(
+					raw_hyunsu as Dictionary):
+			return {}
+		expected_roots.append("v2_hyunsu_exam_morning_echo")
+	if roots.size() != expected_roots.size():
+		return {}
+	for index in range(expected_roots.size()):
+		if str(roots[index]) != expected_roots[index]:
+			return {}
+
+	var candidates := _first_bill_candidate_ids(
+		state, context, require_current_turn)
+	if candidates.size() < 2 or candidates.size() > 4 \
+			or not candidates.has("father_call"):
+		return {}
+	var canonical_order := [
+		"father_call", "hanbit_month_close", "city_work_sample",
+		"daeun_checkin", "jaehyuk_reply", "sangchul_ledger",
+		"urgent_paid_shift", "body_rest",
+	]
+	var expected_candidates: Array[String] = []
+	for obligation_id in canonical_order:
+		if candidates.has(obligation_id):
+			expected_candidates.append(obligation_id)
+	if candidates != expected_candidates:
+		return {}
+	var raw_obligation: Variant = state["obligation_receipts"].get(
+		"demo_collision", {})
+	if raw_obligation is Dictionary \
+			and not (raw_obligation as Dictionary).is_empty():
+		if _first_bill_obligation_receipt(
+				state, context, candidates, finale).is_empty():
+			return {}
+	else:
+		# Before the decision receipt exists, the frozen list must be the exact
+		# list derived from this run. A canonical-looking subset would otherwise
+		# let a damaged save silently erase one of the finale's real obligations.
+		var live_candidates := _demo_collision_candidate_ids(state)
+		if candidates != live_candidates:
+			return {}
+	return context.duplicate(true)
+
+static func _first_bill_candidate_ids(
+		state: Dictionary, context: Dictionary,
+		require_current_turn: bool = true) -> Array[String]:
+	if str(context.get("bundle_id", "")) != "demo_collision" \
+			or int(context.get("turn", -1)) != 24 \
+			or (require_current_turn \
+				and int(context.get("turn", -1)) != int(GameState.turn)):
+		return []
+	return _first_bill_candidate_ids_from_raw(
+		context.get("candidate_ids", []))
+
+static func _first_bill_candidate_ids_from_raw(
+		raw_candidates: Variant) -> Array[String]:
+	if not raw_candidates is Array:
+		return []
+	var allowed: Dictionary = {}
+	for raw_outcome in bundle("demo_collision").get(
+			"obligation_outcomes", []):
+		if raw_outcome is Dictionary:
+			var obligation_id := str((raw_outcome as Dictionary).get(
+				"selected_obligation_id", "")).strip_edges()
+			if not obligation_id.is_empty():
+				allowed[obligation_id] = true
+	var candidates: Array[String] = []
+	for raw_candidate in raw_candidates as Array:
+		var candidate_id := str(raw_candidate).strip_edges()
+		# Treat a corrupt or injected context as unusable instead of letting a
+		# noncandidate line leak into the finale prose.
+		if not allowed.has(candidate_id) or candidates.has(candidate_id):
+			return []
+		candidates.append(candidate_id)
+	var canonical_order := [
+		"father_call", "hanbit_month_close", "city_work_sample",
+		"daeun_checkin", "jaehyuk_reply", "sangchul_ledger",
+		"urgent_paid_shift", "body_rest",
+	]
+	var ordered: Array[String] = []
+	for obligation_id in canonical_order:
+		if candidates.has(obligation_id):
+			ordered.append(obligation_id)
+	if candidates != ordered:
+		return []
+	return candidates
+
+static func _first_bill_obligation_receipt(
+		state: Dictionary, context: Dictionary,
+		candidates: Array[String], finale: Dictionary) -> Dictionary:
+	var raw_root_contract: Variant = finale.get("root_contract", {})
+	var root_contract: Dictionary = raw_root_contract \
+		if raw_root_contract is Dictionary else {}
+	var receipt_owner := str(root_contract.get(
+		"receipt_owner", "demo_collision")).strip_edges()
+	var decision_event := str(root_contract.get(
+		"decision_event", "v2_demo_first_bill")).strip_edges()
+	if receipt_owner != "demo_collision" or decision_event.is_empty():
+		return {}
+	var raw_receipt: Variant = state["obligation_receipts"].get(
+		receipt_owner, {})
+	if not raw_receipt is Dictionary:
+		return {}
+	var receipt: Dictionary = raw_receipt
+	var raw_receipt_candidates: Variant = receipt.get("candidate_ids", [])
+	var raw_deferred: Variant = receipt.get("deferred_obligation_ids", [])
+	if str(receipt.get("bundle_id", "")) != receipt_owner \
+			or str(receipt.get("event_id", "")) != decision_event \
+			or int(receipt.get("turn", -1)) != int(context.get("turn", -2)) \
+			or not raw_receipt_candidates is Array \
+			or not raw_deferred is Array \
+			or (raw_receipt_candidates as Array).size() != candidates.size():
+		return {}
+	for index in range(candidates.size()):
+		if str((raw_receipt_candidates as Array)[index]) != candidates[index]:
+			return {}
+	var selected_id := str(receipt.get(
+		"selected_obligation_id", "")).strip_edges()
+	if not candidates.has(selected_id) \
+			or _obligation_id_for_choice(
+				receipt_owner, decision_event,
+				int(receipt.get("choice_index", -1))) != selected_id:
+		return {}
+	var expected_deferred: Array[String] = []
+	for candidate_id in candidates:
+		if candidate_id != selected_id:
+			expected_deferred.append(candidate_id)
+	if (raw_deferred as Array).size() != expected_deferred.size():
+		return {}
+	for index in range(expected_deferred.size()):
+		if str((raw_deferred as Array)[index]) != expected_deferred[index]:
+			return {}
+	return receipt.duplicate(true)
+
+static func _first_bill_candidate_copy_lines(
+		copy_contract: Dictionary, copy_kind: String,
+		obligation_ids: Array[String]) -> String:
+	var raw_section: Variant = copy_contract.get(copy_kind, {})
+	if not raw_section is Dictionary:
+		return ""
+	var section: Dictionary = raw_section
+	var lines: Array[String] = []
+	for obligation_id in obligation_ids:
+		var line: String = _first_bill_localized_copy(
+			section.get(obligation_id, {}))
+		if not line.is_empty():
+			lines.append(line)
+	return "\n".join(lines)
+
+static func _first_bill_localized_copy(raw_copy: Variant) -> String:
+	if not raw_copy is Dictionary:
+		return ""
+	return LocaleManager.ui(
+		str((raw_copy as Dictionary).get("ko", "")),
+		str((raw_copy as Dictionary).get("en", "")))
+
+static func _first_bill_body_copy(
+		finale: Dictionary, health: int = -1) -> String:
+	var raw_checks: Variant = finale.get("body_check", [])
+	if not raw_checks is Array:
+		return ""
+	var current_health := int(GameState.health) if health < 0 else health
+	for raw_check in raw_checks as Array:
+		if not raw_check is Dictionary:
+			continue
+		var check: Dictionary = raw_check
+		if current_health <= int(check.get("max_health", 100)):
+			return _first_bill_localized_copy(check.get("copy", {})).replace(
+				"{health}", str(current_health))
+	return ""
+
+static func _first_bill_after_bills_copy(
+		finale: Dictionary, cash: float = NAN,
+		required_cash: float = NAN) -> String:
+	var raw_copy: Variant = finale.get("after_bills_copy", {})
+	if not raw_copy is Dictionary:
+		return ""
+	var copy_contract: Dictionary = raw_copy
+	var actual_cash := float(GameState.money) if is_nan(cash) else cash
+	var fixed_expense := float(GameState.get_monthly_required_cash()) \
+		if is_nan(required_cash) else required_cash
+	var after_bills := actual_cash - fixed_expense
+	var copy_key := "covered"
+	if actual_cash < 0.0:
+		copy_key = "arrears"
+	elif after_bills < 0.0:
+		copy_key = "short"
+	var result: String = _first_bill_localized_copy(
+		copy_contract.get(copy_key, {}))
+	return result \
+		.replace("{cash}", GameState.format_money(maxf(0.0, actual_cash))) \
+		.replace("{arrears}", GameState.format_money(maxf(0.0, -actual_cash))) \
+		.replace("{fixed_expense}", GameState.format_money(fixed_expense)) \
+		.replace("{after_bills}", GameState.format_money(absf(after_bills)))
+
+static func _first_bill_trace_copy(
+		state: Dictionary, context: Dictionary, finale: Dictionary) -> String:
+	var dirty_source := str(context.get("dirty_source", "")).strip_edges()
+	var dirty_root := str(context.get("dirty_root", "")).strip_edges()
+	if dirty_source.is_empty() or dirty_root.is_empty():
+		return ""
+	var raw_receipt: Variant = state["deferred_callback_receipts"].get(
+		dirty_source, {})
+	if not raw_receipt is Dictionary:
+		return ""
+	var receipt: Dictionary = raw_receipt
+	if str(receipt.get("source", "")) != dirty_source \
+			or str(receipt.get("root", "")) != dirty_root \
+			or int(receipt.get("claimed_turn", -1)) \
+				!= int(context.get("turn", -2)) \
+			or str(receipt.get("status", "")) not in ["claimed", "resolved"]:
+		return ""
+	var raw_trace_copy: Variant = finale.get("trace_copy", {})
+	if not raw_trace_copy is Dictionary:
+		return ""
+	var raw_root_copy: Variant = (raw_trace_copy as Dictionary).get(
+		dirty_root, {})
+	if not raw_root_copy is Dictionary:
+		return ""
+	var root_copy: Dictionary = raw_root_copy
+	if str(receipt.get("status", "")) == "resolved":
+		var choice_index := int(receipt.get("choice_index", -1))
+		var event: Dictionary = DataRegistry.find_event(dirty_root)
+		var choices: Variant = event.get("choices", [])
+		if str(receipt.get("event_id", "")) != dirty_root \
+				or int(receipt.get("resolved_turn", -1)) \
+					!= int(context.get("turn", -2)) \
+				or not choices is Array or choice_index < 0 \
+				or choice_index >= (choices as Array).size():
+			return ""
+		var raw_choices: Variant = root_copy.get("choices", {})
+		if raw_choices is Dictionary:
+			return _first_bill_localized_copy(
+				(raw_choices as Dictionary).get(str(choice_index), {}))
+	return _first_bill_localized_copy(root_copy.get("claimed", {}))
+
+static func _first_bill_hyunsu_memory_copy(
+		state: Dictionary, context: Dictionary, finale: Dictionary) -> String:
+	var raw_roots: Variant = context.get("roots", [])
+	if not raw_roots is Array \
+			or not (raw_roots as Array).has("v2_hyunsu_exam_morning_echo"):
+		return ""
+	var raw_receipt: Variant = state["future_story_receipts"].get(
+		HYUNSU_EXAM_OUTCOME_RECEIPT_ID, {})
+	if not raw_receipt is Dictionary \
+			or not _hyunsu_exam_outcome_receipt_valid(
+				raw_receipt as Dictionary):
+		return ""
+	var raw_copy: Variant = finale.get("hyunsu_memory_copy", {})
+	if not raw_copy is Dictionary:
+		return ""
+	var source_memory := str((raw_receipt as Dictionary).get(
+		"source_memory", "")).strip_edges()
+	return _first_bill_localized_copy(
+		(raw_copy as Dictionary).get(source_memory, {}))
 
 ## 24주 보스의 실제 충돌 후보와 예약 콜백을 한 번만 확정한다.
 ## 이 함수가 성공한 뒤에는 저장/재진입 모두 같은 roots와 후보를 읽으며,
@@ -2076,11 +2867,8 @@ static func prepare_demo_collision() -> Dictionary:
 	var raw_existing: Variant = state.get("demo_collision_context", {})
 	if raw_existing is Dictionary \
 			and not (raw_existing as Dictionary).is_empty():
-		var existing: Dictionary = raw_existing
-		if str(existing.get("bundle_id", "")) != "demo_collision" \
-				or int(existing.get("turn", -1)) != int(GameState.turn) \
-				or not existing.get("roots", []) is Array \
-				or not existing.get("candidate_ids", []) is Array:
+		var existing := _validated_demo_collision_context(state)
+		if existing.is_empty():
 			return {"ok": false, "error": "invalid_demo_collision_context"}
 		GameState.core_loop_v2_state = state
 		return {
@@ -2132,7 +2920,15 @@ static func prepare_demo_collision() -> Dictionary:
 		}
 	if not dirty_root.is_empty():
 		roots.append(dirty_root)
-	roots.append("v2_demo_first_bill")
+	var raw_demo_roots: Variant = bundle(
+		"demo_collision").get("existing_roots", [])
+	if not raw_demo_roots is Array or (raw_demo_roots as Array).is_empty():
+		return {"ok": false, "error": "missing_demo_collision_root"}
+	var opening_root := str((raw_demo_roots as Array)[0]).strip_edges()
+	if opening_root.is_empty() \
+			or DataRegistry.find_event(opening_root).is_empty():
+		return {"ok": false, "error": "missing_demo_collision_root"}
+	roots.append(opening_root)
 	# 금요일 18시 작업표 마감과 월말 선택을 먼저 닫은 뒤, 토요일 아침
 	# 현수의 시험장 앞 장면으로 데모의 마지막 시간을 보낸다.
 	if has_completed_bundle("hyunsu_study_followup") \
@@ -2173,6 +2969,242 @@ static func prepare_demo_collision() -> Dictionary:
 		"context": context.duplicate(true),
 	}
 
+## Moves the frozen Week-24 root from the former standalone decision card to the
+## new opening card even when the loaded save resumes in MainGame (or has
+## already completed the demo). Only the exact legacy root shape is touched.
+## A pre-decision context polluted by the old shared job_03 test is narrowly
+## re-frozen only when removing Hanbit yields the exact current candidate list.
+## Validation and assignment are atomic: a legacy-shaped but otherwise damaged
+## context must remain byte-for-byte untouched so a later recovery path can
+## still diagnose or handle the original payload.
+static func migrate_legacy_first_bill_state() -> bool:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var raw_context: Variant = state.get("demo_collision_context", {})
+	if not raw_context is Dictionary or (raw_context as Dictionary).is_empty():
+		return false
+	var context: Dictionary = (raw_context as Dictionary).duplicate(true)
+	if str(context.get("bundle_id", "")) != "demo_collision" \
+			or int(context.get("turn", -1)) != 24:
+		return false
+	var raw_roots: Variant = context.get("roots", [])
+	var candidates := _first_bill_candidate_ids_from_raw(
+		context.get("candidate_ids", []))
+	if not raw_roots is Array or candidates.size() < 2 \
+			or not candidates.has("father_call"):
+		return false
+	var roots: Array = (raw_roots as Array).duplicate()
+	var changed := false
+	if roots.has(FIRST_BILL_DECISION_ID) \
+			and not roots.has(FIRST_BILL_OPENING_ID):
+		var expected_legacy_roots: Array[String] = []
+		var dirty_root := str(context.get("dirty_root", "")).strip_edges()
+		if not dirty_root.is_empty():
+			expected_legacy_roots.append(dirty_root)
+		expected_legacy_roots.append(FIRST_BILL_DECISION_ID)
+		if roots.has("v2_hyunsu_exam_morning_echo"):
+			expected_legacy_roots.append("v2_hyunsu_exam_morning_echo")
+		if roots.size() != expected_legacy_roots.size():
+			return false
+		for index in range(expected_legacy_roots.size()):
+			if str(roots[index]) != expected_legacy_roots[index]:
+				return false
+		for index in range(roots.size()):
+			if str(roots[index]) == FIRST_BILL_DECISION_ID:
+				roots[index] = FIRST_BILL_OPENING_ID
+		context["roots"] = roots
+		changed = true
+	elif not roots.has(FIRST_BILL_OPENING_ID):
+		return false
+
+	var raw_obligation: Variant = state["obligation_receipts"].get(
+		"demo_collision", {})
+	if not raw_obligation is Dictionary:
+		return false
+	if not (raw_obligation as Dictionary).is_empty():
+		if _first_bill_obligation_receipt(
+				state, context, candidates,
+				_first_bill_finale_contract()).is_empty():
+			return false
+	else:
+		var live_candidates := _demo_collision_candidate_ids(state)
+		if candidates != live_candidates and candidates.has(
+				"hanbit_month_close") \
+				and not has_hanbit_employment_provenance(state):
+			var without_false_hanbit: Array[String] = []
+			for candidate_id in candidates:
+				if candidate_id != "hanbit_month_close":
+					without_false_hanbit.append(candidate_id)
+			if without_false_hanbit == live_candidates:
+				context["candidate_ids"] = live_candidates.duplicate()
+				candidates = live_candidates
+				changed = true
+
+	if changed:
+		var migrated_state := state.duplicate(true)
+		migrated_state["demo_collision_context"] = context
+		if _validated_demo_collision_context(
+				migrated_state, false).is_empty():
+			return false
+		GameState.core_loop_v2_state = migrated_state
+
+	# A completed Week-25 legacy save has only post-choice body/cash values. The
+	# decision receipt proves what was chosen, but it cannot reconstruct the
+	# exact pre-choice frame shown in the archive. Preserve any snapshot captured
+	# by the original story session, but never synthesize a new archive card from
+	# an inverse of clamped or otherwise lossy effects.
+	return changed
+
+## 이전 playtest save는 decision을 Week-24 root로 저장했다. 새
+## opening→decision→ledger 연속 장면으로 안전하게 옮기되, 이미 적용된 선택
+## 결과는 절대 재적용하지 않는다. 알 수 없는/손상 payload는 건드리지 않는다.
+static func migrate_legacy_first_bill_resume_context(
+		resume_context: Dictionary) -> Dictionary:
+	if str(resume_context.get("kind", "")) != "story" \
+			or int(GameState.turn) != 24:
+		return resume_context.duplicate(true)
+	var original_state := GameState.core_loop_v2_state.duplicate(true)
+	var before_state := _normalized_state(original_state)
+	var raw_context: Variant = before_state.get("demo_collision_context", {})
+	if not raw_context is Dictionary:
+		return resume_context.duplicate(true)
+	var legacy_context: Dictionary = raw_context as Dictionary
+	var old_roots: Variant = (raw_context as Dictionary).get("roots", [])
+	if not old_roots is Array \
+			or not (old_roots as Array).has(FIRST_BILL_DECISION_ID) \
+			or (old_roots as Array).has(FIRST_BILL_OPENING_ID):
+		return resume_context.duplicate(true)
+
+	# Preflight the saved story cursor before changing the run state. A valid
+	# collision context can still be paired with a damaged resume payload; in
+	# that case even the otherwise-safe decision→opening root migration must not
+	# commit by itself.
+	var event_id := str(resume_context.get("event_id", "")).strip_edges()
+	var phase := str(resume_context.get("phase", "prose")).strip_edges()
+	var raw_queue: Variant = resume_context.get("queue", [])
+	if event_id.is_empty() or not (old_roots as Array).has(event_id) \
+			or phase not in ["prose", "choices", "result"] \
+			or not raw_queue is Array:
+		return resume_context.duplicate(true)
+	var legacy_candidates := _first_bill_candidate_ids(
+		before_state, legacy_context)
+	var legacy_receipt := _first_bill_obligation_receipt(
+		before_state, legacy_context, legacy_candidates,
+		_first_bill_finale_contract())
+	var decision_root_index := (old_roots as Array).find(
+		FIRST_BILL_DECISION_ID)
+	var resume_root_index := (old_roots as Array).find(event_id)
+	if resume_root_index >= 0 and resume_root_index < decision_root_index \
+			and not legacy_receipt.is_empty():
+		return resume_context.duplicate(true)
+	if event_id == FIRST_BILL_DECISION_ID \
+			and phase in ["prose", "choices"] \
+			and not legacy_receipt.is_empty():
+		return resume_context.duplicate(true)
+	if (event_id == "v2_hyunsu_exam_morning_echo" \
+			or (event_id == FIRST_BILL_DECISION_ID and phase == "result")) \
+			and legacy_receipt.is_empty():
+		return resume_context.duplicate(true)
+	if event_id == FIRST_BILL_DECISION_ID and phase == "result":
+		var raw_result_choice: Variant = resume_context.get(
+			"pending_result_choice_index", null)
+		if typeof(raw_result_choice) not in [TYPE_INT, TYPE_FLOAT]:
+			return resume_context.duplicate(true)
+		var result_choice_index := int(raw_result_choice)
+		var decision_event: Dictionary = DataRegistry.find_event(
+			FIRST_BILL_DECISION_ID)
+		var raw_decision_choices: Variant = decision_event.get("choices", [])
+		if not is_equal_approx(
+				float(raw_result_choice), float(result_choice_index)) \
+				or not raw_decision_choices is Array \
+				or result_choice_index < 0 \
+				or result_choice_index >= (raw_decision_choices as Array).size() \
+				or result_choice_index != int(legacy_receipt.get(
+					"choice_index", -1)):
+			return resume_context.duplicate(true)
+	if not migrate_legacy_first_bill_state():
+		return resume_context.duplicate(true)
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var new_context := _validated_demo_collision_context(state)
+	if new_context.is_empty():
+		GameState.core_loop_v2_state = original_state
+		return resume_context.duplicate(true)
+
+	var migrated := resume_context.duplicate(true)
+	var queue: Array = (raw_queue as Array).duplicate(true) \
+		if raw_queue is Array else []
+	for index in range(queue.size()):
+		if str(queue[index]) == FIRST_BILL_DECISION_ID:
+			queue[index] = FIRST_BILL_OPENING_ID
+	migrated["queue"] = queue
+	migrated["first_bill_legacy_migrated"] = true
+
+	if event_id == FIRST_BILL_DECISION_ID:
+		if phase in ["prose", "choices"]:
+			migrated = _first_bill_legacy_rewind_to_opening(migrated, queue)
+		elif phase == "result":
+			var candidates := _first_bill_candidate_ids(state, new_context)
+			var receipt := _first_bill_obligation_receipt(
+				state, new_context, candidates, _first_bill_finale_contract())
+			if receipt.is_empty():
+				GameState.core_loop_v2_state = original_state
+				return resume_context.duplicate(true)
+			if not _first_bill_game_state_is_fatal():
+				migrated["pending_follow_up"] = FIRST_BILL_LEDGER_ID
+		return migrated
+
+	if event_id == "v2_hyunsu_exam_morning_echo":
+		var candidates := _first_bill_candidate_ids(state, new_context)
+		var receipt := _first_bill_obligation_receipt(
+			state, new_context, candidates, _first_bill_finale_contract())
+		if receipt.is_empty():
+			GameState.core_loop_v2_state = original_state
+			return resume_context.duplicate(true)
+		var post_ledger_resume := migrated.duplicate(true)
+		post_ledger_resume["event_id"] = "v2_hyunsu_exam_morning_echo"
+		var ledger_queue: Array = ["v2_hyunsu_exam_morning_echo"]
+		for raw_id in queue:
+			var queued_id := str(raw_id)
+			if not queued_id.is_empty() and not ledger_queue.has(queued_id):
+				ledger_queue.append(queued_id)
+		migrated = _first_bill_legacy_minimal_resume(
+			migrated, FIRST_BILL_LEDGER_ID, ledger_queue)
+		migrated["first_bill_post_ledger_resume"] = post_ledger_resume
+	return migrated
+
+static func _first_bill_legacy_rewind_to_opening(
+		resume_context: Dictionary, queue: Array) -> Dictionary:
+	var trailing: Array = []
+	for raw_id in queue:
+		var event_id := str(raw_id)
+		if event_id in [FIRST_BILL_OPENING_ID, FIRST_BILL_DECISION_ID]:
+			continue
+		if not event_id.is_empty() and not trailing.has(event_id):
+			trailing.append(event_id)
+	return _first_bill_legacy_minimal_resume(
+		resume_context, FIRST_BILL_OPENING_ID, trailing)
+
+static func _first_bill_legacy_minimal_resume(
+		resume_context: Dictionary, event_id: String,
+		queue: Array) -> Dictionary:
+	return {
+		"kind": "story",
+		"event_id": event_id,
+		"phase": "prose",
+		"queue": queue.duplicate(true),
+		"return_scene": str(resume_context.get(
+			"return_scene", "res://scenes/MainGame.tscn")),
+		"story_locale": str(resume_context.get(
+			"story_locale", LocaleManager.language)),
+		"first_bill_legacy_migrated": true,
+	}
+
+static func _first_bill_game_state_is_fatal() -> bool:
+	return bool(GameState.is_game_over) \
+		or int(GameState.health) <= 0 \
+		or int(GameState.mental) <= 0 \
+		or float(GameState.get_total_asset_value()) < -100_000_000.0 \
+		or int(GameState.addiction_tendency) >= 90
+
 static func story_choice_available(
 		event_id: String, obligation_id: String) -> bool:
 	var normalized_obligation := obligation_id.strip_edges()
@@ -2180,10 +3212,9 @@ static func story_choice_available(
 			or normalized_obligation.is_empty():
 		return false
 	var state := _normalized_state(GameState.core_loop_v2_state)
-	var raw_context: Variant = state.get("demo_collision_context", {})
-	if not raw_context is Dictionary:
+	var context := _validated_demo_collision_context(state)
+	if context.is_empty():
 		return false
-	var context: Dictionary = raw_context
 	return str(context.get("bundle_id", "")) == "demo_collision" \
 		and int(context.get("turn", -1)) == int(GameState.turn) \
 		and context.get("candidate_ids", []) is Array \
@@ -2196,7 +3227,7 @@ static func _demo_collision_candidate_ids(state: Dictionary) -> Array[String]:
 			and _consequence_was_presented(
 				state, "m6_city_service_response"):
 		priority.append("city_work_sample")
-	if str(GameState.current_job.get("id", "")) == "job_03":
+	if has_hanbit_employment_provenance(state):
 		priority.append("hanbit_month_close")
 	var person_obligation := _demo_person_obligation(state)
 	if not person_obligation.is_empty():
@@ -2224,6 +3255,58 @@ static func _demo_collision_candidate_ids(state: Dictionary) -> Array[String]:
 		if selected.has(obligation_id):
 			ordered.append(obligation_id)
 	return ordered
+
+static func has_hanbit_employment_provenance(
+		raw_state: Dictionary = {}) -> bool:
+	var state := _normalized_state(
+		raw_state if not raw_state.is_empty() \
+		else GameState.core_loop_v2_state)
+	if str(GameState.current_job.get("id", "")) != "job_03" \
+			or str(state["application_statuses"].get(
+				"hanbit_ops_2026q1", "")) != "resolved":
+		return false
+	var expected_key := \
+		"m5_hanbit_offer_message:v2_hanbit_offer_message:0:17"
+	var raw_receipts: Variant = state.get(
+		"application_transition_receipts", {})
+	if not raw_receipts is Dictionary \
+			or not (raw_receipts as Dictionary).has(expected_key):
+		return false
+	var raw_expected: Variant = (raw_receipts as Dictionary).get(
+		expected_key, {})
+	if not raw_expected is Dictionary:
+		return false
+	var expected: Dictionary = raw_expected
+	if str(expected.get("receipt_key", "")) != expected_key \
+			or str(expected.get("application_id", "")) \
+				!= "hanbit_ops_2026q1" \
+			or str(expected.get("from", "")) != "interviewed" \
+			or str(expected.get("to", "")) != "resolved" \
+			or str(expected.get("bundle_id", "")) \
+				!= "m5_hanbit_offer_message" \
+			or str(expected.get("event_id", "")) \
+				!= "v2_hanbit_offer_message" \
+			or int(expected.get("choice_index", -1)) != 0 \
+			or int(expected.get("turn", -1)) != 17:
+		return false
+	# A second terminal receipt for the same Week-17 offer can only be damaged
+	# or injected state. Never guess whether acceptance or refusal was real.
+	for raw_key in raw_receipts as Dictionary:
+		var raw_receipt: Variant = (raw_receipts as Dictionary).get(raw_key, {})
+		if not raw_receipt is Dictionary:
+			continue
+		var receipt: Dictionary = raw_receipt
+		var same_terminal_offer: bool = str(receipt.get(
+			"bundle_id", "")) == "m5_hanbit_offer_message" \
+			or str(receipt.get("event_id", "")) \
+				== "v2_hanbit_offer_message" \
+			or (str(receipt.get("application_id", "")) \
+					== "hanbit_ops_2026q1" \
+				and int(receipt.get("turn", -1)) == 17 \
+				and str(receipt.get("to", "")) == "resolved")
+		if same_terminal_offer and str(raw_key) != expected_key:
+			return false
+	return true
 
 static func _demo_person_obligation(state: Dictionary) -> String:
 	if has_completed_bundle("daeun_shared_dream") \
@@ -2322,6 +3405,26 @@ static func was_player_initiated(character_id: String) -> bool:
 
 static func note_story_choice(event_id: String, choice_index: int) -> bool:
 	var state := _normalized_state(GameState.core_loop_v2_state)
+	# Expression choices are dialogue-local branches. Validate that the exact
+	# authored choice belongs to the active story owner, then acknowledge it
+	# without creating any V2 receipt or assigning the normalized state back.
+	var expression_event: Dictionary = DataRegistry.find_event(event_id)
+	var expression_choices: Variant = expression_event.get("choices", [])
+	if not expression_event.is_empty() \
+			and expression_choices is Array \
+			and choice_index >= 0 \
+			and choice_index < (expression_choices as Array).size() \
+			and (expression_choices as Array)[choice_index] is Dictionary \
+			and GameState.is_expression_choice(
+				(expression_choices as Array)[choice_index]):
+		var active_owner := str(
+			state.get("active_bundle", "")).strip_edges()
+		var active_kind := str(
+			state.get("active_kind", "")).strip_edges()
+		return not active_owner.is_empty() \
+			and active_kind in ["schedule", "consequence"] \
+			and int(state.get("active_turn", 0)) == int(GameState.turn) \
+			and _bundle_story_event_ids(active_owner).has(event_id)
 	if event_id == "v2_demo_first_bill":
 		var selected_obligation := _obligation_id_for_choice(
 			"demo_collision", event_id, choice_index)

@@ -1007,9 +1007,9 @@ def validate_demo_speech_contract(
     extra = (required | exempt) - core_ids
     if extra:
         fail(f"speech contract references non-Core-V2 events {sorted(extra)}", errors)
-    if len(required) != 27 or len(exempt) != 5 or len(core_ids) != 32:
+    if len(required) != 28 or len(exempt) != 6 or len(core_ids) != 34:
         fail(
-            "Core V2 speech partition must remain 27 required + 5 exempt = 32; "
+            "Core V2 speech partition must remain 28 required + 6 exempt = 34; "
             f"got {len(required)} + {len(exempt)} = {len(core_ids)}",
             errors,
         )
@@ -2123,6 +2123,7 @@ def validate_application_outcomes(
         )
         if (
             accepted.get("grant_job") != "job_03"
+            or accepted.get("replace_current_job") is not True
             or accepted.get("first_paycheck_ratio") != 0.75
             or accepted.get("grant_job_display")
             != {
@@ -2135,7 +2136,7 @@ def validate_application_outcomes(
         ):
             fail(
                 "Hanbit's exact application receipt must distinguish a "
-                "job_03 hire with a three-week first paycheck and exact role "
+                "job_03 replacement hire with a three-week first paycheck and exact role "
                 "name from a no-job decline without write-only flags",
                 errors,
             )
@@ -4683,14 +4684,83 @@ def main() -> int:
     demo_collision = require_dict(
         bundles.get("demo_collision"), "bundle demo_collision", errors
     )
+    opening_id = "v2_demo_first_bill_opening"
+    decision_id = "v2_demo_first_bill"
+    ledger_id = "v2_demo_first_bill_ledger"
     if (
-        demo_collision.get("planned_scene_id") != "v2_demo_first_bill"
-        or demo_collision.get("existing_roots") != ["v2_demo_first_bill"]
+        demo_collision.get("planned_scene_id") != opening_id
+        or demo_collision.get("existing_roots") != [opening_id]
         or demo_collision.get("allowed_weeks") != [24]
         or int(demo_collision.get("locked_week", 0)) != 24
     ):
         fail(
-            "Week 24 must own the exact First Bill root at the locked boss slot",
+            "The locked June-26 finale must enter through the continuous "
+            "First Bill opening root",
+            errors,
+        )
+    expected_dynamic_tokens = [
+        "{v2_first_bill_body}",
+        "{v2_first_bill_trace}",
+        "{v2_first_bill_evidence}",
+        "{v2_first_bill_after_bills}",
+        "{v2_first_bill_tradeoffs}",
+        "{v2_first_bill_return}",
+        "{v2_first_bill_done}",
+        "{v2_first_bill_not_done}",
+        "{v2_first_bill_deadline_missed}",
+        "{v2_hyunsu_exam_eve_memory}",
+    ]
+    first_bill_finale = require_dict(
+        demo_collision.get("first_bill_finale"),
+        "demo_collision.first_bill_finale",
+        errors,
+    )
+    expected_root_contract = {
+        "opening_root": opening_id,
+        "decision_event": decision_id,
+        "ledger_event": ledger_id,
+        "receipt_owner": "demo_collision",
+        "continuous_fragment_tag": "continuous_scene_fragment",
+    }
+    if first_bill_finale.get("root_contract") != expected_root_contract:
+        fail(
+            "First Bill root/decision/ledger ownership contract drifted",
+            errors,
+        )
+    expected_feature_contract = {
+        "pressure_and_evidence": {
+            "owner": opening_id,
+            "tokens": expected_dynamic_tokens[:4],
+        },
+        "tradeoff_and_decision": {
+            "owner": decision_id,
+            "tokens": ["{v2_first_bill_tradeoffs}"],
+            "long_term_receipt_owner": decision_id,
+        },
+        "done_and_deferred_ledger": {
+            "owner": ledger_id,
+            "tokens": expected_dynamic_tokens[5:9],
+        },
+        "exam_eve_memory": {
+            "owner": "v2_hyunsu_exam_morning_echo",
+            "tokens": ["{v2_hyunsu_exam_eve_memory}"],
+            "receipt_id": "hyunsu_exam_2026",
+        },
+    }
+    if first_bill_finale.get("feature_contract") != expected_feature_contract:
+        fail(
+            "First Bill scene functions no longer have one explicit owner each",
+            errors,
+        )
+    if first_bill_finale.get("dynamic_tokens") != expected_dynamic_tokens:
+        fail("First Bill dynamic story-token set or order drifted", errors)
+    if first_bill_finale.get("deadline_missed_ids") != [
+        "city_work_sample",
+        "urgent_paid_shift",
+    ]:
+        fail(
+            "Only the city worksheet and same-day paid shift may be recorded "
+            "as deadlines missed",
             errors,
         )
     expected_obligation_ids = [
@@ -4717,9 +4787,19 @@ def main() -> int:
             "authored choices exactly once",
             errors,
         )
+    first_bill_opening = require_dict(
+        registered_events.get(opening_id),
+        f"registered event {opening_id}",
+        errors,
+    )
     first_bill_event = require_dict(
-        registered_events.get("v2_demo_first_bill"),
-        "registered event v2_demo_first_bill",
+        registered_events.get(decision_id),
+        f"registered event {decision_id}",
+        errors,
+    )
+    first_bill_ledger = require_dict(
+        registered_events.get(ledger_id),
+        f"registered event {ledger_id}",
         errors,
     )
     first_bill_choices = require_list(
@@ -4727,15 +4807,287 @@ def main() -> int:
         "registered event v2_demo_first_bill.choices",
         errors,
     )
-    first_bill_description = str(first_bill_event.get("description", ""))
+    first_bill_description = str(first_bill_opening.get("description", ""))
     if (
         "{cash_position}" not in first_bill_description
+        or "{expense}" not in first_bill_description
         or "{money}" in first_bill_description
     ):
         fail(
             "First Bill must distinguish available balance from arrears via "
-            "{cash_position}, never describe raw negative money as a bank "
-            "balance",
+            "{cash_position} and {expense}, never describe raw negative money "
+            "as a bank balance",
+            errors,
+        )
+    continuous_tag = "continuous_scene_fragment"
+    finale_events = [first_bill_opening, first_bill_event, first_bill_ledger]
+    if any(
+        event.get("title") != "첫 청구서"
+        or event.get("background") != "v2_first_bill_desk_closeup"
+        or event.get("portrait") != "player_first_bill_decision"
+        for event in finale_events
+    ):
+        fail(
+            "First Bill opening, decision, and ledger must retain one Korean "
+            "title, desk close-up, and Minjun performance portrait",
+            errors,
+        )
+    if (
+        continuous_tag in first_bill_opening.get("tags", [])
+        or continuous_tag not in first_bill_event.get("tags", [])
+        or continuous_tag not in first_bill_ledger.get("tags", [])
+    ):
+        fail(
+            "Only the First Bill entry root may count as a standalone scene; "
+            "its internal decision and ledger must be continuous fragments",
+            errors,
+        )
+
+    expression_local_keys = {
+        "text",
+        "choice_kind",
+        "follow_up_event",
+        "result_text",
+    }
+    opening_choices = require_list(
+        first_bill_opening.get("choices"),
+        f"registered event {opening_id}.choices",
+        errors,
+    )
+    if len(opening_choices) != 3:
+        fail("First Bill opening must retain its three authored expression paths", errors)
+    for choice_index, raw_choice in enumerate(opening_choices):
+        choice = require_dict(
+            raw_choice, f"registered event {opening_id}.choices[{choice_index}]", errors
+        )
+        if (
+            choice.get("choice_kind") != "expression"
+            or choice.get("follow_up_event") != decision_id
+            or set(choice) != expression_local_keys
+            or not str(choice.get("result_text", "")).strip()
+        ):
+            fail(
+                f"First Bill opening choice {choice_index} must be a "
+                "state-free expression response that rejoins the decision",
+                errors,
+            )
+    if len(opening_choices) > 1 and "{v2_first_bill_after_bills}" not in str(
+        require_dict(
+            opening_choices[1],
+            f"registered event {opening_id}.choices[1]",
+            errors,
+        ).get("result_text", "")
+    ):
+        fail(
+            "The balance expression path must show the actual post-fixed-cost amount",
+            errors,
+        )
+
+    ledger_choices = require_list(
+        first_bill_ledger.get("choices"),
+        f"registered event {ledger_id}.choices",
+        errors,
+    )
+    if len(ledger_choices) != 1:
+        fail("First Bill ledger must close through one authored local action", errors)
+    else:
+        ledger_choice = require_dict(
+            ledger_choices[0], f"registered event {ledger_id}.choices[0]", errors
+        )
+        if (
+            ledger_choice.get("choice_kind") != "expression"
+            or set(ledger_choice) != {
+                "text", "choice_kind", "result_text"
+            }
+            or not str(ledger_choice.get("result_text", "")).strip()
+        ):
+            fail(
+                "Closing the notebook must remain a terminal state-free "
+                "expression action",
+                errors,
+            )
+
+    try:
+        english_core_rows = json.loads(
+            CORE_V2_EVENTS_EN_PATH.read_text(encoding="utf-8")
+        )
+    except (OSError, json.JSONDecodeError) as exc:
+        fail(f"cannot load First Bill English overlay: {exc}", errors)
+        english_core_rows = []
+    english_core = {
+        str(row.get("id", "")): row
+        for row in english_core_rows
+        if isinstance(row, dict) and str(row.get("id", ""))
+    } if isinstance(english_core_rows, list) else {}
+    if any(
+        str(english_core.get(event_id, {}).get("title", ""))
+        != "The First Bill"
+        for event_id in (opening_id, decision_id, ledger_id)
+    ):
+        fail("English First Bill fragments must retain one continuous title", errors)
+    ko_decision_description = str(first_bill_event.get("description", ""))
+    en_decision_description = str(
+        english_core.get(decision_id, {}).get("description", "")
+    )
+    if (
+        "마감이 있는 일은 정해진 시각을 넘기는 순간 놓치게 된다."
+        not in ko_decision_description
+        or any(
+            stale in ko_decision_description
+            for stale in (
+                "오후 6시까지인 두 마감",
+                "오늘 다시 고를 수 없었다",
+            )
+        )
+        or "Once a deadline passes, that task can no longer be completed tonight."
+        not in en_decision_description
+        or any(
+            stale in en_decision_description
+            for stale in (
+                "two six-o'clock deadlines",
+                "will be gone once its time passes tonight",
+            )
+        )
+    ):
+        fail(
+            "First Bill decision must describe deadline pressure without "
+            "inventing a fixed number of live deadline candidates",
+            errors,
+        )
+    ko_token_surface = json.dumps(
+        finale_events + [
+            registered_events.get("v2_hyunsu_exam_morning_echo", {})
+        ],
+        ensure_ascii=False,
+    )
+    en_token_surface = json.dumps(
+        [
+            english_core.get(event_id, {})
+            for event_id in (
+                opening_id,
+                decision_id,
+                ledger_id,
+                "v2_hyunsu_exam_morning_echo",
+            )
+        ],
+        ensure_ascii=False,
+    )
+    for token in expected_dynamic_tokens:
+        if ko_token_surface.count(token) != 1 or en_token_surface.count(token) != 1:
+            fail(
+                f"First Bill token {token} must have exactly one Korean and "
+                "one English authored surface",
+                errors,
+            )
+
+    candidate_copy = require_dict(
+        first_bill_finale.get("candidate_copy"),
+        "demo_collision.first_bill_finale.candidate_copy",
+        errors,
+    )
+    expected_direct_first_bill_copy = {
+        ("tradeoff", "body_rest", "en"):
+            "shower, drink some water, and rest without doing more work",
+        ("done", "daeun_checkin", "ko"): "짧게 안부를 나눴다",
+        ("done", "daeun_checkin", "en"):
+            "briefly checked in with her",
+        ("not_done", "body_rest", "ko"): "알람을 맞추고 누워 쉬지 못했다",
+        ("not_done", "body_rest", "en"):
+            "did not stop for the night and lie down to rest",
+        ("return", "sangchul_ledger", "ko"):
+            "수첩을 앞쪽의 결정 페이지로 넘겼다",
+        ("return", "sangchul_ledger", "en"):
+            "turns from the expense ledger back",
+    }
+    for (phase, obligation_id, locale), required_copy in (
+        expected_direct_first_bill_copy.items()
+    ):
+        localized = candidate_copy.get(phase, {}).get(obligation_id, {})
+        actual_copy = str(localized.get(locale, "")) \
+            if isinstance(localized, dict) else ""
+        if required_copy not in actual_copy:
+            fail(
+                f"First Bill {phase}.{obligation_id}.{locale} must retain "
+                "observable, direct physical wording",
+                errors,
+            )
+    expected_candidate_sets = {
+        "evidence": set(expected_obligation_ids),
+        "tradeoff": set(expected_obligation_ids),
+        "done": set(expected_obligation_ids),
+        "return": set(expected_obligation_ids),
+        "not_done": set(expected_obligation_ids)
+        - {"city_work_sample", "urgent_paid_shift"},
+        "deadline_missed": {"city_work_sample", "urgent_paid_shift"},
+    }
+    if set(candidate_copy) != set(expected_candidate_sets):
+        fail("First Bill candidate copy contains an unknown or missing phase", errors)
+    for phase, expected_ids in expected_candidate_sets.items():
+        phase_copy = require_dict(
+            candidate_copy.get(phase),
+            f"demo_collision.first_bill_finale.candidate_copy.{phase}",
+            errors,
+        )
+        if set(phase_copy) != expected_ids:
+            fail(
+                f"First Bill {phase} copy must cover only its actual candidate IDs",
+                errors,
+            )
+        for obligation_id, raw_copy in phase_copy.items():
+            localized = require_dict(
+                raw_copy,
+                f"demo_collision.first_bill_finale.candidate_copy."
+                f"{phase}.{obligation_id}",
+                errors,
+            )
+            if set(localized) != {"ko", "en"} or any(
+                not isinstance(localized.get(locale), str)
+                or not localized.get(locale, "").strip()
+                for locale in ("ko", "en")
+            ):
+                fail(
+                    f"First Bill {phase}.{obligation_id} needs independent "
+                    "non-empty Korean and English copy",
+                    errors,
+                )
+
+    body_checks = require_list(
+        first_bill_finale.get("body_check"),
+        "demo_collision.first_bill_finale.body_check",
+        errors,
+    )
+    if [row.get("max_health") for row in body_checks if isinstance(row, dict)] \
+            != [5, 20, 50, 100]:
+        fail("First Bill body copy must cover the four canonical health bands", errors)
+    after_bills_copy = require_dict(
+        first_bill_finale.get("after_bills_copy"),
+        "demo_collision.first_bill_finale.after_bills_copy",
+        errors,
+    )
+    if set(after_bills_copy) != {"covered", "short", "arrears"}:
+        fail("First Bill cash copy must distinguish covered, short, and arrears", errors)
+    trace_copy = require_dict(
+        first_bill_finale.get("trace_copy"),
+        "demo_collision.first_bill_finale.trace_copy",
+        errors,
+    )
+    if set(trace_copy) != {
+        "v2_dirty_trace_initial_call", "v2_dirty_recruiter_week24"
+    }:
+        fail("First Bill dirty trace may read only the two durable Week-24 roots", errors)
+    hyunsu_memory_copy = require_dict(
+        first_bill_finale.get("hyunsu_memory_copy"),
+        "demo_collision.first_bill_finale.hyunsu_memory_copy",
+        errors,
+    )
+    if set(hyunsu_memory_copy) != {
+        "hyunsu_exam_eve_one_problem",
+        "hyunsu_exam_eve_rest_protected",
+        "hyunsu_exam_eve_unanswered",
+    }:
+        fail(
+            "Hyunsu's exam morning must distinguish one problem, protected "
+            "rest, and no reply",
             errors,
         )
     actual_obligation_ids = [
@@ -4759,6 +5111,24 @@ def main() -> int:
         3: "daeun",
         4: "jaehyuk",
     }
+    expected_first_bill_effects = [
+        {"mental": -1},
+        {"intelligence": 1, "mental": -1},
+        {"intelligence": 1, "mental": -2},
+        {"social_skill": 1, "mental": 1},
+        {"social_skill": 1},
+        {"intelligence": 1},
+        {"money": 280_000, "health": -5, "mental": -4},
+        {"health": 2, "mental": 1},
+    ]
+    expected_result_backgrounds = {
+        3: "convenience_night",
+        6: "warehouse_inventory_night",
+    }
+    expected_result_ambience = {
+        3: "convenience",
+        6: "public_office",
+    }
     for choice_index, raw_choice in enumerate(first_bill_choices):
         choice = require_dict(
             raw_choice,
@@ -4772,6 +5142,25 @@ def main() -> int:
             fail(
                 f"First Bill choice {choice_index} has the wrong durable "
                 "player-initiative owner",
+                errors,
+            )
+        if (
+            choice.get("choice_kind") != "decision"
+            or choice.get("follow_up_event") != ledger_id
+            or choice.get("effects", {})
+            != (
+                expected_first_bill_effects[choice_index]
+                if choice_index < len(expected_first_bill_effects)
+                else None
+            )
+            or str(choice.get("result_background", ""))
+            != expected_result_backgrounds.get(choice_index, "")
+            or str(choice.get("result_ambience", ""))
+            != expected_result_ambience.get(choice_index, "")
+        ):
+            fail(
+                f"First Bill choice {choice_index} changed its decision kind, "
+                "effect receipt, result location, or common ledger return",
                 errors,
             )
         if choice.get("flags", []):

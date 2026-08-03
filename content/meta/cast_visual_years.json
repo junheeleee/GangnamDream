@@ -45,6 +45,7 @@
         "player_offduty_neutral": {"y3": "player_unemployed_y3", "y5": "player_unemployed_y5"}
       },
       "fixed_portraits": [
+        "player_first_bill_decision",
         "player_heatwave",
         "player_monsoon",
         "player_cold_snap",

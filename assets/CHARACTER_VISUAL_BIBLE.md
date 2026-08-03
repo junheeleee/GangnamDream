@@ -84,6 +84,15 @@ No luxury watch, no designer styling, no polished Gangnam success look in early/
 
 **Runtime Outfit Rules:** `ImageRegistry.get_player_context_portrait()` is the source of truth. Survival jobs (`job_01`, `job_02`) use part-time workwear; ordinary low/mid-tier office/education/tech jobs use office wear; `job_08`, finance, sales, and tier 3+ jobs use corporate suit. Stress/critical/milestone states still override with tired/shocked/happy emotional portraits.
 
+**First Bill Acting Lock:** `player_first_bill_decision` is the fixed year-one,
+age-33 Minjun used only by the continuous 24-week first-bill chain. He keeps the
+worn black crewneck and canonical face while looking down toward the separate
+notebook background with a quietly set jaw and readable shoulders. He is
+concentrating, not glaring, celebrating, collapsing, or performing heroic
+resolve. `cast_visual_years.json` forbids job- or year-driven replacement, and
+the portrait itself contains no phone, notebook, pen, hand prop, or room. Full
+frame continuity lives in `assets/FIRST_BILL_VISUAL_BIBLE.md`.
+
 **Climate Outfit Locks:** Explicit weather events override generic tired/job clothing. `player_monsoon` uses a wet charcoal rain shell over muted navy; `player_heatwave` uses a washed short-sleeve charcoal tee and pale cooling towel; `player_cold_snap` uses a dark olive-charcoal padded parka and knit scarf. These variants preserve Minjun's exact 33-year-old face and class signal and may not leak into unrelated indoor events.
 
 **Moral Threshold Acting Lock:** Every hidden band-crossing vignette returns to the same starting goshiwon, black crewneck, camera, and comparable room exposure. Light Black uses the tired/downcast portrait, Deep Black the hardened direct gaze, Gray the neutral starting face, and both White stages the same restrained small smile; stronger White is distinguished by recovered color and room ambience, not a larger grin. `ImageRegistry.get_player_moral_portrait()` is the runtime source of truth. Do not substitute current job clothing, a new room, a villain snarl, a saintly glow, or a different face.

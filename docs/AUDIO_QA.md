@@ -1,6 +1,6 @@
 # Gangnam Dream Audio QA
 
-Updated: 2026-08-03
+Updated: 2026-08-04
 
 Production gate: an audio file existing and loading is not the same as launch approval. Every asset must also satisfy `docs/PRODUCTION_ASSET_PIPELINE.md`: commercial provenance, clean head/tail, mix balance, semantic runtime mapping, image-paired listening, and 30-minute fatigue QA.
 
@@ -35,6 +35,33 @@ All 139 current assets are recording/sample-backed: 20 real-piano scores, 49 fie
 - `queue_chime` uses LG's CC0 field recording `20231229 - Duisburg station announcement ding dong` from Freesound recording 718032. The source and output SHA-256 values, trim, gain, and license are fixed in `assets/audio/AUDIO_SOURCE_MANIFEST.json`.
 - The cue belongs only to choice `0`, result paragraph `0`, with a 0.22-second delay. It does not play in the waiting description, on locale changes, or when the same result paragraph is rendered again.
 - `scene_audio_contract_check.py` rejects a missing stream, wrong result paragraph, missing `public_office`, or a return to a medical/device substitute. `BGMContinuityCheck.tscn` executes the one-shot and locale-switch contract.
+
+## 24-Week First Bill Chain
+
+- `v2_demo_first_bill_opening`, `v2_demo_first_bill`, and
+  `v2_demo_first_bill_ledger` share the live housing room tone and one
+  `reckoning` playback. The opening admits the score at paragraph 1; both later
+  links request the same key at paragraph 0, so `_play_or_keep` preserves the
+  existing playback position instead of restarting it.
+- `paper_handle` occurs exactly once at opening description paragraph 0, when
+  Minjun opens the banking app and notebook. `pen_write` occurs exactly once at
+  ledger choice 0, result paragraph 0, when he writes the next Monday date.
+  The notebook close receives no reward sound or emotional sting.
+- Both masters are existing provenance-locked recordings. `paper_handle` is the
+  Sonniss GDC 2026 paper-foley take fixed in the source manifest; `pen_write` is
+  Owlish Media's CC0 pencil-scratch recording. ORDER-75 adds no synthesized or
+  untracked audio file; it adds `pen_write` to the semantic physical-SFX ledger.
+- `scene_audio_contract_check.py` rejects a changed ambience, score key,
+  paragraph entrance, duplicated cue, cue migration into prose that does not
+  perform the action, or an extra first-bill cue on any of the three links.
+- Dedicated Core Loop V2 ScreenshotQA rendered opening, all three decision
+  contexts, all three ledger states, and the convenience/warehouse result
+  moves at KO 960×600 and EN 1280×800. This proves the authored First Bill
+  surfaces are reachable in the V2 harness; it is not a 24-week listening or
+  `demo-experience` pass. The separate V2 `demo-experience` input route
+  currently stalls at the Week 1 planner in both locales and remains an open
+  automation gate. Legacy six-month profile counts below must not be cited as
+  V2 completion evidence.
 
 ## Launch Identity
 
@@ -79,11 +106,11 @@ The seven base tracks cover title, routine, crisis, and endings. Five authored p
 
 ### Full-Run Audio Coverage
 
-- `assets/scene_audio_manifest.json` version 11 locks all 1,597 Korean/English
-  events into exactly one intent: 287 event contracts, six inherited CG
+- `assets/scene_audio_manifest.json` version 18 locks all 1,599 Korean/English
+  events into exactly one intent: 289 event contracts, six inherited CG
   contracts, 1,304 reviewed rendered-background profiles, or intentional
   silence. The current catalog has zero unclassified or stale IDs.
-- All 93 registered backgrounds own an explicit ambience profile. Runtime
+- All 94 registered backgrounds own an explicit ambience profile. Runtime
   location selection no longer searches localized prose, category names, or
   tags and no longer falls back to the goshiwon room. A newly registered
   background remains silent with a warning until its profile is reviewed, and

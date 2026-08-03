@@ -52,6 +52,11 @@ PRIVATE_OFFICE_EVENT_IDS = {
     "arc_sangchul_01_coffee",
     "arc_sangchul_01_answer",
 }
+FIRST_BILL_CHAIN = (
+    "v2_demo_first_bill_opening",
+    "v2_demo_first_bill",
+    "v2_demo_first_bill_ledger",
+)
 
 
 def load_json(path: Path):
@@ -356,6 +361,80 @@ def main() -> int:
         errors.append(
             "story_last_payment_wait: choice 0 result paragraph 0 must own "
             "exactly one queue_chime"
+        )
+
+    # The First Bill is one continuous scene even though authored as three linked
+    # events.  The score key therefore stays identical across every link;
+    # BGMPlayer's same-key keep path preserves playback instead of rewinding.
+    first_bill_contracts = {
+        event_id: event_contracts.get(event_id, {})
+        for event_id in FIRST_BILL_CHAIN
+    }
+    for event_id, expected_start in zip(FIRST_BILL_CHAIN, (1, 0, 0)):
+        contract = first_bill_contracts[event_id]
+        if not isinstance(contract, dict):
+            errors.append(f"{event_id}: first-bill audio contract is missing")
+            continue
+        if contract.get("ambience") != "current_housing":
+            errors.append(f"{event_id}: first-bill chain must use current_housing")
+        music = contract.get("music", {})
+        if not isinstance(music, dict) or music.get("key") != "reckoning":
+            errors.append(f"{event_id}: first-bill chain must preserve reckoning")
+        elif music.get("start_paragraph") != expected_start:
+            errors.append(
+                f"{event_id}: first-bill reckoning must start at paragraph "
+                f"{expected_start}"
+            )
+
+    first_bill_cues: list[tuple[str, str, str, str]] = []
+    for event_id, contract in first_bill_contracts.items():
+        if not isinstance(contract, dict):
+            continue
+        description_maps = contract.get("paragraph_cues", {})
+        if not isinstance(description_maps, dict):
+            description_maps = {}
+        for paragraph_index, cues in description_maps.items():
+            if not isinstance(cues, list):
+                continue
+            for cue in cues:
+                if isinstance(cue, dict):
+                    first_bill_cues.append(
+                        (
+                            event_id,
+                            "description",
+                            str(paragraph_index),
+                            str(cue.get("sfx", "")),
+                        )
+                    )
+        result_maps = contract.get("result_paragraph_cues", {})
+        if not isinstance(result_maps, dict):
+            result_maps = {}
+        for choice_index, paragraph_map in result_maps.items():
+            if not isinstance(paragraph_map, dict):
+                continue
+            for paragraph_index, cues in paragraph_map.items():
+                if not isinstance(cues, list):
+                    continue
+                for cue in cues:
+                    if isinstance(cue, dict):
+                        first_bill_cues.append(
+                            (
+                                event_id,
+                                f"result:{choice_index}",
+                                str(paragraph_index),
+                                str(cue.get("sfx", "")),
+                            )
+                        )
+
+    expected_first_bill_cues = [
+        ("v2_demo_first_bill_opening", "description", "0", "paper_handle"),
+        ("v2_demo_first_bill_ledger", "result:0", "0", "pen_write"),
+    ]
+    if sorted(first_bill_cues) != sorted(expected_first_bill_cues):
+        errors.append(
+            "first-bill physical cues must be exactly opening description 0 "
+            "paper_handle and ledger choice 0 result 0 pen_write; got "
+            + repr(first_bill_cues)
         )
 
     if errors:

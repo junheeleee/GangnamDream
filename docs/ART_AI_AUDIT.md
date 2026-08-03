@@ -13,7 +13,7 @@
 
 ## 감사 결과
 
-- 활성 인벤토리: **246장** (`CG 74 / Portrait 90 / Background 82`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
+- 활성 인벤토리: **248장** (`CG 74 / Portrait 91 / Background 83`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
 - 전수 방법: 종류별 콘택트시트 24장으로 얼굴·실루엣·그레이딩·공간을 1차 비교하고, 손·반사·차량·카운터·정류장처럼 오독 위험이 있는 컷과 키 비주얼 10장은 원본 해상도로 다시 열었다.
 - 런타임 수리: 배경이 구워진 `main_character_50s.png`를 본편의 `player_hollow` 슬롯에서 제외하고 같은 민준의 투명 피로 초상으로 통합했다. 현재 이벤트가 없는 박재원의 죽은 초상 등록도 제거했다.
 - 이미지 수리: `ending_crypto_ghost.png`의 비현실적인 6면 모니터 벽을 정본 고시원 안의 휴대폰 1대·낡은 노트북 1대로 교체했다. 방 크기, 작은 불투명창, 침대/책상 방향, 민준 신원, 다섯 손가락, 무문자 차트를 원본에서 재검수했다.
@@ -61,6 +61,43 @@
 - 편집 원본: `$HOME/.codex/generated_images/019fc52b-842a-7ab0-b34d-eef40762a296/exec-0d2b3a58-2abf-47c7-be24-018134c5c34e.png`, `$HOME/.codex/generated_images/019fc52b-842a-7ab0-b34d-eef40762a296/exec-db098ba6-5e76-483e-87f7-cb2b15bdd656.png`, 최종 `$HOME/.codex/generated_images/019fc52b-842a-7ab0-b34d-eef40762a296/exec-21e91576-9470-40be-9b16-1c2a45f7aa30.png`.
 - 출시 경로: `assets/backgrounds/warehouse_inventory_night.png`, `assets/backgrounds/moving_truck_loading_dusk.png` (1280x800).
 - 검수: 창고는 선반·핸드카트·스캐너·셔터/출입문 원근과 무인·무문자·하단 안전영역을 확인했다. 이삿짐은 5월 식생, 외부 대기 상자 정확히 6개, 적재함 안의 기적재 상자, 접힌 담요, 트럭 램프·현관·손수레·도로/보도 동선, 무인·무상표·무문자와 하단 안전영역을 확인했다.
+
+### 24주 첫 결산 전용 배경·연기 초상
+
+- 모드: OpenAI 내장 ImageGen 신규 생성 2건. 원 호출 프롬프트 기록이
+  유실되어 `assets/IMAGE_PROMPTS.md`에는 결과물·정본·참조 입력에서
+  복원한 재현 프롬프트로 명시했다. 정확한 원문으로 취급하지 않으며,
+  민준 나이는 2026년 시작 정본인 33세로 정합성 교정했다.
+- 배경 생성 원본: `/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-25d687d2-d0bf-46c0-89d0-0c3712e485b9.png`
+  (1586x992 RGB, SHA-256 `c33af17a136820a8bc3547d97902ab660ade010c7056be927477ea1964acd3f0`).
+  최초 후처리본은 은행 앱을 열었다는 산문과 달리 휴대폰 화면이
+  완전히 꺼져 있어 정합 검수에서 폐기했다.
+- 배경 교정 원본: `/Users/junheelee/.codex/generated_images/019fc841-af3c-7442-b2bc-971d6c553cd4/exec-62dbbbde-2fcb-4d0b-ad41-fe4c59f9523b.png`
+  (1586x992 RGB, SHA-256 `3d9db6b4b24e3c24196da86eb35b4fa62bb4dadefcb4a1bb2119ecc742b42312`).
+  원 배경을 정밀 편집 대상으로 삼아 단일 휴대폰 화면만 아주 어두운
+  무상표·무문자 모바일 뱅킹 상태로 켰다. 교정 원본을 1280x800 RGB로
+  리사이즈했으며 전체 편집 프롬프트는 `assets/IMAGE_PROMPTS.md`에 보관한다.
+- 초상 생성 원본: `/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-8c08e2c4-ac4b-448b-a61d-7ee283bc5bc9.png`
+  (1024x1536 RGB, SHA-256 `334475989c71bde8be8390ee6cc736773955b3b199a20053ce9ef02f87d00d14`).
+  단색 마젠타 크로마를 제거하고 512x768 RGBA로 리사이즈했다.
+- 출시 경로/해시: `assets/backgrounds/v2_first_bill_desk_closeup.png`
+  `bddf7fe462c6b46ab4b9a7d1ff3d02225e59c1e18c61ea2d291c02d03344883b`,
+  `assets/characters/main_character_first_bill_decision.png`
+  `3a0a0dc3ea0ca92964aba4f3de245313ef40d96957fbf55b39af4166da648339`.
+- 시각 검수: 배경은 정본 고시원의 왼쪽 침대·낮은 책상·검은 스탠드·오른쪽
+  스위치를 유지하고, 휴대폰·펼친 수첩·펜·영수증·물컵이 중복 없이
+  물리적으로 연결된다. 휴대폰은 낮은 청회색 빛으로 켜져 있어 은행 앱 상태가
+  읽히지만 실제 앱 UI·잔액·숫자·문자·은행명·상표는 판독되지 않는다. 하단 30%는
+  대사 안전 영역으로 남았다. 초상은 정본 33세 민준의 얼굴·검은 크루넥·마른
+  체형을 유지하고 수첩 방향 하향 시선·다문 입·읽히는 어깨로 영웅적 결의,
+  분노, 악역 눈빛, 붕괴를 피했으며 투명 가장자리와 실제 게임 크롭을 확인했다.
+- 실행 검수: Godot 4.6.2 전용 `core-loop-v2` ScreenshotQA로 한국어
+  960x600과 영어 1280x800에서 opening, 세 후보별 decision, 세 ledger 상태,
+  편의점 choice 3 및 창고 choice 6 결과를 실제 StoryMode 프레임으로 출력했다.
+  신규 배경 cover 크롭과 투명 초상 합성에는 잘림·겹침이 없었고, 영어 창고
+  결과의 금액 배지도 `+KRW 280K`로 줄여 최종 재렌더에서 잘림 없이 통과했다.
+  이 전용 렌더는 전체 24주 `demo-experience` 완주가 아니다. 해당 입력 자동화는
+  Week 1 V2 planner에서 멈추므로 별도 열린 게이트로 기록한다.
 
 ## 키 비주얼 상위 10컷
 
@@ -161,6 +198,7 @@
 | Portrait | `assets/characters/main_character_cold_snap.png` | `player_cold_snap` | 512x768 | yes | `360c41abe06e` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
 | Portrait | `assets/characters/main_character_corporate.png` | `player_corporate`, `player_suit` | 512x768 | yes | `6227f9bca2fd` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
 | Portrait | `assets/characters/main_character_determined.png` | `player_determined`, `player_moral_black` | 512x768 | yes | `60bb8ad42d3d` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
+| Portrait | `assets/characters/main_character_first_bill_decision.png` | `player_first_bill_decision` | 512x768 | yes | `3a0a0dc3ea0c` | PASS-B | 33세 y1 민준·검은 크루넥·수첩 방향 하향 시선·절제된 결정 연기, 무소품 투명 분리와 게임 크롭 확인. |
 | Portrait | `assets/characters/main_character_happy.png` | `player_happy`, `player_moral_white` | 512x768 | yes | `a27c702ee031` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
 | Portrait | `assets/characters/main_character_heatwave.png` | `player_heatwave` | 512x768 | yes | `a56eaa417459` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
 | Portrait | `assets/characters/main_character_monsoon.png` | `player_monsoon` | 512x768 | yes | `d0eefc17bbce` | PASS-B | 투명 분리·얼굴 정체성·의상 실루엣 확인. |
@@ -325,10 +363,11 @@
 | Background | `assets/backgrounds/street_seoul_day.png` | `street`, `street_day` | 1280x800 | no | `c7730fce4f73` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/suneung_test_hall.png` | `suneung_test_hall` | 1672x941 | no | `4b72655552ff` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/trading_screen_night.png` | `trading_room` | 1280x800 | no | `9bebd361a8e1` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
+| Background | `assets/backgrounds/v2_first_bill_desk_closeup.png` | `v2_first_bill_desk_closeup` | 1280x800 | no | `bddf7fe462c6` | PASS-B | 정본 고시원 책상/침대/스위치 기하, 휴대폰·수첩·펜·영수증·물컵 단일성, 어두운 뱅킹 화면의 무판독 문자·하단 안전 크롭 확인. |
 | Background | `assets/backgrounds/warehouse_inventory_night.png` | `warehouse_inventory_night` | 1280x800 | no | `b3d45d908fd4` | PASS-B | 선반·상자·핸드카트·바코드 스캐너·셔터/출입문 원근, 무인·무상표·무문자와 하단 안전 크롭 확인. |
 | Background | `assets/backgrounds/winter_bungeoppang_stall.png` | `winter_street_bungeoppang` | 1280x800 | no | `ff57cae9f68a` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/year2_winter_last_night.png` | `year2_winter_street_night` | 1280x800 | no | `f9f019f44357` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/year3_hangang_winter_night.png` | `year3_hangang_winter_night` | 1280x800 | no | `b8387ccb4707` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/year4_winter_rooftop.png` | `year4_winter_rooftop` | 1280x800 | no | `46803837d191` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 
-Inventory: 74 CG / 90 portraits / 82 backgrounds / 246 total.
+Inventory: 74 CG / 91 portraits / 83 backgrounds / 248 total.

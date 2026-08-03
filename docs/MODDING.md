@@ -332,6 +332,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `street`, `street_day` | `backgrounds/street_seoul_day.png` | 1280x800 |
 | background | `suneung_test_hall` | `backgrounds/suneung_test_hall.png` | 1672x941 |
 | background | `trading_room` | `backgrounds/trading_screen_night.png` | 1280x800 |
+| background | `v2_first_bill_desk_closeup` | `backgrounds/v2_first_bill_desk_closeup.png` | 1280x800 |
 | background | `warehouse_inventory_night` | `backgrounds/warehouse_inventory_night.png` | 1280x800 |
 | background | `winter_street_bungeoppang` | `backgrounds/winter_bungeoppang_stall.png` | 1280x800 |
 | background | `year2_winter_street_night` | `backgrounds/year2_winter_last_night.png` | 1280x800 |
@@ -416,6 +417,7 @@ python3 tools/generate_mod_manifest.py --check
 | portrait | `player_corporate_y3` | `characters/main_character_corporate_y3.png` | 1024x1536 |
 | portrait | `player_corporate_y5` | `characters/main_character_corporate_y5.png` | 1024x1536 |
 | portrait | `player_determined`, `player_moral_black` | `characters/main_character_determined.png` | 512x768 |
+| portrait | `player_first_bill_decision` | `characters/main_character_first_bill_decision.png` | 512x768 |
 | portrait | `player_happy`, `player_moral_white` | `characters/main_character_happy.png` | 512x768 |
 | portrait | `player_heatwave` | `characters/main_character_heatwave.png` | 512x768 |
 | portrait | `player_monsoon` | `characters/main_character_monsoon.png` | 512x768 |

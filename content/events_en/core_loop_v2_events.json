@@ -328,7 +328,7 @@
     "choices": [
       {
         "text": "Send nothing until the exam is over",
-        "result_text": "{name} closes Kakao and locks the screen. The hours they studied together, and the reply from the final Sunday before the exam, cannot reveal today's result in advance.\n\nThe only fact available now is that the exam has begun."
+        "result_text": "{name} closes Kakao and locks the screen. The hours they studied together cannot reveal today's result in advance.\n\n{v2_hyunsu_exam_eve_memory}\n\nThe only fact available now is that the exam has begun."
       }
     ]
   },
@@ -437,41 +437,71 @@
     ]
   },
   {
+    "id": "v2_demo_first_bill_opening",
+    "title": "The First Bill",
+    "description": "At 5:52 p.m. on Friday, June 26, {name} sits down at the desk in his room with the banking app open beside his notebook.\n\n{cash_position}. This month's housing cost of {expense}, along with any loan interest, has not left the account yet; any pay still due has not arrived either.\n\n{v2_first_bill_body}\n\n{v2_first_bill_trace}\n\n{v2_first_bill_evidence}\n\nHe has not chosen anything yet. First, he decides what to look at again.",
+    "choices": [
+      {
+        "text": "Read Father's last message again",
+        "result_text": "{name} opens the short message from Father.\n\n“I'm fine. Don't worry about me.”\n\nThere is no diagnosis and no hospital name. The call button sits directly below the message."
+      },
+      {
+        "text": "Subtract this month's fixed costs from the balance",
+        "result_text": "{name} subtracts each fixed cost from the balance and copies the amount on the screen onto the first line of the notebook.\n\n{v2_first_bill_after_bills}"
+      },
+      {
+        "text": "Check his wrists and back",
+        "result_text": "{name} slowly opens and closes his hands, then lifts his back away from the chair.\n\nHe checks his wrists and back for strain. Whatever he chooses tonight, they will have to bear it."
+      }
+    ]
+  },
+  {
     "id": "v2_demo_first_bill",
-    "title": "One Thing to Finish This Week",
-    "description": "At 5:52 on Friday afternoon, June 26, {name} opens the banking app from his room. {cash_position}. This month's fixed costs of {expense} have not been deducted, and any wages due have not arrived yet.\n\nFrom this point on, there is time to take on only one of these. Choosing paperwork means editing and sending it before six; choosing a call or a trip means starting now.\n\n{name} decides on the one thing to finish this week.",
+    "title": "The First Bill",
+    "description": "{name} writes down only the things he can still do now.\n\n{v2_first_bill_tradeoffs}\n\nOnce a deadline passes, that task can no longer be completed tonight. Finishing any of the other tasks involving people, money, or rest will also leave no time for the others. He cannot start everything and finish nothing. He has to choose one task and complete it.\n\n{name} decides which line to circle.",
     "choices": [
       {
         "text": "Call Father again",
-        "result_text": "{name} calls Father. After several rings, he answers.\n\n“What.”\n“I just wanted to hear your voice. Did you eat?”\n“I ate. Take care of yourself.”\n\n{name} lets each silence pass and keeps the call going. The diagnosis remains unknown, and no date is set for a trip to Changwon. By the time he hangs up and writes down when to call again, it is past six."
+        "result_text": "{name} calls Father. After several rings, he answers.\n\n“What.”\n“I just wanted to hear your voice. Did you eat?”\n“I ate. Take care of yourself.”\n\nWhen {name} brings up the hospital, Father asks whether the room is cold. Neither answers the question the other one asked. Long silences pass between talk of dinner, the weather, and buses to Changwon.\n\nThere is still no diagnosis and no date for the trip. But when {name} says he will call again Monday evening, Father answers, “Do what you want.” It is past seven when {name} hangs up and writes down the time."
       },
       {
         "text": "Finish Hanbit Distribution's month-end discrepancy sheet",
-        "result_text": "{name} reopens the month-end discrepancy sheet from the logistics center. He marks rows where system and physical counts disagree and leaves unverified figures blank.\n\nAt 5:59, after his first full month on the job, he sends the completed month-end sheet through the internal mail system. There is no time left to switch to another document. He still does not know how long the contract will last."
+        "result_text": "{name} reopens the month-end discrepancy sheet from the logistics center. Of the two rows where system and physical counts disagree, he corrects only the one he can trace. Beside the other, he writes “site recheck” instead of inventing a quantity.\n\nAt 5:59, he sends the first month-end sheet assigned to him since joining Hanbit. Fifteen minutes later, the person in charge asks why one field is blank. {name} separates what the records prove from what still needs checking. He does not write that making up a number would have been faster.\n\nAfter seven, a reply comes back: update it Monday after the site count. He still does not know how long the contract will last, but the sheet he sent contains no claim to know what he did not."
       },
       {
         "text": "Submit the City Facilities worksheet",
-        "result_text": "Before six, {name} organizes the fictional scenario by date, facility, issue status, and order of action, then sends it.\n\nThe automated reply says “Work sample received.” No interview or hiring result has arrived."
+        "result_text": "{name} reopens the worksheet he drafted. His hand stops over whether to mark the broken emergency lights “resolved” or “site recheck required.” He does not invent a completion time absent from the scenario. He records only the date, facility, issue, and next action.\n\nAt 5:59, he sends the file. The automated reply contains only “Work sample received” and an application number. {name} opens the submitted copy once more, checks every blank against its source, and transfers the number to his notebook.\n\nHe submitted on time. It remains equally true that this promises neither an interview nor a job."
       },
       {
         "text": "Go to Daeun's store and ask whether she ate",
-        "result_text": "At 5:53, {name} leaves his room. After changing subway lines, he reaches the store during the night shift he learned about before.\n\nDaeun looks up from behind the counter. They ask whether the other managed to eat and stop when a customer enters.\n\nThe small question comes more easily than it did before."
+        "result_text": "At 5:53, {name} leaves his room. After changing subway lines, he reaches the store during the night shift he learned about before.\n\n{name}: “My turn to ask first. Did you eat, Daeun?”\nDaeun: “I had a gimbap before my shift. What about you?”\n\nBefore {name} can say not yet, a customer walks in. Once the sale and a parcel drop-off are done, Daeun nods toward the triangle-gimbap shelf.\n\nDaeun: “If you came to look after someone else, get one for yourself too.”\n{name}: “Then I will start by believing you ate.”\nDaeun: “Believe half of it. I only ate half.”\n\n{name} buys one and eats at the window where he can still see the counter. Their conversation stops whenever another customer enters, then starts again. By the time he checks the last-train schedule home, the question he asked first has become more than a single sentence."
       },
       {
         "text": "Message Jaehyuk first and ask about his week",
-        "result_text": "{name}: “I just finished wrapping up today. How was your week?”\n\nJaehyuk says he is still out. Their Kakao exchange stops and starts as they trade one thing done and one thing postponed this week. No investment or money comes up.\n\nThe conversation {name} started is still going after six."
+        "result_text": "{name}: “I just finished wrapping up today. How was your week?”\n\nJaehyuk says he is still out. At first, all he sends is, “Same as always.” When {name} goes first with one thing he finished and one thing he postponed, Jaehyuk writes a long message about something he got wrong on the way home.\n\nThe replies stop and start between subway transfers and dinner. {name} types an easy joke, deletes it, and names what he postponed without dressing it up. Investment and money never come up.\n\nAfter ten, Jaehyuk writes, “Next time, let's each say one thing we did right too.” The conversation that crossed ten missing years now continues in the concrete words of one week."
       },
       {
         "text": "Reconcile this month's expense ledger at home",
-        "result_text": "{name} spreads receipts across the desk where he lives now. He lists rent, food, transit, and phone payments by date.\n\nBy the time the first page balances, six has passed. Sangchul's business card stays in the drawer while {name} reconciles his own expenses first."
+        "result_text": "{name} spreads receipts across the desk where he lives now. He lists rent, food, transit, and phone payments by date. The first total does not match the card history, so he works down every line again.\n\nThe missing entries are two meals paid in cash and a transit-card top-up. Instead of filling the amounts from memory, he finds the receipts and the reload record and places each beside its date. Only on the third calculation does the notebook match the amount that left the account.\n\nIt is past nine when the first page balances. Sangchul's business card stays in the drawer. For this one night, {name} records the flow of his own money without borrowing anyone else's answer."
       },
       {
         "text": "Take urgent paid work tonight",
-        "result_text": "{name} leaves the room at once to reach the 6:30 p.m. assembly. He joins an overnight loading crew covering a same-day absence. After midnight, he unloads the last box and receives 280,000 won.\n\nThe crew settles the 280,000-won pay immediately. The strain in his palms and lower back arrives just as quickly."
+        "result_text": "{name} leaves the room at once to reach the 6:30 p.m. assembly. The foreman of the overnight loading crew checks his gloves and work zone before asking his name. His palms start rubbing raw inside the gloves before the first pallet is empty.\n\nAfter midnight, straightening his back takes one extra beat as he unloads the last box. The foreman checks the account number on {name}'s phone. A moment later, the 280,000-won day rate arrives.\n\nThe deposit settles immediately. The pain in his palms and back does not."
       },
       {
         "text": "Set one alarm and lie down first",
-        "result_text": "Before six, {name} sets one alarm and puts the phone face down. He showers, drinks water, and turns off the light.\n\nMoney, application results, and the next step with anyone remain unresolved tonight. He stops pushing and chooses sleep."
+        "result_text": "Before six, {name} sets one alarm and puts the phone face down. He showers in lukewarm water, slowly finishes a glass, and leaves only the notebook and pen beside the bed.\n\nEven after lying down, the order of everything he should do rearranges itself in his head. Each time his hand moves to check, it stops at the face-down phone. He starts nothing new while doors and footsteps in the hall grow distant.\n\nWhat he finishes tonight is the act of not pushing any further."
+      }
+    ]
+  },
+  {
+    "id": "v2_demo_first_bill_ledger",
+    "title": "The First Bill",
+    "description": "After finishing the task he chose, {name} returns to the notebook.\n\n{v2_first_bill_return}\n\nOn the decision page, every line outside the one he circled is still written down.\n\n{v2_first_bill_done}\n\n{v2_first_bill_not_done}\n\n{v2_first_bill_deadline_missed}\n\n{name} reads what he finished and what he did not on the same page.",
+    "choices": [
+      {
+        "text": "Read the page once and close the notebook",
+        "result_text": "{name} checks the next actions written on the previous page once more. On a new page, he writes only “Monday, June 29” and leaves the rest blank.\n\nHe closes the notebook and sets the pen on top."
       }
     ]
   }

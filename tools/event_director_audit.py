@@ -20,9 +20,9 @@ EXPECTED_CATALOG_RANDOM = 1176
 EXPECTED_DIRECTED_RANDOM = 1003
 EXPECTED_FOREGROUND_RANDOM = 64
 EXPECTED_BRIDGE_RANDOM = 19
-# ORDER-57 promotes five existing action results into authored, hidden V2
-# story beats. They are direct bundle roots, never random-director candidates.
-EXPECTED_REGISTERED_EVENTS = 1597
+# Core V2's authored hidden beats now include the First Bill opening and ledger
+# fragments. They are reached by bundle/story links, never by the random director.
+EXPECTED_REGISTERED_EVENTS = 1599
 EXPECTED_DIRECT_ONLY_EVENTS = {
     "v2_hyunsu_player_reachout",
     "v2_hyunsu_study_followup",

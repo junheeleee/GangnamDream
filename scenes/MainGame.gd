@@ -1392,7 +1392,8 @@ func _core_loop_v2_unresolved_recap(snapshot: Dictionary) -> Array[String]:
 			"한빛유통 면접 결과는 아직 오지 않았다.",
 			"Hanbit's interview result has not arrived yet."))
 	elif hanbit_status == "resolved" \
-			and str(GameState.current_job.get("id", "")) == "job_03":
+			and DEMO_CORE_LOOP_V2.has_hanbit_employment_provenance(
+				snapshot):
 		unresolved.append(_tr(
 			"한빛유통 계약이 얼마나 이어질지는 아직 알 수 없다.",
 			"You still do not know how long the Hanbit contract will last."))

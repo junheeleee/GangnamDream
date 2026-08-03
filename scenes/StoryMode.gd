@@ -72,6 +72,10 @@ var _direction_pending_text: String = ""
 var _story_visual_override_active: bool = false
 var _story_visual_override_norm: float = 0.0
 var _read_only_replay: bool = false
+var _first_bill_replay_snapshot: Dictionary = {}
+var _first_bill_replay_fatal_choice: bool = false
+var _first_bill_live_prechoice_snapshot: Dictionary = {}
+var _first_bill_post_ledger_resume_context: Dictionary = {}
 
 # ── 노드 ──────────────────────────────────────────────────────
 var _bg_img: TextureRect
@@ -223,6 +227,19 @@ func _ready():
 	SceneTransition.fade_in()
 	var resume_context := SaveManager.consume_loaded_resume_context()
 	if str(resume_context.get("kind", "")) == "story":
+		resume_context = DEMO_CORE_LOOP_V2 \
+			.migrate_legacy_first_bill_resume_context(resume_context)
+		var raw_saved_first_bill: Variant = resume_context.get(
+			"first_bill_replay_snapshot", {})
+		if raw_saved_first_bill is Dictionary:
+			_first_bill_replay_snapshot = DEMO_CORE_LOOP_V2 \
+				.validated_first_bill_replay_snapshot(
+					raw_saved_first_bill as Dictionary)
+		var raw_post_ledger_resume: Variant = resume_context.get(
+			"first_bill_post_ledger_resume", {})
+		_first_bill_post_ledger_resume_context = \
+			_validated_first_bill_post_ledger_resume_context(
+				raw_post_ledger_resume)
 		_pending_restore_context = resume_context.duplicate(true)
 		_restore_dialogue_log_state(resume_context)
 		_queue = resume_context.get("queue", []).duplicate(true)
@@ -237,6 +254,22 @@ func _ready():
 		# 일반 진입은 GameState에 예약된 사건 큐를 가져온다.
 		_queue = GameState.pending_story_queue.duplicate()
 	GameState.pending_story_queue.clear()
+	if _read_only_replay and not _queue.is_empty() \
+			and str(_queue.front()) == DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID:
+		_first_bill_replay_snapshot = \
+			DEMO_CORE_LOOP_V2.validated_complete_first_bill_replay_snapshot(
+				MetaProgression.get_scene_replay_snapshot(
+					DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID))
+		if _first_bill_replay_snapshot.is_empty():
+			# A partially witnessed or damaged archive record must never render
+			# blank dynamic prose against a new run's unrelated state.
+			_queue.clear()
+		else:
+			for follow_up_root in \
+					DEMO_CORE_LOOP_V2.first_bill_replay_follow_up_roots(
+						_first_bill_replay_snapshot):
+				if not _queue.has(follow_up_root):
+					_queue.append(follow_up_root)
 	if _queue.is_empty():
 		_finish_all()
 		return
@@ -323,10 +356,23 @@ func _story_dim_color(has_cg: bool) -> Color:
 	tone.a = clampf(alpha, 0.0, 0.40)
 	return tone
 
+func _story_visual_turn() -> int:
+	return int(_first_bill_replay_snapshot.get("turn", GameState.turn)) \
+		if _first_bill_replay_event_active() else int(GameState.turn)
+
 func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false) -> void:
 	if _story_visual_override_active:
 		_story_moral_norm = clampf(_story_visual_override_norm, -1.0, 1.0)
 		_story_moral_stage = -2 if _story_moral_norm <= -0.6 else (-1 if _story_moral_norm < -0.2 else 0)
+	elif _first_bill_replay_event_active():
+		_story_moral_norm = clampf(
+			float(_first_bill_replay_snapshot.get("moral_tint", 0.0)) / 100.0,
+			-1.0, 1.0)
+		_story_moral_stage = (
+			2 if _story_moral_norm >= 0.6 else
+			1 if _story_moral_norm >= 0.2 else
+			-2 if _story_moral_norm <= -0.6 else
+			-1 if _story_moral_norm <= -0.2 else 0)
 	else:
 		_story_moral_norm = clampf(GameState.moral_tint_norm(), -1.0, 1.0)
 		_story_moral_stage = GameState.moral_stage()
@@ -363,13 +409,13 @@ func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false)
 		_story_bg_material.set_shader_parameter("print_screen", clampf(0.006 + black * 0.034 - white * 0.004, 0.002, 0.052))
 		_story_bg_material.set_shader_parameter("tone_quantize", clampf(0.008 + black * 0.112 - white * 0.006, 0.0, 0.14))
 		_story_bg_material.set_shader_parameter("screen_scale", 620.0 + black * 80.0 - white * 40.0)
-		_story_bg_material.set_shader_parameter("seed", float(GameState.turn % 131) + absf(_story_moral_norm) * 19.0)
+		_story_bg_material.set_shader_parameter("seed", float(_story_visual_turn() % 131) + absf(_story_moral_norm) * 19.0)
 	if _story_surface_material and is_instance_valid(_story_surface_overlay):
 		_story_surface_overlay.visible = black > 0.01 or white > 0.01
 		_story_surface_material.set_shader_parameter("black_intensity", black)
 		_story_surface_material.set_shader_parameter("white_intensity", white)
 		_story_surface_material.set_shader_parameter("print_screen", clampf(black * 0.045 - white * 0.010, 0.0, 0.055))
-		_story_surface_material.set_shader_parameter("seed", float(GameState.turn % 97) + absf(_story_moral_norm) * 10.0)
+		_story_surface_material.set_shader_parameter("seed", float(_story_visual_turn() % 97) + absf(_story_moral_norm) * 10.0)
 	_apply_story_portrait_surface()
 	if is_instance_valid(_text_panel):
 		_text_panel.add_theme_stylebox_override("panel", _story_panel_style(panel_bg, panel_border, 8))
@@ -419,7 +465,7 @@ func _apply_story_portrait_surface() -> void:
 		_story_portrait_material.set_shader_parameter("print_screen", clampf(0.003 + black * 0.017 - white * 0.002, 0.0, 0.025))
 		_story_portrait_material.set_shader_parameter("tone_quantize", clampf(black * 0.045 - white * 0.010, 0.0, 0.075))
 		_story_portrait_material.set_shader_parameter("screen_scale", 700.0 + black * 90.0)
-		_story_portrait_material.set_shader_parameter("seed", float(GameState.turn % 149) + absf(_story_moral_norm) * 23.0)
+		_story_portrait_material.set_shader_parameter("seed", float(_story_visual_turn() % 149) + absf(_story_moral_norm) * 23.0)
 	# Black에서는 사람이 사라지는 게 아니라 시야의 주변부로 물러난다.
 	# White에서는 얼굴이 조금 가까워진다. 텍스트/입력 영역은 움직이지 않는다.
 	_portrait.modulate = Color(
@@ -1570,7 +1616,8 @@ func _dialogue_log_entry_heading(entry: Dictionary) -> String:
 	var kind := str(entry.get("kind", "prose"))
 	var title := str(entry.get("title", "")).strip_edges()
 	if kind == "choice":
-		var player := str(entry.get("speaker", GameState.player_name)).strip_edges()
+		var player := str(entry.get(
+			"speaker", _story_player_display_name())).strip_edges()
 		return "%s · %s" % [_tr("내 선택", "My Choice"), player]
 	if kind == "result":
 		return "%s · %s" % [
@@ -2025,7 +2072,7 @@ func build_save_resume_context() -> Dictionary:
 	var source_text_progress := _story_source_page_progress(
 		saved_paragraph_index, paragraph_type_ratio)
 	var source_paragraph_count := _story_source_paragraph_count()
-	return {
+	var resume_context := {
 		"kind": "story",
 		"scene": "res://scenes/StoryMode.tscn",
 		"return_scene": GameState.story_return_scene if not GameState.story_return_scene.is_empty() \
@@ -2059,6 +2106,69 @@ func build_save_resume_context() -> Dictionary:
 			"next_serial": _dialogue_log_next_serial,
 		},
 	}
+	var current_event_id := str(_current.get("id", ""))
+	if current_event_id in [
+		DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID,
+		DEMO_CORE_LOOP_V2.FIRST_BILL_DECISION_ID,
+		DEMO_CORE_LOOP_V2.FIRST_BILL_LEDGER_ID,
+	]:
+		var first_bill_snapshot := \
+			DEMO_CORE_LOOP_V2.validated_first_bill_replay_snapshot(
+				_first_bill_replay_snapshot)
+		if first_bill_snapshot.is_empty():
+			first_bill_snapshot = \
+				DEMO_CORE_LOOP_V2.build_first_bill_replay_snapshot()
+		if not first_bill_snapshot.is_empty():
+			resume_context["first_bill_replay_snapshot"] = first_bill_snapshot
+	var post_ledger_resume := \
+		_validated_first_bill_post_ledger_resume_context(
+			_first_bill_post_ledger_resume_context)
+	if not post_ledger_resume.is_empty():
+		resume_context["first_bill_post_ledger_resume"] = post_ledger_resume
+	return resume_context
+
+func _validated_first_bill_post_ledger_resume_context(
+		raw_context: Variant) -> Dictionary:
+	if not raw_context is Dictionary:
+		return {}
+	var context: Dictionary = (raw_context as Dictionary).duplicate(true)
+	if str(context.get("kind", "")) != "story" \
+			or str(context.get("event_id", "")) \
+				!= "v2_hyunsu_exam_morning_echo" \
+			or str(context.get("phase", "")) != "result" \
+			or str(context.get("story_locale", "")) not in ["ko", "en"]:
+		return {}
+	var event: Dictionary = DataRegistry.find_event(
+		"v2_hyunsu_exam_morning_echo")
+	var raw_choices: Variant = event.get("choices", [])
+	var choice_index := int(context.get("pending_result_choice_index", -1))
+	if event.is_empty() or not raw_choices is Array \
+			or choice_index < 0 \
+			or choice_index >= (raw_choices as Array).size():
+		return {}
+	var raw_queue: Variant = context.get("queue", [])
+	if not raw_queue is Array or (raw_queue as Array).size() > 16:
+		return {}
+	var queue: Array = []
+	for raw_event_id in raw_queue as Array:
+		if not raw_event_id is String:
+			return {}
+		var queued_id := str(raw_event_id).strip_edges()
+		if queued_id.is_empty() or queued_id in [
+			DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID,
+			DEMO_CORE_LOOP_V2.FIRST_BILL_DECISION_ID,
+			DEMO_CORE_LOOP_V2.FIRST_BILL_LEDGER_ID,
+		] or DataRegistry.find_event(queued_id).is_empty() \
+				or queue.has(queued_id):
+			return {}
+		queue.append(queued_id)
+	context["queue"] = queue
+	context.erase("first_bill_post_ledger_resume")
+	var encoded := JSON.stringify(context)
+	if encoded.to_utf8_buffer().size() > 65_536:
+		return {}
+	var decoded: Variant = JSON.parse_string(encoded)
+	return decoded if decoded is Dictionary else {}
 
 func _story_resume_phase() -> String:
 	if _is_chapter_card:
@@ -2791,14 +2901,82 @@ func _direct_continue_action_text() -> String:
 	var base_text := str(choice.get("text", _tr("계속", "Continue")))
 	return _fmt(_moral_perception_text(choice.get("text_if_moral", {}), base_text))
 
+
+func _story_has_pending_fatal_state() -> bool:
+	# StoryMode does not own the ending screen. It must stop authored follow-ups
+	# as soon as a choice crosses a fatal threshold, then let the newly loaded
+	# MainGame run the canonical check while its game_over listener is connected.
+	return GameState.is_game_over \
+		or int(GameState.health) <= 0 \
+		or int(GameState.mental) <= 0 \
+		or GameState.get_total_asset_value() < -100_000_000.0 \
+		or int(GameState.addiction_tendency) >= 90
+
+
+func _restoring_saved_result_phase() -> bool:
+	if _pending_restore_context.is_empty() \
+			or str(_pending_restore_context.get("phase", "")) != "result" \
+			or _queue.is_empty():
+		return false
+	return str(_pending_restore_context.get("event_id", "")) \
+		== str(_queue.front())
+
+func _capture_first_bill_replay_snapshot(choice_index: int = -1) -> bool:
+	var snapshot: Dictionary = {}
+	if choice_index >= 0 and not _first_bill_live_prechoice_snapshot.is_empty():
+		snapshot = DEMO_CORE_LOOP_V2.first_bill_replay_snapshot_with_choice(
+			_first_bill_live_prechoice_snapshot, choice_index)
+	elif not _first_bill_replay_snapshot.is_empty():
+		snapshot = DEMO_CORE_LOOP_V2.validated_first_bill_replay_snapshot(
+			_first_bill_replay_snapshot)
+	else:
+		# Result-phase saves created before this feature have no pre-choice
+		# snapshot. DemoCore provides a best-effort inverse for that compatibility
+		# path; every new playthrough takes the exact branch above.
+		snapshot = DEMO_CORE_LOOP_V2.build_first_bill_replay_snapshot()
+	var raw_receipt: Variant = snapshot.get("obligation_receipt", {})
+	if snapshot.is_empty() or not raw_receipt is Dictionary \
+			or (raw_receipt as Dictionary).is_empty():
+		return false
+	if not MetaProgression.record_scene_replay_snapshot(
+			DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID, snapshot):
+		return false
+	MetaProgression.record_scene_seen(DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID)
+	GameState.record_run_scene_seen(DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID)
+	_first_bill_replay_snapshot = snapshot.duplicate(true)
+	_first_bill_live_prechoice_snapshot.clear()
+	return true
+
 # ── 이벤트 로딩 ───────────────────────────────────────────────
 func _load_next_event():
 	_reset_advance_hold()
 	_stop_story_choice_countdown()
+	# A decisive choice may end the run immediately (notably the Week-24
+	# urgent shift at critical health). Do not let an authored follow-up or a
+	# remaining bundle root play over the ending that MainGame now owns.
+	if not _read_only_replay \
+			and _story_has_pending_fatal_state() \
+			and not _restoring_saved_result_phase():
+		_pending_follow_up = ""
+		_queue.clear()
+		_finish_all()
+		return
 	if _queue.is_empty():
 		_finish_all()
 		return
+	var previous_event_id := str(_current.get("id", "")).strip_edges()
 	var event_id = str(_queue.pop_front())
+	# Follow-ups already prepare their edge in _after_result. Roots that were
+	# queued together also need their authored transition contract; otherwise
+	# an internal cut silently falls back to whatever the prior scene left on
+	# screen.
+	if _next_transition_contract.is_empty() \
+			and not previous_event_id.is_empty() \
+			and previous_event_id != event_id:
+		var queued_transition := DataRegistry.get_story_transition(
+			previous_event_id, event_id)
+		_next_transition_contract = queued_transition.duplicate(true)
+		_next_transition_mode = str(queued_transition.get("mode", ""))
 	_current = DataRegistry.find_event(event_id)
 	if _current.is_empty():
 		_next_transition_mode = ""
@@ -2817,7 +2995,13 @@ func _load_next_event():
 	_next_transition_mode = ""
 	_current_transition_contract = _next_transition_contract.duplicate(true)
 	_next_transition_contract = {}
-	if not _read_only_replay:
+	var raw_tags: Variant = _current.get("tags", [])
+	var is_continuous_fragment := raw_tags is Array \
+			and (raw_tags as Array).has("continuous_scene_fragment")
+	var delays_first_bill_unlock: bool = event_id \
+		== DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID
+	if not _read_only_replay and not is_continuous_fragment \
+			and not delays_first_bill_unlock:
 		MetaProgression.record_scene_seen(event_id)
 		GameState.record_run_scene_seen(event_id)
 	var curation_year := int(_current.get("year_scene_year", 0))
@@ -2829,11 +3013,23 @@ func _load_next_event():
 			return
 		_current["choices"] = curation_choices
 	EventManager.current_event = _current
+	if not _read_only_replay and event_id in [
+		DEMO_CORE_LOOP_V2.FIRST_BILL_DECISION_ID,
+		DEMO_CORE_LOOP_V2.FIRST_BILL_LEDGER_ID,
+	]:
+		_capture_first_bill_replay_snapshot()
 	_render_current()
 	if not _pending_restore_context.is_empty():
 		var restore_context := _pending_restore_context.duplicate(true)
 		_pending_restore_context.clear()
 		_apply_story_resume_context(restore_context)
+	elif not _first_bill_post_ledger_resume_context.is_empty() \
+			and str(_first_bill_post_ledger_resume_context.get(
+				"event_id", "")) == event_id:
+		var post_ledger_resume := \
+			_first_bill_post_ledger_resume_context.duplicate(true)
+		_first_bill_post_ledger_resume_context.clear()
+		_apply_story_resume_context(post_ledger_resume)
 
 func _resolved_event_portrait_id() -> String:
 	var portrait_id := str(_current.get("portrait", ""))
@@ -3211,7 +3407,7 @@ func _record_dialogue_choice(choice: Dictionary, choice_index: int) -> void:
 		"source_paragraph_index": -1,
 		"page_index": -1,
 		"title": _dialogue_log_plain_text(_fmt(str(_current.get("title", "")))),
-		"speaker": GameState.player_name,
+		"speaker": _story_player_display_name(),
 		"screen_context": "",
 		"channel": str(_current_presentation.get("channel", "in_person")),
 		"locale": LocaleManager.language,
@@ -3535,6 +3731,10 @@ func _render_current():
 		BGMPlayer.update_idle_ambience()
 	else:
 		BGMPlayer.update_event_ambience(_current, _event_cg_id, _event_background_id)
+	if _first_bill_replay_event_active() \
+			and str(_current.get("background", "")) == "current_housing":
+		BGMPlayer.set_ambience(_first_bill_replay_housing_ambience())
+		BGMPlayer.set_season_ambience("")
 	BGMPlayer.begin_story_event(_current, _event_cg_id)
 	AudioManager.begin_story_audio_event(str(_current.get("id", "")))
 	AudioManager.play_event_cue(_current)
@@ -3550,6 +3750,9 @@ func _render_current():
 		# 인물이 실제로 등장하기 전에는 이름표도 함께 감춘다.
 		_show_portrait("", true)
 	if _current_uses_cg and _hud_panel != null and is_instance_valid(_hud_panel):
+		_hud_panel.visible = false
+	if _first_bill_replay_event_active() \
+			and _hud_panel != null and is_instance_valid(_hud_panel):
 		_hud_panel.visible = false
 
 	# 제목
@@ -3580,7 +3783,41 @@ func _event_background_id_for_paragraph(paragraph_index: int) -> String:
 	return _resolve_story_background_id(str(_event_paragraph_backgrounds[index]))
 
 func _resolve_story_background_id(background_id: String) -> String:
+	if background_id.strip_edges() == "current_housing" \
+			and _first_bill_replay_event_active():
+		match str(_first_bill_replay_snapshot.get("housing", "gosiwon")):
+			"gangnam", "apartment":
+				return "gangnam_apartment"
+			"villa", "oneroom":
+				return "apartment"
+			_:
+				return "goshiwon_room"
 	return ImageRegistry.resolve_contextual_background_id(background_id.strip_edges())
+
+func _first_bill_replay_event_active() -> bool:
+	if not _read_only_replay or _first_bill_replay_snapshot.is_empty():
+		return false
+	return str(_current.get("id", "")) in [
+		DEMO_CORE_LOOP_V2.FIRST_BILL_OPENING_ID,
+		DEMO_CORE_LOOP_V2.FIRST_BILL_DECISION_ID,
+		DEMO_CORE_LOOP_V2.FIRST_BILL_LEDGER_ID,
+		"v2_hyunsu_exam_morning_echo",
+	]
+
+func _story_player_display_name() -> String:
+	if _first_bill_replay_event_active():
+		return DEMO_CORE_LOOP_V2.first_bill_replay_player_name(
+			_first_bill_replay_snapshot)
+	return GameState.player_name
+
+func _first_bill_replay_housing_ambience() -> String:
+	match str(_first_bill_replay_snapshot.get("housing", "gosiwon")):
+		"gangnam", "apartment":
+			return "apartment"
+		"villa", "oneroom":
+			return "oneroom"
+		_:
+			return "room"
 
 func _maybe_change_event_background(paragraph_index: int) -> void:
 	if _current_uses_cg or _pending_after_result:
@@ -3703,8 +3940,16 @@ func _show_portrait(portrait_id: String, bg_only: bool = false):
 	# bg_only 장면(배경이 주연)에선 초상화 id가 있어도 인물 정보만 쓰고 그림은 띄우지 않는다.
 	if portrait_id != "":
 		info = ImageRegistry.get_person_info(portrait_id)
+		if _first_bill_replay_event_active() \
+				and portrait_id.begins_with("player"):
+			info = info.duplicate(true)
+			info["name"] = DEMO_CORE_LOOP_V2.first_bill_replay_player_name(
+				_first_bill_replay_snapshot)
 		if not bg_only and str(_current_presentation.get("portrait_role", "present")) != "none":
-			path = ImageRegistry.get_portrait(portrait_id)
+			path = ImageRegistry.get_portrait_for_turn(
+				portrait_id, int(_first_bill_replay_snapshot.get("turn", 24))) \
+				if _first_bill_replay_event_active() \
+				else ImageRegistry.get_portrait(portrait_id)
 
 	# 초상화 이미지가 실제로 있을 때만 액자 표시. 없으면(배경전용/플레이스홀더) 프레임 통째로 숨김.
 	if path != "" and ImageRegistry.has_texture(path):
@@ -4594,11 +4839,24 @@ func _story_result_effect_color(key: String, val: int) -> Color:
 
 func _story_result_value_text(key: String, val: int) -> String:
 	if key == "money" or key == "monthly_income":
+		if LocaleManager.is_english():
+			return _story_result_money_compact(float(val))
 		if val >= 0:
 			return "+%s" % _story_money(float(val))
 		return "-%s" % _story_money(absf(float(val)))
 	var sign := "+" if val > 0 else ""
 	return "%s%d" % [sign, val]
+
+func _story_result_money_compact(amount: float) -> String:
+	var sign := "+" if amount >= 0.0 else "-"
+	var value := absf(amount)
+	if value >= 1_000_000_000.0:
+		return "%sKRW %sB" % [sign, _story_money_number(value / 1_000_000_000.0)]
+	if value >= 1_000_000.0:
+		return "%sKRW %sM" % [sign, _story_money_number(value / 1_000_000.0)]
+	if value >= 1_000.0:
+		return "%sKRW %sK" % [sign, _story_money_number(value / 1_000.0)]
+	return "%sKRW %d" % [sign, int(roundf(value))]
 
 func _choice_effect_preview(choice: Dictionary) -> String:
 	var eff: Dictionary = choice.get("effects", {})
@@ -4781,10 +5039,16 @@ func _choice_visible(ch: Dictionary) -> bool:
 		return false
 	var obligation_id := str(
 		ch.get("v2_obligation_id", "")).strip_edges()
-	if not obligation_id.is_empty() and DEMO_CORE_LOOP_V2.is_active() \
-			and not DEMO_CORE_LOOP_V2.story_choice_available(
-				str(_current.get("id", "")), obligation_id):
-		return false
+	if not obligation_id.is_empty():
+		if _read_only_replay \
+				and str(_current.get("id", "")) \
+					== DEMO_CORE_LOOP_V2.FIRST_BILL_DECISION_ID:
+			return DEMO_CORE_LOOP_V2.first_bill_replay_choice_available(
+				_first_bill_replay_snapshot, obligation_id)
+		if DEMO_CORE_LOOP_V2.is_active() \
+				and not DEMO_CORE_LOOP_V2.story_choice_available(
+					str(_current.get("id", "")), obligation_id):
+			return false
 	return true
 
 ## 원본 선택지 인덱스를 유지한 채 현재 플레이어에게 보이는 선택지만 반환한다.
@@ -4924,7 +5188,8 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 	else:
 		BGMPlayer.update_event_ambience(result_event, "", result_background_id)
 	if _hud_panel != null and is_instance_valid(_hud_panel):
-		_hud_panel.visible = not _story_visual_override_active
+		_hud_panel.visible = not _story_visual_override_active \
+			and not _first_bill_replay_event_active()
 
 func _on_choice(idx: int):
 	if _transitioning or _story_scene_transition_active:
@@ -4935,8 +5200,23 @@ func _on_choice(idx: int):
 	var choice: Dictionary = choices[idx]
 	if not _choice_visible(choice):
 		return
+	var expression_choice := GameState.is_expression_choice(choice)
 	_stop_story_choice_countdown()
 	var current_event_id := str(_current.get("id", ""))
+	if _read_only_replay \
+			and current_event_id == DEMO_CORE_LOOP_V2.FIRST_BILL_DECISION_ID:
+		var replay_choice_snapshot := \
+			DEMO_CORE_LOOP_V2.first_bill_replay_snapshot_with_choice(
+				_first_bill_replay_snapshot, idx)
+		if replay_choice_snapshot.is_empty():
+			return
+		_first_bill_replay_snapshot = replay_choice_snapshot
+		_first_bill_replay_fatal_choice = \
+			DEMO_CORE_LOOP_V2.first_bill_replay_choice_is_fatal(
+				_first_bill_replay_snapshot, idx)
+	elif current_event_id == DEMO_CORE_LOOP_V2.FIRST_BILL_DECISION_ID:
+		_first_bill_live_prechoice_snapshot = \
+			DEMO_CORE_LOOP_V2.build_first_bill_replay_snapshot()
 	var commitment_contract: Dictionary = EventManager.narrative_commitment_contract(
 		current_event_id, GameState.turn) if not _read_only_replay else {}
 	var owns_weekly_commitment := not commitment_contract.is_empty() \
@@ -4954,6 +5234,8 @@ func _on_choice(idx: int):
 	# follow_up_event를 직접 읽어 큐에 이어붙임 (StoryMode는 자체 큐 사용)
 	_pending_follow_up = _choice_follow_up_id(
 		choice, current_event_id, idx)
+	if _read_only_replay and _first_bill_replay_fatal_choice:
+		_pending_follow_up = ""
 	var result: String = _fmt(str(choice.get("result_text", "")))
 	var has_result_record: bool = not _read_only_replay \
 		and result != "" and _story_choice_has_visible_result(choice)
@@ -4961,15 +5243,17 @@ func _on_choice(idx: int):
 	# 변화 스냅샷 (노출용) — 스탯 + 인물 관계
 	var before = _snapshot_stats()
 	var cast_before := {}
-	for pid in choice.get("cast_effects", {}):
-		cast_before[str(pid)] = GameState.get_cast_affinity(str(pid))
+	if not expression_choice:
+		for pid in choice.get("cast_effects", {}):
+			cast_before[str(pid)] = GameState.get_cast_affinity(str(pid))
 	if not _read_only_replay:
 		GameState.apply_choice(_current, choice)
-		if DEMO_CORE_LOOP_V2.is_active():
+		if not expression_choice and DEMO_CORE_LOOP_V2.is_active():
 			DEMO_CORE_LOOP_V2.note_story_choice(current_event_id, idx)
-		DEMO_CORE_LOOP_V2.note_post_demo_application_result(
-			current_event_id, idx)
-		if owns_weekly_commitment:
+		if not expression_choice:
+			DEMO_CORE_LOOP_V2.note_post_demo_application_result(
+				current_event_id, idx)
+		if not expression_choice and owns_weekly_commitment:
 			var forgone_choice_indexes: Array[int] = []
 			for alternative_index in _visible_choice_indices(_current):
 				if alternative_index != idx:
@@ -4982,6 +5266,8 @@ func _on_choice(idx: int):
 		if not has_result_record:
 			_show_change_toasts(before)
 			_show_cast_toasts(cast_before)
+		if current_event_id == DEMO_CORE_LOOP_V2.FIRST_BILL_DECISION_ID:
+			_capture_first_bill_replay_snapshot(idx)
 
 	# 결과 텍스트 표시
 	_showing_choices = false
@@ -5009,6 +5295,17 @@ func _after_result():
 	_pending_after_result = false
 	_pending_result_choice_index = -1
 	_clear_result_record_card()
+	if _read_only_replay and _first_bill_replay_fatal_choice:
+		_first_bill_replay_fatal_choice = false
+		_pending_follow_up = ""
+		_queue.clear()
+		_finish_all()
+		return
+	if not _read_only_replay and _story_has_pending_fatal_state():
+		_pending_follow_up = ""
+		_queue.clear()
+		_finish_all()
+		return
 	_next_transition_mode = ""
 	_next_transition_contract = {}
 	# 선택의 follow_up_event가 있으면 큐 맨 앞에 끼워 이어서 재생한다. 정본
@@ -5378,7 +5675,9 @@ func _exit_tree() -> void:
 	BGMPlayer.restore_ambience()
 
 func _fmt(s: String) -> String:
-	return GameState.format_event_text(s)
+	return DEMO_CORE_LOOP_V2.format_first_bill_story_text(
+		s, _first_bill_replay_snapshot \
+			if _read_only_replay else {})
 
 ## UI 문자열 번역 헬퍼
 func _tr(ko: String, en: String) -> String:

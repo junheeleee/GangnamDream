@@ -184,7 +184,17 @@ const MOD_EVENT_SCHEDULE_KEYS := [
 	"cooldown", "one_time", "timed", "timer_seconds", "timer_default_choice",
 	"year_scene_year",
 ]
-const MOD_CHOICE_SCHEDULE_KEYS := ["follow_up_event", "deferred_follow_up", "deferred_delay"]
+const MOD_CHOICE_SCHEDULE_KEYS := [
+	"follow_up_event", "deferred_follow_up", "deferred_delay", "choice_kind",
+	"v2_obligation_id", "v2_player_initiated_character",
+]
+const MOD_EXPRESSION_STATEFUL_KEYS := [
+	"effects", "flags", "cast_effects", "relationship_effects",
+	"investment_effects", "tendency", "route", "grant_job",
+	"grant_job_display", "first_paycheck_ratio", "replace_current_job",
+	"deferred_follow_up", "deferred_delay", "clues", "give_items",
+	"housing_keepsake", "year_scene", "opportunity",
+]
 
 const JOB_TEXT_EN := {
 	"job_01": {"name": "Convenience Store Night Shift", "description": "Hold the counter late at night: rude customers, parcels, cleaning, all alone. Minimum wage, but right now it is everything."},
@@ -689,6 +699,14 @@ func _merge_mod_event_override(
 			push_warning("Skipping event override with a non-object choice: %s" % base.get("id", ""))
 			return {}
 		var choice := ((source_choices as Array)[index] as Dictionary).duplicate(true)
+		if str(base_choice.get("choice_kind", "")).strip_edges().to_lower() \
+				== "expression":
+			for raw_key in choice.keys():
+				if str(raw_key) in MOD_EXPRESSION_STATEFUL_KEYS:
+					push_warning(
+						"Skipping expression-choice override with stateful key '%s': %s"
+						% [str(raw_key), path])
+					return {}
 		var allowed_core := _choice_produced_flags(base_choice)
 		if not _mod_choice_valid(choice, allowed_core, {}, path):
 			return {}

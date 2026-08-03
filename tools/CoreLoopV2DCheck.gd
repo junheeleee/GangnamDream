@@ -262,7 +262,8 @@ func _ready() -> void:
 			+ "minutes=all60/legal_plans_target_pm3/optional_overhead_separate "
 			+ "hybrid=action_first/story_no_gameplay_effects "
 			+ "surfaces=actions5/roots5 "
-			+ "hanbit=inbox/interviewed_to_resolved/prorated_hire_or_decline/save/ledger1300000 "
+			+ "hanbit=inbox/interviewed_to_resolved/replace_job_keep_other_income/"
+			+ "decline_keep_job/prorated_hire/save/ledger1300000 "
 			+ "relationship=all_choices/one_or_same_step/turn20/save "
 			+ "actions=apply_shift_study_rest_clinic/atomic/no_reapply "
 			+ "declines=month6_once/save system_records=month5_once "
@@ -795,6 +796,12 @@ func _check_hanbit_offer_choices() -> void:
 
 	for choice_index in [0, 1]:
 		_fresh_at(17)
+		var prior_job: Dictionary = DataRegistry.get_job("job_01").duplicate(true)
+		prior_job["effective_salary"] = 1_320_000.0
+		GameState.current_job = prior_job
+		# KRW 300K models unrelated recurring income. A replacement must remove
+		# only the old wage, while a decline must preserve the whole prior state.
+		GameState.monthly_income = 1_620_000.0
 		_mark_completed("m4_hanbit_interview", 14)
 		_set_application_status("hanbit_ops_2026q1", "interviewed")
 		_expect(CORE_LOOP.begin_bundle(
@@ -830,6 +837,8 @@ func _check_hanbit_offer_choices() -> void:
 			"Hanbit's result no longer has accept and decline choices")
 		if choice_index < 0 or choice_index >= choices.size():
 			continue
+		_expect(bool(choices[0].get("replace_current_job", false)),
+			"Hanbit acceptance no longer replaces an existing current job")
 		GameState.apply_choice(event, choices[choice_index])
 		_expect(CORE_LOOP.note_story_choice(
 				"v2_hanbit_offer_message", choice_index),
@@ -857,10 +866,10 @@ func _check_hanbit_offer_choices() -> void:
 		if choice_index == 0:
 			_expect(str(GameState.current_job.get("id", "")) == "job_03" \
 					and is_equal_approx(
-						float(GameState.monthly_income), 2_240_000.0) \
+						float(GameState.monthly_income), 2_540_000.0) \
 					and is_equal_approx(
 						GameState.get_monthly_payable_income(),
-						1_680_000.0) \
+						1_980_000.0) \
 					and str(GameState.current_job.get(
 						"display_name_ko", "")) \
 						== "한빛유통 물류센터 운영지원 계약직" \
@@ -869,9 +878,10 @@ func _check_hanbit_offer_choices() -> void:
 						== "Hanbit Logistics Operations Support (Contract)",
 				"Hanbit acceptance lost its exact job, first pay, or role name")
 		else:
-			_expect(GameState.current_job.is_empty() \
-					and is_zero_approx(float(GameState.monthly_income)),
-				"declining Hanbit granted a job or lost its exact receipt")
+			_expect(str(GameState.current_job.get("id", "")) == "job_01" \
+					and is_equal_approx(
+						float(GameState.monthly_income), 1_620_000.0),
+				"declining Hanbit changed the existing job or recurring income")
 		_expect(CORE_LOOP.note_story_choice(
 				"v2_hanbit_offer_message", choice_index) \
 				and (
@@ -885,8 +895,8 @@ func _check_hanbit_offer_choices() -> void:
 		GameState.start_new_game()
 		GameState.load_from_dict(saved)
 		CORE_LOOP.initialize_for_run()
-		var expected_job_id := "job_03" if choice_index == 0 else ""
-		var expected_income := 2_240_000.0 if choice_index == 0 else 0.0
+		var expected_job_id := "job_03" if choice_index == 0 else "job_01"
+		var expected_income := 2_540_000.0 if choice_index == 0 else 1_620_000.0
 		_expect(CORE_LOOP.application_status(
 					"hanbit_ops_2026q1") == "resolved" \
 				and str(GameState.current_job.get("id", "")) \
@@ -906,7 +916,7 @@ func _check_hanbit_offer_choices() -> void:
 					choice_index != 0 or (
 						is_equal_approx(
 							GameState.get_monthly_payable_income(),
-							1_680_000.0)
+							1_980_000.0)
 						and str(GameState.current_job.get(
 							"display_name_ko", "")) \
 								== "한빛유통 물류센터 운영지원 계약직"

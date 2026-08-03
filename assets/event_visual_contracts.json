@@ -1,5 +1,5 @@
 {
-  "version": 34,
+  "version": 35,
   "tag_coverage": [
     "climate",
     "season",
@@ -224,7 +224,9 @@
     {"id": "v2_logistics_class_session", "background": "community_center", "portrait": null},
     {"id": "v2_moving_crew_days", "background": "moving_truck_loading_dusk", "portrait": null},
     {"id": "v2_empty_sunday", "background": "goshiwon_room", "portrait": null},
-    {"id": "v2_demo_first_bill", "background": "current_housing", "portrait": "player_offduty_neutral", "choice_result_backgrounds": {"3": "convenience_night"}},
+    {"id": "v2_demo_first_bill_opening", "background": "v2_first_bill_desk_closeup", "portrait": "player_first_bill_decision"},
+    {"id": "v2_demo_first_bill", "background": "v2_first_bill_desk_closeup", "portrait": "player_first_bill_decision", "choice_result_backgrounds": {"3": "convenience_night", "6": "warehouse_inventory_night"}},
+    {"id": "v2_demo_first_bill_ledger", "background": "v2_first_bill_desk_closeup", "portrait": "player_first_bill_decision"},
     {"id": "arc_hyunsu_night_talk", "background": "goshiwon_hallway", "portrait": "hyunsu"},
     {"id": "hyunsu_exam_day", "background": "goshiwon_hallway", "portrait": "player_offduty_neutral"},
     {"id": "hyunsu_result_fail", "background": "goshiwon_hallway", "portrait": "player_offduty_neutral"},

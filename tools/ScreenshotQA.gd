@@ -1519,9 +1519,517 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 	await _shot_story_event(
 		"v2_hyunsu_study_followup", prefix + "14_hyunsu_calendar_exam",
 		lang, 0.45, true, true, 0, 0, false, 1)
+	await _shot_first_bill_finale_surfaces(lang, prefix)
+
+func _shot_first_bill_finale_surfaces(_lang: String, prefix: String) -> void:
+	# The finale never has eight simultaneous candidates. Render three valid
+	# week-24 lives so every original decision is evidenced without inventing a
+	# candidate or turning the scene into an eight-button debug menu.
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	if not _prepare_first_bill_fixture("career_daeun"):
+		return
+	await _shot_first_bill_page(
+		"v2_demo_first_bill_opening",
+		prefix + "15a_first_bill_opening_intro",
+		_tr("6월 26일 금요일", "Friday, June 26"))
+	await _shot_first_bill_page(
+		"v2_demo_first_bill_opening",
+		prefix + "15b_first_bill_opening_evidence",
+		_tr("아버지 —", "Father —"))
 	await _shot_story_event(
-		"v2_demo_first_bill", prefix + "15_first_bill_father_reply",
-		lang, 0.45, true, true, 0, 0, false, 2)
+		"v2_demo_first_bill_opening",
+		prefix + "15c_first_bill_expression_choices",
+		"", 0.45, true, true)
+
+	var expression_markers := [
+		_tr("“괜찮으니까 신경 쓰지 마라.”", "“I'm fine. Don't worry about me.”"),
+		_tr("현재 잔액", "Subtracting this month's fixed costs"),
+		_tr("손목과 허리 어디가 당기는지", "He checks his wrists and back for strain"),
+	]
+	for expression_index in range(3):
+		if not _prepare_first_bill_fixture("career_daeun"):
+			return
+		await _shot_story_event(
+			"v2_demo_first_bill_opening",
+			prefix + "15d_first_bill_expression_result_%d" % expression_index,
+			"", 0.45, true, true, expression_index, 0, false, 1)
+		if _qa_failed:
+			return
+		# _shot_story_event already validates the live result. This marker also
+		# locks the three authored reactions rather than merely proving a click.
+		var opening_event: Dictionary = DataRegistry.find_event(
+			"v2_demo_first_bill_opening")
+		var opening_choices: Array = opening_event.get("choices", [])
+		var expression_choice: Dictionary = opening_choices[expression_index]
+		var resolved_result: String = core_loop.format_first_bill_story_tokens(
+			GameState.format_event_text(str(expression_choice.get(
+				"result_text", ""))))
+		if str(expression_markers[expression_index]) not in resolved_result:
+			_fail("First-bill expression %d lost its distinct response." % expression_index)
+			return
+
+	if not _prepare_first_bill_fixture("career_daeun"):
+		return
+	await _shot_story_event(
+		"v2_demo_first_bill",
+		prefix + "16a_first_bill_decisions_career_daeun",
+		"", 0.45, true, true)
+	if _qa_failed:
+		return
+
+	# Daeun's choice returns from a real convenience-store visit. Its ledger has
+	# one completed promise, ordinary unfinished work, and the City Facilities
+	# deadline that cannot be deferred.
+	if not _prepare_first_bill_fixture("career_daeun"):
+		return
+	await _shot_story_event(
+		"v2_demo_first_bill",
+		prefix + "16b_first_bill_daeun_convenience_result",
+		"", 0.45, true, true, 3, 0, false, 1)
+	if _qa_failed:
+		return
+	await _shot_first_bill_ledger_pages(prefix + "16c_first_bill_ledger")
+	if _qa_failed:
+		return
+
+	if not _prepare_first_bill_fixture("unemployed_jaehyuk"):
+		return
+	await _shot_story_event(
+		"v2_demo_first_bill",
+		prefix + "17a_first_bill_decisions_unemployed_jaehyuk",
+		"", 0.45, true, true)
+	if _qa_failed:
+		return
+
+	# Health 17 is exhausted enough to surface the real cost, but the authored
+	# -5 shift remains a surviving route so the warehouse result can render.
+	if not _prepare_first_bill_fixture("unemployed_jaehyuk"):
+		return
+	await _shot_story_event(
+		"v2_demo_first_bill",
+		prefix + "17b_first_bill_urgent_warehouse_result",
+		"", 0.45, true, true, 6, 0, false, 1)
+	if _qa_failed:
+		return
+
+	if not _prepare_first_bill_fixture("sangchul"):
+		return
+	await _shot_story_event(
+		"v2_demo_first_bill",
+		prefix + "18_first_bill_decisions_sangchul",
+		"", 0.45, true, true)
+
+func _prepare_first_bill_fixture(profile: String) -> bool:
+	_prepare_main_game_state()
+	GameState.turn = 24
+	GameState.month = 6
+	GameState.week_of_month = 4
+	GameState.money = 780_000.0
+	GameState.health = 41
+	GameState.mental = 47
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	if not bool(core_loop.initialize_for_run(true)):
+		_fail("First-bill fixture could not initialize Core Loop V2.")
+		return false
+	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
+	state["active_bundle"] = "demo_collision"
+	state["active_kind"] = "schedule"
+	state["active_turn"] = 24
+	state["demo_collision_context"] = {}
+	state["obligation_receipts"] = {}
+	var completed: Array = state.get("completed_bundles", [])
+	var memories: Array = state.get("relationship_memories", [])
+	var stages: Dictionary = state.get("relationship_stages", {})
+	var expected_candidates: Array[String] = []
+
+	match profile:
+		"career_daeun":
+			GameState.current_job = {
+				"id": "job_03",
+				"name": _tr("중소기업 사무직", "Small-company office worker"),
+				"category": "corporate",
+				"base_salary": 2_240_000.0,
+				"tier": 1,
+			}
+			state["application_statuses"]["hanbit_ops_2026q1"] = "resolved"
+			var hanbit_receipt_key := \
+				"m5_hanbit_offer_message:v2_hanbit_offer_message:0:17"
+			state["application_transition_receipts"][hanbit_receipt_key] = {
+				"receipt_key": hanbit_receipt_key,
+				"application_id": "hanbit_ops_2026q1",
+				"from": "interviewed",
+				"to": "resolved",
+				"bundle_id": "m5_hanbit_offer_message",
+				"event_id": "v2_hanbit_offer_message",
+				"choice_index": 0,
+				"turn": 17,
+			}
+			state["application_statuses"]["city_facility_ops_2026h1"] = "submitted"
+			state["consequence_receipts"]["m6_city_service_response"] = {
+				"consequence_id": "m6_city_service_response",
+				"status": "consumed",
+				"presented_turn": 23,
+				"consumed_turn": 23,
+			}
+			completed.append("daeun_shared_dream")
+			memories.append(_first_bill_memory_fixture(
+				"daeun", "daeun_late_meal_promised",
+				"daeun_shared_dream", "v2_daeun_small_commitment", 20))
+			stages["daeun"] = "shared_commitment"
+			expected_candidates = [
+				"father_call", "hanbit_month_close",
+				"city_work_sample", "daeun_checkin",
+			]
+		"unemployed_jaehyuk":
+			GameState.current_job = {}
+			GameState.health = 17
+			completed.append("jaehyuk_plain_reunion_echo")
+			memories.append(_first_bill_memory_fixture(
+				"jaehyuk", "jaehyuk_reunion_warm",
+				"jaehyuk_plain_reunion_echo",
+				"v2_jaehyuk_plain_reunion_echo", 18))
+			stages["jaehyuk"] = "opening"
+			expected_candidates = [
+				"father_call", "jaehyuk_reply",
+				"urgent_paid_shift", "body_rest",
+			]
+		"sangchul":
+			GameState.current_job = {
+				"id": "job_01",
+				"name": _tr("편의점 야간 알바", "Convenience-store night shift"),
+				"category": "survival",
+				"base_salary": 1_320_000.0,
+				"tier": 1,
+			}
+			completed.append("sangchul_second_coffee")
+			memories.append(_first_bill_memory_fixture(
+				"sangchul", "sangchul_numbers_first_recorded",
+				"sangchul_second_coffee", "v2_sangchul_second_coffee", 19))
+			stages["sangchul"] = "opening"
+			expected_candidates = [
+				"father_call", "sangchul_ledger", "body_rest",
+			]
+		_:
+			_fail("Unknown first-bill fixture profile: %s." % profile)
+			return false
+
+	state["completed_bundles"] = completed
+	state["relationship_memories"] = memories
+	state["relationship_stages"] = stages
+	GameState.core_loop_v2_state = state
+	var preparation: Dictionary = core_loop.prepare_demo_collision()
+	if not bool(preparation.get("ok", false)):
+		_fail("First-bill %s fixture could not prepare the collision: %s." % [
+			profile, str(preparation)])
+		return false
+	var context: Dictionary = preparation.get("context", {})
+	var actual_candidates: Array = context.get("candidate_ids", [])
+	if actual_candidates != expected_candidates:
+		_fail("First-bill %s candidates are not causal: expected=%s actual=%s." % [
+			profile, str(expected_candidates), str(actual_candidates)])
+		return false
+	var all_obligations := [
+		"father_call", "hanbit_month_close", "city_work_sample",
+		"daeun_checkin", "jaehyuk_reply", "sangchul_ledger",
+		"urgent_paid_shift", "body_rest",
+	]
+	for obligation_id in all_obligations:
+		var available := bool(core_loop.story_choice_available(
+			"v2_demo_first_bill", str(obligation_id)))
+		if available != expected_candidates.has(obligation_id):
+			_fail("First-bill %s availability drifted for %s." % [
+				profile, obligation_id])
+			return false
+	return true
+
+func _first_bill_memory_fixture(
+		character_id: String, memory_id: String, bundle_id: String,
+		event_id: String, turn: int) -> Dictionary:
+	return {
+		"receipt_key": "%s:%s:0:%d" % [bundle_id, event_id, turn],
+		"character": character_id,
+		"from": "opening",
+		"to": "opening",
+		"initiative": "player",
+		"memory": memory_id,
+		"bundle_id": bundle_id,
+		"event_id": event_id,
+		"choice_index": 0,
+		"turn": turn,
+	}
+
+func _shot_first_bill_page(
+		event_id: String, shot_name: String, expected_fragment: String) -> void:
+	GameState.pending_story_queue = [event_id]
+	var packed := load("res://scenes/StoryMode.tscn") as PackedScene
+	if packed == null:
+		_fail("First-bill page fixture could not load StoryMode.tscn.")
+		return
+	var story := packed.instantiate()
+	get_tree().root.add_child.call_deferred(story)
+	await get_tree().process_frame
+	if story.has_method("_set_auto_mode"):
+		story._set_auto_mode(false, false)
+	await _settle(0.45)
+	var actual_event: Variant = story.get("_current")
+	if not actual_event is Dictionary \
+			or str((actual_event as Dictionary).get("id", "")) != event_id:
+		_fail("First-bill page requested %s but StoryMode opened %s." % [
+			event_id, str(actual_event)])
+		return
+	if not await _seek_story_fragment(story, expected_fragment):
+		return
+	_assert_first_bill_story_surface(story, event_id, -1)
+	if _qa_failed:
+		return
+	await _save(shot_name)
+	_remove_nodes_by_script("res://scenes/StoryMode.gd")
+	GameState.pending_story_queue.clear()
+	await _settle(0.2)
+
+func _shot_first_bill_ledger_pages(shot_prefix: String) -> void:
+	GameState.pending_story_queue = ["v2_demo_first_bill_ledger"]
+	var packed := load("res://scenes/StoryMode.tscn") as PackedScene
+	if packed == null:
+		_fail("First-bill ledger fixture could not load StoryMode.tscn.")
+		return
+	var story := packed.instantiate()
+	get_tree().root.add_child.call_deferred(story)
+	await get_tree().process_frame
+	if story.has_method("_set_auto_mode"):
+		story._set_auto_mode(false, false)
+	await _settle(0.45)
+	var actual_event: Variant = story.get("_current")
+	if not actual_event is Dictionary \
+			or str((actual_event as Dictionary).get("id", "")) \
+				!= "v2_demo_first_bill_ledger":
+		_fail("First-bill ledger fixture opened the wrong event: %s." % [
+			str(actual_event)])
+		return
+	var markers := [
+		[_tr("끝낸 일", "Done —"), "_done"],
+		[_tr("미룬 일", "Deferred —"), "_deferred"],
+		[_tr("마감을 놓친 일", "Deadline missed —"), "_deadline_missed"],
+	]
+	for marker in markers:
+		if not await _seek_story_fragment(story, str(marker[0])):
+			return
+		_assert_first_bill_story_surface(
+			story, "v2_demo_first_bill_ledger", -1)
+		if _qa_failed:
+			return
+		await _save(shot_prefix + str(marker[1]))
+	_remove_nodes_by_script("res://scenes/StoryMode.gd")
+	GameState.pending_story_queue.clear()
+	await _settle(0.2)
+
+func _seek_story_fragment(story: Node, expected_fragment: String) -> bool:
+	for _step in range(80):
+		var paragraphs: Array = story.get("_paragraphs")
+		var paragraph_index := int(story.get("_para_index"))
+		if paragraph_index >= 0 and paragraph_index < paragraphs.size() \
+				and expected_fragment in str(paragraphs[paragraph_index]):
+			if bool(story.get("_direction_beat_waiting")):
+				story.call("_on_advance")
+				await _settle(0.12)
+			if bool(story.get("_typing")):
+				story.call("_complete_typing")
+				await _settle(0.12)
+			return true
+		if bool(story.get("_showing_choices")) \
+				or bool(story.get("_pending_after_result")):
+			break
+		if bool(story.get("_typing")):
+			story.call("_complete_typing")
+		else:
+			story.call("_on_advance")
+		await _settle(0.10)
+	_fail("Story page never exposed required fragment '%s'." % expected_fragment)
+	return false
+
+func _assert_first_bill_story_surface(
+		story: Node, event_id: String, selected_choice: int) -> void:
+	var finale_ids := [
+		"v2_demo_first_bill_opening",
+		"v2_demo_first_bill",
+		"v2_demo_first_bill_ledger",
+	]
+	if event_id not in finale_ids:
+		return
+	var event: Dictionary = DataRegistry.find_event(event_id)
+	if event.is_empty():
+		_fail("First-bill surface lost event %s." % event_id)
+		return
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	var resolved_copy: String = core_loop.format_first_bill_story_tokens(
+		GameState.format_event_text(str(event.get("description", ""))))
+	if bool(story.get("_pending_after_result")) and selected_choice >= 0:
+		var choices: Array = event.get("choices", [])
+		if selected_choice < choices.size():
+			var selected: Dictionary = choices[selected_choice]
+			resolved_copy += "\n" + core_loop.format_first_bill_story_tokens(
+				GameState.format_event_text(str(selected.get("result_text", ""))))
+	var visible_copy := _collect_control_text(story)
+	var token_probe := RegEx.new()
+	token_probe.compile("\\{[A-Za-z0-9_\\-]+\\}")
+	var unresolved := token_probe.search(resolved_copy + "\n" + visible_copy)
+	if unresolved != null:
+		_fail("First-bill %s leaked unresolved token %s." % [
+			event_id, unresolved.get_string()])
+		return
+	if LocaleManager.is_english() \
+			and _contains_hangul(resolved_copy + "\n" + visible_copy):
+		_fail("First-bill %s leaked Hangul on the English surface." % event_id)
+		return
+
+	var title := story.get("_title_lbl") as Label
+	var expected_title := "— %s —" % str(event.get("title", ""))
+	if not is_instance_valid(title) or title.text != expected_title:
+		_fail("First-bill %s title drifted: expected=%s actual=%s." % [
+			event_id, expected_title, title.text if is_instance_valid(title) else ""])
+		return
+
+	var expected_background_id := "v2_first_bill_desk_closeup"
+	var expected_ambience := ""
+	if event_id == "v2_demo_first_bill" \
+			and bool(story.get("_pending_after_result")):
+		if selected_choice == 3:
+			expected_background_id = "convenience_night"
+			expected_ambience = "convenience"
+		elif selected_choice == 6:
+			expected_background_id = "warehouse_inventory_night"
+			expected_ambience = "public_office"
+	var actual_background_id := str(story.get("_event_background_id"))
+	var background := story.get("_bg_img") as TextureRect
+	var expected_background_path := ImageRegistry.get_background(
+		expected_background_id)
+	var actual_background_path := (
+		background.texture.resource_path
+		if is_instance_valid(background) and background.texture != null else "")
+	if actual_background_id != expected_background_id \
+			or expected_background_path.is_empty() \
+			or actual_background_path != expected_background_path:
+		_fail("First-bill %s background mismatch: id=%s path=%s expected=%s/%s." % [
+			event_id, actual_background_id, actual_background_path,
+			expected_background_id, expected_background_path])
+		return
+	if not expected_ambience.is_empty() \
+			and str(BGMPlayer.get("_current_ambience_key")) != expected_ambience:
+		_fail("First-bill choice %d ambience expected %s, got %s." % [
+			selected_choice, expected_ambience,
+			str(BGMPlayer.get("_current_ambience_key"))])
+		return
+
+	var portrait := story.get("_portrait") as TextureRect
+	var expected_portrait_path := ImageRegistry.get_portrait_for_turn(
+		"player_first_bill_decision", GameState.turn)
+	var actual_portrait_path := (
+		portrait.texture.resource_path
+		if is_instance_valid(portrait) and portrait.texture != null else "")
+	if expected_portrait_path.is_empty() \
+			or actual_portrait_path != expected_portrait_path:
+		_fail("First-bill portrait mismatch: actual=%s expected=%s." % [
+			actual_portrait_path, expected_portrait_path])
+		return
+
+	var viewport := get_viewport().get_visible_rect().grow(1.0)
+	for raw_control in [
+		story.get("_hud_panel"), story.get("_text_panel"),
+		story.get("_choice_box"), story.get("_result_record_card"),
+	]:
+		if raw_control is Control:
+			var control := raw_control as Control
+			if control.is_visible_in_tree() \
+					and not viewport.encloses(control.get_global_rect()):
+				_fail("First-bill %s control %s escaped the viewport: %s / %s." % [
+					event_id, control.name, control.get_global_rect(), viewport])
+				return
+	var body := story.get("_body_lbl") as RichTextLabel
+	if is_instance_valid(body) and body.is_visible_in_tree() \
+			and body.get_content_height() > body.size.y + 2.0:
+		_fail("First-bill %s prose clipped: content=%.1f viewport=%.1f." % [
+			event_id, body.get_content_height(), body.size.y])
+		return
+	var result_card := story.get("_result_record_card") as Control
+	if is_instance_valid(result_card) and result_card.is_visible_in_tree():
+		for node in result_card.find_children("*", "Label", true, false):
+			var label := node as Label
+			if not label.is_visible_in_tree() or label.text.strip_edges().is_empty():
+				continue
+			var label_font := label.get_theme_font("font")
+			var label_font_size := label.get_theme_font_size("font_size")
+			var label_width := label_font.get_string_size(
+				label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, label_font_size).x
+			if label_width > label.size.x + 1.0:
+				_fail("First-bill result label clips '%s': text=%.1fpx control=%.1fpx." % [
+					label.text, label_width, label.size.x])
+				return
+
+	if not bool(story.get("_showing_choices")):
+		return
+	var expected_indices: Array[int] = []
+	if event_id == "v2_demo_first_bill_opening":
+		expected_indices = [0, 1, 2]
+	elif event_id == "v2_demo_first_bill":
+		var context: Dictionary = GameState.core_loop_v2_state.get(
+			"demo_collision_context", {})
+		var candidate_ids: Array = context.get("candidate_ids", [])
+		var decision_index := {
+			"father_call": 0,
+			"hanbit_month_close": 1,
+			"city_work_sample": 2,
+			"daeun_checkin": 3,
+			"jaehyuk_reply": 4,
+			"sangchul_ledger": 5,
+			"urgent_paid_shift": 6,
+			"body_rest": 7,
+		}
+		for candidate_id in candidate_ids:
+			if not decision_index.has(str(candidate_id)):
+				_fail("First-bill decision exposed unclassified candidate %s." % candidate_id)
+				return
+			expected_indices.append(int(decision_index[str(candidate_id)]))
+	var actual_indices: Array[int] = story.call("_visible_choice_indices", event)
+	if actual_indices != expected_indices:
+		_fail("First-bill %s visible choice wiring drifted: expected=%s actual=%s." % [
+			event_id, str(expected_indices), str(actual_indices)])
+		return
+	var choice_box := story.get("_choice_box") as Control
+	var choice_buttons: Array[Button] = []
+	for node in choice_box.find_children("*", "Button", true, false):
+		if node is Button and (node as Button).is_visible_in_tree():
+			choice_buttons.append(node as Button)
+	if choice_buttons.size() != expected_indices.size():
+		_fail("First-bill %s rendered %d buttons for %d choices." % [
+			event_id, choice_buttons.size(), expected_indices.size()])
+		return
+	var event_choices: Array = event.get("choices", [])
+	for display_index in range(choice_buttons.size()):
+		var button := choice_buttons[display_index]
+		var original_index := expected_indices[display_index]
+		var choice: Dictionary = event_choices[original_index]
+		var expected_text := GameState.format_event_text(str(choice.get("text", "")))
+		if expected_text not in button.text:
+			_fail("First-bill %s button %d lost choice %d copy: %s." % [
+				event_id, display_index, original_index, button.text])
+			return
+		if not viewport.encloses(button.get_global_rect()):
+			_fail("First-bill %s choice %d escaped the viewport: %s." % [
+				event_id, original_index, button.get_global_rect()])
+			return
+		var font := button.get_theme_font("font")
+		var font_size := button.get_theme_font_size("font_size")
+		var measured := font.get_multiline_string_size(
+			button.text, HORIZONTAL_ALIGNMENT_LEFT,
+			maxf(80.0, button.size.x - 32.0), font_size)
+		if measured.y > button.size.y - 4.0:
+			_fail("First-bill %s choice %d text clips: text=%.1fpx button=%.1fpx." % [
+				event_id, original_index, measured.y, button.size.y])
+			return
+	var focus_owner := get_viewport().gui_get_focus_owner()
+	if not is_instance_valid(focus_owner) \
+			or not choice_box.is_ancestor_of(focus_owner):
+		_fail("First-bill %s choices have no visible controller focus." % event_id)
 
 func _seed_core_loop_v2_month_three_density(core_loop: Variant) -> bool:
 	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)
@@ -2928,6 +3436,9 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 		if story.has_method("_on_advance"):
 			story._on_advance()
 			await _settle(0.12)
+			if bool(story.get("_direction_beat_waiting")):
+				story._on_advance()
+				await _settle(0.12)
 			if bool(story.get("_typing")):
 				story._on_advance()
 				await _settle(0.12)
@@ -2968,6 +3479,9 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 					break
 				story._on_advance()
 				await _settle(0.16)
+				if bool(story.get("_direction_beat_waiting")):
+					story._on_advance()
+					await _settle(0.16)
 				if bool(story.get("_typing")):
 					if story.has_method("_complete_typing"):
 						story._complete_typing()
@@ -3037,6 +3551,10 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	_assert_chapter2_visual_state(story, event_id, select_choice)
 	_assert_chapter3_spine_state(story, event_id)
 	_assert_late_chapter_spine_state(story, event_id, select_choice)
+	if _qa_scope() == QA_SCOPE_CORE_LOOP_V2:
+		_assert_first_bill_story_surface(story, event_id, select_choice)
+		if _qa_failed:
+			return
 	if _qa_scope() == QA_SCOPE_YEAR_IDENTITY:
 		_assert_temporal_portrait_state(story, event_id)
 	if _qa_scope() == QA_SCOPE_DISPLAY_MATRIX:

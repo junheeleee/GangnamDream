@@ -42,6 +42,22 @@ FRONT / CAMERA
 - Early investing uses a phone or one modest laptop only. No multi-monitor trading station.
 - Bedding, lamp, window, desk, shelf, fridge, and door placement remain stable across all angles.
 
+## 24-Week First Bill Close-Up Lock
+
+- `v2_first_bill_desk_closeup` is a dedicated event angle inside this exact
+  room. It is not a second goshiwon and may not redefine the reusable geometry.
+- The slightly elevated near-frontal camera moves toward the low desk at the
+  foot of the left-wall bed. A bed strip, worn wall, black task lamp, and the
+  right-side wall switch preserve orientation with `goshiwon_room.png`.
+- The frame contains exactly one unbranded phone, one open blank lined notebook,
+  one pen, a small receipt stack, and one water glass. All writing and screens
+  remain unreadable; the phone's very dim generic banking layout establishes
+  that the app is open, while state-dependent amounts are rendered only as prose.
+- `v2_demo_first_bill_opening`, `v2_demo_first_bill`, and
+  `v2_demo_first_bill_ledger` retain this same angle without prop movement or
+  exposure drift. Full acting and audio continuity live in
+  `assets/FIRST_BILL_VISUAL_BIBLE.md`.
+
 ## Shared Kitchen Lock
 
 - `goshiwon_shared_kitchen.png` is a separate communal room reached from the

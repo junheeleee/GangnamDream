@@ -7,7 +7,7 @@
 > 전 구간 선택 그래프를 대화형으로 보려면:
 > `python3 tools/project_dashboard.py` → `build/project_dashboard.html`
 >
-> 생성 시각 · 커밋: `2026-08-03 15:26 UTC · f295a8cd`
+> 생성 시각 · 커밋: `2026-08-03 18:16 UTC · 9cb384c9`
 
 **개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.
 플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.
@@ -51,10 +51,10 @@
 
 | 지표 | 값 | 뜻 |
 |---|---:|---|
-| 사건 | 1,597 | KR 이벤트 전체 |
-| 선택 2+ 사건 | 1,491 | 판정 대상 |
-| 체인(장면) | 65 | 2링크 이상 |
-| 연출 보유 사건 | 155 | 전체의 9% |
+| 사건 | 1,599 | KR 이벤트 전체 |
+| 선택 2+ 사건 | 1,492 | 판정 대상 |
+| 체인(장면) | 66 | 2링크 이상 |
+| 연출 보유 사건 | 157 | 전체의 9% |
 | 정답 선택 | 415 | 선택 2+ 사건의 27% |
 | 테마 우회 | 2,116 | UIStyle 밖 override |
 | 수동 스타일 | 260 | StyleBoxFlat 직접 생성 |
@@ -70,7 +70,7 @@
 
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
-| `ORDER-75` | 24주 데모 전용 T1 정점 | 미착수 | 기존 8방향 선택/영수증 보존, 한 번 진입하는 깊은 피날레·표현 선택·전용 자산 |
+| `ORDER-75` | 24주 첫 청구서 연속 피날레 | 완료 | 기존 8방향 보존, 단일 진입 압박→결정→장부·전용 자산·읽기 전용 회상 PASS |
 
 ## 다섯 장 — 무엇을 열고 무엇을 닫는가
 
@@ -432,11 +432,24 @@ flowchart TD
 
 </details>
 
-<details><summary><b>이번 주에 끝낼 한 가지</b> — 1링크 · 선택점 1 (<code>v2_demo_first_bill</code>)</summary>
+<details><summary><b>첫 청구서</b> — 3링크 · 선택점 2 (<code>v2_demo_first_bill_opening</code>)</summary>
 
 ```mermaid
 flowchart TD
-  v2_demo_first_bill["이번 주에 끝낼 한 가지"]
+  v2_demo_first_bill_opening["첫 청구서"]
+  v2_demo_first_bill["첫 청구서"]
+  v2_demo_first_bill_ledger["첫 청구서"]
+  v2_demo_first_bill_opening -->|"아버지의 마지막 문자를 다시 읽는다"| v2_demo_first_bill
+  v2_demo_first_bill_opening -->|"잔액에서 이번 달 고정비를 빼 본다"| v2_demo_first_bill
+  v2_demo_first_bill_opening -->|"손목과 허리 상태를 확인한다"| v2_demo_first_bill
+  v2_demo_first_bill -->|"아버지에게 다시 전화한다"| v2_demo_first_bill_ledger
+  v2_demo_first_bill -->|"한빛유통 월말 오류표를 끝낸다"| v2_demo_first_bill_ledger
+  v2_demo_first_bill -->|"도시시설운영단 작업표를 제출한다"| v2_demo_first_bill_ledger
+  v2_demo_first_bill -->|"다은이 일하는 편의점에 가서 식사를 묻는다"| v2_demo_first_bill_ledger
+  v2_demo_first_bill -->|"재혁에게 먼저 이번 주 안부를 보낸다"| v2_demo_first_bill_ledger
+  v2_demo_first_bill -->|"내 방에서 이번 달 지출 장부를 맞춘다"| v2_demo_first_bill_ledger
+  v2_demo_first_bill -->|"오늘 밤 급한 유급 일을 잡는다"| v2_demo_first_bill_ledger
+  v2_demo_first_bill -->|"알람만 맞추고 침대에 눕는다"| v2_demo_first_bill_ledger
 ```
 
 </details>
