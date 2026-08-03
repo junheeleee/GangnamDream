@@ -59,7 +59,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-78 · V2 실제 입력 24주 완주 | [ORDER-78](queue_active/ORDER-78.md) | 타이틀→튜토리얼→여섯 계획→첫 청구서→현수→저장→타이틀을 KO 패드·EN 키보드로 완주 |
+| 1 | [~] | ORDER-79 · 계획판 설명·행동 일치 | [ORDER-79](queue_active/ORDER-79.md) | 제안 누르기는 배치 대기, 합법 주차 누르기는 정확히 한 번 확정 |
 
 ### 남은 데모 출시선
 
@@ -93,6 +93,12 @@
 
 ### 완료 이력
 
+- `[x] ORDER-78` (2026-08-04): 미리 지정한 언어의 타이틀에서 V2 프롤로그·Chapter 1·
+  3장 튜토리얼·여섯 계획·1~24주·첫 청구서·현수 시험 아침·단일 자동 저장·
+  무저장 CTA·타이틀 재진입을 KO South joypad event와 EN key event로 각각
+  완주했다. 하네스가 주입한 타 장치·의미·미상 입력은 0이며 일정·선택·
+  GameState 직접 조립은 완주 수단으로 쓰지 않았다. 사용자 표면 14경로는
+  실행별 임시 절대 루트에 격리했다. [사양](queue_archive/ORDER-78.md)
 - `[x] ORDER-75` (2026-08-04): 24주 첫 청구서를 17:52 책상에서 시작해
   고른 행동의 실제 장소·시간을 거쳐 수첩 장부로 돌아오는 단일 피날레로
   완성했다. 기존 여덟 결정·효과·
@@ -131,13 +137,8 @@
   사람 게이트 schema v2와 구 RC 재사용 차단. [사양](queue_archive/ORDER-68.md)
 - **2026-07 전체 원문 스냅샷:** [CODEX_QUEUE_2026-07.md](queue_archive/CODEX_QUEUE_2026-07.md)
 - 상세 작업 결과는 [WORK_LOG.md](WORK_LOG.md), 사용자 노트와 라운드 판정은 [DEMO_FIXLOG.md](DEMO_FIXLOG.md), 설계 결정은 [DECISIONS.md](DECISIONS.md)가 정본이다.
-- `[x] ORDER-56` (2026-07-27): 실제 노출 사건 443개 전수 분류와 고위험 26장면 정합. [사양](queue_archive/ORDER-56.md)
-- `[x] ORDER-55` (2026-07-26): 동적 주거·현재 직업 계약을 사건·시각·오디오까지 정렬. [사양](queue_archive/ORDER-55.md)
-- `[x] ORDER-54` (2026-07-26): 씨앗 5건의 수확 12건을 예약해 휴면 체인 0. [사양](queue_archive/ORDER-54.md)
-- `[x] ORDER-53` (2026-07-26): 지연 예약 정규화와 재혁·상철 대가 3건 부활. [사양](queue_archive/ORDER-53.md)
-- `[x] ORDER-52` (2026-07-26): 고유 지연 회수 29건 예약. 전량 부활은 금지. [사양](queue_archive/ORDER-52.md)
-- `[x] ORDER-51` (2026-07-26): 도달 가능 콜백의 결함 3건 수리와 휴면 기준선 회귀 게이트. [사양](queue_archive/ORDER-51.md)
-- `ORDER-50` 이전 완료 이력은 월별 원문 스냅샷과 `WORK_LOG.md`에서 조회한다.
+- `ORDER-56` 이전 완료 이력은 월별 원문 스냅샷, 각 `queue_archive/ORDER-*.md`,
+  `WORK_LOG.md`에서 조회한다.
 
 ## 공통 검증 (모든 항목)
 ```bash
