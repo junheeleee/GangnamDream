@@ -59,10 +59,9 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-72 · 심의·스토어 콘텐츠 인벤토리 | [ORDER-72](queue_active/ORDER-72.md) | 착수 선언. all_resources의 package/reachable 범위를 분리 실측 |
-| 2 | [ ] | ORDER-73 · 버전·세이브·제3자 고지 | [ORDER-73](queue_active/ORDER-73.md) | 기존 BuildInfo/엔딩 크레딧 재사용, 남은 메타·고지만 구현 |
-| 3 | [ ] | ORDER-74 · 신규 데모 지식·화자 계약 | [ORDER-74](queue_active/ORDER-74.md) | 실제 `logic` 스키마 위 최소 표현·신규분 래칫 |
-| 4 | [ ] | ORDER-75 · 24주 데모 전용 T1 정점 | [ORDER-75](queue_active/ORDER-75.md) | P-3 승인. 기존 8선택/영수증 보존, 3비트·8턴·전용 자산 |
+| 1 | [ ] | ORDER-73 · 버전·세이브·제3자 고지 | [ORDER-73](queue_active/ORDER-73.md) | 기존 BuildInfo/엔딩 크레딧 재사용, 남은 메타·고지만 구현 |
+| 2 | [ ] | ORDER-74 · 신규 데모 지식·화자 계약 | [ORDER-74](queue_active/ORDER-74.md) | 실제 `logic` 스키마 위 최소 표현·신규분 래칫 |
+| 3 | [ ] | ORDER-75 · 24주 데모 전용 T1 정점 | [ORDER-75](queue_active/ORDER-75.md) | P-3 승인. 기존 8선택/영수증 보존, 3비트·8턴·전용 자산 |
 
 ### ORDER-75 뒤의 데모 출시선
 
@@ -95,6 +94,10 @@
 
 ### 완료 이력
 
+- `[x] ORDER-72` (2026-08-03): 24주 V2·240주 full·package-only 범위를
+  분리한 9축 출시 원장, KO/EN 1,597사건, 284 pack raster, Full/V2 clean
+  pack smoke와 현 AI 공시를 고정. 최종 등급·삭제·filter는 사용자 판정.
+  [사양](queue_archive/ORDER-72.md)
 - `[x] ORDER-71` (2026-08-03): 4주차 영어 유혹 선택지의 도덕
   자기선언을 한국어와 같은 관찰 행동으로 교체하고, 선택 순서·효과·플래그·
   route·8주차 분기 불변을 회귀로 고정. [사양](queue_archive/ORDER-71.md)
