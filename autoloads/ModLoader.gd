@@ -4,10 +4,11 @@ extends RefCounted
 ## image/audio replacements, random event packs, balance presets, and value-only
 ## moral palettes. Scripts are never scanned or loaded.
 
+const BUILD_FLAVOR := preload("res://systems/BuildFlavor.gd")
 const LANGUAGE_ROOT := "user://lang"
 const MOD_ROOT := "user://mods"
 const ASSET_ROOT := MOD_ROOT + "/assets"
-const SETTINGS_PATH := "user://gangnam_dream_settings.json"
+const SETTINGS_PATH := BUILD_FLAVOR.RETAIL_SETTINGS_PATH
 const BUILTIN_THEME_ROOT := "res://content/themes"
 const BUILTIN_ASSET_PREFIX := "res://assets/"
 const IMAGE_EXTENSIONS := ["png", "jpg", "jpeg", "webp", "svg"]
@@ -85,7 +86,8 @@ static func theme_root() -> String:
 	return mod_root().path_join("themes")
 
 static func settings_path() -> String:
-	return _settings_path_override if not _settings_path_override.is_empty() else SETTINGS_PATH
+	return _settings_path_override \
+		if not _settings_path_override.is_empty() else BUILD_FLAVOR.settings_path()
 
 static func discover_language_codes() -> Array[String]:
 	var codes: Array[String] = []

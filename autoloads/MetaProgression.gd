@@ -1,6 +1,9 @@
 extends Node
 
-const META_SAVE_PATH = "user://gangnam_dream_meta.json"
+const BUILD_FLAVOR := preload("res://systems/BuildFlavor.gd")
+# Compatibility constant for tools that explicitly inspect legacy retail
+# data. Production persistence uses meta_save_path().
+const META_SAVE_PATH = BUILD_FLAVOR.RETAIL_META_PATH
 const LEGACY_ACHIEVEMENT_IDS: Array[String] = ["white_gangnam", "clean_gangnam"]
 
 var data: Dictionary = {}
@@ -215,8 +218,9 @@ func _ready():
 
 func load_meta():
 	data = DataRegistry.default_meta.duplicate(true)
-	if FileAccess.file_exists(META_SAVE_PATH):
-		var parsed = JSON.parse_string(FileAccess.get_file_as_string(META_SAVE_PATH))
+	var path := meta_save_path()
+	if FileAccess.file_exists(path):
+		var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
 		if parsed is Dictionary:
 			data.merge(parsed, true)
 	var achievements: Array = data.get("achievements", [])
@@ -236,8 +240,11 @@ func load_meta():
 		save_meta()
 
 func save_meta():
-	var file = FileAccess.open(META_SAVE_PATH, FileAccess.WRITE)
+	var file = FileAccess.open(meta_save_path(), FileAccess.WRITE)
 	file.store_string(JSON.stringify(data, "\t"))
+
+func meta_save_path() -> String:
+	return BUILD_FLAVOR.meta_path()
 
 func unlock_achievement(achievement_id: String) -> bool:
 	if not DataRegistry.achievements_by_id.has(achievement_id):

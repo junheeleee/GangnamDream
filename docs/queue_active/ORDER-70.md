@@ -24,6 +24,14 @@ V2 상태는 flavor를 바꾸지 않는다. 플레이테스트는 슬롯·메타
 없을 때 폴백하지 않는다. release 플레이테스트 시작 화면의 기본 새 이야기 자리는
 전용 24주 진입 하나로 대체하고, debug는 종전처럼 별도 V2 진입을 유지한다.
 
+**실행 중 발견한 정합 확장:** 장면 선택이 `MetaProgression`을 즉시 쓰고 언어·
+모드 설정과 화면 모드도 같은 `user://`를 공유하므로 슬롯만 분리하면 retail
+오염 0을 보증할 수 없다. 네 저장 소유자를 모두 같은 flavor 계약에 연결한다.
+신규 `BuildFlavor.gd`와 `PlaytestFlavorCheck.gd`는 clean import가 만드는 필수
+companion `.gd.uid`까지 추적해야 `build.sh playtest`의 untracked 0 조건과
+충돌하지 않는다. 기존 QA의 retail 상수는 호환 조회용으로 보존하고 생산 읽기·
+쓰기만 동적 경로를 사용한다.
+
 **사용자 승인 (2026-08-03):** `PROPOSALS.md` P-2 권고대로 진행한다.
 
 ## 깊이 3문

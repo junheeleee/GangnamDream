@@ -491,6 +491,24 @@
       ]
     },
     {
+      "tool": "tools/PlaytestFlavorCheck.tscn",
+      "godot": true,
+      "why": "V2 release playtest 진입·표식·retail 게임 쓰기 데이터 격리",
+      "paths": [
+        "systems/BuildFlavor.gd",
+        "systems/BuildInfo.gd",
+        "systems/DemoCoreLoopV2.gd",
+        "autoloads/SaveManager.gd",
+        "autoloads/MetaProgression.gd",
+        "autoloads/DisplayManager.gd",
+        "autoloads/ModLoader.gd",
+        "autoloads/SceneTransition.gd",
+        "scenes/StartMenu.gd",
+        "export_presets.cfg",
+        "tools/build.sh"
+      ]
+    },
+    {
       "tool": "tools/PhoneSystemCheck.tscn",
       "godot": true,
       "why": "휴대폰 허브",

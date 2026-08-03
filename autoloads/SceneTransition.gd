@@ -5,8 +5,12 @@ extends CanvasLayer
 # 사용: SceneTransition.go("res://scenes/MainGame.tscn")
 # 새 씬에서 페이드인: SceneTransition.fade_in()
 
+const BuildFlavorScript := preload("res://systems/BuildFlavor.gd")
+
 var _overlay: ColorRect
 var _texture_layer: Control
+var _playtest_marker: PanelContainer
+var _playtest_marker_text: Label
 var _tween: Tween
 var _transition_alpha: float = 0.0
 const FADE_TIME := 0.35
@@ -24,6 +28,51 @@ func _ready():
 	_texture_layer.visible = false
 	_texture_layer.draw.connect(_draw_transition_texture)
 	add_child(_texture_layer)
+	_build_playtest_marker()
+
+func _build_playtest_marker() -> void:
+	if not BuildFlavorScript.is_core_loop_v2_playtest_build():
+		return
+	_playtest_marker = UIStyle.make_panel(
+		UIStyle.C_BG_PANEL, UIStyle.C_ACCENT_GOLD)
+	_playtest_marker.name = "CoreLoopV2PlaytestMarker"
+	_playtest_marker.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	_playtest_marker.offset_left = -316.0
+	_playtest_marker.offset_top = 18.0
+	_playtest_marker.offset_right = -18.0
+	_playtest_marker.offset_bottom = 52.0
+	_playtest_marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_playtest_marker.z_index = 1000
+	_playtest_marker.set_meta(
+		"build_flavor", BuildFlavorScript.PLAYTEST_FLAVOR_ID)
+	_playtest_marker.set_meta(
+		"save_namespace", BuildFlavorScript.PLAYTEST_SAVE_NAMESPACE)
+	add_child(_playtest_marker)
+
+	_playtest_marker_text = UIStyle.make_label(
+		"", 12, UIStyle.C_ACCENT_GOLD, true,
+		HORIZONTAL_ALIGNMENT_CENTER)
+	_playtest_marker_text.name = "PlaytestMarkerText"
+	_playtest_marker_text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_playtest_marker_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_playtest_marker.add_child(_playtest_marker_text)
+	_refresh_playtest_marker()
+
+	var language_callback := Callable(self, "_on_playtest_marker_language_changed")
+	if not LocaleManager.language_changed.is_connected(language_callback):
+		LocaleManager.language_changed.connect(language_callback)
+
+func _on_playtest_marker_language_changed(_lang: String) -> void:
+	_refresh_playtest_marker()
+
+func _refresh_playtest_marker() -> void:
+	if not is_instance_valid(_playtest_marker_text):
+		return
+	_playtest_marker_text.text = (
+		"V2 TEST BUILD · SEPARATE SAVE"
+		if LocaleManager.is_english()
+		else "V2 테스트 빌드 · 별도 저장"
+	)
 
 # 씬 전환: 페이드아웃 → 씬 변경
 func go(scene_path: String):

@@ -59,7 +59,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-70 · V2 playtest release flavor | [ORDER-70](queue_active/ORDER-70.md) | 착수 선언. retail 기본값 유지·진입/표식/전체 사용자 데이터 분리 |
+| 1 | [~] | ORDER-70 · V2 playtest release flavor | [ORDER-70](queue_active/ORDER-70.md) | 착수 선언. retail 기본값 유지·진입/표식/게임 쓰기 데이터 분리 |
 | 2 | [ ] | ORDER-71 · 영어 유혹 선택지 중립 | [ORDER-71](queue_active/ORDER-71.md) | 수치·후속 없이 영어 도덕 자기선언만 제거 |
 | 3 | [ ] | ORDER-72 · 심의·스토어 콘텐츠 인벤토리 | [ORDER-72](queue_active/ORDER-72.md) | export 포함 범위를 실측. 최종 등급·삭제는 사용자 결정 |
 | 4 | [ ] | ORDER-73 · 버전·세이브·제3자 고지 | [ORDER-73](queue_active/ORDER-73.md) | 기존 BuildInfo/엔딩 크레딧 재사용, 남은 메타·고지만 구현 |

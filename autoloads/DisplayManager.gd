@@ -5,7 +5,10 @@ extends Node
 
 signal display_settings_changed(snapshot: Dictionary)
 
-const SETTINGS_PATH = "user://gangnam_dream_display.json"
+const BUILD_FLAVOR := preload("res://systems/BuildFlavor.gd")
+# Compatibility constant for tools that explicitly inspect legacy retail
+# data. Production persistence uses display_settings_path().
+const SETTINGS_PATH = BUILD_FLAVOR.RETAIL_DISPLAY_SETTINGS_PATH
 const MIN_WINDOW_SIZE = Vector2i(960, 600)
 const WINDOW_MODES: Array[String] = ["windowed", "borderless", "fullscreen"]
 const WINDOW_RESOLUTIONS: Array[Vector2i] = [
@@ -173,8 +176,9 @@ func _nearest_supported_resolution(value: Vector2i) -> Vector2i:
 	return best
 
 func _load_settings() -> void:
-	if FileAccess.file_exists(SETTINGS_PATH):
-		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SETTINGS_PATH))
+	var path := display_settings_path()
+	if FileAccess.file_exists(path):
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
 		if parsed is Dictionary:
 			var legacy_fullscreen: bool = bool(parsed.get("fullscreen", false))
 			window_mode = str(parsed.get(
@@ -186,9 +190,12 @@ func _load_settings() -> void:
 	fullscreen = window_mode == "fullscreen"
 
 func _save_settings() -> void:
-	var file := FileAccess.open(SETTINGS_PATH, FileAccess.WRITE)
+	var file := FileAccess.open(display_settings_path(), FileAccess.WRITE)
 	if file:
 		file.store_string(JSON.stringify(settings_snapshot()))
+
+func display_settings_path() -> String:
+	return BUILD_FLAVOR.display_settings_path()
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
