@@ -20,6 +20,12 @@
 > 종료 파일: `CLAUDE.md`, `docs/CODEX_QUEUE.md`, `docs/STATUS.md`,
 > `docs/WORK_LOG.md`, `docs/queue_archive/ORDER-74.md`. 게임플레이 수치,
 > 선택 순서·효과·영수증, 저장 schema와 `project.godot`은 건드리지 않는다.
+>
+> 사용자 실플레이 긴급 범위 확장 (2026-08-03) — 추가 파일:
+> `scenes/StoryMode.gd`, `tools/StoryDialogueHistoryCheck.gd`. 기록창 배경의
+> “아무 마우스 버튼이면 닫기” 처리에 휠 버튼까지 포함되어 실제 스크롤이
+> 닫기로 번지는 결함을 먼저 차단한다. 기록 내용·대사 진행·타이머 계약은
+> 바꾸지 않고, 휠 스크롤 유지와 바깥쪽 좌클릭 닫기를 회귀로 고정한다.
 
 ## 깊이 3문
 
