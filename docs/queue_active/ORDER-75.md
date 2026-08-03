@@ -21,7 +21,8 @@
 > `content/meta/story_rules.json`, `systems/DemoCoreLoopV2.gd`,
 > `autoloads/GameState.gd`, `autoloads/DataRegistry.gd`,
 > `scenes/StoryMode.gd`, `tools/audit.py`,
-> `tools/demo_core_loop_v2_audit.py`, `tools/CoreLoopV2ECheck.gd`,
+> `tools/demo_core_loop_v2_audit.py`, `tools/story_consistency_audit.py`,
+> `tools/CoreLoopV2ECheck.gd`,
 > `tools/CoreLoopV2HandoffCheck.gd`, `tools/ManualSaveCheck.gd`,
 > `tools/ModLayerCheck.gd`, `tools/BGMContinuityCheck.gd`,
 > `tools/ScreenshotQA.gd`, `tools/audit_scope.json`.
