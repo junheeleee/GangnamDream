@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-76
+# Archived Queue Spec: ORDER-76
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-76 [P0·첫 플레이] 넓은 월간 계획판과 세로 연락폰을 분리한다
+#### [x] ORDER-76 [P0·첫 플레이] 넓은 월간 계획판과 세로 연락폰을 분리한다
 
 **사용자 승인 (2026-08-03):** 휴대폰 기종 변경·구매를 취소한다. 일정·잔액·
 투자·도박 등 게임 시스템을 휴대폰 앱에 넣지 않고, 휴대폰은 실제 연락에
@@ -68,3 +68,44 @@
 - 유효 레거시 구매 환불: 정확히 `1회`, 반복 로드 추가 환불 `0원`
 - 첫 진입: `prologue → chapter_33 → planner → tutorial`
 - KO/EN 1280×800·960×600 포커스 누수·잘림: `0`
+
+## 완료 결과 (2026-08-03)
+
+- `CoreLoopPlanner`를 전체 폭 `현황 / 일정 / 사람 / 기록` 표면으로 복원하고,
+  네 주 배치·서로 다른 두 루틴·2단계 검토·고르지 않은 제안·불변 읽기 전용
+  재열람을 보존했다. 계획판 위 P/패드 North도 별도 연락폰을 연다.
+- 신규 `CommunicationPhone`은 우측 세로형 단일 셸의 `대화 / 연락처`만
+  제공한다. 실제 수신 문자·통화와 획득한 번호·카카오톡·명함만 보이며,
+  처리 뒤 자격 조건이 바뀐 한빛 면접 연락도 그 달 기록에서 사라지지 않는다.
+  스레드 진입·복귀·닫기 포커스와 튜토리얼 중 숨은 폰 차단을 실제 입력으로
+  고정했다.
+- 기종·구매·즐겨찾기·앱 런처 런타임 API는 0개다. schema-2의 검증된
+  13주 리퍼폰 영수증만 18만원을 한 번 환불하고 schema 3 정산을 남기며,
+  새 게임·반복·손상·위조 저장은 0원이다.
+- 첫 진입은 `prologue → chapter_33 → planner → tutorial`이고 튜토리얼은
+  3장이다. `CompileCheck` 60개, `PhoneSystemCheck`,
+  `CommunicationPhoneCheck`, `CoreLoopV2Check`,
+  `CoreLoopV2FirstEntryCheck`, `CoreLoopV2HandoffCheck`,
+  데모 계약 감사와 경제 시뮬레이션이 통과했다.
+- KO/EN 각각 1280×800·960×600에서 빈/채운 계획, 현황, 사람, 기록, 검토,
+  대화 목록·상세·연락처, 읽기 전용의 11장씩 총 44장을 실제 렌더했다.
+  자동 경계·포커스 검증과 육안 검토의 잘림·안전 여백 결함은 0건이며,
+  독립 통합 검토의 남은 P0/P1도 0건이다.
+- 실제 Steam Deck·실물 패드 감각, 정상 독해 속도 24주 재미와 연속 A/V는
+  자동 완료로 주장하지 않고 동일 demo RC의 사람 게이트로 남겼다.
+- 최종 전체 감사는 문서 부팅 예산과 생성 인벤토리까지 다시 맞춘 뒤
+  오류 없이 `✅ 감사 통과`로 끝났다.
+
+## 규범 승격 판정
+
+- 승격: `docs/DECISIONS.md`의 2026-08-03 월간 계획·실제 연락 분리 결정 —
+  기종 구매 종료와 24·48·240주 표면 소유권의 계속 유효한 제품 결정.
+- 승격: `docs/CORE_LOOP_V2.md`의 `월간 계획판과 연락폰` 절 — 넓은 계획판,
+  세로 연락폰, 수신 이력, 저장 이관과 의미 입력의 런타임 정본.
+- 승격: `docs/CONTROLLER_UX_STRATEGY.md`의 planner/contact phone 계약과
+  `docs/INPUT_MATRIX.md`의 해당 행 — 이후 패드·키보드 포커스 규칙.
+- 승격: `docs/BALANCE.md`의 schema-3 이관·기기비용 제거 절과
+  `docs/QA_CHECKLIST.md`의 planner/contact phone 행 — 이후 저장·수치·출시
+  회귀에서 계속 적용할 검증 기준.
+- 일회성: 선언 커밋의 정확 파일 소유권, `168e9de` 외형 참조, 임시 캡처
+  디렉터리와 이번 구현 시점의 44장 수량은 재현 증거이며 다음 작업의 규칙이 아니다.
