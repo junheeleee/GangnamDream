@@ -21,7 +21,7 @@
 > `content/meta/story_rules.json`, `systems/DemoCoreLoopV2.gd`,
 > `autoloads/GameState.gd`, `autoloads/DataRegistry.gd`,
 > `autoloads/MetaProgression.gd`, `content/meta/default_meta.json`,
-> `scenes/StoryMode.gd`, `tools/audit.py`,
+> `scenes/StoryMode.gd`, `scenes/StartMenu.gd`, `tools/audit.py`,
 > `tools/demo_core_loop_v2_audit.py`, `tools/story_consistency_audit.py`,
 > `tools/CoreLoopV2ECheck.gd`,
 > `tools/CoreLoopV2HandoffCheck.gd`, `tools/ManualSaveCheck.gd`,
@@ -61,6 +61,9 @@
 > 추가한다. ORDER-75 이전 Week-24 중간 저장의 옛 결정 루트도 기존
 > `DemoCoreLoopV2.gd`·`StoryMode.gd` 안에서 새 opening→decision→ledger 계약으로
 > 보정하며, `SaveManager.gd`나 저장 버전·게임 진행 수치는 바꾸지 않는다.
+> 실제 회상 카탈로그가 고정 목록을 쓰므로 `StartMenu.gd`도 진입 루트 한 건의
+> 등록에 한해 포함한다. 회상은 스냅숏에 남은 후행 루트만 복원하고 현재 런 HUD를
+> 섞지 않으며, 읽기 전용 대체 선택의 장부·치명 결과도 로컬에서 재현한다.
 
 ## 깊이 3문
 
