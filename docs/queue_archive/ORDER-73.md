@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-73 [P0·패키징] 실제 버전·세이브·제3자 고지를 하나로 묶는다
+#### [x] ORDER-73 [P0·패키징] 실제 버전·세이브·제3자 고지를 하나로 묶는다
 
 > 착수 — 플레이어는 시작 화면에서 데모/정식판/V2를 구분하고, 저장 목록에서
 > 다른 빌드 출처와 호환 여부를 읽으며, 설정에서 실제 포함된 엔진·서체·오디오
@@ -81,3 +81,36 @@
 - 화면/세이브/빌드 매니페스트 식별자 불일치: `0`
 - 고지 원장에 없는 수기 항목: `0`
 - 기존 크레딧·버전 중복 구현: `0`
+
+## 완료 결과 (2026-08-03)
+
+- `build_identity_audit.py --self-test` 51개 fixture와 실제 수동 저장·첫 30초·
+  flavor 검사가 통과했다. 미래 schema와 잘못된 identity는 상태 적용 전에
+  거부하며, 다른 build ID는 진단 경고로만 남는다.
+- `third_party_notice_audit.py --self-test` 15개 fixture가 통과했다. clean Full과
+  V2 export pack은 각각 필수 고지 10파일을 바이트 단위로 모두 포함했고,
+  1,416개 entry 집합 해시는 양쪽 모두
+  `34dab9f7257329d5ccdae0ce35a4924ad6a63451053f14cfdb44cf37aebf87b3`이다.
+  Full pack SHA-256은
+  `0ee6372ec9bc7dae3cb4c0591dba4688578711548424b950a66e818c7a0a32ec`,
+  V2 pack SHA-256은
+  `34581a12a71e5e9ac9fb638d3b52386a1f7c648a2f2a84d1ef8d3a06617f75b8`다.
+- KO/EN 960×600·1280×800 고지 화면 16장을 실제 렌더했다. 탭 전환 전후 고정
+  헤더 픽셀은 동일했고, 스크롤 포커스의 2px 외곽선과 긴 본문·푸터·안전영역을
+  원본 RGBA와 육안으로 확인했다.
+- 전체 감사는 오류·경고 0과 `✅ 감사 통과`로 끝났다. UIStyle 표면 래칫은
+  기존 기준선(StyleBox 260, override 2,116, color 678)을 늘리지 않았고,
+  일본어 비출시 UI 사전도 2,585키 strict parity를 유지했다.
+
+## 규범 승격 판정
+
+- 승격: `docs/BUILD_PIPELINE.md`의 `산출물 식별과 저장 호환`,
+  `제3자 고지 스모크`, `시각 스모크` 절 — 다음 산출물에도 계속 적용할
+  identity·호환·pack·화면 검증 계약.
+- 승격: `docs/MASTER_RELEASE_AUDIT.md`의
+  `Artifact Identity, Save, and Third-Party Notice Gate` 절 — 출시 후보의
+  통합 차단 기준.
+- 승격: `docs/QA_CHECKLIST.md`의 release identity/notice 표 행과 `Save/Load` 절 —
+  수동·자동 QA에서 계속 확인할 사용자 표면과 저장 정책.
+- 일회성: 이번 오더의 두 범위 확장 선언, 임시 pack 경로, 위 pack SHA-256과
+  구현 시점 수량은 이 아카이브의 재현 증거이며 다음 작업의 고정 규칙이 아니다.

@@ -59,9 +59,8 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-73 · 버전·세이브·제3자 고지 | [ORDER-73](queue_active/ORDER-73.md) | 기존 BuildInfo/엔딩 크레딧 재사용, 남은 메타·고지만 구현 |
-| 2 | [ ] | ORDER-74 · 신규 데모 지식·화자 계약 | [ORDER-74](queue_active/ORDER-74.md) | 실제 `logic` 스키마 위 최소 표현·신규분 래칫 |
-| 3 | [ ] | ORDER-75 · 24주 데모 전용 T1 정점 | [ORDER-75](queue_active/ORDER-75.md) | P-3 승인. 기존 8선택/영수증 보존, 3비트·8턴·전용 자산 |
+| 1 | [ ] | ORDER-74 · 신규 데모 지식·화자 계약 | [ORDER-74](queue_active/ORDER-74.md) | 실제 `logic` 스키마 위 최소 표현·신규분 래칫 |
+| 2 | [ ] | ORDER-75 · 24주 데모 전용 T1 정점 | [ORDER-75](queue_active/ORDER-75.md) | P-3 승인. 기존 8선택/영수증 보존, 3비트·8턴·전용 자산 |
 
 ### ORDER-75 뒤의 데모 출시선
 
@@ -94,6 +93,10 @@
 
 ### 완료 이력
 
+- `[x] ORDER-73` (2026-08-03): 화면·세이브·매니페스트의 네 identity 필드를
+  단일화하고 비호환 저장을 상태 적용 전에 차단했다. 엔진·서체·오디오 고지를
+  원장 기반 설정 화면과 패키지에 연결했으며 clean Full/V2 pack의 필수 10파일을
+  바이트 단위로 검증했다. [사양](queue_archive/ORDER-73.md)
 - `[x] ORDER-72` (2026-08-03): 24주 V2·240주 full·package-only 범위를
   분리한 9축 출시 원장, KO/EN 1,597사건, 284 pack raster, Full/V2 clean
   pack smoke와 현 AI 공시를 고정. 최종 등급·삭제·filter는 사용자 판정.

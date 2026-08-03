@@ -9,6 +9,20 @@
 > 차례로 옮긴다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-08-03 (Codex — 산출물 식별·저장 호환·제3자 고지)
+
+- 시작 화면·새 세이브·빌드 매니페스트가 같은 네 identity 필드를 쓰게 하고,
+  빌드 ID 차이는 경고로, 미래 schema·잘못된 flavor/namespace·데모 24주 초과는
+  플레이어 상태 적용 전 거부하도록 고정했다. 비호환 슬롯은 사라지지 않고 출처와
+  이유를 보여 주며 삭제할 수 있다.
+- Godot 4.6.2 MIT와 정확한 bundled-component COPYRIGHT, 세 OFL, 오디오 21원천의
+  고지를 원장에서 생성해 설정의 세 탭에 연결했다. 말발굽은 실제 출하
+  `ground.mp3`의 D4XX·CC0 기록을 사용하며 필수 저작자표시는 피아노 1원천이다.
+- clean Full/V2 pack은 각각 1,416 entries와 동일 entry-set hash를 가졌고 필수
+  고지 10파일이 바이트 단위로 일치했다. build identity self-test 51개,
+  notice self-test 15개, KO/EN 960×600·1280×800 실제 렌더, 전체 감사를 통과했다.
+  UI 표면 래칫과 비출시 일본어 UI 2,585키 패리티도 기존 기준선을 유지했다.
+
 ## 2026-08-03 (Codex — ORDER-72 실제 출시 콘텐츠 인벤토리)
 
 - 10개 `all_resources` preset의 package 포함, 런타임 로드, 24주 V2·240주
