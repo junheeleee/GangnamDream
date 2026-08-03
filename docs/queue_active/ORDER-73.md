@@ -16,6 +16,7 @@
 > 배치 B 파일: `assets/third_party/THIRD_PARTY_COMPONENTS.json`,
 > `assets/third_party/GODOT_ENGINE_LICENSE.txt`,
 > `content/meta/third_party_notices.json`, `tools/third_party_notice_audit.py`,
+> `assets/audio/AUDIO_THIRD_PARTY_NOTICES.md`, `export_presets.cfg`,
 > `scenes/StartMenu.gd`, `tools/ScreenshotQA.gd`, `tools/audit.sh`,
 > `tools/audit_scope.json`, `docs/QA_CHECKLIST.md`, `docs/BUILD_PIPELINE.md`,
 > `docs/MASTER_RELEASE_AUDIT.md`.
