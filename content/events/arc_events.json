@@ -1,6 +1,7 @@
 [
   {
     "id": "arc_intro_01_meal",
+    "direction": {"pace": "beat"},
     "title": "첫 면접",
     "background": "office_interview_day",
     "portrait": "player_suit",
@@ -118,6 +119,7 @@
   },
   {
     "id": "arc_intro_03_sns",
+    "direction": {"pace": "beat"},
     "title": "새벽 두 시",
     "background": "goshiwon_room",
     "portrait": "player_tired",
@@ -180,6 +182,7 @@
   },
   {
     "id": "arc_intro_04_hyunsu",
+    "direction": {"amb": "duck"},
     "title": "옆방",
     "background": "goshiwon_hallway",
     "portrait": "hyunsu",
@@ -540,6 +543,7 @@
   },
   {
     "id": "arc_jiyeon_01_crash",
+    "direction": {"camera": "drift"},
     "title": "접촉",
     "background": "street_rainy",
     "portrait": "jiyeon_normal",
@@ -622,6 +626,7 @@
   },
   {
     "id": "arc_jiyeon_02_store",
+    "direction": {"camera": "drift"},
     "title": "또, 너",
     "background": "street_rainy",
     "portrait": "jiyeon_normal",
@@ -1663,6 +1668,7 @@
   },
   {
     "id": "arc_temptation_clean",
+    "direction": {"pace": "beat"},
     "title": "지나간 자리",
     "background": "current_housing",
     "portrait": "player_normal",
@@ -1696,6 +1702,7 @@
   },
   {
     "id": "arc_temptation_fallout",
+    "direction": {"pace": "beat"},
     "title": "빌려준 계좌의 반환 요청",
     "background": "street_rainy",
     "portrait": "player_shocked",
@@ -2836,6 +2843,7 @@
   },
   {
     "id": "arc_father_01_call",
+    "direction": {"amb": "duck"},
     "title": "전화",
     "background": "current_housing",
     "portrait": "player_tired",

@@ -12,6 +12,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT_PATH = ROOT / "content" / "meta" / "demo_core_loop_v2.json"
+NARRATIVE_SPINE_PATH = ROOT / "content" / "meta" / "narrative_spine.json"
 REGISTRY_PATH = ROOT / "autoloads" / "DataRegistry.gd"
 HANGUL_RE = re.compile(r"[가-힣]")
 
@@ -111,6 +112,27 @@ PLAYER_COPY_FIELDS = (
     "decline_en",
 )
 ALLOWED_ACTION_IDS = {"apply", "side_shift", "resume", "interview", "study", "rest"}
+EXPECTED_AUTHORED_BY_MONTH = [3, 3, 4, 4, 4, 3]
+EXPECTED_PRACTICAL_AUTHORED_BY_MONTH = [1, 2, 1, 2, 2, 1]
+PRACTICAL_EXCLUDED_KINDS = {"pursuit", "encounter", "care"}
+ACTION_STORY_ROOTS = {
+    "m1_convenience_trial_shift": "v2_convenience_trial_shift",
+    "m3_inventory_shift": "v2_inventory_count_nights",
+    "m4_certificate_session": "v2_logistics_class_session",
+    "m5_weekend_move_shift": "v2_moving_crew_days",
+    "m5_last_empty_sunday": "v2_empty_sunday",
+}
+STORY_GAMEPLAY_KEYS = {
+    "effects",
+    "flags",
+    "flag_updates",
+    "relationship_change",
+    "relationship_changes",
+    "application_transition",
+    "future_story_outcome",
+    "moral_tint",
+    "route",
+}
 ALLOWED_PREREQUISITE_GROUPS = {"all", "any"}
 ALLOWED_PREREQUISITE_KINDS = {
     "completed_bundle",
@@ -467,10 +489,10 @@ EXPECTED_M5_ALLOWED_WEEKS = {
     "m5_last_empty_sunday": [17, 18, 19, 20],
     "m5_employment_contract_clinic": [17, 18, 19, 20],
     "daeun_shared_dream": [20],
-    "daeun_third_greeting": [20],
-    "jiyeon_second_crossing": [20],
-    "sangchul_second_coffee": [20],
-    "jaehyuk_plain_reunion_echo": [20],
+    "daeun_third_greeting": [19, 20],
+    "jiyeon_second_crossing": [19, 20],
+    "sangchul_second_coffee": [19, 20],
+    "jaehyuk_plain_reunion_echo": [19, 20],
 }
 EXPECTED_M5_ACTION_CORE = {
     "m5_city_service_application": {
@@ -1099,6 +1121,589 @@ def require_list(value: Any, label: str, errors: list[str]) -> list[Any]:
         fail(f"{label} must be an array", errors)
         return []
     return value
+
+
+def reachable_registered_event_ids(
+    roots: set[str],
+    events: dict[str, dict[str, Any]],
+    errors: list[str],
+    owner: str,
+    suppressed: set[str] | None = None,
+    stop_after: set[str] | None = None,
+) -> set[str]:
+    """Traverse authored choice links while failing closed on registry gaps."""
+    excluded = suppressed or set()
+    terminal = stop_after or set()
+    reachable: set[str] = set()
+    pending = list(roots)
+    while pending:
+        event_id = str(pending.pop()).strip()
+        if not event_id or event_id in excluded or event_id in reachable:
+            continue
+        event = events.get(event_id)
+        if not isinstance(event, dict):
+            fail(
+                f"{owner} references missing registered event {event_id}",
+                errors,
+            )
+            continue
+        reachable.add(event_id)
+        if event_id in terminal:
+            continue
+        for raw_choice in event.get("choices", []):
+            if not isinstance(raw_choice, dict):
+                continue
+            follow_up = str(raw_choice.get("follow_up_event", "")).strip()
+            if follow_up and follow_up not in excluded:
+                pending.append(follow_up)
+    return reachable
+
+
+def validate_demo_direction_coverage(
+    contract: dict[str, Any],
+    bundles: dict[str, Any],
+    registered_events: dict[str, dict[str, Any]],
+    errors: list[str],
+) -> tuple[int, int]:
+    """Require direction on the current V2 surface and complete prologue chain."""
+    suppressions_by_root: dict[str, set[str]] = {}
+    for raw_bundle in bundles.values():
+        if not isinstance(raw_bundle, dict):
+            continue
+        raw_suppressed = raw_bundle.get("suppress_follow_up_events", [])
+        raw_roots = raw_bundle.get("existing_roots", [])
+        if isinstance(raw_suppressed, list) and isinstance(raw_roots, list):
+            local_suppressed = {
+                str(value).strip() for value in raw_suppressed if str(value).strip()
+            }
+            for raw_root in raw_roots:
+                root_id = str(raw_root).strip()
+                if root_id:
+                    suppressions_by_root.setdefault(root_id, set()).update(
+                        local_suppressed
+                    )
+
+    v2_events: set[str] = set()
+    for bundle_id, raw_bundle in bundles.items():
+        if not isinstance(raw_bundle, dict):
+            continue
+        raw_roots = raw_bundle.get("existing_roots", [])
+        roots = (
+            {str(value).strip() for value in raw_roots if str(value).strip()}
+            if isinstance(raw_roots, list)
+            else set()
+        )
+        raw_suppressed = raw_bundle.get("suppress_follow_up_events", [])
+        local_suppressed = (
+            {
+                str(value).strip()
+                for value in raw_suppressed
+                if str(value).strip()
+            }
+            if isinstance(raw_suppressed, list)
+            else set()
+        )
+        v2_events.update(
+            reachable_registered_event_ids(
+                roots,
+                registered_events,
+                errors,
+                f"direction coverage bundle {bundle_id}",
+                local_suppressed,
+            )
+        )
+
+    try:
+        narrative_spine = json.loads(
+            NARRATIVE_SPINE_PATH.read_text(encoding="utf-8")
+        )
+    except (OSError, json.JSONDecodeError) as exc:
+        fail(f"cannot load narrative spine for direction coverage: {exc}", errors)
+        narrative_spine = {}
+    scope = contract.get("scope", {})
+    demo_min_week = int(scope.get("min_week", 1)) if isinstance(scope, dict) else 1
+    demo_max_week = int(scope.get("max_week", 24)) if isinstance(scope, dict) else 24
+    spine_roots: set[str] = set()
+    demo = narrative_spine.get("demo") if isinstance(narrative_spine, dict) else None
+    if not isinstance(demo, dict):
+        fail("narrative_spine.demo must be an object", errors)
+        demo = {}
+    sequences = demo.get("sequences")
+    if not isinstance(sequences, list) or not sequences:
+        fail("narrative_spine.demo.sequences must be an array", errors)
+        sequences = []
+    for index, raw_sequence in enumerate(sequences):
+        if not isinstance(raw_sequence, dict):
+            fail(f"narrative_spine demo sequence {index} must be an object", errors)
+            continue
+        weeks = raw_sequence.get("weeks", [])
+        if (
+            not isinstance(weeks, list)
+            or len(weeks) != 2
+            or any(not isinstance(value, int) for value in weeks)
+        ):
+            fail(
+                f"narrative_spine demo sequence {index} has invalid weeks",
+                errors,
+            )
+            continue
+        if max(weeks[0], demo_min_week) > min(weeks[1], demo_max_week):
+            continue
+        roots = raw_sequence.get("foreground_roots", [])
+        if not isinstance(roots, list):
+            fail(
+                f"narrative_spine demo sequence {index} foreground_roots "
+                "must be an array",
+                errors,
+            )
+            continue
+        spine_roots.update(
+            str(value).strip() for value in roots if str(value).strip()
+        )
+    for root_id in sorted(spine_roots):
+        v2_events.update(
+            reachable_registered_event_ids(
+                {root_id},
+                registered_events,
+                errors,
+                "direction coverage narrative spine",
+                suppressions_by_root.get(root_id, set()),
+            )
+        )
+
+    for event_id in sorted(v2_events):
+        direction = registered_events[event_id].get("direction")
+        if not isinstance(direction, dict) or not direction:
+            fail(
+                f"V2 reachable event {event_id} needs a non-empty direction object",
+                errors,
+            )
+
+    prologue_end = "story_prologue_meal"
+    prologue_events = reachable_registered_event_ids(
+        {"story_flashforward"},
+        registered_events,
+        errors,
+        "direction coverage prologue",
+        stop_after={prologue_end},
+    )
+    if prologue_end not in prologue_events:
+        fail(
+            "prologue direction closure does not reach story_prologue_meal",
+            errors,
+        )
+    for event_id in sorted(prologue_events):
+        direction = registered_events[event_id].get("direction")
+        if not isinstance(direction, dict) or not direction:
+            fail(
+                f"prologue event {event_id} needs a non-empty direction object",
+                errors,
+            )
+    return len(v2_events), len(prologue_events)
+
+
+def bundle_has_registered_authored_surface(
+    bundle: dict[str, Any], registered_events: dict[str, dict[str, Any]]
+) -> bool:
+    """An authored surface must resolve through the real event registry."""
+    raw_roots = bundle.get("existing_roots", [])
+    if isinstance(raw_roots, list) and raw_roots:
+        roots = [str(value).strip() for value in raw_roots]
+        if all(root and root in registered_events for root in roots):
+            return True
+    planned_scene_id = str(bundle.get("planned_scene_id", "")).strip()
+    return bool(planned_scene_id and planned_scene_id in registered_events)
+
+
+def selection_within_plan_constraints(
+    selected: list[str],
+    month: dict[str, Any],
+    bundles: dict[str, Any],
+    groups: dict[str, Any],
+    relationship: dict[str, Any],
+) -> bool:
+    """Mirror the month-scope group and named-character plan constraints."""
+    for raw_group in groups.values():
+        if not isinstance(raw_group, dict):
+            continue
+        members = {
+            str(value) for value in raw_group.get("members", [])
+        }
+        if len(members.intersection(selected)) > int(
+            raw_group.get("maximum_selected", 1)
+        ):
+            return False
+
+    named_cap = max(0, int(month.get("active_named_characters_max", 0)))
+    global_cap = max(
+        0, int(relationship.get("maximum_active_named_threads", 0))
+    )
+    if named_cap <= 0:
+        named_cap = global_cap
+    elif global_cap > 0:
+        named_cap = min(named_cap, global_cap)
+    if named_cap <= 0:
+        return True
+    named_characters = {
+        str(character).strip()
+        for bundle_id in selected
+        for character in (
+            bundles.get(bundle_id, {}).get("characters", [])
+            if isinstance(bundles.get(bundle_id), dict)
+            else []
+        )
+        if str(character).strip()
+    }
+    return len(named_characters) <= named_cap
+
+
+def enumerate_legal_month_schedules(
+    month: dict[str, Any],
+    bundles: dict[str, Any],
+    groups: dict[str, Any],
+    relationship: dict[str, Any],
+) -> tuple[list[dict[str, str]], list[str]]:
+    """Exhaustively assign the four weeks, including locks and fallbacks."""
+    raw_weeks = month.get("weeks", [])
+    if (
+        not isinstance(raw_weeks, list)
+        or len(raw_weeks) != 2
+        or any(not isinstance(value, int) for value in raw_weeks)
+    ):
+        return [], []
+    weeks = list(range(int(raw_weeks[0]), int(raw_weeks[1]) + 1))
+    offer_ids: list[str] = []
+    for field in ("offers", "fallback_offers"):
+        raw_ids = month.get(field, [])
+        if not isinstance(raw_ids, list):
+            continue
+        for raw_bundle_id in raw_ids:
+            bundle_id = str(raw_bundle_id).strip()
+            if bundle_id and bundle_id not in offer_ids:
+                offer_ids.append(bundle_id)
+    locked_by_week: dict[int, str] = {}
+    for raw_lock in month.get("locked", []):
+        if isinstance(raw_lock, dict):
+            locked_by_week[int(raw_lock.get("week", 0))] = str(
+                raw_lock.get("bundle", "")
+            ).strip()
+
+    schedules: list[dict[str, str]] = []
+
+    def assign(
+        week_index: int, schedule: dict[str, str], selected: list[str]
+    ) -> None:
+        if week_index >= len(weeks):
+            if selection_within_plan_constraints(
+                selected, month, bundles, groups, relationship
+            ):
+                schedules.append(dict(schedule))
+            return
+        week = weeks[week_index]
+        candidates = (
+            [locked_by_week[week]]
+            if week in locked_by_week
+            else offer_ids
+        )
+        for bundle_id in candidates:
+            bundle = bundles.get(bundle_id)
+            if not isinstance(bundle, dict) or bundle_id in selected:
+                continue
+            allowed_weeks = bundle.get("allowed_weeks", [])
+            if not isinstance(allowed_weeks, list) or week not in {
+                int(value) for value in allowed_weeks
+            }:
+                continue
+            schedule[str(week)] = bundle_id
+            selected.append(bundle_id)
+            if selection_within_plan_constraints(
+                selected, month, bundles, groups, relationship
+            ):
+                assign(week_index + 1, schedule, selected)
+            selected.pop()
+            schedule.pop(str(week), None)
+
+    assign(0, {}, [])
+    return schedules, offer_ids
+
+
+def validate_density_time_hybrid_contracts(
+    contract: dict[str, Any],
+    bundles: dict[str, Any],
+    months: list[Any],
+    groups: dict[str, Any],
+    relationship: dict[str, Any],
+    registered_events: dict[str, dict[str, Any]],
+    errors: list[str],
+) -> dict[str, Any]:
+    """Lock authored density and time to actual legal week assignments."""
+    if len(bundles) != 60:
+        fail(
+            f"24-week density gate expects 60 scene bundles, got {len(bundles)}",
+            errors,
+        )
+    for bundle_id, raw_bundle in bundles.items():
+        bundle = raw_bundle if isinstance(raw_bundle, dict) else {}
+        minutes = bundle.get("estimated_minutes")
+        if (
+            not isinstance(minutes, int)
+            or isinstance(minutes, bool)
+            or minutes <= 0
+        ):
+            fail(
+                f"{bundle_id}.estimated_minutes must be a positive integer, "
+                f"got {minutes!r}",
+                errors,
+            )
+
+    authored_vector: list[int] = []
+    practical_vector: list[int] = []
+    time_ranges: list[tuple[int, int]] = []
+    optional_overhead: list[int] = []
+    legal_plan_counts: list[int] = []
+    for month_index, raw_month in enumerate(months, start=1):
+        if not isinstance(raw_month, dict):
+            authored_vector.append(0)
+            practical_vector.append(0)
+            time_ranges.append((0, 0))
+            optional_overhead.append(0)
+            legal_plan_counts.append(0)
+            continue
+        schedules, offer_ids = enumerate_legal_month_schedules(
+            raw_month, bundles, groups, relationship
+        )
+        legal_plan_counts.append(len(schedules))
+        if not schedules:
+            fail(
+                f"month {month_index} has no legal four-week assignment; "
+                f"offers={offer_ids}, weeks={raw_month.get('weeks', [])}, "
+                f"groups={groups}",
+                errors,
+            )
+            authored_vector.append(0)
+            practical_vector.append(0)
+            time_ranges.append((0, 0))
+            optional_overhead.append(0)
+            continue
+
+        offer_set = set(offer_ids)
+
+        def authored_ids(schedule: dict[str, str]) -> list[str]:
+            return [
+                bundle_id
+                for bundle_id in schedule.values()
+                if bundle_id in offer_set
+                and isinstance(bundles.get(bundle_id), dict)
+                and bundle_has_registered_authored_surface(
+                    bundles[bundle_id], registered_events
+                )
+            ]
+
+        authored_witness = max(schedules, key=lambda row: len(authored_ids(row)))
+        authored_max = len(authored_ids(authored_witness))
+
+        def practical_count(schedule: dict[str, str]) -> int:
+            return sum(
+                1
+                for bundle_id in authored_ids(schedule)
+                if str(bundles[bundle_id].get("kind", ""))
+                not in PRACTICAL_EXCLUDED_KINDS
+            )
+
+        practical_witness = max(schedules, key=practical_count)
+        practical_max = practical_count(practical_witness)
+        authored_vector.append(authored_max)
+        practical_vector.append(practical_max)
+
+        if month_index <= len(EXPECTED_AUTHORED_BY_MONTH):
+            expected_authored = EXPECTED_AUTHORED_BY_MONTH[month_index - 1]
+            minimum_authored = 3 if month_index >= 5 else 2
+            if authored_max != expected_authored or authored_max < minimum_authored:
+                fail(
+                    f"month {month_index} authored maximum {authored_max}; "
+                    f"expected {expected_authored}, minimum {minimum_authored}; "
+                    f"best legal assignment={authored_witness}; offers={offer_ids}",
+                    errors,
+                )
+            expected_practical = EXPECTED_PRACTICAL_AUTHORED_BY_MONTH[
+                month_index - 1
+            ]
+            if practical_max != expected_practical or practical_max < 1:
+                fail(
+                    f"month {month_index} practical/non-person authored "
+                    f"maximum {practical_max}; expected {expected_practical}; "
+                    f"best legal assignment={practical_witness}",
+                    errors,
+                )
+
+        prelude_ids = [
+            str(value) for value in raw_month.get("prelude", [])
+        ]
+
+        def base_minutes(schedule: dict[str, str]) -> int:
+            scheduled = sum(
+                int(bundles.get(bundle_id, {}).get("estimated_minutes", 0))
+                for bundle_id in schedule.values()
+                if isinstance(bundles.get(bundle_id), dict)
+            )
+            prelude = sum(
+                int(bundles.get(bundle_id, {}).get("estimated_minutes", 0))
+                for bundle_id in prelude_ids
+                if isinstance(bundles.get(bundle_id), dict)
+            )
+            return scheduled + prelude
+
+        plan_minutes = [base_minutes(schedule) for schedule in schedules]
+        minute_range = (min(plan_minutes), max(plan_minutes))
+        time_ranges.append(minute_range)
+        target_minutes = int(raw_month.get("target_minutes", 0))
+        invalid_times = [
+            (schedule, minutes)
+            for schedule, minutes in zip(schedules, plan_minutes)
+            if abs(minutes - target_minutes) > 3
+        ]
+        if target_minutes <= 0 or invalid_times:
+            fail(
+                f"month {month_index} legal plan time range "
+                f"{minute_range[0]}..{minute_range[1]} misses "
+                f"target {target_minutes}±3; examples={invalid_times[:3]}; "
+                f"prelude={prelude_ids}, locked={raw_month.get('locked', [])}",
+                errors,
+            )
+
+        consequence_ids = [
+            str(value)
+            for value in raw_month.get("conditional_consequences", [])
+        ]
+        optional_overhead.append(
+            sum(
+                int(bundles.get(bundle_id, {}).get("estimated_minutes", 0))
+                for bundle_id in consequence_ids
+                if isinstance(bundles.get(bundle_id), dict)
+            )
+        )
+
+    target_major_scenes = contract.get("scope", {}).get(
+        "target_major_scenes", []
+    )
+    total_authored = sum(authored_vector)
+    if authored_vector != EXPECTED_AUTHORED_BY_MONTH:
+        fail(
+            f"authored density vector expected {EXPECTED_AUTHORED_BY_MONTH}, "
+            f"got {authored_vector}",
+            errors,
+        )
+    if practical_vector != EXPECTED_PRACTICAL_AUTHORED_BY_MONTH:
+        fail(
+            "practical/non-person density vector expected "
+            f"{EXPECTED_PRACTICAL_AUTHORED_BY_MONTH}, got {practical_vector}",
+            errors,
+        )
+    if (
+        total_authored != 21
+        or not isinstance(target_major_scenes, list)
+        or len(target_major_scenes) != 2
+        or not int(target_major_scenes[0])
+        <= total_authored
+        <= int(target_major_scenes[1])
+    ):
+        fail(
+            f"authored total must be 21 inside target_major_scenes, got "
+            f"{total_authored} vs {target_major_scenes}",
+            errors,
+        )
+
+    month_five_group = groups.get("month_five_person_climax", {})
+    if not isinstance(month_five_group, dict):
+        month_five_group = {}
+    person_members = {
+        str(value) for value in month_five_group.get("members", [])
+    }
+    if int(month_five_group.get("maximum_selected", 0)) != 2:
+        fail("month_five_person_climax.maximum_selected must be 2", errors)
+    for bundle_id in sorted(person_members):
+        allowed_weeks = bundles.get(bundle_id, {}).get("allowed_weeks", [])
+        expected_weeks = (
+            [20] if bundle_id == "daeun_shared_dream" else [19, 20]
+        )
+        if allowed_weeks != expected_weeks:
+            fail(
+                f"{bundle_id} must use its story-time window "
+                f"{expected_weeks}, got {allowed_weeks}",
+                errors,
+            )
+    if len(months) >= 5 and isinstance(months[4], dict):
+        month_five_schedules, _ = enumerate_legal_month_schedules(
+            months[4], bundles, groups, relationship
+        )
+        if not any(
+            len(person_members.intersection(schedule.values())) == 2
+            for schedule in month_five_schedules
+        ):
+            fail(
+                "month 5 cannot assign two person bundles to distinct legal weeks",
+                errors,
+            )
+
+    for bundle_id, root_id in ACTION_STORY_ROOTS.items():
+        bundle = bundles.get(bundle_id)
+        if not isinstance(bundle, dict):
+            fail(f"missing action-story hybrid bundle {bundle_id}", errors)
+            continue
+        if (
+            not str(bundle.get("action_id", "")).strip()
+            or bundle.get("existing_roots") != [root_id]
+            or not bundle_has_registered_authored_surface(
+                bundle, registered_events
+            )
+        ):
+            fail(
+                f"{bundle_id} must be one registered action+story hybrid "
+                f"rooted at {root_id}",
+                errors,
+            )
+        for event_id in sorted(
+            reachable_event_ids({root_id}, registered_events)
+        ):
+            event = registered_events.get(event_id)
+            if not isinstance(event, dict):
+                fail(
+                    f"{bundle_id} hybrid story references missing {event_id}",
+                    errors,
+                )
+                continue
+            choices = event.get("choices", [])
+            if not isinstance(choices, list) or not choices:
+                fail(
+                    f"{bundle_id} hybrid story {event_id} has no choices",
+                    errors,
+                )
+                continue
+            for choice_index, choice in enumerate(choices):
+                if not isinstance(choice, dict):
+                    fail(
+                        f"{bundle_id} hybrid story {event_id} choice "
+                        f"{choice_index} is not an object",
+                        errors,
+                    )
+                    continue
+                duplicated_keys = STORY_GAMEPLAY_KEYS.intersection(choice)
+                if duplicated_keys:
+                    fail(
+                        f"{bundle_id} hybrid story {event_id} choice "
+                        f"{choice_index} duplicates action gameplay keys "
+                        f"{sorted(duplicated_keys)}",
+                        errors,
+                    )
+
+    return {
+        "authored_vector": authored_vector,
+        "practical_vector": practical_vector,
+        "total_authored": total_authored,
+        "time_ranges": time_ranges,
+        "optional_overhead": optional_overhead,
+        "legal_plan_counts": legal_plan_counts,
+    }
 
 
 def validate_phone_contract(
@@ -2192,6 +2797,12 @@ def main() -> int:
     play_minutes = require_list(scope.get("target_play_minutes"), "target_play_minutes", errors)
     if play_minutes != [75, 95]:
         fail("target_play_minutes must remain [75, 95]", errors)
+    if scope.get("target_play_minutes_basis") != "pre_playtest_estimate":
+        fail(
+            "target_play_minutes_basis must remain pre_playtest_estimate "
+            "until a normal-speed playtest replaces it with measurements",
+            errors,
+        )
     development_cap_week = int(scope.get("development_cap_week", 0))
     weeks_per_month = int(scope.get("weeks_per_month", 0))
     if weeks_per_month <= 0 or development_cap_week % weeks_per_month != 0:
@@ -2365,6 +2976,23 @@ def main() -> int:
         fail("future route preview must stay hidden", errors)
 
     registered_events = load_registered_events(errors)
+    v2_direction_events, prologue_direction_events = (
+        validate_demo_direction_coverage(
+            contract,
+            bundles,
+            registered_events,
+            errors,
+        )
+    )
+    density_summary = validate_density_time_hybrid_contracts(
+        contract,
+        bundles,
+        months,
+        groups,
+        relationship,
+        registered_events,
+        errors,
+    )
     validate_korean_active_event_copy(registered_events, errors)
     validate_application_outcomes(bundles, registered_events, errors)
     validate_future_application_contracts(
@@ -2431,8 +3059,13 @@ def main() -> int:
         members = set(str(value) for value in require_list(group.get("members"), f"{group_id}.members", errors))
         if members != expected_members:
             fail(f"{group_id} members expected {sorted(expected_members)}, got {sorted(members)}", errors)
-        if int(group.get("maximum_selected", 0)) != 1:
-            fail(f"{group_id} must allow at most one selection per month", errors)
+        expected_maximum = 2 if group_id == "month_five_person_climax" else 1
+        if int(group.get("maximum_selected", 0)) != expected_maximum:
+            fail(
+                f"{group_id} must allow at most {expected_maximum} "
+                "selection(s) per month",
+                errors,
+            )
         for member in members:
             if member not in bundles:
                 fail(f"{group_id} references missing bundle {member}", errors)
@@ -4028,6 +4661,17 @@ def main() -> int:
         "registered event v2_demo_first_bill.choices",
         errors,
     )
+    first_bill_description = str(first_bill_event.get("description", ""))
+    if (
+        "{cash_position}" not in first_bill_description
+        or "{money}" in first_bill_description
+    ):
+        fail(
+            "First Bill must distinguish available balance from arrears via "
+            "{cash_position}, never describe raw negative money as a bank "
+            "balance",
+            errors,
+        )
     actual_obligation_ids = [
         str(
             require_dict(
@@ -4676,6 +5320,13 @@ def main() -> int:
         f"future_stories={len(EXPECTED_FUTURE_STORY_CONTRACTS)} "
         f"post_demo_applications={len(EXPECTED_POST_DEMO_APPLICATION_CONTRACTS)} "
         f"deferred_callbacks={len(EXPECTED_DEFERRED_CALLBACK_CONTRACTS)} "
+        f"authored_density={density_summary['authored_vector']} "
+        f"practical_density={density_summary['practical_vector']} "
+        f"authored_total={density_summary['total_authored']} "
+        f"legal_plan_time_ranges={density_summary['time_ranges']} "
+        f"optional_overhead={density_summary['optional_overhead']} "
+        f"v2_direction_events={v2_direction_events} "
+        f"prologue_direction_events={prologue_direction_events} "
         f"visible_ap={str(surface['visible_ap']).lower()}"
     )
     return 0

@@ -1,6 +1,7 @@
 [
   {
     "id": "arc_daeun_01_meet",
+    "direction": {"amb": "duck"},
     "title": "1+1",
     "background": "convenience_night",
     "portrait": "daeun_smile",

@@ -380,6 +380,14 @@
     {
       "kind": "background",
       "ids": [
+        "moving_truck_loading_dusk"
+      ],
+      "relative_path": "backgrounds/moving_truck_loading_dusk.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "namsan_cable_car"
       ],
       "relative_path": "backgrounds/namsan_cable_car_night.png",
@@ -620,6 +628,14 @@
         "trading_room"
       ],
       "relative_path": "backgrounds/trading_screen_night.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "warehouse_inventory_night"
+      ],
+      "relative_path": "backgrounds/warehouse_inventory_night.png",
       "resolution": "1280x800"
     },
     {

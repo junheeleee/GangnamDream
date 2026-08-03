@@ -33,6 +33,7 @@
   },
   {
     "id": "story_arrival",
+    "direction": {"pace": "beat"},
     "title": "2026년 1월, 서울",
     "background": "goshiwon_room",
     "portrait": "player_normal",
@@ -224,6 +225,7 @@
   },
   {
     "id": "story_prologue_dad",
+    "direction": {"amb": "duck"},
     "title": "전화",
     "background": "street_rainy_bus_stop_wallet",
     "portrait": "father_home",
@@ -274,6 +276,7 @@
   },
   {
     "id": "story_prologue_goal",
+    "direction": {"pace": "beat", "camera": "slow_zoom", "hold": 0.8},
     "title": "수첩",
     "background": "goshiwon_room",
     "portrait": "player_normal",
@@ -316,6 +319,7 @@
   },
   {
     "id": "story_prologue_meal",
+    "direction": {"pace": "beat"},
     "title": "첫 끼니",
     "background": "convenience_night",
     "portrait": "player_normal",

@@ -2292,8 +2292,8 @@ func _shot_core_loop_v2_surfaces(lang: String = "en") -> void:
 		"오늘 밤 급한 유급 일을 잡는다",
 		"Take urgent paid work tonight")
 	var body_rest := LocaleManager.ui(
-		"휴대폰을 끄고 몸부터 눕힌다",
-		"Turn off the phone and lie down first")
+		"알람만 맞추고 몸부터 눕힌다",
+		"Set one alarm and lie down first")
 	if LocaleManager.ui(
 			"이번 주에 끝낸 일",
 			"What I Finished This Week").to_upper() \
@@ -2486,9 +2486,17 @@ func _seed_core_loop_v2_action_completion(
 	if not GameState.finalize_weekly_commitment(action_id, "", details):
 		return false
 	var action_record := GameState.get_weekly_commitment_for_turn(GameState.turn)
-	return not action_record.is_empty() \
-		and core_loop.note_action_commitment(action_record) \
-		and core_loop.complete_active_bundle() == bundle_id
+	if action_record.is_empty() \
+			or not core_loop.note_action_commitment(action_record):
+		return false
+	if core_loop.action_story_stage(bundle_id) == "story":
+		var roots: Array = scene_bundle.get("existing_roots", [])
+		if roots.size() != 1 \
+				or not core_loop.acknowledge_action_story_result(bundle_id) \
+				or not _seed_core_loop_v2_story_choice(
+					core_loop, str(roots[0]), 0):
+			return false
+	return core_loop.complete_active_bundle() == bundle_id
 
 func _seed_core_loop_v2_month_four_density(core_loop: Variant) -> bool:
 	var state: Dictionary = GameState.core_loop_v2_state.duplicate(true)

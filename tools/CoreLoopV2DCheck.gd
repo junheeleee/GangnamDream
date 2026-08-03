@@ -56,24 +56,46 @@ const M5_STORY_ROOTS := {
 	"daeun_third_greeting": {
 		"root": "v2_daeun_third_greeting",
 		"phone_surface": "self_note",
-		"weeks": [20],
+		"weeks": [19, 20],
 	},
 	"jiyeon_second_crossing": {
 		"root": "v2_jiyeon_second_crossing",
 		"phone_surface": "self_note",
-		"weeks": [20],
+		"weeks": [19, 20],
 	},
 	"sangchul_second_coffee": {
 		"root": "v2_sangchul_demo_echo",
 		"phone_surface": "self_note",
-		"weeks": [20],
+		"weeks": [19, 20],
 	},
 	"jaehyuk_plain_reunion_echo": {
 		"root": "v2_jaehyuk_plain_reunion_echo",
 		"phone_surface": "inbound_message",
-		"weeks": [20],
+		"weeks": [19, 20],
 	},
 }
+
+const EXPECTED_AUTHORED_BY_MONTH := [3, 3, 4, 4, 4, 3]
+const EXPECTED_PRACTICAL_AUTHORED_BY_MONTH := [1, 2, 1, 2, 2, 1]
+const PERSON_KINDS := ["pursuit", "encounter", "care"]
+const ACTION_STORY_ROOTS := {
+	"m1_convenience_trial_shift": "v2_convenience_trial_shift",
+	"m3_inventory_shift": "v2_inventory_count_nights",
+	"m4_certificate_session": "v2_logistics_class_session",
+	"m5_weekend_move_shift": "v2_moving_crew_days",
+	"m5_last_empty_sunday": "v2_empty_sunday",
+}
+const STORY_GAMEPLAY_KEYS := [
+	"effects",
+	"flags",
+	"flag_updates",
+	"relationship_change",
+	"relationship_changes",
+	"application_transition",
+	"future_story_outcome",
+	"moral_tint",
+	"route",
+]
 
 const EXPECTED_RELATIONSHIP_OUTCOMES := [
 	{
@@ -217,6 +239,7 @@ func _ready() -> void:
 		GameState.game_over.connect(game_over_callback)
 
 	_check_contract()
+	_check_density_time_and_hybrid_contracts()
 	_check_month_five_offer_matrix()
 	_check_person_climax_exclusivity()
 	_check_m5_execution_surfaces()
@@ -236,7 +259,11 @@ func _ready() -> void:
 		print(
 			"CORE_LOOP_V2_D_CHECK_OK schema=3 cap=24 prototype=1_24 "
 			+ "offers=sparse5_rich7/c_path_exact "
-			+ "person_climax=maximum1 surfaces=actions5/roots5 "
+			+ "person_climax=maximum2/daeun20/others19_20 "
+			+ "density=3_3_4_4_4_3/practical1_2_1_2_2_1/total21 "
+			+ "minutes=all60/legal_plans_target_pm3/optional_overhead_separate "
+			+ "hybrid=action_first/story_no_gameplay_effects "
+			+ "surfaces=actions5/roots5 "
 			+ "hanbit=inbox/interviewed_to_resolved/prorated_hire_or_decline/save/ledger1300000 "
 			+ "relationship=all_choices/one_or_same_step/turn20/save "
 			+ "actions=apply_shift_study_rest_clinic/atomic/no_reapply "
@@ -293,6 +320,330 @@ func _check_contract() -> void:
 			and int(surface.get("maximum_offers_per_month", 0)) == 7,
 		"Month Five offer/slot surface is not 4 / 5–7")
 
+func _check_density_time_and_hybrid_contracts() -> void:
+	var contract := CORE_LOOP.contract()
+	var raw_bundles: Variant = contract.get("scene_bundles", {})
+	var bundles: Dictionary = (
+		(raw_bundles as Dictionary).duplicate(true)
+		if raw_bundles is Dictionary else {}
+	)
+	_expect(bundles.size() == 60,
+		"the 24-week contract no longer owns exactly 60 scene bundles: %d"
+			% bundles.size())
+	for raw_bundle_id in bundles:
+		var bundle_id := str(raw_bundle_id)
+		var scene_bundle: Dictionary = bundles[raw_bundle_id]
+		var raw_minutes: Variant = scene_bundle.get(
+			"estimated_minutes", null)
+		var minutes_type := typeof(raw_minutes)
+		var minutes := int(raw_minutes) \
+			if minutes_type in [TYPE_INT, TYPE_FLOAT] else 0
+		_expect(minutes_type in [TYPE_INT, TYPE_FLOAT] \
+				and minutes > 0 \
+				and is_equal_approx(float(raw_minutes), float(minutes)),
+			"%s estimated_minutes is not a positive integer: %s" % [
+				bundle_id, str(raw_minutes)])
+
+	var authored_totals: Array[int] = []
+	var practical_totals: Array[int] = []
+	var total_authored := 0
+	for month_index in range(1, 7):
+		var spec := CORE_LOOP.month_spec(month_index)
+		var offer_ids := _month_offer_ids(spec)
+		var schedules := _enumerate_month_schedules(spec, offer_ids)
+		_expect(not schedules.is_empty(),
+			"Month %d has no legal four-week assignment; offers=%s weeks=%s groups=%s"
+				% [
+					month_index,
+					str(offer_ids),
+					str(spec.get("weeks", [])),
+					str(contract.get("exclusive_groups", {})),
+				])
+		if schedules.is_empty():
+			authored_totals.append(0)
+			practical_totals.append(0)
+			continue
+
+		var authored_max := -1
+		var practical_max := -1
+		var authored_witness: Dictionary = {}
+		var practical_witness: Dictionary = {}
+		var base_minutes_min := 1_000_000
+		var base_minutes_max := -1
+		var bad_time_examples: Array[String] = []
+		var target_minutes := int(spec.get("target_minutes", 0))
+		for raw_schedule in schedules:
+			var schedule: Dictionary = raw_schedule
+			var selected_offer_ids: Array[String] = []
+			for raw_bundle_id in schedule.values():
+				var bundle_id := str(raw_bundle_id)
+				if offer_ids.has(bundle_id):
+					selected_offer_ids.append(bundle_id)
+			var authored_count := 0
+			var practical_count := 0
+			for bundle_id in selected_offer_ids:
+				if not _bundle_has_registered_authored_surface(bundle_id):
+					continue
+				authored_count += 1
+				if str(CORE_LOOP.bundle(bundle_id).get("kind", "")) \
+						not in PERSON_KINDS:
+					practical_count += 1
+			if authored_count > authored_max:
+				authored_max = authored_count
+				authored_witness = schedule.duplicate(true)
+			if practical_count > practical_max:
+				practical_max = practical_count
+				practical_witness = schedule.duplicate(true)
+
+			var base_minutes := _base_minutes_for_schedule(spec, schedule)
+			base_minutes_min = mini(base_minutes_min, base_minutes)
+			base_minutes_max = maxi(base_minutes_max, base_minutes)
+			if abs(base_minutes - target_minutes) > 3 \
+					and bad_time_examples.size() < 3:
+				bad_time_examples.append("%s => %d min" % [
+					str(schedule), base_minutes])
+
+		var expected_authored := int(
+			EXPECTED_AUTHORED_BY_MONTH[month_index - 1])
+		var expected_practical := int(
+			EXPECTED_PRACTICAL_AUTHORED_BY_MONTH[month_index - 1])
+		authored_totals.append(authored_max)
+		practical_totals.append(practical_max)
+		total_authored += authored_max
+		_expect(authored_max == expected_authored,
+			"Month %d authored maximum is %d, expected %d; best legal assignment=%s; offers=%s"
+				% [
+					month_index, authored_max, expected_authored,
+					str(authored_witness), str(offer_ids),
+				])
+		var authored_minimum := 3 if month_index >= 5 else 2
+		_expect(authored_max >= authored_minimum,
+			"Month %d authored maximum %d is below minimum %d; best=%s"
+				% [
+					month_index, authored_max, authored_minimum,
+					str(authored_witness),
+				])
+		_expect(practical_max == expected_practical \
+				and practical_max >= 1,
+			"Month %d practical/non-person authored maximum is %d, expected %d; best legal assignment=%s"
+				% [
+					month_index, practical_max, expected_practical,
+					str(practical_witness),
+				])
+		_expect(target_minutes > 0 and bad_time_examples.is_empty(),
+			"Month %d legal plan time range %d–%d misses target %d±3; examples=%s; prelude=%s locked=%s"
+				% [
+					month_index, base_minutes_min, base_minutes_max,
+					target_minutes, str(bad_time_examples),
+					str(spec.get("prelude", [])),
+					str(spec.get("locked", [])),
+				])
+
+		var optional_overhead := 0
+		for raw_bundle_id in spec.get("conditional_consequences", []):
+			optional_overhead += _bundle_estimated_minutes(
+				str(raw_bundle_id))
+		_expect(optional_overhead >= 0,
+			"Month %d optional consequence overhead is invalid" % month_index)
+
+	var target_major_scenes: Array = (
+		(contract.get("scope", {}) as Dictionary).get(
+			"target_major_scenes", []) as Array
+		if contract.get("scope", {}) is Dictionary else []
+	)
+	var target_major_min := int(target_major_scenes[0]) \
+		if target_major_scenes.size() == 2 else 0
+	var target_major_max := int(target_major_scenes[1]) \
+		if target_major_scenes.size() == 2 else 0
+	_expect(authored_totals == EXPECTED_AUTHORED_BY_MONTH \
+			and practical_totals \
+				== EXPECTED_PRACTICAL_AUTHORED_BY_MONTH,
+		"authored density vectors drifted: all=%s practical=%s" % [
+			str(authored_totals), str(practical_totals)])
+	_expect(total_authored == 21 \
+			and total_authored >= target_major_min \
+			and total_authored <= target_major_max,
+		"authored total is %d, expected 21 inside %d–%d" % [
+			total_authored, target_major_min, target_major_max])
+	_check_action_story_surface_contracts()
+
+func _month_offer_ids(spec: Dictionary) -> Array[String]:
+	var result: Array[String] = []
+	for field in ["offers", "fallback_offers"]:
+		var raw_ids: Variant = spec.get(field, [])
+		if not raw_ids is Array:
+			continue
+		for raw_bundle_id in raw_ids:
+			var bundle_id := str(raw_bundle_id).strip_edges()
+			if not bundle_id.is_empty() and not result.has(bundle_id):
+				result.append(bundle_id)
+	return result
+
+func _enumerate_month_schedules(
+		spec: Dictionary, offer_ids: Array[String]) -> Array[Dictionary]:
+	var results: Array[Dictionary] = []
+	var raw_weeks: Variant = spec.get("weeks", [])
+	if not raw_weeks is Array or (raw_weeks as Array).size() != 2:
+		return results
+	var first_week := int((raw_weeks as Array)[0])
+	var last_week := int((raw_weeks as Array)[1])
+	var weeks: Array[int] = []
+	for week in range(first_week, last_week + 1):
+		weeks.append(week)
+	var locked_by_week: Dictionary = {}
+	for raw_lock in spec.get("locked", []):
+		if raw_lock is Dictionary:
+			var lock: Dictionary = raw_lock
+			locked_by_week[str(int(lock.get("week", 0)))] = str(
+				lock.get("bundle", ""))
+	_enumerate_month_week(
+		spec, offer_ids, weeks, locked_by_week,
+		0, {}, [], results)
+	return results
+
+func _enumerate_month_week(
+		spec: Dictionary, offer_ids: Array[String], weeks: Array[int],
+		locked_by_week: Dictionary, week_index: int,
+		schedule: Dictionary, selected: Array[String],
+		results: Array[Dictionary]) -> void:
+	if week_index >= weeks.size():
+		if _selection_within_exclusive_groups(selected) \
+				and _selection_within_named_cap(spec, selected):
+			results.append(schedule.duplicate(true))
+		return
+	var week := weeks[week_index]
+	var week_key := str(week)
+	var candidates: Array[String] = []
+	var locked_bundle := str(locked_by_week.get(week_key, ""))
+	if not locked_bundle.is_empty():
+		candidates.append(locked_bundle)
+	else:
+		candidates = offer_ids.duplicate()
+	for bundle_id in candidates:
+		if selected.has(bundle_id) \
+				or not CORE_LOOP.bundle_allowed_in_week(bundle_id, week):
+			continue
+		schedule[week_key] = bundle_id
+		selected.append(bundle_id)
+		if _selection_within_exclusive_groups(selected) \
+				and _selection_within_named_cap(spec, selected):
+			_enumerate_month_week(
+				spec, offer_ids, weeks, locked_by_week,
+				week_index + 1, schedule, selected, results)
+		selected.pop_back()
+		schedule.erase(week_key)
+
+func _selection_within_exclusive_groups(selected: Array[String]) -> bool:
+	var groups: Variant = CORE_LOOP.contract().get("exclusive_groups", {})
+	if not groups is Dictionary:
+		return true
+	for raw_group_id in groups:
+		var raw_group: Variant = (groups as Dictionary).get(raw_group_id, {})
+		if not raw_group is Dictionary:
+			continue
+		var group: Dictionary = raw_group
+		var count := 0
+		for raw_member in group.get("members", []):
+			if selected.has(str(raw_member)):
+				count += 1
+		if count > int(group.get("maximum_selected", 1)):
+			return false
+	return true
+
+func _selection_within_named_cap(
+		spec: Dictionary, selected: Array[String]) -> bool:
+	var cap := maxi(0, int(spec.get("active_named_characters_max", 0)))
+	var relationship: Variant = CORE_LOOP.contract().get("relationship", {})
+	if relationship is Dictionary:
+		var global_cap := maxi(0, int(
+			(relationship as Dictionary).get(
+				"maximum_active_named_threads", 0)))
+		if cap <= 0:
+			cap = global_cap
+		elif global_cap > 0:
+			cap = mini(cap, global_cap)
+	if cap <= 0:
+		return true
+	var characters: Dictionary = {}
+	for bundle_id in selected:
+		for raw_character in CORE_LOOP.bundle(bundle_id).get("characters", []):
+			var character_id := str(raw_character).strip_edges()
+			if not character_id.is_empty():
+				characters[character_id] = true
+	return characters.size() <= cap
+
+func _bundle_has_registered_authored_surface(bundle_id: String) -> bool:
+	var scene_bundle := CORE_LOOP.bundle(bundle_id)
+	var raw_roots: Variant = scene_bundle.get("existing_roots", [])
+	if raw_roots is Array and not (raw_roots as Array).is_empty():
+		var roots_registered := true
+		for raw_root in raw_roots:
+			if DataRegistry.find_event(str(raw_root)).is_empty():
+				roots_registered = false
+				break
+		if roots_registered:
+			return true
+	var planned_scene_id := str(
+		scene_bundle.get("planned_scene_id", "")).strip_edges()
+	return not planned_scene_id.is_empty() \
+		and not DataRegistry.find_event(planned_scene_id).is_empty()
+
+func _bundle_estimated_minutes(bundle_id: String) -> int:
+	return int(CORE_LOOP.bundle(bundle_id).get("estimated_minutes", 0))
+
+func _base_minutes_for_schedule(
+		spec: Dictionary, schedule: Dictionary) -> int:
+	var total := 0
+	for raw_bundle_id in schedule.values():
+		total += _bundle_estimated_minutes(str(raw_bundle_id))
+	for raw_bundle_id in spec.get("prelude", []):
+		total += _bundle_estimated_minutes(str(raw_bundle_id))
+	return total
+
+func _check_action_story_surface_contracts() -> void:
+	for raw_bundle_id in ACTION_STORY_ROOTS:
+		var bundle_id := str(raw_bundle_id)
+		var root_id := str(ACTION_STORY_ROOTS[raw_bundle_id])
+		var scene_bundle := CORE_LOOP.bundle(bundle_id)
+		var roots: Variant = scene_bundle.get("existing_roots", [])
+		_expect(not str(scene_bundle.get("action_id", "")).is_empty() \
+				and roots is Array \
+				and (roots as Array) == [root_id] \
+				and _bundle_has_registered_authored_surface(bundle_id),
+			"%s is not one registered action+story hybrid rooted at %s" % [
+				bundle_id, root_id])
+		var pending: Array[String] = [root_id]
+		var visited: Array[String] = []
+		while not pending.is_empty():
+			var event_id: String = pending.pop_front()
+			if visited.has(event_id):
+				continue
+			visited.append(event_id)
+			var event: Dictionary = DataRegistry.find_event(event_id)
+			var raw_choices: Variant = event.get("choices", [])
+			_expect(not event.is_empty() \
+					and raw_choices is Array \
+					and not (raw_choices as Array).is_empty(),
+				"%s hybrid story event %s is missing or has no choices" % [
+					bundle_id, event_id])
+			if not raw_choices is Array:
+				continue
+			for raw_choice in raw_choices:
+				if not raw_choice is Dictionary:
+					_expect(false,
+						"%s hybrid story event %s has a non-dictionary choice"
+							% [bundle_id, event_id])
+					continue
+				var choice: Dictionary = raw_choice
+				for gameplay_key in STORY_GAMEPLAY_KEYS:
+					_expect(not choice.has(gameplay_key),
+						"%s hybrid story %s duplicates action gameplay key %s"
+							% [bundle_id, event_id, gameplay_key])
+				var follow_up := str(
+					choice.get("follow_up_event", "")).strip_edges()
+				if not follow_up.is_empty() and not visited.has(follow_up):
+					pending.append(follow_up)
+
 func _check_month_five_offer_matrix() -> void:
 	_fresh_at(17)
 	var sparse := CORE_LOOP.available_offer_ids(5)
@@ -347,9 +698,18 @@ func _check_person_climax_exclusivity() -> void:
 		if group.get("members", []) is Array else []
 	)
 	_expect(_same_string_set(members, PERSON_OFFERS) \
-			and int(group.get("maximum_selected", 0)) == 1 \
+			and int(group.get("maximum_selected", 0)) == 2 \
 			and str(group.get("scope", "")) == "month",
-		"month_five_person_climax does not own all five paths at maximum one")
+		"month_five_person_climax does not own all five paths at maximum two")
+	for raw_bundle_id in PERSON_OFFERS:
+		var bundle_id := str(raw_bundle_id)
+		var expected_weeks: Array = (
+			M5_STORY_ROOTS.get(bundle_id, {}) as Dictionary
+		).get("weeks", [])
+		_expect(_int_array(
+				CORE_LOOP.bundle(bundle_id).get("allowed_weeks", [])) \
+				== _int_array(expected_weeks),
+			"%s drifted from its Month-Five story-time window" % bundle_id)
 
 	_fresh_at(17)
 	_unlock_c_path_for("daeun_shared_dream")
@@ -357,31 +717,14 @@ func _check_person_climax_exclusivity() -> void:
 	var legal_schedule := _schedule_for_bundles([
 		"m5_city_service_application",
 		"m5_weekend_move_shift",
-		"m5_evening_spreadsheet_class",
 		"daeun_shared_dream",
+		"sangchul_second_coffee",
 	], [17, 18, 19, 20])
 	_expect(legal_schedule.size() == 4 \
 			and bool(CORE_LOOP.validate_plan(
 				5, legal_schedule, _growth_routines()).get("ok", false)),
-		"one Month Five person climax could not be scheduled legally")
-
-	var two_person_schedule := _schedule_for_bundles([
-		"m5_city_service_application",
-		"m5_weekend_move_shift",
-		"daeun_shared_dream",
-		"sangchul_second_coffee",
-	], [17, 18, 19, 20])
-	_expect(two_person_schedule.is_empty(),
-		"two week-20 person climaxes found distinct legal slots")
-	var forced_two_person := {
-		"17": "m5_city_service_application",
-		"18": "m5_weekend_move_shift",
-		"19": "daeun_shared_dream",
-		"20": "sangchul_second_coffee",
-	}
-	_expect(not bool(CORE_LOOP.validate_plan(
-			5, forced_two_person, _growth_routines()).get("ok", false)),
-		"Month Five accepted two person climaxes in one plan")
+		"two Month-Five person climaxes could not be assigned to Weeks 19/20: %s"
+			% str(legal_schedule))
 
 func _check_m5_execution_surfaces() -> void:
 	for raw_bundle_id in M5_ACTIONS:
@@ -960,6 +1303,25 @@ func _check_atomic_action_roundtrip(
 			and CORE_LOOP.action_receipt(bundle_id) == receipt \
 			and GameState.weekly_commitments.size() == 1,
 		"%s result recovery mutated or duplicated its receipt" % bundle_id)
+	if ACTION_STORY_ROOTS.has(bundle_id):
+		var root_id := str(ACTION_STORY_ROOTS[bundle_id])
+		var event: Dictionary = DataRegistry.find_event(root_id)
+		var choices: Array = (
+			(event.get("choices", []) as Array).duplicate(true)
+			if event.get("choices", []) is Array else []
+		)
+		_expect(CORE_LOOP.action_story_stage(bundle_id) == "story" \
+				and CORE_LOOP.complete_active_bundle().is_empty() \
+				and CORE_LOOP.acknowledge_action_story_result(bundle_id) \
+				and not choices.is_empty(),
+			"%s did not preserve its authored beat after the atomic action"
+				% bundle_id)
+		if not choices.is_empty() and choices[0] is Dictionary:
+			GameState.apply_choice(event, choices[0])
+			_expect(CORE_LOOP.note_story_choice(root_id, 0) \
+					and CORE_LOOP.action_story_stage(bundle_id) == "complete",
+				"%s story receipt did not close the action-story bridge"
+					% bundle_id)
 	_expect(CORE_LOOP.complete_active_bundle() == bundle_id \
 			and CORE_LOOP.complete_active_bundle().is_empty() \
 			and CORE_LOOP.turn_completed(action_turn) \

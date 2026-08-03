@@ -141,6 +141,7 @@ var _phone_focus_restore: Control = null
 var _title_collection_button: Button = null
 var _core_loop_v2_side_shift_job_id := ""
 var _core_loop_v2_completion_autosave_succeeded := false
+var _core_loop_v2_phone_state_dirty := false
 const ENDING_PAGE_COUNT := 6
 
 # ── MORAL MONOCHROME 팔레트 ─────────────────────────────────────
@@ -473,6 +474,12 @@ func _core_loop_v2_continue_after_story() -> void:
 				_refresh_all()
 				call_deferred("_core_loop_v2_route_week")
 				return
+		if DEMO_CORE_LOOP_V2.action_story_stage(owner_id) == "story":
+			# A scheduled consequence can return before this owner's action.
+			# Keep the same owner alive and route into that action exactly once.
+			_refresh_all()
+			call_deferred("_core_loop_v2_route_week")
+			return
 		if DEMO_CORE_LOOP_V2.complete_active_bundle().is_empty():
 			push_error("Core Loop V2 story bundle returned without its required choice receipt")
 			return
@@ -492,10 +499,22 @@ func _core_loop_v2_route_week() -> void:
 	if DEMO_CORE_LOOP_V2.turn_completed():
 		_core_loop_v2_advance_completed_week()
 		return
+	var action_story_stage := DEMO_CORE_LOOP_V2.action_story_stage()
+	if action_story_stage == "complete":
+		if DEMO_CORE_LOOP_V2.complete_active_bundle().is_empty():
+			push_error(
+				"Core Loop V2 action-story bundle lost its completion receipt")
+			return
+		_core_loop_v2_advance_completed_week()
+		return
 	if DEMO_CORE_LOOP_V2.action_result_ready():
 		if not _core_loop_v2_restore_action_result():
 			push_error(
 				"Core Loop V2 could not restore its finalized action result")
+		return
+	if action_story_stage == "story":
+		_core_loop_v2_begin_story_bundle(
+			DEMO_CORE_LOOP_V2.active_bundle_id(), "schedule")
 		return
 	var pending_summary := DEMO_CORE_LOOP_V2.pending_month_summary()
 	if not pending_summary.is_empty():
@@ -556,12 +575,12 @@ func _core_loop_v2_route_week() -> void:
 		push_warning(
 			"Core Loop V2 scheduled prelude is still active in StoryMode")
 		return
+	if not str(scene_bundle.get("action_id", "")).is_empty():
+		_core_loop_v2_begin_action_bundle(bundle_id, scene_bundle)
+		return
 	if scene_bundle.get("existing_roots", []) is Array \
 			and not (scene_bundle.get("existing_roots", []) as Array).is_empty():
 		_core_loop_v2_begin_story_bundle(bundle_id, "schedule")
-		return
-	if not str(scene_bundle.get("action_id", "")).is_empty():
-		_core_loop_v2_begin_action_bundle(bundle_id, scene_bundle)
 		return
 	push_error("Core Loop V2 bundle has no playable surface: %s" % bundle_id)
 	DEMO_CORE_LOOP_V2.disable_for_run()
@@ -585,6 +604,10 @@ func _core_loop_v2_ensure_phone_surface() -> void:
 		_core_loop_planner.plan_committed.connect(_on_core_loop_v2_plan_committed)
 		_core_loop_planner.phone_closed.connect(
 			_on_core_loop_v2_phone_closed)
+		_core_loop_planner.phone_state_changed.connect(
+			_on_core_loop_v2_phone_state_changed)
+		_core_loop_planner.phone_save_retry_requested.connect(
+			_on_core_loop_v2_phone_save_retry_requested)
 
 func _core_loop_v2_can_open_phone() -> bool:
 	if not DEMO_CORE_LOOP_V2.is_active() or _minigame_overlay_active:
@@ -627,7 +650,56 @@ func _core_loop_v2_open_phone() -> bool:
 	return opened
 
 func _on_core_loop_v2_phone_closed() -> void:
+	if _core_loop_v2_phone_state_dirty:
+		_core_loop_v2_try_phone_autosave("phone_close")
 	call_deferred("_core_loop_v2_restore_phone_focus")
+
+func _on_core_loop_v2_phone_state_changed(reason: String) -> void:
+	# Phone purchases change both ownership and live cash. Favorites change the
+	# launcher itself. Persist either at the owning screen boundary so closing
+	# the game immediately after the tap cannot roll the phone state back.
+	if bool(get_meta("_screenshot_qa_static_surface", false)) \
+			and not has_meta("_qa_core_loop_v2_phone_autosave_results"):
+		return
+	_core_loop_v2_phone_state_dirty = true
+	_core_loop_v2_try_phone_autosave(reason)
+
+func _on_core_loop_v2_phone_save_retry_requested() -> void:
+	if _core_loop_v2_phone_state_dirty:
+		_core_loop_v2_try_phone_autosave("manual_retry")
+
+func _core_loop_v2_try_phone_autosave(reason: String) -> bool:
+	var succeeded := _core_loop_v2_phone_autosave(reason)
+	_core_loop_v2_phone_state_dirty = not succeeded
+	if is_instance_valid(_core_loop_planner):
+		_core_loop_planner.report_phone_save_result(succeeded)
+	if not succeeded:
+		push_warning("Could not autosave the changed phone state")
+		_show_toast(_tr(
+			"자동 저장에 실패했습니다. 기기 앱에서 다시 시도해 주세요.",
+			"Autosave failed. Retry from the Device app."),
+			Color(UIStyle.C_ACCENT_RED))
+	return succeeded
+
+func _core_loop_v2_phone_autosave(reason: String) -> bool:
+	if has_meta("_qa_core_loop_v2_phone_autosave_results"):
+		var raw_results: Variant = get_meta(
+			"_qa_core_loop_v2_phone_autosave_results")
+		var results: Array = (raw_results as Array).duplicate() \
+			if raw_results is Array else []
+		var succeeded := bool(results.pop_front()) \
+			if not results.is_empty() else false
+		set_meta("_qa_core_loop_v2_phone_autosave_results", results)
+		set_meta(
+			"_qa_core_loop_v2_phone_autosave_calls",
+			int(get_meta("_qa_core_loop_v2_phone_autosave_calls", 0)) + 1)
+		if succeeded:
+			set_meta("_qa_core_loop_v2_phone_saved_snapshot", {
+				"reason": reason,
+				"state": GameState.serialize().duplicate(true),
+			})
+		return succeeded
+	return SaveManager.autosave()
 
 func _core_loop_v2_restore_phone_focus() -> void:
 	var target := _phone_focus_restore
@@ -1553,8 +1625,7 @@ func _core_loop_v2_show_completion(
 			var bill_grid := GridContainer.new()
 			bill_grid.columns = 2
 			bill_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			bill_grid.add_theme_constant_override("h_separation", 8)
-			bill_grid.add_theme_constant_override("v_separation", 8)
+			UIStyle.apply_grid_spacing(bill_grid)
 			bill_grid.set_meta(
 				"core_loop_v2_recap_first_bill", true)
 			var selected_card := _core_loop_v2_recap_list_card(
@@ -1672,7 +1743,7 @@ func _core_loop_v2_return_to_title() -> void:
 			_show_toast(_tr(
 				"자동 저장에 실패했습니다. 다시 시도해 주세요.",
 				"Autosave failed. Please try again."),
-				Color("#a98b88"))
+				Color(UIStyle.C_ACCENT_RED))
 			return
 		_core_loop_v2_completion_autosave_succeeded = true
 	if bool(get_meta("_screenshot_qa_static_surface", false)):
@@ -1681,6 +1752,15 @@ func _core_loop_v2_return_to_title() -> void:
 
 func _core_loop_v2_finish_action_week() -> void:
 	if not DEMO_CORE_LOOP_V2.action_result_ready():
+		return
+	var bundle_id := DEMO_CORE_LOOP_V2.active_bundle_id()
+	if DEMO_CORE_LOOP_V2.action_story_stage(bundle_id) == "story":
+		if not DEMO_CORE_LOOP_V2.acknowledge_action_story_result(
+				bundle_id):
+			push_error(
+				"Core Loop V2 action-story result could not be acknowledged")
+			return
+		_core_loop_v2_begin_story_bundle(bundle_id, "schedule")
 		return
 	if DEMO_CORE_LOOP_V2.complete_active_bundle().is_empty():
 		push_error("Core Loop V2 action bundle has no completion receipt")
@@ -6431,14 +6511,10 @@ func _refresh_all():
 	_refresh_goal_bar()
 	top_labels["date"].text = GameState.get_date_string()
 	var total_assets = GameState.get_total_asset_value()
-	var cash_str = GameState.format_money(GameState.money)
-	var asset_str = GameState.format_money(total_assets)
-	if LocaleManager.is_english() and abs(total_assets - GameState.money) > 10000:
-		top_labels["money"].text = "%s  |  %s" % [cash_str, asset_str]
-	elif abs(total_assets - GameState.money) > 10000:
-		top_labels["money"].text = _tr("현금 %s  |  자산 %s", "Cash %s  |  Assets %s") % [cash_str, asset_str]
+	if DEMO_CORE_LOOP_V2.is_active():
+		top_labels["money"].text = GameState.cash_position_label()
 	else:
-		top_labels["money"].text = cash_str if LocaleManager.is_english() else (_tr("현금 %s", "Cash %s") % cash_str)
+		_refresh_legacy_money_label(total_assets)
 	_apply_money_moral_glow()
 	_maybe_pulse_market_asset_label(total_assets)
 	# AP 도트 (이벤트 없을 때만 표시, _render_ap_actions에서도 갱신)
@@ -6486,6 +6562,19 @@ func _refresh_all():
 	_render_news()
 	_render_sidebars()
 	_render_log()
+
+func _refresh_legacy_money_label(total_assets: float) -> void:
+	var cash_str = GameState.format_money(GameState.money)
+	var asset_str = GameState.format_money(total_assets)
+	if LocaleManager.is_english() and abs(total_assets - GameState.money) > 10000:
+		top_labels["money"].text = "%s  |  %s" % [cash_str, asset_str]
+	elif abs(total_assets - GameState.money) > 10000:
+		top_labels["money"].text = _tr(
+			"현금 %s  |  자산 %s", "Cash %s  |  Assets %s") % [
+				cash_str, asset_str]
+	else:
+		top_labels["money"].text = cash_str if LocaleManager.is_english() \
+			else (_tr("현금 %s", "Cash %s") % cash_str)
 
 # ── 스탯 변화 플로팅 숫자 애니메이션 ──────────────────────────────
 const _STAT_KR = {

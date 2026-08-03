@@ -37,7 +37,7 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 243,
+  "inventory_count": 246,
   "counts": {
     "1080p": {
       "CG": {
@@ -56,7 +56,7 @@
       },
       "Background": {
         "native": 1,
-        "light": 78,
+        "light": 81,
         "medium": 0,
         "heavy": 0,
         "severe": 0
@@ -81,7 +81,7 @@
         "native": 1,
         "light": 0,
         "medium": 0,
-        "heavy": 78,
+        "heavy": 81,
         "severe": 0
       }
     }
@@ -479,10 +479,12 @@
         "4k": "native"
       }
     },
-    "assets/backgrounds/goshiwon_shared_kitchen.png": {
+    "assets/backgrounds/goshiwon_room.png": {
       "kind": "Background",
       "ids": [
-        "goshiwon_shared_kitchen"
+        "current_housing",
+        "goshiwon",
+        "goshiwon_room"
       ],
       "width": 1280,
       "height": 800,
@@ -496,12 +498,10 @@
         "4k": "heavy"
       }
     },
-    "assets/backgrounds/goshiwon_room.png": {
+    "assets/backgrounds/goshiwon_shared_kitchen.png": {
       "kind": "Background",
       "ids": [
-        "current_housing",
-        "goshiwon",
-        "goshiwon_room"
+        "goshiwon_shared_kitchen"
       ],
       "width": 1280,
       "height": 800,
@@ -862,6 +862,23 @@
       "kind": "Background",
       "ids": [
         "military"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/moving_truck_loading_dusk.png": {
+      "kind": "Background",
+      "ids": [
+        "moving_truck_loading_dusk"
       ],
       "width": 1280,
       "height": 800,
@@ -1377,6 +1394,23 @@
       "kind": "Background",
       "ids": [
         "trading_room"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/warehouse_inventory_night.png": {
+      "kind": "Background",
+      "ids": [
+        "warehouse_inventory_night"
       ],
       "width": 1280,
       "height": 800,

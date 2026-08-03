@@ -2438,6 +2438,7 @@ func format_event_text(text: String) -> String:
 		.replace("{year}", str(year)) \
 		.replace("{week}", str(week_of_month)) \
 		.replace("{turn}", str(turn)) \
+		.replace("{cash_position}", cash_position_sentence()) \
 		.replace("{money}", format_money(money)) \
 		.replace("{cash}", format_money(money)) \
 		.replace("{assets}", format_money(total_assets)) \
@@ -2449,6 +2450,34 @@ func format_event_text(text: String) -> String:
 		.replace("{loan}", format_money(loan_total)) \
 		.replace("{notebook_motive}", notebook_motive_sentence()) \
 		.replace("{keepsake}", get_pending_housing_keepsake_name())
+
+func get_available_cash() -> float:
+	# Negative `money` is the unpaid-cost ledger, not an overdraft facility.
+	# Player-facing bank surfaces therefore show zero spendable cash alongside
+	# the exact positive arrears amount.
+	return maxf(0.0, money)
+
+func get_arrears() -> float:
+	return maxf(0.0, -money)
+
+func cash_position_label() -> String:
+	var arrears := get_arrears()
+	if arrears > 0.0:
+		return LocaleManager.ui("체납 %s", "ARREARS %s") % format_money(arrears)
+	return LocaleManager.ui(
+		"계좌 잔액 %s", "BALANCE %s") % format_money(get_available_cash())
+
+func cash_position_sentence() -> String:
+	var arrears := get_arrears()
+	if arrears > 0.0:
+		return LocaleManager.ui(
+			"계좌 잔액은 %s이고, 밀린 비용은 %s이었다",
+			"The account balance was %s, with %s in arrears"
+		) % [format_money(get_available_cash()), format_money(arrears)]
+	return LocaleManager.ui(
+		"계좌 잔액은 %s이었다",
+		"The account balance was %s"
+	) % format_money(get_available_cash())
 
 func get_total_asset_value():
 	var total = money

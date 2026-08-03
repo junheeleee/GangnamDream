@@ -3,6 +3,8 @@ extends Control
 
 signal plan_committed(month_index: int, schedule: Dictionary, routines: Dictionary)
 signal phone_closed
+signal phone_state_changed(reason: String)
+signal phone_save_retry_requested
 
 const CORE_LOOP := preload("res://systems/DemoCoreLoopV2.gd")
 const PHONE_SYSTEM := preload("res://systems/PhoneSystem.gd")
@@ -41,6 +43,8 @@ var _screen_mode := "home"
 var _active_app_id := ""
 var _pending_device_id := ""
 var _device_feedback := ""
+var _phone_save_feedback := ""
+var _phone_save_pending := false
 var _opened_once := false
 var _last_opened_month := -1
 var _read_only_plan := false
@@ -220,6 +224,20 @@ func close() -> void:
 	if was_visible:
 		AudioManager.play_ui_close(-11.0)
 		phone_closed.emit()
+
+func report_phone_save_result(succeeded: bool) -> void:
+	var was_pending := _phone_save_pending
+	_phone_save_pending = not succeeded
+	if succeeded:
+		_phone_save_feedback = LocaleManager.ui(
+			"자동 저장을 마쳤다.",
+			"AUTOSAVE COMPLETE.") if was_pending else ""
+	else:
+		_phone_save_feedback = LocaleManager.ui(
+			"자동 저장에 실패했다. 지금 종료하면 기기·즐겨찾기·잔액 변경이 저장되지 않는다.",
+			"AUTOSAVE FAILED. Closing now may discard device, favorite, or balance changes.")
+	if visible and _screen_mode == "app" and _active_app_id == "device":
+		call_deferred("_rebuild")
 
 func schedule_snapshot() -> Dictionary:
 	return _schedule.duplicate(true)
@@ -639,7 +657,7 @@ func _rebuild() -> void:
 	_confirm_button.visible = false
 	if _screen_mode == "home":
 		_app_title_label.text = ""
-		_page_label.text = GameState.format_money(GameState.money)
+		_page_label.text = GameState.cash_position_label()
 		# Keep the public calendar dictionaries populated even while the
 		# phone home owns the visible surface.
 		_rebuild_calendar()
@@ -1377,6 +1395,19 @@ func _build_device_surface() -> void:
 		_read_only_surface.add_child(_favorite_cycle_button)
 	if not _device_feedback.is_empty():
 		_read_only_surface.add_child(_label(_device_feedback, 13, COLOR_SUCCESS, true))
+	if not _phone_save_feedback.is_empty():
+		_read_only_surface.add_child(_label(
+			_phone_save_feedback, 13,
+			COLOR_DANGER if _phone_save_pending else COLOR_SUCCESS, true))
+	if _phone_save_pending:
+		var retry_save := _button(LocaleManager.ui(
+			"자동 저장 다시 시도",
+			"RETRY AUTOSAVE"), true)
+		retry_save.set_meta("phone_save_retry", true)
+		retry_save.custom_minimum_size = Vector2(0, 44)
+		retry_save.pressed.connect(phone_save_retry_requested.emit)
+		retry_save.mouse_entered.connect(retry_save.grab_focus)
+		_read_only_surface.add_child(retry_save)
 
 func _device_store_card(
 		spec: Dictionary, check: Dictionary, is_current: bool) -> Button:
@@ -1587,6 +1618,7 @@ func _confirm_device_purchase() -> void:
 				_localized(device, "label"),
 				GameState.format_money(float(result.get("balance_after", GameState.money))),
 			]
+		phone_state_changed.emit("device_purchase")
 	else:
 		_device_feedback = _device_purchase_state_copy(result, false)
 	_pending_device_id = ""
@@ -1622,6 +1654,7 @@ func _cycle_home_favorite() -> void:
 		_device_feedback = LocaleManager.ui(
 			"%s 앱을 홈 첫 칸에 고정했다.",
 			"%s is pinned to the first home slot.") % _phone_app_label(next_id)
+		phone_state_changed.emit("home_favorite")
 	else:
 		_device_feedback = LocaleManager.ui(
 			"지금은 이 앱을 고정할 수 없다.",
@@ -1678,7 +1711,7 @@ func _build_investment_surface() -> void:
 	_read_only_surface.add_child(grid)
 	grid.add_child(_read_only_row(
 		LocaleManager.ui("투자 가능 현금", "AVAILABLE CASH"),
-		GameState.format_money(GameState.money), 94))
+		GameState.format_money(GameState.get_available_cash()), 94))
 	grid.add_child(_read_only_row(
 		LocaleManager.ui("보유 자산 현재가", "HOLDINGS VALUE"),
 		GameState.format_money(portfolio_value), 94))

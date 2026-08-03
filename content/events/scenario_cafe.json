@@ -1,6 +1,7 @@
 [
   {
     "id": "cafe_00",
+    "direction": {"pace": "beat"},
     "title": "강남 카페",
     "background": "cafe",
     "portrait": "cafe_investor",
@@ -58,6 +59,7 @@
   },
   {
     "id": "cafe_listen_01",
+    "direction": {"pace": "beat"},
     "title": "틈",
     "background": "cafe",
     "portrait": "player_determined",
@@ -106,6 +108,7 @@
   },
   {
     "id": "cafe_peek_01",
+    "direction": {"pace": "beat"},
     "title": "훔쳐본 것",
     "background": "cafe",
     "portrait": "cafe_investor",
@@ -144,6 +147,7 @@
   },
   {
     "id": "cafe_caught_honest",
+    "direction": {"pace": "beat"},
     "title": "들킨 솔직함",
     "background": "cafe",
     "portrait": "cafe_investor",
@@ -178,6 +182,7 @@
   },
   {
     "id": "cafe_talk_01",
+    "direction": {"pace": "beat"},
     "title": "말을 걸다",
     "background": "cafe",
     "portrait": "cafe_investor",
@@ -216,6 +221,7 @@
   },
   {
     "id": "cafe_humble",
+    "direction": {"pace": "beat"},
     "title": "낮은 자세",
     "background": "cafe",
     "portrait": "cafe_investor",
@@ -250,6 +256,7 @@
   },
   {
     "id": "cafe_bluff_01",
+    "direction": {"pace": "beat"},
     "title": "허세",
     "background": "cafe",
     "portrait": "cafe_investor",
@@ -288,6 +295,7 @@
   },
   {
     "id": "cafe_bluff_caught",
+    "direction": {"pace": "beat"},
     "title": "들통",
     "background": "cafe",
     "portrait": "cafe_investor",
@@ -321,6 +329,7 @@
   },
   {
     "id": "cafe_bluff_recover",
+    "direction": {"pace": "beat"},
     "title": "무너진 뒤",
     "background": "cafe",
     "portrait": "cafe_investor",
@@ -354,6 +363,7 @@
   },
   {
     "id": "cafe_mind_01",
+    "direction": {"pace": "beat"},
     "title": "아메리카노 한 잔의 시간",
     "background": "cafe",
     "portrait": "player_tired",

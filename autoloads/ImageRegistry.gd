@@ -239,6 +239,8 @@ const BACKGROUNDS = {
 	# 직장/사업
 	"office":            "res://assets/backgrounds/office_desk.png",
 	"office_interview_day": "res://assets/backgrounds/office_interview_day.png",
+	"warehouse_inventory_night": "res://assets/backgrounds/warehouse_inventory_night.png",
+	"moving_truck_loading_dusk": "res://assets/backgrounds/moving_truck_loading_dusk.png",
 	"realestate_office": "res://assets/backgrounds/realestate_office.png",
 	"meeting":           "res://assets/backgrounds/investment_meeting.png",
 	"sangchul_private_dining": "res://assets/backgrounds/sangchul_private_dining.png",

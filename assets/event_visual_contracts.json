@@ -1,5 +1,5 @@
 {
-  "version": 33,
+  "version": 34,
   "tag_coverage": [
     "climate",
     "season",
@@ -219,6 +219,11 @@
     {"id": "v2_dirty_trace_initial_call", "background": "current_housing", "portrait": null},
     {"id": "v2_dirty_recruiter_week24", "background": "current_housing", "portrait": null},
     {"id": "v2_gangnam_receipt_walk", "background": "gangnam_night", "portrait": "player_normal"},
+    {"id": "v2_convenience_trial_shift", "background": "convenience_night", "portrait": null},
+    {"id": "v2_inventory_count_nights", "background": "warehouse_inventory_night", "portrait": null},
+    {"id": "v2_logistics_class_session", "background": "community_center", "portrait": null},
+    {"id": "v2_moving_crew_days", "background": "moving_truck_loading_dusk", "portrait": null},
+    {"id": "v2_empty_sunday", "background": "goshiwon_room", "portrait": null},
     {"id": "v2_demo_first_bill", "background": "current_housing", "portrait": "player_offduty_neutral", "choice_result_backgrounds": {"3": "convenience_night"}},
     {"id": "arc_hyunsu_night_talk", "background": "goshiwon_hallway", "portrait": "hyunsu"},
     {"id": "hyunsu_exam_day", "background": "goshiwon_hallway", "portrait": "player_offduty_neutral"},

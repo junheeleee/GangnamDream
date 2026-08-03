@@ -301,6 +301,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `library` | `backgrounds/library.png` | 1280x800 |
 | background | `military_base_gate` | `backgrounds/military_base_gate.png` | 1672x941 |
 | background | `military` | `backgrounds/military_training_ground.png` | 1280x800 |
+| background | `moving_truck_loading_dusk` | `backgrounds/moving_truck_loading_dusk.png` | 1280x800 |
 | background | `namsan_cable_car` | `backgrounds/namsan_cable_car_night.png` | 1280x800 |
 | background | `namsan_observation_deck` | `backgrounds/namsan_observation_deck_night.png` | 1280x800 |
 | background | `namsan_tonkatsu_restaurant` | `backgrounds/namsan_tonkatsu_restaurant_night.png` | 1280x800 |
@@ -331,6 +332,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `street`, `street_day` | `backgrounds/street_seoul_day.png` | 1280x800 |
 | background | `suneung_test_hall` | `backgrounds/suneung_test_hall.png` | 1672x941 |
 | background | `trading_room` | `backgrounds/trading_screen_night.png` | 1280x800 |
+| background | `warehouse_inventory_night` | `backgrounds/warehouse_inventory_night.png` | 1280x800 |
 | background | `winter_street_bungeoppang` | `backgrounds/winter_bungeoppang_stall.png` | 1280x800 |
 | background | `year2_winter_street_night` | `backgrounds/year2_winter_last_night.png` | 1280x800 |
 | background | `year3_hangang_winter_night` | `backgrounds/year3_hangang_winter_night.png` | 1280x800 |

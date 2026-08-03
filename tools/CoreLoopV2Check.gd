@@ -3,6 +3,7 @@ extends Node
 
 const CORE_LOOP := preload("res://systems/DemoCoreLoopV2.gd")
 const PLANNER := preload("res://scenes/CoreLoopPlanner.gd")
+const PHONE_SYSTEM := preload("res://systems/PhoneSystem.gd")
 
 var _failures: Array[String] = []
 
@@ -23,6 +24,7 @@ func _ready() -> void:
 	_check_branch_resolution()
 	_check_prototype_completion_boundary()
 	await _check_planner_surface()
+	await _check_phone_save_owner_boundary()
 	await _stop_test_audio()
 	LocaleManager.language = original_language
 	AudioManager.sfx_enabled = original_sfx_enabled
@@ -35,7 +37,8 @@ func _ready() -> void:
 			+ "relationship=choice_only/monotonic summary=ack/save "
 			+ "followup=restored save=roundtrip "
 			+ "boundary=week12_continues/week24_cap "
-			+ "phone=home5/status/calendar_cancel+secondary/contacts/bank/device_preview/read_only_reopen "
+			+ "phone=home5/status/calendar_cancel+secondary/contacts/bank/device_preview+state_signal/read_only_reopen "
+			+ "phone_save=owner/fail_visible/retry/roundtrip/screenshot_zero "
 			+ "planner=1280x720_focus_scroll "
 			+ "en_hangul=0 hidden_scores=0")
 		get_tree().quit(0)
@@ -619,6 +622,9 @@ func _check_planner_surface() -> void:
 	LocaleManager.language = "en"
 	GameState.money = 432_100.0
 	var planner = PLANNER.new()
+	var phone_state_change_reasons: Array[String] = []
+	planner.phone_state_changed.connect(func(reason: String) -> void:
+		phone_state_change_reasons.append(reason))
 	add_child(planner)
 	planner.set_anchors_preset(Control.PRESET_TOP_LEFT)
 	planner.position = Vector2.ZERO
@@ -828,10 +834,11 @@ func _check_planner_surface() -> void:
 	planner._open_app("bank")
 	var bank_text := _collect_surface_text(planner)
 	surface_samples.append(bank_text)
-	_expect(bank_text.find(GameState.format_money(-310_000.0)) >= 0 \
+	_expect(bank_text.find(GameState.format_money(0.0)) >= 0 \
 			and bank_text.to_lower().find("arrears") >= 0 \
-			and bank_text.find(GameState.format_money(310_000.0)) >= 0,
-		"Bank app did not show the live negative balance and arrears")
+			and bank_text.find(GameState.format_money(310_000.0)) >= 0 \
+			and bank_text.find(GameState.format_money(-310_000.0)) < 0,
+		"Bank app did not separate zero available cash from live arrears")
 
 	GameState.money = 500_000.0
 	GameState.turn = 12
@@ -871,8 +878,26 @@ func _check_planner_surface() -> void:
 	_expect(planner._screen_mode == "app" \
 			and planner._active_app_id == "device" \
 			and is_equal_approx(float(GameState.money), money_before_preview) \
-			and GameState.phone_state == phone_before_preview,
+			and GameState.phone_state == phone_before_preview \
+			and phone_state_change_reasons.is_empty(),
 		"East/ui_cancel did not leave the unpurchased device preview unchanged")
+	var confirmed_refurbished: Button = planner._device_buttons.get(
+		"refurbished")
+	if is_instance_valid(confirmed_refurbished):
+		confirmed_refurbished.pressed.emit()
+	if is_instance_valid(planner._device_confirm_button):
+		planner._device_confirm_button.pressed.emit()
+	_expect(is_equal_approx(float(GameState.money), 320_000.0) \
+			and str(PHONE_SYSTEM.current_device().get("id", "")) \
+				== "refurbished" \
+			and phone_state_change_reasons == ["device_purchase"],
+		"confirmed device purchase did not emit one durable state-change signal")
+	if is_instance_valid(planner._favorite_cycle_button):
+		planner._favorite_cycle_button.pressed.emit()
+	_expect(PHONE_SYSTEM.favorite_app_id() == "messages" \
+			and phone_state_change_reasons \
+				== ["device_purchase", "home_favorite"],
+		"home favorite did not emit one durable state-change signal")
 
 	GameState.turn = 1
 	GameState.month = 1
@@ -932,6 +957,106 @@ func _check_planner_surface() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 
+func _check_phone_save_owner_boundary() -> void:
+	GameState.start_new_game()
+	CORE_LOOP.initialize_for_run(true)
+	var packed := load("res://scenes/MainGame.tscn") as PackedScene
+	_expect(packed != null, "phone save QA could not load MainGame")
+	if packed == null:
+		return
+	var main_game = packed.instantiate()
+	main_game.set_meta("_screenshot_qa_static_surface", true)
+	main_game.set_meta(
+		"_qa_core_loop_v2_phone_autosave_results", [false, true])
+	add_child(main_game)
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	GameState.start_new_game()
+	CORE_LOOP.initialize_for_run(true)
+	GameState.turn = 13
+	GameState.month = 4
+	GameState.week_of_month = 1
+	GameState.money = 500_000.0
+	main_game._core_loop_v2_ensure_phone_surface()
+	var planner = main_game._core_loop_planner
+	_expect(is_instance_valid(planner) and bool(planner.open(4)),
+		"MainGame did not create the phone save owner surface")
+	if not is_instance_valid(planner):
+		main_game.free()
+		return
+	planner._open_app("device")
+	var purchase := PHONE_SYSTEM.purchase_device("refurbished")
+	planner.phone_state_changed.emit("device_purchase")
+	await get_tree().process_frame
+	var retry_save := _find_meta_node(planner, "phone_save_retry")
+	_expect(bool(purchase.get("ok", false)) \
+			and is_equal_approx(float(GameState.money), 320_000.0) \
+			and bool(main_game._core_loop_v2_phone_state_dirty) \
+			and int(main_game.get_meta(
+				"_qa_core_loop_v2_phone_autosave_calls", 0)) == 1 \
+			and bool(planner._phone_save_pending) \
+			and is_instance_valid(retry_save),
+		"phone save failure was hidden or lost its retry ownership")
+	if is_instance_valid(retry_save):
+		(retry_save as Button).pressed.emit()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var saved_wrapper: Variant = main_game.get_meta(
+		"_qa_core_loop_v2_phone_saved_snapshot", {})
+	var saved_state: Dictionary = (
+		(saved_wrapper as Dictionary).get("state", {}) as Dictionary
+		if saved_wrapper is Dictionary else {}
+	)
+	_expect(not bool(main_game._core_loop_v2_phone_state_dirty) \
+			and int(main_game.get_meta(
+				"_qa_core_loop_v2_phone_autosave_calls", 0)) == 2 \
+			and not bool(planner._phone_save_pending) \
+			and not saved_state.is_empty() \
+			and is_equal_approx(float(saved_state.get("money", 0.0)), 320_000.0),
+		"phone save retry did not persist the exact post-purchase snapshot")
+	GameState.start_new_game()
+	GameState.load_from_dict(saved_state)
+	_expect(is_equal_approx(float(GameState.money), 320_000.0) \
+			and str(PHONE_SYSTEM.current_device().get("id", "")) \
+				== "refurbished",
+		"phone save retry snapshot did not survive a load roundtrip")
+	GameState.money = -310_000.0
+	main_game._refresh_all()
+	var expected_cash_position := GameState.cash_position_label()
+	_expect(str(main_game.top_labels["money"].text) \
+			== expected_cash_position \
+			and str(main_game.top_labels["money"].text).find(
+				GameState.format_money(-310_000.0)) < 0,
+		"MainGame V2 HUD contradicted the phone's arrears meaning")
+	var story_mode = load("res://scenes/StoryMode.gd").new()
+	story_mode._hud_label = Label.new()
+	# Keep the synthetic HUD owned by the synthetic StoryMode so its CanvasItem
+	# and font/texture RIDs are released with the fixture at shutdown.
+	story_mode.add_child(story_mode._hud_label)
+	story_mode._refresh_hud()
+	_expect(expected_cash_position in str(story_mode._hud_label.text) \
+			and str(story_mode._hud_label.text).find(
+				GameState.format_money(-310_000.0)) < 0,
+		"StoryMode V2 HUD contradicted the First Bill's arrears meaning")
+	story_mode.free()
+
+	main_game.remove_meta("_qa_core_loop_v2_phone_autosave_results")
+	var calls_before_screenshot := int(main_game.get_meta(
+		"_qa_core_loop_v2_phone_autosave_calls", 0))
+	var favorite := PHONE_SYSTEM.set_favorite_app("bank")
+	planner.phone_state_changed.emit("home_favorite")
+	_expect(bool(favorite.get("ok", false)) \
+			and int(main_game.get_meta(
+				"_qa_core_loop_v2_phone_autosave_calls", 0)) \
+				== calls_before_screenshot \
+			and not bool(main_game._core_loop_v2_phone_state_dirty),
+		"ScreenshotQA phone mutation attempted a save or dirtied the owner")
+	main_game.free()
+	packed = null
+	await get_tree().process_frame
+	await get_tree().process_frame
+
 func _month_one_schedule() -> Dictionary:
 	return {
 		"1": "m1_mirae_application",
@@ -970,8 +1095,24 @@ func _record_fixture_action(bundle_id: String) -> bool:
 		details["application_id"] = str(config.get(
 			"application_id", bundle_id.trim_suffix("_application")))
 		details["status"] = str(config.get("status", "submitted"))
-	return CORE_LOOP.note_action_commitment(
-		_finalized_action_record(action_id, details))
+	if not CORE_LOOP.note_action_commitment(
+			_finalized_action_record(action_id, details)):
+		return false
+	if CORE_LOOP.action_story_stage(bundle_id) != "story":
+		return true
+	if not CORE_LOOP.acknowledge_action_story_result(bundle_id):
+		return false
+	var roots := CORE_LOOP.resolved_event_roots(bundle_id)
+	if roots.is_empty():
+		return false
+	var root := str(roots[0])
+	var event: Dictionary = DataRegistry.find_event(root)
+	var choices: Array = event.get("choices", []) \
+		if event.get("choices", []) is Array else []
+	if choices.is_empty() or not choices[0] is Dictionary:
+		return false
+	GameState.apply_choice(event, choices[0])
+	return CORE_LOOP.note_story_choice(root, 0)
 
 func _finalized_action_record(
 		action_id: String, details: Dictionary = {}) -> Dictionary:

@@ -296,6 +296,16 @@ func make_separator(alpha: float = 0.25) -> HSeparator:
 	sep.add_theme_stylebox_override("separator", sep_style)
 	return sep
 
+## Keep repeated grid rhythm owned by the shared theme surface instead of
+## adding per-screen overrides that widen the surface-coherence ratchet.
+func apply_grid_spacing(
+		grid: GridContainer, horizontal: int = 8,
+		vertical: int = 8) -> void:
+	if not is_instance_valid(grid):
+		return
+	grid.add_theme_constant_override("h_separation", horizontal)
+	grid.add_theme_constant_override("v_separation", vertical)
+
 # ── 폰트 적용 유틸 ───────────────────────────────────────────────
 ## 범용 폰트 적용 — Label, Button, LineEdit, RichTextLabel 모두 지원
 func apply_font(node: Control, bold: bool = false):

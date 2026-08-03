@@ -7,7 +7,7 @@
 > 전 구간 선택 그래프를 대화형으로 보려면:
 > `python3 tools/project_dashboard.py` → `build/project_dashboard.html`
 >
-> 생성 시각 · 커밋: `2026-08-01 06:39 UTC · 026860be`
+> 생성 시각 · 커밋: `2026-08-03 02:56 UTC · 16ad3509`
 
 **개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.
 플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.
@@ -35,25 +35,31 @@
 
 ## 당신의 결정을 기다리는 것
 
-열린 제안이 없다. 에이전트가 작업 중 부딪힌 것을
-[`PROPOSALS.md`](PROPOSALS.md)에 올리면 여기 실린다.
+에이전트가 작업 중 부딪혀 올린 제안이다. 규칙·상한은
+[`PROPOSALS.md`](PROPOSALS.md)가 소유하며, 21일이 지나면 감사가 실패한다.
+
+| | 제안 | 안 하면 계속 내는 것 | 권고 | 열림 |
+|---|---|---|---|---|
+| `P-1` | V2 생계·성장 루틴을 생활 리듬 +1로 조정한다 | V2 루틴 세 값과 설명, 정적·런타임 원장을 함께 고쳐야 한다. 적용 | ****한다.** 세 조합을 보존하면서 V2의 이중 스트레스만 상쇄하고,** | 2026-08-03 |
+| `P-2` | 사람 테스트 전용 release flavor로 V2를 연다 | export preset·빌드 정체성·세이브 네임스페이스·진입 회귀 검사가 | ****한다.** 출시 기본값을 성급히 켜지 않으면서도 실제 배포물과 같은** | 2026-08-03 |
+| `P-3` | 24주 첫 청구서를 ‘데모 전용 T1 정점’으로 등록한다 | KO/EN 후속 2장면, 전용 시각 자산 2종, 연출·오디오 계약과 | ****한다.** 48주 챕터 결말의 위상을 침범하지 않으면서 데모 자체의** | 2026-08-03 |
 
 ## 한눈에
 
 | 지표 | 값 | 뜻 |
 |---|---:|---|
-| 사건 | 1,581 | KR 이벤트 전체 |
-| 선택 2+ 사건 | 1,484 | 판정 대상 |
+| 사건 | 1,597 | KR 이벤트 전체 |
+| 선택 2+ 사건 | 1,491 | 판정 대상 |
 | 체인(장면) | 65 | 2비트 이상 |
-| 연출 보유 사건 | 100 | 전체의 6% |
-| 정답 선택 | 414 | 선택 2+ 사건의 27% |
+| 연출 보유 사건 | 155 | 전체의 9% |
+| 정답 선택 | 415 | 선택 2+ 사건의 27% |
 | 테마 우회 | 2,116 | UIStyle 밖 override |
 | 수동 스타일 | 260 | StyleBoxFlat 직접 생성 |
 | 테마 리소스 | 0 | 늘어야 하는 지표 |
 | 팔레트 밖 색 | 678 | 정본 12색 대비 |
 | 진입점 없는 스크립트 | 2 | 래칫 |
 | 서명 알려진 결함 | 5 | 악화만 실패 |
-| 1비트·무연출 사건 | 53 | 밀도 하한 미달 |
+| 1비트·무연출 사건 | 45 | 밀도 하한 미달 |
 
 ## 오더
 
@@ -61,7 +67,7 @@
 
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
-| `ORDER-57` | Core Loop V2 데모 재구축 | 진행 | D 1~20주 AUTO PASS. E 밀도 REWORK·생계 백필을 month 6보다 먼저 확정(미확정 시 재작업). +direction 백필 43건(ORDER-60 판정). 이어서 21~24주 첫 청구서·6개월 회고·시작폰 세대감. 전환·사람 GO OPEN |
+| `ORDER-57` | Core Loop V2 데모 재구축 | 진행 | D 1~20주 AUTO PASS. E 21~24주 후보 재통합 중 — 밀도·생계 authored·direction 백필과 조기 mental_break P1을 닫기 전 E PASS 금지. 전환·사람 GO OPEN |
 | `ORDER-60` | 프롤로그부터 전면 재검토 | 진행 | 배치 1·2 완료(·), P0 0건. 3~7은 데모 출고 뒤 |
 | `ORDER-62` | 기능 생존·킬링포인트 감사 | 미착수 | 기계 축 완료(Claude) — 고아 스크립트 래칫(feature_liveness_audit). 남은 것은 네 판정·킬링포인트 전수 판정, 제거는 사용자 승인 뒤 |
 | `ORDER-61` | 정본 공백 (심의·접근성·저장·성능·오디오·리스크) | 미착수 | 미착수. 배치 1(등급·심의)이 P0 — 도박 4종 5,496줄에 GRAC·Steam 언급이 정본 0개. 등급은 사용자 결정. 나머지 다섯은 독립 |
@@ -145,7 +151,7 @@
 | **Kim Minjun**<br>`minjun` | Wants a different life without knowing what may remain of him | Folded account statement showing the starting balance, never a luxury prop at launch | Four-note theme that can clear, distort, or hollow out | 0 |
 | **Im Sangchul**<br>`sangchul` | The hand offering a ladder may be the hand that built the trap | Business card with handwritten number | Low brushed rhythm and one muted brass breath | 2 |
 
-## 데모 24주 — 번들 56개
+## 데모 24주 — 번들 60개
 
 `행동`은 결과 카드이고 `장면`만 집필된 체인을 갖는다. `미집필`은 아직 없다.
 
@@ -155,21 +161,21 @@
 | `daeun_player_return` | 장면 | pursuit | 15–16 | daeun |
 | `daeun_return_after_distance` | 장면 | pursuit | 15–16 | daeun |
 | `daeun_shared_dream` | 장면 | pursuit | 20–20 | daeun |
-| `daeun_third_greeting` | 장면 | pursuit | 20–20 | daeun |
+| `daeun_third_greeting` | 장면 | pursuit | 19–20 | daeun |
 | `daeun_world_meet` | 장면 | encounter | 10–12 | daeun |
-| `demo_collision` | 미집필 | boss |  | father |
+| `demo_collision` | 장면 | boss | 24–24 | father |
 | `father_first_call` | 장면 | care | 1–3 | father |
 | `father_health_signal` | 장면 | care | 21–21 | father |
 | `father_quiet_call` | 장면 | care | 9–12 | father |
 | `first_temptation_boss` | 장면 | boss | 4–4 |  |
-| `hyunsu_exam_eve` | 미집필 | care | 23–23 | hyunsu |
+| `hyunsu_exam_eve` | 장면 | care | 23–23 | hyunsu |
 | `hyunsu_first_meet` | 장면 | encounter | 1–3 | hyunsu |
 | `hyunsu_player_reachout` | 장면 | pursuit | 5–6 | hyunsu |
 | `hyunsu_study_followup` | 장면 | pursuit | 9–12 | hyunsu |
-| `jaehyuk_plain_reunion_echo` | 장면 | pursuit | 20–20 | jaehyuk |
+| `jaehyuk_plain_reunion_echo` | 장면 | pursuit | 19–20 | jaehyuk |
 | `jaehyuk_world_meet` | 장면 | encounter | 13–16 | jaehyuk |
 | `jiyeon_bus_stop_reunion` | 장면 | encounter | 15–16 | jiyeon |
-| `jiyeon_second_crossing` | 장면 | pursuit | 20–20 | jiyeon |
+| `jiyeon_second_crossing` | 장면 | pursuit | 19–20 | jiyeon |
 | `jiyeon_world_meet` | 장면 | encounter | 10–12 | jiyeon |
 | `m1_convenience_trial_shift` | 행동 | livelihood | 1–3 |  |
 | `m1_mirae_application` | 행동 | career | 1–1 |  |
@@ -198,17 +204,21 @@
 | `m5_hanbit_offer_message` | 장면 | consequence | 17–17 |  |
 | `m5_last_empty_sunday` | 행동 | recovery | 17–20 |  |
 | `m5_weekend_move_shift` | 행동 | livelihood | 17–20 |  |
-| `m6_holiday_night_shift` | 행동 | livelihood |  |  |
-| `m6_last_study_group` | 행동 | growth |  |  |
-| `m6_no_plans_day` | 행동 | recovery |  |  |
-| `m6_public_recruitment` | 행동 | career |  |  |
+| `m6_city_service_response` | 장면 | consequence | 23–23 |  |
+| `m6_daeun_tuesday_followthrough` | 장면 | pursuit | 21–21 | daeun |
+| `m6_dodam_response` | 장면 | consequence | 22–22 |  |
+| `m6_gangnam_receipt_walk` | 장면 | reflection | 21–23 |  |
+| `m6_holiday_night_shift` | 행동 | livelihood | 21–23 |  |
+| `m6_last_study_group` | 행동 | growth | 21–23 |  |
+| `m6_no_plans_day` | 행동 | recovery | 21–23 |  |
+| `m6_public_recruitment` | 행동 | growth | 21–23 |  |
 | `opening_interview_math` | 장면 | consequence | 2–4 |  |
-| `sangchul_second_coffee` | 장면 | pursuit | 20–20 | sangchul |
+| `sangchul_second_coffee` | 장면 | pursuit | 19–20 | sangchul |
 | `sangchul_world_meet` | 장면 | encounter | 13–14 | sangchul |
 | `sns_pressure_night` | 장면 | reflection | 5–8 |  |
 | `temptation_consequence` | 장면 | consequence | 8–8 |  |
 
-## 정답 선택 414건
+## 정답 선택 415건
 
 한 선택이 [`DEMO_TIER_AUDIT.md`](DEMO_TIER_AUDIT.md)가 고정한 축 아홉에서
 모두 우월하고, 최소 한 축에서 낫고, 후속도 플래그도 갈리지 않는 자리다.
@@ -235,7 +245,7 @@
 
 상위 15개 파일만 적는다(전체 82개 파일).
 
-## 선택 마인드맵 — 데모 체인 28개
+## 선택 마인드맵 — 데모 체인 39개
 
 체인 하나가 장면 하나다([`SCENE_TIER.md`](SCENE_TIER.md) §0).
 지금 짓고 있는 데모 구간만 그린다 — 전 구간 65체인은 HTML 쪽에서 본다.
@@ -245,7 +255,7 @@
 
 ```mermaid
 flowchart TD
-  arc_daeun_01_meet["1+1 ⚠︎연출없음"]
+  arc_daeun_01_meet["1+1"]
 ```
 
 </details>
@@ -254,16 +264,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  arc_father_01_call["전화 ⚠︎연출없음"]
-```
-
-</details>
-
-<details><summary><b>카톡 하나</b> — 1비트 · 선택점 1 (<code>arc_father_02_signal</code>)</summary>
-
-```mermaid
-flowchart TD
-  arc_father_02_signal["카톡 하나 ⚠︎연출없음"]
+  arc_father_01_call["전화"]
 ```
 
 </details>
@@ -272,7 +273,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  arc_father_quiet_call["일요일 저녁 ⚠︎연출없음"]
+  arc_father_quiet_call["일요일 저녁"]
 ```
 
 </details>
@@ -281,7 +282,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  arc_intro_01_meal["첫 면접 ⚠︎연출없음"]
+  arc_intro_01_meal["첫 면접"]
   arc_intro_02_dad_call["통장에 찍힌 숫자 ⚠︎연출없음"]
   arc_intro_01_meal -->|"'가족 빚을 갚고 있었습니다' — 담담하게 말했"| arc_intro_02_dad_call
   arc_intro_01_meal -->|"'개인 사업을 준비했습니다' — 그럴듯하게 포장"| arc_intro_02_dad_call
@@ -293,7 +294,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  arc_intro_03_sns["새벽 두 시 ⚠︎연출없음"]
+  arc_intro_03_sns["새벽 두 시"]
 ```
 
 </details>
@@ -302,7 +303,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  arc_intro_04_hyunsu["옆방 ⚠︎연출없음"]
+  arc_intro_04_hyunsu["옆방"]
   arc_chapter1_close["서울에서의 첫 두 달 ⚠︎연출없음"]
   arc_intro_04_hyunsu -->|"'저도 아직 모르겠어요. 찾는 중이에요.'"| arc_chapter1_close
   arc_intro_04_hyunsu -->|"'강남 갈 거예요. 5년 안에.'"| arc_chapter1_close
@@ -314,7 +315,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  arc_jiyeon_01_crash["접촉 ⚠︎연출없음"]
+  arc_jiyeon_01_crash["접촉"]
 ```
 
 </details>
@@ -323,7 +324,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  arc_jiyeon_02_store["또, 너 ⚠︎연출없음"]
+  arc_jiyeon_02_store["또, 너"]
 ```
 
 </details>
@@ -341,7 +342,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  arc_temptation_clean["지나간 자리 ⚠︎연출없음"]
+  arc_temptation_clean["지나간 자리"]
 ```
 
 </details>
@@ -350,7 +351,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  arc_temptation_fallout["빌려준 계좌의 반환 요청 ⚠︎연출없음"]
+  arc_temptation_fallout["빌려준 계좌의 반환 요청"]
 ```
 
 </details>
@@ -359,16 +360,16 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  cafe_00["강남 카페 ⚠︎연출없음"]
-  cafe_listen_01["틈 ⚠︎연출없음"]
-  cafe_mind_01["아메리카노 한 잔의 시간 ⚠︎연출없음"]
-  cafe_peek_01["훔쳐본 것 ⚠︎연출없음"]
-  cafe_talk_01["말을 걸다 ⚠︎연출없음"]
-  cafe_caught_honest["들킨 솔직함 ⚠︎연출없음"]
-  cafe_humble["낮은 자세 ⚠︎연출없음"]
-  cafe_bluff_01["허세 ⚠︎연출없음"]
-  cafe_bluff_caught["들통 ⚠︎연출없음"]
-  cafe_bluff_recover["무너진 뒤 ⚠︎연출없음"]
+  cafe_00["강남 카페"]
+  cafe_listen_01["틈"]
+  cafe_mind_01["아메리카노 한 잔의 시간"]
+  cafe_peek_01["훔쳐본 것"]
+  cafe_talk_01["말을 걸다"]
+  cafe_caught_honest["들킨 솔직함"]
+  cafe_humble["낮은 자세"]
+  cafe_bluff_01["허세"]
+  cafe_bluff_caught["들통"]
+  cafe_bluff_recover["무너진 뒤"]
   cafe_00 -->|"조용히, 계속 엿듣는다"| cafe_listen_01
   cafe_00 -->|"신경 끄고 이력서나 본다"| cafe_mind_01
   cafe_listen_01 -->|"폴더를 슬쩍 펼쳐본다"| cafe_peek_01
@@ -382,11 +383,29 @@ flowchart TD
 
 </details>
 
+<details><summary><b>도시시설운영단 작업표 요청</b> — 1비트 · 선택점 0 (<code>v2_city_service_work_sample_message</code>)</summary>
+
+```mermaid
+flowchart TD
+  v2_city_service_work_sample_message["도시시설운영단 작업표 요청"]
+```
+
+</details>
+
+<details><summary><b>카운터의 첫 새벽</b> — 1비트 · 선택점 0 (<code>v2_convenience_trial_shift</code>)</summary>
+
+```mermaid
+flowchart TD
+  v2_convenience_trial_shift["카운터의 첫 새벽"]
+```
+
+</details>
+
 <details><summary><b>못 한 인사</b> — 1비트 · 선택점 1 (<code>v2_daeun_return_after_distance</code>)</summary>
 
 ```mermaid
 flowchart TD
-  v2_daeun_return_after_distance["못 한 인사 ⚠︎연출없음"]
+  v2_daeun_return_after_distance["못 한 인사"]
 ```
 
 </details>
@@ -395,7 +414,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  v2_daeun_return_named["이번에는 먼저 ⚠︎연출없음"]
+  v2_daeun_return_named["이번에는 먼저"]
 ```
 
 </details>
@@ -404,7 +423,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  v2_daeun_small_commitment["다음 화요일 ⚠︎연출없음"]
+  v2_daeun_small_commitment["다음 화요일"]
 ```
 
 </details>
@@ -413,7 +432,61 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  v2_daeun_third_greeting["한마디 더 ⚠︎연출없음"]
+  v2_daeun_third_greeting["한마디 더"]
+```
+
+</details>
+
+<details><summary><b>약속한 화요일</b> — 1비트 · 선택점 1 (<code>v2_daeun_tuesday_followthrough</code>)</summary>
+
+```mermaid
+flowchart TD
+  v2_daeun_tuesday_followthrough["약속한 화요일"]
+```
+
+</details>
+
+<details><summary><b>이번 주에 끝낼 한 가지</b> — 1비트 · 선택점 1 (<code>v2_demo_first_bill</code>)</summary>
+
+```mermaid
+flowchart TD
+  v2_demo_first_bill["이번 주에 끝낼 한 가지"]
+```
+
+</details>
+
+<details><summary><b>도담고객센터 채용 결과</b> — 1비트 · 선택점 0 (<code>v2_dodam_result_message</code>)</summary>
+
+```mermaid
+flowchart TD
+  v2_dodam_result_message["도담고객센터 채용 결과"]
+```
+
+</details>
+
+<details><summary><b>비워 둔 일요일</b> — 1비트 · 선택점 0 (<code>v2_empty_sunday</code>)</summary>
+
+```mermaid
+flowchart TD
+  v2_empty_sunday["비워 둔 일요일"]
+```
+
+</details>
+
+<details><summary><b>최씨 아저씨의 메시지</b> — 1비트 · 선택점 1 (<code>v2_father_health_signal</code>)</summary>
+
+```mermaid
+flowchart TD
+  v2_father_health_signal["최씨 아저씨의 메시지"]
+```
+
+</details>
+
+<details><summary><b>강남역 저녁 산책</b> — 1비트 · 선택점 1 (<code>v2_gangnam_receipt_walk</code>)</summary>
+
+```mermaid
+flowchart TD
+  v2_gangnam_receipt_walk["강남역 저녁 산책"]
 ```
 
 </details>
@@ -422,7 +495,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  v2_hanbit_interview["한빛유통 1차 면접 ⚠︎연출없음"]
+  v2_hanbit_interview["한빛유통 1차 면접"]
 ```
 
 </details>
@@ -431,7 +504,16 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  v2_hanbit_offer_message["한빛유통 채용 연락 ⚠︎연출없음"]
+  v2_hanbit_offer_message["한빛유통 채용 연락"]
+```
+
+</details>
+
+<details><summary><b>시험 전 마지막 문제</b> — 1비트 · 선택점 1 (<code>v2_hyunsu_exam_eve</code>)</summary>
+
+```mermaid
+flowchart TD
+  v2_hyunsu_exam_eve["시험 전 마지막 문제"]
 ```
 
 </details>
@@ -440,8 +522,8 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  v2_hyunsu_player_reachout["먼저 보낸 메시지 ⚠︎연출없음"]
-  v2_hyunsu_first_study["처음 함께한 한 시간 ⚠︎연출없음"]
+  v2_hyunsu_player_reachout["먼저 보낸 메시지"]
+  v2_hyunsu_first_study["처음 함께한 한 시간"]
   v2_hyunsu_player_reachout -->|"내일 저녁으로 시간을 정한다"| v2_hyunsu_first_study
 ```
 
@@ -451,7 +533,16 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  v2_hyunsu_study_followup["같은 시간 ⚠︎연출없음"]
+  v2_hyunsu_study_followup["같은 시간"]
+```
+
+</details>
+
+<details><summary><b>나흘째 바코드</b> — 1비트 · 선택점 0 (<code>v2_inventory_count_nights</code>)</summary>
+
+```mermaid
+flowchart TD
+  v2_inventory_count_nights["나흘째 바코드"]
 ```
 
 </details>
@@ -460,7 +551,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  v2_jaehyuk_message["10년 만의 메시지 ⚠︎연출없음"]
+  v2_jaehyuk_message["10년 만의 메시지"]
 ```
 
 </details>
@@ -469,7 +560,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  v2_jaehyuk_plain_reunion_echo["포장마차에서 다시 ⚠︎연출없음"]
+  v2_jaehyuk_plain_reunion_echo["포장마차에서 다시"]
 ```
 
 </details>
@@ -478,7 +569,16 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  v2_jiyeon_second_crossing["같은 동네 큰길 ⚠︎연출없음"]
+  v2_jiyeon_second_crossing["같은 동네 큰길"]
+```
+
+</details>
+
+<details><summary><b>입출고표의 빈칸</b> — 1비트 · 선택점 0 (<code>v2_logistics_class_session</code>)</summary>
+
+```mermaid
+flowchart TD
+  v2_logistics_class_session["입출고표의 빈칸"]
 ```
 
 </details>
@@ -487,7 +587,16 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  v2_mirae_result_message["미래산업기술 채용 결과 ⚠︎연출없음"]
+  v2_mirae_result_message["미래산업기술 채용 결과"]
+```
+
+</details>
+
+<details><summary><b>네 번째 집 앞</b> — 1비트 · 선택점 0 (<code>v2_moving_crew_days</code>)</summary>
+
+```mermaid
+flowchart TD
+  v2_moving_crew_days["네 번째 집 앞"]
 ```
 
 </details>
@@ -496,7 +605,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  v2_sangchul_demo_echo["두 번째 믹스커피 ⚠︎연출없음"]
+  v2_sangchul_demo_echo["두 번째 믹스커피"]
 ```
 
 </details>
@@ -505,7 +614,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  v2_sangchul_housing_lead["방 보러 간 날 ⚠︎연출없음"]
+  v2_sangchul_housing_lead["방 보러 간 날"]
   arc_sangchul_01_measure["사람을 읽는 법"]
   arc_sangchul_01_coffee["종이컵 하나"]
   arc_sangchul_01_answer["그 질문"]
@@ -521,7 +630,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  v2_seorin_result_message["서린물산 채용 결과 ⚠︎연출없음"]
+  v2_seorin_result_message["서린물산 채용 결과"]
 ```
 
 </details>

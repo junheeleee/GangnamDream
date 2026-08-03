@@ -68,7 +68,7 @@ func _ready() -> void:
 			+ "relationship=one_stage_per_month/exact_stage "
 			+ "money_entries=distinct_prerequisites/mutual_exclusion "
 			+ "events=entry_roots/terminal_outcomes "
-			+ "actions=apply_study_shift_recovery/atomic/save_once "
+			+ "actions=apply_study_shift_recovery/atomic/save_once/story_bridge "
 			+ "continuation=week16_to_17/month5_planner/no_legacy_fallback")
 		get_tree().quit(0)
 		return
@@ -938,11 +938,32 @@ func _check_atomic_action_roundtrip(
 					"action_receipts", {}) as Dictionary
 			).size() == receipt_count,
 		"%s result recovery mutated state or lost its receipt" % bundle_id)
-	_expect(CORE_LOOP.complete_active_bundle() == bundle_id \
-			and CORE_LOOP.complete_active_bundle().is_empty() \
+	_expect(_complete_action_or_story_bundle(bundle_id) \
 			and CORE_LOOP.turn_completed(action_turn) \
 			and not CORE_LOOP.action_result_ready(),
-		"%s result Continue did not complete exactly once" % bundle_id)
+		"%s result/story bridge did not complete exactly once" % bundle_id)
+
+func _complete_action_or_story_bundle(bundle_id: String) -> bool:
+	if CORE_LOOP.action_story_stage(bundle_id) == "story":
+		if not CORE_LOOP.complete_active_bundle().is_empty():
+			return false
+		if CORE_LOOP.action_result_ready() \
+				and not CORE_LOOP.acknowledge_action_story_result(bundle_id):
+			return false
+		var roots := CORE_LOOP.resolved_event_roots(bundle_id)
+		if roots.is_empty():
+			return false
+		var root := str(roots[0])
+		var event: Dictionary = DataRegistry.find_event(root)
+		var choices: Array = event.get("choices", []) \
+			if event.get("choices", []) is Array else []
+		if choices.is_empty() or not choices[0] is Dictionary:
+			return false
+		GameState.apply_choice(event, choices[0])
+		if not CORE_LOOP.note_story_choice(root, 0):
+			return false
+	return CORE_LOOP.complete_active_bundle() == bundle_id \
+		and CORE_LOOP.complete_active_bundle().is_empty()
 
 func _check_sixteen_week_continuation_boundary() -> void:
 	_fresh_at(16)

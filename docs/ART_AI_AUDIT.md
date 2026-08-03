@@ -13,7 +13,7 @@
 
 ## 감사 결과
 
-- 활성 인벤토리: **243장** (`CG 74 / Portrait 90 / Background 79`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
+- 활성 인벤토리: **246장** (`CG 74 / Portrait 90 / Background 82`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
 - 전수 방법: 종류별 콘택트시트 24장으로 얼굴·실루엣·그레이딩·공간을 1차 비교하고, 손·반사·차량·카운터·정류장처럼 오독 위험이 있는 컷과 키 비주얼 10장은 원본 해상도로 다시 열었다.
 - 런타임 수리: 배경이 구워진 `main_character_50s.png`를 본편의 `player_hollow` 슬롯에서 제외하고 같은 민준의 투명 피로 초상으로 통합했다. 현재 이벤트가 없는 박재원의 죽은 초상 등록도 제거했다.
 - 이미지 수리: `ending_crypto_ghost.png`의 비현실적인 6면 모니터 벽을 정본 고시원 안의 휴대폰 1대·낡은 노트북 1대로 교체했다. 방 크기, 작은 불투명창, 침대/책상 방향, 민준 신원, 다섯 손가락, 무문자 차트를 원본에서 재검수했다.
@@ -51,6 +51,16 @@
 - 생성 원본: `$HOME/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-d9718f8d-5cc7-4b24-b31d-8da461d7cb04.png`.
 - 출시 경로: `assets/backgrounds/gukbap_restaurant_night.png` (1280x800).
 - 검수: 전경 빈 두 사람 식탁·금속 물컵 2개·수저통, 열린 탕 주방, 젖은 옛 고시원 골목, 무그릴·무고기·무음식·무상표·무문자·무주연 대역을 원본 해상도에서 확인했다. 배경 손님은 저대비 익명 인물로만 남는다.
+
+### 데모 생계 authored 백필 배경
+
+- 모드: OpenAI 내장 ImageGen 신규 생성 2건과 이삿짐 배경 계절·수량 정합 편집.
+- 신규 생성 프롬프트 축: Gangnam Ink 저채도 한국 VN/만화 현실감, 무인 재사용 장소, 무상표·무문자, 1280x800 하단 대화 안전영역. 야간 재고조사는 선반·상자·핸드카트·바코드 스캐너가 실제 동선으로 이어지는 형광등 창고, 이삿짐 대타는 소형 트럭·적재함·램프·현관·손수레가 작동하는 서울 주거 골목을 요구했다.
+- 생성 원본: `$HOME/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-20e914c5-f9f1-40f0-9858-4d3323ea8c0b.png`, `$HOME/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-26ea5f3b-4a79-4b1d-91d2-8671d6ef3e58.png`.
+- 계절 수리 프롬프트: “트럭·램프·현관·상자·담요·손수레·카메라와 하단 여백은 유지하고, 잎 없는 식생만 서울 5월의 절제된 회녹색 잎과 늦봄 해질녘으로 바꾼다. 인물·문자·상표·새 물체는 추가하지 않는다.” 이후 외부 대기 상자가 산문의 여섯 개와 정확히 맞도록 한 개 추가와 한 개 제거를 각각 단일 변경으로 수행했다.
+- 편집 원본: `$HOME/.codex/generated_images/019fc52b-842a-7ab0-b34d-eef40762a296/exec-0d2b3a58-2abf-47c7-be24-018134c5c34e.png`, `$HOME/.codex/generated_images/019fc52b-842a-7ab0-b34d-eef40762a296/exec-db098ba6-5e76-483e-87f7-cb2b15bdd656.png`, 최종 `$HOME/.codex/generated_images/019fc52b-842a-7ab0-b34d-eef40762a296/exec-21e91576-9470-40be-9b16-1c2a45f7aa30.png`.
+- 출시 경로: `assets/backgrounds/warehouse_inventory_night.png`, `assets/backgrounds/moving_truck_loading_dusk.png` (1280x800).
+- 검수: 창고는 선반·핸드카트·스캐너·셔터/출입문 원근과 무인·무문자·하단 안전영역을 확인했다. 이삿짐은 5월 식생, 외부 대기 상자 정확히 6개, 적재함 안의 기적재 상자, 접힌 담요, 트럭 램프·현관·손수레·도로/보도 동선, 무인·무상표·무문자와 하단 안전영역을 확인했다.
 
 ## 키 비주얼 상위 10컷
 
@@ -283,6 +293,7 @@
 | Background | `assets/backgrounds/library.png` | `library` | 1280x800 | no | `481604b1b302` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/military_base_gate.png` | `military_base_gate` | 1672x941 | no | `2953edc1022e` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/military_training_ground.png` | `military` | 1280x800 | no | `2b0b094c0068` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
+| Background | `assets/backgrounds/moving_truck_loading_dusk.png` | `moving_truck_loading_dusk` | 1280x800 | no | `b88cfae60078` | PASS-B | 5월 회녹색 식생·외부 대기 상자 6개·기적재 상자·담요·트럭 램프·현관·손수레·도로/보도 동선과 무인·무문자·하단 안전 크롭 확인. |
 | Background | `assets/backgrounds/namsan_cable_car_night.png` | `namsan_cable_car` | 1280x800 | no | `e1b2e1060d24` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/namsan_observation_deck_night.png` | `namsan_observation_deck` | 1280x800 | no | `06cc636a9026` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/namsan_tonkatsu_restaurant_night.png` | `namsan_tonkatsu_restaurant` | 1280x800 | no | `2aa09e3a4d0f` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
@@ -314,9 +325,10 @@
 | Background | `assets/backgrounds/street_seoul_day.png` | `street`, `street_day` | 1280x800 | no | `c7730fce4f73` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/suneung_test_hall.png` | `suneung_test_hall` | 1672x941 | no | `4b72655552ff` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/trading_screen_night.png` | `trading_room` | 1280x800 | no | `9bebd361a8e1` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
+| Background | `assets/backgrounds/warehouse_inventory_night.png` | `warehouse_inventory_night` | 1280x800 | no | `b3d45d908fd4` | PASS-B | 선반·상자·핸드카트·바코드 스캐너·셔터/출입문 원근, 무인·무상표·무문자와 하단 안전 크롭 확인. |
 | Background | `assets/backgrounds/winter_bungeoppang_stall.png` | `winter_street_bungeoppang` | 1280x800 | no | `ff57cae9f68a` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/year2_winter_last_night.png` | `year2_winter_street_night` | 1280x800 | no | `f9f019f44357` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/year3_hangang_winter_night.png` | `year3_hangang_winter_night` | 1280x800 | no | `b8387ccb4707` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/year4_winter_rooftop.png` | `year4_winter_rooftop` | 1280x800 | no | `46803837d191` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 
-Inventory: 57 CG / 57 portraits / 79 backgrounds / 193 total.
+Inventory: 74 CG / 90 portraits / 82 backgrounds / 246 total.

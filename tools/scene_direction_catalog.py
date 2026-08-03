@@ -111,6 +111,7 @@ INDOOR_BACKGROUNDS = {
     "open_chat_screen",
     "office",
     "office_interview_day",
+    "warehouse_inventory_night",
     "realestate_office",
     "meeting",
     "sangchul_private_dining",

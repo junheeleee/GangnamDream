@@ -28,6 +28,43 @@ const OBLIGATION_IDS := [
 	"body_rest",
 ]
 
+const ACTION_STORY_FIXTURES := [
+	{
+		"bundle_id": "m1_convenience_trial_shift",
+		"turn": 2,
+		"root": "v2_convenience_trial_shift",
+		"effects": {"money": 137000, "stress": 4, "health": -2},
+		"axis": "money",
+		"place_id": "work",
+		"details": {
+			"execution": "side_shift",
+			"earned": 137000,
+			"health_delta": -2,
+			"mental_delta": -4,
+		},
+	},
+	{
+		"bundle_id": "m3_inventory_shift",
+		"turn": 10,
+		"root": "v2_inventory_count_nights",
+	},
+	{
+		"bundle_id": "m4_certificate_session",
+		"turn": 14,
+		"root": "v2_logistics_class_session",
+	},
+	{
+		"bundle_id": "m5_weekend_move_shift",
+		"turn": 18,
+		"root": "v2_moving_crew_days",
+	},
+	{
+		"bundle_id": "m5_last_empty_sunday",
+		"turn": 19,
+		"root": "v2_empty_sunday",
+	},
+]
+
 const PRIOR_SCHEDULES := {
 	"1": {
 		"1": "m1_mirae_application",
@@ -78,6 +115,8 @@ func _ready() -> void:
 		GameState.game_over.connect(game_over_callback)
 
 	_check_contract_and_offer_matrix()
+	_check_cash_position_copy()
+	_check_action_story_roundtrips()
 	_check_father_prelude_roundtrip()
 	_check_application_response_roundtrips()
 	_check_hyunsu_future_bridge()
@@ -96,6 +135,7 @@ func _ready() -> void:
 	if _failures.is_empty():
 		print(
 			"CORE_LOOP_V2_E_CHECK_OK schema=3 cap=24 prototype=1_24 "
+			+ "action_story=5/once/save "
 			+ "offers=base5/hyunsu6/daeun6/rich7 "
 			+ "father=week21/pre_plan/three_exact_receipts/save "
 			+ "applications=dodam_no_offer/city_submitted/inbox/save "
@@ -224,6 +264,156 @@ func _check_contract_and_offer_matrix() -> void:
 			"v2_hyunsu_exam_morning_echo").is_empty() \
 			and DataRegistry.find_event("v2_hyunsu_exam_result").is_empty(),
 		"Hyunsu's Saturday start-time echo is missing or a result was invented")
+
+func _check_cash_position_copy() -> void:
+	var original_language := LocaleManager.language
+	LocaleManager.language = "ko"
+	GameState.money = -770_000.0
+	var ko_arrears := GameState.format_event_text("{cash_position}")
+	_expect(ko_arrears == \
+			"계좌 잔액은 0원이고, 밀린 비용은 %s이었다" % \
+				GameState.format_money(770_000.0) \
+			and ko_arrears.find(GameState.format_money(-770_000.0)) < 0,
+		"Korean First Bill copy rendered arrears as a negative bank balance")
+	GameState.money = 420_000.0
+	var ko_balance := GameState.format_event_text("{cash_position}")
+	_expect(ko_balance == "계좌 잔액은 %s이었다" % \
+			GameState.format_money(420_000.0),
+		"Korean First Bill positive path invented arrears")
+	LocaleManager.language = "en"
+	GameState.money = -770_000.0
+	var en_arrears := GameState.format_event_text("{cash_position}")
+	_expect(en_arrears.find("account balance was %s" % \
+			GameState.format_money(0.0)) >= 0 \
+			and en_arrears.find(GameState.format_money(770_000.0)) >= 0 \
+			and en_arrears.find(GameState.format_money(-770_000.0)) < 0,
+		"English First Bill copy rendered arrears as a negative bank balance")
+	LocaleManager.language = original_language
+
+func _check_action_story_roundtrips() -> void:
+	for raw_fixture in ACTION_STORY_FIXTURES:
+		var fixture: Dictionary = raw_fixture
+		var bundle_id := str(fixture.get("bundle_id", ""))
+		var root := str(fixture.get("root", ""))
+		var target_turn := int(fixture.get("turn", 0))
+		_fresh_at(target_turn)
+		var scene_bundle := CORE_LOOP.bundle(bundle_id)
+		var config: Dictionary = (
+			(scene_bundle.get("action_config", {}) as Dictionary).duplicate(true)
+			if scene_bundle.get("action_config", {}) is Dictionary else {}
+		)
+		var action_id := str(scene_bundle.get("action_id", ""))
+		var effects: Dictionary = (
+			(fixture.get("effects", {}) as Dictionary).duplicate(true)
+			if fixture.get("effects", {}) is Dictionary \
+				and not (fixture.get("effects", {}) as Dictionary).is_empty()
+			else (config.get("effects", {}) as Dictionary).duplicate(true)
+		)
+		var execution := str(config.get("execution", "side_shift"))
+		var axis := str(fixture.get(
+			"axis", config.get(
+				"axis", "human" if execution == "rest" else "money")))
+		var place_id := str(fixture.get(
+			"place_id", config.get(
+				"place_id", "home" if execution == "rest" else "work")))
+		var details: Dictionary = (
+			(fixture.get("details", {}) as Dictionary).duplicate(true)
+			if fixture.get("details", {}) is Dictionary \
+				and not (fixture.get("details", {}) as Dictionary).is_empty()
+			else {
+				"execution": execution,
+				"effects": effects.duplicate(true),
+			}
+		)
+		if execution == "instant_effect":
+			details["axis"] = axis
+			details["place_id"] = place_id
+		if execution == "rest":
+			details["diminished_by_recovery_routine"] = false
+
+		_expect(scene_bundle.get("existing_roots", []) == [root] \
+				and not action_id.is_empty() \
+				and CORE_LOOP.begin_bundle(bundle_id, "schedule") \
+				and CORE_LOOP.action_story_stage(bundle_id) == "action" \
+				and CORE_LOOP.complete_active_bundle().is_empty(),
+			"%s did not begin as an action-first dual surface" % bundle_id)
+		GameState.restore_ap()
+		var armed := GameState.arm_weekly_commitment({
+			"turn": target_turn,
+			"pressure_id": bundle_id,
+			"pressure_family": str(scene_bundle.get("kind", "routine")),
+			"choice_id": action_id,
+			"forgone_ids": [],
+		})
+		var transaction := GameState.finalize_weekly_effect_action(
+			action_id, effects, axis, place_id, "", details) \
+			if armed else {"ok": false}
+		var after_action := _action_story_stat_snapshot()
+		_expect(bool(transaction.get("ok", false)) \
+				and CORE_LOOP.action_result_ready() \
+				and not CORE_LOOP.action_receipt(bundle_id).is_empty() \
+				and CORE_LOOP.action_story_stage(bundle_id) == "story" \
+				and CORE_LOOP.complete_active_bundle().is_empty(),
+			"%s skipped, duplicated, or prematurely completed its action"
+				% bundle_id)
+		_expect(CORE_LOOP.acknowledge_action_story_result(bundle_id) \
+				and not CORE_LOOP.action_result_ready() \
+				and CORE_LOOP.action_story_stage(bundle_id) == "story",
+			"%s did not durably acknowledge its action result" % bundle_id)
+		var finalized_record := GameState.get_weekly_commitment_for_turn(
+			target_turn)
+		_expect(CORE_LOOP.note_action_commitment(finalized_record) \
+				and not CORE_LOOP.action_result_ready(),
+			"%s duplicate action signal reopened an acknowledged result"
+				% bundle_id)
+
+		var mid_bridge_save: Dictionary = (
+			GameState.serialize().duplicate(true))
+		GameState.start_new_game()
+		GameState.load_from_dict(mid_bridge_save)
+		CORE_LOOP.initialize_for_run()
+		_expect(CORE_LOOP.action_story_stage(bundle_id) == "story" \
+				and not CORE_LOOP.action_result_ready() \
+				and _action_story_stat_snapshot() == after_action,
+			"%s replayed its action or lost its post-action story on load"
+				% bundle_id)
+		_apply_and_note_story_choice(root, 0)
+		_expect(_action_story_stat_snapshot() == after_action \
+				and CORE_LOOP.action_story_stage(bundle_id) == "complete" \
+				and CORE_LOOP.complete_active_bundle() == bundle_id \
+				and CORE_LOOP.complete_active_bundle().is_empty(),
+			"%s result story changed gameplay effects or did not close once"
+				% bundle_id)
+		var completed_save: Dictionary = (
+			GameState.serialize().duplicate(true))
+		GameState.start_new_game()
+		GameState.load_from_dict(completed_save)
+		CORE_LOOP.initialize_for_run()
+		_expect(CORE_LOOP.has_completed_bundle(bundle_id) \
+				and CORE_LOOP.action_story_stage(bundle_id).is_empty() \
+				and _action_story_stat_snapshot() == after_action,
+			"%s lost completion or reapplied effects after completion load"
+				% bundle_id)
+
+	var recovery := CORE_LOOP.bundle("m5_last_empty_sunday")
+	var recovery_config: Dictionary = recovery.get("action_config", {})
+	var recovery_effects: Dictionary = recovery_config.get("effects", {})
+	var diminished_effects: Dictionary = recovery_config.get(
+		"recovery_routine_effects", {})
+	_expect(int(recovery_effects.get("health", 0)) == 5 \
+			and int(recovery_effects.get("mental", 0)) == 7 \
+			and int(diminished_effects.get("health", 0)) == 2 \
+			and int(diminished_effects.get("mental", 0)) == 3,
+		"Empty Sunday lost its exact normal/diminished recovery ledger")
+
+func _action_story_stat_snapshot() -> Dictionary:
+	return {
+		"money": float(GameState.money),
+		"health": int(GameState.health),
+		"mental": int(GameState.mental),
+		"intelligence": int(GameState.intelligence),
+		"action_points": int(GameState.action_points),
+	}
 
 func _check_father_prelude_roundtrip() -> void:
 	_fresh_at(21)
@@ -1130,8 +1320,8 @@ func _check_actual_weeks_and_terminal_recap() -> void:
 		"도시시설운영단 작업표를 제출한다",
 		"Submit the City Facilities worksheet")
 	var body_rest := LocaleManager.ui(
-		"휴대폰을 끄고 몸부터 눕힌다",
-		"Turn off the phone and lie down first")
+		"알람만 맞추고 몸부터 눕힌다",
+		"Set one alarm and lie down first")
 	var selected_text := _node_text(selected_panel)
 	var deferred_text := _node_text(deferred_panel)
 	var expired_text := _node_text(expired_panel)

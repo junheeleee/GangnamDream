@@ -580,6 +580,7 @@
   },
   {
     "id": "arc_father_quiet_call",
+    "direction": {"amb": "duck"},
     "title": "일요일 저녁",
     "background": "current_housing",
     "portrait": "father_home",

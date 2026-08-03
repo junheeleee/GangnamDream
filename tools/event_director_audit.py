@@ -20,7 +20,9 @@ EXPECTED_CATALOG_RANDOM = 1176
 EXPECTED_DIRECTED_RANDOM = 1003
 EXPECTED_FOREGROUND_RANDOM = 64
 EXPECTED_BRIDGE_RANDOM = 19
-EXPECTED_REGISTERED_EVENTS = 1592
+# ORDER-57 promotes five existing action results into authored, hidden V2
+# story beats. They are direct bundle roots, never random-director candidates.
+EXPECTED_REGISTERED_EVENTS = 1597
 EXPECTED_DIRECT_ONLY_EVENTS = {
     "v2_hyunsu_player_reachout",
     "v2_hyunsu_study_followup",

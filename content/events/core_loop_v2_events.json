@@ -1,6 +1,7 @@
 [
   {
     "id": "v2_mirae_result_message",
+    "direction": {"pace": "beat"},
     "title": "미래산업기술 채용 결과",
     "category": "career",
     "rarity": "story",
@@ -30,6 +31,7 @@
   },
   {
     "id": "v2_seorin_result_message",
+    "direction": {"pace": "beat"},
     "title": "서린물산 채용 결과",
     "category": "career",
     "rarity": "story",
@@ -59,6 +61,7 @@
   },
   {
     "id": "v2_hyunsu_player_reachout",
+    "direction": {"amb": "duck"},
     "title": "먼저 보낸 메시지",
     "category": "relationship",
     "rarity": "story",
@@ -90,6 +93,7 @@
   },
   {
     "id": "v2_hyunsu_first_study",
+    "direction": {"amb": "duck"},
     "title": "처음 함께한 한 시간",
     "category": "relationship",
     "rarity": "story",
@@ -131,6 +135,7 @@
   },
   {
     "id": "v2_hyunsu_study_followup",
+    "direction": {"amb": "duck"},
     "title": "같은 시간",
     "category": "relationship",
     "rarity": "story",
@@ -176,6 +181,7 @@
   },
   {
     "id": "v2_hanbit_interview",
+    "direction": {"pace": "beat"},
     "title": "한빛유통 1차 면접",
     "category": "career",
     "rarity": "story",
@@ -215,6 +221,7 @@
   },
   {
     "id": "v2_daeun_return_named",
+    "direction": {"amb": "duck"},
     "title": "이번에는 먼저",
     "category": "relationship",
     "rarity": "story",
@@ -252,6 +259,7 @@
   },
   {
     "id": "v2_daeun_return_after_distance",
+    "direction": {"amb": "duck"},
     "title": "못 한 인사",
     "category": "relationship",
     "rarity": "story",
@@ -290,6 +298,7 @@
   },
   {
     "id": "v2_sangchul_housing_lead",
+    "direction": {"pace": "slow", "camera": "drift"},
     "title": "방 보러 간 날",
     "category": "relationship",
     "rarity": "story",
@@ -323,6 +332,7 @@
   },
   {
     "id": "v2_jaehyuk_message",
+    "direction": {"pace": "beat"},
     "title": "10년 만의 메시지",
     "category": "relationship",
     "rarity": "story",
@@ -361,6 +371,7 @@
   },
   {
     "id": "v2_hanbit_offer_message",
+    "direction": {"pace": "beat"},
     "title": "한빛유통 채용 연락",
     "category": "career",
     "rarity": "story",
@@ -405,6 +416,7 @@
   },
   {
     "id": "v2_daeun_small_commitment",
+    "direction": {"amb": "duck"},
     "title": "다음 화요일",
     "category": "relationship",
     "rarity": "story",
@@ -443,6 +455,7 @@
   },
   {
     "id": "v2_daeun_third_greeting",
+    "direction": {"amb": "duck"},
     "title": "한마디 더",
     "category": "relationship",
     "rarity": "story",
@@ -481,6 +494,7 @@
   },
   {
     "id": "v2_jiyeon_second_crossing",
+    "direction": {"camera": "drift"},
     "title": "같은 동네 큰길",
     "category": "relationship",
     "rarity": "story",
@@ -529,6 +543,7 @@
   },
   {
     "id": "v2_sangchul_demo_echo",
+    "direction": {"pace": "beat"},
     "title": "두 번째 믹스커피",
     "category": "relationship",
     "rarity": "story",
@@ -567,6 +582,7 @@
   },
   {
     "id": "v2_jaehyuk_plain_reunion_echo",
+    "direction": {"amb": "duck"},
     "title": "포장마차에서 다시",
     "category": "relationship",
     "rarity": "story",
@@ -632,6 +648,7 @@
   },
   {
     "id": "v2_father_health_signal",
+    "direction": {"amb": "duck"},
     "title": "최씨 아저씨의 메시지",
     "category": "family",
     "rarity": "story",
@@ -688,6 +705,7 @@
   },
   {
     "id": "v2_dodam_result_message",
+    "direction": {"pace": "beat"},
     "title": "도담고객센터 채용 결과",
     "category": "career",
     "rarity": "story",
@@ -718,6 +736,7 @@
   },
   {
     "id": "v2_city_service_work_sample_message",
+    "direction": {"pace": "beat"},
     "title": "도시시설운영단 작업표 요청",
     "category": "career",
     "rarity": "story",
@@ -781,6 +800,7 @@
   },
   {
     "id": "v2_daeun_tuesday_followthrough",
+    "direction": {"amb": "duck"},
     "title": "약속한 화요일",
     "category": "relationship",
     "rarity": "story",
@@ -820,6 +840,7 @@
   },
   {
     "id": "v2_hyunsu_exam_eve",
+    "direction": {"pace": "beat"},
     "title": "시험 전 마지막 문제",
     "category": "relationship",
     "rarity": "story",
@@ -858,6 +879,7 @@
   },
   {
     "id": "v2_hyunsu_exam_morning_echo",
+    "direction": {"pace": "beat"},
     "title": "시험이 시작된 아침",
     "category": "relationship",
     "rarity": "story",
@@ -889,6 +911,7 @@
   },
   {
     "id": "v2_dirty_trace_initial_call",
+    "direction": {"pace": "beat"},
     "title": "초기 확인 전화",
     "category": "social",
     "rarity": "story",
@@ -928,6 +951,7 @@
   },
   {
     "id": "v2_dirty_recruiter_week24",
+    "direction": {"pace": "beat"},
     "title": "다시 온 모집책 문자",
     "category": "social",
     "rarity": "story",
@@ -966,6 +990,7 @@
   },
   {
     "id": "v2_gangnam_receipt_walk",
+    "direction": {"camera": "drift"},
     "title": "강남역 저녁 산책",
     "category": "reflection",
     "rarity": "story",
@@ -1009,7 +1034,158 @@
     ]
   },
   {
+    "id": "v2_convenience_trial_shift",
+    "title": "카운터의 첫 새벽",
+    "category": "jobs",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "core_loop_v2",
+      "livelihood",
+      "work"
+    ],
+    "cooldown": 9999,
+    "one_time": true,
+    "background": "convenience_night",
+    "direction": {
+      "pace": "beat"
+    },
+    "description": "새벽 네 시가 지나자 손님이 끊겼다. {name}은 택배 상자를 규격별로 다시 쌓고, 끈적해진 바닥을 밀대로 닦았다. 카운터 안에서는 냉장고 모터 돌아가는 소리와 형광등의 웅웅거림만 들렸다.\n\n처음 카운터에 섰을 때는 담배 위치도, 택배 접수 단말기를 누르는 순서도 몰랐다. 이제는 다음 손님이 오기 전에 무엇부터 채워야 하는지 알 수 있었다.",
+    "choices": [
+      {
+        "text": "끝난 시각을 근무표에 적는다",
+        "result_text": "{name}은 앞치마 주머니에서 볼펜을 꺼내 근무표 마지막 칸에 시간을 적었다. 손끝에는 박스 먼지가 묻었고 세제 냄새가 배어 있었다.\n\n문을 나설 때 아침 배송차가 가게 앞에 멈췄다. 하루치 대타는 끝났고, 근무한 만큼의 돈을 받았다."
+      }
+    ]
+  },
+  {
+    "id": "v2_inventory_count_nights",
+    "title": "나흘째 바코드",
+    "category": "jobs",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "core_loop_v2",
+      "livelihood",
+      "work"
+    ],
+    "cooldown": 9999,
+    "one_time": true,
+    "background": "warehouse_inventory_night",
+    "direction": {
+      "pace": "beat"
+    },
+    "description": "폐점 뒤 나흘째 밤. {name}은 창고 선반의 마지막 줄 앞에 쪼그려 앉았다. 스캐너가 같은 단에 놓인 상자를 하나씩 읽을 때마다 손목이 먼저 다음 칸으로 움직였다.\n\n전산표에는 열두 개라고 적혀 있었고, 선반에는 열한 개가 있었다. {name}은 숫자를 맞춰 쓰지 않고 차이 한 개를 표시한 뒤 다시 셌다.",
+    "choices": [
+      {
+        "text": "마지막 칸까지 다시 확인한다",
+        "result_text": "두 번째로 세어도 열한 개였다. {name}은 차이 표시 옆에 확인 시각과 선반 번호를 적었다.\n\n카트를 제자리로 밀었을 때 창고 셔터 틈으로 첫 버스 불빛이 지나갔다. 나흘치 스캔 소리가 멈추자 손목과 눈의 피로가 한꺼번에 느껴졌다."
+      }
+    ]
+  },
+  {
+    "id": "v2_logistics_class_session",
+    "title": "입출고표의 빈칸",
+    "category": "self_development",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "core_loop_v2",
+      "growth",
+      "study"
+    ],
+    "cooldown": 9999,
+    "one_time": true,
+    "background": "community_center",
+    "direction": {
+      "pace": "beat"
+    },
+    "description": "청년센터 강의실 뒤쪽 자리. 강사는 입고, 출고, 반품이 적힌 표를 화면에 띄우고 숫자가 어긋난 행을 찾으라고 했다.\n\n{name}은 재고 회전율 공식을 수첩 위에 세 번 다시 썼다. 앞의 두 번은 분모를 잘못 적었고, 세 번째에야 예시 표의 숫자와 맞았다.",
+    "choices": [
+      {
+        "text": "틀린 두 줄도 지우지 않고 남긴다",
+        "result_text": "{name}은 틀린 식에 가로줄을 긋고, 옆에 왜 틀렸는지 한 문장으로 적었다. 수업을 들었다고 자격증을 딴 것도, 어디에 합격한 것도 아니었다.\n\n대신 다음 표를 볼 때 어디부터 확인할지는 수첩 한쪽에 적어 두었다."
+      }
+    ]
+  },
+  {
+    "id": "v2_moving_crew_days",
+    "title": "네 번째 집 앞",
+    "category": "jobs",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "core_loop_v2",
+      "livelihood",
+      "work"
+    ],
+    "cooldown": 9999,
+    "one_time": true,
+    "background": "moving_truck_loading_dusk",
+    "direction": {
+      "pace": "beat"
+    },
+    "description": "나흘째 저녁, 마지막 집 앞. 트럭 적재함과 현관 사이에는 아직 상자 여섯 개와 접힌 이사 담요가 남아 있었다. {name}은 손바닥에 감은 테이프를 고쳐 감고 빈 손수레를 현관 쪽으로 밀었다.\n\n허리를 펴는 동안 다른 사람도 말없이 자기 손목을 돌렸다. 쉬자는 말은 없었고, 누가 먼저랄 것 없이 다음 상자 양쪽을 잡았다.",
+    "choices": [
+      {
+        "text": "상자 바닥을 확인하고 들어 올린다",
+        "result_text": "젖은 부분이 없는지 손으로 바닥을 훑은 뒤 둘이 같은 박자로 첫 상자를 들었다. 남은 다섯 개도 같은 순서로 옮긴 뒤, 마지막 상자가 담요 사이에 고정됐다.\n\n트럭 문이 닫히자 나흘 동안 따라다닌 금속 소리가 멎었다. 일은 끝났지만 손바닥과 허리는 여전히 묵직했다."
+      }
+    ]
+  },
+  {
+    "id": "v2_empty_sunday",
+    "title": "비워 둔 일요일",
+    "category": "health",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "core_loop_v2",
+      "recovery",
+      "home"
+    ],
+    "cooldown": 9999,
+    "one_time": true,
+    "background": "goshiwon_room",
+    "direction": {
+      "pace": "beat"
+    },
+    "description": "눈을 떴을 때 방 안은 이미 환했다. {name}은 시간을 확인하려다 뒤집어 둔 휴대폰에서 손을 뗐다. 복도에서 문 여닫는 소리가 몇 번 들리더니, 다시 조용해졌다.\n\n씻어 둔 컵에 물을 채우고 밥을 데웠다. 구직 공고도 읽지 않았고, 밀린 메시지에도 답하지 않았다.",
+    "choices": [
+      {
+        "text": "해가 기울 때까지 아무 일정도 잡지 않는다",
+        "result_text": "{name}은 한 번 더 잠들었다가 저녁 무렵에 깼다. 쉬었다는 안도감과 하루를 그냥 보냈다는 공허가 함께 밀려왔다.\n\n휴대폰을 집어 들어 화면을 켰지만 새 일정을 잡지는 않았다. 일요일은 그렇게 저물었고, 월요일은 그대로 다가오고 있었다."
+      }
+    ]
+  },
+  {
     "id": "v2_demo_first_bill",
+    "direction": {"pace": "beat", "amb": "duck", "camera": "slow_zoom", "hold": 0.8},
     "title": "이번 주에 끝낼 한 가지",
     "category": "story",
     "rarity": "story",
@@ -1028,7 +1204,7 @@
     "one_time": true,
     "portrait": "player_offduty_neutral",
     "background": "current_housing",
-    "description": "24주차 금요일 오후 5시 52분. 지금 사는 방에서 확인한 은행 앱의 잔액은 {money}. 이번 달 고정비 {expense}은 아직 빠져나가기 전이었고, 받을 급여가 있다면 그것도 아직 들어오기 전이었다.\n\n지금부터는 한 가지에만 시간을 쓸 수 있었다. 서류를 고르면 오후 6시 전에 다듬어 보내야 했고, 전화나 이동을 고르면 곧바로 시작해야 했다.\n\n{name}은 이번 주에 끝낼 한 가지를 정했다.",
+    "description": "24주차 금요일 오후 5시 52분. 지금 사는 방에서 은행 앱을 열었다. {cash_position}. 이번 달 고정비 {expense}은 아직 빠져나가기 전이었고, 받을 급여가 있다면 그것도 아직 들어오기 전이었다.\n\n지금부터는 한 가지에만 시간을 쓸 수 있었다. 서류를 고르면 오후 6시 전에 다듬어 보내야 했고, 전화나 이동을 고르면 곧바로 시작해야 했다.\n\n{name}은 이번 주에 끝낼 한 가지를 정했다.",
     "choices": [
       {
         "text": "아버지에게 다시 전화한다",
@@ -1094,16 +1270,16 @@
           "health": -5,
           "mental": -4
         },
-        "result_text": "{name}은 오후 6시 집결에 맞추려고 곧바로 방을 나섰다. 당일 결원이 난 심야 하역조에 들어가 자정이 넘어 마지막 상자를 내리고 28만원을 받았다.\n\n입금 내역은 바로 생겼고, 손바닥과 허리의 피로도 바로 남았다."
+        "result_text": "{name}은 오후 6시 30분 집결에 맞추려고 곧바로 방을 나섰다. 당일 결원이 난 심야 하역조에 들어가 자정이 넘어 마지막 상자를 내리고 28만원을 받았다.\n\n일당 28만원은 바로 정산됐고, 손바닥과 허리의 피로도 바로 남았다."
       },
       {
-        "text": "휴대폰을 끄고 몸부터 눕힌다",
+        "text": "알람만 맞추고 몸부터 눕힌다",
         "v2_obligation_id": "body_rest",
         "effects": {
           "health": 2,
           "mental": 1
         },
-        "result_text": "{name}은 오후 6시 전에 알람 하나만 남기고 휴대폰을 껐다. 씻고 물을 마신 뒤 불을 껐다.\n\n돈도 지원 결과도 사람 사이의 다음 단계도 오늘 밤 해결되지 않았다. 오늘은 더 버티지 않고 잠을 택했다."
+        "result_text": "{name}은 오후 6시 전에 알람 하나만 맞추고 휴대폰을 뒤집어 놓았다. 씻고 물을 마신 뒤 불을 껐다.\n\n돈도 지원 결과도 사람 사이의 다음 단계도 오늘 밤 해결되지 않았다. 오늘은 더 버티지 않고 잠을 택했다."
       }
     ]
   }

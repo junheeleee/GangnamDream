@@ -2420,13 +2420,27 @@ func _draw_story_ink_transition() -> void:
 func _refresh_hud():
 	if _hud_label == null:
 		return
+	var core_loop_v2_active := DEMO_CORE_LOOP_V2.is_active()
 	var assets: float = GameState.get_total_asset_value()
+	# V2's negative money is an unpaid-cost ledger, not cash below zero. Keep
+	# goal progress at its zero floor while the separate cash-position label
+	# names the exact arrears, matching the phone and First Bill surfaces.
+	if core_loop_v2_active and GameState.get_arrears() > 0.0:
+		assets = maxf(0.0, assets)
 	var pct: int = clampi(int(assets / 3_000_000_000.0 * 100.0), 0, 100)
 	var months_left: int = max(0, (38 - GameState.age) * 12 - GameState.month + 1)
-	_hud_label.text = _tr("자산 %s / 30억 (%d%%)      현금 %s      건강 %d  정신 %d      남은 %d개월", "Assets %s / 3 billion won (%d%%)      Cash %s      Health %d  Mental %d      %d mo left") % [
-		_story_money(assets), pct,
-		_story_money(GameState.money),
-		GameState.health, GameState.mental, months_left]
+	if core_loop_v2_active:
+		_hud_label.text = _tr(
+			"자산 %s / 30억 (%d%%)      %s      건강 %d  정신 %d      남은 %d개월",
+			"Assets %s / 3 billion won (%d%%)      %s      Health %d  Mental %d      %d mo left"
+		) % [
+			_story_money(assets), pct, GameState.cash_position_label(),
+			GameState.health, GameState.mental, months_left]
+	else:
+		_hud_label.text = _tr("자산 %s / 30억 (%d%%)      현금 %s      건강 %d  정신 %d      남은 %d개월", "Assets %s / 3 billion won (%d%%)      Cash %s      Health %d  Mental %d      %d mo left") % [
+			_story_money(assets), pct,
+			_story_money(GameState.money),
+			GameState.health, GameState.mental, months_left]
 
 func _story_money(amount: float) -> String:
 	if not LocaleManager.is_english():

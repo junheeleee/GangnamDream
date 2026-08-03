@@ -266,13 +266,13 @@ static func bank_snapshot() -> Dictionary:
 		var product := str(raw_product)
 		live_loans[product] = maxf(
 			0.0, float(GameState.loans.get(raw_product, 0.0)))
-	var balance := float(GameState.money)
+	var balance := float(GameState.get_available_cash())
 	return {
 		"balance": balance,
 		"loan_total": float(GameState.get_loan_total()),
 		"loans": live_loans,
 		"next_fixed_expense": float(GameState.get_monthly_required_cash()),
-		"arrears": maxf(0.0, -balance),
+		"arrears": float(GameState.get_arrears()),
 	}
 
 

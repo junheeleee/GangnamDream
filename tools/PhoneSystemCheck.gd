@@ -118,9 +118,9 @@ func _check_live_bank_snapshot() -> void:
 	GameState.money = -310_000.0
 	GameState.loans = {"bank": 1_000_000.0, "second": 200_000.0}
 	var first := PHONE.bank_snapshot()
-	_expect(is_equal_approx(float(first.get("balance", 0.0)), -310_000.0) \
+	_expect(is_equal_approx(float(first.get("balance", -1.0)), 0.0) \
 			and is_equal_approx(float(first.get("arrears", 0.0)), 310_000.0),
-		"bank snapshot hid the negative balance or arrears")
+		"bank snapshot did not separate zero available cash from arrears")
 	_expect(is_equal_approx(float(first.get("loan_total", 0.0)), 1_200_000.0) \
 			and first.get("loans", {}) == GameState.loans,
 		"bank snapshot did not read the live loan owner")
@@ -133,6 +133,20 @@ func _check_live_bank_snapshot() -> void:
 	_expect(is_equal_approx(float(second.get("balance", 0.0)), 50_000.0) \
 			and is_equal_approx(float(second.get("arrears", -1.0)), 0.0),
 		"bank snapshot did not refresh from live cash")
+	var original_language := LocaleManager.language
+	LocaleManager.language = "ko"
+	GameState.money = -310_000.0
+	_expect(GameState.cash_position_label() \
+			== "체납 %s" % GameState.format_money(310_000.0) \
+			and GameState.cash_position_sentence().find("계좌 잔액은 0원") >= 0,
+		"Korean phone copy described arrears as a negative bank balance")
+	LocaleManager.language = "en"
+	_expect(GameState.cash_position_label() \
+			== "ARREARS %s" % GameState.format_money(310_000.0) \
+			and GameState.cash_position_sentence().find(
+				GameState.format_money(0.0)) >= 0,
+		"English phone copy described arrears as a negative bank balance")
+	LocaleManager.language = original_language
 	for forbidden in [
 			"turn", "year", "month", "week_of_month", "money", "loans",
 			"market_prices", "portfolio", "relationships", "cast"]:

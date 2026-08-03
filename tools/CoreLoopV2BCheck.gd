@@ -51,7 +51,7 @@ func _ready() -> void:
 			+ "application=submitted/interviewed/no_offer "
 			+ "callback=receipt_superseded/long_preserved "
 			+ "prelude=scheduled_owner/story_action/save_once "
-			+ "action=atomic/save_result_once/all_schema_lazy/rollback "
+			+ "action=atomic/save_result_once/story_bridge/all_schema_lazy/rollback "
 			+ "boundary_save=single/month3_nonterminal "
 			+ "month_delta=opening_to_close/save_roundtrip "
 			+ "overlay=result_resume pending=minigame_restart "
@@ -1140,11 +1140,35 @@ func _check_atomic_action_roundtrip(
 			and GameState.weekly_commitments.size() == 1,
 		"%s save/load reapplied an effect, AP, or weekly commitment" \
 			% bundle_id)
-	_expect(CORE_LOOP.complete_active_bundle() == bundle_id \
-			and CORE_LOOP.complete_active_bundle().is_empty() \
+	_expect(_complete_action_or_story_bundle(bundle_id) \
 			and CORE_LOOP.turn_completed(action_turn) \
 			and not CORE_LOOP.action_result_ready(),
-		"%s Continue did not complete the bundle exactly once" % bundle_id)
+		"%s Continue/story bridge did not complete the bundle exactly once" \
+			% bundle_id)
+
+func _complete_action_or_story_bundle(bundle_id: String) -> bool:
+	if CORE_LOOP.action_story_stage(bundle_id) == "story":
+		# A dual-surface livelihood action must remain incomplete until the
+		# result is acknowledged and its authored follow-up choice is recorded.
+		if not CORE_LOOP.complete_active_bundle().is_empty():
+			return false
+		if CORE_LOOP.action_result_ready() \
+				and not CORE_LOOP.acknowledge_action_story_result(bundle_id):
+			return false
+		var roots := CORE_LOOP.resolved_event_roots(bundle_id)
+		if roots.is_empty():
+			return false
+		var root := str(roots[0])
+		var event: Dictionary = DataRegistry.find_event(root)
+		var choices: Array = event.get("choices", []) \
+			if event.get("choices", []) is Array else []
+		if choices.is_empty() or not choices[0] is Dictionary:
+			return false
+		GameState.apply_choice(event, choices[0])
+		if not CORE_LOOP.note_story_choice(root, 0):
+			return false
+	return CORE_LOOP.complete_active_bundle() == bundle_id \
+		and CORE_LOOP.complete_active_bundle().is_empty()
 
 func _check_schema_two_action_result_migration() -> void:
 	_fresh()
@@ -1194,9 +1218,8 @@ func _check_schema_two_action_result_migration() -> void:
 			and int(GameState.mental) == mental_after \
 			and GameState.weekly_commitments.size() == 1,
 		"schema-2 migration reapplied effects or duplicated its commitment")
-	_expect(CORE_LOOP.complete_active_bundle() == bundle_id \
-			and CORE_LOOP.complete_active_bundle().is_empty(),
-		"schema-2 recovered Continue did not complete exactly once")
+	_expect(_complete_action_or_story_bundle(bundle_id),
+		"schema-2 recovered Continue/story bridge did not complete exactly once")
 
 func _check_missing_action_receipt_lazy_recovery() -> void:
 	_fresh()
@@ -1268,10 +1291,9 @@ func _check_missing_action_receipt_lazy_recovery() -> void:
 					"action_receipts", {}) as Dictionary
 			).size() == 1,
 		"repeated lazy normalization duplicated or changed its receipt")
-	_expect(CORE_LOOP.complete_active_bundle() == bundle_id \
-			and CORE_LOOP.complete_active_bundle().is_empty() \
+	_expect(_complete_action_or_story_bundle(bundle_id) \
 			and CORE_LOOP.turn_completed(10),
-		"lazy-recovered result did not complete exactly once")
+		"lazy-recovered result/story bridge did not complete exactly once")
 
 func _check_invalid_action_result_recovery() -> void:
 	for schema in [3, 2]:
@@ -1405,15 +1427,22 @@ func _check_action_result_system_overlay() -> void:
 		"System Cancel destroyed or changed the durable action result")
 
 	main_game._on_result_confirmed()
-	await get_tree().process_frame
-	await get_tree().process_frame
+	var expected_roots := CORE_LOOP.resolved_event_roots(bundle_id)
+	_expect(CORE_LOOP.active_bundle_id() == bundle_id \
+			and not CORE_LOOP.action_result_ready() \
+			and CORE_LOOP.action_story_stage(bundle_id) == "story" \
+			and GameState.pending_story_queue == expected_roots \
+			and CORE_LOOP.complete_active_bundle().is_empty(),
+		"Continue after System did not route the same owner into its story")
+	_expect(_complete_action_or_story_bundle(bundle_id),
+		"the post-action story did not complete the owner exactly once")
+	SceneTransition.fade_in()
 	var completed: Array = GameState.core_loop_v2_state.get(
 		"completed_bundles", [])
 	_expect(completed.count(bundle_id) == 1 \
 			and CORE_LOOP.active_bundle_id().is_empty() \
-			and not CORE_LOOP.action_result_ready() \
-			and GameState.turn == 11,
-		"Continue after System did not complete the owner exactly once")
+			and not CORE_LOOP.action_result_ready(),
+		"the System-overlay bridge lost or duplicated its completion receipt")
 	main_game._on_result_confirmed()
 	await get_tree().process_frame
 	completed = GameState.core_loop_v2_state.get("completed_bundles", [])

@@ -317,6 +317,10 @@ static func completion_snapshot() -> Dictionary:
 			(state.get("future_application_receipts", {}) as Dictionary).duplicate(true),
 		"action_receipts":
 			(state.get("action_receipts", {}) as Dictionary).duplicate(true),
+		"action_story_acknowledgements":
+			(state.get(
+				"action_story_acknowledgements", {}) as Dictionary
+			).duplicate(true),
 		"consequence_receipts":
 			(state.get("consequence_receipts", {}) as Dictionary).duplicate(true),
 		"story_choice_receipts":
@@ -1075,6 +1079,60 @@ static func action_receipt(bundle_id: String) -> Dictionary:
 	return (raw_receipt as Dictionary).duplicate(true) \
 		if raw_receipt is Dictionary else {}
 
+## A dual-surface schedule keeps the existing atomic action as its gameplay
+## owner, then opens an authored story beat after the action result is
+## acknowledged. The stage is durable so MainGame can resume without
+## reapplying the action or skipping the story after a save/load boundary.
+static func action_story_stage(bundle_id: String = "") -> String:
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	var target_id := bundle_id.strip_edges()
+	if target_id.is_empty():
+		target_id = str(state.get("active_bundle", "")).strip_edges()
+	if target_id.is_empty() \
+			or str(state.get("active_bundle", "")) != target_id \
+			or str(state.get("active_kind", "")) != "schedule" \
+			or int(state.get("active_turn", 0)) != int(GameState.turn):
+		return ""
+	var scene_bundle := bundle(target_id)
+	if not _is_action_story_bundle(scene_bundle):
+		return ""
+	var raw_action_receipt: Variant = state["action_receipts"].get(
+		target_id, {})
+	if not raw_action_receipt is Dictionary \
+			or int((raw_action_receipt as Dictionary).get(
+				"turn", -1)) != int(GameState.turn) \
+			or str((raw_action_receipt as Dictionary).get(
+				"action_id", "")).strip_edges().to_lower() \
+				!= str(scene_bundle.get(
+					"action_id", "")).strip_edges().to_lower():
+		return "action"
+	if _has_current_action_story_acknowledgement(state, target_id) \
+			and _has_current_bundle_story_receipt(state, target_id):
+		return "complete"
+	return "story"
+
+## Result acknowledgement is separate from action execution. Clearing only
+## this presentation flag lets a resumed MainGame route into the authored
+## story beat while the durable action receipt prevents a second effect pass.
+static func acknowledge_action_story_result(
+		bundle_id: String = "") -> bool:
+	var target_id := bundle_id.strip_edges()
+	var state := _normalized_state(GameState.core_loop_v2_state)
+	if target_id.is_empty():
+		target_id = str(state.get("active_bundle", "")).strip_edges()
+	if action_story_stage(target_id) != "story":
+		return false
+	state = _normalized_state(GameState.core_loop_v2_state)
+	state["action_story_acknowledgements"][target_id] = {
+		"bundle_id": target_id,
+		"action_id": str(bundle(target_id).get("action_id", "")),
+		"turn": int(GameState.turn),
+		"status": "acknowledged",
+	}
+	state["action_result_ready"] = false
+	GameState.core_loop_v2_state = state
+	return true
+
 ## A saved result screen is presentation state, not permission to execute the
 ## action again. Return the durable receipt only when the active bundle, turn,
 ## and finalized weekly commitment still describe the same action.
@@ -1444,7 +1502,11 @@ static func note_action_commitment(record: Dictionary) -> bool:
 		if int(existing.get("turn", -1)) != int(GameState.turn) \
 				or str(existing.get("action_id", "")) != expected_action:
 			return false
-		state["action_result_ready"] = true
+		state["action_result_ready"] = not (
+			_is_action_story_bundle(active_bundle)
+			and _has_current_action_story_acknowledgement(
+				state, active_id)
+		)
 		GameState.core_loop_v2_state = state
 		return true
 	var receipt := _action_receipt_from_record(
@@ -1521,6 +1583,14 @@ static func complete_active_bundle() -> String:
 					or int((raw_action_receipt as Dictionary).get(
 						"turn", -1)) != int(GameState.turn):
 				return ""
+		if _is_action_story_bundle(active_spec) \
+				and (
+					not _has_current_action_story_acknowledgement(
+						state, bundle_id)
+					or not _has_current_bundle_story_receipt(
+						state, bundle_id)
+				):
+			return ""
 	if kind == "consequence":
 		var consequence_application_outcomes: Variant = active_spec.get(
 			"application_outcomes", [])
@@ -1568,6 +1638,66 @@ static func _has_current_relationship_receipt(
 					"turn", -1)) == int(GameState.turn):
 			return true
 	return false
+
+static func _is_action_story_bundle(scene_bundle: Dictionary) -> bool:
+	var roots: Variant = scene_bundle.get("existing_roots", [])
+	return not str(scene_bundle.get("action_id", "")).strip_edges().is_empty() \
+		and roots is Array and not (roots as Array).is_empty()
+
+static func _has_current_action_story_acknowledgement(
+		state: Dictionary, bundle_id: String) -> bool:
+	var scene_bundle := bundle(bundle_id)
+	if not _is_action_story_bundle(scene_bundle):
+		return false
+	var raw_acknowledgement: Variant = state[
+		"action_story_acknowledgements"].get(bundle_id, {})
+	if not raw_acknowledgement is Dictionary:
+		return false
+	var acknowledgement: Dictionary = raw_acknowledgement
+	return str(acknowledgement.get("bundle_id", "")) == bundle_id \
+		and str(acknowledgement.get(
+			"action_id", "")).strip_edges().to_lower() \
+			== str(scene_bundle.get(
+				"action_id", "")).strip_edges().to_lower() \
+		and int(acknowledgement.get("turn", -1)) == int(GameState.turn) \
+		and str(acknowledgement.get("status", "")) == "acknowledged"
+
+static func _has_current_bundle_story_receipt(
+		state: Dictionary, bundle_id: String) -> bool:
+	var event_ids := _bundle_story_event_ids(bundle_id)
+	if event_ids.is_empty():
+		return false
+	for raw_story_receipt in state["story_choice_receipts"].values():
+		if not raw_story_receipt is Dictionary:
+			continue
+		var receipt: Dictionary = raw_story_receipt
+		if str(receipt.get("bundle_id", "")) == bundle_id \
+				and str(receipt.get("active_kind", "")) == "schedule" \
+				and int(receipt.get("turn", -1)) == int(GameState.turn) \
+				and event_ids.has(str(receipt.get("event_id", ""))):
+			return true
+	return false
+
+static func _bundle_story_event_ids(bundle_id: String) -> Array:
+	var result: Array = []
+	var pending: Array = resolved_event_roots(bundle_id)
+	while not pending.is_empty():
+		var event_id := str(pending.pop_front()).strip_edges()
+		if event_id.is_empty() or result.has(event_id):
+			continue
+		result.append(event_id)
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		var choices: Variant = event.get("choices", [])
+		if not choices is Array:
+			continue
+		for raw_choice in choices:
+			if not raw_choice is Dictionary:
+				continue
+			var follow_up := str((raw_choice as Dictionary).get(
+				"follow_up_event", "")).strip_edges()
+			if not follow_up.is_empty() and not result.has(follow_up):
+				pending.append(follow_up)
+	return result
 
 static func _has_current_application_receipt(
 		state: Dictionary, bundle_id: String) -> bool:
@@ -1671,11 +1801,11 @@ static func claim_scheduled_prelude(scheduled_bundle: String) -> Dictionary:
 		}
 	var scheduled_spec := bundle(scheduled_bundle)
 	var surface_kind := ""
-	if scheduled_spec.get("existing_roots", []) is Array \
+	if not str(scheduled_spec.get("action_id", "")).is_empty():
+		surface_kind = "action"
+	elif scheduled_spec.get("existing_roots", []) is Array \
 			and not (scheduled_spec.get("existing_roots", []) as Array).is_empty():
 		surface_kind = "story"
-	elif not str(scheduled_spec.get("action_id", "")).is_empty():
-		surface_kind = "action"
 	if surface_kind.is_empty():
 		return {
 			"ok": false,
@@ -3143,7 +3273,8 @@ static func _normalized_state(raw_state: Dictionary) -> Dictionary:
 		"relationship_stages", "relationship_choice_receipts",
 		"suppressed_followups", "routine_receipts", "month_summaries",
 		"month_opening_snapshots",
-		"action_receipts", "application_statuses", "consequence_receipts",
+		"action_receipts", "action_story_acknowledgements",
+		"application_statuses", "consequence_receipts",
 		"application_transition_receipts",
 		"legacy_callback_resolutions",
 		"story_choice_receipts", "obligation_receipts",
@@ -3274,7 +3405,10 @@ static func _recover_finalized_action_state(
 	var status := str(receipt.get("application_status", ""))
 	if not application_id.is_empty() and not status.is_empty():
 		state["application_statuses"][application_id] = status
-	state["action_result_ready"] = true
+	state["action_result_ready"] = not (
+		_is_action_story_bundle(scene_bundle)
+		and _has_current_action_story_acknowledgement(state, bundle_id)
+	)
 
 static func _migrate_schema_two_relationship_state(state: Dictionary) -> void:
 	var completed: Array = state.get("completed_bundles", [])

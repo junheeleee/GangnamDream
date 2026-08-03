@@ -382,9 +382,64 @@
     ]
   },
   {
+    "id": "v2_convenience_trial_shift",
+    "title": "The First Dawn Behind the Counter",
+    "description": "After four in the morning, the customers stopped coming. {name} restacked the parcel boxes by size and ran a mop over the sticky floor. Only the hum of the refrigerators and buzz of the fluorescent lights remained behind the counter.\n\nWhen he first stood behind the counter, he knew neither where the cigarettes were kept nor the order of the parcel terminal screens. Now he knew what to restock before the next customer came in.",
+    "choices": [
+      {
+        "text": "Write the finishing time on the shift sheet",
+        "result_text": "{name} took a pen from the apron pocket and filled in the final box on the shift sheet. Cardboard dust and detergent lingered together on his fingertips.\n\nAs he left, the morning delivery truck stopped outside. The one-day cover shift was over, and the pay for the hours worked was in his account."
+      }
+    ]
+  },
+  {
+    "id": "v2_inventory_count_nights",
+    "title": "The Fourth Night of Barcodes",
+    "description": "After closing on the fourth night, {name} crouched in front of the last row of warehouse shelves. Each time the scanner read another box along the same shelf, his wrist moved toward the next slot before he thought about it.\n\nThe system sheet said twelve. The shelf held eleven. Instead of rewriting the number to make it match, {name} marked a one-unit discrepancy and counted again.",
+    "choices": [
+      {
+        "text": "Check the last slot one more time",
+        "result_text": "The second count was still eleven. {name} wrote the time and shelf number beside the discrepancy mark.\n\nAs he returned the cart, the lights of the first bus passed through the gap beneath the warehouse shutter. When four nights of scanner beeps finally stopped, the fatigue in his wrists and eyes arrived all at once."
+      }
+    ]
+  },
+  {
+    "id": "v2_logistics_class_session",
+    "title": "The Blank in the Stock-Movement Sheet",
+    "description": "From a seat at the back of the youth-center classroom, {name} watched the instructor project a sheet of receipts, shipments, and returns and ask the class to find the row that did not balance.\n\n{name} copied the inventory-turnover formula into his notebook three times. The first two used the wrong denominator. Only the third matched the sample sheet.",
+    "choices": [
+      {
+        "text": "Leave the two wrong lines on the page",
+        "result_text": "{name} struck through each wrong formula and wrote one sentence beside it explaining the mistake. Taking one class earned neither a certificate nor an offer.\n\nHe had written down where to begin the next time he faced a stock sheet."
+      }
+    ]
+  },
+  {
+    "id": "v2_moving_crew_days",
+    "title": "Outside the Fourth Home",
+    "description": "On the fourth evening, outside the last home, six boxes and a stack of folded moving blankets still stood between the entrance and the truck. {name} wrapped the tape around his palm again and pushed the empty dolly toward the door.\n\nWhile he straightened his back, another worker silently rolled one wrist. No one called for a break. They simply took opposite sides of the next box.",
+    "choices": [
+      {
+        "text": "Check the bottom of the box before lifting",
+        "result_text": "After feeling for damp cardboard underneath, they lifted the first box on the same beat. They moved the remaining five the same way, then secured the last box between the moving blankets.\n\nWhen the cargo door shut, the metal noise that had followed them for four days stopped. The job was over, but his palms and lower back still felt heavy."
+      }
+    ]
+  },
+  {
+    "id": "v2_empty_sunday",
+    "title": "The Sunday Left Empty",
+    "description": "The room was already bright when {name} opened his eyes. He reached for the phone to check the time, then pulled his hand away from where it lay face down. Doors opened and closed a few times in the hall before the building went quiet again.\n\nHe filled a washed cup with water and reheated a meal. He did not read any job postings, and the waiting messages went unanswered.",
+    "choices": [
+      {
+        "text": "Make no plans until the light fades",
+        "result_text": "{name} slept once more and woke near evening. Relief at having rested arrived alongside the emptiness of letting a day pass.\n\nHe picked up the phone and lit the screen but made no new plans. Sunday faded that way, and Monday was still coming."
+      }
+    ]
+  },
+  {
     "id": "v2_demo_first_bill",
     "title": "One Thing to Finish This Week",
-    "description": "At 5:52 Friday afternoon of Week 24, {name} checks the banking app from his room. The balance is {money}. This month's fixed costs of {expense} have not been deducted, and any wages due have not arrived yet.\n\nFrom this point on, there is time to take on only one of these. Choosing paperwork means editing and sending it before six; choosing a call or a trip means starting now.\n\n{name} decides on the one thing to finish this week.",
+    "description": "At 5:52 Friday afternoon of Week 24, {name} opens the banking app from his room. {cash_position}. This month's fixed costs of {expense} have not been deducted, and any wages due have not arrived yet.\n\nFrom this point on, there is time to take on only one of these. Choosing paperwork means editing and sending it before six; choosing a call or a trip means starting now.\n\n{name} decides on the one thing to finish this week.",
     "choices": [
       {
         "text": "Call Father again",
@@ -407,16 +462,16 @@
         "result_text": "{name}: “I just finished wrapping up today. How was your week?”\n\nJaehyuk says he is still out. Their Kakao exchange stops and starts as they trade one thing done and one thing postponed this week. No investment or money comes up.\n\nThe conversation {name} started is still going after six."
       },
       {
-        "text": "Reconcile this month's expense ledger in his room",
+        "text": "Reconcile this month's expense ledger at home",
         "result_text": "{name} spreads receipts across the desk where he lives now. He lists rent, food, transit, and phone payments by date.\n\nBy the time the first page balances, six has passed. Sangchul's business card stays in the drawer while {name} reconciles his own expenses first."
       },
       {
         "text": "Take urgent paid work tonight",
-        "result_text": "{name} leaves the room at once to reach the six o'clock assembly. He joins an overnight loading crew covering a same-day absence. After midnight, he unloads the last box and receives 280,000 won.\n\nThe deposit appears immediately. So does the strain in his palms and lower back."
+        "result_text": "{name} leaves the room at once to reach the 6:30 p.m. assembly. He joins an overnight loading crew covering a same-day absence. After midnight, he unloads the last box and receives 280,000 won.\n\nThe crew settles the 280,000-won pay immediately. The strain in his palms and lower back arrives just as quickly."
       },
       {
-        "text": "Turn off the phone and lie down first",
-        "result_text": "Before six, {name} leaves one alarm on and turns off the phone. He showers, drinks water, and turns off the light.\n\nMoney, application results, and the next step with anyone remain unresolved tonight. He stops pushing and chooses sleep."
+        "text": "Set one alarm and lie down first",
+        "result_text": "Before six, {name} sets one alarm and puts the phone face down. He showers, drinks water, and turns off the light.\n\nMoney, application results, and the next step with anyone remain unresolved tonight. He stops pushing and chooses sleep."
       }
     ]
   }

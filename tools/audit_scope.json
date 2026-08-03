@@ -353,6 +353,35 @@
       ]
     },
     {
+      "tool": "tools/CoreLoopV2ECheck.tscn",
+      "godot": true,
+      "why": "데모 21~24주·첫 청구서·action→story 저장 경계 런타임",
+      "paths": [
+        "systems/DemoCoreLoopV2.gd",
+        "scenes/MainGame.gd",
+        "scenes/CoreLoopPlanner.gd",
+        "content/meta/demo_core_loop_v2.json",
+        "content/events/core_loop_v2_events.json",
+        "content/events_en/core_loop_v2_events.json",
+        "tools/CoreLoopV2ECheck.gd",
+        "tools/CoreLoopV2ECheck.gd.uid"
+      ]
+    },
+    {
+      "tool": "tools/CoreLoopV2HandoffCheck.tscn",
+      "godot": true,
+      "why": "24주 데모 영수증의 48주·5년 장편 인계 런타임",
+      "paths": [
+        "systems/DemoCoreLoopV2.gd",
+        "scenes/MainGame.gd",
+        "content/meta/demo_core_loop_v2.json",
+        "content/meta/narrative_spine.json",
+        "content/events/**",
+        "tools/CoreLoopV2HandoffCheck.gd",
+        "tools/CoreLoopV2HandoffCheck.gd.uid"
+      ]
+    },
+    {
       "tool": "tools/StoryPlaybackCheck.tscn",
       "godot": true,
       "why": "스토리 자동 재생·선택 안전",
