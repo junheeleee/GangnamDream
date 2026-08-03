@@ -142,8 +142,8 @@
       ]
     },
     {
-      "tool": "tools/demo_experience_audit.py",
-      "why": "정상 독해 체험 프로파일",
+      "tool": "tools/demo_experience_audit.py --self-test",
+      "why": "정상 독해 체험 프로파일 계산·회귀 자체 검사. audit.sh와 같은 --self-test 로 부른다 — 인자 없이 부르면 리포트 경로를 요구해 오탐한다",
       "paths": [
         "content/events/**",
         "content/meta/demo_core_loop_v2.json"
@@ -201,8 +201,8 @@
       ]
     },
     {
-      "tool": "tools/ja_translation_audit.py",
-      "why": "일본어 UI 키",
+      "tool": "tools/ja_translation_audit.py --scope ui",
+      "why": "일본어 UI 키. 본문 scope(events/endings/catalog)는 ja_translation_pipeline 이 데모 GO 전까지 잠가 둔 미완이므로 게이트하지 않는다",
       "paths": [
         "locale/ui_ja.json",
         "locale/**"
