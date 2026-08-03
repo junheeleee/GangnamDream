@@ -166,9 +166,16 @@ Windows와 Linux/Deck의 `run` 칸은 아직 미검증이다. macOS 실주행 �
 | §5 전체 package smoke | OPEN | 월간 네 약속 화면, 실제 1→24주·CTA·t=25 차단, 연속 A/V·입력은 아직 판정하지 않음 |
 | External/human evidence | OPEN | `human_gates.json`의 `demo_rc`는 재빌드 대기이며 외부 표본 0/10. flavor-proof 산출물을 외부 후보로 등록하지 않음 |
 
-flavor-proof 소스와 해시는 clean build가 끝난 뒤 아래 완료 원장과
-`queue_archive/ORDER-70.md`에 기록한다. 이는 exact artifact provenance일 뿐
-최종 V2 demo RC나 출시 GO가 아니다.
+flavor-proof는 `BUILD 2026.08.03.1`, revision
+`835452bc01ea97316d9dfafeaa79b8c862cca595`, tree
+`d9f97570e92913ec1bb7c21a55ad5e63613b0bba`의 clean source에서 만들었다.
+manifest 파일 SHA-256은
+`de02b11231a47e40b8b1d768bf36c9979662aab4a410c69728abab46a5f39504`,
+Windows/macOS/Linux artifact SHA-256은 각각
+`531f7e906bf6f6c2fff6926b58c8262442d53a9244768d13325de5234ee49dfc`,
+`9b90ba5d6831c3edabd64c3fec90d8a15c2c3686500b530629f6e8c250988072`,
+`8e325325e0b3b1502d3b38ddf3c7931ac48aa092ffce5dc8d6d57589016acee0`다.
+이는 exact artifact provenance일 뿐 최종 V2 demo RC나 출시 GO가 아니다.
 
 ### 외부 정상 독해 RC 게이트 (2026-07-21)
 

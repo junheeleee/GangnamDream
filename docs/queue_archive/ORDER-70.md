@@ -88,15 +88,15 @@ companion `.gd.uid`까지 추적해야 `build.sh playtest`의 untracked 0 조건
 - 설정·화면·메타·자동저장·수동 슬롯 1~10의 retail/playtest
   14경로 교집합은 `0`이다. 생산 읽기·쓰기는 현재 flavor 경로만 쓰며
   다른 flavor를 탐색·이전·삭제·폴백하지 않는다.
-- clean 구현 커밋
-  `cc152b571ee54284bfce29ff5f018d4e2a84f2f1`, 트리
-  `c185bb953a6cc5e2c89788a81fddb440a109de5e`에서 세 플랫폼 export가
+- `BUILD 2026.08.03.1`의 clean 구현 커밋
+  `835452bc01ea97316d9dfafeaa79b8c862cca595`, 트리
+  `d9f97570e92913ec1bb7c21a55ad5e63613b0bba`에서 세 플랫폼 export가
   완료됐다. manifest 파일 SHA-256은
-  `7aeb642100833698800825607a6f67497d024f233f714bdda851bcf03c986182`,
+  `de02b11231a47e40b8b1d768bf36c9979662aab4a410c69728abab46a5f39504`,
   Windows/macOS/Linux 산출물은 각각
-  `0692bec2734e4456f2883fca8e1d914643a1915e20c7b403af626a7b6b019c10`,
-  `0d44159a85286561aa54c363ea84c0728ab884aaef787f37447015ef1ebedcbb`,
-  `6159601cb30616c383e9d25a7ae3a3d19dc7dd1c06b26b3fd7f4f6394cc22bbe`다.
+  `531f7e906bf6f6c2fff6926b58c8262442d53a9244768d13325de5234ee49dfc`,
+  `9b90ba5d6831c3edabd64c3fec90d8a15c2c3686500b530629f6e8c250988072`,
+  `8e325325e0b3b1502d3b38ddf3c7931ac48aa092ffce5dc8d6d57589016acee0`다.
 - macOS 산출물을 터미널 인자 없이 실행했다. 최초 언어 선택,
   JUNPAC, KO·EN 시작 메뉴에서 전역 표식·빌드 정체성·전용 진입을
   실제로 확인했고, 전용 진입은 콘텐츠 안내 뒤 V2 도입 장면까지 열렸다.
