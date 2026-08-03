@@ -26,6 +26,16 @@
 > “아무 마우스 버튼이면 닫기” 처리에 휠 버튼까지 포함되어 실제 스크롤이
 > 닫기로 번지는 결함을 먼저 차단한다. 기록 내용·대사 진행·타이머 계약은
 > 바꾸지 않고, 휠 스크롤 유지와 바깥쪽 좌클릭 닫기를 회귀로 고정한다.
+>
+> 사용자 실플레이·CI 긴급 범위 확장 (2026-08-03) — 추가 파일:
+> `scenes/StartMenu.gd`, `scenes/MainGame.gd`, `scenes/CoreLoopPlanner.gd`,
+> `scenes/TutorialOverlay.gd`, `autoloads/UIStyle.gd`,
+> `tools/First30SecondsCheck.gd`, `tools/FlashforwardVisualCheck.gd`,
+> `tools/ScreenshotQA.gd`, 신규 첫 V2 진입 회귀와 그 `.tscn`,
+> `tools/audit.sh`, `tools/audit_scope.json`. 제3자 고지의 실제 포커스 프레임과
+> CI 계약을 일치시키고, 프롤로그 뒤 Chapter 1 카드·첫 폰 튜토리얼을 복구하며,
+> 실루엣 전환의 원본 얼굴 노출과 1280×800/960×600 폰 텍스트 잘림을 막는다.
+> 사건 선택·효과·24주 밸런스와 `project.godot`은 바꾸지 않는다.
 
 ## 깊이 3문
 
