@@ -35,10 +35,12 @@
 > `assets/FIRST_BILL_VISUAL_BIBLE.md`, `assets/GOSHIWON_VISUAL_BIBLE.md`,
 > `assets/CHARACTER_VISUAL_BIBLE.md`, `assets/IMAGE_PROMPTS.md`,
 > `assets/ASSET_INDEX.md`, `assets/event_visual_contracts.json`,
-> `assets/scene_audio_manifest.json`, `assets/scene_direction_manifest.json`,
+> `assets/scene_audio_manifest.json`, `assets/game_audio_manifest.json`,
+> `assets/scene_direction_manifest.json`, `tools/scene_audio_contract_check.py`,
 > `tools/scene_direction_catalog.py`,
 > `assets/mod_asset_manifest.json`, `docs/MODDING.md`,
-> `docs/ART_AI_AUDIT.md`, `tools/art_resolution_baseline.json`,
+> `docs/ART_AI_AUDIT.md`, `docs/ART_RESOLUTION_READINESS.md`,
+> `docs/AUDIO_QA.md`, `tools/art_resolution_baseline.json`,
 > `content/meta/release_content_inventory.json`,
 > `docs/CONTENT_RATING_INVENTORY.md`.
 >
