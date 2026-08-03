@@ -92,6 +92,12 @@ PLAYER_COPY_FIELDS = (
 )
 ALLOWED_ACTION_IDS = {"apply", "side_shift", "resume", "interview", "study", "rest"}
 PRACTICAL_EXCLUDED_KINDS = {"pursuit", "encounter", "care"}
+AXIS_KINDS = {
+    "people": {"pursuit", "encounter", "care"},
+    "practical": {"livelihood", "growth", "recovery"},
+    "career": {"career"},
+}
+EXPECTED_AXIS_LEGAL_UNION = [80, 72, 268, 364, 532, 105]
 ACTION_STORY_ROOTS = {
     "m1_convenience_trial_shift": "v2_convenience_trial_shift",
     "m3_inventory_shift": "v2_inventory_count_nights",
@@ -1816,6 +1822,948 @@ def validate_density_time_hybrid_contracts(
     }
 
 
+def visible_offer_ids_for_fixture(
+    month: dict[str, Any],
+    bundles: dict[str, Any],
+    fixture: dict[str, Any],
+    surface: dict[str, Any],
+) -> list[str]:
+    """Mirror the runtime's prerequisite filtering and sparse fallback fill."""
+    result: list[str] = []
+    raw_offers = month.get("offers", [])
+    if isinstance(raw_offers, list):
+        for raw_bundle_id in raw_offers:
+            bundle_id = str(raw_bundle_id).strip()
+            bundle = bundles.get(bundle_id)
+            if (
+                bundle_id
+                and isinstance(bundle, dict)
+                and bundle_available_in_fixture(bundle, fixture)
+            ):
+                result.append(bundle_id)
+
+    slot_count = max(1, int(surface.get("foreground_slots_per_month", 4)))
+    minimum_offers = max(
+        1, int(surface.get("minimum_offers_per_month", slot_count))
+    )
+    fill_target = max(slot_count, minimum_offers)
+    if len(result) < fill_target:
+        raw_fallbacks = month.get("fallback_offers", [])
+        if isinstance(raw_fallbacks, list):
+            for raw_bundle_id in raw_fallbacks:
+                bundle_id = str(raw_bundle_id).strip()
+                bundle = bundles.get(bundle_id)
+                if (
+                    not bundle_id
+                    or bundle_id in result
+                    or not isinstance(bundle, dict)
+                    or not bundle_available_in_fixture(bundle, fixture)
+                ):
+                    continue
+                result.append(bundle_id)
+                if len(result) >= fill_target:
+                    break
+    return result
+
+
+def selection_within_reachable_plan_constraints(
+    selected: list[str],
+    month: dict[str, Any],
+    bundles: dict[str, Any],
+    groups: dict[str, Any],
+    relationship: dict[str, Any],
+    fixture: dict[str, Any],
+) -> bool:
+    """Mirror plan constraints, including already-active named characters."""
+    for raw_group in groups.values():
+        if not isinstance(raw_group, dict):
+            continue
+        members = {str(value) for value in raw_group.get("members", [])}
+        if len(members.intersection(selected)) > int(
+            raw_group.get("maximum_selected", 1)
+        ):
+            return False
+
+    named_cap = max(0, int(month.get("active_named_characters_max", 0)))
+    global_cap = max(
+        0, int(relationship.get("maximum_active_named_threads", 0))
+    )
+    if named_cap <= 0:
+        named_cap = global_cap
+    elif global_cap > 0:
+        named_cap = min(named_cap, global_cap)
+    if named_cap <= 0:
+        return True
+
+    named_characters = {
+        str(character).strip()
+        for character, stage in fixture.get("stages", {}).items()
+        if str(character).strip()
+        and str(stage).strip() not in {"", "unmet", "closed"}
+    }
+    named_characters.update(
+        str(character).strip()
+        for bundle_id in selected
+        for character in (
+            bundles.get(bundle_id, {}).get("characters", [])
+            if isinstance(bundles.get(bundle_id), dict)
+            else []
+        )
+        if str(character).strip()
+    )
+    return len(named_characters) <= named_cap
+
+
+def enumerate_reachable_month_schedules(
+    month: dict[str, Any],
+    visible_offer_ids: list[str],
+    bundles: dict[str, Any],
+    groups: dict[str, Any],
+    relationship: dict[str, Any],
+    fixture: dict[str, Any],
+) -> list[dict[str, str]]:
+    """Exhaustively assign the four weeks for one reachable visible surface."""
+    raw_weeks = month.get("weeks", [])
+    if (
+        not isinstance(raw_weeks, list)
+        or len(raw_weeks) != 2
+        or any(not isinstance(value, int) for value in raw_weeks)
+    ):
+        return []
+    weeks = list(range(int(raw_weeks[0]), int(raw_weeks[1]) + 1))
+    locked_by_week: dict[int, str] = {}
+    raw_locks = month.get("locked", [])
+    if isinstance(raw_locks, list):
+        for raw_lock in raw_locks:
+            if isinstance(raw_lock, dict):
+                locked_by_week[int(raw_lock.get("week", 0))] = str(
+                    raw_lock.get("bundle", "")
+                ).strip()
+
+    schedules: list[dict[str, str]] = []
+
+    def assign(
+        week_index: int, schedule: dict[str, str], selected: list[str]
+    ) -> None:
+        if week_index >= len(weeks):
+            if selection_within_reachable_plan_constraints(
+                selected,
+                month,
+                bundles,
+                groups,
+                relationship,
+                fixture,
+            ):
+                schedules.append(dict(schedule))
+            return
+        week = weeks[week_index]
+        candidates = (
+            [locked_by_week[week]]
+            if week in locked_by_week
+            else visible_offer_ids
+        )
+        for bundle_id in candidates:
+            bundle = bundles.get(bundle_id)
+            if not isinstance(bundle, dict) or bundle_id in selected:
+                continue
+            allowed_weeks = bundle.get("allowed_weeks", [])
+            if not isinstance(allowed_weeks, list) or week not in {
+                int(value) for value in allowed_weeks
+            }:
+                continue
+            schedule[str(week)] = bundle_id
+            selected.append(bundle_id)
+            if selection_within_reachable_plan_constraints(
+                selected,
+                month,
+                bundles,
+                groups,
+                relationship,
+                fixture,
+            ):
+                assign(week_index + 1, schedule, selected)
+            selected.pop()
+            schedule.pop(str(week), None)
+
+    assign(0, {}, [])
+    return schedules
+
+
+def axis_schedule_key(schedule: dict[str, str]) -> tuple[tuple[int, str], ...]:
+    return tuple(
+        sorted((int(week), str(bundle_id)) for week, bundle_id in schedule.items())
+    )
+
+
+def axis_format_schedule(schedule: dict[str, str]) -> str:
+    return ";".join(
+        f"{week}:{bundle_id}" for week, bundle_id in axis_schedule_key(schedule)
+    )
+
+
+def axis_lower_median(values: list[int]) -> int:
+    ordered = sorted(values)
+    return ordered[(len(ordered) - 1) // 2]
+
+
+def axis_range(values: list[int]) -> tuple[int, int, int]:
+    return min(values), axis_lower_median(values), max(values)
+
+
+def axis_format_range(values: list[int]) -> str:
+    low, middle, high = axis_range(values)
+    return f"{low}/{middle}/{high}"
+
+
+def axis_future_predicate_atoms(
+    months: list[Any], bundles: dict[str, Any]
+) -> dict[str, Any]:
+    """Return only state atoms that can alter a later selectable offer."""
+    selectable_ids = {
+        str(bundle_id)
+        for raw_month in months
+        if isinstance(raw_month, dict)
+        for field in ("offers", "fallback_offers")
+        for bundle_id in raw_month.get(field, [])
+    }
+    completed: set[str] = set()
+    memory_groups: set[tuple[tuple[str, str], ...]] = set()
+    player_initiated: set[str] = set()
+    routines: set[str] = set()
+    applications: set[str] = set()
+    for bundle_id in sorted(selectable_ids):
+        raw_bundle = bundles.get(bundle_id)
+        if not isinstance(raw_bundle, dict):
+            continue
+        raw_prerequisites = raw_bundle.get("prerequisites", {})
+        if not isinstance(raw_prerequisites, dict):
+            continue
+        for group in ("all", "any"):
+            raw_rows = raw_prerequisites.get(group, [])
+            if not isinstance(raw_rows, list):
+                continue
+            grouped_memories: list[tuple[str, str]] = []
+            for raw_row in raw_rows:
+                if not isinstance(raw_row, dict):
+                    continue
+                kind = str(raw_row.get("kind", ""))
+                if kind == "completed_bundle":
+                    completed.add(str(raw_row.get("bundle_id", "")))
+                elif kind == "relationship_memory":
+                    memory = (
+                        str(raw_row.get("character", "")),
+                        str(raw_row.get("memory", "")),
+                    )
+                    if group == "any":
+                        grouped_memories.append(memory)
+                    else:
+                        memory_groups.add((memory,))
+                elif kind == "player_initiated":
+                    player_initiated.add(str(raw_row.get("character", "")))
+                elif kind == "routine_selected":
+                    routines.add(str(raw_row.get("track", "")))
+                elif kind in {
+                    "application_status",
+                    "application_status_not_in",
+                }:
+                    applications.add(str(raw_row.get("application_id", "")))
+            if grouped_memories:
+                memory_groups.add(tuple(sorted(grouped_memories)))
+    return {
+        "completed": completed,
+        "memory_groups": tuple(sorted(memory_groups)),
+        "player_initiated": player_initiated,
+        "routines": routines,
+        "applications": applications,
+    }
+
+
+def axis_initial_causal_state() -> dict[str, Any]:
+    return {
+        "completed": set(),
+        "stages": {},
+        "memories": set(),
+        "player_initiated": set(),
+        "routines": set(),
+        "applications": {},
+    }
+
+
+def axis_copy_causal_state(state: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "completed": set(state.get("completed", set())),
+        "stages": dict(state.get("stages", {})),
+        "memories": set(state.get("memories", set())),
+        "player_initiated": set(state.get("player_initiated", set())),
+        "routines": set(state.get("routines", set())),
+        "applications": dict(state.get("applications", {})),
+    }
+
+
+def axis_causal_state_key(
+    state: dict[str, Any], atoms: dict[str, Any]
+) -> tuple[Any, ...]:
+    """Collapse choice prose only when every later eligibility truth agrees."""
+    memories = set(state.get("memories", set()))
+    return (
+        tuple(
+            sorted(
+                set(state.get("completed", set())).intersection(
+                    atoms["completed"]
+                )
+            )
+        ),
+        tuple(
+            bool(memories.intersection(memory_group))
+            for memory_group in atoms["memory_groups"]
+        ),
+        tuple(
+            sorted(
+                (str(character), str(stage))
+                for character, stage in state.get("stages", {}).items()
+                if str(character) and str(stage) not in {"", "unmet"}
+            )
+        ),
+        tuple(
+            sorted(
+                set(state.get("player_initiated", set())).intersection(
+                    atoms["player_initiated"]
+                )
+            )
+        ),
+        tuple(
+            sorted(
+                set(state.get("routines", set())).intersection(
+                    atoms["routines"]
+                )
+            )
+        ),
+        tuple(
+            sorted(
+                (
+                    application_id,
+                    str(state.get("applications", {}).get(application_id, "")),
+                )
+                for application_id in atoms["applications"]
+            )
+        ),
+    )
+
+
+def deduplicate_axis_causal_states(
+    states: list[dict[str, Any]], atoms: dict[str, Any]
+) -> list[dict[str, Any]]:
+    unique: dict[tuple[Any, ...], dict[str, Any]] = {}
+    for state in states:
+        state_key = axis_causal_state_key(state, atoms)
+        if state_key not in unique:
+            unique[state_key] = state
+    return [unique[state_key] for state_key in sorted(unique)]
+
+
+def axis_bundle_changes_future_truth(
+    bundle_id: str, bundle: dict[str, Any], atoms: dict[str, Any]
+) -> bool:
+    action_config = bundle.get("action_config", {})
+    action_application = (
+        str(action_config.get("application_id", "")).strip()
+        if isinstance(action_config, dict)
+        else ""
+    )
+    outcome_applications = {
+        str(outcome.get("application_id", "")).strip()
+        for outcome in bundle.get("application_outcomes", [])
+        if isinstance(outcome, dict)
+    }
+    return bool(
+        bundle_id in atoms["completed"]
+        or bundle.get("relationship_outcomes", [])
+        or action_application in atoms["applications"]
+        or outcome_applications.intersection(atoms["applications"])
+    )
+
+
+def expand_axis_bundle_causal_states(
+    state: dict[str, Any],
+    bundle_id: str,
+    bundle: dict[str, Any],
+    atoms: dict[str, Any],
+    errors: list[str],
+    mark_completed: bool = True,
+) -> list[dict[str, Any]]:
+    """Apply only completion/outcome facts that can alter a later plan."""
+    base = axis_copy_causal_state(state)
+    if mark_completed and bundle_id in atoms["completed"]:
+        base["completed"].add(bundle_id)
+    action_config = bundle.get("action_config", {})
+    if isinstance(action_config, dict):
+        application_id = str(action_config.get("application_id", "")).strip()
+        status = str(action_config.get("status", "")).strip()
+        if application_id in atoms["applications"] and status:
+            base["applications"][application_id] = status
+
+    raw_relationship_outcomes = bundle.get("relationship_outcomes", [])
+    relationship_states = [base]
+    if isinstance(raw_relationship_outcomes, list) and raw_relationship_outcomes:
+        relationship_states = []
+        for raw_outcome in raw_relationship_outcomes:
+            if not isinstance(raw_outcome, dict):
+                continue
+            character = str(raw_outcome.get("character", "")).strip()
+            from_stage = str(raw_outcome.get("from", "")).strip()
+            to_stage = str(raw_outcome.get("to", "")).strip()
+            current_stage = str(base["stages"].get(character, "unmet"))
+            if current_stage != from_stage and not (
+                bool(raw_outcome.get("allow_already_at_target", False))
+                and current_stage == to_stage
+            ):
+                continue
+            next_state = axis_copy_causal_state(base)
+            memory = str(raw_outcome.get("memory", "")).strip()
+            if character and to_stage:
+                next_state["stages"][character] = to_stage
+            if character and memory:
+                next_state["memories"].add((character, memory))
+            if character and str(raw_outcome.get("initiative", "")) == "player":
+                next_state["player_initiated"].add(character)
+            relationship_states.append(next_state)
+        if not relationship_states:
+            message = (
+                f"axis causal transition {bundle_id} has no relationship "
+                "outcome for its reachable stage"
+            )
+            if message not in errors:
+                fail(message, errors)
+            relationship_states = [base]
+        relationship_states = deduplicate_axis_causal_states(
+            relationship_states, atoms
+        )
+
+    raw_application_outcomes = bundle.get("application_outcomes", [])
+    relevant_application_outcomes = [
+        outcome
+        for outcome in raw_application_outcomes
+        if isinstance(outcome, dict)
+        and str(outcome.get("application_id", "")) in atoms["applications"]
+    ] if isinstance(raw_application_outcomes, list) else []
+    if not relevant_application_outcomes:
+        return relationship_states
+
+    expanded: list[dict[str, Any]] = []
+    for relationship_state in relationship_states:
+        transitions: dict[tuple[str, str], dict[str, Any]] = {}
+        for outcome in relevant_application_outcomes:
+            application_id = str(outcome.get("application_id", "")).strip()
+            from_status = str(outcome.get("from", "")).strip()
+            to_status = str(outcome.get("to", "")).strip()
+            if str(relationship_state["applications"].get(
+                application_id, ""
+            )) != from_status:
+                continue
+            next_state = axis_copy_causal_state(relationship_state)
+            next_state["applications"][application_id] = to_status
+            transitions[(application_id, to_status)] = next_state
+        if transitions:
+            expanded.extend(transitions[key] for key in sorted(transitions))
+        else:
+            message = (
+                f"axis causal transition {bundle_id} has no application "
+                "outcome for its reachable status"
+            )
+            if message not in errors:
+                fail(message, errors)
+            expanded.append(relationship_state)
+    return deduplicate_axis_causal_states(expanded, atoms)
+
+
+def apply_axis_causal_sequence(
+    state: dict[str, Any],
+    bundle_ids: tuple[str, ...],
+    bundles: dict[str, Any],
+    atoms: dict[str, Any],
+    errors: list[str],
+) -> list[dict[str, Any]]:
+    states = [state]
+    for bundle_id in bundle_ids:
+        bundle = bundles.get(bundle_id)
+        if not isinstance(bundle, dict):
+            continue
+        expanded: list[dict[str, Any]] = []
+        for current_state in states:
+            expanded.extend(
+                expand_axis_bundle_causal_states(
+                    current_state,
+                    bundle_id,
+                    bundle,
+                    atoms,
+                    errors,
+                )
+            )
+        states = deduplicate_axis_causal_states(expanded, atoms)
+    return states
+
+
+def extend_axis_routine_histories(
+    state: dict[str, Any],
+    routine_truths: list[set[str]],
+    atoms: dict[str, Any],
+) -> list[dict[str, Any]]:
+    extended: list[dict[str, Any]] = []
+    for routine_truth in routine_truths:
+        next_state = axis_copy_causal_state(state)
+        next_state["routines"].update(routine_truth)
+        extended.append(next_state)
+    return deduplicate_axis_causal_states(extended, atoms)
+
+
+def validate_axis_runtime_prelude_order(errors: list[str]) -> None:
+    try:
+        source = (ROOT / "scenes" / "MainGame.gd").read_text(encoding="utf-8")
+        route_week = source.split(
+            "func _core_loop_v2_route_week", 1
+        )[1].split("\nfunc ", 1)[0]
+    except (OSError, IndexError) as exc:
+        fail(f"axis measurement cannot inspect V2 prelude order: {exc}", errors)
+        return
+    prelude_index = route_week.find("pending_month_prelude")
+    plan_index = route_week.find("needs_plan")
+    if prelude_index < 0 or plan_index < 0 or prelude_index > plan_index:
+        fail(
+            "Core Loop V2 must consume the month prelude before opening its plan",
+            errors,
+        )
+
+
+def validate_axis_runtime_routine_history(errors: list[str]) -> None:
+    try:
+        source = (ROOT / "systems" / "DemoCoreLoopV2.gd").read_text(
+            encoding="utf-8"
+        )
+        predicate = source.split(
+            "static func _predicate_met", 1
+        )[1].split("\nstatic func ", 1)[0]
+    except (OSError, IndexError) as exc:
+        fail(f"axis measurement cannot inspect routine history: {exc}", errors)
+        return
+    if (
+        '"routine_selected":' not in predicate
+        or 'state["plans"].values()' not in predicate
+    ):
+        fail(
+            "routine_selected must read every retained monthly plan, not only "
+            "the current month's routine pair",
+            errors,
+        )
+
+
+def measure_reachable_axis_surfaces(
+    contract: dict[str, Any],
+    bundles: dict[str, Any],
+    months: list[Any],
+    groups: dict[str, Any],
+    relationship: dict[str, Any],
+    surface: dict[str, Any],
+    registered_events: dict[str, dict[str, Any]],
+    errors: list[str],
+) -> list[str]:
+    """Exhaust every plan reachable through future-relevant causal state."""
+    causal_states = [axis_initial_causal_state()]
+    routine_ids = sorted(
+        str(value)
+        for value in contract.get("routine", {}).get("options", {})
+    )
+    if len(routine_ids) < 2:
+        fail("axis causal measurement has no legal routine pair", errors)
+        return []
+    validate_axis_runtime_prelude_order(errors)
+    validate_axis_runtime_routine_history(errors)
+
+    raw_primary_ids: list[str] = []
+    raw_fallback_ids: list[str] = []
+    locked_ids: list[str] = []
+    prelude_ids: list[str] = []
+    conditional_ids: list[str] = []
+    for raw_month in months:
+        if not isinstance(raw_month, dict):
+            continue
+        for field, target in (
+            ("offers", raw_primary_ids),
+            ("fallback_offers", raw_fallback_ids),
+            ("prelude", prelude_ids),
+            ("conditional_consequences", conditional_ids),
+        ):
+            raw_ids = raw_month.get(field, [])
+            if isinstance(raw_ids, list):
+                target.extend(str(value) for value in raw_ids)
+        raw_locks = raw_month.get("locked", [])
+        if isinstance(raw_locks, list):
+            locked_ids.extend(
+                str(raw_lock.get("bundle", ""))
+                for raw_lock in raw_locks
+                if isinstance(raw_lock, dict)
+            )
+
+    def surface_stat(ids: list[str], kinds: set[str] | None = None) -> str:
+        selected_ids = [
+            bundle_id
+            for bundle_id in ids
+            if isinstance(bundles.get(bundle_id), dict)
+            and (
+                kinds is None
+                or str(bundles[bundle_id].get("kind", "")) in kinds
+            )
+        ]
+        authored_ids = [
+            bundle_id
+            for bundle_id in selected_ids
+            if bundle_has_registered_authored_surface(
+                bundles[bundle_id], registered_events
+            )
+        ]
+        authored_minutes = sum(
+            int(bundles[bundle_id].get("estimated_minutes", 0))
+            for bundle_id in authored_ids
+        )
+        total_minutes = sum(
+            int(bundles[bundle_id].get("estimated_minutes", 0))
+            for bundle_id in selected_ids
+        )
+        return (
+            f"{len(authored_ids)}/{len(selected_ids)}:"
+            f"{authored_minutes}/{total_minutes}m"
+        )
+
+    lines = [
+        "axis_measurement scope=exact_causal_states "
+        "plans=exhaustive causal_union=deduplicated_unweighted median=lower "
+        "prelude_order=before_plan "
+        "surface_tuple=authored/total:authored_minutes/total_minutes "
+        "path_tuple=selected_range:authored_range:minute_range",
+        "axis_surface "
+        + " ".join(
+            f"{axis_id}={surface_stat(raw_primary_ids, kinds)}"
+            for axis_id, kinds in AXIS_KINDS.items()
+        ),
+        "axis_context "
+        f"fallback={surface_stat(raw_fallback_ids)} "
+        f"locked={surface_stat(locked_ids)} "
+        f"prelude={surface_stat(prelude_ids)} "
+        f"conditional={surface_stat(conditional_ids)}",
+    ]
+
+    for month_index, raw_month in enumerate(months, start=1):
+        if not isinstance(raw_month, dict):
+            fail(f"axis reachability month {month_index} is not an object", errors)
+            continue
+        current_atoms = axis_future_predicate_atoms(
+            months[month_index - 1 :], bundles
+        )
+        next_atoms = axis_future_predicate_atoms(
+            months[month_index:], bundles
+        )
+        routine_truth_keys = {
+            tuple(
+                sorted(
+                    {routine_ids[left], routine_ids[right]}.intersection(
+                        next_atoms["routines"]
+                    )
+                )
+            )
+            for left in range(len(routine_ids))
+            for right in range(left + 1, len(routine_ids))
+        }
+        routine_truths = [set(values) for values in sorted(routine_truth_keys)]
+        for raw_prelude_id in raw_month.get("prelude", []):
+            prelude_id = str(raw_prelude_id).strip()
+            prelude = bundles.get(prelude_id)
+            if not isinstance(prelude, dict):
+                continue
+            expanded_preludes: list[dict[str, Any]] = []
+            for causal_state in causal_states:
+                if bundle_available_in_fixture(prelude, causal_state):
+                    expanded_preludes.extend(
+                        expand_axis_bundle_causal_states(
+                            causal_state,
+                            prelude_id,
+                            prelude,
+                            current_atoms,
+                            errors,
+                            mark_completed=False,
+                        )
+                    )
+                else:
+                    expanded_preludes.append(causal_state)
+            causal_states = deduplicate_axis_causal_states(
+                expanded_preludes, current_atoms
+            )
+        opening_causal_state_count = len(causal_states)
+        if month_index == 3 and "daeun_world_meet" in raw_month.get(
+            "offers", []
+        ):
+            routine_surfaces: dict[bool, set[bool]] = {
+                False: set(),
+                True: set(),
+            }
+            for causal_state in causal_states:
+                livelihood_seen = "livelihood" in causal_state.get(
+                    "routines", set()
+                )
+                routine_surfaces[livelihood_seen].add(
+                    "daeun_world_meet"
+                    in visible_offer_ids_for_fixture(
+                        raw_month, bundles, causal_state, surface
+                    )
+                )
+            if routine_surfaces != {False: {False}, True: {True}}:
+                fail(
+                    "axis causal states must preserve both cumulative "
+                    "livelihood histories and expose Daeun only after that "
+                    "past routine was selected",
+                    errors,
+                )
+        if "father_health_signal" in raw_month.get("prelude", []) and any(
+            str(state.get("stages", {}).get("father", "unmet"))
+            in {"", "unmet", "closed"}
+            for state in causal_states
+        ):
+            fail(
+                "Father's month-six prelude must activate his thread before "
+                "the planner counts named characters",
+                errors,
+            )
+
+        unique_visible_sets: set[tuple[str, ...]] = set()
+        unique_schedules: dict[
+            tuple[tuple[int, str], ...], dict[str, str]
+        ] = {}
+        dead_surfaces: list[
+            tuple[tuple[str, ...], tuple[str, ...]]
+        ] = []
+        schedule_cache: dict[
+            tuple[tuple[str, ...], tuple[str, ...]],
+            tuple[list[dict[str, str]], list[tuple[str, ...]]],
+        ] = {}
+        next_states: dict[tuple[Any, ...], dict[str, Any]] = {}
+        for causal_state in causal_states:
+            visible_ids = visible_offer_ids_for_fixture(
+                raw_month, bundles, causal_state, surface
+            )
+            visible_key = tuple(visible_ids)
+            active_named = tuple(
+                sorted(
+                    str(character)
+                    for character, stage in causal_state.get(
+                        "stages", {}
+                    ).items()
+                    if str(stage) not in {"", "unmet", "closed"}
+                )
+            )
+            cache_key = (visible_key, active_named)
+            if cache_key not in schedule_cache:
+                schedules = enumerate_reachable_month_schedules(
+                    raw_month,
+                    visible_ids,
+                    bundles,
+                    groups,
+                    relationship,
+                    causal_state,
+                )
+                transition_sequences = sorted(
+                    {
+                        tuple(
+                            bundle_id
+                            for _, bundle_id in axis_schedule_key(schedule)
+                            if isinstance(bundles.get(bundle_id), dict)
+                            and axis_bundle_changes_future_truth(
+                                bundle_id, bundles[bundle_id], next_atoms
+                            )
+                        )
+                        for schedule in schedules
+                    }
+                )
+                schedule_cache[cache_key] = (
+                    schedules,
+                    transition_sequences,
+                )
+                for schedule in schedules:
+                    unique_schedules[axis_schedule_key(schedule)] = schedule
+            fixture_schedules, transition_sequences = schedule_cache[cache_key]
+            unique_visible_sets.add(visible_key)
+            if not fixture_schedules:
+                dead_surfaces.append(cache_key)
+                continue
+            for transition_sequence in transition_sequences:
+                transitioned = apply_axis_causal_sequence(
+                    causal_state,
+                    transition_sequence,
+                    bundles,
+                    next_atoms,
+                    errors,
+                )
+                for transitioned_state in transitioned:
+                    for next_state in extend_axis_routine_histories(
+                        transitioned_state, routine_truths, next_atoms
+                    ):
+                        state_key = axis_causal_state_key(next_state, next_atoms)
+                        if state_key not in next_states:
+                            next_states[state_key] = next_state
+
+        if dead_surfaces:
+            fail(
+                f"axis reachability month {month_index} has "
+                f"{len(dead_surfaces)} reachable offer surfaces without a "
+                f"legal four-week plan; examples={dead_surfaces[:3]}",
+                errors,
+            )
+        causal_states = [
+            next_states[state_key] for state_key in sorted(next_states)
+        ]
+        next_causal_state_count = len(causal_states)
+        schedules = [unique_schedules[key] for key in sorted(unique_schedules)]
+        if not schedules:
+            fail(
+                f"axis reachability month {month_index} has no reachable "
+                "legal four-week plan",
+                errors,
+            )
+            continue
+        expected_legal = EXPECTED_AXIS_LEGAL_UNION[month_index - 1]
+        if len(schedules) != expected_legal:
+            fail(
+                f"axis exact legal union month {month_index} expected "
+                f"{expected_legal}, got {len(schedules)}",
+                errors,
+            )
+
+        locked_declared = [
+            str(raw_lock.get("bundle", ""))
+            for raw_lock in raw_month.get("locked", [])
+            if isinstance(raw_lock, dict)
+        ]
+        locked = set(locked_declared)
+        prelude_declared = [
+            str(value) for value in raw_month.get("prelude", [])
+        ]
+        conditional_declared = [
+            str(value)
+            for value in raw_month.get("conditional_consequences", [])
+        ]
+
+        def authored_context_ids(declared: list[str]) -> list[str]:
+            return [
+                bundle_id
+                for bundle_id in declared
+                if isinstance(bundles.get(bundle_id), dict)
+                and bundle_has_registered_authored_surface(
+                    bundles[bundle_id], registered_events
+                )
+            ]
+
+        def format_authored_context(declared: list[str]) -> str:
+            authored = authored_context_ids(declared)
+            return f"{len(authored)}:{','.join(authored) if authored else '-'}"
+
+        def selectable_ids(schedule: dict[str, str]) -> list[str]:
+            return [
+                bundle_id
+                for _, bundle_id in axis_schedule_key(schedule)
+                if bundle_id not in locked
+            ]
+
+        def authored_count(schedule: dict[str, str]) -> int:
+            return sum(
+                1
+                for bundle_id in selectable_ids(schedule)
+                if bundle_has_registered_authored_surface(
+                    bundles[bundle_id], registered_events
+                )
+            )
+
+        ranked = sorted(
+            (authored_count(schedule), axis_schedule_key(schedule), schedule)
+            for schedule in schedules
+        )
+        minimum = ranked[0][0]
+        maximum = ranked[-1][0]
+        median_index = (len(ranked) - 1) // 2
+        median = ranked[median_index][0]
+        witnesses = {
+            "min": next(row[2] for row in ranked if row[0] == minimum),
+            "median": ranked[median_index][2],
+            "max": next(row[2] for row in ranked if row[0] == maximum),
+        }
+        for label, expected in (
+            ("min", minimum),
+            ("median", median),
+            ("max", maximum),
+        ):
+            witness = witnesses[label]
+            if (
+                axis_schedule_key(witness) not in unique_schedules
+                or authored_count(witness) != expected
+            ):
+                fail(
+                    f"axis reachability month {month_index} has an invalid "
+                    f"{label} witness {axis_format_schedule(witness)}",
+                    errors,
+                )
+
+        axis_fields: list[str] = []
+        for axis_id, kinds in AXIS_KINDS.items():
+            selected_values: list[int] = []
+            axis_authored_values: list[int] = []
+            minute_values: list[int] = []
+            for schedule in schedules:
+                ids = [
+                    bundle_id
+                    for bundle_id in selectable_ids(schedule)
+                    if str(bundles[bundle_id].get("kind", "")) in kinds
+                ]
+                selected_values.append(len(ids))
+                axis_authored_values.append(
+                    sum(
+                        1
+                        for bundle_id in ids
+                        if bundle_has_registered_authored_surface(
+                            bundles[bundle_id], registered_events
+                        )
+                    )
+                )
+                minute_values.append(
+                    sum(
+                        int(bundles[bundle_id].get("estimated_minutes", 0))
+                        for bundle_id in ids
+                    )
+                )
+            axis_fields.append(
+                f"{axis_id}={axis_format_range(selected_values)}:"
+                f"{axis_format_range(axis_authored_values)}:"
+                f"{axis_format_range(minute_values)}m"
+            )
+
+        lines.append(
+            f"axis_path month={month_index} "
+            "coverage=exact_causal_states "
+            f"causal_states={opening_causal_state_count} "
+            f"plan_signatures={len(schedule_cache)} "
+            f"next_states={next_causal_state_count} "
+            f"visible_sets={len(unique_visible_sets)} "
+            f"legal={len(schedules)} "
+            f"authored={minimum}/{median}/{maximum} "
+            + " ".join(axis_fields)
+            + " "
+            f"locked_authored={format_authored_context(locked_declared)} "
+            f"prelude_authored={format_authored_context(prelude_declared)} "
+            "conditional_basis=declared_presence "
+            f"conditional_authored={format_authored_context(conditional_declared)} "
+            f"witness_min={axis_format_schedule(witnesses['min'])} "
+            f"witness_median={axis_format_schedule(witnesses['median'])} "
+            f"witness_max={axis_format_schedule(witnesses['max'])}"
+        )
+
+    return lines
+
+
 def validate_phone_contract(
     phone: dict[str, Any], errors: list[str]
 ) -> None:
@@ -2711,6 +3659,1799 @@ def validate_deferred_callback_contracts(
             fail(f"{callback_id} is missing from the registered event set", errors)
 
 
+def measure_long_tail_readers(
+    contract: dict[str, Any],
+    registered_events: dict[str, dict[str, Any]],
+    demo_core_loop_source: str,
+    year_close_variants: dict[str, Any],
+    year_close_obligation_readers: dict[str, Any],
+    obligation_ids: list[str],
+    errors: list[str],
+) -> list[str]:
+    """Classify V2 receipts by reachable reader, not by registration alone."""
+
+    def compact_ids(values: set[str] | list[str]) -> str:
+        ordered = sorted({str(value) for value in values if str(value)})
+        return ",".join(ordered) if ordered else "none"
+
+    def relationship_reader_keys(event: dict[str, Any]) -> dict[str, str]:
+        raw_variants = event.get("description_memory_if_known", {})
+        if not isinstance(raw_variants, dict):
+            return {}
+        result: dict[str, str] = {}
+        for raw_key in raw_variants:
+            parts = str(raw_key).split(":", 2)
+            if len(parts) == 3 and parts[0] == "relationship_memory":
+                result[parts[2]] = parts[1]
+        return result
+
+    def payload_has_material_value(value: Any) -> bool:
+        if isinstance(value, bool):
+            return value
+        if isinstance(value, (int, float)):
+            return float(value) != 0.0
+        if isinstance(value, str):
+            return bool(value.strip())
+        if isinstance(value, dict):
+            return any(payload_has_material_value(item) for item in value.values())
+        if isinstance(value, list):
+            return any(payload_has_material_value(item) for item in value)
+        return False
+
+    def event_has_stateful_outcome(event: dict[str, Any]) -> bool:
+        stateful_keys = STORY_GAMEPLAY_KEYS | {
+            "cast_effects",
+            "clues",
+            "deferred_follow_up",
+            "follow_up_event",
+            "give_items",
+            "grant_job",
+            "housing_keepsake",
+            "opportunity",
+            "relationship_outcomes",
+            "application_outcomes",
+            "tendency",
+            "year_scene",
+        }
+        for key in stateful_keys:
+            if key in event and payload_has_material_value(event.get(key)):
+                return True
+        choices = event.get("choices", [])
+        if not isinstance(choices, list):
+            return False
+        return any(
+            isinstance(choice, dict)
+            and str(choice.get("choice_kind", "")) != "expression"
+            and any(
+                key in choice
+                and payload_has_material_value(choice.get(key))
+                for key in stateful_keys
+            )
+            for choice in choices
+        )
+
+    def payload_exact_causal_memories(
+        value: Any, memory_ids: set[str]
+    ) -> set[str]:
+        prose_keys = {
+            "description",
+            "description_en",
+            "description_memory_if_known",
+            "result_text",
+            "result_text_en",
+            "text",
+            "text_en",
+            "title",
+            "title_en",
+        }
+        ignored_writer_keys = {
+            "application_outcomes",
+            "application_transition",
+            "cast_effects",
+            "effects",
+            "flag_updates",
+            "flags",
+            "future_story_outcome",
+            "relationship_change",
+            "relationship_changes",
+            "relationship_outcomes",
+        }
+
+        def typed_tokens(raw_value: Any) -> set[str]:
+            if isinstance(raw_value, dict):
+                return {
+                    memory_id
+                    for raw_key, item in raw_value.items()
+                    for memory_id in (
+                        ({str(item).strip()} & memory_ids)
+                        if str(raw_key) in {"memory", "memory_id", "id"}
+                        else typed_tokens(item)
+                    )
+                }
+            if isinstance(raw_value, list):
+                return {
+                    memory_id
+                    for item in raw_value
+                    for memory_id in typed_tokens(item)
+                }
+            if isinstance(raw_value, str):
+                token = raw_value.strip()
+                if token in memory_ids:
+                    return {token}
+                if token.startswith("relationship_memory:"):
+                    memory_id = token.rsplit(":", 1)[-1]
+                    return {memory_id} if memory_id in memory_ids else set()
+            return set()
+
+        if isinstance(value, dict):
+            result: set[str] = set()
+            if str(value.get("kind", "")) == "relationship_memory":
+                result.update(typed_tokens(value))
+            for raw_key, raw_value in value.items():
+                key = str(raw_key)
+                if key in prose_keys or key in ignored_writer_keys \
+                        or key.endswith("_copy"):
+                    continue
+                if key in {
+                    "relationship_memory",
+                    "relationship_memories",
+                    "required_relationship_memories",
+                }:
+                    result.update(typed_tokens(raw_value))
+                    continue
+                if key.startswith("relationship_memory:"):
+                    memory_id = key.rsplit(":", 1)[-1]
+                    if memory_id in memory_ids:
+                        result.add(memory_id)
+                result.update(
+                    payload_exact_causal_memories(raw_value, memory_ids)
+                )
+            return result
+        if isinstance(value, list):
+            return {
+                memory_id
+                for item in value
+                for memory_id in payload_exact_causal_memories(
+                    item, memory_ids
+                )
+            }
+        if isinstance(value, str):
+            token = value.strip()
+            if token.startswith("relationship_memory:"):
+                memory_id = token.rsplit(":", 1)[-1]
+                return {memory_id} if memory_id in memory_ids else set()
+        return set()
+
+    def direct_route_week(event_id: str, source: str) -> int:
+        weeks: list[int] = []
+        for route in re.finditer(
+            rf'return "{re.escape(event_id)}"', source
+        ):
+            nearby = source[max(0, route.start() - 520):route.start()]
+            guards = re.findall(r"if t >= (\d+)\b", nearby)
+            if guards:
+                weeks.append(int(guards[-1]))
+        return min(weeks) if weeks else 0
+
+    def gdscript_function(source: str, function_name: str) -> str:
+        match = re.search(
+            rf"^(?:static )?func {re.escape(function_name)}\b[\s\S]*?"
+            r"(?=^(?:static )?func |\Z)",
+            source,
+            re.MULTILINE,
+        )
+        return match.group(0) if match is not None else ""
+
+    def event_routes_to(value: Any, target_id: str) -> bool:
+        if isinstance(value, dict):
+            for raw_key, raw_value in value.items():
+                key = str(raw_key)
+                if key in {
+                    "deferred_event",
+                    "follow_up_event",
+                    "next_event",
+                    "target_event",
+                } and str(raw_value) == target_id:
+                    return True
+                if isinstance(raw_value, (dict, list)) \
+                        and event_routes_to(raw_value, target_id):
+                    return True
+        elif isinstance(value, list):
+            return any(event_routes_to(item, target_id) for item in value)
+        return False
+
+    def deferred_follow_up_targets(owner: dict[str, Any]) -> set[str]:
+        raw_follow_up = owner.get("deferred_follow_up", "")
+        values = raw_follow_up if isinstance(raw_follow_up, list) \
+            else [raw_follow_up]
+        targets: set[str] = set()
+        for value in values:
+            if isinstance(value, str) and value.strip():
+                targets.add(value.strip())
+            elif isinstance(value, dict):
+                target_id = str(value.get("id", "")).strip()
+                if target_id:
+                    targets.add(target_id)
+        return targets
+
+    def event_follow_up_targets(event: dict[str, Any]) -> set[str]:
+        targets = deferred_follow_up_targets(event)
+        event_follow_up = str(event.get("follow_up_event", "")).strip()
+        if event_follow_up:
+            targets.add(event_follow_up)
+        raw_choices = event.get("choices", [])
+        if not isinstance(raw_choices, list):
+            return targets
+        for raw_choice in raw_choices:
+            if not isinstance(raw_choice, dict):
+                continue
+            choice_follow_up = str(
+                raw_choice.get("follow_up_event", "")
+            ).strip()
+            if choice_follow_up:
+                targets.add(choice_follow_up)
+            targets.update(deferred_follow_up_targets(raw_choice))
+        return targets
+
+    try:
+        main_game_source = (ROOT / "scenes/MainGame.gd").read_text(
+            encoding="utf-8"
+        )
+        game_state_source = (ROOT / "autoloads/GameState.gd").read_text(
+            encoding="utf-8"
+        )
+        event_director_source = (ROOT / "autoloads/EventManager.gd").read_text(
+            encoding="utf-8"
+        )
+        planner_source = (ROOT / "scenes/CoreLoopPlanner.gd").read_text(
+            encoding="utf-8"
+        )
+        event_director = json.loads(
+            (ROOT / "content/meta/event_director.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        ending_rows = json.loads(
+            (ROOT / "content/endings.json").read_text(encoding="utf-8")
+        )
+    except (OSError, json.JSONDecodeError) as exc:
+        fail(f"cannot load long-tail reader surfaces: {exc}", errors)
+        main_game_source = ""
+        game_state_source = ""
+        event_director_source = ""
+        planner_source = ""
+        event_director = {}
+        ending_rows = []
+
+    bundles = require_dict(contract.get("scene_bundles"), "scene_bundles", errors)
+    months = require_list(contract.get("months"), "months", errors)
+    scope = require_dict(contract.get("scope"), "scope", errors)
+    endings = {
+        str(row.get("id", "")): row
+        for row in ending_rows
+        if isinstance(row, dict) and str(row.get("id", ""))
+    }
+    content_diet = (
+        event_director.get("content_diet", {})
+        if isinstance(event_director, dict)
+        else {}
+    )
+    if not isinstance(content_diet, dict):
+        content_diet = {}
+    foreground_ids = {
+        str(value) for value in content_diet.get("foreground_event_ids", [])
+    }
+    bridge_ids = {
+        str(value) for value in content_diet.get("bridge_event_ids", [])
+    }
+    if (
+        'rules.get("foreground_event_ids", [])' not in event_director_source
+        or 'rules.get("bridge_event_ids", [])' not in event_director_source
+    ):
+        fail("EventDirector stopped enforcing its reader allowlists", errors)
+    directed_random_function = gdscript_function(
+        event_director_source, "is_directed_random_event"
+    )
+    content_exclusion_function = gdscript_function(
+        event_director_source, "_event_passes_content_exclusions"
+    )
+    bridge_function = gdscript_function(
+        event_director_source, "is_narrative_bridge_event"
+    )
+    follow_up_function = gdscript_function(
+        event_director_source, "_event_has_follow_up"
+    )
+    bridge_runtime_tokens = (
+        "if not is_directed_random_event(event)",
+        "not _event_passes_content_exclusions(event, rules)",
+        'rules.get("bridge_event_ids", [])',
+        'rules.get("bridge_single_choice_only", true)',
+        "if _event_has_follow_up(event)",
+        'rules.get("bridge_requires_stateful_condition", true)',
+        'get("result_text", "")',
+    )
+    if (
+        not directed_random_function
+        or not content_exclusion_function
+        or not follow_up_function
+        or any(token not in bridge_function for token in bridge_runtime_tokens)
+    ):
+        fail(
+            "EventDirector bridge eligibility topology changed; "
+            "reclassify dormant callbacks",
+            errors,
+        )
+
+    follow_up_target_ids = {
+        target_id
+        for event in registered_events.values()
+        if isinstance(event, dict)
+        for target_id in event_follow_up_targets(event)
+    }
+    director_scope = (
+        event_director.get("scope", {})
+        if isinstance(event_director, dict)
+        else {}
+    )
+    if not isinstance(director_scope, dict):
+        director_scope = {}
+
+    def is_directed_random(event: dict[str, Any]) -> bool:
+        event_id = str(event.get("id", ""))
+        if not event_id or event_id not in registered_events:
+            return False
+        if str(event.get("rarity", "")) == "story" \
+                or str(event.get("category", "")) == "story" \
+                or float(event.get("weight", 1.0)) <= 0.0:
+            return False
+        if any(
+            event_id.startswith(str(prefix))
+            for prefix in director_scope.get("excluded_id_prefixes", [])
+        ):
+            return False
+        return not (
+            bool(director_scope.get("exclude_follow_up_targets", True))
+            and event_id in follow_up_target_ids
+        )
+
+    def passes_content_exclusions(event: dict[str, Any]) -> bool:
+        event_id = str(event.get("id", ""))
+        return (
+            str(event.get("category", ""))
+            not in content_diet.get("excluded_categories", [])
+            and not any(
+                event_id.startswith(str(prefix))
+                for prefix in content_diet.get("excluded_id_prefixes", [])
+            )
+        )
+
+    def is_bridge_event(event: dict[str, Any]) -> bool:
+        event_id = str(event.get("id", ""))
+        choices = event.get("choices", [])
+        conditions = event.get("conditions", {})
+        if not is_directed_random(event) or not passes_content_exclusions(event) \
+                or event_id not in bridge_ids or not isinstance(choices, list):
+            return False
+        if bool(content_diet.get("bridge_single_choice_only", True)) \
+                and len(choices) != 1:
+            return False
+        if event_follow_up_targets(event):
+            return False
+        stateful = isinstance(conditions, dict) and any(
+            str(key) not in {"min_turn", "max_turn"} for key in conditions
+        )
+        if bool(content_diet.get("bridge_requires_stateful_condition", True)) \
+                and not stateful:
+            return False
+        return bool(
+            choices
+            and isinstance(choices[0], dict)
+            and str(choices[0].get("result_text", ""))
+        )
+
+    scheduled_bundle_ids: set[str] = set()
+    for raw_month in months:
+        if not isinstance(raw_month, dict):
+            continue
+        for field in (
+            "prelude",
+            "offers",
+            "fallback_offers",
+            "conditional_consequences",
+            "closing",
+        ):
+            raw_ids = raw_month.get(field, [])
+            if isinstance(raw_ids, list):
+                scheduled_bundle_ids.update(str(value) for value in raw_ids)
+        raw_locks = raw_month.get("locked", [])
+        if isinstance(raw_locks, list):
+            scheduled_bundle_ids.update(
+                str(row.get("bundle", ""))
+                for row in raw_locks
+                if isinstance(row, dict)
+            )
+    scheduled_bundle_ids.discard("")
+
+    relationship_producers: dict[str, tuple[str, str]] = {}
+    relationship_bundle_ids: set[str] = set()
+    for bundle_id, raw_bundle in bundles.items():
+        if not isinstance(raw_bundle, dict):
+            continue
+        raw_outcomes = raw_bundle.get("relationship_outcomes", [])
+        if not isinstance(raw_outcomes, list) or not raw_outcomes:
+            continue
+        relationship_bundle_ids.add(str(bundle_id))
+        for raw_outcome in raw_outcomes:
+            if not isinstance(raw_outcome, dict):
+                fail(f"{bundle_id} has a non-object relationship outcome", errors)
+                continue
+            memory_id = str(raw_outcome.get("memory", "")).strip()
+            character_id = str(raw_outcome.get("character", "")).strip()
+            if not memory_id or not character_id:
+                fail(f"{bundle_id} has an unnamed relationship memory", errors)
+                continue
+            if memory_id in relationship_producers:
+                fail(
+                    f"relationship memory {memory_id} has duplicate producers",
+                    errors,
+                )
+                continue
+            relationship_producers[memory_id] = (str(bundle_id), character_id)
+    relationship_memory_ids = set(relationship_producers)
+    registered_causal_memory_readers = {
+        event_id: payload_exact_causal_memories(
+            event, relationship_memory_ids
+        )
+        for event_id, event in registered_events.items()
+        if isinstance(event, dict)
+    }
+    legacy_flag_collision_ids = {
+        "daeun_kept_distance",
+        "jiyeon_walked_away",
+    }
+    legacy_flag_collision_events: dict[str, set[str]] = {
+        memory_id: set() for memory_id in legacy_flag_collision_ids
+    }
+    typed_reader_probe_id = sorted(relationship_memory_ids)[0] \
+        if relationship_memory_ids else ""
+    typed_reader_probe = payload_exact_causal_memories(
+        {
+            "conditions": {
+                "all": [{
+                    "kind": "relationship_memory",
+                    "memory": typed_reader_probe_id,
+                }]
+            }
+        },
+        relationship_memory_ids,
+    )
+    legacy_flag_probe = payload_exact_causal_memories(
+        {"conditions": {"flag": typed_reader_probe_id}},
+        relationship_memory_ids,
+    )
+    for event_id, event in registered_events.items():
+        conditions = event.get("conditions", {})
+        if not isinstance(conditions, dict):
+            continue
+        for condition_key in ("flag", "no_flag"):
+            raw_value = conditions.get(condition_key, "")
+            values = raw_value if isinstance(raw_value, list) else [raw_value]
+            for value in values:
+                memory_id = str(value).strip()
+                if memory_id in legacy_flag_collision_events:
+                    legacy_flag_collision_events[memory_id].add(event_id)
+    if (
+        legacy_flag_collision_ids - relationship_memory_ids
+        or typed_reader_probe != {typed_reader_probe_id}
+        or bool(legacy_flag_probe)
+        or any(
+            not event_ids
+            or any(
+                memory_id
+                in registered_causal_memory_readers.get(event_id, set())
+                for event_id in event_ids
+            )
+            for memory_id, event_ids in legacy_flag_collision_events.items()
+        )
+    ):
+        fail(
+            "legacy flags collided with typed relationship-memory readers",
+            errors,
+        )
+
+    demo_event_ids: set[str] = set()
+    for bundle_id in scheduled_bundle_ids:
+        raw_bundle = bundles.get(bundle_id, {})
+        if not isinstance(raw_bundle, dict):
+            continue
+        roots = {
+            str(value)
+            for value in raw_bundle.get("existing_roots", [])
+            if str(value)
+        }
+        planned_scene_id = str(raw_bundle.get("planned_scene_id", "")).strip()
+        if planned_scene_id:
+            roots.add(planned_scene_id)
+        demo_event_ids.update(reachable_event_ids(roots, registered_events))
+
+    demo_prerequisite_readers: set[str] = set()
+    for bundle_id in scheduled_bundle_ids:
+        raw_bundle = bundles.get(bundle_id, {})
+        if not isinstance(raw_bundle, dict):
+            continue
+        raw_prerequisites = raw_bundle.get("prerequisites", {})
+        if not isinstance(raw_prerequisites, dict):
+            continue
+        for group in ("all", "any"):
+            raw_rows = raw_prerequisites.get(group, [])
+            if not isinstance(raw_rows, list):
+                continue
+            for raw_row in raw_rows:
+                if not isinstance(raw_row, dict) \
+                        or raw_row.get("kind") != "relationship_memory":
+                    continue
+                memory_id = str(raw_row.get("memory", "")).strip()
+                character_id = str(raw_row.get("character", "")).strip()
+                producer = relationship_producers.get(memory_id)
+                if producer is None or producer[1] != character_id:
+                    fail(
+                        f"{bundle_id} reads unknown relationship memory "
+                        f"{character_id}:{memory_id}",
+                        errors,
+                    )
+                    continue
+                demo_prerequisite_readers.add(memory_id)
+
+    person_function = re.search(
+        r"static func _demo_person_obligation\([^\n]*\)[\s\S]*?"
+        r"(?=\nstatic func )",
+        demo_core_loop_source,
+    )
+    demo_person_readers: set[str] = set()
+    if person_function is None:
+        fail("First Bill person-obligation reader disappeared", errors)
+    else:
+        for character_id, memory_id in re.findall(
+            r'_has_relationship_memory\(\s*state,\s*"([^"]+)",\s*"([^"]+)"\)',
+            person_function.group(0),
+        ):
+            producer = relationship_producers.get(memory_id)
+            if producer is None or producer[1] != character_id:
+                fail(
+                    "First Bill reads unknown relationship memory "
+                    f"{character_id}:{memory_id}",
+                    errors,
+                )
+                continue
+            demo_person_readers.add(memory_id)
+
+    registered_memory_readers = {
+        event_id: relationship_reader_keys(event)
+        for event_id, event in registered_events.items()
+        if isinstance(event, dict) and relationship_reader_keys(event)
+    }
+    demo_prose_readers: set[str] = set()
+    for event_id in demo_event_ids:
+        demo_prose_readers.update(
+            set(registered_memory_readers.get(event_id, {}))
+            & relationship_memory_ids
+        )
+
+    planner_expected_new = {
+        "hyunsu": {
+            "hyunsu_same_hour_confirmed",
+            "hyunsu_one_problem_each_agreed",
+        },
+        "daeun": {
+            "daeun_third_greeting_started",
+            "daeun_shift_question_asked",
+        },
+        "jiyeon": {
+            "jiyeon_neighborhood_coffee_accepted",
+            "jiyeon_talk_without_debt_requested",
+            "jiyeon_coffee_fully_refused",
+        },
+    }
+    planner_rebuild = gdscript_function(
+        planner_source, "_rebuild_read_only_surface"
+    )
+    planner_people = gdscript_function(planner_source, "_build_people_surface")
+    planner_memory_helper = gdscript_function(
+        planner_source, "_has_relationship_memory"
+    )
+    planner_relationship_copy = gdscript_function(
+        planner_source, "_relationship_copy"
+    )
+    if not re.search(
+        r"match _active_tab:[\s\S]*?\n\t\t2:\s*\n\t\t\t_build_people_surface\(\)",
+        planner_rebuild,
+    ):
+        fail("planner People tab no longer opens its read-only surface", errors)
+    if (
+        '"지금까지 만난 사람", "PEOPLE MET SO FAR"' not in planner_people
+        or "_relationship_copy(character_id)" not in planner_people
+        or "_character_name(character_id)" not in planner_people
+    ):
+        fail("planner People surface lost its visible relationship copy", errors)
+    if (
+        "CORE_LOOP.has_relationship_memory(character_id, memory_id)"
+        not in planner_memory_helper
+    ):
+        fail("planner relationship copy stopped reading V2 memory state", errors)
+
+    planner_reader_map: dict[str, set[str]] = {}
+    for character_id in sorted(
+        {character for _, character in relationship_producers.values()}
+    ):
+        character_block = re.search(
+            rf'\n\tif character_id == "{re.escape(character_id)}":'
+            r"([\s\S]*?)(?=\n\tif character_id == |\n\tvar stage :=|\Z)",
+            planner_relationship_copy,
+        )
+        if character_block is None:
+            continue
+        mapped_memories: set[str] = set()
+        for raw_list in re.findall(
+            r"_has_relationship_memory\(character_id,\s*\[([\s\S]*?)\]\)",
+            character_block.group(1),
+        ):
+            mapped_memories.update(re.findall(r'"([^"]+)"', raw_list))
+        for memory_id in mapped_memories & relationship_memory_ids:
+            if relationship_producers[memory_id][1] != character_id:
+                fail(
+                    "planner relationship reader maps "
+                    f"{memory_id} to the wrong character {character_id}",
+                    errors,
+                )
+        planner_reader_map[character_id] = mapped_memories
+    for character_id, expected_memories in planner_expected_new.items():
+        missing = expected_memories - planner_reader_map.get(character_id, set())
+        if missing:
+            fail(
+                "planner People surface lost exact "
+                f"{character_id} memory readers {sorted(missing)}",
+                errors,
+            )
+    demo_planner_readers = {
+        memory_id
+        for character_id, memory_ids in planner_reader_map.items()
+        for memory_id in memory_ids
+        if memory_id in relationship_memory_ids
+        and relationship_producers[memory_id][1] == character_id
+    }
+
+    future_story_contracts = contract.get("future_story_contracts", {})
+    if not isinstance(future_story_contracts, dict):
+        future_story_contracts = {}
+    future_demo_readers: set[str] = set()
+    y1_readers: set[str] = set()
+    y2_y5_readers: set[str] = set()
+    y1_registered_reader_events: dict[str, set[str]] = {}
+    y2_y5_registered_reader_events: dict[str, set[str]] = {}
+
+    def index_post_demo_reader_events(
+        target: dict[str, set[str]],
+        event_id: str,
+        memory_ids: set[str],
+    ) -> None:
+        if event_id not in registered_events:
+            return
+        for memory_id in memory_ids:
+            target.setdefault(memory_id, set()).add(event_id)
+
+    for contract_id, raw_contract in future_story_contracts.items():
+        if not isinstance(raw_contract, dict):
+            continue
+        required_memories = {
+            str(value) for value in raw_contract.get("required_memories", [])
+        } & relationship_memory_ids
+        exam_week = int(raw_contract.get("exam_week", 0))
+        if exam_week <= int(scope.get("max_week", 24)):
+            raw_demo_collision = bundles.get("demo_collision", {})
+            raw_finale = (
+                raw_demo_collision.get("first_bill_finale", {})
+                if isinstance(raw_demo_collision, dict)
+                else {}
+            )
+            raw_memory_copy = (
+                raw_finale.get("hyunsu_memory_copy", {})
+                if isinstance(raw_finale, dict)
+                else {}
+            )
+            if (
+                'for memory_id in spec["required_memories"]'
+                not in demo_core_loop_source
+                or "_first_bill_hyunsu_memory_copy" not in demo_core_loop_source
+                or not isinstance(raw_memory_copy, dict)
+                or not required_memories.issubset(set(raw_memory_copy))
+            ):
+                fail(
+                    f"future story {contract_id} lost its exact demo memory reader",
+                    errors,
+                )
+            future_demo_readers.update(required_memories)
+        result_week = int(raw_contract.get("result_available_week", 0))
+        result_event_id = str(raw_contract.get("result_event", ""))
+        result_readers = (
+            set(registered_memory_readers.get(result_event_id, {}))
+            | registered_causal_memory_readers.get(result_event_id, set())
+        ) & relationship_memory_ids
+        if 25 <= result_week <= 48:
+            y1_readers.update(result_readers)
+            index_post_demo_reader_events(
+                y1_registered_reader_events,
+                result_event_id,
+                result_readers,
+            )
+        elif 49 <= result_week <= 240:
+            y2_y5_readers.update(result_readers)
+            index_post_demo_reader_events(
+                y2_y5_registered_reader_events,
+                result_event_id,
+                result_readers,
+            )
+
+    for event_id in registered_events:
+        event_readers = (
+            set(registered_memory_readers.get(event_id, {}))
+            | registered_causal_memory_readers.get(event_id, set())
+        ) & relationship_memory_ids
+        if not event_readers or event_id in demo_event_ids:
+            continue
+        route_week = direct_route_week(event_id, main_game_source)
+        if route_week <= 0 and event_id in foreground_ids | bridge_ids:
+            raw_conditions = registered_events.get(event_id, {}).get(
+                "conditions", {}
+            )
+            min_turn = (
+                int(raw_conditions.get("min_turn", 0))
+                if isinstance(raw_conditions, dict)
+                else 0
+            )
+            route_week = max(25, min_turn)
+        if 25 <= route_week <= 48:
+            y1_readers.update(event_readers)
+            index_post_demo_reader_events(
+                y1_registered_reader_events, event_id, event_readers
+            )
+        elif 49 <= route_week <= 240:
+            y2_y5_readers.update(event_readers)
+            index_post_demo_reader_events(
+                y2_y5_registered_reader_events, event_id, event_readers
+            )
+
+    ending_prose_readers: set[str] = set()
+    ending_prose_reader_payloads: dict[str, set[str]] = {}
+    ending_causal_memory_readers: dict[str, set[str]] = {}
+    for ending_id, ending in endings.items():
+        if isinstance(ending, dict):
+            prose_memory_ids = (
+                set(relationship_reader_keys(ending))
+                & relationship_memory_ids
+            )
+            ending_prose_readers.update(prose_memory_ids)
+            for memory_id in prose_memory_ids:
+                ending_prose_reader_payloads.setdefault(memory_id, set()).add(
+                    ending_id
+                )
+            for memory_id in payload_exact_causal_memories(
+                ending, relationship_memory_ids
+            ):
+                ending_causal_memory_readers.setdefault(
+                    memory_id, set()
+                ).add(ending_id)
+
+    def effectful_exact_memories(
+        reader_events: dict[str, set[str]],
+    ) -> set[str]:
+        return {
+            memory_id
+            for memory_id, event_ids in reader_events.items()
+            if any(
+                memory_id
+                in registered_causal_memory_readers.get(event_id, set())
+                for event_id in event_ids
+            )
+        }
+
+    y1_effectful_exact = effectful_exact_memories(
+        y1_registered_reader_events
+    )
+    y2_y5_effectful_exact = effectful_exact_memories(
+        y2_y5_registered_reader_events
+    )
+    ending_effectful_exact = set(ending_causal_memory_readers)
+    ending_readers = ending_prose_readers | ending_effectful_exact
+    y1_prose_only = y1_readers - y1_effectful_exact
+    y2_y5_prose_only = y2_y5_readers - y2_y5_effectful_exact
+    ending_prose_only = ending_prose_readers - ending_effectful_exact
+    y1_host_effectful_event_ids = {
+        event_id
+        for event_ids in y1_registered_reader_events.values()
+        for event_id in event_ids
+        if event_has_stateful_outcome(registered_events.get(event_id, {}))
+    }
+    y1_host_effectful_memories = {
+        memory_id
+        for memory_id, event_ids in y1_registered_reader_events.items()
+        if event_ids & y1_host_effectful_event_ids
+    }
+    if (
+        set(y1_registered_reader_events) != y1_readers
+        or set(y2_y5_registered_reader_events) != y2_y5_readers
+        or y1_prose_only & y1_effectful_exact
+        or y1_prose_only | y1_effectful_exact != y1_readers
+        or y2_y5_prose_only & y2_y5_effectful_exact
+        or y2_y5_prose_only | y2_y5_effectful_exact != y2_y5_readers
+        or set(ending_prose_reader_payloads) != ending_prose_readers
+        or ending_prose_only & ending_effectful_exact
+        or ending_prose_only | ending_effectful_exact != ending_readers
+    ):
+        fail("post-demo relationship reader classification is incomplete", errors)
+
+    demo_gate_readers = demo_prerequisite_readers | demo_person_readers
+    demo_prose_readers.update(future_demo_readers)
+    demo_before_planner = demo_gate_readers | demo_prose_readers
+    demo_planner_new_readers = demo_planner_readers - demo_before_planner
+    demo_readers = demo_before_planner | demo_planner_readers
+    named_relationship_readers = (
+        demo_readers | y1_readers | y2_y5_readers | ending_readers
+    )
+    relationship_readerless = relationship_memory_ids - named_relationship_readers
+    relationship_overlap_demo_y1 = demo_readers & y1_readers
+    relationship_post_demo_prose = (
+        y1_prose_only | y2_y5_prose_only | ending_prose_only
+    )
+    relationship_post_demo_effectful = (
+        y1_effectful_exact | y2_y5_effectful_exact | ending_effectful_exact
+    )
+    relationship_post_demo_absent = relationship_memory_ids - (
+        relationship_post_demo_prose | relationship_post_demo_effectful
+    )
+    relationship_post_demo_prose_only = (
+        relationship_post_demo_prose - relationship_post_demo_effectful
+    )
+    relationship_demo_only = demo_readers - (
+        relationship_post_demo_prose | relationship_post_demo_effectful
+    )
+    relationship_long_tail_candidates = (
+        relationship_post_demo_absent | relationship_post_demo_prose_only
+    )
+    if (
+        relationship_post_demo_absent & relationship_post_demo_prose_only
+        or relationship_long_tail_candidates
+        != relationship_memory_ids - relationship_post_demo_effectful
+        or relationship_readerless - relationship_post_demo_absent
+        or relationship_demo_only
+        != demo_readers - (
+            relationship_post_demo_prose
+            | relationship_post_demo_effectful
+        )
+    ):
+        fail(
+            "relationship long-tail candidate partition is inconsistent",
+            errors,
+        )
+
+    action_bundles = {
+        str(bundle_id): raw_bundle
+        for bundle_id, raw_bundle in bundles.items()
+        if isinstance(raw_bundle, dict)
+        and str(raw_bundle.get("action_id", "")).strip()
+    }
+    practical_actions = {
+        bundle_id: raw_bundle
+        for bundle_id, raw_bundle in action_bundles.items()
+        if str(raw_bundle.get("kind", "")) in AXIS_KINDS["practical"]
+    }
+    career_application_actions = {
+        bundle_id: raw_bundle
+        for bundle_id, raw_bundle in action_bundles.items()
+        if str(raw_bundle.get("kind", "")) == "career"
+    }
+    static_material_actions: set[str] = set()
+    runtime_material_actions: set[str] = set()
+    legacy_action_routes = {
+        "side_shift": "_core_loop_v2_open_side_shift(bundle_id)",
+        "resume": "_ap_write_resume()",
+        "interview": "_ap_interview_prep()",
+        "rest": "_core_loop_v2_take_recovery(scene_bundle)",
+    }
+    for bundle_id, raw_bundle in practical_actions.items():
+        raw_config = raw_bundle.get("action_config", {})
+        config = raw_config if isinstance(raw_config, dict) else {}
+        execution = str(config.get("execution", "")).strip()
+        raw_effects = config.get("effects", {})
+        effects = raw_effects if isinstance(raw_effects, dict) else {}
+        has_nonzero_effect = any(
+            isinstance(value, (int, float))
+            and not isinstance(value, bool)
+            and float(value) != 0.0
+            for value in effects.values()
+        )
+        if execution in {"instant_effect", "rest"} and has_nonzero_effect:
+            static_material_actions.add(bundle_id)
+            continue
+        action_id = str(raw_bundle.get("action_id", "")).strip()
+        route_token = legacy_action_routes.get(action_id, "")
+        if not execution and route_token and route_token in main_game_source:
+            runtime_material_actions.add(bundle_id)
+            continue
+        fail(
+            f"practical action receipt {bundle_id} has no material execution route",
+            errors,
+        )
+
+    practical_story_bundles = {
+        bundle_id
+        for bundle_id, raw_bundle in practical_actions.items()
+        if isinstance(raw_bundle.get("existing_roots"), list)
+        and bool(raw_bundle.get("existing_roots"))
+    }
+    if practical_story_bundles != set(ACTION_STORY_ROOTS):
+        fail(
+            "practical action-story receipt inventory drifted: "
+            f"{sorted(practical_story_bundles)}",
+            errors,
+        )
+    practical_completed_bundle_readers: dict[str, set[str]] = {}
+    for target_id in sorted(scheduled_bundle_ids):
+        target_bundle = bundles.get(target_id, {})
+        if not isinstance(target_bundle, dict) \
+                or not bundle_has_registered_authored_surface(
+                    target_bundle, registered_events
+                ):
+            continue
+        raw_prerequisites = target_bundle.get("prerequisites", {})
+        if not isinstance(raw_prerequisites, dict):
+            continue
+        for group in ("all", "any"):
+            raw_rows = raw_prerequisites.get(group, [])
+            if not isinstance(raw_rows, list):
+                continue
+            for raw_row in raw_rows:
+                if not isinstance(raw_row, dict) \
+                        or raw_row.get("kind") != "completed_bundle":
+                    continue
+                producer_id = str(raw_row.get("bundle_id", "")).strip()
+                if producer_id in practical_actions:
+                    practical_completed_bundle_readers.setdefault(
+                        producer_id, set()
+                    ).add(target_id)
+    expected_practical_completed_readers = {
+        "m2_rain_delivery_shift": {"jiyeon_world_meet"},
+    }
+    if practical_completed_bundle_readers \
+            != expected_practical_completed_readers:
+        fail(
+            "practical completed-bundle story readers drifted: "
+            f"{practical_completed_bundle_readers}",
+            errors,
+        )
+    practical_causal_story_bundles = (
+        practical_story_bundles | set(practical_completed_bundle_readers)
+    )
+    authored_story_receipt_ids: set[str] = set()
+    for bundle_id in sorted(practical_story_bundles):
+        root_id = ACTION_STORY_ROOTS[bundle_id]
+        for event_id in reachable_event_ids({root_id}, registered_events):
+            choices = registered_events.get(event_id, {}).get("choices", [])
+            if not isinstance(choices, list):
+                continue
+            for choice_index, raw_choice in enumerate(choices):
+                if not isinstance(raw_choice, dict):
+                    continue
+                if str(raw_choice.get("choice_kind", "")) == "expression":
+                    fail(
+                        f"{bundle_id} action-story completion choice became expression-only",
+                        errors,
+                    )
+                    continue
+                authored_story_receipt_ids.add(
+                    f"{bundle_id}:{event_id}[{choice_index}]"
+                )
+    if "_has_current_bundle_story_receipt" not in demo_core_loop_source:
+        fail("action-story completion receipt reader disappeared", errors)
+
+    effectless_application_actions: set[str] = set()
+    material_career_actions: set[str] = set()
+    career_direct_receipt_story: set[str] = set()
+    for bundle_id, raw_bundle in career_application_actions.items():
+        raw_config = raw_bundle.get("action_config", {})
+        config = raw_config if isinstance(raw_config, dict) else {}
+        execution = str(config.get("execution", "")).strip()
+        action_id = str(raw_bundle.get("action_id", "")).strip()
+        raw_effects = config.get("effects", {})
+        effects = raw_effects if isinstance(raw_effects, dict) else {}
+        if action_id == "apply" and execution in {"", "application"} \
+                and not effects:
+            effectless_application_actions.add(bundle_id)
+        else:
+            material_career_actions.add(bundle_id)
+        raw_roots = raw_bundle.get("existing_roots", [])
+        if isinstance(raw_roots, list) and raw_roots:
+            career_direct_receipt_story.add(bundle_id)
+
+    min_week = int(scope.get("min_week", 1))
+    max_week = int(scope.get("max_week", 24))
+    routine_receipt_count = max(0, max_week - min_week + 1)
+    routine = require_dict(contract.get("routine"), "routine", errors)
+    routine_units = routine_receipt_count * int(
+        routine.get("background_ap_per_week", 0)
+    )
+    routine_material = (
+        "GameState.apply_effects(effects)" in demo_core_loop_source
+        and 'state["routine_receipts"][turn_key]' in demo_core_loop_source
+    )
+    if not routine_material:
+        fail("routine receipt lost its immediate material execution", errors)
+
+    first_bill_event = registered_events.get("v2_demo_first_bill", {})
+    first_bill_choices = first_bill_event.get("choices", [])
+    if not isinstance(first_bill_choices, list):
+        first_bill_choices = []
+    first_bill_local_material = sum(
+        1
+        for choice in first_bill_choices
+        if isinstance(choice, dict)
+        and isinstance(choice.get("effects"), dict)
+        and any(
+            isinstance(value, (int, float))
+            and not isinstance(value, bool)
+            and float(value) != 0.0
+            for value in choice.get("effects", {}).values()
+        )
+    )
+    first_bill_bundle = bundles.get("demo_collision", {})
+    finale = (
+        first_bill_bundle.get("first_bill_finale", {})
+        if isinstance(first_bill_bundle, dict)
+        else {}
+    )
+    if not isinstance(finale, dict):
+        finale = {}
+    root_contract = finale.get("root_contract", {})
+    ledger_event_id = (
+        str(root_contract.get("ledger_event", ""))
+        if isinstance(root_contract, dict)
+        else ""
+    )
+    first_bill_demo_readers = set(obligation_ids) if (
+        ledger_event_id in registered_events
+        and "_first_bill_obligation_receipt" in demo_core_loop_source
+    ) else set()
+    if len(first_bill_demo_readers) != len(obligation_ids):
+        fail("First Bill ledger stopped reading exact obligation receipts", errors)
+
+    recap_ids = {
+        obligation_id
+        for obligation_id in obligation_ids
+        if all(
+            str(
+                year_close_obligation_readers.get(
+                    "obligation_receipt:demo_collision:"
+                    f"{disposition}:{obligation_id}",
+                    "",
+                )
+            ).strip()
+            for disposition in ("selected", "deferred")
+        )
+    }
+    post_demo_contracts = contract.get("post_demo_application_contracts", {})
+    city_contract = (
+        post_demo_contracts.get("city_facility_ops_2026h1_result", {})
+        if isinstance(post_demo_contracts, dict)
+        else {}
+    )
+    if not isinstance(city_contract, dict):
+        city_contract = {}
+    city_event = registered_events.get(
+        str(city_contract.get("result_event", "")), {}
+    )
+    city_choices = city_event.get("choices", [])
+    city_effectful = (
+        city_contract.get("selected_obligation_id") == "city_work_sample"
+        and city_contract.get("not_before_week") == 28
+        and isinstance(city_choices, list)
+        and bool(city_choices)
+        and all(
+            isinstance(choice, dict)
+            and isinstance(choice.get("effects"), dict)
+            and bool(choice.get("effects"))
+            for choice in city_choices
+        )
+    )
+    if not city_effectful:
+        fail(
+            "declared Week-28 effectful reader disappeared for city_work_sample",
+            errors,
+        )
+    first_bill_obligation_ids = set(obligation_ids)
+    first_bill_effectful_post_demo = (
+        {"city_work_sample"} if city_effectful else set()
+    )
+    first_bill_post_demo_absent = first_bill_obligation_ids - recap_ids
+    first_bill_post_demo_recap_only = (
+        recap_ids - first_bill_effectful_post_demo
+    )
+    first_bill_long_tail_candidates = (
+        first_bill_post_demo_absent | first_bill_post_demo_recap_only
+    )
+    if (
+        first_bill_effectful_post_demo - first_bill_obligation_ids
+        or first_bill_effectful_post_demo - recap_ids
+        or first_bill_post_demo_absent & first_bill_post_demo_recap_only
+        or first_bill_long_tail_candidates
+        != first_bill_obligation_ids - first_bill_effectful_post_demo
+    ):
+        fail("First Bill long-tail candidate partition is inconsistent", errors)
+
+    career_route_specs = {
+        "m1_mirae_application": {
+            "application_id": "mirae_industrial_tech",
+            "demo": ("opening_interview_math", "m2_mirae_result_message"),
+        },
+        "m2_seorin_application": {
+            "application_id": "seorin_contract_2026q1",
+            "demo": ("m3_seorin_result_message",),
+        },
+        "m3_hanbit_application": {
+            "application_id": "hanbit_ops_2026q1",
+            "demo": ("m4_hanbit_interview", "m5_hanbit_offer_message"),
+        },
+        "m4_dodam_application": {
+            "application_id": "dodam_customer_ops_2026q2",
+            "demo": ("m6_dodam_response",),
+        },
+        "m5_city_service_application": {
+            "application_id": "city_facility_ops_2026h1",
+            "demo": ("m6_city_service_response",),
+        },
+    }
+    if set(career_route_specs) != set(career_application_actions):
+        fail(
+            "career application causal producer inventory drifted: "
+            f"{sorted(career_application_actions)}",
+            errors,
+        )
+    opening_application_commit = gdscript_function(
+        main_game_source, "_commit_opening_interview_application"
+    )
+    future_application_contracts = contract.get(
+        "future_application_contracts", {}
+    )
+    if not isinstance(future_application_contracts, dict):
+        future_application_contracts = {}
+    career_demo_routes: dict[str, tuple[str, ...]] = {}
+    career_demo_reader_ids: set[str] = set()
+    for producer_id, spec in career_route_specs.items():
+        producer_bundle = career_application_actions.get(producer_id, {})
+        raw_config = producer_bundle.get("action_config", {})
+        config = raw_config if isinstance(raw_config, dict) else {}
+        application_id = str(config.get("application_id", "")).strip()
+        if producer_id == "m1_mirae_application":
+            if '"application_id": "mirae_industrial_tech"' \
+                    not in opening_application_commit:
+                fail("Mirae application runtime status producer disappeared", errors)
+            application_id = "mirae_industrial_tech"
+        if application_id != spec["application_id"]:
+            fail(
+                f"{producer_id} application id drifted to {application_id}",
+                errors,
+            )
+        current_status = str(config.get("status", "submitted"))
+        route_ids = tuple(str(value) for value in spec["demo"])
+        for route_index, target_id in enumerate(route_ids):
+            target_bundle = bundles.get(target_id, {})
+            if (
+                target_id not in scheduled_bundle_ids
+                or not isinstance(target_bundle, dict)
+                or not bundle_has_registered_authored_surface(
+                    target_bundle, registered_events
+                )
+            ):
+                fail(
+                    f"{producer_id} causal story reader {target_id} is not reachable",
+                    errors,
+                )
+                continue
+            raw_prerequisites = target_bundle.get("prerequisites", {})
+            prerequisite_rows = (
+                list(raw_prerequisites.get("all", []))
+                + list(raw_prerequisites.get("any", []))
+                if isinstance(raw_prerequisites, dict)
+                else []
+            )
+            if not any(
+                isinstance(row, dict)
+                and row.get("kind") == "application_status"
+                and row.get("application_id") == application_id
+                and row.get("status") == current_status
+                for row in prerequisite_rows
+            ):
+                fail(
+                    f"{target_id} stopped reading {application_id}:{current_status}",
+                    errors,
+                )
+            career_demo_reader_ids.add(target_id)
+            transition_rows = target_bundle.get("application_outcomes", [])
+            matching_transitions = [
+                row
+                for row in transition_rows
+                if isinstance(row, dict)
+                and row.get("application_id") == application_id
+                and row.get("from") == current_status
+            ] if isinstance(transition_rows, list) else []
+            if route_index + 1 < len(route_ids):
+                if len(matching_transitions) != 1:
+                    fail(
+                        f"{target_id} no longer has one causal status transition",
+                        errors,
+                    )
+                else:
+                    current_status = str(matching_transitions[0].get("to", ""))
+        career_demo_routes[producer_id] = route_ids
+
+    for producer_id, contract_id in {
+        "m4_dodam_application": "m6_dodam_response",
+        "m5_city_service_application": "m6_city_service_response",
+    }.items():
+        future_contract = future_application_contracts.get(contract_id, {})
+        expected_application_id = career_route_specs[producer_id]["application_id"]
+        expected_target = career_demo_routes[producer_id][0]
+        target_roots = bundles.get(expected_target, {}).get("existing_roots", [])
+        if (
+            not isinstance(future_contract, dict)
+            or future_contract.get("producer_bundle") != producer_id
+            or future_contract.get("application_id") != expected_application_id
+            or future_contract.get("result_event") not in target_roots
+        ):
+            fail(
+                f"future application contract {contract_id} lost {producer_id}",
+                errors,
+            )
+
+    hanbit_competing_bundle = bundles.get("m4_dodam_application", {})
+    hanbit_competing_prerequisites = (
+        hanbit_competing_bundle.get("prerequisites", {})
+        if isinstance(hanbit_competing_bundle, dict)
+        else {}
+    )
+    hanbit_not_in_rows = (
+        hanbit_competing_prerequisites.get("all", [])
+        if isinstance(hanbit_competing_prerequisites, dict)
+        else []
+    )
+    hanbit_availability_reader = any(
+        isinstance(row, dict)
+        and row.get("kind") == "application_status_not_in"
+        and row.get("application_id") == "hanbit_ops_2026q1"
+        and set(str(value) for value in row.get("statuses", []))
+        == {"submitted", "interviewed"}
+        for row in hanbit_not_in_rows
+    )
+    if not hanbit_availability_reader:
+        fail("Hanbit application lost its competing Dodam availability reader", errors)
+
+    career_y1_routes = {
+        "m5_city_service_application": {
+            str(city_contract.get("result_event", ""))
+        }
+    } if city_effectful else {}
+    if career_y1_routes != {
+        "m5_city_service_application": {"v2_city_service_result_message"}
+    }:
+        fail("City application lost its conditional Week-28 result reader", errors)
+
+    career_demo_route_labels = {
+        f"{producer}>{'>'.join(route)}"
+        for producer, route in career_demo_routes.items()
+    }
+
+    ending_obligation_readers: set[str] = set()
+    for ending in endings.values():
+        raw_variants = (
+            ending.get("description_memory_if_known", {})
+            if isinstance(ending, dict)
+            else {}
+        )
+        if not isinstance(raw_variants, dict):
+            continue
+        for raw_key in raw_variants:
+            parts = str(raw_key).split(":")
+            if len(parts) >= 4 and parts[0] == "obligation_receipt" \
+                    and parts[1] == "demo_collision":
+                obligation_id = parts[3].split("&", 1)[0]
+                if obligation_id in obligation_ids:
+                    ending_obligation_readers.add(obligation_id)
+
+    trace_copy = finale.get("trace_copy", {})
+    if not isinstance(trace_copy, dict):
+        trace_copy = {}
+    dirty_specs = (
+        (
+            "escaped_dirty_money",
+            "callback_escaped_dirty_trace",
+            "v2_dirty_trace_initial_call",
+        ),
+        (
+            "fell_to_darkness",
+            "fell_to_darkness",
+            "v2_dirty_recruiter_week24",
+        ),
+    )
+    dirty_story_receipt_ids: set[str] = set()
+    dirty_deferred_receipt_ids: set[str] = set()
+    dirty_local_material = 0
+    for flag_id, source_id, root_id in dirty_specs:
+        route_pattern = re.compile(
+            rf'(?:if|elif) bool\(GameState\.flags\.get\("{flag_id}", false\)\):\s*'
+            rf'(?:[\s\S]{{0,220}}?)dirty_source = "{source_id}"\s*'
+            rf'dirty_root = "{root_id}"'
+        )
+        if not route_pattern.search(demo_core_loop_source):
+            fail(
+                f"Week-24 dirty route {flag_id}->{root_id} disappeared",
+                errors,
+            )
+        dirty_deferred_receipt_ids.add(source_id)
+        event = registered_events.get(root_id, {})
+        choices = event.get("choices", [])
+        if not isinstance(choices, list) or not choices:
+            fail(f"Week-24 dirty event {root_id} has no choices", errors)
+            continue
+        root_copy = trace_copy.get(root_id, {})
+        copy_choices = (
+            root_copy.get("choices", {})
+            if isinstance(root_copy, dict)
+            else {}
+        )
+        if not isinstance(copy_choices, dict) \
+                or set(copy_choices) != {str(index) for index in range(len(choices))}:
+            fail(f"First Bill trace lost an exact choice reader for {root_id}", errors)
+        for choice_index, raw_choice in enumerate(choices):
+            if isinstance(raw_choice, dict) \
+                    and str(raw_choice.get("choice_kind", "")) == "expression":
+                fail(
+                    f"Week-24 dirty choice {root_id}[{choice_index}] "
+                    "no longer writes a generic story receipt",
+                    errors,
+                )
+                continue
+            dirty_story_receipt_ids.add(f"{root_id}[{choice_index}]")
+            if isinstance(raw_choice, dict) \
+                    and isinstance(raw_choice.get("effects"), dict) \
+                    and bool(raw_choice.get("effects")):
+                dirty_local_material += 1
+    if "_first_bill_trace_copy" not in demo_core_loop_source:
+        fail("First Bill exact dirty trace reader disappeared", errors)
+
+    note_story_choice_function = gdscript_function(
+        demo_core_loop_source, "note_story_choice"
+    )
+    generic_story_writer = gdscript_function(
+        demo_core_loop_source, "_note_generic_story_choice"
+    )
+    action_story_stage_function = gdscript_function(
+        demo_core_loop_source, "action_story_stage"
+    )
+    complete_bundle_function = gdscript_function(
+        demo_core_loop_source, "complete_active_bundle"
+    )
+    story_receipt_reader_function = gdscript_function(
+        demo_core_loop_source, "_has_current_bundle_story_receipt"
+    )
+    if (
+        "var story_recorded := _note_generic_story_choice("
+        not in note_story_choice_function
+        or 'state["story_choice_receipts"][receipt_key] = receipt'
+        not in generic_story_writer
+    ):
+        fail("Week-24 dirty choices stopped writing generic story receipts", errors)
+    story_receipt_reader_calls = demo_core_loop_source.count(
+        "_has_current_bundle_story_receipt("
+    )
+    action_only_story_readers = (
+        story_receipt_reader_calls == 3
+        and bool(story_receipt_reader_function)
+        and "_is_action_story_bundle(scene_bundle)"
+        in action_story_stage_function
+        and action_story_stage_function.count(
+            "_has_current_bundle_story_receipt(state, target_id)"
+        ) == 1
+        and "if _is_action_story_bundle(active_spec)" in complete_bundle_function
+        and complete_bundle_function.count(
+            "_has_current_bundle_story_receipt("
+        ) == 1
+        and not str(first_bill_bundle.get("action_id", "")).strip()
+    )
+    if not action_only_story_readers:
+        fail(
+            "generic story receipt reader topology changed; "
+            "reclassify Week-24 dirty receipts",
+            errors,
+        )
+    demo_collision_completion = re.search(
+        r'\n\t\tif bundle_id == "demo_collision":([\s\S]*?)'
+        r'(?=\n\t\tif int\(contract\(\)\.get\("schema_version")',
+        complete_bundle_function,
+    )
+    deferred_completion_guard = (
+        demo_collision_completion is not None
+        and re.search(
+            r'state\[\s*"deferred_callback_receipts"\s*\]\.get\('
+            r'\s*dirty_source,\s*\{\}\)',
+            demo_collision_completion.group(1),
+        ) is not None
+        and re.search(
+            r'get\(\s*"status",\s*""\s*\)\)\s*!=\s*"resolved"',
+            demo_collision_completion.group(1),
+        ) is not None
+    )
+    if not deferred_completion_guard:
+        fail("Week-24 dirty completion lost its deferred-receipt guard", errors)
+    if dirty_local_material != len(dirty_story_receipt_ids):
+        fail("Week-24 dirty choices lost their local effects", errors)
+
+    white_ending = endings.get("gangnam_dream_white", {})
+    white_variants = (
+        white_ending.get("description_if_known", {})
+        if isinstance(white_ending, dict)
+        else {}
+    )
+    if not isinstance(white_variants, dict) \
+            or not str(white_variants.get("kept_clean_hands", "")).strip():
+        fail(
+            "declared clean ending recap reader disappeared for kept_clean_hands",
+            errors,
+        )
+    check_game_over_function = gdscript_function(
+        game_state_source, "check_game_over"
+    )
+    dark_priority_tokens = (
+        'finish_run("full_circle")',
+        'finish_run("second_love")',
+        'finish_run("guardian")',
+        'if flags.get("startup_exit", false):',
+        "if total_now >= 3_000_000_000:",
+        "if age <= 33:",
+        'if flags.get("father_passed", false):',
+        'if flags.get("daeun_divorced", false):',
+        'if flags.get("daeun_married", false):',
+        'if flags.get("jiyeon_romance_started", false)',
+        'if flags.get("fell_to_darkness", false) '
+        'or flags.get("crossed_line", false):',
+        'finish_run("jaehyuk_way")',
+    )
+    dark_cursor = -1
+    for token in dark_priority_tokens:
+        dark_cursor = check_game_over_function.find(token, dark_cursor + 1)
+        if dark_cursor < 0:
+            break
+    if "jaehyuk_way" not in endings or dark_cursor < 0:
+        fail(
+            "fell_to_darkness lost its conditional post-goal ending priority",
+            errors,
+        )
+
+    actual_link_source_ids = (
+        demo_event_ids
+        | foreground_ids
+        | bridge_ids
+        | {"arc_year1_close"}
+        | {
+            str(raw_contract.get(field, ""))
+            for raw_contract in future_story_contracts.values()
+            if isinstance(raw_contract, dict)
+            for field in ("trigger_event", "result_event")
+        }
+        | {
+            str(city_contract.get("result_event", "")),
+            *(root_id for _, _, root_id in dirty_specs),
+        }
+    )
+    actual_link_source_ids.update(
+        event_id
+        for event_id in registered_events
+        if direct_route_week(event_id, main_game_source) > 0
+    )
+    actual_link_source_ids.discard("")
+
+    risk_specs = (
+        (
+            "clean",
+            "kept_clean_hands+stayed_clean",
+            "W4:arc_temptation_01[0]+W8:arc_temptation_clean",
+            "none",
+            "kept_clean_hands:recap_only",
+            "gangnam_dream_white:recap_only",
+            True,
+            "recap_only",
+            (("callback_stayed_clean_echo", "stayed_clean"),),
+        ),
+        (
+            "escaped",
+            "escaped_dirty_money+was_compromised",
+            "W8:arc_temptation_fallout[0]",
+            "v2_dirty_trace_initial_call:local_effect+exact_trace",
+            "escaped_dirty_money:recap_only",
+            "none",
+            True,
+            "recap_only",
+            (
+                ("callback_escaped_dirty_money_echo", "escaped_dirty_money"),
+                ("callback_was_compromised_consequence", "was_compromised"),
+            ),
+        ),
+        (
+            "dark",
+            "fell_to_darkness",
+            "W8:arc_temptation_fallout[1]",
+            "v2_dirty_recruiter_week24:local_effect+exact_trace",
+            "fell_to_darkness:recap_only",
+            "jaehyuk_way:conditional_route_effectful",
+            False,
+            "conditional_effectful_ending",
+            (("callback_fell_to_darkness_echo", "fell_to_darkness"),),
+        ),
+    )
+    dormant_callbacks: set[str] = set()
+    bridge_shape_callbacks: set[str] = set()
+    callback_copy_anchor_risks: set[str] = set()
+    callback_labels: dict[str, list[str]] = {}
+    for branch, _, _, _, recap, _, _, _, callbacks in risk_specs:
+        recap_flag = recap.split(":", 1)[0]
+        if not str(year_close_variants.get(recap_flag, "")).strip():
+            fail(
+                f"declared Week-48 risk recap reader disappeared for {recap_flag}",
+                errors,
+            )
+        labels: list[str] = []
+        for callback_id, condition_flag in callbacks:
+            callback = registered_events.get(callback_id, {})
+            conditions = callback.get("conditions", {})
+            choices = callback.get("choices", [])
+            if not isinstance(conditions, dict) \
+                    or conditions.get("flag") != condition_flag \
+                    or not isinstance(choices, list) \
+                    or not choices:
+                fail(
+                    f"declared callback {callback_id} stopped reading {condition_flag}",
+                    errors,
+                )
+                continue
+            if is_bridge_event(callback):
+                bridge_shape_callbacks.add(callback_id)
+            linked_from_event = any(
+                event_routes_to(event, callback_id)
+                for event_id, event in registered_events.items()
+                if event_id != callback_id
+                and event_id in actual_link_source_ids
+                and isinstance(event, dict)
+            )
+            direct_runtime = (
+                f'"{callback_id}"' in demo_core_loop_source
+                or f'"{callback_id}"' in main_game_source
+            )
+            reachable_callback = (
+                (
+                    callback_id in foreground_ids
+                    and is_directed_random(callback)
+                    and passes_content_exclusions(callback)
+                )
+                or callback_id in bridge_shape_callbacks
+                or linked_from_event
+                or direct_runtime
+            )
+            if not reachable_callback:
+                dormant_callbacks.add(callback_id)
+                labels.append(f"{callback_id}[{condition_flag}]:dormant")
+            else:
+                labels.append(f"{callback_id}[{condition_flag}]:reachable")
+            description = str(callback.get("description", ""))
+            if "두 달" in description or "석 달" in description:
+                callback_copy_anchor_risks.add(callback_id)
+        callback_labels[branch] = labels
+
+    lines = [
+        "long_tail_inventory "
+        f"relationship_bundles={len(relationship_bundle_ids)} "
+        f"relationship_memories={len(relationship_memory_ids)} "
+        f"practical_action_receipts={len(practical_actions)} "
+        f"career_application_receipts={len(career_application_actions)} "
+        f"authored_action_story_receipts={len(authored_story_receipt_ids)} "
+        f"routine_receipts={routine_receipt_count} "
+        f"first_bill_decisions={len(obligation_ids)} "
+        f"w24_dirty_story_choices={len(dirty_story_receipt_ids)} "
+        f"w24_dirty_deferred_receipts={len(dirty_deferred_receipt_ids)}",
+        "long_tail_family family=relationship_memory layer=memory "
+        f"producers={len(relationship_memory_ids)} "
+        f"local_state={len(relationship_memory_ids)} "
+        f"demo_exact={len(demo_readers)} "
+        f"demo_gate={len(demo_gate_readers)} "
+        f"demo_prose={len(demo_prose_readers)} "
+        f"demo_planner={len(demo_planner_readers)} "
+        f"demo_planner_new={len(demo_planner_new_readers)} "
+        f"overlap_gate_prose={len(demo_gate_readers & demo_prose_readers)} "
+        f"y1_exact={len(y1_readers)} "
+        f"y1_effectful_exact={len(y1_effectful_exact)} "
+        f"overlap_demo_y1={len(relationship_overlap_demo_y1)} "
+        f"y2_y5_exact={len(y2_y5_readers)} "
+        f"y2_y5_effectful_exact={len(y2_y5_effectful_exact)} "
+        f"ending_exact={len(ending_readers)} "
+        f"ending_effectful_exact={len(ending_effectful_exact)} "
+        f"named_reader_union={len(named_relationship_readers)} "
+        f"readerless={len(relationship_readerless)}",
+        "long_tail_readers family=relationship_memory horizon=y1 "
+        f"count={len(y1_readers)} "
+        f"prose_only={len(y1_prose_only)} "
+        f"effectful_exact={len(y1_effectful_exact)} "
+        f"host_effectful_memories={len(y1_host_effectful_memories)} "
+        f"host_effectful_events={len(y1_host_effectful_event_ids)} "
+        f"ids={compact_ids(y1_readers)} "
+        f"effectful_exact_ids={compact_ids(y1_effectful_exact)} "
+        f"host_effectful_event_ids="
+        f"{compact_ids(y1_host_effectful_event_ids)}",
+        "long_tail_readers family=relationship_memory horizon=y2_y5 "
+        f"count={len(y2_y5_readers)} "
+        f"prose_only={len(y2_y5_prose_only)} "
+        f"effectful_exact={len(y2_y5_effectful_exact)} "
+        f"ids={compact_ids(y2_y5_readers)} "
+        f"effectful_exact_ids={compact_ids(y2_y5_effectful_exact)}",
+        "long_tail_readers family=relationship_memory horizon=ending "
+        f"count={len(ending_readers)} "
+        f"prose_only={len(ending_prose_only)} "
+        f"effectful_exact={len(ending_effectful_exact)} "
+        f"ids={compact_ids(ending_readers)} "
+        f"effectful_exact_ids={compact_ids(ending_effectful_exact)}",
+        "long_tail_candidate family=relationship_memory "
+        "candidate_disposition=pending_user_classification_not_auto_defect "
+        "classification_question=small_completion_or_long_tail_gap "
+        f"count={len(relationship_long_tail_candidates)} "
+        f"post_demo_absent={len(relationship_post_demo_absent)} "
+        f"post_demo_prose_only={len(relationship_post_demo_prose_only)} "
+        f"post_demo_effectful_exact="
+        f"{len(relationship_post_demo_effectful)} "
+        f"readerless_anywhere={len(relationship_readerless)} "
+        f"demo_only={len(relationship_demo_only)}",
+        "long_tail_candidate_ids family=relationship_memory "
+        f"post_demo_absent={compact_ids(relationship_post_demo_absent)} "
+        f"post_demo_prose_only="
+        f"{compact_ids(relationship_post_demo_prose_only)} "
+        f"post_demo_effectful_exact="
+        f"{compact_ids(relationship_post_demo_effectful)} "
+        f"readerless_anywhere={compact_ids(relationship_readerless)}",
+        "long_tail_reader_guard family=relationship_memory "
+        "causal_schema=typed_relationship_memory_only "
+        f"legacy_flag_collision_excluded={len(legacy_flag_collision_ids)} "
+        f"ids={compact_ids(legacy_flag_collision_ids)}",
+        "long_tail_family family=practical_action_receipt layer=material "
+        f"producers={len(practical_actions)} "
+        f"local_material={len(static_material_actions | runtime_material_actions)} "
+        f"static_effect={len(static_material_actions)} "
+        f"runtime_effect_route={len(runtime_material_actions)} "
+        f"direct_receipt_story={len(practical_story_bundles)} "
+        f"completed_bundle_causal_story="
+        f"{len(practical_completed_bundle_readers)} "
+        f"demo_causal_story={len(practical_causal_story_bundles)} "
+        f"y1_causal_story=0 y2_y5_causal_story=0 ending_causal_story=0 "
+        f"no_named_causal_story="
+        f"{len(practical_actions) - len(practical_causal_story_bundles)} "
+        f"direct_ids={compact_ids(practical_story_bundles)} "
+        f"causal_routes={compact_ids({f'{source}>{target}' for source, targets in practical_completed_bundle_readers.items() for target in targets})}",
+        "long_tail_family family=career_application_action_receipt "
+        "layer=state_transition "
+        f"producers={len(career_application_actions)} "
+        f"local_material={len(material_career_actions)} "
+        f"local_state_transition={len(effectless_application_actions)} "
+        f"direct_receipt_story={len(career_direct_receipt_story)} "
+        f"demo_causal_producers={len(career_demo_routes)} "
+        f"demo_named_readers={len(career_demo_reader_ids)} "
+        f"demo_availability_readers={int(hanbit_availability_reader)} "
+        f"y1_causal_producers={len(career_y1_routes)} "
+        f"y1_named_readers="
+        f"{len({reader for readers in career_y1_routes.values() for reader in readers})} "
+        "y2_y5_causal_story=0 ending_causal_story=0 "
+        f"named_causal_union="
+        f"{len(set(career_demo_routes) | set(career_y1_routes))} "
+        f"no_named_causal_story="
+        f"{len(career_application_actions) - len(set(career_demo_routes) | set(career_y1_routes))}",
+        "long_tail_routes family=career_application_causal_story "
+        f"demo={compact_ids(career_demo_route_labels)} "
+        f"availability=m3_hanbit_application>m4_dodam_application[status_not_in] "
+        f"y1=m5_city_service_application>v2_city_service_result_message"
+        "[if_first_bill_city_work_sample]",
+        "long_tail_family family=authored_action_story_receipt "
+        "layer=mechanical "
+        f"producers={len(authored_story_receipt_ids)} local_material=0 "
+        f"demo_exact={len(authored_story_receipt_ids)} "
+        "reader_mode=completion_guard y1_exact=0 y2_y5_exact=0 "
+        "ending_exact=0 readerless=0",
+        "long_tail_family family=routine_receipt layer=material "
+        f"producers={routine_receipt_count} units={routine_units} "
+        f"local_material={routine_receipt_count if routine_material else 0} "
+        f"mechanical_idempotency={routine_receipt_count} "
+        "demo_narrative_exact=0 y1_exact=0 y2_y5_exact=0 "
+        f"ending_exact=0 no_named_story_reader={routine_receipt_count}",
+        "long_tail_family family=first_bill_obligation layer=decision "
+        f"producers={len(obligation_ids)} "
+        f"local_material={first_bill_local_material} "
+        f"demo_exact={len(first_bill_demo_readers)} reader_mode=ledger "
+        f"y1_recap={len(recap_ids)} "
+        f"y1_effectful={int(city_effectful)}:city_work_sample "
+        "y2_y5_exact=0 "
+        f"ending_exact={len(ending_obligation_readers)} "
+        f"named_reader_union={len(first_bill_demo_readers | recap_ids)} "
+        f"readerless={len(set(obligation_ids) - first_bill_demo_readers - recap_ids)}",
+        "long_tail_candidate family=first_bill_obligation "
+        "candidate_disposition=pending_user_classification_not_auto_defect "
+        "classification_question=small_completion_or_long_tail_gap "
+        f"count={len(first_bill_long_tail_candidates)} "
+        f"post_demo_absent={len(first_bill_post_demo_absent)} "
+        f"post_demo_recap_only={len(first_bill_post_demo_recap_only)} "
+        f"effectful_excluded={len(first_bill_effectful_post_demo)} "
+        f"ids={compact_ids(first_bill_long_tail_candidates)}",
+        "long_tail_family family=w24_dirty_story_receipt layer=mechanical "
+        f"producers={len(dirty_story_receipt_ids)} "
+        f"choice_local_material={dirty_local_material} receipt_local_material=0 "
+        "demo_exact=0 reader_mode=action_story_only "
+        "y1_exact=0 y2_y5_exact=0 ending_exact=0 "
+        f"readerless={len(dirty_story_receipt_ids)}",
+        "long_tail_candidate family=w24_dirty_story_receipt "
+        "candidate_disposition=pending_user_classification_not_auto_defect "
+        "classification_question=small_completion_or_long_tail_gap "
+        f"count={len(dirty_story_receipt_ids)} basis=write_only "
+        f"ids={compact_ids(dirty_story_receipt_ids)}",
+        "long_tail_family family=w24_dirty_deferred_receipt layer=decision "
+        f"producers={len(dirty_deferred_receipt_ids)} local_material=0 "
+        f"demo_exact={len(dirty_deferred_receipt_ids)} "
+        "reader_mode=first_bill_exact_trace y1_exact=0 y2_y5_exact=0 "
+        f"ending_exact=0 ids={compact_ids(dirty_deferred_receipt_ids)}",
+        "long_tail_candidate family=w24_dirty_deferred_receipt "
+        "count=0 basis=transport_exact_trace "
+        "candidate_disposition=excluded_transport_not_choice "
+        f"excluded_producers={len(dirty_deferred_receipt_ids)} "
+        f"excluded_ids={compact_ids(dirty_deferred_receipt_ids)}",
+    ]
+    for (
+        branch,
+        producers,
+        source,
+        week24,
+        recap,
+        ending,
+        is_long_tail_candidate,
+        candidate_basis,
+        _,
+    ) in risk_specs:
+        lines.append(
+            "long_tail_risk "
+            f"branch={branch} producers={producers} source={source} "
+            f"w24={week24} w48={recap} "
+            f"callback={'+'.join(callback_labels.get(branch, []))} "
+            f"ending={ending} "
+            f"long_tail_candidate={int(is_long_tail_candidate)} "
+            f"candidate_basis={candidate_basis} "
+            "candidate_disposition="
+            + (
+                "pending_user_classification_not_auto_defect"
+                if is_long_tail_candidate else "has_effectful_tail"
+            )
+        )
+    lines.append(
+        "long_tail_dormant family=risk_callback "
+        f"count={len(dormant_callbacks)} ids={compact_ids(dormant_callbacks)} "
+        f"foreground={len(dormant_callbacks & foreground_ids)} "
+        f"bridge={len(dormant_callbacks & bridge_ids)} "
+        f"bridge_shape_eligible={len(bridge_shape_callbacks)} "
+        f"earliest_if_foreground_added="
+        f"{max(max_week + 1, int(content_diet.get('bridge_min_turn', 25)))} "
+        f"relative_month_copy_risk={len(callback_copy_anchor_risks)} "
+        f"copy_ids={compact_ids(callback_copy_anchor_risks)}"
+    )
+    return lines
+
+
 def main() -> int:
     errors: list[str] = []
     try:
@@ -3047,6 +5788,16 @@ def main() -> int:
         months,
         groups,
         relationship,
+        registered_events,
+        errors,
+    )
+    axis_measurement_lines = measure_reachable_axis_surfaces(
+        contract,
+        bundles,
+        months,
+        groups,
+        relationship,
+        surface,
         registered_events,
         errors,
     )
@@ -5796,6 +8547,16 @@ def main() -> int:
     ):
         fail("The twelve-week recap cannot invent extra cash in the return branch", errors)
 
+    long_tail_measurement_lines = measure_long_tail_readers(
+        contract,
+        registered_events,
+        demo_core_loop_source,
+        year_close_variants,
+        year_close_obligation_readers,
+        expected_obligation_ids,
+        errors,
+    )
+
     if not 75 <= total_minutes <= 95:
         fail(f"monthly target minutes total {total_minutes} is outside 75..95", errors)
     if not expected_groups["romance_entry"].issubset(all_month_offer_ids):
@@ -5808,6 +8569,10 @@ def main() -> int:
             print(f"ERROR core loop v2: {message}")
         return 1
 
+    for line in axis_measurement_lines:
+        print(line)
+    for line in long_tail_measurement_lines:
+        print(line)
     print(
         "core_loop_v2_ok "
         f"schema={contract['schema_version']} "
