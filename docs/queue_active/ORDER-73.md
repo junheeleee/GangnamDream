@@ -28,7 +28,7 @@
 > `tools/audit_scope.json`, `docs/QA_CHECKLIST.md`, `docs/BUILD_PIPELINE.md`,
 > `docs/MASTER_RELEASE_AUDIT.md`,
 > `content/meta/release_content_inventory.json`,
-> `docs/CONTENT_RATING_INVENTORY.md`.
+> `docs/CONTENT_RATING_INVENTORY.md`, `docs/STATUS.md`.
 >
 > 종료 파일: `CLAUDE.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`,
 > `docs/queue_archive/ORDER-73.md`. `project.godot`, 서사·밸런스·게임 콘텐츠는
