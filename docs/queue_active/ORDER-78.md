@@ -11,7 +11,8 @@ MainGame을 완주하므로 V2의 월간 계획·첫 청구서 완주 증거로 
 
 > 배치 A — 실제 입력 블랙박스:
 > `tools/ScreenshotQA.gd`, `scenes/CoreLoopPlanner.gd`,
-> `project.godot`, `tools/audit.sh`, `.github/workflows/ci.yml`,
+> `project.godot`, `systems/BuildFlavor.gd`, `tools/audit.sh`,
+> `.github/workflows/ci.yml`,
 > `tools/audit_scope.json`, `tools/run_core_loop_v2_input_qa.sh`.
 >
 > 배치 B — 정본·완료 기록:
@@ -42,6 +43,10 @@ MainGame을 완주하므로 V2의 월간 계획·첫 청구서 완주 증거로 
 - 로컬 예시가 개발자의 평소 `user://`를 쓰면 크래시·강제 종료 때 설정 복원이
   보장되지 않는다. 로컬과 CI 모두 같은 실행 래퍼가 만든 일회성 XDG 홈에서
   동작하게 하고, 로그와 완료 화면 경로를 래퍼가 남긴다.
+- macOS Godot는 XDG 변수를 `user://`에 적용하지 않으므로 XDG만으로는 로컬
+  격리가 성립하지 않는다. 전용 QA 인자와 절대 임시 경로가 함께 있을 때만
+  V2 playtest 저장 경로를 그 디렉터리로 바꾼다. retail과 일반 playtest 경로는
+  그대로 두며, QA는 부팅 직후 네 저장 표면이 모두 임시 루트 아래인지 확인한다.
 
 ## 깊이 3문
 
