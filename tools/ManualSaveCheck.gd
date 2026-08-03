@@ -47,11 +47,18 @@ func _check_slot_and_legacy_contract() -> void:
 		"label": "Chapter 3 QA", "qa_fixture": true,
 	}), "slot 10 could not be written")
 	var info := SaveManager.get_save_info(CONTRACT_SLOT)
+	var current_identity := SaveManager.save_identity_fields()
 	_expect(int(info.get("chapter", 0)) == 3, "slot metadata chapter is not derived from week 97")
 	_expect(str(info.get("event_id", "")) == "chapter_card_35",
 		"slot metadata lost the StoryMode event")
 	_expect(bool(info.get("qa_fixture", false)), "slot metadata lost the QA marker")
+	_expect(bool(info.get("compatible", false)),
+		"current save was not marked compatible")
+	_expect(info.get("source_identity", {}) == current_identity,
+		"slot diagnostics drifted from the current artifact identity")
 	_expect(SaveManager.load_game(CONTRACT_SLOT), "slot 10 could not be loaded")
+	_expect(SaveManager.loaded_save_identity() == current_identity,
+		"loaded save identity did not round-trip")
 	_expect(SaveManager.loaded_scene_path() == "res://scenes/StoryMode.tscn",
 		"StoryMode save routes to the wrong scene")
 	_expect(str(SaveManager.peek_loaded_resume_context().get("phase", "")) == "chapter",
@@ -74,6 +81,117 @@ func _check_slot_and_legacy_contract() -> void:
 		"v3 save should fall back to MainGame")
 	_expect(SaveManager.peek_loaded_resume_context().is_empty(),
 		"v3 save invented a StoryMode resume payload")
+	_check_build_identity_compatibility(legacy_payload)
+
+func _check_build_identity_compatibility(legacy_payload: Dictionary) -> void:
+	var full_identity := {
+		"game_version": "0.1.0-dev",
+		"build_id": "full-build",
+		"build_flavor": "full",
+		"save_namespace": "legacy",
+	}
+	var demo_identity := full_identity.duplicate(true)
+	demo_identity["build_id"] = "demo-build"
+	demo_identity["build_flavor"] = "demo"
+	var playtest_identity := full_identity.duplicate(true)
+	playtest_identity["build_id"] = "v2-build"
+	playtest_identity["build_flavor"] = "core_loop_v2_playtest"
+	playtest_identity["save_namespace"] = "core_loop_v2_playtest_v1"
+
+	var demo_payload := {
+		"version": SaveManager.SAVE_VERSION,
+		"game_version": "0.1.0-dev",
+		"build_id": "older-demo-build",
+		"build_flavor": "demo",
+		"save_namespace": "legacy",
+	}
+	var week_24_state := {"turn": 24}
+	var demo_to_full := SaveManager.inspect_payload_compatibility(
+		demo_payload, week_24_state, full_identity)
+	_expect(bool(demo_to_full.get("compatible", false)),
+		"full build rejected the intended 24-week demo carryover")
+	_expect(demo_to_full.get("warnings", []).has("demo_save_in_full_build"),
+		"demo-to-full carryover lost its diagnostic warning")
+
+	var full_payload := demo_payload.duplicate(true)
+	full_payload["build_flavor"] = "full"
+	var full_to_demo := SaveManager.inspect_payload_compatibility(
+		full_payload, week_24_state, demo_identity)
+	_expect(not bool(full_to_demo.get("compatible", true))
+			and str(full_to_demo.get("reason", "")) == "full_save_in_demo",
+		"24-week demo accepted an explicitly full-build save")
+
+	var old_to_demo := SaveManager.inspect_payload_compatibility(
+		legacy_payload, week_24_state, demo_identity)
+	_expect(bool(old_to_demo.get("compatible", false)),
+		"24-week demo rejected an identity-less legacy save within its cutoff")
+	var old_past_demo := SaveManager.inspect_payload_compatibility(
+		legacy_payload, {"turn": 25}, demo_identity)
+	_expect(not bool(old_past_demo.get("compatible", true))
+			and str(old_past_demo.get("reason", "")) == "demo_turn_limit",
+		"24-week demo accepted a legacy save beyond Week 24")
+
+	var v2_payload := demo_payload.duplicate(true)
+	v2_payload["build_flavor"] = "core_loop_v2_playtest"
+	v2_payload["save_namespace"] = "core_loop_v2_playtest_v1"
+	_expect(bool(SaveManager.inspect_payload_compatibility(
+		v2_payload, week_24_state, playtest_identity).get("compatible", false)),
+		"V2 playtest rejected its own namespace")
+	var v2_past_demo := SaveManager.inspect_payload_compatibility(
+		v2_payload, {"turn": 25}, playtest_identity)
+	_expect(not bool(v2_past_demo.get("compatible", true))
+			and str(v2_past_demo.get("reason", "")) == "demo_turn_limit",
+		"V2 playtest accepted its own save beyond Week 24")
+	_expect(not bool(SaveManager.inspect_payload_compatibility(
+		v2_payload, week_24_state, full_identity).get("compatible", true)),
+		"retail/full accepted a V2 playtest save")
+	_expect(not bool(SaveManager.inspect_payload_compatibility(
+		demo_payload, week_24_state, playtest_identity).get("compatible", true)),
+		"V2 playtest accepted a retail/demo namespace")
+
+	var build_mismatch := SaveManager.inspect_payload_compatibility(
+		demo_payload, week_24_state, demo_identity)
+	_expect(bool(build_mismatch.get("compatible", false))
+			and build_mismatch.get("warnings", []).has("build_id_mismatch"),
+		"build-ID drift became a compatibility block or lost its warning")
+	var malformed := demo_payload.duplicate(true)
+	malformed["build_id"] = ""
+	_expect(not bool(SaveManager.inspect_payload_compatibility(
+		malformed, week_24_state, demo_identity).get("compatible", true)),
+		"blank build identity was not rejected")
+	var fractional_version := demo_payload.duplicate(true)
+	fractional_version["version"] = 4.5
+	var fractional_diagnostic := SaveManager.inspect_payload_compatibility(
+		fractional_version, week_24_state, demo_identity)
+	_expect(not bool(fractional_diagnostic.get("compatible", true))
+			and str(fractional_diagnostic.get("reason", "")) == "invalid_save_version",
+		"fractional save schema was silently rounded and accepted")
+	var forged_unknown := demo_payload.duplicate(true)
+	for key in ["game_version", "build_id", "build_flavor", "save_namespace"]:
+		forged_unknown[key] = "unknown"
+	var unknown_diagnostic := SaveManager.inspect_payload_compatibility(
+		forged_unknown, week_24_state, full_identity)
+	_expect(not bool(unknown_diagnostic.get("compatible", true))
+			and str(unknown_diagnostic.get("reason", "")) == "invalid_identity_field",
+		"explicit unknown identity values bypassed legacy-save warnings")
+
+	var future_state: Dictionary = GameState.serialize()
+	future_state["money"] = 987654321.0
+	var future_payload := {
+		"version": SaveManager.SAVE_VERSION + 1,
+		"state": future_state,
+	}
+	var future_file := FileAccess.open(
+		SaveManager.slot_path(LEGACY_SLOT), FileAccess.WRITE)
+	_expect(future_file != null, "future-version fixture could not be opened")
+	if future_file != null:
+		future_file.store_string(JSON.stringify(future_payload))
+		future_file.close()
+	GameState.money = 123456.0
+	_expect(not SaveManager.load_game(LEGACY_SLOT),
+		"future save schema was loaded instead of rejected")
+	_expect(is_equal_approx(GameState.money, 123456.0),
+		"future save rejection mutated GameState before compatibility checks")
 
 func _check_prose_resume() -> void:
 	GameState.start_new_game()
@@ -487,7 +605,7 @@ func _finish() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 	if _failures.is_empty():
-		print("MANUAL_SAVE_CHECK_OK slots=10 legacy=v3/v4 prose=source_progress locale_mismatch=rewind choices=1 result_once=1 timer=1 pages=2 dialogue_history=prose/choice/result/legacy_notice meta=restored")
+		print("MANUAL_SAVE_CHECK_OK slots=10 legacy=v3/v4 identity=current/partial/unknown build_mismatch=warning flavor=full-demo/v2-isolated/cutoff future=reject-before-state prose=source_progress locale_mismatch=rewind choices=1 result_once=1 timer=1 pages=2 dialogue_history=prose/choice/result/legacy_notice meta=restored")
 		get_tree().quit(0)
 		return
 	for failure in _failures:

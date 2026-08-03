@@ -7,6 +7,7 @@ const SPLASH_SCENE := preload("res://scenes/SplashScreen.tscn")
 const MENU_SCENE := preload("res://scenes/StartMenu.tscn")
 const OPENING_SCENE := preload("res://scenes/OpeningCinematic.tscn")
 const BuildInfoScript := preload("res://systems/BuildInfo.gd")
+const BuildFlavorScript := preload("res://systems/BuildFlavor.gd")
 
 var _failures: Array[String] = []
 
@@ -36,7 +37,7 @@ func _run() -> void:
 			push_error("FIRST_30_SECONDS_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("FIRST_30_SECONDS_CHECK_OK gates=1 beats=3 budget=17.1s logo=image audio=1 reduced_motion=1 pad=1")
+	print("FIRST_30_SECONDS_CHECK_OK gates=1 beats=3 budget=17.1s logo=image audio=1 reduced_motion=1 pad=1 notices=ledger")
 	get_tree().quit(0)
 
 
@@ -100,10 +101,20 @@ func _check_title_menu() -> void:
 	_expect("PRESS ANY KEY" in visible_text, "English title gate is missing its start prompt.")
 	_expect(BuildInfoScript.identity_label(false) in visible_text,
 		"Title menu does not expose the current game version and build ID.")
+	if BuildFlavorScript.build_flavor_id() == "demo":
+		_expect("24-WEEK DEMO" in visible_text,
+			"Legacy demo title is indistinguishable from the full artifact.")
+	elif BuildFlavorScript.build_flavor_id() == "full":
+		_expect("24-WEEK DEMO" not in visible_text and "PLAYTEST" not in visible_text,
+			"Full title inherited a demo/playtest artifact marker.")
 	_expect(str(menu.get_meta("game_version", "")) == BuildInfoScript.GAME_VERSION,
 		"Title menu game-version metadata drifted from BuildInfo.")
 	_expect(str(menu.get_meta("build_id", "")) == BuildInfoScript.BUILD_ID,
 		"Title menu build metadata drifted from BuildInfo.")
+	for key in BuildInfoScript.artifact_identity():
+		_expect(str(menu.get_meta(str(key), ""))
+				== str(BuildInfoScript.artifact_identity()[key]),
+			"Title artifact metadata drifted at %s." % key)
 	_expect(not _contains_hangul(visible_text), "English title gate contains Hangul.")
 	menu.call("_dismiss_splash")
 	await get_tree().create_timer(0.30).timeout
@@ -113,7 +124,80 @@ func _check_title_menu() -> void:
 		"Title did not record its single dismissal.")
 	var focused := get_viewport().gui_get_focus_owner()
 	_expect(focused is Button, "Title commands did not restore controller focus.")
+	await _check_third_party_notices(menu)
 	_dispose(menu)
+	await get_tree().process_frame
+
+
+func _check_third_party_notices(menu: Control) -> void:
+	menu.call("_open_settings_popup")
+	await get_tree().process_frame
+	var notices_button: Button = null
+	for node in menu.find_children("*", "Button", true, false):
+		if bool(node.get_meta("third_party_notices_control", false)):
+			notices_button = node as Button
+			break
+	_expect(is_instance_valid(notices_button),
+		"Title settings have no Third-Party Notices entry.")
+	if not is_instance_valid(notices_button):
+		menu.call("_close_settings_popup")
+		return
+	notices_button.grab_focus()
+	notices_button.pressed.emit()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var overlay := menu.find_child("ThirdPartyNoticesOverlay", true, false)
+	_expect(is_instance_valid(overlay),
+		"Third-Party Notices entry did not open its overlay.")
+	if not is_instance_valid(overlay):
+		menu.call("_close_settings_popup")
+		return
+	_expect(int(overlay.get_meta("component_entries", 0)) == 1,
+		"Notice overlay engine count drifted from the generated ledger.")
+	_expect(int(overlay.get_meta("font_families", 0)) == 3
+			and int(overlay.get_meta("font_files", 0)) == 6,
+		"Notice overlay font counts drifted from the generated ledger.")
+	_expect(int(overlay.get_meta("audio_sources", 0)) == 21
+			and int(overlay.get_meta("audio_assets", 0)) == 139
+			and int(overlay.get_meta(
+				"attribution_required_audio_sources", 0)) == 1,
+		"Notice overlay audio counts drifted from the generated ledger.")
+	var initial_text := _collect_text(overlay)
+	_expect("Godot Engine" in initial_text and "MIT License" in initial_text
+			and "Permission is hereby granted" in initial_text
+			and "GODOT_ENGINE_COPYRIGHT.txt" in initial_text
+			and "thirdparty/freetype" in initial_text,
+		"Engine MIT or bundled-component notices are not reachable in-game.")
+	menu.call("_set_third_party_notice_section", 1)
+	await get_tree().process_frame
+	var font_text := _collect_text(overlay)
+	_expect("Pretendard" in font_text and "Noto Sans JP" in font_text
+			and "Noto Color Emoji" in font_text
+			and "SIL Open Font License 1.1" in font_text
+			and "https://github.com/orioncactus/pretendard" in font_text,
+		"Generated font notices or OFL text are not reachable in-game.")
+	menu.call("_set_third_party_notice_section", 2)
+	await get_tree().process_frame
+	var audio_text := _collect_text(overlay)
+	_expect("Alexander Holm" in audio_text and "CC BY 3.0" in audio_text
+			and "D4XX" in audio_text and "CC0 1.0" in audio_text
+			and "https://creativecommons.org/publicdomain/zero/1.0/" in audio_text,
+		"Required audio attribution is not reachable in-game.")
+	_expect(not _contains_hangul(audio_text),
+		"English third-party audio notices contain Hangul.")
+	var scroll := overlay.find_child("ThirdPartyNoticesScroll", true, false) as ScrollContainer
+	_expect(is_instance_valid(scroll) and scroll.size.x > 400.0
+			and scroll.size.y > 160.0,
+		"Notice reference area does not fit the current viewport.")
+	_expect(is_instance_valid(scroll)
+			and bool(scroll.get_meta("third_party_notice_scroll_focus", false))
+			and scroll.has_theme_stylebox_override("focus"),
+		"Notice scroll area has no visible controller-focus contract.")
+	menu.call("_close_third_party_notices")
+	await get_tree().process_frame
+	_expect(get_viewport().gui_get_focus_owner() == notices_button,
+		"Closing notices did not restore focus to the settings entry.")
+	menu.call("_close_settings_popup")
 	await get_tree().process_frame
 
 

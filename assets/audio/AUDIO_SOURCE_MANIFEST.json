@@ -30,13 +30,14 @@
       "attribution_required": false
     },
     "horse_gallop": {
-      "provider": "congusbongus and credited source recordists",
+      "provider": "congusbongus (pack curator); per-file creators in credits.txt",
       "title": "Horse gallop on different surfaces",
       "source_type": "field_recording",
-      "license": "CC BY 4.0",
-      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "license": "Mixed CC0 1.0 / CC BY 4.0 (per-file credits)",
+      "license_url": "https://opengameart.org/content/horse-gallop-on-different-surfaces",
       "source_url": "https://opengameart.org/content/horse-gallop-on-different-surfaces",
-      "attribution_required": true
+      "attribution_required": true,
+      "license_scope": "mixed_per_file"
     },
     "salamander_piano": {
       "provider": "Alexander Holm",
@@ -855,7 +856,15 @@
           "pack": "horse_gallop",
           "original_file": "ground.mp3",
           "sha256": "35b5d4bc7abdfdcc8dde79ddbde48d895f1f6578adea398a1dc7c0450bce919b",
-          "source_type": "field_recording"
+          "source_type": "field_recording",
+          "license_record": {
+            "provider": "D4XX",
+            "title": "Single Horse Galopp",
+            "license": "CC0 1.0",
+            "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+            "source_url": "https://freesound.org/people/D4XX/sounds/564628/",
+            "attribution_required": false
+          }
         }
       ],
       "transform": "recording mix; 22.65s seamless crossfade; 22.05kHz stereo; RMS -29 dBFS",
@@ -3357,7 +3366,15 @@
           "pack": "horse_gallop",
           "original_file": "ground.mp3",
           "sha256": "35b5d4bc7abdfdcc8dde79ddbde48d895f1f6578adea398a1dc7c0450bce919b",
-          "source_type": "field_recording"
+          "source_type": "field_recording",
+          "license_record": {
+            "provider": "D4XX",
+            "title": "Single Horse Galopp",
+            "license": "CC0 1.0",
+            "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+            "source_url": "https://freesound.org/people/D4XX/sounds/564628/",
+            "attribution_required": false
+          }
         }
       ],
       "transform": "recorded one-shot edit; mono 44.1kHz; max 2.40s; RMS -20.0 dBFS",

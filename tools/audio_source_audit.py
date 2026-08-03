@@ -39,6 +39,22 @@ REQUIRED_LIBRARY_FIELDS = {
     "source_url",
     "attribution_required",
 }
+SOURCE_LICENSE_FIELDS = {
+    "provider",
+    "title",
+    "license",
+    "license_url",
+    "source_url",
+    "attribution_required",
+}
+HORSE_GROUND_LICENSE_RECORD = {
+    "provider": "D4XX",
+    "title": "Single Horse Galopp",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source_url": "https://freesound.org/people/D4XX/sounds/564628/",
+    "attribution_required": False,
+}
 HASH_RE = re.compile(r"^[0-9a-f]{64}$")
 
 SYNTHESIS_SURFACES = (
@@ -234,6 +250,44 @@ def check_assets(
                     errors.append(f"{name}: source {index} has no original filename")
                 if not HASH_RE.fullmatch(str(source.get("sha256", ""))):
                     errors.append(f"{name}: source {index} has invalid SHA-256")
+                license_record = source.get("license_record")
+                if license_record is not None:
+                    if not isinstance(license_record, dict):
+                        errors.append(f"{name}: source {index} license_record is not an object")
+                    else:
+                        missing = sorted(SOURCE_LICENSE_FIELDS - set(license_record))
+                        if missing:
+                            errors.append(
+                                f"{name}: source {index} license_record missing "
+                                + ", ".join(missing)
+                            )
+                        for key in ("provider", "title", "license"):
+                            if not str(license_record.get(key, "")).strip():
+                                errors.append(
+                                    f"{name}: source {index} license_record empty {key}"
+                                )
+                        for key in ("license_url", "source_url"):
+                            if not str(license_record.get(key, "")).startswith("https://"):
+                                errors.append(
+                                    f"{name}: source {index} license_record {key} "
+                                    "must be an https URL"
+                                )
+                        if not isinstance(
+                            license_record.get("attribution_required"), bool
+                        ):
+                            errors.append(
+                                f"{name}: source {index} license_record "
+                                "attribution_required must be boolean"
+                            )
+                if pack == "horse_gallop":
+                    if str(source.get("original_file", "")) != "ground.mp3":
+                        errors.append(
+                            f"{name}: shipping horse source is not pinned to ground.mp3"
+                        )
+                    if license_record != HORSE_GROUND_LICENSE_RECORD:
+                        errors.append(
+                            f"{name}: ground.mp3 lost its D4XX CC0 per-file record"
+                        )
         if not str(entry.get("transform", "")).strip():
             errors.append(f"{name}: empty edit history")
         expected_hash = str(entry.get("output_sha256", ""))
@@ -387,13 +441,38 @@ def check_no_synthesis_code(errors: list[str]) -> None:
                 )
 
 
-def check_notices(libraries: dict[str, Any], errors: list[str]) -> None:
+def check_notices(
+    payload: dict[str, Any], libraries: dict[str, Any], errors: list[str]
+) -> None:
     if not NOTICES.is_file():
         errors.append(f"missing third-party notice: {NOTICES.relative_to(ROOT)}")
         return
     notice = NOTICES.read_text(encoding="utf-8")
+    overridden_packs: set[str] = set()
+    unoverridden_packs: set[str] = set()
+    for asset in payload.get("assets", {}).values():
+        if not isinstance(asset, dict):
+            continue
+        for source in asset.get("sources", []):
+            if not isinstance(source, dict):
+                continue
+            pack = str(source.get("pack", ""))
+            record = source.get("license_record")
+            if isinstance(record, dict):
+                overridden_packs.add(pack)
+                for key in ("provider", "title", "license", "source_url", "license_url"):
+                    expected = str(record.get(key, ""))
+                    if expected and expected not in notice:
+                        errors.append(
+                            f"third-party notice missing per-file {key} "
+                            f"{expected!r} for {pack}"
+                        )
+            else:
+                unoverridden_packs.add(pack)
     for library_id, raw in libraries.items():
         if not isinstance(raw, dict) or not raw.get("attribution_required", False):
+            continue
+        if library_id in overridden_packs and library_id not in unoverridden_packs:
             continue
         for expected in (str(raw.get("provider", "")), str(raw.get("license", ""))):
             if expected and expected not in notice:
@@ -434,7 +513,7 @@ def main() -> int:
     check_release_oggs(errors)
     check_no_synthesis_code(errors)
     if libraries:
-        check_notices(libraries, errors)
+        check_notices(payload, libraries, errors)
 
     if errors:
         for error in errors:

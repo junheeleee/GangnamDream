@@ -1,0 +1,687 @@
+{
+  "schema_version": 1,
+  "generated_by": "tools/third_party_notice_audit.py",
+  "generated_from": [
+    {
+      "path": "res://assets/audio/AUDIO_SOURCE_MANIFEST.json",
+      "sha256": "2a4b96e916c0241837cd5c536ee9a9e06b15d0182567aaa1717d77095601244a"
+    },
+    {
+      "path": "res://assets/fonts/FONT_LICENSE_LEDGER.md",
+      "sha256": "0b70accb12c3a7f02cc7103d016c9bd2cdc4997bc13712e30aa84218eb6f387e"
+    },
+    {
+      "path": "res://assets/fonts/OFL-NotoColorEmoji.txt",
+      "sha256": "6b8fb65f9c022d3902191c5fe93f3d02ecfd88256db16eb187b4f136e5916b68"
+    },
+    {
+      "path": "res://assets/fonts/OFL-NotoSansJP.txt",
+      "sha256": "babcfe66c8a098b2fa279bc724a3a342f8124f77ce18941fbcc1bbb39823cded"
+    },
+    {
+      "path": "res://assets/fonts/OFL-Pretendard.txt",
+      "sha256": "9884c81482f64d1a80941098f152c0c9ea944d57ed45bf38324a2601a50b9ef1"
+    },
+    {
+      "path": "res://assets/third_party/GODOT_ENGINE_COPYRIGHT.txt",
+      "sha256": "dc043a7dbf69632560219e72fbc61ef9fa7338c7a773660acd81b51590b69104"
+    },
+    {
+      "path": "res://assets/third_party/GODOT_ENGINE_LICENSE.txt",
+      "sha256": "b0435e3b3e4e55238f05f4b306f30524a1b2e20147810d436eaa554fa6855c80"
+    },
+    {
+      "path": "res://assets/third_party/THIRD_PARTY_COMPONENTS.json",
+      "sha256": "7b20c8975cbcb000fe8ee664524087cadc4ef3ed13ff515f12a1059868ee05ef"
+    }
+  ],
+  "surface": {
+    "title": {
+      "ko": "제3자 고지",
+      "en": "Third-Party Notices"
+    },
+    "intro": {
+      "ko": "이 게임은 아래의 게임 엔진, 서체, 오디오 출처를 사용합니다. 각 항목의 출처와 라이선스를 확인할 수 있습니다.",
+      "en": "This game uses the engine, fonts, and audio sources listed below. Each entry includes its source and license."
+    },
+    "package_note": {
+      "ko": "라이선스 전문이 필요한 항목은 사본을 배포 파일에 함께 넣었습니다. 오디오 파일별 상세 출처는 별도 원장에 기록되어 있습니다.",
+      "en": "Required license texts are included with the distributed game. Per-file audio provenance is recorded in a separate ledger."
+    },
+    "labels": {
+      "provider": {
+        "ko": "제공자",
+        "en": "Provider"
+      },
+      "copyright": {
+        "ko": "저작권",
+        "en": "Copyright"
+      },
+      "license": {
+        "ko": "라이선스",
+        "en": "License"
+      },
+      "source": {
+        "ko": "출처",
+        "en": "Source"
+      },
+      "license_terms": {
+        "ko": "라이선스 원문",
+        "en": "License terms"
+      },
+      "license_copy_required": {
+        "ko": "라이선스 전문 동봉",
+        "en": "License text included"
+      },
+      "attribution_required": {
+        "ko": "저작자 표시 필요",
+        "en": "Attribution required"
+      },
+      "voluntary_credit": {
+        "ko": "표시 의무 없음 · 제작진 표기",
+        "en": "Voluntary credit"
+      }
+    }
+  },
+  "distribution": {
+    "source_ledgers": [
+      "res://assets/third_party/THIRD_PARTY_COMPONENTS.json",
+      "res://assets/fonts/FONT_LICENSE_LEDGER.md",
+      "res://assets/audio/AUDIO_SOURCE_MANIFEST.json"
+    ],
+    "package_license_copies": [
+      "res://assets/fonts/OFL-NotoColorEmoji.txt",
+      "res://assets/fonts/OFL-NotoSansJP.txt",
+      "res://assets/fonts/OFL-Pretendard.txt",
+      "res://assets/third_party/GODOT_ENGINE_COPYRIGHT.txt",
+      "res://assets/third_party/GODOT_ENGINE_LICENSE.txt"
+    ],
+    "package_notice_files": [
+      "res://assets/audio/AUDIO_THIRD_PARTY_NOTICES.md"
+    ],
+    "in_game_notice_data": "res://content/meta/third_party_notices.json"
+  },
+  "summary": {
+    "component_entries": 1,
+    "font_families": 3,
+    "font_files": 6,
+    "audio_sources": 21,
+    "audio_assets": 139,
+    "attribution_required_audio_sources": 1,
+    "audio_source_assignments": 156
+  },
+  "sections": [
+    {
+      "id": "engine",
+      "title": {
+        "ko": "게임 엔진",
+        "en": "Game Engine"
+      },
+      "entries": [
+        {
+          "id": "godot_engine",
+          "kind": "engine",
+          "name": "Godot Engine",
+          "version": "4.6.2",
+          "provider": "Godot Engine contributors",
+          "license": "MIT License",
+          "source_url": "https://github.com/godotengine/godot/tree/4.6.2-stable",
+          "license_url": "https://github.com/godotengine/godot/blob/4.6.2-stable/LICENSE.txt",
+          "license_text_path": "res://assets/third_party/GODOT_ENGINE_LICENSE.txt",
+          "license_text_sha256": "b0435e3b3e4e55238f05f4b306f30524a1b2e20147810d436eaa554fa6855c80",
+          "copyright_url": "https://github.com/godotengine/godot/blob/4.6.2-stable/COPYRIGHT.txt",
+          "copyright_text_path": "res://assets/third_party/GODOT_ENGINE_COPYRIGHT.txt",
+          "copyright_text_sha256": "dc043a7dbf69632560219e72fbc61ef9fa7338c7a773660acd81b51590b69104",
+          "notice_status": "license_copy_required"
+        }
+      ]
+    },
+    {
+      "id": "fonts",
+      "title": {
+        "ko": "서체",
+        "en": "Fonts"
+      },
+      "entries": [
+        {
+          "id": "font_noto_color_emoji",
+          "kind": "font_family",
+          "name": "Noto Color Emoji",
+          "version": "2.051;GOOG;noto-emoji:20250818:e92753bfa55fd449e427d4d325f9c8c40408c74e",
+          "copyright": "Copyright 2022 Google Inc.",
+          "provider": "Google",
+          "license": "SIL Open Font License 1.1",
+          "source_url": "https://github.com/googlefonts/noto-emoji",
+          "license_text_path": "res://assets/fonts/OFL-NotoColorEmoji.txt",
+          "notice_status": "license_copy_required",
+          "roles": [
+            "이모지 폴백"
+          ],
+          "shipped_files": [
+            "res://assets/fonts/NotoColorEmoji.ttf"
+          ]
+        },
+        {
+          "id": "font_noto_sans_jp",
+          "kind": "font_family",
+          "name": "Noto Sans JP",
+          "version": "2.004-H2;hotconv 1.0.118;makeotfexe 2.5.65603",
+          "copyright": "(c) 2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'.",
+          "provider": "Adobe and Google",
+          "license": "SIL Open Font License 1.1",
+          "source_url": "https://github.com/notofonts/noto-cjk",
+          "license_text_path": "res://assets/fonts/OFL-NotoSansJP.txt",
+          "notice_status": "license_copy_required",
+          "roles": [
+            "일본어"
+          ],
+          "shipped_files": [
+            "res://assets/fonts/NotoSansJP-Variable.ttf"
+          ]
+        },
+        {
+          "id": "font_pretendard",
+          "kind": "font_family",
+          "name": "Pretendard",
+          "version": "1.309",
+          "copyright": "Copyright © 2023 Kil Hyung-jin",
+          "provider": "Kil Hyung-jin",
+          "license": "SIL Open Font License 1.1",
+          "source_url": "https://github.com/orioncactus/pretendard",
+          "license_text_path": "res://assets/fonts/OFL-Pretendard.txt",
+          "notice_status": "license_copy_required",
+          "roles": [
+            "본문",
+            "본문 강조"
+          ],
+          "shipped_files": [
+            "res://assets/fonts/Pretendard-Bold.ttf",
+            "res://assets/fonts/Pretendard-Medium.ttf",
+            "res://assets/fonts/Pretendard-Regular.ttf",
+            "res://assets/fonts/Pretendard-SemiBold.ttf"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "audio",
+      "title": {
+        "ko": "오디오",
+        "en": "Audio"
+      },
+      "entries": [
+        {
+          "id": "salamander_piano",
+          "kind": "audio_source",
+          "name": "Salamander Grand Piano V3 (Yamaha C5)",
+          "provider": "Alexander Holm",
+          "license": "CC BY 3.0",
+          "license_url": "https://creativecommons.org/licenses/by/3.0/",
+          "source_url": "https://sfzlab.github.io/sfz-website/instruments/alexander-holm/salamander-grand-piano/",
+          "source_type": "real_instrument_sample",
+          "source_collection": "Salamander Grand Piano V3 (Yamaha C5)",
+          "notice_status": "attribution_required",
+          "shipping_asset_count": 24,
+          "shipping_assets": [
+            "res://assets/audio/bgm_ambition.ogg",
+            "res://assets/audio/bgm_apartment.ogg",
+            "res://assets/audio/bgm_casino_floor.ogg",
+            "res://assets/audio/bgm_casino_table.ogg",
+            "res://assets/audio/bgm_crisis.ogg",
+            "res://assets/audio/bgm_daeun.ogg",
+            "res://assets/audio/bgm_ending.ogg",
+            "res://assets/audio/bgm_family.ogg",
+            "res://assets/audio/bgm_gosiwon.ogg",
+            "res://assets/audio/bgm_grief.ogg",
+            "res://assets/audio/bgm_hyunsu.ogg",
+            "res://assets/audio/bgm_intimate.ogg",
+            "res://assets/audio/bgm_jiyeon.ogg",
+            "res://assets/audio/bgm_main.ogg",
+            "res://assets/audio/bgm_menu.ogg",
+            "res://assets/audio/bgm_reckoning.ogg",
+            "res://assets/audio/bgm_survival.ogg",
+            "res://assets/audio/bgm_victory.ogg",
+            "res://assets/audio/bgm_wedding_processional.ogg",
+            "res://assets/audio/bgm_wonder.ogg",
+            "res://assets/audio/sfx_ending_stinger_bad.wav",
+            "res://assets/audio/sfx_ending_stinger_good.wav",
+            "res://assets/audio/sfx_ending_stinger_legend.wav",
+            "res://assets/audio/sfx_publisher_sting.wav"
+          ]
+        },
+        {
+          "id": "freesound_queue_chime_cc0",
+          "kind": "audio_source",
+          "name": "20231229 - Duisburg station announcement ding dong",
+          "provider": "LG",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source_url": "https://freesound.org/s/718032/",
+          "source_type": "field_recording",
+          "source_collection": "20231229 - Duisburg station announcement ding dong",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 1,
+          "shipping_assets": [
+            "res://assets/audio/sfx_queue_chime.wav"
+          ]
+        },
+        {
+          "id": "freesound_apartment_cc0",
+          "kind": "audio_source",
+          "name": "Apartment Room Tone.wav",
+          "provider": "cMilan",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source_url": "https://freesound.org/s/426767/",
+          "source_type": "field_recording",
+          "source_collection": "Apartment Room Tone.wav",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 5,
+          "shipping_assets": [
+            "res://assets/audio/amb_apartment_room.wav",
+            "res://assets/audio/amb_family_home.wav",
+            "res://assets/audio/amb_goshiwon_hallway.wav",
+            "res://assets/audio/amb_goshiwon_room.wav",
+            "res://assets/audio/amb_oneroom_room.wav"
+          ]
+        },
+        {
+          "id": "freesound_barcode_cc0",
+          "kind": "audio_source",
+          "name": "barcode-reader.wav",
+          "provider": "Eirikr",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source_url": "https://freesound.org/s/185888/",
+          "source_type": "object_recording",
+          "source_collection": "barcode-reader.wav",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 1,
+          "shipping_assets": [
+            "res://assets/audio/sfx_register_scan.wav"
+          ]
+        },
+        {
+          "id": "freesound_bus_cc0",
+          "kind": "audio_source",
+          "name": "Bus sound.wav",
+          "provider": "unreadpages",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source_url": "https://freesound.org/s/338212/",
+          "source_type": "field_recording",
+          "source_collection": "Bus sound.wav",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 1,
+          "shipping_assets": [
+            "res://assets/audio/sfx_bus_arrival.wav"
+          ]
+        },
+        {
+          "id": "freesound_casino_cc0",
+          "kind": "audio_source",
+          "name": "Casino Ambiance.wav",
+          "provider": "DylanTheFish",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source_url": "https://freesound.org/s/443455/",
+          "source_type": "field_recording",
+          "source_collection": "Casino Ambiance.wav",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 2,
+          "shipping_assets": [
+            "res://assets/audio/amb_casino_floor.wav",
+            "res://assets/audio/amb_human_casino.wav"
+          ]
+        },
+        {
+          "id": "kenney_casino_cc0",
+          "kind": "audio_source",
+          "name": "Casino Audio 1.1",
+          "provider": "Kenney Vleugels",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source_url": "https://lpc.opengameart.org/content/54-casino-sound-effects-cards-dice-chips",
+          "source_type": "object_recording",
+          "source_collection": "Casino Audio 1.1",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 18,
+          "shipping_assets": [
+            "res://assets/audio/sfx_buy.wav",
+            "res://assets/audio/sfx_card_flip.wav",
+            "res://assets/audio/sfx_card_shuffle.wav",
+            "res://assets/audio/sfx_casino_bet.wav",
+            "res://assets/audio/sfx_casino_card.wav",
+            "res://assets/audio/sfx_casino_jackpot.wav",
+            "res://assets/audio/sfx_casino_win.wav",
+            "res://assets/audio/sfx_chip_collect.wav",
+            "res://assets/audio/sfx_chip_place.wav",
+            "res://assets/audio/sfx_click.wav",
+            "res://assets/audio/sfx_dice_cup_shake.wav",
+            "res://assets/audio/sfx_dice_roll.wav",
+            "res://assets/audio/sfx_money_big.wav",
+            "res://assets/audio/sfx_roulette_ball.wav",
+            "res://assets/audio/sfx_roulette_land.wav",
+            "res://assets/audio/sfx_sell.wav",
+            "res://assets/audio/sfx_success.wav",
+            "res://assets/audio/sfx_tab_open.wav"
+          ]
+        },
+        {
+          "id": "freesound_convenience_cc0",
+          "kind": "audio_source",
+          "name": "Convenience Store Interior Ambiance",
+          "provider": "JohnsonBrandEditing",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source_url": "https://freesound.org/s/244309/",
+          "source_type": "field_recording",
+          "source_collection": "Convenience Store Interior Ambiance",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 1,
+          "shipping_assets": [
+            "res://assets/audio/amb_human_convenience.wav"
+          ]
+        },
+        {
+          "id": "qubodup_crash_cc0",
+          "kind": "audio_source",
+          "name": "Crash Collision",
+          "provider": "qubodup",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source_url": "https://opengameart.org/content/crash-collision",
+          "source_type": "object_recording",
+          "source_collection": "Crash Collision",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 1,
+          "shipping_assets": [
+            "res://assets/audio/sfx_bicycle_impact.wav"
+          ]
+        },
+        {
+          "id": "freesound_wedding_room_cc0",
+          "kind": "audio_source",
+          "name": "Crowd at Wedding Reception Ambience.wav",
+          "provider": "ecfike",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source_url": "https://freesound.org/s/133819/",
+          "source_type": "field_recording",
+          "source_collection": "Crowd at Wedding Reception Ambience.wav",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 2,
+          "shipping_assets": [
+            "res://assets/audio/amb_human_wedding.wav",
+            "res://assets/audio/amb_wedding_hall.wav"
+          ]
+        },
+        {
+          "id": "freesound_gym_cc0",
+          "kind": "audio_source",
+          "name": "Fitness studio / Gym ambience. Weights and equipment.",
+          "provider": "Pfannkuchn",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source_url": "https://freesound.org/s/360629/",
+          "source_type": "field_recording",
+          "source_collection": "Fitness studio / Gym ambience. Weights and equipment.",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 1,
+          "shipping_assets": [
+            "res://assets/audio/amb_gym_room.wav"
+          ]
+        },
+        {
+          "id": "sonniss_gdc_2026",
+          "kind": "audio_source",
+          "name": "GDC 2026 Game Audio Bundle",
+          "provider": "Sonniss",
+          "license": "Sonniss GDC Game Audio Bundle License",
+          "license_url": "https://sonniss.com/gdc-bundle-license/",
+          "source_url": "https://gdc.sonniss.com/",
+          "source_type": "field_recording",
+          "source_collection": "GDC 2026 Game Audio Bundle",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 58,
+          "shipping_assets": [
+            "res://assets/audio/amb_amusement_park.wav",
+            "res://assets/audio/amb_cafe_room.wav",
+            "res://assets/audio/amb_car_interior.wav",
+            "res://assets/audio/amb_casino_floor.wav",
+            "res://assets/audio/amb_cherry_blossom.wav",
+            "res://assets/audio/amb_company_dinner.wav",
+            "res://assets/audio/amb_convenience_store.wav",
+            "res://assets/audio/amb_fine_dust_city.wav",
+            "res://assets/audio/amb_goshiwon_hallway.wav",
+            "res://assets/audio/amb_goshiwon_room.wav",
+            "res://assets/audio/amb_hagwon_street.wav",
+            "res://assets/audio/amb_hangang_riverside.wav",
+            "res://assets/audio/amb_heatwave_city.wav",
+            "res://assets/audio/amb_highway_traffic.wav",
+            "res://assets/audio/amb_human_cafe.wav",
+            "res://assets/audio/amb_human_leisure.wav",
+            "res://assets/audio/amb_human_racetrack.wav",
+            "res://assets/audio/amb_human_street.wav",
+            "res://assets/audio/amb_human_transit.wav",
+            "res://assets/audio/amb_jjimjilbang.wav",
+            "res://assets/audio/amb_library_room.wav",
+            "res://assets/audio/amb_military_gate.wav",
+            "res://assets/audio/amb_night_bus.wav",
+            "res://assets/audio/amb_oneroom_room.wav",
+            "res://assets/audio/amb_open_chat_room.wav",
+            "res://assets/audio/amb_pc_bang.wav",
+            "res://assets/audio/amb_public_office.wav",
+            "res://assets/audio/amb_racetrack_crowd.wav",
+            "res://assets/audio/amb_rain_room.wav",
+            "res://assets/audio/amb_saju_cafe.wav",
+            "res://assets/audio/amb_seaside.wav",
+            "res://assets/audio/amb_seoul_rain.wav",
+            "res://assets/audio/amb_seoul_street.wav",
+            "res://assets/audio/amb_subway_platform.wav",
+            "res://assets/audio/amb_summer_night.wav",
+            "res://assets/audio/amb_train_interior.wav",
+            "res://assets/audio/amb_winter_wind.wav",
+            "res://assets/audio/sfx_big_wheel_tick.wav",
+            "res://assets/audio/sfx_card_deal.wav",
+            "res://assets/audio/sfx_casino_coin.wav",
+            "res://assets/audio/sfx_casino_lose.wav",
+            "res://assets/audio/sfx_choice_made.wav",
+            "res://assets/audio/sfx_close.wav",
+            "res://assets/audio/sfx_distant_fireworks.wav",
+            "res://assets/audio/sfx_door_latch.wav",
+            "res://assets/audio/sfx_game_over.wav",
+            "res://assets/audio/sfx_housing_up.wav",
+            "res://assets/audio/sfx_money_gain.wav",
+            "res://assets/audio/sfx_money_loss.wav",
+            "res://assets/audio/sfx_monsoon_rain.wav",
+            "res://assets/audio/sfx_open_modal.wav",
+            "res://assets/audio/sfx_paper_handle.wav",
+            "res://assets/audio/sfx_race_crowd_rise.wav",
+            "res://assets/audio/sfx_race_finish.wav",
+            "res://assets/audio/sfx_race_gate.wav",
+            "res://assets/audio/sfx_result_ledger.wav",
+            "res://assets/audio/sfx_slot_reel_stop.wav",
+            "res://assets/audio/sfx_traffic_pass.wav"
+          ]
+        },
+        {
+          "id": "unicae_keyboard_cc0",
+          "kind": "audio_source",
+          "name": "Keyboard Soundpack #1",
+          "provider": "unicaegames",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source_url": "https://opengameart.org/content/keyboard-soundpack-1-typing-and-single-keystrokes",
+          "source_type": "object_recording",
+          "source_collection": "Keyboard Soundpack #1",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 4,
+          "shipping_assets": [
+            "res://assets/audio/amb_office_room.wav",
+            "res://assets/audio/amb_open_chat_room.wav",
+            "res://assets/audio/amb_pc_bang.wav",
+            "res://assets/audio/sfx_keyboard_short.wav"
+          ]
+        },
+        {
+          "id": "owlish_cc0",
+          "kind": "audio_source",
+          "name": "Owlish Media Sound Effects",
+          "provider": "OwlishMedia",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source_url": "https://opengameart.org/content/sound-effects-pack",
+          "source_type": "field_recording",
+          "source_collection": "Owlish Media Sound Effects",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 24,
+          "shipping_assets": [
+            "res://assets/audio/amb_family_home.wav",
+            "res://assets/audio/amb_goshiwon_room.wav",
+            "res://assets/audio/amb_heatwave_city.wav",
+            "res://assets/audio/amb_human_public_interior.wav",
+            "res://assets/audio/amb_human_thin_wall.wav",
+            "res://assets/audio/amb_jjimjilbang.wav",
+            "res://assets/audio/amb_saju_cafe.wav",
+            "res://assets/audio/amb_school_hall.wav",
+            "res://assets/audio/amb_summer_night.wav",
+            "res://assets/audio/sfx_bicycle_impact.wav",
+            "res://assets/audio/sfx_cloth_shift.wav",
+            "res://assets/audio/sfx_cup_set.wav",
+            "res://assets/audio/sfx_document_stamp.wav",
+            "res://assets/audio/sfx_event_new.wav",
+            "res://assets/audio/sfx_footsteps_hall.wav",
+            "res://assets/audio/sfx_kettle_pour.wav",
+            "res://assets/audio/sfx_month.wav",
+            "res://assets/audio/sfx_page_turn.wav",
+            "res://assets/audio/sfx_pen_write.wav",
+            "res://assets/audio/sfx_phone_notification.wav",
+            "res://assets/audio/sfx_phone_vibrate.wav",
+            "res://assets/audio/sfx_result_human.wav",
+            "res://assets/audio/sfx_stat_down.wav",
+            "res://assets/audio/sfx_stat_up.wav"
+          ]
+        },
+        {
+          "id": "freesound_office_cc0",
+          "kind": "audio_source",
+          "name": "Room Tone Office Quiet Distant Traffic.wav",
+          "provider": "mzui",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source_url": "https://freesound.org/s/135097/",
+          "source_type": "field_recording",
+          "source_collection": "Room Tone Office Quiet Distant Traffic.wav",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 3,
+          "shipping_assets": [
+            "res://assets/audio/amb_office_room.wav",
+            "res://assets/audio/amb_public_office.wav",
+            "res://assets/audio/amb_school_hall.wav"
+          ]
+        },
+        {
+          "id": "freesound_hospital_cc0",
+          "kind": "audio_source",
+          "name": "Room Tone, Empty Hospital",
+          "provider": "Kinoton",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source_url": "https://freesound.org/s/670070/",
+          "source_type": "field_recording",
+          "source_collection": "Room Tone, Empty Hospital",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 1,
+          "shipping_assets": [
+            "res://assets/audio/amb_hospital_room.wav"
+          ]
+        },
+        {
+          "id": "horse_gallop",
+          "kind": "audio_source",
+          "name": "Single Horse Galopp",
+          "provider": "D4XX",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source_url": "https://freesound.org/people/D4XX/sounds/564628/",
+          "source_type": "field_recording",
+          "source_collection": "Horse gallop on different surfaces",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 2,
+          "shipping_assets": [
+            "res://assets/audio/amb_racetrack_crowd.wav",
+            "res://assets/audio/sfx_horse_gallop.wav"
+          ]
+        },
+        {
+          "id": "freesound_slot_cc0",
+          "kind": "audio_source",
+          "name": "slot machine reels sound.m4a",
+          "provider": "aghirlandaio",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source_url": "https://freesound.org/s/415074/",
+          "source_type": "object_recording",
+          "source_collection": "slot machine reels sound.m4a",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 2,
+          "shipping_assets": [
+            "res://assets/audio/sfx_casino_reel.wav",
+            "res://assets/audio/sfx_slot_start.wav"
+          ]
+        },
+        {
+          "id": "freesound_roulette_cc0",
+          "kind": "audio_source",
+          "name": "spin_sound.wav",
+          "provider": "takecoins",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source_url": "https://freesound.org/s/588351/",
+          "source_type": "object_recording",
+          "source_collection": "spin_sound.wav",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 2,
+          "shipping_assets": [
+            "res://assets/audio/sfx_casino_spin.wav",
+            "res://assets/audio/sfx_roulette_wheel.wav"
+          ]
+        },
+        {
+          "id": "tinyworlds_siren_cc0",
+          "kind": "audio_source",
+          "name": "Storm & Siren",
+          "provider": "TinyWorlds",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source_url": "https://lpc.opengameart.org/content/storm-siren",
+          "source_type": "field_recording",
+          "source_collection": "Storm & Siren",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 1,
+          "shipping_assets": [
+            "res://assets/audio/sfx_civil_defense_siren.wav"
+          ]
+        },
+        {
+          "id": "freesound_wedding_applause_cc0",
+          "kind": "audio_source",
+          "name": "Wedding Applause Cheerfully.aif",
+          "provider": "giovannapaludetto",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source_url": "https://freesound.org/s/414292/",
+          "source_type": "field_recording",
+          "source_collection": "Wedding Applause Cheerfully.aif",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 2,
+          "shipping_assets": [
+            "res://assets/audio/sfx_wedding_applause.wav",
+            "res://assets/audio/sfx_wedding_cheer.wav"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "components": [
+    {
+      "id": "godot_engine",
+      "kind": "engine",
+      "name": "Godot Engine",
+      "version": "4.6.2",
+      "source_revision": "4.6.2-stable",
+      "provider": "Godot Engine contributors",
+      "license": "MIT License",
+      "source_url": "https://github.com/godotengine/godot/tree/4.6.2-stable",
+      "license_url": "https://github.com/godotengine/godot/blob/4.6.2-stable/LICENSE.txt",
+      "license_text_path": "assets/third_party/GODOT_ENGINE_LICENSE.txt",
+      "license_text_sha256": "b0435e3b3e4e55238f05f4b306f30524a1b2e20147810d436eaa554fa6855c80",
+      "copyright_url": "https://github.com/godotengine/godot/blob/4.6.2-stable/COPYRIGHT.txt",
+      "copyright_text_path": "assets/third_party/GODOT_ENGINE_COPYRIGHT.txt",
+      "copyright_text_sha256": "dc043a7dbf69632560219e72fbc61ef9fa7338c7a773660acd81b51590b69104",
+      "notice_status": "license_copy_required"
+    }
+  ]
+}

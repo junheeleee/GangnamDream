@@ -168,6 +168,12 @@ func _check_user_data_namespaces() -> void:
 		_expect(SaveManager.slot_path(slot) == str(playtest[key]),
 			"SaveManager slot %d escaped the playtest namespace." % slot)
 	var identity: Dictionary = SaveManager.save_identity_fields()
+	_expect(identity == BuildInfoScript.artifact_identity(),
+		"Save payload identity drifted from BuildInfo.")
+	_expect(str(identity.get("game_version", "")) == BuildInfoScript.GAME_VERSION,
+		"Save payload omitted the game version.")
+	_expect(str(identity.get("build_id", "")) == BuildInfoScript.BUILD_ID,
+		"Save payload omitted the build ID.")
 	_expect(str(identity.get("build_flavor", ""))
 			== BuildFlavorScript.PLAYTEST_FLAVOR_ID,
 		"Save payload does not identify the V2 playtest flavor.")
@@ -244,6 +250,10 @@ func _check_start_surface() -> void:
 	_expect(str(menu.get_meta("build_flavor", ""))
 			== BuildFlavorScript.PLAYTEST_FLAVOR_ID,
 		"StartMenu did not expose its playtest flavor metadata.")
+	for key in BuildInfoScript.artifact_identity():
+		_expect(str(menu.get_meta(str(key), ""))
+				== str(BuildInfoScript.artifact_identity()[key]),
+			"StartMenu artifact metadata drifted at %s." % key)
 	_expect(int(menu.get_meta("release_v2_entry_count", -1)) == 1,
 		"StartMenu release-entry metadata is not exactly one.")
 	var identity := menu.find_child("BuildIdentity", true, false) as Label

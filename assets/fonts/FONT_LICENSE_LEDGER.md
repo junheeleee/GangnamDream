@@ -24,6 +24,22 @@
 | `NotoSansJP-Variable.ttf` | Noto Sans JP | 2.004-H2;hotconv 1.0.118;makeotfexe 2.5.65603 | (c) 2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'. | [`OFL-NotoSansJP.txt`](OFL-NotoSansJP.txt) | 일본어 | `c2f3b4d463500a2d` |
 | `NotoColorEmoji.ttf` | Noto Color Emoji | 2.051;GOOG;noto-emoji:20250818:e92753bfa55fd449e427d4d325f9c8c40408c74e | Copyright 2022 Google Inc. | [`OFL-NotoColorEmoji.txt`](OFL-NotoColorEmoji.txt) | 이모지 폴백 | `72a635cb3d2f3524` |
 
+## 패밀리 출처
+
+| 패밀리 | 제공자 | 공식 출처 |
+|---|---|---|
+| Pretendard | Kil Hyung-jin | https://github.com/orioncactus/pretendard |
+| Noto Sans JP | Adobe and Google | https://github.com/notofonts/noto-cjk |
+| Noto Color Emoji | Google | https://github.com/googlefonts/noto-emoji |
+
+## 라이선스 사본 무결성
+
+| 라이선스 사본 | SHA-256 |
+|---|---|
+| `OFL-Pretendard.txt` | `9884c81482f64d1a80941098f152c0c9ea944d57ed45bf38324a2601a50b9ef1` |
+| `OFL-NotoSansJP.txt` | `babcfe66c8a098b2fa279bc724a3a342f8124f77ce18941fbcc1bbb39823cded` |
+| `OFL-NotoColorEmoji.txt` | `6b8fb65f9c022d3902191c5fe93f3d02ecfd88256db16eb187b4f136e5916b68` |
+
 전부 **SIL Open Font License 1.1**이다. OFL은 임베딩·수정·재배포를 허용하되
 **폰트 자체의 단독 판매를 금지**하며 라이선스 사본 동봉을 요구한다. 게임에
 임베드해 판매하는 것은 허용된다.
@@ -43,4 +59,5 @@
 
 라이선스 사본이 저장소에만 있고 **출하 빌드에 포함되지 않으면 OFL을 만족하지
 못한다.** `export_presets.cfg`의 포함 필터와 게임 내 고지 화면이 이 사본에 닿아야
-한다. 현재 게임 내 고지 화면은 없다 — `ORDER-66`이 소유한다.
+한다. 현재 설정의 `제3자 고지`에서 세 패밀리의 출처와 OFL 1.1 전문을 읽을 수
+있으며, 고지 데이터는 이 원장과 실제 파일에서 결정론적으로 생성한다.

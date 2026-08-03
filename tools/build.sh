@@ -41,6 +41,50 @@ echo "📂 프로젝트: $PROJECT_DIR"
 echo "🔧 Godot:    $GODOT ($("$GODOT" --version 2>&1 | head -1))"
 TARGET="${1:-web}"
 
+read_string_const() {
+  local file="$1"
+  local name="$2"
+  local value
+  value=$(sed -nE "s/^const[[:space:]]+${name}[[:space:]]*:?=[[:space:]]*\"([^\"]+)\".*/\1/p" "$file" | head -1)
+  if [[ -z "$value" ]]; then
+    echo "❌ 빌드 식별 상수 누락: $name ($file)" >&2
+    exit 1
+  fi
+  printf '%s' "$value"
+}
+
+read_int_const() {
+  local file="$1"
+  local name="$2"
+  local value
+  value=$(sed -nE "s/^const[[:space:]]+${name}[[:space:]]*=[[:space:]]*([0-9]+).*/\1/p" "$file" | head -1)
+  if [[ -z "$value" ]]; then
+    echo "❌ 빌드 식별 상수 누락: $name ($file)" >&2
+    exit 1
+  fi
+  printf '%s' "$value"
+}
+
+GD_GAME_VERSION=$(read_string_const "$PROJECT_DIR/systems/BuildInfo.gd" "GAME_VERSION")
+GD_BUILD_ID=$(read_string_const "$PROJECT_DIR/systems/BuildInfo.gd" "BUILD_ID")
+GD_SAVE_VERSION=$(read_int_const "$PROJECT_DIR/autoloads/SaveManager.gd" "SAVE_VERSION")
+GD_DEMO_FEATURE=$(read_string_const "$PROJECT_DIR/systems/BuildFlavor.gd" "_DEMO_FEATURE")
+GD_PLAYTEST_FEATURE=$(read_string_const "$PROJECT_DIR/systems/BuildFlavor.gd" "PLAYTEST_FEATURE")
+GD_PLAYTEST_FLAVOR=$(read_string_const "$PROJECT_DIR/systems/BuildFlavor.gd" "PLAYTEST_FLAVOR_ID")
+GD_PLAYTEST_NAMESPACE=$(read_string_const "$PROJECT_DIR/systems/BuildFlavor.gd" "PLAYTEST_SAVE_NAMESPACE")
+
+write_identity_header() {
+  local flavor="$1"
+  local namespace="$2"
+  local features="$3"
+  echo "# game_version=$GD_GAME_VERSION"
+  echo "# build_id=$GD_BUILD_ID"
+  echo "# build_flavor=$flavor"
+  echo "# save_namespace=$namespace"
+  echo "# save_version=$GD_SAVE_VERSION"
+  echo "# features=$features"
+}
+
 require_clean_playtest_source() {
   if ! command -v git >/dev/null 2>&1 || \
       ! git -C "$PROJECT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
@@ -105,6 +149,7 @@ build_web() {
   mkdir -p "$PROJECT_DIR/build/web"
   "$GODOT" --headless --path "$PROJECT_DIR" --export-release "Web" "$PROJECT_DIR/build/web/index.html" 2>&1
   if [[ -f "$PROJECT_DIR/build/web/index.html" ]]; then
+    write_retail_manifest "web" "$PROJECT_DIR/build/web/index.html"
     SIZE=$(du -sh "$PROJECT_DIR/build/web" | cut -f1)
     echo "✅ Web 빌드 완료 → build/web/ ($SIZE)"
     echo "   로컬 테스트: python3 -m http.server 8000 --directory build/web"
@@ -120,6 +165,7 @@ build_macos() {
   mkdir -p "$PROJECT_DIR/build/macos"
   "$GODOT" --headless --path "$PROJECT_DIR" --export-release "macOS" "$PROJECT_DIR/build/macos/GangnamDream.zip" 2>&1
   if [[ -f "$PROJECT_DIR/build/macos/GangnamDream.zip" ]]; then
+    write_retail_manifest "macos" "$PROJECT_DIR/build/macos/GangnamDream.zip"
     SIZE=$(du -sh "$PROJECT_DIR/build/macos/GangnamDream.zip" | cut -f1)
     echo "✅ macOS 빌드 완료 → build/macos/GangnamDream.zip ($SIZE)"
   else
@@ -134,6 +180,7 @@ build_windows() {
   mkdir -p "$PROJECT_DIR/build/windows"
   "$GODOT" --headless --path "$PROJECT_DIR" --export-release "Windows" "$PROJECT_DIR/build/windows/GangnamDream.exe" 2>&1
   if [[ -f "$PROJECT_DIR/build/windows/GangnamDream.exe" ]]; then
+    write_retail_manifest "windows" "$PROJECT_DIR/build/windows/GangnamDream.exe"
     SIZE=$(du -sh "$PROJECT_DIR/build/windows/" | cut -f1)
     echo "✅ Windows 빌드 완료 → build/windows/GangnamDream.exe ($SIZE)"
     echo "   Steam 업로드: build/windows/ 폴더 전체 압축"
@@ -152,6 +199,7 @@ build_linux() {
   "$GODOT" --headless --path "$PROJECT_DIR" --export-release "Linux / Steam Deck" "$PROJECT_DIR/build/linux/GangnamDream.x86_64" 2>&1
   if [[ -f "$PROJECT_DIR/build/linux/GangnamDream.x86_64" ]]; then
     chmod +x "$PROJECT_DIR/build/linux/GangnamDream.x86_64"
+    write_retail_manifest "linux" "$PROJECT_DIR/build/linux/GangnamDream.x86_64"
     SIZE=$(du -sh "$PROJECT_DIR/build/linux/" | cut -f1)
     echo "✅ Linux 빌드 완료 → build/linux/GangnamDream.x86_64 ($SIZE)"
     echo "   Steam Deck: Depots에 이 파일 업로드 (Linux 전용 depot 권장)"
@@ -291,6 +339,42 @@ build_linux_playtest() {
   echo "✅ Linux V2 playtest → build/playtest/linux/ ($(du -sh "$PROJECT_DIR/build/playtest/linux" | cut -f1))"
 }
 
+write_retail_manifest() {
+  local target="$1"
+  local artifact="$2"
+  local manifest="$PROJECT_DIR/build/$target/MANIFEST.sha256"
+  local revision="unknown"
+  local tree="unknown"
+  local source_status="dirty"
+  if command -v git >/dev/null 2>&1; then
+    revision=$(git -C "$PROJECT_DIR" rev-parse HEAD 2>/dev/null || printf 'unknown')
+    tree=$(git -C "$PROJECT_DIR" rev-parse 'HEAD^{tree}' 2>/dev/null || printf 'unknown')
+    if [[ -z "$(git -C "$PROJECT_DIR" status --porcelain --untracked-files=all)" ]]; then
+      source_status="clean"
+    fi
+  fi
+  {
+    echo "# Gangnam Dream retail build"
+    echo "# profile=full"
+    write_identity_header "full" "legacy" "none"
+    echo "# revision=$revision"
+    echo "# tree=$tree"
+    echo "# source_status=$source_status"
+    echo "# godot=$("$GODOT" --version 2>&1 | head -1)"
+    echo "# generated_utc=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+    if [[ "$target" == "web" ]]; then
+      while IFS= read -r -d '' web_artifact; do
+        shasum -a 256 "$web_artifact" | sed "s|$PROJECT_DIR/||"
+      done < <(find "$PROJECT_DIR/build/web" -type f \
+        ! -name 'MANIFEST.sha256' -print0 | sort -z)
+    else
+      shasum -a 256 "$artifact" | sed "s|$PROJECT_DIR/||"
+    fi
+  } > "$manifest"
+  python3 "$PROJECT_DIR/tools/build_identity_audit.py" \
+    --manifest "full=$manifest"
+}
+
 write_demo_manifest() {
   local manifest="$PROJECT_DIR/build/demo/MANIFEST.sha256"
   local revision="unknown"
@@ -301,6 +385,8 @@ write_demo_manifest() {
   fi
   {
     echo "# Gangnam Dream legacy demo build"
+    echo "# profile=demo"
+    write_identity_header "demo" "legacy" "$GD_DEMO_FEATURE"
     echo "# revision=$revision"
     echo "# tree=$tree"
     echo "# source_status=clean"
@@ -313,6 +399,8 @@ write_demo_manifest() {
       shasum -a 256 "$artifact" | sed "s|$PROJECT_DIR/||"
     done
   } > "$manifest"
+  python3 "$PROJECT_DIR/tools/build_identity_audit.py" \
+    --manifest "demo=$manifest"
   echo "✅ 체크섬 매니페스트 → build/demo/MANIFEST.sha256"
 }
 
@@ -326,8 +414,9 @@ write_playtest_manifest() {
   fi
   {
     echo "# Gangnam Dream Core Loop V2 playtest build"
-    echo "# flavor=core_loop_v2_playtest"
-    echo "# features=gangnam_demo,core_loop_v2_playtest"
+    echo "# profile=playtest"
+    write_identity_header "$GD_PLAYTEST_FLAVOR" "$GD_PLAYTEST_NAMESPACE" \
+      "$GD_DEMO_FEATURE,$GD_PLAYTEST_FEATURE"
     echo "# revision=$revision"
     echo "# tree=$tree"
     echo "# source_status=clean"
@@ -340,6 +429,8 @@ write_playtest_manifest() {
       shasum -a 256 "$artifact" | sed "s|$PROJECT_DIR/||"
     done
   } > "$manifest"
+  python3 "$PROJECT_DIR/tools/build_identity_audit.py" \
+    --manifest "playtest=$manifest"
   echo "✅ V2 playtest 체크섬 매니페스트 → build/playtest/MANIFEST.sha256"
 }
 

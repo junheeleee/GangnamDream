@@ -30,6 +30,30 @@ Retail은 기존 `gangnam_dream_{autosave,slot_N,settings,display,meta}.json`을
 삭제하거나 파일이 없을 때 폴백하지 않는다. `v1`은 저장 schema와 별개인
 테스트 네임스페이스 버전이다.
 
+### 산출물 식별과 저장 호환
+
+시작 화면의 기계 판독 메타, 새 세이브 루트, 빌드 매니페스트는
+`BuildInfo.artifact_identity()`의 네 필드를 같은 값으로 쓴다. 플레이어가 보는
+라벨은 버전·빌드 ID·채널을 표시한다. `game_version`과 `build_id`는 빌드 시점의
+`BuildInfo` 상수에서 읽으며, profile별 값은 다음과 같다.
+
+| Profile | `game_version` | `build_id` | `build_flavor` | `save_namespace` |
+|---|---|---|---|---|
+| full | `BuildInfo.GAME_VERSION` | `BuildInfo.BUILD_ID` | `full` | `legacy` |
+| demo | `BuildInfo.GAME_VERSION` | `BuildInfo.BUILD_ID` | `demo` | `legacy` |
+| V2 playtest | `BuildInfo.GAME_VERSION` | `BuildInfo.BUILD_ID` | `core_loop_v2_playtest` | `core_loop_v2_playtest_v1` |
+
+정식판의 플랫폼별 매니페스트와 demo/V2의 묶음 `MANIFEST.sha256`은 `profile`,
+위 네 필드, `save_version`, `features`, 전체 Git `revision`/`tree`, 소스 상태,
+Godot 버전, 생성 시각, 산출물 SHA-256을 기록한다. 생성 직후
+`tools/build_identity_audit.py`가 profile과 소스 상수를 대조한다.
+
+`build_id`와 `game_version` 차이는 호환 키가 아니라 진단 경고다. 미래
+`save_version`, 빈 식별자, 부적합한 flavor/namespace는 `GameState` 적용 전에
+거부한다. 데모 저장은 정식판으로 이어갈 수 있지만 정식판 저장은 데모에서 열 수
+없고, 데모와 V2 playtest는 24주를 넘은 저장을 거부한다. V2 playtest는
+namespace도 양방향 격리한다.
+
 ## 2. 준비
 
 1. Godot 4.6.2 stable editor를 설치한다.
@@ -108,6 +132,28 @@ autoload·StartMenu 코드에서 다음을 검사한다.
 - 창 제목·시작 화면 build identity·전 장면 corner marker 중 flavor 누락이 없는지
 - `runtime_default=false`와 24주 cutoff가 유지되고 feature만으로 런을 몰래 켜지 않는지
 
+### 제3자 고지 스모크
+
+`python3 tools/third_party_notice_audit.py --self-test`는 실제 원장에서 설정의
+제3자 고지 데이터를 다시 만들 수 있는지 검사한다. 현재 원장은 Godot Engine
+4.6.2 1개, 서체 3패밀리/6파일, 오디오 21원천/139파일이며 제공자·라이선스·출처를
+UI 코드에 복사하지 않는다. 필수 저작자 표시는 Salamander Grand Piano 1원천이며,
+말발굽 출하 파일은 pack 전체 설명이 아니라 실제 `ground.mp3`의 D4XX·CC0 기록을
+쓴다. 10개 export preset은 Godot MIT와 내장 구성요소 `COPYRIGHT.txt`, 세 OFL
+1.1 사본, 생성된 오디오 고지·원장과 고지 JSON을 포함해야 한다.
+
+Full과 V2의 실제 export-pack ZIP을 만든 뒤에는 소스 검사와 별도로 필수 10파일의
+패키지 바이트를 대조한다.
+
+```bash
+python3 tools/third_party_notice_audit.py \
+  --pack-zip build/qa/release_content_inventory/full.zip \
+  --pack-zip build/qa/release_content_inventory/v2.zip
+python3 tools/release_content_inventory.py \
+  --pack-zip retail_full=build/qa/release_content_inventory/full.zip \
+  --pack-zip v2_playtest=build/qa/release_content_inventory/v2.zip
+```
+
 ### 시각 스모크
 
 실제 렌더러로 KO/EN을 각각 확인한다.
@@ -125,6 +171,22 @@ GODOT=/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot
 ```
 
 `/tmp/gangnamdream_qa`에서 최소한 언어 선택, JUNPAC 스플래시, 콜드오픈, 시작 메뉴, Y1 카드, t=1~8 장면, AP 루프, 6개월 기록 CTA를 육안 검사한다. 한글 격리, 잘린 CTA, 빈 이미지, 잘못된 초상/배경은 빌드 중단 사유다.
+
+제3자 고지 화면은 KO/EN 각각 960×600과 1280×800에서 별도로 렌더한다.
+
+```bash
+for size in 960x600 1280x800; do
+  for lang in ko en; do
+    "$GODOT" --rendering-driver opengl3 --resolution "$size" \
+      res://tools/ScreenshotQA.tscn -- \
+      --qa=third-party-notices --lang="$lang"
+  done
+done
+```
+
+엔진/서체/오디오 탭, 긴 MIT·Godot COPYRIGHT·OFL 본문의 스크롤, 2.5% 안전영역, 영문 한글
+누출 0, East/Esc 닫기와 설정 버튼 포커스 복귀를 확인한다. 자동 렌더는
+가독성과 법무 판단을 대신하지 않는다.
 
 ## 5. 실제 패키지 스모크
 

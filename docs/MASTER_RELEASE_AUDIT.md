@@ -34,6 +34,41 @@ passes a normal-speed 75–95-minute play, physical Steam Deck/DualSense input,
 continuous headphone/laptop/TV A/V review, external comprehension and a human
 desire-to-continue verdict.
 
+## Artifact Identity, Save, and Third-Party Notice Gate
+
+Every full, demo, and V2 artifact must carry the same four canonical fields in
+its StartMenu identity metadata, new save root, and build manifest:
+`game_version`, `build_id`, `build_flavor`, and `save_namespace`; the visible
+label renders version, build ID, and channel. Full is `full/legacy`, demo is
+`demo/legacy`, and V2 is
+`core_loop_v2_playtest/core_loop_v2_playtest_v1`; all three read version and
+build ID from `BuildInfo`. Manifests also bind the save schema, features, full
+Git revision/tree and artifact hashes. `build_identity_audit.py --self-test`
+gates field drift and mutated profile fixtures.
+
+Build ID and game-version differences are warnings, not compatibility keys.
+Future save schemas and incompatible flavor/namespaces fail before player
+state changes. Demo saves may enter the full build; full saves may not enter a
+demo; both demo flavors reject saves beyond Week 24, and V2 stays isolated in
+both directions. An incompatible slot remains
+visible with its source and reason instead of becoming a silent load failure.
+
+Settings reads third-party notices from the generated source-ledger view, not
+hand-copied UI facts. The current surface contains one Godot Engine 4.6.2 entry,
+three font families covering six files, and 21 audio sources covering 139
+shipping files. Export filters include the Godot MIT text, all three OFL 1.1
+copies, the exact Godot 4.6.2 bundled-component COPYRIGHT text, the generated
+audio notice, and notice metadata. One audio source requires attribution;
+the shipped horse file is credited from its D4XX/CC0 per-file record rather
+than the mixed-license pack summary. Fresh Full and V2 export-pack ZIPs must
+contain all ten notice/ledger files byte-for-byte, verified by
+`third_party_notice_audit.py --pack-zip` alongside the release-content pack
+inventory. KO/EN ScreenshotQA at
+960x600 and 1280x800 must keep all three tabs, full license text, scrolling,
+safe-area bounds, and focus restoration usable. Automated hashes and renders
+prove ledger/package/surface alignment; they do not replace human readability
+or legal review.
+
 ## Release Content Inventory Gate
 
 The machine-readable owner is `content/meta/release_content_inventory.json`;

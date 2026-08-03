@@ -97,13 +97,14 @@ PACKS: dict[str, dict[str, Any]] = {
     },
     "horse_gallop": {
         "root": "horse/extracted",
-        "provider": "congusbongus and credited source recordists",
+        "provider": "congusbongus (pack curator); per-file creators in credits.txt",
         "title": "Horse gallop on different surfaces",
         "source_type": "field_recording",
-        "license": "CC BY 4.0",
-        "license_url": "https://creativecommons.org/licenses/by/4.0/",
+        "license": "Mixed CC0 1.0 / CC BY 4.0 (per-file credits)",
+        "license_url": "https://opengameart.org/content/horse-gallop-on-different-surfaces",
         "source_url": "https://opengameart.org/content/horse-gallop-on-different-surfaces",
         "attribution_required": True,
+        "license_scope": "mixed_per_file",
     },
     "salamander_piano": {
         "root": "salamander/SalamanderGrandPianoV3_44.1khz16bit/44.1khz16bit",
@@ -493,6 +494,17 @@ SOURCES: dict[str, tuple[str, str]] = {
     ),
 }
 
+SOURCE_LICENSE_RECORDS: dict[tuple[str, str], dict[str, Any]] = {
+    ("horse_gallop", "ground.mp3"): {
+        "provider": "D4XX",
+        "title": "Single Horse Galopp",
+        "license": "CC0 1.0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source_url": "https://freesound.org/people/D4XX/sounds/564628/",
+        "attribution_required": False,
+    },
+}
+
 
 @dataclass(frozen=True)
 class Layer:
@@ -822,12 +834,16 @@ class Builder:
     def source_entry(self, source_id: str) -> dict[str, Any]:
         pack_id, relative = SOURCES[source_id]
         path = self.source_path(source_id)
-        return {
+        entry = {
             "pack": pack_id,
             "original_file": relative,
             "sha256": sha256(path),
             "source_type": PACKS[pack_id]["source_type"],
         }
+        license_record = SOURCE_LICENSE_RECORDS.get((pack_id, relative))
+        if license_record is not None:
+            entry["license_record"] = dict(license_record)
+        return entry
 
     def decode(self, layer: Layer, duration: float | None, rate: int,
                channels: int, loop: bool = False) -> np.ndarray:

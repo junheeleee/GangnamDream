@@ -5,6 +5,7 @@ const LivingSceneLayerScript := preload("res://scenes/ui/LivingSceneLayer.gd")
 const DemoCoreLoopV2Script := preload("res://systems/DemoCoreLoopV2.gd")
 const BuildInfoScript := preload("res://systems/BuildInfo.gd")
 const BuildFlavorScript := preload("res://systems/BuildFlavor.gd")
+const THIRD_PARTY_NOTICE_PATH := "res://content/meta/third_party_notices.json"
 
 const LAUNCH_REQUIRED_INPUT_GATES := 1
 const NEW_STORY_SCENE := "res://scenes/OpeningCinematic.tscn"
@@ -14,6 +15,14 @@ const NEW_STORY_SCENE := "res://scenes/OpeningCinematic.tscn"
 
 var slot_container: VBoxContainer
 var _settings_overlay: ColorRect
+var _notices_overlay: ColorRect
+var _notices_origin_focus: Control = null
+var _third_party_notices_control: Control = null
+var _notices_tabs: Array[Button] = []
+var _notices_content: VBoxContainer = null
+var _notices_scroll: ScrollContainer = null
+var _notices_scroll_frame: Panel = null
+var _notices_data: Dictionary = {}
 var _load_overlay: ColorRect
 var _archive_overlay: ColorRect
 var _archive_preview_layer: ColorRect
@@ -174,11 +183,11 @@ static func release_v2_entry_count(playtest_build: bool) -> int:
 
 func _ready():
 	var playtest_build := BuildFlavorScript.is_core_loop_v2_playtest_build()
+	var artifact_identity := BuildInfoScript.artifact_identity()
 	set_meta("launch_required_input_gates", LAUNCH_REQUIRED_INPUT_GATES)
 	set_meta("new_story_scene", NEW_STORY_SCENE)
-	set_meta("game_version", BuildInfoScript.GAME_VERSION)
-	set_meta("build_id", BuildInfoScript.BUILD_ID)
-	set_meta("build_flavor", BuildFlavorScript.build_flavor_id())
+	for key in artifact_identity:
+		set_meta(str(key), artifact_identity[key])
 	set_meta(
 		"release_v2_entry_count", release_v2_entry_count(playtest_build))
 	BuildInfoScript.apply_window_title(get_window(), false, LocaleManager.is_english())
@@ -401,6 +410,10 @@ func _input(event):
 		if dismiss:
 			get_viewport().set_input_as_handled()
 			_dismiss_splash()
+		return
+	if is_instance_valid(_notices_overlay) and event.is_action_pressed("ui_cancel"):
+		get_viewport().set_input_as_handled()
+		_close_third_party_notices()
 		return
 	if is_instance_valid(_settings_overlay) and event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()
@@ -660,13 +673,60 @@ func _latest_save_slot() -> int:
 	var latest_stamp := ""
 	for slot in range(0, SaveManager.SLOT_COUNT + 1):
 		var info: Dictionary = SaveManager.get_save_info(slot)
-		if bool(info.get("empty", true)):
+		if (
+			bool(info.get("empty", true))
+			or not bool(info.get("compatible", false))
+		):
 			continue
 		var stamp := str(info.get("saved_at", ""))
 		if latest_slot < 0 or stamp > latest_stamp:
 			latest_slot = slot
 			latest_stamp = stamp
 	return latest_slot
+
+func _save_source_label(info: Dictionary) -> String:
+	var source: Dictionary = info.get("source_identity", {})
+	var flavor := str(source.get("build_flavor", "unknown"))
+	var flavor_label := ""
+	match flavor:
+		"full":
+			flavor_label = _tr("정식판", "Full")
+		"demo":
+			flavor_label = _tr("24주 데모", "24-Week Demo")
+		"core_loop_v2_playtest":
+			flavor_label = _tr("V2 테스트", "V2 Playtest")
+		_:
+			flavor_label = _tr("이전 버전", "Legacy Build")
+	var build_id := str(source.get("build_id", "unknown"))
+	if build_id == "unknown":
+		return flavor_label
+	return "%s · BUILD %s" % [flavor_label, build_id]
+
+func _save_compatibility_note(info: Dictionary) -> String:
+	if bool(info.get("compatible", false)):
+		var warnings: Array = info.get("warnings", [])
+		if warnings.has("build_id_mismatch") or warnings.has("game_version_mismatch"):
+			return _tr("다른 빌드에서 저장됨", "Saved by another build")
+		if warnings.has("demo_save_in_full_build"):
+			return _tr("데모 기록 · 정식판에서 이어갈 수 있음",
+				"Demo record · can continue in the full game")
+		if (
+			warnings.has("legacy_identity_unknown")
+			or warnings.has("partial_build_identity")
+		):
+			return _tr("이전 저장 형식 · 호환 모드", "Older save format · compatibility mode")
+		return ""
+	match str(info.get("reason", "incompatible")):
+		"future_save_version":
+			return _tr("더 최신 버전의 저장 파일이라 열 수 없음",
+				"Requires a newer game version")
+		"full_save_in_demo", "demo_turn_limit":
+			return _tr("24주 데모에서는 이 기록을 열 수 없음",
+				"This record cannot be opened in the 24-week demo")
+		"save_namespace_mismatch", "build_flavor_mismatch":
+			return _tr("다른 테스트판의 분리된 기록", "Record from a separate test build")
+		_:
+			return _tr("호환되지 않거나 손상된 기록", "Incompatible or damaged record")
 
 func _open_load_overlay() -> void:
 	if is_instance_valid(_load_overlay):
@@ -1461,6 +1521,7 @@ func _rebuild_slots():
 		if info.get("empty", true):
 			sub_line = _tr("비어 있음", "Empty")
 		else:
+			top_line += "  ·  " + _save_source_label(info)
 			sub_line = _tr(
 				"챕터 %d · %d주차  ·  %s" % [
 					info.get("chapter", 1), info.get("turn", 1),
@@ -1473,7 +1534,11 @@ func _rebuild_slots():
 			var label := str(info.get("label", "")).strip_edges()
 			if not label.is_empty():
 				top_line += "  ·  " + label
-		var enabled = not info.get("empty", true)
+			var compatibility_note := _save_compatibility_note(info)
+			if not compatibility_note.is_empty():
+				sub_line = compatibility_note + "  ·  " + sub_line
+		var occupied: bool = not bool(info.get("empty", true))
+		var enabled: bool = occupied and bool(info.get("compatible", false))
 
 		# 슬롯 행: [슬롯 버튼] + [삭제 버튼]
 		var row = HBoxContainer.new()
@@ -1488,7 +1553,7 @@ func _rebuild_slots():
 		row.add_child(slot_panel)
 
 		# 삭제 버튼 (데이터가 있을 때만 표시)
-		if enabled:
+		if occupied:
 			var del_btn := _delete_slot_button(false)
 			del_btn.pressed.connect(func(): _confirm_delete(slot))
 			row.add_child(del_btn)
@@ -1519,6 +1584,7 @@ func _rebuild_slots_with_confirm(confirm_slot: int):
 		if info.get("empty", true):
 			sub_line = _tr("비어 있음", "Empty")
 		else:
+			top_line += "  ·  " + _save_source_label(info)
 			sub_line = _tr(
 				"챕터 %d · %d주차  ·  %s" % [
 					info.get("chapter", 1), info.get("turn", 1),
@@ -1531,7 +1597,11 @@ func _rebuild_slots_with_confirm(confirm_slot: int):
 			var label := str(info.get("label", "")).strip_edges()
 			if not label.is_empty():
 				top_line += "  ·  " + label
-		var enabled = not info.get("empty", true)
+			var compatibility_note := _save_compatibility_note(info)
+			if not compatibility_note.is_empty():
+				sub_line = compatibility_note + "  ·  " + sub_line
+		var occupied: bool = not bool(info.get("empty", true))
+		var enabled: bool = occupied and bool(info.get("compatible", false))
 
 		var row = HBoxContainer.new()
 		row.add_theme_constant_override("separation", 6)
@@ -1544,7 +1614,7 @@ func _rebuild_slots_with_confirm(confirm_slot: int):
 		slot_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(slot_panel)
 
-		if enabled:
+		if occupied:
 			var is_confirm = (slot == confirm_slot)
 			var del_btn := _delete_slot_button(is_confirm)
 			del_btn.pressed.connect(func(): _confirm_delete(slot))
@@ -2099,6 +2169,15 @@ func _open_settings_popup():
 	_build_language_toggle(vbox)
 	_build_moral_palette_selector(vbox)
 	_build_mod_settings_entry(vbox)
+	var notices_btn = _button(_tr("제3자 고지", "Third-Party Notices"), "#1b2430")
+	notices_btn.set_meta("third_party_notices_control", true)
+	_third_party_notices_control = notices_btn
+	notices_btn.tooltip_text = _tr(
+		"게임 엔진·서체·음원의 출처와 라이선스를 확인합니다.",
+		"Review engine, font, and audio sources and licenses.")
+	notices_btn.pressed.connect(_open_third_party_notices)
+	notices_btn.mouse_entered.connect(notices_btn.grab_focus)
+	vbox.add_child(notices_btn)
 
 	var close_btn = _button(_tr("닫기", "Close"), "#1e2a3a")
 	close_btn.pressed.connect(_close_settings_popup)
@@ -2120,6 +2199,14 @@ func _focus_first_settings_control() -> void:
 		return
 
 func _close_settings_popup() -> void:
+	if is_instance_valid(_notices_overlay):
+		var notices_parent := _notices_overlay.get_parent()
+		if notices_parent != null:
+			notices_parent.remove_child(_notices_overlay)
+		_notices_overlay.queue_free()
+	_notices_overlay = null
+	_notices_origin_focus = null
+	_third_party_notices_control = null
 	if is_instance_valid(_settings_overlay):
 		_settings_overlay.queue_free()
 	_settings_overlay = null
@@ -2131,6 +2218,391 @@ func _close_settings_popup() -> void:
 				button.call_deferred("grab_focus")
 				break
 	_settings_origin_focus = null
+
+func _notice_localized(value: Variant, fallback: String = "") -> String:
+	if value is Dictionary:
+		var language_key := "en" if LocaleManager.is_english() else "ko"
+		return str((value as Dictionary).get(language_key, fallback))
+	return str(value) if value != null else fallback
+
+func _load_third_party_notice_data() -> Dictionary:
+	if not _notices_data.is_empty():
+		return _notices_data
+	if not FileAccess.file_exists(THIRD_PARTY_NOTICE_PATH):
+		push_error("StartMenu: third-party notice data is missing.")
+		return {}
+	var parsed: Variant = JSON.parse_string(
+		FileAccess.get_file_as_string(THIRD_PARTY_NOTICE_PATH))
+	if not parsed is Dictionary or int(parsed.get("schema_version", 0)) != 1:
+		push_error("StartMenu: third-party notice data is invalid.")
+		return {}
+	_notices_data = parsed
+	return _notices_data
+
+func _open_third_party_notices() -> void:
+	var data := _load_third_party_notice_data()
+	if data.is_empty():
+		return
+	if is_instance_valid(_notices_overlay):
+		_notices_overlay.queue_free()
+	_notices_origin_focus = _third_party_notices_control \
+		if is_instance_valid(_third_party_notices_control) \
+		else get_viewport().gui_get_focus_owner()
+	_notices_tabs.clear()
+
+	_notices_overlay = ColorRect.new()
+	_notices_overlay.name = "ThirdPartyNoticesOverlay"
+	_notices_overlay.color = Color(0.008, 0.010, 0.014, 0.97)
+	_notices_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_notices_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	_notices_overlay.z_index = 120
+	add_child(_notices_overlay)
+
+	var margin := MarginContainer.new()
+	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
+	UIStyle.apply_notice_margin(margin)
+	_notices_overlay.add_child(margin)
+
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	UIStyle.apply_notice_panel(panel)
+	margin.add_child(panel)
+
+	var body := VBoxContainer.new()
+	UIStyle.apply_notice_spacing(body, 10)
+	panel.add_child(body)
+
+	var header := HBoxContainer.new()
+	UIStyle.apply_notice_spacing(header, 16)
+	body.add_child(header)
+	var heading := VBoxContainer.new()
+	heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(heading)
+	var surface: Dictionary = data.get("surface", {})
+	var title := _label(
+		_notice_localized(surface.get("title", {}), _tr("제3자 고지", "Third-Party Notices")),
+		26, "#f0f3f6", HORIZONTAL_ALIGNMENT_LEFT)
+	title.name = "ThirdPartyNoticesTitle"
+	heading.add_child(title)
+	var identity := _label(
+		BuildInfoScript.identity_label(false), 12, "#8b95a1",
+		HORIZONTAL_ALIGNMENT_LEFT)
+	heading.add_child(identity)
+	var close_button := _button(_tr("닫기", "Close"), "#1e2a3a")
+	close_button.custom_minimum_size = Vector2(120, 46)
+	close_button.size_flags_horizontal = Control.SIZE_SHRINK_END
+	close_button.set_meta("third_party_notice_close", true)
+	close_button.pressed.connect(_close_third_party_notices)
+	close_button.mouse_entered.connect(close_button.grab_focus)
+	header.add_child(close_button)
+
+	var intro := _label(
+		_notice_localized(surface.get("intro", {})), 14, "#c2c9d1",
+		HORIZONTAL_ALIGNMENT_LEFT)
+	intro.name = "ThirdPartyNoticesIntro"
+	body.add_child(intro)
+	var summary: Dictionary = data.get("summary", {})
+	var summary_text := _tr(
+		"엔진 %d · 서체 %d패밀리/%d파일 · 오디오 출처 %d개/%d파일" % [
+			int(summary.get("component_entries", 0)),
+			int(summary.get("font_families", 0)),
+			int(summary.get("font_files", 0)),
+			int(summary.get("audio_sources", 0)),
+			int(summary.get("audio_assets", 0)),
+		],
+		"Engine %d · Fonts %d families/%d files · Audio %d sources/%d files" % [
+			int(summary.get("component_entries", 0)),
+			int(summary.get("font_families", 0)),
+			int(summary.get("font_files", 0)),
+			int(summary.get("audio_sources", 0)),
+			int(summary.get("audio_assets", 0)),
+		])
+	var summary_label := _label(
+		summary_text, 13, "#909aa6", HORIZONTAL_ALIGNMENT_LEFT)
+	summary_label.name = "ThirdPartyNoticesSummary"
+	body.add_child(summary_label)
+
+	var tabs := HBoxContainer.new()
+	UIStyle.apply_notice_spacing(tabs, 8)
+	body.add_child(tabs)
+	var sections: Array = data.get("sections", [])
+	for index in range(sections.size()):
+		var section: Dictionary = sections[index]
+		var tab := _button(
+			_notice_localized(section.get("title", {})), "#171e28")
+		tab.toggle_mode = true
+		tab.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		tab.custom_minimum_size = Vector2(0, 46)
+		tab.set_meta("third_party_notice_section", str(section.get("id", "")))
+		tab.pressed.connect(_set_third_party_notice_section.bind(index))
+		tab.mouse_entered.connect(tab.grab_focus)
+		tabs.add_child(tab)
+		_notices_tabs.append(tab)
+
+	# A plain Control owns the remaining VBox slot. Unlike another Container, it
+	# does not propagate the changing legal-text minimum height into the fixed
+	# title/tabs. This keeps the chrome pinned while each ledger becomes scrollable.
+	var scroll_host := Control.new()
+	scroll_host.name = "ThirdPartyNoticesScrollHost"
+	scroll_host.custom_minimum_size = Vector2(0, 160)
+	scroll_host.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll_host.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	body.add_child(scroll_host)
+
+	_notices_scroll = ScrollContainer.new()
+	_notices_scroll.name = "ThirdPartyNoticesScroll"
+	_notices_scroll.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_notices_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_notices_scroll.focus_mode = Control.FOCUS_ALL
+	_notices_scroll.set_meta("third_party_notice_scroll_focus", true)
+	_notices_scroll.mouse_entered.connect(_notices_scroll.grab_focus)
+	_notices_scroll.focus_entered.connect(
+		_set_third_party_notice_scroll_focus_visual.bind(true))
+	_notices_scroll.focus_exited.connect(
+		_set_third_party_notice_scroll_focus_visual.bind(false))
+	_notices_scroll.gui_input.connect(
+		_on_third_party_notice_scroll_input.bind(_notices_scroll))
+	scroll_host.add_child(_notices_scroll)
+	_notices_content = VBoxContainer.new()
+	_notices_content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	UIStyle.apply_notice_spacing(_notices_content, 10)
+	_notices_scroll.add_child(_notices_content)
+
+	_notices_scroll_frame = Panel.new()
+	_notices_scroll_frame.name = "ThirdPartyNoticesScrollFrame"
+	_notices_scroll_frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_notices_scroll_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_notices_scroll_frame.z_index = 2
+	_notices_scroll_frame.set_meta("third_party_notice_focus_frame", true)
+	UIStyle.apply_notice_scroll_frame(_notices_scroll_frame, false)
+	scroll_host.add_child(_notices_scroll_frame)
+
+	var package_note := _label(
+		_notice_localized(surface.get("package_note", {})), 12, "#7c8793",
+		HORIZONTAL_ALIGNMENT_LEFT)
+	package_note.name = "ThirdPartyNoticesPackageNote"
+	body.add_child(package_note)
+	var hint_text := (
+		"[%s] %s" % [ControllerHints.east(), _tr("닫기", "Close")]
+		if ControllerHints.is_pad_active()
+		else _tr("방향키로 이동·스크롤  ·  Esc 닫기",
+			"Move and scroll with arrow keys  ·  Esc closes")
+	)
+	var hint := _label(
+		hint_text,
+		12, "#68727e", HORIZONTAL_ALIGNMENT_LEFT)
+	body.add_child(hint)
+
+	_notices_overlay.set_meta("notice_schema", int(data.get("schema_version", 0)))
+	for key in summary:
+		_notices_overlay.set_meta(str(key), summary[key])
+	_set_third_party_notice_section(0)
+	_wire_third_party_notice_focus(close_button)
+	if not _notices_tabs.is_empty():
+		_notices_tabs[0].call_deferred("grab_focus")
+
+func _set_third_party_notice_section(index: int) -> void:
+	if not is_instance_valid(_notices_scroll):
+		return
+	var sections: Array = _notices_data.get("sections", [])
+	if index < 0 or index >= sections.size():
+		return
+	for tab_index in range(_notices_tabs.size()):
+		_notices_tabs[tab_index].button_pressed = tab_index == index
+	# Assemble the variable-height ledger off-tree and swap it atomically. Adding
+	# thousands of lines one child at a time while attached can make the parent
+	# VBox publish a transient oversized transform to the renderer, which shifts
+	# the fixed title/tabs for one rendered frame on macOS OpenGL.
+	var next_content := VBoxContainer.new()
+	next_content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	UIStyle.apply_notice_spacing(next_content, 10)
+	var section: Dictionary = sections[index]
+	var section_title := _label(
+		_notice_localized(section.get("title", {})), 20, "#edf1f5",
+		HORIZONTAL_ALIGNMENT_LEFT)
+	next_content.add_child(section_title)
+	var notice_text_paths: Dictionary = {}
+	for raw_entry in section.get("entries", []):
+		if not raw_entry is Dictionary:
+			continue
+		var entry: Dictionary = raw_entry
+		next_content.add_child(_third_party_notice_entry(entry))
+		for path_field in ["license_text_path", "copyright_text_path"]:
+			var notice_path := str(entry.get(path_field, ""))
+			if not notice_path.is_empty():
+				notice_text_paths[notice_path] = true
+	if not notice_text_paths.is_empty():
+		var rule := HSeparator.new()
+		UIStyle.apply_notice_separator(rule)
+		next_content.add_child(rule)
+		next_content.add_child(_label(
+			_tr("라이선스·저작권 전문", "Full License and Copyright Texts"),
+			18, "#e4e9ef",
+			HORIZONTAL_ALIGNMENT_LEFT))
+		for notice_path in notice_text_paths:
+			next_content.add_child(
+				_third_party_license_text(str(notice_path)))
+	if is_instance_valid(_notices_content):
+		var old_content := _notices_content
+		var old_parent := old_content.get_parent()
+		if old_parent != null:
+			old_parent.remove_child(old_content)
+		# The detached legal text can own thousands of glyph RIDs. Destroy it
+		# before attaching the replacement so the render thread never observes
+		# both layout generations during the same OpenGL frame.
+		old_content.free()
+	_notices_content = next_content
+	_notices_scroll.add_child(_notices_content)
+	_notices_scroll.scroll_vertical = 0
+	if index < _notices_tabs.size():
+		_notices_scroll.focus_neighbor_top = _notices_scroll.get_path_to(
+			_notices_tabs[index])
+		_notices_tabs[index].grab_focus()
+
+func _third_party_notice_entry(entry: Dictionary) -> Control:
+	var panel := PanelContainer.new()
+	panel.set_meta("third_party_notice_id", str(entry.get("id", "")))
+	UIStyle.apply_notice_panel(panel, true)
+	var column := VBoxContainer.new()
+	UIStyle.apply_notice_spacing(column, 4)
+	panel.add_child(column)
+	var name := str(entry.get("name", ""))
+	var version := str(entry.get("version", ""))
+	if not version.is_empty():
+		name += "  ·  " + version
+	column.add_child(_label(name, 16, "#edf1f5", HORIZONTAL_ALIGNMENT_LEFT))
+	var surface: Dictionary = _notices_data.get("surface", {})
+	var labels: Dictionary = surface.get("labels", {})
+	for field in ["provider", "copyright", "license"]:
+		var value := str(entry.get(field, ""))
+		if value.is_empty():
+			continue
+		var field_label: String = _notice_localized(
+			labels.get(field, {}), field.capitalize())
+		column.add_child(_label(
+			"%s  ·  %s" % [field_label, value], 14, "#bac2cb",
+			HORIZONTAL_ALIGNMENT_LEFT))
+	var status := str(entry.get("notice_status", ""))
+	if not status.is_empty():
+		var status_label: String = _notice_localized(labels.get(status, {}), status)
+		column.add_child(_label(
+			status_label, 13, "#98a6b5", HORIZONTAL_ALIGNMENT_LEFT))
+	var source_url := str(entry.get("source_url", ""))
+	if not source_url.is_empty():
+		var source_label: String = _notice_localized(labels.get("source", {}), "Source")
+		var source := _label(
+			"%s  ·  %s" % [source_label, source_url], 13, "#8190a0",
+			HORIZONTAL_ALIGNMENT_LEFT)
+		source.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
+		column.add_child(source)
+	var license_url := str(entry.get("license_url", ""))
+	if not license_url.is_empty():
+		var license_terms := _label(
+			"%s  ·  %s" % [
+				_notice_localized(
+					labels.get("license_terms", {}), _tr("라이선스 원문", "License terms")),
+				license_url,
+			],
+			13, "#8190a0", HORIZONTAL_ALIGNMENT_LEFT)
+		license_terms.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
+		column.add_child(license_terms)
+	var copyright_path := str(entry.get("copyright_text_path", ""))
+	if not copyright_path.is_empty():
+		column.add_child(_label(
+			_tr("엔진 내장 구성요소 고지 동봉", "Bundled engine component notices included")
+				+ "  ·  " + copyright_path.get_file(),
+			13, "#98a6b5", HORIZONTAL_ALIGNMENT_LEFT))
+	if entry.has("shipping_asset_count"):
+		column.add_child(_label(
+			_tr(
+				"이 출처를 사용한 게임 파일 · %d개" % int(
+					entry.get("shipping_asset_count", 0)),
+				"Game files using this source · %d" % int(
+					entry.get("shipping_asset_count", 0))),
+			12, "#73808d", HORIZONTAL_ALIGNMENT_LEFT))
+	return panel
+
+func _third_party_license_text(path: String) -> Control:
+	var column := VBoxContainer.new()
+	column.set_meta("license_text_path", path)
+	UIStyle.apply_notice_spacing(column, 4)
+	column.add_child(_label(
+		path.get_file(), 15, "#d8dee6", HORIZONTAL_ALIGNMENT_LEFT))
+	var text := _tr(
+		"라이선스 전문을 불러오지 못했습니다.",
+		"Full license text could not be loaded.")
+	if FileAccess.file_exists(path):
+		text = FileAccess.get_file_as_string(path)
+	var license_body := _label(
+		text, 13, "#8f99a5", HORIZONTAL_ALIGNMENT_LEFT)
+	license_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	column.add_child(license_body)
+	return column
+
+func _on_third_party_notice_scroll_input(
+		event: InputEvent, scroll: ScrollContainer) -> void:
+	var delta := 0
+	if event.is_action_pressed("ui_down"):
+		delta = 64
+	elif event.is_action_pressed("ui_up"):
+		if scroll.scroll_vertical <= 0:
+			for tab in _notices_tabs:
+				if tab.button_pressed:
+					tab.grab_focus()
+					scroll.accept_event()
+					return
+		delta = -64
+	elif event.is_action_pressed("ui_page_down"):
+		delta = maxi(120, int(scroll.size.y * 0.72))
+	elif event.is_action_pressed("ui_page_up"):
+		delta = -maxi(120, int(scroll.size.y * 0.72))
+	if delta != 0:
+		scroll.scroll_vertical += delta
+		scroll.accept_event()
+
+func _set_third_party_notice_scroll_focus_visual(focused: bool) -> void:
+	if is_instance_valid(_notices_scroll_frame):
+		UIStyle.apply_notice_scroll_frame(_notices_scroll_frame, focused)
+
+func _wire_third_party_notice_focus(close_button: Button) -> void:
+	if not is_instance_valid(_notices_scroll) or _notices_tabs.is_empty():
+		return
+	var controls: Array[Control] = [close_button]
+	controls.append_array(_notices_tabs)
+	controls.append(_notices_scroll)
+	for index in range(controls.size()):
+		var control := controls[index]
+		var previous := controls[(index - 1 + controls.size()) % controls.size()]
+		var following := controls[(index + 1) % controls.size()]
+		control.focus_previous = control.get_path_to(previous)
+		control.focus_next = control.get_path_to(following)
+	close_button.focus_neighbor_bottom = close_button.get_path_to(_notices_tabs[0])
+	for index in range(_notices_tabs.size()):
+		var tab := _notices_tabs[index]
+		tab.focus_neighbor_top = tab.get_path_to(close_button)
+		tab.focus_neighbor_bottom = tab.get_path_to(_notices_scroll)
+		tab.focus_neighbor_left = tab.get_path_to(
+			_notices_tabs[(index - 1 + _notices_tabs.size()) % _notices_tabs.size()])
+		tab.focus_neighbor_right = tab.get_path_to(
+			_notices_tabs[(index + 1) % _notices_tabs.size()])
+	_notices_scroll.focus_neighbor_bottom = _notices_scroll.get_path_to(close_button)
+
+func _close_third_party_notices() -> void:
+	if is_instance_valid(_notices_overlay):
+		var notices_parent := _notices_overlay.get_parent()
+		if notices_parent != null:
+			notices_parent.remove_child(_notices_overlay)
+		_notices_overlay.queue_free()
+	_notices_overlay = null
+	_notices_tabs.clear()
+	_notices_content = null
+	_notices_scroll = null
+	_notices_scroll_frame = null
+	var focus_target := _notices_origin_focus
+	_notices_origin_focus = null
+	if is_instance_valid(focus_target):
+		focus_target.call_deferred("grab_focus")
 
 func _build_volume_sliders_menu(parent: Control):
 	var _make_row = func(label_text: String, init_val: float, on_change: Callable):

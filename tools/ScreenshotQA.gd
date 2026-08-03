@@ -8,6 +8,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=casino-en
 ## 수정 부위별 빠른 확인:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=start-en
+##       godot --rendering-driver opengl3 --resolution 960x600 res://tools/ScreenshotQA.tscn -- --qa=third-party-notices --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=first-30 --lang=en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=first-30 --lang=ko --pad=playstation --reduce-motion
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=gallery --lang=en
@@ -101,6 +102,7 @@ const QA_SCOPE_DEMO_MOUSE := "demo_mouse"
 const QA_SCOPE_FULL_GAMEPAD := "full_gamepad"
 const QA_SCOPE_CORE_LOOP_V2 := "core_loop_v2"
 const QA_SCOPE_START_EN := "start_en"
+const QA_SCOPE_THIRD_PARTY_NOTICES := "third_party_notices"
 const QA_SCOPE_FIRST_30 := "first_30"
 const QA_SCOPE_GALLERY := "gallery"
 const QA_SCOPE_YEAR_IDENTITY := "year_identity"
@@ -327,6 +329,13 @@ func _ready() -> void:
 		await _shot_start_surfaces(lang, "start_en_" if lang == "en" else "start_ko_")
 		print("SCREENSHOT_QA_DONE scope=start-en lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_THIRD_PARTY_NOTICES:
+		var lang := _qa_language("en")
+		await _shot_third_party_notices(lang)
+		print("SCREENSHOT_QA_DONE scope=third-party-notices lang=%s dir=%s" % [
+			lang, OUT_DIR])
+		get_tree().quit(0 if not _qa_failed else 1)
 		return
 	if scope == QA_SCOPE_FIRST_30:
 		var lang := _qa_language("en")
@@ -898,6 +907,12 @@ func _qa_scope() -> String:
 				"qa=start-en", "--qa=start-en", "qa=start_en", "--qa=start_en",
 				"scope=start-en", "--scope=start-en", "scope=start_en", "--scope=start_en"]:
 			return QA_SCOPE_START_EN
+		if arg in ["third-party-notices", "third_party_notices",
+				"--third-party-notices", "--third_party_notices",
+				"qa=third-party-notices", "--qa=third-party-notices",
+				"qa=third_party_notices", "--qa=third_party_notices",
+				"scope=third-party-notices", "--scope=third-party-notices"]:
+			return QA_SCOPE_THIRD_PARTY_NOTICES
 		if arg in ["gallery", "archive", "replay-gallery", "replay_gallery",
 				"--gallery", "--archive", "qa=gallery", "--qa=gallery",
 				"qa=archive", "--qa=archive", "scope=gallery", "--scope=gallery"]:
@@ -3561,6 +3576,121 @@ func _shot_start_menu_notice(lang: String, prefix: String) -> void:
 	MetaProgression.data["content_warning_seen"] = true
 	_remove_start_menu_nodes()
 	await _settle(0.35)
+
+func _shot_third_party_notices(lang: String) -> void:
+	_set_qa_language(lang)
+	var packed: PackedScene = load("res://scenes/StartMenu.tscn")
+	var menu := packed.instantiate()
+	get_tree().root.add_child.call_deferred(menu)
+	await get_tree().process_frame
+	await _settle(0.55)
+	if menu.has_method("_dismiss_splash"):
+		menu._dismiss_splash()
+	await _settle(0.30)
+	menu._open_settings_popup()
+	await _settle(0.25)
+	menu._open_third_party_notices()
+	await _settle(0.35)
+	var overlay := menu.find_child("ThirdPartyNoticesOverlay", true, false) as Control
+	if not is_instance_valid(overlay):
+		_fail("Third-party notice overlay did not open.")
+		_remove_start_menu_nodes()
+		return
+	var viewport := get_viewport().get_visible_rect()
+	if not viewport.encloses(overlay.get_global_rect()):
+		_fail("Third-party notice overlay escaped the viewport: %s." % viewport.size)
+	var scroll := overlay.find_child(
+		"ThirdPartyNoticesScroll", true, false) as ScrollContainer
+	if not is_instance_valid(scroll) or scroll.size.x < 400.0 or scroll.size.y < 160.0:
+		_fail("Third-party notice scroll area collapsed at %s." % viewport.size)
+	var tabs: Array[Button] = []
+	for node in overlay.find_children("*", "Button", true, false):
+		if node.has_meta("third_party_notice_section"):
+			tabs.append(node as Button)
+	if tabs.size() != 3:
+		_fail("Third-party notice overlay must expose exactly three data tabs.")
+	var prefix := "third_party_%s_" % lang.replace("-", "_")
+	var expected := [
+		["Godot Engine", "MIT License", "GODOT_ENGINE_COPYRIGHT.txt", "thirdparty/freetype"],
+		["Pretendard", "SIL Open Font License 1.1", "github.com/orioncactus/pretendard"],
+		["Alexander Holm", "CC BY 3.0", "D4XX", "CC0 1.0", "creativecommons.org/publicdomain/zero"],
+	]
+	var names := ["01_engine", "02_fonts", "03_audio"]
+	for index in range(3):
+		menu._set_third_party_notice_section(index)
+		await _settle(0.18)
+		var visible_text := _collect_control_text(overlay)
+		for token in expected[index]:
+			if str(token) not in visible_text:
+				_fail("Third-party notice tab %d lost %s." % [index, token])
+		if lang == "en" and _contains_hangul(visible_text):
+			_fail("English third-party notice tab %d contains Hangul." % index)
+		await _save(prefix + names[index], 0.45)
+		_check_third_party_notice_chrome(overlay, viewport, index)
+	if ControllerHints.is_pad_active():
+		var pad_text := _collect_control_text(overlay)
+		if "[%s]" % ControllerHints.east() not in pad_text or "East closes" in pad_text:
+			_fail("Third-party notice hint did not use the active controller East glyph.")
+	var focus_frame := _find_meta_control(
+		overlay, "third_party_notice_focus_frame") as Panel
+	if (
+		not is_instance_valid(focus_frame)
+		or not focus_frame.has_theme_stylebox_override("panel")
+	):
+		_fail("Third-party notice scroll focus has no visible frame.")
+	if is_instance_valid(scroll):
+		_press_qa_action("ui_down")
+		await _settle(0.10)
+		if get_viewport().gui_get_focus_owner() != scroll:
+			_fail("Third-party notice tab did not move focus into the scroll area.")
+		if (
+			not is_instance_valid(focus_frame)
+			or not bool(focus_frame.get_meta(
+				"third_party_notice_focus_active", false))
+		):
+			_fail("Third-party notice scroll focus frame did not activate.")
+		_press_qa_action("ui_down")
+		await _settle(0.10)
+		if scroll.scroll_vertical <= 0:
+			_fail("Third-party notice scroll focus did not scroll with directions.")
+		await _save(prefix + "04_scroll_focus", 0.45)
+		_check_third_party_notice_chrome(overlay, viewport, 3)
+	var focus_owner := get_viewport().gui_get_focus_owner()
+	if not (focus_owner is Control and overlay.is_ancestor_of(focus_owner)):
+		_fail("Third-party notice overlay has no active controller focus.")
+	_press_qa_action("ui_cancel")
+	await _settle(0.18)
+	var notices_control := _find_meta_control(menu, "third_party_notices_control")
+	if get_viewport().gui_get_focus_owner() != notices_control:
+		_fail("Third-party notice close did not restore Settings focus.")
+	menu._close_settings_popup()
+	_remove_start_menu_nodes()
+	await _settle(0.30)
+
+func _check_third_party_notice_chrome(
+		overlay: Control, viewport: Rect2, section_index: int) -> void:
+	var fixed_controls: Array[Control] = []
+	var title := overlay.find_child(
+		"ThirdPartyNoticesTitle", true, false) as Control
+	if is_instance_valid(title):
+		fixed_controls.append(title)
+	for node in overlay.find_children("*", "Button", true, false):
+		if (
+			bool(node.get_meta("third_party_notice_close", false))
+			or node.has_meta("third_party_notice_section")
+		):
+			fixed_controls.append(node as Control)
+	for control in fixed_controls:
+		if not viewport.encloses(control.get_global_rect()):
+			_fail(
+				"Third-party notice fixed chrome escaped the viewport "
+				+ "on tab %d: %s rect=%s viewport=%s." % [
+					section_index,
+					control.name,
+					control.get_global_rect(),
+					viewport,
+				]
+			)
 
 func _remove_start_menu_nodes() -> void:
 	var targets: Array[Node] = []
@@ -12590,15 +12720,22 @@ func _settle(t: float = 0.6) -> void:
 
 func _save(shot_name: String, settle_time: float = 0.3) -> void:
 	await _settle(settle_time)
-	# The macOS OpenGL readback can expose one partially uploaded atlas frame after
-	# a dense AP rerender. Drain several real draw frames before reading pixels.
+	# The macOS OpenGL readback can expose one partially uploaded atlas or layout
+	# frame after a dense rerender. Wait for completed render frames, not only CPU
+	# process frames, before reading pixels from the viewport texture.
 	for _draw_pass in range(3):
-		RenderingServer.force_draw()
 		await get_tree().process_frame
+		await RenderingServer.frame_post_draw
 	var viewport_texture := get_viewport().get_texture()
 	if viewport_texture == null:
 		_fail("Viewport texture is unavailable. Run ScreenshotQA with a real rendering driver.")
 		return
+	# Prime macOS OpenGL readback once. The first get_image() after a large nested
+	# container swap can expose the intermediate layout even after CPU rects and
+	# the front buffer are settled; the following completed frame is stable.
+	var _discarded_readback: Image = viewport_texture.get_image()
+	await get_tree().process_frame
+	await RenderingServer.frame_post_draw
 	var img: Image = viewport_texture.get_image()
 	if img == null or img.is_empty():
 		_fail("Viewport image is empty. Run ScreenshotQA with a real rendering driver.")

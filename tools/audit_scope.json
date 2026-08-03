@@ -49,6 +49,29 @@
       ]
     },
     {
+      "tool": "tools/build_identity_audit.py --self-test",
+      "why": "화면·세이브·full/demo/V2 매니페스트의 네 식별 필드와 변이 거부",
+      "paths": [
+        "systems/BuildInfo.gd",
+        "systems/BuildFlavor.gd",
+        "autoloads/SaveManager.gd",
+        "tools/build.sh",
+        "tools/build_identity_audit.py"
+      ]
+    },
+    {
+      "tool": "tools/third_party_notice_audit.py --self-test",
+      "why": "실제 엔진·서체·오디오 원장에서 생성한 고지, 해시, 패키지 사본과 변이 거부",
+      "paths": [
+        "assets/third_party/**",
+        "assets/fonts/**",
+        "assets/audio/**",
+        "content/meta/third_party_notices.json",
+        "export_presets.cfg",
+        "tools/third_party_notice_audit.py"
+      ]
+    },
+    {
       "tool": "tools/context_manifest_check.py",
       "why": "부팅 예산·정본 분류·내부 링크",
       "paths": [

@@ -4,10 +4,6 @@ This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:
 https://scripts.sil.org/OFL
 
-Font: Pretendard 1.309. 저작권·라이선스 문구는 배포된 폰트 파일의 name 테이블에서
-직접 읽어 옮겼다(nameID 0·5·13·14). 요약 페이지를 근거로 삼지 않았다.
-
-
 -----------------------------------------------------------
 SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
 -----------------------------------------------------------

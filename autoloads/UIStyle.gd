@@ -106,6 +106,41 @@ func btn_focus_style() -> StyleBoxFlat:
 	s.set_corner_radius_all(6)
 	return s
 
+## Third-party notices are a dense legal surface, but they still belong to the
+## shared Gangnam Ink material system. Keep their spacing and focus treatment
+## here so the screen does not grow a private palette or theme vocabulary.
+func apply_notice_margin(container: MarginContainer) -> void:
+	container.add_theme_constant_override("margin_left", 24)
+	container.add_theme_constant_override("margin_right", 24)
+	container.add_theme_constant_override("margin_top", 22)
+	container.add_theme_constant_override("margin_bottom", 22)
+
+func apply_notice_spacing(container: Control, separation: int) -> void:
+	container.add_theme_constant_override("separation", separation)
+
+func apply_notice_panel(panel: PanelContainer, compact: bool = false) -> void:
+	var style := panel_style(
+		C_BG_PANEL_ALT if compact else C_BG_PANEL,
+		C_BORDER_ACCENT,
+		5 if compact else 6)
+	style.border_width_left = 3 if compact else 4
+	style.content_margin_left = 14 if compact else 24
+	style.content_margin_right = 14 if compact else 24
+	style.content_margin_top = 11 if compact else 18
+	style.content_margin_bottom = 11 if compact else 18
+	panel.add_theme_stylebox_override("panel", style)
+
+func apply_notice_scroll_frame(frame: Panel, focused: bool) -> void:
+	var style := btn_focus_style()
+	style.border_color = Color(C_TEXT_PRIMARY if focused else C_BORDER_ACCENT)
+	style.set_border_width_all(2 if focused else 1)
+	style.set_corner_radius_all(4)
+	frame.add_theme_stylebox_override("panel", style)
+	frame.set_meta("third_party_notice_focus_active", focused)
+
+func apply_notice_separator(separator: HSeparator) -> void:
+	separator.add_theme_color_override("color", Color(C_BORDER_SUBTLE))
+
 ## 제목·선택·핵심 값에만 사용하는 1px 잉크 음영.
 ## 아웃라인을 늘리지 않아 720p와 4K 스케일에서 이중상을 막는다.
 func apply_ink_text_depth(control: Control, role: String = "display") -> void:

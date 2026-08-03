@@ -31,7 +31,7 @@ edit history. Raw third-party libraries remain outside the repository.
 | GDC 2026 Game Audio Bundle | Sonniss and participating recordists | Sonniss GDC Bundle License | Modern ambience, transport, weather, mechanisms, crowd, paper, casino, fireworks |
 | Owlish Media Sound Effects | OwlishMedia | CC0 1.0 | Clock, cloth, footsteps, paper, phone, water, small impacts |
 | Casino Audio 1.1 | Kenney Vleugels | CC0 1.0 | Cards, chips, dice |
-| Horse Gallop on Different Surfaces | congusbongus and source recordists | CC BY 4.0/per-file credits | Racetrack hoof cycle |
+| Horse Gallop on Different Surfaces | D4XX (`ground.mp3`; pack curated by congusbongus) | CC0 1.0 for the used file; pack has mixed per-file licenses | Racetrack hoof cycle |
 | Salamander Grand Piano V3 | Alexander Holm | CC BY 3.0 | All score and piano stingers |
 | Keyboard Soundpack #1 | unicaegames | CC0 1.0 | Human typing and key presses |
 | Storm & Siren | TinyWorlds | CC0 1.0 | Civil-defense/storm siren |
