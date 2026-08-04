@@ -16,7 +16,7 @@
 `content/meta/release_content_inventory.json`, `content/meta/demo_localization_scope.json`,
 `docs/STORY_BIBLE.md`, `docs/CORE_LOOP_V2.md`, `docs/BALANCE.md`,
 `docs/QA_CHECKLIST.md`, `docs/CONTENT_RATING_INVENTORY.md`, `docs/WORK_LOG.md`,
-`docs/STATUS.md`,
+`docs/STATUS.md`, `docs/MASTER_RELEASE_AUDIT.md`,
 `docs/RELEASE_NOTES.md`, `docs/DEMO_FIXLOG.md`, `docs/human_gates.json`,
 `docs/CODEX_QUEUE.md`, 이 사양의 활성·아카이브 경로, `scenes/MainGame.gd`,
 `systems/DemoCoreLoopV2.gd`, `tools/demo_core_loop_v2_audit.py`,
