@@ -32,6 +32,17 @@
 | Noto Sans JP | Adobe and Google | https://github.com/notofonts/noto-cjk |
 | Noto Color Emoji | Google | https://github.com/googlefonts/noto-emoji |
 
+## 중국어 전용 서체 차단 상태
+
+간체(`zh-CN`)와 번체(`zh-TW`) 전용 서체는 아직 채택하지 않았다. 현재의
+`NotoSansJP-Variable.ttf`가 일부 공통 한자를 표시하더라도 일본식 자형을 먼저
+선택할 수 있으므로 중국어 출시 증거가 아니다. 두 언어는 각각 공식 SC/TC 파일,
+OFL 사본, 전체 SHA-256, `FontKit`의 언어별 우선 체인, Windows·macOS·Linux/
+Steam Deck 실제 글리프 검사를 같은 변경에서 갖추기 전까지 차단한다.
+
+빈 중국어 폰트 경로는 누락이 아니라 이 차단 상태를 코드로 고정한 것이다. 임의의
+OS 폰트나 출처·버전이 확인되지 않은 바이너리를 넣어 우회하지 않는다.
+
 ## 라이선스 사본 무결성
 
 | 라이선스 사본 | SHA-256 |

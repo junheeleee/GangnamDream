@@ -729,6 +729,15 @@ def _common_target_errors(source: str, target: str) -> list[str]:
 
 def _validate_target_text(lang: str, key: str, source: str, target: str) -> list[str]:
     errors = _common_target_errors(source, target)
+    if lang in ("zh-CN", "zh-TW"):
+        # ORDER-82 owns Chinese regional semantics.  Keep this demo collector
+        # as the topology/coverage source while reusing the language-specific
+        # script, won, number, terminology, and name gate for every existing
+        # target row.
+        import zh_translation_audit as zh_audit
+
+        errors.extend(zh_audit.validate_text(lang, key, source, target))
+        return list(dict.fromkeys(errors))
     if lang != "ja":
         return errors
     # Lazy import keeps the exact Japanese terminology gate reusable by the
@@ -747,11 +756,6 @@ def language_coverage(
     lang: str, runtime: dict[str, Any], strict: bool,
 ) -> tuple[dict[str, int], list[str]]:
     errors: list[str] = []
-    if strict and lang in ("zh-CN", "zh-TW"):
-        errors.append(
-            f"{lang}: strict is unavailable until ORDER-82 adds region-specific "
-            "Chinese semantic, script, money, and font gates"
-        )
     overlays, load_errors = load_overlay_events(lang)
     errors.extend(load_errors)
     base_events: dict[str, dict[str, Any]] = runtime["events"]
@@ -1070,8 +1074,18 @@ def run_self_test(
 
     _zh_result, zh_errors = language_coverage("zh-CN", runtime, True)
     cases += 1
-    if not any("strict is unavailable" in error for error in zh_errors):
-        failures.append("Chinese strict mode was certified before ORDER-82")
+    if any("strict is unavailable" in error for error in zh_errors):
+        failures.append("Chinese strict mode still uses the pre-ORDER-82 refusal")
+    if not any("strict events coverage" in error for error in zh_errors):
+        failures.append("empty Chinese event coverage was not rejected by strict mode")
+
+    cases += 1
+    wrong_region = _validate_target_text(
+        "zh-CN", "self-test-cn-script", "강남에서 목표는 30억원.",
+        "在江南，目標是30億韓元。",
+    )
+    if not any("regional script mismatch" in error for error in wrong_region):
+        failures.append("Traditional Chinese mutation passed the Simplified gate")
 
     if failures:
         return failures

@@ -150,6 +150,7 @@ V2 사람 GO 전까지 삭제하거나 전 구간에 확산하지 않는다.
 조건부:
 
 - 일본어: `docs/I18N_GLOSSARY_JA.md`
+- 중국어 간체·번체: `docs/I18N_GLOSSARY_ZH.md`
 - UI 런타임: `autoloads/LocaleManager.gd`
 
 번역 작업에서 게임플레이 키나 조건을 오버레이로 옮기지 않는다.

@@ -7,16 +7,17 @@ Chinese, and Traditional Chinese are prepared targets, not selectable player
 options. Japanese UI is a machine-assisted beta with structural and semantic
 gates; new story, ending, dynamic, and catalog prose remains held until the user
 gives an explicit demo GO decision. One existing Japanese prologue event is a
-seed, not evidence that the demo body is translated. Chinese dictionaries remain
-empty.
+seed, not evidence that the demo body is translated. Simplified and Traditional
+Chinese have separate source, script, money, font, and native-review contracts,
+but their dictionaries and body overlays remain empty.
 
 | Code | Status | UI dictionary | Event overlay | Ending overlay |
 |---|---|---|---|---|
 | `ko` | Shipping, source | Inline source | `content/events/` | `content/endings.json` |
 | `en` | Shipping, strict | Inline fallback | `content/events_en/` | `content/endings_en.json` |
 | `ja` | Prepared beta, hidden | 2,546/2,546 keys | 1/1,599 full; 1/70 demo | 0/35 full; 0 required by demo |
-| `zh-CN` | Prepared, hidden | Empty | 0/1,599 full; 0/70 demo | 0/35 full; 0 required by demo |
-| `zh-TW` | Prepared, hidden | Empty | 0/1,599 full; 0/70 demo | 0/35 full; 0 required by demo |
+| `zh-CN` | Prepared, hidden; font blocked | 0/2,546 keys | 0/1,599 full; 0/70 demo | 0/35 full; 0 required by demo |
+| `zh-TW` | Prepared, hidden; font blocked | 0/2,546 keys | 0/1,599 full; 0/70 demo | 0/35 full; 0 required by demo |
 
 `LocaleManager.SHIPPING_LANGUAGES` is the player-facing allowlist. Adding a
 language to `SUPPORTED_LANGUAGES` is not permission to expose it in the first-run
@@ -82,22 +83,29 @@ a scene the player never reads. The scope manifest locks the source hashes and
 the complete event-ID hash so a content change cannot silently leave the
 translation plan stale.
 
-Current prepared coverage is deliberately incomplete:
+Current prepared coverage is deliberately incomplete. Static UI is a separate
+claim surface: a Chinese demo cannot ship with its 2,546 current UI keys falling
+back to English even after the event body is complete.
 
-| Locale | Events | Event text leaves | Dynamic keys | Demo catalog |
-|---|---:|---:|---:|---:|
-| `ja` | 1/70 | 8/431 | 8/479 | 0/4 |
-| `zh-CN` | 0/70 | 0/431 | 0/479 | 0/4 |
-| `zh-TW` | 0/70 | 0/431 | 0/479 | 0/4 |
+| Locale | Static UI | Events | Event text leaves | Dynamic keys | Demo catalog |
+|---|---:|---:|---:|---:|---:|
+| `ja` | 2,546/2,546 | 1/70 | 8/431 | 8/479 | 0/4 |
+| `zh-CN` | 0/2,546 | 0/70 | 0/431 | 0/479 | 0/4 |
+| `zh-TW` | 0/2,546 | 0/70 | 0/431 | 0/479 | 0/4 |
 
 Skeleton mode verifies this scope, existing rows, fallback paths, and the hidden
 shipping state without pretending missing prose is complete. Per-language
 `--strict` additionally requires 70/70 events, 431/431 leaves, 479/479 dynamic
 keys, 4/4 catalog names, and zero direct English bypasses. It is expected to fail
 until an approved body-translation wave is finished. Japanese has the required
-terminology and source-shape validator now. Chinese strict mode intentionally
-refuses to certify either region until ORDER-82 adds separate Simplified and
-Traditional Chinese script, terminology, money, abbreviation, and font gates.
+terminology and source-shape validator now. `zh_translation_audit.py --strict`
+adds 2,546/2,546 static UI keys, separate Simplified/Traditional script and
+terminology, Korean-won semantics, romanized-name locks, and a project-owned
+regional font route. It cannot certify one region from the other region's text.
+The narrow manifest-locked dynamic lookup routes currently report zero direct
+English bypasses. A broader production-runtime scan separately reports 13
+legacy `is_english()` branches and an AUTO reading-rate route that omits both
+Chinese locales; Chinese strict mode intentionally fails on those blockers.
 
 ## Money And Units
 
@@ -135,10 +143,13 @@ SHA-256 locks:
 - `NotoSansJP-Variable.ttf`: `c2f3b4d463500a2ddcd3849cded1fceeb9fd6d1c32e6cbecd568453ba50fc68f`
 - `OFL-NotoSansJP.txt`: `babcfe66c8a098b2fa279bc724a3a342f8124f77ce18941fbcc1bbb39823cded`
 
-Simplified Chinese core glyph coverage is still incomplete. macOS can hide
-that by selecting an OS font, which is not a deterministic Windows or Steam
-Deck result. Chinese therefore remains non-shipping until project-owned SC/TC
-fallbacks are bundled and tested on every target platform.
+Both Chinese font routes are blocked. `FontKit.ZH_CN_FONT_PATH` and
+`FontKit.ZH_TW_FONT_PATH` are deliberately empty until a complete licensed bundle
+is adopted. The current Japanese fallback may display many Traditional Chinese
+and shared Han codepoints, but it is attached before emoji and can select Japanese
+glyph forms. That incidental coverage is evidence for neither `zh-CN` nor
+`zh-TW`. macOS can additionally hide missing glyphs by selecting an OS font,
+which is not a deterministic Windows or Steam Deck result.
 
 Approved candidate family: Noto Sans CJK JP/SC/TC, regular and semibold subsets
 or language-specific TTFs. The official project distributes the family under
@@ -149,9 +160,12 @@ Windows where corruption is still documented:
 - <https://github.com/googlefonts/noto-cjk/blob/main/Sans/LICENSE>
 - <https://github.com/notofonts/noto-cjk/releases>
 
-Before enabling a prepared language, bundle its font, attach it in `FontKit`,
-retain the OFL license in distribution notices, and pass the CJK screenshot on
-Windows, macOS, and Linux/Steam Deck.
+Before enabling a prepared language, bundle its region-specific font, attach it
+ahead of JP for that active locale in `FontKit`, retain the OFL license and full
+SHA-256 in distribution notices, and pass real translated-surface glyph/layout
+checks on Windows, macOS, and Linux/Steam Deck. The blocked baseline is reported
+as `primary=missing shared_han_jp_first=1`; readiness requires a real path,
+`shared_han_jp_first=0`, and all required glyphs covered.
 
 ## Validation
 
@@ -164,6 +178,8 @@ python3 tools/ja_translation_pipeline.py --self-test
 python3 tools/ja_translation_audit.py --scope demo
 python3 tools/demo_localization_scope.py --self-test
 python3 tools/demo_localization_scope.py --lang all
+python3 tools/zh_translation_audit.py --lang all
+python3 tools/zh_translation_audit.py --self-test
 godot --headless res://tools/I18nInfrastructureCheck.tscn
 godot --rendering-driver opengl3 --resolution 1280x800 \
   res://tools/ScreenshotQA.tscn -- --qa=i18n-layout --lang=ja
@@ -186,6 +202,35 @@ not accept that demo approval and require the separate `--allow-full-body` gate.
 The source-hash cache lives under `.git` so generated drafts do not become release
 assets.
 
+`zh_translation_audit.py` reads both regions from the Korean source independently.
+Its normal mode reports the empty skeleton and both blocked font routes without
+claiming completion. Its region-specific strict mode requires 2,546/2,546 static
+UI keys, the exact 70/431/479/4 demo body, zero direct English bypasses, every
+context-unambiguous wrong-region character in the pinned OpenCC 1.3.1 classifier
+set (4,093 for `zh-CN`, 3,804 for `zh-TW`), project-locked regional terms,
+Korean-won meaning, approved romanized names, and a deterministic project-owned
+SC or TC font. The dictionary data is classification-only: the audit never
+converts or rewrites either translation. Identity/overlap entries such as
+context-dependent `后`, `干`, `台`, `里`, and `系` are deliberately excluded from
+the character ban; phrase rules cover locked usages and the same-revision native
+review must judge every remaining context. Both regions reject CJK compatibility
+ideographs and Han variation-selector sequences instead of silently normalizing
+them, so a visually similar noncanonical encoding cannot bypass the classifier.
+The current strict failures are
+therefore release evidence, not CI debt to hide. See
+[`I18N_GLOSSARY_ZH.md`](I18N_GLOSSARY_ZH.md).
+Numeric validation normalizes Korean-won values, signs, dates, times, durations,
+counts, ordinals, ticket identifiers, native-Korean counters, and corresponding
+Chinese numerals. Calendar months, month durations, ordinal units, and the demo's
+sheet/building/vehicle/cup/line/pair classifiers remain distinct; colloquial
+`월 220`, `즉시 200`, and `보증금 천에 월 오십오` are normalized as implicit
+ten-thousand-won amounts. The check is source-driven so normal Latin/Chinese
+spacing, natural singular classifiers, and idioms such as `一点` are not mistaken
+for invented names or gameplay quantities. Same-revision native review remains
+the semantic and context-dependent script backstop. The pinned classifier carries
+its source revision, input hashes, derivation rule, and Apache-2.0 copy under
+[`tools/data`](../tools/data/opencc_script_variants_1_3_1.json).
+
 ## Translation Wave Gate
 
 Japanese infrastructure began after content freeze, but prose generation is
@@ -206,4 +251,34 @@ Once the user gives demo GO, the remaining wave requires:
 The Japanese demo claim and the eventual full-game Japanese release claim are
 separate. Passing the demo gate does not satisfy 1,599-event/35-ending full-game
 coverage. Passing the current UI/font gates alone must never add `ja` to
+`SHIPPING_LANGUAGES` or Steam metadata.
+
+## Chinese Regional Wave Gate
+
+Chinese prose and UI generation remain held. When the user explicitly opens a
+Chinese demo translation wave, `zh-CN` and `zh-TW` must be translated from Korean
+as two independent bodies; OpenCC or another script conversion cannot create the
+second region. Official character Hanja must not be invented, so established
+romanized names remain locked until a user/native decision updates the glossary
+and validator together.
+
+Before either Chinese demo claim, that region requires:
+
+1. 2,546/2,546 static UI keys and strict parity for all 70 demo events, 431 event
+   leaves, 479 dynamic keys, and four catalog names; no ending is fabricated.
+2. Zero Hangul, kana, untranslated English prose, direct English bypass, wrong-
+   region script, currency conversion, or placeholder/paragraph drift.
+3. Korean won preserved as `韩元` with `万/亿` for `zh-CN`, and `韓元` with
+   `萬/億` for `zh-TW`.
+4. A project-owned SC or TC font that wins before JP shared-Han fallback and has
+   complete license, hash, package notice, and target-platform evidence.
+5. A Mainland Chinese native reviewer for `zh-CN` and a Taiwan native reviewer
+   for `zh-TW`, each directly comparing Korean against the same `demo_rc` at
+   normal speed and replaying every legal event and choice.
+
+Those reviewers judge voice, relationship distance, subtext, aftertaste, Korean
+cultural explanation, KRW weight, causal meaning, regional glyph forms, and real
+layout. Their gates block only `claim:zh-CN-demo` or `claim:zh-TW-demo`; they do
+not block the Korean/English demo. A demo approval never authorizes the
+1,599-event/35-ending full-game Chinese release or adds a language to
 `SHIPPING_LANGUAGES` or Steam metadata.

@@ -270,7 +270,8 @@
         "tools/demo_localization_scope.py",
         "tools/release_content_inventory.py",
         "tools/ja_translation_pipeline.py",
-        "tools/ja_translation_audit.py"
+        "tools/ja_translation_audit.py",
+        "tools/zh_translation_audit.py"
       ]
     },
     {
@@ -320,6 +321,61 @@
         "tools/demo_localization_scope.py",
         "tools/ja_translation_pipeline.py",
         "tools/ja_translation_audit.py"
+      ]
+    },
+    {
+      "tool": "tools/zh_translation_audit.py",
+      "why": "간체·번체를 한국어에서 독립 검수하고 실제 24주 본문·정적 UI·동적 키·원화·지역 자형·전용 폰트의 준비 상태를 숨김없이 보고",
+      "paths": [
+        "content/meta/demo_localization_scope.json",
+        "content/meta/demo_core_loop_v2.json",
+        "content/meta/release_content_inventory.json",
+        "content/events/**",
+        "content/events_zh-CN/**",
+        "content/events_zh-TW/**",
+        "content/assets.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "locale/catalog_zh-CN.json",
+        "locale/catalog_zh-TW.json",
+        "autoloads/FontKit.gd",
+        "autoloads/LocaleManager.gd",
+        "autoloads/**",
+        "scenes/**",
+        "systems/**",
+        "ui_components/**",
+        "assets/fonts/**",
+        "docs/I18N_GLOSSARY_ZH.md",
+        "tools/demo_localization_scope.py",
+        "tools/ja_translation_pipeline.py",
+        "tools/zh_translation_audit.py",
+        "tools/data/opencc_script_variants_1_3_1.json",
+        "tools/data/LICENSE-OpenCC-2.0.txt"
+      ]
+    },
+    {
+      "tool": "tools/zh_translation_audit.py --self-test",
+      "why": "간·번체 혼용, 엔·위안 전환, 한글·가나, 숫자·토큰 손실, 임의 인명 한자와 JP-first 글꼴 경로 변이를 거부",
+      "paths": [
+        "content/meta/demo_localization_scope.json",
+        "content/events/**",
+        "content/events_zh-CN/**",
+        "content/events_zh-TW/**",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "locale/catalog_zh-CN.json",
+        "locale/catalog_zh-TW.json",
+        "autoloads/FontKit.gd",
+        "autoloads/**",
+        "scenes/**",
+        "systems/**",
+        "ui_components/**",
+        "assets/fonts/**",
+        "tools/demo_localization_scope.py",
+        "tools/ja_translation_pipeline.py",
+        "tools/zh_translation_audit.py",
+        "tools/data/opencc_script_variants_1_3_1.json",
+        "tools/data/LICENSE-OpenCC-2.0.txt"
       ]
     },
     {
@@ -876,7 +932,11 @@
       "why": "다국어 런타임",
       "paths": [
         "locale/**",
-        "autoloads/LocaleManager.gd"
+        "autoloads/LocaleManager.gd",
+        "autoloads/FontKit.gd",
+        "assets/fonts/**",
+        "tools/I18nInfrastructureCheck.gd",
+        "tools/I18nInfrastructureCheck.tscn"
       ]
     },
     {

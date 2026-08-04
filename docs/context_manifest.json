@@ -220,6 +220,7 @@
       ],
       "conditional": [
         "docs/I18N_GLOSSARY_JA.md",
+        "docs/I18N_GLOSSARY_ZH.md",
         "autoloads/LocaleManager.gd"
       ]
     },
@@ -257,6 +258,7 @@
       "docs/ENDING_CONTRACT.md",
       "docs/I18N_GLOSSARY.md",
       "docs/I18N_GLOSSARY_JA.md",
+      "docs/I18N_GLOSSARY_ZH.md",
       "docs/I18N_INFRASTRUCTURE.md",
       "docs/MODDING.md",
       "docs/MORAL_TINT.md",

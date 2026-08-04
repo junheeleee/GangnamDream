@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-82
+# Archived Queue Spec: ORDER-82
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-82 [P1·현지화 준비] 중국어 간체와 번체를 별도 작품·글꼴·검수 계약으로 준비한다
+#### [x] ORDER-82 [P1·현지화 준비] 중국어 간체와 번체를 별도 작품·글꼴·검수 계약으로 준비한다
 
 **사용자 근거 (2026-08-04):** 24주 데모까지 일본어·중국어 준비를 시작하되,
 한 편의 소설·영화라는 기준과 한국어 정본을 잃지 않는다. 중국어는 일본어의
@@ -13,12 +13,15 @@
 >
 > 배치 A — 간체·번체 정본과 엄격 감사 준비:
 > `docs/I18N_GLOSSARY_ZH.md`, `tools/zh_translation_audit.py`,
+> `tools/data/opencc_script_variants_1_3_1.json`,
+> `tools/data/LICENSE-OpenCC-2.0.txt`,
 > `content/meta/demo_localization_scope.json`, `tools/demo_localization_scope.py`,
 > `tools/audit.sh`, `tools/audit_scope.json`.
 >
 > 배치 B — 글꼴·사람 판정·완료 기록:
 > `autoloads/FontKit.gd`, `tools/I18nInfrastructureCheck.gd`,
 > `assets/fonts/FONT_LICENSE_LEDGER.md`, `docs/I18N_INFRASTRUCTURE.md`,
+> `content/meta/third_party_notices.json`,
 > `docs/QA_CHECKLIST.md`, `docs/human_gates.json`, `docs/CONTEXT_INDEX.md`,
 > `docs/context_manifest.json`,
 > `CLAUDE.md`, `docs/CODEX_QUEUE.md`, `docs/DEMO_FIXLOG.md`,
@@ -79,3 +82,32 @@ SC/TC 폰트 바이너리·OFL·제3자 고지는 공식 파일과 해시를 확
 - `ZH_DEMO_PREP lang=<zh-CN|zh-TW> events=<n>/<all> dynamic=<n>/<all> font=<blocked|ready> shipping=0`
 - `ZH_FONT_ROUTE lang=<code> primary=<path> shared_han_jp_first=0 glyphs=<covered>/<required>`
 - L3: 지역별 원어민이 한국어 원문과 같은 revision의 정상 속도 24주·분기 replay를 판정한 기록.
+
+## 완료 증거 (2026-08-04)
+
+- 두 지역 모두 `UI 0/2,546 · 사건 0/70 · 본문 0/431 · 동적 0/479 · 자산 0/4`,
+  `shipping=0`을 정직하게 보고한다. 번역 본문·UI 사전·SC/TC 폰트 바이너리는
+  만들지 않았다.
+- 의미·인명·문자권·원화·수사 회귀 246건과 24주 범위 회귀 13건이 통과했다.
+  한국어 구어 원화, 달력/기간, 시각/기간, 분류사, 밤 단위, `1평 반`, 인명 별칭과
+  실제 70사건 원문을 포함한다. 고정 OpenCC 1.3.1 문자 사전 전체에서 자기 매핑과
+  양쪽 중첩을 제외해 `zh-CN` 번체 전용 4,093자, `zh-TW` 간체 전용 3,804자를
+  분류하며 번역 생성에는 쓰지 않는다. 공유 글자의 문맥은 사람 게이트에 남겼다.
+  호환 한자·한자 자형 선택 코드는 두 지역 모두 비정규 표기로 거부한다.
+- 기본 skeleton은 통과하고 지역별 strict는 각각 정확히 20개 차단 사유로
+  실패한다: 넓은 런타임 영어 직행 13, AUTO 속도 1, 커버리지 5, 전용 글꼴 1.
+- Godot 인프라 검사는 두 중국어 경로를 `primary=missing`,
+  `shared_han_jp_first=1`, `glyphs=0/6`, `status=blocked`로 확인했다.
+- L3는 닫지 않았다. `zh_cn_demo_native_review`와 `zh_tw_demo_native_review`가
+  각 지역 데모 주장만 별도로 막으며 KO/EN 데모 출시는 막지 않는다.
+
+## 규범 판정
+
+- **승격:** 지역별 한국어 직역 원본, OpenCC 금지, 공식 용어, 로마자 인명,
+  원화·수치 의미 규칙은 `docs/I18N_GLOSSARY_ZH.md`가 소유한다.
+- **승격:** 실제 범위·엄격 실패·전용 글꼴 우선순위와 출시 비노출 규칙은
+  `docs/I18N_INFRASTRUCTURE.md`가 소유한다.
+- **승격:** 자동 claim 게이트는 `docs/QA_CHECKLIST.md`, 지역별 사람 GO는
+  `docs/human_gates.json`이 소유한다.
+- **일회성:** 이 오더의 배치 파일 목록, 현재 0커버리지와 20개 strict 차단 수는
+  이 리비전의 완료 증거다. 후속 번역·폰트·런타임 수리는 새 오더로 분리한다.

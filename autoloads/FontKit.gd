@@ -14,6 +14,12 @@ class_name FontKit
 const EMOJI_FONT_PATH := "res://assets/fonts/NotoColorEmoji.ttf"
 const JP_FONT_PATH := "res://assets/fonts/NotoSansJP-Variable.ttf"
 
+# 중국어 폰트는 공식 바이너리·OFL·해시를 한 묶음으로 들여오기 전까지 경로를
+# 비워 둔다. Noto Sans JP가 일부 한자를 표시하는 것은 SC/TC 전용 자형 체인이
+# 아니며, 이 값을 채우지 않은 상태는 출시 준비 완료로 판정할 수 없다.
+const ZH_CN_FONT_PATH := ""
+const ZH_TW_FONT_PATH := ""
+
 static var _emoji_font: FontFile = null
 static var _jp_font: FontFile = null
 
@@ -38,6 +44,34 @@ static func _append_fallback(font: FontFile, fallback: FontFile) -> void:
 	if not fallbacks.has(fallback):
 		fallbacks.append(fallback)
 		font.fallbacks = fallbacks
+
+## 언어별 전용 폰트 경로. 빈 문자열은 OS 폴백에 기대지 않는 명시적 차단 상태다.
+static func dedicated_locale_font_path(language: String) -> String:
+	match language:
+		"ja":
+			return JP_FONT_PATH
+		"zh-CN":
+			return ZH_CN_FONT_PATH
+		"zh-TW":
+			return ZH_TW_FONT_PATH
+	return ""
+
+static func has_dedicated_locale_font(language: String) -> bool:
+	var path := dedicated_locale_font_path(language)
+	return not path.is_empty() and ResourceLoader.exists(path)
+
+## 현재 attach_locale_fallbacks()는 JP 전역 폴백만 소유한다. 중국어 바이너리
+## 경로만 채우고 실제 우선 체인을 빼먹어도 ready가 되지 않도록 별도 사실로 둔다.
+## 향후 SC/TC를 도입할 때는 언어별 체인 구현과 함께 이 판정을 갱신해야 한다.
+static func dedicated_locale_font_precedes_jp(_language: String) -> bool:
+	return false
+
+## 현재 전역 체인은 JP를 먼저 붙인다. 중국어 전용 폰트가 없는 동안 공유 한자는
+## 일본식 자형이 먼저 선택될 수 있으므로 두 중국어의 글꼴 게이트는 차단된다.
+static func shared_han_jp_first(language: String) -> bool:
+	return language in ["zh-CN", "zh-TW"] \
+		and not dedicated_locale_font_precedes_jp(language) \
+		and ResourceLoader.exists(JP_FONT_PATH)
 
 ## 일본어 폴백은 언어 전환 뒤에도 같은 FontFile 리소스가 재사용되도록 항상
 ## 연결한다. 실제 일본어 선택 노출 여부는 LocaleManager allowlist가 결정한다.

@@ -26,6 +26,28 @@
   "prepared_languages": ["ja", "zh-CN", "zh-TW"],
   "body_translation": "held_until_explicit_demo_GO",
   "full_body_translation": "held_until_separate_full_game_GO",
+  "chinese_preparation_contract": {
+    "source_language": "ko",
+    "automatic_script_conversion": false,
+    "body_translation": "held_until_explicit_demo_GO",
+    "shipping": false,
+    "static_ui_source_count": 2546,
+    "static_ui_source_keys_sha256": "42f194f991c0dd83aaf1476b9708df2e26f7565906ed7c00f23951f77e2be224",
+    "regions": {
+      "zh-CN": {
+        "source_language": "ko",
+        "event_overlay": "content/events_zh-CN/",
+        "ui_dictionary": "locale/ui_zh-CN.json",
+        "catalog_dictionary": "locale/catalog_zh-CN.json"
+      },
+      "zh-TW": {
+        "source_language": "ko",
+        "event_overlay": "content/events_zh-TW/",
+        "ui_dictionary": "locale/ui_zh-TW.json",
+        "catalog_dictionary": "locale/catalog_zh-TW.json"
+      }
+    }
+  },
   "receipt_only_event_ids": ["callback_escaped_dirty_trace"],
   "source_contract": {
     "week_1_24_event_count": 57,
@@ -79,6 +101,8 @@
       "479 dynamic lookup keys and four visible market asset names",
       "exact choice count/order and text-only overlay fields",
       "placeholder, paragraph, terminology, and Korean-won preservation",
+      "separate Korean-source Simplified and Traditional script validation without automatic conversion",
+      "complete current static UI source inventory in addition to 24-week dynamic keys",
       "zero prepared-locale direct-English bypasses"
     ],
     "separate_claim_gates": [
