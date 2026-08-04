@@ -12,6 +12,7 @@
 `content/meta/demo_core_loop_v2.json`, 파생 계약
 `content/meta/demo_localization_scope.json`,
 `content/meta/release_content_inventory.json`, `docs/CONTENT_RATING_INVENTORY.md`,
+영어 첫 청구서 문구를 실제 화면에서 대조하는 `tools/CoreLoopV2ECheck.gd`,
 검토·사람 판정 `docs/QA_CHECKLIST.md`, `docs/human_gates.json`, 완료 기록
 `CLAUDE.md`, `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/STATUS.md`,
 `docs/RELEASE_NOTES.md`, `docs/DEMO_FIXLOG.md`, 이 사양의 활성·아카이브 경로.
@@ -20,6 +21,12 @@
 저장·런타임, 25~240주 영어, JA·ZH 본문은 소유하지 않는다. 영어 대사의
 문장 수·길이·축약형 개수는 목표치로 만들지 않으며
 `tools/speech_register_audit.py`도 수정하지 않는다.
+
+**착수 후 범위 확장 (2026-08-04):** 첫 청구서의 실제 KO/EN 화면 증거를
+검사하는 `CoreLoopV2ECheck`가 고친 영어 문장 전체를 옛 번역과 정확히 비교해
+표적 실행이 실패했다. 의미·몸 상태·한영 동시 렌더 계약은 유지하고, 영어
+리터럴만 새 정본과 동기화하기 위해 이 검사 파일을 구현보다 먼저 선언 범위에
+추가한다.
 
 **사용자 승인 (2026-08-04):** `docs/DECISIONS.md`의 P-10을 권고대로 실행한다.
 일본어 화자표를 번역하지 않고 영어만의 수단인 문장 길이·완결성, 요청의 직접성,
