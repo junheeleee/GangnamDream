@@ -124,6 +124,81 @@ prepare_playtest_imports() {
   echo "✅ clean checkout import 완료"
 }
 
+finalize_macos_archive() {
+  local archive="$1"
+  local bundle_stem="$2"
+  if [[ "$(uname -s)" != "Darwin" ]]; then
+    echo "❌ macOS 앱 서명·ZIP 검증은 macOS 호스트에서 마쳐야 합니다."
+    return 1
+  fi
+  local command_name
+  for command_name in ditto codesign plutil; do
+    if ! command -v "$command_name" >/dev/null 2>&1; then
+      echo "❌ macOS 패키지 검증 도구 누락: $command_name"
+      return 1
+    fi
+  done
+
+  # Godot derives the bundle/executable/PCK name from the Korean project name.
+  # APFS stores that name decomposed while CodeResources can retain the composed
+  # path from export, so an otherwise byte-perfect ZIP fails codesign after it
+  # is unpacked. Keep the Korean Finder display name, but normalize the three
+  # on-disk bundle names to ASCII and regenerate the ad-hoc test signature.
+  local stage_dir
+  local verify_dir
+  stage_dir=$(mktemp -d "${TMPDIR:-/tmp}/gangnamdream-macos-stage.XXXXXX")
+  verify_dir=$(mktemp -d "${TMPDIR:-/tmp}/gangnamdream-macos-verify.XXXXXX")
+  local status=0
+  (
+    set -e
+    shopt -s nullglob
+    ditto -x -k "$archive" "$stage_dir"
+    local apps=("$stage_dir"/*.app)
+    if [[ ${#apps[@]} -ne 1 ]]; then
+      echo "❌ macOS ZIP의 .app 개수가 1개가 아닙니다: ${#apps[@]}"
+      exit 1
+    fi
+    local source_app="${apps[0]}"
+    local info_plist="$source_app/Contents/Info.plist"
+    local old_executable
+    old_executable=$(plutil -extract CFBundleExecutable raw "$info_plist")
+    local old_binary="$source_app/Contents/MacOS/$old_executable"
+    local old_pck="$source_app/Contents/Resources/$old_executable.pck"
+    if [[ ! -f "$old_binary" || ! -f "$old_pck" ]]; then
+      echo "❌ macOS 앱의 실행 파일 또는 PCK를 찾지 못했습니다."
+      exit 1
+    fi
+    if [[ "$old_executable" != "$bundle_stem" ]]; then
+      mv "$old_binary" "$source_app/Contents/MacOS/$bundle_stem"
+      mv "$old_pck" "$source_app/Contents/Resources/$bundle_stem.pck"
+    fi
+    plutil -replace CFBundleExecutable -string "$bundle_stem" "$info_plist"
+    local final_app="$stage_dir/$bundle_stem.app"
+    if [[ "$source_app" != "$final_app" ]]; then
+      mv "$source_app" "$final_app"
+    fi
+    codesign --force --deep --sign - --options runtime "$final_app"
+    codesign --verify --deep --strict "$final_app"
+
+    local repacked="$stage_dir/$bundle_stem.zip"
+    ditto -c -k --sequesterRsrc --keepParent "$final_app" "$repacked"
+    ditto -x -k "$repacked" "$verify_dir"
+    local verified_app="$verify_dir/$bundle_stem.app"
+    codesign --verify --deep --strict "$verified_app"
+    if [[ ! -x "$verified_app/Contents/MacOS/$bundle_stem" ]]; then
+      echo "❌ 재포장한 macOS 실행 파일이 없거나 실행 가능하지 않습니다."
+      exit 1
+    fi
+    mv "$repacked" "$archive"
+  ) || status=$?
+  rm -rf -- "$stage_dir" "$verify_dir"
+  if [[ $status -ne 0 ]]; then
+    echo "❌ macOS 앱 영문 내부 이름·서명·ZIP 재검증 실패"
+    return "$status"
+  fi
+  echo "✅ macOS 앱 내부 이름·서명·ZIP 재검증 완료 ($bundle_stem.app)"
+}
+
 # 템플릿 확인 (macOS / Linux 경로 모두 지원)
 TEMPLATES_DIR="$HOME/Library/Application Support/Godot/export_templates"
 if [[ ! -d "$TEMPLATES_DIR" ]]; then
@@ -165,6 +240,8 @@ build_macos() {
   mkdir -p "$PROJECT_DIR/build/macos"
   "$GODOT" --headless --path "$PROJECT_DIR" --export-release "macOS" "$PROJECT_DIR/build/macos/GangnamDream.zip" 2>&1
   if [[ -f "$PROJECT_DIR/build/macos/GangnamDream.zip" ]]; then
+    finalize_macos_archive "$PROJECT_DIR/build/macos/GangnamDream.zip" \
+      "GangnamDream"
     write_retail_manifest "macos" "$PROJECT_DIR/build/macos/GangnamDream.zip"
     SIZE=$(du -sh "$PROJECT_DIR/build/macos/GangnamDream.zip" | cut -f1)
     echo "✅ macOS 빌드 완료 → build/macos/GangnamDream.zip ($SIZE)"
@@ -281,6 +358,8 @@ build_macos_demo() {
     echo "❌ macOS 데모 빌드 실패"
     exit 1
   fi
+  finalize_macos_archive "$PROJECT_DIR/build/demo/macos/GangnamDreamDemo.zip" \
+    "GangnamDreamDemo"
   echo "✅ macOS 데모 → build/demo/macos/GangnamDreamDemo.zip ($(du -sh "$PROJECT_DIR/build/demo/macos/GangnamDreamDemo.zip" | cut -f1))"
 }
 
@@ -321,6 +400,9 @@ build_macos_playtest() {
     echo "❌ macOS V2 playtest 빌드 실패"
     exit 1
   fi
+  finalize_macos_archive \
+    "$PROJECT_DIR/build/playtest/macos/GangnamDreamV2Playtest.zip" \
+    "GangnamDreamV2Playtest"
   echo "✅ macOS V2 playtest → build/playtest/macos/GangnamDreamV2Playtest.zip ($(du -sh "$PROJECT_DIR/build/playtest/macos/GangnamDreamV2Playtest.zip" | cut -f1))"
 }
 

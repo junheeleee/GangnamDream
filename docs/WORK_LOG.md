@@ -35,6 +35,11 @@
   14px 이상으로 올렸다. V2 테스트 표식은 StoryMode 좌측 전용 슬롯으로 옮겨
   대화 기록·설정·HUD와 분리하고, 정식 빌드 정보가 있는 고지와 조작부가 빽빽한
   계획판에서는 숨긴다. StoryMode HUD는 좁은 폭 밖으로 그리지 않는다.
+- Godot macOS ZIP의 한글 앱·실행 파일·PCK 경로가 압축 해제 뒤 서명 원장과
+  다른 유니코드 형태가 되던 패키징 결함을 닫았다. Finder 표시명 ‘강남드림’은
+  유지하되 내부 세 이름을 ASCII로 정규화하고 ad-hoc 테스트 서명을 다시 만든
+  뒤, ZIP을 새 임시 폴더에 풀어 `codesign --deep --strict`와 실행 비트를
+  재검증한다. 정식·데모·V2 macOS 빌드가 같은 마감 함수를 쓴다.
 - `CoreLoopV2Check`, `TutorialInputCheck`, 첫 진입·플레이테스트 flavor·첫 30초·
   입력 행렬을 통과했다. KO 960×600과 EN 1280×800 계획판, EN 960×600 고지,
   KO 960×600 대화 기록 실제 렌더를 확인했고, KO PlayStation 배열 원시 패드
