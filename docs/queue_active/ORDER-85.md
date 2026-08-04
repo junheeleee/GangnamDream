@@ -17,6 +17,7 @@
 `tools/ManualSaveCheck.gd`, `tools/CoreLoopV2ECheck.gd`, `tools/audit.sh`,
 `tools/audit_scope.json`,
 `content/meta/demo_localization_scope.json`, `content/meta/release_content_inventory.json`,
+`assets/scene_direction_manifest.json`,
 `docs/I18N_INFRASTRUCTURE.md`, `docs/I18N_GLOSSARY_ZH.md`,
 `docs/CONTENT_RATING_INVENTORY.md`, `docs/human_gates.json`, `CLAUDE.md`,
 `docs/CODEX_QUEUE.md`, `docs/WORK_LOG.md`, `docs/STATUS.md`,
