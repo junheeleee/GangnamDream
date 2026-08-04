@@ -17,6 +17,7 @@
 `tools/SimRun.gd`, `tools/balance_sim.py`, `tools/convergence_sim.py`,
 `tools/CoreLoopV2HandoffCheck.gd`, `tools/ScreenshotQA.gd`, `tools/audit.py`,
 `tools/audit.sh`, `tools/audit_scope.json`, `tools/mod_pack_validator.py`,
+`tools/i18n_coverage_check.py`,
 신규 `tools/MoneyIntegrityCheck.gd/.tscn`, 신규 기회 현금 감사,
 `docs/BALANCE.md`, `docs/QA_CHECKLIST.md`, `docs/CORE_LOOP_V2.md`,
 `docs/CONVERGENCE_REPORT.md`, `docs/MODDING.md`, `docs/WORK_LOG.md`,
@@ -98,6 +99,7 @@
 - 콘텐츠: 위 일곱 `content/events/*.json`와 두 대체 선택의 EN overlay.
 - 회귀: `tools/SimRun.gd`, `tools/balance_sim.py`, `tools/convergence_sim.py`,
   `tools/CoreLoopV2HandoffCheck.gd`, `tools/audit.py`, `tools/mod_pack_validator.py`,
+  `tools/i18n_coverage_check.py`,
   신규 `tools/MoneyIntegrityCheck.gd/.tscn`, 선택 기회 전용 감사,
   `tools/ScreenshotQA.gd`, `tools/audit.sh`, `tools/audit_scope.json`.
 - 정본·완료: `docs/BALANCE.md`, `docs/QA_CHECKLIST.md`, `docs/CORE_LOOP_V2.md`,
