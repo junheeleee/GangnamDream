@@ -2,7 +2,26 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-87 [P0·초반 동기] 첫 계획 전에 125년의 벽을 겪고, 행동이 진로를 말하게 한다
+#### [~] ORDER-87 [P0·초반 동기] 첫 계획 전에 125년의 벽을 겪고, 행동이 진로를 말하게 한다
+
+**착수 — 만지는 파일:** `CLAUDE.md`, `assets/event_visual_contracts.json`,
+`assets/scene_audio_manifest.json`, `assets/scene_direction_manifest.json`,
+`autoloads/GameState.gd`, `content/events/story_events.json`,
+`content/events_en/story_events.json`, `content/events/arc_events.json`,
+`content/events_en/arc_events.json`, `content/events/core_loop_v2_events.json`,
+`content/events_en/core_loop_v2_events.json`, `content/events/callback_events_35.json`,
+`content/meta/demo_core_loop_v2.json`, `content/meta/narrative_spine.json`,
+`content/meta/story_rules.json`, `content/meta/exposed_event_state_contracts.json`,
+`docs/STORY_BIBLE.md`, `docs/CORE_LOOP_V2.md`, `docs/BALANCE.md`,
+`docs/QA_CHECKLIST.md`, `docs/WORK_LOG.md`, `docs/STATUS.md`,
+`docs/RELEASE_NOTES.md`, `docs/DEMO_FIXLOG.md`, `docs/human_gates.json`,
+`docs/CODEX_QUEUE.md`, 이 사양의 활성·아카이브 경로, `scenes/MainGame.gd`,
+`systems/DemoCoreLoopV2.gd`, `tools/demo_core_loop_v2_audit.py`,
+`tools/CoreLoopV2Check.gd`, `tools/CoreLoopV2BCheck.gd`, `tools/CoreLoopV2ECheck.gd`,
+`tools/CoreLoopV2HandoffCheck.gd`, `tools/ScreenshotQA.gd`,
+`tools/StoryPlaybackCheck.gd`, `tools/StoryTutorialPlacementCheck.gd`,
+`tools/DemoBuildCheck.gd`, `tools/core_loop_v2_balance_sim.py`,
+`tools/arc_flow_sim.py`, `tools/exposed_state_consistency_audit.py`.
 
 **사용자 승인 (2026-08-04):** `docs/DECISIONS.md`의 P-7을 권고대로 실행한다.
 현재 V2의 `opening_interview_math`는 실제로 첫 면접만 재생하고, 월 200만원으로
