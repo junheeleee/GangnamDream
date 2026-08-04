@@ -72,7 +72,8 @@
   `assets/cast_detail_manifest.json`, `content/meta/cast_visual_years.json`,
   `assets/mod_asset_manifest.json`, `assets/event_visual_contracts.json`,
   `assets/scene_audio_manifest.json`, `assets/scene_direction_manifest.json`,
-  `tools/art_resolution_baseline.json`, `docs/MODDING.md`.
+  `tools/art_resolution_baseline.json`, `docs/MODDING.md`,
+  `docs/ART_AI_AUDIT.md`.
 - 회귀: `tools/demo_core_loop_v2_audit.py`, `tools/CoreLoopV2BCheck.gd`,
   `tools/CoreLoopV2CCheck.gd`, `tools/CoreLoopV2DCheck.gd`,
   `tools/CoreLoopV2ECheck.gd`, `tools/ScreenshotQA.gd`.
