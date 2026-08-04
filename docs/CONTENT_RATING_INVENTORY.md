@@ -35,12 +35,12 @@ DataRegistry가 부팅 때 등록하고 도박·위험거래 노드 10개(직접
 | 축 | 후보 사건/파일 | ID SHA-256 | KO/EN 본문 SHA-256 | 최고 사실 강도 |
 |---|---:|---|---|---|
 | 사행성·도박 | 137 / 44 | `a45013427ccac88331771025ce95d725c46ab35a4cecce2e0aa56c21571f581e` | `2b0ca94a9170cc6c69dfc652dcd18869e7345a520facf7192f56e6de7a10fdf5` | strong, moderate |
-| 선정성·성적 내용 | 118 / 25 | `cf4f957a1974afe110f23454250738e058bee25ed0b7ab93617196deae2a2919` | `6ca8e1128da233cf18b7a17505b34dea6d484445b4baf4da857986543b169b00` | moderate, mild |
-| 폭력성 | 15 / 14 | `987dc15a9f106cf5b203bc8e3cce30efb6376339399a8727ca327bdfe53c0686` | `0b2038aae4c95e7b5bed65b7f353593d57dfc0759f7d108432673fa6d13b30b9` | mild |
+| 선정성·성적 내용 | 118 / 25 | `cf4f957a1974afe110f23454250738e058bee25ed0b7ab93617196deae2a2919` | `d94ce0d87f3061a10e629d95f9486b7333dbd8e483e42973dab4ddbd39380dca` | moderate, mild |
+| 폭력성 | 15 / 14 | `987dc15a9f106cf5b203bc8e3cce30efb6376339399a8727ca327bdfe53c0686` | `b6976e073dd196d42f835ea6fdbb621204183396e5a077373008535b817074e2` | mild |
 | 공포 | 134 / 49 | `f7b72c4ea39f178218442263fff2f99b432b7eb45206f8f284bc1601ae9cdf79` | `c62f601ec62e60b5e4f687747cd498e543123e9bd890a9c88299c6d6919a2474` | moderate |
-| 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `6d12d628b20a7654ec443e3594c2bad905b778804d62ee81a4773453287f8f58` | mild |
-| 범죄 | 65 / 39 | `1a3d735204cc987995fad412784cfbec1a6b19abb0815ff3a757a7c71880126d` | `5fc64b0486eb57839b445663a8f6d2f2892b4c148c8f0fb13ed4b248d9cb597e` | moderate, strong |
-| 음주·흡연·약물 | 74 / 37 | `06dd74856e8789110acfefdfe18d49994a305a17f10bb67824b001ecc4a30ea1` | `db64157e1fcb2d04ff1284cc39c7c3ddcba10f6486e66f2fefe01ba7098412ea` | moderate, mild |
+| 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `218ff2878d681e4918598538df6167bd0d68f8c134b44a6a6a9d3ab1cf7edb3d` | mild |
+| 범죄 | 65 / 39 | `1a3d735204cc987995fad412784cfbec1a6b19abb0815ff3a757a7c71880126d` | `e0cdd01b764d12f191cda0f471941e4b4a1606d84f9657e9bf0c6f75623a4c0a` | moderate, strong |
+| 음주·흡연·약물 | 74 / 37 | `06dd74856e8789110acfefdfe18d49994a305a17f10bb67824b001ecc4a30ea1` | `777d3631969edaec3c3498fff0801b6fbdf1b9db892e55f647a05d86114a5c75` | moderate, mild |
 | 생성형 AI | 기술 축 | — | — | disclosure_required, none |
 | 온라인 기능 | 기술 축 | — | — | none, external_link_only |
 

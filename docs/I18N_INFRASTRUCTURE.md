@@ -72,11 +72,14 @@ prologue closure, and the required Chapter 1 card. The current locked scope is:
 - 72 visible events: 12 prologue, one Chapter 1 card, and 59 Week 1-24 events.
 - 447 translatable event text leaves and zero endings. The Week-24 CTA is not a
   `finish_run` ending.
-- 480 unique Korean lookup keys across 487 dynamic KO/EN pair occurrences,
+- 536 unique Korean lookup keys across 543 dynamic KO/EN pair occurrences,
   including the monthly planner, opening cinematic, runtime event/name surfaces,
   portrait labels, and every legal randomized convenience, delivery, resume, and
   interview surface. The activity portion is 147 occurrences / 146 unique keys.
 - Four asset names visible in the Week-21 market route.
+- The 447 event leaves, 536 unique dynamic keys, and four asset names form 987
+  unique demo translation sources in total. Repeated dynamic occurrences do not
+  increase that source total.
 
 `callback_escaped_dirty_trace` is a claimed receipt/source event whose visible
 Week-24 foreground is `v2_dirty_trace_initial_call`; counting both would invent
@@ -90,13 +93,13 @@ back to English even after the event body is complete.
 
 | Locale | Static UI | Events | Event text leaves | Dynamic keys | Demo catalog |
 |---|---:|---:|---:|---:|---:|
-| `ja` | 2,546/2,546 | 1/72 | 8/447 | 8/480 | 0/4 |
-| `zh-CN` | 0/2,546 | 0/72 | 0/447 | 0/480 | 0/4 |
-| `zh-TW` | 0/2,546 | 0/72 | 0/447 | 0/480 | 0/4 |
+| `ja` | 2,546/2,546 | 1/72 | 8/447 | 8/536 | 0/4 |
+| `zh-CN` | 0/2,546 | 0/72 | 0/447 | 0/536 | 0/4 |
+| `zh-TW` | 0/2,546 | 0/72 | 0/447 | 0/536 | 0/4 |
 
 Skeleton mode verifies this scope, existing rows, fallback paths, and the hidden
 shipping state without pretending missing prose is complete. Per-language
-`--strict` additionally requires 72/72 events, 447/447 leaves, 480/480 dynamic
+`--strict` additionally requires 72/72 events, 447/447 leaves, 536/536 dynamic
 keys, 4/4 catalog names, and zero direct English bypasses. It is expected to fail
 until an approved body-translation wave is finished. Japanese has the required
 terminology and source-shape validator now. `zh_translation_audit.py --strict`
@@ -195,7 +198,8 @@ event/ending/catalog fallback, locale money labels, and bundled glyph coverage.
 
 `ja_translation_pipeline.py` defaults to UI-only generation. Its read-only
 `--scope demo --inventory` proves that the future wave contains exactly 447 event
-leaves, 480 dynamic keys, four catalog names, and no ending. Demo generation exits
+leaves, 536 dynamic keys, four catalog names, and no ending: 987 unique demo
+translation sources in total. Demo generation exits
 with `BODY_TRANSLATION_HELD` unless `--allow-body` is passed after the approved
 24-week source text is declared final; it merges those rows without deleting
 existing static UI or out-of-demo translations. Full `events`, `endings`,
@@ -207,7 +211,8 @@ assets.
 `zh_translation_audit.py` reads both regions from the Korean source independently.
 Its normal mode reports the empty skeleton and both blocked font routes without
 claiming completion. Its region-specific strict mode requires 2,546/2,546 static
-UI keys, the exact 72/447/480/4 demo body, zero direct English bypasses, every
+UI keys, the exact 72/447/536/4 demo body (987 unique demo translation sources),
+zero direct English bypasses, every
 context-unambiguous wrong-region character in the pinned OpenCC 1.3.1 classifier
 set (4,093 for `zh-CN`, 3,804 for `zh-TW`), project-locked regional terms,
 Korean-won meaning, approved romanized names, and a deterministic project-owned
@@ -269,7 +274,8 @@ and validator together.
 Before either Chinese demo claim, that region requires:
 
 1. 2,546/2,546 static UI keys and strict parity for all 72 demo events, 447 event
-   leaves, 480 dynamic keys, and four catalog names; no ending is fabricated.
+   leaves, 536 dynamic keys, and four catalog names: 987 unique demo translation
+   sources in total; no ending is fabricated.
 2. Zero Hangul, kana, untranslated English prose, direct English bypass, wrong-
    region script, currency conversion, or placeholder/paragraph drift.
 3. Korean won preserved as `韩元` with `万/亿` for `zh-CN`, and `韓元` with

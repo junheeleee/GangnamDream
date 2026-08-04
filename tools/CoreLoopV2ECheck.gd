@@ -1595,7 +1595,7 @@ func _check_first_bill_expression_choices() -> void:
 	_expect(not ko_ledger.contains("{v2_first_bill_") \
 			and ko_ledger.contains("끝낸 일 — 아버지에게 다시 전화") \
 			and ko_ledger.contains("미룬 일 — 알람을 맞추고 누워 쉬지 못했다") \
-			and ko_ledger.contains("마감을 놓친 일 — 오후 6시 30분") \
+			and ko_ledger.contains("마감을 놓친 일 — 18:30") \
 			and not en_ledger.contains("{v2_first_bill_") \
 			and en_ledger.contains("Done — called Father again") \
 			and en_ledger.contains("Deferred — did not stop for the night") \

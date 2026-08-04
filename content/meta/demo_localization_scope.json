@@ -49,6 +49,126 @@
     }
   },
   "receipt_only_event_ids": ["callback_escaped_dirty_trace"],
+  "korean_clock_contract": {
+    "schema_version": 1,
+    "scope": "Only exact Korean clock mentions on the derived 24-week event and dynamic player surface; durations and counts are not clock mentions.",
+    "minute_precision_allowlist": [
+      {
+        "source_id": "event::content/events/core_loop_v2_events.json::v2_demo_first_bill_opening::description",
+        "literal": "17:52",
+        "canonical": "17:52",
+        "count": 1,
+        "reason": "첫 청구서의 선택을 18:00 마감 8분 전에 연다."
+      },
+      {
+        "source_id": "event::content/events/core_loop_v2_events.json::v2_demo_first_bill::choices::[1]::result_text",
+        "literal": "17:59",
+        "canonical": "17:59",
+        "count": 1,
+        "reason": "월말 오류표를 실제 마감 전에 보냈다는 선택 결과를 증명한다."
+      },
+      {
+        "source_id": "event::content/events/core_loop_v2_events.json::v2_demo_first_bill::choices::[2]::result_text",
+        "literal": "17:59",
+        "canonical": "17:59",
+        "count": 1,
+        "reason": "작업표를 실제 마감 전에 제출했다는 선택 결과를 증명한다."
+      },
+      {
+        "source_id": "dynamic::$.scene_bundles.demo_collision.first_bill_finale.candidate_copy.done.hanbit_month_close",
+        "literal": "17:59",
+        "canonical": "17:59",
+        "count": 1,
+        "reason": "장부가 월말 오류표의 마감 직전 완료 시각을 같은 사실로 회수한다."
+      },
+      {
+        "source_id": "event::content/events/core_loop_v2_events.json::v2_demo_first_bill::choices::[6]::result_text",
+        "literal": "18:30",
+        "canonical": "18:30",
+        "count": 1,
+        "reason": "집결 시각이 심야 하역 대타를 잡을 수 있는지를 가른다."
+      },
+      {
+        "source_id": "dynamic::$.scene_bundles.demo_collision.first_bill_finale.candidate_copy.evidence.urgent_paid_shift",
+        "literal": "18:30",
+        "canonical": "18:30",
+        "count": 1,
+        "reason": "결정 전에 심야 하역의 실제 집결 조건을 보여 준다."
+      },
+      {
+        "source_id": "dynamic::$.scene_bundles.demo_collision.first_bill_finale.candidate_copy.deadline_missed.urgent_paid_shift",
+        "literal": "18:30",
+        "canonical": "18:30",
+        "count": 1,
+        "reason": "장부가 집결 시각을 놓쳐 대타가 넘어간 사실을 회수한다."
+      }
+    ],
+    "required_anchors": [
+      {
+        "source_id": "event::content/events/core_loop_v2_events.json::v2_demo_first_bill_opening::description",
+        "literal": "17:52",
+        "canonical": "17:52",
+        "count": 1,
+        "reason": "첫 청구서의 시작 시각을 보존한다."
+      },
+      {
+        "source_id": "dynamic::$.scene_bundles.demo_collision.first_bill_finale.candidate_copy.evidence.city_work_sample",
+        "literal": "18:00",
+        "canonical": "18:00",
+        "count": 1,
+        "reason": "첫 청구서가 놓칠 수 있는 작업표 마감 시각을 보존한다."
+      },
+      {
+        "source_id": "dynamic::$.scene_bundles.demo_collision.first_bill_finale.candidate_copy.tradeoff.father_call",
+        "literal": "18:00",
+        "canonical": "18:00",
+        "count": 1,
+        "reason": "아버지에게 전화할 때 함께 흘려보내는 서류 마감 경계를 보존한다."
+      },
+      {
+        "source_id": "dynamic::$.scene_bundles.demo_collision.first_bill_finale.candidate_copy.done.city_work_sample",
+        "literal": "18:00",
+        "canonical": "18:00",
+        "count": 1,
+        "reason": "작업표를 마감 전에 보냈다는 완료 장부의 경계를 보존한다."
+      },
+      {
+        "source_id": "dynamic::$.scene_bundles.demo_collision.first_bill_finale.candidate_copy.deadline_missed.city_work_sample",
+        "literal": "18:00",
+        "canonical": "18:00",
+        "count": 1,
+        "reason": "작업표 제출 기회를 잃은 실제 마감 시각을 보존한다."
+      },
+      {
+        "source_id": "event::content/events/core_loop_v2_events.json::v2_hanbit_offer_message::description",
+        "literal": "18:00",
+        "canonical": "18:00",
+        "count": 1,
+        "reason": "계약직 제안에 답해야 하는 실제 마감 시각을 보존한다."
+      },
+      {
+        "source_id": "event::content/events/core_loop_v2_events.json::v2_city_service_work_sample_message::description",
+        "literal": "18:00",
+        "canonical": "18:00",
+        "count": 1,
+        "reason": "작업표 제출 요청이 고지한 실제 마감 시각을 보존한다."
+      },
+      {
+        "source_id": "event::content/events/core_loop_v2_events.json::v2_city_service_work_sample_message::choices::[0]::result_text",
+        "literal": "18:00",
+        "canonical": "18:00",
+        "count": 1,
+        "reason": "플레이어가 확인한 작업표 마감 시각을 같은 사실로 보존한다."
+      },
+      {
+        "source_id": "event::content/events/core_loop_v2_events.json::v2_demo_first_bill::choices::[7]::result_text",
+        "literal": "18:00",
+        "canonical": "18:00",
+        "count": 1,
+        "reason": "첫 청구서에서 마감 전에 쉬기로 한 선택의 경계를 보존한다."
+      }
+    ]
+  },
   "source_contract": {
     "week_1_24_event_count": 59,
     "week_1_24_event_ids_sha256": "cf940c0250fd45b713b9d17a1fa5d6cc2fe5b388868a170c6f1e548f66c00ce6",
@@ -59,8 +179,8 @@
     "visible_event_count": 72,
     "visible_event_ids_sha256": "4a962697dfc59c531d4a111d2717609e1f318cfd86f49f87bb5f4a20b3510c49",
     "event_text_count": 447,
-    "event_text_ko_chars": 39455,
-    "event_text_sha256": "ce1d08bfeebc986da59fd9a19282310c3700e6aacb41a69f4b0032a6f2e7f1c7",
+    "event_text_ko_chars": 37360,
+    "event_text_sha256": "2dba4a3fd645c41c8062dc0fbbf24360d88d7291487324a8270fb859718d11cc",
     "event_owner_counts": {
       "content/events/arc_daeun.json": 1,
       "content/events/arc_events.json": 12,
@@ -73,6 +193,8 @@
     "demo_json_pair_occurrences": 325,
     "demo_json_unique_keys": 321,
     "demo_json_pairs_sha256": "331b41658b5261fe3849916c4b3e37ee5ee52a130b25f1659fac1f35080a8e75",
+    "demo_inline_pair_occurrences": 56,
+    "demo_inline_pairs_sha256": "239136b60345a32c9323c7c8c52459cf384b9e5b4e684de3e4ecadb28f42c6c1",
     "opening_pair_occurrences": 6,
     "opening_pairs_sha256": "4d21780f79e706c8506b9789e4a33d72eb2784bf74002baaae8264b95be05e53",
     "event_runtime_pair_occurrences": 1,
@@ -85,11 +207,11 @@
       "scenes/JobHuntMiniGame.gd::RESUME_QUESTION_POOL": 40,
       "scenes/MainGame.gd::SIDE_JOB_VIGNETTES_CONVENIENCE": 3
     },
-    "activity_gd_pairs_sha256": "83bbe723839a1a2d6c164fcce74cbb2a87bb72e29bd50114f79049f4e2921055",
-    "dynamic_pair_occurrences": 487,
-    "dynamic_unique_keys": 480,
-    "dynamic_pairs_sha256": "cb61c2c26fff4138ee12a538c72e7275d4416ba3e4655d2e28614257caab8c7e",
-    "dynamic_unique_sha256": "1309ad76a344d240a7a4726d62075931329eeaf5e84511bd00f6ad9682e8e49b",
+    "activity_gd_pairs_sha256": "f55e645d51f273063f6512158e52e15f2cc90b90d6600bcfc2de964a43c7f479",
+    "dynamic_pair_occurrences": 543,
+    "dynamic_unique_keys": 536,
+    "dynamic_pairs_sha256": "99efdef33e33857ffd5666becf0d82d2007b95e1f84a139c0c75f926392d3a34",
+    "dynamic_unique_sha256": "f56a37b798b5dc98f31304e6e503d950d08f3976e9b8f9acf2b11a689ffd0d4d",
     "demo_ending_count": 0,
     "catalog_asset_name_ids": ["samsung", "kakao", "hyundai", "kospi_etf"],
     "catalog_asset_names_sha256": "187802b46719245170031f912663ad8bc7308bbe187bba0a819d9f3f2ad4cab4",
@@ -98,7 +220,7 @@
   "strict_gate": {
     "automated_requires": [
       "72 exact event overlays and 447 translated text leaves",
-      "480 dynamic lookup keys and four visible market asset names",
+      "536 dynamic lookup keys and four visible market asset names",
       "exact choice count/order and text-only overlay fields",
       "placeholder, paragraph, terminology, and Korean-won preservation",
       "separate Korean-source Simplified and Traditional script validation without automatic conversion",

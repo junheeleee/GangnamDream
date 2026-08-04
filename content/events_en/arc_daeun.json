@@ -2,15 +2,15 @@
   {
     "id": "arc_daeun_01_meet",
     "title": "Buy One Get One",
-    "description": "It was a time when short-term work was covering the living expenses. Unable to sleep before dawn, {name} steps into a lit 24-hour convenience store.\n\nHe sets one triangle gimbap on the counter and reaches for his card. The clerk points to a small red sign on the shelf.\n\n\"That one's buy one get one today. Grab another.\"\n\n{name} had missed the sign. She could have simply rung up one, but she points out the offer first.\nA stranger's face across the register. He does not know her name yet.",
+    "description": "{name} is stringing together short-term jobs to cover his living expenses. Unable to sleep before dawn, he steps into a lit 24-hour convenience store.\n\nHe sets a triangle gimbap on the counter and reaches for his card. The clerk points to a small red sign on the shelf.\n\n\"That one's buy one get one today. Grab another.\"\n\n{name} misses the sign. She could simply scan the one he brought, but she points out the offer first.\nA stranger's face across the register. He does not know her name yet.",
     "choices": [
       {
         "text": "Thank her, then ask her name",
-        "result_text": "\"...I didn't know about the offer. Thank you.\"\nThe clerk smiles. \"I'm Kim Daeun. I work nights.\"\n\n{name} gives his name too. For the first time, they know each other's names.\nThe Seoul night feels, just a little, less cold."
+        "result_text": "\"...I didn't know about the offer. Thank you.\"\nThe clerk smiles. \"I'm Kim Daeun. I work nights.\"\n\n{name} gives his name too. For the first time, they call each other by name."
       },
       {
         "text": "Thank her and leave",
-        "result_text": "{name} gives a small bow and steps outside.\nIt is not a night when he has room to draw a stranger into a longer conversation.\n\nThe bag holds two triangle gimbap for the price he had expected to pay for one. He never asked the clerk's name."
+        "result_text": "{name} gives a small bow and steps outside.\nIt is not a night when he has room to draw a stranger into a longer conversation.\n\nThe bag holds two triangle gimbap for the price he expected to pay for one. He does not ask the clerk's name."
       }
     ]
   },

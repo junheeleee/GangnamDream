@@ -44,7 +44,7 @@ cleanup_isolated_home() {
     return 1
   fi
   case "$target" in
-	  "$temp_root"/gangnam-achievements.*|"$temp_root"/gangnam-communication-phone.*|"$temp_root"/gangnam-core-loop-v2.*|"$temp_root"/gangnam-core-loop-v2-b.*|"$temp_root"/gangnam-core-loop-v2-c.*|"$temp_root"/gangnam-core-loop-v2-d.*|"$temp_root"/gangnam-core-loop-v2-e.*|"$temp_root"/gangnam-core-loop-v2-first-entry.*|"$temp_root"/gangnam-core-loop-v2-handoff.*|"$temp_root"/gangnam-ending-route.*|"$temp_root"/gangnam-first30.*|"$temp_root"/gangnam-hidden.*|"$temp_root"/gangnam-housing-keepsake.*|"$temp_root"/gangnam-input-matrix.*|"$temp_root"/gangnam-manual-save.*|"$temp_root"/gangnam-mod-layer.*|"$temp_root"/gangnam-phone-system.*|"$temp_root"/gangnam-story-audio.*|"$temp_root"/gangnam-story-dialogue-history.*|"$temp_root"/gangnam-story-tutorial.*)
+	  "$temp_root"/gangnam-achievements.*|"$temp_root"/gangnam-communication-phone.*|"$temp_root"/gangnam-core-loop-v2.*|"$temp_root"/gangnam-core-loop-v2-b.*|"$temp_root"/gangnam-core-loop-v2-c.*|"$temp_root"/gangnam-core-loop-v2-d.*|"$temp_root"/gangnam-core-loop-v2-e.*|"$temp_root"/gangnam-core-loop-v2-first-entry.*|"$temp_root"/gangnam-core-loop-v2-handoff.*|"$temp_root"/gangnam-ending-route.*|"$temp_root"/gangnam-first30.*|"$temp_root"/gangnam-hidden.*|"$temp_root"/gangnam-housing-keepsake.*|"$temp_root"/gangnam-immersion-loop.*|"$temp_root"/gangnam-input-matrix.*|"$temp_root"/gangnam-manual-save.*|"$temp_root"/gangnam-mod-layer.*|"$temp_root"/gangnam-phone-system.*|"$temp_root"/gangnam-story-audio.*|"$temp_root"/gangnam-story-dialogue-history.*|"$temp_root"/gangnam-story-tutorial.*)
       rm -rf -- "$target"
       ;;
     *)
@@ -303,6 +303,8 @@ python3 tools/demo_localization_scope.py
 DEMO_I18N_SCOPE_EXIT=$?
 python3 tools/demo_localization_scope.py --self-test
 DEMO_I18N_SELF_TEST_EXIT=$?
+python3 tools/demo_prose_style_audit.py --self-test
+DEMO_PROSE_STYLE_EXIT=$?
 if [ -x "$GODOT" ]; then
   I18N_RAW=$(run_limited "$GODOT" --headless --quit-after 1200 res://tools/I18nInfrastructureCheck.tscn 2>&1)
   I18N_STATUS=$?
@@ -676,8 +678,10 @@ fi
 echo "──────────────────────────────────────────"
 echo "● 주간 행동 에코·인과 프레임·비네트·예감·SFX 믹스 검사"
 if [ -x "$GODOT" ]; then
-  IMMERSION_RAW=$(run_limited "$GODOT" --headless --quit-after 3600 res://tools/ImmersionLoopCheck.tscn 2>&1)
+  IMMERSION_HOME=$(make_isolated_home "gangnam-immersion-loop")
+  IMMERSION_RAW=$(run_limited env HOME="$IMMERSION_HOME" "$GODOT" --headless --quit-after 3600 res://tools/ImmersionLoopCheck.tscn 2>&1)
   IMMERSION_STATUS=$?
+  cleanup_isolated_home "$IMMERSION_HOME"
   echo "$IMMERSION_RAW" | grep -E "IMMERSION_LOOP_CHECK_(OK|FAIL)|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
   if godot_check_passed "$IMMERSION_RAW" "$IMMERSION_STATUS" \
       "IMMERSION_LOOP_CHECK_OK"; then
@@ -1079,7 +1083,7 @@ AUDIT_EXIT_FLAGS="
   CONTEXT_MANIFEST_EXIT QUEUE_CONSISTENCY_EXIT RELEASE_CONTENT_EXIT RELEASE_CONTENT_SELF_TEST_EXIT BUILD_IDENTITY_EXIT THIRD_PARTY_NOTICE_EXIT PY_EXIT STORY_CONSISTENCY_EXIT SPEECH_REGISTER_EXIT RANDOM_POOL_HYGIENE_EXIT SURFACE_EXIT
   PACING_EXIT DEMO_EXPERIENCE_EXIT PLAYTEST_REPORT_EXIT NARRATIVE_CONTINUITY_EXIT FULL_RUN_PACING_EXIT NARRATIVE_SPINE_EXIT
   PEAK_CHAIN_EXIT KEY_ART_EXIT FIRST30_EXIT ART_AI_EXIT ART_RESOLUTION_EXIT ART_MASTER_EXIT CG_ACTING_EXIT
-  CG_RUNTIME_EXIT CAST_DETAIL_EXIT EVENT_VISUAL_EXIT EN_HANGUL_EXIT EN_COVERAGE_EXIT I18N_COVERAGE_EXIT I18N_SURFACE_EXIT JA_UI_EXIT JA_DEMO_INVENTORY_EXIT JA_DEMO_PIPELINE_SELF_TEST_EXIT JA_DEMO_AUDIT_EXIT ZH_DEMO_AUDIT_EXIT ZH_DEMO_SELF_TEST_EXIT DEMO_I18N_SCOPE_EXIT DEMO_I18N_SELF_TEST_EXIT I18N_RUNTIME_EXIT
+  CG_RUNTIME_EXIT CAST_DETAIL_EXIT EVENT_VISUAL_EXIT EN_HANGUL_EXIT EN_COVERAGE_EXIT I18N_COVERAGE_EXIT I18N_SURFACE_EXIT JA_UI_EXIT JA_DEMO_INVENTORY_EXIT JA_DEMO_PIPELINE_SELF_TEST_EXIT JA_DEMO_AUDIT_EXIT ZH_DEMO_AUDIT_EXIT ZH_DEMO_SELF_TEST_EXIT DEMO_I18N_SCOPE_EXIT DEMO_I18N_SELF_TEST_EXIT DEMO_PROSE_STYLE_EXIT I18N_RUNTIME_EXIT
   MOD_LAYER_AUDIT_EXIT MOD_LAYER_RUNTIME_EXIT BAL_EXIT EVENT_DIRECTOR_EXIT EXPOSED_STATE_EXIT PHONE_SYSTEM_EXIT COMMUNICATION_PHONE_EXIT
   CORE_LOOP_V2_EXIT CORE_LOOP_V2_BALANCE_EXIT CORE_LOOP_V2_RUNTIME_EXIT CORE_LOOP_V2_B_RUNTIME_EXIT CORE_LOOP_V2_C_RUNTIME_EXIT
   CORE_LOOP_V2_D_RUNTIME_EXIT CORE_LOOP_V2_E_RUNTIME_EXIT CORE_LOOP_V2_FIRST_ENTRY_EXIT CORE_LOOP_V2_HANDOFF_EXIT

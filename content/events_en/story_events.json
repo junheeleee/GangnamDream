@@ -106,15 +106,15 @@
   {
     "id": "story_prologue_dad",
     "title": "A Call",
-    "description": "Winter rain tapped against the bus-shelter roof. {name} pressed Answer with a wet palm. The screen read DAD.\n\n\"Hey, son. Where are you?\"\n\"At the bus stop.\"\n\nA television murmured somewhere behind his father's voice. Dad always sent silence ahead of whatever he meant to say.\n\n\"...You eat yet?\"\n\nHe didn't ask about work, money, or Seoul. Yet the whole of the last six years sat inside that one question: guilt, shame, everything neither of them could bring up first.\n\nBefore {name} answered, it felt as though his empty stomach had already given him away.",
+    "description": "Winter rain taps against the bus-shelter roof. {name} presses Answer with a wet palm. The screen reads DAD.\n\n\"Hey, son. Where are you?\"\n\"At the bus stop.\"\n\nA television murmurs somewhere behind his father's voice. Dad always sends silence ahead of whatever he means to say.\n\n\"...You eat yet?\"\n\nHe does not ask about work, money, or Seoul. Yet the whole of the last six years sits inside that one question: guilt, shame, everything neither of them can bring up first.\n\nBefore {name} answers, it feels as though his empty stomach has already given him away.",
     "choices": [
       {
         "text": "\"Yeah, I ate. Don't skip meals, Dad.\"",
-        "result_text": "It was a lie. There had been nothing he could call dinner.\n\n\"Yeah, I ate. Don't skip meals, Dad.\"\nOn the other end, his breathing eased.\n\"Good... I'm sorry, son.\"\n\"Nothing to be sorry for.\"\n\nAs the call ended, a bus pulled in. {name} wiped the wet screen on his sleeve and climbed aboard. Two lies, each meant to put the other man at ease, followed him home."
+        "result_text": "It is a lie. He has eaten nothing he could call dinner.\n\n\"Yeah, I ate. Don't skip meals, Dad.\"\nOn the other end, his breathing eases.\n\"Good... I'm sorry, son.\"\n\"Nothing to be sorry for.\"\n\nAs the call ends, a bus pulls in. {name} wipes the wet screen on his sleeve and climbs aboard. Two lies, each meant to put the other man at ease, follow him home."
       },
       {
         "text": "\"I'm busy. I'll call you back.\" Click.",
-        "result_text": "\"I'm busy. I'll call you later.\"\n\n{name} spoke over him and ended the call. Longer calls left room for silence, and silence made space for questions neither of them could answer. He wanted none of it.\n\nThe bus-shelter light and his face overlapped in the dead screen. Just before Dad said \"Okay,\" he had stopped breathing for half a beat. When the bus arrived, {name} climbed aboard instead of answering that pause."
+        "result_text": "\"I'm busy. I'll call you later.\"\n\n{name} speaks over him and ends the call. Longer calls leave room for silence, and silence makes space for questions neither of them can answer. He wants none of it.\n\nThe bus-shelter light and his face overlap in the dead screen. Just before Dad says \"Okay,\" he stops breathing for half a beat. When the bus arrives, {name} climbs aboard instead of answering that pause."
       }
     ]
   },
@@ -140,26 +140,26 @@
   {
     "id": "story_prologue_meal",
     "title": "First Meal",
-    "description": "Out of the goshiwon, into the convenience store.\n\nYou think about the bank balance. 500,000 won.\nNext month's goshiwon rent is 650,000 won. Already in the red.\n\nStanding in front of the shelves, {name} does the math.\nOne triangle kimbap: 1,200 won. Should you even buy it?\n\nLess than ten thousand won to spend each day.\nEvery meal, every choice — shows up on the bank statement.\n\nThis is {name}'s reality right now.",
+    "description": "Out of the goshiwon, into the convenience store.\n\nYou think about the bank balance. 500,000 won.\nNext month's goshiwon rent is 650,000 won. Already in the red.\n\nStanding in front of the shelves, {name} does the math.\nOne triangle kimbap: 1,200 won. Should you even buy it?\n\nLess than ten thousand won to spend each day. Holding the triangle kimbap, {name} looks from the register to the exit.",
     "choices": [
       {
         "text": "Buy a triangle kimbap (-1,200 won)",
-        "result_text": "You grab a tuna-mayo and pay.\nA little over a thousand won leaves your account.\nYour stomach is full, but the account is that much thinner."
+        "result_text": "You grab a tuna-mayo and pay.\nThe balance printed at the bottom of the receipt is 1,200 won lower."
       },
       {
         "text": "Skip it. Save every won.",
-        "result_text": "You walk out empty-handed.\nYour stomach growled, but the account held.\nToday, you paid with your body instead."
+        "result_text": "You walk out empty-handed.\nYour stomach growls. The convenience-store light recedes behind you."
       }
     ]
   },
   {
     "id": "story_pressure",
     "title": "Can't Wait Any Longer",
-    "description": "Two weeks in.\n\nThe balance is already shrinking. Income: 0 won.\nAt this rate you won't last a month.\n\nAnother wedding announcement in the old high school group chat.\n{name} types 'Congrats' and flips the phone face-down.\n\nOne thing is clear:\nSomething — anything — has to start. Now.\nJob hunting. Part-time work. Whatever it takes.\n\nIt's {name}'s turn to move.",
+    "description": "Two weeks in.\n\nThe balance is already shrinking. Income: 0 won.\nAt this rate you won't last a month.\n\nAnother wedding announcement in the old high school group chat.\n{name} types 'Congrats' and flips the phone face-down.\n\nA moment later, {name} picks it up again. His finger stops over the job app on the home screen.",
     "choices": [
       {
         "text": "Open a job app. Survival comes first.",
-        "result_text": "Convenience store. Delivery. Café. Office temp...\nFor the first time, 'work' felt like a real option.\n{name} hovered a finger over the apply button.\nNo one is going to live this life for you. From here, you move on your own."
+        "result_text": "Convenience store. Delivery. Café. Office temp...\n{name} rests his finger over the first Apply button."
       }
     ]
   },
