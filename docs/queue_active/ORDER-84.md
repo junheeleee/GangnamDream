@@ -2,11 +2,10 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-84 [P0·수치 정합] 모든 현금을 1원 단위로 정산하고 0원 기회를 막는다
+#### [~] ORDER-84 [P0·수치 정합] 모든 현금을 1원 단위로 정산하고 0원 기회를 막는다
 
-**일시 대기 (2026-08-04 사용자 우선순위):** `P-9 → P-10`을 먼저 끝낸다.
-그동안 이 사양의 구현은 진행하지 않으며, 두 문체 오더가 닫힌 뒤 같은 선언 범위로
-재개한다.
+**재착수 (2026-08-04 Codex):** `P-9 → P-10` 완료와 원격 CI 통과를 확인했다.
+아래 선언 범위를 바꾸지 않고 현금 변이·19개 기회 선택·구 저장부터 전수한다.
 
 **착수 선언 (2026-08-04 Codex) — 만지는 파일:**
 `autoloads/GameState.gd`, `autoloads/EventManager.gd`, `autoloads/DataRegistry.gd`,
