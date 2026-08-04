@@ -15,6 +15,7 @@
 > `content/meta/release_content_inventory.json`,
 > `content/events_ja/story_events.json`,
 > `autoloads/LocaleManager.gd`, `autoloads/GameState.gd`,
+> `autoloads/ImageRegistry.gd`,
 > `scenes/MainGame.gd`, `scenes/StoryMode.gd`,
 > `scenes/CoreLoopPlanner.gd`, `scenes/CommunicationPhone.gd`,
 > `scenes/OpeningCinematic.gd`,
