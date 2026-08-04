@@ -66,7 +66,9 @@
 - 기억·출시 계약: `content/meta/narrative_spine.json`,
   `content/meta/story_rules.json`, `content/meta/exposed_event_state_contracts.json`,
   `content/meta/demo_localization_scope.json`,
-  `content/meta/release_content_inventory.json`.
+  `content/meta/release_content_inventory.json`, `docs/I18N_INFRASTRUCTURE.md`,
+  `docs/I18N_GLOSSARY_ZH.md`, `docs/QA_CHECKLIST.md`,
+  `docs/human_gates.json`, `tools/audit_scope.json`.
 - 자산·연출: `assets/characters/npc_housing_counselor.png`와 생성되는 `.import`,
   `autoloads/ImageRegistry.gd`, `assets/ASSET_INDEX.md`, `assets/IMAGE_PROMPTS.md`,
   `assets/cast_detail_manifest.json`, `content/meta/cast_visual_years.json`,
@@ -76,7 +78,8 @@
   `docs/ART_AI_AUDIT.md`.
 - 회귀: `tools/demo_core_loop_v2_audit.py`, `tools/CoreLoopV2BCheck.gd`,
   `tools/CoreLoopV2CCheck.gd`, `tools/CoreLoopV2DCheck.gd`,
-  `tools/CoreLoopV2ECheck.gd`, `tools/ScreenshotQA.gd`.
+  `tools/CoreLoopV2ECheck.gd`, `tools/ScreenshotQA.gd`,
+  `tools/event_director_audit.py`.
 - 정본·완료 증거: `docs/CORE_LOOP_V2.md`, `CLAUDE.md`,
   `docs/CODEX_QUEUE.md`, `docs/DEMO_FIXLOG.md`, `docs/WORK_LOG.md`,
   `docs/history/WORK_LOG_2026-07-30.md`, `docs/STATUS.md`,
