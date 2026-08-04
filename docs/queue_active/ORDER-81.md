@@ -14,7 +14,8 @@
 > `content/meta/demo_localization_scope.json`,
 > `content/meta/release_content_inventory.json`,
 > `content/events_ja/story_events.json`,
-> `autoloads/LocaleManager.gd`, `scenes/MainGame.gd`,
+> `autoloads/LocaleManager.gd`, `autoloads/GameState.gd`,
+> `scenes/MainGame.gd`, `scenes/StoryMode.gd`,
 > `scenes/CoreLoopPlanner.gd`, `scenes/CommunicationPhone.gd`,
 > `scenes/OpeningCinematic.gd`,
 > `tools/demo_localization_scope.py`, `tools/release_content_inventory.py`,
@@ -94,4 +95,3 @@
 - `DEMO_I18N_COVERAGE lang=<code> events=<n>/<all> strings=<n>/<all> dynamic=<n>/<all> mode=<skeleton|strict>`
 - `DEMO_I18N_ROUTE language=<code> translated_lookup=<n> direct_english_bypass=0 shipping=0`
 - L3: 원어민이 한국어 원문과 같은 revision의 일본어 24주 문맥을 대조한 기록.
-
