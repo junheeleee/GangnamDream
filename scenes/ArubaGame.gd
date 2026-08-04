@@ -143,9 +143,9 @@ const SCENARIOS_GENERAL = [
 # ── 편의점 손님 유형 (10명 풀, 매 시프트 랜덤) ───────────────────
 const CUSTOMER_TYPES = [
 	{
-		"id": "checkout", "name": "계산 손님", "name_en": "Checkout Customer",
+		"id": "checkout", "name": "계산 손님", "name_en": "Customer at Checkout",
 		"text": "저기요, 계산이요.",
-		"text_en": "Excuse me, checkout please.",
+		"text_en": "Excuse me, could you ring me up?",
 		"patience": 12.0, "urgency": 1,
 		"actions": [
 			{"text": "빠르게 스캔한다", "text_en": "Scan quickly.", "bonus": 2_000, "stress": 0, "tip": "점장이 빠른 응대 기록을 보고 성과수당 2천 원을 붙였다.", "tip_en": "The manager added a 2,000 won performance bonus for the quick checkout."},
@@ -158,19 +158,19 @@ const CUSTOMER_TYPES = [
 		"text_en": "Hey! Why are you so slow?",
 		"patience": 6.0, "urgency": 3,
 		"actions": [
-			{"text": "\"죄송합니다\" 차분히 대응", "text_en": "\"I'm sorry.\" Respond calmly.", "bonus": 0, "stress": 2, "tip": "간신히 진정됐다.", "tip_en": "They barely calmed down."},
-			{"text": "\"많이 기다리셨죠. 바로 계산해 드릴게요\"", "text_en": "\"You've waited long enough. I'll ring this up now.\"", "bonus": 1_000, "stress": 1, "tip": "손님은 미안했다며 팁 천 원을 계산대에 두고 갔다.", "tip_en": "The customer apologized and left a 1,000 won tip on the counter."},
+			{"text": "\"죄송합니다\" 차분히 대응", "text_en": "\"I'm sorry.\" Respond calmly.", "bonus": 0, "stress": 2, "tip": "간신히 진정됐다.", "tip_en": "The customer calmed down, but only just."},
+			{"text": "\"많이 기다리셨죠. 바로 계산해 드릴게요\"", "text_en": "\"You've been waiting a while. I'll ring you up right away.\"", "bonus": 1_000, "stress": 1, "tip": "손님은 미안했다며 팁 천 원을 계산대에 두고 갔다.", "tip_en": "The customer apologized and left a 1,000 won tip on the counter."},
 			{"text": "무시하고 다른 손님 먼저", "text_en": "Ignore them and help another customer first.", "bonus": 0, "stress": 5, "tip": "손님은 점장에게 항의하겠다고 했다.", "tip_en": "They threatened to complain to the manager."},
 		]
 	},
 	{
 		"id": "regular_elder", "name": "단골 할머니", "name_en": "Elderly Regular",
 		"text": "총각, 오늘 대타예요? 나는 매일 이 시간에 오는데.",
-		"text_en": "Young man, do you remember me? I come here every day.",
+		"text_en": "Young man, are you filling in today? I'm here at this time every day.",
 		"patience": 16.0, "urgency": 0,
 		"actions": [
-			{"text": "반갑게 인사하며 응대한다", "text_en": "Greet her warmly and help her.", "bonus": 5_000, "stress": -1, "tip": "세뱃돈 같은 거라며 주셨다.", "tip_en": "She gave you money like a holiday gift."},
-			{"text": "바쁜 척 빠르게 처리한다", "text_en": "Act busy and process her quickly.", "bonus": 0, "stress": 1, "tip": "섭섭해하셨다.", "tip_en": "She looked disappointed."},
+			{"text": "반갑게 인사하며 응대한다", "text_en": "Greet her warmly and help her.", "bonus": 5_000, "stress": -1, "tip": "세뱃돈 같은 거라며 주셨다.", "tip_en": "She told you to think of it as a little New Year's gift."},
+			{"text": "바쁜 척 빠르게 처리한다", "text_en": "Pretend to be busy and rush through the transaction.", "bonus": 0, "stress": 1, "tip": "섭섭해하셨다.", "tip_en": "She looked disappointed."},
 		]
 	},
 	{
@@ -179,13 +179,13 @@ const CUSTOMER_TYPES = [
 		"text_en": "Hey... where's the soju?",
 		"patience": 9.0, "urgency": 2,
 		"actions": [
-			{"text": "친절하게 안내한다", "text_en": "Guide them politely.", "bonus": 0, "stress": 1, "tip": "고맙다며 갔다.", "tip_en": "They thanked you and left."},
-			{"text": "\"많이 드신 것 같은데, 물도 같이 찾으세요?\"", "text_en": "\"Looks like you've had a lot. Do you need some water too?\"", "bonus": 2_000, "stress": 0, "tip": "손님은 고맙다며 2천 원을 계산대에 두고 갔다.", "tip_en": "The customer thanked you and left 2,000 won on the counter."},
+			{"text": "친절하게 안내한다", "text_en": "Politely show them where it is.", "bonus": 0, "stress": 1, "tip": "고맙다며 갔다.", "tip_en": "They thanked you and left."},
+			{"text": "\"많이 드신 것 같은데, 물도 같이 찾으세요?\"", "text_en": "\"Looks like you've had quite a bit. Would you like some water too?\"", "bonus": 2_000, "stress": 0, "tip": "손님은 고맙다며 2천 원을 계산대에 두고 갔다.", "tip_en": "The customer thanked you and left 2,000 won on the counter."},
 			{"text": "못 본 척한다", "text_en": "Pretend not to see them.", "bonus": 0, "stress": 2, "tip": "손님은 혼자 한참 매장을 헤맸다.", "tip_en": "The customer wandered around the store alone for a while."},
 		]
 	},
 	{
-		"id": "return", "name": "교환 손님", "name_en": "Return Customer",
+		"id": "return", "name": "교환 손님", "name_en": "Customer Requesting an Exchange",
 		"text": "이거 어제 샀는데 불량이에요.",
 		"text_en": "I bought this yesterday, and it's defective.",
 		"patience": 10.0, "urgency": 1,
@@ -195,32 +195,32 @@ const CUSTOMER_TYPES = [
 		]
 	},
 	{
-		"id": "parcel", "name": "택배 손님", "name_en": "Parcel Customer",
+		"id": "parcel", "name": "택배 손님", "name_en": "Parcel Pickup Customer",
 		"text": "택배 여기 맡겼는데요.",
-		"text_en": "I had a parcel left here.",
+		"text_en": "I'm here to pick up a parcel.",
 		"patience": 11.0, "urgency": 1,
 		"actions": [
-			{"text": "등록번호 확인 후 찾아준다", "text_en": "Check the tracking number and find it.", "bonus": 1_000, "stress": 0, "tip": "손님은 고맙다며 팁 천 원을 두고 갔다.", "tip_en": "The customer thanked you and left a 1,000 won tip."},
+			{"text": "등록번호 확인 후 찾아준다", "text_en": "Check the pickup number and retrieve the parcel.", "bonus": 1_000, "stress": 0, "tip": "손님은 고맙다며 팁 천 원을 두고 갔다.", "tip_en": "The customer thanked you and left a 1,000 won tip."},
 			{"text": "뒤에 있을 거라고 알아서 찾으라 한다", "text_en": "Tell them it should be in the back and to find it themselves.", "bonus": 0, "stress": 1, "tip": "손님은 불만스러운 표정으로 택배를 찾았다.", "tip_en": "The customer searched for the parcel with an unhappy look."},
 		]
 	},
 	{
-		"id": "points", "name": "포인트 손님", "name_en": "Points Customer",
+		"id": "points", "name": "포인트 손님", "name_en": "Rewards Card Customer",
 		"text": "포인트 카드요! 이거 적립됐어요?",
-		"text_en": "My points card! Did this get credited?",
+		"text_en": "My rewards card—did I get the points for this?",
 		"patience": 9.0, "urgency": 1,
 		"actions": [
-			{"text": "영수증 보고 재적립 처리", "text_en": "Check the receipt and credit the points again.", "bonus": 1_000, "stress": 0, "tip": "점장이 사후 적립 기록을 보고 성과수당 천 원을 붙였다.", "tip_en": "The manager reviewed the points correction and added a 1,000 won performance bonus."},
-			{"text": "\"계산 전에 말씀해 주셔야 해요\"", "text_en": "\"You need to tell me before checkout.\"", "bonus": 0, "stress": 2, "tip": "손님은 다시 오지 않겠다며 나갔다.", "tip_en": "They left saying they would never return."},
+			{"text": "영수증 보고 재적립 처리", "text_en": "Check the receipt and add the missing points.", "bonus": 1_000, "stress": 0, "tip": "점장이 사후 적립 기록을 보고 성과수당 천 원을 붙였다.", "tip_en": "The manager reviewed the points correction and added a 1,000 won performance bonus."},
+			{"text": "\"계산 전에 말씀해 주셔야 해요\"", "text_en": "\"You have to tell me before I ring you up.\"", "bonus": 0, "stress": 2, "tip": "손님은 다시 오지 않겠다며 나갔다.", "tip_en": "They left saying they would never return."},
 		]
 	},
 	{
 		"id": "lost", "name": "상품 위치를 묻는 손님", "name_en": "Customer Looking for an Item",
 		"text": "저기, 삼각김밥 어디 있어요?",
-		"text_en": "Excuse me, where are the triangle gimbap?",
+		"text_en": "Excuse me, where can I find the triangle gimbap?",
 		"patience": 13.0, "urgency": 0,
 		"actions": [
-			{"text": "진열대까지 함께 가서 안내한다", "text_en": "Walk them to the shelf yourself.", "bonus": 1_000, "stress": 0, "tip": "손님은 고맙다며 팁 천 원을 두고 갔다.", "tip_en": "The customer thanked you and left a 1,000 won tip."},
+			{"text": "진열대까지 함께 가서 안내한다", "text_en": "Walk them over to the shelf.", "bonus": 1_000, "stress": 0, "tip": "손님은 고맙다며 팁 천 원을 두고 갔다.", "tip_en": "The customer thanked you and left a 1,000 won tip."},
 			{"text": "방향만 손으로 가리킨다", "text_en": "Just point in the general direction.", "bonus": 0, "stress": 0, "tip": "찾아갔다.", "tip_en": "They found it."},
 		]
 	},
@@ -899,7 +899,7 @@ func _conv_show_actions(slot_idx: int) -> void:
 
 	var customer: Dictionary = _conv_slots[slot_idx]
 	var who_lbl := Label.new()
-	who_lbl.text = LocaleManager.ui("%s · %s에게 뭐라고 할까", "%s · What do you say to %s?") % [_customer_tag(customer), _loc(customer, "name")]
+	who_lbl.text = LocaleManager.ui("%s · %s에게 뭐라고 할까", "%s · %s · How do you respond?") % [_customer_tag(customer), _loc(customer, "name")]
 	who_lbl.add_theme_font_size_override("font_size", 16)
 	who_lbl.add_theme_color_override("font_color", Color("#d8c28f"))
 	_conv_action_vb.add_child(who_lbl)

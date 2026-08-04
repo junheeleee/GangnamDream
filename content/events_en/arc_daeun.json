@@ -2,11 +2,11 @@
   {
     "id": "arc_daeun_01_meet",
     "title": "Buy One Get One",
-    "description": "{name} is stringing together short-term jobs to cover his living expenses. Unable to sleep before dawn, he steps into a lit 24-hour convenience store.\n\nHe sets a triangle gimbap on the counter and reaches for his card. The clerk points to a small red sign on the shelf.\n\n\"That one's buy one get one today. Grab another.\"\n\n{name} misses the sign. She could simply scan the one he brought, but she points out the offer first.\nA stranger's face across the register. He does not know her name yet.",
+    "description": "{name} is stringing together short-term jobs to cover his living expenses. Unable to sleep before dawn, he steps into a lit 24-hour convenience store.\n\nHe sets a triangle gimbap on the counter and reaches for his card. The clerk points to a small red sign on the shelf.\n\n\"That one's two-for-one today. You can grab another one.\"\n\n{name} misses the sign. She could simply scan the one he brought, but she points out the offer first.\nA stranger's face across the register. He does not know her name yet.",
     "choices": [
       {
         "text": "Thank her, then ask her name",
-        "result_text": "\"...I didn't know about the offer. Thank you.\"\nThe clerk smiles. \"I'm Kim Daeun. I work nights.\"\n\n{name} gives his name too. For the first time, they call each other by name."
+        "result_text": "\"...I didn't realize. Thank you.\"\nThe clerk smiles. \"I'm Kim Daeun. I work the night shift.\"\n\n{name} gives his name too. For the first time, they call each other by name."
       },
       {
         "text": "Thank her and leave",

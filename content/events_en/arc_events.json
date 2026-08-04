@@ -5,7 +5,7 @@
     "description": "A company {name} applied to gets back to him. Mapo-gu. Third floor. No elevator.\n\nThe sign reads 'Mirae Industrial Tech.' Its website has no information. He searches. Two blogs. Both stopped updating two years ago.\n\nThe interviewer is in her early forties. She picks up the résumé, adjusts her glasses, and reads it slowly.\nThe air conditioner hums. A motorcycle passes outside. Silence, waiting for something.\n\n\"There's a six-year gap here.\"\n\nThose six years. His father's loan guarantee. The other party disappeared. {name} paid what remained.\nHe cannot turn those six years into one sentence.",
     "choices": [
       {
-        "text": "Tell the truth — 'There were family circumstances.'",
+        "text": "Tell the truth — 'I was paying off a family debt.'",
         "result_text": "The interviewer looks at {name} for a moment and does not probe further.\nSomething in her eyes — understanding, or resignation.\n'...I see. You seem like someone who works hard.'\n\nOn the second-floor landing, his face catches in the window. The words 'family debt' remain on his tongue all the way down."
       },
       {
@@ -67,19 +67,19 @@
   {
     "id": "arc_intro_04_hyunsu",
     "title": "Next Door",
-    "description": "Hallway outside the goshiwon shared kitchen. 1 AM.\n\nA narrow corridor with only one fluorescent tube working. {name} is carrying cup ramyeon back to the room when the door next to his opens.\n\nThe neighbor from next door. They have crossed paths before, but this is their first greeting.\n\"...Ramyeon for you too, hyung.\"\n\nThere are dark hollows under his eyes. A worn Grade 9 civil-service exam book is tucked under his arm.\n\nThe man brushes a palm over its cover. \"I'm Kang Hyunsu. Next door. Took us long enough to say hello. Fourth year studying for the civil-service exam.\"\n{name} gives his name too. Hyunsu asks, \"What do you do, hyung?\"",
+    "description": "Hallway outside the goshiwon shared kitchen. 1 AM.\n\nA narrow corridor with only one fluorescent tube working. {name} is carrying cup ramyeon back to the room when the door next to his opens.\n\nThe neighbor from next door. They have crossed paths before, but this is their first greeting.\n\"...You're having ramyeon too, hyung?\"\n\nThere are dark hollows under his eyes. A worn Grade 9 civil-service exam book is tucked under his arm.\n\nThe man brushes a palm over its cover. \"I'm Kang Hyunsu, from the room next door. We should've said hello sooner. I've been studying for the civil-service exam for four years.\"\n{name} gives his name too. Hyunsu asks, \"What do you do?\"",
     "choices": [
       {
-        "text": "'I don't really know yet. Still figuring it out.'",
+        "text": "'I don't really know yet. I'm still figuring it out.'",
         "result_text": "Hyunsu nods.\n'That's the most honest answer.'\n\nThe two of them eat ramyeon in silence in the narrow hallway."
       },
       {
-        "text": "'I'm going to Gangnam. Within five years.'",
-        "result_text": "Hyunsu stops mid-ramyeon and looks at {name}.\n{name} expects a laugh. None comes.\n'...You mean it, don't you, hyung.'\n\nAfter a short silence, Hyunsu speaks quietly.\n'Somehow I feel like you'll actually go.'"
+        "text": "'I'm going to make it to Gangnam within five years.'",
+        "result_text": "Hyunsu stops mid-ramyeon and looks at {name}.\n{name} expects a laugh. None comes.\n'...You mean it, don't you, hyung.'\n\nAfter a short silence, Hyunsu speaks quietly.\n'I don't know why, but I think you'll actually make it.'"
       }
     ],
-    "description_orthodox": "Hallway outside the goshiwon shared kitchen. 1 AM.\n\nAs {name} turns to head back with his cup ramyeon, the man next door comes out.\n\n\"Ramyeon for you too, hyung.\"\n\nA Grade 9 civil-service exam book. Worn cover. A book held for a long time.\n\n\"I'm Kang Hyunsu. Next door. Took us long enough to say hello. Fourth year studying for the civil-service exam.\" {name} gives his name too. Hyunsu asks, \"What do you do, hyung?\"\n\nThis path is a path too. The sure, slow one.\n{name} briefly measures the road he has chosen against Hyunsu's.",
-    "description_unorthodox": "Hallway outside the goshiwon shared kitchen. 1 AM.\n\nThe man next door comes out.\n\n\"Ramyeon for you too, hyung.\"\n\nA worn Grade 9 civil-service exam book is tucked under his arm.\n\n\"I'm Kang Hyunsu. Next door. Took us long enough to say hello. Fourth year studying for the civil-service exam.\" {name} gives his name too. Hyunsu asks, \"What do you do, hyung?\"\n\n{name} wonders what Hyunsu sees, studying that every single day.\nIf he passes, where does he go? On 2.2 million won a month, can he even get out of this goshiwon?\nHe does not ask. Everyone has their own math."
+    "description_orthodox": "Hallway outside the goshiwon shared kitchen. 1 AM.\n\nAs {name} turns to head back with his cup ramyeon, the man next door comes out.\n\n\"You're having ramyeon too, hyung?\"\n\nA Grade 9 civil-service exam book. Worn cover. A book held for a long time.\n\n\"I'm Kang Hyunsu, from the room next door. We should've said hello sooner. I've been studying for the civil-service exam for four years.\" {name} gives his name too. Hyunsu asks, \"What do you do?\"\n\nThis path is a path too. The sure, slow one.\n{name} briefly measures the road he has chosen against Hyunsu's.",
+    "description_unorthodox": "Hallway outside the goshiwon shared kitchen. 1 AM.\n\nThe man next door comes out.\n\n\"You're having ramyeon too, hyung?\"\n\nA worn Grade 9 civil-service exam book is tucked under his arm.\n\n\"I'm Kang Hyunsu, from the room next door. We should've said hello sooner. I've been studying for the civil-service exam for four years.\" {name} gives his name too. Hyunsu asks, \"What do you do?\"\n\n{name} wonders what Hyunsu sees, studying that every single day.\nIf he passes, where does he go? On 2.2 million won a month, can he even get out of this goshiwon?\nHe does not ask. Everyone has their own math."
   },
   {
     "id": "arc_chapter1_close",
@@ -130,7 +130,7 @@
     "description": "Sangchul moves the stack of contracts aside. Somehow the desk looks wider when he serves coffee than when he shows rooms.\n\n\"Everyone who comes to Seoul looking for a room starts with numbers. How much to move in. How much to earn to survive.\"\n\n\"Those aren't the wrong questions.\"\n\n\"No. But people who enter with nothing but numbers are usually the first to leave because of them.\"\n\nA car splits the wet road beyond the glass. Sangchul waits until the sound passes before continuing.\n\n\"You ask everyone looking for a room why they want to endure Seoul?\"\n\n\"I do. If all I do is unlock doors, I'm just the man with the keys.\"\n\nIt is impossible to tell whether this is kindness or a sales pitch. But Sangchul has not brought out a single listing. He is waiting for {name}'s answer instead.",
     "choices": [
       {
-        "text": "\"That question, I can answer.\"",
+        "text": "\"That one I can answer.\"",
         "result_text": "Sangchul slides a blank memo sheet to the center. No price. No address.\n\n\"Good. Then we can talk about rooms afterward.\"\n\nFor the first time, the broker's cadence leaves his voice."
       }
     ]
@@ -146,11 +146,11 @@
       },
       {
         "text": "'Doesn't everyone want Gangnam if they have the money?'",
-        "result_text": "Im Sangchul chuckles.\n'Never seen someone who answered that way actually make it.'\n'If Gangnam is the goal, you won't get there. Only people who use Gangnam as a means do.'\n{name} does not know yet what that means. He leaves with just the business card."
+        "result_text": "Im Sangchul chuckles.\n'I've never seen anyone who answers like that actually make it.'\n'If Gangnam is the goal, you won't make it. The ones who do see it as a means to an end.'\n{name} does not know yet what that means. He leaves with just the business card."
       },
       {
         "text": "Honest — 'Because I refuse to lose. To this city.'",
-        "result_text": "Im Sangchul sets down his coffee.\n'...I said the same thing thirty years ago. Coming up from South Chungcheong Province.'\n'That stubbornness got me this far. Two buildings. But I also lost a lot.'\n'You — don't lose anything. If you're going, go without losing.'"
+        "result_text": "Im Sangchul sets down his coffee.\n'...I said the same thing thirty years ago, when I came up from Chungcheong.'\n'That stubbornness got me this far. Two buildings. But I also lost a lot.'\n'Don't lose what matters on the way. If you're going, get there whole.'"
       }
     ]
   },
@@ -188,11 +188,11 @@
     "choices": [
       {
         "text": "Pretend not to recognize her and watch the bus display",
-        "result_text": "{name} keeps his eyes on the display.\n\nThe woman takes one step closer first.\n\"Excuse me. Has the bicycle been okay since that day? It kept bothering me.\"\n\nOnly then does {name} turn. An awkward silence passes.\n\"I'm Han Jiyeon. I thought I should at least tell you my name.\"\n\nBus headlights spread across the wet road in the distance."
+        "result_text": "{name} keeps his eyes on the display.\n\nThe woman takes one step closer first.\n\"Excuse me. Is the bicycle all right? I've been worrying about it since that day.\"\n\nOnly then does {name} turn. An awkward silence passes.\n\"I'm Han Jiyeon. I thought I should at least tell you my name.\"\n\nBus headlights spread across the wet road in the distance."
       },
       {
         "text": "\"You were driving that day, right?\" Speak first",
-        "result_text": "The tension leaves her face.\n\"You remember. What happened that day kept bothering me.\"\n\"There was no need to go looking for me.\"\n\"Still, if we met again, I wanted to introduce myself properly.\"\n\nShe hesitates, then holds out a hand.\n\"I'm Han Jiyeon. I wanted to at least give you my name this time.\"\n\nFor the first time, there is a name between them."
+        "result_text": "The tension leaves her face.\n\"You remember. I've been worrying about what happened that day.\"\n\"There was no need to go looking for me.\"\n\"Still, I told myself I'd introduce myself properly if I saw you again.\"\n\nShe hesitates, then holds out a hand.\n\"I'm Han Jiyeon. I wanted you to know my name this time.\"\n\nFor the first time, there is a name between them."
       }
     ]
   },
@@ -472,7 +472,7 @@
   {
     "id": "arc_temptation_fallout",
     "title": "A Return Request on the Account He Lent Out",
-    "description": "A month later, out in the rain, the bank's fraud-response team calls.\n\"A request has been filed to return thirty million won in fraud proceeds transferred into an account under your name. The police may contact you as well.\"\n\nIt is the account {name} lent out.\nSomeone's entire savings passed through it.\n\nThe next day, the recruiter texts from another number.\n\"Hyungnim, you ran that clean. Get me a few more accounts and\nI'll throw in another million per. You've already got your foot in anyway.\"",
+    "description": "A month later, out in the rain, the bank's fraud-response team calls.\n\"A request has been filed to recover 30 million won in fraud proceeds transferred to an account in your name. The police may contact you as well.\"\n\nIt is the account {name} lent out.\nSomeone's entire savings passed through it.\n\nThe next day, the recruiter texts from another number.\n\"Clean work. Bring me a few more accounts and\nI'll pay another million apiece. You're already in this anyway.\"",
     "choices": [
       {
       "text": "Block every recruiter number and agree to return 1.5 million won of what he received",
@@ -803,11 +803,11 @@
   {
     "id": "arc_father_01_call",
     "title": "The Call",
-    "description": "The phone rings. Dad.\n\n\"You doing all right.\" \"Yeah.\" \"You eating.\" \"I am.\" \"Good.\"\n\nDad spent his working life in a factory in Changwon. After he signed a bad loan guarantee, the other party vanished, and {name} spent six years paying the debt that remained. Neither of them brings it up.\n\nNormally the call would end here, but neither of them hangs up. Only the faint television on Dad's end fills the silence.",
+    "description": "The phone rings. Dad.\n\n\"Doing all right?\" \"Yeah.\" \"Eating okay?\" \"I am.\" \"Good.\"\n\nDad spent his working life in a factory in Changwon. After he signed a bad loan guarantee, the other party vanished, and {name} spent six years paying the debt that remained. Neither of them brings it up.\n\nNormally the call would end here, but neither of them hangs up. Only the faint television on Dad's end fills the silence.",
     "choices": [
       {
-        "text": "\"Yeah. You too?\"",
-        "result_text": "\"Ate.\"\n\nAfter a long silence, {name} hangs up first. He sets the phone down and stares at the ceiling for thirty seconds."
+        "text": "\"Yeah. Did you eat?\"",
+        "result_text": "\"I did.\"\n\nAfter a long silence, {name} hangs up first. He sets the phone down and stares at the ceiling for thirty seconds."
       },
       {
         "text": "\"Yeah. Dad, I think things are going to work out.\"",
@@ -815,12 +815,12 @@
       },
       {
       "text": "Fail to ask anything more and hang up quickly",
-        "result_text": "Call duration: 23 seconds.\n\"How are you.\" \"Fine.\" \"Okay, hang up then.\"\n\n{name} puts the phone down and stares at the ceiling for a while."
+        "result_text": "Call duration: 23 seconds.\n\"You doing okay?\" \"Yeah.\" \"All right, then. Bye.\"\n\n{name} puts the phone down and stares at the ceiling for a while."
       }
     ],
-    "description_orthodox": "The phone rings. Dad.\n\"You doing all right.\" \"Yeah.\" \"You eating.\" \"I am.\" \"Good.\"\n\nDad does not hang up after the short answers. {name} searches for something he can ask now, rather than saving it for next time.",
-    "description_unorthodox": "The phone rings. Dad.\n\"You doing all right.\" \"Yeah.\" \"You eating.\" \"I am.\" \"Good.\"\n\nFor six years, their calls have sounded much the same. Today Dad still does not hang up first. {name} keeps the phone to his ear and chooses what to say next.",
-    "description_low_mental": "The phone rings. Dad.\n\"You doing all right.\" \"Yeah.\" \"You eating.\" \"I am.\" \"Good.\"\n\nDad sounds a little different today. Or maybe he does not. The call is still connected, and {name} cannot decide what to ask."
+    "description_orthodox": "The phone rings. Dad.\n\"Doing all right?\" \"Yeah.\" \"Eating okay?\" \"I am.\" \"Good.\"\n\nDad does not hang up after the short answers. {name} searches for something he can ask now, rather than saving it for next time.",
+    "description_unorthodox": "The phone rings. Dad.\n\"Doing all right?\" \"Yeah.\" \"Eating okay?\" \"I am.\" \"Good.\"\n\nFor six years, their calls have sounded much the same. Today Dad still does not hang up first. {name} keeps the phone to his ear and chooses what to say next.",
+    "description_low_mental": "The phone rings. Dad.\n\"Doing all right?\" \"Yeah.\" \"Eating okay?\" \"I am.\" \"Good.\"\n\nDad sounds a little different today. Or maybe he does not. The call is still connected, and {name} cannot decide what to ask."
   },
   {
     "id": "arc_father_02_signal",

@@ -338,7 +338,7 @@
       "consumer_kind": "in_scene_choice",
       "visible_month": 1,
       "message_ko": "모르는 번호의 제안은 그날 밤 받거나 거절했다.",
-      "message_en": "The unknown number was answered or refused that night."
+      "message_en": "The offer from the unknown number was accepted or refused that night."
     },
     "seorin_posting_expires": {
       "producer_bundle": "m2_seorin_application",
@@ -408,7 +408,7 @@
       "consumer_kind": "next_month_message",
       "visible_month": 4,
       "message_ko": "다른 팀이 재고표를 제출했다. 36만원을 받을 야간 재고조사는 끝났다.",
-      "message_en": "Another team submitted the inventory sheet; the KRW 360,000 overnight count is over."
+      "message_en": "Another team submitted the inventory sheet. The 360,000-won overnight inventory job was no longer available."
     },
     "strain_carries_into_romance_entry": {
       "producer_bundle": "m3_empty_saturday",
@@ -452,7 +452,7 @@
       "consumer_kind": "next_month_message",
       "visible_month": 4,
       "message_ko": "현수의 제안을 받지 않았다. 공용 주방의 빈 탁자는 다시 혼자 쓰는 자리가 됐다.",
-      "message_en": "I did not take Hyunsu up on his offer; the empty kitchen table became a place we used alone again."
+      "message_en": "He did not take Hyunsu up on his offer. The empty table in the shared kitchen went back to being a place for one."
     },
     "the_clerk_remains_a_familiar_stranger": {
       "producer_bundle": "daeun_world_meet",
@@ -473,7 +473,7 @@
       "consumer_kind": "next_month_message",
       "visible_month": 5,
       "message_ko": "14주차 면접 시간에 참석하지 않아 한빛유통 이번 전형이 끝났다.",
-      "message_en": "The Week 14 interview was not attended, ending this Hanbit Distribution application.",
+      "message_en": "He missed the Week 14 interview, ending this Hanbit Distribution application.",
       "application_transition": {
         "application_id": "hanbit_ops_2026q1",
         "from": "submitted",
@@ -492,7 +492,7 @@
       "consumer_kind": "next_month_message",
       "visible_month": 5,
       "message_ko": "청년센터 물류관리 기초반이 끝났다. 이번 달에는 수업을 듣지 않았다.",
-      "message_en": "The youth center's logistics fundamentals class ended without an attendance this month."
+      "message_en": "The youth center's logistics fundamentals class ended; he did not attend this month."
     },
     "logistics_shift_is_filled": {
       "producer_bundle": "m4_logistics_shift",
@@ -569,7 +569,7 @@
       "consumer_kind": "next_month_message",
       "visible_month": 6,
       "message_ko": "구청 전산실의 저녁 전산 실무 집중반이 끝났다. 이번 기수에는 참석하지 않았다.",
-      "message_en": "The district office's evening spreadsheet intensive ended without an attendance this term."
+      "message_en": "The district office's evening spreadsheet intensive ended; he did not attend this round."
     },
     "the_month_closes_without_recovery": {
       "producer_bundle": "m5_last_empty_sunday",
@@ -664,14 +664,14 @@
       "consumer_kind": "terminal_recap",
       "visible_month": 6,
       "message_ko": "다은과 약속한 화요일이 지났다. 그날 편의점에는 가지 않았다.",
-      "message_en": "The Tuesday promised to Daeun passed without a visit to the store."
+      "message_en": "The Tuesday he and Daeun had agreed on came and went without him visiting the store."
     },
     "hyunsu_takes_the_exam_without_another_shared_hour": {
       "producer_bundle": "hyunsu_exam_eve",
       "consumer_kind": "terminal_recap",
       "visible_month": 6,
       "message_ko": "시험 전 마지막 주에 현수의 카카오톡을 읽었지만, 한 문제도 함께 보지 않았고 쉬라는 답장도 보내지 못했다.",
-      "message_en": "Hyunsu's Kakao message arrived in the final week before the exam, but they neither reviewed one problem nor exchanged a message about resting."
+      "message_en": "He read Hyunsu's Kakao message in the final week before the exam, but they did not go over a problem together, and he never replied telling Hyunsu to rest."
     }
   },
   "scene_bundles": {
@@ -775,7 +775,7 @@
       "message_sender_ko": "한빛유통 채용팀",
       "message_sender_en": "Hanbit Recruiting",
       "message_body_ko": "운영지원 계약직 채용 결과입니다. 월요일 출근 가능 여부를 오늘 오후 6시까지 회신해 주세요.",
-      "message_body_en": "Your operations-support application is complete. Please confirm by 6 p.m. today whether you can start Monday.",
+      "message_body_en": "We'd like to offer you the contract position in operations support. Please let us know by 6 p.m. today whether you can start Monday.",
       "prerequisites": {
         "all": [
           {
@@ -968,7 +968,7 @@
         "result_title_ko": "한빛유통 지원서를 보냈다",
         "result_title_en": "Hanbit Application Sent",
         "result_body_ko": "운영지원 공고에 이력서를 첨부했다. 접수번호는 받았지만 연락이 온다는 보장은 없다.",
-        "result_body_en": "The resume was attached to the operations opening. A receipt number arrived, but there is no guarantee of a reply."
+        "result_body_en": "He attached his resume and submitted the operations-support application. He received a confirmation number, but there was no guarantee they would contact him."
       },
       "characters": [],
       "initiated_by": "player",
@@ -1001,7 +1001,7 @@
         "result_title_ko": "나흘의 재고조사를 마쳤다",
         "result_title_en": "Four Nights of Inventory Finished",
         "result_body_ko": "재고조사 수당 36만원을 받았다.",
-        "result_body_en": "He received KRW 360,000 for the inventory count."
+        "result_body_en": "He received 360,000 won for the inventory count."
       },
       "characters": [],
       "initiated_by": "player",
@@ -1066,7 +1066,7 @@
           "mental": 1
         },
         "result_title_ko": "방 안의 밀린 것들을 정리했다",
-        "result_title_en": "The Room Ledger Was Put in Order",
+        "result_title_en": "Caught Up on Receipts and Laundry",
         "result_body_ko": "영수증을 날짜순으로 정리하고 빨래를 돌렸다. 큰 문제는 풀리지 않았지만, 무엇부터 처리해야 할지는 분명해졌다.",
         "result_body_en": "He sorted the receipts by date and ran the laundry. The larger problems remained, but he knew what needed attention first."
       },
@@ -1155,7 +1155,7 @@
       "deadline_ko": "14주차 목요일 오후 2시",
       "deadline_en": "Thursday at 2:00 p.m. in Week 14",
       "decline_ko": "정해진 면접에 참석하지 않으면 이번 한빛유통 전형은 끝난다.",
-      "decline_en": "If the scheduled interview is not attended, this Hanbit application ends.",
+      "decline_en": "If he misses the scheduled interview, this Hanbit application ends.",
       "decline_consequence": "hanbit_interview_not_attended"
     },
     "m4_dodam_application": {
@@ -1171,7 +1171,7 @@
         "result_title_ko": "도담고객센터 지원서를 보냈다",
         "result_title_en": "Dodam Customer Center Application Sent",
         "result_body_ko": "상담 운영 공고에 이력서를 첨부했다. 접수 확인 메일은 왔지만 면접 일정은 아직 정해지지 않았다.",
-        "result_body_en": "The resume was attached to the customer-operations opening. A confirmation email arrived, but no interview has been scheduled."
+        "result_body_en": "He submitted his resume for the customer-operations role. A confirmation email arrived, but no interview date had been set."
       },
       "characters": [],
       "initiated_by": "player",
@@ -1226,7 +1226,7 @@
       "deadline_ko": "15주차 마지막 수업 전",
       "deadline_en": "Before the final class in Week 15",
       "decline_ko": "이번 달 기초반은 마감되고 다음 접수까지 기다려야 한다.",
-      "decline_en": "This month's introductory class closes, and the next intake has not opened.",
+      "decline_en": "This month's introductory class closes, and he will have to wait for the next intake.",
       "decline_consequence": "certificate_window_moves_on"
     },
     "m4_logistics_shift": {
@@ -1246,7 +1246,7 @@
         "result_title_ko": "엿새 심야 분류 일을 마쳤다",
         "result_title_en": "Six Overnight Sorting Shifts Finished",
         "result_body_ko": "엿새 동안 택배 상자를 구역별로 나누고 52만원을 받았다. 손가락 마디와 허리에는 야간 작업의 피로가 남았다.",
-        "result_body_en": "Six nights of sorting parcels by district paid KRW 520,000. His finger joints and lower back carried the cost of the overnight work."
+        "result_body_en": "Six nights of sorting parcels by district paid 520,000 won. His finger joints and lower back still felt the strain of the overnight work."
       },
       "characters": [],
       "initiated_by": "player",
@@ -1325,7 +1325,7 @@
       "deadline_ko": "네 번째 달 상담 접수가 끝나기 전",
       "deadline_en": "Before Month Four consultation intake closes",
       "decline_ko": "이번 달 상담 시간이 끝나면 다음 접수 때까지 기다려야 한다.",
-      "decline_en": "Once this month's consultation hours end, the next intake has not yet opened.",
+      "decline_en": "Once this month's consultation hours end, he will have to wait for the next intake.",
       "decline_consequence": "housing_consultation_window_closes"
     },
     "m5_city_service_application": {
@@ -1341,7 +1341,7 @@
         "result_title_ko": "도시시설운영단 지원서를 보냈다",
         "result_title_en": "City Facilities Application Sent",
         "result_body_ko": "시설 운영 기록을 정리하는 여섯 달 계약직 공고에 이력서를 보냈다. 접수번호는 왔지만 결과는 다음 달에 확인해야 한다.",
-        "result_body_en": "The resume was sent for a six-month contract role maintaining facilities-operation records. A receipt number arrived, but the decision will not come until next month."
+        "result_body_en": "He sent his resume for a six-month contract position maintaining facilities-operations records. He received a confirmation number, but the result would not arrive until the following month."
       },
       "characters": [],
       "initiated_by": "player",
@@ -1375,7 +1375,7 @@
         "result_title_ko": "이삿짐 보조 나흘을 마쳤다",
         "result_title_en": "Four Moving-Crew Days Finished",
         "result_body_ko": "이삿짐 보조 수당 56만원을 받았다.",
-        "result_body_en": "He received KRW 560,000 for the moving job."
+        "result_body_en": "He received 560,000 won for the moving job."
       },
       "characters": [],
       "initiated_by": "player",
@@ -1572,7 +1572,7 @@
         "result_title_ko": "이번 달 마지막 실전 문제풀이 모임을 마쳤다",
         "result_title_en": "Finished This Month's Final Practice Group",
         "result_body_ko": "도서관 마감 전까지 각자 푼 문제를 바꿔 채점하고, 틀린 문항 두 개의 풀이를 소리 내 설명했다. 합격을 약속한 사람은 없었다.",
-        "result_body_en": "Before the library closed, the group traded answer sheets and explained two wrong answers aloud. No one promised anyone a pass."
+        "result_body_en": "Before the library closed, the group traded answer sheets and explained how to solve two questions they got wrong. No one said it would guarantee a passing score."
       },
       "characters": [],
       "initiated_by": "player",
@@ -1581,7 +1581,7 @@
       "offer_ko": "이번 달 마지막 실전 문제풀이 모임",
       "offer_en": "This Month's Final Practice-Question Group",
       "detail_ko": "선택한 주 도서관에서 각자 푼 문제를 바꿔 채점하고 오답 풀이를 설명한다.",
-      "detail_en": "In the selected week, trade practice sheets at the library and explain the wrong answers.",
+      "detail_en": "In the selected week, trade practice sheets at the library and explain how to solve the questions they got wrong.",
       "deadline_ko": "23주차 도서관 마감 전",
       "deadline_en": "Before the library closes in Week 23",
       "decline_ko": "이번 달 마지막 모임은 민준 없이 끝난다.",
@@ -1849,7 +1849,7 @@
       "offer_ko": "카페 옆자리 남자의 통화",
       "offer_en": "The Call at the Next Café Table",
       "detail_ko": "커피 한 잔을 시키고, 옆자리 정장 남자가 재개발 입주권을 말하는 통화를 듣는다.",
-      "detail_en": "Order a coffee and hear the suited man at the next table talking about a redevelopment occupancy right.",
+      "detail_en": "Order a coffee and hear the suited man at the next table talking about rights to a unit in a redevelopment project.",
       "deadline_ko": "이번 달 비 오는 저녁",
       "deadline_en": "One rainy evening this month",
       "decline_ko": "그날 카페에 가지 않아 정장 남자의 통화와 서류를 보지 못한다.",
@@ -1919,7 +1919,7 @@
       "offer_ko": "새벽 편의점의 계산대",
       "offer_en": "The Dawn Convenience Store Counter",
       "detail_ko": "생활비를 벌려고 단기 일을 이어가던 달, 잠이 오지 않은 새벽에 24시간 편의점에 들어가 계산대 직원과 처음 말을 섞는다.",
-      "detail_en": "During a month of short-term work for living expenses, enter a 24-hour store on a sleepless dawn and speak with the clerk for the first time.",
+      "detail_en": "During a month of short-term work for living expenses, enter a 24-hour store before dawn when sleep won't come and speak with the clerk for the first time.",
       "deadline_ko": "12주차 새벽 전",
       "deadline_en": "Before dawn in Week 12",
       "decline_ko": "그 새벽에는 편의점에 가지 않아, 계산대 직원과 만나지 않는다.",
@@ -2411,7 +2411,7 @@
       "message_sender_ko": "최재혁",
       "message_sender_en": "Choi Jaehyuk",
       "message_body_ko": "{name}, 나 재혁이야. 군대 동기 최재혁. 기억나지? 오랜만이다. 잘 지냈어?",
-      "message_body_en": "Hey, {name}. It's Jaehyuk—Choi Jaehyuk from the army. You remember me, right? It's been a long time. How are you?",
+      "message_body_en": "Hey, {name}. It's Jaehyuk—Choi Jaehyuk. We served together. Remember me? Been a while. How've you been?",
       "exclusive_group": "money_mentor_entry",
       "prerequisites": {
         "all": [
@@ -2495,7 +2495,7 @@
       "offer_ko": "다은이 일하는 화요일에 다시 가기",
       "offer_en": "Return on Daeun's Tuesday Shift",
       "detail_ko": "다은이 야간 근무하는 시간을 기억해 두었다가 편의점에 다시 들러 서로의 한 주를 묻는다.",
-      "detail_en": "Remember Daeun's night-shift hours, return to the store, and ask how each other's week went.",
+      "detail_en": "Remember Daeun's night-shift hours, return to the store, and catch up on how their weeks went.",
       "deadline_ko": "20주차 화요일 새벽",
       "deadline_en": "Early Tuesday in Week 20",
       "decline_ko": "그 시간을 알고도 이번 달에는 편의점에 다시 가지 않는다.",
@@ -2565,7 +2565,7 @@
       "offer_ko": "다은에게 세 번째 인사 건네기",
       "offer_en": "Start a Third Conversation with Daeun",
       "detail_ko": "연락처는 없지만 이름을 알게 된 편의점으로 다시 가, 이번에는 내가 먼저 대화를 이어 간다.",
-      "detail_en": "Without a phone number but now knowing her name, return to the store and start the next conversation myself.",
+      "detail_en": "Without a phone number but now knowing her name, return to the store and be the one to start the next conversation.",
       "deadline_ko": "20주차 야간 근무가 끝나기 전",
       "deadline_en": "Before the night shift ends in Week 20",
       "decline_ko": "이름을 나눈 뒤에도 이번 달에는 다시 말을 걸러 가지 않는다.",
@@ -2750,7 +2750,7 @@
       "message_sender_ko": "최재혁",
       "message_sender_en": "Choi Jaehyuk",
       "message_body_ko": "그때 답장 고마웠다. 이번 주 토요일 저녁, 신촌 포장마차에서 얼굴 볼래?",
-      "message_body_en": "Thanks for writing back. Want to meet at a Sinchon pojangmacha this Saturday evening?",
+      "message_body_en": "Thanks for getting back to me. Want to meet at a pojangmacha in Sinchon this Saturday evening?",
       "exclusive_group": "month_five_person_climax",
       "prerequisites": {
         "all": [
@@ -2832,7 +2832,7 @@
       "message_sender_ko": "최씨 아저씨",
       "message_sender_en": "Mr. Choi",
       "message_body_ko": "민준아, 네 아버지가 요 며칠 약국 봉투를 들고 들어오더라. 네가 한번 연락해 봐라.",
-      "message_body_en": "Minjun, I have seen your father come home with pharmacy bags a few times lately. You should check in with him.",
+      "message_body_en": "Minjun, I've seen your father come home with a pharmacy bag a few times lately. Give him a call.",
       "consumes_slot": false
     },
     "m6_dodam_response": {
@@ -2971,7 +2971,7 @@
       "message_sender_ko": "강현수",
       "message_sender_en": "Kang Hyunsu",
       "message_body_ko": "형, 다음 주 토요일 시험인데 아직 헷갈리는 문제가 하나 있어요. 지금 잠깐 괜찮아요?",
-      "message_body_en": "Hyung, the exam is next Saturday and there is one problem I still mix up. Do you have a minute?",
+      "message_body_en": "Hyung, the exam's next Saturday, and there's one question I still can't get straight. Do you have a minute?",
       "prerequisites": {
         "all": [
           {
@@ -3061,14 +3061,14 @@
             "max_health": 5,
             "copy": {
               "ko": "손가락을 펴는 데 한 박자가 더 걸렸다. 허리를 세우자 숨이 얕아졌다. 지금 한 번 더 무리하면 몸이 먼저 멈출 상태였다.",
-              "en": "His fingers take an extra beat to open. When he straightens his back, his breathing turns shallow. One more hard push could make his body stop first."
+              "en": "It takes him an extra beat to straighten his fingers. When he straightens his back, his breathing turns shallow. One more hard push could make his body give out first."
             }
           },
           {
             "max_health": 20,
             "copy": {
               "ko": "손바닥과 허리에 이번 달의 피로가 남아 있었다. 움직일 수는 있었지만 밤을 더 쓰면 회복할 자리가 거의 없었다.",
-              "en": "The month's fatigue remains in his palms and lower back. He can still move, but spending the night would leave almost no room to recover."
+              "en": "The month's fatigue remains in his palms and lower back. He can still move, but pushing any further tonight would leave almost no room to recover."
             }
           },
           {
@@ -3120,7 +3120,7 @@
           "v2_dirty_recruiter_week24": {
             "claimed": {
               "ko": "수요일에 새 번호로 온 모집책의 문자도 화면에 남아 있었다. 이전에 넘긴 세 세트까지 사라진 것은 아니었다.",
-              "en": "The recruiter's Wednesday text from a new number also remains on the screen. The three sets handed over before have not disappeared."
+              "en": "The recruiter's Wednesday text from a new number also remains on the screen. That does not undo the three sets he had already handed over."
             },
             "choices": {
               "0": {
@@ -3129,7 +3129,7 @@
               },
               "1": {
                 "ko": "수요일에 온 모집책 문자와 발신 시각을 캡처해 보관했다. 원본 문자도 지우지 않았다.",
-                "en": "He preserved a capture of Wednesday's recruiter text with its sender and time visible, and left the original message intact."
+                "en": "He saved a screenshot of Wednesday's recruiter text with the sender and time visible, and kept the original message."
               }
             }
           }
@@ -3254,7 +3254,7 @@
           "not_done": {
             "father_call": {
               "ko": "미룬 일 — 아버지가 다니는 병원과 창원에 내려갈 날짜는 정하지 못했다.",
-              "en": "Deferred — did not establish Father's hospital or a date to travel to Changwon."
+              "en": "Deferred — did not find out which hospital Father was visiting or set a date to go to Changwon."
             },
             "hanbit_month_close": {
               "ko": "미룬 일 — 한빛유통 월말 오류표는 오늘 내부 메일로 보내지 못했다.",
@@ -3294,7 +3294,7 @@
             },
             "hanbit_month_close": {
               "ko": "오후 7시 회신 창과 오류표를 닫은 뒤 {name}은 수첩을 앞으로 당겨 결정 페이지를 펼쳤다.",
-              "en": "After closing the post-seven reply and the discrepancy sheet, {name} pulls the notebook closer and opens the decision page."
+              "en": "After closing the 7 p.m. reply window and the discrepancy sheet, {name} pulls the notebook closer and opens the decision page."
             },
             "city_work_sample": {
               "ko": "보낸 파일을 닫은 뒤 {name}은 지원 번호가 적힌 페이지에서 결정 페이지로 돌아갔다.",

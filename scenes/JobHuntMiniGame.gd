@@ -25,11 +25,11 @@ const COL_BAD := "#c46f6f"
 const RESUME_QUESTION_POOL = [
 	{
 		"q": "지원동기를 서술하시오.",
-		"q_en": "Write your reason for applying.",
+		"q_en": "Describe your motivation for applying.",
 		"hint": "면접관이 가장 먼저 읽는 문항. 진정성이 핵심.",
 		"hint_en": "The first answer a recruiter reads. Sincerity matters.",
 		"choices": [
-			{"text": "단기 일을 이어가며 익힌 현장 대응력을 한 직장에서 오래 쌓아 가고 싶어 지원했습니다.", "text_en": "After years of short-term work, I want to build on the practical skills I learned and stay long enough to grow in one workplace.", "score": 3},
+			{"text": "단기 일을 이어가며 익힌 현장 대응력을 한 직장에서 오래 쌓아 가고 싶어 지원했습니다.", "text_en": "After a series of short-term jobs, I want to build on the practical skills I've gained and grow over the long term at one company.", "score": 3},
 			{"text": "성장 가능성이 있다고 판단해 지원하게 됐습니다.", "text_en": "I applied because I believe this role has growth potential.", "score": 1},
 			{"text": "연봉 조건이 괜찮고 집에서 가까워서 지원했습니다.", "text_en": "The salary looked decent, and the office is close to home.", "score": 0},
 		]
@@ -40,7 +40,7 @@ const RESUME_QUESTION_POOL = [
 		"hint": "추상적인 단어보다 구체적인 사례가 설득력 있다.",
 		"hint_en": "Specific examples are more convincing than vague traits.",
 		"choices": [
-			{"text": "맡은 시간과 정산을 끝까지 확인하는 습관입니다. 여러 단기 일을 오갈 때도 근무 기록을 빠뜨리지 않았습니다.", "text_en": "My strength is checking every shift and payment through to the end. Even across short-term jobs, I kept complete work records.", "score": 3},
+			{"text": "맡은 시간과 정산을 끝까지 확인하는 습관입니다. 여러 단기 일을 오갈 때도 근무 기록을 빠뜨리지 않았습니다.", "text_en": "My strength is making sure every shift and payment is fully accounted for. Even across short-term jobs, I never missed an entry in my work records.", "score": 3},
 			{"text": "성실하고 책임감이 강합니다. 맡은 일은 끝까지 완수합니다.", "text_en": "I am diligent and responsible. I finish whatever I take on.", "score": 1},
 			{"text": "특별한 강점은 없지만 열심히 하겠습니다.", "text_en": "I do not have any special strengths, but I will work hard.", "score": 0},
 		]
@@ -51,7 +51,7 @@ const RESUME_QUESTION_POOL = [
 		"hint": "단점을 인정하면서 극복 과정까지 보여주는 것이 핵심.",
 		"hint_en": "Admit the weakness, then show the process of improvement.",
 		"choices": [
-			{"text": "당장 갚아야 할 돈부터 처리하느라 장기 계획을 자주 미뤘습니다. 지금은 지원 마감과 지출을 주 단위로 기록하고 있습니다.", "text_en": "I often postponed long-term plans while dealing with immediate debt. Now I track application deadlines and expenses week by week.", "score": 3},
+			{"text": "당장 갚아야 할 돈부터 처리하느라 장기 계획을 자주 미뤘습니다. 지금은 지원 마감과 지출을 주 단위로 기록하고 있습니다.", "text_en": "I often put off long-term plans because I was focused on debts that had to be paid right away. Now I track application deadlines and expenses week by week.", "score": 3},
 			{"text": "완벽주의 성향으로 업무 처리가 느릴 때가 있습니다.", "text_en": "My perfectionism can sometimes slow down my work.", "score": 1},
 			{"text": "단점은 딱히 없는 것 같습니다.", "text_en": "I cannot think of any real weaknesses.", "score": 0},
 		]
@@ -63,8 +63,8 @@ const RESUME_QUESTION_POOL = [
 		"hint_en": "A concrete timeline and goal sound more credible.",
 		"choices": [
 			{"text": "1년 안에 업무를 익히고, 3년 뒤에는 혼자 프로젝트를 맡겠습니다. 5년 뒤에는 새로 온 동료가 업무를 익도록 도울 수 있는 사람이 되겠습니다.", "text_en": "Within one year I will learn the role, and within three years I will own projects independently. Within five years, I want to be able to help new teammates learn the work.", "score": 3},
-			{"text": "열심히 배우며 회사에 기여하겠습니다.", "text_en": "I will learn hard and contribute to the company.", "score": 1},
-			{"text": "일단 들어가 봐야 알겠습니다.", "text_en": "I will know once I actually join.", "score": 0},
+			{"text": "열심히 배우며 회사에 기여하겠습니다.", "text_en": "I will work hard to learn and contribute to the company.", "score": 1},
+			{"text": "일단 들어가 봐야 알겠습니다.", "text_en": "I won't know until I actually join the company.", "score": 0},
 		]
 	},
 	{
@@ -84,7 +84,7 @@ const RESUME_QUESTION_POOL = [
 		"hint": "실패를 인정하는 용기와 성장 의지를 보여준다.",
 		"hint_en": "This shows honesty and a willingness to grow.",
 		"choices": [
-			{"text": "빚을 갚는 데만 매달려 정규직 준비를 오래 미뤘습니다. 이제는 생계와 지원 일정을 함께 관리하고 있습니다.", "text_en": "I focused so completely on repaying debt that I delayed preparing for full-time work. Now I manage both living expenses and application deadlines.", "score": 3},
+			{"text": "빚을 갚는 데만 매달려 정규직 준비를 오래 미뤘습니다. 이제는 생계와 지원 일정을 함께 관리하고 있습니다.", "text_en": "I was so focused on paying off debt that I put off preparing for full-time work. Now I manage both living expenses and application deadlines.", "score": 3},
 			{"text": "큰 실패는 없었지만 작은 실수에서 배웠습니다.", "text_en": "I have not had a major failure, but I have learned from small mistakes.", "score": 1},
 			{"text": "딱히 기억나는 실패가 없습니다.", "text_en": "I cannot really remember any failures.", "score": 0},
 		]
@@ -95,7 +95,7 @@ const RESUME_QUESTION_POOL = [
 		"hint": "변화 대응력과 학습 의지를 어필하는 문항.",
 		"hint_en": "Show adaptability and a willingness to learn.",
 		"choices": [
-			{"text": "변화의 핵심을 빠르게 파악하고, 관련 자료와 교육을 스스로 찾아 학습합니다.", "text_en": "I identify the core of the change quickly, then seek out resources and training on my own.", "score": 3},
+			{"text": "변화의 핵심을 빠르게 파악하고, 관련 자료와 교육을 스스로 찾아 학습합니다.", "text_en": "I quickly identify what is changing, then seek out relevant resources and training on my own.", "score": 3},
 			{"text": "상사나 동료에게 방향을 물어보고 따릅니다.", "text_en": "I ask my manager or coworkers for direction and follow it.", "score": 1},
 			{"text": "변화가 안정되기를 기다렸다가 움직입니다.", "text_en": "I wait until the change settles before taking action.", "score": 0},
 		]
@@ -106,8 +106,8 @@ const RESUME_QUESTION_POOL = [
 		"hint": "직무 요건과 나의 경험을 연결하는 것이 핵심.",
 		"hint_en": "Connect the role requirements to your experience.",
 		"choices": [
-			{"text": "공고의 핵심 업무를 단기 현장에서 실제로 해 본 일과 하나씩 연결해 적었습니다.", "text_en": "I matched each core duty in the posting to work I actually handled on short-term jobs.", "score": 3},
-			{"text": "관련 업무에 관심이 많고 열심히 할 자신이 있습니다.", "text_en": "I am interested in this work and confident I can work hard.", "score": 1},
+			{"text": "공고의 핵심 업무를 단기 현장에서 실제로 해 본 일과 하나씩 연결해 적었습니다.", "text_en": "I matched each core duty in the posting with experience I'd actually gained in short-term roles.", "score": 3},
+			{"text": "관련 업무에 관심이 많고 열심히 할 자신이 있습니다.", "text_en": "I'm interested in the work and confident I can work hard.", "score": 1},
 			{"text": "다른 곳에서도 비슷한 일을 해봤습니다.", "text_en": "I have done something similar elsewhere.", "score": 0},
 		]
 	},
@@ -121,8 +121,8 @@ const INTERVIEW_QUESTION_POOL = [
 		"q_en": "There is a six-year gap on your resume. Could you explain it?",
 		"timer": 10.0, "surprise": false,
 		"choices": [
-			{"text": "아버지의 보증으로 생긴 가족 빚을 갚느라 일을 이어 갔습니다. 지금은 정리돼 다시 취업을 준비하고 있습니다.", "text_en": "I kept working to repay family debt caused by my father's loan guarantee. It is settled now, and I am ready to return to full-time work.", "score": 3},
-			{"text": "개인적인 사정이 있었습니다. 이제는 집중할 수 있습니다.", "text_en": "I had personal circumstances. I can focus now.", "score": 1},
+			{"text": "아버지의 보증으로 생긴 가족 빚을 갚느라 일을 이어 갔습니다. 지금은 정리돼 다시 취업을 준비하고 있습니다.", "text_en": "I spent those years working to repay family debt caused by my father's loan guarantee. That debt is settled now, and I'm ready to return to full-time work.", "score": 3},
+			{"text": "개인적인 사정이 있었습니다. 이제는 집중할 수 있습니다.", "text_en": "I had some personal circumstances to deal with. I can focus on work now.", "score": 1},
 			{"text": "특별한 이유는 없고 그냥 쉬었습니다.", "text_en": "There was no special reason. I just took time off.", "score": 0},
 		]
 	},
@@ -131,9 +131,9 @@ const INTERVIEW_QUESTION_POOL = [
 		"q_en": "Why did you apply to our company?",
 		"timer": 10.0, "surprise": false,
 		"choices": [
-			{"text": "귀사의 성장세와 사업 방향이 제 커리어 목표와 맞닿아 있어 지원했습니다.", "text_en": "Your growth and business direction align with my career goals.", "score": 3},
+			{"text": "귀사의 성장세와 사업 방향이 제 커리어 목표와 맞닿아 있어 지원했습니다.", "text_en": "Your company's growth and strategic direction align with my career goals.", "score": 3},
 			{"text": "찾아보다가 관심이 생겼습니다. 좋은 회사라고 생각합니다.", "text_en": "I looked into the company and became interested. It seems like a good workplace.", "score": 1},
-			{"text": "마침 공고가 떠서 넣어봤습니다.", "text_en": "I saw the posting and decided to apply.", "score": 0},
+			{"text": "마침 공고가 떠서 넣어봤습니다.", "text_en": "I just happened to see the posting, so I applied.", "score": 0},
 		]
 	},
 	{
@@ -141,27 +141,27 @@ const INTERVIEW_QUESTION_POOL = [
 		"q_en": "Where do you see yourself in five years?",
 		"timer": 10.0, "surprise": false,
 		"choices": [
-			{"text": "이 분야의 전문가로서 팀을 이끄는 역할을 하고 싶습니다.", "text_en": "I want to become a specialist in this field and take on a role leading a team.", "score": 3},
-			{"text": "더 좋은 포지션으로 성장해 있을 것 같습니다.", "text_en": "I think I will have grown into a better position.", "score": 1},
-			{"text": "솔직히 잘 모르겠습니다.", "text_en": "Honestly, I am not sure.", "score": 0},
+			{"text": "이 분야의 전문가로서 팀을 이끄는 역할을 하고 싶습니다.", "text_en": "I want to become a specialist in this field and eventually lead a team.", "score": 3},
+			{"text": "더 좋은 포지션으로 성장해 있을 것 같습니다.", "text_en": "I think I'll be in a better position by then.", "score": 1},
+			{"text": "솔직히 잘 모르겠습니다.", "text_en": "Honestly, I'm not sure.", "score": 0},
 		]
 	},
 	{
 		"q": "돌발: 지금 이 자리에서 스스로를 한 단어로 표현한다면?",
-		"q_en": "Pressure: If you had to describe yourself in one word right now, what would it be?",
+		"q_en": "Curveball: If you had to describe yourself in one word right now, what would it be?",
 		"timer": 5.0, "surprise": true,
 		"choices": [
-			{"text": "\"성실함\" — 맡은 일은 반드시 끝내는 사람입니다.", "text_en": "\"Reliability.\" I am someone who finishes what I take responsibility for.", "score": 3},
-			{"text": "(잠시 침묵) \"...열정적인 사람입니다.\"", "text_en": "(A pause.) \"...Passionate.\"", "score": 1},
-			{"text": "(당황) \"...글쎄요... 잘 모르겠습니다.\"", "text_en": "(Panicked.) \"...I am not sure.\"", "score": 0},
+			{"text": "\"성실함\" — 맡은 일은 반드시 끝내는 사람입니다.", "text_en": "\"Reliable.\" I'm someone who always finishes what I take on.", "score": 3},
+			{"text": "(잠시 침묵) \"...열정적인 사람입니다.\"", "text_en": "(After a pause.) \"...Passionate.\"", "score": 1},
+			{"text": "(당황) \"...글쎄요... 잘 모르겠습니다.\"", "text_en": "(Flustered.) \"...Well... I'm not sure.\"", "score": 0},
 		]
 	},
 	{
 		"q": "마지막으로 하고 싶은 말씀 있으신가요?",
-		"q_en": "Do you have any final comments?",
+		"q_en": "Is there anything else you'd like to add?",
 		"timer": 8.0, "surprise": false,
 		"choices": [
-			{"text": "오늘 좋은 기회를 주셔서 감사합니다. 합류하게 된다면 최선을 다하겠습니다.", "text_en": "Thank you for the opportunity today. If I join, I will give it my best.", "score": 3},
+			{"text": "오늘 좋은 기회를 주셔서 감사합니다. 합류하게 된다면 최선을 다하겠습니다.", "text_en": "Thank you for the opportunity to interview today. If I have the chance to join the team, I'll give it my best.", "score": 3},
 			{"text": "(아무 말도 못 하고 인사만)", "text_en": "(You say nothing and just bow.)", "score": 1},
 			{"text": "연봉 협상은 어떻게 되나요?", "text_en": "How does salary negotiation work?", "score": 0},
 		]
@@ -178,12 +178,12 @@ const INTERVIEW_QUESTION_POOL = [
 	},
 	{
 		"q": "돌발: 지금 바로 저를 설득해서 제품을 하나 파세요.",
-		"q_en": "Pressure: Sell me a product right now.",
+		"q_en": "Curveball: Sell me a product right now.",
 		"timer": 5.0, "surprise": true,
 		"choices": [
-			{"text": "(침착하게) 이 펜은 오늘 하루를 기록하는 도구입니다. 오늘 내린 결정들을 잊고 싶지 않으시죠?", "text_en": "(Calmly.) This pen records your day: the decisions you made today, the things you do not want to forget.", "score": 3},
+			{"text": "(침착하게) 이 펜은 오늘 하루를 기록하는 도구입니다. 오늘 내린 결정들을 잊고 싶지 않으시죠?", "text_en": "(Calmly.) This pen records your day. You wouldn't want to forget the decisions you made today, would you?", "score": 3},
 			{"text": "(당황하며) 음... 이 펜은 잘 써지고 가격도 합리적입니다.", "text_en": "(Flustered.) Well... this pen writes smoothly and the price is reasonable.", "score": 1},
-			{"text": "(웃으며 넘김) 저는 영업직 지원자가 아닌데요.", "text_en": "(Laughing it off.) I am not applying for a sales role.", "score": 0},
+			{"text": "(웃으며 넘김) 저는 영업직 지원자가 아닌데요.", "text_en": "(Laughing it off.) I'm not applying for a sales role.", "score": 0},
 		]
 	},
 	{
@@ -198,22 +198,22 @@ const INTERVIEW_QUESTION_POOL = [
 	},
 	{
 		"q": "최근 해 온 일 가운데 이 직무에 도움이 되는 경험이 있나요?",
-		"q_en": "Which part of your recent work would help you in this role?",
+		"q_en": "What experience from your recent work would help you in this role?",
 		"timer": 10.0, "surprise": false,
 		"choices": [
-			{"text": "여러 단기 현장에서 손님 응대와 정산을 맡았습니다. 업무가 달라도 인수인계와 마감 확인은 빠뜨리지 않았습니다.", "text_en": "I handled customers and payments across several short-term jobs. The work changed, but I never skipped handoffs or closing checks.", "score": 3},
-			{"text": "이것저것 해 봤습니다. 들어가면 금방 배울 수 있습니다.", "text_en": "I have tried a bit of everything. I can learn quickly once I start.", "score": 1},
-			{"text": "정규직이 아니어서 도움이 될 만한 경험은 없습니다.", "text_en": "None of it was full-time, so I do not think it would help.", "score": 0},
+			{"text": "여러 단기 현장에서 손님 응대와 정산을 맡았습니다. 업무가 달라도 인수인계와 마감 확인은 빠뜨리지 않았습니다.", "text_en": "I handled customer service and cash reconciliation at several short-term jobs. Even though the jobs varied, I never skipped a handover or closing check.", "score": 3},
+			{"text": "이것저것 해 봤습니다. 들어가면 금방 배울 수 있습니다.", "text_en": "I've done a bit of everything. I can pick things up quickly once I start.", "score": 1},
+			{"text": "정규직이 아니어서 도움이 될 만한 경험은 없습니다.", "text_en": "None of it was full-time, so I don't think any of it would help.", "score": 0},
 		]
 	},
 	{
 		"q": "공식적인 리더 경험이 없다면, 협업할 때 무엇을 맡았나요?",
-		"q_en": "Without a formal leadership title, what role did you take when working with others?",
+		"q_en": "If you haven't held a formal leadership role, what responsibilities did you take on when working with others?",
 		"timer": 10.0, "surprise": false,
 		"choices": [
-			{"text": "교대할 사람이 바로 일할 수 있도록 남은 업무와 정산 내용을 기록해 전달했습니다.", "text_en": "I wrote down unfinished tasks and payment details so the next person could start immediately.", "score": 3},
-			{"text": "제 몫을 먼저 끝낸 뒤 바쁜 사람을 도왔습니다.", "text_en": "I finished my share first, then helped anyone who was busy.", "score": 1},
-			{"text": "제 일만 하면 된다고 생각했습니다.", "text_en": "I thought I only needed to handle my own work.", "score": 0},
+			{"text": "교대할 사람이 바로 일할 수 있도록 남은 업무와 정산 내용을 기록해 전달했습니다.", "text_en": "I documented unfinished tasks and payment details so the next person could start right away.", "score": 3},
+			{"text": "제 몫을 먼저 끝낸 뒤 바쁜 사람을 도왔습니다.", "text_en": "I finished my share first, then helped whoever was busy.", "score": 1},
+			{"text": "제 일만 하면 된다고 생각했습니다.", "text_en": "I thought I only had to worry about my own work.", "score": 0},
 		]
 	},
 ]

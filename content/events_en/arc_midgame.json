@@ -179,7 +179,7 @@
   {
     "id": "arc_father_quiet_call",
     "title": "Sunday Evening",
-    "description": "Sunday evening. {name} taps his father's number.\n\nTwo rings, then his father picks up. \"Yeah.\"\n\n\"Did you eat?\"\n\"Yeah, I ate. You?\"\n\nShort words back and forth. Seoul weather, Changwon weather. His factory shift is the same as usual. Dad asks if the room is cold; {name} says it is fine.\n\nThe words stop, but the call remains connected. On the other end, Dad seems to be waiting for whatever comes next.",
+    "description": "Sunday evening. {name} taps his father's number.\n\nTwo rings, then his father picks up. \"Yeah.\"\n\n\"Have you eaten, Dad?\"\n\"Yeah. You?\"\n\nShort words back and forth. Seoul weather, Changwon weather. His factory shift is the same as usual. Dad asks if the room is cold; {name} says it is fine.\n\nThe words stop, but the call remains connected. On the other end, Dad seems to be waiting for whatever comes next.",
     "description_memory_if_known": {
       "relationship_memory:father:father_wellbeing_returned": "The first time, {name} barely managed to ask, “What about you, Dad?” Today, the exchange lasts a few words longer.",
       "relationship_memory:father:father_future_reassured": "{name} has already said he thinks things will work out. That promise weighs more heavily in the pauses between today's ordinary words.",
@@ -191,8 +191,8 @@
       "result_text": "Without ever saying the words, {name} presses the end-call button."
       },
       {
-        "text": "Just hang up. Nothing special.",
-      "result_text": "\"Get some sleep, Dad.\"\n\nAfter his father answers, \"Okay,\" {name} ends the call first."
+        "text": "End the call without saying anything special",
+        "result_text": "\"Get some sleep, Dad.\"\n\nAfter his father answers, \"Yeah,\" {name} ends the call first."
       },
       {
         "text": "\"Dad, how have you been?\" — asks more",

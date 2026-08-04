@@ -417,7 +417,7 @@
         "tokens_ko": ["폭행", "폭력", "구타", "뺨", "주먹", "피투성이", "선혈", "살해", "칼로 찔", "목을 졸", "무릎에 피", "앞바퀴를 쳤", "충돌"],
         "tokens_en": ["assault", "violence", "beaten", "slapped", "punched", "bloodied", "murder", "stabbed", "strangled", "knee was bleeding", "clipped the front wheel"],
         "reviewed_search_noise_ids": ["amb_coin_00", "arc_35_unorthodox_weight", "arc_daeun_first_night", "arc_sangchul_confrontation", "arc_year3_close", "cafe_bluff_caught", "callback_ignored_hyunsu_warning_echo", "callback_recommitted_to_job_echo", "inv_portfolio_review", "job_colleague_conflict", "kx_coin_noraebang", "startup_team_conflict", "story_knee_choice", "story_knee_witness"],
-        "expected_event_count": 15, "expected_file_count": 14, "expected_ids_sha256": "987dc15a9f106cf5b203bc8e3cce30efb6376339399a8727ca327bdfe53c0686", "expected_content_sha256": "b6976e073dd196d42f835ea6fdbb621204183396e5a077373008535b817074e2"
+        "expected_event_count": 15, "expected_file_count": 14, "expected_ids_sha256": "987dc15a9f106cf5b203bc8e3cce30efb6376339399a8727ca327bdfe53c0686", "expected_content_sha256": "c4ce292896383a0bbee0f8af1266725608cccfb6a26c131da80f581e5e8e8461"
       },
       "facts": [
         {
@@ -486,7 +486,7 @@
         "categories": [], "tags": [],
         "tokens_ko": ["씨발", "개새끼", "좆", "미친놈", "미친년"],
         "tokens_en": ["fuck", "fucking", "shit", "bastard", "asshole"],
-        "expected_event_count": 2, "expected_file_count": 2, "expected_ids_sha256": "09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1", "expected_content_sha256": "218ff2878d681e4918598538df6167bd0d68f8c134b44a6a6a9d3ab1cf7edb3d"
+        "expected_event_count": 2, "expected_file_count": 2, "expected_ids_sha256": "09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1", "expected_content_sha256": "fc1a0465f31a6a2df2deb4559825e67c7f762fa2ebfdbaa45ae63e2fb75131c3"
       },
       "facts": [
         {
@@ -513,7 +513,7 @@
         "categories": ["crime"], "tags": ["crime", "illegal"],
         "tokens_ko": ["대포통장", "보이스피싱", "사기", "횡령", "절도", "내부자거래", "폰지", "공범", "돈세탁", "검거"],
         "tokens_en": ["money mule", "voice phishing", "fraud", "embezz", "theft", "insider trading", "ponzi", "accomplice", "money laundering", "arrested"],
-        "expected_event_count": 65, "expected_file_count": 39, "expected_ids_sha256": "1a3d735204cc987995fad412784cfbec1a6b19abb0815ff3a757a7c71880126d", "expected_content_sha256": "e0cdd01b764d12f191cda0f471941e4b4a1606d84f9657e9bf0c6f75623a4c0a"
+        "expected_event_count": 65, "expected_file_count": 39, "expected_ids_sha256": "1a3d735204cc987995fad412784cfbec1a6b19abb0815ff3a757a7c71880126d", "expected_content_sha256": "6362109489a6d6c139153593ffb187dea4ea99a32e967664031b6b5976dbc3f5"
       },
       "facts": [
         {

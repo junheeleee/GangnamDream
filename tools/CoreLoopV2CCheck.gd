@@ -271,7 +271,7 @@ func _check_hanbit_visibility_and_deadline() -> void:
 	_expect(str(interview_copy.get("decline_ko", "")).find("참석") >= 0 \
 			and str(interview_copy.get("decline_ko", "")).find("잡지") < 0 \
 			and str(interview_copy.get("decline_en", "")).find(
-				"attended") >= 0 \
+				"misses") >= 0 \
 			and str(interview_copy.get("decline_en", "")).find(
 				"scheduled") >= 0,
 		"Hanbit decline copy contradicted its already scheduled interview")

@@ -1566,7 +1566,7 @@ func _check_first_bill_expression_choices() -> void:
 			and ko_opening.contains("당일 대타 —") \
 			and ko_opening.contains("몸 —") \
 			and not en_opening.contains("{v2_first_bill_") \
-			and en_opening.contains("His fingers take an extra beat to open") \
+			and en_opening.contains("It takes him an extra beat to straighten his fingers") \
 			and en_opening.contains("Father —") \
 			and en_opening.contains("Same-day shift —") \
 			and en_opening.contains("His body —"),

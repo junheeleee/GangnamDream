@@ -1852,7 +1852,7 @@ func _shot_first_bill_finale_surfaces(_lang: String, prefix: String) -> void:
 		"", 0.45, true, true)
 
 	var expression_markers := [
-		_tr("“괜찮으니까 신경 쓰지 마라.”", "“I'm fine. Don't worry about me.”"),
+		_tr("“괜찮으니까 신경 쓰지 마라.”", "“I'm fine. Don't worry about it.”"),
 		_tr("현재 잔액", "Subtracting this month's fixed costs"),
 		_tr("손목과 허리 어디가 당기는지", "He checks his wrists and back for strain"),
 	]

@@ -39,7 +39,7 @@
     "choices": [
       {
         "text": "Watch Dad open his mouth again",
-        "result_text": "Dad's palms touch the floor.\n\n\"I'm sorry. I will repay every won.\"\n\nThe same sentence is placed in the room one more time. The creditor turns a page.\nBehind the door, {name} closes his fist until his nails cut into his palm."
+        "result_text": "Dad's palms touch the floor.\n\n\"I'm sorry. I promise I'll repay it.\"\n\nThe same sentence is placed in the room one more time. The creditor turns a page.\nBehind the door, {name} closes his fist until his nails cut into his palm."
       }
     ]
   },
@@ -80,7 +80,7 @@
     "choices": [
       {
         "text": "Bow your head and take the papers",
-        "result_text": "\"Understood.\"\n\nIt is a skill six years have taught him: swallow the sentence, take the paper, walk to the next door.\n\n{name} folds the release twice and slips it inside his coat."
+        "result_text": "\"Okay.\"\n\nIt is a skill six years have taught him: swallow the sentence, take the paper, walk to the next door.\n\n{name} folds the release twice and slips it inside his coat."
       },
       {
         "text": "\"That was out of line.\"",

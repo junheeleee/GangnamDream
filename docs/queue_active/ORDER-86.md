@@ -130,3 +130,55 @@ PASS·EDIT와 before→after / 한국어 의미·숫자·토큰 불변 / 독립 
 - 영어 1280×800·960×600의 장문 대사·선택·결과·로그, 표적 실행, 전체 감사와
   원격 CI가 초록이다. 규범 승격·일회성 판정을 기록하고 사람 게이트를 연 채
   사양을 아카이브한다.
+
+## 완료 증거 — 22단위 L2 전수 원장
+
+| # | 단위·경로 | 관계·다섯 수단 | 판정·대표 before→after | 불변·독립 재독 |
+|---:|---|---|---|---|
+| 1 | `I18N_GLOSSARY` | 공통 다섯 수단 | EDIT — UI 톤만 존재 → 문장 완결성·직접성·머뭇거림·축약형·호칭 계약 | 비율·개수 목표 없음, 재독 PASS |
+| 2 | `arc_daeun`, 다은 약속·첫 청구서 | 다은→민준, 따뜻한 생활 관찰·공동화 | EDIT — `Grab another` → `You can grab another one`; 판촉문식 `other person` → `ask each other`, `No fair...` | 관계 진전·효과 불변 |
+| 3 | 다은 재방문·첫 청구서 | 민준→다은, 실용어 뒤 질문 | EDIT — `came in handy` → `I enjoyed the extra gimbap`; 문어적 인사·확인문 자연화 | 이름 교환·약속 순서 불변 |
+| 4 | `arc_jiyeon_02_store`, `v2_jiyeon_second_crossing` | 지연→민준, 통제된 완결문·거절 출구 | EDIT — `thinking about it` → `worrying about it`; 재소개 모순 → `barely got to say a proper hello` | 사고·보상·관계 단계 불변 |
+| 5 | 같은 지연 장면 선택 | 민준→지연, 짧고 정중한 경계 | EDIT — 개인 빚처럼 보인 `paying me back` → `compensation`; `I'm going to head home` → `I think I'll just leave` | 선택 수·결과 불변 |
+| 6 | 현수 첫 만남·공부·시험 문자 | 현수→민준, 부탁+자기 몫·선택적 `hyung` | EDIT — `I'm next door`와 매문장 호칭 → `from the room next door`와 관계가 작동하는 자리만 호칭 | 시험 날짜·한 시간·후속 불변 |
+| 7 | 현수 장면의 민준 선택 | 민준→현수, 짧고 실용적 | EDIT — `Still figuring it out` → `I'm still figuring it out`; 문장 조각을 자연스러운 완결문으로 교정 | 목표·선택 효과 불변 |
+| 8 | `arc_father_01`, 첫 청구서 | 아버지→민준, 짧은 절·밥으로 우회 | EDIT — `You doing all right.` / `You eating.` / `Ate.` → 자연스러운 질문·`I did.` | 23초·6년·침묵 불변 |
+| 9 | 아버지 통화·일요일 전화 | 민준→아버지, 밥·잠·다음 통화 | EDIT — `Yeah. You too?` → `Yeah. Did you eat?`; 호칭과 질문 위치 자연화 | 통화 선택·기억 불변 |
+| 10 | 상철 첫·두 번째 만남 | 상철→민준, 질문 뒤 구체적 대비 | EDIT — 흐려진 강남 명제 → `see it as a means to an end`; `don't lose anything` → `Don't lose what matters` | 명함·두 건물·후속 불변 |
+| 11 | 상철에게 답하는 선택 | 민준→상철, 존중하되 비굴하지 않음 | EDIT — `That question, I can answer.` → `That one I can answer.` | 선택·명함 불변 |
+| 12 | 재혁 첫 문자·재회·동적 중복 | 재혁→민준, 옛 친구 구어·축약형 | EDIT — 군대 소개문 → `We served together. Remember me? Been a while. How've you been?`; 동적 메시지도 동일화 | 10년 공백·만남 시점 불변 |
+| 13 | 재혁에게 답하는 선택 | 민준→재혁, 안부 또는 날카로운 질문 | EDIT — `Have you been well?` → `How've you been?`; `What brought this on?` → `What's this about all of a sudden?` | 친근·경계 경로 불변 |
+| 14 | `scenario_cafe` | 카페의 남자·Manager Kim→민준, 거래 조건 압축 | EDIT — `entry pass` → `right to a new unit`; `Get educated` → `Learn the basics`; 5천만원 대화에 끼어든 의미 복구 | 금액·권리·명함 불변 |
+| 15 | 같은 카페 선택 | 민준→카페의 남자·Manager Kim | PASS — `May I ask you just one thing?` 등은 낯선 연장자에게 목적을 숨기지 않는 현재 거리와 맞아 개수 맞추기 수정 안 함 | 독립 재독 PASS |
+| 16 | 채용팀·상담사·창구·면접 질문 | 기관→민준, 절차·기한이 선명한 문장 | EDIT — 채용 제안을 실제 offer 문장으로 복구; `Let us start` → `Let's start`; `Pressure` → `Curveball` | 18시·월요일·직무 사실 불변 |
+| 17 | 지원서·면접 답변 | 민준→기관, 근거와 다음 행동 우선 | EDIT — `Reliability.` → `Reliable.`; 낮은 점수 답변도 회피 의미를 보존하며 문법만 정상화 | 문항·점수·타이머·배열 불변 |
+| 18 | `v2_father_health_signal` | 최씨 이웃↔민준, 관찰과 확인 분리 | EDIT — 반복 약국 봉투를 자연스러운 관찰문으로, 답장은 추정 없이 본 사실만 묻게 교정 | 병명·병원 선취 없음 |
+| 19 | `v2_dirty_investigator_call` | 수사관↔민준, 공식 사실 범위 | EDIT — `police cyber investigation team` → `police cybercrime unit`; 회수 요청의 계좌·사기금 의미 복구 | 혐의·처분·금액 선취 없음 |
+| 20 | 대포통장 모집책 | 불법 모집책→민준, 짧은 명령·압박 | EDIT — 어색한 `Hyungnim`·명령문 → `Clean work... pay another million apiece. You're already in this anyway.` | 범죄 사실·금액·후속 불변 |
+| 21 | 채권자·편의점 손님·익명·서면·활동 | 즉시 목적에 맞는 단역 목소리 | EDIT — 요청 이름을 사람 명사로 복구하고 `How do you respond?`로 조합; 서면 약속·활동 147개·자소서·면접 답변 재독 | 보너스·스트레스·점수·시간 불변 |
+| 22 | 전체 교차 검토 | 72사건·447본문·동적 543회/536고유·활동 147 | PASS — 오버레이는 문자열 잎만, 메타는 영어 값만, GDScript는 한영 쌍만 변경; `oppa/-ssi` 0, `hyung` 선택적 | 선택·토큰·문단·날짜·금액·효과·도달 불일치 0 |
+
+22단위는 서로 다른 두 재독자가 한국어 원문·선행 장면과 다시 대조했다. 마지막
+재독에서 감사만 하고 떠난 다은 장면을 `said hello`로 바꾼 모순, 이미 이름을
+나눈 지연에게 다시 소개한다는 연속성, `이번 기수`를 한 회차처럼 줄인 문장을
+추가로 찾아 고쳤다. 멀쩡한 15번은 수정 개수를 맞추지 않고 PASS로 남겼다.
+
+## 구현 증거 (2026-08-04)
+
+- L1 범위는 `72사건 / 447본문 / 동적 543회·536고유 / 활동 147 / 카탈로그 4`로
+  고정됐다. 영어 전체 카탈로그는 `1,601/1,601`, 한글 누출은 0이다. 정확한 데모
+  재귀 표본에서 `oppa=0`, `-ssi=0`, 선택적 `hyung=10회·10표면`이며 10은 목표치가
+  아니라 실제 관계 장면의 관측값이다.
+- 사건 오버레이는 문자열 잎만, `demo_core_loop_v2`는 영어 값만, 활동 스크립트는
+  한영 문구 쌍과 그 영어 조합문만 바뀌었다. 선택 수·순서·타입·플레이스홀더·
+  문단, 효과·플래그·후속·도달, 돈·날짜·시간·점수·저장에는 차이가 없다.
+- 영어 Core Loop는 1280×800과 960×600에서 각각 36장, Story는 1280×800 31장,
+  대면·원격 표면은 960×600 7장을 렌더해 본문·선택·상단 HUD·대화 기록 버튼의
+  잘림과 겹침이 없음을 직접 확인했다.
+- 실제 영어 키보드 입력은 `weeks=24`, `story_events=42`, `keyboard_events=1352`,
+  `plans=6`, `offer_intents=22`, `week_commits=22`, `first_bill=1/1/1`, `autosave=1`,
+  `title_return=1`, 타 장치·의미 입력·미상 입력 0으로 타이틀 복귀까지 완주했다.
+- 현지화 범위·커버리지·누출·말투·서사·Core Loop·문체·출시 인벤토리,
+  `CoreLoopV2C/ECheck`, `StoryDialogueHistoryCheck`, Godot 60스크립트 컴파일과
+  `tools/audit.sh` 전체가 통과했다. `demo_en_voice_random_three`는 자동 통과시키지
+  않고 열린 사람 판정으로 유지한다.

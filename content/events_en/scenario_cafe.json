@@ -2,7 +2,7 @@
   {
     "id": "cafe_00",
     "title": "Gangnam Café",
-    "description": "{name} orders a 6,500 won americano.\nJust once, {name} wants to sit in a Gangnam café\nwhere people talk about sums far beyond the price of coffee.\n\nNext table. A man in a suit, on a call.\n\"This is the last entry pass in the zone. If you don't lock it in today, it's gone.\nRedevelopment's confirmed. ...Yes, 50 million won cash is enough.\"\n\n{name}'s ear drifts over on its own.",
+    "description": "{name} orders a 6,500 won americano.\nJust once, {name} wants to sit in a Gangnam café\nwhere people talk about sums far beyond the price of coffee.\n\nNext table. A man in a suit, on a call.\n\"That's the last right to a new unit in the redevelopment. If you don't lock it in today, it's gone.\nRedevelopment's confirmed. ...Yes, 50 million won in cash is enough.\"\n\n{name}'s ear drifts over on its own.",
     "choices": [
       {
         "text": "Keep listening. Quietly.",
@@ -55,11 +55,11 @@
   {
     "id": "cafe_caught_honest",
     "title": "Caught Honest",
-  "description": "{name} bows their head.\n\"I'm unemployed. I don't have much to my name.\nBut I want to be here someday — that's why I looked.\nI'm sorry.\"\n\nThe man stares for a long moment. Then he lets out a short laugh.\n\"You're insane. But that look in your eyes — it's the same as mine, back then.\"",
+    "description": "{name} bows his head.\n\"I'm unemployed. I don't have much to my name.\nBut I want to be here someday — that's why I looked.\nI'm sorry.\"\n\nThe man stares for a long moment. Then he lets out a short laugh.\n\"You're crazy. But that look in your eyes—I had it too, once.\"",
     "choices": [
       {
         "text": "\"May I ask you just one thing?\"",
-      "result_text": "The man sets a business card on the table.\n\"Get educated first. Giving opportunities to unprepared people is how accidents happen.\nWhen you're actually ready, call. Otherwise delete the number.\"\n\n{name} receives the card with both hands, checks the name and number, and slips it into the notebook. The contact comes directly from the man."
+        "result_text": "The man sets a business card on the table.\n\"Learn the basics first. Giving an unprepared guy an opportunity is asking for trouble.\nWhen you're actually ready, call. If not, delete the number.\"\n\n{name} receives the card with both hands, checks the name and number, and slips it into the notebook. The contact comes directly from the man."
       }
     ]
   },
@@ -81,7 +81,7 @@
   {
     "id": "cafe_humble",
     "title": "Lowering the Bar",
-  "description": "\"Unemployed. But I can't keep living like this —\nso I came all the way to Gangnam, bought a coffee, and sat down trying to learn something.\"\n\nThe man laughs incredulously. Then he turns his chair around.\n\"Someone in a worn padded jacket is trying to get in on a 50 million won deal.\nBut fine — you've got time on your hands. Ten minutes. I'll talk for ten minutes.\"",
+    "description": "\"Unemployed. But I can't keep living like this —\nso I came all the way to Gangnam, bought a coffee, and sat down trying to learn something.\"\n\nThe man laughs incredulously. Then he turns his chair around.\n\"A guy in an old puffer jacket butts into a 50-million-won conversation.\nBut fine — you've got time on your hands. Ten minutes. I'll talk for ten minutes.\"",
     "choices": [
       {
         "text": "Listen. Every word.",
@@ -129,7 +129,7 @@
   {
     "id": "cafe_mind_01",
     "title": "The Time of an Americano",
-    "description": "{name} ignores the next table and stares at the resume.\nSix years of blank. How to fill that gap in words — no idea.\n\nTwo hours in. The coffee is long gone.\nThen a part-timer quietly approaches and refills the cup.\n\"...You've been here a while. On the house. It's cold, so — warm one.\"\nA stranger's small kindness leaves {name} briefly stunned.",
+    "description": "{name} ignores the next table and stares at the resume.\nSix years of blank. How to fill that gap in words — no idea.\n\nTwo hours in. The coffee is long gone.\nThen a part-timer quietly approaches and refills the cup.\n\"...You've been here a while. This one's on the house. It's cold, so I made it hot.\"\nA stranger's small kindness leaves {name} briefly stunned.",
     "choices": [
       {
         "text": "Thank them. Sincerely.",
