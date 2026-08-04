@@ -21,7 +21,8 @@
 > `scenes/CoreLoopPlanner.gd`, `scenes/CommunicationPhone.gd`,
 > `scenes/OpeningCinematic.gd`,
 > `tools/demo_localization_scope.py`, `tools/release_content_inventory.py`,
-> `tools/ja_translation_pipeline.py`, `tools/audit.sh`,
+> `tools/ja_translation_pipeline.py`, `tools/ja_translation_audit.py`,
+> `tools/audit.sh`,
 > `tools/audit_scope.json`.
 >
 > 배치 B — 일본어 준비 정본·사람 판정·완료 기록:
@@ -37,7 +38,7 @@
 
 ## 깊이 3문
 
-1. 지우면 정적 UI 2,544키 통과를 실제 24주 일본어 완성으로 오인하고 계획판과
+1. 지우면 정적 UI 2,545키 통과를 실제 24주 일본어 완성으로 오인하고 계획판과
    연락폰에 수백 개 영어 문장을 남긴다.
 2. 모든 합법 선택의 도달 합집합과 동적 한영 쌍을 먼저 고정하면 한 자동 경로에
    안 나온 장면을 번역에서 누락하지 않고, 본편 25~240주를 잘못 번역하지 않는다.
@@ -61,6 +62,10 @@
 - 번역 파이프라인은 `description_memory_if_known`와 선택 `bridge_summary`를
   포함한 허용 텍스트 필드를 모두 추출한다. 조건·효과·flags·후속 라우팅·수치
   필드는 번역 오버레이에 복사하지 않는다.
+- 번역 실행 도구도 같은 범위를 소유한다. 데모 모드는 70사건·333개 동적 키·
+  시장 자산명 4개만 수집하고 기존 정적 UI·데모 밖 번역 행을 보존하며 병합한다.
+  데모 승인만으로 전체 1,599사건·35엔딩·전체 카탈로그 생성 모드를 열지 않는다.
+  정적 UI 감사는 동적 데모 키를 허용하되 미번역 상태를 정적 UI 누락과 섞지 않는다.
 - 기본 준비 감사는 구조·source drift·숨김 상태·기존 번역 행의 정합을 실패시키고,
   미번역 수는 명시적으로 보고하되 현재 KO/EN CI를 막지 않는다. 언어별
   `--strict`는 70사건·동적 표면 완전성·영어 우회 0을 요구해 번역 전에는 의도대로
@@ -94,6 +99,6 @@
 ## 증거 양식
 
 - `DEMO_I18N_SCOPE events=<n> strings=<n> endings=0 dynamic_pairs=<n> dynamic_keys=<n>`
-- `DEMO_I18N_COVERAGE lang=<code> events=<n>/<all> strings=<n>/<all> dynamic=<n>/<all> mode=<skeleton|strict>`
+- `DEMO_I18N_COVERAGE lang=<code> events=<n>/<all> strings=<n>/<all> dynamic=<n>/<all> catalog=<n>/4 mode=<skeleton|strict>`
 - `DEMO_I18N_ROUTE language=<code> translated_lookup=<n> direct_english_bypass=0 shipping=0`
 - L3: 원어민이 한국어 원문과 같은 revision의 일본어 24주 문맥을 대조한 기록.
