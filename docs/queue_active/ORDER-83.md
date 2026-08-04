@@ -15,7 +15,7 @@
 공통 목표는 만들지 않는다.
 
 > 배치 A — 3개월차 `m3_room_ledger`의 일반 결과 카드를 `방 안의 장부`
-> 연속 장면으로 넘긴다. 합계 옆에 이유까지 적을지, 합계만 먼저 맞출지 고른
+> 연속 장면으로 넘긴다. 각 금액 옆에 이유까지 적을지, 합계만 먼저 맞출지 고른
 > 기억을 24주·48주·2장·5장이 서로 다른 맥락에서 읽는다.
 >
 > 배치 B — 4개월차 `m4_housing_welfare_consultation`을 주거복지 상담사와
@@ -68,7 +68,8 @@
   `content/meta/demo_localization_scope.json`,
   `content/meta/release_content_inventory.json`, `docs/I18N_INFRASTRUCTURE.md`,
   `docs/I18N_GLOSSARY_ZH.md`, `docs/QA_CHECKLIST.md`,
-  `docs/human_gates.json`, `tools/audit_scope.json`.
+  `docs/human_gates.json`, `docs/AUDIO_QA.md`, `tools/audit_scope.json`,
+  `tools/ja_translation_pipeline.py`.
 - 자산·연출: `assets/characters/npc_housing_counselor.png`와 생성되는 `.import`,
   `autoloads/ImageRegistry.gd`, `assets/ASSET_INDEX.md`, `assets/IMAGE_PROMPTS.md`,
   `assets/cast_detail_manifest.json`, `content/meta/cast_visual_years.json`,
