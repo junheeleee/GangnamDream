@@ -26,7 +26,8 @@
 `tools/DemoBuildCheck.gd`, `tools/core_loop_v2_balance_sim.py`,
 `tools/arc_flow_sim.py`, `tools/exposed_state_consistency_audit.py`,
 `tools/scene_audio_contract_check.py`, `tools/event_director_audit.py`,
-`tools/first_session_pacing_audit.py`, `tools/audit_scope.json`.
+`tools/first_session_pacing_audit.py`, `tools/release_content_inventory.py`,
+`tools/audit_scope.json`.
 
 **사용자 승인 (2026-08-04):** `docs/DECISIONS.md`의 P-7을 권고대로 실행한다.
 현재 V2의 `opening_interview_math`는 실제로 첫 면접만 재생하고, 월 200만원으로
