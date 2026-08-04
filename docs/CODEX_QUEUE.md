@@ -60,6 +60,8 @@
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
 | 1 | [x] | ORDER-80 · 현재 데모 축·위험 대가 재측정 | [ORDER-80](queue_active/ORDER-80.md) | 실측 PASS, 장면·위험·영수증 최소 수리 사용자 판정 대기 |
+| 2 | [~] | ORDER-81 · 24주 일본어 준비 범위 잠금 | [ORDER-81](queue_active/ORDER-81.md) | 본문 보류, 70장면·동적 표면 계약 |
+| 3 | [ ] | ORDER-82 · 24주 간·번체 준비 분리 | [ORDER-82](queue_active/ORDER-82.md) | ORDER-81 뒤 착수, 비노출 |
 
 ### 남은 데모 출시선
 
@@ -128,17 +130,8 @@
   단일화하고 비호환 저장을 상태 적용 전에 차단했다. 엔진·서체·오디오 고지를
   원장 기반 설정 화면과 패키지에 연결했으며 clean Full/V2 pack의 필수 10파일을
   바이트 단위로 검증했다. [사양](queue_archive/ORDER-73.md)
-- `[x] ORDER-72` (2026-08-03): 24주 V2·240주 full·package-only 범위를
-  분리한 9축 출시 원장, KO/EN 1,597사건, 284 pack raster, Full/V2 clean
-  pack smoke와 현 AI 공시를 고정. 최종 등급·삭제·filter는 사용자 판정.
-  [사양](queue_archive/ORDER-72.md)
-- `[x] ORDER-71` (2026-08-03): 4주차 영어 유혹 선택지의 도덕
-  자기선언을 한국어와 같은 관찰 행동으로 교체하고, 선택 순서·효과·플래그·
-  route·8주차 분기 불변을 회귀로 고정. [사양](queue_archive/ORDER-71.md)
-- `[x] ORDER-70` (2026-08-03): V2 release 테스트 flavor, 전역 표식,
-  retail과 교집합 0인 14경로 저장, 세 플랫폼 clean 산출·manifest,
-  macOS KO/EN 무인자 진입 검증. 외부 RC·24주 사람 GO는 미완료.
-  [사양](queue_archive/ORDER-70.md)
+- `[x] ORDER-70~72` (2026-08-03): V2 빌드 격리, 유혹 영어 정본 수리,
+  출시 콘텐츠 원장을 완료했다. 상세 증거는 각 [보존 사양](queue_archive/)에 있다.
 - **2026-07 전체 원문 스냅샷:** [CODEX_QUEUE_2026-07.md](queue_archive/CODEX_QUEUE_2026-07.md)
 - 상세 작업 결과는 [WORK_LOG.md](WORK_LOG.md), 사용자 노트와 라운드 판정은 [DEMO_FIXLOG.md](DEMO_FIXLOG.md), 설계 결정은 [DECISIONS.md](DECISIONS.md)가 정본이다.
 - `ORDER-56` 이전 완료 이력은 월별 원문 스냅샷, 각 `queue_archive/ORDER-*.md`,
