@@ -595,10 +595,30 @@ func _build_ui():
 	hint.custom_minimum_size = Vector2(0, 18)
 	column.add_child(hint)
 
+	_wire_title_command_focus()
 	if latest_slot >= 0:
 		continue_btn.call_deferred("grab_focus")
 	else:
 		new_btn.call_deferred("grab_focus")
+
+func _wire_title_command_focus() -> void:
+	# Dynamic title buttons do not always receive a stable geometric neighbour
+	# in exported builds. Own the vertical route explicitly so keyboard arrows
+	# and the pad D-pad skip disabled Continue and wrap predictably.
+	var enabled: Array[Button] = []
+	for button in _title_command_buttons:
+		if is_instance_valid(button) and not button.disabled and button.visible:
+			enabled.append(button)
+	for index in range(enabled.size()):
+		var button := enabled[index]
+		var previous := enabled[(index - 1 + enabled.size()) % enabled.size()]
+		var following := enabled[(index + 1) % enabled.size()]
+		button.focus_neighbor_top = button.get_path_to(previous)
+		button.focus_neighbor_bottom = button.get_path_to(following)
+		button.focus_neighbor_left = button.get_path_to(button)
+		button.focus_neighbor_right = button.get_path_to(button)
+		button.focus_previous = button.get_path_to(previous)
+		button.focus_next = button.get_path_to(following)
 
 func _add_build_identity_label() -> void:
 	var identity := Label.new()
@@ -629,6 +649,7 @@ func _title_command_button(text: String, quiet: bool = false) -> Button:
 	button.custom_minimum_size = Vector2(360, 50)
 	button.focus_mode = Control.FOCUS_ALL
 	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	button.mouse_entered.connect(button.grab_focus)
 	button.add_theme_font_size_override("font_size", 17)
 	button.add_theme_color_override("font_color", Color("#cbd1d8") if quiet else Color("#eef1f4"))
 	button.add_theme_color_override("font_hover_color", Color("#ffffff"))

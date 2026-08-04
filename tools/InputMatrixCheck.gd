@@ -152,6 +152,18 @@ func _check_settings_surface() -> void:
 	if menu.has_method("_dismiss_splash"):
 		menu.call("_dismiss_splash")
 	await get_tree().create_timer(0.35).timeout
+	var title_focus_before := get_viewport().gui_get_focus_owner() as Control
+	await _press_key(KEY_DOWN)
+	var title_focus_after_down := get_viewport().gui_get_focus_owner() as Control
+	_expect(
+		is_instance_valid(title_focus_before)
+		and is_instance_valid(title_focus_after_down)
+		and title_focus_after_down != title_focus_before,
+		"StartMenu Down arrow did not move title focus")
+	await _press_key(KEY_UP)
+	_expect(
+		get_viewport().gui_get_focus_owner() == title_focus_before,
+		"StartMenu Up arrow did not restore title focus")
 	menu.call("_open_settings_popup")
 	await get_tree().process_frame
 	await get_tree().process_frame
