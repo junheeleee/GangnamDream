@@ -28,6 +28,8 @@
 `tools/StoryPlaybackCheck.gd`, `tools/StoryTutorialPlacementCheck.gd`,
 `tools/DemoBuildCheck.gd`, `tools/core_loop_v2_balance_sim.py`,
 `tools/arc_flow_sim.py`, `tools/exposed_state_consistency_audit.py`,
+`tools/audit.py`, `tools/enhance_arc_events.py`, `tools/event_graph.py`,
+`tools/event_graph.html`,
 `tools/scene_audio_contract_check.py`, `tools/event_director_audit.py`,
 `tools/first_session_pacing_audit.py`, `tools/release_content_inventory.py`,
 `tools/ja_translation_pipeline.py`, `tools/audit_scope.json`.
