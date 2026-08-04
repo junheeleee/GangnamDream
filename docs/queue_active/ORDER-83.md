@@ -68,7 +68,7 @@
   `content/meta/demo_localization_scope.json`,
   `content/meta/release_content_inventory.json`.
 - 자산·연출: `assets/characters/npc_housing_counselor.png`와 생성되는 `.import`,
-  `autoloads/ImageRegistry.gd`, `assets/ASSET_INDEX.md`,
+  `autoloads/ImageRegistry.gd`, `assets/ASSET_INDEX.md`, `assets/IMAGE_PROMPTS.md`,
   `assets/cast_detail_manifest.json`, `content/meta/cast_visual_years.json`,
   `assets/mod_asset_manifest.json`, `assets/event_visual_contracts.json`,
   `assets/scene_audio_manifest.json`, `assets/scene_direction_manifest.json`.
@@ -78,7 +78,8 @@
 - 정본·완료 증거: `docs/CORE_LOOP_V2.md`, `CLAUDE.md`,
   `docs/CODEX_QUEUE.md`, `docs/DEMO_FIXLOG.md`, `docs/WORK_LOG.md`,
   `docs/history/WORK_LOG_2026-07-30.md`, `docs/STATUS.md`,
-  `docs/RELEASE_NOTES.md`, `docs/queue_active/ORDER-83.md`,
+  `docs/RELEASE_NOTES.md`, `docs/CONTENT_RATING_INVENTORY.md`,
+  `docs/queue_active/ORDER-83.md`,
   `docs/queue_archive/ORDER-83.md`.
 
 ## 비범위
